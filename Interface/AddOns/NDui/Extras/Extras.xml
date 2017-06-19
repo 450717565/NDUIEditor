@@ -1,0 +1,23 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="AfkDelight.lua"/>
+	<Script file="ArtifactPowerTip.lua"/>
+	<Script file="ArtifactPowerUser.lua"/>
+	<Script file="ArtifactTab.lua"/>
+	<Script file="BarrelsOEasy.lua"/>
+	<Script file="BetterScoreboard.lua"/>
+	<Script file="Butsu.lua"/>
+	<Script file="ChatEmote.lua"/>
+	<Script file="ChatLinkLevel.lua"/>
+	<Script file="ConvertRatings.lua"/>
+	<Script file="Core.lua"/>
+	<Script file="DressUp.lua"/>
+	<Script file="KeystoneHelper.lua"/>
+	<Script file="LootMonitor.lua"/>
+	<Script file="NomiCakes.lua"/>
+	<Script file="ParagonReputation.lua"/>
+	<Script file="PvPTab.lua"/>
+	<Script file="Slashin.lua"/>
+	<Script file="StatReport.lua"/>
+	<Script file="TrainAll.lua"/>
+	<Script file="WorldFlightMap.lua"/>
+</Ui>

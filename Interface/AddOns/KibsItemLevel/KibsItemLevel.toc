@@ -1,0 +1,30 @@
+## Interface: 70200
+## Version: 7.1
+## Author: Alex Kunin
+## Title: Kibs Item Level
+## Notes: Enhances Character and Inspection panes by adding item level, icons for gems and enchants, and more!
+## SavedVariables: KibsItemLevelDB
+## X-Curse-Packaged-Version: 7.1.0.2
+## X-Curse-Project-Name: Kibs Item Level
+## X-Curse-Project-ID: kibs-item-level
+## X-Curse-Repository-ID: wow/kibs-item-level/mainline
+
+src\Localization.lua
+src\Debug.lua
+src\Pool.lua
+src\SlotIcon.lua
+src\FrameAdapter.lua
+src\CharacterFrameAdapter.lua
+src\InspectionFrameAdapter.lua
+src\SlotIconManager.lua
+src\ItemStringInfo.lua
+src\ItemEnchantInfo.lua
+src\Tooltip.lua
+src\SocketInfo.lua
+src\SpellInfo.lua
+src\Spinner.lua
+
+KIBC_EnchantToSpellID.lua
+AddOn.lua
+
+AddOn.xml

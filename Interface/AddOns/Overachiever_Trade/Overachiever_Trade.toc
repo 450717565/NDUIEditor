@@ -1,0 +1,12 @@
+## Interface: 70200
+## Title: Overachiever - Trade
+## Version: 0.99.7
+## Author: Tuhljin
+## Notes: Trade Skills module.
+## LoadOnDemand: 1
+## LoadWith: Blizzard_TradeSkillUI
+## Dependencies: Overachiever
+## X-Child-Of: Overachiever
+
+localization.lua
+TradeSkills.lua

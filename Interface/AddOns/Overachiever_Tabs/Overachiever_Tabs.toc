@@ -1,0 +1,19 @@
+## Interface: 70200
+## Title: Overachiever - Tabs
+## Version: 0.99.7
+## Author: Tuhljin
+## Notes: Achievement frame tabs module.
+## LoadOnDemand: 1
+## LoadWith: Blizzard_AchievementUI
+## Dependencies: Overachiever
+## SavedVariables: Overachiever_Tabs_Settings
+## SavedVariablesPerCharacter: Overachiever_Tabs_CharVars
+## X-Child-Of: Overachiever
+
+localization.lua
+build.lua
+Search.lua
+Suggestions.lua
+Watch.lua
+Related.lua
+CalendarNotice.lua

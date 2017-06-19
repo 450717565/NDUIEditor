@@ -1,0 +1,11 @@
+## Interface: 70200
+## Title: GrievousHelper
+## Notes: Automatically take off artifact weapons when leave combat with grievous debuff, and put on weapons when the debuff is gone.
+
+## Author: 桂花猫猫-暗影之月
+
+Locales.lua
+GrievousHelper.lua
+
+## Title-zhCN: |cff880303[网易有爱]|r 重伤助手
+## Notes-zhCN: 脱战后如果身上有重伤DEBUFF，则自动摘下神器（血量能减少大概一半，方便刷血）。重伤消失后可以自动穿回。

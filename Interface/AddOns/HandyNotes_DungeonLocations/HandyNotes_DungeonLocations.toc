@@ -1,0 +1,10 @@
+## Interface: 70200
+## Title: HandyNotes_DungeonLocations
+## Version: 1.20a
+## Notes: Shows locations of old world dungeon and raid entrances
+## Author: Caliaha of Cairne
+## RequiredDeps: HandyNotes
+## SavedVariables: HandyNotes_DungeonLocationsDB
+
+locales\Locales.xml
+HandyNotes_DungeonLocations.lua

@@ -1,0 +1,18 @@
+## Interface: 70200
+## Title: |cffff00ffx|r|cffffffffMerchant|r
+## Notes: Improved Vendor-Interface
+## Notes-deDE: Verbessertes Haendlerfenster
+## Author: Nils Ruesch
+## X-Email: me@shantalya.de
+## X-Website: http://shantalya.de
+## Version: 1.7.3
+## SavedVariables: xMerchantDB
+## OptionalDeps: DropTheCheapestThing, SellOMatic
+## X-Curse-Packaged-Version: 1.7.3-release
+## X-Curse-Project-Name: xMerchant
+## X-Curse-Project-ID: xmerchant
+## X-Curse-Repository-ID: wow/xmerchant/mainline
+
+localization.lua
+core.lua
+config.lua

@@ -1,0 +1,22 @@
+﻿## Interface: 70200
+## Title: HandyNotes_WorldMapButton
+## Notes: Adds a Button to the Worldmap to toggle HandyNotes
+## Title-zhTW: |cFF008844[地圖]|r|cFF9966FF[HandyNotes]|r 世界地圖按鈕
+## Dependencies: HandyNotes
+## Version: 2.6
+
+## Author: fuba
+## OptionalDeps: Ace3
+
+## X-Curse-Packaged-Version: 2.6
+## X-Curse-Project-Name: HandyNotes_WorldMapButton
+## X-Curse-Project-ID: handynotes_worldmapbutton
+## X-Curse-Repository-ID: wow/handynotes_worldmapbutton/mainline
+
+# Locale files
+Locale\enUS.lua
+Locale\zhTW.lua
+Locale\zhCN.lua
+
+# Core files
+HandyNotes_WorldMapButton.lua
