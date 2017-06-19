@@ -2,6 +2,44 @@ local B, C, L, DB = unpack(select(2, ...))
 local cast = NDui.cast
 local UF = NDui:GetModule("UnitFrames")
 
+local tooltipFrame = CreateFrame("GameTooltip","GameTooltip_Unit",nil,"GameTooltipTemplate")
+tooltipFrame:SetOwner(WorldFrame,"ANCHOR_NONE")
+
+function UpdateQuestIcon(self)
+	local questObjective = false
+	local questNoObjective = false
+
+	tooltipFrame:SetUnit(self.unit)
+	for i=3, tooltipFrame:NumLines() do
+		local line = _G["GameTooltip_UnitTextLeft"..i]
+		local text = line:GetText()
+		local text_r, text_g, text_b = line:GetTextColor()
+
+		if text_r > 0.99 and text_g > 0.82 and text_b == 0 then
+			questNoObjective=true
+		else
+			local unitName, progress = string.match(text, "^ ([^ ]-) ?%-(.+)$")
+
+			if unitName and (unitName == "" or unitName == playerName) then
+				if progress then
+					local current, goal = string.match(progress, "(%d+)/(%d+)")
+
+					if current and goal and current ~= goal then
+						questObjective = true
+					end
+				end
+			end
+		end
+	end
+
+	if questObjective or questNoObjective then
+		self.QuestIcon:Show()
+		self.QuestIcon:SetPoint("RIGHT", self.nameFrame, "RIGHT", 16, 0)
+	else
+		self.QuestIcon:Hide()
+	end
+end
+
 -- Init
 function UF:SetupCVars()
 	if NDuiDB["Nameplate"]["InsideView"] then
@@ -109,6 +147,7 @@ local function UpdateThreatColor(self, event, unit)
 end
 
 local function UpdateTargetMark(self)
+	UpdateQuestIcon(self)
 	local mark = self.targetMark
 	if not mark then return end
 
@@ -169,6 +208,14 @@ local function CreatePlates(self, unit)
 		cicon:SetSize(15, 15)
 		cicon:SetAlpha(.75)
 		self.creatureIcon = cicon
+
+		local qicon=self:CreateTexture(nil, "OVERLAY")
+		qicon:SetSize(16, 32)
+		qicon:SetPoint("RIGHT", self.nameFrame, "LEFT", 2, 0)
+		qicon:SetTexture(DB.quest)
+		qicon:SetVertexColor(1, 1, 0)
+		qicon:Hide()
+		self.QuestIcon = qicon
 
 		local threatIndicator = CreateFrame("Frame", nil, self)
 		self.ThreatIndicator = threatIndicator

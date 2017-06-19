@@ -16,6 +16,7 @@ DB.TipFont = {GameTooltipText:GetFont(), 14, "OUTLINE"}
 -- Textures
 local Media = "Interface\\Addons\\NDui\\Media\\"
 DB.bdTex = "Interface\\ChatFrame\\ChatFrameBackground"
+DB.quest = Media.."questIcon"
 DB.neatTex = Media.."neatTex"
 DB.glowTex = Media.."glowTex"
 DB.normTex = Media.."normTex"
