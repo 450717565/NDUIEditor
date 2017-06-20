@@ -26,9 +26,9 @@ function mod:OnInitialize()
         joinGroup = true,
         createGroup = true
       },
-      doneBehavior = "ask",
+      doneBehavior = "leave",
       leaveDelay = 10,
-      alertComplete = true,
+      alertComplete = false,
       joinPVP = true,
       preferHome = true,
       showUI = true,
