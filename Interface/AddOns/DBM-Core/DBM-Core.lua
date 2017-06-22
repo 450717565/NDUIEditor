@@ -41,9 +41,9 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 16275 $"):sub(12, -3)),
-	DisplayVersion = "7.2.8 alpha", -- the string that is shown as version
-	ReleaseRevision = 16243 -- the revision of the latest stable version that is available
+	Revision = tonumber(("$Revision: 16299 $"):sub(12, -3)),
+	DisplayVersion = "7.2.9 alpha", -- the string that is shown as version
+	ReleaseRevision = 16276 -- the revision of the latest stable version that is available
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -9638,6 +9638,10 @@ do
 
 	function bossModPrototype:NewSpecialWarningMove(text, optionDefault, ...)
 		return newSpecialWarning(self, "move", text, nil, optionDefault, ...)
+	end
+	
+	function bossModPrototype:NewSpecialWarningGTFO(text, optionDefault, ...)
+		return newSpecialWarning(self, "gtfo", text, nil, optionDefault, ...)
 	end
 	
 	function bossModPrototype:NewSpecialWarningDodge(text, optionDefault, ...)
