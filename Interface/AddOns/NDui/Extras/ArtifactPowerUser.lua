@@ -41,6 +41,7 @@ local function ScanBags()
 					return itemLink, bag, slot
 				else
 					if IsArtifactPowerItem(itemLink) then
+						Cache[itemLink] = true
 						return itemLink, bag, slot
 					end
 				end
