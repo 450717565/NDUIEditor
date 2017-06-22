@@ -409,6 +409,65 @@ do
   --]]
 end
 
+
+local function BuildCriteriaLookupTab_check()
+	if (Overachiever_Settings.UI_RequiredForMetaTooltip) then
+		local status = TjAchieve.BuildCritAssetCache(TjAchieve.CRITTYPE_META)
+		if (Overachiever_Debug and status == "started") then
+			chatprint("BuildCriteriaLookupTab_check: meta caching started")
+			TjAchieve.AddBuildCritAssetCacheListener(TjAchieve.CRITTYPE_META, function()
+				chatprint("BuildCriteriaLookupTab_check: meta caching complete")
+			end)
+		end
+	end
+	if (Overachiever_Settings.CreatureTip_killed) then
+		local status = TjAchieve.BuildCritAssetCache(TjAchieve.CRITTYPE_KILL, true)
+		if (Overachiever_Debug and status == "started") then
+			chatprint("BuildCriteriaLookupTab_check: kill caching started")
+			TjAchieve.AddBuildCritAssetCacheListener(TjAchieve.CRITTYPE_KILL, function()
+				chatprint("BuildCriteriaLookupTab_check: kill caching complete")
+			end)
+		end
+	end
+end
+
+local AchLookup_metaach, AchLookup_kill
+
+function Overachiever.GetMetaCriteriaLookup()
+	if (AchLookup_metaach) then  return AchLookup_metaach;  end
+	if (not TjAchieve.IsCritAssetCacheReady(TjAchieve.CRITTYPE_META)) then
+		TjAchieve.RushBuildCritAssetCache(TjAchieve.CRITTYPE_META)
+	end
+	AchLookup_metaach = TjAchieve.ASSETS[TjAchieve.CRITTYPE_META]
+	return AchLookup_metaach
+end
+
+function Overachiever.GetKillCriteriaLookup()
+	if (AchLookup_kill) then  return AchLookup_kill;  end
+	if (not TjAchieve.IsCritAssetCacheReady(TjAchieve.CRITTYPE_KILL)) then
+		TjAchieve.RushBuildCritAssetCache(TjAchieve.CRITTYPE_KILL, true)
+	end
+	AchLookup_kill = TjAchieve.ASSETS[TjAchieve.CRITTYPE_KILL]
+	if (OVERACHIEVER_MOB_CRIT) then
+		-- Add hardcoded contents to the cache:
+		for mobID,list in pairs(OVERACHIEVER_MOB_CRIT) do
+			if (AchLookup_kill[mobID]) then
+				local tab = AchLookup_kill[mobID]
+				local size = #tab
+				for i,v in ipairs(list) do
+					size = size + 1
+					tab[size] = v
+				end
+			else
+				AchLookup_kill[mobID] = list
+			end
+		end
+		OVERACHIEVER_MOB_CRIT = nil
+	end
+	return AchLookup_kill
+end
+
+--[===[
 local function BuildCriteriaLookupTab(...)
 -- To be called in this fashion: BuildCriteriaLookupTab( <criteriaType1>, <table1>, <saveCriteriaNumber1>[, <criteriaType2>, <table2>, <saveCriteriaNumber2>[, ...]] )
   local num = select("#", ...)
@@ -454,7 +513,7 @@ end
 
 local AchLookup_metaach, AchLookup_kill
 local function BuildCriteriaLookupTab_check(forceMeta)
-  local meta = not AchLookup_metaach and (Overachiever_Settings.UI_RequiredForMetaTooltip or forceMeta)
+  local meta = not AchLookup_metaach and (Overachiever_Settings.UI_RequiredForMetaTooltip or (forceMeta == true))
   local kill = not AchLookup_kill and Overachiever_Settings.CreatureTip_killed
   if (kill) then
     AchLookup_kill = OVERACHIEVER_MOB_CRIT -- Use this as the baseline. Build the rest of the lookup table upon it.
@@ -494,6 +553,7 @@ function Overachiever.GetMetaCriteriaLookup()
   if (not AchLookup_metaach) then  BuildCriteriaLookupTab_check(true);  end
   return AchLookup_metaach
 end
+--]===]
 
 
 -- DRAGGABLE FRAMES
@@ -971,12 +1031,12 @@ do
       GameTooltip:AddLine(" ")
     end
 
-    if (Overachiever_Settings.UI_RequiredForMetaTooltip and AchLookup_metaach[id]) then
+    if (Overachiever_Settings.UI_RequiredForMetaTooltip and TjAchieve.GetAchievementByAsset(TjAchieve.CRITTYPE_META, id)) then
       if (tipset == 1) then  GameTooltip:AddLine(" ");  end
       tipset = 2 --tipset + 1
       GameTooltip:AddLine(L.REQUIREDFORMETATIP)
       GameTooltip:AddLine(" ")
-      AddAchListToTooltip(GameTooltip, AchLookup_metaach[id])
+      AddAchListToTooltip(GameTooltip, TjAchieve.GetAchievementByAsset(TjAchieve.CRITTYPE_META, id, true))
       GameTooltip:AddLine(" ")
     end
 
@@ -1295,7 +1355,8 @@ function Overachiever.OnEvent(self, event, arg1, ...)
 
     BuildCriteriaLookupTab_check()
     if (Overachiever_Debug) then
-      chatprint("Building other criteria lookup tables took "..(debugprofilestop() - StartTime)/1000 .." seconds.")
+	  local n = string.format("%.0f", (debugprofilestop() - StartTime)/1000)
+      chatprint("BuildCriteriaLookupTab_check() call took "..n.." seconds.")
     end
 
 	if (toast) then
@@ -1311,7 +1372,7 @@ function Overachiever.OnEvent(self, event, arg1, ...)
 	-- You might think we'd want to watch for event CALENDAR_UPDATE_EVENT_LIST after this, but it's not reliably called. Some report you need to call another function like CalendarSetAbsMonth beforehand for it to work,
 	-- but how we're doing it, we don't seem to need to do that or use that event at all.
 
-	if (Overachiever_Settings.ToastCalendar_holiday or Overachiever_Settings.ToastCalendar_microholiday or Overachiever_Settings.ToastCalendar_bonusevent or Overachiever_Settings.ToastCalendar_dungeonevent) then
+	if (Overachiever_Settings.ToastCalendar_holiday or Overachiever_Settings.ToastCalendar_microholiday or Overachiever_Settings.ToastCalendar_bonusevent or Overachiever_Settings.ToastCalendar_dungeonevent or Overachiever_Settings.ToastCalendar_pvpbrawl) then
 	  C_Timer.After(0, function()
 	    -- This strange double-timer thing works around an issue where the timer starts counting down, so to speak, during the loading screen if the UI is being reloaded (as per /reload), making the toast not appear.
 		C_Timer.After(5, function()
@@ -1685,9 +1746,10 @@ end
 if (Overachiever_Debug) then
 
   function Overachiever.Debug_GetKillCriteriaAchs()
-    if (not Overachiever.AchLookup_kill) then  return;  end
+    local data = Overachiever.GetKillCriteriaLookup()
+    if (not data) then  return;  end
     local tab, _, a = {}
-    for k,v in pairs(Overachiever.AchLookup_kill) do
+    for k,v in pairs(data) do
       for i = 1, #v, 2 do
         _, a = GetAchievementInfo( v[i] )
         tab[a] = (tab[a] or 0) + 1
