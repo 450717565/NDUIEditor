@@ -107,6 +107,7 @@ local defaultSettings = {
 		TankMode = false,
 		Arrow = true,
 		InsideView = false,
+		QuestIcon = true,
 		MinAlpha = .7,
 		Distance = 42,
 		Width = 100,
@@ -319,6 +320,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Nameplate", "TankMode", L["Tank Mode"]},
 		{1, "Nameplate", "Arrow", L["Show Arrow"], true},
 		{1, "Nameplate", "InsideView", L["Nameplate InsideView"]},
+		{1, "Nameplate", "QuestIcon", L["Nameplate QuestIcon"], true},
 		{3, "Nameplate", "MinAlpha", L["Nameplate MinAlpha"], false, {0, 1, 1}},
 		{3, "Nameplate", "Distance", L["Nameplate Distance"], true, {20, 100, 0}},
 		{3, "Nameplate", "Width", L["NP Width"], false, {50, 150, 0}},
@@ -658,7 +660,7 @@ local function OpenGUI()
 	B.CreateBD(f)
 	B.CreateTex(f)
 	B.CreateFS(f, 18, L["NDui Console"], true, "TOP", 0, -10)
-	B.CreateFS(f, 16, DB.Version, false, "TOP", 0, -30)
+	B.CreateFS(f, 16, DB.Version.." ("..DB.Support..")", false, "TOP", 0, -30)
 
 	local close = CreateFrame("Button", nil, f)
 	close:SetPoint("BOTTOMRIGHT", -20, 15)
@@ -667,9 +669,8 @@ local function OpenGUI()
 	B.CreateBD(close, .3)
 	B.CreateBC(close)
 	B.CreateFS(close, 14, CLOSE, true)
-	close:SetScript("OnClick", function(self)
-		f:Hide()
-	end)
+	close:SetScript("OnClick", function() f:Hide() end)
+
 	local ok = CreateFrame("Button", nil, f)
 	ok:SetPoint("RIGHT", close, "LEFT", -10, 0)
 	ok:SetSize(80, 20)
@@ -677,7 +678,7 @@ local function OpenGUI()
 	B.CreateBD(ok, .3)
 	B.CreateBC(ok)
 	B.CreateFS(ok, 14, OKAY, true)
-	ok:SetScript("OnClick", function(self)
+	ok:SetScript("OnClick", function()
 		local scale = NDuiDB["Settings"]["SetScale"]
 		if scale < .65 then
 			UIParent:SetScale(scale)
@@ -724,9 +725,25 @@ local function OpenGUI()
 		end,
 		whileDead = 1,
 	}
-	reset:SetScript("OnClick", function(self)
+	reset:SetScript("OnClick", function()
 		StaticPopup_Show("RESET_NDUI")
 	end)
+
+	local credit = CreateFrame("Button", nil, f)
+	credit:SetPoint("TOPRIGHT", -20, -15)
+	credit:SetSize(35, 35)
+	credit.Icon = credit:CreateTexture(nil, "ARTWORK")
+	credit.Icon:SetAllPoints()
+	credit.Icon:SetTexture(DB.creditTex)
+	credit:SetHighlightTexture(DB.creditTex)
+	credit:SetScript("OnEnter", function()
+		GameTooltip:ClearLines()
+		GameTooltip:SetOwner(f, "ANCHOR_TOPRIGHT", 0, 3)
+		GameTooltip:AddLine("Credits:")
+		GameTooltip:AddLine(GetAddOnMetadata("NDui", "X-Credits"), .6,.8,1, 1)
+		GameTooltip:Show()
+	end)
+	credit:SetScript("OnLeave", GameTooltip_Hide)
 
 	NDui:EventFrame("PLAYER_REGEN_DISABLED"):SetScript("OnEvent", function(self, event)
 		if event == "PLAYER_REGEN_DISABLED" then

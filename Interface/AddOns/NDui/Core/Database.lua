@@ -1,5 +1,6 @@
 local _, _, L, DB = unpack(select(2, ...))
 DB.Version = GetAddOnMetadata("NDui", "Version")
+DB.Support = GetAddOnMetadata("NDui", "X-Support")
 DB.Client = GetLocale()
 
 -- Colors
@@ -15,20 +16,22 @@ DB.TipFont = {GameTooltipText:GetFont(), 14, "OUTLINE"}
 
 -- Textures
 local Media = "Interface\\Addons\\NDui\\Media\\"
-DB.bdTex = "Interface\\ChatFrame\\ChatFrameBackground"
-DB.quest = Media.."questIcon"
-DB.neatTex = Media.."neatTex"
-DB.glowTex = Media.."glowTex"
-DB.normTex = Media.."normTex"
-DB.bgTex = Media.."bgTex"
-DB.Micro = Media.."MicroMenu\\"
 DB.arrowTex = Media.."NeonRedArrow"
-DB.mailTex = "Interface\\Minimap\\Tracking\\Mailbox"
-DB.gearTex = "Interface\\WorldMap\\Gear_64"
-DB.eyeTex = "Interface\\Minimap\\Raid_Icon"		-- blue: \\Dungeon_Icon
-DB.garrTex = "Interface\\HelpFrame\\HelpIcon-ReportLag"
-DB.copyTex = "Interface\\Buttons\\UI-GuildButton-PublicNote-Up"
+DB.bgTex = Media.."bgTex"
+DB.glowTex = Media.."glowTex"
+DB.Micro = Media.."MicroMenu\\"
+DB.neatTex = Media.."neatTex"
+DB.normTex = Media.."normTex"
+
+DB.bdTex = "Interface\\ChatFrame\\ChatFrameBackground"
 DB.binTex = "Interface\\HelpFrame\\ReportLagIcon-Loot"
+DB.copyTex = "Interface\\Buttons\\UI-GuildButton-PublicNote-Up"
+DB.eyeTex = "Interface\\Minimap\\Raid_Icon"
+DB.garrTex = "Interface\\HelpFrame\\HelpIcon-ReportLag"
+DB.gearTex = "Interface\\WorldMap\\Gear_64"
+DB.mailTex = "Interface\\Minimap\\Tracking\\Mailbox"
+DB.questTex = "Interface\\BUTTONS\\AdventureGuideMicrobuttonAlert"
+
 DB.TexCoord = {.08, .92, .08, .92}
 DB.textures = {
     normal		= Media.."ActionBar\\gloss",
@@ -37,6 +40,7 @@ DB.textures = {
     checked		= Media.."ActionBar\\checked",
     equipped	= Media.."ActionBar\\gloss",
 }
+
 DB.LeftButton = " |TInterface\\TUTORIALFRAME\\UI-TUTORIAL-FRAME:14:12:0:-1:512:512:12:66:230:307|t "
 DB.RightButton = " |TInterface\\TUTORIALFRAME\\UI-TUTORIAL-FRAME:14:12:0:-1:512:512:12:66:333:411|t "
 DB.ScrollButton = " |TInterface\\TUTORIALFRAME\\UI-TUTORIAL-FRAME:14:12:0:-1:512:512:12:66:127:204|t "
