@@ -383,7 +383,7 @@ listdrop:SetDropDownWidth(158)
 listdrop.tooltip = 0
 
 NewListBtn = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate")
-NewListBtn:SetWidth(43); NewListBtn:SetHeight(21)
+NewListBtn:SetWidth(51); NewListBtn:SetHeight(21)
 NewListBtn:SetPoint("TOPLEFT", listdrop, "BOTTOMLEFT", 16, -3)
 NewListBtn:SetText(L.WATCH_NEW)
 NewListBtn:SetScript("OnClick", function()
