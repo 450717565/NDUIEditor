@@ -1,13 +1,13 @@
 local mod	= DBM:NewMod(1856, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16260 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16289 $"):sub(12, -3))
 mod:SetCreatureID(116407)
 mod:SetEncounterID(2036)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
 --mod:SetUsedIcons(1)
---mod:SetHotfixNoticeRev(15581)
+mod:SetHotfixNoticeRev(16282)
 mod.respawnTime = 29
 
 mod:RegisterCombat("combat")
@@ -152,7 +152,7 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 232174 then
 		warnFrostyDischarge:Show()
 		self.vb.rageCount = 0
-		timerCommandingRoarCD:Start(18)
+		timerCommandingRoarCD:Start(17.1)
 		timerUncheckedRageCD:Start(21.1, 1)--21.1-23.5
 		countdownUncheckedRage:Start(21)
 		specWarnUncheckedRage:Show(17, 1)
@@ -181,6 +181,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if spellId == 231729 then
 		timerAqueousBurstCD:Start(nil, args.sourceGUID)
 	elseif spellId == 231854 then--Unchecked Rage
+		self.vb.rageCount = self.vb.rageCount + 1
 		local remaining = timerDrawInCD:GetRemaining()
 		if remaining > 20 then
 			timerUncheckedRageCD:Start(nil, self.vb.rageCount+1)
@@ -277,7 +278,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		local amount = args.amount or 0
 		if amount < 4 or self:AntiSpam(5, 1) then
 		--Every 5 seconds or every stack under 4
-			warnFrigidBlows:Show(amount)
+			warnFrigidBlows:Show(args.destName, amount)
 		end
 	elseif spellId == 234016 then
 		timerDrivenAssault:Stop(args.destName)
