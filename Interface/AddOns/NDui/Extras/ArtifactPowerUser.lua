@@ -2,9 +2,6 @@ local B, C, L, DB = unpack(select(2, ...))
 
 local itemLink, bag, slot
 local Cache = {}
-local tooltipName = "APUScanner"
-local tooltipScanner = CreateFrame("GameTooltip", tooltipName, nil, "GameTooltipTemplate")
-local ARTIFACT_POWER = ARTIFACT_POWER
 
 local APU = CreateFrame("Button", "ArtifactPowerUserButton", UIParent, "ActionButtonTemplate, SecureActionButtonTemplate")
 B.CreateMF(APU)
@@ -43,14 +40,8 @@ local function ScanBags()
 				if Cache[itemLink] then
 					return itemLink, bag, slot
 				else
-					tooltipScanner:SetOwner(UIParent, "ANCHOR_NONE")
-					tooltipScanner:SetHyperlink(itemLink)
-					for i = 2, 4 do
-						local tooltipText = _G[tooltipName.."TextLeft"..i]:GetText()
-						if tooltipText and tooltipText:match(ARTIFACT_POWER) then
-							Cache[itemLink] = true
-							return itemLink, bag, slot
-						end
+					if IsArtifactPowerItem(itemLink) then
+						return itemLink, bag, slot
 					end
 				end
 			end
