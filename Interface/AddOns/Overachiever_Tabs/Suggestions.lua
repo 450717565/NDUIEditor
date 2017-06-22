@@ -252,7 +252,12 @@ local achClassHall = {
 }
 
 local achDarkmoonFaire = {
-	6019, 6021, 6023, 6027, 6028, 6029, 6032, 6026, 6025, 6022, 6020, IsAlliance and 6030 or 6031, 6332, 9250, 9885, 9894, 9983, 9755, 9756, 9770, 9786, 9780, 9793, 9800, 9806, 9812, 9819
+	6019, 6021, 6023, 6027, 6028, 6029, 6032, 6026, 6025, 6022, 6020, IsAlliance and 6030 or 6031, 6332, 9250, 9885, 9894, 9983, 9755, 9756, 9770, 9786, 9780, 9793, 9800, 9806, 9812, 9819,
+	-- Blight Boar concert:
+	11918, -- Hey, You're a Rockstar!
+	11921, -- Mosh Pit
+	11920, -- Perfect Performance
+	11919, -- Taking this Show on the Road
 }
 -- To get base data:
 -- 1. /run Overachiever.Debug_GetIDsInCat(15101, true)
@@ -617,6 +622,8 @@ local ACHID_ZONE_MISC = {
 	["Dreadscar Rift"] = achClassHall, -- Warlock
 	["Skyhold"] = achClassHall, -- Warrior
 }
+ACHID_ZONE_MISC["Thunder Totem"] = ACHID_ZONE_MISC["Highmountain"] -- Make this quasi-subzone show suggestions from the main zone
+
 if (IsAlliance) then
   tinsert(ACHID_ZONE_MISC["Grizzly Hills"], 2016) -- "Grizzled Veteran"
   tinsert(ACHID_ZONE_MISC["Wintergrasp"], 1737) -- "Destruction Derby"
@@ -752,6 +759,7 @@ local ACHID_INSTANCES = {
 	["Black Temple"] = {
 		697, -- The Black Temple (defeat Illidan Stormrage)
 		11748, -- Black is the New Black
+		11869, -- I'll Hold These For You Until You Get Out (timewalking)
 	},
 	["Hyjal Summit"] = 695,			-- "The Battle for Mount Hyjal"
 	["Tempest Keep"] = {
@@ -943,6 +951,9 @@ local ACHID_INSTANCES = {
 		11760, -- Retro Trend
 		11788, -- Wailing Halls
 	},
+
+-- Legion Scenarios
+	["The Deaths of Chromie"] = 11941,
 }
 -- Aliases
 ACHID_INSTANCES["Molten Core"] = ACHID_INSTANCES["The Molten Core"]
@@ -1095,6 +1106,8 @@ local ACHID_INSTANCES_HEROIC_PLUS = {
 -- Draenor Raids
 	["Highmaul"] = "9619:9",
 	["Blackrock Foundry"] = "9619:10",
+-- Legion Dungeons
+	["Return to Karazhan"] = 11929,
 }
 -- Aliases
 --ACHID_INSTANCES_HEROIC_PLUS["Hall of Blackhand"] = ACHID_INSTANCES_HEROIC_PLUS["Upper Blackrock Spire"]
