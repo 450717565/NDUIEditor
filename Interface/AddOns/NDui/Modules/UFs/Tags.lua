@@ -9,7 +9,7 @@ oUF.Tags.Methods["hp"] = function(unit)
 		local per = oUF.Tags.Methods["perhp"](unit).."%" or 0
 		local min, max = UnitHealth(unit), UnitHealthMax(unit)
 		if (unit == "player" and not UnitHasVehicleUI(unit)) or unit == "target" or unit == "focus" then
-			if min ~= max then 
+			if min ~= max then
 				return B.Numb(min).." | "..per
 			else
 				return B.Numb(max)
@@ -36,14 +36,14 @@ oUF.Tags.Methods["power"] = function(unit)
 		end
 	else
 		return per
-    end
+	end
 end
 oUF.Tags.Events["power"] = "UNIT_POWER_FREQUENT UNIT_MAXPOWER UNIT_DISPLAYPOWER"
 
 oUF.Tags.Methods["color"] = function(unit)
 	local _, class = UnitClass(unit)
 	local reaction = UnitReaction(unit, "player")
-	
+
 	if UnitIsDeadOrGhost(unit) or not UnitIsConnected(unit) then
 		return "|cffA0A0A0"
 	elseif UnitIsTapDenied(unit) then
@@ -58,7 +58,7 @@ oUF.Tags.Methods["color"] = function(unit)
 end
 oUF.Tags.Events["color"] = "UNIT_REACTION UNIT_HEALTH UNIT_CONNECTION"
 
-oUF.Tags.Methods["afkdnd"] = function(unit) 
+oUF.Tags.Methods["afkdnd"] = function(unit)
 	return UnitIsAFK(unit) and "|cffCFCFCF <"..AFK..">|r" or UnitIsDND(unit) and "|cffCFCFCF <"..DND..">|r" or ""
 end
 oUF.Tags.Events["afkdnd"] = "PLAYER_FLAGS_CHANGED"
@@ -120,6 +120,11 @@ oUF.Tags.Events["raidhp"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION
 -- Nameplate tags
 oUF.Tags.Methods["nphp"] = function(unit)
 	local per = oUF.Tags.Methods["perhp"](unit).."%" or 0
+	local min, max = UnitHealth(unit), UnitHealthMax(unit)
+
+	if min == max then return end
+	per = "|cff00ffff"..per.."|r"
+
 	return per
 end
 oUF.Tags.Events["nphp"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION"
@@ -127,6 +132,11 @@ oUF.Tags.Events["nphp"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION"
 oUF.Tags.Methods["nppp"] = function(unit)
 	if not C.ShowPowerList[UnitName(unit)] then return end
 	local per = oUF.Tags.Methods["perpp"](unit).."%" or 0
+	local min, max = UnitPower(unit), UnitPowerMax(unit)
+
+	if min == max then return end
+	per = "|cff00ffff"..per.."|r"
+
 	return per
 end
 oUF.Tags.Events["nppp"] = "UNIT_POWER_FREQUENT UNIT_MAXPOWER"

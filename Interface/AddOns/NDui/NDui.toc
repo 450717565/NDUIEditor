@@ -4,7 +4,7 @@
 ## Author: Siweia
 ## Notes: Core of NDui
 ## Version: 1.1.0
-## X-Support: 7.2
+## X-Support: 7.2.5
 ## SavedVariables: diminfo, NDuiADB
 ## SavedVariablesPerCharacter: NDuiDB
 
