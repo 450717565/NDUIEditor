@@ -23,7 +23,7 @@ function mod:OnInitialize()
   local defaults = {
     profile = {
       usePopups = {
-        joinGroup = true,
+        joinGroup = false,
         createGroup = true
       },
       doneBehavior = "leave",
