@@ -1,4 +1,4 @@
-﻿if GetLocale() ~= "ptBR" then return end
+if GetLocale() ~= "ptBR" then return end
 local L
 
 --------------------------
@@ -7,7 +7,7 @@ local L
 L = DBM:GetModLocalization("Battlegrounds")
 
 L:SetGeneralLocalization({
-	name = "Opções gerais"
+	name = "Opc~oes gerais"
 })
 
 L:SetTimerLocalization({
@@ -15,15 +15,15 @@ L:SetTimerLocalization({
 })
 
 L:SetOptionLocalization({
-	ColorByClass	= "Usar cor da classe para os nomes, no quadro de pontuação",
+	ColorByClass	= "Usar cor da classe para os nomes, no quadro de pontuac~ao",
 	ShowInviteTimer	= "Exibir cronógrafo para juntar-se ao Campo de Batalha",
 	AutoSpirit		= "Libertar espírito automaticamente",
-	HideBossEmoteFrame	= "Esconder quadro de emoção de chefe."
+	HideBossEmoteFrame	= "Esconder quadro de emoc~ao de chefe."
 })
 
 L:SetMiscLocalization({
-	BgStart60 			= "A batalha começará em 1 minuto.",
-	BgStart30 			= "A batalha começará em 30 segundos. Preparem-se!",
+	BgStart60 			= "A batalha comecará em 1 minuto.",
+	BgStart30 			= "A batalha comecará em 30 segundos. Preparem-se!",
 	ArenaInvite	= "Convite para Arena"
 })
 
@@ -61,7 +61,7 @@ L:SetTimerLocalization({
 L:SetOptionLocalization({
 	TimerTower	= "Exibir cronógrafo para captura de torre",
 	TimerGY		= "Exibir cronógrafo para captura de cemitério",
-	AutoTurnIn	= "Automaticamente entregar missões"
+	AutoTurnIn	= "Automaticamente entregar miss~oes"
 })
 
 --------------------
@@ -71,7 +71,7 @@ L = DBM:GetModLocalization("z529")
 
 L:SetMiscLocalization({
 	ScoreExpr	= "(%d+)/1500",
-	Alliance	= "Aliança",
+	Alliance	= "Alianca",
 	Horde		= "Horda",
 	WinBarText	= "%s vence",
 	BasesToWin	= "Bases para vencer: %d",
@@ -85,7 +85,7 @@ L:SetTimerLocalization({
 L:SetOptionLocalization({
 	TimerWin				= "Exibir cronógrafo para vitória",
 	TimerCap				= "Exibir cronógrafo para captura",
-	ShowAbEstimatedPoints	= "Exibir estimativa de pontuação no final da partida",
+	ShowAbEstimatedPoints	= "Exibir estimativa de pontuac~ao no final da partida",
 	ShowAbBasesToWin		= "Exibir número de bases necessárias para vencer"
 })
 
@@ -96,7 +96,7 @@ L = DBM:GetModLocalization("z566")
 
 L:SetMiscLocalization({
 	ScoreExpr		= "(%d+)/1500",
-	Alliance 		= "Aliança",
+	Alliance 		= "Alianca",
 	Horde 			= "Horda",
 	WinBarText 		= "%s vence",
 	FlagReset 		= "The flag has been reset!",
@@ -122,13 +122,13 @@ L:SetOptionLocalization({
 L = DBM:GetModLocalization("z489")
 
 L:SetMiscLocalization({
-	Alliance 			= "Aliança",
+	Alliance 			= "Alianca",
 	Horde 				= "Horda",
 	InfoErrorText		= "A funcionalidade de mirar portador da bandeira será restaurada quando você sair de combate.",
-	ExprFlagPickUp		= "(.+) pegou a Bandeira da ([%wç]+)!",
-	ExprFlagCaptured	= "(.+) capturou a bandeira da ([%wç]+)!",
-	ExprFlagReturn		= "A Bandeira da ([%wç]+) foi devolvida à base por (.+)!",
-	FlagAlliance		= "Bandeira da Aliança: ",
+	ExprFlagPickUp		= "(.+) pegou a Bandeira da ([%wc]+)!",
+	ExprFlagCaptured	= "(.+) capturou a bandeira da ([%wc]+)!",
+	ExprFlagReturn		= "A Bandeira da ([%wc]+) foi devolvida à base por (.+)!",
+	FlagAlliance		= "Bandeira da Alianca: ",
 	FlagHorde			= "Bandeira da Horda: ",
 	FlagBase			= "Base"
 })
@@ -163,7 +163,7 @@ L:SetTimerLocalization({
 L:SetOptionLocalization({
 	TimerStart			= "Exibir cronógrafo para início da partida",
 	TimerPOI			= "Exibir cronógrafo para captura",
-	TimerSiegeEngine	= "Exibir cronógrafo para construção de Siege Engine",
+	TimerSiegeEngine	= "Exibir cronógrafo para construc~ao de Siege Engine",
 	WarnSiegeEngine		= "Exibir aviso quando Siege Engine estiver pronto",
 	WarnSiegeEngineSoon	= "Exibir aviso quando Siege Engine estiver quase pronto"
 })
@@ -187,7 +187,7 @@ L:SetMiscLocalization({
 L = DBM:GetModLocalization("z726")
 
 L:SetMiscLocalization({
-	Alliance 			= "Aliança",
+	Alliance 			= "Alianca",
 	Horde 				= "Horda",
 	InfoErrorText		= "A funcionalidade de portador de bandeira será restaurada quando você sair de combate.",
 	ExprFlagPickUp		= "The (%w+) .lag was picked up by (.+)!",
@@ -220,7 +220,7 @@ L = DBM:GetModLocalization("z761")
 
 L:SetMiscLocalization({
 	ScoreExpr	= "(%d+)/1500",
-	Alliance	= "Aliança",
+	Alliance	= "Alianca",
 	Horde		= "Horda",
 	WinBarText	= "%s vence",
 	BasesToWin	= "Bases para vencer: %d",

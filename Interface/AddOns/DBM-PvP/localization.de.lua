@@ -1,4 +1,4 @@
-﻿if GetLocale() ~= "deDE" then return end
+if GetLocale() ~= "deDE" then return end
 local L
 
 --------------------------
@@ -16,10 +16,10 @@ L:SetTimerLocalization({
 })
 
 L:SetOptionLocalization({
-	ColorByClass	= "Einfärbung der Spielernamen nach Klasse in der Schlachtfeld-Punktetafel",
-	ShowInviteTimer	= "Zeige Zeit für Schlachtfeld-Beitrittsmöglichkeit",
+	ColorByClass	= "Einf"arbung der Spielernamen nach Klasse in der Schlachtfeld-Punktetafel",
+	ShowInviteTimer	= "Zeige Zeit für Schlachtfeld-Beitrittsm"oglichkeit",
 	AutoSpirit		= "Automatisch Geist freilassen",
-	HideBossEmoteFrame	= "Verberge das Fenster \"RaidBossEmoteFrame\" und Garnisons-/Gildenerfolgsmeldungen während Schlachtfeldern"
+	HideBossEmoteFrame	= "Verberge das Fenster \"RaidBossEmoteFrame\" und Garnisons-/Gildenerfolgsmeldungen w"ahrend Schlachtfeldern"
 })
 
 L:SetMiscLocalization({
@@ -61,7 +61,7 @@ L:SetTimerLocalization({
 })
 
 L:SetOptionLocalization({
-	TimerTower	= "Zeige Zerstörungsdauer für Türme",
+	TimerTower	= "Zeige Zerst"orungsdauer für Türme",
 	TimerGY		= "Zeige Eroberungsdauer für Friedhofe",
 	AutoTurnIn	= "Automatisches Abgeben der Quests im Alteractal"
 })
@@ -78,14 +78,14 @@ L:SetTimerLocalization({
 L:SetOptionLocalization({
 	TimerWin				= "Zeige Zeit bis eine Fraktion gewinnt",
 	TimerCap				= "Zeige Eroberungsdauer für Basen",
-	ShowAbEstimatedPoints	= "Zeige geschätzten Endpunktestand",
-	ShowAbBasesToWin		= "Zeige benötigte Anzahl von Basen zum Sieg"
+	ShowAbEstimatedPoints	= "Zeige gesch"atzten Endpunktestand",
+	ShowAbBasesToWin		= "Zeige ben"otigte Anzahl von Basen zum Sieg"
 })
 
 L:SetMiscLocalization({
 	ScoreExpr	= "(%d+)/1500",
 	WinBarText	= "%s gewinnt",
-	BasesToWin	= "benötigte Basen für Sieg: %d"
+	BasesToWin	= "ben"otigte Basen für Sieg: %d"
 })
 
 ---------------------
@@ -119,7 +119,7 @@ L:SetTimerLocalization({
 L:SetOptionLocalization({
 	TimerWin 		= "Zeige Zeit bis eine Fraktion gewinnt",
 	TimerFlag 		= "Zeige Zeit bis zum Respawn der Flagge",
-	ShowPointFrame	= "Zeige Flaggenträger und geschätzten Endpunktestand"
+	ShowPointFrame	= "Zeige Flaggentr"ager und gesch"atzten Endpunktestand"
 })
 
 L:SetMiscLocalization({
@@ -145,20 +145,20 @@ L:SetTimerLocalization({
 L:SetOptionLocalization({
 	TimerStart					= "Zeige Zeit bis Kampfbeginn",
 	TimerFlag					= "Zeige Zeit bis zum Respawn der Flaggen",
-	ShowFlagCarrier				= "Zeige Flaggenträger",
-	ShowFlagCarrierErrorNote	= "Zeige Fehlermeldung, wenn Flaggenträger-Zielauswahl nicht gesetzt werden kann"
+	ShowFlagCarrier				= "Zeige Flaggentr"ager",
+	ShowFlagCarrierErrorNote	= "Zeige Fehlermeldung, wenn Flaggentr"ager-Zielauswahl nicht gesetzt werden kann"
 })
 
 L:SetMiscLocalization({
-	InfoErrorText		= "Die Zielauswahlfunktion für den Flaggenträger wird bei Kampfende wiederhergestellt.",
+	InfoErrorText		= "Die Zielauswahlfunktion für den Flaggentr"ager wird bei Kampfende wiederhergestellt.",
 	ExprFlagPickUp		= "(.+) hat die Flagge der (%w+) aufgenommen!", -- code is aware of the switched match groups for deDE
 	ExprFlagCaptured	= "(.+) hat die Flagge der (%w+) errungen!",
 	ExprFlagReturn		= "Die Flagge der (%w+) wurde von (.+) zu ihrem Stützpunkt zurückgebracht!",
 	FlagAlliance		= "Allianz-Flagge: ",
 	FlagHorde			= "Horde-Flagge: ",
 	FlagBase			= "Basis",
-	Vulnerable1			= "Eure Angriffe verursachen nun schwerere Verletzungen bei Flaggenträgern!",
-	Vulnerable2			= "Eure Angriffe verursachen nun sehr schwere Verletzungen bei Flaggenträgern!"
+	Vulnerable1			= "Eure Angriffe verursachen nun schwerere Verletzungen bei Flaggentr"agern!",
+	Vulnerable2			= "Eure Angriffe verursachen nun sehr schwere Verletzungen bei Flaggentr"agern!"
 })
 
 ------------------------
@@ -181,20 +181,20 @@ L:SetOptionLocalization({
 	TimerSiegeEngine	= "Zeige Zeit bis Belagerungsmaschine bereit ist",
 	WarnSiegeEngine		= "Zeige Warnung, wenn Belagerungsmaschine bereit ist",
 	WarnSiegeEngineSoon	= "Zeige Warnung, wenn Belagerungsmaschine fast bereit ist",
-	ShowGatesHealth		= "Zeige Erhaltungsgrad beschädigter Tore (kann nach dem Beitritt<br/>zu einem bereits laufenden Schlachtfeld falsche Werte liefern!)"
+	ShowGatesHealth		= "Zeige Erhaltungsgrad besch"adigter Tore (kann nach dem Beitritt<br/>zu einem bereits laufenden Schlachtfeld falsche Werte liefern!)"
 })
 
 L:SetMiscLocalization({
-	GatesHealthFrame		= "Beschädigte Tore",
+	GatesHealthFrame		= "Besch"adigte Tore",
 	SiegeEngine				= "Belagerungsmaschine",
-	GoblinStartAlliance		= "Seht Ihr diese Zephyriumbomben? Benutzt sie an den Toren, während ich die Belagerungsmaschine repariere!",
+	GoblinStartAlliance		= "Seht Ihr diese Zephyriumbomben? Benutzt sie an den Toren, w"ahrend ich die Belagerungsmaschine repariere!",
 	GoblinStartHorde		= "Ich arbeite an der Belagerungsmaschine. Haltet mir einfach nur den Rücken frei. Benutzt diese Zephyriumbomben an den Toren, solltet Ihr sie brauchen!",
-	GoblinHalfwayAlliance	= "Ich hab's gleich! Haltet die Horde von hier fern. Kämpfen stand in der Ingenieursschule nicht auf dem Lehrplan!",
-	GoblinHalfwayHorde		= "Ich hab's gleich! Haltet mir die Allianz vom Leib. Kämpfen steht nicht in meinem Vertrag!",
+	GoblinHalfwayAlliance	= "Ich hab's gleich! Haltet die Horde von hier fern. K"ampfen stand in der Ingenieursschule nicht auf dem Lehrplan!",
+	GoblinHalfwayHorde		= "Ich hab's gleich! Haltet mir die Allianz vom Leib. K"ampfen steht nicht in meinem Vertrag!",
 	GoblinFinishedAlliance	= "Meine beste Arbeit bisher! Diese Belagerungsmaschine ist bereit, ein bisschen Aktion zu sehen!",
 	GoblinFinishedHorde		= "Die Belagerungsmaschine ist bereit, loszurollen!",
 	GoblinBrokenAlliance	= "Es ist schon kaputt?! Ach, keine Sorge, nichts, was ich nicht reparieren kann.",
-	GoblinBrokenHorde		= "Schon wieder kaputt?! Ich werde es richten... Ihr solltet allerdings nicht davon ausgehen, dass das noch unter die Garantie fällt."
+	GoblinBrokenHorde		= "Schon wieder kaputt?! Ich werde es richten... Ihr solltet allerdings nicht davon ausgehen, dass das noch unter die Garantie f"allt."
 })
 
 ------------------
@@ -210,20 +210,20 @@ L:SetTimerLocalization({
 L:SetOptionLocalization({
 	TimerStart					= "Zeige Zeit bis Kampfbeginn",
 	TimerFlag					= "Zeige Zeit bis zum Respawn der Flaggen",
-	ShowFlagCarrier				= "Zeige Flaggenträger",
-	ShowFlagCarrierErrorNote	= "Zeige Fehlermeldung, wenn Flaggenträger-Zielauswahl nicht gesetzt werden kann"
+	ShowFlagCarrier				= "Zeige Flaggentr"ager",
+	ShowFlagCarrierErrorNote	= "Zeige Fehlermeldung, wenn Flaggentr"ager-Zielauswahl nicht gesetzt werden kann"
 })
 
 L:SetMiscLocalization({
-	InfoErrorText		= "Die Zielauswahlfunktion für den Flaggenträger wird bei Kampfende wiederhergestellt.",
+	InfoErrorText		= "Die Zielauswahlfunktion für den Flaggentr"ager wird bei Kampfende wiederhergestellt.",
 	ExprFlagPickUp		= "(.+) hat die Flagge der (%w+) aufgenommen!", -- code is aware of the switched match groups for deDE
 	ExprFlagCaptured	= "(.+) hat die Flagge der (%w+) errungen!",
 	ExprFlagReturn		= "Die Flagge der (%w+) wurde von (.+) zu ihrem Stützpunkt zurückgebracht!",
 	FlagAlliance		= "Allianz-Flagge: ",
 	FlagHorde			= "Horde-Flagge: ",
 	FlagBase			= "Basis",
-	Vulnerable1			= "Eure Angriffe verursachen nun schwerere Verletzungen bei Flaggenträgern!",
-	Vulnerable2			= "Eure Angriffe verursachen nun sehr schwere Verletzungen bei Flaggenträgern!"
+	Vulnerable1			= "Eure Angriffe verursachen nun schwerere Verletzungen bei Flaggentr"agern!",
+	Vulnerable2			= "Eure Angriffe verursachen nun sehr schwere Verletzungen bei Flaggentr"agern!"
 })
 
 ------------------------------
@@ -238,14 +238,14 @@ L:SetTimerLocalization({
 L:SetOptionLocalization({
 	TimerWin				= "Zeige Zeit bis eine Fraktion gewinnt",
 	TimerCap				= "Zeige Eroberungsdauer für Basen",
-	ShowGilneasEstimatedPoints		= "Zeige geschätzten Endpunktestand",
-	ShowGilneasBasesToWin			= "Zeige benötigte Anzahl von Basen zum Sieg"
+	ShowGilneasEstimatedPoints		= "Zeige gesch"atzten Endpunktestand",
+	ShowGilneasBasesToWin			= "Zeige ben"otigte Anzahl von Basen zum Sieg"
 })
 
 L:SetMiscLocalization({
 	ScoreExpr	= "(%d+)/1500",
 	WinBarText	= "%s gewinnt",
-	BasesToWin	= "benötigte Basen für Sieg: %d"
+	BasesToWin	= "ben"otigte Basen für Sieg: %d"
 })
 
 -------------------------
@@ -272,14 +272,14 @@ L = DBM:GetModLocalization("z998")
 
 L:SetOptionLocalization({
 	TimerWin			= "Zeige Zeit bis eine Fraktion gewinnt",
-	ShowKotmoguEstimatedPoints	= "Zeige geschätzten Endpunktestand",
-	ShowKotmoguOrbsToWin		= "Zeige benötigte Anzahl von Kugeln der Macht zum Sieg"
+	ShowKotmoguEstimatedPoints	= "Zeige gesch"atzten Endpunktestand",
+	ShowKotmoguOrbsToWin		= "Zeige ben"otigte Anzahl von Kugeln der Macht zum Sieg"
 })
 
 L:SetMiscLocalization({
 	OrbTaken 	= "(%S+) hat die (%S+) Kugel genommen!",
 	OrbReturn 	= "Die (%S+) Kugel wurde zurückgebracht!",
 	ScoreExpr	= "(%d+)/1500",
-	WinBarText	= "%s gewinnt (geschätzt)",
-	OrbsToWin	= "benötigte Kugeln für Sieg: %d"
+	WinBarText	= "%s gewinnt (gesch"atzt)",
+	OrbsToWin	= "ben"otigte Kugeln für Sieg: %d"
 })

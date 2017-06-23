@@ -1,4 +1,4 @@
-﻿local BtnStrata = SideDressUpModelResetButton:GetFrameStrata()
+local BtnStrata = SideDressUpModelResetButton:GetFrameStrata()
 local BtnLevel = SideDressUpModelResetButton:GetFrameLevel()
 
 --自定义按钮创建函数

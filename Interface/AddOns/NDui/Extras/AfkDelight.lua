@@ -1,4 +1,4 @@
-﻿-- By Frost-Xavius
+-- By Frost-Xavius
 -- License: http://creativecommons.org/licenses/by-nc-sa/2.5
 -- LegalCode: http://creativecommons.org/licenses/by-nc-sa/2.5/legalcode
 

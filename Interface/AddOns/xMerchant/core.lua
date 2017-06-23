@@ -1,4 +1,4 @@
-﻿--[[
+--[[
 
 	xMerchant
 	Copyright (c) 2010-2014, Nils Ruesch

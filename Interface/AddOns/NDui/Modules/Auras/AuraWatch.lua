@@ -1,4 +1,4 @@
-﻿local B, C, L, DB = unpack(select(2, ...))
+local B, C, L, DB = unpack(select(2, ...))
 local AuraList, Aura, UnitIDTable, IntTable, IntCD = {}, {}, {}, {}, C.InternalCD
 local MaxFrame = 12	-- Max Tracked Auras
 

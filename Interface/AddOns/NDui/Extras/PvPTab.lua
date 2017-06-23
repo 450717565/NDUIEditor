@@ -1,4 +1,4 @@
-﻿local frame = CreateFrame("Frame")
+local frame = CreateFrame("Frame")
 frame:SetScript("OnEvent", function (event, ...)
     local bindSet = GetCurrentBindingSet()
     local pvpType = GetZonePVPInfo()

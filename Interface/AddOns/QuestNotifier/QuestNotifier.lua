@@ -1,4 +1,4 @@
-﻿local QHisFirst = true
+local QHisFirst = true
 local lastList
 local L = QN_Locale
 local RGBStr = {

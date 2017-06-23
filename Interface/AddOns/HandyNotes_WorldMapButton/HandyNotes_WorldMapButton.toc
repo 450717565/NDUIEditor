@@ -1,4 +1,4 @@
-﻿## Interface: 70200
+## Interface: 70200
 ## Title: HandyNotes_WorldMapButton
 ## Notes: Adds a Button to the Worldmap to toggle HandyNotes
 ## Title-zhTW: |cFF008844[地圖]|r|cFF9966FF[HandyNotes]|r 世界地圖按鈕

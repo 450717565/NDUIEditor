@@ -1,4 +1,4 @@
-﻿local B, C, _, DB = unpack(select(2, ...))
+local B, C, _, DB = unpack(select(2, ...))
 
 --[[
 	NDui DevTools:

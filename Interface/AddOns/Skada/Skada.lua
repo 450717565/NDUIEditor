@@ -1,4 +1,4 @@
-﻿local Skada = LibStub("AceAddon-3.0"):NewAddon("Skada", "AceTimer-3.0", "LibNotify-1.0")
+local Skada = LibStub("AceAddon-3.0"):NewAddon("Skada", "AceTimer-3.0", "LibNotify-1.0")
 _G.Skada = Skada
 
 local L = LibStub("AceLocale-3.0"):GetLocale("Skada", false)

@@ -1,4 +1,4 @@
-﻿-- Twin Peaks mod v1.0
+-- Twin Peaks mod v1.0
 --
 -- Thanks to Samira (EU-Thrall)
 

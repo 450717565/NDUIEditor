@@ -1,4 +1,4 @@
-﻿ArtifactTab = LibStub("AceAddon-3.0"):NewAddon("NDui", "AceEvent-3.0")
+ArtifactTab = LibStub("AceAddon-3.0"):NewAddon("NDui", "AceEvent-3.0")
 local AceConfig = LibStub("AceConfig-3.0")
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 

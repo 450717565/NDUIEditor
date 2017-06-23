@@ -1,4 +1,4 @@
-﻿local _, C, L, _ = unpack(select(2, ...))
+local _, C, L, _ = unpack(select(2, ...))
 --[[
 	>>>自定义添加时，要注意格式，注意逗号，注意字母大小写<<<
 	ALL下面是对全职业通用的设置，其他情况请在自己职业下添加。当你添加时，要注意是否重复。
@@ -695,7 +695,7 @@ C.AuraWatchList = {
 				--灵魂束缚
 				{AuraID = 236459, UnitID = "player"},
 				--苦痛之矛
-				{AuraID = 238442, UnitID = "player"},
+				{AuraID = 238442, UnitID = "player", Value = true},
 				--枯萎
 				{AuraID = 236138, UnitID = "player"},
 				{AuraID = 236131, UnitID = "player"},
@@ -2742,6 +2742,8 @@ C.AuraWatchList = {
 				{AuraID = 216974, UnitID = "player"},
 				--冷库严冬
 				{AuraID = 196770, UnitID = "player"},
+				--冷酷之心
+				{AuraID = 235599, UnitID = "player"},
 			},
 		},
 		{	Name = "Focus Aura",

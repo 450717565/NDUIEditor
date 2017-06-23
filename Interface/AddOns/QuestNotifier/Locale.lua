@@ -1,4 +1,4 @@
-﻿------------------
+------------------
 -- Localization
 ------------------
 QN_Title    = "QuestNotifier Options"

@@ -1,4 +1,4 @@
-﻿if ( GetLocale() == "zhTW" ) then
+if ( GetLocale() == "zhTW" ) then
 	FRIENDS_MENU_XP_CANNOT_TARGET = "FriendsMenuXP無法選定<$name$>為目標。"
 
 	FMXP_BUTTON_ADD_FRIEND = "加為好友"

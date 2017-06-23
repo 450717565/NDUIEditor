@@ -1,4 +1,4 @@
-﻿Skada:AddLoadableModule("Damage", nil, function(Skada, L)
+Skada:AddLoadableModule("Damage", nil, function(Skada, L)
 	if Skada.db.profile.modulesBlocked.Damage then return end
 
 	local mod = Skada:NewModule(L["Damage"])

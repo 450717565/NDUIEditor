@@ -1,4 +1,4 @@
-﻿if GetLocale() ~= "zhCN" then return end
+if GetLocale() ~= "zhCN" then return end
 
 infoL = {
 	["NFG"] = "不使用公修",

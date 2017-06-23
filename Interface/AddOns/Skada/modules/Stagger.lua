@@ -1,4 +1,4 @@
-﻿Skada:AddLoadableModule("Damage", nil, function(Skada, L)
+Skada:AddLoadableModule("Damage", nil, function(Skada, L)
 	if select(2, UnitClass("player")) ~= "MONK" then return end
 
 	local mod = Skada:NewModule("醉拳大师")

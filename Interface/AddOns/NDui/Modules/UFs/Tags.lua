@@ -1,4 +1,4 @@
-﻿local B, C, L, DB = unpack(select(2, ...))
+local B, C, L, DB = unpack(select(2, ...))
 local oUF = NDui.oUF or oUF
 local UF = NDui:RegisterModule("UnitFrames")
 

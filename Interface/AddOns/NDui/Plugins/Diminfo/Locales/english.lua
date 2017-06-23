@@ -1,4 +1,4 @@
-﻿--if GetLocale() ~= "enUS" then return end
+--if GetLocale() ~= "enUS" then return end
 
 infoL = {
 	["NFG"] = "Not From Guild",

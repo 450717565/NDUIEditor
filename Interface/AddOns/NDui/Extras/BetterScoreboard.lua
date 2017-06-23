@@ -1,4 +1,4 @@
-﻿function format_thousand(v)
+function format_thousand(v)
 	if v >= 1e8 then
 		return ("%.2f亿"):format(v / 1e8)
 	elseif v >= 1e4 then

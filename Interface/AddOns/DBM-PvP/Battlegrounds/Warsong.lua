@@ -1,4 +1,4 @@
-﻿-- Warsong mod v3.0
+-- Warsong mod v3.0
 -- rewrite by Nitram and Tandanu
 --
 -- thanks to LeoLeal, DiabloHu and Са°ЧТВ

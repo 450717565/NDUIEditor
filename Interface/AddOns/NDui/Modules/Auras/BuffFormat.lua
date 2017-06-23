@@ -1,4 +1,4 @@
-﻿local B, C, L, DB = unpack(select(2, ...))
+local B, C, L, DB = unpack(select(2, ...))
 
 -- Convert the Bufftimers into details
 local function FormatAuraTime(seconds)

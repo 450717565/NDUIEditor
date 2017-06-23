@@ -1,4 +1,4 @@
-﻿local B, C, L, DB = unpack(select(2, ...))
+local B, C, L, DB = unpack(select(2, ...))
 local module = NDui:GetModule("Chat")
 
 function module:ChannelRename()

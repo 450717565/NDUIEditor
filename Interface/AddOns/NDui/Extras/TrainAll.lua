@@ -1,4 +1,4 @@
-﻿local Event = CreateFrame("frame")
+local Event = CreateFrame("frame")
 Event:RegisterEvent("ADDON_LOADED")
 
 local Spot = 0

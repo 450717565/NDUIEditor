@@ -1,4 +1,4 @@
-﻿-- RelicInspector.lua
+-- RelicInspector.lua
 -- Author: Thoralie
 
 local addonName, addon = ...

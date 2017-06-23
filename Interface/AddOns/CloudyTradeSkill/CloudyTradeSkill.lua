@@ -1,4 +1,4 @@
-﻿--[[
+--[[
 	Cloudy TradeSkill
 	Copyright (c) 2016, Cloudyfa
 	All rights reserved.

@@ -1,4 +1,4 @@
-﻿local B, C, L, DB = unpack(select(2, ...))
+local B, C, L, DB = unpack(select(2, ...))
 local Bar = NDui:GetModule("Actionbar")
 local normalColor, equipColor = {.3, .3, .3}, {.1, .5, .1}
 

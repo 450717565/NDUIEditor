@@ -1,4 +1,4 @@
-﻿
+
 local _addonName, _addon = ...;
 
 local APII = LibStub("AceAddon-3.0"):NewAddon(_addonName);

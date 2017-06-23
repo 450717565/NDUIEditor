@@ -1,4 +1,4 @@
-﻿local L = LibStub("AceLocale-3.0"):NewLocale("AuctionLite", "zhCN");
+local L = LibStub("AceLocale-3.0"):NewLocale("AuctionLite", "zhCN");
 if not L then return end
 
 L["Accept"] = "接受"

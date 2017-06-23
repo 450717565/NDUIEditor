@@ -1,4 +1,4 @@
-﻿-- Last update: 01/19/2013 (19/01/2013 in french format)
+-- Last update: 01/19/2013 (19/01/2013 in french format)
 -- By Edoz (stephanelc35@msn.com)
 if GetLocale() ~= "frFR" then return end
 local L
@@ -183,7 +183,7 @@ L:SetMiscLocalization({
 	GoblinFinishedAlliance	= "Mon plus beau travail accompli jusqu'à présent! Cet engin de siège est prêt pour l'action !",
 	GoblinFinishedHorde	= "L'engin de siège est prêt à rouler !",
 	GoblinBrokenAlliance	= "C'est déjà cassé ?! Pas de soucis. Ce n'est rien que je ne puisse arranger.",
-	GoblinBrokenHorde	= "C'est encore cassé ?! j'arrangerais ça... ne vous attendez pas a ce que la garantie couvre cela"
+	GoblinBrokenHorde	= "C'est encore cassé ?! j'arrangerais ca... ne vous attendez pas a ce que la garantie couvre cela"
 })
 
 
@@ -251,7 +251,7 @@ L:SetOptionLocalization({
 L = DBM:GetModLocalization("z727")
 
 L:SetMiscLocalization({
-	Capture = "pris le contrôle"
+	Capture = "pris le contr^ole"
 })
 
 L:SetTimerLocalization({

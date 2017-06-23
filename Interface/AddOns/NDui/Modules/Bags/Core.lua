@@ -1,4 +1,4 @@
-﻿local B, C, L, DB = unpack(select(2, ...))
+local B, C, L, DB = unpack(select(2, ...))
 local module = NDui:RegisterModule("Bags")
 local cargBags = NDui.cargBags
 

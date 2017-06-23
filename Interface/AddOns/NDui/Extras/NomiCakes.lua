@@ -1,4 +1,4 @@
-﻿--[[
+--[[
 	Operating under the following assumptions about how recipes are discovered:
 	1) You must know the base rank of a recipe to receive higher ranked versions of it
 	2) You must already know all recipes which are reagents for the recipe (No longer true in 7.1)
