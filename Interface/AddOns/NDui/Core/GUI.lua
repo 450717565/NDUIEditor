@@ -51,6 +51,7 @@ local defaultSettings = {
 		Arena = true,
 		ExpRep = false,
 		Castbars = true,
+		ClassPower = true,
 		AddPower = true,
 		StealableBuff = true,
 		SwingBar = false,
@@ -264,8 +265,10 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "UFs", "SmoothColor", L["Smoothcolor HpBar"], true},
 		{1, "UFs", "PlayerDebuff", L["Player Debuff"]},
 		{1, "UFs", "ToTAuras", L["ToT Debuff"], true},
-		{1, "UFs", "ExpRep", L["UFs Expbar"]},
+		{},--blank
+		{1, "UFs", "ClassPower", L["UFs ClassPower"]},
 		{1, "UFs", "AddPower", L["UFs ExtraMana"], true},
+		{1, "UFs", "ExpRep", L["UFs Expbar"]},
 		{},--blank
 		{1, "UFs", "CombatText", L["UFs CombatText"]},
 		{1, "UFs", "HotsDots", L["CombatText HotsDots"]},

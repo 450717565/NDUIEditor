@@ -546,19 +546,15 @@ local function postUpdateClassPower(element, cur, max, diff, event)
 end
 
 function UF:CreateClassPower(self)
-	local bar = CreateFrame("Frame", "oUF_ClassPowerBar", self)
-	bar:SetSize(width, height)
-	bar:SetPoint(unpack(C.UFs.BarPoint))
-
 	local bars = {}
 	for i = 1, 6 do
-		bars[i] = CreateFrame("StatusBar", nil, bar)
+		bars[i] = CreateFrame("StatusBar", nil, self)
 		bars[i]:SetHeight(height)
 		bars[i]:SetWidth((width - 5*margin) / 6)
 		bars[i]:SetStatusBarTexture(DB.normTex)
 		B.CreateSD(bars[i], 3, 3)
 		if i == 1 then
-			bars[i]:SetPoint("LEFT")
+			bars[i]:SetPoint(unpack(C.UFs.BarPoint))
 		else
 			bars[i]:SetPoint("LEFT", bars[i-1], "RIGHT", margin, 0)
 		end

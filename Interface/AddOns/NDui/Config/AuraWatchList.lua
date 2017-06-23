@@ -113,6 +113,8 @@ C.AuraWatchList = {
 				--回转稳定
 				{AuraID = 235712, UnitID = "player", Combat = true},
 			-->LEG饰品
+				--灭绝引擎
+				{AuraID = 242612, UnitID = "player"},
 				--血之气息
 				{AuraID = 213888, UnitID = "player"},
 				--节拍器

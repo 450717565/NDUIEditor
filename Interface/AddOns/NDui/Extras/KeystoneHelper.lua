@@ -137,8 +137,8 @@ local function DecorateTooltip(self, link, _)
 		end
 		if mythicLevel then
 			self:AddLine(" ")
-			self:AddLine("|cff00ffff秘境箱子等级：" .. ilvl .. "|r")
-			self:AddLine("|cff00ffff低保箱子等级：" .. wlvl .. "|r")
+			self:AddLine("|cff00ffff秘境箱子等级："..ilvl.."|r")
+			self:AddLine("|cff00ffff低保箱子等级："..wlvl.."|r")
 		end
 		if modifiers or mythicLevel then
 			self:Show()
@@ -146,7 +146,5 @@ local function DecorateTooltip(self, link, _)
 	end
 end
 
--- hack to handle ItemRefTooltip:GetItem() not returning a proper keystone link
 hooksecurefunc(ItemRefTooltip, 'SetHyperlink', DecorateTooltip) 
---ItemRefTooltip:HookScript('OnTooltipSetItem', DecorateTooltip)
 GameTooltip:HookScript('OnTooltipSetItem', DecorateTooltip)

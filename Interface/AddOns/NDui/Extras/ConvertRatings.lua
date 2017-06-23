@@ -63,6 +63,12 @@ local function getItemIdFromTooltip(self)
 	speedamt = speedtab[cvlevel]
    	--Get itemLink of mouseover :L
     	local name, itemLink = self:GetItem();
+	
+	--Check to make sure an itemLink is actually returned
+	if(itemLink == nil) then
+     		return;
+	end
+
 	--Declare variables for future use :M
 	local rawcrit, rawhaste, rawmastery, rawvers, stats, rawleech, rawavoid, rawspeed;
 	--Check to see if trainer window is open to prevent errors :M
@@ -71,7 +77,6 @@ local function getItemIdFromTooltip(self)
 			return;
 		else
 	--Get Item rarity :M
-	if not itemLink then return end
 	local irare = select(3,GetItemInfo(itemLink))
 	--Artifact specific processing :L
 	if irare == 6 then
@@ -179,7 +184,7 @@ local function getItemIdFromTooltip(self)
 	end
 	for i=1, self:NumLines() do
 			if(string.find(_G[self:GetName().."TextLeft"..i]:GetText(), _G["ITEM_MOD_VERSATILITY"])) and rawvers ~= nil then
-			_G[self:GetName().."TextLeft"..i]:SetText("+" .. rawvers .. " " .. _G["ITEM_MOD_VERSATILITY"] .. hexcolor .. " (" .. prversin .. "%/" .. prversout .. "%)");
+			_G[self:GetName().."TextLeft"..i]:SetText("+" .. rawvers .. " " .. _G["ITEM_MOD_VERSATILITY"] .. hexcolor .. " (" .. prversin .. "%)");
 			break
 		end
 	end
