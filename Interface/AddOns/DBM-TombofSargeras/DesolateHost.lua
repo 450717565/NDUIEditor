@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1896, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16297 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16321 $"):sub(12, -3))
 mod:SetCreatureID(118460, 118462, 119072)--118460 Engine of Souls, 118462 Soul Queen Dajahna, 119072 The Desolate Host
 mod:SetEncounterID(2054)
 mod:SetZone()
@@ -14,10 +14,10 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 238570 235927 236542 236544 236072",
-	"SPELL_CAST_SUCCESS 236449 235933 236131 235969",
+	"SPELL_CAST_SUCCESS 236449 235933 236131 235969 236542 236544",
 	"SPELL_AURA_APPLIED 236459 235924 238018 236513 236138 236131 235969 236361 239923 236548 235732",
 	"SPELL_AURA_APPLIED_DOSE 236548",
-	"SPELL_AURA_REMOVED 236459 235924 236513 235969 235732 236072",
+	"SPELL_AURA_REMOVED 236459 235924 236513 235969 235732 236072 238570",
 --	"SPELL_PERIODIC_DAMAGE",
 --	"SPELL_PERIODIC_MISSED",
 	"UNIT_DIED",
@@ -66,21 +66,23 @@ local specWarnWither				= mod:NewSpecialWarningYou(236138, nil, nil, nil, 1, 7)
 local specWarnShatteringScream		= mod:NewSpecialWarningMoveTo(235969, nil, nil, nil, 3, 2)
 local specWarnWailingSouls			= mod:NewSpecialWarningCount(236072, nil, nil, nil, 2, 2)
 --The Desolate Host
+local specWarnSunderingDoomTaunt	= mod:NewSpecialWarningTaunt(236542, nil, nil, nil, 1, 2)
 local specWarnSunderingDoomGather	= mod:NewSpecialWarningMoveTo(236542, nil, nil, nil, 1, 2)
 local specWarnSunderingDoomRun		= mod:NewSpecialWarningRun(236542, nil, nil, nil, 4, 2)
+local specWarnDoomedSunderingTaunt	= mod:NewSpecialWarningTaunt(236544, nil, nil, nil, 1, 2)
 local specWarnDoomedSunderingGather	= mod:NewSpecialWarningMoveTo(236544, nil, nil, nil, 1, 2)
 local specWarnDoomedSunderingRun	= mod:NewSpecialWarningRun(236544, nil, nil, nil, 4, 2)
 
 --Corporeal Realm
 local timerSpearofAnquishCD			= mod:NewCDTimer(20, 235924, nil, nil, nil, 3)
 --local timerCollapsingFissureCD		= mod:NewAITimer(31, 235907, nil, nil, nil, 3)
-local timerTormentedCriesCD			= mod:NewCDTimer(31, 238570, nil, nil, nil, 3)
+local timerTormentedCriesCD			= mod:NewCDCountTimer(58, 238570, nil, nil, nil, 6)
 --local timerRupturingSlamCD			= mod:NewCDTimer(23, 235927, nil, nil, nil, 3)--23 seconds, per add
 --Spirit Realm
 local timerSoulbindCD				= mod:NewCDCountTimer(24, 236459, nil, nil, nil, 3)
 --local timerWitherCD					= mod:NewCDTimer(9.4, 236138, nil, nil, nil, 3)
 --local timerShatteringScreamCD		= mod:NewCDTimer(12, 235969, nil, nil, nil, 3)--12 seconds, per add
-local timerWailingSoulsCD			= mod:NewCDCountTimer(60, 236072, nil, nil, nil, 2)
+local timerWailingSoulsCD			= mod:NewCDCountTimer(58, 236072, nil, nil, nil, 2)
 --The Desolate Host
 local timerSunderingDoomCD			= mod:NewCDTimer(26.1, 236542, nil, nil, nil, 5)
 local timerDoomedSunderingCD		= mod:NewCDTimer(26.4, 236544, nil, nil, nil, 5)
@@ -108,15 +110,17 @@ mod:AddRangeFrameOption(8, 235621)
 mod:AddNamePlateOption("NPAuraOnBonecageArmor", 236513)
 
 mod.vb.soulboundCast = 0
+mod.vb.spearCast = 0
 mod.vb.wailingSoulsCast = 0
+mod.vb.tormentedCriesCast = 0
 mod.vb.boneArmorCount = 0
 mod.vb.phase = 1
 mod.vb.soulIcon = 3
-local spiritRealm, corpRealm, spiritBarrier = GetSpellInfo(235621), EJ_GetSectionInfo(14856), GetSpellInfo(235732)
+local spiritRealm = GetSpellInfo(235621)
 local boneArmor = GetSpellInfo(236513)
+local doBones = true
 local playersInSpirit = {}
 local playersNotInSpirit = {}
-local soulbindTimers = {25, 94, 25, 84, 15, 20, 19, 20, 20}--Still not most accurate way of doing it, but more accurate than old way.
 
 local spiritFilter, regularFilter
 local UnitDebuff = UnitDebuff
@@ -135,6 +139,7 @@ end
 
 local updateInfoFrame
 do
+	local corpRealm = EJ_GetSectionInfo(14856)
 	local lines = {}
 	local sortedLines = {}
 	local function addLine(key, value)
@@ -147,7 +152,9 @@ do
 		table.wipe(sortedLines)
 		addLine(spiritRealm, #playersInSpirit)
 		addLine(corpRealm, #playersNotInSpirit)
-		addLine(boneArmor, mod.vb.boneArmorCount)
+		if doBones then
+			addLine(boneArmor, mod.vb.boneArmorCount)
+		end
 		return lines, sortedLines
 	end
 end
@@ -156,16 +163,23 @@ function mod:OnCombatStart(delay)
 	table.wipe(playersInSpirit)
 	table.wipe(playersNotInSpirit)
 	self.vb.soulboundCast = 0
+	self.vb.spearCast = 0
 	self.vb.wailingSoulsCast = 0
+	self.vb.tormentedCriesCast = 0
 	self.vb.boneArmorCount = 0
 	self.vb.phase = 1
 	self.vb.soulIcon = 3
 	--timerCollapsingFissureCD:Start(9.7-delay)
 	timerSoulbindCD:Start(14.2-delay, 1)
-	timerSpearofAnquishCD:Start(22-delay)
+	if not self:IsEasy() then
+		doBones = true
+		timerSpearofAnquishCD:Start(22-delay)
+	else
+		doBones = false
+	end
 	--timerWitherCD:Start(32-delay)
 	timerWailingSoulsCD:Start(59.4-delay, 1)
-	timerTormentedCriesCD:Start(119-delay)
+	timerTormentedCriesCD:Start(119-delay, 1)
 	if self.Options.NPAuraOnBonecageArmor then
 		DBM:FireEvent("BossMod_EnableHostileNameplates")
 	end
@@ -205,12 +219,12 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 238570 then--Tormented Cries
+		self.vb.tormentedCriesCast = self.vb.tormentedCriesCast + 1
 		timerSpearofAnquishCD:Stop()
-		--timerTormentedCriesCD:Start()
 	elseif spellId == 235927 then
 		warnRupturingSlam:Show()
 		--timerRupturingSlamCD:Start(nil, args.sourceGUID)
-	elseif spellId == 236542 then
+	elseif spellId == 236542 then--Sundering Doom (regular realm soaks)
 		if UnitBuff("player", spiritRealm) or UnitDebuff("player", spiritRealm) then--Figure out which it is
 			specWarnSunderingDoomRun:Show()
 			voiceSunderingDoom:Play("justrun")
@@ -220,7 +234,7 @@ function mod:SPELL_CAST_START(args)
 		end
 		timerSunderingDoomCD:Start()
 		countdownSunderingDoom:Start()
-	elseif spellId == 236544 then
+	elseif spellId == 236544 then--Doomed Sunering (spirit realm soaks)
 		if UnitBuff("player", spiritRealm) or UnitDebuff("player", spiritRealm) then--Figure out which it is
 			specWarnDoomedSunderingGather:Show(COMPACT_UNIT_FRAME_PROFILE_SORTBY_GROUP)
 			voiceDoomedSunderin:Play("gathershare")
@@ -245,12 +259,33 @@ function mod:SPELL_CAST_SUCCESS(args)
 		warnCollapsingFissure:Show()
 	elseif spellId == 236449 then--Soulbind Cast
 		self.vb.soulboundCast = self.vb.soulboundCast + 1
-		local timer = soulbindTimers[self.vb.soulboundCast+1]
-		if timer then
-			timerSoulbindCD:Start(timer, self.vb.soulboundCast+1)
+		if self.vb.phase == 2 then
+			if self:IsEasy() then
+				--["236449-Soulbind"] = "pull:12.5, 25.4, 94.7, 26.0, 75.9, 19.1, 20.3",
+				timerSoulbindCD:Start(24, self.vb.soulboundCast+1)
+			else
+				timerSoulbindCD:Start(20, self.vb.soulboundCast+1)
+			end
+		else
+			if self:IsEasy() then
+				--["236449-Soulbind"] = "pull:52.4, 84.8, 34.7, 17.4, 24.6, 24.7"
+				timerSoulbindCD:Start(34, self.vb.soulboundCast+1)
+			else
+				timerSoulbindCD:Start(24, self.vb.soulboundCast+1)
+			end
 		end
 	elseif spellId == 235933 then--Spear of Anquish
 		timerSpearofAnquishCD:Start()
+	elseif spellId == 236542 then--Sundering Doom Finished (doomed sundering, soaked by spirit realm is next)
+		if UnitBuff("player", spiritRealm) or UnitDebuff("player", spiritRealm) then--Figure out which it is
+			specWarnDoomedSunderingTaunt:Show(BOSS)
+			voiceDoomedSunderin:Play("tauntboss")
+		end
+	elseif spellId == 236544 then--Doomed Sundering Finished (sundring doom, soaked by regular realm is next)
+		if not (UnitBuff("player", spiritRealm) or UnitDebuff("player", spiritRealm)) then--Figure out which it is
+			specWarnSunderingDoomTaunt:Show(BOSS)
+			voiceSunderingDoom:Play("tauntboss")
+		end
 --	elseif spellId ==  236138 or spellId == 236131 then
 		--timerWitherCD:Start()
 --	elseif spellId == 235969 then--Shattering Scream
@@ -342,8 +377,9 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	elseif spellId == 235969 then--Shattering Scream
 		
-	elseif spellId == 236072 then
-		--timerSoulbindCD:Start(12, 1)
+	elseif spellId == 236072 then--Wailing Souls
+		self.vb.soulboundCast = 0
+		--timerSoulbindCD:Start(12, 1)--5-14, too variable to start timer for first cast after souls
 		--timerWitherCD:Start(19.7)
 		timerWailingSoulsCD:Start(58, self.vb.wailingSoulsCast+1)
 	elseif spellId == 235732 then
@@ -352,6 +388,8 @@ function mod:SPELL_AURA_REMOVED(args)
 		if args:IsPlayer() then--Only show people in spirit realm
 			DBM.RangeCheck:Show(5, spiritFilter)
 		end
+	elseif spellId == 238570 then--Tormented Cries
+		timerTormentedCriesCD:Start(58, self.vb.tormentedCriesCast+1)
 	end
 end
 
@@ -365,6 +403,7 @@ function mod:UNIT_DIED(args)
 --		timerShatteringScreamCD:Stop(args.destGUID)
 	elseif cid == 118462 then
 		timerSoulbindCD:Stop()
+		timerSpearofAnquishCD:Stop()
 	end
 end
 
@@ -391,6 +430,15 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 		--timerCollapsingFissureCD:Start()
 	elseif spellId == 239978 then
 		self.vb.phase = 2
+		timerSoulbindCD:Stop()
+		timerWailingSoulsCD:Stop()
+		timerTormentedCriesCD:Stop()
+		if not self:IsEasy() then
+			timerSpearofAnquishCD:Stop()
+			timerSpearofAnquishCD:Start(8)
+		end
+		timerSoulbindCD:Start(10)
+		--New Phase Timers
 		timerSunderingDoomCD:Start(7)
 		countdownSunderingDoom:Start(7)
 		timerDoomedSunderingCD:Start(28)

@@ -228,7 +228,8 @@ DBM_CORE_SLASHCMD_HELP2				= {
 	"/dbm version: Performs a boss mod version check (alias: ver).",
 	"/dbm version2: Performs a boss mod version check that also whispers out of date users (alias: ver2).",
 	"/dbm lockout: Asks raid members for their current raid instance lockouts (aliases: lockouts, ids) (requires promoted).",
-	"/dbm lag: Performs a raid-wide latency check."
+	"/dbm lag: Performs a raid-wide latency check.",
+	"/dbm durability: Performs a raid-wide durability check."
 }
 DBM_CORE_TIMER_USAGE	= {
 	"DBM timer commands:",
@@ -527,6 +528,11 @@ DBM_INSTANCE_INFO_SHOW_RESULTS		= "Players yet to respond: %s\n|HDBM:showRaidIdR
 DBM_CORE_LAG_CHECKING				= "Checking raid Latency..."
 DBM_CORE_LAG_HEADER					= "Deadly Boss Mods - Latency Results"
 DBM_CORE_LAG_ENTRY					= "%s: World delay [%d ms] / Home delay [%d ms]"
+DBM_CORE_LAG_FOOTER					= "No Response: %s"
+
+DBM_CORE_DUR_CHECKING				= "Checking raid Durability..."
+DBM_CORE_DUR_HEADER					= "Deadly Boss Mods - Durability Results"
+DBM_CORE_DUR_ENTRY					= "%s: Durability [%d percent] / Gear broken [%s]"
 DBM_CORE_LAG_FOOTER					= "No Response: %s"
 
 --Role Icons
