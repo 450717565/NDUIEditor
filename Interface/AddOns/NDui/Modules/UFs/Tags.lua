@@ -134,7 +134,7 @@ oUF.Tags.Methods["nppp"] = function(unit)
 	local per = oUF.Tags.Methods["perpp"](unit).."%" or 0
 	local min, max = UnitPower(unit), UnitPowerMax(unit)
 
-	if min == max then return end
+	if min == 0 then return end
 	per = "|cff00ffff"..per.."|r"
 
 	return per

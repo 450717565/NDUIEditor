@@ -16,6 +16,8 @@ function UF:SetupCVars()
 	SetCVar("nameplateOverlapV", .7)
 	SetCVar("nameplateMinAlpha", NDuiDB["Nameplate"]["MinAlpha"])
 	SetCVar("nameplateOccludedAlphaMult", .3)
+	SetCVar("nameplateLargeTopInset", .05)
+	SetCVar("nameplateLargeBottomInset", .08)
 end
 
 function UF:BlockAddons()
