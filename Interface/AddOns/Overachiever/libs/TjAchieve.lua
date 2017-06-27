@@ -5,7 +5,7 @@
 TjAchieve.lua
   by Tuhljin
 
-Dependencies: TjThreads library is required for BuildIDCache().
+Dependencies: TjThreads library is required for BuildIDCache(), BuildCritAssetCache(), and related features.
 
 Make it easier for addons to deal with achievements, with a focus on improving performance (handling caches and throttling) and preventing
 error messages (which can occur when you're trying achievement/criteria IDs without first verifying that they are valid).
@@ -121,7 +121,7 @@ TjAchieve.CRITTYPE_KILL		The asset type for kill criteria.
 --]]
 
 
-local THIS_VERSION = "0.02"
+local THIS_VERSION = "0.03"
 
 if (TjAchieve and TjAchieve.Version >= THIS_VERSION) then  return;  end  -- Lua's pretty good at this. It even knows that "1.0.10" > "1.0.9". However, be aware that it thinks "1.0" < "1.0b" so putting a "b" on the end for Beta, nothing for release, doesn't work.
 
@@ -129,8 +129,11 @@ TjAchieve = TjAchieve or {}
 local TjAchieve = TjAchieve
 TjAchieve.Version = THIS_VERSION
 
-TjAchieve.CRITTYPE_META = 8
 TjAchieve.CRITTYPE_KILL = 0
+TjAchieve.CRITTYPE_META = 8
+
+
+local BUILD_CRIT_STEPS = 15 --50
 
 
 ----------------------------------------------------------------------------------------------------------------------------------------------
@@ -544,18 +547,19 @@ local function createAssetLookupFunc(assetType, saveIndex)
 	saveIndex = not not saveIndex
 	ASSETS[assetType] = { ["saveIndex"] = saveIndex } -- Important that this happens before the function is ever called.
 	return function()
+		--print("task start")
 		local tab = ASSETS[assetType]
 		local list = TjAchieve.GetAchIDs()
 		local _, critType
 		local numc, i
 		local GetAchievementCriteriaInfo = GetAchievementCriteriaInfo
 		local GetAchievementNumCriteria = GetAchievementNumCriteria
-		local yieldIn = 50
+		local yieldIn = BUILD_CRIT_STEPS
 		for x,id in ipairs(list) do
 			yieldIn = yieldIn - 1
 			if (yieldIn < 1) then
 				coroutine.yield()
-				yieldIn = 50
+				yieldIn = BUILD_CRIT_STEPS
 			end
 			--for i=1,GetAchievementNumCriteria(id) do
 			numc = GetAchievementNumCriteria(id)
@@ -604,6 +608,7 @@ local function createAssetLookupFunc(assetType, saveIndex)
 		if (next(TjAchieve.CritAssetTasks) == nil) then -- Is the table empty?
 			TjAchieve.CritAssetTasks = nil
 		end
+		--print("task complete")
 	end
 end
 

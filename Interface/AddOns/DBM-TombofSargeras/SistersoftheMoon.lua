@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1903, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16319 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16340 $"):sub(12, -3))
 mod:SetCreatureID(118523, 118374, 118518)--118523 Huntress kasparian, 118374 Captain Yathae Moonstrike, 118518 Prestess Lunaspyre
 mod:SetEncounterID(2050)
 mod:SetZone()
@@ -24,13 +24,11 @@ mod:RegisterEventsInCombat(
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3"
 )
 
---TODO, figure out which of the MANY scripts are for glaive storm
 --TODO, figure out how to actually pre warn moon glaive and give it a warning.
---TODO, is there even a point to Shadow shot?
 --TODO, fine tune all option defaults once what targets or doesn't target x and y is known. Fight can't have too much timer/warning spam
 --TODO, announce lunar strike? more redundancy in encounter that isn't needed IMO
 --TODO, video fight and improve timer interactions to better deal with huge variation in stuff like moon glaive timer.
---TODO, both 54 timers were 58 on mythic, see if that's new consistency
+--TODO, all 3 54 second moon specials are confusing, since inactive bosses keep using them OFF of the moon cycles? Worse, normal/heroic aren't even same behavior, so it needs a crap ton of rules (or just leave it and say fuck it)
 --[[
 (ability.id = 236694 or ability.id = 236442 or ability.id = 239379 or ability.id = 236712) and type = "begincast" or
 (ability.id = 236480 or ability.id = 237561 or ability.id = 236547 or ability.id = 236518 or ability.id = 233263 or ability.id = 239264 or ability.id = 236672) and type = "cast" or
@@ -40,7 +38,7 @@ mod:RegisterEventsInCombat(
 --local warnTwilightGlaive			= mod:NewTargetAnnounce(237561, 3)
 --Captain Yathae Moonstrike
 local warnPhase2					= mod:NewPhaseAnnounce(2, 2)
-local warnIncorporealShot			= mod:NewTargetAnnounce(236305, 3)
+--local warnIncorporealShot			= mod:NewTargetAnnounce(236305, 3)
 local warnRapidShot					= mod:NewTargetAnnounce(236596, 3)
 --Priestess Lunaspyre
 local warnPhase3					= mod:NewPhaseAnnounce(3, 2)
@@ -63,10 +61,11 @@ local specWarnTwilightVolley		= mod:NewSpecialWarningDodge(236442, nil, nil, nil
 local yellTwilightVolley			= mod:NewYell(236442)
 local specWarnIncorpShot			= mod:NewSpecialWarningMoveAway(236305, nil, nil, nil, 1, 2)
 local yellIncorpShot				= mod:NewYell(236305)
+local specWarnIncorpShotOther		= mod:NewSpecialWarningTarget(236305, nil, nil, nil, 1, 2)
 local specWarnRapidShot				= mod:NewSpecialWarningMoveAway(236596, nil, nil, nil, 1, 2)
 local yellRapidShot					= mod:NewYell(236596)
 --Priestess Lunaspyre
-local specWarnEmbraceofEclipse		= mod:NewSpecialWarningTarget(233264, "Dps|Healer", nil, nil, 3, 2)
+local specWarnEmbraceofEclipse		= mod:NewSpecialWarningTarget(233264, "Dps|Healer", nil, nil, 3)
 local specWarnLunarBeacon			= mod:NewSpecialWarningMoveAway(236712, nil, nil, nil, 1, 2)
 local yellLunarBeacon				= mod:NewFadesYell(236712)
 local specWarnLunarFire				= mod:NewSpecialWarningStack(239264, nil, 4, nil, nil, 1, 2)
@@ -74,16 +73,16 @@ local specWarnLunarFireOther		= mod:NewSpecialWarningTaunt(239264, nil, nil, nil
 local specWarnMoonBurn				= mod:NewSpecialWarningMoveTo(236519, nil, DBM_CORE_AUTO_SPEC_WARN_OPTIONS.you:format(236519), nil, 1, 7)--Add voice filter when it has a voice
 
 --Huntress Kasparian
-local timerGlaiveStormCD			= mod:NewAITimer(31, 236480, nil, nil, nil, 3)
+local timerGlaiveStormCD			= mod:NewCDTimer(54.3, 236480, nil, nil, nil, 3)--Moon change special (but also used while inactive?)
 local timerTwilightGlaiveCD			= mod:NewCDTimer(31, 237561, nil, nil, nil, 3)
 local timerMoonGlaiveCD				= mod:NewCDTimer(13.4, 236547, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--13.4-30 second variation, have fun with that
 --Captain Yathae Moonstrike
-local timerIncorporealShotCD		= mod:NewCDTimer(54.7, 236305, nil, nil, nil, 3)
+local timerIncorporealShotCD		= mod:NewCDTimer(54.3, 236305, nil, nil, nil, 3)--Moon change special (but also used while inactive?)
 local timerCallMoontalonCD			= mod:NewCDTimer(31, 236694, nil, nil, nil, 1)
 local timerTwilightVolleyCD			= mod:NewCDTimer(15.8, 236442, nil, nil, nil, 2)--Cast while inactive.
 local timerRapidShotCD				= mod:NewCDTimer(18.2, 236596, nil, nil, nil, 3)--18.2 but sometimes 30
 --Priestess Lunaspyre
-local timerEmbraceofEclipseCD		= mod:NewCDTimer(54.3, 233264, nil, nil, nil, 5, nil, DBM_CORE_HEALER_ICON..DBM_CORE_DAMAGE_ICON)--Used while inactive
+local timerEmbraceofEclipseCD		= mod:NewCDTimer(54.3, 233264, nil, nil, nil, 5, nil, DBM_CORE_HEALER_ICON..DBM_CORE_DAMAGE_ICON)--Moon change special (but also used while inactive in phase 1)
 local timerLunarBeaconCD			= mod:NewCDTimer(31, 236712, nil, nil, nil, 3)
 local timerLunarFireCD				= mod:NewCDTimer(11, 239264, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
 local timerMoonBurnCD				= mod:NewCDTimer(23, 236519, nil, nil, nil, 3)--Used while inactive
@@ -105,7 +104,7 @@ local voiceTwilightVolley			= mod:NewVoice(236442)--watchstep
 local voiceIncorpShot				= mod:NewVoice(236305)--targetyou
 local voiceRapidShot				= mod:NewVoice(236596)--runout
 --Priestess Lunaspyre
-local voiceEmbraceofEclipse			= mod:NewVoice(233264, "Dps|Healer")--targetchange/healall
+local voiceEmbraceofEclipse			= mod:NewVoice(233264, "Dps|Healer")--none/healall
 local voiceLunarBeacon				= mod:NewVoice(236712)--runout
 local voiceLunarFire				= mod:NewVoice(239264)--tauntboss/stackhigh
 local voiceMoonBurn					= mod:NewVoice(236519)--changemoon
@@ -254,7 +253,8 @@ function mod:SPELL_AURA_APPLIED(args)
 			voiceIncorpShot:Play("targetyou")
 			yellIncorpShot:Yell()
 		else
-			warnIncorporealShot:Show(args.destName)
+			specWarnIncorpShotOther:Show(args.destName)
+			voiceIncorpShot:Play("helpsoak")
 		end
 		if self.Options.SetIconOnIncorpShot then
 			self:SetIcon(args.destName, 1)
@@ -263,7 +263,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		self.vb.eclipseCount = self.vb.eclipseCount + 1
 		if not self:IsHealer() then
 			specWarnEmbraceofEclipse:Show(args.destName)
-			voiceEmbraceofEclipse:Play("targetchange")
+			--voiceEmbraceofEclipse:Play("targetchange")
 		end
 		if self.Options.InfoFrame and not DBM.InfoFrame:IsShown() then
 			DBM.InfoFrame:SetHeader(args.spellName)
@@ -356,7 +356,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 		timerTwilightGlaiveCD:Start(6)
 		timerTwilightVolleyCD:Start(10.9)
 		timerRapidShotCD:Start(15.8)--Review
-		timerGlaiveStormCD:Start(2)--Unknown, didn't get this far
+		--timerGlaiveStormCD:Start(2)--One of specials, needs figuring out
 	elseif spellId == 243047 then--Lunaspyre Becomes Active Conversation (Phase 3)
 		self.vb.phase = 3
 		warnPhase3:Show()

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1862, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16308 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16336 $"):sub(12, -3))
 mod:SetCreatureID(115844)
 mod:SetEncounterID(2032)
 mod:SetZone()
@@ -14,10 +14,11 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 233062",
 	"SPELL_CAST_SUCCESS 231363 233272",
-	"SPELL_AURA_APPLIED 233272 231363 230345",
-	"SPELL_AURA_REMOVED 233272 231363 230345",
+	"SPELL_AURA_APPLIED 233272 231363",
+	"SPELL_AURA_REMOVED 233272 231363",
 --	"SPELL_PERIODIC_DAMAGE",
 --	"SPELL_PERIODIC_MISSED",
+	"UNIT_AURA_UNFILTERED",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
@@ -74,6 +75,7 @@ mod:AddRangeFrameOption("10/25")
 
 local infernalSpike = GetSpellInfo(233021)
 local crashingComet = GetSpellInfo(232249)
+local cometTable = {}
 local shatteringStarTimers = {24, 60, 60, 50}--24, 60, 60, 50, 20, 40, 20, 40, 20, 40
 --local comboWamboTimers = {4, 6, 12, 12, 12, 6, 12, 6, 12, 12, 12, 6, 12, 6}--Needs more data
 --local comboWamboTimersLFR = {4, 10, 6, 14, 8, 8, 14, 10, 6, 14, 8, 8, 14, 10, 6, 14, 8, 8, 14, 8, 8, 8, 10, 8, 8, 10, 8, 8, 8, 10, 8, 8, 10}
@@ -84,6 +86,7 @@ mod.vb.brimstoneCount = 0
 mod.vb.comboWamboCount = 0
 
 function mod:OnCombatStart(delay)
+	table.wipe(cometTable)
 	self.vb.shatteringStarCount = 0
 	--self.vb.comboWamboCount = 0
 	timerInfernalSpikeCD:Start(4-delay)
@@ -170,29 +173,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnBurningArmorTaunt:Show(args.destName)
 			voiceBurningArmor:Play("tauntboss")
 		end
-	elseif spellId == 230345 then
-		warnCrashingComet:CombinedShow(0.3, args.destName)
-		if self:AntiSpam(3, 1) then
-			--[[self.vb.comboWamboCount = self.vb.comboWamboCount + 1
-			local timer = self:IsLFR() and comboWamboTimersLFR[self.vb.comboWamboCount+1] or comboWamboTimers[self.vb.comboWamboCount+1]
-			if timer then
-				timerComboWamboCD:Start(timer, self.vb.comboWamboCount+1)
-			end--]]
-			timerCrashingCometCD:Start()
-		end
-		if args:IsPlayer() then
-			specWarnCrashingComet:Show()
-			voiceCrashingComet:Play("runout")
-			yellCrashingComet:Yell(5)
-			yellCrashingComet:Schedule(4, 1)
-			yellCrashingComet:Schedule(3, 2)
-			yellCrashingComet:Schedule(2, 3)
-			timerCrashingComet:Start()
-			countdownCrashingComet:Start()
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Show(10)
-			end
-		end
 	end
 end
 --mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -239,6 +219,28 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
 end
 --]]
 
+function mod:UNIT_AURA_UNFILTERED(uId)
+	local hasDebuff, _, _, _, _, _, _, _, _, _, spellId = UnitDebuff(uId, crashingComet)
+	local name = DBM:GetUnitFullName(uId)
+	if hasDebuff and not cometTable[name] and spellId == 232249 then
+		cometTable[name] = true
+		warnCrashingComet:CombinedShow(0.3, name)--Multiple targets in heroic/mythic
+		if UnitIsUnit(uId, "player") then
+			specWarnCrashingComet:Show()
+			voiceCrashingComet:Play("runout")
+			yellCrashingComet:Yell(5)
+			yellCrashingComet:Schedule(4, 1)
+			yellCrashingComet:Schedule(3, 2)
+			yellCrashingComet:Schedule(2, 3)
+			timerCrashingComet:Start()
+			countdownCrashingComet:Start()
+			if self.Options.RangeFrame then
+				DBM.RangeCheck:Show(10, nil, nil, nil, nil, 5)
+			end
+		end
+	end
+end
+
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, spellName, _, spellGUID)
 	local spellId = tonumber(select(5, strsplit("-", spellGUID)), 10)
 	if spellId == 233050 then--Infernal Spike
@@ -255,6 +257,9 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, spellName, _, spellGUID)
 		specWarnRainofBrimstone:Show(spellName)
 		voiceRainofBrimstone:Play("helpsoak")
 		timerRainofBrimstoneCD:Start(60, self.vb.brimstoneCount+1)
+	elseif spellId == 232249 then
+		table.wipe(cometTable)
+		timerCrashingCometCD:Start()
 	end
 end
 

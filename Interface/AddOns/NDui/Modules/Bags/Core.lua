@@ -211,7 +211,7 @@ function module:OnLogin()
 	local MyContainer = Bags:GetContainerClass()
 	function MyContainer:OnContentsChanged()
 		self:SortButtons("bagSlot")
-		local width, height = self:LayoutButtons("grid", self.Settings.Columns, 6, 10, -10)
+		local width, height = self:LayoutButtons("grid", self.Settings.Columns, 7, 10, -10)
 		self:SetSize(width + 20, height + 45)
 	end
 

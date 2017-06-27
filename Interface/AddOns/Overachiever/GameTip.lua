@@ -516,7 +516,9 @@ function Overachiever.ExamineSetUnit(tooltip)
     elseif (Overachiever_Settings.CreatureTip_killed and UnitCanAttack("player", unit)) then
       local guid = getMobID(unit)
 	  --local tab = TjAchieve.GetCriteriaByAsset(TjAchieve.CRITTYPE_KILL, guid, true)
-	  local tab = Overachiever.GetKillCriteriaLookup()[guid]
+	  --local tab = Overachiever.GetKillCriteriaLookup()[guid]
+	  local tab = Overachiever.GetKillCriteriaLookup(true)
+	  if (tab) then  tab = tab[guid];  end
       if (tab) then
         local num, numincomplete, potential, _, achcom, c, t = 0, 0
         for i = 1, #tab, 2 do

@@ -433,18 +433,24 @@ end
 
 local AchLookup_metaach, AchLookup_kill
 
-function Overachiever.GetMetaCriteriaLookup()
+function Overachiever.GetMetaCriteriaLookup(doNotRush)
 	if (AchLookup_metaach) then  return AchLookup_metaach;  end
 	if (not TjAchieve.IsCritAssetCacheReady(TjAchieve.CRITTYPE_META)) then
+		if (doNotRush) then
+			return TjAchieve.ASSETS[TjAchieve.CRITTYPE_META]
+		end
 		TjAchieve.RushBuildCritAssetCache(TjAchieve.CRITTYPE_META)
 	end
 	AchLookup_metaach = TjAchieve.ASSETS[TjAchieve.CRITTYPE_META]
 	return AchLookup_metaach
 end
 
-function Overachiever.GetKillCriteriaLookup()
+function Overachiever.GetKillCriteriaLookup(doNotRush)
 	if (AchLookup_kill) then  return AchLookup_kill;  end
 	if (not TjAchieve.IsCritAssetCacheReady(TjAchieve.CRITTYPE_KILL)) then
+		if (doNotRush) then
+			return TjAchieve.ASSETS[TjAchieve.CRITTYPE_KILL]
+		end
 		TjAchieve.RushBuildCritAssetCache(TjAchieve.CRITTYPE_KILL, true)
 	end
 	AchLookup_kill = TjAchieve.ASSETS[TjAchieve.CRITTYPE_KILL]
@@ -1372,11 +1378,14 @@ function Overachiever.OnEvent(self, event, arg1, ...)
 	-- You might think we'd want to watch for event CALENDAR_UPDATE_EVENT_LIST after this, but it's not reliably called. Some report you need to call another function like CalendarSetAbsMonth beforehand for it to work,
 	-- but how we're doing it, we don't seem to need to do that or use that event at all.
 
-	if (Overachiever_Settings.ToastCalendar_holiday or Overachiever_Settings.ToastCalendar_microholiday or Overachiever_Settings.ToastCalendar_bonusevent or Overachiever_Settings.ToastCalendar_dungeonevent or Overachiever_Settings.ToastCalendar_pvpbrawl) then
+	local OS = Overachiever_Settings
+	if (OS.ToastCalendar_holiday or OS.ToastCalendar_microholiday or OS.ToastCalendar_bonusevent or OS.ToastCalendar_dungeonevent or
+	    OS.ToastCalendar_pvpbrawl or OS.ToastCalendar_misc) then
 	  C_Timer.After(0, function()
 	    -- This strange double-timer thing works around an issue where the timer starts counting down, so to speak, during the loading screen if the UI is being reloaded (as per /reload), making the toast not appear.
 		C_Timer.After(5, function()
-		  Overachiever.ToastForEvents(Overachiever_Settings.ToastCalendar_holiday, Overachiever_Settings.ToastCalendar_microholiday, Overachiever_Settings.ToastCalendar_bonusevent, Overachiever_Settings.ToastCalendar_dungeonevent, Overachiever_Settings.ToastCalendar_pvpbrawl)
+		  Overachiever.ToastForEvents(OS.ToastCalendar_holiday, OS.ToastCalendar_microholiday, OS.ToastCalendar_bonusevent,
+		                              OS.ToastCalendar_dungeonevent, OS.ToastCalendar_pvpbrawl, OS.ToastCalendar_misc)
 		end)
 	  end)
 	  --[[

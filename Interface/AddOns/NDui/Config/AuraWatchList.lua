@@ -577,6 +577,8 @@ C.AuraWatchList = {
 				{AuraID = 218304, UnitID = "player"},
 				--黑夜的召唤
 				{AuraID = 218809, UnitID = "player"},
+				--离子爆炸
+				{AuraID = 218780, UnitID = "player"},
 			--占星师艾塔乌斯
 				--日冕喷射
 				{AuraID = 206464, UnitID = "player"},
@@ -655,7 +657,7 @@ C.AuraWatchList = {
 				{AuraID = 241600, UnitID = "player"},
 			--月之姐妹
 				--月蚀之拥
-				{AuraID = 233263, UnitID = "player", value = true},
+				{AuraID = 233263, UnitID = "player", Value = true},
 				--急速射击
 				{AuraID = 236596, UnitID = "player"},
 				--月光信标
@@ -704,11 +706,12 @@ C.AuraWatchList = {
 				{AuraID = 238018, UnitID = "player"},
 			--戒卫侍女
 				--光明灌注
-				{AuraID = 235213, UnitID = "player"},
+				{AuraID = 235213, UnitID = "player", Text = L["AW Light"]},
 				--邪能灌注
-				{AuraID = 235240, UnitID = "player"},
+				{AuraID = 235240, UnitID = "player", Text = L["AW Fel"]},
 				--动荡的灵魂
 				{AuraID = 243276, UnitID = "player"},
+				{AuraID = 235138, UnitID = "player"},
 				--恶魔活力
 				{AuraID = 235538, UnitID = "player"},
 				--造物者之赐
@@ -862,7 +865,7 @@ C.AuraWatchList = {
 				--愤怒
 				{AuraID = 241594, UnitID = "target"},
 				--月蚀之拥
-				{AuraID = 233264, UnitID = "target", value = true},
+				{AuraID = 233264, UnitID = "target", Value = true},
 				--致命尖叫
 				{AuraID = 236697, UnitID = "target"},
 				--骨牢护甲
@@ -870,9 +873,9 @@ C.AuraWatchList = {
 				--造物者之怒
 				{AuraID = 234891, UnitID = "target"},
 				--泰坦之壁
-				{AuraID = 235028, UnitID = "target", value = true},
+				{AuraID = 235028, UnitID = "target", Value = true},
 				--净化协议
-				{AuraID = 241008, UnitID = "target", value = true},
+				{AuraID = 241008, UnitID = "target", Value = true},
 				--故障
 				{AuraID = 233739, UnitID = "target"},
 				--矩阵强化
@@ -957,7 +960,7 @@ C.AuraWatchList = {
 				{AuraID = 188499, UnitID = "target"},
 				{AuraID = 210152, UnitID = "target"},
 				--混乱之刃
-				{AuraID = 211048, UnitID = "target"},
+				{AuraID = 247938, UnitID = "target"},
 				--疾影
 				{AuraID = 212800, UnitID = "target"},
 				--恶魔变形

@@ -36,28 +36,11 @@ local function MythicWeeklyLootItemLevel(mlvl)
 	end
 end
 
-local function InsertKeystone(self)
-	for bag = 0, NUM_BAG_SLOTS do
-		for bagSlot = 1, GetContainerNumSlots(bag) do
-			local _,_,_,_,_,_,itemName = GetContainerItemInfo(bag, bagSlot);
-			if itemName  ~= nil and string.match(itemName, "Keystone") then
-			   if (ChallengesKeystoneFrame:IsShown()) then
-					PickupContainerItem(bag, bagSlot);
-					if (CursorHasItem()) then
-						C_ChallengeMode.SlotKeystone();
-					end
-				end
-			end
-		end
-	end
-end
-
 local numScreen = ""
 local frame = CreateFrame("Frame")
 frame:RegisterEvent("ADDON_LOADED")
 frame:SetScript("OnEvent", function(self, event, addonName, ...)
     if event == "ADDON_LOADED" and addonName == "Blizzard_ChallengesUI" then
-		ChallengesKeystoneFrame:HookScript("OnShow", InsertKeystone)
 		local iLvlFrm = CreateFrame("Frame", "LootLevel", ChallengesModeWeeklyBest)
 		iLvlFrm:SetSize(200, 50)
 		if IsAddOnLoaded('Aurora') then

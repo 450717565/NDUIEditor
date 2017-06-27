@@ -1,7 +1,7 @@
 
 local L = OVERACHIEVER_STRINGS
 
-local showUnknownToasts = true
+--local showUnknownToasts = true
 
 
 Overachiever.HOLIDAY_REV = { -- lookup table to support localization
@@ -258,7 +258,7 @@ local EVENT_TEXTURE_LOOKUP = {
 	[235477] = "holiday",				-- Noblegarden
 	[1129680] = "bonus",				-- Arena Skirmish Bonus Event
 	[235445] = "holiday",				-- Children's Week
-	--[0] = "holiday",				-- WoW's 13th Anniversary
+	--[0] = "holiday",					-- WoW's 13th Anniversary
 	[1574970] = "micro",				-- Un'Goro Madness
 	[235457] = "holiday",				-- Fireworks Celebration
 	[235485] = "holiday",				-- Feast of Winter Veil
@@ -334,14 +334,17 @@ local EVENT_TEXTURE_LOOKUP = {
 --]]
 
 -- /run Overachiever.ToastForEvents(true, true, true, true)
-function Overachiever.ToastForEvents(holiday, microholiday, bonusevent, dungeonevent, pvpbrawl)
-	if (not holiday and not microholiday and not bonusevent and not dungeonevent and not pvpbrawl) then  return;  end
+function Overachiever.ToastForEvents(holiday, microholiday, bonusevent, dungeonevent, pvpbrawl, misc)
+	if (not holiday and not microholiday and not bonusevent and not dungeonevent and not pvpbrawl and not misc) then  return;  end
 	--print("ToastForEvents",holiday, microholiday, bonusevent, dungeonevent, pvpbrawl)
 
 	local function filterEvents(localizedTitle, texture)
 		--print("filterEvents", localizedTitle, texture)
 		local arr = EVENT_TEXTURE_LOOKUP[texture]
-		if (not arr) then  return showUnknownToasts;  end
+		if (not arr) then
+			return misc
+			--return showUnknownToasts
+		end
 		local holidayType = type(arr) == "table" and arr[1] or arr
 		if     (holidayType == "holiday") then	return holiday
 		elseif (holidayType == "micro") then	return microholiday

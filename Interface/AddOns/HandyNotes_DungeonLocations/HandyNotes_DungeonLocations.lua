@@ -24,6 +24,7 @@ local nodes = { }
 local minimap = { } -- For nodes that need precise minimap locations but would look wrong on zone or continent maps
 local alterName = { }
 local extraInfo = { }
+local mapLevels = { } -- Bad juju, I use this to hide nodes from appearing on the wrong map levels.  e.g the new Dalaran; definitely probably a better way to do this
 --local lockouts = { }
 
 if (DEBUG) then
@@ -174,8 +175,18 @@ do
   state, value = next(t, state)
   end 
  end
- function pluginHandler:GetNodes(mapFile, isMinimapUpdate, dungeonLevel)
-  if (DEBUG) then print(mapFile) end
+ function pluginHandler:GetNodes(mapFile, isMinimapUpdate, mapLevel)
+  if (DEBUG) then
+   print(mapFile, mapLevel, isMinimapUpdate)
+   if (mapLevels[mapFile]) then
+    for k, v in pairs(mapLevels[mapFile]) do
+     print(k, v)
+    end
+   end
+  end
+  if (mapLevels[mapFile] and not mapLevels[mapFile][mapLevel]) then -- I put this here to stop nodes from showing up on other maplevels for certain zones e.g the new Dalaran
+   return iter
+  end
   local isContinent = continents[mapFile]
   scale = isContinent and db.continentScale or db.zoneScale
   alpha = isContinent and db.continentAlpha or db.zoneAlpha
@@ -590,8 +601,14 @@ nodes["Dustwallow"] = {
 nodes["EasternPlaguelands"] = {
  [27201160] = {
   id = 236,
+  lfgid = 40,
   type = "Dungeon",
  }, -- Stratholme World 52902870
+ [43401940] = {
+  id = 246,
+  lfgid = 274,
+  type = "Dungeon", -- Stratholme Service Entrance
+ },
 }
 nodes["Feralas"] = {
  [65503530] = {
@@ -1346,6 +1363,8 @@ nodes["TanaanJungle"] = {
  }, -- Hellfire Citadel
 }
 end
+
+mapLevels["Dalaran70"] = { [10] = true, }
 
 if (not self.db.profile.hideBrokenIsles) then
 -- Legion Dungeons/Raids for minimap and continent map for consistency

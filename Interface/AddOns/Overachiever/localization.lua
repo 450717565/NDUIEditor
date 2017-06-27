@@ -202,6 +202,9 @@ School of %s
 	OPT_STARTTOAST_DUNGEON_TIP = "Show today's dungeon events in toast notifications upon entering the game world.";
 	OPT_STARTTOAST_PVPBRAWL = "Show today's PvP brawl";
 	OPT_STARTTOAST_PVPBRAWL_TIP = "Show today's PvP brawl in toast notifications upon entering the game world.";
+	OPT_STARTTOAST_MISC = "Show today's misc. holidays";
+	OPT_STARTTOAST_MISC_TIP = "Show today's miscellaneous \"holiday\" events in toast notifications upon entering the game world.";
+	OPT_STARTTOAST_MISC_TIP2 = "These are events found in the default calendar as \"holidays\" but are neither considered full holidays nor covered by another category given here. Examples include WoW Anniversaries and raid release days (for new raids or difficulties, not weekly resets).";
 	OPT_STARTTOAST_TIMEFADE = "Do not automatically hide";
 	OPT_STARTTOAST_TIMEFADE_TIP = "Prevent toast notifications you don't interact with from fading after a few seconds.";
 	OPT_STARTTOAST_ONLYCLICKFADE = "Require click to hide";

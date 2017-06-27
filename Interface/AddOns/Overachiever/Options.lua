@@ -51,6 +51,7 @@ Overachiever.DefaultSettings = {
   ToastCalendar_bonusevent = false;
   ToastCalendar_dungeonevent = false;
   ToastCalendar_pvpbrawl = false;
+  ToastCalendar_misc = false;
   ToastCalendar_noautofade = false;
   ToastCalendar_onlyclickfade = false;
   Version = THIS_VERSION;
@@ -105,6 +106,7 @@ function Overachiever.CreateOptions(THIS_TITLE, BuildCriteriaLookupTab_check, Au
 	{ variable = "ToastCalendar_bonusevent", text = L.OPT_STARTTOAST_BONUS, tooltip = L.OPT_STARTTOAST_BONUS_TIP },
 	{ variable = "ToastCalendar_dungeonevent", text = L.OPT_STARTTOAST_DUNGEON, tooltip = L.OPT_STARTTOAST_DUNGEON_TIP, column = 2 },
 	{ variable = "ToastCalendar_pvpbrawl", text = L.OPT_STARTTOAST_PVPBRAWL, tooltip = L.OPT_STARTTOAST_PVPBRAWL_TIP },
+	{ variable = "ToastCalendar_misc", text = L.OPT_STARTTOAST_MISC, tooltip = L.OPT_STARTTOAST_MISC_TIP, tooltip2 = L.OPT_STARTTOAST_MISC_TIP2, column = 2 },
 	{ variable = "ToastCalendar_noautofade", text = L.OPT_STARTTOAST_TIMEFADE, tooltip = L.OPT_STARTTOAST_TIMEFADE_TIP, OnChange = updateEnabled,
 	  name = "Overachiever_Options_ToastCalendar_noautofade" },
 	{ variable = "ToastCalendar_onlyclickfade", xOffset = 15, text = L.OPT_STARTTOAST_ONLYCLICKFADE, tooltip = L.OPT_STARTTOAST_ONLYCLICKFADE_TIP,

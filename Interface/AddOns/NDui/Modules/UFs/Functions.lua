@@ -277,23 +277,23 @@ function UF:CreateCastBar(self)
 		cb:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, -5)
 		cb:SetSize(self:GetWidth(), 5)
 	end
+
 	cb.CastingColor = cbColor
 	cb.ChannelingColor = cbColor
 	cb.CompleteColor = {20/255, 208/255, 0/255}
 	cb.FailColor = {255/255, 12/255, 0/255}
 
-	local spark = cb:CreateTexture(nil, "OVERLAY")											-- castbar spark
+	local spark = cb:CreateTexture(nil, "OVERLAY")
 	spark:SetBlendMode("ADD")
 	spark:SetAlpha(0.5)
 	spark:SetHeight(cb:GetHeight()*2.5)
 
-	local name = B.CreateFS(cb, retVal(self, 12, 12, 12, 10), "", false, "LEFT", 2, 0)		-- spell name
+	local timer = B.CreateFS(cb, retVal(self, 12, 12, 12, 10), "", false, "RIGHT", -2, 0)
+	local name = B.CreateFS(cb, retVal(self, 12, 12, 12, 10), "", false, "LEFT", 2, 0)
 	name:SetJustifyH("LEFT")
-
-	local timer = B.CreateFS(cb, retVal(self, 12, 12, 12, 10), "", false, "RIGHT", -2, 0)	-- spell time
 	name:SetPoint("RIGHT", timer, "LEFT", -5, 0)
 
-	local icon = cb:CreateTexture(nil, "ARTWORK")											-- castbar icon
+	local icon = cb:CreateTexture(nil, "ARTWORK")
 	icon:SetSize(cb:GetHeight(), cb:GetHeight())
 	icon:SetPoint("BOTTOMRIGHT", cb, "BOTTOMLEFT", -5, 0)
 	icon:SetTexCoord(unpack(DB.TexCoord))
@@ -318,6 +318,12 @@ function UF:CreateCastBar(self)
 		icon:SetSize(iconSize, iconSize)
 		name:SetPoint("LEFT", cb, "BOTTOMLEFT", 0, -3)
 		timer:SetPoint("RIGHT", cb, "BOTTOMRIGHT", 0, -3)
+
+		local shield = cb:CreateTexture(nil, "OVERLAY")
+		shield:SetAtlas("nameplates-InterruptShield")
+		shield:SetSize(15, 15)
+		shield:SetPoint("CENTER", 0, -5)
+		cb.Shield = shield
 	end
 
 	cb.OnUpdate = cast.OnCastbarUpdate
@@ -336,7 +342,7 @@ function UF:CreateCastBar(self)
 end
 
 function UF:CreateMirrorBar(self)
-	for _, bar in pairs({"MirrorTimer1", "MirrorTimer2", "MirrorTimer3"}) do
+	for _, bar in pairs({"MirrorTimer1", "MirrorTimer2", "MirrorTimer3"}) do   
 		_G[bar]:GetRegions():Hide()
 		_G[bar.."Border"]:Hide()
 		_G[bar]:SetParent(UIParent)
@@ -607,7 +613,7 @@ function UF:CreateAltPower(self)
 	text:SetJustifyH("CENTER")
 	self:Tag(text, "[altpower]")
 
-	self.AlternativePower = bar
+	self.AlternativePower = bar		
 	self.AlternativePower.PostUpdate = postUpdateAltPower
 end
 
@@ -638,7 +644,7 @@ end
 local function postUpdateRepColor(element, event, unit, bar)
 	local name, id, _, _, _, factionID = GetWatchedFactionInfo()
 	local friendID = GetFriendshipReputation(factionID)
-	if friendID then id = 5 end
+	if friendID then id = 5 end		
 	bar:SetStatusBarColor(FACTION_BAR_COLORS[id].r, FACTION_BAR_COLORS[id].g, FACTION_BAR_COLORS[id].b)
 end
 

@@ -2137,12 +2137,12 @@ end
 function Skada:FormatNumber(number)
 	if number then
 		if self.db.profile.numberformat == 1 then
-			if number > 1e8 then
-				return ("%02.2f亿"):format(number / 1e8)
-			elseif number > 1e4 then
-				return ("%02.1f万"):format(number / 1e4)
+            if number > 1000000000 then
+                return ("%02.3fB"):format(number / 1000000000)
+            elseif number > 1000000 then
+				return ("%02.2fM"):format(number / 1000000)
 			else
-				return math.floor(number)
+				return ("%02.1fK"):format(number / 1000)
 			end
 		else
 			return math.floor(number)
