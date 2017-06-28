@@ -7,14 +7,22 @@ local function MythicLootItemLevel(mlvl)
 		return "880+"
 	elseif (mlvl == "8" or mlvl == "9") then
 		return "885+"
-	elseif (mlvl == "10") then
+	elseif (mlvl == "10" or mlvl == "11") then
 		return "890+"
+	elseif (mlvl == "12") then
+		return "895+"
+	elseif (mlvl == "13") then
+		return "900+"
+	elseif (mlvl == "14") then
+		return "905+"
+	elseif (mlvl == "15") then
+		return "910+"
 	else
-		return "890+"
+		return "910+"
 	end
 end
 
-local function MythicWeeklyLootItemLevel(mlvl)
+local function WeeklyLootItemLevel(mlvl)
 	if (mlvl == "0") then
 		return "没有低保！"
 	elseif (mlvl == "2") then
@@ -31,8 +39,18 @@ local function MythicWeeklyLootItemLevel(mlvl)
 		return "900+"
 	elseif (mlvl == "10") then
 		return "905+"
+	elseif (mlvl == "11") then
+		return "910+"
+	elseif (mlvl == "12") then
+		return "915+"
+	elseif (mlvl == "13") then
+		return "920+"
+	elseif (mlvl == "14") then
+		return "925+"
+	elseif (mlvl == "15") then
+		return "930+"
 	else
-		return "905+"
+		return "930+"
 	end
 end
 
@@ -62,7 +80,7 @@ frame:SetScript("OnEvent", function(self, event, addonName, ...)
 				if (ChallengesModeWeeklyBest) then
 					numScreen = ChallengesModeWeeklyBest.Child.Level:GetText()
 					self.time = self.time + 1
-					self.text:SetText(MythicWeeklyLootItemLevel(numScreen))
+					self.text:SetText(WeeklyLootItemLevel(numScreen))
 					self:SetScript("OnUpdate", nil)
 				end
 			end
@@ -108,7 +126,7 @@ local function DecorateTooltip(self, link, _)
 	if type(link) == 'string' then
 		local modifiers, instanceID, mythicLevel = GetModifiers(strsplit(':', link))
 		local ilvl = MythicLootItemLevel(mythicLevel)
-		local wlvl = MythicWeeklyLootItemLevel(mythicLevel)
+		local wlvl = WeeklyLootItemLevel(mythicLevel)
 		if modifiers then
 			self:AddLine(" ")
 			for _, modifierID in ipairs(modifiers) do
