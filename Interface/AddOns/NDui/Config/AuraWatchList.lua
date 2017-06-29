@@ -115,10 +115,17 @@ C.AuraWatchList = {
 			-->LEG饰品
 				--魔油地狱火机械
 				{AuraID = 238534, UnitID = "player"},
-				--灭绝引擎
-				{AuraID = 242612, UnitID = "player"},
 				--血之气息
 				{AuraID = 213888, UnitID = "player"},
+				--电光
+				{AuraID = 231940, UnitID = "player"},
+				{AuraID = 231965, UnitID = "player"},
+				--督军的坚韧
+				{AuraID = 214624, UnitID = "player"},
+				--霜覆
+				{AuraID = 214962, UnitID = "player"},
+				--灭绝引擎
+				{AuraID = 242612, UnitID = "player"},
 				--节拍器
 				{AuraID = 225719, UnitID = "player"},
 				--黑暗低语
@@ -128,21 +135,10 @@ C.AuraWatchList = {
 				{AuraID = 215816, UnitID = "player"},
 				--罗宁护腕
 				{AuraID = 208081, UnitID = "player"},
-				--美味蛋糕
-				{AuraID = 225723, UnitID = "player"},
 				--回归打击
 				{AuraID = 225736, UnitID = "player"},
 				--苏拉玛套装，爆击
 				{AuraID = 224151, UnitID = "player"},
-				--电光
-				{AuraID = 231940, UnitID = "player"},
-				{AuraID = 231965, UnitID = "player"},
-				--督军的坚韧
-				{AuraID = 214624, UnitID = "player"},
-				--军团之眼
-				{AuraID = 230152, UnitID = "player"},
-				--霜覆
-				{AuraID = 214962, UnitID = "player"},
 				--黑暗打击，+伤害
 				{AuraID = 215658, UnitID = "player"},
 				--黑暗打击，+护盾
@@ -190,6 +186,10 @@ C.AuraWatchList = {
 				{AuraID = 234143, UnitID = "player"},
 				--艾露恩之光，加主属性
 				{AuraID = 215648, UnitID = "player"},
+				--军团之眼
+				{AuraID = 230152, UnitID = "player"},
+				--坍缩之影
+				{AuraID = 215476, UnitID = "player"},
 				--净化的远古祝福
 				{AuraID = 222517, UnitID = "player"},
 				{AuraID = 222518, UnitID = "player"},
@@ -219,48 +219,6 @@ C.AuraWatchList = {
 				{AuraID = 242584, UnitID = "player"},
 				{AuraID = 242586, UnitID = "player"},
 				{AuraID = 243096, UnitID = "player"},
-			-->WOD附魔
-				--血环之印
-				{AuraID = 173322, UnitID = "player"},
-				--雷神之印
-				{AuraID = 159234, UnitID = "player"},
-				--战歌之印
-				{AuraID = 159675, UnitID = "player"},
-				--霜狼之印
-				{AuraID = 159676, UnitID = "player"},
-				--影月之印
-				{AuraID = 159678, UnitID = "player"},
-				--黑石之印
-				{AuraID = 159679, UnitID = "player"},
-				--瞄准镜
-				{AuraID = 156055, UnitID = "player"},--溅射
-				{AuraID = 156060, UnitID = "player"},--爆击
-				{AuraID = 173288, UnitID = "player"},--精通
-				--橙戒
-				{AuraID = 177161, UnitID = "player"},--敏捷690
-				{AuraID = 177172, UnitID = "player"},--敏捷710
-				{AuraID = 177159, UnitID = "player"},--智力690
-				{AuraID = 177176, UnitID = "player"},--智力710
-				{AuraID = 177160, UnitID = "player"},--力量690
-				{AuraID = 177175, UnitID = "player"},--力量710
-				{AuraID = 187616, UnitID = "player"},--尼萨姆斯，智力
-				{AuraID = 187617, UnitID = "player"},--萨克图斯，坦克
-				{AuraID = 187618, UnitID = "player"},--伊瑟拉鲁斯，治疗
-				{AuraID = 187619, UnitID = "player"},--索拉苏斯，力量
-				{AuraID = 187620, UnitID = "player"},--玛鲁斯，敏捷
-			-->WOD药水以及饰品
-				--德拉诺敏捷
-				{AuraID = 156423, UnitID = "player"},
-				--德拉诺智力
-				{AuraID = 156426, UnitID = "player"},
-				--德拉诺力量
-				{AuraID = 156428, UnitID = "player"},
-				--德拉诺护甲
-				{AuraID = 156430, UnitID = "player"},
-				--炼金石
-				{AuraID =  60233, UnitID = "player"},--敏捷
-				{AuraID =  60229, UnitID = "player"},--力量
-				{AuraID =  60234, UnitID = "player"},--智力
 			-->传家宝饰品
 				--力量
 				{AuraID = 201405, UnitID = "player"},
@@ -370,6 +328,8 @@ C.AuraWatchList = {
 				--作茧缚命
 				{AuraID = 116849, UnitID = "player", Value = true},
 			-->杂项
+				--误导（猎人）
+				{AuraID =  34477, UnitID = "player"},
 				--嫁祸诀窍（盗贼）
 				{AuraID =  57934, UnitID = "player"},
 				--狼人狂乱（卡拉赞）
