@@ -56,4 +56,10 @@ addon.raidData = {
   [1291] = { numEncounters = 3, startFrom =  1 }, -- Royal Athenaeum 4
   [1292] = { numEncounters = 3, startFrom =  1 }, -- Nightspire 7
   [1293] = { numEncounters = 1, startFrom =  1 }, -- Betrayers Rise 10
+	
+	-- Tomb of Sargeras
+	[1494] = { numEncounters = 3, startFrom =  1 }, -- The Gates of Hell
+	[1495] = { numEncounters = 3, startFrom =  1 }, -- Wailing Halls
+	[1496] = { numEncounters = 2, startFrom =  1 }, -- Chamber of the Avatar
+	[1497] = { numEncounters = 1, startFrom =  1 }, -- Deceiver¡¯s Fall
 }

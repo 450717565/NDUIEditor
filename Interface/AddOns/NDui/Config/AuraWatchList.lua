@@ -112,6 +112,8 @@ C.AuraWatchList = {
 				{AuraID = 235169, UnitID = "player", Value= true},
 				--回转稳定
 				{AuraID = 235712, UnitID = "player", Combat = true},
+				--冷酷之心
+				{AuraID = 235599, UnitID = "player", Combat = true},
 			-->LEG饰品
 				--魔油地狱火机械
 				{AuraID = 238534, UnitID = "player"},
@@ -2707,8 +2709,6 @@ C.AuraWatchList = {
 				{AuraID = 216974, UnitID = "player"},
 				--冷库严冬
 				{AuraID = 196770, UnitID = "player"},
-				--冷酷之心
-				{AuraID = 235599, UnitID = "player"},
 			},
 		},
 		{	Name = "Focus Aura",
