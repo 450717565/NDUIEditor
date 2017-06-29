@@ -47,6 +47,20 @@ C.themes["Blizzard_ChallengesUI"] = function()
 				bu.styled = true
 			end
 		end
+
+		if IsAddOnLoaded("AngryKeystones") and not angryStyle then
+			local scheduel = select(6, ChallengesFrame:GetChildren())
+			select(1, scheduel:GetRegions()):Hide()
+			select(3, scheduel:GetRegions()):Hide()
+			F.CreateBD(scheduel, .3)
+
+			if scheduel.Entries then
+				for i = 1, 4 do
+					AffixesSetup(scheduel.Entries[i].Affixes)
+				end
+			end
+			angryStyle = true
+		end
 	end)
 
 	local keystone = ChallengesKeystoneFrame
