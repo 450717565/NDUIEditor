@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1873, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16346 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16359 $"):sub(12, -3))
 mod:SetCreatureID(116939)--Maiden of Valor 120437
 mod:SetEncounterID(2038)
 mod:SetZone()
@@ -321,9 +321,11 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnDarkMark:Show()
 			voiceDarkMark:Play("targetyou")
-			yellDarkMarkFades:Schedule(9, 1)
-			yellDarkMarkFades:Schedule(8, 2)
-			yellDarkMarkFades:Schedule(7, 3)
+			local _, _, _, _, _, _, expires = UnitDebuff(args.destName, args.spellName)
+			local remaining = expires-GetTime()
+			yellDarkMarkFades:Schedule(remaining-1, 1)
+			yellDarkMarkFades:Schedule(remaining-2, 2)
+			yellDarkMarkFades:Schedule(remaining-3, 3)
 		end
 	elseif spellId == 234059 then
 		warnUnboundChaos:CombinedShow(0.3, args.destName)

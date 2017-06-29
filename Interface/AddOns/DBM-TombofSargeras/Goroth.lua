@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1862, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16336 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16362 $"):sub(12, -3))
 mod:SetCreatureID(115844)
 mod:SetEncounterID(2032)
 mod:SetZone()
@@ -42,9 +42,8 @@ local specWarnCrashingComet				= mod:NewSpecialWarningMoveAway(232249, nil, nil,
 local yellCrashingComet					= mod:NewFadesYell(232249)
 local specWarnBurningArmor				= mod:NewSpecialWarningMoveAway(231363, nil, nil, nil, 3, 2)
 local specWarnBurningArmorTaunt			= mod:NewSpecialWarningTaunt(231363, nil, nil, nil, 1, 2)
-local specWarnRainofBrimstone			= mod:NewSpecialWarningMoveTo(238587, nil, nil, nil, 1, 6)
+local specWarnRainofBrimstone			= mod:NewSpecialWarningMoveTo(238587, "-Tank", nil, 2, 1, 6)
 
---local timerComboWamboCD					= mod:NewTimer(14, "timerComboWamboCD", 232249, nil, nil, 3)--Comet/Spike combined timer.
 local timerInfernalBurningCD			= mod:NewNextTimer(59.9, 233062, nil, nil, nil, 2)
 local timerShatteringStarCD				= mod:NewNextCountTimer(31, 233272, nil, nil, nil, 3)
 local timerShatteringStar				= mod:NewBuffFadesTimer(6, 233272, nil, nil, nil, 5)
@@ -67,7 +66,7 @@ local voiceInfernalBurning				= mod:NewVoice(233062)--findshelter
 local voiceShatteringStar				= mod:NewVoice(233272)--runout (maybe custom voice that says "kite through spikes"?)
 local voiceCrashingComet				= mod:NewVoice(232249)--runout
 local voiceBurningArmor					= mod:NewVoice(231363)--runout/tauntboss
-local voiceRainofBrimstone				= mod:NewVoice(238587)--helpsoak
+local voiceRainofBrimstone				= mod:NewVoice(238587, "-Tank", nil, 2)--helpsoak
 
 --mod:AddSetIconOption("SetIconOnShield", 228270, true)
 --mod:AddInfoFrameOption(227503, true)
@@ -75,6 +74,7 @@ mod:AddRangeFrameOption("10/25")
 
 local infernalSpike = GetSpellInfo(233021)
 local crashingComet = GetSpellInfo(232249)
+local tankDebuff = GetSpellInfo(234264)
 local cometTable = {}
 local shatteringStarTimers = {24, 60, 60, 50}--24, 60, 60, 50, 20, 40, 20, 40, 20, 40
 --local comboWamboTimers = {4, 6, 12, 12, 12, 6, 12, 6, 12, 12, 12, 6, 12, 6}--Needs more data
@@ -92,12 +92,15 @@ function mod:OnCombatStart(delay)
 	timerInfernalSpikeCD:Start(4-delay)
 	timerCrashingCometCD:Start(8.5-delay)
 	timerBurningArmorCD:Start(10.5-delay)
-	timerShatteringStarCD:Start(24-delay, 1)--34 on mythic testing
-	countdownShatteringStar:Start(24-delay)--34 on mythic testing
 	timerInfernalBurningCD:Start(54-delay)
 	if self:IsMythic() then
 		self.vb.brimstoneCount = 0
-		timerRainofBrimstoneCD:Start(14-delay, 1)
+		timerRainofBrimstoneCD:Start(12.1-delay, 1)--12.1-14
+		timerShatteringStarCD:Start(34-delay, 1)
+		countdownShatteringStar:Start(34-delay)
+	else
+		timerShatteringStarCD:Start(24-delay, 1)
+		countdownShatteringStar:Start(24-delay)
 	end
 end
 
@@ -170,8 +173,15 @@ function mod:SPELL_AURA_APPLIED(args)
 				end
 			end
 		else
-			specWarnBurningArmorTaunt:Show(args.destName)
-			voiceBurningArmor:Play("tauntboss")
+			local _, _, _, _, _, _, expires = unitDebuff("player", tankDebuff)
+			if expires then
+				local remaining = expires-GetTime()
+				specWarnBurningArmorTaunt:Schedule(remaining, args.destName)
+				voiceBurningArmor:Schedule(remaining, "tauntboss")
+			else
+				specWarnBurningArmorTaunt:Show(args.destName)
+				voiceBurningArmor:Play("tauntboss")
+			end
 		end
 	end
 end

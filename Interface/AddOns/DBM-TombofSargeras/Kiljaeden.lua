@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1898, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16352 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16357 $"):sub(12, -3))
 mod:SetCreatureID(108573)--121227 Illiden? 121193 Shadowsoul
 mod:SetEncounterID(2051)
 mod:SetZone()
@@ -101,7 +101,7 @@ local timerDarknessofSoulsCD		= mod:NewCDCountTimer(90, 238999, nil, nil, nil, 2
 local timerTearRiftCD				= mod:NewCDCountTimer(95, 243982, nil, nil, nil, 3)
 local timerFlamingOrbCD				= mod:NewCDCountTimer(30, 239253, nil, nil, nil, 3)
 
---local berserkTimer				= mod:NewBerserkTimer(300)
+local berserkTimer					= mod:NewBerserkTimer(600)
 
 --Stage One: The Betrayer
 local countdownSingularity			= mod:NewCountdown(50, 235059, nil, nil, 5)
@@ -206,6 +206,7 @@ function mod:OnCombatStart(delay)
 	countdownFelclaws:Start(25-delay)
 	timerRupturingSingularityCD:Start(58-delay, 1)
 	--countdownSingularity:Start(58)
+	berserkTimer:Start(600-delay)
 end
 
 function mod:OnCombatEnd()

@@ -1,23 +1,23 @@
 local mod	= DBM:NewMod(1867, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16310 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16365 $"):sub(12, -3))
 mod:SetCreatureID(116691, 116689)--Belac (116691), Atrigan (116689)
 mod:SetEncounterID(2048)
 mod:SetZone()
 mod:SetBossHPInfoToHighest()
---mod:SetUsedIcons(1)
+mod:SetUsedIcons(1, 2, 3, 4)
 mod:SetHotfixNoticeRev(16282)
 --mod.respawnTime = 29
 
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 233426 234015 239401",
+	"SPELL_CAST_START 233426 234015 239401 233983",
 	"SPELL_CAST_SUCCESS 233431 233983 233894",
-	"SPELL_AURA_APPLIED 233430 233441 235230 233983 233894 233431",
+	"SPELL_AURA_APPLIED 233430 233441 235230 233983 233894 233431 236283",
 	"SPELL_AURA_APPLIED_DOSE 248713",
-	"SPELL_AURA_REMOVED 233441 235230 233983",
+	"SPELL_AURA_REMOVED 233441 235230 233983 236283 233431",
 --	"SPELL_PERIODIC_DAMAGE",
 --	"SPELL_PERIODIC_MISSED",
 --	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2"
@@ -38,20 +38,23 @@ local warnQuills					= mod:NewTargetAnnounce(233431, 2)
 --Belac
 local warnEchoingAnguish			= mod:NewTargetAnnounce(233983, 3)
 local warnSuffocatingDark			= mod:NewTargetAnnounce(233894, 3, nil, false)--Affects a LOT of targets
+local warnPrison					= mod:NewSpellAnnounce(236283, 2)
 --local warnTormentingBurst			= mod:NewCountAnnounce(234015, 2)
 
 --Atrigan
-local specWarnUnbearableTorment		= mod:NewSpecialWarningYou(233430, nil, nil, nil, 1, 2)
+local specWarnUnbearableTorment		= mod:NewSpecialWarningYou(233430, nil, nil, nil, 1, 6)
 local specWarnUnbearableTormentTank	= mod:NewSpecialWarningTaunt(233430, nil, nil, nil, 1, 2)
 local specWarnScytheSweep			= mod:NewSpecialWarningSpell(233426, "Tank", nil, 2, 1, 2)
-local specWarnCalcifiedQuills		= mod:NewSpecialWarningRun(233431, nil, nil, nil, 1, 2)
+local specWarnCalcifiedQuills		= mod:NewSpecialWarningMoveAway(233431, nil, nil, nil, 1, 2)
 local yellCalcifiedQuills			= mod:NewYell(233431)
+local specWarnAttackAtrigan			= mod:NewSpecialWarningSwitch("ej14645", "Dps", nil, nil, 1, 2)
 local specWarnBoneSawMelee			= mod:NewSpecialWarningRun(233441, "Melee", nil, 2, 4, 2)
 local specWarnBoneSawEveryoneElse	= mod:NewSpecialWarningReflect(233441, "-Melee", nil, nil, 1, 2)
 --Belac
 local specWarnPangsofGuilt			= mod:NewSpecialWarningInterruptCount(239401, "HasInterrupt", nil, nil, 1, 3)
 local specWarnEchoingAnguish		= mod:NewSpecialWarningMoveAway(233983, nil, nil, nil, 1, 2)
-local yellEchoingAnguish			= mod:NewYell(233983)
+local yellEchoingAnguish			= mod:NewPosYell(233983, DBM_CORE_AUTO_YELL_CUSTOM_POSITION)
+local specWarnAttackBelac			= mod:NewSpecialWarningSwitch("ej14646", "Dps", nil, nil, 1, 2)
 local specWarnFelSquallMelee		= mod:NewSpecialWarningRun(235230, "Melee", nil, 2, 4, 2)
 local specWarnFelSquallEveryoneElse	= mod:NewSpecialWarningReflect(235230, "-Melee", nil, nil, 1, 2)
 local specWarnTormentingBurst		= mod:NewSpecialWarningCount(234015, nil, nil, nil, 2, 2)
@@ -71,33 +74,38 @@ local timerBoneSaw					= mod:NewBuffActiveTimer(15, 233441, nil, nil, nil, 2)
 local timerFelSquallCD				= mod:NewCDTimer(45.7, 235230, nil, nil, nil, 2)
 local timerFelSquall				= mod:NewBuffActiveTimer(15, 235230, nil, nil, nil, 2)
 
---local berserkTimer				= mod:NewBerserkTimer(300)
+local berserkTimer					= mod:NewBerserkTimer(480)--482 in log, rounding to 8 even for now
 
 --Atrigan
 local countdownBoneSaw				= mod:NewCountdown(45, 233441)
 
 --Atrigan
+local voiceUnbearableTorment		= mod:NewVoice(233430)--stackhigh/tauntboss
 local voiceScytheSweep				= mod:NewVoice(233426, "Tank", nil, 2)--shockwave
-local voiceCalcifiedQuills			= mod:NewVoice(233431)--runout/keepmove
+local voiceCalcifiedQuills			= mod:NewVoice(233431)--runout
+local voiceAttackAtrigan			= mod:NewVoice("ej14645", "Dps")--targetchange
 local voiceBoneSaw					= mod:NewVoice(233441)--runout/keepmove
 --Belac
 local voicePangsofGuilt				= mod:NewVoice(239401, "HasInterrupt")--kickcast
 local voiceEchoingAnguish			= mod:NewVoice(233983)--runout
+local voiceAttackBelac				= mod:NewVoice("ej14646", "Dps")--targetchange
 local voiceFelSquall				= mod:NewVoice(235230)--runout/stopattack
 local voiceTormentingBurst			= mod:NewVoice(234015)--aesoon
 --Phase
 local voiceSoulCorruption			= mod:NewVoice(248713)--stackhigh
 local voiceTorment					= mod:NewVoice(233104)--stackhigh
 
---mod:AddSetIconOption("SetIconOnShield", 228270, true)
+mod:AddSetIconOption("SetIconOnQuills", 233431, true)
+mod:AddSetIconOption("SetIconOnAnguish", 233983, true)
 mod:AddInfoFrameOption(233104, true)
 mod:AddRangeFrameOption(8, 233983)
 
 mod.vb.burstCount = 0
 mod.vb.scytheCount = 0
 mod.vb.pangCount = 0
+mod.vb.anguishIcon = 2
 
-local function updateAllTimers(self, ICD)
+local function updateAllTimers(self, ICD, ignoreBoneSaw)
 --	if not DBM.Options.DebugMode then return end
 	DBM:Debug("updateAllTimers running", 3)
 	if timerScytheSweepCD:GetRemaining() < ICD then--4
@@ -114,7 +122,7 @@ local function updateAllTimers(self, ICD)
 		timerCalcifiedQuillsCD:Stop()
 		timerCalcifiedQuillsCD:Update(elapsed, total+extend)
 	end
-	if timerBoneSawCD:GetRemaining() < ICD then--16
+	if not ignoreBoneSaw and timerBoneSawCD:GetRemaining() < ICD then--16
 		local elapsed, total = timerBoneSawCD:GetTime()
 		local extend = ICD - (total-elapsed)
 		DBM:Debug("timerBoneSawCD extended by: "..extend, 2)
@@ -129,6 +137,7 @@ function mod:OnCombatStart(delay)
 	self.vb.burstCount = 0
 	self.vb.scytheCount = 0
 	self.vb.pangCount = 0
+	self.vb.anguishIcon = 2
 	timerScytheSweepCD:Start(5.2-delay)
 	if not self:IsEasy() then
 		timerCalcifiedQuillsCD:Start(8.5-delay)--8.5-11
@@ -143,9 +152,10 @@ function mod:OnCombatStart(delay)
 		DBM.InfoFrame:SetHeader(GetSpellInfo(233104))
 		DBM.InfoFrame:Show(8, "playerpower", 5, ALTERNATE_POWER_INDEX)
 	end
-	--if not self:IsLFR() then
-	--	DBM:AddMsg("In all tests, Belac had erratic timers so most Belac timers are disabled")
-	--end
+	--https://www.warcraftlogs.com/reports/JgyrYdDCB63kx8Tb#fight=38&type=summary&pins=2%24Off%24%23244F4B%24expression%24ability.id%20%3D%20248671&view=events
+	if not self:IsLFR() then
+		berserkTimer:Start(480-delay)--482 technically but 480 sounds better
+	end
 end
 
 function mod:OnCombatEnd()
@@ -184,6 +194,8 @@ function mod:SPELL_CAST_START(args)
 		elseif kickCount == 3 then
 			voicePangsofGuilt:Play("kick3r")
 		end
+	elseif spellId == 233983 then
+		self.vb.anguishIcon = 2
 	end
 end
 
@@ -203,22 +215,27 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 233430 then
 		if args:IsPlayer() then
-			specWarnUnbearableTorment:Show()
+			specWarnUnbearableTorment:Show(args.destName)
+			voiceUnbearableTorment:Play("stackhigh")
 		else
 			local uId = DBM:GetRaidUnitId(args.destName)
 			if self:IsTanking(uId) then
-				specWarnUnbearableTorment:Show(args.destName)
+				specWarnUnbearableTormentTank:Show(args.destName)
+				voiceUnbearableTorment:Play("tauntboss")
 			end
 		end
 	elseif spellId == 233441 then
-		specWarnBoneSawMelee:Show()
-		specWarnBoneSawEveryoneElse:Show(args.sourceName)
-		if self:IsMelee() then
-			voiceBoneSaw:Play("runout")
+		--Redundant warnings if still on wrong boss (or tank)
+		if UnitGUID("target") == args.sourceGUID then
+			specWarnBoneSawMelee:Show()
+			specWarnBoneSawEveryoneElse:Show(args.sourceName)
+			if self:IsMelee() then
+				voiceBoneSaw:Play("runout")
+			end
+			voiceBoneSaw:Schedule(1, "stopattack")
 		end
-		voiceBoneSaw:Schedule(1, "stopattack")
 		timerBoneSaw:Start()
-		updateAllTimers(self, 16)
+		updateAllTimers(self, 16, true)
 		for i = 1, 2 do
 			local bossUnitID = "boss"..i
 			if UnitExists(bossUnitID) and UnitGUID(bossUnitID) == args.sourceGUID and UnitDetailedThreatSituation("player", bossUnitID) then--We are highest threat target
@@ -227,39 +244,53 @@ function mod:SPELL_AURA_APPLIED(args)
 			end
 		end
 	elseif spellId == 235230 then
-		specWarnFelSquallMelee:Show(args.sourceName)
-		specWarnFelSquallEveryoneElse:Show()
-		if self:IsMelee() then
-			voiceFelSquall:Play("runout")
+		--Redundant warnings if still on wrong boss (or tank)
+		if UnitGUID("target") == args.sourceGUID then
+			specWarnFelSquallMelee:Show(args.sourceName)
+			specWarnFelSquallEveryoneElse:Show()
+			if self:IsMelee() then
+				voiceFelSquall:Play("runout")
+			end
+			voiceFelSquall:Schedule(1, "stopattack")
 		end
-		voiceFelSquall:Schedule(1, "stopattack")
 		timerFelSquall:Start()
 	elseif spellId == 233983 then
 		warnEchoingAnguish:CombinedShow(0.3, args.destName)
+		local currentIcon = self.vb.anguishIcon
 		if args:IsPlayer() then
 			specWarnEchoingAnguish:Show()
 			voiceEchoingAnguish:Play("runout")
-			yellEchoingAnguish:Yell()
+			yellEchoingAnguish:Yell(currentIcon, args.spellName, currentIcon)
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(8)
 			end
 		end
+		if self.Options.SetIconOnAnguish then
+			self:SetdIcon(args.destName, currentIcon)
+		end
+		self.vb.anguishIcon = self.vb.anguishIcon + 1
 	elseif spellId == 233894 then
 		warnSuffocatingDark:CombinedShow(1, args.destName)
 	elseif spellId == 233431 then
 		if args:IsPlayer() then
 			specWarnCalcifiedQuills:Show()
 			voiceCalcifiedQuills:Play("runout")
-			voiceCalcifiedQuills:Schedule(1, "keepmove")
 			yellCalcifiedQuills:Yell()
 		else
 			warnQuills:Show(args.destName)
+		end
+		if self.Options.SetIconOnQuills then
+			self:SetIcon(args.destName, 1)
 		end
 	elseif spellId == 208802 then
 		local amount = args.amount or 1
 		if args:IsPlayer() and amount >= 10 then
 			specWarnSoulCorruption:Show(amount)
 			voiceSoulCorruption:Play("stackhigh")
+		end
+	elseif spellId == 236283 then
+		if args:IsPlayer() then
+			warnPrison:Show()
 		end
 	end
 end
@@ -268,6 +299,8 @@ mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 233441 then--Bone Saw
+		specWarnAttackAtrigan:Show()
+		voiceAttackAtrigan:Play("targetchange")
 		timerBoneSaw:Stop()
 		timerBoneSawCD:Start()
 		countdownBoneSaw:Start()
@@ -277,8 +310,17 @@ function mod:SPELL_AURA_REMOVED(args)
 				DBM.RangeCheck:Hide()
 			end
 		end
+		if self.Options.SetIconOnAnguish then
+			self:SetIcon(args.destName, 0)
+		end
 	elseif spellId == 235230 then
+		specWarnAttackBelac:Show()
+		voiceAttackBelac:Play("targetchange")
 		timerFelSquallCD:Start()
+	elseif spellId == 233431 then
+		if self.Options.SetIconOnQuills then
+			self:SetIcon(args.destName, 0)
+		end
 	end
 end
 

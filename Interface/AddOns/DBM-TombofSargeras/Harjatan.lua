@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1856, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16289 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16365 $"):sub(12, -3))
 mod:SetCreatureID(116407)
 mod:SetEncounterID(2036)
 mod:SetZone()
@@ -81,7 +81,7 @@ local timerDrivenAssault			= mod:NewTargetTimer(10, 234016, nil, false, nil, 3)-
 local timerSplashCleaveCD			= mod:NewCDTimer(12, 234129, nil, false, nil, 5, nil, DBM_CORE_TANK_ICON)
 --Mythic
 local timerHatchingCD				= mod:NewCDTimer(40.6, 240319, nil, nil, nil, 1)--40.6-42
---local berserkTimer				= mod:NewBerserkTimer(300)
+local berserkTimer					= mod:NewBerserkTimer(360)
 
 --Harjatan
 local countdownUncheckedRage		= mod:NewCountdown(20, 231854)
@@ -126,9 +126,11 @@ function mod:OnCombatStart(delay)
 		timerCommandingRoarCD:Start(6.3-delay)
 		if self:IsMythic() then
 			timerHatchingCD:Start(30.5-delay)
+			berserkTimer:Start(360-delay)
 		end
 	else
 		timerCommandingRoarCD:Start(17.3-delay)
+		berserkTimer:Start(480-delay)--Confirm in LFR too?
 	end
 	if self.Options.NPAuraOnSicklyFixate and self:IsMythic() or self.Options.NPAuraOnDrivenAssault then
 		DBM:FireEvent("BossMod_EnableHostileNameplates")
@@ -182,20 +184,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerAqueousBurstCD:Start(nil, args.sourceGUID)
 	elseif spellId == 231854 then--Unchecked Rage
 		self.vb.rageCount = self.vb.rageCount + 1
-		local remaining = timerDrawInCD:GetRemaining()
-		if remaining > 20 then
-			timerUncheckedRageCD:Start(nil, self.vb.rageCount+1)
-			countdownUncheckedRage:Start()
-			specWarnUncheckedRage:Schedule(17, self.vb.rageCount+1)
-			voiceUncheckedRage:Schedule(17, "gathershare")
-		else
-			--It'll be cast immediately after 10 second cast of draw in + 1, unless draw in successfully absorbs pools
-			DBM:Debug("Draw In is next before unchecked Rage", 2)
-			--timerUncheckedRageCD:Start(remaining+11, self.vb.rageCount+1)
-			--countdownUncheckedRage:Start(remaining+11)
-			--specWarnUncheckedRage:Schedule(remaining+7, self.vb.rageCount+1)
-			--voiceUncheckedRage:Schedule(remaining+7, "gathershare")--]]
-		end
+		timerUncheckedRageCD:Start(nil, self.vb.rageCount+1)
+		countdownUncheckedRage:Start()
+		specWarnUncheckedRage:Schedule(17, self.vb.rageCount+1)
+		voiceUncheckedRage:Schedule(17, "gathershare")
 	elseif spellId == 234129 then
 		timerSplashCleaveCD:Start(nil, args.sourceGUID)
 	end
@@ -363,14 +355,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 	if spellId == 232192 then--Commanding Roar
 		specWarnCommandingroar:Show()
 		voiceCommandingroar:Play("killmob")
-		local remaining = timerDrawInCD:GetRemaining()
-		if remaining > 32 or remaining < 22 then--Should come off cd not during a draw In
-			timerCommandingRoarCD:Start()
-		else
-			--He'll be casting draw in when this is cast, so adjust timer around draw in cast finish
-			--timerCommandingRoarCD:Start(remaining+11)
-			DBM:Debug("Draw In is comming before next Commaning Roar", 2)
-		end
+		timerCommandingRoarCD:Start()
 	elseif spellId == 240347 then--Warn Players of Hatching Eggs
 		specWarnHatching:Show()
 		voiceHatching:Play("killmob")

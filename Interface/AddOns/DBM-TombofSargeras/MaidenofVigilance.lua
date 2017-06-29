@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1897, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16337 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16365 $"):sub(12, -3))
 mod:SetCreatureID(118289)
 mod:SetEncounterID(2052)
 mod:SetZone()
@@ -60,7 +60,7 @@ local timerBlowbackCD				= mod:NewNextTimer(81.1, 237722, nil, nil, nil, 6)--81-
 --Mythic
 local timerSpontFragmentationCD		= mod:NewNextTimer(8, 239153, nil, nil, nil, 5, nil, DBM_CORE_HEROIC_ICON)
 
---local berserkTimer				= mod:NewBerserkTimer(300)
+local berserkTimer				= mod:NewBerserkTimer(480)
 
 --Stage One: Divide and Conquer
 local countdownInfusion				= mod:NewCountdown("AltTwo", 235271)
@@ -104,6 +104,7 @@ function mod:OnCombatStart(delay)
 		self.vb.spontFragmentationCount = 0
 		timerSpontFragmentationCD:Start(10-delay)
 	end
+	berserkTimer:Start(480-delay)--Heroic/normal confirmed, others assumed until seen
 end
 
 function mod:OnCombatEnd()
@@ -254,12 +255,12 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	elseif spellId == 235028 then--Bulwark Removed
 		specWarnWrathofCreators:Show(args.destName)
+		voiceWrathofCreators:Play("kickcast")
 	elseif spellId == 234891 then--Wrath Interrupted
 		self.vb.shieldActive = false
 		self.vb.hammerCount = 0
 		self.vb.infusionCount = 0
 		self.vb.massShitCount = 0
-		voiceWrathofCreators:Play("kickcast")
 		timerInfusionCD:Start(2, 1)
 		timerLightHammerCD:Start(14, 1)
 		countdownLightHammer:Start(14)
