@@ -495,6 +495,7 @@ function UF:CreateDebuffs(self)
 		bu:SetPoint("TOPRIGHT", self, "TOPLEFT", -5, -1)
 	    bu.size = 26
 		bu.num = 6
+		bu.onlyShowPlayer = true
 	elseif self.mystyle == "focus" then
 		bu:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -11)
 	    bu.size = 26
