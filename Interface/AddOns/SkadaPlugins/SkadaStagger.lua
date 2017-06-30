@@ -1,8 +1,6 @@
 local Skada = Skada
 --local L = LibStub("AceLocale-3.0"):GetLocale("Skada", false)
 
-if select(2, UnitClass("player")) ~= "MONK" then return end
-
 local mod = Skada:NewModule("醉拳大师")
 local modDetails = Skada:NewModule("醉拳细节")
 
