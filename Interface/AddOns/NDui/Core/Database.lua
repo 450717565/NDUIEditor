@@ -30,6 +30,7 @@ DB.eyeTex = "Interface\\Minimap\\Raid_Icon"
 DB.garrTex = "Interface\\HelpFrame\\HelpIcon-ReportLag"
 DB.gearTex = "Interface\\WorldMap\\Gear_64"
 DB.mailTex = "Interface\\Minimap\\Tracking\\Mailbox"
+DB.newItemFlash = "Interface\\Cooldown\\star4"
 DB.questTex = "Interface\\BUTTONS\\AdventureGuideMicrobuttonAlert"
 
 DB.TexCoord = {.08, .92, .08, .92}

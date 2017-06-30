@@ -34,7 +34,7 @@ function module:OnLogin()
 			Bags = "bank",
 			Movable = true,
 		})
-		f.bank:SetFilter(onlyBank, true) 
+		f.bank:SetFilter(onlyBank, true)
 		f.bank:SetPoint("BOTTOMRIGHT", f.main, "BOTTOMLEFT", -20, 0)
 		f.bank:Hide()
 
@@ -44,7 +44,7 @@ function module:OnLogin()
 			Bags = "bankreagent",
 			Movable = true,
 		})
-		f.reagent:SetFilter(onlyReagent, true) 
+		f.reagent:SetFilter(onlyReagent, true)
 		f.reagent:SetPoint("BOTTOMLEFT", f.bank)
 		f.reagent:Hide()
 	end
@@ -113,6 +113,33 @@ function module:OnLogin()
 		if NDuiDB["Bags"]["BagsiLvl"] or NDuiDB["Bags"]["SlotInfo"] then
 			self.iLvl = B.CreateFS(self, 12, "", false, "BOTTOMRIGHT", 0, 0)
 			self.SlotInfo = B.CreateFS(self, 12, "", false, "TOPLEFT", 1, -2)
+		end
+
+		if NDuiDB["Bags"]["NewItemGlow"] then
+			local flash = self:CreateTexture(nil, "ARTWORK")
+			flash:SetTexture(DB.newItemFlash)
+			flash:SetPoint("TOPLEFT", -20, 20)
+			flash:SetPoint("BOTTOMRIGHT", 20, -20)
+			flash:SetBlendMode("ADD")
+			flash:SetAlpha(0)
+			local anim = flash:CreateAnimationGroup()
+			anim:SetLooping("REPEAT")
+			anim.rota = anim:CreateAnimation("Rotation")
+			anim.rota:SetDuration(1)
+			anim.rota:SetDegrees(-90)
+			anim.fader = anim:CreateAnimation("Alpha")
+			anim.fader:SetFromAlpha(0)
+			anim.fader:SetToAlpha(.8)
+			anim.fader:SetDuration(.5)
+			anim.fader:SetSmoothing("OUT")
+			anim.fader2 = anim:CreateAnimation("Alpha")
+			anim.fader2:SetStartDelay(.5)
+			anim.fader2:SetFromAlpha(.8)
+			anim.fader2:SetToAlpha(0)
+			anim.fader2:SetDuration(.8)
+			anim.fader2:SetSmoothing("OUT")
+
+			self.anim = anim
 		end
 	end
 
@@ -246,7 +273,7 @@ function module:OnLogin()
 			self:SetMovable(true)
 			self:RegisterForClicks("LeftButton")
 			self:SetScript("OnMouseDown", function()
-				self:ClearAllPoints() 
+				self:ClearAllPoints()
 				self:StartMoving()
 			end)
 			self:SetScript("OnMouseUp", self.StopMovingOrSizing)
