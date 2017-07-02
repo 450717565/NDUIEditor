@@ -110,7 +110,7 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 		local itemName, _, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture, itemSellPrice, itemClassID, itemSubClassID = GetItemInfo(itemString)
 		local Enabled = 0
 		local slotText, totalInfo
-		local itemLvl = NDui:GetItemLevel(itemLink, itemRarity)
+		local itemLvl = GetDetailedItemLevelInfo(itemLink)
 		local lootTime = GameTime_GetGameTime(true)
 
 		if itemEquipLoc and string.find(itemEquipLoc, "INVTYPE_") then

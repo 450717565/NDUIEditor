@@ -124,7 +124,7 @@ end
 local function UpdateQuestUnit(self, unit)
 	if not NDuiDB["Nameplate"]["QuestIcon"] or unit == "player" then return end
 	local name, instType, instID = GetInstanceInfo()
-	if name and (instType == "raid" or instID == 8) then return end
+	if name and (instType == "raid" or instID == 8) then self.questIcon:Hide() return end
 
 	local isObjectiveQuest, isProgressQuest
 	local unitTip = _G["NDuiQuestUnitTip"] or CreateFrame("GameTooltip", "NDuiQuestUnitTip", nil, "GameTooltipTemplate")
@@ -367,6 +367,7 @@ end
 local function CreatePlates(self, unit)
 	self.mystyle = "nameplate"
 	if unit:match("nameplate") then
+		local name = GetUnitName(unit) or UNKNOWN
 		self:SetSize(NDuiDB["Nameplate"]["Width"] * 1.4, NDuiDB["Nameplate"]["Height"])
 		self:SetPoint("CENTER", 0, -3)
 
@@ -428,6 +429,7 @@ local function CreatePlates(self, unit)
 		local threatIndicator = CreateFrame("Frame", nil, self)
 		self.ThreatIndicator = threatIndicator
 		self.ThreatIndicator.Override = UpdateThreatColor
+
 	end
 end
 UF.CreatePlates = CreatePlates

@@ -138,8 +138,25 @@ function module:OnLogin()
 			anim.fader2:SetToAlpha(0)
 			anim.fader2:SetDuration(.8)
 			anim.fader2:SetSmoothing("OUT")
+			self:HookScript("OnHide", function() if anim:IsPlaying() then anim:Stop() end end)
 
 			self.anim = anim
+		end
+
+		if NDuiDB["Bags"]["PreferPower"] > 1 then
+			local protect = self:CreateTexture(nil, "ARTWORK")
+			protect:SetTexture("Interface\\PETBATTLES\\DeadPetIcon")
+			protect:SetAllPoints()
+			protect:Hide()
+			self.powerProtect = protect
+		end
+	end
+
+	local function isPowerInWrongSpec()
+		if NDuiDB["Bags"]["PreferPower"] == 1 then return end
+		local spec = GetSpecialization()
+		if spec and spec + 1 ~= NDuiDB["Bags"]["PreferPower"] then
+			return true
 		end
 	end
 
@@ -186,7 +203,7 @@ function module:OnLogin()
 			and ((item.level and item.level > 0) and (item.subType == EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC or (item.equipLoc ~= "" and item.equipLoc ~= "INVTYPE_TABARD" and item.equipLoc ~= "INVTYPE_BODY")))
 			or ((item.classID and item.classID == 15) and (item.subclassID and item.subclassID == 2 ))
 			or ((item.classID and item.classID == 15) and (item.subclassID and item.subclassID == 5 )) then
-				local level = NDui:GetItemLevel(link, rarity)
+				local level = GetDetailedItemLevelInfo(item.link)
 				local itemID, itemType, itemSubType, itemEquipLoc, iconFileDataID, itemClassID, itemSubClassID = GetItemInfoInstant(link)
 				if NDuiDB["Bags"]["BagsiLvl"] then
 					self.iLvl:SetText(level)
@@ -216,6 +233,14 @@ function module:OnLogin()
 					end
 					self.SlotInfo:SetText(slotText)
 				end
+			end
+		end
+
+		if NDuiDB["Bags"]["PreferPower"] > 1 then
+			if isPowerInWrongSpec() and item.link and IsArtifactPowerItem(item.link) then
+				self.powerProtect:Show()
+			else
+				self.powerProtect:Hide()
 			end
 		end
 	end

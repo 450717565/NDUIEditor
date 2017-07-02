@@ -1,0 +1,9 @@
+## Interface: 70200
+## Title: Lib: Latency
+## Notes: A library for transmitting and receiving latency information of players.
+## Author: Funkydude
+## X-Category: Library
+## OptionalDeps: LibStub
+## X-License: CC BY-NC-SA 3.0
+
+LibLatency.lua

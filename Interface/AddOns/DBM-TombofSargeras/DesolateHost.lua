@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1896, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16359 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16382 $"):sub(12, -3))
 mod:SetCreatureID(118460, 118462, 119072)--118460 Engine of Souls, 118462 Soul Queen Dajahna, 119072 The Desolate Host
 mod:SetEncounterID(2054)
 mod:SetZone()
@@ -58,7 +58,7 @@ local warnTorment					= mod:NewStackAnnounce(236548, 3)
 local specWarnSpearofAnguish		= mod:NewSpecialWarningYou(235924, nil, nil, nil, 1, 2)
 local yellSpearofAnguish			= mod:NewFadesYell(235924)
 local specWarnTormentingCries		= mod:NewSpecialWarningYou(238018, nil, nil, nil, 1, 2)
-local yellTormentingCries			= mod:NewYell(238018)
+local yellTormentingCries			= mod:NewShortYell(238018)
 --Spirit Realm
 local specWarnSoulbind				= mod:NewSpecialWarningYou(236459, nil, nil, nil, 3, 2)
 local yellSoulbind					= mod:NewYell(236459)
@@ -315,9 +315,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnSpearofAnguish:Show()
 			voiceSpearofAnguish:Play("runout")
-			yellSpearofAnguish:Schedule(5, 1)
-			yellSpearofAnguish:Schedule(4, 2)
-			yellSpearofAnguish:Schedule(3, 3)
+			yellSpearofAnguish:Countdown(6)
 		end
 	elseif spellId == 238018 then
 		if args:IsPlayer() then
