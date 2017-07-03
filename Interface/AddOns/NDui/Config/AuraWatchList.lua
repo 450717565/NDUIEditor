@@ -63,6 +63,8 @@ C.InternalCD = {
 	List = {
 		--测试
 		--{IntID = 119085, Duration = 300, ItemID =  63206},
+		--萨瓦里卡的杰作
+		--{IntID = 207472, Duration = 30, ItemID = 132444},
 		--塞弗斯的秘密
 		{IntID = 208052, Duration = 30, ItemID = 132452},
 	},
@@ -108,12 +110,16 @@ C.AuraWatchList = {
 				{AuraID = 208888, UnitID = "player"},
 				--石之心
 				{AuraID = 225947, UnitID = "player"},
+				--凯尔萨斯的绝招
+				{AuraID = 209455, UnitID = "player"},
 				--阿克蒙德的重生之恨
 				{AuraID = 235169, UnitID = "player", Value= true},
 				--回转稳定
 				{AuraID = 235712, UnitID = "player", Combat = true},
 				--冷酷之心
 				{AuraID = 235599, UnitID = "player", Combat = true},
+				--萨瓦里卡的杰作
+				{AuraID = 207472, UnitID = "player", Value= true, Combat = true},
 			-->LEG饰品
 				--魔油地狱火机械
 				{AuraID = 238534, UnitID = "player"},
@@ -1500,8 +1506,6 @@ C.AuraWatchList = {
 				{AuraID =     66, UnitID = "player"},
 				--刺骨冰寒
 				{AuraID = 205766, UnitID = "player"},
-				--凯尔萨斯的绝招，抱歉护腕
-				{AuraID = 209455, UnitID = "player"},
 			},
 		},
 		{	Name = "Focus Aura",
@@ -2170,8 +2174,6 @@ C.AuraWatchList = {
 				--延宕狂乱
 				{AuraID = 197937, UnitID = "player"},
 				--虚空形态
-				{AuraID = 194249, UnitID = "player"},
-				--命运多舛
 				{AuraID = 194249, UnitID = "player"},
 				--虚空射线
 				{AuraID = 205372, UnitID = "player"},
