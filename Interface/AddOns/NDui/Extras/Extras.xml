@@ -6,6 +6,7 @@
 	<Script file="BarrelsOEasy.lua"/>
 	<Script file="BetterScoreboard.lua"/>
 	<Script file="Butsu.lua"/>
+	<Script file="ChatAtFriends.lua"/>
 	<Script file="ChatEmote.lua"/>
 	<Script file="ChatLinkLevel.lua"/>
 	<Script file="ConvertRatings.lua"/>
