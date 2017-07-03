@@ -1,6 +1,10 @@
 local _, _, L, _ = unpack(select(2, ...))
 if GetLocale() ~= "zhCN" then return end
 
+L["Arrow Color"] = "箭头颜色"
+L["Cyan"] = "青色"
+L["Green"] = "绿色"
+L["Red"] = "红色"
 L["In Raid"] = "你正在处于团队中，\n\n大部分非团队任务将无法完成！"
 L["Need XP"] = "下一级需要"
 L["Need Trait"] = "下一级需要"

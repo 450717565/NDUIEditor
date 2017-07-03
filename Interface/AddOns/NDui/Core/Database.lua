@@ -16,7 +16,9 @@ DB.TipFont = {GameTooltipText:GetFont(), 14, "OUTLINE"}
 
 -- Textures
 local Media = "Interface\\Addons\\NDui\\Media\\"
-DB.arrowTex = Media.."NeonRedArrow"
+DB.arrowCyanTex = Media.."NeonCyanArrow"
+DB.arrowGreenTex = Media.."NeonGreenArrow"
+DB.arrowRedTex = Media.."NeonRedArrow"
 DB.bgTex = Media.."bgTex"
 DB.glowTex = Media.."glowTex"
 DB.Micro = Media.."MicroMenu\\"
@@ -35,11 +37,11 @@ DB.questTex = "Interface\\BUTTONS\\AdventureGuideMicrobuttonAlert"
 
 DB.TexCoord = {.08, .92, .08, .92}
 DB.textures = {
-    normal		= Media.."ActionBar\\gloss",
-    flash		= Media.."ActionBar\\flash",
-    pushed		= Media.."ActionBar\\pushed",
-    checked		= Media.."ActionBar\\checked",
-    equipped	= Media.."ActionBar\\gloss",
+	normal		= Media.."ActionBar\\gloss",
+	flash		= Media.."ActionBar\\flash",
+	pushed		= Media.."ActionBar\\pushed",
+	checked		= Media.."ActionBar\\checked",
+	equipped	= Media.."ActionBar\\gloss",
 }
 
 DB.LeftButton = " |TInterface\\TUTORIALFRAME\\UI-TUTORIAL-FRAME:14:12:0:-1:512:512:12:66:230:307|t "

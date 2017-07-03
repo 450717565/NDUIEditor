@@ -394,7 +394,15 @@ local function CreatePlates(self, unit)
 		if NDuiDB["Nameplate"]["Arrow"] then
 			local arrow = self:CreateTexture(nil, "OVERLAY")
 			arrow:SetSize(50, 50)
-			arrow:SetTexture(DB.arrowTex)
+
+			if NDuiDB["Settings"]["ArrowColor"] == 1 then
+				arrow:SetTexture(DB.arrowCyanTex)
+			elseif NDuiDB["Settings"]["ArrowColor"] == 2 then
+				arrow:SetTexture(DB.arrowGreenTex)
+			else
+				arrow:SetTexture(DB.arrowRedTex)
+			end
+
 			arrow:SetPoint("BOTTOM", self, "TOP", 0, 14)
 			arrow:Hide()
 			self.targetMark = arrow

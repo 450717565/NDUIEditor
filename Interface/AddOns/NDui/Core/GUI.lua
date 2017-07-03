@@ -178,6 +178,7 @@ local defaultSettings = {
 		SetScale = .8,
 		GUIScale = 1,
 		Format = 2,
+		ArrowColor = 1,
 	},
 	Tutorial = {
 		Complete = false,
@@ -428,6 +429,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{3, "Settings", "GUIScale", L["GUI Scale"], false, {.5, 1.5, 1}},
 		{},--blank
 		{4, "Settings", "Format", L["Numberize"], false, {L["Number Type1"], L["Number Type2"], L["Number Type3"]}},
+		{4, "Settings", "ArrowColor", L["Arrow Color"], true, {L["Cyan"], L["Green"], L["Red"]}},
 	},
 }
 
@@ -572,7 +574,7 @@ local function CreateOption(i)
 				offset = offset + 70
 			end
 			drop:SetSize(200, 30)
-			B.CreateBD(drop, .3)		
+			B.CreateBD(drop, .3)
 			local t = B.CreateFS(drop, 14, data[NDuiDB[key][value]])
 			local b = CreateFrame("Button", nil, drop)
 			b:SetPoint("LEFT", drop, "RIGHT")

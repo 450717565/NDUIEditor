@@ -1,6 +1,10 @@
 local _, _, L, _ = unpack(select(2, ...))
 --if GetLocale() ~= "enUS" then return end
 
+L["Arrow Color"] = "Arrow Color"
+L["Cyan"] = "Cyan"
+L["Green"] = "Green"
+L["Red"] = "Red"
 L["In Raid"] = "You are in the raid, \n\nMost of the party task can not to complete!"
 L["Need XP"] = "Need XP"
 L["Need Trait"] = "Need Trait"
