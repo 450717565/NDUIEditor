@@ -102,12 +102,12 @@ local defaultSettings = {
 		PlayerAura = false,
 		AllAuras = true,
 		maxAuras = 10,
-		AuraSize = 24,
+		AuraSize = 22,
 		FriendlyCC = false,
 		HostileCC = true,
 		TankMode = false,
 		Arrow = true,
-		InsideView = false,
+		InsideView = true,
 		QuestIcon = true,
 		MinAlpha = .7,
 		Distance = 42,
@@ -574,7 +574,7 @@ local function CreateOption(i)
 				offset = offset + 70
 			end
 			drop:SetSize(200, 30)
-			B.CreateBD(drop, .3)
+			B.CreateBD(drop, .3)		
 			local t = B.CreateFS(drop, 14, data[NDuiDB[key][value]])
 			local b = CreateFrame("Button", nil, drop)
 			b:SetPoint("LEFT", drop, "RIGHT")

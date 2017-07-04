@@ -104,6 +104,8 @@ C.AuraWatchList = {
 				--拳手的延时之力
 				{AuraID = 230039, UnitID = "player"},
 			-->LEG橙装
+				--蛇语者之舌
+				{AuraID = 248085, UnitID = "player"},
 				--哨兵视野
 				{AuraID = 208913, UnitID = "player"},
 				--暗影猎手的回复
@@ -121,6 +123,8 @@ C.AuraWatchList = {
 				--萨瓦里卡的杰作
 				{AuraID = 207472, UnitID = "player", Value= true, Combat = true},
 			-->LEG饰品
+				--醒神宝典
+				{AuraID = 243942, UnitID = "player"},
 				--魔油地狱火机械
 				{AuraID = 238534, UnitID = "player"},
 				--血之气息
@@ -1338,6 +1342,10 @@ C.AuraWatchList = {
 				{AuraID = 194407, UnitID = "player"},
 				--正中靶心
 				{AuraID = 204090, UnitID = "player"},
+				--致命瞄准，射击2T20
+				{AuraID = 242243, UnitID = "player"},
+				--精准，射击4T20
+				{AuraID = 246153, UnitID = "player"},
 			},
 		},
 		{	Name = "Focus Aura",
@@ -2711,6 +2719,8 @@ C.AuraWatchList = {
 				{AuraID = 216974, UnitID = "player"},
 				--冷库严冬
 				{AuraID = 196770, UnitID = "player"},
+				--食尸鬼主宰，2T20
+				{AuraID = 246995, UnitID = "player"},
 			},
 		},
 		{	Name = "Focus Aura",

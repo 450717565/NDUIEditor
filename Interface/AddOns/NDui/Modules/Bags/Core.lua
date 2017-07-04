@@ -147,7 +147,7 @@ function module:OnLogin()
 			local protect = self:CreateTexture(nil, "ARTWORK")
 			protect:SetTexture("Interface\\PETBATTLES\\DeadPetIcon")
 			protect:SetAllPoints()
-			protect:Hide()
+			protect:SetAlpha(0)
 			self.powerProtect = protect
 		end
 	end
@@ -238,9 +238,9 @@ function module:OnLogin()
 
 		if NDuiDB["Bags"]["PreferPower"] > 1 then
 			if isPowerInWrongSpec() and item.link and IsArtifactPowerItem(item.link) then
-				self.powerProtect:Show()
+				self.powerProtect:SetAlpha(1)
 			else
-				self.powerProtect:Hide()
+				self.powerProtect:SetAlpha(0)
 			end
 		end
 	end
@@ -298,7 +298,7 @@ function module:OnLogin()
 			self:SetMovable(true)
 			self:RegisterForClicks("LeftButton")
 			self:SetScript("OnMouseDown", function()
-				self:ClearAllPoints()
+				self:ClearAllPoints() 
 				self:StartMoving()
 			end)
 			self:SetScript("OnMouseUp", self.StopMovingOrSizing)

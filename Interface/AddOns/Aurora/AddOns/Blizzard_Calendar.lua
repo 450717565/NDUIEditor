@@ -31,7 +31,7 @@ C.themes["Blizzard_Calendar"] = function()
 		local hl = bu:GetHighlightTexture()
 		hl:SetVertexColor(r, g, b, .2)
 		hl.SetAlpha = F.dummy
-		hl:SetPoint("TOPLEFT", -1, 1)
+		hl:SetPoint("TOPLEFT", 1, -1)
 		hl:SetPoint("BOTTOMRIGHT")
 	end
 
@@ -74,9 +74,10 @@ C.themes["Blizzard_Calendar"] = function()
 	CalendarFilterFrameLeft:Hide()
 	CalendarFilterFrameMiddle:Hide()
 	CalendarFilterFrameRight:Hide()
-		CalendarMassInviteFrameDivider:Hide()
+	CalendarMassInviteFrameDivider:Hide()
 
 	F.SetBD(CalendarFrame, 12, 0, -9, 4)
+
 	F.CreateBD(CalendarViewEventFrame)
 	F.CreateBD(CalendarViewHolidayFrame)
 	F.CreateBD(CalendarViewRaidFrame)
@@ -89,6 +90,19 @@ C.themes["Blizzard_Calendar"] = function()
 	F.CreateBD(CalendarCreateEventDescriptionContainer, .25)
 	F.CreateBD(CalendarEventPickerFrame, .25)
 	F.CreateBD(CalendarMassInviteFrame)
+	
+	F.CreateSD(CalendarViewEventFrame)
+	F.CreateSD(CalendarViewHolidayFrame)
+	F.CreateSD(CalendarViewRaidFrame)
+	F.CreateSD(CalendarCreateEventFrame)
+	F.CreateSD(CalendarClassTotalsButton)
+	F.CreateSD(CalendarTexturePickerFrame)
+	F.CreateSD(CalendarViewEventInviteList)
+	F.CreateSD(CalendarViewEventDescriptionContainer)
+	F.CreateSD(CalendarCreateEventInviteList)
+	F.CreateSD(CalendarCreateEventDescriptionContainer)
+	F.CreateSD(CalendarEventPickerFrame)
+	F.CreateSD(CalendarMassInviteFrame)
 
 	CalendarWeekdaySelectedTexture:SetDesaturated(true)
 	CalendarWeekdaySelectedTexture:SetVertexColor(r, g, b)
@@ -110,7 +124,7 @@ C.themes["Blizzard_Calendar"] = function()
 	for i, class in ipairs(CLASS_SORT_ORDER) do
 		local bu = _G["CalendarClassButton"..i]
 		bu:GetRegions():Hide()
-		F.CreateBG(bu)
+		F.CreateBDFrame(bu)
 
 		local tcoords = CLASS_ICON_TCOORDS[class]
 		local ic = bu:GetNormalTexture()
@@ -122,6 +136,7 @@ C.themes["Blizzard_Calendar"] = function()
 	bd:SetPoint("BOTTOMRIGHT", -19, 0)
 	bd:SetFrameLevel(CalendarFilterFrame:GetFrameLevel()-1)
 	F.CreateBD(bd, 0)
+	F.CreateSD(bd)
 
 	F.CreateGradient(bd)
 
@@ -137,6 +152,7 @@ C.themes["Blizzard_Calendar"] = function()
 		vline:SetWidth(1)
 		vline:SetPoint("TOP", _G["CalendarDayButton"..i], "TOPRIGHT")
 		F.CreateBD(vline)
+		F.CreateSD(vline)
 	end
 	for i = 1, 36, 7 do
 		local hline = CreateFrame("Frame", nil, _G["CalendarDayButton"..i])
@@ -144,6 +160,7 @@ C.themes["Blizzard_Calendar"] = function()
 		hline:SetHeight(1)
 		hline:SetPoint("LEFT", _G["CalendarDayButton"..i], "TOPLEFT")
 		F.CreateBD(hline)
+		F.CreateSD(hline)
 	end
 
 	if not(IsAddOnLoaded("CowTip") or IsAddOnLoaded("TipTac") or IsAddOnLoaded("FreebTip") or IsAddOnLoaded("lolTip") or IsAddOnLoaded("StarTip") or IsAddOnLoaded("TipTop")) then
@@ -156,6 +173,7 @@ C.themes["Blizzard_Calendar"] = function()
 			bg:SetPoint("BOTTOMRIGHT", -1, 2)
 			bg:SetFrameLevel(tooltip:GetFrameLevel()-1)
 			F.CreateBD(bg)
+			F.CreateSD(bg)
 		end
 	end
 
@@ -220,4 +238,7 @@ C.themes["Blizzard_Calendar"] = function()
 	F.ReskinCheck(CalendarCreateEventLockEventCheck)
 
 	CalendarCreateEventDifficultyOptionDropDown:SetWidth(150)
+	
+	CalendarCreateEventIcon:SetTexCoord(.08, .92, .08, .92)
+	F.CreateBDFrame(CalendarCreateEventIcon)
 end

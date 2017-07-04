@@ -57,6 +57,7 @@ C.themes["Blizzard_GuildBankUI"] = function()
 	F.CreateBD(GuildBankPopupFrame)
 	F.CreateSD(GuildBankPopupFrame)
 	F.CreateBD(GuildBankPopupEditBox, .25)
+	F.CreateSD(GuildBankPopupEditBox)
 	GuildBankPopupFrame:SetPoint("TOPLEFT", GuildBankFrame, "TOPRIGHT", 2, -30)
 	GuildBankPopupFrame:SetHeight(525)
 
@@ -106,7 +107,7 @@ C.themes["Blizzard_GuildBankUI"] = function()
 		nt:SetAlpha(0)
 
 		bu:SetCheckedTexture(C.media.checked)
-		F.CreateBG(bu)
+		F.CreateBDFrame(bu)
 
 		local a1, p, a2, x, y = bu:GetPoint()
 		bu:SetPoint(a1, p, a2, x + 1, y)
