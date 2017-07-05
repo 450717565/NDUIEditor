@@ -12,7 +12,7 @@ f:SetScript("OnEvent", function()
 		F.ReskinInput(APIILists.searchBox)
 		F.ReskinScroll(APIIListsSystemListScrollBar)
 
-		local list = {"TitleBackground", "InsetLeftBorder", "InsetRightBorder", "InsetBottomBorder"}
+		local list = {"TitleBackground", "InsetTopBorder", "InsetBottomBorder", "InsetLeftBorder", "InsetRightBorder", "InsetTopLeftCorner", "InsetTopRightCorner", "InsetBotLeftCorner", "InsetBotRightCorner"}
 		for k, v in pairs(list) do
 			_G["APIIListsInsetLeft"..v]:Hide()
 		end

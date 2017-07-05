@@ -105,6 +105,18 @@ function addon:CreateButton(parent, scale)
 		end
 	end
 
+	if IsAddOnLoaded("Aurora") then
+		local F, C = unpack(Aurora)
+		button:SetSize(70, 40)
+		button:SetCheckedTexture("")
+		F.ReskinTab(button)
+		if parent.lastButton then
+			button:SetPoint("TOPLEFT", parent.lastButton, "BOTTOMLEFT", 0, -4)
+		else
+			button:SetPoint("TOPLEFT", parent, "TOPRIGHT", 0, -50)
+		end
+	end
+
 	return button
 end
 
@@ -117,8 +129,15 @@ end
 -- Must return a fontstring
 function addon:CreateNumberFontstring(parentButton)
 	local number = parentButton:CreateFontString(parentButton:GetName().."Number", "OVERLAY", "SystemFont_Shadow_Huge3")
-	number:SetPoint("TOPLEFT", -4, 4)
-	number:SetPoint("BOTTOMRIGHT", 5, -5)
+
+	if IsAddOnLoaded("Aurora") then
+		number:SetPoint("CENTER", 2, -2)
+		number:SetFont(STANDARD_TEXT_FONT, 32, "OUTLINE")
+	else
+		number:SetPoint("TOPLEFT", -4, 4)
+		number:SetPoint("BOTTOMRIGHT", 5, -5)
+	end
+
 	return number
 end
 
@@ -155,35 +174,35 @@ function addon:UpdateButtonsAndTooltips(parentFrame)
 		--     }
 		local tooltip = {{text = button.dungeonName}} -- Set up tooltip data with the dungeon name
 		for i = index, numEncounters + index - 1 do
-      
-            if id == 847 and i == 3 then
+
+			if id == 847 and i == 3 then
 				i = 7
 			end
 
-            if id == 846 and i == 4 then
-                i = 3
-            end
-            if id == 846 and i == 6 then
-                i = 8
-            end
+			if id == 846 and i == 4 then
+				i = 3
+			end
+			if id == 846 and i == 6 then
+				i = 8
+			end
 
-            if id == 848 and i == 7 then
-                i = 4
-            end
-            if id == 848 and i == 8 then
-                i = 6
-            end    
-      
-            if id == 984 and i == 9 then
-                i = 11
-            end
-            if id == 985 and i == 10 then
-                i = 9
-            end
-            if id == 985 and i == 11 then
-                i = 10
-            end
-      
+			if id == 848 and i == 7 then
+				i = 4
+			end
+			if id == 848 and i == 8 then
+				i = 6
+			end
+
+			if id == 984 and i == 9 then
+				i = 11
+			end
+			if id == 985 and i == 10 then
+				i = 9
+			end
+			if id == 985 and i == 11 then
+				i = 10
+			end
+
 			local encounterLine = {}
 			local bossName, _, isDead = GetLFGDungeonEncounterInfo(id, i)
 
@@ -191,23 +210,23 @@ function addon:UpdateButtonsAndTooltips(parentFrame)
 				if ENABLE_COLORBLIND_MODE == "0" then -- TODO: figure out if it's 0/false/null when not set
 					encounterLine.color = {RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b}
 				end
-                if bossName == nil then
-                    bossName = "bossname"
+				if bossName == nil then
+					bossName = "bossname"
 				encounterLine.text = "死亡 - "..bossName
-                else 
+				else
 				    encounterLine.text = "死亡 - "..bossName
-                    numKilled = numKilled + 1
-                end
+					numKilled = numKilled + 1
+				end
 			else
 				if ENABLE_COLORBLIND_MODE == "0" then
 					encounterLine.color = {GREEN_FONT_COLOR.r, GREEN_FONT_COLOR.g, GREEN_FONT_COLOR.b}
 				end
-                if bossName == nil then
-                    bossName = "bossname"
+				if bossName == nil then
+					bossName = "bossname"
 				encounterLine.text = "存活 - "..bossName
-                else 
+				else
 				    encounterLine.text = "存活 - "..bossName
-                end
+				end
 			end
 			table.insert(tooltip, encounterLine)
 		end
@@ -309,17 +328,14 @@ function addon:TextColorGradient(str_percent, ...)
 	if not r2 or not g2 or not b2 then
 		r, g, b = r1, g1, b1
 	else
-		r, g, b = r1 + (r2 - r1) * relperc,
-		          g1 + (g2 - g1) * relperc,
-		          b1 + (b2 - b1) * relperc
+		r, g, b = r1 + (r2 - r1) * relperc, g1 + (g2 - g1) * relperc, b1 + (b2 - b1) * relperc
 	end
 	return format("|cff%02x%02x%02x%%s|r", r * 255, g * 255, b * 255)
 end
 
 -- Use a memoization table so each x/y colorstring is only computed once and then does a simple lookup
 addon.textColorTable = setmetatable({}, {__index = function(t, k)
-	local colorStr = addon:TextColorGradient(k, GREEN_FONT_COLOR.r, GREEN_FONT_COLOR.g, GREEN_FONT_COLOR.b, -- "From" color
-	                                            RED_FONT_COLOR.r,   RED_FONT_COLOR.g,   RED_FONT_COLOR.b)   -- "To" color
+	local colorStr = addon:TextColorGradient(k, GREEN_FONT_COLOR.r, GREEN_FONT_COLOR.g, GREEN_FONT_COLOR.b, RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b)   -- "To" color
 	rawset(t, k, colorStr)
 	return colorStr
 end})
