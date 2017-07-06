@@ -970,6 +970,8 @@ if IsAddOnLoaded("Aurora") then
 	F.ReskinInput(search)
 	F.ReskinCheck(tooltipsearching)
 	F.ReskinScroll(xMerchantScrollFrameScrollBar)
+	xMerchantFrameTop:Hide()
+	xMerchantFrameBottom:Hide()
 	for i=1, 10, 1 do
 		local bu = _G["xMerchantFrame"..i]
 		local ic = bu.icon

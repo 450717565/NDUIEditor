@@ -203,7 +203,7 @@ function module:OnLogin()
 			and ((item.level and item.level > 0) and (item.subType == EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC or (item.equipLoc ~= "" and item.equipLoc ~= "INVTYPE_TABARD" and item.equipLoc ~= "INVTYPE_BODY")))
 			or ((item.classID and item.classID == 15) and (item.subclassID and item.subclassID == 2 ))
 			or ((item.classID and item.classID == 15) and (item.subclassID and item.subclassID == 5 )) then
-				local level = GetDetailedItemLevelInfo(item.link)
+				local level = NDui:GetItemLevel(item.link, rarity)
 				local itemID, itemType, itemSubType, itemEquipLoc, iconFileDataID, itemClassID, itemSubClassID = GetItemInfoInstant(link)
 				if NDuiDB["Bags"]["BagsiLvl"] then
 					self.iLvl:SetText(level)

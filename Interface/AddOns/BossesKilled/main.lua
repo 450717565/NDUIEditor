@@ -106,7 +106,7 @@ function addon:CreateButton(parent, scale)
 	end
 
 	if IsAddOnLoaded("Aurora") then
-		local F, C = unpack(Aurora)
+		local F = unpack(Aurora)
 		button:SetSize(70, 40)
 		button:SetCheckedTexture("")
 		F.ReskinTab(button)
