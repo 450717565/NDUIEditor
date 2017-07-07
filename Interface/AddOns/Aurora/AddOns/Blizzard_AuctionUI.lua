@@ -178,9 +178,9 @@ C.themes["Blizzard_AuctionUI"] = function()
 
 		it:SetNormalTexture("")
 		it:SetPushedTexture("")
-
 		ic:SetTexCoord(.08, .92, .08, .92)
 
+		F.CreateBDFrame(ic)
 		F.CreateBG(it)
 
 		it.IconBorder:SetTexture("")
@@ -216,23 +216,31 @@ C.themes["Blizzard_AuctionUI"] = function()
 		AuctionsItemButton.IconBorder:SetTexture("")
 	end)
 
+	AuctionsItemButton:SetSize(33, 33)
 	F.CreateBD(AuctionsItemButton, .25)
 	F.CreateSD(AuctionsItemButton)
 	local _, AuctionsItemButtonNameFrame = AuctionsItemButton:GetRegions()
 	AuctionsItemButtonNameFrame:Hide()
 
 	F.ReskinClose(AuctionFrameCloseButton, "TOPRIGHT", AuctionFrame, "TOPRIGHT", -4, -14)
-	F.ReskinScroll(BrowseScrollFrameScrollBar)
-	F.ReskinScroll(AuctionsScrollFrameScrollBar)
-	F.ReskinScroll(BrowseFilterScrollFrameScrollBar)
-	F.ReskinDropDown(PriceDropDown)
-	F.ReskinDropDown(DurationDropDown)
 	F.ReskinInput(BrowseName)
 	F.ReskinArrow(BrowsePrevPageButton, "left")
 	F.ReskinArrow(BrowseNextPageButton, "right")
-	F.ReskinCheck(ExactMatchCheckButton)
-	F.ReskinCheck(IsUsableCheckButton)
-	F.ReskinCheck(ShowOnPlayerCheckButton)
+
+	local check = {"ExactMatchCheckButton", "IsUsableCheckButton", "ShowOnPlayerCheckButton"}
+	for c = 1, #check do
+		F.ReskinCheck(_G[check[c]])
+	end
+
+	local drop = {"PriceDropDown", "DurationDropDown"}
+	for d = 1, #drop do
+		F.ReskinDropDown(_G[drop[d]])
+	end
+
+	local scroll = {"BrowseScrollFrameScrollBar", "AuctionsScrollFrameScrollBar", "BrowseFilterScrollFrameScrollBar"}
+	for s = 1, #scroll do
+		F.ReskinScroll(_G[scroll[s]])
+	end
 
 	BrowsePrevPageButton:SetPoint("TOPLEFT", 660, -60)
 	BrowseNextPageButton:SetPoint("TOPRIGHT", 67, -60)
@@ -302,5 +310,62 @@ C.themes["Blizzard_AuctionUI"] = function()
 		iconBorder:SetPoint("TOPLEFT", icon, -1, 1)
 		iconBorder:SetPoint("BOTTOMRIGHT", icon, 1, -1)
 		icon:SetTexCoord(.08, .92, .08, .92)
+	end
+
+	-- AuctionLite
+
+	if IsAddOnLoaded("AuctionLite") then
+		F.ReskinArrow(BuyAdvancedButton, "down")
+		F.ReskinArrow(SellRememberButton, "down")
+		F.ReskinArrow(BuySummaryButton, "left")
+
+		SellBidPriceSilver:SetPoint("LEFT", SellBidPriceGold, "RIGHT", 1, 0)
+		SellBidPriceCopper:SetPoint("LEFT", SellBidPriceSilver, "RIGHT", 1, 0)
+
+		SellBuyoutPriceSilver:SetPoint("LEFT", SellBuyoutPriceGold, "RIGHT", 1, 0)
+		SellBuyoutPriceCopper:SetPoint("LEFT", SellBuyoutPriceSilver, "RIGHT", 1, 0)
+
+		BuyBuyoutButton:ClearAllPoints()
+		BuyBuyoutButton:SetPoint("RIGHT", BuyCancelAuctionButton, "LEFT", -1, 0)
+		BuyBidButton:ClearAllPoints()
+		BuyBidButton:SetPoint("RIGHT", BuyBuyoutButton, "LEFT", -1, 0)
+
+		local sellitemhandler = CreateFrame("Frame")
+		sellitemhandler:RegisterEvent("NEW_AUCTION_UPDATE")
+		sellitemhandler:SetScript("OnEvent", function()
+		local SellItemButtonIconTexture = SellItemButton:GetNormalTexture()
+			if SellItemButtonIconTexture then
+				SellItemButtonIconTexture:SetTexCoord(.08, .92, .08, .92)
+				SellItemButtonIconTexture:SetPoint("TOPLEFT", 1, -1)
+				SellItemButtonIconTexture:SetPoint("BOTTOMRIGHT", -1, 1)
+			end
+		end)
+
+		F.CreateBD(SellItemButton, .25)
+		F.CreateSD(SellItemButton)
+
+		local inputs = {"BuyName", "BuyQuantity", "SellStacks", "SellSize", "SellBidPriceGold", "SellBidPriceSilver", "SellBidPriceCopper", "SellBuyoutPriceGold", "SellBuyoutPriceSilver", "SellBuyoutPriceCopper"}
+		for i = 1, #inputs do
+			F.ReskinInput(_G[inputs[i]])
+		end
+
+		local abuttons = {"BuySearchButton", "BuyScanButton", "BuyBidButton", "BuyBuyoutButton", "BuyCancelAuctionButton", "BuyCancelSearchButton", "SellCreateAuctionButton"}
+		for a = 1, #abuttons do
+			F.Reskin(_G[abuttons[a]])
+		end
+
+		local bbuttons = {"SellShortAuctionButton", "SellMediumAuctionButton", "SellLongAuctionButton", "SellPerItemButton", "SellPerStackButton"}
+		for b = 1, #bbuttons do
+			F.ReskinRadio(_G[bbuttons[b]])
+		end
+
+		local scroll = {"BuyScrollFrame", "SellScrollFrame"}
+		for s = 1, #scroll do
+			F.ReskinScroll(_G[scroll[s].."ScrollBar"])
+			for i = 1, 2 do
+				select(i, _G[scroll[s]]:GetRegions()):Hide()
+			end
+		end
+
 	end
 end

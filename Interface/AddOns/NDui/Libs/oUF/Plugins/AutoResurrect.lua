@@ -47,17 +47,17 @@ local function macroBody(class)
 	if class == "HUNTER" then
 		local combatSpell1 = classList[class].combat1
 		local combatSpell2 = classList[class].combat2
-		body = body.."/cast [combat,help,dead] "..combatSpell1.."; [combat,@mouseover,help,dead] "..combatSpell1.."\n"
-		body = body.."/cast [combat,help,dead] "..combatSpell2.."; [combat,@mouseover,help,dead] "..combatSpell2.."\n"
+		body = body.."/cast [combat,@mouseover,help,dead] "..combatSpell1.."; [combat,help,dead] "..combatSpell1.."\n"
+		body = body.."/cast [combat,@mouseover,help,dead] "..combatSpell2.."; [combat,help,dead] "..combatSpell2.."\n"
 	else
 		local combatSpell = classList[class].combat
 		local oneresSpell = classList[class].oneres
 		local allresSpell = classList[class].allres
 		if combatSpell then
-			body = body.."/cast [combat,help,dead] "..combatSpell.."; [combat,@mouseover,help,dead] "..combatSpell.."\n"
+			body = body.."/cast [combat,@mouseover,help,dead] "..combatSpell.."; [combat,help,dead] "..combatSpell.."\n"
 		else
 			body = body.."/cast [nocombat] "..allresSpell.."\n"
-			body = body.."/cast [nocombat,help,dead] "..oneresSpell.."; [combat,@mouseover,help,dead] "..oneresSpell.."\n"
+			body = body.."/cast [nocombat,@mouseover,help,dead] "..oneresSpell.."; [combat,help,dead] "..oneresSpell.."\n"
 		end
 	end
 
