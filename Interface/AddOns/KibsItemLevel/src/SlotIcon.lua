@@ -11,6 +11,7 @@ function SlotIcon:new(parent)
 
     frame.icon = frame:CreateTexture(nil, "OVERLAY")
     frame.icon:SetAllPoints();
+	-- Aurora Reskin
 	if IsAddOnLoaded("Aurora") then
 		local F = unpack(Aurora)
 		F.ReskinIcon(frame.icon)

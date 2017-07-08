@@ -112,6 +112,7 @@ B.CreateGT = function(f, anchor, text, color)
 	end)
 	f:SetScript("OnLeave", GameTooltip_Hide)
 end
+
 B.CreateAT = function(f, value)
 	f:SetScript("OnEnter", function(self)
 		GameTooltip:SetOwner(self, "ANCHOR_BOTTOM", 0, -5)

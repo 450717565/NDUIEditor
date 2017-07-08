@@ -17,6 +17,7 @@
 	<Script file="NomiCakes.lua"/>
 	<Script file="ParagonReputation.lua"/>
 	<Script file="PvPTab.lua"/>
+	<Script file="Reskins.lua"/>
 	<Script file="Slashin.lua"/>
 	<Script file="StatReport.lua"/>
 	<Script file="TrainAll.lua"/>

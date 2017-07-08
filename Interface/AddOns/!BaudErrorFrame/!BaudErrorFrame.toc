@@ -7,4 +7,3 @@
 ## Version: NDui Mod
 
 BaudErrorFrame.xml
-Reskin.lua

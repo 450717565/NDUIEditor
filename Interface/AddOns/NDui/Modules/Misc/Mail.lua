@@ -239,10 +239,9 @@ function module:Mailbox()
 	-- Aurora Reskin
 	if IsAddOnLoaded("Aurora") then
 		local F = unpack(Aurora)
-		F.Reskin(OpenAllButton1)
-		F.Reskin(OpenAllButton2)
-		F.Reskin(OpenAllButton3)
-		F.Reskin(OpenAllButton4)
+		for i = 1, 4 do
+			F.Reskin(_G["OpenAllButton"..i])
+		end
 	end
 
 	-- Hide Blizz

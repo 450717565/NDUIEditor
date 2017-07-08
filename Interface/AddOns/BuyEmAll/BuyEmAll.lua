@@ -471,12 +471,14 @@ function BuyEmAll:UpdateDisplay()
         
         BuyEmAllCurrencyAmt1:SetText(self.AltNumPurchases * self.AltCurrPrice[1]);
         BuyEmAllCurrency1:SetTexture(self.AltCurrTex[1]);
+		-- Aurora Reskin
 		if self.AltCurrTex[1] and IsAddOnLoaded("Aurora") then
 			local F = unpack(Aurora)
 			F.ReskinIcon(BuyEmAllCurrency1)
 		end
         BuyEmAllCurrencyAmt2:SetText(self.AltNumPurchases * (self.AltCurrPrice[2] or 0));
         BuyEmAllCurrency2:SetTexture(self.AltCurrTex[2]);
+		-- Aurora Reskin
 		if self.AltCurrTex[2] and IsAddOnLoaded("Aurora") then
 			local F = unpack(Aurora)
 			F.ReskinIcon(BuyEmAllCurrency2)
@@ -484,6 +486,7 @@ function BuyEmAll:UpdateDisplay()
         if (self.AltCurrPrice[2] == nil) then BuyEmAllCurrencyAmt2:SetText() end
         BuyEmAllCurrencyAmt3:SetText(self.AltNumPurchases * (self.AltCurrPrice[3] or 0));
         BuyEmAllCurrency3:SetTexture(self.AltCurrTex[3]);
+		-- Aurora Reskin
 		if self.AltCurrTex[3] and IsAddOnLoaded("Aurora") then
 			local F = unpack(Aurora)
 			F.ReskinIcon(BuyEmAllCurrency3)

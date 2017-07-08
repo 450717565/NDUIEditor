@@ -1,12 +1,14 @@
 local L = select(2, ...).L
-if IsAddOnLoaded("163UI_Plugins") then return end
 
-local U1Message = U1Message or function(text, r, g, b, chatFrame)
+local AddMessage = function(text, r, g, b, chatFrame)
     (chatFrame or DEFAULT_CHAT_FRAME):AddMessage(L"|cffcd1a1c[Grievous Helper]|r - "..text, r, g, b);
 end
 
+local DEBUG = false
+	
 do
-    local DEBUG = false
+    GRIEVOUS_HELPER_ENABLED = true
+	
     local debug = DEBUG and print or function() end
     local function findEmptyBagSlots()
         for bag = 0, 4 do
@@ -19,11 +21,10 @@ do
                 end
             end
         end
-        U1Message(L"all bags are full")
+        AddMessage(L"All bags are full")
     end
 
     local function putDownItem(bag)
-
         if bag == 0 then
             PutItemInBackpack()
         else
@@ -42,22 +43,18 @@ do
 
     zbwq:SetAttribute("type", "macro")
 
-    local ENABLE_AUTO_OFF = false
-    local advised = false
-    SlashCmdList["GRIEVOUS_HELPER"] = function()
-        if not ENABLE_AUTO_OFF then
-            U1Message(L"enabled")
-            if not advised and GetLocale() == "zhCN" then
-                U1Message("作者：桂花猫猫-暗影之月")
-                advised = true
-            end
+    local showCurrState = function()
+        if GRIEVOUS_HELPER_ENABLED then
+            AddMessage(L"Enabled")
         else
-            U1Message(L"disabled")
+            AddMessage(L"Disabled")
         end
-        ENABLE_AUTO_OFF = not ENABLE_AUTO_OFF
     end
+    SlashCmdList["GRIEVOUS_HELPER"] = function() GRIEVOUS_HELPER_ENABLED = not GRIEVOUS_HELPER_ENABLED showCurrState() end
     _G["SLASH_GRIEVOUS_HELPER1"] = "/zszs"
     _G["SLASH_GRIEVOUS_HELPER2"] = "/重伤助手"
+    _G["SLASH_GRIEVOUS_HELPER3"] = "/grievoushelper"
+    _G["SLASH_GRIEVOUS_HELPER4"] = "/gh"
 
     local UnitAura = UnitAura
     local debuff1 = GetSpellInfo(240559) --重伤
@@ -67,7 +64,7 @@ do
     end
     local function UnitHasDebuff()
         if DEBUG then
-            return GetHP() < 0.95
+            return GetHP() < 0.9999
         else
             local name, rank, icon, count = UnitAura("player", debuff1, nil, "HARMFUL")
             if name then return true end
@@ -92,7 +89,7 @@ do
                 PickupContainerItem(bag, slot)
                 zbwq.state = 1
                 zbwq:SetAttribute("macrotext", format("/use %d %d", bag, slot))
-                U1Message(L"artifacts taken off")
+                AddMessage(L"Weapons taken off")
                 debug("takeoff", link16, zbwq.bag, zbwq.slot, zbwq:GetAttribute("macrotext"))
 
                 if not zbwq.timer then
@@ -122,11 +119,11 @@ do
     f:RegisterUnitEvent("UNIT_INVENTORY_CHANGED", "player")
     f:SetScript("OnEvent", function(self, event, ...)
         if event == "PLAYER_REGEN_ENABLED" then
-            if ENABLE_AUTO_OFF and UnitHasDebuff() then
+            if GRIEVOUS_HELPER_ENABLED and UnitHasDebuff() then
                 if select(5, GetSpecializationInfo(GetSpecialization())) == "HEALER" then
                     if not f.healder then
                         f.healder = true
-                        U1Message(L"not for healers")
+                        AddMessage(L"Not for healers")
                     end
                     return
                 end
@@ -145,19 +142,32 @@ do
                 --wear back success
                 zbwq.state = 0
                 zbwq.bag = nil
-                U1Message(L"artifacts worn back")
+                AddMessage(L"Weapons worn back")
             elseif zbwq.state == 4 and link16 then
                 zbwq.state = 0
                 zbwq.bag = nil
             end
 
         elseif event == "PLAYER_REGEN_DISABLED" then
-            if ENABLE_AUTO_OFF and not GetInventoryItemLink("player", 16) then
-                U1Message(L"click the button to put on artifacts in combat")
+            if GRIEVOUS_HELPER_ENABLED and not GetInventoryItemLink("player", 16) then
+                AddMessage(L"Click the button to put on weapons in combat")
             end
 
         elseif event == "UNIT_HEALTH" then
             U1_WearBackWeapons()
+        end
+    end)
+
+    --[[------------------------------------------------------------
+    events
+    ---------------------------------------------------------------]]
+    local state_frame = CreateFrame("Frame")
+    state_frame:RegisterEvent("CHALLENGE_MODE_START")
+    state_frame:RegisterEvent("PLAYER_ENTERING_WORLD")
+    state_frame:SetScript("OnEvent", function()
+        local level, affixes, wasEnergized = C_ChallengeMode.GetActiveKeystoneInfo();
+        if DEBUG or (affixes and (affixes[1] == 12 or affixes[2] == 12 or affixes[1] == 11 or affixes[2] == 11)) then
+            showCurrState()
         end
     end)
 end

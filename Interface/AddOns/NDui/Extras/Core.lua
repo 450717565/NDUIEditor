@@ -1,14 +1,5 @@
 local B, C, L, DB = unpack(select(2, ...))
 
---- 修复部分细节没有美化
-if IsAddOnLoaded("Aurora") then
-	local F = unpack(Aurora)
-
-	-- 区域技能按钮
-	local zb = ZoneAbilityFrame.SpellButton
-	F.ReskinIconStyle(zb)
-end
-
 --- 重定义部分函数
 
 BAG_ITEM_QUALITY_COLORS[0] = { r = 0.4, g = 0.4, b = 0.4 }

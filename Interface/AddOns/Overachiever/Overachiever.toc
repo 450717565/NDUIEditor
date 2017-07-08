@@ -33,4 +33,3 @@ GameTip.lua
 Options.lua
 Calendar.lua
 
-Reskin.lua

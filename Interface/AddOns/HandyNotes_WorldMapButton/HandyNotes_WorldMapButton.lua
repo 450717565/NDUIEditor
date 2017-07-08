@@ -84,9 +84,3 @@ if IsAddOnLoaded('HandyNotes') then
 	Frame:RegisterEvent("ADDON_LOADED")
 	Frame:SetScript("OnEvent", DoOnEvent)
 end
-
--- Aurora Reskin
-if IsAddOnLoaded("Aurora") then
-	local F = unpack(Aurora)
-	F.SetBD(HandyNotesWorldMapButton)
-end

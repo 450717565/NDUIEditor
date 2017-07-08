@@ -7,4 +7,3 @@
 ## OptionalDeps: LibStub
 
 LibUIDropDownMenu.xml
-Reskin.lua

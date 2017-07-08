@@ -289,6 +289,7 @@ local function AltCurrencyFrame_Update(item, texture, cost, itemID, currencyName
 		item.count:SetPoint("RIGHT", item.icon, "LEFT", -2, 0)
 	end
 	local iconWidth = 17
+	-- Aurora Reskin
 	if IsAddOnLoaded("Aurora") then
 		if not item.styled then
 			local F = unpack(Aurora)
