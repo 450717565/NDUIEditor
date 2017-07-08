@@ -6,9 +6,9 @@ if IsAddOnLoaded("Aurora") then
 	--F.ReskinClose(BaudAuctionCancelButton)
 
 	BaudAuctionProgressBar:SetPoint("CENTER", 12, -5)
-	BaudAuctionProgressBarBorder:Hide()
 	BaudAuctionProgressBarIcon:SetTexCoord(.08, .92, .08, .92)
 	BaudAuctionProgressBarIcon:SetPoint("RIGHT", BaudAuctionProgressBar, "LEFT", -2, 0)
+	BaudAuctionProgressBarBorder:Hide()
 	F.ReskinStatusBar(BaudAuctionProgressBar)
 	F.CreateBDFrame(BaudAuctionProgressBarIcon)
 
