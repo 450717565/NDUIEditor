@@ -62,7 +62,7 @@ if cfg.Friends == true then
 	}
 
 	local function inviteClick(self, arg1, arg2)
-		InviteUnit(arg1)
+		InviteToGroup(arg1)
 		DropDownList1:Hide()
 	end
 
@@ -77,7 +77,7 @@ if cfg.Friends == true then
 	end
 
 	local function HexColor(c)
-		return (c.r and format('|cff%02x%02x%02x', c.r * 255, c.g * 255, c.b * 255))
+		return (c.r and format("|cff%02x%02x%02x", c.r * 255, c.g * 255, c.b * 255))
 	end
 
 	local worldOfWarcraftString = infoL["WoW"]

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1903, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16390 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16432 $"):sub(12, -3))
 mod:SetCreatureID(118523, 118374, 118518)--118523 Huntress kasparian, 118374 Captain Yathae Moonstrike, 118518 Prestess Lunaspyre
 mod:SetEncounterID(2050)
 mod:SetZone()
@@ -59,7 +59,7 @@ local specWarnDiscorporateSwap		= mod:NewSpecialWarningTaunt(236550, nil, nil, n
 local specWarnCallMoontalon			= mod:NewSpecialWarningSwitch(236694, "-Healer", nil, nil, 1, 2)
 local specWarnTwilightVolley		= mod:NewSpecialWarningDodge(236442, nil, nil, nil, 2, 2)
 local yellTwilightVolley			= mod:NewShortYell(236442)
-local specWarnIncorpShot			= mod:NewSpecialWarningMoveAway(236305, nil, nil, nil, 1, 2)
+local specWarnIncorpShot			= mod:NewSpecialWarningYou(236305, nil, nil, nil, 1, 2)
 local yellIncorpShot				= mod:NewYell(236305)
 local specWarnIncorpShotOther		= mod:NewSpecialWarningTarget(236305, nil, nil, nil, 1, 2)
 local specWarnRapidShot				= mod:NewSpecialWarningMoveAway(236596, nil, nil, nil, 1, 2)
@@ -73,15 +73,18 @@ local specWarnLunarFireOther		= mod:NewSpecialWarningTaunt(239264, nil, nil, nil
 local specWarnMoonBurn				= mod:NewSpecialWarningMoveTo(236519, nil, DBM_CORE_AUTO_SPEC_WARN_OPTIONS.you:format(236519), nil, 1, 7)--Add voice filter when it has a voice
 
 --Huntress Kasparian
+mod:AddTimerLine(EJ_GetSectionInfo(14992))
 local timerGlaiveStormCD			= mod:NewNextTimer(54.3, 239379, nil, nil, nil, 3)--Moon change special (but also used while inactive?)
 local timerTwilightGlaiveCD			= mod:NewCDTimer(31, 237561, nil, nil, nil, 3)
 local timerMoonGlaiveCD				= mod:NewCDTimer(13.4, 236547, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--13.4-30 second variation, have fun with that
 --Captain Yathae Moonstrike
+mod:AddTimerLine(EJ_GetSectionInfo(14994))
 local timerIncorporealShotCD		= mod:NewNextTimer(54.3, 236305, nil, nil, nil, 3)--Moon change special (but also used while inactive?)
 local timerCallMoontalonCD			= mod:NewCDTimer(31, 236694, nil, nil, nil, 1)
 local timerTwilightVolleyCD			= mod:NewCDTimer(15.8, 236442, nil, nil, nil, 2)--Cast while inactive.
 local timerRapidShotCD				= mod:NewCDTimer(18.2, 236596, nil, nil, nil, 3)--18.2 but sometimes 30
 --Priestess Lunaspyre
+mod:AddTimerLine(EJ_GetSectionInfo(14997))
 local timerEmbraceofEclipseCD		= mod:NewNextTimer(54.3, 233264, nil, nil, nil, 5, nil, DBM_CORE_HEALER_ICON..DBM_CORE_DAMAGE_ICON)--Moon change special (but also used while inactive in phase 1)
 local timerLunarBeaconCD			= mod:NewCDTimer(31, 236712, nil, nil, nil, 3)
 local timerLunarFireCD				= mod:NewCDTimer(11, 239264, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
@@ -211,7 +214,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnGlaiveStorm:Show()
 		voiceGlaiveStorm:Play("watchstep")
 		timerGlaiveStormCD:Start()
-		if self:AntiSpam(2) then
+		if self:AntiSpam(5, 2) then
 			countdownSpecials:Start()
 		end
 	end
@@ -232,7 +235,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerMoonBurnCD:Start()
 	elseif spellId == 233263 then
 		timerEmbraceofEclipseCD:Start()
-		if self:AntiSpam(2) then
+		if self:AntiSpam(5, 2) then
 			countdownSpecials:Start()
 		end
 	elseif spellId == 236672 then
@@ -292,7 +295,9 @@ function mod:SPELL_AURA_APPLIED(args)
 			warnRapidShot:Show(args.destName)
 		end
 	elseif spellId == 236305 then
-		timerIncorporealShotCD:Start()
+		if self:AntiSpam(5, 3) then
+			timerIncorporealShotCD:Start()
+		end
 		if args:IsPlayer() then
 			specWarnIncorpShot:Show()
 			voiceIncorpShot:Play("targetyou")
@@ -304,7 +309,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.SetIconOnIncorpShot then
 			self:SetIcon(args.destName, 1)
 		end
-		if self:AntiSpam(2) then
+		if self:AntiSpam(5, 2) then
 			countdownSpecials:Start()
 		end
 	elseif spellId == 233264 then--Dpser Embrace of the Eclipse

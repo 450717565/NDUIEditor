@@ -1,4 +1,4 @@
-## Interface: 70200
+## Interface: 70300
 ## X-Min-Interface: 70300
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Antorus, the Burning Throne|r
 ## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Antorus, der Brennende Thron|r
@@ -16,6 +16,7 @@
 ## X-DBM-Mod-MapID: 1712
 ## X-DBM-Mod-MinCoreRevision: 14737
 localization.en.lua
+localization.cn.lua
 localization.de.lua
 localization.kr.lua
 Garothi.lua

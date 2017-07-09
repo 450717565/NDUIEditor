@@ -59,7 +59,7 @@ DBM_CORE_COMBAT_STATE_RECOVERED		= "%s was engaged %s ago, recovering timers..."
 DBM_CORE_TRANSCRIPTOR_LOG_START		= "Transcriptor logging started."
 DBM_CORE_TRANSCRIPTOR_LOG_END		= "Transcriptor logging ended."
 
-DBM_CORE_MOVIE_SKIPPED				= "A cut scene has automatically been skipped."
+DBM_CORE_MOVIE_SKIPPED				= "DBM has attempted to skip a cut scene automatically."
 
 DBM_CORE_AFK_WARNING				= "You are AFK and in combat (%d percent health remaining), firing sound alert. If you are not AFK, clear your AFK flag or disable this option in 'extra features'."
 
@@ -255,6 +255,10 @@ DBM_CORE_RIGHT						= "Right"
 DBM_CORE_BACK						= "Back"--BACK
 DBM_CORE_MIDDLE						= "Middle"
 DBM_CORE_FRONT						= "Front"
+DBM_CORE_EAST						= "East"
+DBM_CORE_WEST						= "West"
+DBM_CORE_NORTH						= "North"
+DBM_CORE_SOUTH						= "South"
 DBM_CORE_INTERMISSION				= "Intermission"--No blizz global for this, and will probably be used in most end tier fights with intermission phases
 DBM_CORE_ORB						= "Orb"
 DBM_CHEST							= "Chest"--As in Treasure 'Chest'. Not Chest as in body part.
@@ -353,7 +357,8 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS = {
 	switch			= "%s - switch targets",
 	switchcount		= "%s - switch targets (%%s)",
 	gtfo			= "Bad under you - move away",
-	Adds			= "Incoming Adds - switch targets"
+	Adds			= "Incoming Adds - switch targets",
+	Addscustom	= "Incoming Adds - %s"
 }
 
 -- Auto-generated Special Warning Localizations
@@ -388,7 +393,8 @@ DBM_CORE_AUTO_SPEC_WARN_OPTIONS = {
 	switch			= "Show special warning to switch targets for $spell:%s",
 	switchcount		= "Show special warning (with count) to switch targets for $spell:%s",
 	gtfo 			= "Show special warning to move out bad stuff on ground",
-	Adds			= "Show special warning to switch targets for incoming adds"
+	Adds			= "Show special warning to switch targets for incoming adds",
+	Addscustom		= "Show special warning for incoming adds"
 }
 
 -- Auto-generated Timer Localizations
@@ -410,6 +416,7 @@ DBM_CORE_AUTO_TIMER_TEXTS = {
 	achievement	= "%s",
 	phase		= "Next Phase",
 	adds		= "Next Incoming Adds",
+	addscustom	= "Incoming Adds (%s)",
 	roleplay	= GUILD_INTEREST_RP
 }
 
@@ -431,6 +438,7 @@ DBM_CORE_AUTO_TIMER_OPTIONS = {
 	achievement	= "Show timer for %s",
 	phase		= "Show timer for next phase",
 	adds		= "Show timer for incoming adds",
+	addscustom	= "Show timer for incoming adds",
 	roleplay	= "Show timer for roleplay duration"--This does need localizing though.
 }
 
@@ -451,7 +459,7 @@ DBM_CORE_AUTO_YELL_OPTION_TEXT = {
 	shortyell	= "Yell when you are affected by $spell:%s",
 	yell		= "Yell (with player name) when you are affected by $spell:%s",
 	count		= "Yell (with count) when you are affected by $spell:%s",
-	fade		= "Yell (with countdown & spell name) when $spell:%s is fading",
+	fade		= "Yell (with countdown and spell name) when $spell:%s is fading",
 	shortfade	= "Yell (with countdown) when $spell:%s is fading",
 	position	= "Yell (with position) when you are affected by $spell:%s"
 }
@@ -460,7 +468,7 @@ DBM_CORE_AUTO_YELL_ANNOUNCE_TEXT = {
 	yell		= "%s on " .. UnitName("player") .. "!",
 	count		= "%s on " .. UnitName("player") .. "! (%%d)",
 	fade		= "%s fading in %%d",
-	shortfade	= "%d",
+	shortfade	= "%%d",
 	position 	= "%s %%s on {rt%%d}"..UnitName("player").."{rt%%d}"
 }
 DBM_CORE_AUTO_YELL_CUSTOM_POSITION		= "{rt%d} %s {rt%d}"--Doesn't need translating. Has no strings

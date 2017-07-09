@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1873, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16359 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16428 $"):sub(12, -3))
 mod:SetCreatureID(116939)--Maiden of Valor 120437
 mod:SetEncounterID(2038)
 mod:SetZone()
@@ -49,7 +49,7 @@ local warnDarkmark					= mod:NewTargetAnnounce(239739, 3)
 --local warnBlackWinds				= mod:NewSpellAnnounce(239418, 2)
 
 --Stage One: A Slumber Disturbed
-local specWarnTouchofSargerasGround	= mod:NewSpecialWarningSpell(239207, nil, nil, nil, 1, 2)
+local specWarnTouchofSargerasGround	= mod:NewSpecialWarningSpell(239207, "-Tank", nil, 2, 1, 2)
 local specWarnRuptureRealities		= mod:NewSpecialWarningRun(239132, nil, nil, nil, 4, 2)
 local specWarnUnboundChaos			= mod:NewSpecialWarningMoveAway(234059, nil, nil, nil, 1, 2)
 local yellUnboundChaos				= mod:NewYell(234059, nil, false, 2)
@@ -70,16 +70,19 @@ local yellDarkMarkFades				= mod:NewFadesYell(239739)
 local specWarnRainoftheDestroyer	= mod:NewSpecialWarningDodge(240396, nil, nil, nil, 2, 2)
 
 --Stage One: A Slumber Disturbed
+mod:AddTimerLine(SCENARIO_STAGE:format(1))
 local timerTouchofSargerasCD		= mod:NewCDTimer(42, 239207, nil, nil, nil, 3)--42+
 local timerRuptureRealitiesCD		= mod:NewCDTimer(60, 239132, nil, nil, nil, 2)
 local timerUnboundChaosCD			= mod:NewCDTimer(35, 234059, nil, nil, nil, 3)--35-60 (lovely huh?)
 local timerShadowyBladesCD			= mod:NewCDTimer(30, 236571, nil, nil, nil, 3)--30-46
 local timerDesolateCD				= mod:NewCDTimer(11.4, 236494, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
 ----Maiden of Valor
+mod:AddTimerLine(EJ_GetSectionInfo(14713))
 local timerCorruptedMatrixCD		= mod:NewNextTimer(40, 233556, nil, nil, nil, 5)
 local timerCorruptedMatrix			= mod:NewCastTimer(10, 233556, nil, nil, nil, 5)
 local timerTaintedMatrixCD			= mod:NewCastTimer(10, 240623, nil, nil, nil, 6)--Mythic
 --Stage Two: An Avatar Awakened
+mod:AddTimerLine(SCENARIO_STAGE:format(2))
 local timerDarkMarkCD				= mod:NewCDTimer(34, 239739, nil, nil, nil, 3)
 --local timerBlackWindsCD				= mod:NewCDTimer(31, 239418, nil, nil, nil, 3)
 --local timerRainoftheDestroyerCD		= mod:NewCDTimer(44, 240396, nil, nil, nil, 3)
@@ -91,7 +94,7 @@ local countdownRuptureRealities		= mod:NewCountdown(60, 239132)
 local countdownCorruptedMatrix		= mod:NewCountdown("Alt40", 233556)
 
 --Stage One: A Slumber Disturbed
-local voiceTouchofSargerasGround	= mod:NewVoice(239207)--helpsoak
+local voiceTouchofSargerasGround	= mod:NewVoice(239207, "-Tank", nil, 2)--helpsoak
 local voiceRuptureRealities			= mod:NewVoice(239132)--justrun
 local voiceUnboundChaos				= mod:NewVoice(234059)--runout/keepmove
 local voiceShadowyBlades			= mod:NewVoice(236571)--scatter
@@ -218,8 +221,8 @@ function mod:OnCombatStart(delay)
 	timerDesolateCD:Start(13-delay)--13
 	if not self:IsEasy() then
 		showTouchofSarg = true
-		timerTouchofSargerasCD:Start(14.9-delay)--15.5
-		self:Schedule(14.9, setabilityStatus, self, 239207, 0)--Touch of Sargeras
+		timerTouchofSargerasCD:Start(14.5-delay)
+		self:Schedule(14.5, setabilityStatus, self, 239207, 0)--Touch of Sargeras
 	else
 		showTouchofSarg = false
 	end
@@ -321,11 +324,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnDarkMark:Show()
 			voiceDarkMark:Play("targetyou")
-			local _, _, _, _, _, _, expires = UnitDebuff(args.destName, args.spellName)
+			local _, _, _, _, _, _, expires = UnitDebuff("player", args.spellName)
 			local remaining = expires-GetTime()
-			yellDarkMarkFades:Schedule(remaining-1, 1)
-			yellDarkMarkFades:Schedule(remaining-2, 2)
-			yellDarkMarkFades:Schedule(remaining-3, 3)
+			yellDarkMarkFades:Countdown(remaining)
 		end
 	elseif spellId == 234059 then
 		warnUnboundChaos:CombinedShow(0.3, args.destName)

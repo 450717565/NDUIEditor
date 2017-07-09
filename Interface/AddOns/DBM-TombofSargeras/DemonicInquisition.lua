@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1867, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16386 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16428 $"):sub(12, -3))
 mod:SetCreatureID(116691, 116689)--Belac (116691), Atrigan (116689)
 mod:SetEncounterID(2048)
 mod:SetZone()
@@ -20,6 +20,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_REMOVED 233441 235230 233983 236283 233431",
 --	"SPELL_PERIODIC_DAMAGE",
 --	"SPELL_PERIODIC_MISSED",
+	"UNIT_DIED",
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2",
 	"UNIT_POWER_FREQUENT player"
 )
@@ -61,12 +62,14 @@ local specWarnSoulCorruption		= mod:NewSpecialWarningStack(248713, nil, 10, nil,
 local specWarnTorment				= mod:NewSpecialWarningStack(233104, nil, 75, nil, nil, 1, 6)
 
 --Atrigan
+mod:AddTimerLine(EJ_GetSectionInfo(14645))
 local timerScytheSweepCD			= mod:NewCDTimer(23, 233426, nil, nil, nil, 3)
 local timerCalcifiedQuillsCD		= mod:NewCDTimer(20.2, 233431, nil, nil, nil, 3)--20.2-20.5 unless delayed by scythe, or bone saw
 local timerBoneSawCD				= mod:NewCDTimer(45.4, 233441, nil, nil, nil, 2)
 local timerBoneSaw					= mod:NewBuffActiveTimer(15, 233441, nil, nil, nil, 2)
 --Belac
-local timerEchoingAnguishCD			= mod:NewCDTimer(25.5, 233983, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON)
+mod:AddTimerLine(EJ_GetSectionInfo(14646))
+local timerEchoingAnguishCD			= mod:NewCDTimer(22.9, 233983, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON)
 local timerSuffocatingDarkCD		= mod:NewCDTimer(24, 233894, nil, nil, nil, 3)
 local timerTormentingBurstCD		= mod:NewCDTimer(17.0, 234015, nil, nil, nil, 2)
 local timerFelSquallCD				= mod:NewCDTimer(45.7, 235230, nil, nil, nil, 2)
@@ -101,6 +104,7 @@ mod.vb.burstCount = 0
 mod.vb.scytheCount = 0
 mod.vb.pangCount = 0
 mod.vb.anguishIcon = 1
+mod.vb.SoulsRemaining = 0
 
 local function updateAllAtriganTimers(self, ICD, ignoreBoneSaw)
 	DBM:Debug("updateAllAtriganTimers running", 3)
@@ -164,11 +168,38 @@ local function updateAllBelacTimers(self, ICD, ignoreFelSquall)
 	end
 end
 
+--Tormented Soul
+local updateInfoFrame
+do
+	local TormentedSoul = EJ_GetSectionInfo(14970)
+	local lines = {}
+	local sortedLines = {}
+	local function addLine(key, value)
+		-- sort by insertion order
+		lines[key] = value
+		sortedLines[#sortedLines + 1] = key
+	end
+	updateInfoFrame = function()
+		table.wipe(lines)
+		table.wipe(sortedLines)
+		--Souls Active First
+		addLine(TormentedSoul, mod.vb.SoulsRemaining)
+		for uId in DBM:GetGroupMembers() do
+			local maxPower = UnitPowerMax(uId, 10)
+			if maxPower ~= 0 and not UnitIsDeadOrGhost(uId) and UnitPower(uId, 10) / UnitPowerMax(uId, 10) * 100 >= 5 then
+				addLine(UnitName(uId), UnitPower(uId, 10))
+			end
+		end
+		return lines, sortedLines
+	end
+end
+
 function mod:OnCombatStart(delay)
 	self.vb.burstCount = 0
 	self.vb.scytheCount = 0
 	self.vb.pangCount = 0
 	self.vb.anguishIcon = 1
+	self.vb.SoulsRemaining = 0
 	timerScytheSweepCD:Start(5.2-delay)
 	if not self:IsEasy() then
 		timerCalcifiedQuillsCD:Start(8.5-delay)--8.5-11
@@ -181,7 +212,8 @@ function mod:OnCombatStart(delay)
 	timerFelSquallCD:Start(35-delay)--Always same, at least
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:SetHeader(GetSpellInfo(233104))
-		DBM.InfoFrame:Show(8, "playerpower", 5, ALTERNATE_POWER_INDEX)
+		--DBM.InfoFrame:Show(8, "playerpower", 5, ALTERNATE_POWER_INDEX)
+		DBM.InfoFrame:Show(8, "function", updateInfoFrame)
 	end
 	--https://www.warcraftlogs.com/reports/JgyrYdDCB63kx8Tb#fight=38&type=summary&pins=2%24Off%24%23244F4B%24expression%24ability.id%20%3D%20248671&view=events
 	if not self:IsLFR() then
@@ -340,6 +372,8 @@ function mod:SPELL_AURA_REMOVED(args)
 		if self.Options.SetIconOnQuills then
 			self:SetIcon(args.destName, 0)
 		end
+	elseif spellId == 236283 then--Prison
+		self.vb.SoulsRemaining = self.vb.SoulsRemaining + 1
 	end
 end
 
@@ -358,6 +392,14 @@ do
 		end
 	end
 end
+
+function mod:UNIT_DIED(args)
+	local cid = self:GetCIDFromGUID(args.destGUID)
+	if cid == 117957 then--Tormented Soul
+		self.vb.SoulsRemaining = self.vb.SoulsRemaining - 1
+	end
+end
+
 
 --[[
 function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
