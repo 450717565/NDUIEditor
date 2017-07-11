@@ -1,9 +1,9 @@
 --[[
-	
+
 	xMerchant
 	Copyright (c) 2010-2014, Nils Ruesch
 	All rights reserved.
-	
+
 ]]
 
 local xm = select(2, ...);
@@ -19,7 +19,7 @@ local locale = {
 		["Requires (.+) %((%d+)%)"] = "Benötigt (.+) %((%d+)%)",
 		["Requires (.+)"] = "Benötigt (.+)",
 	},
-	
+
 	frFR = {
 		["To browse item tooltips, too"] = "Chercher aussi dans les bulles d'aide", -- << Thanks to Tchao at WoWInterface
 		["Requires Level (%d+)"] = "Niveau (%d+) requis",
@@ -30,7 +30,7 @@ local locale = {
 		["Requires (.+) %((%d+)%)"] = "(.+) %((%d+)%) requis",
 		["Requires (.+)"] = "Requiert (.+)",
 	},
-	
+
 	esES = {
 		--["To browse item tooltips, too"] = "",					-- Need update!
 		["Requires Level (%d+)"] = "Necesitas ser de nivel (%d+)",	-- Works?
@@ -41,7 +41,7 @@ local locale = {
 		["Requires (.+) %((%d+)%)"] = "Requiere (.+) %((%d+)%)",	-- Works?
 		["Requires (.+)"] = "Requiere (.+)",						-- Works?
 	},
-	
+
 	esMX = {
 		--["To browse item tooltips, too"] = "",					-- Need update!
 		["Requires Level (%d+)"] = "Necesitas ser de nivel (%d+)",	-- Works?
@@ -52,7 +52,7 @@ local locale = {
 		["Requires (.+) %((%d+)%)"] = "Requiere (.+) %((%d+)%)",	-- Works?
 		["Requires (.+)"] = "Requiere (.+)",						-- Works?
 	},
-	
+
 	ruRU = {
 		--["To browse item tooltips, too"] = "",					-- Need update!
 		["Requires Level (%d+)"] = "Требуется уровень: (%d+)",		-- Works?
@@ -61,14 +61,14 @@ local locale = {
 		["Requires (.+) %((%d+)%)"] = "Требуется: (.+) %((%d+)%)",	-- Works?
 		["Requires (.+)"] = "Требуется (.+)",						-- Works?
 	},
-	
+
 	zhCN = {
 		["To browse item tooltips, too"] = "搜索增强：对物品详细提示信息也进行搜索。",	-- by doneykoo@gmail.com
 		["Requires Level (%d+)"] = "需要等级 (%d+)",					-- Works?
 		["Level %d"] = "等级 %d",									-- Works?
-		["Requires .+ %- (.+)"] = "需要 .+ %- (.+)",				
+		["Requires .+ %- (.+)"] = "需要 .+ %- (.+)",
 		["Requires (.+ %- .+)"] = "需要 (.+ %- .+)",				-- Works?
-		["Requires (.+) %- .+"] = "需要 (.+) %- .+",				
+		["Requires (.+) %- .+"] = "需要 (.+) %- .+",
 		["Requires (.+) %((%d+)%)"] = "需要(.+)%((%d+)%)",			-- Works?
 		["Requires (.+)"] = "需要(.+)",								-- Works?
 		["Merchant Item Options"] = "xMerchant设置",
@@ -76,14 +76,14 @@ local locale = {
 		["Item info font size"] = "物品信息字体大小",
 		["Reset Options"] = "重置选项",
 	},
-	
+
 	zhTW = {
 		["To browse item tooltips, too"] = "對物品詳細提示訊息也進行檢索",	-- by doneykoo@gmail.com
 		["Requires Level (%d+)"] = "需要等级 (%d+)",					-- Works?
 		["Level %d"] = "等级 %d",									-- Works?
-		["Requires .+ %- (.+)"] = "需要 .+ %- (.+)",				
+		["Requires .+ %- (.+)"] = "需要 .+ %- (.+)",
 		["Requires (.+ %- .+)"] = "需要 (.+ %- .+)",				-- Works?
-		["Requires (.+) %- .+"] = "需要 (.+) %- .+",				
+		["Requires (.+) %- .+"] = "需要 (.+) %- .+",
 		["Requires (.+) %((%d+)%)"] = "需要(.+)%((%d+)%)",			-- Works?
 		["Requires (.+)"] = "需要(.+)",								-- Works?
 	},

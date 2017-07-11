@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1867, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16428 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16436 $"):sub(12, -3))
 mod:SetCreatureID(116691, 116689)--Belac (116691), Atrigan (116689)
 mod:SetEncounterID(2048)
 mod:SetZone()
@@ -212,8 +212,11 @@ function mod:OnCombatStart(delay)
 	timerFelSquallCD:Start(35-delay)--Always same, at least
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:SetHeader(GetSpellInfo(233104))
-		--DBM.InfoFrame:Show(8, "playerpower", 5, ALTERNATE_POWER_INDEX)
-		DBM.InfoFrame:Show(8, "function", updateInfoFrame)
+		if self:IsMythic() then
+			DBM.InfoFrame:Show(8, "function", updateInfoFrame)
+		else
+			DBM.InfoFrame:Show(8, "playerpower", 5, ALTERNATE_POWER_INDEX)
+		end
 	end
 	--https://www.warcraftlogs.com/reports/JgyrYdDCB63kx8Tb#fight=38&type=summary&pins=2%24Off%24%23244F4B%24expression%24ability.id%20%3D%20248671&view=events
 	if not self:IsLFR() then
@@ -249,14 +252,16 @@ function mod:SPELL_CAST_START(args)
 		if self.vb.pangCount == 4 then
 			self.vb.pangCount = 1
 		end
-		local kickCount = self.vb.pangCount
-		specWarnPangsofGuilt:Show(args.sourceName, kickCount)
-		if kickCount == 1 then
-			voicePangsofGuilt:Play("kick1r")
-		elseif kickCount == 2 then
-			voicePangsofGuilt:Play("kick2r")
-		elseif kickCount == 3 then
-			voicePangsofGuilt:Play("kick3r")
+		if self:CheckInterruptFilter(args.sourceGUID) then
+			local kickCount = self.vb.pangCount
+			specWarnPangsofGuilt:Show(args.sourceName, kickCount)
+			if kickCount == 1 then
+				voicePangsofGuilt:Play("kick1r")
+			elseif kickCount == 2 then
+				voicePangsofGuilt:Play("kick2r")
+			elseif kickCount == 3 then
+				voicePangsofGuilt:Play("kick3r")
+			end
 		end
 	elseif spellId == 233983 then
 		self.vb.anguishIcon = 1

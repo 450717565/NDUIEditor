@@ -144,6 +144,8 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 			totalInfo = itemLvl
 		elseif slotText then
 			totalInfo = slotText
+		else
+			totalInfo = ""
 		end
 
 		if player and Enabled == 1 then

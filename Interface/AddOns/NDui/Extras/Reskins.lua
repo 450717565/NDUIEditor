@@ -11,6 +11,9 @@ if IsAddOnLoaded("Aurora") then
 		zb.Style:Hide()
 		F.ReskinIconStyle(zb)
 
+		-- 特殊任务按钮
+		ExtraQuestButtonArtwork:Hide()
+
 		if IsAddOnLoaded("!BaudErrorFrame") then
 			F.CreateBD(BaudErrorFrame)
 			F.CreateSD(BaudErrorFrame)

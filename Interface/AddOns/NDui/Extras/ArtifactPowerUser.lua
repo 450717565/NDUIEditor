@@ -1,5 +1,7 @@
 local B, C, L, DB = unpack(select(2, ...))
 
+if UnitLevel("player") < 100 then return end
+
 local itemLink, bag, slot
 local Cache = {}
 
