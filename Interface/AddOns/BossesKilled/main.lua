@@ -117,9 +117,9 @@ function addon:CreateButton(parent, scale)
 			button:SetPoint("TOPLEFT", parent, "TOPRIGHT", 0, -50)
 		end
 		local ct = button:GetCheckedTexture()
-		ct:SetColorTexture(1, 1, 1, .5)
 		ct:SetPoint("TOPLEFT", 9, -4)
-		ct:SetPoint("BOTTOMRIGHT", -9, 2)
+		ct:SetPoint("BOTTOMRIGHT", -9, 1)
+		ct:SetColorTexture(1, 1, 1, .5)
 	end
 
 	return button
