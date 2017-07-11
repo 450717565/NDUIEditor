@@ -104,18 +104,22 @@ function addon:CreateButton(parent, scale)
 			break
 		end
 	end
-	
+
 	-- Aurora Reskin
 	if IsAddOnLoaded("Aurora") then
-		local F = unpack(Aurora)
+		local F, C = unpack(Aurora)
 		button:SetSize(70, 40)
-		button:SetCheckedTexture("")
+		button:SetCheckedTexture(C.media.checked)
 		F.ReskinTab(button)
 		if parent.lastButton then
 			button:SetPoint("TOPLEFT", parent.lastButton, "BOTTOMLEFT", 0, -4)
 		else
 			button:SetPoint("TOPLEFT", parent, "TOPRIGHT", 0, -50)
 		end
+		local ct = button:GetCheckedTexture()
+		ct:SetColorTexture(1, 1, 1, .5)
+		ct:SetPoint("TOPLEFT", 9, -4)
+		ct:SetPoint("BOTTOMRIGHT", -9, 2)
 	end
 
 	return button
