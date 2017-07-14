@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1862, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16428 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16453 $"):sub(12, -3))
 mod:SetCreatureID(115844)
 mod:SetEncounterID(2032)
 mod:SetZone()
@@ -127,8 +127,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if self:IsMythic() then
 			--["233272-Shattering Star"] = "pull:34.8, 61.2, 60.4, 60.8, 32.9, 30.5, 29.6, 30.4",
 			if nextCount > 4 then
-				timerShatteringStarCD:Start(29.6, nextCount)
-				countdownShatteringStar:Start(29.6)
+				timerShatteringStarCD:Start(29.2, nextCount)
+				countdownShatteringStar:Start(29.2)
 			else
 				timerShatteringStarCD:Start(60, nextCount)
 				countdownShatteringStar:Start(60)
@@ -241,20 +241,26 @@ end
 --]]
 
 function mod:UNIT_AURA_UNFILTERED(uId)
-	local hasDebuff, _, _, _, _, _, _, _, _, _, spellId = UnitDebuff(uId, crashingComet)
+	local hasDebuff = UnitDebuff(uId, crashingComet)
 	local name = DBM:GetUnitFullName(uId)
-	if hasDebuff and not cometTable[name] and spellId == 232249 then
-		cometTable[name] = true
-		warnCrashingComet:CombinedShow(0.5, name)--Multiple targets in heroic/mythic
-		if UnitIsUnit(uId, "player") then
-			specWarnCrashingComet:Show()
-			voiceCrashingComet:Play("runout")
-			yellCrashingComet:Yell(5)
-			yellCrashingComet:Countdown(5)
-			timerCrashingComet:Start()
-			countdownCrashingComet:Start()
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Show(10, nil, nil, nil, nil, 5)
+	if hasDebuff and not cometTable[name] then--Any version of comet
+		for i = 1, 40 do
+			local spellName, _, _, _, _, _, _, _, _, _, spellId = UnitDebuff(uId, i)
+			if spellId == 232249 then--Correct version of comet
+				cometTable[name] = true
+				warnCrashingComet:CombinedShow(0.5, name)--Multiple targets in heroic/mythic
+				if UnitIsUnit(uId, "player") then
+					specWarnCrashingComet:Show()
+					voiceCrashingComet:Play("runout")
+					yellCrashingComet:Yell(5)
+					yellCrashingComet:Countdown(5)
+					timerCrashingComet:Start()
+					countdownCrashingComet:Start()
+					if self.Options.RangeFrame then
+						DBM.RangeCheck:Show(10, nil, nil, nil, nil, 5)
+					end
+				end
+				break
 			end
 		end
 	end

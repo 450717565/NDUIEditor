@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1861, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16440 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16451 $"):sub(12, -3))
 mod:SetCreatureID(115767)--116328 Vellius, 115795 Abyss Stalker, 116329/116843 Sarukel
 mod:SetEncounterID(2037)
 mod:SetZone()
@@ -303,7 +303,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 		--event still fires in LFR even though mechanic doesn't exist there, so LFR must be filtered for timer
 		table.wipe(hydraIcons)
 		self.vb.hydraShotCount = self.vb.hydraShotCount + 1
-		if self:IsMythic() then
+		if self:IsMythic() or self.vb.phase == 2 then
 			timerHydraShotCD:Start(30, self.vb.hydraShotCount+1)
 			countdownHydraShot:Start(30)
 		else

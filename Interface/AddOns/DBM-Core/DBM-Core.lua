@@ -41,9 +41,9 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 16441 $"):sub(12, -3)),
-	DisplayVersion = "7.2.14 alpha", -- the string that is shown as version
-	ReleaseRevision = 16406 -- the revision of the latest stable version that is available
+	Revision = tonumber(("$Revision: 16454 $"):sub(12, -3)),
+	DisplayVersion = "7.2.15 alpha", -- the string that is shown as version
+	ReleaseRevision = 16445 -- the revision of the latest stable version that is available
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -3766,7 +3766,7 @@ function DBM:LoadMod(mod, force)
 		end
 		return
 	end
-	if InCombatLockdown() and not IsEncounterInProgress() and IsInInstance() and not noDelay then
+	if InCombatLockdown() and not UnitAffectingCombat("player") and not IsEncounterInProgress() and IsInInstance() and not noDelay then
 		self:Debug("LoadMod delayed do to combat")
 		if not loadDelay then--Prevent duplicate DBM_CORE_LOAD_MOD_COMBAT message.
 			self:AddMsg(DBM_CORE_LOAD_MOD_COMBAT:format(tostring(mod.name)))
@@ -3810,7 +3810,7 @@ function DBM:LoadMod(mod, force)
 				C_TimerAfter(15, function() timerRequestInProgress = false end)
 			end
 		end
-		if not InCombatLockdown() then--We loaded in combat because a raid boss was in process, but lets at least delay the garbage collect so at least load mod is half as bad, to do our best to avoid "script ran too long"
+		if not InCombatLockdown() and not UnitAffectingCombat("player") then--We loaded in combat because a raid boss was in process, but lets at least delay the garbage collect so at least load mod is half as bad, to do our best to avoid "script ran too long"
 			collectgarbage("collect")
 		end
 		if loadDelay2 == mod then

@@ -102,7 +102,6 @@ end
 	克洛苏斯给没脑子的助手
 ]]
 function module:BeamTool()
-
 	local f
 	local function KrosusGo()
 		if f then f:Show() return end
@@ -186,4 +185,37 @@ function module:SwapingAlert()
 			SendChatMessage(format(L["Swapblaster"], sourceName, destName, itemLink or name), IsPartyLFG() and "INSTANCE_CHAT" or IsInRaid() and "RAID" or "PARTY")
 		end
 	end)
+end
+
+--[[
+	NDui版本过期提示
+]]
+function module:VersionCheck()
+	if not NDuiDB["Settings"]["VersionCheck"] then return end
+
+	NDui:EventFrame("CHAT_MSG_ADDON"):SetScript("OnEvent", function(self, event, ...)
+		local prefix, msg, distType, sender = ...
+		if distType ~= "GUILD" then return end
+
+		if prefix == "NDuiVersionCheck" then
+			if not NDuiADB["DetectVersion"] then NDuiADB["DetectVersion"] = DB.Version end
+			local a1, a2, a3 = string.split(".", msg)
+			local c1, c2, c3 = string.split(".", NDuiADB["DetectVersion"])
+			if a1 > c1 or a2 > c2 or a3 > c3 then
+				NDuiADB["DetectVersion"] = msg
+			end
+
+			if not self.checked then
+				local b1, b2, b3 = string.split(".", DB.Version)
+				if c1 > b1 or c2 > b2 then
+					print(format(L["Outdated NDui"], NDuiADB["DetectVersion"]))
+				elseif c1 < b1 or c2 < b2 then
+					SendAddonMessage("NDuiVersionCheck", DB.Version, "GUILD")
+				end
+				self.checked = true
+			end
+		end
+	end)
+	RegisterAddonMessagePrefix("NDuiVersionCheck")
+	SendAddonMessage("NDuiVersionCheck", DB.Version, "GUILD")
 end

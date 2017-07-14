@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1896, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16439 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16451 $"):sub(12, -3))
 mod:SetCreatureID(118460, 118462, 119072)--118460 Engine of Souls, 118462 Soul Queen Dajahna, 119072 The Desolate Host
 mod:SetEncounterID(2054)
 mod:SetZone()
@@ -14,7 +14,7 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 238570 235927 236542 236544 236072",
-	"SPELL_CAST_SUCCESS 236449 235933 236131 235969 236542 236544",
+	"SPELL_CAST_SUCCESS 236449 236131 235969 236542 236544",
 	"SPELL_AURA_APPLIED 236459 235924 238018 236513 236138 236131 235969 236515 236361 239923 236548 235732",
 	"SPELL_AURA_APPLIED_DOSE 236548 236515",
 	"SPELL_AURA_REMOVED 236459 235924 236513 235969 235732 236072 238570",
@@ -271,7 +271,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 				--["236449-Soulbind"] = "pull:12.5, 25.4, 94.7, 26.0, 75.9, 19.1, 20.3",
 				timerSoulbindCD:Start(24, self.vb.soulboundCast+1)
 			else
-				timerSoulbindCD:Start(20, self.vb.soulboundCast+1)
+				timerSoulbindCD:Start(19.6, self.vb.soulboundCast+1)
 			end
 		else
 			if self:IsEasy() then
@@ -281,8 +281,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 				timerSoulbindCD:Start(24, self.vb.soulboundCast+1)
 			end
 		end
-	elseif spellId == 235933 then--Spear of Anquish
-		timerSpearofAnquishCD:Start()
 	elseif spellId == 236542 then--Sundering Doom Finished (doomed sundering, soaked by spirit realm is next)
 		if UnitBuff("player", spiritRealm) or UnitDebuff("player", spiritRealm) then--Figure out which it is
 			specWarnDoomedSunderingTaunt:Show(BOSS)
@@ -318,6 +316,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 235924 then
 		warnSpearofAnguish:CombinedShow(0.3, args.destName)
+		timerSpearofAnquishCD:DelayedStart(0.3)
 		if args:IsPlayer() then
 			specWarnSpearofAnguish:Show()
 			voiceSpearofAnguish:Play("runout")

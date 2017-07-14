@@ -109,7 +109,7 @@ function UF:CreateHealthText(self)
 		self:Tag(name, "[color][name]")
 	end
 
-	local hpval = B.CreateFS(textFrame, retVal(self, 14, 13, 13, 12), "", false, "RIGHT", -3, -1)
+	local hpval = B.CreateFS(textFrame, retVal(self, 14, 13, 13, 14), "", false, "RIGHT", -3, -1)
 	if self.mystyle == "raid" then
 		hpval:SetPoint("RIGHT", -3, -7)
 		if NDuiDB["UFs"]["HealthPerc"] then
@@ -701,7 +701,13 @@ function UF:CreatePrediction(self)
 	hab:SetReverseFill(true)
 	hab:SetStatusBarTexture(DB.normTex)
 	hab:SetStatusBarColor(0, .5, .8, .5)
-	hab:Hide()
+
+	local ohg = self:CreateTexture(nil, "ARTWORK", nil, 1)
+	ohg:SetWidth(15)
+	ohg:SetTexture("Interface\\RaidFrame\\Absorb-Overabsorb")
+	ohg:SetBlendMode("ADD")
+	ohg:SetPoint("TOPRIGHT", self.Health, "TOPLEFT", 5, 2)
+	ohg:SetPoint("BOTTOMRIGHT", self.Health, "BOTTOMLEFT", 5, -2)
 
 	self.HealPredictionAndAbsorb = {
 		myBar = mhpb,
@@ -710,6 +716,7 @@ function UF:CreatePrediction(self)
 		absorbBarOverlay = abbo,
 		overAbsorbGlow = oag,
 		healAbsorbBar = hab,
+		overHealAbsorbGlow = ohg,
 		maxOverflow = 1,
 	}
 end

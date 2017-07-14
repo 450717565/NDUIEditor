@@ -1,8 +1,0 @@
-## Interface: 70200
-## Title: |cff880303[有爱]|r GrievousHelper 重伤助手
-## Notes: 重伤及崩裂时智能摘除武器，提高生存几率
-## SavedVariables: GRIEVOUS_HELPER_ENABLED
-## Author: 桂花猫猫-暗影之月
-
-Locales.lua
-GrievousHelper.lua
