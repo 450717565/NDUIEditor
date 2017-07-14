@@ -123,6 +123,8 @@ C.AuraWatchList = {
 				--萨瓦里卡的杰作
 				{AuraID = 207472, UnitID = "player", Value= true, Combat = true},
 			-->LEG饰品
+				--地狱火契约
+				{AuraID = 225140, UnitID = "player", Value= true},
 				--哀嚎之魂
 				{AuraID = 242609, UnitID = "player", Value= true},
 				--醒神宝典
@@ -2651,11 +2653,10 @@ C.AuraWatchList = {
 			List = {
 			-->鲜血
 				--饮魂者
-				{AuraID = 240558, UnitID = "player"},
+				{AuraID = 240558, UnitID = "player", Value = true},
 				--巨口饿了
 				{AuraID = 215377, UnitID = "player"},
 				--永恒脐带
-				{AuraID = 193249, UnitID = "player"},
 				{AuraID = 193320, UnitID = "player", Value = true},
 				--鲜血镜像
 				{AuraID = 206977, UnitID = "player"},
@@ -2679,6 +2680,8 @@ C.AuraWatchList = {
 				{AuraID =  77535, UnitID = "player", Value = true},
 				--墓石
 				{AuraID = 219809, UnitID = "player", Value = true},
+				--守陵者，2T20
+				{AuraID = 242010, UnitID = "player"},
 			-->冰霜
 				--冰冻灵魂
 				{AuraID = 204957, UnitID = "player"},
