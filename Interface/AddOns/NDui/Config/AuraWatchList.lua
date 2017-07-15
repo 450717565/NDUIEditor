@@ -974,6 +974,8 @@ C.AuraWatchList = {
 				{AuraID = 230259, UnitID = "target", Caster = "player"},
 				--阳光坍缩
 				{AuraID = 225746, UnitID = "target", Caster = "player"},
+				--无魇之饥
+				{AuraID = 242536, UnitID = "target", Caster = "player"},
 			},
 		},
 		{	Name = "Enchant Cooldown",
