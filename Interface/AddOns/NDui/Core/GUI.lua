@@ -69,9 +69,9 @@ local defaultSettings = {
 		RaidScale = 1,
 		HealthPerc = false,
 		NoTooltip = false,
-		CombatText = true,
+		CombatText = false,
 		HotsDots = false,
-		PetCombatText = true,
+		PetCombatText = false,
 	},
 	Chat = {
 		Sticky = true,
