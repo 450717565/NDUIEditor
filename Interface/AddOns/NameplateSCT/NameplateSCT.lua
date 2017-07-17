@@ -49,10 +49,10 @@ local defaults = {
 
 		sizing = {
 			crits = true,
-			critsScale = 1.5,
+			critsScale = 1.25,
 
 			smallHits = true,
-			smallHitsScale = 0.5,
+			smallHitsScale = 0.75,
 		},
 
 		animations = {
@@ -858,12 +858,12 @@ local menu = {
 			type = 'toggle',
 			name = "Disable Blizzard FCT",
 			desc = "",
-			get = function(_, newValue) return GetCVar("floatingCombatTextCombatDamage") == "0" end,
+			get = function(_, newValue) return GetCVar("enableFloatingCombatText") == "0" end,
 			set = function(_, newValue)
 				if (newValue) then
-					SetCVar("floatingCombatTextCombatDamage", "0");
+					SetCVar("enableFloatingCombatText", "0");
 				else
-					SetCVar("floatingCombatTextCombatDamage", "1");
+					SetCVar("enableFloatingCombatText", "1");
 				end
 			end,
 			order = 2,
@@ -1101,7 +1101,7 @@ local menu = {
 					disabled = function() return not NameplateSCT.db.global.enabled or not NameplateSCT.db.global.sizing.crits; end,
 					min = 1,
 					max = 3,
-					step = .1,
+					step = .01,
 					get = function() return NameplateSCT.db.global.sizing.critsScale; end,
 					set = function(_, newValue) NameplateSCT.db.global.sizing.critsScale = newValue; end,
 					order = 2,
@@ -1121,9 +1121,9 @@ local menu = {
 					name = "Small Hits Scale",
 					desc = "",
 					disabled = function() return not NameplateSCT.db.global.enabled or not NameplateSCT.db.global.sizing.smallHits; end,
-					min = 0.2,
-					max = 1,
-					step = .1,
+					min = 0.1,
+					max = 1.0,
+					step = .01,
 					get = function() return NameplateSCT.db.global.sizing.smallHitsScale; end,
 					set = function(_, newValue) NameplateSCT.db.global.sizing.smallHitsScale = newValue; end,
 					order = 11,
