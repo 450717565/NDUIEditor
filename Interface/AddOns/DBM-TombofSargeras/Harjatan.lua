@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1856, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16433 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16465 $"):sub(12, -3))
 mod:SetCreatureID(116407)
 mod:SetEncounterID(2036)
 mod:SetZone()
@@ -124,15 +124,14 @@ function mod:OnCombatStart(delay)
 	countdownUncheckedRage:Start()
 	specWarnUncheckedRage:Schedule(16-delay, 1)
 	voiceUncheckedRage:Schedule(16-delay, "gathershare")
+	timerCommandingRoarCD:Start(17.3-delay)
 	timerDrawInCD:Start(58-delay)
 	if not self:IsEasy() then
-		timerCommandingRoarCD:Start(6.3-delay)
 		if self:IsMythic() then
 			timerHatchingCD:Start(30.5-delay)
 			berserkTimer:Start(360-delay)
 		end
 	else
-		timerCommandingRoarCD:Start(17.3-delay)
 		berserkTimer:Start(480-delay)--Confirm in LFR too?
 	end
 	if self.Options.NPAuraOnSicklyFixate and self:IsMythic() or self.Options.NPAuraOnDrivenAssault then

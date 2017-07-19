@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1903, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16453 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16458 $"):sub(12, -3))
 mod:SetCreatureID(118523, 118374, 118518)--118523 Huntress kasparian, 118374 Captain Yathae Moonstrike, 118518 Prestess Lunaspyre
 mod:SetEncounterID(2050)
 mod:SetZone()
@@ -221,8 +221,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 		voiceCallMoontalon:Play("killbigmob")
 		if self.vb.moonTalonCount == 1 then
 			local remaining = GetTime() - self.vb.pulltime
+			timerCallMoontalonCD:Start(280-remaining)
 		end
-		timerCallMoontalonCD:Start(280-remaining)
 	elseif spellId == 237561 then--^^
 		self.vb.twilightGlaiveCount = self.vb.twilightGlaiveCount + 1
 		--if self.vb.twilightGlaiveCount % 2 == 0 then
@@ -438,9 +438,9 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 		timerEmbraceofEclipseCD:Stop()--Stop phase 2 Special timer
 		timerMoonBurnCD:Stop()
 		timerCallMoontalonCD:Stop()
-		timerTwilightGlaiveCD:Stop()
+		--timerTwilightGlaiveCD:Stop()
 		
-		timerTwilightGlaiveCD:Start(3)
+		--timerTwilightGlaiveCD:Start(3)
 		timerLunarFireCD:Start(6)
 		timerMoonBurnCD:Start(11)
 		timerTwilightVolleyCD:Start(15.8)

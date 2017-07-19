@@ -43,20 +43,12 @@ local function LMFrame_Reset()
 	LMFrame:Hide()
 end
 
-local LMFrame_CloseBtn = CreateFrame("Button", nil, LMFrame)
-B.CreateBD(LMFrame_CloseBtn, 0.3)
-B.CreateBC(LMFrame_CloseBtn)
-B.CreateFS(LMFrame_CloseBtn, 12, "X", true)
+local LMFrame_CloseBtn = B.CreateButton(LMFrame, 20, 20, "X")
 LMFrame_CloseBtn:SetPoint("TOPRIGHT", -10, -8)
-LMFrame_CloseBtn:SetSize(20, 20)
 LMFrame_CloseBtn:SetScript("OnClick", function(self) LMFrame:Hide() end)
 
-local LMFrame_ResetBtn = CreateFrame("Button", nil, LMFrame)
-B.CreateBD(LMFrame_ResetBtn, 0.3)
-B.CreateBC(LMFrame_ResetBtn)
-B.CreateFS(LMFrame_ResetBtn, 12, "重置", true)
+local LMFrame_ResetBtn = B.CreateButton(LMFrame, 60, 20, "重置")
 LMFrame_ResetBtn:SetPoint("BOTTOMRIGHT", -10, 8)
-LMFrame_ResetBtn:SetSize(60, 20)
 LMFrame_ResetBtn:SetScript("OnClick", function(self) LMFrame_Reset() end)
 
 LMFrame:RegisterEvent('PLAYER_LOGIN')

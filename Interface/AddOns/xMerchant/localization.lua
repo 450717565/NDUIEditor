@@ -75,6 +75,8 @@ local locale = {
 		["Item name font size"] = "物品名称字体大小",
 		["Item info font size"] = "物品信息字体大小",
 		["Reset Options"] = "重置选项",
+		["Enable Custom Scroll Amount"] = "启用自定义滚动条目",
+		["Scroll step"] = "滚动条目",
 	},
 
 	zhTW = {

@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(1867, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16448 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16466 $"):sub(12, -3))
 mod:SetCreatureID(116691, 116689)--Belac (116691), Atrigan (116689)
 mod:SetEncounterID(2048)
 mod:SetZone()
 mod:SetBossHPInfoToHighest()
-mod:SetUsedIcons(1, 2, 3, 4)
+mod:SetUsedIcons(1, 2, 3, 5)
 mod:SetHotfixNoticeRev(16282)
 --mod.respawnTime = 29
 
@@ -168,34 +168,6 @@ local function updateAllBelacTimers(self, ICD, ignoreFelSquall)
 	end
 end
 
---[[
---Tormented Soul
-local updateInfoFrame
-do
-	local TormentedSoul = EJ_GetSectionInfo(14970)
-	local lines = {}
-	local sortedLines = {}
-	local function addLine(key, value)
-		-- sort by insertion order
-		lines[key] = value
-		sortedLines[#sortedLines + 1] = key
-	end
-	updateInfoFrame = function()
-		table.wipe(lines)
-		table.wipe(sortedLines)
-		--Souls Active First
-		addLine(TormentedSoul, mod.vb.SoulsRemaining)
-		for uId in DBM:GetGroupMembers() do
-			local maxPower = UnitPowerMax(uId, 10)
-			if maxPower ~= 0 and not UnitIsDeadOrGhost(uId) and UnitPower(uId, 10) / UnitPowerMax(uId, 10) * 100 >= 5 then
-				addLine(UnitName(uId), UnitPower(uId, 10))
-			end
-		end
-		return lines, sortedLines
-	end
-end
---]]
-
 function mod:OnCombatStart(delay)
 	self.vb.burstCount = 0
 	self.vb.scytheCount = 0
@@ -214,11 +186,7 @@ function mod:OnCombatStart(delay)
 	timerFelSquallCD:Start(35-delay)--Always same, at least
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:SetHeader(GetSpellInfo(233104))
-		--if self:IsMythic() then
-			--DBM.InfoFrame:Show(8, "function", updateInfoFrame)
-		--else
-			DBM.InfoFrame:Show(8, "playerpower", 5, ALTERNATE_POWER_INDEX)
-		--end
+		DBM.InfoFrame:Show(8, "playerpower", 5, ALTERNATE_POWER_INDEX)
 	end
 	--https://www.warcraftlogs.com/reports/JgyrYdDCB63kx8Tb#fight=38&type=summary&pins=2%24Off%24%23244F4B%24expression%24ability.id%20%3D%20248671&view=events
 	if not self:IsLFR() then
@@ -305,8 +273,8 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 235230 then
 		--Redundant warnings if still on wrong boss (or tank)
 		if UnitGUID("target") == args.sourceGUID then
-			specWarnFelSquallMelee:Show(args.sourceName)
-			specWarnFelSquallEveryoneElse:Show()
+			specWarnFelSquallMelee:Show()
+			specWarnFelSquallEveryoneElse:Show(args.sourceName)
 			if self:IsMelee() then
 				voiceFelSquall:Play("runout")
 			end
@@ -338,7 +306,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			warnQuills:Show(args.destName)
 		end
 		if self.Options.SetIconOnQuills then
-			self:SetIcon(args.destName, 4)
+			self:SetIcon(args.destName, 5)
 		end
 	elseif spellId == 208802 then
 		local amount = args.amount or 1

@@ -1245,6 +1245,8 @@ C.AuraWatchList = {
 				{AuraID = 227272, UnitID = "player"},
 				--狂轰滥炸
 				{AuraID =  82921, UnitID = "player"},
+				--变色龙守护
+				{AuraID =  61648, UnitID = "player"},
 				--治疗宠物
 				{AuraID =    136, UnitID = "pet"},
 			},

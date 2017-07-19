@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1738, "DBM-EmeraldNightmare", nil, 768)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16092 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16463 $"):sub(12, -3))
 mod:SetCreatureID(105393)
 mod:SetEncounterID(1873)
 mod:SetZone()
@@ -23,8 +23,8 @@ mod:RegisterEventsInCombat(
 	"INSTANCE_ENCOUNTER_ENGAGE_UNIT",
 	"UNIT_DIED",
 	"RAID_BOSS_WHISPER",
-	"CHAT_MSG_RAID_BOSS_EMOTE",
-	"CHAT_MSG_ADDON"
+	"CHAT_MSG_RAID_BOSS_EMOTE"
+--	"CHAT_MSG_ADDON"
 )
 
 --TODO, figure out voice to use for specWarnHeartPhaseBegin
@@ -636,6 +636,19 @@ do
 	end
 end
 
+function mod:OnTranscriptorSync(msg, targetName)
+	if msg:find("spell:208689") and self:AntiSpam(2, targetName) then--Ground Slam
+		targetName = Ambiguate(targetName, "none")
+		if self:CheckNearby(5, targetName) then
+			specWarnGroundSlamNear:Show(targetName)
+			voiceGroundSlam:Play("watchwave")
+		else
+			warnGroundSlam:CombinedShow(1, targetName)
+		end
+	end
+end
+
+--[[
 function mod:CHAT_MSG_ADDON(prefix, msg, channel, targetName)
 	if prefix ~= "Transcriptor" then return end
 	if msg:find("spell:208689") and self:AntiSpam(2, targetName) then--Ground Slam
@@ -648,3 +661,4 @@ function mod:CHAT_MSG_ADDON(prefix, msg, channel, targetName)
 		end
 	end
 end
+--]]

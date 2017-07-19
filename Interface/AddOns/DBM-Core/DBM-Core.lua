@@ -41,7 +41,7 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 16454 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 16466 $"):sub(12, -3)),
 	DisplayVersion = "7.2.15 alpha", -- the string that is shown as version
 	ReleaseRevision = 16445 -- the revision of the latest stable version that is available
 }
@@ -4817,16 +4817,22 @@ do
 				elseif bwPrefix == "Q" then--Version request prefix
 					self:Unschedule(SendVersion)
 					self:Schedule(3, SendVersion)
---[[				elseif bwPrefix == "B" then--Boss Mod Sync
+				elseif bwPrefix == "B" then--Boss Mod Sync
 					for i = 1, #inCombat do
 						local mod = inCombat[i]
-						if mod:OnBWSync then
+						if mod and mod.OnBWSync then
 							mod:OnBWSync(bwMsg, extra)
 						end
-					end--]]
+					end
 				end
 			end
 		elseif prefix == "Transcriptor" and msg then
+			for i = 1, #inCombat do
+				local mod = inCombat[i]
+				if mod and mod.OnTranscriptorSync then
+					mod:OnTranscriptorSync(msg, sender)
+				end
+			end
 			if msg:find("spell:") and (DBM.Options.DebugLevel > 2 or (Transcriptor and Transcriptor:IsLogging())) then
 				local spellId = string.match(msg, "spell:(%d+)") or DBM_CORE_UNKNOWN
 				local spellName = string.match(msg, "h%[(.-)%]|h") or DBM_CORE_UNKNOWN
