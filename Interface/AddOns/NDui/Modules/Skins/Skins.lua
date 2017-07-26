@@ -7,10 +7,7 @@ function module:OnLogin()
 	local basicW = ""
 	local basicH = ""
 
-	if NDuiDB["Actionbar"]["Style"] == 1 then
-		basicW = 350
-		basicH = 94
-	elseif NDuiDB["Actionbar"]["Style"] == 2 then
+	if NDuiDB["Actionbar"]["Style"] == 2 then
 		basicW = 450
 		basicH = 94
 	elseif NDuiDB["Actionbar"]["Style"] == 3 then
@@ -19,6 +16,9 @@ function module:OnLogin()
 	elseif NDuiDB["Actionbar"]["Style"] == 4 then
 		basicW = 250
 		basicH = 130
+	else
+		basicW = 350
+		basicH = 94
 	end
 
 	-- TOPLEFT

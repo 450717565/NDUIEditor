@@ -64,61 +64,68 @@ function UF:CreateRaidDebuffs(self)
 end
 
 local keyList = {
-	[1] = {KEY_BUTTON1, "ALT", "ALT-%s1"},			-- ALT+×ó¼ü
-	[2] = {KEY_BUTTON1, "CTRL", "CTRL-%s1"},		-- CTRL+×ó¼ü
+	[1] = {KEY_BUTTON1, "", "%s1"},					-- å·¦é”®
+	[2] = {KEY_BUTTON1, "ALT", "ALT-%s1"},			-- ALT+å·¦é”®
+	[3] = {KEY_BUTTON1, "CTRL", "CTRL-%s1"},		-- CTRL+å·¦é”®
+	[4] = {KEY_BUTTON1, "SHIFT", "SHIFT-%s1"},		-- SHIFT+å·¦é”®
 
-	[3] = {KEY_BUTTON2, "", "%s2"},					-- ÓÒ¼ü
-	[4] = {KEY_BUTTON2, "ALT", "ALT-%s2"},			-- ALT+ÓÒ¼ü
-	[5] = {KEY_BUTTON2, "CTRL", "CTRL-%s2"},		-- CTRL+ÓÒ¼ü
-	[6] = {KEY_BUTTON2, "SHIFT", "SHIFT-%s2"},		-- SHIFT+ÓÒ¼ü
+	[5] = {KEY_BUTTON2, "", "%s2"},					-- å³é”®
+	[6] = {KEY_BUTTON2, "ALT", "ALT-%s2"},			-- ALT+å³é”®
+	[7] = {KEY_BUTTON2, "CTRL", "CTRL-%s2"},		-- CTRL+å³é”®
+	[8] = {KEY_BUTTON2, "SHIFT", "SHIFT-%s2"},		-- SHIFT+å³é”®
 
-	[7] = {KEY_BUTTON4, "", "%s4"},					-- Êó±ê¼ü4
-	[8] = {KEY_BUTTON4, "ALT", "ALT-%s4"},			-- ALT+Êó±ê¼ü4
-	[9] = {KEY_BUTTON4, "CTRL", "CTRL-%s4"},		-- CTRL+Êó±ê¼ü4
-	[10] = {KEY_BUTTON4, "SHIFT", "SHIFT-%s4"},		-- SHIFT+Êó±ê¼ü4
+	[9] = {KEY_BUTTON3, "", "%s3"},					-- ä¸­é”®
+	[10] = {KEY_BUTTON3, "ALT", "ALT-%s3"},			-- ALT+ä¸­é”®
+	[11] = {KEY_BUTTON3, "CTRL", "CTRL-%s3"},		-- CTRL+ä¸­é”®
+	[12] = {KEY_BUTTON3, "SHIFT", "SHIFT-%s3"},		-- SHIFT+ä¸­é”®
 
-	[11] = {KEY_BUTTON5, "", "%s5"},				-- Êó±ê¼ü5
-	[12] = {KEY_BUTTON5, "ALT", "ALT-%s5"},			-- ALT+Êó±ê¼ü5
-	[13] = {KEY_BUTTON5, "CTRL", "CTRL-%s5"},		-- CTRL+Êó±ê¼ü5
-	[14] = {KEY_BUTTON5, "SHIFT", "SHIFT-%s5"},		-- SHIFT+Êó±ê¼ü5
+	[13] = {KEY_BUTTON4, "", "%s4"},				-- é¼ æ ‡é”®4
+	[14] = {KEY_BUTTON4, "ALT", "ALT-%s4"},			-- ALT+é¼ æ ‡é”®4
+	[15] = {KEY_BUTTON4, "CTRL", "CTRL-%s4"},		-- CTRL+é¼ æ ‡é”®4
+	[16] = {KEY_BUTTON4, "SHIFT", "SHIFT-%s4"},		-- SHIFT+é¼ æ ‡é”®4
+
+	[17] = {KEY_BUTTON5, "", "%s5"},				-- é¼ æ ‡é”®5
+	[18] = {KEY_BUTTON5, "ALT", "ALT-%s5"},			-- ALT+é¼ æ ‡é”®5
+	[19] = {KEY_BUTTON5, "CTRL", "CTRL-%s5"},		-- CTRL+é¼ æ ‡é”®5
+	[20] = {KEY_BUTTON5, "SHIFT", "SHIFT-%s5"},		-- SHIFT+é¼ æ ‡é”®5
 }
 
 local defaultSpellList = {
 	["DRUID"] = {
-		[1] = 88423,		-- ÇıÉ¢
-		[3] = 774,			-- »Ø´ºÊõ
-		[4] = 33763,		-- ÉúÃüÕÀ·Å
+		[2] = 88423,		-- é©±æ•£
+		[5] = 774,			-- å›æ˜¥æœ¯
+		[6] = 33763,		-- ç”Ÿå‘½ç»½æ”¾
 	},
 	["HUNTER"] = {
-		[4] = 34477,		-- Îóµ¼
+		[6] = 34477,		-- è¯¯å¯¼
 	},
 	["ROGUE"] = {
-		[4] = 57934,		-- ¼Ş»ö
+		[6] = 57934,		-- å«ç¥¸
 	},
 	["WARRIOR"] = {
-		[4] = 3411,			-- Ô®»¤
+		[6] = 3411,			-- æ´æŠ¤
 	},
 	["SHAMAN"] = {
-		[1] = 77130,		-- ÇıÉ¢
-		[3] = 61295,		-- ¼¤Á÷
-		[4] = 546,			-- Ë®ÉÏĞĞ×ß
+		[2] = 77130,		-- é©±æ•£
+		[5] = 61295,		-- æ¿€æµ
+		[6] = 546,			-- æ°´ä¸Šè¡Œèµ°
 	},
 	["PALADIN"] = {
-		[1] = 4987,			-- ÇıÉ¢
-		[3] = 20476,		-- ÉñÊ¥Õğ»÷
-		[4] = 1022,			-- ±£»¤×£¸£
+		[2] = 4987,			-- é©±æ•£
+		[5] = 20476,		-- ç¥åœ£éœ‡å‡»
+		[6] = 1022,			-- ä¿æŠ¤ç¥ç¦
 	},
 	["PRIEST"] = {
-		[1] = 527,			-- ÇıÉ¢
-		[3] = 17,			-- ÕæÑÔÊõ¶Ü
-		[4] = 1706,			-- Æ¯¸¡Êõ
+		[2] = 527,			-- é©±æ•£
+		[5] = 17,			-- çœŸè¨€æœ¯ç›¾
+		[6] = 1706,			-- æ¼‚æµ®æœ¯
 	},
 	["MONK"] = {
-		[1] = 115450,		-- ÇıÉ¢
-		[3] = 119611,		-- ¸´ËÕÖ®Îí
+		[2] = 115450,		-- é©±æ•£
+		[5] = 119611,		-- å¤è‹ä¹‹é›¾
 	},
 	["MAGE"] = {
-		[4] = 130,			-- »ºÂä
+		[6] = 130,			-- ç¼“è½
 	},
 	["DEMONHUNTER"] = {
 	},
@@ -142,18 +149,28 @@ local function setupClickSets(self, ...)
 	if not self.clickSets then self.clickSets = {} end
 
 	for _, data in pairs(NDuiDB["RaidClickSets"]) do
-		local key, modKey, spellID = unpack(data)
-		if self.clickSets[modKey..key] then return end
+		local key, modKey, value = unpack(data)
+		if key == KEY_BUTTON1 and modKey == "SHIFT" then self.focuser = true end
 
 		for _, v in pairs(keyList) do
 			if v[1] == key and v[2] == modKey then
-				local name = GetSpellInfo(spellID)
-				self:SetAttribute(format(v[3], "type"), "spell")
-				self:SetAttribute(format(v[3], "spell"), name)
-				self.clickSets[modKey..key] = true
+				if tonumber(value) then
+					local name = GetSpellInfo(value)
+					self:SetAttribute(format(v[3], "type"), "spell")
+					self:SetAttribute(format(v[3], "spell"), name)
+				elseif value == "target" then
+					self:SetAttribute(format(v[3], "type"), "target")
+				elseif value == "focus" then
+					self:SetAttribute(format(v[3], "type"), "focus")
+				elseif value == "follow" then
+					self:SetAttribute(format(v[3], "type"), "macro")
+					self:SetAttribute(format(v[3], "macrotext"), "/follow mouseover")
+				end
 			end
 		end
-	end	
+	end
+	self:RegisterForClicks("AnyDown")
+	self:UnregisterEvent("PLAYER_REGEN_ENABLED")
 end
 
 function UF:CreateClickSets(self)

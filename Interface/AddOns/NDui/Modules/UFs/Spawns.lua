@@ -147,11 +147,9 @@ local function CreateRaidStyle(self)
 	UF:CreateRaidIcons(self)
 	UF:CreatePrediction(self)
 	UF:CreateClickSets(self)
+	UF:CreateRaidDebuffs(self)
 
-	if not NDuiDB["UFs"]["SimpleMode"] then
-		UF:CreateRaidDebuffs(self)
-		UF:CreateBuffs(self)
-	end
+	if not NDuiDB["UFs"]["SimpleMode"] then UF:CreateBuffs(self) end
 end
 
 oUF:RegisterStyle("Player", CreatePlayerStyle)
