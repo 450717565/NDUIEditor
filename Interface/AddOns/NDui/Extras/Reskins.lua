@@ -233,7 +233,7 @@ if IsAddOnLoaded("Aurora") then
 			end
 		end
 
-		if IsAddOnLoaded("LibUIDropDownMenu") then
+		if IsAddOnLoaded("!Libs") then
 			for i = 1, L_UIDROPDOWNMENU_MAXLEVELS do
 				F.CreateBD(_G["L_DropDownList"..i.."MenuBackdrop"])
 				F.CreateSD(_G["L_DropDownList"..i.."MenuBackdrop"])
