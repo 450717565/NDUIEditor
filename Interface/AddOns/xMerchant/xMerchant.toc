@@ -1,5 +1,5 @@
 ## Interface: 70200
-## Title: |cffff00ffNuuh|r|cffffffffMerchant|r
+## Title: |cffff00ffx|r|cffffffffMerchant|r
 ## Notes: Improved Vendor-Interface
 ## Notes-deDE: Verbessertes Haendlerfenster
 ## Author: Nils Ruesch

@@ -535,18 +535,24 @@ local function MerchantUpdate()
 			button.icon:SetTexture(texture);
 
 			UpdateAltCurrency(button, offset, i);
-			if ( extendedCost and price <= 0 ) then
-				button.price = nil;
-				button.extendedCost = true;
-				button.money:SetText("");
-			elseif ( extendedCost and price > 0 ) then
-				button.price = price;
-				button.extendedCost = true;
-				button.money:SetText(GetCoinTextureString(price));
+			if extendedCost then
+				button.extendedCost = true
+				if price <= 0 then
+					button.price = nil
+					button.money:SetText("")
+				else
+					button.price = price
+					button.money:SetText(GetCoinTextureString(price))
+				end
 			else
-				button.price = price;
-				button.extendedCost = nil;
-				button.money:SetText(GetCoinTextureString(price));
+				button.extendedCost = false
+				if price <= 0 then
+					button.price = nil
+					button.money:SetText("")
+				else
+					button.price = price
+					button.money:SetText(GetCoinTextureString(price))
+				end
 			end
 
 			if ( GetMoney() < price ) then

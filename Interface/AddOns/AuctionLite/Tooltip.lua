@@ -68,7 +68,7 @@ function AuctionLite:SetTooltipMoney(tooltip, label, money)
   local numLines = tooltip:NumLines();
   local textName = tooltip:GetName() .. "TextLeft" .. numLines;
   moneyFrame:SetPoint("RIGHT", tooltip, "RIGHT", 0, 0);
-  moneyFrame:SetPoint("TOP", textName, "TOP", 0, -4);
+  moneyFrame:SetPoint("TOP", textName, "TOP", 0, -2);
   moneyFrame:Show();
 
   -- Set the money amount and adjust the width.
@@ -110,7 +110,7 @@ function AuctionLite:AddTooltipLine(tooltip, option, getPrice, label,
       end
     elseif option == "a_yes" then
       -- We have no price info, but the user wants a line anyway.
-      tooltip:AddDoubleLine(label, "|cffffffffn/a|r");
+      tooltip:AddDoubleLine(label, "|cffffffffN/A|r");
     end
   end
 end
