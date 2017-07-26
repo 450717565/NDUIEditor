@@ -107,7 +107,8 @@ function AuctionLite:StartAuctions(bid, buyout, time, size, stacks, name, link)
     self:WaitForQuantity(link, count - (size * stacks));
 
     -- And tell the user what we did.
-    self:Print(L["Created %d |4auction:auctions; of %s x%d (%s total)."]:format(stacks, name, size, self:PrintMoney(stacks * buyout)));
+    self:Print(L["Created %d |4auction:auctions; of %s x%d (%s total)."]:
+               format(stacks, name, size, self:PrintMoney(stacks * buyout)));
   end
 end
 

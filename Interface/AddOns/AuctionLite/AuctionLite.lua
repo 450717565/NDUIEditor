@@ -8,7 +8,10 @@
 -------------------------------------------------------------------------------
 
 -- Create our addon.
-AuctionLite = LibStub("AceAddon-3.0"):NewAddon("AuctionLite", "AceConsole-3.0", "AceEvent-3.0", "AceHook-3.0");
+AuctionLite = LibStub("AceAddon-3.0"):NewAddon("AuctionLite",
+                                               "AceConsole-3.0",
+                                               "AceEvent-3.0",
+                                               "AceHook-3.0");
 
 local _
 local L = LibStub("AceLocale-3.0"):GetLocale("AuctionLite", false)
@@ -23,10 +26,14 @@ local AUCTIONLITE_VERSION = "1.8.16";
 function AuctionLite:ADDON_LOADED(_, name)
   if name == "Blizzard_AuctionUI" then
     self:RawHook("ChatEdit_InsertLink", "ChatEdit_InsertLink_Hook", true);
-    self:SecureHook("ContainerFrameItemButton_OnModifiedClick", "ContainerFrameItemButton_OnModifiedClick_Hook");
-    self:SecureHook("AuctionFrameTab_OnClick", "AuctionFrameTab_OnClick_Hook");
-    self:SecureHook("ClickAuctionSellItemButton", "ClickAuctionSellItemButton_Hook");
-    self:SecureHook("QueryAuctionItems", "QueryAuctionItems_Hook");
+    self:SecureHook("ContainerFrameItemButton_OnModifiedClick",
+                    "ContainerFrameItemButton_OnModifiedClick_Hook");
+    self:SecureHook("AuctionFrameTab_OnClick",
+                    "AuctionFrameTab_OnClick_Hook");
+    self:SecureHook("ClickAuctionSellItemButton",
+                    "ClickAuctionSellItemButton_Hook");
+    self:SecureHook("QueryAuctionItems",
+                    "QueryAuctionItems_Hook");
     self:HookAuctionFrameUpdate();
     self:AddAuctionFrameTabs();
     self:InitializeAuctionDuration();

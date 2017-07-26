@@ -1,13 +1,14 @@
 local mod	= DBM:NewMod(1896, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16451 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16488 $"):sub(12, -3))
 mod:SetCreatureID(118460, 118462, 119072)--118460 Engine of Souls, 118462 Soul Queen Dajahna, 119072 The Desolate Host
 mod:SetEncounterID(2054)
 mod:SetZone()
 mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(3, 4)
 mod:SetHotfixNoticeRev(16286)
+mod:SetMinSyncRevision(16483)
 mod.respawnTime = 40
 
 mod:RegisterCombat("combat")
@@ -48,9 +49,9 @@ local warnRupturingSlam				= mod:NewSpellAnnounce(235927, 3)
 local warnBonecageArmor				= mod:NewTargetAnnounce(236513, 3)
 --Spirit Realm
 local warnSoulbind					= mod:NewTargetAnnounce(236459, 4)
-local warnWither					= mod:NewTargetAnnounce(236138, 3)
+local warnWither					= mod:NewTargetAnnounce(236138, 3, nil, "Healer", 2)
 local warnShatteringScream			= mod:NewTargetAnnounce(235969, 4)--This warning DOES need to be cross phase
-local warnSpiritChains				= mod:NewTargetAnnounce(236361, 3)
+local warnSpiritChains				= mod:NewTargetAnnounce(236361, 3, nil, false, 2)
 --Desolate Host
 local warnTorment					= mod:NewStackAnnounce(236548, 3)
 
@@ -110,8 +111,9 @@ local voiceDoomedSunderin			= mod:NewVoice(236544)--gathershare/justrun
 
 mod:AddSetIconOption("SoulIcon", 236459, true)
 mod:AddInfoFrameOption(235621, true)
-mod:AddRangeFrameOption(8, 235621)
+mod:AddRangeFrameOption(10, 236459)
 mod:AddNamePlateOption("NPAuraOnBonecageArmor", 236513)
+mod:AddBoolOption("IgnoreTemplarOn3Tank", true)
 
 mod.vb.soulboundCast = 0
 mod.vb.spearCast = 0
@@ -120,6 +122,7 @@ mod.vb.tormentedCriesCast = 0
 mod.vb.boneArmorCount = 0
 mod.vb.phase = 1
 mod.vb.soulIcon = 3
+mod.vb.tankCount = 2
 local spiritRealm = GetSpellInfo(235621)
 local boneArmor = GetSpellInfo(236513)
 local doBones = true
@@ -173,11 +176,12 @@ function mod:OnCombatStart(delay)
 	self.vb.boneArmorCount = 0
 	self.vb.phase = 1
 	self.vb.soulIcon = 3
+	self.vb.tankCount = self:GetNumAliveTanks() or 2
 	--timerCollapsingFissureCD:Start(9.7-delay)
 	timerSoulbindCD:Start(14.2-delay, 1)
 	if not self:IsEasy() then
 		doBones = true
-		timerSpearofAnquishCD:Start(22-delay)
+		timerSpearofAnquishCD:Start(20.7-delay)
 		if self:IsMythic() then
 			berserkTimer:Start(480-delay)
 		end
@@ -194,14 +198,8 @@ function mod:OnCombatStart(delay)
 		local name = DBM:GetUnitFullName(uId)
 		if UnitDebuff(uId, spiritRealm) then
 			playersInSpirit[#playersInSpirit+1] = name
-			if UnitIsUnit("player", uId) and self.Options.RangeFrame then
-				DBM.RangeCheck:Show(8, regularFilter)
-			end
 		else
 			playersNotInSpirit[#playersNotInSpirit+1] = name
-			if UnitIsUnit("player", uId) and self.Options.RangeFrame then
-				DBM.RangeCheck:Show(8, spiritFilter)
-			end
 		end
 	end
 	if self.Options.InfoFrame then
@@ -228,7 +226,7 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 238570 then--Tormented Cries
 		self.vb.tormentedCriesCast = self.vb.tormentedCriesCast + 1
 		timerSpearofAnquishCD:Stop()
-	elseif spellId == 235927 then
+	elseif spellId == 235927 and self.vb.tankCount < 3 then
 		warnRupturingSlam:Show()
 		--timerRupturingSlamCD:Start(nil, args.sourceGUID)
 	elseif spellId == 236542 then--Sundering Doom (regular realm soaks)
@@ -256,7 +254,12 @@ function mod:SPELL_CAST_START(args)
 		timerSoulbindCD:Stop()
 		--timerWitherCD:Stop()
 		specWarnWailingSouls:Show(self.vb.wailingSoulsCast)
-		voiceWailingSouls:Play("aesoon")
+		--In normal realm, and boss is above 35%, getting adds
+		if not (UnitBuff("player", spiritRealm) or UnitDebuff("player", spiritRealm)) and UnitHealth("boss1") / UnitHealthMax("boss1") * 100 >= 35 then
+			voiceWailingSouls:Play("killmob")
+		else--Down below, or boss not 35%, not getting adds
+			voiceWailingSouls:Play("aesoon")
+		end
 	end
 end
 
@@ -306,6 +309,9 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnSoulbind:Show()
 			voiceSoulbind:Play("targetyou")
 			yellSoulbind:Yell()
+			if self.Options.RangeFrame then
+				DBM.RangeCheck:Show(10)
+			end
 		end
 		if self.Options.SoulIcon then
 			self:SetIcon(args.destName, self.vb.soulIcon)
@@ -331,10 +337,12 @@ function mod:SPELL_AURA_APPLIED(args)
 			warnTormentingCries:Show(args.destName)
 		end
 	elseif spellId == 236513 then
+		local cid = self:GetCIDFromGUID(args.destGUID)
+		if self.Options.IgnoreTemplarOn3Tank and (cid == 119938 or cid == 118715) and self.vb.tankCount >= 3 then return end--Reanimated templar
 		self.vb.boneArmorCount = self.vb.boneArmorCount + 1
 		warnBonecageArmor:Show(args.destName)
 		if self.Options.NPAuraOnBonecageArmor then
-			DBM.Nameplate:Show(true, args.destGUID, spellId, nil, 60)
+			DBM.Nameplate:Show(true, args.destGUID, spellId)
 		end
 	elseif (spellId ==  236138 or spellId == 236131) then
 		warnWither:CombinedShow(0.3, args.destName)
@@ -352,7 +360,9 @@ function mod:SPELL_AURA_APPLIED(args)
 				voiceShatteringScream:Play("scatter")
 			end
 		end
-		warnShatteringScream:CombinedShow(1, args.destName)
+		if self.vb.boneArmorCount > 0 then
+			warnShatteringScream:CombinedShow(1, args.destName)
+		end
 	elseif spellId == 236515 and args:IsPlayer() then
 		yellShatteringScream:Yell(args.spellName, args.amount or 1)
 	elseif spellId == 236361 or spellId == 239923 then
@@ -377,11 +387,16 @@ function mod:SPELL_AURA_REMOVED(args)
 		if self.Options.SoulIcon then
 			self:SetIcon(args.destName, 0)
 		end
+		if self.Options.RangeFrame and args:IsPlayer() then
+			DBM.RangeCheck:Hide()
+		end
 	elseif spellId == 235924 then
 		if args:IsPlayer() then
 			yellSpearofAnguish:Cancel()
 		end
 	elseif spellId == 236513 then--Bonecage Armor
+		local cid = self:GetCIDFromGUID(args.destGUID)
+		if self.Options.IgnoreTemplarOn3Tank and (cid == 119938 or cid == 118715) and self.vb.tankCount >= 3 then return end--Reanimated templar
 		self.vb.boneArmorCount = self.vb.boneArmorCount - 1
 		if self.Options.NPAuraOnBonecageArmor then
 			DBM.Nameplate:Hide(true, args.destGUID, spellId)
@@ -406,7 +421,7 @@ end
 
 function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
-	if cid == 119938 then--Reanimated templar
+	if cid == 119938 or cid == 118715 then--Reanimated templar
 		--timerRupturingSlamCD:Stop(args.destName)
 --	elseif cid == 119939 then--Ghastly Bonewarden
 	

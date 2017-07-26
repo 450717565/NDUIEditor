@@ -112,8 +112,8 @@ local eventFilter = {
 	["SPELL_DAMAGE"] = {suffix = "DAMAGE", index = 15, iconType = "spell"},
 	["SPELL_PERIODIC_DAMAGE"] = {suffix = "DAMAGE", index = 15, iconType = "spell", isPeriod = true},
 
-	["SPELL_HEAL"] = {suffix = "HEAL", index = 15, iconType = "spell"},
-	["SPELL_PERIODIC_HEAL"] = {suffix = "HEAL", index = 15, iconType = "spell", isPeriod = true},
+	--["SPELL_HEAL"] = {suffix = "HEAL", index = 15, iconType = "spell"},
+	--["SPELL_PERIODIC_HEAL"] = {suffix = "HEAL", index = 15, iconType = "spell", isPeriod = true},
 
 	["SWING_MISSED"] = {suffix = "MISS", index = 12, iconType = "swing"},
 	["RANGE_MISSED"] = {suffix = "MISS", index = 15, iconType = "range"},

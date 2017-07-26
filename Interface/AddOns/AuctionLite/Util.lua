@@ -27,13 +27,14 @@ function AuctionLite:PrintTime(sec)
   return result;
 end
 
---Make a printable string for a given amount of money (in copper).
+-- Make a printable string for a given amount of money (in copper).
 function AuctionLite:PrintMoney(money)
 	local result = ""
 	result = GetMoneyString(money)
 	return result;
 end
---Parse a string representing an amount of money.
+
+-- Parse a string representing an amount of money.
 function AuctionLite:ParseMoney(str)
   -- Remove colors.
   str = str:gsub("|c........", "");
@@ -92,7 +93,8 @@ function AuctionLite:SplitLink(link)
   end
 
   -- Split the item string.
-  local _, id, enchant, jewel1, jewel2, jewel3, jewel4, suffix, unique = strsplit(":", str);
+  local _, id, enchant, jewel1, jewel2, jewel3, jewel4, suffix, unique =
+        strsplit(":", str);
 
   return name, color,
          tonumber(id) or 0, tonumber(suffix) or 0, tonumber(enchant) or 0,

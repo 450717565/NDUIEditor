@@ -84,7 +84,8 @@ function AuctionLite:GeneratePrice(value, allowUndercut)
   -- Find out how to round prices.
   local granularity = 1;
   if self.db.profile.roundPrices > 0 then
-    granularity = math.pow(10, math.floor(math.log10(value))) * self.db.profile.roundPrices;
+    granularity = math.pow(10, math.floor(math.log10(value))) *
+                  self.db.profile.roundPrices;
   end
 
   -- How much do we undercut?
@@ -102,7 +103,8 @@ function AuctionLite:GeneratePrice(value, allowUndercut)
 
   -- Undercut bid and buyout as specified.
   local generate = function(value, undercut, undercutFixed, granularity)
-    return math.max(1, math.floor((value * (1 - undercut)) / granularity) * granularity - undercutFixed);
+    return math.max(1, math.floor((value * (1 - undercut)) / granularity) *
+                       granularity - undercutFixed);
   end
 
   local bid =
@@ -127,14 +129,24 @@ function AuctionLite:ShowPriceData(itemLink, itemValue, stackSize)
   self:Print(L["Vendor: %s"]:format(self:PrintMoney(itemVendor * stackSize)));
 
   if hist ~= nil and hist.scans > 0 and hist.price > 0 then
-    self:Print(L["Historical: %s (%d |4listing:listings;/scan, %d |4item:items;/scan)"]:format(self:PrintMoney(hist.price * stackSize), math.floor(0.5 + hist.listings / hist.scans), math.floor(0.5 + hist.items / hist.scans)));
+    self:Print(L["Historical: %s (%d |4listing:listings;/scan, %d |4item:items;/scan)"]:
+               format(self:PrintMoney(hist.price * stackSize),
+                      math.floor(0.5 + hist.listings / hist.scans),
+                      math.floor(0.5 + hist.items / hist.scans)));
     if itemVendor > 0 then
-      self:Print(L["Current: %s (%.2fx historical, %.2fx vendor)"]:format(self:PrintMoney(stackValue), math.floor(100 * itemValue / hist.price) / 100, math.floor(100 * itemValue / itemVendor) / 100));
+      self:Print(L["Current: %s (%.2fx historical, %.2fx vendor)"]:
+                 format(self:PrintMoney(stackValue),
+                        math.floor(100 * itemValue / hist.price) / 100,
+                        math.floor(100 * itemValue / itemVendor) / 100));
     else
-      self:Print(L["Current: %s (%.2fx historical)"]:format(self:PrintMoney(stackValue), math.floor(100 * itemValue / hist.price) / 100));
+      self:Print(L["Current: %s (%.2fx historical)"]:
+                 format(self:PrintMoney(stackValue),
+                        math.floor(100 * itemValue / hist.price) / 100));
     end
   elseif itemVendor > 0 then
-    self:Print(L["Current: %s (%.2fx vendor)"]:format(self:PrintMoney(stackValue), math.floor(100 * itemValue / itemVendor) / 100));
+    self:Print(L["Current: %s (%.2fx vendor)"]:
+               format(self:PrintMoney(stackValue),
+                      math.floor(100 * itemValue / itemVendor) / 100));
   end
 
   return bid, buyout;
@@ -730,7 +742,8 @@ function AuctionLite:SellRememberButton_OnClick(widget)
     SellRememberDropDown.point = "TOPRIGHT";
     SellRememberDropDown.relativeTo = "SellRememberButton";
     SellRememberDropDown.relativePoint = "BOTTOMRIGHT";
-    ToggleDropDownMenu(1, nil, SellRememberDropDown, "SellRememberButton", 0, 0, menuList);
+    ToggleDropDownMenu(1, nil, SellRememberDropDown,
+                       "SellRememberButton", 0, 0, menuList);
   end
 end
 
@@ -881,7 +894,9 @@ function AuctionLite:AuctionFrameSell_Update()
       end
 
       local name, color, _, _, enchant, jewel1, jewel2, jewel3, jewel4 = self:SplitLink(item.link);
-      local showPlus = enchant ~= 0 or jewel1 ~= 0 or jewel2 ~= 0 or jewel3 ~= 0 or jewel4 ~= 0;
+      local showPlus = enchant ~= 0 or
+                 jewel1 ~= 0 or jewel2 ~= 0 or
+                 jewel3 ~= 0 or jewel4 ~= 0;
 
       local countColor;
       local nameColor;
@@ -900,7 +915,8 @@ function AuctionLite:AuctionFrameSell_Update()
       nameText:SetAlpha(alpha);
 
       if showPlus then
-        plusText:SetPoint("LEFT", nameText, "LEFT", nameText:GetStringWidth(), 0);
+        plusText:SetPoint("LEFT", nameText, "LEFT",
+                          nameText:GetStringWidth(), 0);
         plusText:Show();
       else
         plusText:Hide();
@@ -918,7 +934,8 @@ function AuctionLite:AuctionFrameSell_Update()
     end
   end
 
-  FauxScrollFrame_Update(SellScrollFrame, table.getn(SellData), SELL_DISPLAY_SIZE, SellButton1:GetHeight());
+  FauxScrollFrame_Update(SellScrollFrame, table.getn(SellData),
+                         SELL_DISPLAY_SIZE, SellButton1:GetHeight());
 end
 
 -- Handle clicks on the scroll bar.

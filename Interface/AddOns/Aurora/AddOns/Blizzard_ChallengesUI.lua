@@ -35,6 +35,8 @@ C.themes["Blizzard_ChallengesUI"] = function()
 
 	select(1, ChallengesFrame.GuildBest:GetRegions()):Hide()
 	select(3, ChallengesFrame.GuildBest:GetRegions()):Hide()
+	F.CreateBD(ChallengesFrame.GuildBest, .3)
+	F.CreateSD(ChallengesFrame.GuildBest)
 
 	local angryStyle
 	ChallengesFrame:HookScript("OnShow", function()
@@ -43,7 +45,8 @@ C.themes["Blizzard_ChallengesUI"] = function()
 			if bu and not bu.styled then
 				bu:GetRegions():SetAlpha(0)
 				bu.Icon:SetTexCoord(.08, .92, .08, .92)
-				F.SetBD(bu)
+				F.CreateBD(bu, .3)
+				F.CreateSD(bu)
 				bu.styled = true
 			end
 		end
@@ -53,6 +56,7 @@ C.themes["Blizzard_ChallengesUI"] = function()
 			select(1, scheduel:GetRegions()):SetAlpha(0)
 			select(3, scheduel:GetRegions()):SetAlpha(0)
 			F.CreateBD(scheduel, .3)
+			F.CreateSD(scheduel)
 
 			if scheduel.Entries then
 				for i = 1, 4 do

@@ -748,10 +748,15 @@ function AuctionLite:InitConfig()
   local dialog = LibStub("AceConfigDialog-3.0");
   self.optionFrames = {
     main     = dialog:AddToBlizOptions("AuctionLite Options", L["AuctionLite"]),
-    buy      = dialog:AddToBlizOptions("AuctionLite Buy", L["Buy Tab"], L["AuctionLite"]);
-    sell     = dialog:AddToBlizOptions("AuctionLite Sell", L["Sell Tab"], L["AuctionLite"]);
-    tooltips = dialog:AddToBlizOptions("AuctionLite Tooltips", L["Tooltips"], L["AuctionLite"]);
-    favs     = dialog:AddToBlizOptions("AuctionLite Favorites", L["Favorites"], L["AuctionLite"]);
-    profiles = dialog:AddToBlizOptions("AuctionLite Profiles", L["Profiles"], L["AuctionLite"]);
+    buy      = dialog:AddToBlizOptions("AuctionLite Buy", L["Buy Tab"],
+                                       L["AuctionLite"]);
+    sell     = dialog:AddToBlizOptions("AuctionLite Sell", L["Sell Tab"],
+                                       L["AuctionLite"]);
+    tooltips = dialog:AddToBlizOptions("AuctionLite Tooltips", L["Tooltips"],
+                                       L["AuctionLite"]);
+    favs     = dialog:AddToBlizOptions("AuctionLite Favorites", L["Favorites"],
+                                       L["AuctionLite"]);
+    profiles = dialog:AddToBlizOptions("AuctionLite Profiles", L["Profiles"],
+                                       L["AuctionLite"]);
   };
 end

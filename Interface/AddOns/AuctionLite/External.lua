@@ -44,5 +44,6 @@ end
 -- Implement Tekkub's GetAuctionBuyout.
 local origGetAuctionBuyout = GetAuctionBuyout;
 function GetAuctionBuyout(item)
-  return AuctionLite:GetAuctionValue(item) or (origGetAuctionBuyout and origGetAuctionBuyout(item));
+  return AuctionLite:GetAuctionValue(item) or
+         (origGetAuctionBuyout and origGetAuctionBuyout(item));
 end

@@ -34,6 +34,7 @@ local classList = {
 	["HUNTER"] = {
 		combat1 = GetSpellInfo(126393),		-- 永恒守护者
 		combat2 = GetSpellInfo(159931),		-- 赤精之赐
+		combat3 = GetSpellInfo(159956)
 	},
 	["WARLOCK"] = {
 		combat = GetSpellInfo(20707),		-- 灵魂石
@@ -47,8 +48,10 @@ local function macroBody(class)
 	if class == "HUNTER" then
 		local combatSpell1 = classList[class].combat1
 		local combatSpell2 = classList[class].combat2
+		local combatSpell3 = classList[class].combat2
 		body = body.."/cast [combat,@mouseover,help,dead][combat,help,dead] "..combatSpell1.."\n"
 		body = body.."/cast [combat,@mouseover,help,dead][combat,help,dead] "..combatSpell2.."\n"
+		body = body.."/cast [combat,@mouseover,help,dead][combat,help,dead] "..combatSpell3.."\n"
 	else
 		local combatSpell = classList[class].combat
 		local oneresSpell = classList[class].oneres

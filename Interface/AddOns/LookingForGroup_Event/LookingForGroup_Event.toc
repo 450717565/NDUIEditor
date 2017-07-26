@@ -1,0 +1,9 @@
+## Interface: 70200
+## Author: cqwrteur
+## Title: LookingForGroup Event
+## Version: r280
+## Dependencies: LookingForGroup
+## LoadOnDemand: 1
+
+
+Core.lua

@@ -1,0 +1,20 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+	<Include file="locale\locale.xml"/>
+	<Include file="background\background.xml"/>
+	<Include file="search_results\search_results.xml"/>
+	<Include file="paste\paste.xml"/>
+	<Include file="armory\armory.xml"/>
+	<Include file="ui\ui.xml"/>
+	<Include file="role\role.xml"/>
+	<Include file="find\find.xml"/>
+	<Include file="options\options.xml"/>
+	<Include file="languages\languages.xml"/>
+	<Include file="sf\sf.xml"/>
+	<Include file="rf\rf.xml"/>
+	<Include file="wq\wq.xml"/>
+	<Include file="cr\cr.xml"/>
+	<Include file="av\av.xml"/>
+	<Include file="quick_join\quick_join.xml"/>
+	<Include file="applicant\applicant.xml"/>>
+</Ui>

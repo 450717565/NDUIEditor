@@ -69,9 +69,9 @@ local defaultSettings = {
 		RaidScale = 1,
 		HealthPerc = false,
 		NoTooltip = false,
-		CombatText = false,
+		CombatText = true,
 		HotsDots = false,
-		PetCombatText = false,
+		PetCombatText = true,
 		RaidClickSets = false,
 	},
 	Chat = {

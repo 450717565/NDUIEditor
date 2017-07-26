@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1903, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16458 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16502 $"):sub(12, -3))
 mod:SetCreatureID(118523, 118374, 118518)--118523 Huntress kasparian, 118374 Captain Yathae Moonstrike, 118518 Prestess Lunaspyre
 mod:SetEncounterID(2050)
 mod:SetZone()
@@ -119,12 +119,24 @@ mod.vb.eclipseCount = 0
 mod.vb.beaconCount = 0
 mod.vb.moonTalonCount = 0
 mod.vb.pulltime = 0
+mod.vb.lastBeacon = false
 local astralPurge = GetSpellInfo(234998)
 
 function mod:VolleyTarget(targetname, uId)
 	if not targetname then return end
 	if targetname == UnitName("player") then
 		yellTwilightVolley:Yell()
+	end
+end
+
+function mod:BeaconTarget(targetname, uId)
+	if not targetname then return end
+	self.vb.lastBeacon = true
+	if targetname == UnitName("player") then
+		specWarnLunarBeacon:Show()
+		voiceLunarBeacon:Play("runout")
+	else
+		warnLunarBeacon:Show(targetname)
 	end
 end
 
@@ -203,6 +215,7 @@ function mod:SPELL_CAST_START(args)
 		self.vb.beaconCount = self.vb.beaconCount + 1
 		timerLunarBeaconCD:Start(20.7)
 		--["236712-Lunar Beacon"] = "pull:359.7, 31.7, 54.8, 23.1, 31.7, 23.1, 31.8, 21.9, 20.7, 29.2",
+		self:BossTargetScanner(args.sourceGUID, "BeaconTarget", 0.1, 12, true)
 	elseif spellId == 239379 then
 		specWarnGlaiveStorm:Show()
 		voiceGlaiveStorm:Play("watchstep")
@@ -237,7 +250,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerMoonGlaiveCD:Start()
 	elseif spellId == 236518 then
 		if self.vb.phase == 3 then
-			timerMoonBurnCD:Start(17)
+			timerMoonBurnCD:Start(16)
 		else
 			timerMoonBurnCD:Start()
 		end
@@ -349,12 +362,18 @@ function mod:SPELL_AURA_APPLIED(args)
 			DBM.InfoFrame:Show(6, "function", updateInfoFrame)
 		end
 	elseif spellId == 236712 then
-		warnLunarBeacon:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
-			specWarnLunarBeacon:Show()
-			voiceLunarBeacon:Play("runout")
+			if not self.vb.lastBeacon then
+				specWarnLunarBeacon:Show()
+				voiceLunarBeacon:Play("runout")
+			end
 			yellLunarBeacon:Countdown(6)
+		else
+			if not self.vb.lastBeacon then
+				warnLunarBeacon:Show(args.destName)
+			end
 		end
+		self.vb.lastBeacon = false
 	elseif spellId == 236519 then
 		warnMoonBurn:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then

@@ -62,7 +62,7 @@ frame:SetScript("OnEvent", function(self, event, addonName, ...)
 		local iLvlFrm = CreateFrame("Frame", "LootLevel", ChallengesModeWeeklyBest)
 		iLvlFrm:SetSize(200, 50)
 		if IsAddOnLoaded('Aurora') then
-			iLvlFrm:SetPoint("TOP", ChallengesModeWeeklyBest.Child.Level, "BOTTOM", 0, 0)
+			iLvlFrm:SetPoint("TOP", ChallengesModeWeeklyBest.Child.Level, "BOTTOM", 0, 5)
 		else
 			iLvlFrm:SetPoint("TOP", ChallengesModeWeeklyBest.Child.Level, "BOTTOM", 0, -50)
 		end

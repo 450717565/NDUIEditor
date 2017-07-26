@@ -27,7 +27,8 @@ local function ListBox_Update(box)
     OptionsList_HideScrollBar(box);
   end
 
-  FauxScrollFrame_Update(scrollFrame, numCategories, numButtons, buttons[1]:GetHeight());
+  FauxScrollFrame_Update(scrollFrame, numCategories, numButtons,
+                         buttons[1]:GetHeight());
 
   OptionsList_ClearSelection(box, box.buttons);
 
@@ -133,7 +134,8 @@ local function Constructor()
   
   frame:SetHeight(216);
 
-  local box = CreateFrame("Frame", "AceGUI30ListBoxBox" .. num, frame, "OptionsFrameListTemplate");
+  local box = CreateFrame("Frame", "AceGUI30ListBoxBox" .. num, frame,
+                          "OptionsFrameListTemplate");
   box.update = ListBox_Update;
   box:SetPoint("TOPLEFT", frame, "TOPLEFT", 0, -20);
   box:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 0, 0);
@@ -143,7 +145,8 @@ local function Constructor()
   local maxButtons = math.floor((box:GetHeight() - 8) / box.buttonHeight);
   while #buttons < maxButtons do
     local index = #buttons + 1;
-    local button = CreateFrame("Button", box:GetName() .. "Button" ..  index, box, "OptionsListButtonTemplate");
+    local button = CreateFrame("Button", box:GetName() .. "Button" ..  index,
+                               box, "OptionsListButtonTemplate");
     button:SetPoint("TOPLEFT", buttons[#buttons], "BOTTOMLEFT");
     tinsert(buttons, button);
   end

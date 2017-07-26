@@ -665,7 +665,8 @@ function AuctionLite:StartMassBuyout()
 
       -- If it's above the price for our cheapest listing, warn the user.
       if cheapestOwned < worstBought then
-        self:Print(L["|cffff0000[Warning]|r Skipping your own auctions.  " .. "You might want to cancel them instead."]);
+        self:Print(L["|cffff0000[Warning]|r Skipping your own auctions.  " ..
+                     "You might want to cancel them instead."]);
       end
     end
 
@@ -807,13 +808,18 @@ function AuctionLite:EndPurchase(cancelled)
   -- Print a summary.
   if not cancelled or order.listingsBought > 0 then
     if order.isBuyout then
-      self:Print(L["Bought %dx %s (%d |4listing:listings; at %s)."]:format(order.itemsBought, order.name, order.listingsBought, self:PrintMoney(order.spent)));
+      self:Print(L["Bought %dx %s (%d |4listing:listings; at %s)."]:
+                 format(order.itemsBought, order.name, order.listingsBought,
+                        self:PrintMoney(order.spent)));
     else
-      self:Print(L["Bid on %dx %s (%d |4listing:listings; at %s)."]:format(order.itemsBought, order.name, order.listingsBought, self:PrintMoney(order.spent)));
+      self:Print(L["Bid on %dx %s (%d |4listing:listings; at %s)."]:
+                 format(order.itemsBought, order.name, order.listingsBought,
+                        self:PrintMoney(order.spent)));
     end
 
     if order.itemsNotFound > 0 then
-      self:Print(L["Note: %d |4listing:listings; of %d |4item was:items were; not purchased."]:format(order.listingsNotFound, order.itemsNotFound));
+      self:Print(L["Note: %d |4listing:listings; of %d |4item was:items were; not purchased."]:
+                 format(order.listingsNotFound, order.itemsNotFound));
     end
   end
 
@@ -1089,7 +1095,9 @@ function AuctionLite:SetMultiScanData(data)
     if self:IsLink(MultiScanCurrent) then
       link = MultiScanCurrent;
     else
-      link = "|cffffffff|Hitem:0:0:0:0:0:0:0:0|h[" .. MultiScanCurrent .. "]|h|r";
+      link = "|cffffffff|Hitem:0:0:0:0:0:0:0:0|h[" ..
+             MultiScanCurrent ..
+             "]|h|r";
     end
 
     MultiScanItems[MultiScanCurrent] = false;
@@ -1169,7 +1177,8 @@ end
 
 -- Set a new sort type for the detail view.
 function AuctionLite:DetailSortButton_OnClick(sort)
-  assert(sort == "Item" or sort == "BidEach" or sort == "BidAll" or sort == "BuyoutEach" or sort == "BuyoutAll");
+  assert(sort == "Item" or sort == "BidEach" or sort == "BidAll" or
+         sort == "BuyoutEach" or sort == "BuyoutAll");
 
   self:SortButton_OnClick(DetailSort, sort);
   self:AuctionFrameBuy_Update();
@@ -1177,7 +1186,8 @@ end
 
 -- Set a new sort type for the summary view.
 function AuctionLite:SummarySortButton_OnClick(sort)
-  assert(sort == "ItemSummary" or sort == "Listings" or sort == "Items" or sort == "Market" or sort == "Historical");
+  assert(sort == "ItemSummary" or sort == "Listings" or sort == "Items" or
+         sort == "Market" or sort == "Historical");
 
   self:SortButton_OnClick(SummarySort, sort);
   self:AuctionFrameBuy_Update();
@@ -1226,7 +1236,8 @@ function AuctionLite:FavoritesButton_OnClick(id)
   else
     -- Make a more detailed menu showing the available lists.
     if BuyFavoritesDropDown == nil then
-      CreateFrame("Frame", "BuyFavoritesDropDown", UIParent, "UIDropDownMenuTemplate");
+      CreateFrame("Frame", "BuyFavoritesDropDown", UIParent,
+                  "UIDropDownMenuTemplate");
     end
 
     BuyFavoritesDropDown.displayMode = "MENU";
@@ -1315,7 +1326,8 @@ function AuctionLite:BuyButton_OnClick(id, button)
       };
 
       if BuyContextDropDown == nil then
-        CreateFrame("Frame", "BuyContextDropDown", UIParent, "UIDropDownMenuTemplate");
+        CreateFrame("Frame", "BuyContextDropDown", UIParent,
+                    "UIDropDownMenuTemplate");
       end
 
       EasyMenu(menuList, BuyContextDropDown, "cursor", 0, 0, "MENU");
@@ -1772,7 +1784,8 @@ function AuctionLite:AuctionFrameBuy_UpdateDetail()
   end
 
   local sort;
-  for _, sort in ipairs({ "Item", "BidEach", "BidAll", "BuyoutEach", "BuyoutAll" }) do
+  for _, sort in ipairs({ "Item", "BidEach", "BidAll",
+                          "BuyoutEach", "BuyoutAll" }) do
     self:UpdateSortArrow("Buy", sort, DetailSort.sort, DetailSort.flipped);
   end
 
@@ -1782,7 +1795,9 @@ function AuctionLite:AuctionFrameBuy_UpdateDetail()
   local _, _, _, _, enchant, jewel1, jewel2, jewel3, jewel4 =
     self:SplitLink(DetailLink);
 
-  local showPlus = enchant ~= 0 or jewel1 ~= 0 or jewel2 ~= 0 or jewel3 ~= 0 or jewel4 ~= 0;
+  local showPlus = enchant ~= 0 or
+                   jewel1 ~= 0 or jewel2 ~= 0 or
+                   jewel3 ~= 0 or jewel4 ~= 0;
 
   local i;
   for i = 1, displaySize do
@@ -1821,7 +1836,8 @@ function AuctionLite:AuctionFrameBuy_UpdateDetail()
       nameText:SetText("|c" .. nameColor .. name .. "|r");
 
       if showPlus then
-        plusText:SetPoint("LEFT", nameText, "LEFT", nameText:GetStringWidth(), 0);
+        plusText:SetPoint("LEFT", nameText, "LEFT",
+                          nameText:GetStringWidth(), 0);
         plusText:Show();
       else
         plusText:Hide();
@@ -1871,7 +1887,8 @@ function AuctionLite:AuctionFrameBuy_UpdateDetail()
     end
   end
 
-  FauxScrollFrame_Update(BuyScrollFrame, table.getn(DetailData), displaySize, ROW_HEIGHT);
+  FauxScrollFrame_Update(BuyScrollFrame, table.getn(DetailData),
+                         displaySize, ROW_HEIGHT);
 
   if table.getn(DetailData) > 0 then
     BuyHeader:Show();
@@ -1885,7 +1902,8 @@ function AuctionLite:AuctionFrameBuy_UpdateSummary()
   end
 
   local sort;
-  for _, sort in ipairs({ "ItemSummary", "Listings", "Items", "Market", "Historical" }) do
+  for _, sort in ipairs({ "ItemSummary", "Listings", "Items",
+                          "Market", "Historical" }) do
     self:UpdateSortArrow("Buy", sort, SummarySort.sort, SummarySort.flipped);
   end
 
@@ -1980,7 +1998,8 @@ function AuctionLite:AuctionFrameBuy_UpdateSummary()
     end
   end
 
-  FauxScrollFrame_Update(BuyScrollFrame, table.getn(SummaryData), displaySize, ROW_HEIGHT);
+  FauxScrollFrame_Update(BuyScrollFrame, table.getn(SummaryData),
+                         displaySize, ROW_HEIGHT);
 
   if table.getn(SummaryData) > 0 then
     BuySummaryHeader:Show();

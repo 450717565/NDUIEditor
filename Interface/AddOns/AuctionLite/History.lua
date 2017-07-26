@@ -102,8 +102,12 @@ function AuctionLite:UpdateHistoricalPrice(link, data)
     if info.time + MIN_TIME_BETWEEN_SCANS < time and data.listings > 0 then
       local pastDiscountFactor = 0.5 ^ ((time - info.time) / HALF_LIFE);
       local presentDiscountFactor = 1 - 0.5 ^ ((time - info.time) / INDEPENDENT_SCANS);
-      info.price = (data.price * data.listings * presentDiscountFactor + info.price * info.listings * pastDiscountFactor) / (data.listings * presentDiscountFactor + info.listings * pastDiscountFactor);
-      info.listings = data.listings * presentDiscountFactor + info.listings * pastDiscountFactor;
+      info.price = (data.price * data.listings * presentDiscountFactor +
+                    info.price * info.listings * pastDiscountFactor) /
+                   (data.listings * presentDiscountFactor +
+                    info.listings * pastDiscountFactor);
+      info.listings = data.listings * presentDiscountFactor +
+                      info.listings * pastDiscountFactor;
       info.items = data.items * presentDiscountFactor + info.items * pastDiscountFactor;
       info.scans = 1 * presentDiscountFactor + info.scans * pastDiscountFactor;
       info.time = time;

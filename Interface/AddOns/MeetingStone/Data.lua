@@ -737,10 +737,12 @@ RAID_PROGRESSION_LIST = {
 }
 
 DEFAULT_SPAMWORD = [[
-!%d+元
-!%d+起
-!%d.*/.*人
+!%d.*人
+!%d.*位
+!%d.*起
 !G.*团
+!T.*宝
+!r.*m.*b
 !tao.*bao
 !上.*号
 !上.*帝
@@ -762,6 +764,7 @@ DEFAULT_SPAMWORD = [[
 !手.*工
 !打.*手
 !支.*付.*宝
+!散.*件
 !散.*包
 !散.*拍
 !斗.*鱼

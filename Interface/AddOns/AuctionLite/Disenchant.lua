@@ -809,7 +809,8 @@ function AuctionLite:GetDisenchantValue(item)
       for _, shard in ipairs(shards) do
         local shardValue = self:GetAuctionValue(shard.id);
         if shardValue ~= nil then
-          total = total + shardValue * shard.p * (shard.min + (shard.max - shard.min) / 2);
+          total = total + shardValue * shard.p *
+                          (shard.min + (shard.max - shard.min) / 2);
         else
           failed = true;
         end

@@ -1,4 +1,4 @@
--- $Id: DB.lua 24 2017-05-14 14:25:18Z arith $
+-- $Id: DB.lua 30 2017-07-19 09:59:37Z arith $
 -----------------------------------------------------------------------
 -- Upvalued Lua API.
 -----------------------------------------------------------------------
@@ -640,12 +640,12 @@ DB.points = {
 	},
 	[mapFile(1147)] = { -- Tomb of Sargeras
 	--[[
-		-- Tomb of Sargeras: Life After Death
+		-- Tomb of Sargeras: Legend of the Deep
 		[00000000] = { -- location unknown
 			dungeonLevel = 1, 
-			quest = 46506,
-			npc = 120019,
-			label = L["Ryul the Fading"],
+			quest = 46500,
+			npc = 120022,
+			label = L["Deepmaw"],
 		},
 		-- Tomb of Sargeras: Lost But Not Forgotten
 		[00000000] = { -- location unknown
@@ -654,14 +654,28 @@ DB.points = {
 			npc = 120009,
 			label = L["Naisha"],
 		},
-		-- Tomb of Sargeras: The Dread Stalker
+		-- Tomb of Sargeras: Life After Death
 		[00000000] = { -- location unknown
 			dungeonLevel = 1, 
+			quest = 46506,
+			npc = 120019,
+			label = L["Ryul the Fading"],
+		},
+	]]
+		-- Tomb of Sargeras: The Dread Stalker
+		[60258599] = { 
+			dungeonLevel = 3, 
 			quest = 46507,
 			npc = 120013,
 			label = L["The Dread Stalker"],
 		},
-	]]
+		-- Tomb of Sargeras: Azshara's Reach
+		[63595512] = { 
+			dungeonLevel = 2, 
+			quest = 46508,
+			npc = 120003,
+			label = L["Warlord Darjah"],
+		},
 	},
 	[mapFile(1114)] = { -- Trial of Valor
 		-- no WQ here so far

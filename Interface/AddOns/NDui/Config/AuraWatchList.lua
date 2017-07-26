@@ -123,6 +123,8 @@ C.AuraWatchList = {
 				--萨瓦里卡的杰作
 				{AuraID = 207472, UnitID = "player", Value= true, Combat = true},
 			-->LEG饰品
+				--苦痛之矛
+				{AuraID = 243644, UnitID = "player"},
 				--地狱火契约
 				{AuraID = 225140, UnitID = "player", Value= true},
 				--哀嚎之魂
@@ -675,6 +677,7 @@ C.AuraWatchList = {
 				--灵魂束缚
 				{AuraID = 236459, UnitID = "player"},
 				--苦痛之矛
+				{AuraID = 235924, UnitID = "player"},
 				{AuraID = 238442, UnitID = "player", Value = true},
 				--枯萎
 				{AuraID = 236138, UnitID = "player"},
@@ -689,7 +692,7 @@ C.AuraWatchList = {
 				{AuraID = 235240, UnitID = "player", Text = L["AW Fel"]},
 				--动荡的灵魂
 				{AuraID = 243276, UnitID = "player"},
-				{AuraID = 235138, UnitID = "player"},
+				{AuraID = 235117, UnitID = "player"},
 				--恶魔活力
 				{AuraID = 235538, UnitID = "player"},
 				--造物者之赐
@@ -848,12 +851,12 @@ C.AuraWatchList = {
 				{AuraID = 236697, UnitID = "target"},
 				--骨牢护甲
 				{AuraID = 236513, UnitID = "target"},
+				--束缚精华
+				{AuraID = 236351, UnitID = "target"},
 				--造物者之怒
 				{AuraID = 234891, UnitID = "target"},
 				--泰坦之壁
 				{AuraID = 235028, UnitID = "target", Value = true},
-				--造物者之怒
-				{AuraID = 237339, UnitID = "target"},
 				--净化协议
 				{AuraID = 241008, UnitID = "target", Value = true},
 				--故障

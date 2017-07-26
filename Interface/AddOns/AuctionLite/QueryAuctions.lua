@@ -93,7 +93,9 @@ function AuctionLite:QueryUpdate()
           getAll = true;
         else
           Query.getAll = false;
-          self:Print(L["|cffffd000[Note]|r " .. "Fast auction scans can only be used once every " .. "15 minutes. Using a slow scan for now."]);
+          self:Print(L["|cffffd000[Note]|r " ..
+                       "Fast auction scans can only be used once every " ..
+                       "15 minutes. Using a slow scan for now."]);
         end
       end
 
@@ -127,19 +129,24 @@ end
 
 -- Wait for purchase approval.
 function AuctionLite:QueryRequestApproval()
-  assert(Query ~= nil and Query.state == QUERY_STATE_WAIT and Query.found ~= nil);
+  assert(Query ~= nil and Query.state == QUERY_STATE_WAIT and
+         Query.found ~= nil);
   Query.state = QUERY_STATE_APPROVE;
 end
 
 -- Wait for incoming data.
 function AuctionLite:QueryWait()
-  assert(Query ~= nil and (Query.state == QUERY_STATE_SEND or Query.state == QUERY_STATE_APPROVE));
+  assert(Query ~= nil and
+         (Query.state == QUERY_STATE_SEND or
+          Query.state == QUERY_STATE_APPROVE));
   Query.state = QUERY_STATE_WAIT;
 end
 
 -- Get the next page.
 function AuctionLite:QueryNext()
-  assert(Query ~= nil and (Query.state == QUERY_STATE_WAIT or Query.state == QUERY_STATE_APPROVE));
+  assert(Query ~= nil and
+         (Query.state == QUERY_STATE_WAIT or
+          Query.state == QUERY_STATE_APPROVE));
   Query.state = QUERY_STATE_SEND;
   Query.page = Query.page + 1;
   Query.retries = 0;

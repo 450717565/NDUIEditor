@@ -77,7 +77,8 @@ function AuctionLite:SetTooltipMoney(tooltip, label, money)
 end
 
 -- Make an appropriate money string
-function AuctionLite:AddTooltipLine(tooltip, option, getPrice, label, link, count1, count2)
+function AuctionLite:AddTooltipLine(tooltip, option, getPrice, label,
+                                    link, count1, count2)
   -- Do we want any tooltip at all?
   if option ~= "c_no" then
     -- Looks like we do, so fetch the price.
@@ -109,7 +110,7 @@ function AuctionLite:AddTooltipLine(tooltip, option, getPrice, label, link, coun
       end
     elseif option == "a_yes" then
       -- We have no price info, but the user wants a line anyway.
-      tooltip:AddDoubleLine(label, "|cffffffffN/A|r");
+      tooltip:AddDoubleLine(label, "|cffffffffn/a|r");
     end
   end
 end
@@ -444,7 +445,10 @@ function AuctionLite:HookTooltips()
   self:AddHooksToTooltip(GameTooltip);
   self:AddHooksToTooltip(ItemRefTooltip);
 
-  self:SecureHook("GameTooltip_ClearMoney", "GameTooltip_ClearMoney_Hook");
+  self:SecureHook("GameTooltip_ClearMoney",
+                  "GameTooltip_ClearMoney_Hook");
 
-  self:RawHook("GameTooltip_OnTooltipAddMoney", "GameTooltip_OnTooltipAddMoney_Hook", true);
+  self:RawHook("GameTooltip_OnTooltipAddMoney",
+               "GameTooltip_OnTooltipAddMoney_Hook",
+               true);
 end

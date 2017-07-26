@@ -148,7 +148,8 @@ function AuctionLite:CreateTab(name, frame)
                           AuctionFrame, "AuctionTabTemplate");
   tab:SetID(tabIndex);
   tab:SetText(name);
-  tab:SetPoint("TOPLEFT", "AuctionFrameTab" .. (tabIndex - 1), "TOPRIGHT", -8, 0);
+  tab:SetPoint("TOPLEFT", "AuctionFrameTab" .. (tabIndex - 1),
+               "TOPRIGHT", -8, 0);
 
   -- Link it into the auction frame.
   PanelTemplates_DeselectTab(tab);

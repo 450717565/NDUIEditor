@@ -32,8 +32,15 @@ local function ForceDefaultSettings()
 	SetCVar("autoSelfCast", 1)
 	SetCVar("breakUpLargeNumbers", 1)
 	SetCVar("doNotFlashLowHealthWarning", 1)
-	SetCVar("enableFloatingCombatText", 0)
+	SetCVar("enableFloatingCombatText", 1)
 	SetCVar("ffxGlow", 0)
+	SetCVar("floatingCombatTextCombatDamage", 1)
+	SetCVar("floatingCombatTextCombatDamageDirectionalScale", 0)
+	SetCVar("floatingCombatTextCombatHealing", 0)
+	SetCVar("floatingCombatTextCombatState", 1)
+	SetCVar("floatingCombatTextFloatMode", 2)
+	SetCVar("floatingCombatTextLowManaHealth", 1)
+	SetCVar("floatingCombatTextRepChanges", 1)
 	SetCVar("lockActionBars", 1)
 	SetCVar("lootUnderMouse", 1)
 	SetCVar("missingTransmogSourceInItemTooltips", 1)
@@ -106,7 +113,7 @@ local function ForceChatSettings()
 	ChatFrame1:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", 0, 28)
 	ChatFrame1:SetWidth(380)
 	ChatFrame1:SetHeight(190)
-    ChatFrame1:SetUserPlaced(true)
+	ChatFrame1:SetUserPlaced(true)
 	for i = 1, 10 do
 		local cf = _G["ChatFrame"..i]
 		FCF_SetWindowAlpha(cf, 0)
@@ -115,7 +122,7 @@ local function ForceChatSettings()
 	local channels = {"SAY","EMOTE","YELL","GUILD","OFFICER","GUILD_ACHIEVEMENT","ACHIEVEMENT",
 	"WHISPER","PARTY","PARTY_LEADER","RAID","RAID_LEADER","RAID_WARNING","INSTANCE_CHAT",
 	"INSTANCE_CHAT_LEADER","CHANNEL1","CHANNEL2","CHANNEL3","CHANNEL4","CHANNEL5","CHANNEL6","CHANNEL7",
-	}	
+	}
 	for i, v in ipairs(channels) do
 		ToggleChatColorNamesByClassGroup(true, v)
 	end
@@ -133,7 +140,7 @@ StaticPopupDialogs["RELOAD_NDUI"] = {
 	end,
 }
 
--- DBM bars	
+-- DBM bars
 local function ForceDBMOptions()
 	if not IsAddOnLoaded("DBM-Core") then return end
 	if DBT_AllPersistentOptions then table.wipe(DBT_AllPersistentOptions) end
@@ -182,6 +189,13 @@ local function ForceDBMOptions()
 	DBM_AllSavedOptions["Default"]["HideObjectivesFrame"] = false
 	DBM_AllSavedOptions["Default"]["WarningFontSize"] = 18
 	DBM_AllSavedOptions["Default"]["SpecialWarningFontSize2"] = 24
+
+	if IsAddOnLoaded("DBM-VPYike") then
+		DBM_AllSavedOptions["Default"]["ChosenVoicePack"] = "Yike"
+		DBM_AllSavedOptions["Default"]["CountdownVoice2"] = "VP:Yike"
+		DBM_AllSavedOptions["Default"]["CountdownVoice3v2"] = "VP:Yike"
+		DBM_AllSavedOptions["Default"]["CountdownVoice"] = "VP:Yike"
+	end
 
 	NDuiDB["Settings"]["DBMRequest"] = false
 end
@@ -271,7 +285,7 @@ local function ForceBigwigs()
 						["BigWigsAnchor_y"] = 336,
 						["BigWigsAnchor_x"] = 20,
 						["BigWigsAnchor_width"] = 175,
-						["growup"] = true, 
+						["growup"] = true,
 						["interceptMouse"] = false,
 						["barStyle"] = "NDui",
 						["LeftButton"] = {

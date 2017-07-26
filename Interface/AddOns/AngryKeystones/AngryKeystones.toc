@@ -4,7 +4,7 @@
 ## Author: Ermad
 ## SavedVariables: AngryKeystones_Config, AngryKeystones_Data
 ## SavedVariablesPerCharacter: AngryKeystones_CharacterConfig
-## X-Packaged-Version: v0.12.4
+## X-Packaged-Version: v0.12.5
 
 Core.lua
 Locale.lua
@@ -15,3 +15,4 @@ ProgressTracker.lua
 
 Gossip.lua
 Splits.lua
+Schedule.lua

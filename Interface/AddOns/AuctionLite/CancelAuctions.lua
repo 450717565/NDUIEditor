@@ -110,7 +110,8 @@ function AuctionLite:FinishCancel(cancel, cancelBid)
 
   -- Print a summary.
   for name, listingsCancelled in pairs(summary) do
-    self:Print(L["Cancelled %d |4listing:listings; of %s."]:format(listingsCancelled, name));
+    self:Print(L["Cancelled %d |4listing:listings; of %s."]:
+               format(listingsCancelled, name));
   end
 
   -- Notify the "Buy" frame.

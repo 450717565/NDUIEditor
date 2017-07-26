@@ -1,13 +1,15 @@
 local mod	= DBM:NewMod(1898, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16457 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16502 $"):sub(12, -3))
 mod:SetCreatureID(117269)--121227 Illiden? 121193 Shadowsoul
 mod:SetEncounterID(2051)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7, 8)
-mod:SetHotfixNoticeRev(16415)
+mod:SetHotfixNoticeRev(16477)
+mod:SetMinSyncRevision(16477)
+
 mod.respawnTime = 29
 
 mod:RegisterCombat("combat")
@@ -91,7 +93,7 @@ local timerRupturingSingularityCD	= mod:NewCDCountTimer(61, 235059, nil, nil, ni
 local timerRupturingSingularity		= mod:NewCastTimer(9.7, 235059, 206577, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON)--Shortname: Comet Impact
 local timerArmageddonCD				= mod:NewCDCountTimer(42, 240910, nil, nil, nil, 5)
 local timerArmageddon				= mod:NewCastTimer(9, 234295, nil, nil, nil, 2)--Armageddon Rain
-local timerShadReflectionEruptingCD	= mod:NewCDTimer(35, 236710, 243160, nil, nil, 3)--Shortname : erupting souls
+local timerShadReflectionEruptingCD	= mod:NewCDTimer(35, 236710, 243160, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON)--Shortname : erupting souls
 --Intermission: Eternal Flame
 --mod:AddTimerLine(SCENARIO_STAGE:format(1.5))
 local timerTransition				= mod:NewPhaseTimer(57.9)
@@ -100,7 +102,7 @@ local timerBurstingDreadflameCD		= mod:NewCDCountTimer(31, 238430, nil, nil, nil
 --Stage Two: Reflected Souls
 mod:AddTimerLine(SCENARIO_STAGE:format(2))
 local timerHopelessness				= mod:NewCastTimer(8, 237725, nil, "Healer", nil, 5, nil, DBM_CORE_HEALER_ICON)
-local timerShadReflectionWailingCD	= mod:NewCDTimer(35, 236378, 236075, nil, nil, 3)--Shortname : wailing souls
+local timerShadReflectionWailingCD	= mod:NewCDTimer(35, 236378, 236075, nil, nil, 3, nil, DBM_CORE_TANK_ICON)--Shortname : wailing souls
 --Intermission: Deceiver's Veil
 --mod:AddTimerLine(SCENARIO_STAGE:format(2.5))
 local timerSightlessGaze			= mod:NewBuffActiveTimer(20, 241721, nil, nil, nil, 5)
@@ -163,6 +165,8 @@ mod.vb.lastTankHit = "None"
 mod.vb.clawCount = 0
 mod.vb.obeliskCount = 0
 local riftName, gravitySqueezeBuff = GetSpellInfo(239130), GetSpellInfo(239154)
+local phase1MythicArmageddonTimers = {10, 54, 38, 46}--Incomplete
+local phase1MythicSingularityTimers = {55, 25, 25}--Incomplete
 local phase2NormalArmageddonTimers = {55, 45, 31}
 local phase2HeroicArmageddonTimers = {55, 75, 35, 30}
 local phase2NormalBurstingTimers = {57, 44}--Not used yet, needs more data to verify and improve
@@ -236,7 +240,8 @@ function mod:OnCombatStart(delay)
 	countdownFelclaws:Start(25-delay)
 	timerRupturingSingularityCD:Start(58-delay, 1)
 	if self:IsMythic() then
-		timerShadReflectionWailingCD:Start(57)--Approx, from stream, finetune
+		DBM:AddMsg("This mod has poor support for mythic difficulty. Please help improve mod by sharing logs (especially transcriptor) with MysticalOS")
+		timerShadReflectionWailingCD:Start(56)
 	end
 	berserkTimer:Start(600-delay)
 end
@@ -286,8 +291,8 @@ function mod:SPELL_CAST_START(args)
 					timerArmageddonCD:Start(28, self.vb.armageddonCast+1)
 					countdownArmageddon:Start(28)
 				else
-					timerArmageddonCD:Start(30, self.vb.armageddonCast+1)
-					countdownArmageddon:Start(30)
+					timerArmageddonCD:Start(29.5, self.vb.armageddonCast+1)
+					countdownArmageddon:Start(29.5)
 				end
 			end
 		elseif self.vb.phase == 2 then
@@ -297,8 +302,16 @@ function mod:SPELL_CAST_START(args)
 				countdownArmageddon:Start(timer)
 			end
 		else--Phase 1
-			timerArmageddonCD:Start(64, self.vb.armageddonCast+1)
-			countdownArmageddon:Start(64)
+			if self:IsMythic() then
+				local timer = phase1MythicArmageddonTimers[self.vb.armageddonCast+1]
+				if timer then
+					timerArmageddonCD:Start(timer, self.vb.armageddonCast+1)
+					countdownArmageddon:Start(timer)
+				end
+			else
+				timerArmageddonCD:Start(64, self.vb.armageddonCast+1)
+				countdownArmageddon:Start(64)
+			end
 		end
 	elseif spellId == 239932 then
 		self.vb.clawCount = 0
@@ -340,6 +353,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 		self.vb.eruptingReflectionIcon = 3
 		if self.vb.phase == 2 then
 			timerShadReflectionEruptingCD:Start(112)--Erupting
+		else--Should only happen in mythic phase 1
+			timerShadReflectionEruptingCD:Start(109)
 		end
 	elseif spellId == 237590 then--Hopeless Shadow Reflection (Stage 2)
 
@@ -407,7 +422,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 			self:SetIcon(args.destName, self.vb.burstingDreadIcon, 5)
 		end
 		self.vb.burstingDreadIcon = self.vb.burstingDreadIcon + 1
-		if self.vb.burstingDreadIcon == 0 then self.vb.burstingDreadIcon = 1 end
+		if self.vb.burstingDreadIcon == 8 then self.vb.burstingDreadIcon = 1 end
 	elseif spellId == 238999 then
 		warnDarknessofStuffEnded:Show()
 		if self.Options.InfoFrame then
@@ -597,7 +612,12 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
 				timerRupturingSingularityCD:Start(timer, self.vb.singularityCount+1)
 			end
 		else--Phase 1
-			if self:IsEasy() then
+			if self:IsMythic() then
+				local timer= phase1MythicSingularityTimers[self.vb.singularityCount+1]
+				if timer then
+					timerRupturingSingularityCD:Start(timer, self.vb.singularityCount+1)
+				end
+			elseif self:IsEasy() then
 				timerRupturingSingularityCD:Start(80, self.vb.singularityCount+1)
 			else
 				timerRupturingSingularityCD:Start(55, self.vb.singularityCount+1)
@@ -614,8 +634,7 @@ function mod:UNIT_DIED(args)
 	end
 end
 
-function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
-	local spellId = tonumber(select(5, strsplit("-", spellGUID)), 10)
+function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 	if spellId == 242377 then--Kil'jaeden Take Off Sound (intermission 1)
 		self.vb.phase = 1.5
 		self.vb.armageddonCast = 0

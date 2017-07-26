@@ -21,7 +21,5 @@ L["These settings control the look and feel of the icon."] = "Ces paramètres co
 L["What to display"] = "Qu'afficher"
 
 -- ToC
-L["Description"] = "Description"
-L["Title"] = "Titre"
 
 end
