@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1873, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16481 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16507 $"):sub(12, -3))
 mod:SetCreatureID(116939)--Maiden of Valor 120437
 mod:SetEncounterID(2038)
 mod:SetZone()
@@ -82,7 +82,7 @@ local timerDarkMarkCD				= mod:NewCDTimer(34, 239739, nil, nil, nil, 3)
 --local timerBlackWindsCD				= mod:NewCDTimer(31, 239418, nil, nil, nil, 3)
 --local timerRainoftheDestroyerCD		= mod:NewCDTimer(44, 240396, nil, nil, nil, 3)
 
---local berserkTimer				= mod:NewBerserkTimer(300)
+local berserkTimer					= mod:NewBerserkTimer(420)
 
 --Stage One: A Slumber Disturbed
 local countdownRuptureRealities		= mod:NewCountdown(60, 239132)
@@ -229,6 +229,9 @@ function mod:OnCombatStart(delay)
 		DBM.InfoFrame:SetHeader(OVERVIEW)
 		--DBM.InfoFrame:Show(2, "enemypower", 2)
 		DBM.InfoFrame:Show(7, "function", updateInfoFrame, false, false)
+	end
+	if self:IsLFR() then--7 min in LFR
+		berserkTimer:Start(-delay)
 	end
 end
 

@@ -41,7 +41,7 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 16502 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 16509 $"):sub(12, -3)),
 	DisplayVersion = "7.2.16 alpha", -- the string that is shown as version
 	ReleaseRevision = 16485 -- the revision of the latest stable version that is available
 }
@@ -6094,7 +6094,7 @@ do
 	local autoTLog = false
 	
 	local function isCurrentContent()
-		if LastInstanceMapID == 1520 or LastInstanceMapID == 1530 or LastInstanceMapID == 1220 or LastInstanceMapID == 1648 or LastInstanceMapID == 1676 then--Legion
+		if LastInstanceMapID == 1520 or LastInstanceMapID == 1530 or LastInstanceMapID == 1220 or LastInstanceMapID == 1648 or LastInstanceMapID == 1676 or LastInstanceMapID == 1712 then--Legion
 			return true
 		end
 		return false

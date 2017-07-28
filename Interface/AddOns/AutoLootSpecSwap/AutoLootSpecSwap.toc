@@ -1,0 +1,7 @@
+## Interface: 70200
+## Title: AutoLootSpecSwap
+## Notes: Hi
+## Author: Eiko
+## SavedVariablesPerCharacter: AutoLootSpecSwap_bossNameToSpecMapping,AutoLootSpecSwap_bossNameToSpecMapping_H,AutoLootSpecSwap_bossNameToSpecMapping_N,AutoLootSpecSwap_bossNameToSpecMapping_L,AutoLootSpecSwap_specToSwitchToAfterLooting,AutoLootSpecSwap_globalSilence,AutoLootSpecSwap_minimized,AutoLootSpecSwap_perDifficulty,AutoLootSpecSwap_raidLeaderFeatures,AutoLootSpecSwap_bossNameToRMMapping,AutoLootSpecSwap_bossNameToRMMapping_H,AutoLootSpecSwap_bossNameToRMMapping_N,AutoLootSpecSwap_bossNameToRMMapping_L
+
+AutoLootSpecSwap.lua

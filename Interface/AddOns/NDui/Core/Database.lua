@@ -34,6 +34,7 @@ DB.gearTex = "Interface\\WorldMap\\Gear_64"
 DB.mailTex = "Interface\\Minimap\\Tracking\\Mailbox"
 DB.newItemFlash = "Interface\\Cooldown\\star4"
 DB.questTex = "Interface\\BUTTONS\\AdventureGuideMicrobuttonAlert"
+DB.sparkTex = "Interface\\CastingBar\\UI-CastingBar-Spark"
 
 DB.TexCoord = {.08, .92, .08, .92}
 DB.textures = {
