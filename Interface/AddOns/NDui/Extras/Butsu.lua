@@ -95,7 +95,7 @@ local createSlot = function(id)
 	icon:SetPoint("BOTTOMRIGHT", -1, 1)
 	frame.icon = icon
 
-	local count = B.CreateFS(iconFrame, 14, "", false, "BOTTOMRIGHT", 0, 1)
+	local count = B.CreateFS(iconFrame, 14, "", false, "BOTTOMRIGHT", -1, 1)
 	count:SetJustifyH("RIGHT")
 	frame.count = count
 

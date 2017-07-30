@@ -29,7 +29,7 @@ local LMFrame_Rclick = B.CreateFS(LMFrame, 15, "左键：贴出 右键：密语"
 B.CreateMF(LMFrame)
 B.CreateBD(LMFrame)
 B.CreateTex(LMFrame)
-LMFrame:SetFrameStrata('TOOLTIP')
+LMFrame:SetFrameStrata("HIGH")
 LMFrame:SetClampedToScreen(true)
 LMFrame:SetPoint("LEFT")
 
