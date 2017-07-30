@@ -8,13 +8,13 @@ mod:SetZone()
 mod:SetBossHPInfoToHighest()
 --mod:SetUsedIcons(1, 2, 3, 4, 5, 6)
 --mod:SetHotfixNoticeRev(16350)
---mod.respawnTime = 29
+mod.respawnTime = 4
 
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244057 244056",
-	"SPELL_CAST_SUCCESS 244072 251445 245098 251356",
+	"SPELL_CAST_SUCCESS 244072 251445 245098 251356 244069",
 	"SPELL_AURA_APPLIED 244768 248815 244069 248819 244054 244055",
 --	"SPELL_AURA_APPLIED_DOSE",
 	"SPELL_AURA_REMOVED 244768 248815 244069 248819",
@@ -30,17 +30,21 @@ mod:RegisterEventsInCombat(
 --TODO, rework enflamed Corruption/enflamed when more is understood how it works
 --TODO, more work on siphon targetting, it too may need icons/assignments. Same with Enflamed
 --TODO, update all timers on Focused power, probably pause them all for 15 seconds
+--[[
+(ability.id = 244057 or ability.id = 244056) and type = "begincast"
+ or (ability.id = 244072 or ability.id = 251445 or ability.id = 245098 or ability.id = 251356 or ability.id = 244069) and type = "cast"
+--]]
 --F'harg
-local warnBurningMaw					= mod:NewSpellAnnounce(251445, 2, nil, "Tank")
+local warnBurningMaw					= mod:NewTargetAnnounce(251445, 2, nil, "Tank")
 local warnMoltenTouch					= mod:NewSpellAnnounce(244072, 2)
 local warnDesolateGaze					= mod:NewTargetAnnounce(244768, 3)
 local warnEnflamedCorruption			= mod:NewSpellAnnounce(244057, 3)
-local warnEnflamed						= mod:NewTargetAnnounce(248815, 3)
+local warnEnflamed						= mod:NewTargetAnnounce(248815, 3, nil, false, 2)
 --Shatug
-local warnCorruptingMaw					= mod:NewSpellAnnounce(245098, 2, nil, "Tank")
+local warnCorruptingMaw					= mod:NewTargetAnnounce(245098, 2, nil, "Tank")
 local warnWeightofDarkness				= mod:NewTargetAnnounce(244069, 3)
 local warnSiphonCorruption				= mod:NewSpellAnnounce(244056, 3)
-local warnSiphoned						= mod:NewTargetAnnounce(248819, 3)
+local warnSiphoned						= mod:NewTargetAnnounce(248819, 3, nil, false, 2)
 --General/Mythic
 local warnFocusingPower					= mod:NewSpellAnnounce(251356, 2)
 
@@ -48,27 +52,27 @@ local warnFocusingPower					= mod:NewSpellAnnounce(251356, 2)
 local specWarnDesolateGaze				= mod:NewSpecialWarningYou(244768, nil, nil, nil, 1, 2)
 local yellDesolateGaze					= mod:NewYell(244768)
 local specWarnEnflamed					= mod:NewSpecialWarningYou(248815, nil, nil, nil, 1, 2)
-local yellEnflamed						= mod:NewYell(248815)
+local yellEnflamed						= mod:NewFadesYell(248815)
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
 --Shatug
 local specWarnComsumingSphere			= mod:NewSpecialWarningDodge(244131, nil, nil, nil, 2, 2)
 local specWarnWeightOfDarkness			= mod:NewSpecialWarningYou(244069, nil, nil, nil, 1, 2)
-local yellWeightOfDarkness				= mod:NewPoSYell(244069, DBM_CORE_AUTO_YELL_CUSTOM_POSITION)
+local yellWeightOfDarkness				= mod:NewPosYell(244069, DBM_CORE_AUTO_YELL_CUSTOM_POSITION)
 local specWarnSiphoned					= mod:NewSpecialWarningYou(248819, nil, nil, nil, 1, 2)
-local yellSiphoned						= mod:NewYell(248819)
+local yellSiphoned						= mod:NewFadesYell(248819)
 --Mythic
 local specWarnFlameTouched				= mod:NewSpecialWarningYou(244054, nil, nil, nil, 3, 8)
 local specWarnShadowtouched				= mod:NewSpecialWarningYou(244055, nil, nil, nil, 3, 8)
 
 --F'harg
-local timerBurningMawCD					= mod:NewAITimer(25, 251445, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
-local timerMoltenTouchCD				= mod:NewAITimer(61, 244072, nil, nil, nil, 3)
-local timerEnflamedCorruptionCD			= mod:NewAITimer(61, 244057, nil, nil, nil, 3)
+local timerBurningMawCD					= mod:NewCDTimer(11, 251445, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
+local timerMoltenTouchCD				= mod:NewCDTimer(95.9, 244072, nil, nil, nil, 3)
+local timerEnflamedCorruptionCD			= mod:NewCDTimer(95.9, 244057, nil, nil, nil, 3)
 --Shatug
-local timerCorruptingMawCD				= mod:NewAITimer(25, 245098, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
-local timerComsumingSphereCD			= mod:NewAITimer(25, 244131, nil, nil, nil, 3)
-local timerWeightOfDarknessCD			= mod:NewAITimer(25, 244069, nil, nil, nil, 3)
-local timerSiphonCorruptionCD			= mod:NewAITimer(61, 244056, nil, nil, nil, 3)
+local timerCorruptingMawCD				= mod:NewCDTimer(11, 245098, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
+local timerComsumingSphereCD			= mod:NewCDTimer(76, 244131, nil, nil, nil, 3)--Verify in transcritor
+local timerWeightOfDarknessCD			= mod:NewCDTimer(77.7, 244069, nil, nil, nil, 3)
+local timerSiphonCorruptionCD			= mod:NewCDTimer(77.7, 244056, nil, nil, nil, 3)
 --General/Mythic
 local timerFocusingPower				= mod:NewCastTimer(15, 251356, nil, nil, nil, 3)
 
@@ -128,14 +132,14 @@ end
 function mod:OnCombatStart(delay)
 	self.vb.WeightDarkIcon = 1
 	--Fire doggo
-	timerBurningMawCD:Start(1-delay)
-	timerMoltenTouchCD:Start(1-delay)
-	timerEnflamedCorruptionCD:Start(1-delay)
+	timerBurningMawCD:Start(10.9-delay)
+	timerMoltenTouchCD:Start(18-delay)
+	timerEnflamedCorruptionCD:Start(52.2-delay)
 	--Shadow doggo
-	timerCorruptingMawCD:Start(1-delay)
-	timerComsumingSphereCD:Start(1-delay)
-	timerWeightOfDarknessCD:Start(1-delay)
-	timerSiphonCorruptionCD:Start(1-delay)
+	timerCorruptingMawCD:Start(10.9-delay)
+	timerSiphonCorruptionCD:Start(26.7-delay)
+	timerComsumingSphereCD:Start(52.2-delay)
+	timerWeightOfDarknessCD:Start(77-delay)
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Show(5)--Molten Touch (assumed)
 	end
@@ -167,14 +171,17 @@ function mod:SPELL_CAST_SUCCESS(args)
 		warnMoltenTouch:Show()
 		timerMoltenTouchCD:Start()
 	elseif spellId == 251445 then
-		warnBurningMaw:Show()
+		warnBurningMaw:Show(args.destName)
 		timerBurningMawCD:Start()
 	elseif spellId == 245098 then
-		warnCorruptingMaw:Show()
+		warnCorruptingMaw:Show(args.destName)
 		timerCorruptingMawCD:Start()
 	elseif spellId == 251356 then
 		warnFocusingPower:Show()
 		timerFocusingPower:Start()
+	elseif spellId == 244069 then
+		self.vb.WeightDarkIcon = 1
+		timerWeightOfDarknessCD:Start()
 	end
 end
 
@@ -193,7 +200,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnEnflamed:Show()
 			voiceEnflamed:Play("scatter")
-			yellEnflamed:Yell()
+			yellEnflamed:Countdown(4)
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(8)
 			end
@@ -203,16 +210,12 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnSiphoned:Show()
 			voiceSiphoned:Play("gathershare")
-			yellSiphoned:Yell()
+			yellSiphoned:Countdown(4)
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(8)
 			end
 		end
 	elseif spellId == 244069 then
-		if self:AntiSpam(5, 1) then
-			self.vb.WeightDarkIcon = 1
-			timerWeightOfDarknessCD:Start()
-		end
 		warnWeightofDarkness:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnWeightOfDarkness:Show()
@@ -241,12 +244,14 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 248815 then--Enflamed
 		if args:IsPlayer() then
+			yellEnflamed:Cancel()
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(5)
 			end
 		end
 	elseif spellId == 248819 then--Siphoned
 		if args:IsPlayer() then
+			yellSiphoned:Cancel()
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(5)
 			end

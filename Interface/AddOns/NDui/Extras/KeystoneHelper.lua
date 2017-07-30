@@ -1,3 +1,5 @@
+local B, C, L, DB = unpack(select(2, ...))
+
 local function MythicLootItemLevel(mlvl)
 	if (mlvl == "2" or mlvl == "3") then
 		return "870+"
@@ -66,11 +68,8 @@ frame:SetScript("OnEvent", function(self, event, addonName, ...)
 		else
 			iLvlFrm:SetPoint("TOP", ChallengesModeWeeklyBest.Child.Level, "BOTTOM", 0, -50)
 		end
-		iLvlFrm.text = iLvlFrm:CreateFontString(nil, "MEDIUM", "GameFontHighlightLarge")
-		iLvlFrm.text:SetAllPoints(iLvlFrm)
-		iLvlFrm.text:SetFont(STANDARD_TEXT_FONT, 40, "OUTLINE")
+		iLvlFrm.text = B.CreateFS(iLvlFrm, 40, "", true)
 		iLvlFrm.text:SetJustifyH("CENTER")
-		iLvlFrm.text:SetTextColor(0, 1, 0, 1)
 		iLvlFrm:SetScript("OnUpdate", function(self, elaps)
 			self.time = (self.time or 1) - elaps
 			if (self.time > 0) then

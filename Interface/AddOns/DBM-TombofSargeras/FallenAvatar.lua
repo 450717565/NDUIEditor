@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1873, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16507 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16526 $"):sub(12, -3))
 mod:SetCreatureID(116939)--Maiden of Valor 120437
 mod:SetEncounterID(2038)
 mod:SetZone()
@@ -406,7 +406,7 @@ function mod:RAID_BOSS_WHISPER(msg)
 end
 
 function mod:OnTranscriptorSync(msg, targetName)
-	if msg:find("spell:236604") then--Rapid fire
+	if msg:find("spell:236604") then
 		targetName = Ambiguate(targetName, "none")
 		if self:AntiSpam(4, targetName) then
 			local icon = self.vb.bladesIcon

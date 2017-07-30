@@ -96,12 +96,16 @@ LibEvent:attachEvent("GROUP_ROSTER_UPDATE", function(self)
 			spec   = select(2, GetSpecializationInfo(GetSpecialization())),
 		}
 		LibSchedule:AddTask({
+			override  = true,
 			identity  = "InspectParty",
 			timer     = 1,
 			elasped   = 1,
 			begined   = GetTime() + 2,
-			expired   = GetTime() + 20,
-			onTimeout = function(self) LibEvent:trigger("PARTY_INSPECT_TIMEOUT", members) end,
+			expired   = GetTime() + 30,
+			onTimeout = function(self)
+				if (GetNumSubgroupMembers()==0) then return end
+				LibEvent:trigger("PARTY_INSPECT_TIMEOUT", members)
+			end,
 			onExecute = function(self)
 				if (IsInRaid()) then return true end
 				if (InspectDone()) then

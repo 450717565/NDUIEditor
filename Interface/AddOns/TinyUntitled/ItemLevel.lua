@@ -4,6 +4,7 @@
 -------------------------------------
 
 local LibEvent = LibStub:GetLibrary("LibEvent.7000")
+local LibItemGem = LibStub:GetLibrary("LibItemGem.7000")
 local LibSchedule = LibStub:GetLibrary("LibSchedule.7000")
 local LibItemInfo = LibStub:GetLibrary("LibItemInfo.7000")
 
@@ -70,6 +71,30 @@ local function SetItemSlotString(self, class, equipSlot, link)
 	self:SetText(slotText)
 end
 
+--部分裝備無法一次讀取
+local function SetItemLevelScheduled(button, ItemLevelFrame, link)
+	if (not string.match(link, "item:(%d+):")) then return end
+	LibSchedule:AddTask({
+		identity  = link,
+		elasped   = 0.5,
+		expired   = GetTime() + 3,
+		frame     = ItemLevelFrame,
+		button    = button,
+		onExecute = function(self)
+			local count, level, _, _, quality, _, _, class, _, _, equipSlot = LibItemInfo:GetItemInfo(self.identity)
+			if (count == 0) then
+				SetItemLevelString(self.frame.levelString, level > 0 and level or "", quality)
+				SetItemSlotString(self.frame.slotString, class, equipSlot, link)
+				self.button.OrigItemLevel = (level and level > 0) and level or ""
+				self.button.OrigItemQuality = quality
+				self.button.OrigItemClass = class
+				self.button.OrigItemEquipSlot = equipSlot
+				return true
+			end
+		end,
+	})
+end
+
 --設置物品等級
 local function SetItemLevel(self, link, category)
 	if (not self) then return end
@@ -81,8 +106,13 @@ local function SetItemLevel(self, link, category)
 		local _, count, level, quality, class, equipSlot
 		if (link) then
 			count, level, _, _, quality, _, _, class, _, _, equipSlot = LibItemInfo:GetItemInfo(link)
-			SetItemLevelString(frame.levelString, level > 0 and level or "", quality)
-			SetItemSlotString(frame.slotString, class, equipSlot, link)
+			if (count > 0) then
+				SetItemLevelString(frame.levelString, "...")
+				return SetItemLevelScheduled(self, frame, link)
+			else
+				SetItemLevelString(frame.levelString, level > 0 and level or "", quality)
+				SetItemSlotString(frame.slotString, class, equipSlot, link)
+			end
 		else
 			SetItemLevelString(frame.levelString, "")
 			SetItemSlotString(frame.slotString)
@@ -200,6 +230,12 @@ LibEvent:attachEvent("PLAYER_LOGIN", function()
 		function Combuctor.ItemSlot:Update()
 			origFunc(self)
 			SetItemLevel(self, self:GetItem(), "Bag")
+		end
+	elseif (Combuctor and Combuctor.Item) then
+		local origFunc = Combuctor.Item.Update
+		function Combuctor.Item:Update()
+			origFunc(self)
+			SetItemLevel(self, self.hasItem, "Bag")
 		end
 	end
 	-- For LiteBag

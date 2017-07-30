@@ -31,11 +31,18 @@ local Decimator = EJ_GetSectionInfo(15915)
 --TODO, improve luring destruction if draw in needs specific action
 --TODO, see how apoc drives affect other timers and impliment
 --TODO, annilation have targetting? does mythic version have a cast ID? could only find one cast start ID
+--[[
+(ability.id = 244969 or ability.id = 246408 or ability.id = 247044) and type = "begincast"
+ or abiity.id = 246220 and type = "cast"
+ or (ability.id = 244152) and type = "applybuff"
+ or (ability.id = 246220) and type = "applydebuff"
+--]]
 local warnLockedOn						= mod:NewTargetAnnounce(246220, 2)
 local warnDecimation					= mod:NewTargetAnnounce(244410, 4)
 
 local specWarnLockedOn					= mod:NewSpecialWarningMoveAway(246220, nil, nil, nil, 1, 2)
 local yellLockedOn						= mod:NewFadesYell(246220)
+local specWarnLockedOnTaunt				= mod:NewSpecialWarningTaunt(246220, nil, nil, nil, 1, 2)
 local specWarnApocDrive					= mod:NewSpecialWarningSwitch(244152, nil, nil, nil, 1, 2)
 local specWarnEradication				= mod:NewSpecialWarningRun(244969, nil, nil, nil, 4, 2)
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
@@ -49,9 +56,9 @@ local specWarnAnnihilation				= mod:NewSpecialWarningSpell(247044, nil, nil, nil
 --Mythic
 local specWarnLuringDestruction			= mod:NewSpecialWarningSpell(247159, nil, nil, nil, 2, 2)
 
-local timerLockedOnCD					= mod:NewAITimer(25, 246220, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
+local timerLockedOnCD					= mod:NewCDTimer(20, 246220, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
 local timerApocDriveCast				= mod:NewCastTimer(20, 247159, nil, nil, nil, 6)
-local timerEradicationCD				= mod:NewAITimer(20, 244969, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON)
+--local timerEradicationCD				= mod:NewAITimer(20, 244969, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON)
 mod:AddTimerLine(Decimator)
 local timerDecimationCD					= mod:NewAITimer(20, 244410, nil, nil, nil, 3)
 mod:AddTimerLine(annihilator)
@@ -64,7 +71,7 @@ local timerLuringDestructionCD			= mod:NewAITimer(61, 247159, nil, nil, nil, 2)
 
 --local countdownSingularity			= mod:NewCountdown(50, 235059)
 
-local voiceLockedOn						= mod:NewVoice(246220)--runout
+local voiceLockedOn						= mod:NewVoice(246220)--runout/keepmove
 local voiceApocDrive					= mod:NewVoice(244152)--targetchange
 local voiceEradication					= mod:NewVoice(244969)--justrun
 --local voiceGTFO						= mod:NewVoice(238028, nil, DBM_CORE_AUTO_VOICE4_OPTION_TEXT)--runaway
@@ -117,8 +124,8 @@ end
 function mod:OnCombatStart(delay)
 	self.vb.deciminationActive = 0
 	self.vb.lockedOnActive = 0
-	timerLockedOnCD:Start(1-delay)
-	timerEradicationCD:Start(1-delay)
+	timerLockedOnCD:Start(9.7-delay)
+	--timerEradicationCD:Start(1-delay)
 	timerDecimationCD:Start(1-delay)
 	timerAnnihilationCD:Start(1-delay)
 	if self:IsMythic() then
@@ -138,20 +145,20 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 244969 or spellId == 246408 then
-		specWarnEradication:Show()
-		voiceEradication:Play("justrun")
-		timerEradicationCD:Start()
-	elseif spellId == 247044 then
+		--specWarnEradication:Show()
+		--voiceEradication:Play("justrun")
+		--timerEradicationCD:Start()
+--[[	elseif spellId == 247044 then
 		specWarnAnnihilation:Show()
 		voiceAnnihilation:Play("helpsoak")
-		timerAnnihilationCD:Start()
+		timerAnnihilationCD:Start()--]]
 	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 246220 then
-		timerLockedOnCD:Start()
+		--timerLockedOnCD:Start()
 	end
 end
 
@@ -159,10 +166,15 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 246220 then
 		self.vb.lockedOnActive = self.vb.lockedOnActive + 1
+		timerLockedOnCD:Start()
 		if args:IsPlayer() then
 			specWarnLockedOn:Show()
 			voiceLockedOn:Play("runout")
+			voiceLockedOn:Schedule(5, "keepmove")
 			yellLockedOn:Countdown(5)
+		elseif self:IsTank() then
+			specWarnLockedOnTaunt:Show(args.destName)
+			voiceLockedOn:Play("tauntboss")
 		else
 			warnLockedOn:Show(args.destName)
 		end
@@ -254,8 +266,16 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 	if spellId == 245515 then--decimator-cannon-eject
 		timerDecimationCD:Stop()
 		--TODO, not stop it on mythic? or restart it maybe
+		specWarnEradication:Show()
+		voiceEradication:Play("justrun")
 	elseif spellId == 245527 then--annihilator-cannon-eject
 		timerAnnihilationCD:Stop()
 		--TODO, not stop it on mythic? or restart it maybe
+		specWarnEradication:Show()
+		voiceEradication:Play("justrun")
+	elseif spellId == 247044 then
+		specWarnAnnihilation:Show()
+		voiceAnnihilation:Play("helpsoak")
+		timerAnnihilationCD:Start()
 	end
 end

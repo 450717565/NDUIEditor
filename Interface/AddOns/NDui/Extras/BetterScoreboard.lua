@@ -1,12 +1,4 @@
-function format_thousand(v)
-	if v >= 1e8 then
-		return ("%.2f亿"):format(v / 1e8)
-	elseif v >= 1e4 then
-		return ("%.1f万"):format(v / 1e4)
-	else
-		return ("%.0f"):format(v)
-	end
-end
+local B, C, L, DB = unpack(select(2, ...))
 
 -- updated from  https://github.com/tekkub/wow-ui-source/blob/live/FrameXML/WorldStateFrame.lua
 function WorldStateScoreFrame_Update()
@@ -275,8 +267,8 @@ function WorldStateScoreFrame_Update()
 			scoreButton.killingBlows:SetText(killingBlows);
 
 			-- TODO HERE
-			scoreButton.damage:SetText(format_thousand(damageDone));
-			scoreButton.healing:SetText(format_thousand(healingDone));
+			scoreButton.damage:SetText(B.Numb(damageDone));
+			scoreButton.healing:SetText(B.Numb(healingDone));
 			teamDataFailed = 0;
 			teamName, teamRating, newTeamRating, teamMMR = GetBattlefieldTeamInfo(faction);
 

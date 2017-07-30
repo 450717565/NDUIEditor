@@ -1,11 +1,8 @@
-if not IsAddOnLoaded("NDui") then return end
-
 local B, C, L, DB = unpack(select(2, ...))
 
 local sQuality, sID, sName
 local fish, empty = "钓鱼", "没有物品"
 local iconSize = 33
-local fontType = {DB.Font[1], DB.Font[2]+2, DB.Font[3]}
 local addonPoint = {"CENTER", 300, 0}
 
 local addon = CreateFrame("Button", "Butsu")
@@ -21,8 +18,7 @@ else
 end
 addon:RegisterForClicks("AnyUp")
 addon:SetParent(UIParent)
-addon:SetWidth(256)
-addon:SetHeight(64)
+addon:SetSize(256, 64)
 addon:SetClampedToScreen(true)
 addon:SetClampRectInsets(0, 0, 14, 0)
 addon:SetHitRectInsets(0, 0, -14, 0)
@@ -86,8 +82,7 @@ local createSlot = function(id)
 	frame:SetScript("OnUpdate", OnUpdate)
 
 	local iconFrame = CreateFrame("Frame", tostring(frame:GetName()).."IconFrame", frame)
-	iconFrame:SetHeight(iconsize)
-	iconFrame:SetWidth(iconsize)
+	iconFrame:SetSize(iconsize, iconsize)
 	iconFrame:ClearAllPoints()
 	iconFrame:SetPoint("LEFT", frame)
 	B.CreateBB(iconFrame)
@@ -100,25 +95,14 @@ local createSlot = function(id)
 	icon:SetPoint("BOTTOMRIGHT", -1, 1)
 	frame.icon = icon
 
-	local count = iconFrame:CreateFontString(nil, "OVERLAY")
-	count:ClearAllPoints()
-	count:SetJustifyH"RIGHT"
-	count:SetPoint("BOTTOMRIGHT", iconFrame, -2, 2)
-	count:SetFont(unpack(fontType))
-	count:SetShadowOffset(1, 1)
-	count:SetShadowColor(.3, .3, .3, .7)
-	count:SetText(1)
+	local count = B.CreateFS(iconFrame, 14, "", false, "BOTTOMRIGHT", 0, 1)
+	count:SetJustifyH("RIGHT")
 	frame.count = count
 
-	local name = frame:CreateFontString(nil, "OVERLAY")
+	local name = B.CreateFS(iconFrame, 14, "", false)
 	name:SetJustifyH("LEFT")
-	name:ClearAllPoints()
-	name:SetPoint("RIGHT", frame)
 	name:SetPoint("LEFT", icon, "RIGHT", 5, 0)
 	name:SetNonSpaceWrap(true)
-	name:SetFont(unpack(fontType))
-	name:SetShadowOffset(1, -1)
-	name:SetShadowColor(.3, .3, .3, .7)
 	frame.name = name
 
 	local glow = frame:CreateTexture(nil, "ARTWORK")
@@ -194,7 +178,7 @@ addon.LOOT_OPENED = function(self, event, autoloot)
 			end
 
 			if lootQuantity and lootQuantity > 1 then
-				slot.count:SetText(lootQuantity)
+				slot.count:SetText(B.Numb(lootQuantity))
 				slot.count:Show()
 			else
 				slot.count:Hide()

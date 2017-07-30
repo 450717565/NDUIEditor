@@ -131,11 +131,11 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 		end
 
 		if itemLvl and slotText then
-			totalInfo = itemLvl.."-"..slotText
+			totalInfo = "<"..itemLvl.."-"..slotText..">"
 		elseif itemLvl then
-			totalInfo = itemLvl
+			totalInfo = "<"..itemLvl..">"
 		elseif slotText then
-			totalInfo = slotText
+			totalInfo = "<"..slotText..">"
 		else
 			totalInfo = ""
 		end
@@ -150,7 +150,7 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 			}
 			local numButtons = #LMFrame_Report
 			for index = 1, numButtons do
-				LMFrame[index]:SetText(DB.InfoColor..LMFrame_Report[index]["loottime"].." " ..ClassColor(LMFrame_Report[index]["player"]).." " ..LMFrame_Report[index]["loot"].." <"..LMFrame_Report[index]["info"]..">")
+				LMFrame[index]:SetText(DB.InfoColor..LMFrame_Report[index]["loottime"].." " ..ClassColor(LMFrame_Report[index]["player"]).." " ..LMFrame_Report[index]["loot"].." "..LMFrame_Report[index]["info"])
 				LMFrame[index]:Show()
 			end
 			LMFrame:SetSize((LMFrame_Width * 2), (LMFrame_Point * 2) + (fontHeight * 3) + ((Button_Height + Button_Spacing) * numButtons - Button_Spacing))
