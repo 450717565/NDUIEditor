@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1873, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16526 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16527 $"):sub(12, -3))
 mod:SetCreatureID(116939)--Maiden of Valor 120437
 mod:SetEncounterID(2038)
 mod:SetZone()
@@ -61,7 +61,7 @@ local specWarnTaintedEssence		= mod:NewSpecialWarningStack(240728, nil, 3, nil, 
 local specWarnDarkMark				= mod:NewSpecialWarningYou(239739, nil, nil, nil, 1, 2)
 local specWarnDarkMarkOther			= mod:NewSpecialWarningMoveTo(239739, nil, nil, nil, 1, 2)
 local yellDarkMark					= mod:NewPosYell(239739)
-local yellDarkMarkFades				= mod:NewFadesYell(239739)
+local yellDarkMarkFades				= mod:NewShortFadesYell(239739)
 local specWarnRainoftheDestroyer	= mod:NewSpecialWarningDodge(240396, nil, nil, nil, 2, 2)
 
 --Stage One: A Slumber Disturbed
@@ -79,7 +79,6 @@ local timerTaintedMatrixCD			= mod:NewCastTimer(10, 240623, nil, nil, nil, 6)--M
 --Stage Two: An Avatar Awakened
 mod:AddTimerLine(SCENARIO_STAGE:format(2))
 local timerDarkMarkCD				= mod:NewCDTimer(34, 239739, nil, nil, nil, 3)
---local timerBlackWindsCD				= mod:NewCDTimer(31, 239418, nil, nil, nil, 3)
 --local timerRainoftheDestroyerCD		= mod:NewCDTimer(44, 240396, nil, nil, nil, 3)
 
 local berserkTimer					= mod:NewBerserkTimer(420)

@@ -91,14 +91,14 @@ else
 	local function RetrieveData(self)
 		local currency = C_Garrison.GetCurrencyTypes(LE_GARRISON_TYPE_7_0)
 		self.name, self.amount, self.texture = GetCurrencyInfo(currency)
-	
+
 		local categoryInfo = C_Garrison.GetClassSpecCategoryInfo(LE_FOLLOWER_TYPE_GARRISON_7_0)
 		self.numCategory = #categoryInfo
 		for i, category in ipairs(categoryInfo) do
 			self.Category[i] = {category.name, category.count, category.limit, category.description, category.icon}
 		end
 	end
-	
+
 	hall:RegisterUnitEvent("UNIT_AURA", "player")
 	hall:RegisterEvent("PLAYER_ENTERING_WORLD")
 	hall:RegisterEvent("ADDON_LOADED")
@@ -115,11 +115,11 @@ else
 			self:GetScript("OnEnter")(self)
 		end
 	end)
-	
+
 	hall:SetScript("OnEnter", function(self)
 		C_Garrison.RequestClassSpecCategoryInfo(LE_FOLLOWER_TYPE_GARRISON_7_0)
 		RetrieveData(self)
-	
+
 		GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT", 5, -5)
 		GameTooltip:ClearLines()
 		GameTooltip:AddLine(DB.MyColor.._G["ORDER_HALL_"..DB.MyClass])
@@ -141,10 +141,10 @@ else
 		GameTooltip:AddDoubleLine(" ", "--------------", 1,1,1, .5,.5,.5)
 		GameTooltip:AddDoubleLine(" ", L["Details by Shift"], 1,1,1, .6,.8,1)
 		GameTooltip:Show()
-	
+
 		self:RegisterEvent("MODIFIER_STATE_CHANGED")
 	end)
-	
+
 	hall:SetScript("OnLeave", function(self)
 		GameTooltip_Hide()
 		self:UnregisterEvent("MODIFIER_STATE_CHANGED")

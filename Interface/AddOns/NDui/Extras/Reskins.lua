@@ -348,5 +348,21 @@ if IsAddOnLoaded("Aurora") then
 			F.CreateBD(TinyInspectRaidFrame.panel)
 			F.CreateSD(TinyInspectRaidFrame.panel)
 		end
+
+		if IsAddOnLoaded("ls_Toasts") then
+			local LST = unpack(ls_Toasts)
+			LST:CreateSkin("NDui MOD", function(toast, toastType)
+				toast.Border:Hide()
+				toast.IconBorder:Hide()
+				toast.Icon:SetTexCoord(.08, .92, .08, .92)
+				toast.BG:SetAlpha(0.8)
+				toast.BG:SetAllPoints(toast)
+				F.CreateBDFrame(toast.Icon)
+				F.CreateBD(toast)
+				F.CreateSD(toast)
+			end)
+			LST:SetSkin("NDui MOD")
+		end
+
 	end)
 end

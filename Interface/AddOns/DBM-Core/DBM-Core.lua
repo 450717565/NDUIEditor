@@ -41,9 +41,9 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 16526 $"):sub(12, -3)),
-	DisplayVersion = "7.2.16 alpha", -- the string that is shown as version
-	ReleaseRevision = 16485 -- the revision of the latest stable version that is available
+	Revision = tonumber(("$Revision: 16531 $"):sub(12, -3)),
+	DisplayVersion = "7.2.17 alpha", -- the string that is shown as version
+	ReleaseRevision = 16528 -- the revision of the latest stable version that is available
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -2885,6 +2885,10 @@ do
 		return raid[name] and raid[name].guid
 	end
 
+	function DBM:GetMyPlayerInfo()
+		return playerName, playerLevel, playerRealm
+	end
+
 	function DBM:GetUnitFullName(uId)
 		if not uId then return nil end
 		return GetUnitName(uId, true)
@@ -3583,6 +3587,7 @@ do
 end
 
 function DBM:PLAYER_REGEN_ENABLED()
+	if IsFalling() then return end--Don't attempt to load off load delay if falling oncombat end, just try next on combat end
 	if loadDelay then
 		self:Debug("loadDelay is activating LoadMod again")
 		self:LoadMod(loadDelay)

@@ -79,14 +79,14 @@ function module:SkadaSkin()
 		end
 		skada.shadow:SetPoint("BOTTOMRIGHT", win.bargroup, "BOTTOMRIGHT", 3, -3)
 		win.bargroup.button:SetFrameStrata("MEDIUM")
-		win.bargroup.button:SetFrameLevel(5)	
+		win.bargroup.button:SetFrameLevel(5)
 		win.bargroup:SetFrameStrata("MEDIUM")
 	end
 
 	local function EmbedWindow(window, width, barheight, height, point, relativeFrame, relativePoint, ofsx, ofsy)
 		window.db.barwidth = width
 		window.db.barheight = barheight
-		if window.db.enabletitle then 
+		if window.db.enabletitle then
 			height = height - barheight
 		end
 		window.db.background.height = height
@@ -138,7 +138,14 @@ function module:SkadaSkin()
 	end)
 
 	-- Change Skada Default Settings
-	LibStub("LibSharedMedia-3.0"):Register("statusbar", "normTex", DB.normTex)
+	media:Register("statusbar", "normTex", DB.normTex)
+	media:Register("statusbar", "Atlz", [[Interface\AddOns\NDui\Media\Skada\Atlz]])
+	media:Register("statusbar", "MaoR", [[Interface\AddOns\NDui\Media\Skada\MaoR]])
+	media:Register("statusbar", "Ya01", [[Interface\AddOns\NDui\Media\Skada\Ya01]])
+	media:Register("statusbar", "Ya02", [[Interface\AddOns\NDui\Media\Skada\Ya02]])
+	media:Register("statusbar", "Ya03", [[Interface\AddOns\NDui\Media\Skada\Ya03]])
+	media:Register("statusbar", "Ya04", [[Interface\AddOns\NDui\Media\Skada\Ya04]])
+	media:Register("statusbar", "Ya05", [[Interface\AddOns\NDui\Media\Skada\Ya05]])
 	Skada.windowdefaults.bartexture = "normTex"
 	Skada.windowdefaults.classicons = false
 	Skada.windowdefaults.title.fontflags = "OUTLINE"
@@ -150,14 +157,6 @@ function module:SkadaSkin()
 
 	-- Change Skada NumberFormat
 	Skada.options.args.generaloptions.args.numberformat = nil
-	
-	media:Register("statusbar", "Atlz", [[Interface\AddOns\NDui\Media\Skada\Atlz]])
-	media:Register("statusbar", "MaoR", [[Interface\AddOns\NDui\Media\Skada\MaoR]])
-	media:Register("statusbar", "Ya01", [[Interface\AddOns\NDui\Media\Skada\Ya01]])
-	media:Register("statusbar", "Ya02", [[Interface\AddOns\NDui\Media\Skada\Ya02]])
-	media:Register("statusbar", "Ya03", [[Interface\AddOns\NDui\Media\Skada\Ya03]])
-	media:Register("statusbar", "Ya04", [[Interface\AddOns\NDui\Media\Skada\Ya04]])
-	media:Register("statusbar", "Ya05", [[Interface\AddOns\NDui\Media\Skada\Ya05]])
 
 	function Skada:FormatNumber(number)
 		if number then
