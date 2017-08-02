@@ -352,12 +352,35 @@ if IsAddOnLoaded("Aurora") then
 		if IsAddOnLoaded("ls_Toasts") then
 			local LST = unpack(ls_Toasts)
 			LST:CreateSkin("NDui MOD", function(toast, toastType)
+				local title = toast.Title:GetText()
 				toast.Border:Hide()
-				toast.IconBorder:Hide()
 				toast.Icon:SetTexCoord(.08, .92, .08, .92)
 				toast.BG:SetAlpha(0.8)
 				toast.BG:SetAllPoints(toast)
-				F.CreateBDFrame(toast.Icon)
+				toast.BG:SetBlendMode("ADD")
+				toast.BG:SetDrawLayer("BACKGROUND", 0)
+				if toast.IconBorder then
+					toast.IconBorder:Hide()
+				end
+				if title ~= _G.ARCHAEOLOGY_DIGSITE_COMPLETE_TOAST_FRAME_TITLE then
+					if not toast.style then
+						F.CreateBDFrame(toast.Icon)
+						toast.style = true
+					end
+				end
+				if toast.Reward1 then
+					for i = 1, 5 do
+						local rw = toast["Reward"..i]
+						local rwic = rw.Icon
+						local rwbd = rw.Border
+						rwbd:Hide()
+						rwic:SetTexCoord(.08, .92, .08, .92)
+						if not rw.style then
+							F.CreateBDFrame(rwic)
+							rw.style = true
+						end
+					end
+				end
 				F.CreateBD(toast)
 				F.CreateSD(toast)
 			end)

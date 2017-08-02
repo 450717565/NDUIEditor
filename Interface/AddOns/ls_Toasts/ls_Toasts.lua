@@ -99,7 +99,7 @@ local DEFAULTS = {
 	point = {"CENTER", UIParent, "BOTTOM", 0, 200},
 	max_active_toasts = 12,
 	sfx_enabled = true,
-	fadeout_delay = 2.8,
+	fadeout_delay = 3,
 	scale = 1,
 	colored_names_enabled = true,
 	type = {
@@ -1166,6 +1166,7 @@ local function CreateToastReward(parent, index)
 	border:SetAllPoints()
 	border:SetTexture("Interface\\LFGFrame\\UI-LFG-ICON-REWARDRING")
 	border:SetTexCoord(0 / 64, 40 / 64, 0 / 64, 40 / 64)
+	reward.Border = border
 
 	return reward
 end
@@ -1330,7 +1331,7 @@ local function GetToast(toastType)
 				local reward = CreateToastReward(toast, i)
 
 				if i == 1 then
-					reward:SetPoint("TOPRIGHT", -2, 10)
+					reward:SetPoint("TOPRIGHT", -2, 14)
 				else
 					reward:SetPoint("RIGHT", toast["Reward"..(i - 1)], "LEFT", -2 , 0)
 				end
