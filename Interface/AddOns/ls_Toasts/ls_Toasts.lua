@@ -130,12 +130,12 @@ local DEFAULTS = {
 		loot_special = { -- personal loot, store item delivery, legendaries
 			enabled = true,
 			dnd = false,
-			threshold = 1,
+			threshold = 2,
 		},
 		loot_common = {
 			enabled = true,
 			dnd = false,
-			threshold = 1,
+			threshold = 2,
 		},
 		loot_currency = {
 			enabled = true,
@@ -946,14 +946,14 @@ local function CreateBaseToastButton()
 	toast.Icon = icon
 
 	local title = toast:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-	title:SetPoint("TOPLEFT", 55, -12)
+	title:SetPoint("TOPLEFT", 55, -10)
 	title:SetWidth(170)
 	title:SetJustifyH("CENTER")
 	title:SetWordWrap(false)
 	toast.Title = title
 
 	local text = toast:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
-	text:SetPoint("BOTTOMLEFT", 55, 12)
+	text:SetPoint("BOTTOMLEFT", 55, 9)
 	text:SetWidth(170)
 	text:SetJustifyH("CENTER")
 	text:SetWordWrap(false)
