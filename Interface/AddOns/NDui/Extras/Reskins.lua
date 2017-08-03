@@ -28,7 +28,6 @@ if IsAddOnLoaded("Aurora") then
 
 		if IsAddOnLoaded("APIInterface") then
 			APIIListsInsetLeft.Bg:Hide()
-
 			F.CreateBD(APII_Core)
 			F.CreateSD(APII_Core)
 			F.ReskinClose(APII_Core.CloseButton)
@@ -39,7 +38,6 @@ if IsAddOnLoaded("Aurora") then
 			for i = 1, #list do
 				_G["APIIListsInsetLeft"..list[i]]:Hide()
 			end
-
 			for i = 1, 16 do
 				select(i, APII_Core:GetRegions()):Hide()
 			end
@@ -217,7 +215,6 @@ if IsAddOnLoaded("Aurora") then
 			F.CreateSD(WhisperPopFrame)
 			F.CreateBD(WhisperPopMessageFrame)
 			F.CreateSD(WhisperPopMessageFrame)
-
 			F.ReskinCheck(WhisperPopMessageFrameProtectCheck)
 			F.ReskinClose(WhisperPopFrameListDelete)
 			F.ReskinClose(WhisperPopFrameTopCloseButton)
@@ -249,6 +246,7 @@ if IsAddOnLoaded("Aurora") then
 			F.Reskin(BuyEmAllMaxButton)
 			F.ReskinArrow(BuyEmAllLeftButton, "left")
 			F.ReskinArrow(BuyEmAllRightButton, "right")
+
 			for i = 1, 3 do
 				select(i, BuyEmAllFrame:GetRegions()):Hide()
 			end
@@ -259,7 +257,6 @@ if IsAddOnLoaded("Aurora") then
 			F.CreateBD(BaudAuctionProgress)
 			F.CreateSD(BaudAuctionProgress)
 			--F.ReskinClose(BaudAuctionCancelButton)
-
 			BaudAuctionProgressBar:SetPoint("CENTER", 12, -5)
 			BaudAuctionProgressBarIcon:SetTexCoord(.08, .92, .08, .92)
 			BaudAuctionProgressBarIcon:SetPoint("RIGHT", BaudAuctionProgressBar, "LEFT", -2, 0)
@@ -270,7 +267,6 @@ if IsAddOnLoaded("Aurora") then
 			for i = 1, 2 do
 				select(i, BaudAuctionBrowseScrollBoxScrollBar:GetRegions()):Hide()
 			end
-
 			for k = 1, 19 do
 				F.ReskinIcon(_G["BaudAuctionBrowseScrollBoxEntry"..k.."Texture"])
 			end
@@ -284,17 +280,13 @@ if IsAddOnLoaded("Aurora") then
 			F.ReskinArrow(BuyAdvancedButton, "down")
 			F.ReskinArrow(SellRememberButton, "down")
 			F.ReskinArrow(BuySummaryButton, "left")
-
 			SellSize:SetWidth(40)
 			SellSize:ClearAllPoints()
 			SellSize:SetPoint("LEFT", SellStacks, "RIGHT", 45, 0)
-
 			SellBidPriceSilver:SetPoint("LEFT", SellBidPriceGold, "RIGHT", 1, 0)
 			SellBidPriceCopper:SetPoint("LEFT", SellBidPriceSilver, "RIGHT", 1, 0)
-
 			SellBuyoutPriceSilver:SetPoint("LEFT", SellBuyoutPriceGold, "RIGHT", 1, 0)
 			SellBuyoutPriceCopper:SetPoint("LEFT", SellBuyoutPriceSilver, "RIGHT", 1, 0)
-
 			BuyBuyoutButton:ClearAllPoints()
 			BuyBuyoutButton:SetPoint("RIGHT", BuyCancelAuctionButton, "LEFT", -1, 0)
 			BuyBidButton:ClearAllPoints()
@@ -318,17 +310,14 @@ if IsAddOnLoaded("Aurora") then
 			for i = 1, #inputs do
 				F.ReskinInput(_G[inputs[i]])
 			end
-
 			local abuttons = {"BuySearchButton", "BuyScanButton", "BuyBidButton", "BuyBuyoutButton", "BuyCancelAuctionButton", "BuyCancelSearchButton", "SellCreateAuctionButton"}
 			for a = 1, #abuttons do
 				F.Reskin(_G[abuttons[a]])
 			end
-
 			local bbuttons = {"SellShortAuctionButton", "SellMediumAuctionButton", "SellLongAuctionButton", "SellPerItemButton", "SellPerStackButton"}
 			for b = 1, #bbuttons do
 				F.ReskinRadio(_G[bbuttons[b]])
 			end
-
 			local scroll = {"BuyScrollFrame", "SellScrollFrame"}
 			for s = 1, #scroll do
 				F.ReskinScroll(_G[scroll[s].."ScrollBar"])
@@ -343,6 +332,7 @@ if IsAddOnLoaded("Aurora") then
 				select(i, TinyInspectRaidFrame:GetRegions()):Hide()
 				select(i, TinyInspectRaidFrame.panel:GetRegions()):Hide()
 			end
+
 			F.CreateBD(TinyInspectRaidFrame)
 			F.CreateSD(TinyInspectRaidFrame)
 			F.CreateBD(TinyInspectRaidFrame.panel)
@@ -353,12 +343,14 @@ if IsAddOnLoaded("Aurora") then
 			local LST = unpack(ls_Toasts)
 			LST:CreateSkin("NDui MOD", function(toast, toastType)
 				local title = toast.Title:GetText()
-				toast.Border:Hide()
-				toast.Icon:SetTexCoord(.08, .92, .08, .92)
+
 				toast.BG:SetAlpha(0.8)
 				toast.BG:SetAllPoints(toast)
 				toast.BG:SetBlendMode("ADD")
 				toast.BG:SetDrawLayer("BACKGROUND", 0)
+				toast.Icon:SetTexCoord(.08, .92, .08, .92)
+				toast.Border:Hide()
+
 				if toast.IconBorder then
 					toast.IconBorder:Hide()
 				end
@@ -381,9 +373,11 @@ if IsAddOnLoaded("Aurora") then
 						end
 					end
 				end
+
 				F.CreateBD(toast)
 				F.CreateSD(toast)
 			end)
+
 			LST:SetSkin("NDui MOD")
 		end
 

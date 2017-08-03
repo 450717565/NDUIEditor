@@ -4,6 +4,9 @@
 	All rights reserved.
 ]]
 
+if not IsAddOnLoaded("Blizzard_TradeSkillUI") then
+	LoadAddOn("Blizzard_TradeSkillUI")
+end
 
 --- Initialization ---
 local numTabs = 0
