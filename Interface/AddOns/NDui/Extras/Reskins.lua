@@ -198,18 +198,6 @@ if IsAddOnLoaded("Aurora") then
 			end
 		end
 
-		if IsAddOnLoaded("QuestNotifier") then
-			F.ReskinCheck(QNOchk_Switch)
-			F.ReskinCheck(QNOchk_Instance)
-			F.ReskinCheck(QNOchk_Raid)
-			F.ReskinCheck(QNOchk_Party)
-			F.ReskinCheck(QNOchk_Solo)
-			F.ReskinCheck(QNOchk_Sound)
-			F.ReskinCheck(QNOchk_Debug)
-			F.ReskinCheck(QNOchk_NoDetail)
-			F.ReskinCheck(QNOchk_CompleteX)
-		end
-
 		if IsAddOnLoaded("WhisperPop") then
 			F.CreateBD(WhisperPopFrame)
 			F.CreateSD(WhisperPopFrame)
@@ -379,6 +367,11 @@ if IsAddOnLoaded("Aurora") then
 			end)
 
 			LST:SetSkin("NDui MOD")
+		end
+
+		if IsAddOnLoaded("Immersion") then
+			local talkbox = ImmersionFrame.TalkBox.MainFrame
+			F.ReskinClose(talkbox.CloseButton, "TOPRIGHT", talkbox, "TOPRIGHT", -20, -20)
 		end
 
 	end)

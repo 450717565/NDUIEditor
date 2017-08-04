@@ -172,7 +172,7 @@ end)
 do
 	local bar = _G.PlayerPowerBarAlt
 	local mover = CreateFrame("Frame", "NDuiAltBarMover", bar)
-	mover:SetPoint("CENTER", UIParent, 0, -200)
+	mover:SetPoint("CENTER", UIParent, "TOP", 0, -200)
 	mover:SetSize(20, 20)
 	B.CreateMF(bar, mover)
 	hooksecurefunc(bar, "SetPoint", function(_, _, parent)

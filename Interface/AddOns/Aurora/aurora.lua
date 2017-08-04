@@ -204,7 +204,7 @@ F.Reskin = function(f, noHighlight)
 
 	if not noHighlight then
 		f:HookScript("OnEnter", colourButton)
- 		f:HookScript("OnLeave", clearButton)
+		f:HookScript("OnLeave", clearButton)
 	end
 end
 
@@ -426,7 +426,7 @@ F.ReskinClose = function(f, a1, p, a2, x, y)
 	end
 
 	f:HookScript("OnEnter", colourClose)
- 	f:HookScript("OnLeave", clearClose)
+	f:HookScript("OnLeave", clearClose)
 end
 
 F.ReskinInput = function(f, height, width)
@@ -1449,7 +1449,7 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 			bg:SetFrameLevel(0)
 			F.CreateBD(bg, .25)
 			F.CreateSD(bg)
-			
+
 			ub:ClearAllPoints()
 			ub:SetPoint("LEFT", bu.icon, "RIGHT", 7, 0)
 			F.Reskin(ub)

@@ -53,12 +53,14 @@ tinsert(C.themes["Aurora"], function()
 		mo:SetPoint(a3, p2, a4, x, y+2)
 
 		F.CreateBD(bu, 0)
+		F.CreateSD(bu)
 
 		button.bd = CreateFrame("Frame", nil, button)
 		button.bd:SetPoint("TOPLEFT", 39, 0)
 		button.bd:SetPoint("BOTTOMRIGHT")
 		button.bd:SetFrameLevel(0)
 		F.CreateBD(button.bd, .25)
+		F.CreateSD(button.bd)
 
 		ic:SetTexCoord(.08, .92, .08, .92)
 		ic:ClearAllPoints()
@@ -66,8 +68,10 @@ tinsert(C.themes["Aurora"], function()
 		ic:SetPoint("BOTTOMRIGHT", -1, 1)
 
 		for j = 1, 3 do
-			F.CreateBG(_G["MerchantItem"..i.."AltCurrencyFrameItem"..j.."Texture"])
-			_G["MerchantItem"..i.."AltCurrencyFrameItem"..j.."Texture"]:SetTexCoord(.08, .92, .08, .92)
+			local acTex = _G["MerchantItem"..i.."AltCurrencyFrameItem"..j.."Texture"]
+			local acText = _G["MerchantItem"..i.."AltCurrencyFrameItem"..j.."Text"]
+			acTex:SetTexCoord(.08, .92, .08, .92)
+			F.CreateBDFrame(acTex)
 		end
 	end
 
@@ -129,7 +133,9 @@ tinsert(C.themes["Aurora"], function()
 	MerchantBuyBackItemItemButton.IconBorder:SetAlpha(0)
 
 	F.CreateBD(MerchantBuyBackItemItemButton, 0)
+	F.CreateSD(MerchantBuyBackItemItemButton)
 	F.CreateBD(MerchantBuyBackItem, .25)
+	F.CreateSD(MerchantBuyBackItem)
 
 	MerchantBuyBackItemItemButtonIconTexture:SetTexCoord(.08, .92, .08, .92)
 	MerchantBuyBackItemItemButtonIconTexture:ClearAllPoints()
@@ -141,15 +147,15 @@ tinsert(C.themes["Aurora"], function()
 	MerchantBuyBackItemName:SetPoint("LEFT", MerchantBuyBackItemSlotTexture, "RIGHT", -5, 8)
 
 	MerchantGuildBankRepairButton:SetPushedTexture("")
-	F.CreateBG(MerchantGuildBankRepairButton)
+	F.CreateBDFrame(MerchantGuildBankRepairButton)
 	MerchantGuildBankRepairButtonIcon:SetTexCoord(0.595, 0.8075, 0.05, 0.52)
 
 	MerchantRepairAllButton:SetPushedTexture("")
-	F.CreateBG(MerchantRepairAllButton)
+	F.CreateBDFrame(MerchantRepairAllButton)
 	MerchantRepairAllIcon:SetTexCoord(0.31375, 0.53, 0.06, 0.52)
 
 	MerchantRepairItemButton:SetPushedTexture("")
-	F.CreateBG(MerchantRepairItemButton)
+	F.CreateBDFrame(MerchantRepairItemButton)
 	local ic = MerchantRepairItemButton:GetRegions()
 	ic:SetTexture("Interface\\Icons\\INV_Hammer_20")
 	ic:SetTexCoord(.08, .92, .08, .92)
@@ -166,7 +172,7 @@ tinsert(C.themes["Aurora"], function()
 				ic:SetPoint("LEFT", co, "RIGHT", 2, 0)
 				co:SetPoint("TOPLEFT", bu, "TOPLEFT", -2, 0)
 
-				F.CreateBG(ic)
+				F.CreateBDFrame(ic)
 				bu.reskinned = true
 			end
 		end

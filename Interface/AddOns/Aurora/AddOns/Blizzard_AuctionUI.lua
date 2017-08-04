@@ -16,7 +16,7 @@ C.themes["Blizzard_AuctionUI"] = function()
 	F.CreateSD(ABBD)
 
 	AuctionProgressBar.Icon:SetTexCoord(.08, .92, .08, .92)
-	F.CreateBG(AuctionProgressBar.Icon)
+	F.CreateBDFrame(AuctionProgressBar.Icon)
 
 	AuctionProgressBar.Text:ClearAllPoints()
 	AuctionProgressBar.Text:SetPoint("CENTER", 0, 1)
@@ -115,7 +115,7 @@ C.themes["Blizzard_AuctionUI"] = function()
 
 			ic:SetTexCoord(.08, .92, .08, .92)
 
-			F.CreateBG(it)
+			F.CreateBDFrame(it)
 
 			it.IconBorder:SetTexture("")
 			it.IconBorder.SetTexture = F.dummy
@@ -149,7 +149,7 @@ C.themes["Blizzard_AuctionUI"] = function()
 
 		ic:SetTexCoord(.08, .92, .08, .92)
 
-		F.CreateBG(it)
+		F.CreateBDFrame(it)
 
 		it.IconBorder:SetTexture("")
 		_G["BidButton"..i.."Left"]:Hide()
@@ -181,7 +181,7 @@ C.themes["Blizzard_AuctionUI"] = function()
 		ic:SetTexCoord(.08, .92, .08, .92)
 
 		F.CreateBDFrame(ic)
-		F.CreateBG(it)
+		F.CreateBDFrame(it)
 
 		it.IconBorder:SetTexture("")
 		it.IconBorder.SetTexture = F.dummy
