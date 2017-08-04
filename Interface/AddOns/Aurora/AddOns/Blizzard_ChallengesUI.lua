@@ -4,10 +4,12 @@ C.themes["Blizzard_ChallengesUI"] = function()
 	-- Reskin Affixes
 	local function AffixesSetup(parent)
 		for i, frame in ipairs(parent) do
+			frame.Border:SetTexture("")
 			frame.Border:SetAlpha(0)
+			frame.Border:Hide()
 			frame.Portrait:SetTexture(nil)
+			frame.Portrait:SetTexCoord(.08, .92, .08, .92)
 			if not frame.bg then
-				frame.Portrait:SetTexCoord(.08, .92, .08, .92)
 				frame.bg = F.CreateBDFrame(frame.Portrait)
 			end
 

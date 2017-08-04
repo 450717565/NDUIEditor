@@ -19,14 +19,13 @@ C.themes["Blizzard_Contribution"] = function()
 	end)
 
 	hooksecurefunc(ContributionRewardMixin, "Setup", function(self)
+		self.RewardName:SetTextColor(1, 1, 1)
+		self.Icon:SetTexCoord(.08, .92, .08, .92)
+		self.Border:SetTexture("")
+		self.Border:SetAlpha(0)
+		self.Border:Hide()
 		if not self.styled then
-			self.RewardName:SetTextColor(1, 1, 1)
-			self.Icon:SetTexCoord(.08, .92, .08, .92)
-			self.Border:SetTexture("")
-			self.Border:SetAlpha(0)
-			self.Border:Hide()
 			F.CreateBDFrame(self.Icon)
-
 			self.styled = true
 		end
 	end)

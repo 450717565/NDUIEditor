@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1861, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16535 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16543 $"):sub(12, -3))
 mod:SetCreatureID(115767)--116328 Vellius, 115795 Abyss Stalker, 116329/116843 Sarukel
 mod:SetEncounterID(2037)
 mod:SetZone()
@@ -65,8 +65,8 @@ local specWarnDeliciousBufferfish	= mod:NewSpecialWarningYou(239375, nil, nil, n
 
 --General Stuff
 mod:AddTimerLine(GENERAL)
-local timerHydraShotCD				= mod:NewCDTimer(40, 230139, nil, nil, nil, 3)
-local timerBurdenofPainCD			= mod:NewCDTimer(28, 230201, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--28-32
+local timerHydraShotCD				= mod:NewCDCountTimer(40, 230139, nil, nil, nil, 3)
+local timerBurdenofPainCD			= mod:NewCDTimer(27.6, 230201, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--28-32
 local timerFromtheAbyssCD			= mod:NewCDTimer(27, 230227, nil, nil, nil, 1)--27-31
 --Stage One: Ten Thousand Fangs
 mod:AddTimerLine(SCENARIO_STAGE:format(1))
@@ -126,7 +126,7 @@ function mod:OnCombatStart(delay)
 	self.vb.hydraShotCount = 0
 	table.wipe(hydraIcons)
 	timerThunderingShockCD:Start(10-delay)--10-11
-	if self.Options.TauntOnPainSuccess then
+	if not self.Options.TauntOnPainSuccess then
 		timerBurdenofPainCD:Start(15.4-delay)
 		countdownBurdenofPain:Start(15.4-delay)
 	else
@@ -200,7 +200,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 230201 then
 		if not self.Options.TauntOnPainSuccess then
 			timerBurdenofPainCD:Start()
-			countdownBurdenofPain:Start()
+			countdownBurdenofPain:Start(27.6)
 		end
 		local tanking, status = UnitDetailedThreatSituation("player", "boss1")
 		if tanking or (status == 3) then
@@ -285,6 +285,9 @@ function mod:SPELL_AURA_REMOVED(args)
 		if self.Options.SetIconOnHydraShot then
 			self:SetIcon(args.destName, 0)
 		end
+		if args:IsPlayer() then
+			yellHydraShotFades:Cancel()
+		end
 	end
 end
 
@@ -321,9 +324,6 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 		else
 			timerHydraShotCD:Start(40, self.vb.hydraShotCount+1)
 			countdownHydraShot:Start(40)
-		end
-		if args:IsPlayer() then
-			yellHydraShotFades:Cancel()
 		end
 	elseif spellId == 239423 then--Dread Shark
 		if self:IsMythic() then
