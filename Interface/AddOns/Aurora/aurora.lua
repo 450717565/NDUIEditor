@@ -158,7 +158,9 @@ F.SetBD = function(f, x, y, x2, y2)
 		bg:SetPoint("TOPLEFT", x, y)
 		bg:SetPoint("BOTTOMRIGHT", x2, y2)
 	end
-	bg:SetFrameLevel(f:GetFrameLevel()-1)
+
+	local lvl = f:GetFrameLevel()
+	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
 	F.CreateBD(bg)
 	F.CreateSD(bg)
 end
@@ -219,10 +221,11 @@ F.ReskinTab = function(f, numTabs)
 	else
 		f:DisableDrawLayer("BACKGROUND")
 
+		local lvl = f:GetFrameLevel()
 		local bg = CreateFrame("Frame", nil, f)
 		bg:SetPoint("TOPLEFT", 8, -3)
 		bg:SetPoint("BOTTOMRIGHT", -8, 0)
-		bg:SetFrameLevel(f:GetFrameLevel()-1)
+		bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
 		F.CreateBD(bg)
 		F.CreateSD(bg)
 
@@ -355,10 +358,11 @@ F.ReskinDropDown = function(f)
 	down:HookScript("OnEnter", colourArrow)
 	down:HookScript("OnLeave", clearArrow)
 
+	local lvl = f:GetFrameLevel()
 	local bg = CreateFrame("Frame", nil, f)
 	bg:SetPoint("TOPLEFT", 16, -4)
 	bg:SetPoint("BOTTOMRIGHT", -18, 8)
-	bg:SetFrameLevel(f:GetFrameLevel()-1)
+	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
 	F.CreateBD(bg, 0)
 	F.CreateSD(bg)
 
@@ -440,10 +444,11 @@ F.ReskinInput = function(f, height, width)
 	middle:Hide()
 	right:Hide()
 
+	local lvl = f:GetFrameLevel()
 	local bd = CreateFrame("Frame", nil, f)
 	bd:SetPoint("TOPLEFT", -2, 0)
 	bd:SetPoint("BOTTOMRIGHT")
-	bd:SetFrameLevel(f:GetFrameLevel()-1)
+	bd:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
 	F.CreateBD(bd, 0)
 	F.CreateSD(bd)
 
@@ -483,10 +488,11 @@ F.ReskinCheck = function(f, isTriState)
 	hl:SetPoint("BOTTOMRIGHT", -5, 5)
 	hl:SetVertexColor(r, g, b, .2)
 
+	local lvl = f:GetFrameLevel()
 	local bd = CreateFrame("Frame", nil, f)
 	bd:SetPoint("TOPLEFT", 4, -4)
 	bd:SetPoint("BOTTOMRIGHT", -4, 4)
-	bd:SetFrameLevel(f:GetFrameLevel()-1)
+	bd:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
 	F.CreateBD(bd, 0)
 	F.CreateSD(bd)
 
@@ -536,10 +542,11 @@ F.ReskinRadio = function(f)
 	ch:SetPoint("BOTTOMRIGHT", -4, 4)
 	ch:SetVertexColor(r, g, b, .6)
 
+	local lvl = f:GetFrameLevel()
 	local bd = CreateFrame("Frame", nil, f)
 	bd:SetPoint("TOPLEFT", 3, -3)
 	bd:SetPoint("BOTTOMRIGHT", -3, 3)
-	bd:SetFrameLevel(f:GetFrameLevel()-1)
+	bd:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
 	F.CreateBD(bd, 0)
 	F.CreateSD(bd)
 	f.bd = bd
@@ -556,11 +563,12 @@ F.ReskinSlider = function(f, isVert)
 	f:SetBackdrop(nil)
 	f.SetBackdrop = F.dummy
 
+	local lvl = f:GetFrameLevel()
 	local bd = CreateFrame("Frame", nil, f)
 	bd:SetPoint("TOPLEFT", 14, -2)
 	bd:SetPoint("BOTTOMRIGHT", -15, 3)
 	bd:SetFrameStrata("BACKGROUND")
-	bd:SetFrameLevel(f:GetFrameLevel()-1)
+	bd:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
 	F.CreateBD(bd, 0)
 	F.CreateSD(bd)
 
@@ -584,10 +592,11 @@ F.ReskinStatusBar = function(f, blue)
 		f:GetStatusBarTexture():SetGradient("VERTICAL", 0, .4, 0, 0, .6, 0)
 	end
 
+	local lvl = f:GetFrameLevel()
 	local bg = CreateFrame("Frame", nil, f)
 	bg:SetPoint("TOPLEFT", -1, 1)
 	bg:SetPoint("BOTTOMRIGHT", 1, -1)
-	bg:SetFrameLevel(f:GetFrameLevel()-1)
+	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
 
 	F.CreateBD(bg, .25)
 	F.CreateSD(bg)

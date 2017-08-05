@@ -21,7 +21,7 @@ function module:OnLogin()
 
 	-- Generate Coords
 	if not NDuiDB["Map"]["Coord"] then return end
-	if IsAddOnLoaded('Aurora') then
+	if IsAddOnLoaded("Aurora") then
 		player = B.CreateFS(WorldMapTitleButton, 14, "", false, "TOPLEFT", 40, -8)
 		cursor = B.CreateFS(WorldMapTitleButton, 14, "", false, "TOPLEFT", 170, -8)
 	else

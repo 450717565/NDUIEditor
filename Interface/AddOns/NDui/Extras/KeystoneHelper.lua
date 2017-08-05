@@ -63,7 +63,7 @@ frame:SetScript("OnEvent", function(self, event, addonName, ...)
     if event == "ADDON_LOADED" and addonName == "Blizzard_ChallengesUI" then
 		local iLvlFrm = CreateFrame("Frame", "LootLevel", ChallengesModeWeeklyBest)
 		iLvlFrm:SetSize(200, 50)
-		if IsAddOnLoaded('Aurora') then
+		if IsAddOnLoaded("Aurora") then
 			iLvlFrm:SetPoint("TOP", ChallengesModeWeeklyBest.Child.Level, "BOTTOM", 0, 5)
 		else
 			iLvlFrm:SetPoint("TOP", ChallengesModeWeeklyBest.Child.Level, "BOTTOM", 0, -50)

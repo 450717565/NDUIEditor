@@ -41,8 +41,8 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 16545 $"):sub(12, -3)),
-	DisplayVersion = "7.2.17 alpha", -- the string that is shown as version
+	Revision = tonumber(("$Revision: 16528 $"):sub(12, -3)),
+	DisplayVersion = "7.2.16", -- the string that is shown as version
 	ReleaseRevision = 16528 -- the revision of the latest stable version that is available
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
@@ -269,6 +269,7 @@ DBM.DefaultOptions = {
 	CATATWMessageShown = false,
 	MISTSTWMessageShown = false,
 	AlwaysShowSpeedKillTimer = true,
+	CRT_Enabled = false,
 	ShowRespawn = true,
 	ShowQueuePop = true,
 	HelpMessageVersion = 3,
@@ -345,6 +346,7 @@ local loadOptions
 local checkWipe
 local checkBossHealth
 local checkCustomBossHealth
+local loopCRTimer
 local fireEvent
 local playerName = UnitName("player")
 local playerLevel = UnitLevel("player")
@@ -4237,21 +4239,20 @@ do
 					AddMsg(DBM, ("|HDBM:update:%s:%s|h|cff3588ff[%s]"):format(displayVersion, version, DBM_CORE_UPDATEREMINDER_URL or "http://www.deadlybossmods.com"))
 					showConstantReminder = 1
 				elseif not noRaid and #newerVersionPerson == 3 and updateNotificationDisplayed < 3 then--The following code requires at least THREE people to send that higher revision. That should be more than adaquate
-					--Disable if revision grossly out of date even if not major patch.
-					if raid[newerVersionPerson[1]].revision and raid[newerVersionPerson[2]].revision and raid[newerVersionPerson[3]].revision then
-						local revDifference = mmin((raid[newerVersionPerson[1]].revision - DBM.Revision), (raid[newerVersionPerson[2]].revision - DBM.Revision), (raid[newerVersionPerson[3]].revision - DBM.Revision))
-						if revDifference > 100 then
-							if updateNotificationDisplayed < 3 then
-								updateNotificationDisplayed = 3
-								AddMsg(DBM, DBM_CORE_UPDATEREMINDER_DISABLE)
-								DBM:Disable()
-							end
-						end
+					--Find min revision.
+					local revDifference = mmin((raid[newerVersionPerson[1]].revision - DBM.Revision), (raid[newerVersionPerson[2]].revision - DBM.Revision), (raid[newerVersionPerson[3]].revision - DBM.Revision))
 					--Disable if out of date and it's a major patch.
-					elseif not testBuild and dbmToc < wowTOC then
+					if not testBuild and dbmToc < wowTOC then
 						updateNotificationDisplayed = 3
 						AddMsg(DBM, DBM_CORE_UPDATEREMINDER_MAJORPATCH)
 						DBM:Disable()
+					--Disable if revision grossly out of date even if not major patch.
+					elseif revDifference > 100 then
+						if updateNotificationDisplayed < 3 then
+							updateNotificationDisplayed = 3
+							AddMsg(DBM, DBM_CORE_UPDATEREMINDER_DISABLE)
+							DBM:Disable()
+						end
 					end
 				end
 			end
@@ -5448,6 +5449,12 @@ function checkCustomBossHealth(self, mod)
 	self:Schedule(1, checkCustomBossHealth, self, mod)
 end
 
+function loopCRTimer(self, timer, mod)
+	local crTimer = mod:NewTimer(timer, DBM_COMBAT_RES_TIMER_TEXT, "Interface\\Icons\\Spell_Nature_Reincarnation", nil, false)
+	crTimer:Start()
+	self:Schedule(timer, loopCRTimer, self, timer, mod)
+end
+
 do
 	local statVarTable = {
 		--6.0
@@ -5605,6 +5612,28 @@ do
 					if bestTime and bestTime > 0 then
 						local speedTimer = mod:NewTimer(bestTime, DBM_SPEED_KILL_TIMER_TEXT, "Interface\\Icons\\Spell_Holy_BorrowedTime", nil, false)
 						speedTimer:Start()
+					end
+				end
+				--Combat Rez timer, if not a world boss or 5 man dungeon.
+				if self.Options.CRT_Enabled and difficultyIndex ~= 0 and difficultyIndex ~= 1 and difficultyIndex ~= 2 and difficultyIndex ~= 19 and difficultyIndex ~= 24 and not self.Options.DontShowBossTimers then
+					local charges, maxCharges, started, duration = GetSpellCharges(20484)
+					if charges then
+						local time = duration - (GetTime() - started)
+						loopCRTimer(self, time, mod)
+						self:Debug("CRT started by charges", 2)
+					elseif difficultyIndex == 14 or difficultyIndex == 15 or difficultyIndex == 17 then--Flexible difficulties
+						local time = 90/LastGroupSize
+						time = time * 60
+						loopCRTimer(self, time, mod)
+						self:Debug("CRT started by Flexible code", 2)
+					else--Fixed difficulties (LastGroupSize cannot be trusted, this INCLUDES mythic. If you underman mythic then it is NOT 90/20)
+						local realGroupSize = self:GetNumRealPlayersInZone()
+						if realGroupSize > 1 then
+							local time = 90/realGroupSize
+							time = time * 60
+							loopCRTimer(self, time, mod)
+							self:Debug("CRT started by iffy fixed size code", 2)
+						end
 					end
 				end
 				--update boss left
@@ -5980,6 +6009,7 @@ do
 				self:HideBlizzardEvents(0)
 				self:Unschedule(checkBossHealth)
 				self:Unschedule(checkCustomBossHealth)
+				self:Unschedule(loopCRTimer)
 				self.BossHealth:Hide()
 				self.Arrow:Hide(true)
 				if watchFrameRestore then

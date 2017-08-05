@@ -343,9 +343,9 @@ if IsAddOnLoaded("Aurora") then
 					toast.IconBorder:Hide()
 				end
 				if title ~= _G.ARCHAEOLOGY_DIGSITE_COMPLETE_TOAST_FRAME_TITLE then
-					if not toast.style then
+					if not toast.styled then
 						F.CreateBDFrame(toast.Icon)
-						toast.style = true
+						toast.styled = true
 					end
 				end
 				if toast.Reward1 then
@@ -355,9 +355,9 @@ if IsAddOnLoaded("Aurora") then
 						local rwbd = rw.Border
 						rwbd:Hide()
 						rwic:SetTexCoord(.08, .92, .08, .92)
-						if not rw.style then
+						if not rw.styled then
 							F.CreateBDFrame(rwic)
-							rw.style = true
+							rw.styled = true
 						end
 					end
 				end
@@ -372,6 +372,32 @@ if IsAddOnLoaded("Aurora") then
 		if IsAddOnLoaded("Immersion") then
 			local talkbox = ImmersionFrame.TalkBox.MainFrame
 			F.ReskinClose(talkbox.CloseButton, "TOPRIGHT", talkbox, "TOPRIGHT", -20, -20)
+		end
+
+		if IsAddOnLoaded("WorldQuestTab") then
+			WQT_TabNormal.TabBg:Hide()
+			WQT_TabNormal.Hider:Hide()
+			WQT_TabNormal.Highlight:SetTexture("")
+			WQT_TabWorld.TabBg:Hide()
+			WQT_TabWorld.Hider:Hide()
+			WQT_TabWorld.Highlight:SetTexture("")
+			F.Reskin(WQT_TabNormal)
+			F.Reskin(WQT_TabWorld)
+			F.ReskinDropDown(WQT_WorldQuestFrameSortButton)
+			F.ReskinFilterButton(WQT_WorldQuestFrameFilterButton)
+			F.ReskinScroll(WQT_QuestScrollFrameScrollBar)
+
+			for i = 1, 2 do
+				select(i, WQT_QuestScrollFrameScrollBar:GetRegions()):Hide()
+			end
+			for r = 1, 15 do
+				local bu = _G["WQT_QuestScrollFrameButton"..r]
+				local re = bu.reward
+				re:SetSize(26, 26)
+				re.icon:SetTexCoord(.08, .92, .08, .92)
+				re.iconBorder:Hide()
+				F.CreateBDFrame(re.icon)
+			end
 		end
 
 	end)

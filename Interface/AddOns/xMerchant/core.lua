@@ -823,13 +823,8 @@ end
 
 local search = CreateFrame("EditBox", "$parentSearch", frame, "InputBoxTemplate");
 frame.search = search;
-if IsAddOnLoaded('Aurora') then
-	search:SetSize(122, 20)
-	search:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 10, 13)
-else
-	search:SetSize(92, 24)
-	search:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 50, 9)
-end
+search:SetSize(92, 26)
+search:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 50, 10);
 search:SetAutoFocus(false);
 search:SetFontObject("GameFontHighlight");
 search:SetScript("OnTextChanged", OnTextChanged);
@@ -861,13 +856,8 @@ end
 
 local tooltipsearching = CreateFrame("CheckButton", "$parentTooltipSearching", frame, "InterfaceOptionsSmallCheckButtonTemplate");
 search.tooltipsearching = tooltipsearching;
-if IsAddOnLoaded('Aurora') then
-	tooltipsearching:SetSize(28, 28)
-	tooltipsearching:SetPoint("LEFT", search, "RIGHT", 0, 0)
-else
-	tooltipsearching:SetSize(21, 21)
-	tooltipsearching:SetPoint("LEFT", search, "RIGHT", -1, 0)
-end
+tooltipsearching:SetSize(24, 24)
+tooltipsearching:SetPoint("LEFT", search, "RIGHT", -3, -2);
 tooltipsearching:SetHitRectInsets(0, 0, 0, 0);
 tooltipsearching:SetScript("OnClick", Search_OnClick);
 tooltipsearching:SetScript("OnEnter", Search_OnEnter);
@@ -1082,13 +1072,8 @@ local function OnHide()
 end
 hooksecurefunc("MerchantFrame_OnHide", OnHide);
 
-
 MerchantBuyBackItem:ClearAllPoints();
-if IsAddOnLoaded('Aurora') then
-	MerchantBuyBackItem:SetPoint("BOTTOMLEFT", 169, 28)
-else
-	MerchantBuyBackItem:SetPoint("BOTTOMLEFT", 175, 32)
-end
+MerchantBuyBackItem:SetPoint("BOTTOMLEFT", 175, 32)
 
 for _, frame in next, { MerchantNextPageButton, MerchantPrevPageButton, MerchantPageText } do
 	frame:Hide()
@@ -1098,11 +1083,17 @@ end
 -- Aurora Reskin
 if IsAddOnLoaded("Aurora") then
 	local F = unpack(Aurora)
+	search:SetSize(122, 20)
+	search:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 10, 13)
+	tooltipsearching:SetSize(28, 28)
+	tooltipsearching:SetPoint("LEFT", search, "RIGHT", 0, 0)
+	MerchantBuyBackItem:SetPoint("BOTTOMLEFT", 169, 28)
 	F.ReskinInput(search)
 	F.ReskinCheck(tooltipsearching)
 	F.ReskinScroll(xMerchantScrollFrameScrollBar)
 	xMerchantFrameTop:Hide()
 	xMerchantFrameBottom:Hide()
+
 	for i=1, 10, 1 do
 		local bu = _G["xMerchantFrame"..i]
 		local ic = bu.icon
