@@ -6,18 +6,12 @@ C.themes["Blizzard_AuctionUI"] = function()
 	F.SetBD(AuctionFrame, 2, -10, 0, 10)
 	F.CreateBD(AuctionProgressFrame)
 	F.CreateSD(AuctionProgressFrame)
-
-	AuctionProgressBar:SetStatusBarTexture(C.media.backdrop)
-	local ABBD = CreateFrame("Frame", nil, AuctionProgressBar)
-	ABBD:SetPoint("TOPLEFT", -1, 1)
-	ABBD:SetPoint("BOTTOMRIGHT", 1, -1)
-	ABBD:SetFrameLevel(AuctionProgressBar:GetFrameLevel()-1)
-	F.CreateBD(ABBD, .25)
-	F.CreateSD(ABBD)
+	F.ReskinStatusBar(AuctionProgressBar, true)
 
 	AuctionProgressBar.Icon:SetTexCoord(.08, .92, .08, .92)
 	F.CreateBDFrame(AuctionProgressBar.Icon)
 
+	AuctionProgressBar.Border:Hide()
 	AuctionProgressBar.Text:ClearAllPoints()
 	AuctionProgressBar.Text:SetPoint("CENTER", 0, 1)
 
@@ -29,7 +23,7 @@ C.themes["Blizzard_AuctionUI"] = function()
 	for i = 1, 4 do
 		select(i, AuctionProgressFrame:GetRegions()):Hide()
 	end
-	AuctionProgressBar.Border:Hide()
+
 	BrowseFilterScrollFrame:GetRegions():Hide()
 	select(2, BrowseFilterScrollFrame:GetRegions()):Hide()
 	BrowseScrollFrame:GetRegions():Hide()

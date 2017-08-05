@@ -55,12 +55,11 @@ C.themes["Blizzard_OrderHallUI"] = function()
 	FollowerTab:DisableDrawLayer("BORDER")
 	do
 		local xpBar = FollowerTab.XPBar
-		select(1, xpBar:GetRegions()):Hide()
 		xpBar.XPLeft:Hide()
 		xpBar.XPRight:Hide()
+		select(1, xpBar:GetRegions()):Hide()
 		select(4, xpBar:GetRegions()):Hide()
-		xpBar:SetStatusBarTexture(C.media.backdrop)
-		F.CreateBDFrame(xpBar)
+		F.ReskinStatusBar(xpBar)
 	end
 
 	-- Mission UI

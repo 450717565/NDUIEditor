@@ -21,15 +21,16 @@ local F, C = unpack(select(2, ...))
 -- [[ Constants and settings ]]
 
 C.media = {
-	["arrowUp"] = "Interface\\AddOns\\Aurora\\Media\\arrow-up-active",
 	["arrowDown"] = "Interface\\AddOns\\Aurora\\Media\\arrow-down-active",
 	["arrowLeft"] = "Interface\\AddOns\\Aurora\\Media\\arrow-left-active",
 	["arrowRight"] = "Interface\\AddOns\\Aurora\\Media\\arrow-right-active",
+	["arrowUp"] = "Interface\\AddOns\\Aurora\\Media\\arrow-up-active",
 	["backdrop"] = "Interface\\ChatFrame\\ChatFrameBackground",
 	["checked"] = "Interface\\AddOns\\Aurora\\Media\\CheckButtonHilight",
 	["font"] = STANDARD_TEXT_FONT,
 	["gradient"] = "Interface\\AddOns\\Aurora\\Media\\gradient",
 	["roleIcons"] = "Interface\\Addons\\Aurora\\Media\\UI-LFG-ICON-ROLES",
+	["statusbar"] = "Interface\\TARGETINGFRAME\\UI-TargetingFrame-BarFill",
 }
 
 C.defaults = {
@@ -37,15 +38,15 @@ C.defaults = {
 	["bags"] = false,
 	["buttonGradientColour"] = {.3, .3, .3, .3},
 	["buttonSolidColour"] = {.2, .2, .2, 1},
-	["useButtonGradientColour"] = true,
 	["chatBubbles"] = true,
+	["customColour"] = {r = 1, g = 1, b = 1},
 	["enableFont"] = false,
 	["loot"] = true,
-	["useCustomColour"] = false,
-		["customColour"] = {r = 1, g = 1, b = 1},
-	["tooltips"] = false,
 	["mmb"] = false,
 	["shadow"] = true,
+	["tooltips"] = false,
+	["useButtonGradientColour"] = true,
+	["useCustomColour"] = false,
 }
 
 C.frames = {}
@@ -582,14 +583,11 @@ F.ReskinSlider = function(f, isVert)
 	slider:SetBlendMode("ADD")
 end
 
-F.ReskinStatusBar = function(f, blue)
-	f.SetStatusBarColor = F.dummy
-	f:SetStatusBarTexture(C.media.backdrop)
+F.ReskinStatusBar = function(f, cc)
+	f:SetStatusBarTexture(C.media.statusbar)
 
-	if blue then
-		f:GetStatusBarTexture():SetGradient("VERTICAL", .1, .3, .9, .2, .4, 1)
-	else
-		f:GetStatusBarTexture():SetGradient("VERTICAL", 0, .4, 0, 0, .6, 0)
+	if cc then
+		f:SetStatusBarColor(r*0.8, g*0.8, b*0.8)
 	end
 
 	local lvl = f:GetFrameLevel()
@@ -1330,11 +1328,8 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 				local statusbar = _G["ReputationBar"..i.."ReputationBar"]
 
 				if statusbar then
-					statusbar:SetStatusBarTexture(C.media.backdrop)
-
 					if not statusbar.reskinned then
-						F.CreateBD(statusbar, .25)
-						F.CreateSD(statusbar)
+						F.ReskinStatusBar(statusbar)
 						statusbar.reskinned = true
 					end
 

@@ -350,15 +350,11 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	do
 		local xpBar = FollowerTab.XPBar
-
-		select(1, xpBar:GetRegions()):Hide()
 		xpBar.XPLeft:Hide()
 		xpBar.XPRight:Hide()
+		select(1, xpBar:GetRegions()):Hide()
 		select(4, xpBar:GetRegions()):Hide()
-
-		xpBar:SetStatusBarTexture(C.media.backdrop)
-
-		F.CreateBDFrame(xpBar)
+		F.ReskinStatusBar(xpBar)
 
 		local cicon = FollowerTab.Class
 		cicon:SetTexCoord(.08, .92, .08, .92)
@@ -377,15 +373,11 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	do
 		local xpBar = FollowerTab.XPBar
-
-		select(1, xpBar:GetRegions()):Hide()
 		xpBar.XPLeft:Hide()
 		xpBar.XPRight:Hide()
+		select(1, xpBar:GetRegions()):Hide()
 		select(4, xpBar:GetRegions()):Hide()
-
-		xpBar:SetStatusBarTexture(C.media.backdrop)
-
-		F.CreateBDFrame(xpBar)
+		F.ReskinStatusBar(xpBar)
 	end
 
 	for i = 1, 2 do
@@ -651,15 +643,11 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	do
 		local xpBar = FollowerTab.XPBar
-
-		select(1, xpBar:GetRegions()):Hide()
 		xpBar.XPLeft:Hide()
 		xpBar.XPRight:Hide()
+		select(1, xpBar:GetRegions()):Hide()
 		select(4, xpBar:GetRegions()):Hide()
-
-		xpBar:SetStatusBarTexture(C.media.backdrop)
-
-		F.CreateBDFrame(xpBar)
+		F.ReskinStatusBar(xpBar)
 	end
 
 	for _, item in pairs({FollowerTab.ItemWeapon, FollowerTab.ItemArmor}) do
@@ -990,15 +978,11 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	do
 		local xpBar = shipyardTab.XPBar
-
-		select(1, xpBar:GetRegions()):Hide()
 		xpBar.XPLeft:Hide()
 		xpBar.XPRight:Hide()
+		select(1, xpBar:GetRegions()):Hide()
 		select(4, xpBar:GetRegions()):Hide()
-
-		xpBar:SetStatusBarTexture(C.media.backdrop)
-
-		F.CreateBDFrame(xpBar)
+		F.ReskinStatusBar(xpBar)
 	end
 
 	F.ReskinClose(GarrisonShipyardFrame.BorderFrame.CloseButton2)

@@ -26,7 +26,7 @@ C.themes["Blizzard_TrainerUI"] = function()
 	ClassTrainerFrameSkillStepButton.selectedTex:SetPoint("BOTTOMRIGHT", -1, 3)
 	ClassTrainerFrameSkillStepButton.selectedTex:SetTexture(C.media.backdrop)
 	ClassTrainerFrameSkillStepButton.selectedTex:SetVertexColor(r, g, b, .2)
-	
+
 	ClassTrainerFrameSkillStepButton.name:ClearAllPoints()
 	ClassTrainerFrameSkillStepButton.name:SetPoint("TOPLEFT", ClassTrainerFrameSkillStepButtonIcon, "TOPRIGHT", 5, -5)
 	ClassTrainerFrameSkillStepButton.subText:ClearAllPoints()

@@ -64,8 +64,6 @@ C.themes["Blizzard_AchievementUI"] = function()
 	AchievementFrameFilterDropDownText:ClearAllPoints()
 	AchievementFrameFilterDropDownText:SetPoint("CENTER", -9, 2)
 
-	AchievementFrameSummaryCategoriesStatusBar:SetStatusBarTexture(C.media.backdrop)
-	AchievementFrameSummaryCategoriesStatusBar:GetStatusBarTexture():SetGradient("VERTICAL", 0, .4, 0, 0, .6, 0)
 	AchievementFrameSummaryCategoriesStatusBarLeft:Hide()
 	AchievementFrameSummaryCategoriesStatusBarMiddle:Hide()
 	AchievementFrameSummaryCategoriesStatusBarRight:Hide()
@@ -73,13 +71,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 	AchievementFrameSummaryCategoriesStatusBarTitle:SetTextColor(1, 1, 1)
 	AchievementFrameSummaryCategoriesStatusBarTitle:SetPoint("LEFT", AchievementFrameSummaryCategoriesStatusBar, "LEFT", 6, 0)
 	AchievementFrameSummaryCategoriesStatusBarText:SetPoint("RIGHT", AchievementFrameSummaryCategoriesStatusBar, "RIGHT", -5, 0)
-
-	local bg = CreateFrame("Frame", nil, AchievementFrameSummaryCategoriesStatusBar)
-	bg:SetPoint("TOPLEFT", -1, 1)
-	bg:SetPoint("BOTTOMRIGHT", 1, -1)
-	bg:SetFrameLevel(AchievementFrameSummaryCategoriesStatusBar:GetFrameLevel()-1)
-	F.CreateBD(bg, .25)
-	F.CreateSD(bg)
+	F.ReskinStatusBar(AchievementFrameSummaryCategoriesStatusBar, true)
 
 	for i = 1, 3 do
 		local tab = _G["AchievementFrameTab"..i]
@@ -160,19 +152,12 @@ C.themes["Blizzard_AchievementUI"] = function()
 	hooksecurefunc("AchievementButton_GetProgressBar", function(index)
 		local bar = _G["AchievementFrameProgressBar"..index]
 		if not bar.reskinned then
-			bar:SetStatusBarTexture(C.media.backdrop)
-
 			_G["AchievementFrameProgressBar"..index.."BG"]:SetColorTexture(0, 0, 0, .25)
 			_G["AchievementFrameProgressBar"..index.."BorderLeft"]:Hide()
 			_G["AchievementFrameProgressBar"..index.."BorderCenter"]:Hide()
 			_G["AchievementFrameProgressBar"..index.."BorderRight"]:Hide()
 
-			local bg = CreateFrame("Frame", nil, bar)
-			bg:SetPoint("TOPLEFT", -1, 1)
-			bg:SetPoint("BOTTOMRIGHT", 1, -1)
-			F.CreateBD(bg, 0)
-			F.CreateSD(bg)
-
+			F.ReskinStatusBar(bar, true)
 			bar.reskinned = true
 		end
 	end)
@@ -235,14 +220,10 @@ C.themes["Blizzard_AchievementUI"] = function()
 		_G["AchievementFrameSummaryCategoriesCategory"..i.."FillBar"]:Hide()
 		_G["AchievementFrameSummaryCategoriesCategory"..i.."ButtonHighlight"]:SetAlpha(0)
 
-		bu:SetStatusBarTexture(C.media.backdrop)
-		bu:GetStatusBarTexture():SetGradient("VERTICAL", 0, .4, 0, 0, .6, 0)
 		label:SetTextColor(1, 1, 1)
 		label:SetPoint("LEFT", bu, "LEFT", 6, 0)
-
 		bu.text:SetPoint("RIGHT", bu, "RIGHT", -5, 0)
-
-		F.CreateBDFrame(bu, .25)
+		F.ReskinStatusBar(bu, true)
 	end
 
 	for i = 1, 20 do
@@ -280,8 +261,6 @@ C.themes["Blizzard_AchievementUI"] = function()
 
 	for _, bar in pairs(bars) do
 		local name = bar:GetName()
-		bar:SetStatusBarTexture(C.media.backdrop)
-		bar:GetStatusBarTexture():SetGradient("VERTICAL", 0, .4, 0, 0, .6, 0)
 		_G[name.."Left"]:Hide()
 		_G[name.."Middle"]:Hide()
 		_G[name.."Right"]:Hide()
@@ -290,12 +269,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 		_G[name.."Title"]:SetPoint("LEFT", bar, "LEFT", 6, 0)
 		_G[name.."Text"]:SetPoint("RIGHT", bar, "RIGHT", -5, 0)
 
-		local bg = CreateFrame("Frame", nil, bar)
-		bg:SetPoint("TOPLEFT", -1, 1)
-		bg:SetPoint("BOTTOMRIGHT", 1, -1)
-		bg:SetFrameLevel(bar:GetFrameLevel()-1)
-		F.CreateBD(bg, .25)
-		F.CreateSD(bg)
+		F.ReskinStatusBar(bar, true)
 	end
 
 	for i = 1, 9 do
@@ -387,7 +361,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 	do
 		local result = AchievementFrame.searchResults
 		result:SetPoint("BOTTOMLEFT", AchievementFrame, "BOTTOMRIGHT", 10, 0)
-		for i = 1, 14 do
+        for i = 1, 14 do
 			select(i, result:GetRegions()):Hide()
 		end
 		result.titleText:Show()

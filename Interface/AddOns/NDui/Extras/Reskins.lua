@@ -249,7 +249,7 @@ if IsAddOnLoaded("Aurora") then
 			BaudAuctionProgressBarIcon:SetTexCoord(.08, .92, .08, .92)
 			BaudAuctionProgressBarIcon:SetPoint("RIGHT", BaudAuctionProgressBar, "LEFT", -2, 0)
 			BaudAuctionProgressBarBorder:Hide()
-			F.ReskinStatusBar(BaudAuctionProgressBar)
+			F.ReskinStatusBar(BaudAuctionProgressBar, true)
 			F.CreateBDFrame(BaudAuctionProgressBarIcon)
 
 			for i = 1, 2 do

@@ -225,16 +225,13 @@ C.themes["Blizzard_Collections"] = function()
 		select(i, card.xpBar:GetRegions()):Hide()
 	end
 
-	card.xpBar:SetStatusBarTexture(C.media.backdrop)
-	F.CreateBDFrame(card.xpBar, .25)
-
 	PetJournalPetCardHealthFramehealthStatusBarLeft:Hide()
 	PetJournalPetCardHealthFramehealthStatusBarRight:Hide()
 	PetJournalPetCardHealthFramehealthStatusBarMiddle:Hide()
 	PetJournalPetCardHealthFramehealthStatusBarBGMiddle:Hide()
 
-	card.HealthFrame.healthBar:SetStatusBarTexture(C.media.backdrop)
-	F.CreateBDFrame(card.HealthFrame.healthBar, .25)
+	F.ReskinStatusBar(card.HealthFrame.healthBar)
+	F.ReskinStatusBar(card.xpBar)
 
 	for i = 1, 6 do
 		local bu = card["spell"..i]
@@ -284,16 +281,14 @@ C.themes["Blizzard_Collections"] = function()
 			select(i, bu.xpBar:GetRegions()):Hide()
 		end
 
-		bu.xpBar:SetStatusBarTexture(C.media.backdrop)
-		F.CreateBDFrame(bu.xpBar, .25)
+		F.ReskinStatusBar(bu.xpBar)
 
 		_G["PetJournalLoadoutPet"..i.."HealthFramehealthStatusBarLeft"]:Hide()
 		_G["PetJournalLoadoutPet"..i.."HealthFramehealthStatusBarRight"]:Hide()
 		_G["PetJournalLoadoutPet"..i.."HealthFramehealthStatusBarMiddle"]:Hide()
 		_G["PetJournalLoadoutPet"..i.."HealthFramehealthStatusBarBGMiddle"]:Hide()
 
-		bu.healthFrame.healthBar:SetStatusBarTexture(C.media.backdrop)
-		F.CreateBDFrame(bu.healthFrame.healthBar, .25)
+		F.ReskinStatusBar(bu.healthFrame.healthBar)
 
 		for j = 1, 3 do
 			local spell = bu["spell"..j]
@@ -358,12 +353,10 @@ C.themes["Blizzard_Collections"] = function()
 
 	local progressBar = ToyBox.progressBar
 	progressBar.border:Hide()
+	progressBar.text:SetPoint("CENTER", 0, 1)
 	progressBar:DisableDrawLayer("BACKGROUND")
 
-	progressBar.text:SetPoint("CENTER", 0, 1)
-	progressBar:SetStatusBarTexture(C.media.backdrop)
-
-	F.CreateBDFrame(progressBar, .25)
+	F.ReskinStatusBar(progressBar)
 
 	-- Toys!
 
@@ -435,12 +428,9 @@ C.themes["Blizzard_Collections"] = function()
 
 	local progressBar = HeirloomsJournal.progressBar
 	progressBar.border:Hide()
-	progressBar:DisableDrawLayer("BACKGROUND")
-
 	progressBar.text:SetPoint("CENTER", 0, 1)
-	progressBar:SetStatusBarTexture(C.media.backdrop)
-
-	F.CreateBDFrame(progressBar, .25)
+	progressBar:DisableDrawLayer("BACKGROUND")
+	F.ReskinStatusBar(progressBar)
 
 	-- Buttons
 
@@ -554,8 +544,7 @@ C.themes["Blizzard_Collections"] = function()
 	progressBar:DisableDrawLayer("BACKGROUND")
 	select(2, progressBar:GetRegions()):Hide()
 	progressBar.text:SetPoint("CENTER", 0, 1)
-	progressBar:SetStatusBarTexture(C.media.backdrop)
-	F.CreateBDFrame(progressBar, .25)
+	F.ReskinStatusBar(progressBar)
 
 	-- ItemSetsCollection
 

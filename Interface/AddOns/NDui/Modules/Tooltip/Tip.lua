@@ -405,6 +405,7 @@ NDui:EventFrame("ADDON_LOADED"):SetScript("OnEvent", function(_, _, addon)
 			if bar and not bar.styled then
 				local _, bd, tex = bar:GetRegions()
 				tex:SetTexture(DB.normTex)
+				bar:SetStatusBarColor(r, g, b)
 				bd:Hide()
 				local bg = B.CreateBG(bd)
 				B.CreateBD(bg, .2)

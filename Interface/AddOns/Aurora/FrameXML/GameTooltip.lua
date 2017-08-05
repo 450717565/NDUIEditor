@@ -53,10 +53,7 @@ tinsert(C.themes["Aurora"], function()
 
 	local sb = _G["GameTooltipStatusBar"]
 	sb:SetHeight(3)
-	sb:ClearAllPoints()
-	sb:SetPoint("BOTTOMLEFT", GameTooltip, "BOTTOMLEFT", 1, 1)
-	sb:SetPoint("BOTTOMRIGHT", GameTooltip, "BOTTOMRIGHT", -1, 1)
-	sb:SetStatusBarTexture(C.media.backdrop)
+	F.ReskinStatusBar(sb, true)
 
 	local sep = GameTooltipStatusBar:CreateTexture(nil, "ARTWORK")
 	sep:SetHeight(1)
