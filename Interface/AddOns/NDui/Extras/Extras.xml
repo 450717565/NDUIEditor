@@ -9,7 +9,6 @@
 	<Script file="ChatAtFriends.lua"/>
 	<Script file="ChatEmote.lua"/>
 	<Script file="ChatLinkLevel.lua"/>
-	<Script file="CloudyTradeSkill.lua"/>
 	<Script file="ConvertRatings.lua"/>
 	<Script file="Core.lua"/>
 	<Script file="DressUp.lua"/>

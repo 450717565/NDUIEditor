@@ -8,7 +8,7 @@ function module:SkadaSkin()
 	local Skada = Skada
 	local barSpacing = 0
 	local barmod = Skada.displays["bar"]
-	local media = LibStub("LibSharedMedia-3.0")
+
 	local function StripOptions(options)
 		options.baroptions.args.barspacing = nil
 		options.titleoptions.args.texture = nil
@@ -138,14 +138,6 @@ function module:SkadaSkin()
 	end)
 
 	-- Change Skada Default Settings
-	media:Register("statusbar", "normTex", DB.normTex)
-	media:Register("statusbar", "Atlz", [[Interface\AddOns\NDui\Media\Skada\Atlz]])
-	media:Register("statusbar", "MaoR", [[Interface\AddOns\NDui\Media\Skada\MaoR]])
-	media:Register("statusbar", "Ya01", [[Interface\AddOns\NDui\Media\Skada\Ya01]])
-	media:Register("statusbar", "Ya02", [[Interface\AddOns\NDui\Media\Skada\Ya02]])
-	media:Register("statusbar", "Ya03", [[Interface\AddOns\NDui\Media\Skada\Ya03]])
-	media:Register("statusbar", "Ya04", [[Interface\AddOns\NDui\Media\Skada\Ya04]])
-	media:Register("statusbar", "Ya05", [[Interface\AddOns\NDui\Media\Skada\Ya05]])
 	Skada.windowdefaults.bartexture = "normTex"
 	Skada.windowdefaults.classicons = false
 	Skada.windowdefaults.title.fontflags = "OUTLINE"

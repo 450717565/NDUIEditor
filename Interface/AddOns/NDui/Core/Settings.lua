@@ -240,7 +240,7 @@ local function ForceSkadaOptions()
 						["barfontsize"] = 14,
 						["smoothing"] = true,
 						["mode"] = "",
-						["bartexture"] = "Atlz",
+						["bartexture"] = "Altz01",
 						["barwidth"] = 350,
 						["background"] = {
 							["height"] = 180.5,
