@@ -43,6 +43,17 @@ media:Register("statusbar", "Ya03", [[Interface\AddOns\NDui\Media\StatusBar\Ya03
 media:Register("statusbar", "Ya04", [[Interface\AddOns\NDui\Media\StatusBar\Ya04]])
 media:Register("statusbar", "Ya05", [[Interface\AddOns\NDui\Media\StatusBar\Ya05]])
 
+--- 进入/脱离战斗提示
+local CombatAlert = NDui:EventFrame({"PLAYER_REGEN_ENABLED", "PLAYER_REGEN_DISABLED"})
+CombatAlert:SetScript("OnEvent", function(self, event)
+	if UnitIsDead("player") then return end
+	if event == "PLAYER_REGEN_ENABLED" then
+		B.AlertRun(LEAVING_COMBAT.." !", 0.1, 1, 0.1)
+	elseif event == "PLAYER_REGEN_DISABLED" then
+		B.AlertRun(ENTERING_COMBAT.." !", 1, 0.1, 0.1)
+	end
+end)
+
 --- 特殊物品购买无需确认
 --[[
 MerchantItemButton_OnClick = function(self, button, ...)

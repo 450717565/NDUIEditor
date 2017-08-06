@@ -1,9 +1,9 @@
-local mod	= DBM:NewMod(2002, "DBM-Argus", nil, 959)
+local mod	= DBM:NewMod(2013, "DBM-Argus", nil, 959)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16427 $"):sub(12, -3))
-mod:SetCreatureID(123680)
-mod:SetEncounterID(2079)
+mod:SetRevision(("$Revision: 16551 $"):sub(12, -3))
+mod:SetCreatureID(124492)
+--mod:SetEncounterID(1952)--Does not have one
 --mod:SetReCombatTime(20)
 mod:SetZone()
 --mod:SetMinSyncRevision(11969)

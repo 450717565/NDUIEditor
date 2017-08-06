@@ -1,16 +1,6 @@
 local B, C, L, DB = unpack(select(2, ...))
 local cr, cg, cb = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b
 
--- Create BackdropBorder
-B.CreateBB = function(f)
-	f:SetBackdrop({
-		edgeFile = DB.neatTex,
-		edgeSize = 1,
-		insets = { left = 1, right = 1, top = 1, bottom = 1 }
-	})
-	f:SetBackdropBorderColor(0, 0, 0, 1)
-end
-
 -- Gradient Frame
 B.CreateGF = function(f, w, h, o, r, g, b, a1, a2)
 	f:SetSize(w, h)
@@ -468,4 +458,14 @@ B.CreateDropDown = function(parent, width, height, data)
 
 	dd.Type = "DropDown"
 	return dd
+end
+
+-- Create BackdropBorder
+B.CreateBB = function(f)
+	f:SetBackdrop({
+		edgeFile = DB.neatTex,
+		edgeSize = 1,
+		insets = { left = 1, right = 1, top = 1, bottom = 1 }
+	})
+	f:SetBackdropBorderColor(0, 0, 0, 1)
 end

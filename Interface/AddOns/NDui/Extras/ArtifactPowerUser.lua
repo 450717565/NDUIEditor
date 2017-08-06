@@ -7,7 +7,7 @@ local Cache = {}
 
 local APU = CreateFrame("Button", "ArtifactPowerUserButton", UIParent, "ActionButtonTemplate, SecureActionButtonTemplate")
 B.CreateMF(APU)
-APU:SetPoint("CENTER", 0, -200)
+APU:SetPoint("CENTER", UIParent, "BOTTOM", -250, 150)
 APU:SetSize(48, 48)
 APU:SetClampedToScreen(true)
 APU:EnableMouse(true)

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1873, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16527 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16546 $"):sub(12, -3))
 mod:SetCreatureID(116939)--Maiden of Valor 120437
 mod:SetEncounterID(2038)
 mod:SetZone()
@@ -23,6 +23,10 @@ mod:RegisterEventsInCombat(
 	"CHAT_MSG_RAID_BOSS_EMOTE",
 	"RAID_BOSS_WHISPER",
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2"
+)
+
+mod:RegisterEvents(
+	"CHAT_MSG_MONSTER_YELL"
 )
 
 --TODO, figure out mythic stack count to start warning. Right now it's 4
@@ -65,6 +69,7 @@ local yellDarkMarkFades				= mod:NewShortFadesYell(239739)
 local specWarnRainoftheDestroyer	= mod:NewSpecialWarningDodge(240396, nil, nil, nil, 2, 2)
 
 --Stage One: A Slumber Disturbed
+local timerRP						= mod:NewRPTimer(41)
 mod:AddTimerLine(SCENARIO_STAGE:format(1))
 local timerTouchofSargerasCD		= mod:NewCDTimer(42, 239207, nil, nil, nil, 3)--42+
 local timerRuptureRealitiesCD		= mod:NewCDTimer(60, 239132, nil, nil, nil, 2)
@@ -421,6 +426,12 @@ function mod:OnTranscriptorSync(msg, targetName)
 	end
 end
 
+function mod:CHAT_MSG_MONSTER_YELL(msg, npc, _, _, target)
+	if (msg == L.FallenAvatarDialog or msg:find(L.FallenAvatarDialog)) then
+		self:SendSync("FallenAvatarRP")--Syncing to help unlocalized clients
+	end
+end
+
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 	local spellId = tonumber(select(5, strsplit("-", spellGUID)), 10)
 	if spellId == 234057 then
@@ -448,3 +459,8 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 	end
 end
 
+function mod:OnSync(msg, targetname)
+	if msg == "FallenAvatarRP" and self:AntiSpam(10, 6) then
+		timerRP:Start()
+	end
+end

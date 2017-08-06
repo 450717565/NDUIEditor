@@ -2,7 +2,7 @@ local mod	= DBM:NewMod(2009, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
 mod:SetRevision(("$Revision: 16369 $"):sub(12, -3))
-mod:SetCreatureID(125055)--or 124158 or 125692
+mod:SetCreatureID(124158)--or 124158 or 125692
 mod:SetEncounterID(2082)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
@@ -13,11 +13,11 @@ mod:SetZone()
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 247376 247923 248068 248070",
+	"SPELL_CAST_START 247376 247923 248068 248070 248254",
 	"SPELL_CAST_SUCCESS 247367 247552 247687 250255",
 	"SPELL_AURA_APPLIED 247367 247552 247565 247687 250255 253302 248321",
 	"SPELL_AURA_APPLIED_DOSE 247367 247687 250255 248424",
-	"SPELL_AURA_REMOVED 247552 253302 248321",
+	"SPELL_AURA_REMOVED 248233",
 --	"SPELL_PERIODIC_DAMAGE",
 --	"SPELL_PERIODIC_MISSED",
 --	"UNIT_DIED",
@@ -41,7 +41,7 @@ local warnSleepCanister					= mod:NewTargetAnnounce(247552, 2)
 local warnSlumberGas					= mod:NewTargetAnnounce(247565, 3)
 --Stage Two: Contract to Kill
 local warnSever							= mod:NewStackAnnounce(247687, 2, nil, "Tank")
-local warnChargedBlasts					= mod:NewTargetAnnounce(247716, 3)
+--local warnChargedBlasts					= mod:NewTargetAnnounce(247716, 3)
 --Stage Three/Five: The Perfect Weapon
 --Intermission: On Deadly Ground
 
@@ -55,8 +55,9 @@ local specWarnSleepCanisterNear			= mod:NewSpecialWarningClose(247552, nil, nil,
 local specWarnPulseGrenade				= mod:NewSpecialWarningDodge(247376, nil, nil, nil, 1, 2)
 --Stage Two: Contract to Kill
 local specWarnSever						= mod:NewSpecialWarningTaunt(247687, nil, nil, nil, 1, 2)
-local specWarnChargedBlasts				= mod:NewSpecialWarningYou(247716, nil, nil, nil, 1, 2)
-local yellChargedBlasts					= mod:NewYell(247716)
+local specWarnChargedBlastsUnknown		= mod:NewSpecialWarningSpell(247716, nil, nil, nil, 2, 2)
+--local specWarnChargedBlasts				= mod:NewSpecialWarningYou(247716, nil, nil, nil, 1, 2)
+--local yellChargedBlasts					= mod:NewYell(247716)
 local specWarnShrapnalBlast				= mod:NewSpecialWarningDodge(247923, nil, nil, nil, 1, 2)
 --local specWarnMalignantAnguish		= mod:NewSpecialWarningInterrupt(236597, "HasInterrupt")
 --Stage Three/Five: The Perfect Weapon
@@ -65,19 +66,19 @@ local specWarnShrapnalBlast				= mod:NewSpecialWarningDodge(247923, nil, nil, ni
 --Intermission: On Deadly Ground
 
 --Stage One: Attack Force
-local timerShocklanceCD					= mod:NewCDTimer(8.5, 247367, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
-local timerSleepCanisterCD				= mod:NewAITimer(61, 247552, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON)
-local timerPulseGrenadeCD				= mod:NewAITimer(61, 247376, nil, nil, nil, 3)
+local timerShocklanceCD					= mod:NewCDTimer(4.1, 247367, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
+local timerSleepCanisterCD				= mod:NewCDTimer(10.7, 247552, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON)
+local timerPulseGrenadeCD				= mod:NewCDTimer(16.1, 247376, nil, nil, nil, 3)
 --Stage Two: Contract to Kill
-local timerSeverCD						= mod:NewCDTimer(8.5, 247687, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
-local timerChargedBlastsCD				= mod:NewAITimer(61, 247716, nil, nil, nil, 3)
-local timerShrapnalBlastCD				= mod:NewAITimer(61, 247923, nil, nil, nil, 3)
+local timerSeverCD						= mod:NewCDTimer(7.2, 247687, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
+local timerChargedBlastsCD				= mod:NewCDTimer(18.2, 247716, nil, nil, nil, 3)
+local timerShrapnalBlastCD				= mod:NewCDTimer(13.3, 247923, nil, nil, nil, 3)
 --Stage Three/Five: The Perfect Weapon
 
 --Intermission: On Deadly Ground
 
 
---local berserkTimer					= mod:NewBerserkTimer(600)
+local berserkTimer						= mod:NewBerserkTimer(420)
 
 --Stage One: Attack Force
 --local countdownSingularity			= mod:NewCountdown(50, 235059)
@@ -134,9 +135,10 @@ end
 
 function mod:OnCombatStart(delay)
 	self.vb.phase = 1
-	timerShocklanceCD:Start(1-delay)
-	timerSleepCanisterCD:Start(1-delay)
-	timerPulseGrenadeCD:Start(1-delay)
+	timerShocklanceCD:Start(3.7-delay)
+	timerSleepCanisterCD:Start(6.2-delay)
+	timerPulseGrenadeCD:Start(12.3-delay)
+	berserkTimer:Start(-delay)--7min on heroic at least
 end
 
 function mod:OnCombatEnd()
@@ -158,15 +160,32 @@ function mod:SPELL_CAST_START(args)
 		specWarnShrapnalBlast:Show()
 		voiceShrapnalBlast:Play("watchstep")
 		timerShrapnalBlastCD:Start()
+	elseif spellId == 248254 then
+		specWarnChargedBlastsUnknown:Show()
+		voiceChargedBlasts:Play("farfromline")
+		timerChargedBlastsCD:Start()
 	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 247367 or spellId == 250255 then
-		timerShocklanceCD:Start()
+		if spellId == 247367 then
+			timerShocklanceCD:Start()
+		else--Empowered seems less often
+			timerShocklanceCD:Start(5.9)
+		end
 	elseif spellId == 247552 then
 		timerSleepCanisterCD:Start()
+		warnSleepCanister:CombinedShow(0.3, args.destName)
+		if args:IsPlayer() then
+			specWarnSleepCanister:Show()
+			voiceSleepCanister:Play("runout")
+			yellSleepCanister:Yell()
+		elseif self:CheckNearby(10, args.destName) then
+			specWarnSleepCanisterNear:CombinedShow(0.3, args.destName)
+			voiceSleepCanister:Play("runaway")
+		end
 	elseif spellId == 247687 then
 		timerSeverCD:Start()
 	end
@@ -178,7 +197,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		local uId = DBM:GetRaidUnitId(args.destName)
 		if self:IsTanking(uId) then
 			local amount = args.amount or 1
-			if amount >= 6 then
+			if amount >= 4 then
 				if not UnitDebuff("player", args.spellName) and not UnitIsDeadOrGhost("player") then
 					specWarnShocklance:Show(args.destName)
 					voiceShocklance:Play("tauntboss")
@@ -204,13 +223,10 @@ function mod:SPELL_AURA_APPLIED(args)
 				warnSever:Show(args.destName, amount)
 			end
 		end
-	elseif spellId == 247552 then
-		warnSleepCanister:CombinedShow(0.3, args.destName)
+	elseif spellId == 247552 then--Sleep Canister Stun Effect
 		if args:IsPlayer() then
-			specWarnSleepCanister:Show()
-			voiceSleepCanister:Play("targetyou")
-			yellSleepCanister:Yell()
-		elseif self:CheckNearby(10, args.destName) then
+			--Nothing, player aleady warned
+		elseif self:CheckNearby(10, args.destName) then--Warn nearby again
 			specWarnSleepCanisterNear:CombinedShow(0.3, args.destName)
 			voiceSleepCanister:Play("runaway")
 		end
@@ -229,30 +245,30 @@ mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
-	if (spellId == 253302 or spellId == 248321) and not self:IsDestTypePlayer() then--Conflagration
+	if spellId == 248233 and not args:IsDestTypePlayer() then--Conflagration
 		self.vb.phase = self.vb.phase + 1
 		if self.vb.phase == 2 then
-			timerSeverCD:Start(2)
-			timerChargedBlastsCD:Start(2)
-			timerShrapnalBlastCD:Start(2)
+			timerSeverCD:Start(6.6)
+			timerChargedBlastsCD:Start(9)
+			timerShrapnalBlastCD:Start(12.7)
 		elseif self.vb.phase == 3 then
 			if self:IsMythic() then
-				timerShocklanceCD:Start(3)--NOT empowered
-				timerSleepCanisterCD:Start(3)
-				timerShrapnalBlastCD:Start(3)--Empowered
+				--timerShocklanceCD:Start(3)--NOT empowered
+				--timerSleepCanisterCD:Start(3)
+				--timerShrapnalBlastCD:Start(3)--Empowered
 			else
-				timerShocklanceCD:Start(3)--Empowered
-				timerPulseGrenadeCD:Start(3)--Empowered
-				timerShrapnalBlastCD:Start(3)--Empowered
+				timerShocklanceCD:Start(5)--Empowered
+				timerPulseGrenadeCD:Start(7.6)--Empowered
+				timerShrapnalBlastCD:Start(16.2)--Empowered
 			end
 		elseif self.vb.phase == 4 then--Mythic Only
-			timerSeverCD:Start(4)
-			timerChargedBlastsCD:Start(4)
-			timerPulseGrenadeCD:Start(4)--Empowered
-		elseif self.vb.phase == 5 then--Mythic Only (Identical to non mythic 3)
-			timerShocklanceCD:Start(3)--Empowered
-			timerPulseGrenadeCD:Start(3)--Empowered
-			timerShrapnalBlastCD:Start(3)--Empowered
+			--timerSeverCD:Start(4)
+			--timerChargedBlastsCD:Start(4)
+			--timerPulseGrenadeCD:Start(4)--Empowered
+		elseif self.vb.phase == 5 then--Mythic Only (Identical to non mythic 3?)
+			timerShocklanceCD:Start(5)--Empowered
+			timerPulseGrenadeCD:Start(7.6)--Empowered
+			timerShrapnalBlastCD:Start(16.2)--Empowered
 		end
 	end
 end
@@ -282,9 +298,9 @@ end
 
 function mod:RAID_BOSS_WHISPER(msg)
 	if msg:find("spell:247716") or msg:find("spell:248254") then--Charged Blasts
-		specWarnChargedBlasts:Show()
+--		specWarnChargedBlasts:Show()
 		voiceChargedBlasts:Play("runout")
-		yellChargedBlasts:Yell()
+--		yellChargedBlasts:Yell()
 	end
 end
 
@@ -293,7 +309,7 @@ function mod:OnTranscriptorSync(msg, targetName)
 		targetName = Ambiguate(targetName, "none")
 		if self:AntiSpam(4, targetName) then
 --			local icon = self.vb.bladesIcon
-			warnChargedBlasts:CombinedShow(0.5, targetName)
+			--warnChargedBlasts:CombinedShow(0.5, targetName)
 --			if self.Options.SetIconOnShadowyBlades then
 --				self:SetIcon(targetName, icon, 5)
 --			end
@@ -307,7 +323,12 @@ end
 
 --http://ptr.wowhead.com/spell=253380/teleport-imonar-the-soulhunter
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
-	if spellId == 248254 then--Charged Blasts
-		timerChargedBlastsCD:Start()
+	if spellId == 248995 or spellId == 248194 then
+		timerSeverCD:Stop()
+		timerChargedBlastsCD:Stop()
+		timerShrapnalBlastCD:Stop()
+		timerPulseGrenadeCD:Stop()
+		timerSleepCanisterCD:Stop()
+		timerShocklanceCD:Stop()
 	end
 end
