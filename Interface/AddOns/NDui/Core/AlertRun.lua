@@ -9,19 +9,19 @@ local speed = .057799924
 local point = {"CENTER", UIParent, "CENTER", -300, 200}
 
 local GetNextChar = function(word, num)
-	local c = word:byte(num)
-	local shift
-	if not c then return "", num end
-	if (c > 0 and c <= 127) then
-		shift = 1
-	elseif (c >= 192 and c <= 223) then
-		shift = 2
-	elseif (c >= 224 and c <= 239) then
-		shift = 3
-	elseif (c >= 240 and c <= 247) then
-		shift = 4
+	local bytes = word:byte(num)
+	local shifts
+	if not bytes then return "", num end
+	if (bytes > 0 and bytes <= 127) then
+		shifts = 1
+	elseif (bytes >= 192 and bytes <= 223) then
+		shifts = 2
+	elseif (bytes >= 224 and bytes <= 239) then
+		shifts = 3
+	elseif (bytes >= 240 and bytes <= 247) then
+		shifts = 4
 	end
-	return word:sub(num, num + shift - 1), (num + shift)
+	return word:sub(num, num + shifts - 1), (num + shifts)
 end
 
 local flowingframe = CreateFrame("Frame", "AlertRun", UIParent)
@@ -33,38 +33,38 @@ flowingframe:SetScript("OnEvent", function()
 end)
 
 local flowingtext = B.CreateFS(flowingframe, 24, "")
-
 local rightchar = B.CreateFS(flowingframe, 60, "")
-rightchar:SetJustifyH("LEFT")
 
-local count, len, step, word, stringE, a, backstep
+local count, length, step, word, strings, val, backstep
 
 local nextstep = function()
-	a,step = GetNextChar (word,step)
-	flowingtext:SetText(stringE)
-	stringE = stringE..a
-	a = string.upper(a)
-	rightchar:SetText(a)
+	val, step = GetNextChar(word, step)
+	flowingtext:SetText(strings)
+	strings = strings..val
+	val = string.upper(val)
+	rightchar:SetText(val)
 end
 
 local backrun = CreateFrame("Frame")
 backrun:Hide()
 
-local updatestring = function(self, t)
-	count = count - t
+local updatestring = function(self, tm)
+	count = count - tm
 	if count < 0 then
 		count = speed
-		if step > len then
+		if step > length then
 			self:Hide()
-			flowingtext:SetText(stringE)
-			rightchar:SetText()
+
+			flowingtext:SetText(strings)
 			flowingtext:ClearAllPoints()
 			flowingtext:SetPoint("RIGHT")
 			flowingtext:SetJustifyH("RIGHT")
+
+			rightchar:SetText("")
 			rightchar:ClearAllPoints()
 			rightchar:SetPoint("RIGHT",flowingtext,"LEFT")
 			rightchar:SetJustifyH("RIGHT")
-			self:Hide()
+
 			count = 1.456789
 			backrun:Show()
 		else
@@ -78,34 +78,34 @@ updaterun:SetScript("OnUpdate", updatestring)
 updaterun:Hide()
 
 local backstepf = function()
-	local a = backstep
-	local firstchar
+	local val = backstep
+	local firstchar = ""
 	local texttemp = ""
 	local flagon = true
-	while a <= len do
-		local u
-		u, a = GetNextChar(word, a)
+	while val <= length do
+		local su
+		su, val = GetNextChar(word, val)
 		if flagon == true then
-			backstep = a
+			backstep = val
 			flagon = false
-			firstchar = u
+			firstchar = su
 		else
-			texttemp = texttemp..u
+			texttemp = texttemp..su
 		end
 	end
-	flowingtext:SetText(texttemp)
 	firstchar = string.upper(firstchar)
+	flowingtext:SetText(texttemp)
 	rightchar:SetText(firstchar)
 end
 
-local rollback = function(self, t)
-	count = count - t
+local rollback = function(self, tm)
+	count = count - tm
 	if count < 0 then
 		count = speed
-		if backstep > len then
+		if backstep > length then
 			self:Hide()
-			flowingtext:SetText()
-			rightchar:SetText()
+			flowingtext:SetText("")
+			rightchar:SetText("")
 		else
 			backstepf()
 		end
@@ -118,34 +118,34 @@ B.AlertRun = function(text, r, g, b)
 	flowingframe:Hide()
 	updaterun:Hide()
 	backrun:Hide()
-
 	flowingtext:SetText(text)
+
 	local width = flowingtext:GetWidth()
+	local colorr = r or cr
+	local colorg = g or cg
+	local colorb = b or cb
 
-	local color1 = r or cr
-	local color2 = g or cg
-	local color3 = b or cb
-
-	flowingtext:SetTextColor(color1*.95,color2*.95,color3*.95)
-	rightchar:SetTextColor(color1,color2,color3)
+	flowingframe:SetWidth(width)
+	flowingtext:SetTextColor(colorr*.95, colorg*.95, colorb*.95)
+	rightchar:SetTextColor(colorr, colorg, colorb)
 
 	word = text
-	len = text:len()
+	length = text:len()
 	step, backstep = 1, 1
 	count = speed
-	stringE = ""
-	a = ""
+	strings = ""
+	val = ""
 
 	flowingtext:SetText("")
-	flowingframe:SetWidth(width)
 	flowingtext:ClearAllPoints()
 	flowingtext:SetPoint("LEFT")
 	flowingtext:SetJustifyH("LEFT")
+
+	rightchar:SetText("")
 	rightchar:ClearAllPoints()
 	rightchar:SetPoint("LEFT",flowingtext,"RIGHT")
 	rightchar:SetJustifyH("LEFT")
 
-	rightchar:SetText("")
 	updaterun:Show()
 	flowingframe:Show()
 end

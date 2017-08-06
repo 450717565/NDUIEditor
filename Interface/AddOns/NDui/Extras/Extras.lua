@@ -67,11 +67,11 @@ PvPTab:SetScript("OnEvent", function(self, event)
 	if (zoneType == "arena") or (zoneType == "pvp") or (pvpType == "combat") or (event == "DUEL_REQUESTED") then
 		SetBinding("TAB", "TARGETNEARESTENEMYPLAYER")
 		SetBinding("SHIFT-TAB", "TARGETPREVIOUSENEMYPLAYER")
-		print("TAB目标选择增强功能 |cff00FF00已开启")
+		--print("TAB目标选择增强功能 |cff00FF00已开启")
 	else
 		SetBinding("TAB", "TARGETNEARESTENEMY")
 		SetBinding("SHIFT-TAB", "TARGETPREVIOUSENEMY")
-		print("TAB目标选择增强功能 |cffFF0000已关闭")
+		--print("TAB目标选择增强功能 |cffFF0000已关闭")
 	end
 
 	SaveBindings(bindSet)
