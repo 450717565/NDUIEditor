@@ -101,7 +101,7 @@ local function getItemIdFromTooltip(self)
 	else
 		--Gets stats from non Artifact items :M
 		stats = GetItemStats(itemLink);
-		--If not an item with stats, don't do anything :L
+		--If not an item with stats, don"t do anything :L
 		if (stats == nil) then
 			return;
 		end
@@ -115,7 +115,7 @@ local function getItemIdFromTooltip(self)
 		rawleech = stats["ITEM_MOD_CR_LIFESTEAL_SHORT"]
 	end
 		end
-    --Localing the variables here - we'll use them after... :L
+    --Localing the variables here - we"ll use them after... :L
     local pcrit, phaste, pversin, pversout, pmastery, prcrit, prhaste, prversin, prversout, prmastery, pleech, pavoid, pspeed, prleech, pravoid, prspeed;
     --convert raw stats into percentages so long as they are not nil :M
     if rawcrit ~= nil then
@@ -164,7 +164,7 @@ local function getItemIdFromTooltip(self)
 
 	--Set output values in the same line as the rating in tooltip :L
 	for i=1, self:NumLines() do
-		--If line contains "Critical Strike", then sets show a 'fontString' and set its text :L
+		--If line contains "Critical Strike", then sets show a "fontString" and set its text :L
 		if (string.find(_G[self:GetName().."TextLeft"..i]:GetText(), _G["ITEM_MOD_CRIT_RATING_SHORT"])) and rawcrit ~= nil then
 			_G[self:GetName().."TextLeft"..i]:SetText("+" .. rawcrit .. " " .. _G["ITEM_MOD_CRIT_RATING_SHORT"] .. hexcolor .. " (" .. prcrit .. "%)");
 			break

@@ -1,8 +1,8 @@
 local B, C, L, DB = unpack(select(2, ...))
 
-GameTooltip:HookScript('OnTooltipSetItem', function(self)
+GameTooltip:HookScript("OnTooltipSetItem", function(self)
 	local _, link = self:GetItem()
-	if type(link) == 'string' then
+	if type(link) == "string" then
 		if IsArtifactPowerItem(link) then
 			local artifactID, _, artifactName = C_ArtifactUI.GetEquippedArtifactInfo()
 			if artifactName then

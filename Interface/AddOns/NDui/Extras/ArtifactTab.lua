@@ -12,14 +12,14 @@ function ArtifactTab:GetArtifactPoisition()
 		if GetContainerNumSlots(bagID) > 0 then
 			for slotID = 0, GetContainerNumSlots(bagID) do
 				local itemLink = GetContainerItemLink(bagID, slotID)
-				if itemLink and type(itemLink) == 'string' then
+				if itemLink and type(itemLink) == "string" then
 					local itemID = GetItemInfoInstant(itemLink)
 					local itemName, _, itemRarity, _, _, _, itemSubType, _, _, _, _, itemClassID = GetItemInfo(itemLink)
 					if itemRarity == 6 and itemClassID == 2 and itemID ~= 133755 then
 						artifactTable[itemID] = {
-							['name'] = itemName,
-							['bagID'] = bagID,
-							['slotID'] = slotID
+							["name"] = itemName,
+							["bagID"] = bagID,
+							["slotID"] = slotID
 						}
 					end
 				end
@@ -31,9 +31,9 @@ function ArtifactTab:GetArtifactPoisition()
 	local itemName, _, itemRarity = GetItemInfo(itemID)
 	if itemRarity == 6 and itemID ~= 133755 then
 		artifactTable[itemID] = {
-			['name'] = itemName,
-			['bagID'] = -1,
-			['slotID'] = 16
+			["name"] = itemName,
+			["bagID"] = -1,
+			["slotID"] = 16
 		}
 	end
 
@@ -41,7 +41,7 @@ function ArtifactTab:GetArtifactPoisition()
 end
 
 function ArtifactTab:PLAYER_LOGIN()
-	ArtifactTab.currentTab = '';
+	ArtifactTab.currentTab = "";
 	if IsAddOnLoaded("Blizzard_ArtifactUI") then
 		ArtifactTab:ArtifactLoaded()
 	end
@@ -68,7 +68,7 @@ function ArtifactTab:TalentLoaded()
 	local parent = _G["PlayerTalentFrameTab"..NUM_TALENT_FRAME_TABS]
 	local artifactTable = ArtifactTab:GetArtifactPoisition()
 	for k, v in pairs(artifactTable) do
-		parent = ArtifactTab:CreateTab('ArtifactTabTalentTab'..k, parent, v['name'], k, "PlayerTalentTabTemplate")
+		parent = ArtifactTab:CreateTab("ArtifactTabTalentTab"..k, parent, v["name"], k, "PlayerTalentTabTemplate")
 		-- Aurora Reskin
 		if IsAddOnLoaded("Aurora") then
 			local F = unpack(Aurora)
@@ -81,7 +81,7 @@ function ArtifactTab:ArtifactLoaded()
 	local parent = ArtifactFrameTab1
 	local artifactTable = ArtifactTab:GetArtifactPoisition()
 	for k, v in pairs(artifactTable) do
-		parent = ArtifactTab:CreateTab('ArtifactTabArtifactTab'..k, parent, v['name'], k, "ArtifactFrameTabButtonTemplate")
+		parent = ArtifactTab:CreateTab("ArtifactTabArtifactTab"..k, parent, v["name"], k, "ArtifactFrameTabButtonTemplate")
 		-- Aurora Reskin
 		if IsAddOnLoaded("Aurora") then
 			local F = unpack(Aurora)
@@ -95,9 +95,9 @@ function ArtifactTab:ArtifactLoaded()
 end
 
 function ArtifactTab:ADDON_LOADED(_, addon)
-	if addon == 'Blizzard_TalentUI' then
+	if addon == "Blizzard_TalentUI" then
 		ArtifactTab:TalentLoaded()
-	elseif addon == 'Blizzard_ArtifactUI' then
+	elseif addon == "Blizzard_ArtifactUI" then
 		ArtifactTab:ArtifactLoaded()
 	end
 end
@@ -105,12 +105,12 @@ end
 function ArtifactTab:ArtifactClick(id)
 	local artifactTable = ArtifactTab:GetArtifactPoisition()
 	if artifactTable[id] ~= nil then
-		if artifactTable[id]['bagID'] == -1 then
-			SocketInventoryItem(artifactTable[id]['slotID'])
+		if artifactTable[id]["bagID"] == -1 then
+			SocketInventoryItem(artifactTable[id]["slotID"])
 		else
-			SocketContainerItem(artifactTable[id]['bagID'], artifactTable[id]['slotID'])
+			SocketContainerItem(artifactTable[id]["bagID"], artifactTable[id]["slotID"])
 		end
 	else
-		print('没有找到神器');
+		print("没有找到神器");
 	end
 end

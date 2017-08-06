@@ -23,7 +23,7 @@ local function ClassColor(String)
 	return string.format("\124cff%02x%02x%02x%s\124r", color.r*255, color.g*255, color.b*255, String)
 end
 
-local LMFrame = CreateFrame('Frame', "LootMonitor", UIParent)
+local LMFrame = CreateFrame("Frame", "LootMonitor", UIParent)
 local LMFrame_Title = B.CreateFS(LMFrame, 15, "拾取监视", true, "TOPLEFT", 12, -10)
 local LMFrame_Rclick = B.CreateFS(LMFrame, 15, "左键：贴出 右键：密语", true, "BOTTOMLEFT", 12, 10)
 B.CreateMF(LMFrame)
@@ -51,8 +51,8 @@ local LMFrame_ResetBtn = B.CreateButton(LMFrame, 60, 20, "重置")
 LMFrame_ResetBtn:SetPoint("BOTTOMRIGHT", -10, 8)
 LMFrame_ResetBtn:SetScript("OnClick", function(self) LMFrame_Reset() end)
 
-LMFrame:RegisterEvent('PLAYER_LOGIN')
-LMFrame:RegisterEvent('CHAT_MSG_LOOT')
+LMFrame:RegisterEvent("PLAYER_LOGIN")
+LMFrame:RegisterEvent("CHAT_MSG_LOOT")
 LMFrame:SetScript("OnEvent", function(self, event, ...)
 	if event == "PLAYER_LOGIN" then
 		LMFrame:UnregisterEvent(event)

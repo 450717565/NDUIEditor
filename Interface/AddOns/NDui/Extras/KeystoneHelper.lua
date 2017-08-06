@@ -88,23 +88,23 @@ frame:SetScript("OnEvent", function(self, event, addonName, ...)
 end)
 
 local function GetModifiers(linkType, ...)
-	if type(linkType) ~= 'string' then return end
+	if type(linkType) ~= "string" then return end
 	local modifierOffset = 3
 	local instanceID, mythicLevel, notDepleted, _ = ... -- "keystone" links
-	if linkType:find('item') then -- only used for ItemRefTooltip currently
+	if linkType:find("item") then -- only used for ItemRefTooltip currently
 		_, _, _, _, _, _, _, _, _, _, _, _, _, instanceID, mythicLevel = ...
-		if ... == '138019' then -- mythic keystone
+		if ... == "138019" then -- mythic keystone
 			modifierOffset = 16
 		else
 			return
 		end
-	elseif not linkType:find('keystone') then
+	elseif not linkType:find("keystone") then
 		return
 	end
 
 	local modifiers = {}
-	for i = modifierOffset, select('#', ...) do
-		local num = strmatch(select(i, ...) or '', '^(%d+)')
+	for i = modifierOffset, select("#", ...) do
+		local num = strmatch(select(i, ...) or "", "^(%d+)")
 		if num then
 			local modifierID = tonumber(num)
 			--if not modifierID then break end
@@ -122,8 +122,8 @@ local function DecorateTooltip(self, link, _)
 	if not link then
 		_, link = self:GetItem()
 	end
-	if type(link) == 'string' then
-		local modifiers, instanceID, mythicLevel = GetModifiers(strsplit(':', link))
+	if type(link) == "string" then
+		local modifiers, instanceID, mythicLevel = GetModifiers(strsplit(":", link))
 		local ilvl = MythicLootItemLevel(mythicLevel)
 		local wlvl = WeeklyLootItemLevel(mythicLevel)
 		if modifiers then
@@ -131,7 +131,7 @@ local function DecorateTooltip(self, link, _)
 			for _, modifierID in ipairs(modifiers) do
 				local modifierName, modifierDescription = C_ChallengeMode.GetAffixInfo(modifierID)
 				if modifierName and modifierDescription then
-					self:AddLine(format('|cffff0000%s|r - %s', modifierName, modifierDescription), 0, 1, 0, true)
+					self:AddLine(format("|cffff0000%s|r - %s", modifierName, modifierDescription), 0, 1, 0, true)
 				end
 			end
 		end
@@ -146,5 +146,5 @@ local function DecorateTooltip(self, link, _)
 	end
 end
 
-hooksecurefunc(ItemRefTooltip, 'SetHyperlink', DecorateTooltip) 
-GameTooltip:HookScript('OnTooltipSetItem', DecorateTooltip)
+hooksecurefunc(ItemRefTooltip, "SetHyperlink", DecorateTooltip) 
+GameTooltip:HookScript("OnTooltipSetItem", DecorateTooltip)

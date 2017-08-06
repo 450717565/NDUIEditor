@@ -24,18 +24,18 @@ local GetNextChar = function(word, num)
 	return word:sub(num, num + shift - 1), (num + shift)
 end
 
-local updaterun = CreateFrame("Frame")
-
 local flowingframe = CreateFrame("Frame", "AlertRun", UIParent)
+flowingframe:RegisterEvent("PLAYER_LOGIN")
 flowingframe:SetFrameStrata("HIGH")
-flowingframe:SetPoint("CENTER")
 flowingframe:SetHeight(64)
-B.Mover(flowingframe, L["AlertRun"], "AlertRun", point, 64, 30)
+flowingframe:SetScript("OnEvent", function()
+	B.Mover(flowingframe, L["AlertRun"], "AlertRun", point, 64, 30)
+end)
 
 local flowingtext = B.CreateFS(flowingframe, 24, "")
 
 local rightchar = B.CreateFS(flowingframe, 60, "")
-rightchar:SetJustifyH("LEFT") -- left or right
+rightchar:SetJustifyH("LEFT")
 
 local count, len, step, word, stringE, a, backstep
 
@@ -73,6 +73,7 @@ local updatestring = function(self, t)
 	end
 end
 
+local updaterun = CreateFrame("Frame")
 updaterun:SetScript("OnUpdate", updatestring)
 updaterun:Hide()
 

@@ -67,15 +67,15 @@ local FlightmapCoordinates = { -- fairly accurate sizes for the different flight
 local TAXI_OPEN = false
 
 local TaxiButtons = {}
-TaxiFrame:UnregisterAllEvents() -- we should probably undo this if we're in an area that isn't supported somehow
-UIParent:UnregisterEvent('TAXIMAP_OPENED')
+TaxiFrame:UnregisterAllEvents() -- we should probably undo this if we"re in an area that isn"t supported somehow
+UIParent:UnregisterEvent("TAXIMAP_OPENED")
 
-local f = CreateFrame('Frame', 'WorldFlightMapFrame', WorldMapButton)
+local f = CreateFrame("Frame", "WorldFlightMapFrame", WorldMapButton)
 f:SetAllPoints()
---f:SetFrameStrata('HIGH')
+--f:SetFrameStrata("HIGH")
 f:SetFrameLevel(2000)
 
-f:SetScript('OnEvent', function(self, event, ...) return self[event] and self[event](self, ...) end)
+f:SetScript("OnEvent", function(self, event, ...) return self[event] and self[event](self, ...) end)
 
 local function TaxiNodeOnClick(self)
 	TakeTaxiNode(self:GetID())
@@ -86,9 +86,9 @@ local function CreateLine()
 	local line = f:CreateLine(nil, "OVERLAY")
 	line:SetVertexColor(0,0.8,1)
 	line:SetNonBlocking(true)
-	line:SetAtlas('_UI-Taxi-Line-horizontal')
+	line:SetAtlas("_UI-Taxi-Line-horizontal")
 	line:SetThickness(32)
-	--line:SetBlendMode('ADD')
+	--line:SetBlendMode("ADD")
 	tinsert(lines, line)
 	return line
 end
@@ -103,11 +103,11 @@ end
 --local function DrawLine(x1,y1,x2,y2,r,g,b,a)
 local function DrawLine(button1, button2, r, g, b, a)
 	local line = GetLine()
-	--DrawRouteLine(line, "WorldMapButton", x1*1002, -y1*668, x2*1002, -y2*668, 32, 'TOPLEFT')
-	--line:SetStartPoint('TOPLEFT', WorldMapButton, x1*1002, -y1*668)
-	--line:SetEndPoint('TOPLEFT', WorldMapButton, x2*1002, -y2*668)
-	line:SetStartPoint('CENTER', button1)
-	line:SetEndPoint('CENTER', button2)
+	--DrawRouteLine(line, "WorldMapButton", x1*1002, -y1*668, x2*1002, -y2*668, 32, "TOPLEFT")
+	--line:SetStartPoint("TOPLEFT", WorldMapButton, x1*1002, -y1*668)
+	--line:SetEndPoint("TOPLEFT", WorldMapButton, x2*1002, -y2*668)
+	line:SetStartPoint("CENTER", button1)
+	line:SetEndPoint("CENTER", button2)
 	line:SetVertexColor(r or 1, g or 1, b or 1, a or 1)
 	line:Show()
 	return line
@@ -155,7 +155,7 @@ local function GetMapSize() -- Return dimensions and offset of current map
 			mapID, left, top, right, bottom = TransformCoordinates(mapID, left, top, right, bottom)
 		end
 
-		return left, top, right, bottom, width, height, format('%d.%d', GetCurrentMapAreaID(), floorNum)
+		return left, top, right, bottom, width, height, format("%d.%d", GetCurrentMapAreaID(), floorNum)
 	end
 end
 
@@ -172,14 +172,14 @@ local function DrawOneHopLines()
 	for i = 1, #taxiNodePositions do
 		local node = taxiNodePositions[i]
 
-		if GetNumRoutes(i) == 1 and node.type == 'REACHABLE' then -- node.type ~= 'NONE' then
+		if GetNumRoutes(i) == 1 and node.type == "REACHABLE" then -- node.type ~= "NONE" then
 			local button1 = GetButtonFromSlot(TaxiGetNodeSlot(i, 1, true))
 			local button2 = GetButtonFromSlot(TaxiGetNodeSlot(i, 1, false))
 			DrawLine(button1, button2)
 		end
 	end
 	-- It's possible to fly to a node without knowing intermediate nodes any more
-	-- which means if you don't know any flight points you can reach directly, you can still
+	-- which means if you don"t know any flight points you can reach directly, you can still
 	-- fly to nodes that are farther out as long as you know them
 	--[[
 	if ( numSingleHops == 0 ) then
@@ -202,13 +202,13 @@ local function TaxiNodeOnButtonEnter(button)
 	local numRoutes = GetNumRoutes(index)
 	local type = TaxiNodeGetType(index)
 
-	if type == 'REACHABLE' or type == 'CURRENT' then
+	if type == "REACHABLE" or type == "CURRENT" then
 		for i = 1, #lines do
 			lines[i]:Hide()
 		end
 
-		for slot, button in pairs(TaxiButtons) do -- hide nodes we can't fly to
-			if TaxiNodeGetType(slot) == 'DISTANT' then
+		for slot, button in pairs(TaxiButtons) do -- hide nodes we can"t fly to
+			if TaxiNodeGetType(slot) == "DISTANT" then
 				button:Hide()
 			end
 		end
@@ -228,7 +228,7 @@ local function TaxiNodeOnButtonEnter(button)
 			local slot = TaxiGetNodeSlot(index, i, true)
 			local button1 = GetButtonFromSlot(slot)
 
-			if TaxiNodeGetType(slot) == 'DISTANT' then
+			if TaxiNodeGetType(slot) == "DISTANT" then
 				button1:Show()
 			end
 
@@ -236,7 +236,7 @@ local function TaxiNodeOnButtonEnter(button)
 			local button2 = GetButtonFromSlot(slot)
 			DrawLine(button1, button2)
 
-			if TaxiNodeGetType(slot) == 'DISTANT' then
+			if TaxiNodeGetType(slot) == "DISTANT" then
 				button2:Show()
 			end
 		end
@@ -249,21 +249,21 @@ local function TaxiNodeOnButtonEnter(button)
 end
 
 
-local function BounceAnimation(self) -- SetLooping('BOUNCE') is producing broken animations, so we're just simulating what it's supposed to do
+local function BounceAnimation(self) -- SetLooping("BOUNCE") is producing broken animations, so we"re just simulating what it's supposed to do
 	local tx, parent, bounce = self.tx, self.parent, self.bounce
 	tx:ClearAllPoints()
 	if self.up then
-		tx:SetPoint('BOTTOM', parent, 'TOP', 0, 10)
-		bounce:SetSmoothing('OUT')
+		tx:SetPoint("BOTTOM", parent, "TOP", 0, 10)
+		bounce:SetSmoothing("OUT")
 	else
-		tx:SetPoint('BOTTOM', parent, 'TOP')
-		bounce:SetSmoothing('IN')
+		tx:SetPoint("BOTTOM", parent, "TOP")
+		bounce:SetSmoothing("IN")
 	end
 	bounce:SetOffset(0, self.up and -10 or 10)
 	self.up = not self.up
 	self:Play()
 end
---group:SetLooping('REPEAT')
+--group:SetLooping("REPEAT")
 --group:Play()
 
 local function CreateButton(i)
@@ -273,35 +273,35 @@ local function CreateButton(i)
 
 	local highlight = button:GetHighlightTexture()
 	highlight:ClearAllPoints()
-	highlight:SetPoint('CENTER')
+	highlight:SetPoint("CENTER")
 	highlight:SetSize(40, 40)
 
 	local i = i or (#TaxiButtons + 1)
-	button:SetScript('OnClick', TaxiNodeOnClick)
+	button:SetScript("OnClick", TaxiNodeOnClick)
 	button:SetID(i)
 	TaxiButtons[i] = button
 
-	button:SetScript('OnEnter', TaxiNodeOnButtonEnter)
-	button:SetScript('OnLeave', function() WorldMapTooltip:Hide() end)
+	button:SetScript("OnEnter", TaxiNodeOnButtonEnter)
+	button:SetScript("OnLeave", function() WorldMapTooltip:Hide() end)
 
-	local tx = button:CreateTexture(nil, 'OVERLAY')
-	tx:SetPoint('BOTTOM', button, 'TOP')
+	local tx = button:CreateTexture(nil, "OVERLAY")
+	tx:SetPoint("BOTTOM", button, "TOP")
 	tx:SetSize(32, 32)
-	tx:SetTexture('interface/minimap/minimap-deadarrow')
+	tx:SetTexture("interface/minimap/minimap-deadarrow")
 	tx:SetTexCoord(0, 1, 1, 0)
 
 	local group = tx:CreateAnimationGroup()
 	group.tx = tx
 
-	local bounce = group:CreateAnimation('Translation')
+	local bounce = group:CreateAnimation("Translation")
 	bounce:SetOffset(0, 10)
 	bounce:SetDuration(0.5)
-	bounce:SetSmoothing('IN')
+	bounce:SetSmoothing("IN")
 	group.bounce = bounce
 
 	group.up = true
 
-	group:SetScript('OnFinished', BounceAnimation)
+	group:SetScript("OnFinished", BounceAnimation)
 	group.parent = button
 	button.arrow = tx
 	group:Play()
@@ -317,16 +317,16 @@ for i = #ContinentMaps, 2, -2 do tremove(ContinentMaps, i) end
 
 --[[
 local NodeTypeToName = {
-	[LE_FLIGHT_PATH_TYPE_CURRENT] = 'CURRENT',
-	[LE_FLIGHT_PATH_TYPE_REACHABLE] = 'REACHABLE',
-	[LE_FLIGHT_PATH_TYPE_UNREACHABLE] = 'UNREACHABLE',
-	-- [??] = 'DISTANT',
+	[LE_FLIGHT_PATH_TYPE_CURRENT] = "CURRENT",
+	[LE_FLIGHT_PATH_TYPE_REACHABLE] = "REACHABLE",
+	[LE_FLIGHT_PATH_TYPE_UNREACHABLE] = "UNREACHABLE",
+	-- [??] = "DISTANT",
 }
 --]]
 
 local CurrentContinent, CurrentMap = -1
 function f:WORLD_MAP_UPDATE()
-	if not TAXI_OPEN then return self:UnregisterEvent('WORLD_MAP_UPDATE') end
+	if not TAXI_OPEN then return self:UnregisterEvent("WORLD_MAP_UPDATE") end
 	local continentID = GetCurrentMapContinent() == CurrentContinent and CurrentContinent or -1
 	local continent = FlightmapCoordinates[continentID]
 	local left, top, right, bottom, width, height, mapID = GetMapSize()
@@ -350,23 +350,23 @@ function f:WORLD_MAP_UPDATE()
 	local j = 1
 	for i = 1, #taxiNodePositions do
 		local node = taxiNodePositions[i]
-		--if node.type ~= 'NONE' then
-		if node.type ~= 'NONE' then
+		--if node.type ~= "NONE" then
+		if node.type ~= "NONE" then
 			local mx, my = (left - node.x) / width, (top - node.y) / height
 			local button = GetButton(j)
 			button:ClearAllPoints()
-			button:SetPoint('CENTER', f, 'TOPLEFT', mx * 1002, my * -668)
+			button:SetPoint("CENTER", f, "TOPLEFT", mx * 1002, my * -668)
 			button:SetNormalTexture(TaxiButtonTypes[node.type].file)
 			button:SetID(i)
 			--button:SetID(node.slotIndex)
 
-			if node.type == 'REACHABLE' then
+			if node.type == "REACHABLE" then
 				button.arrow:SetShown(showArrows)
 			else
 				button.arrow:Hide()
 			end
 
-			if node.type == 'REACHABLE' or node.type == 'CURRENT' then
+			if node.type == "REACHABLE" or node.type == "CURRENT" then
 				button:Show()
 			else
 				button:Hide()
@@ -391,7 +391,7 @@ local function ZoomOutForNodes() -- Zoom map out until we can see at least one c
 	local nodeCount = 0
 	for i = 1, #taxiNodePositions do
 		local node = taxiNodePositions[i]
-		if node.type == 'REACHABLE' then -- node.type ~= 'NONE' and node.type ~= 'CURRENT' then
+		if node.type == "REACHABLE" then -- node.type ~= "NONE" and node.type ~= "CURRENT" then
 			if node.x < left and node.x > right and node.y > bottom and node.y < top then
 				nodeCount = nodeCount + 1
 			end
@@ -454,32 +454,32 @@ function f:TAXIMAP_OPENED()
 			taxiNodePositions[i] = {type = type, name = name, x = wx, y = wy}
 		end
 
-		self:RegisterEvent('WORLD_MAP_UPDATE')
+		self:RegisterEvent("WORLD_MAP_UPDATE")
 		--SetMapZoom(continentID)
 		self:WORLD_MAP_UPDATE()
-		ZoomOutForNodes() -- only zoom out if we don't have other flight points on the current map?
+		ZoomOutForNodes() -- only zoom out if we don"t have other flight points on the current map?
 
 		f:Show()
 	end
 end
-f:RegisterEvent('TAXIMAP_OPENED')
+f:RegisterEvent("TAXIMAP_OPENED")
 
 function f:TAXIMAP_CLOSED()
 	TAXI_OPEN = false
 	CurrentContinent = -1
-	self:UnregisterEvent('WORLD_MAP_UPDATE')
+	self:UnregisterEvent("WORLD_MAP_UPDATE")
 	f:Hide()
 	if WorldMapFrame:IsShown() and not InCombatLockdown() then
 		ToggleWorldMap()
 	end
 end
-f:RegisterEvent('TAXIMAP_CLOSED')
+f:RegisterEvent("TAXIMAP_CLOSED")
 
-local timer = CreateFrame('Frame')
+local timer = CreateFrame("Frame")
 timer:Hide()
 
 local TimeSince = 0
-timer:SetScript('OnUpdate', function(self, elapsed) -- delayed close for the map frame
+timer:SetScript("OnUpdate", function(self, elapsed) -- delayed close for the map frame
 	TimeSince = TimeSince + elapsed
 	if TimeSince >= 0.2 then
 		self:Hide()
@@ -489,7 +489,7 @@ timer:SetScript('OnUpdate', function(self, elapsed) -- delayed close for the map
 	end
 end)
 
-WorldMapFrame:HookScript('OnHide', function() -- stop interaction with the flight master after a small timeout
+WorldMapFrame:HookScript("OnHide", function() -- stop interaction with the flight master after a small timeout
 	-- seems to trigger when switching between windowed and fullscreen mode
 	TimeSince = 0
 	timer:Show()
@@ -499,21 +499,21 @@ end)
 do return end
 -----------------
 -- Replace World Map zoom function (WorldMapScrollFrame_OnMouseWheel)
-local ScrollFrame = CreateFrame('ScrollFrame', nil, WorldMapScrollFrame:GetParent())
+local ScrollFrame = CreateFrame("ScrollFrame", nil, WorldMapScrollFrame:GetParent())
 ScrollFrame:SetAllPoints(WorldMapScrollFrame)
 ScrollFrame:SetFrameLevel(WorldMapScrollFrame:GetFrameLevel() - 1)
 
-local ContinentFrame = CreateFrame('frame', nil, ScrollFrame)
+local ContinentFrame = CreateFrame("frame", nil, ScrollFrame)
 ContinentFrame:SetSize(1002, 668)
 ScrollFrame:SetScrollChild(ContinentFrame)
 
 local tx = ContinentFrame:CreateTexture()
 tx:SetAllPoints()
-tx:SetTexture('interface/icons/inv_mushroom_11')
+tx:SetTexture("interface/icons/inv_mushroom_11")
 
 local MIN_ZOOM = 0.695; -- 0.695 WORLDMAP_SETTINGS.size
 local MAX_ZOOM = 3;
-WorldMapScrollFrame:SetScript('OnMouseWheel', function(self, delta)
+WorldMapScrollFrame:SetScript("OnMouseWheel", function(self, delta)
   local scrollFrame = WorldMapScrollFrame;
   local oldScrollH = scrollFrame:GetHorizontalScroll();
   local oldScrollV = scrollFrame:GetVerticalScroll();
