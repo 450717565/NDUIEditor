@@ -66,7 +66,8 @@ function module:RareAlert()
 			local tex = "|TInterface\\Minimap\\ObjectIconsAtlas:0:0:0:0:256:256:"..(left*256)..":"..(right*256)..":"..(top*256)..":"..(bottom*256).."|t"
 			UIErrorsFrame:AddMessage(DB.InfoColor..L["Rare Found"]..tex..(name or ""))
 			if NDuiDB["Misc"]["AlertinChat"] then
-				SendChatMessage(">>> "..name.." <<<", "SAY")
+				print(">>> "..tex..(name or "").." <<<")
+				B.AlertRun(name)
 			end
 			PlaySoundFile("Sound\\Interface\\PVPFlagTakenMono.ogg", "master")
 			cache[id] = true

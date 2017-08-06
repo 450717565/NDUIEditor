@@ -17,60 +17,60 @@ local barFader = {						-- 动作条显隐设置
 }
 
 C.bars = {
-	userplaced				= true,		-- 使其可通过游戏内命令移动
+	userplaced				= true,	-- 使其可通过游戏内命令移动
 
 	-- BAR1 主动作条（下）
 	bar1 = {
 		scale           	= 1,		-- 以1为基准增大/缩放
 		size				= 34,		-- 图标大小
 		fader				= nil,		-- 鼠标悬停显隐
-    },
-    -- BAR2 主动作条（上）
-    bar2 = {
+	},
+	-- BAR2 主动作条（上）
+	bar2 = {
 		scale          		= 1,		-- 以1为基准增大/缩放
 		size           		= 34,		-- 图标大小
 		fader				= nil,		-- 鼠标悬停显隐
-    },
-    -- BAR3 主动作条两侧
-    bar3 = {
+	},
+	-- BAR3 主动作条两侧
+	bar3 = {
 		scale           	= 1,		-- 以1为基准增大/缩放
 		size        	    = 32,		-- 图标大小
 		fader				= nil,		-- 鼠标悬停显隐
-    },
-    -- BAR4 右边动作条1
-    bar4 = {
+	},
+	-- BAR4 右边动作条1
+	bar4 = {
 		scale           	= 1,		-- 以1为基准增大/缩放
 		size           		= 32,		-- 图标大小
-		fader				= nil,		-- 鼠标悬停显隐
-    },
-    -- BAR5 右边动作条2
-    bar5 = {
+		fader				= barFader,	-- 鼠标悬停显隐
+	},
+	-- BAR5 右边动作条2
+	bar5 = {
 		scale          		= 1,		-- 以1为基准增大/缩放
 		size				= 32,		-- 图标大小
-		fader				= nil, 		-- 鼠标悬停显隐
-    },
-    -- PETBAR 宠物动作条
-    petbar = {
+		fader				= barFader, -- 鼠标悬停显隐
+	},
+	-- PETBAR 宠物动作条
+	petbar = {
 		scale           	= 1,		-- 以1为基准增大/缩放
 		size	            = 26,		-- 图标大小
 		fader				= nil,		-- 鼠标悬停显隐
-    },
-    -- STANCE + POSSESSBAR 姿态条
-    stancebar = {
+	},
+	-- STANCE + POSSESSBAR 姿态条
+	stancebar = {
 		scale           	= 1,		-- 以1为基准增大/缩放
 		size          		= 30,		-- 图标大小
 		fader				= nil,		-- 鼠标悬停显隐
-    },
-    -- EXTRABAR 额外动作条
-    extrabar = {
+	},
+	-- EXTRABAR 额外动作条
+	extrabar = {
 		scale          		= 1,		-- 以1为基准增大/缩放
 		size    	        = 56,		-- 图标大小
 		fader				= nil,		-- 鼠标悬停显隐
-    },
-    -- VEHICLE EXIT 离开载具按钮
-    leave_vehicle 			= {
+	},
+	-- VEHICLE EXIT 离开载具按钮
+	leave_vehicle 			= {
 		scale           	= 1,		-- 以1为基准增大/缩放
 		size          		= 32,		-- 图标大小
 		fader				= nil,		-- 鼠标悬停显隐
-    },
+	},
 }
