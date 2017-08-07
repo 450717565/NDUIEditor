@@ -146,7 +146,7 @@ else
 	end)
 
 	hall:SetScript("OnLeave", function(self)
-		GameTooltip_Hide()
+		GameTooltip:Hide()
 		self:UnregisterEvent("MODIFIER_STATE_CHANGED")
 	end)
 end

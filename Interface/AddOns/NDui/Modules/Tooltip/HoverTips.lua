@@ -21,7 +21,7 @@ end
 
 local function OnHyperlinkLeave(frame, link, ...)
 	BattlePetTooltip:Hide()
-	GameTooltip_Hide()
+	GameTooltip:Hide()
 
 	if orig2[frame] then return orig2[frame](frame, ...) end
 end

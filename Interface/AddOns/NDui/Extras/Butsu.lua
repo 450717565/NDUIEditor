@@ -42,7 +42,7 @@ end
 
 local OnLeave = function(self)
 	self.glow:Hide()
-	GameTooltip_Hide()
+	GameTooltip:Hide()
 	ResetCursor()
 end
 

@@ -213,7 +213,7 @@ local function DecorateNomi()
 						end
 					end)
 					button:HookScript("OnLeave", function(self)
-						GameTooltip_Hide()
+						GameTooltip:Hide()
 					end)
 					HookedButtons[button] = i
 				end

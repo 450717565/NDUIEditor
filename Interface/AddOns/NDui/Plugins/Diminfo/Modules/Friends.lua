@@ -163,7 +163,7 @@ if cfg.Friends == true then
 	end
 
 	Stat:SetScript("OnMouseUp", function(self, btn)
-		GameTooltip_Hide()
+		GameTooltip:Hide()
 		if btn == "LeftButton" then ToggleFriendsFrame() end
 		if btn ~= "RightButton" then return end
 
@@ -279,7 +279,7 @@ if cfg.Friends == true then
 	end)
 
 	Stat:SetScript("OnLeave", function(self)
-		GameTooltip_Hide()
+		GameTooltip:Hide()
 		self:UnregisterEvent("MODIFIER_STATE_CHANGED")
 	end)
 

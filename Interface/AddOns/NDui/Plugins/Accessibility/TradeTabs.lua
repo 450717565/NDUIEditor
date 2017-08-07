@@ -113,7 +113,7 @@ local function onEnter(self)
 end
 
 local function onLeave(self)
-	GameTooltip_Hide()
+	GameTooltip:Hide()
 	self:GetParent():UnlockHighlight()
 end   
 

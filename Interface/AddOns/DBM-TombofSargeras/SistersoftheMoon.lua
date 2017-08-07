@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1903, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16506 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16559 $"):sub(12, -3))
 mod:SetCreatureID(118523, 118374, 118518)--118523 Huntress kasparian, 118374 Captain Yathae Moonstrike, 118518 Prestess Lunaspyre
 mod:SetEncounterID(2050)
 mod:SetZone()
@@ -219,9 +219,7 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 236442 then
-		--if self.vb.phase == 2 then
-			self:BossTargetScanner(args.sourceGUID, "VolleyTarget", 0.1, 9)
-		--end
+		self:ScheduleMethod(0.2, "BossTargetScanner", args.sourceGUID, "VolleyTarget", 0.1, 9)
 	elseif spellId == 236712 then
 		self.vb.beaconCount = self.vb.beaconCount + 1
 		timerLunarBeaconCD:Start(20.7)
@@ -482,6 +480,15 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 			timerGlaiveStormCD:Update(elapsedMoon, totalMoon)
 		else
 			timerIncorporealShotCD:Update(elapsedMoon, totalMoon)
+		end
+	elseif spellId == 61207 then--Sets all internal CDs back to 7 seconds
+		local elapsedVolley, totalVolley = timerTwilightVolleyCD:GetTime()
+		local remaining = totalVolley - elapsedVolley
+		local extend = 7 - (totalVolley-elapsedVolley)
+		if totalVolley == 0 then
+			timerTwilightVolleyCD:Start(7)
+		elseif remaining < 7 then
+			timerTwilightVolleyCD:Update(remaining, totalVolley+extend)
 		end
 	end
 end

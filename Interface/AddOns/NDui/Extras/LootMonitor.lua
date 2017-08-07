@@ -82,7 +82,7 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 				GameTooltip:SetHyperlink(LMFrame_Report[self.index]["loot"])
 			end)
 			button:SetScript("OnLeave", function(self)
-				GameTooltip_Hide()
+				GameTooltip:Hide()
 			end)
 			button.index = index
 

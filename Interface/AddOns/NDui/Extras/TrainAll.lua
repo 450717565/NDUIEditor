@@ -48,7 +48,7 @@ local function Createit()
 		GameTooltip:SetText("学习所有技能需要："..GetMoneyString(Cost))
 	end)
 	Button:SetScript("OnLeave", function()
-		GameTooltip_Hide()
+		GameTooltip:Hide()
 	end)
 	Button:SetScript("OnClick",function()
 		Spot = 0

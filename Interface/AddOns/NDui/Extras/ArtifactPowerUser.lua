@@ -4,15 +4,15 @@ if UnitLevel("player") < 100 then return end
 
 local itemLink, bag, slot
 local Cache = {}
+local point = {"CENTER", UIParent, "BOTTOM", -245, 130}
 
-local APU = CreateFrame("Button", "ArtifactPowerUserButton", UIParent, "ActionButtonTemplate, SecureActionButtonTemplate")
-B.CreateMF(APU)
-APU:SetPoint("CENTER", UIParent, "BOTTOM", -250, 150)
-APU:SetSize(48, 48)
-APU:SetClampedToScreen(true)
-APU:EnableMouse(true)
-APU:SetUserPlaced(true)
-APU:SetClampedToScreen(true)
+local APUF = CreateFrame("Frame", "ArtifactPowerUserFrame", UIParent)
+APUF:SetSize(48, 48)
+APUF:EnableMouse(true)
+APUF:SetClampedToScreen(true)
+
+local APU = CreateFrame("Button", "ArtifactPowerUserButton", APUF, "ActionButtonTemplate, SecureActionButtonTemplate")
+APU:SetAllPoints()
 
 APU:SetScript("OnHide", function(self)
 	self:SetAttribute("type", nil)
@@ -25,14 +25,8 @@ APU:SetScript("OnEnter", function(self)
 end)
 
 APU:SetScript("OnLeave", function(self)
-	GameTooltip_Hide()
+	GameTooltip:Hide()
 end)
-
-APU.icon = APU:CreateTexture(nil, "ARTWORK")
-APU.icon:SetTexCoord(.08, .92, .08, .92)
-APU.icon:SetAllPoints()
-APU.icon:SetPoint("TOPLEFT", APU, "TOPLEFT", 1, -1)
-APU.icon:SetPoint("BOTTOMRIGHT", APU, "BOTTOMRIGHT", -1, 1)
 
 local function ScanBags()
 	for bag = 0, NUM_BAG_SLOTS do
@@ -61,46 +55,47 @@ local function UpdateItem(self)
 			self:SetAttribute("item", bag.." "..slot)
 			local itemTexture = GetItemIcon(itemLink)
 			self.icon:SetTexture(itemTexture)
+			self.icon:SetDrawLayer("ARTWORK")
 			local start, duration, enable = GetContainerItemCooldown(bag, slot)
 			if duration > 0 then
 				self.cooldown:SetCooldown(start, duration)
 				self.cooldown:SetAllPoints(self.icon)
 			end
 			self:Show()
-			if self:IsMouseOver() then	--update tooltip
+			if self:IsMouseOver() then
 				GameTooltip:SetHyperlink(itemLink)
 			end
 			GameTooltip:Show()
 		else
 			self:Hide()
-			GameTooltip_Hide()
+			GameTooltip:Hide()
 		end
 	end
 end
 
-local f = CreateFrame("Frame")
-f:RegisterEvent("ADDON_LOADED")
-f:RegisterEvent("BAG_UPDATE_DELAYED")
-f:RegisterEvent("PLAYER_REGEN_DISABLED")
-f:RegisterEvent("PLAYER_REGEN_ENABLED")
-f:SetScript("OnEvent", function(self, event, ...)
-	self:UnregisterEvent("ADDON_LOADED")
-	if  event == "BAG_UPDATE_DELAYED" then
+APUF:RegisterEvent("PLAYER_LOGIN")
+APUF:RegisterEvent("BAG_UPDATE_DELAYED")
+APUF:RegisterEvent("PLAYER_REGEN_DISABLED")
+APUF:RegisterEvent("PLAYER_REGEN_ENABLED")
+APUF:SetScript("OnEvent", function(self, event)
+	if event == "PLAYER_LOGIN" then
+		B.Mover(APUF, "APU", "ArtifactPowerUser", point)
+	elseif event == "BAG_UPDATE_DELAYED" then
 		UpdateItem(APU)
 	elseif event == "PLAYER_REGEN_DISABLED" then
 		self:UnregisterEvent("BAG_UPDATE_DELAYED")
-		APU:Hide()
-		GameTooltip_Hide()
+		APUF:Hide()
+		GameTooltip:Hide()
 	elseif event == "PLAYER_REGEN_ENABLED" then
-		UpdateItem(APU)
 		self:RegisterEvent("BAG_UPDATE_DELAYED")
+		UpdateItem(APU)
+		APUF:Show()
+		GameTooltip:Show()
 	end
 end)
 
 -- Aurora Reskin
 if IsAddOnLoaded("Aurora") then
 	local F = unpack(Aurora)
-	APU:SetNormalTexture("")
-	F.CreateBD(APU)
-	F.CreateSD(APU)
+	F.ReskinIconStyle(APU)
 end

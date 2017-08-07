@@ -177,7 +177,7 @@ SlashCmdList.MOUSEOVERBIND = function()
 				end
 				print("|cffffff00"..UNBIND.."|r".." |cff00ff00"..self.button.name.."|r.")
 				self:Update(self.button, self.spellmacro)
-				if self.spellmacro~="MACRO" then GameTooltip_Hide() end
+				if self.spellmacro~="MACRO" then GameTooltip:Hide() end
 				return
 			end
 			
@@ -207,12 +207,12 @@ SlashCmdList.MOUSEOVERBIND = function()
 			end
 			print(alt..ctrl..shift..key.." |cff00ff00"..KEY1.."|r "..self.button.name..".")
 			self:Update(self.button, self.spellmacro)
-			if self.spellmacro~="MACRO" then GameTooltip_Hide() end
+			if self.spellmacro~="MACRO" then GameTooltip:Hide() end
 		end
 		function bind:HideFrame()
 			self:ClearAllPoints()
 			self:Hide()
-			GameTooltip_Hide()
+			GameTooltip:Hide()
 		end
 		function bind:Activate()
 			self.enabled = true

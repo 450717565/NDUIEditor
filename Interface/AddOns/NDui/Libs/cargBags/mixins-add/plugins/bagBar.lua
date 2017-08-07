@@ -138,7 +138,7 @@ function BagButton:OnLeave()
 		end
 	end
 
-	GameTooltip_Hide()
+	GameTooltip:Hide()
 end
 
 function BagButton:OnClick()

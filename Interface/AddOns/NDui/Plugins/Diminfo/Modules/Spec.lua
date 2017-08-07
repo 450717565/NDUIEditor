@@ -157,7 +157,7 @@ if cfg.Spec == true then
 			end
 
 			EasyMenu(menuList, menuFrame, self, -80, 100, "MENU", 1)
-			GameTooltip_Hide()
+			GameTooltip:Hide()
 		end
 	end)
 end

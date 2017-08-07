@@ -16,7 +16,7 @@ local function onEnter(self)
 end
 
 local function onLeave()
-	GameTooltip_Hide()
+	GameTooltip:Hide()
 end
 
 local function createAuraIcon(element, index)
