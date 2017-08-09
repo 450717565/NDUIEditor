@@ -43,7 +43,7 @@
 --
 
 
-local revision =("$Revision: 16534 $"):sub(12, -3)
+local revision =("$Revision: 16562 $"):sub(12, -3)
 local FrameTitle = "DBM_GUI_Option_"	-- all GUI frames get automatically a name FrameTitle..ID
 
 local PanelPrototype = {}
@@ -2344,6 +2344,9 @@ local function CreateOptionsMenu()
 			resetDBTValueToDefault(BarScaleSlider, "Scale")
 			resetDBTValueToDefault(BarOffsetXSlider, "BarXOffset")
 			resetDBTValueToDefault(BarOffsetYSlider, "BarYOffset")
+			--TimerX
+			--TimerY
+			--TimerPoint
 		end)
 
 		-----------------------
@@ -2389,6 +2392,9 @@ local function CreateOptionsMenu()
 			resetDBTValueToDefault(HugeBarScaleSlider, "HugeScale")
 			resetDBTValueToDefault(HugeBarOffsetXSlider, "HugeBarXOffset")
 			resetDBTValueToDefault(HugeBarOffsetYSlider, "HugeBarYOffset")
+			--HugeTimerPoint
+			--HugeTimerX
+			--HugeTimerY
 		end)
 
 		BarSetupPanel:SetMyOwnHeight()

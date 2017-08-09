@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1903, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16559 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16564 $"):sub(12, -3))
 mod:SetCreatureID(118523, 118374, 118518)--118523 Huntress kasparian, 118374 Captain Yathae Moonstrike, 118518 Prestess Lunaspyre
 mod:SetEncounterID(2050)
 mod:SetZone()
@@ -147,39 +147,6 @@ function mod:BeaconTarget(targetname, uId)
 		voiceLunarBeacon:Play("runout")
 	else
 		warnLunarBeacon:Show(targetname)
-	end
-end
-
-local updateInfoFrame
-do
-	local EclipseName = GetSpellInfo(233263)
-	local lines = {}
-	local sortedLines = {}
-	local function addLine(key, value)
-		-- sort by insertion order
-		lines[key] = value
-		sortedLines[#sortedLines + 1] = key
-	end
-	updateInfoFrame = function()
-		table.wipe(lines)
-		table.wipe(sortedLines)
-		for i = 1, 3 do
-			local uId = "boss"..i
-			if UnitExists(uId) then
-				local absorbAmount = select(17, UnitBuff(uId, EclipseName)) or select(17, UnitDebuff(uId, EclipseName))
-				if absorbAmount then
-					addLine(UnitName(uId), absorbAmount)
-					break
-				end
-			end
-		end
-		for uId in DBM:GetGroupMembers() do
-			local absorbAmount = select(17, UnitBuff(uId, EclipseName)) or select(17, UnitDebuff(uId, EclipseName))
-			if absorbAmount then
-				addLine(UnitName(uId), absorbAmount)
-			end
-		end
-		return lines, sortedLines
 	end
 end
 
@@ -354,10 +321,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnEmbraceofEclipse:Show(args.destName)
 			--voiceEmbraceofEclipse:Play("targetchange")
 		end
-		if self.Options.InfoFrame and not DBM.InfoFrame:IsShown() then
-			DBM.InfoFrame:SetHeader(args.spellName)
-			DBM.InfoFrame:Show(6, "function", updateInfoFrame)
-		end
 	elseif spellId == 233263 then--Healer Embrace of the Eclipse
 		self.vb.eclipseCount = self.vb.eclipseCount + 1
 		if self:IsHealer() then
@@ -368,7 +331,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		if self.Options.InfoFrame and not DBM.InfoFrame:IsShown() then
 			DBM.InfoFrame:SetHeader(args.spellName)
-			DBM.InfoFrame:Show(6, "function", updateInfoFrame)
+			DBM.InfoFrame:Show(6, "playerabsorb", args.spellName, select(17, UnitDebuff(args.destName, args.spellName)))
 		end
 	elseif spellId == 236712 then
 		if args:IsPlayer() then

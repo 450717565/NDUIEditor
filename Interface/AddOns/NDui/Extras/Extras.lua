@@ -23,6 +23,14 @@ _G.WorldMapScrollFrame_ResetZoom = function()
 	end
 end
 
+--- 修复MirrorTimer重叠
+local mt = {"MirrorTimer1", "MirrorTimer2", "MirrorTimer3"}
+for i = 1, #mt do
+	if i > 1 then
+		_G[mt[i]]:SetPoint("TOP", _G[mt[i-1]], "BOTTOM", 0, -5)
+	end
+end
+
 --- 共享计量条材质
 local media = LibStub("LibSharedMedia-3.0")
 media:Register("statusbar", "Altz01", [[Interface\AddOns\NDui\Media\StatusBar\Altz01]])

@@ -1,7 +1,6 @@
 local _, _, L, _ = unpack(select(2, ...))
 if GetLocale() ~= "zhTW" then return end
 
-L["AlertRun"] = "動感特效"
 L["Arrow Color"] = "箭頭顏色"
 L["Cyan"] = "青色"
 L["Green"] = "綠色"

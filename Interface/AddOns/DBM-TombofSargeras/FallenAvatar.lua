@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1873, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16546 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16564 $"):sub(12, -3))
 mod:SetCreatureID(116939)--Maiden of Valor 120437
 mod:SetEncounterID(2038)
 mod:SetZone()
@@ -171,7 +171,8 @@ do
 		if mod.vb.shieldActive then
 			local absorbAmount = select(17, UnitBuff("boss2", shieldName)) or select(17, UnitDebuff("boss2", shieldName))
 			if absorbAmount then
-				addLine(shieldName, absorbAmount)
+				local percent = absorbAmount / mod.vb.shieldActive * 100
+				addLine(shieldName, percent)
 			end
 		end
 		--Boss Powers second
@@ -365,7 +366,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			end
 		end
 	elseif spellId == 241008 then--Cleansing Protocol Shield
-		self.vb.shieldActive = true
+		self.vb.shieldActive = UnitGetTotalAbsorbs("boss2")
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED

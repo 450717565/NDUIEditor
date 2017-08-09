@@ -1,7 +1,6 @@
 local _, _, L, _ = unpack(select(2, ...))
 --if GetLocale() ~= "enUS" then return end
 
-L["AlertRun"] = "AlertRun"
 L["Arrow Color"] = "Arrow Color"
 L["Cyan"] = "Cyan"
 L["Green"] = "Green"
