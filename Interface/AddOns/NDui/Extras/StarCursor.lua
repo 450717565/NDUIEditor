@@ -10,6 +10,7 @@ flash:SetAlpha(.6)
 
 local x, y, speed = 0, 0, 0
 local function OnUpdate(_, elapsed)
+	if not NDuiDB["Extras"]["StarCursor"] then return end
 	local dX = x
 	local dY = y
 	x, y = GetCursorPosition()

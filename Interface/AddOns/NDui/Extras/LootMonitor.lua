@@ -54,6 +54,7 @@ LMFrame_ResetBtn:SetScript("OnClick", function(self) LMFrame_Reset() end)
 LMFrame:RegisterEvent("PLAYER_LOGIN")
 LMFrame:RegisterEvent("CHAT_MSG_LOOT")
 LMFrame:SetScript("OnEvent", function(self, event, ...)
+	if not NDuiDB["Extras"]["LootMonitor"] then return end
 	if event == "PLAYER_LOGIN" then
 		LMFrame:UnregisterEvent(event)
 		for index = 1, LMFrame_CFG["maxloots"] do

@@ -80,7 +80,7 @@ BOEIconFrame:SetBackdrop({
 
 BOEIconFrame:SetWidth(85)
 BOEIconFrame:SetHeight(390)
-BOEIconFrame:SetPoint("CENTER", UIParent)
+BOEIconFrame:SetPoint("CENTER", UIParent, "CENTER", 250, 0)
 BOEIconFrame:EnableMouse(true)
 BOEIconFrame:SetMovable(true)
 BOEIconFrame:RegisterForDrag("LeftButton")
@@ -115,6 +115,7 @@ AddButton(2);
 AddButton(1);
 
 BarrelsFrame:SetScript("OnEvent", function(self,event,arg1,arg2)
+	if not NDuiDB["Extras"]["BarrelsOEasy"] then return end
 	if event == "PLAYER_ENTERING_WORLD" then
 		if BarrelsOEasyShowFrame == nil then
 			BarrelsOEasyShowFrame = true;

@@ -77,10 +77,14 @@ function module:Chatbar()
 		end},
 		{1, 1, 0, L["LootMonitor / StatsReport"], nil, function(self, btn)
 			self:SetAttribute("type", "macro")
-			if btn == "RightButton" then
+			if not NDuiDB["Extras"]["LootMonitor"] then
 				self:SetAttribute("macrotext", "/run ChatFrame_OpenChat(StatsReport())")
 			else
-				self:SetAttribute("macrotext", "/ndlm")
+				if btn == "RightButton" then
+					self:SetAttribute("macrotext", "/run ChatFrame_OpenChat(StatsReport())")
+				else
+					self:SetAttribute("macrotext", "/ndlm")
+				end
 			end
 		end},
 	}

@@ -187,6 +187,12 @@ local defaultSettings = {
 	Tutorial = {
 		Complete = false,
 	},
+	Extras = {
+		BarrelsOEasy = true,
+		CombatAlert = true,
+		LootMonitor = true,
+		StarCursor = true,
+	},
 }
 
 NDui:EventFrame("ADDON_LOADED"):SetScript("OnEvent", function(self, event, addon)
@@ -226,6 +232,7 @@ local tabList = {
 	L["Tooltip"],
 	L["Misc"],
 	L["UI Settings"],
+	L["Extras"],
 }
 
 local optionList = {		-- type, key, value, name, horizon, doubleline
@@ -443,6 +450,12 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{4, "Settings", "Format", L["Numberize"], false, {L["Number Type1"], L["Number Type2"], L["Number Type3"]}},
 		{4, "Settings", "ArrowColor", L["Arrow Color"], true, {L["Cyan"], L["Green"], L["Red"]}},
 	},
+	[14] = {
+		{1, "Extras", "BarrelsOEasy", L["BarrelsOEasy"]},
+		{1, "Extras", "CombatAlert", L["CombatAlert"], true},
+		{1, "Extras", "LootMonitor", L["LootMonitor"]},
+		{1, "Extras", "StarCursor", L["StarCursor"], true},
+	},
 }
 
 local r, g, b = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b
@@ -468,7 +481,11 @@ local function CreateTab(i, name)
 	tab:SetSize(130, 30)
 	B.CreateBD(tab, .3)
 	local label = B.CreateFS(tab, 15, name, false, "LEFT", 10, 0)
-	label:SetTextColor(1, .8, 0)
+	if i < 14 then
+		label:SetTextColor(1, .8, 0)
+	else
+		label:SetTextColor(.6, .8, 1)
+	end
 
 	tab:SetScript("OnClick", function(self)
 		PlaySound("gsTitleOptionOK")
