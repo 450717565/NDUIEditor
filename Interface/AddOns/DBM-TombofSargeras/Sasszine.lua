@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1861, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16545 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16570 $"):sub(12, -3))
 mod:SetCreatureID(115767)--116328 Vellius, 115795 Abyss Stalker, 116329/116843 Sarukel
 mod:SetEncounterID(2037)
 mod:SetZone()
@@ -80,6 +80,7 @@ local timerDevouringMawCD			= mod:NewCDTimer(42, 232745, nil, nil, nil, 3)
 local timerCrashingWaveCD			= mod:NewCDCountTimer(40, 232827, nil, nil, nil, 3)
 local timerInkCD					= mod:NewCDTimer(41, 232913, nil, nil, nil, 3)
 --Stage 3 just stage 2 shit combined
+local timerBufferSpawn				= mod:NewNextTimer(20, 239362, nil, nil, nil, 5)
 
 --local berserkTimer				= mod:NewBerserkTimer(300)
 
@@ -142,6 +143,9 @@ function mod:OnCombatStart(delay)
 	else
 		timerSlicingTornadoCD:Start(30-delay)
 		countdownSlicingTorando:Start(30-delay)
+		if self:IsMythic() then
+			timerBufferSpawn:Start(12.5)
+		end
 	end
 	if not self:IsLFR() then
 		timerHydraShotCD:Start(25.4-delay, 1)
@@ -338,6 +342,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 			--although need more data to confirm, only saw up to 2 sharks in logs and first one didn't phase change 2nd did
 			warnDreadSharkSpawn:Show()
 			self.vb.phase = self.vb.phase + 0.5
+			timerBufferSpawn:Start(21)
 		else
 			--Non mythic seems to use this for phase change even though there are no dread sharks
 			self.vb.phase = self.vb.phase + 1

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1903, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16569 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16571 $"):sub(12, -3))
 mod:SetCreatureID(118523, 118374, 118518)--118523 Huntress kasparian, 118374 Captain Yathae Moonstrike, 118518 Prestess Lunaspyre
 mod:SetEncounterID(2050)
 mod:SetZone()
@@ -17,7 +17,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 236694 236547 236518 233263 237561 236672 239264 236442",
 	"SPELL_AURA_APPLIED 234995 234996 236550 236596 233264 233263 236712 239264 236519 237561 236305 243262",
 	"SPELL_AURA_APPLIED_DOSE 234995 234996 239264",
-	"SPELL_AURA_REMOVED 236712 233263 233264 236305",
+	"SPELL_AURA_REMOVED 236712 233263 236305",
 --	"SPELL_PERIODIC_DAMAGE",
 --	"SPELL_PERIODIC_MISSED",
 --	"CHAT_MSG_RAID_BOSS_EMOTE",
@@ -68,7 +68,7 @@ local yellRapidShot					= mod:NewYell(236596, nil, false, 2)
 local specWarnEmbraceofEclipse		= mod:NewSpecialWarningTarget(233264, "Dps|Healer", nil, nil, 3)
 local specWarnLunarBeacon			= mod:NewSpecialWarningMoveAway(236712, nil, nil, nil, 1, 2)
 local yellLunarBeacon				= mod:NewFadesYell(236712)
-local specWarnLunarFire				= mod:NewSpecialWarningStack(239264, nil, 4, nil, nil, 1, 2)
+local specWarnLunarFire				= mod:NewSpecialWarningStack(239264, nil, 2, nil, nil, 1, 2)
 local specWarnLunarFireOther		= mod:NewSpecialWarningTaunt(239264, nil, nil, nil, 1, 2)
 local specWarnMoonBurn				= mod:NewSpecialWarningMoveTo(236519, nil, DBM_CORE_AUTO_SPEC_WARN_OPTIONS.you:format(236519), nil, 1, 7)--Add voice filter when it has a voice
 
@@ -260,7 +260,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		local uId = DBM:GetRaidUnitId(args.destName)
 		if self:IsTanking(uId) then
 			local amount = args.amount or 1
-			if amount >= 4 then--Lasts 30 seconds, unknown reapplication rate, fine tune!
+			if amount >= 2 then--Lasts 30 seconds, unknown reapplication rate, fine tune!
 				if args:IsPlayer() then--At this point the other tank SHOULD be clear.
 					specWarnLunarFire:Show(amount)
 					voiceLunarFire:Play("stackhigh")
@@ -273,9 +273,7 @@ function mod:SPELL_AURA_APPLIED(args)
 					end
 				end
 			else
-				if amount % 2 == 0 then
-					warnLunarFire:Show(args.destName, amount)
-				end
+				warnLunarFire:Show(args.destName, amount)
 			end
 		end
 	elseif spellId == 236550 then
@@ -316,7 +314,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			countdownSpecials:Start()
 		end
 	elseif spellId == 233264 then--Dpser Embrace of the Eclipse
-		self.vb.eclipseCount = self.vb.eclipseCount + 1
 		if not self:IsHealer() then
 			specWarnEmbraceofEclipse:Show(args.destName)
 			--voiceEmbraceofEclipse:Play("targetchange")
@@ -371,7 +368,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 236712 and args:IsPlayer() then
 		yellLunarBeacon:Cancel()
-	elseif spellId == 233263 or spellId == 233264 then--Healer & boss Embrace of the Eclipse
+	elseif spellId == 233263 then
 		self.vb.eclipseCount = self.vb.eclipseCount - 1
 		if self.Options.InfoFrame and self.vb.eclipseCount == 0 then
 			DBM.InfoFrame:Hide()

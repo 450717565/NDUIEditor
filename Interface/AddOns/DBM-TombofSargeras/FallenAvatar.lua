@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1873, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16564 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16578 $"):sub(12, -3))
 mod:SetCreatureID(116939)--Maiden of Valor 120437
 mod:SetEncounterID(2038)
 mod:SetZone()
@@ -45,10 +45,10 @@ local warnCleansingEnded			= mod:NewEndAnnounce(241008, 1)
 local warnTaintedMatrix				= mod:NewCastAnnounce(240623, 3)
 --Stage Two: An Avatar Awakened
 local warnPhase2					= mod:NewPhaseAnnounce(2, 2)
-local warnDarkmark					= mod:NewTargetAnnounce(239739, 3)
+local warnDarkmark					= mod:NewTargetCountAnnounce(239739, 3)
 
 --Stage One: A Slumber Disturbed
-local specWarnTouchofSargerasGround	= mod:NewSpecialWarningSpell(239207, "-Tank", nil, 2, 1, 2)
+local specWarnTouchofSargerasGround	= mod:NewSpecialWarningCount(239207, "-Tank", nil, 2, 1, 2)
 local specWarnRuptureRealities		= mod:NewSpecialWarningRun(239132, nil, nil, nil, 4, 2)
 local specWarnUnboundChaos			= mod:NewSpecialWarningMoveAway(234059, nil, nil, nil, 1, 2)
 local yellUnboundChaos				= mod:NewYell(234059, nil, false, 2)
@@ -83,7 +83,7 @@ local timerCorruptedMatrix			= mod:NewCastTimer(10, 233556, nil, nil, nil, 5)
 local timerTaintedMatrixCD			= mod:NewCastTimer(10, 240623, nil, nil, nil, 6)--Mythic
 --Stage Two: An Avatar Awakened
 mod:AddTimerLine(SCENARIO_STAGE:format(2))
-local timerDarkMarkCD				= mod:NewCDTimer(34, 239739, nil, nil, nil, 3)
+local timerDarkMarkCD				= mod:NewCDCountTimer(34, 239739, nil, nil, nil, 3)
 --local timerRainoftheDestroyerCD		= mod:NewCDTimer(44, 240396, nil, nil, nil, 3)
 
 local berserkTimer					= mod:NewBerserkTimer(420)
@@ -121,6 +121,8 @@ local abilitiesonCD = {
 mod.vb.phase = 1
 mod.vb.bladesIcon = 1
 mod.vb.shieldActive = false
+mod.vb.touchCast = 0
+mod.vb.darkMarkCast = 0
 local darkMarkTargets = {}
 local playerName = UnitName("player")
 local beamName = GetSpellInfo(238244)
@@ -128,7 +130,7 @@ local showTouchofSarg = true
 
 local function warnDarkMarkTargets(self, spellName)
 --	table.sort(darkMarkTargets)
-	warnDarkmark:Show(table.concat(darkMarkTargets, "<, >"))
+	warnDarkmark:Show(self.vb.darkMarkCast, table.concat(darkMarkTargets, "<, >"))
 	--if self:IsLFR() then return end
 	for i = 1, #darkMarkTargets do
 		local icon = i == 1 and 6 or i == 2 and 4 or i == 3 and 3--Bigwigs icon compatability
@@ -172,7 +174,7 @@ do
 			local absorbAmount = select(17, UnitBuff("boss2", shieldName)) or select(17, UnitDebuff("boss2", shieldName))
 			if absorbAmount then
 				local percent = absorbAmount / mod.vb.shieldActive * 100
-				addLine(shieldName, percent)
+				addLine(shieldName, math.floor(percent))
 			end
 		end
 		--Boss Powers second
@@ -216,6 +218,8 @@ function mod:OnCombatStart(delay)
 	table.wipe(darkMarkTargets)
 	self.vb.phase = 1
 	self.vb.bladesIcon = 1
+	self.vb.touchCast = 0
+	self.vb.darkMarkCast = 0
 	timerUnboundChaosCD:Start(7-delay)--7
 	self:Schedule(7, setabilityStatus, self, 234059, 0)--Unbound Chaos
 	timerDesolateCD:Start(13-delay)--13
@@ -252,7 +256,8 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 239207 then
-		specWarnTouchofSargerasGround:Show()
+		self.vb.touchCast = self.vb.touchCast + 1
+		specWarnTouchofSargerasGround:Show(self.vb.touchCast)
 		voiceTouchofSargerasGround:Play("helpsoak")
 		timerTouchofSargerasCD:Start()--42
 		self:Unschedule(setabilityStatus, self, 239207)--Unschedule for good measure in case next cast start fires before timer expires (in which case have a bad timer)
@@ -296,7 +301,7 @@ function mod:SPELL_CAST_START(args)
 		
 		warnPhase2:Show()
 		timerDesolateCD:Start(19)
-		timerDarkMarkCD:Start(21)
+		timerDarkMarkCD:Start(21, 1)
 		timerRuptureRealitiesCD:Start(39)
 		if self.Options.InfoFrame then
 			DBM.InfoFrame:Hide()
@@ -442,7 +447,8 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 		self:Schedule(35, setabilityStatus, self, 234059, 0)--Set ready to use when CD expires
 	elseif spellId == 239739 or spellId == 239825 then
 		table.wipe(darkMarkTargets)
-		timerDarkMarkCD:Start()
+		self.vb.darkMarkCast = self.vb.darkMarkCast + 1
+		timerDarkMarkCD:Start(nil, self.vb.darkMarkCast+1)
 	elseif spellId == 236571 or spellId == 236573 then--Shadow Blades
 		self.vb.bladesIcon = 1--SHOULD always fire first
 		self:Unschedule(setabilityStatus, self, 236571)--Unschedule for good measure in case next cast start fires before timer expires (in which case have a bad timer)

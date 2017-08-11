@@ -29,7 +29,7 @@ flowingframe:RegisterEvent("PLAYER_LOGIN")
 flowingframe:SetFrameStrata("HIGH")
 flowingframe:SetHeight(64)
 flowingframe:SetScript("OnEvent", function()
-	B.Mover(flowingframe, "B.AlertRun", "AlertRun", point, 64, 30)
+	B.Mover(flowingframe, "B.AlertRun", "AlertRun", point, 80, 30)
 end)
 
 local flowingtext = B.CreateFS(flowingframe, 24, "")

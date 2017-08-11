@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1867, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16568 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16571 $"):sub(12, -3))
 mod:SetCreatureID(116691, 116689)--Belac (116691), Atrigan (116689)
 mod:SetEncounterID(2048)
 mod:SetZone()
@@ -243,7 +243,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 233431 then
 		timerCalcifiedQuillsCD:Start()
-		updateAllAtriganTimers(self, 3)
+		updateAllAtriganTimers(self, 5)
 	elseif spellId == 233983 then
 		timerEchoingAnguishCD:Start()
 	end

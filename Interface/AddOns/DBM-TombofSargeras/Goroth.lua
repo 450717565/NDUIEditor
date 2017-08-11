@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1862, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16453 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16577 $"):sub(12, -3))
 mod:SetCreatureID(115844)
 mod:SetEncounterID(2032)
 mod:SetZone()
@@ -30,7 +30,7 @@ mod:RegisterEventsInCombat(
  or ability.name = "Rain of Brimstone"
 --]]
 local warnInfernalSpike					= mod:NewSpellAnnounce(233055, 1)
-local warnShatteringStar				= mod:NewTargetAnnounce(233272, 3)
+local warnShatteringStar				= mod:NewTargetCountAnnounce(233272, 3)
 local warnCrashingComet					= mod:NewTargetAnnounce(232249, 4)
 
 local specWarnInfernalBurning			= mod:NewSpecialWarningMoveTo(233062, nil, nil, nil, 3, 2)
@@ -164,7 +164,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			countdownShatteringStarFades:Start()
 			timerShatteringStar:Start()
 		else
-			warnShatteringStar:Show(args.destName)
+			warnShatteringStar:Show(self.vb.shatteringStarCount, args.destName)
 		end
 	elseif spellId == 231363 then
 		if args:IsPlayer() then

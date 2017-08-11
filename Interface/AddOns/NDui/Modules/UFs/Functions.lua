@@ -99,7 +99,7 @@ function UF:CreateHealthText(self)
 
 	if self.mystyle == "player" then
 		self:Tag(name, "  [color][name]")
-	elseif self.mystyle == "target" then
+	elseif self.mystyle == "target" or self.mystyle == "party" then
 		self:Tag(name, "[fulllevel] [color][name][afkdnd]")
 	elseif self.mystyle == "focus" then
 		self:Tag(name, "[color][name][afkdnd]")
@@ -196,7 +196,7 @@ function UF:CreateIcons(self)
 		rest:SetVertexColor(.6, .8, 1)
 		self.RestingIndicator = rest
 
-	elseif self.mystyle == "target" then
+	elseif self.mystyle == "target" or self.mystyle == "party" then
 		local phase = self:CreateTexture(nil, "OVERLAY")
 		phase:SetPoint("TOP", self, 0, 12)
 		phase:SetSize(22, 22)
@@ -342,7 +342,7 @@ function UF:CreateCastBar(self)
 end
 
 function UF:CreateMirrorBar(self)
-	for _, bar in pairs({"MirrorTimer1", "MirrorTimer2", "MirrorTimer3"}) do   
+	for _, bar in pairs({"MirrorTimer1", "MirrorTimer2", "MirrorTimer3"}) do
 		_G[bar]:GetRegions():Hide()
 		_G[bar.."Border"]:Hide()
 		_G[bar]:SetParent(UIParent)
@@ -462,12 +462,12 @@ function UF:CreateBuffs(self)
 	bu["growth-x"] = "RIGHT"
 	bu["growth-y"] = "UP"
 	if self.mystyle == "boss" or self.mystyle == "arena" then
-	    bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 5)
-	    bu.size = 22
+		bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 5)
+		bu.size = 22
 		bu.num = 6
 	elseif self.mystyle == "raid" then
 		bu:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 1, 0)
-	    bu.size = 14*NDuiDB["UFs"]["RaidScale"]
+		bu.size = 14*NDuiDB["UFs"]["RaidScale"]
 		bu.num = 5
 		bu.spacing = 2
 		bu.CustomFilter = customFilter
@@ -493,12 +493,12 @@ function UF:CreateDebuffs(self)
 	bu["growth-y"] = "DOWN"
 	if self.mystyle == "arena" or self.mystyle == "boss" then
 		bu:SetPoint("TOPRIGHT", self, "TOPLEFT", -5, -1)
-	    bu.size = 26
+		bu.size = 26
 		bu.num = 6
 		bu.onlyShowPlayer = true
 	elseif self.mystyle == "focus" then
 		bu:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -11)
-	    bu.size = 26
+		bu.size = 26
 		bu.num = 8
 		bu.spacing = 7
 		bu.onlyShowPlayer = true
@@ -507,11 +507,11 @@ function UF:CreateDebuffs(self)
 		bu["growth-y"] = "DOWN"
 	elseif self.mystyle == "player" then
 		bu:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, -13)
-	    bu.size = 22
+		bu.size = 22
 		bu.spacing = 6
 	elseif self.mystyle == "tot" then
 		bu:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, -11)
-	    bu.size = 20
+		bu.size = 20
 		bu.num = 10
 	elseif self.mystyle == "nameplate" then
 		bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 20)
@@ -524,6 +524,13 @@ function UF:CreateDebuffs(self)
 		bu.showDebuffType = NDuiDB["Nameplate"]["ColorBorder"]
 		bu.onlyShowPlayer = true
 		bu.disableMouse = true
+	elseif self.mystyle == "party" then
+		bu:SetPoint("TOPLEFT", self, "TOPRIGHT", 5, 0)
+		bu.size = 25
+		bu.num = 10
+		bu.initialAnchor = "TOPLEFT"
+		bu["growth-x"] = "RIGHT"
+		bu["growth-y"] = "DOWN"
 	else
 		bu.num = 0
 	end
@@ -614,7 +621,7 @@ function UF:CreateAltPower(self)
 	text:SetJustifyH("CENTER")
 	self:Tag(text, "[altpower]")
 
-	self.AlternativePower = bar		
+	self.AlternativePower = bar
 	self.AlternativePower.PostUpdate = postUpdateAltPower
 end
 
@@ -645,7 +652,7 @@ end
 local function postUpdateRepColor(element, event, unit, bar)
 	local name, id, _, _, _, factionID = GetWatchedFactionInfo()
 	local friendID = GetFriendshipReputation(factionID)
-	if friendID then id = 5 end		
+	if friendID then id = 5 end
 	bar:SetStatusBarColor(FACTION_BAR_COLORS[id].r, FACTION_BAR_COLORS[id].g, FACTION_BAR_COLORS[id].b)
 end
 

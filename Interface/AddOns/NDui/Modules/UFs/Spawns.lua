@@ -153,6 +153,27 @@ local function CreateRaidStyle(self)
 	if NDuiDB["UFs"]["ThreatBorder"] then UF:CreateThreatBorder(self) end
 end
 
+local function CreatePartyStyle(self)
+	self.mystyle = "party"
+	self.Range = {
+		insideAlpha = 1, outsideAlpha = .35,
+	}
+
+	UF:CreateHeader(self)
+	UF:CreateHealthBar(self)
+	UF:CreateHealthText(self)
+	UF:CreatePowerBar(self)
+	UF:CreatePortrait(self)
+	UF:CreateRaidMark(self)
+	UF:CreateIcons(self)
+	UF:CreateTargetBorder(self)
+	UF:CreateRaidIcons(self)
+	UF:CreatePrediction(self)
+	UF:CreateClickSets(self)
+	UF:CreateDebuffs(self)
+	UF:CreateThreatBorder(self)
+end
+
 oUF:RegisterStyle("Player", CreatePlayerStyle)
 oUF:RegisterStyle("Target", CreateTargetStyle)
 oUF:RegisterStyle("ToT", CreateToTStyle)
@@ -162,6 +183,7 @@ oUF:RegisterStyle("Pet", CreatePetStyle)
 oUF:RegisterStyle("Boss", CreateBossStyle)
 oUF:RegisterStyle("Arena", CreateArenaStyle)
 oUF:RegisterStyle("Raid", CreateRaidStyle)
+oUF:RegisterStyle("Party", CreatePartyStyle)
 oUF:RegisterStyle("Nameplates", UF.CreatePlates)
 
 -- Spawns
@@ -205,6 +227,18 @@ function UF:OnLogin()
 	oUF:SetActiveStyle("FocusTarget")
 	local focustarget = oUF:Spawn("FocusTarget", "oUF_FocusTarget")
 	B.Mover(focustarget, L["FotUF"], "FotUF", C.UFs.FoTPos, 120, 30)
+
+	oUF:SetActiveStyle("Party")
+	local party = oUF:SpawnHeader('oUF_Party', nil, "solo,party",
+		"showParty", true,
+		"showPlayer", false,
+		"showSolo", false,
+		"yoffset", -16,
+		"oUF-initialConfigFunction", ([[
+			self:SetWidth(%d)
+			self:SetHeight(%d)
+		]]):format(196, 19))
+	B.Mover(party, L["PartyUF"], "PartyUF", {"LEFT", UIParent, "LEFT", 10, -50}, 196, (19 + 16) * 4)
 
 	if NDuiDB["UFs"]["Boss"] then
 		oUF:SetActiveStyle("Boss")
@@ -257,7 +291,7 @@ function UF:OnLogin()
 					for i = 1, 5 do
 						local s = GetArenaOpponentSpec(i)
 						local _, spec, class
-						if s and s > 0 then 
+						if s and s > 0 then
 							_, spec, _, _, _, class = GetSpecializationInfoByID(s)
 						end
 						if (i <= numOpps) then
@@ -298,7 +332,7 @@ function UF:OnLogin()
 
 		if NDuiDB["UFs"]["SimpleMode"] then
 			local function CreateGroup(name, i)
-				local group = oUF:SpawnHeader(name, nil, "solo,party,raid",
+				local group = oUF:SpawnHeader(name, nil, "raid",
 				"showPlayer", true,
 				"showSolo", false,
 				"showParty", true,
@@ -338,7 +372,7 @@ function UF:OnLogin()
 			raidMover = B.Mover(group, L["RaidFrame"], "RaidFrame", {"TOPLEFT", UIParent, 35, -50}, 140*scale, 30*20*scale)
 		else
 			local function CreateGroup(name, i)
-				local group = oUF:SpawnHeader(name, nil, "solo,party,raid",
+				local group = oUF:SpawnHeader(name, nil, "raid",
 				"showPlayer", true,
 				"showSolo", false,
 				"showParty", true,

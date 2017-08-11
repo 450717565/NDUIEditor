@@ -1,6 +1,7 @@
 local _, _, L, _ = unpack(select(2, ...))
 if GetLocale() ~= "zhCN" then return end
 
+L["PartyUF"] = "小队头像"
 L["Arrow Color"] = "箭头颜色"
 L["BarrelsOEasy"] = "欢乐桶助手"
 L["CombatAlert"] = "进入/脱离战斗提示"
