@@ -15,7 +15,7 @@ oUF.colors.power.ARCANE_CHARGES = {.41, .8, .94}
 local function retVal(self, val1, val2, val3, val4)
 	if self.mystyle == "player" or self.mystyle == "target" then
 		return val1
-	elseif self.mystyle == "focus" then
+	elseif self.mystyle == "focus" or self.mystyle == "party" then
 		return val2
 	else
 		if self.mystyle == "nameplate" and val4 then
@@ -492,8 +492,8 @@ function UF:CreateDebuffs(self)
 	bu["growth-x"] = "LEFT"
 	bu["growth-y"] = "DOWN"
 	if self.mystyle == "arena" or self.mystyle == "boss" then
-		bu:SetPoint("TOPRIGHT", self, "TOPLEFT", -5, -1)
-		bu.size = 26
+		bu:SetPoint("TOPRIGHT", self, "TOPLEFT", -5, 0)
+		bu.size = 27
 		bu.num = 6
 		bu.onlyShowPlayer = true
 	elseif self.mystyle == "focus" then
