@@ -1435,7 +1435,6 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 		for i = 1, 2 do
 			local bu = _G["PrimaryProfession"..i]
 			local ub = _G["PrimaryProfession"..i.."UnlearnButton"]
-			local bub = _G["PrimaryProfession"..i.."SpellButtonBottomUnlearnButton"]
 
 			_G["PrimaryProfession"..i.."IconBorder"]:Hide()
 
@@ -1456,8 +1455,6 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 
 			ub:ClearAllPoints()
 			ub:SetPoint("LEFT", bu.icon, "RIGHT", 7, 0)
-			F.Reskin(ub)
-			F.Reskin(bub)
 		end
 
 		hooksecurefunc("FormatProfession", function(frame, index)

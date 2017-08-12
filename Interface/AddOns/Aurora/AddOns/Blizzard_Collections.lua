@@ -356,7 +356,7 @@ C.themes["Blizzard_Collections"] = function()
 	progressBar.text:SetPoint("CENTER", 0, 1)
 	progressBar:DisableDrawLayer("BACKGROUND")
 
-	F.ReskinStatusBar(progressBar)
+	F.ReskinStatusBar(progressBar, true)
 
 	-- Toys!
 
@@ -430,7 +430,7 @@ C.themes["Blizzard_Collections"] = function()
 	progressBar.border:Hide()
 	progressBar.text:SetPoint("CENTER", 0, 1)
 	progressBar:DisableDrawLayer("BACKGROUND")
-	F.ReskinStatusBar(progressBar)
+	F.ReskinStatusBar(progressBar, true)
 
 	-- Buttons
 
@@ -544,7 +544,7 @@ C.themes["Blizzard_Collections"] = function()
 	progressBar:DisableDrawLayer("BACKGROUND")
 	select(2, progressBar:GetRegions()):Hide()
 	progressBar.text:SetPoint("CENTER", 0, 1)
-	F.ReskinStatusBar(progressBar)
+	F.ReskinStatusBar(progressBar, true)
 
 	-- ItemSetsCollection
 
