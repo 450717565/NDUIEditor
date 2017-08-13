@@ -1,7 +1,6 @@
 local _, _, L, _ = unpack(select(2, ...))
 if GetLocale() ~= "zhCN" then return end
 
-L["PartyUF"] = "小队头像"
 L["Arrow Color"] = "箭头颜色"
 L["BarrelsOEasy"] = "欢乐桶助手"
 L["CombatAlert"] = "进入/脱离战斗提示"
@@ -20,11 +19,13 @@ L["LootMonitor"] = "拾取监视助手"
 L["Move Talking"] = "移动NPC情景对话窗口"
 L["Need Trait"] = "下一级需要"
 L["Need XP"] = "下一级需要"
+L["PartyUF"] = "小队头像"
 L["Red"] = "红色"
 L["Refrsh Mail"] = "刷新邮件"
 L["Say / Yell"] = "说 / 喊"
 L["Slot Info"] = "显示背包装备物品部位"
 L["StarCursor"] = "鼠标闪光助手"
+L["UFs PartyFrame"] = "启用小队框体（独立）"
 L["Whisper"] = "密语"
 
 L["From"] = "来自"

@@ -74,6 +74,7 @@ local defaultSettings = {
 		PetCombatText = true,
 		RaidClickSets = false,
 		ThreatBorder = true,
+		PartyFrame = true,
 	},
 	Chat = {
 		Sticky = true,
@@ -292,6 +293,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 	},
 	[4] = {
 		{1, "UFs", "RaidFrame", L["UFs RaidFrame"]},
+		{1, "UFs", "PartyFrame", "|cff00cc4c"..L["UFs PartyFrame"], true},
 		{},--blank
 		{1, "UFs", "SpecRaidPos", L["Spec RaidPos"]},
 		{1, "UFs", "RaidClassColor", L["ClassColor RaidFrame"], true},

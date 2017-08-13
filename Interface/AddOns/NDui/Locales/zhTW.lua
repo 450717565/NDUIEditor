@@ -1,7 +1,6 @@
 local _, _, L, _ = unpack(select(2, ...))
 if GetLocale() ~= "zhTW" then return end
 
-L["PartyUF"] = "小隊頭像"
 L["Arrow Color"] = "箭頭顏色"
 L["BarrelsOEasy"] = "歡樂桶助手"
 L["CombatAlert"] = "進入/脫離戰鬥提示"
@@ -20,11 +19,13 @@ L["LootMonitor"] = "拾取監視助手"
 L["Move Talking"] = "移動NPC情景對話窗口"
 L["Need Trait"] = "下一級需要"
 L["Need XP"] = "下一級需要"
+L["PartyUF"] = "小隊頭像"
 L["Red"] = "紅色"
 L["Refrsh Mail"] = "刷新郵件"
 L["Say / Yell"] = "說 / 喊"
 L["Slot Info"] = "顯示背包裝備物品部位"
 L["StarCursor"] = "鼠標閃光助手"
+L["UFs PartyFrame"] = "啟用小隊框體（独立）"
 L["Whisper"] = "密語"
 
 L["From"] = "來自"

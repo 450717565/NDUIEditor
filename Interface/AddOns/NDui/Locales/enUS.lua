@@ -1,7 +1,6 @@
 local _, _, L, _ = unpack(select(2, ...))
 --if GetLocale() ~= "enUS" then return end
 
-L["PartyUF"] = "Party UF"
 L["Arrow Color"] = "Arrow Color"
 L["BarrelsOEasy"] = "Barrels o' Easy"
 L["CombatAlert"] = "Levaing/Entering Combat Alert"
@@ -20,11 +19,13 @@ L["LootMonitor"] = "Loot Monitor"
 L["Move Talking"] = "Move NPC TalkingHead To TOP"
 L["Need Trait"] = "Need Trait"
 L["Need XP"] = "Need XP"
+L["PartyUF"] = "Party UF"
 L["Red"] = "Red"
 L["Refrsh Mail"] = "Refrsh Mail"
 L["Say / Yell"] = "Say / Yell"
 L["Slot Info"] = "Bags ItemSlot"
 L["StarCursor"] = "Star Cursor"
+L["UFs PartyFrame"] = "Enable PartyFrame (Independent)"
 L["Whisper"] = "Whisper"
 
 L["From"] = "From"
