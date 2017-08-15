@@ -1,4 +1,7 @@
-local addonName, addonNamespace = ...
+local addonName = "KibsItemLevel"
+local addonNamespace = LibStub and LibStub(addonName .. "-1.0", true)
+if not addonNamespace or addonNamespace.loaded.Spinner then return end
+addonNamespace.loaded.Spinner = true
 
 local Spinner = {}
 Spinner.__index = Spinner

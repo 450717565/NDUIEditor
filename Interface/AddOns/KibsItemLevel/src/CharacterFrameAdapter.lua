@@ -1,4 +1,7 @@
-local _, addonNamespace = ...
+local addonName = "KibsItemLevel"
+local addonNamespace = LibStub and LibStub(addonName .. "-1.0", true)
+if not addonNamespace or addonNamespace.loaded.CharacterFrameAdapter then return end
+addonNamespace.loaded.CharacterFrameAdapter = true
 
 local CharacterFrameAdapter = {}
 local CharacterFrameAdapterMetaTable = { __index = CharacterFrameAdapter }
@@ -46,14 +49,6 @@ end
 
 function CharacterFrameAdapter:GetUnit()
     return "player"
-end
-
-function CharacterFrameAdapter:GetUnitSpecializationInfo()
-    local id = GetSpecializationInfo(GetSpecialization())
-    -- id, name, description, icon, background, role, class
-	if id then
-		return GetSpecializationInfoByID(id)
-	end
 end
 
 function CharacterFrameAdapter:Debug(...)

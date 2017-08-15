@@ -25,8 +25,7 @@ tinsert(C.themes["Aurora"], function()
 
 		button.bg2 = CreateFrame("Frame", nil, button)
 		button.bg2:SetPoint("TOPLEFT", na, "TOPLEFT", 10, 0)
-		button.bg2:SetPoint("BOTTOMRIGHT", na, "BOTTOMRIGHT", -1, 0)
-		
+		button.bg2:SetPoint("BOTTOMRIGHT", na, "BOTTOMRIGHT")
 		F.CreateBD(button.bg2, 0)
 		F.CreateSD(button.bg2)
 	end
@@ -74,7 +73,6 @@ tinsert(C.themes["Aurora"], function()
 	LFGDungeonReadyDialogRoleIconTexture:SetTexture(C.media.roleIcons)
 	LFGDungeonReadyDialogRoleIconLeaderIcon:SetTexture(C.media.roleIcons)
 	LFGDungeonReadyDialogRoleIconLeaderIcon:SetTexCoord(0, 0.296875, 0.015625, 0.2875)
-	F.CreateBDFrame(LFGDungeonReadyDialogRoleIconLeaderIcon)
 
 	local leaderBg = F.CreateBG(LFGDungeonReadyDialogRoleIconLeaderIcon)
 	leaderBg:SetDrawLayer("ARTWORK", 2)

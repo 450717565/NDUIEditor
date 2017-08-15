@@ -1,4 +1,7 @@
-local _, addonNamespace = ...
+local addonName = "KibsItemLevel"
+local addonNamespace = LibStub and LibStub(addonName .. "-1.0", true)
+if not addonNamespace or addonNamespace.loaded.FrameAdapter then return end
+addonNamespace.loaded.FrameAdapter = true
 
 local AceEvent = LibStub('AceEvent-3.0')
 

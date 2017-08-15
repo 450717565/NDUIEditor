@@ -1,4 +1,7 @@
-local addonName, addonNamespace = ...
+local addonName = "KibsItemLevel"
+local addonNamespace = LibStub and LibStub(addonName .. "-1.0", true)
+if not addonNamespace or addonNamespace.loaded.AddOn then return end
+addonNamespace.loaded.AddOn = true
 
 LoadAddOn("Blizzard_InspectUI")
 
@@ -26,6 +29,7 @@ AddOn.defaults = {
 function AddOn:OnInitialize()
     self:Debug("OnInitialize")
 
+    self:Debug("Initializing AceDB-3.0 from " .. self:GetName() .. "DB")
     self.db = LibStub("AceDB-3.0"):New(self:GetName() .. "DB", self.defaults, true)
 
     addonNamespace.SetDebugPrinter(function(...)
@@ -74,45 +78,57 @@ function AddOn:OnInitialize()
         self:ApplyStyle()
     end)
 
-    if self.configPanel then
-        self:EnhanceControls(self.configPanel)
+    local configPanelFrameName = 'KibsItemLevelConfigPanel'
 
-        self.configPanel.name = L["Kibs Item Level"]
+    self.configPanel = CreateFrame('FRAME', configPanelFrameName, nil, 'KibsItemLevelConfigPanel')
 
-        self.configPanel.okay = function()
-            self:Debug("configPanel.okay")
-            self.db.profile.Upgrades = self.configPanel.controls.Upgrades:GetChecked()
-            self.db.profile.UpgradesSummary = self.configPanel.controls.UpgradesSummary:GetChecked()
-            self.db.profile.Character = self.configPanel.controls.Character:GetChecked()
-            self.db.profile.Inspection = self.configPanel.controls.Inspection:GetChecked()
-            self.db.profile.Small = self.configPanel.controls.Small:GetChecked()
-            self.db.profile.Color = self.configPanel.controls.Color:GetChecked()
-            self.db.profile.Debug = self.configPanel.controls.Debug:GetChecked()
-            self:ApplyStyle()
-        end
+    self.configPanel.controls = {
+        Upgrades = _G[configPanelFrameName .. 'Upgrades'],
+        UpgradesSummary = _G[configPanelFrameName .. 'UpgradesSummary'],
+        Character = _G[configPanelFrameName .. 'Character'],
+        Inspection = _G[configPanelFrameName .. 'Inspection'],
+        Small = _G[configPanelFrameName .. 'Small'],
+        Color = _G[configPanelFrameName .. 'Color'],
+        Debug = _G[configPanelFrameName .. 'Debug'],
+    }
 
-        self.configPanel.cancel = function()
-            self:Debug("configPanel.cancel")
-        end
+    self:EnhanceControls(self.configPanel)
 
-        self.configPanel.refresh = function()
-            self:Debug("configPanel.refresh")
-            self.configPanel.controls.Upgrades:SetChecked(self.db.profile.Upgrades)
-            self.configPanel.controls.UpgradesSummary:SetChecked(self.db.profile.UpgradesSummary)
-            self.configPanel.controls.Character:SetChecked(self.db.profile.Character)
-            self.configPanel.controls.Inspection:SetChecked(self.db.profile.Inspection)
-            self.configPanel.controls.Small:SetChecked(self.db.profile.Small)
-            self.configPanel.controls.Color:SetChecked(self.db.profile.Color)
-            self.configPanel.controls.Debug:SetChecked(self.db.profile.Debug)
-        end
+    self.configPanel.name = L["Kibs Item Level"]
 
-        self.configPanel.default = function()
-            self:Debug("configPanel.default")
-            self.db:ResetProfile()
-        end
-
-        InterfaceOptions_AddCategory(self.configPanel)
+    self.configPanel.okay = function()
+        self:Debug("configPanel.okay")
+        self.db.profile.Upgrades = self.configPanel.controls.Upgrades:GetChecked()
+        self.db.profile.UpgradesSummary = self.configPanel.controls.UpgradesSummary:GetChecked()
+        self.db.profile.Character = self.configPanel.controls.Character:GetChecked()
+        self.db.profile.Inspection = self.configPanel.controls.Inspection:GetChecked()
+        self.db.profile.Small = self.configPanel.controls.Small:GetChecked()
+        self.db.profile.Color = self.configPanel.controls.Color:GetChecked()
+        self.db.profile.Debug = self.configPanel.controls.Debug:GetChecked()
+        self:ApplyStyle()
     end
+
+    self.configPanel.cancel = function()
+        self:Debug("configPanel.cancel")
+    end
+
+    self.configPanel.refresh = function()
+        self:Debug("configPanel.refresh")
+        self.configPanel.controls.Upgrades:SetChecked(self.db.profile.Upgrades)
+        self.configPanel.controls.UpgradesSummary:SetChecked(self.db.profile.UpgradesSummary)
+        self.configPanel.controls.Character:SetChecked(self.db.profile.Character)
+        self.configPanel.controls.Inspection:SetChecked(self.db.profile.Inspection)
+        self.configPanel.controls.Small:SetChecked(self.db.profile.Small)
+        self.configPanel.controls.Color:SetChecked(self.db.profile.Color)
+        self.configPanel.controls.Debug:SetChecked(self.db.profile.Debug)
+    end
+
+    self.configPanel.default = function()
+        self:Debug("configPanel.default")
+        self.db:ResetProfile()
+    end
+
+    InterfaceOptions_AddCategory(self.configPanel)
 
 --    self:RegisterEvent("UNIT_INVENTORY_CHANGED", function(event, unit)
 --        self:Debug("UNIT_INVENTORY_CHANGED", unit)
@@ -142,26 +158,6 @@ function AddOn:OnInitialize()
 --        self:Debug("INSPECT_READY")
 --        self.inspectorSlotIconManager:Refresh()
 --    end)
-
-    local KIB_CONFLICT_FLAG = 'KIB_CONFLICT_FLAG'
-
-    if _G[KIB_CONFLICT_FLAG] then
-        local KIB_CONFLICT_DIALOG = 'KIB_CONFLICT_DIALOG'
-
-        StaticPopupDialogs[KIB_CONFLICT_DIALOG] = {
-            showAlert = true,
-            text = L['Looks like both Kibs Item Level add-on and its Continued version are installed. They provide exactly the same functionality (they both updated to the latest version), and having them both is just a CPU/memory overhead and a soruce of UI glitches. Please, disable or uninstall one of them.'],
-            button1 = "OK",
-            timeout = 0,
-            enterClicksFirstButton = true,
-            hideOnEscape = true,
-            preferredIndex = 3,
-        }
-
-        StaticPopup_Show(KIB_CONFLICT_DIALOG)
-    else
-        _G[KIB_CONFLICT_FLAG] = true
-    end
 
     self:ApplyStyle()
 end
@@ -246,11 +242,6 @@ function AddOn:EnhanceControls(rootFrame)
             end
         end
     end
-end
-
-function AddOn:RegisterConfigPanel(frame)
-    self:Debug("RegisterConfigPanel")
-    self.configPanel = frame
 end
 
 function AddOn:Debug(...)

@@ -1,4 +1,7 @@
-local _, addonNamespace = ...
+local addonName = "KibsItemLevel"
+local addonNamespace = LibStub and LibStub(addonName .. "-1.0", true)
+if not addonNamespace or addonNamespace.loaded.SocketInfo then return end
+addonNamespace.loaded.SocketInfo = true
 
 local L = addonNamespace.L
 
@@ -16,10 +19,12 @@ SocketInfo.__index = SocketInfo
 
 addonNamespace.SocketInfo = SocketInfo
 
-function SocketInfo:new(typeId, gemItemInfo)
+function SocketInfo:new(typeId, gemItemInfo, relicType, missingGemText)
     return setmetatable({
         typeId = typeId,
         gemItemInfo = gemItemInfo,
+        relicType = relicType,
+        missingGemText = missingGemText,
     }, self)
 end
 
@@ -44,4 +49,12 @@ function SocketInfo:getTextureName()
         [self.TYPE.META] = "INTERFACE/ITEMSOCKETINGFRAME/UI-EmptySocket-Meta",
         [self.TYPE.UNKNOWN] = "INTERFACE/ICONS/INV_Misc_QuestionMark",
     })[self.typeId]
+end
+
+function SocketInfo:getRelicType()
+    return self.relicType
+end
+
+function SocketInfo:getMissingGemText()
+    return self.missingGemText ~= nil and self.missingGemText or L['Missing gem']
 end

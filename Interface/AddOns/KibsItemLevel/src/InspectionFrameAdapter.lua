@@ -1,4 +1,7 @@
-local _, addonNamespace = ...
+local addonName = "KibsItemLevel"
+local addonNamespace = LibStub and LibStub(addonName .. "-1.0", true)
+if not addonNamespace or addonNamespace.loaded.InspectionFrameAdapter then return end
+addonNamespace.loaded.InspectionFrameAdapter = true
 
 local InspectionFrameAdapter = {}
 local InspectionFrameAdapterMetaTable = { __index = InspectionFrameAdapter }
@@ -35,11 +38,6 @@ end
 
 function InspectionFrameAdapter:GetUnit()
     return InspectFrame.unit
-end
-
-function InspectionFrameAdapter:GetUnitSpecializationInfo()
-    -- id, name, description, icon, background, role, class
-    return GetSpecializationInfoByID(GetInspectSpecialization(self:GetUnit()))
 end
 
 function InspectionFrameAdapter:Debug(...)

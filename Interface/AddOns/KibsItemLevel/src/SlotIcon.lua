@@ -1,4 +1,7 @@
-local _, addonNamespace = ...
+local addonName = "KibsItemLevel"
+local addonNamespace = LibStub and LibStub(addonName .. "-1.0", true)
+if not addonNamespace or addonNamespace.loaded.SlotIcon then return end
+addonNamespace.loaded.SlotIcon = true
 
 local SlotIcon = {}
 SlotIcon.__index = SlotIcon
@@ -9,13 +12,18 @@ function SlotIcon:new(parent)
     local frame = CreateFrame("FRAME", nil, parent)
     frame:RegisterEvent("MouseUp")
 
-    frame.icon = frame:CreateTexture(nil, "OVERLAY")
+    frame.icon = frame:CreateTexture(nil, "OVERLAY", nil, 0)
     frame.icon:SetAllPoints();
+	
 	-- Aurora Reskin
 	if IsAddOnLoaded("Aurora") then
 		local F = unpack(Aurora)
 		F.ReskinIcon(frame.icon)
 	end
+
+    frame.overlay = frame:CreateTexture(nil, "OVERLAY", nil, 1)
+    frame.overlay:SetPoint("TOPLEFT", frame, "TOPLEFT", -9, 9)
+    frame.overlay:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 9, -9)
 
     return setmetatable({
         frame = frame,
@@ -51,11 +59,18 @@ function SlotIcon:SetHyperlink(itemInfo)
     self.hidden = false
 end
 
-function SlotIcon:Render(textureName, tooltip)
+function SlotIcon:Render(textureName, tooltip, overlayAtlas)
     self:Hide()
 
     self.frame:SetAlpha(1.0)
     self.frame.icon:SetTexture(textureName)
+
+    if overlayAtlas ~= nil then
+        self.frame.overlay:Show()
+        self.frame.overlay:SetAtlas(overlayAtlas, true)
+    else
+        self.frame.overlay:Hide()
+    end
 
     self.frame:SetScript("OnEnter", function ()
         tooltip:Show(self.frame)

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1861, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16570 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16586 $"):sub(12, -3))
 mod:SetCreatureID(115767)--116328 Vellius, 115795 Abyss Stalker, 116329/116843 Sarukel
 mod:SetEncounterID(2037)
 mod:SetZone()
@@ -91,6 +91,7 @@ local countdownBurdenofPain			= mod:NewCountdown("Alt28", 230201, "Tank")
 local countdownSlicingTorando		= mod:NewCountdown("AltTwo43", 232722)
 
 --General Stuff
+local voicePhaseChange				= mod:NewVoice(nil, nil, DBM_CORE_AUTO_VOICE2_OPTION_TEXT)
 local voiceHydraShot				= mod:NewVoice(230139)--targetyou/mm
 local voiceBurdenofPain				= mod:NewVoice(230201)--defensive/tauntboss
 local voiceFromtheAbyss				= mod:NewVoice(230227, "-Healer")--killmob
@@ -351,6 +352,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 			self.vb.crashingWaveCount = 0
 			self.vb.hydraShotCount = 0
 			warnPhase2:Show()
+			voicePhaseChange:Play("ptwo")
 			timerThunderingShockCD:Stop()
 			timerSlicingTornadoCD:Stop()
 			countdownSlicingTorando:Cancel()
@@ -380,6 +382,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 			self.vb.crashingWaveCount = 0
 			self.vb.hydraShotCount = 0
 			warnPhase3:Show()
+			voicePhaseChange:Play("pthree")
 			timerCrashingWaveCD:Stop()
 			timerInkCD:Stop()
 			timerHydraShotCD:Stop()

@@ -1,30 +1,19 @@
 ## Interface: 70200
-## Version: 7.1
+## Version: 7.2.5.1
 ## Author: Alex Kunin
 ## Title: Kibs Item Level
+## Title-deDE: Kibs Item Level
+## Title-ptBR: Kibs Item Level (Contínuo)
+## Title-ruRU: Kibs Item Level
+## Title-zhCN: Kibs物品等级(接续版)
+## Title-zhTW: Kibs物品等級(接續版)
 ## Notes: Enhances Character and Inspection panes by adding item level, icons for gems and enchants, and more!
+## Notes-deDE: [=[Verbessert das Charakter- und Betrachtungsfenster durch Hinzufügen von Gegenstandsstufe, Symbolen für Edelsteine ​​und Verzauberungen und vieles mehr!
+]=]
+## Notes-ptBR: Aprimora os painéis de Personagem e Inspeção, adicionando o nível do item, ícones para gemas e encantamentos e muito mais!
+## Notes-ruRU: Расширяет возможности окон \"Персонаж\" и \"Осмотреть\": отображает уровень предметов, иконки камней и чар, и это ещё не всё!
+## Notes-zhCN: 增强角色与观察面板加入物品等级丶珠宝图标丶附魔与更多！
+## Notes-zhTW: 增強角色與觀察面板加入物品等級、珠寶圖標、附魔與更多！
 ## SavedVariables: KibsItemLevelDB
-## X-Curse-Packaged-Version: 7.1.0.2
-## X-Curse-Project-Name: Kibs Item Level
-## X-Curse-Project-ID: kibs-item-level
-## X-Curse-Repository-ID: wow/kibs-item-level/mainline
 
-src\Localization.lua
-src\Debug.lua
-src\Pool.lua
-src\SlotIcon.lua
-src\FrameAdapter.lua
-src\CharacterFrameAdapter.lua
-src\InspectionFrameAdapter.lua
-src\SlotIconManager.lua
-src\ItemStringInfo.lua
-src\ItemEnchantInfo.lua
-src\Tooltip.lua
-src\SocketInfo.lua
-src\SpellInfo.lua
-src\Spinner.lua
-
-KIBC_EnchantToSpellID.lua
-AddOn.lua
-
-AddOn.xml
+KIBC.xml

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1903, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16571 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16586 $"):sub(12, -3))
 mod:SetCreatureID(118523, 118374, 118518)--118523 Huntress kasparian, 118374 Captain Yathae Moonstrike, 118518 Prestess Lunaspyre
 mod:SetEncounterID(2050)
 mod:SetZone()
@@ -96,6 +96,7 @@ local berserkTimer					= mod:NewBerserkTimer(660)
 local countdownSpecials				= mod:NewCountdown(54, 233264)
 
 --All
+local voicePhaseChange				= mod:NewVoice(nil, nil, DBM_CORE_AUTO_VOICE2_OPTION_TEXT)
 local voiceFontofElune				= mod:NewVoice(236357)--changemoon
 --Huntress Kasparian
 local voiceGlaiveStorm				= mod:NewVoice(239379)--watchstep
@@ -404,6 +405,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 		self.vb.phase = 2
 		local elapsedMoon, totalMoon = timerIncorporealShotCD:GetTime()--Grab current special from phase 1 special timer first
 		warnPhase2:Show()
+		voicePhaseChange:Play("ptwo")
 		timerMoonGlaiveCD:Stop()
 		timerTwilightVolleyCD:Stop()
 		--timerTwilightGlaiveCD:Stop()
@@ -423,6 +425,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 		self.vb.phase = 3
 		local elapsedMoon, totalMoon = timerEmbraceofEclipseCD:GetTime()--Grab current special from phase 2 special timer first
 		warnPhase3:Show()
+		voicePhaseChange:Play("pthree")
 		timerRapidShotCD:Stop()
 		timerTwilightVolleyCD:Stop()
 		timerEmbraceofEclipseCD:Stop()--Stop phase 2 Special timer

@@ -141,7 +141,7 @@ local function SetupOptions()
 						get = function(info) return db.profile.enabled end,
 						order = 10
 					},
-					--[[itemLevelChoice = {
+					itemLevelChoice = {
 						name = "装等显示方式：",
 						desc = "圣物：显示圣物本身的装等。\n神器：显示圣物提升的装等。\n圣物 & 神器：显示圣物本身的装等和提升的装等。",
 						type = "select",
@@ -150,7 +150,7 @@ local function SetupOptions()
 						get = function(info) return invItemLevelOptions[db.profile.itemLevelDisplay] end,
 						order = 15,
 						values = locItemLevelOptions
-					},]]
+					},
 					itemTooltipHeader = {
 						name = "物品提示设置",
 						type = "header",
@@ -301,6 +301,7 @@ local function DecorateArtifact(self)
 			local relics = {relic1,relic2,relic3}
 			for i = 1,#relics do
 				if '' ~= relics[i] then
+					if DEBUG ~=0 then print(format('Found a Relic: %s',relics[i])) end
 					local name, gemLink = GetItemGem(link,i)
 					if type(gemLink) == 'string' then
 						--Display the gem name, item level, and relic type

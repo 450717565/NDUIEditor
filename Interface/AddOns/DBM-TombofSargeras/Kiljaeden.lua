@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1898, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16584 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16589 $"):sub(12, -3))
 mod:SetCreatureID(117269)--121227 Illiden? 121193 Shadowsoul
 mod:SetEncounterID(2051)
 mod:SetZone()
@@ -121,6 +121,7 @@ local countdownFocusedDread			= mod:NewCountdown("AltTwo", 238502)
 local countdownFelclaws				= mod:NewCountdown("Alt25", 239932, "Tank", 2)
 
 --Stage One: The Betrayer
+local voicePhaseChange				= mod:NewVoice(nil, nil, DBM_CORE_AUTO_VOICE2_OPTION_TEXT)
 local voiceFelclaws					= mod:NewVoice(239932)--tauntboss
 local voiceRupturingSingularity		= mod:NewVoice(235059)--carefly
 local voiceArmageddon				= mod:NewVoice(240910)--helpsoak
@@ -253,8 +254,10 @@ function mod:OnCombatStart(delay)
 	end
 	if self:IsMythic() then
 		timerShadReflectionWailingCD:Start(56, 1)
+		berserkTimer:Start(850-delay)--It's definitely > 14 min, some 14:07 kills with no berserk. Will try 14:10 for now
+	else
+		berserkTimer:Start(600-delay)
 	end
-	berserkTimer:Start(600-delay)
 end
 
 function mod:OnCombatEnd()
@@ -365,6 +368,7 @@ function mod:SPELL_CAST_START(args)
 		self.vb.phase = 2.5
 		self.vb.shadowSoulsRemaining = 5--Normal count anyways
 		self.vb.singularityCount = 0
+		voicePhaseChange:Play("phasechange")
 		if self:IsMythic() then
 			timerRupturingSingularityCD:Start(20.3, 1)
 		end
@@ -440,11 +444,19 @@ function mod:SPELL_CAST_SUCCESS(args)
 						end
 					end
 				end
-			else--Phase 3, seems 25 across board here
+			else--Phase 3
 				if self.vb.burstingDreadCast % 2 == 0 then
-					timerBurstingDreadflameCD:Start(70, self.vb.burstingDreadCast+1)
+					if self:IsMythic() then
+						timerBurstingDreadflameCD:Start(43, self.vb.burstingDreadCast+1)
+					else
+						timerBurstingDreadflameCD:Start(70, self.vb.burstingDreadCast+1)
+					end
 				else
-					timerBurstingDreadflameCD:Start(25, self.vb.burstingDreadCast+1)
+					if self:IsMythic() then
+						timerBurstingDreadflameCD:Start(51.9, self.vb.burstingDreadCast+1)
+					else
+						timerBurstingDreadflameCD:Start(25, self.vb.burstingDreadCast+1)
+					end
 				end
 			end
 		end
@@ -579,6 +591,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		--timerDarknessofSoulsCD:Start(1, 1)--Cast intantly
 		timerSightlessGaze:Stop()
 		warnPhase3:Show()
+		voicePhaseChange:Play("pthree")
 		timerTearRiftCD:Start(14, 1)
 		if self:IsMythic() then
 			timerBurstingDreadflameCD:Start(30, 1)
@@ -604,6 +617,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		self.vb.felClawsCount = 0
 		self.vb.wailingCount = 0
 		warnPhase2:Show()
+		voicePhaseChange:Play("ptwo")
 		if self:IsMythic() then
 			timerFelclawsCD:Start(12, 1)
 			timerArmageddonCD:Start(19.4, 1)
@@ -661,8 +675,18 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
 				countdownFocusedDread:Start(timer)
 			end
 		else--Phase 3
-			timerFocusedDreadflameCD:Start(95)
-			countdownFocusedDread:Start(95)
+			if self:IsMythic() then
+				if self.vb.focusedDreadCast % 2 == 0 then
+					timerFocusedDreadflameCD:Start(59)
+					countdownFocusedDread:Start(59)
+				else
+					timerFocusedDreadflameCD:Start(35.9)
+					countdownFocusedDread:Start(35.9)
+				end
+			else
+				timerFocusedDreadflameCD:Start(95)
+				countdownFocusedDread:Start(95)
+			end
 		end
 		if not self:IsEasy() then--TODO, this isn't mentioned in intermission, only in phase 2+ version. Investigate
 			voiceFocusedDreadflame:Schedule(1, "range5")
@@ -749,6 +773,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		timerArmageddonCD:Stop()
 		countdownArmageddon:Cancel()
 		timerShadReflectionEruptingCD:Stop()
+		voicePhaseChange:Play("phasechange")
 		if self:IsMythic() then
 			timerArmageddonCD:Start(7.4, 1)
 			countdownArmageddon:Start(7.4)
