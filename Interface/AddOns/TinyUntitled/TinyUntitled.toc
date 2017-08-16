@@ -7,6 +7,5 @@
 libs\lib.xml
 
 InspectCore.lua
-InspectParty.lua
-InspectRaid.lua
+InspectiLvl.lua
 ItemLevel.lua

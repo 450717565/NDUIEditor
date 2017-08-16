@@ -1,6 +1,6 @@
 
 -------------------------------------
--- 團隊装备等级 Author: M
+-- 装备等级 Author: M
 -------------------------------------
 
 local LibEvent = LibStub:GetLibrary("LibEvent.7000")
@@ -8,7 +8,7 @@ local LibSchedule = LibStub:GetLibrary("LibSchedule.7000")
 
 local members, numMembers = {}, 0
 
-local EnableRaidItemLevel = true
+local EnableItemLevel = true
 
 --是否觀察完畢
 local function InspectDone()
@@ -20,12 +20,16 @@ local function InspectDone()
 	return true
 end
 
---人員信息 @trigger RAID_MEMBER_CHANGED
+--人員信息 @trigger MEMBER_CHANGED
 local function GetMembers(num)
 	local unit, guid
 	local temp = {}
 	for i = 1, num do
-		unit = "raid"..i
+		if IsInRaid() then
+			unit = "raid"..i
+		else
+			unit = "party"..i
+		end
 		guid = UnitGUID(unit)
 		if (guid) then temp[guid] = unit end
 	end
@@ -53,29 +57,29 @@ local function GetMembers(num)
 			}
 		end
 	end
-	LibEvent:trigger("RAID_MEMBER_CHANGED", members)
+	LibEvent:trigger("MEMBER_CHANGED", members)
 end
 
---觀察 @trigger RAID_INSPECT_STARTED
+--觀察 @trigger INSPECT_STARTED
 local function SendInspect(unit)
 	if (GetInspecting()) then return end
 	if (unit and UnitIsVisible(unit) and CanInspect(unit)) then
 		ClearInspectPlayer()
 		NotifyInspect(unit)
-		LibEvent:trigger("RAID_INSPECT_STARTED", members[UnitGUID(unit)])
+		LibEvent:trigger("INSPECT_STARTED", members[UnitGUID(unit)])
 		return
 	end
 	for guid, v in pairs(members) do
-		if ((not v.done or v.ilevel <= 0) and UnitIsVisible(v.unit) and CanInspect(v.unit)) then
+		if ((not v.done or v.ilevel <= 0) and UnitIsVisible(v.unit) and CanInspect(v.unit)) and UnitIsConnected(v.unit) then
 			ClearInspectPlayer()
 			NotifyInspect(v.unit)
-			LibEvent:trigger("RAID_INSPECT_STARTED", v)
+			LibEvent:trigger("INSPECT_STARTED", v)
 			return v
 		end
 	end
 end
 
---@see InspectCore.lua @trigger RAID_INSPECT_READY
+--@see InspectCore.lua @trigger INSPECT_READY
 LibEvent:attachTrigger("UNIT_INSPECT_READY", function(self, data)
 	local member = members[data.guid]
 	if (member) then
@@ -83,34 +87,43 @@ LibEvent:attachTrigger("UNIT_INSPECT_READY", function(self, data)
 		member.ilevel = data.ilevel
 		member.spec = data.spec
 		member.name = data.name
+		member.class = data.class
 		member.done = true
-		LibEvent:trigger("RAID_INSPECT_READY", member)
+		LibEvent:trigger("INSPECT_READY", member)
 	end
 end)
 
---人員增加時觸發 @trigger RAID_INSPECT_TIMEOUT @trigger RAID_INSPECT_DONE
+--人員增加時觸發 @trigger INSPECT_TIMEOUT @trigger INSPECT_DONE
 LibEvent:attachEvent("GROUP_ROSTER_UPDATE", function(self)
-	if not EnableRaidItemLevel then return end
-	if IsInRaid() then
-		local numCurrent = GetNumGroupMembers()
-		if (numCurrent ~= numMembers) then GetMembers(numCurrent) end
-		if (numCurrent > numMembers) then
-			LibSchedule:AddTask({
-				identity  = "InspectRaid",
-				elasped   = 3,
-				expired   = GetTime() + 1800,
-				onTimeout = function(self) LibEvent:trigger("RAID_INSPECT_TIMEOUT", members) end,
-				onExecute = function(self)
-					if (not IsInRaid()) then return true end
-					if (InspectDone()) then
-						LibEvent:trigger("RAID_INSPECT_DONE", members)
-						return true
-					end
-					SendInspect()
-				end,
-			})
-		end
-		numMembers = numCurrent
+	if not EnableItemLevel then return end
+	local numCurrent = GetNumGroupMembers()
+	if (numCurrent > numMembers) then
+		GetMembers(numCurrent)
+		members[UnitGUID("player")] = {
+			name   = UnitName("player"),
+			class  = select(2, UnitClass("player")),
+			ilevel = select(2, GetAverageItemLevel()),
+			done   = true,
+			unit   = "player",
+			spec   = select(2, GetSpecializationInfo(GetSpecialization())),
+		}
+		LibSchedule:AddTask({
+			identity  = "Inspect",
+			--override  = true,
+			elasped   = 3,
+			expired   = GetTime() + 1800,
+			onTimeout = function(self) LibEvent:trigger("INSPECT_TIMEOUT", members) end,
+			onExecute = function(self)
+				if (InspectDone()) then
+					LibEvent:trigger("INSPECT_DONE", members)
+					return true
+				end
+				SendInspect()
+			end,
+		})
+	end
+	numMembers = numCurrent
+	if GetNumGroupMembers() > 0 then
 		if not TinyInspectRaidFrame:IsShown() then
 			TinyInspectRaidFrame:Show()
 		end
@@ -132,10 +145,11 @@ local frame = CreateFrame("Frame", "TinyInspectRaidFrame", UIParent, "InsetFrame
 frame:SetPoint("TOP", 0, -300)
 frame:SetClampedToScreen(true)
 frame:SetMovable(true)
-frame.sortOn = false
-frame.sortWay = "DESC"
 frame:SetSize(120, 22)
 frame:Hide()
+
+frame.sortOn = true
+frame.sortWay = "DESC"
 
 frame.label = CreateFrame("Button", nil, frame)
 frame.label:SetAlpha(0.9)
@@ -146,7 +160,7 @@ frame.label:SetHitRectInsets(0, 0, 0, 0)
 frame.label.text = frame.label:CreateFontString(nil, "BORDER", "GameFontNormal")
 frame.label.text:SetFont(UNIT_NAME_FONT, 13, "NORMAL")
 frame.label.text:SetPoint("TOP", 0, -5)
-frame.label.text:SetText(RAID..ITEM_LEVEL_ABBR)
+frame.label.text:SetText(ITEM_LEVEL_ABBR)
 frame.label:SetScript("OnDragStop", function(self) self:GetParent():StopMovingOrSizing() end)
 frame.label:SetScript("OnDragStart", function(self) self:GetParent():StartMoving() end)
 frame.label:SetScript("OnClick", function(self)
@@ -164,14 +178,13 @@ frame.label:SetScript("OnClick", function(self)
 	end
 end)
 frame.label.progress = CreateFrame("StatusBar", nil, frame.label)
-frame.label.progress:SetStatusBarTexture("Interface\\Buttons\\WHITE8X8")
-frame.label.progress:SetPoint("BOTTOMLEFT",3,0)
-frame.label.progress:SetPoint("BOTTOMRIGHT",-1,0)
+frame.label.progress:SetStatusBarTexture("Interface\\TARGETINGFRAME\\UI-TargetingFrame-BarFill")
+frame.label.progress:SetPoint("TOPLEFT", 1, -1)
+frame.label.progress:SetPoint("BOTTOMRIGHT", -1, 1)
 frame.label.progress:SetStatusBarColor(0.1, 0.9, 0.1)
 frame.label.progress:SetMinMaxValues(0, 100)
 frame.label.progress:SetValue(0)
-frame.label.progress:SetHeight(2)
-frame.label.progress:SetAlpha(0.8)
+frame.label.progress:SetAlpha(0.5)
 
 --創建條目
 local function GetButton(parent, index)
@@ -331,13 +344,10 @@ frame.panel.rescanButton:SetNormalTexture("Interface\\Buttons\\UI-RefreshButton"
 frame.panel.rescanButton:SetScript("OnClick", function(self)
 	self:SetAlpha(0.3)
 	LibSchedule:AddTask({
-		identity  = "InspectReccanRaid",
+		identity  = "InspectReccan",
 		elasped   = 4,
 		onTimeout = function() self:SetAlpha(1) end,
 		onStart = function()
-			if (not IsInRaid()) then
-				return GetMembers(0)
-			end
 			for _, v in pairs(members) do
 				v.done = false
 			end
@@ -347,13 +357,13 @@ frame.panel.rescanButton:SetScript("OnClick", function(self)
 end)
 
 --團友變更或觀察到數據時更新顯示
-LibEvent:attachTrigger("RAID_MEMBER_CHANGED, RAID_INSPECT_READY", function(self)
+LibEvent:attachTrigger("MEMBER_CHANGED, INSPECT_READY", function(self)
 	MakeMembersList()
 	SortAndShowMembersList()
 end)
 
 --高亮正在讀取的人員
-LibEvent:attachTrigger("RAID_INSPECT_STARTED", function(self, data)
+LibEvent:attachTrigger("INSPECT_STARTED", function(self, data)
 	if (not frame.panel:IsShown()) then return end
 	local i = 1
 	local button

@@ -26,25 +26,33 @@ function module:SoloInfo()
 	f.Text:SetWordWrap(true)
 
 	f:SetScript("OnEvent", function(self, event)
-		if IsInInstance() then
-			local name, _, difficultyID, difficultyName, _, _, _, instanceMapID = GetInstanceInfo()
-			B.AlertRun(L["Difficult:"]..difficultyName)
-			if difficultyID ~= 24 then
-				if instList[instanceMapID] and instList[instanceMapID] ~= difficultyID then
-					f:Show()
-					f.Text:SetText(DB.InfoColor..name.."\n< "..difficultyName.." >\n\n"..DB.MyColor..L["Wrong Difficulty"])
+		if event == "ZONE_CHANGED_NEW_AREA" or event == "PLAYER_DIFFICULTY_CHANGED" or event == "PLAYER_ENTERING_WORLD" then
+			if IsInInstance() then
+				local name, _, difficultyID, difficultyName, _, _, _, instanceMapID = GetInstanceInfo()
+				B.AlertRun(L["Difficult:"]..difficultyName)
+				if difficultyID ~= 24 then
+					if instList[instanceMapID] and instList[instanceMapID] ~= difficultyID then
+						f:Show()
+						f.Text:SetText(DB.InfoColor..name.."\n< "..difficultyName.." >\n\n"..DB.MyColor..L["Wrong Difficulty"])
+					else
+						f:Hide()
+					end
 				else
 					f:Hide()
 				end
 			end
 		else
-			local isWarned = false
-			if IsInRaid() then
-				local numCurrent = GetNumGroupMembers()
-				if (numCurrent < 10) and (not isWarned) then
-					f:Show()
-					f.Text:SetText(DB.MyColor..L["In Raid"])
-					isWarned = true
+			if not IsInInstance() then
+				if IsInRaid() then
+					local isWarned = false
+					local numCurrent = GetNumGroupMembers()
+					if (numCurrent < 10) and (not isWarned) then
+						f:Show()
+						f.Text:SetText(DB.MyColor..L["In Raid"])
+						isWarned = true
+					else
+						f:Hide()
+					end
 				else
 					f:Hide()
 				end
