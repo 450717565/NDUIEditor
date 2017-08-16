@@ -140,6 +140,10 @@ function module:FontStyle()
 						local str = _G["GuildRosterContainerButton"..i.."String1"]
 						str:SetWidth(32)
 						str:SetJustifyH("LEFT")
+
+						local ic = _G["GuildRosterContainerButton"..i.."Icon"]
+						ic:ClearAllPoints()
+						ic:SetPoint("LEFT", 43, 0)
 					end
 
 					if view == "achievement" then

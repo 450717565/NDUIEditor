@@ -11,18 +11,18 @@ if not L then
     return
 end
 
+L["Avg. equipped item level: %.1f"] = true
+L["Avg. equipped item level: %.1f (%d/%d)"] = true
 L["Debug output"] = true
 L["Functionality and style settings."] = true
 L["Kibs Item Level"] = true
+L["Missing enchant"] = true
+L["Missing gem"] = true
+L["Missing relic"] = true
 L["Show on Character Sheet"] = true
 L["Show on Inspection Frame"] = true
 L["Show upgrades, e.g. (4/4)"] = true
 L["Smaller ilvl text"] = true
 L["toc.notes"] = "Enhances Character and Inspection panes by adding item level, icons for gems and enchants, and more!"
+L["Unknown enchant #%d"] = true
 
-L["Unknown enchant %d"] = "未知附魔（ID）：%d"
-L["Missing enchant"] = "缺失附魔"
-L["Missing relic"] = "缺失圣物"
-L["Missing gem"] = "缺失宝石"
-L["Avg. equipped item level: %.1f (%d/%d)"] = "平均装备等级：%.1f (%d/%d)"
-L["Avg. equipped item level: %.1f"] = "平均装备等级：%.1f"

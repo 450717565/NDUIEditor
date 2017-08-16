@@ -5,8 +5,8 @@ local init = ns.init
 if cfg.System == true then
 	local Stat = CreateFrame("Frame", nil, UIParent)
 	Stat:EnableMouse(true)
-	Stat:SetFrameStrata("BACKGROUND")
 	Stat:SetFrameLevel(3)
+	Stat:SetFrameStrata("BACKGROUND")
 	Stat:SetHitRectInsets(0, 0, 0, -10)
 	local Text = Stat:CreateFontString(nil, "OVERLAY")
 	Text:SetFont(unpack(cfg.Fonts))

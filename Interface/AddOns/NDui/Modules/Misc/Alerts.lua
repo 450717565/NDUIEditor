@@ -28,6 +28,7 @@ function module:SoloInfo()
 	f:SetScript("OnEvent", function(self, event)
 		if IsInInstance() then
 			local name, _, difficultyID, difficultyName, _, _, _, instanceMapID = GetInstanceInfo()
+			B.AlertRun(L["Difficult:"]..difficultyName)
 			if difficultyID ~= 24 then
 				if instList[instanceMapID] and instList[instanceMapID] ~= difficultyID then
 					f:Show()

@@ -83,7 +83,7 @@ local function CreateRoster(i)
 	button.level = B.CreateFS(button, 12, "Level", false)
 	button.level:SetPoint("TOP", button, "TOPLEFT", 18, -6)
 	button.class = button:CreateTexture(nil, "ARTWORK")
-	button.class:SetPoint("LEFT", 35, 0)
+	button.class:SetPoint("LEFT", 37, 0)
 	button.class:SetSize(17, 17)
 	button.class:SetTexture("Interface\\GLUES\\CHARACTERCREATE\\UI-CHARACTERCREATE-CLASSES")
 	if IsAddOnLoaded("Aurora") then
