@@ -68,10 +68,10 @@ local function CreateCTFrame(name, justify, a1, parent, a2, x, y)
 	return frame
 end
 
-frames["InputDamage"] = CreateCTFrame("InputDamage", "LEFT", "RIGHT", UIParent, "CENTER", -185, 30)
-frames["InputHealing"] = CreateCTFrame("InputHealing", "RIGHT", "BOTTOM", UIParent, "BOTTOM", -400, 30)
-frames["OutputDamage"] = CreateCTFrame("OutputDamage", "RIGHT", "LEFT", UIParent, "CENTER", 110, 5)
-frames["OutputHealing"] = CreateCTFrame("OutputHealing", "LEFT", "BOTTOM", UIParent, "BOTTOM", 400, 30)
+frames["InputDamage"] = CreateCTFrame("InputDamage", "CENTER", "RIGHT", UIParent, "CENTER", -185, 30)
+frames["InputHealing"] = CreateCTFrame("InputHealing", "CENTER", "BOTTOM", UIParent, "BOTTOM", -400, 30)
+frames["OutputDamage"] = CreateCTFrame("OutputDamage", "CENTER", "LEFT", UIParent, "CENTER", 110, 5)
+frames["OutputHealing"] = CreateCTFrame("OutputHealing", "CENTER", "BOTTOM", UIParent, "BOTTOM", 400, 30)
 
 local tbl = {
 	["DAMAGE"] = 			{frame = "InputDamage", prefix = "-", 		arg2 = true, 	r = 1, 		g = 0.1, 	b = 0.1},
