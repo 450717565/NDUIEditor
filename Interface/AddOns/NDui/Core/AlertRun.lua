@@ -6,7 +6,7 @@ local B, C, L, DB = unpack(select(2, ...))
 local cr, cg, cb = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b
 
 local speed = .057799924
-local point = {"CENTER", UIParent, "CENTER", -300, 200}
+local point = {"CENTER", UIParent, "CENTER", -300, 180}
 
 local GetNextChar = function(word, num)
 	local bytes = word:byte(num)

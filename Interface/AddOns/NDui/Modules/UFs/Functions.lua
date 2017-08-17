@@ -795,7 +795,7 @@ function UF:CreateSwing(self)
 	self.Swing.Offhand = off
 	self.Swing.hideOoc = true
 end
-
+--[[
 function UF:CreateFCT(self)
 	if not NDuiDB["UFs"]["CombatText"] then return end
 
@@ -822,3 +822,4 @@ function UF:CreateFCT(self)
 	SetCVar("enableFloatingCombatText", 0)
 	InterfaceOptionsCombatPanelEnableFloatingCombatText:Hide()
 end
+]]

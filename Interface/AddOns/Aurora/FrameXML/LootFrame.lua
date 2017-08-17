@@ -77,8 +77,8 @@ tinsert(C.themes["Aurora"], function()
 	end)
 
 	F.CreateBD(MasterLooterFrame)
-	--F.CreateSD(MasterLooterFrame)
-	F.ReskinClose(select(3, MasterLooterFrame:GetChildren()))
+	F.CreateSD(MasterLooterFrame)
+	--F.ReskinClose(select(5, MasterLooterFrame:GetChildren()))
 
 	hooksecurefunc("MasterLooterFrame_UpdatePlayers", function()
 		for i = 1, MAX_RAID_MEMBERS do
@@ -121,7 +121,7 @@ tinsert(C.themes["Aurora"], function()
 	BonusRollFrame.PromptFrame.Icon:SetTexCoord(.08, .92, .08, .92)
 	F.CreateBDFrame(BonusRollFrame.PromptFrame.Icon)
 
-	BonusRollFrame.PromptFrame.Timer.Bar:SetTexture(C.media.backdrop)
+	BonusRollFrame.PromptFrame.Timer.Bar:SetTexture(C.media.statusbar)
 
 	F.CreateBD(BonusRollFrame)
 	F.CreateSD(BonusRollFrame)
@@ -135,9 +135,10 @@ tinsert(C.themes["Aurora"], function()
 			if not frame.styled then
 				frame.Border:SetAlpha(0)
 				frame.Background:SetAlpha(0)
-				frame.bg = F.CreateBDFrame(frame)
+				F.CreateBD(frame)
+				F.CreateSD(frame)
 
-				frame.Timer.Bar:SetTexture(C.media.backdrop)
+				frame.Timer.Bar:SetTexture(C.media.statusbar)
 				frame.Timer.Bar:SetVertexColor(1, .8, 0)
 				frame.Timer.Background:SetAlpha(0)
 				F.CreateBDFrame(frame.Timer, .25)
@@ -156,7 +157,7 @@ tinsert(C.themes["Aurora"], function()
 			if frame:IsShown() then
 				local _, _, _, quality = GetLootRollItemInfo(frame.rollID)
 				local color = BAG_ITEM_QUALITY_COLORS[quality]
-				frame.bg:SetBackdropBorderColor(color.r*.6, color.g*.6, color.b*.6)
+				frame.Shadow:SetBackdropBorderColor(color.r, color.g, color.b)
 			end
 		end
 	end)

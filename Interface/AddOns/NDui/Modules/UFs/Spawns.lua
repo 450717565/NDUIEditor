@@ -18,7 +18,6 @@ local function CreatePlayerStyle(self)
 	UF:CreateRaidMark(self)
 	UF:CreateIcons(self)
 	UF:CreatePrediction(self)
-	UF:CreateFCT(self)
 
 	if NDuiDB["UFs"]["ClassPower"] then UF:CreateClassPower(self) end
 	if NDuiDB["UFs"]["AddPower"] then UF:CreateAddPower(self) end
@@ -44,7 +43,6 @@ local function CreateTargetStyle(self)
 	UF:CreateRaidMark(self)
 	UF:CreateIcons(self)
 	UF:CreatePrediction(self)
-	UF:CreateFCT(self)
 	UF:CreateAuras(self)
 end
 
@@ -240,7 +238,7 @@ function UF:OnLogin()
 				self:SetWidth(%d)
 				self:SetHeight(%d)
 			]]):format(196, 19))
-		B.Mover(party, L["PartyUF"], "PartyUF", {"LEFT", UIParent, "LEFT", 10, -50}, 196, (19 + 16) * 4)
+		B.Mover(party, L["PartyUF"], "PartyUF", {"LEFT", UIParent, "LEFT", 10, 0}, 196, (19 + 16) * 4)
 	end
 
 	if NDuiDB["UFs"]["Boss"] then

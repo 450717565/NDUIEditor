@@ -41,7 +41,7 @@
 	<Script file='Plugins\Swing.lua' />
 	<Script file='Plugins\AutoResurrect.lua' />
 	<Script file='Plugins\RaidDebuffs.lua' />
-	<Script file='Plugins\FloatingCombatFeedback.lua' />
+
 	<!-- Clique support -->
 	<Button name="oUF_ClickCastUnitTemplate" virtual="true" inherits="SecureUnitButtonTemplate,SecureHandlerEnterLeaveTemplate">
 		<Attributes>

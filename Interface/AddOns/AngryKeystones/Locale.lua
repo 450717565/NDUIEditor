@@ -44,6 +44,89 @@ langs.enUS = {
 	config_hideTalkingHead = "Hide Talking Head dialog during a Mythic Keystone dungeon",
 	config_resetPopup = "Show popup to reset instances upon leaving a completed Mythic Keystone dungeon",
 }
+langs.enGB = langs.enUS
+
+langs.esES = {
+	config_characterConfig = "Configuración por personaje",
+	config_progressTooltip = "Mostrar cantidad de progreso de cada enemigo en su tooltip",
+	config_progressFormat = "Formato de \"Fuerzas enemigas\"",
+	keystoneFormat = "[Piedra angular: %s - Nivel %d]",
+}
+langs.esMX = langs.esES
+
+langs.ruRU = {
+	config_characterConfig = "Настройки персонажа",
+	config_progressTooltip = "Показывать прогресс за каждого врага в подсказках",
+	config_progressFormat = "Формат отображения прогресса",
+	keystoneFormat = "[Ключ: %s - Уровень %d]",
+}
+
+langs.deDE = {
+	config_characterConfig = "Charakterspezifische Konfiguration",
+	config_progressTooltip = "Fortschritt für \"Feindliche Streitkräfte\" im Tooltip von Feinden zeigen",
+	config_progressFormat = "Format für \"Feindliche Streitkräfte\"",
+	config_splitsFormat = "Zwischenzeitsanzeige der Ziele",
+	config_splitsFormat_1 = "Deaktiviert",
+	config_splitsFormat_2 = "Zeit ab Start",
+	config_splitsFormat_3 = "Relativ zum vorherigen",
+	config_autoGossip = "Gesprächsoptionen während Mythisch+-Dungeons (z.B. Odyn) automatisch auswählen",
+	config_cosRumors = "Hinweise von \"Geschwätzige Plaudertasche\" im Hof der Sterne im Gruppenchat ausgeben",
+	config_silverGoldTimer = "Zeit für +2- und +3-Bonustruhen gleichzeitig zeigen",
+	config_completionMessage = "Nachricht mit finalen Zeiten am Ende des Dungeons anzeigen",
+	config_showSplits = "Zwischenzeit für jedes Ziel in der Zielverfolgung anzeigen",
+	keystoneFormat = "[Schlüsselstein: %s - Stufe %d]",
+	completion0 = "Zeit abgelaufen für %s mit %s, ihr wart %s über dem Zeitlimit.",
+	completion1 = "Zeit für %s in %s geschlagen. Ihr wart %s vor dem Zeitlimit, und habt +2 um %s verfehlt.",
+	completion2 = "Zeit für +2 %s in %s geschlagen. Ihr wart %s vor dem Zeitlimit für +2, und habt +3 um %s verfehlt.",
+	completion3 = "Zeit für +3 %s in %s geschlagen. Ihr wart %s vor dem Zeitlimit für +3.",
+	completionSplits = "Zwischenzeiten waren: %s.",
+	timeLost = "Verlorene Zeit",
+	config_smallAffixes = "Die Größe der Affix-Symbole im Zeitfenster verringern",
+	config_deathTracker = "Todeszähler im Zeitfenster zeigen",
+	config_persistTracker = "Zielverfolgung nach Abschluss eines mythischen Schlüsselsteins wieder zeigen (Erfordert UI neu laden)",
+	scheduleTitle = "Zeitplan",
+	scheduleWeek1 = "Diese Woche",
+	scheduleWeek2 = "Nächste Woche",
+	scheduleWeek3 = "In zwei Wochen",
+	scheduleWeek4 = "In drei Wochen",
+	scheduleMissingKeystone = "Erfordert einen mythischen Schlüsselstein mit Stufe 7+ in deiner Tasche zur Anzeige.",
+	config_exclusiveTracker = "Quest- und Erfolgsverfolgung während mythischen Schlüsselsteindungeons ausblenden (Erfordert UI neu laden)",
+	config_hideTalkingHead = "Gesprächseinblendungen während eines mythischen Schlüsselsteindungeons ausblenden",
+}
+
+langs.koKR = {
+	config_characterConfig = "캐릭터별 설정",
+	config_progressTooltip = "각각의 적이 주는 진행도를 툴팁에 표시",
+	config_progressFormat = "적 병력 표시 형식",
+	config_splitsFormat = "공략 목표당 소요 시간",
+	config_splitsFormat_1 = "사용하지 않음",
+	config_splitsFormat_2 = "시작점부터 걸린 시간",
+	config_splitsFormat_3 = "이전 목표부터 걸린 시간",
+	config_autoGossip = "신화 쐐기돌 던전에서 자동으로 대화 넘김 (예: 오딘)",
+	config_cosRumors = "별의 궁정에서 \"수다쟁이 호사가\"가 알려주는 단서 표시",
+	config_silverGoldTimer = "추가 상자 2와 3의 남은 시간을 함께 표시",
+	config_completionMessage = "신화 쐐기돌 던전 완료시 소요 시간 메시지 표시",
+	config_showSplits = "던전 목표에서 각 목표당 소요 시간 표시",
+	keystoneFormat = "[쐐기돌: %s - %d 레벨]",
+	completion0 = "%s|1이;가; %s만에 끝났습니다. 제한 시간을 %s 초과했습니다.",
+	completion1 = "%s|1을;를; %s만에 완료했습니다. 제한 시간은 %s 남았으며 %s|1이;가; 모자라 2상자를 놓쳤습니다.",
+	completion2 = "%s 2상자를 %s만에 완료했습니다. 2상자 제한 시간은 %s 남았으며 %s|1이;가; 모자라 3상자를 놓쳤습니다.",
+	completion3 = "%s 3상자를 %s만에 완료했습니다. 3상자 제한 시간이 %s 남았습니다.",
+	completionSplits = "분할된 시점: %s.",
+	timeLost = "깎인 시간",
+	config_smallAffixes = "타이머 프레임에 속성 아이콘 크기 축소",
+	config_deathTracker = "타이머 프레임에 사망 내역 표시",
+	config_persistTracker = "신화 쐐기돌을 완료한 뒤에도 타이머 프레임 표시",
+	scheduleTitle = "예정된 조합",
+	scheduleWeek1 = "이번주",
+	scheduleWeek2 = "다음주",
+	scheduleWeek3 = "2주 뒤",
+	scheduleWeek4 = "3주 뒤",
+	scheduleMissingKeystone = "예정된 조합을 보려면 레벨 7 이상의 신화 쐐기돌이 가방에 있어야 합니다.",
+	config_exclusiveTracker = "신화 쐐기돌 던전에서 퀘스트와 업적 추적창 숨김 (UI 재시작 필요)",
+	config_hideTalkingHead = "신화 쐐기돌 던전에서 팝업 대화창 숨김",
+	config_resetPopup = "완료한 신화 쐐기돌 던전을 나가면 인스턴스 초기화 팝업창 표시",
+}
 
 langs.zhCN = {
 	config_characterConfig = "为角色进行独立的配置",
@@ -84,7 +167,6 @@ langs.zhCN = {
 	config_hideTalkingHead = "在史诗钥石副本中隐藏NPC情景对话窗口",
 	config_resetPopup = "离开已完成的副本后提示是否重置",
 }
-
 langs.zhTW = {
 	config_characterConfig = "為角色進行獨立的配置",
 	config_progressTooltip = "聊天窗口的傳奇鑰石顯示副本名稱和等級",
@@ -116,6 +198,7 @@ langs.zhTW = {
 	scheduleMissingKeystone = "你需要一把7級以上的鑰石來激活此項功能。",
 	config_exclusiveTracker = "在副本中隱藏成就和任務追蹤（重裝插件後生效）",
 	config_hideTalkingHead = "在傳奇鑰石副本中隱藏NPC情景對話窗口",
+	config_resetPopup = "離開已完成的副本後提示是否重置",
 }
 
 function Locale:Get(key)
@@ -394,7 +477,7 @@ rumors.deDE = {
 	["Man hat mir zugetragen, dass der Spion die kühle Luft mag und deshalb heute Abend keine langen Ärmel trägt."]="shortSleeves",
 	["Eine meiner Freundinnen sagte, dass sie die Kleidung des Spions gesehen hat. Er trägt keine langen Ärmel."]="shortSleeves",
 
-	["Wie ich höre, trägt der Spion heute Abend Kleidung mit langen Ärmeln."]="longSleeves",
+	["Wie ich hörte, trägt der Spion heute Abend Kleidung mit langen Ärmeln."]="longSleeves",
 	["Einer meiner Freunde erwähnte, dass der Spion lange Ärmel trägt."]="longSleeves",
 	["Jemand sagte, dass der Spion heute Abend seine Arme mit langen Ärmeln bedeckt."]="longSleeves",
 	["Ich habe am frühen Abend einen kurzen Blick auf die langen Ärmel des Spions erhascht."]="longSleeves",
@@ -415,7 +498,7 @@ rumors.deDE = {
 	["Ich hörte, dass der Spion es vermeidet, Handschuhe zu tragen, falls er schnell handeln muss."]="noGloves",
 	["Mir ist zu Ohren gekommen, dass der Spion ungern Handschuhe trägt."]="noGloves",
 
-	["Gerüchte zufolge liest der Spion gerne und trägt immer mindestens ein Buch bei sich."]="book",
+	["Gerüchten zufolge liest der Spion gerne und trägt immer mindestens ein Buch bei sich."]="book",
 	["Ich hörte, dass der Spion immer ein Buch mit niedergeschriebenen Geheimnissen am Gürtel trägt."]="book",
 
 	["Eine Musikerin erzählte mir, dass sie gesehen hat, wie der Spion seinen letzten Trank wegwarf und jetzt keinen mehr übrig hat."]="noPotion",
