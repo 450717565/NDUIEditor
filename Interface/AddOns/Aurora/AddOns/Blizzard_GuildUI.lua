@@ -118,6 +118,7 @@ C.themes["Blizzard_GuildUI"] = function()
 	GuildRecruitmentCommentFrame:ClearAllPoints()
 	GuildRecruitmentCommentFrame:SetPoint("TOPLEFT", GuildRecruitmentLevelFrame, "BOTTOMLEFT", 0, 1)
 
+	GuildRosterShowOfflineButton:SetSize(24, 24)
 	F.ReskinCheck(GuildRosterShowOfflineButton)
 	for i = 1, 7 do
 		F.ReskinCheck(GuildNewsFiltersFrame.GuildNewsFilterButtons[i])
@@ -163,7 +164,7 @@ C.themes["Blizzard_GuildUI"] = function()
 		bu:GetRegions():SetVertexColor(r, g, b, .2)
 	end
 
-	GuildFactionBarProgress:SetTexture(C.media.backdrop)
+	GuildFactionBarProgress:SetTexture(C.media.statusbar)
 	GuildFactionBarLeft:Hide()
 	GuildFactionBarMiddle:Hide()
 	GuildFactionBarRight:Hide()

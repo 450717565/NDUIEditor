@@ -103,4 +103,9 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 	end
 	F.CreateBD(guildFrame.Container)
 	F.CreateSD(guildFrame.Container)
+	
+	-- Guild Tabard
+	TradeSkillFrame.TabardBackground:SetAlpha(0)
+	TradeSkillFrame.TabardBorder:SetAlpha(0)
+	TradeSkillFrame.TabardEmblem:SetAlpha(0)
 end

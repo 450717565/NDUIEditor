@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1861, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16586 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16594 $"):sub(12, -3))
 mod:SetCreatureID(115767)--116328 Vellius, 115795 Abyss Stalker, 116329/116843 Sarukel
 mod:SetEncounterID(2037)
 mod:SetZone()
@@ -49,7 +49,7 @@ local warnPhase3					= mod:NewPhaseAnnounce(3, 2)
 --General Stuff
 local specWarnHydraShot				= mod:NewSpecialWarningYou(230139, nil, nil, nil, 1, 2)
 local yellHydraShot					= mod:NewPosYell(230139, DBM_CORE_AUTO_YELL_CUSTOM_POSITION2)
-local yellHydraShotFades			= mod:NewFadesYell(230139, DBM_CORE_AUTO_YELL_CUSTOM_POSITION)
+local yellHydraShotFades			= mod:NewIconFadesYell(230139)
 local specWarnBurdenofPain			= mod:NewSpecialWarningYou(230201, nil, nil, nil, 1, 2)
 local specWarnBurdenofPainTaunt		= mod:NewSpecialWarningTaunt(230201, nil, nil, nil, 1, 2)
 local specWarnFromtheAbyss			= mod:NewSpecialWarningSwitch(230227, "-Healer", nil, nil, 1, 2)
@@ -117,10 +117,8 @@ local hydraIcons = {}
 
 --/run DBM:GetModByName("1861"):TestHydraShot(1)
 function mod:TestHydraShot(icon)
-		yellHydraShot:Yell(icon, icon, "Hydra Shot", icon, icon)
-		yellHydraShotFades:Schedule(5, icon, 1, icon)
-		yellHydraShotFades:Schedule(4, icon, 2, icon)
-		yellHydraShotFades:Schedule(3, icon, 3, icon)
+	yellHydraShot:Yell(icon, icon, "Hydra Shot", icon, icon)
+	yellHydraShotFades:Countdown(5, nil, icon)
 end
 
 function mod:OnCombatStart(delay)

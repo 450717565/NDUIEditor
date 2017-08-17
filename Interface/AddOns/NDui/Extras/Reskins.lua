@@ -329,15 +329,17 @@ if IsAddOnLoaded("Aurora") then
 
 		if IsAddOnLoaded("ls_Toasts") then
 			local LST = unpack(ls_Toasts)
-			LST:CreateSkin("NDui MOD", function(toast, toastType)
+			LST:RegisterSkin("NDui MOD", function(toast, toastType)
 				local title = toast.Title:GetText()
 
 				toast.BG:SetAlpha(0.8)
 				toast.BG:SetAllPoints(toast)
 				toast.BG:SetBlendMode("ADD")
 				toast.BG:SetDrawLayer("BACKGROUND", 0)
-				toast.Icon:SetTexCoord(.08, .92, .08, .92)
 				toast.Border:Hide()
+				toast.Icon:SetTexCoord(.08, .92, .08, .92)
+				toast.Title:SetPoint("TOPLEFT", 55, -10)
+				toast.Text:SetPoint("BOTTOMLEFT", 55, 9)
 
 				if toast.IconBorder then
 					toast.IconBorder:Hide()
@@ -348,17 +350,20 @@ if IsAddOnLoaded("Aurora") then
 						toast.styled = true
 					end
 				end
-				if toast.Reward1 then
-					for i = 1, 5 do
-						local rw = toast["Reward"..i]
-						local rwic = rw.Icon
-						local rwbd = rw.Border
-						rwbd:Hide()
-						rwic:SetTexCoord(.08, .92, .08, .92)
-						if not rw.styled then
-							F.CreateBDFrame(rwic)
-							rw.styled = true
-						end
+				for i = 1, 5 do
+					local rw = toast["Slot"..i]
+					local rwic = rw.Icon
+					local rwbd = rw.Border
+					rwbd:Hide()
+					rwic:SetTexCoord(.08, .92, .08, .92)
+					if not rw.styled then
+						F.CreateBDFrame(rwic)
+						rw.styled = true
+					end
+					if i == 1 then
+						rw:SetPoint("TOPRIGHT", -2, 15)
+					else
+						rw:SetPoint("RIGHT", toast["Slot"..(i - 1)], "LEFT", -2 , 0)
 					end
 				end
 
