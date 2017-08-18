@@ -3,22 +3,37 @@
 local B, C, L, DB = unpack(select(2, ...))
 
 local fadetime = 3
-local iconsize = 14
-local bigiconsize = 20
+local fontsize = 14
 
 local frames = {}
-local dmgcolor = {}
-dmgcolor[1]  = {  1,  1,  0 }  -- physical
-dmgcolor[2]  = {  1, .9, .5 }  -- holy
-dmgcolor[4]  = {  1, .5,  0 }  -- fire
-dmgcolor[8]  = { .3,  1, .3 }  -- nature
-dmgcolor[16] = { .5,  1,  1 }  -- frost
-dmgcolor[32] = { .5, .5,  1 }  -- shadow
-dmgcolor[64] = {  1, .5,  1 }  -- arcane
+
+local schoolColors = {
+	[SCHOOL_MASK_NONE]		= {r = 1.00, g = 1.00, b = 1.00},	-- 0x00 or 0
+	[SCHOOL_MASK_PHYSICAL]	= {r = 1.00, g = 1.00, b = 0.00},	-- 0x01 or 1
+	[SCHOOL_MASK_HOLY]		= {r = 1.00, g = 0.90, b = 0.50},	-- 0x02 or 2
+	[SCHOOL_MASK_FIRE]		= {r = 1.00, g = 0.50, b = 0.00},	-- 0x04 or 4
+	[SCHOOL_MASK_NATURE]	= {r = 0.30, g = 1.00, b = 0.30},	-- 0x08 or 8
+	[SCHOOL_MASK_FROST]		= {r = 0.50, g = 1.00, b = 1.00},	-- 0x10 or 16
+	[SCHOOL_MASK_SHADOW]	= {r = 0.50, g = 0.50, b = 1.00},	-- 0x20 or 32
+	[SCHOOL_MASK_ARCANE]	= {r = 1.00, g = 0.50, b = 1.00},	-- 0x40 or 64
+}
+
+local eventFilter = {
+	["SWING_DAMAGE"] = {suffix = "DAMAGE", index = 12, iconType = "swing"},
+	["RANGE_DAMAGE"] = {suffix = "DAMAGE", index = 15, iconType = "range"},
+	["SPELL_DAMAGE"] = {suffix = "DAMAGE", index = 15, iconType = "spell"},
+	["SPELL_PERIODIC_DAMAGE"] = {suffix = "DAMAGE", index = 15, iconType = "spell", isPeriod = true},
+
+	["SPELL_HEAL"] = {suffix = "HEAL", index = 15, iconType = "spell"},
+	["SPELL_PERIODIC_HEAL"] = {suffix = "HEAL", index = 15, iconType = "spell", isPeriod = true},
+
+	["SWING_MISSED"] = {suffix = "MISS", index = 12, iconType = "swing"},
+	["RANGE_MISSED"] = {suffix = "MISS", index = 15, iconType = "range"},
+	["SPELL_MISSED"] = {suffix = "MISS", index = 15, iconType = "spell"},
+}
 
 local eventframe = CreateFrame("Frame")
 eventframe:RegisterEvent("PLAYER_LOGIN")
-eventframe:RegisterEvent("COMBAT_TEXT_UPDATE")
 eventframe:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 eventframe:SetScript("OnEvent", function(self, event, ...)
 	if not NDuiDB["UFs"]["CombatText"] then return end
@@ -36,19 +51,20 @@ function eventframe:PLAYER_LOGIN()
 	B.Mover(frames["OutputHealing"], L["OutputHealing"], "OutputHealing", {"BOTTOM", UIParent, "BOTTOM", 400, 30}, 84, 150)
 end
 
-local function GetSpellTextureFormatted(spellID, iconSize)
-	local msg = ""
-	if spellID == PET_ATTACK_TEXTURE then
-		msg = " \124T"..PET_ATTACK_TEXTURE..":"..iconSize..":"..iconSize..":0:0:64:64:5:59:5:59\124t"
-	else
-		local icon = GetSpellTexture(spellID)
-		if icon then
-			msg = " \124T"..icon..":"..iconSize..":"..iconSize..":0:0:64:64:5:59:5:59\124t"
+local function GetFloatingIconTexture(iconType, spellID, isPet)
+	local texture
+	if iconType == "spell" then
+		texture = GetSpellTexture(spellID)
+	elseif iconType == "swing" then
+		if isPet then
+			texture = PET_ATTACK_TEXTURE
 		else
-			msg = " \124T"..ct.blank..":"..iconSize..":"..iconSize..":0:0:64:64:5:59:5:59\124t"
+			texture = GetSpellTexture(6603)
 		end
+	elseif iconType == "range" then
+		texture = GetSpellTexture(75)
 	end
-	return msg
+	return texture
 end
 
 local function CreateCTFrame(name, justify)
@@ -60,7 +76,7 @@ local function CreateCTFrame(name, justify)
 	frame:SetFadeDuration(0.2)
 	frame:SetJustifyH(justify)
 	frame:SetTimeVisible(fadetime)
-	frame:SetFont(STANDARD_TEXT_FONT, iconsize, "OUTLINE")
+	frame:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
 
 	return frame
 end
@@ -70,92 +86,72 @@ frames["InputHealing"] = CreateCTFrame("InputHealing", "CENTER")
 frames["OutputDamage"] = CreateCTFrame("OutputDamage", "CENTER")
 frames["OutputHealing"] = CreateCTFrame("OutputHealing", "CENTER")
 
-local template = "-%s\n(%s)"
-local tbl = {
-	["HEAL"] = 				{frame = "InputHealing", prefix = "+",		arg3 = true, 	r = 0.1, 	g = 1, 		b = 0.1},
-	["HEAL_CRIT"] = 		{frame = "InputHealing", prefix = "*+", 	arg3 = true, 	r = 0.1, 	g = 1, 		b = 0.1},
-	["PERIODIC_HEAL"] = 	{frame = "InputHealing", prefix = "+", 		arg3 = true, 	r = 0.1, 	g = 1, 		b = 0.1},
-	["DAMAGE"] = 			{frame = "InputDamage", prefix = "-", 		arg2 = true, 	r = 1, 		g = 0.1, 	b = 0.1},
-	["DAMAGE_CRIT"] = 		{frame = "InputDamage", prefix = "*-", 		arg2 = true, 	r = 1, 		g = 0.1, 	b = 0.1},
-	["SPELL_DAMAGE"] = 		{frame = "InputDamage", prefix = "-", 		arg2 = true, 	r = 0.79, 	g = 0.3, 	b = 0.85},
-	["SPELL_DAMAGE_CRIT"] = {frame = "InputDamage", prefix = "*-", 	arg2 = true, 	r = 0.79, 	g = 0.3, 	b = 0.85},
-	["MISS"] = 				{frame = "InputDamage", prefix = "丢失", 					r = 1, 		g = 0.1, 	b = 0.1},
-	["SPELL_MISS"] = 		{frame = "InputDamage", prefix = "丢失", 					r = 0.79, 	g = 0.3, 	b = 0.85},
-	["SPELL_REFLECT"] = 	{frame = "InputDamage", prefix = "反射", 					r = 1, 		g = 1, 		b = 1},
-	["DODGE"] = 			{frame = "InputDamage", prefix = "躲闪", 					r = 1, 		g = 0.1, 	b = 0.1},
-	["PARRY"] = 			{frame = "InputDamage", prefix = "招架", 					r = 1, 		g = 0.1, 	b = 0.1},
-	["BLOCK"] = 			{frame = "InputDamage", prefix = "格挡", 	spec = true,	r = 1, 		g = 0.1, 	b = 0.1},
-	["RESIST"] = 			{frame = "InputDamage", prefix = "抵抗", 	spec = true, 	r = 1, 		g = 0.1, 	b = 0.1},
-	["SPELL_RESIST"] = 		{frame = "InputDamage", prefix = "抵抗", 	spec = true, 	r = 0.79, 	g = 0.3, 	b = 0.85},
-	["ABSORB"] = 			{frame = "InputDamage", prefix = "吸收", 	spec = true, 	r = 1, 		g = 0.1, 	b = 0.1},
-	["SPELL_ABSORBED"] = 	{frame = "InputDamage", prefix = "吸收", 	spec = true, 	r = 0.79, 	g = 0.3, 	b = 0.85},
-}
-
-function eventframe:COMBAT_TEXT_UPDATE(spelltype, arg2, arg3)
-	local info = tbl[spelltype]
-	if info then
-		local msg = info.prefix
-		if info.spec  then
-			if arg3 then
-				msg = template:format(B.Numb(arg2), B.Numb(arg3))
-			end
-		else
-			if info.arg2 then msg = msg..B.Numb(arg2) end
-			if info.arg3 then msg = msg..B.Numb(arg3) end
-		end
-		frames[info.frame]:AddMessage(msg, info.r, info.g, info.b)
-	end
-end
-
 function eventframe:COMBAT_LOG_EVENT_UNFILTERED(...)
-	local icon, spellId, amount, critical, spellSchool
-	local timestamp, eventType, hideCaster, sourceGUID, sourceName, sourceFlags, sourceFlags2, destGUID, destName, destFlags, destFlags2 = select(1, ...)
-	if sourceGUID == UnitGUID("player") or (NDuiDB["UFs"]["PetCombatText"] and sourceGUID == UnitGUID("pet")) or sourceFlags == gflags then
-		if eventType == "SPELL_HEAL" or (NDuiDB["UFs"]["HotsDots"] and eventType == "SPELL_PERIODIC_HEAL") then
-			spellId = select(12, ...)
-			amount = select(15, ...)
-			critical = select(18, ...)
-			icon = GetSpellTextureFormatted(spellId, critical and bigiconsize or iconsize)
-			frames["OutputHealing"]:AddMessage(B.Numb(amount)..icon, 0, 1, 0)
-		elseif destGUID ~= UnitGUID("player") then
-			if eventType == "SWING_DAMAGE" then
-				amount = select(12, ...)
-				critical = select(18, ...)
-				icon = GetSpellTextureFormatted(6603, critical and bigiconsize or iconsize)
-			elseif eventType == "RANGE_DAMAGE" then
-				spellId = select(12, ...)
-				amount = select(15, ...)
-				critical = select(21, ...)
-				icon = GetSpellTextureFormatted(spellId, critical and bigiconsize or iconsize)
-			elseif eventType == "SPELL_DAMAGE" or (NDuiDB["UFs"]["HotsDots"] and eventType == "SPELL_PERIODIC_DAMAGE") then
-				spellId = select(12, ...)
-				spellSchool = select(14, ...)
-				amount = select(15, ...)
-				critical = select(21, ...)
-				icon = GetSpellTextureFormatted(spellId, critical and bigiconsize or iconsize)
-			elseif eventType == "SWING_MISSED" then
-				amount = select(12, ...) -- misstype
-				icon = GetSpellTextureFormatted(6603, iconsize)
-			elseif eventType == "SPELL_MISSED" or eventType == "RANGE_MISSED" then
-				spellId = select(12, ...)
-				amount = select(15, ...) -- misstype
-				icon = GetSpellTextureFormatted(spellId, iconsize)
+	local icon, text, info, critMark , inputD, inputH, outputD, outputH
+	local _, eventType, _, sourceGUID, sourceName, sourceFlags, _, destGUID, destName, destFlags, _, spellID, spellName, school = ...
+
+	local showHD = NDuiDB["UFs"]["HotsDots"]
+
+	local isPlayer = UnitGUID("player") == sourceGUID
+	local isVehicle = UnitGUID("vehicle") == sourceGUID
+	local isPet = UnitGUID("pet") == sourceGUID and NDuiDB["UFs"]["PetCombatText"]
+
+	local atPlayer = UnitGUID("player") == destGUID
+	local atTarget = UnitGUID("target") == destGUID
+
+	if ((isPlayer or isVehicle or isPet) and atTarget) or atPlayer then
+		local value = eventFilter[eventType]
+		if value then
+			if value.suffix == "DAMAGE" then
+				local amount, overkill, school, resisted, blocked, absorbed, critical, glancing, crushing, isOffHand = select(value.index, ...)
+				if value.isPeriod and not showHD then return end
+				if isPlayer or isVehicle or isPet then
+					text = B.Numb(amount)
+					outputD = true
+				else
+					text = "-"..B.Numb(amount)
+					inputD = true
+				end
+				if critical or crushing then
+					critMark = true
+				end
+			elseif value.suffix == "HEAL" then
+				local amount, overhealing, absorbed, critical = select(value.index, ...)
+				if value.isPeriod and not showHD then return end
+				if isPlayer or isVehicle or isPet then
+					text = B.Numb(amount)
+					outputH = true
+				else
+					text = "+"..B.Numb(amount)
+					inputH = true
+				end
+				if critical then
+					critMark = true
+				end
+			elseif value.suffix == "MISS" then
+				local missType, isOffHand, amountMissed = select(value.index, ...)
+				text = _G["COMBAT_TEXT_"..missType]
+				if isPlayer or isVehicle or isPet then
+					outputD = true
+				else
+					inputD = true
+				end
 			end
 
-			if amount and icon then
-				if critical then
-					if dmgcolor[spellSchool] then
-						frames["OutputDamage"]:AddMessage("*"..B.Numb(amount)..icon, dmgcolor[spellSchool][1], dmgcolor[spellSchool][2], dmgcolor[spellSchool][3])
-					else
-						frames["OutputDamage"]:AddMessage("*"..B.Numb(amount)..icon, dmgcolor[1][1], dmgcolor[1][2], dmgcolor[1][3])
-					end
-				else
-					if dmgcolor[spellSchool] then
-						frames["OutputDamage"]:AddMessage(B.Numb(amount)..icon, dmgcolor[spellSchool][1], dmgcolor[spellSchool][2], dmgcolor[spellSchool][3])
-					else
-						frames["OutputDamage"]:AddMessage(B.Numb(amount)..icon, dmgcolor[1][1], dmgcolor[1][2], dmgcolor[1][3])
-					end
-				end
+			color = schoolColors[school] or schoolColors[0]
+			icon = GetFloatingIconTexture(value.iconType, spellID, isPet)
+			info = string.format("%s|T%s:"..fontsize..":"..fontsize..":0:-5:64:64:5:59:5:59|t", (critMark and "*" or "")..text, icon)
+		end
+
+		if info then
+			if outputD then
+				frames["OutputDamage"]:AddMessage(info, color.r, color.g, color.b)
+			elseif outputH then
+				frames["OutputHealing"]:AddMessage(info, color.r, color.g, color.b)
+			elseif inputD then
+				frames["InputDamage"]:AddMessage(info, color.r, color.g, color.b)
+			elseif inputH then
+				frames["InputHealing"]:AddMessage(info, color.r, color.g, color.b)
 			end
 		end
 	end
