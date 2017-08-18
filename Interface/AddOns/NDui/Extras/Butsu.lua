@@ -32,7 +32,7 @@ end)
 local OnEnter = function(self)
 	self.glow:Show()
 	local slot = self:GetID()
-	if (GetLootSlotType(slot) == LOOT_SLOT_ITEM) then
+	if GetLootSlotType(slot) == LOOT_SLOT_ITEM then
 		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
 		GameTooltip:SetLootItem(slot)
 		CursorUpdate(self)

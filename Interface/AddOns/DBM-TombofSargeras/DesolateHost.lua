@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1896, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16506 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16608 $"):sub(12, -3))
 mod:SetCreatureID(118460, 118462, 119072)--118460 Engine of Souls, 118462 Soul Queen Dajahna, 119072 The Desolate Host
 mod:SetEncounterID(2054)
 mod:SetZone()
@@ -80,12 +80,12 @@ mod:AddTimerLine(SCENARIO_STAGE:format(1))
 --Corporeal Realm
 local timerSpearofAnquishCD			= mod:NewCDTimer(20, 235924, nil, nil, nil, 3)
 --local timerCollapsingFissureCD		= mod:NewAITimer(31, 235907, nil, nil, nil, 3)
-local timerTormentedCriesCD			= mod:NewCDCountTimer(58, 238570, nil, nil, nil, 6)
+local timerTormentedCriesCD			= mod:NewNextCountTimer(58, 238570, nil, nil, nil, 6)
 --Spirit Realm
 local timerSoulbindCD				= mod:NewCDCountTimer(24, 236459, nil, nil, nil, 3)
 --local timerWitherCD					= mod:NewCDTimer(9.4, 236138, nil, nil, nil, 3)
 --local timerShatteringScreamCD		= mod:NewCDTimer(12, 235969, nil, nil, nil, 3)--12 seconds, per add
-local timerWailingSoulsCD			= mod:NewCDCountTimer(58, 236072, nil, nil, nil, 2)
+local timerWailingSoulsCD			= mod:NewNextCountTimer(58, 236072, nil, nil, nil, 2)
 --The Desolate Host
 mod:AddTimerLine(SCENARIO_STAGE:format(2))
 local timerSunderingDoomCD			= mod:NewCDTimer(24.4, 236542, nil, nil, nil, 5)
@@ -208,7 +208,6 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:OnCombatEnd()
-	self:UnregisterShortTermEvents()
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Hide()
 	end

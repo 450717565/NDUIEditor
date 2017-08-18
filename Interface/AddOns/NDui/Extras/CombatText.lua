@@ -2,12 +2,11 @@
 -- xCT by Dandruff
 local B, C, L, DB = unpack(select(2, ...))
 
-local template = "-%s (%s)"
 local fadetime = 3
 local iconsize = 14
 local bigiconsize = 20
-local frames = {}
 
+local frames = {}
 local dmgcolor = {}
 dmgcolor[1]  = {  1,  1,  0 }  -- physical
 dmgcolor[2]  = {  1, .9, .5 }  -- holy
@@ -30,15 +29,14 @@ function eventframe:PLAYER_LOGIN()
 	SetCVar("enableFloatingCombatText", 0)
 	SetCVar("floatingCombatTextCombatDamage", 1)
 	SetCVar("floatingCombatTextCombatHealing", 0)
-	InterfaceOptionsCombatPanelEnableFloatingCombatText:Hide()
 
-	B.Mover(frames["InputDamage"], "承受伤害", "承受伤害", {"RIGHT", UIParent, "CENTER", -185, 30}, 84, 150)
-	B.Mover(frames["InputHealing"], "承受治疗", "承受治疗", {"BOTTOM", UIParent, "BOTTOM", -400, 30}, 84, 150)
-	B.Mover(frames["OutputDamage"], "输出伤害", "输出伤害", {"LEFT", UIParent, "CENTER", 110, 5}, 84, 150)
-	B.Mover(frames["OutputHealing"], "输出治疗", "输出治疗", {"BOTTOM", UIParent, "BOTTOM", 400, 30}, 84, 150)
+	B.Mover(frames["InputDamage"], L["InputDamage"], "InputDamage", {"RIGHT", UIParent, "CENTER", -185, 30}, 84, 150)
+	B.Mover(frames["InputHealing"], L["InputHealing"], "InputHealing", {"BOTTOM", UIParent, "BOTTOM", -400, 30}, 84, 150)
+	B.Mover(frames["OutputDamage"], L["OutputDamage"], "OutputDamage", {"LEFT", UIParent, "CENTER", 110, 5}, 84, 150)
+	B.Mover(frames["OutputHealing"], L["OutputHealing"], "OutputHealing", {"BOTTOM", UIParent, "BOTTOM", 400, 30}, 84, 150)
 end
 
-local GetSpellTextureFormatted = function(spellID, iconSize)
+local function GetSpellTextureFormatted(spellID, iconSize)
 	local msg = ""
 	if spellID == PET_ATTACK_TEXTURE then
 		msg = " \124T"..PET_ATTACK_TEXTURE..":"..iconSize..":"..iconSize..":0:0:64:64:5:59:5:59\124t"
@@ -53,7 +51,7 @@ local GetSpellTextureFormatted = function(spellID, iconSize)
 	return msg
 end
 
-local function CreateCTFrame(name, justify, a1, parent, a2, x, y)
+local function CreateCTFrame(name, justify)
 	local frame = CreateFrame("ScrollingMessageFrame", name, UIParent)
 
 	frame:SetSpacing(3)
@@ -62,25 +60,25 @@ local function CreateCTFrame(name, justify, a1, parent, a2, x, y)
 	frame:SetFadeDuration(0.2)
 	frame:SetJustifyH(justify)
 	frame:SetTimeVisible(fadetime)
-	frame:SetPoint(a1, parent, a2, x, y)
 	frame:SetFont(STANDARD_TEXT_FONT, iconsize, "OUTLINE")
 
 	return frame
 end
 
-frames["InputDamage"] = CreateCTFrame("InputDamage", "CENTER", "RIGHT", UIParent, "CENTER", -185, 30)
-frames["InputHealing"] = CreateCTFrame("InputHealing", "CENTER", "BOTTOM", UIParent, "BOTTOM", -400, 30)
-frames["OutputDamage"] = CreateCTFrame("OutputDamage", "CENTER", "LEFT", UIParent, "CENTER", 110, 5)
-frames["OutputHealing"] = CreateCTFrame("OutputHealing", "CENTER", "BOTTOM", UIParent, "BOTTOM", 400, 30)
+frames["InputDamage"] = CreateCTFrame("InputDamage", "CENTER")
+frames["InputHealing"] = CreateCTFrame("InputHealing", "CENTER")
+frames["OutputDamage"] = CreateCTFrame("OutputDamage", "CENTER")
+frames["OutputHealing"] = CreateCTFrame("OutputHealing", "CENTER")
 
+local template = "-%s\n(%s)"
 local tbl = {
+	["HEAL"] = 				{frame = "InputHealing", prefix = "+",		arg3 = true, 	r = 0.1, 	g = 1, 		b = 0.1},
+	["HEAL_CRIT"] = 		{frame = "InputHealing", prefix = "*+", 	arg3 = true, 	r = 0.1, 	g = 1, 		b = 0.1},
+	["PERIODIC_HEAL"] = 	{frame = "InputHealing", prefix = "+", 		arg3 = true, 	r = 0.1, 	g = 1, 		b = 0.1},
 	["DAMAGE"] = 			{frame = "InputDamage", prefix = "-", 		arg2 = true, 	r = 1, 		g = 0.1, 	b = 0.1},
 	["DAMAGE_CRIT"] = 		{frame = "InputDamage", prefix = "*-", 		arg2 = true, 	r = 1, 		g = 0.1, 	b = 0.1},
 	["SPELL_DAMAGE"] = 		{frame = "InputDamage", prefix = "-", 		arg2 = true, 	r = 0.79, 	g = 0.3, 	b = 0.85},
 	["SPELL_DAMAGE_CRIT"] = {frame = "InputDamage", prefix = "*-", 	arg2 = true, 	r = 0.79, 	g = 0.3, 	b = 0.85},
-	["HEAL"] = 				{frame = "InputHealing", prefix = "+",		arg3 = true, 	r = 0.1, 	g = 1, 		b = 0.1},
-	["HEAL_CRIT"] = 		{frame = "InputHealing", prefix = "*+", 	arg3 = true, 	r = 0.1, 	g = 1, 		b = 0.1},
-	["PERIODIC_HEAL"] = 	{frame = "InputHealing", prefix = "+", 		arg3 = true, 	r = 0.1, 	g = 1, 		b = 0.1},
 	["MISS"] = 				{frame = "InputDamage", prefix = "丢失", 					r = 1, 		g = 0.1, 	b = 0.1},
 	["SPELL_MISS"] = 		{frame = "InputDamage", prefix = "丢失", 					r = 0.79, 	g = 0.3, 	b = 0.85},
 	["SPELL_REFLECT"] = 	{frame = "InputDamage", prefix = "反射", 					r = 1, 		g = 1, 		b = 1},
@@ -99,7 +97,7 @@ function eventframe:COMBAT_TEXT_UPDATE(spelltype, arg2, arg3)
 		local msg = info.prefix
 		if info.spec  then
 			if arg3 then
-				msg = template:format(arg2, arg3)
+				msg = template:format(B.Numb(arg2), B.Numb(arg3))
 			end
 		else
 			if info.arg2 then msg = msg..B.Numb(arg2) end

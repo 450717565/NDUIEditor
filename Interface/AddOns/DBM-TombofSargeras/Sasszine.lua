@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(1861, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16594 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16611 $"):sub(12, -3))
 mod:SetCreatureID(115767)--116328 Vellius, 115795 Abyss Stalker, 116329/116843 Sarukel
 mod:SetEncounterID(2037)
 mod:SetZone()
 mod:SetUsedIcons(1, 2, 3, 4)
-mod:SetHotfixNoticeRev(16282)
+mod:SetHotfixNoticeRev(16600)
 mod.respawnTime = 40
 
 mod:RegisterCombat("combat")
@@ -15,9 +15,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 230273 232722 230384 234661 232746 232757 232756 230358 230201",
 	"SPELL_CAST_SUCCESS 230201 232757",
 	"SPELL_AURA_APPLIED 239375 239362 230139 230201 230362 232916 230384 234661",
-	"SPELL_AURA_REMOVED 239375 239362 230139",
---	"SPELL_PERIODIC_DAMAGE",
---	"SPELL_PERIODIC_MISSED",
+	"SPELL_AURA_REMOVED 239375 239362 230139 230201",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
@@ -36,6 +34,7 @@ mod:RegisterEventsInCombat(
 local warnHydraShot					= mod:NewTargetCountAnnounce(230139, 4)
 local warnDarkDepths				= mod:NewSpellAnnounce(230273, 2, nil, false, 2)
 local warnDreadSharkSpawn			= mod:NewSpellAnnounce(239436, 2)
+local warnBurdenAll					= mod:NewTargetAnnounce(230214, 2)
 --Stage One: Ten Thousand Fangs
 local warnThunderingShock			= mod:NewTargetAnnounce(230362, 2, nil, false)
 local warnConsumingHunger			= mod:NewTargetAnnounce(230384, 2)
@@ -48,7 +47,7 @@ local warnPhase3					= mod:NewPhaseAnnounce(3, 2)
 
 --General Stuff
 local specWarnHydraShot				= mod:NewSpecialWarningYou(230139, nil, nil, nil, 1, 2)
-local yellHydraShot					= mod:NewPosYell(230139, DBM_CORE_AUTO_YELL_CUSTOM_POSITION2)
+local yellHydraShot					= mod:NewPosYell(230139, DBM_CORE_AUTO_YELL_CUSTOM_POSITION)
 local yellHydraShotFades			= mod:NewIconFadesYell(230139)
 local specWarnBurdenofPain			= mod:NewSpecialWarningYou(230201, nil, nil, nil, 1, 2)
 local specWarnBurdenofPainTaunt		= mod:NewSpecialWarningTaunt(230201, nil, nil, nil, 1, 2)
@@ -114,10 +113,11 @@ mod.vb.hydraShotCount = 0
 local thunderingShock = GetSpellInfo(230358)
 local consumingHunger = GetSpellInfo(230384)
 local hydraIcons = {}
+local eventsRegistered = false
 
 --/run DBM:GetModByName("1861"):TestHydraShot(1)
 function mod:TestHydraShot(icon)
-	yellHydraShot:Yell(icon, icon, "Hydra Shot", icon, icon)
+	yellHydraShot:Yell(icon, "Hydra Shot", icon)
 	yellHydraShotFades:Countdown(5, nil, icon)
 end
 
@@ -153,12 +153,8 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:OnCombatEnd()
---	if self.Options.RangeFrame then
---		DBM.RangeCheck:Hide()
---	end
---	if self.Options.InfoFrame then
---		DBM.InfoFrame:Hide()
---	end
+	eventsRegistered = false
+	self:UnregisterShortTermEvents()
 end
 
 function mod:SPELL_CAST_START(args)
@@ -226,6 +222,12 @@ function mod:SPELL_CAST_SUCCESS(args)
 			timerBurdenofPainCD:Start()
 			countdownBurdenofPain:Start(25.1)
 		end
+		if self:IsMythic() and not eventsRegistered then
+			eventsRegistered = true
+			self:RegisterShortTermEvents(
+				"SPELL_DAMAGE 230214"
+			)
+		end
 	elseif spellId == 232757 then
 		self.vb.crashingWaveCount = self.vb.crashingWaveCount + 1
 		timerCrashingWaveCD:Start(nil, self.vb.crashingWaveCount+1)
@@ -253,10 +255,8 @@ function mod:SPELL_AURA_APPLIED(args)
 			else
 				voiceHydraShot:Play("targetyou")
 			end
-			yellHydraShot:Yell(count, count, args.spellName, count, count)
-			yellHydraShotFades:Schedule(5, count, 1, count)
-			yellHydraShotFades:Schedule(4, count, 2, count)
-			yellHydraShotFades:Schedule(3, count, 3, count)
+			yellHydraShot:Yell(count, args.spellName, count)
+			yellHydraShotFades:Countdown(6, nil, count)
 		end
 		if self.Options.SetIconOnHydraShot then
 			self:SetIcon(name, count)
@@ -298,25 +298,19 @@ function mod:SPELL_AURA_REMOVED(args)
 		if args:IsPlayer() then
 			yellHydraShotFades:Cancel()
 		end
+	elseif spellId == 230201 then
+		eventsRegistered = false
+		self:UnregisterShortTermEvents()
 	end
 end
 
---[[
-
-function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
-	if spellId == 228007 and destGUID == UnitGUID("player") and self:AntiSpam(2, 1) then
---		specWarnDancingBlade:Show()
---		voiceDancingBlade:Play("runaway")
+function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
+	if spellId == 230214 then
+		eventsRegistered = false
+		self:UnregisterShortTermEvents()
+		warnBurdenAll:Show(ALL)
 	end
 end
-mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
-
-function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
-	if msg:find("spell:228162") then
-
-	end
-end
---]]
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 	local spellId = tonumber(select(5, strsplit("-", spellGUID)), 10)

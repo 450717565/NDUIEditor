@@ -41,7 +41,7 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 16594 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 16611 $"):sub(12, -3)),
 	DisplayVersion = "7.2.18 alpha", -- the string that is shown as version
 	ReleaseRevision = 16590 -- the revision of the latest stable version that is available
 }
@@ -387,7 +387,7 @@ local UpdateChestTimer
 local breakTimerStart
 local AddMsg
 
-local fakeBWVersion, fakeBWHash = 63, "8ee96b6"
+local fakeBWVersion, fakeBWHash = 69, "f7aadbb"
 local versionQueryString, versionResponseString = "Q^%d^%s", "V^%d^%s"
 
 local enableIcons = true -- set to false when a raid leader or a promoted player has a newer version of DBM
@@ -4238,7 +4238,7 @@ do
 					showConstantReminder = 1
 				elseif not noRaid and #newerVersionPerson == 3 and updateNotificationDisplayed < 3 then--The following code requires at least THREE people to send that higher revision. That should be more than adaquate
 					--Disable if revision grossly out of date even if not major patch.
-					if raid[newerVersionPerson[1]].revision and raid[newerVersionPerson[2]].revision and raid[newerVersionPerson[3]].revision then
+					if raid[newerVersionPerson[1]] and raid[newerVersionPerson[2]] and raid[newerVersionPerson[3]] then
 						local revDifference = mmin((raid[newerVersionPerson[1]].revision - DBM.Revision), (raid[newerVersionPerson[2]].revision - DBM.Revision), (raid[newerVersionPerson[3]].revision - DBM.Revision))
 						if revDifference > 100 then
 							if updateNotificationDisplayed < 3 then
