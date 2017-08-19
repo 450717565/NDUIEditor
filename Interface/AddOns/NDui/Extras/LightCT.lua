@@ -1,22 +1,11 @@
 ﻿-- LightCT by Alza
--- xCT by Dandruff
+-- NDUI MOD
 local B, C, L, DB = unpack(select(2, ...))
 
 local fadetime = 3
 local fontsize = 14
 
 local frames = {}
-
-local schoolColors = {
-	[SCHOOL_MASK_NONE]		= {r = 1.00, g = 1.00, b = 1.00},	-- 0x00 or 0
-	[SCHOOL_MASK_PHYSICAL]	= {r = 1.00, g = 1.00, b = 0.00},	-- 0x01 or 1
-	[SCHOOL_MASK_HOLY]		= {r = 1.00, g = 0.90, b = 0.50},	-- 0x02 or 2
-	[SCHOOL_MASK_FIRE]		= {r = 1.00, g = 0.50, b = 0.00},	-- 0x04 or 4
-	[SCHOOL_MASK_NATURE]	= {r = 0.30, g = 1.00, b = 0.30},	-- 0x08 or 8
-	[SCHOOL_MASK_FROST]		= {r = 0.50, g = 1.00, b = 1.00},	-- 0x10 or 16
-	[SCHOOL_MASK_SHADOW]	= {r = 0.50, g = 0.50, b = 1.00},	-- 0x20 or 32
-	[SCHOOL_MASK_ARCANE]	= {r = 1.00, g = 0.50, b = 1.00},	-- 0x40 or 64
-}
 
 local eventFilter = {
 	["SWING_DAMAGE"] = {suffix = "DAMAGE", index = 12, iconType = "swing"},
@@ -40,17 +29,6 @@ eventframe:SetScript("OnEvent", function(self, event, ...)
 	self[event](self, ...)
 end)
 
-function eventframe:PLAYER_LOGIN()
-	SetCVar("enableFloatingCombatText", 0)
-	SetCVar("floatingCombatTextCombatDamage", 1)
-	SetCVar("floatingCombatTextCombatHealing", 0)
-
-	B.Mover(frames["InputDamage"], L["InputDamage"], "InputDamage", {"RIGHT", UIParent, "CENTER", -185, 30}, 84, 150)
-	B.Mover(frames["InputHealing"], L["InputHealing"], "InputHealing", {"BOTTOM", UIParent, "BOTTOM", -400, 30}, 84, 150)
-	B.Mover(frames["OutputDamage"], L["OutputDamage"], "OutputDamage", {"LEFT", UIParent, "CENTER", 110, 5}, 84, 150)
-	B.Mover(frames["OutputHealing"], L["OutputHealing"], "OutputHealing", {"BOTTOM", UIParent, "BOTTOM", 400, 30}, 84, 150)
-end
-
 local function GetFloatingIconTexture(iconType, spellID, isPet)
 	local texture
 	if iconType == "spell" then
@@ -72,7 +50,7 @@ local function CreateCTFrame(name, justify)
 
 	frame:SetSpacing(3)
 	frame:SetMaxLines(20)
-	frame:SetSize(84, 150)
+	frame:SetSize(90, 150)
 	frame:SetFadeDuration(0.2)
 	frame:SetJustifyH(justify)
 	frame:SetTimeVisible(fadetime)
@@ -86,8 +64,19 @@ frames["InputHealing"] = CreateCTFrame("InputHealing", "CENTER")
 frames["OutputDamage"] = CreateCTFrame("OutputDamage", "CENTER")
 frames["OutputHealing"] = CreateCTFrame("OutputHealing", "CENTER")
 
+function eventframe:PLAYER_LOGIN()
+	SetCVar("enableFloatingCombatText", 0)
+	SetCVar("floatingCombatTextCombatDamage", 1)
+	SetCVar("floatingCombatTextCombatHealing", 0)
+
+	B.Mover(frames["InputDamage"], L["InputDamage"], "InputDamage", {"RIGHT", UIParent, "CENTER", -185, 30}, 84, 150)
+	B.Mover(frames["InputHealing"], L["InputHealing"], "InputHealing", {"BOTTOM", UIParent, "BOTTOM", -400, 30}, 84, 150)
+	B.Mover(frames["OutputDamage"], L["OutputDamage"], "OutputDamage", {"LEFT", UIParent, "CENTER", 110, 5}, 84, 150)
+	B.Mover(frames["OutputHealing"], L["OutputHealing"], "OutputHealing", {"BOTTOM", UIParent, "BOTTOM", 400, 30}, 84, 150)
+end
+
 function eventframe:COMBAT_LOG_EVENT_UNFILTERED(...)
-	local icon, text, info, critMark , inputD, inputH, outputD, outputH
+	local icon, text, info, color, critMark, inputD, inputH, outputD, outputH
 	local _, eventType, _, sourceGUID, sourceName, sourceFlags, _, destGUID, destName, destFlags, _, spellID, spellName, school = ...
 
 	local showHD = NDuiDB["UFs"]["HotsDots"]
@@ -138,7 +127,7 @@ function eventframe:COMBAT_LOG_EVENT_UNFILTERED(...)
 				end
 			end
 
-			color = schoolColors[school] or schoolColors[0]
+			color = _G.CombatLog_Color_ColorArrayBySchool(school) or {r = 1, g = 1, b = 1}
 			icon = GetFloatingIconTexture(value.iconType, spellID, isPet)
 			info = string.format("%s|T%s:"..fontsize..":"..fontsize..":0:-5:64:64:5:59:5:59|t", (critMark and "*" or "")..text, icon)
 		end

@@ -8,12 +8,12 @@
 	<Include file="ChatAtFriends.lua"/>
 	<Include file="ChatEmote.lua"/>
 	<Include file="ChatLinkLevel.lua"/>
-	<Include file="CombatText.lua"/>
 	<Include file="ConvertRatings.lua"/>
 	<Include file="DressUp.lua"/>
 	<Include file="Extras.lua"/>
 	<Include file="InstanceInfo.lua"/>
 	<Include file="KeystoneHelper.lua"/>
+	<Include file="LightCT.lua"/>
 	<Include file="LootMonitor.lua"/>
 	<Include file="NomiCakes.lua"/>
 	<Include file="Reskins.lua"/>

@@ -300,6 +300,8 @@ C.AuraWatchList = {
 				--青铜龙的祝福
 				{AuraID = 102364, UnitID = "player"},
 			-->职业增益
+				--天堂之羽
+				{AuraID = 121557, UnitID = "player"},
 				--枭兽光环
 				{AuraID = 209746, UnitID = "player"},
 				--狂奔怒吼
@@ -2154,8 +2156,6 @@ C.AuraWatchList = {
 				{AuraID =     17, UnitID = "player"},
 				--暗影洞察
 				{AuraID = 124430, UnitID = "player"},
-				--天堂之羽
-				{AuraID = 121557, UnitID = "player"},
 				--身心合一
 				{AuraID = 214121, UnitID = "player"},
 			},
@@ -2193,8 +2193,6 @@ C.AuraWatchList = {
 				{AuraID =  41635, UnitID = "target", Caster = "player"},
 				--身心合一
 				{AuraID = 214121, UnitID = "target", Caster = "player"},
-				--天堂之羽
-				{AuraID = 121557, UnitID = "target", Caster = "player"},
 				--闪光力场
 				{AuraID = 204263, UnitID = "target", Caster = "player"},
 				--救赎

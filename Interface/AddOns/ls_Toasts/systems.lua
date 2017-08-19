@@ -96,7 +96,7 @@ do
 			toast.Title:SetText(L["ACHIEVEMENT_PROGRESSED"])
 			toast.Text:SetText(flag)
 
-			toast.Points:SetText("")
+			toast.IconText1:SetText("")
 		else
 			toast.Title:SetText(L["ACHIEVEMENT_UNLOCKED"])
 			toast.Text:SetText(name)
@@ -342,7 +342,7 @@ do
 		end
 	end
 
-	local function Toast_SetUp(event, name, subtypeID, textureFile, moneyReward, xpReward, numItemRewards, isScenario, isScenarioBonusComplete)
+	local function Toast_SetUp(event, name, subTypeID, textureFile, moneyReward, xpReward, numItemRewards, isScenario, isScenarioBonusComplete)
 		local toast = E:GetToast()
 		local usedSlots = 0
 		local soundFile
@@ -416,7 +416,7 @@ do
 
 			soundFile = 31754 -- SOUNDKIT.UI_SCENARIO_ENDING
 		else
-			if subtypeID == LFG_SUBTYPEID_HEROIC then
+			if subTypeID == LFG_SUBTYPEID_HEROIC then
 				toast.Skull:Show()
 			end
 
@@ -444,14 +444,14 @@ do
 			local _, _, _, _, hasBonusStep, isBonusStepComplete, _, _, _, scenarioType = C_Scenario.GetInfo()
 
 			if scenarioType ~= LE_SCENARIO_TYPE_LEGION_INVASION then
-				local name, _, subtypeID, textureFile, moneyBase, moneyVar, experienceBase, experienceVar, numStrangers, numItemRewards = GetLFGCompletionReward()
+				local name, _, subTypeID, textureFile, moneyBase, moneyVar, experienceBase, experienceVar, numStrangers, numItemRewards = GetLFGCompletionReward()
 
-				Toast_SetUp("LFG_COMPLETION_REWARD", name, subtypeID, textureFile, moneyBase + moneyVar * numStrangers, experienceBase + experienceVar * numStrangers, numItemRewards, true, hasBonusStep and isBonusStepComplete)
+				Toast_SetUp("LFG_COMPLETION_REWARD", name, subTypeID, textureFile, moneyBase + moneyVar * numStrangers, experienceBase + experienceVar * numStrangers, numItemRewards, true, hasBonusStep and isBonusStepComplete)
 			end
 		else
-			local name, _, subtypeID, textureFile, moneyBase, moneyVar, experienceBase, experienceVar, numStrangers, numItemRewards = GetLFGCompletionReward()
+			local name, _, subTypeID, textureFile, moneyBase, moneyVar, experienceBase, experienceVar, numStrangers, numItemRewards = GetLFGCompletionReward()
 
-			Toast_SetUp("LFG_COMPLETION_REWARD", name, subtypeID, textureFile, moneyBase + moneyVar * numStrangers, experienceBase + experienceVar * numStrangers, numItemRewards)
+			Toast_SetUp("LFG_COMPLETION_REWARD", name, subTypeID, textureFile, moneyBase + moneyVar * numStrangers, experienceBase + experienceVar * numStrangers, numItemRewards)
 		end
 	end
 
@@ -467,17 +467,17 @@ do
 
 	local function Test()
 		-- dungeon, Wailing Caverns
-		local name, _, subtypeID = GetLFGDungeonInfo(1)
+		local name, _, subTypeID = GetLFGDungeonInfo(1)
 
 		if name then
-			Toast_SetUp("INSTANCE_TEST", name, subtypeID, nil, 123456, 123456, 0)
+			Toast_SetUp("INSTANCE_TEST", name, subTypeID, nil, 123456, 123456, 0)
 		end
 
 		-- scenario, Crypt of Forgotten Kings
-		name, _, subtypeID = GetLFGDungeonInfo(504)
+		name, _, subTypeID = GetLFGDungeonInfo(504)
 
 		if name then
-			Toast_SetUp("INSTANCE_TEST", name, subtypeID, nil, 123456, 123456, 0, true, true)
+			Toast_SetUp("INSTANCE_TEST", name, subTypeID, nil, 123456, 123456, 0, true, true)
 		end
 	end
 
@@ -1004,18 +1004,20 @@ do
 		end
 
 		if isNew then
-			local name, quality, icon, _
+			local name, quality, icon, _, classID, subClassID, bindType, isQuestItem
 
 			if linkType == "battlepet" then
 				local _, speciesID, _, breedQuality, _ = s_split(":", originalLink)
 				name, icon = C_PetJournal.GetPetInfoBySpeciesID(speciesID)
 				quality = tonumber(breedQuality)
 			else
-				name, _, quality, _, _, _, _, _, _, icon = GetItemInfo(originalLink)
+				name, _, quality, _, _, _, _, _, _, icon, _, classID, subClassID, bindType = GetItemInfo(originalLink)
+				isQuestItem = bindType == 4 or (classID == 12 and subClassID == 0)
 			end
 
-			if quality >= C.db.profile.types.loot_common.threshold and quality <= 4 then
-				local color = ITEM_QUALITY_COLORS[quality] or ITEM_QUALITY_COLORS[4]
+			if (quality >= C.db.profile.types.loot_common.threshold and quality <= 5)
+				or (C.db.profile.types.loot_common.quest and isQuestItem) then
+				local color = ITEM_QUALITY_COLORS[quality] or ITEM_QUALITY_COLORS[1]
 
 				if C.db.profile.colors.name then
 					name = color.hex..name.."|r"
@@ -1035,7 +1037,8 @@ do
 				toast.Icon:SetTexture(icon)
 				toast.IconBorder:Show()
 				toast.IconBorder:SetVertexColor(color.r, color.g, color.b)
-				toast.IconText1:SetText(quantity > 1 and quantity or "")
+				toast.IconHL:SetShown(isQuestItem)
+				toast.IconText1:SetAnimatedValue(quantity, true)
 
 				toast._data = {
 					count = quantity,
@@ -1133,6 +1136,7 @@ do
 		dnd = false,
 		threshold = 1,
 		ilvl = true,
+		quest = false,
 	}, {
 		name = L["TYPE_LOOT_COMMON"],
 		args = {
@@ -1204,6 +1208,18 @@ do
 				set = function(_, value)
 					 C.db.profile.types.loot_common.threshold = value
 				end,
+			},
+			quest = {
+				order = 6,
+				type = "toggle",
+				name = L["SHOW_QUEST_ITEMS"],
+				desc = L["SHOW_QUEST_ITEMS_DESC"],
+				get = function()
+					return C.db.profile.types.loot_common.quest
+				end,
+				set = function(_, value)
+					C.db.profile.types.loot_common.quest = value
+				end
 			},
 			test = {
 				type = "execute",
@@ -1335,7 +1351,7 @@ do
 						toast.Icon:SetTexture(icon)
 						toast.IconBorder:Show()
 						toast.IconBorder:SetVertexColor(color.r, color.g, color.b)
-						toast.IconText1:SetText(quantity > 1 and quantity or "")
+						toast.IconText1:SetAnimatedValue(quantity, true)
 						toast.UpgradeIcon:SetShown(E:IsItemUpgrade(originalLink))
 
 						toast._data = {
@@ -1668,7 +1684,7 @@ do
 			toast.Icon:SetTexture(icon)
 			toast.IconBorder:Show()
 			toast.IconBorder:SetVertexColor(color.r, color.g, color.b)
-			toast.IconText1:SetText(quantity > 1 and quantity or "")
+			toast.IconText1:SetAnimatedValue(quantity, true)
 
 			toast._data = {
 				event = event,

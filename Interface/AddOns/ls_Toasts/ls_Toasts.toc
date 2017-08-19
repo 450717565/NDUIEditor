@@ -1,10 +1,9 @@
 ## Interface: 70200
 ## Author: lightspark
-## Version: 70200.10
+## Version: 70200.11
 ## Title: ls: |cff1a9fc0Toasts|r
 ## Notes: Better toasts, cheers!
-## SavedVariables: LS_TOASTS_CFG_GLOBAL, LS_TOASTS_GLOBAL_CONFIG
-## SavedVariablesPerCharacter: LS_TOASTS_CFG
+## SavedVariables: LS_TOASTS_GLOBAL_CONFIG
 
 embeds\_embeds.xml
 locales\_locales.xml
