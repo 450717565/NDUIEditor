@@ -1,25 +1,17 @@
+local B, C, L, DB = unpack(select(2, ...))
+
 -- 定义标点符号
 local Point = " "
 
 -- 本地化专精
-function Talent()
+local function Talent()
 	local Spec = GetSpecialization()
 	local SpecName = (Spec and select(2, GetSpecializationInfo(Spec))) or "无"
 	return SpecName
 end
 
--- 格式化血量
-function HealText()
-local HP = UnitHealthMax("player")
-	if HP > 1e4 then
-		return ("%.2f万"):format(HP / 1e4)
-	else
-		return ("%.0f"):format(HP)
-	end
-end
-
 -- 基础属性
-function BaseInfo()
+local function BaseInfo()
 	local BaseStats = ""
 	BaseStats = BaseStats..("职业:%s"):format(UnitClass("player"))..Point
 	BaseStats = BaseStats..("专精:%s"):format(Talent())..Point
@@ -54,7 +46,7 @@ function StatsReport()
 		StatsInfo = StatsInfo..("智力:%s"):format(UnitStat("player", 4))..Point
 	end
 
-	StatsInfo = StatsInfo..("血量:%s"):format(HealText())..Point
+	StatsInfo = StatsInfo..("血量:%s"):format(B.Numb(UnitHealthMax("player")))..Point
 	StatsInfo = StatsInfo..("爆击:%.2f%%"):format(GetCritChance())..Point
 	StatsInfo = StatsInfo..("急速:%.2f%%"):format(GetHaste())..Point
 	StatsInfo = StatsInfo..("精通:%.2f%%"):format(GetMasteryEffect())..Point

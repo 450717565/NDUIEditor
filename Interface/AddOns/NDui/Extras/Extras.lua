@@ -12,7 +12,7 @@ COPPER_AMOUNT = "%d|c00eda55f铜|r"
 
 --- 修复世界地图错位
 local old_ResetZoom = _G.WorldMapScrollFrame_ResetZoom
-_G.WorldMapScrollFrame_ResetZoom = function()
+function _G.WorldMapScrollFrame_ResetZoom()
 	if _G.InCombatLockdown() then
 		_G.WorldMapFrame_Update()
 		_G.WorldMapScrollFrame_ReanchorQuestPOIs()

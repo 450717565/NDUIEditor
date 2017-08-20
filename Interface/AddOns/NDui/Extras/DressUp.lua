@@ -2,7 +2,7 @@ local BtnStrata = SideDressUpModelResetButton:GetFrameStrata()
 local BtnLevel = SideDressUpModelResetButton:GetFrameLevel()
 
 --自定义按钮创建函数
-function CreateButton(name, frame, label, point, relativeTo, relativePoint, xOffset, yOffset, width, height)
+local function CreateButton(name, frame, label, point, relativeTo, relativePoint, xOffset, yOffset, width, height)
 	local name = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
 	name:SetWidth(width)
 	name:SetHeight(height)

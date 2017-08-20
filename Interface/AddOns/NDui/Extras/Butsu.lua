@@ -15,6 +15,7 @@ if IsAddOnLoaded("Aurora") then
 	F.CreateBD(Butsu)
 	F.CreateSD(Butsu)
 else
+	B.CreateTex(Butsu)
 	B.CreateBD(Butsu, 0.5, 1.2)
 	B.CreateSD(Butsu, 2, 3)
 end
@@ -39,7 +40,7 @@ end)
 local Title = B.CreateFS(Butsu, 18, "", true, "TOPLEFT", 4, 20)
 Butsu.Title = Title
 
-local OnEnter = function(self)
+local function OnEnter(self)
 	local slot = self:GetID()
 	if GetLootSlotType(slot) == LOOT_SLOT_ITEM then
 		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
@@ -49,13 +50,13 @@ local OnEnter = function(self)
 	self.glow:Show()
 end
 
-local OnLeave = function(self)
+local function OnLeave(self)
 	self.glow:Hide()
 	GameTooltip:Hide()
 	ResetCursor()
 end
 
-local OnClick = function(self)
+local function OnClick(self)
 	if IsModifiedClick() then
 		HandleModifiedItemClick(GetLootSlotLink(self:GetID()))
 	else
@@ -70,7 +71,7 @@ local OnClick = function(self)
 	end
 end
 
-local OnUpdate = function(self)
+local function OnUpdate(self)
 	if GameTooltip:IsOwned(self) then
 		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
 		GameTooltip:SetLootItem(self:GetID())
@@ -78,7 +79,7 @@ local OnUpdate = function(self)
 	end
 end
 
-function CreateSlot(id)
+local function CreateSlot(id)
 	local iconSize = iconSize
 	local fontSizeItem = fontSizeItem
 	local cr, cg, cb = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b
@@ -150,7 +151,7 @@ function Butsu:AnchorSlots()
 	local iconSize = iconSize
 	local shownSlots = 0
 
-	for i=1, #slots do
+	for i = 1, #slots do
 		local button = slots[i]
 		if button:IsShown() then
 			shownSlots = shownSlots + 1
@@ -191,15 +192,14 @@ function Butsu:LOOT_OPENED(event, autoloot)
 		self:SetPoint(unpack(point))
 	end
 
+	local maxQuality = 0
 	local items = GetNumLootItems()
 	if items > 0 then
 		for i = 1, items do
 			local slot = slots[i] or CreateSlot(i)
 			local texture, item, quantity, quality, locked, isQuestItem, questId, isActive = GetLootSlotInfo(i)
 			if texture then
-				local maxQuality = math.max(0, quality)
-				curcolor = BAG_ITEM_QUALITY_COLORS[quality]
-				topcolor = BAG_ITEM_QUALITY_COLORS[maxQuality]
+				local color = BAG_ITEM_QUALITY_COLORS[quality]
 
 				local slotType = GetLootSlotType(i)
 				if slotType == LOOT_SLOT_MONEY then
@@ -214,8 +214,8 @@ function Butsu:LOOT_OPENED(event, autoloot)
 				end
 
 				if quality and quality >= 0 then
-					slot.name:SetTextColor(curcolor.r, curcolor.g, curcolor.b)
-					slot.iconBorder:SetBackdropBorderColor(curcolor.r, curcolor.g, curcolor.b)
+					slot.name:SetTextColor(color.r, color.g, color.b)
+					slot.iconBorder:SetBackdropBorderColor(color.r, color.g, color.b)
 					slot.quality = quality
 				else
 					slot.name:SetTextColor(0, 0, 0)
@@ -224,6 +224,8 @@ function Butsu:LOOT_OPENED(event, autoloot)
 
 				slot.name:SetText(item)
 				slot.icon:SetTexture(texture)
+
+				maxQuality = math.max(maxQuality, quality)
 
 				slot:Enable()
 				slot:Show()
@@ -243,7 +245,8 @@ function Butsu:LOOT_OPENED(event, autoloot)
 		slot:Show()
 	end
 
-	self.Shadow:SetBackdropBorderColor(topcolor.r, topcolor.g, topcolor.b)
+	local color = BAG_ITEM_QUALITY_COLORS[maxQuality]
+	self.Shadow:SetBackdropBorderColor(color.r, color.g, color.b)
 
 	self:AnchorSlots()
 	self:UpdateWidth()
