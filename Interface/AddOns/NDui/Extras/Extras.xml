@@ -11,6 +11,7 @@
 	<Include file="ConvertRatings.lua"/>
 	<Include file="DressUp.lua"/>
 	<Include file="Extras.lua"/>
+	<Include file="InspectFix.lua"/>
 	<Include file="InstanceInfo.lua"/>
 	<Include file="KeystoneHelper.lua"/>
 	<Include file="LightCT.lua"/>

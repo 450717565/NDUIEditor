@@ -14,9 +14,9 @@ B.CreateGF = function(f, w, h, o, r, g, b, a1, a2)
 end
 
 -- Create Backdrop
-B.CreateBD = function(f, a, s)
+B.CreateBD = function(f, a, s, neat)
 	f:SetBackdrop({
-		bgFile = DB.bdTex, edgeFile = DB.glowTex, edgeSize = s or 3,
+		bgFile = DB.bdTex, edgeFile = neat and DB.neatTex or DB.glowTex, edgeSize = s or 3,
 		insets = {left = s or 3, right = s or 3, top = s or 3, bottom = s or 3},
 	})
 	f:SetBackdropColor(0, 0, 0, a or .5)
@@ -462,14 +462,4 @@ B.CreateDropDown = function(parent, width, height, data)
 
 	dd.Type = "DropDown"
 	return dd
-end
-
--- Create BackdropBorder
-B.CreateBB = function(f)
-	f:SetBackdrop({
-		edgeFile = DB.neatTex,
-		edgeSize = 1,
-		insets = { left = 1, right = 1, top = 1, bottom = 1 }
-	})
-	f:SetBackdropBorderColor(0, 0, 0, 1)
 end
