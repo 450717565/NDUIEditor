@@ -225,9 +225,11 @@ local function GetButton(parent, index)
 		button.spec:SetTextColor(0.8, 0.9, 0.9)
 		button:SetScript("OnDoubleClick", function(self)
 			local ilevel = self.ilevel:GetText()
+			local name = self.name:GetText()
+			local spec = self.spec:GetText()
 			if (ilevel and tonumber(ilevel)) then
 				ChatEdit_ActivateChat(ChatEdit_ChooseBoxForSend())
-				ChatEdit_InsertLink(ilevel .. " " .. self.name:GetText())
+				ChatEdit_InsertLink(ilevel.." "..name.." "..spec)
 			end
 		end)
 		parent["button"..index] = button

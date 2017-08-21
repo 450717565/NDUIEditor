@@ -41,7 +41,7 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 16619 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 16621 $"):sub(12, -3)),
 	DisplayVersion = "7.2.18 alpha", -- the string that is shown as version
 	ReleaseRevision = 16590 -- the revision of the latest stable version that is available
 }
@@ -268,7 +268,7 @@ DBM.DefaultOptions = {
 	WOTLKTWMessageShown = false,
 	CATATWMessageShown = false,
 	MISTSTWMessageShown = false,
-	AlwaysShowSpeedKillTimer = true,
+	AlwaysShowSpeedKillTimer2 = false,
 	ShowRespawn = true,
 	ShowQueuePop = true,
 	HelpMessageVersion = 3,
@@ -5599,7 +5599,7 @@ do
 					mod.stats[statVarTable[savedDifficulty].."Pulls"] = mod.stats[statVarTable[savedDifficulty].."Pulls"] + 1
 				end
 				--show speed timer
-				if self.Options.AlwaysShowSpeedKillTimer and mod.stats and not mod.ignoreBestkill then
+				if self.Options.AlwaysShowSpeedKillTimer2 and mod.stats and not mod.ignoreBestkill then
 					--TODO, add code here to only pull best kull for CURRENT mythic+ rank
 					local bestTime = mod.stats[statVarTable[savedDifficulty].."BestTime"]
 					if bestTime and bestTime > 0 then

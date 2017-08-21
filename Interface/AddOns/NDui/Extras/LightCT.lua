@@ -2,8 +2,8 @@
 -- NDUI MOD
 local B, C, L, DB = unpack(select(2, ...))
 
-local fadetime = 3
-local fontsize = 14
+local fadeTime = 3
+local fontSize = 14
 
 local frames = {}
 
@@ -21,16 +21,16 @@ local eventFilter = {
 	["SPELL_MISSED"] = {suffix = "MISS", index = 15, iconType = "spell"},
 }
 
-local eventframe = CreateFrame("Frame")
-eventframe:RegisterEvent("PLAYER_LOGIN")
-eventframe:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
-eventframe:SetScript("OnEvent", function(self, event, ...)
+local eventFrame = CreateFrame("Frame")
+eventFrame:RegisterEvent("PLAYER_LOGIN")
+eventFrame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+eventFrame:SetScript("OnEvent", function(self, event, ...)
 	if not NDuiDB["UFs"]["CombatText"] then return end
 	self[event](self, ...)
 end)
 
-local function GetFloatingIconTexture(iconType, spellID, isPet)
-	local texture
+local function GetFloatingIcon(iconType, spellID, isPet)
+	local texture, icon
 	if iconType == "spell" then
 		texture = GetSpellTexture(spellID)
 	elseif iconType == "swing" then
@@ -42,7 +42,8 @@ local function GetFloatingIconTexture(iconType, spellID, isPet)
 	elseif iconType == "range" then
 		texture = GetSpellTexture(75)
 	end
-	return texture
+	icon = "|T"..texture..":"..fontSize..":"..fontSize..":0:-5:64:64:5:59:5:59|t"
+	return icon
 end
 
 local function CreateCTFrame(name, justify)
@@ -53,8 +54,8 @@ local function CreateCTFrame(name, justify)
 	frame:SetSize(90, 150)
 	frame:SetFadeDuration(0.2)
 	frame:SetJustifyH(justify)
-	frame:SetTimeVisible(fadetime)
-	frame:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
+	frame:SetTimeVisible(fadeTime)
+	frame:SetFont(STANDARD_TEXT_FONT, fontSize, "OUTLINE")
 
 	return frame
 end
@@ -64,19 +65,19 @@ frames["InputHealing"] = CreateCTFrame("InputHealing", "CENTER")
 frames["OutputDamage"] = CreateCTFrame("OutputDamage", "CENTER")
 frames["OutputHealing"] = CreateCTFrame("OutputHealing", "CENTER")
 
-function eventframe:PLAYER_LOGIN()
+function eventFrame:PLAYER_LOGIN()
 	SetCVar("enableFloatingCombatText", 0)
 	SetCVar("floatingCombatTextCombatDamage", 1)
 	SetCVar("floatingCombatTextCombatHealing", 0)
 
-	B.Mover(frames["InputDamage"], L["InputDamage"], "InputDamage", {"RIGHT", UIParent, "CENTER", -185, 30}, 84, 150)
-	B.Mover(frames["InputHealing"], L["InputHealing"], "InputHealing", {"BOTTOM", UIParent, "BOTTOM", -400, 30}, 84, 150)
-	B.Mover(frames["OutputDamage"], L["OutputDamage"], "OutputDamage", {"LEFT", UIParent, "CENTER", 110, 5}, 84, 150)
-	B.Mover(frames["OutputHealing"], L["OutputHealing"], "OutputHealing", {"BOTTOM", UIParent, "BOTTOM", 400, 30}, 84, 150)
+	B.Mover(frames["InputDamage"], L["InputDamage"], "InputDamage", {"RIGHT", UIParent, "CENTER", -185, 30}, 90, 150)
+	B.Mover(frames["InputHealing"], L["InputHealing"], "InputHealing", {"BOTTOM", UIParent, "BOTTOM", -400, 30}, 90, 150)
+	B.Mover(frames["OutputDamage"], L["OutputDamage"], "OutputDamage", {"LEFT", UIParent, "CENTER", 110, 5}, 90, 150)
+	B.Mover(frames["OutputHealing"], L["OutputHealing"], "OutputHealing", {"BOTTOM", UIParent, "BOTTOM", 400, 30}, 90, 150)
 end
 
-function eventframe:COMBAT_LOG_EVENT_UNFILTERED(...)
-	local icon, text, info, color, critMark, inputD, inputH, outputD, outputH
+function eventFrame:COMBAT_LOG_EVENT_UNFILTERED(...)
+	local icon, text, color, inputD, inputH, outputD, outputH
 	local _, eventType, _, sourceGUID, sourceName, sourceFlags, _, destGUID, destName, destFlags, _, spellID, spellName, school = ...
 
 	local showHD = NDuiDB["UFs"]["HotsDots"]
@@ -101,8 +102,8 @@ function eventframe:COMBAT_LOG_EVENT_UNFILTERED(...)
 					text = "-"..B.Numb(amount)
 					inputD = true
 				end
-				if critical or crushing then
-					critMark = true
+				if text and (critical or crushing) then
+					text = "*"..text
 				end
 			elseif value.suffix == "HEAL" then
 				local amount, overhealing, absorbed, critical = select(value.index, ...)
@@ -114,8 +115,8 @@ function eventframe:COMBAT_LOG_EVENT_UNFILTERED(...)
 					text = "+"..B.Numb(amount)
 					inputH = true
 				end
-				if critical then
-					critMark = true
+				if text and critical then
+					text = "*"..text
 				end
 			elseif value.suffix == "MISS" then
 				local missType, isOffHand, amountMissed = select(value.index, ...)
@@ -128,19 +129,18 @@ function eventframe:COMBAT_LOG_EVENT_UNFILTERED(...)
 			end
 
 			color = _G.CombatLog_Color_ColorArrayBySchool(school) or {r = 1, g = 1, b = 1}
-			icon = GetFloatingIconTexture(value.iconType, spellID, isPet)
-			info = string.format("%s|T%s:"..fontsize..":"..fontsize..":0:-5:64:64:5:59:5:59|t", (critMark and "*" or "")..text, icon)
+			icon = GetFloatingIcon(value.iconType, spellID, isPet)
 		end
 
-		if info then
+		if text and icon then
 			if outputD then
-				frames["OutputDamage"]:AddMessage(info, color.r, color.g, color.b)
+				frames["OutputDamage"]:AddMessage(text..icon, color.r, color.g, color.b)
 			elseif outputH then
-				frames["OutputHealing"]:AddMessage(info, color.r, color.g, color.b)
+				frames["OutputHealing"]:AddMessage(text..icon, color.r, color.g, color.b)
 			elseif inputD then
-				frames["InputDamage"]:AddMessage(info, color.r, color.g, color.b)
+				frames["InputDamage"]:AddMessage(text..icon, color.r, color.g, color.b)
 			elseif inputH then
-				frames["InputHealing"]:AddMessage(info, color.r, color.g, color.b)
+				frames["InputHealing"]:AddMessage(text..icon, color.r, color.g, color.b)
 			end
 		end
 	end

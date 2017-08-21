@@ -344,6 +344,9 @@ if IsAddOnLoaded("Aurora") then
 				if toast.IconBorder then
 					toast.IconBorder:Hide()
 				end
+				if toast.IconHL then
+					toast.IconHL:Hide()
+				end
 				if title ~= _G.ARCHAEOLOGY_DIGSITE_COMPLETE_TOAST_FRAME_TITLE then
 					if not toast.styled then
 						F.CreateBDFrame(toast.Icon)

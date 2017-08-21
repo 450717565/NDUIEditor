@@ -22,7 +22,7 @@ end
 Butsu:RegisterForClicks("AnyUp")
 Butsu:SetClampedToScreen(true)
 Butsu:SetClampRectInsets(0, 0, 14, 0)
-Butsu:SetFrameStrata("HIGH")
+Butsu:SetFrameStrata("DIALOG")
 Butsu:SetHitRectInsets(0, 0, -14, 0)
 Butsu:SetMovable(true)
 Butsu:SetParent(UIParent)
@@ -122,7 +122,7 @@ local function CreateSlot(id)
 	count:SetJustifyH("RIGHT")
 	button.count = count
 
-	local name = B.CreateFS(iconBorder, 14, "", false)
+	local name = B.CreateFS(iconBorder, 14, "")
 	name:SetJustifyH("LEFT")
 	name:SetPoint("LEFT", icon, "RIGHT", 5, 0)
 	name:SetNonSpaceWrap(true)
