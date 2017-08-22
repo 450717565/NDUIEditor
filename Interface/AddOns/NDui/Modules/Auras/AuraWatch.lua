@@ -164,12 +164,12 @@ local function BuildICON(iconSize)
 	Frame.Cooldown:SetAllPoints()
 	Frame.Cooldown:SetReverse(true)
 
-	Frame.Spellname = B.CreateFS(Frame, 14, "", false, "BOTTOM", 0, -3)
+	Frame.Spellname = B.CreateFS(Frame, 14, "", false, "TOP", 0, 4)
 
 	local parentFrame = CreateFrame("Frame", nil, Frame)
 	parentFrame:SetAllPoints()
 	parentFrame:SetFrameLevel(Frame:GetFrameLevel() + 3)
-	Frame.Count = B.CreateFS(parentFrame, iconSize*.55, "", false, "BOTTOMRIGHT", 3, -3)
+	Frame.Count = B.CreateFS(parentFrame, iconSize*.55, "", false, "BOTTOMRIGHT", 4, -4)
 
 	if NDuiDB["AuraWatch"]["Hint"] then
 		Frame:EnableMouse(true)
@@ -215,7 +215,7 @@ local function BuildBAR(barWidth, iconSize)
 	Frame.Statusbar:SetValue(0)
 	B.CreateSB(Frame.Statusbar, true)
 
-	Frame.Count = B.CreateFS(Frame, 14, "", false, "BOTTOMRIGHT", 1, -1)
+	Frame.Count = B.CreateFS(Frame, 14, "", false, "BOTTOMRIGHT", 2, -2)
 	Frame.Time = B.CreateFS(Frame.Statusbar, 14, "", false, "RIGHT", 4, 8)
 	Frame.Spellname = B.CreateFS(Frame.Statusbar, 14, "", false, "LEFT", 2, 8)
 	Frame.Spellname:SetWidth(Frame.Statusbar:GetWidth()*.6)
