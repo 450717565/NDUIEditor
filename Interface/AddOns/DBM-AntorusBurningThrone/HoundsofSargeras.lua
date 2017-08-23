@@ -143,6 +143,7 @@ function mod:OnCombatStart(delay)
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Show(5)--Molten Touch (assumed)
 	end
+	DBM:AddMsg(DBM_CORE_NEED_LOGS)
 end
 
 function mod:OnCombatEnd()
@@ -152,6 +153,7 @@ function mod:OnCombatEnd()
 --	if self.Options.InfoFrame then
 --		DBM.InfoFrame:Hide()
 --	end
+	DBM:AddMsg(DBM_CORE_NEED_LOGS)
 end
 
 function mod:SPELL_CAST_START(args)

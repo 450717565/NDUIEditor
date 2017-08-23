@@ -98,4 +98,9 @@ end)
 if IsAddOnLoaded("Aurora") then
 	local F = unpack(Aurora)
 	F.ReskinIconStyle(APU)
+	APU:SetHighlightTexture(DB.bdTex)
+	local hl = APU:GetHighlightTexture()
+	hl:SetPoint("TOPLEFT", 1, -1)
+	hl:SetPoint("BOTTOMRIGHT", -1, 1)
+	hl:SetVertexColor(1, 1, 1, .25)
 end

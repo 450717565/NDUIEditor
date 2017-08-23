@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1896, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16618 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16635 $"):sub(12, -3))
 mod:SetCreatureID(118460, 118462, 119072)--118460 Engine of Souls, 118462 Soul Queen Dajahna, 119072 The Desolate Host
 mod:SetEncounterID(2054)
 mod:SetZone()
@@ -458,7 +458,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 			timerSpearofAnquishCD:Stop()
 			timerSpearofAnquishCD:Start(8, self.vb.spearCast+1)
 		end
-		timerSoulbindCD:Start(10)
+		timerSoulbindCD:Start(10, self.vb.soulboundCast+1)
 		--New Phase Timers
 		timerSunderingDoomCD:Start(7)
 		countdownSunderingDoom:Start(7)

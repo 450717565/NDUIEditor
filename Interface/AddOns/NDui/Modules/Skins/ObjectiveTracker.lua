@@ -172,6 +172,7 @@ function module:QuestTracker()
 				select(i, bar:GetRegions()):Hide()
 			end
 			bar:SetStatusBarTexture(DB.normTex)
+			bar:SetStatusBarColor(r*.8, g*.8, b*.8)
 			bar.Label:Show()
 			local oldBg = select(5, bar:GetRegions())
 			local bg = B.CreateBG(oldBg, 3)

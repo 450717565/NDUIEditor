@@ -41,9 +41,9 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 16627 $"):sub(12, -3)),
-	DisplayVersion = "7.2.18 alpha", -- the string that is shown as version
-	ReleaseRevision = 16590 -- the revision of the latest stable version that is available
+	Revision = tonumber(("$Revision: 16636 $"):sub(12, -3)),
+	DisplayVersion = "7.2.19 alpha", -- the string that is shown as version
+	ReleaseRevision = 16632 -- the revision of the latest stable version that is available
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -5629,7 +5629,7 @@ do
 						end
 					end
 				end
-				if testBuild and difficultyIndex == 16 then
+				if testBuild then
 					self:AddMsg(DBM_CORE_NEED_LOGS)
 				end
 				--call OnCombatStart
@@ -5972,6 +5972,9 @@ do
 						end
 					end
 				end
+			end
+			if testBuild then
+				self:AddMsg(DBM_CORE_NEED_LOGS)
 			end
 			if mod.OnCombatEnd then mod:OnCombatEnd(wipe) end
 			if #inCombat == 0 then--prevent error if you pulled multiple boss. (Earth, Wind and Fire)
@@ -6401,12 +6404,12 @@ do
 	function DBM:PLAYER_ENTERING_WORLD()
 		if not self.Options.DontShowReminders then
 			if GetLocale() == "ptBR" or GetLocale() == "frFR" or GetLocale() == "itIT" or GetLocale() == "esES" or GetLocale() == "ruRU" then
-				C_TimerAfter(10, function() if self.Options.HelpMessageVersion < 4 then self.Options.HelpMessageVersion = 4 self:AddMsg(DBM_CORE_NEED_LOCALS) end end)
+				C_TimerAfter(10, function() if self.Options.HelpMessageVersion < 5 then self.Options.HelpMessageVersion = 5 self:AddMsg(DBM_CORE_NEED_LOCALS) end end)
 			end
 			--C_TimerAfter(20, function() if not self.Options.ForumsMessageShown then self.Options.ForumsMessageShown = self.ReleaseRevision self:AddMsg(DBM_FORUMS_MESSAGE) end end)
 			C_TimerAfter(25, function() if self.Options.SilentMode then self:AddMsg(DBM_SILENT_REMINDER) end end)
 			C_TimerAfter(30, function() if not self.Options.SettingsMessageShown then self.Options.SettingsMessageShown = true self:AddMsg(DBM_HOW_TO_USE_MOD) end end)
-			C_TimerAfter(40, function() if self.Options.SettingsMessageShown and self.Options.NewsMessageShown < 12 then self.Options.NewsMessageShown = 12 self:AddMsg(DBM_CORE_WHATS_NEW_LINK) end end)
+			C_TimerAfter(40, function() if self.Options.SettingsMessageShown and self.Options.NewsMessageShown < 12 then self.Options.NewsMessageShown = 12 self:AddMsg(DBM_CORE_WHATS_NEW) end end)
 		end
 		if type(RegisterAddonMessagePrefix) == "function" then
 			if not RegisterAddonMessagePrefix("D4") then -- main prefix for DBM4
@@ -11358,8 +11361,7 @@ do
 	local defaultTimerLocalization = {
 		__index = setmetatable({
 			timer_berserk = DBM_CORE_GENERIC_TIMER_BERSERK,
-			timer_combat = DBM_CORE_GENERIC_TIMER_COMBAT,
-			TimerSpeedKill = DBM_CORE_ACHIEVEMENT_TIMER_SPEED_KILL
+			timer_combat = DBM_CORE_GENERIC_TIMER_COMBAT
 		}, returnKey)
 	}
 	local defaultAnnounceLocalization = {
