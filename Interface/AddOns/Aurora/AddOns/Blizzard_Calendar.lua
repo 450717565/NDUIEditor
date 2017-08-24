@@ -238,7 +238,8 @@ C.themes["Blizzard_Calendar"] = function()
 	F.ReskinCheck(CalendarCreateEventLockEventCheck)
 
 	CalendarCreateEventDifficultyOptionDropDown:SetWidth(150)
-	
+
 	CalendarCreateEventIcon:SetTexCoord(.08, .92, .08, .92)
+	CalendarCreateEventIcon:SetDrawLayer("ARTWORK")
 	F.CreateBDFrame(CalendarCreateEventIcon)
 end

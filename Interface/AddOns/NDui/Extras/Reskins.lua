@@ -35,8 +35,8 @@ if IsAddOnLoaded("Aurora") then
 			F.ReskinScroll(APIIListsSystemListScrollBar)
 
 			local list = {"TitleBackground", "InsetTopBorder", "InsetBottomBorder", "InsetLeftBorder", "InsetRightBorder", "InsetTopLeftCorner", "InsetTopRightCorner", "InsetBotLeftCorner", "InsetBotRightCorner"}
-			for i = 1, #list do
-				_G["APIIListsInsetLeft"..list[i]]:Hide()
+			for k, v in pairs(list) do
+				_G["APIIListsInsetLeft"..v]:Hide()
 			end
 			for i = 1, 16 do
 				select(i, APII_Core:GetRegions()):Hide()
@@ -213,8 +213,8 @@ if IsAddOnLoaded("Aurora") then
 			F.ReskinScroll(WhisperPopFrameListScrollBar)
 
 			local wpbtn = {"WhisperPopNotifyButton", "WhisperPopFrameConfig"}
-			for i = 1, #wpbtn do
-				F.ReskinIconStyle(_G[wpbtn[i]])
+			for k, v in pairs(wpbtn) do
+				F.ReskinIconStyle(_G[v])
 			end
 		end
 
@@ -295,22 +295,22 @@ if IsAddOnLoaded("Aurora") then
 			F.CreateSD(SellItemButton)
 
 			local inputs = {"BuyName", "BuyQuantity", "SellStacks", "SellSize", "SellBidPriceGold", "SellBidPriceSilver", "SellBidPriceCopper", "SellBuyoutPriceGold", "SellBuyoutPriceSilver", "SellBuyoutPriceCopper"}
-			for i = 1, #inputs do
-				F.ReskinInput(_G[inputs[i]])
+			for k, v in pairs(inputs) do
+				F.ReskinInput(_G[v])
 			end
 			local abuttons = {"BuySearchButton", "BuyScanButton", "BuyBidButton", "BuyBuyoutButton", "BuyCancelAuctionButton", "BuyCancelSearchButton", "SellCreateAuctionButton"}
-			for a = 1, #abuttons do
-				F.Reskin(_G[abuttons[a]])
+			for k, v in pairs(abuttons) do
+				F.Reskin(_G[v])
 			end
 			local bbuttons = {"SellShortAuctionButton", "SellMediumAuctionButton", "SellLongAuctionButton", "SellPerItemButton", "SellPerStackButton"}
-			for b = 1, #bbuttons do
-				F.ReskinRadio(_G[bbuttons[b]])
+			for k, v in pairs(bbuttons) do
+				F.ReskinRadio(_G[v])
 			end
 			local scroll = {"BuyScrollFrame", "SellScrollFrame"}
-			for s = 1, #scroll do
-				F.ReskinScroll(_G[scroll[s].."ScrollBar"])
+			for k, v in pairs(scroll) do
+				F.ReskinScroll(_G[v.."ScrollBar"])
 				for i = 1, 2 do
-					select(i, _G[scroll[s]]:GetRegions()):Hide()
+					select(i, _G[v]:GetRegions()):Hide()
 				end
 			end
 		end

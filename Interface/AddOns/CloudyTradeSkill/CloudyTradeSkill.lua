@@ -9,7 +9,7 @@
 local numTabs = 0
 local searchTxt = ""
 local filterMats, filterSkill
-local skinUI, loadedUI
+local skinUI, loadedUI, mediaUI
 local function InitDB()
 	-- Create new DB if needed --
 	if (not CTradeSkillDB) then
@@ -26,7 +26,7 @@ local function InitDB()
 	-- Load UI addons --
 	if IsAddOnLoaded("Aurora") then
 		skinUI = "Aurora"
-		loadedUI = unpack(Aurora)
+		loadedUI, mediaUI = unpack(Aurora)
 	elseif IsAddOnLoaded("ElvUI") then
 		skinUI = "ElvUI"
 		loadedUI = unpack(ElvUI):GetModule("Skins")
@@ -101,7 +101,11 @@ f:RegisterEvent("TRADE_SKILL_DATA_SOURCE_CHANGED")
 			local checkedTexture
 			if (skinUI == "Aurora") then
 				loadedUI.CreateBDFrame(tab)
-				checkedTexture = "Interface\\AddOns\\Aurora\\media\\CheckButtonHilight"
+				checkedTexture = mediaUI.media.checked
+				tab:SetHighlightTexture(mediaUI.media.backdrop)
+				local hl = tab:GetHighlightTexture()
+				hl:SetAllPoints()
+				hl:SetVertexColor(1, 1, 1, .25)
 			elseif (skinUI == "ElvUI") then
 				checkedTexture = tab:CreateTexture(nil, "HIGHLIGHT")
 				checkedTexture:SetColorTexture(1, 1, 1, 0.3)

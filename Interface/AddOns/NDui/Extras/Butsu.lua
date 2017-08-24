@@ -203,7 +203,7 @@ function Butsu:LOOT_OPENED(event, autoloot)
 
 				local slotType = GetLootSlotType(i)
 				if slotType == LOOT_SLOT_MONEY then
-					item = item:gsub("\n", ", ")
+					item = item:gsub("\n", "，")
 				end
 
 				if quantity and quantity > 1 then
@@ -233,10 +233,9 @@ function Butsu:LOOT_OPENED(event, autoloot)
 		end
 	else
 		local slot = slots[1] or CreateSlot(1)
-		local color = BAG_ITEM_QUALITY_COLORS[0]
 
 		slot.name:SetText(empty)
-		slot.name:SetTextColor(color.r, color.g, color.b)
+		slot.name:SetTextColor(.5, .5, .5)
 		slot.icon:SetTexture(nil)
 
 		slot.count:Hide()
@@ -280,6 +279,14 @@ function Butsu:UPDATE_MASTER_LOOT_LIST()
 	UIDropDownMenu_Refresh(GroupLootDropDown)
 end
 Butsu:RegisterEvent("UPDATE_MASTER_LOOT_LIST")
+
+MasterLooterFrame:SetScript("OnShow", function(self)
+	if Butsu:IsVisible() then
+		MasterLooterFrame:SetFrameLevel(Butsu:GetFrameLevel()+2)
+		MasterLooterFrame:ClearAllPoints()
+		MasterLooterFrame:SetPoint("TOPLEFT",Butsu,"TOPRIGHT", 5, 0)
+	end
+end)
 
 LootFrame:UnregisterAllEvents()
 table.insert(UISpecialFrames, "Butsu")

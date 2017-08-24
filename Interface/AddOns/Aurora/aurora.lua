@@ -28,9 +28,12 @@ C.media = {
 	["arrowRight"] = Media.."arrow-right-active",
 	["arrowUp"] = Media.."arrow-up-active",
 	["backdrop"] = "Interface\\ChatFrame\\ChatFrameBackground",
+	["background"] = Media.."bgTex",
 	["checked"] = Media.."CheckButtonHilight",
 	["font"] = STANDARD_TEXT_FONT,
+	["glow"] = Media.."glowTex",
 	["gradient"] = Media.."gradient",
+	["pushed"] = Media.."pushed",
 	["roleIcons"] = Media.."UI-LFG-ICON-ROLES",
 	["statusbar"] = "Interface\\TARGETINGFRAME\\UI-TargetingFrame-BarFill",
 }
@@ -71,7 +74,7 @@ local CreateTex = function(f)
 	if f.Tex then return end
 	f.Tex = f:CreateTexture(nil, "BACKGROUND", nil, 1)
 	f.Tex:SetAllPoints()
-	f.Tex:SetTexture(Media.."bgTex", true, true)
+	f.Tex:SetTexture(C.media.background, true, true)
 	f.Tex:SetHorizTile(true)
 	f.Tex:SetVertTile(true)
 	f.Tex:SetBlendMode("ADD")
@@ -84,7 +87,7 @@ F.CreateSD = function(f)
 	f.Shadow = CreateFrame("Frame", nil, f)
 	f.Shadow:SetPoint("TOPLEFT", f, -2, 2)
 	f.Shadow:SetPoint("BOTTOMRIGHT", f, 2, -2)
-	f.Shadow:SetBackdrop({edgeFile = Media.."glowTex", edgeSize = 3})
+	f.Shadow:SetBackdrop({edgeFile = C.media.glow, edgeSize = 3})
 	f.Shadow:SetBackdropBorderColor(0, 0, 0)
 	f.Shadow:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
 	CreateTex(f)
@@ -100,29 +103,6 @@ F.CreateBD = function(f, a)
 	f:SetBackdropColor(0, 0, 0, a or AuroraConfig.alpha)
 	f:SetBackdropBorderColor(0, 0, 0)
 	if not a then tinsert(C.frames, f) end
-end
-
-F.CreateBDFrame = function(f, a, NoSD)
-	local frame
-	if f:GetObjectType() == "Texture" then
-		frame = f:GetParent()
-	else
-		frame = f
-	end
-
-	local lvl = frame:GetFrameLevel()
-
-	local bg = CreateFrame("Frame", nil, frame)
-	bg:SetPoint("TOPLEFT", f, -1.2, 1.2)
-	bg:SetPoint("BOTTOMRIGHT", f, 1.2, -1.2)
-	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
-
-	F.CreateBD(bg, a or .5)
-	if not NoSD then
-		F.CreateSD(bg)
-	end
-
-	return bg
 end
 
 F.CreateBG = function(frame)
@@ -150,22 +130,6 @@ F.CreateGradient = function(f)
 	tex:SetVertexColor(buttonR, buttonG, buttonB, buttonA)
 
 	return tex
-end
-
-F.SetBD = function(f, x, y, x2, y2)
-	local bg = CreateFrame("Frame", nil, f)
-	if not x then
-		bg:SetPoint("TOPLEFT")
-		bg:SetPoint("BOTTOMRIGHT")
-	else
-		bg:SetPoint("TOPLEFT", x, y)
-		bg:SetPoint("BOTTOMRIGHT", x2, y2)
-	end
-
-	local lvl = f:GetFrameLevel()
-	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
-	F.CreateBD(bg)
-	F.CreateSD(bg)
 end
 
 local function colourButton(f)
@@ -585,23 +549,6 @@ F.ReskinSlider = function(f, isVert)
 	slider:SetBlendMode("ADD")
 end
 
-F.ReskinStatusBar = function(f, cc)
-	f:SetStatusBarTexture(C.media.statusbar)
-
-	if cc then
-		f:SetStatusBarColor(r*0.8, g*0.8, b*0.8)
-	end
-
-	local lvl = f:GetFrameLevel()
-	local bg = CreateFrame("Frame", nil, f)
-	bg:SetPoint("TOPLEFT", -1, 1)
-	bg:SetPoint("BOTTOMRIGHT", 1, -1)
-	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
-
-	F.CreateBD(bg, .25)
-	F.CreateSD(bg)
-end
-
 local function colourExpandOrCollapse(f)
 	if f:IsEnabled() then
 		f.plus:SetVertexColor(r, g, b)
@@ -640,6 +587,22 @@ F.ReskinExpandOrCollapse = function(f)
 	f:HookScript("OnLeave", clearExpandOrCollapse)
 end
 
+F.SetBD = function(f, x, y, x2, y2)
+	local bg = CreateFrame("Frame", nil, f)
+	if not x then
+		bg:SetPoint("TOPLEFT")
+		bg:SetPoint("BOTTOMRIGHT")
+	else
+		bg:SetPoint("TOPLEFT", x, y)
+		bg:SetPoint("BOTTOMRIGHT", x2, y2)
+	end
+
+	local lvl = f:GetFrameLevel()
+	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
+	F.CreateBD(bg)
+	F.CreateSD(bg)
+end
+
 F.ReskinPortraitFrame = function(f, isButtonFrame)
 	local name = f:GetName()
 
@@ -671,6 +634,25 @@ F.ReskinPortraitFrame = function(f, isButtonFrame)
 	F.ReskinClose(_G[name.."CloseButton"])
 end
 
+F.CreateBDFrame = function(f, a, NoSD)
+	local frame = f
+	if f:GetObjectType() == "Texture" then frame = f:GetParent() end
+
+	local lvl = frame:GetFrameLevel()
+
+	local bg = CreateFrame("Frame", nil, frame)
+	bg:SetPoint("TOPLEFT", f, -1.2, 1.2)
+	bg:SetPoint("BOTTOMRIGHT", f, 1.2, -1.2)
+	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
+
+	F.CreateBD(bg, a or .5)
+	if not NoSD then
+		F.CreateSD(bg)
+	end
+
+	return bg
+end
+
 F.ReskinColourSwatch = function(f)
 	local name = f:GetName()
 
@@ -685,20 +667,6 @@ F.ReskinColourSwatch = function(f)
 	bg:SetColorTexture(0, 0, 0)
 	bg:SetPoint("TOPLEFT", 2, -2)
 	bg:SetPoint("BOTTOMRIGHT", -2, 2)
-end
-
-F.ReskinStretchButton = function(f)
-	f.TopLeft:Hide()
-	f.TopRight:Hide()
-	f.BottomLeft:Hide()
-	f.BottomRight:Hide()
-	f.TopMiddle:Hide()
-	f.MiddleLeft:Hide()
-	f.MiddleRight:Hide()
-	f.BottomMiddle:Hide()
-	f.MiddleMiddle:Hide()
-
-	F.Reskin(f)
 end
 
 F.ReskinFilterButton = function(f)
@@ -765,21 +733,55 @@ F.ReskinIcon = function(icon)
 	return F.CreateBG(icon)
 end
 
+F.ReskinStretchButton = function(f)
+	f.TopLeft:Hide()
+	f.TopRight:Hide()
+	f.BottomLeft:Hide()
+	f.BottomRight:Hide()
+	f.TopMiddle:Hide()
+	f.MiddleLeft:Hide()
+	f.MiddleRight:Hide()
+	f.BottomMiddle:Hide()
+	f.MiddleMiddle:Hide()
+
+	F.Reskin(f)
+end
+
+F.ReskinStatusBar = function(f, cc)
+	f:SetStatusBarTexture(C.media.statusbar)
+
+	if cc then
+		f:SetStatusBarColor(r*0.8, g*0.8, b*0.8)
+	end
+
+	local lvl = f:GetFrameLevel()
+	local bg = CreateFrame("Frame", nil, f)
+	bg:SetPoint("TOPLEFT", -1, 1)
+	bg:SetPoint("BOTTOMRIGHT", 1, -1)
+	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
+
+	F.CreateBD(bg, .25)
+	F.CreateSD(bg)
+end
+
 F.ReskinIconStyle = function(f)
 	f:SetNormalTexture("")
-	if f.icon then
-		f.icon:SetDrawLayer("ARTWORK")
-		f.icon:SetTexCoord(.08, .92, .08, .92)
-		f.icon:SetAllPoints()
-		f.icon:SetPoint("TOPLEFT", f, "TOPLEFT", 1, -1)
-		f.icon:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", -1, 1)
-	elseif f.Icon then
-		f.Icon:SetDrawLayer("ARTWORK")
-		f.Icon:SetTexCoord(.08, .92, .08, .92)
-		f.Icon:SetAllPoints()
-		f.Icon:SetPoint("TOPLEFT", f, "TOPLEFT", 1, -1)
-		f.Icon:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", -1, 1)
+	f:SetPushedTexture(C.media.pushed)
+	f:SetHighlightTexture(C.media.backdrop)
+
+	local hl = f:GetHighlightTexture()
+	hl:SetPoint("TOPLEFT", 1, -1)
+	hl:SetPoint("BOTTOMRIGHT", -1, 1)
+	hl:SetVertexColor(1, 1, 1, .25)
+
+	local ic = f.Icon and f.Icon or f.icon
+	if ic then
+		ic:SetDrawLayer("ARTWORK")
+		ic:SetTexCoord(.08, .92, .08, .92)
+		ic:SetPoint("TOPLEFT", f, "TOPLEFT", 1, -1)
+		ic:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", -1, 1)
 	end
+
 	F.CreateBD(f)
 	F.CreateSD(f)
 end
