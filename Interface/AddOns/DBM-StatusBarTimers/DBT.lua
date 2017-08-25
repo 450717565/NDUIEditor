@@ -796,6 +796,9 @@ do
 			if (importantBar or (timer <= enlargeTime or huge)) and self:GetOption("HugeBarsEnabled") then -- start enlarged
 				newBar.enlarged = true
 				newBar.huge = true
+				if huge then
+					self.enlargeHack = true
+				end
 				self.hugeBars:Append(newBar)
 			else
 				newBar.huge = nil
@@ -928,6 +931,7 @@ function barPrototype:SetElapsed(elapsed)
 	local enlargePer = self.owner.options.BarStyle ~= "NoAnim" and self.owner.options.EnlargeBarsPercent or 0
 	if (self.enlarged or self.moving == "enlarge") and not (self.timer <= enlargeTime or (self.timer/self.totalTime) <= enlargePer) then
 		self:ResetAnimations()
+		DBM:Debug("ResetAnimations firing for a a bar :Update() call", 2)
 	elseif self.owner.options.Sort and self.moving ~= "enlarge" then
 		local group = self.enlarged and self.owner.hugeBars or self.owner.smallBars
 		group:Remove(self)

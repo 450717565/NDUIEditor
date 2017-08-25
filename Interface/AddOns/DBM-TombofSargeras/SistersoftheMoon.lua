@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1903, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16636 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16657 $"):sub(12, -3))
 mod:SetCreatureID(118523, 118374, 118518)--118523 Huntress kasparian, 118374 Captain Yathae Moonstrike, 118518 Prestess Lunaspyre
 mod:SetEncounterID(2050)
 mod:SetZone()
@@ -45,7 +45,7 @@ local warnLunarFire					= mod:NewStackAnnounce(239264, 2, nil, "Tank")
 local warnMoonBurn					= mod:NewTargetAnnounce(236519, 3)
 
 --All
-local specWarnFontofElune			= mod:NewSpecialWarningStack(236357, nil, 12, nil, 2, 1, 6)--Stack unknown
+local specWarnFontofElune			= mod:NewSpecialWarningStack(236357, nil, 12, nil, 2, 1, 6)
 local specWarnBerserk				= mod:NewSpecialWarningSpell(243262, nil, nil, nil, 3, 2)
 --Huntress Kasparian
 local specWarnGlaiveStorm			= mod:NewSpecialWarningDodge(239379, nil, nil, nil, 2, 2)
@@ -70,7 +70,7 @@ local specWarnLunarBeacon			= mod:NewSpecialWarningMoveAway(236712, nil, nil, ni
 local yellLunarBeacon				= mod:NewFadesYell(236712)
 local specWarnLunarFire				= mod:NewSpecialWarningStack(239264, nil, 2, nil, nil, 1, 2)
 local specWarnLunarFireOther		= mod:NewSpecialWarningTaunt(239264, nil, nil, nil, 1, 2)
-local specWarnMoonBurn				= mod:NewSpecialWarningMoveTo(236519, nil, DBM_CORE_AUTO_SPEC_WARN_OPTIONS.you:format(236519), nil, 1, 7)--Add voice filter when it has a voice
+local specWarnMoonBurn				= mod:NewSpecialWarningMoveTo(236519, nil, DBM_CORE_AUTO_SPEC_WARN_OPTIONS.you:format(236519), nil, 1, 7)
 
 --Huntress Kasparian
 mod:AddTimerLine(EJ_GetSectionInfo(14992))
@@ -88,7 +88,7 @@ mod:AddTimerLine(EJ_GetSectionInfo(14997))
 local timerEmbraceofEclipseCD		= mod:NewNextCountTimer(54, 233264, nil, nil, nil, 5, nil, DBM_CORE_HEALER_ICON..DBM_CORE_DAMAGE_ICON)--Moon change special (but also used while inactive in phase 1)
 local timerLunarBeaconCD			= mod:NewCDTimer(20.6, 236712, nil, nil, nil, 3)--20.6-31.7
 local timerLunarFireCD				= mod:NewCDTimer(11, 239264, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
---local timerMoonBurnCD				= mod:NewCDTimer(23, 236519, nil, nil, nil, 3)--Used while inactive
+local timerMoonBurnCD				= mod:NewCDTimer(23, 236519, nil, nil, nil, 3)--Used while inactive
 
 local berserkTimer					= mod:NewBerserkTimer(660)
 
@@ -163,7 +163,7 @@ function mod:OnCombatStart(delay)
 	self.vb.moonTalonCount = 0
 	self.vb.specialCount = 0
 	self.vb.pulltime = GetTime()
-	--timerMoonBurnCD:Start(9.1-delay)
+	timerMoonBurnCD:Start(9.1-delay)
 	timerMoonGlaiveCD:Start(14.4-delay)--16.6 on lat mythic test
 	timerTwilightVolleyCD:Start(15.5-delay)--15.5-17
 	--timerTwilightGlaiveCD:Start(17.4-delay)
@@ -235,12 +235,12 @@ function mod:SPELL_CAST_SUCCESS(args)
 		--["237561-Twilight Glaive"] = "pull:18.6, 18.3, 21.8, 19.5, 18.2, 36.5, 23.1, 23.2, 20.7, 25.5, 7.3, 20.7, 25.5, 8.5, 20.6, 25.6, 8.5, 20.7, 26.8, 6.1, 19.5, 29.2, 7.3, 20.7, 26.8, 8.5, 20.7, 25.6, 8.5, 19.4, 26.7, 8.6, 20.5",
 	elseif spellId == 236547 then
 		timerMoonGlaiveCD:Start()
---[[	elseif spellId == 236518 then
+	elseif spellId == 236518 then
 		if self.vb.phase == 3 then
-			timerMoonBurnCD:Start(16)
+			--timerMoonBurnCD:Start(16)--Not accurate in phase 3
 		else
 			timerMoonBurnCD:Start()
-		end--]]
+		end
 	elseif spellId == 233263 then
 		timerEmbraceofEclipseCD:Start(nil, self.vb.specialCount+1)
 		if self:AntiSpam(5, 2) then
@@ -453,13 +453,13 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 		timerRapidShotCD:Stop()
 		timerTwilightVolleyCD:Stop()
 		timerEmbraceofEclipseCD:Stop()--Stop phase 2 Special timer
-		--timerMoonBurnCD:Stop()
+		timerMoonBurnCD:Stop()
 		timerCallMoontalonCD:Stop()
 		--timerTwilightGlaiveCD:Stop()
 		
 		--timerTwilightGlaiveCD:Start(3)
 		timerLunarFireCD:Start(6)
-		--timerMoonBurnCD:Start(11)
+		timerMoonBurnCD:Start(11)
 		timerTwilightVolleyCD:Start(15.8)
 		timerLunarBeaconCD:Start(18)
 		--Phase 3 ability: Glaive. Next phase ability used on heroic+ (rolled around to phase 1): Incorpereal Shot
@@ -469,6 +469,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 			timerIncorporealShotCD:Update(elapsedMoon, totalMoon)
 		end
 	elseif spellId == 61207 then--Sets all internal CDs back to 7 seconds
+		DBM:Debug("7 second internal CD activated")
 		for i = 1, 3 do
 	 		local unitGUID = UnitGUID("boss"..i)
 	 		if unitGUID then
@@ -479,9 +480,11 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 		local remaining = totalVolley - elapsedVolley
 		local extend = 7 - (totalVolley-elapsedVolley)
 		if totalVolley == 0 then
+			DBM:Debug("7 second timerTwilightVolleyCD started", 2)
 			timerTwilightVolleyCD:Start(7)
 		elseif remaining < 7 then
-			timerTwilightVolleyCD:Update(remaining, totalVolley+extend)
+			DBM:Debug(extend.." second timerTwilightVolleyCD extend activated", 2)
+			timerTwilightVolleyCD:Update(elapsedVolley, totalVolley+extend)
 		end
 	end
 end

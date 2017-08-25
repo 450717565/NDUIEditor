@@ -774,7 +774,11 @@ F.ReskinIconStyle = function(f)
 	hl:SetPoint("BOTTOMRIGHT", -1, 1)
 	hl:SetVertexColor(1, 1, 1, .25)
 
-	local ic = f.Icon and f.Icon or f.icon
+	local ps = f:GetPushedTexture()
+	ps:SetDrawLayer("OVERLAY")
+	--ps:SetVertexColor(r, g, b)
+
+	local ic = f.Icon or f.icon
 	if ic then
 		ic:SetDrawLayer("ARTWORK")
 		ic:SetTexCoord(.08, .92, .08, .92)

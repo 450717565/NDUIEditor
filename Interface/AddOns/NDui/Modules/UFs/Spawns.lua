@@ -113,6 +113,7 @@ local function CreateBossStyle(self)
 	UF:CreateAltPower(self)
 	UF:CreateBuffs(self)
 	UF:CreateDebuffs(self)
+	UF:CreateTargetBorder(self)
 end
 
 local function CreateArenaStyle(self)
@@ -127,6 +128,7 @@ local function CreateArenaStyle(self)
 	UF:CreateRaidMark(self)
 	UF:CreateBuffs(self)
 	UF:CreateDebuffs(self)
+	UF:CreateTargetBorder(self)
 end
 
 local function CreateRaidStyle(self)

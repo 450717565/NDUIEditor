@@ -137,7 +137,7 @@ function QN_OnEvent(event)
 				if not lastList[i].Complete then
 					if (#currList[i] > 0) and (#lastList[i] > 0) then
 						for j=1, #currList[i] do
-							if (currList[i][j] and currList[i][j].DoneNum) and (lastList[i][j] and lastList[i][j].DoneNum) and currList[i][j].NeedNum then
+							if (currList[i][j] and currList[i][j].DoneNum) and (lastList[i][j] and lastList[i][j].DoneNum) and currList[i][j].NeedNum and currList[i][j].NeedItem then
 								if currList[i][j].DoneNum > lastList[i][j].DoneNum then
 									QN_ItemMsg = L["Progress"].."："..currList[i][j].NeedItem.." - "..currList[i][j].DoneNum.."/"..currList[i][j].NeedNum
 									QN_ItemColorMsg = "NDui "..RGBStr.K..L["Progress"].."|r："..currList[i][j].NeedItem.." - "..currList[i][j].DoneNum.."/"..currList[i][j].NeedNum

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1867, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16571 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16650 $"):sub(12, -3))
 mod:SetCreatureID(116691, 116689)--Belac (116691), Atrigan (116689)
 mod:SetEncounterID(2048)
 mod:SetZone()
@@ -63,7 +63,7 @@ local specWarnTorment				= mod:NewSpecialWarningStack(233104, nil, 75, nil, nil,
 
 --Atrigan
 mod:AddTimerLine(EJ_GetSectionInfo(14645))
-local timerScytheSweepCD			= mod:NewCDTimer(23, 233426, nil, nil, nil, 3)
+local timerScytheSweepCD			= mod:NewCDTimer(23, 233426, nil, "Tank", 2, 5, nil, DBM_CORE_TANK_ICON)
 local timerCalcifiedQuillsCD		= mod:NewCDTimer(20.2, 233431, nil, nil, nil, 3)--20.2-20.5 unless delayed by scythe, or bone saw
 local timerBoneSawCD				= mod:NewCDTimer(45.4, 233441, nil, nil, nil, 2)
 local timerBoneSaw					= mod:NewBuffActiveTimer(15, 233441, nil, nil, nil, 2)

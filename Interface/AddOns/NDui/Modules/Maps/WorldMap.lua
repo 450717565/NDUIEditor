@@ -3,7 +3,6 @@ local module = NDui:RegisterModule("Maps")
 
 function module:OnLogin()
 	local WorldMapDetailFrame, WorldMapTitleButton, WorldMapFrame, WorldMapFrameTutorialButton = _G.WorldMapDetailFrame, _G.WorldMapTitleButton, _G.WorldMapFrame, _G.WorldMapFrameTutorialButton
-	local GetEffectiveScale, GetCursorPosition, GetPlayerMapPosition, hooksecurefunc = _G.GetEffectiveScale, _G.GetCursorPosition, _G.GetPlayerMapPosition, _G.hooksecurefunc
 	local formattext = DB.MyColor.."%.1f , %.1f "
 
 	-- Default Settings
@@ -28,11 +27,11 @@ function module:OnLogin()
 		player = B.CreateFS(WorldMapTitleButton, 14, "", false, "TOPLEFT", 60, -6)
 		cursor = B.CreateFS(WorldMapTitleButton, 14, "", false, "TOPLEFT", 190, -6)
 	end
+	local width, height = WorldMapDetailFrame:GetWidth(), WorldMapDetailFrame:GetHeight()
+	local scale = WorldMapDetailFrame:GetEffectiveScale()
 
 	local function CursorCoords()
 		local left, top = WorldMapDetailFrame:GetLeft() or 0, WorldMapDetailFrame:GetTop() or 0
-		local width, height = WorldMapDetailFrame:GetWidth(), WorldMapDetailFrame:GetHeight()
-		local scale = WorldMapDetailFrame:GetEffectiveScale()
 		local x, y = GetCursorPosition()
 		local cx = (x/scale - left) / width
 		local cy = (top - y/scale) / height

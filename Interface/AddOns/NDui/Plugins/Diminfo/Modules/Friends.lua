@@ -70,7 +70,7 @@ if cfg.Friends == true then
 		SetItemRef("player:"..arg1, ("|Hplayer:%1$s|h[%1$s]|h"):format(arg1), "LeftButton")
 		DropDownList1:Hide()
 	end
-
+	
 	local function BNwhisperClick(self, arg1, arg2)
 		SetItemRef("BNplayer:"..arg1..":"..arg2, ("|Hplayer:%1$s|h[%1$s]|h"):format(arg1), "LeftButton")
 		DropDownList1:Hide()
@@ -84,7 +84,7 @@ if cfg.Friends == true then
 	local battleNetString = infoL["BN"]
 	local activezone, inactivezone = {r=.3, g=1, b=.3}, {r=.65, g=.65, b=.65}
 	local friendTable, BNTable = {}, {}
-	local friendOnline, friendOffline = gsub(ERR_FRIEND_ONLINE_SS,"\124Hplayer:%%s\124h%[%%s%]\124h",""), gsub(ERR_FRIEND_OFFLINE_S,"%%s","")
+	local friendOnline, friendOffline = gsub(ERR_FRIEND_ONLINE_SS, "\124Hplayer:%%s\124h%[%%s%]\124h", ""), gsub(ERR_FRIEND_OFFLINE_S, "%%s", "")
 	local dataValid = false
 
 	local function BuildFriendTable(total)
