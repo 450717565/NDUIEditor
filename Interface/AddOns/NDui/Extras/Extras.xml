@@ -15,6 +15,7 @@
 	<Include file="InstanceInfo.lua"/>
 	<Include file="KeystoneHelper.lua"/>
 	<Include file="LightCT.lua"/>
+	<Include file="LightRoll.lua"/>
 	<Include file="LootMonitor.lua"/>
 	<Include file="NomiCakes.lua"/>
 	<Include file="Reskins.lua"/>

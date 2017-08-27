@@ -10,15 +10,9 @@ local point = {"CENTER", 300, 0}
 local slots = {}
 
 local Butsu = CreateFrame("Button", "Butsu")
-if IsAddOnLoaded("Aurora") then
-	local F = unpack(Aurora)
-	F.CreateBD(Butsu)
-	F.CreateSD(Butsu)
-else
-	B.CreateTex(Butsu)
-	B.CreateBD(Butsu, 0.5, 1.2)
-	B.CreateSD(Butsu, 2, 3)
-end
+B.CreateBD(Butsu, 0.5, 1.2, true)
+B.CreateSD(Butsu, 2, 3)
+B.CreateTex(Butsu)
 Butsu:RegisterForClicks("AnyUp")
 Butsu:SetClampedToScreen(true)
 Butsu:SetClampRectInsets(0, 0, 14, 0)
@@ -218,8 +212,8 @@ function Butsu:LOOT_OPENED(event, autoloot)
 					slot.iconBorder:SetBackdropBorderColor(color.r, color.g, color.b)
 					slot.quality = quality
 				else
-					slot.name:SetTextColor(0, 0, 0)
-					slot.iconBorder:SetBackdropBorderColor(0, 0, 0)
+					slot.name:SetTextColor(.5, .5, .5)
+					slot.iconBorder:SetBackdropBorderColor(.5, .5, .5)
 				end
 
 				slot.name:SetText(item)
@@ -279,14 +273,6 @@ function Butsu:UPDATE_MASTER_LOOT_LIST()
 	UIDropDownMenu_Refresh(GroupLootDropDown)
 end
 Butsu:RegisterEvent("UPDATE_MASTER_LOOT_LIST")
-
-MasterLooterFrame:SetScript("OnShow", function(self)
-	if Butsu:IsVisible() then
-		MasterLooterFrame:SetFrameLevel(Butsu:GetFrameLevel()+2)
-		MasterLooterFrame:ClearAllPoints()
-		MasterLooterFrame:SetPoint("TOPLEFT",Butsu,"TOPRIGHT", 5, 0)
-	end
-end)
 
 LootFrame:UnregisterAllEvents()
 table.insert(UISpecialFrames, "Butsu")

@@ -14,9 +14,9 @@ B.CreateGF = function(f, w, h, o, r, g, b, a1, a2)
 end
 
 -- Create Backdrop
-B.CreateBD = function(f, a, s, neat)
+B.CreateBD = function(f, a, s, square)
 	f:SetBackdrop({
-		bgFile = DB.bdTex, edgeFile = neat and DB.neatTex or DB.glowTex, edgeSize = s or 3,
+		bgFile = DB.bdTex, edgeFile = square and DB.bdTex or DB.glowTex, edgeSize = s or 3,
 		insets = {left = s or 3, right = s or 3, top = s or 3, bottom = s or 3},
 	})
 	f:SetBackdropColor(0, 0, 0, a or .5)

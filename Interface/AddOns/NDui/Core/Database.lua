@@ -22,7 +22,6 @@ DB.arrowRedTex = Media.."NeonRedArrow"
 DB.bgTex = Media.."bgTex"
 DB.glowTex = Media.."glowTex"
 DB.Micro = Media.."MicroMenu\\"
-DB.neatTex = Media.."neatTex"
 DB.normTex = Media.."normTex"
 
 DB.bdTex = "Interface\\ChatFrame\\ChatFrameBackground"

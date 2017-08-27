@@ -5,6 +5,14 @@ local B, C, L, DB = unpack(select(2, ...))
 local fadeTime = 3
 local fontSize = 14
 
+local frameWidth = 90
+local frameHeight = 150
+
+local idPoints = {"RIGHT", UIParent, "CENTER", -185, 30}
+local ihPoints = {"BOTTOM", UIParent, "BOTTOM", -400, 30}
+local odPoints = {"LEFT", UIParent, "CENTER", 110, 5}
+local ohPoints = {"BOTTOM", UIParent, "BOTTOM", 400, 30}
+
 local frames = {}
 
 local eventFilter = {
@@ -46,12 +54,12 @@ local function GetFloatingIcon(iconType, spellID, isPet)
 	return icon
 end
 
-local function CreateCTFrame(name, justify)
+local function CreateCTFrame(name, justify, width, height)
 	local frame = CreateFrame("ScrollingMessageFrame", name, UIParent)
 
 	frame:SetSpacing(3)
 	frame:SetMaxLines(20)
-	frame:SetSize(90, 150)
+	frame:SetSize(width, height)
 	frame:SetFadeDuration(0.2)
 	frame:SetJustifyH(justify)
 	frame:SetTimeVisible(fadeTime)
@@ -60,20 +68,20 @@ local function CreateCTFrame(name, justify)
 	return frame
 end
 
-frames["InputDamage"] = CreateCTFrame("InputDamage", "CENTER")
-frames["InputHealing"] = CreateCTFrame("InputHealing", "CENTER")
-frames["OutputDamage"] = CreateCTFrame("OutputDamage", "CENTER")
-frames["OutputHealing"] = CreateCTFrame("OutputHealing", "CENTER")
+frames["InputDamage"] = CreateCTFrame("InputDamage", "CENTER", frameWidth, frameHeight)
+frames["InputHealing"] = CreateCTFrame("InputHealing", "CENTER", frameWidth, frameHeight)
+frames["OutputDamage"] = CreateCTFrame("OutputDamage", "CENTER", frameWidth, frameHeight)
+frames["OutputHealing"] = CreateCTFrame("OutputHealing", "CENTER", frameWidth, frameHeight)
 
 function eventFrame:PLAYER_LOGIN()
 	SetCVar("enableFloatingCombatText", 0)
 	SetCVar("floatingCombatTextCombatDamage", 1)
 	SetCVar("floatingCombatTextCombatHealing", 0)
 
-	B.Mover(frames["InputDamage"], L["InputDamage"], "InputDamage", {"RIGHT", UIParent, "CENTER", -185, 30}, 90, 150)
-	B.Mover(frames["InputHealing"], L["InputHealing"], "InputHealing", {"BOTTOM", UIParent, "BOTTOM", -400, 30}, 90, 150)
-	B.Mover(frames["OutputDamage"], L["OutputDamage"], "OutputDamage", {"LEFT", UIParent, "CENTER", 110, 5}, 90, 150)
-	B.Mover(frames["OutputHealing"], L["OutputHealing"], "OutputHealing", {"BOTTOM", UIParent, "BOTTOM", 400, 30}, 90, 150)
+	B.Mover(frames["InputDamage"], L["InputDamage"], "InputDamage", idPoints, frameWidth, frameHeight)
+	B.Mover(frames["InputHealing"], L["InputHealing"], "InputHealing", ihPoints, frameWidth, frameHeight)
+	B.Mover(frames["OutputDamage"], L["OutputDamage"], "OutputDamage", odPoints, frameWidth, frameHeight)
+	B.Mover(frames["OutputHealing"], L["OutputHealing"], "OutputHealing", ohPoints, frameWidth, frameHeight)
 end
 
 function eventFrame:COMBAT_LOG_EVENT_UNFILTERED(...)

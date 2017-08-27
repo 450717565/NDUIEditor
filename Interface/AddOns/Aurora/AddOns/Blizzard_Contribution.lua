@@ -24,6 +24,7 @@ C.themes["Blizzard_Contribution"] = function()
 		self.Border:SetTexture("")
 		self.Border:SetAlpha(0)
 		self.Border:Hide()
+		self:GetRegions():Hide()
 		if not self.styled then
 			F.CreateBDFrame(self.Icon)
 			self.styled = true

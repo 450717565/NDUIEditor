@@ -2,6 +2,7 @@ local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["Aurora"], function()
 	if not AuroraConfig.loot then return end
+	local r, g, b = C.r, C.g, C.b
 
 	LootFramePortraitOverlay:Hide()
 
@@ -65,10 +66,9 @@ tinsert(C.themes["Aurora"], function()
 	MasterLooterFrame.Item.IconBorder:Hide()
 	MasterLooterFrame.Item.Icon:SetTexCoord(.08, .92, .08, .92)
 	MasterLooterFrame.Item.Icon:SetDrawLayer("ARTWORK")
-	MasterLooterFrame.Item.bg = F.CreateBG(MasterLooterFrame.Item.Icon)
+	MasterLooterFrame.Item.bg = F.CreateBDFrame(MasterLooterFrame.Item.Icon)
 
 	MasterLooterFrame:HookScript("OnShow", function(self)
-		self.Item.bg:SetVertexColor(self.Item.IconBorder:GetVertexColor())
 		LootFrame:SetAlpha(.4)
 	end)
 
@@ -78,10 +78,10 @@ tinsert(C.themes["Aurora"], function()
 
 	F.CreateBD(MasterLooterFrame)
 	F.CreateSD(MasterLooterFrame)
-	--F.ReskinClose(select(5, MasterLooterFrame:GetChildren()))
+	--F.ReskinClose(select(3, MasterLooterFrame:GetChildren()))
 
 	hooksecurefunc("MasterLooterFrame_UpdatePlayers", function()
-		for i = 1, MAX_RAID_MEMBERS do
+		for i = 1, GetNumGroupMembers() do
 			local playerFrame = MasterLooterFrame["player"..i]
 			if playerFrame then
 				if not playerFrame.styled then
@@ -138,8 +138,11 @@ tinsert(C.themes["Aurora"], function()
 				F.CreateBD(frame)
 				F.CreateSD(frame)
 
+				frame.Timer:ClearAllPoints()
+				frame.Timer:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 6, 6)
+
 				frame.Timer.Bar:SetTexture(C.media.statusbar)
-				frame.Timer.Bar:SetVertexColor(1, .8, 0)
+				frame.Timer.Bar:SetVertexColor(r, g, b)
 				frame.Timer.Background:SetAlpha(0)
 				F.CreateBDFrame(frame.Timer, .25)
 
