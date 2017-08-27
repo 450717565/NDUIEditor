@@ -9,30 +9,30 @@ local fontSizeItem = math.floor(select(2, GameFontWhite:GetFont()) + .5)
 local point = {"CENTER", 300, 0}
 local slots = {}
 
-local Butsu = CreateFrame("Button", "Butsu")
-B.CreateBD(Butsu, 0.5, 1.2, true)
-B.CreateSD(Butsu, 2, 3)
-B.CreateTex(Butsu)
-Butsu:RegisterForClicks("AnyUp")
-Butsu:SetClampedToScreen(true)
-Butsu:SetClampRectInsets(0, 0, 14, 0)
-Butsu:SetFrameStrata("DIALOG")
-Butsu:SetHitRectInsets(0, 0, -14, 0)
-Butsu:SetMovable(true)
-Butsu:SetParent(UIParent)
-Butsu:SetToplevel(true)
+local LightLoot = CreateFrame("Button", "LightLoot")
+B.CreateBD(LightLoot, 0.5, 1.2, true)
+B.CreateSD(LightLoot, 2, 3)
+B.CreateTex(LightLoot)
+LightLoot:RegisterForClicks("AnyUp")
+LightLoot:SetClampedToScreen(true)
+LightLoot:SetClampRectInsets(0, 0, 14, 0)
+LightLoot:SetFrameStrata("DIALOG")
+LightLoot:SetHitRectInsets(0, 0, -14, 0)
+LightLoot:SetMovable(true)
+LightLoot:SetParent(UIParent)
+LightLoot:SetToplevel(true)
 
-Butsu:SetScript("OnEvent", function(self, event, ...)
+LightLoot:SetScript("OnEvent", function(self, event, ...)
 	self[event](self, event, ...)
 end)
 
-Butsu:SetScript("OnHide", function(self)
+LightLoot:SetScript("OnHide", function(self)
 	StaticPopup_Hide("CONFIRM_LOOT_DISTRIBUTION")
 	CloseLoot()
 end)
 
-local Title = B.CreateFS(Butsu, 18, "", true, "TOPLEFT", 4, 20)
-Butsu.Title = Title
+local Title = B.CreateFS(LightLoot, 18, "", true, "TOPLEFT", 4, 20)
+LightLoot.Title = Title
 
 local function OnEnter(self)
 	local slot = self:GetID()
@@ -78,7 +78,7 @@ local function CreateSlot(id)
 	local fontSizeItem = fontSizeItem
 	local cr, cg, cb = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b
 
-	local button = CreateFrame("Button", "ButsuSlot"..id, Butsu)
+	local button = CreateFrame("Button", "LightLootSlot"..id, LightLoot)
 	button:SetHeight(math.max(fontSizeItem, iconSize))
 	button:SetPoint("LEFT", 5, 0)
 	button:SetPoint("RIGHT", -5, 0)
@@ -126,7 +126,7 @@ local function CreateSlot(id)
 	return button
 end
 
-function Butsu:UpdateWidth()
+function LightLoot:UpdateWidth()
 	local maxWidth = 0
 	for _, slot in next, slots do
 		if slot:IsShown() then
@@ -140,7 +140,7 @@ function Butsu:UpdateWidth()
 	self:SetWidth(math.max(maxWidth + 16 + iconSize, self.Title:GetStringWidth() + 5))
 end
 
-function Butsu:AnchorSlots()
+function LightLoot:AnchorSlots()
 	local buttonSize = math.max(iconSize, fontSizeItem)
 	local iconSize = iconSize
 	local shownSlots = 0
@@ -149,14 +149,14 @@ function Butsu:AnchorSlots()
 		local button = slots[i]
 		if button:IsShown() then
 			shownSlots = shownSlots + 1
-			button:SetPoint("TOP", Butsu, 0, (-5 + iconSize) - (shownSlots * iconSize) - (shownSlots - 1) * 5)
+			button:SetPoint("TOP", LightLoot, 0, (-5 + iconSize) - (shownSlots * iconSize) - (shownSlots - 1) * 5)
 		end
 	end
 
 	self:SetHeight(math.max(shownSlots * iconSize + 10 + (shownSlots - 1) * 5 , iconSize))
 end
 
-function Butsu:LOOT_OPENED(event, autoloot)
+function LightLoot:LOOT_OPENED(event, autoloot)
 	self:Show()
 
 	if not self:IsShown() then
@@ -244,17 +244,17 @@ function Butsu:LOOT_OPENED(event, autoloot)
 	self:AnchorSlots()
 	self:UpdateWidth()
 end
-Butsu:RegisterEvent("LOOT_OPENED")
+LightLoot:RegisterEvent("LOOT_OPENED")
 
-function Butsu:LOOT_SLOT_CLEARED(event, slot)
+function LightLoot:LOOT_SLOT_CLEARED(event, slot)
 	if not self:IsShown() then return end
 
 	slots[slot]:Hide()
 	self:AnchorSlots()
 end
-Butsu:RegisterEvent("LOOT_SLOT_CLEARED")
+LightLoot:RegisterEvent("LOOT_SLOT_CLEARED")
 
-function Butsu:LOOT_CLOSED()
+function LightLoot:LOOT_CLOSED()
 	StaticPopup_Hide("LOOT_BIND")
 	self:Hide()
 
@@ -262,17 +262,17 @@ function Butsu:LOOT_CLOSED()
 		v:Hide()
 	end
 end
-Butsu:RegisterEvent("LOOT_CLOSED")
+LightLoot:RegisterEvent("LOOT_CLOSED")
 
-function Butsu:OPEN_MASTER_LOOT_LIST()
+function LightLoot:OPEN_MASTER_LOOT_LIST()
 	ToggleDropDownMenu(1, nil, GroupLootDropDown, LootFrame.selectedLootButton, 0, 0)
 end
-Butsu:RegisterEvent("OPEN_MASTER_LOOT_LIST")
+LightLoot:RegisterEvent("OPEN_MASTER_LOOT_LIST")
 
-function Butsu:UPDATE_MASTER_LOOT_LIST()
+function LightLoot:UPDATE_MASTER_LOOT_LIST()
 	UIDropDownMenu_Refresh(GroupLootDropDown)
 end
-Butsu:RegisterEvent("UPDATE_MASTER_LOOT_LIST")
+LightLoot:RegisterEvent("UPDATE_MASTER_LOOT_LIST")
 
 LootFrame:UnregisterAllEvents()
-table.insert(UISpecialFrames, "Butsu")
+table.insert(UISpecialFrames, "LightLoot")

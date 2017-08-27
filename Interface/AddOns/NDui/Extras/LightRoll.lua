@@ -5,12 +5,18 @@ local width = 250
 local height = 25
 local points = {"CENTER", UIParent, "BOTTOM", 0, 250}
 
+local function HideTip1()
+	GameTooltip:Hide()
+end
+
+local function HideTip2()
+	GameTooltip:Hide()
+	ResetCursor()
+end
+
 local function ClickRoll(frame)
 	RollOnLoot(frame.parent.rollid, frame.rolltype)
 end
-
-local function HideTip() GameTooltip:Hide() end
-local function HideTip2() GameTooltip:Hide() ResetCursor() end
 
 local rolltypes = {"need", "greed", "disenchant", [0] = "pass"}
 local function SetTip(frame)
@@ -19,7 +25,11 @@ local function SetTip(frame)
 	if not frame:IsEnabled() then
 		GameTooltip:AddLine("|cff7FFF00"..frame.errtext)
 	end
-	for name,roll in pairs(frame.parent.rolls) do if roll == rolltypes[frame.rolltype] then GameTooltip:AddLine(name, 1, 1, 1) end end
+	for name,roll in pairs(frame.parent.rolls) do
+		if roll == rolltypes[frame.rolltype] then
+			GameTooltip:AddLine(name, 1, 1, 1)
+		end
+	end
 	GameTooltip:Show()
 end
 
@@ -37,8 +47,11 @@ local function ItemOnUpdate(self)
 end
 
 local function LootClick(frame)
-	if IsControlKeyDown() then DressUpItemLink(frame.link)
-	elseif IsShiftKeyDown() then ChatEdit_InsertLink(frame.link) end
+	if IsControlKeyDown() then
+		DressUpItemLink(frame.link)
+	elseif IsShiftKeyDown() then
+		ChatEdit_InsertLink(frame.link)
+	end
 end
 
 local cancelled_rolls = {}
@@ -69,11 +82,13 @@ local function CreateRollButton(parent, ntex, ptex, htex, rolltype, tiptext, ...
 	f.parent = parent
 	f.tiptext = tiptext
 	f:SetScript("OnEnter", SetTip)
-	f:SetScript("OnLeave", HideTip)
+	f:SetScript("OnLeave", HideTip1)
 	f:SetScript("OnClick", ClickRoll)
 	f:SetMotionScriptsWhileDisabled(true)
+
 	local txt = B.CreateFS(f, 10, "")
 	txt:SetPoint("CENTER", 0, rolltype == 2 and 2 or rolltype == 0 and -1.2 or 0)
+
 	return f, txt
 end
 
@@ -140,13 +155,13 @@ local function CreateRollFrame()
 	return frame
 end
 
-local anchor = CreateFrame("Button", "LightRoll", UIParent)
-anchor:SetSize(width, height)
+local LightRoll = CreateFrame("Button", "LightRoll", UIParent)
+LightRoll:SetSize(width, height)
 
 local frames = {}
 
 local f = CreateRollFrame() -- Create one for good measure
-f:SetPoint("BOTTOMLEFT", next(frames) and frames[#frames] or anchor, "TOPLEFT", 0, 5)
+f:SetPoint("BOTTOMLEFT", next(frames) and frames[#frames] or LightRoll, "TOPLEFT", 0, 5)
 table.insert(frames, f)
 
 local function GetFrame()
@@ -155,7 +170,7 @@ local function GetFrame()
 	end
 
 	local f = CreateRollFrame()
-	f:SetPoint("BOTTOMLEFT", next(frames) and frames[#frames] or anchor, "TOPLEFT", 0, 5)
+	f:SetPoint("BOTTOMLEFT", next(frames) and frames[#frames] or LightRoll, "TOPLEFT", 0, 5)
 	table.insert(frames, f)
 	return f
 end
@@ -176,7 +191,7 @@ local function UpdateRoll(i, rolltype)
 	local f = FindFrame(rollid)
 	if not f then return end
 
-	for j=1,numPlayers do
+	for j = 1, numPlayers do
 		local name, class, thisrolltype = C_LootHistory.GetPlayerInfo(i, j)
 		f.rolls[name] = typemap[thisrolltype]
 		if rolltype == thisrolltype then num = num + 1 end
@@ -238,7 +253,7 @@ local function START_LOOT_ROLL(rollid, time)
 	f.fsbind:SetText(not bop and "BoE" or "")
 	f.fsbind:SetVertexColor(cr, cg, cb)
 
-	local color = ITEM_QUALITY_COLORS[quality]
+	local color = BAG_ITEM_QUALITY_COLORS[quality]
 	f.fsloot:SetVertexColor(color.r, color.g, color.b)
 	f.fsloot:SetText(name)
 
@@ -257,19 +272,21 @@ local function LOOT_HISTORY_ROLL_CHANGED(rollindex, playerindex)
 	UpdateRoll(rollindex, rolltype)
 end
 
-anchor:RegisterEvent("ADDON_LOADED")
-anchor:SetScript("OnEvent", function(frame, event, addon)
+LightRoll:RegisterEvent("ADDON_LOADED")
+LightRoll:SetScript("OnEvent", function(frame, event, addon)
+	B.Mover(LightRoll, "LightRoll", "LightRoll", points, width, height)
 
-	B.Mover(anchor, "LightRoll", "LightRoll", points, width, height)
-
-	anchor:UnregisterEvent("ADDON_LOADED")
-	anchor:RegisterEvent("START_LOOT_ROLL")
-	anchor:RegisterEvent("LOOT_HISTORY_ROLL_CHANGED")
+	LightRoll:UnregisterEvent("ADDON_LOADED")
+	LightRoll:RegisterEvent("START_LOOT_ROLL")
+	LightRoll:RegisterEvent("LOOT_HISTORY_ROLL_CHANGED")
 	UIParent:UnregisterEvent("START_LOOT_ROLL")
 	UIParent:UnregisterEvent("CANCEL_LOOT_ROLL")
 
-	anchor:SetScript("OnEvent", function(frame, event, ...)
-		if event == "LOOT_HISTORY_ROLL_CHANGED" then return LOOT_HISTORY_ROLL_CHANGED(...)
-		else return START_LOOT_ROLL(...) end
+	LightRoll:SetScript("OnEvent", function(frame, event, ...)
+		if event == "LOOT_HISTORY_ROLL_CHANGED" then
+			return LOOT_HISTORY_ROLL_CHANGED(...)
+		else
+			return START_LOOT_ROLL(...)
+		end
 	end)
 end)

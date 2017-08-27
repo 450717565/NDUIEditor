@@ -329,7 +329,7 @@ if IsAddOnLoaded("Aurora") then
 
 		if IsAddOnLoaded("ls_Toasts") then
 			local LST = unpack(ls_Toasts)
-			LST:RegisterSkin("NDui MOD", function(toast, toastType)
+			LST:RegisterSkin("NDui MOD", function(toast)
 				local title = toast.Title:GetText()
 
 				toast.BG:SetAlpha(0.8)

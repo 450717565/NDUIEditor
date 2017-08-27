@@ -4,7 +4,6 @@
 	<Include file="ArtifactTab.lua"/>
 	<Include file="BarrelsOEasy.lua"/>
 	<Include file="BetterScoreboard.lua"/>
-	<Include file="Butsu.lua"/>
 	<Include file="ChatAtFriends.lua"/>
 	<Include file="ChatEmote.lua"/>
 	<Include file="ChatLinkLevel.lua"/>
@@ -15,6 +14,7 @@
 	<Include file="InstanceInfo.lua"/>
 	<Include file="KeystoneHelper.lua"/>
 	<Include file="LightCT.lua"/>
+	<Include file="LightLoot.lua"/>
 	<Include file="LightRoll.lua"/>
 	<Include file="LootMonitor.lua"/>
 	<Include file="NomiCakes.lua"/>
