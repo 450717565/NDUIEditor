@@ -1,6 +1,6 @@
 local B, C, L, DB = unpack(select(2, ...))
 
-local size = 34
+local size = 35
 local width = 250
 local height = 25
 local points = {"CENTER", UIParent, "BOTTOM", 0, 250}
@@ -146,7 +146,7 @@ anchor:SetSize(width, height)
 local frames = {}
 
 local f = CreateRollFrame() -- Create one for good measure
-f:SetPoint("BOTTOMLEFT", next(frames) and frames[#frames] or anchor, "TOPLEFT", 0, 4)
+f:SetPoint("BOTTOMLEFT", next(frames) and frames[#frames] or anchor, "TOPLEFT", 0, 5)
 table.insert(frames, f)
 
 local function GetFrame()
@@ -155,7 +155,7 @@ local function GetFrame()
 	end
 
 	local f = CreateRollFrame()
-	f:SetPoint("BOTTOMLEFT", next(frames) and frames[#frames] or anchor, "TOPLEFT", 0, 4)
+	f:SetPoint("BOTTOMLEFT", next(frames) and frames[#frames] or anchor, "TOPLEFT", 0, 5)
 	table.insert(frames, f)
 	return f
 end

@@ -81,7 +81,7 @@ tinsert(C.themes["Aurora"], function()
 	--F.ReskinClose(select(3, MasterLooterFrame:GetChildren()))
 
 	hooksecurefunc("MasterLooterFrame_UpdatePlayers", function()
-		for i = 1, GetNumGroupMembers() do
+		for i = 1, MAX_RAID_MEMBERS do
 			local playerFrame = MasterLooterFrame["player"..i]
 			if playerFrame then
 				if not playerFrame.styled then

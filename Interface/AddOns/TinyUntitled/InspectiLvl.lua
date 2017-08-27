@@ -109,7 +109,7 @@ LibEvent:attachEvent("GROUP_ROSTER_UPDATE", function(self)
 		}
 		LibSchedule:AddTask({
 			identity  = "Inspect",
-			override  = true,
+			--override  = true,
 			elasped   = 3,
 			expired   = GetTime() + 1800,
 			onTimeout = function(self) LibEvent:trigger("INSPECT_TIMEOUT", members) end,
