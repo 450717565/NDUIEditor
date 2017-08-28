@@ -10,7 +10,7 @@ local point = {"CENTER", 300, 0}
 local slots = {}
 
 local LightLoot = CreateFrame("Button", "LightLoot")
-B.CreateBD(LightLoot, 0.5, 1.2, true)
+B.CreateBD(LightLoot, .5, 1, true)
 B.CreateSD(LightLoot, 2, 3)
 B.CreateTex(LightLoot)
 LightLoot:RegisterForClicks("AnyUp")
@@ -107,7 +107,7 @@ local function CreateSlot(id)
 	glow:SetAlpha(.5)
 	glow:SetPoint("TOPLEFT", icon, "TOPRIGHT", 3, 0)
 	glow:SetPoint("BOTTOMRIGHT", button)
-	glow:SetTexture("Interface\\Buttons\\WHITE8x8")
+	glow:SetTexture(DB.bdTex)
 	glow:SetVertexColor(cr, cg, cb)
 	glow:Hide()
 	button.glow = glow
@@ -239,6 +239,7 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 	end
 
 	local color = BAG_ITEM_QUALITY_COLORS[maxQuality]
+	self:SetBackdropBorderColor(color.r, color.g, color.b)
 	self.Shadow:SetBackdropBorderColor(color.r, color.g, color.b)
 
 	self:AnchorSlots()

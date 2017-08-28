@@ -111,7 +111,7 @@ local function CreateRollFrame()
 
 	local buttonBorder = CreateFrame("Frame", nil, button)
 	buttonBorder:SetAllPoints()
-	B.CreateBD(buttonBorder, 1, 1, true)
+	B.CreateBD(buttonBorder, .5, 1, true)
 	frame.buttonBorder = buttonBorder
 
 	local icon = buttonBorder:CreateTexture(nil, "ARTWORK")

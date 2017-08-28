@@ -1,17 +1,19 @@
 ## Interface: 70200
-## Title: FilteredNamePlate
-## Title-zhTW: 过滤姓名板
-## Title-zhCN: 过滤姓名板
+## Title: FilteredNamePlate-FNP
+## Title-zhTW: 过滤姓名板-FNP
+## Title-zhCN: 过滤姓名板-FNP
 ## Author: Allan
-## Version: 7.2.5.20170630
+## Version: 7.2.5.20170801
 ## Notes: To help you control your namePlates more easiler;And help to ONLYSHOW LIST or FILTER LIST what you want. `Fel` Master.
 ## Notes-zhTW: 幫助你調節你的姓名板血條大小, 並且通過僅顯或過濾來控制具體單位的姓名./fnp opt打开界面. 易爆球神器.
 ## Notes-zhCN: 帮助你控制姓名板血条的大小,并且通过仅限和过滤列表来控制具体姓名板单位的大小./fnp opt打开界面.爆炸球神器.
 ## DefaultState: Enabled
 ## LoadOnDemand: 0
-## SavedVariables: Fnp_Enable, Fnp_FNameList, Fnp_ONameList, Fnp_OtherNPFlag, Fnp_SavedScaleList
+## SavedVariables: Fnp_Enable, FnpEnableKeys, Fnp_FNameList, Fnp_ONameList, Fnp_OtherNPFlag, Fnp_SavedScaleList
 localization-zhCN.lua
 localization-enUS.lua
 localization-zhTW.lua
+FNPSupportList.lua
 
 FilteredNamePlate.xml
+FilteredNamePlateMenu.xml

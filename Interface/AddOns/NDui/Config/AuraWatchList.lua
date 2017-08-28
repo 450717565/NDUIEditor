@@ -129,6 +129,8 @@ C.AuraWatchList = {
 				{AuraID = 216992, UnitID = "player", Text = "三倍贯通"}, --三倍贯通
 				{AuraID = 216995, UnitID = "player", Text = "瞬发氤氲"}, --瞬发氤氲																							 
 			-->LEG饰品
+				--晶化身体
+				{AuraID = 214366, UnitID = "player", Value= true},
 				--猫头鹰
 				{AuraID = 242570, UnitID = "player"},
 				--苦痛之矛
