@@ -1,4 +1,4 @@
-## Interface: 70200
+## Interface: 70300
 #@non-debug@
 ## Title: World Map Tracking Enhanced
 ## Title-koKR: 세계 지도 추적 개선
@@ -19,12 +19,12 @@
 # ## Notes-zhTW: 強化的世界地圖追蹤選項，支援最熱門的遊戲插件
 #@end-debug@
 ## Author: arith
-## Version: r42
+## Version: v2.10
 # # RequiredDeps: 
 ## OptionalDeps: Ace3, LibStub, CallbackHandler-1.0, LibUIDropDownMenu
 ## DefaultState: enabled
 ## SavedVariables: WorldMapTrackingEnhancedDB
-## X-Date: 2017-07-02T14:03:24Z
+## X-Date: 2017-08-29T14:36:50Z
 ## X-License: GPLv2
 ## X-Category: Map
 

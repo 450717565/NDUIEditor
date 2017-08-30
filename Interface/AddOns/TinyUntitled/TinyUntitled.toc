@@ -1,4 +1,4 @@
-## Interface: 70200
+## Interface: 70300
 ## Title: TinyUntitled
 ## Notes: Tiny系列合集
 ## Author: M

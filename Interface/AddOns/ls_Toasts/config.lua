@@ -16,6 +16,8 @@ D.profile = {
 	},
 	colors = {
 		name = true,
+		border = true,
+		icon_border = true,
 	},
 	point = {
 		p = "CENTER",

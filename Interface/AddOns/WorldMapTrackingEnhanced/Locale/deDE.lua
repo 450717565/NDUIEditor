@@ -8,6 +8,7 @@ if L then
 L[" (Core}"] = " (Kern}"
 L["Click to open HandyNotes' config panel"] = "Klicken, um das Einstellungsmenü von Handynotes zu öffnen"
 L["Options"] = "Optionen"
+L["Others"] = "Sonstige"
 L["Profile Options"] = "Profiloptionen"
 L["Second Level Menu"] = "Menü zweiter Ebene"
 L["Show HandyNotes plugins in second level menu."] = "Zeigt HandyNotes-Plugins in der zweiten (unteren) Ebene des Menüs."

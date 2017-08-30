@@ -1,4 +1,4 @@
-## Interface: 70200
+## Interface: 70300
 ## Title: FilteredNamePlate-FNP
 ## Title-zhTW: 过滤姓名板-FNP
 ## Title-zhCN: 过滤姓名板-FNP

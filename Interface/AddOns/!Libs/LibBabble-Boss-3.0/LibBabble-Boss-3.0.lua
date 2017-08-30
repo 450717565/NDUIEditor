@@ -1,6 +1,6 @@
 --[[
 Name: LibBabble-Boss-3.0
-Revision: $Rev: 446 $
+Revision: $Rev: 448 $
 Maintainers: ckknight, nevcairiel, Ackis
 Website: http://www.wowace.com/projects/libbabble-boss-3-0/
 Dependencies: None
@@ -8,7 +8,7 @@ License: MIT
 ]]
 
 local MAJOR_VERSION = "LibBabble-Boss-3.0"
-local MINOR_VERSION = 90000 + tonumber(("$Rev: 446 $"):match("%d+"))
+local MINOR_VERSION = 90000 + tonumber(("$Rev: 448 $"):match("%d+"))
 
 if not LibStub then error(MAJOR_VERSION .. " requires LibStub.") end
 local lib = LibStub("LibBabble-3.0"):New(MAJOR_VERSION, MINOR_VERSION)
@@ -3620,16 +3620,13 @@ elseif GAME_LOCALE == "koKR" then
 	["Adarogg"] = "아다로그",
 	["Admiral Gar'an"] = "제독 가란",
 	["Admiral Ripsnarl"] = "제독 으르렁니",
-	--Translation missing 
-	-- ["Advisor Melandrus"] = "Advisor Melandrus",
-	--Translation missing 
-	-- ["Advisor Vandros"] = "Advisor Vandros",
+	["Advisor Melandrus"] = "조언가 멜란드루스",
+	["Advisor Vandros"] = "조언자 반드로스",
 	["Aeonus"] = "아에누스",
 	["Aerial Command Unit"] = "공중 지휘기",
 	["Agathelos the Raging"] = "흉포한 아가테로스",
 	["Aggem Thorncurse"] = "저주의가시 아겜",
-	--Translation missing 
-	-- ["Agronox"] = "Agronox",
+	["Agronox"] = "아그로녹스",
 	["Ahri'ok Dugru"] = "아리오크 두그루",
 	["Ahune"] = "아훈",
 	["Akil'zon"] = "아킬존",
@@ -3644,8 +3641,7 @@ elseif GAME_LOCALE == "koKR" then
 	["Alysrazor"] = "알리스라조르",
 	["Alzzin the Wildshaper"] = "칼날바람 알진",
 	["Amalgam of Corruption"] = "타락의 결정체",
-	--Translation missing 
-	-- ["Amalgam of Souls"] = "Amalgam of Souls",
+	["Amalgam of Souls"] = "영혼의 융합체",
 	["Amanitar"] = "아마니타르",
 	["Ambassador Flamelash"] = "사자 화염채찍",
 	["Ambassador Hellmaw"] = "사자 지옥아귀",
@@ -3654,8 +3650,7 @@ elseif GAME_LOCALE == "koKR" then
 	["Amethyst Guardian"] = "자수정 수호자",
 	["Ammunae"] = "아뮤내",
 	["Amnennar the Coldbringer"] = "혹한의 암네나르",
-	--Translation missing 
-	-- ["Ana-Mouz"] = "Ana-Mouz",
+	["Ana-Mouz"] = "아나무즈",
 	["Ancient Protectors"] = "고대 수호자",
 	["Ancient Stone Keeper"] = "고대 바위 문지기",
 	["Anetheron"] = "아네테론",
@@ -3665,29 +3660,25 @@ elseif GAME_LOCALE == "koKR" then
 	["Anshal"] = "안샬",
 	["Antu'sul"] = "안투술",
 	["Anub'arak"] = "아눕아락",
-	--Translation missing 
-	-- ["Anub'esset"] = "Anub'esset",
+	["Anub'esset"] = "아눕에세트",
 	["Anubisath Defender"] = "아누비사스 문지기",
 	["Anubisath Guardian"] = "아누비사스 감시자",
 	["Anub'Rekhan"] = "아눕레칸",
 	["Anub'shiah"] = "아눕쉬아",
 	["Anzu"] = "안주",
-	--Translation missing 
-	-- ["Apocron"] = "Apocron",
+	["Apocron"] = "아포크론",
 	["Apothecary Baxter"] = "벡스터",
 	["Apothecary Frye"] = "프라이",
 	["Apothecary Hummel"] = "훔멜",
 	["Araknath"] = "아라크나스",
 	["Arcane Watchman"] = "비전 보초",
 	["Arcanist Doan"] = "신비술사 도안",
-	--Translation missing 
-	-- ["Arcanist Tel'arn"] = "Arcanist Tel'arn",
+	["Arcanist Tel'arn"] = "비전술사 텔아른",
 	["Arcanotron"] = "비전골렘",
 	["Archaedas"] = "아카에다스",
 	["Archavon the Stone Watcher"] = "바위 감시자 아카본",
 	["Archbishop Benedictus"] = "대주교 베네딕투스",
-	--Translation missing 
-	-- ["Archdruid Glaidalis"] = "Archdruid Glaidalis",
+	["Archdruid Glaidalis"] = "대드루이드 글라이달리스",
 	["Archimonde"] = "아키몬드",
 	["Archivist Galford"] = "기록관 갈포드",
 	["Archmage Arugal"] = "대마법사 아루갈",
@@ -3701,16 +3692,14 @@ elseif GAME_LOCALE == "koKR" then
 	["Asaad"] = "아사드",
 	["Ascendant Council"] = "승천 의회",
 	["Ascendant Lord Obsidius"] = "승천 군주 옵시디우스",
-	--Translation missing 
-	-- ["Ash'golm"] = "Ash'golm",
+	["Ash'golm"] = "잿바위거수",
 	["Asim al Akir"] = "알 아키르",
 	["Asira Dawnslayer"] = "아시라 돈슬레이어",
 	["Assault Bot"] = "돌격로봇",
 	["Assembly of Iron"] = "무쇠 평의회",
 	["Atal'alarion"] = "아탈알라리온",
 	["Atramedes"] = "아트라메데스",
-	--Translation missing 
-	-- ["Atrigan"] = "Atrigan",
+	["Atrigan"] = "아트리간",
 	["Attumen the Huntsman"] = "사냥꾼 어튜멘",
 	["Auriaya"] = "아우리아야",
 	["Avalanchion"] = "아발란치온",
@@ -3740,8 +3729,7 @@ elseif GAME_LOCALE == "koKR" then
 	["Bazzalan"] = "바잘란",
 	["Beastlord Darmac"] = "야수군주 다르마크",
 	["Beauty"] = "아름이",
-	--Translation missing 
-	-- ["Belac"] = "Belac",
+	["Belac"] = "벨라크",
 	["Beth'tilac"] = "베스틸락",
 	["Black Guard Swordsmith"] = "검은호위대 검제작자",
 	["Blackhand"] = "블랙핸드",
@@ -3757,8 +3745,7 @@ elseif GAME_LOCALE == "koKR" then
 	["Blood Steward of Kirtonos"] = "키르토노스의 혈지기",
 	["Bloodlord Mandokir"] = "혈군주 만도키르",
 	["Bloodmage Thalnos"] = "혈법사 탈노스",
-	--Translation missing 
-	-- ["Blood-Princess Thal'ena"] = "Blood-Princess Thal'ena",
+	["Blood-Princess Thal'ena"] = "피의 공주 탈레나",
 	["Blood-Queen Lana'thel"] = "피의 여왕 라나텔",
 	["Boahn"] = "보안",
 	["Bomb Bot"] = "폭탄로봇",
@@ -3778,17 +3765,14 @@ elseif GAME_LOCALE == "koKR" then
 	["Buru the Gorger"] = "먹보 부루",
 	["Cache of the Firelord"] = "Cache of the Firelord",
 	["Cache of the Legion"] = "군단 저장고",
-	--Translation missing 
-	-- ["Calamir"] = "Calamir",
+	["Calamir"] = "칼라미르",
 	["Cannon Master Willey"] = "포병대장 윌리",
 	["Captain Greenskin"] = "선장 그린스킨",
-	--Translation missing 
-	-- ["Captain Hring"] = "Captain Hring",
+	["Captain Hring"] = "선장 흐링",
 	["Captain Kromcrush"] = "대장 크롬크러쉬",
 	["Captain Skarloc"] = "경비대장 스칼록",
 	["Captain Varo'then"] = "바로덴",
-	--Translation missing 
-	-- ["Captain Yathae Moonstrike"] = "Captain Yathae Moonstrike",
+	["Captain Yathae Moonstrike"] = "대장 야타이 문스트라이크",
 	["Celebras the Cursed"] = "저주받은 셀레브라스",
 	["Cenarius"] = "세나리우스",
 	["Charlga Razorflank"] = "서슬깃 차를가",
@@ -3803,8 +3787,7 @@ elseif GAME_LOCALE == "koKR" then
 	["Chromaggus"] = "크로마구스",
 	["Chrono Lord Deja"] = "시간의 군주 데자",
 	["Chrono-Lord Epoch"] = "시간의 군주 에포크",
-	--Translation missing 
-	-- ["Chronomatic Anomaly"] = "Chronomatic Anomaly",
+	["Chronomatic Anomaly"] = "시간 변형체",
 	["Claw"] = "클로",
 	["Cobalt Guardian"] = "코발트 수호자",
 	["Coilfang Elite"] = "갈퀴송곳니 정예병",
@@ -3826,8 +3809,7 @@ elseif GAME_LOCALE == "koKR" then
 	["Cordana Felsong"] = "콜다나 펠송",
 	["Coren Direbrew"] = "코렌 다이어브루",
 	["Corla, Herald of Twilight"] = "황혼의 전령 코를라",
-	--Translation missing 
-	-- ["Corstilax"] = "Corstilax",
+	["Corstilax"] = "코스틸락스",
 	["Cosmic Infuser"] = "붕괴의 지팡이",
 	["Council of Elders"] = "장로회",
 	["Crimson Hammersmith"] = "진홍십자군 대장장이",
@@ -3840,8 +3822,7 @@ elseif GAME_LOCALE == "koKR" then
 	["Dalliah the Doomsayer"] = "파멸의 예언자 달리아",
 	["Dalronn the Controller"] = "감시자 달론",
 	["Dam'ren"] = "댐렌",
-	--Translation missing 
-	-- ["Dargrul the Underking"] = "Dargrul the Underking",
+	["Dargrul the Underking"] = "지저왕 다르그룰",
 	["Dark Animus"] = "암흑 원령",
 	["Dark Coffer"] = "검은 금고",
 	["Dark Iron Ambassador"] = "검은무쇠단 사절",
@@ -3858,8 +3839,7 @@ elseif GAME_LOCALE == "koKR" then
 	["Deathspeaker High Priest"] = "죽음예언자 대사제",
 	["Deathstalker Visceri"] = "죽음의추적자 비세리",
 	["Deathsworn Captain"] = "죽음의 경비대장",
-	--Translation missing 
-	-- ["Demonic Inquisition"] = "Demonic Inquisition",
+	["Demonic Inquisition"] = "악마 심문관",
 	["Devastation"] = "황폐의 도끼",
 	["Deviate Faerie Dragon"] = "돌연변이 요정용",
 	["Devourer of Souls"] = "영혼의 포식자",
@@ -3867,15 +3847,13 @@ elseif GAME_LOCALE == "koKR" then
 	["Dia Darkwhisper"] = "디아 다크위스퍼",
 	["Digmaster Shovelphlange"] = "발굴단장 쇼벨플랜지",
 	["Doctor Theolen Krastinov"] = "학자 테올린 크라스티노브",
-	--Translation missing 
-	-- ["Domatrax"] = "Domatrax",
+	["Domatrax"] = "도마트락스",
 	["Doom Lord Kazzak"] = "파멸의 군주 카자크",
 	["Doom'rel"] = "운명의 문지기",
 	["Doomwalker"] = "파멸의 절단기",
 	["Dope'rel"] = "최면의 문지기",
 	["Dorothee"] = "도로시",
-	--Translation missing 
-	-- ["Dragons of Nightmare"] = "Dragons of Nightmare",
+	["Dragons of Nightmare"] = "악몽의 용",
 	["Drahga Shadowburner"] = "드라가 섀도버너",
 	["Drahga Shodowburner"] = "드라가 섀도버너",
 	["Drakkari Colossus"] = "드라카리 거대골렘",
@@ -3884,11 +3862,9 @@ elseif GAME_LOCALE == "koKR" then
 	["Dreadscale"] = "공포비늘",
 	["Dreadwing"] = "공포날개",
 	["Dreamscythe"] = "드림사이드",
-	--Translation missing 
-	-- ["Dresaron"] = "Dresaron",
+	["Dresaron"] = "드레사론",
 	["Drov the Ruiner"] = "파괴의 현신 드로브",
-	--Translation missing 
-	-- ["Drugon the Frostblood"] = "Drugon the Frostblood",
+	["Drugon the Frostblood"] = "냉혈의 드루곤",
 	["Dulhu"] = "둘후",
 	["Durumu the Forgotten"] = "잊혀진 두루무",
 	["Dust Covered Chest"] = "Dust Covered Chest",
@@ -3915,18 +3891,15 @@ elseif GAME_LOCALE == "koKR" then
 	["Electron"] = "전기골렘",
 	["Elegon"] = "엘레곤",
 	["Elementium Monstrosity"] = "엘레멘티움 괴물",
-	--Translation missing 
-	-- ["Elerethe Renferal"] = "Elerethe Renferal",
-	--Translation missing 
-	-- ["Elisande"] = "Elisande",
+	["Elerethe Renferal"] = "엘레레스 렌퍼럴",
+	["Elisande"] = "엘리산드",
 	["Emalon the Storm Watcher"] = "폭풍 감시자 에말론",
 	["Emeriss"] = "에메리스",
 	["Emperor Dagran Thaurissan"] = "제왕 다그란 타우릿산",
 	["Emperor Vek'lor"] = "제왕 베클로어",
 	["Emperor Vek'nilash"] = "제왕 베크닐라쉬",
 	["Enforcer Sorka"] = "집행자 소르카",
-	--Translation missing 
-	-- ["Engine of Souls"] = "Engine of Souls",
+	["Engine of Souls"] = "영혼의 기계",
 	["Entropius"] = "엔트로피우스",
 	["Eonar's Gift"] = "이오나의 선물",
 	["Epoch Hunter"] = "시대의 사냥꾼",
@@ -3940,32 +3913,27 @@ elseif GAME_LOCALE == "koKR" then
 	["Essence of Suffering"] = "고뇌의 정수",
 	["Eviscerator"] = "적출자",
 	["Exarch Maladaar"] = "총독 말라다르",
-	--Translation missing 
-	-- ["Expedient Elemental"] = "Expedient Elemental",
+	["Expedient Elemental"] = "가속화의 정령",
 	["Expedition Commander"] = "원정대 대장",
 	["Eydis Darkbane"] = "아이디스 다크베인",
 	["Eye of C'Thun"] = "크툰의 눈",
 	["Faction Champions"] = "진영 대표 용사",
-	--Translation missing 
-	-- ["Fallen Avatar"] = "Fallen Avatar",
+	["Fallen Avatar"] = "몰락한 화신",
 	["Fallen Champion"] = "타락한 용사",
 	["Falric"] = "팔릭",
 	["Falric and Marwyn"] = "팔릭과 마윈",
 	["Fankriss the Unyielding"] = "불굴의 판크리스",
 	["Fathom-Lord Karathress"] = "심연의 군주 카라드레스",
 	["Faultline"] = "지진발굽",
-	--Translation missing 
-	-- ["Fel Lord Betrug"] = "Fel Lord Betrug",
+	["Fel Lord Betrug"] = "지옥 군주 베트루그",
 	["Fel Lord Zakuun"] = "지옥 군주 자쿠운",
 	["Felmyst"] = "지옥안개",
 	["Feludius"] = "펠루디우스",
 	["Feng the Accursed"] = "저주받은 펑",
 	["Fenrus the Devourer"] = "파멸의 펜루스",
-	--Translation missing 
-	-- ["Fenryr"] = "Fenryr",
+	["Fenryr"] = "펜리르",
 	["Feral Defender"] = "수호 야수",
-	--Translation missing 
-	-- ["Festerface"] = "Festerface",
+	["Festerface"] = "구린얼굴",
 	["Festergut"] = "구린속",
 	["Feugen"] = "퓨진",
 	["Fineous Darkvire"] = "파이너스 다크바이어",
@@ -3976,8 +3944,7 @@ elseif GAME_LOCALE == "koKR" then
 	["Flamegor"] = "플레임고르",
 	["Flameweaver Koegler"] = "화염술사 쾨글러",
 	["Fleshrender Nok'gar"] = "살점분리자 녹가르",
-	--Translation missing 
-	-- ["Flotsam"] = "Flotsam",
+	["Flotsam"] = "바다떠돌이",
 	["Foe Reaper 5000"] = "전투 절단기 5000",
 	["Foreman Feldspar"] = "현장감독 펠드스파",
 	["Foreman Thistlenettle"] = "현장감독 시슬네틀",
@@ -4016,38 +3983,33 @@ elseif GAME_LOCALE == "koKR" then
 	["General Rajaxx"] = "장군 라작스",
 	["General Umbriss"] = "장군 움브리스",
 	["General Vezax"] = "장군 베작스",
-	--Translation missing 
-	-- ["General Xakal"] = "General Xakal",
+	["General Xakal"] = "장군 자칼",
 	["General Zarithrian"] = "장군 자리스리안",
 	["Ghamoo-ra"] = "가무라 ",
 	["Ghaz'an"] = "가즈안",
 	["Ghok Bashguud"] = "고크 배시구드",
 	["Gilnid"] = "길니드",
 	["Gizrul the Slavener"] = "흉포한 기즈룰",
-	--Translation missing 
-	-- ["Glazer"] = "Glazer",
+	["Glazer"] = "꿈벅마",
 	["Gloom'rel"] = "그늘의 문지기",
 	["Glubtok"] = "글럽톡",
 	["Gluth"] = "글루스",
 	["Glutton"] = "게걸먹보",
-	--Translation missing 
-	-- ["God-King Skovald"] = "God-King Skovald",
+	["God-King Skovald"] = "신왕 스코발드",
 	["Golem Lord Argelmach"] = "골렘군주 아젤마크",
 	["Golemagg the Incinerator"] = "초열의 골레마그",
 	["Goraluk Anvilcrack"] = "고랄루크 앤빌크랙",
 	["Gorefiend"] = "고어핀드",
 	["Gormok the Impaler"] = "꿰뚫는 자 고르목",
 	["Gorosh the Dervish"] = "광신자 고로쉬",
-	--Translation missing 
-	-- ["Goroth"] = "Goroth",
+	["Goroth"] = "고로스",
 	["Gortok Palehoof"] = "고르톡 페일후프",
 	["Gothik the Harvester"] = "영혼 착취자 고딕",
 	["Grand Astromancer Capernian"] = "대점성술사 카퍼니안",
 	["Grand Champions"] = "도시 최고 용사",
 	["Grand Crusader Dathrohan"] = "붉은십자군 사령관 다스로한",
 	["Grand Empress Shek'zeer"] = "위대한 여제 세크지르",
-	--Translation missing 
-	-- ["Grand Magistrix Elisande"] = "Grand Magistrix Elisande",
+	["Grand Magistrix Elisande"] = "대마법학자 엘리산드",
 	["Grand Magus Telestra"] = "대학자 텔레스트라",
 	["Grand Vizier Ertan"] = "대장로 에르탄",
 	["Grand Warlock Alythess"] = "대흑마법사 알리테스",
@@ -4084,11 +4046,9 @@ elseif GAME_LOCALE == "koKR" then
 	["Hamhock"] = "햄혹",
 	["Hans'gar"] = "한스가르",
 	["Hans'gar and Franzok"] = "한스가르와 프란조크",
-	--Translation missing 
-	-- ["Harbaron"] = "Harbaron",
+	["Harbaron"] = "하르바론",
 	["Harbinger Skyriss"] = "선구자 스키리스",
-	--Translation missing 
-	-- ["Harjatan"] = "Harjatan",
+	["Harjatan"] = "하르자탄",
 	["Hate'rel"] = "증오의 문지기",
 	["Hazza'rah"] = "하자라",
 	["Hazzas"] = "하자스",
@@ -4103,16 +4063,14 @@ elseif GAME_LOCALE == "koKR" then
 	["Hellfire Cannon"] = "지옥불 대포",
 	["Hellfire Channeler"] = "지옥불 역술사",
 	["Hellfire High Council"] = "지옥불 고위 의회",
-	--Translation missing 
-	-- ["Helya"] = "Helya",
+	["Helya"] = "헬리아",
 	["Henry Stern"] = "헨리 스턴",
 	["Herald Volazj"] = "사자 볼라즈",
 	["Herod"] = "헤로드",
 	["Hex Lord Malacrass"] = "사술 군주 말라크라스",
 	["High Astromancer Solarian"] = "고위 점성술사 솔라리안",
 	["High Botanist Freywinn"] = "고위 식물학자 프레이윈",
-	--Translation missing 
-	-- ["High Botanist Tel'arn"] = "High Botanist Tel'arn",
+	["High Botanist Tel'arn"] = "고위 식물학자 텔아른",
 	["High Inquisitor Fairbanks"] = "종교재판관 페어뱅크스",
 	["High Inquisitor Whitemane"] = "종교재판관 화이트메인",
 	["High Interrogator Gerstahn"] = "대심문관 게르스탄",
@@ -4142,21 +4100,17 @@ elseif GAME_LOCALE == "koKR" then
 	["Houndmaster Grebmar"] = "사냥개조련사 그렙마르",
 	["Houndmaster Loksey"] = "사냥개 조련사 록시",
 	["Hukku"] = "후쿠",
-	--Translation missing 
-	-- ["Humongris"] = "Humongris",
+	["Humongris"] = "휴몽그리스",
 	["Hungarfen"] = "헝가르펜",
-	--Translation missing 
-	-- ["Huntress Kasparian"] = "Huntress Kasparian",
+	["Huntress Kasparian"] = "여사냥꾼 카스파리안",
 	["Hurley Blackbreath"] = "헐레이 블랙브레스",
 	["Hyakiss the Lurker"] = "잠복꾼 히아키스",
 	["Hydromancer Thespia"] = "풍수사 세스피아",
 	["Hydromancer Velratha"] = "유체술사 벨라타",
 	["Hydrospawn"] = "히드로스폰",
 	["Hydross the Unstable"] = "불안정한 히드로스",
-	--Translation missing 
-	-- ["Hymdall"] = "Hymdall",
-	--Translation missing 
-	-- ["Hyrja"] = "Hyrja",
+	["Hymdall"] = "하임달",
+	["Hyrja"] = "히리아",
 	["Ice Sphere"] = "얼음 구슬",
 	["Icecrown Gunship Battle"] = "얼음왕관 비행포격선 전투",
 	["Icehowl"] = "얼음울음",
@@ -4164,13 +4118,11 @@ elseif GAME_LOCALE == "koKR" then
 	["Ick"] = "이크",
 	["Ignacious"] = "이그나시우스",
 	["Ignis the Furnace Master"] = "용광로 군주 이그니스",
-	--Translation missing 
-	-- ["Il'gynoth"] = "Il'gynoth",
+	["Il'gynoth"] = "일기노스",
 	["Illidan Stormrage"] = "일리단 스톰레이지",
 	["Illidari Council"] = "일리다리 의회",
 	["Illyanna Ravenoak"] = "일샨나 레이븐호크",
-	--Translation missing 
-	-- ["Illysanna Ravencrest"] = "Illysanna Ravencrest",
+	["Illysanna Ravencrest"] = "일리산나 레이븐크레스트",
 	["Immerseus"] = "잿빛너울",
 	["Immol'thar"] = "이몰타르",
 	["Imperator Mar'gok"] = "높은군주 마르고크",
@@ -4178,8 +4130,7 @@ elseif GAME_LOCALE == "koKR" then
 	["Infinite Corruptor"] = "무한의 타락자",
 	["Infinity Blades"] = "무한의 비수",
 	["Ingvar the Plunderer"] = "약탈자 잉그바르",
-	--Translation missing 
-	-- ["Inquisitor Tormentorum"] = "Inquisitor Tormentorum",
+	["Inquisitor Tormentorum"] = "심문관 토르멘토룸",
 	["Instructor Chillheart"] = "조교 칠하트",
 	["Instructor Galford"] = "기록관 갈포드",
 	["Instructor Malicia"] = "조교 말리시아",
@@ -4194,8 +4145,7 @@ elseif GAME_LOCALE == "koKR" then
 	["Ironspine"] = "무쇠해골",
 	["Isalien"] = "이살리엔",
 	["Isiset"] = "이시세트",
-	--Translation missing 
-	-- ["Ivanyr"] = "Ivanyr",
+	["Ivanyr"] = "아이반니르",
 	["Iyyokuk the Lucid"] = "또렷한 의식의 이요쿠크",
 	["Jade"] = "제이드",
 	["Jade Guardian"] = "비취 수호자",
@@ -4233,8 +4183,7 @@ elseif GAME_LOCALE == "koKR" then
 	["Kil'rek"] = "킬렉",
 	["Kilrogg Deadeye"] = "킬로그 데드아이",
 	["Kil'ruk the Wind-Reaver"] = "칼날바람 킬루크",
-	--Translation missing 
-	-- ["King Deepbeard"] = "King Deepbeard",
+	["King Deepbeard"] = "국왕 딥비어드",
 	["King Dred"] = "랩터왕 서슬발톱",
 	["King Gordok"] = "왕 고르독",
 	["King Llane Piece"] = "국왕 레인",
@@ -4257,8 +4206,7 @@ elseif GAME_LOCALE == "koKR" then
 	["Krik'thir the Gatewatcher"] = "문지기 크릭시르",
 	["Kromog"] = "크로모그",
 	["Krosh Firehand"] = "크로쉬 파이어핸드",
-	--Translation missing 
-	-- ["Krosus"] = "Krosus",
+	["Krosus"] = "크로서스",
 	["Krystallus"] = "크리스탈루스",
 	["Kuai the Brute"] = "야만의 콰이",
 	["Kurinnaxx"] = "쿠린낙스",
@@ -4266,8 +4214,7 @@ elseif GAME_LOCALE == "koKR" then
 	["Lady Anacondra"] = "여군주 아나콘드라",
 	["Lady Blaumeux"] = "여군주 블라미우스",
 	["Lady Deathwhisper"] = "여교주 데스위스퍼",
-	--Translation missing 
-	-- ["Lady Hatecoil"] = "Lady Hatecoil",
+	["Lady Hatecoil"] = "증오갈퀴 여군주",
 	["Lady Illucia Barov"] = "여군주 일루시아 바로브",
 	["Lady Malande"] = "여군주 말란데",
 	["Lady Naz'jar"] = "여군주 나즈자르",
@@ -4284,8 +4231,7 @@ elseif GAME_LOCALE == "koKR" then
 	["Leotheras the Blind"] = "눈먼 레오테라스",
 	["Lethon"] = "레손",
 	["Lethtendris"] = "레스텐드리스",
-	--Translation missing 
-	-- ["Levantus"] = "Levantus",
+	["Levantus"] = "레반투스",
 	["Leviathan Mk II"] = "거대 전차 Mk II",
 	["Ley-Guardian Eregos"] = "지맥 수호자 에레고스",
 	["Lieutenant Drake"] = "부관 드레이크",
@@ -4305,8 +4251,7 @@ elseif GAME_LOCALE == "koKR" then
 	["Lord Jaraxxus"] = "군주 자락서스",
 	["Lord Kazzak"] = "군주 카자크",
 	["Lord Kri"] = "군주 크리",
-	--Translation missing 
-	-- ["Lord Kur'talos Ravencrest"] = "Lord Kur'talos Ravencrest",
+	["Lord Kur'talos Ravencrest"] = "군주 쿠르탈로스 레이븐크레스트",
 	["Lord Marrowgar"] = "군주 매로우가르",
 	["Lord Overheat"] = "군주 열지옥",
 	["Lord Pythas"] = "군주 피타스",
@@ -4339,10 +4284,8 @@ elseif GAME_LOCALE == "koKR" then
 	["Magra"] = "마그라",
 	["Magtheridon"] = "마그테리돈",
 	["Maiden of Grief"] = "고뇌의 마녀",
-	--Translation missing 
-	-- ["Maiden of Valor"] = "Maiden of Valor",
-	--Translation missing 
-	-- ["Maiden of Vigilance"] = "Maiden of Vigilance",
+	["Maiden of Valor"] = "용맹의 여신",
+	["Maiden of Vigilance"] = "경계의 여신",
 	["Maiden of Virtue"] = "고결의 여신",
 	["Majordomo Executus"] = "청지기 이그젝큐투스",
 	["Majordomo Staghelm"] = "청지기 스태그헬름",
@@ -4351,8 +4294,7 @@ elseif GAME_LOCALE == "koKR" then
 	["Maleki the Pallid"] = "냉혈한 말레키",
 	["Malfurion Stormrage"] = "말퓨리온 스톰레이지",
 	["Mal'Ganis"] = "말가니스",
-	--Translation missing 
-	-- ["Malificus"] = "Malificus",
+	["Malificus"] = "말리피쿠스",
 	["Malkorok"] = "말코록",
 	["Maloriak"] = "말로리악",
 	["Malygos"] = "말리고스",
@@ -4373,27 +4315,22 @@ elseif GAME_LOCALE == "koKR" then
 	["Mekgineer Thermaplugg"] = "멕기니어 텔마플러그",
 	["Meng the Demented"] = "실성한 맹",
 	["Mennu the Betrayer"] = "배반자 멘누",
-	--Translation missing 
-	-- ["Mephistroth"] = "Mephistroth",
+	["Mephistroth"] = "메피스트로스",
 	["Meshlok the Harvester"] = "정원사 메슬로크",
 	["Midnight"] = "천둥이",
 	["Mijan"] = "마이잔",
-	--Translation missing 
-	-- ["Millificent Manastorm"] = "Millificent Manastorm",
+	["Millificent Manastorm"] = "밀리피센트 마나스톰",
 	["Mimiron"] = "미미론",
 	["Mindbender Ghur'sha"] = "환각술사 구르샤",
-	--Translation missing 
-	-- ["Mindflayer Kaahrj"] = "Mindflayer Kaahrj",
+	["Mindflayer Kaahrj"] = "정신파괴자 카르즈",
 	["Miner Johnson"] = "광부 존슨",
 	["Ming the Cunning"] = "교활한 밍",
 	["Mistress of Pain"] = "고통의 여군주",
-	--Translation missing 
-	-- ["Mistress Sassz'ine"] = "Mistress Sassz'ine",
+	["Mistress Sassz'ine"] = "여군주 사스즈인",
 	["Moam"] = "모암",
 	["Mogor"] = "모고르",
 	["Mokra the Skullcrusher"] = "해골분쇄자 모크라",
-	--Translation missing 
-	-- ["Moontalon"] = "Moontalon",
+	["Moontalon"] = "달갈퀴",
 	["Moorabi"] = "무라비",
 	["Mor Grayhoof"] = "모르 그레이후프",
 	["Moragg"] = "모라그",
@@ -4416,14 +4353,10 @@ elseif GAME_LOCALE == "koKR" then
 	["Mutanus the Devourer"] = "걸신들린 무타누스",
 	["Nalak, The Storm Lord"] = "폭풍 군주 나락크",
 	["Nalorakk"] = "날로라크",
-	--Translation missing 
-	-- ["Nal'tira"] = "Nal'tira",
-	--Translation missing 
-	-- ["Naraxas"] = "Naraxas",
-	--Translation missing 
-	-- ["Naturalist Tel'arn"] = "Naturalist Tel'arn",
-	--Translation missing 
-	-- ["Na'zak the Fiend"] = "Na'zak the Fiend",
+	["Nal'tira"] = "날티라",
+	["Naraxas"] = "나락사스",
+	["Naturalist Tel'arn"] = "박물학자 텔아른",
+	["Na'zak the Fiend"] = "마귀 나자크",
 	["Nazan"] = "나잔",
 	["Neesa \"Hightower\" Nox"] = "니사 녹스",
 	["Nefarian"] = "네파리안",
@@ -4438,23 +4371,19 @@ elseif GAME_LOCALE == "koKR" then
 	["Nezir"] = "네지르",
 	["Nhallish"] = "날리쉬",
 	["Nightbane"] = "파멸의 어둠",
-	--Translation missing 
-	-- ["Nithogg"] = "Nithogg",
+	["Nithogg"] = "니소그",
 	["Nitrogg Thundertower"] = "니트로그 썬더타워",
 	["Niuzao, The Black Ox"] = "흑우 니우짜오",
 	["Norushen"] = "노루셴",
 	["Noth the Plaguebringer"] = "역병술사 노스",
 	["Novos the Summoner"] = "소환사 노보스",
 	["Noxxion"] = "녹시온",
-	--Translation missing 
-	-- ["Nythendra"] = "Nythendra",
-	--Translation missing 
-	-- ["Oakheart"] = "Oakheart",
+	["Nythendra"] = "니센드라",
+	["Oakheart"] = "나무심장",
 	["Obsidian Sentinel"] = "흑요석 파수꾼",
 	["Occu'thar"] = "오쿠타르",
 	["Odo the Blindwatcher"] = "눈먼감시자 오도",
-	--Translation missing 
-	-- ["Odyn"] = "Odyn",
+	["Odyn"] = "오딘",
 	["Oggleflint"] = "오글플린트",
 	["Ogom the Wretched"] = "비운의 오그옴",
 	["Ohgan"] = "오간",
@@ -4491,8 +4420,7 @@ elseif GAME_LOCALE == "koKR" then
 	["Paragons of the Klaxxi"] = "클락시 용장들",
 	["Patchwerk"] = "패치워크",
 	["Pathaleon the Calculator"] = "철두철미한 파탈리온",
-	--Translation missing 
-	-- ["Patrol Captain Gerdo"] = "Patrol Captain Gerdo",
+	["Patrol Captain Gerdo"] = "경비대 대장 게르도",
 	["Peroth'arn"] = "페로스안",
 	["Phalanx"] = "팔란스",
 	["Phaseshift Bulwark"] = "위상 변화의 보루방패",
@@ -4503,8 +4431,7 @@ elseif GAME_LOCALE == "koKR" then
 	["Pol"] = "폴",
 	["Postmaster Malown"] = "우체국장 말로운",
 	["Priestess Delrissa"] = "여사제 델리사",
-	--Translation missing 
-	-- ["Priestess Lunaspyre"] = "Priestess Lunaspyre",
+	["Priestess Lunaspyre"] = "여사제 루나스파이어",
 	["Primordius"] = "프리모디우스",
 	["Prince Keleseth"] = "공작 켈레세스",
 	["Prince Malchezaar"] = "공작 말체자르",
@@ -4547,16 +4474,12 @@ elseif GAME_LOCALE == "koKR" then
 	["Rattlegore"] = "들창어금니",
 	["Razorclaw the Butcher"] = "도살자 칼날발톱",
 	["Razorgore the Untamed"] = "폭군 서슬송곳니",
-	--Translation missing 
-	-- ["Razorjaw Gladiator"] = "Razorjaw Gladiator",
-	--Translation missing 
-	-- ["Razorjaw Wavemender"] = "Razorjaw Wavemender",
+	["Razorjaw Gladiator"] = "칼날턱 검투사",
+	["Razorjaw Wavemender"] = "칼날턱 파도치유사",
 	["Razorlash"] = "칼날채찍",
 	["Razorscale"] = "칼날비늘",
-	--Translation missing 
-	-- ["Reaver Jdorn"] = "Reaver Jdorn",
-	--Translation missing 
-	-- ["Recursive Elemental"] = "Recursive Elemental",
+	["Reaver Jdorn"] = "약탈자 요른",
+	["Recursive Elemental"] = "재귀의 정령",
 	["Reliquary of Souls"] = "영혼의 성물함",
 	["Renataki"] = "레나타키",
 	["Restless Skeleton"] = "잠 못 드는 해골",
@@ -4574,8 +4497,7 @@ elseif GAME_LOCALE == "koKR" then
 	["Rokad the Ravager"] = "파괴자 로카드",
 	["Rokdar the Sundered Lord"] = "파괴의 군주 로크다르",
 	["Rokmar the Crackler"] = "딱딱이 로크마르",
-	--Translation missing 
-	-- ["Rokmora"] = "Rokmora",
+	["Rokmora"] = "로크모라",
 	["Roltall"] = "롤탈",
 	["Rom'ogg Bonecrusher"] = "롬오그 해골분쇄자",
 	["Romulo"] = "로밀로",
@@ -4592,8 +4514,7 @@ elseif GAME_LOCALE == "koKR" then
 	["Ruuzlu"] = "루즐루",
 	["Saboteur Kip'tilak"] = "파괴자 키프틸락",
 	["Sadana Bloodfury"] = "새다나 블러드퓨리",
-	--Translation missing 
-	-- ["Sael'orn"] = "Sael'orn",
+	["Sael'orn"] = "사엘로른",
 	["Salramm the Fleshcrafter"] = "살덩이창조자 살람",
 	["Salyis's Warband"] = "살리스의 전투부대",
 	["Sanctum Sentry"] = "성소의 파수꾼",
@@ -4611,8 +4532,7 @@ elseif GAME_LOCALE == "koKR" then
 	["Seeth'rel"] = "불안의 문지기",
 	["Selin Fireheart"] = "셀린 파이어하트",
 	["Sergeant Bly"] = "하사관 블라이",
-	--Translation missing 
-	-- ["Serpentrix"] = "Serpentrix",
+	["Serpentrix"] = "서펜트릭스",
 	["Setesh"] = "세테쉬",
 	["Sha of Anger"] = "분노의 샤",
 	["Sha of Doubt"] = "의심의 샤",
@@ -4622,8 +4542,7 @@ elseif GAME_LOCALE == "koKR" then
 	["Shade of Akama"] = "아카마의 망령",
 	["Shade of Aran"] = "아란의 망령",
 	["Shade of Eranikus"] = "에라니쿠스의 사령",
-	--Translation missing 
-	-- ["Shade of Xavius"] = "Shade of Xavius",
+	["Shade of Xavius"] = "자비우스의 망령",
 	["Shadikith the Glider"] = "활강의 샤디키스",
 	["Shadow Hunter Vosh'gajin"] = "어둠사냥꾼 보쉬가진",
 	["Shadow of Leotheras"] = "레오테라스의 그림자",
@@ -4631,29 +4550,24 @@ elseif GAME_LOCALE == "koKR" then
 	["Shadowpriest Sezz'ziz"] = "어둠의사제 세즈지즈",
 	["Shadron"] = "샤드론",
 	["Shannox"] = "샤녹스",
-	--Translation missing 
-	-- ["Shar'thos"] = "Shar'thos",
+	["Shar'thos"] = "샤르토스",
 	["Shazzrah"] = "샤즈라",
 	["Shirrak the Dead Watcher"] = "죽음의 감시인 쉴라크",
-	--Translation missing 
-	-- ["Shivermaw"] = "Shivermaw",
+	["Shivermaw"] = "한기아귀",
 	["Siamat, Lord of South Wind"] = "남풍 군주 시아마트",
 	["Siegecrafter Blackfuse"] = "공성기술자 블랙퓨즈",
 	["Siegemaster Mar'tak"] = "공성전문가 마르타크",
 	["Sindragosa"] = "신드라고사",
 	["Sinestra"] = "시네스트라",
 	["Sir Zeliek"] = "젤리에크 경",
-	--Translation missing 
-	-- ["Sisters of the Moon"] = "Sisters of the Moon",
-	--Translation missing 
-	-- ["Si'vash"] = "Si'vash",
+	["Sisters of the Moon"] = "달의 자매",
+	["Si'vash"] = "시바쉬",
 	["Sjonnir The Ironshaper"] = "무쇠구체자 쇼니르",
 	["Skadi the Ruthless"] = "학살자 스카디",
 	["Skarr the Unbreakable"] = "무적의 스카르",
 	["Skarvald the Constructor"] = "건축가 스카발드",
 	["Skeer the Bloodseeker"] = "피 추적자 스키르",
-	--Translation missing 
-	-- ["Skorpyron"] = "Skorpyron",
+	["Skorpyron"] = "스코르파이론",
 	["Skra'gath"] = "스크라가스",
 	["Skul"] = "스컬",
 	["Skulloc"] = "스컬록",
@@ -4663,23 +4577,18 @@ elseif GAME_LOCALE == "koKR" then
 	["Slad'ran"] = "슬라드란",
 	["Slagmaw"] = "화산아귀",
 	["Slave Watcher Crushto"] = "노예감시자 크러쉬토",
-	--Translation missing 
-	-- ["Smashspite the Hateful"] = "Smashspite the Hateful",
+	["Smashspite the Hateful"] = "혐오스러운 원한강타",
 	["Sneed"] = "스니드",
 	["Sneed's Shredder"] = "스니드의 벌목기",
 	["Socrethar the Eternal"] = "영원한 소크레타르",
 	["Solakar Flamewreath"] = "화염고리 솔라카르",
-	--Translation missing 
-	-- ["Solarist Tel'arn"] = "Solarist Tel'arn",
+	["Solarist Tel'arn"] = "태양학자 텔아른",
 	["Solarium Agent"] = "태양의 전당 요원",
 	["Solarium Priest"] = "태양의 전당 사제",
-	--Translation missing 
-	-- ["Soul Queen Dejahna"] = "Soul Queen Dejahna",
+	["Soul Queen Dejahna"] = "영혼의 여왕 데자나",
 	["Soulbinder Nyami"] = "영혼술사 니아미",
-	--Translation missing 
-	-- ["Soultrapper Mevra"] = "Soultrapper Mevra",
-	--Translation missing 
-	-- ["Spellblade Aluriel"] = "Spellblade Aluriel",
+	["Soultrapper Mevra"] = "영혼속박자 메브라",
+	["Spellblade Aluriel"] = "마법검사 알루리엘",
 	["Spine of Deathwing"] = "데스윙의 등",
 	["Spirestone Battle Lord"] = "뾰족바위일족 전투대장",
 	["Spirestone Butcher"] = "뾰족바위일족 학살자",
@@ -4687,8 +4596,7 @@ elseif GAME_LOCALE == "koKR" then
 	["Spoils of Pandaria"] = "판다리아의 전리품",
 	["Staff of Disintegration"] = "우주 에너지 주입기",
 	["Stalagg"] = "스탈라그",
-	--Translation missing 
-	-- ["Star Augur Etraeus"] = "Star Augur Etraeus",
+	["Star Augur Etraeus"] = "별 점술가 에트레우스",
 	["Steelbreaker"] = "강철파괴자",
 	["Stomper Kreeg"] = "천둥발 크리그",
 	["Stonespine"] = "뾰족바위",
@@ -4705,8 +4613,7 @@ elseif GAME_LOCALE == "koKR" then
 	["Swamplord Musel'ek"] = "늪군주 뮤즐레크",
 	["Taerar"] = "타에라",
 	["Tainted Spawn of Hydross"] = "오염된 히드로스의 피조물",
-	--Translation missing 
-	-- ["Talixae Flamewreath"] = "Talixae Flamewreath",
+	["Talixae Flamewreath"] = "탈릭세이 플레임리스",
 	["Talon King Ikiss"] = "갈퀴대왕 이키스",
 	["Taragaman the Hungerer"] = "욕망의 타라가만",
 	["Taran Zhu"] = "타란 주",
@@ -4738,8 +4645,7 @@ elseif GAME_LOCALE == "koKR" then
 	["The Butcher"] = "도살자",
 	["The Crone"] = "마녀",
 	["The Curator"] = "전시 관리인",
-	--Translation missing 
-	-- ["The Desolate Host"] = "The Desolate Host",
+	["The Desolate Host"] = "황폐의 숙주",
 	["The Eredar Twins"] = "에레다르 쌍둥이",
 	["The Fallen Protectors"] = "쓰러진 수호자들",
 	["The Four Horsemen"] = "4인의 기병대",
@@ -4756,8 +4662,7 @@ elseif GAME_LOCALE == "koKR" then
 	["The Razza"] = "라자",
 	["The Seven Dwarves"] = "일곱 드워프 현자",
 	["The Skybreaker"] = "하늘파괴자호",
-	--Translation missing 
-	-- ["The Soultakers"] = "The Soultakers",
+	["The Soultakers"] = "영혼약탈자",
 	["The Spirit Kings"] = "유령 왕",
 	["The Stone Guard"] = "바위 수호자",
 	["The Tribunal of Ages"] = "시대의 심판장",
@@ -4770,15 +4675,13 @@ elseif GAME_LOCALE == "koKR" then
 	["Thok the Bloodthirsty"] = "피에 굶주린 토크",
 	["Thorim"] = "토림",
 	["Thorngrin the Tender"] = "감시인 쏜그린",
-	--Translation missing 
-	-- ["Thrashbite the Scornful"] = "Thrashbite the Scornful",
+	["Thrashbite the Scornful"] = "경멸하는 난타이빨",
 	["Tichondrius"] = "티콘드리우스",
 	["Tidewalker Lurker"] = "겅둥파도 잠복꾼",
 	["Timmy the Cruel"] = "잔혹한 티미",
 	["Tinhead"] = "양철나무꾼",
 	["Tinkerer Gizlock"] = "땜장이 기즐록",
-	--Translation missing 
-	-- ["Tirathon Saltheril"] = "Tirathon Saltheril",
+	["Tirathon Saltheril"] = "티라손 살데릴",
 	["Tirion Fordring"] = "티리온 폴드링",
 	["Tito"] = "티토",
 	["Toravon the Ice Watcher"] = "얼음 감시자 토라본",
@@ -4786,8 +4689,7 @@ elseif GAME_LOCALE == "koKR" then
 	["Toxitron"] = "맹독골렘",
 	["Trial of the King"] = "왕의 시험",
 	["Trigore the Lasher"] = "채찍꼬리 트리고어",
-	--Translation missing 
-	-- ["Trilliax"] = "Trilliax",
+	["Trilliax"] = "트릴리악스",
 	["Trollgore"] = "송곳아귀",
 	["Tsulong"] = "출롱",
 	["Tsu'zee"] = "츄지",
@@ -4796,8 +4698,7 @@ elseif GAME_LOCALE == "koKR" then
 	["Twin Consorts"] = "쌍둥이 왕비",
 	["Twin Ogron"] = "쌍둥이 오그론",
 	["Tyrant Velhari"] = "폭군 벨하리",
-	--Translation missing 
-	-- ["Ularogg Cragshaper"] = "Ularogg Cragshaper",
+	["Ularogg Cragshaper"] = "바위구체자 울라로그",
 	["Ultraxion"] = "울트락시온",
 	["Urok Doomhowl"] = "우르크 둠하울",
 	["Ursoc"] = "우르속",
@@ -4836,8 +4737,7 @@ elseif GAME_LOCALE == "koKR" then
 	["Warden Mellichar"] = "교도관 멜리챠르",
 	["Warder Stilgiss"] = "문지기 스틸기스",
 	["Warlord Kalithresh"] = "장군 칼리스레쉬",
-	--Translation missing 
-	-- ["Warlord Parjesh"] = "Warlord Parjesh",
+	["Warlord Parjesh"] = "전쟁군주 파르제쉬",
 	["Warlord Zaela"] = "전쟁군주 잴라",
 	["Warlord Zon'ozz"] = "장군 존오즈",
 	["Warmaster Blackhorn"] = "전투대장 블랙혼",
@@ -4854,11 +4754,9 @@ elseif GAME_LOCALE == "koKR" then
 	["Wise Mari"] = "현명한 마리",
 	["Witch Doctor Zum'rah"] = "의술사 줌라",
 	["Witherbark"] = "마른껍질",
-	--Translation missing 
-	-- ["Withered J'im"] = "Withered J'im",
+	["Withered J'im"] = "메마른 짐",
 	["Wolf Master Nandos"] = "늑대왕 난도스",
-	--Translation missing 
-	-- ["Wrath of Azshara"] = "Wrath of Azshara",
+	["Wrath of Azshara"] = "아즈샤라의 분노",
 	["Wrath-Scryer Soccothrates"] = "격노의 점술사 소코드라테스",
 	["Wushoolay"] = "우슬레이",
 	["Xaril the Poisoned Mind"] = "독한 마음의 자릴",
@@ -4871,8 +4769,7 @@ elseif GAME_LOCALE == "koKR" then
 	["Xuen, The White Tiger"] = "백호 쉬엔",
 	["Yalnu"] = "얄누",
 	["Yan-Zhu the Uncasked"] = "담기지 않는 옌주",
-	--Translation missing 
-	-- ["Ymiron, the Fallen King"] = "Ymiron, the Fallen King",
+	["Ymiron, the Fallen King"] = "타락한 왕 이미론",
 	["Yogg-Saron"] = "요그사론",
 	["Yor"] = "요르",
 	["Yor'sahj the Unsleeping"] = "잠들지 않는 요르사지",
@@ -11757,8 +11654,7 @@ elseif GAME_LOCALE == "zhCN" then
 	["Aerial Command Unit"] = "空中指挥单位",
 	["Agathelos the Raging"] = "暴怒的阿迦赛罗斯",
 	["Aggem Thorncurse"] = "阿格姆",
-	--Translation missing 
-	-- ["Agronox"] = "Agronox",
+	["Agronox"] = "阿格洛诺克斯",
 	["Ahri'ok Dugru"] = "阿里奥克·杜古",
 	["Ahune"] = "埃霍恩",
 	["Akil'zon"] = "埃基尔松",
@@ -11798,8 +11694,7 @@ elseif GAME_LOCALE == "zhCN" then
 	["Anub'Rekhan"] = "阿努布雷坎",
 	["Anub'shiah"] = "阿努希尔",
 	["Anzu"] = "安苏",
-	--Translation missing 
-	-- ["Apocron"] = "Apocron",
+	["Apocron"] = "阿波克隆",
 	["Apothecary Baxter"] = "药剂师拜克斯特",
 	["Apothecary Frye"] = "药剂师弗莱",
 	["Apothecary Hummel"] = "药剂师汉摩尔",
@@ -11832,8 +11727,7 @@ elseif GAME_LOCALE == "zhCN" then
 	["Assembly of Iron"] = "钢铁议会",
 	["Atal'alarion"] = "阿塔拉利恩",
 	["Atramedes"] = "艾卓曼德斯",
-	--Translation missing 
-	-- ["Atrigan"] = "Atrigan",
+	["Atrigan"] = "阿提甘",
 	["Attumen the Huntsman"] = "猎手阿图门",
 	["Auriaya"] = "欧尔莉亚",
 	["Avalanchion"] = "阿瓦兰奇奥",
@@ -11863,8 +11757,7 @@ elseif GAME_LOCALE == "zhCN" then
 	["Bazzalan"] = "巴扎兰",
 	["Beastlord Darmac"] = "兽王达玛克",
 	["Beauty"] = "如花",
-	--Translation missing 
-	-- ["Belac"] = "Belac",
+	["Belac"] = "贝拉克",
 	["Beth'tilac"] = "贝丝缇拉克",
 	["Black Guard Swordsmith"] = "黑衣守卫铸剑师",
 	["Blackhand"] = "黑手",
@@ -11907,8 +11800,7 @@ elseif GAME_LOCALE == "zhCN" then
 	["Captain Kromcrush"] = "克罗卡斯",
 	["Captain Skarloc"] = "斯卡洛克上尉",
 	["Captain Varo'then"] = "禁卫队长瓦罗森",
-	--Translation missing 
-	-- ["Captain Yathae Moonstrike"] = "Captain Yathae Moonstrike",
+	["Captain Yathae Moonstrike"] = "亚萨·袭月上尉",
 	["Celebras the Cursed"] = "被诅咒的塞雷布拉斯",
 	["Cenarius"] = "塞纳留斯",
 	["Charlga Razorflank"] = "卡尔加·刺肋",
@@ -11964,8 +11856,7 @@ elseif GAME_LOCALE == "zhCN" then
 	["Dark Iron Ambassador"] = "黑铁大师",
 	["Dark Shaman Koranthal"] = "黑暗萨满柯兰萨",
 	["Darkmaster Gandling"] = "黑暗院长加丁",
-	--Translation missing 
-	-- ["Darkscale Taskmaster"] = "Darkscale Taskmaster",
+	["Darkscale Taskmaster"] = "暗鳞监工",
 	["Darkweaver Syth"] = "黑暗编织者塞斯",
 	["Death Knight Darkreaver"] = "死亡骑士达克雷尔",
 	["Death Knight Understudy"] = "见习死亡骑士",
@@ -11975,8 +11866,7 @@ elseif GAME_LOCALE == "zhCN" then
 	["Deathspeaker High Priest"] = "亡语高阶祭司",
 	["Deathstalker Visceri"] = "死亡猎手维赛里",
 	["Deathsworn Captain"] = "死亡之誓",
-	--Translation missing 
-	-- ["Demonic Inquisition"] = "Demonic Inquisition",
+	["Demonic Inquisition"] = "恶魔审判庭",
 	["Devastation"] = "毁坏",
 	["Deviate Faerie Dragon"] = "变异精灵龙",
 	["Devourer of Souls"] = "噬魂者",
@@ -11984,8 +11874,7 @@ elseif GAME_LOCALE == "zhCN" then
 	["Dia Darkwhisper"] = "迪亚·暗语",
 	["Digmaster Shovelphlange"] = "挖掘专家舒尔弗拉格",
 	["Doctor Theolen Krastinov"] = "瑟尔林·卡斯迪诺夫教授",
-	--Translation missing 
-	-- ["Domatrax"] = "Domatrax",
+	["Domatrax"] = "多玛塔克斯",
 	["Doom Lord Kazzak"] = "末日领主卡扎克",
 	["Doom'rel"] = "杜姆雷尔",
 	["Doomwalker"] = "末日行者",
@@ -12037,8 +11926,7 @@ elseif GAME_LOCALE == "zhCN" then
 	["Emperor Vek'lor"] = "维克洛尔大帝",
 	["Emperor Vek'nilash"] = "维克尼拉斯大帝",
 	["Enforcer Sorka"] = "执行者苏卡",
-	--Translation missing 
-	-- ["Engine of Souls"] = "Engine of Souls",
+	["Engine of Souls"] = "灵魂引擎",
 	["Entropius"] = "熵魔",
 	["Eonar's Gift"] = "艾欧娜尔的礼物",
 	["Epoch Hunter"] = "时空猎手",
@@ -12052,14 +11940,12 @@ elseif GAME_LOCALE == "zhCN" then
 	["Essence of Suffering"] = "苦痛精华",
 	["Eviscerator"] = "剜眼者",
 	["Exarch Maladaar"] = "大主教玛拉达尔",
-	--Translation missing 
-	-- ["Expedient Elemental"] = "Expedient Elemental",
+	["Expedient Elemental"] = "加速元素",
 	["Expedition Commander"] = "远征军指挥官",
 	["Eydis Darkbane"] = "黑暗邪使艾蒂丝",
 	["Eye of C'Thun"] = "克苏恩之眼",
 	["Faction Champions"] = "阵营冠军",
-	--Translation missing 
-	-- ["Fallen Avatar"] = "Fallen Avatar",
+	["Fallen Avatar"] = "堕落的化身",
 	["Fallen Champion"] = "死灵勇士",
 	["Falric"] = "法瑞克",
 	["Falric and Marwyn"] = "法瑞克和玛维恩",
@@ -12143,16 +12029,14 @@ elseif GAME_LOCALE == "zhCN" then
 	["Gorefiend"] = "血魔",
 	["Gormok the Impaler"] = "穿刺者戈莫克",
 	["Gorosh the Dervish"] = "修行者高罗什",
-	--Translation missing 
-	-- ["Goroth"] = "Goroth",
+	["Goroth"] = "格罗斯",
 	["Gortok Palehoof"] = "戈托克·苍蹄",
 	["Gothik the Harvester"] = "收割者戈提克",
 	["Grand Astromancer Capernian"] = "星术师卡波妮娅",
 	["Grand Champions"] = "总冠军",
 	["Grand Crusader Dathrohan"] = "大十字军战士达索汉",
 	["Grand Empress Shek'zeer"] = "大女皇夏柯希尔",
-	--Translation missing 
-	-- ["Grand Magistrix Elisande"] = "Grand Magistrix Elisande",
+	["Grand Magistrix Elisande"] = "大魔导师艾利桑德",
 	["Grand Magus Telestra"] = "大魔导师泰蕾丝塔",
 	["Grand Vizier Ertan"] = "大宰相埃尔坦",
 	["Grand Warlock Alythess"] = "高阶术士奥蕾塞丝",
@@ -12191,8 +12075,7 @@ elseif GAME_LOCALE == "zhCN" then
 	["Hans'gar and Franzok"] = "汉斯加尔与弗兰佐克",
 	["Harbaron"] = "哈布隆",
 	["Harbinger Skyriss"] = "预言者斯克瑞斯",
-	--Translation missing 
-	-- ["Harjatan"] = "Harjatan",
+	["Harjatan"] = "哈亚坦",
 	["Hate'rel"] = "黑特雷尔",
 	["Hazza'rah"] = "哈扎拉尔",
 	["Hazzas"] = "哈扎斯",
@@ -12246,8 +12129,7 @@ elseif GAME_LOCALE == "zhCN" then
 	["Hukku"] = "胡库",
 	["Humongris"] = "胡墨格里斯",
 	["Hungarfen"] = "霍加尔芬",
-	--Translation missing 
-	-- ["Huntress Kasparian"] = "Huntress Kasparian",
+	["Huntress Kasparian"] = "女猎手卡丝帕莲",
 	["Hurley Blackbreath"] = "霍尔雷·黑须",
 	["Hyakiss the Lurker"] = "潜伏者希亚其斯",
 	["Hydromancer Thespia"] = "水术师瑟丝比娅",
@@ -12429,10 +12311,8 @@ elseif GAME_LOCALE == "zhCN" then
 	["Magra"] = "玛格拉",
 	["Magtheridon"] = "玛瑟里顿",
 	["Maiden of Grief"] = "悲伤圣女",
-	--Translation missing 
-	-- ["Maiden of Valor"] = "Maiden of Valor",
-	--Translation missing 
-	-- ["Maiden of Vigilance"] = "Maiden of Vigilance",
+	["Maiden of Valor"] = "勇气侍女",
+	["Maiden of Vigilance"] = "戒卫侍女",
 	["Maiden of Virtue"] = "贞节圣女",
 	["Majordomo Executus"] = "管理者埃克索图斯",
 	["Majordomo Staghelm"] = "管理者鹿盔",
@@ -12441,8 +12321,7 @@ elseif GAME_LOCALE == "zhCN" then
 	["Maleki the Pallid"] = "苍白的玛勒基",
 	["Malfurion Stormrage"] = "玛法里奥·怒风",
 	["Mal'Ganis"] = "玛尔加尼斯",
-	--Translation missing 
-	-- ["Malificus"] = "Malificus",
+	["Malificus"] = "马利费库斯",
 	["Malkorok"] = "马尔考罗克",
 	["Maloriak"] = "马洛拉克",
 	["Malygos"] = "玛里苟斯",
@@ -12463,8 +12342,7 @@ elseif GAME_LOCALE == "zhCN" then
 	["Mekgineer Thermaplugg"] = "麦克尼尔·瑟玛普拉格",
 	["Meng the Demented"] = "暴虐之蒙恩",
 	["Mennu the Betrayer"] = "背叛者门努",
-	--Translation missing 
-	-- ["Mephistroth"] = "Mephistroth",
+	["Mephistroth"] = "孟菲斯托斯",
 	["Meshlok the Harvester"] = "收割者麦什洛克",
 	["Midnight"] = "午夜",
 	["Mijan"] = "米杉",
@@ -12475,13 +12353,11 @@ elseif GAME_LOCALE == "zhCN" then
 	["Miner Johnson"] = "矿工约翰森",
 	["Ming the Cunning"] = "鬼谋神算冥谷子",
 	["Mistress of Pain"] = "痛苦女王",
-	--Translation missing 
-	-- ["Mistress Sassz'ine"] = "Mistress Sassz'ine",
+	["Mistress Sassz'ine"] = "主母萨丝琳",
 	["Moam"] = "莫阿姆",
 	["Mogor"] = "穆戈尔",
 	["Mokra the Skullcrusher"] = "碎颅者莫克拉",
-	--Translation missing 
-	-- ["Moontalon"] = "Moontalon",
+	["Moontalon"] = "月爪",
 	["Moorabi"] = "莫拉比",
 	["Mor Grayhoof"] = "莫尔·灰蹄",
 	["Moragg"] = "摩拉格",
@@ -12582,8 +12458,7 @@ elseif GAME_LOCALE == "zhCN" then
 	["Pol"] = "普尔",
 	["Postmaster Malown"] = "邮差马龙",
 	["Priestess Delrissa"] = "女祭司德莉希亚",
-	--Translation missing 
-	-- ["Priestess Lunaspyre"] = "Priestess Lunaspyre",
+	["Priestess Lunaspyre"] = "女祭司月葬",
 	["Primordius"] = "普利莫修斯",
 	["Prince Keleseth"] = "凯雷塞斯王子",
 	["Prince Malchezaar"] = "玛克扎尔王子",
@@ -12626,15 +12501,12 @@ elseif GAME_LOCALE == "zhCN" then
 	["Rattlegore"] = "血骨傀儡",
 	["Razorclaw the Butcher"] = "屠夫拉佐克劳",
 	["Razorgore the Untamed"] = "狂野的拉佐格尔",
-	--Translation missing 
-	-- ["Razorjaw Gladiator"] = "Razorjaw Gladiator",
-	--Translation missing 
-	-- ["Razorjaw Wavemender"] = "Razorjaw Wavemender",
+	["Razorjaw Gladiator"] = "锋颚角斗士",
+	["Razorjaw Wavemender"] = "锋颚波浪医师",
 	["Razorlash"] = "锐刺鞭笞者",
 	["Razorscale"] = "锋鳞",
 	["Reaver Jdorn"] = "掠夺者多恩",
-	--Translation missing 
-	-- ["Recursive Elemental"] = "Recursive Elemental",
+	["Recursive Elemental"] = "递归元素",
 	["Reliquary of Souls"] = "灵魂之匣",
 	["Renataki"] = "雷纳塔基",
 	["Restless Skeleton"] = "无法安息的骷髅",
@@ -12715,10 +12587,8 @@ elseif GAME_LOCALE == "zhCN" then
 	["Sindragosa"] = "辛达苟萨",
 	["Sinestra"] = "希奈丝特拉",
 	["Sir Zeliek"] = "瑟里耶克爵士",
-	--Translation missing 
-	-- ["Sisters of the Moon"] = "Sisters of the Moon",
-	--Translation missing 
-	-- ["Si'vash"] = "Si'vash",
+	["Sisters of the Moon"] = "月之姐妹",
+	["Si'vash"] = "丝瓦什",
 	["Sjonnir The Ironshaper"] = "塑铁者斯约尼尔",
 	["Skadi the Ruthless"] = "残忍的斯卡迪",
 	["Skarr the Unbreakable"] = "无敌的斯卡尔",
@@ -12742,8 +12612,7 @@ elseif GAME_LOCALE == "zhCN" then
 	["Solarist Tel'arn"] = "日心学者特尔安",
 	["Solarium Agent"] = "日晷密探",
 	["Solarium Priest"] = "日晷祭司",
-	--Translation missing 
-	-- ["Soul Queen Dejahna"] = "Soul Queen Dejahna",
+	["Soul Queen Dejahna"] = "灵魂女王德雅娜",
 	["Soulbinder Nyami"] = "缚魂者尼娅米",
 	["Soultrapper Mevra"] = "捕魂者麦芙拉",
 	["Spellblade Aluriel"] = "魔剑士奥鲁瑞尔",
@@ -12803,8 +12672,7 @@ elseif GAME_LOCALE == "zhCN" then
 	["The Butcher"] = "屠夫",
 	["The Crone"] = "巫婆",
 	["The Curator"] = "馆长",
-	--Translation missing 
-	-- ["The Desolate Host"] = "The Desolate Host",
+	["The Desolate Host"] = "绝望的聚合体",
 	["The Eredar Twins"] = "艾瑞达双子",
 	["The Fallen Protectors"] = "堕落的守护者",
 	["The Four Horsemen"] = "四骑士",
@@ -12834,8 +12702,7 @@ elseif GAME_LOCALE == "zhCN" then
 	["Thok the Bloodthirsty"] = "嗜血的索克",
 	["Thorim"] = "托里姆",
 	["Thorngrin the Tender"] = "看管者索恩格林",
-	--Translation missing 
-	-- ["Thrashbite the Scornful"] = "Thrashbite the Scornful",
+	["Thrashbite the Scornful"] = "轻蔑的萨什比特",
 	["Tichondrius"] = "提克迪奥斯",
 	["Tidewalker Lurker"] = "踏潮潜伏者",
 	["Timmy the Cruel"] = "悲惨的提米",

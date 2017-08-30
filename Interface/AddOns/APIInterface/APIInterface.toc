@@ -1,7 +1,0 @@
-## Interface: 70200
-## Title: APIInterface
-## Notes: Interface for api documentation.
-## Author: LanceDH
-## Version: 7.2.01
-
-APIInterface.xml

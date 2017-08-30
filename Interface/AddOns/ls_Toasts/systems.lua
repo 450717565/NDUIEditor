@@ -1,36 +1,53 @@
 local _, addonTable = ...
 local E, L, C = addonTable.E, addonTable.L, addonTable.C
 
---[[ luacheck: globals getfenv AchievementFrame AchievementFrame_SelectAchievement ArchaeologyFrame
-ArcheologyDigsiteProgressBar BonusRollFrame CollectionsJournal GameTooltip GarrisonFollowerOptions
-GarrisonFollowerTooltip GarrisonShipyardFollowerTooltip GroupLootContainer TradeSkillFrame
-WardrobeCollectionFrame_OpenTransmogLink CURRENCY_GAINED CURRENCY_GAINED_MULTIPLE ITEM_QUALITY_COLORS ITEM_QUALITY1_DESC
-ITEM_QUALITY2_DESC ITEM_QUALITY3_DESC ITEM_QUALITY4_DESC ITEM_QUALITY5_DESC LE_FOLLOWER_TYPE_GARRISON_6_0
-LE_FOLLOWER_TYPE_GARRISON_7_0 LE_FOLLOWER_TYPE_SHIPYARD_6_2 LE_GARRISON_TYPE_6_0 LE_GARRISON_TYPE_7_0
-LE_QUEST_TAG_TYPE_DUNGEON LE_QUEST_TAG_TYPE_PET_BATTLE LE_QUEST_TAG_TYPE_PROFESSION LE_QUEST_TAG_TYPE_PVP
-LE_QUEST_TAG_TYPE_RAID LE_SCENARIO_TYPE_LEGION_INVASION LFG_SUBTYPEID_HEROIC LOOT_ITEM_PUSHED_SELF
-LOOT_ITEM_PUSHED_SELF_MULTIPLE LOOT_ITEM_SELF LOOT_ITEM_SELF_MULTIPLE LOOT_ROLL_TYPE_DISENCHANT LOOT_ROLL_TYPE_GREED
-LOOT_ROLL_TYPE_NEED LOOTUPGRADEFRAME_QUALITY_TEXTURES MAX_PLAYER_LEVEL WORLD_QUEST_QUALITY_COLORS ]]
-
 -- Lua
 local _G = getfenv(0)
 local hooksecurefunc = _G.hooksecurefunc
 local m_random = _G.math.random
+local next = _G.next
 local pcall = _G.pcall
 local s_split = _G.string.split
+local select = _G.select
 local tonumber = _G.tonumber
 local tostring = _G.tostring
 
 -- Blizz
 local AchievementFrame_LoadUI = _G.AchievementFrame_LoadUI
 local BattlePetToolTip_Show = _G.BattlePetToolTip_Show
-local C_Garrison = _G.C_Garrison
-local C_PetJournal = _G.C_PetJournal
-local C_Scenario = _G.C_Scenario
-local C_TaskQuest = _G.C_TaskQuest
-local C_Timer = _G.C_Timer
-local C_TradeSkillUI = _G.C_TradeSkillUI
-local C_TransmogCollection = _G.C_TransmogCollection
+local C_Garrison_GetAvailableMissions = _G.C_Garrison.GetAvailableMissions
+local C_Garrison_GetBasicMissionInfo = _G.C_Garrison.GetBasicMissionInfo
+local C_Garrison_GetBuildingInfo = _G.C_Garrison.GetBuildingInfo
+local C_Garrison_GetBuildings = _G.C_Garrison.GetBuildings
+local C_Garrison_GetCompleteTalent = _G.C_Garrison.GetCompleteTalent
+local C_Garrison_GetFollowerInfo = _G.C_Garrison.GetFollowerInfo
+local C_Garrison_GetFollowerLink = _G.C_Garrison.GetFollowerLink
+local C_Garrison_GetFollowerLinkByID = _G.C_Garrison.GetFollowerLinkByID
+local C_Garrison_GetFollowers = _G.C_Garrison.GetFollowers
+local C_Garrison_GetFollowerTypeByID = _G.C_Garrison.GetFollowerTypeByID
+local C_Garrison_GetTalent = _G.C_Garrison.GetTalent
+local C_Garrison_GetTalentTreeIDsByClassID = _G.C_Garrison.GetTalentTreeIDsByClassID
+local C_Garrison_GetTalentTreeInfoForID = _G.C_Garrison.GetTalentTreeInfoForID
+local C_Garrison_IsOnGarrisonMap = _G.C_Garrison.IsOnGarrisonMap
+local C_MountJournal_GetMountInfoByID = _G.C_MountJournal.GetMountInfoByID
+local C_PetJournal_GetPetInfoByIndex = _G.C_PetJournal.GetPetInfoByIndex
+local C_PetJournal_GetPetInfoByPetID = _G.C_PetJournal.GetPetInfoByPetID
+local C_PetJournal_GetPetInfoBySpeciesID = _G.C_PetJournal.GetPetInfoBySpeciesID
+local C_PetJournal_GetPetStats = _G.C_PetJournal.GetPetStats
+local C_Scenario_GetInfo = _G.C_Scenario.GetInfo
+local C_Scenario_IsInScenario = _G.C_Scenario.IsInScenario
+local C_Scenario_TreatScenarioAsDungeon = _G.C_Scenario.TreatScenarioAsDungeon
+local C_TaskQuest_GetQuestInfoByQuestID = _G.C_TaskQuest.GetQuestInfoByQuestID
+local C_TaskQuest_GetQuestsForPlayerByMapID = _G.C_TaskQuest.GetQuestsForPlayerByMapID
+local C_Timer_After = _G.C_Timer.After
+local C_ToyBox_GetToyInfo = _G.C_ToyBox.GetToyInfo
+local C_TradeSkillUI_GetTradeSkillLineForRecipe = _G.C_TradeSkillUI.GetTradeSkillLineForRecipe
+local C_TradeSkillUI_GetTradeSkillTexture = _G.C_TradeSkillUI.GetTradeSkillTexture
+local C_TradeSkillUI_OpenTradeSkill = _G.C_TradeSkillUI.OpenTradeSkill
+local C_TransmogCollection_GetAppearanceSourceInfo = _G.C_TransmogCollection.GetAppearanceSourceInfo
+local C_TransmogCollection_GetAppearanceSources = _G.C_TransmogCollection.GetAppearanceSources
+local C_TransmogCollection_GetCategoryAppearances = _G.C_TransmogCollection.GetCategoryAppearances
+local C_TransmogCollection_GetSourceInfo = _G.C_TransmogCollection.GetSourceInfo
 local CollectionsJournal_LoadUI = _G.CollectionsJournal_LoadUI
 local GarrisonFollowerTooltip_Show = _G.GarrisonFollowerTooltip_Show
 local GetAchievementInfo = _G.GetAchievementInfo
@@ -58,6 +75,7 @@ local GroupLootContainer_RemoveFrame = _G.GroupLootContainer_RemoveFrame
 local HaveQuestData = _G.HaveQuestData
 local OpenBag = _G.OpenBag
 local QuestUtils_IsQuestWorldQuest = _G.QuestUtils_IsQuestWorldQuest
+local SetCollectionsJournalShown = _G.SetCollectionsJournalShown
 local SetPortraitToTexture = _G.SetPortraitToTexture
 local ShowUIPanel = _G.ShowUIPanel
 local TradeSkillFrame_LoadUI = _G.TradeSkillFrame_LoadUI
@@ -104,8 +122,14 @@ do
 			if flag then
 				toast.IconText1:SetText("")
 			else
-				toast.Border:SetVertexColor(0.9, 0.75, 0.26)
-				toast.IconBorder:SetVertexColor(0.9, 0.75, 0.26)
+				if C.db.profile.colors.border then
+					toast.Border:SetVertexColor(0.9, 0.75, 0.26)
+				end
+
+				if C.db.profile.colors.icon_border then
+					toast.IconBorder:SetVertexColor(0.9, 0.75, 0.26)
+				end
+
 				toast.IconText1:SetText(points == 0 and "" or points)
 			end
 		end
@@ -213,10 +237,13 @@ do
 		local toast = E:GetToast()
 		local raceName, raceTexture	= GetArchaeologyRaceInfoByID(researchFieldID)
 
+		if C.db.profile.colors.border then
+			toast.Border:SetVertexColor(0.9, 0.4, 0.1)
+		end
+
 		toast.Title:SetText(L["DIGSITE_COMPLETED"])
 		toast.Text:SetText(raceName)
 		toast.BG:SetTexture("Interface\\AddOns\\ls_Toasts\\media\\toast-bg-archaeology")
-		toast.Border:SetVertexColor(0.9, 0.4, 0.1)
 		toast.Icon:SetPoint("TOPLEFT", 7, -3)
 		toast.Icon:SetSize(76, 76)
 		toast.Icon:SetTexture(raceTexture)
@@ -317,6 +344,218 @@ do
 	})
 
 	E:RegisterSystem("archaeology", Enable, Disable, Test)
+end
+
+-------------------------
+-- MOUNTS, PETS & TOYS --
+-------------------------
+
+do
+	local function Toast_OnClick(self)
+		local data = self._data
+
+		if data then
+			if not CollectionsJournal then
+				CollectionsJournal_LoadUI()
+			end
+
+			if CollectionsJournal then
+				if data.is_mount then
+					SetCollectionsJournalShown(true, COLLECTIONS_JOURNAL_TAB_INDEX_MOUNTS)
+					MountJournal_SelectByMountID(data.collection_id)
+				elseif data.is_pet then
+					SetCollectionsJournalShown(true, COLLECTIONS_JOURNAL_TAB_INDEX_PETS)
+					PetJournal_SelectPet(PetJournal, data.collection_id)
+				elseif data.is_toy then
+					SetCollectionsJournalShown(true, COLLECTIONS_JOURNAL_TAB_INDEX_TOYS)
+					ToyBox_UpdatePages()
+
+					local toyPage = ToyBox_FindPageForToyID(data.collection_id)
+
+					if toyPage then
+						ToyBox.PagingFrame:SetCurrentPage(toyPage)
+					end
+				end
+			end
+		end
+	end
+
+	local function PostSetAnimatedValue(self, value)
+		self:SetText(value == 1 and "" or value)
+	end
+
+	local function Toast_SetUp(event, ID, isMount, isPet, isToy)
+		local toast, isNew, isQueued = E:GetToast(event, "collection_id", ID)
+		local color, name, icon, _
+
+		if isNew then
+			if isMount then
+				name, _, icon = C_MountJournal_GetMountInfoByID(ID)
+			elseif isPet then
+				local customName, rarity
+				_, _, _, _, rarity = C_PetJournal_GetPetStats(ID)
+				_, customName, _, _, _, _, _, name, icon = C_PetJournal_GetPetInfoByPetID(ID)
+				color = ITEM_QUALITY_COLORS[(rarity or 2) - 1]
+				name = customName or name
+			elseif isToy then
+				_, name, icon = C_ToyBox_GetToyInfo(ID)
+			end
+
+			if not name then
+				return toast:Recycle()
+			end
+
+			toast.IconText1.PostSetAnimatedValue = PostSetAnimatedValue
+
+			if color and C.db.profile.colors.name then
+				toast.Text:SetTextColor(color.r, color.g, color.b)
+			end
+
+			if color and C.db.profile.colors.border then
+				toast.Border:SetVertexColor(color.r, color.g, color.b)
+			end
+
+			if color and C.db.profile.colors.icon_border then
+				toast.IconBorder:SetVertexColor(color.r, color.g, color.b)
+			end
+
+			toast.Title:SetText(L["YOU_EARNED"])
+			toast.Text:SetText(name)
+			toast.BG:SetTexture("Interface\\AddOns\\ls_Toasts\\media\\toast-bg-collection")
+			toast.Icon:SetTexture(icon)
+			toast.IconBorder:Show()
+			toast.IconText1:SetAnimatedValue(1, true)
+
+			toast._data = {
+				collection_id = ID,
+				count = 1,
+				event = event,
+				is_mount = isMount,
+				is_pet = isPet,
+				is_toy = isToy,
+				sound_file = 31578, -- SOUNDKIT.UI_EPICLOOT_TOAST
+			}
+
+			toast:HookScript("OnClick", Toast_OnClick)
+			toast:Spawn(C.db.profile.types.collection.dnd)
+		else
+			if isQueued then
+				toast._data.count = toast._data.count + 1
+				toast.IconText1:SetAnimatedValue(toast._data.count, true)
+			else
+				toast._data.count = toast._data.count + 1
+				toast.IconText1:SetAnimatedValue(toast._data.count)
+
+				toast.IconText2:SetText("+1")
+				toast.IconText2.Blink:Stop()
+				toast.IconText2.Blink:Play()
+
+				toast.AnimOut:Stop()
+				toast.AnimOut:Play()
+			end
+		end
+	end
+
+	local function NEW_MOUNT_ADDED(mountID)
+		Toast_SetUp("NEW_MOUNT_ADDED", mountID, true)
+	end
+
+	local function NEW_PET_ADDED(petID)
+		Toast_SetUp("NEW_PET_ADDED", petID, nil, true)
+	end
+
+	local function TOYS_UPDATED(toyID, isNew)
+		if toyID and isNew then
+			Toast_SetUp("TOYS_UPDATED", toyID, nil, nil, true)
+		end
+	end
+
+	local function Enable()
+		if C.db.profile.types.collection.enabled then
+			E:RegisterEvent("NEW_MOUNT_ADDED", NEW_MOUNT_ADDED)
+			E:RegisterEvent("NEW_PET_ADDED", NEW_PET_ADDED)
+			E:RegisterEvent("TOYS_UPDATED", TOYS_UPDATED)
+		end
+	end
+
+	local function Disable()
+		E:UnregisterEvent("NEW_MOUNT_ADDED", NEW_MOUNT_ADDED)
+		E:UnregisterEvent("NEW_PET_ADDED", NEW_PET_ADDED)
+		E:UnregisterEvent("TOYS_UPDATED", TOYS_UPDATED)
+	end
+
+	local function Test()
+		-- Golden Gryphon
+		Toast_SetUp("MOUNT_TEST", 129, true)
+
+		-- Pet
+		local petID = C_PetJournal_GetPetInfoByIndex(1)
+
+		if petID then
+			Toast_SetUp("PET_TEST", petID, nil, true)
+		end
+
+		-- Legion Pocket Portal
+		Toast_SetUp("TOY_TEST", 130199, nil, nil, true)
+	end
+
+	E:RegisterOptions("collection", {
+		enabled = true,
+		dnd = false,
+	}, {
+		name = L["TYPE_COLLECTION"],
+		args = {
+			desc = {
+				order = 1,
+				type = "description",
+				name = L["TYPE_COLLECTION_DESC"],
+			},
+			enabled = {
+				order = 2,
+				type = "toggle",
+				name = L["ENABLE"],
+				get = function()
+					return C.db.profile.types.collection.enabled
+				end,
+				set = function(_, value)
+					C.db.profile.types.collection.enabled = value
+
+					if value then
+						Enable()
+					else
+						Disable()
+					end
+				end
+			},
+			dnd = {
+				order = 3,
+				type = "toggle",
+				name = L["DND"],
+				desc = L["DND_TOOLTIP"],
+				get = function()
+					return C.db.profile.types.collection.dnd
+				end,
+				set = function(_, value)
+					C.db.profile.types.collection.dnd = value
+
+					if value then
+						Enable()
+					else
+						Disable()
+					end
+				end
+			},
+			test = {
+				type = "execute",
+				order = 99,
+				width = "full",
+				name = L["TEST"],
+				func = Test,
+			},
+		},
+	})
+
+	E:RegisterSystem("collection", Enable, Disable, Test)
 end
 
 --------------
@@ -440,8 +679,8 @@ do
 	end
 
 	local function LFG_COMPLETION_REWARD()
-		if C_Scenario.IsInScenario() and not C_Scenario.TreatScenarioAsDungeon() then
-			local _, _, _, _, hasBonusStep, isBonusStepComplete, _, _, _, scenarioType = C_Scenario.GetInfo()
+		if C_Scenario_IsInScenario() and not C_Scenario_TreatScenarioAsDungeon() then
+			local _, _, _, _, hasBonusStep, isBonusStepComplete, _, _, _, scenarioType = C_Scenario_GetInfo()
 
 			if scenarioType ~= LE_SCENARIO_TYPE_LEGION_INVASION then
 				local name, _, subTypeID, textureFile, moneyBase, moneyVar, experienceBase, experienceVar, numStrangers, numItemRewards = GetLFGCompletionReward()
@@ -549,7 +788,7 @@ do
 	end
 
 	local function MissionToast_SetUp(event, garrisonType, missionID, isAdded)
-		local missionInfo = C_Garrison.GetBasicMissionInfo(missionID)
+		local missionInfo = C_Garrison_GetBasicMissionInfo(missionID)
 		local color = missionInfo.isRare and ITEM_QUALITY_COLORS[3] or ITEM_QUALITY_COLORS[1]
 		local level = missionInfo.iLevel == 0 and missionInfo.level or missionInfo.iLevel
 		local toast = E:GetToast()
@@ -560,8 +799,15 @@ do
 			toast.Title:SetText(L["GARRISON_MISSION_COMPLETED"])
 		end
 
+		if C.db.profile.colors.name then
+			toast.Text:SetTextColor(color.r, color.g, color.b)
+		end
+
+		if C.db.profile.colors.border then
+			toast.Border:SetVertexColor(color.r, color.g, color.b)
+		end
+
 		toast.Text:SetText(missionInfo.name)
-		toast.Border:SetVertexColor(color.r, color.g, color.b)
 		toast.Icon:SetAtlas(missionInfo.typeAtlas, false)
 		toast.IconText1:SetText(level)
 
@@ -570,10 +816,6 @@ do
 			mission_id = missionID,
 			sound_file = 44294, -- SOUNDKIT.UI_GARRISON_TOAST_MISSION_COMPLETE
 		}
-
-		if C.db.profile.colors.name then
-			toast.Text:SetTextColor(color.r, color.g, color.b)
-		end
 
 		toast:Spawn(garrisonType == LE_GARRISON_TYPE_7_0 and C.db.profile.types.garrison_7_0.dnd or C.db.profile.types.garrison_6_0.dnd)
 	end
@@ -589,7 +831,7 @@ do
 		local _, instanceType = GetInstanceInfo()
 		local validInstance = false
 
-		if instanceType == "none" or C_Garrison.IsOnGarrisonMap() then
+		if instanceType == "none" or C_Garrison_IsOnGarrisonMap() then
 			validInstance = true
 		end
 
@@ -613,15 +855,15 @@ do
 
 	local function FollowerToast_OnEnter(self)
 		if self._data then
-			local isOK, link = pcall(C_Garrison.GetFollowerLink, self._data.follower_id)
+			local isOK, link = pcall(C_Garrison_GetFollowerLink, self._data.follower_id)
 
 			if not isOK then
-				isOK, link = pcall(C_Garrison.GetFollowerLinkByID, self._data.follower_id)
+				isOK, link = pcall(C_Garrison_GetFollowerLinkByID, self._data.follower_id)
 			end
 
 			if isOK and link then
 				local _, garrisonFollowerID, quality, level, itemLevel, ability1, ability2, ability3, ability4, trait1, trait2, trait3, trait4, spec1 = s_split(":", link)
-				local followerType = C_Garrison.GetFollowerTypeByID(tonumber(garrisonFollowerID))
+				local followerType = C_Garrison_GetFollowerTypeByID(tonumber(garrisonFollowerID))
 
 				GarrisonFollowerTooltip_Show(tonumber(garrisonFollowerID), false, tonumber(quality), tonumber(level), 0, 0, tonumber(itemLevel), tonumber(spec1), tonumber(ability1), tonumber(ability2), tonumber(ability3), tonumber(ability4), tonumber(trait1), tonumber(trait2), tonumber(trait3), tonumber(trait4))
 
@@ -638,7 +880,7 @@ do
 	end
 
 	local function FollowerToast_SetUp(event, garrisonType, followerTypeID, followerID, name, texPrefix, level, quality, isUpgraded)
-		local followerInfo = C_Garrison.GetFollowerInfo(followerID)
+		local followerInfo = C_Garrison_GetFollowerInfo(followerID)
 		local followerStrings = GarrisonFollowerOptions[followerTypeID].strings
 		local upgradeTexture = LOOTUPGRADEFRAME_QUALITY_TEXTURES[quality] or LOOTUPGRADEFRAME_QUALITY_TEXTURES[2]
 		local color = ITEM_QUALITY_COLORS[quality]
@@ -677,8 +919,11 @@ do
 			toast.Text:SetTextColor(color.r, color.g, color.b)
 		end
 
+		if C.db.profile.colors.border then
+			toast.Border:SetVertexColor(color.r, color.g, color.b)
+		end
+
 		toast.Text:SetText(name)
-		toast.Border:SetVertexColor(color.r, color.g, color.b)
 
 		toast._data = {
 			event = event,
@@ -727,7 +972,7 @@ do
 	------
 
 	local function TalentToast_SetUp(event, talentID)
-		local talent = C_Garrison.GetTalent(talentID)
+		local talent = C_Garrison_GetTalent(talentID)
 		local toast = E:GetToast()
 
 		toast.Title:SetText(L["GARRISON_NEW_TALENT"])
@@ -746,7 +991,7 @@ do
 
 	local function GARRISON_TALENT_COMPLETE(garrisonType, doAlert)
 		if doAlert then
-			TalentToast_SetUp("GARRISON_TALENT_COMPLETE", C_Garrison.GetCompleteTalent(garrisonType))
+			TalentToast_SetUp("GARRISON_TALENT_COMPLETE", C_Garrison_GetCompleteTalent(garrisonType))
 		end
 	end
 
@@ -784,7 +1029,7 @@ do
 
 	local function TestGarrison()
 		-- follower
-		local followers = C_Garrison.GetFollowers(LE_FOLLOWER_TYPE_GARRISON_6_0)
+		local followers = C_Garrison_GetFollowers(LE_FOLLOWER_TYPE_GARRISON_6_0)
 		local follower = followers and followers[1] or nil
 
 		if follower then
@@ -792,7 +1037,7 @@ do
 		end
 
 		-- ship
-		followers = C_Garrison.GetFollowers(LE_FOLLOWER_TYPE_SHIPYARD_6_2)
+		followers = C_Garrison_GetFollowers(LE_FOLLOWER_TYPE_SHIPYARD_6_2)
 		follower = followers and followers[1] or nil
 
 		if follower then
@@ -800,7 +1045,7 @@ do
 		end
 
 		-- garrison mission
-		local missions = C_Garrison.GetAvailableMissions(LE_FOLLOWER_TYPE_GARRISON_6_0)
+		local missions = C_Garrison_GetAvailableMissions(LE_FOLLOWER_TYPE_GARRISON_6_0)
 		local missionID = missions and missions[1] and missions[1].missionID or nil
 
 		if missionID then
@@ -808,7 +1053,7 @@ do
 		end
 
 		-- shipyard mission
-		missions = C_Garrison.GetAvailableMissions(LE_FOLLOWER_TYPE_SHIPYARD_6_2)
+		missions = C_Garrison_GetAvailableMissions(LE_FOLLOWER_TYPE_SHIPYARD_6_2)
 		missionID = missions and missions[1] and missions[1].missionID or nil
 
 		if missionID then
@@ -816,17 +1061,17 @@ do
 		end
 
 		-- building
-		local buildings = C_Garrison.GetBuildings(LE_GARRISON_TYPE_6_0)
+		local buildings = C_Garrison_GetBuildings(LE_GARRISON_TYPE_6_0)
 		local buildingID = buildings and buildings[1] and buildings[1].buildingID or nil
 
 		if buildingID then
-			BuildingToast_SetUp("GARRISON_BUILDING_TEST", select(2, C_Garrison.GetBuildingInfo(buildingID)))
+			BuildingToast_SetUp("GARRISON_BUILDING_TEST", select(2, C_Garrison_GetBuildingInfo(buildingID)))
 		end
 	end
 
 	local function TestClassHall()
 		-- champion
-		local followers = C_Garrison.GetFollowers(LE_FOLLOWER_TYPE_GARRISON_7_0)
+		local followers = C_Garrison_GetFollowers(LE_FOLLOWER_TYPE_GARRISON_7_0)
 		local follower = followers and followers[1] or nil
 
 		if follower then
@@ -834,7 +1079,7 @@ do
 		end
 
 		-- mission
-		local missions = C_Garrison.GetAvailableMissions(LE_FOLLOWER_TYPE_GARRISON_7_0)
+		local missions = C_Garrison_GetAvailableMissions(LE_FOLLOWER_TYPE_GARRISON_7_0)
 		local missionID = missions and missions[1] and missions[1].missionID or nil
 
 		if missionID then
@@ -842,12 +1087,12 @@ do
 		end
 
 		-- talent
-		local talentTreeIDs = C_Garrison.GetTalentTreeIDsByClassID(LE_GARRISON_TYPE_7_0, PLAYER_CLASS)
+		local talentTreeIDs = C_Garrison_GetTalentTreeIDsByClassID(LE_GARRISON_TYPE_7_0, PLAYER_CLASS)
 		local talentTreeID = talentTreeIDs and talentTreeIDs[1] or nil
 		local tree, _
 
 		if talentTreeID then
-			_, _, tree = C_Garrison.GetTalentTreeInfoForID(LE_GARRISON_TYPE_7_0, talentTreeID)
+			_, _, tree = C_Garrison_GetTalentTreeInfoForID(LE_GARRISON_TYPE_7_0, talentTreeID)
 		end
 
 		local talentID = tree and tree[1] and tree[1][1] and tree[1][1].id or nil
@@ -988,6 +1233,10 @@ do
 		end
 	end
 
+	local function PostSetAnimatedValue(self, value)
+		self:SetText(value == 1 and "" or value)
+	end
+
 	local function Toast_SetUp(event, link, quantity)
 		local sanitizedLink, originalLink, linkType, itemID = E:SanitizeLink(link)
 		local toast, isNew, isQueued
@@ -1008,7 +1257,7 @@ do
 
 			if linkType == "battlepet" then
 				local _, speciesID, _, breedQuality, _ = s_split(":", originalLink)
-				name, icon = C_PetJournal.GetPetInfoBySpeciesID(speciesID)
+				name, icon = C_PetJournal_GetPetInfoBySpeciesID(speciesID)
 				quality = tonumber(breedQuality)
 			else
 				name, _, quality, _, _, _, _, _, _, icon, _, classID, subClassID, bindType = GetItemInfo(originalLink)
@@ -1018,6 +1267,8 @@ do
 			if (quality >= C.db.profile.types.loot_common.threshold and quality <= 5)
 				or (C.db.profile.types.loot_common.quest and isQuestItem) then
 				local color = ITEM_QUALITY_COLORS[quality] or ITEM_QUALITY_COLORS[1]
+
+				toast.IconText1.PostSetAnimatedValue = PostSetAnimatedValue
 
 				if C.db.profile.colors.name then
 					name = color.hex..name.."|r"
@@ -1031,12 +1282,18 @@ do
 					end
 				end
 
+				if C.db.profile.colors.border then
+					toast.Border:SetVertexColor(color.r, color.g, color.b)
+				end
+
+				if C.db.profile.colors.icon_border then
+					toast.IconBorder:SetVertexColor(color.r, color.g, color.b)
+				end
+
 				toast.Title:SetText(L["YOU_RECEIVED"])
 				toast.Text:SetText(name)
-				toast.Border:SetVertexColor(color.r, color.g, color.b)
 				toast.Icon:SetTexture(icon)
 				toast.IconBorder:Show()
-				toast.IconBorder:SetVertexColor(color.r, color.g, color.b)
 				toast.IconHL:SetShown(isQuestItem)
 				toast.IconText1:SetAnimatedValue(quantity, true)
 
@@ -1101,7 +1358,7 @@ do
 			end
 		end
 
-		C_Timer.After(0.125, function() Toast_SetUp("CHAT_MSG_LOOT", link, tonumber(quantity) or 0) end)
+		C_Timer_After(0.125, function() Toast_SetUp("CHAT_MSG_LOOT", link, tonumber(quantity) or 0) end)
 	end
 
 	local function Enable()
@@ -1265,6 +1522,10 @@ do
 		end
 	end
 
+	local function PostSetAnimatedValue(self, value)
+		self:SetText(value == 1 and "" or value)
+	end
+
 	local function Toast_SetUp(event, link, quantity, rollType, roll, factionGroup, isItem, isHonor, isPersonal, lessAwesome, isUpgraded, baseQuality, isLegendary, isStorePurchase)
 		if isItem then
 			if link then
@@ -1279,6 +1540,8 @@ do
 						local color = ITEM_QUALITY_COLORS[quality] or ITEM_QUALITY_COLORS[1]
 						local title = L["YOU_WON"]
 						local soundFile = 31578 -- SOUNDKIT.UI_EPICLOOT_TOAST
+
+						toast.IconText1.PostSetAnimatedValue = PostSetAnimatedValue
 
 						if factionGroup then
 							toast.BG:SetTexture("Interface\\AddOns\\ls_Toasts\\media\\toast-bg-"..factionGroup)
@@ -1345,12 +1608,18 @@ do
 							end
 						end
 
+						if C.db.profile.colors.border then
+							toast.Border:SetVertexColor(color.r, color.g, color.b)
+						end
+
+						if C.db.profile.colors.icon_border then
+							toast.IconBorder:SetVertexColor(color.r, color.g, color.b)
+						end
+
 						toast.Title:SetText(title)
 						toast.Text:SetText(name)
-						toast.Border:SetVertexColor(color.r, color.g, color.b)
 						toast.Icon:SetTexture(icon)
 						toast.IconBorder:Show()
-						toast.IconBorder:SetVertexColor(color.r, color.g, color.b)
 						toast.IconText1:SetAnimatedValue(quantity, true)
 						toast.UpgradeIcon:SetShown(E:IsItemUpgrade(originalLink))
 
@@ -1477,7 +1746,7 @@ do
 		if link then
 			Toast_SetUp("STORE_PRODUCT_DELIVERED", link, 1, nil, nil, nil, true, nil, nil, nil, nil, nil, nil, true)
 		else
-			return C_Timer.After(0.25, function() STORE_PRODUCT_DELIVERED(nil, nil, nil, payloadID) end)
+			return C_Timer_After(0.25, function() STORE_PRODUCT_DELIVERED(nil, nil, nil, payloadID) end)
 		end
 	end
 
@@ -1678,12 +1947,22 @@ do
 			local name, _, icon, _, _, _, _, quality = GetCurrencyInfo(link)
 			local color = ITEM_QUALITY_COLORS[quality] or ITEM_QUALITY_COLORS[1]
 
+			if C.db.profile.colors.name then
+				toast.Text:SetTextColor(color.r, color.g, color.b)
+			end
+
+			if C.db.profile.colors.border then
+				toast.Border:SetVertexColor(color.r, color.g, color.b)
+			end
+
+			if C.db.profile.colors.icon_border then
+				toast.IconBorder:SetVertexColor(color.r, color.g, color.b)
+			end
+
 			toast.Title:SetText(L["YOU_RECEIVED"])
 			toast.Text:SetText(name)
-			toast.Border:SetVertexColor(color.r, color.g, color.b)
 			toast.Icon:SetTexture(icon)
 			toast.IconBorder:Show()
-			toast.IconBorder:SetVertexColor(color.r, color.g, color.b)
 			toast.IconText1:SetAnimatedValue(quantity, true)
 
 			toast._data = {
@@ -1693,10 +1972,6 @@ do
 				sound_file = 31578, -- SOUNDKIT.UI_EPICLOOT_TOAST
 				tooltip_link = originalLink,
 			}
-
-			if C.db.profile.colors.name then
-				toast.Text:SetTextColor(color.r, color.g, color.b)
-			end
 
 			toast:HookScript("OnEnter", Toast_OnEnter)
 			toast:Spawn(C.db.profile.types.loot_currency.dnd)
@@ -1818,7 +2093,7 @@ end
 do
 	local old
 
-	local function PostSetAnimatedValue (self, value)
+	local function PostSetAnimatedValue(self, value)
 		self:SetText(GetMoneyString(value))
 	end
 
@@ -1829,12 +2104,18 @@ do
 			if quantity >= C.db.profile.types.loot_gold.threshold then
 				toast.Text.PostSetAnimatedValue = PostSetAnimatedValue
 
+				if C.db.profile.colors.border then
+					toast.Border:SetVertexColor(0.9, 0.75, 0.26)
+				end
+
+				if C.db.profile.colors.icon_border then
+					toast.IconBorder:SetVertexColor(0.9, 0.75, 0.26)
+				end
+
 				toast.Title:SetText(L["YOU_RECEIVED"])
 				toast.Text:SetAnimatedValue(quantity, true)
-				toast.Border:SetVertexColor(0.9, 0.75, 0.26)
 				toast.Icon:SetTexture("Interface\\Icons\\INV_Misc_Coin_02")
 				toast.IconBorder:Show()
-				toast.IconBorder:SetVertexColor(0.9, 0.75, 0.26)
 
 				toast._data = {
 					event = event,
@@ -1966,7 +2247,7 @@ do
 			end
 
 			if TradeSkillFrame then
-				if C_TradeSkillUI.OpenTradeSkill(self._data.tradeskill_id) then
+				if C_TradeSkillUI_OpenTradeSkill(self._data.tradeskill_id) then
 					TradeSkillFrame:SelectRecipe(self._data.recipe_id)
 				end
 			end
@@ -1981,7 +2262,7 @@ do
 	end
 
 	local function Toast_SetUp(event, recipeID)
-		local tradeSkillID = C_TradeSkillUI.GetTradeSkillLineForRecipe(recipeID)
+		local tradeSkillID = C_TradeSkillUI_GetTradeSkillLineForRecipe(recipeID)
 
 		if tradeSkillID then
 			local recipeName = GetSpellInfo(recipeID)
@@ -2002,7 +2283,7 @@ do
 				toast.Title:SetText(rank and rank > 1 and L["RECIPE_UPGRADED"] or L["RECIPE_LEARNED"])
 				toast.Text:SetText(recipeName)
 				toast.BG:SetTexture("Interface\\AddOns\\ls_Toasts\\media\\toast-bg-recipe")
-				toast.Icon:SetTexture(C_TradeSkillUI.GetTradeSkillTexture(tradeSkillID))
+				toast.Icon:SetTexture(C_TradeSkillUI_GetTradeSkillTexture(tradeSkillID))
 				toast.IconBorder:Show()
 				toast.IconText1:SetText(rankTexture)
 				toast.IconText1BG:SetShown(not not rank)
@@ -2115,8 +2396,8 @@ do
 	end
 
 	local function IsAppearanceKnown(sourceID)
-		local data = C_TransmogCollection.GetSourceInfo(sourceID)
-		local sources = C_TransmogCollection.GetAppearanceSources(data.visualID)
+		local data = C_TransmogCollection_GetSourceInfo(sourceID)
+		local sources = C_TransmogCollection_GetAppearanceSources(data.visualID)
 
 		if sources then
 			for i = 1, #sources do
@@ -2132,12 +2413,12 @@ do
 	end
 
 	local function Toast_SetUp(event, sourceID, isAdded, attempt)
-		local _, _, _, icon, _, _, link = C_TransmogCollection.GetAppearanceSourceInfo(sourceID)
+		local _, _, _, icon, _, _, link = C_TransmogCollection_GetAppearanceSourceInfo(sourceID)
 		local name
 		link, _, _, _, name = E:SanitizeLink(link)
 
 		if not link then
-			return attempt < 4 and C_Timer.After(0.25, function() Toast_SetUp(event, sourceID, isAdded, attempt + 1) end)
+			return attempt < 4 and C_Timer_After(0.25, function() Toast_SetUp(event, sourceID, isAdded, attempt + 1) end)
 		end
 
 		local toast, isNew, isQueued = E:GetToast(nil, "source_id", sourceID)
@@ -2149,12 +2430,18 @@ do
 				toast.Title:SetText(L["TRANSMOG_REMOVED"])
 			end
 
+			if C.db.profile.colors.border then
+				toast.Border:SetVertexColor(1, 0.5, 1)
+			end
+
+			if C.db.profile.colors.icon_border then
+				toast.IconBorder:SetVertexColor(1, 0.5, 1)
+			end
+
 			toast.Text:SetText(name)
 			toast.BG:SetTexture("Interface\\AddOns\\ls_Toasts\\media\\toast-bg-transmog")
-			toast.Border:SetVertexColor(1, 128 / 255, 1)
 			toast.Icon:SetTexture(icon)
 			toast.IconBorder:Show()
-			toast.IconBorder:SetVertexColor(1, 128 / 255, 1)
 
 			toast._data = {
 				event = event,
@@ -2187,7 +2474,7 @@ do
 			if isKnown == false then
 				Toast_SetUp("TRANSMOG_COLLECTION_SOURCE_ADDED", sourceID, true, 1)
 			elseif isKnown == nil then
-				C_Timer.After(0.25, function() TRANSMOG_COLLECTION_SOURCE_ADDED(sourceID, attempt + 1) end)
+				C_Timer_After(0.25, function() TRANSMOG_COLLECTION_SOURCE_ADDED(sourceID, attempt + 1) end)
 			end
 		end
 	end
@@ -2200,7 +2487,7 @@ do
 			if isKnown == false then
 				Toast_SetUp("TRANSMOG_COLLECTION_SOURCE_REMOVED", sourceID, nil, 1)
 			elseif isKnown == nil then
-				C_Timer.After(0.25, function() TRANSMOG_COLLECTION_SOURCE_REMOVED(sourceID, attempt + 1) end)
+				C_Timer_After(0.25, function() TRANSMOG_COLLECTION_SOURCE_REMOVED(sourceID, attempt + 1) end)
 			end
 		end
 	end
@@ -2218,14 +2505,14 @@ do
 	end
 
 	local function Test()
-		local appearance = C_TransmogCollection.GetCategoryAppearances(1) and C_TransmogCollection.GetCategoryAppearances(1)[1]
-		local source = C_TransmogCollection.GetAppearanceSources(appearance.visualID) and C_TransmogCollection.GetAppearanceSources(appearance.visualID)[1]
+		local appearance = C_TransmogCollection_GetCategoryAppearances(1) and C_TransmogCollection_GetCategoryAppearances(1)[1]
+		local source = C_TransmogCollection_GetAppearanceSources(appearance.visualID) and C_TransmogCollection_GetAppearanceSources(appearance.visualID)[1]
 
 		-- added
 		Toast_SetUp("TRANSMOG_TEST", source.sourceID, true, 1)
 
 		-- removed
-		C_Timer.After(2, function() Toast_SetUp("TRANSMOG_TEST", source.sourceID, nil, 1) end )
+		C_Timer_After(2, function() Toast_SetUp("TRANSMOG_TEST", source.sourceID, nil, 1) end )
 	end
 
 	E:RegisterOptions("transmog", {
@@ -2389,11 +2676,17 @@ do
 					toast.Bonus:Show()
 				end
 
+				if C.db.profile.colors.border then
+					toast.Border:SetVertexColor(60 / 255, 255 / 255, 38 / 255) -- fel green #3cff26
+				end
+
+				if C.db.profile.colors.icon_border then
+					toast.IconBorder:SetVertexColor(60 / 255, 255 / 255, 38 / 255) -- fel green #3cff26
+				end
+
 				toast.Title:SetText(L["SCENARIO_INVASION_COMPLETED"])
 				toast.BG:SetTexture("Interface\\AddOns\\ls_Toasts\\media\\toast-bg-legion")
 				toast.Icon:SetTexture("Interface\\Icons\\Ability_Warlock_DemonicPower")
-				toast.Border:SetVertexColor(60 / 255, 255 / 255, 38 / 255) -- fel green #3cff26
-				toast.IconBorder:SetVertexColor(60 / 255, 255 / 255, 38 / 255) -- fel green #3cff26
 
 				soundFile = 31754 -- SOUNDKIT.UI_SCENARIO_ENDING
 			else
@@ -2412,10 +2705,16 @@ do
 					toast.Icon:SetTexture("Interface\\Icons\\Achievement_Quests_Completed_TwilightHighlands")
 				end
 
+				if C.db.profile.colors.border then
+					toast.Border:SetVertexColor(color.r, color.g, color.b)
+				end
+
+				if C.db.profile.colors.icon_border then
+					toast.IconBorder:SetVertexColor(color.r, color.g, color.b)
+				end
+
 				toast.Title:SetText(L["WORLD_QUEST_COMPLETED"])
 				toast.BG:SetTexture("Interface\\AddOns\\ls_Toasts\\media\\toast-bg-worldquest")
-				toast.Border:SetVertexColor(color.r, color.g, color.b)
-				toast.IconBorder:SetVertexColor(color.r, color.g, color.b)
 
 				soundFile = 73277 -- SOUNDKIT.UI_WORLDQUEST_COMPLETE
 			end
@@ -2462,7 +2761,7 @@ do
 	end
 
 	local function SCENARIO_COMPLETED(questID)
-		local scenarioName, _, _, _, hasBonusStep, isBonusStepComplete, _, xp, money, scenarioType, areaName = C_Scenario.GetInfo()
+		local scenarioName, _, _, _, hasBonusStep, isBonusStepComplete, _, xp, money, scenarioType, areaName = C_Scenario_GetInfo()
 
 		if scenarioType == LE_SCENARIO_TYPE_LEGION_INVASION then
 			if questID then
@@ -2473,7 +2772,7 @@ do
 
 	local function QUEST_TURNED_IN(questID)
 		if QuestUtils_IsQuestWorldQuest(questID) then
-			Toast_SetUp("QUEST_TURNED_IN", false, questID, C_TaskQuest.GetQuestInfoByQuestID(questID), GetQuestLogRewardMoney(questID), GetQuestLogRewardXP(questID), GetNumQuestLogRewardCurrencies(questID))
+			Toast_SetUp("QUEST_TURNED_IN", false, questID, C_TaskQuest_GetQuestInfoByQuestID(questID), GetQuestLogRewardMoney(questID), GetQuestLogRewardXP(questID), GetNumQuestLogRewardCurrencies(questID))
 		end
 	end
 
@@ -2510,28 +2809,28 @@ do
 			Toast_SetUp("WORLD_TEST", true, 43301, nil, nil, nil, nil, link)
 
 			-- world quest, may not work
-			local quests = C_TaskQuest.GetQuestsForPlayerByMapID(1014)
+			local quests = C_TaskQuest_GetQuestsForPlayerByMapID(1014)
 
 			if #quests == 0 then
-				quests = C_TaskQuest.GetQuestsForPlayerByMapID(1015)
+				quests = C_TaskQuest_GetQuestsForPlayerByMapID(1015)
 
 				if #quests == 0 then
-					quests = C_TaskQuest.GetQuestsForPlayerByMapID(1017)
+					quests = C_TaskQuest_GetQuestsForPlayerByMapID(1017)
 
 					if #quests == 0 then
-						quests = C_TaskQuest.GetQuestsForPlayerByMapID(1018)
+						quests = C_TaskQuest_GetQuestsForPlayerByMapID(1018)
 
 						if #quests == 0 then
-							quests = C_TaskQuest.GetQuestsForPlayerByMapID(1021)
+							quests = C_TaskQuest_GetQuestsForPlayerByMapID(1021)
 
 							if #quests == 0 then
-								quests = C_TaskQuest.GetQuestsForPlayerByMapID(1024)
+								quests = C_TaskQuest_GetQuestsForPlayerByMapID(1024)
 
 								if #quests == 0 then
-									quests = C_TaskQuest.GetQuestsForPlayerByMapID(1033)
+									quests = C_TaskQuest_GetQuestsForPlayerByMapID(1033)
 
 									if #quests == 0 then
-										quests = C_TaskQuest.GetQuestsForPlayerByMapID(1096)
+										quests = C_TaskQuest_GetQuestsForPlayerByMapID(1096)
 									end
 								end
 							end
@@ -2540,10 +2839,10 @@ do
 				end
 			end
 
-			for _, quest in pairs(quests) do
+			for _, quest in next, quests do
 				if HaveQuestData(quest.questId) then
 					if QuestUtils_IsQuestWorldQuest(quest.questId) then
-						Toast_SetUp("WORLD_TEST", false, quest.questId, C_TaskQuest.GetQuestInfoByQuestID(quest.questId), 123456, 123456)
+						Toast_SetUp("WORLD_TEST", false, quest.questId, C_TaskQuest_GetQuestInfoByQuestID(quest.questId), 123456, 123456)
 						Toast_SetUp("WORLD_TEST", true, quest.questId, "scenario", nil, nil, nil, link)
 
 						return
@@ -2603,5 +2902,6 @@ do
 			},
 		},
 	})
+
 	E:RegisterSystem("world", Enable, Disable, Test)
 end

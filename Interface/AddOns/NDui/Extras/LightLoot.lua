@@ -74,8 +74,6 @@ local function OnUpdate(self)
 end
 
 local function CreateSlot(id)
-	local iconSize = iconSize
-	local fontSizeItem = fontSizeItem
 	local cr, cg, cb = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b
 
 	local button = CreateFrame("Button", "LightLootSlot"..id, LightLoot)
@@ -142,7 +140,6 @@ end
 
 function LightLoot:AnchorSlots()
 	local buttonSize = math.max(iconSize, fontSizeItem)
-	local iconSize = iconSize
 	local shownSlots = 0
 
 	for i = 1, #slots do

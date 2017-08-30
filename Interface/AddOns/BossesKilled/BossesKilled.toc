@@ -1,4 +1,4 @@
-## Interface: 70200
+## Interface: 70300
 ## Title: BossesKilled
 ## Notes: Shows you which bosses you've killed next to the raid finder and flex raid frames.
 ## Author: wT

@@ -1,12 +1,14 @@
-## Interface: 70200
+## Interface: 70300
 #@non-debug@
 ## Title: HandyNotes - Suramar and Shal'Aran Telemancy
 ## Title-deDE: HandyNotes - Suramar- und Shal'Aran-Telemantie
+## Title-frFR: HandyNotes - Télémancie de Suramar et Shal'Aran
 ## Title-ruRU: HandyNotes - Телемантические маяки Сурамара и Шал'Арана
 ## Title-zhCN: HandyNotes - 苏拉玛东与沙尔艾兰的传送
 ## Title-zhTW: HandyNotes - 蘇拉瑪爾與沙亞蘭的傳送
 ## Notes: Shows the telemancy between Shal'Aran and nodes in Suramar
 ## Notes-deDE: Zeigt die Telemantie zwischen Shal'Aran und Knoten in Suramar
+## Notes-frFR: Affiche les chemins de télémancie entre Shal'Aran et les balises de Suramar
 ## Notes-ruRU: Показывает телемантические маяки между Шал'Араном и заметки в Сурамаре
 ## Notes-zhCN: 显示在沙尔艾兰与苏拉玛尔之间的各个传送点位置
 ## Notes-zhTW: 顯示在沙亞蘭與蘇拉瑪爾之間的各個傳送點位置
@@ -24,12 +26,12 @@
 # ## Notes-zhTW: 顯示在沙亞蘭與蘇拉瑪爾之間的各個傳送點位置
 #@end-debug@
 ## Author: arith
-## Version: v1.12
+## Version: v1.14
 ## RequiredDeps: HandyNotes
 ## OptionalDeps: LibBabble-SubZone-3.0, LibUIDropDownMenu
 ## DefaultState: enabled
 ## SavedVariables: HandyNotes_SuramarShalAranTelemancyDB
-## X-Date: 2017-07-19T11:35:39Z
+## X-Date: 2017-08-29T18:38:28Z
 ## X-License: GPLv2
 ## X-Category: Map
 
