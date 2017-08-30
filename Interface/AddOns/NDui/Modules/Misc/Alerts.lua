@@ -79,7 +79,7 @@ function module:RareAlert()
 				B.AlertRun(name)
 				SendChatMessage(">>> "..name.." <<<", "SAY")
 			end
-			PlaySoundFile("Sound\\Interface\\PVPFlagTakenMono.ogg", "master")
+			PlaySoundKitIDFile("Sound\\Interface\\PVPFlagTakenMono.ogg", "master")
 			cache[id] = true
 		end
 	end)

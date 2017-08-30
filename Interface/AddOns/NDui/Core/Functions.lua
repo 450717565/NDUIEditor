@@ -420,7 +420,7 @@ B.CreateDropDown = function(parent, width, height, data)
 	B.CreateBD(list, .7)
 	bu:SetScript("OnShow", function() list:Hide() end)
 	bu:SetScript("OnClick", function()
-		PlaySound("gsTitleOptionOK")
+		PlaySoundKitID("gsTitleOptionOK")
 		ToggleFrame(list)
 	end)
 	dd.button = bu
@@ -433,7 +433,7 @@ B.CreateDropDown = function(parent, width, height, data)
 		B.CreateBD(opt[i], .3)
 		B.CreateFS(opt[i], 14, j, false, "LEFT", 5, 0)
 		opt[i]:SetScript("OnClick", function(self)
-			PlaySound("gsTitleOptionOK")
+			PlaySoundKitID("gsTitleOptionOK")
 			for num = 1, #opt do
 				if num == i then
 					opt[num]:SetBackdropColor(1, .8, 0, .3)

@@ -137,9 +137,9 @@ function module:CreateRM()
 	B.CreateCB(RMEveryoneCB, .3)
 	RMEveryoneCB:SetScript("OnClick", function(self)
 		if self.enabled then
-			PlaySound("igMainMenuOptionCheckBoxOn")
+			PlaySoundKitID("igMainMenuOptionCheckBoxOn")
 		else
-			PlaySound("igMainMenuOptionCheckBoxOff")
+			PlaySoundKitID("igMainMenuOptionCheckBoxOff")
 		end
 		SetEveryoneIsAssistant(self:GetChecked())
 	end)
