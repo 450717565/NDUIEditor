@@ -173,8 +173,8 @@ local function NIhook(unit)
     local now = GetTime()
     local str = debugstack(2)
     --print(str)
-    local addon = string.match(str,'[%s%c]+([^:%s%c]*)\\[^\\:%s%c]+:')
-    addon = string.gsub(addon or "unknown",'I?n?t?e?r?f?a?c?e\\AddOns\\',"")
+    local addon = string.match(str,"[%s%c]+([^:%s%c]*)\\[^\\:%s%c]+:")
+    addon = string.gsub(addon or "unknown","I?n?t?e?r?f?a?c?e\\AddOns\\","")
     if not string.find(str,ui) then
       blockmsg[addon] = blockmsg[addon] or {}
       local count = (blockmsg[addon].count or 0) + 1
@@ -227,7 +227,7 @@ local function inspectunit(unit)
   if not inspectable(unit) then return end
   -- NotifyInspect blocking in this addon and others is controlled by visibility of InspectFrame
   -- When the user requests an inspect we need to immediately show that frame to start that blocking
-  -- and ensure the Notify issued by InspectFrame isn't squashed by a subsequent stealth inspect, 
+  -- and ensure the Notify issued by InspectFrame isn"t squashed by a subsequent stealth inspect, 
   -- which would effectively cancel the user's manual inspect, causing the frame to never be shown
   ShowUIPanel(InspectFrame)
   -- issue a (duplicate) NotifyInspect with the frame open, to engage our retry and be extra-sure

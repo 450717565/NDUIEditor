@@ -7,7 +7,7 @@ local function invertTable(table)
 	if type(table) ~= "table" then return end
 	local invTable = {}
 	for k, v in pairs(table) do
-		invTable[v] = k 
+		invTable[v] = k
 	end
 	return invTable
 end
@@ -26,15 +26,15 @@ local t_threshold = 1.0
 local itemRefLinkInfo = {'',0}
 local xSetHyperlink = ItemRefTooltip.SetHyperlink
 ItemRefTooltip.SetHyperlink = function(self, link, ...)
-	itemRefLinkInfo[1] = link 
+	itemRefLinkInfo[1] = link
 	itemRefLinkInfo[2] = GetTime()
 	xSetHyperlink(self, link, ...)
 end
 
 local GameLinkInfo = {'',0}
-local function gHack(self, unit, slot) 
+local function gHack(self, unit, slot)
 	local link = GetInventoryItemLink(unit, slot)
-	GameLinkInfo[1] = link 
+	GameLinkInfo[1] = link
 	GameLinkInfo[2] = GetTime()
 end
 hooksecurefunc(GameTooltip,'SetInventoryItem', gHack)
@@ -45,80 +45,81 @@ local options, optionsFrame, db, charDB
 local modifierPressed = 0
 
 local itemLevelOptions = {
-    [1] = "Relic",
-    [2] = "Artifact",
+	[1] = "Relic",
+	[2] = "Artifact",
 	[3] = "RelicArtifact",
 }
 local invItemLevelOptions = invertTable(itemLevelOptions)
 
 local locItemLevelOptions = {
-    [1] = INVTYPE_RELIC,
-    [2] = ITEM_QUALITY6_DESC,
+	[1] = INVTYPE_RELIC,
+	[2] = ITEM_QUALITY6_DESC,
 	[3] = INVTYPE_RELIC .. " & " .. ITEM_QUALITY6_DESC,
 }
 
 local hoverOptions = {
-    [1] = "Never",
-    [2] = "CTRL Key",
-    [3] = "Always" 
+	[1] = "Never",
+	[2] = "CTRL Key",
+	[3] = "Always"
 }
 local invHoverOptions = invertTable(hoverOptions)
 
 local locHoverOptions = {
-    [1] = NEVER,
-    [2] = CTRL_KEY,
-    [3] = ALWAYS
+	[1] = NEVER,
+	[2] = CTRL_KEY,
+	[3] = ALWAYS
 }
 
 local linkOptions = {
-    [1] = "Never",
-    [2] = "Always" 
+	[1] = "Never",
+	[2] = "Always"
 }
 local invLinkOptions = invertTable(linkOptions)
 
 local locLinkOptions = {
-    [1] = NEVER,
-    [2] = ALWAYS
+	[1] = NEVER,
+	[2] = ALWAYS
 }
 
 local relicOffspecOptions = {
-    [1] = "None",
-    [2] = "All",
+	[1] = "None",
+	[2] = "All",
 }
 local invRelicOffspecOptions = invertTable(relicOffspecOptions)
 
 local locRelicOffspecOptions = {
-    [1] = NONE,
-    [2] = ALL_SPECS,
+	[1] = NONE,
+	[2] = ALL_SPECS,
 }
 
 local relicSpecOptions = {
-    [1] = "None",
-    [2] = "Specs",
-    [3] = "SpecsAndQuantities",
-    [4] = "SpecsAndTraits",
-    [5] = "SpecsTraitDescription",
+	[1] = "None",
+	[2] = "Specs",
+	[3] = "SpecsAndQuantities",
+	[4] = "SpecsAndTraits",
+	[5] = "SpecsTraitDescription",
 }
 local invRelicSpecOptions = invertTable(relicSpecOptions)
 
 local locRelicSpecOptions = {
-    [1] = NONE,
-    [2] = ALL_SPECS,
-    [3] = ALL_SPECS .. " & ÊıÁ¿",
-    [4] = ALL_SPECS .. " & " .. ARTIFACTS_PERK_TAB,
-    [5] = ALL_SPECS .. " & " .. ARTIFACTS_PERK_TAB .. " & " .. DESCRIPTION,
+	[1] = NONE,
+	[2] = ALL_SPECS,
+	[3] = ALL_SPECS .. " & æ•°é‡",
+	[4] = ALL_SPECS .. " & " .. ARTIFACTS_PERK_TAB,
+	[5] = ALL_SPECS .. " & " .. ARTIFACTS_PERK_TAB .. " & " .. DESCRIPTION,
 }
 
 local defaults = {
 	profile = {
 		enabled = true,
-		itemLevelDisplay = "RelicArtifact",
-		hoverTraitNames = "Always",
+		hoverNLC = "Always",
 		hoverTraitDesc = "Always",
-		linkTraitNames = "Always",
+		hoverTraitNames = "Always",
+		itemLevelDisplay = "RelicArtifact",
 		linkTraitDesc = "Always",
-		relicSpecs = "SpecsAndQuantities",
-		offspecsToShow = "All"
+		linkTraitNames = "Always",
+		offspecsToShow = "All",
+		relicSpecs = "SpecsAndQuantities"
 	}
 }
 
@@ -130,12 +131,12 @@ local function SetupOptions()
 		type = "group",
 		args = {
 			general = {
-				name = "Ñ¡Ïî",
+				name = "é€‰é¡¹",
 				type = "group",
 				args = {
 					enabled = {
-						name = "ÆôÓÃ²å¼ş",
-						desc = "¿ªÆô/¹Ø±ÕÊ¥Îï¼ì²é²å¼ş",
+						name = "å¯ç”¨æ’ä»¶",
+						desc = "å¼€å¯/å…³é—­åœ£ç‰©æ£€æŸ¥æ’ä»¶",
 						type = "toggle",
 						width = "double",
 						set = function(info,val) db.profile.enabled = val end,
@@ -143,8 +144,8 @@ local function SetupOptions()
 						order = 10
 					},
 					itemLevelChoice = {
-						name = "×°µÈÏÔÊ¾·½Ê½£º",
-						desc = "Ê¥Îï£ºÏÔÊ¾Ê¥Îï±¾ÉíµÄ×°µÈ¡£\nÉñÆ÷£ºÏÔÊ¾Ê¥ÎïÌáÉıµÄ×°µÈ¡£\nÊ¥Îï & ÉñÆ÷£ºÏÔÊ¾Ê¥Îï±¾ÉíµÄ×°µÈºÍÌáÉıµÄ×°µÈ¡£",
+						name = "è£…ç­‰æ˜¾ç¤ºæ–¹å¼ï¼š",
+						desc = "åœ£ç‰©ï¼šæ˜¾ç¤ºåœ£ç‰©æœ¬èº«çš„è£…ç­‰ã€‚\nç¥å™¨ï¼šæ˜¾ç¤ºåœ£ç‰©æå‡çš„è£…ç­‰ã€‚\nåœ£ç‰© & ç¥å™¨ï¼šæ˜¾ç¤ºåœ£ç‰©æœ¬èº«çš„è£…ç­‰å’Œæå‡çš„è£…ç­‰ã€‚",
 						type = "select",
 						width = "double",
 						set = function(info,val) db.profile.itemLevelDisplay = itemLevelOptions[val] end,
@@ -153,13 +154,13 @@ local function SetupOptions()
 						values = locItemLevelOptions
 					},
 					itemTooltipHeader = {
-						name = "ÎïÆ·ÌáÊ¾ÉèÖÃ",
+						name = "ç‰©å“æç¤ºè®¾ç½®",
 						type = "header",
 						order = 20
 					},
 					itemTooltipTraitNames = {
-						name = "ÏÔÊ¾ÌØÖÊÃû³Æ£º",
-						desc = "ÔÚÎïÆ·µÄÊó±êÌáÊ¾ÖĞÏÔÊ¾ÌØÖÊÃû³Æ¡£",
+						name = "æ˜¾ç¤ºç‰¹è´¨åç§°ï¼š",
+						desc = "åœ¨ç‰©å“çš„é¼ æ ‡æç¤ºä¸­æ˜¾ç¤ºç‰¹è´¨åç§°ã€‚",
 						type = "select",
 						width = "single",
 						set = function(info,val) db.profile.hoverTraitNames = hoverOptions[val] end,
@@ -168,8 +169,8 @@ local function SetupOptions()
 						values = locHoverOptions
 					},
 					itemTooltipTraitDesc = {
-						name = "ÏÔÊ¾ÌØÖÊÃèÊö£º",
-						desc = "ÔÚÎïÆ·µÄÊó±êÌáÊ¾ÖĞÏÔÊ¾ÌØÖÊÃèÊö¡£",
+						name = "æ˜¾ç¤ºç‰¹è´¨æè¿°ï¼š",
+						desc = "åœ¨ç‰©å“çš„é¼ æ ‡æç¤ºä¸­æ˜¾ç¤ºç‰¹è´¨æè¿°ã€‚",
 						type = "select",
 						width = "single",
 						set = function(info,val) db.profile.hoverTraitDesc = hoverOptions[val] end,
@@ -178,8 +179,8 @@ local function SetupOptions()
 						values = locHoverOptions
 					},
 					itemTooltipNetherlight = {
-						name = "Show " .. SPLASH_LEGION_NEW_7_3_FEATURE1_TITLE .. " " .. ARTIFACTS_PERK_TAB .. ":",
-						desc = "When to show Netherlight Crucible traits on artifact tooltips",
+						name = "æ˜¾ç¤ºè™šç©ºä¹‹å…‰ç†”ç‚‰ä¸“é•¿ï¼š",
+						desc = "åœ¨ç¥å™¨çš„é¼ æ ‡æç¤ºä¸­æ˜¾ç¤ºè™šç©ºä¹‹å…‰ç†”ç‚‰çš„ä¸“é•¿ã€‚",
 						type = "select",
 						width = "single",
 						set = function(info,val) db.profile.hoverNLC = linkOptions[val] end,
@@ -188,13 +189,13 @@ local function SetupOptions()
 						values = locLinkOptions
 					},
 					linkTooltipHeader = {
-						name = "Á´½ÓÌáÊ¾ÉèÖÃ",
+						name = "é“¾æ¥æç¤ºè®¾ç½®",
 						type = "header",
 						order = 30
 					},
 					linkTooltipTraitNames = {
-						name = "ÏÔÊ¾ÌØÖÊÃû³Æ£º",
-						desc = "ÔÚÁ´½ÓµÄÊó±êÌáÊ¾ÖĞÏÔÊ¾ÌØÖÊÃû³Æ¡£",
+						name = "æ˜¾ç¤ºç‰¹è´¨åç§°ï¼š",
+						desc = "åœ¨é“¾æ¥çš„é¼ æ ‡æç¤ºä¸­æ˜¾ç¤ºç‰¹è´¨åç§°ã€‚",
 						type = "select",
 						width = "single",
 						set = function(info,val) db.profile.linkTraitNames = linkOptions[val] end,
@@ -203,8 +204,8 @@ local function SetupOptions()
 						values = locLinkOptions
 					},
 					linkTooltipTraitDesc = {
-						name = "ÏÔÊ¾ÌØÖÊÃèÊö£º",
-						desc = "ÔÚÁ´½ÓµÄÊó±êÌáÊ¾ÖĞÏÔÊ¾ÌØÖÊÃèÊö¡£",
+						name = "æ˜¾ç¤ºç‰¹è´¨æè¿°ï¼š",
+						desc = "åœ¨é“¾æ¥çš„é¼ æ ‡æç¤ºä¸­æ˜¾ç¤ºç‰¹è´¨æè¿°ã€‚",
 						type = "select",
 						width = "single",
 						set = function(info,val) db.profile.linkTraitDesc = linkOptions[val] end,
@@ -213,13 +214,13 @@ local function SetupOptions()
 						values = locLinkOptions
 					},
 					relicTooltipHeader = {
-						name = "Ê¥ÎïÌáÊ¾ÉèÖÃ",
+						name = "åœ£ç‰©æç¤ºè®¾ç½®",
 						type = "header",
 						order = 40
 					},
 					relicTooltipOffspecs = {
-						name = "Î´×°±¸Ê¥ÎïÌØÖÊÌáÊ¾£º",
-						desc = "ÔÚÊó±êÌáÊ¾ÖĞÏÔÊ¾ÌØÖÊÃèÊö¡£",
+						name = "æœªè£…å¤‡åœ£ç‰©ç‰¹è´¨æç¤ºï¼š",
+						desc = "åœ¨é¼ æ ‡æç¤ºä¸­æ˜¾ç¤ºç‰¹è´¨æè¿°ã€‚",
 						type = "select",
 						width = "double",
 						set = function(info,val) db.profile.offspecsToShow = relicOffspecOptions[val] end,
@@ -228,8 +229,8 @@ local function SetupOptions()
 						values = locRelicOffspecOptions
 					},
 					relicSpecs = {
-						name = "ÏÔÊ¾×°±¸Ê¥ÎïµÄÒªÇó£º",
-						desc = "ÔÚÊó±êÌáÊ¾ÖĞÏÔÊ¾Ê¥ÎïÒªÇó¡£",
+						name = "æ˜¾ç¤ºè£…å¤‡åœ£ç‰©çš„è¦æ±‚ï¼š",
+						desc = "åœ¨é¼ æ ‡æç¤ºä¸­æ˜¾ç¤ºåœ£ç‰©è¦æ±‚ã€‚",
 						type = "select",
 						width = "double",
 						set = function(info,val) db.profile.relicSpecs = relicSpecOptions[val] end,
@@ -286,7 +287,7 @@ local function updateArtifactCache()
 		weaponCache['level'] = aLvl
 
 		local crucibled = weaponCache['crucibled'] or false
-		
+
 		for n=1,3 do
 			local relicCache = {}
 			local relicInfo = {C_ArtifactUI.GetRelicInfo(n)}
@@ -316,14 +317,14 @@ local function updateArtifactCache()
 				relicCache['traits'] = relicTalents
 
 				weaponCache[n] = relicCache
-			else 
+			else
 				-- Still check relics but try not to nuke the NLC stuff if they haven't changed
 				if nil ~= weaponCache[n] then
 					if nil ~= weaponCache[n].relic then
 						if nil ~= weaponCache[n].relic[4] then
 							if nil ~= relicInfo[4] then
 								if weaponCache[n].relic[4] == relicInfo[4] then
-								else 
+								else
 									weaponCache[n] = relicCache
 								end
 							end
@@ -333,7 +334,7 @@ local function updateArtifactCache()
 			end
 		end
 		weaponCache['crucibled'] = crucibled
-		
+
 		--store it in the per-character DB
 		if nil == charDB.char.artifactCache then
 			charDB.char.artifactCache = {}
@@ -353,12 +354,12 @@ local function DecorateArtifact(self)
 		local _, itemID, _, relic1, relic2, relic3, _, _, _, _, _, upgradeID = strsplit(':', link)
 
 		-- 7.2-introduced hack for lack of proper item links
-		if nil == itemID or '' == itemID then 
+		if nil == itemID or '' == itemID then
 			if self:GetName() == "ItemRefTooltip" and itemRefLinkInfo[1] ~= nil and itemRefLinkInfo[1] ~= '' then
 				local tc = GetTime()
 				local tdelta = tc-itemRefLinkInfo[2]
 				local _, itemRefID, _, IRrelic1, IRrelic2, IRrelic3, _, _, _, _, _, IRupgradeID = strsplit(':', itemRefLinkInfo[1])
-				if nil ~= itemRefID and '' ~= itemRefID then 
+				if nil ~= itemRefID and '' ~= itemRefID then
 					if tdelta < t_threshold then
 						link,itemID,relic1,relic2,relic3,upgradeID = itemRefLinkInfo[1],itemRefID,IRrelic1,IRrelic2,IRrelic3,IRupgradeID
 					else
@@ -369,13 +370,13 @@ local function DecorateArtifact(self)
 				local tc = GetTime()
 				local tdelta = tc-GameLinkInfo[2]
 				local _, gID, _, grelic1, grelic2, grelic3, _, _, _, _, _, gupgradeID = strsplit(':', GameLinkInfo[1])
-				if nil ~= gID and '' ~= gID then 
+				if nil ~= gID and '' ~= gID then
 					if tdelta < t_threshold then
 						link,itemID,relic1,relic2,relic3,upgradeID = GameLinkInfo[1],gID,grelic1,grelic2,grelic3,gupgradeID
 					end
 				end
 			end
-		end  
+		end
 
 		if (upgradeID == '256' or upgradeID == '16777472') and nil ~= RelicSlotsByArtifact[tonumber(itemID)] then
 			--It's a recognized artifact item
@@ -388,7 +389,7 @@ local function DecorateArtifact(self)
 			if(isItemRef(self)) then
 				-- Item Links
 				showCrucibleTraits = false -- Never show Crucible for links
-				
+
 				if invLinkOptions[db.profile.linkTraitNames] == 2 then
 					showTraitNames = true
 				end
@@ -425,7 +426,7 @@ local function DecorateArtifact(self)
 
 			local relics = {relic1,relic2,relic3}
 			local showNewNLCTraitMsg = false
-			for i = 1,#relics do 
+			for i = 1,#relics do
 				if '' ~= relics[i] then
 					if DEBUG ~=0 then print(format('Found a Relic: %s',relics[i])) end
 					local name, gemLink = GetItemGem(link,i)
@@ -452,7 +453,7 @@ local function DecorateArtifact(self)
 						if showTraitNames or showTraitDesc then
 							local traitSpellIDs = {}
 
-							-- Add the native trait 
+							-- Add the native trait
 							local spellLookupKey = itemID .. '.' .. relics[i]
 							if nil ~= RelicSpells[spellLookupKey] then
 								tinsert(traitSpellIDs,RelicSpells[spellLookupKey])
@@ -468,11 +469,11 @@ local function DecorateArtifact(self)
 										if nil ~= traitCache then
 											if DEBUG ~=0 then print(format("Traits not nil for relic %d",i)) end
 											local traitsChosen = {}
-											for p = 1,#traitCache do 
+											for p = 1,#traitCache do
 												if nil ~= traitCache[p] then
 													local sID = traitCache[p].spellID
 													local chosen = traitCache[p].isChosen
-													if chosen == true then 
+													if chosen == true then
 														traitsChosen[traitCache[p].requiredArtifactLevel] = true
 														if sID == 250879 then -- 250879 is Netherlight Fortification (+5 Item levels). Show that first since it's special.
 															tinsert(traitSpellIDs,1,sID)
@@ -486,7 +487,7 @@ local function DecorateArtifact(self)
 													end
 												end
 											end
-											for l,isChosen in pairs(traitsChosen) do 
+											for l,isChosen in pairs(traitsChosen) do
 												if not isChosen and l <= weaponArtifactLevel then
 													-- Should have a new trait available!
 													if DEBUG ~=0 then print(format('Relic %d NLC Trait for Level %d should be available',i,l)) end
@@ -510,7 +511,7 @@ local function DecorateArtifact(self)
 								else
 									if charDB.char.crucibleUsed then
 										showNewNLCTraitMsg = true
-									end	
+									end
 								end
 							end
 
@@ -520,7 +521,7 @@ local function DecorateArtifact(self)
 								if showTraitNames == true then
 									if t == 250879 then -- 250879 is Netherlight Fortification
 										self:AddLine(format(RELIC_TOOLTIP_ILVL_INCREASE, 5), 0, 1, 0, false)
-									else  
+									else
 										local traitName = GetSpellInfo(t)
 										if nil ~= traitName then
 											-- Still assuming 1 Rank per relic/trait. Will have to update this if relics ever start giving more than 1 rank
@@ -541,7 +542,7 @@ local function DecorateArtifact(self)
 								end
 							end
 						end
-					end	
+					end
 				end
 			end
 
@@ -549,7 +550,7 @@ local function DecorateArtifact(self)
 				self:AddLine(' ',1,1,1,false)
 				self:AddLine(format(ARTIFACT_RELIC_TALENT_AVAILABLE, 1, traitName), 1, 0, 0, false)
 			end
-		end	
+		end
 	end
 end
 
@@ -563,7 +564,7 @@ local function DecorateRelic(self)
 
 		if nil == relicTypeKey then	return end -- If it's not a relic then we don't care
 
-		local showOffspecs = false 
+		local showOffspecs = false
 		if invRelicOffspecOptions[db.profile.offspecsToShow] > 1 then
 			showOffspecs = true
 		end
@@ -582,7 +583,7 @@ local function DecorateRelic(self)
 						local traitSpellID = RelicSpells[spellLookupKey]
 
 						if nil ~= traitSpellID then
-							local specArtifactInfo = {theSpecID,anArtifactID,traitSpellID} 
+							local specArtifactInfo = {theSpecID,anArtifactID,traitSpellID}
 							if theSpecID ~= currentSpec then 	-- Current spec is already shown by Blizzard UI (if you have that one)
 								tinsert(specTraitInfo,specArtifactInfo)
 							end
@@ -645,7 +646,7 @@ local function DecorateRelic(self)
 			for k in pairs(usableSpecs) do
 				tinsert(specKeys,k)
 			end
-			table.sort(specKeys) 
+			table.sort(specKeys)
 
 			if invRelicSpecOptions[db.profile.relicSpecs] > 3 then
 				for q = 1,#specKeys do
@@ -681,7 +682,7 @@ local function DecorateRelic(self)
 					local classColor = classColorSet.colorStr
 					local separator = "?"
 					if q == #specKeys then separator = "" end
-					local quantity = "" 
+					local quantity = ""
 					if invRelicSpecOptions[db.profile.relicSpecs] == 3 and usableSpecs[specKeys[q]] > 1 then
 						quantity = format('x%d',usableSpecs[specKeys[q]])
 					end
@@ -705,8 +706,8 @@ m:RegisterEvent("MODIFIER_STATE_CHANGED")
 local f = CreateFrame('frame')
 f:SetScript('OnEvent', function(self, event, arg1)
   if arg1 == addonName then
-    self:UnregisterEvent('ADDON_LOADED')
-    initialize()
+	self:UnregisterEvent('ADDON_LOADED')
+	initialize()
   end
 end)
 f:RegisterEvent('ADDON_LOADED')

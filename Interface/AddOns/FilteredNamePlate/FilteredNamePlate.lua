@@ -1,18 +1,13 @@
 local _
 local L = FNP_LOCALE_TEXT
-SLASH_FilteredNamePlate1 = "/fnp"
 local GetNamePlateForUnit , GetNamePlates, UnitThreatSituation = C_NamePlate.GetNamePlateForUnit, C_NamePlate.GetNamePlates, UnitThreatSituation
 local UnitName, GetUnitName = UnitName, GetUnitName
 local UnitHealth, UnitHealthMax = UnitHealth, UnitHealthMax
 local string_find = string.find
 
-local isRegistered, isScaleInited, isErrInLoad, isNullOnlyList, isNullFilterList, isInitedDrop
+local IsGeneralRegistered, SetupFlag
 
--- TODO local IsKillLine1, IsKillLine2, AllInfos, MYNAME
-local isInOnlySt -- #ALLMYINFOS#
-
---Fnnp_OtherNPFlag 0是默认 1是TidyPlate模式 2是Kui 3是EUI 4是NDUI. 5 EKPlate.
---curNNpFlag标记当前采用哪种缩放模式.1表SIMPLE_SCALE模式.2表示EK.0表示原生.
+local isInOnlySt
 
 local curNpFlag, curNpFlag1Type
 
@@ -21,24 +16,6 @@ local function setCVarValues()
 	SetCVar("nameplateShowEnemyMinions", 1)
 	SetCVar("nameplateShowEnemyMinus", 1)
 	SetCVar("nameplateShowAll", 1)
-end
-
-local function regHealthEvents(registed)
-	if registed then
-		FilteredNamePlate_Frame:RegisterEvent("UNIT_HEALTH", actionUnitHealth)
-		FilteredNamePlate_Frame:RegisterEvent("UNIT_MAXHEALTH", actionUnitHealth)
-	else
-		FilteredNamePlate_Frame:UnregisterEvent("UNIT_HEALTH", actionUnitHealth)
-		FilteredNamePlate_Frame:UnregisterEvent("UNIT_MAXHEALTH", actionUnitHealth)
-	end
-end
-
-local function regUnitTargetEvents(registed)
-	if registed then
-		FilteredNamePlate_Frame:RegisterEvent("UNIT_TARGET", actionUnitTarget)
-	else
-		FilteredNamePlate_Frame:UnregisterEvent("UNIT_TARGET", actionUnitTarget)
-	end
 end
 
 local function getTableCount(atab)
@@ -50,79 +27,74 @@ local function getTableCount(atab)
 end
 
 local function registerMyEvents(self, event, ...)
-	if isRegistered == true then return end
-	if Fnp_Enable == nil then
-		Fnp_Enable = true
-	end
-	
-	if FnpEnableKeys == nil then
-		FnpEnableKeys = {
-			tankMod = false,
-			killlineMod = true,
-		}
-	end
+	if (IsGeneralRegistered == nil or IsGeneralRegistered == false) then
+		---**{ first install, init values must be after received ENTER_WORLD
+		if Fnp_Enable == nil then
+			Fnp_Enable = true
+		end
+		if FnpEnableKeys == nil then
+			FnpEnableKeys = {
+				killlineMod = true,
+			}
+		end
+		if Fnp_OtherNPFlag == nil then
+			Fnp_OtherNPFlag = 5
+		end
 
-	if FnpEnableKeys.killlineMod then
-		regHealthEvents(true)
-	end
-	
-	-- TODO AllInfos = {}
-	
-	if FnpEnableKeys.tankMod then
-		regUnitTargetEvents(true)
-	end
-
-	if Fnp_OtherNPFlag == nil then
-		Fnp_OtherNPFlag = 5
-	end
-
-	curNpFlag, curNpFlag1Type = FilteredNamePlate:GenCurNpFlags()
-
-	if Fnp_ONameList == nil then
-		Fnp_ONameList = {}
-		table.insert(Fnp_ONameList, "邪能炸药")
-	end
-
-	if Fnp_FNameList == nil then
-		Fnp_FNameList = {}
-	end
-
-	if isInOnlySt == nil then
-		isInOnlySt = false
-	end
-
-	FilteredNamePlate:InitSavedScaleList()
-
-	-- TODO IsKillLine1 = FnpEnableKeys.killlineMod and (Fnp_SavedScaleList.killline1 < 98)
-	-- TODO IsKillLine2 = FnpEnableKeys.killlineMod and (Fnp_SavedScaleList.killline2 >= 0.02)
-
-	isNullOnlyList = false
-	isNullFilterList = false
-	if getTableCount(Fnp_ONameList) == 0 then isNullOnlyList = true end
-	if getTableCount(Fnp_FNameList) == 0 then isNullFilterList = true end
-
-	isScaleInited = false
-
-	if Fnp_Enable == true then
-		FilteredNamePlate.isSettingChanged = false
-		for k, v in pairs(FilteredNamePlate.FilterNp_EventList) do
-			if k ~= "PLAYER_ENTERING_WORLD" and k ~= "UNIT_HEALTH" and k ~= "UNIT_MAXHEALTH" and k ~= "UNIT_TARGET" then
-				self:RegisterEvent(k,v)
+		if Fnp_ONameList == nil then
+			Fnp_ONameList = {}
+			local thisname = "邪能炸药"
+			local localename = GetLocale()
+			if localename == "enUS" then
+				thisname = "Fel Explosive"
+			elseif localename == "zhTW" then
+				thisname = "魔化炸彈"
+			elseif localname == "ruRU" then
+				thisname = "Желч"
 			end
-        end
-		isRegistered = true
-	end
-end
+			table.insert(Fnp_ONameList, thisname)
+		end
 
-local function unRegisterMyEvents(self)
-	if isRegistered == true then
-		isRegistered = false
-		Fnp_Enable = false
-		for k, v in pairs(FilteredNamePlate.FilterNp_EventList) do
-			if k ~= "PLAYER_ENTERING_WORLD" and k ~= "UNIT_HEALTH" and k ~= "UNIT_MAXHEALTH" and k ~= "UNIT_TARGET" then
-				self:UnregisterEvent(k,v)
+		if Fnp_FNameList == nil then
+			Fnp_FNameList = {}
+		end
+		if Fnp_MyVersion == nil or Fnp_SavedScaleList == nil then
+			Fnp_SavedScaleList = nil
+			Fnp_SavedScaleList = {
+				normal = 1,
+				small = 0.25,
+				only = 1.4,
+				killline = 100,
+				killline_r = 0,
+			}
+			FilteredNamePlate:ChangedSavedScaleList(Fnp_OtherNPFlag)
+		end
+		if Fnp_MyVersion == nil then
+			Fnp_MyVersion = FNP_LOCALE_TEXT.FNP_VERSION
+		end
+
+		--- old -> v6.1.1
+		Fnp_CurVersion = nil
+		--- v6.1.1 -> new
+		if Fnp_MyVersion ~= nil and Fnp_MyVersion < FNP_LOCALE_TEXT.FNP_VERSION then
+			Fnp_MyVersion = FNP_LOCALE_TEXT.FNP_VERSION
+		end
+		-----*** inited **}
+
+		curNpFlag, curNpFlag1Type = FilteredNamePlate:GenCurNpFlags()
+		local function regGeneralEvents(registed)
+			if registed then
+				for k, v in pairs(FilteredNamePlate.FilterNp_Event_General_List) do
+					self:RegisterEvent(k,v)
+				end
+			else
+				for k, v in pairs(FilteredNamePlate.FilterNp_Event_General_List) do
+					self:UnregisterEvent(k,v)
+				end
 			end
-        end
+		end
+		regGeneralEvents(true)
+		IsGeneralRegistered = true
 	end
 end
 
@@ -298,34 +270,50 @@ local ShowAFrame = {
 	end,
 }
 
+local function resetUnitState(restore)
+	for _, frame in pairs(GetNamePlates()) do
+		local foundUnit = (frame.namePlateUnitToken or (frame.UnitFrame and frame.UnitFrame.unit)) or (frame.unitFrame and frame.unitFrame.unit)
+		if foundUnit then
+			ShowAFrame[curNpFlag](frame, false, restore, false)
+		end
+	end
+end
+
 function FilteredNamePlate:actionUnitStateAfterChanged()
-	-- TODO IsKillLine1 = FnpEnableKeys.killlineMod and (Fnp_SavedScaleList.killline1 < 100)
-	-- TODO IsKillLine2 = FnpEnableKeys.killlineMod and (Fnp_SavedScaleList.killline2 >= 0.01)
-	-- TODO AllInfos = {}
+	if SetupFlag == 10 then
+		print(L.FNP_PRINT_ERROR_UITYPE)
+		return
+	end
+	if SetupFlag == 0 then
+		--print("not init yet.")
+		return
+	end
+
 	local lastNp = curNpFlag
 	curNpFlag, curNpFlag1Type = FilteredNamePlate:GenCurNpFlags()
-	if not (curNpFlag == lastNp) then --UI类型有变
-		-- 需要有怪在周围重新 重新获取一下
-		isScaleInited = false
+	if not (curNpFlag == lastNp) then --UI类型有变,请重载,继续当做没有改变来工作
 		print(FNP_LOCALE_TEXT.FNP_CHANGED_UITYPE)
 		return
 	end
 
-	isScaleInited = FilteredNamePlate:initScaleValues(curNpFlag, isScaleInited)
+	setCVarValues()
+	-- reset global vars{{
+	isInOnlySt = false
+	FilteredNamePlate.isSettingChanged = false
+	FilteredNamePlate:reinitScaleValues(curNpFlag, true)
+	-- reset global vars}}
+
 	local matched = false
 	local matched2 = false
-	setCVarValues()
-	isInOnlySt = false
+
 	if Fnp_Enable == true then
-		--仅显
-		isNullOnlyList = false
-		if getTableCount(Fnp_ONameList) == 0 then isNullOnlyList = true end
-		--过滤
-		isNullFilterList = false
-		if getTableCount(Fnp_FNameList) == 0 then isNullFilterList = true end
 		local isHide = false
+		local isNullOnlyList = false
+		local isNullFilterList = false
+		if getTableCount(Fnp_ONameList) == 0 then isNullOnlyList = true end
+		if getTableCount(Fnp_FNameList) == 0 then isNullFilterList = true end
 		for _, frame in pairs(GetNamePlates()) do
-			if isNullOnlyList == true then
+			if isNullOnlyList == true then -- 如果没有仅显单位则过滤单位hide，其他show normal模式
 				matched2 = false
 				if isNullFilterList == false then
 					local foundUnit = (frame.namePlateUnitToken or (frame.UnitFrame and frame.UnitFrame.unit)) or (frame.unitFrame and frame.unitFrame.unit)
@@ -336,7 +324,7 @@ function FilteredNamePlate:actionUnitStateAfterChanged()
 				else
 					ShowAFrame[curNpFlag](frame, false, false, false) -- 全是普通情况
 				end
-			else
+			else						 -- 如果有仅显单位则
 				local foundUnit = (frame.namePlateUnitToken or (frame.UnitFrame and frame.UnitFrame.unit)) or (frame.unitFrame and frame.unitFrame.unit)
 				matched = false
 				if foundUnit then matched = isMatchedNameList(Fnp_ONameList, GetUnitName(foundUnit)) end
@@ -346,7 +334,7 @@ function FilteredNamePlate:actionUnitStateAfterChanged()
 				end
 			end
 		end
-		if isHide == true then
+		if isHide == true then -- onlyShow Mode
 			isInOnlySt = true
 			for _, frame in pairs(GetNamePlates()) do
 				local foundUnit = (frame.namePlateUnitToken or (frame.UnitFrame and frame.UnitFrame.unit)) or (frame.unitFrame and frame.unitFrame.unit)
@@ -356,141 +344,23 @@ function FilteredNamePlate:actionUnitStateAfterChanged()
 					-- 仅显模式仅显的怪
 					ShowAFrame[curNpFlag](frame, false, false, true)
 				else
-					if UnitIsPlayer(foundUnit) == false then HideAFrame[curNpFlag](frame) end
+					HideAFrame[curNpFlag](frame)
 				end
 			end
 		else
-			for _, frame in pairs(GetNamePlates()) do
-				-- 普通模式
-				ShowAFrame[curNpFlag](frame, false, false, false)
-			end	
+			resetUnitState(false)
 		end
-		-- registerMyEvents(FilteredNamePlate_Frame, "", "")
-	else -- 已经关闭功能就全部显示
-		for _, frame in pairs(GetNamePlates()) do
-			local foundUnit = (frame.namePlateUnitToken or (frame.UnitFrame and frame.UnitFrame.unit)) or (frame.unitFrame and frame.unitFrame.unit)
-			if foundUnit then
-				-- disable 还原了！
-				ShowAFrame[curNpFlag](frame, false, true, false)
-			end
-		end
-		-- unRegisterMyEvents(FilteredNamePlate_Frame)
-	end
-end
-
-local function getUnitIdInfo(unitid, reset)
-	if AllInfos[unitid] and (not reset) and AllInfos[unitid].inSee then
-		return
-	end
-	AllInfos[unitid] = nil
-	AllInfos[unitid] = {
-		tankModTS = 0,
-		healModTS = 0,
-		matchType = 0, -- 0 是无。1是onlyShow，2是filterShow
-		inSee = true,
-		trigger1 = 0, 
-		trigger2 = 0,
-	}  -- #ALLMYINFOS#
-end
-
-local function actionChangedByHeal(unitid, shouldBig, needShowBack)
-	if shouldBig then
-		local frame = GetNamePlateForUnit(unitid)
-		ShowAFrame[curNpFlag](frame, false, false, true)
 	else
-		if needShowBack then
-			local frame = GetNamePlateForUnit(unitid)
-			if isInOnlySt and AllInfos[unitid].matchType == 1 then
-				ShowAFrame[curNpFlag](frame, false, false, true) -- 仇恨回来了，恢复正常。但是是仅显目标则变大
-			elseif (not isInOnlySt) and AllInfos[unitid].matchType == 0 then
-				ShowAFrame[curNpFlag](frame, false, false, false) -- 仇恨回来了，恢复正常。
-			elseif (not isInOnlySt) and AllInfos[unitid].matchType == 1 then
-				print("Error not only Show but match 1 !!")
-			else
-				HideAFrame[curNpFlag](frame) -- 仇恨回来了，恢复正常。 但是这些情况应该变小Hide
-			end
-		end -- 如果是在UNIT_ADD传过来nil，将不处理，继续让Add函数处理即可
-	end
-end
-
-local function actionChangedByTarget(unitid, shouldBig, needShowBack)
-	if shouldBig then
-		local frame = GetNamePlateForUnit(unitid)
-		ShowAFrame[curNpFlag](frame, false, false, true)
-	else
-		if needShowBack then
-			local frame = GetNamePlateForUnit(unitid)
-			if isInOnlySt and AllInfos[unitid].matchType == 1 then
-				ShowAFrame[curNpFlag](frame, false, false, true) -- 仇恨回来了，恢复正常。但是是仅显目标则变大
-			elseif (not isInOnlySt) and AllInfos[unitid].matchType == 0 then
-				ShowAFrame[curNpFlag](frame, false, false, false) -- 仇恨回来了，恢复正常。
-			elseif (not isInOnlySt) and AllInfos[unitid].matchType == 1 then
-				print("Error not only Show but match 1 !!")
-			else
-				HideAFrame[curNpFlag](frame) -- 仇恨回来了，恢复正常。 但是这些情况应该变小Hide
-			end
-		end -- 如果是在UNIT_ADD传过来nil，将不处理，继续让Add函数处理即可
-	end
-end
-
-local function actionUnitHealth(self, event, ...)
-	local unitid = ...
-	if UnitIsPlayer(unitid) then
-		return
-	end
-	getUnitIdInfo(unitid, false)
-	local ts = GetTime()
-	if (AllInfos[unitid].healModTS + 0.2) >= ts then -- ###刷新血量监听频率
-		return
-	end
-	AllInfos[unitid].healModTS = ts
-	local hmax = UnitHealthMax(unitid)
-	local curh = UnitHealth(unitid)
-	if hmax > 0 then
-		local perc = (curh * 100) / hmax
-		local isKill = false
-		if IsKillLine1 and perc >= Fnp_SavedScaleList.killline1 then
-			isKill = true
-		end
-		if (not isKill) and IsKillLine2 and perc <= Fnp_SavedScaleList.killline2 then
-			isKill = true
-		end
-		actionChangedByHeal(unitid, isKill, event)
-	else
-		AllInfos[unitid] = nil
-	end
-end
-
-local function actionUnitTarget(self, event, ...)
-	local unitid = ...
-	if UnitIsPlayer(unitid) then
-		return
-	end
-	getUnitIdInfo(unitid, false)
-	local ts = GetTime()
-	
-	if ((AllInfos[unitid].tankModTS + 0.5) >= ts) then -- ###刷新嘲讽频率
-		return
-	end
-
-	AllInfos[unitid].tankModTS = ts
-	local st = UnitThreatSituation("player", frame)
-	if st == nil then return end
-	if st == 0 then
-		actionChangedByTarget(unitid, true, event)
-	else
-		actionChangedByTarget(unitid, (UnitName(unitid.."target") ~= MYNAME), event)
+		resetUnitState(true)
 	end
 end
 
 local function actionUnitAddedForce(unitid)
 	local addedname = UnitName(unitid)
-	--TODO getUnitIdInfo(unitid, true)
 	--AllInfos[unitid].name = addedname  -- #ALLMYINFOS#
 
 	-- 0. 当前Add的单位名,是否match filter
-	local curFilterMatch = false
-	if isNullFilterList == false then curFilterMatch = isMatchedNameList(Fnp_FNameList, addedname) end
+	local curFilterMatch = isMatchedNameList(Fnp_FNameList, addedname)
 	if curFilterMatch == true then
 		--AllInfos[unitid].matchType = 2  -- #ALLMYINFOS#
 		local frame = GetNamePlateForUnit(unitid)
@@ -532,9 +402,6 @@ local function actionUnitAddedForce(unitid)
 		end
 		isInOnlySt = true
 	end
-	if FnpEnableKeys.tankMod then
-		actionUnitTarget(nil, nil, unitid)
-	end
 end
 
 local function actionUnitRemovedForce(unitid)
@@ -574,37 +441,30 @@ end
 ---------k k k---k k k---k k k-------------
 
 local function actionUnitAdded(self, event, ...)
-	if isScaleInited == false then
-		isScaleInited = FilteredNamePlate:initScaleValues(curNpFlag, isScaleInited)
-		setCVarValues()
-	end
-
-	if isScaleInited == false then
-		if isErrInLoad == false then
-			isErrInLoad = true
-			print(L.FNP_PRINT_ERROR_UITYPE)
-			print(L.FNP_PRINT_ERROR_UITYPE)
-			print(L.FNP_PRINT_ERROR_UITYPE)
-		end
-		return
-	end
-	if Fnp_Enable == false then return end
-	if isNullOnlyList == true and isNullFilterList == true then
-		return
-	end
-
+	if Fnp_Enable == false or SetupFlag == 10 then return end
 	local unitid = ...
 	if UnitIsPlayer(unitid) then
 		return
 	end
+
+	if SetupFlag == 0 then
+		local inited = FilteredNamePlate:initScaleValues(curNpFlag, false) -- 第一次
+		if inited == false then
+			SetupFlag = 10 -- 错误永不再用，直到重载
+			print(L.FNP_PRINT_ERROR_UITYPE)
+			print(L.FNP_PRINT_ERROR_UITYPE)
+			print(L.FNP_PRINT_ERROR_UITYPE)
+			return
+		else
+			SetupFlag = 1
+		end
+		setCVarValues() -- 一次load执行一次
+	end
+
 	actionUnitAddedForce(unitid)
 end
 
 local function actionUnitRemoved(self, event, ...)
-	--这里不需要判断是否为空
-	-- if isNullOnlyList == true and isNullFilterList == true then
-	--	return
-	-- end
 	if isInOnlySt == false then
 		-- 当前处于没有仅显模式,表明所有血条都开着的
 		return
@@ -655,7 +515,27 @@ local function actionUnitSpellCastStop(self, event, ...)
 	end
 end
 
-FilteredNamePlate.FilterNp_EventList = {
+function FilteredNamePlate_OnEvent(self, event, ...)
+	local handler = FilteredNamePlate.FilterNp_Event_General_List[event]
+	if handler then
+	    handler(self, event, ...)
+	elseif event == "PLAYER_ENTERING_WORLD" then
+		registerMyEvents(self, event, ...)
+	end
+end
+
+function FilteredNamePlate_OnLoad()
+	--** global vars reset
+	SetupFlag = 0
+	IsGeneralRegistered = false
+	isInOnlySt = false
+	FilteredNamePlate.isSettingChanged = false
+	-- MYNAME = UnitName("player")
+	FilteredNamePlate_Frame:RegisterEvent("PLAYER_ENTERING_WORLD")
+end
+
+-- 必须放在最下面
+FilteredNamePlate.FilterNp_Event_General_List = {
 	["NAME_PLATE_UNIT_ADDED"]         = actionUnitAdded,
 	["NAME_PLATE_UNIT_REMOVED"]       = actionUnitRemoved,
 
@@ -663,263 +543,4 @@ FilteredNamePlate.FilterNp_EventList = {
 	["UNIT_SPELLCAST_CHANNEL_START"]  = actionUnitSpellCastStart,
 	["UNIT_SPELLCAST_STOP"]           = actionUnitSpellCastStop,
 	["UNIT_SPELLCAST_CHANNEL_STOP"]   = actionUnitSpellCastStop,
-
-	["PLAYER_ENTERING_WORLD"]         = registerMyEvents,
-
-	["UNIT_HEALTH"]                   = actionUnitHealth,
-	["UNIT_MAXHEALTH"]                = actionUnitHealth,
-	["UNIT_TARGET"]                   = actionUnitTarget
-};
-
-function FilteredNamePlate_OnEvent(self, event, ...)
-	local handler = FilteredNamePlate.FilterNp_EventList[event]
-	if handler then
-	    handler(self, event, ...)
-	end
-end
-
-function FilteredNamePlate_OnLoad()
-	isRegistered = false
-	isErrInLoad = false
-	-- TODO MYNAME = UnitName("player")
-	FilteredNamePlate_Frame:RegisterEvent("PLAYER_ENTERING_WORLD")
-end
-
-function FilteredNamePlate:AvailabilityDropDown_OnShow(frame)
-	if isInitedDrop == nil or isInitedDrop == false then
-		local function DropDown_OnClick(val)
-			UIDropDownMenu_SetSelectedValue(FilteredNamePlate_Frame_DropDownUIType, val)
-			UIDropDownMenu_SetText(FilteredNamePlate_Frame_DropDownUIType, FilteredNamePlate.UITypeList[val])
-			if Fnp_OtherNPFlag == val then return end
-			Fnp_OtherNPFlag = val
-
-			FilteredNamePlate:ChangedSavedScaleList(val)
-
-			FilteredNamePlate_Frame_OnlyShowScale:SetValue(Fnp_SavedScaleList.only * 100)
-			FilteredNamePlate.isSettingChanged = true
-			FilteredNamePlate_Frame_reloadUIBtn:Show()
-			FilteredNamePlate_Frame_takeEffectBtn:Show()
-		end
-
-		local function initWithDropDown()
-			local self = FilteredNamePlate
-			local info = {}
-			local i = 0
-			for i=0,#FilteredNamePlate.UITypeCheckList do
-				FilteredNamePlate.UITypeCheckList[i] = false
-			end
-			FilteredNamePlate.UITypeCheckList[Fnp_OtherNPFlag] = true
-			i = 0
-			for i = 0,#FilteredNamePlate.UITypeList do
-				info.text = FilteredNamePlate.UITypeList[i]
-				info.value = i
-				info.checked = FilteredNamePlate.UITypeCheckList[i]
-				info.keepShownOnClick = false
-				info.func = function(_, self, val) DropDown_OnClick(val) end
-				info.arg1 = self
-				info.arg2 = i
-				UIDropDownMenu_AddButton(info)
-			end
-		end
-		UIDropDownMenu_Initialize(frame, initWithDropDown)
-		isInitedDrop = true
-	end
-	UIDropDownMenu_SetText(frame, FilteredNamePlate.UITypeList[Fnp_OtherNPFlag])
-end
-
-function FilteredNamePlate:FNP_EnableButtonChecked(frame, checked, ...)
-	if frame then
-		if FilteredNamePlate_Frame == nil then return end
-		if not FilteredNamePlate_Frame:IsShown() then return end
-		local info = ...
-		if info == "killline" then
-			if FnpEnableKeys.tankMod then
-				FilteredNamePlate_Frame_TankModCB:SetChecked(false)
-				FnpEnableKeys.tankMod = false
-				regUnitTargetEvents(false)
-			end
-			FnpEnableKeys.killlineMod = checked
-			IsKillLine1 = FnpEnableKeys.killlineMod and (Fnp_SavedScaleList.killline1 < 100)
-			IsKillLine2 = FnpEnableKeys.killlineMod and (Fnp_SavedScaleList.killline2 >= 0.01)
-			if FnpEnableKeys.killlineMod then
-				FilteredNamePlate_Menu4:Enable() -- modify --
-				--TODO 添加血量变化
-			else
-				FilteredNamePlate_Menu4:Disable() -- modify --
-			end
-			regHealthEvents(FnpEnableKeys.killlineMod)
-		elseif info == "tank" then
-			if FnpEnableKeys.killlineMod then
-				FilteredNamePlate_Frame_KilllineModCB:SetChecked(false)
-				FnpEnableKeys.killlineMod = false
-				IsKillLine1 = false
-				IsKillLine2 = false
-				FilteredNamePlate_Menu4:Disable() -- modify --
-				regHealthEvents(FnpEnableKeys.killlineMod)
-			end
-			FnpEnableKeys.tankMod = checked
-			regUnitTargetEvents(FnpEnableKeys.tankMod)
-		end
-		return
-	end
-	Fnp_Enable = checked
-	FilteredNamePlate:actionUnitStateAfterChanged()
-end
-
-function FilteredNamePlate:FNP_ModeEditBoxWritenEsc()
-	local names = ""
-	local first = true
-	for key, var in ipairs(Fnp_ONameList) do
-		if first then
-			names = var
-			first = false
-		else
-			names = names..";"..var
-		end
-	end
-	FilteredNamePlate_Frame_OnlyShowModeEditBox:SetText(names);
-
-	names = ""
-	first = true
-	for key, var in ipairs(Fnp_FNameList) do
-		if first then
-			names = var
-			first = false
-		else
-			names = names..";"..var
-		end
-	end
-	FilteredNamePlate_Frame_FilteredModeEditBox:SetText(names);
-end
-
-function FilteredNamePlate:FNP_ModeEditBoxWriten(mode, inputStr)
-	if mode == "o" then
-		Fnp_ONameList = {}
-		string.gsub(inputStr, '[^;]+', function(w) table.insert(Fnp_ONameList, w) end )
-	else
-		Fnp_FNameList = {}
-		string.gsub(inputStr, '[^;]+', function(w) table.insert(Fnp_FNameList, w) end )
-	end
-end
-
-function FilteredNamePlate:FNP_ChangeFrameVisibility(...)
-	local info = ...
-	if info == nil then
-		if FilteredNamePlate_Frame:IsVisible() then
-			FilteredNamePlate_Frame:Hide()
-			FilteredNamePlate_Menu:Hide()
-		else
-			local oldChange = FilteredNamePlate.isSettingChanged
-			FilteredNamePlate_Frame_EnableCheckButton:SetChecked(Fnp_Enable);
-			-- FilteredNamePlate_Frame_TankModCB:SetChecked(FnpEnableKeys.tankMod);-- close tank ###
-			-- FilteredNamePlate_Frame_KilllineModCB:SetChecked(FnpEnableKeys.killlineMod);
-
-			FilteredNamePlate_Frame_OnlyShowScale:SetValue(Fnp_SavedScaleList.only * 100)
-			FilteredNamePlate_Frame_OnlyOtherShowScale:SetValue(Fnp_SavedScaleList.small * 100)
-			FilteredNamePlate_Frame_SystemScale:SetValue(Fnp_SavedScaleList.normal * 100)
-
-			FilteredNamePlate_Frame_Slider_KL1:SetValue(Fnp_SavedScaleList.killline1 * 100)
-			FilteredNamePlate_Frame_Slider_KL2:SetValue(Fnp_SavedScaleList.killline2 * 100)
-
-			FilteredNamePlate_Frame_OnlyShowModeEditBox:SetText(table.concat(Fnp_ONameList, ";"));
-			FilteredNamePlate_Frame_FilteredModeEditBox:SetText(table.concat(Fnp_FNameList, ";"));
-
-			if FnpEnableKeys.killlineMod then
-				FilteredNamePlate_Menu4:Enable() -- modify --
-			else
-				FilteredNamePlate_Menu4:Disable() -- modify --
-			end
-
-			if oldChange == false then
-				FilteredNamePlate_Frame_takeEffectBtn:Hide()
-			end
-			FilteredNamePlate_Frame:Show()
-			FilteredNamePlate_Menu:Show()
-		end
-	else
-		local function ClickOnMenu(info)
-			FilteredNamePlate_Menu1:UnlockHighlight()
-			FilteredNamePlate_Menu2:UnlockHighlight()
-			FilteredNamePlate_Menu3:UnlockHighlight()
-			FilteredNamePlate_Menu4:UnlockHighlight()
-			FilteredNamePlate_Menu5:UnlockHighlight()
-
-			FilteredNamePlate_Frame_EnableCheckButton:Hide()
-			-- FilteredNamePlate_Frame_TankModCB:Hide()
-			-- FilteredNamePlate_Frame_KilllineModCB:Hide()
-			FilteredNamePlate_Frame_uitype:Hide()
-			FilteredNamePlate_Frame_DropDownUIType:Hide()
-			
-			FilteredNamePlate_Frame_OnlyShowModeEditBox:Hide()
-			FilteredNamePlate_Frame_FilteredModeEditBox:Hide()
-			FilteredNamePlate_Frame_OnlyShows_Text:Hide()
-			FilteredNamePlate_Frame_Filters_Text:Hide()
-			FilteredNamePlate_Frame_note:Hide()
-
-			FilteredNamePlate_Frame_SystemScale:Hide()
-			FilteredNamePlate_Frame_OnlyShowScale:Hide()
-			FilteredNamePlate_Frame_OnlyOtherShowScale:Hide()
-
-			FilteredNamePlate_Frame_Slider_KL1:Hide()
-			FilteredNamePlate_Frame_Slider_KL2:Hide()
-
-			FilteredNamePlate_Frame_ShareIcon:Hide()
-
-			FilteredNamePlate_Frame_AuthorText:Hide()
-			FilteredNamePlate_Frame_webText:Hide()
-			FilteredNamePlate_Frame_reloadUIBtn:Hide()
-			if info == "general" then
-				FilteredNamePlate_Menu1:LockHighlight()
-				FilteredNamePlate_Frame_EnableCheckButton:Show()
-				-- FilteredNamePlate_Frame_TankModCB:Hide() -- close tank ###
-				-- FilteredNamePlate_Frame_KilllineModCB:Show()
-				FilteredNamePlate_Frame_uitype:Show()
-				FilteredNamePlate_Frame_DropDownUIType:Show()
-			elseif info == "filter" then
-				FilteredNamePlate_Menu2:LockHighlight()
-				FilteredNamePlate_Frame_OnlyShowModeEditBox:Show()
-				FilteredNamePlate_Frame_FilteredModeEditBox:Show()
-				FilteredNamePlate_Frame_OnlyShows_Text:Show()
-				FilteredNamePlate_Frame_Filters_Text:Show()
-				FilteredNamePlate_Frame_note:Show()
-			elseif info == "percent" then
-				FilteredNamePlate_Menu3:LockHighlight()
-				FilteredNamePlate_Frame_SystemScale:Show()
-				FilteredNamePlate_Frame_OnlyShowScale:Show()
-				FilteredNamePlate_Frame_OnlyOtherShowScale:Show()
-			elseif info == "killline" then
-				FilteredNamePlate_Menu4:LockHighlight()
-				FilteredNamePlate_Frame_Slider_KL1:Show()
-				FilteredNamePlate_Frame_Slider_KL2:Show()
-			elseif info == "about" then
-				FilteredNamePlate_Menu5:LockHighlight()
-				FilteredNamePlate_Frame_ShareIcon:Show()
-				FilteredNamePlate_Frame_AuthorText:Show()
-				FilteredNamePlate_Frame_webText:Show()
-				FilteredNamePlate_Frame_reloadUIBtn:Show()
-			end
-		end
-		ClickOnMenu(info)
-	end
-end
-
-function SlashCmdList.FilteredNamePlate(msg)
-	if msg == "" then
-		print(L.FNP_PRINT_HELP0)
-		print(L.FNP_PRINT_HELP1)
-		print(L.FNP_PRINT_HELP2)
-		print(L.FNP_PRINT_HELP3)
-	elseif msg == "options" or msg == "opt" then
-		FilteredNamePlate:FNP_ChangeFrameVisibility()
-	elseif msg == "change" or msg == "ch" then
-		if Fnp_Enable == true then
-			FilteredNamePlate_Frame_EnableCheckButton:SetChecked(false)
-			FilteredNamePlate:FNP_EnableButtonChecked(FilteredNamePlate_Frame, false)
-		else
-			FilteredNamePlate_Frame_EnableCheckButton:SetChecked(true)
-			FilteredNamePlate:FNP_EnableButtonChecked(FilteredNamePlate_Frame, true)
-		end
-	elseif msg == "refresh" then
-		FilteredNamePlate:actionUnitStateAfterChanged()
-	end
-end
+}

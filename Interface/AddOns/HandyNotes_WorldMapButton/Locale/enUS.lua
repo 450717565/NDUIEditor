@@ -1,4 +1,4 @@
-local debug = false
+﻿local debug = false
 --[===[@debug@
 debug = true
 --@end-debug@]===]

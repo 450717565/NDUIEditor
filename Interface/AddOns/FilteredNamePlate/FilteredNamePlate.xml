@@ -1,4 +1,5 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/..\FrameXML\UI.xsd">
+<Script file="FilteredNamePlateMenu.lua"/>
 <Script file="FilteredNamePlate.lua"/>
 <Frame name="FilteredNamePlate_Frame" hidden="true" parent="UIParent" toplevel="true" movable="true" frameStrata="HIGH" enableMouse="true" enableKeyboard="true">
 	<Size>
@@ -35,35 +36,11 @@
 				_G[self:GetName().."Text"]:SetText(FNP_LOCALE_TEXT.FNP_ENABLE_TXT);
 				</OnLoad>
 				<OnClick>
-					FilteredNamePlate:FNP_EnableButtonChecked(nil, self:GetChecked())
+					FilteredNamePlate:FNP_EnableButtonChecked(self:GetChecked(), "MASTER_BTN")
 				</OnClick>
 			</Scripts>
 		</CheckButton>
-		<!-- CheckButton name="$parent_TankModCB" inherits="OptionsCheckButtonTemplate" hidden="true">
-			<Anchors>
-				<Anchor point="TOPLEFT" relativeTo="$parent">
-				<Offset>
-					<AbsDimension x="70" y="-130" />
-				</Offset>
-				</Anchor>
-			</Anchors>
-			<Scripts>
-				<OnLoad>
-				_G[self:GetName().."Text"]:SetText(FNP_LOCALE_TEXT.FNP_ENABLE_TANK_TXT);
-				</OnLoad>
-				<OnClick>
-					FilteredNamePlate:FNP_EnableButtonChecked(self, self:GetChecked(), "tank")
-				</OnClick>
-				<OnEnter>
-                   GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
-				   GameTooltip:SetText(FNP_LOCALE_TEXT.FNP_ENABLE_TANK_TXT_TOOLTIP);
-             	</OnEnter>
-              	<OnLeave>
-                  GameTooltip:Hide()
-              	</OnLeave>
-			</Scripts>
-		</CheckButton>
-		<CheckButton name="$parent_KilllineModCB" inherits="OptionsCheckButtonTemplate">
+		<!-- CheckButton name="$parent_KilllineModCB" inherits="OptionsCheckButtonTemplate">
 			<Anchors>
 				<Anchor point="TOPLEFT" relativeTo="$parent">
 				<Offset>
@@ -76,10 +53,10 @@
 				_G[self:GetName().."Text"]:SetText(FNP_LOCALE_TEXT.FNP_ENABLE_KILLINE_TXT);
 				</OnLoad>
 				<OnClick>
-					FilteredNamePlate:FNP_EnableButtonChecked(self, self:GetChecked(), "killline")
+					FilteredNamePlate:FNP_EnableButtonChecked(self:GetChecked(), "KILL_LINE_BTN")
 				</OnClick>
 			</Scripts>
-		</CheckButton> -->
+		</CheckButton -->
 		<!-- UIType start -->
 		<Frame name="$parent_DropDownUIType" inherits="UIDropDownMenuTemplate" id="1">
 			<Anchors>
@@ -189,7 +166,7 @@
 			<Anchors>
 				<Anchor point="RIGTH" relativeTo="$parent" relativePoint="BOTTOMRIGHT">
 				<Offset>
-					<AbsDimension x="-150" y="98" />
+					<AbsDimension x="-225" y="130" />
 				</Offset>
 				</Anchor>
 			</Anchors>
@@ -220,7 +197,7 @@
 			   </OnLoad>
 			   <OnValueChanged>
 			   	  _G[self:GetName().."Text"]:SetText(FNP_LOCALE_TEXT.FNP_DEFAULT_SCALE_TXT.."("..string.format("%.0f", self:GetValue()).."%)");
-				  Fnp_SavedScaleList.normal = string.format("%.2f", self:GetValue() / 100)
+				  Fnp_SavedScaleList.normal = tonumber(string.format("%.2f", self:GetValue() / 100))
 				  if FilteredNamePlate_Frame:IsShown() then
 				  	  FilteredNamePlate.isSettingChanged = true
 				  	  FilteredNamePlate_Frame_takeEffectBtn:Show()
@@ -253,7 +230,7 @@
 			   </OnLoad>
 			   <OnValueChanged>
 			      _G[self:GetName().."Text"]:SetText(FNP_LOCALE_TEXT.FNP_ONLYSHOW_SCALE_TXT.."("..string.format("%.0f", self:GetValue()).."%)");
-				  Fnp_SavedScaleList.only = string.format("%.2f", self:GetValue() / 100)
+				  Fnp_SavedScaleList.only = tonumber(string.format("%.2f", self:GetValue() / 100))
 				  if FilteredNamePlate_Frame:IsShown() then
 				      FilteredNamePlate.isSettingChanged = true
 				      FilteredNamePlate_Frame_takeEffectBtn:Show()
@@ -288,7 +265,7 @@
 				  _G[self:GetName().."Text"]:SetText(FNP_LOCALE_TEXT.FNP_ONLYSHOW_OTHER_SCALE_TXT.."("..string.format("%.0f", self:GetValue()).."%)");
 				  <!-- FilteredNamePlate_AdvancedFrame_show_TextOnlyOther:SetText("OnyShow Exclude Scale".."("..string.format("%.0f", self:GetValue()).."%)");
 				  -->
-				  Fnp_SavedScaleList.small = string.format("%.2f", self:GetValue() / 100)
+				  Fnp_SavedScaleList.small = tonumber(string.format("%.2f", self:GetValue() / 100))
 				  if FilteredNamePlate_Frame:IsShown() then
 				      FilteredNamePlate.isSettingChanged = true
 				      FilteredNamePlate_Frame_takeEffectBtn:Show()
@@ -303,7 +280,7 @@
 			   </OnLeave>
 		   </Scripts>
         </Slider>
-		<Slider name="$parent_Slider_KL1" inherits="OptionsSliderTemplate" hidden="true">
+		<!-- Slider name="$parent_Slider_KL1" inherits="OptionsSliderTemplate">
 			<Anchors>
 				<Anchor point="LEFT">
 				  <Offset>
@@ -336,7 +313,7 @@
 			   </OnLeave>
             </Scripts>
         </Slider>
-		<Slider name="$parent_Slider_KL2" inherits="OptionsSliderTemplate" hidden="true">
+		<Slider name="$parent_Slider_KL2" inherits="OptionsSliderTemplate">
 		   <Anchors>
 			   <Anchor point="LEFT">
 				  <Offset>
@@ -368,7 +345,7 @@
 				  GameTooltip:Hide();
 			   </OnLeave>
 		   </Scripts>
-        </Slider>
+        </Slider -->
 		<Button name="FilteredNamePlate_Frame_takeEffectBtn" inherits="OptionsButtonTemplate" Hidden="true" text="">
 			<Size>
 				<AbsDimension x="45" y="35" />
@@ -398,7 +375,7 @@
 			<Anchors>
 				<Anchor point="TOPLEFT" relativeTo="FilteredNamePlate_Frame_takeEffectBtn">
 				<Offset>
-					<AbsDimension x="-80" y="0" />
+					<AbsDimension x="-160" y="0" />
 				</Offset>
 				</Anchor>
 			</Anchors>
@@ -426,7 +403,7 @@
 					</Anchor>
 				</Anchors>
 			</Texture>
-			<FontString name="$parent_Header_Text" inherits="GameFontNormal" text="FNP v6.0">
+			<FontString name="$parent_Header_Text" inherits="GameFontNormal" text="FNP v6.1.1">
 				<Anchors>
 					<Anchor point="TOP" relativeTo="$parent_Header">
 						<Offset>

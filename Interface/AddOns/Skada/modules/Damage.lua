@@ -296,10 +296,10 @@ Skada:AddLoadableModule("Damage", nil, function(Skada, L)
             local activetime = Skada:PlayerActiveTime(set, player)
 			local totaltime = Skada:GetSetTime(set)
 			tooltip:AddLine(player.name.." - "..L["DPS"])
-			tooltip:AddDoubleLine(L["Segment time"], totaltime.."Áßí", 255,255,255,255,255,255)
-			tooltip:AddDoubleLine(L["Active time"], activetime.."Áßí", 255,255,255,255,255,255)
+			tooltip:AddDoubleLine(L["Segment time"], totaltime.."√Î", 255,255,255,255,255,255)
+			tooltip:AddDoubleLine(L["Active time"], activetime.."√Î", 255,255,255,255,255,255)
 			tooltip:AddDoubleLine(L["Damage done"], Skada:FormatNumber(player.damage), 255,255,255,255,255,255)
-			tooltip:AddDoubleLine(Skada:FormatNumber(player.damage) .. " / " .. activetime .. "Áßí :", Skada:FormatNumber(player.damage / math.max(1,activetime)), 255,255,255,255,255,255)
+			tooltip:AddDoubleLine(Skada:FormatNumber(player.damage) .. " / " .. activetime .. "√Î :", Skada:FormatNumber(player.damage / math.max(1,activetime)), 255,255,255,255,255,255)
 
 		end
 	end

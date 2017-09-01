@@ -138,6 +138,11 @@ local defaultSettings = {
 		RCLC = true,
 		ExtraCD = true,
 		WeakAuras = true,
+		BarLine = true,
+		InfobarLine = true,
+		ChatLine = true,
+		MenuLine = true,
+		ClassLine = true,
 	},
 	Tooltip = {
 		CombatHide = false,
@@ -168,6 +173,7 @@ local defaultSettings = {
 		Screenshot = true,
 		TradeTab = false,
 		Interrupt = false,
+		OwnInterrupt = false,
 		FasterLoot = false,
 		AutoQuest = false,
 		HideTalking = false,
@@ -354,9 +360,10 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Skins", "RM", L["Raid Manger"]},
 		{},--blank
 		{1, "Misc", "Interrupt", L["Interrupt Alert"]},
-		{1, "Misc", "ReflectingAlert", L["Reflecting Alert"], true},
-		{1, "Misc", "SwapingAlert", L["Swaping Alert"]},
-		{1, "Misc", "SistersAlert", L["SistersAlert Alert"], true},
+		{1, "Misc", "OwnInterrupt", L["Own Interrupt"], true},
+		{1, "Misc", "ReflectingAlert", L["Reflecting Alert"]},
+		{1, "Misc", "SwapingAlert", L["Swaping Alert"], true},
+		{1, "Misc", "SistersAlert", L["SistersAlert Alert"]},
 		{},--blank
 		{1, "Skins", "RMRune", L["Runes Check"]},
 		{1, "Skins", "EasyMarking", L["Easy Mark"], true},
@@ -395,10 +402,16 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{3, "Map", "MinmapScale", L["Minimap Scale"], true, {1, 2, 1}},
 	},
 	[10] = {
+		{1, "Skins", "BarLine", L["Bar Line"]},
+		{1, "Skins", "InfobarLine", L["Infobar Line"], true},
+		{1, "Skins", "ChatLine", L["Chat Line"]},
+		{1, "Skins", "MenuLine", L["Menu Line"], true},
+		{1, "Skins", "ClassLine", L["ClassColor Line"]},
+		{},--blank
 		{1, "Skins", "MicroMenu", L["Micromenu"]},
-		{1, "Skins", "FontFlag", L["Global FontStyle"]},
+		{1, "Skins", "FontFlag", L["Global FontStyle"], true},
 		{1, "Skins", "PetBattle", L["PetBattle Skin"]},
-		{1, "Skins", "TrackerSkin", L["ObjectiveTracker Skin"]},
+		{1, "Skins", "TrackerSkin", L["ObjectiveTracker Skin"], true},
 		{},--blank
 		{1, "Skins", "DBM", L["DBM Skin"]},
 		{1, "Skins", "Skada", L["Skada Skin"], true},
@@ -493,7 +506,7 @@ local function CreateTab(i, name)
 	end
 
 	tab:SetScript("OnClick", function(self)
-		PlaySoundKitID("gsTitleOptionOK")
+		PlaySound(SOUNDKIT.GS_TITLE_OPTION_OK)
 		SelectTab(i)
 	end)
 	tab:SetScript("OnEnter", function(self)
@@ -786,7 +799,7 @@ end)
 gui:SetScript("OnClick", function()
 	OpenGUI()
 	HideUIPanel(GameMenuFrame)
-	PlaySoundKitID("igMainMenuOption")
+	PlaySound(SOUNDKIT.IG_MAINMENU_OPTION)
 end)
 
 -- Aurora Reskin

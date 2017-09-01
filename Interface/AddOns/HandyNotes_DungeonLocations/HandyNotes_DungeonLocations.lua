@@ -295,8 +295,8 @@ end
 function Addon:PLAYER_LOGIN()
  local options = {
  type = "group",
- name = "副本位置",
- desc = "显示地下城副本和团队副本的位置",
+ name = "DungeonLocations",
+ desc = "Locations of dungeon and raid entrances.",
  get = function(info) return db[info[#info]] end,
  set = function(info, v) db[info[#info]] = v HandyNotes:SendMessage("HandyNotes_NotifyUpdate", "DungeonLocations") end,
  args = {

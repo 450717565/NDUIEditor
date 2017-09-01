@@ -21,8 +21,7 @@ ns.defaults = {
 
 ns.options = {
     type = "group",
-    name = "稀有精英和宝箱",
-    desc = "破碎群岛稀有精英和宝箱位置",
+    name = myname:gsub("HandyNotes_", ""),
     get = function(info) return ns.db[info[#info]] end,
     set = function(info, v)
         ns.db[info[#info]] = v

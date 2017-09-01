@@ -2718,6 +2718,8 @@ C.AuraWatchList = {
 				--守陵者，2T20
 				{AuraID = 242010, UnitID = "player"},
 			-->冰霜
+				--酷寒突袭
+				{AuraID = 253595, UnitID = "player"},
 				--冰冻灵魂
 				{AuraID = 204957, UnitID = "player"},
 				--白霜

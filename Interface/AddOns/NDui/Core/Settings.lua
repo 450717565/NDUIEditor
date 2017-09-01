@@ -150,6 +150,7 @@ local function ForceDBMOptions()
 				["Scale"] = 1,
 				["HugeScale"] = 1,
 				["ExpandUpwards"] = true,
+				["ExpandUpwardsLarge"] = true,
 				["BarXOffset"] = 0,
 				["BarYOffset"] = 16,
 				["TimerPoint"] = "CENTER",
@@ -408,7 +409,7 @@ local function YesTutor()
 		if currentPage > 3 then pass:Hide() end
 		currentPage = currentPage + 1
 		RefreshText(currentPage)
-		PlaySoundKitID("igQuestLogOpen")
+		PlaySound(SOUNDKIT.IG_QUEST_LOG_OPEN)
 	end)
 	apply:SetScript("OnClick", function()
 		pass:Show()
@@ -438,7 +439,7 @@ local function YesTutor()
 
 		currentPage = currentPage + 1
 		RefreshText(currentPage)
-		PlaySoundKitID("igQuestLogOpen")
+		PlaySound(SOUNDKIT.IG_QUEST_LOG_OPEN)
 	end)
 end
 

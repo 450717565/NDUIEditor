@@ -104,7 +104,7 @@ local function SetItemLevel(self, link, category)
 		SetItemSlotString(frame.slotString, self.OrigItemClass, self.OrigItemEquipSlot, self.OrigItemLink)
 	else
 		local _, count, level, quality, class, equipSlot
-		if (link) then
+		if (link and string.match(link, "item:(%d+):")) then
 			count, level, _, _, quality, _, _, class, _, _, equipSlot = LibItemInfo:GetItemInfo(link)
 			if (count > 0) then
 				SetItemLevelString(frame.levelString, "...")

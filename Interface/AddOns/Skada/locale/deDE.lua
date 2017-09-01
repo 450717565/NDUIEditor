@@ -59,7 +59,6 @@ L["Boss fights will be kept with this on, and non-boss fights are discarded."] =
 L["Broker display"] = "Broker-Anzeige"
 L["Buff spell list"] = "Liste der Buffs"
 L["Buff uptimes"] = "Buff-Laufzeiten"
-L["Buffs"] = "Buffs"
 L["Buttons"] = "Buttons"
 L["CC"] = "CC"
 L["CC breakers"] = "CC Unterbrecher"
@@ -423,4 +422,3 @@ L["Window height"] = "Fensterhöhe"
 L["Windows"] = "Fenster"
 L["Wipe mode"] = "Niederlagenanzeigemodus"
 L["Yes"] = "Ja"
-

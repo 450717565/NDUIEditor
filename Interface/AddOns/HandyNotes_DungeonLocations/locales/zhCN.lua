@@ -1,4 +1,4 @@
-local L = LibStub("AceLocale-3.0"):NewLocale("HandyNotes_DungeonLocations", "zhCN")
+﻿local L = LibStub("AceLocale-3.0"):NewLocale("HandyNotes_DungeonLocations", "zhCN")
 if not L then return end
 
 L["Allow left click to open journal to dungeon or raid"] = "允许使用左键打开地城或团队副本的冒险指南"

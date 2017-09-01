@@ -22,12 +22,12 @@
 # ## Notes-zhTW: 顯示軍臨天下副本裡的世界任務相關稀有菁英位置與任務的資訊
 #@end-debug@
 ## Author: arith
-## Version: v1.10
+## Version: v1.11
 ## RequiredDeps: HandyNotes
 ## OptionalDeps: LibUIDropDownMenu
 ## DefaultState: enabled
 ## SavedVariables: HandyNotes_LegionInstanceWorldQuestsDB
-## X-Date: 2017-08-29T14:54:08Z
+## X-Date: 2017-08-31T14:39:25Z
 ## X-License: GPLv2
 ## X-Category: Map
 

@@ -1,15 +1,14 @@
 -- $Id: zhCN.lua 52 2017-05-14 13:29:33Z arith $
 
 local L = LibStub("AceLocale-3.0"):NewLocale("HandyNotes_BrokenShore", "zhCN", false)
+
 if not L then return end
 
 if L then
 L["Add all Ancient Shrine nodes to TomTom waypoints"] = "将所有的古代祭坛节点加到 TomTom 路径上"
 L["Add all treasure nodes to TomTom waypoints"] = "将所有的宝箱节点加到 TomTom 路径上"
-L["Add all Unstable Nether Portal nodes to TomTom waypoints"] = "Add all Unstable Nether Portal nodes to TomTom waypoints"
 L["AddOn Settings"] = "插件设定"
 L["Ancient Shrine"] = "古代祭坛"
-
 L["Broken Shore"] = "破碎海滩"
 L["Entrance"] = "入口"
 L["Entrance of %s"] = "%s的入口"
@@ -38,27 +37,18 @@ L["Send query request to server to lookup localized names. May be a little bit s
 L["Show all nodes that you manually hid by right-clicking on them and choosing \"hide\"."] = "将您手动把 POI 设为隐藏的节点还原成全部都显示。"
 L["Show all the other misc nodes."] = "显示所有其他杂项节点。"
 L["Show Ancient Shrine's locations."] = "显示古代祭坛的节点位置。"
-L["Show coordinate"] = "显示坐标"
-L["Show Master Pet Tamer's location."] = "显示宠物训练师位置。"
-L["Show node's coordinate information."] = "显示图标的坐标信息。"
 L["Show note"] = "显示说明"
 L["Show possible spawning location of Veiled Wyrmtongue Chest."] = "显示「隐密的虫舌魔宝箱」可能的重生点。"
 L["Show ramp to the higher ground. This could be useful before you can fly!"] = "显示通往高地的斜坡节点。这在您可以飞行之前应该相当有用！"
 L["Show rare mobs' location even if any of them has not yet spawned."] = "显示稀有菁英怪的节点，即便他们还没重生。"
-L["Show Smoldering Infernal Core's locations."] = "显示阴燃的地狱火核心位置。"
 L["Show the entrance of specific cave or the entrance to special location."] = "显示特定洞穴的入口节点，或是会将你带去特殊位置的入口位置。"
 L["Show the node's additional notes when it's available."] = "当节点有额外说明时，同时显示该说明。"
-L["Show Unstable Nether Portal's location."] = "显示不稳定的虚空传送门位置。"
 L["Shows the POIs in Broken Shore"] = "显示破碎海滩的 POI 位置"
 L["The alpha transparency of the icons"] = "图示的透明度"
 L["the cave in Stonefin Shoals"] = "石鳍海滩洞穴"
-L["Smoldering Infernal Core"] = "阴燃的地狱火核心"
-
-L["the cave in Stonefin Shoals"] = "the cave in Stonefin Shoals"
 L["The scale of the icons"] = "图示的大小"
 L["These settings control the look and feel of the icon."] = "以下的设定控制了图示的外观及风格。"
 L["These settings control what type of icons to be displayed."] = "以下的设定控制了哪些类型的节点要被显示。"
-L["Unstable Nether Portal"] = "不稳定的虚空传送门"
 L["Veiled Wyrmtongue Chest"] = "隐蔽的虫语者箱子"
 L["What to display"] = "哪些要被呈现"
 L["Wyrmtongue Chest"] = "虫语者箱子"
