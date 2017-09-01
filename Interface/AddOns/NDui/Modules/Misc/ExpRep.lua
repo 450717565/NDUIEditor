@@ -151,7 +151,6 @@ function module:Expbar()
 		end
 
 		if HasArtifactEquipped() then
-			local klName, klLevel = GetCurrencyInfo(1171)
 			local _, _, name, _, totalXP, pointsSpent, _, _, _, _, _, _, artifactTier = C_ArtifactUI.GetEquippedArtifactInfo()
 			local num, xp, xpForNextPoint = MainMenuBar_GetNumArtifactTraitsPurchasableFromXP(pointsSpent, totalXP, artifactTier)
 			GameTooltip:AddLine(" ")
@@ -160,7 +159,6 @@ function module:Expbar()
 			else
 				GameTooltip:AddLine(name.."（"..format(SPELLBOOK_AVAILABLE_AT, pointsSpent).."）", 0,.6,1)
 			end
-			GameTooltip:AddDoubleLine(klName.."：", format(SPELLBOOK_AVAILABLE_AT, klLevel), .6,.8,1, 1,1,1)
 			GameTooltip:AddDoubleLine(ARTIFACT_POWER.."：", B.Numb(totalXP).."（"..num.."）", .6,.8,1, 1,1,1)
 			GameTooltip:AddDoubleLine(L["Next Trait"].."：", B.Numb(xp).." / "..B.Numb(xpForNextPoint).."（"..string.format("%.1f", xp/xpForNextPoint*100).."%）", .6,.8,1, 1,1,1)
 			GameTooltip:AddDoubleLine(L["Need Trait"].."：", B.Numb(xpForNextPoint-xp).."（"..string.format("%.1f", (1-xp/xpForNextPoint)*100).."%）", .6,.8,1, 1,1,1)

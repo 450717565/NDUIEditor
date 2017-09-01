@@ -60,6 +60,8 @@ local ignoreQuestNPC = {
 	[43929] = true,		-- 4000
 	[106655] = true,	-- Legendary Item Upgrade
 	[14847] = true,		-- DarkMoon
+	[119388] = true,	-- 酋长哈顿
+	[114719] = true,	-- 商人塞林
 }
 
 local function GetQuestLogQuests(onlyComplete)
@@ -310,6 +312,7 @@ QuickQuest:Register("QUEST_PROGRESS", function()
 	if (IsQuestCompletable()) then
 		local _, _, worldQuest = GetQuestTagInfo(GetQuestID())
 		if worldQuest then return end
+		if GetNPCID() == 119388 then return end
 
 		local requiredItems = GetNumQuestItems()
 		if (requiredItems > 0) then

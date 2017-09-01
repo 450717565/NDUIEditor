@@ -782,8 +782,8 @@ F.ReskinIconStyle = function(f)
 	if ic then
 		ic:SetDrawLayer("ARTWORK")
 		ic:SetTexCoord(.08, .92, .08, .92)
-		ic:SetPoint("TOPLEFT", f, "TOPLEFT", 1, -1)
-		ic:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", -1, 1)
+		ic:SetPoint("TOPLEFT", 1, -1)
+		ic:SetPoint("BOTTOMRIGHT", -1, 1)
 	end
 
 	F.CreateBD(f)

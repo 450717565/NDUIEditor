@@ -20,7 +20,9 @@ tinsert(C.themes["Aurora"], function()
 
 	DressUpFrameOutfitDropDown:SetHeight(32)
 	DressUpFrameOutfitDropDown.SaveButton:SetPoint("LEFT", DressUpFrameOutfitDropDown, "RIGHT", -13, 2)
-	DressUpFrameResetButton:SetPoint("RIGHT", DressUpFrameCancelButton, "LEFT", -1, 0)
+	DressUpFrameCancelButton:SetSize(75, 22)
+	DressUpFrameResetButton:SetSize(75, 22)
+	DressUpFrameResetButton:SetPoint("RIGHT", DressUpFrameCancelButton, "LEFT", -2, 0)
 
 	for _, button in pairs{MaximizeMinimizeFrame.MaximizeButton, MaximizeMinimizeFrame.MinimizeButton} do
 
@@ -96,4 +98,5 @@ tinsert(C.themes["Aurora"], function()
 	SideDressUpModel.bg:SetPoint("BOTTOMRIGHT", 1, -1)
 	SideDressUpModel.bg:SetFrameLevel(SideDressUpModel:GetFrameLevel()-1)
 	F.CreateBD(SideDressUpModel.bg)
+	F.CreateSD(SideDressUpModel.bg)
 end)

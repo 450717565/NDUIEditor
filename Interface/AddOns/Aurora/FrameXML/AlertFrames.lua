@@ -284,16 +284,32 @@ tinsert(C.themes["Aurora"], function()
 		elseif frame.queue == LegendaryItemAlertSystem then
 			if not frame.bg then
 				frame.bg = F.CreateBDFrame(frame)
-				frame.bg:SetPoint("TOPLEFT", 37, -22)
-				frame.bg:SetPoint("BOTTOMRIGHT", -10, 24)
+				frame.bg:SetPoint("TOPLEFT", 25, -22)
+				frame.bg:SetPoint("BOTTOMRIGHT", -25, 22)
 				frame:HookScript("OnUpdate", fixBg)
 
 				frame.Icon:SetTexCoord(.08, .92, .08, .92)
 				frame.Icon:SetDrawLayer("ARTWORK")
+				frame.Icon:ClearAllPoints()
+				frame.Icon:SetPoint("TOPLEFT", frame.bg, 12, -12)
 				F.CreateBDFrame(frame.Icon)
 				frame.Background:SetTexture("")
 				frame.Background2:SetTexture("")
 				frame.Background3:SetTexture("")
+				frame.glow:SetTexture("")
+			end
+		elseif frame.queue == NewPetAlertSystem or frame.queue == NewMountAlertSystem then
+			if not frame.bg then
+				frame.bg = F.CreateBDFrame(frame)
+				frame.bg:SetPoint("TOPLEFT", 12, -13)
+				frame.bg:SetPoint("BOTTOMRIGHT", -12, 10)
+
+				frame.Icon:SetTexCoord(.08, .92, .08, .92)
+				frame.Icon:SetDrawLayer("ARTWORK")
+				F.CreateBDFrame(frame.Icon)
+				frame.IconBorder:Hide()
+				frame.Background:SetTexture("")
+				frame.shine:SetTexture("")
 				frame.glow:SetTexture("")
 			end
 		end

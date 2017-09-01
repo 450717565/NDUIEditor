@@ -483,7 +483,7 @@ end
 
 
 function BaudAuctionColumn_OnClick(self)
-	PlaySound("igMainMenuOptionCheckBoxOn")
+	PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
 	if (self:GetID() == SortColumn) then
 		SortReverse = not SortReverse
 	else

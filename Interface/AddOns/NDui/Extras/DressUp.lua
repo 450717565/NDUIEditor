@@ -2,7 +2,7 @@ local BtnStrata = SideDressUpModelResetButton:GetFrameStrata()
 local BtnLevel = SideDressUpModelResetButton:GetFrameLevel()
 
 --自定义按钮创建函数
-local function CreateButton(name, frame, label, point, relativeTo, relativePoint, xOffset, yOffset, width, height)
+local function CreateButton(name, frame, label, width, height, point, relativeTo, relativePoint, xOffset, yOffset)
 	local name = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
 	name:SetWidth(width)
 	name:SetHeight(height)
@@ -20,7 +20,7 @@ local function CreateButton(name, frame, label, point, relativeTo, relativePoint
 end
 
 --普通试衣间
-local TabBtn = CreateButton("DressUpTabBtn", DressUpFrame, "单脱", "BOTTOMLEFT", DressUpFrame, "BOTTOMLEFT", 15, 79, 80, 22)
+local TabBtn = CreateButton("DressUpTabBtn", DressUpFrame, "单脱", 75, 22, "RIGHT", DressUpFrameResetButton, "LEFT", -2, 0)
 TabBtn:SetScript("OnClick", function()
 	DressUpModel:UndressSlot(4)
 	for i = 16, 19 do
@@ -28,7 +28,7 @@ TabBtn:SetScript("OnClick", function()
 	end
 end)
 
-local NudeBtn = CreateButton("DressUpNudeBtn", DressUpFrame, "全脱", "BOTTOMLEFT", DressUpFrame, "BOTTOMLEFT", 96, 79, 80, 22)
+local NudeBtn = CreateButton("DressUpNudeBtn", DressUpFrame, "全脱", 75, 22, "RIGHT", DressUpFrameResetButton, "LEFT", -79, 0)
 NudeBtn:SetScript("OnClick", function()
 	for i = 1, 19 do
 		DressUpModel:UndressSlot(i)
@@ -36,7 +36,7 @@ NudeBtn:SetScript("OnClick", function()
 end)
 
 -- 侧边试衣间
-local SideBtn = CreateButton("DressUpSideBtn", SideDressUpFrame, "单脱", "TOP", SideDressUpModelResetButton, "BOTTOMLEFT", -1, -2, 80, 22)
+local SideBtn = CreateButton("DressUpSideBtn", SideDressUpFrame, "单脱", 80, 22, "TOP", SideDressUpModelResetButton, "BOTTOMLEFT", -1, -2)
 SideBtn:SetFrameStrata(BtnStrata)
 SideBtn:SetFrameLevel(BtnLevel)
 SideBtn:SetScript("OnClick", function()
@@ -46,7 +46,7 @@ SideBtn:SetScript("OnClick", function()
 	end
 end)
 
-local SideNudeBtn = CreateButton("DressUpSideNudeBtn", SideDressUpFrame, "全脱", "TOP", SideDressUpModelResetButton, "BOTTOMRIGHT", 1, -2, 80, 22)
+local SideNudeBtn = CreateButton("DressUpSideNudeBtn", SideDressUpFrame, "全脱", 80, 22, "TOP", SideDressUpModelResetButton, "BOTTOMRIGHT", 1, -2)
 SideNudeBtn:SetFrameStrata(BtnStrata)
 SideNudeBtn:SetFrameLevel(BtnLevel)
 SideNudeBtn:SetScript("OnClick", function()

@@ -1,0 +1,28 @@
+--- 全局修复PlaySound函数
+local sounds = {}
+for k, v in pairs(SOUNDKIT) do
+	sounds[strlower(k:gsub("_",""))] = v
+end
+
+--HACK
+local BlizPlaySound = PlaySound
+function PlaySound(name, ...)
+	if (tonumber(name)) then
+		BlizPlaySound(name, ...)
+	else
+		name = strlower(name)
+		if (sounds[name]) then
+			BlizPlaySound(sounds[name])
+		end
+	end
+end
+
+--- 重定义部分函数
+BAG_ITEM_QUALITY_COLORS[0] = { r = 0.4, g = 0.4, b = 0.4 }
+BAG_ITEM_QUALITY_COLORS[1] = { r = 0.9, g = 0.9, b = 0.9 }
+BAG_ITEM_QUALITY_COLORS[LE_ITEM_QUALITY_POOR] = { r = 0.4, g = 0.4, b = 0.4 }
+BAG_ITEM_QUALITY_COLORS[LE_ITEM_QUALITY_COMMON] = { r = 0.9, g = 0.9, b = 0.9 }
+
+GOLD_AMOUNT = "%d|c00ffd700金|r"
+SILVER_AMOUNT = "%d|c00c7c7cf银|r"
+COPPER_AMOUNT = "%d|c00eda55f铜|r"

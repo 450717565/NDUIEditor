@@ -52,6 +52,7 @@ tinsert(C.themes["Aurora"], function()
 	local RewardsFrame = DetailsFrame.RewardsFrame
 	local CompleteQuestFrame = DetailsFrame.CompleteQuestFrame
 
+	DetailsFrame.SealMaterialBG:SetAlpha(0)
 	DetailsFrame:GetRegions():Hide()
 	select(2, DetailsFrame:GetRegions()):Hide()
 	select(4, DetailsFrame:GetRegions()):Hide()
