@@ -4,31 +4,31 @@ local FlightmapCoordinates = { -- fairly accurate sizes for the different flight
 		top = 12470,
 		width = 24340,
 	},
-	
+
 	[2] = { -- eastern kingdoms
 		left = 12270,
 		top = 12270,
 		width = 28800,
 	},
-	
+
 	[3] = { -- outland
 		left = 10670,
 		top = 6400,
 		width = 12270,
 	},
-	
+
 	[4] = { -- northrend
 		left = 8533,
 		top = 11730,
 		width = 15466,
 	},
-	
+
 	[6] = { -- pandaria
 		left = 6770,
 		top = 7461,
 		width = 11892,
 	},
-	
+
 	[7] = { -- Draenor
 		left = 10120,
 		top = 11630,
@@ -50,7 +50,7 @@ local FlightmapCoordinates = { -- fairly accurate sizes for the different flight
 		--width = 18838.1796,
 		--height = 12558.8189,
 	},
-	
+
 	[9] = { -- A.R.G.U.S. flight map doesn"t actually line up with the continent map, so these don"t mean anything
 		left = 12266.700195313,
 		top = 12266.700195313,
@@ -145,11 +145,11 @@ local function TransformCoordinates(mapID, left, top, right, bottom)
 			break
 		end
 	end
-	
+
 	--if MapContinents[mapID] then
 		--mapID = MapContinents[mapID]
 	--end
-	
+
 	return mapID, left, top, right, bottom
 end
 
@@ -158,7 +158,7 @@ local function GetMapSize() -- Return dimensions and offset of current map
 	local floorNum, dright, dbottom, dleft, dtop = GetCurrentMapDungeonLevel()
 	if DungeonUsesTerrainMap() then floorNum = floorNum - 1 end
 	if floorNum > 0 then left, top, right, bottom = dleft, dtop, dright, dbottom end
-	
+
 	if left and left ~= right then
 		local width, height = left - right, top - bottom
 
@@ -166,7 +166,7 @@ local function GetMapSize() -- Return dimensions and offset of current map
 		if displayMapID ~= -1 then
 			mapID, left, top, right, bottom = TransformCoordinates(mapID, left, top, right, bottom)
 		end
-		
+
 		return left, top, right, bottom, width, height, format("%d.%d", GetCurrentMapAreaID(), floorNum)
 	end
 end
@@ -179,12 +179,12 @@ local taxiNodePositions = {}
 -- Draw all flightpaths within one hop of current location
 local function DrawOneHopLines()
 	--local numSingleHops = 0
-	
+
 	--local left, top, right, bottom, width, height = GetMapSize()
 	for i = 1, #taxiNodePositions do
 		local node = taxiNodePositions[i]
-		
-		if GetNumRoutes(i) == 1 and node.type == "REACHABLE" then -- node.type ~= "NONE" then 
+
+		if GetNumRoutes(i) == 1 and node.type == "REACHABLE" then -- node.type ~= "NONE" then
 			local button1 = GetButtonFromSlot(TaxiGetNodeSlot(i, 1, true))
 			local button2 = GetButtonFromSlot(TaxiGetNodeSlot(i, 1, false))
 			if button1 and button2 and button1:IsShown() and button2:IsShown() then
@@ -207,49 +207,49 @@ end
 
 local GetButton
 
-local function TaxiNodeOnButtonEnter(button) 
+local function TaxiNodeOnButtonEnter(button)
 	local index = button:GetID()
 	WorldMapTooltip:SetOwner(button, "ANCHOR_RIGHT")
 	WorldMapTooltip:AddLine(TaxiNodeName(index), nil, nil, nil, true)
-	
+
 	-- Setup variables
 	local numRoutes = GetNumRoutes(index)
 	local type = TaxiNodeGetType(index)
-	
+
 	if type == "REACHABLE" or type == "CURRENT" then
 		for i = 1, #lines do
 			lines[i]:Hide()
 		end
-		
+
 		for slot, b in pairs(TaxiButtons) do -- hide nodes we can"t fly to
 			if TaxiNodeGetType(b:GetID()) == "DISTANT" then
 				b:Hide()
 			end
 		end
-		
-		button:SetHighlightTexture([[Interface\TaxiFrame\UI-Taxi-Icon-Highlight]])
+
+		--button:SetHighlightTexture([[Interface\TaxiFrame\UI-Taxi-Icon-Highlight]])
 	else
-		button:SetHighlightTexture(nil)
+		--button:SetHighlightTexture(nil)
 	end
-	
+
 	if ( type == "REACHABLE" ) then
 		local cost = TaxiNodeCost(button:GetID())
 		if cost ~= 0 then
 			SetTooltipMoney(WorldMapTooltip, cost)
 		end
-		
+
 		for i = 1, numRoutes do
 			local slot = TaxiGetNodeSlot(index, i, true)
 			local button1 = GetButtonFromSlot(slot)
-			
+
 			if TaxiNodeGetType(slot) == "DISTANT" then
 				button1:Show()
 			end
-			
+
 			slot = TaxiGetNodeSlot(index, i, false)
 			local button2 = GetButtonFromSlot(slot)
 			DrawLine(button1, button2)
-			
+
 			if TaxiNodeGetType(slot) == "DISTANT" then
 				button2:Show()
 			end
@@ -284,39 +284,44 @@ local function CreateButton(i)
 	local button = CreateFrame("Button", nil, f)
 	button:SetSize(24, 24)
 	button:SetHighlightTexture([[Interface\TaxiFrame\UI-Taxi-Icon-Highlight]])
-	--button.Texture = button:GetNormalTexture()
-	
+	button:SetNormalTexture("interface/icons/inv_mushroom_11")
+	texture = button:GetNormalTexture()
+	texture:ClearAllPoints()
+	texture:SetPoint("CENTER")
+	texture:SetSize(24, 24)
+	button.Texture = texture
+
 	local highlight = button:GetHighlightTexture()
 	highlight:ClearAllPoints()
 	highlight:SetPoint("CENTER")
 	highlight:SetSize(40, 40)
-	--button.HighlightTexture = highlight
-	
+	button.HighlightTexture = highlight
+
 	local i = i or (#TaxiButtons + 1)
 	button:SetScript("OnClick", TaxiNodeOnClick)
 	button:SetID(i)
 	TaxiButtons[i] = button
-	
+
 	button:SetScript("OnEnter", TaxiNodeOnButtonEnter)
 	button:SetScript("OnLeave", function() WorldMapTooltip:Hide() end)
-	
+
 	local tx = button:CreateTexture(nil, "OVERLAY")
 	tx:SetPoint("BOTTOM", button, "TOP")
-	tx:SetSize(32, 32)
+	tx:SetSize(40, 40)
 	tx:SetTexture("interface/minimap/minimap-deadarrow")
 	tx:SetTexCoord(0, 1, 1, 0)
-	
+
 	local group = tx:CreateAnimationGroup()
 	group.tx = tx
-	
+
 	local bounce = group:CreateAnimation("Translation")
 	bounce:SetOffset(0, 10)
 	bounce:SetDuration(0.5)
 	bounce:SetSmoothing("IN")
 	group.bounce = bounce
-	
+
 	group.up = true
-	
+
 	group:SetScript("OnFinished", BounceAnimation)
 	group.parent = button
 	button.arrow = tx
@@ -346,23 +351,23 @@ function f:WORLD_MAP_UPDATE()
 	local continentID = GetCurrentMapContinent() == CurrentContinent and CurrentContinent or -1
 	local continent = FlightmapCoordinates[continentID]
 	local left, top, right, bottom, width, height, mapID = GetMapSize()
-	
+
 	if mapID ~= CurrentMap or not mapID then
 		for i = 1, #lines do -- only hide lines if the map has changed to a new map when this event fired
 			lines[i]:Hide()
 		end
 		CurrentMap = mapID
 	end
-	
+
 	if not continent then -- clear any buttons
 		for i = 1, #TaxiButtons do
 			TaxiButtons[i]:Hide()
 		end
 		return
 	end
-	
+
 	local showArrows = ContinentMaps[continentID] and GetCurrentMapAreaID() ~= ContinentMaps[continentID] -- only show arrows on zone maps
-	
+
 	local j = 1
 	if continentID == 9 and GetCurrentMapZone() ~= 0 then
 		for i = 1, #taxiNodePositions do
@@ -370,7 +375,7 @@ function f:WORLD_MAP_UPDATE()
 			--if node.type ~= "NONE" then
 			if node.type ~= "NONE" then
 				--local mx, my = (left - node.x) / width, (top - node.y) / height
-				
+
 				local button = GetButton(j)
 				button:SetID(i)
 				button:ClearAllPoints()
@@ -380,7 +385,15 @@ function f:WORLD_MAP_UPDATE()
 					if name == node.name then
 						button:SetPoint("CENTER", f, "TOPLEFT", x * 1002, y * -668)
 						button:SetNormalTexture(TaxiButtonTypes[node.type].file)
-						
+
+						button:SetSize(24, 24)
+						local texture = button.Texture
+						texture:SetAtlas("FlightMaster_Argus-TaxiNode_Neutral", true)
+						texture:SetSize(28, 24)
+
+						local highlightTexture = button.HighlightTexture
+						highlightTexture:SetAtlas("FlightMaster_Argus-TaxiNode_Neutral", true)
+						highlightTexture:SetSize(28, 24)
 						--[[
 						if (not atlasIcon) then
 							local x1, x2, y1, y2;
@@ -396,8 +409,8 @@ function f:WORLD_MAP_UPDATE()
 							button.HighlightTexture:SetTexCoord(0, 1, 0, 1);
 						end
 						--]]
-						
-						
+
+
 						--button:SetID(node.slotIndex)
 
 						if node.type == "REACHABLE" then
@@ -405,14 +418,22 @@ function f:WORLD_MAP_UPDATE()
 						else
 							button.arrow:Hide()
 						end
-						
+
+						if node.type == "CURRENT" then
+							texture:SetVertexColor(0, 0.8, 0)
+							highlightTexture:SetVertexColor(0, 0.8, 0)
+						else
+							texture:SetVertexColor(1, 1, 1)
+							highlightTexture:SetVertexColor(1, 1, 1)
+						end
+
 						if node.type == "REACHABLE" or node.type == "CURRENT" then
 							button:Show()
 						else
 							button:Hide()
 						end
-						
-						
+
+
 						break
 					end
 				end
@@ -429,6 +450,10 @@ function f:WORLD_MAP_UPDATE()
 				button:ClearAllPoints()
 				button:SetPoint("CENTER", f, "TOPLEFT", mx * 1002, my * -668)
 				button:SetNormalTexture(TaxiButtonTypes[node.type].file)
+				button.Texture:SetSize(24, 24)
+				button.Texture:SetVertexColor(1, 1, 1)
+				button.HighlightTexture:SetVertexColor(1, 1, 1)
+				button.HighlightTexture:SetSize(40, 40)
 				button:SetID(i)
 				--button:SetID(node.slotIndex)
 
@@ -437,14 +462,16 @@ function f:WORLD_MAP_UPDATE()
 				else
 					button.arrow:Hide()
 				end
-				
+
 				if node.type == "REACHABLE" or node.type == "CURRENT" then
+					button:SetHighlightTexture([[Interface\TaxiFrame\UI-Taxi-Icon-Highlight]])
 					button:Show()
 				else
+					button:SetHighlightTexture(nil)
 					button:Hide()
 				end
-				
-				
+
+
 				j = j + 1
 			end
 		end
@@ -453,7 +480,7 @@ function f:WORLD_MAP_UPDATE()
 	for i = j, #TaxiButtons do -- hide extra buttons
 		TaxiButtons[i]:Hide()
 	end
-	
+
 	if not showArrows then
 		DrawOneHopLines()
 	end
@@ -494,7 +521,7 @@ function f:TAXIMAP_OPENED()
 	local continent = FlightmapCoordinates[continentID]
 	if continentID == 9 then -- A.R.G.U.S.
 		CurrentContinent = continentID
-		
+
 		wipe(taxiNodePositions)
 		for i = 1, NumTaxiNodes() do
 			local type = TaxiNodeGetType(i)
@@ -502,17 +529,17 @@ function f:TAXIMAP_OPENED()
 			local x, y = TaxiNodePosition(i)
 			taxiNodePositions[i] = {type = type, name = name, x = x, y = y}
 		end
-		
+
 		self:RegisterEvent("WORLD_MAP_UPDATE")
 		SetMapZoom(continentID, (GetCurrentMapZone()))
 		self:WORLD_MAP_UPDATE()
 		f:Show()
 	elseif continent then
 		CurrentContinent = continentID
-		
+
 		--[[
 		local nodes = GetAllTaxiNodes(taxiNodePositions)
-		
+
 		for i = 1, #nodes do
 			local node = nodes[i]
 			node.type = TaxiNodeGetType(node.slotIndex)
@@ -524,29 +551,29 @@ function f:TAXIMAP_OPENED()
 			end
 		end
 		--]]
-		
+
 		wipe(taxiNodePositions)
 		for i = 1, NumTaxiNodes() do
 			local type = TaxiNodeGetType(i)
 			local name = TaxiNodeName(i)
 			local x, y = TaxiNodePosition(i)
 			--local wx, wy = continent.left - continent.width * x, (continent.top - continent.width) + continent.width * y
-			
+
 			local wx, wy
 			if continent.height then
 				wx, wy = continent.left - continent.width * x, (continent.top - continent.height) + continent.height * y
 			else
 				wx, wy = continent.left - continent.width * x, (continent.top - continent.width) + continent.width * y
 			end
-			
+
 			taxiNodePositions[i] = {type = type, name = name, x = wx, y = wy}
 		end
-		
+
 		self:RegisterEvent("WORLD_MAP_UPDATE")
 		--SetMapZoom(continentID)
 		self:WORLD_MAP_UPDATE()
 		ZoomOutForNodes() -- only zoom out if we don"t have other flight points on the current map?
-		
+
 		f:Show()
 	end
 end
@@ -599,9 +626,9 @@ end)
 ["Prophet's Reflection, Mac"Aree"] = {0.0876438, 0.757092},
 ["The Veiled Den, Antoran Wastes"] = {0.138088, 0.403517},
 ["Vindicaar, Antoran Wastes"] = {0.145385, 0.392551},
-["City Center, Mac"Aree"] = {0.0918503, 0.720801},	
+["City Center, Mac"Aree"] = {0.0918503, 0.720801},
 --]]
-
+--[[
 function f:PLAYER_ENTERING_WORLD() -- Argus continent map doesn"t line up with the real position of its zones, so we can"t scale it properly
 	SetMapToCurrentZone() -- bad, but probably not an issue
 	local continentID = GetCurrentMapContinent()
@@ -616,6 +643,7 @@ function f:PLAYER_ENTERING_WORLD() -- Argus continent map doesn"t line up with t
 	end
 end
 f:RegisterEvent("PLAYER_ENTERING_WORLD")
+--]]
 do return end
 -----------------
 -- Replace World Map zoom function (WorldMapScrollFrame_OnMouseWheel)
@@ -637,18 +665,18 @@ WorldMapScrollFrame:SetScript("OnMouseWheel", function(self, delta)
   local scrollFrame = WorldMapScrollFrame;
   local oldScrollH = scrollFrame:GetHorizontalScroll();
   local oldScrollV = scrollFrame:GetVerticalScroll();
- 
+
   -- get the mouse position on the frame, with 0,0 at top left
   local cursorX, cursorY = GetCursorPosition();
   local relativeFrame;
   if ( WorldMapFrame_InWindowedMode() ) then
-    relativeFrame = UIParent;
+	relativeFrame = UIParent;
   else
-    relativeFrame = WorldMapFrame;
+	relativeFrame = WorldMapFrame;
   end
   local frameX = cursorX / relativeFrame:GetScale() - scrollFrame:GetLeft();
   local frameY = scrollFrame:GetTop() - cursorY / relativeFrame:GetScale();
- 
+
   local oldScale = WorldMapDetailFrame:GetScale();
   local newScale = oldScale + delta * 0.3;
   newScale = max(WORLDMAP_SETTINGS.size, newScale);
@@ -656,13 +684,13 @@ WorldMapScrollFrame:SetScript("OnMouseWheel", function(self, delta)
   WorldMapDetailFrame:SetScale(newScale);
   QUEST_POI_FRAME_WIDTH = WorldMapDetailFrame:GetWidth() * newScale;
   QUEST_POI_FRAME_HEIGHT = WorldMapDetailFrame:GetHeight() * newScale;
- 
+
   scrollFrame.maxX = QUEST_POI_FRAME_WIDTH - 1002 * WORLDMAP_SETTINGS.size;
   scrollFrame.maxY = QUEST_POI_FRAME_HEIGHT - 668 * WORLDMAP_SETTINGS.size;
   scrollFrame.zoomedIn = abs(WorldMapDetailFrame:GetScale() - WORLDMAP_SETTINGS.size) > 0.05;
   scrollFrame.continent = GetCurrentMapContinent();
   scrollFrame.mapID = GetCurrentMapAreaID();
- 
+
   -- figure out new scroll values
   local scaleChange = newScale / oldScale;
   local newScrollH = scaleChange * ( frameX + oldScrollH ) - frameX;
@@ -675,7 +703,7 @@ WorldMapScrollFrame:SetScript("OnMouseWheel", function(self, delta)
   -- set scroll values
   scrollFrame:SetHorizontalScroll(newScrollH);
   scrollFrame:SetVerticalScroll(newScrollV);
- 
+
   WorldMapFrame_Update();
   WorldMapScrollFrame_ReanchorQuestPOIs();
   WorldMapFrame_ResetPOIHitTranslations();

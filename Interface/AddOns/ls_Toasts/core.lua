@@ -139,6 +139,7 @@ do
 		end
 	end
 end
+
 -------------
 -- HELPERS --
 -------------
@@ -1043,6 +1044,7 @@ do
 			anim:SetToAlpha(0)
 			anim:SetStartDelay(C.db.profile.fadeout_delay)
 			anim:SetDuration(1.2)
+			ag.Anim = anim
 		end
 
 		toast.Spawn = SpawnToast
@@ -1326,15 +1328,15 @@ end
 
 function E.UpdateFadeOutDelay(_, value)
 	for _, toast in next, queuedToasts do
-		toast.AnimOut.Anim1:SetStartDelay(value)
+		toast.AnimOut.Anim:SetStartDelay(value)
 	end
 
 	for _, toast in next, activeToasts do
-		toast.AnimOut.Anim1:SetStartDelay(value)
+		toast.AnimOut.Anim:SetStartDelay(value)
 	end
 
 	for _, toast in next, createdToasts do
-		toast.AnimOut.Anim1:SetStartDelay(value)
+		toast.AnimOut.Anim:SetStartDelay(value)
 	end
 end
 
