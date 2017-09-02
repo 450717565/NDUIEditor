@@ -331,8 +331,12 @@ if IsAddOnLoaded("Aurora") then
 			local LST = unpack(ls_Toasts)
 			LST:RegisterSkin("NDui MOD", function(toast)
 				local title = toast.Title:GetText()
+				local r, g, b = toast.Border:GetVertexColor()
 
-				toast.BG:SetAlpha(0.8)
+				F.CreateBD(toast)
+				F.CreateSD(toast)
+
+				toast.BG:SetAlpha(.8)
 				toast.BG:SetAllPoints(toast)
 				toast.BG:SetBlendMode("ADD")
 				toast.BG:SetDrawLayer("BACKGROUND", 0)
@@ -353,6 +357,10 @@ if IsAddOnLoaded("Aurora") then
 						toast.styled = true
 					end
 				end
+				if r and g and b then
+					toast:SetBackdropBorderColor(r*.8, g*.8, b*.8)
+					toast.Shadow:SetBackdropBorderColor(r*.8, g*.8, b*.8)
+				end
 				for i = 1, 5 do
 					local rw = toast["Slot"..i]
 					local rwic = rw.Icon
@@ -369,9 +377,6 @@ if IsAddOnLoaded("Aurora") then
 						rw:SetPoint("RIGHT", toast["Slot"..(i - 1)], "LEFT", -2 , 0)
 					end
 				end
-
-				F.CreateBD(toast)
-				F.CreateSD(toast)
 			end)
 
 			LST:SetSkin("NDui MOD")

@@ -110,6 +110,10 @@ local function CreateSlot(id)
 	glow:Hide()
 	button.glow = glow
 
+	local ilvl = B.CreateFS(iconBorder, 14, "", false, "BOTTOMRIGHT", -1, 1)
+	ilvl:SetJustifyH("RIGHT")
+	button.ilvl = ilvl
+
 	local count = B.CreateFS(iconBorder, 14, "", false, "BOTTOMRIGHT", -1, 1)
 	count:SetJustifyH("RIGHT")
 	button.count = count
@@ -191,6 +195,7 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 			local texture, item, quantity, quality, locked, isQuestItem, questId, isActive = GetLootSlotInfo(i)
 			if texture then
 				local color = BAG_ITEM_QUALITY_COLORS[quality]
+				local link = GetLootSlotLink(i)
 
 				local slotType = GetLootSlotType(i)
 				if slotType == LOOT_SLOT_MONEY then
@@ -211,6 +216,13 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 				else
 					slot.name:SetTextColor(.5, .5, .5)
 					slot.iconBorder:SetBackdropBorderColor(.5, .5, .5)
+				end
+
+				if link and (quality and quality > 0) then
+					local itemLvl = NDui:GetItemLevel(link, quality)
+					slot.ilvl:SetText(itemLvl)
+				else
+					slot.ilvl:SetText("")
 				end
 
 				slot.name:SetText(item)

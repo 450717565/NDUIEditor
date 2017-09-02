@@ -1,58 +1,42 @@
 local B, C, L, DB = unpack(select(2, ...))
 
 local function MythicLootItemLevel(mlvl)
-	if (mlvl == "2" or mlvl == "3") then
-		return "870+"
-	elseif (mlvl == "4" or mlvl == "5") then
-		return "875+"
-	elseif (mlvl == "6" or mlvl == "7") then
-		return "880+"
-	elseif (mlvl == "8" or mlvl == "9") then
-		return "885+"
-	elseif (mlvl == "10" or mlvl == "11") then
+	if mlvl == "2" or mlvl == "3" then
 		return "890+"
-	elseif (mlvl == "12") then
+	elseif mlvl == "4" or mlvl == "5" then
 		return "895+"
-	elseif (mlvl == "13") then
+	elseif mlvl == "6" or mlvl == "7" then
 		return "900+"
-	elseif (mlvl == "14") then
+	elseif mlvl == "8" then
 		return "905+"
-	elseif (mlvl == "15") then
+	elseif mlvl == "9" then
 		return "910+"
+	elseif mlvl == "10" then
+		return "915+"
 	else
-		return "910+"
+		return "915+"
 	end
 end
 
 local function WeeklyLootItemLevel(mlvl)
-	if (mlvl == "0") then
+	if mlvl == "0" then
 		return "没有低保！"
-	elseif (mlvl == "2") then
-		return "875+"
-	elseif (mlvl == "3") then
-		return "880+"
-	elseif (mlvl == "4") then
-		return "885+"
-	elseif (mlvl == "5" or mlvl == "6") then
-		return "890+"
-	elseif (mlvl == "7" or mlvl == "8") then
-		return "895+"
-	elseif (mlvl == "9") then
-		return "900+"
-	elseif (mlvl == "10") then
+	elseif mlvl == "2" then
 		return "905+"
-	elseif (mlvl == "11") then
+	elseif mlvl == "3" then
 		return "910+"
-	elseif (mlvl == "12") then
+	elseif mlvl == "4" then
 		return "915+"
-	elseif (mlvl == "13") then
+	elseif mlvl == "5" or mlvl == "6" then
 		return "920+"
-	elseif (mlvl == "14") then
+	elseif mlvl == "7" or mlvl == "8" then
 		return "925+"
-	elseif (mlvl == "15") then
+	elseif mlvl == "9" then
 		return "930+"
+	elseif mlvl == "10" then
+		return "935+"
 	else
-		return "930+"
+		return "935+"
 	end
 end
 

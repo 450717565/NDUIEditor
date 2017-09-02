@@ -1,6 +1,6 @@
 local B, C, L, DB = unpack(select(2, ...))
 
-local size = 35
+local size = 33
 local width = 250
 local height = 25
 local points = {"CENTER", UIParent, "BOTTOM", 0, 250}
@@ -133,21 +133,25 @@ local function CreateRollFrame()
 
 	local need, needtext = CreateRollButton(frame, "Interface\\Buttons\\UI-GroupLoot-Dice-Up", "Interface\\Buttons\\UI-GroupLoot-Dice-Highlight", "Interface\\Buttons\\UI-GroupLoot-Dice-Down", 1, NEED, "BOTTOMLEFT", frame.status, "BOTTOMLEFT", 5, -1)
 	local greed, greedtext = CreateRollButton(frame, "Interface\\Buttons\\UI-GroupLoot-Coin-Up", "Interface\\Buttons\\UI-GroupLoot-Coin-Highlight", "Interface\\Buttons\\UI-GroupLoot-Coin-Down", 2, GREED, "LEFT", need, "RIGHT", 0, -3)
-	local de, detext = CreateRollButton(frame, "Interface\\Buttons\\UI-GroupLoot-DE-Up", "Interface\\Buttons\\UI-GroupLoot-DE-Highlight", "Interface\\Buttons\\UI-GroupLoot-DE-Down", 3, ROLL_DISENCHANT, "LEFT", greed, "RIGHT", 0, 2)
+	local disenchant, dctext = CreateRollButton(frame, "Interface\\Buttons\\UI-GroupLoot-DE-Up", "Interface\\Buttons\\UI-GroupLoot-DE-Highlight", "Interface\\Buttons\\UI-GroupLoot-DE-Down", 3, ROLL_DISENCHANT, "LEFT", greed, "RIGHT", 0, 3)
 	local pass, passtext = CreateRollButton(frame, "Interface\\Buttons\\UI-GroupLoot-Pass-Up", nil, "Interface\\Buttons\\UI-GroupLoot-Pass-Down", 0, PASS, "BOTTOMRIGHT", frame.status, "BOTTOMRIGHT", 32, -3)
 
-	frame.needbutt, frame.greedbutt, frame.disenchantbutt = need, greed, de
-	frame.need, frame.greed, frame.pass, frame.disenchant = needtext, greedtext, passtext, detext
+	frame.needbutt, frame.greedbutt, frame.disenchantbutt = need, greed, disenchant
+	frame.need, frame.greed, frame.pass, frame.disenchant = needtext, greedtext, passtext, dctext
+
+	local ilvl = B.CreateFS(buttonBorder, 14, "", false, "BOTTOMRIGHT", -1, 1)
+	ilvl:SetJustifyH("RIGHT")
+	frame.ilvl = ilvl
 
 	local bind = B.CreateFS(frame, 13, "")
 	bind:SetJustifyH("LEFT")
-	bind:SetPoint("LEFT", de or greed, "RIGHT", 0, -1)
+	bind:SetPoint("LEFT", disenchant or greed, "RIGHT", 0, -1)
 	frame.fsbind = bind
 
 	local loot = B.CreateFS(frame, 14, "")
 	loot:SetJustifyH("LEFT")
 	loot:SetPoint("LEFT", bind, "RIGHT", 2, 0)
-	loot:SetPoint("RIGHT", frame, "RIGHT", -5, 0)
+	loot:SetPoint("RIGHT", frame, "RIGHT", -2, 0)
 	frame.fsloot = loot
 
 	frame.rolls = {}
@@ -249,19 +253,24 @@ local function START_LOOT_ROLL(rollid, time)
 		f.disenchantbutt.errtext = format(_G["LOOT_ROLL_INELIGIBLE_REASON"..reasonDisenchant], deSkillRequired)
 	end
 
-	local cr, cg, cb = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b
-	f.fsbind:SetText(not bop and "BoE" or "")
-	f.fsbind:SetVertexColor(cr, cg, cb)
+	if f.button.link and quality > 0 then
+		local itemLvl = NDui:GetItemLevel(f.button.link, quality)
+		f.ilvl:SetText(itemLvl)
+	else
+		f.ilvl:SetText("")
+	end
 
 	local color = BAG_ITEM_QUALITY_COLORS[quality]
-	f.fsloot:SetVertexColor(color.r, color.g, color.b)
 	f.fsloot:SetText(name)
+	f.fsloot:SetTextColor(color.r, color.g, color.b)
 
 	f:SetBackdropBorderColor(color.r, color.g, color.b, 1)
 	f.buttonBorder:SetBackdropBorderColor(color.r, color.g, color.b, 1)
 
 	f.status:SetMinMaxValues(0, time)
 	f.status:SetValue(time)
+
+	f.fsbind:SetText(not bop and "BoE" or "")
 
 	f:SetPoint("CENTER", WorldFrame, "CENTER")
 	f:Show()
