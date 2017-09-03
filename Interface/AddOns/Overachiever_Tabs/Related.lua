@@ -176,7 +176,7 @@ local function closePanel()
     --]]
   end
   baseAchID = nil
-  PlaySound("igSpellBookClose")
+  PlaySound(SOUNDKIT.IG_SPELL_BOOK_CLOSE)
   --PlaySound("igCharacterInfoTab")
 end
 
@@ -302,11 +302,11 @@ local function buildRelatedTab()
 
 	RecursiveCheckbox:SetScript("OnClick", function(self)
 		if (self:GetChecked()) then
-			PlaySound("igMainMenuOptionCheckBoxOn");
+			PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 			VARS.RelatedRecursive = true
 			findRelatives()
 		else
-			PlaySound("igMainMenuOptionCheckBoxOff");
+			PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF);
 			VARS.RelatedRecursive = false
 			findRelatives()
 		end
@@ -365,7 +365,7 @@ function Overachiever.OpenRelatedTab(id)
 	if (achProcessed ~= id) then  findRelatives();  end
 	if (Overachiever.GetSelectedTab() == frame) then
 		Overachiever.OpenTab_frame(frame)
-		PlaySound("igMainMenuOptionCheckBoxOn")
+		PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
 	else
 		Overachiever.OpenTab_frame(frame, true)
 	end

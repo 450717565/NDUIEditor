@@ -617,7 +617,7 @@ if (not TjDropDownMenu or TjDropDownMenu.Version < THIS_VERSION) then
   end
 
   function TjDropDownMenu.DropBtnOnClick(self)
-    PlaySound("igMainMenuOptionCheckBoxOn");
+    PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
     self:GetParent():OpenMenu();
   end
 

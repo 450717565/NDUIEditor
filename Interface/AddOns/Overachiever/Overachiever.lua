@@ -1253,7 +1253,7 @@ function Overachiever.ToastFakeAchievement(name, baseID, playSound, chatMessage,
   --end
   --]]
 
-  if (playSound) then  PlaySound("UI_Alert_AchievementGained");  end
+  --if (playSound) then  PlaySound("UI_Alert_AchievementGained");  end
   if (chatMessage) then  chatprint("", chatMessage);  end
 end
 

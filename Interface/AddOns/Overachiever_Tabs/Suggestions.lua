@@ -1611,7 +1611,7 @@ local Refresh_lastcount, Refresh_stoploop = 0
 
 local function Refresh(self, instanceRetry)
   if (not frame:IsVisible() or Refresh_stoploop) then  return;  end
-  if (self == RefreshBtn or self == EditZoneOverride) then  PlaySound("igMainMenuOptionCheckBoxOn");  end
+  if (self == RefreshBtn or self == EditZoneOverride) then  PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);  end
   Refresh_stoploop = true
 
   wipe(suggested)
@@ -1872,11 +1872,11 @@ end)
 ShowHiddenCheckbox:SetScript("OnLeave", GameTooltip_Hide)
 ShowHiddenCheckbox:SetScript("OnClick", function(self)
   if (self:GetChecked()) then
-    PlaySound("igMainMenuOptionCheckBoxOn");
+    PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
     showHidden = true
     Refresh(panel)
   else
-    PlaySound("igMainMenuOptionCheckBoxOff");
+    PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF);
     showHidden = false
     Refresh(panel)
   end
@@ -2179,7 +2179,7 @@ ResetBtn:SetWidth(75); ResetBtn:SetHeight(21)
 ResetBtn:SetPoint("LEFT", RefreshBtn, "RIGHT", 4, 0)
 ResetBtn:SetText(L.SEARCH_RESET)
 ResetBtn:SetScript("OnClick", function(self)
-  PlaySound("igMainMenuOptionCheckBoxOff")
+  PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF)
   EditZoneOverride:SetText("")
   Refresh()
 end)
@@ -2193,7 +2193,7 @@ function Overachiever.OpenSuggestionsTab(text)
 	EditZoneOverride:SetText(text)
 	if (Overachiever.GetSelectedTab() == frame) then
 		Overachiever.OpenTab_frame(frame)
-		PlaySound("igMainMenuOptionCheckBoxOn")
+		PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
 	else
 		Overachiever.OpenTab_frame(frame, true)
 	end

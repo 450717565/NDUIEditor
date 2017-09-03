@@ -792,9 +792,9 @@ if (not TjOptions or TjOptions.Version < THIS_VERSION) then
 
   local function CheckboxOnClick(self)
     if ( self:GetChecked() ) then
-      PlaySound("igMainMenuOptionCheckBoxOn");
+      PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
     else
-      PlaySound("igMainMenuOptionCheckBoxOff");
+      PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF);
     end
     TjOptions.ItemChanged(self)
   end

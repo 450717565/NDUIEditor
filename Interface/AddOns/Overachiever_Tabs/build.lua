@@ -631,7 +631,7 @@ do
     true_clickedTab = nil
 
     -- Don't play sound when this is a silentDisplay or Overachiever.OpenTab_frame call.
-    if (button) then  PlaySound("igCharacterInfoTab");  end
+    if (button) then  PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB);  end
 
     if (self.flash and UIFrameIsFading(self.flash)) then
       UIFrameFlashRemoveFrame(self.flash)

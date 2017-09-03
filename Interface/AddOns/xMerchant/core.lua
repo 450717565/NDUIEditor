@@ -837,10 +837,10 @@ search:SetText(SEARCH);
 
 local function Search_OnClick(self)
 	if ( self:GetChecked() ) then
-		PlaySound("igMainMenuOptionCheckBoxOn");
+		PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 		frame.tooltipsearching = 1;
 	else
-		PlaySound("igMainMenuOptionCheckBoxOff");
+		PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF);
 		frame.tooltipsearching = nil;
 	end
 	if ( searching ~= "" and searching ~= SEARCH:lower() ) then

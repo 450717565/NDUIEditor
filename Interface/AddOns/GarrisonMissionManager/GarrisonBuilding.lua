@@ -270,7 +270,7 @@ end
 addon_env.RemoveAllWorkers_TooltipShow = RemoveAllWorkers_TooltipShow
 
 local function AssignRemove_PerformInit()
-   PlaySound("gsTitleOptionOK")
+   PlaySound(SOUNDKIT.GS_TITLE_OPTION_OK)
    for event in pairs(events_for_buildings) do UnregisterEvent(event_frame, event) end
    assign_remove_in_progress = true
    GarrisonBuilding_UpdateButtons()

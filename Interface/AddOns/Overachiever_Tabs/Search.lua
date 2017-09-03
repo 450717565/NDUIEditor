@@ -142,10 +142,10 @@ end
 
 local function FullList_OnClick(self)
   if (self:GetChecked()) then
-    PlaySound("igMainMenuOptionCheckBoxOn");
+    PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
     VARS.SearchFullList = true
   else
-    PlaySound("igMainMenuOptionCheckBoxOff");
+    PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF);
     VARS.SearchFullList = false
   end
 end
@@ -183,7 +183,7 @@ sortdrop:SetPoint("TOPLEFT", panel, "TOPLEFT", -16, -22)
 sortdrop:OnSelect(SortDrop_OnSelect)
 
 local function beginSearch(self)
-  PlaySound("igMainMenuOptionCheckBoxOn")
+  PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
   
   if (OPTION_LoseFocusOnSearch) then
     for i,editbox in ipairs(EditBoxes) do
@@ -317,7 +317,7 @@ end)
 FullListCheckbox:SetScript("OnLeave", GameTooltip_Hide)
 
 local function resetEditBoxes()
-  PlaySound("igMainMenuOptionCheckBoxOff")
+  PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF)
   for i,editbox in ipairs(EditBoxes) do
     _G[editbox]:SetText("")
   end

@@ -170,7 +170,7 @@ function frame.SetAchWatchList(id, add)
   if (not add and frame:IsVisible() and IsShiftKeyDown()) then
     if (CopyDestCheckbox:GetChecked()) then
       DestinationWatchList[id] = true
-      PlaySound("igMainMenuOptionCheckBoxOn")
+      PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
       if (not CopyDestAchAnim) then
         CopyDestAchAnim = CreateFrame("Model", "Overachiever_WatchFrameModelCopying", panel)
         CopyDestAchAnim:Hide()
@@ -195,10 +195,10 @@ function frame.SetAchWatchList(id, add)
   end
   if (add) then
     CurrentWatchList[id] = true
-    PlaySound("igMainMenuOptionCheckBoxOn")
+    PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
   else
     CurrentWatchList[id] = nil
-    PlaySound("igMainMenuOptionCheckBoxOff")
+    PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF)
   end
   if (frame:IsShown()) then
     Refresh() --Refresh(true)
@@ -418,10 +418,10 @@ end)
 CopyDestCheckbox:SetScript("OnLeave", GameTooltip_Hide)
 CopyDestCheckbox:SetScript("OnClick", function(self)
   if (self:GetChecked()) then
-    PlaySound("igMainMenuOptionCheckBoxOn");
+    PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
     destlistdrop:Enable()
   else
-    PlaySound("igMainMenuOptionCheckBoxOff");
+    PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF);
     destlistdrop:Disable()
   end
 end);

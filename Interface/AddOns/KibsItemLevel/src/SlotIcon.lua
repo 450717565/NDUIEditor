@@ -42,7 +42,7 @@ function PostLink(link)
         ChatEdit_InsertLink(link)
     end
 
-    PlaySound("igMainMenuOptionCheckBoxOn")
+    PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
 end
 
 function SlotIcon:Hide()
