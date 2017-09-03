@@ -40,7 +40,7 @@ FNP_LOCALE_TEXT.FNP_FILTER_LIST_TXT = "過濾列表";
 FNP_LOCALE_TEXT.FNP_STRING_UI_TYPE = "UI類型(改變需重載/rl /reload)";
 FNP_LOCALE_TEXT.FNP_STRING_NOTE = "列表框用英文的';'追加名字";
 
-FNP_LOCALE_TEXT.FNP_STRING_AUTHOR_VER = "作者:Allan 版本:7.3.0.20170901";
+FNP_LOCALE_TEXT.FNP_STRING_AUTHOR_VER = "作者:Allan 版本:7.3.0.20170902";
 
 FNP_LOCALE_TEXT.FNP_PRINT_ERROR_UITYPE = "\124cFF00CD00[ /fnp ]錯誤！你設置的UI類型可能不匹配。請正確設置并重載界面！\124r";
 FNP_LOCALE_TEXT.FNP_PRINT_UITYPE_CHANGED = "\124cFF00CD00你修改了UI類型，請重載/reload或/rl !\124r";
@@ -51,7 +51,7 @@ FNP_LOCALE_TEXT.FNP_PRINT_HELP3 = "\124cFF00CD00/fnp refresh \124r快速隱藏�
 
 FNP_LOCALE_TEXT.FNP_TEXT_SHARE = "隊伍分享";
 --FNP_LOCALE_TEXT.FNP_TEXT_SHARE2 = "公會分享";
-FNP_LOCALE_TEXT.FNP_TEXT_INFO0 = "\124cFF00CD00如果設置后沒有生效, 或者仍有一些不正常，嘗試重載界面.V6: 自動開啟esc->界面->名字-顯示所有姓名板.如果你不喜歡,請手動關閉而插件功能將會異常.\124r";
+FNP_LOCALE_TEXT.FNP_TEXT_INFO0 = "\124cFF00CD00如果設置后沒有生效, 或者仍有一些不正常，嘗試重載界面. 自動開啟esc->界面->名字-顯示所有姓名板.如果你不喜歡,請手動關閉而插件功能將會異常.\124r";
 FNP_LOCALE_TEXT.FNP_CHANGED_UITYPE = "修改了UI類型!请重載界面！";
 
 FNP_LOCALE_TEXT.FNP_MENU_GENERAL = "一般";

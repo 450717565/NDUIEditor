@@ -48,7 +48,7 @@ if cfg.Time == true then
 			Hr, Min = GetGameTime()
 			if Min < 10 then Min = "0"..Min end
 			if GetCVar("timeMgrUseMilitaryTime") == "1" then
-				if pendingCalendarInvites > 0 then			
+				if pendingCalendarInvites > 0 then
 					Text:SetText("|cffFF0000"..Hr..":"..Min.."|cffffffff|r")
 				else
 					Text:SetText(Hr..":"..Min.."|cffffffff|r")
@@ -76,6 +76,7 @@ if cfg.Time == true then
 	end
 
 	-- Data
+	local isAlliance = select(2, UnitFactionGroup("player")) == FACTION_ALLIANCE
 	local months = {
 		MONTH_JANUARY, MONTH_FEBRUARY, MONTH_MARCH,	MONTH_APRIL, MONTH_MAY, MONTH_JUNE,
 		MONTH_JULY, MONTH_AUGUST, MONTH_SEPTEMBER, MONTH_OCTOBER, MONTH_NOVEMBER, MONTH_DECEMBER,
@@ -96,7 +97,7 @@ if cfg.Time == true then
 		{name = infoL["Mean One"], id = 6983},
 		{name = "TBC"..infoL["Timewarped"], id = 40168},
 		{name = "WLK"..infoL["Timewarped"], id = 40173},
-		{name = "CTM"..infoL["Timewarped"], id = 40786},
+		{name = "CTM"..infoL["Timewarped"], id = isAlliance and 40787 or 40786},
 		{name = "MOP"..infoL["Timewarped"], id = 45799},
 	}
 
@@ -259,7 +260,7 @@ if cfg.Time == true then
 	Stat:SetScript("OnLeave", GameTooltip_Hide)
 	Stat:SetScript("OnUpdate", Update)
 	Stat:SetScript("OnMouseUp", function(self, btn)
-		if btn == "RightButton" then				
+		if btn == "RightButton" then
 			ToggleTimeManager()
 		else
 			GameTimeFrame:Click()

@@ -40,7 +40,7 @@ FNP_LOCALE_TEXT.FNP_FILTER_LIST_TXT = "Filter List";
 FNP_LOCALE_TEXT.FNP_STRING_UI_TYPE = "UI Type(reload after changed)";
 FNP_LOCALE_TEXT.FNP_STRING_NOTE = "using ; to add a name";
 
-FNP_LOCALE_TEXT.FNP_STRING_AUTHOR_VER = "Author:Allan version:7.3.0.20170901";
+FNP_LOCALE_TEXT.FNP_STRING_AUTHOR_VER = "Author:Allan version:7.3.0.20170902";
 
 FNP_LOCALE_TEXT.FNP_PRINT_ERROR_UITYPE = "\124cFF00CD00[ /fnp ]Error！Your UI type does not match, please check the UI type correctly and reloadUI!！\124r";
 FNP_LOCALE_TEXT.FNP_PRINT_UITYPE_CHANGED = "\124cFF00CD00UI type is changed，please reloadUI !\124r";
@@ -50,7 +50,7 @@ FNP_LOCALE_TEXT.FNP_PRINT_HELP2 = "\124cFF00CD00/fnp change or /fnp ch \124r qui
 FNP_LOCALE_TEXT.FNP_PRINT_HELP3 = "\124cFF00CD00/fnp refresh \124rquickly to hide the casting units";
 
 FNP_LOCALE_TEXT.FNP_TEXT_SHARE = "Share";
-FNP_LOCALE_TEXT.FNP_TEXT_INFO0 = "\124cFF00CD00If the setting does not take effect,or it still has some flaws, try to reload.V6: automatically open esc-> interface ->displays all the name plate. If you don't prefer, then manually shut down, while the FNP will be abnormal.\124r";
+FNP_LOCALE_TEXT.FNP_TEXT_INFO0 = "\124cFF00CD00If the setting does not take effect,or it still has some flaws, try to reload.Automatically open esc-> interface ->displays all the name plate. If you don't prefer, then manually shut down, while the FNP will be abnormal.\124r";
 FNP_LOCALE_TEXT.FNP_CHANGED_UITYPE = "UI type Changed! Please ReloadUI";
 
 FNP_LOCALE_TEXT.FNP_MENU_GENERAL = "GENERAL";

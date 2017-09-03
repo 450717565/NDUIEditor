@@ -37,7 +37,7 @@ local function Createit()
 	Button:SetWidth(80)
 	Button:SetHeight(22)
 	Button:SetText("全部训练")
-	Button:SetPoint("RIGHT", ClassTrainerTrainButton, "LEFT", -1, 0)
+	Button:SetPoint("RIGHT", ClassTrainerTrainButton, "LEFT", -2, 0)
 	-- Aurora Reskin
 	if IsAddOnLoaded("Aurora") then
 		local F = unpack(Aurora)

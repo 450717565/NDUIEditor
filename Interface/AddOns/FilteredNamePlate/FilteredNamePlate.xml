@@ -403,7 +403,7 @@
 					</Anchor>
 				</Anchors>
 			</Texture>
-			<FontString name="$parent_Header_Text" inherits="GameFontNormal" text="FNP v6.1.1">
+			<FontString name="$parent_Header_Text" inherits="GameFontNormal" text="FNP v6.1.2">
 				<Anchors>
 					<Anchor point="TOP" relativeTo="$parent_Header">
 						<Offset>

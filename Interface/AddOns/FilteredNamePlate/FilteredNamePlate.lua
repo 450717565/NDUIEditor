@@ -50,7 +50,7 @@ local function registerMyEvents(self, event, ...)
 			elseif localename == "zhTW" then
 				thisname = "魔化炸彈"
 			elseif localname == "ruRU" then
-				thisname = "Желч"
+				thisname = "Взрывчатка Скверны"
 			end
 			table.insert(Fnp_ONameList, thisname)
 		end
@@ -58,6 +58,7 @@ local function registerMyEvents(self, event, ...)
 		if Fnp_FNameList == nil then
 			Fnp_FNameList = {}
 		end
+		-- version 6.1.1 added & help to reset the error Struct of Fnnp_SavedScaleList
 		if Fnp_MyVersion == nil or Fnp_SavedScaleList == nil then
 			Fnp_SavedScaleList = nil
 			Fnp_SavedScaleList = {
@@ -72,10 +73,7 @@ local function registerMyEvents(self, event, ...)
 		if Fnp_MyVersion == nil then
 			Fnp_MyVersion = FNP_LOCALE_TEXT.FNP_VERSION
 		end
-
-		--- old -> v6.1.1
-		Fnp_CurVersion = nil
-		--- v6.1.1 -> new
+		Fnp_CurVersion = nil -- 短期内不删除
 		if Fnp_MyVersion ~= nil and Fnp_MyVersion < FNP_LOCALE_TEXT.FNP_VERSION then
 			Fnp_MyVersion = FNP_LOCALE_TEXT.FNP_VERSION
 		end
@@ -409,18 +407,23 @@ local function actionUnitRemovedForce(unitid)
 	-- if AllInfos and AllInfos[unitid] then
 	--	AllInfos[unitid].inSee = false -- #ALLMYINFOS#
 	-- end
-	local curOnlyMatch = isMatchedNameList(Fnp_ONameList, UnitName(unitid))
+	local removedName = UnitName(unitid)
+	local curOnlyMatch = isMatchedNameList(Fnp_ONameList, removedName)
+
 	if curOnlyMatch == true then
 		-- 移除单位是需要仅显的,而此时肯定已经仅显,
 		--于是我们判断剩余的是否还含有,如果还有就什么也不动.如果没有了,就恢复显示
 		local matched = false
-		local name = ""
 		for _, frame in pairs(GetNamePlates()) do
 			local foundUnit = (frame.namePlateUnitToken or (frame.UnitFrame and frame.UnitFrame.unit)) or (frame.unitFrame and frame.unitFrame.unit)
+			local name
 			if foundUnit then
-				matched = isMatchedNameList(Fnp_ONameList, GetUnitName(foundUnit))
-				if matched == true then
-					return --have & return
+				name = GetUnitName(foundUnit)
+				if name ~= removedName or foundUnit ~= unitid then
+					matched = isMatchedNameList(Fnp_ONameList, GetUnitName(foundUnit))
+					if matched == true then
+						return --have & return
+					end
 				end
 			end
 		end

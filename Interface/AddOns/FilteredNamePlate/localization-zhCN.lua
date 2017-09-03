@@ -1,7 +1,7 @@
 ﻿-- Prevent tainting global _.
 
 FNP_LOCALE_TEXT = {}
-FNP_LOCALE_TEXT.FNP_VERSION = 611
+FNP_LOCALE_TEXT.FNP_VERSION = 612
 
 if GetLocale() == "zhCN" then
 FNP_LOCALE_TEXT.FNP_ENABLE_TXT = "启用";
@@ -43,7 +43,7 @@ FNP_LOCALE_TEXT.FNP_FILTER_LIST_TXT = "过滤列表";
 FNP_LOCALE_TEXT.FNP_STRING_UI_TYPE = "UI类型(改变需重载/rl /reload)";
 FNP_LOCALE_TEXT.FNP_STRING_NOTE = "列表框用英文的分号';'追加名字";
 
-FNP_LOCALE_TEXT.FNP_STRING_AUTHOR_VER = "作者:克尔苏加德   部落              进击的晓川 版本:7.3.0.20170901";
+FNP_LOCALE_TEXT.FNP_STRING_AUTHOR_VER = "作者:一区 克尔苏加德 部落 进击的晓川 版本:7.3.0.20170902";
 
 FNP_LOCALE_TEXT.FNP_PRINT_ERROR_UITYPE = "\124cFF00CD00[ /fnp ]错误！您设置的UI类型可能不匹配。请正确设置并重载界面！\124r";
 FNP_LOCALE_TEXT.FNP_PRINT_UITYPE_CHANGED = "\124cFF00CD00你修改了插件类型，请确保你勾选的是正确的，否则血条异常！";
@@ -54,7 +54,7 @@ FNP_LOCALE_TEXT.FNP_PRINT_HELP3 = "\124cFF00CD00/fnp refresh \124r快速隐藏�
 
 FNP_LOCALE_TEXT.FNP_TEXT_SHARE = "队伍分享";
 --FNP_LOCALE_TEXT.FNP_TEXT_SHARE2 = "公会分享";
-FNP_LOCALE_TEXT.FNP_TEXT_INFO0 = "\124cFF00CD00如果设置没有生效, 或者改动过多, 仍有一些不正常, 尝试重载界面。V6: 自动开启 esc->界面->名字->显示所有姓名板.如果你不喜欢,请手动关闭而插件功能将会异常.\124r";
+FNP_LOCALE_TEXT.FNP_TEXT_INFO0 = "\124cFF00CD00如果设置没有生效, 或者改动过多, 仍有一些不正常, 尝试重载界面。自动开启 esc->界面->名字->显示所有姓名板.如果你不喜欢,请手动关闭而插件功能将会异常.\124r";
 FNP_LOCALE_TEXT.FNP_CHANGED_UITYPE = "修改了UI类型，请重载界面！";
 
 FNP_LOCALE_TEXT.FNP_MENU_GENERAL = "一般";

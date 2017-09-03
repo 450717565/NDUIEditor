@@ -39,7 +39,7 @@ FNP_LOCALE_TEXT.FNP_FILTER_LIST_TXT = "Список фильтров";
 FNP_LOCALE_TEXT.FNP_STRING_UI_TYPE = "Тип ПИ\n(изменение после перегрузки /rl /reload)";
 FNP_LOCALE_TEXT.FNP_STRING_NOTE = "используйте ; для, добавления имен";
 
-FNP_LOCALE_TEXT.FNP_STRING_AUTHOR_VER = "Автор:Allan версия:7.3.0.20170901";
+FNP_LOCALE_TEXT.FNP_STRING_AUTHOR_VER = "Автор:Allan версия:7.3.0.20170902";
 
 FNP_LOCALE_TEXT.FNP_PRINT_ERROR_UITYPE = "\124cFF00CD00[ /fnp ]Ошибка！Ваш тип ПИ не соответствует, пожалуйста проверьте тип ПИ, на соответствие и перезагрузитеПИ!！\124r";
 FNP_LOCALE_TEXT.FNP_PRINT_UITYPE_CHANGED = "\124cFF00CD00UI тип ПИ изменем，пожалуйста перезагрузитеПИ !\124r";
@@ -49,7 +49,7 @@ FNP_LOCALE_TEXT.FNP_PRINT_HELP2 = "\124cFF00CD00/fnp change или /fnp ch \124r
 FNP_LOCALE_TEXT.FNP_PRINT_HELP3 = "\124cFF00CD00/fnp refresh \124rбыстро скрывать применение юнитов";
 
 FNP_LOCALE_TEXT.FNP_TEXT_SHARE = "Поделиться";
-FNP_LOCALE_TEXT.FNP_TEXT_INFO0 = "\124cFF00CD00Если настройка не действует, или она все еще имеет некоторые недостатки, попробуйте перезагрузить.V6: автоматически открыть клавишу ESC-> Интерфейс ->Всегда отображать индикаторы. Если вы не предпочитаете, то вручную выключите, далее FNP будет нормальный.\124r";
+FNP_LOCALE_TEXT.FNP_TEXT_INFO0 = "\124cFF00CD00Если настройка не действует, или она все еще имеет некоторые недостатки, попробуйте перезагрузить. автоматически открыть клавишу ESC-> Интерфейс ->Всегда отображать индикаторы. Если вы не предпочитаете, то вручную выключите, далее FNP будет нормальный.\124r";
 FNP_LOCALE_TEXT.FNP_CHANGED_UITYPE = "Тип ПИ изменем, пожалуйста, ПерезагрузитеПИ";
 
 FNP_LOCALE_TEXT.FNP_MENU_GENERAL = "ГЛАВНОЕ";

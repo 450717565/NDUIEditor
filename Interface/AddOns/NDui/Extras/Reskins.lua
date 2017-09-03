@@ -336,7 +336,6 @@ if IsAddOnLoaded("Aurora") then
 				F.CreateBD(toast)
 				F.CreateSD(toast)
 
-				toast.BG:SetAlpha(.8)
 				toast.BG:SetAllPoints(toast)
 				toast.BG:SetBlendMode("ADD")
 				toast.BG:SetDrawLayer("BACKGROUND", 0)

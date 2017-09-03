@@ -1,15 +1,15 @@
 local B, C, L, DB = unpack(select(2, ...))
 
 local function MythicLootItemLevel(mlvl)
-	if mlvl == "2" or mlvl == "3" then
+	if mlvl == "2" then
 		return "890+"
-	elseif mlvl == "4" or mlvl == "5" then
+	elseif mlvl == "3" or mlvl == "4" then
 		return "895+"
-	elseif mlvl == "6" or mlvl == "7" then
+	elseif mlvl == "5" then
 		return "900+"
-	elseif mlvl == "8" then
+	elseif mlvl == "6" or mlvl == "7" then
 		return "905+"
-	elseif mlvl == "9" then
+	elseif mlvl == "8" or mlvl == "9" then
 		return "910+"
 	elseif mlvl == "10" then
 		return "915+"
@@ -44,7 +44,7 @@ local numScreen = ""
 local frame = CreateFrame("Frame")
 frame:RegisterEvent("ADDON_LOADED")
 frame:SetScript("OnEvent", function(self, event, addonName, ...)
-    if event == "ADDON_LOADED" and addonName == "Blizzard_ChallengesUI" then
+	if event == "ADDON_LOADED" and addonName == "Blizzard_ChallengesUI" then
 		local iLvlFrm = CreateFrame("Frame", "LootLevel", ChallengesModeWeeklyBest)
 		iLvlFrm:SetSize(200, 50)
 		iLvlFrm:SetPoint("TOP", ChallengesModeWeeklyBest.Child.Level, "BOTTOM", 0, 5)
@@ -52,11 +52,11 @@ frame:SetScript("OnEvent", function(self, event, addonName, ...)
 		iLvlFrm.text:SetJustifyH("CENTER")
 		iLvlFrm:SetScript("OnUpdate", function(self, elaps)
 			self.time = (self.time or 1) - elaps
-			if (self.time > 0) then
+			if self.time > 0 then
 				return
 			end
 			while self.time <= 0 do
-				if (ChallengesModeWeeklyBest) then
+				if ChallengesModeWeeklyBest then
 					numScreen = ChallengesModeWeeklyBest.Child.Level:GetText()
 					self.time = self.time + 1
 					self.text:SetText(WeeklyLootItemLevel(numScreen))
@@ -126,5 +126,5 @@ local function DecorateTooltip(self, link, _)
 	end
 end
 
-hooksecurefunc(ItemRefTooltip, "SetHyperlink", DecorateTooltip) 
+hooksecurefunc(ItemRefTooltip, "SetHyperlink", DecorateTooltip)
 GameTooltip:HookScript("OnTooltipSetItem", DecorateTooltip)
