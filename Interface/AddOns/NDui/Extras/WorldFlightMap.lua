@@ -212,6 +212,7 @@ local function TaxiNodeOnButtonEnter(button)
 	WorldMapTooltip:SetOwner(button, "ANCHOR_RIGHT")
 	WorldMapTooltip:AddLine(TaxiNodeName(index), nil, nil, nil, true)
 
+	SetCursor("TAXI_CURSOR")
 	-- Setup variables
 	local numRoutes = GetNumRoutes(index)
 	local type = TaxiNodeGetType(index)
@@ -289,13 +290,13 @@ local function CreateButton(i)
 	texture:ClearAllPoints()
 	texture:SetPoint("CENTER")
 	texture:SetSize(24, 24)
-	button.Texture = texture
+	--button.Texture = texture
 
 	local highlight = button:GetHighlightTexture()
 	highlight:ClearAllPoints()
 	highlight:SetPoint("CENTER")
 	highlight:SetSize(40, 40)
-	button.HighlightTexture = highlight
+	--button.HighlightTexture = highlight
 
 	local i = i or (#TaxiButtons + 1)
 	button:SetScript("OnClick", TaxiNodeOnClick)
@@ -303,7 +304,7 @@ local function CreateButton(i)
 	TaxiButtons[i] = button
 
 	button:SetScript("OnEnter", TaxiNodeOnButtonEnter)
-	button:SetScript("OnLeave", function() WorldMapTooltip:Hide() end)
+	button:SetScript("OnLeave", function() WorldMapTooltip:Hide() ResetCursor() end)
 
 	local tx = button:CreateTexture(nil, "OVERLAY")
 	tx:SetPoint("BOTTOM", button, "TOP")
@@ -369,75 +370,82 @@ function f:WORLD_MAP_UPDATE()
 	local showArrows = ContinentMaps[continentID] and GetCurrentMapAreaID() ~= ContinentMaps[continentID] -- only show arrows on zone maps
 
 	local j = 1
-	if continentID == 9 and GetCurrentMapZone() ~= 0 then
-		for i = 1, #taxiNodePositions do
-			local node = taxiNodePositions[i]
-			--if node.type ~= "NONE" then
-			if node.type ~= "NONE" then
-				--local mx, my = (left - node.x) / width, (top - node.y) / height
+	if continentID == 9 then
+		if GetCurrentMapZone() ~= 0 then
+			for i = 1, #taxiNodePositions do
+				local node = taxiNodePositions[i]
+				--if node.type ~= "NONE" then
+				if node.type ~= "NONE" then
+					--local mx, my = (left - node.x) / width, (top - node.y) / height
 
-				local button = GetButton(j)
-				button:SetID(i)
-				button:ClearAllPoints()
-				button:Hide()
-				for l = 1, GetNumMapLandmarks() do
-					local landmarkType, name, description, textureIndex, x, y, mapLinkID, inBattleMap, graveyardID, areaID, poiID, isObjectIcon, atlasName, displayAsBanner, mapFloor, textureKitPrefix = C_WorldMap.GetMapLandmarkInfo(l)
-					if name == node.name then
-						button:SetPoint("CENTER", f, "TOPLEFT", x * 1002, y * -668)
-						button:SetNormalTexture(TaxiButtonTypes[node.type].file)
+					local button = GetButton(j)
+					button:SetID(i)
+					button:ClearAllPoints()
+					button:Hide()
+					for l = 1, GetNumMapLandmarks() do
+						local landmarkType, name, description, textureIndex, x, y, mapLinkID, inBattleMap, graveyardID, areaID, poiID, isObjectIcon, atlasName, displayAsBanner, mapFloor, textureKitPrefix = C_WorldMap.GetMapLandmarkInfo(l)
+						if name == node.name then
+							button:SetPoint("CENTER", f, "TOPLEFT", x * 1002, y * -668)
+							button:SetNormalTexture(TaxiButtonTypes[node.type].file)
 
-						button:SetSize(24, 24)
-						local texture = button.Texture
-						texture:SetAtlas("FlightMaster_Argus-TaxiNode_Neutral", true)
-						texture:SetSize(28, 24)
+							button:SetSize(24, 24)
+							local texture = button:GetNormalTexture()
+							texture:SetSize(34, 28)
 
-						local highlightTexture = button.HighlightTexture
-						highlightTexture:SetAtlas("FlightMaster_Argus-TaxiNode_Neutral", true)
-						highlightTexture:SetSize(28, 24)
-						--[[
-						if (not atlasIcon) then
-							local x1, x2, y1, y2;
-							if (isObjectIcon) then
-								x1, x2, y1, y2 = GetObjectIconTextureCoords(textureIndex);
+							local highlightTexture = button:GetHighlightTexture()
+							--highlightTexture:SetAtlas("FlightMaster_Argus-TaxiNode_Neutral", true)
+							highlightTexture:SetSize(34, 28)
+							--highlightTexture:SetTexture("interface/icons/inv_mushroom_11")
+
+							--[[
+							if (not atlasIcon) then
+								local x1, x2, y1, y2;
+								if (isObjectIcon) then
+									x1, x2, y1, y2 = GetObjectIconTextureCoords(textureIndex);
+								else
+									x1, x2, y1, y2 = GetPOITextureCoords(textureIndex);
+								end
+								button.Texture:SetTexCoord(x1, x2, y1, y2);
+								button.HighlightTexture:SetTexCoord(x1, x2, y1, y2);
 							else
-								x1, x2, y1, y2 = GetPOITextureCoords(textureIndex);
+								button.Texture:SetTexCoord(0, 1, 0, 1);
+								button.HighlightTexture:SetTexCoord(0, 1, 0, 1);
 							end
-							button.Texture:SetTexCoord(x1, x2, y1, y2);
-							button.HighlightTexture:SetTexCoord(x1, x2, y1, y2);
-						else
-							button.Texture:SetTexCoord(0, 1, 0, 1);
-							button.HighlightTexture:SetTexCoord(0, 1, 0, 1);
+							--]]
+
+
+							--button:SetID(node.slotIndex)
+
+							if node.type == "REACHABLE" then
+								button.arrow:SetShown(showArrows)
+							else
+								button.arrow:Hide()
+							end
+
+							if node.type == "CURRENT" then
+								--texture:SetVertexColor(0, 0.8, 0)
+								--highlightTexture:SetVertexColor(0, 0.8, 0)
+								texture:SetAtlas("FlightMaster_Argus-Taxi_Frame_Green")
+								highlightTexture:SetAtlas("FlightMaster_Argus-Taxi_Frame_Green")
+							else
+								texture:SetAtlas("FlightMaster_Argus-Taxi_Frame_Gray")
+								highlightTexture:SetAtlas("FlightMaster_Argus-Taxi_Frame_Gray")
+								--texture:SetVertexColor(1, 1, 1)
+								--highlightTexture:SetVertexColor(1, 1, 1)
+							end
+
+							if node.type == "REACHABLE" or node.type == "CURRENT" then
+								button:Show()
+							else
+								button:Hide()
+							end
+
+
+							break
 						end
-						--]]
-
-
-						--button:SetID(node.slotIndex)
-
-						if node.type == "REACHABLE" then
-							button.arrow:SetShown(showArrows)
-						else
-							button.arrow:Hide()
-						end
-
-						if node.type == "CURRENT" then
-							texture:SetVertexColor(0, 0.8, 0)
-							highlightTexture:SetVertexColor(0, 0.8, 0)
-						else
-							texture:SetVertexColor(1, 1, 1)
-							highlightTexture:SetVertexColor(1, 1, 1)
-						end
-
-						if node.type == "REACHABLE" or node.type == "CURRENT" then
-							button:Show()
-						else
-							button:Hide()
-						end
-
-
-						break
 					end
+					j = j + 1
 				end
-				j = j + 1
 			end
 		end
 	else
@@ -450,10 +458,10 @@ function f:WORLD_MAP_UPDATE()
 				button:ClearAllPoints()
 				button:SetPoint("CENTER", f, "TOPLEFT", mx * 1002, my * -668)
 				button:SetNormalTexture(TaxiButtonTypes[node.type].file)
-				button.Texture:SetSize(24, 24)
-				button.Texture:SetVertexColor(1, 1, 1)
-				button.HighlightTexture:SetVertexColor(1, 1, 1)
-				button.HighlightTexture:SetSize(40, 40)
+				button:GetNormalTexture():SetSize(24, 24)
+				--button.Texture:SetVertexColor(1, 1, 1)
+				--button.HighlightTexture:SetVertexColor(1, 1, 1)
+				button:GetHighlightTexture():SetSize(40, 40)
 				button:SetID(i)
 				--button:SetID(node.slotIndex)
 
@@ -467,7 +475,7 @@ function f:WORLD_MAP_UPDATE()
 					button:SetHighlightTexture([[Interface\TaxiFrame\UI-Taxi-Icon-Highlight]])
 					button:Show()
 				else
-					button:SetHighlightTexture(nil)
+					--button:SetHighlightTexture(nil)
 					button:Hide()
 				end
 
