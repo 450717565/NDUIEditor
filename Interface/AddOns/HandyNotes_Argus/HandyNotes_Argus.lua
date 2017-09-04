@@ -17,12 +17,14 @@ local itemTypeMisc = 0;
 local itemTypePet = 1;
 local itemTypeMount = 2;
 local itemTypeToy = 3;
+local itemTypeTransmog = 4;
 
 Argus.nodes = { }
 
 local nodes = Argus.nodes
 local isTomTomloaded = false
 local isDBMloaded = false
+local isCanIMogItloaded = false
 
 -- [XXXXYYYY] = { QUEST_ID_TRACKING, TITLE, LOOT_INFO, NOTES, ICON, SETTING, LOOT_ITEMID },
 -- /run local find="Crimson Slavermaw"; for i,mid in ipairs(C_MountJournal.GetMountIDs()) do local n,_,_,_,_,_,_,_,_,_,c,j=C_MountJournal.GetMountInfoByID(mid); if ( n == find ) then print(j .. " " .. n); end end
@@ -40,20 +42,20 @@ nodes["ArgusCore"] = {
 	[60674831] = { 48815, "审判官维斯洛兹", "", "", "skull_grey", "rare_aw", { { 151543, itemTypeMisc } } },
 	[80206230] = { 48816, "传送到指挥官泰克拉兹", nil, "", "portal", "rare_aw" },
 	[82006600] = { 48816, "指挥官泰克拉兹", nil, "使用偏西的传送门位于 80.2, 62.3 到达船上", "skull_grey", "rare_aw" },
-	[73207080] = { 48817, "雷尔瓦将军", "", "", "skull_grey", "rare_aw", { { 153324, itemTypeMisc } } },
+	[73207080] = { 48817, "雷尔瓦将军", "", "", "skull_blue", "rare_aw", { { 153324, itemTypeTransmog, "Shield" } } },
 	[75605650] = { 48818, "全知者萨纳里安", nil, nil, "skull_grey", "rare_aw" },
 	[50905530] = { 48820, "裂世者斯库尔", nil, nil, "skull_grey", "rare_aw" },
 	[63102520] = { 48821, "驯犬大师克拉克斯", "", "", "skull_blue", "rare_aw", { { 152790, itemTypeMount, 955 } } },
-	[55702190] = { 48824, "虚空守望者瓦苏拉", "", "", "skull_grey", "rare_aw", { { 153319, itemTypeMisc } } },
+	[55702190] = { 48824, "虚空守望者瓦苏拉", "", "", "skull_blue", "rare_aw", { { 153319, itemTypeTransmog, "2h Mace" } } },
 	[60902290] = { 48865, "首席炼金师蒙库鲁斯", nil, nil, "skull_grey", "rare_aw" },
 	[54003800] = { 48966, "千面吞噬者", "", "", "skull_blue", "rare_aw", { { 153195, itemTypePet, 2136 } } },
-	[77177319] = { 48967, "传送到中队指挥官维沙克斯", "", "第一步先从虚空行者身上找到碎裂的传送门发生器。然后收集导电护套，弧光电路，能量电池，把他们组合起来打开去往维沙克斯的传送门。", "portal", "rare_aw" },
+	[77177319] = { 48967, "传送到中队指挥官维沙克斯", "", "第一步先从不朽虚无行者身上找到碎裂的传送门发生器。然后从艾瑞达战术顾问、魔誓侍从身上收集导电护套，弧光电路，能量电池，使用碎裂的传送门发生器把它们组合起来打开去往维沙克斯的传送门。", "portal", "rare_aw" },
 	[84368118] = { 48967, "中队指挥官维沙克斯", "", "使用传送门位于 77.2, 73.2 上船", "skull_blue", "rare_aw", { { 153253, itemTypeToy } } },
 	[58001200] = { 48968, "末日法师苏帕克斯", "", "", "skull_blue", "rare_aw", { { 153194, itemTypeToy } } },
 	[66981777] = { 48970, "主母罗苏拉", "", "洞穴入口在东南方 - 从东面的桥到达那里。收集洞里小鬼掉的100个小鬼的肉。使用它做一份黑暗料理扔进绿池子里召唤主母。", "skull_blue", "rare_aw", { { 152903, itemTypeMount, 981 }, { 153252, itemTypePet, 2135 } } },
-	[64948290] = { 48971, "先知雷兹拉", "", "使用观察者之地共鸣器打开传送门", "skull_blue", "rare_aw", { { 153293, itemTypeToy } } },
+	[64948290] = { 48971, "先知雷兹拉", "", "使用观察者之地共鸣器打开传送门。收集500个恶魔之眼把它交给位于 60.2, 45.4 的全视者奥利克斯换取。", "skull_blue", "rare_aw", { { 153293, itemTypeToy } } },
 	[61703720] = { 49183, "疱喉", "", "", "skull_blue", "rare_aw", { { 152905, itemTypeMount, 979 } } },
-	[57403290] = { 49240, "妖女伊森黛拉", "", "", "skull_blue", "rare_aw", { { 153327, itemTypeMisc } } },
+	[57403290] = { 49240, "妖女伊森黛拉", "", "", "skull_blue", "rare_aw", { { 153327, itemTypeTransmog, "Dagger" } } },
 	[56204550] = { 49241, "加尔佐斯", nil, nil, "skull_grey", "rare_aw" },
 
 
@@ -93,21 +95,28 @@ nodes["ArgusCore"] = {
 	[57135124] = { 48385, "48385", nil, nil, "treasure", "treasure_aw" },
 	[65005049] = { 48391, "48391", nil, "蜘蛛区域外", "treasure", "treasure_aw" },
 	[73316858] = { 48390, "48390", nil, "雷尔瓦将军顶层边上", "treasure", "treasure_aw" },
-	[71326946] = { 48382, "48382", nil, "任务怪边上", "treasure", "treasure_aw" },
+	[71326946] = { 48382, "48382", nil, "在哈多克斯边上", "treasure", "treasure_aw" },
 	[64152305] = { 48384, "48384", nil, "驯犬大师克拉克斯洞穴内", "treasure", "treasure_aw" },
+	[67546980] = { 48382, "48382", nil, "建筑物内", "treasure", "treasure_aw" },
+	[66621709] = { 48384, "48384", nil, "小鬼洞穴内，主母罗苏拉旁边", "treasure", "treasure_aw" },
+	[51863409] = { 48383, "48383", nil, nil, "treasure", "treasure_aw" },
+	[63035762] = { 48391, "48391", nil, "在维农的巢穴内", "treasure", "treasure_aw" },
+	[77127529] = { 48390, "48390", nil, "维沙克斯传送门旁边", "treasure", "treasure_aw" },
+	[65345192] = { 48389, "48389", nil, "瓦加后面的洞穴内", "treasure", "treasure_aw" },
+	[65185507] = { 48391, "48391", nil, "上面入口到蜘蛛区域", "treasure", "treasure_aw" },
 }
 
 -- Krokuun
 nodes["ArgusSurface"] = {
 	[44390734] = { 48561, "卡扎杜姆", nil, "入口在东南位于 50.3, 17.3", "skull_grey", "rare_kr" },
 	[33007600] = { 48562, "指挥官萨森纳尔", nil, nil, "skull_grey", "rare_kr" },
-	[44505870] = { 48564, "指挥官安达西斯", "", "", "skull_blue", "rare_kr", { { 153255, itemTypeMisc } } },
+	[44505870] = { 48564, "指挥官安达西斯", "", "", "skull_blue", "rare_kr", { { 153255, itemTypeTransmog, "1h Mace" } } },
 	[53403090] = { 48565, "苏薇西娅姐妹", "", "", "skull_blue", "rare_kr", { { 153124, itemTypeToy } } },
 	[58007480] = { 48627, "攻城大师沃兰", nil, nil, "skull_grey", "rare_kr" },
-	[55508020] = { 48628, "恶毒者泰勒斯塔", "", "", "skull_blue", "rare_kr", { { 153329, itemTypeMisc } } },
-	[38145920] = { 48563, "指挥官维卡娅", "", "路径起始点在东，位于 42, 57.1", "skull_blue", "rare_kr", { { 153299, itemTypeMisc } } },
+	[55508020] = { 48628, "恶毒者泰勒斯塔", "", "", "skull_blue", "rare_kr", { { 153329, itemTypeTransmog, "Dagger" } } },
+	[38145920] = { 48563, "指挥官维卡娅", "", "路径起始点在东，位于 42, 57.1", "skull_blue", "rare_kr", { { 153299, itemTypeTransmog, "1h Sword" } } },
 	[60802080] = { 48629, "背弃者瓦加斯", nil, nil, "skull_grey", "rare_kr" },
-	[69605750] = { 48664, "分选者泰瑞克", "", "", "skull_blue", "rare_kr", { { 153263, itemTypeMisc } } },
+	[69605750] = { 48664, "分选者泰瑞克", "", "", "skull_blue", "rare_kr", { { 153263, itemTypeTransmog, "1h Axe" } } },
 	[69708050] = { 48665, "焦油喷吐者", nil, nil, "skull_grey", "rare_kr" },
 	[41707020] = { 48666, "鬼母拉格拉丝", nil, nil, "skull_grey", "rare_kr" },
 	[70503370] = { 48667, "纳罗瓦", "", "", "skull_blue", "rare_kr", { { 153190, itemTypeMisc } } },
@@ -143,6 +152,9 @@ nodes["ArgusSurface"] = {
 	[73393438] = { 48339, "48339", nil, nil, "treasure", "treasure_kr" },
 	[61643520] = { 47999, "47999", nil, nil, "treasure", "treasure_kr" },
 	[35415637] = { 48336, "48336", nil, nil, "treasure", "treasure_kr", "地面，在去往泽尼达尔入口下面的前方" },
+	[72896482] = { 48000, "48000", nil, nil, "treasure", "treasure_kr" },
+	[61463580] = { 47999, "47999", nil, "建筑物内", "treasure", "treasure_kr" },
+	[72243202] = { 48339, "48339", nil, "巨大头骨后面", "treasure", "treasure_kr" }, -- Doe
 }
 
 nodes["ArgusCitadelSpire"] = {
@@ -267,6 +279,19 @@ function Argus:OnEnter(mapFile, coord)
 					else
 						tooltip:AddLine(("" .. GetItem(nodes[mapFile][coord][7][ii][1]) .. " (|cFFFF0000玩具缺少|r)"), nil, nil, nil, true)
 					end
+				elseif ( isCanIMogItloaded == true and nodes[mapFile][coord][7][ii][2] == itemTypeTransmog ) then
+					local _,itemLink = GetItemInfo( nodes[mapFile][coord][7][ii][1] );
+					if ( itemLink ~= nil ) then
+						if ( CanIMogIt:PlayerKnowsTransmog( itemLink ) ) then
+							tooltip:AddLine(("" .. GetItem(nodes[mapFile][coord][7][ii][1]) .. " (|cFF00FF00" .. nodes[mapFile][coord][7][ii][3] .. "|r)"), nil, nil, nil, true)
+						else
+							tooltip:AddLine(("" .. GetItem(nodes[mapFile][coord][7][ii][1]) .. " (|cFFFF0000" .. nodes[mapFile][coord][7][ii][3] .. "|r)"), nil, nil, nil, true)
+						end
+					else
+						tooltip:AddLine(("" .. GetItem(nodes[mapFile][coord][7][ii][1]) .. " (" .. nodes[mapFile][coord][7][ii][3] .. ")"), nil, nil, nil, true)
+					end
+				elseif ( nodes[mapFile][coord][7][ii][2] == itemTypeTransmog ) then
+					tooltip:AddLine(("" .. GetItem(nodes[mapFile][coord][7][ii][1]) .. " (" .. nodes[mapFile][coord][7][ii][3] .. ")"), nil, nil, nil, true)
 				else
 					tooltip:AddLine(("" .. GetItem(nodes[mapFile][coord][7][ii][1])), nil, nil, nil, true)
 				end
@@ -627,9 +652,9 @@ function Argus:OnInitialize()
             rare_aw = true,
             rare_kr = true,
             rare_ma = true,
-			pet_aw = false,
-			pet_kr = false,
-			pet_ma = false,
+			pet_aw = true,
+			pet_kr = true,
+			pet_ma = true,
             show_loot = true,
             show_notes = true,
         },
@@ -713,6 +738,10 @@ function Argus:LoadCheck()
 
 	if (IsAddOnLoaded("DBM-Core")) then 
 		isDBMloaded = true
+	end
+
+	if (IsAddOnLoaded("CanIMogIt")) then 
+		isCanIMogItloaded = true
 	end
 
 	if isDBMloaded == true then

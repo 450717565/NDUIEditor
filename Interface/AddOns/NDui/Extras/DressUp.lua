@@ -6,7 +6,6 @@ local function CreateButton(name, frame, label, width, height, point, relativeTo
 	local name = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
 	name:SetWidth(width)
 	name:SetHeight(height)
-	name:SetAlpha(1.0)
 	name:SetPoint(point, relativeTo, relativePoint, xOffset, yOffset)
 	name:SetText(label)
 	name:RegisterForClicks("AnyUp")

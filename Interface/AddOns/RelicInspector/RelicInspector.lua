@@ -680,7 +680,7 @@ local function DecorateRelic(self)
 					local _, specName, _, _, _, classKey = GetSpecializationInfoByID(specKeys[q])
 					local classColorSet = RAID_CLASS_COLORS[classKey]
 					local classColor = classColorSet.colorStr
-					local separator = "?"
+					local separator = "、"
 					if q == #specKeys then separator = "" end
 					local quantity = ""
 					if invRelicSpecOptions[db.profile.relicSpecs] == 3 and usableSpecs[specKeys[q]] > 1 then

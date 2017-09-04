@@ -171,6 +171,11 @@ C.themes["Blizzard_Collections"] = function()
 	PetJournal.HealPetButton:SetPushedTexture("")
 	PetJournal.HealPetButton:SetPoint("BOTTOMRIGHT", PetJournalPetCard, "TOPRIGHT", -1, 3.5)
 	F.CreateBDFrame(PetJournal.HealPetButton)
+	
+	PetJournalSummonRandomFavoritePetButtonBorder:Hide()
+	PetJournalSummonRandomFavoritePetButtonIconTexture:SetTexCoord(.08, .92, .08, .92)
+	PetJournal.SummonRandomFavoritePetButton:SetPushedTexture("")
+	F.CreateBDFrame(PetJournal.SummonRandomFavoritePetButton)
 
 	do
 		local ic = MountJournal.MountDisplay.InfoButton.Icon

@@ -24,6 +24,8 @@ C.themes["Blizzard_QuestChoice"] = function()
 		option.Artwork:SetSize(180, 71)
 		option.Artwork:SetPoint("TOP", 0, -20)
 		option.OptionText:SetTextColor(.9, .9, .9)
+		
+		F.CreateBDFrame(option.Artwork)
 
 		item.Name:SetTextColor(1, 1, 1)
 		item.Icon:SetTexCoord(.08, .92, .08, .92)

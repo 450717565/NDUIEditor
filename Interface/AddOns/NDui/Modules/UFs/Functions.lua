@@ -272,7 +272,7 @@ function UF:CreateCastBar(self)
 		cb.Mover = B.Mover(cb, L["Focus Castbar"], "FocusCB", C.UFs.Focuscb, cb:GetWidth(), 32)
 	elseif self.mystyle == "boss" or self.mystyle == "arena" then
 		cb:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, -10)
-		cb:SetSize(134, 10)
+		cb:SetSize(self:GetWidth()-15, 10)
 	elseif self.mystyle == "nameplate" then
 		cb:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, -5)
 		cb:SetSize(self:GetWidth(), 5)
