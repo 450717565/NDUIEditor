@@ -1,7 +1,5 @@
 local B, C, L, DB = unpack(select(2, ...))
 
-local fish = "钓鱼"
-local empty = "没有物品"
 local iconSize = 33
 
 local fontSizeItem = math.floor(select(2, GameFontWhite:GetFont()) + .5)
@@ -110,6 +108,10 @@ local function CreateSlot(id)
 	glow:Hide()
 	button.glow = glow
 
+	local bind = B.CreateFS(iconBorder, 14, "", false, "TOPLEFT", 1, -1)
+	bind:SetJustifyH("LEFT")
+	button.bind = bind
+
 	local ilvl = B.CreateFS(iconBorder, 14, "", false, "BOTTOMRIGHT", -1, 1)
 	ilvl:SetJustifyH("RIGHT")
 	button.ilvl = ilvl
@@ -165,7 +167,7 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 	end
 
 	if IsFishingLoot() then
-		self.Title:SetText(fish)
+		self.Title:SetText(GetSpellInfo(131474))
 	elseif UnitIsDead("target") then
 		self.Title:SetText(UnitName("target"))
 	else
@@ -196,6 +198,8 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 			if texture then
 				local color = BAG_ITEM_QUALITY_COLORS[quality]
 				local link = GetLootSlotLink(i)
+				local itemLvl = NDui:GetItemLevel(link, quality)
+				local bindType = select(14, GetItemInfo(link))
 
 				local slotType = GetLootSlotType(i)
 				if slotType == LOOT_SLOT_MONEY then
@@ -219,10 +223,15 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 				end
 
 				if link and (quality and quality > 0) then
-					local itemLvl = NDui:GetItemLevel(link, quality)
 					slot.ilvl:SetText(itemLvl)
 				else
 					slot.ilvl:SetText("")
+				end
+
+				if bindType and (bindType == 2 or bindType == 3) then
+					slot.bind:SetText(bindType == 2 and "BoE" or "BoU")
+				else
+					slot.bind:SetText("")
 				end
 
 				slot.name:SetText(item)
@@ -237,7 +246,7 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 	else
 		local slot = slots[1] or CreateSlot(1)
 
-		slot.name:SetText(empty)
+		slot.name:SetText(NONE)
 		slot.name:SetTextColor(.5, .5, .5)
 		slot.icon:SetTexture(nil)
 

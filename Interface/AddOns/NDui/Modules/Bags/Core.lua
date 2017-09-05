@@ -201,10 +201,9 @@ function module:OnLogin()
 			if link
 			and (rarity and rarity > 1)
 			and ((item.level and item.level > 0) and (item.subType == EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC or (item.equipLoc ~= "" and item.equipLoc ~= "INVTYPE_TABARD" and item.equipLoc ~= "INVTYPE_BODY")))
-			or ((item.classID and item.classID == 15) and (item.subclassID and item.subclassID == 2 ))
-			or ((item.classID and item.classID == 15) and (item.subclassID and item.subclassID == 5 )) then
+			or ((item.classID and item.classID == 15 and item.subclassID) and (item.subclassID == 2 or item.subclassID == 5)) then
 				local level = NDui:GetItemLevel(item.link, rarity)
-				local itemID, itemType, itemSubType, itemEquipLoc, iconFileDataID, itemClassID, itemSubClassID = GetItemInfoInstant(link)
+				local _, _, _, _, _, _, itemSubType, itemStackCount, itemEquipLoc, _, _, itemClassID, itemSubClassID, bindType = GetItemInfo(link)
 				if NDuiDB["Bags"]["BagsiLvl"] then
 					self.iLvl:SetText(level)
 				end
@@ -223,10 +222,11 @@ function module:OnLogin()
 						slotText = itemSubType or ""
 					elseif itemSubType and string.find(itemSubType, RELICSLOT) then
 						slotText = RELICSLOT or ""
-					elseif (itemClassID and itemClassID == 15) and (itemSubClassID and itemSubClassID == 2) then
-						slotText = PET or ""
-					elseif (itemClassID and itemClassID == 15) and (itemSubClassID and itemSubClassID == 5) then
-						slotText = itemSubType or ""
+					elseif (itemClassID and itemClassID == 15 and itemSubClassID) and (itemSubClassID == 2 or itemSubClassID == 5) then
+						slotText = (itemSubClassID == 2 and PET) or (itemSubClassID == 5 and itemSubType) or ""
+					end
+					if bindType and (bindType == 2 or bindType == 3) then
+						slotText = (bindType == 2 and "BoE") or (bindType == 3 and "BoU") or ""
 					end
 					if string.len(slotText) > 9 then
 						slotText = ""

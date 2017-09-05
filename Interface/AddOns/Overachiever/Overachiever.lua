@@ -24,6 +24,10 @@ local MadeDraggable_AchFrame, MadeDragSave_AchFrame
 local TexAlert = "Interface\\AddOns\\Overachiever\\AlertGreenLine"
 local TexAlertBorders = "Interface\\AddOns\\Overachiever\\AlertBordersGreen"
 
+-- Set this to true to make the achievement criteria lookup builder run in a background task after entering the world instead of
+-- during startup. Also see the variable BUILD_CRIT_STEPS in libs/TjAchieve.lua.
+local THROTTLE_ACHLOOKUP = true
+
 
 -- Overcome problem where GetAchievementInfo throws an error if the achievement ID is invalid:
 do
@@ -413,20 +417,30 @@ end
 local function BuildCriteriaLookupTab_check()
 	if (Overachiever_Settings.UI_RequiredForMetaTooltip) then
 		local status = TjAchieve.BuildCritAssetCache(TjAchieve.CRITTYPE_META)
-		if (Overachiever_Debug and status == "started") then
-			chatprint("BuildCriteriaLookupTab_check: meta caching started")
-			TjAchieve.AddBuildCritAssetCacheListener(TjAchieve.CRITTYPE_META, function()
-				chatprint("BuildCriteriaLookupTab_check: meta caching complete")
-			end)
+		if (status == "started") then
+			if (not THROTTLE_ACHLOOKUP) then
+				TjAchieve.RushBuildCritAssetCache(TjAchieve.CRITTYPE_META)
+				if (Overachiever_Debug) then  chatprint("BuildCriteriaLookupTab_check: meta caching rushed");  end
+			elseif (Overachiever_Debug) then
+				chatprint("BuildCriteriaLookupTab_check: meta caching started")
+				TjAchieve.AddBuildCritAssetCacheListener(TjAchieve.CRITTYPE_META, function()
+					chatprint("BuildCriteriaLookupTab_check: meta caching complete")
+				end)
+			end
 		end
 	end
 	if (Overachiever_Settings.CreatureTip_killed) then
 		local status = TjAchieve.BuildCritAssetCache(TjAchieve.CRITTYPE_KILL, true)
-		if (Overachiever_Debug and status == "started") then
-			chatprint("BuildCriteriaLookupTab_check: kill caching started")
-			TjAchieve.AddBuildCritAssetCacheListener(TjAchieve.CRITTYPE_KILL, function()
-				chatprint("BuildCriteriaLookupTab_check: kill caching complete")
-			end)
+		if (status == "started") then
+			if (not THROTTLE_ACHLOOKUP) then
+				TjAchieve.RushBuildCritAssetCache(TjAchieve.CRITTYPE_KILL, true)
+				if (Overachiever_Debug) then  chatprint("BuildCriteriaLookupTab_check: meta caching rushed");  end
+			elseif (Overachiever_Debug) then
+				chatprint("BuildCriteriaLookupTab_check: kill caching started")
+				TjAchieve.AddBuildCritAssetCacheListener(TjAchieve.CRITTYPE_KILL, function()
+					chatprint("BuildCriteriaLookupTab_check: kill caching complete")
+				end)
+			end
 		end
 	end
 end
@@ -459,6 +473,11 @@ function Overachiever.GetKillCriteriaLookup(doNotRush)
 		for mobID,list in pairs(OVERACHIEVER_MOB_CRIT) do
 			if (AchLookup_kill[mobID]) then
 				local tab = AchLookup_kill[mobID]
+				--[[ Unneeded. We know it will be a table because we passed true for saveIndex.
+				if (type(tab) ~= "table") then
+					tab = { tab }
+				end
+				--]]
 				local size = #tab
 				for i,v in ipairs(list) do
 					size = size + 1
@@ -1254,6 +1273,7 @@ function Overachiever.ToastFakeAchievement(name, baseID, playSound, chatMessage,
   --]]
 
   --if (playSound) then  PlaySound("UI_Alert_AchievementGained");  end
+  if (playSound) then  PlaySound(12891);  end
   if (chatMessage) then  chatprint("", chatMessage);  end
 end
 
@@ -1865,3 +1885,29 @@ Overachiever.MainFrame:SetScript("OnEvent", Overachiever.OnEvent)
 Overachiever.MainFrame:SetScript("OnUpdate", AchievementUI_FirstShown_post)
 
 --Overachiever.MainFrame:RegisterEvent("PLAYER_LOGIN")
+
+
+
+
+--[[
+-- /run Overachiever.ListCompletedAchievements()
+function Overachiever.ListCompletedAchievements()
+	local achs = Overachiever.GetAllAchievements()
+	local list, num = {}, 0
+	for i,id in ipairs(achs) do
+		local id, name, points, completed = GetAchievementInfo(id)
+		if (completed) then
+			num = num + 1
+			list[num] = id
+		end
+	end
+	C_Timer.After(0, function()
+		local s = ""
+		for i,id in ipairs(list) do
+			s = s .. id .. "\r\n"
+		end
+		error(s)
+	end)
+	return list
+end
+--]]

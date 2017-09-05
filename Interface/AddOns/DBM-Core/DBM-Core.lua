@@ -41,7 +41,7 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 16688 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 16691 $"):sub(12, -3)),
 	DisplayVersion = "7.3.2 alpha", -- the string that is shown as version
 	ReleaseRevision = 16683 -- the revision of the latest stable version that is available
 }
@@ -1088,6 +1088,9 @@ do
 		end
 		if IsInGuild() then
 			SendAddonMessage("D4", "GH", "GUILD")
+		end
+		if not savedDifficulty or not difficultyText or not difficultyIndex then--prevent error if savedDifficulty or difficultyText is nil
+			savedDifficulty, difficultyText, difficultyIndex = self:GetCurrentInstanceDifficulty()
 		end
 	end
 
@@ -5616,10 +5619,8 @@ do
 							self:AddMsg(DBM_CORE_SCENARIO_STARTED:format(difficultyText..name))
 						else
 							self:AddMsg(DBM_CORE_COMBAT_STARTED:format(difficultyText..name))
-							if difficultyIndex == 14 or difficultyIndex == 15 or difficultyIndex == 16 or difficultyIndex == 33 then--Only send relevant content, not guild beating down lich king or LFR.
-								if InGuildParty() then--Guild Group
-									SendAddonMessage("D4", "GCB\t"..modId.."\t2\t"..difficultyIndex, "GUILD")
-								end
+							if (difficultyIndex == 14 or difficultyIndex == 15 or difficultyIndex == 16) and InGuildParty() then--Only send relevant content, not guild beating down lich king or LFR.
+								SendAddonMessage("D4", "GCB\t"..modId.."\t2\t"..difficultyIndex, "GUILD")
 							end
 						end
 					end
@@ -5765,7 +5766,7 @@ do
 							self:AddMsg(DBM_CORE_SCENARIO_ENDED_AT_LONG:format(difficultyText..name, strFromTime(thisTime), totalPulls - totalKills))
 						else
 							self:AddMsg(DBM_CORE_COMBAT_ENDED_AT_LONG:format(difficultyText..name, wipeHP, strFromTime(thisTime), totalPulls - totalKills))
-							if (difficultyIndex == 14 or difficultyIndex == 15 or difficultyIndex == 16 or difficultyIndex == 33) and InGuildParty() then--Maybe add mythic plus/CM?
+							if (difficultyIndex == 14 or difficultyIndex == 15 or difficultyIndex == 16) and InGuildParty() then--Maybe add mythic plus/CM?
 								SendAddonMessage("D4", "GCE\t"..modId.."\t3\t1\t"..strFromTime(thisTime).."\t"..difficultyIndex.."\t"..wipeHP, "GUILD")
 							end
 						end
@@ -5847,10 +5848,8 @@ do
 							msg = DBM_CORE_SCENARIO_COMPLETE:format(difficultyText..name, strFromTime(thisTime))
 						else
 							msg = DBM_CORE_BOSS_DOWN:format(difficultyText..name, strFromTime(thisTime))
-							if difficultyIndex == 14 or difficultyIndex == 15 or difficultyIndex == 16 or difficultyIndex == 33 then
-								if InGuildParty() then--Guild Group
-									SendAddonMessage("D4", "GCE\t"..modId.."\t3\t0\t"..strFromTime(thisTime).."\t"..difficultyIndex, "GUILD")
-								end
+							if (difficultyIndex == 14 or difficultyIndex == 15 or difficultyIndex == 16) and InGuildParty() then
+								SendAddonMessage("D4", "GCE\t"..modId.."\t3\t0\t"..strFromTime(thisTime).."\t"..difficultyIndex, "GUILD")
 							end
 						end
 					elseif thisTime < (bestTime or mhuge) then
@@ -5858,10 +5857,8 @@ do
 							msg = DBM_CORE_SCENARIO_COMPLETE_NR:format(difficultyText..name, strFromTime(thisTime), strFromTime(bestTime), totalKills)
 						else
 							msg = DBM_CORE_BOSS_DOWN_NR:format(difficultyText..name, strFromTime(thisTime), strFromTime(bestTime), totalKills)
-							if difficultyIndex == 14 or difficultyIndex == 15 or difficultyIndex == 16 or difficultyIndex == 33 then
-								if InGuildParty() then--Guild Group
-									SendAddonMessage("D4", "GCE\t"..modId.."\t3\t0\t"..strFromTime(thisTime).."\t"..difficultyIndex, "GUILD")
-								end
+							if (difficultyIndex == 14 or difficultyIndex == 15 or difficultyIndex == 16) and InGuildParty() then
+								SendAddonMessage("D4", "GCE\t"..modId.."\t3\t0\t"..strFromTime(thisTime).."\t"..difficultyIndex, "GUILD")
 							end
 						end
 					else
@@ -5869,10 +5866,8 @@ do
 							msg = DBM_CORE_SCENARIO_COMPLETE_L:format(difficultyText..name, strFromTime(thisTime), strFromTime(lastTime), strFromTime(bestTime), totalKills)
 						else
 							msg = DBM_CORE_BOSS_DOWN_L:format(difficultyText..name, strFromTime(thisTime), strFromTime(lastTime), strFromTime(bestTime), totalKills)
-							if difficultyIndex == 14 or difficultyIndex == 15 or difficultyIndex == 16 or difficultyIndex == 33 then
-								if InGuildParty() then--Guild Group
-									SendAddonMessage("D4", "GCE\t"..modId.."\t3\t0\t"..strFromTime(thisTime).."\t"..difficultyIndex, "GUILD")
-								end
+							if (difficultyIndex == 14 or difficultyIndex == 15 or difficultyIndex == 16) and InGuildParty() then
+								SendAddonMessage("D4", "GCE\t"..modId.."\t3\t0\t"..strFromTime(thisTime).."\t"..difficultyIndex, "GUILD")
 							end
 						end
 					end

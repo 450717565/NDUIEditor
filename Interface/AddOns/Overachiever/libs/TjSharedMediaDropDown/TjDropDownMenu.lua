@@ -145,7 +145,7 @@
 --
 
 
-local THIS_VERSION = 0.56
+local THIS_VERSION = 0.57
 
 if (not TjDropDownMenu or TjDropDownMenu.Version < THIS_VERSION) then
   TjDropDownMenu = TjDropDownMenu or {};

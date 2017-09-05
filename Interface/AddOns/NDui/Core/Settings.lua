@@ -191,13 +191,6 @@ local function ForceDBMOptions()
 	DBM_AllSavedOptions["Default"]["WarningFontSize"] = 18
 	DBM_AllSavedOptions["Default"]["SpecialWarningFontSize2"] = 24
 
-	if IsAddOnLoaded("DBM-VPYike") then
-		DBM_AllSavedOptions["Default"]["ChosenVoicePack"] = "Yike"
-		DBM_AllSavedOptions["Default"]["CountdownVoice2"] = "VP:Yike"
-		DBM_AllSavedOptions["Default"]["CountdownVoice3v2"] = "VP:Yike"
-		DBM_AllSavedOptions["Default"]["CountdownVoice"] = "VP:Yike"
-	end
-
 	NDuiDB["Settings"]["DBMRequest"] = false
 end
 

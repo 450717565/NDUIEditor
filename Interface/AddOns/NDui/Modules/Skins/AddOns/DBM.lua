@@ -282,8 +282,10 @@ function module:DBMSkin()
 	DBM_AllSavedOptions["Default"]["BlockVersionUpdateNotice"] = true
 	DBT_AllPersistentOptions["Default"]["DBM"].BarYOffset = 15
 	DBT_AllPersistentOptions["Default"]["DBM"].HugeBarYOffset = 15
-	if IsAddOnLoaded("DBM-VPYike") then
-		DBM_AllSavedOptions["Default"]["CountdownVoice"] = "VP:Yike"
-		DBM_AllSavedOptions["Default"]["ChosenVoicePack"] = "Yike"
+	if IsAddOnLoaded("DBM-VPTaotao") then
+		DBM_AllSavedOptions["Default"]["ChosenVoicePack"] = "Taotao"
+		DBM_AllSavedOptions["Default"]["CountdownVoice2"] = "VP:Taotao"
+		DBM_AllSavedOptions["Default"]["CountdownVoice3v2"] = "VP:Taotao"
+		DBM_AllSavedOptions["Default"]["CountdownVoice"] = "VP:Taotao"
 	end
 end

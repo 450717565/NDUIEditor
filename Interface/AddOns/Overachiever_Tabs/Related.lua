@@ -176,8 +176,8 @@ local function closePanel()
     --]]
   end
   baseAchID = nil
-  PlaySound(SOUNDKIT.IG_SPELL_BOOK_CLOSE)
-  --PlaySound("igCharacterInfoTab")
+  PlaySound(SOUNDKIT.IG_SPELLBOOK_CLOSE)
+  --PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB)
 end
 
 

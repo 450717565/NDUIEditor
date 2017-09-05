@@ -11,7 +11,7 @@
 ## X-WoWI-ID: 11361
 
 #@no-lib-strip@
-libs\LibBabble-SubZone-3.0\LibStub\LibStub.lua
+libs\LibStub\LibStub.lua
 libs\LibBabble-SubZone-3.0\lib.xml
 libs\LibBabble-Inventory-3.0\lib.xml
 #@end-no-lib-strip@

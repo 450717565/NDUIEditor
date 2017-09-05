@@ -5,7 +5,7 @@
 TjThreads.lua
   by Tuhljin
 
-A library to manages coroutines, more easily letting addons add "threaded" tasks. It lets your addon accomplish time-intensive tasks
+A library to manage coroutines, more easily letting addons use "threaded" tasks. It lets your addon accomplish time-intensive tasks
 without disrupting gameplay or other scripts - provided the task function divides its work up into parts in an effective manner (using
 coroutine.yield()).
 
@@ -58,7 +58,7 @@ Example usage:
 --]]
 
 
-local THIS_VERSION = "0.01"
+local THIS_VERSION = "0.02"
 
 if (TjThreads and TjThreads.Version >= THIS_VERSION) then  return;  end  -- Lua's pretty good at this. It even knows that "1.0.10" > "1.0.9". However, be aware that it thinks "1.0" < "1.0b" so putting a "b" on the end for Beta, nothing for release, doesn't work.
 
@@ -69,7 +69,7 @@ TjThreads.Version = THIS_VERSION
 
 local coroutine = coroutine
 
-local INTERVAL = 2
+local INTERVAL = 4 --2
 local waitLeft = INTERVAL
 
 local tasks, threads
@@ -162,7 +162,7 @@ function TjThreads.RemoveTask(func)
 end
 
 function TjThreads.RushTask(func)
-	local thread = threads[func]
+	local thread = threads and threads[func] or nil
 	if (not thread) then
 		TjThreads.AddTask(func)
 		thread = threads[func]

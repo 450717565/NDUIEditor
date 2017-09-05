@@ -15,6 +15,7 @@ end
 local RelicSpells = addon.SpellIDByRelic
 local RelicTypeNames = addon.RelicTypes
 local RelicSlotsByArtifact = addon.RelicSlots
+local PowersToScrape = addon.PowersToScrape
 local SpecByArtifact = addon.Artifacts
 local ArtifactBySpec = invertTable(addon.Artifacts)
 
@@ -259,6 +260,19 @@ local function initialize()
 	charDB = _G.LibStub("AceDB-3.0"):New("RelicInspectorCharDB")
 end
 
+local RISpellTooltip = CreateFrame('GameTooltip', 'RISpellTooltip', nil, 'GameTooltipTemplate')
+local function GetDescriptionFromTooltip(powerID) 
+	if not powerID then return nil end
+	if not PowersToScrape[powerID] then return nil end
+
+	RISpellTooltip:SetOwner(WorldFrame, 'ANCHOR_NONE')
+	RISpellTooltip:SetArtifactPowerByID(powerID)
+
+	local str = _G['RISpellTooltipTextLeft3']
+	local text = str and str:GetText()
+	return text
+end
+
 local function scrubRelicLink(link)
 	if link == nil then return nil end
 	local pieces = {strsplit(':', link)}
@@ -355,7 +369,7 @@ local function DecorateArtifact(self)
 
 		-- 7.2-introduced hack for lack of proper item links
 		if nil == itemID or '' == itemID then
-			if self:GetName() == "ItemRefTooltip" and itemRefLinkInfo[1] ~= nil and itemRefLinkInfo[1] ~= '' then
+			if isItemRef(self) and itemRefLinkInfo[1] ~= nil and itemRefLinkInfo[1] ~= '' then
 				local tc = GetTime()
 				local tdelta = tc-itemRefLinkInfo[2]
 				local _, itemRefID, _, IRrelic1, IRrelic2, IRrelic3, _, _, _, _, _, IRupgradeID = strsplit(':', itemRefLinkInfo[1])
@@ -451,12 +465,15 @@ local function DecorateArtifact(self)
 
 						-- Let's add the Ranks and Trait names if we are supposed to
 						if showTraitNames or showTraitDesc then
-							local traitSpellIDs = {}
+							local traitsToDisplay = {}
 
 							-- Add the native trait
 							local spellLookupKey = itemID .. '.' .. relics[i]
 							if nil ~= RelicSpells[spellLookupKey] then
-								tinsert(traitSpellIDs,RelicSpells[spellLookupKey])
+								local nativeTrait = {}
+								nativeTrait['spellID'] = RelicSpells[spellLookupKey]
+								nativeTrait['powerID'] = 0 -- We don't really care what this is for now
+								tinsert(traitsToDisplay,nativeTrait)
 							end
 
 							if showCrucibleTraits then
@@ -471,14 +488,12 @@ local function DecorateArtifact(self)
 											local traitsChosen = {}
 											for p = 1,#traitCache do
 												if nil ~= traitCache[p] then
-													local sID = traitCache[p].spellID
-													local chosen = traitCache[p].isChosen
-													if chosen == true then
+													if traitCache[p].isChosen then 
 														traitsChosen[traitCache[p].requiredArtifactLevel] = true
-														if sID == 250879 then -- 250879 is Netherlight Fortification (+5 Item levels). Show that first since it's special.
-															tinsert(traitSpellIDs,1,sID)
+														if traitCache[p].powerID == 1739 then -- 1739 is Netherlight Fortification (+5 Item levels). Show that first since it's special.
+															tinsert(traitsToDisplay,1,traitCache[p])
 														else
-															tinsert(traitSpellIDs,sID)
+															tinsert(traitsToDisplay,traitCache[p])
 														end
 													else
 														if nil == traitsChosen[traitCache[p].requiredArtifactLevel] then
@@ -515,14 +530,14 @@ local function DecorateArtifact(self)
 								end
 							end
 
-							for w = 1,#traitSpellIDs do
-								local t = traitSpellIDs[w]
+							for w = 1,#traitsToDisplay do
+								local t = traitsToDisplay[w]
 								--Add Trait Name
 								if showTraitNames == true then
-									if t == 250879 then -- 250879 is Netherlight Fortification
+									if t.powerID == 1739 then -- 1739 is Netherlight Fortification
 										self:AddLine(format(RELIC_TOOLTIP_ILVL_INCREASE, 5), 0, 1, 0, false)
 									else
-										local traitName = GetSpellInfo(t)
+										local traitName = GetSpellInfo(t.spellID)
 										if nil ~= traitName then
 											-- Still assuming 1 Rank per relic/trait. Will have to update this if relics ever start giving more than 1 rank
 											self:AddLine(format(RELIC_TOOLTIP_RANK_INCREASE, 1, traitName), 1, 1, 1, false)
@@ -531,8 +546,11 @@ local function DecorateArtifact(self)
 								end
 								--Add Trait Description
 								if showTraitDesc == true then
-									if t ~= 250879 then -- +Item Levels is pretty self explanatory, doesn't need a desc
-										local traitDesc = GetSpellDescription(t)
+									if t.powerID ~= 1739 then -- +Item Levels is pretty self explanatory, doesn't need a desc
+										local traitDesc = GetDescriptionFromTooltip(t.powerID) -- Check if it's one we should scrape first, do that
+										if not traitDesc then
+											traitDesc = GetSpellDescription(t.spellID)
+										end
 										if nil ~= traitDesc then
 											traitDesc = string.gsub(traitDesc,string.char(10),"")
 											traitDesc = string.gsub(traitDesc,string.char(13),string.char(13).."  ")

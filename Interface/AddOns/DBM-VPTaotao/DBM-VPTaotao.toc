@@ -6,7 +6,7 @@
 ## DefaultState: enabled
 ## RequiredDeps: DBM-Core
 ## Author: Taotao
-## Version: 7.2.5
+## Version: 7.3.0
 ## Notes: http://bbs.ngacn.cc/read.php?tid=11262040
 ## X-DBM-Voice: 1
 ## X-DBM-Voice-Name: Taotao(桃桃·国语版)

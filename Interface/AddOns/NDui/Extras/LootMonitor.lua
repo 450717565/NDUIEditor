@@ -100,7 +100,7 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 		local lootstring, _, _, _, player = ...
 		local itemLink 		= string.match(lootstring,"|%x+|Hitem:.-|h.-|h|r")
 		local itemString 	= string.match(itemLink, "item[%-?%d:]+")
-		local itemName, _, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture, itemSellPrice, itemClassID, itemSubClassID = GetItemInfo(itemString)
+		local _, _, itemRarity, _, _, _, itemSubType, _, itemEquipLoc, _, _, itemClassID, itemSubClassID, bindType = GetItemInfo(itemString)
 		local Enabled = 0
 		local slotText, totalInfo
 		local itemLvl = NDui:GetItemLevel(itemLink, itemRarity)
@@ -119,10 +119,11 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 			slotText = itemSubType or ""
 		elseif itemSubType and string.find(itemSubType, RELICSLOT) then
 			slotText = RELICSLOT or ""
-		elseif (itemClassID and itemClassID == 15) and (itemSubClassID and itemSubClassID == 2) then
-			slotText = PET or ""
-		elseif (itemClassID and itemClassID == 15) and (itemSubClassID and itemSubClassID == 5) then
-			slotText = itemSubType or ""
+		elseif (itemClassID and itemClassID == 15 and itemSubClassID) and (itemSubClassID == 2 or itemSubClassID == 5) then
+			slotText = (itemSubClassID == 2 and PET) or (itemSubClassID == 5 and itemSubType) or ""
+		end
+		if bindType and (bindType == 2 or bindType == 3) then
+			slotText = (bindType == 2 and "BoE") or (bindType == 3 and "BoU") or ""
 		end
 
 		if LMFrame_CFG["other"] == true and (itemClassID == 15) and ((itemSubClassID == 2) or (itemSubClassID == 5))then

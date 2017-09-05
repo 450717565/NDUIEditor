@@ -121,7 +121,7 @@ TjAchieve.CRITTYPE_KILL		The asset type for kill criteria.
 --]]
 
 
-local THIS_VERSION = "0.03"
+local THIS_VERSION = "0.04"
 
 if (TjAchieve and TjAchieve.Version >= THIS_VERSION) then  return;  end  -- Lua's pretty good at this. It even knows that "1.0.10" > "1.0.9". However, be aware that it thinks "1.0" < "1.0b" so putting a "b" on the end for Beta, nothing for release, doesn't work.
 
@@ -133,7 +133,9 @@ TjAchieve.CRITTYPE_KILL = 0
 TjAchieve.CRITTYPE_META = 8
 
 
-local BUILD_CRIT_STEPS = 15 --50
+-- Set this to a higher number to finish building the lookup table faster. If frame rate drops occur, lower the number. Minimum 1.
+-- Can also/instead change INTERVAL in libs/TjThreads.lua to try to reduce drops in frame rate (theoretically).
+local BUILD_CRIT_STEPS = 50 --15 --50
 
 
 ----------------------------------------------------------------------------------------------------------------------------------------------
@@ -547,7 +549,7 @@ local function createAssetLookupFunc(assetType, saveIndex)
 	saveIndex = not not saveIndex
 	ASSETS[assetType] = { ["saveIndex"] = saveIndex } -- Important that this happens before the function is ever called.
 	return function()
-		--print("task start")
+		--print("task start",assetType)
 		local tab = ASSETS[assetType]
 		local list = TjAchieve.GetAchIDs()
 		local _, critType
@@ -556,11 +558,6 @@ local function createAssetLookupFunc(assetType, saveIndex)
 		local GetAchievementNumCriteria = GetAchievementNumCriteria
 		local yieldIn = BUILD_CRIT_STEPS
 		for x,id in ipairs(list) do
-			yieldIn = yieldIn - 1
-			if (yieldIn < 1) then
-				coroutine.yield()
-				yieldIn = BUILD_CRIT_STEPS
-			end
 			--for i=1,GetAchievementNumCriteria(id) do
 			numc = GetAchievementNumCriteria(id)
 			i = 1
@@ -586,6 +583,13 @@ local function createAssetLookupFunc(assetType, saveIndex)
 				end
 				i = i + 1
 			until (i > numc or not assetID)
+
+			yieldIn = yieldIn - 1
+			if (yieldIn < 1) then
+				--print("yield after", id,"(",assetType,")")
+				coroutine.yield()
+				yieldIn = BUILD_CRIT_STEPS
+			end
 		end
 
 		-- We're done!
@@ -608,7 +612,7 @@ local function createAssetLookupFunc(assetType, saveIndex)
 		if (next(TjAchieve.CritAssetTasks) == nil) then -- Is the table empty?
 			TjAchieve.CritAssetTasks = nil
 		end
-		--print("task complete")
+		--print("task complete",assetType)
 	end
 end
 
