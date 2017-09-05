@@ -1794,12 +1794,14 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 			bg1:SetPoint("BOTTOMRIGHT", 1, -1)
 			bg1:SetFrameLevel(bu1:GetFrameLevel()-1)
 			F.CreateBD(bg1, .25)
+			F.CreateSD(bg1)
 
 			local bg2 = CreateFrame("Frame", nil, bu2)
 			bg2:SetPoint("TOPLEFT", -1, 1)
 			bg2:SetPoint("BOTTOMRIGHT", 1, -1)
 			bg2:SetFrameLevel(bu2:GetFrameLevel()-1)
 			F.CreateBD(bg2, .25)
+			F.CreateSD(bg2)
 		end
 
 		-- Tutorial Frame

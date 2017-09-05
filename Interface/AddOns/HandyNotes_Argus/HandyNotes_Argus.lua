@@ -728,9 +728,9 @@ local options = {
 function Argus:OnInitialize()
     local defaults = {
         profile = {
-            icon_scale_treasures = 1.5,
+            icon_scale_treasures = 1,
             icon_scale_rares = 1.5,
-            icon_alpha = 1.00,
+            icon_alpha = 0.5,
             alwaysshowrares = false,
             alwaysshowtreasures = false,
             save = true,
@@ -740,9 +740,9 @@ function Argus:OnInitialize()
             rare_aw = true,
             rare_kr = true,
             rare_ma = true,
-			pet_aw = true,
-			pet_kr = true,
-			pet_ma = true,
+			pet_aw = false,
+			pet_kr = false,
+			pet_ma = false,
             show_loot = true,
             show_notes = true,
         },

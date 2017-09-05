@@ -607,13 +607,8 @@ function UF:CreateAltPower(self)
 	local bar = CreateFrame("StatusBar", nil, self)
 	bar:SetHeight(4)
 	bar:SetStatusBarTexture(DB.normTex)
-	if self.unit == "boss" then
-		bar:SetPoint("BOTTOM", self, "TOP", 0, -2)
-		bar:SetWidth(self:GetWidth() - 30)
-	else
-		bar:SetPoint("TOP", self.Power, "BOTTOM", 0, -2)
-		bar:SetWidth(self:GetWidth())
-	end
+	bar:SetPoint("TOP", self.Power, "BOTTOM", 0, -3)
+	bar:SetWidth(self:GetWidth())
 	B.CreateBD(bar, .5, .1)
 	B.CreateSD(bar, 3, 3)
 

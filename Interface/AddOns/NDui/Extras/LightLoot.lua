@@ -56,7 +56,7 @@ local function OnClick(self)
 
 		LootFrame.selectedLootButton = self
 		LootFrame.selectedSlot = self:GetID()
-		LootFrame.selectedQuality = self.quality
+		LootFrame.selectedQuality = self.lootQuality
 		LootFrame.selectedItemName = self.name:GetText()
 
 		LootSlot(self:GetID())
@@ -86,13 +86,13 @@ local function CreateSlot(id)
 	button:SetScript("OnClick", OnClick)
 	button:SetScript("OnUpdate", OnUpdate)
 
-	local iconBorder = CreateFrame("Frame", nil, button)
-	iconBorder:SetSize(iconSize, iconSize)
-	iconBorder:SetPoint("LEFT", button)
-	B.CreateBD(iconBorder, 1, 1, true)
-	button.iconBorder = iconBorder
+	local icBD = CreateFrame("Frame", nil, button)
+	icBD:SetSize(iconSize, iconSize)
+	icBD:SetPoint("LEFT", button)
+	B.CreateBD(icBD, 1, 1, true)
+	button.icBD = icBD
 
-	local icon = iconBorder:CreateTexture(nil, "ARTWORK")
+	local icon = icBD:CreateTexture(nil, "ARTWORK")
 	icon:SetAlpha(.8)
 	icon:SetTexCoord(.08, .92, .08, .92)
 	icon:SetPoint("TOPLEFT", 1, -1)
@@ -102,25 +102,17 @@ local function CreateSlot(id)
 	local glow = button:CreateTexture(nil, "ARTWORK")
 	glow:SetAlpha(.5)
 	glow:SetPoint("TOPLEFT", icon, "TOPRIGHT", 3, 0)
-	glow:SetPoint("BOTTOMRIGHT", button)
+	glow:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT")
 	glow:SetTexture(DB.bdTex)
 	glow:SetVertexColor(cr, cg, cb)
 	glow:Hide()
 	button.glow = glow
 
-	local bind = B.CreateFS(iconBorder, 14, "", false, "TOPLEFT", 1, -1)
-	bind:SetJustifyH("LEFT")
-	button.bind = bind
-
-	local ilvl = B.CreateFS(iconBorder, 14, "", false, "BOTTOMRIGHT", -1, 1)
-	ilvl:SetJustifyH("RIGHT")
-	button.ilvl = ilvl
-
-	local count = B.CreateFS(iconBorder, 14, "", false, "BOTTOMRIGHT", -1, 1)
+	local count = B.CreateFS(icBD, 14, "", false, "BOTTOMRIGHT", -1, 1)
 	count:SetJustifyH("RIGHT")
 	button.count = count
 
-	local name = B.CreateFS(iconBorder, 14, "")
+	local name = B.CreateFS(icBD, 14, "")
 	name:SetJustifyH("LEFT")
 	name:SetPoint("LEFT", icon, "RIGHT", 5, 0)
 	name:SetNonSpaceWrap(true)
@@ -194,50 +186,35 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 	if items > 0 then
 		for i = 1, items do
 			local slot = slots[i] or CreateSlot(i)
-			local texture, item, quantity, quality, locked, isQuestItem, questId, isActive = GetLootSlotInfo(i)
-			if texture then
-				local color = BAG_ITEM_QUALITY_COLORS[quality]
-				local link = GetLootSlotLink(i)
-				local itemLvl = NDui:GetItemLevel(link, quality)
-				local bindType = select(14, GetItemInfo(link))
-
+			local lootIcon, lootName, lootQuantity, lootQuality, locked, isQuestItem, questID, isActive = GetLootSlotInfo(i)
+			if lootIcon then
+				local color = BAG_ITEM_QUALITY_COLORS[lootQuality]
 				local slotType = GetLootSlotType(i)
+
 				if slotType == LOOT_SLOT_MONEY then
-					item = item:gsub("\n", "，")
+					lootName = lootName:gsub("\n", "，")
 				end
 
-				if quantity and quantity > 1 then
-					slot.count:SetText(B.Numb(quantity))
+				if lootQuantity and lootQuantity > 1 then
+					slot.count:SetText(B.Numb(lootQuantity))
 					slot.count:Show()
 				else
 					slot.count:Hide()
 				end
 
-				if quality and quality >= 0 then
+				if lootQuality and lootQuality >= 0 then
 					slot.name:SetTextColor(color.r, color.g, color.b)
-					slot.iconBorder:SetBackdropBorderColor(color.r, color.g, color.b)
-					slot.quality = quality
+					slot.icBD:SetBackdropBorderColor(color.r, color.g, color.b)
+					slot.lootQuality = lootQuality
 				else
 					slot.name:SetTextColor(.5, .5, .5)
-					slot.iconBorder:SetBackdropBorderColor(.5, .5, .5)
+					slot.icBD:SetBackdropBorderColor(.5, .5, .5)
 				end
 
-				if link and (quality and quality > 0) then
-					slot.ilvl:SetText(itemLvl)
-				else
-					slot.ilvl:SetText("")
-				end
+				slot.name:SetText(lootName)
+				slot.icon:SetTexture(lootIcon)
 
-				if bindType and (bindType == 2 or bindType == 3) then
-					slot.bind:SetText(bindType == 2 and "BoE" or "BoU")
-				else
-					slot.bind:SetText("")
-				end
-
-				slot.name:SetText(item)
-				slot.icon:SetTexture(texture)
-
-				maxQuality = math.max(maxQuality, quality)
+				maxQuality = math.max(maxQuality, lootQuality)
 
 				slot:Enable()
 				slot:Show()

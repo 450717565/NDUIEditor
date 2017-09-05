@@ -109,12 +109,12 @@ local function CreateRollFrame()
 	B.CreateSD(button, 3, 3)
 	frame.button = button
 
-	local buttonBorder = CreateFrame("Frame", nil, button)
-	buttonBorder:SetAllPoints()
-	B.CreateBD(buttonBorder, .5, 1, true)
-	frame.buttonBorder = buttonBorder
+	local icBD = CreateFrame("Frame", nil, button)
+	icBD:SetAllPoints()
+	B.CreateBD(icBD, .5, 1, true)
+	frame.icBD = icBD
 
-	local icon = buttonBorder:CreateTexture(nil, "ARTWORK")
+	local icon = icBD:CreateTexture(nil, "ARTWORK")
 	icon:SetAlpha(.8)
 	icon:SetTexCoord(.08, .92, .08, .92)
 	icon:SetPoint("TOPLEFT", 1, -1)
@@ -139,7 +139,7 @@ local function CreateRollFrame()
 	frame.needbutt, frame.greedbutt, frame.disenchantbutt = need, greed, disenchant
 	frame.need, frame.greed, frame.pass, frame.disenchant = needtext, greedtext, passtext, dctext
 
-	local ilvl = B.CreateFS(buttonBorder, 14, "", false, "BOTTOMRIGHT", -1, 1)
+	local ilvl = B.CreateFS(icBD, 14, "", false, "BOTTOMRIGHT", -1, 1)
 	ilvl:SetJustifyH("RIGHT")
 	frame.ilvl = ilvl
 
@@ -256,8 +256,9 @@ local function START_LOOT_ROLL(rollid, time)
 	if f.button.link and quality > 0 then
 		local itemLvl = NDui:GetItemLevel(f.button.link, quality)
 		f.ilvl:SetText(itemLvl)
+		f.ilvl:Show()
 	else
-		f.ilvl:SetText("")
+		f.ilvl:Hide()
 	end
 
 	local color = BAG_ITEM_QUALITY_COLORS[quality]
@@ -265,7 +266,7 @@ local function START_LOOT_ROLL(rollid, time)
 	f.fsloot:SetTextColor(color.r, color.g, color.b)
 
 	f:SetBackdropBorderColor(color.r, color.g, color.b, 1)
-	f.buttonBorder:SetBackdropBorderColor(color.r, color.g, color.b, 1)
+	f.icBD:SetBackdropBorderColor(color.r, color.g, color.b, 1)
 
 	f.status:SetMinMaxValues(0, time)
 	f.status:SetValue(time)
