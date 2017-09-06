@@ -83,7 +83,7 @@ function module:QuestTracker()
 			itemButton.styled = true
 		end
 
-		local rightButton = block.rightButton
+		local rightButton = block.rightButton or block.groupFinderButton
 		if rightButton and not rightButton.styled then
 			rightButton:SetNormalTexture("")
 			rightButton:SetPushedTexture("")

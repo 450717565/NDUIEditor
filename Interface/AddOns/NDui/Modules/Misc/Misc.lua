@@ -344,7 +344,7 @@ local function MoveTalkingHeads(self)
 end
 
 NDui:EventFrame({"ADDON_LOADED", "PLAYER_ENTERING_WORLD"}):SetScript("OnEvent", function(self, event, addon)
-	if (not NDuiDB["Misc"]["HideTalking"]) and (not NDuiDB["Misc"]["MoveTalking"]) then
+	if (not NDuiDB["Misc"]["HideTalking"]) and (not NDuiDB["Extras"]["MoveTalking"]) then
 		self:UnregisterAllEvents()
 		return
 	end
@@ -354,7 +354,7 @@ NDui:EventFrame({"ADDON_LOADED", "PLAYER_ENTERING_WORLD"}):SetScript("OnEvent", 
 			if NDuiDB["Misc"]["HideTalking"] then
 				NoTalkingHeads(self)
 			end
-			if NDuiDB["Misc"]["MoveTalking"] then
+			if NDuiDB["Extras"]["MoveTalking"] then
 				MoveTalkingHeads(self)
 			end
 		end
@@ -362,7 +362,7 @@ NDui:EventFrame({"ADDON_LOADED", "PLAYER_ENTERING_WORLD"}):SetScript("OnEvent", 
 		if NDuiDB["Misc"]["HideTalking"] then
 			NoTalkingHeads(self)
 		end
-		if NDuiDB["Misc"]["MoveTalking"] then
+		if NDuiDB["Extras"]["MoveTalking"] then
 			MoveTalkingHeads(self)
 		end
 	end

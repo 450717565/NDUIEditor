@@ -30,7 +30,7 @@ L["Refrsh Mail"] = "刷新郵件"
 L["Say / Yell"] = "說 / 喊"
 L["Slot Info"] = "顯示背包裝備物品部位"
 L["StarCursor"] = "鼠標閃光助手"
-L["UFs PartyFrame"] = "啟用小隊框體（独立）"
+L["UFs PartyFrame"] = "啟用小隊框體"
 L["Whisper"] = "密語"
 
 L["From"] = "來自"

@@ -5,7 +5,7 @@ local module = NDui:GetModule("Misc")
 	在角色面板显示耐久度
 ]]
 function module:ShowDurability()
-	if not NDuiDB["Misc"]["Durability"] then return end
+	if not NDuiDB["Extras"]["Durability"] then return end
 
 	local SLOTIDS = {}
 	for _, slot in pairs({"Head", "Shoulder", "Chest", "Waist", "Legs", "Feet", "Wrist", "Hands", "MainHand", "SecondaryHand"}) do

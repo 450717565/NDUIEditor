@@ -184,7 +184,7 @@ GameTooltip:HookScript("OnTooltipSetUnit", function(self)
 
         if level then
 			local boss
-			if level <= 0 then boss = "|cffff0000首领|r" end
+			if level == -1 then boss = "|cffff0000首领|r" end
 
             local diff = GetCreatureDifficultyColor(level)
             local classify = UnitClassification(unit)
@@ -405,7 +405,7 @@ NDui:EventFrame("ADDON_LOADED"):SetScript("OnEvent", function(_, _, addon)
 			if bar and not bar.styled then
 				local _, bd, tex = bar:GetRegions()
 				tex:SetTexture(DB.normTex)
-				bar:SetStatusBarColor(r, g, b)
+				bar:SetStatusBarColor(r*.8, g*.8, b*.8)
 				bd:Hide()
 				local bg = B.CreateBG(bd)
 				B.CreateBD(bg, .2)
@@ -420,6 +420,7 @@ NDui:EventFrame("ADDON_LOADED"):SetScript("OnEvent", function(_, _, addon)
 					select(i, bar.Bar:GetRegions()):Hide()
 				end
 				bar.Bar:SetStatusBarTexture(DB.normTex)
+				bar.Bar:SetStatusBarColor(r*.8, g*.8, b*.8)
 				bar.Bar.Label:Show()
 				local bg = select(7, bar.Bar:GetRegions())
 				local newBg = B.CreateBG(bg, 3)

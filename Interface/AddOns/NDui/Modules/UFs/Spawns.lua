@@ -231,7 +231,7 @@ function UF:OnLogin()
 	local focustarget = oUF:Spawn("FocusTarget", "oUF_FocusTarget")
 	B.Mover(focustarget, L["FotUF"], "FotUF", C.UFs.FoTPos, 120, 30)
 
-	if NDuiDB["UFs"]["PartyFrame"] then
+	if NDuiDB["Extras"]["PartyFrame"] then
 		oUF:SetActiveStyle("Party")
 		local party = oUF:SpawnHeader('oUF_Party', nil, "solo,party",
 			"showPlayer", false,
@@ -340,7 +340,7 @@ function UF:OnLogin()
 				local group = oUF:SpawnHeader(name, nil, "solo,party,raid",
 				"showPlayer", true,
 				"showSolo", false,
-				"showParty", not NDuiDB["UFs"]["PartyFrame"],
+				"showParty", not NDuiDB["Extras"]["PartyFrame"],
 				"showRaid", true,
 				"xoffset", 5,
 				"yOffset", -10,
@@ -380,7 +380,7 @@ function UF:OnLogin()
 				local group = oUF:SpawnHeader(name, nil, "solo,party,raid",
 				"showPlayer", true,
 				"showSolo", false,
-				"showParty", not NDuiDB["UFs"]["PartyFrame"],
+				"showParty", not NDuiDB["Extras"]["PartyFrame"],
 				"showRaid", true,
 				"xoffset", 5,
 				"yOffset", -10,

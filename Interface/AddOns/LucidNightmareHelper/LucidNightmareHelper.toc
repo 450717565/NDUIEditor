@@ -7,4 +7,5 @@
 ## LoadOnDemand: 0
 ## SavedVariables: 
 libs\NyxGUI-1.0\NyxGUI.xml
+localization.lua
 LucidNightmareHelper.lua

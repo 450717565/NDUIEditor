@@ -30,7 +30,7 @@ L["Refrsh Mail"] = "Refrsh Mail"
 L["Say / Yell"] = "Say / Yell"
 L["Slot Info"] = "Bags ItemSlot"
 L["StarCursor"] = "Star Cursor"
-L["UFs PartyFrame"] = "Enable PartyFrame (Independent)"
+L["UFs PartyFrame"] = "Enable PartyFrame"
 L["Whisper"] = "Whisper"
 
 L["From"] = "From"

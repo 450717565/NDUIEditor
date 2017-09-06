@@ -110,7 +110,7 @@ function module:OnLogin()
 			self.Artifact:SetPoint("TOPLEFT", -12, 10)
 		end
 
-		if NDuiDB["Bags"]["BagsiLvl"] or NDuiDB["Bags"]["SlotInfo"] then
+		if NDuiDB["Bags"]["BagsiLvl"] or NDuiDB["Extras"]["SlotInfo"] then
 			self.iLvl = B.CreateFS(self, 12, "", false, "BOTTOMRIGHT", 0, 0)
 			self.SlotInfo = B.CreateFS(self, 12, "", false, "TOPLEFT", 1, -2)
 		end
@@ -194,7 +194,7 @@ function module:OnLogin()
 			end
 		end
 
-		if NDuiDB["Bags"]["BagsiLvl"] or NDuiDB["Bags"]["SlotInfo"] then
+		if NDuiDB["Bags"]["BagsiLvl"] or NDuiDB["Extras"]["SlotInfo"] then
 			self.iLvl:SetText("")
 			self.SlotInfo:SetText("")
 			local link = GetContainerItemLink(item.bagID, item.slotID)
@@ -207,7 +207,7 @@ function module:OnLogin()
 				if NDuiDB["Bags"]["BagsiLvl"] then
 					self.iLvl:SetText(level)
 				end
-				if NDuiDB["Bags"]["SlotInfo"] then
+				if NDuiDB["Extras"]["SlotInfo"] then
 					local slotText = ""
 					if itemEquipLoc and string.find(itemEquipLoc, "INVTYPE_") then
 						slotText = _G[itemEquipLoc] or ""

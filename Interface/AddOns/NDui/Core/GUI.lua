@@ -25,7 +25,6 @@ local defaultSettings = {
 		NewItemGlow = true,
 		ReverseSort = false,
 		PreferPower = 1,
-		SlotInfo = true,
 	},
 	Auras = {
 		Reminder = true,
@@ -74,7 +73,6 @@ local defaultSettings = {
 		PetCombatText = true,
 		RaidClickSets = false,
 		ThreatBorder = true,
-		PartyFrame = true,
 	},
 	Chat = {
 		Sticky = true,
@@ -162,7 +160,6 @@ local defaultSettings = {
 		Mail = true,
 		ItemLevel = false,
 		MissingStats = true,
-		Durability = true,
 		HideErrors = true,
 		SoloInfo = true,
 		RareAlerter = true,
@@ -177,7 +174,6 @@ local defaultSettings = {
 		FasterLoot = false,
 		AutoQuest = false,
 		HideTalking = false,
-		MoveTalking = true,
 		HideBanner = true,
 		PetFilter = true,
 		ReflectingAlert = false,
@@ -190,15 +186,19 @@ local defaultSettings = {
 		GUIScale = 1,
 		Format = 2,
 		VersionCheck = true,
-		ArrowColor = 1,
 	},
 	Tutorial = {
 		Complete = false,
 	},
 	Extras = {
+		ArrowColor = 1,
 		BarrelsOEasy = true,
 		CombatAlert = true,
+		Durability = true,
 		LootMonitor = true,
+		MoveTalking = true,
+		PartyFrame = true,
+		SlotInfo = true,
 		StarCursor = true,
 	},
 }
@@ -267,7 +267,6 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Bags", "NewItemGlow", L["Bags NewItemGlow"]},
 		{1, "Bags", "ReverseSort", L["Bags ReverseSort"]},
 		{4, "Bags", "PreferPower", L["AP Preference"], true, {}},
-		{1, "Bags", "SlotInfo", L["Slot Info"]},
 		{},--blank
 		{3, "Bags", "BagsScale", L["Bags Scale"], false, {.5, 1.5, 1}},
 		{3, "Bags", "IconSize", L["Bags IconSize"], true, {30, 42, 0}},
@@ -300,7 +299,6 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 	},
 	[4] = {
 		{1, "UFs", "RaidFrame", L["UFs RaidFrame"]},
-		{1, "UFs", "PartyFrame", "|cff00cc4c"..L["UFs PartyFrame"], true},
 		{},--blank
 		{1, "UFs", "SpecRaidPos", L["Spec RaidPos"]},
 		{1, "UFs", "RaidClassColor", L["ClassColor RaidFrame"], true},
@@ -442,7 +440,6 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Misc", "TradeTab", L["TradeTabs"]},
 		{1, "Misc", "PetFilter", L["Show PetFilter"], true},
 		{},--blank
-		{1, "Misc", "Durability", L["Show Durability"]},
 		{1, "Misc", "ItemLevel", L["Show ItemLevel"]},
 		{1, "Misc", "MissingStats", L["Show MissingStats"], true},
 		{1, "Misc", "Screenshot", L["Auto ScreenShot"]},
@@ -450,7 +447,6 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Misc", "Autoequip", L["Auto Equip"]},
 		{},--blank
 		{1, "Misc", "HideTalking", L["No Talking"]},
-		{1, "Misc", "MoveTalking", L["Move Talking"]},
 		{1, "Misc", "HideBanner", L["Hide Bossbanner"], true},
 		{1, "Misc", "HideErrors", L["Hide Error"]},
 		{1, "Misc", "SoloInfo", L["SoloInfo"], true},
@@ -460,18 +456,23 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 	},
 	[13] = {
 		{1, "Settings", "VersionCheck", L["Version Check"]},
+		{},--blank
+		{3, "Settings", "SetScale", L["Setup UIScale"], false, {.5, 1.1, 2}},
 		{1, "Settings", "LockUIScale", L["Lock UIScale"], true},
 		{},--blank
 		{3, "Settings", "GUIScale", L["GUI Scale"], false, {.5, 1.5, 1}},
-		{3, "Settings", "SetScale", L["Setup UIScale"], true, {.5, 1.1, 2}},
-		{},--blank
-		{4, "Settings", "Format", L["Numberize"], false, {L["Number Type1"], L["Number Type2"], L["Number Type3"]}},
-		{4, "Settings", "ArrowColor", L["Arrow Color"], true, {L["Cyan"], L["Green"], L["Red"]}},
+		{4, "Settings", "Format", L["Numberize"], true, {L["Number Type1"], L["Number Type2"], L["Number Type3"]}},
 	},
 	[14] = {
+		{4, "Extras", "ArrowColor", L["Arrow Color"], false, {L["Cyan"], L["Green"], L["Red"]}},
+		{},--blank
 		{1, "Extras", "BarrelsOEasy", L["BarrelsOEasy"]},
 		{1, "Extras", "CombatAlert", L["CombatAlert"], true},
-		{1, "Extras", "LootMonitor", L["LootMonitor"]},
+		{1, "Extras", "Durability", L["Show Durability"]},
+		{1, "Extras", "LootMonitor", L["LootMonitor"], true},
+		{1, "Extras", "MoveTalking", L["Move Talking"]},
+		{1, "Extras", "PartyFrame", "|cff00cc4c"..L["UFs PartyFrame"], true},
+		{1, "Extras", "SlotInfo", L["Slot Info"]},
 		{1, "Extras", "StarCursor", L["StarCursor"], true},
 	},
 }

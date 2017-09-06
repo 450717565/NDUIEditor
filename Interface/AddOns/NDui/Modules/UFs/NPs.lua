@@ -416,9 +416,9 @@ local function CreatePlates(self, unit)
 			local arrow = self:CreateTexture(nil, "OVERLAY")
 			arrow:SetSize(50, 50)
 
-			if NDuiDB["Settings"]["ArrowColor"] == 1 then
+			if NDuiDB["Extras"]["ArrowColor"] == 1 then
 				arrow:SetTexture(DB.arrowCyanTex)
-			elseif NDuiDB["Settings"]["ArrowColor"] == 2 then
+			elseif NDuiDB["Extras"]["ArrowColor"] == 2 then
 				arrow:SetTexture(DB.arrowGreenTex)
 			else
 				arrow:SetTexture(DB.arrowRedTex)
