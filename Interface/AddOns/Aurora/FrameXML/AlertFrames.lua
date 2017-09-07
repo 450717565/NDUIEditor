@@ -96,8 +96,6 @@ tinsert(C.themes["Aurora"], function()
 			frame.PvPBackground:SetTexture("")
 			frame.BGAtlas:SetTexture("")
 			frame.IconBorder:SetTexture("")
-			frame.IconBorder:SetAlpha(0)
-			frame.IconBorder:Hide()
 			frame.SpecIcon.bg:SetShown(frame.SpecIcon:IsShown() and frame.SpecIcon:GetTexture() ~= nil)
 		elseif frame.queue == LootUpgradeAlertSystem then
 			if not frame.bg then
@@ -132,8 +130,6 @@ tinsert(C.themes["Aurora"], function()
 
 				frame.Background:SetTexture("")
 				frame.IconBorder:SetTexture("")
-				frame.IconBorder:SetAlpha(0)
-				frame.IconBorder:Hide()
 			end
 		elseif frame.queue == HonorAwardedAlertSystem then
 			if not frame.bg then
@@ -146,8 +142,6 @@ tinsert(C.themes["Aurora"], function()
 
 				frame.Background:SetTexture("")
 				frame.IconBorder:SetTexture("")
-				frame.IconBorder:SetAlpha(0)
-				frame.IconBorder:Hide()
 			end
 		elseif frame.queue == NewRecipeLearnedAlertSystem then
 			if not frame.bg then
@@ -312,6 +306,17 @@ tinsert(C.themes["Aurora"], function()
 				frame.shine:SetTexture("")
 				frame.glow:SetTexture("")
 			end
+		elseif frame.queue == InvasionAlertSystem then
+			if not frame.bg then
+				frame.bg = F.CreateBDFrame(frame)
+				frame.bg:SetPoint("TOPLEFT", 6, -6)
+				frame.bg:SetPoint("BOTTOMRIGHT", -6, 6)
+
+				select(1, frame:GetRegions()):Hide()
+				local icon = select(2, frame:GetRegions())
+				icon:SetTexCoord(.08, .92, .08, .92)
+				F.CreateBDFrame(icon)
+			end
 		end
 
 		fixAnim(frame)
@@ -359,8 +364,6 @@ tinsert(C.themes["Aurora"], function()
 		f.PvPBackground:SetTexture("")
 		f.BGAtlas:SetTexture("")
 		f.IconBorder:SetTexture("")
-		f.IconBorder:SetAlpha(0)
-		f.IconBorder:Hide()
 	end)
 
 	-- BonusRollMoneyWonFrame
@@ -376,8 +379,6 @@ tinsert(C.themes["Aurora"], function()
 			f.Icon:SetDrawLayer("ARTWORK")
 			F.CreateBDFrame(f.Icon)
 			f.IconBorder:SetTexture("")
-			f.IconBorder:SetAlpha(0)
-			f.IconBorder:Hide()
 		end
 	end)
 end)

@@ -10,6 +10,7 @@ local UnitPopupButtonsExtra = {
 	["GUILD_ADD"] = { text = L["Guild Invite"] },
 	["FRIEND_ADD"] = { text = L["Add Friend"] },
 	["QUICK_REPORT"] = { text = L["Report Spam"] },
+	["SHOW_PET"] = { text = PET_SHOW_IN_JOURNAL },
 }
 
 for k, v in pairs(UnitPopupButtonsExtra) do
@@ -73,6 +74,11 @@ local function popupClick(self, info)
 			editBox:Insert(name)
 			if not hasText then editBox:HighlightText() end
 		end
+	elseif info.value == "SHOW_PET" then
+		if not CollectionsJournal then CollectionsJournal_LoadUI() end
+		if not CollectionsJournal:IsShown() then ShowUIPanel(CollectionsJournal) end
+		CollectionsJournal_SetTab(CollectionsJournal, 2)
+		PetJournal_SelectSpecies(PetJournal, UnitBattlePetSpeciesID(info.unit))
 	end
 end
 
@@ -84,6 +90,13 @@ hooksecurefunc("UnitPopup_ShowMenu", function(dropdownMenu, which, unit, name, u
 			info = UIDropDownMenu_CreateInfo()
 			info.text = UnitPopupButtonsExtra["ARMORY"].text
 			info.arg1 = {value = "ARMORY", unit = unit}
+			info.func = popupClick
+			info.notCheckable = true
+			UIDropDownMenu_AddButton(info)
+		elseif UnitIsWildBattlePet(unit) or UnitIsBattlePetCompanion(unit) then
+			info = UIDropDownMenu_CreateInfo()
+			info.text = UnitPopupButtonsExtra["SHOW_PET"].text
+			info.arg1 = {value = "SHOW_PET", unit = unit}
 			info.func = popupClick
 			info.notCheckable = true
 			UIDropDownMenu_AddButton(info)

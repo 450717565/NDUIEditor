@@ -3,15 +3,36 @@ local Argus = LibStub("AceAddon-3.0"):NewAddon("ArgusRaresTreasures", "AceBucket
 local HandyNotes = LibStub("AceAddon-3.0"):GetAddon("HandyNotes", true)
 if not HandyNotes then return end
 
+local objAtlas = "Interface\\Addons\\HandyNotes_Argus\\Artwork\\ObjectIconsAtlas.blp";
 local iconDefaults = {
-    skull_grey = "Interface\\Addons\\HandyNotes_Argus\\Artwork\\RareWhite.blp",
-    skull_purple = "Interface\\Addons\\HandyNotes_Argus\\Artwork\\RarePurple.blp",
-    skull_blue = "Interface\\Addons\\HandyNotes_Argus\\Artwork\\RareBlue.blp",
-    skull_yellow = "Interface\\Addons\\HandyNotes_Argus\\Artwork\\RareYellow.blp",
-    battle_pet = "Interface\\Addons\\HandyNotes_Argus\\Artwork\\BattlePet.blp",
+	skull_grey = "Interface\\Addons\\HandyNotes_Argus\\Artwork\\RareWhite.blp",
+	skull_purple = "Interface\\Addons\\HandyNotes_Argus\\Artwork\\RarePurple.blp",
+	skull_blue = "Interface\\Addons\\HandyNotes_Argus\\Artwork\\RareBlue.blp",
+	skull_yellow = "Interface\\Addons\\HandyNotes_Argus\\Artwork\\RareYellow.blp",
+	battle_pet = "Interface\\Addons\\HandyNotes_Argus\\Artwork\\BattlePet.blp",
 	treasure = "Interface\\Addons\\HandyNotes_Argus\\Artwork\\Treasure.blp",
 	portal = "Interface\\Addons\\HandyNotes_Argus\\Artwork\\Portal.blp",
 	default = "Interface\\Icons\\TRADE_ARCHAEOLOGY_CHESTOFTINYGLASSANIMALS",
+	starChest = {
+		icon = objAtlas,
+		tCoordLeft = 351/512, tCoordRight = 383/512, tCoordTop = 408/512, tCoordBottom = 440/512,
+	},
+	starChestBlue = {
+		icon = "Interface\\Addons\\HandyNotes_Argus\\Artwork\\shootboxes.blp",
+		tCoordLeft = 6/256, tCoordRight = 58/256, tCoordTop = 6/64, tCoordBottom = 58/64,
+	},
+	starChestPurple = {
+		icon = "Interface\\Addons\\HandyNotes_Argus\\Artwork\\shootboxes.blp",
+		tCoordLeft = (64+6)/256, tCoordRight = (64+58)/256, tCoordTop = 6/64, tCoordBottom = 58/64,
+	},
+	starChestYellow = {
+		icon = "Interface\\Addons\\HandyNotes_Argus\\Artwork\\shootboxes.blp",
+		tCoordLeft = (128+6)/256, tCoordRight = (128+58)/256, tCoordTop = 6/64, tCoordBottom = 58/64,
+	},
+	starChestBlank = {
+		icon = "Interface\\Addons\\HandyNotes_Argus\\Artwork\\shootboxes.blp",
+		tCoordLeft = (192+6)/256, tCoordRight = (192+58)/256, tCoordTop = 6/64, tCoordBottom = 58/64,
+	},
 }
 local itemTypeMisc = 0;
 local itemTypePet = 1;
@@ -39,15 +60,15 @@ nodes["ArgusCore"] = {
 	[64304820] = { questId=48812, icon="skull_blue", group="rare_aw", label="瓦加", search="瓦加", loot={ { 153190, itemTypeMisc } }, note=nil },
 	[62405380] = { questId=48813, icon="skull_grey", group="rare_aw", label="萨卡尔中尉", search="中尉", loot=nil, note=nil },
 	[61906430] = { questId=48814, icon="skull_blue", group="rare_aw", label="愤怒领主亚雷兹", search="愤怒领主", loot={ { 153126, itemTypeToy } }, note=nil },
-	[60674831] = { questId=48815, icon="skull_grey", group="rare_aw", label="审判官维斯洛兹", search="审判官", loot={ { 151543, itemTypeMisc } }, note=nil },
+	[60674831] = { questId=48815, icon="skull_blue", group="rare_aw", label="审判官维斯洛兹", search="审判官", loot={ { 151543, itemTypeMisc } }, note=nil },
 	[80206230] = { questId=48816, icon="portal", group="rare_aw", label="传送到指挥官泰克拉兹", loot=nil, note=nil },
 	[82006600] = { questId=48816, icon="skull_grey", group="rare_aw", label="指挥官泰克拉兹", search="指挥官", loot=nil, note="使用偏西的传送门位于 80.2, 62.3 到达船上" },
 	[73207080] = { questId=48817, icon="skull_blue", group="rare_aw", label="雷尔瓦将军", search="将军", loot={ { 153324, itemTypeTransmog, "盾牌" } }, note=nil },
 	[75605650] = { questId=48818, icon="skull_grey", group="rare_aw", label="全知者萨纳里安", search="全知者", loot=nil, note=nil },
-	[50905530] = { questId=48820, icon="skull_grey", group="rare_aw", label="裂世者斯库尔", search="裂世者", loot=nil, note=nil },
+	[50905530] = { questId=48820, icon="skull_blue", group="rare_aw", label="裂世者斯库尔", search="裂世者", loot={ { 153312, itemTypeTransmog, "双手剑" } }, note="会在天上盘旋。偶尔也会降落。不是每次盘旋都这样。" },
 	[63812199] = { questId=48821, icon="skull_blue", group="rare_aw", label="驯犬大师克拉克斯", search="驯犬大师", loot={ { 152790, itemTypeMount, 955 } }, note=nil },
 	[55702190] = { questId=48824, icon="skull_blue", group="rare_aw", label="虚空守望者瓦苏拉", search="虚空守望者", loot={ { 153319, itemTypeTransmog, "双手锤" } }, note=nil },
-	[60902290] = { questId=48865, icon="skull_grey", group="rare_aw", label="首席炼金师蒙库鲁斯", search="首席炼金师", loot=nil, note=nil },
+	[61392095] = { questId=48865, icon="skull_grey", group="rare_aw", label="首席炼金师蒙库鲁斯", search="首席炼金师", loot=nil, note=nil },
 	[54003800] = { questId=48966, icon="skull_blue", group="rare_aw", label="千面吞噬者", search="千面", loot={ { 153195, itemTypePet, 2136 } }, note=nil },
 	[77177319] = { questId=48967, icon="portal", group="rare_aw", label="传送到中队指挥官维沙克斯", loot=nil, note="第一步先从不朽虚无行者身上找到碎裂的传送门发生器。然后从艾瑞达战术顾问、魔誓侍从身上收集导电护套，弧光电路，能量电池，使用碎裂的传送门发生器把它们组合起来打开去往维沙克斯的传送门。" },
 	[84368118] = { questId=48967, icon="skull_blue", group="rare_aw", label="中队指挥官维沙克斯", search="中队指挥官", loot={ { 153253, itemTypeToy } }, note="使用传送门位于 77.2, 73.2 上船" },
@@ -71,6 +92,7 @@ nodes["ArgusCore"] = {
 	[67466226] = { questId=48382, icon="treasure", group="treasure_aw", label="48382", loot=nil, note=nil },
 	[71326946] = { questId=48382, icon="treasure", group="treasure_aw", label="48382", loot=nil, note="在哈多克斯边上" },
 	[58066806] = { questId=48382, icon="treasure", group="treasure_aw", label="48382", loot=nil, note=nil }, -- Doe
+	[68026624] = { questId=48382, icon="treasure", group="treasure_aw", label="48382", loot=nil, note="军团建筑物内" },
 	-- 48383
 	[56903570] = { questId=48383, icon="treasure", group="treasure_aw", label="48383", loot=nil, note=nil },
 	[57633179] = { questId=48383, icon="treasure", group="treasure_aw", label="48383", loot=nil, note=nil },
@@ -79,13 +101,17 @@ nodes["ArgusCore"] = {
 	[51863409] = { questId=48383, icon="treasure", group="treasure_aw", label="48383", loot=nil, note=nil },
 	[55133930] = { questId=48383, icon="treasure", group="treasure_aw", label="48383", loot=nil, note=nil },
 	[58413097] = { questId=48383, icon="treasure", group="treasure_aw", label="48383", loot=nil, note="建筑物内，第一层" },
+	[53753556] = { questId=48383, icon="treasure", group="treasure_aw", label="48383", loot=nil, note=nil },
+	[51703529] = { questId=48383, icon="treasure", group="treasure_aw", label="48383", loot=nil, note="悬崖的高处" },
 	-- 48384
 	[60872900] = { questId=48384, icon="treasure", group="treasure_aw", label="48384", loot=nil, note=nil },
+	[61332054] = { questId=48384, icon="treasure", group="treasure_aw", label="48384", loot=nil, note="首席炼金师蒙库鲁斯建筑物内" },
 	[59081942] = { questId=48384, icon="treasure", group="treasure_aw", label="48384", loot=nil, note="建筑物内" },
 	[64152305] = { questId=48384, icon="treasure", group="treasure_aw", label="48384", loot=nil, note="驯犬大师克拉克斯洞穴内" },
 	[66621709] = { questId=48384, icon="treasure", group="treasure_aw", label="48384", loot=nil, note="小鬼洞穴内，主母罗苏拉旁边" },
 	[63682571] = { questId=48384, icon="treasure", group="treasure_aw", label="48384", loot=nil, note=nil },
 	[61862236] = { questId=48384, icon="treasure", group="treasure_aw", label="48384", loot=nil, note="外面，首席炼金师蒙库鲁斯旁边" },
+	[64132738] = { questId=48384, icon="treasure", group="treasure_aw", label="48384", loot=nil, note=nil }, -- Doe
 	-- 48385
 	[50605720] = { questId=48385, icon="treasure", group="treasure_aw", label="48385", loot=nil, note=nil },
 	[50655715] = { questId=48385, icon="treasure", group="treasure_aw", label="48385", loot=nil, note=nil },
@@ -98,24 +124,31 @@ nodes["ArgusCore"] = {
 	[68983342] = { questId=48387, icon="treasure", group="treasure_aw", label="48387", loot=nil, note=nil },
 	[65522831] = { questId=48387, icon="treasure", group="treasure_aw", label="48387", loot=nil, note="桥下" },
 	[63613643] = { questId=48387, icon="treasure", group="treasure_aw", label="48387", loot=nil, note=nil }, -- Doe
+	[73404669] = { questId=48387, icon="treasure", group="treasure_aw", label="48387", loot=nil, note="跳过软泥" },
+	[67954006] = { questId=48387, icon="treasure", group="treasure_aw", label="48387", loot=nil, note=nil },
 	-- 48388
 	[51502610] = { questId=48388, icon="treasure", group="treasure_aw", label="48388", loot=nil, note=nil },
 	[59261743] = { questId=48388, icon="treasure", group="treasure_aw", label="48388", loot=nil, note=nil },
 	[55921387] = { questId=48388, icon="treasure", group="treasure_aw", label="48388", loot=nil, note=nil },
 	[55841722] = { questId=48388, icon="treasure", group="treasure_aw", label="48388", loot=nil, note=nil },
 	[55622042] = { questId=48388, icon="treasure", group="treasure_aw", label="48388", loot=nil, note="虚空守望者瓦苏拉边上，条上岩石斜坡" },
+	[59661398] = { questId=48388, icon="treasure", group="treasure_aw", label="48388", loot=nil, note=nil }, -- Doe
+	[54102803] = { questId=48388, icon="treasure", group="treasure_aw", label="48388", loot=nil, note="艾瓦平台旁边" },
 	-- 48389
-	[64305040] = { questId=48389, icon="treasure", group="treasure_aw", label="48389", loot=nil, note=nil },
+	[64305040] = { questId=48389, icon="treasure", group="treasure_aw", label="48389", loot=nil, note="瓦加洞穴内" },
 	[60254351] = { questId=48389, icon="treasure", group="treasure_aw", label="48389", loot=nil, note=nil },
 	[65514081] = { questId=48389, icon="treasure", group="treasure_aw", label="48389", loot=nil, note=nil },
 	[60304675] = { questId=48389, icon="treasure", group="treasure_aw", label="48389", loot=nil, note=nil },
 	[65345192] = { questId=48389, icon="treasure", group="treasure_aw", label="48389", loot=nil, note="瓦加后面的洞穴内" },
+	[64114242] = { questId=48389, icon="treasure", group="treasure_aw", label="48389", loot=nil, note="岩石下" },
 	-- 48390
 	[81306860] = { questId=48390, icon="treasure", group="treasure_aw", label="48390", loot=nil, note="在船上" },
 	[80406152] = { questId=48390, icon="treasure", group="treasure_aw", label="48390", loot=nil, note=nil },
 	[82566503] = { questId=48390, icon="treasure", group="treasure_aw", label="48390", loot=nil, note="在船上" },
 	[73316858] = { questId=48390, icon="treasure", group="treasure_aw", label="48390", loot=nil, note="雷尔瓦将军顶层边上" },
 	[77127529] = { questId=48390, icon="treasure", group="treasure_aw", label="48390", loot=nil, note="维沙克斯传送门旁边" },
+	[72527293] = { questId=48390, icon="treasure", group="treasure_aw", label="48390", loot=nil, note="雷尔瓦将军后面" },
+	[77255876] = { questId=48390, icon="treasure", group="treasure_aw", label="48390", loot=nil, note=nil },
 	-- 48391
 	[64135867] = { questId=48391, icon="treasure", group="treasure_aw", label="48391", loot=nil, note="在维农的巢穴内" },
 	[67404790] = { questId=48391, icon="treasure", group="treasure_aw", label="48391", loot=nil, note=nil },
@@ -124,18 +157,25 @@ nodes["ArgusCore"] = {
 	[63035762] = { questId=48391, icon="treasure", group="treasure_aw", label="48391", loot=nil, note="在维农的巢穴内" },
 	[65185507] = { questId=48391, icon="treasure", group="treasure_aw", label="48391", loot=nil, note="上面入口到蜘蛛区域" },
 	[68095075] = { questId=48391, icon="treasure", group="treasure_aw", label="48391", loot=nil, note="蜘蛛区域小洞穴内" },
-	-- Ancient Legion War Cache
-	[65973977] = { questId=49018, icon="treasure", group="treasure_aw", label="48391", loot={ { 153308, itemTypeTransmog, "单手锤" } }, note="小心跳下到小洞穴。滑翔会很有帮助。" },
+	[69815522] = { questId=48391, icon="treasure", group="treasure_aw", label="48391", loot=nil, note="蜘蛛区域外" },
+	[71205441] = { questId=48391, icon="treasure", group="treasure_aw", label="48391", loot=nil, note="蜘蛛区域外" },
+	-- Shoot First, Loot Later
+	-- Requires 48201 Reinforce Light's Purchase
+	[58765894] = { questId=49017, icon="starChestBlue", group="sfll_aw", label="被遗忘的军团补给", loot=nil, note="岩石挡住了道路。使用破裂的拉迪纳克斯控制宝石通过。（当光铸战争机甲可用时使用。）" },
+	[65973977] = { questId=49018, icon="starChestYellow", group="sfll_aw", label="古老的军团战争储物箱", loot={ { 153308, itemTypeTransmog, "单手锤" } }, note="小心跳下到小洞穴。滑翔会很有帮助。使用圣光裁决者移除岩石。" },
+	[52192708] = { questId=49019, icon="starChestYellow", group="sfll_aw", label="邪能缠绕的宝箱", loot=nil, note="开始点在东南方一点位于 53.7, 30.9。跳上岩石到达洞穴。岩石挡住了洞穴。使用圣光裁决者移除岩石。" },
+	[75595267] = { questId=49021, icon="starChestBlank", group="sfll_aw", label="历时久远的邪能宝箱", loot=nil, note="起点位于全知者萨纳里安。从左侧穿过他的建筑物。沿着几块岩石跳下到达被绿色软泥围绕的宝箱。" },
+
 }
 
 -- Krokuun
 nodes["ArgusSurface"] = {
-	[44390734] = { questId=48561, icon="skull_grey", group="rare_kr", label="卡扎杜姆", search="卡扎杜姆", loot=nil, note="入口在东南位于 50.3, 17.3" },
+	[44390734] = { questId=48561, icon="skull__blue", group="rare_kr", label="卡扎杜姆", search="卡扎杜姆", loot={ { 153316, itemTypeTransmog, "双手剑" } }, note="入口在东南位于 50.3, 17.3" },
 	[33007600] = { questId=48562, icon="skull_grey", group="rare_kr", label="指挥官萨森纳尔", search="萨森纳尔", loot=nil, note=nil },
 	[44505870] = { questId=48564, icon="skull_blue", group="rare_kr", label="指挥官安达西斯", search="安达西斯", loot={ { 153255, itemTypeTransmog, "单手锤" } }, note=nil },
 	[53403090] = { questId=48565, icon="skull_blue", group="rare_kr", label="苏薇西娅姐妹", search="姐妹", loot={ { 153124, itemTypeToy } }, note=nil },
 	[58007480] = { questId=48627, icon="skull_grey", group="rare_kr", label="攻城大师沃兰", search="攻城大师", loot=nil, note=nil },
-	[55508020] = { questId=48628, icon="skull_blue", group="rare_kr", label="恶毒者泰勒斯塔", search="恶毒者", loot={ { 153329, itemTypeTransmog, "匕首" } }, note=nil },
+	[54688126] = { questId=48628, icon="skull_blue", group="rare_kr", label="恶毒者泰勒斯塔", search="恶毒者", loot={ { 153329, itemTypeTransmog, "匕首" } }, note=nil },
 	[38145920] = { questId=48563, icon="skull_blue", group="rare_kr", label="指挥官维卡娅", search="维卡娅", loot={ { 153299, itemTypeTransmog, "单手剑" } }, note="路径起始点在东，位于 42, 57.1" },
 	[60802080] = { questId=48629, icon="skull_grey", group="rare_kr", label="背弃者瓦加斯", search="背弃者", loot=nil, note=nil },
 	[69605750] = { questId=48664, icon="skull_blue", group="rare_kr", label="分选者泰瑞克", search="分选者", loot={ { 153263, itemTypeTransmog, "单手斧" } }, note=nil },
@@ -151,19 +191,27 @@ nodes["ArgusSurface"] = {
 	[58302970] = { questId=0, icon="battle_pet", group="pet_kr", label="小脏", loot=nil, note=nil },
 
 	-- 47752
-	[56108050] = { questId=47752, icon="treasure", group="treasure_kr", label="47752", loot=nil, note=nil },
 	[55555863] = { questId=47752, icon="treasure", group="treasure_kr", label="47752", loot=nil, note="跳上岩石，起点偏西" },
 	[52185431] = { questId=47752, icon="treasure", group="treasure_kr", label="47752", loot=nil, note="位于第一次看到奥蕾莉亚的上面" },
 	[50405122] = { questId=47752, icon="treasure", group="treasure_kr", label="47752", loot=nil, note="位于第一次看到奥蕾莉亚的上面" },
+	[53265096] = { questId=47752, icon="treasure", group="treasure_kr", label="47752", loot=nil, note="位于第一次看到奥蕾莉亚的上面。在绿色软泥的另一边。邪能很疼！" },
 	[57005472] = { questId=47752, icon="treasure", group="treasure_kr", label="47752", loot=nil, note="岩层下面，窄小地面上" }, -- Doe
+	[59695196] = { questId=47752, icon="treasure", group="treasure_kr", label="47752", loot=nil, note="泽斯塔尔旁边，岩石后面。" }, -- todo:verify
+	[51425958] = { questId=47752, icon="treasure", group="treasure_kr", label="47752", loot=nil, note=nil },
 	-- 47753
-	[51425958] = { questId=47753, icon="treasure", group="treasure_kr", label="47753", loot=nil, note="恶毒者泰勒斯塔建筑物内" },
 	[53137304] = { questId=47753, icon="treasure", group="treasure_kr", label="47753", loot=nil, note=nil },
 	[55228114] = { questId=47753, icon="treasure", group="treasure_kr", label="47753", loot=nil, note=nil },
+	[59267341] = { questId=47753, icon="treasure", group="treasure_kr", label="47753", loot=nil, note=nil },
 	[56118037] = { questId=47753, icon="treasure", group="treasure_kr", label="47753", loot=nil, note="恶毒者泰勒斯塔建筑物外" },
+	[58597958] = { questId=47753, icon="treasure", group="treasure_kr", label="47753", loot=nil, note="恶魔尖塔后面" },
+	[58197157] = { questId=47753, icon="treasure", group="treasure_kr", label="47753", loot=nil, note=nil }, -- Doe
 	-- 47997
 	[45876777] = { questId=47997, icon="treasure", group="treasure_kr", label="47997", loot=nil, note="岩石下，桥旁边" },
 	[45797753] = { questId=47997, icon="treasure", group="treasure_kr", label="47997", loot=nil, note=nil }, -- Doe
+	[43858139] = { questId=47997, icon="treasure", group="treasure_kr", label="47997", loot=nil, note="起点位于 49.1, 69.3。沿着向南方的山脊到达宝箱。" },
+	[43816689] = { questId=47997, icon="treasure", group="treasure_kr", label="47997", loot=nil, note="岩石下。桥旁边跳下。" },
+	[40687531] = { questId=47997, icon="treasure", group="treasure_kr", label="47997", loot=nil, note=nil }, -- Doe
+	[46996831] = { questId=47997, icon="treasure", group="treasure_kr", label="47997", loot=nil, note="在龙头骨上" },
 	-- 47999
 	[62592581] = { questId=47999, icon="treasure", group="treasure_kr", label="47999", loot=nil, note=nil },
 	[59763951] = { questId=47999, icon="treasure", group="treasure_kr", label="47999", loot=nil, note=nil },
@@ -172,15 +220,18 @@ nodes["ArgusSurface"] = {
 	[61463580] = { questId=47999, icon="treasure", group="treasure_kr", label="47999", loot=nil, note="建筑物内" },
 	[59603052] = { questId=47999, icon="treasure", group="treasure_kr", label="47999", loot=nil, note="桥面上" },
 	[60891852] = { questId=47999, icon="treasure", group="treasure_kr", label="47999", loot=nil, note="背弃者瓦加斯后面小屋内" },
+	[49063350] = { questId=47999, icon="treasure", group="treasure_kr", label="47999", loot=nil, note=nil },
 	-- 48000
 	[70907370] = { questId=48000, icon="treasure", group="treasure_kr", label="48000", loot=nil, note=nil },
-	[74136784] = { questId=48000, icon="treasure", group="treasure_kr", label="48000", loot=nil, note=nil },
-	[75136432] = { questId=48000, icon="treasure", group="treasure_kr", label="48000", loot=nil, note=nil },
+	[74136790] = { questId=48000, icon="treasure", group="treasure_kr", label="48000", loot=nil, note=nil },
+	[75166435] = { questId=48000, icon="treasure", group="treasure_kr", label="48000", loot=nil, note="洞穴尽头" },
 	[69605772] = { questId=48000, icon="treasure", group="treasure_kr", label="48000", loot=nil, note=nil },
 	[69787836] = { questId=48000, icon="treasure", group="treasure_kr", label="48000", loot=nil, note="跳上斜坡到达" },
 	[68566054] = { questId=48000, icon="treasure", group="treasure_kr", label="48000", loot=nil, note="分选者泰瑞克洞穴前面" },
 	[72896482] = { questId=48000, icon="treasure", group="treasure_kr", label="48000", loot=nil, note=nil },
 	[71827536] = { questId=48000, icon="treasure", group="treasure_kr", label="48000", loot=nil, note=nil }, -- Doe
+	[73577146] = { questId=48000, icon="treasure", group="treasure_kr", label="48000", loot=nil, note=nil }, -- Doe
+	[71846166] = { questId=48000, icon="treasure", group="treasure_kr", label="48000", loot=nil, note="爬上斜状柱子" },
 	-- 48336
 	[33515510] = { questId=48336, icon="treasure", group="treasure_kr", label="48336", loot=nil, note=nil },
 	[32047441] = { questId=48336, icon="treasure", group="treasure_kr", label="48336", loot=nil, note=nil },
@@ -189,14 +240,25 @@ nodes["ArgusSurface"] = {
 	[35415637] = { questId=48336, icon="treasure", group="treasure_kr", label="48336", loot=nil, note="地面，在去往泽尼达尔入口下面的前方" },
 	[29645761] = { questId=48336, icon="treasure", group="treasure_kr", label="48336", loot=nil, note="洞穴内" },
 	[40526067] = { questId=48336, icon="treasure", group="treasure_kr", label="48336", loot=nil, note="黄色小屋内" }, -- Doe
+	[36205543] = { questId=48336, icon="treasure", group="treasure_kr", label="48336", loot=nil, note="泽尼达尔内，上层" }, -- Doe
+	[25996814] = { questId=48336, icon="treasure", group="treasure_kr", label="48336", loot=nil, note=nil },
+	[37176401] = { questId=48336, icon="treasure", group="treasure_kr", label="48336", loot=nil, note="残骸下面" },
 	-- 48339
 	[68533891] = { questId=48339, icon="treasure", group="treasure_kr", label="48339", loot=nil, note=nil },
 	[63054240] = { questId=48339, icon="treasure", group="treasure_kr", label="48339", loot=nil, note=nil },
 	[64964156] = { questId=48339, icon="treasure", group="treasure_kr", label="48339", loot=nil, note=nil },
 	[73393438] = { questId=48339, icon="treasure", group="treasure_kr", label="48339", loot=nil, note=nil },
-	[72243202] = { questId=48339, icon="treasure", group="treasure_kr", label="48339", loot=nil, note="巨大头骨后面" }, -- Doe
+	[72213234] = { questId=48339, icon="treasure", group="treasure_kr", label="48339", loot=nil, note="巨大头骨后面" }, -- Doe
 	[65983499] = { questId=48339, icon="treasure", group="treasure_kr", label="48339", loot=nil, note=nil },
+	[64934217] = { questId=48339, icon="treasure", group="treasure_kr", label="48339", loot=nil, note="在树干内" },
+	[67713454] = { questId=48339, icon="treasure", group="treasure_kr", label="48339", loot=nil, note=nil },
 
+	-- Shoot First, Loot Later
+	[51407622] = { questId=48884, icon="starChestBlue", group="sfll_kr", label="克罗库紧急储物箱", loot={ { 153304, itemTypeTransmog, "单手斧" } }, note="洞穴在悬崖上。岩石挡住了道路。使用破裂的拉迪纳克斯控制宝石通过。（当光铸战争机甲可用时使用。）" },
+	[62783753] = { questId=48885, icon="starChestYellow", group="sfll_kr", label="军团塔楼宝箱", loot=nil, note="在通往纳罗瓦的路上有被巨石挡住的宝箱。使用圣光裁决者移除岩石。" },
+	[48555894] = { questId=48886, icon="starChestYellow", group="sfll_kr", label="丢失的克罗库宝箱", loot=nil, note="道路延伸到小洞穴。使用圣光裁决者移除岩石。" },
+	[75176975] = { questId=49154, icon="starChestPurple", group="sfll_kr", label="失落已久的奥古雷宝藏", loot=nil, note="使用奥术回响遮罩后打开宝箱" },
+	[55937428] = { questId=49156, icon="starChestPurple", group="sfll_kr", label="珍贵的奥古雷信物", loot=nil, note="使用奥术回响遮罩后打开宝箱" },
 }
 
 nodes["ArgusCitadelSpire"] = {
@@ -205,31 +267,31 @@ nodes["ArgusCitadelSpire"] = {
 
 -- Mac'Aree
 nodes["ArgusMacAree"] = {
-	[55705990] = { questId=0, icon="skull_blue", group="rare_ma", label="牧羊人卡沃斯", loot=nil, note=nil },
-	[43806020] = { questId=0, icon="skull_grey", group="rare_ma", label="嗜血的巴鲁特", loot=nil, note=nil },
-	[36302360] = { questId=0, icon="skull_grey", group="rare_ma", label="警卫泰诺斯", loot=nil, note=nil },
-	[33704750] = { questId=0, icon="skull_blue", group="rare_ma", label="毒尾天鳍鳐", loot=nil, note=nil },
-	[27202980] = { questId=0, icon="skull_grey", group="rare_ma", label="法鲁克队长", loot=nil, note=nil },
-	[30304040] = { questId=0, icon="skull_grey", group="rare_ma", label="阿塔克松", loot=nil, note=nil },
-	[35505870] = { questId=0, icon="skull_grey", group="rare_ma", label="混沌先驱", loot=nil, note="位于第二层。" },
-	[48504090] = { questId=0, icon="skull_grey", group="rare_ma", label="杰德尼勇士沃鲁斯克", loot=nil, note=nil },
-	[58003090] = { questId=0, icon="skull_grey", group="rare_ma", label="监视者伊索纳", loot=nil, note=nil },
-	[61405020] = { questId=0, icon="skull_grey", group="rare_ma", label="导师塔拉娜", loot=nil, note=nil },
-	[56801450] = { questId=0, icon="skull_grey", group="rare_ma", label="指挥官泽斯加尔", loot=nil, note=nil },
-	[49505280] = { questId=0, icon="skull_grey", group="rare_ma", label="最后的希里索恩", loot=nil, note=nil },
-	[44607160] = { questId=0, icon="skull_grey", group="rare_ma", label="暗影法师沃伦", loot=nil, note=nil },
-	[65306750] = { questId=0, icon="skull_grey", group="rare_ma", label="灵魂扭曲的畸体", loot=nil, note=nil },
-	[38705580] = { questId=0, icon="skull_blue", group="rare_ma", label="苍白的卡拉", loot=nil, note=nil },
-	[41301160] = { questId=0, icon="skull_grey", group="rare_ma", label="麦芬大盗费舍尔", loot=nil, note=nil },
-	[63806460] = { questId=0, icon="skull_grey", group="rare_ma", label="警卫库洛", loot=nil, note=nil },
-	[39206660] = { questId=0, icon="skull_grey", group="rare_ma", label="清醒者图瑞克", loot=nil, note=nil },
-	[35203720] = { questId=0, icon="skull_grey", group="rare_ma", label="乌伯拉利斯", loot=nil, note=nil },
-	[70404670] = { questId=0, icon="skull_grey", group="rare_ma", label="厄运者索洛里斯", loot=nil, note=nil },
-	[44204980] = { questId=0, icon="skull_blue", group="rare_ma", label="沙布尔", loot=nil, note=nil },
-	[59203770] = { questId=0, icon="skull_grey", group="rare_ma", label="监视者伊比达", loot=nil, note=nil },
-	[60402970] = { questId=0, icon="skull_grey", group="rare_ma", label="监视者伊莫拉", loot=nil, note=nil },
-	[64002950] = { questId=0, icon="skull_grey", group="rare_ma", label="万千之主祖尔坦", loot=nil, note=nil },
-	[49700990] = { questId=0, icon="skull_blue", group="rare_ma", label="吞噬者斯克里格", loot=nil, note=nil },
+	[52976684] = { questId=48693, icon="skull_grey", group="rare_ma", label="灵魂扭曲的畸体", search="畸体", loot=nil, note=nil },
+	[55536016] = { questId=48695, icon="skull_grey", group="rare_ma", label="牧羊人卡沃斯", search="牧羊人", loot=nil, note=nil },
+	[63806460] = { questId=48704, icon="skull_grey", group="rare_ma", label="警卫库洛", search="库洛", loot=nil, note=nil },
+	[38226435] = { questId=48706, icon="skull_grey", group="rare_ma", label="清醒者图瑞克", search="清醒者", loot=nil, note="下楼进入建筑物" },
+	[27192995] = { questId=48707, icon="skull_grey", group="rare_ma", label="法鲁克队长", search="队长", loot=nil, note=nil },
+	[35965897] = { questId=48711, icon="skull_grey", group="rare_ma", label="混沌先驱", search="先驱", loot=nil, note="位于第二层。" },
+	[44204980] = { questId=48712, icon="skull_grey", group="rare_ma", label="沙布尔", search="沙布尔", loot=nil, note=nil },
+	[48504090] = { questId=48713, icon="skull_blue", group="rare_ma", label="杰德尼勇士沃鲁斯克", search="杰德尼勇士", loot={ { 153302, itemTypeTransmog, "单手剑" } }, note=nil },
+	[58003090] = { questId=48716, icon="skull_grey", group="rare_ma", label="监视者伊索纳", search="伊索纳", loot=nil, note=nil },
+	[60982982] = { questId=48717, icon="skull_blue", group="rare_ma", label="监视者伊莫拉", search="伊莫拉", loot={ { 153257, itemTypeTransmog, "单手锤" } }, note=nil },
+	[66742845] = { questId=48719, icon="skull_grey", group="rare_ma", label="万千之主祖尔坦", search="万千之主", loot=nil, note="建筑物内" },
+	[56801450] = { questId=48720, icon="skull_grey", group="rare_ma", label="指挥官泽斯加尔", search="指挥官", loot=nil, note=nil },
+	[49870953] = { questId=48721, icon="skull_grey", group="rare_ma", label="吞噬者斯克里格", search="吞噬者", loot=nil, note=nil },
+	[43846065] = { questId=48700, icon="skull_blue", group="rare_ma", label="嗜血的巴鲁特", search="巴鲁特", loot={ { 153193, itemTypeToy } }, note=nil },
+	[36302360] = { questId=0, icon="skull_grey", group="rare_ma", label="警卫泰诺斯", search="泰诺斯", loot=nil, note=nil },
+	[33704750] = { questId=0, icon="skull_grey", group="rare_ma", label="毒尾天鳍鳐", search="毒尾", loot=nil, note=nil },
+	[30304040] = { questId=0, icon="skull_grey", group="rare_ma", label="阿塔克松", search="阿塔克松", loot=nil, note=nil },
+	[61405020] = { questId=0, icon="skull_grey", group="rare_ma", label="导师塔拉娜", search="导师", loot=nil, note=nil },
+	[49505280] = { questId=0, icon="skull_grey", group="rare_ma", label="最后的希里索恩", search="最后", loot=nil, note=nil },
+	[44607160] = { questId=0, icon="skull_grey", group="rare_ma", label="暗影法师沃伦", search="暗影法师", loot=nil, note=nil },
+	[38705580] = { questId=0, icon="skull_grey", group="rare_ma", label="苍白的卡拉", search="苍白", loot=nil, note=nil },
+	[41301160] = { questId=0, icon="skull_grey", group="rare_ma", label="麦芬大盗费舍尔", search="大盗", loot=nil, note=nil },
+	[35203720] = { questId=0, icon="skull_grey", group="rare_ma", label="乌伯拉利斯", search="乌伯拉利斯", loot=nil, note=nil },
+	[70404670] = { questId=0, icon="skull_grey", group="rare_ma", label="厄运者索洛里斯", search="厄运者", loot=nil, note=nil },
+	[59203770] = { questId=0, icon="skull_grey", group="rare_ma", label="监视者伊比达", search="伊比达", loot=nil, note=nil },
 
 	[60007110] = { questId=0, icon="battle_pet", group="pet_ma", label="烁光之翼", loot=nil, note=nil },
 	[67604390] = { questId=0, icon="battle_pet", group="pet_ma", label="巴基", loot=nil, note=nil },
@@ -237,63 +299,87 @@ nodes["ArgusMacAree"] = {
 	[69705190] = { questId=0, icon="battle_pet", group="pet_ma", label="鼠鼠", loot=nil, note=nil },
 	[31903120] = { questId=0, icon="battle_pet", group="pet_ma", label="阿古斯的腐化之血", loot=nil, note=nil },
 	[36005410] = { questId=0, icon="battle_pet", group="pet_ma", label="曳影兽", loot=nil, note=nil },
+
+	-- Ancient Eredar Cache
+	-- 48346
+	[55167766] = { questId=48346, icon="treasure", group="treasure_ma", label="48346", loot=nil, note=nil },
+	-- 48350
+	[59622088] = { questId=48350, icon="treasure", group="treasure_ma", label="48350", loot=nil, note="建筑物内楼梯下" },
+	-- 48351
+	[43637134] = { questId=48351, icon="treasure", group="treasure_ma", label="48351", loot=nil, note=nil },
+	-- 48357
+	[49372397] = { questId=48357, icon="treasure", group="treasure_ma", label="48357", loot=nil, note=nil },
+	-- 48371
+	[48604971] = { questId=48371, icon="treasure", group="treasure_ma", label="48371", loot=nil, note=nil },
+	-- 48362
+	[66682786] = { questId=48362, icon="treasure", group="treasure_ma", label="48362", loot=nil, note="建筑物内，万千之主祖尔坦旁边" },
+	-- Void-Seeped Cache / Treasure Chest
+	-- 49264
+	[38143985] = { questId=49264, icon="treasure", group="treasure_ma", label="49264", loot=nil, note=nil },
+	-- 48361
+	[37664221] = { questId=48361, icon="treasure", group="treasure_ma", label="48361", loot=nil, note="洞里柱子后面" },
+
+	-- Shoot First, Loot Later
+	[57047684] = { questId=48749, icon="starChestBlank", group="sfll_ma", label="绝望的艾瑞达的储物箱", loot={ { 153267, itemTypeTransmog, "单手斧" } }, note="起点在 57.1, 74.3，接着跳到塔上后到后面。" },
+	[40275146] = { questId=48747, icon="starChestBlue", group="sfll_ma", label="虚空回荡的宝箱", loot=nil, note="在地下区域。使用光铸战争机甲跳上并移除岩石。" },
+	[62132247] = { questId=49151, icon="starChestPurple", group="sfll_ma", label="隐秘奥古雷宝箱", loot=nil, note="使用奥术回响遮罩后打开宝箱" },
 }
 
 
 local function GetItem(ID)
-    if (ID == "1220" or ID == "1508") then
-        local currency, _, _ = GetCurrencyInfo(ID)
+	if (ID == "1220" or ID == "1508") then
+		local currency, _, _ = GetCurrencyInfo(ID)
 
-        if (currency ~= nil) then
-            return currency
-        else
-            return "Error loading CurrencyID"
-        end
-    else
-        local _, item, _, _, _, _, _, _, _, _ = GetItemInfo(ID)
+		if (currency ~= nil) then
+			return currency
+		else
+			return "错误加载货币 ID"
+		end
+	else
+		local _, item, _, _, _, _, _, _, _, _ = GetItemInfo(ID)
 
-        if (item ~= nil) then
-            return item
-        else
-            return "Error loading ItemID"
-        end
-    end
-end 
+		if (item ~= nil) then
+			return item
+		else
+			return "错误加载物品 ID"
+		end
+	end
+end
 
 local function GetIcon(ID)
-    if (ID == "1220") then
-        local _, _, icon = GetCurrencyInfo(ID)
+	if (ID == "1220") then
+		local _, _, icon = GetCurrencyInfo(ID)
 
-        if (icon ~= nil) then
-            return icon
-        else
-            return "Interface\\Icons\\inv_misc_questionmark"
-        end
-    else
+		if (icon ~= nil) then
+			return icon
+		else
+			return "Interface\\Icons\\inv_misc_questionmark"
+		end
+	else
 		local _, _, _, _, icon = GetItemInfoInstant(ID)
-        --local _, _, _, _, _, _, _, _, _, icon = GetItemInfo(ID)
+		--local _, _, _, _, _, _, _, _, _, icon = GetItemInfo(ID)
 
-        if (icon ~= nil) then
-            return icon
-        else
-            return "Interface\\Icons\\inv_misc_questionmark"
-        end
-    end
+		if (icon ~= nil) then
+			return icon
+		else
+			return "Interface\\Icons\\inv_misc_questionmark"
+		end
+	end
 end
 
 function Argus:OnEnter(mapFile, coord)
-    if (not nodes[mapFile][coord]) then return end
-    
-    local tooltip = self:GetParent() == WorldMapButton and WorldMapTooltip or GameTooltip
+	if (not nodes[mapFile][coord]) then return end
 
-    if ( self:GetCenter() > UIParent:GetCenter() ) then
-        tooltip:SetOwner(self, "ANCHOR_LEFT")
-    else
-        tooltip:SetOwner(self, "ANCHOR_RIGHT")
-    end
+	local tooltip = self:GetParent() == WorldMapButton and WorldMapTooltip or GameTooltip
 
-    tooltip:SetText(nodes[mapFile][coord]["label"])
-    if (	( Argus.db.profile.show_loot == true ) and
+	if ( self:GetCenter() > UIParent:GetCenter() ) then
+		tooltip:SetOwner(self, "ANCHOR_LEFT")
+	else
+		tooltip:SetOwner(self, "ANCHOR_RIGHT")
+	end
+
+	tooltip:SetText(nodes[mapFile][coord]["label"])
+	if (	( Argus.db.profile.show_loot == true ) and
 			( nodes[mapFile][coord]["loot"] ~= nil ) and
 			( type(nodes[mapFile][coord]["loot"]) == "table" ) ) then
 		local ii;
@@ -306,7 +392,7 @@ function Argus:OnEnter(mapFile, coord)
 				if ( c == true ) then
 					tooltip:AddLine(("" .. GetItem(loot[ii][1]) .. " (|cFF00FF00已学会坐骑|r)"), nil, nil, nil, true)
 				else
-					tooltip:AddLine(("" .. GetItem(loot[ii][1]) .. " (|cFFFF0000坐骑缺少|r)"), nil, nil, nil, true)
+					tooltip:AddLine(("" .. GetItem(loot[ii][1]) .. " (|cFFFF0000未学坐骑|r)"), nil, nil, nil, true)
 				end
 			elseif ( loot[ii][2] == itemTypePet ) then
 				-- check pet quantity
@@ -317,7 +403,7 @@ function Argus:OnEnter(mapFile, coord)
 				if ( PlayerHasToy( loot[ii][1] ) == true ) then
 					tooltip:AddLine(("" .. GetItem(loot[ii][1]) .. " (|cFF00FF00已学会玩具|r)"), nil, nil, nil, true)
 				else
-					tooltip:AddLine(("" .. GetItem(loot[ii][1]) .. " (|cFFFF0000玩具缺少|r)"), nil, nil, nil, true)
+					tooltip:AddLine(("" .. GetItem(loot[ii][1]) .. " (|cFFFF0000未学玩具|r)"), nil, nil, nil, true)
 				end
 			elseif ( isCanIMogItloaded == true and loot[ii][2] == itemTypeTransmog ) then
 				-- check transmog known with canimogit
@@ -339,13 +425,13 @@ function Argus:OnEnter(mapFile, coord)
 				tooltip:AddLine(("" .. GetItem(loot[ii][1])), nil, nil, nil, true)
 			end
 		end
-    end
+	end
 	if ( Argus.db.profile.show_notes == true and nodes[mapFile][coord]["note"] and nodes[mapFile][coord]["note"] ~= nil ) then
 		-- note
 		tooltip:AddLine(("" .. nodes[mapFile][coord]["note"]), nil, nil, nil, true)
 	end
 
-    tooltip:Show()
+	tooltip:Show()
 end
 
 local isMoving = false
@@ -354,52 +440,52 @@ local clickedMapFile = nil
 local clickedCoord = nil
 
 local function LRTHideDBMArrow()
-    DBM.Arrow:Hide(true)
+	DBM.Arrow:Hide(true)
 end
 
 local function LRTDisableTreasure(button, mapFile, coord)
-    if (nodes[mapFile][coord]["questId"] ~= nil) then
-        Argus.db.char[mapFile .. coord .. nodes[mapFile][coord]["questId"]] = true;
-    end
+	if (nodes[mapFile][coord]["questId"] ~= nil) then
+		Argus.db.char[mapFile .. coord .. nodes[mapFile][coord]["questId"]] = true;
+	end
 
-    Argus:Refresh()
+	Argus:Refresh()
 end
 
 local function LRTResetDB()
-    table.wipe(Argus.db.char)
-    Argus:Refresh()
+	table.wipe(Argus.db.char)
+	Argus:Refresh()
 end
 
 local function LRTaddtoTomTom(button, mapFile, coord)
-    if isTomTomloaded == true then
-        local mapId = HandyNotes:GetMapFiletoMapID(mapFile)
-        local x, y = HandyNotes:getXY(coord)
-        local desc = nodes[mapFile][coord]["label"];
+	if isTomTomloaded == true then
+		local mapId = HandyNotes:GetMapFiletoMapID(mapFile)
+		local x, y = HandyNotes:getXY(coord)
+		local desc = nodes[mapFile][coord]["label"];
 
-        TomTom:AddMFWaypoint(mapId, nil, x, y, {
-            title = desc,
-            persistent = nil,
-            minimap = true,
-            world = true
-        })
-    end
+		TomTom:AddMFWaypoint(mapId, nil, x, y, {
+			title = desc,
+			persistent = nil,
+			minimap = true,
+			world = true
+		})
+	end
 end
 
 local function LRTAddDBMArrow(button, mapFile, coord)
-    if isDBMloaded == true then
-        local mapId = HandyNotes:GetMapFiletoMapID(mapFile)
-        local x, y = HandyNotes:getXY(coord)
-        local desc = nodes[mapFile][coord][2];
+	if isDBMloaded == true then
+		local mapId = HandyNotes:GetMapFiletoMapID(mapFile)
+		local x, y = HandyNotes:getXY(coord)
+		local desc = nodes[mapFile][coord][2];
 
-        if not DBMArrow.Desc:IsShown() then
-            DBMArrow.Desc:Show()
-        end
+		if not DBMArrow.Desc:IsShown() then
+			DBMArrow.Desc:Show()
+		end
 
-        x = x*100
-        y = y*100
-        DBMArrow.Desc:SetText(desc)
-        DBM.Arrow:ShowRunTo(x, y, nil, nil, true)
-    end
+		x = x*100
+		y = y*100
+		DBMArrow.Desc:SetText(desc)
+		DBM.Arrow:ShowRunTo(x, y, nil, nil, true)
+	end
 end
 
 local finderFrame = CreateFrame("Frame");
@@ -427,9 +513,10 @@ local function LRTLFRsearch( button, search, label )
 			LFGListFrame.SearchPanel.SearchBox:SetText( search );
 			LFGListCategorySelection_SelectCategory( LFGListFrame.CategorySelection, 6, 0 );
 			LFGListFrame.SearchPanel.SearchBox:SetText( search );
-			LFGListCategorySelectionFindGroupButton_OnClick( LFGListFrame.CategorySelection.FindGroupButton );			
+			LFGListCategorySelectionFindGroupButton_OnClick( LFGListFrame.CategorySelection.FindGroupButton );
 			LFGListFrame.SearchPanel.SearchBox:SetText( search );
-			
+			--LFGListFrame.SearchPanel.SearchBox:SetFocus();
+
 			finderFrame:RegisterEvent("LFG_LIST_SEARCH_RESULTS_RECEIVED")
 		end
 	end
@@ -447,27 +534,26 @@ local function LRTLFRcreate( button, label )
 	elseif ( c == false ) then
 		print( "创建队伍 " .. label .. "." );
 		-- 16 = custom
-		C_LFGList.CreateListing(16,label,0,0,"","Created with HandyNotes_Argus",true)
+		C_LFGList.CreateListing(16,label,0,0,"","由 HandyNotes_Argus 创建",true)
 	end
 end
 
 local function generateMenu(button, level)
-    if (not level) then return end
+	if (not level) then return end
 
-    for k in pairs(info) do info[k] = nil end
+	for k in pairs(info) do info[k] = nil end
 
-    if (level == 1) then
-        info.isTitle = 1
-        info.text = "Argus"
-        info.notCheckable = 1
-        UIDropDownMenu_AddButton(info, level)
-        
-        info.disabled = nil
-        info.isTitle = nil
-        info.notCheckable = nil
+	if (level == 1) then
+		info.isTitle = 1
+		info.text = "Argus"
+		info.notCheckable = 1
+		UIDropDownMenu_AddButton(info, level)
+
+		info.disabled = nil
+		info.isTitle = nil
+		info.notCheckable = nil
 
 		if ( (string.find(nodes[clickedMapFile][clickedCoord]["group"], "rare") ~= nil)) then
-
 		info.text = "查找队伍"
 			if ( nodes[clickedMapFile][clickedCoord]["search"] ~= nil ) then
 				info.func = LRTLFRsearch
@@ -482,47 +568,47 @@ local function generateMenu(button, level)
 			UIDropDownMenu_AddButton(info, level)
 		end
 
-        info.text = "从地图移除此物件"
-        info.func = LRTDisableTreasure
-        info.arg1 = clickedMapFile
-        info.arg2 = clickedCoord
-        UIDropDownMenu_AddButton(info, level)
-        
-        if isTomTomloaded == true then
-            info.text = "在 TomTom 添加此路径点位置"
-            info.func = LRTaddtoTomTom
-            info.arg1 = clickedMapFile
-            info.arg2 = clickedCoord
-            UIDropDownMenu_AddButton(info, level)
-        end
+		info.text = "从地图移除此物件"
+		info.func = LRTDisableTreasure
+		info.arg1 = clickedMapFile
+		info.arg2 = clickedCoord
+		UIDropDownMenu_AddButton(info, level)
 
-        if isDBMloaded == true then
-            info.text = "在 DBM 中添加此财宝箭头"
-            info.func = LRTAddDBMArrow
-            info.arg1 = clickedMapFile
-            info.arg2 = clickedCoord
-            UIDropDownMenu_AddButton(info, level)
-            
-            info.text = "隐藏 DBM 箭头"
-            info.func = LRTHideDBMArrow
-            UIDropDownMenu_AddButton(info, level)
-        end
+		if isTomTomloaded == true then
+			info.text = "在 TomTom 添加此路径点位置"
+			info.func = LRTaddtoTomTom
+			info.arg1 = clickedMapFile
+			info.arg2 = clickedCoord
+			UIDropDownMenu_AddButton(info, level)
+		end
 
-        info.text = CLOSE
-        info.func = function() CloseDropDownMenus() end
-        info.arg1 = nil
-        info.arg2 = nil
-        info.notCheckable = 1
-        UIDropDownMenu_AddButton(info, level)
+		if isDBMloaded == true then
+			info.text = "在 DBM 中添加此财宝箭头"
+			info.func = LRTAddDBMArrow
+			info.arg1 = clickedMapFile
+			info.arg2 = clickedCoord
+			UIDropDownMenu_AddButton(info, level)
 
-        info.text = "恢复已移除物件"
-        info.func = LRTResetDB
-        info.arg1 = nil
-        info.arg2 = nil
-        info.notCheckable = 1
-        UIDropDownMenu_AddButton(info, level)
-        
-    end
+			info.text = "隐藏 DBM 箭头"
+			info.func = LRTHideDBMArrow
+			UIDropDownMenu_AddButton(info, level)
+		end
+
+		info.text = CLOSE
+		info.func = function() CloseDropDownMenus() end
+		info.arg1 = nil
+		info.arg2 = nil
+		info.notCheckable = 1
+		UIDropDownMenu_AddButton(info, level)
+
+		info.text = "恢复已移除物件"
+		info.func = LRTResetDB
+		info.arg1 = nil
+		info.arg2 = nil
+		info.notCheckable = 1
+		UIDropDownMenu_AddButton(info, level)
+
+	end
 end
 
 local HandyNotes_ArgusDropdownMenu = CreateFrame("Frame", "HandyNotes_ArgusDropdownMenu")
@@ -530,11 +616,11 @@ HandyNotes_ArgusDropdownMenu.displayMode = "MENU"
 HandyNotes_ArgusDropdownMenu.initialize = generateMenu
 
 function Argus:OnClick(button, down, mapFile, coord)
-    if button == "RightButton" and down then
+	if button == "RightButton" and down then
 		-- context menu
-        clickedMapFile = mapFile
-        clickedCoord = coord
-        ToggleDropDownMenu(1, nil, HandyNotes_ArgusDropdownMenu, self, 0, 0)
+		clickedMapFile = mapFile
+		clickedCoord = coord
+		ToggleDropDownMenu(1, nil, HandyNotes_ArgusDropdownMenu, self, 0, 0)
 	elseif button == "MiddleButton" and down then
 		-- create group
 		if ( (string.find(nodes[mapFile][coord]["group"], "rare") ~= nil)) then
@@ -543,283 +629,412 @@ function Argus:OnClick(button, down, mapFile, coord)
 	elseif button == "LeftButton" and down then
 		-- find group
 		LRTLFRsearch( nil, nodes[mapFile][coord]["search"], nodes[mapFile][coord]["label"] );
-    end
+	end
 end
 
 function Argus:OnLeave(mapFile, coord)
-    if self:GetParent() == WorldMapButton then
-        WorldMapTooltip:Hide()
-    else
-        GameTooltip:Hide()
-    end
+	if self:GetParent() == WorldMapButton then
+		WorldMapTooltip:Hide()
+	else
+		GameTooltip:Hide()
+	end
 end
 
 local options = {
-    type = "group",
-    name = "阿古斯稀有和财宝",
-    desc = "阿古斯稀有和财宝位置",
-    get = function(info) return Argus.db.profile[info.arg] end,
-    set = function(info, v) Argus.db.profile[info.arg] = v; Argus:Refresh() end,
-    args = {
-        desc = {
-            name = "常用设置",
-            type = "description",
-            order = 0,
-        },
-        icon_scale_treasures = {
-            type = "range",
-            name = "财宝图标大小",
-            desc = "图标的大小",
-            min = 0.25, max = 3, step = 0.01,
-            arg = "icon_scale_treasures",
-            order = 1,
-        },
-        icon_scale_rares = {
-            type = "range",
-            name = "稀有图标大小",
-            desc = "图标的大小",
-            min = 0.25, max = 3, step = 0.01,
-            arg = "icon_scale_rares",
-            order = 2,
-        },
-        icon_alpha = {
-            type = "range",
-            name = "图标透明度",
-            desc = "图标的透明度",
-            min = 0, max = 1, step = 0.01,
-            arg = "icon_alpha",
-            order = 20,
-        },
-        VisibilityOptions = {
-            type = "group",
-            name = "可见性设定",
-            desc = "可见性设定",
-            args = {
-                VisibilityGroup = {
-                    type = "group",
-                    order = 0,
-                    name = "选择哪些区域要显示什么：",
-                    inline = true,
-                    args = {
-                        groupAW = {
-                            type = "header",
-                            name = "安托兰废土",
-                            desc = "安托兰废土",
-                            order = 0,
-                        },
-                        treasureAW = {
-                            type = "toggle",
-                            arg = "treasure_aw",
-                            name = "财宝",
-                            desc = "财宝会提供很多物品",
-                            order = 1,
-                            width = "normal",
-                        },
-                        rareAW = {
-                            type = "toggle",
-                            arg = "rare_aw",
-                            name = "稀有",
-                            desc = "稀有刷新",
-                            order = 2,
-                            width = "normal",
-                        },
-                        petAW = {
-                            type = "toggle",
-                            arg = "pet_aw",
-                            name = "战斗宠物",
-                            order = 3,
-                            width = "normal",
-                        },
-                        groupKR = {
-                            type = "header",
-                            name = "克罗库恩",
-                            desc = "克罗库恩",
-                            order = 10,
-                        },  
-                        treasureKR = {
-                            type = "toggle",
-                            arg = "treasure_kr",
-                            name = "财宝",
-                            desc = "财宝会提供很多物品",
-                            width = "normal",
-                            order = 11,
-                        },
-                        rareKR = {
-                            type = "toggle",
-                            arg = "rare_kr",
-                            name = "稀有",
-                            desc = "稀有刷新",
-                            width = "normal",
-                            order = 12,
-                        },
-                        petKR = {
-                            type = "toggle",
-                            arg = "pet_kr",
-                            name = "战斗宠物",
-                            width = "normal",
-                            order = 13,
-                        },
-                        groupMA = {
-                            type = "header",
-                            name = "玛凯雷",
-                            desc = "玛凯雷",
-                            order = 20,
-                        },  
-                        treasureMA = {
-                            type = "toggle",
-                            arg = "treasure_ma",
-                            name = "财宝",
-                            desc = "财宝会提供很多物品",
-                            width = "normal",
-                            order = 21,
-                        },
-                        rareMA = {
-                            type = "toggle",
-                            arg = "rare_ma",
-                            name = "稀有",
-                            desc = "稀有刷新",
-                            width = "normal",
-                            order = 22,
-                        },  
-                        petMA = {
-                            type = "toggle",
-                            arg = "pet_ma",
-                            name = "战斗宠物",
-                            width = "normal",
-                            order = 23,
-                        },  
-                    },
-                },
-                alwaysshowrares = {
-                    type = "toggle",
-                    arg = "alwaysshowrares",
-                    name = "总是显示已拾取的稀有",
-                    desc = "显示每个稀有无论是否已拾取状态",
-                    order = 100,
-                    width = "full",
-                },
-                alwaysshowtreasures = {
-                    type = "toggle",
-                    arg = "alwaysshowtreasures",
-                    name = "总是显示已拾取的财宝",
-                    desc = "显示每个财宝无论是否已拾取状态",
-                    order = 101,
-                    width = "full",
-                },
-                show_loot = {
-                    type = "toggle",
-                    arg = "show_loot",
-                    name = "显示掉落",
-                    desc = "显示每个财宝/稀有的掉落",
-                    order = 102,
-                },
-                show_notes = {
-                    type = "toggle",
-                    arg = "show_notes",
-                    name = "显示注释",
-                    desc = "当可用时显示每个财宝/稀有的注释",
-                    order = 103,
-                },
-            },
-        },
-    },
+	type = "group",
+	name = "阿古斯",
+	desc = "阿古斯稀有和财宝",
+	get = function(info) return Argus.db.profile[info.arg] end,
+	set = function(info, v) Argus.db.profile[info.arg] = v; Argus:Refresh() end,
+	args = {
+		IconOptions = {
+			type = "group",
+			name = "图标设置",
+			desc = "图标设置",
+			inline = true,
+			order = 0,
+			args = {
+				groupIconTreasures = {
+					type = "header",
+					name = "宝箱图标",
+					desc = "宝箱图标",
+					order = 0,
+				},
+				icon_scale_treasures = {
+					type = "range",
+					name = "大小",
+					desc = "1 = 100%",
+					min = 0.25, max = 10, step = 0.01,
+					arg = "icon_scale_treasures",
+					order = 1,
+				},
+				icon_alpha_treasures = {
+					type = "range",
+					name = "透明度",
+					desc = "0 = 透明, 1 = 不透明",
+					min = 0, max = 1, step = 0.01,
+					arg = "icon_alpha_treasures",
+					order = 2,
+				},
+				groupIconRares = {
+					type = "header",
+					name = "稀有图标",
+					desc = "稀有图标",
+					order = 10,
+				},
+				icon_scale_rares = {
+					type = "range",
+					name = "大小",
+					desc = "1 = 100%",
+					min = 0.25, max = 10, step = 0.01,
+					arg = "icon_scale_rares",
+					order = 11,
+				},
+				icon_alpha_rares = {
+					type = "range",
+					name = "透明度",
+					desc = "0 = 透明, 1 = 不透明",
+					min = 0, max = 1, step = 0.01,
+					arg = "icon_alpha_rares",
+					order = 12,
+				},
+				groupIconPets = {
+					type = "header",
+					name = "战斗宠物图标",
+					desc = "战斗宠物图标",
+					order = 20,
+				},
+				icon_scale_pets = {
+					type = "range",
+					name = "大小",
+					desc = "1 = 100%",
+					min = 0.25, max = 10, step = 0.01,
+					arg = "icon_scale_pets",
+					order = 21,
+				},
+				icon_alpha_pets = {
+					type = "range",
+					name = "透明度",
+					desc = "0 = 透明, 1 = 不透明",
+					min = 0, max = 1, step = 0.01,
+					arg = "icon_alpha_pets",
+					order = 22,
+				},
+				groupIconSfll = {
+					type = "header",
+					name = "打砸抢",
+					desc = "打砸抢",
+					order = 30,
+				},
+				icon_scale_sfll = {
+					type = "range",
+					name = "大小",
+					desc = "1 = 100%",
+					min = 0.25, max = 10, step = 0.01,
+					arg = "icon_scale_sfll",
+					order = 31,
+				},
+				icon_alpha_sfll = {
+					type = "range",
+					name = "透明度",
+					desc = "0 = 透明, 1 = 不透明",
+					min = 0, max = 1, step = 0.01,
+					arg = "icon_alpha_sfll",
+					order = 32,
+				},
+			},
+		},
+		VisibilityGroup = {
+			type = "group",
+			order = 10,
+			name = "选择哪些区域要显示什么：",
+			inline = true,
+			args = {
+				groupAW = {
+					type = "header",
+					name = "安托兰废土",
+					desc = "安托兰废土",
+					order = 0,
+				},
+				treasureAW = {
+					type = "toggle",
+					arg = "treasure_aw",
+					name = "财宝",
+					desc = "财宝会提供很多物品",
+					order = 1,
+					width = "normal",
+				},
+				rareAW = {
+					type = "toggle",
+					arg = "rare_aw",
+					name = "稀有",
+					desc = "稀有刷新",
+					order = 2,
+					width = "normal",
+				},
+				petAW = {
+					type = "toggle",
+					arg = "pet_aw",
+					name = "战斗宠物",
+					order = 3,
+					width = "normal",
+				},
+				sfllAW = {
+					type = "toggle",
+					arg = "sfll_aw",
+					name = "打砸抢",
+					order = 4,
+					width = "normal",
+				},
+				groupKR = {
+					type = "header",
+					name = "克罗库恩",
+					desc = "克罗库恩",
+					order = 10,
+				},
+				treasureKR = {
+					type = "toggle",
+					arg = "treasure_kr",
+					name = "财宝",
+					desc = "财宝会提供很多物品",
+					width = "normal",
+					order = 11,
+				},
+				rareKR = {
+					type = "toggle",
+					arg = "rare_kr",
+					name = "稀有",
+					desc = "稀有刷新",
+					width = "normal",
+					order = 12,
+				},
+				petKR = {
+					type = "toggle",
+					arg = "pet_kr",
+					name = "战斗宠物",
+					width = "normal",
+					order = 13,
+				},
+				sfllKR = {
+					type = "toggle",
+					arg = "sfll_kr",
+					name = "打砸抢",
+					order = 14,
+					width = "normal",
+				},
+				groupMA = {
+					type = "header",
+					name = "玛凯雷",
+					desc = "玛凯雷",
+					order = 20,
+				},
+				treasureMA = {
+					type = "toggle",
+					arg = "treasure_ma",
+					name = "财宝",
+					desc = "财宝会提供很多物品",
+					width = "normal",
+					order = 21,
+				},
+				rareMA = {
+					type = "toggle",
+					arg = "rare_ma",
+					name = "稀有",
+					desc = "稀有刷新",
+					width = "normal",
+					order = 22,
+				},
+				petMA = {
+					type = "toggle",
+					arg = "pet_ma",
+					name = "战斗宠物",
+					width = "normal",
+					order = 23,
+				},
+				sfllMA = {
+					type = "toggle",
+					arg = "sfll_ma",
+					name = "打砸抢",
+					order = 24,
+					width = "normal",
+				},
+				groupGeneral = {
+					type = "header",
+					name = "通用",
+					desc = "通用",
+					order = 30,
+				},
+				alwaysshowrares = {
+					type = "toggle",
+					arg = "alwaysshowrares",
+					name = "总是显示已拾取的稀有",
+					desc = "显示每个稀有无论是否已拾取状态",
+					order = 31,
+					width = "full",
+				},
+				alwaysshowtreasures = {
+					type = "toggle",
+					arg = "alwaysshowtreasures",
+					name = "总是显示已拾取的财宝",
+					desc = "显示每个财宝无论是否已拾取状态",
+					order = 32,
+					width = "full",
+				},
+				alwaysshowsfll = {
+					type = "toggle",
+					arg = "alwaysshowsfll",
+					name = "已拾取“打砸抢”宝箱",
+					desc = "显示每个成就宝箱忽略已拾取状态",
+					order = 33,
+					width = "full",
+				},
+			},
+		},
+		TooltipGroup = {
+			type = "group",
+			order = 20,
+			name = "Tooltip",
+			inline = true,
+			args = {
+				show_loot = {
+					type = "toggle",
+					arg = "show_loot",
+					name = "显示掉落",
+					desc = "显示每个财宝/稀有的掉落",
+					order = 102,
+				},
+				show_notes = {
+					type = "toggle",
+					arg = "show_notes",
+					name = "显示注释",
+					desc = "当可用时显示每个财宝/稀有的注释",
+					order = 103,
+				},
+			},
+		},
+	},
 }
 
 function Argus:OnInitialize()
-    local defaults = {
-        profile = {
-            icon_scale_treasures = 1,
-            icon_scale_rares = 1.5,
-            icon_alpha = 0.5,
-            alwaysshowrares = false,
-            alwaysshowtreasures = false,
-            save = true,
-            treasure_aw = true,
-            treasure_kr = true,
-            treasure_ma = true,
-            rare_aw = true,
-            rare_kr = true,
-            rare_ma = true,
+	local defaults = {
+		profile = {
+			icon_scale_treasures = 1,
+			icon_scale_rares = 1.5,
+			icon_scale_pets = 1,
+			icon_scale_sfll = 2,
+			icon_alpha_treasures = 0.5,
+			icon_alpha_rares = 0.75,
+			icon_alpha_pets = 1.0,
+			icon_alpha_sfll = 1.0,
+			alwaysshowrares = false,
+			alwaysshowtreasures = false,
+			alwaysshowsfll = false,
+			save = true,
+			treasure_aw = true,
+			treasure_kr = true,
+			treasure_ma = true,
+			rare_aw = true,
+			rare_kr = true,
+			rare_ma = true,
 			pet_aw = false,
 			pet_kr = false,
 			pet_ma = false,
-            show_loot = true,
-            show_notes = true,
-        },
-    }
+			sfll_aw = true,
+			sfll_kr = true,
+			sfll_ma = true,
+			show_loot = true,
+			show_notes = true,
+		},
+	}
 
-    self.db = LibStub("AceDB-3.0"):New("HandyNotesArgusDB", defaults, "Default")
-    self:RegisterEvent("PLAYER_ENTERING_WORLD", "WorldEnter")
+	self.db = LibStub("AceDB-3.0"):New("HandyNotesArgusDB", defaults, "Default")
+	self:RegisterEvent("PLAYER_ENTERING_WORLD", "WorldEnter")
 end
 
 function Argus:WorldEnter()
-    self:UnregisterEvent("PLAYER_ENTERING_WORLD")
-    self:ScheduleTimer("RegisterWithHandyNotes", 8)
+	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
+	self:ScheduleTimer("RegisterWithHandyNotes", 8)
 	self:ScheduleTimer("LoadCheck", 6)
 end
 
 function Argus:RegisterWithHandyNotes()
-    do
+	do
 		local currentMapFile = "";
-        local function iter(t, prestate)
-            if not t then return nil end
+		local function iter(t, prestate)
+			if not t then return nil end
 
-            local coord, node = next(t, prestate)
+			local coord, node = next(t, prestate)
 
-            while coord do
-                if (node["questId"] and self.db.profile[node["group"]] and not Argus:HasBeenLooted(currentMapFile,coord,node)) then
+			while coord do
+				if (node["questId"] and self.db.profile[node["group"]] and not Argus:HasBeenLooted(currentMapFile,coord,node)) then
 					-- preload items
-                    if ((node["loot"] ~= nil) and (type(node["loot"]) == "table")) then
+					if ((node["loot"] ~= nil) and (type(node["loot"]) == "table")) then
 						local ii
 						for ii = 1, #node["loot"] do
 							GetIcon(node["loot"][ii][1])
 						end
-                    end
+					end
 
-                    return coord, nil, iconDefaults[node["icon"]], Argus.db.profile.icon_scale_rares, Argus.db.profile.icon_alpha
-                end
+					local iconScale = 1;
+					local iconAlpha = 1;
+					if ( (string.find(node["group"], "rare") ~= nil)) then
+						iconScale = Argus.db.profile.icon_scale_rares;
+						iconAlpha = Argus.db.profile.icon_alpha_rares;
+					elseif ( (string.find(node["group"], "treasure") ~= nil)) then
+						iconScale = Argus.db.profile.icon_scale_treasures;
+						iconAlpha = Argus.db.profile.icon_alpha_treasures;
+					elseif ( (string.find(node["group"], "pet") ~= nil)) then
+						iconScale = Argus.db.profile.icon_scale_pets;
+						iconAlpha = Argus.db.profile.icon_alpha_pets;
+					elseif ( (string.find(node["group"], "sfll") ~= nil)) then
+						iconScale = Argus.db.profile.icon_scale_sfll;
+						iconAlpha = Argus.db.profile.icon_alpha_sfll;
+					end
+					return coord, nil, iconDefaults[node["icon"]], iconScale, iconAlpha
+				end
 
-                coord, node = next(t, coord)
-            end
-        end
+				coord, node = next(t, coord)
+			end
+		end
 
-        function Argus:GetNodes(mapFile, isMinimapUpdate, dungeonLevel)
+		function Argus:GetNodes(mapFile, isMinimapUpdate, dungeonLevel)
 			currentMapFile = mapFile;
-            return iter, nodes[mapFile], nil
-        end
-    end
+			return iter, nodes[mapFile], nil
+		end
+	end
 
-    HandyNotes:RegisterPluginDB("HandyNotesArgus", self, options)
-    self:RegisterBucketEvent({ "LOOT_CLOSED" }, 2, "Refresh")
-    self:Refresh()
+	HandyNotes:RegisterPluginDB("HandyNotesArgus", self, options)
+	self:RegisterBucketEvent({ "LOOT_CLOSED" }, 2, "Refresh")
+	self:Refresh()
 end
- 
+
 function Argus:Refresh()
-    self:SendMessage("HandyNotes_NotifyUpdate", "HandyNotesArgus")
+	self:SendMessage("HandyNotes_NotifyUpdate", "HandyNotesArgus")
 end
 
 function Argus:HasBeenLooted(mapFile,coord,node)
-    if (self.db.profile.alwaysshowtreasures and (string.find(node["group"], "treasure") ~= nil)) then return false end
-    if (self.db.profile.alwaysshowrares and (string.find(node["group"], "rare") ~= nil)) then return false end
-    if (node["questId"] and node["questId"] == 0) then return false end
-    if (Argus.db.char[mapFile .. coord .. node["questId"]] and self.db.profile.save) then return true end
-    if (IsQuestFlaggedCompleted(node["questId"])) then
-        return true
-    end
+	if (self.db.profile.alwaysshowtreasures and (string.find(node["group"], "treasure") ~= nil)) then return false end
+	if (self.db.profile.alwaysshowrares and (string.find(node["group"], "rare") ~= nil)) then return false end
+	if (self.db.profile.alwaysshowsfll and (string.find(node["group"], "sfll") ~= nil)) then return false end
+	-- if (node["questId"] and node["questId"] == 0) then return false end
+	if (Argus.db.char[mapFile .. coord .. node["questId"]] and self.db.profile.save) then return true end
+	if (IsQuestFlaggedCompleted(node["questId"])) then
+		return true
+	end
 
-    return false
+	return false
 end
 
 function Argus:LoadCheck()
-	if (IsAddOnLoaded("TomTom")) then 
+	if (IsAddOnLoaded("TomTom")) then
 		isTomTomloaded = true
 	end
 
-	if (IsAddOnLoaded("DBM-Core")) then 
+	if (IsAddOnLoaded("DBM-Core")) then
 		isDBMloaded = true
 	end
 
-	if (IsAddOnLoaded("CanIMogIt")) then 
+	if (IsAddOnLoaded("CanIMogIt")) then
 		isCanIMogItloaded = true
 	end
 
