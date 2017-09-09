@@ -1,6 +1,8 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_ArtifactUI"] = function()
+	local r, g, b = C.r, C.g, C.b
+
 	F.SetBD(ArtifactFrame)
 	F.ReskinTab(ArtifactFrameTab1)
 	F.ReskinTab(ArtifactFrameTab2)
@@ -42,7 +44,7 @@ C.themes["Blizzard_ArtifactUI"] = function()
 
 			slot.Selected:SetDrawLayer("BACKGROUND")
 			slot.Selected:SetTexture(C.media.backdrop)
-			slot.Selected:SetVertexColor(1, 1, 0)
+			slot.Selected:SetVertexColor(r, g, b)
 			slot.Selected:SetPoint("TOPLEFT", -1.2, 1.2)
 			slot.Selected:SetPoint("BOTTOMRIGHT", 1.2, -1.2)
 		end

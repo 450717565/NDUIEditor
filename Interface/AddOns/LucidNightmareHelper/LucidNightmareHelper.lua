@@ -21,6 +21,7 @@ local south = 3
 local west = 4
 local oppositeDir = {3, 4, 1, 2}
 local playerRotation = {0, 270, 180, 90}
+local coord_offset = {{0, -1},{1, 0},{0, 1},{-1, 0}}
 
 local dir_to_region = {"TOP", "RIGHT", "BOTTOM", "LEFT"}
 local dir_to_region_opposite = {"BOTTOM", "LEFT", "TOP", "RIGHT"}
@@ -32,11 +33,33 @@ local buttonsPool = {}
 local linksPool = {}
 local rooms = {}
 local links = {}
-local current_room, last_room, last_dir, mf, scrollframe, container, playerframe, max_room_number
+local current_room, last_room, last_dir, mf, scrollframe, container, playerframe, max_room_number, tracking_disabled, mouse_interaction_active
 
-local function centerCam(x, y)
+local function getMapPosition(cx, cy)
+ return (containerW / 2) + (buttonW + 6) * cx, (containerH / 2) + (buttonH + 6) * cy
+end
+
+local function centerCam(cx, cy)
+ local x, y = getMapPosition(cx, cy)
  scrollframe:SetHorizontalScroll(x - 200 + buttonW / 2)
  scrollframe:SetVerticalScroll(y - 200 + buttonH / 2)
+end
+
+local function roomMouseDown(self)
+ local r
+ for _,v in pairs(rooms) do
+  if self == v.button then
+   r = v
+   break
+  end
+ end
+
+ mf.roomInteractionDialog.selected_room = r
+ mf.roomInteractionDialog.lbl_selected:SetText(format(L["Selected Room: %s"], "|cff00ff00"..r.number.."|r"))
+ mf.roomInteractionDialog.sel_room_marker:SetPoint("CENTER", r.button, "CENTER")
+ mf.roomInteractionDialog.sel_room_marker:Show()
+ mf.roomInteractionDialog.btn_goto.step = 0
+ mf.roomInteractionDialog.btn_goto:SetText(L["Set Player location"])
 end
 
 local function getUnused(t)
@@ -49,6 +72,7 @@ local function getUnused(t)
   return link
  else
   local btn = ng:New(addonName, "Frame", nil, container)
+  btn:SetScript("OnMouseDown", roomMouseDown)
   btn:SetSize(buttonW, buttonH)
   btn.text = btn:CreateFontString()
   btn.text:SetFont("Fonts\\FRIZQT__.TTF", 12, "MONOCHROME")
@@ -61,9 +85,11 @@ end
 local function createElement(t, r, ...)
  local f = getUnused(t)
  if t == "button" then
-  f:SetPoint("TOPLEFT", container, "TOPLEFT", r.x, -r.y)
+  local x, y = getMapPosition(r.cx, r.cy)
+  f:SetPoint("TOPLEFT", container, "TOPLEFT", x, -y)
   f:SetBackdropColor(1, 1, 1, 1)
   f:SetBackdropBorderColor(0, 0, 0, 0) 
+  f:EnableMouse(mouse_interaction_active)
   r.button = f
  else -- link
   local r2, dir = ...
@@ -120,17 +146,19 @@ local function recolorRoom(r)
  end
 end
 
-local function newRoom()
+local function newRoom(cx, cy)
  local r = {}
  r.neighbors = {}
  rooms[#rooms + 1] = r
+ r.cx = cx
+ r.cy = cy
  return r
 end
 
 local function setCurrentRoom(r)
  last_room = current_room
  current_room = r
- centerCam(r.x, r.y)
+ centerCam(r.cx, r.cy)
  playerframe:SetParent(r.button)
  playerframe:SetAllPoints()
  playerframe.tex:SetRotation(math.rad(playerRotation[last_dir or north]))
@@ -153,12 +181,12 @@ local function linkRooms(dir, r1, r2)
  createElement("link", r1, r2, dir)
 end
 
-local function getRoomJumpOffset(r, dx, dy)
- local offsetX, offsetY = dx, dy
+local function getRoomJumpOffset(r, cx, cy)
+  local offsetX, offsetY = cx, cy
  
  local function isFree()
   for _,v in pairs(rooms) do
-   if v.x == r.x + offsetX and v.y == r.y + offsetY then
+   if v.cx == r.cx + offsetX and v.cy == r.cy + offsetY then
     return
    end
   end
@@ -168,8 +196,8 @@ local function getRoomJumpOffset(r, dx, dy)
  
  local free = isFree()
  while not free do
-  offsetX = offsetX + dx
-  offsetY = offsetY + dy
+  offsetX = offsetX + cx
+  offsetY = offsetY + cy
   free = isFree()
  end
 
@@ -177,23 +205,14 @@ local function getRoomJumpOffset(r, dx, dy)
 end
 
 local function addRoom(dir, forceJump)
-
- local dx, dy = 0, 0
- 
- if dir == north then
-  dy = -buttonH - 6
- elseif dir == east then
-  dx = buttonW + 6
- elseif dir == south then
-  dy = buttonH + 6
- elseif dir == west then
-  dx = -buttonW - 6
- end
+ local cx, cy = unpack(coord_offset[dir])
+ local dx = cx * (buttonW + 6)
+ local dy = cy * (buttonH + 6)
 
  if not forceJump then
   local found
   for k,v in pairs(rooms) do
-   if v.x == current_room.x + dx and v.y == current_room.y + dy then
+   if v.cx == current_room.cx + cx and v.cy == current_room.cy + cy then
     found = v
     break
    end
@@ -206,14 +225,13 @@ local function addRoom(dir, forceJump)
   end
  end
 
- local r = newRoom()
- r.x = current_room.x
- r.y = current_room.y
+ local r = newRoom(current_room.cx, current_room.cy)
  
- local offsetX, offsetY = getRoomJumpOffset(r, dx, dy)
- r.x = r.x + offsetX
- r.y = r.y + offsetY
- 
+ local offsetX, offsetY = getRoomJumpOffset(r, cx, cy)
+
+ r.cx = r.cx + offsetX
+ r.cy = r.cy + offsetY
+
  createElement("button", r)
  setRoomNumber(r)
  linkRooms(dir, current_room, r)
@@ -234,11 +252,8 @@ local function ResetMap()
  wipe(rooms)
  wipe(links)
  
- rooms[1] = newRoom()
+ rooms[1] = newRoom(0, 0, containerW / 2, containerH / 2)
  
- rooms[1].x = containerW / 2
- rooms[1].y = containerH / 2
-  
  max_room_number = -1
  createElement("button", rooms[1])
  setRoomNumber(rooms[1])
@@ -246,7 +261,34 @@ local function ResetMap()
  setCurrentRoom(rooms[1])
 end
 
+local function toggleMouseInteraction(flag)
+ for _,v in pairs(rooms) do
+  v.button:EnableMouse(flag)
+ end
+ 
+ if flag then
+  mf.roomInteractionDialog.selected_room = nil
+  mf.roomInteractionDialog.lbl_selected:SetText(format(L["Selected Room: %s"], "|cff00ff00"..NONE.."|r"))
+  mf.roomInteractionDialog.btn_goto.step = 0
+  mf.roomInteractionDialog.sel_room_marker:Hide()
+  mf.roomInteractionDialog.btn_goto:SetText(L["Set Player location"])
+ end
+
+ mf.roomInteractionDialog:SetShown(flag)
+end
+
 local function update()
+ 
+ if IsControlKeyDown() then
+  if not mouse_interaction_active then
+   mouse_interaction_active = true
+   toggleMouseInteraction(true)
+  end
+ elseif mouse_interaction_active then
+  mouse_interaction_active = false
+  toggleMouseInteraction()
+ end
+
  -- camera nav
  if scrollframe.dragging_camera then
   local cur_x, cur_y = GetCursorPosition()
@@ -274,7 +316,7 @@ local default_theme = {
 				   highlight     = "00aaff33",
 	              -- fonts
 				   f_label_name   = "Fonts\\FRIZQT__.ttf",
-				   f_label_h      = 11,
+				   f_label_h      = 12,
 				   f_label_flags  = "",
 				   f_label_color  = "FFFFFFFF",
 				   f_button_name  = "Fonts\\FRIZQT__.ttf",
@@ -291,9 +333,9 @@ local function setPOIClick(self)
 end
 
 local function createJumpDialog()
- mf.jumpDialog = ng:New(addonName, "Frame", nil, UIParent)
+ mf.jumpDialog = ng:New(addonName, "Frame", nil, mf)
  ng:SetFrameMovable(mf.jumpDialog, true)
- mf.jumpDialog:SetPoint("CENTER")
+ mf.jumpDialog:SetPoint("CENTER", UIParent, "CENTER")
  mf.jumpDialog:SetSize(300, 150)
  mf.jumpDialog:SetFrameStrata("DIALOG")
  
@@ -339,6 +381,104 @@ local function createJumpDialog()
  
  mf.jumpDialog:Hide()
 end
+
+local function createRoomInteractionDialog()
+ mf.roomInteractionDialog = ng:New(addonName, "Frame", nil, scrollframe)
+ mf.roomInteractionDialog:SetPoint("TOPLEFT")
+ mf.roomInteractionDialog:SetSize(140, 80)
+ mf.roomInteractionDialog:SetFrameStrata("DIALOG")
+
+ -- top header
+ local f = ng:New(addonName, "Groupbox", nil, mf.roomInteractionDialog)
+ f:SetHeight(20)
+ f:SetPoint("TOPLEFT")
+ f:SetPoint("TOPRIGHT", mf.roomInteractionDialog, "TOPRIGHT")
+ f.text:ClearAllPoints()
+ f.text:SetPoint("CENTER") 
+
+ mf.roomInteractionDialog.lbl_selected = f.text
+ 
+ f = mf.roomInteractionDialog:CreateTexture()
+ f:SetTexture("interface\\minimap\\UI-QuestBlob-MinimapRing")
+ f:SetBlendMode("ADD")
+ f:SetSize(buttonW * 2, buttonH * 2)
+ f:Hide()
+ 
+ mf.roomInteractionDialog.sel_room_marker = f
+ 
+ -- go to button
+ f = ng:New(addonName, "Button", nil, mf.roomInteractionDialog)
+ f:SetPoint("TOP", mf.roomInteractionDialog, "TOP", 0, -25)
+ f:SetText(L["Set Player location"])
+ f:SetSize(120, 20)
+ f.step = 0
+ f:SetScript("OnClick", function(self)
+   if not mf.roomInteractionDialog.selected_room then return end
+   
+   if self.step == 0 then
+    self.step = 1
+    self:SetText(L["Click again to confirm"])
+   else
+    self.step = 0
+    self:SetText(L["Set Player location"])
+    setCurrentRoom(mf.roomInteractionDialog.selected_room)
+   end
+  end)
+ mf.roomInteractionDialog.btn_goto = f
+ 
+  -- clear markers button
+ f = ng:New(addonName, "Button", nil, mf.roomInteractionDialog)
+ f:SetPoint("TOP", mf.roomInteractionDialog, "TOP", 0, -50)
+ f:SetText(L["Clear Markers"])
+ f:SetSize(120, 20)
+ f.step = 0
+ f:SetScript("OnClick", function(self)
+   if not mf.roomInteractionDialog.selected_room then return end
+   
+   mf.roomInteractionDialog.selected_room.button:SetBackdropColor(1, 1, 1, 1) 
+   mf.roomInteractionDialog.selected_room.button:SetBackdropBorderColor(0, 0, 0, 0)
+  end)
+ 
+ mf.roomInteractionDialog:Hide()
+end
+
+
+local function createHelpDialog()
+ mf.helpDialog = ng:New(addonName, "Frame", nil, mf)
+ ng:SetFrameMovable(mf.helpDialog, true)
+ mf.helpDialog:SetPoint("CENTER", UIParent, "CENTER")
+ mf.helpDialog:SetSize(500, 260)
+ mf.helpDialog:SetFrameStrata("DIALOG")
+ 
+ -- top header
+ local f = ng:New(addonName, "Groupbox", nil, mf.helpDialog)
+ f:SetHeight(20)
+ f:SetPoint("TOPLEFT")
+ f:SetPoint("TOPRIGHT", mf.helpDialog, "TOPRIGHT")
+ f.text:ClearAllPoints()
+ f.text:SetPoint("CENTER")
+ f.text:SetText(HELP_LABEL)
+ 
+ f = ng:New(addonName, "Label", nil, mf.helpDialog)
+ f:SetPoint("TOPLEFT", mf.helpDialog, "TOPLEFT", 10, -25)
+ f:SetPoint("BOTTOMRIGHT", mf.helpDialog, "BOTTOMRIGHT", -10, 25)
+ f:SetText(format("\n|cffffff00%s|r\n", L["How does the Endless Halls tool work?"])..
+           format("|cffeeeeff%s|r\n",   L["It tracks player movement through the halls, generating a map that can be used to mark special rooms and retrace your steps into them when necessary."])..
+           format("|cffeeeeff%s|r\n\n", L["There is a shenanigan, however: in every maze there are a few one-directional doors that lead to a random location, they cannot be recognized by either the addon or the player. If you feel you got teleported or you're simply lost, I'd recommend to use the Enabled button to deactivate mapping until you find a familiar room, then reposition the player into that room on the map and re-enable to restart mapping from there."])..
+           format("|cffffff00%s|r\n",   L["How can I reposition the player on the map?"])..
+           format("|cffeeeeff%s|r\n\n", L["Hold the Ctrl key, then click on the desired room to select it (a round circle will appear around the room), then click the 'Set player location' button twice"]))
+ f:SetJustifyH("LEFT")
+ f:SetJustifyV("TOP")
+  
+ f = ng:New(addonName, "Button", nil, mf.helpDialog)
+ f:SetSize(75, 20)
+ f:SetPoint("BOTTOM", mf.helpDialog, "BOTTOM", 0, 5)
+ f:SetScript("OnClick", function() mf.helpDialog:Hide() end)
+ f:SetText(CLOSE)
+ 
+ mf.helpDialog:Hide()
+end
+
 
 local function initialize()
 
@@ -415,7 +555,7 @@ local function initialize()
   GameTooltip:Show()
   end)
  scrollframe.centerButton:SetScript("OnLeave", hideTooltip)
- scrollframe.centerButton:SetScript("OnClick", function() centerCam(current_room.x, current_room.y) end)
+ scrollframe.centerButton:SetScript("OnClick", function() centerCam(current_room.cx, current_room.cy) end)
 
  scrollframe.resetButton = CreateFrame("Button", nil, scrollframe)
  scrollframe.resetButton.tex = scrollframe.resetButton:CreateTexture()
@@ -441,6 +581,7 @@ local function initialize()
  scrollframe.infoButton:SetScript("OnEnter", function(self)
   GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT")
   GameTooltip:ClearLines()
+  GameTooltip:AddLine(INFO)
   GameTooltip:AddLine(L["You can navigate the map by Right-Click Dragging it"])
   GameTooltip:Show()
   end)
@@ -502,6 +643,32 @@ local function initialize()
    mf:SetAlpha(value / 100)
   end)
  
+ f = ng:New(addonName, "Checkbutton", nil, mf)
+ f:SetSize(75, 20)
+ f:SetPoint("BOTTOMLEFT", scrollframe, "TOPLEFT", 5, 5)
+ f.checked_color    = checked_color or "05ff0Dff" 
+ f.unchecked_color  = unchecked_color or "ff050Dff"
+ f:SetChecked(true)
+ f:SetText(L["Enabled"])
+ f:SetScript("OnClick", function(self)
+   self:SetChecked(tracking_disabled)
+   tracking_disabled = not tracking_disabled
+   self:SetText(tracking_disabled and L["Disabled"] or L["Enabled"])
+  end)
+ f:SetScript("OnEnter", function(self)
+   GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT")
+   GameTooltip:ClearLines()
+   GameTooltip:AddLine(L["This button pauses/unpauses the map generation"])
+   GameTooltip:Show()
+  end)
+ f:SetScript("OnLeave", hideTooltip)
+ 
+ f = ng:New(addonName, "Button", nil, mf)
+ f:SetSize(50, 20)
+ f:SetPoint("TOPRIGHT", mf, "TOPRIGHT", -25, 0)
+ f:SetScript("OnClick", function() mf.helpDialog:Show() end)
+ f:SetText(HELP_LABEL)
+  
  f = ng:New(addonName, "Button", nil, mf)
  f:SetSize(75, 20)
  f:SetPoint("BOTTOM", mf, "BOTTOM", 0, 10)
@@ -515,33 +682,45 @@ local function initialize()
  f:SetText("X")
  
  createJumpDialog()
+ createRoomInteractionDialog()
+ createHelpDialog()
  
  ResetMap()
  
  mf:SetScript("OnUpdate", update)
  mf:SetScript("OnEvent", function(self, event, ...) self[event](...) end)
  
+ local delay = 0
  function mf.UNIT_SPELLCAST_SUCCEEDED(...)
-  if not mf:IsShown() then return end
+  if not mf:IsShown() or tracking_disabled then return end
  
-   local dir = select(5, ...)
-   local result
+ 
+   -- trying to fix the double room generation issue
+   -- I still cannot reproduce it with my character/client
+   -- guessing the event is fired twice for some reason
+ 
+   local spellID = select(5, ...)
+   local dir
    
-   if dir == 247350 then
-    result = north
-   elseif dir == 247352 then
-    result = east
-   elseif dir == 247351 then
-    result = south
-   elseif dir == 247353 then
-    result = west
+   if spellID == 247350 then
+    dir = north
+   elseif spellID == 247352 then
+    dir = east
+   elseif spellID == 247351 then
+    dir = south
+   elseif spellID == 247353 then
+    dir = west
    else
     return
    end
+
+   local now = GetTime()
+   if now - delay < 0.3 then return end
    
    mf.jumpDialog:Hide() 
-   last_dir = result
-   setCurrentRoom(current_room.neighbors[result] or addRoom(result))
+   last_dir = dir
+   setCurrentRoom(current_room.neighbors[dir] or addRoom(dir))
+   delay = now
  end
 
  mf:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")

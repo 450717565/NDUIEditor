@@ -320,7 +320,7 @@ C.themes["Blizzard_OrderHallUI"] = function()
 
 				if bu and bu.talent then
 					if bu.talent.selected then
-						bu.bg:SetBackdropBorderColor(1, 1, 0)
+						bu.bg:SetBackdropBorderColor(r, g, b)
 					else
 						bu.bg:SetBackdropBorderColor(0, 0, 0)
 					end

@@ -1239,6 +1239,7 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 		GhostBD:SetPoint("TOPLEFT", GhostFrameContentsFrameIcon, -1, 1)
 		GhostBD:SetPoint("BOTTOMRIGHT", GhostFrameContentsFrameIcon, 1, -1)
 		F.CreateBD(GhostBD, 0)
+		F.CreateSD(GhostBD)
 
 		-- Currency frame
 

@@ -77,7 +77,9 @@ function module:RareAlert()
 			UIErrorsFrame:AddMessage(DB.InfoColor..L["Rare Found"]..tex..(name or ""))
 			if NDuiDB["Misc"]["AlertinChat"] then
 				B.AlertRun(name)
-				SendChatMessage(">>> "..name.." <<<", "SAY")
+				if not UnitIsDeadOrGhost("player") then
+					SendChatMessage(">>> "..name.." <<<", "SAY")
+				end
 			end
 			PlaySoundFile("Sound\\Interface\\PVPFlagTakenMono.ogg", "master")
 			cache[id] = true

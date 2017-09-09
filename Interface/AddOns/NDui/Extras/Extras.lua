@@ -68,7 +68,7 @@ end)
 local CombatAlert = NDui:EventFrame({"PLAYER_REGEN_ENABLED", "PLAYER_REGEN_DISABLED"})
 CombatAlert:SetScript("OnEvent", function(self, event)
 	if not NDuiDB["Extras"]["CombatAlert"] then return end
-	if UnitIsDead("player") then return end
+	if UnitIsDeadOrGhost("player") then return end
 	if event == "PLAYER_REGEN_ENABLED" then
 		B.AlertRun(LEAVING_COMBAT.."！", 0.1, 1, 0.1)
 	elseif event == "PLAYER_REGEN_DISABLED" then

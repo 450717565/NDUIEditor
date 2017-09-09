@@ -258,6 +258,12 @@ C.AuraWatchList = {
 				{AuraID = 202052, UnitID = "player", Value = true},
 				{AuraID = 201414, UnitID = "player", Value = true},
 			-->杂项
+				--光铸战争机甲
+				{AuraID = 250437, UnitID = "player"},
+				--奥术回响遮罩
+				{AuraID = 248779, UnitID = "player"},
+				--超能奥术回响遮罩
+				{AuraID = 254161, UnitID = "player"},
 				--火箭靴
 				{AuraID =  54861, UnitID = "player"},
 				--隐形
