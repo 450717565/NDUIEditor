@@ -258,8 +258,6 @@ C.AuraWatchList = {
 				{AuraID = 202052, UnitID = "player", Value = true},
 				{AuraID = 201414, UnitID = "player", Value = true},
 			-->杂项
-				--光铸战争机甲
-				{AuraID = 250437, UnitID = "player"},
 				--奥术回响遮罩
 				{AuraID = 248779, UnitID = "player"},
 				--超能奥术回响遮罩
@@ -718,7 +716,7 @@ C.AuraWatchList = {
 				{AuraID = 235240, UnitID = "player", Text = L["AW Fel"]},
 				--动荡的灵魂
 				{AuraID = 243276, UnitID = "player", Text = "准备跳坑"},
-				{AuraID = 235138, UnitID = "player", Text = "准备跳坑"},
+				{AuraID = 235117, UnitID = "player", Text = "准备跳坑"},
 				--恶魔活力
 				{AuraID = 235538, UnitID = "player"},
 				--造物者之赐

@@ -188,7 +188,7 @@ B.CreateIF = function(f, HL)
 	if HL then
 		f:EnableMouse(true)
 		f.HL = f:CreateTexture(nil, "HIGHLIGHT")
-		f.HL:SetColorTexture(1, 1, 1, .3)
+		f.HL:SetColorTexture(cr, cg, cb, .3)
 		f.HL:SetAllPoints(f.Icon)
 	end
 end
