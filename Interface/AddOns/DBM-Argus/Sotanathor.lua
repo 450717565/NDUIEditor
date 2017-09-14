@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2014, "DBM-Argus", nil, 959)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16670 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16712 $"):sub(12, -3))
 mod:SetCreatureID(124555)
 --mod:SetEncounterID(1952)--Does not have one
 --mod:SetReCombatTime(20)
@@ -39,6 +39,8 @@ local voiceSoulCleave			= mod:NewVoice(247410, "Melee")--179406 (soul cleave)
 local voiceClovenSoul			= mod:NewVoice(247444)--tauntboss
 local voiceWakeofDestruction	= mod:NewVoice(247432)--watchwave
 local voiceSeedsofDestruction	= mod:NewVoice(247437)--Runout
+
+--mod:AddReadyCheckOption(49197, false)
 
 local function warnWake(self)
 	if self:AntiSpam(3, 1) then

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2013, "DBM-Argus", nil, 959)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16670 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16712 $"):sub(12, -3))
 mod:SetCreatureID(124492)
 --mod:SetEncounterID(1952)--Does not have one
 --mod:SetReCombatTime(20)
@@ -37,6 +37,8 @@ local voiceGushingWound					= mod:NewVoice(247318)--tauntboss/stackhigh
 local voiceSearingGaze					= mod:NewVoice(247320, "HasInterrupt")--kickcast
 local voicePhantasm						= mod:NewVoice(247393)--watchorb
 local voiceEyeSore						= mod:NewVoice(247330, "Healer")--healall
+
+--mod:AddReadyCheckOption(49195, false)
 
 function mod:OnCombatStart(delay, yellTriggered)
 	if yellTriggered then

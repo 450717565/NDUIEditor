@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2015, "DBM-Argus", nil, 959)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16670 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16712 $"):sub(12, -3))
 mod:SetCreatureID(124719)
 --mod:SetEncounterID(1952)--Does not have one
 --mod:SetReCombatTime(20)
@@ -35,6 +35,7 @@ local voiceDrain				= mod:NewVoice(247361)--tauntboss/runout/stackhigh
 local voiceStomp				= mod:NewVoice(247733)--carefly
 --local voiceGTFO				= mod:NewVoice(238028, nil, DBM_CORE_AUTO_VOICE4_OPTION_TEXT)--runaway
 
+--mod:AddReadyCheckOption(49196, false)
 mod:AddRangeFrameOption(8, 247739)--Mainly to ensure tanks are far enough from eachother. any dumb melee don't matter.
 
 local tankFilter

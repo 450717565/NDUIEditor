@@ -1,4 +1,5 @@
 local B, C, L, DB = unpack(select(2, ...))
+local cr, cg, cb = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b
 
 -- Default Settings
 local defaultSettings = {
@@ -651,7 +652,7 @@ local function CreateOption(i)
 		else
 			local l = CreateFrame("Frame", nil, parent)
 			l:SetPoint("TOPLEFT", 25, -offset - 12)
-			B.CreateGF(l, 550, .5, "Horizontal", .7, .7, .7, .7, 0)
+			B.CreateGF(l, 550, .5, "Horizontal", cr, cg, cb, .7, 0)
 			offset = offset + 35
 		end
 	end

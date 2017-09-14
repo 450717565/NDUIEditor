@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2011, "DBM-Argus", nil, 959)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16705 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16712 $"):sub(12, -3))
 mod:SetCreatureID(124625)
 mod:SetEncounterID(2083)
 --mod:SetReCombatTime(20)
@@ -33,6 +33,8 @@ local countdownBeguilingCharm		= mod:NewCountdown(34.8, 247549)
 
 local voiceBeguilingCharm			= mod:NewVoice(247549)--turnaway
 local voiceSadist					= mod:NewVoice(247544)--changemt
+
+--mod:AddReadyCheckOption(48620, false)
 
 function mod:OnCombatStart(delay, yellTriggered)
 	if yellTriggered then

@@ -1,4 +1,5 @@
 local B, C, L, DB = unpack(select(2, ...))
+local cr, cg, cb = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b
 -------------------------------------
 -- Pet Quick Filter, by Windrunner
 -- NDui MOD
@@ -24,7 +25,7 @@ local function loadPetFilter()
 			end
 
 			if btn.isActive then
-				btn.Shadow:SetBackdropBorderColor(1, 1, 0)
+				btn.Shadow:SetBackdropBorderColor(cr, cg, cb)
 				activeCount = activeCount + 1
 			else
 				btn.Shadow:SetBackdropBorderColor(0, 0, 0)
@@ -63,7 +64,7 @@ local function loadPetFilter()
 		B.CreateSD(btn, 1, 3)
 		if C_PetJournal.IsPetTypeChecked(petType) then
 			btn.isActive = true
-			btn.Shadow:SetBackdropBorderColor(1, 1, 0)
+			btn.Shadow:SetBackdropBorderColor(cr, cg, cb)
 			activeCount = activeCount + 1
 		else
 			btn.isActive = false

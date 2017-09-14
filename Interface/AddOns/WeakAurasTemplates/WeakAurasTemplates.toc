@@ -1,7 +1,7 @@
 ## Interface: 70300
 ## Title: WeakAuras Templates
 ## Author: Infus
-## Version: 2.4.21
+## Version: 2.4.22
 ## Notes: Templates for WeakAuras
 ## X-Category: Interface Enhancements
 ## Globe-Main: WeakAuras

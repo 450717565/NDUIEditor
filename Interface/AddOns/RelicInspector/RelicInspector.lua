@@ -21,6 +21,8 @@ local ArtifactBySpec = invertTable(addon.Artifacts)
 
 local DEBUG = 0
 local MAX_LINE_LENGTH = 80
+local TRAIT_DESC_COLOR = "|cffff78ff"
+local RELIC_SPEC_DESC_COLOR = "|cffffd200"
 
 -- 7.2 Hack for lack of item links
 local t_threshold = 1.0
@@ -554,7 +556,8 @@ local function DecorateArtifact(self)
 										if nil ~= traitDesc then
 											traitDesc = string.gsub(traitDesc,string.char(10),"")
 											traitDesc = string.gsub(traitDesc,string.char(13),string.char(13).."  ")
-											self:AddLine(format('|cffff78ff  %s|r', traitDesc), 1, 1, 1, (string.len(traitDesc) > MAX_LINE_LENGTH))
+											traitDesc = string.gsub(traitDesc,"|r","|r"..TRAIT_DESC_COLOR)
+											self:AddLine(format('%s  %s|r', TRAIT_DESC_COLOR, traitDesc), 1, 1, 1, (string.len(traitDesc) > MAX_LINE_LENGTH))
 										end
 									end
 								end
@@ -634,7 +637,8 @@ local function DecorateRelic(self)
 						if nil ~= traitDesc then
 							traitDesc = string.gsub(traitDesc,string.char(10),"")
 							traitDesc = string.gsub(traitDesc,string.char(13),"")
-							self:AddLine(format('|cffff78ff  %s|r', traitDesc), 1, 1, 1, true)
+							traitDesc = string.gsub(traitDesc,"|r","|r"..TRAIT_DESC_COLOR)
+							self:AddLine(format('%s  %s|r', TRAIT_DESC_COLOR, traitDesc), 1, 1, 1, true)
 						end
 					end
 				end
@@ -687,7 +691,8 @@ local function DecorateRelic(self)
 						if nil ~= traitDesc then
 							traitDesc = string.gsub(traitDesc,string.char(10),"")
 							traitDesc = string.gsub(traitDesc,string.char(13),"")
-							self:AddLine(format('|cffffd200  %s|r', traitDesc), 1, 1, 1, (string.len(traitDesc) > MAX_LINE_LENGTH))
+							traitDesc = string.gsub(traitDesc,"|r","|r"..RELIC_SPEC_DESC_COLOR)
+							self:AddLine(format('%s  %s|r', RELIC_SPEC_DESC_COLOR, traitDesc), 1, 1, 1, (string.len(traitDesc) > MAX_LINE_LENGTH))
 						end
 					end
 				end

@@ -2643,6 +2643,8 @@ C.AuraWatchList = {
 				--枯萎之握
 				{AuraID = 143375, UnitID = "target", Caster = "player"},
 			-->冰霜
+				--冷酷之心
+				{AuraID = 248406, UnitID = "target", Caster = "player"},
 				--冰霜吐息
 				{AuraID = 190780, UnitID = "target", Caster = "player"},
 				--冰霜疫病
@@ -3213,7 +3215,6 @@ C.AuraWatchList = {
 				--混乱之刃
 				{AuraID = 211048, UnitID = "player"},
 				--刃舞
-				{AuraID = 188499, UnitID = "player"},
 				{AuraID = 210152, UnitID = "player"},
 				--幻影打击
 				{AuraID = 209426, UnitID = "player"},

@@ -1,4 +1,5 @@
 local B, C, L, DB = unpack(select(2, ...))
+local cr, cg, cb = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b
 if DB.Client ~= "zhCN" then return end
 
 local hx = {
@@ -33,11 +34,11 @@ local function changelog()
 	B.CreateFS(f, 16, L["Changelog"], true, "TOP", 0, -10)
 	local ll = CreateFrame("Frame", nil, f)
 	ll:SetPoint("TOP", -51, -35)
-	B.CreateGF(ll, 100, 1, "Horizontal", 0, 0, 0, 0, .7)
+	B.CreateGF(ll, 100, 1, "Horizontal", cr, cg, cb, 0, .7)
 	ll:SetFrameStrata("HIGH")
 	local lr = CreateFrame("Frame", nil, f)
 	lr:SetPoint("TOP", 51, -35)
-	B.CreateGF(lr, 100, 1, "Horizontal", 0, 0, 0, .7, 0)
+	B.CreateGF(lr, 100, 1, "Horizontal", cr, cg, cb, .7, 0)
 	lr:SetFrameStrata("HIGH")
 	local offset = 0
 	for n, t in pairs(hx) do

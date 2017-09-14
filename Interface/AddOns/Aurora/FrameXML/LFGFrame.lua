@@ -118,6 +118,7 @@ tinsert(C.themes["Aurora"], function()
 			local border = _G[button:GetName().."Border"]
 
 			button.texture:SetTexCoord(.08, .92, .08, .92)
+			F.CreateBDFrame(button.texture)
 
 			border:SetColorTexture(0, 0, 0)
 			border:SetDrawLayer("BACKGROUND")
@@ -135,6 +136,7 @@ tinsert(C.themes["Aurora"], function()
 			local border = _G[button:GetName().."Border"]
 
 			button.texture:SetTexCoord(.08, .92, .08, .92)
+			F.CreateBDFrame(button.texture)
 
 			border:SetColorTexture(0, 0, 0)
 			border:SetDrawLayer("BACKGROUND")

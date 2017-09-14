@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2012, "DBM-Argus", nil, 959)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16670 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16712 $"):sub(12, -3))
 mod:SetCreatureID(124592)
 --mod:SetEncounterID(1952)--Does not have one
 --mod:SetReCombatTime(20)
@@ -36,6 +36,8 @@ local voiceReap					= mod:NewVoice(247492)--shockwave
 local voiceSow					= mod:NewVoice(247495)--tauntboss/stackhigh
 local voiceSeedsofChaos			= mod:NewVoice(247585, "-Tank")--169613 (run over the flower)?
 local voiceDeathField			= mod:NewVoice(247632)--shockwave (will this confuse tanks?)
+
+--mod:AddReadyCheckOption(49198, false)
 
 function mod:OnCombatStart(delay, yellTriggered)
 	if yellTriggered then
