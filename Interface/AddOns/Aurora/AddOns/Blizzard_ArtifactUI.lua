@@ -49,12 +49,16 @@ C.themes["Blizzard_ArtifactUI"] = function()
 			slot.Selected:SetPoint("BOTTOMRIGHT", 1.2, -1.2)
 		end
 	end
-	
+
 	F.CreateBD(ArtifactRelicForgeFrame)
 	F.CreateSD(ArtifactRelicForgeFrame)
 	F.ReskinClose(ArtifactRelicForgeFrameCloseButton)
-	
+
 	for i = 1, 28 do
 		select(i, ArtifactRelicForgeFrame:GetRegions()):Hide()
+	end
+
+	if ArtifactRelicForgeFrame.PreviewRelicCover then
+		ArtifactRelicForgeFrame.PreviewRelicCover:GetRegions():Hide()
 	end
 end
