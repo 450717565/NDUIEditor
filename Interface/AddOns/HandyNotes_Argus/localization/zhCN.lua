@@ -24,16 +24,16 @@ _L["Watcher Aival"] = "监视者艾瓦";
 _L["Watcher Aival_search"] = { "监视者艾瓦", "艾瓦" };
 _L["Watcher Aival_note"] = "";
 _L["Puscilla"] = "普希拉";
-_L["Puscilla_search"] = { "普希拉", "普希拉" };
+_L["Puscilla_search"] = { "普希拉" };
 _L["Puscilla_note"] = "洞穴入口在东南方 - 从东面的桥到达那里。";
 _L["Vrax'thul"] = "弗拉克苏尔";
-_L["Vrax'thul_search"] = { "弗拉克苏尔", "弗拉克苏尔" };
+_L["Vrax'thul_search"] = { "弗拉克苏尔" };
 _L["Vrax'thul_note"] = "";
 _L["Ven'orn"] = "维农";
-_L["Ven'orn_search"] = { "维农", "维农" };
+_L["Ven'orn_search"] = { "维农" };
 _L["Ven'orn_note"] = "洞穴入口在东北方，从蜘蛛区域 66, 54.1";
 _L["Varga"] = "瓦加";
-_L["Varga_search"] = { "瓦加", "瓦加" };
+_L["Varga_search"] = { "瓦加" };
 _L["Varga_note"] = "";
 _L["Lieutenant Xakaar"] = "萨卡尔中尉";
 _L["Lieutenant Xakaar_search"] = { "萨卡尔中尉", "中尉" };
@@ -85,13 +85,13 @@ _L["Rezira the Seer"] = "先知雷兹拉";
 _L["Rezira the Seer_search"] = { "先知雷兹拉", "先知" };
 _L["Rezira the Seer_note"] = "使用观察者之地共鸣器打开传送门。收集500个恶魔之眼把它交给位于 60.2, 45.4 的全视者奥利克斯换取。";
 _L["Blistermaw"] = "疱喉";
-_L["Blistermaw_search"] = { "疱喉", "疱喉" };
+_L["Blistermaw_search"] = { "疱喉" };
 _L["Blistermaw_note"] = "";
 _L["Mistress Il'thendra"] = "妖女伊森黛拉";
 _L["Mistress Il'thendra_search"] = { "妖女伊森黛拉", "伊森黛拉" };
 _L["Mistress Il'thendra_note"] = "";
 _L["Gar'zoth"] = "加尔佐斯";
-_L["Gar'zoth_search"] = { "加尔佐斯", "加尔佐斯" };
+_L["Gar'zoth_search"] = { "加尔佐斯" };
 _L["Gar'zoth_note"] = "";
 
 _L["One-of-Many"] = "小乌祖";
@@ -131,6 +131,7 @@ _L["48382_58066806_note"] = "";
 _L["48382_68026624_note"] = "军团建筑物内";
 _L["48382_64506868_note"] = "外面";
 _L["48382_62666823_note"] = "建筑物内";
+_L["48382_60096945_note"] = "外面，建筑物后面";
 -- 48383
 _L["48383_56903570_note"] = "";
 _L["48383_57633179_note"] = "";
@@ -142,6 +143,7 @@ _L["48383_58413097_note"] = "建筑物内，第一层";
 _L["48383_53753556_note"] = "";
 _L["48383_51703529_note"] = "悬崖的高处";
 _L["48383_59853583_note"] = "";
+_L["48383_58273570_note"] = "建筑物内，入口在妖女伊森黛拉平台"
 -- 48384
 _L["48384_60872900_note"] = "";
 _L["48384_61332054_note"] = "首席炼金师蒙库鲁斯建筑物内";
@@ -165,6 +167,7 @@ _L["48387_65522831_note"] = "桥下";
 _L["48387_63613643_note"] = "";
 _L["48387_73404669_note"] = "跳过软泥";
 _L["48387_67954006_note"] = "";
+_L["48387_63603642_note"] = "";
 -- 48388
 _L["48388_51502610_note"] = "";
 _L["48388_59261743_note"] = "";
@@ -181,6 +184,7 @@ _L["48389_60304675_note"] = "";
 _L["48389_65345192_note"] = "瓦加后面的洞穴内";
 _L["48389_64114242_note"] = "岩石下";
 _L["48389_58734323_note"] = "软泥之中的小空地上";
+_L["48389_62955007_note"] = "在绿软边上";
 -- 48390
 _L["48390_81306860_note"] = "在船上";
 _L["48390_80406152_note"] = "";
@@ -192,6 +196,7 @@ _L["48390_77255876_note"] = "斜坡";
 _L["48390_72215680_note"] = "建筑物内";
 _L["48390_73277299_note"] = "雷尔瓦将军后面";
 _L["48390_77975620_note"] = "下斜坡到更远的悬崖上"
+_L["48390_77246412_note"] = "返回时小心，别跳崖！";
 -- 48391
 _L["48391_64135867_note"] = "在维农的巢穴内";
 _L["48391_67404790_note"] = "蜘蛛区域，在北面出口旁的小洞穴内";
@@ -203,10 +208,11 @@ _L["48391_68095075_note"] = "蜘蛛区域小洞穴内";
 _L["48391_69815522_note"] = "蜘蛛区域外a";
 _L["48391_71205441_note"] = "蜘蛛区域外";
 _L["48391_66544668_note"] = "出了蜘蛛区域北面有绿软泥区域。跳上岩石。";
+_L["48391_65164951_note"] = "蜘蛛区域小洞穴内"
 
 -- Krokuun
 _L["Khazaduum"] = "卡扎杜姆";
-_L["Khazaduum_search"] = { "卡扎杜姆", "卡扎杜姆" };
+_L["Khazaduum_search"] = { "卡扎杜姆" };
 _L["Khazaduum_note"] = "入口在东南位于 50.3, 17.3";
 _L["Commander Sathrenael"] = "指挥官萨森纳尔";
 _L["Commander Sathrenael_search"] = { "指挥官萨森纳尔", "萨森纳尔" };
@@ -239,7 +245,7 @@ _L["Imp Mother Laglath"] = "鬼母拉格拉丝";
 _L["Imp Mother Laglath_search"] = { "鬼母拉格拉丝", "鬼母" };
 _L["Imp Mother Laglath_note"] = "";
 _L["Naroua"] = "纳罗瓦";
-_L["Naroua_search"] = { "纳罗瓦", "纳罗瓦" };
+_L["Naroua_search"] = { "纳罗瓦" };
 _L["Naroua_note"] = "";
 
 _L["Baneglow"] = "梦魇之焰";
@@ -308,6 +314,7 @@ _L["47999_65992286_note"] = "";
 _L["47999_64632319_note"] = "建筑物内";
 _L["47999_51533583_note"] = "建筑物外，越过小软泥湖";
 _L["47999_60422354_note"] = "";
+_L["47999_62763812_note"] = "建筑物内";
 -- 48000
 _L["48000_70907370_note"] = "";
 _L["48000_74136790_note"] = "";
@@ -378,16 +385,16 @@ _L["Captain Faruq"] = "法鲁克队长";
 _L["Captain Faruq_search"] = { "法鲁克队长", "法鲁克" };
 _L["Captain Faruq_note"] = "";
 _L["Umbraliss"] = "乌伯拉利斯";
-_L["Umbraliss_search"] = { "乌伯拉利斯", "乌伯拉利斯" };
+_L["Umbraliss_search"] = { "乌伯拉利斯" };
 _L["Umbraliss_note"] = "";
 _L["Sorolis the Ill-Fated"] = "厄运者索洛里斯";
 _L["Sorolis the Ill-Fated_search"] = { "厄运者索洛里斯", "厄运者" };
 _L["Sorolis the Ill-Fated_note"] = "";
 _L["Herald of Chaos"] = "混沌先驱";
-_L["Herald of Chaos_search"] = { "混沌先驱", "混沌先驱" };
+_L["Herald of Chaos_search"] = { "混沌先驱" };
 _L["Herald of Chaos_note"] = "位于第二层。";
 _L["Sabuul"] = "沙布尔";
-_L["Sabuul_search"] = { "沙布尔", "沙布尔" };
+_L["Sabuul_search"] = { "沙布尔" };
 _L["Sabuul_note"] = "";
 _L["Jed'hin Champion Vorusk"] = "杰德尼勇士沃鲁斯克";
 _L["Jed'hin Champion Vorusk_search"] = { "杰德尼勇士沃鲁斯克", "杰德尼勇士" };
@@ -417,7 +424,7 @@ _L["Baruut the Bloodthirsty"] = "嗜血的巴鲁特";
 _L["Baruut the Bloodthirsty_search"] = { "嗜血的巴鲁特", "巴鲁特" };
 _L["Baruut the Bloodthirsty_note"] = "";
 _L["Ataxon"] = "阿塔克松";
-_L["Ataxon_search"] = { "阿塔克松", "阿塔克松" };
+_L["Ataxon_search"] = { "阿塔克松" };
 _L["Ataxon_note"] = "";
 _L["Slithon the Last"] = "最后的希里索恩";
 _L["Slithon the Last_search"] = { "最后的希里索恩", "希里索恩" };
@@ -435,6 +442,9 @@ _L["Corrupted Blood of Argus"] = "阿古斯的腐化之血";
 _L["Corrupted Blood of Argus_note"] = "";
 _L["Shadeflicker"] = "曳影兽";
 _L["Shadeflicker_note"] = "";
+
+_L["Nabiru"] = "纳毕鲁"
+_L["Nabiru_note"] = "他在洞穴里。上缴900资源换取职业大厅追随者。";
 
 -- Shoot First, Loot Later
 _L["Eredar Treasure Cache"] = "艾瑞达宝箱";
@@ -467,6 +477,7 @@ _L["48346_57486159_note"] = "牧羊人卡沃斯旁边的建筑物内" ;
 _L["48346_50836729_note"] = "";
 _L["48346_52868241_note"] = "";
 _L["48346_47186234_note"] = "";
+_L["48346_50107580_note"] = "";
 -- 48350
 _L["48350_59622088_note"] = "建筑物内楼梯下";
 _L["48350_60493338_note"] = "建筑物内";
@@ -474,6 +485,9 @@ _L["48350_53912335_note"] = "建筑物内";
 _L["48350_55063508_note"] = "";
 _L["48350_62202636_note"] = "阳台上。进入建筑物后上楼梯右边。";
 _L["48350_53332740_note"] = "树下";
+_L["48350_58574078_note"] = "";
+_L["48350_63262000_note"] = "建筑物内";
+_L["48350_54952484_note"] = "";
 -- 48351
 _L["48351_43637134_note"] = "";
 _L["48351_34205929_note"] = "在第二层，混沌先驱旁边。";
@@ -482,6 +496,7 @@ _L["48351_46917346_note"] = "藏在树下";
 _L["48351_36296646_note"] = "";
 _L["48351_42645361_note"] = "洞穴内。入口在西南。";
 _L["48351_38126342_note"] = "清醒者图瑞克地下室内";
+_L["48351_42395752_note"] = "建筑物内";
 -- 48357
 _L["48357_49412387_note"] = "";
 _L["48357_47672180_note"] = "";
@@ -489,6 +504,9 @@ _L["48357_48482115_note"] = "";
 _L["48357_57881053_note"] = "";
 _L["48357_52871676_note"] = "楼梯上";
 _L["48357_47841956_note"] = "";
+_L["48357_51802871_note"] = "在北边楼梯上面区域";
+_L["48357_49912946_note"] = "";
+_L["48357_54951750_note"] = "";
 -- 48371
 _L["48371_48604971_note"] = "";
 _L["48371_49865494_note"] = "";
@@ -496,6 +514,8 @@ _L["48371_47023655_note"] = "楼梯上";
 _L["48371_49623585_note"] = "楼梯上";
 _L["48371_51094790_note"] = "树下";
 _L["48371_35535718_note"] = "第二层，混沌先驱旁边";
+_L["48371_25383016_note"] = "";
+_L["48371_53594211_note"] = "";
 -- 48362
 _L["48362_66682786_note"] = "建筑物内，万千之主祖尔坦旁边";
 _L["48362_62134077_note"] = "建筑物内";
@@ -504,6 +524,7 @@ _L["48362_68355322_note"] = "建筑物内";
 _L["48362_65966017_note"] = "";
 _L["48362_62053268_note"] = "地面上层";
 _L["48362_60964354_note"] = "建筑物内";
+_L["48362_64445956_note"] = "建筑物内";
 -- Void-Seeped Cache / Treasure Chest
 -- 49264
 _L["49264_38143985_note"] = "";
@@ -511,6 +532,9 @@ _L["49264_37613608_note"] = "";
 _L["49264_37812344_note"] = "";
 _L["49264_33972078_note"] = "";
 _L["49264_33312952_note"] = "";
+_L["49264_37102005_note"] = "";
+_L["49264_33592361_note"] = "藏在树下"
+_L["49264_31582553_note"] = "";
 -- 48361
 _L["48361_37664221_note"] = "洞里柱子后面";
 _L["48361_25824471_note"] = "";
@@ -518,6 +542,8 @@ _L["48361_20674033_note"] = "";
 _L["48361_29503999_note"] = "";
 _L["48361_29455043_note"] = "树下";
 _L["48361_18794171_note"] = "外面，建筑物后面";
+_L["48361_25293498_note"] = "";
+_L["48361_35283586_note"] = "乌伯拉利斯后面"
 
 --
 --	KEEP THESE ENGLISH FOR THE GROUP BROWSER IN EU/US!! CHINA & CO ADJUST
@@ -562,8 +588,8 @@ _L["1h Mace"] = "单手锤";
 _L["1h Sword"] = "单手剑";
 _L["1h Axe"] = "单手斧";
 _L["2h Mace"] = "双手锤";
-_L["2h Sword"] = "双手剑";
 _L["2h Axe"] = "双手斧";
+_L["2h Sword"] = "双手剑";
 _L["Dagger"] = "匕首";
 _L["Staff"] = "法杖";
 _L["Fist"] = "拳套";
@@ -574,9 +600,8 @@ _L["Crossbow"] = "弩";
 
 _L["groupBrowserOptionOne"] = "%s - %s 人(%d秒)";
 _L["groupBrowserOptionMore"] = "%s - %s 人(%d秒)";
-_L["chatmsg_old_group_delisted"] = "|cFFf7c92a旧队伍已移除。再次点击搜索队伍：%s。"
 _L["chatmsg_no_group_priv"] = "|cFFFF0000权限不足。你不是队长。";
-_L["chatmsg_group_created"] = "创建队伍：%s。";
+_L["chatmsg_group_created"] = "|cFF6CF70F已创建队伍：%s。";
 _L["chatmsg_search_failed"] = "|cFFFF0000太多查询请求，请稍后尝试。";
 _L["hour_short"] = "时";
 _L["minute_short"] = "分";
@@ -647,5 +672,14 @@ _L["options_toggle_show_loot"] = "显示拾取";
 _L["options_toggle_show_loot_desc"] = "在提示上添加拾取信息";
 _L["options_toggle_show_notes"] = "显示注释";
 _L["options_toggle_show_notes_desc"] = "当可用时在提示上添加有帮助的注释";
+
+_L["options_general_settings"] = "通用";
+_L["options_general_settings_desc"] = "通用设置";
+_L["options_toggle_leave_group_on_search"] = "离开队伍";
+_L["options_toggle_leave_group_on_search_desc"] = "退出队伍并尝试查找队伍。小心使用！";
+_L["chatmsg_old_group_delisted_create"] = "|cFFF7C92A旧队伍已从列表移除。再次点击创建一个新的队伍：%s。"
+_L["chatmsg_left_group_create"] = "|cFFF7C92A离开队伍。再次点击创建一个新的队伍：%s。";
+_L["chatmsg_old_group_delisted_search"] = "|cFFF7C92A旧队伍已移除。次点击搜索队伍：%s。"
+_L["chatmsg_left_group_search"] = "|cFFF7C92A离开队伍。再次点击搜索队伍：%s。";
 
 end

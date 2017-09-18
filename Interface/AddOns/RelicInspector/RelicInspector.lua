@@ -363,6 +363,22 @@ local function isItemRef(self)
 	return (self:GetName() == "ItemRefTooltip")
 end
 
+local function isArtifactUsableByPlayerClass(artifactID)
+	if artifactID == nil then return false end
+
+	local specForArtifact = SpecByArtifact[artifactID]
+	if specForArtifact == nil then return false end
+
+	local _, _, classID = UnitClass("player")
+	for a = 1,4 do 
+		local aSpecID = GetSpecializationInfoForClassID(classID,a)
+		if nil ~= aSpecID and aSpecID == specForArtifact then
+			return true
+		end
+	end
+	return false
+end
+
 local function DecorateArtifact(self)
 	self:AddLine(' ',nil,nil,nil,false)
 	local _, link = self:GetItem()
@@ -426,11 +442,28 @@ local function DecorateArtifact(self)
 				local owner = self:GetOwner()
 				if nil ~= owner then
 					local parent = owner:GetParent()
-					if nil ~= parent and parent == InspectPaperDollItemsFrame then
+					if nil ~= parent then
+						if parent:GetName() == nil then
+							-- This should stop false appearances in ERT and others.
+							showCrucibleTraits = false
+						end
+						if parent == InspectPaperDollItemsFrame or
+						   parent == InspectArmory or
+						   parent == TradeRecipientItem7 then 
+							-- Exclude standard Inspect window and Shadows&Light Armory inspect and trade window by name
+							showCrucibleTraits = false
+						end
+					else
+						-- This shouldn't happen but who knows. Don't show in this case.
 						showCrucibleTraits = false
 					end
 				end
 			end
+
+			if not isArtifactUsableByPlayerClass(tonumber(itemID)) then
+				showCrucibleTraits = false
+			end
+
 			local _,_,_,nc = GetAchievementInfo(12072) -- is the Crucible unlocked?
 			if not nc then
 				showCrucibleTraits = false

@@ -1018,28 +1018,28 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 			parent.bg = bg
 
 			local left = parent:CreateTexture(nil, "BACKGROUND")
-			left:SetWidth(1)
+			left:SetWidth(2)
 			left:SetColorTexture(0, 0, 0)
 			left:SetPoint("TOPLEFT", bg)
 			left:SetPoint("BOTTOMLEFT", bg)
 			parent.left = left
 
 			local right = parent:CreateTexture(nil, "BACKGROUND")
-			right:SetWidth(1)
+			right:SetWidth(2)
 			right:SetColorTexture(0, 0, 0)
 			right:SetPoint("TOPRIGHT", bg)
 			right:SetPoint("BOTTOMRIGHT", bg)
 			parent.right = right
 
 			local top = parent:CreateTexture(nil, "BACKGROUND")
-			top:SetHeight(1)
+			top:SetHeight(2)
 			top:SetColorTexture(0, 0, 0)
 			top:SetPoint("TOPLEFT", bg)
 			top:SetPoint("TOPRIGHT", bg)
 			parent.top = top
 
 			local bottom = parent:CreateTexture(nil, "BACKGROUND")
-			bottom:SetHeight(1)
+			bottom:SetHeight(2)
 			bottom:SetColorTexture(0, 0, 0)
 			bottom:SetPoint("BOTTOMLEFT", bg)
 			bottom:SetPoint("BOTTOMRIGHT", bg)
@@ -2131,28 +2131,28 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 
 		do
 			local left = PVPReadyDialogRoleIcon:CreateTexture(nil, "OVERLAY")
-			left:SetWidth(1)
+			left:SetWidth(2)
 			left:SetTexture(C.media.backdrop)
 			left:SetVertexColor(0, 0, 0)
 			left:SetPoint("TOPLEFT", 9, -7)
 			left:SetPoint("BOTTOMLEFT", 9, 10)
 
 			local right = PVPReadyDialogRoleIcon:CreateTexture(nil, "OVERLAY")
-			right:SetWidth(1)
+			right:SetWidth(2)
 			right:SetTexture(C.media.backdrop)
 			right:SetVertexColor(0, 0, 0)
 			right:SetPoint("TOPRIGHT", -8, -7)
 			right:SetPoint("BOTTOMRIGHT", -8, 10)
 
 			local top = PVPReadyDialogRoleIcon:CreateTexture(nil, "OVERLAY")
-			top:SetHeight(1)
+			top:SetHeight(2)
 			top:SetTexture(C.media.backdrop)
 			top:SetVertexColor(0, 0, 0)
 			top:SetPoint("TOPLEFT", 9, -7)
 			top:SetPoint("TOPRIGHT", -8, -7)
 
 			local bottom = PVPReadyDialogRoleIcon:CreateTexture(nil, "OVERLAY")
-			bottom:SetHeight(1)
+			bottom:SetHeight(2)
 			bottom:SetTexture(C.media.backdrop)
 			bottom:SetVertexColor(0, 0, 0)
 			bottom:SetPoint("BOTTOMLEFT", 9, 10)

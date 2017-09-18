@@ -50,15 +50,12 @@ C.themes["Blizzard_ArtifactUI"] = function()
 		end
 	end
 
-	F.CreateBD(ArtifactRelicForgeFrame)
-	F.CreateSD(ArtifactRelicForgeFrame)
-	F.ReskinClose(ArtifactRelicForgeFrameCloseButton)
+	-- Forge Frame
 
 	for i = 1, 28 do
 		select(i, ArtifactRelicForgeFrame:GetRegions()):Hide()
 	end
-
-	if ArtifactRelicForgeFrame.PreviewRelicCover then
-		ArtifactRelicForgeFrame.PreviewRelicCover:GetRegions():Hide()
-	end
+	F.SetBD(ArtifactRelicForgeFrame)
+	F.ReskinClose(ArtifactRelicForgeFrameCloseButton)
+	ArtifactRelicForgeFrame.PreviewRelicCover:Hide()
 end

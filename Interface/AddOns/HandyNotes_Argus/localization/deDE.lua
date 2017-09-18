@@ -572,10 +572,13 @@ _L["Crossbow"] = "Armbrust";
 
 _L["groupBrowserOptionOne"] = "%s - %s Spieler (%s)";
 _L["groupBrowserOptionMore"] = "%s - %s Spieler (%s)";
-_L["chatmsg_old_group_delisted"] = "|cFFf7c92aAlte Gruppe abgemeldet. Klicke nochmal, um nach Gruppen für %s zu suchen."
 _L["chatmsg_no_group_priv"] = "|cFFFF0000Unzureichend Berechtigungen. Du bist nicht der Gruppenleiter.";
-_L["chatmsg_group_created"] = "Gruppe erstellt für %s.";
+_L["chatmsg_group_created"] = "|cFF6CF70FGruppe erstellt für %s.";
 _L["chatmsg_search_failed"] = "|cFFFF0000Zu viele Suchanfragen, versuche es bitte in einigen Sekunden noch einmal.";
+_L["chatmsg_old_group_delisted_create"] = "|cFFF7C92AAlte Gruppe abgemeldet. Klicke nochmal, um eine neue Gruppe für %s zu erstellen."
+_L["chatmsg_left_group_create"] = "|cFFF7C92AGruppe verlassen. Klicke nochmal, um eine neue Gruppe für %s zu erstellen.";
+_L["chatmsg_old_group_delisted_search"] = "|cFFF7C92AAlte Gruppe abgemeldet. Klicke nochmal, um nach Gruppen für %s zu suchen."
+_L["chatmsg_left_group_search"] = "|cFFF7C92AGruppe verlassen. Klicke nochmal, um nach Gruppen für %s zu suchen.";
 _L["hour_short"] = "h";
 _L["minute_short"] = "m";
 _L["second_short"] = "s";
@@ -645,5 +648,14 @@ _L["options_toggle_show_loot"] = "Zeige Loot";
 _L["options_toggle_show_loot_desc"] = "Zeige Plünderinformationen im  Tooltip";
 _L["options_toggle_show_notes"] = "Zeige Notizen";
 _L["options_toggle_show_notes_desc"] = "Zeige hilfreiche Notizen im Tooltip, sofern verfügbar";
+_L["options_general_settings"] = "Allgemein";
+_L["options_general_settings_desc"] = "Allgemeine Einstellungen";
+_L["options_toggle_leave_group_on_search"] = "Verlasse Gruppen";
+_L["options_toggle_leave_group_on_search_desc"] = "Verlasse Gruppen vor Gruppensuche / -erstellung. Mit Vorsicht nutzen!";
+
+_L["options_toggle_include_player_seen"] = "Include player seen rares";
+_L["options_toggle_include_player_seen_desc"] = "Don't use this yet.";
+_L["options_toggle_show_debug"] = "Debug";
+_L["options_toggle_show_debug_desc"] = "Show debug stuff";
 
 end
