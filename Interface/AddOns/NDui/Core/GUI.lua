@@ -652,7 +652,7 @@ local function CreateOption(i)
 		else
 			local l = CreateFrame("Frame", nil, parent)
 			l:SetPoint("TOPLEFT", 25, -offset - 12)
-			B.CreateGF(l, 550, .5, "Horizontal", cr, cg, cb, .7, 0)
+			B.CreateGF(l, 550, 3, "Horizontal", cr, cg, cb, .7, 0)
 			offset = offset + 35
 		end
 	end
@@ -670,7 +670,8 @@ local function OpenGUI()
 	f:SetPoint("CENTER")
 	f:SetFrameStrata("HIGH")
 	B.CreateMF(f)
-	B.CreateBD(f)
+	B.CreateBD(f, .5, 1)
+	B.CreateSD(f, 2, 3)
 	B.CreateTex(f)
 	B.CreateFS(f, 18, L["NDui Console"], true, "TOP", 0, -10)
 	B.CreateFS(f, 16, DB.Version.." ("..DB.Support..")", false, "TOP", 0, -30)

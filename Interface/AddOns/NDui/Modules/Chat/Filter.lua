@@ -48,6 +48,7 @@ local function genChatFilter(self, event, msg, author, _, _, _, flag)
 			match = match + 1
 		end
 	end
+
 	if match >= NDuiDB["Chat"]["Matches"] then
 		return true
 	end

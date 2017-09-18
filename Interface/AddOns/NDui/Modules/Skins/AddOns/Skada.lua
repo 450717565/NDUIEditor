@@ -8,7 +8,6 @@ function module:SkadaSkin()
 	local Skada = Skada
 	local barSpacing = 0
 	local barmod = Skada.displays["bar"]
-
 	local function StripOptions(options)
 		options.baroptions.args.barspacing = nil
 		options.titleoptions.args.texture = nil
@@ -79,14 +78,14 @@ function module:SkadaSkin()
 		end
 		skada.shadow:SetPoint("BOTTOMRIGHT", win.bargroup, "BOTTOMRIGHT", 3, -3)
 		win.bargroup.button:SetFrameStrata("MEDIUM")
-		win.bargroup.button:SetFrameLevel(5)
+		win.bargroup.button:SetFrameLevel(5)	
 		win.bargroup:SetFrameStrata("MEDIUM")
 	end
 
 	local function EmbedWindow(window, width, barheight, height, point, relativeFrame, relativePoint, ofsx, ofsy)
 		window.db.barwidth = width
 		window.db.barheight = barheight
-		if window.db.enabletitle then
+		if window.db.enabletitle then 
 			height = height - barheight
 		end
 		window.db.background.height = height

@@ -439,7 +439,7 @@ C.themes["Blizzard_Collections"] = function()
 
 	-- Buttons
 
-	hooksecurefunc(HeirloomsJournal, "UpdateButton", function(self, button)
+	hooksecurefunc("HeirloomsJournal_UpdateButton", function(button)
 		if not button.styled then
 			button:SetPushedTexture("")
 			button:SetHighlightTexture("")

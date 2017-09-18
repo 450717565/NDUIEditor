@@ -101,6 +101,7 @@ hooksecurefunc("UnitPopup_ShowMenu", function(dropdownMenu, which, unit, name, u
 			info.notCheckable = true
 			UIDropDownMenu_AddButton(info)
 		end
+
 		info = UIDropDownMenu_CreateInfo()
 		info.text = UnitPopupButtonsExtra["NAME_COPY"].text
 		info.arg1 = {value = "NAME_COPY", unit = unit}

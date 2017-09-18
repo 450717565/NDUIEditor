@@ -82,7 +82,7 @@ cast.OnCastbarUpdate = function(self, elapsed)
 			end
 		else
 			if duration > 1e5 then
-				self.Time:SetText("¡Þ | ¡Þ")
+				self.Time:SetText("âˆž | âˆž")
 			else
 				self.Time:SetFormattedText(decimal.." | "..decimal, duration, self.casting and self.max + self.delay or self.max - self.delay)
 			end

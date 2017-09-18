@@ -222,18 +222,18 @@ C.themes["Blizzard_AuctionUI"] = function()
 	F.ReskinArrow(BrowseNextPageButton, "right")
 
 	local check = {"ExactMatchCheckButton", "IsUsableCheckButton", "ShowOnPlayerCheckButton"}
-	for c = 1, #check do
-		F.ReskinCheck(_G[check[c]])
+	for k, v in pairs(check) do
+		F.ReskinCheck(_G[v])
 	end
 
 	local drop = {"PriceDropDown", "DurationDropDown"}
-	for d = 1, #drop do
-		F.ReskinDropDown(_G[drop[d]])
+	for k, v in pairs(drop) do
+		F.ReskinDropDown(_G[v])
 	end
 
 	local scroll = {"BrowseScrollFrameScrollBar", "AuctionsScrollFrameScrollBar", "BrowseFilterScrollFrameScrollBar"}
-	for s = 1, #scroll do
-		F.ReskinScroll(_G[scroll[s]])
+	for k, v in pairs(scroll) do
+		F.ReskinScroll(_G[v])
 	end
 
 	BrowsePrevPageButton:SetPoint("TOPLEFT", 660, -60)

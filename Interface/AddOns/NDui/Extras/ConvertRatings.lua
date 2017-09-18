@@ -132,7 +132,7 @@ local function getItemIdFromTooltip(self)
         pmastery = (rawmastery / masteryamt) * masterycf
     end
 	if rawavoid ~= nil then
-		pavoid = rawavoid / avoidamt
+		pavoid = rawavoid / avoidamt * 0.727
 	end
 	if rawspeed ~= nil then
 		pspeed = rawspeed / speedamt
