@@ -124,7 +124,9 @@ tinsert(C.themes["Aurora"], function()
 		frame.PromptFrame.Timer.Bar:SetTexture(C.media.statusbar)
 		F.CreateBD(frame)
 		F.CreateSD(frame)
-		frame.Shadow:SetFrameLevel(bg:GetFrameLevel() - 1)
+		if frame.Shadow then
+			frame.Shadow:SetFrameLevel(bg:GetFrameLevel() - 1)
+		end
 		F.CreateBDFrame(frame.PromptFrame.Timer, .25)
 	end
 

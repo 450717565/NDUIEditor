@@ -12,7 +12,7 @@ local function SetTooltip(self)
 		GameTooltip:AddDoubleLine(XP.."：", B.Numb(xp).." / "..B.Numb(mxp).."（"..string.format("%.1f", xp/mxp*100).."%）", .6,.8,1, 1,1,1)
 		GameTooltip:AddDoubleLine(L["Need XP"].."：", B.Numb(mxp-xp).."（"..string.format("%.1f", (1-xp/mxp)*100).."%）", .6,.8,1, 1,1,1)
 		if rxp then
-			GameTooltip:AddDoubleLine(TUTORIAL_TITLE26.."：", "+"..rxp.."（"..string.format("%.1f", rxp/mxp*100).."%）", .6,.8,1, 1,1,1)
+			GameTooltip:AddDoubleLine(TUTORIAL_TITLE26.."：", "+"..B.Numb(rxp).."（"..string.format("%.1f", rxp/mxp*100).."%）", .6,.8,1, 1,1,1)
 		end
 		if IsXPUserDisabled() then GameTooltip:AddLine("|cffff0000"..XP..LOCKED) end
 	end

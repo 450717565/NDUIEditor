@@ -208,7 +208,7 @@ local function ForceSkadaOptions()
 						["barheight"] = 18,
 						["classicons"] = false,
 						["barslocked"] = true,
-						["y"] = 29,
+						["y"] = 32,
 						["x"] = -5,
 						["title"] = {
 							["color"] = {

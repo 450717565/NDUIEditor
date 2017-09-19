@@ -8,30 +8,30 @@ if not diminfo then diminfo = {} end
 
 -- Top infobar
 cfg.Friends = true
-cfg.FriendsPoint = {"TOPLEFT", UIParent, 100, -6}
+cfg.FriendsPoint = {"TOPLEFT", UIParent, 100, -7.5}
 
 cfg.System = true
-cfg.SystemPoint = {"TOPLEFT", UIParent, 190, -6}
+cfg.SystemPoint = {"TOPLEFT", UIParent, 190, -7.5}
 
 cfg.Memory = true
-cfg.MemoryPoint = {"TOPLEFT", UIParent, 305, -6}
+cfg.MemoryPoint = {"TOPLEFT", UIParent, 305, -7.5}
 cfg.MaxAddOns = 20
 
 cfg.Positions = true
-cfg.PositionsPoint = {"TOPLEFT", UIParent, 390, -6}
+cfg.PositionsPoint = {"TOPLEFT", UIParent, 390, -7.5}
 
 -- Bottomright infobar
 cfg.Spec = true
-cfg.SpecPoint = {"BOTTOMRIGHT", UIParent, -310, 5}
+cfg.SpecPoint = {"BOTTOMRIGHT", UIParent, -310, 7}
 
 cfg.Durability = true
-cfg.DurabilityPoint = {"BOTTOMRIGHT", UIParent, -185, 5}
+cfg.DurabilityPoint = {"BOTTOMRIGHT", UIParent, -185, 7}
 
 cfg.Gold = true
-cfg.GoldPoint = {"BOTTOMRIGHT", UIParent, -90, 5}
+cfg.GoldPoint = {"BOTTOMRIGHT", UIParent, -90, 7}
 
 cfg.Time = true
-cfg.TimePoint = {"BOTTOMRIGHT", UIParent, -20, 5}
+cfg.TimePoint = {"BOTTOMRIGHT", UIParent, -20, 7}
 
 -- Fonts and Colors
 cfg.Fonts = {STANDARD_TEXT_FONT, 13, "OUTLINE"}

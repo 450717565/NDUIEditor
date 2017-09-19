@@ -23,34 +23,35 @@ if IsAddOnLoaded("Aurora") then
 			OrderHall_Frame:RegisterEvent("GARRISON_TALENT_COMPLETE")
 
 			OrderHallCommandBar:HookScript("OnShow", function()
-				if not OrderHallCommandBar.styled then
-					OrderHallCommandBar:EnableMouse(false)
-					OrderHallCommandBar.Background:SetAtlas(nil)
+				OrderHallCommandBar:EnableMouse(false)
+				OrderHallCommandBar.Background:SetAtlas(nil)
 
-					OrderHallCommandBar.ClassIcon:ClearAllPoints()
-					OrderHallCommandBar.ClassIcon:SetPoint("TOPLEFT", 10, -30)
-					OrderHallCommandBar.ClassIcon:SetSize(40,20)
-					OrderHallCommandBar.ClassIcon:SetAlpha(1)
+				OrderHallCommandBar.ClassIcon:ClearAllPoints()
+				OrderHallCommandBar.ClassIcon:SetPoint("TOPLEFT", 10, -35)
+				OrderHallCommandBar.ClassIcon:SetSize(40, 20)
+				OrderHallCommandBar.ClassIcon:SetAlpha(1)
+				if not OrderHallCommandBar.ClassIcon.styled then
 					F.CreateBDFrame(OrderHallCommandBar.ClassIcon, 1)
-
-					OrderHallCommandBar.AreaName:ClearAllPoints()
-					OrderHallCommandBar.AreaName:SetPoint("LEFT", OrderHallCommandBar.ClassIcon, "RIGHT", 5, 0)
-					OrderHallCommandBar.AreaName:SetFont(unpack(DB.Font))
-					OrderHallCommandBar.AreaName:SetTextColor(r, g, b)
-					OrderHallCommandBar.AreaName:SetShadowOffset(0, 0)
-
-					OrderHallCommandBar.CurrencyIcon:ClearAllPoints()
-					OrderHallCommandBar.CurrencyIcon:SetPoint("LEFT", OrderHallCommandBar.AreaName, "RIGHT", 5, 0)
-					OrderHallCommandBar.Currency:ClearAllPoints()
-					OrderHallCommandBar.Currency:SetPoint("LEFT", OrderHallCommandBar.CurrencyIcon, "RIGHT", 0, 0)
-					OrderHallCommandBar.Currency:SetFont(unpack(DB.Font))
-					OrderHallCommandBar.Currency:SetTextColor(r, g, b)
-					OrderHallCommandBar.Currency:SetShadowOffset(0, 0)
-
-					OrderHallCommandBar.WorldMapButton:Hide()
-
-					OrderHallCommandBar.styled = true
+					OrderHallCommandBar.ClassIcon.styled = true
 				end
+
+				OrderHallCommandBar.AreaName:ClearAllPoints()
+				OrderHallCommandBar.AreaName:SetPoint("LEFT", OrderHallCommandBar.ClassIcon, "RIGHT", 5, 0)
+				OrderHallCommandBar.AreaName:SetFont(unpack(DB.Font))
+				OrderHallCommandBar.AreaName:SetTextColor(r, g, b)
+				OrderHallCommandBar.AreaName:SetShadowOffset(0, 0)
+
+				OrderHallCommandBar.CurrencyIcon:ClearAllPoints()
+				OrderHallCommandBar.CurrencyIcon:SetPoint("LEFT", OrderHallCommandBar.AreaName, "RIGHT", 5, 0)
+				OrderHallCommandBar.Currency:ClearAllPoints()
+				OrderHallCommandBar.Currency:SetPoint("LEFT", OrderHallCommandBar.CurrencyIcon, "RIGHT", 0, 0)
+				OrderHallCommandBar.Currency:SetFont(unpack(DB.Font))
+				OrderHallCommandBar.Currency:SetTextColor(r, g, b)
+				OrderHallCommandBar.Currency:SetShadowOffset(0, 0)
+
+				OrderHallCommandBar.WorldMapButton:Hide()
+
+				OrderHallCommandBar.styled = true
 			end)
 		elseif event ~= "ADDON_LOADED" then
 			local index = 1
@@ -60,7 +61,7 @@ if IsAddOnLoaded("Aurora") then
 						child:SetPoint("TOPLEFT", OrderHallCommandBar.ClassIcon, "BOTTOMLEFT", -5, -index*25+20)
 						child.TroopPortraitCover:Hide()
 
-						child.Icon:SetSize(40,20)
+						child.Icon:SetSize(40, 20)
 						if not child.styled then
 							F.CreateBDFrame(child.Icon, 1)
 							child.styled = true
@@ -79,7 +80,7 @@ if IsAddOnLoaded("Aurora") then
 else
 	local hall = CreateFrame("Frame", "NDuiOrderHallIcon", UIParent)
 	hall:SetSize(50, 50)
-	hall:SetPoint("TOPLEFT", 12.5, -30)
+	hall:SetPoint("TOPLEFT", 10, -35)
 	hall:SetFrameStrata("HIGH")
 	hall:Hide()
 	hall.Icon = hall:CreateTexture(nil, "ARTWORK")

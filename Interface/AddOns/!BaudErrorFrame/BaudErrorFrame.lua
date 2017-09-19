@@ -60,7 +60,7 @@ end
 function BaudErrorFrameMinimapButton_OnUpdate(self)
 	self:ClearAllPoints()
 	if IsAddOnLoaded("NDui") then
-		self:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", 0, -3);
+		self:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", 0, -5);
 	else
 		self:SetPoint("TOPRIGHT", Minimap, "TOPRIGHT", 0, 0);
 	end

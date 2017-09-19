@@ -8,7 +8,7 @@ function module:Chatbar()
 
 	local Chatbar = CreateFrame("Frame", nil, UIParent)
 	Chatbar:SetSize(width, height)
-	Chatbar:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", 5, 9)
+	Chatbar:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", 5, 11.5)
 
 	local function AddButton(r, g, b, text, funcC, funcM)
 		local bu = CreateFrame("Button", nil, Chatbar, "SecureActionButtonTemplate")

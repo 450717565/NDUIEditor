@@ -6,7 +6,7 @@ local r, g, b = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b
 ]]
 local panel = CreateFrame("Frame", nil, UIParent)
 panel:SetSize(80, 20)
-panel:SetPoint("TOPLEFT", 0, -2.5)
+panel:SetPoint("TOPLEFT", 0, -4.5)
 panel:SetHitRectInsets(0, 0, 0, -10)
 local stat = B.CreateFS(panel, 13, GUILD)
 

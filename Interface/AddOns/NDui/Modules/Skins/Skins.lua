@@ -6,7 +6,9 @@ function module:OnLogin()
 	local basicW = ""
 	local basicH = ""
 
-	if NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b end
+	if NDuiDB["Skins"]["ClassLine"] then
+		cr, cg, cb = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b
+	end
 
 	if NDuiDB["Actionbar"]["Style"] == 2 then
 		basicW = 450
@@ -25,7 +27,7 @@ function module:OnLogin()
 	-- TOPLEFT
 	if NDuiDB["Skins"]["InfobarLine"] then
 		local Tinfobar = CreateFrame("Frame", nil, UIParent)
-		Tinfobar:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 0, -3)
+		Tinfobar:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 0, -5)
 		B.CreateGF(Tinfobar, 600, 18, "Horizontal", 0, 0, 0, .5, 0)
 		local Tinfobar1 = CreateFrame("Frame", nil, Tinfobar)
 		Tinfobar1:SetPoint("BOTTOM", Tinfobar, "TOP")
@@ -38,8 +40,8 @@ function module:OnLogin()
 	-- BOTTOMLEFT
 	if NDuiDB["Skins"]["ChatLine"] then
 		local Linfobar = CreateFrame("Frame", nil, UIParent)
-		Linfobar:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", 0, 3)
-		B.CreateGF(Linfobar, 450, ChatFrame1:GetHeight() + 28, "Horizontal", 0, 0, 0, .6, 0)
+		Linfobar:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", 0, 5)
+		B.CreateGF(Linfobar, 450, ChatFrame1:GetHeight() + 26, "Horizontal", 0, 0, 0, .5, 0)
 		local Linfobar1 = CreateFrame("Frame", nil, Linfobar)
 		Linfobar1:SetPoint("BOTTOM", Linfobar, "TOP")
 		B.CreateGF(Linfobar1, 450, 3, "Horizontal", cr, cg, cb, .7, 0)
@@ -51,7 +53,7 @@ function module:OnLogin()
 		B.CreateGF(Linfobar3, 450, 3, "Horizontal", cr, cg, cb, .7, 0)
 		ChatFrame1Tab:HookScript("OnMouseUp", function(self, arg1)
 			if arg1 == "LeftButton" then
-				Linfobar:SetHeight(ChatFrame1:GetHeight() + 28)
+				Linfobar:SetHeight(ChatFrame1:GetHeight() + 26)
 			end
 		end)
 	end
@@ -59,14 +61,14 @@ function module:OnLogin()
 	-- BOTTOMRIGHT
 	if NDuiDB["Skins"]["InfobarLine"] then
 		local Rinfobar = CreateFrame("Frame", nil, UIParent)
-		Rinfobar:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", 0, 3)
-		B.CreateGF(Rinfobar, 450, 18, "Horizontal", 0, 0, 0, 0, .6)
+		Rinfobar:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", 0, 5)
+		B.CreateGF(Rinfobar, 450, 18, "Horizontal", 0, 0, 0, 0, .5)
 		local Rinfobar1 = CreateFrame("Frame", nil, Rinfobar)
 		Rinfobar1:SetPoint("BOTTOM", Rinfobar, "TOP")
-		B.CreateGF(Rinfobar1, 450, 3, "Horizontal", cr, cg, cb, 0, .6)
+		B.CreateGF(Rinfobar1, 450, 3, "Horizontal", cr, cg, cb, 0, .7)
 		local Rinfobar2 = CreateFrame("Frame", nil, Rinfobar)
 		Rinfobar2:SetPoint("TOP", Rinfobar, "BOTTOM")
-		B.CreateGF(Rinfobar2, 450, 3, "Horizontal", cr, cg, cb, 0, .6)
+		B.CreateGF(Rinfobar2, 450, 3, "Horizontal", cr, cg, cb, 0, .7)
 	end
 
 	-- MICROMENU
