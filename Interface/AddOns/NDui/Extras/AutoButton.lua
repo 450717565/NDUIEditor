@@ -2,29 +2,33 @@ local B, C, L, DB = unpack(select(2, ...))
 
 if UnitLevel("player") < 100 then return end
 
+local list = {
+	[153132] = true,	--阿古斯勇士装备箱
+}
+
 local itemLink, bag, slot
 local Cache = {}
 local point = {"CENTER", UIParent, "BOTTOM", -245, 130}
 
-local APUF = CreateFrame("Frame", "ArtifactPowerUserFrame", UIParent)
-APUF:SetSize(48, 48)
-APUF:EnableMouse(true)
-APUF:SetClampedToScreen(true)
+local ABF = CreateFrame("Frame", "AutoButtonFrame", UIParent)
+ABF:SetSize(48, 48)
+ABF:EnableMouse(true)
+ABF:SetClampedToScreen(true)
 
-local APU = CreateFrame("Button", "ArtifactPowerUserButton", APUF, "ActionButtonTemplate, SecureActionButtonTemplate")
-APU:SetAllPoints()
+local ABB = CreateFrame("Button", "AutoButtonButton", ABF, "ActionButtonTemplate, SecureActionButtonTemplate")
+ABB:SetAllPoints()
 
-APU:SetScript("OnHide", function(self)
+ABB:SetScript("OnHide", function(self)
 	self:SetAttribute("type", nil)
 	self:SetAttribute("item", nil)
 end)
 
-APU:SetScript("OnEnter", function(self)
+ABB:SetScript("OnEnter", function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
 	GameTooltip:SetHyperlink(itemLink)
 end)
 
-APU:SetScript("OnLeave", function(self)
+ABB:SetScript("OnLeave", function(self)
 	GameTooltip:Hide()
 end)
 
@@ -37,6 +41,10 @@ local function ScanBags()
 					return itemLink, bag, slot
 				else
 					if IsArtifactPowerItem(itemLink) then
+						Cache[itemLink] = true
+						return itemLink, bag, slot
+					end
+					if list[GetItemInfoInstant(itemLink)] then
 						Cache[itemLink] = true
 						return itemLink, bag, slot
 					end
@@ -72,23 +80,23 @@ local function UpdateItem(self)
 	end
 end
 
-APUF:RegisterEvent("PLAYER_LOGIN")
-APUF:RegisterEvent("BAG_UPDATE_DELAYED")
-APUF:RegisterEvent("PLAYER_REGEN_DISABLED")
-APUF:RegisterEvent("PLAYER_REGEN_ENABLED")
-APUF:SetScript("OnEvent", function(self, event)
+ABF:RegisterEvent("PLAYER_LOGIN")
+ABF:RegisterEvent("BAG_UPDATE_DELAYED")
+ABF:RegisterEvent("PLAYER_REGEN_DISABLED")
+ABF:RegisterEvent("PLAYER_REGEN_ENABLED")
+ABF:SetScript("OnEvent", function(self, event)
 	if event == "PLAYER_LOGIN" then
-		B.Mover(APUF, "APU", "ArtifactPowerUser", point)
+		B.Mover(ABF, "ABB", "AutoButton", point)
 	elseif event == "BAG_UPDATE_DELAYED" then
-		UpdateItem(APU)
+		UpdateItem(ABB)
 	elseif event == "PLAYER_REGEN_DISABLED" then
 		self:UnregisterEvent("BAG_UPDATE_DELAYED")
-		APUF:Hide()
+		ABF:Hide()
 		GameTooltip:Hide()
 	elseif event == "PLAYER_REGEN_ENABLED" then
 		self:RegisterEvent("BAG_UPDATE_DELAYED")
-		UpdateItem(APU)
-		APUF:Show()
+		UpdateItem(ABB)
+		ABF:Show()
 		GameTooltip:Show()
 	end
 end)
@@ -96,5 +104,5 @@ end)
 -- Aurora Reskin
 if IsAddOnLoaded("Aurora") then
 	local F = unpack(Aurora)
-	F.ReskinIconStyle(APU)
+	F.ReskinIconStyle(ABB)
 end

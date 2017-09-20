@@ -694,11 +694,6 @@ local function initialize()
  function mf.UNIT_SPELLCAST_SUCCEEDED(...)
   if not mf:IsShown() or tracking_disabled then return end
  
- 
-   -- trying to fix the double room generation issue
-   -- I still cannot reproduce it with my character/client
-   -- guessing the event is fired twice for some reason
- 
    local spellID = select(5, ...)
    local dir
    
@@ -713,7 +708,10 @@ local function initialize()
    else
     return
    end
-
+ 
+   -- trying to fix the double room generation issue
+   -- I still cannot reproduce it with my character/client
+   -- guessing the event is fired twice for some reason
    local now = GetTime()
    if now - delay < 0.3 then return end
    

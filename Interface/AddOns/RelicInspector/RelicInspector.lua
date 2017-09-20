@@ -493,9 +493,9 @@ local function DecorateArtifact(self)
 							itemLevel = itemLevel.. "[+" .. artifactLevelGain .. "]"
 						end
 
-						if (showTraitNames or showTraitDesc) and showCrucibleTraits then
-							self:AddLine(' ',1,1,1,false)  -- Blank line as a spacer
-						end
+						--if (showTraitNames or showTraitDesc) and showCrucibleTraits then
+						--	self:AddLine(' ',1,1,1,false)  -- Blank line as a spacer
+						--end
 						self:AddDoubleLine(format('|cffffd400%s%s|r', itemLevel or '???', gemLink or '???'), format('|cff00ff00<%s>',relicType), 0, 1, 0, 0, 1, 0)
 
 						-- Let's add the Ranks and Trait names if we are supposed to

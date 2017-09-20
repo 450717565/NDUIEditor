@@ -103,43 +103,27 @@ elseif locale == "esMX" then
 
 elseif locale == "itIT" then 
 L["Clear"] = "Pulisci"
---Translation missing 
--- L["Clear Markers"] = ""
---Translation missing 
--- L["Click again to confirm"] = ""
+L["Clear Markers"] = "Pulisci Simboli"
+L["Click again to confirm"] = "Clicca per confermare"
 L["Click to center the camera to the current room"] = "Clicca per centrare la telecamera sulla stanza corrente"
 L["Click to erase the current map and start over"] = "Clicca per cancellare la mappa e ricominciare da capo"
---Translation missing 
--- L["Current Room: %s"] = ""
---Translation missing 
--- L["Disabled"] = ""
---Translation missing 
--- L["Enabled"] = ""
---Translation missing 
--- L["Hold the Ctrl key, then click on the desired room to select it (a round circle will appear around the room), then click the 'Set player location' button twice"] = ""
---Translation missing 
--- L["How can I reposition the player on the map?"] = ""
---Translation missing 
--- L["How does the Endless Halls tool work?"] = ""
---Translation missing 
--- L["It tracks player movement through the halls, generating a map that can be used to mark special rooms and retrace your steps into them when necessary."] = ""
+L["Current Room: %s"] = "Stanza corrente: %s"
+L["Disabled"] = "Disabilitato"
+L["Enabled"] = "Abilitato"
+L["Hold the Ctrl key, then click on the desired room to select it (a round circle will appear around the room), then click the 'Set player location' button twice"] = "Tieni premuto il tasto Ctrl, clicca sulla stanza desiderata per selezionarla (verrà evidenziata da un cerchio), poi clicca il pulsante \"Imposta posizione del pg\" due volte"
+L["How can I reposition the player on the map?"] = "Come posso riposizionare il pg sulla mappa?"
+L["How does the Endless Halls tool work?"] = "Come funziona lo strumento per le Sale Infinite?"
+L["It tracks player movement through the halls, generating a map that can be used to mark special rooms and retrace your steps into them when necessary."] = "Tiene traccia degli spostamenti del pg attraverso le sale, generando una mappa che può essere utilizzata per segnare stanze speciali e ripercorrere i propri passi verso di esse quando necessario."
 L["Markers"] = "Simboli"
---Translation missing 
--- L["No, jump over"] = ""
---Translation missing 
--- L["Selected Room: %s"] = ""
---Translation missing 
--- L["Set Player location"] = ""
---Translation missing 
--- L["There is a shenanigan, however: in every maze there are a few one-directional doors that lead to a random location, they cannot be recognized by either the addon or the player. If you feel you got teleported or you're simply lost, I'd recommend to use the Enabled button to deactivate mapping until you find a familiar room, then reposition the player into that room on the map and re-enable to restart mapping from there."] = ""
---Translation missing 
--- L["This button pauses/unpauses the map generation"] = ""
+L["No, jump over"] = "No, salta oltre"
+L["Selected Room: %s"] = "Stanza selezionata: %s"
+L["Set Player location"] = "Imposta posizione del pg"
+L["There is a shenanigan, however: in every maze there are a few one-directional doors that lead to a random location, they cannot be recognized by either the addon or the player. If you feel you got teleported or you're simply lost, I'd recommend to use the Enabled button to deactivate mapping until you find a familiar room, then reposition the player into that room on the map and re-enable to restart mapping from there."] = "C'è un problema, comunque: in ogni labirinto ci sono alcune porte mono-direzionali che portano in una posizione casuale, non possono essere riconosciute né dall'addon né dal giocatore. Se credi di essere stato teletrasportato o ti sei semplicemente perso, consiglio di usare il pulsante Abilita per disattivare la mappatura finché non trovi una stanza familiare, a quel punto riposiziona il pg in quella stanza della mappa e riattiva la mappatura da li."
+L["This button pauses/unpauses the map generation"] = "Questo pulsante mette in pausa/riprende la generazione della mappa"
 L["Transparency"] = "Trasparenza"
---Translation missing 
--- L["Yes, keep it linked"] = ""
+L["Yes, keep it linked"] = "Si, collegala"
 L["You can navigate the map by Right-Click Dragging it"] = "Puoi esplorare la mappa trascinandola con il Click-Destro"
---Translation missing 
--- L["You have encountered an existing room on the map, do you recognize it as the room that you wanted to enter?"] = ""
+L["You have encountered an existing room on the map, do you recognize it as the room that you wanted to enter?"] = "Hai incontrato una stanza esistente sulla mappa, ti sembra la stanza in cui volevi entrare?"
 
 elseif locale == "ptBR" then 
 --Translation missing 
@@ -191,16 +175,12 @@ elseif locale == "frFR" then
 L["Clear"] = "Nettoyer"
 --Translation missing 
 -- L["Clear Markers"] = ""
---Translation missing 
--- L["Click again to confirm"] = ""
+L["Click again to confirm"] = "Cliquez de nouveau pour confirmer"
 L["Click to center the camera to the current room"] = "Cliquez pour centrer la caméra dans la salle actuelle"
-L["Click to erase the current map and start over"] = "Cliquer pour effacer cette carte et recommencer"
---Translation missing 
--- L["Current Room: %s"] = ""
---Translation missing 
--- L["Disabled"] = ""
---Translation missing 
--- L["Enabled"] = ""
+L["Click to erase the current map and start over"] = "Cliquez pour effacer cette carte et recommencer"
+L["Current Room: %s"] = "Salle actuelle : %s"
+L["Disabled"] = "Désactiver"
+L["Enabled"] = "Activer"
 --Translation missing 
 -- L["Hold the Ctrl key, then click on the desired room to select it (a round circle will appear around the room), then click the 'Set player location' button twice"] = ""
 --Translation missing 
@@ -378,14 +358,10 @@ L["Click again to confirm"] = "확인을 위해 다시 클릭하십시오."
 L["Click to center the camera to the current room"] = "카메라를 현재 방 중앙에 배치하려면 클릭하십시오."
 L["Click to erase the current map and start over"] = "현재 지도를 지우고 다시 시작하려면 클릭하십시오."
 L["Current Room: %s"] = "현재 방: %s"
---Translation missing 
--- L["Disabled"] = ""
---Translation missing 
--- L["Enabled"] = ""
---Translation missing 
--- L["Hold the Ctrl key, then click on the desired room to select it (a round circle will appear around the room), then click the 'Set player location' button twice"] = ""
---Translation missing 
--- L["How can I reposition the player on the map?"] = ""
+L["Disabled"] = "비활성화"
+L["Enabled"] = "활성화"
+L["Hold the Ctrl key, then click on the desired room to select it (a round circle will appear around the room), then click the 'Set player location' button twice"] = "Ctrl 키를 누른 상태에서 원하는 방을 클릭하여 선택합니다 (방 주위에 둥근 원이 나타납니다). 그런 다음 '플레이어 위치 설정'버튼을 두 번 클릭하십시오. "
+L["How can I reposition the player on the map?"] = "지도에서 플레이어 위치를 어떻게 바꿀까요? "
 --Translation missing 
 -- L["How does the Endless Halls tool work?"] = ""
 --Translation missing 

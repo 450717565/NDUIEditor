@@ -40,8 +40,8 @@ local _, C, L, _ = unpack(select(2, ...))
 ]]
 
 local RaidDebuffPoint = {"BOTTOMLEFT", UIParent, "CENTER", 200, 200}
-local EnchantCooldownPoint = {"BOTTOMLEFT", UIParent, "CENTER", 498, -246}
-local InternalCDPoint = {"BOTTOMLEFT", UIParent, "CENTER", 405, -40}
+local EnchantCooldownPoint = {"BOTTOMLEFT", UIParent, "CENTER", 498, -243}
+local InternalCDPoint = {"BOTTOMLEFT", UIParent, "CENTER", 405, -70}
 local TargetSpecialAuraPoint = {"BOTTOMLEFT", UIParent, "CENTER", 200, -119}
 local TargetAuraPoint = {"BOTTOMLEFT", UIParent, "CENTER", 200, -160}
 
@@ -61,8 +61,6 @@ C.InternalCD = {
 	BarWidth = 150,
 	Pos = InternalCDPoint,
 	List = {
-		--测试
-		--{IntID = 119085, Duration = 300, ItemID =  63206},
 		--萨瓦里卡的杰作
 		--{IntID = 207472, Duration = 30, ItemID = 132444},
 		--塞弗斯的秘密

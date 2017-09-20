@@ -1,3 +1,4 @@
+if GetLocale() ~= "koKR" then return end
 local L
 
 -----------------------
@@ -15,10 +16,6 @@ L= DBM:GetModLocalization(2013)
 -----------------------
 L= DBM:GetModLocalization(2014)
 
-L:SetMiscLocalization({
-	Pull				= "Come, small ones. Die by my hand!"
-})
-
 -----------------------
 -- Mistress Alluradel --
 -----------------------
@@ -30,7 +27,7 @@ L= DBM:GetModLocalization(2011)
 L= DBM:GetModLocalization(2010)
 
 L:SetMiscLocalization({
-	Pull				= "Yes... come closer, little ones!"
+	Pull				= "그래... 가까이 오거라, 귀여운 것들!"
 })
 
 -----------------------

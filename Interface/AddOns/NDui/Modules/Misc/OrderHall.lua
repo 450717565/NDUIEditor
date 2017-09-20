@@ -39,7 +39,6 @@ if IsAddOnLoaded("Aurora") then
 				OrderHallCommandBar.AreaName:SetPoint("LEFT", OrderHallCommandBar.ClassIcon, "RIGHT", 5, 0)
 				OrderHallCommandBar.AreaName:SetFont(unpack(DB.Font))
 				OrderHallCommandBar.AreaName:SetTextColor(r, g, b)
-				OrderHallCommandBar.AreaName:SetShadowOffset(0, 0)
 
 				OrderHallCommandBar.CurrencyIcon:ClearAllPoints()
 				OrderHallCommandBar.CurrencyIcon:SetPoint("LEFT", OrderHallCommandBar.AreaName, "RIGHT", 5, 0)
@@ -47,18 +46,15 @@ if IsAddOnLoaded("Aurora") then
 				OrderHallCommandBar.Currency:SetPoint("LEFT", OrderHallCommandBar.CurrencyIcon, "RIGHT", 0, 0)
 				OrderHallCommandBar.Currency:SetFont(unpack(DB.Font))
 				OrderHallCommandBar.Currency:SetTextColor(r, g, b)
-				OrderHallCommandBar.Currency:SetShadowOffset(0, 0)
 
 				OrderHallCommandBar.WorldMapButton:Hide()
-
-				OrderHallCommandBar.styled = true
 			end)
 		elseif event ~= "ADDON_LOADED" then
 			local index = 1
 			C_Timer.After(0.1, function()
 				for i, child in ipairs({OrderHallCommandBar:GetChildren()}) do
 					if child.Icon and child.Count and child.TroopPortraitCover then
-						child:SetPoint("TOPLEFT", OrderHallCommandBar.ClassIcon, "BOTTOMLEFT", -5, -index*25+20)
+						child:SetPoint("TOPLEFT", OrderHallCommandBar.ClassIcon, "BOTTOMLEFT", -5, -index*25+15)
 						child.TroopPortraitCover:Hide()
 
 						child.Icon:SetSize(40, 20)
@@ -67,9 +63,10 @@ if IsAddOnLoaded("Aurora") then
 							child.styled = true
 						end
 
+						child.Count:ClearAllPoints()
+						child.Count:SetPoint("LEFT", child.Icon, "RIGHT", 5, 0)
 						child.Count:SetFont(unpack(DB.Font))
 						child.Count:SetTextColor(r, g, b)
-						child.Count:SetShadowOffset(0, 0)
 
 						index = index + 1
 					end

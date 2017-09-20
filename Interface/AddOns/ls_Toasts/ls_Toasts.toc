@@ -1,13 +1,12 @@
 ## Interface: 70300
 ## Author: lightspark
-## Version: 70300.02
+## Version: 70300.03
 ## Title: ls: |cff1a9fc0Toasts|r
 ## Notes: Better toasts, cheers!
 ## SavedVariables: LS_TOASTS_GLOBAL_CONFIG
 
 embeds\_embeds.xml
 locales\_locales.xml
-config.lua
-core.lua
-systems.lua
+core\_core.xml
+systems\_systems.xml
 init.lua

@@ -5,7 +5,7 @@ function module:DBMSkin()
 	if not IsAddOnLoaded("DBM-Core") then return end
 	if not NDuiDB["Skins"]["DBM"] then return end
 
-	local buttonsize = 24
+	local buttonsize = 20
 	local function SkinBars(self)
 		for bar in self:GetBarIterator() do
 			if not bar.injected then
@@ -22,7 +22,7 @@ function module:DBMSkin()
 					icon1.overlay = CreateFrame("Frame", "$parentIcon1Overlay", tbar)
 					icon1.overlay:SetSize(buttonsize+2, buttonsize+2)
 					icon1.overlay:SetFrameStrata("BACKGROUND")
-					icon1.overlay:SetPoint("BOTTOMRIGHT", tbar, "BOTTOMLEFT", -buttonsize/6, -3)
+					icon1.overlay:SetPoint("BOTTOMRIGHT", tbar, "BOTTOMLEFT", -buttonsize/6, -2)
 			
 					local backdroptex = icon1.overlay:CreateTexture(nil, "BORDER")
 					backdroptex:SetTexture([=[Interface\Icons\Spell_Nature_WispSplode]=])
@@ -35,7 +35,7 @@ function module:DBMSkin()
 				if not (icon2.overlay) then
 					icon2.overlay = CreateFrame("Frame", "$parentIcon2Overlay", tbar)
 					icon2.overlay:SetSize(buttonsize+2, buttonsize+2)
-					icon2.overlay:SetPoint("BOTTOMLEFT", tbar, "BOTTOMRIGHT", buttonsize/6, -3)
+					icon2.overlay:SetPoint("BOTTOMLEFT", tbar, "BOTTOMRIGHT", buttonsize/6, -2)
 			
 					local backdroptex = icon2.overlay:CreateTexture(nil, "BORDER")
 					backdroptex:SetTexture([=[Interface\Icons\Spell_Nature_WispSplode]=])
@@ -114,8 +114,8 @@ function module:DBMSkin()
 
 				if not name.styled then
 					name:ClearAllPoints()
-					name:SetPoint("LEFT", frame, "LEFT", 2, 8)
-					name:SetPoint("RIGHT", frame, "LEFT", tbar:GetWidth()*.85, 8)
+					name:SetPoint("LEFT", frame, "LEFT", 2, 7)
+					name:SetPoint("RIGHT", frame, "LEFT", tbar:GetWidth()*.85, 7)
 					name.SetPoint = B.Dummy
 					name:SetFont(DB.Font[1], 14, "OUTLINE")
 					name.SetFont = B.Dummy
@@ -127,7 +127,7 @@ function module:DBMSkin()
 		
 				if not timer.styled then	
 					timer:ClearAllPoints()
-					timer:SetPoint("RIGHT", frame, "RIGHT", -2, 8)
+					timer:SetPoint("RIGHT", frame, "RIGHT", -2, 7)
 					timer.SetPoint = B.Dummy
 					timer:SetFont(DB.Font[1], 14, "OUTLINE")
 					timer.SetFont = B.Dummy
@@ -232,22 +232,27 @@ function module:DBMSkin()
 		end
 	end
 
-	-- mwahahahah, eat this ugly DBM.
 	hooksecurefunc(DBT, "CreateBar", SkinBars)
 	hooksecurefunc(DBM.BossHealth, "Show", SkinBossTitle)
 	hooksecurefunc(DBM.BossHealth, "AddBoss", SkinBoss)
 	hooksecurefunc(DBM.BossHealth, "UpdateSettings", SkinBoss)
 
 	local function SkinRange(self)
-		if not self.styled and DBMRangeCheckRadar then
-			local bg = CreateFrame("Frame", nil, DBMRangeCheckRadar)
-			bg:SetPoint("TOPLEFT", DBMRangeCheckRadar, "TOPLEFT", -2, 2)
-			bg:SetPoint("BOTTOMRIGHT", DBMRangeCheckRadar, "BOTTOMRIGHT", 2, -2)
-			bg:SetFrameLevel(0)
-			B.CreateBD(bg)
-			B.CreateTex(DBMRangeCheckRadar)
-			DBMRangeCheckRadar.text:SetFont(DBMRangeCheckRadar.text:GetFont(), 16, "OUTLINE")
-			self.styled = true
+		if DBMRangeCheckRadar and not DBMRangeCheckRadar.styled then
+			local bg = B.CreateBG(DBMRangeCheckRadar, 2)
+			B.CreateBD(bg, .3)
+			B.CreateTex(bg)
+
+			DBMRangeCheckRadar.styled = true
+		end
+
+		if DBMRangeCheck and not DBMRangeCheck.styled then
+			B.CreateBD(DBMRangeCheck)
+			B.CreateTex(DBMRangeCheck)
+			DBMRangeCheck.SetBackdropColor = B.Dummy
+			DBMRangeCheck.SetBackdropBorderColor = B.Dummy
+
+			DBMRangeCheck.styled = true
 		end
 	end
 	hooksecurefunc(DBM.RangeCheck, "Show", SkinRange)
@@ -255,9 +260,11 @@ function module:DBMSkin()
 	if DBM.InfoFrame then
 		DBM.InfoFrame:Show(5, "test")
 		DBM.InfoFrame:Hide()
-		DBMInfoFrame:HookScript("OnShow",function(self)
-			B.CreateBD(DBMInfoFrame, .6, 3)
-			B.CreateTex(DBMInfoFrame)
+		DBMInfoFrame:HookScript("OnShow", function(self)
+			if not self.Tex then
+				B.CreateBD(self, .6, 3)
+				B.CreateTex(self)
+			end
 		end)
 	end
 
