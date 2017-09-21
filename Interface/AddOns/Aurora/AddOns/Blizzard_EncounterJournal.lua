@@ -284,8 +284,8 @@ C.themes["Blizzard_EncounterJournal"] = function()
 			result:SetPoint("TOPLEFT", EncounterJournalSearchBox, "BOTTOMLEFT", 0, 1)
 			result:SetPoint("TOPRIGHT", EncounterJournalSearchBox, "BOTTOMRIGHT", -5, 1)
 		else
-			result:SetPoint("TOPLEFT", EncounterJournalSearchBox["sbutton"..index-1], "BOTTOMLEFT", 0, 1)
-			result:SetPoint("TOPRIGHT", EncounterJournalSearchBox["sbutton"..index-1], "BOTTOMRIGHT", 0, 1)
+			result:SetPoint("TOPLEFT", EncounterJournalSearchBox["sbutton"..index-1], "BOTTOMLEFT", 0, -1)
+			result:SetPoint("TOPRIGHT", EncounterJournalSearchBox["sbutton"..index-1], "BOTTOMRIGHT", 0, -1)
 		end
 
 		result:SetNormalTexture("")
@@ -300,6 +300,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		result.hl = hl
 
 		F.CreateBD(result)
+		F.CreateSD(result)
 		result:SetBackdropColor(.1, .1, .1, .9)
 
 		if result.icon then
@@ -363,6 +364,10 @@ C.themes["Blizzard_EncounterJournal"] = function()
 			end
 		end
 	end)
+	
+	for i = 1, 6 do
+		select(i, EncounterJournalSearchBox.searchPreviewContainer:GetRegions()):Hide()
+	end
 
 	F.ReskinClose(EncounterJournalSearchResultsCloseButton)
 

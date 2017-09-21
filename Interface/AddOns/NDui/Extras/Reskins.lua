@@ -315,7 +315,7 @@ if IsAddOnLoaded("Aurora") then
 			end
 		end
 
-		if IsAddOnLoaded("TinyUntitled") then
+		if IsAddOnLoaded("TinyInspect") then
 			for i = 1, 9 do
 				select(i, TinyInspectRaidFrame:GetRegions()):Hide()
 				select(i, TinyInspectRaidFrame.panel:GetRegions()):Hide()

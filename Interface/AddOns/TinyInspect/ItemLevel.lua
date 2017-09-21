@@ -3,6 +3,8 @@
 -- 物品等級顯示 Author: M
 -------------------------------------
 
+local B, C, L, DB = unpack(NDui)
+
 local LibEvent = LibStub:GetLibrary("LibEvent.7000")
 local LibItemGem = LibStub:GetLibrary("LibItemGem.7000")
 local LibSchedule = LibStub:GetLibrary("LibSchedule.7000")
@@ -16,6 +18,7 @@ local EnableItemLevel = true
 local ShowColoredItemLevelString = false
 local ShowItemSlotString = true
 local EnableItemLevelGuildNews = true
+local PaperDollItemLevelOutsideString = true
 
 --框架 #category Bag|Bank|Merchant|Trade|GuildBank|Auction|AltEquipment|PaperDoll
 local function GetItemLevelFrame(self, category)
@@ -277,5 +280,171 @@ LibEvent:attachEvent("ADDON_LOADED", function(self, addonName)
 				end
 			end
 		end)
+	end
+end)
+
+----------------------
+--  Chat ItemLevel  --
+----------------------
+
+local function ChatItemLevel(Hyperlink)
+	local itemLink = string.match(Hyperlink, "|H(.-)|h")
+	local _, _, itemRarity, _, _, _, itemSubType, _, itemEquipLoc, itemTexture, _, itemClassID, itemSubClassID, bindType = GetItemInfo(itemLink)
+	if not itemTexture then return end
+	local slotText, totalText
+	local level = NDui:GetItemLevel(itemLink, itemRarity)
+
+	if itemEquipLoc and string.find(itemEquipLoc, "INVTYPE_") then
+		slotText = _G[itemEquipLoc] or ""
+	end
+
+	if itemEquipLoc and string.find(itemEquipLoc, "INVTYPE_FEET") then
+		slotText = L["Feet"] or ""
+	elseif itemEquipLoc and string.find(itemEquipLoc, "INVTYPE_HAND") then
+		slotText = L["Hands"] or ""
+	elseif itemEquipLoc and string.find(itemEquipLoc, "INVTYPE_HOLDABLE") then
+		slotText = INVTYPE_WEAPONOFFHAND or ""
+	elseif itemEquipLoc and string.find(itemEquipLoc, "INVTYPE_SHIELD") then
+		slotText = itemSubType or ""
+	elseif itemSubType and string.find(itemSubType, RELICSLOT) then
+		slotText = RELICSLOT or ""
+	elseif (itemClassID and itemClassID == 15 and itemSubClassID) and (itemSubClassID == 2 or itemSubClassID == 5) then
+		slotText = (itemSubClassID == 2 and PET) or (itemSubClassID == 5 and itemSubType) or ""
+	end
+	if bindType and (bindType == 2 or bindType == 3) then
+		slotText = (bindType == 2 and "BoE") or (bindType == 3 and "BoU") or ""
+	end
+
+	if level and slotText then
+		totalText = "<"..level.."-"..slotText..">"
+	elseif level then
+		totalText = "<"..level..">"
+	elseif slotText then
+		totalText = "<"..slotText..">"
+	else
+		totalText = ""
+	end
+
+	if totalText then
+		Hyperlink = Hyperlink:gsub("|h%[(.-)%]|h", "|h[%1"..totalText.."]|h")
+	end
+
+	return Hyperlink
+end
+
+local function KeystoneLevel(Hyperlink)
+	local map, level, name = string.match(Hyperlink, "|Hkeystone:(%d+):(%d+):.-|h(.-)|h")
+
+	if (map and level and name and not string.find(name, level)) then
+		name = C_ChallengeMode.GetMapInfo(map)
+		Hyperlink = Hyperlink:gsub("|h%[(.-)%]|h", "|h["..name.."+"..level.."]|h")
+	end
+
+	return Hyperlink
+end
+
+local function filter(self, event, msg, ...)
+	msg = msg:gsub("(|Hitem:%d+:.-|h.-|h)", ChatItemLevel)
+	msg = msg:gsub("(|Hkeystone:%d+:%d+:.-|h.-|h)", KeystoneLevel)
+
+	return false, msg, ...
+end
+
+ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_WHISPER", filter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_WHISPER_INFORM", filter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", filter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_GUILD", filter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_GUILD_LEADER", filter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_INSTANCE", filter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_INSTANCE_LEADER", filter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_LOOT", filter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_OFFICER", filter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY", filter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY_LEADER", filter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID", filter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_LEADER", filter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_SAY", filter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", filter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER_INFORM", filter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_YELL", filter)
+
+-------------------
+--   PaperDoll  --
+-------------------
+
+local function SetPaperDollItemLevel(self, unit)
+	if (not self) then return end
+	local id = self:GetID()
+	local frame = GetItemLevelFrame(self, "PaperDoll")
+	if (unit and self.hasItem) then
+		local count, level, _, link, quality = LibItemInfo:GetUnitItemInfo(unit, id)
+		SetItemLevelString(frame.levelString, level > 0 and level or "", quality)
+		if (id == 16 or id == 17) then
+			local _, mlevel, _, _, mquality = LibItemInfo:GetUnitItemInfo(unit, 16)
+			local _, olevel, _, _, oquality = LibItemInfo:GetUnitItemInfo(unit, 17)
+			if (mlevel > 0 and olevel > 0 and (mquality == 6 or oquality == 6)) then
+				SetItemLevelString(frame.levelString, max(mlevel,olevel), mquality or oquality)
+			end
+		end
+	else
+		SetItemLevelString(frame.levelString, "")
+	end
+end
+
+hooksecurefunc("PaperDollItemSlotButton_OnShow", function(self, isBag)
+	SetPaperDollItemLevel(self, "player")
+end)
+
+hooksecurefunc("PaperDollItemSlotButton_OnEvent", function(self, event, id, ...)
+	if (event == "PLAYER_EQUIPMENT_CHANGED" and self:GetID() == id) then
+		SetPaperDollItemLevel(self, "player")
+	end
+end)
+
+LibEvent:attachTrigger("UNIT_INSPECT_READY", function(self, data)
+	if (InspectFrame and InspectFrame.unit and UnitGUID(InspectFrame.unit) == data.guid) then
+		for _, button in ipairs({
+			 InspectHeadSlot,InspectNeckSlot,InspectShoulderSlot,InspectBackSlot,InspectChestSlot,InspectWristSlot,
+			 InspectHandsSlot,InspectWaistSlot,InspectLegsSlot,InspectFeetSlot,InspectFinger0Slot,InspectFinger1Slot,
+			 InspectTrinket0Slot,InspectTrinket1Slot,InspectMainHandSlot,InspectSecondaryHandSlot
+			}) do
+			SetPaperDollItemLevel(button, InspectFrame.unit)
+		end
+	end
+end)
+
+-- 位置設置
+LibEvent:attachTrigger("ITEMLEVEL_FRAME_SHOWN", function(self, frame, parent, category)
+	frame.levelString:ClearAllPoints()
+	frame.levelString:SetPoint("CENTER")
+	frame.levelString:SetJustifyH("CENTER")
+end)
+
+-- OutsideString For PaperDoll ItemLevel
+LibEvent:attachTrigger("ITEMLEVEL_FRAME_CREATED", function(self, frame, parent)
+	if PaperDollItemLevelOutsideString then
+		local name = parent:GetName()
+		if (name and string.match(name, "^[IC].+Slot$")) then
+			local id = parent:GetID()
+			frame:ClearAllPoints()
+			frame.levelString:ClearAllPoints()
+			if (id <= 5 or id == 9 or id == 15 or id == 19) then
+				frame:SetPoint("LEFT", parent, "RIGHT")
+				frame.levelString:SetPoint("CENTER")
+				frame.levelString:SetJustifyH("LEFT")
+			elseif (id == 17) then
+				frame:SetPoint("LEFT", parent, "RIGHT")
+				frame.levelString:SetPoint("CENTER")
+				frame.levelString:SetJustifyH("LEFT")
+			elseif (id == 16) then
+				frame:SetPoint("RIGHT", parent, "LEFT")
+				frame.levelString:SetPoint("CENTER")
+				frame.levelString:SetJustifyH("RIGHT")
+			else
+				frame:SetPoint("RIGHT", parent, "LEFT")
+				frame.levelString:SetPoint("CENTER")
+				frame.levelString:SetJustifyH("RIGHT")
+			end
+		end
 	end
 end)

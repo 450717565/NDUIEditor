@@ -2,8 +2,46 @@ local B, C, L, DB = unpack(select(2, ...))
 
 if UnitLevel("player") < 100 then return end
 
-local list = {
+local itemList = {
+-- 随从箱子
+	[139879] = true,	--勇士装备箱
+	[141344] = true,	--破碎群岛贡品
+	[146948] = true,	--破碎群岛贡品
+	[147432] = true,	--勇士装备
+	[147905] = true,	--勇士装备柜
+	[150924] = true,	--破碎群岛高级贡品
 	[153132] = true,	--阿古斯勇士装备箱
+-- 声望徽章
+	[139020] = true,
+	[139021] = true,
+	[139023] = true,
+	[139024] = true,
+	[139025] = true,
+	[139026] = true,
+	[141987] = true,
+	[141988] = true,
+	[141989] = true,
+	[141990] = true,
+	[141991] = true,
+	[141992] = true,
+	[146935] = true,
+	[146936] = true,
+	[146937] = true,
+	[146938] = true,
+	[146939] = true,
+	[146940] = true,
+	[146949] = true,
+	[147410] = true,
+	[147411] = true,
+	[147412] = true,
+	[147413] = true,
+	[147414] = true,
+	[147415] = true,
+	[147727] = true,
+	[152956] = true,
+	[152958] = true,
+	[152959] = true,
+	[152961] = true,
 }
 
 local itemLink, bag, slot
@@ -40,11 +78,7 @@ local function ScanBags()
 				if Cache[itemLink] then
 					return itemLink, bag, slot
 				else
-					if IsArtifactPowerItem(itemLink) then
-						Cache[itemLink] = true
-						return itemLink, bag, slot
-					end
-					if list[GetItemInfoInstant(itemLink)] then
+					if IsArtifactPowerItem(itemLink) or itemList[GetItemInfoInstant(itemLink)] then
 						Cache[itemLink] = true
 						return itemLink, bag, slot
 					end
@@ -86,7 +120,7 @@ ABF:RegisterEvent("PLAYER_REGEN_DISABLED")
 ABF:RegisterEvent("PLAYER_REGEN_ENABLED")
 ABF:SetScript("OnEvent", function(self, event)
 	if event == "PLAYER_LOGIN" then
-		B.Mover(ABF, "ABB", "AutoButton", point)
+		B.Mover(ABF, "AutoButton", "AutoButton", point)
 	elseif event == "BAG_UPDATE_DELAYED" then
 		UpdateItem(ABB)
 	elseif event == "PLAYER_REGEN_DISABLED" then
