@@ -96,7 +96,7 @@ local function GetInspectItemListFrame(parent)
 			itemframe.itemString = itemframe:CreateFontString(nil, "ARTWORK", itemfont)
 			itemframe.itemString:SetJustifyH("LEFT")
 			itemframe.itemString:SetHeight(16)
-			itemframe.itemString:SetPoint("LEFT", itemframe.levelString, "RIGHT", 2, 0)
+			itemframe.itemString:SetPoint("LEFT", itemframe.levelString, "RIGHT", 0, 0)
 			itemframe:SetScript("OnEnter", function(self)
 				local r, g, b, a = self.label:GetBackdropColor()
 				self.label:SetBackdropColor(r, g, b, a+0.5)
@@ -145,7 +145,7 @@ local function GetInspectItemListFrame(parent)
 end
 
 --等級字符
-local ItemLevelPattern = _G["ITEM_LEVEL"]:gsub("%%d", "(%%.1f)")
+local ItemLevelPattern = _G["ITEM_LEVEL"]:gsub("%%d", "%%.1f")
 
 --顯示面板
 function ShowInspectItemListFrame(unit, parent, ilevel)
@@ -180,6 +180,8 @@ function ShowInspectItemListFrame(unit, parent, ilevel)
 			itemframe.levelString:SetText(format("%3s",""))
 			itemframe.itemString:SetText("")
 		end
+		levelwidth = itemframe.levelString:GetWidth()
+		itemframe.levelString:SetWidth(max(30, levelwidth))
 		itemwidth = itemframe.itemString:GetWidth()
 		itemframe.itemString:SetWidth(itemwidth)
 		itemframe.width = itemwidth + 64
