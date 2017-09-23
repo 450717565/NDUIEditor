@@ -62,7 +62,7 @@
 			<Anchors>
 				<Anchor point="CENTER" relativeTo="$parent_EnableCheckButton" relativePoint="TOPLEFT">
 					<Offset>
-						<AbsDimension x="60" y="-180"/>
+						<AbsDimension x="60" y="-120"/>
 					</Offset>
 				</Anchor>
 			</Anchors>
@@ -159,14 +159,14 @@
 				</OnClick>
 			</Scripts>
 		</Button>
-		<Button name="$parent_ShareIcon" inherits="OptionsButtonTemplate" text="" hidden="true">
+		<Button name="$parent_ShareIcon" inherits="OptionsButtonTemplate" text="">
 			<Size>
 				<AbsDimension x="65" y="35" />
 			</Size>
 			<Anchors>
 				<Anchor point="RIGTH" relativeTo="$parent" relativePoint="BOTTOMRIGHT">
 				<Offset>
-					<AbsDimension x="-225" y="130" />
+					<AbsDimension x="-80" y="115" />
 				</Offset>
 				</Anchor>
 			</Anchors>
@@ -223,9 +223,9 @@
 		   <Scripts>
 			   <OnLoad>
 				  _G[self:GetName().."Text"]:SetText(FNP_LOCALE_TEXT.FNP_ONLYSHOW_SCALE_TXT);
-				  _G[self:GetName().."High"]:SetText(FNP_LOCALE_TEXT.FNP_TXT_BIG.."200%");
+				  _G[self:GetName().."High"]:SetText(FNP_LOCALE_TEXT.FNP_TXT_BIG.."130%");
 				  _G[self:GetName().."Low"]:SetText(FNP_LOCALE_TEXT.FNP_TXT_SMALL.."100%");
-				  self:SetMinMaxValues(100, 200);
+				  self:SetMinMaxValues(100, 130);
 				  self:SetValueStep(1);
 			   </OnLoad>
 			   <OnValueChanged>
@@ -256,9 +256,9 @@
 		   <Scripts>
 			   <OnLoad>
 				  _G[self:GetName().."Text"]:SetText(FNP_LOCALE_TEXT.FNP_ONLYSHOW_OTHER_SCALE_TXT);
-				  _G[self:GetName().."High"]:SetText(FNP_LOCALE_TEXT.FNP_TXT_BIG.."100%");
-				  _G[self:GetName().."Low"]:SetText(FNP_LOCALE_TEXT.FNP_TXT_SMALL.."15%");
-				  self:SetMinMaxValues(15, 100);
+				  _G[self:GetName().."High"]:SetText(FNP_LOCALE_TEXT.FNP_TXT_BIG.."50%");
+				  _G[self:GetName().."Low"]:SetText(FNP_LOCALE_TEXT.FNP_TXT_SMALL.."5%");
+				  self:SetMinMaxValues(5, 50);
 				  self:SetValueStep(1);
 			   </OnLoad>
 			   <OnValueChanged>
@@ -351,9 +351,9 @@
 				<AbsDimension x="45" y="35" />
 			</Size>
 			<Anchors>
-				<Anchor point="BOTTOMRIGHT" relativeTo="$parent">
+				<Anchor point="BOTTOMLEFT" relativeTo="$parent">
 				<Offset>
-					<AbsDimension x="-30" y="13" />
+					<AbsDimension x="10" y="80" />
 				</Offset>
 				</Anchor>
 			</Anchors>
@@ -375,7 +375,7 @@
 			<Anchors>
 				<Anchor point="TOPLEFT" relativeTo="FilteredNamePlate_Frame_takeEffectBtn">
 				<Offset>
-					<AbsDimension x="-160" y="0" />
+					<AbsDimension x="55" y="0" />
 				</Offset>
 				</Anchor>
 			</Anchors>
@@ -403,7 +403,7 @@
 					</Anchor>
 				</Anchors>
 			</Texture>
-			<FontString name="$parent_Header_Text" inherits="GameFontNormal" text="FNP v6.1.2">
+			<FontString name="$parent_Header_Text" inherits="GameFontNormal" text="FNP v6.2.0">
 				<Anchors>
 					<Anchor point="TOP" relativeTo="$parent_Header">
 						<Offset>
@@ -432,9 +432,9 @@
 			</FontString>
 			<FontString name="$parent_uitype" inherits="GameFontNormal" text="">
 				<Anchors>
-					<Anchor point="BOTTOMLEFT" relativeTo="$parent_KilllineModCB">
+					<Anchor point="BOTTOMLEFT" relativeTo="$parent_DropDownUIType">
 						<Offset>
-							<AbsDimension x="-40" y="-60" />
+							<AbsDimension x="0" y="40" />
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -448,26 +448,26 @@
 					</Anchor>
 				</Anchors>
 			</FontString>
-			<FontString name="$parent_AuthorText" inherits="GameFontNormal" hidden="true" text="" multiLine="true">
+			<FontString name="$parent_AuthorText" inherits="GameFontNormalSmall" text="" multiLine="true">
 				<Size>
 					<AbsDimension x="240" y="50" />
 				</Size>
 				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+					<Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="BOTTOMLEFT">
 						<Offset>
-							<AbsDimension x="10" y="-80" />
+							<AbsDimension x="10" y="10" />
 						</Offset>
 					</Anchor>
 				</Anchors>
 			</FontString>
-			<FontString name="$parent_webText" inherits="GameFontNormal" hidden="true" text="" multiLine="true">
+			<FontString name="$parent_webText" inherits="GameFontNormalSmall" text="" multiLine="false">
 				<Size>
-					<AbsDimension x="240" y="50" />
+					<AbsDimension x="0" y="50" />
 				</Size>
 				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+					<Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="BOTTOMLEFT">
 						<Offset>
-							<AbsDimension x="10" y="-130" />
+							<AbsDimension x="10" y="40" />
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -479,6 +479,8 @@
 			self:RegisterForDrag("LeftButton");
 			FilteredNamePlate_Frame_webText:SetText(FNP_LOCALE_TEXT.FNP_STRING_WEBSITE);
 			FilteredNamePlate_Frame_AuthorText:SetText(FNP_LOCALE_TEXT.FNP_STRING_AUTHOR_VER);
+			FilteredNamePlate_Frame_AuthorText:SetFont (GameFontNormal:GetFont(), 12)
+			FilteredNamePlate_Frame_webText:SetFont(GameFontNormal:GetFont(), 12)
 			FilteredNamePlate_Frame_OnlyShows_Text:SetText(FNP_LOCALE_TEXT.FNP_ONLYSHOW_LIST_TXT);
 			FilteredNamePlate_Frame_Filters_Text:SetText(FNP_LOCALE_TEXT.FNP_FILTER_LIST_TXT);
 			FilteredNamePlate_Frame_uitype:SetText(FNP_LOCALE_TEXT.FNP_STRING_UI_TYPE);

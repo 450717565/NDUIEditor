@@ -40,7 +40,7 @@ FNP_LOCALE_TEXT.FNP_FILTER_LIST_TXT = "Filter List";
 FNP_LOCALE_TEXT.FNP_STRING_UI_TYPE = "UI Type(reload after changed)";
 FNP_LOCALE_TEXT.FNP_STRING_NOTE = "using ; to add a name";
 
-FNP_LOCALE_TEXT.FNP_STRING_AUTHOR_VER = "Author:Allan version:7.3.0.20170902";
+FNP_LOCALE_TEXT.FNP_STRING_AUTHOR_VER = "Author:Allan version:7.3.0.20170923";
 
 FNP_LOCALE_TEXT.FNP_PRINT_ERROR_UITYPE = "\124cFF00CD00[ /fnp ]Error！Your UI type does not match, please check the UI type correctly and reloadUI!！\124r";
 FNP_LOCALE_TEXT.FNP_PRINT_UITYPE_CHANGED = "\124cFF00CD00UI type is changed，please reloadUI !\124r";

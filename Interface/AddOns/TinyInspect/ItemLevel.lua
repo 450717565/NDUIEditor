@@ -2,7 +2,6 @@
 -------------------------------------
 -- 物品等級顯示 Author: M
 -------------------------------------
-
 local B, C, L, DB = unpack(NDui)
 
 local LibEvent = LibStub:GetLibrary("LibEvent.7000")
@@ -25,18 +24,17 @@ local function GetItemLevelFrame(self, category)
 	if (not self.ItemLevelFrame) then
 		local fontAdjust = GetLocale():sub(1,2) == "zh" and 0 or -3
 		self.ItemLevelFrame = CreateFrame("Frame", nil, self)
-		self.ItemLevelFrame:SetFrameLevel(8)
+		self.ItemLevelFrame:SetToplevel(true)
 		self.ItemLevelFrame:SetSize(self:GetSize())
 		self.ItemLevelFrame:SetPoint("CENTER")
 		self.ItemLevelFrame.levelString = self.ItemLevelFrame:CreateFontString(nil, "OVERLAY")
+		self.ItemLevelFrame.levelString:SetJustifyH("LEFT")
 		self.ItemLevelFrame.levelString:SetFont(STANDARD_TEXT_FONT, 14+fontAdjust, "OUTLINE")
-		self.ItemLevelFrame.levelString:SetPoint("TOP", 0, -1)
+		self.ItemLevelFrame.levelString:SetPoint("TOPLEFT", 1, -1)
 		self.ItemLevelFrame.slotString = self.ItemLevelFrame:CreateFontString(nil, "OVERLAY")
+		self.ItemLevelFrame.slotString:SetJustifyH("RIGHT")
 		self.ItemLevelFrame.slotString:SetFont(STANDARD_TEXT_FONT, 10+fontAdjust, "OUTLINE")
 		self.ItemLevelFrame.slotString:SetPoint("BOTTOMRIGHT", 0, 2)
-		self.ItemLevelFrame.slotString:SetJustifyH("RIGHT")
-		self.ItemLevelFrame.slotString:SetWidth(34)
-		self.ItemLevelFrame.slotString:SetHeight(0)
 		LibEvent:trigger("ITEMLEVEL_FRAME_CREATED", self.ItemLevelFrame, self)
 	end
 	if EnableItemLevel then
@@ -292,7 +290,7 @@ local function ChatItemLevel(Hyperlink)
 	local _, _, itemRarity, _, _, _, itemSubType, _, itemEquipLoc, itemTexture, _, itemClassID, itemSubClassID, bindType = GetItemInfo(itemLink)
 	if not itemTexture then return end
 	local slotText, totalText
-	local level = NDui:GetItemLevel(itemLink, itemRarity)
+	local level = B.GetItemLevel(itemLink, itemRarity)
 
 	if itemEquipLoc and string.find(itemEquipLoc, "INVTYPE_") then
 		slotText = _G[itemEquipLoc] or ""
@@ -404,20 +402,13 @@ end)
 LibEvent:attachTrigger("UNIT_INSPECT_READY", function(self, data)
 	if (InspectFrame and InspectFrame.unit and UnitGUID(InspectFrame.unit) == data.guid) then
 		for _, button in ipairs({
-			 InspectHeadSlot,InspectNeckSlot,InspectShoulderSlot,InspectBackSlot,InspectChestSlot,InspectWristSlot,
-			 InspectHandsSlot,InspectWaistSlot,InspectLegsSlot,InspectFeetSlot,InspectFinger0Slot,InspectFinger1Slot,
-			 InspectTrinket0Slot,InspectTrinket1Slot,InspectMainHandSlot,InspectSecondaryHandSlot
+				InspectHeadSlot,InspectNeckSlot,InspectShoulderSlot,InspectBackSlot,InspectChestSlot,InspectWristSlot,
+				InspectHandsSlot,InspectWaistSlot,InspectLegsSlot,InspectFeetSlot,InspectFinger0Slot,InspectFinger1Slot,
+				InspectTrinket0Slot,InspectTrinket1Slot,InspectMainHandSlot,InspectSecondaryHandSlot
 			}) do
 			SetPaperDollItemLevel(button, InspectFrame.unit)
 		end
 	end
-end)
-
--- 位置設置
-LibEvent:attachTrigger("ITEMLEVEL_FRAME_SHOWN", function(self, frame, parent, category)
-	frame.levelString:ClearAllPoints()
-	frame.levelString:SetPoint("CENTER")
-	frame.levelString:SetJustifyH("CENTER")
 end)
 
 -- OutsideString For PaperDoll ItemLevel

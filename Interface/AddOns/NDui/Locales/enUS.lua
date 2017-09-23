@@ -1,6 +1,8 @@
 local _, _, L, _ = unpack(select(2, ...))
 --if GetLocale() ~= "enUS" then return end
 
+L["ShowCharacterItemSheet"] = "Show Character ItemSheet"
+L["ShowOwnFrameWhenInspecting"] = "Show OwnFrame When Inspecting"
 L["Arrow Color"] = "Arrow Color"
 L["BarrelsOEasy"] = "Barrels o' Easy"
 L["CombatAlert"] = "Levaing/Entering Combat Alert"

@@ -152,12 +152,43 @@ function module:OnLogin()
 		end
 	end
 
+	local PowerDB = {}
+	local function isArtifactPower(link)
+		if PowerDB[link] then return true end
+
+		if iIsArtifactPowerItem(link) then
+			PowerDB[link] = true
+		end
+		return PowerDB[link]
+	end
+
 	local function isPowerInWrongSpec()
 		if NDuiDB["Bags"]["PreferPower"] == 1 then return end
 		local spec = GetSpecialization()
 		if spec and spec + 1 ~= NDuiDB["Bags"]["PreferPower"] then
 			return true
 		end
+	end
+
+	local itemLevelString = _G["ITEM_LEVEL"]:gsub("%%d", "")
+	local ItemDB = {}
+	local function GetBagItemLevel(link, bag, slot)
+		if ItemDB[link] then return ItemDB[link] end
+
+		local tip = _G["NDuiBagItemTooltip"] or CreateFrame("GameTooltip", "NDuiBagItemTooltip", nil, "GameTooltipTemplate")
+		tip:SetOwner(UIParent, "ANCHOR_NONE")
+		tip:SetBagItem(bag, slot)
+
+		for i = 2, 5 do
+			local text = _G[tip:GetName().."TextLeft"..i]:GetText() or ""
+			local hasLevel = string.find(text, itemLevelString)
+			if hasLevel then
+				local level = string.match(text, "(%d+)%)?$")
+				ItemDB[link] = tonumber(level)
+				break
+			end
+		end
+		return ItemDB[link]
 	end
 
 	function MyButton:OnUpdate(item)
@@ -202,7 +233,7 @@ function module:OnLogin()
 			and (rarity and rarity > 1)
 			and ((item.level and item.level > 0) and (item.subType == EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC or (item.equipLoc ~= "" and item.equipLoc ~= "INVTYPE_TABARD" and item.equipLoc ~= "INVTYPE_BODY")))
 			or ((item.classID and item.classID == 15 and item.subclassID) and (item.subclassID == 2 or item.subclassID == 5)) then
-				local level = NDui:GetItemLevel(item.link, rarity)
+				local level = GetBagItemLevel(item.link, item.bagID, item.slotID)
 				local _, _, _, _, _, _, itemSubType, itemStackCount, itemEquipLoc, _, _, itemClassID, itemSubClassID, bindType = GetItemInfo(link)
 				if NDuiDB["Bags"]["BagsiLvl"] then
 					self.iLvl:SetText(level)
@@ -237,7 +268,7 @@ function module:OnLogin()
 		end
 
 		if NDuiDB["Bags"]["PreferPower"] > 1 then
-			if isPowerInWrongSpec() and item.link and IsArtifactPowerItem(item.link) then
+			if isPowerInWrongSpec() and item.link and isArtifactPower(item.link) then
 				self.powerProtect:SetAlpha(1)
 			else
 				self.powerProtect:SetAlpha(0)

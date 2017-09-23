@@ -254,7 +254,7 @@ local function START_LOOT_ROLL(rollid, time)
 	end
 
 	if f.button.link and quality > 0 then
-		local itemLvl = NDui:GetItemLevel(f.button.link, quality)
+		local itemLvl = B.GetItemLevel(f.button.link, quality)
 		f.ilvl:SetText(itemLvl)
 		f.ilvl:Show()
 	else

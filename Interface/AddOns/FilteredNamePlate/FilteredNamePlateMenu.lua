@@ -1,7 +1,7 @@
 SLASH_FilteredNamePlate1 = "/fnp"
 
 local isInitedDrop
-
+local L = FNP_LOCALE_TEXT
 function SlashCmdList.FilteredNamePlate(msg)
 	if msg == "" then
 		print(L.FNP_PRINT_HELP0)
@@ -18,8 +18,6 @@ function SlashCmdList.FilteredNamePlate(msg)
 			FilteredNamePlate_Frame_EnableCheckButton:SetChecked(true)
 			FilteredNamePlate:FNP_EnableButtonChecked(FilteredNamePlate_Frame, true)
 		end
-	elseif msg == "refresh" then
-		FilteredNamePlate:actionUnitStateAfterChanged()
 	end
 end
 
@@ -156,8 +154,6 @@ function FilteredNamePlate:FNP_ChangeFrameVisibility(...)
 			FilteredNamePlate_Menu2:UnlockHighlight()
 			FilteredNamePlate_Menu3:UnlockHighlight()
 			FilteredNamePlate_Menu4:UnlockHighlight()
-			FilteredNamePlate_Menu5:UnlockHighlight()
-
 			FilteredNamePlate_Frame_EnableCheckButton:Hide()
 			-- FilteredNamePlate_Frame_TankModCB:Hide()
 			-- FilteredNamePlate_Frame_KilllineModCB:Hide()
@@ -189,10 +185,13 @@ function FilteredNamePlate:FNP_ChangeFrameVisibility(...)
 			if info == "general" then
 				FilteredNamePlate_Menu1:LockHighlight()
 				FilteredNamePlate_Frame_EnableCheckButton:Show()
+				FilteredNamePlate_Frame_ShareIcon:Show()
 				-- FilteredNamePlate_Frame_TankModCB:Hide() -- close tank ###
 				-- FilteredNamePlate_Frame_KilllineModCB:Show()
 				FilteredNamePlate_Frame_uitype:Show()
 				FilteredNamePlate_Frame_DropDownUIType:Show()
+				FilteredNamePlate_Frame_AuthorText:Show()
+				FilteredNamePlate_Frame_webText:Show()
 			elseif info == "filter" then
 				FilteredNamePlate_Menu2:LockHighlight()
 				FilteredNamePlate_Frame_OnlyShowModeEditBox:Show()
@@ -209,12 +208,6 @@ function FilteredNamePlate:FNP_ChangeFrameVisibility(...)
 				FilteredNamePlate_Menu4:LockHighlight()
 				FilteredNamePlate_Frame_Slider_KL1:Show()
 				FilteredNamePlate_Frame_Slider_KL2:Show()
-			elseif info == "about" then
-				FilteredNamePlate_Menu5:LockHighlight()
-				FilteredNamePlate_Frame_ShareIcon:Show()
-				FilteredNamePlate_Frame_AuthorText:Show()
-				FilteredNamePlate_Frame_webText:Show()
-				FilteredNamePlate_Frame_reloadUIBtn:Show()
 			end
 		end
 		ClickOnMenu(info)

@@ -1,6 +1,28 @@
 local B, C, L, DB = unpack(select(2, ...))
 local cr, cg, cb = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b
 
+--- Scan Item Level ---
+local itemLevelString = _G["ITEM_LEVEL"]:gsub("%%d", "")
+local ItemDB = {}
+B.GetItemLevel = function(link, quality)
+	if ItemDB[link] and quality ~= 6 then return ItemDB[link] end
+
+	local tip = _G["NDuiScanTooltip"] or CreateFrame("GameTooltip", "NDuiScanTooltip", nil, "GameTooltipTemplate")
+	tip:SetOwner(UIParent, "ANCHOR_NONE")
+ 	tip:SetHyperlink(link)
+
+	for i = 2, 5 do
+		local text = _G[tip:GetName().."TextLeft"..i]:GetText() or ""
+		local hasLevel = string.match(text, itemLevelString)
+		if hasLevel then
+			local level = string.match(text, "(%d+)%)?$")
+			ItemDB[link] = tonumber(level)
+			break
+		end
+	end
+	return ItemDB[link]
+end
+
 -- Gradient Frame
 B.CreateGF = function(f, w, h, o, r, g, b, a1, a2)
 	f:SetSize(w, h)

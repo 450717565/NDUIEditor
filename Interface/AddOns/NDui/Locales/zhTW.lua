@@ -1,6 +1,8 @@
 local _, _, L, _ = unpack(select(2, ...))
 if GetLocale() ~= "zhTW" then return end
 
+L["ShowCharacterItemSheet"] = "顯示玩家自己裝備列表"
+L["ShowOwnFrameWhenInspecting"] = "觀察同時顯示自己裝備列表"
 L["Arrow Color"] = "箭頭顏色"
 L["BarrelsOEasy"] = "歡樂桶助手"
 L["CombatAlert"] = "進入/脫離戰鬥提示"

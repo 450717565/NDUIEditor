@@ -8,8 +8,8 @@ local LibEvent = LibStub:GetLibrary("LibEvent.7000")
 local LibItemInfo = LibStub:GetLibrary("LibItemInfo.7000")
 
 local ShowInspectColoredLabel = true
-local ShowOwnFrameWhenInspecting = true
-local ShowCharacterItemSheet = true
+local ShowCharacterItemSheet = NDuiDB["Extras"]["ShowCharacterItemSheet"]
+local ShowOwnFrameWhenInspecting = NDuiDB["Extras"]["ShowOwnFrameWhenInspecting"]
 
 --裝備清單
 local slots = {
@@ -45,7 +45,7 @@ local function GetInspectItemListFrame(parent)
 			insets   = {left = 4, right = 4, top = 4, bottom = 4}
 		}
 		frame:SetSize(160, 424)
-		frame:SetFrameLevel(0)
+		frame:SetToplevel(true)
 		frame:SetPoint("TOPLEFT", parent, "TOPRIGHT", 0, 0)
 		frame:SetBackdrop(frame.backdrop)
 		frame:SetBackdropColor(0, 0, 0, 0.9)
@@ -145,7 +145,7 @@ local function GetInspectItemListFrame(parent)
 end
 
 --等級字符
-local ItemLevelPattern = gsub(ITEM_LEVEL, "%%d", "%%.1f")
+local ItemLevelPattern = _G["ITEM_LEVEL"]:gsub("%%d", "(%%.1f)")
 
 --顯示面板
 function ShowInspectItemListFrame(unit, parent, ilevel)
@@ -302,7 +302,7 @@ end)
 ----------------
 
 PaperDollFrame:HookScript("OnShow", function(self)
-	if (TinyInspectDB and not TinyInspectDB.ShowCharacterItemSheet) then return end
+	if (not ShowCharacterItemSheet) then return end
 	ShowInspectItemListFrame("player", self, select(2,GetAverageItemLevel()))
 end)
 

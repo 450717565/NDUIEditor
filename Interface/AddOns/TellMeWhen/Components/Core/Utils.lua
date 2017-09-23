@@ -1575,6 +1575,6 @@ function TMW:ClickSound()
 	if SOUNDKIT then
 		PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF)
 	else
-		PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
+		PlaySound("igMainMenuOptionCheckBoxOn")
 	end
 end
