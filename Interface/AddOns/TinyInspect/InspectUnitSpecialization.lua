@@ -11,7 +11,7 @@ hooksecurefunc("ShowInspectItemListFrame", function(unit, parent, itemLevel)
 	if (not frame.specicon) then
 		frame.specicon = frame:CreateTexture(nil, "BORDER")
 		frame.specicon:SetSize(42, 42)
-		frame.specicon:SetPoint("TOPRIGHT", -16, -16)
+		frame.specicon:SetPoint("TOPRIGHT", -16, -15)
 		frame.specicon:SetMask("Interface\\Minimap\\UI-Minimap-Background")
 		frame.spectext = frame:CreateFontString(nil, "BORDER")
 		frame.spectext:SetFont(SystemFont_Outline_Small:GetFont(), 10, "THINOUTLINE")

@@ -153,16 +153,9 @@ function module:RecycleBin()
 
 	local buttons = {}
 	local blackList = {
-		["MiniMapTracking"] = true,
-		["MiniMapVoiceChatFrame"] = true,
-		["MiniMapWorldMapButton"] = true,
 		["MiniMapLFGFrame"] = true,
-		["MinimapZoomIn"] = true,
-		["MinimapZoomOut"] = true,
-		["MiniMapMailFrame"] = true,
 		["BattlefieldMinimap"] = true,
 		["MinimapBackdrop"] = true,
-		["GameTimeFrame"] = true,
 		["TimeManagerClockButton"] = true,
 		["FeedbackUIButton"] = true,
 		["HelpOpenTicketButton"] = true,

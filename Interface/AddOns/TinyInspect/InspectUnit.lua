@@ -164,7 +164,7 @@ function ShowInspectItemListFrame(unit, parent, ilevel)
 	frame.level:SetTextColor(1, 0.82, 0)
 	local _, name, level, link, quality
 	local itemframe, mframe, oframe, itemwidth
-	local width = 160
+
 	for i, v in ipairs(slots) do
 		_, level, name, link, quality = LibItemInfo:GetUnitItemInfo(unit, v.index)
 		itemframe = frame["item"..i]
@@ -172,23 +172,19 @@ function ShowInspectItemListFrame(unit, parent, ilevel)
 		itemframe.link = link
 		itemframe.level = level
 		itemframe.quality = quality
-		itemframe.itemString:SetWidth(0)
 		if (level > 0) then
-			itemframe.levelString:SetText(format("%3s",level))
+			itemframe.levelString:SetText(format("%d",level))
 			itemframe.itemString:SetText(link or name)
 		else
-			itemframe.levelString:SetText(format("%3s",""))
+			itemframe.levelString:SetText("")
 			itemframe.itemString:SetText("")
 		end
-		levelwidth = itemframe.levelString:GetWidth()
-		itemframe.levelString:SetWidth(max(30, levelwidth))
+
 		itemwidth = itemframe.itemString:GetWidth()
 		itemframe.itemString:SetWidth(itemwidth)
 		itemframe.width = itemwidth + 64
 		itemframe:SetWidth(itemframe.width)
-		if (width < itemframe.width) then
-			width = itemframe.width
-		end
+
 		if (v.index == 16) then
 			mframe = itemframe
 			mframe:SetAlpha(1)
@@ -201,10 +197,10 @@ function ShowInspectItemListFrame(unit, parent, ilevel)
 	if (mframe and oframe and (mframe.quality == 6 or oframe.quality == 6)) then
 		level = max(mframe.level, oframe.level)
 		if mframe.link then
-			mframe.levelString:SetText(format("%3s",level))
+			mframe.levelString:SetText(format("%d",level))
 		end
 		if oframe.link then
-			oframe.levelString:SetText(format("%3s",level))
+			oframe.levelString:SetText(format("%d",level))
 		end
 	end
 	if (mframe and mframe.level <= 0) then
@@ -213,7 +209,7 @@ function ShowInspectItemListFrame(unit, parent, ilevel)
 	if (oframe and oframe.level <= 0) then
 		oframe:SetAlpha(0.4)
 	end
-	frame:SetWidth(width + 36)
+	frame:SetWidth(itemframe.width + 36)
 	frame:Show()
 
 	LibEvent:trigger("INSPECT_FRAME_SHOWN", frame, parent, ilevel)
