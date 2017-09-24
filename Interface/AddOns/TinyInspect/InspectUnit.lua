@@ -164,7 +164,7 @@ function ShowInspectItemListFrame(unit, parent, ilevel)
 	frame.level:SetTextColor(1, 0.82, 0)
 	local _, name, level, link, quality
 	local itemframe, mframe, oframe, itemwidth
-
+	local width = 160
 	for i, v in ipairs(slots) do
 		_, level, name, link, quality = LibItemInfo:GetUnitItemInfo(unit, v.index)
 		itemframe = frame["item"..i]
@@ -172,6 +172,7 @@ function ShowInspectItemListFrame(unit, parent, ilevel)
 		itemframe.link = link
 		itemframe.level = level
 		itemframe.quality = quality
+		itemframe.itemString:SetWidth(0)
 		if (level > 0) then
 			itemframe.levelString:SetText(format("%d",level))
 			itemframe.itemString:SetText(link or name)
@@ -184,7 +185,9 @@ function ShowInspectItemListFrame(unit, parent, ilevel)
 		itemframe.itemString:SetWidth(itemwidth)
 		itemframe.width = itemwidth + 64
 		itemframe:SetWidth(itemframe.width)
-
+		if (width < itemframe.width) then
+			width = itemframe.width
+		end
 		if (v.index == 16) then
 			mframe = itemframe
 			mframe:SetAlpha(1)
@@ -209,7 +212,7 @@ function ShowInspectItemListFrame(unit, parent, ilevel)
 	if (oframe and oframe.level <= 0) then
 		oframe:SetAlpha(0.4)
 	end
-	frame:SetWidth(itemframe.width + 36)
+	frame:SetWidth(width + 38)
 	frame:Show()
 
 	LibEvent:trigger("INSPECT_FRAME_SHOWN", frame, parent, ilevel)

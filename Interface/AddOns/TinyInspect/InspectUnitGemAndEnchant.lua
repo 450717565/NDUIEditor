@@ -181,8 +181,8 @@ hooksecurefunc("ShowInspectItemListFrame", function(unit, parent, itemLevel)
 	while (frame["item"..i]) do
 		itemframe = frame["item"..i]
 		iconWidth = ShowGemAndEnchant(frame, itemframe.link, itemframe.itemString)
-		if (width < itemframe.width + iconWidth + 36) then
-			width = itemframe.width + iconWidth + 36
+		if (width < itemframe.width + iconWidth + 38) then
+			width = itemframe.width + iconWidth + 38
 		end
 		i = i + 1
 	end

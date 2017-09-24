@@ -171,7 +171,7 @@ end)
 -- Drag AltPowerbar
 do
 	local mover = CreateFrame("Frame", "NDuiAltBarMover", PlayerPowerBarAlt)
-	mover:SetPoint("CENTER", UIParent, "BOTTOM", -270, 150)
+	mover:SetPoint("CENTER", UIParent, "BOTTOM", -270, 170)
 	mover:SetSize(20, 20)
 	B.CreateMF(PlayerPowerBarAlt, mover)
 	hooksecurefunc(PlayerPowerBarAlt, "SetPoint", function(_, _, parent)
