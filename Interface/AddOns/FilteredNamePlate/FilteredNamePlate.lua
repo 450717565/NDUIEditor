@@ -63,7 +63,7 @@ local function registerMyEvents(self, event, ...)
 			Fnp_SavedScaleList = nil
 			Fnp_SavedScaleList = {
 				normal = 1,
-				small = 0.1,
+				small = 0.25,
 				only = 1.4,
 				killline = 100,
 				killline_r = 0,
@@ -118,7 +118,7 @@ local HideAFrame = {
 		if frame.UnitFrame then
 			frame.UnitFrame.name:SetWidth(FilteredNamePlate.curScaleList.name.small)
 			if frame.UnitFrame.healthBar then frame.UnitFrame.healthBar:Hide() end
-			frame.UnitFrame.castBar:Hide()
+			frame.UnitFrame.castBar:SetHeight(FilteredNamePlate.curScaleList.bars.cast_midHeight)
 		end
 	end,
 	[1] = function(frame) -- all the scaled one

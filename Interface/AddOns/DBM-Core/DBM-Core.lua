@@ -41,7 +41,7 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 16736 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 16743 $"):sub(12, -3)),
 	DisplayVersion = "7.3.4 alpha", -- the string that is shown as version
 	ReleaseRevision = 16725 -- the revision of the latest stable version that is available
 }
@@ -7068,17 +7068,19 @@ function bossModPrototype:IsLFR()
 	return false
 end
 
+--Dungeons: normal, heroic. Raids: LFR, normal
 function bossModPrototype:IsEasy()
 	local diff = savedDifficulty or DBM:GetCurrentInstanceDifficulty()
-	if diff == "normal" or diff == "lfr" then
+	if diff == "normal" or diff == "lfr" or diff == "lfr25" or diff == "heroic5" or diff == "normal5" then
 		return true
 	end
 	return false
 end
 
+--Dungeons, mythic, mythic+. Raids: heroic, mythic
 function bossModPrototype:IsHard()
 	local diff = savedDifficulty or DBM:GetCurrentInstanceDifficulty()
-	if diff == "mythic" or diff == "challenge5" then
+	if diff == "mythic" or diff == "challenge5" or diff == "heroic" then
 		return true
 	end
 	return false

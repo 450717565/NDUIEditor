@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1979, "DBM-Party-Legion", 13, 945)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16714 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16738 $"):sub(12, -3))
 mod:SetCreatureID(124871)
 mod:SetEncounterID(2065)
 mod:SetZone()
@@ -22,23 +22,25 @@ mod:RegisterEventsInCombat(
 --TODO, more timer updates, warning tweaks, countdowns
 --TODO, personal alternate power and warn when extra action is ready to leave Umbra Shift
 --Void Brute
-local warnNullPalm						= mod:NewSpellAnnounce(246134, 2, nil, "Tank")
-local warnUmbraShift					= mod:NewTargetAnnounce(246134, 3)
+--local warnNullPalm						= mod:NewSpellAnnounce(246134, 2, nil, "Tank")
+local warnUmbraShift					= mod:NewTargetAnnounce(244433, 3)
 local warnFixate						= mod:NewTargetAnnounce(244657, 3)
 local warnVoidTear						= mod:NewTargetAnnounce(244621, 1)
 
+local specWarnNullPalm					= mod:NewSpecialWarningDodge(246134, nil, nil, 2, 2, 2)
 local specWarnCoalescedVoid				= mod:NewSpecialWarningSwitch(244602, "Dps", nil, nil, 1, 2)
 local specWarnUmbraShift				= mod:NewSpecialWarningYou(244433, nil, nil, nil, 1, 2)
 local specWarnFixate					= mod:NewSpecialWarningRun(244657, nil, nil, nil, 4, 2)
 
-local timerNullPalmCD					= mod:NewCDTimer(10.9, 246134, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON)
+local timerNullPalmCD					= mod:NewCDTimer(10.9, 246134, nil, nil, nil, 3)
 local timerDeciminateCD					= mod:NewCDTimer(12.1, 244579, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON)
 local timerCoalescedVoidCD				= mod:NewCDTimer(12.1, 244579, nil, nil, nil, 1, nil, DBM_CORE_DAMAGER_ICON)
 local timerUmbraShiftCD					= mod:NewCDTimer(12, 244433, nil, nil, nil, 6)
-local timerVoidTear						= mod:NewBuffActiveTimer(12, 244621, nil, nil, nil, 6)
+local timerVoidTear						= mod:NewBuffActiveTimer(20, 244621, nil, nil, nil, 6)
 
 --local countdownBreath					= mod:NewCountdown(22, 227233)
 
+local voiceNullPalm						= mod:NewVoice(246134, nil, nil, 2)--shockwave
 local voiceCoalescedVoid				= mod:NewVoice(244602)--killmob
 local voiceUmbraShift					= mod:NewVoice(244433)--teleyou
 local voiceFixate						= mod:NewVoice(244657)--justrun/keepmove
@@ -55,7 +57,8 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 246134 then
-		warnNullPalm:Show()
+		specWarnNullPalm:Show()
+		voiceNullPalm:Play("shockwave")
 		timerNullPalmCD:Start()
 	elseif spellId == 244579 then
 		timerDeciminateCD:Start()

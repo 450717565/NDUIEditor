@@ -320,6 +320,8 @@ _L["47999_64632319_note"] = "Inside building";
 _L["47999_51533583_note"] = "Outside building, over the litte ooze lake";
 _L["47999_60422354_note"] = "";
 _L["47999_62763812_note"] = "Inside building";
+_L["47999_60492781_note"] = "";
+_L["47999_46768337_note"] = "";
 -- 48000
 _L["48000_70907370_note"] = "";
 _L["48000_74136790_note"] = "";
@@ -334,6 +336,7 @@ _L["48000_71846166_note"] = "Climb up the tipped pillar";
 _L["48000_67886231_note"] = "Behind pillar";
 _L["48000_74996922_note"] = "";
 _L["48000_62946824_note"] = "In the upper cave. Ride up the rocks east from here to reach the upper cave."
+_L["48000_69386278_note"] = "";
 -- 48336
 _L["48336_33575511_note"] = "Xenadar upper level, outside";
 _L["48336_32047441_note"] = "";
@@ -360,6 +363,7 @@ _L["48339_67713454_note"] = "";
 _L["48339_72493605_note"] = "";
 _L["48339_44864342_note"] = "";
 _L["48339_46094082_note"] = "";
+_L["48339_70503063_note"] = "";
 
 -- Mac'Aree
 _L["Shadowcaster Voruun"] = "Shadowcaster Voruun";
@@ -487,6 +491,8 @@ _L["48346_52868241_note"] = "";
 _L["48346_47186234_note"] = "";
 _L["48346_50107580_note"] = "";
 _L["48346_53328001_note"] = "In cellar"
+_L["48346_55297347_note"] = "";
+_L["48346_52696161_note"] = "";
 -- 48350
 _L["48350_59622088_note"] = "Inside building under staircase";
 _L["48350_60493338_note"] = "Inside building";
@@ -514,13 +520,16 @@ _L["48357_49412387_note"] = "";
 _L["48357_47672180_note"] = "";
 _L["48357_48482115_note"] = "";
 _L["48357_57881053_note"] = "";
-_L["48357_52871676_note"] = "Up the stairs";
+_L["48357_52871676_note"] = "";
 _L["48357_47841956_note"] = "";
 _L["48357_51802871_note"] = "In the area up the northern stairs";
 _L["48357_49912946_note"] = "";
 _L["48357_54951750_note"] = "";
 _L["48357_46381509_note"] = "";
 _L["48357_50021442_note"] = "";
+_L["48357_52631644_note"] = "";
+_L["48357_45981325_note"] = "";
+_L["48357_44571860_note"] = "";
 -- 48371
 _L["48371_48604971_note"] = "";
 _L["48371_49865494_note"] = "";
@@ -531,6 +540,9 @@ _L["48371_35535718_note"] = "On 2nd floor, next to Herald of Chaos";
 _L["48371_25383016_note"] = "";
 _L["48371_53594211_note"] = "";
 _L["48371_59405863_note"] = "";
+_L["48371_19694227_note"] = "Inside building";
+_L["48371_24763858_note"] = "Inside building ruins";
+_L["48371_50575594_note"] = "";
 -- 48362
 _L["48362_66682786_note"] = "Inside building, next to Zul'tan the Numerous";
 _L["48362_62134077_note"] = "Inside building";
@@ -542,6 +554,9 @@ _L["48362_60964354_note"] = "Inside building";
 _L["48362_64445956_note"] = "Inside building";
 _L["48362_65354194_note"] = "";
 _L["48362_63924532_note"] = "";
+_L["48362_67893170_note"] = "";
+_L["48362_65974679_note"] = "Inside building";
+_L["48362_68404122_note"] = "";
 -- Void-Seeped Cache / Treasure Chest
 -- 49264
 _L["49264_38143985_note"] = "";
@@ -553,6 +568,7 @@ _L["49264_37102005_note"] = "";
 _L["49264_33592361_note"] = "Hidden under tree"
 _L["49264_31582553_note"] = "";
 _L["49264_32332131_note"] = "Kind of hidden in a corner";
+_L["49264_35293848_note"] = "";
 -- 48361
 _L["48361_37664221_note"] = "Behind pillar in cave thingy";
 _L["48361_25824471_note"] = "";
@@ -565,6 +581,7 @@ _L["48361_35283586_note"] = "Behind Umbraliss"
 _L["48361_24654126_note"] = "";
 _L["48361_37754868_note"] = "Down in the cave area"
 _L["48361_39174733_note"] = "Down in the cave area";
+_L["48361_28784425_note"] = "";
 
 --
 --	KEEP THESE ENGLISH FOR THE GROUP BROWSER IN EU/US!! CHINA & CO ADJUST
@@ -580,6 +597,7 @@ _L["Invasion Point: Cen'gar"] = "Invasion Point: Cen'gar";
 _L["Greater Invasion Point: Mistress Alluradel"] = "Greater Invasion: Alluradel";
 _L["Greater Invasion Point: Matron Folnuna"] = "Greater Invasion: Folnuna";
 _L["Greater Invasion Point: Sotanathor"] = "Greater Invasion: Sotanathor";
+_L["Greater Invasion Point: Inquisitor Meto"] = "Greater Invasion: Meto";
 
 _L["invasion_val_search"] = { "val", "invasion.*val", "val.*invasion" };
 _L["invasion_aurinor_search"] = { "aurinor", "aurinor" };
@@ -590,6 +608,7 @@ _L["invasion_cengar_search"] = { "cen", "cen.*gar" };
 _L["invasion_alluradel_search"] = { "radel", "alluradel" };
 _L["invasion_folnuna_search"] = { "fol", "folnuna" };
 _L["invasion_sotanathor_search"] = { "sot", "sotana" };
+_L["invasion_meto_search"] = { "meto", "meto" };
 
 --
 --

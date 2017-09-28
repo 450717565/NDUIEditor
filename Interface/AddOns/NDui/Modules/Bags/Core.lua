@@ -152,16 +152,6 @@ function module:OnLogin()
 		end
 	end
 
-	local PowerDB = {}
-	local function isArtifactPower(link)
-		if PowerDB[link] then return true end
-
-		if iIsArtifactPowerItem(link) then
-			PowerDB[link] = true
-		end
-		return PowerDB[link]
-	end
-
 	local function isPowerInWrongSpec()
 		if NDuiDB["Bags"]["PreferPower"] == 1 then return end
 		local spec = GetSpecialization()
@@ -268,7 +258,7 @@ function module:OnLogin()
 		end
 
 		if NDuiDB["Bags"]["PreferPower"] > 1 then
-			if isPowerInWrongSpec() and item.link and isArtifactPower(item.link) then
+			if isPowerInWrongSpec() and item.link and IsArtifactPowerItem(item.link) then
 				self.powerProtect:SetAlpha(1)
 			else
 				self.powerProtect:SetAlpha(0)

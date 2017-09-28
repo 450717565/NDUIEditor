@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1983, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16736 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16737 $"):sub(12, -3))
 mod:SetCreatureID(122366)
 mod:SetEncounterID(2069)
 mod:SetZone()
@@ -96,7 +96,7 @@ function mod:OnCombatStart(delay)
 	timerDarkFissureCD:Start(17.9-delay)--success
 	timerMarkedPreyCD:Start(25.7-delay)
 	countdownMarkedPrey:Start(25.7-delay)
-	if self:IsHard() then
+	if not self:IsEasy() then
 		timerNecroticEmbraceCD:Start(35-delay)
 		countdownNecroticEmbrace:Start(35-delay)
 		berserkTimer:Start(390-delay)--Assumed until proven otherwise

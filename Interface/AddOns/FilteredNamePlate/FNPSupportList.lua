@@ -19,8 +19,8 @@ FilteredNamePlate.UITypeList = {
 	[1] = FNP_LOCALE_TEXT.FNP_ORIG_TITLE2,
 	[2] = "TidyPlates",
 	[3] = "Kui_NamePlates",
-	[4] = "RayUI",
-	[5] = "EUI/ElvUI/NDUI",
+	[4] = "ElvUI/RayUI",
+	[5] = "EUI/NDUI",
 	[6] = FNP_LOCALE_TEXT.FNP_EKNUM_TITLE,
 	[7] = "ShestackUI",
 	[8] = "CblUI",
@@ -64,24 +64,24 @@ function FilteredNamePlate:GenCurNpFlags()
 end
 
 function FilteredNamePlate:ChangedSavedScaleList(flag)
-	Fnp_SavedScaleList.only = 1.2
-	Fnp_SavedScaleList.small = 0.1
+     Fnp_SavedScaleList.only = 1.4
+     Fnp_SavedScaleList.small = 0.25
      --配置不同UI下 small的默认比例
 	if flag == 7 then
-		Fnp_SavedScaleList.small = 0.2
-		Fnp_SavedScaleList.only = 1.1
+		Fnp_SavedScaleList.small = 0.4
+		Fnp_SavedScaleList.only = 1.2
 	elseif flag == 8 then
 		Fnp_SavedScaleList.small = 0.15
 		Fnp_SavedScaleList.only = 1.2
 	elseif flag == 0 then
-		Fnp_SavedScaleList.small = 0.02
-		Fnp_SavedScaleList.only = 1.0
+		Fnp_SavedScaleList.small = 0.2
+		Fnp_SavedScaleList.only = 1.3
 	elseif flag == 6 then
-		Fnp_SavedScaleList.small = 0.02
-		Fnp_SavedScaleList.only = 1.0		
+		Fnp_SavedScaleList.small = 0.2
+		Fnp_SavedScaleList.only = 1.1		
 	elseif flag == 3 or flag == 2 then
-		Fnp_SavedScaleList.only = 1.0
-		Fnp_SavedScaleList.small = 0.05
+		Fnp_SavedScaleList.only = 1.3
+		Fnp_SavedScaleList.small = 0.25
 	end
 end
 
@@ -89,6 +89,7 @@ function FilteredNamePlate:reinitScaleValues(curNpFlag1Type, isScaleInited)
 	if isScaleInited == false then return end
 	local SPELL_SCALE = 0.5
 	if curNpFlag1Type == 1 then
+		SPELL_SCALE = 0.65
 		FilteredNamePlate.curScaleList.normal = FilteredNamePlate.curScaleList.SYSTEM * Fnp_SavedScaleList.normal
 		FilteredNamePlate.curScaleList.small = FilteredNamePlate.curScaleList.normal * Fnp_SavedScaleList.small
 		FilteredNamePlate.curScaleList.middle = FilteredNamePlate.curScaleList.normal * SPELL_SCALE
@@ -96,17 +97,10 @@ function FilteredNamePlate:reinitScaleValues(curNpFlag1Type, isScaleInited)
 	elseif curNpFlag1Type == 0 then
 		FilteredNamePlate.curScaleList.name.normal = FilteredNamePlate.curScaleList.name.SYSTEM
 		FilteredNamePlate.curScaleList.name.small = FilteredNamePlate.curScaleList.name.normal * Fnp_SavedScaleList.small
-		if Fnp_SavedScaleList.small < 0.3 then
-			FilteredNamePlate.curScaleList.name.small = FilteredNamePlate.curScaleList.name.small * 0.8
-		elseif Fnp_SavedScaleList.small < 0.2 then
-			FilteredNamePlate.curScaleList.name.small = FilteredNamePlate.curScaleList.name.small * 0.6
-		elseif Fnp_SavedScaleList.small < 0.1 then
-			FilteredNamePlate.curScaleList.name.small = FilteredNamePlate.curScaleList.name.small * 0.4
-		end
 		FilteredNamePlate.curScaleList.name.middle = FilteredNamePlate.curScaleList.name.small
-		if FilteredNamePlate.curScaleList.name.small < 5 then
-			FilteredNamePlate.curScaleList.name.small = 5
-			FilteredNamePlate.curScaleList.name.middle = 5
+		if FilteredNamePlate.curScaleList.name.small < 20 then
+			FilteredNamePlate.curScaleList.name.small = 20
+			FilteredNamePlate.curScaleList.name.middle = 20
 		end
 		FilteredNamePlate.curScaleList.bars.heal_normalHeight = FilteredNamePlate.curScaleList.bars.HEAL_SYS_HEIGHT * Fnp_SavedScaleList.normal;
 		FilteredNamePlate.curScaleList.bars.heal_onlyHeight = FilteredNamePlate.curScaleList.bars.HEAL_SYS_HEIGHT * Fnp_SavedScaleList.only;
@@ -115,12 +109,12 @@ function FilteredNamePlate:reinitScaleValues(curNpFlag1Type, isScaleInited)
 		FilteredNamePlate.curScaleList.normal_perc_font = FilteredNamePlate.curScaleList.PERC_FONT * Fnp_SavedScaleList.normal
 		FilteredNamePlate.curScaleList.only_perc_font = FilteredNamePlate.curScaleList.PERC_FONT * Fnp_SavedScaleList.only
 		FilteredNamePlate.curScaleList.mid_perc_font = FilteredNamePlate.curScaleList.normal_perc_font * SPELL_SCALE
-		FilteredNamePlate.curScaleList.small_perc_font = FilteredNamePlate.curScaleList.normal_perc_font * Fnp_SavedScaleList.small * 0.75
+		FilteredNamePlate.curScaleList.small_perc_font = FilteredNamePlate.curScaleList.normal_perc_font * Fnp_SavedScaleList.small
 	elseif curNpFlag1Type == 3 then
 		FilteredNamePlate.curScaleList.normal_name_font = FilteredNamePlate.curScaleList.NAME_FONT * Fnp_SavedScaleList.normal
 		FilteredNamePlate.curScaleList.only_name_font = FilteredNamePlate.curScaleList.NAME_FONT * Fnp_SavedScaleList.only
-		FilteredNamePlate.curScaleList.mid_name_font = FilteredNamePlate.curScaleList.normal_name_font * SPELL_SCALE * 0.8
-		FilteredNamePlate.curScaleList.small_name_font = FilteredNamePlate.curScaleList.normal_name_font * Fnp_SavedScaleList.small * 0.5
+		FilteredNamePlate.curScaleList.mid_name_font = FilteredNamePlate.curScaleList.normal_name_font * SPELL_SCALE
+		FilteredNamePlate.curScaleList.small_name_font = FilteredNamePlate.curScaleList.normal_name_font * Fnp_SavedScaleList.small
 	elseif curNpFlag1Type == 4 then
 		FilteredNamePlate.curScaleList.nor_scale = FilteredNamePlate.curScaleList.SYS_SCALE * Fnp_SavedScaleList.normal
 		FilteredNamePlate.curScaleList.only_scale = FilteredNamePlate.curScaleList.SYS_SCALE * Fnp_SavedScaleList.only
