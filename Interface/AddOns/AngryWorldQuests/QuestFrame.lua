@@ -111,9 +111,9 @@ end
 
 local function ArtifactPowerTruncate(power)
 	if power >= 1e8 then
-		return ("%d亿"):format(power / 1e8)
+		return ("%.1f亿"):format(power / 1e8)
 	elseif power >= 1e4 then
-		return ("%d万"):format(power / 1e4)
+		return ("%.0f万"):format(power / 1e4)
 	else
 		return power
 	end

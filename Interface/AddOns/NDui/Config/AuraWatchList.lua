@@ -236,8 +236,10 @@ C.AuraWatchList = {
 				{AuraID = 238501, UnitID = "player"},
 				--咬一口
 				{AuraID = 228461, UnitID = "player"},
-				--PVP饰品，+敏捷
+				--PVP饰品，+属性
+				{AuraID = 190025, UnitID = "player"},
 				{AuraID = 190026, UnitID = "player"},
+				{AuraID = 190027, UnitID = "player"},
 				--PVP饰品，+全能
 				{AuraID = 170397, UnitID = "player"},
 				--抗磨联军的调和

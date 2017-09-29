@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1873, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16743 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16749 $"):sub(12, -3))
 mod:SetCreatureID(116939)--Maiden of Valor 120437
 mod:SetEncounterID(2038)
 mod:SetZone()
@@ -30,10 +30,10 @@ mod:RegisterEvents(
 )
 
 --[[
-(ability.id = 239207 or ability.id = 239132 or ability.id = 236571 or ability.id = 233856 or ability.id = 233556 or ability.id = 240623 or ability.id = 239418 or ability.id = 235597) and type = "begincast" or
-(ability.id = 236571 or ability.id = 236494 or ability.id = 239739) and type = "cast" or
-(ability.id = 234009 or ability.id = 234059) and type = "applydebuff"
- or ability.name = "Shadowy Blades" or ability.name = "Black Winds"
+(ability.id = 239207 or ability.id = 239132 or ability.id = 236571 or ability.id = 233856 or ability.id = 233556 or ability.id = 240623 or ability.id = 239418 or ability.id = 235597 or ability.id = 235572) and type = "begincast" or
+(ability.id = 236571 or ability.id = 236494) and type = "cast" or
+(ability.id = 234009 or ability.id = 234059 or ability.id = 239739) and type = "applydebuff"
+ or ability.name = "Shadowy Blades"
 --]]
 --Stage One: A Slumber Disturbed
 local warnUnboundChaos				= mod:NewTargetAnnounce(234059, 3, nil, false, 2)
@@ -63,7 +63,7 @@ local yellTaintedEssence			= mod:NewShortYell(240728)
 --Stage Two: An Avatar Awakened
 local specWarnDarkMark				= mod:NewSpecialWarningYouPos(239739, nil, nil, nil, 1, 2)
 local specWarnDarkMarkOther			= mod:NewSpecialWarningMoveTo(239739, nil, nil, nil, 1, 2)
-local yellDarkMark					= mod:NewPosYell(239739)
+local yellDarkMark					= mod:NewPosYell(239739, DBM_CORE_AUTO_YELL_CUSTOM_POSITION)
 local yellDarkMarkFades				= mod:NewIconFadesYell(239739)
 local specWarnRainoftheDestroyer	= mod:NewSpecialWarningCount(240396, nil, nil, 2, 3, 2)
 
@@ -144,7 +144,7 @@ local function warnDarkMarkTargets(self, spellName)
 		local icon = i == 1 and 6 or i == 2 and 4 or i == 3 and 3--Bigwigs icon compatability
 		local name = darkMarkTargets[i]
 		if name == playerName then
-			yellDarkMark:Yell(icon, icon, icon)
+			yellDarkMark:Yell(icon, spellName, icon)
 			local _, _, _, _, _, _, expires = UnitDebuff("player", spellName)
 			if expires then
 				local remaining = expires-GetTime()
@@ -289,6 +289,20 @@ function mod:SPELL_CAST_START(args)
 		if self.vb.phase == 2 then
 			timerRuptureRealitiesCD:Start(37, self.vb.realityCount+1)
 			countdownRuptureRealities:Start(37)
+			local elapsedDark, totalDark = timerDarkMarkCD:GetTime(self.vb.darkMarkCast+1)
+			local remaining = totalDark - elapsedDark
+			if remaining < 9.8 then
+				countdownDarkMark:Cancel()
+				countdownDarkMark:Start(9.8)
+				if totalDark == 0 then--Timer aleady expired
+					timerDarkMarkCD:Start(9.8, self.vb.darkMarkCast+1)
+					DBM:Debug("Timer extend firing for Dark Mark. Extend amount: ".."9.8", 2)
+				else
+					local extend = 9.8 - totalDark
+					timerDarkMarkCD:Update(elapsedDark, totalDark+extend, self.vb.darkMarkCast+1)
+					DBM:Debug("Timer extend firing for Dark Mark. Extend amount: "..extend, 2)
+				end
+			end
 		else
 			timerRuptureRealitiesCD:Start(60, self.vb.realityCount+1)--60
 			self:Unschedule(setabilityStatus, self, 239132)--Unschedule for good measure in case next cast start fires before timer expires (in which case have a bad timer)
@@ -331,8 +345,8 @@ function mod:SPELL_CAST_START(args)
 			DBM.InfoFrame:Hide()
 		end
 		if self:IsMythic() then
-			timerRainoftheDestroyerCD:Start(15.4, 1)
-			countdownRainofthedDestroyer:Start(15.4)
+			timerRainoftheDestroyerCD:Start(15, 1)
+			countdownRainofthedDestroyer:Start(15)
 			timerDarkMarkCD:Start(31.6, 1)
 			countdownDarkMark:Start(31.6)
 		else
@@ -496,13 +510,8 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 		table.wipe(darkMarkTargets)
 		self.vb.darkMarkCast = self.vb.darkMarkCast + 1
 		if self:IsMythic() then
-			if self.vb.darkMarkCast == 1 then
-				timerDarkMarkCD:Start(25, self.vb.darkMarkCast+1)
-				countdownDarkMark:Start(25)
-			else
-				timerDarkMarkCD:Start(29.1, self.vb.darkMarkCast+1)
-				countdownDarkMark:Start(29.1)
-			end
+			timerDarkMarkCD:Start(25, self.vb.darkMarkCast+1)
+			countdownDarkMark:Start(25)
 		else
 			timerDarkMarkCD:Start(nil, self.vb.darkMarkCast+1)--34
 			countdownDarkMark:Start(34)
