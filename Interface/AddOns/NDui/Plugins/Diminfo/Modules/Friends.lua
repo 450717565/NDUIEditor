@@ -70,7 +70,7 @@ if cfg.Friends == true then
 		SetItemRef("player:"..arg1, ("|Hplayer:%1$s|h[%1$s]|h"):format(arg1), "LeftButton")
 		DropDownList1:Hide()
 	end
-	
+
 	local function BNwhisperClick(self, arg1, arg2)
 		SetItemRef("BNplayer:"..arg1..":"..arg2, ("|Hplayer:%1$s|h[%1$s]|h"):format(arg1), "LeftButton")
 		DropDownList1:Hide()

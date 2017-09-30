@@ -144,7 +144,7 @@ if cfg.Memory == true then
 	Stat:SetScript("OnLeave", GameTooltip_Hide)
 	Stat:SetScript("OnUpdate", Update)
 	Update(Stat, 20)
-	
+
 	-- AutoCollect
 	local eventcount = 0
 	local a = CreateFrame("Frame")

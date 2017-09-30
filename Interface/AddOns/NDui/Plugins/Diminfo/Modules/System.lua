@@ -13,33 +13,36 @@ if cfg.System == true then
 	Text:SetPoint(unpack(cfg.SystemPoint))
 	Stat:SetAllPoints(Text)
 
-	local function colorlatency(latency)
+	local function colorLatency(latency)
 		if latency < 300 then
-			return "|cff0CD809"..latency
+			return "|cff0CD809"..latency.."|r"
 		elseif (latency >= 300 and latency < 500) then
-			return "|cffE8DA0F"..latency
+			return "|cffE8DA0F"..latency.."|r"
 		else
-			return "|cffD80909"..latency
+			return "|cffD80909"..latency.."|r"
+		end
+	end
+
+	local function colorFps(fps)
+		if fps >= 30 then
+			return "|cff0CD809"..fps.."|r"
+		elseif (fps > 15 and fps < 30) then
+			return "|cffE8DA0F"..fps.."|r"
+		else
+			return "|cffD80909"..fps.."|r"
 		end
 	end
 
 	local int = 1
 	local function Update(self, t)
 		int = int - t
-		local fpscolor
-		local latencycolor
 
 		if int < 0 then
 			local _, _, latencyHome, latencyWorld = GetNetStats()
-			lat = math.max(latencyHome, latencyWorld)
-			if floor(GetFramerate()) >= 30 then
-				fpscolor = "|cff0CD809"
-			elseif (floor(GetFramerate()) > 15 and floor(GetFramerate()) < 30) then
-				fpscolor = "|cffE8DA0F"
-			else
-				fpscolor = "|cffD80909"
-			end
-			Text:SetText(fpscolor..floor(GetFramerate()).."|rFps"..init.Colored.." / |r"..colorlatency(lat).."|rMs")
+			local lat = math.max(latencyHome, latencyWorld)
+			local fps = floor(GetFramerate())
+
+			Text:SetText(colorFps(fps).."Fps"..init.Colored.." / |r"..colorLatency(lat).."Ms")
 			int = .8
 		end
 	end
@@ -114,7 +117,7 @@ if cfg.System == true then
 		end
 
 		local _, _, latencyHome, latencyWorld = GetNetStats()
-		GameTooltip:AddDoubleLine(infoL["Latency:"], format("%s%s(%s) / %s%s(%s)", colorlatency(latencyHome).."|r", "Ms", infoL["Home"], colorlatency(latencyWorld).."|r", "Ms", CHANNEL_CATEGORY_WORLD), .6,.8,1, 1,1,1)
+		GameTooltip:AddDoubleLine(infoL["Latency:"], format("%s%s(%s) / %s%s(%s)", colorLatency(latencyHome).."|r", "Ms", infoL["Home"], colorLatency(latencyWorld).."|r", "Ms", CHANNEL_CATEGORY_WORLD), .6,.8,1, 1,1,1)
 		GameTooltip:AddDoubleLine(" ", "--------------", 1,1,1, .5,.5,.5)
 		GameTooltip:AddDoubleLine(" ", init.RightButton..infoL["CPU Usage:"]..(GetCVar("scriptProfile") == "1" and "|cff55ff55"..VIDEO_OPTIONS_ENABLED or "|cffff5555"..VIDEO_OPTIONS_DISABLED), 1,1,1, .6,.8,1)
 		GameTooltip:Show()
@@ -138,5 +141,5 @@ if cfg.System == true then
 			self:GetScript("OnEnter")(self)
 		end
 	end)
-	Stat:SetScript("OnUpdate", Update) 
+	Stat:SetScript("OnUpdate", Update)
 end
