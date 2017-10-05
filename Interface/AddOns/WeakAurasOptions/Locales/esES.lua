@@ -5,8 +5,7 @@ end
 local L = WeakAuras.L
 
 -- WeakAuras/Options
-	--Translation missing 
-	-- L["-- Do not remove this comment, it is part of this trigger: "] = ""
+	L["-- Do not remove this comment, it is part of this trigger: "] = "-- No elimines este comentario, es parte de este activador:"
 	L["% of Progress"] = "% de Progreso"
 	L["%i Matches"] = "%i Correspondencias"
 	L["1 Match"] = "1 Correspondencia"
@@ -38,8 +37,7 @@ local L = WeakAuras.L
 	L["Add to new Dynamic Group"] = "Añadir al nuevo Grupo Dinámico"
 	L["Add to new Group"] = "Añadir al nuevo Grupo"
 	L["Add Trigger"] = "Añadir Disparador"
-	--Translation missing 
-	-- L["Addon"] = ""
+	L["Addon"] = "Addon"
 	L["Addons"] = "Addons"
 	L["Align"] = "Alinear"
 	L["Allow Full Rotation"] = "Permitir Rotación Total"

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2009, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16750 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16755 $"):sub(12, -3))
 mod:SetCreatureID(124158)--or 124158 or 125692
 mod:SetEncounterID(2082)
 mod:SetZone()
@@ -341,7 +341,7 @@ do
 			if self:AntiSpam(4, targetName) then
 				warnSleepCanister:CombinedShow(0.3, targetName)
 				if targetName ~= playerName and self:CheckNearby(10, targetName) then
-					specWarnSleepCanisterNear:CombinedShow(0.3, args.destName)
+					specWarnSleepCanisterNear:CombinedShow(0.3, targetName)
 					voiceSleepCanister:Play("runaway")
 				end
 			end

@@ -71,6 +71,7 @@ local defaultSettings = {
 		NoTooltip = false,
 		CombatText = true,
 		HotsDots = false,
+		AutoAttack = true,
 		PetCombatText = true,
 		RaidClickSets = false,
 		ThreatBorder = true,
@@ -296,7 +297,8 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "UFs", "AddPower", L["UFs ExtraMana"], true},
 		{1, "UFs", "ExpRep", L["UFs Expbar"]},
 		{},--blank
-		{1, "UFs", "CombatText", L["UFs CombatText"]},
+		{1, "UFs", "CombatText", "|cff00ff00"..L["UFs CombatText"]},
+		{1, "UFs", "AutoAttack", L["CombatText AutoAttack"], true},
 		{1, "UFs", "HotsDots", L["CombatText HotsDots"]},
 		{1, "UFs", "PetCombatText", L["CombatText ShowPets"], true},
 	},

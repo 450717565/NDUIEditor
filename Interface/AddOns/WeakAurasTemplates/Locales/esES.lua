@@ -5,15 +5,11 @@ end
 local L = WeakAuras.L
 
 -- WeakAuras/Templates
-	--Translation missing 
-	-- L[" (Channeling)"] = ""
-	--Translation missing 
-	-- L[" (Healing received increase)"] = ""
-	--Translation missing 
-	-- L["- Any"] = ""
-	L["- Death Knight 2P Bonus"] = "- Bonus 2 piezas de Caballero de la Muerte"
-	--Translation missing 
-	-- L["- Death Knight T20 Blood 2P Bonus"] = ""
+	L[" (Channeling)"] = "(Canalizando)"
+	L[" (Healing received increase)"] = "(Curación recibida incrementada)"
+	L["- Any"] = "- Cualquiera"
+	L["- Death Knight 2P Bonus"] = "- Bonus 2P Caballero de la Muerte"
+	L["- Death Knight T20 Blood 2P Bonus"] = "- Bonus 2P Caballero de la Muerte T20 Sangre"
 	L["- Death Knight Unholy 4P Bonus"] = "- Bonus 4 piezas de Caballero de la Muerte Profano"
 	L["- Deathknight 2P Bonus"] = "- Bonus 2 piezas de Caballero de la Muerte"
 	L["- Deathknight Unholy 4P Bonus"] = "- Bonus 2 piezas de Caballero de la Muerte Profano"

@@ -74,6 +74,7 @@ function module:RareAlert()
 			local _, _, name, icon = C_Vignettes.GetVignetteInfoFromInstanceID(id)
 			local left, right, top, bottom = GetObjectIconTextureCoords(icon)
 			local tex = "|TInterface\\Minimap\\ObjectIconsAtlas:0:0:0:0:256:256:"..(left*256)..":"..(right*256)..":"..(top*256)..":"..(bottom*256).."|t"
+			if not name then return end
 			UIErrorsFrame:AddMessage(DB.InfoColor..L["Rare Found"]..tex..(name or ""))
 			if NDuiDB["Misc"]["AlertinChat"] then
 				B.AlertRun(name)

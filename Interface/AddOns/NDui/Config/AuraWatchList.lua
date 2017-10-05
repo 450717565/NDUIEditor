@@ -125,7 +125,7 @@ C.AuraWatchList = {
 				{AuraID = 216509, UnitID = "player", Text = "双重复苏"}, --双重复苏
 				{AuraID = 217006, UnitID = "player", Text = "免费活血"}, --免费活血
 				{AuraID = 216992, UnitID = "player", Text = "三倍贯通"}, --三倍贯通
-				{AuraID = 216995, UnitID = "player", Text = "瞬发氤氲"}, --瞬发氤氲																							 
+				{AuraID = 216995, UnitID = "player", Text = "瞬发氤氲"}, --瞬发氤氲
 			-->LEG饰品
 				--晶化身体
 				{AuraID = 214366, UnitID = "player", Value= true},
@@ -221,9 +221,9 @@ C.AuraWatchList = {
 				{AuraID = 222518, UnitID = "player"},
 				{AuraID = 222519, UnitID = "player"},
 				--焦镜
-				{AuraID = 225726, UnitID = "player", Text = "暴击"}, 
-				{AuraID = 225729, UnitID = "player", Text = "精通"}, 
-				{AuraID = 225730, UnitID = "player", Text = "急速"}, 
+				{AuraID = 225726, UnitID = "player", Text = "暴击"},
+				{AuraID = 225729, UnitID = "player", Text = "精通"},
+				{AuraID = 225730, UnitID = "player", Text = "急速"},
 				--下冲气流
 				{AuraID = 214342, UnitID = "player"},
 				--暗月套牌：统御（八）
@@ -663,7 +663,7 @@ C.AuraWatchList = {
 				--月光弥漫
 				{AuraID = 234995, UnitID = "player"},
 				--阴影弥漫
-				{AuraID = 234996, UnitID = "player"},				
+				{AuraID = 234996, UnitID = "player"},
 				--月灼
 				{AuraID = 236519, UnitID = "player", Text = "切换区域"},
 				--无形
@@ -973,6 +973,8 @@ C.AuraWatchList = {
 				--恶魔变形
 				{AuraID = 162264, UnitID = "target"},
 				{AuraID = 187827, UnitID = "target"},
+				--业报之触
+				{AuraID = 125174, UnitID = "target"},
 				--爱情光线
 				{AuraID = 171607, UnitID = "target"},
 			-->职业长控

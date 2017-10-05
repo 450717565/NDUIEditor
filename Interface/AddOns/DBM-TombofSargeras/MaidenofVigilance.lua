@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1897, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16713 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16753 $"):sub(12, -3))
 mod:SetCreatureID(118289)
 mod:SetEncounterID(2052)
 mod:SetZone()
@@ -283,6 +283,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif spellId == 235117 or spellId == 240209 or spellId == 243276 then
 		self.vb.unstableSoulCount = self.vb.unstableSoulCount - 1
 		if args:IsPlayer() then
+			specWarnUnstableSoul:Cancel()
 			yellUnstableSoul:Cancel()
 			countdownBomb:Cancel()
 		end

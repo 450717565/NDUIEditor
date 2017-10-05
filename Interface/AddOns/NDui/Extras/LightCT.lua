@@ -8,15 +8,15 @@ local fontSize = 14
 local frameWidth = 90
 local frameHeight = 150
 
-local idPoints = {"RIGHT", UIParent, "CENTER", -185, 30}
+local idPoints = {"RIGHT", UIParent, "CENTER", -175, 30}
 local ihPoints = {"BOTTOM", UIParent, "BOTTOM", -400, 30}
-local odPoints = {"LEFT", UIParent, "CENTER", 110, 5}
+local odPoints = {"LEFT", UIParent, "CENTER", 105, 5}
 local ohPoints = {"BOTTOM", UIParent, "BOTTOM", 400, 30}
 
 local frames = {}
 
 local eventFilter = {
-	["SWING_DAMAGE"] = {suffix = "DAMAGE", index = 12, iconType = "swing"},
+	["SWING_DAMAGE"] = {suffix = "DAMAGE", index = 12, iconType = "swing", autoAttack = true},
 	["RANGE_DAMAGE"] = {suffix = "DAMAGE", index = 15, iconType = "range"},
 	["SPELL_DAMAGE"] = {suffix = "DAMAGE", index = 15, iconType = "spell"},
 	["SPELL_PERIODIC_DAMAGE"] = {suffix = "DAMAGE", index = 15, iconType = "spell", isPeriod = true},
@@ -68,10 +68,10 @@ local function CreateCTFrame(name, justify, width, height)
 	return frame
 end
 
-frames["InputDamage"] = CreateCTFrame("InputDamage", "CENTER", frameWidth, frameHeight)
-frames["InputHealing"] = CreateCTFrame("InputHealing", "CENTER", frameWidth, frameHeight)
-frames["OutputDamage"] = CreateCTFrame("OutputDamage", "CENTER", frameWidth, frameHeight)
-frames["OutputHealing"] = CreateCTFrame("OutputHealing", "CENTER", frameWidth, frameHeight)
+frames["InputDamage"] = CreateCTFrame("InputDamage", "LEFT", frameWidth, frameHeight)
+frames["InputHealing"] = CreateCTFrame("InputHealing", "LEFT", frameWidth, frameHeight)
+frames["OutputDamage"] = CreateCTFrame("OutputDamage", "RIGHT", frameWidth, frameHeight)
+frames["OutputHealing"] = CreateCTFrame("OutputHealing", "RIGHT", frameWidth, frameHeight)
 
 function eventFrame:PLAYER_LOGIN()
 	SetCVar("enableFloatingCombatText", 0)
@@ -88,6 +88,7 @@ function eventFrame:COMBAT_LOG_EVENT_UNFILTERED(...)
 	local icon, text, color, inputD, inputH, outputD, outputH
 	local _, eventType, _, sourceGUID, sourceName, sourceFlags, _, destGUID, destName, destFlags, _, spellID, spellName, school = ...
 
+	local showAA = NDuiDB["UFs"]["AutoAttack"]
 	local showHD = NDuiDB["UFs"]["HotsDots"]
 
 	local isPlayer = UnitGUID("player") == sourceGUID
@@ -102,6 +103,7 @@ function eventFrame:COMBAT_LOG_EVENT_UNFILTERED(...)
 		if value then
 			if value.suffix == "DAMAGE" then
 				local amount, overkill, school, resisted, blocked, absorbed, critical, glancing, crushing, isOffHand = select(value.index, ...)
+				if value.autoAttack and not showAA then return end
 				if value.isPeriod and not showHD then return end
 				if isPlayer or isVehicle or isPet then
 					text = B.Numb(amount)
@@ -146,9 +148,9 @@ function eventFrame:COMBAT_LOG_EVENT_UNFILTERED(...)
 			elseif outputH then
 				frames["OutputHealing"]:AddMessage(text..icon, color.r, color.g, color.b)
 			elseif inputD then
-				frames["InputDamage"]:AddMessage(text..icon, color.r, color.g, color.b)
+				frames["InputDamage"]:AddMessage(icon..text, color.r, color.g, color.b)
 			elseif inputH then
-				frames["InputHealing"]:AddMessage(text..icon, color.r, color.g, color.b)
+				frames["InputHealing"]:AddMessage(icon..text, color.r, color.g, color.b)
 			end
 		end
 	end

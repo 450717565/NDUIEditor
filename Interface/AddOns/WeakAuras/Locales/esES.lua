@@ -85,8 +85,7 @@ L["Action Usable"] = "Acción Utilizable"
 --Translation missing 
 -- L["Additional Trigger Replacements"] = ""
 L["Affected"] = "Afectado"
---Translation missing 
--- L["Aggro"] = ""
+L["Aggro"] = "Amenaza"
 L["Alive"] = "Vivo"
 L["All Triggers"] = "Todos los Disparadores"
 L["Alliance"] = "Alianza"

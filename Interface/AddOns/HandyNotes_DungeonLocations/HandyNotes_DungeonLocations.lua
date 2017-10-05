@@ -54,6 +54,7 @@ local continents = {
 	["Kalimdor"] = true,
 	["Northrend"] = true,
 	["Pandaria"] = true,
+ ["BrokenIsles"] = true,
 }
 
 local LOCKOUTS = { }
