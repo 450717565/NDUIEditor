@@ -845,12 +845,9 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				button:SetBackdropColor(0, 0, 0, .25)
 			end
 
-			if portrait then
-				if portrait.PortraitRingQuality:IsShown() then
-					portrait.squareBG:SetBackdropBorderColor(portrait.PortraitRingQuality:GetVertexColor())
-				else
-					portrait.squareBG:SetBackdropBorderColor(0, 0, 0)
-				end
+			if portrait and portrait.quality then
+				local color = BAG_ITEM_QUALITY_COLORS[portrait.quality]
+				portrait.squareBG:SetBackdropBorderColor(color.r, color.g, color.b)
 			end
 		end
 	end

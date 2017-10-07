@@ -1,8 +1,6 @@
 <Ui>
 	<Include file="DRData-1.0\DRData-1.0.lua"/>
 	<Include file="HereBeDragons-1.0\HereBeDragons-1.0.xml"/>
-	<Include file="LibArtifactData-1.0\LibArtifactData-1.0.lua"/>
-	<Include file="LibArtifactPower-1.0\LibArtifactPower-1.0.lua"/>
 	<Include file="LibBabble-Boss-3.0\LibBabble-Boss-3.0.xml"/>
 	<Include file="LibBabble-CreatureType-3.0\LibBabble-CreatureType-3.0.xml"/>
 	<Include file="LibBabble-Inventory-3.0\LibBabble-Inventory-3.0.xml"/>

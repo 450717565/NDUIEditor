@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1896, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16763 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16772 $"):sub(12, -3))
 mod:SetCreatureID(118460, 118462, 119072)--118460 Engine of Souls, 118462 Soul Queen Dajahna, 119072 The Desolate Host
 mod:SetEncounterID(2054)
 mod:SetZone()
@@ -50,7 +50,7 @@ local warnBonecageArmor				= mod:NewTargetAnnounce(236513, 3)
 --Spirit Realm
 local warnSoulbind					= mod:NewTargetAnnounce(236459, 4)
 local warnWither					= mod:NewTargetAnnounce(236138, 3, nil, "Healer", 2)
-local warnShatteringScream			= mod:NewTargetAnnounce(235969, 4)--This warning DOES need to be cross phase
+local warnShatteringScream			= mod:NewTargetAnnounce(235969, 4, nil, false, 2)--This warning DOES need to be cross phase
 local warnSpiritChains				= mod:NewTargetAnnounce(236361, 3, nil, false, 2)
 --Desolate Host
 local warnTorment					= mod:NewStackAnnounce(236548, 3)
@@ -238,7 +238,7 @@ function mod:SPELL_CAST_START(args)
 		countdownSunderingDoom:Start()
 	elseif spellId == 236544 then--Doomed Sunering (spirit realm soaks)
 		if UnitBuff("player", spiritRealm) or UnitDebuff("player", spiritRealm) then--Figure out which it is
-			specWarnDoomedSunderingGather:Show(COMPACT_UNIT_FRAME_PROFILE_SORTBY_GROUP)
+			specWarnDoomedSunderingGather:Show(BOSS)
 			voiceDoomedSunderin:Play("gathershare")
 		else
 			specWarnDoomedSunderingRun:Show()
@@ -338,7 +338,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		local cid = self:GetCIDFromGUID(args.destGUID)
 		if self.Options.IgnoreTemplarOn3Tank and (cid == 119938 or cid == 118715) and self.vb.tankCount >= 3 then return end--Reanimated templar
 		self.vb.boneArmorCount = self.vb.boneArmorCount + 1
-		if self:AntiSpam(4, args.destName) then
+		if self:AntiSpam(4, args.destName) and self.vb.boneArmorCount == 1 then
 			warnBonecageArmor:Show(args.destName)
 		end
 		if self.Options.NPAuraOnBonecageArmor then

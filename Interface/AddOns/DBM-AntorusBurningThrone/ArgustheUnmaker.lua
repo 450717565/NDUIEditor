@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2031, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16755 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16773 $"):sub(12, -3))
 mod:SetCreatureID(125111)--or 124828
 mod:SetEncounterID(2092)
 mod:SetZone()
@@ -27,6 +27,8 @@ mod:RegisterEventsInCombat(
 
 --TODO, is cone of death tank ony? update role defaults
 --TODO, get correct spellID for p2 and don't use spell name to broad check all of them
+--TODO, death fog GTFO
+--TODO, icons or yells or both to help Soulburst and Soulbomb apart and gotten to right place.
 --Stage One: Storm and Sky
 local warnConeofDeath				= mod:NewSpellAnnounce(248165, 2)
 local warnBlightOrb					= mod:NewSpellAnnounce(248317, 2)

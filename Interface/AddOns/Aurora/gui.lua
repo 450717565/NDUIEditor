@@ -233,7 +233,7 @@ mmb:SetScript("OnDragStart", function(self)
 		local px, py = GetCursorPosition()
 		local scale = Minimap:GetEffectiveScale()
 		px, py = px / scale, py / scale
-		
+
 		local angle = math.atan2(py - my, px - mx)
 		local x, y, q = math.cos(angle), math.sin(angle), 1
 		if x < 0 then q = q + 1 end
@@ -272,8 +272,9 @@ gui:SetScript("OnEvent", function(self, _, addon)
 	if addon ~= "Aurora" then return end
 
 	-- fill 'old' table
-	copyTable(AuroraConfig, old)
+	AuroraConfig.tooltips = false
 	AuroraConfig.enableFont = false
+	copyTable(AuroraConfig, old)
 
 	F.CreateBD(gui)
 	F.CreateSD(gui)
