@@ -145,7 +145,7 @@ local function GetInspectItemListFrame(parent)
 end
 
 --等級字符
-local ItemLevelPattern = _G["ITEM_LEVEL"]:gsub("%%d", "%%.1f")
+local ItemLevelPattern = gsub(ITEM_LEVEL, "%%d", "%%.1f")
 
 --顯示面板
 function ShowInspectItemListFrame(unit, parent, ilevel)

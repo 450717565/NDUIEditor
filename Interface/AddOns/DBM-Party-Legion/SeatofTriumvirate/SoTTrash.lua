@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("SoTTrash", "DBM-Party-Legion", 13)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16738 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16775 $"):sub(12, -3))
 --mod:SetModelID(47785)
 mod:SetZone()
 
@@ -9,7 +9,7 @@ mod.isTrashMod = true
 
 mod:RegisterEvents(
 	"SPELL_CAST_START 248304 245585 245727 248133 248184 248227",
-	"SPELL_AURA_APPLIED 245510 249081"
+	"SPELL_AURA_APPLIED 249077 249081"
 )
 
 local warnCorruptingVoid			= mod:NewTargetAnnounce(245510, 3)
@@ -63,7 +63,7 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
-	if spellId == 245510 and self:AntiSpam(3, args.destName) then
+	if spellId == 249077 and self:AntiSpam(3, args.destName) then
 		if args:IsPlayer() then
 			specWarnCorruptingVoid:Show()
 			voiceCorruptingVoid:Play("runout")
