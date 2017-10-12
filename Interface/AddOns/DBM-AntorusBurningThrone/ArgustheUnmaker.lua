@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2031, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16778 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16784 $"):sub(12, -3))
 mod:SetCreatureID(125111)--or 124828
 mod:SetEncounterID(2092)
 mod:SetZone()
@@ -188,7 +188,7 @@ function mod:OnCombatStart(delay)
 	timerSweepingScytheCD:Start(1-delay)
 	timerSkyandSeaCD:Start(1-delay)
 	if self.Options.InfoFrame then
-		--DBM.InfoFrame:SetHeader(7.3_ARGUS_RAID_DEATH_TITAN_ENERGY)--Validator won't accept this global so disabled for now
+		DBM.InfoFrame:SetHeader(_G["7.3_ARGUS_RAID_DEATH_TITAN_ENERGY"])--Validator won't accept this global so disabled for now
 		DBM.InfoFrame:Show(2, "enemypower", 2)
 		--DBM.InfoFrame:Show(7, "function", updateInfoFrame, false, false)
 	end

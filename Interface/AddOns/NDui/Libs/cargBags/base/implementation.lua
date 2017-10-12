@@ -236,12 +236,6 @@ function Implementation:Init()
 	
 	 -- initialization of bags in combat taints the itembuttons within - Lars Norberg
 	if (InCombatLockdown()) then
-		local L = LibStub("gLocale-1.0"):GetLocale(addon, true)
-		if (L) then
-			UIErrorsFrame:AddMessage(L["Can't initialize bags while engaged in combat."], 1.0, 0.82, 0.0, 1.0)
-			UIErrorsFrame:AddMessage(L["Please exit combat then re-open the bags!"], 1.0, 0.82, 0.0, 1.0)
-		end
-
 		return
 	end
 
