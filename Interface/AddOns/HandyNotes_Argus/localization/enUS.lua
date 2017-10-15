@@ -353,6 +353,7 @@ _L["48000_74996922_note"] = "";
 _L["48000_62946824_note"] = "In the upper cave. Ride up the rocks east from here to reach the upper cave."
 _L["48000_69386278_note"] = "";
 _L["48000_67656999_note"] = "Ride up the slope and over the tipped pillars to reach this chest.";
+_L["48000_69218397_note"] = "";
 -- 48336
 _L["48336_33575511_note"] = "Xenadar upper level, outside";
 _L["48336_32047441_note"] = "";
@@ -502,18 +503,19 @@ _L["Augari Goods_note"] = "Chest is inside small house. Use Shroud of Arcane Ech
 -- Ancient Eredar Cache
 -- 48346
 _L["48346_55167766_note"] = "";
-_L["48346_59386372_note"] = "Inside transparent red tent" ;
-_L["48346_57486159_note"] = "Inside building next to Kravos" ;
+_L["48346_59386372_note"] = "Inside transparent red tent";
+_L["48346_57486159_note"] = "Inside building next to Kravos";
 _L["48346_50836729_note"] = "";
 _L["48346_52868241_note"] = "";
 _L["48346_47186234_note"] = "";
 _L["48346_50107580_note"] = "";
-_L["48346_53328001_note"] = "In cellar"
+_L["48346_53328001_note"] = "In cellar";
 _L["48346_55297347_note"] = "";
 _L["48346_52696161_note"] = "";
 _L["48346_54806710_note"] = "";
 _L["48346_51677163_note"] = "";
 _L["48346_57397517_note"] = "";
+_L["48346_61047074_note"] = "Under tree";
 -- 48350
 _L["48350_59622088_note"] = "Inside building under staircase";
 _L["48350_60493338_note"] = "Inside building";
@@ -540,6 +542,7 @@ _L["48351_35535717_note"] = "On 2nd floor";
 _L["48351_43666847_note"] = "Inside building ruin";
 _L["48351_38386704_note"] = "";
 _L["48351_35635604_note"] = "On 2nd floor";
+_L["48351_33795558_note"] = "";
 -- 48357
 _L["48357_49412387_note"] = "";
 _L["48357_47672180_note"] = "";
@@ -591,6 +594,7 @@ _L["48362_61924258_note"] = "Inside building";
 _L["48362_67235673_note"] = "Inside building";
 _L["48362_70243379_note"] = "";
 _L["48362_69304993_note"] = "Inside building, on middle floor";
+_L["48362_61395555_note"] = "Inside building";
 -- Void-Seeped Cache / Treasure Chest
 -- 49264
 _L["49264_38143985_note"] = "";
@@ -616,6 +620,8 @@ _L["48361_24654126_note"] = "";
 _L["48361_37754868_note"] = "Down in the cave area";
 _L["48361_39174733_note"] = "Down in the cave area";
 _L["48361_28784425_note"] = "";
+_L["48361_32583679_note"] = "";
+_L["48361_19804660_note"] = "";
 
 --
 --	KEEP THESE ENGLISH FOR THE GROUP BROWSER IN EU/US!! CHINA & CO ADJUST
@@ -633,6 +639,7 @@ _L["Greater Invasion Point: Matron Folnuna"] = "Greater Invasion: Folnuna";
 _L["Greater Invasion Point: Sotanathor"] = "Greater Invasion: Sotanathor";
 _L["Greater Invasion Point: Inquisitor Meto"] = "Greater Invasion: Meto";
 _L["Greater Invasion Point: Pit Lord Vilemus"] = "Greater Invasion: Vilemus";
+_L["Greater Invasion Point: Occularus"] = "Greater Invasion: Occularus";
 
 _L["invasion_val_search"] = { "val", "invasion.*val", "val.*invasion" };
 _L["invasion_aurinor_search"] = { "aurinor", "aurinor" };
@@ -645,6 +652,56 @@ _L["invasion_folnuna_search"] = { "fol", "folnuna" };
 _L["invasion_sotanathor_search"] = { "sot", "sotana" };
 _L["invasion_meto_search"] = { "meto", "meto" };
 _L["invasion_vilemus_search"] = { "vil", "vilemus" };
+_L["invasion_occularus_search"] = { "cul", "cularus" };
+
+_L["Dreadblade Annihilator"] = "Dreadblade Annihilator";
+_L["bsrare_dreadbladeannihilator_search"] = { "la", "dreadblade", "annihilator" };
+_L["Salethan the Broodwalker"] = "Salethan the Broodwalker";
+_L["bsrare_salethan_search"] = { "sal", "saleth?an" };
+_L["Corrupted Bonebreaker"] = "Corrupted Bonebreaker";
+_L["bsrare_corruptedbonebreaker_search"] = { "bone", "bonebreak" };
+_L["Flllurlokkr"] = "Flllurlokkr";
+_L["bsrare_flllurlokkr_search"] = { "lur", "lurlok" };
+_L["Grossir"] = "Grossir";
+_L["bsrare_grossir_search"] = { "gro", "gross?ir" };
+_L["Eye of Gurgh"] = "Eye of Gurgh";
+_L["bsrare_eyeofgurgh_search"] = { "gur", "gurg" };
+_L["Somber Dawn"] = "Somber Dawn";
+_L["bsrare_somberdawn_search"] = { "somb", "somber" };
+_L["Felcaller Zelthae"] = "Felcaller Zelthae";
+_L["bsrare_zelthae_search"] = { "zel", "zelth" };
+_L["Duke Sithizi"] = "Duke Sithizi";
+_L["bsrare_dukesithizi_search"] = { "sit", "sith?izi" };
+_L["Lord Hel'Nurath"] = "Lord Hel'Nurath";
+_L["bsrare_helnurath_search"] = { "nur", "nurat" };
+_L["Imp Mother Bruva"] = "Imp Mother Bruva";
+_L["bsrare_bruva_search"] = { "bru", "bruva" };
+_L["Potionmaster Gloop"] = "Potionmaster Gloop";
+_L["bsrare_gloop_search"] = { "gloop", "gloop" };
+_L["Dreadeye"] = "Dreadeye";
+_L["bsrare_dreadeye_search"] = { "dread", "dreadeye" };
+_L["Malorus the Soulkeeper"] = "Malorus the Soulkeeper";
+_L["bsrare_malorus_search"] = { "mal", "malorus" };
+_L["Brother Badatin"] = "Brother Badatin";
+_L["bsrare_badatin_search"] = { "tin", "badatin", "batadin" };
+_L["Felbringer Xar'thok"] = "Felbringer Xar'thok";
+_L["bsrare_xarthok_search"] = { "xar", "xar'?thok" };
+_L["Malgrazoth"] = "Malgrazoth";
+_L["bsrare_malgrazoth_search"] = { "mal", "malgra" };
+_L["Emberfire"] = "Emberfire";
+_L["bsrare_emberfire_search"] = { "ember", "emberfire" };
+_L["Xorogun the Flamecarver"] = "Xorogun the Flamecarver";
+_L["bsrare_xorogun_search"] = { "xor", "xorogun" };
+_L["Lady Eldrathe"] = "Lady Eldrathe";
+_L["bsrare_eldrathe_search"] = { "eld", "eldrat" };
+_L["Aqueux"] = "Aqueux";
+_L["bsrare_aqueux_search"] = { "aq", "aqueux" };
+_L["Doombringer Zar'thoz"] = "Doombringer Zar'thoz";
+_L["bsrare_zarthoz_search"] = { "zar", "zar'?th?oz" };
+_L["Felmaw Emberfiend"] = "Felmaw Emberfiend";
+_L["bsrare_felmawemberfiend_search"] = { "m", "felmaw", "emberfiend" };
+_L["Inquisitor Chillbane"] = "Inquisitor Chillbane";
+_L["bsrare_chillbane_search"] = { "chillbane", "chillbane" };
 
 --
 --

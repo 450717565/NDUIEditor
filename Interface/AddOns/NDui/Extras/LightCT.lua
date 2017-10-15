@@ -40,7 +40,7 @@ end)
 local function GetFloatingIcon(iconType, spellID, isPet)
 	local texture, icon
 	if iconType == "spell" then
-		texture = GetSpellTexture(spellID or 195112)
+		texture = GetSpellTexture(spellID and spellID or 195112)
 	elseif iconType == "swing" then
 		if isPet then
 			texture = PET_ATTACK_TEXTURE

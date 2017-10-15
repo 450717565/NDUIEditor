@@ -132,7 +132,7 @@ if cfg.Time == true then
 		RequestRaidInfo()
 
 		GameTooltip:SetOwner(self, "ANCHOR_NONE")
-		GameTooltip:SetPoint("BOTTOMRIGHT", UIParent, -10, 33)
+		GameTooltip:SetPoint("BOTTOMRIGHT", UIParent, -10, 35)
 		GameTooltip:ClearLines()
 		local w, m, d, y = CalendarGetDate()
 		GameTooltip:AddLine(format(FULLDATE, CALENDAR_WEEKDAY_NAMES[w], months[m], d, y), 0,.6,1)

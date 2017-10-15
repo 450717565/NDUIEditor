@@ -257,7 +257,7 @@ local function initObject(unit, style, styleFunc, header, ...)
 		if (not (suffix == 'target' or objectUnit and objectUnit:match('target'))) then
 			object:RegisterEvent('UNIT_ENTERED_VEHICLE', updateActiveUnit)
 			object:RegisterEvent('UNIT_EXITED_VEHICLE', updateActiveUnit)
-
+			object:RegisterEvent('UNIT_EXITING_VEHICLE', updateActiveUnit)
 			-- We don't need to register UNIT_PET for the player unit. We register it
 			-- mainly because UNIT_EXITED_VEHICLE and UNIT_ENTERED_VEHICLE doesn't always
 			-- have pet information when they fire for party and raid units.
@@ -644,7 +644,7 @@ Used to create a single unit frame and apply the currently active style to it.
 * self         - the global oUF object
 * unit         - the frame's unit (string)
 * overrideName - unique global name to use for the unit frame. Defaults to an auto-generated name based on the unit
-                 (string?)
+				 (string?)
 --]]
 function oUF:Spawn(unit, overrideName)
 	argcheck(unit, 2, 'string')
@@ -671,7 +671,7 @@ Used to create nameplates and apply the currently active style to them.
 * self      - the global oUF object
 * prefix    - prefix for the global name of the nameplate. Defaults to an auto-generated prefix (string?)
 * callback  - function to be called after a nameplate unit or the player's target has changed. The arguments passed to
-              the callback are the updated nameplate, the event that triggered the update and the new unit (function?)
+			  the callback are the updated nameplate, the event that triggered the update and the new unit (function?)
 * variables - list of console variable-value pairs to be set when the player logs in (table?)
 --]]
 function oUF:SpawnNamePlates(namePrefix, nameplateCallback, nameplateCVars)
@@ -738,7 +738,7 @@ function oUF:SpawnNamePlates(namePrefix, nameplateCallback, nameplateCVars)
 
 				walkObject(nameplate.unitFrame, unit)
 			else
-				Private.UpdateUnits(nameplate.unitFrame, unit) 
+				Private.UpdateUnits(nameplate.unitFrame, unit)
 			end
 
 			nameplate.unitFrame:SetAttribute('unit', unit)

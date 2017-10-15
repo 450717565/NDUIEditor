@@ -80,8 +80,8 @@ function module:OnLogin()
 		timer.text = text
 
 		Timer_OnSizeChanged(timer, scaler:GetSize())
-		scaler:SetScript("OnSizeChanged", function(self, ...) 
-			Timer_OnSizeChanged(timer, ...) 
+		scaler:SetScript("OnSizeChanged", function(self, ...)
+			Timer_OnSizeChanged(timer, ...)
 		end)
 
 		self.timer = timer
@@ -89,6 +89,7 @@ function module:OnLogin()
 	end
 
 	local function Timer_Start(self, start, duration)
+		if self:IsForbidden() then return end
 		if (self.noOCC) then return end
 
 		if (start > 0 and duration > MIN_DURATION) then
@@ -98,8 +99,8 @@ function module:OnLogin()
 			timer.enabled = true
 			timer.nextUpdate = 0
 
-			if (timer.fontScale >= MIN_SCALE) then 
-				timer:Show() 
+			if (timer.fontScale >= MIN_SCALE) then
+				timer:Show()
 			end
 		else
 			local timer = self.timer

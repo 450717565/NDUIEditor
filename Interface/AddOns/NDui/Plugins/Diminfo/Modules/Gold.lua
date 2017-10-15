@@ -95,7 +95,8 @@ if cfg.Gold == true then
 	end
 
 	Stat:SetScript("OnEnter", function(self)
-		GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 15)
+		GameTooltip:SetOwner(self, "ANCHOR_NONE")
+		GameTooltip:SetPoint("BOTTOMRIGHT", UIParent, -10, 35)
 		GameTooltip:ClearLines()
 		GameTooltip:AddLine(CURRENCY, 0,.6,1)
 		GameTooltip:AddLine(" ")

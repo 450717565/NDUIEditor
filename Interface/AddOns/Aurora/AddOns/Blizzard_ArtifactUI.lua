@@ -57,5 +57,5 @@ C.themes["Blizzard_ArtifactUI"] = function()
 	end
 	F.SetBD(ArtifactRelicForgeFrame)
 	F.ReskinClose(ArtifactRelicForgeFrameCloseButton)
-	ArtifactRelicForgeFrame.PreviewRelicCover:Hide()
+	ArtifactRelicForgeFrame.PreviewRelicCover:GetRegions():Hide()
 end

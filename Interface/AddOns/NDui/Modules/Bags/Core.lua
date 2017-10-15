@@ -49,7 +49,7 @@ function module:OnLogin()
 
 		f.main = MyContainer:New("Main", {Columns = NDuiDB["Bags"]["BagsWidth"], Bags = "bags"})
 		f.main:SetFilter(onlyBags, true)
-		f.main:SetPoint("BOTTOMRIGHT", -100, 150)
+		f.main:SetPoint("BOTTOMRIGHT", -100, 100)
 
 		f.artifactPower = MyContainer:New("ArtifactPower", {Columns = NDuiDB["Bags"]["BagsWidth"], Bags = "artifactpower"})
 		f.artifactPower:SetFilter(bagArtifactPower, true)
@@ -62,7 +62,7 @@ function module:OnLogin()
 
 		f.bank = MyContainer:New("Bank", {Columns = NDuiDB["Bags"]["BankWidth"], Bags = "bank"})
 		f.bank:SetFilter(onlyBank, true)
-		f.bank:SetPoint("BOTTOMRIGHT", f.main, "BOTTOMLEFT", -20, 0)
+		f.bank:SetPoint("BOTTOMRIGHT", f.main, "BOTTOMLEFT", -20, -20)
 		f.bank:Hide()
 
 		f.reagent = MyContainer:New("Reagent", {Columns = NDuiDB["Bags"]["BankWidth"], Bags = "bankreagent"})
