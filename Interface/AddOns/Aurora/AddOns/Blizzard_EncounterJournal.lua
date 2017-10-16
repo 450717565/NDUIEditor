@@ -508,11 +508,14 @@ C.themes["Blizzard_EncounterJournal"] = function()
 			local items = button.ItemButtons
 			for j = 1, #items do
 				local item = items[j]
-				item.Border:SetAlpha(0)
-				item.Icon:SetPoint("TOPLEFT", 1, -1)
-				item.Icon:SetTexCoord(.08, .92, .08, .92)
-				item.Icon:SetDrawLayer("OVERLAY")
-				F.CreateBDFrame(item.Icon)
+				if not item.styled then
+					item.Border:SetAlpha(0)
+					item.Icon:SetPoint("TOPLEFT", 1, -1)
+					item.Icon:SetTexCoord(.08, .92, .08, .92)
+					item.Icon:SetDrawLayer("OVERLAY")
+					F.CreateBDFrame(item.Icon)
+					item.styled = true
+				end
 			end
 		end
 	end)
