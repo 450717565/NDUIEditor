@@ -5,9 +5,6 @@ local format = string.format
 
 local addonName, addonTable = ...
 local ng
-
--- model 78092
-
 local L = addonTable.L
 
 local player_icon = "interface\\worldmap\\WorldMapArrow"
@@ -78,6 +75,17 @@ local function getUnused(t)
   btn.text:SetFont("Fonts\\FRIZQT__.TTF", 12, "MONOCHROME")
   btn.text:SetAllPoints()
   btn.text:SetText("")
+  btn.blockades = {}
+  for i = 1,4 do
+   btn.blockades[i] = btn:CreateTexture()
+   btn.blockades[i]:SetTexture("interface\\common\\voicechat-muted")
+   btn.blockades[i]:SetSize(buttonW / 2, buttonW / 2)
+   --btn.blockades[i]:Hide()
+  end
+  btn.blockades[north]:SetPoint("CENTER", btn, "TOP")
+  btn.blockades[east]:SetPoint("CENTER", btn, "RIGHT")
+  btn.blockades[west]:SetPoint("CENTER", btn, "LEFT")
+  btn.blockades[south]:SetPoint("CENTER", btn, "BOTTOM")
   return btn
  end
 end
@@ -90,6 +98,10 @@ local function createElement(t, r, ...)
   f:SetBackdropColor(1, 1, 1, 1)
   f:SetBackdropBorderColor(0, 0, 0, 0) 
   f:EnableMouse(mouse_interaction_active)
+  for i = 1,4 do
+   f.blockades[i].active = false
+   f.blockades[i]:Hide()
+  end
   r.button = f
  else -- link
   local r2, dir = ...
@@ -134,8 +146,6 @@ local function setRoomNumber(r)
 end
 
 local function recolorRoom(r)
- --resetColor(r, r.POI_c, r.POI_t)
- 
  local func = r.POI_t == "rune" and r.button.SetBackdropColor or r.button.SetBackdropBorderColor
  
  if r.POI_c == 6 then
@@ -479,6 +489,13 @@ local function createHelpDialog()
  mf.helpDialog:Hide()
 end
 
+local function setBlockade(self)
+ local i = self.c
+ local btn = current_room.button
+ 
+ btn.blockades[i].active = not btn.blockades[i].active
+ btn.blockades[i]:SetShown(btn.blockades[i].active)
+end
 
 local function initialize()
 
@@ -603,12 +620,13 @@ local function initialize()
   f.tex:SetAllPoints()
   f.tex:SetTexture("interface\\icons\\boss_odunrunes_"..(i == 3 and "orange" or color_strings[i]))
 
-  f:SetPoint("TOPLEFT", mf, "TOPLEFT", 25, -40 + i * -32)
+  --f:SetPoint("TOPLEFT", mf, "TOPLEFT", 25, -40 + i * -32)
+  f:SetPoint("TOPLEFT", mf, "TOPLEFT", 39 + 32 * (i % 2 - 1), -40 + math.ceil(i/2) * -32)
   f:SetSize(30, 30)
   f.t = "rune"
   f.c = i
   f:SetScript("OnClick", setPOIClick)
-  f:SetText(color_strings[i].." Rune")
+  --f:SetText(color_strings[i].." Rune")
   
   f = CreateFrame("Button", nil, mf)
   f.tex = f:CreateTexture()
@@ -616,13 +634,51 @@ local function initialize()
   f.tex:SetTexture("spells\\mage_frostorb_orb")
   f.tex:SetVertexColor(unpack(colors[i]))
   
-  f:SetPoint("TOPLEFT", mf, "TOPLEFT", 25, -220 + i * -32)
+  --f:SetPoint("TOPLEFT", mf, "TOPLEFT", 25, -220 + i * -32)
+  f:SetPoint("TOPLEFT", mf, "TOPLEFT", 39 + 32 * (i % 2 - 1), -280 + math.ceil(i/2) * -32)
   f:SetSize(30, 30)
   f.t = "orb"
   f.c = i
   f:SetScript("OnClick", setPOIClick)
-  f:SetText(color_strings[i].." Orb")
+  --f:SetText(color_strings[i].." Orb")
  end
+ 
+ -- door markers
+ f = CreateFrame("Button", nil, mf)
+ f.tex = f:CreateTexture()
+ f.tex:SetAllPoints()
+ f.tex:SetTexture("dungeons\\textures\\6hu_garrison\\6hu_garrison_rocks")
+ f:SetPoint("TOPLEFT", mf, "TOPLEFT", 25, -200)
+ f:SetSize(25, 15)
+ f.c = north
+ f:SetScript("OnClick", setBlockade)
+
+ f = CreateFrame("Button", nil, mf)
+ f.tex = f:CreateTexture()
+ f.tex:SetAllPoints()
+ f.tex:SetTexture("dungeons\\textures\\6hu_garrison\\6hu_garrison_rocks")
+ f:SetPoint("TOPLEFT", mf, "TOPLEFT", 9, -216)
+ f:SetSize(15, 25)
+ f.c = west
+ f:SetScript("OnClick", setBlockade)
+ 
+ f = CreateFrame("Button", nil, mf)
+ f.tex = f:CreateTexture()
+ f.tex:SetAllPoints()
+ f.tex:SetTexture("dungeons\\textures\\6hu_garrison\\6hu_garrison_rocks")
+ f:SetPoint("TOPLEFT", mf, "TOPLEFT", 51, -216)
+ f:SetSize(15, 25)
+ f.c = east
+ f:SetScript("OnClick", setBlockade)
+
+ f = CreateFrame("Button", nil, mf)
+ f.tex = f:CreateTexture()
+ f.tex:SetAllPoints()
+ f.tex:SetTexture("dungeons\\textures\\6hu_garrison\\6hu_garrison_rocks")
+ f:SetPoint("TOPLEFT", mf, "TOPLEFT", 25, -242)
+ f:SetSize(25, 15)
+ f.c = south
+ f:SetScript("OnClick", setBlockade)
  
  f = ng:New(addonName, "Button", nil, mf)
  f:SetPoint("TOPLEFT", mf, "TOPLEFT", 15, -420)
@@ -723,6 +779,23 @@ local function initialize()
 
  mf:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
 end
+
+
+--[===[@debug@
+local function debugfunc(s)
+ if s == "n" then
+  mf.UNIT_SPELLCAST_SUCCEEDED(_, _, _, _, 247350)
+ elseif s == "e" then
+  mf.UNIT_SPELLCAST_SUCCEEDED(_, _, _, _, 247352)
+ elseif s == "s" then
+  mf.UNIT_SPELLCAST_SUCCEEDED(_, _, _, _, 247351)
+ else
+  mf.UNIT_SPELLCAST_SUCCEEDED(_, _, _, _, 247353)
+ end
+end
+SLASH_LUCIDNIGHTMAREHELPERDEBUG1 = "/lnd"
+SlashCmdList["LUCIDNIGHTMAREHELPERDEBUG"] = debugfunc
+--@end-debug@]===]
 
 -- slash command
 SLASH_LUCIDNIGHTMAREHELPER1 = "/lucid"

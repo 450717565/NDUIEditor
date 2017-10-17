@@ -6,10 +6,6 @@
 ## OptionalDeps: Ace3
 ## SavedVariables: AuctionLiteDB
 ## X-Category: Interface Enhancements
-## X-Curse-Packaged-Version: r274
-## X-Curse-Project-Name: AuctionLite
-## X-Curse-Project-ID: auctionlite
-## X-Curse-Repository-ID: wow/auctionlite/mainline
 
 embeds.xml
 

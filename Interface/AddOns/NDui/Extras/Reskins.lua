@@ -270,7 +270,7 @@ if IsAddOnLoaded("Aurora") then
 			F.ReskinArrow(BuySummaryButton, "left")
 			SellSize:SetWidth(40)
 			SellSize:ClearAllPoints()
-			SellSize:SetPoint("LEFT", SellStacks, "RIGHT", 45, 0)
+			SellSize:SetPoint("LEFT", SellStacks, "RIGHT", 66, 0)
 			SellBidPriceSilver:SetPoint("LEFT", SellBidPriceGold, "RIGHT", 1, 0)
 			SellBidPriceCopper:SetPoint("LEFT", SellBidPriceSilver, "RIGHT", 1, 0)
 			SellBuyoutPriceSilver:SetPoint("LEFT", SellBuyoutPriceGold, "RIGHT", 1, 0)
@@ -298,12 +298,12 @@ if IsAddOnLoaded("Aurora") then
 			for k, v in pairs(inputs) do
 				F.ReskinInput(_G[v])
 			end
-			local abuttons = {"BuySearchButton", "BuyScanButton", "BuyBidButton", "BuyBuyoutButton", "BuyCancelAuctionButton", "BuyCancelSearchButton", "SellCreateAuctionButton"}
-			for k, v in pairs(abuttons) do
+			local buttons = {"BuySearchButton", "BuyScanButton", "BuyBidButton", "BuyBuyoutButton", "BuyCancelAuctionButton", "BuyCancelSearchButton", "SellCreateAuctionButton", "SellStacksMaxButton", "SellSizeMaxButton"}
+			for k, v in pairs(buttons) do
 				F.Reskin(_G[v])
 			end
-			local bbuttons = {"SellShortAuctionButton", "SellMediumAuctionButton", "SellLongAuctionButton", "SellPerItemButton", "SellPerStackButton"}
-			for k, v in pairs(bbuttons) do
+			local Rbuttons = {"SellShortAuctionButton", "SellMediumAuctionButton", "SellLongAuctionButton", "SellPerItemButton", "SellPerStackButton"}
+			for k, v in pairs(Rbuttons) do
 				F.ReskinRadio(_G[v])
 			end
 			local scroll = {"BuyScrollFrame", "SellScrollFrame"}

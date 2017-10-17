@@ -150,11 +150,21 @@
 						</Anchor>
 					</Anchors>
 				</FontString>
-				<FontString name="SellStacksOfText" inherits="GameFontHighlightSmall" text="stacks of">
+				<!--<FontString name="SellStacksOfText" inherits="GameFontHighlightSmall" text="stacks of">
 					<Anchors>
 						<Anchor point="TOPLEFT" relativeTo="SellStackText">
 							<Offset>
 								<AbsDimension x="38" y="-18"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<Color r="0.75" g="0.75" b="0.75"/>
+				</FontString>-->
+				<FontString name="SellStacksOfText" inherits="GameFontHighlightSmall" text="stacks of">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="SellStackText">
+							<Offset>
+								<AbsDimension x="65" y="-18"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -647,14 +657,31 @@
 					</OnEnterPressed>
 				</Scripts>
 			</EditBox>
-			<EditBox name="SellSize" numeric="true" autoFocus="false" inherits="InputBoxTemplate">
+			<Button name="SellStacksMaxButton" inherits="UIPanelButtonTemplate" text="Max">
 				<Size>
 					<AbsDimension x="30" y="20"/>
 				</Size>
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="SellStacks" relativePoint="TOPRIGHT">
 						<Offset>
-							<AbsDimension x="62" y="0"/>
+							<AbsDimension x="1" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						AuctionLite:SellStacksMaxButton_OnClick();
+					</OnClick>
+				</Scripts>
+			</Button>
+			<EditBox name="SellSize" numeric="true" autoFocus="false" inherits="InputBoxTemplate">
+				<Size>
+					<AbsDimension x="30" y="20"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="SellStacksMaxButton" relativePoint="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="52" y="0"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -675,6 +702,23 @@
 					</OnEnterPressed>
 				</Scripts>
 			</EditBox>
+			<Button name="SellSizeMaxButton" inherits="UIPanelButtonTemplate" text="Max">
+				<Size>
+					<AbsDimension x="30" y="20"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="SellSize" relativePoint="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="1" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						AuctionLite:SellSizeMaxButton_OnClick();
+					</OnClick>
+				</Scripts>
+			</Button>
 			<Frame name="SellBidPrice" inherits="MoneyInputFrameTemplate">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="SellBidText" relativePoint="BOTTOMLEFT">

@@ -29,9 +29,7 @@ end
 
 -- Make a printable string for a given amount of money (in copper).
 function AuctionLite:PrintMoney(money)
-	local result = ""
-	result = GetMoneyString(money)
-	return result;
+	return GetMoneyString(money);
 end
 
 -- Parse a string representing an amount of money.

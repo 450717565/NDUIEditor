@@ -171,11 +171,6 @@ C.themes["Blizzard_Collections"] = function()
 	PetJournal.HealPetButton:SetPushedTexture("")
 	PetJournal.HealPetButton:SetPoint("BOTTOMRIGHT", PetJournalPetCard, "TOPRIGHT", -1, 3.5)
 	F.CreateBDFrame(PetJournal.HealPetButton)
-	
-	PetJournalSummonRandomFavoritePetButtonBorder:Hide()
-	PetJournalSummonRandomFavoritePetButtonIconTexture:SetTexCoord(.08, .92, .08, .92)
-	PetJournal.SummonRandomFavoritePetButton:SetPushedTexture("")
-	F.CreateBDFrame(PetJournal.SummonRandomFavoritePetButton)
 
 	do
 		local ic = MountJournal.MountDisplay.InfoButton.Icon
@@ -196,6 +191,11 @@ C.themes["Blizzard_Collections"] = function()
 
 	PetJournalLoadoutBorderSlotHeaderText:SetParent(PetJournal)
 	PetJournalLoadoutBorderSlotHeaderText:SetPoint("CENTER", PetJournalLoadoutBorderTop, "TOP", 0, 4)
+
+	PetJournalSummonRandomFavoritePetButtonBorder:Hide()
+	PetJournalSummonRandomFavoritePetButtonIconTexture:SetTexCoord(.08, .92, .08, .92)
+	PetJournal.SummonRandomFavoritePetButton:SetPushedTexture("")
+	F.CreateBDFrame(PetJournal.SummonRandomFavoritePetButton)
 
 	-- Favourite mount button
 
@@ -444,21 +444,17 @@ C.themes["Blizzard_Collections"] = function()
 			button:SetPushedTexture("")
 			button:SetHighlightTexture("")
 
-			button.bg = F.CreateBG(button)
-			button.bg:SetPoint("TOPLEFT", button, 3, -2)
-			button.bg:SetPoint("BOTTOMRIGHT", button, -3, 4)
+			local ic = button.iconTexture
 
-			button.iconTexture:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(button.iconTexture)
-
-			button.iconTextureUncollected:SetTexCoord(.08, .92, .08, .92)
-			button.iconTextureUncollected:SetPoint("CENTER", 0, 1)
-			button.iconTextureUncollected:SetHeight(42)
+			ic:SetTexCoord(.08, .92, .08, .92)
+			F.CreateBDFrame(ic)
 
 			button.slotFrameCollected:SetTexture("")
 			button.slotFrameUncollected:SetTexture("")
-
 			button.levelBackground:SetAlpha(0)
+
+			button.iconTextureUncollected:SetTexCoord(.08, .92, .08, .92)
+			button.bg = F.ReskinIcon(ic)
 
 			button.level:ClearAllPoints()
 			button.level:SetPoint("BOTTOM", 0, 1)
@@ -584,10 +580,19 @@ C.themes["Blizzard_Collections"] = function()
 		local ic = itemFrame.Icon
 		if not itemFrame.styled then
 			ic:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(ic)
 			itemFrame.IconBorder:Hide()
 			itemFrame.IconBorder.Show = F.dummy
+			ic.bg = F.CreateBDFrame(ic)
+
 			itemFrame.styled = true
+		end
+
+		if itemFrame.collected then
+			local quality = C_TransmogCollection.GetSourceInfo(itemFrame.sourceID).quality
+			local color = BAG_ITEM_QUALITY_COLORS[quality or 1]
+			ic.bg:SetBackdropBorderColor(color.r, color.g, color.b)
+		else
+			ic.bg:SetBackdropBorderColor(0, 0, 0)
 		end
 	end)
 

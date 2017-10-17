@@ -1,5 +1,5 @@
 -- NyxGUI Library
--- by Jadya EU - Well of Eternity
+-- by Vildiesel EU - Well of Eternity
 
 -- How to embed:
 -- NyxGUI("1.0")  returns the library table for the specified major version (recommended)
@@ -50,6 +50,7 @@ local data   = {}
 local default_theme = {
                       -- textures and colors
 				       l0_texture     = "Interface\\Buttons\\GreyscaleRamp64",
+				       --l0_edge        = "",
                        l0_color       = "121212e6",
 				       l0_border      = "1A1A1Ae6",
 					   l1_texture     = "Interface\\Buttons\\WHITE8X8",
@@ -331,17 +332,14 @@ function ng:RemoveFromTheme(addon, theme, t, widget)
 end
 --
 
-local function drag_start(self) self:StartMoving() end
-local function drag_end(self) self:StopMovingOrSizing() end
-
 -- utils
 function ng:SetFrameMovable(f, flag)
  if flag then
   f:EnableMouse(true)
   f:SetMovable(true)
   f:RegisterForDrag("LeftButton")
-  f:SetScript("OnDragStart", drag_start)
-  f:SetScript("OnDragStop", drag_end)
+  f:SetScript("OnDragStart", f.StartMoving)
+  f:SetScript("OnDragStop", f.StopMovingOrSizing)
  else
   f:EnableMouse(false)
   f:SetMovable(false)

@@ -92,7 +92,7 @@ local function listbox_init(self, buttontype, list)
   end
   buttons[i]:SetWidth(w)
  end
- 
+
  if list ~= nil then
   self.list = list
  end
@@ -106,13 +106,13 @@ end
 function scroll_up(self)
  local p = self:GetParent()
  p:SetValue(p:GetValue() - (p.scrollStep or (p:GetHeight() / 2)))
- PlaySound("UChatScrollButton")
+ PlaySound(826)
 end
 
 function scroll_down(self)
  local p = self:GetParent()
  p:SetValue(p:GetValue() + (p.scrollStep or (p:GetHeight() / 2)))
- PlaySound("UChatScrollButton")
+ PlaySound(826)
 end
 
 function ng.constructors.Listbox(addon, name, parent, theme)

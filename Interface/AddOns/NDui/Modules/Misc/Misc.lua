@@ -41,7 +41,7 @@ local function CalculateArches()
 		if (c > 1) then
 			print("     - |cfffed100"..rn..": ".."|cff70C0F5"..a)
 			ta = ta + a
-		end 
+		end
 	end
 	print("    -> |c0000ff00"..TOTAL..": ".."|cffff0000"..ta)
 	print("|cff70C0F5------------------------")
@@ -238,7 +238,7 @@ do
 		for i = 1, 17 do
 			local texture = GetInventoryItemTexture("player", i)
 			if texture then
-				UnequipItemInSlot(i) 
+				UnequipItemInSlot(i)
 			end
 		end
 	end)
@@ -443,7 +443,7 @@ end)
 
 -- Temporary PVP queue taint fix
 InterfaceOptionsFrameCancel:SetScript("OnClick", function()
-    InterfaceOptionsFrameOkay:Click()
+	InterfaceOptionsFrameOkay:Click()
 end)
 
 -- Roll Gold
@@ -536,7 +536,7 @@ do
 				if LFGListFrame.SearchPanel.SignUpButton:IsEnabled() then
 					LFGListFrame.SearchPanel.SignUpButton:Click()
 				end
-				if LFGListApplicationDialog.SignUpButton:IsEnabled() then
+				if LFGListApplicationDialog:IsShown() and LFGListApplicationDialog.SignUpButton:IsEnabled() then
 					LFGListApplicationDialog.SignUpButton:Click()
 				end
 			end)

@@ -66,7 +66,6 @@ function ng.constructors.Button(addon, name, parent, theme)
  f:SetNormalFontObject(ng:GetFont(addon, theme, "button"))
  f.backdrop_type = "l3"
 
- 
  return f
 end
 

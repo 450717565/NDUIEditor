@@ -7,7 +7,7 @@
 	<!-- global vars for the init process -->
 	<Script>
 		NyxGUImajor = "1.0"
-		NyxGUIminor = 8
+		NyxGUIminor = 9
 	</Script>
 
 	<Script file="NyxGUI.lua"/>

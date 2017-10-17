@@ -172,6 +172,36 @@ function AuctionLite:SetItemBidBuyout(bid, buyout)
   end
 end
 
+-- Set the number of stacksto the maximum value based on the current stack size
+function AuctionLite:SellStacksMaxButton_OnClick()
+  local _, _, _, _, _, _, link = self:GetAuctionSellItemInfoAndLink();
+
+  if link ~= nil then
+    local size = SellSize:GetNumber();
+    local numItems = self:CountItems(link);
+	  
+	local stacks = (numItems - numItems % size) / size;
+	
+	SellStacks:SetText(stacks);
+    AuctionLite:UserChangedSize();
+  end
+end
+
+-- Set the stack size to the maximum value based on the current number of stacks
+function AuctionLite:SellSizeMaxButton_OnClick()
+  local _, _, _, _, _, _, link = self:GetAuctionSellItemInfoAndLink();
+
+  if link ~= nil then
+    local stacks = SellStacks:GetNumber();
+    local numItems = self:CountItems(link);
+	  
+	local size = (numItems - numItems % stacks) / stacks;
+	
+	SellSize:SetText(size);
+    AuctionLite:UserChangedSize();
+  end
+end
+
 -- Indicate that the user has messed with the stack size.
 function AuctionLite:UserChangedSize()
   ChangedSize = ChangedSize + 1;
@@ -379,14 +409,11 @@ function AuctionLite:ClickAuctionSellItemButton_Hook()
         self:SetSellData({}, link);
       else
         -- Start the scan.
-
-        local linkWithoutSuffix = AuctionLite:RemoveSuffix(link)
-
         local query = {
-          link = linkWithoutSuffix,
-          exact = linkWithoutSuffix == link, -- Only match exact if trimming the suffix didn't change the link.
+          link = link,
+          exact = true,
           update = function(pct) AuctionLite:UpdateProgressSell(pct) end,
-          finish = function(data) AuctionLite:SetSellData(data, link) end,
+          finish = function(data, link) AuctionLite:SetSellData(data, link) end,
         };
 
         self:StartQuery(query);
@@ -455,42 +482,14 @@ end
 -- Get our query results.
 function AuctionLite:SetSellData(results, link)
   -- Set the competing auction display.
-
-  local linkWithoutSuffix = AuctionLite:RemoveSuffix(link)
-  local removedSuffix = linkWithoutSuffix ~= link
-
-  local result
-  local matchingResults = {}
-
-  for resultLink, resultData in pairs(results) do
-    resultData.link = resultLink
-    if removedSuffix then
-      local _, _, linkId = AuctionLite:SplitLink(link)
-      local _, _, resultId = AuctionLite:SplitLink(resultLink)
-
-      if linkId == resultId then
-        result = result or resultData
-        tinsert(matchingResults, resultData)
-      end
-      resultLink = AuctionLite:RemoveSuffix(resultLink)
-    else
-      if link == resultLink then
-        result = result or resultData
-        tinsert(matchingResults, resultData)
-      end
-    end
-  end
-
+  local result = results[link];
   if result ~= nil then
     local filtered = {};
 
     local i;
-    for _, resultData in ipairs(matchingResults) do
-      for _, listing in ipairs(resultData.data) do
-        if listing.buyout > 0 then
-          listing.link = resultData.link
-          table.insert(filtered, listing);
-        end
+    for _, listing in ipairs(result.data) do
+      if listing.buyout > 0 then
+        table.insert(filtered, listing);
       end
     end
 
@@ -626,9 +625,10 @@ function AuctionLite:SellButton_OnEnter(widget)
 
   -- If there's an item at this location, create a tooltip for it.
   local item = SellData[offset + id];
-  if item ~= nil then
+  local _, _, _, _, _, _, link = self:GetAuctionSellItemInfoAndLink();
+  if item ~= nil and link ~= nil then
     local shift = SellButton1Name:GetLeft() - SellButton1Count:GetLeft();
-    self:SetAuctionLiteTooltip(widget, shift, item.link, item.count);
+    self:SetAuctionLiteTooltip(widget, shift, link, item.count);
   end
 end
 
@@ -871,6 +871,17 @@ function AuctionLite:AuctionFrameSell_Update()
 
   local offset = FauxScrollFrame_GetOffset(SellScrollFrame);
 
+  local name, color, enchant, jewel1, jewel2, jewel3, jewel4;
+  local showPlus;
+
+  if SellLink ~= nil then
+    name, color, _, _, enchant, jewel1, jewel2, jewel3, jewel4 =
+      self:SplitLink(SellLink);
+
+    showPlus = enchant ~= 0 or
+               jewel1 ~= 0 or jewel2 ~= 0 or
+               jewel3 ~= 0 or jewel4 ~= 0;
+  end
 
   local i;
   for i = 1, SELL_DISPLAY_SIZE do
@@ -892,11 +903,6 @@ function AuctionLite:AuctionFrameSell_Update()
       else
         alpha = 1.0;
       end
-
-      local name, color, _, _, enchant, jewel1, jewel2, jewel3, jewel4 = self:SplitLink(item.link);
-      local showPlus = enchant ~= 0 or
-                 jewel1 ~= 0 or jewel2 ~= 0 or
-                 jewel3 ~= 0 or jewel4 ~= 0;
 
       local countColor;
       local nameColor;
