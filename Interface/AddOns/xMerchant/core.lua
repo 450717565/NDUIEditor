@@ -959,7 +959,7 @@ local function xMerchant_InitItemsButtons()
 		money:SetPoint("RIGHT", -2, 0);
 		money:SetJustifyH("RIGHT");
 		itemname:SetPoint("RIGHT", money, "LEFT", -2, 0);
-		iteminfo:SetPoint("RIGHT", money, "RIGHT", -2, 0);
+		iteminfo:SetPoint("RIGHT", money, "LEFT", -2, 0);
 
 		button.item = {};
 		for j=1, MAX_ITEM_COST, 1 do

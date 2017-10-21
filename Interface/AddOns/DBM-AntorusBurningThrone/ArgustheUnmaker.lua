@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2031, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16794 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16803 $"):sub(12, -3))
 mod:SetCreatureID(125111)--or 124828
 mod:SetEncounterID(2092)
 mod:SetZone()
@@ -511,7 +511,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, spellName, _, _, spellId)
 		--timerAvatarofAggraCD:Start(5)
 		--timerEdgeofObliterationCD:Start(6.2)
 		--timerVolatileSoulCD:Start(20.8)
-	elseif spellId == 34098 then--ClearAllebuffs (12 before Tempoeral Blast)
+	elseif spellId == 34098 then--ClearAllDebuffs (12 before Tempoeral Blast)
 	
 	elseif spellId == 258044 then--Argus P4 Energy Controller (54 seconds after Reap Soul, 27 seconds after Gift of the Lifebinder)
 		--timerDiscsofNorgCD:Stop()

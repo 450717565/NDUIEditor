@@ -29,8 +29,9 @@ local function tooltip(self)
 	GameTooltip:AddDoubleLine(standingtext, value - minvalue.." / "..maxvalue - minvalue.."（"..string.format("%.1f", (value - minvalue)/(maxvalue - minvalue)*100).."%）", .6,.8,1, 1,1,1)
 	if C_Reputation.IsFactionParagon(factionID) then
 		local currentValue, threshold = C_Reputation.GetFactionParagonInfo(factionID)
-		local value = mod(currentValue, threshold)
-		GameTooltip:AddDoubleLine(L["ParagonRep"], value.."/"..threshold.." ("..string.format("%.1f", (value/threshold*100)).."%)", .6,.8,1, 1,1,1)
+		local paraCount = floor(currentValue/threshold)
+		currentValue = mod(currentValue, threshold)
+		GameTooltip:AddDoubleLine(L["ParagonRep"]..paraCount, currentValue.." / "..threshold.."（"..string.format("%.1f", (currentValue/threshold*100)).."%）", .6,.8,1, 1,1,1)
 	end
 
 	GameTooltip:Show()
@@ -51,6 +52,7 @@ local function update(self, event, unit)
 		standing = 5
 	elseif C_Reputation.IsFactionParagon(factionID) then
 		local currentValue, threshold = C_Reputation.GetFactionParagonInfo(factionID)
+		currentValue = mod(currentValue, threshold)
 		minvalue, maxvalue, value = 0, threshold, currentValue
 	else
 		if standing == MAX_REPUTATION_REACTION then

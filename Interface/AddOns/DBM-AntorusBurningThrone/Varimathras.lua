@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1983, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16765 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16811 $"):sub(12, -3))
 mod:SetCreatureID(122366)
 mod:SetEncounterID(2069)
 mod:SetZone()
@@ -61,7 +61,7 @@ local timerTormentofFrostCD				= mod:NewNextTimer(61, 243976, nil, nil, nil, 6)
 local timerTormentofFelCD				= mod:NewNextTimer(61, 243979, nil, nil, nil, 6)
 local timerTormentofShadowsCD			= mod:NewNextTimer(61, 243974, nil, nil, nil, 6)
 --The Fallen Nathrezim
-local timerShadowStrikeCD				= mod:NewCDTimer(9.7, 243960, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
+local timerShadowStrikeCD				= mod:NewCDTimer(9, 243960, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--9-14
 local timerDarkFissureCD				= mod:NewCDTimer(32, 243999, nil, nil, nil, 3)
 local timerMarkedPreyCD					= mod:NewCDTimer(30.3, 244042, nil, nil, nil, 3)
 local timerNecroticEmbraceCD			= mod:NewCDTimer(30.3, 244093, nil, nil, nil, 3)
@@ -175,7 +175,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnNecroticEmbrace:Show()
 			voiceNecroticEmbrace:Play("scatter")
-			yellNecroticEmbrace:Countdown(4, 4)
+			yellNecroticEmbrace:Countdown(6, 4)
 		else
 			warnNecroticEmbrace:CombinedShow(0.3, args.destName)--Combined message because even if it starts on 1, people are gonna fuck it up
 		end
