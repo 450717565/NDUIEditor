@@ -104,7 +104,7 @@ local function SoundPlayHelper(self)
     return;
   end
 
-  if (WeakAuras.IsOptionsOpen()) then
+  if (WeakAuras.IsOptionsOpen() or WeakAuras.SquelchingActions()) then
     return;
   end
 
@@ -474,5 +474,7 @@ end
 function WeakAuras.regionPrototype.SetTextOnText(text, str)
   text:SetWidth(0); -- This makes the text use its internal text size calculation
   text:SetText(str);
-  text:SetWidth(text:GetWidth() + 4); -- But that internal text size calculation is wrong, see ticket 1014
+  local w = text:GetWidth();
+  w = w + max(4, w / 40);
+  text:SetWidth(w); -- But that internal text size calculation is wrong, see ticket 1014
 end

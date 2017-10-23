@@ -527,7 +527,7 @@ L["Spiral In And Out"] = "Спирально Туда-Сюда"
 --Translation missing 
 -- L["Square"] = ""
 L["Stacks"] = "Стаки"
-L["Stagger"] = "Колебание"
+L["Stagger"] = "Пошатывание"
 L["Stance/Form/Aura"] = "Стойка/Форма/Аура"
 --Translation missing 
 -- L["Star"] = ""

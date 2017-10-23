@@ -129,6 +129,8 @@ C.AuraWatchList = {
 			-->LEG饰品
 				--晶化身体
 				{AuraID = 214366, UnitID = "player", Value= true},
+				--超能奥术
+				{AuraID = 254161, UnitID = "player"},
 				--猫头鹰
 				{AuraID = 242570, UnitID = "player"},
 				--苦痛之矛

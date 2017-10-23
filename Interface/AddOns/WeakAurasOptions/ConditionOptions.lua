@@ -416,7 +416,7 @@ local function addControlsForChange(args, order, data, conditionVariable, condit
         if (conditions[i].changes[j].value and type(conditions[i].changes[j].value) == "table") then
           return conditions[i].changes[j].value[1], conditions[i].changes[j].value[2], conditions[i].changes[j].value[3], conditions[i].changes[j].value[4];
         end
-        return nil;
+        return 1, 1, 1, 1;
       end,
       set = setValueColor
     }
@@ -662,7 +662,7 @@ local function addControlsForChange(args, order, data, conditionVariable, condit
       arg = {
         extraFunctions = {
           {
-            name = L["Expand"],
+            buttonLabel = L["Expand"],
             func = function()
               if (data.controlledChildren) then
                 -- Collect multi paths
@@ -740,7 +740,7 @@ local function addControlsForChange(args, order, data, conditionVariable, condit
       arg = {
         extraFunctions = {
           {
-            name = L["Expand"],
+            buttonLabel = L["Expand"],
             func = function()
               if (data.controlledChildren) then
                 -- Collect multi paths

@@ -1,4 +1,4 @@
-local Type, Version = "WeakAurasMultiLineEditBox", 29
+local Type, Version = "WeakAurasMultiLineEditBox", 30
 local AceGUI = LibStub and LibStub("AceGUI-3.0", true)
 if not AceGUI or (AceGUI:GetWidgetVersion(Type) or 0) >= Version then return end
 
@@ -160,11 +160,11 @@ local function OnFrameShow(frame)
 				local extraButton = CreateFrame("Button", ("%s%dExpandButton%d"):format(Type, self.widgetNum, index), frame, "UIPanelButtonTemplate")
 				extraButton:SetPoint("LEFT", self.extraButtons[index - 1], "RIGHT");
 				extraButton:SetHeight(22)
+				extraButton:SetWidth(100);
 				self.extraButtons[index] = extraButton;
 			end
 			local extraButton = self.extraButtons[index];
-			extraButton:SetText(data.name);
-			extraButton:SetWidth(100);
+			extraButton:SetText(data.buttonLabel);
 			extraButton:SetScript("OnClick", data.func);
 			extraButton:Show();
 		end
@@ -324,12 +324,6 @@ local function Constructor()
 
 	local extraButtons = {};
 	extraButtons[0] = button;
-
-	local text = button:GetFontString()
-	text:ClearAllPoints()
-	text:SetPoint("TOPLEFT", button, "TOPLEFT", 5, -5)
-	text:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", -5, 1)
-	text:SetJustifyV("MIDDLE")
 
 	local scrollBG = CreateFrame("Frame", nil, frame)
 	scrollBG:SetBackdrop(backdrop)

@@ -631,6 +631,7 @@ local function formatValueForAssignment(vtype, value, pathToCustomFunction)
     if (value and type(value) == "table") then
       return string.format("{%s, %s, %s, %s}", tostring(value[1]), tostring(value[2]), tostring(value[3]), tostring(value[4]));
     end
+    return "{1, 1, 1, 1}";
   elseif(vtype == "chat") then
     if (value and type(value) == "table") then
       return string.format("{message_type = %q, message = %q, message_dest = %q, message_channel = %q, message_custom = %s}",
@@ -999,6 +1000,7 @@ WeakAuras.frames["Addon Initialization Handler"] = loadedFrame;
 loadedFrame:RegisterEvent("ADDON_LOADED");
 loadedFrame:RegisterEvent("PLAYER_LOGIN");
 loadedFrame:RegisterEvent("PLAYER_ENTERING_WORLD");
+loadedFrame:RegisterEvent("LOADING_SCREEN_ENABLED");
 loadedFrame:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED");
 loadedFrame:SetScript("OnEvent", function(self, event, addon)
   if(event == "ADDON_LOADED") then
@@ -1055,6 +1057,8 @@ loadedFrame:SetScript("OnEvent", function(self, event, addon)
     timer:ScheduleTimer(function() squelch_actions = false; end, db.login_squelch_time);      -- No sounds while loading
     WeakAuras.CreateTalentCache() -- It seems that GetTalentInfo might give info about whatever class was previously being played, until PLAYER_ENTERING_WORLD
     WeakAuras.UpdateCurrentInstanceType();
+  elseif(event == "LOADING_SCREEN_ENABLED") then
+    squelch_actions = true;
   elseif(event == "ACTIVE_TALENT_GROUP_CHANGED") then
     WeakAuras.CreateTalentCache();
   elseif(event == "PLAYER_REGEN_ENABLED") then
@@ -1105,6 +1109,10 @@ function WeakAuras.Toggle()
   else
     WeakAuras.Pause();
   end
+end
+
+function WeakAuras.SquelchingActions()
+  return squelch_actions;
 end
 
 function WeakAuras.PauseAllDynamicGroups()
@@ -2579,7 +2587,7 @@ function WeakAuras.PerformActions(data, type, region)
     end
   end
 
-  if(actions.do_sound and actions.sound and not squelch_actions) then
+  if(actions.do_sound and actions.sound) then
     if (region.SoundPlay) then
       region:SoundPlay(actions);
     end

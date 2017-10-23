@@ -380,7 +380,7 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED
 	L["Stack Info"] = "Информация о стаках"
 	L["Stacks"] = "\"Стаки\""
 	L["Stacks Settings"] = "Настройки Стаков"
-	L["Stagger"] = "Шатание"
+	L["Stagger"] = "Пошатывание"
 	L["Star"] = "Звезда"
 	L["Start"] = "Начало"
 	L["Start Angle"] = "Начальный угол"

@@ -1996,7 +1996,7 @@ function WeakAuras.AddCodeOption(args, data, name, prefix, order, hiddenFunc, pa
     arg = {
       extraFunctions = {
         {
-          name = L["Expand"],
+          buttonLabel = L["Expand"],
           func = function()
             WeakAuras.OpenTextEditor(data, path, encloseInFunction, multipath)
           end
@@ -2225,13 +2225,12 @@ function WeakAuras.ReloadTriggerOptions(data)
 
     optionTriggerChoices[id] = optionTriggerChoices[id] or 0;
 
-    if(optionTriggerChoices[id] >= 0) then
-      for index, childId in pairs(data.controlledChildren) do
-        local childData = WeakAuras.GetData(childId);
-        if(childData) then
-          optionTriggerChoices[childId] = optionTriggerChoices[id];
-          WeakAuras.ReloadTriggerOptions(childData);
-        end
+    local commonOptionTriggerChoice = optionTriggerChoices[id] >= 0 and optionTriggerChoices[id];
+    for index, childId in pairs(data.controlledChildren) do
+      local childData = WeakAuras.GetData(childId);
+      if(childData) then
+        optionTriggerChoices[childId] = commonOptionTriggerChoice or optionTriggerChoices[childId] or 0;
+        WeakAuras.ReloadTriggerOptions(childData);
       end
     end
   else
@@ -2289,8 +2288,12 @@ function WeakAuras.ReloadTriggerOptions(data)
       name = L["Required for Activation"],
       width = "double",
       order = 0,
-      hidden = function() return not (data.additional_triggers and #data.additional_triggers > 0) end,
-      values = WeakAuras.trigger_require_types,
+      values = function()
+        if (data.additional_triggers and #data.additional_triggers > 0) then
+          return WeakAuras.trigger_require_types;
+        end
+        return  WeakAuras.trigger_require_types_one;
+      end,
       get = function() return data.disjunctive or "all" end,
       set = function(info, v) data.disjunctive = v end
     },
