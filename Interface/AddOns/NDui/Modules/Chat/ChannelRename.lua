@@ -2,7 +2,6 @@ local B, C, L, DB = unpack(select(2, ...))
 local module = NDui:GetModule("Chat")
 
 function module:ChannelRename()
-	local gsub = _G.string.gsub
 	for i = 1, NUM_CHAT_WINDOWS do
 		if ( i ~= 2 ) then
 			local f = _G["ChatFrame"..i]
@@ -42,7 +41,7 @@ function module:ChannelRename()
 	CHAT_INSTANCE_CHAT_GET = "|Hchannel:INSTANCE|h[I]|h %s "
 	CHAT_INSTANCE_CHAT_LEADER_GET = "|Hchannel:INSTANCE|h[IL]|h %s "
 
-	--whisper  
+	--whisper
 	CHAT_WHISPER_INFORM_GET = L["Tell"].." %s "
 	CHAT_WHISPER_GET = L["From"].." %s "
 	CHAT_BN_WHISPER_INFORM_GET = L["Tell"].." %s "

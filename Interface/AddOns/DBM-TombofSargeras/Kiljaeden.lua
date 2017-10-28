@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1898, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16809 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16822 $"):sub(12, -3))
 mod:SetCreatureID(117269)--121227 Illiden? 121193 Shadowsoul
 mod:SetEncounterID(2051)
 mod:SetZone()
@@ -72,7 +72,7 @@ local specWarnBurstingDreadflame	= mod:NewSpecialWarningMoveAway(238430, nil, ni
 local yellBurstingDreadflame		= mod:NewPosYell(238430, DBM_CORE_AUTO_YELL_CUSTOM_POSITION)
 local yellBurstingDreadflameFades	= mod:NewShortFadesYell(238430, nil, false)
 --Stage Two: Reflected Souls
-local specWarnSRHopeless			= mod:NewSpecialWarningYou(237590, nil, nil, nil, 1, 2)
+local specWarnSRHopeless			= mod:NewSpecialWarningYou(237590, nil, nil, 2, 3, 2)
 local yellSRHopeless				= mod:NewShortFadesYell(237590, 237724)
 local specWarnSRMalignant			= mod:NewSpecialWarningYou(236498, nil, nil, nil, 1, 2)
 local yellSRMalignant				= mod:NewShortFadesYell(236498)
@@ -331,8 +331,8 @@ function mod:SPELL_CAST_START(args)
 		--Special snow flake (https://www.warcraftlogs.com/reports/xntG1J4r7MmwAPqB#fight=3&type=summary&pins=2%24Off%24%23244F4B%24expression%24(ability.id%20%3D%20238502%20or%20ability.id%20%3D%20237725%20or%20ability.id%20%3D%20238999%20or%20ability.id%20%3D%20243982%20or%20ability.id%20%3D%20240910%20or%20ability.id%20%3D%20241983)%20and%20type%20%3D%20%22begincast%22%0A%20or%20(ability.id%20%3D%20239932%20or%20ability.id%20%3D%20235059%20or%20ability.id%20%3D%20238502%20or%20ability.id%20%3D%20239785%20or%20ability.id%20%3D%20236378%20or%20ability.id%20%3D%20236710%20or%20ability.id%20%3D%20237590%20or%20ability.id%20%3D%20236498%20or%20ability.id%20%3D%20238430)%20and%20type%20%3D%20%22cast%22%0A%20or%20ability.id%20%3D%20244834%20and%20type%20%3D%20%22applybuff%22%20or%20(ability.id%20%3D%20241983%20or%20ability.id%20%3D%20244834)%20and%20type%20%3D%20%22removebuff%22%0A%20or%20ability.name%20%3D%20%22Rupturing%20Singularity%22%20and%20target.name%20%3D%20%22Omegal%22&view=events)
 		--TODO, see if this happens more than once (8th claw, etc)
 		if self.vb.phase == 3 and self.vb.felClawsCount == 4 then
-			timerFelclawsCD:Start(20, self.vb.felClawsCount+1)
-			countdownFelclaws:Start(20)
+			timerFelclawsCD:Start(16, self.vb.felClawsCount+1)
+			countdownFelclaws:Start(16)
 		elseif self.vb.phase == 2 and self:IsMythic() and self.vb.felClawsCount == 2 then--Only sub 24 niche case?
 			timerFelclawsCD:Start(22.9, self.vb.felClawsCount+1)
 			countdownFelclaws:Start(22.9)
@@ -362,7 +362,7 @@ function mod:SPELL_CAST_START(args)
 		self.vb.singularityCount = 0
 		voicePhaseChange:Play("phasechange")
 		if self:IsMythic() then
-			timerRupturingSingularityCD:Start(20.3, 1)
+			timerRupturingSingularityCD:Start(19.3, 1)
 		end
 	end
 end
@@ -839,10 +839,18 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		specWarnFlamingOrbSpawn:Show(self.vb.orbCount)
 		voiceFlameOrbSpawn:Play("watchstep")
 		voiceFlameOrbSpawn:Schedule(1, "runout")
-		if self.vb.orbCount % 2 == 0 then
-			timerFlamingOrbCD:Start(64, self.vb.orbCount+1)
+		if self:IsMythic() then
+			if self.vb.orbCount < 3 then
+				timerFlamingOrbCD:Start(15, self.vb.orbCount+1)
+			else
+				timerFlamingOrbCD:Start(64, self.vb.orbCount+1)
+			end
 		else
-			timerFlamingOrbCD:Start(31, self.vb.orbCount+1)
+			if self.vb.orbCount % 2 == 0 then
+				timerFlamingOrbCD:Start(64, self.vb.orbCount+1)
+			else
+				timerFlamingOrbCD:Start(31, self.vb.orbCount+1)
+			end
 		end
 	end
 end

@@ -16,7 +16,7 @@ function module:OnLogin()
 	self:ShowDurability()
 	self:BeamTool()
 	self:ReflectingAlert()
-	self:SwapingAlert()
+	self:SwappingAlert()
 	self:VersionCheck()
 	self:SistersAlert()
 

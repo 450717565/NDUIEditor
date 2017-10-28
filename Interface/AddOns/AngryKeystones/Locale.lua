@@ -148,6 +148,7 @@ langs.zhCN = {
 	config_completionMessage = "副本完成时在聊天窗口显示总耗时",
 	config_showSplits = "在任务列表的进度上显示单独的进度计时",
 	keystoneFormat = "[%s+%d]",
+	forcesFormat = " - 敌方部队 %s",
 	completion0 = "你超时完成了 %s 的战斗。共耗时 %s，超出规定时间 %s。",
 	completion1 = "你在规定时间内完成了 %s 的战斗！共耗时 %s，剩余时间 %s，2箱奖励超时 %s。",
 	completion2 = "你在规定时间内获得了 %s 的2箱奖励！共耗时 %s，2箱奖励剩余时间 %s，3箱奖励超时 %s。",

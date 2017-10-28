@@ -43,7 +43,7 @@
 --
 
 
-local revision =("$Revision: 16764 $"):sub(12, -3)
+local revision =("$Revision: 16826 $"):sub(12, -3)
 local FrameTitle = "DBM_GUI_Option_"	-- all GUI frames get automatically a name FrameTitle..ID
 
 local PanelPrototype = {}
@@ -349,7 +349,7 @@ do
 		GameTooltip:SetPoint("BOTTOMLEFT", nil, "BOTTOMLEFT", x + 5, y + 2)
 	end
 
-	local function onHyperlinkClick(self, data, link)
+	--[[local function onHyperlinkClick(self, data, link)
 		if IsShiftKeyDown() then
 			local msg = link:gsub("|h(.*)|h", "|h[%1]|h")
 			local chatWindow = ChatEdit_GetActiveWindow()
@@ -371,7 +371,7 @@ do
 				self:GetParent():Click()
 			end
 		end
-	end
+	end--]]
 
 	local function onHyperlinkEnter(self, data, link)
 		GameTooltip:SetOwner(self, "ANCHOR_NONE") -- I want to anchor BOTTOMLEFT of the tooltip to the cursor... (not BOTTOM as in ANCHOR_CURSOR)
@@ -533,7 +533,7 @@ do
 			html = _G[buttonName.."Text"]
 			html:SetFontObject("GameFontNormal")
 			html:SetHyperlinksEnabled(true)
-			html:SetScript("OnHyperlinkClick", onHyperlinkClick)
+			--html:SetScript("OnHyperlinkClick", onHyperlinkClick)
 			html:SetScript("OnHyperlinkEnter", onHyperlinkEnter)
 			html:SetScript("OnHyperlinkLeave", onHyperlinkLeave)
 			html:SetHeight(25)
@@ -673,7 +673,7 @@ function PanelPrototype:CreateScrollingMessageFrame(width, height, insertmode, f
 	scrollframe:EnableMouse(true)
 	scrollframe:EnableMouseWheel(1)
 
-	scrollframe:SetScript("OnHyperlinkClick", ChatFrame_OnHyperlinkShow)
+	--scrollframe:SetScript("OnHyperlinkClick", ChatFrame_OnHyperlinkShow)
 	scrollframe:SetScript("OnMouseWheel", function(self, delta)
 		if delta == 1 then
 			self:ScrollUp()
@@ -3419,7 +3419,6 @@ local function CreateOptionsMenu()
 		local spamArea = spamPanel:CreateArea(L.Area_SpamFilter, nil, 170, true)
 		spamArea:CreateCheckButton(L.DontShowFarWarnings, true, nil, "DontShowFarWarnings")
 		spamArea:CreateCheckButton(L.StripServerName, true, nil, "StripServerName")
-		spamArea:CreateCheckButton(L.SpamBlockBossWhispers, true, nil, "SpamBlockBossWhispers")
 
 		local spamSpecArea = spamPanel:CreateArea(L.Area_SpecFilter, nil, 120, true)
 		spamSpecArea:CreateCheckButton(L.FilterTankSpec, true, nil, "FilterTankSpec")
@@ -3450,15 +3449,14 @@ local function CreateOptionsMenu()
 
 	do
 		local hideBlizzPanel = DBM_GUI_Frame:CreateNewPanel(L.Panel_HideBlizzard, "option")
-		local hideBlizzArea = hideBlizzPanel:CreateArea(L.Area_HideBlizzard, nil, 315, true)
+		local hideBlizzArea = hideBlizzPanel:CreateArea(L.Area_HideBlizzard, nil, 295, true)
 		hideBlizzArea:CreateCheckButton(L.HideBossEmoteFrame, true, nil, "HideBossEmoteFrame2")
 		hideBlizzArea:CreateCheckButton(L.HideWatchFrame, true, nil, "HideObjectivesFrame")
 		hideBlizzArea:CreateCheckButton(L.HideGarrisonUpdates, true, nil, "HideGarrisonToasts")
 		hideBlizzArea:CreateCheckButton(L.HideGuildChallengeUpdates, true, nil, "HideGuildChallengeUpdates")
 		hideBlizzArea:CreateCheckButton(L.HideQuestTooltips, true, nil, "HideQuestTooltips")
 		hideBlizzArea:CreateCheckButton(L.HideTooltips, true, nil, "HideTooltips")
-		hideBlizzArea:CreateCheckButton(L.DisableSFX, true, nil, "DisableSFX")
-		local filterYell	= hideBlizzArea:CreateCheckButton(L.SpamBlockSayYell, true, nil, "FilterSayAndYell")
+		local DisableSFX	= hideBlizzArea:CreateCheckButton(L.DisableSFX, true, nil, "DisableSFX")
 
 		local movieOptions = {
 			{	text	= L.Disable,	value 	= "Never"},
@@ -3468,7 +3466,7 @@ local function CreateOptionsMenu()
 		local blockMovieDropDown = hideBlizzArea:CreateDropdown(L.DisableCinematics, movieOptions, "DBM", "MovieFilter", function(value)
 			DBM.Options.MovieFilter = value
 		end)
-		blockMovieDropDown:SetPoint("TOPLEFT", filterYell, "TOPLEFT", 0, -40)
+		blockMovieDropDown:SetPoint("TOPLEFT", DisableSFX, "TOPLEFT", 0, -40)
 
 		--hideBlizzArea:AutoSetDimension()
 		hideBlizzPanel:SetMyOwnHeight()
