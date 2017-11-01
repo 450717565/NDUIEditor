@@ -4,6 +4,7 @@ local module = NDui:GetModule("Skins")
 -- RM Control Panel
 function module:CreateRM()
 	if not NDuiDB["Skins"]["RM"] then return end
+	local cr, cg, cb = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b
 
 	local RaidManager = CreateFrame("Frame", "RaidManager", UIParent)
 	RaidManager:SetSize(200, 85)
@@ -150,7 +151,7 @@ function module:CreateRM()
 	RMWmark:SetPoint("RIGHT", RMOpen, "LEFT", 0, 0)
 	RMWmark:SetParent(RMOpen)
 	RMWmark:SetSize(30, 30)
-	RMWmark:GetNormalTexture():SetVertexColor(DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b)
+	RMWmark:GetNormalTexture():SetVertexColor(cr, cg, cb)
 	RMWmark.SetNormalTexture = function() end
 	RMWmark.SetPushedTexture = function() end
 	B.CreateBD(RMWmark)
@@ -258,7 +259,7 @@ function module:CreateRM()
 		GameTooltip:AddLine(DB.ScrollButton..DB.InfoColor..L["Count Down"])
 		GameTooltip:AddLine(DB.RightButton..DB.InfoColor..L["Check Status"])
 		GameTooltip:Show()
-		self:SetBackdropBorderColor(DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b, 1)
+		self:SetBackdropBorderColor(cr, cg, cb, 1)
 	end)
 	RMBuff:HookScript("OnLeave", GameTooltip_Hide)
 
