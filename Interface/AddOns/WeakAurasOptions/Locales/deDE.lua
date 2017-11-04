@@ -26,6 +26,10 @@ local L = WeakAuras.L
 	L["Actions"] = "Aktionen"
 	L["Activate when the given aura(s) |cFFFF0000can't|r be found"] = "Aktiviere falls die angegebenen Auren |cFFFF0000nicht|r gefunden werden"
 	L["Add a new display"] = "Neue Anzeige hinzufügen"
+	--Translation missing 
+	-- L["Add Condition"] = ""
+	--Translation missing 
+	-- L["Add Property Change"] = ""
 	L["Add to group %s"] = "Zu Gruppe %s hinzufügen"
 	L["Add to new Dynamic Group"] = "Neue dynamische Gruppe hinzufügen"
 	L["Add to new Group"] = "Neue Gruppe hinzufügen"
@@ -39,9 +43,13 @@ local L = WeakAuras.L
 	L["Anchor Point"] = "Ankerpunkt"
 	L["anchored to"] = "Anheften an"
 	L["Anchored To"] = "Angeheftet an"
+	--Translation missing 
+	-- L["And "] = ""
 	L["Angle"] = "Winkel"
 	L["Animate"] = "Animieren"
 	L["Animated Expand and Collapse"] = "Erweitern und Verbergen animieren"
+	--Translation missing 
+	-- L["Animates progress changes"] = ""
 	L["Animation relative duration description"] = [=[Die Dauer der Animation relativ zur Dauer der Anzeige als Bruchteil (1/2), als Prozent (50%) oder als Dezimal (0.5).
 |cFFFF0000Notiz:|r Falls die Anzeige keine Dauer besitzt (zb. Aura ohne Dauer), wird diese Animation nicht ausgeführt.
 
@@ -114,6 +122,8 @@ Soll die Anzeige in einer neuen |cFF22AA22Dynamischen Gruppe|r platziert werden?
 	L["Collapse all loaded displays"] = "Alle geladenen Anzeigen minimieren"
 	L["Collapse all non-loaded displays"] = "Alle nicht geladenen Anzeigen minimieren"
 	L["Color"] = "Farbe"
+	--Translation missing 
+	-- L["color"] = ""
 	L["Compress"] = "Stauchen"
 	L["Conditions"] = "Bedingungen"
 	L["Constant Factor"] = "Konstanter Faktor"
@@ -123,6 +133,8 @@ Soll die Anzeige in einer neuen |cFF22AA22Dynamischen Gruppe|r platziert werden?
 	L["Cooldown"] = "Abklingzeit"
 	L["Copy settings from %s"] = "Kopiere Einstellungen von %s"
 	L["Copy settings from..."] = "Kopiere Einstellungen von..."
+	--Translation missing 
+	-- L["Copy to all auras"] = ""
 	L["Copy URL"] = "URL kopieren"
 	L["Count"] = "Anzahl"
 	L["Creating buttons: "] = "Erstelle Schaltflächen:"
@@ -153,6 +165,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Delete children and group"] = "Kinder und Gruppe löschen"
 	L["Delete Trigger"] = "Auslöser löschen"
 	L["Desaturate"] = "Entsättigen"
+	--Translation missing 
+	-- L["Differences"] = ""
 	L["Disabled"] = "Deaktiviert"
 	L["Discrete Rotation"] = "Rotation um x90°"
 	L["Display"] = "Anzeige"
@@ -198,6 +212,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Fade"] = "Verblassen"
 	L["Fade In"] = "Einblenden"
 	L["Fade Out"] = "Ausblenden"
+	--Translation missing 
+	-- L["False"] = ""
 	L["Finish"] = "Endanimation"
 	L["Fire Orb"] = "Feuerkugel"
 	L["Font"] = "Schriftart"
@@ -255,6 +271,10 @@ Falls die Zahl als Dezimalzahl (z.B. 0.5), Bruch (z.B. 1/2) oder Prozentsatz (z.
 	L["Icon Color"] = "Symbolfarbe"
 	L["Icon Info"] = "Symbolinfo"
 	L["Icon Inset"] = "Symboleinrückung"
+	--Translation missing 
+	-- L["If"] = ""
+	--Translation missing 
+	-- L["If Trigger %s"] = ""
 	L["Ignored"] = "Ignoriert"
 	L["Import"] = "Importieren"
 	L["Import a display from an encoded string"] = "Anzeige von Klartext importieren"
@@ -335,9 +355,15 @@ Nur ein Wert kann ausgewählt werden.]=]
 	L["Re-center Y"] = "Zentrum (Y)"
 	L["Remaining Time"] = "Verbleibende Zeit"
 	L["Remaining Time Precision"] = "Genauigkeit der verbleibenden Zeit"
+	--Translation missing 
+	-- L["Remove this condition"] = ""
 	L["Remove this display from its group"] = "Diese Anzeige aus seiner Gruppe entfernen"
+	--Translation missing 
+	-- L["Remove this property"] = ""
 	L["Rename"] = "Umbenennen"
 	L["Repeat After"] = "Wiederholen nach"
+	--Translation missing 
+	-- L["Repeat every"] = ""
 	L["Required for Activation"] = "Benötigt zur Aktivierung"
 	L["Required For Activation"] = "Vorrausgesetzt für Aktivierung"
 	--Translation missing 
@@ -377,6 +403,8 @@ Nur ein Wert kann ausgewählt werden.]=]
 	L["Slide In"] = "Einschieben"
 	L["Slide Out"] = "Ausschieben"
 	L["Small Icon"] = "Kleines Symbol"
+	--Translation missing 
+	-- L["Smooth Progress"] = ""
 	L["Sort"] = "Sortieren"
 	L["Sound"] = "Sound"
 	L["Sound Channel"] = "Soundkanal"
@@ -418,6 +446,8 @@ Soll |cFFFF0000Alle Auren scannen (CPU-Intensiv)|r aktiviert werden um diese |cF
 	L["The children of this group have different display types, so their display options cannot be set as a group."] = "Anzeigeoptionen können nicht für die Gruppe gesetzt werden, weil die Kinder dieser Gruppe verschiedene Anzeigetypen haben."
 	L["The duration of the animation in seconds."] = "Die Dauer der Animation in Sekunden."
 	L["The type of trigger"] = "Auslösertyp"
+	--Translation missing 
+	-- L["Then "] = ""
 	L["This display is currently loaded"] = "Diese Anzeige ist momentan geladen"
 	L["This display is not currently loaded"] = "Diese Anzeige ist momentan nicht geladen"
 	L["This region of type \"%s\" is not supported."] = "Diese Region des Typs \"%s\" wird nicht unterstützt."
@@ -443,6 +473,8 @@ Soll |cFFFF0000Alle Auren scannen (CPU-Intensiv)|r aktiviert werden um diese |cF
 	L["Trigger"] = "Auslöser"
 	L["Trigger %d"] = "Auslöser %d"
 	L["Trigger:"] = "Auslöser:"
+	--Translation missing 
+	-- L["True"] = ""
 	L["Type"] = "Typ"
 	L["Undefined"] = "Undefiniert"
 	L["Ungroup"] = "Gruppierung aufheben"
@@ -454,6 +486,10 @@ Soll |cFFFF0000Alle Auren scannen (CPU-Intensiv)|r aktiviert werden um diese |cF
 	-- L["Use SetTransform (will change behaviour in 7.3)"] = ""
 	L["Use SetTransform api"] = "SetTransform-API verwenden"
 	L["Use tooltip \"size\" instead of stacks"] = "Tooltipgröße anstatt Stapel verwenden"
+	--Translation missing 
+	-- L["Used in auras:"] = ""
+	--Translation missing 
+	-- L["Version: "] = ""
 	L["Vertical Align"] = "Vertikale Ausrichtung"
 	L["Vertical Bar"] = "Vertikaler Balken"
 	--Translation missing 

@@ -22,6 +22,8 @@ local L = WeakAuras.L
 	L["Actions"] = "Действия"
 	L["Activate when the given aura(s) |cFFFF0000can't|r be found"] = "Активировать когда заданная аура(ы) |cFFFF0000не|r найдена"
 	L["Add a new display"] = "Добавить новую индикацию"
+	L["Add Condition"] = "Добавить условие"
+	L["Add Property Change"] = "Добавить изменение свойства"
 	L["Add to group %s"] = "Добавить в группу %s"
 	L["Add to new Dynamic Group"] = "Добавить в новую динамическую группу"
 	L["Add to new Group"] = "Добавить в новую группу"
@@ -35,9 +37,12 @@ local L = WeakAuras.L
 	L["Anchor Point"] = "Точка Крепления"
 	L["anchored to"] = "прикрепить к"
 	L["Anchored To"] = "Прикрепить к"
+	L["And "] = "И "
 	L["Angle"] = "Угол"
 	L["Animate"] = "Анимация"
 	L["Animated Expand and Collapse"] = "Анимированное Сворачивание и Разворачивание"
+	--Translation missing 
+	-- L["Animates progress changes"] = ""
 	L["Animation relative duration description"] = [=[Длительность анимации по отношению к индикации, выраженная в виде дроби (1/2), процентах (50%), или десятично (0.5).
 |cFFFF0000Примечание:|r Если индикация не имеет таймера (например аура без длительности и т.д.), то анимация не проигрывается.
 |cFF4444FFДля Примера:|r
@@ -110,6 +115,8 @@ local L = WeakAuras.L
 	L["Collapse all loaded displays"] = "Свернуть все загруженные индикации"
 	L["Collapse all non-loaded displays"] = "Свернуть все не загруженные индикации"
 	L["Color"] = "Цвет"
+	--Translation missing 
+	-- L["color"] = ""
 	L["Compress"] = "Сжать"
 	L["Conditions"] = "Условия"
 	L["Constant Factor"] = "Постоянный множитель"
@@ -119,6 +126,8 @@ local L = WeakAuras.L
 	L["Cooldown"] = "Кулдаун"
 	L["Copy settings from %s"] = "Скопировать параметры из %s"
 	L["Copy settings from..."] = "Скопировать параметры из..."
+	--Translation missing 
+	-- L["Copy to all auras"] = ""
 	L["Copy URL"] = "Копировать URL"
 	L["Count"] = "Кол-во"
 	L["Creating buttons: "] = "Создание кнопок:"
@@ -126,10 +135,10 @@ local L = WeakAuras.L
 	L["Crop"] = "Обрезать"
 	L["Crop X"] = "Обрезать по X"
 	L["Crop Y"] = "Обрезать по Y"
-	L["Custom"] = "Выбор"
-	L["Custom Code"] = "Свой Код"
-	L["Custom Function"] = "Выбор функции"
-	L["Custom Trigger"] = "Свой Триггер"
+	L["Custom"] = "Самостоятельно"
+	L["Custom Code"] = "Свой код"
+	L["Custom Function"] = "Своя функция"
+	L["Custom Trigger"] = "Свой триггер"
 	L["Custom trigger event tooltip"] = [=[Напишите какие события должны проверятся для активации триггера.
 Несколько событий должны разделятся запятыми или пробелами.
 
@@ -143,7 +152,7 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED
 |cFF4444FFДля Примера:|r
 UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED
 ]=]
-	L["Custom Untrigger"] = "Свой Детриггер"
+	L["Custom Untrigger"] = "Свой детриггер"
 	L["Debuff Type"] = "Тип Дебафа"
 	L["Default"] = "По умолчанию"
 	L["Delete"] = "Удалить"
@@ -151,6 +160,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED
 	L["Delete children and group"] = "Удалить индикации и группу"
 	L["Delete Trigger"] = "Удалить Триггер"
 	L["Desaturate"] = "Обесцветить"
+	--Translation missing 
+	-- L["Differences"] = ""
 	L["Disabled"] = "Выключено"
 	L["Discrete Rotation"] = "Вращать Дискретно"
 	L["Display"] = "Индикация"
@@ -198,6 +209,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED
 	L["Fade"] = "Скрыть"
 	L["Fade In"] = "Проявиться"
 	L["Fade Out"] = "Исчезнуть"
+	--Translation missing 
+	-- L["False"] = ""
 	L["Finish"] = "Завершение"
 	--Translation missing 
 	-- L["Fire Orb"] = ""
@@ -240,6 +253,9 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED
 	L["Icon Color"] = "Цвет иконки"
 	L["Icon Info"] = "Информация о значке"
 	L["Icon Inset"] = "Вставка иконки"
+	--Translation missing 
+	-- L["If"] = ""
+	L["If Trigger %s"] = "Если Триггер %s"
 	L["Ignored"] = "Игнорируется"
 	L["Import"] = "Импорт"
 	L["Import a display from an encoded string"] = "Импортировать индикацию из закодированной строки"
@@ -253,7 +269,7 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED
 	L["Loaded"] = "Загружено"
 	L["Loop"] = "Зациклить"
 	L["Low Mana"] = "Мало маны"
-	L["Main"] = "Главный"
+	L["Main"] = "Основная анимация"
 	L["Manage displays defined by Addons"] = "Управление индикациями, определенными Аддонами"
 	L["Medium Icon"] = "Средняя иконка"
 	L["Message"] = "Сообщение"
@@ -279,7 +295,7 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED
 	L["Multiselect single tooltip"] = [=[
 |cFFFF0000Игнор|r - |cFF777777Одиночная|r - |cFF777777Множественная|r
 Только одно совпадение может быть получено]=]
-	L["Name Info"] = "Название Инфо"
+	L["Name Info"] = "Информация о названии"
 	L["Negator"] = "Не"
 	L["Never"] = "Никогда"
 	L["New"] = "Новая Индикация"
@@ -291,9 +307,9 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED
 	L["Not Loaded"] = "Не Загружено"
 	L["Offer a guided way to create auras for your class"] = "Предлагаем руководство по созданию Аур для вашего класса"
 	L["Okay"] = "Ок"
-	L["On Hide"] = "При Скрытии"
-	L["On Init"] = "В этом"
-	L["On Show"] = "При Появлении"
+	L["On Hide"] = "При скрытии"
+	L["On Init"] = "При инициализации"
+	L["On Show"] = "При появлении"
 	L["Only match auras cast by people other than the player"] = "Совпадение для эффектов других людей, но не игрока"
 	L["Only match auras cast by the player"] = "Совпадение только для эффектов игрока"
 	L["Operator"] = "Оператор"
@@ -317,12 +333,14 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED
 	L["Re-center Y"] = "Рецентровать Y"
 	L["Remaining Time"] = "Оставшееся время"
 	L["Remaining Time Precision"] = "Точность оставшегося времени"
+	L["Remove this condition"] = "Удалить это условие"
 	L["Remove this display from its group"] = "Убрать индикацию из этой группы"
+	L["Remove this property"] = "Удалить это свойство"
 	L["Rename"] = "Переименовать"
+	L["Repeat After"] = "Повторить после"
 	--Translation missing 
-	-- L["Repeat After"] = ""
-	--Translation missing 
-	-- L["Required for Activation"] = ""
+	-- L["Repeat every"] = ""
+	L["Required for Activation"] = "Необходимо для активации"
 	L["Required For Activation"] = "Необходимо для Активации"
 	L["Right 2 HUD position"] = "Позиция 2-го правого HUD"
 	L["Right HUD position"] = "Позиция правого HUD"
@@ -360,6 +378,7 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED
 	L["Slide In"] = "Задвинуть"
 	L["Slide Out"] = "Выдвинуть"
 	L["Small Icon"] = "Маленькая иконка"
+	L["Smooth Progress"] = "Плавный прогресс"
 	L["Sort"] = "Сортировка"
 	L["Sound"] = "Звук"
 	L["Sound Channel"] = "Звуковой канал"
@@ -394,10 +413,11 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED
 	L["Text Color"] = "Цвет Текста"
 	L["Text Position"] = "Позиция Текста"
 	L["Texture"] = "Текстура"
-	L["Texture Info"] = "Информация Текстуры"
+	L["Texture Info"] = "Информация о текстуре"
 	L["The children of this group have different display types, so their display options cannot be set as a group."] = "Элементы этой группы содержат разные типы индикаций, по этому их настройки не могут быть групповыми"
 	L["The duration of the animation in seconds."] = "Длительность анимации в секундах."
 	L["The type of trigger"] = "Тип Триггера"
+	L["Then "] = "То "
 	L["This display is currently loaded"] = "Эта индикация загружена"
 	L["This display is not currently loaded"] = "Эта индикация не загружена"
 	L["This region of type \"%s\" is not supported."] = "Этот тип Региона \"%s\" не поддерживается"
@@ -420,18 +440,23 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED
 	L["Trigger"] = "Триггер"
 	L["Trigger %d"] = "Триггер %d"
 	L["Trigger:"] = "Триггер:"
+	--Translation missing 
+	-- L["True"] = ""
 	L["Type"] = "Тип"
 	--Translation missing 
 	-- L["Undefined"] = ""
 	L["Ungroup"] = "Разгруппировать"
 	L["Unit"] = "Элемент"
 	L["Unlike the start or finish animations, the main animation will loop over and over until the display is hidden."] = "В отличие от начальной или конечной анимации, главная анимация зациклена и будет повторятся пока индикация не пропадет."
-	L["Update Custom Text On..."] = "Обновить Свой Текст На..."
+	L["Update Custom Text On..."] = "Обновить свой текст на..."
 	L["Use Full Scan (High CPU)"] = "Использовать Полное Сканирование (Загрузка ЦП)"
-	--Translation missing 
-	-- L["Use SetTransform (will change behaviour in 7.3)"] = ""
-	L["Use SetTransform api"] = "Использовать комплект превращения API"
+	L["Use SetTransform (will change behaviour in 7.3)"] = "Использовать ф-ю SetTransform (изменится в 7.3)"
+	L["Use SetTransform api"] = "Использовать ф-ю SetTransform"
 	L["Use tooltip \"size\" instead of stacks"] = "Использовать подсказку размер вместо стаков"
+	--Translation missing 
+	-- L["Used in auras:"] = ""
+	--Translation missing 
+	-- L["Version: "] = ""
 	L["Vertical Align"] = "Выравнивание по Вертикали"
 	L["Vertical Bar"] = "Вертикальная полоса"
 	L["View"] = "Обзор"

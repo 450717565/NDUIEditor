@@ -24,6 +24,10 @@ local L = WeakAuras.L
 	--Translation missing 
 	-- L["Add a new display"] = ""
 	--Translation missing 
+	-- L["Add Condition"] = ""
+	--Translation missing 
+	-- L["Add Property Change"] = ""
+	--Translation missing 
 	-- L["Add to group %s"] = ""
 	L["Add to new Dynamic Group"] = "Ajouter à un nouveau groupe dynamique"
 	L["Add to new Group"] = "Ajouter à un nouveau groupe"
@@ -37,9 +41,13 @@ local L = WeakAuras.L
 	L["Anchor Point"] = "Point d'ancrage"
 	L["anchored to"] = "accrocher à"
 	L["Anchored To"] = "Accrocher à"
+	--Translation missing 
+	-- L["And "] = ""
 	L["Angle"] = "Angle"
 	L["Animate"] = "Animer"
 	L["Animated Expand and Collapse"] = "Expansion et réduction animés"
+	--Translation missing 
+	-- L["Animates progress changes"] = ""
 	L["Animation relative duration description"] = [=[La durée de l'animation par rapport à la durée du graphique, exprimée en fraction (1/2), pourcentage (50%), ou décimal (0.5).
 |cFFFF0000Note :|r si un graphique n'a pas de progression (déclencheur d'événement sans durée définie, aura sans durée, etc), l'animation ne jouera pas.
 
@@ -116,6 +124,8 @@ Souhaitez-vous que ce graphiques soit placé dans un nouveau |cFF22AA22Groupe Dy
 	L["Collapse all loaded displays"] = "Réduire tous les graphiques chargés"
 	L["Collapse all non-loaded displays"] = "Réduire tous les graphiques non-chargés"
 	L["Color"] = "Couleur"
+	--Translation missing 
+	-- L["color"] = ""
 	L["Compress"] = "Compresser"
 	L["Conditions"] = "Conditions"
 	L["Constant Factor"] = "Facteur constant"
@@ -129,6 +139,8 @@ Souhaitez-vous que ce graphiques soit placé dans un nouveau |cFF22AA22Groupe Dy
 	-- L["Copy settings from %s"] = ""
 	--Translation missing 
 	-- L["Copy settings from..."] = ""
+	--Translation missing 
+	-- L["Copy to all auras"] = ""
 	--Translation missing 
 	-- L["Copy URL"] = ""
 	L["Count"] = "Compte"
@@ -166,6 +178,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED
 	-- L["Delete children and group"] = ""
 	L["Delete Trigger"] = "Supprimer le déclencheur"
 	L["Desaturate"] = "Dé-saturer"
+	--Translation missing 
+	-- L["Differences"] = ""
 	L["Disabled"] = "Désactivé"
 	L["Discrete Rotation"] = "Rotation individuelle"
 	L["Display"] = "Graphique"
@@ -221,6 +235,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED
 	L["Fade"] = "Fondu"
 	L["Fade In"] = "Fondu entrant"
 	L["Fade Out"] = "Fondu sortant"
+	--Translation missing 
+	-- L["False"] = ""
 	L["Finish"] = "Finir"
 	L["Fire Orb"] = "Orbe de feu"
 	L["Font"] = "Police"
@@ -275,6 +291,10 @@ Si le nombre entré est decimal (ex. 0.5), une fraction (ex. 1/2), ou un pourcen
 	L["Icon Color"] = "Couleur d'icône"
 	L["Icon Info"] = "Info d'icône"
 	L["Icon Inset"] = "Objet inséré"
+	--Translation missing 
+	-- L["If"] = ""
+	--Translation missing 
+	-- L["If Trigger %s"] = ""
 	L["Ignored"] = "Ignoré"
 	L["Import"] = "Importer"
 	L["Import a display from an encoded string"] = "Importer un graphique d'un texte encodé"
@@ -360,11 +380,17 @@ Seule une unique valeur peut être choisie]=]
 	L["Remaining Time"] = "Temps restant"
 	L["Remaining Time Precision"] = "Précision du temps restant"
 	--Translation missing 
+	-- L["Remove this condition"] = ""
+	--Translation missing 
 	-- L["Remove this display from its group"] = ""
+	--Translation missing 
+	-- L["Remove this property"] = ""
 	--Translation missing 
 	-- L["Rename"] = ""
 	--Translation missing 
 	-- L["Repeat After"] = ""
+	--Translation missing 
+	-- L["Repeat every"] = ""
 	L["Required for Activation"] = "Requis pour l'activation"
 	L["Required For Activation"] = "Requis pour l'activation"
 	L["Right 2 HUD position"] = "Position ATH Droite 2"
@@ -408,6 +434,8 @@ Seule une unique valeur peut être choisie]=]
 	L["Slide In"] = "Glisser entrant"
 	L["Slide Out"] = "Glisser sortant"
 	L["Small Icon"] = "Petite icône"
+	--Translation missing 
+	-- L["Smooth Progress"] = ""
 	L["Sort"] = "Trier"
 	L["Sound"] = "Son"
 	L["Sound Channel"] = "Canal sonore"
@@ -451,6 +479,8 @@ Voulez-vous activer le Scan Complet pour chercher cet |cFFFF0000ID de sort|r ?]=
 	L["The duration of the animation in seconds."] = "La durée de l'animation en secondes."
 	L["The type of trigger"] = "Le type de déclencheur"
 	--Translation missing 
+	-- L["Then "] = ""
+	--Translation missing 
 	-- L["This display is currently loaded"] = ""
 	--Translation missing 
 	-- L["This display is not currently loaded"] = ""
@@ -480,6 +510,8 @@ Voulez-vous activer le Scan Complet pour chercher cet |cFFFF0000ID de sort|r ?]=
 	L["Trigger %d"] = "Déclencheur %d"
 	--Translation missing 
 	-- L["Trigger:"] = ""
+	--Translation missing 
+	-- L["True"] = ""
 	L["Type"] = "Type"
 	--Translation missing 
 	-- L["Undefined"] = ""
@@ -493,6 +525,10 @@ Voulez-vous activer le Scan Complet pour chercher cet |cFFFF0000ID de sort|r ?]=
 	-- L["Use SetTransform (will change behaviour in 7.3)"] = ""
 	L["Use SetTransform api"] = "Utiliser l'api SetTransform"
 	L["Use tooltip \"size\" instead of stacks"] = "Utiliser la \"taille\" de l'infobulle plutôt que la pile"
+	--Translation missing 
+	-- L["Used in auras:"] = ""
+	--Translation missing 
+	-- L["Version: "] = ""
 	L["Vertical Align"] = "Aligner verticalement"
 	L["Vertical Bar"] = "Barre verticale"
 	--Translation missing 

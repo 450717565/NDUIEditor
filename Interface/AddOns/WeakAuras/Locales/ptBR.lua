@@ -229,6 +229,8 @@ L["Critical"] = "Crítico"
 -- L["Cross"] = ""
 L["Crowd Controlled"] = "Sob efeito de C/C"
 L["Crushing"] = "Esmagador"
+--Translation missing 
+-- L["Current Zone ID:"] = ""
 L["Curse"] = "Maldição"
 L["Custom"] = "Personalizado"
 L["Custom Function"] = "Função personalizada"
@@ -314,6 +316,8 @@ L["Death Knight Rune"] = "Runa de Cavaleiro da Morte"
 -- L["Equipment Set Equipped"] = ""
 --Translation missing 
 -- L["Equipment Slot"] = ""
+--Translation missing 
+-- L["Equipped"] = ""
 --Translation missing 
 -- L["Evade"] = ""
 L["Event"] = "Evento"
@@ -445,6 +449,8 @@ L["Fatigue"] = "Fadiga"
 --Translation missing 
 -- L["In Pet Battle"] = ""
 --Translation missing 
+-- L["In Raid"] = ""
+--Translation missing 
 -- L["In Vehicle"] = ""
 --Translation missing 
 -- L["Include Bank"] = ""
@@ -458,6 +464,8 @@ L["Fatigue"] = "Fadiga"
 -- L["Instakill"] = ""
 --Translation missing 
 -- L["Instance"] = ""
+--Translation missing 
+-- L["Instance Difficulty"] = ""
 --Translation missing 
 -- L["Instance Type"] = ""
 --Translation missing 
@@ -481,6 +489,8 @@ L["Item Equipped"] = "Item Equipado"
 -- L["Item Set"] = ""
 --Translation missing 
 -- L["Item Set Equipped"] = ""
+--Translation missing 
+-- L["Item Set Id"] = ""
 L["Lava"] = "Lava"
 --Translation missing 
 -- L["Leaving"] = ""
@@ -511,9 +521,13 @@ L["Main Hand"] = "Mão principal"
 L["Master"] = "Mestre"
 --Translation missing 
 -- L["Matches (Pattern)"] = ""
+--Translation missing 
+-- L["Maximum"] = ""
 L["Message"] = "Mensagem"
 L["Message Type"] = "Tipo de mensagem"
 L["Message type:"] = "Tipo de mensagem:"
+--Translation missing 
+-- L["Minimum"] = ""
 L["Miss"] = "Falha"
 L["Miss Type"] = "Tipo de falha"
 L["Missed"] = "Falho"
@@ -570,6 +584,8 @@ L["Number"] = "Número"
 L["Number Affected"] = "Número Afetado"
 L["Off Hand"] = "Mão secundária"
 L["Officer"] = "Oficial"
+--Translation missing 
+-- L["Older set IDs can be found on websites such as wowhead.com/item-sets"] = ""
 --Translation missing 
 -- L["On cooldown"] = ""
 --Translation missing 
@@ -668,6 +684,8 @@ L["Right"] = "Direita"
 L["Right to Left"] = "Da direita à esquerda"
 L["Rotate Left"] = "Girar à esquerda"
 L["Rotate Right"] = "Girar à direita"
+--Translation missing 
+-- L["Run Custom Code"] = ""
 L["Rune"] = "Runa"
 --Translation missing 
 -- L["Rune #1"] = ""
@@ -695,6 +713,10 @@ L["Say"] = "falar"
 L["Seconds"] = "Segundos"
 --Translation missing 
 -- L["Select Frame"] = ""
+--Translation missing 
+-- L["Set Maximum Progress"] = ""
+--Translation missing 
+-- L["Set Minimum Progress"] = ""
 L["Shake"] = "Sacudir"
 L["Shift-Click to pause"] = "Shift-Click para pausar"
 L["Shift-Click to resume"] = "Shift-Click para continuar"
@@ -717,6 +739,8 @@ L["Slide to Left"] = "Deslizar para esquerda"
 L["Slide to Right"] = "Deslizar para direita"
 L["Slide to Top"] = "Deslizar para cima"
 L["Slime"] = "Lodo"
+--Translation missing 
+-- L["Sound"] = ""
 --Translation missing 
 -- L["Sound by Kit ID"] = ""
 L["Sound Effects"] = "Efeitos sonoros"
@@ -803,6 +827,8 @@ L["Transmission error"] = "Erro de transmissão"
 --Translation missing 
 -- L["Triangle"] = ""
 --Translation missing 
+-- L["Trigger 1"] = ""
+--Translation missing 
 -- L["Trigger State Updater"] = ""
 L["Trigger Update"] = "Atualização do gatilho"
 L["Trigger:"] = "Gatilho:"
@@ -821,9 +847,15 @@ L["Unit Destroyed"] = "Unidade destruída"
 L["Unit Died"] = "Unidade morte"
 L["Up"] = "Acima"
 --Translation missing 
+-- L["Values/Remaining Time above this value are displayed as full progress."] = ""
+--Translation missing 
+-- L["Values/Remaining Time below this value are displayed as no progress."] = ""
+--Translation missing 
 -- L["Version error received higher"] = ""
 --Translation missing 
 -- L["Version error received lower"] = ""
+--Translation missing 
+-- L["Version: "] = ""
 --Translation missing 
 -- L["Waist"] = ""
 L["Weapon"] = "Arma"

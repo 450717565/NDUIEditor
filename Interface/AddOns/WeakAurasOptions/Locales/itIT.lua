@@ -40,6 +40,10 @@ local L = WeakAuras.L
 	--Translation missing 
 	-- L["Add a new display"] = ""
 	--Translation missing 
+	-- L["Add Condition"] = ""
+	--Translation missing 
+	-- L["Add Property Change"] = ""
+	--Translation missing 
 	-- L["Add to group %s"] = ""
 	--Translation missing 
 	-- L["Add to new Dynamic Group"] = ""
@@ -66,11 +70,15 @@ local L = WeakAuras.L
 	--Translation missing 
 	-- L["Anchored To"] = ""
 	--Translation missing 
+	-- L["And "] = ""
+	--Translation missing 
 	-- L["Angle"] = ""
 	--Translation missing 
 	-- L["Animate"] = ""
 	--Translation missing 
 	-- L["Animated Expand and Collapse"] = ""
+	--Translation missing 
+	-- L["Animates progress changes"] = ""
 	--Translation missing 
 	-- L["Animation relative duration description"] = ""
 	--Translation missing 
@@ -188,6 +196,8 @@ local L = WeakAuras.L
 	--Translation missing 
 	-- L["Color"] = ""
 	--Translation missing 
+	-- L["color"] = ""
+	--Translation missing 
 	-- L["Compress"] = ""
 	--Translation missing 
 	-- L["Conditions"] = ""
@@ -205,6 +215,8 @@ local L = WeakAuras.L
 	-- L["Copy settings from %s"] = ""
 	--Translation missing 
 	-- L["Copy settings from..."] = ""
+	--Translation missing 
+	-- L["Copy to all auras"] = ""
 	--Translation missing 
 	-- L["Copy URL"] = ""
 	--Translation missing 
@@ -247,6 +259,8 @@ local L = WeakAuras.L
 	-- L["Delete Trigger"] = ""
 	--Translation missing 
 	-- L["Desaturate"] = ""
+	--Translation missing 
+	-- L["Differences"] = ""
 	--Translation missing 
 	-- L["Disabled"] = ""
 	--Translation missing 
@@ -324,6 +338,8 @@ local L = WeakAuras.L
 	--Translation missing 
 	-- L["Fade Out"] = ""
 	--Translation missing 
+	-- L["False"] = ""
+	--Translation missing 
 	-- L["Finish"] = ""
 	--Translation missing 
 	-- L["Fire Orb"] = ""
@@ -399,6 +415,10 @@ local L = WeakAuras.L
 	-- L["Icon Info"] = ""
 	--Translation missing 
 	-- L["Icon Inset"] = ""
+	--Translation missing 
+	-- L["If"] = ""
+	--Translation missing 
+	-- L["If Trigger %s"] = ""
 	--Translation missing 
 	-- L["Ignored"] = ""
 	--Translation missing 
@@ -540,11 +560,17 @@ local L = WeakAuras.L
 	--Translation missing 
 	-- L["Remaining Time Precision"] = ""
 	--Translation missing 
+	-- L["Remove this condition"] = ""
+	--Translation missing 
 	-- L["Remove this display from its group"] = ""
+	--Translation missing 
+	-- L["Remove this property"] = ""
 	--Translation missing 
 	-- L["Rename"] = ""
 	--Translation missing 
 	-- L["Repeat After"] = ""
+	--Translation missing 
+	-- L["Repeat every"] = ""
 	--Translation missing 
 	-- L["Required for Activation"] = ""
 	--Translation missing 
@@ -620,6 +646,8 @@ local L = WeakAuras.L
 	--Translation missing 
 	-- L["Small Icon"] = ""
 	--Translation missing 
+	-- L["Smooth Progress"] = ""
+	--Translation missing 
 	-- L["Sort"] = ""
 	--Translation missing 
 	-- L["Sound"] = ""
@@ -692,6 +720,8 @@ local L = WeakAuras.L
 	--Translation missing 
 	-- L["The type of trigger"] = ""
 	--Translation missing 
+	-- L["Then "] = ""
+	--Translation missing 
 	-- L["This display is currently loaded"] = ""
 	--Translation missing 
 	-- L["This display is not currently loaded"] = ""
@@ -736,6 +766,8 @@ local L = WeakAuras.L
 	--Translation missing 
 	-- L["Trigger:"] = ""
 	--Translation missing 
+	-- L["True"] = ""
+	--Translation missing 
 	-- L["Type"] = ""
 	--Translation missing 
 	-- L["Undefined"] = ""
@@ -755,6 +787,10 @@ local L = WeakAuras.L
 	-- L["Use SetTransform api"] = ""
 	--Translation missing 
 	-- L["Use tooltip \"size\" instead of stacks"] = ""
+	--Translation missing 
+	-- L["Used in auras:"] = ""
+	--Translation missing 
+	-- L["Version: "] = ""
 	--Translation missing 
 	-- L["Vertical Align"] = ""
 	--Translation missing 

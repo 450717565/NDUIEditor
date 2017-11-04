@@ -24,6 +24,10 @@ local L = WeakAuras.L
 	--Translation missing 
 	-- L["Add a new display"] = ""
 	--Translation missing 
+	-- L["Add Condition"] = ""
+	--Translation missing 
+	-- L["Add Property Change"] = ""
+	--Translation missing 
 	-- L["Add to group %s"] = ""
 	L["Add to new Dynamic Group"] = "新增动态群组"
 	L["Add to new Group"] = "新增群组"
@@ -37,9 +41,13 @@ local L = WeakAuras.L
 	L["Anchor Point"] = "锚点指向"
 	L["anchored to"] = "附着于"
 	L["Anchored To"] = "附着于"
+	--Translation missing 
+	-- L["And "] = ""
 	L["Angle"] = "角度"
 	L["Animate"] = "动画"
 	L["Animated Expand and Collapse"] = "动态展开和折叠"
+	--Translation missing 
+	-- L["Animates progress changes"] = ""
 	L["Animation relative duration description"] = [=[动画的相对持续时间，表示为 分数(1/2)，百分比(50％)，或数字(0.5)。
 |cFFFF0000注意：|r 如果没有进度(没有时间事件的触发器,没有持续时间的光环,或其他)，动画将不会播放。
 |cFF4444FF举例：|r
@@ -110,6 +118,8 @@ local L = WeakAuras.L
 	L["Collapse all loaded displays"] = "折叠所有载入的图示"
 	L["Collapse all non-loaded displays"] = "折叠所有未载入的图示"
 	L["Color"] = "颜色"
+	--Translation missing 
+	-- L["color"] = ""
 	L["Compress"] = "压缩"
 	L["Conditions"] = "条件"
 	L["Constant Factor"] = "常数因子"
@@ -119,6 +129,8 @@ local L = WeakAuras.L
 	L["Cooldown"] = "冷却"
 	L["Copy settings from %s"] = "从 %s 复制设置"
 	L["Copy settings from..."] = "复制设置于..."
+	--Translation missing 
+	-- L["Copy to all auras"] = ""
 	L["Copy URL"] = "复制 URL"
 	L["Count"] = "计数 "
 	L["Creating buttons: "] = "创建按钮:"
@@ -149,6 +161,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Delete children and group"] = "删除子节点和组"
 	L["Delete Trigger"] = "删除触发器"
 	L["Desaturate"] = "褪色"
+	--Translation missing 
+	-- L["Differences"] = ""
 	L["Disabled"] = "禁用"
 	L["Discrete Rotation"] = "离散旋转"
 	L["Display"] = "图示"
@@ -198,6 +212,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Fade"] = "淡化"
 	L["Fade In"] = "渐入"
 	L["Fade Out"] = "渐出"
+	--Translation missing 
+	-- L["False"] = ""
 	L["Finish"] = "结束"
 	L["Fire Orb"] = "火焰宝珠"
 	L["Font"] = "字体"
@@ -246,6 +262,10 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Icon Color"] = "图标颜色"
 	L["Icon Info"] = "图标信息"
 	L["Icon Inset"] = "项目插入"
+	--Translation missing 
+	-- L["If"] = ""
+	--Translation missing 
+	-- L["If Trigger %s"] = ""
 	L["Ignored"] = "被忽略"
 	L["Import"] = "导入"
 	L["Import a display from an encoded string"] = "从字串导入一个图示"
@@ -327,10 +347,16 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Remaining Time"] = "剩余时间"
 	L["Remaining Time Precision"] = "剩余时间精度"
 	--Translation missing 
+	-- L["Remove this condition"] = ""
+	--Translation missing 
 	-- L["Remove this display from its group"] = ""
+	--Translation missing 
+	-- L["Remove this property"] = ""
 	L["Rename"] = "重命名"
 	--Translation missing 
 	-- L["Repeat After"] = ""
+	--Translation missing 
+	-- L["Repeat every"] = ""
 	--Translation missing 
 	-- L["Required for Activation"] = ""
 	L["Required For Activation"] = "需要启动"
@@ -376,6 +402,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Slide In"] = "滑动"
 	L["Slide Out"] = "滑出"
 	L["Small Icon"] = "小图标"
+	--Translation missing 
+	-- L["Smooth Progress"] = ""
 	L["Sort"] = "排序"
 	L["Sound"] = "声音"
 	L["Sound Channel"] = "声道"
@@ -419,6 +447,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["The duration of the animation in seconds."] = "动画持续秒数"
 	L["The type of trigger"] = "触发器类型"
 	--Translation missing 
+	-- L["Then "] = ""
+	--Translation missing 
 	-- L["This display is currently loaded"] = ""
 	--Translation missing 
 	-- L["This display is not currently loaded"] = ""
@@ -447,6 +477,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Trigger"] = "触发"
 	L["Trigger %d"] = "触发器 %d"
 	L["Trigger:"] = "触发器："
+	--Translation missing 
+	-- L["True"] = ""
 	L["Type"] = "类型"
 	--Translation missing 
 	-- L["Undefined"] = ""
@@ -461,6 +493,10 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	--Translation missing 
 	-- L["Use SetTransform api"] = ""
 	L["Use tooltip \"size\" instead of stacks"] = "使用\\\"大小\\\"提示,而不是\\\"层数\\\""
+	--Translation missing 
+	-- L["Used in auras:"] = ""
+	--Translation missing 
+	-- L["Version: "] = ""
 	L["Vertical Align"] = "垂直对齐"
 	L["Vertical Bar"] = "垂直条"
 	L["View"] = "视图"

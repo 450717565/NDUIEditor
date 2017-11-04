@@ -240,6 +240,8 @@ L["Critical"] = "Critico"
 --Translation missing 
 -- L["Crushing"] = ""
 --Translation missing 
+-- L["Current Zone ID:"] = ""
+--Translation missing 
 -- L["Curse"] = ""
 --Translation missing 
 -- L["Custom"] = ""
@@ -332,6 +334,8 @@ L["Death Knight Rune"] = "Rune del cavaliere della morte"
 -- L["Equipment Set Equipped"] = ""
 --Translation missing 
 -- L["Equipment Slot"] = ""
+--Translation missing 
+-- L["Equipped"] = ""
 --Translation missing 
 -- L["Evade"] = ""
 --Translation missing 
@@ -470,6 +474,8 @@ L["Form"] = "Forma"
 --Translation missing 
 -- L["In Pet Battle"] = ""
 --Translation missing 
+-- L["In Raid"] = ""
+--Translation missing 
 -- L["In Vehicle"] = ""
 --Translation missing 
 -- L["Include Bank"] = ""
@@ -483,6 +489,8 @@ L["Form"] = "Forma"
 -- L["Instakill"] = ""
 --Translation missing 
 -- L["Instance"] = ""
+--Translation missing 
+-- L["Instance Difficulty"] = ""
 --Translation missing 
 -- L["Instance Type"] = ""
 --Translation missing 
@@ -509,6 +517,8 @@ L["Form"] = "Forma"
 -- L["Item Set"] = ""
 --Translation missing 
 -- L["Item Set Equipped"] = ""
+--Translation missing 
+-- L["Item Set Id"] = ""
 --Translation missing 
 -- L["Lava"] = ""
 --Translation missing 
@@ -548,11 +558,15 @@ L["Form"] = "Forma"
 --Translation missing 
 -- L["Matches (Pattern)"] = ""
 --Translation missing 
+-- L["Maximum"] = ""
+--Translation missing 
 -- L["Message"] = ""
 --Translation missing 
 -- L["Message Type"] = ""
 --Translation missing 
 -- L["Message type:"] = ""
+--Translation missing 
+-- L["Minimum"] = ""
 --Translation missing 
 -- L["Miss"] = ""
 --Translation missing 
@@ -627,6 +641,8 @@ L["Form"] = "Forma"
 -- L["Off Hand"] = ""
 --Translation missing 
 -- L["Officer"] = ""
+--Translation missing 
+-- L["Older set IDs can be found on websites such as wowhead.com/item-sets"] = ""
 --Translation missing 
 -- L["On cooldown"] = ""
 --Translation missing 
@@ -770,6 +786,8 @@ L["Form"] = "Forma"
 --Translation missing 
 -- L["Rotate Right"] = ""
 --Translation missing 
+-- L["Run Custom Code"] = ""
+--Translation missing 
 -- L["Rune"] = ""
 --Translation missing 
 -- L["Rune #1"] = ""
@@ -799,6 +817,10 @@ L["Form"] = "Forma"
 -- L["Seconds"] = ""
 --Translation missing 
 -- L["Select Frame"] = ""
+--Translation missing 
+-- L["Set Maximum Progress"] = ""
+--Translation missing 
+-- L["Set Minimum Progress"] = ""
 --Translation missing 
 -- L["Shake"] = ""
 --Translation missing 
@@ -835,6 +857,8 @@ L["Form"] = "Forma"
 -- L["Slide to Top"] = ""
 --Translation missing 
 -- L["Slime"] = ""
+--Translation missing 
+-- L["Sound"] = ""
 --Translation missing 
 -- L["Sound by Kit ID"] = ""
 --Translation missing 
@@ -952,6 +976,8 @@ L["Form"] = "Forma"
 --Translation missing 
 -- L["Triangle"] = ""
 --Translation missing 
+-- L["Trigger 1"] = ""
+--Translation missing 
 -- L["Trigger State Updater"] = ""
 --Translation missing 
 -- L["Trigger Update"] = ""
@@ -978,9 +1004,15 @@ L["Form"] = "Forma"
 --Translation missing 
 -- L["Up"] = ""
 --Translation missing 
+-- L["Values/Remaining Time above this value are displayed as full progress."] = ""
+--Translation missing 
+-- L["Values/Remaining Time below this value are displayed as no progress."] = ""
+--Translation missing 
 -- L["Version error received higher"] = ""
 --Translation missing 
 -- L["Version error received lower"] = ""
+--Translation missing 
+-- L["Version: "] = ""
 --Translation missing 
 -- L["Waist"] = ""
 --Translation missing 

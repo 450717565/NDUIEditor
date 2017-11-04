@@ -33,6 +33,10 @@ local L = WeakAuras.L
 	--Translation missing 
 	-- L["Add a new display"] = ""
 	--Translation missing 
+	-- L["Add Condition"] = ""
+	--Translation missing 
+	-- L["Add Property Change"] = ""
+	--Translation missing 
 	-- L["Add to group %s"] = ""
 	L["Add to new Dynamic Group"] = "Añadir al nuevo Grupo Dinámico"
 	L["Add to new Group"] = "Añadir al nuevo Grupo"
@@ -48,9 +52,13 @@ local L = WeakAuras.L
 	-- L["anchored to"] = ""
 	--Translation missing 
 	-- L["Anchored To"] = ""
+	--Translation missing 
+	-- L["And "] = ""
 	L["Angle"] = "Ángulo"
 	L["Animate"] = "Animar"
 	L["Animated Expand and Collapse"] = "Animar Pliegue y Despliegue"
+	--Translation missing 
+	-- L["Animates progress changes"] = ""
 	L["Animation relative duration description"] = [=[Duración de la animación relativa a la duración del aura, expresado en fracciones (1/2), porcentaje (50%),  o decimales (0.5).
 |cFFFF0000Nota:|r si el aura no tiene progreso (por ejemplo, si no tiene un activador basado en tiempo, si el aura no tiene duración, etc.), la animación no correrá.
 
@@ -133,6 +141,8 @@ Si la duración de la animación es |cFF00CC0010%|r, y el disparador del aura es
 	L["Collapse all loaded displays"] = "Plegar todas las auras"
 	L["Collapse all non-loaded displays"] = "Plegar todas las auras no cargadas"
 	L["Color"] = "Color"
+	--Translation missing 
+	-- L["color"] = ""
 	L["Compress"] = "Comprimir"
 	--Translation missing 
 	-- L["Conditions"] = ""
@@ -147,6 +157,8 @@ Si la duración de la animación es |cFF00CC0010%|r, y el disparador del aura es
 	-- L["Copy settings from %s"] = ""
 	--Translation missing 
 	-- L["Copy settings from..."] = ""
+	--Translation missing 
+	-- L["Copy to all auras"] = ""
 	--Translation missing 
 	-- L["Copy URL"] = ""
 	L["Count"] = "Contar"
@@ -188,6 +200,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED
 	-- L["Delete children and group"] = ""
 	L["Delete Trigger"] = "Borrar Disparador"
 	L["Desaturate"] = "Desaturar"
+	--Translation missing 
+	-- L["Differences"] = ""
 	L["Disabled"] = "Desactivado"
 	L["Discrete Rotation"] = "Rotación Discreta"
 	L["Display"] = "Mostrar"
@@ -246,6 +260,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED
 	-- L["Fade In"] = ""
 	--Translation missing 
 	-- L["Fade Out"] = ""
+	--Translation missing 
+	-- L["False"] = ""
 	L["Finish"] = "Finalizar"
 	--Translation missing 
 	-- L["Fire Orb"] = ""
@@ -314,6 +330,10 @@ Con |cFF00CC00>= 0|r se activará siempre.]=]
 	-- L["Icon Color"] = ""
 	L["Icon Info"] = "Información del Icono"
 	L["Icon Inset"] = "Interior del Icono"
+	--Translation missing 
+	-- L["If"] = ""
+	--Translation missing 
+	-- L["If Trigger %s"] = ""
 	L["Ignored"] = "Ignorar"
 	L["Import"] = "Importar"
 	L["Import a display from an encoded string"] = "Importar un aura desde un texto cifrado"
@@ -417,11 +437,17 @@ Sólo un valor coincidente puede ser escogido.]=]
 	-- L["Remaining Time"] = ""
 	L["Remaining Time Precision"] = "Precisión del Tiempo Restante"
 	--Translation missing 
+	-- L["Remove this condition"] = ""
+	--Translation missing 
 	-- L["Remove this display from its group"] = ""
+	--Translation missing 
+	-- L["Remove this property"] = ""
 	--Translation missing 
 	-- L["Rename"] = ""
 	--Translation missing 
 	-- L["Repeat After"] = ""
+	--Translation missing 
+	-- L["Repeat every"] = ""
 	--Translation missing 
 	-- L["Required for Activation"] = ""
 	L["Required For Activation"] = "Necesario para Activación"
@@ -472,6 +498,8 @@ Sólo un valor coincidente puede ser escogido.]=]
 	L["Slide Out"] = "Arrastrar"
 	--Translation missing 
 	-- L["Small Icon"] = ""
+	--Translation missing 
+	-- L["Smooth Progress"] = ""
 	L["Sort"] = "Ordenar"
 	L["Sound"] = "Sonido"
 	L["Sound Channel"] = "Canal de Sonido"
@@ -520,6 +548,8 @@ Sólo un valor coincidente puede ser escogido.]=]
 	L["The duration of the animation in seconds."] = "Duración de la animación (en segundos)."
 	L["The type of trigger"] = "Tipo de Activador"
 	--Translation missing 
+	-- L["Then "] = ""
+	--Translation missing 
 	-- L["This display is currently loaded"] = ""
 	--Translation missing 
 	-- L["This display is not currently loaded"] = ""
@@ -544,6 +574,8 @@ Sólo un valor coincidente puede ser escogido.]=]
 	L["Trigger"] = "Disparador"
 	L["Trigger %d"] = "Disparador %d"
 	L["Trigger:"] = "Desencadenador:"
+	--Translation missing 
+	-- L["True"] = ""
 	L["Type"] = "Tipo"
 	--Translation missing 
 	-- L["Undefined"] = ""
@@ -559,6 +591,10 @@ Sólo un valor coincidente puede ser escogido.]=]
 	--Translation missing 
 	-- L["Use SetTransform api"] = ""
 	L["Use tooltip \"size\" instead of stacks"] = "Usa \"tamaño\" en vez de acumulaciones"
+	--Translation missing 
+	-- L["Used in auras:"] = ""
+	--Translation missing 
+	-- L["Version: "] = ""
 	L["Vertical Align"] = "Alineado Vertical"
 	--Translation missing 
 	-- L["Vertical Bar"] = ""

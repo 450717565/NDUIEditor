@@ -22,6 +22,10 @@ local L = WeakAuras.L
 	L["Actions"] = "동작"
 	L["Activate when the given aura(s) |cFFFF0000can't|r be found"] = "주어진 효과가 |cFFFF0000없을 때|r 활성화"
 	L["Add a new display"] = "새로운 디스플레이 추가"
+	--Translation missing 
+	-- L["Add Condition"] = ""
+	--Translation missing 
+	-- L["Add Property Change"] = ""
 	L["Add to group %s"] = "그룹 %s에 추가"
 	L["Add to new Dynamic Group"] = "새 유동적 그룹에 추가"
 	L["Add to new Group"] = "새 그룹에 추가"
@@ -35,9 +39,13 @@ local L = WeakAuras.L
 	L["Anchor Point"] = "고정 지점"
 	L["anchored to"] = "다음에 고정:"
 	L["Anchored To"] = "다음에 고정:"
+	--Translation missing 
+	-- L["And "] = ""
 	L["Angle"] = "각도"
 	L["Animate"] = "애니메이션"
 	L["Animated Expand and Collapse"] = "확장 / 접기 애니메이션"
+	--Translation missing 
+	-- L["Animates progress changes"] = ""
 	L["Animation relative duration description"] = [=[
 디스플레이 지속시간의 비율로 애니메이션 지속시간을 설정합니다, 분수 (1/2), 백분율 (50%), 또는 소수 (0.5)로 표현합니다.
 |cFFFF0000참고:|r 디스플레이가 진행 시간이 없으면 (비-지속적 이벤트 활성 조건, 지속시간이 없는 오라, 등등), 애니메이션은 재생되지 않습니다.
@@ -109,6 +117,8 @@ local L = WeakAuras.L
 	L["Collapse all loaded displays"] = "불러온 모든 디스플레이 접기"
 	L["Collapse all non-loaded displays"] = "불러오지 않은 모든 디스플레이 접기"
 	L["Color"] = "색상"
+	--Translation missing 
+	-- L["color"] = ""
 	L["Compress"] = "누르기"
 	L["Conditions"] = "조건"
 	L["Constant Factor"] = "고정 요소"
@@ -118,6 +128,8 @@ local L = WeakAuras.L
 	L["Cooldown"] = "재사용 대기시간"
 	L["Copy settings from %s"] = "%s|1으로;로;부터 설정 복사"
 	L["Copy settings from..."] = "설정 복사해오기..."
+	--Translation missing 
+	-- L["Copy to all auras"] = ""
 	L["Copy URL"] = "URL 복사"
 	L["Count"] = "횟수"
 	L["Creating buttons: "] = "버튼 생성:"
@@ -150,6 +162,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Delete children and group"] = "자식과 그룹 삭제"
 	L["Delete Trigger"] = "활성 조건 삭제"
 	L["Desaturate"] = "흑백"
+	--Translation missing 
+	-- L["Differences"] = ""
 	L["Disabled"] = "비활성화됨"
 	L["Discrete Rotation"] = "90도 단위 회전"
 	L["Display"] = "디스플레이"
@@ -195,6 +209,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Fade"] = "사라짐"
 	L["Fade In"] = "서서히 나타남"
 	L["Fade Out"] = "서서히 사라짐"
+	--Translation missing 
+	-- L["False"] = ""
 	L["Finish"] = "종료"
 	L["Fire Orb"] = "화염 구슬"
 	L["Font"] = "글꼴"
@@ -243,6 +259,10 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Icon Color"] = "아이콘 색상"
 	L["Icon Info"] = "아이콘 정보"
 	L["Icon Inset"] = "아이템 축소"
+	--Translation missing 
+	-- L["If"] = ""
+	--Translation missing 
+	-- L["If Trigger %s"] = ""
 	L["Ignored"] = "무시됨"
 	L["Import"] = "가져오기"
 	L["Import a display from an encoded string"] = "암호화된 문자열에서 디스플레이 가져오기"
@@ -319,9 +339,15 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Re-center Y"] = "내부 Y 좌표"
 	L["Remaining Time"] = "남은 시간"
 	L["Remaining Time Precision"] = "남은 시간 정확도"
+	--Translation missing 
+	-- L["Remove this condition"] = ""
 	L["Remove this display from its group"] = "이 디스플레이를 그룹에서 제거하기"
+	--Translation missing 
+	-- L["Remove this property"] = ""
 	L["Rename"] = "이름 변경"
 	L["Repeat After"] = "반복 횟수"
+	--Translation missing 
+	-- L["Repeat every"] = ""
 	L["Required for Activation"] = "활성화에 필요"
 	L["Required For Activation"] = "활성화에 필요"
 	L["Right 2 HUD position"] = "우측 2 HUD 위치"
@@ -359,6 +385,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Slide In"] = "안으로 슬라이드"
 	L["Slide Out"] = "바깥으로 슬라이드"
 	L["Small Icon"] = "작은 아이콘"
+	--Translation missing 
+	-- L["Smooth Progress"] = ""
 	L["Sort"] = "정렬"
 	L["Sound"] = "소리"
 	L["Sound Channel"] = "소리 채널"
@@ -400,6 +428,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["The children of this group have different display types, so their display options cannot be set as a group."] = "이 그룹의 자식들은 다른 디스플레이 형식을 가지고 있어서, 디스플레이 옵션을 그룹으로 설정할 수 없습니다."
 	L["The duration of the animation in seconds."] = "애니메이션 지속시간 (초)"
 	L["The type of trigger"] = "활성 조건의 유형"
+	--Translation missing 
+	-- L["Then "] = ""
 	L["This display is currently loaded"] = "이 디스플레이는 불러온 상태입니다"
 	L["This display is not currently loaded"] = "이 디스플레이는 불러오지 않았습니다"
 	L["This region of type \"%s\" is not supported."] = "이 영역은 \"%s\" 유형을 지원하지 않습니다."
@@ -422,6 +452,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Trigger"] = "활성 조건"
 	L["Trigger %d"] = "%d 활성 조건"
 	L["Trigger:"] = "활성 조건:"
+	--Translation missing 
+	-- L["True"] = ""
 	L["Type"] = "유형"
 	L["Undefined"] = "정의되지 않음"
 	L["Ungroup"] = "그룹 해제"
@@ -432,6 +464,10 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Use SetTransform (will change behaviour in 7.3)"] = "SetTransform 사용 (7.3에서 작동 변경)"
 	L["Use SetTransform api"] = "SetTransform api 사용"
 	L["Use tooltip \"size\" instead of stacks"] = "중첩 대신 툴팁 \"크기\" 사용"
+	--Translation missing 
+	-- L["Used in auras:"] = ""
+	--Translation missing 
+	-- L["Version: "] = ""
 	L["Vertical Align"] = "수직 정렬"
 	L["Vertical Bar"] = "수직 바"
 	L["View"] = "보기"

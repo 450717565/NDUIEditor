@@ -23,6 +23,10 @@ local L = WeakAuras.L
 	L["Activate when the given aura(s) |cFFFF0000can't|r be found"] = "指定的光環|cFFFF0000無法找到時|r啟動"
 	L["Add a new display"] = "新增特效"
 	--Translation missing 
+	-- L["Add Condition"] = ""
+	--Translation missing 
+	-- L["Add Property Change"] = ""
+	--Translation missing 
 	-- L["Add to group %s"] = ""
 	L["Add to new Dynamic Group"] = "新增動態群組"
 	L["Add to new Group"] = "新增群組"
@@ -39,9 +43,13 @@ local L = WeakAuras.L
 	-- L["anchored to"] = ""
 	--Translation missing 
 	-- L["Anchored To"] = ""
+	--Translation missing 
+	-- L["And "] = ""
 	L["Angle"] = "角度"
 	L["Animate"] = "閃爍"
 	L["Animated Expand and Collapse"] = "動畫展開和收合"
+	--Translation missing 
+	-- L["Animates progress changes"] = ""
 	L["Animation relative duration description"] = [=[動畫的持續時間相對持續時間的顯示，表示為一小部分(1 / 2)，百分比(50％)，或十進制(0.5)。
 |cFFFF0000注意：|r 如果顯示沒有進度(它沒有時間事件觸發，是光環沒有持續時間，或其他)，動畫將不會撥放。
 
@@ -116,6 +124,8 @@ local L = WeakAuras.L
 	L["Collapse all loaded displays"] = "收合所有已載入的特效"
 	L["Collapse all non-loaded displays"] = "收合所有未載入的特效"
 	L["Color"] = "顏色"
+	--Translation missing 
+	-- L["color"] = ""
 	L["Compress"] = "精簡"
 	--Translation missing 
 	-- L["Conditions"] = ""
@@ -130,6 +140,8 @@ local L = WeakAuras.L
 	-- L["Copy settings from %s"] = ""
 	--Translation missing 
 	-- L["Copy settings from..."] = ""
+	--Translation missing 
+	-- L["Copy to all auras"] = ""
 	--Translation missing 
 	-- L["Copy URL"] = ""
 	L["Count"] = "計數"
@@ -163,6 +175,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	-- L["Delete children and group"] = ""
 	L["Delete Trigger"] = "刪除觸發"
 	L["Desaturate"] = "去色"
+	--Translation missing 
+	-- L["Differences"] = ""
 	L["Disabled"] = "停用"
 	L["Discrete Rotation"] = "分離旋轉"
 	L["Display"] = "特效"
@@ -218,6 +232,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Fade"] = "淡化"
 	L["Fade In"] = "淡入"
 	L["Fade Out"] = "淡出"
+	--Translation missing 
+	-- L["False"] = ""
 	L["Finish"] = "結束"
 	L["Fire Orb"] = "火球"
 	L["Font"] = "字型"
@@ -272,6 +288,10 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Icon Color"] = "圖示顏色"
 	L["Icon Info"] = "圖示訊息"
 	L["Icon Inset"] = "圖示內嵌"
+	--Translation missing 
+	-- L["If"] = ""
+	--Translation missing 
+	-- L["If Trigger %s"] = ""
 	L["Ignored"] = "忽略"
 	L["Import"] = "匯入"
 	L["Import a display from an encoded string"] = "從編碼字串匯入特效"
@@ -354,11 +374,17 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Remaining Time"] = "剩餘時間"
 	L["Remaining Time Precision"] = "精確剩餘時間"
 	--Translation missing 
+	-- L["Remove this condition"] = ""
+	--Translation missing 
 	-- L["Remove this display from its group"] = ""
+	--Translation missing 
+	-- L["Remove this property"] = ""
 	--Translation missing 
 	-- L["Rename"] = ""
 	--Translation missing 
 	-- L["Repeat After"] = ""
+	--Translation missing 
+	-- L["Repeat every"] = ""
 	--Translation missing 
 	-- L["Required for Activation"] = ""
 	L["Required For Activation"] = "需激活"
@@ -403,6 +429,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Slide In"] = "滑入"
 	L["Slide Out"] = "滑出"
 	L["Small Icon"] = "小圖示"
+	--Translation missing 
+	-- L["Smooth Progress"] = ""
 	L["Sort"] = "排序"
 	L["Sound"] = "音效"
 	L["Sound Channel"] = "聲道"
@@ -446,6 +474,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["The duration of the animation in seconds."] = "動畫的持續時間(秒)。"
 	L["The type of trigger"] = "觸發類型"
 	--Translation missing 
+	-- L["Then "] = ""
+	--Translation missing 
 	-- L["This display is currently loaded"] = ""
 	--Translation missing 
 	-- L["This display is not currently loaded"] = ""
@@ -475,6 +505,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Trigger %d"] = "觸發%d"
 	--Translation missing 
 	-- L["Trigger:"] = ""
+	--Translation missing 
+	-- L["True"] = ""
 	L["Type"] = "類型"
 	--Translation missing 
 	-- L["Undefined"] = ""
@@ -488,6 +520,10 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	-- L["Use SetTransform (will change behaviour in 7.3)"] = ""
 	L["Use SetTransform api"] = "使用 SetTransform API"
 	L["Use tooltip \"size\" instead of stacks"] = "使用提示資訊中的數字代替堆疊數量"
+	--Translation missing 
+	-- L["Used in auras:"] = ""
+	--Translation missing 
+	-- L["Version: "] = ""
 	L["Vertical Align"] = "垂直對齊"
 	L["Vertical Bar"] = "垂直進度條"
 	--Translation missing 

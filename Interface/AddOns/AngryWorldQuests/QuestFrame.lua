@@ -108,6 +108,7 @@ local function GetMapAreaIDs()
 		return mapID, contID
 	end
 end
+AWQGetMapAreaIDs = GetMapAreaIDs
 
 local function ArtifactPowerTruncate(power)
 	if power >= 1e8 then

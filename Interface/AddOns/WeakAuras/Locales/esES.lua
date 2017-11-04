@@ -217,6 +217,8 @@ L["Critical"] = "Crítico"
 -- L["Cross"] = ""
 L["Crowd Controlled"] = "Bajo Control"
 L["Crushing"] = "Golpe Aplastador"
+--Translation missing 
+-- L["Current Zone ID:"] = ""
 L["Curse"] = "Maldición"
 L["Custom"] = "Personalizado"
 L["Custom Function"] = "Función Personalizada"
@@ -276,6 +278,8 @@ L["Environmental"] = "Ambiental"
 -- L["Equipment Set Equipped"] = ""
 --Translation missing 
 -- L["Equipment Slot"] = ""
+--Translation missing 
+-- L["Equipped"] = ""
 L["Evade"] = "Evadir"
 L["Event"] = "Evento"
 L["Event(s)"] = "Evento(s)"
@@ -362,6 +366,8 @@ L["In Combat"] = "En Combate"
 --Translation missing 
 -- L["In Group"] = ""
 L["In Pet Battle"] = "En duelo de mascotas"
+--Translation missing 
+-- L["In Raid"] = ""
 L["In Vehicle"] = "Conduciendo"
 L["Include Bank"] = "Incluye el Banco"
 L["Include Charges"] = "Incluye las Cargas"
@@ -370,6 +376,8 @@ L["Inside"] = "Dentro"
 L["Instakill"] = "Muerte Instantanea"
 --Translation missing 
 -- L["Instance"] = ""
+--Translation missing 
+-- L["Instance Difficulty"] = ""
 L["Instance Type"] = "Tipo de Instancia"
 L["Interrupt"] = "Interrupcion"
 L["Interruptible"] = "Interrumpible"
@@ -387,6 +395,8 @@ L["Item Equipped"] = "Objeto Equipado"
 -- L["Item Set"] = ""
 --Translation missing 
 -- L["Item Set Equipped"] = ""
+--Translation missing 
+-- L["Item Set Id"] = ""
 L["Lava"] = "Lava"
 --Translation missing 
 -- L["Leaving"] = ""
@@ -413,9 +423,13 @@ L["Main Hand"] = "Mano Principal"
 -- L["Marked Last"] = ""
 L["Master"] = "Maestro"
 L["Matches (Pattern)"] = "Corresponde (Patrón)"
+--Translation missing 
+-- L["Maximum"] = ""
 L["Message"] = "Mensaje"
 L["Message Type"] = "Tipo de Mensaje"
 L["Message type:"] = "Tipo de Mensaje:"
+--Translation missing 
+-- L["Minimum"] = ""
 L["Miss"] = "Fallo"
 L["Miss Type"] = "Tipo de Fallo"
 L["Missed"] = "Fallado"
@@ -465,6 +479,8 @@ L["Number"] = "Número"
 L["Number Affected"] = "Dependiente de números"
 L["Off Hand"] = "Mano Secundaria"
 L["Officer"] = "Oficial"
+--Translation missing 
+-- L["Older set IDs can be found on websites such as wowhead.com/item-sets"] = ""
 --Translation missing 
 -- L["On cooldown"] = ""
 --Translation missing 
@@ -549,6 +565,8 @@ L["Right"] = "Derecha"
 L["Right to Left"] = "De Derecha a Izquierda"
 L["Rotate Left"] = "Rotar a la Izquierda"
 L["Rotate Right"] = "Rotar a la Derecha"
+--Translation missing 
+-- L["Run Custom Code"] = ""
 L["Rune"] = "Runa"
 --Translation missing 
 -- L["Rune #1"] = ""
@@ -576,6 +594,10 @@ L["Say"] = "Decir"
 L["Seconds"] = "Segundos"
 --Translation missing 
 -- L["Select Frame"] = ""
+--Translation missing 
+-- L["Set Maximum Progress"] = ""
+--Translation missing 
+-- L["Set Minimum Progress"] = ""
 L["Shake"] = "Sacudida"
 L["Shift-Click to pause"] = "Mayúsculas-Clic para pausar"
 L["Shift-Click to resume"] = "Mayúsculas-Clic para continuar"
@@ -598,6 +620,8 @@ L["Slide to Left"] = "Arrastrar Hacia la Izquierda"
 L["Slide to Right"] = "Arrastrar Hacia la Derecha"
 L["Slide to Top"] = "Arrastrar Hacia Arriba"
 L["Slime"] = "Baba"
+--Translation missing 
+-- L["Sound"] = ""
 --Translation missing 
 -- L["Sound by Kit ID"] = ""
 L["Sound Effects"] = "Efectos de Sonido"
@@ -675,6 +699,8 @@ L["Totem Number"] = "Número de tótem"
 L["Transmission error"] = "Error de transmisión"
 --Translation missing 
 -- L["Triangle"] = ""
+--Translation missing 
+-- L["Trigger 1"] = ""
 L["Trigger State Updater"] = "Actualizador del estado del desencadenador"
 L["Trigger Update"] = "Actualización del desencadenador"
 L["Trigger:"] = "Desencadenador:"
@@ -688,8 +714,14 @@ L["Unit Characteristics"] = "Características de la unidad"
 L["Unit Destroyed"] = "Unidad Destruida"
 L["Unit Died"] = "Unit Muerta"
 L["Up"] = "Arriba"
+--Translation missing 
+-- L["Values/Remaining Time above this value are displayed as full progress."] = ""
+--Translation missing 
+-- L["Values/Remaining Time below this value are displayed as no progress."] = ""
 L["Version error received higher"] = "Éste aura es incompatible con tu versión de WeakAuras - se creó con la versión %s pero tu tienes la versión %s. Bájate la última versión de WeakAuras"
 L["Version error received lower"] = "Éste aura es incompatible con tu versión de WeakAuras - se creó con la versión %s y tu tienes la versión %s. Pídele que se baje la última versión de WeakAuras"
+--Translation missing 
+-- L["Version: "] = ""
 L["Waist"] = "Cintura"
 L["Weapon"] = "Arma"
 --Translation missing 
