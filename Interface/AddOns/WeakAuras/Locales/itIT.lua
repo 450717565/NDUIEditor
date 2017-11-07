@@ -49,6 +49,8 @@ L["!="] = "!="
 --Translation missing 
 -- L["%s Name Function"] = ""
 --Translation missing 
+-- L["%s Overlay Color"] = ""
+--Translation missing 
 -- L["%s Stacks Function"] = ""
 --Translation missing 
 -- L["%s Texture Function"] = ""
@@ -79,6 +81,8 @@ L["25 Man Raid"] = "Incursione da 25 giocatori"
 -- L["40 Man Raid"] = ""
 L["5 Man Dungeon"] = "Spedizione da 5 giocatori"
 L["Absorb"] = "Assorbimento"
+--Translation missing 
+-- L["Absorb Display"] = ""
 L["Absorbed"] = "Assorbito"
 L["Action Usable"] = "Azione utilizzabile"
 --Translation missing 
@@ -113,6 +117,10 @@ L["Ascending"] = "Crescente"
 --Translation missing 
 -- L["Assist"] = ""
 L["At Least One Enemy"] = "Almeno un nemico"
+--Translation missing 
+-- L["Attach to End"] = ""
+--Translation missing 
+-- L["Attach to Start"] = ""
 L["Attackable"] = "Attaccabile"
 L["Aura"] = "Aura"
 L["Aura Applied"] = "Aura applicata"
@@ -203,6 +211,8 @@ L["Chat Message"] = "Messaggio di chat"
 -- L["Circle"] = ""
 --Translation missing 
 -- L["Circular"] = ""
+--Translation missing 
+-- L["Clamp"] = ""
 L["Class"] = "Classe"
 L["Click to close configuration"] = "Premi per chiudere la configurazione"
 L["Click to open configuration"] = "Premi per aprire la configurazione"
@@ -482,6 +492,8 @@ L["Form"] = "Forma"
 --Translation missing 
 -- L["Include Charges"] = ""
 --Translation missing 
+-- L["Incoming Heal"] = ""
+--Translation missing 
 -- L["Inherited"] = ""
 --Translation missing 
 -- L["Inside"] = ""
@@ -548,6 +560,8 @@ L["Form"] = "Forma"
 --Translation missing 
 -- L["Main Hand"] = ""
 --Translation missing 
+-- L["Make sure you can trust the person who sent it!"] = ""
+--Translation missing 
 -- L["Manual Rotation"] = ""
 --Translation missing 
 -- L["Marked First"] = ""
@@ -567,6 +581,8 @@ L["Form"] = "Forma"
 -- L["Message type:"] = ""
 --Translation missing 
 -- L["Minimum"] = ""
+--Translation missing 
+-- L["Mirror"] = ""
 --Translation missing 
 -- L["Miss"] = ""
 --Translation missing 
@@ -664,6 +680,10 @@ L["Form"] = "Forma"
 --Translation missing 
 -- L["Overkill"] = ""
 --Translation missing 
+-- L["Overlay %s"] = ""
+--Translation missing 
+-- L["Overlay Cost of Casts"] = ""
+--Translation missing 
 -- L["Parry"] = ""
 --Translation missing 
 -- L["Party"] = ""
@@ -756,6 +776,8 @@ L["Form"] = "Forma"
 --Translation missing 
 -- L["Remaining Time"] = ""
 --Translation missing 
+-- L["Repeat"] = ""
+--Translation missing 
 -- L["Requested display does not exist"] = ""
 --Translation missing 
 -- L["Requested display not authorized"] = ""
@@ -832,9 +854,13 @@ L["Form"] = "Forma"
 --Translation missing 
 -- L["Show"] = ""
 --Translation missing 
+-- L["Show Absorb"] = ""
+--Translation missing 
 -- L["Show Code"] = ""
 --Translation missing 
 -- L["Show Global Cooldown"] = ""
+--Translation missing 
+-- L["Show Incoming Heal"] = ""
 --Translation missing 
 -- L["Shrink"] = ""
 --Translation missing 
@@ -887,6 +913,8 @@ L["Form"] = "Forma"
 -- L["Spell (Building)"] = ""
 --Translation missing 
 -- L["Spell Activation Overlay Glow"] = ""
+--Translation missing 
+-- L["Spell Cost"] = ""
 --Translation missing 
 -- L["Spell ID"] = ""
 --Translation missing 
@@ -943,6 +971,8 @@ L["Form"] = "Forma"
 -- L["Target"] = ""
 --Translation missing 
 -- L["Thick Outline"] = ""
+--Translation missing 
+-- L["This aura contains custom Lua code."] = ""
 --Translation missing 
 -- L["Threat Situation"] = ""
 --Translation missing 

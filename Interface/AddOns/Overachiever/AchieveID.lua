@@ -240,6 +240,8 @@ OVERACHIEVER_BGTIMERID_RATED = {
 	[214] = 968, -- Flurry (Eye of the Storm)
 }
 
+--!! 202 1502 (horde) -- blizzard actually triggered it for BOTH factions! silly
+--!! 5221 5222 fire, walk with me (both factions again)
 
 -- Look up the achievement ID of the given zone's exploration achievement, whatever the localization.
 -- Using zone names alone isn't reliable because the achievement names don't always use the zone's name as given by

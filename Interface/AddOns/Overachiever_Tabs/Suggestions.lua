@@ -1361,7 +1361,7 @@ local ACHID_HOLIDAY = {
 		293,  -- Disturbing the Peace
 	},
 	["Hallow's End"] = {
-		1656,  -- Hallowed By Thy Name
+		1656,  -- Hallowed Be Thy Name
 		971,   -- Tricks and Treats of Azeroth
 		IsAlliance and 5836 or 5835,  -- Tricks and Treats of Northrend
 		IsAlliance and 5837 or 5838,  -- Tricks and Treats of the Cataclysm

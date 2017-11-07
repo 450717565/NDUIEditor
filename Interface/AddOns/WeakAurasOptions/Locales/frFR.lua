@@ -8,6 +8,8 @@ local L = WeakAuras.L
 	L["-- Do not remove this comment, it is part of this trigger: "] = "-- Ne retirez pas ce commentaire, il fait partie de ce déclencheur : "
 	L["% of Progress"] = "% de progression"
 	L["%i Matches"] = "%i Correspondances"
+	--Translation missing 
+	-- L["%s Color"] = ""
 	L["1 Match"] = "1 Correspondance"
 	L["1. Text"] = "1. Texte"
 	L["1. Text Settings"] = "1. Paramètres du Texte"
@@ -25,6 +27,8 @@ local L = WeakAuras.L
 	-- L["Add a new display"] = ""
 	--Translation missing 
 	-- L["Add Condition"] = ""
+	--Translation missing 
+	-- L["Add Overlay"] = ""
 	--Translation missing 
 	-- L["Add Property Change"] = ""
 	--Translation missing 
@@ -362,6 +366,10 @@ Seule une unique valeur peut être choisie]=]
 	L["Orange Rune"] = "Rune orange"
 	L["Orientation"] = "Orientation"
 	L["Outline"] = "Contour"
+	--Translation missing 
+	-- L["Overlay %s Info"] = ""
+	--Translation missing 
+	-- L["Overlays"] = ""
 	L["Own Only"] = "Le mien uniquement"
 	L["Paste text below"] = "Coller le texte ci-dessous"
 	L["Play Sound"] = "Jouer un son"
@@ -379,6 +387,8 @@ Seule une unique valeur peut être choisie]=]
 	L["Re-center Y"] = "Recentrer Y"
 	L["Remaining Time"] = "Temps restant"
 	L["Remaining Time Precision"] = "Précision du temps restant"
+	--Translation missing 
+	-- L["Remove"] = ""
 	--Translation missing 
 	-- L["Remove this condition"] = ""
 	--Translation missing 
@@ -475,8 +485,14 @@ Voulez-vous activer le Scan Complet pour chercher cet |cFFFF0000ID de sort|r ?]=
 	L["Text Position"] = "Position du Texte"
 	L["Texture"] = "Texture"
 	L["Texture Info"] = "Info Texture"
+	--Translation missing 
+	-- L["Texture Wrap"] = ""
 	L["The children of this group have different display types, so their display options cannot be set as a group."] = "Les enfants de ce groupe ont différent types de graphiques, leurs options de graphique ne peuvent donc pas être changées en groupe."
 	L["The duration of the animation in seconds."] = "La durée de l'animation en secondes."
+	--Translation missing 
+	-- L[ [=[The duration of the animation in seconds.
+
+The finish animation does not start playing until after the display would normally be hidden.]=] ] = ""
 	L["The type of trigger"] = "Le type de déclencheur"
 	--Translation missing 
 	-- L["Then "] = ""

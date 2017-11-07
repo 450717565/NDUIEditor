@@ -8,6 +8,8 @@ local L = WeakAuras.L
 	L["-- Do not remove this comment, it is part of this trigger: "] = "-- 이 주석을 삭제하지 마세요, 이 활성 조건의 일부입니다: "
 	L["% of Progress"] = "진행 상태의 %"
 	L["%i Matches"] = "%i개 일치"
+	--Translation missing 
+	-- L["%s Color"] = ""
 	L["1 Match"] = "1개 일치"
 	L["1. Text"] = "1. 문자"
 	L["1. Text Settings"] = "1. 문자 설정"
@@ -24,6 +26,8 @@ local L = WeakAuras.L
 	L["Add a new display"] = "새로운 디스플레이 추가"
 	--Translation missing 
 	-- L["Add Condition"] = ""
+	--Translation missing 
+	-- L["Add Overlay"] = ""
 	--Translation missing 
 	-- L["Add Property Change"] = ""
 	L["Add to group %s"] = "그룹 %s에 추가"
@@ -323,6 +327,10 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Orange Rune"] = "오렌지색 룬"
 	L["Orientation"] = "방향"
 	L["Outline"] = "외곽선"
+	--Translation missing 
+	-- L["Overlay %s Info"] = ""
+	--Translation missing 
+	-- L["Overlays"] = ""
 	L["Own Only"] = "내 것만"
 	L["Paste text below"] = "아래 문자를 붙여 넣으세요"
 	L["Play Sound"] = "소리 재생"
@@ -339,6 +347,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Re-center Y"] = "내부 Y 좌표"
 	L["Remaining Time"] = "남은 시간"
 	L["Remaining Time Precision"] = "남은 시간 정확도"
+	--Translation missing 
+	-- L["Remove"] = ""
 	--Translation missing 
 	-- L["Remove this condition"] = ""
 	L["Remove this display from its group"] = "이 디스플레이를 그룹에서 제거하기"
@@ -425,8 +435,14 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Text Position"] = "문자 위치"
 	L["Texture"] = "텍스쳐"
 	L["Texture Info"] = "텍스쳐 정보"
+	--Translation missing 
+	-- L["Texture Wrap"] = ""
 	L["The children of this group have different display types, so their display options cannot be set as a group."] = "이 그룹의 자식들은 다른 디스플레이 형식을 가지고 있어서, 디스플레이 옵션을 그룹으로 설정할 수 없습니다."
 	L["The duration of the animation in seconds."] = "애니메이션 지속시간 (초)"
+	--Translation missing 
+	-- L[ [=[The duration of the animation in seconds.
+
+The finish animation does not start playing until after the display would normally be hidden.]=] ] = ""
 	L["The type of trigger"] = "활성 조건의 유형"
 	--Translation missing 
 	-- L["Then "] = ""

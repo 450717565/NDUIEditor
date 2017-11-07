@@ -15,8 +15,8 @@ local EnchantParts = {
 	[11] = {1, FINGER1SLOT},
 	[12] = {1, FINGER1SLOT},
 	[15] = {1, BACKSLOT},
---  [3]  = {0, SHOULDERSLOT},
---  [10] = {0, HANDSSLOT},
+	[3]  = {0, SHOULDERSLOT},
+  --[10] = {0, HANDSSLOT},
 }
 
 --創建圖標框架

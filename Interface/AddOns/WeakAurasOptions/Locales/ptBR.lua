@@ -9,6 +9,8 @@ local L = WeakAuras.L
 	-- L["-- Do not remove this comment, it is part of this trigger: "] = ""
 	L["% of Progress"] = "% do progresso"
 	L["%i Matches"] = "%i resultados"
+	--Translation missing 
+	-- L["%s Color"] = ""
 	L["1 Match"] = "1 resultado"
 	--Translation missing 
 	-- L["1. Text"] = ""
@@ -35,6 +37,8 @@ local L = WeakAuras.L
 	-- L["Add a new display"] = ""
 	--Translation missing 
 	-- L["Add Condition"] = ""
+	--Translation missing 
+	-- L["Add Overlay"] = ""
 	--Translation missing 
 	-- L["Add Property Change"] = ""
 	--Translation missing 
@@ -420,6 +424,10 @@ WeakAuras → Opções → Opções ]=]
 	-- L["Orange Rune"] = ""
 	L["Orientation"] = "Orientação"
 	L["Outline"] = "Contorno"
+	--Translation missing 
+	-- L["Overlay %s Info"] = ""
+	--Translation missing 
+	-- L["Overlays"] = ""
 	L["Own Only"] = "Apenas meu"
 	--Translation missing 
 	-- L["Paste text below"] = ""
@@ -444,6 +452,8 @@ WeakAuras → Opções → Opções ]=]
 	--Translation missing 
 	-- L["Remaining Time"] = ""
 	L["Remaining Time Precision"] = "Precisão do tempo restante"
+	--Translation missing 
+	-- L["Remove"] = ""
 	--Translation missing 
 	-- L["Remove this condition"] = ""
 	--Translation missing 
@@ -565,9 +575,15 @@ Would you like to enable Use Full Scan to match this |cFFFF0000spell ID|r?]=]
 	--Translation missing 
 	-- L["Texture Info"] = ""
 	--Translation missing 
+	-- L["Texture Wrap"] = ""
+	--Translation missing 
 	-- L["The children of this group have different display types, so their display options cannot be set as a group."] = ""
 	--Translation missing 
 	-- L["The duration of the animation in seconds."] = ""
+	--Translation missing 
+	-- L[ [=[The duration of the animation in seconds.
+
+The finish animation does not start playing until after the display would normally be hidden.]=] ] = ""
 	--Translation missing 
 	-- L["The type of trigger"] = ""
 	--Translation missing 

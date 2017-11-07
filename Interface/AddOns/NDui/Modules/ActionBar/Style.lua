@@ -5,11 +5,12 @@ local normalColor, equipColor = {.3, .3, .3}, {.1, .5, .1}
 --reskin function
 local function applyBackground(bu)
 	if not bu or (bu and bu.bg) then return end
+	local cr, cg, cb = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b
 
 	bu.bg = B.CreateBG(bu, 2)
 	B.CreateBD(bu.bg)
 	if NDuiDB["Actionbar"]["Classcolor"] then
-		bu.bg:SetBackdropColor(DB.cc.r, DB.cc.g, DB.cc.b, .25)
+		bu.bg:SetBackdropColor(cr, cg, cb, .25)
 	else
 		bu.bg:SetBackdropColor(.2, .2, .2, .25)
 	end
@@ -17,7 +18,7 @@ local function applyBackground(bu)
 	if bu.__faderParent then
 		bu.__faderParent.fader:HookScript("OnFinished", function()
 			if NDuiDB["Actionbar"]["Classcolor"] then
-				bu.bg:SetBackdropColor(DB.cc.r, DB.cc.g, DB.cc.b, .2)
+				bu.bg:SetBackdropColor(cr, cg, cb, .2)
 			else
 				bu.bg:SetBackdropColor(.2, .2, .2, .2)
 			end

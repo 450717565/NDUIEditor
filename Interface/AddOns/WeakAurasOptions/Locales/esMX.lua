@@ -8,6 +8,8 @@ local L = WeakAuras.L
 	L["-- Do not remove this comment, it is part of this trigger: "] = "-- No remover este comentario. Es parte de este desencadenador:"
 	L["% of Progress"] = "% de progreso"
 	L["%i Matches"] = "%i coincidencias"
+	--Translation missing 
+	-- L["%s Color"] = ""
 	L["1 Match"] = "1 Coincidencia"
 	L["1. Text"] = "1. Texto"
 	L["1. Text Settings"] = "1. Preferencias del texto"
@@ -24,6 +26,8 @@ local L = WeakAuras.L
 	L["Add a new display"] = "Agregar una nueva aura"
 	--Translation missing 
 	-- L["Add Condition"] = ""
+	--Translation missing 
+	-- L["Add Overlay"] = ""
 	--Translation missing 
 	-- L["Add Property Change"] = ""
 	L["Add to group %s"] = "Agregar al grupo %s"
@@ -309,6 +313,10 @@ Sólo un valor coincidente puede ser escogido.]=]
 	L["Orange Rune"] = "Runa naranja"
 	L["Orientation"] = "Orientación"
 	L["Outline"] = "Borde"
+	--Translation missing 
+	-- L["Overlay %s Info"] = ""
+	--Translation missing 
+	-- L["Overlays"] = ""
 	L["Own Only"] = "Solo mías"
 	L["Paste text below"] = "Pegar texto debajo"
 	L["Play Sound"] = "Reproducir sonido"
@@ -325,6 +333,8 @@ Sólo un valor coincidente puede ser escogido.]=]
 	L["Re-center Y"] = "Centrar Y"
 	L["Remaining Time"] = "Tiempo restante"
 	L["Remaining Time Precision"] = "Precisión de tiempo restante"
+	--Translation missing 
+	-- L["Remove"] = ""
 	--Translation missing 
 	-- L["Remove this condition"] = ""
 	L["Remove this display from its group"] = "Remover esta aura del grupo"
@@ -409,8 +419,14 @@ Sólo un valor coincidente puede ser escogido.]=]
 	L["Text Position"] = "Posición del texto"
 	L["Texture"] = "Textura"
 	L["Texture Info"] = "Información de la textura"
+	--Translation missing 
+	-- L["Texture Wrap"] = ""
 	L["The children of this group have different display types, so their display options cannot be set as a group."] = "Los dependientes de este grupo poseen distinta configuración y no se pueden configurar bajo el mismo perfil."
 	L["The duration of the animation in seconds."] = "Duración de la animación (en segundos)."
+	--Translation missing 
+	-- L[ [=[The duration of the animation in seconds.
+
+The finish animation does not start playing until after the display would normally be hidden.]=] ] = ""
 	L["The type of trigger"] = "El tipo de desencadenador"
 	--Translation missing 
 	-- L["Then "] = ""

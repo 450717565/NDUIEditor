@@ -746,7 +746,7 @@ end
 -- It should be much easier to add stuff in the new version, as well. Make it so you can just add to the data table; don't require additional lines of code
 -- to process it (e.g. instead of calling BuildItemLookupTab for each directly, use a loop through the table).
 
-local numDrinksConsumed, numFoodConsumed
+--local numDrinksConsumed, numFoodConsumed
 local TastesLikeChicken_crit, HappyHour_crit
 
 local ConsumeItemAch = {
@@ -849,8 +849,8 @@ function Overachiever.BuildItemLookupTab(THIS_VERSION)
 		Overachiever_CharVars_Consumed.LastBuilt = THIS_VERSION.."|"..gamebuild
 	end
 
-	numDrinksConsumed = tonumber((GetStatistic(OVERACHIEVER_ACHID.Stat_ConsumeDrinks))) or 0
-	numFoodConsumed = tonumber((GetStatistic(OVERACHIEVER_ACHID.Stat_ConsumeFood))) or 0
+	--numDrinksConsumed = tonumber((GetStatistic(OVERACHIEVER_ACHID.Stat_ConsumeDrinks))) or 0
+	--numFoodConsumed = tonumber((GetStatistic(OVERACHIEVER_ACHID.Stat_ConsumeFood))) or 0
 
 	TastesLikeChicken_crit = Overachiever_CharVars_Consumed.Food
 	HappyHour_crit = Overachiever_CharVars_Consumed.Drink
@@ -1126,6 +1126,26 @@ local function BagUpdate(...)
   if (not Overachiever.Criteria_Updated) then  return;  end  -- Attempt to prevent unnecessary processing.
   Overachiever.Criteria_Updated = nil
 
+  for i=1,select("#", ...),3 do
+    local itemID, old, new = select(i, ...)
+    --print(itemID, old, new)
+    if (old > new) then
+      if (TastesLikeChicken_crit[itemID]) then
+        --local _, link = GetItemInfo(itemID)
+        --print("You ate:",link)
+        TastesLikeChicken_crit[itemID] = true
+      end
+
+      if (HappyHour_crit[itemID]) then
+        --local _, link = GetItemInfo(itemID)
+        --print("You drank:",link)
+        HappyHour_crit[itemID] = true
+      end
+
+    end
+  end
+
+  --[[
   local oldF, oldD = numFoodConsumed, numDrinksConsumed
   numFoodConsumed = tonumber((GetStatistic(OVERACHIEVER_ACHID.Stat_ConsumeFood))) or 0  -- My theory is that GetStatistic can be a relatively slow call (and apparently it gets worse the more achievements and/or statistics-data the character has). Avoid when possible (hence the check above).
   numDrinksConsumed = tonumber((GetStatistic(OVERACHIEVER_ACHID.Stat_ConsumeDrinks))) or 0
@@ -1156,6 +1176,7 @@ local function BagUpdate(...)
       --end
     end
   end
+  --]]
 end
 
 --[[

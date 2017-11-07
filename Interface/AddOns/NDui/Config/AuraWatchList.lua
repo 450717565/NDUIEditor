@@ -3234,6 +3234,7 @@ C.AuraWatchList = {
 				{AuraID = 211053, UnitID = "player"},
 				--涅墨西斯
 				{AuraID = 208579, UnitID = "player"},
+				{AuraID = 208605, UnitID = "player"},
 				{AuraID = 208607, UnitID = "player"},
 				{AuraID = 208608, UnitID = "player"},
 				{AuraID = 208609, UnitID = "player"},

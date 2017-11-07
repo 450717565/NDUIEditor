@@ -8,6 +8,8 @@ local L = WeakAuras.L
 	L["-- Do not remove this comment, it is part of this trigger: "] = "-不要移除这条信息，这是该触发器的一部分。"
 	L["% of Progress"] = "% 进度"
 	L["%i Matches"] = "%i 符合"
+	--Translation missing 
+	-- L["%s Color"] = ""
 	L["1 Match"] = "1符合"
 	L["1. Text"] = "文本"
 	L["1. Text Settings"] = "字体设置"
@@ -25,6 +27,8 @@ local L = WeakAuras.L
 	-- L["Add a new display"] = ""
 	--Translation missing 
 	-- L["Add Condition"] = ""
+	--Translation missing 
+	-- L["Add Overlay"] = ""
 	--Translation missing 
 	-- L["Add Property Change"] = ""
 	--Translation missing 
@@ -329,6 +333,10 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Orange Rune"] = "橙色符文"
 	L["Orientation"] = "方向"
 	L["Outline"] = "轮廓"
+	--Translation missing 
+	-- L["Overlay %s Info"] = ""
+	--Translation missing 
+	-- L["Overlays"] = ""
 	L["Own Only"] = "只来源于自己"
 	L["Paste text below"] = "在下方粘贴文本"
 	L["Play Sound"] = "播放声音"
@@ -346,6 +354,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Re-center Y"] = "到中心 Y 偏移"
 	L["Remaining Time"] = "剩余时间"
 	L["Remaining Time Precision"] = "剩余时间精度"
+	--Translation missing 
+	-- L["Remove"] = ""
 	--Translation missing 
 	-- L["Remove this condition"] = ""
 	--Translation missing 
@@ -443,8 +453,14 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Text Position"] = "文字位置"
 	L["Texture"] = "材质"
 	L["Texture Info"] = "材质信息"
+	--Translation missing 
+	-- L["Texture Wrap"] = ""
 	L["The children of this group have different display types, so their display options cannot be set as a group."] = "群组中的子元素含有类型不同图示，所以它们的显示选项无法统一成一个群组."
 	L["The duration of the animation in seconds."] = "动画持续秒数"
+	--Translation missing 
+	-- L[ [=[The duration of the animation in seconds.
+
+The finish animation does not start playing until after the display would normally be hidden.]=] ] = ""
 	L["The type of trigger"] = "触发器类型"
 	--Translation missing 
 	-- L["Then "] = ""

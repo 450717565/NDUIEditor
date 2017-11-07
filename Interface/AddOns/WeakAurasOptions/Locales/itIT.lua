@@ -12,6 +12,8 @@ local L = WeakAuras.L
 	--Translation missing 
 	-- L["%i Matches"] = ""
 	--Translation missing 
+	-- L["%s Color"] = ""
+	--Translation missing 
 	-- L["1 Match"] = ""
 	--Translation missing 
 	-- L["1. Text"] = ""
@@ -41,6 +43,8 @@ local L = WeakAuras.L
 	-- L["Add a new display"] = ""
 	--Translation missing 
 	-- L["Add Condition"] = ""
+	--Translation missing 
+	-- L["Add Overlay"] = ""
 	--Translation missing 
 	-- L["Add Property Change"] = ""
 	--Translation missing 
@@ -528,6 +532,10 @@ local L = WeakAuras.L
 	--Translation missing 
 	-- L["Outline"] = ""
 	--Translation missing 
+	-- L["Overlay %s Info"] = ""
+	--Translation missing 
+	-- L["Overlays"] = ""
+	--Translation missing 
 	-- L["Own Only"] = ""
 	--Translation missing 
 	-- L["Paste text below"] = ""
@@ -559,6 +567,8 @@ local L = WeakAuras.L
 	-- L["Remaining Time"] = ""
 	--Translation missing 
 	-- L["Remaining Time Precision"] = ""
+	--Translation missing 
+	-- L["Remove"] = ""
 	--Translation missing 
 	-- L["Remove this condition"] = ""
 	--Translation missing 
@@ -714,9 +724,15 @@ local L = WeakAuras.L
 	--Translation missing 
 	-- L["Texture Info"] = ""
 	--Translation missing 
+	-- L["Texture Wrap"] = ""
+	--Translation missing 
 	-- L["The children of this group have different display types, so their display options cannot be set as a group."] = ""
 	--Translation missing 
 	-- L["The duration of the animation in seconds."] = ""
+	--Translation missing 
+	-- L[ [=[The duration of the animation in seconds.
+
+The finish animation does not start playing until after the display would normally be hidden.]=] ] = ""
 	--Translation missing 
 	-- L["The type of trigger"] = ""
 	--Translation missing 

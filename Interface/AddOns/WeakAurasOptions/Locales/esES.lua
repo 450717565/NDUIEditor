@@ -8,6 +8,8 @@ local L = WeakAuras.L
 	L["-- Do not remove this comment, it is part of this trigger: "] = "-- No elimines este comentario, es parte de este activador:"
 	L["% of Progress"] = "% de Progreso"
 	L["%i Matches"] = "%i Correspondencias"
+	--Translation missing 
+	-- L["%s Color"] = ""
 	L["1 Match"] = "1 Correspondencia"
 	--Translation missing 
 	-- L["1. Text"] = ""
@@ -34,6 +36,8 @@ local L = WeakAuras.L
 	-- L["Add a new display"] = ""
 	--Translation missing 
 	-- L["Add Condition"] = ""
+	--Translation missing 
+	-- L["Add Overlay"] = ""
 	--Translation missing 
 	-- L["Add Property Change"] = ""
 	--Translation missing 
@@ -413,6 +417,10 @@ Sólo un valor coincidente puede ser escogido.]=]
 	-- L["Orange Rune"] = ""
 	L["Orientation"] = "Orientación"
 	L["Outline"] = "Contorno"
+	--Translation missing 
+	-- L["Overlay %s Info"] = ""
+	--Translation missing 
+	-- L["Overlays"] = ""
 	L["Own Only"] = "Solo Mías"
 	--Translation missing 
 	-- L["Paste text below"] = ""
@@ -436,6 +444,8 @@ Sólo un valor coincidente puede ser escogido.]=]
 	--Translation missing 
 	-- L["Remaining Time"] = ""
 	L["Remaining Time Precision"] = "Precisión del Tiempo Restante"
+	--Translation missing 
+	-- L["Remove"] = ""
 	--Translation missing 
 	-- L["Remove this condition"] = ""
 	--Translation missing 
@@ -544,8 +554,14 @@ Sólo un valor coincidente puede ser escogido.]=]
 	L["Text Position"] = "Posición del Texto"
 	L["Texture"] = "Textura"
 	L["Texture Info"] = "Información de Textura"
+	--Translation missing 
+	-- L["Texture Wrap"] = ""
 	L["The children of this group have different display types, so their display options cannot be set as a group."] = "No todos los hijos contienen la misma configuración, así que no los puedes configurar bajo el mismo perfil."
 	L["The duration of the animation in seconds."] = "Duración de la animación (en segundos)."
+	--Translation missing 
+	-- L[ [=[The duration of the animation in seconds.
+
+The finish animation does not start playing until after the display would normally be hidden.]=] ] = ""
 	L["The type of trigger"] = "Tipo de Activador"
 	--Translation missing 
 	-- L["Then "] = ""
