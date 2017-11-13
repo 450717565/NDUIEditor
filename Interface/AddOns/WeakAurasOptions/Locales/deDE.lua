@@ -11,14 +11,10 @@ local L = WeakAuras.L
 	--Translation missing 
 	-- L["%s Color"] = ""
 	L["1 Match"] = "1 Treffer"
-	--Translation missing 
-	-- L["1. Text"] = ""
-	--Translation missing 
-	-- L["1. Text Settings"] = ""
-	--Translation missing 
-	-- L["2. Text"] = ""
-	--Translation missing 
-	-- L["2. Text Settings"] = ""
+	L["1. Text"] = "1. Text"
+	L["1. Text Settings"] = "1. Text Einstellungen"
+	L["2. Text"] = "2. Text"
+	L["2. Text Settings"] = "2. Text Einstellungen"
 	L["A 20x20 pixels icon"] = "Ein Symbol mit 20x20 Pixeln"
 	L["A 32x32 pixels icon"] = "Ein Symbol mit 32x32 Pixeln"
 	L["A 40x40 pixels icon"] = "Ein Symbol mit 40x40 Pixeln"
@@ -126,8 +122,7 @@ Soll die Anzeige in einer neuen |cFF22AA22Dynamischen Gruppe|r platziert werden?
 	L["Collapse all loaded displays"] = "Alle geladenen Anzeigen minimieren"
 	L["Collapse all non-loaded displays"] = "Alle nicht geladenen Anzeigen minimieren"
 	L["Color"] = "Farbe"
-	--Translation missing 
-	-- L["color"] = ""
+	L["color"] = "Farbe"
 	L["Compress"] = "Stauchen"
 	L["Conditions"] = "Bedingungen"
 	L["Constant Factor"] = "Konstanter Faktor"
@@ -137,8 +132,7 @@ Soll die Anzeige in einer neuen |cFF22AA22Dynamischen Gruppe|r platziert werden?
 	L["Cooldown"] = "Abklingzeit"
 	L["Copy settings from %s"] = "Kopiere Einstellungen von %s"
 	L["Copy settings from..."] = "Kopiere Einstellungen von..."
-	--Translation missing 
-	-- L["Copy to all auras"] = ""
+	L["Copy to all auras"] = "Kopiere zu allen Auren"
 	L["Copy URL"] = "URL kopieren"
 	L["Count"] = "Anzahl"
 	L["Creating buttons: "] = "Erstelle Schaltflächen:"
@@ -169,8 +163,7 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Delete children and group"] = "Kinder und Gruppe löschen"
 	L["Delete Trigger"] = "Auslöser löschen"
 	L["Desaturate"] = "Entsättigen"
-	--Translation missing 
-	-- L["Differences"] = ""
+	L["Differences"] = "Unterschiede"
 	L["Disabled"] = "Deaktiviert"
 	L["Discrete Rotation"] = "Rotation um x90°"
 	L["Display"] = "Anzeige"
@@ -216,8 +209,7 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Fade"] = "Verblassen"
 	L["Fade In"] = "Einblenden"
 	L["Fade Out"] = "Ausblenden"
-	--Translation missing 
-	-- L["False"] = ""
+	L["False"] = "Falsch"
 	L["Finish"] = "Endanimation"
 	L["Fire Orb"] = "Feuerkugel"
 	L["Font"] = "Schriftart"
@@ -458,9 +450,7 @@ Soll |cFFFF0000Alle Auren scannen (CPU-Intensiv)|r aktiviert werden um diese |cF
 	L["The children of this group have different display types, so their display options cannot be set as a group."] = "Anzeigeoptionen können nicht für die Gruppe gesetzt werden, weil die Kinder dieser Gruppe verschiedene Anzeigetypen haben."
 	L["The duration of the animation in seconds."] = "Die Dauer der Animation in Sekunden."
 	--Translation missing 
-	-- L[ [=[The duration of the animation in seconds.
-
-The finish animation does not start playing until after the display would normally be hidden.]=] ] = ""
+	-- L["The duration of the animation in seconds. The finish animation does not start playing until after the display would normally be hidden."] = ""
 	L["The type of trigger"] = "Auslösertyp"
 	--Translation missing 
 	-- L["Then "] = ""

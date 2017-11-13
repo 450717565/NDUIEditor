@@ -490,9 +490,7 @@ Voulez-vous activer le Scan Complet pour chercher cet |cFFFF0000ID de sort|r ?]=
 	L["The children of this group have different display types, so their display options cannot be set as a group."] = "Les enfants de ce groupe ont différent types de graphiques, leurs options de graphique ne peuvent donc pas être changées en groupe."
 	L["The duration of the animation in seconds."] = "La durée de l'animation en secondes."
 	--Translation missing 
-	-- L[ [=[The duration of the animation in seconds.
-
-The finish animation does not start playing until after the display would normally be hidden.]=] ] = ""
+	-- L["The duration of the animation in seconds. The finish animation does not start playing until after the display would normally be hidden."] = ""
 	L["The type of trigger"] = "Le type de déclencheur"
 	--Translation missing 
 	-- L["Then "] = ""

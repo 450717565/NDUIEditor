@@ -440,9 +440,7 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["The children of this group have different display types, so their display options cannot be set as a group."] = "이 그룹의 자식들은 다른 디스플레이 형식을 가지고 있어서, 디스플레이 옵션을 그룹으로 설정할 수 없습니다."
 	L["The duration of the animation in seconds."] = "애니메이션 지속시간 (초)"
 	--Translation missing 
-	-- L[ [=[The duration of the animation in seconds.
-
-The finish animation does not start playing until after the display would normally be hidden.]=] ] = ""
+	-- L["The duration of the animation in seconds. The finish animation does not start playing until after the display would normally be hidden."] = ""
 	L["The type of trigger"] = "활성 조건의 유형"
 	--Translation missing 
 	-- L["Then "] = ""

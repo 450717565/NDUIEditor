@@ -8,8 +8,7 @@ local L = WeakAuras.L
 	L["-- Do not remove this comment, it is part of this trigger: "] = "-- Не удаляйте этот комментарий, он является частью этого триггера: "
 	L["% of Progress"] = "% прогресса"
 	L["%i Matches"] = "%i Совпадений"
-	--Translation missing 
-	-- L["%s Color"] = ""
+	L["%s Color"] = "%s "
 	L["1 Match"] = "1 Совпадение"
 	L["1. Text"] = "1. Текст"
 	L["1. Text Settings"] = "1. Параметры Текста"
@@ -25,8 +24,7 @@ local L = WeakAuras.L
 	L["Activate when the given aura(s) |cFFFF0000can't|r be found"] = "Активировать когда заданные эффекты |cFFFF0000не|r найдены"
 	L["Add a new display"] = "Добавить новую индикацию"
 	L["Add Condition"] = "Добавить условие"
-	--Translation missing 
-	-- L["Add Overlay"] = ""
+	L["Add Overlay"] = "Добавить наложение (дополнительный прогресс)"
 	L["Add Property Change"] = "Добавить свойство"
 	L["Add to group %s"] = "Добавить в группу %s"
 	L["Add to new Dynamic Group"] = "Добавить в новую динамическую группу"
@@ -46,11 +44,13 @@ local L = WeakAuras.L
 	L["Animate"] = "Анимация"
 	L["Animated Expand and Collapse"] = "Анимированное сворачивание и разворачивание"
 	L["Animates progress changes"] = "Изменение прогресса отображается при помощи анимации"
-	L["Animation relative duration description"] = [=[Длительность анимации по отношению к индикации, выраженная в виде дроби (1/2), процентах (50%), или десятично (0.5).
-|cFFFF0000Примечание:|r Если индикация не имеет таймера (например аура без длительности и т.д.), то анимация не проигрывается.
-|cFF4444FFДля Примера:|r
-Если длительность анимации установлена в |cFF00CC0010%|r и триггер индикации это бафф длительностью 20 секунд, стартовая анимация проиграется за 2 секунды.
-Если длительность анимации установлена в |cFF00CC0010%|r и триггер индикации это бесконечная аура, стартовая анимация не будет проигрываться (но проигралась бы, если установить длительность в секундах) .]=]
+	L["Animation relative duration description"] = [=[Длительность анимации относительно длительности индикации, выраженная в виде обыкновенной (1/2) или десятичной (0.5) дробей, процента (50%).
+
+|cFFFF0000Замечание:|r если у индикации нет прогресса (аура без длительности, триггер события без времени и т. д.), то анимация не будет отображаться.
+
+|cFF4444FFПримеры:|r
+Если длительность анимации установлена в |cFF00CC0010%|r и триггер индикации - это бафф длительностью 20 секунд, то анимация будет отображаться в течение 2 секунд.
+Если длительность анимации установлена в |cFF00CC0010%|r и триггер индикации - это бесконечная аура, то анимация отображаться не будет (хотя могла бы, если бы вы указали длительность в секундах).]=]
 	L["Animation Sequence"] = "Цепочка анимаций"
 	L["Animations"] = "Анимация"
 	L["Apply Template"] = "Применить шаблон"
@@ -102,10 +102,9 @@ local L = WeakAuras.L
 	L["Choose"] = "Выбрать"
 	L["Choose Trigger"] = "Выбор триггера"
 	L["Choose whether the displayed icon is automatic or defined manually"] = "Выберите, будет ли иконка определена автоматически или вручную"
-	L["Clone option enabled dialog"] = [=[Вы активировали опцию |cFFFF0000Авто-клонирования|r.
+	L["Clone option enabled dialog"] = [=[Вы активировали опцию, использующую |cFFFF0000Авто-клонирование|r.
 
-|cFFFF0000Авто-клонирование|r заставляет индикацию автоматически дубироватся для отображения нескольких источников информации.
-Если вы поместите эту индикацию в |cFF22AA22Динамическую Группу|r, все клоны будут смещаться вверх этой большой кучи.
+|cFFFF0000Авто-клонирование|r заставляет индикацию автоматически дублироваться для отображения нескольких источников информации. Если вы не разместите ее в |cFF22AA22Динамической Группе|r, то все клоны будут отображаться друг над другом в большой куче.
 
 Вы хотите поместить эту индикацию в новую |cFF22AA22Динамическую Группу|r?]=]
 	L["Close"] = "Закрыть"
@@ -135,19 +134,15 @@ local L = WeakAuras.L
 	L["Custom Code"] = "Свой код"
 	L["Custom Function"] = "Своя функция"
 	L["Custom Trigger"] = "Свой триггер"
-	L["Custom trigger event tooltip"] = [=[Напишите какие события должны проверятся для активации триггера.
-Несколько событий должны разделятся запятыми или пробелами.
+	L["Custom trigger event tooltip"] = [=[Напишите, какие события вызывают проверку вашего триггера. Несколько событий должны быть разделены запятыми или пробелами.
 
-|cFF4444FFДля Примера:|r
-UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED
-]=]
-	L["Custom trigger status tooltip"] = [=[Напишите какие события должны проверятся для активации триггера.
-Поскольку это триггер состояния, указанные события могут быть вызваны WeakAuras без ожидаемых аргументов.
-Несколько событий должны разделятся запятыми или пробелами.
+|cFF4444FFПример:|r
+UNIT_POWER UNIT_AURA, PLAYER_TARGET_CHANGED]=]
+	L["Custom trigger status tooltip"] = [=[Напишите, какие события вызывают проверку вашего триггера. Несколько событий должны быть разделены запятыми или пробелами.
+Поскольку это триггер состояния, указанные события могут быть переданы WeakAuras без ожидаемых аргументов.
 
-|cFF4444FFДля Примера:|r
-UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED
-]=]
+|cFF4444FFПример:|r
+UNIT_POWER UNIT_AURA, PLAYER_TARGET_CHANGED]=]
 	L["Custom Untrigger"] = "Свой детриггер"
 	L["Debuff Type"] = "Тип дебаффа"
 	L["Default"] = "По умолчанию"
@@ -172,21 +167,21 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED
 	L["Drag to move"] = "Перетащите для перемещения"
 	L["Duplicate"] = "Дублировать"
 	L["Duration (s)"] = "Длительность"
-	L["Duration Info"] = "Информация о продолжительности"
+	L["Duration Info"] = "Информация о длительности"
 	L["Dynamic Group"] = "Динамическая Группа"
 	L["Dynamic information"] = "Динамическая информация"
 	L["Dynamic Information"] = "Динамическая информация"
-	L["Dynamic information from first active trigger"] = "Динамическая информация для первого активного триггера"
-	L["Dynamic information from first Active Trigger"] = "Динамическая информация для первого активного Триггера"
-	L["Dynamic information from Trigger %i"] = "Динамическая информация для Триггера %i"
-	L["Dynamic text tooltip"] = [=[Несколько специальных кодов для отображения динамического текста:
+	L["Dynamic information from first active trigger"] = "Динамическая информация из первого активного триггера"
+	L["Dynamic information from first Active Trigger"] = "Динамическая информация из первого активного триггера"
+	L["Dynamic information from Trigger %i"] = "Динамическая информация из Триггера %i"
+	L["Dynamic text tooltip"] = [=[Несколько специальных кодов для отображения динамической информации в тексте:
 
-|cFFFF0000%p|r - Прогресс - Оставшееся время таймера или без таймерная величина
-|cFFFF0000%t|r - Всего - Максимальная длительность таймера или максимальная без таймерная величина
-|cFFFF0000%n|r - Название - Название индикации (обычно название задействованной ауры) или ID индикатора
-|cFFFF0000%i|r - Иконка - Иконка связанная с индикацией
-|cFFFF0000%s|r - Стаки - Кол-во стаков (обычно для ауры)
-|cFFFF0000%c|r - В ручную - Позволяет написать функцию на Lua, возвращаемое значение которой и будет отображено ]=]
+|cFFFF0000%p|r - Прогресс - Оставшееся время таймера или текущее бестаймерное значение
+|cFFFF0000%t|r - Всего - Максимальное время таймера или бестаймерное значение
+|cFFFF0000%n|r - Название - Название эффекта, заклинания, предмета и т. д. или ID индикации
+|cFFFF0000%i|r - Иконка - Иконка, связанная с индикацией
+|cFFFF0000%s|r - Стаки - Количество стаков эффекта, предмета, зарядов заклинания и т. д.
+|cFFFF0000%c|r - В ручную - Позволяет написать функцию на Lua, возвращаемое значение которой и будет отображено]=]
 	L["Enabled"] = "Включено"
 	L["End Angle"] = "Конечный угол"
 	L["Enter an aura name, partial aura name, or spell id"] = "Введите полное название эффекта, часть его названия или ID заклинания."
@@ -204,7 +199,7 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED
 	L["Fade In"] = "Проявиться"
 	L["Fade Out"] = "Исчезнуть"
 	L["False"] = "Ложь"
-	L["Finish"] = "Завершение"
+	L["Finish"] = "Конечная"
 	L["Fire Orb"] = "Огненный шар"
 	L["Font"] = "Шрифт"
 	L["Font Flags"] = "Флаги шрифта"
@@ -225,7 +220,17 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED
 	L["Green Rune"] = "Зеленая руна"
 	L["Group"] = "Группа"
 	L["Group (verb)"] = "Группировать"
-	L["Group aura count description"] = "Описание Групп Ауры"
+	L["Group aura count description"] = [=[Количество участников группы (рейда), к которым должен быть применен один или более данных эффектов, чтобы триггер сработал.
+
+Если указано целое число (5), то количество человек с этим эффектом будет сравниваться с введенным числом. Если указана обыкновенная (1/2) или десятичная (0.5) дроби, процент (50%%), то эта часть участников группы (рейда) и будет использована в сравнении.
+
+|cFF4444FFПримеры:|r
+|cFF00CC00> 0|r - сработает, когда кто-нибудь из группы попал под воздействие
+|cFF00CC00= 100%%|r - сработает, когда вся группа попала под воздействие
+|cFF00CC00!= 2|r - сработает, если число человек с этим эффектом не равно 2 (0 или 1 или >2)
+|cFF00CC00<= 0.8|r - сработает, если менее 80%% группы под воздействием эффекта (4 из 5, 7 из 10 человек)
+|cFF00CC00> 1/2|r - сработает, если больше половины группы по воздействием эффекта (5 из 5, 6 из 10 человек)
+|cFF00CC00>= 0|r - всегда срабатывает, несмотря ни на что]=]
 	L["Group Member Count"] = "Кол-во элементов"
 	L["Grow"] = "Расти"
 	L["Hawk"] = "Ястреб"
@@ -242,7 +247,7 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED
 	L["Hybrid Sort Mode"] = "Режим гибридной сортировки"
 	L["Icon"] = "Иконка"
 	L["Icon Color"] = "Цвет иконки"
-	L["Icon Info"] = "Информация о значке"
+	L["Icon Info"] = "Информация о иконке"
 	L["Icon Inset"] = "Вставка иконки"
 	L["If"] = "Если"
 	L["If Trigger %s"] = "Если Триггер %s"
@@ -259,7 +264,7 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED
 	L["Loaded"] = "Загружено"
 	L["Loop"] = "Зациклить"
 	L["Low Mana"] = "Мало маны"
-	L["Main"] = "Основная анимация"
+	L["Main"] = "Основная"
 	L["Manage displays defined by Addons"] = "Управление индикациями, определенными Аддонами"
 	L["Medium Icon"] = "Средняя иконка"
 	L["Message"] = "Сообщение"
@@ -306,16 +311,14 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED
 	L["Orange Rune"] = "Оранжевая руна"
 	L["Orientation"] = "Ориентация"
 	L["Outline"] = "Контур"
-	--Translation missing 
-	-- L["Overlay %s Info"] = ""
-	--Translation missing 
-	-- L["Overlays"] = ""
+	L["Overlay %s Info"] = "Информация о наложении %s"
+	L["Overlays"] = "Настройка цвета наложений"
 	L["Own Only"] = "Только своё"
 	L["Paste text below"] = "Вставьте текст ниже"
 	L["Play Sound"] = "Проиграть звук"
 	L["Portrait Zoom"] = "Увеличить портрет"
 	L["Preset"] = "Предустановка"
-	L["Prevents duration information from decreasing when an aura refreshes. May cause problems if used with multiple auras with different durations."] = "Не позволяет снижать информацию о длительности эффекта, при его обновлении. Может вызвать проблемы при использовании с несколькими эффектами разной длительности."
+	L["Prevents duration information from decreasing when an aura refreshes. May cause problems if used with multiple auras with different durations."] = "Не позволяет снижать информацию о длительности эффекта при его обновлении. Может вызвать проблемы при использовании с несколькими эффектами разной длительности."
 	L["Processed %i chars"] = "Обработано %i символов"
 	L["Progress Bar"] = "Полоса Прогресса"
 	L["Progress Texture"] = "Текстура Прогресса"
@@ -326,8 +329,7 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED
 	L["Re-center Y"] = "Рецентровать Y"
 	L["Remaining Time"] = "Оставшееся время"
 	L["Remaining Time Precision"] = "Точность оставшегося времени"
-	--Translation missing 
-	-- L["Remove"] = ""
+	L["Remove"] = "Удалить"
 	L["Remove this condition"] = "Удалить это условие"
 	L["Remove this display from its group"] = "Убрать индикацию из этой группы"
 	L["Remove this property"] = "Удалить это свойство"
@@ -385,20 +387,22 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED
 	L["Spark Texture"] = "Текстура вспышки"
 	L["Specific Unit"] = "Конкретная единица"
 	L["Spell ID"] = "ID заклинания"
-	L["Spell ID dialog"] = [=[По умолчанию |cFF8800FFWeakAuras|r не может различать ауры с тем же названием, но с разными |cFFFF0000ИД заклинаний|r.
-Однако, если использовать Полное Сканирование, |cFF8800FFWeakAuras|r сможет обнаружить специфические |cFFFF0000ИД заклинаний|r.
-Вы желаете задействовать Полное Сканирование, что бы онаружить эти |cFFFF0000ИД заклинаний|r.]=]
-	L["Stack Count"] = "Кол-во Стаков"
+	L["Spell ID dialog"] = [=[Вы указали эффект при помощи |cFFFF0000ID заклинания|r.
+
+По умолчанию |cFF8800FFWeakAuras|r не может различать эффекты с одинаковым названием, но разными |cFFFF0000ID заклинания|r. Однако, если опция Полного сканирования включена, то |cFF8800FFWeakAuras|r сможет найти конкретные |cFFFF0000ID заклинания|r.
+
+Вы хотите использовать Полное сканирование для поиска этого |cFFFF0000ID заклинания|r?]=]
+	L["Stack Count"] = "Кол-во cтаков"
 	L["Stack Info"] = "Информация о стаках"
-	L["Stacks"] = "\"Стаки\""
+	L["Stacks"] = "Стаки"
 	L["Stacks Settings"] = "Настройки Стаков"
 	L["Stagger"] = "Пошатывание"
 	L["Star"] = "Звезда"
-	L["Start"] = "Начало"
+	L["Start"] = "Начальная"
 	L["Start Angle"] = "Начальный угол"
 	L["Status"] = "Статус"
 	L["Stealable"] = "Можно украсть"
-	L["Sticky Duration"] = "Липкая Длительность"
+	L["Sticky Duration"] = "Липкая длительность"
 	L["Stop Sound"] = "Остановить звук"
 	L["Symbol Settings"] = "Настройки символов"
 	L["Temporary Group"] = "Временная Группа"
@@ -407,14 +411,11 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED
 	L["Text Position"] = "Позиция Текста"
 	L["Texture"] = "Текстура"
 	L["Texture Info"] = "Информация о текстуре"
-	--Translation missing 
-	-- L["Texture Wrap"] = ""
+	L["Texture Wrap"] = "Режим обертки текстурой"
 	L["The children of this group have different display types, so their display options cannot be set as a group."] = "Элементы этой группы содержат разные типы индикаций, по этому их настройки не могут быть групповыми"
 	L["The duration of the animation in seconds."] = "Длительность анимации в секундах."
 	--Translation missing 
-	-- L[ [=[The duration of the animation in seconds.
-
-The finish animation does not start playing until after the display would normally be hidden.]=] ] = ""
+	-- L["The duration of the animation in seconds. The finish animation does not start playing until after the display would normally be hidden."] = ""
 	L["The type of trigger"] = "Тип триггера"
 	L["Then "] = "Тогда "
 	L["This display is currently loaded"] = "Эта индикация загружена"
@@ -445,9 +446,10 @@ The finish animation does not start playing until after the display would normal
 	-- L["Undefined"] = ""
 	L["Ungroup"] = "Разгруппировать"
 	L["Unit"] = "Элемент"
-	L["Unlike the start or finish animations, the main animation will loop over and over until the display is hidden."] = "В отличие от начальной или конечной анимации, основная анимация зациклена и будет повторятся пока индикация не пропадет."
+	L["Unlike the start or finish animations, the main animation will loop over and over until the display is hidden."] = [=[ 
+В отличие от начальной или конечной анимации, основная зациклена и будет повторяться пока индикация не пропадет.]=]
 	L["Update Custom Text On..."] = "Обновить свой текст на..."
-	L["Use Full Scan (High CPU)"] = "Использовать полное сканирование (загрузка ЦП)"
+	L["Use Full Scan (High CPU)"] = "Использовать Полное сканирование (загрузка ЦП)"
 	L["Use SetTransform (will change behaviour in 7.3)"] = "Использовать ф-ю SetTransform (изменится в 7.3)"
 	L["Use SetTransform api"] = "Использовать ф-ю SetTransform"
 	L["Use tooltip \"size\" instead of stacks"] = "Использовать подсказку размер вместо стаков"

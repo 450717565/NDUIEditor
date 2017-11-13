@@ -129,8 +129,8 @@ C.AuraWatchList = {
 			-->LEG饰品
 				--晶化身体
 				{AuraID = 214366, UnitID = "player", Value= true},
-				--超能奥术
-				{AuraID = 254161, UnitID = "player"},
+				--克罗塔的护盾
+				{AuraID = 228323, UnitID = "player", Value = true},
 				--猫头鹰
 				{AuraID = 242570, UnitID = "player"},
 				--苦痛之矛
@@ -965,9 +965,6 @@ C.AuraWatchList = {
 				{AuraID = 122278, UnitID = "target"},
 				--散魔功
 				{AuraID = 122783, UnitID = "target"},
-				--刃舞
-				{AuraID = 188499, UnitID = "target"},
-				{AuraID = 210152, UnitID = "target"},
 				--混乱之刃
 				{AuraID = 247938, UnitID = "target"},
 				--疾影

@@ -559,9 +559,7 @@ Sólo un valor coincidente puede ser escogido.]=]
 	L["The children of this group have different display types, so their display options cannot be set as a group."] = "No todos los hijos contienen la misma configuración, así que no los puedes configurar bajo el mismo perfil."
 	L["The duration of the animation in seconds."] = "Duración de la animación (en segundos)."
 	--Translation missing 
-	-- L[ [=[The duration of the animation in seconds.
-
-The finish animation does not start playing until after the display would normally be hidden.]=] ] = ""
+	-- L["The duration of the animation in seconds. The finish animation does not start playing until after the display would normally be hidden."] = ""
 	L["The type of trigger"] = "Tipo de Activador"
 	--Translation missing 
 	-- L["Then "] = ""

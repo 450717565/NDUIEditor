@@ -41,9 +41,9 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 16840 $"):sub(12, -3)),
-	DisplayVersion = "7.3.7 alpha", -- the string that is shown as version
-	ReleaseRevision = 16803 -- the revision of the latest stable version that is available
+	Revision = tonumber(("$Revision: 16852 $"):sub(12, -3)),
+	DisplayVersion = "7.3.8 alpha", -- the string that is shown as version
+	ReleaseRevision = 16840 -- the revision of the latest stable version that is available
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -4921,11 +4921,19 @@ do
 			else
 				local msg = modid.."\t"..modvar.."\t"..syncText.."\t"..abilityName
 				if IsInRaid() then
-					SendAddonMessage("D4", "NS\t" .. msg, "RAID")
-					DBM:AddMsg(DBM_CORE_NOTESHARED)
+					if DBM:GetRaidRank(playerName) == 0 then
+						DBM:AddMsg(DBM_ERROR_NO_PERMISSION)
+					else
+						SendAddonMessage("D4", "NS\t" .. msg, "RAID")
+						DBM:AddMsg(DBM_CORE_NOTESHARED)
+					end
 				elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-					SendAddonMessage("D4", "NS\t" .. msg, "PARTY")
-					DBM:AddMsg(DBM_CORE_NOTESHARED)
+					if DBM:GetRaidRank(playerName) == 0 then
+						DBM:AddMsg(DBM_ERROR_NO_PERMISSION)
+					else
+						SendAddonMessage("D4", "NS\t" .. msg, "PARTY")
+						DBM:AddMsg(DBM_CORE_NOTESHARED)
+					end
 				else--Solo
 					DBM:AddMsg(DBM_CORE_NOTESHAREERRORSOLO)
 				end

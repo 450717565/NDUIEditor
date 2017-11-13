@@ -485,9 +485,7 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["The children of this group have different display types, so their display options cannot be set as a group."] = "群組的子元素有不同的特效類型，所以特效的選項無法設定到群組。"
 	L["The duration of the animation in seconds."] = "動畫的持續時間(秒)。"
 	--Translation missing 
-	-- L[ [=[The duration of the animation in seconds.
-
-The finish animation does not start playing until after the display would normally be hidden.]=] ] = ""
+	-- L["The duration of the animation in seconds. The finish animation does not start playing until after the display would normally be hidden."] = ""
 	L["The type of trigger"] = "觸發類型"
 	--Translation missing 
 	-- L["Then "] = ""

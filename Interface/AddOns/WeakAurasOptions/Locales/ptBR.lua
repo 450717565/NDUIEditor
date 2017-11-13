@@ -581,9 +581,7 @@ Would you like to enable Use Full Scan to match this |cFFFF0000spell ID|r?]=]
 	--Translation missing 
 	-- L["The duration of the animation in seconds."] = ""
 	--Translation missing 
-	-- L[ [=[The duration of the animation in seconds.
-
-The finish animation does not start playing until after the display would normally be hidden.]=] ] = ""
+	-- L["The duration of the animation in seconds. The finish animation does not start playing until after the display would normally be hidden."] = ""
 	--Translation missing 
 	-- L["The type of trigger"] = ""
 	--Translation missing 
