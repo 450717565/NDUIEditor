@@ -27,6 +27,17 @@ local eventFilter = {
 	["SWING_MISSED"] = {suffix = "MISS", index = 12, iconType = "swing"},
 	["RANGE_MISSED"] = {suffix = "MISS", index = 15, iconType = "range"},
 	["SPELL_MISSED"] = {suffix = "MISS", index = 15, iconType = "spell"},
+
+	["ENVIRONMENTAL_DAMAGE"] = {suffix = "ENVIRONMENT", index = 12, iconType = "env"},
+}
+
+local envTexture = {
+	["Drowning"] = "spell_shadow_demonbreath",
+	["Falling"] = "ability_rogue_quickrecovery",
+	["Fatigue"] = "ability_creature_cursed_05",
+	["Fire"] = "spell_fire_fire",
+	["Lava"] = "ability_rhyolith_lavapool",
+	["Slime"] = "inv_misc_slime_02",
 }
 
 local eventFrame = CreateFrame("Frame")
@@ -39,6 +50,7 @@ end)
 
 local function GetFloatingIcon(iconType, spellID, isPet)
 	local texture, icon
+
 	if iconType == "spell" then
 		texture = GetSpellTexture(spellID)
 	elseif iconType == "swing" then
@@ -49,10 +61,14 @@ local function GetFloatingIcon(iconType, spellID, isPet)
 		end
 	elseif iconType == "range" then
 		texture = GetSpellTexture(75)
+	elseif iconType == "env" then
+		texture = "Interface\\Icons\\"..envTexture[spellID]
 	end
+
 	if not texture then
 		texture = GetSpellTexture(195112)
 	end
+
 	icon = "|T"..texture..":"..fontSize..":"..fontSize..":0:-5:64:64:5:59:5:59|t"
 	return icon
 end
@@ -134,6 +150,14 @@ function eventFrame:COMBAT_LOG_EVENT_UNFILTERED(...)
 			elseif value.suffix == "MISS" then
 				local missType, isOffHand, amountMissed = select(value.index, ...)
 				text = _G["COMBAT_TEXT_"..missType]
+				if isPlayer or isVehicle or isPet then
+					outputD = true
+				else
+					inputD = true
+				end
+			elseif value.suffix == "ENVIRONMENT" then
+				local envType, amount, overkill, school = select(value.index, ...)
+				text = "-"..B.Numb(amount)
 				if isPlayer or isVehicle or isPet then
 					outputD = true
 				else
