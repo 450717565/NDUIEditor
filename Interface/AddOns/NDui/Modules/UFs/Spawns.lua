@@ -101,7 +101,7 @@ end
 
 local function CreateBossStyle(self)
 	self.mystyle = "boss"
-	self:SetSize(150, 22)
+	self:SetSize(157, 22)
 
 	UF:CreateHeader(self)
 	UF:CreateHealthBar(self)
@@ -119,7 +119,7 @@ end
 
 local function CreateArenaStyle(self)
 	self.mystyle = "arena"
-	self:SetSize(150, 22)
+	self:SetSize(157, 22)
 
 	UF:CreateHeader(self)
 	UF:CreateHealthBar(self)
@@ -251,9 +251,9 @@ function UF:OnLogin()
 		for i = 1, MAX_BOSS_FRAMES do
 			boss[i] = oUF:Spawn("Boss"..i, "oUF_Boss"..i)
 			if i == 1 then
-				B.Mover(boss[i], L["Boss1"], "Boss1", {"TOPRIGHT", Minimap, "BOTTOMLEFT", 75, -100}, 150, 30)
+				B.Mover(boss[i], L["Boss1"], "Boss1", {"TOPRIGHT", Minimap, "BOTTOMLEFT", 75, -100}, 157, 30)
 			else
-				B.Mover(boss[i], L["Boss"..i], "Boss"..i, {"TOPRIGHT", boss[i-1], "BOTTOMRIGHT", 0, -55}, 150, 30)
+				B.Mover(boss[i], L["Boss"..i], "Boss"..i, {"TOPRIGHT", boss[i-1], "BOTTOMRIGHT", 0, -55}, 157, 30)
 			end
 		end
 	end
@@ -264,9 +264,9 @@ function UF:OnLogin()
 		for i = 1, 5 do
 			arena[i] = oUF:Spawn("Arena"..i, "oUF_Arena"..i)
 			if i == 1 then
-				B.Mover(arena[i], L["Arena1"], "Arena1", {"TOPRIGHT", Minimap, "BOTTOMLEFT", -100, -100}, 150, 30)
+				B.Mover(arena[i], L["Arena1"], "Arena1", {"TOPRIGHT", Minimap, "BOTTOMLEFT", -100, -100}, 157, 30)
 			else
-				B.Mover(arena[i], L["Arena"..i], "Arena"..i, {"TOPRIGHT", arena[i-1], "BOTTOMRIGHT", 0, -55}, 150, 30)
+				B.Mover(arena[i], L["Arena"..i], "Arena"..i, {"TOPRIGHT", arena[i-1], "BOTTOMRIGHT", 0, -55}, 157, 30)
 			end
 		end
 

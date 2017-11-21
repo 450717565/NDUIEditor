@@ -6,10 +6,6 @@ local _G = getfenv(0)
 local m_random = _G.math.random
 local tonumber = _G.tonumber
 
--- Blizz
-local GetCurrencyInfo = _G. GetCurrencyInfo
-local GetCurrencyLink = _G.GetCurrencyLink
-
 -- Mine
 local function Toast_OnEnter(self)
 	GameTooltip:SetHyperlink(self._data.tooltip_link)
@@ -142,12 +138,6 @@ E:RegisterOptions("loot_currency", {
 			end,
 			set = function(_, value)
 				C.db.profile.types.loot_currency.dnd = value
-
-				if value then
-					Enable()
-				else
-					Disable()
-				end
 			end
 		},
 		test = {

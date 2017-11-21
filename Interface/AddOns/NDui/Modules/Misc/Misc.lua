@@ -95,7 +95,7 @@ SlashCmdList["NDUI_ARTI_CALCULATOR"] = function(arg)
 		total = total + C_ArtifactUI.GetCostForPointAtRank(i, artifactTier)
 	end
 	print(DB.InfoColor.."------------------------")
-	print(ARTIFACT_POWER, DB.InfoColor..total)
+	print(ARTIFACT_POWER, DB.InfoColor..B.Numbs(total))
 	print(DB.InfoColor.."------------------------")
 end
 SLASH_NDUI_ARTI_CALCULATOR1 = "/arc"

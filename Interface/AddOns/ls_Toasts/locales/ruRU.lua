@@ -6,11 +6,12 @@ local L = addonTable.L
 -- Lua
 local _G = getfenv(0)
 
-if _G.GetLocale() ~= "ruRU" then return end
+if GetLocale() ~= "ruRU" then return end
 
 L["ANCHOR"] = "Крепление уведомления"
 L["ANCHOR_FRAME"] = "Фрейм крепления"
 L["BORDER"] = "Рамка"
+L["COLLECTIONS_TAINT_WARNING"] = "Включение данной настройки может вызвать ошибки при открытии панели \"Коллекции\" в бою."
 L["COLORS"] = "Цвета"
 L["COPPER_THRESHOLD"] = "Порог меди"
 L["COPPER_THRESHOLD_DESC"] = "Наименьшее количество медных монет, для которого будет отображено уведомление."
@@ -22,6 +23,7 @@ L["GROWTH_DIR_DOWN"] = "Вниз"
 L["GROWTH_DIR_LEFT"] = "Влево"
 L["GROWTH_DIR_RIGHT"] = "Вправо"
 L["GROWTH_DIR_UP"] = "Вверх"
+L["HANDLE_LEFT_CLICK"] = "Обрабатывать левый щелчок"
 L["ICON_BORDER"] = "Рамка иконки"
 L["NAME"] = "Название"
 L["OPEN_CONFIG"] = "Открыть настройки"

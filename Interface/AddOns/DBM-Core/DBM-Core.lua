@@ -41,7 +41,7 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 16856 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 16861 $"):sub(12, -3)),
 	DisplayVersion = "7.3.8 alpha", -- the string that is shown as version
 	ReleaseRevision = 16840 -- the revision of the latest stable version that is available
 }
@@ -5179,7 +5179,7 @@ do
 				if v.type == type and checkEntry(v.msgs, msg) or v.type == type .. "_regex" and checkExpressionList(v.msgs, msg) then
 					self:StartCombat(v.mod, 0, "MONSTER_MESSAGE")
 				elseif v.type == "combat_" .. type .. "find" and findEntry(v.msgs, msg) or v.type == "combat_" .. type and checkEntry(v.msgs, msg) then
-					if IsInInstance() then--Indoor boss that uses both combat and yell for combat, so in other words (such as hodir), don't require "target" of boss for yell like scanForCombat does for World Bosses
+					if IsInInstance() then--Indoor boss that uses both combat and message for combat, so in other words (such as hodir), don't require "target" of boss for yell like scanForCombat does for World Bosses
 						self:StartCombat(v.mod, 0, "MONSTER_MESSAGE")
 					else--World Boss
 						scanForCombat(v.mod, v.mob, 0)
@@ -7531,11 +7531,12 @@ do
 		["Ranged"] = true,
 		["RangedDps"] = true,
 		["ManaUser"] = true,--Affected by things like mana drains, or mana detonation, etc
-		["SpellCaster"] = true,--Has channeled casts, can be interrupted/spell locked by roars, etc
+		["SpellCaster"] = true,--Has channeled casts, can be interrupted/spell locked by roars, etc, include healers. Use CasterDps if dealing with reflect
+		["CasterDps"] = true,--Ranged dps that uses spells, relevant for spell reflect type abilities that only reflect spells but not ranged physical such as hunters
 		["RaidCooldown"] = true,
 		["RemovePoison"] = true,
 		["RemoveDisease"] = true,
-		["RemoveEnrage"] = true,--Depricated, no one can remove enrage anymore
+		["RemoveEnrage"] = true,--Depricated, no one can remove enrage anymore, returning in classic!
 		["RemoveCurse"] = true,
 		["MagicDispeller"] = true--Buffs on targets, not debuffs on players
 		["HasInterrupt"] = true,--Has an interrupt that is 24 seconds or less CD.
@@ -7548,6 +7549,7 @@ do
 			["RangedDps"] = true,
 			["ManaUser"] = true,
 			["SpellCaster"] = true,
+			["CasterDps"] = true,
 			["MagicDispeller"] = true,
 			["HasInterrupt"] = true,
 		},
@@ -7599,6 +7601,7 @@ do
 			["RangedDps"] = true,
 			["ManaUser"] = true,
 			["SpellCaster"] = true,
+			["CasterDps"] = true,
 			["RemoveCurse"] = true,
 			["RemovePoison"] = true,
 		},
@@ -7660,6 +7663,7 @@ do
 			["Ranged"] = true,
 			["ManaUser"] = true,
 			["SpellCaster"] = true,
+			["CasterDps"] = true,--Iffy
 			["RaidCooldown"] = true,--Power Word: Barrier(Discipline) / Divine Hymn (Holy)
 			["RemoveDisease"] = true,
 			["MagicDispeller"] = true,
@@ -7670,6 +7674,7 @@ do
 			["RangedDps"] = true,
 			["ManaUser"] = true,
 			["SpellCaster"] = true,
+			["CasterDps"] = true,
 			["MagicDispeller"] = true,
 		},
 		[259] = {	--Assassination Rogue
@@ -7685,6 +7690,7 @@ do
 			["RangedDps"] = true,
 			["ManaUser"] = true,
 			["SpellCaster"] = true,
+			["CasterDps"] = true,
 			["RemoveCurse"] = true,
 			["MagicDispeller"] = true,
 			["HasInterrupt"] = true,
@@ -7716,6 +7722,7 @@ do
 			["RangedDps"] = true,
 			["ManaUser"] = true,
 			["SpellCaster"] = true,
+			["CasterDps"] = true,
 		},
 		[268] = {	--Brewmaster Monk
 			["Tank"] = true,

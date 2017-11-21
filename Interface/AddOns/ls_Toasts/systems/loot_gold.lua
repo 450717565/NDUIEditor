@@ -7,10 +7,6 @@ local m_random = _G.math.random
 local tonumber = _G.tonumber
 local tostring = _G.tostring
 
--- Blizz
-local GetMoney = _G.GetMoney
-local GetMoneyString = _G.GetMoneyString
-
 -- Mine
 local old
 
@@ -123,12 +119,6 @@ E:RegisterOptions("loot_gold", {
 			end,
 			set = function(_, value)
 				C.db.profile.types.loot_gold.dnd = value
-
-				if value then
-					Enable()
-				else
-					Disable()
-				end
 			end
 		},
 		threshold = {

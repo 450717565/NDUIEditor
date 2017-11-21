@@ -9,7 +9,7 @@ B.GetItemLevel = function(link, quality)
 
 	local tip = _G["NDuiScanTooltip"] or CreateFrame("GameTooltip", "NDuiScanTooltip", nil, "GameTooltipTemplate")
 	tip:SetOwner(UIParent, "ANCHOR_NONE")
- 	tip:SetHyperlink(link)
+	tip:SetHyperlink(link)
 
 	for i = 2, 5 do
 		local text = _G[tip:GetName().."TextLeft"..i]:GetText() or ""

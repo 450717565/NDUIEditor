@@ -5,13 +5,38 @@ local E, L, C = addonTable.E, addonTable.L, addonTable.C
 local _G = getfenv(0)
 
 -- Blizz
-local C_MountJournal_GetMountInfoByID = _G.C_MountJournal.GetMountInfoByID
-local C_PetJournal_GetPetInfoByIndex = _G.C_PetJournal.GetPetInfoByIndex
-local C_PetJournal_GetPetInfoByPetID = _G.C_PetJournal.GetPetInfoByPetID
-local C_PetJournal_GetPetStats = _G.C_PetJournal.GetPetStats
-local C_ToyBox_GetToyInfo = _G.C_ToyBox.GetToyInfo
+local C_MountJournal = _G.C_MountJournal
+local C_PetJournal = _G.C_PetJournal
+local C_ToyBox = _G.C_ToyBox
 
 -- Mine
+local function Toast_OnClick(self)
+	local data = self._data
+
+	if data and not InCombatLockdown() then
+		if not CollectionsJournal then
+			CollectionsJournal_LoadUI()
+		end
+
+		if CollectionsJournal then
+			if data.is_mount then
+				SetCollectionsJournalShown(true, COLLECTIONS_JOURNAL_TAB_INDEX_MOUNTS)
+				MountJournal_SelectByMountID(data.collection_id)
+			elseif data.is_pet then
+				SetCollectionsJournalShown(true, COLLECTIONS_JOURNAL_TAB_INDEX_PETS)
+				PetJournal_SelectPet(PetJournal, data.collection_id)
+			elseif data.is_toy then
+				SetCollectionsJournalShown(true, COLLECTIONS_JOURNAL_TAB_INDEX_TOYS)
+
+				local page = ToyBox_FindPageForToyID(data.collection_id)
+				if page then
+					ToyBox.PagingFrame:SetCurrentPage(page)
+				end
+			end
+		end
+	end
+end
+
 local function PostSetAnimatedValue(self, value)
 	self:SetText(value == 1 and "" or value)
 end
@@ -22,15 +47,15 @@ local function Toast_SetUp(event, ID, isMount, isPet, isToy)
 
 	if isNew then
 		if isMount then
-			name, _, icon = C_MountJournal_GetMountInfoByID(ID)
+			name, _, icon = C_MountJournal.GetMountInfoByID(ID)
 		elseif isPet then
 			local customName, rarity
-			_, _, _, _, rarity = C_PetJournal_GetPetStats(ID)
-			_, customName, _, _, _, _, _, name, icon = C_PetJournal_GetPetInfoByPetID(ID)
+			_, _, _, _, rarity = C_PetJournal.GetPetStats(ID)
+			_, customName, _, _, _, _, _, name, icon = C_PetJournal.GetPetInfoByPetID(ID)
 			color = ITEM_QUALITY_COLORS[(rarity or 2) - 1]
 			name = customName or name
 		elseif isToy then
-			_, name, icon = C_ToyBox_GetToyInfo(ID)
+			_, name, icon = C_ToyBox.GetToyInfo(ID)
 		end
 
 		if not name then
@@ -67,6 +92,10 @@ local function Toast_SetUp(event, ID, isMount, isPet, isToy)
 			is_toy = isToy,
 			sound_file = 31578, -- SOUNDKIT.UI_EPICLOOT_TOAST
 		}
+
+		if C.db.profile.types.collection.left_click then
+			toast:HookScript("OnClick", Toast_OnClick)
+		end
 
 		toast:Spawn(C.db.profile.types.collection.dnd)
 	else
@@ -120,7 +149,7 @@ local function Test()
 	Toast_SetUp("MOUNT_TEST", 129, true)
 
 	-- Pet
-	local petID = C_PetJournal_GetPetInfoByIndex(1)
+	local petID = C_PetJournal.GetPetInfoByIndex(1)
 
 	if petID then
 		Toast_SetUp("PET_TEST", petID, nil, true)
@@ -131,6 +160,7 @@ local function Test()
 end
 
 E:RegisterOptions("collection", {
+	left_click = false,
 	enabled = true,
 	dnd = false,
 }, {
@@ -168,12 +198,19 @@ E:RegisterOptions("collection", {
 			end,
 			set = function(_, value)
 				C.db.profile.types.collection.dnd = value
-
-				if value then
-					Enable()
-				else
-					Disable()
-				end
+			end
+		},
+		left_click = {
+			order = 4,
+			type = "toggle",
+			name = L["HANDLE_LEFT_CLICK"],
+			desc = L["COLLECTIONS_TAINT_WARNING"],
+			image = "Interface\\DialogFrame\\UI-Dialog-Icon-AlertNew",
+			get = function()
+				return C.db.profile.types.collection.left_click
+			end,
+			set = function(_, value)
+				C.db.profile.types.collection.left_click = value
 			end
 		},
 		test = {

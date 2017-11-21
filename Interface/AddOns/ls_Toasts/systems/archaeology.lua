@@ -5,9 +5,6 @@ local E, L, C = addonTable.E, addonTable.L, addonTable.C
 local _G = getfenv(0)
 local hooksecurefunc = _G.hooksecurefunc
 
--- Blizz
-local GetArchaeologyRaceInfoByID = _G.GetArchaeologyRaceInfoByID
-
 -- Mine
 local function Toast_SetUp(event, researchFieldID)
 	local toast = E:GetToast()
@@ -101,12 +98,6 @@ E:RegisterOptions("archaeology", {
 			end,
 			set = function(_, value)
 				C.db.profile.types.archaeology.dnd = value
-
-				if value then
-					Enable()
-				else
-					Disable()
-				end
 			end
 		},
 		test = {
