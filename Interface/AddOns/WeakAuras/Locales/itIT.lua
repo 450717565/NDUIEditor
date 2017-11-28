@@ -92,6 +92,8 @@ L["Action Usable"] = "Azione utilizzabile"
 L["Affected"] = "Affetto"
 --Translation missing 
 -- L["Aggro"] = ""
+--Translation missing 
+-- L["Alert Type"] = ""
 L["Alive"] = "Vivo"
 L["All Triggers"] = "Tutte le attivazioni"
 --Translation missing 
@@ -321,6 +323,8 @@ L["Death Knight Rune"] = "Rune del cavaliere della morte"
 --Translation missing 
 -- L["Durability Damage All"] = ""
 --Translation missing 
+-- L["Elide"] = ""
+--Translation missing 
 -- L["Emote"] = ""
 --Translation missing 
 -- L["Empty"] = ""
@@ -386,6 +390,8 @@ L["Death Knight Rune"] = "Rune del cavaliere della morte"
 -- L["First Text Size"] = ""
 --Translation missing 
 -- L["Fishing Lure / Weapon Enchant (Old)"] = ""
+--Translation missing 
+-- L["Fixed"] = ""
 --Translation missing 
 -- L["Flash"] = ""
 --Translation missing 
@@ -477,6 +483,10 @@ L["Form"] = "Forma"
 -- L["Ignore Rune CD"] = ""
 --Translation missing 
 -- L["Immune"] = ""
+--Translation missing 
+-- L["Import"] = ""
+--Translation missing 
+-- L["Import disabled"] = ""
 --Translation missing 
 -- L["In Combat"] = ""
 --Translation missing 
@@ -1055,6 +1065,8 @@ L["Form"] = "Forma"
 -- L["Width"] = ""
 --Translation missing 
 -- L["Wobble"] = ""
+--Translation missing 
+-- L["Wrap"] = ""
 --Translation missing 
 -- L["Wrist"] = ""
 --Translation missing 

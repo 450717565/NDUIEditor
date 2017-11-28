@@ -181,6 +181,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Desaturate"] = "去色"
 	--Translation missing 
 	-- L["Differences"] = ""
+	--Translation missing 
+	-- L["Disable Import"] = ""
 	L["Disabled"] = "停用"
 	L["Discrete Rotation"] = "分離旋轉"
 	L["Display"] = "特效"
@@ -295,6 +297,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	--Translation missing 
 	-- L["If"] = ""
 	--Translation missing 
+	-- L["If this option is enabled, you are no longer able to import auras."] = ""
+	--Translation missing 
 	-- L["If Trigger %s"] = ""
 	L["Ignored"] = "忽略"
 	L["Import"] = "匯入"
@@ -360,6 +364,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Orange Rune"] = "橘色符文"
 	L["Orientation"] = "方向"
 	L["Outline"] = "輪廓"
+	--Translation missing 
+	-- L["Overflow"] = ""
 	--Translation missing 
 	-- L["Overlay %s Info"] = ""
 	--Translation missing 

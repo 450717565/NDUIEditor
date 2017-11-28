@@ -268,6 +268,7 @@ DBM_ADDS							= "Adds"--Such as "Move to Ally"
 DBM_CORE_ROOM_EDGE					= "Room Edge"
 DBM_CORE_FAR_AWAY					= "Far Away"
 DBM_CORE_SAFE						= "Safe"
+DBM_CORE_SHIELD						= "Shield"
 DBM_INCOMING						= "%s Incoming"
 --Common Locals end
 
@@ -361,7 +362,7 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS = {
 	switchcount		= "%s - switch targets (%%s)",
 	gtfo			= "%%s under you - move away",
 	Adds			= "Incoming Adds - switch targets",
-	Addscustom		= "Incoming Adds - %s"
+	Addscustom		= "Incoming Adds - %%s"
 }
 
 -- Auto-generated Special Warning Localizations
@@ -420,7 +421,7 @@ DBM_CORE_AUTO_TIMER_TEXTS = {
 	achievement	= "%s",
 	stage		= "Next Stage",
 	adds		= "Next Incoming Adds",
-	addscustom	= "Incoming Adds (%s)",
+	addscustom	= "Incoming Adds (%%s)",
 	roleplay	= GUILD_INTEREST_RP
 }
 

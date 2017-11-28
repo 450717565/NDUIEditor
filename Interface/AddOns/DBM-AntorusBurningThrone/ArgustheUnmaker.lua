@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2031, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16803 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16871 $"):sub(12, -3))
 mod:SetCreatureID(125111)--or 124828
 mod:SetEncounterID(2092)
 mod:SetZone()
@@ -15,9 +15,9 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 248165 248317 257296 255594 257645 252516 256542 255648 257619 255935",
 	"SPELL_CAST_SUCCESS 248499 258039 251815 252729 252616 256388",
-	"SPELL_AURA_APPLIED 248499 248396 250669 251570 255199 253021 255496 255496 255478 252729 252616",
+	"SPELL_AURA_APPLIED 248499 248396 250669 251570 255199 253021 255496 255496 255478 252729 252616 255433 255430 255429 255425 255422 255419 255418",
 	"SPELL_AURA_APPLIED_DOSE 248499",
-	"SPELL_AURA_REMOVED 250669 251570 255199 253021 255496 255496 255478 252616",
+	"SPELL_AURA_REMOVED 250669 251570 255199 253021 255496 255496 255478 252616 255433 255430 255429 255425 255422 255419 255418",
 --	"SPELL_PERIODIC_DAMAGE",
 --	"SPELL_PERIODIC_MISSED",
 --	"UNIT_DIED",
@@ -54,7 +54,7 @@ local warnDeadlyScythe				= mod:NewStackAnnounce(258039, 2, nil, "Tank")
 
 --Stage One: Storm and Sky
 local specWarnTorturedRage			= mod:NewSpecialWarningCount(257296, nil, nil, nil, 2, 2)
-local specWarnSweepingScythe		= mod:NewSpecialWarningStack(248499, nil, 2, nil, nil, 1, 2)
+local specWarnSweepingScythe		= mod:NewSpecialWarningStack(248499, nil, 2, nil, nil, 1, 6)
 local specWarnSweepingScytheTaunt	= mod:NewSpecialWarningTaunt(248499, nil, nil, nil, 1, 2)
 local specWarnConeofDeath			= mod:NewSpecialWarningDodge(248165, nil, nil, nil, 1, 2)
 local specWarnSoulblight			= mod:NewSpecialWarningMoveAway(248396, nil, nil, nil, 1, 2)
@@ -138,19 +138,20 @@ local voiceDeadlyScythe					= mod:NewVoice(258039)--tauntboss
 local voiceReorgModule					= mod:NewVoice(256389)--killmob
 
 
-mod:AddSetIconOption("SetIconOnAvatar", 255199, true)
-mod:AddSetIconOption("SetIconOnSoulBomb", 251570, true)
-mod:AddSetIconOption("SetIconOnSoulBurst", 250669, true)
+mod:AddSetIconOption("SetIconOnAvatar", 255199, true)--4
+mod:AddSetIconOption("SetIconOnSoulBomb", 251570, true)--3 and 7
+mod:AddSetIconOption("SetIconOnSoulBurst", 250669, true)--2
 mod:AddInfoFrameOption(258040, true)--Change to EJ entry since spell not localized
 mod:AddNamePlateOption("NPAuraOnInevitability", 253021)
 mod:AddNamePlateOption("NPAuraOnCosmosSword", 255496)
 mod:AddNamePlateOption("NPAuraOnEternalBlades", 255478)
+mod:AddNamePlateOption("NPAuraOnVulnerability", 255418)
 --mod:AddRangeFrameOption("5/10")
 
 local avatarOfAggramar, aggramarsBoon = GetSpellInfo(255199), GetSpellInfo(255200)
 mod.vb.phase = 1
 mod.vb.TorturedRage = 0
-mod.vb.soulBurstIcon = 1
+mod.vb.soulBurstIcon = 3
 
 --[[
 local debuffFilter
@@ -196,7 +197,7 @@ end
 function mod:OnCombatStart(delay)
 	self.vb.phase = 1
 	self.vb.TorturedRage = 0
-	self.vb.soulBurstIcon = 1
+	self.vb.soulBurstIcon = 3
 	timerSweepingScytheCD:Start(5.8-delay)
 	timerSkyandSeaCD:Start(10.8-delay)
 	timerTorturedRageCD:Start(12-delay)
@@ -211,7 +212,7 @@ function mod:OnCombatStart(delay)
 	if not testBuild then
 		DBM:AddMsg(DBM_CORE_NEED_LOGS)
 	end
-	if self.Options.NPAuraOnInevitability or self.Options.NPAuraOnCosmosSword or self.Options.NPAuraOnEternalBlades then
+	if self.Options.NPAuraOnInevitability or self.Options.NPAuraOnCosmosSword or self.Options.NPAuraOnEternalBlades or self.Options.NPAuraOnVulnerability then
 		DBM:FireEvent("BossMod_EnableHostileNameplates")
 	end
 end
@@ -227,7 +228,7 @@ function mod:OnCombatEnd()
 	if not testBuild then
 		DBM:AddMsg(DBM_CORE_NEED_LOGS)
 	end
-	if self.Options.NPAuraOnInevitability or self.Options.NPAuraOnCosmosSword or self.Options.NPAuraOnEternalBlades then
+	if self.Options.NPAuraOnInevitability or self.Options.NPAuraOnCosmosSword or self.Options.NPAuraOnEternalBlades or self.Options.NPAuraOnVulnerability then
 		DBM.Nameplate:Hide(true, nil, nil, nil, true, true)
 	end
 end
@@ -374,7 +375,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.SetIconOnSoulBurst then
 			self:SetIcon(args.destName, icon)
 		end
-		self.vb.soulBurstIcon = self.vb.soulBurstIcon + 1
+		self.vb.soulBurstIcon = self.vb.soulBurstIcon + 4--Icons 3 and 7 used to match BW
 	elseif spellId == 251570 then
 		if args:IsPlayer() then
 			specWarnSoulbomb:Show()
@@ -386,7 +387,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			warnSoulbomb:Show(args.destName)
 		end
 		if self.Options.SetIconOnSoulBomb then
-			self:SetIcon(args.destName, 3)
+			self:SetIcon(args.destName, 2)
 		end
 	elseif spellId == 255199 then
 		if args:IsPlayer() then
@@ -427,6 +428,17 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			warnCosmicBeacon:CombinedShow(0.3, args.destName)
 		end
+	elseif spellId == 255433 or spellId == 255430 or spellId == 255429 or spellId == 255425 or spellId == 255422 or spellId == 255419 or spellId == 255418 then--Vulnerability
+		--"<347.98 01:03:10> [CLEU] SPELL_AURA_APPLIED#Creature-0-2083-1712-8883-127192-0003613812#Constellar Designate#Creature-0-2083-1712-8883-127192-0003613812#Constellar Designate#255433#Arcane Vulnerability#DEBUFF#nil", -- [5935]
+		--"<347.98 01:03:10> [CLEU] SPELL_AURA_APPLIED#Creature-0-2083-1712-8883-127192-0002E13812#Constellar Designate#Creature-0-2083-1712-8883-127192-0002E13812#Constellar Designate#255430#Shadow Vulnerability#DEBUFF#nil", -- [5936]
+		--"<347.98 01:03:10> [CLEU] SPELL_AURA_APPLIED#Creature-0-2083-1712-8883-127192-0002613812#Constellar Designate#Creature-0-2083-1712-8883-127192-0002613812#Constellar Designate#255429#Fire Vulnerability#DEBUFF#nil", -- [5937]
+		--"<347.98 01:03:10> [CLEU] SPELL_AURA_APPLIED#Creature-0-2083-1712-8883-127192-0001E13812#Constellar Designate#Creature-0-2083-1712-8883-127192-0001E13812#Constellar Designate#255425#Frost Vulnerability#DEBUFF#nil", -- [5938]
+		--"<347.98 01:03:10> [CLEU] SPELL_AURA_APPLIED#Creature-0-2083-1712-8883-127192-0001613812#Constellar Designate#Creature-0-2083-1712-8883-127192-0001613812#Constellar Designate#255422#Nature Vulnerability#DEBUFF#nil", -- [5939]
+		--"<347.98 01:03:10> [CLEU] SPELL_AURA_APPLIED#Creature-0-2083-1712-8883-127192-0000E13812#Constellar Designate#Creature-0-2083-1712-8883-127192-0000E13812#Constellar Designate#255419#Holy Vulnerability#DEBUFF#nil", -- [5940]
+		--"<347.98 01:03:10> [CLEU] SPELL_AURA_APPLIED#Creature-0-2083-1712-8883-127192-0000613812#Constellar Designate#Creature-0-2083-1712-8883-127192-0000613812#Constellar Designate#255418#Physical Vulnerability#DEBUFF#nil", -- [5941]
+		if self.Options.NPAuraOnVulnerability then
+			DBM.Nameplate:Show(true, args.destGUID, spellId)
+		end
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -463,6 +475,10 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	elseif spellId == 255478 then--Blades of the Eternal
 		if self.Options.NPAuraOnEternalBlades then
+			DBM.Nameplate:Hide(true, args.destGUID, spellId)
+		end
+	elseif spellId == 255433 or spellId == 255430 or spellId == 255429 or spellId == 255425 or spellId == 255422 or spellId == 255419 or spellId == 255418 then--Vulnerability
+		if self.Options.NPAuraOnVulnerability then
 			DBM.Nameplate:Hide(true, args.destGUID, spellId)
 		end
 	elseif spellId == 252616 then
@@ -506,6 +522,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, spellName, _, _, spellId)
 		--timerReorgModuleCD:Start()
 	elseif spellId == 252280 then--Volatile Soul
 		timerVolatileSoulCD:Start()
+		self.vb.soulBurstIcon = 3
 	elseif spellId == 258042 then--Argus P2 Energy Controller (16 seconds after Fury)
 		--Alternate and valid timer start point
 		--timerAvatarofAggraCD:Start(5)

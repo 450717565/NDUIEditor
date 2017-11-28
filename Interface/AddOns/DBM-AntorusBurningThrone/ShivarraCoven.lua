@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1986, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16836 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16866 $"):sub(12, -3))
 mod:SetCreatureID(122468, 122467, 122469)--122468 Noura, 122467 Asara, 122469 Diima, 125436 Thu'raya (mythic only)
 mod:SetEncounterID(2073)
 mod:SetZone()
@@ -49,7 +49,7 @@ local warnCosmicGlare					= mod:NewTargetAnnounce(250757, 3)
 --General
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
 --Noura, Mother of Flames
-local specWarnFieryStrike				= mod:NewSpecialWarningStack(244899, nil, 3, nil, nil, 1, 2)
+local specWarnFieryStrike				= mod:NewSpecialWarningStack(244899, nil, 3, nil, nil, 1, 6)
 local specWarnFieryStrikeOther			= mod:NewSpecialWarningTaunt(244899, nil, nil, nil, 1, 2)
 local specWarnFulminatingPulse			= mod:NewSpecialWarningMoveAway(253520, nil, nil, nil, 1, 2)
 local yellFulminatingPulse				= mod:NewFadesYell(253520)

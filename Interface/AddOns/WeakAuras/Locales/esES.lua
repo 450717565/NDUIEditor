@@ -90,6 +90,8 @@ L["Action Usable"] = "Acción Utilizable"
 -- L["Additional Trigger Replacements"] = ""
 L["Affected"] = "Afectado"
 L["Aggro"] = "Amenaza"
+--Translation missing 
+-- L["Alert Type"] = ""
 L["Alive"] = "Vivo"
 L["All Triggers"] = "Todos los Disparadores"
 L["Alliance"] = "Alianza"
@@ -270,6 +272,8 @@ L["Drowning"] = "Ahogar"
 L["Dungeon Difficulty"] = "Dificultad de la Mazmorra"
 L["Durability Damage"] = "Daño a la Durabilidad"
 L["Durability Damage All"] = "Daño a la Durabilidad Total"
+--Translation missing 
+-- L["Elide"] = ""
 L["Emote"] = "Emocion"
 --Translation missing 
 -- L["Empty"] = ""
@@ -316,6 +320,8 @@ L["Fire"] = "Fuego"
 -- L["First Text Size"] = ""
 --Translation missing 
 -- L["Fishing Lure / Weapon Enchant (Old)"] = ""
+--Translation missing 
+-- L["Fixed"] = ""
 L["Flash"] = "Destello"
 L["Flex Raid"] = "Banda Flexible"
 L["Flip"] = "Voltear"
@@ -372,6 +378,10 @@ L["Icon"] = "Icono"
 -- L["Id"] = ""
 L["Ignore Rune CD"] = "Ignorar Recarga de Runas"
 L["Immune"] = "Inmune"
+--Translation missing 
+-- L["Import"] = ""
+--Translation missing 
+-- L["Import disabled"] = ""
 L["In Combat"] = "En Combate"
 --Translation missing 
 -- L["In Group"] = ""
@@ -760,6 +770,8 @@ L["Whisper"] = "Susurro"
 --Translation missing 
 -- L["Width"] = ""
 L["Wobble"] = "Temblar"
+--Translation missing 
+-- L["Wrap"] = ""
 L["Wrist"] = "Muñequeras"
 L["Yell"] = "Grito"
 L["Zone"] = "Zona"

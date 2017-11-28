@@ -168,6 +168,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Desaturate"] = "흑백"
 	--Translation missing 
 	-- L["Differences"] = ""
+	--Translation missing 
+	-- L["Disable Import"] = ""
 	L["Disabled"] = "비활성화됨"
 	L["Discrete Rotation"] = "90도 단위 회전"
 	L["Display"] = "디스플레이"
@@ -266,6 +268,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	--Translation missing 
 	-- L["If"] = ""
 	--Translation missing 
+	-- L["If this option is enabled, you are no longer able to import auras."] = ""
+	--Translation missing 
 	-- L["If Trigger %s"] = ""
 	L["Ignored"] = "무시됨"
 	L["Import"] = "가져오기"
@@ -327,6 +331,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Orange Rune"] = "오렌지색 룬"
 	L["Orientation"] = "방향"
 	L["Outline"] = "외곽선"
+	--Translation missing 
+	-- L["Overflow"] = ""
 	--Translation missing 
 	-- L["Overlay %s Info"] = ""
 	--Translation missing 

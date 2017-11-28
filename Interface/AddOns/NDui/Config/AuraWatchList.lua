@@ -3255,6 +3255,8 @@ C.AuraWatchList = {
 				{AuraID = 247253, UnitID = "player"},
 				--灵魂屏障
 				{AuraID = 227225, UnitID = "player", Value = true},
+				--虹吸能量
+				{AuraID = 218561, UnitID = "player", Value = true},
 			--通用
 				--恶魔变形
 				{AuraID = 162264, UnitID = "player"},

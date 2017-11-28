@@ -119,6 +119,7 @@ function WeakAuras.GetGenericTriggerOptions(data, trigger, untrigger)
       name = L["Message Prefix"],
       order = 8,
       values = subevent_prefix_types,
+      control = "WeakAurasSortedDropdown",
       hidden = function() return not (trigger.type == "event" and trigger.event == "Combat Log"); end
     },
     subeventSuffix = {
@@ -126,6 +127,7 @@ function WeakAuras.GetGenericTriggerOptions(data, trigger, untrigger)
       name = L["Message Suffix"],
       order = 9,
       values = subevent_suffix_types,
+      control = "WeakAurasSortedDropdown",
       hidden = function() return not (trigger.type == "event" and trigger.event == "Combat Log" and subevent_actual_prefix_types[trigger.subeventPrefix]); end
     },
     spacer_suffix = {
@@ -163,7 +165,7 @@ function WeakAuras.GetGenericTriggerOptions(data, trigger, untrigger)
     check2 = {
       type = "select",
       name = L["Check On..."],
-      order = 8,
+      order = 9,
       width = "double",
       values = check_types,
       hidden = function() return not (trigger.type == "custom"
@@ -183,7 +185,7 @@ function WeakAuras.GetGenericTriggerOptions(data, trigger, untrigger)
       type = "input",
       name = L["Event(s)"],
       desc = L["Custom trigger status tooltip"],
-      order = 9,
+      order = 8.1,
       hidden = function() return not (trigger.type == "custom"
         and (trigger.custom_type == "status" or trigger.custom_type == "stateupdate")
         and trigger.check ~= "update") end,
@@ -201,7 +203,7 @@ function WeakAuras.GetGenericTriggerOptions(data, trigger, untrigger)
       name = L["Event(s)"],
       desc = L["Custom trigger event tooltip"],
       width = "double",
-      order = 9,
+      order = 9.1,
       hidden = function() return not (trigger.type == "custom" and trigger.custom_type == "event") end,
       get = function() return trigger.events end,
       set = function(info, v)

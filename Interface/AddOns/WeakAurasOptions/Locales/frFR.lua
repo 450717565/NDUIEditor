@@ -184,6 +184,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED
 	L["Desaturate"] = "Dé-saturer"
 	--Translation missing 
 	-- L["Differences"] = ""
+	--Translation missing 
+	-- L["Disable Import"] = ""
 	L["Disabled"] = "Désactivé"
 	L["Discrete Rotation"] = "Rotation individuelle"
 	L["Display"] = "Graphique"
@@ -298,6 +300,8 @@ Si le nombre entré est decimal (ex. 0.5), une fraction (ex. 1/2), ou un pourcen
 	--Translation missing 
 	-- L["If"] = ""
 	--Translation missing 
+	-- L["If this option is enabled, you are no longer able to import auras."] = ""
+	--Translation missing 
 	-- L["If Trigger %s"] = ""
 	L["Ignored"] = "Ignoré"
 	L["Import"] = "Importer"
@@ -366,6 +370,8 @@ Seule une unique valeur peut être choisie]=]
 	L["Orange Rune"] = "Rune orange"
 	L["Orientation"] = "Orientation"
 	L["Outline"] = "Contour"
+	--Translation missing 
+	-- L["Overflow"] = ""
 	--Translation missing 
 	-- L["Overlay %s Info"] = ""
 	--Translation missing 

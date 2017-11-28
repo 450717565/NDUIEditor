@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1898, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16848 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16863 $"):sub(12, -3))
 mod:SetCreatureID(117269)--121227 Illiden? 121193 Shadowsoul
 mod:SetEncounterID(2051)
 mod:SetZone()
@@ -108,11 +108,11 @@ local timerSorrowfulWailCD			= mod:NewCDTimer(14.1, 241564, nil, nil, nil, 2)
 local timerSightlessGaze			= mod:NewBuffActiveTimer(20, 241721, nil, nil, nil, 5)
 --Stage Three: Darkness of A Thousand Souls
 mod:AddTimerLine(SCENARIO_STAGE:format(3))
-local timerDarknessofSoulsCD		= mod:NewCDCountTimer(90, 238999, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON)
+local timerDarknessofSoulsCD		= mod:NewCDCountTimer(89.7, 238999, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON)
 local timerTearRiftCD				= mod:NewCDCountTimer(95, 243982, nil, nil, nil, 3)
 local timerFlamingOrbCD				= mod:NewCDCountTimer(30, 239253, nil, nil, nil, 3)
 local timerObeliskCD				= mod:NewCDCountTimer(42, 239785, nil, nil, nil, 3)
-local timerObelisk					= mod:NewCastTimer(13, 239785, L.Obelisklasers, nil, nil, 3)
+local timerObelisk					= mod:NewCastTimer(13, 239785, L.Obelisklasers, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON)
 
 local berserkTimer					= mod:NewBerserkTimer(600)
 
@@ -121,6 +121,7 @@ local countdownSingularity			= mod:NewCountdown(50, 235059, nil, nil, 5)
 local countdownArmageddon			= mod:NewCountdown("Alt25", 240910, false)
 local countdownFocusedDread			= mod:NewCountdown("AltTwo", 238502)
 local countdownFelclaws				= mod:NewCountdown("Alt25", 239932, "Tank", 2)
+local countdownObelisk				= mod:NewCountdown(12, 239785, nil, nil, 5)
 
 --Stage One: The Betrayer
 local voicePhaseChange				= mod:NewVoice(nil, nil, DBM_CORE_AUTO_VOICE2_OPTION_TEXT)
@@ -194,7 +195,13 @@ local function ObeliskWarning(self)
 	self.vb.obeliskCount = self.vb.obeliskCount + 1
 	specWarnObelisk:Show(self.vb.obeliskCount)
 	voiceObelisk:Play("farfromline")
-	timerObelisk:Start()
+	if self:IsMythic() then
+		timerObelisk:Start(12)
+		countdownObelisk:Start(12)
+	else
+		timerObelisk:Start(13)
+		countdownObelisk:Start(13)
+	end
 	if self.vb.obeliskCount % 2 == 1 then
 		timerObeliskCD:Start(36, self.vb.obeliskCount+1)
 		self:Schedule(36, ObeliskWarning, self)

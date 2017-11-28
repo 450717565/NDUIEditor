@@ -1,5 +1,5 @@
 -- For the gnomes!!!
-local VERSION = "0.26.4";
+local VERSION = "0.26.5";
 
 local _G = getfenv(0)
 -- Libraries

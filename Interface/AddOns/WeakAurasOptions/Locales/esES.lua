@@ -206,6 +206,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED
 	L["Desaturate"] = "Desaturar"
 	--Translation missing 
 	-- L["Differences"] = ""
+	--Translation missing 
+	-- L["Disable Import"] = ""
 	L["Disabled"] = "Desactivado"
 	L["Discrete Rotation"] = "Rotación Discreta"
 	L["Display"] = "Mostrar"
@@ -337,6 +339,8 @@ Con |cFF00CC00>= 0|r se activará siempre.]=]
 	--Translation missing 
 	-- L["If"] = ""
 	--Translation missing 
+	-- L["If this option is enabled, you are no longer able to import auras."] = ""
+	--Translation missing 
 	-- L["If Trigger %s"] = ""
 	L["Ignored"] = "Ignorar"
 	L["Import"] = "Importar"
@@ -417,6 +421,8 @@ Sólo un valor coincidente puede ser escogido.]=]
 	-- L["Orange Rune"] = ""
 	L["Orientation"] = "Orientación"
 	L["Outline"] = "Contorno"
+	--Translation missing 
+	-- L["Overflow"] = ""
 	--Translation missing 
 	-- L["Overlay %s Info"] = ""
 	--Translation missing 

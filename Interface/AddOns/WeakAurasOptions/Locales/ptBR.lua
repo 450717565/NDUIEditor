@@ -212,6 +212,8 @@ WeakAuras → Opções → Opções ]=]
 	L["Desaturate"] = "Descolorir"
 	--Translation missing 
 	-- L["Differences"] = ""
+	--Translation missing 
+	-- L["Disable Import"] = ""
 	L["Disabled"] = "Desabilitar"
 	L["Discrete Rotation"] = "Rotação discreta"
 	L["Display"] = "Mostruário"
@@ -340,6 +342,8 @@ WeakAuras → Opções → Opções ]=]
 	--Translation missing 
 	-- L["If"] = ""
 	--Translation missing 
+	-- L["If this option is enabled, you are no longer able to import auras."] = ""
+	--Translation missing 
 	-- L["If Trigger %s"] = ""
 	L["Ignored"] = "Ignorado"
 	L["Import"] = "Importar"
@@ -424,6 +428,8 @@ WeakAuras → Opções → Opções ]=]
 	-- L["Orange Rune"] = ""
 	L["Orientation"] = "Orientação"
 	L["Outline"] = "Contorno"
+	--Translation missing 
+	-- L["Overflow"] = ""
 	--Translation missing 
 	-- L["Overlay %s Info"] = ""
 	--Translation missing 

@@ -61,6 +61,8 @@ L["Action Usable"] = "Action utilisable"
 L["Additional Trigger Replacements"] = "Remplacements de Déclencheurs additionnels"
 L["Affected"] = "Affecté"
 L["Aggro"] = "Aggro"
+--Translation missing 
+-- L["Alert Type"] = ""
 L["Alive"] = "En vie"
 L["All Triggers"] = "Tous les déclencheurs"
 L["Alliance"] = "Alliance"
@@ -224,6 +226,8 @@ L["Drowning"] = "Noyade"
 L["Dungeon Difficulty"] = "Difficulté du donjon"
 L["Durability Damage"] = "Perte de durabilité"
 L["Durability Damage All"] = "Perte de durabilité sur tout"
+--Translation missing 
+-- L["Elide"] = ""
 L["Emote"] = "Emote"
 L["Empty"] = "Vide"
 L["Encounter ID"] = "ID sauvegardé"
@@ -265,6 +269,8 @@ L["Fire"] = "Feu"
 --Translation missing 
 -- L["First Text Size"] = ""
 L["Fishing Lure / Weapon Enchant (Old)"] = "Appât de pêche / Enchantement d'arme (ancien)"
+--Translation missing 
+-- L["Fixed"] = ""
 L["Flash"] = "Flash"
 L["Flex Raid"] = "Raid Dynamique"
 L["Flip"] = "Retourner"
@@ -317,6 +323,10 @@ L["Icon"] = "Icône"
 -- L["Id"] = ""
 L["Ignore Rune CD"] = "Ignorer CD runes"
 L["Immune"] = "Insensible"
+--Translation missing 
+-- L["Import"] = ""
+--Translation missing 
+-- L["Import disabled"] = ""
 L["In Combat"] = "En Combat"
 --Translation missing 
 -- L["In Group"] = ""
@@ -687,6 +697,8 @@ L["Whisper"] = "Chuchoter"
 --Translation missing 
 -- L["Width"] = ""
 L["Wobble"] = "Osciller"
+--Translation missing 
+-- L["Wrap"] = ""
 L["Wrist"] = "Poignets"
 L["Yell"] = "Crier"
 L["Zone"] = "Zone"

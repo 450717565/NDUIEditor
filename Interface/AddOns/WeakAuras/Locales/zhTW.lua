@@ -61,6 +61,8 @@ L["Action Usable"] = "動作可以使用"
 L["Additional Trigger Replacements"] = "其他取代的觸發"
 L["Affected"] = "被影響"
 L["Aggro"] = "仇恨"
+--Translation missing 
+-- L["Alert Type"] = ""
 L["Alive"] = "存活"
 L["All Triggers"] = "全部觸發"
 L["Alliance"] = "聯盟"
@@ -228,6 +230,8 @@ L["Drowning"] = "溺水"
 L["Dungeon Difficulty"] = "副本難度"
 L["Durability Damage"] = "耐久度傷害"
 L["Durability Damage All"] = "耐久性傷害所有"
+--Translation missing 
+-- L["Elide"] = ""
 L["Emote"] = "表情動作"
 L["Empty"] = "空"
 L["Encounter ID"] = "首領戰ID"
@@ -269,6 +273,8 @@ L["Fire"] = "火焰"
 --Translation missing 
 -- L["First Text Size"] = ""
 L["Fishing Lure / Weapon Enchant (Old)"] = "魚餌 / 武器附魔 (舊版本)"
+--Translation missing 
+-- L["Fixed"] = ""
 L["Flash"] = "動畫"
 L["Flex Raid"] = "彈性團隊"
 L["Flip"] = "翻轉"
@@ -320,6 +326,10 @@ L["Icon"] = "圖示"
 L["Id"] = "ID"
 L["Ignore Rune CD"] = "\"忽略符文CD\""
 L["Immune"] = "免疫"
+--Translation missing 
+-- L["Import"] = ""
+--Translation missing 
+-- L["Import disabled"] = ""
 L["In Combat"] = "戰鬥中"
 --Translation missing 
 -- L["In Group"] = ""
@@ -688,6 +698,8 @@ L["Whisper"] = "悄悄話"
 --Translation missing 
 -- L["Width"] = ""
 L["Wobble"] = "搖晃"
+--Translation missing 
+-- L["Wrap"] = ""
 L["Wrist"] = "手腕"
 L["Yell"] = "大喊"
 L["Zone"] = "地區"

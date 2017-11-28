@@ -266,6 +266,8 @@ local L = WeakAuras.L
 	--Translation missing 
 	-- L["Differences"] = ""
 	--Translation missing 
+	-- L["Disable Import"] = ""
+	--Translation missing 
 	-- L["Disabled"] = ""
 	--Translation missing 
 	-- L["Discrete Rotation"] = ""
@@ -422,6 +424,8 @@ local L = WeakAuras.L
 	--Translation missing 
 	-- L["If"] = ""
 	--Translation missing 
+	-- L["If this option is enabled, you are no longer able to import auras."] = ""
+	--Translation missing 
 	-- L["If Trigger %s"] = ""
 	--Translation missing 
 	-- L["Ignored"] = ""
@@ -531,6 +535,8 @@ local L = WeakAuras.L
 	-- L["Orientation"] = ""
 	--Translation missing 
 	-- L["Outline"] = ""
+	--Translation missing 
+	-- L["Overflow"] = ""
 	--Translation missing 
 	-- L["Overlay %s Info"] = ""
 	--Translation missing 

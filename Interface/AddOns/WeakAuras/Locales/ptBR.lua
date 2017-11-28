@@ -92,6 +92,8 @@ L["Action Usable"] = "Ação Usável"
 L["Affected"] = "Afetado"
 --Translation missing 
 -- L["Aggro"] = ""
+--Translation missing 
+-- L["Alert Type"] = ""
 L["Alive"] = "Vivo"
 L["All Triggers"] = "Todos os Gatilhos"
 --Translation missing 
@@ -303,6 +305,8 @@ L["Death Knight Rune"] = "Runa de Cavaleiro da Morte"
 --Translation missing 
 -- L["Durability Damage All"] = ""
 --Translation missing 
+-- L["Elide"] = ""
+--Translation missing 
 -- L["Emote"] = ""
 --Translation missing 
 -- L["Empty"] = ""
@@ -360,6 +364,8 @@ L["Fatigue"] = "Fadiga"
 -- L["First Text Size"] = ""
 --Translation missing 
 -- L["Fishing Lure / Weapon Enchant (Old)"] = ""
+--Translation missing 
+-- L["Fixed"] = ""
 --Translation missing 
 -- L["Flash"] = ""
 --Translation missing 
@@ -452,6 +458,10 @@ L["Fatigue"] = "Fadiga"
 -- L["Ignore Rune CD"] = ""
 --Translation missing 
 -- L["Immune"] = ""
+--Translation missing 
+-- L["Import"] = ""
+--Translation missing 
+-- L["Import disabled"] = ""
 --Translation missing 
 -- L["In Combat"] = ""
 --Translation missing 
@@ -895,6 +905,8 @@ L["Whisper"] = "Sussurro"
 --Translation missing 
 -- L["Width"] = ""
 L["Wobble"] = "Oscilar"
+--Translation missing 
+-- L["Wrap"] = ""
 --Translation missing 
 -- L["Wrist"] = ""
 L["Yell"] = "Gritar"
