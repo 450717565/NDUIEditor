@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1992, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16736 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16880 $"):sub(12, -3))
 mod:SetCreatureID(122450)
 mod:SetEncounterID(2076)
 mod:SetZone()
@@ -16,10 +16,10 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244969",
-	"SPELL_CAST_SUCCESS 246220 244399 245294",
-	"SPELL_AURA_APPLIED 246220 247159 244152 244410 246920 246897 246965",
+	"SPELL_CAST_SUCCESS 246220 244399 245294 244294",
+	"SPELL_AURA_APPLIED 246220 247159 244152 244410 246920 246897 246965 245294",
 --	"SPELL_AURA_APPLIED_DOSE",
-	"SPELL_AURA_REMOVED 246220 244152 244410 246920",
+	"SPELL_AURA_REMOVED 246220 244152 244410 246920 245294",
 --	"SPELL_PERIODIC_DAMAGE",
 --	"SPELL_PERIODIC_MISSED",
 --	"UNIT_DIED",
@@ -30,12 +30,9 @@ mod:RegisterEventsInCombat(
 local annihilator = EJ_GetSectionInfo(15917)
 local Decimator = EJ_GetSectionInfo(15915)
 --TODO, work in range frame to include searing barrage, for ranged
---TODO, improve luring destruction if draw in needs specific action
---TODO, see how apoc drives affect other timers and impliment
---TODO, annilation have targetting? does mythic version have a cast ID? could only find one cast start ID
 --[[
 (ability.id = 244969 or ability.id = 246408 or ability.id = 247044) and type = "begincast"
- or abiity.id = 246220 and type = "cast"
+ or (abiity.id = 246220 or ability.id = 244294) and type = "cast"
  or (ability.id = 244152) and type = "applybuff"
  or (ability.id = 246220) and type = "applydebuff"
 --]]
@@ -162,6 +159,14 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if self.vb.phase > 1 and not self:IsMythic() then
 			timerDecimationCD:Start(15.8)
 		end
+	elseif spellId == 244294 then
+		--self.vb.lastCannon = 1
+		specWarnAnnihilation:Show()
+		voiceAnnihilation:Play("helpsoak")
+		--Only cannon up, start timer at cannon event
+		if self.vb.phase > 1 and not self:IsMythic() then
+			timerAnnihilationCD:Start(15.8)
+		end
 	end
 end
 
@@ -192,7 +197,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		specWarnApocDrive:Show()
 		voiceApocDrive:Play("targetchange")
 		timerApocDriveCast:Start()
-	elseif spellId == 244410 or spellId == 246920 then
+	elseif spellId == 244410 or spellId == 246920 or spellId == 245294 then
 		self.vb.deciminationActive = self.vb.deciminationActive + 1
 		warnDecimation:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
@@ -231,7 +236,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif spellId == 244152 then--Apocolypse Drive
 		timerApocDriveCast:Stop()
 		--Probably start other timers too
-	elseif spellId == 244410 or spellId == 246920 then
+	elseif spellId == 244410 or spellId == 246920 or spellId == 245294 then
 		self.vb.deciminationActive = self.vb.deciminationActive - 1
 		if args:IsPlayer() then
 			yellDecimationStun:Cancel()

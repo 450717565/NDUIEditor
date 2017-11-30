@@ -1,10 +1,3 @@
-------------------------------------------------------------
--- PartyDungeons.lua
---
--- Abin
--- 2016/09/13
-------------------------------------------------------------
-
 local module = NDui:GetModule("RaidFrameAuras")
 if not module then return end
 
@@ -39,6 +32,7 @@ module:RegisterDebuff(TIER, 707, 0, 193969)
 module:RegisterDebuff(TIER, 707, 0, 202658)
 module:RegisterDebuff(TIER, 707, 0, 202608)
 module:RegisterDebuff(TIER, 707, 0, 193956)
+module:RegisterDebuff(TIER, 707, 0, 192028)
 
 -- 紫罗兰监狱 (777)
 module:RegisterDebuff(TIER, 777, 0, 201476)
@@ -150,7 +144,7 @@ module:RegisterDebuff(TIER, 740, 0, 214002)
 module:RegisterDebuff(TIER, 740, 0, 200084)
 module:RegisterDebuff(TIER, 740, 0, 200261)
 
--- 重返卡拉赞 (860)
+-- 重返卡拉赞 (860)	
 module:RegisterDebuff(TIER, 860, 0, 209858)
 module:RegisterDebuff(TIER, 860, 0, 240559)
 module:RegisterDebuff(TIER, 860, 0, 240443)

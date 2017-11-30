@@ -1,4 +1,4 @@
-local addon, ns = ...
+local _, ns = ...
 local cfg = ns.cfg
 local init = ns.init
 
@@ -70,7 +70,7 @@ if cfg.System == true then
 	end
 
 	StaticPopupDialogs["CPUUSAGE"] = {
-		text = infoL["Toggle CPU Usage"],
+		text = ns.infoL["Toggle CPU Usage"],
 		button1 = APPLY,
 		button2 = CLASS_TRIAL_THANKS_DIALOG_CLOSE_BUTTON,
 		OnAccept = function()
@@ -82,7 +82,7 @@ if cfg.System == true then
 	Stat:SetScript("OnEnter", function(self)
 		GameTooltip:SetOwner(self, "ANCHOR_BOTTOM", 0, -15)
 		GameTooltip:ClearLines()
-		GameTooltip:AddLine(infoL["System"], 0,.6,1)
+		GameTooltip:AddLine(ns.infoL["System"], 0,.6,1)
 		GameTooltip:AddLine(" ")
 
 		if GetCVar("scriptProfile") == "1" then
@@ -110,16 +110,16 @@ if cfg.System == true then
 				end
 				if #UsageTable > cfg.MaxAddOns then
 					local numHidden = #UsageTable - cfg.MaxAddOns
-					GameTooltip:AddDoubleLine(format("%s（%s）：%d", infoL["Hidden"], infoL["Shift"], numHidden), format("%.1f%s", hiddenUsage/totalUsage*100, " %"), .6,.8,1, .6,.8,1)
+					GameTooltip:AddDoubleLine(format("%s（%s）：%d", ns.infoL["Hidden"], ns.infoL["Shift"], numHidden), format("%.1f%s", hiddenUsage/totalUsage*100, " %"), .6,.8,1, .6,.8,1)
 				end
 			end
 			GameTooltip:AddLine(" ")
 		end
 
 		local _, _, latencyHome, latencyWorld = GetNetStats()
-		GameTooltip:AddDoubleLine(infoL["Latency:"], format("%s%s(%s) / %s%s(%s)", colorLatency(latencyHome).."|r", "Ms", infoL["Home"], colorLatency(latencyWorld).."|r", "Ms", CHANNEL_CATEGORY_WORLD), .6,.8,1, 1,1,1)
+		GameTooltip:AddDoubleLine(ns.infoL["Latency:"], format("%s%s(%s) / %s%s(%s)", colorLatency(latencyHome).."|r", "Ms", ns.infoL["Home"], colorLatency(latencyWorld).."|r", "Ms", CHANNEL_CATEGORY_WORLD), .6,.8,1, 1,1,1)
 		GameTooltip:AddDoubleLine(" ", "--------------", 1,1,1, .5,.5,.5)
-		GameTooltip:AddDoubleLine(" ", init.RightButton..infoL["CPU Usage:"]..(GetCVar("scriptProfile") == "1" and "|cff55ff55"..VIDEO_OPTIONS_ENABLED or "|cffff5555"..VIDEO_OPTIONS_DISABLED), 1,1,1, .6,.8,1)
+		GameTooltip:AddDoubleLine(" ", init.RightButton..ns.infoL["CPU Usage:"]..(GetCVar("scriptProfile") == "1" and "|cff55ff55"..VIDEO_OPTIONS_ENABLED or "|cffff5555"..VIDEO_OPTIONS_DISABLED), 1,1,1, .6,.8,1)
 		GameTooltip:Show()
 	end)
 

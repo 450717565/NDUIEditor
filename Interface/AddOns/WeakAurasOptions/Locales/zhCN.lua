@@ -8,8 +8,7 @@ local L = WeakAuras.L
 	L["-- Do not remove this comment, it is part of this trigger: "] = "-不要移除这条信息，这是该触发器的一部分。"
 	L["% of Progress"] = "% 进度"
 	L["%i Matches"] = "%i 符合"
-	--Translation missing 
-	-- L["%s Color"] = ""
+	L["%s Color"] = "%s 颜色"
 	L["1 Match"] = "1符合"
 	L["1. Text"] = "文本"
 	L["1. Text Settings"] = "字体设置"
@@ -23,16 +22,13 @@ local L = WeakAuras.L
 	L["A group that dynamically controls the positioning of its children"] = "一个可以动态控制子元素的位置的群组"
 	L["Actions"] = "动作"
 	L["Activate when the given aura(s) |cFFFF0000can't|r be found"] = "当指定光环 |cFFFF0000无法|r找到时启动"
-	--Translation missing 
-	-- L["Add a new display"] = ""
-	--Translation missing 
-	-- L["Add Condition"] = ""
+	L["Add a new display"] = "添加一个新的显示"
+	L["Add Condition"] = "添加条件"
 	--Translation missing 
 	-- L["Add Overlay"] = ""
 	--Translation missing 
 	-- L["Add Property Change"] = ""
-	--Translation missing 
-	-- L["Add to group %s"] = ""
+	L["Add to group %s"] = "添加到组％s"
 	L["Add to new Dynamic Group"] = "新增动态群组"
 	L["Add to new Group"] = "新增群组"
 	L["Add Trigger"] = "新增触发器"
@@ -45,13 +41,11 @@ local L = WeakAuras.L
 	L["Anchor Point"] = "锚点指向"
 	L["anchored to"] = "附着于"
 	L["Anchored To"] = "附着于"
-	--Translation missing 
-	-- L["And "] = ""
+	L["And "] = "和"
 	L["Angle"] = "角度"
 	L["Animate"] = "动画"
 	L["Animated Expand and Collapse"] = "动态展开和折叠"
-	--Translation missing 
-	-- L["Animates progress changes"] = ""
+	L["Animates progress changes"] = "动画进度变化"
 	L["Animation relative duration description"] = [=[动画的相对持续时间，表示为 分数(1/2)，百分比(50％)，或数字(0.5)。
 |cFFFF0000注意：|r 如果没有进度(没有时间事件的触发器,没有持续时间的光环,或其他)，动画将不会播放。
 |cFF4444FF举例：|r

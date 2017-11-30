@@ -9,8 +9,7 @@ local L = WeakAuras.L
 	L[" (Healing received increase)"] = "（受到治疗增加）"
 	L["- Any"] = "- 任意"
 	L["- Death Knight 2P Bonus"] = "- 死亡骑士两件套效果"
-	--Translation missing 
-	-- L["- Death Knight T20 Blood 2P Bonus"] = ""
+	L["- Death Knight T20 Blood 2P Bonus"] = "鲜血死亡骑士T20两件套效果"
 	L["- Death Knight Unholy 4P Bonus"] = "- 死亡骑士邪恶天赋 4 件套效果"
 	L["- Deathknight 2P Bonus"] = "-死亡骑士2件套奖励"
 	L["- Deathknight Unholy 4P Bonus"] = "-邪恶死亡骑士4件套奖励"

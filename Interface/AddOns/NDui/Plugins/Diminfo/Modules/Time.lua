@@ -1,4 +1,4 @@
-local addon, ns = ...
+local _, ns = ...
 local cfg = ns.cfg
 local init = ns.init
 
@@ -93,26 +93,26 @@ if cfg.Time == true then
 	local keystone = GetItemInfo(138019)
 	local questlist = {
 		{name = keystone, id = 44554},
-		{name = infoL["Blingtron"], id = 34774},
-		{name = infoL["Mean One"], id = 6983},
-		{name = "TBC"..infoL["Timewarped"], id = 40168},
-		{name = "WLK"..infoL["Timewarped"], id = 40173},
-		{name = "CTM"..infoL["Timewarped"], id = isAlliance and 40787 or 40786},
-		{name = "MOP"..infoL["Timewarped"], id = 45799},
+		{name = ns.infoL["Blingtron"], id = 34774},
+		{name = ns.infoL["Mean One"], id = 6983},
+		{name = "TBC"..ns.infoL["Timewarped"], id = 40168},
+		{name = "WLK"..ns.infoL["Timewarped"], id = 40173},
+		{name = "CTM"..ns.infoL["Timewarped"], id = isAlliance and 40787 or 40786},
+		{name = "MOP"..ns.infoL["Timewarped"], id = 45799},
 	}
 
 	local invas = {
-		{quest = 38482, name = infoL["Platinum Invasion"]},
-		{quest = 37640, name = infoL["Gold Invasion"]},
-		{quest = 37639, name = infoL["Silver Invasion"]},
-		{quest = 37638, name = infoL["Bronze Invasion"]},
+		{quest = 38482, name = ns.infoL["Platinum Invasion"]},
+		{quest = 37640, name = ns.infoL["Gold Invasion"]},
+		{quest = 37639, name = ns.infoL["Silver Invasion"]},
+		{quest = 37638, name = ns.infoL["Bronze Invasion"]},
 	}
 
 	local tanaan = {
-		{name = infoL["Deathtalon"], id = 39287},
-		{name = infoL["Terrorfist"], id = 39288},
-		{name = infoL["Doomroller"], id = 39289},
-		{name = infoL["Vengeance"], id = 39290},
+		{name = ns.infoL["Deathtalon"], id = 39287},
+		{name = ns.infoL["Terrorfist"], id = 39288},
+		{name = ns.infoL["Doomroller"], id = 39289},
+		{name = ns.infoL["Vengeance"], id = 39290},
 	}
 
 	-- Check Invasion Status
@@ -216,7 +216,7 @@ if cfg.Time == true then
 		title = false
 		for _, boss in pairs(tanaan) do
 			if boss.name and IsQuestFlaggedCompleted(boss.id) then
-				AddTitle(infoL["Tanaan"])
+				AddTitle(ns.infoL["Tanaan"])
 				GameTooltip:AddDoubleLine(boss.name, BOSS_DEAD, 1,1,1, 1,0,0)
 			end
 		end
@@ -240,20 +240,20 @@ if cfg.Time == true then
 		end
 
 		if nextTime then
-			AddTitle(infoL["Legion Invasion"])
+			AddTitle(ns.infoL["Legion Invasion"])
 			if OnInvasion() then
 				local timeLeft, zoneName = OnInvasion()
 				local r,g,b
 				if timeLeft < 60 then r,g,b = 1,0,0 else r,g,b = 0,1,0 end
 				GameTooltip:AddDoubleLine(zoneName, format("%.2d:%.2d", timeLeft/60, timeLeft%60), 1,1,1, r,g,b)
 			end
-			GameTooltip:AddDoubleLine(infoL["Next Invasion"], nextTime, 1,1,1, 1,1,1)
+			GameTooltip:AddDoubleLine(ns.infoL["Next Invasion"], nextTime, 1,1,1, 1,1,1)
 		end
 
 		-- Help Info
 		GameTooltip:AddDoubleLine(" ", "--------------", 1,1,1, .5,.5,.5)
-		GameTooltip:AddDoubleLine(" ", init.LeftButton..infoL["Toggle Calendar"], 1,1,1, .6,.8,1)
-		GameTooltip:AddDoubleLine(" ", init.RightButton..infoL["Toggle Clock"], 1,1,1, .6,.8,1)
+		GameTooltip:AddDoubleLine(" ", init.LeftButton..ns.infoL["Toggle Calendar"], 1,1,1, .6,.8,1)
+		GameTooltip:AddDoubleLine(" ", init.RightButton..ns.infoL["Toggle Clock"], 1,1,1, .6,.8,1)
 		GameTooltip:Show()
 	end)
 
