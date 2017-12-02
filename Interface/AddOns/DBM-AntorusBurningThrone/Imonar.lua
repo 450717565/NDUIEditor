@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2009, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16876 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16887 $"):sub(12, -3))
 mod:SetCreatureID(124158)--or 124158 or 125692
 mod:SetEncounterID(2082)
 mod:SetZone()
@@ -72,7 +72,7 @@ local yellEmpPulseGrenade				= mod:NewYell(248424)
 --Intermission: On Deadly Ground
 
 --Stage One: Attack Force
-local timerShocklanceCD					= mod:NewCDTimer(4.8, 247367, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--4.8-5.1
+local timerShocklanceCD					= mod:NewCDTimer(4.4, 247367, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--4.4-5.1
 local timerSleepCanisterCD				= mod:NewCDTimer(11.3, 247552, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON)--11.3-13.4
 local timerPulseGrenadeCD				= mod:NewCDTimer(17, 247376, nil, nil, nil, 3)--17?
 --Stage Two: Contract to Kill

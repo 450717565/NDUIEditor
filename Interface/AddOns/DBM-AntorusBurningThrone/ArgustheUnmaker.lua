@@ -1,13 +1,14 @@
 local mod	= DBM:NewMod(2031, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16886 $"):sub(12, -3))
-mod:SetCreatureID(125111)--or 124828
+mod:SetRevision(("$Revision: 16897 $"):sub(12, -3))
+mod:SetCreatureID(124828)--or 124828
 mod:SetEncounterID(2092)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7)
---mod:SetHotfixNoticeRev(16350)
+mod:SetHotfixNoticeRev(16895)
+mod:SetMinSyncRevision(16895)
 --mod.respawnTime = 29
 
 mod:RegisterCombat("combat")
@@ -35,7 +36,7 @@ mod:RegisterEventsInCombat(
 --Stage One: Storm and Sky
 local warnSweepingScythe			= mod:NewStackAnnounce(248499, 2, nil, "Tank")
 local warnBlightOrb					= mod:NewSpellAnnounce(248317, 2)
-local warnSoulblight				= mod:NewTargetAnnounce(248396, 1)
+local warnSoulblight				= mod:NewTargetAnnounce(248396, 2, nil, false, 2)
 local warnSkyandSea					= mod:NewTargetAnnounce(255594, 1)
 --Stage Two: The Protector Redeemed
 local warnPhase2					= mod:NewPhaseAnnounce(2, 2)
@@ -88,14 +89,13 @@ local specWarnDeadlyScythe			= mod:NewSpecialWarningStack(258039, nil, 2, nil, n
 --local specWarnDeadlyScytheTaunt		= mod:NewSpecialWarningTaunt(258039, nil, nil, nil, 1, 2)
 local specWarnReorgModule			= mod:NewSpecialWarningSwitch(256389, "RangedDps", nil, nil, 1, 2)--Ranged only?
 
-
 local timerNextPhase				= mod:NewPhaseTimer(74)
 --Stage One: Storm and Sky
 mod:AddTimerLine(SCENARIO_STAGE:format(1))
 local timerSweepingScytheCD			= mod:NewCDTimer(5.6, 248499, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--5.6-15.7
 local timerConeofDeathCD			= mod:NewCDTimer(20, 248165, nil, nil, nil, 3)--20-24
 local timerBlightOrbCD				= mod:NewCDTimer(22, 248317, nil, nil, nil, 3)--22-32
-local timerTorturedRageCD			= mod:NewCDTimer(13.5, 257296, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON)--13-16
+local timerTorturedRageCD			= mod:NewCDTimer(13, 257296, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON)--13-16
 local timerSkyandSeaCD				= mod:NewCDTimer(25.9, 255594, nil, nil, nil, 5)--25.9-27.8
 --Stage Two: The Protector Redeemed
 mod:AddTimerLine(SCENARIO_STAGE:format(2))
@@ -210,10 +210,14 @@ function mod:OnCombatStart(delay)
 	timerTorturedRageCD:Start(12-delay)
 	timerConeofDeathCD:Start(30.9-delay)
 	timerBlightOrbCD:Start(35.2-delay)
+	--berserkTimer:Start(-delay)
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:SetHeader(_G["7.3_ARGUS_RAID_DEATH_TITAN_ENERGY"])--Validator won't accept this global so disabled for now
 		DBM.InfoFrame:Show(2, "enemypower", 2)
 		--DBM.InfoFrame:Show(7, "function", updateInfoFrame, false, false)
+	end
+	if self.Options.NPAuraOnInevitability or self.Options.NPAuraOnCosmosSword or self.Options.NPAuraOnEternalBlades or self.Options.NPAuraOnVulnerability then
+		DBM:FireEvent("BossMod_EnableHostileNameplates")
 	end
 end
 
@@ -224,12 +228,11 @@ function mod:OnCombatEnd()
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end
-	local wowTOC, testBuild = DBM:GetTOC()
-	if not testBuild then
-		DBM:AddMsg(DBM_CORE_NEED_LOGS)
-	end
 	if self.Options.NPAuraOnInevitability or self.Options.NPAuraOnCosmosSword or self.Options.NPAuraOnEternalBlades or self.Options.NPAuraOnVulnerability then
 		DBM.Nameplate:Hide(true, nil, nil, nil, true, true)
+	end
+	if self:IsMythic() then
+		DBM:AddMsg(DBM_CORE_NEED_LOGS)
 	end
 end
 
@@ -363,6 +366,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 250669 then
 		warnSoulburst:CombinedShow(0.3, args.destName)--2 Targets
+		if self.vb.soulBurstIcon > 7 then
+			self.vb.soulBurstIcon = 3
+		end
 		local icon = self.vb.soulBurstIcon
 		if args:IsPlayer() then
 			specWarnSoulburst:Show()
@@ -445,6 +451,23 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.NPAuraOnVulnerability then
 			DBM.Nameplate:Show(true, args.destGUID, spellId)
 		end
+		if self.Options.SetIconOnVulnerability then
+			if spellId == 255433 then--Arcane
+				self:ScanForMobs(args.destGUID, 2, 5, 1, 0.2, 15)
+			elseif spellId == 255430 then--Shadow
+				self:ScanForMobs(args.destGUID, 2, 3, 1, 0.2, 15)
+			elseif spellId == 255429 then--Fire
+				self:ScanForMobs(args.destGUID, 2, 2, 1, 0.2, 15)
+			elseif spellId == 255425 then--Frost
+				self:ScanForMobs(args.destGUID, 2, 6, 1, 0.2, 15)
+			elseif spellId == 255422 then--Nature
+				self:ScanForMobs(args.destGUID, 2, 4, 1, 0.2, 15)
+			elseif spellId == 255419 then--Holy
+				self:ScanForMobs(args.destGUID, 2, 1, 1, 0.2, 15)
+			elseif spellId == 255418 then--Melee
+				self:ScanForMobs(args.destGUID, 2, 7, 1, 0.2, 15)
+			end
+		end
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -487,23 +510,6 @@ function mod:SPELL_AURA_REMOVED(args)
 		if self.Options.NPAuraOnVulnerability then
 			DBM.Nameplate:Hide(true, args.destGUID, spellId)
 		end
-		if self.Options.SetIconOnVulnerability then
-			if spellId == 255433 then--Arcane
-				self:ScanForMobs(args.destGUID, 2, 5, 1, 0.2, 15)
-			elseif spellId == 255430 then--Shadow
-				self:ScanForMobs(args.destGUID, 2, 3, 1, 0.2, 15)
-			elseif spellId == 255429 then--Fire
-				self:ScanForMobs(args.destGUID, 2, 2, 1, 0.2, 15)
-			elseif spellId == 255425 then--Frost
-				self:ScanForMobs(args.destGUID, 2, 6, 1, 0.2, 15)
-			elseif spellId == 255422 then--Nature
-				self:ScanForMobs(args.destGUID, 2, 4, 1, 0.2, 15)
-			elseif spellId == 255419 then--Holy
-				self:ScanForMobs(args.destGUID, 2, 1, 1, 0.2, 15)
-			elseif spellId == 255418 then--Melee
-				self:ScanForMobs(args.destGUID, 2, 7, 1, 0.2, 15)
-			end
-		end
 	elseif spellId == 252616 then
 		if args:IsPlayer() then
 			yellCosmicBeaconFades:Cancel()
@@ -545,7 +551,6 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, spellName, _, _, spellId)
 		--timerReorgModuleCD:Start()
 	elseif spellId == 252280 then--Volatile Soul
 		timerVolatileSoulCD:Start()
-		self.vb.soulBurstIcon = 3
 	elseif spellId == 258042 then--Argus P2 Energy Controller (16 seconds after Fury)
 		--Alternate and valid timer start point
 		--timerAvatarofAggraCD:Start(5)
@@ -561,8 +566,8 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, spellName, _, _, spellId)
 			timerDeadlyScytheCD:Start(5)
 		end
 		--timerEmberofRageCD:Start(4)--used instantly
+		timerReorgModuleCD:Start(9)
 		timerTorturedRageCD:Start(10)
-		timerReorgModuleCD:Start(13.4)
 		timerVolatileSoulCD:Start(17.5)
 	elseif spellId == 258104 then--Argus Mythic Transform
 		

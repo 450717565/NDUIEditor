@@ -126,6 +126,21 @@ C.AuraWatchList = {
 				{AuraID = 217006, UnitID = "player", Text = "免费活血"}, --免费活血
 				{AuraID = 216992, UnitID = "player", Text = "三倍贯通"}, --三倍贯通
 				{AuraID = 216995, UnitID = "player", Text = "瞬发氤氲"}, --瞬发氤氲
+			-->泰坦之路系列饰品
+				--阿格拉玛的信念
+				{AuraID = 256816, UnitID = "player"},
+				--阿曼苏尔的预见
+				{AuraID = 256818, UnitID = "player"},
+				--高戈奈斯的活力
+				{AuraID = 256820, UnitID = "player"},
+				{AuraID = 256821, UnitID = "player"},
+				--艾欧娜尔的怜悯
+				{AuraID = 256823, UnitID = "player"},
+				{AuraID = 256824, UnitID = "player"},
+				--卡兹格罗斯的勇气
+				{AuraID = 256826, UnitID = "player"},
+				--诺甘农的威能
+				{AuraID = 256828, UnitID = "player"},
 			-->LEG饰品
 				--晶化身体
 				{AuraID = 214366, UnitID = "player", Value= true},
@@ -793,6 +808,8 @@ C.AuraWatchList = {
 				--荒芜凝视
 				{AuraID = 244768, UnitID = "player"},
 			--安托兰统帅议会
+				--灵能突袭
+				{AuraID = 244172, UnitID = "player"},
 				--熵能爆裂
 				{AuraID = 253290, UnitID = "player"},
 				--震荡手雷
@@ -1004,6 +1021,8 @@ C.AuraWatchList = {
 				--波涛起伏
 				{AuraID = 241606, UnitID = "target"},
 			-->燃烧王座
+				--混乱脉冲
+				{AuraID = 244420, UnitID = "target"},
 				--灭杀
 				{AuraID = 244106, UnitID = "target"},
 				--灵能创伤
