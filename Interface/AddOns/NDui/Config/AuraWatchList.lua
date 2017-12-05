@@ -142,20 +142,12 @@ C.AuraWatchList = {
 				--诺甘农的威能
 				{AuraID = 256828, UnitID = "player"},
 			-->LEG饰品
-				--晶化身体
-				{AuraID = 214366, UnitID = "player", Value= true},
-				--克罗塔的护盾
-				{AuraID = 228323, UnitID = "player", Value = true},
-				--猫头鹰
-				{AuraID = 242570, UnitID = "player"},
 				--苦痛之矛
 				{AuraID = 243644, UnitID = "player"},
 				--地狱火契约
 				{AuraID = 225140, UnitID = "player", Value= true},
 				--哀嚎之魂
 				{AuraID = 242609, UnitID = "player", Value= true},
-				--醒神宝典
-				{AuraID = 243942, UnitID = "player"},
 				--魔油地狱火机械
 				{AuraID = 238534, UnitID = "player"},
 				--血之气息
@@ -167,6 +159,16 @@ C.AuraWatchList = {
 				{AuraID = 214624, UnitID = "player"},
 				--霜覆
 				{AuraID = 214962, UnitID = "player"},
+				--晶化身体
+				{AuraID = 214366, UnitID = "player", Value= true},
+				--克罗塔的护盾
+				{AuraID = 228323, UnitID = "player", Value = true},
+				--猫头鹰
+				{AuraID = 242570, UnitID = "player"},
+				--幽魂香炉
+				{AuraID = 243644, UnitID = "player"},
+				--醒神宝典
+				{AuraID = 243942, UnitID = "player"},
 				--灭绝引擎
 				{AuraID = 242612, UnitID = "player"},
 				--节拍器
@@ -296,15 +298,15 @@ C.AuraWatchList = {
 			List = {
 			-->神器增益
 				--阿莎曼之怒（全能）
-				{AuraID = 240670, UnitID = "player"},
+				{AuraID = 240670, UnitID = "player", Text = "全能"},
 				--凤凰的温暖（暴击）
-				{AuraID = 240671, UnitID = "player"},
+				{AuraID = 240671, UnitID = "player", Text = "暴击"},
 				--连招大师（精通）
-				{AuraID = 240672, UnitID = "player"},
+				{AuraID = 240672, UnitID = "player", Text = "精通"},
 				--思维加速（急速）
-				{AuraID = 240673, UnitID = "player"},
+				{AuraID = 240673, UnitID = "player", Text = "急速"},
 				--吸血光环（死亡骑士）
-				{AuraID = 238698, UnitID = "player"},
+				{AuraID = 238698, UnitID = "player", Text = "吸血"},
 			-->急速增益
 				--时间扭曲
 				{AuraID =  80353, UnitID = "player"},
@@ -346,6 +348,8 @@ C.AuraWatchList = {
 				{AuraID =  29166, UnitID = "player"},
 				--五气归元
 				{AuraID = 115310, UnitID = "player"},
+				--作茧缚命
+				{AuraID = 116849, UnitID = "player", Value = true},
 				--保护祝福
 				{AuraID =   1022, UnitID = "player"},
 				--牺牲祝福
@@ -376,8 +380,6 @@ C.AuraWatchList = {
 				{AuraID = 204150, UnitID = "player"},
 				--潜伏帷幕
 				{AuraID = 115834, UnitID = "player"},
-				--作茧缚命
-				{AuraID = 116849, UnitID = "player", Value = true},
 			-->杂项
 				--误导（猎人）
 				{AuraID =  34477, UnitID = "player"},
@@ -795,7 +797,7 @@ C.AuraWatchList = {
 		-->燃烧王座
 			--加洛西灭世者
 				--屠戮
-				{AuraID = 244410, UnitID = "player"},
+				{AuraID = 244410, UnitID = "player", Text = "跑场边"},
 				--强化屠戮
 				{AuraID = 245294, UnitID = "player"},
 				--错乱屠戮
@@ -806,7 +808,9 @@ C.AuraWatchList = {
 				--点燃
 				{AuraID = 248815, UnitID = "player"},
 				--荒芜凝视
-				{AuraID = 244768, UnitID = "player"},
+				{AuraID = 244768, UnitID = "player", Text = "跑场边"},
+				--虹吸
+				{AuraID = 248819, UnitID = "player", Text = "分摊"},
 			--安托兰统帅议会
 				--灵能突袭
 				{AuraID = 244172, UnitID = "player"},
@@ -818,22 +822,22 @@ C.AuraWatchList = {
 				{AuraID = 244748, UnitID = "player"},
 			--传送门守护者哈萨贝尔
 				--饱足幽影
-				{AuraID = 245118, UnitID = "player"},
+				{AuraID = 245118, UnitID = "player", Text = "驱散"},
 				--烈焰引爆
-				{AuraID = 244709, UnitID = "player"},
+				{AuraID = 244709, UnitID = "player", Text = "易伤"},
 				--酸性之网
-				{AuraID = 246208, UnitID = "player"},
+				{AuraID = 246208, UnitID = "player", Text = "被网住"},
 				--意识迷雾
-				{AuraID = 245099, UnitID = "player"},
+				{AuraID = 245099, UnitID = "player", Text = "去脚下"},
 			--生命的缚誓者艾欧娜尔
 				--邪能之雨
 				{AuraID = 248332, UnitID = "player"},
 				--反馈-奥术奇点
-				{AuraID = 249017, UnitID = "player"},
+				{AuraID = 249017, UnitID = "player", Text = L["Get Out"]},
 				--反馈-邪污足迹
-				{AuraID = 249014, UnitID = "player"},
+				{AuraID = 249014, UnitID = "player", Text = "不要移动"},
 				--反馈-燃烧的余烬
-				{AuraID = 249015, UnitID = "player"},
+				{AuraID = 249015, UnitID = "player", Text = L["Get Out"]},
 				--反馈-目标锁定
 				{AuraID = 249016, UnitID = "player"},
 			--猎魂者伊墨纳尔
@@ -854,9 +858,12 @@ C.AuraWatchList = {
 				{AuraID = 253384, UnitID = "player"},
 			--瓦里玛萨斯
 				--被标记的猎物
-				{AuraID = 244042, UnitID = "player"},
+				{AuraID = 244042, UnitID = "player", Text = "到近战位"},
 				--毁灭回响
 				{AuraID = 248732, UnitID = "player"},
+				--冥魂之拥
+				{AuraID = 244093, UnitID = "player", Text = "离开8码"},
+				{AuraID = 244094, UnitID = "player", Text = "离开8码"},
 			--破坏魔女巫会
 				--火焰打击
 				{AuraID = 244899, UnitID = "player"},
@@ -869,14 +876,14 @@ C.AuraWatchList = {
 				--黑暗风暴
 				{AuraID = 253020, UnitID = "player"},
 				--爆裂脉冲
-				{AuraID = 253520, UnitID = "player"},
+				{AuraID = 253520, UnitID = "player", Text = L["Get Out"]},
 			--阿格拉玛
 				--泰沙拉克之触
 				{AuraID = 245990, UnitID = "player"},
 				--破敌者
 				{AuraID = 244291, UnitID = "player"},
 				--灼热之焰
-				{AuraID = 245994, UnitID = "player"},
+				{AuraID = 245994, UnitID = "player", Text = L["Get Out"]},
 				--强化烈焰撕裂
 				{AuraID = 247079, UnitID = "player"},
 				--饕餮烈焰
@@ -885,15 +892,19 @@ C.AuraWatchList = {
 				--巨镰横扫
 				{AuraID = 248499, UnitID = "player"},
 				--灵魂凋零
-				{AuraID = 248396, UnitID = "player", Text = L["Get Out"]},
+				{AuraID = 248396, UnitID = "player", Text = "放水"},
 				--天空之力
-				{AuraID = 253903, UnitID = "player"},
+				{AuraID = 253903, UnitID = "player", Text = "爆击精通"},
 				--海洋之力
-				{AuraID = 253901, UnitID = "player"},
+				{AuraID = 253901, UnitID = "player", Text = "急速全能"},
 				--阿格拉玛的化身
 				{AuraID = 255199, UnitID = "player"},
 				--宇宙射线
 				{AuraID = 252729, UnitID = "player"},
+				--灵魂炸弹
+				{AuraID = 251570, UnitID = "player", Text = "找T分摊"},
+				--灵魂爆发
+				{AuraID = 250669, UnitID = "player", Text =  L["Get Out"]},
 			},
 		},
 		{	Name = "Target Special Aura",
@@ -913,6 +924,8 @@ C.AuraWatchList = {
 				{AuraID = 194333, UnitID = "target"},
 				--阿什高姆：脆弱
 				{AuraID = 192517, UnitID = "target"},
+				--黑暗笼罩，执政团鲁拉
+				{AuraID = 254020, UnitID = "target"},
 			-->勇气试练
 				--奥丁，弧光风暴
 				{AuraID = 229256, UnitID = "target"},
@@ -1020,6 +1033,8 @@ C.AuraWatchList = {
 				{AuraID = 241564, UnitID = "target"},
 				--波涛起伏
 				{AuraID = 241606, UnitID = "target"},
+				--邪爪
+				{AuraID = 239932, UnitID = "target"},
 			-->燃烧王座
 				--混乱脉冲
 				{AuraID = 244420, UnitID = "target"},
@@ -1051,6 +1066,22 @@ C.AuraWatchList = {
 				{AuraID = 253021, UnitID = "target"},
 				--永恒之刃
 				{AuraID = 255478, UnitID = "target"},
+				--宇宙之剑
+				{AuraID = 255496, UnitID = "target"},
+				--物理易伤
+				{AuraID = 255418, UnitID = "target", Text = "物理"},
+				--冰霜易伤
+				{AuraID = 255425, UnitID = "target", Text = "冰霜"},
+				--暗影易伤
+				{AuraID = 255430, UnitID = "target", Text = "暗影"},
+				--火焰易伤
+				{AuraID = 255429, UnitID = "target", Text = "火焰"},
+				--神圣易伤
+				{AuraID = 255419, UnitID = "target", Text = "神圣"},
+				--自然易伤
+				{AuraID = 255422, UnitID = "target", Text = "自然"},
+				--奥术易伤
+				{AuraID = 255433, UnitID = "target", Text = "奥术"},
 			-->PLAYER
 				--痛苦压制
 				{AuraID =  33206, UnitID = "target"},
@@ -1700,6 +1731,8 @@ C.AuraWatchList = {
 				{AuraID =  12472, UnitID = "player"},
 				--寒冰指
 				{AuraID =  44544, UnitID = "player"},
+				--冰冷智慧
+				{AuraID =  190446, UnitID = "player"},
 				--强化隐形术
 				{AuraID = 113862, UnitID = "player"},
 				--炽烈之咒

@@ -1,6 +1,6 @@
 local parent, ns = ...
 local global = GetAddOnMetadata(parent, 'X-oUF')
-local _VERSION = GetAddOnMetadata(parent, 'version')
+local _VERSION = '@project-version@'
 if (_VERSION:find('project%-version')) then
 	_VERSION = 'devel'
 end
@@ -258,6 +258,7 @@ local function initObject(unit, style, styleFunc, header, ...)
 			object:RegisterEvent('UNIT_ENTERED_VEHICLE', updateActiveUnit)
 			object:RegisterEvent('UNIT_EXITED_VEHICLE', updateActiveUnit)
 			object:RegisterEvent('UNIT_EXITING_VEHICLE', updateActiveUnit)
+
 			-- We don't need to register UNIT_PET for the player unit. We register it
 			-- mainly because UNIT_EXITED_VEHICLE and UNIT_ENTERED_VEHICLE doesn't always
 			-- have pet information when they fire for party and raid units.
@@ -273,7 +274,12 @@ local function initObject(unit, style, styleFunc, header, ...)
 
 			-- No need to enable this for *target frames.
 			if (not (unit:match('target') or suffix == 'target')) then
-				object:SetAttribute('toggleForVehicle', true)
+				if (unit:match('raid') or unit:match('party')) then
+					-- See issue #404
+					object:SetAttribute('toggleForVehicle', false)
+				else
+					object:SetAttribute('toggleForVehicle', true)
+				end
 			end
 
 			-- Other boss and target units are handled by :HandleUnit().
@@ -507,7 +513,7 @@ do
 	end
 
 	-- There has to be an easier way to do this.
-	local initialConfigFunction = [[
+	local initialConfigFunctionTemp = [[
 		local header = self:GetParent()
 		local frames = table.new()
 		table.insert(frames, self)
@@ -549,7 +555,7 @@ do
 
 				frame:SetAttribute('*type1', 'target')
 				frame:SetAttribute('*type2', 'togglemenu')
-				frame:SetAttribute('toggleForVehicle', true)
+				frame:SetAttribute('toggleForVehicle', %d == 1) -- See issue #404
 				frame:SetAttribute('oUF-guessUnit', unit)
 			end
 
@@ -567,6 +573,9 @@ do
 			clique:RunAttribute('clickcast_register')
 		end
 	]]
+
+	-- Necessary for a vehicle support hack (see issue #404)
+	local initialConfigFunction = initialConfigFunctionTemp:format(1)
 
 	--[[ oUF:SpawnHeader(overrideName, template, visibility, ...)
 	Used to create a group header and apply the currently active style to it.
@@ -636,6 +645,65 @@ do
 
 		return header
 	end
+
+	-- The remainder of this scope is a temporary fix for issue #404,
+	-- regarding vehicle support on headers for the Antorus raid instance.
+	local isHacked = false
+	local shouldHack
+
+	local function toggleHeaders(flag)
+		for _, header in next, headers do
+			header:SetAttribute('initialConfigFunction', initialConfigFunction)
+
+			for _, child in next, {header:GetChildren()} do
+				child:SetAttribute('toggleForVehicle', flag)
+			end
+		end
+
+		isHacked = not flag
+		shouldHack = nil
+	end
+
+	local eventHandler = CreateFrame('Frame')
+	eventHandler:RegisterEvent('PLAYER_LOGIN')
+	eventHandler:RegisterEvent('ZONE_CHANGED_NEW_AREA')
+	eventHandler:RegisterEvent('PLAYER_REGEN_ENABLED')
+	eventHandler:SetScript('OnEvent', function(_, event)
+		if (event == 'PLAYER_LOGIN') then
+			local _, _, _, _, _, _, _, id = GetInstanceInfo()
+			if (id == 1712) then
+				initialConfigFunction = initialConfigFunctionTemp:format(0)
+
+				-- This is here for layouts that don't use oUF:Factory
+				toggleHeaders(false)
+			end
+		elseif (event == 'ZONE_CHANGED_NEW_AREA') then
+			local _, _, _, _, _, _, _, id = GetInstanceInfo()
+			if (id == 1712 and not isHacked) then
+				initialConfigFunction = initialConfigFunctionTemp:format(0)
+
+				if (not InCombatLockdown()) then
+					toggleHeaders(false)
+				else
+					shouldHack = true
+				end
+			elseif (isHacked) then
+				initialConfigFunction = initialConfigFunctionTemp:format(1)
+
+				if (not InCombatLockdown()) then
+					toggleHeaders(true)
+				else
+					shouldHack = false
+				end
+			end
+		elseif (event == 'PLAYER_REGEN_ENABLED') then
+			if (isHacked and shouldHack == false) then
+				toggleHeaders(true)
+			elseif (not isHacked and shouldHack) then
+				toggleHeaders(false)
+			end
+		end
+	end)
 end
 
 --[[ oUF:Spawn(unit, overrideName)
@@ -644,7 +712,7 @@ Used to create a single unit frame and apply the currently active style to it.
 * self         - the global oUF object
 * unit         - the frame's unit (string)
 * overrideName - unique global name to use for the unit frame. Defaults to an auto-generated name based on the unit
-				 (string?)
+                 (string?)
 --]]
 function oUF:Spawn(unit, overrideName)
 	argcheck(unit, 2, 'string')
@@ -671,7 +739,7 @@ Used to create nameplates and apply the currently active style to them.
 * self      - the global oUF object
 * prefix    - prefix for the global name of the nameplate. Defaults to an auto-generated prefix (string?)
 * callback  - function to be called after a nameplate unit or the player's target has changed. The arguments passed to
-			  the callback are the updated nameplate, the event that triggered the update and the new unit (function?)
+              the callback are the updated nameplate, the event that triggered the update and the new unit (function?)
 * variables - list of console variable-value pairs to be set when the player logs in (table?)
 --]]
 function oUF:SpawnNamePlates(namePrefix, nameplateCallback, nameplateCVars)

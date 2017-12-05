@@ -41,9 +41,9 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 16902 $"):sub(12, -3)),
-	DisplayVersion = "7.3.9 alpha", -- the string that is shown as version
-	ReleaseRevision = 16900 -- the revision of the latest stable version that is available
+	Revision = tonumber(("$Revision: 16921 $"):sub(12, -3)),
+	DisplayVersion = "7.3.10 alpha", -- the string that is shown as version
+	ReleaseRevision = 16911 -- the revision of the latest stable version that is available
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -386,7 +386,7 @@ local UpdateChestTimer
 local breakTimerStart
 local AddMsg
 
-local fakeBWVersion, fakeBWHash = 76, "076e5e7"
+local fakeBWVersion, fakeBWHash = 79, "a61ec1e"
 local versionQueryString, versionResponseString = "Q^%d^%s", "V^%d^%s"
 
 local enableIcons = true -- set to false when a raid leader or a promoted player has a newer version of DBM
@@ -6636,6 +6636,13 @@ end
 
 function DBM:GetTOC()
 	return wowTOC, testBuild
+end
+
+function DBM:InCombat()
+	if #inCombat > 0 then
+		return true
+	end
+	return false
 end
 
 function DBM:FlashClientIcon()

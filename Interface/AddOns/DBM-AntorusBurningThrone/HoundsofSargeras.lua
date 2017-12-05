@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1987, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16893 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16916 $"):sub(12, -3))
 mod:SetCreatureID(122477, 122135)--122477 F'harg, 122135 Shatug
 mod:SetEncounterID(2074)
 mod:SetZone()
@@ -44,7 +44,7 @@ local warnWeightofDarkness				= mod:NewTargetAnnounce(254429, 3)
 local warnSiphonCorruption				= mod:NewSpellAnnounce(244056, 3)
 local warnSiphoned						= mod:NewTargetAnnounce(248819, 3, nil, false, 2)
 --General/Mythic
-local warnFocusingPower					= mod:NewTargetAnnounce(251356, 2)
+--local warnFocusingPower					= mod:NewSpellAnnounce(251356, 2)
 
 --F'harg
 local specWarnMoltenTouch				= mod:NewSpecialWarningDodge(244072, nil, nil, nil, 2, 2)
@@ -69,7 +69,7 @@ local yellTouched						= mod:NewPosYell(244054, DBM_CORE_AUTO_YELL_CUSTOM_POSITI
 local timerBurningMawCD					= mod:NewCDTimer(10.1, 251448, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--usually 11 but some pulls it's 10
 local timerMoltenTouchCD				= mod:NewCDTimer(95.9, 244072, nil, nil, nil, 3)
 local timerEnflamedCorruptionCD			= mod:NewCDTimer(95.9, 244057, nil, nil, nil, 3)
-local timerDesolateGazeCD				= mod:NewCDTimer(95.9, 244064, nil, nil, nil, 3)
+local timerDesolateGazeCD				= mod:NewCDTimer(95.9, 244768, nil, nil, nil, 3)
 --Shatug
 local timerCorruptingMawCD				= mod:NewCDTimer(10.1, 251447, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--usually 11 but some pulls it's 10
 local timerComsumingSphereCD			= mod:NewCDTimer(77, 244131, nil, nil, nil, 3)--Verify in transcritor
@@ -81,7 +81,7 @@ local timerFocusingPower				= mod:NewCastTimer(15, 251356, nil, nil, nil, 3)
 --local berserkTimer					= mod:NewBerserkTimer(600)
 
 --F'harg
---local countdownSingularity			= mod:NewCountdown(50, 235059)
+--local countdownSingularity			= mod:NewCountdown(50, 235059)--Maybe test 1 countdown per dog (for all abilities)
 
 --F'harg
 local voiceMoltenTouch					= mod:NewVoice(244072)--watchstep
@@ -268,7 +268,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellDesolateGaze:Yell()
 		end
 	elseif spellId == 251356 and self:AntiSpam(3, 1) then
-		warnFocusingPower:Show()
+--		warnFocusingPower:Show()
 		timerFocusingPower:Start()
 	elseif spellId == 248815 then--Enflamed
 		warnEnflamed:CombinedShow(0.3, args.destName)

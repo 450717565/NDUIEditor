@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(1986, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16887 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16921 $"):sub(12, -3))
 mod:SetCreatureID(122468, 122467, 122469)--122468 Noura, 122467 Asara, 122469 Diima, 125436 Thu'raya (mythic only)
 mod:SetEncounterID(2073)
 mod:SetZone()
 mod:SetBossHPInfoToHighest()
---mod:SetUsedIcons(1, 2, 3, 4, 5, 6)
+mod:SetUsedIcons(1, 2, 3)
 --mod:SetHotfixNoticeRev(16350)
 mod.respawnTime = 15
 
@@ -26,11 +26,8 @@ mod:RegisterEventsInCombat(
 --	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3 boss4 boss5"--4 Coven and 1 torment
 )
 
---TODO, whirling saber target scanning or targetting debuff?
---TODO, review tank swap stuff for flash freeze
 --TODO, auto range frame for fury of Golganneth?
 --TODO, auto mark adds in each phase?
---TODO, orb of frost was never cast, see if removed?
 --[[
 (ability.id = 245627 or ability.id = 252861 or ability.id = 253650 or ability.id = 250095 or ability.id = 250648) and type = "begincast"
  or (ability.id = 244899 or ability.id = 245518 or ability.id = 253520 or ability.id = 245532 or ability.id = 250335 or ability.id = 250333 or ability.id = 250334 or ability.id = 249793 or ability.id = 250757 or ability.id = 246329) and type = "cast"
@@ -69,31 +66,31 @@ local specWarnTouchoftheCosmos			= mod:NewSpecialWarningInterrupt(250648, "HasIn
 local specWarnCosmicGlare				= mod:NewSpecialWarningMoveAway(250757, nil, nil, nil, 1, 2)
 local yellCosmicGlare					= mod:NewYell(250757)
 --Torment of the Titans
-local specWarnTormentofTitans			= mod:NewSpecialWarningSwitch("ej16138", nil, nil, nil, 1, 2)
+local specWarnTormentofTitans			= mod:NewSpecialWarningSpell("ej16138", nil, nil, nil, 1, 7)
 
 --General
 local timerBossIncoming					= mod:NewTimer(61, "timerBossIncoming", nil, nil, nil, 1)
 --Noura, Mother of Flames
-local timerFieryStrikeCD				= mod:NewCDTimer(11, 244899, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
-local timerWhirlingSaberCD				= mod:NewCDTimer(35.1, 245627, nil, nil, nil, 3)--35-45
-local timerFulminatingPulseCD			= mod:NewCDTimer(40.5, 253520, nil, nil, nil, 3)
+local timerFieryStrikeCD				= mod:NewCDTimer(10.5, 244899, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
+local timerWhirlingSaberCD				= mod:NewNextTimer(35.1, 245627, nil, nil, nil, 3)--35-45
+local timerFulminatingPulseCD			= mod:NewNextTimer(40.5, 253520, nil, nil, nil, 3)
 --Asara, Mother of Night
 --local timerTouchofDarknessCD			= mod:NewAITimer(61, 245303, nil, "HasInterrupt", nil, 4, nil, DBM_CORE_INTERRUPT_ICON)
 local timerShadowBladesCD				= mod:NewCDTimer(27.8, 246329, nil, nil, nil, 3)
-local timerStormofDarknessCD			= mod:NewCDTimer(48.6, 252861, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON)--48.6-52.7
+local timerStormofDarknessCD			= mod:NewNextCountTimer(57, 252861, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON)--48.6-52.7
 --Diima, Mother of Gloom
 local timerFlashFreezeCD				= mod:NewCDTimer(11, 245518, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
-local timerChilledBloodCD				= mod:NewCDTimer(25.4, 245586, nil, nil, nil, 5, nil, DBM_CORE_HEALER_ICON)
-local timerOrbofFrostCD					= mod:NewCDTimer(30.4, 253650, nil, nil, nil, 3)
+local timerChilledBloodCD				= mod:NewNextTimer(25.4, 245586, nil, nil, nil, 5, nil, DBM_CORE_HEALER_ICON)
+local timerOrbofFrostCD					= mod:NewNextTimer(30.4, 253650, nil, nil, nil, 3)
 --Thu'raya, Mother of the Cosmos (Mythic)
 local timerTouchoftheCosmosCD			= mod:NewAITimer(61, 250648, nil, "HasInterrupt", nil, 4, nil, DBM_CORE_INTERRUPT_ICON)
 local timerCosmicGlareCD				= mod:NewAITimer(61, 250757, nil, nil, nil, 3)
 --Torment of the Titans
 ----Activations timers
-local timerMachinationsofAmanThulCD		= mod:NewCastTimer(80, 250335, nil, nil, nil, 6)
-local timerFlamesofKhazgorothCD			= mod:NewCastTimer(80, 250333, nil, nil, nil, 6)
-local timerSpectralArmyofNorgannonCD	= mod:NewCastTimer(80, 250334, nil, nil, nil, 6)
-local timerFuryofGolgannethCD			= mod:NewCastTimer(80, 249793, nil, nil, nil, 6)
+local timerMachinationsofAmanThulCD		= mod:NewCastTimer(85, 250335, nil, nil, nil, 6)
+local timerFlamesofKhazgorothCD			= mod:NewCastTimer(85, 250333, nil, nil, nil, 6)
+local timerSpectralArmyofNorgannonCD	= mod:NewCastTimer(85, 250334, nil, nil, nil, 6)
+local timerFuryofGolgannethCD			= mod:NewCastTimer(85, 249793, nil, nil, nil, 6)
 ----Actual phase stuff
 local timerMachinationsofAman			= mod:NewCastTimer(20, 250095, nil, nil, nil, 5, nil, DBM_CORE_DAMAGE_ICON)
 
@@ -101,7 +98,9 @@ local timerMachinationsofAman			= mod:NewCastTimer(20, 250095, nil, nil, nil, 5,
 
 --Noura, Mother of Flames
 local countdownTitans					= mod:NewCountdown(80, "ej16138")
+local countdownFulminatingPulse			= mod:NewCountdown("Alt57", 253520, "Healer")
 --Asara, Mother of Night
+local countdownStormofDarkness			= mod:NewCountdown("AltTwo57", 252861)
 --Diima, Mother of Gloom
 --Thu'raya, Mother of the Cosmos (Mythic)
 --Torment of the Titans
@@ -123,9 +122,9 @@ local voicOrbofFrost					= mod:NewVoice(253650)--161411 (run away from ice orb)
 local voiceTouchoftheCosmos				= mod:NewVoice(250648, "HasInterrupt")--kickcast
 local voiceCosmicGlare					= mod:NewVoice(250757)--runout
 --Torment of the Titans
-local voiceTormentofTitans				= mod:NewVoice("ej16138")--killmob
+local voiceTormentofTitans				= mod:NewVoice("ej16138")--killmob/runtoedge/scatter/watchstep
 
---mod:AddSetIconOption("SetIconOnFocusedDread", 238502, true)
+mod:AddSetIconOption("SetIconOnFulminatingPulse", 253520, true)
 mod:AddInfoFrameOption(245586, true)
 --mod:AddRangeFrameOption("5/10")
 mod:AddNamePlateOption("NPAuraOnVisageofTitan", 249863)
@@ -134,6 +133,7 @@ mod.vb.stormCount = 0
 mod.vb.chilledCount = 0
 mod.vb.tormentCount = 0
 mod.vb.MachinationsLeft = 0
+mod.vb.fpIcon = 1
 mod.vb.lastTormentCaster = DBM_CORE_UNKNOWN
 
 function mod:OnCombatStart(delay)
@@ -141,6 +141,7 @@ function mod:OnCombatStart(delay)
 	self.vb.chilledCount = 0
 	self.vb.tormentCount = 0
 	self.vb.MachinationsLeft = 0
+	self.vb.fpIcon = 1
 	self.vb.lastTormentCaster = DBM_CORE_UNKNOWN
 	if self:IsMythic() then
 		self:SetCreatureID(122468, 122467, 122469, 125436)
@@ -154,7 +155,9 @@ function mod:OnCombatStart(delay)
 	timerShadowBladesCD:Start(12-delay)
 	if not self:IsEasy() then
 		timerFulminatingPulseCD:Start(20.9-delay)
-		timerStormofDarknessCD:Start(27.4-delay)
+		countdownFulminatingPulse:Start(20.9-delay)
+		timerStormofDarknessCD:Start(29-delay, 1)
+		countdownStormofDarkness:Start(29-delay)
 	end
 	if self.Options.NPAuraOnVisageofTitan then
 		DBM:FireEvent("BossMod_EnableHostileNameplates")
@@ -192,7 +195,8 @@ function mod:SPELL_CAST_START(args)
 		self.vb.stormCount = self.vb.stormCount + 1
 		specWarnStormofDarkness:Show(self.vb.stormCount)
 		voiceStormofDarkness:Play("aesoon")
-		timerStormofDarknessCD:Start()--Add count when not AI timer
+		timerStormofDarknessCD:Start(nil, self.vb.stormCount+1)
+		countdownStormofDarkness:Start(57)
 	elseif spellId == 253650 then
 		specWarnOrbofFrost:Show()
 		voicOrbofFrost:Play("161411")
@@ -228,6 +232,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerFlashFreezeCD:Start()
 	elseif spellId == 253520 and self:AntiSpam(3, 3) then
 		timerFulminatingPulseCD:Start()
+		countdownFulminatingPulse:Start(40.5)
 	elseif spellId == 245532 and self:AntiSpam(3, 2) then
 		timerChilledBloodCD:Start()
 		voiceChilledBlood:Play("healall")
@@ -282,6 +287,13 @@ function mod:SPELL_AURA_APPLIED(args)
 			voiceFulminatingPulse:Play("runout")
 			yellFulminatingPulse:Countdown(10)
 		end
+		if self.Options.SetIconOnFulminatingPulse then
+			self:SetIcon(args.destName, self.vb.fpIcon)
+		end
+		self.vb.fpIcon = self.vb.fpIcon + 1
+		if self.vb.fpIcon == 4 then
+			self.vb.fpIcon = 1
+		end
 	elseif spellId == 245518 then
 		local uId = DBM:GetRaidUnitId(args.destName)
 		if self:IsTanking(uId) then
@@ -322,7 +334,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 249863 then
 		if self.Options.NPAuraOnVisageofTitan then
-			DBM.Nameplate:Show(true, args.destGUID, spellId)
+			DBM.Nameplate:Show(true, args.destGUID, spellId, nil, 30)
 		end
 	end
 end
@@ -333,6 +345,9 @@ function mod:SPELL_AURA_REMOVED(args)
 	if spellId == 253520 then
 		if args:IsPlayer() then
 			yellFulminatingPulse:Cancel()
+		end
+		if self.Options.SetIconOnFulminatingPulse then
+			self:SetIcon(args.destName, 0)
 		end
 	elseif spellId == 245586 then
 		self.vb.chilledCount = self.vb.chilledCount - 1
@@ -383,21 +398,23 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc)
 		end
 	elseif msg:find("spell:245671") then--Flames of Khaz'goroth
 		specWarnTormentofTitans:Show()
-		voiceTormentofTitans:Play("killmob")
+		voiceTormentofTitans:Play("runtoedge")
+		voiceTormentofTitans:Schedule(1, "killmob")
 		self.vb.tormentCount = self.vb.tormentCount + 1
 		if self.vb.tormentCount % 2 == 0 then
 			timerBossIncoming:Start(14, self.vb.lastTormentCaster)
 		end
 	elseif msg:find("spell:245910") then--Spectral Army of Norgannon
 		specWarnTormentofTitans:Show()
-		voiceTormentofTitans:Play("killmob")
+		voiceTormentofTitans:Play("watchstep")
 		self.vb.tormentCount = self.vb.tormentCount + 1
 		if self.vb.tormentCount % 2 == 0 then
 			timerBossIncoming:Start(14, self.vb.lastTormentCaster)
 		end
 	elseif msg:find("spell:246763") then--Fury of Golganneth
 		specWarnTormentofTitans:Show()
-		voiceTormentofTitans:Play("killmob")
+		voiceTormentofTitans:Play("scatter")
+		voiceTormentofTitans:Schedule(1, "killmob")
 		self.vb.tormentCount = self.vb.tormentCount + 1
 		if self.vb.tormentCount % 2 == 0 then
 			timerBossIncoming:Start(14, self.vb.lastTormentCaster)
@@ -419,12 +436,14 @@ function mod:UNIT_TARGETABLE_CHANGED(uId)
 			timerFieryStrikeCD:Start(12.1)
 			if not self:IsEasy() then
 				timerFulminatingPulseCD:Start(20.6)
+				countdownFulminatingPulse:Start(20.6)
 			end
 		else
 			DBM:Debug("UNIT_TARGETABLE_CHANGED, Boss Leaving", 2)
 			timerFieryStrikeCD:Stop()
 			timerWhirlingSaberCD:Stop()
 			timerFulminatingPulseCD:Stop()
+			countdownFulminatingPulse:Cancel()
 		end
 	elseif cid == 122467 then--Asara
 		if UnitExists(uId) then
@@ -435,6 +454,7 @@ function mod:UNIT_TARGETABLE_CHANGED(uId)
 			--timerTouchofDarknessCD:Stop()
 			timerShadowBladesCD:Stop()
 			timerStormofDarknessCD:Stop()
+			countdownStormofDarkness:Cancel()
 		end
 	elseif cid == 122469 then--Diima
 		if UnitExists(uId) then

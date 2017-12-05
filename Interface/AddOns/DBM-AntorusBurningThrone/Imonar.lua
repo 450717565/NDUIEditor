@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2009, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16887 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16916 $"):sub(12, -3))
 mod:SetCreatureID(124158)--or 124158 or 125692
 mod:SetEncounterID(2082)
 mod:SetZone()
@@ -83,7 +83,7 @@ local timerShrapnalBlastCD				= mod:NewCDTimer(13.3, 247923, nil, nil, nil, 3)
 
 --Intermission: On Deadly Ground
 
---local berserkTimer						= mod:NewBerserkTimer(420)
+--local berserkTimer					= mod:NewBerserkTimer(420)
 
 --Stage One: Attack Force
 local countdownPulseGrenade				= mod:NewCountdown(17, 247376)

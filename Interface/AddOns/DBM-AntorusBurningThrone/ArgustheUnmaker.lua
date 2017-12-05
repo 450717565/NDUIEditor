@@ -1,8 +1,8 @@
 local mod	= DBM:NewMod(2031, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16897 $"):sub(12, -3))
-mod:SetCreatureID(124828)--or 124828
+mod:SetRevision(("$Revision: 16915 $"):sub(12, -3))
+mod:SetCreatureID(124828)
 mod:SetEncounterID(2092)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
@@ -15,10 +15,10 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 248165 248317 257296 255594 257645 252516 256542 255648 257619 255935",
-	"SPELL_CAST_SUCCESS 248499 258039 251815 252729 252616 256388",
+	"SPELL_CAST_SUCCESS 248499 258039 252729 252616 256388",
 	"SPELL_AURA_APPLIED 248499 248396 250669 251570 255199 253021 255496 255496 255478 252729 252616 255433 255430 255429 255425 255422 255419 255418 258647 258646",
-	"SPELL_AURA_APPLIED_DOSE 248499",
-	"SPELL_AURA_REMOVED 250669 251570 255199 253021 255496 255496 255478 252616 255433 255430 255429 255425 255422 255419 255418",
+	"SPELL_AURA_APPLIED_DOSE 248499 258039",
+	"SPELL_AURA_REMOVED 250669 251570 255199 253021 255496 255496 255478 252616 255433 255430 255429 255425 255422 255419 255418 258039",
 --	"SPELL_PERIODIC_DAMAGE",
 --	"SPELL_PERIODIC_MISSED",
 --	"UNIT_DIED",
@@ -27,13 +27,18 @@ mod:RegisterEventsInCombat(
 )
 
 --TODO, death fog GTFO
---TODO, icons or yells or both to help Soulburst and Soulbomb apart and gotten to right place.
 --TODO, custom warning to combine soulburst and bomb into single message instead of two messages, while still separating targets
 --TODO, interrupt warnings for Designates if not affected by Inevitability?
 --TODO, taunt warning and icon setting when adds get blades, to help tank pickup?
 --TODO, info frame for stage 4 (and other stages maybe) to show realms, and other stats, energy of boss and eonar's aid
 --TODO, warnings when eonar transitions from gift to withering. other titan stuff?
+--[[
+(ability.id = 256544 or ability.id = 255826 or ability.id = 248165 or ability.id = 248317 or ability.id = 257296 or ability.id = 255594 or ability.id = 252516 or ability.id = 255648 or ability.id = 257645 or ability.id = 256542 or ability.id = 257619 or ability.id = 255935) and type = "begincast"
+ or (ability.id = 248499 or ability.id = 258039 or ability.id = 252729 or ability.id = 252616 or ability.id = 256388) and type = "cast"
+ or (ability.id = 250669 or ability.id = 251570 or ability.id = 255199) and type = "applydebuff" or type = "interrupt" and target.id = 124828
+--]]
 --Stage One: Storm and Sky
+local warnTorturedRage				= mod:NewCountAnnounce(257296, 2)
 local warnSweepingScythe			= mod:NewStackAnnounce(248499, 2, nil, "Tank")
 local warnBlightOrb					= mod:NewSpellAnnounce(248317, 2)
 local warnSoulblight				= mod:NewTargetAnnounce(248396, 2, nil, false, 2)
@@ -54,7 +59,7 @@ local warnPhase4					= mod:NewPhaseAnnounce(4, 2)
 local warnDeadlyScythe				= mod:NewStackAnnounce(258039, 2, nil, "Tank")
 
 --Stage One: Storm and Sky
-local specWarnTorturedRage			= mod:NewSpecialWarningCount(257296, nil, nil, nil, 2, 2)
+--local specWarnTorturedRage			= mod:NewSpecialWarningCount(257296, nil, nil, nil, 2, 2)
 local specWarnSweepingScythe		= mod:NewSpecialWarningStack(248499, nil, 3, nil, nil, 1, 6)
 local specWarnSweepingScytheTaunt	= mod:NewSpecialWarningTaunt(248499, nil, nil, nil, 1, 2)
 local specWarnConeofDeath			= mod:NewSpecialWarningDodge(248165, nil, nil, nil, 1, 2)
@@ -72,10 +77,10 @@ local specWarnSoulburst				= mod:NewSpecialWarningMoveAway(250669, nil, nil, nil
 local yellSoulburst					= mod:NewPosYell(250669)
 local yellSoulburstFades			= mod:NewIconFadesYell(250669)
 local specWarnSoulbomb				= mod:NewSpecialWarningYou(251570, nil, nil, nil, 1, 2)
-local specWarnSoulbombMoveTo		= mod:NewSpecialWarningMoveTo(251570, nil, nil, nil, 1, 8)
+local specWarnSoulbombMoveTo		= mod:NewSpecialWarningMoveTo(251570, nil, nil, nil, 1, 7)
 local yellSoulbomb					= mod:NewYell(251570)
 local yellSoulbombFades				= mod:NewFadesYell(251570)
-local specWarnEdgeofObliteration	= mod:NewSpecialWarningSpell(251815, nil, nil, nil, 2, 2)
+local specWarnEdgeofObliteration	= mod:NewSpecialWarningSpell(255826, nil, nil, nil, 2, 2)
 local specWarnAvatarofAggra			= mod:NewSpecialWarningYou(255199, nil, nil, nil, 1, 2)
 --Stage Three: The Arcane Masters
 local specWarnCosmicRay				= mod:NewSpecialWarningYou(252729, nil, nil, nil, 1, 2)
@@ -86,21 +91,22 @@ local yellCosmicBeaconFades			= mod:NewShortFadesYell(252616)
 --Stage Four: The Gift of Life, The Forge of Loss (Non Mythic)
 local specWarnEmberofRage			= mod:NewSpecialWarningDodge(257299, nil, nil, nil, 2, 2)
 local specWarnDeadlyScythe			= mod:NewSpecialWarningStack(258039, nil, 2, nil, nil, 1, 2)
---local specWarnDeadlyScytheTaunt		= mod:NewSpecialWarningTaunt(258039, nil, nil, nil, 1, 2)
+local specWarnDeadlyScytheTaunt		= mod:NewSpecialWarningTaunt(258039, nil, nil, nil, 1, 2)
 local specWarnReorgModule			= mod:NewSpecialWarningSwitch(256389, "RangedDps", nil, nil, 1, 2)--Ranged only?
 
 local timerNextPhase				= mod:NewPhaseTimer(74)
 --Stage One: Storm and Sky
 mod:AddTimerLine(SCENARIO_STAGE:format(1))
 local timerSweepingScytheCD			= mod:NewCDTimer(5.6, 248499, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--5.6-15.7
-local timerConeofDeathCD			= mod:NewCDTimer(20, 248165, nil, nil, nil, 3)--20-24
+local timerConeofDeathCD			= mod:NewCDTimer(19.6, 248165, nil, nil, nil, 3)--19.6-24
 local timerBlightOrbCD				= mod:NewCDTimer(22, 248317, nil, nil, nil, 3)--22-32
 local timerTorturedRageCD			= mod:NewCDTimer(13, 257296, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON)--13-16
-local timerSkyandSeaCD				= mod:NewCDTimer(25.9, 255594, nil, nil, nil, 5)--25.9-27.8
+local timerSkyandSeaCD				= mod:NewCDTimer(25.6, 255594, nil, nil, nil, 5)--25.6-27.8
 --Stage Two: The Protector Redeemed
 mod:AddTimerLine(SCENARIO_STAGE:format(2))
-local timerVolatileSoulCD			= mod:NewCDTimer(42, 252280, nil, nil, nil, 3)
-local timerEdgeofObliterationCD		= mod:NewCDTimer(30.5, 251815, nil, nil, nil, 2)
+local timerSoulBombCD				= mod:NewCDTimer(42, 251570, nil, nil, nil, 3, nil, DBM_CORE_TANK_ICON)
+local timerSoulBurstCD				= mod:NewCDCountTimer("d42", 250669, nil, nil, nil, 3)
+local timerEdgeofObliterationCD		= mod:NewCDTimer(30.5, 255826, nil, nil, nil, 2)
 local timerAvatarofAggraCD			= mod:NewCDTimer(59.9, 255199, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON)
 --Stage Three: The Arcane Masters
 mod:AddTimerLine(SCENARIO_STAGE:format(3))
@@ -111,37 +117,40 @@ local timerDiscsofNorgCD			= mod:NewCDTimer(12, 252516, nil, nil, nil, 6)
 local timerDiscsofNorg				= mod:NewCastTimer(12, 252516, nil, nil, nil, 6)
 --Stage Four: The Gift of Life, The Forge of Loss (Non Mythic)
 mod:AddTimerLine(SCENARIO_STAGE:format(4))
---local timerEmberofRageCD			= mod:NewAITimer(20, 257299, nil, nil, nil, 3)
 local timerDeadlyScytheCD			= mod:NewCDTimer(5.5, 258039, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
-local timerReorgModuleCD			= mod:NewCDTimer(50, 256389, nil, nil, nil, 1)
+local timerReorgModuleCD			= mod:NewCDTimer(48.1, 256389, nil, nil, nil, 1)
 
---local berserkTimer					= mod:NewBerserkTimer(600)
-
---Stage One: Storm and Sky
---local countdownSingularity			= mod:NewCountdown(50, 235059)
---Stage Two: The Protector Redeemed
+--local berserkTimer				= mod:NewBerserkTimer(600)
 
 --Stage One: Storm and Sky
-local voiceSweepingScythe				= mod:NewVoice(248499)--tauntboss
-local voiceConeofDeath					= mod:NewVoice(248165)--aesoon
-local voiceTorturedRage					= mod:NewVoice(257296)--aesoon
-local voiceSoulblight					= mod:NewVoice(248396)--runout
-local voiceGiftofSea					= mod:NewVoice(258647)--targetyou
-local voiceGiftofSky					= mod:NewVoice(258646)--targetyou
---local voiceMalignantAnguish			= mod:NewVoice(236597, "HasInterrupt")--kickcast
---local voiceGTFO						= mod:NewVoice(238028, nil, DBM_CORE_AUTO_VOICE4_OPTION_TEXT)--runaway
+local countdownSoulbomb				= mod:NewCountdown(50, 251570)
 --Stage Two: The Protector Redeemed
-local voiceSoulburst					= mod:NewVoice(250669)--targetyou/runout (on delay)
-local voiceSoulbomb						= mod:NewVoice(251570)--targetyou/movetotank (on delay)
-local voiceEdgeofObliteration			= mod:NewVoice(251815)--watchwave?
-local voiceAvatarofAgrra				= mod:NewVoice(255199)--targetyou
+
+--Stage Four
+local countdownDeadlyScythe			= mod:NewCountdown("Alt5", 258039, false, nil, 3)--Off by default since it'd be almost non stop, so users can elect into this one
+local countdownReorgModule			= mod:NewCountdown("AltTwo48", 256389, "-Tank")
+
+--Stage One: Storm and Sky
+local voiceSweepingScythe			= mod:NewVoice(248499)--tauntboss
+local voiceConeofDeath				= mod:NewVoice(248165)--aesoon
+--local voiceTorturedRage				= mod:NewVoice(257296)--aesoon
+local voiceSoulblight				= mod:NewVoice(248396)--runout
+local voiceGiftofSea				= mod:NewVoice(258647)--targetyou
+local voiceGiftofSky				= mod:NewVoice(258646)--targetyou
+--local voiceMalignantAnguish		= mod:NewVoice(236597, "HasInterrupt")--kickcast
+--local voiceGTFO					= mod:NewVoice(238028, nil, DBM_CORE_AUTO_VOICE4_OPTION_TEXT)--runaway
+--Stage Two: The Protector Redeemed
+local voiceSoulburst				= mod:NewVoice(250669)--targetyou/runout (on delay)
+local voiceSoulbomb					= mod:NewVoice(251570)--targetyou/movetotank (on delay)
+local voiceEdgeofObliteration		= mod:NewVoice(255826)--watchstep
+local voiceAvatarofAgrra			= mod:NewVoice(255199)--targetyou
 --Stage Three: The Arcane Masters
-local voiceCosmicRay					= mod:NewVoice(252729)--targetyou
-local voiceCosmicBeacon					= mod:NewVoice(252616)--runout
+local voiceCosmicRay				= mod:NewVoice(252729)--targetyou
+local voiceCosmicBeacon				= mod:NewVoice(252616)--runout
 --Stage Four: The Gift of Life, The Forge of Loss (Non Mythic)
-local voiceEmberofRage					= mod:NewVoice(257299)--watchstep
-local voiceDeadlyScythe					= mod:NewVoice(258039)--tauntboss
-local voiceReorgModule					= mod:NewVoice(256389)--killmob
+local voiceEmberofRage				= mod:NewVoice(257299)--watchstep
+local voiceDeadlyScythe				= mod:NewVoice(258039)--tauntboss
+local voiceReorgModule				= mod:NewVoice(256389)--killmob
 
 
 mod:AddSetIconOption("SetIconOnAvatar", 255199, true)--4
@@ -156,6 +165,7 @@ mod:AddNamePlateOption("NPAuraOnVulnerability", 255418)
 --mod:AddRangeFrameOption("5/10")
 
 local avatarOfAggramar, aggramarsBoon = GetSpellInfo(255199), GetSpellInfo(255200)
+local playerAvatar = false
 mod.vb.phase = 1
 mod.vb.TorturedRage = 0
 mod.vb.soulBurstIcon = 3
@@ -202,13 +212,14 @@ local function delayedBoonCheck(self, stage4)
 end
 
 function mod:OnCombatStart(delay)
+	playerAvatar = false
 	self.vb.phase = 1
 	self.vb.TorturedRage = 0
 	self.vb.soulBurstIcon = 3
 	timerSweepingScytheCD:Start(5.8-delay)
 	timerSkyandSeaCD:Start(10.8-delay)
 	timerTorturedRageCD:Start(12-delay)
-	timerConeofDeathCD:Start(30.9-delay)
+	timerConeofDeathCD:Start(30.3-delay)
 	timerBlightOrbCD:Start(35.2-delay)
 	--berserkTimer:Start(-delay)
 	if self.Options.InfoFrame then
@@ -247,8 +258,8 @@ function mod:SPELL_CAST_START(args)
 		timerBlightOrbCD:Start()
 	elseif spellId == 257296 then
 		self.vb.TorturedRage = self.vb.TorturedRage + 1
-		specWarnTorturedRage:Show(self.vb.TorturedRage)
-		voiceTorturedRage:Play("aesoon")
+		warnTorturedRage:Show(self.vb.TorturedRage)
+		--voiceTorturedRage:Play("aesoon")
 		timerTorturedRageCD:Start()
 	elseif spellId == 255594 then
 		timerSkyandSeaCD:Start()
@@ -266,15 +277,19 @@ function mod:SPELL_CAST_START(args)
 		timerNextPhase:Start(16)
 		timerSweepingScytheCD:Start(17.3)
 		--timerTorturedRageCD:Start(2)--No longer used in P2?
-		timerAvatarofAggraCD:Start(21.4)
-		timerEdgeofObliterationCD:Start(22.61)
-		timerVolatileSoulCD:Start(37.2)
+		timerAvatarofAggraCD:Start(20.9)
+		timerEdgeofObliterationCD:Start(21)
+		timerSoulBombCD:Start(35.3)
+		countdownSoulbomb:Start(35.3)
+		timerSoulBurstCD:Start(35.3, 1)
 	elseif spellId == 257645 then--Temporal Blast (Stage 3)
 		self.vb.phase = 3
 		warnPhase3:Show()
 		timerSweepingScytheCD:Stop()
 		timerTorturedRageCD:Stop()
-		timerVolatileSoulCD:Stop()
+		timerSoulBombCD:Stop()
+		countdownSoulbomb:Cancel()
+		timerSoulBurstCD:Stop()
 		timerEdgeofObliterationCD:Stop()
 		timerAvatarofAggraCD:Stop()
 		timerDiscsofNorgCD:Start(15)
@@ -303,9 +318,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerSweepingScytheCD:Start()
 	elseif spellId == 258039 then
 		timerDeadlyScytheCD:Start()
-	elseif spellId == 251815 then
+		countdownDeadlyScythe:Start(5.5)
+	elseif spellId == 255826 then
 		specWarnEdgeofObliteration:Show()
-		voiceEdgeofObliteration:Play("watchwave")
+		voiceEdgeofObliteration:Play("watchstep")
 		timerEdgeofObliterationCD:Start()
 	elseif spellId == 252729 and self:AntiSpam(5, 3) then
 		timerCosmicRayCD:Start()
@@ -315,6 +331,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		specWarnReorgModule:Show()
 		voiceReorgModule:Play("killmob")
 		timerReorgModuleCD:Start()
+		countdownReorgModule:Start()
 	end
 end
 
@@ -350,11 +367,7 @@ function mod:SPELL_AURA_APPLIED(args)
 					voiceDeadlyScythe:Play("stackhigh")
 				else
 					warnDeadlyScythe:Show(args.destName, amount)
-					--specWarnDeadlyScytheTaunt:Show(args.destName)
-					--voiceDeadlyScythe:Play("tauntboss")
 				end
-			else
-				warnDeadlyScythe:Show(args.destName, amount)
 			end
 		end
 	elseif spellId == 248396 then
@@ -385,19 +398,37 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnSoulbomb:Show()
 			voiceSoulbomb:Play("targetyou")
-			self:Schedule(10, delayedBoonCheck, self)
+			self:Schedule(7, delayedBoonCheck, self)
 			yellSoulbomb:Yell()
 			yellSoulbombFades:Countdown(15)
+		elseif playerAvatar then
+			specWarnSoulbombMoveTo:Show(args.destName)
+			voiceSoulbomb:Play("helpsoak")
 		else
 			warnSoulbomb:Show(args.destName)
 		end
 		if self.Options.SetIconOnSoulBomb then
 			self:SetIcon(args.destName, 2)
 		end
+		if self.vb.phase == 4 then
+			timerSoulBurstCD:Start(50, 2)
+			timerSoulBombCD:Start(100)
+			countdownSoulbomb:Start(100)
+			timerSoulBurstCD:Start(100, 1)
+		else
+			timerSoulBurstCD:Start(19.8, 2)
+			timerSoulBombCD:Start(42)
+			countdownSoulbomb:Start(42)
+			timerSoulBurstCD:Start(42, 1)
+		end
 	elseif spellId == 255199 then
+		if self.vb.phase == 2 then--Sometime gets cast once in p3, don't want to start timer if it does
+			timerAvatarofAggraCD:Start()
+		end
 		if args:IsPlayer() then
 			specWarnAvatarofAggra:Show()
 			voiceAvatarofAgrra:Play("targetyou")
+			playerAvatar = true
 		else
 			warnAvatarofAggra:Show(args.destName)
 		end
@@ -491,6 +522,9 @@ function mod:SPELL_AURA_REMOVED(args)
 			self:SetIcon(args.destName, 0)
 		end
 	elseif spellId == 255199 then
+		if args:IsPlayer() then
+			playerAvatar = false
+		end
 		if self.Options.SetIconOnAvatar then
 			self:SetIcon(args.destName, 0)
 		end
@@ -513,6 +547,14 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif spellId == 252616 then
 		if args:IsPlayer() then
 			yellCosmicBeaconFades:Cancel()
+		end
+	elseif spellId == 258039 then--Heroic/Mythic?
+		local uId = DBM:GetRaidUnitId(args.destName)
+		if uId and self:IsTanking(uId) then
+			if not args:IsPlayer() then--Removed from tank that's not you (only time it's removed is on death)
+				specWarnDeadlyScytheTaunt:Show(args.destName)
+				voiceDeadlyScythe:Play("tauntboss")
+			end
 		end
 	end
 end
@@ -544,19 +586,17 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, spellName, _, _, spellId)
 	if spellId == 257300 and self:AntiSpam(5, 1) then--Ember of Rage
 		specWarnEmberofRage:Show()
 		voiceEmberofRage:Play("watchstep")
-		--timerEmberofRageCD:Start()
 	--elseif spellId == 256389 and self:AntiSpam(5, 2) then--Reorgination Module
 		--specWarnReorgModule:Show()
 		--voiceReorgModule:Play("killmob")
 		--timerReorgModuleCD:Start()
-	elseif spellId == 252280 then--Volatile Soul
-		timerVolatileSoulCD:Start()
 	elseif spellId == 258042 then--Argus P2 Energy Controller (16 seconds after Fury)
 		--Alternate and valid timer start point
 		--timerAvatarofAggraCD:Start(5)
 		--timerEdgeofObliterationCD:Start(6.2)
-		--timerVolatileSoulCD:Start(20.8)
-	elseif spellId == 34098 then--ClearAllDebuffs (12 before Tempoeral Blast)
+		--timerSoulBombCD:Start(20.8)
+		--timerSoulBurstCD:Start(20.8, 1)
+	--elseif spellId == 34098 then--ClearAllDebuffs (12 before Tempoeral Blast)
 	
 	elseif spellId == 258044 then--Argus P4 Energy Controller (54 seconds after Reap Soul, 27 seconds after Gift of the Lifebinder)
 		--timerDiscsofNorgCD:Stop()
@@ -565,10 +605,20 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, spellName, _, _, spellId)
 		else
 			timerDeadlyScytheCD:Start(5)
 		end
-		--timerEmberofRageCD:Start(4)--used instantly
-		timerReorgModuleCD:Start(9)
+		local currentPowerPercent = UnitPower("boss1")/UnitPowerMax("boss1")
+		local remainingPercent
+		if currentPowerPercent then
+			remainingPercent = 1.0 - currentPowerPercent
+		end
+		if remainingPercent then
+			timerReorgModuleCD:Start(48.1*remainingPercent)
+			countdownReorgModule:Start(48.1*remainingPercent)
+			--timerTorturedRageCD:Start(13*remainingPercent)
+		end
 		timerTorturedRageCD:Start(10)
-		timerVolatileSoulCD:Start(17.5)
+		timerSoulBurstCD:Start(50.4, 1)--First one is only burst, afterwards it's bomb and burst then burst only again
+		timerSoulBombCD:Start(100.7)
+		countdownSoulbomb:Start(100.7)
 	elseif spellId == 258104 then--Argus Mythic Transform
 		
 	end
