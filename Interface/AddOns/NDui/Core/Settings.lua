@@ -148,49 +148,49 @@ local function ForceDBMOptions()
 	DBT_AllPersistentOptions = {
 		["Default"] = {
 			["DBM"] = {
-				["Scale"] = 1,
-				["HugeScale"] = 1,
-				["ExpandUpwards"] = true,
-				["ExpandUpwardsLarge"] = true,
 				["BarXOffset"] = 0,
 				["BarYOffset"] = 16,
+				["EndColorB"] = 0,
+				["EndColorG"] = 0,
+				["EndColorR"] = 1,
+				["ExpandUpwards"] = true,
+				["ExpandUpwardsLarge"] = true,
+				["FontSize"] = 10,
+				["Heigh"] = 20,
+				["HugeBarsEnabled"] = false,
+				["HugeBarXOffset"] = 0,
+				["HugeBarYOffset"] = 16,
+				["HugeScale"] = 1,
+				["HugeTimerPoint"] = "BOTTOM",
+				["HugeTimerX"] = -50,
+				["HugeTimerY"] = 120,
+				["HugeWidth"] = 210,
+				["Scale"] = 1,
+				["StartColorB"] = 0,
+				["StartColorG"] = 0.7,
+				["StartColorR"] = 1,
+				["Texture"] = DB.normTex,
 				["TimerPoint"] = "CENTER",
 				["TimerX"] = 310,
 				["TimerY"] = -85,
 				["Width"] = 175,
-				["Heigh"] = 20,
-				["HugeWidth"] = 210,
-				["HugeBarsEnabled"] = false,
-				["HugeBarXOffset"] = 0,
-				["HugeBarYOffset"] = 16,
-				["HugeTimerPoint"] = "BOTTOM",
-				["HugeTimerX"] = -50,
-				["HugeTimerY"] = 120,
-				["FontSize"] = 10,
-				["StartColorR"] = 1,
-				["StartColorG"] = 0.7,
-				["StartColorB"] = 0,
-				["EndColorR"] = 1,
-				["EndColorG"] = 0,
-				["EndColorB"] = 0,
-				["Texture"] = DB.normTex,
 			},
 		},
 	}
 
 	if not DBM_AllSavedOptions["Default"] then DBM_AllSavedOptions["Default"] = {} end
-	DBM_AllSavedOptions["Default"]["WarningY"] = -180
-	DBM_AllSavedOptions["Default"]["WarningX"] = 0
-	DBM_AllSavedOptions["Default"]["WarningPoint"] = "TOP"
-	DBM_AllSavedOptions["Default"]["WarningFontStyle"] = "OUTLINE"
+	DBM_AllSavedOptions["Default"]["HideObjectivesFrame"] = false
+	DBM_AllSavedOptions["Default"]["ShowMinimapButton"] = false
+	DBM_AllSavedOptions["Default"]["SpecialWarningFontSize2"] = 24
+	DBM_AllSavedOptions["Default"]["SpecialWarningFontStyle"] = "OUTLINE"
+	DBM_AllSavedOptions["Default"]["SpecialWarningPoint"] = "TOP"
 	DBM_AllSavedOptions["Default"]["SpecialWarningX"] = 0
 	DBM_AllSavedOptions["Default"]["SpecialWarningY"] = -200
-	DBM_AllSavedOptions["Default"]["SpecialWarningPoint"] = "TOP"
-	DBM_AllSavedOptions["Default"]["SpecialWarningFontStyle"] = "OUTLINE"
-	DBM_AllSavedOptions["Default"]["ShowMinimapButton"] = false
-	DBM_AllSavedOptions["Default"]["HideObjectivesFrame"] = false
 	DBM_AllSavedOptions["Default"]["WarningFontSize"] = 18
-	DBM_AllSavedOptions["Default"]["SpecialWarningFontSize2"] = 24
+	DBM_AllSavedOptions["Default"]["WarningFontStyle"] = "OUTLINE"
+	DBM_AllSavedOptions["Default"]["WarningPoint"] = "TOP"
+	DBM_AllSavedOptions["Default"]["WarningX"] = 0
+	DBM_AllSavedOptions["Default"]["WarningY"] = -180
 
 	NDuiDB["Settings"]["DBMRequest"] = false
 end
@@ -272,74 +272,94 @@ local function ForceBigwigs()
 	if BigWigs3DB then table.wipe(BigWigs3DB) end
 	BigWigs3DB = {
 		["namespaces"] = {
-			["BigWigs_Plugins_Bars"] = {
+			["BigWigs_Plugins_Victory"] = {
 				["profiles"] = {
 					["Default"] = {
-						["outline"] = "OUTLINE",
-						["fontSize"] = 12,
-						["BigWigsAnchor_y"] = 336,
-						["BigWigsAnchor_x"] = 20,
-						["BigWigsAnchor_width"] = 175,
-						["growup"] = true,
-						["interceptMouse"] = false,
-						["barStyle"] = "NDui",
-						["LeftButton"] = {
-							["emphasize"] = false,
-						},
-						["font"] = DB.Font[1],
-						["onlyInterceptOnKeypress"] = true,
-						["emphasizeScale"] = 1,
-						["BigWigsEmphasizeAnchor_x"] = 836,
-						["BigWigsEmphasizeAnchor_y"] = 350,
-						["BigWigsEmphasizeAnchor_width"] = 220,
-						["emphasizeGrowup"] = true,
-					},
-				},
-			},
-			["BigWigs_Plugins_Super Emphasize"] = {
-				["profiles"] = {
-					["Default"] = {
-						["fontSize"] = 28,
-						["font"] = DB.Font[1],
-					},
-				},
-			},
-			["BigWigs_Plugins_Messages"] = {
-				["profiles"] = {
-					["Default"] = {
-						["fontSize"] = 18,
-						["font"] = DB.Font[1],
-						["BWEmphasizeCountdownMessageAnchor_x"] = 665,
-						["BWMessageAnchor_x"] = 616,
-						["BWEmphasizeCountdownMessageAnchor_y"] = 530,
-						["BWMessageAnchor_y"] = 305,
-					},
-				},
-			},
-			["BigWigs_Plugins_Proximity"] = {
-				["profiles"] = {
-					["Default"] = {
-						["fontSize"] = 18,
-						["font"] = DB.Font[1],
-						["posy"] = 346,
-						["width"] = 140,
-						["posx"] = 1024,
-						["height"] = 120,
+						["soundName"] = "None",
 					},
 				},
 			},
 			["BigWigs_Plugins_Alt Power"] = {
 				["profiles"] = {
 					["Default"] = {
-						["posx"] = 1002,
-						["fontSize"] = 14,
-						["font"] = DB.Font[1],
+						["font"] = "默认",
 						["fontOutline"] = "OUTLINE",
-						["posy"] = 490,
+						["fontSize"] = 14,
+						["posx"] = 1000,
+						["posy"] = 500,
+					},
+				},
+			},
+			["BigWigs_Plugins_Bars"] = {
+				["profiles"] = {
+					["Default"] = {
+						["barStyle"] = "NDui",
+						["BigWigsAnchor_width"] = 175,
+						["BigWigsAnchor_x"] = 400,
+						["BigWigsAnchor_y"] = 725,
+						["BigWigsEmphasizeAnchor_width"] = 200,
+						["BigWigsEmphasizeAnchor_x"] = 875,
+						["BigWigsEmphasizeAnchor_y"] = 350,
+						["emphasizeGrowup"] = true,
+						["emphasizeScale"] = 1,
+						["font"] = "默认",
+						["fontSize"] = 12,
+						["growup"] = false,
+						["interceptMouse"] = false,
+						["LeftButton"] = {
+							["emphasize"] = false,
+						},
+						["onlyInterceptOnKeypress"] = true,
+						["outline"] = "OUTLINE",
+					},
+				},
+			},
+			["BigWigs_Plugins_Super Emphasize"] = {
+				["profiles"] = {
+					["Default"] = {
+						["font"] = "默认",
+						["fontSize"] = 28,
+					},
+				},
+			},
+			["BigWigs_Plugins_Statistics"] = {
+				["profiles"] = {
+					["Default"] = {
+						["showBar"] = true,
+					},
+				},
+			},
+			["BigWigs_Plugins_Proximity"] = {
+				["profiles"] = {
+					["Default"] = {
+						["font"] = "默认",
+						["fontSize"] = 18,
+						["height"] = 120,
+						["posx"] = 200,
+						["posy"] = 400,
+						["width"] = 140,
+					},
+				},
+			},
+			["BigWigs_Plugins_Messages"] = {
+				["profiles"] = {
+					["Default"] = {
+						["BWEmphasizeCountdownMessageAnchor_x"] = 665,
+						["BWEmphasizeCountdownMessageAnchor_y"] = 530,
+						["BWEmphasizeMessageAnchor_x"] = 600,
+						["BWEmphasizeMessageAnchor_y"] = 700,
+						["BWMessageAnchor_x"] = 600,
+						["BWMessageAnchor_y"] = 350,
+						["font"] = "默认",
+						["fontSize"] = 18,
+						["growUpwards"] = true,
+						["outline"] = "OUTLINE",
+						["useicons"] = false,
 					},
 				},
 			},
 		},
+		["discord"] = 1,
 		["profiles"] = {
 			["Default"] = {
 				["fakeDBMVersion"] = true,

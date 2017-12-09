@@ -41,9 +41,9 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 16921 $"):sub(12, -3)),
-	DisplayVersion = "7.3.10 alpha", -- the string that is shown as version
-	ReleaseRevision = 16911 -- the revision of the latest stable version that is available
+	Revision = tonumber(("$Revision: 16963 $"):sub(12, -3)),
+	DisplayVersion = "7.3.12 alpha", -- the string that is shown as version
+	ReleaseRevision = 16951 -- the revision of the latest stable version that is available
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -386,7 +386,7 @@ local UpdateChestTimer
 local breakTimerStart
 local AddMsg
 
-local fakeBWVersion, fakeBWHash = 79, "a61ec1e"
+local fakeBWVersion, fakeBWHash = 82, "eff62c5"
 local versionQueryString, versionResponseString = "Q^%d^%s", "V^%d^%s"
 
 local enableIcons = true -- set to false when a raid leader or a promoted player has a newer version of DBM
@@ -9988,6 +9988,17 @@ do
 		end
 		local id = self.id..pformat((("\t%s"):rep(select("#", ...))), ...)
 		return DBM.Bars:UpdateBar(id, elapsed, totalTime)
+	end
+	
+	function timerPrototype:AddTime(extendAmount, ...)
+		local id = self.id..pformat((("\t%s"):rep(select("#", ...))), ...)
+		local bar = DBM.Bars:GetBar(id)
+		if bar then
+			local elapsed, total = (bar.totalTime - bar.timer), bar.totalTime
+			if elapsed and total then
+				return DBM.Bars:UpdateBar(id, elapsed, total+extendAmount)
+			end
+		end
 	end
 
 	function timerPrototype:UpdateIcon(icon, ...)

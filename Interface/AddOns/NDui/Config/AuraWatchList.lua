@@ -161,6 +161,10 @@ C.AuraWatchList = {
 				{AuraID = 214962, UnitID = "player"},
 				--晶化身体
 				{AuraID = 214366, UnitID = "player", Value= true},
+				--裂隙世界法典
+				{AuraID = 252545, UnitID = "player", Value = true},
+				{AuraID = 251938, UnitID = "player"},
+				{AuraID = 256415, UnitID = "player"},
 				--克罗塔的护盾
 				{AuraID = 228323, UnitID = "player", Value = true},
 				--猫头鹰
@@ -380,6 +384,8 @@ C.AuraWatchList = {
 				{AuraID = 204150, UnitID = "player"},
 				--潜伏帷幕
 				{AuraID = 115834, UnitID = "player"},
+				--幻影打击
+				{AuraID = 209426, UnitID = "player"},
 			-->杂项
 				--误导（猎人）
 				{AuraID =  34477, UnitID = "player"},
@@ -811,6 +817,10 @@ C.AuraWatchList = {
 				{AuraID = 244768, UnitID = "player", Text = "跑场边"},
 				--虹吸
 				{AuraID = 248819, UnitID = "player", Text = "分摊"},
+				--暗影触痕
+				{AuraID = 244055, UnitID = "player", Text = L["Shadow Side"]},
+				--烈焰触痕
+				{AuraID = 244054, UnitID = "player", Text = L["Fire Side"]},
 			--安托兰统帅议会
 				--灵能突袭
 				{AuraID = 244172, UnitID = "player"},
@@ -2154,6 +2164,8 @@ C.AuraWatchList = {
 				{AuraID = 173184, UnitID = "player"},	--精通
 				--冰怒
 				{AuraID = 210714, UnitID = "player"},
+				--暴雨图腾
+				{AuraID = 157504, UnitID = "player", Value = true},
 			},
 		},
 		{	Name = "Focus Aura",
@@ -3409,8 +3421,6 @@ C.AuraWatchList = {
 				{AuraID = 208628, UnitID = "player"},
 				--混乱之刃
 				{AuraID = 247938, UnitID = "player"},
-				--黑暗
-				{AuraID = 209426, UnitID = "player"},
 				--邪能弹幕
 				{AuraID = 211053, UnitID = "player"},
 				--涅墨西斯

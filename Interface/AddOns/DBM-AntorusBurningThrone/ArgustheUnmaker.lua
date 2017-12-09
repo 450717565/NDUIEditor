@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2031, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16915 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16937 $"):sub(12, -3))
 mod:SetCreatureID(124828)
 mod:SetEncounterID(2092)
 mod:SetZone()
@@ -279,9 +279,9 @@ function mod:SPELL_CAST_START(args)
 		--timerTorturedRageCD:Start(2)--No longer used in P2?
 		timerAvatarofAggraCD:Start(20.9)
 		timerEdgeofObliterationCD:Start(21)
-		timerSoulBombCD:Start(35.3)
-		countdownSoulbomb:Start(35.3)
-		timerSoulBurstCD:Start(35.3, 1)
+		timerSoulBombCD:Start(30.8)
+		countdownSoulbomb:Start(30.8)
+		timerSoulBurstCD:Start(30.8, 1)
 	elseif spellId == 257645 then--Temporal Blast (Stage 3)
 		self.vb.phase = 3
 		warnPhase3:Show()
