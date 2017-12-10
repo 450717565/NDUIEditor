@@ -43,7 +43,7 @@
 --
 
 
-local revision =("$Revision: 16855 $"):sub(12, -3)
+local revision =("$Revision: 16971 $"):sub(12, -3)
 local FrameTitle = "DBM_GUI_Option_"	-- all GUI frames get automatically a name FrameTitle..ID
 
 local PanelPrototype = {}
@@ -249,6 +249,9 @@ local function MixinSharedMedia3(mediatype, mediatable)
 		LSM:Register("sound", "Kaz'rogal: Marked", [[Sound\Creature\KazRogal\CAV_Kaz_Mark02.ogg]])
 		LSM:Register("sound", "C'Thun: You Will Die!", [[Sound\Creature\CThun\CThunYouWillDIe.ogg]])
 		LSM:Register("sound", "Thrall: That's Incredible!", [[Interface\AddOns\DBM-Core\sounds\incredible.ogg]])
+		LSM:Register("sound", "Blakbyrd Alert 1", [[Interface\AddOns\DBM-Core\sounds\BlakbyrdAlerts\Alert1.ogg]])
+		LSM:Register("sound", "Blakbyrd Alert 2", [[Interface\AddOns\DBM-Core\sounds\BlakbyrdAlerts\Alert2.ogg]])
+		LSM:Register("sound", "Blakbyrd Alert 3", [[Interface\AddOns\DBM-Core\sounds\BlakbyrdAlerts\Alert3.ogg]])
 		--Do to terrible coding in LSM formating, it's not possible to do this a nice looking way
 		if DBM.Options.CustomSounds >= 1 then
 			LSM:Register("sound", "DBM: Custom 1", [[Interface\AddOns\DBM-CustomSounds\Custom1.ogg]])
@@ -2669,9 +2672,10 @@ local function CreateOptionsMenu()
 		-- SpecialWarn Sound Interface\\AddOns\\DBM-Core\\sounds\\ClassicSupport\\incredible.ogg
 		local Sounds = MixinSharedMedia3("sound", {
 			{	text	= L.NoSound,			value	= "" },
-			{	text	= "Default",			value 	= "Sound\\Spells\\PVPFlagTaken.ogg", 		sound=true },
+			{	text	= "PvP Flag",			value 	= "Sound\\Spells\\PVPFlagTaken.ogg", 		sound=true },
 			{	text	= "Blizzard",			value 	= "Sound\\interface\\UI_RaidBossWhisperWarning.ogg", 		sound=true },
 			{	text	= "Beware!",			value 	= "Sound\\Creature\\AlgalonTheObserver\\UR_Algalon_BHole01.ogg", 		sound=true },
+			{	text	= "AirHorn",			value 	= "Interface\\AddOns\\DBM-Core\\sounds\\AirHorn.ogg", 		sound=true },
 			{	text	= "Destruction",		value 	= "Sound\\Creature\\KilJaeden\\KILJAEDEN02.ogg", 		sound=true },
 			{	text	= "NotPrepared",		value 	= "Sound\\Creature\\Illidan\\BLACK_Illidan_04.ogg", 		sound=true },
 			{	text	= "NotPrepared2",		value 	= "Sound\\Creature\\Illidan_Stormrage\\VO_703_Illidan_Stormrage_03.ogg", 		sound=true },

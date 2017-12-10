@@ -1,13 +1,13 @@
 local mod	= DBM:NewMod(2025, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16960 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16969 $"):sub(12, -3))
 mod:SetCreatureID(124445)
 mod:SetEncounterID(2075)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(1, 2, 3, 4, 5, 6)
---mod:SetHotfixNoticeRev(16350)
+mod:SetHotfixNoticeRev(16960)
 --mod.respawnTime = 29
 
 mod:RegisterCombat("combat")
@@ -129,7 +129,7 @@ local heroicDestructors = {15.7, 35.3, 40.6, 104.6, 134.7, 99.6}
 local mythicDestructors = {23, 23.1, 87.4, 288.4, 20, 79}
 local normalObfuscators = {193}--Live, Dec 01
 local heroicObfuscators = {80.6, 148.5, 94.7, 99.9}
-local mythicObfuscators = {46, 245.5, 43.8, 90.8}
+local mythicObfuscators = {46, 243, 43.8, 90.8}
 local heroicPurifiers = {125, 66.1, 30.6}
 local mythicPurifiers = {65.7, 82.6, 66.9, 145.7}
 local warnedAdds = {}
@@ -190,6 +190,19 @@ do
 	end
 end
 
+--This is backup for fixing timers if destructors die before they ever cast high alert, such as massively overgearing encounter and able to burn it down in less than 10 seconds
+local function checkForDeadDestructor(self)
+	self:Unschedule(checkForDeadDestructor)
+	self.vb.destructorCast = self.vb.destructorCast + 1
+	local timer = self:IsMythic() and mythicDestructors[self.vb.destructorCast+1] or self:IsHeroic() and heroicDestructors[self.vb.destructorCast+1] or self:IsNormal() and normalDestructors[self.vb.destructorCast+1]
+	if timer then
+		local text = self:IsHeroic() and addCountToLocationHeroic["Dest"][self.vb.destructorCast+1] or self:IsNormal() and addCountToLocationNormal["Dest"][self.vb.destructorCast+1] or self:IsMythic() and addCountToLocationMythic["Dest"][self.vb.destructorCast+1] or self.vb.destructorCast+1
+		timerDestructorCD:Start(timer-20, text)--Minus 10 for being 10 seconds after high alert, and minus 10 for wanting when it spawns not high alert cast
+		self:Schedule(timer, checkForDeadDestructor, self)--10 seconds after high alert
+	end
+	DBM:Debug("checkForDeadDestructor ran, which means a destructor died before casting high alert, or DBM has a timer error near: "..self.vb.destructorCast, 2)
+end
+
 function mod:OnCombatStart(delay)
 	self.vb.rainOfFelCount = 0
 	self.vb.destructors = 0
@@ -210,7 +223,8 @@ function mod:OnCombatStart(delay)
 			timerRainofFelCD:Start(6-delay, 1)
 			--countdownRainofFel:Start(6-delay)
 			--timerSpearofDoomCD:Start(35-delay, 1)
-			timerDestructorCD:Start(8, DBM_CORE_MIDDLE)
+			timerDestructorCD:Start(12, DBM_CORE_MIDDLE)
+			self:Schedule(32, checkForDeadDestructor, self)
 			timerObfuscatorCD:Start(46, DBM_CORE_BOTTOM)
 			timerPurifierCD:Start(65.7, DBM_CORE_MIDDLE)
 			timerFinalDoomCD:Start(60-delay, 1)
@@ -218,12 +232,14 @@ function mod:OnCombatStart(delay)
 		elseif self:IsHeroic() then
 			timerRainofFelCD:Start(9.3-delay, 1)
 			--countdownRainofFel:Start(9.3-delay)
-			timerDestructorCD:Start(8, DBM_CORE_MIDDLE)
+			timerDestructorCD:Start(7, DBM_CORE_MIDDLE)
+			self:Schedule(27, checkForDeadDestructor, self)
 			timerSpearofDoomCD:Start(34.4-delay, 1)
 			timerObfuscatorCD:Start(80.6, DBM_CORE_TOP)
 			timerPurifierCD:Start(125, DBM_CORE_MIDDLE)
 		else--Normal
-			timerDestructorCD:Start(8, DBM_CORE_MIDDLE)
+			timerDestructorCD:Start(7, DBM_CORE_MIDDLE)
+			self:Schedule(27, checkForDeadDestructor, self)
 			timerObfuscatorCD:Start(174, 1)
 			--timerRainofFelCD:Start(30-delay, 1)
 			--countdownRainofFel:Start(30-delay)
@@ -301,6 +317,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		end
 	elseif spellId == 254769 and args:GetSrcCreatureID() == 123760 and not warnedAdds[args.sourceGUID] then--High Alert
 		warnedAdds[args.sourceGUID] = true
+		self:Unschedule(checkForDeadDestructor)
 		self.vb.destructors = self.vb.destructors + 1
 		if self:AntiSpam(5, args.sourceName) then
 			warnWarpIn:Show(L.Destructors)
@@ -308,7 +325,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 			local timer = self:IsMythic() and mythicDestructors[self.vb.destructorCast+1] or self:IsHeroic() and heroicDestructors[self.vb.destructorCast+1] or self:IsNormal() and normalDestructors[self.vb.destructorCast+1]
 			if timer then
 				local text = self:IsHeroic() and addCountToLocationHeroic["Dest"][self.vb.destructorCast+1] or self:IsNormal() and addCountToLocationNormal["Dest"][self.vb.destructorCast+1] or self:IsMythic() and addCountToLocationMythic["Dest"][self.vb.destructorCast+1] or self.vb.destructorCast+1
-				timerDestructorCD:Start(timer-9, text)--High alert fires about 9 seconds after spawn so using it as a trigger has a -9 adjustment
+				timerDestructorCD:Start(timer-10, text)--High alert fires about 9 seconds after spawn so using it as a trigger has a -10 adjustment
+				self:Schedule(timer+10, checkForDeadDestructor, self)
 			end
 		end
 	end

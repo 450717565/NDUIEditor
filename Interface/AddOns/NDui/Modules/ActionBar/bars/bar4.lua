@@ -97,6 +97,7 @@ function Bar:CreateBar4()
 				f.savedEvent = event
 			else
 				InterfaceOptions_UpdateMultiActionBars()
+				self:UnregisterEvent(event)
 			end
 		end
 	end)

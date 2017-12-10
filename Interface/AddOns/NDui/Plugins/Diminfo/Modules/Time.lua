@@ -25,53 +25,53 @@ if cfg.Time == true then
 				Min = date("%M")
 				if GetCVar("timeMgrUseMilitaryTime") == "1" then
 					if pendingCalendarInvites > 0 then
-					Text:SetText("|cffFF0000"..Hr24..":"..Min)
-				else
-					Text:SetText(Hr24..":"..Min)
-				end
-			else
-				if Hr24 >= 12 then
-					if pendingCalendarInvites > 0 then
-						Text:SetText("|cffFF0000"..Hr..":"..Min..init.Colored.."pm|r")
+						Text:SetText("|cffFF0000"..Hr24..":"..Min)
 					else
-						Text:SetText(Hr..":"..Min..init.Colored.."pm|r")
+						Text:SetText(Hr24..":"..Min)
 					end
 				else
-					if pendingCalendarInvites > 0 then
-						Text:SetText("|cffFF0000"..Hr..":"..Min..init.Colored.."am|r")
+					if Hr24 >= 12 then
+						if pendingCalendarInvites > 0 then
+							Text:SetText("|cffFF0000"..Hr..":"..Min..init.Colored.."pm|r")
+						else
+							Text:SetText(Hr..":"..Min..init.Colored.."pm|r")
+						end
 					else
-						Text:SetText(Hr..":"..Min..init.Colored.."am|r")
+						if pendingCalendarInvites > 0 then
+							Text:SetText("|cffFF0000"..Hr..":"..Min..init.Colored.."am|r")
+						else
+							Text:SetText(Hr..":"..Min..init.Colored.."am|r")
+						end
+					end
+				end
+			else
+				Hr, Min = GetGameTime()
+				if Min < 10 then Min = "0"..Min end
+				if GetCVar("timeMgrUseMilitaryTime") == "1" then
+					if pendingCalendarInvites > 0 then			
+						Text:SetText("|cffFF0000"..Hr..":"..Min.."|cffffffff|r")
+					else
+						Text:SetText(Hr..":"..Min.."|cffffffff|r")
+					end
+				else
+					if Hr >= 12 then
+						if Hr > 12 then Hr = Hr - 12 end
+						if pendingCalendarInvites > 0 then
+							Text:SetText("|cffFF0000"..Hr..":"..Min..init.Colored.."pm|r")
+						else
+							Text:SetText(Hr..":"..Min..init.Colored.."pm|r")
+						end
+					else
+						if Hr == 0 then Hr = 12 end
+						if pendingCalendarInvites > 0 then
+							Text:SetText("|cffFF0000"..Hr..":"..Min..init.Colored.."am|r")
+						else
+							Text:SetText(Hr..":"..Min..init.Colored.."am|r")
+						end
 					end
 				end
 			end
-		else
-			Hr, Min = GetGameTime()
-			if Min < 10 then Min = "0"..Min end
-			if GetCVar("timeMgrUseMilitaryTime") == "1" then
-				if pendingCalendarInvites > 0 then
-					Text:SetText("|cffFF0000"..Hr..":"..Min.."|cffffffff|r")
-				else
-					Text:SetText(Hr..":"..Min.."|cffffffff|r")
-				end
-			else
-				if Hr >= 12 then
-					if Hr > 12 then Hr = Hr - 12 end
-					if pendingCalendarInvites > 0 then
-						Text:SetText("|cffFF0000"..Hr..":"..Min..init.Colored.."pm|r")
-					else
-						Text:SetText(Hr..":"..Min..init.Colored.."pm|r")
-					end
-				else
-					if Hr == 0 then Hr = 12 end
-					if pendingCalendarInvites > 0 then
-						Text:SetText("|cffFF0000"..Hr..":"..Min..init.Colored.."am|r")
-					else
-						Text:SetText(Hr..":"..Min..init.Colored.."am|r")
-					end
-				end
-			end
-		end
-		int = 1
+			int = 1
 		end
 	end
 
