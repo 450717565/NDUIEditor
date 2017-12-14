@@ -224,8 +224,8 @@ end)
 -- Get Naked
 do
 	local bu = CreateFrame("Button", nil, CharacterFrameInsetRight)
-	bu:SetSize(29, 30)
-	bu:SetPoint("RIGHT", PaperDollSidebarTab1, "LEFT", -6, -2)
+	bu:SetSize(30, 32)
+	bu:SetPoint("RIGHT", PaperDollSidebarTab1, "LEFT", -5.5, -2.2)
 	B.CreateIF(bu, true)
 	bu.Icon:SetTexture("Interface\\ICONS\\SPELL_SHADOW_TWISTEDFAITH")
 	B.CreateGT(bu, "ANCHOR_RIGHT", L["Get Naked"])

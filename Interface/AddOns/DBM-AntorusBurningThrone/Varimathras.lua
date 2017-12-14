@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1983, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16965 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16995 $"):sub(12, -3))
 mod:SetCreatureID(122366)
 mod:SetEncounterID(2069)
 mod:SetZone()
@@ -61,10 +61,10 @@ local timerTormentofFrostCD				= mod:NewNextTimer(61, 243976, nil, nil, nil, 6)
 local timerTormentofFelCD				= mod:NewNextTimer(61, 243979, nil, nil, nil, 6)
 local timerTormentofShadowsCD			= mod:NewNextTimer(61, 243974, nil, nil, nil, 6)
 --The Fallen Nathrezim
-local timerShadowStrikeCD				= mod:NewCDTimer(9, 243960, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--9-14
+local timerShadowStrikeCD				= mod:NewCDTimer(9, 243960, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--9-14 (most of time it's 9.7 or more, but sometimes it's 9.0-9.4 so 9.0 has to be used
 local timerDarkFissureCD				= mod:NewCDTimer(32, 243999, nil, nil, nil, 3)--32-33
-local timerMarkedPreyCD					= mod:NewCDTimer(30.3, 244042, nil, nil, nil, 3)
-local timerNecroticEmbraceCD			= mod:NewCDTimer(30.3, 244093, nil, nil, nil, 3)
+local timerMarkedPreyCD					= mod:NewNextTimer(30.3, 244042, nil, nil, nil, 3)
+local timerNecroticEmbraceCD			= mod:NewNextTimer(30.3, 244093, nil, nil, nil, 3)
 
 local berserkTimer						= mod:NewBerserkTimer(390)
 
@@ -137,7 +137,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if spellId == 243960 or spellId == 257644 then--257644 LFR shadow strike
 		warnShadowStrike:Show()
 		timerShadowStrikeCD:Show()
-		countdownShadowStrike:Start(9.7)
+		countdownShadowStrike:Start(9)
 	elseif spellId == 244093 then--Necrotic Embrace Cast
 		timerNecroticEmbraceCD:Start()
 		countdownNecroticEmbrace:Start(30.3)
@@ -183,6 +183,9 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnNecroticEmbrace:Show()
 			voiceNecroticEmbrace:Play("scatter")
 			yellNecroticEmbrace:Countdown(6, 3)
+			if self.Options.RangeFrame then
+				DBM.RangeCheck:Show(10)
+			end
 		else
 			warnNecroticEmbrace:CombinedShow(0.5, args.destName)--Combined message because even if it starts on 1, people are gonna fuck it up
 		end
@@ -245,6 +248,9 @@ function mod:SPELL_AURA_REMOVED(args)
 		self.vb.totalEmbrace = self.vb.totalEmbrace - 1
 		if args:IsPlayer() then
 			yellNecroticEmbrace:Cancel()
+			if self.Options.RangeFrame then
+				DBM.RangeCheck:Show(8)
+			end
 		end
 		if self.Options.SetIconEmbrace then
 			self:SetIcon(args.destName, 0)

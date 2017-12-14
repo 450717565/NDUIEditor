@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1984, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16965 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16999 $"):sub(12, -3))
 mod:SetCreatureID(121975)
 mod:SetEncounterID(2063)
 mod:SetZone()
@@ -74,13 +74,13 @@ local timerTaeshalachTechCD				= mod:NewNextCountTimer(61, 244688, nil, nil, nil
 local timerFoeBreakerCD					= mod:NewNextCountTimer(6.1, 245458, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON)
 local timerFlameRendCD					= mod:NewNextCountTimer(6.1, 245463, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON)
 local timerTempestCD					= mod:NewNextTimer(6.1, 245301, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON)
-local timerScorchingBlazeCD				= mod:NewCDTimer(7.3, 245994, nil, nil, nil, 3)
+local timerScorchingBlazeCD				= mod:NewCDTimer(6.5, 245994, nil, nil, nil, 3)--6.5-8
 local timerRavenousBlazeCD				= mod:NewCDTimer(23.2, 254452, nil, nil, nil, 3, nil, DBM_CORE_HEROIC_ICON)
 local timerWakeofFlameCD				= mod:NewCDTimer(24.3, 244693, nil, nil, nil, 3)
 --Stage Two: Champion of Sargeras
-local timerFlareCD						= mod:NewCDTimer(15.8, 245983, nil, nil, nil, 3)
+local timerFlareCD						= mod:NewCDTimer(15, 245983, nil, nil, nil, 3)
 
---local berserkTimer					= mod:NewBerserkTimer(600)
+local berserkTimer						= mod:NewBerserkTimer(600)
 
 --Stages One: Wrath of Aggramar
 local countdownTaeshalachTech			= mod:NewCountdown(61, 244688)
@@ -134,6 +134,7 @@ function mod:OnCombatStart(delay)
 		countdownWakeofFlame:Start(10.7-delay)
 		timerTaeshalachTechCD:Start(14.3-delay, 1)--Health based?
 		countdownTaeshalachTech:Start(14.3-delay)
+		berserkTimer:Start(540-delay)
 	else
 		timerScorchingBlazeCD:Start(4.8-delay)
 		timerWakeofFlameCD:Start(5.9-delay)
@@ -159,9 +160,6 @@ function mod:OnCombatEnd()
 --	end
 	if self.Options.NPAuraOnPresence then
 		DBM.Nameplate:Hide(true, nil, nil, nil, true, true)
-	end
-	if self:IsMythic() then
-		DBM:AddMsg(DBM_CORE_NEED_LOGS)
 	end
 end
 
@@ -424,6 +422,6 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 	elseif spellId == 245983 or spellId == 246037 then--Flare
 		specWarnFlare:Show()
 		voiceFlare:Play("watchstep")
-		timerFlareCD:Start()--Might be wrong here
+		timerFlareCD:Start()
 	end
 end

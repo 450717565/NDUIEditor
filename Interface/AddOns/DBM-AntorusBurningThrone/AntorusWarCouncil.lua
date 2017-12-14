@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1997, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16965 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16999 $"):sub(12, -3))
 mod:SetCreatureID(122369, 122333, 122367)--Chief Engineer Ishkar, General Erodus, Admiral Svirax
 mod:SetEncounterID(2070)
 mod:SetZone()
@@ -15,7 +15,7 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 244625 246505 253040 245227 244821",
 	"SPELL_CAST_SUCCESS 245292 244722 244892 245227 253037 245174",
-	"SPELL_SUMMON 245174",
+--	"SPELL_SUMMON 245174",
 	"SPELL_AURA_APPLIED 244737 244892 253015",
 	"SPELL_AURA_APPLIED_DOSE 244892",
 	"SPELL_AURA_REMOVED 244737 253015",
@@ -49,11 +49,11 @@ local warnPsychicAssault				= mod:NewTargetAnnounce(244172, 4)
 ----Chief Engineer Ishkar
 local warnEntropicMine					= mod:NewSpellAnnounce(245161, 2)
 ----General Erodus
-local warnSummonReinforcements			= mod:NewSpellAnnounce(245546, 2, nil, false, 2)
+--local warnSummonReinforcements			= mod:NewSpellAnnounce(245546, 2, nil, false, 2)
 local warnDemonicCharge					= mod:NewTargetAnnounce(253040, 2, nil, false, 2)
 --Out of Pod
 ----Admiral Svirax
-local warnShockGrenade					= mod:NewTargetAnnounce(244737, 3)
+local warnShockGrenade					= mod:NewTargetAnnounce(244737, 3, nil, false, 2)
 ----Chief Engineer Ishkar
 
 --General
@@ -87,12 +87,12 @@ local timerShockGrenadeCD				= mod:NewCDTimer(14.7, 244722, nil, nil, nil, 3, ni
 local timerAssumeCommandCD				= mod:NewNextTimer(90, 245227, nil, nil, nil, 6)
 --In Pod
 ----Admiral Svirax
-local timerFusilladeCD					= mod:NewCDCountTimer(29.6, 244625, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON)
+local timerFusilladeCD					= mod:NewNextCountTimer(29.6, 244625, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON)
 --local timerWitheringFireCD			= mod:NewAITimer(61, 245292, nil, nil, nil, 3)
 ----Chief Engineer Ishkar
 local timerEntropicMineCD				= mod:NewCDTimer(10, 245161, nil, nil, nil, 3)
 ----General Erodus
-local timerSummonReinforcementsCD		= mod:NewCDTimer(8.4, 245546, nil, nil, nil, 1)
+local timerSummonReinforcementsCD		= mod:NewNextTimer(8.4, 245546, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON)
 --local timerPyroblastCD				= mod:NewAITimer(61, 246505, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON)
 --Out of Pod
 ----Admiral Svirax
@@ -229,8 +229,8 @@ function mod:SPELL_CAST_START(args)
 		timerShockGrenadeCD:Stop()
 		timerExploitWeaknessCD:Stop()
 		countdownExploitWeakness:Cancel()
-		timerExploitWeaknessCD:Start(12)--12-14
-		countdownExploitWeakness:Start(12)
+		timerExploitWeaknessCD:Start(10.2)--10.2-14
+		countdownExploitWeakness:Start(10.2)
 		local cid = self:GetCIDFromGUID(args.sourceGUID)
 		if cid == 122369 then--Chief Engineer Ishkar
 			timerWarpFieldCD:Stop()
@@ -241,7 +241,7 @@ function mod:SPELL_CAST_START(args)
 			countdownFusillade:Start(15.9)
 			--TODO, reinforcements fix
 		elseif cid == 122333 then--General Erodus
-			timerSummonReinforcementsCD:Stop()--Stops fodder ones
+			--timerSummonReinforcementsCD:Stop()--Stops fodder ones
 			timerSummonReinforcementsCD:Start(11)--Starts elite ones
 			countdownReinforcements:Start(11)
 		elseif cid == 122367 then--Admiral Svirax
@@ -293,13 +293,15 @@ function mod:SPELL_CAST_SUCCESS(args)
 	end
 end
 
+--[[
 function mod:SPELL_SUMMON(args)
 	local spellId = args.spellId
 	if spellId == 245174 then--Minor adds
-		warnSummonReinforcements:Show()
-		timerSummonReinforcementsCD:Start()
+		--warnSummonReinforcements:Show()
+		--timerSummonReinforcementsCD:Start()
 	end
 end
+--]]
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
@@ -408,9 +410,9 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		elseif cid == 122333 then--General Erodus
 			timerSummonReinforcementsCD:Stop()--Elite ones
 			countdownReinforcements:Cancel()
-			if not self:IsEasy() then
-				timerSummonReinforcementsCD:Start(9)--Fodder ones
-			end
+			--if not self:IsEasy() then
+				--timerSummonReinforcementsCD:Start(9)--Fodder ones
+			--end
 		elseif cid == 122367 then--Admiral Svirax
 			timerFusilladeCD:Stop()
 			countdownFusillade:Cancel()

@@ -61,5 +61,11 @@ addon.raidData = {
 	[1494] = { numEncounters = 3, startFrom =  1 }, -- The Gates of Hell
 	[1495] = { numEncounters = 3, startFrom =  1 }, -- Wailing Halls
 	[1496] = { numEncounters = 2, startFrom =  1 }, -- Chamber of the Avatar
-	[1497] = { numEncounters = 1, startFrom =  1 }, -- Deceiver¡¯s Fall
+	[1497] = { numEncounters = 1, startFrom =  1 }, -- Deceiverâ€™s Fall
+	
+	-- Antorus, the Burning Throne
+	[1610] = { numEncounters = 3, startFrom =  1 }, -- Light's Breach
+	[1611] = { numEncounters = 3, startFrom =  1 }, -- Forbidden Descent
+	[1612] = { numEncounters = 3, startFrom =  1 }, -- Hope's End
+	[1613] = { numEncounters = 2, startFrom =  1 }, -- Seat of the Pantheon
 }
