@@ -19,7 +19,6 @@
 	<Include file="Reskins.lua"/>
 	<Include file="Slashin.lua"/>
 	<Include file="StarCursor.lua"/>
-	<Include file="StatReport.lua"/>
 	<Include file="TrainAll.lua"/>
 	<Include file="WorldFlightMap.lua"/>
 </Ui>

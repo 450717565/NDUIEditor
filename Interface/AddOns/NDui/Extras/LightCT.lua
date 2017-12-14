@@ -165,7 +165,7 @@ function eventFrame:COMBAT_LOG_EVENT_UNFILTERED(...)
 				end
 			end
 
-			color = _G.CombatLog_Color_ColorArrayBySchool(school) or {r = 1, g = 1, b = 1}
+			color = _G.CombatLog_Color_ColorArrayBySchool(school) or {r = .5, g = .5, b = .5}
 			icon = GetFloatingIcon(value.iconType, spellID, isPet)
 		end
 

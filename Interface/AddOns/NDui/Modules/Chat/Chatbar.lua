@@ -26,6 +26,37 @@ function module:Chatbar()
 		return bu
 	end
 
+	function StatusReport()
+		local info = ""
+		local mainStat = {"STRENGTH", "AGILITY", nil, "INTELLECT"}
+		local _, spec, _, _, _, main = GetSpecializationInfo(GetSpecialization())
+		local artifactLvl = select(6, C_ArtifactUI.GetEquippedArtifactInfo()) or 0
+		local statCollect = {
+			{str = CLASS..":%s ", UnitClass("player")},
+			{str = SPECIALIZATION..":%s ", disabel = not GetSpecialization(), spec},
+			{str = STAT_AVERAGE_ITEM_LEVEL..":%.1f(%.1f) ", GetAverageItemLevel()},
+			{str = ARCHAEOLOGY_CURRENT..":%s(%s) " , disable = not C_ArtifactUI.GetEquippedArtifactInfo(), artifactLvl, artifactLvl > 51 and  artifactLvl - 51 or 0},
+			{str = _G["SPEC_FRAME_PRIMARY_STAT_"..mainStat[main]]..":%s ", UnitStat("player", main)},
+			{str = HEALTH..":%s ", B.Numb(UnitHealthMax("player"))},
+			{str = STAT_CRITICAL_STRIKE..":%.2f%% ", GetCritChance()},
+			{str = STAT_HASTE..":%.2f%% ", GetHaste()},
+			{str = STAT_MASTERY..":%.2f%% ", GetMasteryEffect()},
+			{str = STAT_VERSATILITY..":%.2f%% ", disable = GetCombatRatingBonus(29) == 0, GetCombatRatingBonus(29)},
+			{str = STAT_AVOIDANCE..":%.2f%% ", disable = GetAvoidance() == 0, GetAvoidance()},
+			{str = STAT_LIFESTEAL..":%.2f%% ", disable = GetLifesteal() == 0, GetLifesteal()},
+			{str = STAT_DODGE..":%.2f%% ", disable = DB.Role ~= "Tank" or GetDodgeChance() == 0, GetDodgeChance()},
+			{str = STAT_PARRY..":%.2f%% ", disable = DB.Role ~= "Tank" or GetParryChance() == 0, GetParryChance()},
+			{str = STAT_BLOCK..":%.2f%% ", disable = DB.Role ~= "Tank" or GetBlockChance() == 0, GetBlockChance()},
+		}
+
+		for _, stat in ipairs(statCollect) do
+			if not stat.disable then
+				info = info..stat.str:format(unpack(stat))
+			end
+		end
+		return info
+	end
+
 	-- Create Chatbars
 	local buttonInfo = {
 		{1, 1, 1, L["Say / Yell"], function(self, btn)
@@ -53,12 +84,12 @@ function module:Chatbar()
 			end
 		end},
 		{1, .5, 1, L["Whisper"], function(self, btn)
-			if btn == "RightButton" then   
+			if btn == "RightButton" then
 				ChatFrame_ReplyTell(chatFrame)
 				if not editBox:IsVisible() or editBox:GetAttribute("chatType") ~= "WHISPER" then
 					ChatFrame_OpenChat("/w ", chatFrame)
 				end
-			else   
+			else
 				if (UnitExists("target") and UnitName("target") and UnitIsPlayer("target") and GetDefaultLanguage("player") == GetDefaultLanguage("target") )then
 					local name = GetUnitName("target", true)
 					ChatFrame_OpenChat("/w "..name.." ", chatFrame)
@@ -75,13 +106,13 @@ function module:Chatbar()
 				self:SetAttribute("macrotext", "/run ToggleFrame(CustomEmoteFrame)")
 			end
 		end},
-		{1, 1, 0, L["LootMonitor / StatsReport"], nil, function(self, btn)
+		{1, 1, 0, L["LootMonitor / StatusReport"], nil, function(self, btn)
 			self:SetAttribute("type", "macro")
 			if not NDuiDB["Extras"]["LootMonitor"] then
-				self:SetAttribute("macrotext", "/run ChatFrame_OpenChat(StatsReport())")
+				self:SetAttribute("macrotext", "/run ChatFrame_OpenChat(StatusReport())")
 			else
 				if btn == "RightButton" then
-					self:SetAttribute("macrotext", "/run ChatFrame_OpenChat(StatsReport())")
+					self:SetAttribute("macrotext", "/run ChatFrame_OpenChat(StatusReport())")
 				else
 					self:SetAttribute("macrotext", "/ndlm")
 				end

@@ -177,9 +177,14 @@ local function setupClickSets(self, ...)
 		for _, v in ipairs(keyList) do
 			if v[1] == key and v[2] == modKey then
 				if tonumber(value) then
-					local name = GetSpellInfo(value)
-					self:SetAttribute(format(v[3], "type"), "spell")
-					self:SetAttribute(format(v[3], "spell"), name)
+					if tonumber(value) == 13 or tonumber(value) == 14 then
+						self:SetAttribute(format(v[3], "type"), "item")
+						self:SetAttribute(format(v[3], "item"), tonumber(value))
+					else
+						local name = GetSpellInfo(value)
+						self:SetAttribute(format(v[3], "type"), "spell")
+						self:SetAttribute(format(v[3], "spell"), name)
+					end
 				elseif value == "target" then
 					self:SetAttribute(format(v[3], "type"), "target")
 				elseif value == "focus" then
