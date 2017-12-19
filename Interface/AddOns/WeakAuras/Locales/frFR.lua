@@ -58,6 +58,8 @@ L["Absorbed"] = "Absorbé"
 L["Action Usable"] = "Action utilisable"
 --Translation missing 
 -- L["Active"] = ""
+--Translation missing 
+-- L["Active For"] = ""
 L["Additional Trigger Replacements"] = "Remplacements de Déclencheurs additionnels"
 L["Affected"] = "Affecté"
 L["Aggro"] = "Aggro"
@@ -130,6 +132,8 @@ L["Bottom to Top"] = "De Bas en Haut"
 L["Bounce"] = "Rebond"
 L["Bounce with Decay"] = "Rebond décroissant"
 L["Buff"] = "Amélioration"
+--Translation missing 
+-- L["Buffed/Debuffed"] = ""
 L["Cast"] = "Incantation"
 L["Cast Failed"] = "Incantation ratée"
 L["Cast Start"] = "Incantation débutée"

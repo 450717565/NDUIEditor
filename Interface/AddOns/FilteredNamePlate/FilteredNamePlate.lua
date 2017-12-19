@@ -9,7 +9,9 @@ local IsGeneralRegistered, SetupFlag
 
 local isInOnlySt
 
-local curNpFlag, curNpFlag1Type
+local majorNpFlag, majorFrName
+
+--local IS_DEBUG = false
 
 local function setCVarValues()
 	SetCVar("nameplateShowEnemies", 1)
@@ -80,7 +82,7 @@ local function registerMyEvents(self, event, ...)
 		end
 		-----*** inited **}
 
-		curNpFlag, curNpFlag1Type = FilteredNamePlate:GenCurNpFlags()
+		majorNpFlag, majorFrName = FilteredNamePlate:GenCurNpFlags()
 		local function regGeneralEvents(registed)
 			if registed then
 				for k, v in pairs(FilteredNamePlate.FilterNp_Event_General_List) do
@@ -123,8 +125,8 @@ local HideAFrame = {
 	end,
 	[1] = function(frame) -- all the scaled one
 		if frame == nil then return end
-		if frame[curNpFlag1Type] then
-			frame[curNpFlag1Type]:SetScale(FilteredNamePlate.curScaleList.small)
+		if frame[majorFrName] then
+			frame[majorFrName]:SetScale(FilteredNamePlate.curScaleList.small)
 		end
 	end,
 	[2] = function(frame) --ek number
@@ -139,14 +141,14 @@ local HideAFrame = {
 	end,
 	[3] = function(frame) --sheStack
 		if frame == nil then return end
-		if frame.ouf then
-			if frame.ouf.Name then
-				frame.ouf.Name:SetFont(FilteredNamePlate.curScaleList.fontFace, FilteredNamePlate.curScaleList.small_name_font, FilteredNamePlate.curScaleList.fontFlag)
+		if frame.unitFrame then
+			if frame.unitFrame.Name then
+				frame.unitFrame.Name:SetFont(FilteredNamePlate.curScaleList.fontFace, FilteredNamePlate.curScaleList.small_name_font, FilteredNamePlate.curScaleList.fontFlag)
 			end
-			if frame.ouf.Level then
-				frame.ouf.Level:SetFont(FilteredNamePlate.curScaleList.fontFace, FilteredNamePlate.curScaleList.small_name_font, FilteredNamePlate.curScaleList.fontFlag)
+			if frame.unitFrame.Level then
+				frame.unitFrame.Level:SetFont(FilteredNamePlate.curScaleList.fontFace, FilteredNamePlate.curScaleList.small_name_font, FilteredNamePlate.curScaleList.fontFlag)
 			end
-			if frame.ouf.Health then frame.ouf.Health:Hide() end
+			if frame.unitFrame.Health then frame.unitFrame.Health:Hide() end
 		end
 	end,
 	[4] = function(frame) --cbl
@@ -189,17 +191,17 @@ local ShowAFrame = {
 		end
 	end,
 	[1] = function(frame, isOnlyShowSpellCast, restore, isOnlyUnit)
-		if frame and frame[curNpFlag1Type] then
+		if frame and frame[majorFrName] then
 			if restore == true then
-				frame[curNpFlag1Type]:SetScale(FilteredNamePlate.curScaleList.SYSTEM)
+				frame[majorFrName]:SetScale(FilteredNamePlate.curScaleList.SYSTEM)
 			elseif isOnlyShowSpellCast == false then
 				if isOnlyUnit == true then
-					frame[curNpFlag1Type]:SetScale(FilteredNamePlate.curScaleList.only)
+					frame[majorFrName]:SetScale(FilteredNamePlate.curScaleList.only)
 				else
-					frame[curNpFlag1Type]:SetScale(FilteredNamePlate.curScaleList.normal)
+					frame[majorFrName]:SetScale(FilteredNamePlate.curScaleList.normal)
 				end
 			else
-				frame[curNpFlag1Type]:SetScale(FilteredNamePlate.curScaleList.middle)
+				frame[majorFrName]:SetScale(FilteredNamePlate.curScaleList.middle)
 			end
 		end
 	end,
@@ -229,23 +231,23 @@ local ShowAFrame = {
 		end
 	end,
 	[3] = function(frame, isOnlyShowSpellCast, restore, isOnlyUnit)
-		if frame and frame.ouf then
+		if frame and frame.unitFrame then
 			if restore == true then
-				frame.ouf.Level:SetFont(FilteredNamePlate.curScaleList.fontFace, FilteredNamePlate.curScaleList.NAME_FONT, FilteredNamePlate.curScaleList.fontFlag)
-				frame.ouf.Name:SetFont(FilteredNamePlate.curScaleList.fontFace, FilteredNamePlate.curScaleList.NAME_FONT, FilteredNamePlate.curScaleList.fontFlag)
-				frame.ouf.Health:Show()
+				frame.unitFrame.Level:SetFont(FilteredNamePlate.curScaleList.fontFace, FilteredNamePlate.curScaleList.NAME_FONT, FilteredNamePlate.curScaleList.fontFlag)
+				frame.unitFrame.Name:SetFont(FilteredNamePlate.curScaleList.fontFace, FilteredNamePlate.curScaleList.NAME_FONT, FilteredNamePlate.curScaleList.fontFlag)
+				frame.unitFrame.Health:Show()
 			elseif isOnlyShowSpellCast == false then
-				frame.ouf.Health:Show()
+				frame.unitFrame.Health:Show()
 				if isOnlyUnit then
-					frame.ouf.Level:SetFont(FilteredNamePlate.curScaleList.fontFace, FilteredNamePlate.curScaleList.only_name_font, FilteredNamePlate.curScaleList.fontFlag)
-					frame.ouf.Name:SetFont(FilteredNamePlate.curScaleList.fontFace, FilteredNamePlate.curScaleList.only_name_font, FilteredNamePlate.curScaleList.fontFlag)
+					frame.unitFrame.Level:SetFont(FilteredNamePlate.curScaleList.fontFace, FilteredNamePlate.curScaleList.only_name_font, FilteredNamePlate.curScaleList.fontFlag)
+					frame.unitFrame.Name:SetFont(FilteredNamePlate.curScaleList.fontFace, FilteredNamePlate.curScaleList.only_name_font, FilteredNamePlate.curScaleList.fontFlag)
 				else
-					frame.ouf.Level:SetFont(FilteredNamePlate.curScaleList.fontFace, FilteredNamePlate.curScaleList.normal_name_font, FilteredNamePlate.curScaleList.fontFlag)
-					frame.ouf.Name:SetFont(FilteredNamePlate.curScaleList.fontFace, FilteredNamePlate.curScaleList.normal_name_font, FilteredNamePlate.curScaleList.fontFlag)
+					frame.unitFrame.Level:SetFont(FilteredNamePlate.curScaleList.fontFace, FilteredNamePlate.curScaleList.normal_name_font, FilteredNamePlate.curScaleList.fontFlag)
+					frame.unitFrame.Name:SetFont(FilteredNamePlate.curScaleList.fontFace, FilteredNamePlate.curScaleList.normal_name_font, FilteredNamePlate.curScaleList.fontFlag)
 				end
 			else
-				frame.ouf.Level:SetFont(FilteredNamePlate.curScaleList.fontFace, FilteredNamePlate.curScaleList.mid_name_font, FilteredNamePlate.curScaleList.fontFlag)
-				frame.ouf.Name:SetFont(FilteredNamePlate.curScaleList.fontFace, FilteredNamePlate.curScaleList.mid_name_font, FilteredNamePlate.curScaleList.fontFlag)
+				frame.unitFrame.Level:SetFont(FilteredNamePlate.curScaleList.fontFace, FilteredNamePlate.curScaleList.mid_name_font, FilteredNamePlate.curScaleList.fontFlag)
+				frame.unitFrame.Name:SetFont(FilteredNamePlate.curScaleList.fontFace, FilteredNamePlate.curScaleList.mid_name_font, FilteredNamePlate.curScaleList.fontFlag)
 			end
 		end
 	end,
@@ -280,7 +282,7 @@ local function resetUnitState(restore)
 	for _, frame in pairs(GetNamePlates()) do
 		local foundUnit = (frame.namePlateUnitToken or (frame.UnitFrame and frame.UnitFrame.unit)) or (frame.unitFrame and frame.unitFrame.unit)
 		if foundUnit then
-			ShowAFrame[curNpFlag](frame, false, restore, false)
+			ShowAFrame[majorNpFlag](frame, false, restore, false)
 		end
 	end
 end
@@ -295,9 +297,9 @@ function FilteredNamePlate:actionUnitStateAfterChanged()
 		return
 	end
 
-	local lastNp = curNpFlag
-	curNpFlag, curNpFlag1Type = FilteredNamePlate:GenCurNpFlags()
-	if not (curNpFlag == lastNp) then --UI类型有变,请重载,继续当做没有改变来工作
+	local lastNp = majorNpFlag
+	majorNpFlag, majorFrName = FilteredNamePlate:GenCurNpFlags()
+	if not (majorNpFlag == lastNp) then --UI类型有变,请重载,继续当做没有改变来工作
 		print(FNP_LOCALE_TEXT.FNP_CHANGED_UITYPE)
 		return
 	end
@@ -306,7 +308,7 @@ function FilteredNamePlate:actionUnitStateAfterChanged()
 	-- reset global vars{{
 	isInOnlySt = false
 	FilteredNamePlate.isSettingChanged = false
-	FilteredNamePlate:reinitScaleValues(curNpFlag, true)
+	FilteredNamePlate:reinitScaleValues(majorNpFlag)
 	-- reset global vars}}
 
 	local matched = false
@@ -326,9 +328,9 @@ function FilteredNamePlate:actionUnitStateAfterChanged()
 					if foundUnit then matched2 = isMatchedNameList(Fnp_FNameList, GetUnitName(foundUnit)) end
 				end
 				if matched2 == true then
-					HideAFrame[curNpFlag](frame)
+					HideAFrame[majorNpFlag](frame)
 				else
-					ShowAFrame[curNpFlag](frame, false, false, false) -- 全是普通情况
+					ShowAFrame[majorNpFlag](frame, false, false, false) -- 全是普通情况
 				end
 			else						 -- 如果有仅显单位则
 				local foundUnit = (frame.namePlateUnitToken or (frame.UnitFrame and frame.UnitFrame.unit)) or (frame.unitFrame and frame.unitFrame.unit)
@@ -348,9 +350,9 @@ function FilteredNamePlate:actionUnitStateAfterChanged()
 				if foundUnit then matched = isMatchedNameList(Fnp_ONameList, GetUnitName(foundUnit)) end
 				if matched == true then
 					-- 仅显模式仅显的怪
-					ShowAFrame[curNpFlag](frame, false, false, true)
+					ShowAFrame[majorNpFlag](frame, false, false, true)
 				else
-					HideAFrame[curNpFlag](frame)
+					HideAFrame[majorNpFlag](frame)
 				end
 			end
 		else
@@ -370,7 +372,7 @@ local function actionUnitAddedForce(unitid)
 	if curFilterMatch == true then
 		--AllInfos[unitid].matchType = 2  -- #ALLMYINFOS#
 		local frame = GetNamePlateForUnit(unitid)
-		HideAFrame[curNpFlag](frame)
+		HideAFrame[majorNpFlag](frame)
 		return
 	end
 	-- 1. 当前add的单位名,是否match
@@ -380,17 +382,17 @@ local function actionUnitAddedForce(unitid)
 		--AllInfos[unitid].matchType = 0  -- #ALLMYINFOS#
 		local frame = GetNamePlateForUnit(unitid)
 		local foundUnit = (frame.namePlateUnitToken or (frame.UnitFrame and frame.UnitFrame.unit)) or (frame.unitFrame and frame.unitFrame.unit)
-		if UnitIsPlayer(foundUnit) == false then HideAFrame[curNpFlag](frame) end
+		if UnitIsPlayer(foundUnit) == false then HideAFrame[majorNpFlag](frame) end
 	elseif curOnlyMatch == false and isInOnlySt == false then
 		-- 新增单位不需要仅显, 此时也没有仅显, 就不管了.现在我们将当前的效果展示出来
 		--AllInfos[unitid].matchType = 0  -- #ALLMYINFOS#
 		local frame = GetNamePlateForUnit(unitid)
 		local foundUnit = (frame.namePlateUnitToken or (frame.UnitFrame and frame.UnitFrame.unit)) or (frame.unitFrame and frame.unitFrame.unit)
-		if UnitIsPlayer(foundUnit) == false then ShowAFrame[curNpFlag](GetNamePlateForUnit(unitid), false, false, false) end
+		if UnitIsPlayer(foundUnit) == false then ShowAFrame[majorNpFlag](frame, false, false, false) end
 	elseif curOnlyMatch == true and isInOnlySt == true then
 		-- 新增单位是需要仅显的,而此时已经有仅显的了,于是我们什么也不用干 -- 更新，怀疑在异步调用的时候莫名奇妙被hide了这里开出来确保
 		--AllInfos[unitid].matchType = 1  -- #ALLMYINFOS#
-		ShowAFrame[curNpFlag](GetNamePlateForUnit(unitid), false, false, true)
+		ShowAFrame[majorNpFlag](GetNamePlateForUnit(unitid), false, false, true)
 	elseif curOnlyMatch == true and isInOnlySt == false then
 		--新增单位是需要仅显的,而此时不是仅显, 于是我们就将之前的都Hide,当前这个仅显
 		--AllInfos[unitid].matchType = 1  -- #ALLMYINFOS#
@@ -400,9 +402,9 @@ local function actionUnitAddedForce(unitid)
 				-- TODO 判断是否是正在读条
 				if (unitid == foundUnit) then
 					-- 刚刚进入仅显模式！这个是仅显单位，那么将他变大一些
-					ShowAFrame[curNpFlag](frame, false, false, true)
+					ShowAFrame[majorNpFlag](frame, false, false, true)
 				else
-					if UnitIsPlayer(foundUnit) == false then HideAFrame[curNpFlag](frame) end
+					if UnitIsPlayer(foundUnit) == false then HideAFrame[majorNpFlag](frame) end
 				end
 			end
 		end
@@ -442,7 +444,7 @@ local function actionUnitRemovedForce(unitid)
 				matched = isMatchedNameList(Fnp_ONameList, GetUnitName(foundUnit))
 				if matched == false then
 					-- 退出仅显模式， 说明这些都是普通
-					if UnitIsPlayer(foundUnit) == false then ShowAFrame[curNpFlag](frame, false, false, false) end
+					if UnitIsPlayer(foundUnit) == false then ShowAFrame[majorNpFlag](frame, false, false, false) end
 				end
 			end
 		end
@@ -450,7 +452,6 @@ local function actionUnitRemovedForce(unitid)
 	end
 end
 ---------k k k---k k k---k k k-------------
-
 local function actionUnitAdded(self, event, ...)
 	if Fnp_Enable == false or SetupFlag == 10 then return end
 	local unitid = ...
@@ -458,8 +459,10 @@ local function actionUnitAdded(self, event, ...)
 		return
 	end
 
+	--if IS_DEBUG then FilteredNamePlate.testForUnitAdd(GetNamePlateForUnit(unitid)) end
+
 	if SetupFlag == 0 then
-		local inited = FilteredNamePlate:initScaleValues(curNpFlag, Fnp_OtherNPFlag) -- 第一次
+		local inited = FilteredNamePlate:initScaleValues(majorNpFlag, Fnp_OtherNPFlag, majorFrName) -- 第一次
 		if inited == false then
 			SetupFlag = 10 -- 错误永不再用，直到重载
 			print(L.FNP_PRINT_ERROR_UITYPE)
@@ -503,7 +506,7 @@ local function actionUnitSpellCastStart(self, event, ...)
 	if curMatch == false then 
 		local frame = GetNamePlateForUnit(unitid)
 		--仅显模式，非仅显怪施法啦！我们放大到miiddle大小
-		ShowAFrame[curNpFlag](frame, true, false, false)
+		ShowAFrame[majorNpFlag](frame, true, false, false)
 	end
 end
 
@@ -522,7 +525,7 @@ local function actionUnitSpellCastStop(self, event, ...)
 	-- true的话，表明是我们要的，那么肯定是在显示了。
 	if curMatch == false then --false，而且是处于isCurrentOnlyShow
 		local frame = GetNamePlateForUnit(unitid)
-		HideAFrame[curNpFlag](frame)
+		HideAFrame[majorNpFlag](frame)
 	end
 end
 

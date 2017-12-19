@@ -19,6 +19,7 @@ function module:OnLogin()
 	self:SwappingAlert()
 	self:VersionCheck()
 	self:SistersAlert()
+	self:AntoranBlast()
 
 	-- Hide Bossbanner
 	if NDuiDB["Misc"]["HideBanner"] then

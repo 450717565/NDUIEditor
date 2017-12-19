@@ -294,6 +294,8 @@ local L = WeakAuras.L
 	--Translation missing 
 	-- L["Duplicate"] = ""
 	--Translation missing 
+	-- L["Duplicate All"] = ""
+	--Translation missing 
 	-- L["Duration (s)"] = ""
 	--Translation missing 
 	-- L["Duration Info"] = ""
@@ -634,7 +636,11 @@ local L = WeakAuras.L
 	--Translation missing 
 	-- L["Show Cooldown Text"] = ""
 	--Translation missing 
+	-- L["Show If Unit Is Invalid"] = ""
+	--Translation missing 
 	-- L["Show model of unit "] = ""
+	--Translation missing 
+	-- L["Show On"] = ""
 	--Translation missing 
 	-- L["Show players that are |cFFFF0000not affected"] = ""
 	--Translation missing 

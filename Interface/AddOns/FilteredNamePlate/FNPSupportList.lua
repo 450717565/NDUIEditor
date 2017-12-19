@@ -1,7 +1,10 @@
 local _
 local GetNamePlateForUnit , GetNamePlates = C_NamePlate.GetNamePlateForUnit, C_NamePlate.GetNamePlates
 local UnitName, GetUnitName = UnitName, GetUnitName
+--local IS_DEBUG = true
+
 FilteredNamePlate = {}
+
 FilteredNamePlate.UITypeCheckList = {
 	[0] = false,
 	[1] = false,
@@ -12,6 +15,7 @@ FilteredNamePlate.UITypeCheckList = {
 	[6] = false,
 	[7] = false,
 	[8] = false,
+	[9] = false,
 }
 
 FilteredNamePlate.UITypeList = {
@@ -24,50 +28,57 @@ FilteredNamePlate.UITypeList = {
 	[6] = FNP_LOCALE_TEXT.FNP_EKNUM_TITLE,
 	[7] = "ShestackUI",
 	[8] = "CblUI",
+	[9] = "TPTP",
 }
 
 FilteredNamePlate.curScaleList = {}
 
--- UIType  -> curNpFlag  curNpFlag1Type
--- 原生    0,1	  0	   UnitFrame
--- TidyPlates 简单2  1	    carrier
--- KUI        简单3  1	    kui
---  RayUI      简单4  1	        UnitFrame
--- NDUI/EUI	   简单5  1    unitFrame
--- EKNum  6	     2	 UnitFrame
--- she  7		  3	 UnitFrame
--- CBL  8		     4	 UnitFrame
+-- UIType  ->     majorNpFlag  majorFrame
+-- 原生      0,1	  0	     UnitFrame
+-- TidyPlates 简单2   1	      carrier
+-- KUI        简单3   1	        kui
+--  RayUI      简单4  1	      UnitFrame
+-- NDUI/EUI	   简单5  1       unitFrame
+-- EKNum         6	  2	      UnitFrame
+-- she         7	  3	      UnitFrame
+-- CBL          8	  4	      UnitFrame
+-- TPTP        9	  1	      TP_Carrier
 function FilteredNamePlate:GenCurNpFlags()
-	local curNpFlag = 0 -- 上述UIType的下标
+	local typeFlag = 0 -- 上述UIType的下标
 	if Fnp_OtherNPFlag == 0 or Fnp_OtherNPFlag == 1 then
-		curNpFlag = 0
+		typeFlag = 0
 	elseif Fnp_OtherNPFlag == 6 then
-		curNpFlag = 2
+		typeFlag = 2
 	elseif Fnp_OtherNPFlag == 7 then
-		curNpFlag = 3
+		typeFlag = 3
 	elseif Fnp_OtherNPFlag == 8 then
-		curNpFlag = 4
+		typeFlag = 4
 	else -- 最简模型
-		curNpFlag = 1
+		typeFlag = 1
 	end
-	local curNpFlag1Type = "UnitFrame" --针对最简单模型的frameName
+
+	local typeName = "UnitFrame"
 	if Fnp_OtherNPFlag == 2 then
-		curNpFlag1Type = "carrier"
+		typeName = "carrier"
 	elseif Fnp_OtherNPFlag == 3 then
-		curNpFlag1Type = "kui"
-	elseif Fnp_OtherNPFlag == 4 or Fnp_OtherNPFlag == 8 then
-		curNpFlag1Type = "UnitFrame"
+		typeName = "kui"
 	elseif Fnp_OtherNPFlag == 5 then
-		curNpFlag1Type = "unitFrame"
+		typeName = "unitFrame"
+	elseif Fnp_OtherNPFlag == 9 then
+		typeName = "TP_Carrier"
 	end
-	return curNpFlag, curNpFlag1Type
+
+	return typeFlag, typeName
 end
 
 function FilteredNamePlate:ChangedSavedScaleList(flag)
      Fnp_SavedScaleList.only = 1.4
      Fnp_SavedScaleList.small = 0.25
      --配置不同UI下 small的默认比例
-	if flag == 7 then
+	if flag == 9 then
+		Fnp_SavedScaleList.small = 0.1
+		Fnp_SavedScaleList.only = 1.2
+	elseif flag == 7 then
 		Fnp_SavedScaleList.small = 0.4
 		Fnp_SavedScaleList.only = 1.2
 	elseif flag == 8 then
@@ -85,16 +96,16 @@ function FilteredNamePlate:ChangedSavedScaleList(flag)
 	end
 end
 
-function FilteredNamePlate:reinitScaleValues(curNpFlag1Type, isScaleInited)
-	if isScaleInited == false then return end
+-- 分major总数的类型进行适配缩放比 --
+function FilteredNamePlate:reinitScaleValues(majorFlag)
 	local SPELL_SCALE = 0.5
-	if curNpFlag1Type == 1 then
+	if majorFlag == 1 then
 		SPELL_SCALE = 0.65
 		FilteredNamePlate.curScaleList.normal = FilteredNamePlate.curScaleList.SYSTEM * Fnp_SavedScaleList.normal
 		FilteredNamePlate.curScaleList.small = FilteredNamePlate.curScaleList.normal * Fnp_SavedScaleList.small
 		FilteredNamePlate.curScaleList.middle = FilteredNamePlate.curScaleList.normal * SPELL_SCALE
 		FilteredNamePlate.curScaleList.only = FilteredNamePlate.curScaleList.SYSTEM * Fnp_SavedScaleList.only
-	elseif curNpFlag1Type == 0 then
+	elseif majorFlag == 0 then
 		FilteredNamePlate.curScaleList.name.normal = FilteredNamePlate.curScaleList.name.SYSTEM
 		FilteredNamePlate.curScaleList.name.small = FilteredNamePlate.curScaleList.name.normal * Fnp_SavedScaleList.small
 		FilteredNamePlate.curScaleList.name.middle = FilteredNamePlate.curScaleList.name.small
@@ -105,17 +116,17 @@ function FilteredNamePlate:reinitScaleValues(curNpFlag1Type, isScaleInited)
 		FilteredNamePlate.curScaleList.bars.heal_normalHeight = FilteredNamePlate.curScaleList.bars.HEAL_SYS_HEIGHT * Fnp_SavedScaleList.normal;
 		FilteredNamePlate.curScaleList.bars.heal_onlyHeight = FilteredNamePlate.curScaleList.bars.HEAL_SYS_HEIGHT * Fnp_SavedScaleList.only;
 		FilteredNamePlate.curScaleList.bars.cast_midHeight = FilteredNamePlate.curScaleList.bars.CAST_SYS_HEIGHT * SPELL_SCALE;
-	elseif curNpFlag1Type == 2 then
+	elseif majorFlag == 2 then
 		FilteredNamePlate.curScaleList.normal_perc_font = FilteredNamePlate.curScaleList.PERC_FONT * Fnp_SavedScaleList.normal
 		FilteredNamePlate.curScaleList.only_perc_font = FilteredNamePlate.curScaleList.PERC_FONT * Fnp_SavedScaleList.only
 		FilteredNamePlate.curScaleList.mid_perc_font = FilteredNamePlate.curScaleList.normal_perc_font * SPELL_SCALE
 		FilteredNamePlate.curScaleList.small_perc_font = FilteredNamePlate.curScaleList.normal_perc_font * Fnp_SavedScaleList.small
-	elseif curNpFlag1Type == 3 then
+	elseif majorFlag == 3 then
 		FilteredNamePlate.curScaleList.normal_name_font = FilteredNamePlate.curScaleList.NAME_FONT * Fnp_SavedScaleList.normal
 		FilteredNamePlate.curScaleList.only_name_font = FilteredNamePlate.curScaleList.NAME_FONT * Fnp_SavedScaleList.only
 		FilteredNamePlate.curScaleList.mid_name_font = FilteredNamePlate.curScaleList.normal_name_font * SPELL_SCALE
 		FilteredNamePlate.curScaleList.small_name_font = FilteredNamePlate.curScaleList.normal_name_font * Fnp_SavedScaleList.small
-	elseif curNpFlag1Type == 4 then
+	elseif majorFlag == 4 then
 		FilteredNamePlate.curScaleList.nor_scale = FilteredNamePlate.curScaleList.SYS_SCALE * Fnp_SavedScaleList.normal
 		FilteredNamePlate.curScaleList.only_scale = FilteredNamePlate.curScaleList.SYS_SCALE * Fnp_SavedScaleList.only
 		FilteredNamePlate.curScaleList.mid_scale = FilteredNamePlate.curScaleList.nor_scale * SPELL_SCALE
@@ -124,18 +135,27 @@ function FilteredNamePlate:reinitScaleValues(curNpFlag1Type, isScaleInited)
 end
 
 -- 返回值true代表已经获取了系统血条的真正大小，false表示UITYPE出错
-function FilteredNamePlate:initScaleValues(curNpFlag1Type, curNpFlag)
+function FilteredNamePlate:initScaleValues(majorFlag, savedFlag, majorFrame)
+	--if IS_DEBUG then print("initScaleValues majorFlag "..majorFlag..",savedFlag "..savedFlag.." majorFr "..majorFrame) end
+
 	local isScaleInited = false
+
 	for _, frame in pairs(GetNamePlates()) do
 		local foundUnit = (frame.namePlateUnitToken or (frame.UnitFrame and frame.UnitFrame.unit))
-		if curNpFlag == 7 then
-			foundUnit = frame and frame.ouf
-		elseif curNpFlag == 5 then
+		if savedFlag == 7 then
+			foundUnit = frame and frame.unitFrame
+		elseif savedFlag == 5 then
 			foundUnit = (frame.unitFrame and frame.unitFrame.unit)
+		elseif savedFlag == 9 then
+			foundUnit = frame and frame.UnitFrame
 		end
+--		if IS_DEBUG then print("----");FilteredNamePlate.printTable(frame.TP_Carrier) end
+
 		local sys = 0
+
 		if foundUnit then
-			if curNpFlag1Type == 0 then --Orig模型 调节名字宽度，调节血条高度，施法条高度
+			-- if IS_DEBUG then print("found it!!") end
+			if majorFlag == 0 then --Orig模型 调节名字宽度，调节血条高度，施法条高度
 				FilteredNamePlate.curScaleList = {
 					name = {
 						SYSTEM = 130,
@@ -161,7 +181,7 @@ function FilteredNamePlate:initScaleValues(curNpFlag1Type, curNpFlag)
 						FilteredNamePlate.curScaleList.bars.CAST_SYS_HEIGHT = frame.UnitFrame.castBar:GetHeight()
 					end
 				end
-			elseif curNpFlag1Type == 2 then -- ek number 模型 调节名字宽度和高度，调节血量字体大小
+			elseif majorFlag == 2 then -- ek number 模型 调节名字宽度和高度，调节血量字体大小
 				FilteredNamePlate.curScaleList = {
 					SYSTEMW = 130,
 					SMALLW = 40,
@@ -185,7 +205,7 @@ function FilteredNamePlate:initScaleValues(curNpFlag1Type, curNpFlag)
 						FilteredNamePlate.curScaleList.PERC_FONT = size
 					end
 				end
-			elseif curNpFlag1Type == 4 then -- CblUI
+			elseif majorFlag == 4 then -- CblUI
 				FilteredNamePlate.curScaleList = {
 					NAME_SYSTEMW = 140,
 					NAME_SMALLW = 40,
@@ -203,7 +223,7 @@ function FilteredNamePlate:initScaleValues(curNpFlag1Type, curNpFlag)
 						FilteredNamePlate.curScaleList.SYS_SCALE = frame.UnitFrame.healthBar:GetEffectiveScale()
 					end
 				end
-			elseif curNpFlag1Type == 3 then -- shestack 模型 调节名字字体大小，血条和施法条也不调节了，直接用hide处理
+			elseif majorFlag == 3 then -- shestack 模型 调节名字字体大小，血条和施法条也不调节了，直接用hide处理
 				FilteredNamePlate.curScaleList = {
 					NAME_FONT = 18,
 					normal_name_font = 18,
@@ -213,8 +233,8 @@ function FilteredNamePlate:initScaleValues(curNpFlag1Type, curNpFlag)
 				}
 
 				sys = 1
-				if frame.ouf.Name then
-					local face,size,flag = frame.ouf.Name:GetFont()
+				if frame.unitFrame.Name then
+					local face,size,flag = frame.unitFrame.Name:GetFont()
 					FilteredNamePlate.curScaleList.NAME_FONT = size
 					FilteredNamePlate.curScaleList.fontFace = face
 					FilteredNamePlate.curScaleList.fontFlag = flag
@@ -228,17 +248,20 @@ function FilteredNamePlate:initScaleValues(curNpFlag1Type, curNpFlag)
 					middle = 0.5,
 					only = 1.45,
 				}
-				if frame[curNpFlag1Type] then
-					FilteredNamePlate.curScaleList.SYSTEM = frame[curNpFlag1Type]:GetEffectiveScale()
+				if frame[majorFrame] then
+					-- if IS_DEBUG then print("system inital") end
+					FilteredNamePlate.curScaleList.SYSTEM = frame[majorFrame]:GetEffectiveScale()
 				end
 			end
 		end
+
 		if sys > 0.01 then -- it's a real info
-			FilteredNamePlate:reinitScaleValues(curNpFlag1Type, true)
+			FilteredNamePlate:reinitScaleValues(majorFlag)
 			isScaleInited = true
 			break
 		end
 	end
+
 	return isScaleInited
 end
 

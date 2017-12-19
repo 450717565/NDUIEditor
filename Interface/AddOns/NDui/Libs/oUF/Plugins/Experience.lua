@@ -70,7 +70,7 @@ local function Update(self, event, owner)
 				experience.rested = nil
 			end
 		end
-		if IsXPUserDisabled() then self:SetStatusBarColor(.7, 0, 0) end
+		if IsXPUserDisabled() then experience:SetStatusBarColor(.7, 0, 0) end
 	elseif HasArtifactEquipped() then
 		local _, _, _, _, totalXP, pointsSpent, _, _, _, _, _, _, artifactTier = C_ArtifactUI.GetEquippedArtifactInfo()
 		local _, xp, xpForNextPoint = MainMenuBar_GetNumArtifactTraitsPurchasableFromXP(pointsSpent, totalXP, artifactTier)

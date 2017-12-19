@@ -1,5 +1,7 @@
 <Ui>
 	<Include file="Ace3\AceGUI-3.0\AceGUI-3.0.xml"/>
+	<Include file="Ace3\AceGUI-3.0-Completing-EditBox\AceGUI-3.0-Completing-EditBox.lua"/>
+	<Include file="Ace3\AceGUI-3.0-Selectable-Panel\AceGUI-3.0-Selectable-Panel.lua"/>
 	<Include file="Ace3\AceGUI-3.0-SharedMediaWidgets\AceGUI-3.0-SharedMediaWidgets.xml"/>
 	<Include file="Ace3\AceAddon-3.0\AceAddon-3.0.lua"/>
 	<Include file="Ace3\AceBucket-3.0\AceBucket-3.0.lua"/>

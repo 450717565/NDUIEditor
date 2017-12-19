@@ -203,6 +203,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED
 	-- L["Drag to move"] = ""
 	--Translation missing 
 	-- L["Duplicate"] = ""
+	--Translation missing 
+	-- L["Duplicate All"] = ""
 	L["Duration (s)"] = "Durée (s)"
 	L["Duration Info"] = "Info de durée"
 	L["Dynamic Group"] = "Groupe Dynamique"
@@ -435,7 +437,11 @@ Seule une unique valeur peut être choisie]=]
 	L["Show all matches (Auto-clone)"] = "Montrer toutes correspondances (Auto-Clone)"
 	--Translation missing 
 	-- L["Show Cooldown Text"] = ""
+	--Translation missing 
+	-- L["Show If Unit Is Invalid"] = ""
 	L["Show model of unit "] = "Montrer le modèle de l'unité"
+	--Translation missing 
+	-- L["Show On"] = ""
 	L["Show players that are |cFFFF0000not affected"] = "Montrer les joueurs |cFFFF0000non-affectés"
 	--Translation missing 
 	-- L["Show this group's children"] = ""

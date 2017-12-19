@@ -1,8 +1,8 @@
 local B, C, L, DB = unpack(select(2, ...))
 
 local classification = {
-	rare = " |cffff99cc"..L["Rare"].."|r",
 	elite = " |cffcc8800"..ELITE.."|r",
+	rare = " |cffff99cc"..L["Rare"].."|r",
 	rareelite = " |cffff99cc"..L["Rare"].."|r ".."|cffcc8800"..ELITE.."|r",
 	worldboss = " |cffff0000"..BOSS.."|r",
 }

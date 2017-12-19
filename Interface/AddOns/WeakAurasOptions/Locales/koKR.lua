@@ -183,6 +183,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Done"] = "완료"
 	L["Drag to move"] = "끌어서 이동"
 	L["Duplicate"] = "복제"
+	--Translation missing 
+	-- L["Duplicate All"] = ""
 	L["Duration (s)"] = "지속시간 (초)"
 	L["Duration Info"] = "지속시간 정보"
 	L["Dynamic Group"] = "유동적 그룹"
@@ -387,7 +389,11 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Shift-click to create chat link"] = "Shift-클릭하여 대화 링크 만들기"
 	L["Show all matches (Auto-clone)"] = "모든 일치 표시 (자동 복제)"
 	L["Show Cooldown Text"] = "재사용 대기시간 문자 표시"
+	--Translation missing 
+	-- L["Show If Unit Is Invalid"] = ""
 	L["Show model of unit "] = "유닛의 모델 표시"
+	--Translation missing 
+	-- L["Show On"] = ""
 	L["Show players that are |cFFFF0000not affected"] = "|cFFFF0000영향받지 않은|r 플레이어 표시"
 	L["Show this group's children"] = "이 그룹의 자식 표시"
 	L["Shows a 3D model from the game files"] = "게임 데이터의 3D 모델을 표시합니다"

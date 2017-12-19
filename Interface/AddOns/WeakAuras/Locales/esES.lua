@@ -87,6 +87,8 @@ L["Action Usable"] = "Acción Utilizable"
 --Translation missing 
 -- L["Active"] = ""
 --Translation missing 
+-- L["Active For"] = ""
+--Translation missing 
 -- L["Additional Trigger Replacements"] = ""
 L["Affected"] = "Afectado"
 L["Aggro"] = "Amenaza"
@@ -168,6 +170,8 @@ L["Bottom to Top"] = "De Abajo a Arriba"
 L["Bounce"] = "Rebotar"
 L["Bounce with Decay"] = "Rebotar con Amortiguación"
 L["Buff"] = "Beneficio"
+--Translation missing 
+-- L["Buffed/Debuffed"] = ""
 L["Cast"] = "Lanzar Hechizo"
 L["Cast Failed"] = "Hechizo - Fallido"
 L["Cast Start"] = "Hechizo - Empezar"

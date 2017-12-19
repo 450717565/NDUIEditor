@@ -176,6 +176,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Done"] = "Finalizado"
 	L["Drag to move"] = "Arrastrar para mover"
 	L["Duplicate"] = "Duplicar"
+	--Translation missing 
+	-- L["Duplicate All"] = ""
 	L["Duration (s)"] = "Duración"
 	L["Duration Info"] = "Información sobre la duración"
 	L["Dynamic Group"] = "Grupo dinámico"
@@ -375,7 +377,11 @@ Sólo un valor coincidente puede ser escogido.]=]
 	L["Shift-click to create chat link"] = "Shift-Clic para un crear un enlace de chat"
 	L["Show all matches (Auto-clone)"] = "Mostrar todas las coincidencias (Auto-clonación)"
 	L["Show Cooldown Text"] = "Mostrar el texto del tiempo de recarga"
+	--Translation missing 
+	-- L["Show If Unit Is Invalid"] = ""
 	L["Show model of unit "] = "Mostrar el modelo de la unidad"
+	--Translation missing 
+	-- L["Show On"] = ""
 	L["Show players that are |cFFFF0000not affected"] = "Mostrar jugadores |cFFFF0000no afectados"
 	L["Show this group's children"] = "Mostrar los dependientes de este grupo"
 	L["Shows a 3D model from the game files"] = "Muestra un modelo 3D de los archivos del juego"

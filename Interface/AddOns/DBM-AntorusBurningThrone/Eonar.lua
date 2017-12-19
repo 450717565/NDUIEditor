@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2025, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16999 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17024 $"):sub(12, -3))
 mod:SetCreatureID(124445)
 mod:SetEncounterID(2075)
 mod:SetZone()
@@ -35,6 +35,7 @@ mod:RegisterEventsInCombat(
  or (ability.id = 246753 or ability.id = 254769) and type = "cast"
  or (ability.id = 248332) and type = "applydebuff"
  or (ability.id = 250073) and type = "applybuff"
+ or target.name = "Volant Kerapteron"
 --]]
 --The Paraxis
 local warnMeteorStorm					= mod:NewEndAnnounce(248333, 1)
@@ -75,6 +76,7 @@ local timerObfuscatorCD					= mod:NewTimer(90, "timerObfuscator", 246753, nil, n
 local timerPurifierCD					= mod:NewTimer(90, "timerPurifier", 250074, nil, nil, 1, nil, DBM_CORE_TANK_ICON)
 local timerBatsCD						= mod:NewTimer(90, "timerBats", 242080, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON)
 --Mythic
+mod:AddTimerLine(ENCOUNTER_JOURNAL_SECTION_FLAG12)
 local timerFinalDoomCD					= mod:NewCDCountTimer(90, 249121, nil, nil, nil, 4, nil, DBM_CORE_HEROIC_ICON)
 --local timerFelclawsCD					= mod:NewAITimer(25, 239932, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
 
@@ -124,7 +126,7 @@ mod.vb.targetedIcon = 1
 --local mythicWarpTimers = {5.3, 9.8, 35.3, 44.8, 34.9}--Excludes the waves that don't fire warp in (obfuscators and purifiers)
 local normalRainOfFelTimers = {}--PTR, recheck
 local heroicRainOfFelTimers = {9.3, 44, 10, 43, 35, 19, 20, 30, 45, 35, 99}--Live, Nov 29
-local mythicRainOfFelTimers = {6, 23.1, 25, 49.2, 25, 49.3, 15, 50, 24, 49.2, 25, 50, 50}--Live, Dec 5
+local mythicRainOfFelTimers = {6, 23.1, 24.1, 49.2, 25, 49.3, 15, 46.2, 24, 49.2, 24.1, 49.2, 50}--Live, Dec 14
 --local mythicSpearofDoomTimers = {}
 local heroicSpearofDoomTimers = {35, 59.2, 64.3, 40, 85.6, 34.1, 65.2}--Live, Nov 29
 local finalDoomTimers = {59.3, 122.7, 99.5, 104.6, 99.6}--Live, Dec 5
@@ -136,7 +138,8 @@ local heroicObfuscators = {80.6, 148.5, 94.7, 99.9}
 local mythicObfuscators = {46, 243, 43.8, 90.8}
 local heroicPurifiers = {125, 66.1, 30.6}
 local mythicPurifiers = {65.7, 82.6, 66.9, 145.7}
-local mythicBats = {200, 79.9, 100, 100}--200, 280, 380, 480
+local heroicBats = {170, 125, 105, 105}--170, 295, 405, 510 (probably way off for 3rd and 4th because the heroic logs with long pulls are shit showa of terrible and unware dps that don't hit bats until they are in middle of path)
+local mythicBats = {195, 79.9, 100, 100}--195, 275, 375, 475
 local warnedAdds = {}
 local addCountToLocationMythic = {
 	["Dest"] = {DBM_CORE_MIDDLE, DBM_CORE_TOP, DBM_CORE_BOTTOM, DBM_CORE_MIDDLE, DBM_CORE_TOP, DBM_CORE_MIDDLE},
@@ -167,19 +170,19 @@ do
 		table.wipe(lines)
 		table.wipe(sortedLines)
 		--Boss Powers first
-		if UnitExists("boss1") then
-			local cid = mod:GetUnitCreatureId("boss1")
-			if cid ~= 124445 then--Filter Paraxxus
-				local currentPower = UnitPower("boss1", 10) or 0
-				addLine(UnitName("boss1"), currentPower)
-			end
+		local cid = mod:GetUnitCreatureId("boss1") or 0
+		if cid ~= 124445 then--Filter Paraxus
+			local currentPower = UnitPower("boss1", 10) or 0
+			local currentHealth = UnitHealth("boss1")/UnitHealthMax("boss1") * 100 or 100
+			addLine(L.EonarHealth, math.floor(currentHealth).."%")
+			addLine(L.EonarPower, currentPower)
 		end
-		if UnitExists("boss2") then
-			local cid = mod:GetUnitCreatureId("boss2")
-			if cid ~= 124445 then--Filter Paraxxus
-				local currentPower = UnitPower("boss2", 10) or 0
-				addLine(UnitName("boss2"), currentPower)
-			end
+		local cid2 = mod:GetUnitCreatureId("boss2") or 0
+		if cid2 ~= 124445 then--Filter Paraxus
+			local currentPower = UnitPower("boss2", 10) or 0
+			local currentHealth = UnitHealth("boss2")/UnitHealthMax("boss2") * 100 or 100
+			addLine(L.EonarHealth, math.floor(currentHealth).."%")
+			addLine(L.EonarPower, currentPower)
 		end
 		addLine(lifeForceName, mod.vb.lifeForceCast.."/"..mod.vb.lifeRequired)
 		if mod.vb.obfuscators > 0 then
@@ -216,7 +219,7 @@ end
 local function startBatsStuff(self)
 	self.vb.batCast = self.vb.batCast + 1
 	warnWarpIn:Show(L.Bats)
-	local timer = self:IsMythic() and mythicBats[self.vb.batCast+1]
+	local timer = self:IsMythic() and mythicBats[self.vb.batCast+1] or self:IsHeroic() and heroicBats[self.vb.batCast+1]
 	if timer then
 		timerBatsCD:Start(timer, self.vb.batCast+1)
 		self:Schedule(timer, startBatsStuff, self)
@@ -248,8 +251,8 @@ function mod:OnCombatStart(delay)
 			timerPurifierCD:Start(65.7, DBM_CORE_MIDDLE)
 			timerFinalDoomCD:Start(59.3-delay, 1)
 			countdownFinalDoom:Start(59.3-delay)
-			timerBatsCD:Start(200, 1)
-			self:Schedule(200, startBatsStuff, self)
+			timerBatsCD:Start(195, 1)
+			self:Schedule(195, startBatsStuff, self)
 		elseif self:IsHeroic() then
 			timerRainofFelCD:Start(9.3-delay, 1)
 			--countdownRainofFel:Start(9.3-delay)
@@ -258,6 +261,8 @@ function mod:OnCombatStart(delay)
 			timerSpearofDoomCD:Start(34.4-delay, 1)
 			timerObfuscatorCD:Start(80.6, DBM_CORE_TOP)
 			timerPurifierCD:Start(125, DBM_CORE_MIDDLE)
+			timerBatsCD:Start(170, 1)
+			self:Schedule(170, startBatsStuff, self)
 		else--Normal
 			timerDestructorCD:Start(7, DBM_CORE_MIDDLE)
 			self:Schedule(27, checkForDeadDestructor, self)

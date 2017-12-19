@@ -88,6 +88,8 @@ L["Action Usable"] = "Ação Usável"
 --Translation missing 
 -- L["Active"] = ""
 --Translation missing 
+-- L["Active For"] = ""
+--Translation missing 
 -- L["Additional Trigger Replacements"] = ""
 L["Affected"] = "Afetado"
 --Translation missing 
@@ -179,6 +181,8 @@ L["Bounce"] = "Salto"
 L["Bounce with Decay"] = "Salto com declínio"
 --Translation missing 
 -- L["Buff"] = ""
+--Translation missing 
+-- L["Buffed/Debuffed"] = ""
 L["Cast"] = "Lançar"
 L["Cast Failed"] = "Lançamento falho"
 L["Cast Start"] = "Começar lançamento"

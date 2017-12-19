@@ -177,6 +177,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Done"] = "完成"
 	L["Drag to move"] = "拖拽来移动"
 	L["Duplicate"] = "复制"
+	--Translation missing 
+	-- L["Duplicate All"] = ""
 	L["Duration (s)"] = "持续时间"
 	L["Duration Info"] = "持续时间讯息"
 	L["Dynamic Group"] = "动态群组"
@@ -397,7 +399,11 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	-- L["Shift-click to create chat link"] = ""
 	L["Show all matches (Auto-clone)"] = "列出所有符合的(自动复制)"
 	L["Show Cooldown Text"] = "显示 CD 文本"
+	--Translation missing 
+	-- L["Show If Unit Is Invalid"] = ""
 	L["Show model of unit "] = "显示该单位的模型"
+	--Translation missing 
+	-- L["Show On"] = ""
 	L["Show players that are |cFFFF0000not affected"] = "显示|cFFFF0000未被影响|r的玩家"
 	--Translation missing 
 	-- L["Show this group's children"] = ""

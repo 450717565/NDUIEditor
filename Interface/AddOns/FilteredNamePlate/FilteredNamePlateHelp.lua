@@ -41,3 +41,12 @@ function FilteredNamePlate.removeATabValue(tab, value)
         end
     end
 end
+
+function FilteredNamePlate.testForUnitAdd(frame)
+	if frame.UnitFrame then
+		print("have this!")
+		frame.TP_Carrier:SetScale(0.2)
+	else
+		print("cannot do this")
+	end
+end

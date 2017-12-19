@@ -1,0 +1,31 @@
+<Ui>
+	<Include file="Libs\LibBabble-Boss-3.0\LibBabble-Boss-3.0.xml"/>
+	<Include file="Libs\LibBabble-CreatureType-3.0\LibBabble-CreatureType-3.0.xml"/>
+	<Include file="Libs\LibBabble-Inventory-3.0\LibBabble-Inventory-3.0.xml"/>
+	<Include file="Libs\LibBabble-Race-3.0\LibBabble-Race-3.0.xml"/>
+	<Include file="Libs\LibBabble-SubZone-3.0\LibBabble-SubZone-3.0.xml"/>
+	<Include file="Libs\LibBossIDs-1.0\LibBossIDs-1.0.lua"/>
+	<Include file="Libs\LibButtonGlow-1.0\LibButtonGlow-1.0.lua"/>
+	<Include file="Libs\LibCandyBar-3.0\LibCandyBar-3.0.lua"/>
+	<Include file="Libs\LibChatAnims\LibChatAnims.lua"/>
+	<Include file="Libs\LibCompress\LibCompress.lua"/>
+	<Include file="Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua"/>
+	<Include file="Libs\LibDBIcon-1.0\LibDBIcon-1.0.lua"/>
+	<Include file="Libs\LibDDI-1.0\LibDDI-1.0.lua"/>
+	<Include file="Libs\LibDogTag-3.0\LibDogTag-3.0.xml"/>
+	<Include file="Libs\LibDogTag-Stats-3.0\LibDogTag-Stats-3.0.xml"/>
+	<Include file="Libs\LibDogTag-Unit-3.0\LibDogTag-Unit-3.0.xml"/>
+	<Include file="Libs\LibDualSpec-1.0\LibDualSpec-1.0.lua"/>
+	<Include file="Libs\LibDurability\LibDurability.lua"/>
+	<Include file="Libs\LibLatency\LibLatency.lua"/>
+	<Include file="Libs\LibNotify-1.0\LibNotify-1.0.lua"/>
+	<Include file="Libs\LibOO-1.0\LibOO-1.0.lua"/>
+	<Include file="Libs\LibQTip-1.0\LibQTip-1.0.lua"/>
+	<Include file="Libs\LibRangeCheck-2.0\LibRangeCheck-2.0.lua"/>
+	<Include file="Libs\LibRealmInfo\LibRealmInfo.lua"/>
+	<Include file="Libs\LibSink-2.0\LibSink-2.0.lua"/>
+	<Include file="Libs\LibSpellRange-1.0\LibSpellRange-1.0.lua"/>
+	<Include file="Libs\LibStrataFix\LibStrataFix.lua"/>
+	<Include file="Libs\LibUIDropDownMenu\LibUIDropDownMenu.xml"/>
+	<Include file="Libs\LibWindow-1.1\LibWindow-1.1.lua"/>
+</Ui>

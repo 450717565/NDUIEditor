@@ -3724,6 +3724,10 @@ function WeakAuras.PickAndEditDisplay(id)
   displayButtons[id].callbacks.OnRenameClick();
 end
 
+function WeakAuras.ClearPick(id)
+  frame:ClearPick(id);
+end
+
 function WeakAuras.ClearPicks()
   frame:ClearPicks();
 end
@@ -3956,35 +3960,5 @@ function WeakAuras.ShowCloneDialog(data)
     };
 
     StaticPopup_Show("WEAKAURAS_CLONE_OPTION_ENABLED");
-  end
-end
-
-function WeakAuras.ShowSpellIDDialog(trigger, id)
-  if not(odb.preventSpellIDDialog) then
-    StaticPopupDialogs["WEAKAURAS_SPELLID_CHECK"] = {
-      text = L["Spell ID dialog"],
-      button1 = L["Yes"],
-      button2 = L["No"],
-      button3 = L["Never"],
-      OnAccept = function()
-        trigger.fullscan = true;
-        trigger.use_spellId = true;
-        trigger.spellId = id;
-
-        AceConfigDialog:Open("WeakAuras", frame.container);
-      end,
-      OnCancel = function()
-      -- do nothing
-      end,
-      OnAlt = function()
-        odb.preventSpellIDDialog = true
-      end,
-      hideOnEscape = true,
-      whileDead = true,
-      timeout = 0,
-      preferredindex = STATICPOPUP_NUMDIALOGS
-    };
-
-    StaticPopup_Show("WEAKAURAS_SPELLID_CHECK");
   end
 end

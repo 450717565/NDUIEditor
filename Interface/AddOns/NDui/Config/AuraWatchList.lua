@@ -161,6 +161,9 @@ C.AuraWatchList = {
 				{AuraID = 214962, UnitID = "player"},
 				--晶化身体
 				{AuraID = 214366, UnitID = "player", Value= true},
+				--影灼之牙
+				{AuraID = 253307, UnitID = "player"},
+				{AuraID = 253308, UnitID = "player"},
 				--裂隙世界法典
 				{AuraID = 252545, UnitID = "player", Value = true},
 				{AuraID = 251938, UnitID = "player"},

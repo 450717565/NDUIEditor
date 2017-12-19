@@ -233,6 +233,8 @@ WeakAuras → Opções → Opções ]=]
 	-- L["Drag to move"] = ""
 	--Translation missing 
 	-- L["Duplicate"] = ""
+	--Translation missing 
+	-- L["Duplicate All"] = ""
 	L["Duration (s)"] = "Duração"
 	L["Duration Info"] = "Informação da duração"
 	L["Dynamic Group"] = "Grupo dinâmico"
@@ -507,7 +509,11 @@ WeakAuras → Opções → Opções ]=]
 	--Translation missing 
 	-- L["Show Cooldown Text"] = ""
 	--Translation missing 
+	-- L["Show If Unit Is Invalid"] = ""
+	--Translation missing 
 	-- L["Show model of unit "] = ""
+	--Translation missing 
+	-- L["Show On"] = ""
 	L["Show players that are |cFFFF0000not affected"] = "Mostrar todos os jogadores que |cFFFF0000não foram afetados"
 	--Translation missing 
 	-- L["Show this group's children"] = ""

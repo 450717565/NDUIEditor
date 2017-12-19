@@ -9,71 +9,51 @@ local L = WeakAuras.L
 	L[" (Healing received increase)"] = "獲得治療量增加"
 	L["- Any"] = "- 任何"
 	L["- Death Knight 2P Bonus"] = "- 死亡騎士 2件套裝特效"
-	--Translation missing 
-	-- L["- Death Knight T20 Blood 2P Bonus"] = ""
+	L["- Death Knight T20 Blood 2P Bonus"] = "- 血魄死亡騎士 T20 2件套裝效果"
 	L["- Death Knight Unholy 4P Bonus"] = "- 穢邪死亡騎士 4件套裝特效"
 	L["- Deathknight 2P Bonus"] = "- 死亡騎士 2件套裝特效"
 	L["- Deathknight Unholy 4P Bonus"] = "- 穢邪死亡騎士 4件套裝特效"
 	L["- Holy Word: Chastise"] = "- 聖言術: 懲"
 	L["- Holy Word: Sanctify"] = "- 聖言術: 庇"
 	L["- Holy Word: Serenity"] = "- 聖言術: 寧"
-	--Translation missing 
-	-- L["- Hunter T20 Marksman 4P Bonus"] = ""
-	--Translation missing 
-	-- L["- Mage T20 Arcane 2P Bonus"] = ""
-	--Translation missing 
-	-- L["- Mage T20 Fire 2P Bonus"] = ""
-	--Translation missing 
-	-- L["- Mage T20 Frost 2P Bonus"] = ""
-	--Translation missing 
-	-- L["- Monk T20 Mistweaver 2P Bonus"] = ""
+	L["- Hunter T20 Marksman 4P Bonus"] = "- 射擊獵人 T20 4件套裝效果"
+	L["- Mage T20 Arcane 2P Bonus"] = "- 祕法法師 T20 2件套裝效果"
+	L["- Mage T20 Fire 2P Bonus"] = "- 火法法師 T20 2件套裝效果"
+	L["- Mage T20 Frost 2P Bonus"] = "- 冰法法師 T20 2件套裝效果"
+	L["- Monk T20 Mistweaver 2P Bonus"] = "- 織霧武僧 T20 2件套裝效果"
 	L["- Monk Windwalker 4P Bonus"] = "- 御風武僧  4件套裝特效"
 	L["- Paladin Protection 2P Bonus"] = "- 防護聖騎士 2件套裝特效"
 	L["- Paladin Retribution 2P Bonus"] = "- 懲戒聖騎士 2件套裝特效"
 	L["- Paladin T19 Retribution 4P Bonus"] = "- 懲戒聖騎士 T19 4件套裝特效"
-	--Translation missing 
-	-- L["- Paladin T20 Holy 4P Bonus"] = ""
-	--Translation missing 
-	-- L["- Paladin T20 Protection 4P Bonus"] = ""
-	--Translation missing 
-	-- L["- Paladin T20 Retribution 4P Bonus"] = ""
-	--Translation missing 
-	-- L["- Priest T20 Discipline 4P Bonus"] = ""
-	--Translation missing 
-	-- L["- Priest T20 Shadow 2P Bonus"] = ""
+	L["- Paladin T20 Holy 4P Bonus"] = "- 神聖聖騎士 T20 4件套裝效果"
+	L["- Paladin T20 Protection 4P Bonus"] = "- 防護聖騎士 T20 4件套裝效果"
+	L["- Paladin T20 Retribution 4P Bonus"] = "- 懲戒聖騎士 T20 4件套裝效果"
+	L["- Priest T20 Discipline 4P Bonus"] = "- 戒律牧師 T20 4件套裝效果"
+	L["- Priest T20 Shadow 2P Bonus"] = "- 暗影牧師 T20 2件套裝效果"
 	L["- Rogue Assassination/Outlaw 4P Bonus"] = "- 刺殺/戰鬥盜賊 4件套裝特效"
 	L["- Rogue Subtlety 4P Bonus"] = "- 敏銳盜賊 4件套裝特效"
 	L["- Rogue T19 Outlaw 4P Bonus"] = "- 戰鬥盜賊 T19 4件套裝特效"
 	L["- Shaman Elemental 4P Bonus"] = "- 元素薩滿 4件套裝特效"
 	L["- Shaman Enhancement 2P Bonus"] = "- 增強薩滿 2件套裝特效"
-	--Translation missing 
-	-- L["- Shaman T20 Elemental 2P Bonus"] = ""
-	--Translation missing 
-	-- L["- Shaman T20 Enhancement 2P Bonus"] = ""
-	--Translation missing 
-	-- L["- Shaman T20 Enhancement 4P Bonus"] = ""
-	--Translation missing 
-	-- L["- Shaman T20 Restoration 2P Bonus"] = ""
-	--Translation missing 
-	-- L["- Shaman T20 Restoration 4P Bonus"] = ""
+	L["- Shaman T20 Elemental 2P Bonus"] = "- 元素薩滿 T20 2件套裝效果"
+	L["- Shaman T20 Enhancement 2P Bonus"] = "- 增強薩滿 T20 2件套裝效果"
+	L["- Shaman T20 Enhancement 4P Bonus"] = "- 增強薩滿 T20 4件套裝效果"
+	L["- Shaman T20 Restoration 2P Bonus"] = "- 恢復薩滿 T20 2件套裝效果"
+	L["- Shaman T20 Restoration 4P Bonus"] = "- 恢復薩滿 T20 4件套裝效果"
 	L["- T19 Druid Guardian 4P Bonus"] = "- 守護者德魯伊 T19 4件套裝特效"
 	L["- Warlock Affliction 4P/Demonology 2P Bonus"] = "- 痛苦術士 4件/惡魔術士 2件套裝特效"
 	L["- Warlock T19 Destruction 4P Bonus"] = "- 毀滅術士 T19 4件套裝特效"
-	--Translation missing 
-	-- L["- Warlock T20 Affliction 4P Bonus"] = ""
-	--Translation missing 
-	-- L["- Warlock T20 Demonology 4P Bonus"] = ""
+	L["- Warlock T20 Affliction 4P Bonus"] = "- 痛苦術士 T20 4件套裝效果"
+	L["- Warlock T20 Demonology 4P Bonus"] = "- 毀滅術士 T20 4件套裝效果"
 	L["- Warrior 2P Bonus"] = "- 戰士 2件套裝特效"
 	L["- Warrior T19 Fury 2P Bonus"] = "- 狂怒戰士 T19 2件套裝特效"
-	--Translation missing 
-	-- L["- Warrior T20 Fury 2P Bonus"] = ""
-	--Translation missing 
-	-- L["- Warrior T20 Protection 2P Bonus"] = ""
+	L["- Warrior T20 Fury 2P Bonus"] = "- 狂怒戰士 T20 2件套裝效果"
+	L["- Warrior T20 Protection 2P Bonus"] = "- 防護戰士 T20 2件套裝效果"
 	L["(Pet)"] = "(寵物)"
 	L["(Water Elemental)"] = "(水元素)"
 	L["Ability Charges"] = "技能可用次數"
 	L["Add Triggers"] = "新增觸發"
-	L["Always Active"] = "總是啟用"
+	L["Always Active"] = "永遠有效"
 	L["Back"] = "上一步"
 	L["Bleed"] = "流血"
 	L["BloodLust/Heroism"] = "嗜血/英勇"
@@ -83,24 +63,20 @@ local L = WeakAuras.L
 	L["Buffs"] = "增益 BUFF"
 	L["Cancel"] = "取消"
 	L["Cast"] = "施放法術"
-	--Translation missing 
-	-- L["Concordance of the Legionfall"] = ""
-	L["cooldown"] = "冷卻"
+	L["Concordance of the Legionfall"] = "軍團之殞盟誓"
+	L["cooldown"] = "技能冷卻"
 	L["Cooldowns"] = "技能冷卻"
 	L["Crimson Vial Item Count"] = "赤紅藥瓶次數"
-	--Translation missing 
-	-- L["Damage Trinkets"] = ""
+	L["Damage Trinkets"] = "傷害輸出飾品"
 	L["debuff"] = "減益"
 	L["Debuffs"] = "減益 DEBUFF/DOT"
 	L["Enchants"] = "附魔"
 	L["General"] = "一般"
-	--Translation missing 
-	-- L["Healer Trinkets"] = ""
+	L["Healer Trinkets"] = "治療者飾品"
 	L["Health"] = "血量"
 	L["Keeps existing triggers intact"] = "完整保留已經存在的觸發事件"
-	L["Legendaries"] = "傳說"
-	--Translation missing 
-	-- L["Legion Sets"] = ""
+	L["Legendaries"] = "橘裝"
+	L["Legion Sets"] = "軍臨天下套裝"
 	L["Nimble Brew Item Count"] = "靈動絕釀次數"
 	L["Pet alive"] = "寵物活著"
 	L["Pet Behavior"] = "寵物動作"
@@ -121,10 +97,9 @@ local L = WeakAuras.L
 	L["T19 Healer Trinkets"] = "T19 治療飾品"
 	L["T19 Sets"] = "T19 套裝"
 	L["T19 Tank Trinkets"] = "T19 坦克飾品"
-	--Translation missing 
-	-- L["Tank Trinkets"] = ""
+	L["Tank Trinkets"] = "坦克飾品"
 	L["Totem"] = "圖騰"
 	L["Totems"] = "圖騰"
-	L["Unknown Item"] = "未知物品"
+	L["Unknown Item"] = "未知的物品"
 	L["Unknown Spell"] = "未知法術"
 
