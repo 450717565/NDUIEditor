@@ -130,7 +130,7 @@ local function MakeMoveHandle(Frame, Text, key, Pos)
 	MoveHandle:SetFrameStrata("HIGH")
 	B.CreateBD(MoveHandle)
 	B.CreateFS(MoveHandle, 12, Text)
-	if not NDuiDB["AuraWatch"][key] then 
+	if not NDuiDB["AuraWatch"][key] then
 		MoveHandle:SetPoint(unpack(Pos))
 	else
 		MoveHandle:SetPoint(unpack(NDuiDB["AuraWatch"][key]))
@@ -483,14 +483,14 @@ end
 
 local function UpdateAura(UnitID)
 	local index = 1
-    while true do
+	while true do
 		local name, _, _, _, _, _, _, _, _, _, spellID = UnitBuff(UnitID, index)
 		if not name then break end
 		if AuraFilter(spellID, UnitID, index, true) then UpdateAuraFrame(AuraFilter(spellID, UnitID, index, true)) end
 		index = index + 1
 	end
 	local index = 1
-    while true do
+	while true do
 		local name, _, _, _, _, _, _, _, _, _, spellID = UnitDebuff(UnitID, index)
 		if not name then break end
 		if AuraFilter(spellID, UnitID, index, false) then UpdateAuraFrame(AuraFilter(spellID, UnitID, index, false)) end
@@ -520,7 +520,7 @@ local function SortBars()
 	end
 end
 
-local function UpdateIntFrame(IntID, ItemID, Duration, Text)
+local function UpdateIntFrame(IntID, ItemID, Duration)
 	local Frame = BuildBAR(IntCD.BarWidth, IntCD.IconSize)
 	if Frame then
 		Frame:Show()
@@ -537,7 +537,6 @@ local function UpdateIntFrame(IntID, ItemID, Duration, Text)
 		Frame.type = 1
 		Frame.spellID = IntID
 	end
-	if text then name = text end
 	if Frame.Icon then Frame.Icon:SetTexture(icon) end
 	if Frame.Count then Frame.Count:SetText(nil) end
 	if Frame.Cooldown then

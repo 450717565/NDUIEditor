@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2009, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17020 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17048 $"):sub(12, -3))
 mod:SetCreatureID(124158)--or 124158 or 125692
 mod:SetEncounterID(2082)
 mod:SetZone()
@@ -20,14 +20,11 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_REMOVED 248233 250135 250006",
 --	"SPELL_PERIODIC_DAMAGE",
 --	"SPELL_PERIODIC_MISSED",
---	"UNIT_DIED",
---	"CHAT_MSG_RAID_BOSS_EMOTE",
 	"RAID_BOSS_WHISPER",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
 --TODO, Announce stacks of Gathering Power if relevant
---TODO, icons on Empowered Pulse Grenades? Have to see live health tuning and whether or not > 8 players can have them
 --[[
 (ability.id = 247376 or ability.id = 248068 or ability.id = 247923 or ability.id = 248070 or ability.id = 248254) and type = "begincast"
  or (ability.id = 247367 or ability.id = 250255 or ability.id = 247552 or ability.id = 247687 or ability.id = 254244) and type = "cast"
@@ -40,13 +37,11 @@ local warnSlumberGas					= mod:NewTargetAnnounce(247565, 3)
 --Stage Two: Contract to Kill
 local warnPhase2						= mod:NewPhaseAnnounce(2, 2)
 local warnSever							= mod:NewStackAnnounce(247687, 2, nil, "Tank")
---local warnChargedBlasts					= mod:NewTargetAnnounce(247716, 3)
 --Stage Three/Five: The Perfect Weapon
 local warnPhase3						= mod:NewPhaseAnnounce(3, 2)
 local warnEmpoweredPulseGrenade			= mod:NewTargetAnnounce(250006, 3)
 local warnPhase4						= mod:NewPhaseAnnounce(4, 2)
 local warnPhase5						= mod:NewPhaseAnnounce(5, 2)
---Intermission: On Deadly Ground
 
 --General
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
@@ -61,14 +56,11 @@ local yellStasisTrap					= mod:NewYell(247641, L.DispelMe)
 --Stage Two: Contract to Kill
 local specWarnSever						= mod:NewSpecialWarningTaunt(247687, nil, nil, nil, 1, 2)
 local specWarnChargedBlastsUnknown		= mod:NewSpecialWarningSpell(247716, nil, nil, nil, 2, 2)
---local specWarnChargedBlasts				= mod:NewSpecialWarningYou(247716, nil, nil, nil, 1, 2)
---local yellChargedBlasts					= mod:NewYell(247716)
 local specWarnShrapnalBlast				= mod:NewSpecialWarningDodge(247923, nil, nil, nil, 1, 2)
 --local specWarnMalignantAnguish		= mod:NewSpecialWarningInterrupt(236597, "HasInterrupt")
 --Stage Three/Five: The Perfect Weapon
 local specWarnEmpPulseGrenade			= mod:NewSpecialWarningMoveAway(250006, nil, nil, nil, 1, 2)
 local yellEmpPulseGrenade				= mod:NewYell(250006)
---local specWarnEmpShrapnalBlast		= mod:NewSpecialWarningDodge(248070, nil, nil, nil, 1, 2)--Redundant
 --Intermission: On Deadly Ground
 
 --Stage One: Attack Force
@@ -78,7 +70,7 @@ local timerPulseGrenadeCD				= mod:NewCDTimer(17, 247376, nil, nil, nil, 3)--17?
 --Stage Two: Contract to Kill
 local timerSeverCD						= mod:NewCDTimer(7.2, 247687, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
 local timerChargedBlastsCD				= mod:NewCDTimer(18.2, 247716, nil, nil, nil, 3)
-local timerShrapnalBlastCD				= mod:NewCDTimer(13.3, 247923, nil, nil, nil, 3)
+local timerShrapnalBlastCD				= mod:NewCDCountTimer(13.3, 247923, nil, nil, nil, 3)
 --Stage Three/Five: The Perfect Weapon
 
 --Intermission: On Deadly Ground
@@ -115,7 +107,7 @@ mod.vb.phase = 1
 mod.vb.shrapnalCast = 0
 mod.vb.empoweredPulseActive = 0
 mod.vb.sleepCanisterIcon = 1
-local mythicP5ShrapnalTimers = {15, 15.8, 14.5, 12, 10}
+local mythicP5ShrapnalTimers = {15, 15.8, 14.5, 12, 10}--Doesn't seem right, seems health based?
 local empoweredPulseTargets = {}
 
 local debuffFilter
@@ -172,7 +164,7 @@ function mod:OnCombatStart(delay)
 	self.vb.shrapnalCast = 0
 	self.vb.empoweredPulseActive = 0
 	self.vb.sleepCanisterIcon = 1
-	timerShocklanceCD:Start(4.2-delay)--4.4 Mythic, 4.3 normal, 4.2 heroic
+	timerShocklanceCD:Start(4.2-delay)
 	timerSleepCanisterCD:Start(7-delay)
 	if not self:IsLFR() then--Don't seem to be in LFR
 		if self:IsMythic() then
@@ -219,21 +211,21 @@ function mod:SPELL_CAST_START(args)
 		voiceShrapnalBlast:Play("watchstep")
 		if self:IsMythic() then
 			if self.vb.phase == 2 then
-				timerShrapnalBlastCD:Start(17)
+				timerShrapnalBlastCD:Start(17, self.vb.shrapnalCast+1)
 			elseif self.vb.phase == 3 then
-				timerShrapnalBlastCD:Start(14)--14-15.8
+				timerShrapnalBlastCD:Start(14, self.vb.shrapnalCast+1)--14-15.8
 			elseif self.vb.phase == 4 then
-				timerShrapnalBlastCD:Start(26.7)
+				timerShrapnalBlastCD:Start(26.7, self.vb.shrapnalCast+1)
 			elseif self.vb.phase == 5 then
 				local timer = mythicP5ShrapnalTimers[self.vb.shrapnalCast+1]
 				if timer then
-					timerShrapnalBlastCD:Start(timer)
+					timerShrapnalBlastCD:Start(timer, self.vb.shrapnalCast+1)
 				end
 			end
 		elseif spellId == 248070 then--Empowered (p3)
-			timerShrapnalBlastCD:Start(19)--19-23
+			timerShrapnalBlastCD:Start(19, self.vb.shrapnalCast+1)--19-23
 		else
-			timerShrapnalBlastCD:Start()--13
+			timerShrapnalBlastCD:Start(nil, self.vb.shrapnalCast+1)--13
 		end
 	elseif spellId == 248254 then
 		specWarnChargedBlastsUnknown:Show()
@@ -251,7 +243,7 @@ end
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 247367 or spellId == 250255 then
-		if spellId == 247367 then
+		if spellId == 247367 or self:IsMythic() then
 			timerShocklanceCD:Start()
 		else--Empowered seems less often
 			timerShocklanceCD:Start(9.7)
@@ -311,7 +303,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 255029 then--Sleep Canister Stun Effect
 		if args:IsPlayer() then
-			if self:CheckNearby(10) then
+			if self:CheckNearby(11) then
 				yellSleepCanisterStun:Yell()
 			end
 		elseif self:CheckNearby(10, args.destName) then--Warn nearby again
@@ -363,34 +355,34 @@ function mod:SPELL_AURA_REMOVED(args)
 			timerSeverCD:Start(6.6)--6.6-8.2
 			timerChargedBlastsCD:Start(8.4)
 			countdownChargedBlasts:Start(8.4)
-			timerShrapnalBlastCD:Start(12)
+			timerShrapnalBlastCD:Start(12, 1)
 		elseif self.vb.phase == 3 then
 			warnPhase3:Show()
 			if self:IsMythic() then
 				timerShocklanceCD:Start(4)--NOT empowered
 				timerSleepCanisterCD:Start(7.9)
-				timerPulseGrenadeCD:Start(14.1)--Empowered
-				countdownPulseGrenade:Start(14.1)
-				timerShrapnalBlastCD:Start(15.3)--Empowered
+				timerPulseGrenadeCD:Start(12.6)--Empowered
+				countdownPulseGrenade:Start(12.6)
+				timerShrapnalBlastCD:Start(13.9, 1)--Empowered
 			else
 				timerShocklanceCD:Start(5)--Empowered
 				timerPulseGrenadeCD:Start(6.3)--Empowered
 				countdownPulseGrenade:Start(6.3)
-				timerShrapnalBlastCD:Start(15.4)--Empowered
+				timerShrapnalBlastCD:Start(15.4, 1)--Empowered
 			end
 		elseif self.vb.phase == 4 then--Mythic Only
 			warnPhase4:Show()
 			timerSeverCD:Start(7.5)
 			timerChargedBlastsCD:Start(9)
 			timerSleepCanisterCD:Start(12.5)
-			timerShrapnalBlastCD:Start(12.7)--Empowered
+			timerShrapnalBlastCD:Start(12.7, 1)--Empowered
 		elseif self.vb.phase == 5 then--Mythic Only (Identical to non mythic 3?)
 			warnPhase5:Show()
 			timerShocklanceCD:Start(5)--Empowered
 			timerPulseGrenadeCD:Start(7)--Empowered
 			countdownPulseGrenade:Start(7)
 			timerSleepCanisterCD:Start(12.9)
-			timerShrapnalBlastCD:Start(15.5)--Empowered
+			timerShrapnalBlastCD:Start(15.5, 1)--Empowered
 		end
 	elseif spellId == 250006 then
 		self.vb.empoweredPulseActive = self.vb.empoweredPulseActive - 1
@@ -417,19 +409,6 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
-
-function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
-	if msg:find("spell:238502") then
-
-	end
-end
-
-function mod:UNIT_DIED(args)
-	local cid = self:GetCIDFromGUID(args.destGUID)
-	if cid == 121193 then
-
-	end
-end
 --]]
 
 function mod:RAID_BOSS_WHISPER(msg)
@@ -468,7 +447,6 @@ do
 	end
 end
 
---http://ptr.wowhead.com/spell=253380/teleport-imonar-the-soulhunter
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 	if spellId == 248995 or spellId == 248194 then
 		timerSeverCD:Stop()

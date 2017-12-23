@@ -61,10 +61,10 @@ C.InternalCD = {
 	BarWidth = 150,
 	Pos = InternalCDPoint,
 	List = {
-		--萨瓦里卡的杰作
-		--{IntID = 207472, Duration = 30, ItemID = 132444},
 		--塞弗斯的秘密
 		{IntID = 208052, Duration = 30, ItemID = 132452},
+		--萨瓦里克的杰作
+		--{IntID = 207472, Duration = 30, ItemID = 132444},
 	},
 }
 
@@ -165,8 +165,8 @@ C.AuraWatchList = {
 				{AuraID = 253307, UnitID = "player"},
 				{AuraID = 253308, UnitID = "player"},
 				--裂隙世界法典
-				{AuraID = 252545, UnitID = "player", Value = true},
 				{AuraID = 251938, UnitID = "player"},
+				{AuraID = 252545, UnitID = "player", Value = true},
 				{AuraID = 256415, UnitID = "player"},
 				--克罗塔的护盾
 				{AuraID = 228323, UnitID = "player", Value = true},

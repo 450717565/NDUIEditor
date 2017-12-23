@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2025, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17024 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17052 $"):sub(12, -3))
 mod:SetCreatureID(124445)
 mod:SetEncounterID(2075)
 mod:SetZone()
@@ -29,7 +29,6 @@ mod:RegisterEventsInCombat(
 )
 
 --TODO, verify Meteor Storm in LFR
---TODO, verify interrupt for Final Doom
 --[[
 (ability.id = 249121 or ability.id = 250048) and type = "begincast"
  or (ability.id = 246753 or ability.id = 254769) and type = "cast"
@@ -91,6 +90,7 @@ local countdownFinalDoom				= mod:NewCountdown("AltTwo90", 249121)
 local voiceMeteorStorm					= mod:NewVoice(248333)--watchstep
 local voiceSpearofDoom					= mod:NewVoice(248789)--watchstep
 local voiceRainofFel					= mod:NewVoice(248332)--scatter
+local voiceAdds							= mod:NewVoice(246888, "-Healer", DBM_CORE_AUTO_VOICE3_OPTION_TEXT)--killmob
 --Adds
 local voiceSwing						= mod:NewVoice(250701, "MeleeDps", nil, 2)--watchstep
 --local voiceMalignantAnguish			= mod:NewVoice(236597, "HasInterrupt")--kickcast
@@ -121,9 +121,6 @@ mod.vb.obfuscatorCast = 0
 mod.vb.purifierCast = 0
 mod.vb.batCast = 0
 mod.vb.targetedIcon = 1
---local normalWarpTimers = {5.1, 16.0}
---local heroicWarpTimers = {5.3, 10.0, 23.9, 20.7, 24.0, 19.0}
---local mythicWarpTimers = {5.3, 9.8, 35.3, 44.8, 34.9}--Excludes the waves that don't fire warp in (obfuscators and purifiers)
 local normalRainOfFelTimers = {}--PTR, recheck
 local heroicRainOfFelTimers = {9.3, 44, 10, 43, 35, 19, 20, 30, 45, 35, 99}--Live, Nov 29
 local mythicRainOfFelTimers = {6, 23.1, 24.1, 49.2, 25, 49.3, 15, 46.2, 24, 49.2, 24.1, 49.2, 50}--Live, Dec 14
@@ -182,7 +179,7 @@ do
 			local currentPower = UnitPower("boss2", 10) or 0
 			local currentHealth = UnitHealth("boss2")/UnitHealthMax("boss2") * 100 or 100
 			addLine(L.EonarHealth, math.floor(currentHealth).."%")
-			addLine(L.EonarPower, currentPower)
+			addLine(L.EonarPower, currentPower.."%")
 		end
 		addLine(lifeForceName, mod.vb.lifeForceCast.."/"..mod.vb.lifeRequired)
 		if mod.vb.obfuscators > 0 then
@@ -219,6 +216,7 @@ end
 local function startBatsStuff(self)
 	self.vb.batCast = self.vb.batCast + 1
 	warnWarpIn:Show(L.Bats)
+	voiceAdds:Play("killmob")
 	local timer = self:IsMythic() and mythicBats[self.vb.batCast+1] or self:IsHeroic() and heroicBats[self.vb.batCast+1]
 	if timer then
 		timerBatsCD:Start(timer, self.vb.batCast+1)
@@ -332,6 +330,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		self.vb.obfuscators = self.vb.obfuscators + 1
 		if self:AntiSpam(5, args.sourceName) then
 			warnWarpIn:Show(L.Obfuscators)
+			voiceAdds:Play("bigmob")
 			self.vb.obfuscatorCast = self.vb.obfuscatorCast + 1
 			local timer = self:IsMythic() and mythicObfuscators[self.vb.obfuscatorCast+1] or self:IsHeroic() and heroicObfuscators[self.vb.obfuscatorCast+1] or self:IsNormal() and normalObfuscators[self.vb.obfuscatorCast+1]
 			if timer then
@@ -345,6 +344,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		self.vb.destructors = self.vb.destructors + 1
 		if self:AntiSpam(5, args.sourceName) then
 			warnWarpIn:Show(L.Destructors)
+			voiceAdds:Play("bigmob")
 			self.vb.destructorCast = self.vb.destructorCast + 1
 			local timer = self:IsMythic() and mythicDestructors[self.vb.destructorCast+1] or self:IsHeroic() and heroicDestructors[self.vb.destructorCast+1] or self:IsNormal() and normalDestructors[self.vb.destructorCast+1]
 			if timer then
@@ -367,6 +367,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		self.vb.purifiers = self.vb.purifiers + 1
 		if self:AntiSpam(5, 2) then
 			warnWarpIn:Show(L.Purifiers)
+			voiceAdds:Play("bigmob")
 			self.vb.purifierCast = self.vb.purifierCast + 1
 			local timer = self:IsMythic() and mythicPurifiers[self.vb.purifierCast+1] or self:IsHeroic() and heroicPurifiers[self.vb.purifierCast+1]
 			if timer then
@@ -492,27 +493,6 @@ function mod:UNIT_DIED(args)
 end
 
 --[[
-function mod:RAID_BOSS_WHISPER(msg)
-	if msg:find("spell:248861") or msg:find("spell:248789") then
-		specWarnSpearofDoom:Show()
-		voiceSpearofDoom:Play("runout")
-		yellSpearofDoom:Yell()
-	end
-end
-
-function mod:OnTranscriptorSync(msg, targetName)
-	if msg:find("spell:248861") or msg:find("spell:248789") then
-		targetName = Ambiguate(targetName, "none")
-		if self:AntiSpam(4, targetName) then
-			local icon = self.vb.bladesIcon
-			warnSpearofDoom:CombinedShow(0.5, targetName)
-			if self.Options.SetIconOnSpearofDoom then
-				--self:SetIcon(targetName, icon, 5)
-			end
-		end
-	end
-end
-
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
 	if spellId == 248329 and self:AntiSpam(5, 4) then
 

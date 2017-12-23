@@ -90,7 +90,7 @@ local function ScanBags()
 end
 
 local function UpdateItem(self)
-	if not InCombatLockdown() then
+	if (not InCombatLockdown()) or (not UnitHasVehicleUI("player")) then
 		itemLink, bag, slot = ScanBags()
 		if itemLink then
 			self:SetAttribute("type", "item")
