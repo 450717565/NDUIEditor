@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1987, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17046 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17069 $"):sub(12, -3))
 mod:SetCreatureID(122477, 122135)--122477 F'harg, 122135 Shatug
 mod:SetEncounterID(2074)
 mod:SetZone()
@@ -69,7 +69,7 @@ local timerComsumingSphereCD			= mod:NewCDTimer(77, 244131, nil, nil, nil, 3)--V
 local timerWeightOfDarknessCD			= mod:NewCDTimer(77, 254429, nil, nil, nil, 3)
 local timerSiphonCorruptionCD			= mod:NewCDTimer(77, 244056, nil, nil, nil, 3)
 --General/Mythic
-local timerFocusingPower				= mod:NewCastTimer(15, 251356, nil, nil, nil, 3)
+local timerFocusingPower				= mod:NewCastTimer(15, 251356, nil, nil, nil, 6)
 
 --local berserkTimer					= mod:NewBerserkTimer(600)
 

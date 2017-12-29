@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1983, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17054 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17068 $"):sub(12, -3))
 mod:SetCreatureID(122366)
 mod:SetEncounterID(2069)
 mod:SetZone()
@@ -50,7 +50,7 @@ local yellMarkedPreyFades				= mod:NewShortFadesYell(244042)
 local specWarnNecroticEmbrace			= mod:NewSpecialWarningMoveAway(244094, nil, nil, 2, 1, 2)
 local yellNecroticEmbrace				= mod:NewPosYell(244094)
 local yellNecroticEmbraceFades			= mod:NewIconFadesYell(244094)
-local specWarnEchoesOfDoom				= mod:NewSpecialWarningMoveAway(248732, nil, nil, nil, 1, 2)
+local specWarnEchoesOfDoom				= mod:NewSpecialWarningYou(248732, nil, nil, nil, 1, 2)
 local yellEchoesOfDoom					= mod:NewYell(248732)
 
 --Torments of the Shivarra
@@ -59,7 +59,7 @@ local timerTormentofFrostCD				= mod:NewNextTimer(61, 243976, nil, nil, nil, 6)
 local timerTormentofFelCD				= mod:NewNextTimer(61, 243979, nil, nil, nil, 6)
 local timerTormentofShadowsCD			= mod:NewNextTimer(61, 243974, nil, nil, nil, 6)
 --The Fallen Nathrezim
-local timerShadowStrikeCD				= mod:NewCDTimer(9, 243960, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--9-14 (most of time it's 9.7 or more, but sometimes it's 9.0-9.4 so 9.0 has to be used
+local timerShadowStrikeCD				= mod:NewCDTimer(8.5, 243960, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--8.5-14 (most of time it's 9.7 or more, But lowest has to be used
 local timerDarkFissureCD				= mod:NewCDTimer(32, 243999, nil, nil, nil, 3)--32-33
 local timerMarkedPreyCD					= mod:NewNextTimer(30.3, 244042, nil, nil, nil, 3)
 local timerNecroticEmbraceCD			= mod:NewNextTimer(30.3, 244093, nil, nil, nil, 3)
@@ -169,7 +169,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			voiceNecroticEmbrace:Play("scatter")
 			local icon = self.vb.totalEmbrace+2
 			yellNecroticEmbrace:Yell(self.vb.totalEmbrace, icon, icon)
-			yellNecroticEmbraceFades:Countdown(6, 3, self.vb.totalEmbrace+2)
+			yellNecroticEmbraceFades:Countdown(6, 3, icon)
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(10)
 			end
@@ -183,7 +183,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnEchoesofDoom:CombinedShow(0.5, args.destName)--In case multiple shadows up
 		if args:IsPlayer() and self:AntiSpam(3, 1) then
 			specWarnEchoesOfDoom:Show()
-			voiceEchoesOfDoom:Play("runout")
+			voiceEchoesOfDoom:Play("targetyou")
 			yellEchoesOfDoom:Yell()
 		end
 	elseif spellId == 243968 and self.vb.currentTorment ~= 1 then--Flame

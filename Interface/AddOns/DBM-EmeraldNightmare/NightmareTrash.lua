@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("EmeraldNightmareTrash", "DBM-EmeraldNightmare")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 15358 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17055 $"):sub(12, -3))
 --mod:SetModelID(47785)
 mod:SetZone()
 mod.isTrashMod = true
@@ -45,7 +45,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 221028 then
 		warnUnstableDecay:CombinedShow(0.5, args.destName)
-		if args:IsPlayer() then--TODO, maybe give it a delay, it does take a while
+		if args:IsPlayer() and self:AntiSpam(4, 1) then
 			specWarnUnstableDecay:Show()
 			voiceUnstableDecay:Play("runout")
 			yellUnstableDecay:Yell()

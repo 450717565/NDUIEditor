@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1985, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17052 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17069 $"):sub(12, -3))
 mod:SetCreatureID(122104)
 mod:SetEncounterID(2064)
 mod:DisableESCombatDetection()--Remove if blizz fixes clicking portals causing this event to fire (even though boss isn't engaged)
@@ -41,7 +41,7 @@ mod:RegisterEventsInCombat(
 local warnRealityTear					= mod:NewStackAnnounce(244016, 2, nil, "Tank")
 --Platform: Xoroth
 local warnXorothPortal					= mod:NewSpellAnnounce(244318, 2)
-local warnAegisofFlames					= mod:NewTargetAnnounce(244383, 3)
+local warnAegisofFlames					= mod:NewTargetAnnounce(244383, 3, nil, nil, nil, nil, nil, nil, true)
 local warnAegisofFlamesEnded			= mod:NewEndAnnounce(244383, 1)
 local warnEverburningFlames				= mod:NewTargetAnnounce(244613, 2, nil, false)
 --Platform: Rancora
@@ -243,22 +243,15 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 246316 then--Rancora platform
 		timerPoisonEssenceCD:Start()
 	elseif spellId == 244915 or spellId == 246805 then
-		if spellId == 244915 then--Rancora platform
+		if self.Options.ShowAllPlatforms or playerPlatform == 3 then--Actually on Rancora platform
 			timerLeechEssenceCD:Start()
-			if self.Options.ShowAllPlatforms or playerPlatform == 3 then--Actually on Rancora platform
-				specWarnLeechEssence:Show()
-			end
-		else--Mythic add on nexus platform
-			--timerLeechEssenceCD:Start() enable later with appropriate add filter
-			if self.Options.ShowAllPlatforms or playerPlatform == 1 then--Actually on Nexus platform
-				specWarnLeechEssence:Show()
-			end
+			specWarnLeechEssence:Show()
 		end
 	elseif spellId == 244689 then
 		if self:IsMythic() then
 			timerTransportPortalCD:Start(36.5)
 		else
-			timerTransportPortalCD:Start()--40 minimum but still quite variable
+			timerTransportPortalCD:Start()
 		end
 		if self.Options.ShowAllPlatforms or playerPlatform == 1 then--Actually on nexus platform
 			specWarnTransportPortal:Show()
@@ -326,8 +319,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 			playerPlatform = 1--1 Nexus, 2 Xoroth, 3 Rancora, 4 Nathreza
 		end
 	elseif spellId == 244598 and self:AntiSpam(5, 1) then--Supernova
-		--timerSupernovaCD:Start()
 		if self.Options.ShowAllPlatforms or playerPlatform == 2 then--Actually on Xoroth platform
+			--timerSupernovaCD:Start()
 			specWarnSupernova:Show()
 			voiceSuperNova:Play("watchstep")
 		end
@@ -399,13 +392,13 @@ function mod:SPELL_AURA_APPLIED(args)
 			updateRangeFrame(self)
 		end
 	elseif spellId == 244949 then--Felsilk Wrap
-		timerFelSilkWrapCD:Start()
 		if args:IsPlayer() then
 			specWarnFelSilkWrap:Show()
 			voiceFelSilkWrap:Play("targetyou")
 			yellFelSilkWrap:Yell()
 		else
 			if self.Options.ShowAllPlatforms or playerPlatform == 3 then--Actually on Rancora platform
+				timerFelSilkWrapCD:Start()
 				specWarnFelSilkWrapOther:Show()
 				if self.Options.SpecWarn244949switch then
 					voiceFelSilkWrap:Play("changetarget")

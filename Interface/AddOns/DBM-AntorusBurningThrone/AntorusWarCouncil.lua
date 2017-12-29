@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1997, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17052 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17070 $"):sub(12, -3))
 mod:SetCreatureID(122369, 122333, 122367)--Chief Engineer Ishkar, General Erodus, Admiral Svirax
 mod:SetEncounterID(2070)
 mod:SetZone()
@@ -31,8 +31,7 @@ mod:RegisterEventsInCombat(
  or ability.id = 253015
 --]]
 --General
-local warnInPod							= mod:NewTargetAnnounce("ej16099", 2, 244141)
-local warnOutofPod						= mod:NewTargetAnnounce("ej16098", 2, 244141)
+local warnOutofPod						= mod:NewTargetNoFilterAnnounce("ej16098", 2, 244141)
 local warnExploitWeakness				= mod:NewStackAnnounce(244892, 2, nil, "Tank")
 local warnPsychicAssault				= mod:NewTargetAnnounce(244172, 4)
 --In Pod
@@ -182,8 +181,8 @@ function mod:SPELL_CAST_START(args)
 		timerShockGrenadeCD:Stop()
 		timerExploitWeaknessCD:Stop()
 		countdownExploitWeakness:Cancel()
-		timerExploitWeaknessCD:Start(8.7)--8.7-14 (basically depends how fast you get there) If you heroic leap and are super fast. it's cast pretty much instantly on mob activation
-		countdownExploitWeakness:Start(8.7)
+		timerExploitWeaknessCD:Start(8)--8-14 (basically depends how fast you get there) If you heroic leap and are super fast. it's cast pretty much instantly on mob activation
+		countdownExploitWeakness:Start(8)
 		local cid = self:GetCIDFromGUID(args.sourceGUID)
 		if cid == 122369 then--Chief Engineer Ishkar
 			timerWarpFieldCD:Stop()
@@ -224,7 +223,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerExploitWeaknessCD:Start()
 		countdownExploitWeakness:Start(8.5)
 	elseif spellId == 245227 then--Assume Command
-		warnInPod:Show(args.sourceName)
 		timerAssumeCommandCD:Start(90)
 		countdownAssumeCommand:Start(90)
 	elseif spellId == 253037 then
@@ -287,8 +285,6 @@ function mod:SPELL_AURA_REMOVED(args)
 				DBM.RangeCheck:Hide()
 			end
 		end
-	--elseif spellId == 253015 then--Commanders Presence
-		--warnInPod:Show(args.destName)
 	end
 end
 

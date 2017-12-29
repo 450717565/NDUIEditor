@@ -5,6 +5,7 @@
 ## Notes-zhCN: 装等观察,装等显示
 ## Notes-zhTW: 裝等觀察,裝等顯示
 ## Author: M
+## RequiredDeps: NDui
 
 libs\lib.xml
 

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1984, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17047 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17063 $"):sub(12, -3))
 mod:SetCreatureID(121975)
 mod:SetEncounterID(2063)
 mod:SetZone()
@@ -197,7 +197,9 @@ do
 				DBM.InfoFrame:Hide()
 			end
 		else--Not Mythic
-			if mod.vb.comboCount == 1 then
+			if mod.vb.comboCount == 0 then
+				--Filler
+			elseif mod.vb.comboCount == 1 then
 				addLine(mod.vb.comboCount+1, DBM_CORE_IMPORTANT_ICON..L.Rend)
 				addLine(mod.vb.comboCount+2, DBM_CORE_TANK_ICON..L.Foe.."(2)")
 				addLine(mod.vb.comboCount+3, DBM_CORE_IMPORTANT_ICON..L.Rend.."(2)")
@@ -286,8 +288,8 @@ function mod:SPELL_CAST_START(args)
 		end
 		self:BossTargetScanner(args.sourceGUID, "WakeTarget", 0.1, 12, true, nil, nil, nil, true)
 	elseif spellId == 245458 or spellId == 255059 then
+		self.vb.comboCount = self.vb.comboCount + 1
 		if self:IsMythic() then
-			self.vb.comboCount = self.vb.comboCount + 1
 			if not self.vb.firstCombo then
 				self.vb.firstCombo = "Foe"
 			elseif not self.vb.secondCombo then
@@ -317,8 +319,8 @@ function mod:SPELL_CAST_START(args)
 			DBM.InfoFrame:Update()
 		end
 	elseif spellId == 245463 or spellId == 255058 then
+		self.vb.comboCount = self.vb.comboCount + 1
 		if self:IsMythic() then
-			self.vb.comboCount = self.vb.comboCount + 1
 			if not self.vb.firstCombo then
 				self.vb.firstCombo = "Rend"
 			elseif not self.vb.secondCombo then
@@ -347,8 +349,8 @@ function mod:SPELL_CAST_START(args)
 			DBM.InfoFrame:Update()
 		end
 	elseif spellId == 245301 or spellId == 255061 then
+		self.vb.comboCount = self.vb.comboCount + 1
 		if self:IsMythic() then
-			self.vb.comboCount = self.vb.comboCount + 1
 			if not self.vb.secondCombo then
 				self.vb.secondCombo = "Tempest"
 			end

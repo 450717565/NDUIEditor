@@ -939,6 +939,10 @@ C.AuraWatchList = {
 				{AuraID = 192517, UnitID = "target"},
 				--黑暗笼罩，执政团鲁拉
 				{AuraID = 254020, UnitID = "target"},
+				--黑暗滋生，执政团鲁拉
+				{AuraID = 247915, UnitID = "target"},
+				--反冲，执政团鲁拉
+				{AuraID = 247816, UnitID = "target"},
 			-->勇气试练
 				--奥丁，弧光风暴
 				{AuraID = 229256, UnitID = "target"},
@@ -1407,6 +1411,11 @@ C.AuraWatchList = {
 				{AuraID = 209406, UnitID = "player"},
 				--欧奈斯的自负
 				{AuraID = 209407, UnitID = "player"},
+				--T21
+				{AuraID = 252752, UnitID = "player"}, --野德
+				{AuraID = 253434, UnitID = "player"}, --奶德
+				{AuraID = 252767, UnitID = "player"}, --鸟德
+				{AuraID = 253575, UnitID = "player"}, --熊德
 			},
 		},
 		{	Name = "Focus Aura",
