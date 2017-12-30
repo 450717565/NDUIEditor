@@ -184,6 +184,7 @@ local function ForceDBMOptions()
 	DBM_AllSavedOptions["Default"]["SpecialWarningFontSize2"] = 24
 	DBM_AllSavedOptions["Default"]["SpecialWarningFontStyle"] = "OUTLINE"
 	DBM_AllSavedOptions["Default"]["SpecialWarningPoint"] = "TOP"
+	DBM_AllSavedOptions["Default"]["SpecialWarningSound3"] = "Sound\\interface\\UI_RaidBossWhisperWarning.ogg"
 	DBM_AllSavedOptions["Default"]["SpecialWarningX"] = 0
 	DBM_AllSavedOptions["Default"]["SpecialWarningY"] = -200
 	DBM_AllSavedOptions["Default"]["WarningFontSize"] = 18

@@ -102,30 +102,38 @@ C.AuraWatchList = {
 				--拳手的延时之力
 				{AuraID = 230039, UnitID = "player"},
 			-->LEG橙装
+				--诺甘农的预见
+				{AuraID = 236430, UnitID = "player"},
+				--罗宁的突袭裹腕
+				{AuraID = 208081, UnitID = "player"},
+				--塞弗斯的秘密
+				{AuraID = 208052, UnitID = "player"},
 				--蛇语者之舌
 				{AuraID = 248085, UnitID = "player"},
-				--哨兵视野
+				--哨兵部队作战腰带
 				{AuraID = 208913, UnitID = "player"},
-				--暗影猎手的回复
+				--暗影猎手的巫毒面具
 				{AuraID = 208888, UnitID = "player"},
-				--石之心
+				--阿亚拉的磐石之心
 				{AuraID = 225947, UnitID = "player"},
-				--凯尔萨斯的绝招
+				--太阳之王的华盖之缚
 				{AuraID = 209455, UnitID = "player"},
+				--维纶的未来预言
+				{AuraID = 235966, UnitID = "player"},
+				--玛瑟里顿的放逐护腕
+				{AuraID = 235712, UnitID = "player"},
 				--阿克蒙德的重生之恨
 				{AuraID = 235169, UnitID = "player", Value= true},
-				--回转稳定
-				{AuraID = 235712, UnitID = "player", Combat = true},
 				--冷酷之心
 				{AuraID = 235599, UnitID = "player", Combat = true},
-				--萨瓦里卡的杰作
+				--萨瓦里克的杰作
 				{AuraID = 207472, UnitID = "player", Value= true, Combat = true},
-			    -->奶僧橙裤-黑焰护腿
-				{AuraID = 217000, UnitID = "player", Text = "加速泉水"}, --加速泉水
-				{AuraID = 216509, UnitID = "player", Text = "双重复苏"}, --双重复苏
-				{AuraID = 217006, UnitID = "player", Text = "免费活血"}, --免费活血
-				{AuraID = 216992, UnitID = "player", Text = "三倍贯通"}, --三倍贯通
-				{AuraID = 216995, UnitID = "player", Text = "瞬发氤氲"}, --瞬发氤氲
+			    --黑焰护腿
+				{AuraID = 216509, UnitID = "player", Text = "双重复苏"},
+				{AuraID = 216992, UnitID = "player", Text = "三倍贯通"},
+				{AuraID = 216995, UnitID = "player", Text = "瞬发氤氲"},
+				{AuraID = 217000, UnitID = "player", Text = "加速泉水"},
+				{AuraID = 217006, UnitID = "player", Text = "免费活血"},
 			-->泰坦之路系列饰品
 				--阿格拉玛的信念
 				{AuraID = 256816, UnitID = "player"},
@@ -142,6 +150,8 @@ C.AuraWatchList = {
 				--诺甘农的威能
 				{AuraID = 256828, UnitID = "player"},
 			-->LEG饰品
+				--高沙拉克的回响
+				{AuraID = 253327, UnitID = "player"},
 				--苦痛之矛
 				{AuraID = 243644, UnitID = "player"},
 				--地狱火契约
@@ -185,8 +195,6 @@ C.AuraWatchList = {
 				{AuraID = 225776, UnitID = "player"},
 				--地狱火之书
 				{AuraID = 215816, UnitID = "player"},
-				--罗宁护腕
-				{AuraID = 208081, UnitID = "player"},
 				--回归打击
 				{AuraID = 225736, UnitID = "player"},
 				--苏拉玛套装，爆击
@@ -228,10 +236,6 @@ C.AuraWatchList = {
 				{AuraID = 225753, UnitID = "player"},
 				--幻影回想(50%减伤)
 				{AuraID = 222479, UnitID = "player"},
-				--赛福斯的秘密(通用戒指)
-				{AuraID = 208052, UnitID = "player"},
-				--诺甘农的预见
-				{AuraID = 236430, UnitID = "player"},
 				--吸血传染
 				{AuraID = 221805, UnitID = "player"},
 				--坍缩，戒指
@@ -291,7 +295,10 @@ C.AuraWatchList = {
 				--火箭靴
 				{AuraID =  54861, UnitID = "player"},
 				--隐形
+				{AuraID =   3680, UnitID = "player"},
+				{AuraID =  11392, UnitID = "player"},
 				{AuraID = 175833, UnitID = "player"},
+				{AuraID = 188023, UnitID = "player"},
 				--疾跑
 				{AuraID = 201670, UnitID = "player"},
 			},
@@ -334,13 +341,11 @@ C.AuraWatchList = {
 			-->职业增益
 				--天堂之羽
 				{AuraID = 121557, UnitID = "player"},
-				--枭兽光环
-				{AuraID = 209746, UnitID = "player"},
 				--狂奔怒吼
 				{AuraID =  77761, UnitID = "player"},
 				{AuraID =  77764, UnitID = "player"},
-				--光环掌握
-				{AuraID =  31821, UnitID = "player"},
+				--提尔的保护
+				{AuraID = 211210, UnitID = "player"},
 				--命令怒吼
 				{AuraID =  97463, UnitID = "player"},
 				--捍卫
@@ -3467,6 +3472,8 @@ C.AuraWatchList = {
 				--恶魔变形
 				{AuraID = 162264, UnitID = "player"},
 				{AuraID = 187827, UnitID = "player"},
+				--T21
+				{AuraID = 252165, UnitID = "player"},
 			},
 		},
 		{	Name = "Focus Aura",

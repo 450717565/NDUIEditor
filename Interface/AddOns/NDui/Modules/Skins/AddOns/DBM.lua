@@ -23,7 +23,7 @@ function module:DBMSkin()
 					icon1.overlay:SetSize(buttonsize+2, buttonsize+2)
 					icon1.overlay:SetFrameStrata("BACKGROUND")
 					icon1.overlay:SetPoint("BOTTOMRIGHT", tbar, "BOTTOMLEFT", -buttonsize/6, -2)
-			
+
 					local backdroptex = icon1.overlay:CreateTexture(nil, "BORDER")
 					backdroptex:SetTexture([=[Interface\Icons\Spell_Nature_WispSplode]=])
 					backdroptex:SetPoint("TOPLEFT", icon1.overlay, "TOPLEFT", 1, -1)
@@ -36,12 +36,12 @@ function module:DBMSkin()
 					icon2.overlay = CreateFrame("Frame", "$parentIcon2Overlay", tbar)
 					icon2.overlay:SetSize(buttonsize+2, buttonsize+2)
 					icon2.overlay:SetPoint("BOTTOMLEFT", tbar, "BOTTOMRIGHT", buttonsize/6, -2)
-			
+
 					local backdroptex = icon2.overlay:CreateTexture(nil, "BORDER")
 					backdroptex:SetTexture([=[Interface\Icons\Spell_Nature_WispSplode]=])
 					backdroptex:SetPoint("TOPLEFT", icon2.overlay, "TOPLEFT", 1, -1)
 					backdroptex:SetPoint("BOTTOMRIGHT", icon2.overlay, "BOTTOMRIGHT", -1, 1)
-					backdroptex:SetTexCoord(unpack(DB.TexCoord))		
+					backdroptex:SetTexCoord(unpack(DB.TexCoord))
 					B.CreateSD(icon2.overlay, 2, 3)
 				end
 
@@ -82,7 +82,7 @@ function module:DBMSkin()
 					icon1.SetSize = B.Dummy
 					icon1.styled = true
 				end
-		
+
 				if not icon2.styled then
 					icon2:SetTexCoord(unpack(DB.TexCoord))
 					icon2:ClearAllPoints()
@@ -124,8 +124,8 @@ function module:DBMSkin()
 					name:SetShadowColor(0, 0, 0, 0)
 					name.styled = true
 				end
-		
-				if not timer.styled then	
+
+				if not timer.styled then
 					timer:ClearAllPoints()
 					timer:SetPoint("RIGHT", frame, "RIGHT", -2, 7)
 					timer.SetPoint = B.Dummy
@@ -157,7 +157,7 @@ function module:DBMSkin()
 					header[1]:SetFont(DB.Font[1], 14, "OUTLINE")
 					header[1]:SetTextColor(1, 1, 1)
 					header[1]:SetShadowColor(0, 0, 0, 0)
-					anchor.styled = true	
+					anchor.styled = true
 				end
 			header = nil
 		end
@@ -172,7 +172,7 @@ function module:DBMSkin()
 			local progress   	= _G[bar:GetName().."Bar"]
 			local name 		 	= _G[bar:GetName().."BarName"]
 			local timer  	 	= _G[bar:GetName().."BarTimer"]
-			local prev		 	= _G[format("DBM_BossHealth_Bar_%d", count-1)]	
+			local prev		 	= _G[format("DBM_BossHealth_Bar_%d", count-1)]
 
 			if (count == 1) then
 				local	_, anch, _ ,_, _ = bar:GetPoint()
@@ -201,12 +201,12 @@ function module:DBMSkin()
 				B.CreateSD(bar.bg, 2, 4)
 				background:SetNormalTexture(nil)
 				bar.styled = true
-			end	
-	
+			end
+
 			if not progress.styled then
 				progress:SetStatusBarTexture(DB.normTex)
 				progress.styled = true
-			end				
+			end
 			progress:ClearAllPoints()
 			progress:SetPoint("TOPLEFT", bar, "TOPLEFT", 2, -2)
 			progress:SetPoint("BOTTOMRIGHT", bar, "BOTTOMRIGHT", -2, 2)
@@ -219,7 +219,7 @@ function module:DBMSkin()
 				name:SetShadowColor(0, 0, 0, 0)
 				name.styled = true
 			end
-	
+
 			if not timer.styled then
 				timer:ClearAllPoints()
 				timer:SetPoint("RIGHT", bar, "RIGHT", -4, 2)
@@ -273,15 +273,15 @@ function module:DBMSkin()
 	local RaidNotice_AddMessage_ = RaidNotice_AddMessage
 	RaidNotice_AddMessage = function(noticeFrame, textString, colorInfo)
 		if textString:find("|T") then
-            if textString:match(":(%d+):(%d+)") then
-                local size1, size2 = textString:match(":(%d+):(%d+)")
-                size1, size2 = size1 + 3, size2 + 3
-                textString = string.gsub(textString,":(%d+):(%d+)",":"..size1..":"..size2..":0:0:64:64:5:59:5:59")
-            elseif textString:match(":(%d+)|t") then
-                local size = textString:match(":(%d+)|t")
-                size = size + 3
-                textString = string.gsub(textString,":(%d+)|t",":"..size..":"..size..":0:0:64:64:5:59:5:59|t")
-            end
+			if textString:match(":(%d+):(%d+)") then
+				local size1, size2 = textString:match(":(%d+):(%d+)")
+				size1, size2 = size1 + 3, size2 + 3
+				textString = string.gsub(textString,":(%d+):(%d+)",":"..size1..":"..size2..":0:0:64:64:5:59:5:59")
+			elseif textString:match(":(%d+)|t") then
+				local size = textString:match(":(%d+)|t")
+				size = size + 3
+				textString = string.gsub(textString,":(%d+)|t",":"..size..":"..size..":0:0:64:64:5:59:5:59|t")
+			end
 		end
 		return RaidNotice_AddMessage_(noticeFrame, textString, colorInfo)
 	end
@@ -293,8 +293,13 @@ function module:DBMSkin()
 	DBT_AllPersistentOptions["Default"]["DBM"].HugeBarYOffset = 15
 	if IsAddOnLoaded("DBM-VPTaotao") then
 		DBM_AllSavedOptions["Default"]["ChosenVoicePack"] = "Taotao"
+		DBM_AllSavedOptions["Default"]["CountdownVoice"] = "VP:Taotao"
 		DBM_AllSavedOptions["Default"]["CountdownVoice2"] = "VP:Taotao"
 		DBM_AllSavedOptions["Default"]["CountdownVoice3v2"] = "VP:Taotao"
-		DBM_AllSavedOptions["Default"]["CountdownVoice"] = "VP:Taotao"
+	elseif IsAddOnLoaded("DBM-VPYike") then
+		DBM_AllSavedOptions["Default"]["ChosenVoicePack"] = "Yike"
+		DBM_AllSavedOptions["Default"]["CountdownVoice"] = "VP:Yike"
+		DBM_AllSavedOptions["Default"]["CountdownVoice2"] = "VP:Yike"
+		DBM_AllSavedOptions["Default"]["CountdownVoice3v2"] = "VP:Yike"
 	end
 end

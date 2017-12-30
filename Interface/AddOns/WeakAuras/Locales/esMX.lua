@@ -7,7 +7,7 @@ local L = WeakAuras.L
 -- WeakAuras
 L["!="] = "!="
 L["%s - %i. Trigger"] = "%s - %i. Desencadenador"
-L["%s - 1. Trigger"] = "%s - %1. Desencadenador"
+L["%s - 1. Trigger"] = "%s - 1. Desencadenador"
 L["%s - Alpha Animation"] = "%s - Animación alfa"
 L["%s - Color Animation"] = "%s - Animación de color"
 --Translation missing 
