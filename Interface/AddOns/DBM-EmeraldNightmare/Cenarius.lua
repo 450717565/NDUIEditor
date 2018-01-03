@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1750, "DBM-EmeraldNightmare", nil, 768)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17077 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17112 $"):sub(12, -3))
 mod:SetCreatureID(104636)
 mod:SetEncounterID(1877)
 mod:SetZone()
@@ -24,7 +24,7 @@ mod:RegisterEventsInCombat(
 
 --Cenarius
 local warnNightmareBrambles			= mod:NewTargetAnnounce(210290, 2)
-local warnPhase2					= mod:NewPhaseAnnounce(2, 2)
+local warnPhase2					= mod:NewPhaseAnnounce(2, 2, nil, nil, nil, nil, nil, 2)
 ----Forces of Nightmare
 local warnDesiccatingStomp			= mod:NewCastAnnounce(211073, 3, nil, nil, true, 2)--Basic warning for now, will change to special if needed
 local warnRottenBreath				= mod:NewTargetAnnounce(211192, 2)
@@ -63,7 +63,7 @@ local timerEntanglingNightmareCD	= mod:NewNextTimer(51, 214505, nil, nil, nil, 1
 ----Malfurion
 local timerCleansingGroundCD		= mod:NewNextTimer(77, 214249, nil, nil, nil, 3)--Phase 2 version only for now. Not sure if cast more than once though?
 ----Forces of Nightmare
-mod:AddTimerLine(GetSpellInfo(212726))
+mod:AddTimerLine(DBM_ADDS)
 local timerScornedTouchCD			= mod:NewCDTimer(20.7, 211471, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON)
 local timerTouchofLifeCD			= mod:NewCDTimer(15, 211368, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON)
 local timerRottenBreathCD			= mod:NewCDTimer(24.3, 211192, nil, nil, nil, 3)
@@ -76,9 +76,6 @@ local countdownNightmareBlast		= mod:NewCountdown("Alt32", 213162, "Tank")
 local countdownSpearOfNightmares	= mod:NewCountdown("Alt18", 214529, "Melee", 2)
 ----Forces of Nightmare
 
---Cenarius
-local voicePhaseChange				= mod:NewVoice(nil, nil, DBM_CORE_AUTO_VOICE2_OPTION_TEXT)
-
 mod:AddRangeFrameOption(8, 211471)
 mod:AddSetIconOption("SetIconOnWisps", "ej13348", false, true)
 mod:AddInfoFrameOption(210279)
@@ -88,6 +85,7 @@ mod.vb.addsCount = 0
 mod.vb.sisterCount = 0
 local scornedWarned = false
 local seenMobs = {}
+local debuffName = DBM:GetSpellInfo(211471)
 
 function mod:BreathTarget(targetname, uId)
 	if not targetname then return end
@@ -98,6 +96,7 @@ function mod:BreathTarget(targetname, uId)
 end
 
 function mod:OnCombatStart(delay)
+	debuffName = DBM:GetSpellInfo(211471)
 	scornedWarned = false
 	table.wipe(seenMobs)
 	self.vb.phase = 1
@@ -116,7 +115,7 @@ function mod:OnCombatStart(delay)
 		"INSTANCE_ENCOUNTER_ENGAGE_UNIT"
 	)
 	if self.Options.InfoFrame and not self:IsLFR() then
-		DBM.InfoFrame:SetHeader(GetSpellInfo(210279))
+		--DBM.InfoFrame:SetHeader(DBM:GetSpellInfo(210279))
 		DBM.InfoFrame:Show(8, "playerdebuffstacks", 210279)
 	end
 end
@@ -268,7 +267,7 @@ function mod:UNIT_DIED(args)
 		self.vb.sisterCount = self.vb.sisterCount - 1
 		timerTouchofLifeCD:Stop(args.destGUID)
 		timerScornedTouchCD:Stop(args.destGUID)
-		if self.Options.RangeFrame and self.vb.sisterCount == 0 and not UnitDebuff("player", GetSpellInfo(211471)) then
+		if self.Options.RangeFrame and self.vb.sisterCount == 0 and not UnitDebuff("player", DBM:GetSpellInfo(211471)) then--Do to shitty spellInfo code, it'll fail to hide first time
 			DBM.RangeCheck:Hide()
 		end
 	elseif cid == 105494 then--Rotten Drake
@@ -302,7 +301,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 	elseif spellId == 217368 then--Overwhelming Nightmare (Phase 2)
 		self.vb.phase = 2
 		warnPhase2:Show()
-		voicePhaseChange:Play("ptwo")
+		warnPhase2:Play("ptwo")
 		timerForcesOfNightmareCD:Stop()
 		timerNightmareBlastCD:Stop()
 		countdownNightmareBlast:Cancel()
@@ -329,7 +328,6 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 end
 
 do
-	local debuffName = GetSpellInfo(211471)
 	--Jumps didn't show in combat log during testing, only original casts. However, jumps need warnings too
 	--Check at later time if jumps are in combat log
 	function mod:UNIT_AURA(uId)

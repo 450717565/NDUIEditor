@@ -128,7 +128,7 @@ C.AuraWatchList = {
 				{AuraID = 235599, UnitID = "player", Combat = true},
 				--萨瓦里克的杰作
 				{AuraID = 207472, UnitID = "player", Value= true, Combat = true},
-			    --黑焰护腿
+				--黑焰护腿
 				{AuraID = 216509, UnitID = "player", Text = "双重复苏"},
 				{AuraID = 216992, UnitID = "player", Text = "三倍贯通"},
 				{AuraID = 216995, UnitID = "player", Text = "瞬发氤氲"},
@@ -152,6 +152,8 @@ C.AuraWatchList = {
 			-->LEG饰品
 				--高沙拉克的回响
 				{AuraID = 253327, UnitID = "player"},
+				--虚空之拥
+				{AuraID = 253808, UnitID = "player"},
 				--苦痛之矛
 				{AuraID = 243644, UnitID = "player"},
 				--地狱火契约
@@ -2477,7 +2479,11 @@ C.AuraWatchList = {
 				{AuraID = 211440, UnitID = "player"},
 				{AuraID = 211442, UnitID = "player"},
 				--救赎之魂
-				{AuraID = 27827, UnitID = "player"},
+				{AuraID =  27827, UnitID = "player"},
+				--T21
+				{AuraID = 252848, UnitID = "player"}, --戒律
+				{AuraID = 253437, UnitID = "player"}, --神圣2
+				{AuraID = 253443, UnitID = "player"}, --神圣4
 			},
 		},
 		{	Name = "Focus Aura",

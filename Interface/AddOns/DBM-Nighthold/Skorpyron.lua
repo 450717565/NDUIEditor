@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1706, "DBM-Nighthold", nil, 786)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17077 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17112 $"):sub(12, -3))
 mod:SetCreatureID(102263)
 mod:SetEncounterID(1849)
 mod:DisableESCombatDetection()--Remove if blizz fixes trash firing ENCOUNTER_START
@@ -61,9 +61,10 @@ mod:AddInfoFrameOption(204284)
 
 mod.vb.volatileScorpCount = 0
 
-local shardName = GetSpellInfo(204292)
+local shardName, goodDebuff = DBM:GetSpellInfo(204292), DBM:GetSpellInfo(204284)
 
 function mod:OnCombatStart(delay)
+	shardName, goodDebuff = DBM:GetSpellInfo(204292), DBM:GetSpellInfo(204284)
 	self.vb.volatileScorpCount = 0
 	timerArcanoslashCD:Start(5-delay)
 	timerFocusedBlastCD:Start(13-delay)
@@ -140,7 +141,7 @@ function mod:SPELL_CAST_START(args)
 			end
 		end
 		if self.Options.InfoFrame then
-			DBM.InfoFrame:SetHeader(DBM_NO_DEBUFF:format(GetSpellInfo(204284)))
+			DBM.InfoFrame:SetHeader(DBM_NO_DEBUFF:format(goodDebuff))
 			DBM.InfoFrame:Show(5, "playergooddebuff", 204284)
 		end
 	elseif spellId == 204471 then

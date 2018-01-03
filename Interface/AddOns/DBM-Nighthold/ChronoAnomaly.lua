@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1725, "DBM-Nighthold", nil, 786)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17077 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17112 $"):sub(12, -3))
 mod:SetCreatureID(104415)--104731 (Depleted Time Particle). 104676 (Waning Time Particle). 104491 (Accelerated Time particle). 104492 (Slow Time Particle)
 mod:SetEncounterID(1865)
 mod:SetZone()
@@ -63,7 +63,7 @@ mod.vb.slowCount = 0
 mod.vb.currentPhase = 2
 mod.vb.interruptCount = 0
 mod.vb.timeBombDebuffCount = 0
-local timeBombDebuff = GetSpellInfo(206617)
+local timeBombDebuff = DBM:GetSpellInfo(206617)
 local function updateTimeBomb(self)
 	local _, _, _, _, _, _, expires = UnitDebuff("player", timeBombDebuff)
 	if expires then
@@ -84,6 +84,7 @@ local function updateTimeBomb(self)
 end
 
 function mod:OnCombatStart(delay)
+	timeBombDebuff = DBM:GetSpellInfo(206617)
 	self.vb.currentPhase = 2
 	self.vb.interruptCount = 0
 	self.vb.normCount = 0
@@ -91,7 +92,7 @@ function mod:OnCombatStart(delay)
 	self.vb.slowCount = 0
 	self.vb.timeBombDebuffCount = 0
 	if self.Options.InfoFrame and self.Options.InfoFrameBehavior == "TimeRelease" then
-		local timeRelease = GetSpellInfo(206610)
+		local timeRelease = DBM:GetSpellInfo(206610)
 		DBM.InfoFrame:SetHeader(timeRelease)
 		DBM.InfoFrame:Show(10, "playerabsorb", timeRelease)
 	end

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1818, "DBM-Party-Legion", 11, 860)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17077 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17112 $"):sub(12, -3))
 mod:SetCreatureID(114252)
 mod:SetEncounterID(1959)
 mod:SetZone()
@@ -32,12 +32,15 @@ local countdownCoalescePower		= mod:NewCountdown(30, 227297)
 
 mod:AddInfoFrameOption(227502, true)
 
+local unstableMana, looseMana = DBM:GetSpellInfo(227502), DBM:GetSpellInfo(227296)
+
 function mod:OnCombatStart(delay)
+	unstableMana, looseMana = DBM:GetSpellInfo(227502), DBM:GetSpellInfo(227296)
 	timerEnergyVoidCD:Start(14.5-delay)
 	timerCoalescePowerCD:Start(30-delay)
 	countdownCoalescePower:Start(30-delay)
 	if self.Options.InfoFrame then
-		DBM.InfoFrame:SetHeader(GetSpellInfo(227502))
+		DBM.InfoFrame:SetHeader(unstableMana)
 		DBM.InfoFrame:Show(5, "playerdebuffstacks", 227502)
 	end
 end
@@ -69,7 +72,7 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 227297 then
-		specWarnCoalescePower:Show(GetSpellInfo(227296))
+		specWarnCoalescePower:Show(looseMana)
 		specWarnCoalescePower:Play("helpsoak")
 		timerCoalescePowerCD:Start()
 		countdownCoalescePower:Start()

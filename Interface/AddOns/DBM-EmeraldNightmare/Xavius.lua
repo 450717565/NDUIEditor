@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1726, "DBM-EmeraldNightmare", nil, 768)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17077 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17112 $"):sub(12, -3))
 mod:SetCreatureID(103769)
 mod:SetEncounterID(1864)
 mod:SetZone()
@@ -35,12 +35,12 @@ local warnNightmareBlades				= mod:NewTargetAnnounce(206656, 2)
 local warnDarkeningSoul					= mod:NewStackAnnounce(206651, 3, nil, "Healer|Tank")
 local warnTormentingFixation			= mod:NewTargetAnnounce(205771, 4)
 --Stage Two: From the Shadows
-local warnPhase2						= mod:NewPhaseAnnounce(2, 2)
+local warnPhase2						= mod:NewPhaseAnnounce(2, 2, nil, nil, nil, nil, nil, 2)
 local warnBlackeningSoul				= mod:NewStackAnnounce(209158, 3, nil, "Healer|Tank")
 local warnNightmareInfusion				= mod:NewSpellAnnounce(209443, 4, nil, "Tank")
 local warnBondsOfTerror					= mod:NewTargetAnnounce(209034, 2)
 --Stage Three: Darkness and stuff
-local warnPhase3						= mod:NewPhaseAnnounce(3, 2)
+local warnPhase3						= mod:NewPhaseAnnounce(3, 2, nil, nil, nil, nil, nil, 2)
 local warnNightmareTentacles			= mod:NewSpellAnnounce("ej12977", 3, 93708)
 
 local specWarnDescentIntoMadness		= mod:NewSpecialWarningYou(208431)
@@ -90,8 +90,6 @@ local countdownCallOfNightmares			= mod:NewCountdown(40, 205588)
 local countdownNightmareInfusion		= mod:NewCountdown("Alt61", 209443, "Tank")
 local countdownMeteor					= mod:NewCountdown("AltTwo28", 206308, "-Tank")
 
-local voicePhaseChange					= mod:NewVoice(nil, nil, DBM_CORE_AUTO_VOICE2_OPTION_TEXT)
-
 mod:AddInfoFrameOption("ej12970")
 mod:AddBoolOption("InfoFrameFilterDream", true)
 mod:AddRangeFrameOption(6, 208322)
@@ -100,13 +98,12 @@ mod:AddSetIconOption("SetIconOnMeteor", 206308)
 
 local lurkingTimers = {17, 20.5, 41, 20.5, 20.5}--{13.6, 26.3, 47.4, 20.7, 25.9} old. TODO, get more data, if all but one are 20.5, just code smarter without table
 local corruptionName = DBM:EJ_GetSectionInfo(12970)
-local darkSoul, blackSoul = GetSpellInfo(206651), GetSpellInfo(209158)
+local darkSoul, blackSoul, dreamDebuff, blackened = DBM:GetSpellInfo(206651), DBM:GetSpellInfo(209158), DBM:GetSpellInfo(206005), DBM:GetSpellInfo(205612)
 local bladesTarget = {}
 local gatherTarget = {}
 local playerName = UnitName("player")
 local UnitDebuff = UnitDebuff
 local playerHasDream = false
-local dreamDebuff = GetSpellInfo(206005)
 mod.vb.phase = 1
 mod.vb.lurkingCount = 0
 mod.vb.corruptionHorror = 0
@@ -151,6 +148,7 @@ local function bondsWarning(self)
 end
 
 function mod:OnCombatStart(delay)
+	darkSoul, blackSoul, dreamDebuff, blackened = DBM:GetSpellInfo(206651), DBM:GetSpellInfo(209158), DBM:GetSpellInfo(206005), DBM:GetSpellInfo(205612)
 	self.vb.phase = 1
 	self.vb.lurkingCount = 0
 	self.vb.corruptionHorror = 0
@@ -313,7 +311,7 @@ function mod:SPELL_AURA_APPLIED(args)
 						end
 					end
 				end
-				if not filterWarning and not UnitDebuff("player", GetSpellInfo(205612)) then
+				if not filterWarning and not UnitDebuff("player", blackened) then
 					specWarnBlackeningSoulOther:Show(args.destName)
 					specWarnBlackeningSoulOther:Play("tauntboss")
 				end
@@ -469,7 +467,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 	elseif spellId == 226193 then--Xavius Energize Phase 2
 		self.vb.phase = 2
 		warnPhase2:Show()
-		voicePhaseChange:Play("ptwo")
+		warnPhase2:Play("ptwo")
 		timerNightmareBladesCD:Stop()
 		timerLurkingEruptionCD:Stop()
 		timerCorruptionHorrorCD:Stop()
@@ -489,7 +487,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 	elseif spellId == 226185 then--Xavius Energize Phase 3
 		self.vb.phase = 3
 		warnPhase3:Show()
-		voicePhaseChange:Play("pthree")
+		warnPhase3:Play("pthree")
 		timerBlackeningSoulCD:Stop()
 		timerBondsOfTerrorCD:Stop()
 		timerCallOfNightmaresCD:Stop()

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1830, "DBM-TrialofValor", nil, 861)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17077 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17112 $"):sub(12, -3))
 mod:SetCreatureID(114323)
 mod:SetEncounterID(1962)
 mod:SetZone()
@@ -77,8 +77,8 @@ mod.vb.two = "None"
 mod.vb.three = "None"
 
 local updateInfoFrame
-local fireFoam, frostFoam, shadowFoam = GetSpellInfo(228744), GetSpellInfo(228810), GetSpellInfo(228818)
-local fireDebuff, frostDebuff, shadowDebuff = GetSpellInfo(227539), GetSpellInfo(227566), GetSpellInfo(227570)
+local fireFoam, frostFoam, shadowFoam = DBM:GetSpellInfo(228744), DBM:GetSpellInfo(228810), DBM:GetSpellInfo(228818)
+local fireDebuff, frostDebuff, shadowDebuff = DBM:GetSpellInfo(227539), DBM:GetSpellInfo(227566), DBM:GetSpellInfo(227570)
 local UnitDebuff = UnitDebuff
 do
 	local lines = {}
@@ -114,6 +114,8 @@ local function delayedSync(self)
 end
 
 function mod:OnCombatStart(delay)
+	fireFoam, frostFoam, shadowFoam = DBM:GetSpellInfo(228744), DBM:GetSpellInfo(228810), DBM:GetSpellInfo(228818)
+	fireDebuff, frostDebuff, shadowDebuff = DBM:GetSpellInfo(227539), DBM:GetSpellInfo(227566), DBM:GetSpellInfo(227570)
 	self.vb.fangCast = 0
 	self.vb.breathCast = 0
 	self.vb.leapCast = 0
@@ -128,7 +130,7 @@ function mod:OnCombatStart(delay)
 			--timerLickCD:Start(12.4, 1)
 			berserkTimer:Start(240-delay)
 			if self.Options.InfoFrame then
-				DBM.InfoFrame:SetHeader(GetSpellInfo(228824))
+				--DBM.InfoFrame:SetHeader(DBM:GetSpellInfo(228824))
 				DBM.InfoFrame:Show(5, "function", updateInfoFrame, false, true)
 			end
 			if UnitIsGroupLeader("player") then

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1873, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17077 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17112 $"):sub(12, -3))
 mod:SetCreatureID(116939)--Maiden of Valor 120437
 mod:SetEncounterID(2038)
 mod:SetZone()
@@ -42,7 +42,7 @@ local warnDesolate					= mod:NewStackAnnounce(236494, 3, nil, "Healer|Tank")
 local warnCleansingEnded			= mod:NewEndAnnounce(241008, 1)
 local warnTaintedMatrix				= mod:NewCastAnnounce(240623, 3)
 --Stage Two: An Avatar Awakened
-local warnPhase2					= mod:NewPhaseAnnounce(2, 2)
+local warnPhase2					= mod:NewPhaseAnnounce(2, 2, nil, nil, nil, nil, nil, 2)
 local warnDarkmark					= mod:NewTargetCountAnnounce(239739, 3)
 
 --Stage One: A Slumber Disturbed
@@ -96,8 +96,6 @@ local countdownRuptureRealities		= mod:NewCountdown(60, 239132)
 local countdownDarkMark				= mod:NewCountdown("Alt40", 239739, "-Tank", 2)
 local countdownRainofthedDestroyer	= mod:NewCountdown("AltTwo35", 240396)
 
-local voicePhaseChange				= mod:NewVoice(nil, nil, DBM_CORE_AUTO_VOICE2_OPTION_TEXT)
-
 mod:AddSetIconOption("SetIconOnShadowyBlades", 236571, true)
 mod:AddSetIconOption("SetIconOnDarkMark", 239739, true)
 mod:AddBoolOption("InfoFrame", true)
@@ -119,7 +117,8 @@ mod.vb.realityCount = 0
 mod.vb.rainCount = 0
 local darkMarkTargets = {}
 local playerName = UnitName("player")
-local beamName = GetSpellInfo(238244)
+local beamName = DBM:GetSpellInfo(238244)
+local touch, rupture, unbound, shadowy, shieldName = DBM:GetSpellInfo(239207), DBM:GetSpellInfo(239132), DBM:GetSpellInfo(234059), DBM:GetSpellInfo(236571), DBM:GetSpellInfo(241008)
 local showTouchofSarg = true
 
 local function warnDarkMarkTargets(self, spellName)
@@ -159,7 +158,6 @@ end
 
 local updateInfoFrame
 do
-	local touch, rupture, unbound, shadowy, shieldName = GetSpellInfo(239207), GetSpellInfo(239132), GetSpellInfo(234059), GetSpellInfo(236571), GetSpellInfo(241008)
 	local lines = {}
 	local sortedLines = {}
 	local function addLine(key, value)
@@ -216,6 +214,8 @@ do
 end
 
 function mod:OnCombatStart(delay)
+	beamName = DBM:GetSpellInfo(238244)
+	touch, rupture, unbound, shadowy, shieldName = DBM:GetSpellInfo(239207), DBM:GetSpellInfo(239132), DBM:GetSpellInfo(234059), DBM:GetSpellInfo(236571), DBM:GetSpellInfo(241008)
 	table.wipe(darkMarkTargets)
 	self.vb.phase = 1
 	self.vb.bladesIcon = 1
@@ -328,7 +328,7 @@ function mod:SPELL_CAST_START(args)
 		countdownCorruptedMatrix:Cancel()
 		
 		warnPhase2:Show()
-		voicePhaseChange:Play("ptwo")
+		warnPhase2:Play("ptwo")
 		timerDesolateCD:Start(19)
 		countdownDesolate:Start(19)
 		timerRuptureRealitiesCD:Start(38, 1)

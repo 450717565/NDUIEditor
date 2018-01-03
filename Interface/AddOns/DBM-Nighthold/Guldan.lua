@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1737, "DBM-Nighthold", nil, 786)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17077 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17112 $"):sub(12, -3))
 mod:SetCreatureID(104154)--The Demon Within (111022)
 mod:SetEncounterID(1866)
 mod:SetZone()
@@ -49,12 +49,12 @@ local warnShadowblink				= mod:NewSpellAnnounce(207938, 2)
 local warnSoulVortex				= mod:NewTargetAnnounce(206883, 3)
 local warnAnguishedSpirits			= mod:NewSpellAnnounce(208545, 2)
 --Stage Two: The Ritual of Aman'thul
-local warnPhase2					= mod:NewPhaseAnnounce(2, 2)
+local warnPhase2					= mod:NewPhaseAnnounce(2, 2, nil, nil, nil, nil, nil, 2)
 local warnBondsofFel				= mod:NewTargetAnnounce(206222, 3)
 local warnEmpBondsofFel				= mod:NewTargetAnnounce(209086, 4)
 --Stage Three: The Master's Power
 local warnPhase3Soon				= mod:NewPrePhaseAnnounce(3, 2)
-local warnPhase3					= mod:NewPhaseAnnounce(3, 2)
+local warnPhase3					= mod:NewPhaseAnnounce(3, 2, nil, nil, nil, nil, nil, 2)
 local warnSoulSiphon				= mod:NewTargetAnnounce(221891, 3, nil, "Healer")
 local warnFlamesofSargeras			= mod:NewTargetAnnounce(221606, 4)
 --Mythic Only
@@ -143,7 +143,7 @@ local timerVisionsofDarkTitanCD		= mod:NewCDCountTimer(9, 227008, nil, nil, nil,
 local timerFlameCrashCD				= mod:NewCDCountTimer(20, 227071, nil, nil, nil, 3)
 local timerSummonNightorbCD			= mod:NewCDCountTimer(10.9, 227283, nil, nil, nil, 1, 225133)
 --Shard
-mod:AddTimerLine(GetSpellInfo(221149))
+--mod:AddTimerLine(DBM:GetSpellInfo(221149))
 local timerManifestAzzinothCD		= mod:NewCDCountTimer(10.9, 221149, nil, nil, nil, 1, 236237)
 local timerChaosSeedCD				= mod:NewCDTimer(10.9, 221336, nil, nil, nil, 3)
 local timerBulwarkofAzzinothCD		= mod:NewCDTimer(10.9, 221408, nil, nil, nil, 6)
@@ -159,8 +159,6 @@ local countdownBlackHarvest			= mod:NewCountdown("AltTwo50", 206744)
 local countdownVisions				= mod:NewCountdown(50, 227008, nil, nil, 6)
 local countdownSoulSever			= mod:NewCountdown("Alt36", 220957, "Tank", nil, 6)
 local countdownFlameCrash			= mod:NewCountdown("AltTwo36", 227071, "Tank", nil, 6)
-
-local voicePhaseChange				= mod:NewVoice(nil, nil, DBM_CORE_AUTO_VOICE2_OPTION_TEXT)
 
 mod:AddRangeFrameOption(8, 221606)
 mod:AddSetIconOption("SetIconOnBondsOfFlames", 221783, true)
@@ -203,7 +201,7 @@ local p3EmpoweredEyeTimers = {39.1, 62.5, 62.5, 25, 100}--100 is confirmed
 local p3EmpoweredEyeTimersMythic = {35.1, 52.6, 53.3, 20.4, 84.2, 52.6}--Credit to JustWait
 local bondsIcons = {}
 local flamesIcons = {}
-local timeStopBuff = GetSpellInfo(206310)
+local timeStopBuff, parasiteName = DBM:GetSpellInfo(206310), DBM:GetSpellInfo(206847)
 
 local function upValueCapsAreStupid(self)
 	self.vb.phase = 3
@@ -229,6 +227,7 @@ local function upValueCapsAreStupid(self)
 end
 
 function mod:OnCombatStart(delay)
+	timeStopBuff, parasiteName = DBM:GetSpellInfo(206310), DBM:GetSpellInfo(206847)
 	self.vb.phase = 1
 	self.vb.addsDied = 0
 	self.vb.liquidHellfireCast = 0
@@ -654,7 +653,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self:IsMythic() then
 			self.vb.phase = 2
 			warnPhase2:Show()
-			voicePhaseChange:Play("ptwo")
+			warnPhase2:Play("ptwo")
 			timerDzorykxCD:Stop()
 			timerFelLordKurazCD:Stop()
 			timerFlamesofSargerasCD:Start(24.5, "1-1")
@@ -666,7 +665,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			self.vb.phase = 3
 			warnPhase3:Show()
-			voicePhaseChange:Play("pthree")
+			warnPhase3:Play("pthree")
 			timerBlackHarvestCD:Start(self:IsLFR() and 73 or 63, 1)
 			countdownBlackHarvest:Start(self:IsLFR() and 73 or 63)
 			if self:IsEasy() then
@@ -737,7 +736,6 @@ function mod:SPELL_AURA_REMOVED(args)
 			yellParasiticWoundFades:Cancel()
 		end
 	elseif spellId == 206310 and args:IsPlayer() then
-		local parasiteName = GetSpellInfo(206847)
 		if UnitDebuff("player", parasiteName) then
 			local _, _, _, _, _, _, expires = UnitDebuff("player", parasiteName)
 			local remaining = expires-GetTime()
@@ -843,7 +841,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 				self.vb.phase = 2
 				self.vb.liquidHellfireCast = 0
 				warnPhase2:Show()
-				voicePhaseChange:Play("ptwo")
+				warnPhase2:Play("ptwo")
 				timerLiquidHellfireCD:Stop()
 				countdownLiquidHellfire:Cancel()
 				timerFelEffluxCD:Stop()

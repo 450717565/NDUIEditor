@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1703, "DBM-EmeraldNightmare", nil, 768)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17077 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17112 $"):sub(12, -3))
 mod:SetCreatureID(102672)
 mod:SetEncounterID(1853)
 mod:SetZone()
@@ -62,6 +62,8 @@ mod:AddSetIconOption("SetIconOnRot", 203096)--Of course I'll probably be forced 
 mod:AddRangeFrameOption(30, 204463)--Range not actually known, 30 used for now
 mod:AddInfoFrameOption(204506)
 
+local debuffName, stackDebuff = DBM:GetSpellInfo(204463), DBM:GetSpellInfo(204506)
+
 mod.vb.breathCount = 0
 mod.vb.rotCast = 0
 mod.vb.volatileRotCast = 0
@@ -70,7 +72,6 @@ local playerHasTen = false
 
 local debuffFilter
 do
-	local debuffName = GetSpellInfo(204463)
 	debuffFilter = function(uId)
 		if UnitDebuff(uId, debuffName) then
 			return true
@@ -79,6 +80,7 @@ do
 end
 
 function mod:OnCombatStart(delay)
+	debuffName, stackDebuff = DBM:GetSpellInfo(204463), DBM:GetSpellInfo(204506)
 	self.vb.breathCount = 0
 	self.vb.rotCast = 0
 	self.vb.volatileRotCast = 0
@@ -96,7 +98,7 @@ function mod:OnCombatStart(delay)
 		berserkTimer:Start(480-delay)
 	end
 	if self.Options.InfoFrame and self:IsMythic() then
-		DBM.InfoFrame:SetHeader(GetSpellInfo(204506))
+		DBM.InfoFrame:SetHeader(stackDebuff)
 		DBM.InfoFrame:Show(8, "playerdebuffstacks", 204506)
 	end
 	if self:IsMythic() then

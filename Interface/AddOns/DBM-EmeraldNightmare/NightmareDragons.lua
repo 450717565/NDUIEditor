@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1704, "DBM-EmeraldNightmare", nil, 768)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17077 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17112 $"):sub(12, -3))
 mod:SetCreatureID(102679)--Ysondre, 102683 (Emeriss), 102682 (Lethon), 102681 (Taerar)
 mod:SetEncounterID(1854)
 mod:SetZone()
@@ -100,6 +100,7 @@ mod:AddInfoFrameOption("ej12809")
 mod.vb.volatileInfectionIcon = 1
 mod.vb.alternateOozes = false
 local activeBossGUIDS = {}
+local spellName1, spellName2, spellName3, spellName4 = DBM:GetSpellInfo(203102), DBM:GetSpellInfo(203125), DBM:GetSpellInfo(203124), DBM:GetSpellInfo(203121)
 
 local function whoDatUpThere(self)
 	local emerissFound = false
@@ -135,7 +136,6 @@ local updateInfoFrame
 do
 --	local playerName = UnitName("player")
 	local lines = {}
-	local spellName1, spellName2, spellName3, spellName4 = GetSpellInfo(203102), GetSpellInfo(203125), GetSpellInfo(203124), GetSpellInfo(203121)
 	local UnitDebuff, floor = UnitDebuff, math.floor
 	updateInfoFrame = function()
 		table.wipe(lines)
@@ -198,6 +198,7 @@ do
 end
 
 function mod:OnCombatStart(delay)
+	spellName1, spellName2, spellName3, spellName4 = DBM:GetSpellInfo(203102), DBM:GetSpellInfo(203125), DBM:GetSpellInfo(203124), DBM:GetSpellInfo(203121)
 	self.vb.volatileInfectionIcon = 1
 	self.vb.alternateOozes = false
 	table.wipe(activeBossGUIDS)

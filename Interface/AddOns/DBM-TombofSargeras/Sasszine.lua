@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1861, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17077 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17112 $"):sub(12, -3))
 mod:SetCreatureID(115767)--116328 Vellius, 115795 Abyss Stalker, 116329/116843 Sarukel
 mod:SetEncounterID(2037)
 mod:SetZone()
@@ -34,11 +34,11 @@ local warnFromtheAbyss				= mod:NewSpellAnnounce(230227, 2)
 local warnThunderingShock			= mod:NewTargetAnnounce(230362, 2, nil, false)
 local warnConsumingHunger			= mod:NewTargetAnnounce(230384, 2)
 --Stage Two: Terrors of the Deep
-local warnPhase2					= mod:NewPhaseAnnounce(2, 2)
+local warnPhase2					= mod:NewPhaseAnnounce(2, 2, nil, nil, nil, nil, nil, 2)
 local warnSummonOssunet				= mod:NewSpellAnnounce(232913, 2)
 local warnBefoulingInk				= mod:NewTargetAnnounce(232916, 2, nil, false)--Optional warning if you want to know who's carrying ink
 --Stage three
-local warnPhase3					= mod:NewPhaseAnnounce(3, 2)
+local warnPhase3					= mod:NewPhaseAnnounce(3, 2, nil, nil, nil, nil, nil, 2)
 
 --General Stuff
 local specWarnHydraShot				= mod:NewSpecialWarningYouPos(230139, nil, nil, nil, 1, 2)
@@ -87,9 +87,6 @@ local countdownBurdenofPain			= mod:NewCountdown("Alt28", 230201, "Tank")
 --Stage One: Ten Thousand Fangs
 local countdownSlicingTorando		= mod:NewCountdown("AltTwo43", 232722)
 
---General Stuff
-local voicePhaseChange				= mod:NewVoice(nil, nil, DBM_CORE_AUTO_VOICE2_OPTION_TEXT)
-
 mod:AddSetIconOption("SetIconOnHydraShot", 230139, true)
 mod:AddBoolOption("TauntOnPainSuccess", false)
 --mod:AddInfoFrameOption(227503, true)
@@ -101,13 +98,13 @@ mod.vb.hydraShotCount = 0
 mod.vb.burdenCount = 0
 mod.vb.tornadoCount = 0
 mod.vb.mawCount = 0
-local thunderingShock = GetSpellInfo(230358)
-local consumingHunger = GetSpellInfo(230384)
+local thunderingShock, consumingHunger, bufferFish = DBM:GetSpellInfo(230358), DBM:GetSpellInfo(230384), DBM:GetSpellInfo(239375)
 local hydraIcons = {}
 local eventsRegistered = false
 local p3MythicCrashingWave = {30.9, 30.9, 40.6, 35.8, 30.9}--All minus 2 because timer starts at SUCCESS but is for START
 
 function mod:OnCombatStart(delay)
+	thunderingShock, consumingHunger, bufferFish = DBM:GetSpellInfo(230358), DBM:GetSpellInfo(230384), DBM:GetSpellInfo(239375)
 	self.vb.phase = 1
 	self.vb.crashingWaveCount = 0
 	self.vb.hydraShotCount = 0
@@ -341,7 +338,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 		if self:IsMythic() then
 			--Every two sharks
 			specWarnDreadShark:Show()
-			if UnitDebuff("player", GetSpellInfo(239375)) then--Has bufferfish
+			if UnitDebuff("player", bufferFish) then--Has bufferfish
 				specWarnDreadShark:Play("takedamage")
 			else
 				specWarnDreadShark:Play("watchstep")
@@ -356,7 +353,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 			self.vb.crashingWaveCount = 0
 			self.vb.hydraShotCount = 0
 			warnPhase2:Show()
-			voicePhaseChange:Play("ptwo")
+			warnPhase2:Play("ptwo")
 			timerThunderingShockCD:Stop()
 			timerSlicingTornadoCD:Stop()
 			countdownSlicingTorando:Cancel()
@@ -386,7 +383,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 			self.vb.crashingWaveCount = 0
 			self.vb.hydraShotCount = 0
 			warnPhase3:Show()
-			voicePhaseChange:Play("pthree")
+			warnPhase3:Play("pthree")
 			timerCrashingWaveCD:Stop()
 			timerInkCD:Stop()
 			timerHydraShotCD:Stop()

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1992, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17077 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17112 $"):sub(12, -3))
 mod:SetCreatureID(122450)
 mod:SetEncounterID(2076)
 mod:SetZone()
@@ -24,8 +24,8 @@ mod:RegisterEventsInCombat(
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3"--Assuming cannons are unique boss unitID
 )
 
-local annihilator = EJ_GetSectionInfo(15917)
-local Decimator = EJ_GetSectionInfo(15915)
+local annihilator = DBM:EJ_GetSectionInfo(15917)
+local Decimator = DBM:EJ_GetSectionInfo(15915)
 --TODO, work in range frame to include searing barrage, for ranged
 --[[
 (ability.id = 244969 or ability.id = 240277) and type = "begincast"
@@ -73,8 +73,8 @@ mod.vb.annihilatorHaywire = false
 
 local debuffFilter
 local updateRangeFrame
+local decimination, mythicDecimination, FelBombardment = DBM:GetSpellInfo(244410), DBM:GetSpellInfo(246919), DBM:GetSpellInfo(246220)
 do
-	local decimination, mythicDecimination, FelBombardment = GetSpellInfo(244410), GetSpellInfo(246919), GetSpellInfo(246220)
 	local UnitDebuff = UnitDebuff
 	debuffFilter = function(uId)
 		if UnitDebuff(uId, decimination) or UnitDebuff(uId, mythicDecimination) or UnitDebuff(uId, FelBombardment) then
@@ -102,6 +102,7 @@ do
 end
 
 function mod:OnCombatStart(delay)
+	decimination, mythicDecimination, FelBombardment = DBM:GetSpellInfo(244410), DBM:GetSpellInfo(246919), DBM:GetSpellInfo(246220)
 	self.vb.deciminationActive = 0
 	self.vb.FelBombardmentActive = 0
 	self.vb.lastCannon = 1--Anniilator 1 decimator 2

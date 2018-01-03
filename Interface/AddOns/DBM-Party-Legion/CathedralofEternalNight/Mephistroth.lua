@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1878, "DBM-Party-Legion", 12, 900)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17077 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17112 $"):sub(12, -3))
 mod:SetCreatureID(120793)
 mod:SetEncounterID(2039)
 mod:SetZone()
@@ -40,11 +40,12 @@ local timerShadowFadeCD				= mod:NewCDTimer(40, 233206, nil, nil, nil, 6)
 mod:AddRangeFrameOption(8, 234817)--5 yards probably too small, next lowest range on crap api is 8
 mod:AddInfoFrameOption(234217, true)
 
-local demonicUpheaval = GetSpellInfo(233963)
+local demonicUpheaval, darkSolitude = DBM:GetSpellInfo(233963), DBM:GetSpellInfo(234217)
 local demonicUpheavalTable = {}
 local addsTable = {}
 
 function mod:OnCombatStart(delay)
+	demonicUpheaval, darkSolitude = DBM:GetSpellInfo(233963), DBM:GetSpellInfo(234217)
 	table.wipe(addsTable)
 	timerDemonicUpheavalCD:Start(3.2-delay)--Cast Start
 	timerDarkSolitudeCD:Start(8.1-delay)
@@ -82,7 +83,7 @@ function mod:SPELL_CAST_START(args)
 		warnDarkSolitude:Show()
 		timerDarkSolitudeCD:Start()
 		if self.Options.InfoFrame then
-			DBM.InfoFrame:SetHeader(GetSpellInfo(234217))
+			DBM.InfoFrame:SetHeader(darkSolitude)
 			DBM.InfoFrame:Show(2, "enemypower", 2, ALTERNATE_POWER_INDEX)
 		end
 	elseif spellId == 233963 then

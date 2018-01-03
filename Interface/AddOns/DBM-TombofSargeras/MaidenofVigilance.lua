@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1897, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17077 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17112 $"):sub(12, -3))
 mod:SetCreatureID(118289)
 mod:SetEncounterID(2052)
 mod:SetZone()
@@ -82,10 +82,10 @@ mod.vb.infusionCount = 0
 mod.vb.spontFragmentationCount = 0
 mod.vb.massShitCount = 0
 mod.vb.shieldActive = false
-local AegynnsWard = GetSpellInfo(236420)
-local felDebuff, lightDebuff = GetSpellInfo(235240), GetSpellInfo(235213)
+local AegynnsWard, felDebuff, lightDebuff, shieldname = DBM:GetSpellInfo(236420), DBM:GetSpellInfo(235240), DBM:GetSpellInfo(235213), DBM:GetSpellInfo(235028)
 
 function mod:OnCombatStart(delay)
+	AegynnsWard, felDebuff, lightDebuff, shieldname = DBM:GetSpellInfo(236420), DBM:GetSpellInfo(235240), DBM:GetSpellInfo(235213), DBM:GetSpellInfo(235028)
 	self.vb.shieldActive = false
 	self.vb.unstableSoulCount = 0
 	self.vb.hammerCount = 2
@@ -232,7 +232,6 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 236061 then
 		warnEssenceFragments:Show()
 	elseif spellId == 234891 then
-		local shieldname = GetSpellInfo(235028)
 		self.vb.shieldActive = true
 		if self.Options.InfoFrame then
 			DBM.InfoFrame:SetHeader(shieldname)
@@ -295,9 +294,8 @@ function mod:SPELL_AURA_REMOVED(args)
 			end
 		end
 		if self.Options.InfoFrame then
-			local spellName = GetSpellInfo(235117)
-			DBM.InfoFrame:SetHeader(spellName)
-			DBM.InfoFrame:Show(10, "playerdebuffremaining", spellName)
+			DBM.InfoFrame:SetHeader(shieldname)
+			DBM.InfoFrame:Show(10, "playerdebuffremaining", shieldname)
 		end
 	end
 end

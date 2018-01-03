@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1867, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17077 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17085 $"):sub(12, -3))
 mod:SetCreatureID(116691, 116689)--Belac (116691), Atrigan (116689)
 mod:SetEncounterID(2048)
 mod:SetZone()
@@ -171,7 +171,7 @@ function mod:OnCombatStart(delay)
 --	timerTormentingBurstCD:Start(1-delay, 1)--8-20
 	timerFelSquallCD:Start(35-delay, 1)--Always same, at least
 	if self.Options.InfoFrame then
-		DBM.InfoFrame:SetHeader(GetSpellInfo(233104))
+		DBM.InfoFrame:SetHeader(DBM:GetSpellInfo(233104))
 		DBM.InfoFrame:Show(8, "playerpower", 5, ALTERNATE_POWER_INDEX)
 	end
 	--https://www.warcraftlogs.com/reports/JgyrYdDCB63kx8Tb#fight=38&type=summary&pins=2%24Off%24%23244F4B%24expression%24ability.id%20%3D%20248671&view=events

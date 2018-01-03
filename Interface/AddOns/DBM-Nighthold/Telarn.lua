@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1761, "DBM-Nighthold", nil, 786)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17080 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17095 $"):sub(12, -3))
 mod:SetCreatureID(104528)--109042
 mod:SetEncounterID(1886)
 mod:SetZone()
@@ -37,11 +37,11 @@ local warnSummonChaosSpheres		= mod:NewSpellAnnounce(223034, 2)
 local warnParasiticFetter			= mod:NewTargetAnnounce(218304, 3)
 local warnParasiticFixate			= mod:NewTargetAnnounce(218342, 4, nil, false)--Spammy if things go to shit, so off by default
 --Stage 2: Nightosis
-local warnPhase2					= mod:NewPhaseAnnounce(2)
+local warnPhase2					= mod:NewPhaseAnnounce(2, 2, nil, nil, nil, nil, nil, 2)
 local warnFlare						= mod:NewSpellAnnounce(218806, 2, nil, "Tank")
 local warnPlasmaSpheres				= mod:NewSpellAnnounce(218774, 2)
 --Stage 3: Pure Forms
-local warnPhase3					= mod:NewPhaseAnnounce(3)
+local warnPhase3					= mod:NewPhaseAnnounce(3, 2, nil, nil, nil, nil, nil, 2)
 local warnToxicSpores				= mod:NewSpellAnnounce(219049, 3)
 local warnCoN						= mod:NewTargetAnnounce(218809, 4)
 local warnGraceofNature				= mod:NewSoonAnnounce(218927, 4, nil, "Tank")
@@ -91,8 +91,6 @@ local countdownParasiticFetter		= mod:NewCountdown("Alt35", 218304, "-Tank")
 local countdownGraceOfNature		= mod:NewCountdown("Alt48", 218927, "Tank", nil, 6)
 local countdownCoN					= mod:NewCountdown("AltTwo50", 218809, "-Tank")
 
-local voicePhaseChange				= mod:NewVoice(nil, nil, DBM_CORE_AUTO_VOICE2_OPTION_TEXT)
-
 mod:AddRangeFrameOption(8, 218807)
 mod:AddSetIconOption("SetIconOnFetter", 218304, true)
 mod:AddSetIconOption("SetIconOnCoN", 218807, true)
@@ -106,7 +104,7 @@ mod.vb.globalTimer = 35
 local sentLowHP = {}
 local warnedLowHP = {}
 local UnitDebuff = UnitDebuff
-local callOfNightName = GetSpellInfo(218809)
+local callOfNightName = DBM:GetSpellInfo(218809)
 local hasCoN, noCoN
 do
 	--hasCoN not used
@@ -237,7 +235,7 @@ function mod:SPELL_CAST_START(args)
 		self:Unschedule(checkForBuggedBalls)
 		self.vb.phase = 2
 		warnPhase2:Show()
-		voicePhaseChange:Play("ptwo")
+		warnPhase2:Play("ptwo")
 		timerControlledChaosCD:Stop()
 		countdownControlledChaos:Cancel()
 		timerParasiticFetterCD:Stop()
@@ -265,7 +263,7 @@ function mod:SPELL_CAST_START(args)
 		self:SetBossHPInfoToHighest()
 		self.vb.phase = 3
 		warnPhase3:Show()
-		voicePhaseChange:Play("pthree")
+		warnPhase3:Play("pthree")
 		timerControlledChaosCD:Stop()
 		countdownControlledChaos:Cancel()
 		timerParasiticFetterCD:Stop()

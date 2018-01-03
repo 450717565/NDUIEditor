@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1751, "DBM-Nighthold", nil, 786)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17077 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17112 $"):sub(12, -3))
 mod:SetCreatureID(104881)
 mod:SetEncounterID(1871)
 mod:SetZone()
@@ -33,9 +33,9 @@ ability.id = 230403 and type = "cast" or
 ability.id = 230951 and type = "removebuff" or ability.id = 230414
 --]]
 --Phases/General
-local warnFrostPhase				= mod:NewSpellAnnounce(213864, 2)
-local warnFirePhase					= mod:NewSpellAnnounce(213867, 2)
-local warnArcanePhase				= mod:NewSpellAnnounce(213869, 2)
+local warnFrostPhase				= mod:NewSpellAnnounce(213864, 2, nil, nil, nil, nil, nil, 2)
+local warnFirePhase					= mod:NewSpellAnnounce(213867, 2, nil, nil, nil, nil, nil, 2)
+local warnArcanePhase				= mod:NewSpellAnnounce(213869, 2, nil, nil, nil, nil, nil, 2)
 local warnAnnihilate				= mod:NewStackAnnounce(212492, 2, nil, "Tank")
 --Debuffs
 local warnMarkOfFrostChosen			= mod:NewTargetAnnounce(212531, 3)
@@ -112,8 +112,6 @@ local countdownSearingBrand			= mod:NewCountdown("Alt30", 213148, nil, nil, 3)
 local countdownAnnihilate			= mod:NewCountdown("Alt30", 212492, "Tank")
 local countdownArmageddon			= mod:NewCountdown("AltTwo33", 213568)
 
-local voicePhaseChange				= mod:NewVoice(nil, nil, DBM_CORE_AUTO_VOICE2_OPTION_TEXT)
-
 mod:AddRangeFrameOption("8")
 mod:AddSetIconOption("SetIconOnFrozenTempest", 213083, true, true)
 mod:AddSetIconOption("SetIconOnSearingDetonate", 213275, true)
@@ -125,9 +123,7 @@ mod.vb.annihilateCount = 0
 mod.vb.armageddonAdds = 0
 mod.vb.felLashCount = 0
 mod.vb.lastPhase = 1
-local MarkOfFrostDebuff = GetSpellInfo(212587)
-local SearingBrandDebuff = GetSpellInfo(213166)
-local annihilatedDebuff = GetSpellInfo(215458)
+local MarkOfFrostDebuff, SearingBrandDebuff, annihilatedDebuff = DBM:GetSpellInfo(212587), DBM:GetSpellInfo(213166), DBM:GetSpellInfo(215458)
 local rangeShowAll = false
 local chargeTable = {}
 local annihilateTimers = {8.0, 45.0, 40.0, 44.0, 38.0, 37.0, 33.0, 47.0, 41.0, 44.0, 38.0, 37.0, 33.0}--Need longer pulls/more data. However this pattern did prove to always be same
@@ -164,6 +160,7 @@ local function findSearingMark(self)
 end
 
 function mod:OnCombatStart(delay)
+	MarkOfFrostDebuff, SearingBrandDebuff, annihilatedDebuff = DBM:GetSpellInfo(212587), DBM:GetSpellInfo(213166), DBM:GetSpellInfo(215458)
 	self.vb.annihilateCount = 0
 	self.vb.armageddonAdds = 0
 	self.vb.lastPhase = 1
@@ -279,7 +276,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 213864 or spellId == 216389 then--Icy enchantment
 		self.vb.lastPhase = 1
 		warnFrostPhase:Show()
-		voicePhaseChange:Play("phasechange")
+		warnFrostPhase:Play("phasechange")
 		if spellId == 216389 then--First icy
 			timerMarkOfFrostCD:Start(18)
 			if self:IsMythic() then
@@ -312,13 +309,13 @@ function mod:SPELL_AURA_APPLIED(args)
 			DBM.RangeCheck:Show(8, debuffFilter)
 		end
 		if self.Options.InfoFrame and not self:IsLFR() then
-			DBM.InfoFrame:SetHeader(GetSpellInfo(212647))
+			--DBM.InfoFrame:SetHeader(DBM:GetSpellInfo(212647))
 			DBM.InfoFrame:Show(6, "playerdebuffstacks", 212647)
 		end
 	elseif spellId == 213867 then--Fiery Enchantment
 		self.vb.lastPhase = 2
 		warnFirePhase:Show()
-		voicePhaseChange:Play("phasechange")
+		warnFirePhase:Play("phasechange")
 		if self:IsMythic() then
 			timerFelSoulCD:Start(15)
 			timerSearingBrandCD:Start(17.8)
@@ -342,7 +339,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 213869 then--Magic Enchantment
 		self.vb.lastPhase = 3
 		warnArcanePhase:Show()
-		voicePhaseChange:Play("phasechange")
+		warnArcanePhase:Play("phasechange")
 		if self:IsMythic() then
 			self.vb.felLashCount = 0
 			timerFelSoulCD:Start(12)

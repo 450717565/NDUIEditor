@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1984, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17077 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17123 $"):sub(12, -3))
 mod:SetCreatureID(121975)
 mod:SetEncounterID(2063)
 mod:SetZone()
@@ -28,16 +28,13 @@ mod:RegisterEventsInCombat(
  or ability.id = 244894 and (type = "applybuff" or type = "removebuff")
  or (ability.id = 245994 or ability.id = 254452) and type = "applydebuff"
 --]]
+local warnPhase							= mod:NewPhaseChangeAnnounce(2, nil, nil, nil, nil, nil, 2)
 --Stage One: Wrath of Aggramar
 local warnTaeshalachReach				= mod:NewStackAnnounce(245990, 2, nil, "Tank")
 local warnScorchingBlaze				= mod:NewTargetAnnounce(245994, 2)
 local warnRavenousBlaze					= mod:NewTargetAnnounce(254452, 2)
 local warnRavenousBlazeCount			= mod:NewCountAnnounce(254452, 4)
 local warnTaeshalachTech				= mod:NewCountAnnounce(244688, 3)
---Stage Two: Stuff
-local warnPhase2						= mod:NewPhaseAnnounce(2, 2)
---Stage Three: More stuff
-local warnPhase3						= mod:NewPhaseAnnounce(3, 2)
 
 --Stage One: Wrath of Aggramar
 local specWarnTaeshalachReach			= mod:NewSpecialWarningStack(245990, nil, 8, nil, nil, 1, 6)
@@ -74,9 +71,6 @@ local berserkTimer						= mod:NewBerserkTimer(600)
 --Stages One: Wrath of Aggramar
 local countdownTaeshalachTech			= mod:NewCountdown(61, 244688)
 local countdownWakeofFlame				= mod:NewCountdown("AltTwo24", 244693, "-Tank")
-
---General
-local voicePhaseChange					= mod:NewVoice(nil, nil, DBM_CORE_AUTO_VOICE2_OPTION_TEXT)
 
 mod:AddSetIconOption("SetIconOnBlaze2", 254452, false)--Both off by default, both conflit with one another
 mod:AddSetIconOption("SetIconOnAdds", 244903, false, true)--Both off by default, both conflit with one another
@@ -119,92 +113,117 @@ do
 				--Filler
 			elseif mod.vb.comboCount == 1 and mod.vb.firstCombo then
 				if mod.vb.firstCombo == "Foe" then--L.Foe, L.Tempest, L.Rend, L.Foe, L.Rend or L.Foe, L.Rend, L.Tempest, L.Foe, L.Rend
+					addLine(L.Current, DBM_CORE_TANK_ICON_SMALL..L.Foe)
 					if comboUsed[1] then--It's L.Foe, L.Rend, L.Tempest, L.Foe, L.Rend (combo 2) for sure
-						addLine(mod.vb.comboCount+1, DBM_CORE_IMPORTANT_ICON..L.Rend)
-						addLine(mod.vb.comboCount+2, DBM_CORE_DEADLY_ICON..L.Tempest)
+						addLine(mod.vb.comboCount+1, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend)
+						addLine(mod.vb.comboCount+2, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
 					elseif comboUsed[2] then--It's L.Foe, L.Tempest, L.Rend, L.Foe, L.Rend (Combo 1) for sure
-						addLine(mod.vb.comboCount+1, DBM_CORE_DEADLY_ICON..L.Tempest)
-						addLine(mod.vb.comboCount+2, DBM_CORE_IMPORTANT_ICON..L.Rend)
+						addLine(mod.vb.comboCount+1, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
+						addLine(mod.vb.comboCount+2, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend)
 					else--Could be either one
-						addLine(mod.vb.comboCount+1, DBM_CORE_IMPORTANT_ICON..L.Rend.."/"..DBM_CORE_DEADLY_ICON..L.Tempest)
-						addLine(mod.vb.comboCount+2, DBM_CORE_IMPORTANT_ICON..L.Rend.."/"..DBM_CORE_DEADLY_ICON..L.Tempest)
+						addLine(mod.vb.comboCount+1, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."/"..DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
+						addLine(mod.vb.comboCount+2, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."/"..DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
 					end
-					addLine(mod.vb.comboCount+3, DBM_CORE_TANK_ICON..L.Foe.."(2)")
+					addLine(mod.vb.comboCount+3, DBM_CORE_TANK_ICON_SMALL..L.Foe.."(2)")
 				elseif mod.vb.firstCombo == "Rend" then----L.Rend, L.Tempest, L.Foe, L.Foe, L.Rend or L.Rend, L.Foe, L.Foe, L.Tempest, L.Rend
+					addLine(L.Current, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend)
 					if comboUsed[3] then--It's L.Rend, L.Foe, L.Foe, L.Tempest, L.Rend (combo 4) for sure
-						addLine(mod.vb.comboCount+1, DBM_CORE_TANK_ICON..L.Foe)
-						addLine(mod.vb.comboCount+2, DBM_CORE_TANK_ICON..L.Foe.."(2)")
-						addLine(mod.vb.comboCount+3, DBM_CORE_DEADLY_ICON..L.Tempest)
+						addLine(mod.vb.comboCount+1, DBM_CORE_TANK_ICON_SMALL..L.Foe)
+						addLine(mod.vb.comboCount+2, DBM_CORE_TANK_ICON_SMALL..L.Foe.."(2)")
+						addLine(mod.vb.comboCount+3, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
 					elseif comboUsed[4] then--It's L.Rend, L.Tempest, L.Foe, L.Foe, L.Rend (combo 3) for sure
-						addLine(mod.vb.comboCount+1, DBM_CORE_DEADLY_ICON..L.Tempest)
-						addLine(mod.vb.comboCount+2, DBM_CORE_TANK_ICON..L.Foe)
-						addLine(mod.vb.comboCount+3, DBM_CORE_TANK_ICON..L.Foe.."(2)")
+						addLine(mod.vb.comboCount+1, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
+						addLine(mod.vb.comboCount+2, DBM_CORE_TANK_ICON_SMALL..L.Foe)
+						addLine(mod.vb.comboCount+3, DBM_CORE_TANK_ICON_SMALL..L.Foe.."(2)")
 					else
-						addLine(mod.vb.comboCount+1, DBM_CORE_TANK_ICON..L.Foe.."/"..DBM_CORE_DEADLY_ICON..L.Tempest)
-						addLine(mod.vb.comboCount+2, DBM_CORE_TANK_ICON..L.Foe.."/"..DBM_CORE_TANK_ICON..L.Foe.."(2)")
-						addLine(mod.vb.comboCount+3, DBM_CORE_TANK_ICON..L.Foe.."(2)/"..DBM_CORE_DEADLY_ICON..L.Tempest)
+						addLine(mod.vb.comboCount+1, DBM_CORE_TANK_ICON_SMALL..L.Foe.."/"..DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
+						addLine(mod.vb.comboCount+2, DBM_CORE_TANK_ICON_SMALL..L.Foe.."/"..DBM_CORE_TANK_ICON_SMALL..L.Foe.."(2)")
+						addLine(mod.vb.comboCount+3, DBM_CORE_TANK_ICON_SMALL..L.Foe.."(2)/"..DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
 					end
 				end
-				addLine(mod.vb.comboCount+4, DBM_CORE_IMPORTANT_ICON..L.Rend.."(2)")
+				addLine(mod.vb.comboCount+4, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."(2)")
 			elseif mod.vb.comboCount == 2 and mod.vb.secondCombo then
 				if mod.vb.secondCombo == "Tempest" then
+					addLine(L.Current, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
 					if mod.vb.firstCombo == "Foe" then--L.Foe, L.Tempest, L.Rend, L.Foe, L.Rend
-						addLine(mod.vb.comboCount+1, DBM_CORE_IMPORTANT_ICON..L.Rend)
+						addLine(mod.vb.comboCount+1, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend)
 						comboUsed[1] = true
 					elseif mod.vb.firstCombo == "Rend" then--L.Rend, L.Tempest, L.Foe, L.Foe, L.Rend
-						addLine(mod.vb.comboCount+1, DBM_CORE_TANK_ICON..L.Foe)
+						addLine(mod.vb.comboCount+1, DBM_CORE_TANK_ICON_SMALL..L.Foe)
 						comboUsed[3] = true
 					end
 					--Same in both combos
-					addLine(mod.vb.comboCount+2, DBM_CORE_TANK_ICON..L.Foe.."(2)")
+					addLine(mod.vb.comboCount+2, DBM_CORE_TANK_ICON_SMALL..L.Foe.."(2)")
 				elseif mod.vb.secondCombo == "Foe" then--L.Rend, L.Foe, L.Foe, L.Tempest, L.Rend
-					addLine(mod.vb.comboCount+1, DBM_CORE_TANK_ICON..L.Foe.."(2)")
-					addLine(mod.vb.comboCount+2, DBM_CORE_DEADLY_ICON..L.Tempest)
+					addLine(L.Current, DBM_CORE_TANK_ICON_SMALL..L.Foe)
+					addLine(mod.vb.comboCount+1, DBM_CORE_TANK_ICON_SMALL..L.Foe.."(2)")
+					addLine(mod.vb.comboCount+2, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
 					comboUsed[4] = true
 				elseif mod.vb.secondCombo == "Rend" then--L.Foe, L.Rend, L.Tempest, L.Foe, L.Rend
-					addLine(mod.vb.comboCount+1, DBM_CORE_DEADLY_ICON..L.Tempest)
-					addLine(mod.vb.comboCount+2, DBM_CORE_TANK_ICON..L.Foe.."(2)")
+					addLine(L.Current, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend)
+					addLine(mod.vb.comboCount+1, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
+					addLine(mod.vb.comboCount+2, DBM_CORE_TANK_ICON_SMALL..L.Foe.."(2)")
 					comboUsed[2] = true
 				end
 				--Rend always last
-				addLine(mod.vb.comboCount+3, DBM_CORE_IMPORTANT_ICON..L.Rend.."(2)")
+				addLine(mod.vb.comboCount+3, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."(2)")
 			elseif mod.vb.comboCount == 3 and mod.vb.secondCombo then
 				if mod.vb.secondCombo == "Tempest" then
+					if mod.vb.firstCombo == "Foe" then--L.Foe, L.Tempest, L.Rend, L.Foe, L.Rend
+						addLine(L.Current, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend)
+					else--L.Rend, L.Tempest, L.Foe, L.Foe, L.Rend
+						addLine(L.Current, DBM_CORE_TANK_ICON_SMALL..L.Foe)
+					end
 					--Same in both combos
-					addLine(mod.vb.comboCount+1, DBM_CORE_TANK_ICON..L.Foe.."(2)")
-					addLine(mod.vb.comboCount+2, DBM_CORE_IMPORTANT_ICON..L.Rend.."(2)")
+					addLine(mod.vb.comboCount+1, DBM_CORE_TANK_ICON_SMALL..L.Foe.."(2)")
+					addLine(mod.vb.comboCount+2, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."(2)")
 				elseif mod.vb.secondCombo == "Foe" then--L.Rend, L.Foe, L.Foe, L.Tempest, L.Rend
-					addLine(mod.vb.comboCount+1, DBM_CORE_DEADLY_ICON..L.Tempest)
-					addLine(mod.vb.comboCount+2, DBM_CORE_IMPORTANT_ICON..L.Rend.."(2)")
+					addLine(L.Current, DBM_CORE_TANK_ICON_SMALL..L.Foe.."(2)")
+					addLine(mod.vb.comboCount+1, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
+					addLine(mod.vb.comboCount+2, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."(2)")
 				elseif mod.vb.secondCombo == "Rend" then--L.Foe, L.Rend, L.Tempest, L.Foe, L.Rend
-					addLine(mod.vb.comboCount+1, DBM_CORE_TANK_ICON..L.Foe.."(2)")
-					addLine(mod.vb.comboCount+2, DBM_CORE_IMPORTANT_ICON..L.Rend.."(2)")
+					addLine(L.Current, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
+					addLine(mod.vb.comboCount+1, DBM_CORE_TANK_ICON_SMALL..L.Foe.."(2)")
+					addLine(mod.vb.comboCount+2, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."(2)")
 				end
 			elseif mod.vb.comboCount == 4 then
+				if mod.vb.secondCombo == "Tempest" then
+					--Same in both combos
+					addLine(L.Current, DBM_CORE_TANK_ICON_SMALL..L.Foe.."(2)")
+				elseif mod.vb.secondCombo == "Foe" then--L.Rend, L.Foe, L.Foe, L.Tempest, L.Rend
+					addLine(L.Current, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
+				elseif mod.vb.secondCombo == "Rend" then--L.Foe, L.Rend, L.Tempest, L.Foe, L.Rend
+					addLine(L.Current, DBM_CORE_TANK_ICON_SMALL..L.Foe.."(2)")
+				end
 				--rend always last
-				addLine(mod.vb.comboCount+1, DBM_CORE_IMPORTANT_ICON..L.Rend.."(2)")
+				addLine(mod.vb.comboCount+1, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."(2)")
 			else
-				DBM.InfoFrame:Hide()
+				addLine(L.Current, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."(2)")
 			end
 		else--Not Mythic
 			if mod.vb.comboCount == 0 then
 				--Filler
 			elseif mod.vb.comboCount == 1 then
-				addLine(mod.vb.comboCount+1, DBM_CORE_IMPORTANT_ICON..L.Rend)
-				addLine(mod.vb.comboCount+2, DBM_CORE_TANK_ICON..L.Foe.."(2)")
-				addLine(mod.vb.comboCount+3, DBM_CORE_IMPORTANT_ICON..L.Rend.."(2)")
-				addLine(mod.vb.comboCount+4, DBM_CORE_DEADLY_ICON..L.Tempest)
+				addLine(L.Current,  DBM_CORE_TANK_ICON_SMALL..L.Foe.."(1)")
+				addLine(mod.vb.comboCount+1, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend)
+				addLine(mod.vb.comboCount+2, DBM_CORE_TANK_ICON_SMALL..L.Foe.."(2)")
+				addLine(mod.vb.comboCount+3, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."(2)")
+				addLine(mod.vb.comboCount+4, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
 			elseif mod.vb.comboCount == 2 then
-				addLine(mod.vb.comboCount+1, DBM_CORE_TANK_ICON..L.Foe.."(2)")
-				addLine(mod.vb.comboCount+2, DBM_CORE_IMPORTANT_ICON..L.Rend.."(2)")
-				addLine(mod.vb.comboCount+3, DBM_CORE_DEADLY_ICON..L.Tempest)
+				addLine(L.Current, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend)
+				addLine(mod.vb.comboCount+1, DBM_CORE_TANK_ICON_SMALL..L.Foe.."(2)")
+				addLine(mod.vb.comboCount+2, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."(2)")
+				addLine(mod.vb.comboCount+3, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
 			elseif mod.vb.comboCount == 3 then
-				addLine(mod.vb.comboCount+1, DBM_CORE_IMPORTANT_ICON..L.Rend.."(2)")
-				addLine(mod.vb.comboCount+2, DBM_CORE_DEADLY_ICON..L.Tempest)
+				addLine(L.Current, DBM_CORE_TANK_ICON_SMALL..L.Foe.."(2)")
+				addLine(mod.vb.comboCount+1, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."(2)")
+				addLine(mod.vb.comboCount+2, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
 			elseif mod.vb.comboCount == 4 then
-				addLine(mod.vb.comboCount+1, DBM_CORE_DEADLY_ICON..L.Tempest)
+				addLine(L.Current, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."(2)")
+				addLine(mod.vb.comboCount+1, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
 			else
-				DBM.InfoFrame:Hide()
+				addLine(L.Current, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
+				--DBM.InfoFrame:Hide()
 			end
 		end
 		return lines, sortedLines
@@ -400,7 +419,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		self.vb.blazeIcon = self.vb.blazeIcon + 1
 	elseif spellId == 244894 then--Corrupt Aegis
-		voicePhaseChange:Play("phasechange")
+		warnPhase:Play("phasechange")
 		self.vb.wakeOfFlameCount = 0
 		self.vb.techActive = false
 		timerScorchingBlazeCD:Stop()
@@ -416,9 +435,12 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.SetIconOnAdds then
 			self:ScheduleMethod(2, "ScanForMobs", 122532, 1, 1, 5, 0.1, 12, "SetIconOnAdds", nil, nil, true)
 		end
-	if self.Options.RangeFrame and not self:IsTank() then
-		DBM.RangeCheck:Hide()
-	end
+		if self.Options.RangeFrame and not self:IsTank() then
+			DBM.RangeCheck:Hide()
+		end
+		if self.Options.InfoFrame then
+			DBM.InfoFrame:Hide()
+		end
 	elseif spellId == 244903 or spellId == 247091 then--Purification/Catalyzed
 		if self.Options.NPAuraOnPresence then
 			DBM.Nameplate:Show(true, args.destGUID, spellId)
@@ -434,6 +456,11 @@ function mod:SPELL_AURA_REMOVED(args)
 	if spellId == 244894 then--Corrupt Aegis
 		self.vb.phase = self.vb.phase + 1
 		self.vb.wakeOfFlameCount = 0
+		self.vb.comboCount = 0
+		self.vb.firstCombo = nil
+		self.vb.secondCombo = nil
+		self.vb.foeCount = 0
+		self.vb.rendCount = 0
 		--timerScorchingBlazeCD:Start(3)--Unknown
 		timerTaeshalachTechCD:Start(37, self.vb.techCount+1)
 		countdownTaeshalachTech:Start(37)
@@ -442,13 +469,12 @@ function mod:SPELL_AURA_REMOVED(args)
 		else
 			timerScorchingBlazeCD:Start(5.9)
 		end
+		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
 		if self.vb.phase == 2 then
-			warnPhase2:Show()
-			voicePhaseChange:Play("ptwo")
+			warnPhase:Play("ptwo")
 			timerFlareCD:Start(10)
 		elseif self.vb.phase == 3 then
-			warnPhase3:Show()
-			voicePhaseChange:Play("pthree")
+			warnPhase:Play("pthree")
 			timerFlareCD:Start(10)
 		end
 		if self.Options.RangeFrame and not self:IsTank() then
@@ -488,7 +514,7 @@ function mod:UNIT_DIED(args)
 end
 --]]
 
-function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
+function mod:UNIT_SPELLCAST_SUCCEEDED(uId, spellName, _, _, spellId)
 	if spellId == 245993 then--Scorching Blaze
 		timerScorchingBlazeCD:Start()
 	elseif spellId == 254451 then--Ravenous Blaze (mythic replacement for Scorching Blaze)
@@ -531,7 +557,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		timerTaeshalachTechCD:Start(nil, self.vb.techCount+1)
 		countdownTaeshalachTech:Start()
 		if self.Options.InfoFrame then
-			DBM.InfoFrame:SetHeader(GetSpellInfo(244688))
+			DBM.InfoFrame:SetHeader(spellName)
 			DBM.InfoFrame:Show(5, "function", updateInfoFrame, false, false, true)
 		end
 	elseif spellId == 244792 and self.vb.techActive then--Burning Will of Taeshalach (technique ended)
@@ -553,6 +579,9 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 			timerFlareCD:Start(8.6)--Might be wrong here
 		else--Stage 3
 			timerFlareCD:Start(10)--Might be wrong here
+		end
+		if self.Options.InfoFrame then
+			DBM.InfoFrame:Hide()
 		end
 	elseif spellId == 245983 or spellId == 246037 then--Flare
 		specWarnFlare:Show()
