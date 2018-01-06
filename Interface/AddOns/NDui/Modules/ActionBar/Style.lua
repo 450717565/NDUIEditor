@@ -9,6 +9,7 @@ local function applyBackground(bu)
 
 	bu.bg = B.CreateBG(bu, 2)
 	B.CreateBD(bu.bg)
+	B.CreateTex(bu.bg)
 	if NDuiDB["Actionbar"]["Classcolor"] then
 		bu.bg:SetBackdropColor(cr, cg, cb, .25)
 	else
@@ -51,12 +52,12 @@ local function updateHotkey(self, actionButtonType)
 	}
 	for _, value in pairs(replaces) do
 		text = gsub(text, value[1], value[2])
-    end
-    if ho:GetText() == RANGE_INDICATOR then
-        ho:SetText("")
-    else
-        ho:SetText(text)
-    end
+	end
+	if ho:GetText() == RANGE_INDICATOR then
+		ho:SetText("")
+	else
+		ho:SetText(text)
+	end
 end
 NDui.UpdateHotkey = updateHotkey
 

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1987, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17082 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17136 $"):sub(12, -3))
 mod:SetCreatureID(122477, 122135)--122477 F'harg, 122135 Shatug
 mod:SetEncounterID(2074)
 mod:SetZone()
@@ -128,10 +128,10 @@ function mod:OnCombatStart(delay)
 	if not self.Options.SequenceTimers then
 		if self:IsMythic() then
 			--Fire doggo
-			timerEnflamedCorruptionCD:Start(48.7-delay)
+			timerEnflamedCorruptionCD:Start(48.3-delay)
 			timerDesolateGazeCD:Start(78-delay)
 			--Shadow doggo
-			timerComsumingSphereCD:Start(48.7-delay)
+			timerComsumingSphereCD:Start(48.3-delay)
 			timerWeightOfDarknessCD:Start(73.1-delay)
 		elseif self:IsHeroic() then
 			--Fire doggo

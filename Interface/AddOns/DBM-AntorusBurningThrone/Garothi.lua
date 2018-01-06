@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1992, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17112 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17136 $"):sub(12, -3))
 mod:SetCreatureID(122450)
 mod:SetEncounterID(2076)
 mod:SetZone()
@@ -255,8 +255,8 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		elseif self:IsMythic() then
 			timerSpecialCD:Start(22)--Random cannon
 		end
-		timerFelBombardmentCD:Start(23.3)
-		countdownFelBombardment:Start(23.3)
+		timerFelBombardmentCD:Start(23)
+		countdownFelBombardment:Start(23)
 	elseif spellId == 244150 then--Fel Bombardment
 		if self:IsMythic() then
 			timerFelBombardmentCD:Start(15.7)

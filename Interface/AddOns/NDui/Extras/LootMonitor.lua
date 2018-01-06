@@ -126,9 +126,9 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 			slotText = (bindType == 2 and "BoE") or (bindType == 3 and "BoU") or ""
 		end
 
-		if LMFrame_CFG["other"] == true and (itemClassID == 15) and ((itemSubClassID == 2) or (itemSubClassID == 5))then
+		if LMFrame_CFG["other"] == true and itemClassID == 15 and (itemSubClassID == 2 or itemSubClassID == 5) then
 			Enabled = 1
-		elseif LMFrame_CFG["equip"] == true and (itemRarity >= LMFrame_CFG["rarity"]) and (itemClassID > 0 and itemClassID < 5 ) then
+		elseif LMFrame_CFG["equip"] == true and ((itemRarity >= LMFrame_CFG["rarity"] and itemClassID > 0 and itemClassID < 5) or (itemRarity == 5 and itemClassID == 0)) then
 			Enabled = 1
 		end
 

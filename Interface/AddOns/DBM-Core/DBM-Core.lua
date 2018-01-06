@@ -41,9 +41,9 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 17123 $"):sub(12, -3)),
-	DisplayVersion = "7.3.16 alpha", -- the string that is shown as version
-	ReleaseRevision = 17074 -- the revision of the latest stable version that is available
+	Revision = tonumber(("$Revision: 17143 $"):sub(12, -3)),
+	DisplayVersion = "7.3.17 alpha", -- the string that is shown as version
+	ReleaseRevision = 17132 -- the revision of the latest stable version that is available
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -4958,6 +4958,9 @@ do
 		fontstringFooter:SetText(DBM_CORE_NOTEFOOTER)
 		self.Noteframe.mod = mod
 		self.Noteframe.modvar = modvar
+		if abilityName and type(abilityName) == "number" then--Still a spellID
+			abilityName = DBM:EJ_GetSectionInfo(abilityName)
+		end
 		self.Noteframe.abilityName = abilityName
 		if syncText then
 			button3:Hide()--Don't show share button in shared notes
@@ -6013,7 +6016,7 @@ function DBM:GetCurrentInstanceDifficulty()
 	elseif difficulty == 7 then--Fixed LFR (ie pre WoD zones)
 		return "lfr25", difficultyName.." - ", difficulty, instanceGroupSize, keystoneLevel
 	elseif difficulty == 8 then
-		return "challenge5", PLAYER_DIFFICULTY6.."+ ("..difficultyModifier..") - ", difficulty, instanceGroupSize, keystoneLevel
+		return "challenge5", PLAYER_DIFFICULTY6.."+ ("..keystoneLevel..") - ", difficulty, instanceGroupSize, keystoneLevel
 	elseif difficulty == 9 then--40 man raids have their own difficulty now, no longer returned as normal 10man raids
 		return "normal10", difficultyName.." - ",difficulty, instanceGroupSize, keystoneLevel--Just use normal10 anyways, since that's where we been saving 40 man stuff for so long anyways, no reason to change it now, not like any 40 mans can be toggled between 10 and 40 where we NEED to tell the difference.
 	elseif difficulty == 11 then
@@ -8657,7 +8660,7 @@ do
 			error("NewAnnounce: you must provide announce text", 2)
 			return
 		end
-		if soundOption and type(soundOption) == "bool" then
+		if soundOption and type(soundOption) == "boolean" then
 			soundOption = 0--No Sound
 		end
 		local obj = setmetatable(
@@ -8694,7 +8697,7 @@ do
 			optionVersion = optionName
 			optionName = nil
 		end
-		if soundOption and type(soundOption) == "bool" then
+		if soundOption and type(soundOption) == "boolean" then
 			soundOption = 0--No Sound
 		end
 		if type(spellId) == "string" and spellId:match("OptionVersion") then
@@ -10155,6 +10158,10 @@ do
 	end
 	
 	function timerPrototype:AddTime(extendAmount, ...)
+		if DBM.Options.DontShowBossTimers then return end
+		if self:GetTime(...) == 0 then
+			self:Start(extendAmount, ...)
+		end
 		local id = self.id..pformat((("\t%s"):rep(select("#", ...))), ...)
 		local bar = DBM.Bars:GetBar(id)
 		if bar then

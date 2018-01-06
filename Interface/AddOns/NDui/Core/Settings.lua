@@ -204,14 +204,47 @@ local function ForceSkadaOptions()
 		["hasUpgraded"] = true,
 		["profiles"] = {
 			["Default"] = {
+				["icon"] = {
+					["hide"] = true,
+				},
+				["modulesBlocked"] = {
+					["Power"] = true,
+					["Threat"] = true,
+				},
+				["reset"] = {
+					["instance"] = 2,
+					["join"] = 2,
+				},
+				["setstokeep"] = 30,
+				["tooltippos"] = "topleft",
+				["tooltiprows"] = 10,
 				["windows"] = {
 					{
-						["barheight"] = 18,
-						["classicons"] = false,
+						["background"] = {
+							["bordercolor"] = {
+								["a"] = 0,
+							},
+							["height"] = 160,
+							["texture"] = "None",
+						},
+						["barbgcolor"] = {
+							["a"] = 0,
+							["b"] = 0,
+							["g"] = 0,
+							["r"] = 0,
+						},
+						["barfontflags"] = "OUTLINE",
+						["barfontsize"] = 12,
+						["barheight"] = 16,
 						["barslocked"] = true,
-						["y"] = 32,
-						["x"] = -5,
+						["bartexture"] = "Altz01",
+						["barwidth"] = 350,
+						["classicons"] = false,
+						["point"] = "BOTTOMRIGHT",
+						["smoothing"] = true,
+						["spark"] = false,
 						["title"] = {
+							["borderthickness"] = 0,
 							["color"] = {
 								["a"] = 0.3,
 								["b"] = 0,
@@ -219,47 +252,13 @@ local function ForceSkadaOptions()
 								["r"] = 0,
 							},
 							["font"] = "",
-							["fontsize"] = 16,
 							["fontflags"] = "OUTLINE",
-							["borderthickness"] = 0,
+							["fontsize"] = 14,
 							["texture"] = "normTex",
 						},
-						["barfontflags"] = "OUTLINE",
-						["point"] = "BOTTOMRIGHT",
-						["spellschoolcolors"] = true,
-						["barbgcolor"] = {
-							["a"] = 0,
-							["b"] = 0,
-							["g"] = 0,
-							["r"] = 0,
-						},
-						["barfontsize"] = 14,
-						["smoothing"] = true,
-						["mode"] = "",
-						["bartexture"] = "Altz01",
-						["barwidth"] = 350,
-						["background"] = {
-							["height"] = 180.5,
-							["bordercolor"] = {
-								["a"] = 0,
-							},
-							["texture"] = "None",
-						},
+						["y"] = 30,
+						["x"] = -5,
 					},
-				},
-				["icon"] = {
-					["hide"] = true,
-				},
-				["modulesBlocked"] = {
-				["Power"] = true,
-				["Threat"] = true,
-				},
-				["tooltiprows"] = 10,
-				["setstokeep"] = 30,
-				["tooltippos"] = "topleft",
-				["reset"] = {
-					["instance"] = 2,
-					["join"] = 2,
 				},
 			},
 		},

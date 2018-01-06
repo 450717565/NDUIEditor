@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1818, "DBM-Party-Legion", 11, 860)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17112 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17126 $"):sub(12, -3))
 mod:SetCreatureID(114252)
 mod:SetEncounterID(1959)
 mod:SetZone()
@@ -41,7 +41,7 @@ function mod:OnCombatStart(delay)
 	countdownCoalescePower:Start(30-delay)
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:SetHeader(unstableMana)
-		DBM.InfoFrame:Show(5, "playerdebuffstacks", 227502)
+		DBM.InfoFrame:Show(5, "playerdebuffstacks", unstableMana)
 	end
 end
 

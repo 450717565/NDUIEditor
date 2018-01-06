@@ -40,7 +40,7 @@ local _, C, L, _ = unpack(select(2, ...))
 ]]
 
 local RaidDebuffPoint = {"BOTTOMLEFT", UIParent, "CENTER", 200, 200}
-local EnchantCooldownPoint = {"BOTTOMLEFT", UIParent, "CENTER", 498, -243}
+local EnchantCooldownPoint = {"BOTTOMLEFT", UIParent, "CENTER", 498, -210}
 local InternalCDPoint = {"BOTTOMLEFT", UIParent, "CENTER", 405, -70}
 local TargetSpecialAuraPoint = {"BOTTOMLEFT", UIParent, "CENTER", 200, -119}
 local TargetAuraPoint = {"BOTTOMLEFT", UIParent, "CENTER", 200, -160}
@@ -61,6 +61,8 @@ C.InternalCD = {
 	BarWidth = 150,
 	Pos = InternalCDPoint,
 	List = {
+		--测试
+		--{IntID = 178740, Duration = 30, ItemID =  65274},
 		--塞弗斯的秘密
 		{IntID = 208052, Duration = 30, ItemID = 132452},
 		--萨瓦里克的杰作
@@ -150,7 +152,9 @@ C.AuraWatchList = {
 				--诺甘农的威能
 				{AuraID = 256828, UnitID = "player"},
 			-->LEG饰品
-				--高沙拉克的回响
+				--天启引擎
+				{AuraID = 251952, UnitID = "player", Value= true},
+				--高沙拉克的遗产
 				{AuraID = 253327, UnitID = "player"},
 				--虚空之拥
 				{AuraID = 253808, UnitID = "player"},

@@ -43,7 +43,7 @@
 --
 
 
-local revision =("$Revision: 17085 $"):sub(12, -3)
+local revision =("$Revision: 17129 $"):sub(12, -3)
 local FrameTitle = "DBM_GUI_Option_"	-- all GUI frames get automatically a name FrameTitle..ID
 
 local PanelPrototype = {}
@@ -442,7 +442,7 @@ do
 		if name:find("%$spell:") then
 			if not isTimer and modvar then
 				local spellId = string.match(name, "spell:(%d+)")
-				noteSpellName = DBM:GetSpellInfo(spellId)
+				noteSpellName = spellId--Sending spellID instead of spell name sine spell name would be invalid if called on load
 			end
 			name = name:gsub("%$spell:(%d+)", replaceSpellLinks)
 		end

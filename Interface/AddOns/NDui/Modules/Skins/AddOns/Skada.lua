@@ -54,10 +54,10 @@ function module:SkadaSkin()
 			B.CreateBD(skada.shadow, .5, 3)
 			B.CreateTex(skada.shadow)
 
-			local Cskada = B.CreateButton(skada, 20, 100, ">", 18)
+			local Cskada = B.CreateButton(skada, 20, 80, ">", 18)
 			Cskada:SetPoint("RIGHT", skada, "LEFT", 0, 0)
 			B.CreateTex(Cskada)
-			local Oskada = B.CreateButton(UIParent, 20, 100, "<", 18)
+			local Oskada = B.CreateButton(UIParent, 20, 80, "<", 18)
 			Oskada:Hide()
 			Oskada:SetPoint("RIGHT", skada, "RIGHT", 5, 0)
 			B.CreateTex(Oskada)
@@ -78,14 +78,14 @@ function module:SkadaSkin()
 		end
 		skada.shadow:SetPoint("BOTTOMRIGHT", win.bargroup, "BOTTOMRIGHT", 3, -3)
 		win.bargroup.button:SetFrameStrata("MEDIUM")
-		win.bargroup.button:SetFrameLevel(5)	
+		win.bargroup.button:SetFrameLevel(5)
 		win.bargroup:SetFrameStrata("MEDIUM")
 	end
 
 	local function EmbedWindow(window, width, barheight, height, point, relativeFrame, relativePoint, ofsx, ofsy)
 		window.db.barwidth = width
 		window.db.barheight = barheight
-		if window.db.enabletitle then 
+		if window.db.enabletitle then
 			height = height - barheight
 		end
 		window.db.background.height = height
@@ -98,12 +98,12 @@ function module:SkadaSkin()
 
 	local windows = {}
 	local function EmbedSkada()
-			if #windows == 1 then
-				EmbedWindow(windows[1], 350, 18, 198, "BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -5, 32)
-			elseif #windows == 2 then
-				EmbedWindow(windows[1], 200, 18, 198,  "BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -5, 32)
-				EmbedWindow(windows[2], 200, 18, 198,  "BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -210, 32)
-			end
+		if #windows == 1 then
+			EmbedWindow(windows[1], 350, 16, 160, "BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -5, 30)
+		elseif #windows == 2 then
+			EmbedWindow(windows[1], 350, 16, 112,  "BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -5, 30)
+			EmbedWindow(windows[2], 350, 16, 112,  "BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -5, 150)
+		end
 	end
 
 	for _, window in ipairs(Skada:GetWindows()) do
@@ -137,14 +137,15 @@ function module:SkadaSkin()
 	end)
 
 	-- Change Skada Default Settings
-	Skada.windowdefaults.bartexture = "normTex"
+	Skada.windowdefaults.barbgcolor = {r=0,g=0,b=0,a=0}
+	Skada.windowdefaults.barfontflags = "OUTLINE"
+	Skada.windowdefaults.barfontsize = 12
+	Skada.windowdefaults.bartexture = "Altz01"
 	Skada.windowdefaults.classicons = false
+	Skada.windowdefaults.smoothing = true
+	Skada.windowdefaults.title.color = {r=0,g=0,b=0,a=.3}
 	Skada.windowdefaults.title.fontflags = "OUTLINE"
 	Skada.windowdefaults.title.fontsize = 14
-	Skada.windowdefaults.title.color = {r=0,g=0,b=0,a=.3}
-	Skada.windowdefaults.barfontflags = "OUTLINE"
-	Skada.windowdefaults.barfontsize = 15
-	Skada.windowdefaults.barbgcolor = {r=0,g=0,b=0,a=0}
 
 	-- Change Skada NumberFormat
 	Skada.options.args.generaloptions.args.numberformat = nil

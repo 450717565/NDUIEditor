@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1703, "DBM-EmeraldNightmare", nil, 768)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17112 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17126 $"):sub(12, -3))
 mod:SetCreatureID(102672)
 mod:SetEncounterID(1853)
 mod:SetZone()
@@ -99,7 +99,7 @@ function mod:OnCombatStart(delay)
 	end
 	if self.Options.InfoFrame and self:IsMythic() then
 		DBM.InfoFrame:SetHeader(stackDebuff)
-		DBM.InfoFrame:Show(8, "playerdebuffstacks", 204506)
+		DBM.InfoFrame:Show(8, "playerdebuffstacks", stackDebuff)
 	end
 	if self:IsMythic() then
 		playerHasTen = false

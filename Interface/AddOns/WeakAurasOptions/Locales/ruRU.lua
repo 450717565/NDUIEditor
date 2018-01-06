@@ -210,8 +210,7 @@ UNIT_POWER  UNIT_AURA, PLAYER_TARGET_CHANGED]=]
 	L["Foreground Texture"] = "Основная текстура"
 	L["Frame"] = "Кадр"
 	L["Frame Strata"] = "Слой кадра"
-	--Translation missing 
-	-- L["frame's"] = ""
+	L["frame's"] = "рамки"
 	L["From Template"] = "Из шаблона"
 	L["Full Scan"] = "Полное сканирование"
 	L["General Text Settings"] = "Общие настройки текста"

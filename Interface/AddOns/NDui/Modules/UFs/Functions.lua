@@ -61,7 +61,7 @@ function UF:CreateHealthBar(self)
 
 	local bg = health:CreateTexture(nil, "BACKGROUND")
 	bg:SetAllPoints()
-	bg:SetTexture(DB.bdTex)
+	bg:SetTexture(DB.normTex)
 	bg:SetVertexColor(.6, .6, .6)
 	bg.multiplier = .25
 
