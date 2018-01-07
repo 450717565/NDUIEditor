@@ -1216,6 +1216,7 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 
 					_G["PetStableActivePet"..i.."IconTexture"]:SetTexCoord(.08, .92, .08, .92)
 					F.CreateBD(bu, .25)
+					F.CreateSD(bu)
 				end
 
 				for i = 1, NUM_PET_STABLE_SLOTS do
@@ -1224,6 +1225,7 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 					bd:SetPoint("TOPLEFT", -1, 1)
 					bd:SetPoint("BOTTOMRIGHT", 1, -1)
 					F.CreateBD(bd, .25)
+					F.CreateSD(bu)
 					bu:SetNormalTexture("")
 					bu:DisableDrawLayer("BACKGROUND")
 					_G["PetStableStabledPet"..i.."IconTexture"]:SetTexCoord(.08, .92, .08, .92)
@@ -1246,6 +1248,7 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 		TokenFramePopupCorner:Hide()
 		TokenFramePopup:SetPoint("TOPLEFT", TokenFrame, "TOPRIGHT", 1, -28)
 		F.CreateBD(TokenFramePopup)
+		F.CreateSD(TokenFramePopup)
 		F.ReskinClose(TokenFramePopupCloseButton)
 		F.ReskinCheck(TokenFramePopupInactiveCheckBox)
 		F.ReskinCheck(TokenFramePopupBackpackCheckBox)
@@ -1370,6 +1373,7 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 		end)
 
 		F.CreateBD(ReputationDetailFrame)
+		F.CreateSD(ReputationDetailFrame)
 		F.ReskinClose(ReputationDetailCloseButton)
 		F.ReskinCheck(ReputationDetailAtWarCheckBox)
 		F.ReskinCheck(ReputationDetailInactiveCheckBox)
@@ -1499,6 +1503,7 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 			bu.bg = CreateFrame("Frame", nil, bu)
 			bu.bg:SetAllPoints(ic)
 			F.CreateBD(bu.bg, 0)
+			F.CreateSD(bu.bg)
 
 			bu.inv = bu.travelPassButton:CreateTexture(nil, "OVERLAY", nil, 7)
 			bu.inv:SetTexture([[Interface\FriendsFrame\PlusManz-PlusManz]])
@@ -1568,10 +1573,12 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 		end
 
 		F.CreateBD(FriendsFrameBattlenetFrame.UnavailableInfoFrame)
+		F.CreateSD(FriendsFrameBattlenetFrame.UnavailableInfoFrame)
 		FriendsFrameBattlenetFrame.UnavailableInfoFrame:SetPoint("TOPLEFT", FriendsFrame, "TOPRIGHT", 1, -18)
 
 		FriendsFrameBattlenetFrame:GetRegions():Hide()
 		F.CreateBD(FriendsFrameBattlenetFrame, .25)
+		F.CreateSD(FriendsFrameBattlenetFrame)
 
 		FriendsFrameBattlenetFrame.Tag:SetParent(FriendsListFrame)
 		FriendsFrameBattlenetFrame.Tag:SetPoint("TOP", FriendsFrame, "TOP", 0, -8)
@@ -1681,6 +1688,7 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 			local bu = _G["HelpFrameKnowledgebaseScrollFrameButton"..i]
 			bu:DisableDrawLayer("ARTWORK")
 			F.CreateBD(bu, 0)
+			F.CreateSD(bu)
 
 			F.CreateGradient(bu)
 		end
@@ -1736,6 +1744,7 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 		end
 
 		F.CreateBD(BrowserSettingsTooltip)
+		F.CreateSD(BrowserSettingsTooltip)
 		F.Reskin(BrowserSettingsTooltip.CacheButton)
 		F.Reskin(BrowserSettingsTooltip.CookiesButton)
 
@@ -1808,6 +1817,7 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 		-- Tutorial Frame
 
 		F.CreateBD(TutorialFrame)
+		F.CreateSD(TutorialFrame)
 
 		TutorialFrameBackground:Hide()
 		TutorialFrameBackground.Show = F.dummy
@@ -1856,6 +1866,7 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 
 		F.ReskinPortraitFrame(TabardFrame, true)
 		F.CreateBD(TabardFrameCostFrame, .25)
+		F.CreateSD(TabardFrameCostFrame)
 		F.Reskin(TabardFrameAcceptButton)
 		F.Reskin(TabardFrameCancelButton)
 
@@ -1870,6 +1881,7 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 
 		F.ReskinPortraitFrame(GuildRegistrarFrame, true)
 		F.CreateBD(GuildRegistrarFrameEditBox, .25)
+		F.CreateSD(GuildRegistrarFrameEditBox)
 		F.Reskin(GuildRegistrarFrameGoodbyeButton)
 		F.Reskin(GuildRegistrarFramePurchaseButton)
 		F.Reskin(GuildRegistrarFrameCancelButton)
@@ -1955,6 +1967,7 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 					bg:SetPoint("BOTTOMRIGHT", 0, 1)
 					bg:SetFrameLevel(checkbox:GetFrameLevel()-1)
 					F.CreateBD(bg, .25)
+					F.CreateSD(bg)
 
 					F.ReskinCheck(_G[checkBoxName.."Check"])
 				end
@@ -1970,6 +1983,7 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 					bg:SetPoint("BOTTOMRIGHT", 0, 1)
 					bg:SetFrameLevel(checkbox:GetFrameLevel()-1)
 					F.CreateBD(bg, .25)
+					F.CreateSD(bg)
 
 					F.ReskinColourSwatch(_G[checkBoxName.."ColorSwatch"])
 
@@ -2024,6 +2038,7 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 				bg:SetPoint("BOTTOMRIGHT", 0, 1)
 				bg:SetFrameLevel(swatch:GetFrameLevel()-1)
 				F.CreateBD(bg, .25)
+				F.CreateSD(bg)
 
 				F.ReskinColourSwatch(_G[swatchName.."ColorSwatch"])
 			end
@@ -2063,6 +2078,7 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 		bg:SetPoint("BOTTOMRIGHT", 0, 1)
 		bg:SetFrameLevel(ChatConfigCombatSettingsFilters:GetFrameLevel()-1)
 		F.CreateBD(bg, .25)
+		F.CreateSD(bg)
 
 		F.Reskin(CombatLogDefaultButton)
 		F.Reskin(ChatConfigCombatSettingsFiltersCopyFilterButton)

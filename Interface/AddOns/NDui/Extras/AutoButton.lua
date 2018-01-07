@@ -114,20 +114,25 @@ local function UpdateItem(self)
 	end
 end
 
-ABF:RegisterEvent("PLAYER_LOGIN")
 ABF:RegisterEvent("BAG_UPDATE_DELAYED")
+ABF:RegisterEvent("PET_BATTLE_CLOSE")
+ABF:RegisterEvent("PET_BATTLE_OPENING_START")
+ABF:RegisterEvent("PLAYER_LOGIN")
 ABF:RegisterEvent("PLAYER_REGEN_DISABLED")
 ABF:RegisterEvent("PLAYER_REGEN_ENABLED")
-ABF:SetScript("OnEvent", function(self, event)
+ABF:RegisterEvent("UNIT_ENTERED_VEHICLE")
+ABF:RegisterEvent("UNIT_EXITED_VEHICLE")
+
+ABF:SetScript("OnEvent", function(self, event, ...)
 	if event == "PLAYER_LOGIN" then
 		B.Mover(ABF, "AutoButton", "AutoButton", point)
 	elseif event == "BAG_UPDATE_DELAYED" then
 		UpdateItem(ABB)
-	elseif event == "PLAYER_REGEN_DISABLED" then
+	elseif event == "PLAYER_REGEN_DISABLED" or event == "PET_BATTLE_OPENING_START" or (event == "UNIT_ENTERED_VEHICLE" and ... == "player" and not InCombatLockdown()) then
 		self:UnregisterEvent("BAG_UPDATE_DELAYED")
 		ABF:Hide()
 		GameTooltip:Hide()
-	elseif event == "PLAYER_REGEN_ENABLED" then
+	elseif event == "PLAYER_REGEN_ENABLED" or event == "PET_BATTLE_CLOSE" or (event == "UNIT_EXITED_VEHICLE" and ... == "player") then
 		self:RegisterEvent("BAG_UPDATE_DELAYED")
 		UpdateItem(ABB)
 		ABF:Show()
