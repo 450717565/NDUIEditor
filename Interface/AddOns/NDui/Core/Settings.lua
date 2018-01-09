@@ -257,7 +257,7 @@ local function ForceSkadaOptions()
 							["texture"] = "normTex",
 						},
 						["y"] = 30,
-						["x"] = -5,
+						["x"] = -4,
 					},
 				},
 			},

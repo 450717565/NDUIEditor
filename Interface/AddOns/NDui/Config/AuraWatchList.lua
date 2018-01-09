@@ -181,9 +181,16 @@ C.AuraWatchList = {
 				{AuraID = 253307, UnitID = "player"},
 				{AuraID = 253308, UnitID = "player"},
 				--裂隙世界法典
-				{AuraID = 251938, UnitID = "player"},
 				{AuraID = 252545, UnitID = "player", Value = true},
+				{AuraID = 251938, UnitID = "player"},
 				{AuraID = 256415, UnitID = "player"},
+				--注射器
+				{AuraID = 253260, UnitID = "player"}, --三维
+				{AuraID = 253261, UnitID = "player"}, --急速
+				{AuraID = 255744, UnitID = "player"}, --精通
+				{AuraID = 255742, UnitID = "player"}, --暴击
+				--超能奥术
+				{AuraID = 254161, UnitID = "player"},
 				--克罗塔的护盾
 				{AuraID = 228323, UnitID = "player", Value = true},
 				--猫头鹰
@@ -836,6 +843,8 @@ C.AuraWatchList = {
 				--烈焰触痕
 				{AuraID = 244054, UnitID = "player", Text = L["Fire Side"]},
 			--安托兰统帅议会
+				--混乱脉冲
+				{AuraID = 257974, UnitID = "player"},
 				--灵能突袭
 				{AuraID = 244172, UnitID = "player"},
 				--熵能爆裂
@@ -3482,7 +3491,7 @@ C.AuraWatchList = {
 				--恶魔变形
 				{AuraID = 162264, UnitID = "player"},
 				{AuraID = 187827, UnitID = "player"},
-				--T21
+				--浩劫T21
 				{AuraID = 252165, UnitID = "player"},
 			},
 		},

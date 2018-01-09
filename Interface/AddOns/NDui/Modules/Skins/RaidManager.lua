@@ -17,6 +17,7 @@ function module:CreateRM()
 	RMOpen:SetScript("OnClick", function() RaidManager:Show() RMOpen:Hide() RaidManager.State = true end)
 	RMOpen:SetSize(120, 30)
 	B.CreateBD(RMOpen)
+	B.CreateTex(RMOpen)
 	B.CreateFS(RMOpen, 14, L["Raid Tool"], true)
 	B.CreateBC(RMOpen, .5)
 
@@ -26,6 +27,7 @@ function module:CreateRM()
 	RMClose:SetScript("OnClick", function() RaidManager:Hide() RMOpen:Show() RaidManager.State = false end)
 	RMClose:SetSize(40, 20)
 	B.CreateBD(RMClose)
+	B.CreateTex(RMClose)
 	B.CreateBC(RMClose, .5)
 	local icon = RMClose:CreateTexture(nil, "ARTWORK")
 	icon:SetPoint("CENTER", 1, 3)
@@ -155,6 +157,7 @@ function module:CreateRM()
 	RMWmark.SetNormalTexture = function() end
 	RMWmark.SetPushedTexture = function() end
 	B.CreateBD(RMWmark)
+	B.CreateTex(RMWmark)
 	B.CreateBC(RMWmark)
 	RMWmark:HookScript("OnMouseUp", function(self, btn)
 		self:SetBackdropColor(0, 0, 0, .3)
@@ -168,6 +171,7 @@ function module:CreateRM()
 	RMBuff:SetPoint("LEFT", RMOpen, "RIGHT", 0, 0)
 	RMBuff:SetSize(30, 30)
 	B.CreateBD(RMBuff)
+	B.CreateTex(RMBuff)
 	B.CreateFS(RMBuff, 16, "!", true)
 	B.CreateBC(RMBuff, .5)
 
@@ -189,7 +193,7 @@ function module:CreateRM()
 			return 8
 		else
 			return 5
-		end	
+		end
 	end
 
 	local BuffName = {
@@ -376,13 +380,17 @@ function module:CreateRM()
 				RMReady:Disable()
 				RMReady:SetAlpha(.5)
 			end
-			-- World Marker
+			-- World Marker and Buff Check
 			if (IsInGroup() and not IsInRaid()) or UnitIsGroupLeader("player") or UnitIsGroupAssistant("player") then
 				RMWmark:Enable()
 				RMWmark:SetAlpha(1)
+				RMBuff:Enable()
+				RMBuff:SetAlpha(1)
 			else
 				RMWmark:Disable()
 				RMWmark:SetAlpha(.5)
+				RMBuff:Disable()
+				RMBuff:SetAlpha(.5)
 			end
 			-- All Assist Checkbox
 			RMEveryoneCB:SetChecked(RaidFrameAllAssistCheckButton:GetChecked())

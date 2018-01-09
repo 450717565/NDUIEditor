@@ -152,6 +152,37 @@ GameTooltip:HookScript("OnTooltipSetItem", function(self)
 	end
 end)
 
+--- 按住 Ctrl 键快速举报
+local _ChatFrame_OnHyperlinkShow = ChatFrame_OnHyperlinkShow;
+function ChatFrame_OnHyperlinkShow(chatframe, link, text, button)
+	if IsControlKeyDown() then
+		local line = string.match(link, "player:[^:]+:(%d+):")
+		if line then
+			ReportPlayer("spam", line)
+			return
+		end
+	end
+	return _ChatFrame_OnHyperlinkShow(chatframe, link, text, button)
+end
+
+--- 新人加入公会自动欢迎
+do
+	local f = CreateFrame("Frame")
+	local str = GUILDEVENT_TYPE_JOIN:gsub("%%s", "")
+	f:RegisterEvent("CHAT_MSG_SYSTEM")
+	f:SetScript("OnEvent", function(self, event, msg)
+		if msg:find(str) then
+			local name = msg:gsub(str, "")
+			name = Ambiguate(name, "guild")
+			if not UnitIsUnit(name, "player") then
+				C_Timer.After(random(1000) / 1000, function()
+					SendChatMessage(("欢迎 %s 加入公会！"):format(name), "GUILD")
+				end)
+			end
+		end
+	end)
+end
+
 --- 特殊物品购买无需确认
 --[[
 MerchantItemButton_OnClick = function(self, button, ...)

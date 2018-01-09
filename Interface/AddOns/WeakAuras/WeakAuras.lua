@@ -685,7 +685,7 @@ function WeakAuras.scheduleConditionCheck(time, id, cloneId)
       else
         region = WeakAuras.regions[id].region;
       end
-      if (region and region.state and region.state.show) then
+      if (region and region.toShow) then
         checkConditions[id](region);
       end
     end, time - GetTime())
@@ -2066,6 +2066,12 @@ function WeakAuras.Modernize(data)
   if(data.regionType == "aurabar") then
     data.displayTextLeft = data.displayTextLeft or (not data.auto and data.displayText) or "%n";
     data.displayTextRight = data.displayTextRight or "%p";
+
+    if (data.barInFront ~= nil) then
+      data.borderInFront = not data.barInFront;
+      data.backdropInFront = not data.barInFront;
+      data.barInFront = nil;
+    end
   end
 
   if(data.regionType == "icon") then

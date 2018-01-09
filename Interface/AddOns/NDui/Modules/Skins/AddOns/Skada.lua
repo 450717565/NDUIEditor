@@ -99,10 +99,10 @@ function module:SkadaSkin()
 	local windows = {}
 	local function EmbedSkada()
 		if #windows == 1 then
-			EmbedWindow(windows[1], 350, 16, 160, "BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -5, 30)
+			EmbedWindow(windows[1], 350, 16, 160, "BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -4, 30)
 		elseif #windows == 2 then
-			EmbedWindow(windows[1], 350, 16, 112,  "BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -5, 30)
-			EmbedWindow(windows[2], 350, 16, 112,  "BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -5, 150)
+			EmbedWindow(windows[1], 350, 16, 112,  "BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -4, 30)
+			EmbedWindow(windows[2], 350, 16, 112,  "BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -4, 150)
 		end
 	end
 
@@ -130,11 +130,7 @@ function module:SkadaSkin()
 		EmbedSkada()
 	end
 
-	NDui:EventFrame("PLAYER_ENTERING_WORLD"):SetScript("OnEvent", function(self)
-		self:UnregisterAllEvents()
-		self = nil
-		EmbedSkada()
-	end)
+	EmbedSkada()
 
 	-- Change Skada Default Settings
 	Skada.windowdefaults.barbgcolor = {r=0,g=0,b=0,a=0}

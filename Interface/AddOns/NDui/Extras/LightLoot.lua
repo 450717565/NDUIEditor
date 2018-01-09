@@ -159,7 +159,7 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 	end
 
 	if IsFishingLoot() then
-		self.Title:SetText(GetSpellInfo(131474))
+		self.Title:SetText(PROFESSIONS_FISHING)
 	elseif UnitIsDead("target") then
 		self.Title:SetText(UnitName("target"))
 	else
