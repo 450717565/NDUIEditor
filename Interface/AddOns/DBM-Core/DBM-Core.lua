@@ -41,9 +41,9 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 17158 $"):sub(12, -3)),
-	DisplayVersion = "7.3.17 alpha", -- the string that is shown as version
-	ReleaseRevision = 17132 -- the revision of the latest stable version that is available
+	Revision = tonumber(("$Revision: 17171 $"):sub(12, -3)),
+	DisplayVersion = "7.3.18 alpha", -- the string that is shown as version
+	ReleaseRevision = 17166 -- the revision of the latest stable version that is available
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -387,7 +387,7 @@ local UpdateChestTimer
 local breakTimerStart
 local AddMsg
 
-local fakeBWVersion, fakeBWHash = 85, "775b2ad"
+local fakeBWVersion, fakeBWHash = 86, "2adc318"
 local versionQueryString, versionResponseString = "Q^%d^%s", "V^%d^%s"
 
 local enableIcons = true -- set to false when a raid leader or a promoted player has a newer version of DBM
@@ -4953,7 +4953,7 @@ do
 		end)
 	end
 
-	function DBM:ShowNoteEditor(mod, modvar, abilityName, syncText, sender)
+	function DBM:ShowNoteEditor(mod, modvar, abilityName, syncText, sender, rawspellId)
 		if not frame then
 			createFrame()
 			self.Noteframe = frame
@@ -4967,8 +4967,12 @@ do
 		fontstringFooter:SetText(DBM_CORE_NOTEFOOTER)
 		self.Noteframe.mod = mod
 		self.Noteframe.modvar = modvar
-		if abilityName and type(abilityName) == "number" then--Still a spellID
-			abilityName = DBM:EJ_GetSectionInfo(abilityName)
+		if abilityName then
+			if type(abilityName) == "number" then--Still a dungeonID
+				abilityName = DBM:EJ_GetSectionInfo(abilityName)
+			elseif rawspellId and abilityName == "ReloadUI To Fix" then--Refresh spell name
+				abilityName = DBM:GetSpellInfo(rawspellId)
+			end
 		end
 		self.Noteframe.abilityName = abilityName
 		if syncText then
@@ -5134,6 +5138,11 @@ do
 			local v = inCombat[i]
 			if not v.combatInfo then return end
 			if v.noEEDetection then return end
+			if v.respawnTime and success == 0 and self.Options.ShowRespawn and not self.Options.DontShowBossTimers then--No special hacks needed for bad wrath ENCOUNTER_END. Only mods that define respawnTime have a timer, since variable per boss.
+				local name = string.split(",", name)
+				self.Bars:CreateBar(v.respawnTime, DBM_CORE_TIMER_RESPAWN:format(name), "Interface\\Icons\\Spell_Holy_BorrowedTime")
+				fireEvent("DBM_TimerStart", "DBMRespawnTimer", DBM_CORE_TIMER_RESPAWN:format(name), v.respawnTime, "Interface\\Icons\\Spell_Holy_BorrowedTime", "extratimer", nil, 0, v.id)
+			end
 			if v.multiEncounterPullDetection then
 				for _, eId in ipairs(v.multiEncounterPullDetection) do
 					if encounterID == eId then
@@ -5146,11 +5155,6 @@ do
 				self:EndCombat(v, success == 0)
 				sendSync("EE", encounterID.."\t"..success.."\t"..v.id.."\t"..(v.revision or 0))
 				return
-			end
-			if v.respawnTime and success == 0 and self.Options.ShowRespawn and not self.Options.DontShowBossTimers then--No special hacks needed for bad wrath ENCOUNTER_END. Only mods that define respawnTime have a timer, since variable per boss.
-				local name = string.split(",", name)
-				self.Bars:CreateBar(v.respawnTime, DBM_CORE_TIMER_RESPAWN:format(name), "Interface\\Icons\\Spell_Holy_BorrowedTime")
-				fireEvent("DBM_TimerStart", "DBMRespawnTimer", DBM_CORE_TIMER_RESPAWN:format(name), v.respawnTime, "Interface\\Icons\\Spell_Holy_BorrowedTime", "extratimer", nil, 0, v.id)
 			end
 		end
 	end
@@ -10139,15 +10143,16 @@ do
 	function timerPrototype:AddTime(extendAmount, ...)
 		if DBM.Options.DontShowBossTimers then return end
 		if self:GetTime(...) == 0 then
-			self:Start(extendAmount, ...)
-		end
-		local id = self.id..pformat((("\t%s"):rep(select("#", ...))), ...)
-		local bar = DBM.Bars:GetBar(id)
-		if bar then
-			local elapsed, total = (bar.totalTime - bar.timer), bar.totalTime
-			if elapsed and total then
-				fireEvent("DBM_TimerUpdate", id, elapsed, total+extendAmount)
-				return DBM.Bars:UpdateBar(id, elapsed, total+extendAmount)
+			return self:Start(extendAmount, ...)
+		else
+			local id = self.id..pformat((("\t%s"):rep(select("#", ...))), ...)
+			local bar = DBM.Bars:GetBar(id)
+			if bar then
+				local elapsed, total = (bar.totalTime - bar.timer), bar.totalTime
+				if elapsed and total then
+					fireEvent("DBM_TimerUpdate", id, elapsed, total+extendAmount)
+					return DBM.Bars:UpdateBar(id, elapsed, total+extendAmount)
+				end
 			end
 		end
 	end

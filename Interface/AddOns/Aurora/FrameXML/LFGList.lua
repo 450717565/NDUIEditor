@@ -120,6 +120,8 @@ tinsert(C.themes["Aurora"], function()
 	ApplicationViewer.Inset.Bg:Hide()
 	ApplicationViewer.Inset:DisableDrawLayer("BORDER")
 
+	ApplicationViewer.UnempoweredCover:GetRegions():Hide()
+
 	local function headerOnEnter(self)
 		self.hl:Show()
 	end

@@ -102,18 +102,9 @@ function module:CreateRM()
 	B.CreateBC(RMRole)
 	RMRole:SetScript("OnClick", InitiateRolePoll)
 
-	-- Ready Check Button
-	local RMReady = CreateFrame("Button", "RMReady", RaidManager, "UIMenuButtonStretchTemplate")
-	RMReady:SetPoint("TOP", RMConvert, "BOTTOM", 0, 0)
-	RMReady:SetSize(95, 25)
-	B.CreateBD(RMReady, .3)
-	B.CreateFS(RMReady, 12, READY_CHECK, true)
-	B.CreateBC(RMReady)
-	RMReady:SetScript("OnClick", DoReadyCheck)
-
 	-- Raid Control Button
 	local RMControl = CreateFrame("Button", "RMControl", RaidManager, "UIMenuButtonStretchTemplate")
-	RMControl:SetPoint("TOP", RMRole, "BOTTOM", 0, 0)
+	RMControl:SetPoint("TOP", RMConvert, "BOTTOM", 0, 0)
 	RMControl:SetSize(95, 25)
 	B.CreateBD(RMControl, .3)
 	B.CreateFS(RMControl, 12, RAID_CONTROL, true)
@@ -122,9 +113,9 @@ function module:CreateRM()
 
 	-- Everyone Assist Button
 	local RMEveryone = CreateFrame("Frame", "RMEveryone", RaidManager)
-	RMEveryone:SetPoint("LEFT", RMControl, "RIGHT", 10, 0)
+	RMEveryone:SetPoint("BOTTOM", RaidManager, "BOTTOM", -8, 4)
 	RMEveryone:SetSize(55, 25)
-	B.CreateFS(RMEveryone, 12, ALL_ASSIST_LABEL, true)
+	B.CreateFS(RMEveryone, 14, ALL_ASSIST_LABEL, true)
 	RMEveryone:SetScript("OnEnter", function(self)
 		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
 		GameTooltip:AddLine(ALL_ASSIST_DESCRIPTION, 1, .8, 0, 1)
@@ -172,7 +163,7 @@ function module:CreateRM()
 	RMBuff:SetSize(30, 30)
 	B.CreateBD(RMBuff)
 	B.CreateTex(RMBuff)
-	B.CreateFS(RMBuff, 16, "!", true)
+	B.CreateFS(RMBuff, 16, "!", true, "CENTER", 0, 0)
 	B.CreateBC(RMBuff, .5)
 
 	local function GetRaidMaxGroup()
@@ -260,7 +251,9 @@ function module:CreateRM()
 		GameTooltip:AddLine(L["Raid Tool"], 0,.6,1)
 		GameTooltip:AddLine(" ")
 		GameTooltip:AddLine(DB.LeftButton..DB.InfoColor..READY_CHECK)
-		GameTooltip:AddLine(DB.ScrollButton..DB.InfoColor..L["Count Down"])
+		if UnitIsGroupLeader("player") then
+			GameTooltip:AddLine(DB.ScrollButton..DB.InfoColor..L["Count Down"])
+		end
 		GameTooltip:AddLine(DB.RightButton..DB.InfoColor..L["Check Status"])
 		GameTooltip:Show()
 		self:SetBackdropBorderColor(cr, cg, cb, 1)
@@ -275,7 +268,7 @@ function module:CreateRM()
 		elseif button == "LeftButton" then
 			if InCombatLockdown() then return end
 			DoReadyCheck()
-		else
+		elseif UnitIsGroupLeader("player") then
 			if IsAddOnLoaded("DBM-Core") then
 				if reset then
 					SlashCmdList["DEADLYBOSSMODS"]("pull "..NDuiDB["Skins"]["DBMCount"])
@@ -307,7 +300,6 @@ function module:CreateRM()
 			"RMDisband",
 			"RMConvert",
 			"RMRole",
-			"RMReady",
 			"RMControl",
 			"RMBuff",
 			"CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton"
@@ -372,23 +364,19 @@ function module:CreateRM()
 				RMRole:Disable()
 				RMRole:SetAlpha(.5)
 			end
-			-- Ready Check
-			if IsInGroup() and (UnitIsGroupLeader("player") or (UnitIsGroupAssistant("player") and IsInRaid())) then
-				RMReady:Enable()
-				RMReady:SetAlpha(1)
-			else
-				RMReady:Disable()
-				RMReady:SetAlpha(.5)
-			end
-			-- World Marker and Buff Check
+			-- World Marker
 			if (IsInGroup() and not IsInRaid()) or UnitIsGroupLeader("player") or UnitIsGroupAssistant("player") then
 				RMWmark:Enable()
 				RMWmark:SetAlpha(1)
-				RMBuff:Enable()
-				RMBuff:SetAlpha(1)
 			else
 				RMWmark:Disable()
 				RMWmark:SetAlpha(.5)
+			end
+			-- Buff Check
+			if UnitIsGroupLeader("player") or UnitIsGroupAssistant("player") then
+				RMBuff:Enable()
+				RMBuff:SetAlpha(1)
+			else
 				RMBuff:Disable()
 				RMBuff:SetAlpha(.5)
 			end

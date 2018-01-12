@@ -594,9 +594,9 @@ end
 local function postUpdateAltPower(element, unit, cur, min, max)
 	if cur and max then
 		local perc = math.floor((cur/max)*100)
-		if perc < 35 then
+		if perc < 34 then
 			element:SetStatusBarColor(0, 1, 0)
-		elseif perc < 70 then
+		elseif perc < 68 then
 			element:SetStatusBarColor(1, 1, 0)
 		else
 			element:SetStatusBarColor(1, 0, 0)

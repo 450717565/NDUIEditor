@@ -40,7 +40,7 @@ local _, C, L, _ = unpack(select(2, ...))
 ]]
 
 local RaidDebuffPoint = {"BOTTOMLEFT", UIParent, "CENTER", 200, 200}
-local EnchantCooldownPoint = {"BOTTOMLEFT", UIParent, "CENTER", 498, -210}
+local EnchantCooldownPoint = {"BOTTOMLEFT", UIParent, "CENTER", 499, -210}
 local InternalCDPoint = {"BOTTOMLEFT", UIParent, "CENTER", 405, -70}
 local TargetSpecialAuraPoint = {"BOTTOMLEFT", UIParent, "CENTER", 200, -119}
 local TargetAuraPoint = {"BOTTOMLEFT", UIParent, "CENTER", 200, -160}
@@ -963,6 +963,8 @@ C.AuraWatchList = {
 				{AuraID = 247915, UnitID = "target"},
 				--反冲，执政团鲁拉
 				{AuraID = 247816, UnitID = "target"},
+				--水晶迸裂，熔火焦皮
+				{AuraID = 200672, UnitID = "target"},
 			-->勇气试练
 				--奥丁，弧光风暴
 				{AuraID = 229256, UnitID = "target"},
