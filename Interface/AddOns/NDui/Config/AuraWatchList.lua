@@ -2769,17 +2769,17 @@ C.AuraWatchList = {
 				--剑刃乱舞
 				{AuraID =  13877, UnitID = "player"},
 				--强势连击
-				{AuraID = 193356, UnitID = "player"},
+				{AuraID = 193356, UnitID = "player",Text = "点数"},
 				--暗鲨涌动
-				{AuraID = 193357, UnitID = "player"},
+				{AuraID = 193357, UnitID = "player",Text = "爆击"},
 				--大乱斗
-				{AuraID = 193358, UnitID = "player"},
-				--双巧手
-				{AuraID = 193359, UnitID = "player"},
+				{AuraID = 193358, UnitID = "player",Text = "攻速"},
+				--精准定位
+				{AuraID = 193359, UnitID = "player",Text = "缩减"},
 				--骷髅黑帆
-				{AuraID = 199603, UnitID = "player"},
+				{AuraID = 199603, UnitID = "player",Text = "攻击"},
 				--埋藏的宝藏
-				{AuraID = 199600, UnitID = "player"},
+				{AuraID = 199600, UnitID = "player",Text = "能量"},
 				--恐惧之刃诅咒
 				{AuraID = 202665, UnitID = "player"},
 				--还击

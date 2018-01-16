@@ -14,6 +14,8 @@ oUF.Tags.Methods["hp"] = function(unit)
 			else
 				return B.Numb(max)
 			end
+		elseif unit == "party1" or unit == "party2" or unit == "party3" or unit == "party4" then
+			return B.Numb(min)
 		else
 			return per
 		end

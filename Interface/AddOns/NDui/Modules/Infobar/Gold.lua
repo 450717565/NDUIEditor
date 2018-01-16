@@ -8,7 +8,7 @@ local profit, spent, oldMoney = 0, 0, 0
 local myName, myRealm = UnitName("player"), GetRealmName()
 
 local function formatTextMoney(money)
-	return B.Numb(money * .0001).."|cffffd700"..GOLD_AMOUNT_SYMBOL.."|r"
+	return B.Numb(money / 1e4).."|cffffd700"..GOLD_AMOUNT_SYMBOL.."|r"
 end
 
 local function getClassIcon(class)
