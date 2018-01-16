@@ -88,7 +88,7 @@ C.themes["Blizzard_Calendar"] = function()
 	F.CreateBD(CalendarCreateEventDescriptionContainer, .25)
 	F.CreateBD(CalendarEventPickerFrame, .25)
 	F.CreateBD(CalendarMassInviteFrame)
-	
+
 	F.CreateSD(CalendarViewEventFrame)
 	F.CreateSD(CalendarViewHolidayFrame)
 	F.CreateSD(CalendarViewRaidFrame)

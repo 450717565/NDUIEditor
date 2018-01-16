@@ -1,12 +1,12 @@
 local B, C, L, DB = unpack(select(2, ...))
 
 local types = {
-	spell       = SPELLS..ID.."：",
-	item        = ITEMS..ID.."：",
-	quest       = QUESTS_LABEL..ID.."：",
-	talent      = TALENT..ID.."：",
-	achievement = ACHIEVEMENTS..ID.."：",
-	currency 	= CURRENCY..ID.."：",
+	spell       = SPELLS..ID..": ",
+	item        = ITEMS..ID..": ",
+	quest       = QUESTS_LABEL..ID..": ",
+	talent      = TALENT..ID..": ",
+	achievement = ACHIEVEMENTS..ID..": ",
+	currency 	= CURRENCY..ID..": ",
 }
 
 local function addLine(self, id, type, noadd)
@@ -20,12 +20,12 @@ local function addLine(self, id, type, noadd)
 
 	if type == types.item then
 		if GetItemCount(id, true) and GetItemCount(id, true) - GetItemCount(id) > 0 then
-			self:AddDoubleLine(BAGSLOT.." / "..BANK.."：", format(DB.InfoColor.."%s|r", GetItemCount(id).." / "..GetItemCount(id, true) - GetItemCount(id)))
+			self:AddDoubleLine(BAGSLOT.." / "..BANK..": ", format(DB.InfoColor.."%s|r", GetItemCount(id).." / "..GetItemCount(id, true) - GetItemCount(id)))
 		elseif GetItemCount(id) > 0 then
-			self:AddDoubleLine(BAGSLOT.."：", format(DB.InfoColor.."%s|r", GetItemCount(id)))
+			self:AddDoubleLine(BAGSLOT..": ", format(DB.InfoColor.."%s|r", GetItemCount(id)))
 		end
 		if select(8, GetItemInfo(id)) and select(8, GetItemInfo(id)) > 1 then
-			self:AddDoubleLine(L["Stack Cap"].."：", format(DB.InfoColor.."%s|r", select(8, GetItemInfo(id))))
+			self:AddDoubleLine(L["Stack Cap"]..": ", format(DB.InfoColor.."%s|r", select(8, GetItemInfo(id))))
 		end
 	end
 	self:AddDoubleLine(type, format(DB.InfoColor.."%s|r", id))

@@ -93,10 +93,10 @@ function module:Expbar()
 
 		if UnitLevel("player") < MAX_PLAYER_LEVEL then
 			local xp, mxp, rxp = UnitXP("player"), UnitXPMax("player"), GetXPExhaustion()
-			GameTooltip:AddDoubleLine(XP.."：", B.Numb(xp).." / "..B.Numb(mxp).."（"..string.format("%.1f", xp/mxp*100).."%）", .6,.8,1, 1,1,1)
-			GameTooltip:AddDoubleLine(L["Need XP"].."：", B.Numb(mxp-xp).."（"..string.format("%.1f", (1-xp/mxp)*100).."%）", .6,.8,1, 1,1,1)
+			GameTooltip:AddDoubleLine(XP..": ", B.Numb(xp).." / "..B.Numb(mxp).." ("..string.format("%.1f", xp/mxp*100).."%)", .6,.8,1, 1,1,1)
+			GameTooltip:AddDoubleLine(L["Need XP"]..": ", B.Numb(mxp-xp).." ("..string.format("%.1f", (1-xp/mxp)*100).."%)", .6,.8,1, 1,1,1)
 			if rxp then
-				GameTooltip:AddDoubleLine(TUTORIAL_TITLE26.."：", "+"..B.Numb(rxp).."（"..string.format("%.1f", rxp/mxp*100).."%）", .6,.8,1, 1,1,1)
+				GameTooltip:AddDoubleLine(TUTORIAL_TITLE26..": ", "+"..B.Numb(rxp).." ("..string.format("%.1f", rxp/mxp*100).."%)", .6,.8,1, 1,1,1)
 			end
 			if IsXPUserDisabled() then GameTooltip:AddLine("|cffff0000"..XP..LOCKED) end
 		end
@@ -108,7 +108,7 @@ function module:Expbar()
 			local standingtext
 			if friendID then
 				if maxRank > 0 then
-				name = name.."（"..currentRank.." / "..maxRank.."）"
+				name = name.." ("..currentRank.." / "..maxRank..")"
 				end
 				if not nextFriendThreshold then
 					value = maxvalue - 1
@@ -123,12 +123,12 @@ function module:Expbar()
 			end
 			GameTooltip:AddLine(" ")
 			GameTooltip:AddLine(name, 0,.6,1)
-			GameTooltip:AddDoubleLine(standingtext, value - minvalue.." / "..maxvalue - minvalue.."（"..string.format("%.1f", (value - minvalue)/(maxvalue - minvalue)*100).."%）", .6,.8,1, 1,1,1)
+			GameTooltip:AddDoubleLine(standingtext, value - minvalue.." / "..maxvalue - minvalue.." ("..string.format("%.1f", (value - minvalue)/(maxvalue - minvalue)*100).."%)", .6,.8,1, 1,1,1)
 			if C_Reputation.IsFactionParagon(factionID) then
 				local currentValue, threshold = C_Reputation.GetFactionParagonInfo(factionID)
 				local paraCount = floor(currentValue/threshold)
 				currentValue = mod(currentValue, threshold)
-				GameTooltip:AddDoubleLine(L["ParagonRep"]..paraCount, currentValue.." / "..threshold.."（"..string.format("%.1f", (currentValue/threshold*100)).."%）", .6,.8,1, 1,1,1)
+				GameTooltip:AddDoubleLine(L["ParagonRep"]..paraCount, currentValue.." / "..threshold.." ("..string.format("%.1f", (currentValue/threshold*100)).."%)", .6,.8,1, 1,1,1)
 			end
 		end
 
@@ -157,13 +157,13 @@ function module:Expbar()
 			local num, xp, xpForNextPoint = MainMenuBar_GetNumArtifactTraitsPurchasableFromXP(pointsSpent, totalXP, artifactTier)
 			GameTooltip:AddLine(" ")
 			if pointsSpent > 51 then
-				GameTooltip:AddLine(name.."（"..format(SPELLBOOK_AVAILABLE_AT, pointsSpent).." - "..format(SPELLBOOK_AVAILABLE_AT, (pointsSpent-51)).."）", 0,.6,1)
+				GameTooltip:AddLine(name.." ("..format(SPELLBOOK_AVAILABLE_AT, pointsSpent).." - "..format(SPELLBOOK_AVAILABLE_AT, (pointsSpent-51))..")", 0,.6,1)
 			else
-				GameTooltip:AddLine(name.."（"..format(SPELLBOOK_AVAILABLE_AT, pointsSpent).."）", 0,.6,1)
+				GameTooltip:AddLine(name.." ("..format(SPELLBOOK_AVAILABLE_AT, pointsSpent)..")", 0,.6,1)
 			end
-			GameTooltip:AddDoubleLine(ARTIFACT_POWER.."：", B.Numb(totalXP).."（"..num.."）", .6,.8,1, 1,1,1)
-			GameTooltip:AddDoubleLine(L["Next Trait"].."：", B.Numb(xp).." / "..B.Numb(xpForNextPoint).."（"..string.format("%.1f", xp/xpForNextPoint*100).."%）", .6,.8,1, 1,1,1)
-			GameTooltip:AddDoubleLine(L["Need Trait"].."：", B.Numb(xpForNextPoint-xp).."（"..string.format("%.1f", (1-xp/xpForNextPoint)*100).."%）", .6,.8,1, 1,1,1)
+			GameTooltip:AddDoubleLine(ARTIFACT_POWER..": ", B.Numb(totalXP).." ("..num..")", .6,.8,1, 1,1,1)
+			GameTooltip:AddDoubleLine(L["Next Trait"]..": ", B.Numb(xp).." / "..B.Numb(xpForNextPoint).." ("..string.format("%.1f", xp/xpForNextPoint*100).."%)", .6,.8,1, 1,1,1)
+			GameTooltip:AddDoubleLine(L["Need Trait"]..": ", B.Numb(xpForNextPoint-xp).." ("..string.format("%.1f", (1-xp/xpForNextPoint)*100).."%)", .6,.8,1, 1,1,1)
 		end
 		GameTooltip:Show()
 	end

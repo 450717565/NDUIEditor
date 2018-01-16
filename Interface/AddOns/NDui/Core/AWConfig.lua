@@ -571,7 +571,7 @@ local function CreatePanel()
 			self:SetBackdropColor(0, 0, 0, .3)
 		end)
 	end
-	
+
 	tabs[1]:Click()
 
 	NDui:EventFrame("PLAYER_REGEN_DISABLED"):SetScript("OnEvent", function(self, event)

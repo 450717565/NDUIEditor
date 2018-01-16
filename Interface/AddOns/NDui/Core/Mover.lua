@@ -12,7 +12,7 @@ B.Mover = function(Frame, Text, key, Pos, w, h)
 	B.CreateFS(Mover, DB.Font[2], Text)
 	tinsert(MoverList, Mover)
 
-	if not NDuiDB["Mover"][key] then 
+	if not NDuiDB["Mover"][key] then
 		Mover:SetPoint(unpack(Pos))
 	else
 		Mover:SetPoint(unpack(NDuiDB["Mover"][key]))

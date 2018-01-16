@@ -187,7 +187,7 @@ local function onLock(self, event, bagID, slotID)
 	if (bagID == -1 and slotID > NUM_BANKGENERIC_SLOTS) then
 		bagID, slotID = ContainerIDToInventoryID(slotID-NUM_BANKGENERIC_SLOTS+NUM_BAG_SLOTS)
 	end
-	
+
 	if (slotID) then return end
 
 	for i, button in pairs(self.buttons) do

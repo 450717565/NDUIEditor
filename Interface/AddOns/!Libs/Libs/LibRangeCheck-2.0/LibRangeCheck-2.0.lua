@@ -1,6 +1,6 @@
 --[[
 Name: LibRangeCheck-2.0
-Revision: $Revision: 174 $
+Revision: $Revision: 185 $
 Author(s): mitch0
 Website: http://www.wowace.com/projects/librangecheck-2-0/
 Description: A range checking library based on interact distances and spell ranges
@@ -41,7 +41,7 @@ License: Public Domain
 -- @class file
 -- @name LibRangeCheck-2.0
 local MAJOR_VERSION = "LibRangeCheck-2.0"
-local MINOR_VERSION = tonumber(("$Revision: 174 $"):match("%d+")) + 100000
+local MINOR_VERSION = tonumber(("$Revision: 185 $"):match("%d+")) + 100000
 
 local lib, oldminor = LibStub:NewLibrary(MAJOR_VERSION, MINOR_VERSION)
 if not lib then
@@ -52,11 +52,13 @@ end
 
 local UpdateDelay = .5
 local ItemRequestTimeout = 10.0
+local FriendColor = 'ff22ff22'
+local HarmColor = 'ffff2222'
 
 -- interact distance based checks. ranges are based on my own measurements (thanks for all the folks who helped me with this)
 local DefaultInteractList = {
     [3] = 8,
-    [2] = 9,
+--    [2] = 9,
     [4] = 28,
 }
 
@@ -64,12 +66,12 @@ local DefaultInteractList = {
 local InteractLists = {
     ["Tauren"] = {
         [3] = 6,
-        [2] = 7,
+--        [2] = 7,
         [4] = 25,
     },
     ["Scourge"] = {
         [3] = 7,
-        [2] = 8,
+--        [2] = 8,
         [4] = 27,
     },
 }
@@ -180,11 +182,25 @@ HarmSpells["WARLOCK"] = {
 -- Items [Special thanks to Maldivia for the nice list]
 
 local FriendItems  = {
-    [5] = {
+    [1] = {
+        90175, -- Gin-Ji Knife Set -- doesn't seem to work for pets (always returns nil)
+    },
+    [2] = {
         37727, -- Ruby Acorn
     },
-    [6] = {
+    [3] = {
+        42732, -- Everfrost Razor
+    },
+    [4] = {
+        129055, -- Shoe Shine Kit
+    },
+    [5] = {
+        8149, -- Voodoo Charm
+        136605, -- Solendra's Compassion
         63427, -- Worgsaw
+    },
+    [7] = {
+        61323, -- Ruby Seeds
     },
     [8] = {
         34368, -- Attuned Crystal Cores
@@ -229,6 +245,9 @@ local FriendItems  = {
     [35] = {
         18904, -- Zorbin's Ultra-Shrinker
     },
+    [38] = {
+        140786, -- Ley Spider Eggs
+    },
     [40] = {
         34471, -- Vial of the Sunwell
     },
@@ -237,6 +256,9 @@ local FriendItems  = {
     },
     [50] = {
         116139, -- Haunting Memento
+    },
+    [55] = {
+        74637, -- Kiryn's Poison Vial
     },
     [60] = {
         32825, -- Soul Cannon
@@ -248,17 +270,39 @@ local FriendItems  = {
     [80] = {
         35278, -- Reinforced Net
     },
+    [90] = {
+        133925, -- Fel Lash
+    },
     [100] = {
         41058, -- Hyldnir Harpoon
+    },
+    [150] = {
+        46954, -- Flaming Spears
+    },
+    [200] = {
+        75208, -- Rancher's Lariat
     },
 }
 
 local HarmItems = {
-    [5] = {
+    [1] = {
+    },
+    [2] = {
         37727, -- Ruby Acorn
     },
-    [6] = {
+    [3] = {
+        42732, -- Everfrost Razor
+    },
+    [4] = {
+        129055, -- Shoe Shine Kit
+    },
+    [5] = {
+        8149, -- Voodoo Charm
+        136605, -- Solendra's Compassion
         63427, -- Worgsaw
+    },
+    [7] = {
+        61323, -- Ruby Seeds
     },
     [8] = {
         34368, -- Attuned Crystal Cores
@@ -287,6 +331,9 @@ local HarmItems = {
         24269, -- Heavy Netherweave Net
         18904, -- Zorbin's Ultra-Shrinker
     },
+    [38] = {
+        140786, -- Ley Spider Eggs
+    },
     [40] = {
         28767, -- The Decapitator
     },
@@ -296,6 +343,9 @@ local HarmItems = {
     },
     [50] = {
         116139, -- Haunting Memento
+    },
+    [55] = {
+        74637, -- Kiryn's Poison Vial
     },
     [60] = {
         32825, -- Soul Cannon
@@ -307,9 +357,20 @@ local HarmItems = {
     [80] = {
         35278, -- Reinforced Net
     },
+    [90] = {
+        133925, -- Fel Lash
+    },
     [100] = {
         33119, -- Malister's Frost Wand
     },
+--[[ -- not much point in enabling these, as the target is lost at 100yd...
+    [150] = {
+        46954, -- Flaming Spears
+    },
+    [200] = {
+        75208, -- Rancher's Lariat
+    },
+]]--
 }
 
 -- This could've been done by checking player race as well and creating tables for those, but it's easier like this
@@ -452,8 +513,8 @@ local function findSpellIdx(spellName)
 end
 
 -- minRange should be nil if there's no minRange, not 0
-local function addChecker(t, range, minRange, checker)
-    local rc = { ["range"] = range, ["minRange"] = minRange, ["checker"] = checker }
+local function addChecker(t, range, minRange, checker, info)
+    local rc = { ["range"] = range, ["minRange"] = minRange, ["checker"] = checker, ["info"] = info }
     for i = 1, #t do
         local v = t[i]
         if rc.range == v.range then return end
@@ -467,6 +528,18 @@ end
 
 local function createCheckerList(spellList, itemList, interactList)
     local res = {}
+    if itemList then
+        for range, items in pairs(itemList) do
+            for i = 1, #items do
+                local item = items[i]
+                if GetItemInfo(item) then
+                    addChecker(res, range, nil, checkers_Item[item], "item:" .. item)
+                    break
+                end
+            end
+        end
+    end
+    
     if spellList then
         for i = 1, #spellList do
             local sid = spellList[i]
@@ -483,21 +556,9 @@ local function createCheckerList(spellList, itemList, interactList)
                     range = MeleeRange
                 end
                 if minRange then
-                    addChecker(res, range, minRange, checkers_SpellWithMin[spellIdx])
+                    addChecker(res, range, minRange, checkers_SpellWithMin[spellIdx], "spell:" .. sid .. ":" .. tostring(name))
                 else
-                    addChecker(res, range, minRange, checkers_Spell[spellIdx])
-                end
-            end
-        end
-    end
-    
-    if itemList then
-        for range, items in pairs(itemList) do
-            for i = 1, #items do
-                local item = items[i]
-                if GetItemInfo(item) then
-                    addChecker(res, range, nil, checkers_Item[item])
-                    break
+                    addChecker(res, range, minRange, checkers_Spell[spellIdx], "spell:" .. sid .. ":" .. tostring(name))
                 end
             end
         end
@@ -505,7 +566,7 @@ local function createCheckerList(spellList, itemList, interactList)
     
     if interactList and not next(res) then
         for index, range in pairs(interactList) do
-            addChecker(res, range, nil,  checkers_Interact[index])
+            addChecker(res, range, nil,  checkers_Interact[index], "interact:" .. index)
         end
     end
 
@@ -514,31 +575,23 @@ end
 
 -- returns minRange, maxRange  or nil
 local function getRange(unit, checkerList)
-    local min, max = 0, nil
-    for i = 1, #checkerList do
-        local rc = checkerList[i]
-        if not max or max > rc.range then
-            if rc.minRange then
-                local inRange, inMinRange = rc.checker(unit)
-                if inMinRange then
-                    max = rc.minRange
-                elseif inRange then
-                    min, max = rc.minRange, rc.range
-                elseif min > rc.range then
-                    return min, max
-                else
-                    return rc.range, max
-                end
-            elseif rc.checker(unit) then
-                max = rc.range
-            elseif min > rc.range then
-                return min, max
-            else
-                return rc.range, max
-            end
+    local lo, hi = 1, #checkerList
+    while lo <= hi do
+        local mid = math_floor((lo + hi) / 2)
+        local rc = checkerList[mid]
+        if rc.checker(unit) then
+            lo = mid + 1
+        else
+            hi = mid - 1
         end
     end
-    return min, max
+    if lo > #checkerList then
+        return 0, checkerList[#checkerList].range
+    elseif lo <= 1 then
+        return checkerList[1].range, nil
+    else
+        return checkerList[lo].range, checkerList[lo - 1].range
+    end
 end
 
 local function updateCheckers(origList, newList)
@@ -715,10 +768,10 @@ function lib:init(forced)
         -- fall back to interact distance checks
         if playerClass == "HUNTER" or playerRace == "Tauren" then
             -- for hunters, use interact4 as it's safer
-            -- for Taurens interact4 is actually closer than 25yd and interact2 is closer than 8yd, so we can't use that
+            -- for Taurens interact4 is actually closer than 25yd and interact3 is closer than 8yd, so we can't use that
             minRangeCheck = checkers_Interact[4]
         else
-            minRangeCheck = checkers_Interact[2]
+            minRangeCheck = checkers_Interact[3]
         end
     end
 

@@ -67,6 +67,8 @@ C.InternalCD = {
 		{IntID = 208052, Duration = 30, ItemID = 132452},
 		--萨瓦里克的杰作
 		--{IntID = 207472, Duration = 30, ItemID = 132444},
+		--践踏
+		{IntID = 240447, Duration = 20},
 	},
 }
 
@@ -1107,20 +1109,14 @@ C.AuraWatchList = {
 				{AuraID = 255478, UnitID = "target"},
 				--宇宙之剑
 				{AuraID = 255496, UnitID = "target"},
-				--物理易伤
-				{AuraID = 255418, UnitID = "target", Text = "物理"},
-				--冰霜易伤
-				{AuraID = 255425, UnitID = "target", Text = "冰霜"},
-				--暗影易伤
-				{AuraID = 255430, UnitID = "target", Text = "暗影"},
-				--火焰易伤
-				{AuraID = 255429, UnitID = "target", Text = "火焰"},
-				--神圣易伤
-				{AuraID = 255419, UnitID = "target", Text = "神圣"},
-				--自然易伤
-				{AuraID = 255422, UnitID = "target", Text = "自然"},
-				--奥术易伤
-				{AuraID = 255433, UnitID = "target", Text = "奥术"},
+				--星灵易伤
+				{AuraID = 255418, UnitID = "target", Text = SPELL_SCHOOL0_NAME}, --物理
+				{AuraID = 255419, UnitID = "target", Text = SPELL_SCHOOL1_NAME}, --神圣
+				{AuraID = 255429, UnitID = "target", Text = SPELL_SCHOOL2_NAME}, --火焰
+				{AuraID = 255422, UnitID = "target", Text = SPELL_SCHOOL3_NAME}, --自然
+				{AuraID = 255425, UnitID = "target", Text = SPELL_SCHOOL4_NAME}, --冰霜
+				{AuraID = 255430, UnitID = "target", Text = SPELL_SCHOOL5_NAME}, --暗影
+				{AuraID = 255433, UnitID = "target", Text = SPELL_SCHOOL6_NAME}, --奥术
 			-->PLAYER
 				--痛苦压制
 				{AuraID =  33206, UnitID = "target"},
@@ -1149,9 +1145,9 @@ C.AuraWatchList = {
 				--法术反射
 				{AuraID =  23920, UnitID = "target"},
 				--升腾
-				{AuraID = 114050, UnitID = "target"},	--元素
-				{AuraID = 114051, UnitID = "target"},	--增强
-				{AuraID = 114052, UnitID = "target"},	--恢复
+				{AuraID = 114050, UnitID = "target"}, --元素
+				{AuraID = 114051, UnitID = "target"}, --增强
+				{AuraID = 114052, UnitID = "target"}, --恢复
 				--守护之魂
 				{AuraID =  47788, UnitID = "target"},
 				--圣佑术
@@ -1167,10 +1163,10 @@ C.AuraWatchList = {
 				--保护祝福
 				{AuraID =   1022, UnitID = "target"},
 				--复仇之怒
-				{AuraID =  31842, UnitID = "target"},	--神圣
-				{AuraID =  31884, UnitID = "target"},	--惩戒
+				{AuraID =  31842, UnitID = "target"}, --神圣
+				{AuraID =  31884, UnitID = "target"}, --惩戒
 				--以眼还眼
-				{AuraID = 205191, UnitID = "target"},	--惩戒
+				{AuraID = 205191, UnitID = "target"}, --惩戒
 				--狂野怒火
 				{AuraID =  19574, UnitID = "target"},
 				--百发百中
@@ -2159,9 +2155,9 @@ C.AuraWatchList = {
 				--先祖指引
 				{AuraID = 108281, UnitID = "player"},
 				--升腾
-				{AuraID = 114050, UnitID = "player"},	--元素
-				{AuraID = 114051, UnitID = "player"},	--增强
-				{AuraID = 114052, UnitID = "player"},	--恢复
+				{AuraID = 114050, UnitID = "player"}, --元素
+				{AuraID = 114051, UnitID = "player"}, --增强
+				{AuraID = 114052, UnitID = "player"}, --恢复
 				--幽魂步
 				{AuraID =  58875, UnitID = "player"},
 				--星界转移
@@ -2193,9 +2189,9 @@ C.AuraWatchList = {
 				--风暴守护者
 				{AuraID = 205495, UnitID = "player"},
 				--元素冲击
-				{AuraID = 118522, UnitID = "player"},	--爆击
-				{AuraID = 173183, UnitID = "player"},	--急速
-				{AuraID = 173184, UnitID = "player"},	--精通
+				{AuraID = 118522, UnitID = "player"}, --爆击
+				{AuraID = 173183, UnitID = "player"}, --急速
+				{AuraID = 173184, UnitID = "player"}, --精通
 				--冰怒
 				{AuraID = 210714, UnitID = "player"},
 				--暴雨图腾

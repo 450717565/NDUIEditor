@@ -290,7 +290,7 @@ C.themes["Blizzard_PVPUI"] = function()
 		bu.Icon.bg = F.CreateBG(bu.Icon)
 		bu.Icon.bg:SetDrawLayer("BACKGROUND", 1)
 		bu.Icon:SetPoint("TOPLEFT", 5, -3)
-		
+
 		bu.SizeText:SetPoint("TOPRIGHT", -2, -3)
 		bu.InfoText:SetPoint("BOTTOMRIGHT", -2, 3)
 

@@ -12,10 +12,10 @@ hooksecurefunc("ChatEdit_InsertLink", function(text) -- shift-clicked
 		local item = GetItemInfo(strmatch(text, "item:(%d+)") or 0)
 		local search = spell or item
 		if not search then return end
-		
+
 		-- search needs to be lowercase for .SetRecipeItemNameFilter
 		TradeSkillFrame.SearchBox:SetText(search:lower())
-		
+
 		-- jump to the recipe
 		if spell then -- can only select recipes on the learned tab
 			if PanelTemplates_GetSelectedTab(TradeSkillFrame.RecipeList) == 1 then

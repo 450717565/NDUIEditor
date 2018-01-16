@@ -208,7 +208,7 @@ GameTooltip:HookScript("OnTooltipSetUnit", function(self)
 		if UnitExists(unit.."target") then
 			local tarRicon = GetRaidTargetIndex(unit.."target")
 			local tar = ("%s%s"):format((tarRicon and ICON_LIST[tarRicon].."10|t") or "", getTarget(unit.."target"))
-			self:AddLine(TARGET.."："..tar)
+			self:AddLine(TARGET..": "..tar)
 		end
 
 		if alive then
@@ -250,20 +250,18 @@ GameTooltipStatusBar:SetScript("OnValueChanged", function(self, value)
 	end
 end)
 
+local mover
 hooksecurefunc("GameTooltip_SetDefaultAnchor", function(tooltip, parent)
-	local frame = GetMouseFocus()
 	if NDuiDB["Tooltip"]["Cursor"] then
-		if parent then
-			tooltip:SetOwner(parent, "ANCHOR_CURSOR_RIGHT")
-		end
+		tooltip:SetOwner(parent, "ANCHOR_CURSOR_RIGHT")
 	else
-		tooltip:ClearAllPoints()
-		if parent then
-			tooltip:SetOwner(parent, "ANCHOR_NONE")
+		if not mover then
+			mover = B.Mover(tooltip, L["Tooltip"], "GameTooltip", C.Tooltips.TipPos, 240, 120)
 		end
-		tooltip:SetPoint(unpack(C.Tooltips.TipPos))
+		tooltip:SetOwner(parent, "ANCHOR_NONE")
+		tooltip:ClearAllPoints()
+		tooltip:SetPoint("BOTTOMRIGHT", mover)
 	end
-	tooltip.default = 1
 end)
 
 local function style(frame)

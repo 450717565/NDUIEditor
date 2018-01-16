@@ -90,7 +90,7 @@ local function OnEvent(self)
 	if reversecheck ~= nil and (role == nil and tree == nil) then reversecheck = nil end
 
 	if group.spells then
-		if treepass and rolepass and requirepass and (combatpass or instancepass or pvppass) and not (UnitInVehicle("player") and self.icon:GetTexture()) then	
+		if treepass and rolepass and requirepass and (combatpass or instancepass or pvppass) and not (UnitInVehicle("player") and self.icon:GetTexture()) then
 			for buff, value in pairs(group.spells) do
 				if value == true then
 					local name = GetSpellInfo(buff)
@@ -120,7 +120,7 @@ local function OnEvent(self)
 						self:Show()
 						B.CreateFS(self, 14, CANCEL.." "..self.id, true, "BOTTOM", 0, -18)
 						return
-					end	
+					end
 				end
 			end
 		end

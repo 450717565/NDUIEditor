@@ -11,7 +11,7 @@ function module:GetUnitItemLevel(link, unit, index, quality)
 
 	local tip = _G["NDuiItemLevelTooltip"] or CreateFrame("GameTooltip", "NDuiItemLevelTooltip", nil, "GameTooltipTemplate")
 	tip:SetOwner(UIParent, "ANCHOR_NONE")
- 	tip:SetInventoryItem(unit, index)
+	tip:SetInventoryItem(unit, index)
 
 	for i = 2, 5 do
 		local text = _G[tip:GetName().."TextLeft"..i]:GetText() or ""

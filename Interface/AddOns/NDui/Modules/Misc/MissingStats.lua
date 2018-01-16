@@ -25,7 +25,7 @@ function module:MissingStats()
 			statPanel:Hide()
 		else
 			statPanel:Show()
-		end	
+		end
 	end)
 
 hooksecurefunc("PaperDollFrame_SetItemLevel", function(self, unit)

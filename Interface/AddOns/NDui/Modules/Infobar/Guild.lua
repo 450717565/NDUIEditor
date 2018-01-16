@@ -1,43 +1,30 @@
 local B, C, L, DB = unpack(select(2, ...))
+if not C.Infobar.Guild then return end
+
+local module = NDui:GetModule("Infobar")
+local info = module:RegisterInfobar(C.Infobar.GuildPos)
+
 local r, g, b = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b
+local infoFrame = CreateFrame("Frame", "NDuiGuildInfobar", info)
+infoFrame:SetSize(335, 540)
+infoFrame:SetPoint("TOPLEFT", UIParent, 15, -35)
+infoFrame:SetClampedToScreen(true)
+infoFrame:SetFrameStrata("TOOLTIP")
+B.CreateBD(infoFrame, .7)
+B.CreateTex(infoFrame)
+infoFrame:Hide()
 
---[[
-	信息条公会模块，弥补GameTooltip的不足
-]]
-local panel = CreateFrame("Frame", nil, UIParent)
-panel:SetSize(80, 20)
-panel:SetPoint("TOPLEFT", 0, -4.5)
-panel:SetHitRectInsets(0, 0, 0, -10)
-local stat = B.CreateFS(panel, 13, GUILD)
-
-local guildFrame = CreateFrame("Frame", "NDuiGuildInfobar", panel)
-guildFrame:SetSize(335, 540)
-guildFrame:SetPoint("TOPLEFT", 20, -32)
-guildFrame:SetClampedToScreen(true)
-guildFrame:SetFrameStrata("TOOLTIP")
-B.CreateBD(guildFrame)
-B.CreateTex(guildFrame)
-guildFrame:Hide()
-tinsert(UISpecialFrames, "NDuiGuildInfobar")
-
-guildFrame:SetScript("OnLeave", function(self)
-	C_Timer.After(.2, function()
-		if MouseIsOver(self) then return end
-		self:Hide()
-	end)
-end)
-
-local gName = B.CreateFS(guildFrame, 18, "Guild", true, "TOPLEFT", 15, -10)
-local gOnline = B.CreateFS(guildFrame, 12, "Online", false, "TOPLEFT", 15, -35)
-local gApps = B.CreateFS(guildFrame, 12, "Applications", false, "TOPRIGHT", -15, -35)
-local gRank = B.CreateFS(guildFrame, 12, "Rank", false, "TOPLEFT", 15, -55)
+local gName = B.CreateFS(infoFrame, 18, "Guild", true, "TOPLEFT", 15, -10)
+local gOnline = B.CreateFS(infoFrame, 12, "Online", false, "TOPLEFT", 15, -35)
+local gApps = B.CreateFS(infoFrame, 12, "Applications", false, "TOPRIGHT", -15, -35)
+local gRank = B.CreateFS(infoFrame, 12, "Rank", false, "TOPLEFT", 15, -55)
 
 local bu = {}
 local width = {30, 35, 126, 115}
 for i = 1, 4 do
-	bu[i] = CreateFrame("Button", nil, guildFrame)
+	bu[i] = CreateFrame("Button", nil, infoFrame)
 	bu[i]:SetSize(width[i], 22)
-	bu[i]:SetFrameLevel(guildFrame:GetFrameLevel() + 3)
+	bu[i]:SetFrameLevel(infoFrame:GetFrameLevel() + 3)
 	if i == 1 then
 		bu[i]:SetPoint("TOPLEFT", 18, -75)
 	else
@@ -50,16 +37,16 @@ end
 B.CreateFS(bu[1], 12, LEVEL_ABBR)
 B.CreateFS(bu[2], 12, CLASS_ABBR)
 B.CreateFS(bu[3], 12, NAME, false, "LEFT", 10, 0)
-B.CreateFS(bu[4], 12, ZONE, false, "RIGHT", -10, 0)
+B.CreateFS(bu[4], 12, ZONE, false, "RIGHT", -5, 0)
 
 local whspInfo = DB.InfoColor..DB.RightButton..L["Whisper"]
-B.CreateFS(guildFrame, 12, whspInfo, false, "BOTTOMRIGHT", -15, 50)
+B.CreateFS(infoFrame, 12, whspInfo, false, "BOTTOMRIGHT", -15, 50)
 local copyInfo = DB.InfoColor.."ALT+"..DB.LeftButton..L["Copy Name"]
-B.CreateFS(guildFrame, 12, copyInfo, false, "BOTTOMRIGHT", -15, 30)
+B.CreateFS(infoFrame, 12, copyInfo, false, "BOTTOMRIGHT", -15, 30)
 local invtInfo = DB.InfoColor.."ALT+"..DB.RightButton..L["Invite"]
-B.CreateFS(guildFrame, 12, invtInfo, false, "BOTTOMRIGHT", -15, 10)
+B.CreateFS(infoFrame, 12, invtInfo, false, "BOTTOMRIGHT", -15, 10)
 
-local scrollFrame = CreateFrame("ScrollFrame", nil, guildFrame, "UIPanelScrollFrameTemplate")
+local scrollFrame = CreateFrame("ScrollFrame", nil, infoFrame, "UIPanelScrollFrameTemplate")
 scrollFrame:SetSize(300, 375)
 scrollFrame:SetPoint("CENTER", 0, -15)
 scrollFrame.ScrollBar:Hide()
@@ -73,7 +60,7 @@ roster:SetSize(300, 1)
 scrollFrame:SetScrollChild(roster)
 
 local guildTable, frames, previous = {}, {}, 0
-local function CreateRoster(i)
+local function createRoster(i)
 	local button = CreateFrame("Button", nil, roster)
 	button:SetSize(300, 25)
 	button.HL = button:CreateTexture(nil, "HIGHLIGHT")
@@ -81,7 +68,7 @@ local function CreateRoster(i)
 	button.HL:SetColorTexture(r, g, b, .2)
 
 	button.level = B.CreateFS(button, 12, "Level", false)
-	button.level:SetPoint("TOP", button, "TOPLEFT", 18, -6)
+	button.level:SetPoint("TOP", button, "TOPLEFT", 16, -6)
 	button.class = button:CreateTexture(nil, "ARTWORK")
 	button.class:SetPoint("LEFT", 37, 0)
 	button.class:SetSize(17, 17)
@@ -91,7 +78,7 @@ local function CreateRoster(i)
 		F.CreateBDFrame(button.class)
 	end
 	button.status = B.CreateFS(button, 12, "Status", false, "LEFT", 60, 0)
-	button.name = B.CreateFS(button, 12, "Name", false, "LEFT", 75, 0)
+	button.name = B.CreateFS(button, 12, "Name", false, "LEFT", 72, 0)
 	button.name:SetPoint("RIGHT", button, "LEFT", 185, 0)
 	button.name:SetJustifyH("LEFT")
 	button.zone = B.CreateFS(button, 12, "Zone", false, "RIGHT", -5, 0)
@@ -122,17 +109,7 @@ local function CreateRoster(i)
 	return button
 end
 
-local function UpdateStat()
-	if not IsInGuild() then
-		stat:SetText(GUILD.."："..DB.MyColor..NONE)
-		return
-	end
-	GuildRoster()
-	local _, _, online = GetNumGuildMembers()
-	stat:SetText(GUILD.."："..DB.MyColor..online)
-end
-
-local function RefreshData()
+local function refreshData()
 	if not NDuiDB["Misc"].Sortby then NDuiDB["Misc"].Sortby = 1 end
 
 	wipe(guildTable)
@@ -142,9 +119,9 @@ local function RefreshData()
 	local guildName, guildRank = GetGuildInfo("player")
 
 	gName:SetText("|cff0099ff<"..(guildName or "")..">")
-	gOnline:SetText(format(DB.InfoColor.."%s：".." %d / %d", GUILD_ONLINE_LABEL, online, total))
+	gOnline:SetText(format(DB.InfoColor.."%s: %d / %d", GUILD_ONLINE_LABEL, online, total))
 	gApps:SetText(format(DB.InfoColor..GUILDINFOTAB_APPLICANTS, GetNumGuildApplicants()))
-	gRank:SetText(DB.InfoColor..RANK.."："..(guildRank or ""))
+	gRank:SetText(DB.InfoColor..RANK..": "..(guildRank or ""))
 
 	for i = 1, total do
 		local name, _, rank, level, _, zone, _, _, connected, status, class, _, _, mobile = GetGuildRosterInfo(i)
@@ -177,7 +154,7 @@ local function RefreshData()
 	if count > previous then
 		for i = previous+1, count do
 			if not frames[i] then
-				frames[i] = CreateRoster(i)
+				frames[i] = createRoster(i)
 			end
 		end
 	elseif count < previous then
@@ -188,7 +165,7 @@ local function RefreshData()
 	previous = count
 end
 
-local function SetPosition()
+local function setPosition()
 	for i = 1, previous do
 		if i == 1 then
 			frames[i]:SetPoint("TOPLEFT")
@@ -199,7 +176,7 @@ local function SetPosition()
 	end
 end
 
-local function SortTable()
+local function applyData()
 	sort(guildTable, function(a, b)
 		if a and b then
 			if NDuiDB["Misc"].SortOrder then
@@ -209,10 +186,7 @@ local function SortTable()
 			end
 		end
 	end)
-end
 
-local function ApplyData()
-	SortTable()
 	for i = 1, previous do
 		local level, class, name, zone, rank, status = unpack(guildTable[i])
 
@@ -236,35 +210,63 @@ for i = 1, 4 do
 	bu[i]:SetScript("OnClick", function()
 		NDuiDB["Misc"].Sortby = i
 		NDuiDB["Misc"].SortOrder = not NDuiDB["Misc"].SortOrder
-		ApplyData()
+		applyData()
 	end)
 end
 
-panel:RegisterEvent("PLAYER_ENTERING_WORLD")
-panel:RegisterEvent("GUILD_ROSTER_UPDATE")
-panel:RegisterEvent("PLAYER_GUILD_UPDATE")
-panel:SetScript("OnEvent", function()
-	UpdateStat()
-	if guildFrame:IsShown() then
-		RefreshData()
-		SetPosition()
-		ApplyData()
+info.eventList = {
+	"PLAYER_ENTERING_WORLD",
+	"GUILD_ROSTER_UPDATE",
+	"PLAYER_GUILD_UPDATE",
+}
+
+info.onEvent = function(self)
+	if not IsInGuild() then
+		self.text:SetText(GUILD..L[":"]..DB.MyColor..NONE)
+		return
 	end
-end)
-panel:SetScript("OnEnter", function()
+
+	GuildRoster()
+	local _, _, online = GetNumGuildMembers()
+	self.text:SetText(GUILD..L[":"]..DB.MyColor..online)
+
+	if infoFrame:IsShown() then
+		refreshData()
+		setPosition()
+		applyData()
+	end
+end
+
+info.onEnter = function()
 	if not IsInGuild() then return end
-	guildFrame:Show()
-	RefreshData()
-	SetPosition()
-	ApplyData()
-end)
-panel:SetScript("OnLeave", function()
+	refreshData()
+	setPosition()
+	applyData()
+	infoFrame:Show()
+end
+
+info.onLeave = function()
 	C_Timer.After(.1, function()
-		if MouseIsOver(guildFrame) then return end
-		guildFrame:Hide()
+		if MouseIsOver(infoFrame) then return end
+		infoFrame:Hide()
 	end)
-end)
-panel:SetScript("OnMouseUp", function()
-	guildFrame:Hide()
+end
+
+info.onMouseUp = function()
+	infoFrame:Hide()
 	ToggleGuildFrame()
+end
+
+infoFrame:SetScript("OnLeave", function(self)
+	self:SetScript("OnUpdate", function(self, elapsed)
+		self.timer = (self.timer or 0) + elapsed
+		if self.timer > .1 then
+			if not infoFrame:IsMouseOver() then
+				self:Hide()
+				self:SetScript("OnUpdate", nil)
+			end
+
+			self.timer = 0
+		end
+	end)
 end)

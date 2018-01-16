@@ -150,6 +150,7 @@ function module:LoadWithAddOn(addonName, value, func)
 				self:UnregisterAllEvents()
 				return
 			end
+			func()
 			self:UnregisterEvent(event)
 		elseif event == "ADDON_LOADED" and addon == addonName then
 			func()

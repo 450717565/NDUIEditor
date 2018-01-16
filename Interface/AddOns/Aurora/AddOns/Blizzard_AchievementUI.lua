@@ -359,7 +359,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 	do
 		local result = AchievementFrame.searchResults
 		result:SetPoint("BOTTOMLEFT", AchievementFrame, "BOTTOMRIGHT", 10, 0)
-        for i = 1, 14 do
+		for i = 1, 14 do
 			select(i, result:GetRegions()):Hide()
 		end
 		result.titleText:Show()

@@ -43,14 +43,14 @@ function module:OnLogin()
 		local cx, cy = CursorCoords()
 		local px, py = GetPlayerMapPosition("player")
 		if cx and cy then
-			cursor:SetFormattedText(MOUSE_LABEL.."："..formattext, 100 * cx, 100 * cy)
+			cursor:SetFormattedText(MOUSE_LABEL..": "..formattext, 100 * cx, 100 * cy)
 		else
-			cursor:SetText(MOUSE_LABEL.."："..DB.MyColor.."-- , -- ")
+			cursor:SetText(MOUSE_LABEL..": "..DB.MyColor.."-- , -- ")
 		end
 		if not px or px == 0 or py == 0 then
-			player:SetText(PLAYER.."："..DB.MyColor.."-- , -- ")
+			player:SetText(PLAYER..": "..DB.MyColor.."-- , -- ")
 		else
-			player:SetFormattedText(PLAYER.."："..formattext, 100 * px, 100 * py)
+			player:SetFormattedText(PLAYER..": "..formattext, 100 * px, 100 * py)
 		end
 	end
 

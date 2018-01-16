@@ -3,12 +3,16 @@ local cr, cg, cb = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b
 if DB.Client ~= "zhCN" then return end
 
 local hx = {
-	"Aurora部分模块调整；",
-	"更新部分法术监控；",
-	"聊天窗口调整；",
-	"团队框体更新对安托兰议会的载具支持；",
-	"优化对不可打断的施法条的刷新；",
-	"调整T21的团队法术监控。",
+	"更新部分法术；",
+	"小地图、Buff和鼠标提示框可以通过游戏内命令调整初始位置；",
+	"Aurora调整，区别出魂戒提供的天赋；",
+	"Skada皮肤调整；",
+	"信息条调整；",
+	"团队工具调整；",
+	"背包添加一个选项，过滤装备替换为装备配置方案；",
+	"插件过期提醒调整；",
+	"抢金的一个错误修正；",
+	"部分美化的细节调整。"
 }
 
 local function changelog()
@@ -32,7 +36,7 @@ local function changelog()
 	lr:SetFrameStrata("HIGH")
 	local offset = 0
 	for n, t in pairs(hx) do
-		B.CreateFS(f, 12, n.."："..t, false, "TOPLEFT", 15, -(50 + offset))
+		B.CreateFS(f, 12, n..": "..t, false, "TOPLEFT", 15, -(50 + offset))
 		offset = offset + 20
 	end
 	f:SetSize(400, 60 + offset)

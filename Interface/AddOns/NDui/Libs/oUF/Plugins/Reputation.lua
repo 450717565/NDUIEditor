@@ -12,7 +12,7 @@ local function tooltip(self)
 	local standingtext
 	if friendID then
 		if maxRank > 0 then
-			name = name.."（"..currentRank.." / "..maxRank.."）"
+			name = name.." ("..currentRank.." / "..maxRank..")"
 		end
 		if not nextFriendThreshold then
 			value = maxvalue - 1
@@ -26,12 +26,12 @@ local function tooltip(self)
 		standingtext = GetText("FACTION_STANDING_LABEL"..standing, UnitSex("player"))
 	end
 	GameTooltip:AddLine(name, 0,.6,1)
-	GameTooltip:AddDoubleLine(standingtext, value - minvalue.." / "..maxvalue - minvalue.."（"..string.format("%.1f", (value - minvalue)/(maxvalue - minvalue)*100).."%）", .6,.8,1, 1,1,1)
+	GameTooltip:AddDoubleLine(standingtext, value - minvalue.." / "..maxvalue - minvalue.." ("..string.format("%.1f", (value - minvalue)/(maxvalue - minvalue)*100).."%)", .6,.8,1, 1,1,1)
 	if C_Reputation.IsFactionParagon(factionID) then
 		local currentValue, threshold = C_Reputation.GetFactionParagonInfo(factionID)
 		local paraCount = floor(currentValue/threshold)
 		currentValue = mod(currentValue, threshold)
-		GameTooltip:AddDoubleLine(L["ParagonRep"]..paraCount, currentValue.." / "..threshold.."（"..string.format("%.1f", (currentValue/threshold*100)).."%）", .6,.8,1, 1,1,1)
+		GameTooltip:AddDoubleLine(L["ParagonRep"]..paraCount, currentValue.." / "..threshold.." ("..string.format("%.1f", (currentValue/threshold*100)).."%)", .6,.8,1, 1,1,1)
 	end
 
 	GameTooltip:Show()
