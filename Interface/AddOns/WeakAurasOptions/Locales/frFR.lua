@@ -10,6 +10,8 @@ local L = WeakAuras.L
 	L["%i Matches"] = "%i Correspondances"
 	--Translation missing 
 	-- L["%s Color"] = ""
+	--Translation missing 
+	-- L["%s total auras"] = ""
 	L["1 Match"] = "1 Correspondance"
 	L["1. Text"] = "1. Texte"
 	L["1. Text Settings"] = "1. Paramètres du Texte"
@@ -78,6 +80,8 @@ Si la durée de l'animation est définie à |cFF00CC0010%|r, et le déclencheur 
 	-- L["Auto-cloning enabled"] = ""
 	L["Automatic Icon"] = "Icône automatique"
 	L["Backdrop Color"] = "Couleur de Fond"
+	--Translation missing 
+	-- L["Backdrop in Front"] = ""
 	L["Backdrop Style"] = "Style de Fond"
 	L["Background"] = "Arrière-plan"
 	L["Background Color"] = "Couleur de fond"
@@ -95,6 +99,8 @@ Si la durée de l'animation est définie à |cFF00CC0010%|r, et le déclencheur 
 	L["Blue Sparkle Orb"] = "Orbe pétillant bleu"
 	L["Border"] = "Bordure"
 	L["Border Color"] = "Couleur de Bordure"
+	--Translation missing 
+	-- L["Border in Front"] = ""
 	L["Border Inset"] = "Encart Fond"
 	L["Border Offset"] = "Décalage Bordure"
 	L["Border Settings"] = "Réglages de Bordure"
@@ -310,6 +316,8 @@ Si le nombre entré est decimal (ex. 0.5), une fraction (ex. 1/2), ou un pourcen
 	L["Import a display from an encoded string"] = "Importer un graphique d'un texte encodé"
 	L["Inverse"] = "Inverser"
 	L["Justify"] = "Justification"
+	--Translation missing 
+	-- L["Keep Aspect Ratio"] = ""
 	L["Leaf"] = "Feuille"
 	L["Left 2 HUD position"] = "Position ATH Gauche 2"
 	L["Left HUD position"] = "Position ATH Gauche"

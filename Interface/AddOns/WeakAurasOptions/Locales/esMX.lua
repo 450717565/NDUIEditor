@@ -10,6 +10,8 @@ local L = WeakAuras.L
 	L["%i Matches"] = "%i coincidencias"
 	--Translation missing 
 	-- L["%s Color"] = ""
+	--Translation missing 
+	-- L["%s total auras"] = ""
 	L["1 Match"] = "1 Coincidencia"
 	L["1. Text"] = "1. Texto"
 	L["1. Text Settings"] = "1. Preferencias del texto"
@@ -72,6 +74,8 @@ Si la duración de la animación es |cFF00CC0010%|r, y el disparador del aura es
 	L["Auto-cloning enabled"] = "Auto-clonación activada"
 	L["Automatic Icon"] = "Icono automático"
 	L["Backdrop Color"] = "Color de fondo"
+	--Translation missing 
+	-- L["Backdrop in Front"] = ""
 	L["Backdrop Style"] = "Estilo de fondo"
 	L["Background"] = "Fondo"
 	L["Background Color"] = "Color de fondo"
@@ -89,6 +93,8 @@ Si la duración de la animación es |cFF00CC0010%|r, y el disparador del aura es
 	L["Blue Sparkle Orb"] = "Orbe del destello azul"
 	L["Border"] = "Borde"
 	L["Border Color"] = "Color del borde"
+	--Translation missing 
+	-- L["Border in Front"] = ""
 	L["Border Inset"] = "Borde del recuadro"
 	L["Border Offset"] = "Desplazamiento del borde"
 	L["Border Settings"] = "Configuración de los bordes"
@@ -266,6 +272,8 @@ Con |cFF00CC00>= 0|r se activará siempre.]=]
 	L["Import a display from an encoded string"] = "Importar un aura desde un texto cifrado"
 	L["Inverse"] = "Invertido"
 	L["Justify"] = "Justificar"
+	--Translation missing 
+	-- L["Keep Aspect Ratio"] = ""
 	L["Leaf"] = "Hoja"
 	L["Left 2 HUD position"] = "Posición izquierda 2 de visualización frontal (HUD)"
 	L["Left HUD position"] = "Posición izquierda de visualización frontal (HUD)"

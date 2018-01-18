@@ -459,8 +459,8 @@ C.themes["Blizzard_EncounterJournal"] = function()
 
 	EncounterJournal.LootJournal:GetRegions():Hide()
 	F.ReskinDropDown(LootJournalViewDropDown)
-	F.ReskinScroll(EncounterJournal.LootJournal.ItemSetsFrame.ScrollBar)
-	F.ReskinScroll(EncounterJournal.LootJournal.LegendariesFrame.ScrollBar)
+	F.ReskinScroll(EncounterJournal.LootJournal.ItemSetsFrame.scrollBar)
+	F.ReskinScroll(EncounterJournal.LootJournal.LegendariesFrame.scrollBar)
 
 	local buttons = {
 		EncounterJournalEncounterFrameInfoDifficulty,

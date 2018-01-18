@@ -532,6 +532,10 @@ L["Spiral"] = "Спираль"
 L["Spiral In And Out"] = "Спираль (вперед-назад)"
 L["Square"] = "Квадрат"
 L["Stacks"] = "Стаки"
+--Translation missing 
+-- L["Stacks Text Color"] = ""
+--Translation missing 
+-- L["Stacks Text Size"] = ""
 L["Stagger"] = "Пошатывание"
 L["Stance/Form/Aura"] = "Стойка / Форма / Аура"
 L["Star"] = "Звезда"

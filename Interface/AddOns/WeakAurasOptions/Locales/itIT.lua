@@ -14,6 +14,8 @@ local L = WeakAuras.L
 	--Translation missing 
 	-- L["%s Color"] = ""
 	--Translation missing 
+	-- L["%s total auras"] = ""
+	--Translation missing 
 	-- L["1 Match"] = ""
 	--Translation missing 
 	-- L["1. Text"] = ""
@@ -118,6 +120,8 @@ local L = WeakAuras.L
 	--Translation missing 
 	-- L["Backdrop Color"] = ""
 	--Translation missing 
+	-- L["Backdrop in Front"] = ""
+	--Translation missing 
 	-- L["Backdrop Style"] = ""
 	--Translation missing 
 	-- L["Background"] = ""
@@ -151,6 +155,8 @@ local L = WeakAuras.L
 	-- L["Border"] = ""
 	--Translation missing 
 	-- L["Border Color"] = ""
+	--Translation missing 
+	-- L["Border in Front"] = ""
 	--Translation missing 
 	-- L["Border Inset"] = ""
 	--Translation missing 
@@ -439,6 +445,8 @@ local L = WeakAuras.L
 	-- L["Inverse"] = ""
 	--Translation missing 
 	-- L["Justify"] = ""
+	--Translation missing 
+	-- L["Keep Aspect Ratio"] = ""
 	--Translation missing 
 	-- L["Leaf"] = ""
 	--Translation missing 

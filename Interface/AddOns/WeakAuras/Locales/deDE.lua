@@ -589,6 +589,10 @@ L["Spiral In And Out"] = "Ein- und Auswinden"
 L["Square"] = "Quadrat"
 L["Stacks"] = "Stapel"
 --Translation missing 
+-- L["Stacks Text Color"] = ""
+--Translation missing 
+-- L["Stacks Text Size"] = ""
+--Translation missing 
 -- L["Stagger"] = ""
 L["Stance/Form/Aura"] = "Haltung/Form/Aura"
 L["Star"] = "Stern"

@@ -10,6 +10,8 @@ local L = WeakAuras.L
 	L["%i Matches"] = "%i Treffer"
 	--Translation missing 
 	-- L["%s Color"] = ""
+	--Translation missing 
+	-- L["%s total auras"] = ""
 	L["1 Match"] = "1 Treffer"
 	L["1. Text"] = "1. Text"
 	L["1. Text Settings"] = "1. Text Einstellungen"
@@ -74,6 +76,8 @@ Falls die Dauer der Animation auf |cFF00CC0010%|r gesetzt wurde und für die Anz
 	L["Auto-cloning enabled"] = "Auto-Klonen deaktiviert"
 	L["Automatic Icon"] = "Automatisches Symbol"
 	L["Backdrop Color"] = "Hintergrundfarbe"
+	--Translation missing 
+	-- L["Backdrop in Front"] = ""
 	L["Backdrop Style"] = "Hintergrundstil"
 	L["Background"] = "Hintergrund"
 	L["Background Color"] = "Hintergrundfarbe"
@@ -91,6 +95,8 @@ Falls die Dauer der Animation auf |cFF00CC0010%|r gesetzt wurde und für die Anz
 	L["Blue Sparkle Orb"] = "Blau funkelnde Kugel"
 	L["Border"] = "Rand"
 	L["Border Color"] = "Randfarbe"
+	--Translation missing 
+	-- L["Border in Front"] = ""
 	L["Border Inset"] = "Rahmeneinlassung"
 	L["Border Offset"] = "Randversatz"
 	L["Border Settings"] = "Rahmeneinstellungen"
@@ -282,6 +288,8 @@ Falls die Zahl als Dezimalzahl (z.B. 0.5), Bruch (z.B. 1/2) oder Prozentsatz (z.
 	L["Import a display from an encoded string"] = "Anzeige von Klartext importieren"
 	L["Inverse"] = "Invertiert"
 	L["Justify"] = "Ausrichten"
+	--Translation missing 
+	-- L["Keep Aspect Ratio"] = ""
 	L["Leaf"] = "Blatt"
 	--Translation missing 
 	-- L["Left 2 HUD position"] = ""

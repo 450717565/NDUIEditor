@@ -354,6 +354,8 @@ C.AuraWatchList = {
 				--青铜龙的祝福
 				{AuraID = 102364, UnitID = "player"},
 			-->职业增益
+				--提神愈心
+				{AuraID = 214121, UnitID = "player"},
 				--天堂之羽
 				{AuraID = 121557, UnitID = "player"},
 				--狂奔怒吼

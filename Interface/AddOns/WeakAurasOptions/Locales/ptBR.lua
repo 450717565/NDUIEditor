@@ -11,6 +11,8 @@ local L = WeakAuras.L
 	L["%i Matches"] = "%i resultados"
 	--Translation missing 
 	-- L["%s Color"] = ""
+	--Translation missing 
+	-- L["%s total auras"] = ""
 	L["1 Match"] = "1 resultado"
 	--Translation missing 
 	-- L["1. Text"] = ""
@@ -100,6 +102,8 @@ WeakAuras → Opções → Opções ]=]
 	--Translation missing 
 	-- L["Backdrop Color"] = ""
 	--Translation missing 
+	-- L["Backdrop in Front"] = ""
+	--Translation missing 
 	-- L["Backdrop Style"] = ""
 	L["Background"] = "Fundo"
 	L["Background Color"] = "Cor de fundo"
@@ -124,6 +128,8 @@ WeakAuras → Opções → Opções ]=]
 	L["Border"] = "Borda"
 	--Translation missing 
 	-- L["Border Color"] = ""
+	--Translation missing 
+	-- L["Border in Front"] = ""
 	--Translation missing 
 	-- L["Border Inset"] = ""
 	L["Border Offset"] = "Posicionamento da borda"
@@ -353,6 +359,8 @@ WeakAuras → Opções → Opções ]=]
 	--Translation missing 
 	-- L["Inverse"] = ""
 	L["Justify"] = "Justificar"
+	--Translation missing 
+	-- L["Keep Aspect Ratio"] = ""
 	--Translation missing 
 	-- L["Leaf"] = ""
 	--Translation missing 

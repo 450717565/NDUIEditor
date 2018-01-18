@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1984, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17158 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17181 $"):sub(12, -3))
 mod:SetCreatureID(121975)
 mod:SetEncounterID(2063)
 mod:SetZone()
@@ -201,29 +201,56 @@ do
 				addLine(L.Current, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."(2)")
 			end
 		else--Not Mythic
-			if mod.vb.comboCount == 0 then
-				--Filler
-			elseif mod.vb.comboCount == 1 then
-				addLine(L.Current,  DBM_CORE_TANK_ICON_SMALL..L.Foe.."(1)")
-				addLine(mod.vb.comboCount+1, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend)
-				addLine(mod.vb.comboCount+2, DBM_CORE_TANK_ICON_SMALL..L.Foe.."(2)")
-				addLine(mod.vb.comboCount+3, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."(2)")
-				addLine(mod.vb.comboCount+4, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
-			elseif mod.vb.comboCount == 2 then
-				addLine(L.Current, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend)
-				addLine(mod.vb.comboCount+1, DBM_CORE_TANK_ICON_SMALL..L.Foe.."(2)")
-				addLine(mod.vb.comboCount+2, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."(2)")
-				addLine(mod.vb.comboCount+3, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
-			elseif mod.vb.comboCount == 3 then
-				addLine(L.Current, DBM_CORE_TANK_ICON_SMALL..L.Foe.."(2)")
-				addLine(mod.vb.comboCount+1, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."(2)")
-				addLine(mod.vb.comboCount+2, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
-			elseif mod.vb.comboCount == 4 then
-				addLine(L.Current, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."(2)")
-				addLine(mod.vb.comboCount+1, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
+			if mod:IsLFR() then
+				if mod.vb.comboCount == 0 then
+					--Filler
+				elseif mod.vb.comboCount == 1 then
+					addLine(L.Current,  DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."(1)")
+					addLine(mod.vb.comboCount+1, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."(2)")
+					addLine(mod.vb.comboCount+2, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."(3)")
+					addLine(mod.vb.comboCount+3, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."(4)")
+					addLine(mod.vb.comboCount+4, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
+				elseif mod.vb.comboCount == 2 then
+					addLine(L.Current, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."(2)")
+					addLine(mod.vb.comboCount+1, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."(3)")
+					addLine(mod.vb.comboCount+2, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."(4)")
+					addLine(mod.vb.comboCount+3, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
+				elseif mod.vb.comboCount == 3 then
+					addLine(L.Current, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."(3)")
+					addLine(mod.vb.comboCount+1, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."(4)")
+					addLine(mod.vb.comboCount+2, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
+				elseif mod.vb.comboCount == 4 then
+					addLine(L.Current, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."(4)")
+					addLine(mod.vb.comboCount+1, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
+				else
+					addLine(L.Current, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
+					--DBM.InfoFrame:Hide()
+				end
 			else
-				addLine(L.Current, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
-				--DBM.InfoFrame:Hide()
+				if mod.vb.comboCount == 0 then
+					--Filler
+				elseif mod.vb.comboCount == 1 then
+					addLine(L.Current,  DBM_CORE_TANK_ICON_SMALL..L.Foe.."(1)")
+					addLine(mod.vb.comboCount+1, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend)
+					addLine(mod.vb.comboCount+2, DBM_CORE_TANK_ICON_SMALL..L.Foe.."(2)")
+					addLine(mod.vb.comboCount+3, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."(2)")
+					addLine(mod.vb.comboCount+4, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
+				elseif mod.vb.comboCount == 2 then
+					addLine(L.Current, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend)
+					addLine(mod.vb.comboCount+1, DBM_CORE_TANK_ICON_SMALL..L.Foe.."(2)")
+					addLine(mod.vb.comboCount+2, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."(2)")
+					addLine(mod.vb.comboCount+3, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
+				elseif mod.vb.comboCount == 3 then
+					addLine(L.Current, DBM_CORE_TANK_ICON_SMALL..L.Foe.."(2)")
+					addLine(mod.vb.comboCount+1, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."(2)")
+					addLine(mod.vb.comboCount+2, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
+				elseif mod.vb.comboCount == 4 then
+					addLine(L.Current, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."(2)")
+					addLine(mod.vb.comboCount+1, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
+				else
+					addLine(L.Current, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
+					--DBM.InfoFrame:Hide()
+				end
 			end
 		end
 		return lines, sortedLines
@@ -346,8 +373,8 @@ function mod:SPELL_CAST_START(args)
 		else
 			specWarnFlameRend:Play("gathershare")
 		end
-		if self.vb.rendCount == 1 and not self:IsMythic() then
-			if self:IsEasy() then
+		if self.vb.rendCount == 1 and not self:IsMythic() and not self:IsLFR() then
+			if self:IsNormal() then
 				timerFlameRendCD:Start(10, 2)
 			else
 				timerFlameRendCD:Start(7.5, 2)
@@ -546,7 +573,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, spellName, _, _, spellId)
 		else
 			--Set sequence
 			--Foebreaker instantly so no need for timer
-			if self:IsEasy() then
+			if self:IsEasy() then--Check in LFR
 				timerFlameRendCD:Start(5, 1)
 				timerTempestCD:Start(20)
 			else

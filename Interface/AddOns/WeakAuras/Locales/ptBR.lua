@@ -820,6 +820,10 @@ L["Spiral In And Out"] = "Espiral dentro e fora"
 -- L["Square"] = ""
 L["Stacks"] = "Pilhas"
 --Translation missing 
+-- L["Stacks Text Color"] = ""
+--Translation missing 
+-- L["Stacks Text Size"] = ""
+--Translation missing 
 -- L["Stagger"] = ""
 L["Stance/Form/Aura"] = "Postura/Forma/Aura"
 --Translation missing 

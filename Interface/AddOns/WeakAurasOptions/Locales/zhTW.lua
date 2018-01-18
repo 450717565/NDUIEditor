@@ -9,6 +9,8 @@ local L = WeakAuras.L
 	L["% of Progress"] = "進度%"
 	L["%i Matches"] = "%i 個符合"
 	L["%s Color"] = "%s 顏色"
+	--Translation missing 
+	-- L["%s total auras"] = ""
 	L["1 Match"] = "1 個符合"
 	L["1. Text"] = "1.文字"
 	L["1. Text Settings"] = "1.文字設定"
@@ -67,6 +69,8 @@ If the animation's duration is set to |cFF00CC0010%|r, and the display's trigger
 	L["Auto-cloning enabled"] = "自動複製已啟用"
 	L["Automatic Icon"] = "自動圖示"
 	L["Backdrop Color"] = "背景顏色"
+	--Translation missing 
+	-- L["Backdrop in Front"] = ""
 	L["Backdrop Style"] = "背景類型"
 	L["Background"] = "背景"
 	L["Background Color"] = "背景顏色"
@@ -84,6 +88,8 @@ If the animation's duration is set to |cFF00CC0010%|r, and the display's trigger
 	L["Blue Sparkle Orb"] = "藍色光球"
 	L["Border"] = "邊框"
 	L["Border Color"] = "邊框顏色"
+	--Translation missing 
+	-- L["Border in Front"] = ""
 	L["Border Inset"] = "邊框內縮"
 	L["Border Offset"] = "邊框位置"
 	L["Border Settings"] = "邊框設定"
@@ -259,6 +265,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Import a display from an encoded string"] = "從編碼字串匯入提醒效果"
 	L["Inverse"] = "反向"
 	L["Justify"] = "左右對齊"
+	--Translation missing 
+	-- L["Keep Aspect Ratio"] = ""
 	L["Leaf"] = "葉子"
 	L["Left 2 HUD position"] = "左2 HUD 位置"
 	L["Left HUD position"] = "左方 HUD 位置"

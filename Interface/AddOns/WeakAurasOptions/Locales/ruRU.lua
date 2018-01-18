@@ -9,6 +9,8 @@ local L = WeakAuras.L
 	L["% of Progress"] = "% прогресса"
 	L["%i Matches"] = "%i Совпадений"
 	L["%s Color"] = "%s "
+	--Translation missing 
+	-- L["%s total auras"] = ""
 	L["1 Match"] = "1 Совпадение"
 	L["1. Text"] = "1. Текст"
 	L["1. Text Settings"] = "1. Настройки текста"
@@ -67,6 +69,8 @@ local L = WeakAuras.L
 	L["Auto-cloning enabled"] = "Авто-клонирование включено"
 	L["Automatic Icon"] = "Автоматическая иконка"
 	L["Backdrop Color"] = "Цвет фона"
+	--Translation missing 
+	-- L["Backdrop in Front"] = ""
 	L["Backdrop Style"] = "Стиль фона"
 	L["Background"] = "Фон"
 	L["Background Color"] = "Цвет подложки"
@@ -84,6 +88,8 @@ local L = WeakAuras.L
 	L["Blue Sparkle Orb"] = "Синий искрящийся шар"
 	L["Border"] = "Граница"
 	L["Border Color"] = "Цвет границы"
+	--Translation missing 
+	-- L["Border in Front"] = ""
 	L["Border Inset"] = "Вставка границы"
 	L["Border Offset"] = "Смещение границы"
 	L["Border Settings"] = "Настройки границы"
@@ -256,6 +262,8 @@ UNIT_POWER  UNIT_AURA, PLAYER_TARGET_CHANGED]=]
 	L["Import a display from an encoded string"] = "Импортировать индикацию из закодированной строки"
 	L["Inverse"] = "Обратная"
 	L["Justify"] = "Выравнивание"
+	--Translation missing 
+	-- L["Keep Aspect Ratio"] = ""
 	L["Leaf"] = "Лист"
 	L["Left 2 HUD position"] = "Позиция 2-го левого HUD"
 	L["Left HUD position"] = "Позиция левого HUD"

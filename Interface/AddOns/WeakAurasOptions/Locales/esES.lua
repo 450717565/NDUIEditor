@@ -10,6 +10,8 @@ local L = WeakAuras.L
 	L["%i Matches"] = "%i Correspondencias"
 	--Translation missing 
 	-- L["%s Color"] = ""
+	--Translation missing 
+	-- L["%s total auras"] = ""
 	L["1 Match"] = "1 Correspondencia"
 	--Translation missing 
 	-- L["1. Text"] = ""
@@ -96,6 +98,8 @@ Si la duración de la animación es |cFF00CC0010%|r, y el disparador del aura es
 	-- L["Auto-cloning enabled"] = ""
 	L["Automatic Icon"] = "Icono Automático"
 	L["Backdrop Color"] = "Color de fondo"
+	--Translation missing 
+	-- L["Backdrop in Front"] = ""
 	L["Backdrop Style"] = "Estilo de fondo"
 	L["Background"] = "Fondo"
 	L["Background Color"] = "Color de Fondo"
@@ -116,6 +120,8 @@ Si la duración de la animación es |cFF00CC0010%|r, y el disparador del aura es
 	-- L["Blue Sparkle Orb"] = ""
 	L["Border"] = "Borde"
 	L["Border Color"] = "Color de borde"
+	--Translation missing 
+	-- L["Border in Front"] = ""
 	L["Border Inset"] = "Borde del recuadro"
 	L["Border Offset"] = "Desplazamiento de Borde"
 	L["Border Settings"] = "Configuración de bordes"
@@ -350,6 +356,8 @@ Con |cFF00CC00>= 0|r se activará siempre.]=]
 	--Translation missing 
 	-- L["Inverse"] = ""
 	L["Justify"] = "Justificar"
+	--Translation missing 
+	-- L["Keep Aspect Ratio"] = ""
 	--Translation missing 
 	-- L["Leaf"] = ""
 	--Translation missing 

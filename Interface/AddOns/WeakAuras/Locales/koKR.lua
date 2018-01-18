@@ -567,6 +567,10 @@ L["Spiral"] = "소용돌이"
 L["Spiral In And Out"] = "회전 소용돌이"
 L["Square"] = "네모"
 L["Stacks"] = "중첩"
+--Translation missing 
+-- L["Stacks Text Color"] = ""
+--Translation missing 
+-- L["Stacks Text Size"] = ""
 L["Stagger"] = "시간차"
 L["Stance/Form/Aura"] = "태세/형상/효과"
 L["Star"] = "별"

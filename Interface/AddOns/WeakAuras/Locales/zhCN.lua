@@ -598,6 +598,10 @@ L["Spiral In And Out"] = "螺旋进入和退出"
 --Translation missing 
 -- L["Square"] = ""
 L["Stacks"] = "层数"
+--Translation missing 
+-- L["Stacks Text Color"] = ""
+--Translation missing 
+-- L["Stacks Text Size"] = ""
 L["Stagger"] = "晕眩"
 L["Stance/Form/Aura"] = "姿态/形态/光环"
 --Translation missing 

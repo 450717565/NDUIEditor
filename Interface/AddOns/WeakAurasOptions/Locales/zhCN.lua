@@ -9,6 +9,8 @@ local L = WeakAuras.L
 	L["% of Progress"] = "% 进度"
 	L["%i Matches"] = "%i 符合"
 	L["%s Color"] = "%s 颜色"
+	--Translation missing 
+	-- L["%s total auras"] = ""
 	L["1 Match"] = "1符合"
 	L["1. Text"] = "文本"
 	L["1. Text Settings"] = "字体设置"
@@ -69,6 +71,8 @@ local L = WeakAuras.L
 	L["Auto-cloning enabled"] = "启用自动克隆"
 	L["Automatic Icon"] = "自动显示图标"
 	L["Backdrop Color"] = "背景颜色"
+	--Translation missing 
+	-- L["Backdrop in Front"] = ""
 	L["Backdrop Style"] = "背景图案类型 "
 	L["Background"] = "背景"
 	L["Background Color"] = "背景色"
@@ -86,6 +90,8 @@ local L = WeakAuras.L
 	L["Blue Sparkle Orb"] = "蓝色闪光球"
 	L["Border"] = "边框"
 	L["Border Color"] = "边框颜色"
+	--Translation missing 
+	-- L["Border in Front"] = ""
 	L["Border Inset"] = "插入边框"
 	L["Border Offset"] = "边框偏移"
 	L["Border Settings"] = "边框设置"
@@ -275,6 +281,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Import a display from an encoded string"] = "从字串导入一个图示"
 	L["Inverse"] = "反转"
 	L["Justify"] = "对齐"
+	--Translation missing 
+	-- L["Keep Aspect Ratio"] = ""
 	L["Leaf"] = "叶子"
 	--Translation missing 
 	-- L["Left 2 HUD position"] = ""

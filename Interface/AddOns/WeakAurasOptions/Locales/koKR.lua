@@ -10,6 +10,8 @@ local L = WeakAuras.L
 	L["%i Matches"] = "%i개 일치"
 	--Translation missing 
 	-- L["%s Color"] = ""
+	--Translation missing 
+	-- L["%s total auras"] = ""
 	L["1 Match"] = "1개 일치"
 	L["1. Text"] = "1. 문자"
 	L["1. Text Settings"] = "1. 문자 설정"
@@ -74,6 +76,8 @@ local L = WeakAuras.L
 	L["Auto-cloning enabled"] = "자동 복제 활성화"
 	L["Automatic Icon"] = "자동 아이콘"
 	L["Backdrop Color"] = "배경 색상"
+	--Translation missing 
+	-- L["Backdrop in Front"] = ""
 	L["Backdrop Style"] = "배경 스타일"
 	L["Background"] = "배경"
 	L["Background Color"] = "배경 색상"
@@ -91,6 +95,8 @@ local L = WeakAuras.L
 	L["Blue Sparkle Orb"] = "푸른 불꽃 구슬"
 	L["Border"] = "테두리"
 	L["Border Color"] = "테두리 색상"
+	--Translation missing 
+	-- L["Border in Front"] = ""
 	L["Border Inset"] = "테두리 삽입"
 	L["Border Offset"] = "테두리 위치"
 	L["Border Settings"] = "테두리 설정"
@@ -278,6 +284,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Import a display from an encoded string"] = "암호화된 문자열에서 디스플레이 가져오기"
 	L["Inverse"] = "반대로"
 	L["Justify"] = "정렬"
+	--Translation missing 
+	-- L["Keep Aspect Ratio"] = ""
 	L["Leaf"] = "잎"
 	L["Left 2 HUD position"] = "좌측 2 HUD 위치"
 	L["Left HUD position"] = "좌측 HUD 위치"

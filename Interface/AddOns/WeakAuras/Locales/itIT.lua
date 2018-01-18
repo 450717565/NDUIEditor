@@ -950,6 +950,10 @@ L["Form"] = "Forma"
 --Translation missing 
 -- L["Stacks"] = ""
 --Translation missing 
+-- L["Stacks Text Color"] = ""
+--Translation missing 
+-- L["Stacks Text Size"] = ""
+--Translation missing 
 -- L["Stagger"] = ""
 --Translation missing 
 -- L["Stance/Form/Aura"] = ""

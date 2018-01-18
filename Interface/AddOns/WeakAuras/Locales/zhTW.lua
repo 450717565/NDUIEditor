@@ -522,6 +522,10 @@ L["Spiral"] = "螺旋"
 L["Spiral In And Out"] = "轉進和轉出"
 L["Square"] = "方塊"
 L["Stacks"] = "堆疊"
+--Translation missing 
+-- L["Stacks Text Color"] = ""
+--Translation missing 
+-- L["Stacks Text Size"] = ""
 L["Stagger"] = "醉仙緩勁"
 L["Stance/Form/Aura"] = "姿態/形態/光環"
 L["Star"] = "星星"
