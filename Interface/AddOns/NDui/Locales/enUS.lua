@@ -2,6 +2,10 @@ local _, _, L, _ = unpack(select(2, ...))
 --if GetLocale() ~= "enUS" then return end
 
 L[":"] = ": "
+L["Days"] = "D"
+L["Hours"] = "H"
+L["Minutes"] = "M"
+L["Seconds"] = "S"
 L["ShowCharacterItemSheet"] = "Show Character ItemSheet"
 L["ShowOwnFrameWhenInspecting"] = "Show OwnFrame When Inspecting"
 L["Arrow Color"] = "Arrow Color"

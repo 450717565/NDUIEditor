@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1986, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17173 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17187 $"):sub(12, -3))
 mod:SetCreatureID(122468, 122467, 122469)--122468 Noura, 122467 Asara, 122469 Diima, 125436 Thu'raya (mythic only)
 mod:SetEncounterID(2073)
 mod:SetZone()
@@ -85,7 +85,7 @@ local timerWhirlingSaberCD				= mod:NewNextTimer(35.1, 245627, nil, nil, nil, 3)
 local timerFulminatingPulseCD			= mod:NewNextTimer(40.1, 253520, nil, nil, nil, 3)
 --Asara, Mother of Night
 mod:AddTimerLine(Asara)
-local timerShadowBladesCD				= mod:NewCDTimer(27.8, 246329, nil, nil, nil, 3)
+local timerShadowBladesCD				= mod:NewCDTimer(27.6, 246329, nil, nil, nil, 3)
 local timerStormofDarknessCD			= mod:NewNextCountTimer(56.8, 252861, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON)--57+
 --Diima, Mother of Gloom
 mod:AddTimerLine(Diima)
@@ -149,8 +149,8 @@ function mod:OnCombatStart(delay)
 	if not self:IsEasy() then
 		timerFulminatingPulseCD:Start(20.3-delay)
 		countdownFulminatingPulse:Start(20.3-delay)
-		timerStormofDarknessCD:Start(28.8-delay, 1)
-		countdownStormofDarkness:Start(28.8-delay)
+		timerStormofDarknessCD:Start(26-delay, 1)
+		countdownStormofDarkness:Start(26-delay)
 	end
 	if self.Options.NPAuraOnVisageofTitan then
 		DBM:FireEvent("BossMod_EnableHostileNameplates")

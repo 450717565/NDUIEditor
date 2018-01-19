@@ -123,7 +123,7 @@ LibEvent:attachEvent("GROUP_ROSTER_UPDATE", function(self)
 		})
 	end
 	numMembers = numCurrent
-	if GetNumGroupMembers() > 0 then
+	if IsInGroup() then
 		if not TinyInspectRaidFrame:IsShown() then
 			TinyInspectRaidFrame:Show()
 		end

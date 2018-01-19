@@ -328,20 +328,8 @@ local function ChatItemLevel(Hyperlink)
 	return Hyperlink
 end
 
-local function KeystoneLevel(Hyperlink)
-	local map, level, name = string.match(Hyperlink, "|Hkeystone:(%d+):(%d+):.-|h(.-)|h")
-
-	if (map and level and name and not string.find(name, level)) then
-		name = C_ChallengeMode.GetMapInfo(map)
-		Hyperlink = Hyperlink:gsub("|h%[(.-)%]|h", "|h["..name.."+"..level.."]|h")
-	end
-
-	return Hyperlink
-end
-
 local function filter(self, event, msg, ...)
 	msg = msg:gsub("(|Hitem:%d+:.-|h.-|h)", ChatItemLevel)
-	msg = msg:gsub("(|Hkeystone:%d+:%d+:.-|h.-|h)", KeystoneLevel)
 
 	return false, msg, ...
 end

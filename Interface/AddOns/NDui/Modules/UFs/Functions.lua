@@ -523,8 +523,8 @@ function UF:CreateDebuffs(self)
 		bu["growth-y"] = "UP"
 		bu.size = NDuiDB["Nameplate"]["AuraSize"]
 		bu.showDebuffType = NDuiDB["Nameplate"]["ColorBorder"]
-		bu.onlyShowPlayer = true
 		bu.disableMouse = true
+		bu.CustomFilter = customFilter
 	elseif self.mystyle == "party" then
 		bu:SetPoint("TOPLEFT", self, "TOPRIGHT", 5, 0)
 		bu.size = 25

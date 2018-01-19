@@ -2,6 +2,10 @@ local _, _, L, _ = unpack(select(2, ...))
 if GetLocale() ~= "zhTW" then return end
 
 L[":"] = "："
+L["Days"] = "天"
+L["Hours"] = "時"
+L["Minutes"] = "分"
+L["Seconds"] = "秒"
 L["ShowCharacterItemSheet"] = "顯示玩家自己裝備列表"
 L["ShowOwnFrameWhenInspecting"] = "觀察同時顯示自己裝備列表"
 L["Arrow Color"] = "箭頭顏色"

@@ -352,11 +352,11 @@ end
 B.FormatTime = function(s)
 	local day, hour, minute = 86400, 3600, 60
 	if s >= day then
-		return format("%d"..DB.MyColor.."天", s/day), s % day
+		return format("%d"..DB.MyColor..L["Days"], s/day), s % day
 	elseif s >= hour then
-		return format("%d"..DB.MyColor.."时", s/hour), s % hour
+		return format("%d"..DB.MyColor..L["Hours"], s/hour), s % hour
 	elseif s >= minute then
-		return format("%d"..DB.MyColor.."分", s/minute), s % minute
+		return format("%d"..DB.MyColor..L["Minutes"], s/minute), s % minute
 	elseif s < 3 then
 		if NDuiDB["Actionbar"]["DecimalCD"] then
 			return format("|cffff0000%.1f|r", s), s - format("%.1f", s)

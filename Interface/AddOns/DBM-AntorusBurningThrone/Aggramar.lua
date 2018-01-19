@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1984, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17181 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17187 $"):sub(12, -3))
 mod:SetCreatureID(121975)
 mod:SetEncounterID(2063)
 mod:SetZone()
@@ -285,8 +285,8 @@ function mod:OnCombatStart(delay)
 		berserkTimer:Start(540-delay)
 	else
 		timerScorchingBlazeCD:Start(4.8-delay)
-		timerWakeofFlameCD:Start(5.9-delay)
-		countdownWakeofFlame:Start(5.9-delay)
+		timerWakeofFlameCD:Start(5.1-delay)
+		countdownWakeofFlame:Start(5.1-delay)
 		timerTaeshalachTechCD:Start(35-delay, 1)
 		countdownTaeshalachTech:Start(35-delay)
 	end
@@ -409,7 +409,8 @@ function mod:SPELL_AURA_APPLIED(args)
 					specWarnTaeshalachReach:Show(amount)
 					specWarnTaeshalachReach:Play("stackhigh")
 				else--Taunt as soon as stacks are clear, regardless of stack count.
-					if not UnitIsDeadOrGhost("player") and not UnitDebuff("player", args.spellName) then
+					local techTimer = timerTaeshalachTechCD:GetRemaining(self.vb.techCount+1)
+					if not UnitIsDeadOrGhost("player") and not UnitDebuff("player", args.spellName) and (techTimer == 0 or techTimer >= 4) then
 						specWarnTaeshalachReachOther:Show(args.destName)
 						specWarnTaeshalachReachOther:Play("tauntboss")
 					else

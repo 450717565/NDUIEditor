@@ -251,7 +251,7 @@ function module:CreateRM()
 		GameTooltip:AddLine(L["Raid Tool"], 0,.6,1)
 		GameTooltip:AddLine(" ")
 		GameTooltip:AddLine(DB.LeftButton..DB.InfoColor..READY_CHECK)
-		if UnitIsGroupLeader("player") then
+		if UnitIsGroupLeader("player") or UnitIsGroupAssistant("player") then
 			GameTooltip:AddLine(DB.ScrollButton..DB.InfoColor..L["Count Down"])
 		end
 		GameTooltip:AddLine(DB.RightButton..DB.InfoColor..L["Check Status"])
@@ -268,14 +268,14 @@ function module:CreateRM()
 		elseif button == "LeftButton" then
 			if InCombatLockdown() then return end
 			DoReadyCheck()
-		elseif UnitIsGroupLeader("player") then
+		elseif UnitIsGroupLeader("player") or UnitIsGroupAssistant("player") then
 			if IsAddOnLoaded("DBM-Core") then
 				if reset then
 					SlashCmdList["DEADLYBOSSMODS"]("pull "..NDuiDB["Skins"]["DBMCount"])
 				else
 					SlashCmdList["DEADLYBOSSMODS"]("pull 0")
 				end
-				reset = not reset
+				reset = false
 			elseif IsAddOnLoaded("BigWigs") then
 				if not SlashCmdList["BIGWIGSPULL"] then LoadAddOn("BigWigs_Plugins") end
 				if reset then
@@ -283,7 +283,7 @@ function module:CreateRM()
 				else
 					SlashCmdList["BIGWIGSPULL"]("0")
 				end
-				reset = not reset
+				reset = false
 			else
 				UIErrorsFrame:AddMessage(DB.InfoColor..L["DBM Required"])
 			end

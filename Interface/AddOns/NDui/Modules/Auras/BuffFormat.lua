@@ -16,11 +16,11 @@ local function FormatAuraTime(seconds)
 		seconds = seconds%60
 	end
 	if d > 0 then
-		str = format("%d"..DB.MyColor.." 天", d)
+		str = format("%d "..DB.MyColor..L["Days"], d)
 	elseif h > 0 then
-		str = format("%d"..DB.MyColor.." 时", h)
+		str = format("%d "..DB.MyColor..L["Hours"], h)
 	elseif m >= 10 then
-		str = format("%d"..DB.MyColor.." 分", m)
+		str = format("%d "..DB.MyColor..L["Minutes"], m)
 	elseif m > 0 and m < 10 then
 		str = format("%d:%.2d", m, seconds)
 	else
@@ -29,7 +29,7 @@ local function FormatAuraTime(seconds)
 		elseif seconds <= 10 then
 			str = format("|cffffff00%.1f|r", seconds) -- yellow
 		else
-			str = format("%d"..DB.MyColor.." 秒", seconds)
+			str = format("%d "..DB.MyColor..L["Seconds"], seconds)
 		end
 	end
 	return str
