@@ -6,7 +6,7 @@ local info = module:RegisterInfobar(C.Infobar.GuildPos)
 
 local r, g, b = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b
 local infoFrame = CreateFrame("Frame", "NDuiGuildInfobar", info)
-infoFrame:SetSize(335, 540)
+infoFrame:SetSize(335, 560)
 infoFrame:SetPoint("TOPLEFT", UIParent, 15, -35)
 infoFrame:SetClampedToScreen(true)
 infoFrame:SetFrameStrata("TOOLTIP")
@@ -39,6 +39,8 @@ B.CreateFS(bu[2], 12, CLASS_ABBR)
 B.CreateFS(bu[3], 12, NAME, false, "LEFT", 10, 0)
 B.CreateFS(bu[4], 12, ZONE, false, "RIGHT", -5, 0)
 
+local infoLine = DB.GreyColor.."--------------"
+B.CreateFS(infoFrame, 12, infoLine, false, "BOTTOMRIGHT", -15, 70)
 local whspInfo = DB.InfoColor..DB.RightButton..L["Whisper"]
 B.CreateFS(infoFrame, 12, whspInfo, false, "BOTTOMRIGHT", -15, 50)
 local copyInfo = DB.InfoColor.."ALT+"..DB.LeftButton..L["Copy Name"]

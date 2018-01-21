@@ -37,7 +37,6 @@ L["ShowOwnFrameWhenInspecting"] = "观察同时显示自己装备列表"
 L["Slot Info"] = "显示背包装备物品部位"
 L["StarCursor"] = "鼠标闪光助手"
 L["UFs PartyFrame"] = "启用小队框体"
-L["Whisper"] = "密语"
 
 L["From"] = "来自"
 L["Tell"] = "告诉"

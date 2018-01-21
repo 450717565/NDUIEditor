@@ -216,6 +216,7 @@ local function BuildBAR(barWidth, iconSize)
 
 	Frame.Count = B.CreateFS(Frame, 14, "", false, "BOTTOMRIGHT", 2, -2)
 	Frame.Time = B.CreateFS(Frame.Statusbar, 14, "", false, "RIGHT", 4, 8)
+	Frame.Time:SetJustifyH("LEFT")
 	Frame.Spellname = B.CreateFS(Frame.Statusbar, 14, "", false, "LEFT", 2, 8)
 	Frame.Spellname:SetWidth(Frame.Statusbar:GetWidth()*.6)
 	Frame.Spellname:SetJustifyH("LEFT")
@@ -543,8 +544,8 @@ local function UpdateIntFrame(intID, itemID, duration)
 	end
 	if Frame.Spellname then Frame.Spellname:SetText(name) end
 	if Frame.Statusbar then
-		Frame.Statusbar:SetMinMaxValues(0, duration)
 		Frame.Timer = 0
+		Frame.Statusbar:SetMinMaxValues(0, duration)
 		Frame:SetScript("OnUpdate", function(self, elapsed)
 			self.Timer = self.Timer + elapsed
 			local timer = duration - self.Timer

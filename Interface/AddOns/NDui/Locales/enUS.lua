@@ -37,7 +37,6 @@ L["ShowOwnFrameWhenInspecting"] = "Show OwnFrame When Inspecting"
 L["Slot Info"] = "Bags ItemSlot"
 L["StarCursor"] = "Star Cursor"
 L["UFs PartyFrame"] = "Enable PartyFrame"
-L["Whisper"] = "Whisper"
 
 L["From"] = "From"
 L["Tell"] = "Tell"

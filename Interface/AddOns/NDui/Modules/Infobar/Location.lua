@@ -20,9 +20,9 @@ local function formatCoords()
 			coords = select(4, GetInstanceInfo())
 		else
 			if (not coordX) or (not coordY) or (orcoordX == 0) or (coordY == 0) then
-				coords = "-- , -- "
+				coords = "-- , --"
 			else
-				coords = format("%.1f , %.1f ", coordX * 100, coordY * 100)
+				coords = format("%.1f , %.1f", coordX * 100, coordY * 100)
 			end
 		end
 	return coords
@@ -71,6 +71,7 @@ info.onEvent = function(self)
 	end
 	self.text:SetFormattedText("%s"..L[":"].."%s", currentZone(), formatCoords())
 	self.text:SetTextColor(r, g, b)
+	self.text:SetJustifyH("LEFT")
 end
 
 info.onEnter = function(self)
