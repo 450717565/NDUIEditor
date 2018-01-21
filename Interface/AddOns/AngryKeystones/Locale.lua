@@ -143,6 +143,7 @@ langs.zhCN = {
 	config_splitsFormat_2 = "从头开始",
 	config_splitsFormat_3 = "相对于上一个",
 	config_autoGossip = "在史诗钥石副本中自动对话交互（如奥丁）",
+	config_cosRumors = "群星庭院密探线索发送到队伍频道",
 	config_cosRumors = "群星庭院造谣者线索发送到队伍频道",
 	config_silverGoldTimer = "同时显示2箱和3箱的计时",
 	config_completionMessage = "副本完成时在聊天窗口显示总耗时",

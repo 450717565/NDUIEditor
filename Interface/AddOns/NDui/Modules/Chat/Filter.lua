@@ -84,6 +84,25 @@ local function genChatFilter(self, event, msg, author, _, _, _, flag)
 	end
 end
 
+local chatEvents = {
+	"CHAT_MSG_BN_CONVERSATION",
+	"CHAT_MSG_BN_WHISPER",
+	"CHAT_MSG_BN_WHISPER_INFORM",
+	"CHAT_MSG_CHANNEL",
+	"CHAT_MSG_GUILD",
+	"CHAT_MSG_INSTANCE_CHAT",
+	"CHAT_MSG_INSTANCE_CHAT_LEADER",
+	"CHAT_MSG_OFFICER",
+	"CHAT_MSG_PARTY",
+	"CHAT_MSG_PARTY_LEADER",
+	"CHAT_MSG_RAID",
+	"CHAT_MSG_RAID_LEADER",
+	"CHAT_MSG_SAY",
+	"CHAT_MSG_TEXT_EMOTE",
+	"CHAT_MSG_WHISPER",
+	"CHAT_MSG_WHISPER_INFORM",
+	"CHAT_MSG_YELL",
+}
 local addonBlockList = {"任务进度提示%s?[:：]", "%[接受任务%]", "%(任务完成%)", "<大脚组队提示>", "<大脚团队提示>", "【网%.易%.有%.爱】", "EUI:", "EUI_RaidCD", "打断:.+|Hspell", "PS 死亡: .+>", "%*%*.+%*%*"}
 local function genAddonBlock(self, event, msg, author, _, _, _, flag)
 	if not NDuiDB["Chat"]["BlockAddonAlert"] then return end
@@ -101,22 +120,9 @@ end
 function module:ChatFilter()
 	genFilterList()
 
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", genChatFilter)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_SAY", genChatFilter)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_YELL", genChatFilter)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", genChatFilter)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_TEXT_EMOTE", genChatFilter)
-
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_SAY", genAddonBlock)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_EMOTE", genAddonBlock)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY", genAddonBlock)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY_LEADER", genAddonBlock)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID", genAddonBlock)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_LEADER", genAddonBlock)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_INSTANCE_CHAT", genAddonBlock)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_INSTANCE_CHAT_LEADER", genAddonBlock)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", genAddonBlock)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER_INFORM", genAddonBlock)
+	for _, v in pairs(chatEvents) do
+		ChatFrame_AddMessageEventFilter(v, genAddonBlock)
+	end
 end
 
 --[[

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1986, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17187 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17190 $"):sub(12, -3))
 mod:SetCreatureID(122468, 122467, 122469)--122468 Noura, 122467 Asara, 122469 Diima, 125436 Thu'raya (mythic only)
 mod:SetEncounterID(2073)
 mod:SetZone()
@@ -221,7 +221,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 245532 and self:AntiSpam(3, 2) then
 		timerChilledBloodCD:Start()
 		specWarnChilledBlood:Play("healall")
-	elseif (spellId == 250335 or spellId == 250333 or spellId == 250334 or spellId == 249793) then--Torment selections
+	elseif (spellId == 250335 or spellId == 250333 or spellId == 250334 or spellId == 249793) and self:IsInCombat() then--Torment selections
 		countdownTitans:Start()
 		if spellId == 250335 then--Machinations of Aman'Thul
 			timerMachinationsofAmanThulCD:Start()

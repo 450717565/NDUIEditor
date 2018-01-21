@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2009, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17136 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17190 $"):sub(12, -3))
 mod:SetCreatureID(124158)--or 124158 or 125692
 mod:SetEncounterID(2082)
 mod:SetZone()
@@ -55,7 +55,6 @@ local yellStasisTrap					= mod:NewYell(247641, L.DispelMe)
 local specWarnSever						= mod:NewSpecialWarningTaunt(247687, nil, nil, nil, 1, 2)
 local specWarnChargedBlastsUnknown		= mod:NewSpecialWarningSpell(247716, nil, nil, nil, 2, 2)
 local specWarnShrapnalBlast				= mod:NewSpecialWarningDodge(247923, nil, nil, nil, 1, 2)
---local specWarnMalignantAnguish		= mod:NewSpecialWarningInterrupt(236597, "HasInterrupt")
 --Stage Three/Five: The Perfect Weapon
 local specWarnEmpPulseGrenade			= mod:NewSpecialWarningMoveAway(250006, nil, nil, nil, 1, 2)
 local yellEmpPulseGrenade				= mod:NewYell(250006)

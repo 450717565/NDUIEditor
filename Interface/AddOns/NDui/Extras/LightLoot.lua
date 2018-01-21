@@ -29,7 +29,7 @@ LightLoot:SetScript("OnHide", function(self)
 	CloseLoot()
 end)
 
-local Title = B.CreateFS(LightLoot, 18, "", true, "TOPLEFT", 4, 20)
+local Title = B.CreateFS(LightLoot, 18, "", false, "TOPLEFT", 4, 20)
 LightLoot.Title = Title
 
 local function OnEnter(self)
@@ -236,6 +236,7 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 	local color = BAG_ITEM_QUALITY_COLORS[maxQuality]
 	self:SetBackdropBorderColor(color.r, color.g, color.b)
 	self.Shadow:SetBackdropBorderColor(color.r, color.g, color.b)
+	self.Title:SetTextColor(color.r, color.g, color.b)
 
 	self:AnchorSlots()
 	self:UpdateWidth()

@@ -241,44 +241,30 @@ L["Click to erase the current map and start over"] = "Нажмите, чтобы
 L["Current Room: %s"] = "Комната: %s"
 L["Disabled"] = "Выключен"
 L["Enabled"] = "Включен"
---Translation missing 
--- L["Hold the Ctrl key, then click on the desired room to select it (a round circle will appear around the room), then click the 'Set player location' button twice"] = ""
---Translation missing 
--- L["How can I reposition the player on the map?"] = ""
---Translation missing 
--- L["How does the Endless Halls tool work?"] = ""
---Translation missing 
--- L["It tracks player movement through the halls, generating a map that can be used to mark special rooms and retrace your steps into them when necessary."] = ""
+L["Hold the Ctrl key, then click on the desired room to select it (a round circle will appear around the room), then click the 'Set player location' button twice"] = "Удерживая клавишу Ctrl, затем щелкните нужную комнату, чтобы выбрать ее (вокруг комнаты появится круг), затем дважды нажмите кнопку 'Установить местоположение игрока'"
+L["How can I reposition the player on the map?"] = "Как изменить положение игрока на карте?"
+L["How does the Endless Halls tool work?"] = "Как устроены Бесконечные залы?"
+L["It tracks player movement through the halls, generating a map that can be used to mark special rooms and retrace your steps into them when necessary."] = "Он отслеживает движение игрока по залам, создавая карту, которая может использоваться для обозначения специальных комнат и повторного прохождения ваших шагов в них, когда это необходимо."
 L["Markers"] = "Маркеры"
 L["No, jump over"] = "Нет, перепрыгнуть"
---Translation missing 
--- L["Selected Room: %s"] = ""
---Translation missing 
--- L["Set Player location"] = ""
---Translation missing 
--- L["There is a shenanigan, however: in every maze there are a few one-directional doors that lead to a random location, they cannot be recognized by either the addon or the player. If you feel you got teleported or you're simply lost, I'd recommend to use the Enabled button to deactivate mapping until you find a familiar room, then reposition the player into that room on the map and re-enable to restart mapping from there."] = ""
---Translation missing 
--- L["This button pauses/unpauses the map generation"] = ""
---Translation missing 
--- L["Transparency"] = ""
+L["Selected Room: %s"] = "Выбранная комната: %s"
+L["Set Player location"] = "Установить местоположение игрока"
+L["There is a shenanigan, however: in every maze there are a few one-directional doors that lead to a random location, they cannot be recognized by either the addon or the player. If you feel you got teleported or you're simply lost, I'd recommend to use the Enabled button to deactivate mapping until you find a familiar room, then reposition the player into that room on the map and re-enable to restart mapping from there."] = "Есть интрига, однако: в каждом лабиринте есть несколько однонаправленных дверей, которые приводят к случайному местоположению, они не могут быть распознаны ни аддоном, ни игроком. Если вы чувствуете, что телепортировались или просто потерялись, я бы рекомендовал использовать кнопку «Включено» для деактивации местоположения, пока вы не найдете знакомую комнату, затем переместите игрока в эту комнату на карте и снова включите, чтобы перезапустить аддон."
+L["This button pauses/unpauses the map generation"] = "Эта кнопка останавливает / отменяет создание карты"
+L["Transparency"] = "Прозрачность"
 L["Yes, keep it linked"] = "Да, соединить"
 L["You can navigate the map by Right-Click Dragging it"] = "Вы можете перемещать карту удерживая правую кнопку мыши"
---Translation missing 
--- L["You have encountered an existing room on the map, do you recognize it as the room that you wanted to enter?"] = ""
+L["You have encountered an existing room on the map, do you recognize it as the room that you wanted to enter?"] = "Вы столкнулись с существующей комнатой на карте, узнаете ли вы ее как комнату, в которую хотите войти?"
 
 elseif locale == "zhCN" then 
 L["Clear"] = "清除"
---Translation missing 
--- L["Clear Markers"] = ""
---Translation missing 
--- L["Click again to confirm"] = ""
+L["Clear Markers"] = "清除标记"
+L["Click again to confirm"] = "再次点击确认"
 L["Click to center the camera to the current room"] = "点击保存当前房间快照"
 L["Click to erase the current map and start over"] = "点击删除当前地图并重新开始"
 L["Current Room: %s"] = "当前房间：%s"
---Translation missing 
--- L["Disabled"] = ""
---Translation missing 
--- L["Enabled"] = ""
+L["Disabled"] = "已禁用"
+L["Enabled"] = "已启用"
 --Translation missing 
 -- L["Hold the Ctrl key, then click on the desired room to select it (a round circle will appear around the room), then click the 'Set player location' button twice"] = ""
 --Translation missing 
@@ -290,14 +276,11 @@ L["Current Room: %s"] = "当前房间：%s"
 L["Markers"] = "标记"
 --Translation missing 
 -- L["No, jump over"] = ""
---Translation missing 
--- L["Selected Room: %s"] = ""
---Translation missing 
--- L["Set Player location"] = ""
+L["Selected Room: %s"] = "已选择房间：%s"
+L["Set Player location"] = "设置玩家位置"
 --Translation missing 
 -- L["There is a shenanigan, however: in every maze there are a few one-directional doors that lead to a random location, they cannot be recognized by either the addon or the player. If you feel you got teleported or you're simply lost, I'd recommend to use the Enabled button to deactivate mapping until you find a familiar room, then reposition the player into that room on the map and re-enable to restart mapping from there."] = ""
---Translation missing 
--- L["This button pauses/unpauses the map generation"] = ""
+L["This button pauses/unpauses the map generation"] = "此按钮暂停/恢复房间生成"
 L["Transparency"] = "透明度"
 --Translation missing 
 -- L["Yes, keep it linked"] = ""

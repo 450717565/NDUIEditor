@@ -32,6 +32,21 @@ local rooms = {}
 local links = {}
 local current_room, last_room, last_dir, mf, scrollframe, container, playerframe, max_room_number, tracking_disabled, mouse_interaction_active
 
+------------------------------------------------------------
+-- UNIT_SPELLCAST_SUCCEEDED doesn't fire anymore as of 7.3.5
+local function detectDir(x, y)
+ if y > -1410 then
+  return north
+ elseif y < -1440 then
+  return south
+ elseif x < 660 then
+  return east
+ elseif x > 720 then
+  return west
+ end
+end
+------------------------------------------------------------
+
 local function getMapPosition(cx, cy)
  return (containerW / 2) + (buttonW + 6) * cx, (containerH / 2) + (buttonH + 6) * cy
 end
@@ -288,6 +303,19 @@ local function toggleMouseInteraction(flag)
 end
 
 local function update()
+ 
+ local y, x = UnitPosition("player")
+ 
+ if math.abs(x - lx) > 70 or math.abs(y - ly) > 70 then
+  local dir = detectDir(lx, ly)
+  if dir then
+   last_dir = dir
+   setCurrentRoom(current_room.neighbors[dir] or addRoom(dir))
+  end
+ end
+ 
+ lx = x
+ ly = y
  
  if IsControlKeyDown() then
   if not mouse_interaction_active then
@@ -743,6 +771,8 @@ local function initialize()
  
  ResetMap()
  
+ ly, lx = UnitPosition("player")
+ 
  mf:SetScript("OnUpdate", update)
  mf:SetScript("OnEvent", function(self, event, ...) self[event](...) end)
  
@@ -779,6 +809,7 @@ local function initialize()
 
  mf:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
 end
+
 
 
 --[===[@debug@
