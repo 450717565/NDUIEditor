@@ -1,4 +1,4 @@
-﻿-- Contributors:
+﻿-- Contributors:七曜·星の痕
 
 local _, addonTable = ...
 local L = addonTable.L

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2031, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17166 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17197 $"):sub(12, -3))
 mod:SetCreatureID(124828)
 mod:SetEncounterID(2092)
 mod:SetZone()
@@ -77,7 +77,7 @@ local specWarnSargFear				= mod:NewSpecialWarningMoveTo(257931, nil, nil, nil, 3
 local yellSargFear					= mod:NewYell(257931)
 local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
 --Stage Two: The Protector Redeemed
-local specWarnSoulburst				= mod:NewSpecialWarningMoveAway(250669, nil, nil, nil, 1, 2)
+local specWarnSoulburst				= mod:NewSpecialWarningYou(250669, nil, nil, nil, 1, 2)
 local yellSoulburst					= mod:NewPosYell(250669)
 local yellSoulburstFades			= mod:NewIconFadesYell(250669)
 local specWarnSoulbomb				= mod:NewSpecialWarningYou(251570, nil, nil, nil, 1, 2)
@@ -449,7 +449,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnSoulburst:Show()
 			specWarnSoulburst:Play("targetyou")
-			specWarnSoulburst:ScheduleVoice(self:IsMythic() and 7 or 10, "runout")
+			--specWarnSoulburst:ScheduleVoice(self:IsMythic() and 7 or 10, "runout")
 			yellSoulburst:Yell(icon == 7 and 2 or 1, icon, icon)
 			yellSoulburstFades:Countdown(self:IsMythic() and 12 or 15, nil, icon)
 		end

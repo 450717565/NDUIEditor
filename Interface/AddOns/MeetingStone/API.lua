@@ -59,6 +59,11 @@ DecodeCommetData = memorize.multirets(function(comment)
     end
     local summary, data = comment:match('^(.*)%((^1^.+^^)%)$')
     if data then
+        -- olddata = data
+        -- data = data:gsub('%^([^%dSNFfTtBbZ^])', '\126\125%1')
+        -- if olddata ~= data then
+        --     print(data, olddata)
+        -- end
         return summary, AceSerializer:Deserialize(data)
     else
         return comment
@@ -88,7 +93,7 @@ function CodeCommentData(activity)
         GetAddonSource(),
         GetPlayerFullName(),
         GetPlayerSavedInstance(customId),
-        format('%s-%s-%s', activity:GetModeText(), activity:GetLootText(), activity:GetName()),
+        nil,
         CompressNumber(activity:IsUseHonorLevel() and UnitHonorLevel('player') or nil)
     ))
     return data
@@ -425,12 +430,4 @@ function ListToMap(list)
         end
     end
     return map
-end
-
-function CheckMode(mode)
-    return mode ~= 0 and rawget(ACTIVITY_MODE_NAMES, mode)
-end
-
-function CheckLoot(loot)
-    return loot ~= 0 and rawget(ACTIVITY_LOOT_NAMES, loot)
 end

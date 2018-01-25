@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("AntorusTrash", "DBM-AntorusBurningThrone")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17077 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17198 $"):sub(12, -3))
 --mod:SetModelID(47785)
 mod:SetZone()
 mod.isTrashMod = true
@@ -96,7 +96,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 249297 then
 		warnFlamesofReorig:CombinedShow(0.5, args.destName)
-		if args:IsPlayer() then
+		if args:IsPlayer() and not UnitDebuff("player", args.spellName) then
 			specWarnFlamesofReorig:Show()
 			specWarnFlamesofReorig:Play("runout")
 			yellFlamesofReorig:Yell()

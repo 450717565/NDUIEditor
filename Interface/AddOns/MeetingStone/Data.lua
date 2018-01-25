@@ -784,7 +784,6 @@ RAID_PROGRESSION_LIST = {
 }
 
 DEFAULT_SPAMWORD = [[
-!........................................
 ]]
 
 ZONE_ACTIVITY_MAP = {

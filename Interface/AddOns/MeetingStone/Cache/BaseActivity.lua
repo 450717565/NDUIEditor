@@ -19,20 +19,30 @@ BaseActivity:InitAttr{
     'PvPRating',
     'Source',
 
-    'Mode',
-    'Loot',
-    'Version',
     'IsMeetingStone',
 
     'Leader',
-    'LeaderClass',
-    'LeaderItemLevel',
-    'LeaderHonorLevel',
-    'LeaderProgression',
-    'LeaderPvPRating',
-
     'SavedInstance',
 }
+
+BaseActivity:Define('Version', function(version)
+    return tonumber(version)
+end)
+
+BaseActivity:Define('Mode', function(mode)
+    return mode ~= 0 and rawget(ACTIVITY_MODE_NAMES, mode)
+end)
+
+BaseActivity:Define('Loot', function(loot)
+    return loot ~= 0 and rawget(ACTIVITY_LOOT_NAMES, loot)
+end)
+
+BaseActivity:Define('LeaderProgression', 'number,nil')
+BaseActivity:Define('LeaderItemLevel', 'number,nil')
+BaseActivity:Define('LeaderHonorLevel', 'number,nil')
+BaseActivity:Define('LeaderPvPRating', 'number,nil')
+BaseActivity:Define('LeaderClass', 'number,nil')
+BaseActivity:Define('Leader', 'string,nil')
 
 function BaseActivity:GetModeText()
     return GetModeName(self:GetMode())
@@ -60,13 +70,9 @@ end
 
 function BaseActivity:UpdateCustomData(comment, title)
     local summary, isMeetingStone, customId, version, mode, loot,
-            class, itemLevel, progression, leaderPvPRating, minLevel, maxLevel, pvpRating, source, creator, savedInstance, _, honorLevel = DecodeCommetData(comment)
+            class, itemLevel, progression, leaderPvPRating, minLevel, maxLevel, pvpRating, source, creator, savedInstance, check, honorLevel = DecodeCommetData(comment)
 
-    if isMeetingStone then    
-        if not CheckMode(mode) or not CheckLoot(loot) then
-            return false
-        end
-
+    if isMeetingStone then
         if customId == 0 then
             customId = nil
         end
@@ -75,17 +81,31 @@ function BaseActivity:UpdateCustomData(comment, title)
             customId = nil
             self:SetActivityID(changeTo)
         end
-        self:SetVersion(version)
-        self:SetMode(mode)
-        self:SetLoot(loot)
+        if not self:SetVersion(version) then
+            return false
+        end
+        if not self:SetMode(mode) then
+            return false
+        end
+        if not self:SetLoot(loot) then
+            return false
+        end
+        self:SetCustomID(customId)
         self:SetSummary(summary)
         self:SetComment(nil)
-        self:SetCustomID(customId)
         self:SetMinLevel(minLevel or 1)
         self:SetMaxLevel(maxLevel or MAX_PLAYER_LEVEL)
         self:SetPvPRating(pvpRating or 0)
         self:SetSource(source)
         self:SetSavedInstance(savedInstance)
+
+        if check ~= nil and check ~= format('%s-%s-%s', self:GetModeText(), self:GetLootText(), self:GetName()) then
+            return false
+        end
+
+        if title ~= format('%s-%s-%s-%s', L['集合石'], self:GetLootText(), self:GetModeText(), self:GetName()) then
+            return
+        end
 
         creator = creator and Ambiguate(creator, 'none')
         if creator and creator ~= self:GetLeader() then

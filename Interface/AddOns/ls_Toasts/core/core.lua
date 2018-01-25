@@ -952,7 +952,6 @@ do
 			rBorder:SetAllPoints()
 			rBorder:SetTexture("Interface\\LFGFrame\\UI-LFG-ICON-REWARDRING")
 			rBorder:SetTexCoord(0 / 64, 40 / 64, 0 / 64, 40 / 64)
-			slot.Border = rBorder
 
 			if i == 1 then
 				slot:SetPoint("TOPRIGHT", -2, 10)
