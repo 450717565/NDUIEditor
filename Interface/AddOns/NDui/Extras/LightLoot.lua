@@ -186,9 +186,10 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 	if items > 0 then
 		for i = 1, items do
 			local slot = slots[i] or CreateSlot(i)
-			local lootIcon, lootName, lootQuantity, lootQuality, locked, isQuestItem, questID, isActive = GetLootSlotInfo(i)
+			local lootIcon, lootName, lootQuantity, lootQuality, isLocked, isQuestItem, questID, isActive = GetLootSlotInfo(i)
 			if lootIcon then
 				local color = BAG_ITEM_QUALITY_COLORS[lootQuality]
+				local r, g, b = color.r, color.g, color.b
 				local slotType = GetLootSlotType(i)
 
 				if slotType == LOOT_SLOT_MONEY then
@@ -202,14 +203,19 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 					slot.count:Hide()
 				end
 
-				if lootQuality and lootQuality >= 0 then
-					slot.name:SetTextColor(color.r, color.g, color.b)
-					slot.icBD:SetBackdropBorderColor(color.r, color.g, color.b)
-					slot.lootQuality = lootQuality
+				if (lootQuality and lootQuality >= 0) or questId or isQuestItem then
+					if questId or isQuestItem then
+						r, g, b = .8, .8, 0
+					end
+					slot.name:SetTextColor(r, g, b)
+					slot.icBD:SetBackdropBorderColor(r, g, b)
 				else
 					slot.name:SetTextColor(.5, .5, .5)
 					slot.icBD:SetBackdropBorderColor(.5, .5, .5)
 				end
+
+				slot.lootQuality = lootQuality
+				slot.isQuestItem = isQuestItem
 
 				slot.name:SetText(lootName)
 				slot.icon:SetTexture(lootIcon)
@@ -234,9 +240,10 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 	end
 
 	local color = BAG_ITEM_QUALITY_COLORS[maxQuality]
-	self:SetBackdropBorderColor(color.r, color.g, color.b)
-	self.Shadow:SetBackdropBorderColor(color.r, color.g, color.b)
-	self.Title:SetTextColor(color.r, color.g, color.b)
+	local r, g, b = color.r, color.g, color.b
+	self:SetBackdropBorderColor(r, g, b)
+	self.Shadow:SetBackdropBorderColor(r, g, b)
+	self.Title:SetTextColor(r, g, b)
 
 	self:AnchorSlots()
 	self:UpdateWidth()

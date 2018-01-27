@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("AntorusTrash", "DBM-AntorusBurningThrone")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17198 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17204 $"):sub(12, -3))
 --mod:SetModelID(47785)
 mod:SetZone()
 mod.isTrashMod = true
@@ -36,7 +36,6 @@ local specWarnPunishingFlame			= mod:NewSpecialWarningRun(246209, "Melee", nil, 
 local specWarnAnnihilation				= mod:NewSpecialWarningSpell(245807, nil, nil, nil, 2, 2)
 --local specWarnShadowBoltVolley		= mod:NewSpecialWarningInterrupt(243171, "HasInterrupt", nil, nil, 1, 2)
 
-mod:RemoveOption("HealthFrame")
 mod:AddRangeFrameOption(10, 249297)
 
 function mod:SPELL_CAST_START(args)

@@ -157,18 +157,21 @@ C.AuraWatchList = {
 			-->泰坦之路系列饰品
 				--阿格拉玛的信念
 				{AuraID = 256816, UnitID = "player"},
+				{AuraID = 256831, UnitID = "player"},
 				--阿曼苏尔的预见
 				{AuraID = 256818, UnitID = "player"},
+				{AuraID = 256832, UnitID = "player"},
 				--高戈奈斯的活力
-				{AuraID = 256820, UnitID = "player"},
-				{AuraID = 256821, UnitID = "player"},
+				{AuraID = 256833, UnitID = "player"},
 				--艾欧娜尔的怜悯
 				{AuraID = 256823, UnitID = "player"},
-				{AuraID = 256824, UnitID = "player"},
+				{AuraID = 256834, UnitID = "player"},
 				--卡兹格罗斯的勇气
 				{AuraID = 256826, UnitID = "player"},
+				{AuraID = 256835, UnitID = "player"},
 				--诺甘农的威能
 				{AuraID = 256828, UnitID = "player"},
+				{AuraID = 256836, UnitID = "player"},
 			-->LEG饰品
 				--天启引擎
 				{AuraID = 251952, UnitID = "player", Value= true},
@@ -389,6 +392,8 @@ C.AuraWatchList = {
 				{AuraID =  34477, UnitID = "player"},
 				--风之爆裂
 				{AuraID = 204477, UnitID = "player"},
+				--疾风之行
+				{AuraID = 219223, UnitID = "player"},
 			--牧师
 				--提神愈心
 				{AuraID = 214121, UnitID = "player"},

@@ -1,4 +1,4 @@
-## Interface: 70300
+﻿## Interface: 70300
 ## X-Min-Interface: 50001
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0PvP|r
 ## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0PvP|r
@@ -21,7 +21,7 @@
 ## X-DBM-Mod-SubCategories: Arena,Battlegrounds
 ## X-DBM-Mod-SubCategories-deDE: Arena,Schlachtfelder
 ## X-DBM-Mod-SubCategories-ruRU: Арена,Поля боя
-## X-DBM-Mod-SubCategories-koKR: ,
+## X-DBM-Mod-SubCategories-koKR: 투기장,전장
 ## X-DBM-Mod-SubCategories-zhTW: 競技場,戰場
 ## X-DBM-Mod-SubCategories-zhCN: 竞技场　,战场
 ## X-DBM-Mod-SubCategories-esES: Arenas,Campos de batalla

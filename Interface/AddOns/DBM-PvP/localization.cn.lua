@@ -1,4 +1,4 @@
--- Simplified Chinese by Diablohu(diablohudream@gmail.com) & yleaf(yaroot@gmail.com)
+﻿-- Simplified Chinese by Diablohu(diablohudream@gmail.com) & yleaf(yaroot@gmail.com)
 -- Last update: 1/26/2013
 
 if GetLocale() ~= "zhCN" then return end
@@ -173,7 +173,6 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	GatesHealthFrame		= "城门破损状况",
 	SiegeEngine			= "攻城器",
 	GoblinStartAlliance		= "看到那些爆盐炸弹了吗？当我维修攻城机具的时候用它们来轰破大门！",
 	GoblinStartHorde		= "修理攻城机具的工作就交给我，帮我看着点就够了。如果你想要轰破大门的话，尽管把那些爆盐炸弹拿去用吧！",

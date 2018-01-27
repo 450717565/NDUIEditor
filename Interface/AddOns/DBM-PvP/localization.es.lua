@@ -1,4 +1,4 @@
-if GetLocale() ~= "esES" and GetLocale() ~= "esMX" then return end
+﻿if GetLocale() ~= "esES" and GetLocale() ~= "esMX" then return end
 local L
 
 ---------------------------------------------
@@ -24,7 +24,7 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 	BgStart60 		= "La batalla comienza en 1 minuto.",
-	BgStart30 		= "La batalla comienza en 30 segundos. !Preparaos!",
+	BgStart30 		= "La batalla comienza en 30 segundos. ¡Preparaos!",
 	ArenaInvite	= "Invitación a la arena"
 })
 
@@ -46,8 +46,8 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	Start15	= "!Quince segundos hasta que comience la batalla en arena!",
-	highmaulArena = "!La batalla por la supremacía comienza en 30 segundos!"
+	Start15	= "¡Quince segundos hasta que comience la batalla en arena!",
+	highmaulArena = "¡La batalla por la supremacía comienza en 30 segundos!"
 })
 
 ----------------------
@@ -89,7 +89,7 @@ L:SetMiscLocalization({
 })
 
 -----------------------
--- Ca~nón del Céfireo --
+-- Cañón del Céfireo --
 -----------------------
 L = DBM:GetModLocalization("z1105")
 
@@ -127,9 +127,9 @@ L:SetMiscLocalization({
 	WinBarText 		= "La %s gana",
 	Flag			= "Bandera",
 	FlagReset 		= "La bandera se ha restablecido.",
-	FlagTaken 		= "!(.+) ha tomado la bandera!",
-	FlagCaptured	= "!La .+ ha%w+ ha capturado la bandera!",
-	FlagDropped		= "!Ha caído la bandera!"
+	FlagTaken 		= "¡(.+) ha tomado la bandera!",
+	FlagCaptured	= "¡La .+ ha%w+ ha capturado la bandera!",
+	FlagDropped		= "¡Ha caído la bandera!"
 })
 
 ------------------------------
@@ -151,14 +151,14 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 	InfoErrorText		= "La función de selección de portador de bandera se restaurará cuando salgas de combate.",
-	ExprFlagPickUp		= "!(.+) ha cogido la bandera de la (%w+)!",
-	ExprFlagCaptured	= "!(.+) ha capturado la bandera de la (%w+)!",
-	ExprFlagReturn		= "!(.+) ha devuelto la bandera de la (%w+) a su base!",
+	ExprFlagPickUp		= "¡(.+) ha cogido la bandera de la (%w+)!",
+	ExprFlagCaptured	= "¡(.+) ha capturado la bandera de la (%w+)!",
+	ExprFlagReturn		= "¡(.+) ha devuelto la bandera de la (%w+) a su base!",
 	FlagAlliance		= "Banderas capturadas por la Alianza: ",
 	FlagHorde			= "Banderas capturadas por la Horda: ",
 	FlagBase			= "Base",
-	Vulnerable1			= "!Los portadores de las banderas se han vuelto vulnerables a los ataques!",
-	Vulnerable2			= "!Los portadores de las banderas se han vuelto más vulnerables a los ataques!"
+	Vulnerable1			= "¡Los portadores de las banderas se han vuelto vulnerables a los ataques!",
+	Vulnerable2			= "¡Los portadores de las banderas se han vuelto más vulnerables a los ataques!"
 })
 
 --------------------------
@@ -167,7 +167,7 @@ L:SetMiscLocalization({
 L = DBM:GetModLocalization("z628")
 
 L:SetWarningLocalization({
-	WarnSiegeEngine		= "!Máquina de asedio lista!",
+	WarnSiegeEngine		= "¡Máquina de asedio lista!",
 	WarnSiegeEngineSoon	= "Máquina de asedio en ~10 s"
 })
 
@@ -181,20 +181,19 @@ L:SetOptionLocalization({
 	TimerSiegeEngine	= "Mostrar temporizador para construcción de máquinas de asedio",
 	WarnSiegeEngine		= "Mostrar aviso cuando una máquina de asedio esté lista",
 	WarnSiegeEngineSoon	= "Mostrar aviso cuando una máquina de asedio esté casi lista",
-	ShowGatesHealth		= "Mostrar salud de puertas da~nadas (!puede dar resultados erróneos al unirse a una batalla en curso!)"
+	ShowGatesHealth		= "Mostrar salud de puertas dañadas (¡puede dar resultados erróneos al unirse a una batalla en curso!)"
 })
 
 L:SetMiscLocalization({
-	GatesHealthFrame		= "Puertas da~nadas",
 	SiegeEngine				= "Máquina de asedio",
-	GoblinStartAlliance		= "?Ves esas bombas de seforio? 'Usalas en las puertas mientras reparo la máquina de asedio.",
-	GoblinStartHorde		= "Trabajaré en la máquina de asedio, solo cúbreme las espaldas. !Usa esas bombas de seforio en las puertas si las necesitas!",
-	GoblinHalfwayAlliance	= "!Ya casi estoy! Mantén a la Horda alejada. !No me ense~naron a luchar en la escuela de ingeniería!",--Comprobar por si acaso
-	GoblinHalfwayHorde		= "!Ya casi estoy! Mantén a la Alianza alejada... !Luchar no entra en mi contrato!",
-	GoblinFinishedAlliance	= "!Mi mejor trabajo hasta ahora! !Esta máquina de asedio está lista para la acción!",--Comprobar por si acaso
-	GoblinFinishedHorde		= "!La máquina de asedio está lista para la acción!",
-	GoblinBrokenAlliance	= "!?Ya se ha roto?! No te preocupes. No es nada que no pueda arreglar.",--Comprobar por si acaso
-	GoblinBrokenHorde		= "!?Se ha vuelto a romper?1 Ya lo arreglo... Pero no esperes que esto lo cubra la garantía."--Comprobar por si acaso
+	GoblinStartAlliance		= "¿Ves esas bombas de seforio? Úsalas en las puertas mientras reparo la máquina de asedio.",
+	GoblinStartHorde		= "Trabajaré en la máquina de asedio, solo cúbreme las espaldas. ¡Usa esas bombas de seforio en las puertas si las necesitas!",
+	GoblinHalfwayAlliance	= "¡Ya casi estoy! Mantén a la Horda alejada. ¡No me enseñaron a luchar en la escuela de ingeniería!",--Comprobar por si acaso
+	GoblinHalfwayHorde		= "¡Ya casi estoy! Mantén a la Alianza alejada... ¡Luchar no entra en mi contrato!",
+	GoblinFinishedAlliance	= "¡Mi mejor trabajo hasta ahora! ¡Esta máquina de asedio está lista para la acción!",--Comprobar por si acaso
+	GoblinFinishedHorde		= "¡La máquina de asedio está lista para la acción!",
+	GoblinBrokenAlliance	= "¡¿Ya se ha roto?! No te preocupes. No es nada que no pueda arreglar.",--Comprobar por si acaso
+	GoblinBrokenHorde		= "¡¿Se ha vuelto a romper?1 Ya lo arreglo... Pero no esperes que esto lo cubra la garantía."--Comprobar por si acaso
 })
 
 ---------------------
@@ -216,14 +215,14 @@ L:SetOptionLocalization({
 
 L:SetMiscLocalization({
 	InfoErrorText		= "La función de selección de portador de bandera se restaurará cuando salgas de combate.",
-	ExprFlagPickUp		= "!(.+) ha cogido la bandera de la (%w+)!",
-	ExprFlagCaptured	= "!(.+) ha capturado la bandera de la (%w+)!",
-	ExprFlagReturn		= "!(.+) ha devuelto la bandera de la (%w+) a su base!",
+	ExprFlagPickUp		= "¡(.+) ha cogido la bandera de la (%w+)!",
+	ExprFlagCaptured	= "¡(.+) ha capturado la bandera de la (%w+)!",
+	ExprFlagReturn		= "¡(.+) ha devuelto la bandera de la (%w+) a su base!",
 	FlagAlliance		= "Banderas capturadas por la Alianza: ",
 	FlagHorde			= "Banderas capturadas por la Horda: ",
 	FlagBase			= "Base",
-	Vulnerable1			= "!Los portadores de las banderas se han vuelto vulnerables a los ataques!",
-	Vulnerable2			= "!Los portadores de las banderas se han vuelto más vulnerables a los ataques!"
+	Vulnerable1			= "¡Los portadores de las banderas se han vuelto vulnerables a los ataques!",
+	Vulnerable2			= "¡Los portadores de las banderas se han vuelto más vulnerables a los ataques!"
 })
 
 ----------------------------
@@ -277,8 +276,8 @@ L:SetOptionLocalization({
 })
 
 L:SetMiscLocalization({
-	OrbTaken 	= "!(%S+) se ha hecho con el orbe (%S+)!",
-	OrbReturn 	= "!El orbe (%S+) ha sido devuelto!",
+	OrbTaken 	= "¡(%S+) se ha hecho con el orbe (%S+)!",
+	OrbReturn 	= "¡El orbe (%S+) ha sido devuelto!",
 	ScoreExpr	= "(%d+)/1500",
 	WinBarText	= "La %s gana",
 	OrbsToWin	= "Orbes para ganar: %d"

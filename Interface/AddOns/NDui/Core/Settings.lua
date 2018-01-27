@@ -179,20 +179,24 @@ local function ForceDBMOptions()
 	}
 
 	if not DBM_AllSavedOptions["Default"] then DBM_AllSavedOptions["Default"] = {} end
-	DBM_AllSavedOptions["Default"]["HideObjectivesFrame"] = false
-	DBM_AllSavedOptions["Default"]["ShowMinimapButton"] = false
-	DBM_AllSavedOptions["Default"]["SpecialWarningFontSize2"] = 24
-	DBM_AllSavedOptions["Default"]["SpecialWarningFontStyle"] = "OUTLINE"
-	DBM_AllSavedOptions["Default"]["SpecialWarningPoint"] = "TOP"
-	DBM_AllSavedOptions["Default"]["SpecialWarningSound3"] = "Sound\\interface\\UI_RaidBossWhisperWarning.ogg"
-	DBM_AllSavedOptions["Default"]["SpecialWarningX"] = 0
-	DBM_AllSavedOptions["Default"]["SpecialWarningY"] = -200
-	DBM_AllSavedOptions["Default"]["WarningFontSize"] = 18
-	DBM_AllSavedOptions["Default"]["WarningFontStyle"] = "OUTLINE"
-	DBM_AllSavedOptions["Default"]["WarningPoint"] = "TOP"
-	DBM_AllSavedOptions["Default"]["WarningX"] = 0
-	DBM_AllSavedOptions["Default"]["WarningY"] = -180
-
+	DBM_AllSavedOptions = {
+		["Default"] = {
+			["HideObjectivesFrame"] = false,
+			["ShowMinimapButton"] = false,
+			["SpecialWarningFontSize2"] = 24,
+			["SpecialWarningFontStyle"] = "OUTLINE",
+			["SpecialWarningPoint"] = "TOP",
+			["SpecialWarningSound3"] = "Sound\\interface\\UI_RaidBossWhisperWarning.ogg",
+			["SpecialWarningX"] = 0,
+			["SpecialWarningY"] = -200,
+			["UseSoundChannel"] = "Dialog",
+			["WarningFontSize"] = 18,
+			["WarningFontStyle"] = "OUTLINE",
+			["WarningPoint"] = "TOP",
+			["WarningX"] = 0,
+			["WarningY"] = -180,
+		},
+	}
 	NDuiDB["Settings"]["DBMRequest"] = false
 end
 

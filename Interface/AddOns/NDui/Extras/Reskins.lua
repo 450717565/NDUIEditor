@@ -29,6 +29,32 @@ if IsAddOnLoaded("Aurora") then
 			end
 		end
 
+		if IsAddOnLoaded("!Libs") then
+			-- LibUIDropDownMenu
+			local function SkinDDM(info, level)
+				for i = 1, L_UIDROPDOWNMENU_MAXLEVELS do
+					F.CreateBD(_G["L_DropDownList"..i.."MenuBackdrop"])
+					F.CreateSD(_G["L_DropDownList"..i.."MenuBackdrop"])
+					for j = 1, L_UIDROPDOWNMENU_MAXBUTTONS do
+						local arrow = _G["L_DropDownList"..i.."Button"..j.."ExpandArrow"]
+						arrow:SetNormalTexture(C.media.arrowRight)
+						arrow:SetSize(10, 10)
+
+						local check = _G["L_DropDownList"..i.."Button"..j.."Check"]
+						check:SetDesaturated(true)
+						check:SetSize(20, 20)
+						check:SetTexCoord(0, 1, 0, 1)
+						check:SetTexture("Interface\\Buttons\\UI-CheckBox-Check")
+						check:SetVertexColor(r, g, b, 1)
+
+						local uncheck = _G["L_DropDownList"..i.."Button"..j.."UnCheck"]
+						uncheck:SetTexture("")
+					end
+				end
+			end
+			hooksecurefunc("L_UIDropDownMenu_AddButton", SkinDDM)
+		end
+
 		if IsAddOnLoaded("APIInterface") then
 			APIIListsInsetLeft.Bg:Hide()
 			F.CreateBD(APII_Core)
@@ -44,6 +70,152 @@ if IsAddOnLoaded("Aurora") then
 			for i = 1, 16 do
 				select(i, APII_Core:GetRegions()):Hide()
 			end
+		end
+
+		if IsAddOnLoaded("AuctionLite") then
+			F.ReskinArrow(BuyAdvancedButton, "down")
+			F.ReskinArrow(SellRememberButton, "down")
+			F.ReskinArrow(BuySummaryButton, "left")
+			SellSize:SetWidth(40)
+			SellSize:ClearAllPoints()
+			SellSize:SetPoint("LEFT", SellStacks, "RIGHT", 66, 0)
+			SellBidPriceSilver:SetPoint("LEFT", SellBidPriceGold, "RIGHT", 1, 0)
+			SellBidPriceCopper:SetPoint("LEFT", SellBidPriceSilver, "RIGHT", 1, 0)
+			SellBuyoutPriceSilver:SetPoint("LEFT", SellBuyoutPriceGold, "RIGHT", 1, 0)
+			SellBuyoutPriceCopper:SetPoint("LEFT", SellBuyoutPriceSilver, "RIGHT", 1, 0)
+			BuyBuyoutButton:ClearAllPoints()
+			BuyBuyoutButton:SetPoint("RIGHT", BuyCancelAuctionButton, "LEFT", -1, 0)
+			BuyBidButton:ClearAllPoints()
+			BuyBidButton:SetPoint("RIGHT", BuyBuyoutButton, "LEFT", -1, 0)
+
+			local sellitemhandler = CreateFrame("Frame")
+			sellitemhandler:RegisterEvent("NEW_AUCTION_UPDATE")
+			sellitemhandler:SetScript("OnEvent", function()
+			local SellItemButtonIconTexture = SellItemButton:GetNormalTexture()
+				if SellItemButtonIconTexture then
+					SellItemButtonIconTexture:SetTexCoord(.08, .92, .08, .92)
+					SellItemButtonIconTexture:SetPoint("TOPLEFT", 1, -1)
+					SellItemButtonIconTexture:SetPoint("BOTTOMRIGHT", -1, 1)
+				end
+			end)
+
+			F.CreateBD(SellItemButton, .25)
+			F.CreateSD(SellItemButton)
+
+			local Inputlist = {"BuyName", "BuyQuantity", "SellStacks", "SellSize", "SellBidPriceGold", "SellBidPriceSilver", "SellBidPriceCopper", "SellBuyoutPriceGold", "SellBuyoutPriceSilver", "SellBuyoutPriceCopper"}
+			for k, v in pairs(Inputlist) do
+				F.ReskinInput(_G[v])
+			end
+			local Buttonlist = {"BuySearchButton", "BuyScanButton", "BuyBidButton", "BuyBuyoutButton", "BuyCancelAuctionButton", "BuyCancelSearchButton", "SellCreateAuctionButton", "SellStacksMaxButton", "SellSizeMaxButton"}
+			for k, v in pairs(Buttonlist) do
+				F.Reskin(_G[v])
+			end
+			local Radiolist = {"SellShortAuctionButton", "SellMediumAuctionButton", "SellLongAuctionButton", "SellPerItemButton", "SellPerStackButton"}
+			for k, v in pairs(Radiolist) do
+				F.ReskinRadio(_G[v])
+			end
+			local Scrolllist = {"BuyScrollFrame", "SellScrollFrame"}
+			for k, v in pairs(Scrolllist) do
+				F.ReskinScroll(_G[v.."ScrollBar"])
+				for i = 1, 2 do
+					select(i, _G[v]:GetRegions()):Hide()
+				end
+			end
+		end
+
+		if IsAddOnLoaded("BaudAuction") then
+			F.CreateBD(BaudAuctionProgress)
+			F.CreateSD(BaudAuctionProgress)
+			--F.ReskinClose(BaudAuctionCancelButton)
+			BaudAuctionProgressBar:SetPoint("CENTER", 12, -5)
+			BaudAuctionProgressBarIcon:SetTexCoord(.08, .92, .08, .92)
+			BaudAuctionProgressBarIcon:SetPoint("RIGHT", BaudAuctionProgressBar, "LEFT", -2, 0)
+			BaudAuctionProgressBarBorder:Hide()
+			F.CreateBDFrame(BaudAuctionProgressBarIcon)
+			F.ReskinScroll(BaudAuctionBrowseScrollBoxScrollBarScrollBar)
+			F.ReskinStatusBar(BaudAuctionProgressBar, true)
+
+			for i = 1, 2 do
+				select(i, BaudAuctionBrowseScrollBoxScrollBar:GetRegions()):Hide()
+			end
+			for k = 1, 19 do
+				F.ReskinIcon(_G["BaudAuctionBrowseScrollBoxEntry"..k.."Texture"])
+			end
+		end
+
+		if IsAddOnLoaded("BuyEmAll") then
+			F.CreateBD(BuyEmAllFrame)
+			F.CreateSD(BuyEmAllFrame)
+			F.ReskinArrow(BuyEmAllLeftButton, "left")
+			F.ReskinArrow(BuyEmAllRightButton, "right")
+
+			local list = {"OkayButton", "CancelButton", "StackButton", "MaxButton"}
+			for k, v in pairs(list) do
+				F.Reskin(_G["BuyEmAll"..v])
+			end
+
+			for i = 1, 3 do
+				select(i, BuyEmAllFrame:GetRegions()):Hide()
+			end
+		end
+
+		if IsAddOnLoaded("HandyNotes_WorldMapButton") then
+			F.SetBD(HandyNotesWorldMapButton)
+		end
+
+		if IsAddOnLoaded("Immersion") then
+			local talkbox = ImmersionFrame.TalkBox.MainFrame
+			F.ReskinClose(talkbox.CloseButton, "TOPRIGHT", talkbox, "TOPRIGHT", -20, -20)
+		end
+
+		if IsAddOnLoaded("ls_Toasts") then
+			local LST = unpack(ls_Toasts)
+			LST:RegisterSkin("NDui MOD", function(toast)
+				local title = toast.Title:GetText()
+				local r, g, b = toast.Border:GetVertexColor()
+
+				F.CreateBD(toast)
+				F.CreateSD(toast)
+
+				toast.BG:SetAllPoints(toast)
+				toast.BG:SetBlendMode("ADD")
+				toast.BG:SetDrawLayer("BACKGROUND", 0)
+				toast.Border:Hide()
+				toast.Icon:SetTexCoord(.08, .92, .08, .92)
+				toast.Title:SetPoint("TOPLEFT", 55, -10)
+				toast.Text:SetPoint("BOTTOMLEFT", 55, 9)
+
+				if toast.IconBorder then
+					toast.IconBorder:Hide()
+				end
+				if toast.IconHL then
+					toast.IconHL:Hide()
+				end
+				if title ~= _G.ARCHAEOLOGY_DIGSITE_COMPLETE_TOAST_FRAME_TITLE then
+					if not toast.styled then
+						F.CreateBDFrame(toast.Icon)
+						toast.styled = true
+					end
+				end
+				if r and g and b then
+					toast:SetBackdropBorderColor(r*.8, g*.8, b*.8)
+					toast.Shadow:SetBackdropBorderColor(r*.8, g*.8, b*.8)
+				end
+				for i = 1, 5 do
+					local rw = toast["Slot"..i]
+					local rwic = rw.Icon
+					rwic:SetTexCoord(.08, .92, .08, .92)
+					rwic:SetPoint("TOPLEFT", 3, -2)
+					rwic:SetPoint("BOTTOMRIGHT", -4, 5)
+					if i == 1 then
+						rw:SetPoint("TOPRIGHT", -2, 15)
+					else
+						rw:SetPoint("RIGHT", toast["Slot"..(i - 1)], "LEFT", -2 , 0)
+					end
+				end
+			end)
+
+			LST:SetSkin("NDui MOD")
 		end
 
 		if IsAddOnLoaded("Overachiever") then
@@ -122,140 +294,6 @@ if IsAddOnLoaded("Aurora") then
 			end
 		end
 
-		if IsAddOnLoaded("WhisperPop") then
-			F.CreateBD(WhisperPopFrame)
-			F.CreateSD(WhisperPopFrame)
-			F.CreateBD(WhisperPopMessageFrame)
-			F.CreateSD(WhisperPopMessageFrame)
-			F.ReskinCheck(WhisperPopMessageFrameProtectCheck)
-			F.ReskinArrow(WhisperPopScrollingMessageFrameButtonUp, "up")
-			F.ReskinArrow(WhisperPopScrollingMessageFrameButtonDown, "down")
-			F.ReskinArrow(WhisperPopScrollingMessageFrameButtonEnd, "down")
-			F.ReskinScroll(WhisperPopFrameListScrollBar)
-			F.ReskinIconStyle(WhisperPopNotifyButton)
-			F.ReskinIconStyle(WhisperPopFrameConfig)
-
-			local list = {"WhisperPopFrameListDelete", "WhisperPopFrameTopCloseButton", "WhisperPopMessageFrameTopCloseButton"}
-			for k, v in pairs(list) do
-				F.ReskinClose(_G[v])
-			end
-		end
-
-		if IsAddOnLoaded("!Libs") then
-			hooksecurefunc("L_UIDropDownMenu_AddButton", function(info, level)
-				for i = 1, L_UIDROPDOWNMENU_MAXLEVELS do
-					F.CreateBD(_G["L_DropDownList"..i.."MenuBackdrop"])
-					F.CreateSD(_G["L_DropDownList"..i.."MenuBackdrop"])
-					for j = 1, L_UIDROPDOWNMENU_MAXBUTTONS do
-						local arrow = _G["L_DropDownList"..i.."Button"..j.."ExpandArrow"]
-						arrow:SetNormalTexture(C.media.arrowRight)
-						arrow:SetSize(10, 10)
-
-						local check = _G["L_DropDownList"..i.."Button"..j.."Check"]
-						check:SetDesaturated(true)
-						check:SetSize(20, 20)
-						check:SetTexCoord(0, 1, 0, 1)
-						check:SetTexture("Interface\\Buttons\\UI-CheckBox-Check")
-						check:SetVertexColor(r, g, b, 1)
-
-						local uncheck = _G["L_DropDownList"..i.."Button"..j.."UnCheck"]
-						uncheck:SetTexture("")
-					end
-				end
-			end)
-		end
-
-		if IsAddOnLoaded("BuyEmAll") then
-			F.CreateBD(BuyEmAllFrame)
-			F.CreateSD(BuyEmAllFrame)
-			F.ReskinArrow(BuyEmAllLeftButton, "left")
-			F.ReskinArrow(BuyEmAllRightButton, "right")
-
-			local list = {"OkayButton", "CancelButton", "StackButton", "MaxButton"}
-			for k, v in pairs(list) do
-				F.Reskin(_G["BuyEmAll"..v])
-			end
-
-			for i = 1, 3 do
-				select(i, BuyEmAllFrame:GetRegions()):Hide()
-			end
-		end
-
-		if IsAddOnLoaded("BaudAuction") then
-			F.ReskinScroll(BaudAuctionBrowseScrollBoxScrollBarScrollBar)
-			F.CreateBD(BaudAuctionProgress)
-			F.CreateSD(BaudAuctionProgress)
-			--F.ReskinClose(BaudAuctionCancelButton)
-			BaudAuctionProgressBar:SetPoint("CENTER", 12, -5)
-			BaudAuctionProgressBarIcon:SetTexCoord(.08, .92, .08, .92)
-			BaudAuctionProgressBarIcon:SetPoint("RIGHT", BaudAuctionProgressBar, "LEFT", -2, 0)
-			BaudAuctionProgressBarBorder:Hide()
-			F.ReskinStatusBar(BaudAuctionProgressBar, true)
-			F.CreateBDFrame(BaudAuctionProgressBarIcon)
-
-			for i = 1, 2 do
-				select(i, BaudAuctionBrowseScrollBoxScrollBar:GetRegions()):Hide()
-			end
-			for k = 1, 19 do
-				F.ReskinIcon(_G["BaudAuctionBrowseScrollBoxEntry"..k.."Texture"])
-			end
-		end
-
-		if IsAddOnLoaded("HandyNotes_WorldMapButton") then
-			F.SetBD(HandyNotesWorldMapButton)
-		end
-
-		if IsAddOnLoaded("AuctionLite") then
-			F.ReskinArrow(BuyAdvancedButton, "down")
-			F.ReskinArrow(SellRememberButton, "down")
-			F.ReskinArrow(BuySummaryButton, "left")
-			SellSize:SetWidth(40)
-			SellSize:ClearAllPoints()
-			SellSize:SetPoint("LEFT", SellStacks, "RIGHT", 66, 0)
-			SellBidPriceSilver:SetPoint("LEFT", SellBidPriceGold, "RIGHT", 1, 0)
-			SellBidPriceCopper:SetPoint("LEFT", SellBidPriceSilver, "RIGHT", 1, 0)
-			SellBuyoutPriceSilver:SetPoint("LEFT", SellBuyoutPriceGold, "RIGHT", 1, 0)
-			SellBuyoutPriceCopper:SetPoint("LEFT", SellBuyoutPriceSilver, "RIGHT", 1, 0)
-			BuyBuyoutButton:ClearAllPoints()
-			BuyBuyoutButton:SetPoint("RIGHT", BuyCancelAuctionButton, "LEFT", -1, 0)
-			BuyBidButton:ClearAllPoints()
-			BuyBidButton:SetPoint("RIGHT", BuyBuyoutButton, "LEFT", -1, 0)
-
-			local sellitemhandler = CreateFrame("Frame")
-			sellitemhandler:RegisterEvent("NEW_AUCTION_UPDATE")
-			sellitemhandler:SetScript("OnEvent", function()
-			local SellItemButtonIconTexture = SellItemButton:GetNormalTexture()
-				if SellItemButtonIconTexture then
-					SellItemButtonIconTexture:SetTexCoord(.08, .92, .08, .92)
-					SellItemButtonIconTexture:SetPoint("TOPLEFT", 1, -1)
-					SellItemButtonIconTexture:SetPoint("BOTTOMRIGHT", -1, 1)
-				end
-			end)
-
-			F.CreateBD(SellItemButton, .25)
-			F.CreateSD(SellItemButton)
-
-			local Inputlist = {"BuyName", "BuyQuantity", "SellStacks", "SellSize", "SellBidPriceGold", "SellBidPriceSilver", "SellBidPriceCopper", "SellBuyoutPriceGold", "SellBuyoutPriceSilver", "SellBuyoutPriceCopper"}
-			for k, v in pairs(Inputlist) do
-				F.ReskinInput(_G[v])
-			end
-			local Buttonlist = {"BuySearchButton", "BuyScanButton", "BuyBidButton", "BuyBuyoutButton", "BuyCancelAuctionButton", "BuyCancelSearchButton", "SellCreateAuctionButton", "SellStacksMaxButton", "SellSizeMaxButton"}
-			for k, v in pairs(Buttonlist) do
-				F.Reskin(_G[v])
-			end
-			local Radiolist = {"SellShortAuctionButton", "SellMediumAuctionButton", "SellLongAuctionButton", "SellPerItemButton", "SellPerStackButton"}
-			for k, v in pairs(Radiolist) do
-				F.ReskinRadio(_G[v])
-			end
-			local Scrolllist = {"BuyScrollFrame", "SellScrollFrame"}
-			for k, v in pairs(Scrolllist) do
-				F.ReskinScroll(_G[v.."ScrollBar"])
-				for i = 1, 2 do
-					select(i, _G[v]:GetRegions()):Hide()
-				end
-			end
-		end
-
 		if IsAddOnLoaded("TinyInspect") then
 			for i = 1, 9 do
 				select(i, TinyInspectRaidFrame:GetRegions()):Hide()
@@ -268,59 +306,23 @@ if IsAddOnLoaded("Aurora") then
 			F.CreateSD(TinyInspectRaidFrame.panel)
 		end
 
-		if IsAddOnLoaded("ls_Toasts") then
-			local LST = unpack(ls_Toasts)
-			LST:RegisterSkin("NDui MOD", function(toast)
-				local title = toast.Title:GetText()
-				local r, g, b = toast.Border:GetVertexColor()
+		if IsAddOnLoaded("WhisperPop") then
+			F.CreateBD(WhisperPopFrame)
+			F.CreateSD(WhisperPopFrame)
+			F.CreateBD(WhisperPopMessageFrame)
+			F.CreateSD(WhisperPopMessageFrame)
+			F.ReskinArrow(WhisperPopScrollingMessageFrameButtonDown, "down")
+			F.ReskinArrow(WhisperPopScrollingMessageFrameButtonEnd, "down")
+			F.ReskinArrow(WhisperPopScrollingMessageFrameButtonUp, "up")
+			F.ReskinCheck(WhisperPopMessageFrameProtectCheck)
+			F.ReskinIconStyle(WhisperPopFrameConfig)
+			F.ReskinIconStyle(WhisperPopNotifyButton)
+			F.ReskinScroll(WhisperPopFrameListScrollBar)
 
-				F.CreateBD(toast)
-				F.CreateSD(toast)
-
-				toast.BG:SetAllPoints(toast)
-				toast.BG:SetBlendMode("ADD")
-				toast.BG:SetDrawLayer("BACKGROUND", 0)
-				toast.Border:Hide()
-				toast.Icon:SetTexCoord(.08, .92, .08, .92)
-				toast.Title:SetPoint("TOPLEFT", 55, -10)
-				toast.Text:SetPoint("BOTTOMLEFT", 55, 9)
-
-				if toast.IconBorder then
-					toast.IconBorder:Hide()
-				end
-				if toast.IconHL then
-					toast.IconHL:Hide()
-				end
-				if title ~= _G.ARCHAEOLOGY_DIGSITE_COMPLETE_TOAST_FRAME_TITLE then
-					if not toast.styled then
-						F.CreateBDFrame(toast.Icon)
-						toast.styled = true
-					end
-				end
-				if r and g and b then
-					toast:SetBackdropBorderColor(r*.8, g*.8, b*.8)
-					toast.Shadow:SetBackdropBorderColor(r*.8, g*.8, b*.8)
-				end
-				for i = 1, 5 do
-					local rw = toast["Slot"..i]
-					local rwic = rw.Icon
-					rwic:SetTexCoord(.08, .92, .08, .92)
-					rwic:SetPoint("TOPLEFT", 3, -2)
-					rwic:SetPoint("BOTTOMRIGHT", -4, 5)
-					if i == 1 then
-						rw:SetPoint("TOPRIGHT", -2, 15)
-					else
-						rw:SetPoint("RIGHT", toast["Slot"..(i - 1)], "LEFT", -2 , 0)
-					end
-				end
-			end)
-
-			LST:SetSkin("NDui MOD")
-		end
-
-		if IsAddOnLoaded("Immersion") then
-			local talkbox = ImmersionFrame.TalkBox.MainFrame
-			F.ReskinClose(talkbox.CloseButton, "TOPRIGHT", talkbox, "TOPRIGHT", -20, -20)
+			local list = {"WhisperPopFrameListDelete", "WhisperPopFrameTopCloseButton", "WhisperPopMessageFrameTopCloseButton"}
+			for k, v in pairs(list) do
+				F.ReskinClose(_G[v])
+			end
 		end
 
 		if IsAddOnLoaded("WorldQuestTab") then

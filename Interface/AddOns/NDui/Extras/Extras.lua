@@ -106,8 +106,8 @@ hooksecurefunc("ReputationFrame_Update",function()
 		local factionRow = _G["ReputationBar"..i]
 		local factionBar = _G["ReputationBar"..i.."ReputationBar"]
 		local factionStanding = _G["ReputationBar"..i.."ReputationBarFactionStanding"]
-		if ( factionIndex <= numFactions ) then
-			local _, _, _, _, _, _, _, _, _, _, _, _, _, factionID = GetFactionInfo(factionIndex)
+		if factionIndex <= numFactions then
+			local factionID = select(14, GetFactionInfo(factionIndex))
 			if factionID and C_Reputation.IsFactionParagon(factionID) then
 				local currentValue, threshold, _, hasRewardPending = C_Reputation.GetFactionParagonInfo(factionID)
 				local value = mod(currentValue, threshold)
