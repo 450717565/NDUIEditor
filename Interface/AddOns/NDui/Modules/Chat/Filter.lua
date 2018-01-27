@@ -17,11 +17,11 @@ NDui:EventFrame({"PLAYER_LOGIN", "PLAYER_LOGOUT"}):SetScript("OnEvent", function
 	end
 
 	-- Timestamp
-	local greyStamp = DB.GreyColor.."[%H:%M:%S]|r "
+	local infoStamp = DB.InfoColor.."<%H:%M:%S>|r "
 	if NDuiDB["Chat"]["Timestamp"] then
-		SetCVar("showTimestamps", greyStamp)
+		SetCVar("showTimestamps", infoStamp)
 	else
-		if GetCVar("showTimestamps") == greyStamp then
+		if GetCVar("showTimestamps") == infoStamp then
 			SetCVar("showTimestamps", "none")
 		end
 	end
@@ -85,20 +85,24 @@ local function genChatFilter(self, event, msg, author, _, _, _, flag)
 end
 
 local chatEvents = {
+	"CHAT_MSG_BATTLEGROUND",
+	"CHAT_MSG_BATTLEGROUND_LEADER",
 	"CHAT_MSG_BN_CONVERSATION",
 	"CHAT_MSG_BN_WHISPER",
 	"CHAT_MSG_BN_WHISPER_INFORM",
 	"CHAT_MSG_CHANNEL",
+	"CHAT_MSG_EMOTE",
 	"CHAT_MSG_GUILD",
 	"CHAT_MSG_INSTANCE_CHAT",
 	"CHAT_MSG_INSTANCE_CHAT_LEADER",
+	"CHAT_MSG_LOOT",
 	"CHAT_MSG_OFFICER",
 	"CHAT_MSG_PARTY",
 	"CHAT_MSG_PARTY_LEADER",
 	"CHAT_MSG_RAID",
 	"CHAT_MSG_RAID_LEADER",
+	"CHAT_MSG_RAID_WARNING",
 	"CHAT_MSG_SAY",
-	"CHAT_MSG_TEXT_EMOTE",
 	"CHAT_MSG_WHISPER",
 	"CHAT_MSG_WHISPER_INFORM",
 	"CHAT_MSG_YELL",
