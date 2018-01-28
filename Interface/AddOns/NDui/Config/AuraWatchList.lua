@@ -475,6 +475,8 @@ C.AuraWatchList = {
 				{AuraID = 200238, UnitID = "player"},
 				--奥丁：烙印
 				{AuraID = 197996, UnitID = "player"},
+				--深须国王：气体泡泡
+				{AuraID = 193018, UnitID = "player", Value= true},
 		-->卡拉赞
 			--夜之魇
 				--燃魂

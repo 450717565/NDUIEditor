@@ -137,7 +137,6 @@ function LightLoot:UpdateWidth()
 end
 
 function LightLoot:AnchorSlots()
-	local buttonSize = math.max(iconSize, fontSizeItem)
 	local shownSlots = 0
 
 	for i = 1, #slots do

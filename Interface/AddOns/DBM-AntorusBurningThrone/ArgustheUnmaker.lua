@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2031, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17202 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17209 $"):sub(12, -3))
 mod:SetCreatureID(124828)
 mod:SetEncounterID(2092)
 mod:SetZone()
@@ -90,8 +90,6 @@ local specWarnAvatarofAggra			= mod:NewSpecialWarningYou(255199, nil, nil, nil, 
 --Stage Three: The Arcane Masters
 local specWarnCosmicRay				= mod:NewSpecialWarningYou(252729, nil, nil, nil, 1, 2)
 local yellCosmicRay					= mod:NewYell(252729)
-local specWarnCosmicBeacon			= mod:NewSpecialWarningMoveAway(252616, nil, nil, nil, 1, 2)
-local yellCosmicBeacon				= mod:NewYell(252616)
 --Stage Three Mythic
 local specWarnSargSentence			= mod:NewSpecialWarningYou(257966, nil, nil, nil, 1, 2)
 local yellSargSentence				= mod:NewYell(257966)
@@ -521,13 +519,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			warnCosmicRay:CombinedShow(0.3, args.destName)
 		end
 	elseif spellId == 252616 then
-		if args:IsPlayer() then
-			specWarnCosmicBeacon:Show()
-			specWarnCosmicBeacon:Play("runout")
-			yellCosmicBeacon:Yell()
-		else
-			warnCosmicBeacon:CombinedShow(0.3, args.destName)
-		end
+		warnCosmicBeacon:CombinedShow(0.3, args.destName)
 	elseif spellId == 258647 then--Gift of Sea
 		warnSkyandSea:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then

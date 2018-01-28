@@ -201,6 +201,8 @@ local defaultSettings = {
 		CombatAlert = true,
 		Durability = false,
 		LootMonitor = true,
+		LootMonitorBonusRewards = false,
+		LootMonitorInGroup = true,
 		MoveTalking = true,
 		PartyFrame = true,
 		SlotInfo = true,
@@ -481,6 +483,8 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{},--blank
 		{1, "Extras", "ShowCharacterItemSheet", L["ShowCharacterItemSheet"]},
 		{1, "Extras", "ShowOwnFrameWhenInspecting", L["ShowOwnFrameWhenInspecting"], true},
+		{1, "Extras", "LootMonitorInGroup", L["LootMonitorInGroup"]},
+		{1, "Extras", "LootMonitorBonusRewards", L["LootMonitorBonusRewards"], true},
 		{},--blank
 		{1, "Extras", "BarrelsOEasy", L["BarrelsOEasy"]},
 		{1, "Extras", "LootMonitor", L["LootMonitor"], true},
