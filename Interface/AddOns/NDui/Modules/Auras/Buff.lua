@@ -36,7 +36,7 @@ local function styleButton(bu)
 
 	local duration = _G[name.."Duration"]
 	duration:ClearAllPoints()
-	duration:SetPoint("TOP", bu, "BOTTOM", 2, 2)
+	duration:SetPoint("TOP", bu, "BOTTOM", 1, 2)
 	duration:SetFont(unpack(DB.Font))
 
 	local count = _G[name.."Count"]

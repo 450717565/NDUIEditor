@@ -11,7 +11,7 @@ local LMFrame_CFG = {
 	other = true,
 }
 
-local function ClassColor(String)
+local function UnitClassColor(String)
 	if not UnitExists(String) then return string.format("|cffff0000%s|r", String) end
 	local _, class = UnitClass(String)
 	local color = _G["RAID_CLASS_COLORS"][class]
@@ -19,8 +19,8 @@ local function ClassColor(String)
 end
 
 local LMFrame = CreateFrame("Frame", "LootMonitor", UIParent)
-local LMFrame_Title = B.CreateFS(LMFrame, Button_Height-2, L["LootMonitor"], true, "TOPLEFT", 12, -10)
-local LMFrame_Rclick = B.CreateFS(LMFrame, Button_Height-2, L["LootMonitorInfo"], true, "BOTTOMLEFT", 12, 10)
+local LMFrame_Title = B.CreateFS(LMFrame, Button_Height-2, L["LootMonitor"], true, "TOPLEFT", 10, -10)
+local LMFrame_Info = B.CreateFS(LMFrame, Button_Height-2, L["LootMonitorInfo"], true, "BOTTOMLEFT", 10, 10)
 B.CreateMF(LMFrame)
 B.CreateBD(LMFrame)
 B.CreateTex(LMFrame)
@@ -69,7 +69,6 @@ local function CreateButton(index)
 	local button = CreateFrame("Button", "LMFrame_Report"..index, LMFrame)
 	button:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight", "ADD")
 	button:SetHeight(Button_Height)
-	button:SetPoint("LEFT", 0, 0)
 	button:SetPoint("RIGHT", -10, 0)
 
 	button:RegisterForClicks("AnyDown")
@@ -85,7 +84,7 @@ local function CreateButton(index)
 	button.text = text
 
 	if index == 1 then
-		button:SetPoint("TOPLEFT", LMFrame_Title, "BOTTOMLEFT", 0, -1)
+		button:SetPoint("TOPLEFT", LMFrame_Title, "BOTTOMLEFT", 0, -5)
 	else
 		button:SetPoint("TOPLEFT", LMFrame[index - 1], "BOTTOMLEFT", 0, -1)
 	end
@@ -164,11 +163,11 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 			}
 			local numButtons = #LMFrame_Report
 			for index = 1, numButtons do
-				LMFrame[index].text:SetText(DB.InfoColor..LMFrame_Report[index]["loottime"].." " ..ClassColor(LMFrame_Report[index]["player"]).." " ..LMFrame_Report[index]["loot"].." "..LMFrame_Report[index]["info"])
+				LMFrame[index].text:SetText(DB.InfoColor..LMFrame_Report[index]["loottime"].."|r " ..UnitClassColor(LMFrame_Report[index]["player"]).."|r " ..LMFrame_Report[index]["loot"].." "..LMFrame_Report[index]["info"])
 				LMFrame[index]:Show()
 			end
 			LMFrame:SetWidth(LMFrame_Width*2)
-			LMFrame:SetHeight((Button_Height+1)*(numButtons+3)-2)
+			LMFrame:SetHeight((Button_Height+1)*(numButtons+3)+6)
 			if not LMFrame:IsShown() then
 				LMFrame:Show()
 			end

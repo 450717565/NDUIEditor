@@ -87,7 +87,7 @@ tinsert(C.themes["Aurora"], function()
 	local pane = CharacterStatsPane
 	pane.ClassBackground:Hide()
 	pane.ItemLevelFrame:ClearAllPoints()
-	pane.ItemLevelFrame:SetPoint("TOP", pane.ItemLevelCategory, "BOTTOM", 0, -8.5)
+	pane.ItemLevelFrame:SetPoint("TOP", pane.ItemLevelCategory, "BOTTOM", 0, 0)
 	local category = {pane.ItemLevelCategory, pane.AttributesCategory, pane.EnhancementsCategory}
 	for k, v in pairs(category) do
 		v.Background:Hide()

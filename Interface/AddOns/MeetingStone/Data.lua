@@ -784,6 +784,17 @@ RAID_PROGRESSION_LIST = {
 }
 
 DEFAULT_SPAMWORD = [[
+![0-9].*位
+!大.*团
+!来.*就
+!秒.*打
+!拼.*车
+!誓.*约
+!现.*在
+!休.*息
+!需.*求
+!选
+!指
 ]]
 
 ZONE_ACTIVITY_MAP = {
