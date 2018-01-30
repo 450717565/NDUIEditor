@@ -76,6 +76,22 @@ CombatAlert:SetScript("OnEvent", function(self, event)
 	end
 end)
 
+--- 新人加入公会自动欢迎
+local GuildWelcome = NDui:EventFrame("CHAT_MSG_SYSTEM")
+GuildWelcome:SetScript("OnEvent", function(self, event, msg)
+	if not NDuiDB["Extras"]["GuildWelcome"] then return end
+	local str = GUILDEVENT_TYPE_JOIN:gsub("%%s", "")
+	if msg:find(str) then
+		local name = msg:gsub(str, "")
+		name = Ambiguate(name, "guild")
+		if not UnitIsUnit(name, "player") then
+			C_Timer.After(random(1000) / 1000, function()
+				SendChatMessage(L["GuildWelcomeMessage"]:format(name), "GUILD")
+			end)
+		end
+	end
+end)
+
 --- 进入PVP地区自动切换TAB功能
 local PvPTab = NDui:EventFrame({"ZONE_CHANGED_NEW_AREA", "DUEL_REQUESTED", "DUEL_FINISHED"})
 PvPTab:SetScript("OnEvent", function(self, event)
@@ -163,24 +179,6 @@ function ChatFrame_OnHyperlinkShow(chatframe, link, text, button)
 		end
 	end
 	return _ChatFrame_OnHyperlinkShow(chatframe, link, text, button)
-end
-
---- 新人加入公会自动欢迎
-do
-	local f = CreateFrame("Frame")
-	local str = GUILDEVENT_TYPE_JOIN:gsub("%%s", "")
-	f:RegisterEvent("CHAT_MSG_SYSTEM")
-	f:SetScript("OnEvent", function(self, event, msg)
-		if msg:find(str) then
-			local name = msg:gsub(str, "")
-			name = Ambiguate(name, "guild")
-			if not UnitIsUnit(name, "player") then
-				C_Timer.After(random(1000) / 1000, function()
-					SendChatMessage(("欢迎 %s 加入公会！"):format(name), "GUILD")
-				end)
-			end
-		end
-	end)
 end
 
 --- 特殊物品购买无需确认

@@ -30,7 +30,7 @@ end
 
 local function WeeklyLootItemLevel(mlvl)
 	if mlvl == "0" then
-		return "没有低保！"
+		return L["NoWeeklyItem"]
 	elseif mlvl == "2" then
 		return "905+"
 	elseif mlvl == "3" then
@@ -137,8 +137,8 @@ local function DecorateTooltip(self, link, _)
 		end
 		if mythicLevel then
 			self:AddLine(" ")
-			self:AddLine("|cff00ffff秘境箱子等级："..ilvl.."|r")
-			self:AddLine("|cff00ffff低保箱子等级："..wlvl.."|r")
+			self:AddLine("|cff00ffff"..L["MythicLootItemLevel:"]..ilvl.."|r")
+			self:AddLine("|cff00ffff"..L["WeeklyLootItemLevel:"]..wlvl.."|r")
 		end
 		if modifiers or mythicLevel then
 			self:Show()

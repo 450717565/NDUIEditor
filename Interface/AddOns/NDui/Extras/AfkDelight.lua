@@ -127,7 +127,7 @@ f.gradient4:SetWidth(50)
 -- close button at bottom left incase /afk bugs out
 local button = CreateFrame("Button", A.."Button", f.model, "UIPanelButtonTemplate")
 button.text = _G[button:GetName().."Text"]
-button.text:SetText("离开")
+button.text:SetText(AFK)
 button:SetWidth(button.text:GetStringWidth()+20)
 button:SetHeight(button.text:GetStringHeight()+12)
 button:SetPoint("BOTTOMLEFT",f,10,10)

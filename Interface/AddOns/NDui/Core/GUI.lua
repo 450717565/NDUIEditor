@@ -200,15 +200,16 @@ local defaultSettings = {
 		BarrelsOEasy = true,
 		CombatAlert = true,
 		Durability = false,
+		GuildWelcome = true,
 		LootMonitor = true,
 		LootMonitorBonusRewards = false,
 		LootMonitorInGroup = true,
 		MoveTalking = true,
 		PartyFrame = true,
-		SlotInfo = true,
-		StarCursor = true,
 		ShowCharacterItemSheet = true,
 		ShowOwnFrameWhenInspecting = true,
+		SlotInfo = true,
+		StarCursor = true,
 	},
 }
 
@@ -494,6 +495,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Extras", "Durability", L["Show Durability"], true},
 		{1, "Extras", "MoveTalking", L["Move Talking"]},
 		{1, "Extras", "SlotInfo", L["Slot Info"], true},
+		{1, "Extras", "GuildWelcome", L["GuildWelcome"]},
 	},
 }
 

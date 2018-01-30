@@ -41,7 +41,7 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 17213 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 17228 $"):sub(12, -3)),
 	DisplayVersion = "7.3.19 alpha", -- the string that is shown as version
 	ReleaseRevision = 17191 -- the revision of the latest stable version that is available
 }
@@ -204,26 +204,6 @@ DBM.DefaultOptions = {
 	SpecialWarningFlashRepeat5 = true,
 	SpecialWarningFlashRepeatAmount = 2,--Repeat 2 times, mean 3 flashes (first plus 2 repeat)
 	SWarnClassColor = true,
-	HUDColorOverride = false,
-	HUDSizeOverride = false,
-	HUDAlphaOverride = false,
-	HUDTextureOverride = false,
-	HUDSize1 = 5,
-	HUDSize2 = 5,
-	HUDSize3 = 5,
-	HUDSize4 = 5,
-	HUDAlpha1 = 0.5,
-	HUDAlpha2 = 0.5,
-	HUDAlpha3 = 0.5,
-	HUDAlpha4 = 0.5,
-	HUDColor1 = {1.0, 1.0, 0.0},--Yellow
-	HUDColor2 = {1.0, 0.0, 0.0},--Red
-	HUDColor3 = {1.0, 0.5, 0.0},--Orange
-	HUDColor4 = {0.0, 1.0, 0.0},--Green
-	HUDTexture1 = "highlight",
-	HUDTexture2 = "highlight",
-	HUDTexture3 = "highlight",
-	HUDTexture4 = "highlight",
 	ArrowPosX = 0,
 	ArrowPosY = -150,
 	ArrowPoint = "TOP",
@@ -378,7 +358,7 @@ local UpdateChestTimer
 local breakTimerStart
 local AddMsg
 
-local fakeBWVersion, fakeBWHash = 86, "2adc318"
+local fakeBWVersion, fakeBWHash = 87, "299b522"
 local versionQueryString, versionResponseString = "Q^%d^%s", "V^%d^%s"
 
 local enableIcons = true -- set to false when a raid leader or a promoted player has a newer version of DBM
@@ -386,8 +366,8 @@ local enableIcons = true -- set to false when a raid leader or a promoted player
 local bannedMods = { -- a list of "banned" (meaning they are replaced by another mod like DBM-Battlegrounds (replaced by DBM-PvP)) boss mods, these mods will not be loaded by DBM (and they wont show up in the GUI)
 	"DBM-Battlegrounds", --replaced by DBM-PvP
 	-- ZG and ZA are now part of the party mods for Cataclysm
-	"DBM-ZulAman",
-	"DBM-ZG",
+	"DBM-ZulAman",--Remove restriction in 8.0 classic wow
+	"DBM-ZG",--Remove restriction in 8.0 classic wow
 	"DBM-SiegeOfOrgrimmar",--Block legacy version. New version is "DBM-SiegeOfOrgrimmarV2"
 	"DBM-HighMail",
 	"DBM-ProvingGrounds-MoP",--Renamed to DBM-ProvingGrounds in 6.0 version since blizzard updated content for WoD
@@ -1747,7 +1727,11 @@ do
 			end
 		end
 		if not success then
-			DBM:AddMsg(DBM_ARROW_WAY_USAGE)
+			if DBM.Arrow:IsShown() then
+				DBM.Arrow:Hide()--Hide
+			else--error
+				DBM:AddMsg(DBM_ARROW_WAY_USAGE)
+			end
 		else
 			DBM:AddMsg(DBM_ARROW_WAY_SUCCESS)
 		end
@@ -9655,18 +9639,6 @@ do
 			local repeatCount = self.Options["SpecialWarningFlashRepeat"..number] and self.Options.SpecialWarningFlashRepeatAmount or 0
 			self.Flash:Show(flashColor[1], flashColor[2], flashColor[3], self.Options["SpecialWarningFlashDura"..number], self.Options["SpecialWarningFlashAlph"..number], repeatCount)
 		end
-	end
-	
-	function DBM:ShowTestHUD()
-		if self:HasMapRestrictions() then
-			self:AddMsg(DBM_CORE_NO_HUD)
-			return
-		end
-		local x, y = UnitPosition("player")
-		DBMHudMap:RegisterPositionMarker(10000, "Test1", "highlight", x, y-20, 5, 10, 1, 1, 0, 0.5, nil, 1):Pulse(0.5, 0.5)
-		DBMHudMap:RegisterPositionMarker(20000, "Test2", "highlight", x-20, y, 5, 10, 1, 0, 0, 0.5, nil, 2):Pulse(0.5, 0.5)
-		DBMHudMap:RegisterPositionMarker(30000, "Test3", "highlight", x+20, y, 5, 10, 1, 0.5, 0, 0.5, nil, 3):Pulse(0.5, 0.5)
-		DBMHudMap:RegisterPositionMarker(40000, "Test4", "highlight", x, y+20, 5, 10, 0, 1, 0, 0.5, nil, 4):Pulse(0.5, 0.5)
 	end
 end
 

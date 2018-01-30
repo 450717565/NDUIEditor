@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1983, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17183 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17228 $"):sub(12, -3))
 mod:SetCreatureID(122366)
 mod:SetEncounterID(2069)
 mod:SetZone()
@@ -47,7 +47,7 @@ local specWarnDarkFissure				= mod:NewSpecialWarningDodge(243999, nil, nil, nil,
 local specWarnMarkedPrey				= mod:NewSpecialWarningYou(244042, nil, nil, 2, 1, 2)
 local yellMarkedPrey					= mod:NewYell(244042)
 local yellMarkedPreyFades				= mod:NewShortFadesYell(244042)
-local specWarnNecroticEmbrace			= mod:NewSpecialWarningMoveAway(244094, nil, nil, 2, 1, 2)
+local specWarnNecroticEmbrace			= mod:NewSpecialWarningYouPos(244094, nil, nil, 2, 1, 2)
 local yellNecroticEmbrace				= mod:NewPosYell(244094)
 local yellNecroticEmbraceFades			= mod:NewIconFadesYell(244094)
 local specWarnEchoesOfDoom				= mod:NewSpecialWarningYou(248732, nil, nil, nil, 1, 2)
@@ -156,10 +156,18 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 244094 then
 		self.vb.totalEmbrace = self.vb.totalEmbrace + 1
 		if self.vb.totalEmbrace >= 3 then return end--Once it's beyond 2 players, consider it a wipe and throttle messages
+		if self.Options.SetIconEmbrace then
+			self:SetIcon(args.destName, self.vb.totalEmbrace+2)--Should be BW compatible, for most part.
+		end
 		if args:IsPlayer() then
-			specWarnNecroticEmbrace:Show()
-			specWarnNecroticEmbrace:Play("scatter")
+			if UnitDebuff("player", args.spellName) then return end--Don't warn agian or schedule double yells, especially if tank soaking 2
 			local icon = self.vb.totalEmbrace+2
+			specWarnNecroticEmbrace:Show(self:IconNumToTexture(count))
+			if self:IsMythic() and not self:IsTank() then
+				specWarnNecroticEmbrace:Play("mm"..icon)
+			else
+				specWarnNecroticEmbrace:Play("targetyou")
+			end
 			yellNecroticEmbrace:Yell(self.vb.totalEmbrace, icon, icon)
 			yellNecroticEmbraceFades:Countdown(6, 3, icon)
 			if self.Options.RangeFrame then
@@ -167,9 +175,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			end
 		else
 			warnNecroticEmbrace:CombinedShow(0.5, args.destName)--Combined message because even if it starts on 1, people are gonna fuck it up
-		end
-		if self.Options.SetIconEmbrace then
-			self:SetIcon(args.destName, self.vb.totalEmbrace+2)--Should be BW compatible, for most part.
 		end
 	elseif spellId == 248732 then
 		warnEchoesofDoom:CombinedShow(0.5, args.destName)--In case multiple shadows up

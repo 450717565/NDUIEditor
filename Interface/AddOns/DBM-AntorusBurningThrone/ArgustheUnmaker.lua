@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2031, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17209 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17215 $"):sub(12, -3))
 mod:SetCreatureID(124828)
 mod:SetEncounterID(2092)
 mod:SetZone()
@@ -201,16 +201,9 @@ local function checkForMissingSentence(self)
 	DBM:Debug("checkForMissingSentence ran, which means all sentence immuned", 2)
 end
 
-local function delayedBoonCheck(self, stage4)
-	if not UnitBuff("player", aggramarsBoon) then
-		if stage4 then
-			specWarnSoulbombMoveTo:Show(DBM_CORE_ROOM_EDGE)
-			specWarnSoulbombMoveTo:Play("runtoedge")
-		else
-			specWarnSoulbombMoveTo:Show(avatarOfAggramar)
-			specWarnSoulbombMoveTo:Play("movetotank")
-		end
-	end
+local function delayedBoonCheck(self)
+	specWarnSoulbombMoveTo:Show(DBM_CORE_ROOM_EDGE)
+	specWarnSoulbombMoveTo:Play("runtoedge")
 end
 
 function mod:OnCombatStart(delay)
@@ -461,7 +454,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnSoulbomb:Show()
 			specWarnSoulbomb:Play("targetyou")
-			self:Schedule(7, delayedBoonCheck, self)
+			self:Schedule(self:IsMythic() and 5 or 8, delayedBoonCheck, self)
 			yellSoulbomb:Yell(2, args.spellName, 2)
 			yellSoulbombFades:Countdown(self:IsMythic() and 12 or 15, nil, 2)
 		elseif playerAvatar then

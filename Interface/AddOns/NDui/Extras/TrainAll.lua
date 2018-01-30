@@ -1,3 +1,5 @@
+local B, C, L, DB = unpack(select(2, ...))
+
 local Event = CreateFrame("frame")
 Event:RegisterEvent("ADDON_LOADED")
 
@@ -36,7 +38,7 @@ local function Createit()
 	local Button = CreateFrame("Button", "TrainAllButton",ClassTrainerFrame, "MagicButtonTemplate")
 	Button:SetWidth(80)
 	Button:SetHeight(22)
-	Button:SetText("全部训练")
+	Button:SetText(L["TrainAll"])
 	Button:SetPoint("RIGHT", ClassTrainerTrainButton, "LEFT", -2, 0)
 	-- Aurora Reskin
 	if IsAddOnLoaded("Aurora") then
@@ -45,7 +47,7 @@ local function Createit()
 	end
 	Button:SetScript("OnEnter", function()
 		GameTooltip:SetOwner(Button,"ANCHOR_RIGHT")
-		GameTooltip:SetText("学习所有技能需要："..GetMoneyString(Cost))
+		GameTooltip:SetText(L["TrainAllNeed:"]..GetMoneyString(Cost))
 	end)
 	Button:SetScript("OnLeave", function()
 		GameTooltip:Hide()

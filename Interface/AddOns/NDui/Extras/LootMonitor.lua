@@ -19,8 +19,8 @@ local function ClassColor(String)
 end
 
 local LMFrame = CreateFrame("Frame", "LootMonitor", UIParent)
-local LMFrame_Title = B.CreateFS(LMFrame, Button_Height-2, "拾取监视", true, "TOPLEFT", 12, -10)
-local LMFrame_Rclick = B.CreateFS(LMFrame, Button_Height-2, "左键：贴出 右键：密语", true, "BOTTOMLEFT", 12, 10)
+local LMFrame_Title = B.CreateFS(LMFrame, Button_Height-2, L["LootMonitor"], true, "TOPLEFT", 12, -10)
+local LMFrame_Rclick = B.CreateFS(LMFrame, Button_Height-2, L["LootMonitorInfo"], true, "BOTTOMLEFT", 12, 10)
 B.CreateMF(LMFrame)
 B.CreateBD(LMFrame)
 B.CreateTex(LMFrame)
@@ -40,7 +40,7 @@ end
 
 local function ButtonOnClick(self, button)
 	if button == "RightButton" then
-		SendChatMessage("你好！请问"..LMFrame_Report[self.index]["loot"].."有需求吗？没有的话能让我吗？谢谢！", "WHISPER", nil, LMFrame_Report[self.index]["player"])
+		SendChatMessage(L["LootMonitorMessage"]:format(LMFrame_Report[self.index]["loot"]), "WHISPER", nil, LMFrame_Report[self.index]["player"])
 	else
 		local editBox = ChatEdit_ChooseBoxForSend()
 		ChatEdit_ActivateChat(editBox)
@@ -61,7 +61,7 @@ local LMFrame_CloseBtn = B.CreateButton(LMFrame, 20, 20, "X")
 LMFrame_CloseBtn:SetPoint("TOPRIGHT", -10, -7)
 LMFrame_CloseBtn:SetScript("OnClick", function(self) LMFrame:Hide() end)
 
-local LMFrame_ResetBtn = B.CreateButton(LMFrame, 60, 20, "重置")
+local LMFrame_ResetBtn = B.CreateButton(LMFrame, 60, 20, RESET)
 LMFrame_ResetBtn:SetPoint("BOTTOMRIGHT", -10, 7)
 LMFrame_ResetBtn:SetScript("OnClick", function(self) LMFrame_Reset() end)
 
