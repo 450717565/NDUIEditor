@@ -67,9 +67,12 @@ LMFrame_ResetBtn:SetScript("OnClick", function(self) LMFrame_Reset() end)
 
 local function CreateButton(index)
 	local button = CreateFrame("Button", "LMFrame_Report"..index, LMFrame)
-	button:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight", "ADD")
+	button:SetHighlightTexture(DB.bdTex)
 	button:SetHeight(Button_Height)
 	button:SetPoint("RIGHT", -10, 0)
+
+	local hl = button:GetHighlightTexture()
+	hl:SetVertexColor(1, 1, 1, .25)
 
 	button:RegisterForClicks("AnyDown")
 	button:SetScript("OnClick", ButtonOnClick)

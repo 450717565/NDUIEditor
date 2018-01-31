@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1983, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17228 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17234 $"):sub(12, -3))
 mod:SetCreatureID(122366)
 mod:SetEncounterID(2069)
 mod:SetZone()
@@ -160,18 +160,19 @@ function mod:SPELL_AURA_APPLIED(args)
 			self:SetIcon(args.destName, self.vb.totalEmbrace+2)--Should be BW compatible, for most part.
 		end
 		if args:IsPlayer() then
-			if UnitDebuff("player", args.spellName) then return end--Don't warn agian or schedule double yells, especially if tank soaking 2
-			local icon = self.vb.totalEmbrace+2
-			specWarnNecroticEmbrace:Show(self:IconNumToTexture(count))
-			if self:IsMythic() and not self:IsTank() then
-				specWarnNecroticEmbrace:Play("mm"..icon)
-			else
-				specWarnNecroticEmbrace:Play("targetyou")
-			end
-			yellNecroticEmbrace:Yell(self.vb.totalEmbrace, icon, icon)
-			yellNecroticEmbraceFades:Countdown(6, 3, icon)
-			if self.Options.RangeFrame then
-				DBM.RangeCheck:Show(10)
+			if self:AntiSpam(2, 5) then
+				local icon = self.vb.totalEmbrace+2
+				specWarnNecroticEmbrace:Show(self:IconNumToTexture(count))
+				if self:IsMythic() and not self:IsTank() then
+					specWarnNecroticEmbrace:Play("mm"..icon)
+				else
+					specWarnNecroticEmbrace:Play("targetyou")
+				end
+				yellNecroticEmbrace:Yell(self.vb.totalEmbrace, icon, icon)
+				yellNecroticEmbraceFades:Countdown(6, 3, icon)
+				if self.Options.RangeFrame then
+					DBM.RangeCheck:Show(10)
+				end
 			end
 		else
 			warnNecroticEmbrace:CombinedShow(0.5, args.destName)--Combined message because even if it starts on 1, people are gonna fuck it up

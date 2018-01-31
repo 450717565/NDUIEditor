@@ -39,6 +39,7 @@ hooksecurefunc("AuraButton_UpdateDuration", function(auraButton, timeLeft)
 	local duration = auraButton.duration
 	if SHOW_BUFF_DURATIONS == "1" and timeLeft then
 		duration:SetFormattedText(FormatAuraTime(timeLeft))
+		duration:SetTextColor(1, 1, 1)
 		duration:Show()
 	else
 		duration:Hide()

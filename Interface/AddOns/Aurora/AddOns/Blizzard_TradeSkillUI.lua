@@ -19,8 +19,8 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 	rankFrame.BorderRight:Hide()
 	F.ReskinStatusBar(rankFrame, true)
 
-	F.ReskinInput(TradeSkillFrame.SearchBox)
 	TradeSkillFrame.SearchBox:SetWidth(200)
+	F.ReskinInput(TradeSkillFrame.SearchBox)
 	F.ReskinFilterButton(TradeSkillFrame.FilterButton)
 	F.ReskinArrow(TradeSkillFrame.LinkToButton, "right")
 
@@ -46,6 +46,13 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 	hooksecurefunc(recipe, "OnUnlearnedTabClicked", function()
 		recipe.Tabs[1].bg:SetBackdropColor(0, 0, 0, .2)
 		recipe.Tabs[2].bg:SetBackdropColor(r, g, b, .2)
+	end)
+	hooksecurefunc(recipe, "RefreshDisplay", function(self)
+		for i = 1, #self.buttons do
+			local buttons = self.buttons[i]
+			buttons.SelectedTexture:SetTexture(C.media.backdrop)
+			buttons.SelectedTexture:SetVertexColor(r, g, b, .5)
+		end
 	end)
 
 	-- Recipe Details
