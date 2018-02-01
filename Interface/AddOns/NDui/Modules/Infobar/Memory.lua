@@ -5,7 +5,7 @@ local module = NDui:GetModule("Infobar")
 local info = module:RegisterInfobar(C.Infobar.MemoryPos)
 
 local function formatMemory(value, color)
-	color = color and DB.MyColor or " "
+	color = color and DB.MyColor or ""
 	if value > 1024 then
 		return format("%.1f"..color.."Mb", value / 1024)
 	else
@@ -50,6 +50,7 @@ info.onUpdate = function(self, elapsed)
 			end
 		end
 		info.text:SetText(formatMemory(total, true))
+		self.text:SetJustifyH("LEFT")
 
 		self.timer = 0
 	end

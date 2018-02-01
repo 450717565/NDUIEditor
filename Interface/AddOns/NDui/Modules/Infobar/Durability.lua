@@ -59,10 +59,12 @@ info.onEvent = function(self)
 	end
 
 	if numSlots > 0 then
-		self.text:SetText(format(gsub(L["D:"].."[color]%.1f%%|r", "%[color%]", (gradientColor(string.format(localSlots[1][3]*100)/100))), string.format(localSlots[1][3]*100)))
+		self.text:SetText(format(gsub("[color]%.1f%%|r"..L["D"], "%[color%]", (gradientColor(string.format(localSlots[1][3]*100)/100))), string.format(localSlots[1][3]*100)))
 	else
-		self.text:SetText(L["D:"]..DB.MyColor..NONE)
+		self.text:SetText(DB.MyColor..NONE.."|r"..L["D"])
 	end
+
+	self.text:SetJustifyH("RIGHT")
 end
 
 info.onMouseUp = function(self, button)

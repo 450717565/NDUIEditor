@@ -107,7 +107,8 @@ info.onEvent = function(self, event, arg1)
 
 	local _, onlineFriends = GetNumFriends()
 	local _, onlineBNet = BNGetNumFriends()
-	info.text:SetText(format("%s"..L[":"]..DB.MyColor.."%d", FRIENDS, onlineFriends + onlineBNet))
+	self.text:SetText(format("%s"..L[":"]..DB.MyColor.."%d", FRIENDS, onlineFriends + onlineBNet))
+	self.text:SetJustifyH("LEFT")
 	updateRequest = false
 end
 
@@ -160,7 +161,7 @@ info.onEnter = function(self)
 					if client == BNET_CLIENT_WOW then
 						if CanCooperateWithGameAccount(gameID) then
 							local color = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[class] or GetQuestDifficultyColor(1)
-							name = B.HexRGB(color).." "..charName
+							name = " "..B.HexRGB(color)..charName
 						end
 						zoneColor = GetRealZoneText() == infoText and activeZone or inactiveZone
 						realmColor = GetRealmName() == realmName and activeZone or inactiveZone

@@ -42,6 +42,7 @@ info.onEvent = function(self, event)
 		profit = profit + change
 	end
 	self.text:SetText(formatTextMoney(newMoney))
+	self.text:SetJustifyH("RIGHT")
 
 	if not NDuiADB["totalGold"] then NDuiADB["totalGold"] = {} end
 	if not NDuiADB["totalGold"][myRealm] then NDuiADB["totalGold"][myRealm] = {} end

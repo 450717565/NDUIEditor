@@ -34,7 +34,6 @@ local slots = {
 --創建面板
 local function GetInspectItemListFrame(parent)
 	if (not parent.inspectFrame) then
-		local itemfont = "ChatFontNormal"
 		local frame = CreateFrame("Frame", nil, parent)
 		frame.backdrop = {
 			bgFile   = "Interface\\Tooltips\\UI-Tooltip-Background",
@@ -53,11 +52,8 @@ local function GetInspectItemListFrame(parent)
 		frame.portrait = CreateFrame("Frame", nil, frame, "GarrisonFollowerPortraitTemplate")
 		frame.portrait:SetPoint("TOPLEFT", frame, "TOPLEFT", 18, -16)
 		frame.portrait:SetScale(0.8)
-		frame.title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalLargeOutline")
-		frame.title:SetPoint("TOPLEFT", frame, "TOPLEFT", 66, -18)
-		frame.level = frame:CreateFontString(nil, "ARTWORK", itemfont)
-		frame.level:SetPoint("TOPLEFT", frame, "TOPLEFT", 66, -42)
-		frame.level:SetFont(frame.level:GetFont(), 14, "THINOUTLINE")
+		frame.title = B.CreateFS(frame, 17, "", false, "TOPLEFT", 66, -18)
+		frame.level = B.CreateFS(frame, 14, "", false, "TOPLEFT", 66, -42)
 
 		local itemframe
 		local fontsize = GetLocale():sub(1,2) == "zh" and 12 or 9
@@ -84,18 +80,14 @@ local function GetInspectItemListFrame(parent)
 			itemframe.label:SetBackdrop(backdrop)
 			itemframe.label:SetBackdropBorderColor(0, 0.9, 0.9, 0.2)
 			itemframe.label:SetBackdropColor(0, 0.9, 0.9, 0.2)
-			itemframe.label.text = itemframe.label:CreateFontString(nil, "ARTWORK")
-			itemframe.label.text:SetFont(UNIT_NAME_FONT, fontsize, "THINOUTLINE")
+			itemframe.label.text = B.CreateFS(itemframe.label, fontsize, v.name)
 			itemframe.label.text:SetSize(34, 14)
-			itemframe.label.text:SetPoint("CENTER", 1, 0)
-			itemframe.label.text:SetText(v.name)
 			itemframe.label.text:SetTextColor(0, 0.9, 0.9)
-			itemframe.levelString = itemframe:CreateFontString(nil, "ARTWORK", itemfont)
+			itemframe.levelString = B.CreateFS(itemframe, 16, "")
 			itemframe.levelString:SetJustifyH("CENTER")
 			itemframe.levelString:SetPoint("LEFT", itemframe.label, "RIGHT", 4, 0)
-			itemframe.itemString = itemframe:CreateFontString(nil, "ARTWORK", itemfont)
+			itemframe.itemString = B.CreateFS(itemframe, 16, "")
 			itemframe.itemString:SetJustifyH("LEFT")
-			itemframe.itemString:SetHeight(16)
 			itemframe.itemString:SetPoint("LEFT", itemframe.levelString, "RIGHT", 0, 0)
 			itemframe:SetScript("OnEnter", function(self)
 				local r, g, b, a = self.label:GetBackdropColor()
@@ -138,6 +130,7 @@ local function GetInspectItemListFrame(parent)
 			local F, C = unpack(Aurora)
 			F.CreateBD(frame)
 			F.CreateSD(frame)
+			--F.ReskinGarrisonPortrait(frame.portrait)
 		end
 	end
 

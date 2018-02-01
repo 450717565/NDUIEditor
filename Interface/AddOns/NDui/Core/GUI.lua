@@ -210,6 +210,7 @@ local defaultSettings = {
 		ShowOwnFrameWhenInspecting = true,
 		SlotInfo = true,
 		StarCursor = true,
+		iLvlTools = true,
 	},
 }
 
@@ -490,6 +491,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Extras", "BarrelsOEasy", L["BarrelsOEasy"]},
 		{1, "Extras", "LootMonitor", L["LootMonitor"], true},
 		{1, "Extras", "StarCursor", L["StarCursor"]},
+		{1, "Extras", "iLvlTools", L["iLvlTools"], true},
 		{},--blank
 		{1, "Extras", "CombatAlert", L["CombatAlert"]},
 		{1, "Extras", "Durability", L["Show Durability"], true},

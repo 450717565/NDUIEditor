@@ -7,7 +7,7 @@ local factions = {}
 local currencies = {}
 local merchantFrameButtons = {}
 local searching = ""
-local RECIPE = GetItemClassInfo(LE_ITEM_CLASS_RECIPE) -- new API 7.0
+local RECIPE = GetItemClassInfo(LE_ITEM_CLASS_RECIPE)
 local tooltip = CreateFrame("GameTooltip", "xMerchantTooltip", UIParent, "GameTooltipTemplate")
 
 local scroll_limit_enabled = false
@@ -146,7 +146,6 @@ local function CurrencyUpdate()
 	wipe(currencies)
 
 	local limit = GetCurrencyListSize()
-
 	for i = 1, limit do
 		local name, isHeader, _, _, _, count, icon, maximum, hasWeeklyLimit, currentWeeklyAmount, _, itemID = GetCurrencyListInfo(i)
 		if not isHeader and itemID then
@@ -185,6 +184,9 @@ local function CurrencyUpdate()
 end
 
 local function AltCurrencyFrame_Update(item, texture, cost, itemID, currencyName)
+	item.count:SetText(cost)
+	item.icon:SetTexture(texture)
+
 	if itemID ~= 0 or currencyName then
 		local currency = currencies[itemID] or currencies[currencyName]
 		if currency and currency < cost or not currency then
@@ -194,19 +196,14 @@ local function AltCurrencyFrame_Update(item, texture, cost, itemID, currencyName
 		end
 	end
 
-	item.count:SetText(cost)
-	item.icon:SetTexture(texture)
 	if item.pointType == HONOR_POINTS then
 		item.count:SetPoint("RIGHT", item.icon, "LEFT", 1, 0)
-		--item.icon:SetTexCoord(0.03125, 0.59375, 0.03125, 0.59375)
 	else
 		item.count:SetPoint("RIGHT", item.icon, "LEFT", -2, 0)
-		--item.icon:SetTexCoord(0, 1, 0, 1)
 	end
 
 	local iconWidth = 17
-	item.icon:SetWidth(iconWidth)
-	item.icon:SetHeight(iconWidth)
+	item.icon:SetSize(iconWidth, iconWidth)
 	item:SetWidth(item.count:GetWidth() + iconWidth + 4)
 	item:SetHeight(item.count:GetHeight() + 4)
 	-- Aurora Reskin
@@ -330,7 +327,7 @@ local function MerchantUpdate()
 	for i = 1, 10, 1 do
 		local offset = i+FauxScrollFrame_GetOffset(self.scrollframe)
 		local button = buttons[i]
-		button.hover = nil
+		button.hover = false
 
 		if offset <= numMerchantItems then
 			local name, texture, price, quantity, numAvailable, isUsable, extendedCost = GetMerchantItemInfo(offset)
@@ -346,7 +343,6 @@ local function MerchantUpdate()
 				if itemRarity then
 					r, g, b = GetItemQualityColor(itemRarity)
 					button.itemname:SetTextColor(r, g, b)
-					button.iteminfo:SetTextColor(r*.5, g*.5, b*.5)
 				end
 
 				if itemSubType or itemEquipLoc then
@@ -363,11 +359,7 @@ local function MerchantUpdate()
 				end
 
 				local alpha = 0.3
-				if searching == "" or searching == SEARCH:lower() or name:lower():match(searching)
-					or (itemRarity and tostring(itemRarity):lower():match(searching) or _G["ITEM_QUALITY"..tostring(itemRarity).."_DESC"]:lower():match(searching))
-					or (itemType and itemType:lower():match(searching))
-					or (itemSubType and itemSubType:lower():match(searching))
-					then
+				if searching == "" or searching == SEARCH:lower() or name:lower():match(searching) or (itemRarity and tostring(itemRarity):lower():match(searching) or _G["ITEM_QUALITY"..tostring(itemRarity).."_DESC"]:lower():match(searching)) or (itemType and itemType:lower():match(searching)) or (itemSubType and itemSubType:lower():match(searching)) then
 					alpha = 1
 				elseif self.tooltipsearching then
 					tooltip:SetOwner(UIParent, "ANCHOR_NONE")
@@ -417,11 +409,11 @@ local function MerchantUpdate()
 			if numAvailable == 0 then
 				button.highlight:SetVertexColor(0.5, 0.5, 0.5, 0.5)
 				button.highlight:Show()
-				button.isShown = 1
+				button.isShown = true
 			elseif not isUsable then
 				button.highlight:SetVertexColor(1, 0.2, 0.2, 0.5)
 				button.highlight:Show()
-				button.isShown = 1
+				button.isShown = true
 
 				local errors = GetError(link, itemType and itemType == RECIPE)
 				if errors then
@@ -430,11 +422,11 @@ local function MerchantUpdate()
 			elseif itemType and itemType == RECIPE and not GetKnown(link) then
 				button.highlight:SetVertexColor(0.2, 1, 0.2, 0.5)
 				button.highlight:Show()
-				button.isShown = 1
+				button.isShown = true
 			else
 				button.highlight:SetVertexColor(r, g, b, 0.5)
 				button.highlight:Hide()
-				button.isShown = nil
+				button.isShown = false
 
 				local errors = GetError(link, itemType and itemType == RECIPE)
 				if errors then
@@ -458,7 +450,7 @@ local function MerchantUpdate()
 			button:Show()
 		else
 			button.price = nil
-			button.hasItem = nil
+			button.hasItem = false
 			button:Hide()
 		end
 
@@ -496,7 +488,7 @@ local function OnEnter(self)
 	if self.isShown and not self.hover then
 		self.oldr, self.oldg, self.oldb, self.olda = self.highlight:GetVertexColor()
 		self.highlight:SetVertexColor(self.r, self.g, self.b, self.olda)
-		self.hover = 1
+		self.hover = true
 	else
 		self.highlight:Show()
 	end
@@ -506,13 +498,13 @@ end
 local function OnLeave(self)
 	if self.isShown then
 		self.highlight:SetVertexColor(self.oldr, self.oldg, self.oldb, self.olda)
-		self.hover = nil
+		self.hover = false
 	else
 		self.highlight:Hide()
 	end
 	GameTooltip:Hide()
 	ResetCursor()
-	MerchantFrame.itemHover = nil
+	MerchantFrame.itemHover = false
 end
 
 local function SplitStack(button, split)
@@ -532,26 +524,29 @@ local function Item_OnEnter(self)
 	if parent.isShown and not parent.hover then
 		parent.oldr, parent.oldg, parent.oldb, parent.olda = parent.highlight:GetVertexColor()
 		parent.highlight:SetVertexColor(parent.r, parent.g, parent.b, parent.olda)
-		parent.hover = 1
+		parent.hover = true
 	else
 		parent.highlight:Show()
 	end
 
 	GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+
+	local r, g, b = HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b
 	if self.pointType == ARENA_POINTS then
-		GameTooltip:SetText(ARENA_POINTS, HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b)
+		GameTooltip:SetText(ARENA_POINTS, r, g, b)
 		GameTooltip:AddLine(TOOLTIP_ARENA_POINTS, nil, nil, nil, 1)
 		GameTooltip:Show()
 	elseif self.pointType == HONOR_POINTS then
-		GameTooltip:SetText(HONOR_POINTS, HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b)
+		GameTooltip:SetText(HONOR_POINTS, r, g, b)
 		GameTooltip:AddLine(TOOLTIP_HONOR_POINTS, nil, nil, nil, 1)
 		GameTooltip:Show()
 	elseif self.pointType == "Beta" then
-		GameTooltip:SetText(self.itemLink, HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b)
+		GameTooltip:SetText(self.itemLink, r, g, b)
 		GameTooltip:Show()
 	else
 		GameTooltip:SetHyperlink(self.itemLink)
 	end
+
 	if IsModifiedClick("DRESSUP") then
 		ShowInspectCursor()
 	else
@@ -563,10 +558,11 @@ local function Item_OnLeave(self)
 	local parent = self:GetParent()
 	if parent.isShown then
 		parent.highlight:SetVertexColor(parent.oldr, parent.oldg, parent.oldb, parent.olda)
-		parent.hover = nil
+		parent.hover = false
 	else
 		parent.highlight:Hide()
 	end
+
 	GameTooltip:Hide()
 	ResetCursor()
 end
@@ -586,7 +582,6 @@ local function OnEvent(self, event, ...)
 			self.search:SetWidth(92-x)
 			self.search:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 50-x, 9)
 		end
-		return
 	end
 end
 
@@ -594,10 +589,7 @@ local frame = CreateFrame("Frame", "xMerchantFrame", MerchantFrame)
 local function xMerchant_InitFrame(frame)
 	frame:RegisterEvent("ADDON_LOADED")
 	frame:SetScript("OnEvent", OnEvent)
-	frame:SetWidth(295)
-	frame:SetHeight(294)
-
-	-- frame:SetPoint("TOPLEFT", 21, -76)
+	frame:SetSize(295, 294)
 	frame:SetPoint("TOPLEFT", 10, -65)
 
 	merchantFrame = frame
@@ -642,14 +634,14 @@ end
 local search = CreateFrame("EditBox", "$parentSearch", frame, "InputBoxTemplate")
 frame.search = search
 search:SetSize(92, 26)
-search:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 50, 10)
 search:SetAutoFocus(false)
-search:SetScript("OnTextChanged", OnTextChanged)
+search:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 50, 10)
 search:SetScript("OnShow", OnShow)
+search:SetScript("OnTextChanged", OnTextChanged)
+search:SetScript("OnEditFocusGained", OnEditFocusGained)
+search:SetScript("OnEditFocusLost", OnEditFocusLost)
 search:SetScript("OnEnterPressed", OnEnterPressed)
 search:SetScript("OnEscapePressed", OnEscapePressed)
-search:SetScript("OnEditFocusLost", OnEditFocusLost)
-search:SetScript("OnEditFocusGained", OnEditFocusGained)
 
 local function Search_OnClick(self)
 	if self:GetChecked() then
@@ -659,6 +651,7 @@ local function Search_OnClick(self)
 		PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF)
 		frame.tooltipsearching = nil
 	end
+
 	if searching ~= "" and searching ~= SEARCH:lower() then
 		MerchantUpdate()
 	end
@@ -672,36 +665,29 @@ end
 local tooltipsearching = CreateFrame("CheckButton", "$parentTooltipSearching", frame, "InterfaceOptionsSmallCheckButtonTemplate")
 search.tooltipsearching = tooltipsearching
 tooltipsearching:SetSize(24, 24)
-tooltipsearching:SetPoint("LEFT", search, "RIGHT", -3, -2)
+tooltipsearching:SetChecked(false)
 tooltipsearching:SetHitRectInsets(0, 0, 0, 0)
+tooltipsearching:SetPoint("LEFT", search, "RIGHT", -3, -2)
 tooltipsearching:SetScript("OnClick", Search_OnClick)
 tooltipsearching:SetScript("OnEnter", Search_OnEnter)
 tooltipsearching:SetScript("OnLeave", GameTooltip_Hide)
-tooltipsearching:SetChecked(false)
 
 local scrollframe = CreateFrame("ScrollFrame", "xMerchantScrollFrame", frame, "FauxScrollFrameTemplate")
 frame.scrollframe = scrollframe
-
--- scrollframe:SetWidth(295)
-scrollframe:SetWidth(284)
-scrollframe:SetHeight(298)
-
--- scrollframe:SetPoint("TOPLEFT", MerchantFrame, 22, -74)
+scrollframe:SetSize(284, 298)
 scrollframe:SetPoint("TOPLEFT", MerchantFrame, 22, -65)
 scrollframe:SetScript("OnVerticalScroll", xScrollFrame_OnVerticalScroll)
 
 local top = frame:CreateTexture("$parentTop", "ARTWORK")
 frame.top = top
-top:SetWidth(31)
-top:SetHeight(182)
+top:SetSize(31, 182)
 top:SetPoint("TOPRIGHT", 30, 6)
 top:SetTexture("Interface\\PaperDollInfoFrame\\UI-Character-ScrollBar")
 top:SetTexCoord(0, 0.484375, 0, 1)
 
 local bottom = frame:CreateTexture("$parentBottom", "ARTWORK")
 frame.bottom = bottom
-bottom:SetWidth(31)
-bottom:SetHeight(182)
+bottom:SetSize(31, 182)
 bottom:SetPoint("BOTTOMRIGHT", 30, -6)
 bottom:SetTexture("Interface\\PaperDollInfoFrame\\UI-Character-ScrollBar")
 bottom:SetTexCoord(0.515625, 1, 0, 0.421875)
@@ -711,20 +697,21 @@ local function xMerchant_InitItemsButtons()
 		local button = CreateFrame("Button", "xMerchantFrame"..i, frame)
 		button:SetWidth(frame:GetWidth())
 		button:SetHeight(kItemButtonHeight)
-		if i == 1 then
-			button:SetPoint("TOPLEFT", 0, -1)
-		else
-			button:SetPoint("TOP", buttons[i-1], "BOTTOM")
-		end
 		button:RegisterForClicks("LeftButtonUp","RightButtonUp")
 		button:RegisterForDrag("LeftButton")
 		button:SetScript("OnClick", OnClick)
 		button:SetScript("OnDragStart", MerchantItemButton_OnClick)
 		button:SetScript("OnEnter", OnEnter)
-		button:SetScript("OnLeave", OnLeave)
 		button:SetScript("OnHide", OnHide)
-		button.UpdateTooltip = OnEnter
+		button:SetScript("OnLeave", OnLeave)
 		button.SplitStack = SplitStack
+		button.UpdateTooltip = OnEnter
+
+		if i == 1 then
+			button:SetPoint("TOPLEFT", 0, -1)
+		else
+			button:SetPoint("TOP", buttons[i-1], "BOTTOM")
+		end
 
 		local highlight = button:CreateTexture(nil, "BACKGROUND")
 		button.highlight = highlight
@@ -744,11 +731,11 @@ local function xMerchant_InitItemsButtons()
 		iteminfo:SetJustifyH("LEFT")
 		iteminfo:SetJustifyV("BOTTOM")
 		iteminfo:SetWordWrap(false)
+		iteminfo:SetTextColor(0.5, 0.5, 0.5)
 
 		local icon = button:CreateTexture(nil, "ARTWORK")
 		button.icon = icon
-		icon:SetWidth(25.4)
-		icon:SetHeight(25.4)
+		icon:SetSize(25.4, 25.4)
 		icon:SetPoint("LEFT", 2, 0)
 		icon:SetTexture("Interface\\Icons\\temp")
 
@@ -764,13 +751,7 @@ local function xMerchant_InitItemsButtons()
 		for j = 1, MAX_ITEM_COST, 1 do
 			local item = CreateFrame("Button", "$parentItem"..j, button)
 			button.item[j] = item
-			item:SetWidth(17)
-			item:SetHeight(17)
-			if j == 1 then
-				item:SetPoint("RIGHT", -2, 0)
-			else
-				item:SetPoint("RIGHT", button.item[j-1], "LEFT", -2, 0)
-			end
+			item:SetSize(17, 17)
 			item:RegisterForClicks("LeftButtonUp","RightButtonUp")
 			item:SetScript("OnClick", Item_OnClick)
 			item:SetScript("OnEnter", Item_OnEnter)
@@ -778,10 +759,15 @@ local function xMerchant_InitItemsButtons()
 			item.hasItem = true
 			item.UpdateTooltip = Item_OnEnter
 
+			if j == 1 then
+				item:SetPoint("RIGHT", -2, 0)
+			else
+				item:SetPoint("RIGHT", button.item[j-1], "LEFT", -2, 0)
+			end
+
 			local icon = item:CreateTexture(nil, "ARTWORK")
 			item.icon = icon
-			icon:SetWidth(17)
-			icon:SetHeight(17)
+			icon:SetSize(17, 17)
 			icon:SetPoint("RIGHT")
 
 			local count = B.CreateFS(item, 15, "")
@@ -792,8 +778,7 @@ local function xMerchant_InitItemsButtons()
 		local honor = CreateFrame("Button", "$parentHonor", button)
 		button.honor = honor
 		honor.itemLink = select(2, GetItemInfo(43308)) or "|cffffffff|Hitem:43308:0:0:0:0:0:0:0:0|h[Ehrenpunkte]|h|r"
-		honor:SetWidth(17)
-		honor:SetHeight(17)
+		honor:SetSize(17, 17)
 		honor:SetPoint("RIGHT", -2, 0)
 		honor:RegisterForClicks("LeftButtonUp","RightButtonUp")
 		honor:SetScript("OnClick", Item_OnClick)
@@ -804,8 +789,7 @@ local function xMerchant_InitItemsButtons()
 
 		local icon = honor:CreateTexture(nil, "ARTWORK")
 		honor.icon = icon
-		icon:SetWidth(17)
-		icon:SetHeight(17)
+		icon:SetSize(17, 17)
 		icon:SetPoint("RIGHT")
 
 		local count = B.CreateFS(honor, 15, "")
@@ -815,8 +799,7 @@ local function xMerchant_InitItemsButtons()
 		local arena = CreateFrame("Button", "$parentArena", button)
 		button.arena = arena
 		arena.itemLink = select(2, GetItemInfo(43307)) or "|cffffffff|Hitem:43307:0:0:0:0:0:0:0:0|h[Arenapunkte]|h|r"
-		arena:SetWidth(17)
-		arena:SetHeight(17)
+		arena:SetSize(17, 17)
 		arena:SetPoint("RIGHT", -2, 0)
 		arena:RegisterForClicks("LeftButtonUp","RightButtonUp")
 		arena:SetScript("OnClick", Item_OnClick)
@@ -827,8 +810,7 @@ local function xMerchant_InitItemsButtons()
 
 		local icon = arena:CreateTexture(nil, "ARTWORK")
 		arena.icon = icon
-		icon:SetWidth(17)
-		icon:SetHeight(17)
+		icon:SetSize(17, 17)
 		icon:SetPoint("RIGHT")
 
 		local count = B.CreateFS(arena, 15, "")

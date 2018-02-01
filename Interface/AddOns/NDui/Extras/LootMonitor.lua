@@ -14,7 +14,7 @@ local LMFrame_CFG = {
 local function UnitClassColor(String)
 	if not UnitExists(String) then return string.format("|cffff0000%s|r", String) end
 	local _, class = UnitClass(String)
-	local color = _G["RAID_CLASS_COLORS"][class]
+	local color = (_G["CUSTOM_CLASS_COLORS"] or _G["RAID_CLASS_COLORS"])[class]
 	return string.format("|cff%02x%02x%02x%s|r", color.r*255, color.g*255, color.b*255, String)
 end
 

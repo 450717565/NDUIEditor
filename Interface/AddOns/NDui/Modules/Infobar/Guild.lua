@@ -231,6 +231,7 @@ info.onEvent = function(self)
 	GuildRoster()
 	local _, _, online = GetNumGuildMembers()
 	self.text:SetText(GUILD..L[":"]..DB.MyColor..online)
+	self.text:SetJustifyH("LEFT")
 
 	if infoFrame:IsShown() then
 		refreshData()

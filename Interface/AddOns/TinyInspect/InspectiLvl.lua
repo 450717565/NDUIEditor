@@ -2,13 +2,14 @@
 -------------------------------------
 -- 装备等级 Author: M
 -------------------------------------
+local B, C, L, DB = unpack(NDui)
 
 local LibEvent = LibStub:GetLibrary("LibEvent.7000")
 local LibSchedule = LibStub:GetLibrary("LibSchedule.7000")
 
 local members, numMembers = {}, 0
 
-local EnableItemLevel = true
+local EnableItemLevel = NDuiDB["Extras"]["iLvlTools"]
 
 --是否觀察完畢
 local function InspectDone()
@@ -157,10 +158,6 @@ frame.label:SetPoint("TOPLEFT")
 frame.label:SetPoint("BOTTOMRIGHT")
 frame.label:RegisterForDrag("LeftButton")
 frame.label:SetHitRectInsets(0, 0, 0, 0)
-frame.label.text = frame.label:CreateFontString(nil, "BORDER", "GameFontNormal")
-frame.label.text:SetFont(UNIT_NAME_FONT, 13, "NORMAL")
-frame.label.text:SetPoint("TOP", 0, -5)
-frame.label.text:SetText(ITEM_LEVEL_ABBR)
 frame.label:SetScript("OnDragStop", function(self) self:GetParent():StopMovingOrSizing() end)
 frame.label:SetScript("OnDragStart", function(self) self:GetParent():StartMoving() end)
 frame.label:SetScript("OnClick", function(self)
@@ -178,13 +175,15 @@ frame.label:SetScript("OnClick", function(self)
 	end
 end)
 frame.label.progress = CreateFrame("StatusBar", nil, frame.label)
-frame.label.progress:SetStatusBarTexture("Interface\\TARGETINGFRAME\\UI-TargetingFrame-BarFill")
+frame.label.progress:SetStatusBarTexture(DB.normTex)
 frame.label.progress:SetPoint("TOPLEFT", 1, -1)
 frame.label.progress:SetPoint("BOTTOMRIGHT", -1, 1)
 frame.label.progress:SetStatusBarColor(0.1, 0.9, 0.1)
 frame.label.progress:SetMinMaxValues(0, 100)
 frame.label.progress:SetValue(0)
 frame.label.progress:SetAlpha(0.5)
+frame.label.text = B.CreateFS(frame.label, 13, L["iLvlTools"], false, "TOP", 0, -5)
+frame.label.text:SetTextColor(1, 0.82, 0)
 
 --創建條目
 local function GetButton(parent, index)
@@ -209,20 +208,13 @@ local function GetButton(parent, index)
 		button.role:SetSize(12, 12)
 		button.role:SetPoint("LEFT", 6, -1)
 		button.role:SetTexture("Interface\\LFGFrame\\UI-LFG-ICON-PORTRAITROLES")
-		button.ilevel = button:CreateFontString(nil, "ARTWORK")
-		button.ilevel:SetFont(UNIT_NAME_FONT, 13, "OUTLINE")
+		button.ilevel = B.CreateFS(button, 13, "", false, "LEFT", 18, 0)
 		button.ilevel:SetSize(50, 13)
 		button.ilevel:SetJustifyH("CENTER")
-		button.ilevel:SetPoint("LEFT", 18, 0)
-		button.ilevel:SetTextColor(1, 0.82, 0)
-		button.name = button:CreateFontString(nil, "ARTWORK")
-		button.name:SetFont(UNIT_NAME_FONT, 13, "OUTLINE")
-		button.name:SetPoint("LEFT", 66, 0)
-		button.spec = button:CreateFontString(nil, "ARTWORK")
-		button.spec:SetFont(GameFontNormal:GetFont(), 11, "THINOUTLINE")
-		button.spec:SetPoint("RIGHT", button, "RIGHT", -8, 0)
+		button.name = B.CreateFS(button, 13, "", false, "LEFT", 66, 0)
+		button.name:SetJustifyH("LEFT")
+		button.spec = B.CreateFS(button, 11, "", false, "RIGHT", -8, 0)
 		button.spec:SetJustifyH("RIGHT")
-		button.spec:SetTextColor(0.8, 0.9, 0.9)
 		button:SetScript("OnDoubleClick", function(self)
 			local ilevel = self.ilevel:GetText()
 			local name = self.name:GetText()
@@ -276,7 +268,7 @@ local function ShowMembersList()
 		button.ilevel:SetText(v.ilevel > 0 and format("%.1f",v.ilevel) or " - ")
 		button.name:SetText(v.name)
 		button.name:SetTextColor(r, g, b)
-		button.spec:SetText(v.spec and v.spec or "")
+		button.spec:SetText(v.spec and v.spec or " - ")
 		button:Show()
 		i = i + 1
 	end

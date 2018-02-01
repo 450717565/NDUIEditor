@@ -30,7 +30,8 @@ info.onUpdate = function(self, elapsed)
 		local _, _, latencyHome, latencyWorld = GetNetStats()
 		local latency = math.max(latencyHome, latencyWorld)
 		local fps = floor(GetFramerate())
-		self.text:SetText(colorFps(fps).."|rFps"..DB.MyColor.." / |r"..colorLatency(latency).."|rMs")
+		self.text:SetText("Fps"..colorFps(fps)..DB.MyColor.." / |rMs"..colorLatency(latency))
+		self.text:SetJustifyH("LEFT")
 
 		self.timer = 0
 	end

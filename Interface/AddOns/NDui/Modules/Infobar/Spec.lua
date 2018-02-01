@@ -34,8 +34,10 @@ info.onEvent = function(self)
 		end
 		self.text:SetText(DB.MyColor..name..icon)
 	else
-		self.text:SetText(SPECIALIZATION..": "..DB.MyColor..NONE)
+		self.text:SetText(DB.MyColor..NONE.."|r"..SPECIALIZATION)
 	end
+
+	self.text:SetJustifyH("RIGHT")
 end
 
 info.onEnter = function(self)

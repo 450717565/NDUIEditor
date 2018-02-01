@@ -4,6 +4,7 @@
 -- @Author: M
 -- @DepandsOn: InspectUnit.lua
 -------------------------------------
+local B, C, L, DB = unpack(NDui)
 
 hooksecurefunc("ShowInspectItemListFrame", function(unit, parent, itemLevel)
 	local frame = parent.inspectFrame
@@ -13,8 +14,8 @@ hooksecurefunc("ShowInspectItemListFrame", function(unit, parent, itemLevel)
 		frame.specicon:SetSize(42, 42)
 		frame.specicon:SetPoint("TOPRIGHT", -16, -15)
 		frame.specicon:SetMask("Interface\\Minimap\\UI-Minimap-Background")
-		frame.spectext = frame:CreateFontString(nil, "BORDER")
-		frame.spectext:SetFont(SystemFont_Outline_Small:GetFont(), 10, "THINOUTLINE")
+		frame.spectext = B.CreateFS(frame, 10, "")
+		frame.spectext:ClearAllPoints()
 		frame.spectext:SetPoint("BOTTOM", frame.specicon, "BOTTOM")
 		frame.spectext:SetJustifyH("CENTER")
 	end

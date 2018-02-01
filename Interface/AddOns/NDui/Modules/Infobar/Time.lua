@@ -22,6 +22,7 @@ info.onUpdate = function(self, elapsed)
 			self.text:SetText(format(color..TIMEMANAGER_TICKER_12HOUR..DB.MyColor..(hour < 12 and "AM" or "PM"), hour, minute))
 		end
 
+		self.text:SetJustifyH("RIGHT")
 		self.timer = 0
 	end
 end
