@@ -413,7 +413,7 @@ local function customFilter(element, unit, button, name, _, _, _, _, _, _, caste
 		elseif C.RaidAuraWatch["ALL"][spellID] then
 			return true
 		end
-	elseif style == "nameplate" then
+	elseif style == "nameplate" or style == "focus" then
 		if UnitIsUnit("player", unit) then return end
 		if C.WhiteList and C.WhiteList[spellID] then
 			return true
@@ -429,18 +429,18 @@ end
 
 function UF:CreateAuras(self)
 	local bu = CreateFrame("Frame", nil, self)
-	bu:SetHeight(41)
-	bu:SetWidth(self:GetWidth())
 	bu.gap = true
+	bu:SetWidth(self:GetWidth())
+	bu:SetHeight(41)
 	bu.initialAnchor = "TOPLEFT"
 	bu["growth-x"] = "RIGHT"
 	bu["growth-y"] = "DOWN"
 	if self.mystyle == "target" then
 		bu:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -13)
 		bu.numBuffs = 20
-		bu.numDebuffs = 15
-		bu.spacing = 6
-		bu.size = 22
+		bu.numDebuffs = 20
+		bu.size = 23
+		bu.spacing = 5
 	end
 
 	bu.showStealableBuffs = NDuiDB["UFs"]["StealableBuff"]
@@ -454,22 +454,22 @@ end
 
 function UF:CreateBuffs(self)
 	local bu = CreateFrame("Frame", nil, self)
-	bu.size = 20
+	bu.size = 18
 	bu.spacing = 5
 	bu.onlyShowPlayer = false
-	bu:SetHeight((bu.size + bu.spacing) * 4)
 	bu:SetWidth(self:GetWidth())
+	bu:SetHeight((bu.size + bu.spacing) * 4)
 	bu.initialAnchor = "BOTTOMLEFT"
 	bu["growth-x"] = "RIGHT"
 	bu["growth-y"] = "UP"
 	if self.mystyle == "boss" or self.mystyle == "arena" then
 		bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 5)
-		bu.size = 22
 		bu.num = 6
+		bu.size = 22
 	elseif self.mystyle == "raid" then
 		bu:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 1, 0)
+		bu.num = 6
 		bu.size = 14*NDuiDB["UFs"]["RaidScale"]
-		bu.num = 5
 		bu.spacing = 2
 		bu.CustomFilter = customFilter
 	else
@@ -484,51 +484,47 @@ end
 function UF:CreateDebuffs(self)
 	local bu = CreateFrame("Frame", nil, self)
 	bu.size = 20
-	bu.num = 18
 	bu.spacing = 5
 	bu.onlyShowPlayer = false
-	bu:SetHeight((bu.size + bu.spacing) * 4)
 	bu:SetWidth(self:GetWidth())
+	bu:SetHeight((bu.size + bu.spacing) * 4)
 	bu.initialAnchor = "TOPRIGHT"
 	bu["growth-x"] = "LEFT"
 	bu["growth-y"] = "DOWN"
 	if self.mystyle == "arena" or self.mystyle == "boss" then
 		bu:SetPoint("TOPRIGHT", self, "TOPLEFT", -5, 0)
-		bu.size = 27
 		bu.num = 6
+		bu.size = 27
 		bu.onlyShowPlayer = true
 	elseif self.mystyle == "focus" then
 		bu:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -11)
-		bu.size = 26
-		bu.num = 8
-		bu.spacing = 7
-		bu.onlyShowPlayer = true
+		bu.num = 7
+		bu.size = 25
+		bu.CustomFilter = customFilter
 		bu.initialAnchor = "TOPLEFT"
 		bu["growth-x"] = "RIGHT"
 		bu["growth-y"] = "DOWN"
 	elseif self.mystyle == "player" then
 		bu:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, -13)
-		bu.size = 22
-		bu.spacing = 6
+		bu.size = 23
 	elseif self.mystyle == "tot" then
 		bu:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, -11)
-		bu.size = 20
 		bu.num = 10
 	elseif self.mystyle == "nameplate" then
 		bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 20)
 		bu.num = NDuiDB["Nameplate"]["maxAuras"]
+		bu.showDebuffType = NDuiDB["Nameplate"]["ColorBorder"]
+		bu.size = NDuiDB["Nameplate"]["AuraSize"]
 		bu.spacing = 3
+		bu.disableMouse = true
+		bu.CustomFilter = customFilter
 		bu.initialAnchor = "BOTTOMLEFT"
 		bu["growth-x"] = "RIGHT"
 		bu["growth-y"] = "UP"
-		bu.size = NDuiDB["Nameplate"]["AuraSize"]
-		bu.showDebuffType = NDuiDB["Nameplate"]["ColorBorder"]
-		bu.disableMouse = true
-		bu.CustomFilter = customFilter
 	elseif self.mystyle == "party" then
 		bu:SetPoint("TOPLEFT", self, "TOPRIGHT", 5, 0)
-		bu.size = 25
 		bu.num = 10
+		bu.size = 25
 		bu.initialAnchor = "TOPLEFT"
 		bu["growth-x"] = "RIGHT"
 		bu["growth-y"] = "DOWN"

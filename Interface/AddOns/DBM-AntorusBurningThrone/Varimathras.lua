@@ -1,13 +1,13 @@
 local mod	= DBM:NewMod(1983, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17234 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17240 $"):sub(12, -3))
 mod:SetCreatureID(122366)
 mod:SetEncounterID(2069)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(1, 3, 4)
-mod:SetHotfixNoticeRev(16945)
+mod:SetHotfixNoticeRev(17238)
 mod.respawnTime = 29
 
 mod:RegisterCombat("combat")
@@ -80,10 +80,12 @@ mod:AddRangeFrameOption("8/10")
 
 mod.vb.currentTorment = 0--Can't antispam, cause it'll just break if someone dies and gets brezzed
 mod.vb.totalEmbrace = 0
+local playerAffected = false
 
 function mod:OnCombatStart(delay)
 	self.vb.currentTorment = 0
 	self.vb.totalEmbrace = 0
+	playerAffected = false
 	timerTormentofFlamesCD:Start(5-delay)
 	timerShadowStrikeCD:Start(9.3-delay)
 	countdownShadowStrike:Start(9.3-delay)
@@ -160,9 +162,10 @@ function mod:SPELL_AURA_APPLIED(args)
 			self:SetIcon(args.destName, self.vb.totalEmbrace+2)--Should be BW compatible, for most part.
 		end
 		if args:IsPlayer() then
-			if self:AntiSpam(2, 5) then
+			if not playerAffected then
+				playerAffected = true
 				local icon = self.vb.totalEmbrace+2
-				specWarnNecroticEmbrace:Show(self:IconNumToTexture(count))
+				specWarnNecroticEmbrace:Show(self:IconNumToTexture(icon))
 				if self:IsMythic() and not self:IsTank() then
 					specWarnNecroticEmbrace:Play("mm"..icon)
 				else
@@ -219,6 +222,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif spellId == 244094 then
 		self.vb.totalEmbrace = self.vb.totalEmbrace - 1
 		if args:IsPlayer() then
+			playerAffected = false
 			yellNecroticEmbraceFades:Cancel()
 			if self.Options.RangeFrame then
 				DBM.RangeCheck:Show(8)

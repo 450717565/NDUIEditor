@@ -5,7 +5,7 @@ local UF = NDui:GetModule("UnitFrames")
 -- Units
 local function CreatePlayerStyle(self)
 	self.mystyle = "player"
-	self:SetSize(245, 24)
+	self:SetSize(247, 24)
 
 	UF:CreateHeader(self)
 	UF:CreateHealthBar(self)
@@ -31,7 +31,7 @@ end
 
 local function CreateTargetStyle(self)
 	self.mystyle = "target"
-	self:SetSize(245, 24)
+	self:SetSize(247, 24)
 
 	UF:CreateHeader(self)
 	UF:CreateHealthBar(self)
@@ -48,7 +48,7 @@ end
 
 local function CreateFocusStyle(self)
 	self.mystyle = "focus"
-	self:SetSize(200, 22)
+	self:SetSize(205, 22)
 
 	UF:CreateHeader(self)
 	UF:CreateHealthBar(self)

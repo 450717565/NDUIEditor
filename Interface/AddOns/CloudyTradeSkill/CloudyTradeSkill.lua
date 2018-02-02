@@ -42,242 +42,241 @@ f:RegisterEvent("TRADE_SKILL_DATA_SOURCE_CHANGED")
 
 
 --- Local Functions ---
-	--- Save Filters ---
-	local function saveFilters()
-		filterMats = C_TradeSkillUI.GetOnlyShowMakeableRecipes()
-		filterSkill = C_TradeSkillUI.GetOnlyShowSkillUpRecipes()
-	end
+--- Save Filters ---
+local function saveFilters()
+	filterMats = C_TradeSkillUI.GetOnlyShowMakeableRecipes()
+	filterSkill = C_TradeSkillUI.GetOnlyShowSkillUpRecipes()
+end
 
-	--- Restore Filters ---
-	local function restoreFilters()
-		C_TradeSkillUI.SetOnlyShowMakeableRecipes(filterMats)
-		C_TradeSkillUI.SetOnlyShowSkillUpRecipes(filterSkill)
-	end
+--- Restore Filters ---
+local function restoreFilters()
+	C_TradeSkillUI.SetOnlyShowMakeableRecipes(filterMats)
+	C_TradeSkillUI.SetOnlyShowSkillUpRecipes(filterSkill)
+end
 
-	--- Check Current Tab ---
-	local function isCurrentTab(self)
-		if self.tooltip and IsCurrentSpell(self.tooltip) then
-			if TradeSkillFrame:IsShown() and (self.isSub == 0) then
-				CTradeSkillDB["Panel"] = self.id
-				restoreFilters()
-			end
-			self:SetChecked(true)
-			self:RegisterForClicks(nil)
+--- Check Current Tab ---
+local function isCurrentTab(self)
+	if self.tooltip and IsCurrentSpell(self.tooltip) then
+		if TradeSkillFrame:IsShown() and (self.isSub == 0) then
+			CTradeSkillDB["Panel"] = self.id
+			restoreFilters()
+		end
+		self:SetChecked(true)
+		self:RegisterForClicks(nil)
+	else
+		self:SetChecked(false)
+		self:RegisterForClicks("AnyDown")
+	end
+end
+
+--- Add Tab Button ---
+local function addTab(id, index, isSub)
+	local name, icon, tabType
+	if (id == 134020) then
+		name, icon = select(2, C_ToyBox.GetToyInfo(id))
+		tabType = "toy"
+	else
+		name, _, icon = GetSpellInfo(id)
+		if (id == 126462) then
+			tabType = "item"
 		else
-			self:SetChecked(false)
-			self:RegisterForClicks("AnyDown")
+			tabType = "spell"
 		end
 	end
+	if (not name) or (not icon) then return end
 
-	--- Add Tab Button ---
-	local function addTab(id, index, isSub)
-		local name, icon, tabType
-		if (id == 134020) then
-			name, icon = select(2, C_ToyBox.GetToyInfo(id))
-			tabType = "toy"
-		else
-			name, _, icon = GetSpellInfo(id)
-			if (id == 126462) then
-				tabType = "item"
+	local tab = _G["CTradeSkillTab" .. index] or CreateFrame("CheckButton", "CTradeSkillTab" .. index, TradeSkillFrame, "SpellBookSkillLineTabTemplate, SecureActionButtonTemplate")
+	tab:SetScript("OnEvent", isCurrentTab)
+	tab:RegisterEvent("TRADE_SKILL_SHOW")
+	tab:RegisterEvent("CURRENT_SPELL_CAST_CHANGED")
+
+	tab.id = id
+	tab.isSub = isSub
+	tab.tooltip = name
+	tab:SetNormalTexture(icon)
+	tab:SetAttribute("type", tabType)
+	tab:SetAttribute(tabType, name)
+
+	if skinUI and not tab.skinned then
+		local checkedTexture
+		if (skinUI == "Aurora") then
+			loadedUI.CreateBDFrame(tab)
+			checkedTexture = mediaUI.media.checked
+			tab:SetHighlightTexture(mediaUI.media.backdrop)
+			local hl = tab:GetHighlightTexture()
+			hl:SetAllPoints()
+			hl:SetVertexColor(1, 1, 1, .25)
+		elseif (skinUI == "ElvUI") then
+			checkedTexture = tab:CreateTexture(nil, "HIGHLIGHT")
+			checkedTexture:SetColorTexture(1, 1, 1, 0.3)
+			checkedTexture:SetInside()
+			tab:SetHighlightTexture(nil)
+		end
+		tab:SetCheckedTexture(checkedTexture)
+		tab:GetNormalTexture():SetTexCoord(.08, .92, .08, .92)
+		tab:GetRegions():Hide()
+		tab.skinned = true
+	end
+
+	isCurrentTab(tab)
+	tab:Show()
+end
+
+--- Remove Tab Buttons ---
+local function removeTabs()
+	for i = 1, numTabs do
+		local tab = _G["CTradeSkillTab" .. i]
+		if tab and tab:IsShown() then
+			tab:UnregisterEvent("TRADE_SKILL_SHOW")
+			tab:UnregisterEvent("CURRENT_SPELL_CAST_CHANGED")
+			tab:Hide()
+		end
+	end
+end
+
+--- Sort Tabs ---
+local function sortTabs()
+	local index = 1
+	for i = 1, numTabs do
+		local tab = _G["CTradeSkillTab" .. i]
+		if tab then
+			if CTradeSkillDB["Tabs"][tab.id] == true then
+				tab:SetPoint("TOPLEFT", TradeSkillFrame, "TOPRIGHT", skinUI and 2 or 0, (-44 * index) + (-40 * tab.isSub))
+				tab:Show()
+				index = index + 1
 			else
-				tabType = "spell"
-			end
-		end
-		if (not name) or (not icon) then return end
-
-		local tab = _G["CTradeSkillTab" .. index] or CreateFrame("CheckButton", "CTradeSkillTab" .. index, TradeSkillFrame, "SpellBookSkillLineTabTemplate, SecureActionButtonTemplate")
-		tab:SetScript("OnEvent", isCurrentTab)
-		tab:RegisterEvent("TRADE_SKILL_SHOW")
-		tab:RegisterEvent("CURRENT_SPELL_CAST_CHANGED")
-
-		tab.id = id
-		tab.isSub = isSub
-		tab.tooltip = name
-		tab:SetNormalTexture(icon)
-		tab:SetAttribute("type", tabType)
-		tab:SetAttribute(tabType, name)
-
-		if skinUI and not tab.skinned then
-			local checkedTexture
-			if (skinUI == "Aurora") then
-				loadedUI.CreateBDFrame(tab)
-				checkedTexture = mediaUI.media.checked
-				tab:SetHighlightTexture(mediaUI.media.backdrop)
-				local hl = tab:GetHighlightTexture()
-				hl:SetAllPoints()
-				hl:SetVertexColor(1, 1, 1, .25)
-			elseif (skinUI == "ElvUI") then
-				checkedTexture = tab:CreateTexture(nil, "HIGHLIGHT")
-				checkedTexture:SetColorTexture(1, 1, 1, 0.3)
-				checkedTexture:SetInside()
-				tab:SetHighlightTexture(nil)
-			end
-			tab:SetCheckedTexture(checkedTexture)
-			tab:GetNormalTexture():SetTexCoord(.08, .92, .08, .92)
-			tab:GetRegions():Hide()
-			tab.skinned = true
-		end
-
-		isCurrentTab(tab)
-		tab:Show()
-	end
-
-	--- Remove Tab Buttons ---
-	local function removeTabs()
-		for i = 1, numTabs do
-			local tab = _G["CTradeSkillTab" .. i]
-			if tab and tab:IsShown() then
-				tab:UnregisterEvent("TRADE_SKILL_SHOW")
-				tab:UnregisterEvent("CURRENT_SPELL_CAST_CHANGED")
 				tab:Hide()
 			end
 		end
 	end
+end
 
-	--- Sort Tabs ---
-	local function sortTabs()
-		local index = 1
-		for i = 1, numTabs do
-			local tab = _G["CTradeSkillTab" .. i]
-			if tab then
-				if CTradeSkillDB["Tabs"][tab.id] == true then
-					tab:SetPoint("TOPLEFT", TradeSkillFrame, "TOPRIGHT", skinUI and 2 or 0, (-44 * index) + (-40 * tab.isSub))
-					tab:Show()
-					index = index + 1
-				else
-					tab:Hide()
-				end
-			end
-		end
-	end
-
-	--- Check Fading State ---
-	local function fadeState()
-		if GetUnitSpeed("player") == 0 then
-			TradeSkillFrame:SetAlpha(1.0)
-		else
-			if CTradeSkillDB["Fade"] == true then
-				TradeSkillFrame:SetAlpha(0.5)
-			else
-				TradeSkillFrame:SetAlpha(1.0)
-			end
-		end
-
+--- Check Fading State ---
+local function fadeState()
+	if GetUnitSpeed("player") == 0 then
+		TradeSkillFrame:SetAlpha(1.0)
+	else
 		if CTradeSkillDB["Fade"] == true then
-			f:RegisterEvent("PLAYER_STARTED_MOVING")
-			f:RegisterEvent("PLAYER_STOPPED_MOVING")
+			TradeSkillFrame:SetAlpha(0.5)
 		else
-			f:UnregisterEvent("PLAYER_STARTED_MOVING")
-			f:UnregisterEvent("PLAYER_STOPPED_MOVING")
+			TradeSkillFrame:SetAlpha(1.0)
 		end
 	end
 
-	--- Check Profession Useable ---
-	local function isUseable(id)
-		local name = GetSpellInfo(id)
-		return IsUsableSpell(name)
+	if CTradeSkillDB["Fade"] == true then
+		f:RegisterEvent("PLAYER_STARTED_MOVING")
+		f:RegisterEvent("PLAYER_STOPPED_MOVING")
+	else
+		f:UnregisterEvent("PLAYER_STARTED_MOVING")
+		f:UnregisterEvent("PLAYER_STOPPED_MOVING")
+	end
+end
+
+--- Check Profession Useable ---
+local function isUseable(id)
+	local name = GetSpellInfo(id)
+	return IsUsableSpell(name)
+end
+
+--- Update Profession Tabs ---
+local function updateTabs(init)
+	if init and CTradeSkillDB["Panel"] then return end
+	local mainTabs, subTabs = {}, {}
+
+	local _, class = UnitClass("player")
+	if class == "DEATHKNIGHT" and isUseable(53428) then
+		tinsert(mainTabs, 53428) --RuneForging
+	elseif class == "ROGUE" and isUseable(1804) then
+		tinsert(subTabs, 1804) --PickLock
 	end
 
-	--- Update Profession Tabs ---
-	local function updateTabs(init)
-		if init and CTradeSkillDB["Panel"] then return end
-		local mainTabs, subTabs = {}, {}
+	if PlayerHasToy(134020) and C_ToyBox.IsToyUsable(134020) then
+		tinsert(subTabs, 134020) --ChefHat
+	end
+	if GetItemCount(87216) ~= 0 then
+		tinsert(subTabs, 126462) --ThermalAnvil
+	end
 
-		local _, class = UnitClass("player")
-		if class == "DEATHKNIGHT" and isUseable(53428) then
-			tinsert(mainTabs, 53428) --RuneForging
-		elseif class == "ROGUE" and isUseable(1804) then
-			tinsert(subTabs, 1804) --PickLock
-		end
-
-		if PlayerHasToy(134020) and C_ToyBox.IsToyUsable(134020) then
-			tinsert(subTabs, 134020) --ChefHat
-		end
-		if GetItemCount(87216) ~= 0 then
-			tinsert(subTabs, 126462) --ThermalAnvil
-		end
-
-		local prof1, prof2, arch, fishing, cooking, firstaid = GetProfessions()
-		local profs = {prof1, prof2, cooking, firstaid}
-		for _, prof in pairs(profs) do
-			local num, offset, _, _, _, spec = select(5, GetProfessionInfo(prof))
-			if (spec and spec ~= 0) then num = 1 end
-			for i = 1, num do
-				if not IsPassiveSpell(offset + i, BOOKTYPE_PROFESSION) then
-					local _, id = GetSpellBookItemInfo(offset + i, BOOKTYPE_PROFESSION)
-					if (i == 1) then
-						tinsert(mainTabs, id)
-						if init and not CTradeSkillDB["Panel"] then
-							CTradeSkillDB["Panel"] = id
-							return
-						end
-					else
-						tinsert(subTabs, id)
+	local prof1, prof2, arch, fishing, cooking, firstaid = GetProfessions()
+	local profs = {prof1, prof2, cooking, firstaid}
+	for _, prof in pairs(profs) do
+		local num, offset, _, _, _, spec = select(5, GetProfessionInfo(prof))
+		if (spec and spec ~= 0) then num = 1 end
+		for i = 1, num do
+			if not IsPassiveSpell(offset + i, BOOKTYPE_PROFESSION) then
+				local _, id = GetSpellBookItemInfo(offset + i, BOOKTYPE_PROFESSION)
+				if (i == 1) then
+					tinsert(mainTabs, id)
+					if init and not CTradeSkillDB["Panel"] then
+						CTradeSkillDB["Panel"] = id
+						return
 					end
+				else
+					tinsert(subTabs, id)
 				end
 			end
 		end
+	end
 
-		local sameTabs = true
-		for i = 1, #mainTabs + #subTabs do
+	local sameTabs = true
+	for i = 1, #mainTabs + #subTabs do
+		local id = mainTabs[i] or subTabs[i - #mainTabs]
+		if CTradeSkillDB["Tabs"][id] == nil then
+			CTradeSkillDB["Tabs"][id] = true
+			sameTabs = false
+		end
+	end
+
+	if not sameTabs or (numTabs ~= #mainTabs + #subTabs) then
+		removeTabs()
+		numTabs = #mainTabs + #subTabs
+
+		for i = 1, numTabs do
 			local id = mainTabs[i] or subTabs[i - #mainTabs]
-			if CTradeSkillDB["Tabs"][id] == nil then
-				CTradeSkillDB["Tabs"][id] = true
-				sameTabs = false
-			end
+			addTab(id, i, mainTabs[i] and 0 or 1)
 		end
+		sortTabs()
+	end
+end
 
-		if not sameTabs or (numTabs ~= #mainTabs + #subTabs) then
-			removeTabs()
-			numTabs = #mainTabs + #subTabs
+--- Update Frame Size ---
+local function updateSize(forced)
+	TradeSkillFrame:SetHeight(CTradeSkillDB["Size"] * 16 + 96) --496
+	TradeSkillFrame.RecipeInset:SetHeight(CTradeSkillDB["Size"] * 16 + 10) --410
+	TradeSkillFrame.DetailsInset:SetHeight(CTradeSkillDB["Size"] * 16 - 10) --390
+	TradeSkillFrame.DetailsFrame:SetHeight(CTradeSkillDB["Size"] * 16 - 15) --385
+	TradeSkillFrame.DetailsFrame.Background:SetHeight(CTradeSkillDB["Size"] * 16 - 17) --383
 
-			for i = 1, numTabs do
-				local id = mainTabs[i] or subTabs[i - #mainTabs]
-				addTab(id, i, mainTabs[i] and 0 or 1)
-			end
-			sortTabs()
-		end
+	if TradeSkillFrame.RecipeList.FilterBar:IsVisible() then
+		TradeSkillFrame.RecipeList:SetHeight(CTradeSkillDB["Size"] * 16 - 11) --389
+	else
+		TradeSkillFrame.RecipeList:SetHeight(CTradeSkillDB["Size"] * 16 + 5) --405
 	end
 
-	--- Update Frame Size ---
-	local function updateSize(forced)
-		TradeSkillFrame:SetHeight(CTradeSkillDB["Size"] * 16 + 96) --496
-		TradeSkillFrame.RecipeInset:SetHeight(CTradeSkillDB["Size"] * 16 + 10) --410
-		TradeSkillFrame.DetailsInset:SetHeight(CTradeSkillDB["Size"] * 16 - 10) --390
-		TradeSkillFrame.DetailsFrame:SetHeight(CTradeSkillDB["Size"] * 16 - 15) --385
-		TradeSkillFrame.DetailsFrame.Background:SetHeight(CTradeSkillDB["Size"] * 16 - 17) --383
+	if forced then
+		if #TradeSkillFrame.RecipeList.buttons < floor(CTradeSkillDB["Size"], 0.5) + 2 then
+			local range = TradeSkillFrame.RecipeList.scrollBar:GetValue()
+			HybridScrollFrame_CreateButtons(TradeSkillFrame.RecipeList, "TradeSkillRowButtonTemplate", 0, 0)
+			TradeSkillFrame.RecipeList.scrollBar:SetValue(range)
+		end
+		TradeSkillFrame.RecipeList:Refresh()
+	end
+end
 
-		if TradeSkillFrame.RecipeList.FilterBar:IsVisible() then
-			TradeSkillFrame.RecipeList:SetHeight(CTradeSkillDB["Size"] * 16 - 11) --389
+--- Update Frame Position ---
+local function updatePosition()
+	if CTradeSkillDB["Unlock"] then
+		UIPanelWindows["TradeSkillFrame"].area = nil
+		TradeSkillFrame:ClearAllPoints()
+		if CTradeSkillDB["OffsetX"] and CTradeSkillDB["OffsetY"] then
+			TradeSkillFrame:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", CTradeSkillDB["OffsetX"], CTradeSkillDB["OffsetY"])
 		else
-			TradeSkillFrame.RecipeList:SetHeight(CTradeSkillDB["Size"] * 16 + 5) --405
+			TradeSkillFrame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", GetUIPanel("left") and 623 or 16, -116)
 		end
-
-		if forced then
-			if #TradeSkillFrame.RecipeList.buttons < floor(CTradeSkillDB["Size"], 0.5) + 2 then
-				local range = TradeSkillFrame.RecipeList.scrollBar:GetValue()
-				HybridScrollFrame_CreateButtons(TradeSkillFrame.RecipeList, "TradeSkillRowButtonTemplate", 0, 0)
-				TradeSkillFrame.RecipeList.scrollBar:SetValue(range)
-			end
-			TradeSkillFrame.RecipeList:Refresh()
-		end
+	else
+		UpdateUIPanelPositions(TradeSkillFrame)
 	end
-
-	--- Update Frame Position ---
-	local function updatePosition()
-		if CTradeSkillDB["Unlock"] then
-			UIPanelWindows["TradeSkillFrame"].area = nil
-			TradeSkillFrame:ClearAllPoints()
-			if CTradeSkillDB["OffsetX"] and CTradeSkillDB["OffsetY"] then
-				TradeSkillFrame:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", CTradeSkillDB["OffsetX"], CTradeSkillDB["OffsetY"])
-			else
-				TradeSkillFrame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", GetUIPanel("left") and 623 or 16, -116)
-			end
-		else
-			UpdateUIPanelPositions(TradeSkillFrame)
-		end
-	end
-
+end
 
 --- Create Resize Bar ---
 local resizeBar = CreateFrame("Button", nil, TradeSkillFrame)
@@ -308,7 +307,6 @@ resizeBar:SetScript("OnLeave", function()
 	end
 end)
 
-
 --- Create Movable Bar ---
 local movBar = CreateFrame("Button", nil, TradeSkillFrame)
 movBar:SetAllPoints(TradeSkillFrameTopBorder)
@@ -334,7 +332,6 @@ movBar:SetScript("OnMouseUp", function(_, button)
 	end
 end)
 
-
 --- Force ESC Close ---
 hooksecurefunc("ToggleGameMenu", function()
 	if CTradeSkillDB["Unlock"] and TradeSkillFrame:IsShown() then
@@ -343,12 +340,10 @@ hooksecurefunc("ToggleGameMenu", function()
 	end
 end)
 
-
 --- Other Adjustment ---
 TradeSkillFrame.RankFrame:SetWidth(500)
 TradeSkillFrame.SearchBox:SetWidth(240)
 MainMenuBarOverlayFrame:SetFrameStrata("MEDIUM")
-
 
 --- Refresh TSFrame ---
 TradeSkillFrame:HookScript("OnSizeChanged", function(self)
@@ -358,7 +353,6 @@ TradeSkillFrame:HookScript("OnSizeChanged", function(self)
 	end
 end)
 
-
 --- Refresh RecipeList ---
 hooksecurefunc(TradeSkillFrame.RecipeList, "UpdateFilterBar", function(self)
 	if self.FilterBar:IsVisible() then
@@ -367,7 +361,6 @@ hooksecurefunc(TradeSkillFrame.RecipeList, "UpdateFilterBar", function(self)
 		self:SetHeight(CTradeSkillDB["Size"] * 16 + 5) --405
 	end
 end)
-
 
 --- Refresh RecipeButton ---
 TradeSkillFrame.RecipeList:HookScript("OnUpdate", function(self, ...)
@@ -440,7 +433,6 @@ TradeSkillFrame.RecipeList:HookScript("OnUpdate", function(self, ...)
 	end
 end)
 
-
 --- Collapse Recipes ---
 hooksecurefunc(TradeSkillFrame.RecipeList, "OnHeaderButtonClicked", function(self, _, info, button)
 	if (button ~= "RightButton") then return end
@@ -466,7 +458,6 @@ hooksecurefunc(TradeSkillFrame.RecipeList, "OnHeaderButtonClicked", function(sel
 	self:Refresh()
 end)
 
-
 --- Fix SearchBox ---
 hooksecurefunc("ChatEdit_InsertLink", function(link)
 	if link and TradeSkillFrame:IsShown() then
@@ -483,7 +474,6 @@ hooksecurefunc("ChatEdit_InsertLink", function(link)
 	end
 end)
 
-
 --- Fix StackSplit ---
 hooksecurefunc("ContainerFrameItemButton_OnModifiedClick", function(self, button)
 	if TradeSkillFrame:IsShown() then
@@ -492,7 +482,6 @@ hooksecurefunc("ContainerFrameItemButton_OnModifiedClick", function(self, button
 		end
 	end
 end)
-
 
 --- Druid Unshapeshift ---
 local function injectDruidButtons()
@@ -528,7 +517,6 @@ local function injectDruidButtons()
 	injectMacro(TradeSkillFrame.DetailsFrame.CreateButton, CREATE_PROFESSION)
 	injectMacro(TradeSkillFrame.DetailsFrame.CreateAllButton, CREATE_ALL)
 end
-
 
 --- Enchanting Vellum ---
 local function injectVellumButton()
@@ -568,7 +556,6 @@ local function injectVellumButton()
 	end)
 end
 
-
 --- Create Warning Dialog ---
 StaticPopupDialogs["CTRADESKILL_WARNING"] = {
 	text = UNLOCK_FRAME .. " " .. REQUIRES_RELOAD:lower() .. "!\n",
@@ -588,7 +575,6 @@ StaticPopupDialogs["CTRADESKILL_WARNING"] = {
 	exclusive = 1,
 	preferredIndex = 3,
 }
-
 
 --- Create Option Menu ---
 local function createOptions()
@@ -714,7 +700,6 @@ local function createOptions()
 		button.backdrop:SetAllPoints()
 	end
 end
-
 
 --- Handle Events ---
 f:SetScript("OnEvent", function(self, event, ...)

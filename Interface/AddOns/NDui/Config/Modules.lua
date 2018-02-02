@@ -19,18 +19,22 @@ C.Auras = {
 -- 头像相关
 C.UFs = {
 	Playercb		= {"BOTTOM", UIParent, "BOTTOM", 13, 175},				-- 玩家施法条默认位置
-	PlayercbSize		= {300, 20},										-- 玩家施法条尺寸
+	PlayercbSize	= {300, 20},											-- 玩家施法条尺寸
+
 	Targetcb		= {"BOTTOM", UIParent, "BOTTOM", 13, 335},				-- 目标施法条默认位置
-	TargetcbSize		= {280, 20},										-- 目标施法条尺寸
+	TargetcbSize	= {280, 20},											-- 目标施法条尺寸
+
 	Focuscb			= {"CENTER", UIParent, "CENTER", 13, 200},				-- 焦点施法条默认位置
 	FocuscbSize		= {320, 20},											-- 焦点施法条尺寸
 
 	PlayerPos		= {"BOTTOMRIGHT", UIParent, "BOTTOM", -200, 280},		-- 玩家框体默认位置
+	PetPos			= {"BOTTOMRIGHT", UIParent, "BOTTOM", -73, 272},		-- 宠物框体默认位置
+
 	TargetPos		= {"BOTTOMLEFT", UIParent, "BOTTOM", 200, 280},		-- 目标框体默认位置
 	ToTPos			= {"BOTTOMLEFT", UIParent, "BOTTOM", 75, 272},			-- 目标的目标框体默认位置
-	PetPos			= {"BOTTOMRIGHT", UIParent, "BOTTOM", -75, 272},		-- 宠物框体默认位置
+
 	FocusPos		= {"LEFT", UIParent, "LEFT", 5, -150},					-- 焦点框体默认位置
-	FoTPos			= {"LEFT", UIParent, "LEFT", 210, -155},				-- 焦点目标框体默认位置
+	FoTPos			= {"LEFT", UIParent, "LEFT", 215, -155},				-- 焦点目标框体默认位置
 
 	BarPoint		= {"TOPLEFT", 12, 4},									-- 资源条位置（以自身头像为基准）
 	BarSize			= {150, 5},												-- 资源条的尺寸（宽，长）

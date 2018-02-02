@@ -1,10 +1,10 @@
 local B, C, L, DB = unpack(select(2, ...))
 
 local buttons = {}
-local knowns = {}
+local currencies = {}
 local errors = {}
 local factions = {}
-local currencies = {}
+local knowns = {}
 local merchantFrameButtons = {}
 local searching = ""
 local RECIPE = GetItemClassInfo(LE_ITEM_CLASS_RECIPE)

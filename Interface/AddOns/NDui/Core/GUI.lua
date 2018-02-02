@@ -201,6 +201,7 @@ local defaultSettings = {
 		CombatAlert = true,
 		Durability = false,
 		GuildWelcome = true,
+		iLvlTools = true,
 		LootMonitor = true,
 		LootMonitorBonusRewards = false,
 		LootMonitorInGroup = true,
@@ -210,7 +211,6 @@ local defaultSettings = {
 		ShowOwnFrameWhenInspecting = true,
 		SlotInfo = true,
 		StarCursor = true,
-		iLvlTools = true,
 	},
 }
 

@@ -47,11 +47,11 @@ local TargetAuraPoint = {"BOTTOMLEFT", UIParent, "CENTER", 200, -160}
 
 local RaidBuffPoint = {"BOTTOMRIGHT", UIParent, "CENTER", -200, 200}
 local SpellCooldownPoint = {"BOTTOMLEFT", UIParent, "CENTER", -445, -40}
-local EnchantAuraPoint = {"BOTTOMRIGHT", UIParent, "CENTER", -200, -92}
-local PlayerSpecialAuraPoint = {"BOTTOMRIGHT", UIParent, "CENTER", -200, -133}
-local PlayerAuraPoint = {"BOTTOMRIGHT", UIParent, "CENTER", -200, -160}
+local EnchantAuraPoint = {"BOTTOMRIGHT", UIParent, "CENTER", -198, -92}
+local PlayerSpecialAuraPoint = {"BOTTOMRIGHT", UIParent, "CENTER", -198, -133}
+local PlayerAuraPoint = {"BOTTOMRIGHT", UIParent, "CENTER", -198, -160}
 
-local FocusAuraPoint = {"BOTTOMLEFT", UIParent, "LEFT", 5, -130}
+local FocusSpecialAuraPoint = {"BOTTOMLEFT", UIParent, "LEFT", 5, -130}
 
 C.InternalCD = {
 	Name = "InternalCD",
@@ -143,11 +143,11 @@ C.AuraWatchList = {
 				--玛瑟里顿的放逐护腕
 				{AuraID = 235712, UnitID = "player"},
 				--阿克蒙德的重生之恨
-				{AuraID = 235169, UnitID = "player", Value= true},
+				{AuraID = 235169, UnitID = "player", Value = true},
 				--冷酷之心
 				{AuraID = 235599, UnitID = "player", Combat = true},
 				--萨瓦里克的杰作
-				{AuraID = 207472, UnitID = "player", Value= true, Combat = true},
+				{AuraID = 207472, UnitID = "player", Value = true, Combat = true},
 				--黑焰护腿
 				{AuraID = 216509, UnitID = "player", Text = "双重复苏"},
 				{AuraID = 216992, UnitID = "player", Text = "三倍贯通"},
@@ -174,7 +174,7 @@ C.AuraWatchList = {
 				{AuraID = 256836, UnitID = "player"},
 			-->LEG饰品
 				--天启引擎
-				{AuraID = 251952, UnitID = "player", Value= true},
+				{AuraID = 251952, UnitID = "player", Value = true},
 				--高沙拉克的遗产
 				{AuraID = 253327, UnitID = "player"},
 				--虚空之拥
@@ -182,9 +182,9 @@ C.AuraWatchList = {
 				--苦痛之矛
 				{AuraID = 243644, UnitID = "player"},
 				--地狱火契约
-				{AuraID = 225140, UnitID = "player", Value= true},
+				{AuraID = 225140, UnitID = "player", Value = true},
 				--哀嚎之魂
-				{AuraID = 242609, UnitID = "player", Value= true},
+				{AuraID = 242609, UnitID = "player", Value = true},
 				--魔油地狱火机械
 				{AuraID = 238534, UnitID = "player"},
 				--血之气息
@@ -197,7 +197,7 @@ C.AuraWatchList = {
 				--霜覆
 				{AuraID = 214962, UnitID = "player"},
 				--晶化身体
-				{AuraID = 214366, UnitID = "player", Value= true},
+				{AuraID = 214366, UnitID = "player", Value = true},
 				--影灼之牙
 				{AuraID = 253307, UnitID = "player"},
 				{AuraID = 253308, UnitID = "player"},
@@ -206,10 +206,10 @@ C.AuraWatchList = {
 				{AuraID = 251938, UnitID = "player"},
 				{AuraID = 256415, UnitID = "player"},
 				--注射器
-				{AuraID = 253260, UnitID = "player"}, --三维
-				{AuraID = 253261, UnitID = "player"}, --急速
-				{AuraID = 255744, UnitID = "player"}, --精通
-				{AuraID = 255742, UnitID = "player"}, --暴击
+				{AuraID = 253260, UnitID = "player", Text = RAID_BUFF_1},
+				{AuraID = 253261, UnitID = "player", Text = RAID_BUFF_4},
+				{AuraID = 255742, UnitID = "player", Text = RAID_BUFF_6},
+				{AuraID = 255744, UnitID = "player", Text = RAID_BUFF_7},
 				--超能奥术
 				{AuraID = 254161, UnitID = "player"},
 				--克罗塔的护盾
@@ -249,12 +249,10 @@ C.AuraWatchList = {
 				{AuraID = 221796, UnitID = "player"},
 				--山峰形态，+护盾
 				{AuraID = 214423, UnitID = "player", Value = true},
-				--安格博达的挽歌
-				{AuraID = 214807, UnitID = "player"},
-				--席瓦尔的哀嚎
-				{AuraID = 214803, UnitID = "player"},
-				--因格瓦尔的嚎叫
-				{AuraID = 214802, UnitID = "player"},
+				--安格博达的回忆
+				{AuraID = 214802, UnitID = "player", Text = RAID_BUFF_6},
+				{AuraID = 214803, UnitID = "player", Text = RAID_BUFF_4},
+				{AuraID = 214807, UnitID = "player", Text = RAID_BUFF_7},
 				--蛮荒诸神之怒，+生命护甲
 				{AuraID = 221695, UnitID = "player"},
 				--恐惧附肢
@@ -285,9 +283,9 @@ C.AuraWatchList = {
 				{AuraID = 222518, UnitID = "player"},
 				{AuraID = 222519, UnitID = "player"},
 				--焦镜
-				{AuraID = 225726, UnitID = "player", Text = "暴击"},
-				{AuraID = 225729, UnitID = "player", Text = "精通"},
-				{AuraID = 225730, UnitID = "player", Text = "急速"},
+				{AuraID = 225726, UnitID = "player", Text = RAID_BUFF_6},
+				{AuraID = 225729, UnitID = "player", Text = RAID_BUFF_7},
+				{AuraID = 225730, UnitID = "player", Text = RAID_BUFF_4},
 				--下冲气流
 				{AuraID = 214342, UnitID = "player"},
 				--暗月套牌：统御（八）
@@ -346,15 +344,15 @@ C.AuraWatchList = {
 			List = {
 		-->神器增益
 				--阿莎曼之怒（全能）
-				{AuraID = 240670, UnitID = "player", Text = "全能"},
-				--凤凰的温暖（暴击）
-				{AuraID = 240671, UnitID = "player", Text = "暴击"},
+				{AuraID = 240670, UnitID = "player", Text = RAID_BUFF_8},
+				--凤凰的温暖（爆击）
+				{AuraID = 240671, UnitID = "player", Text = RAID_BUFF_6},
 				--连招大师（精通）
-				{AuraID = 240672, UnitID = "player", Text = "精通"},
+				{AuraID = 240672, UnitID = "player", Text = RAID_BUFF_7},
 				--思维加速（急速）
-				{AuraID = 240673, UnitID = "player", Text = "急速"},
+				{AuraID = 240673, UnitID = "player", Text = RAID_BUFF_4},
 				--吸血光环（死亡骑士）
-				{AuraID = 238698, UnitID = "player", Text = "吸血"},
+				{AuraID = 238698, UnitID = "player", Text = STAT_LIFESTEAL},
 		-->急速增益
 				--时间扭曲
 				{AuraID =  80353, UnitID = "player"},
@@ -476,7 +474,9 @@ C.AuraWatchList = {
 				--奥丁：烙印
 				{AuraID = 197996, UnitID = "player"},
 				--深须国王：气体泡泡
-				{AuraID = 193018, UnitID = "player", Value= true},
+				{AuraID = 193018, UnitID = "player", Value = true},
+				--达古尔：燃烧之恨
+				{AuraID = 200154, UnitID = "player", Text = L["Get Out"]},
 		-->卡拉赞
 			--夜之魇
 				--燃魂
@@ -767,7 +767,7 @@ C.AuraWatchList = {
 				--雷霆震击
 				{AuraID = 230362, UnitID = "player"},
 				--痛苦负担
-				{AuraID = 230201, UnitID = "player", Text = "消失换T"},
+				{AuraID = 230201, UnitID = "player", Text = "消失换坦"},
 				--昏暗隐匿
 				{AuraID = 230959, UnitID = "player"},
 				--多头蛇酸液
@@ -828,7 +828,7 @@ C.AuraWatchList = {
 				--释放混沌
 				{AuraID = 234059, UnitID = "player"},
 				--风蚀
-				{AuraID = 236494, UnitID = "player", Text = "两层换T"},
+				{AuraID = 236494, UnitID = "player", Text = "两层换坦"},
 				--黑暗印记
 				{AuraID = 239739, UnitID = "player"},
 				--漆黑之风
@@ -1289,6 +1289,15 @@ C.AuraWatchList = {
 				{AuraID = 242536, UnitID = "target", Caster = "player"},
 			},
 		},
+		{	Name = "Focus Special Aura",
+			Direction = "RIGHT",
+			Interval = 5,
+			Mode = "ICON",
+			IconSize = 36,
+			Pos = FocusSpecialAuraPoint,
+			List = {
+			},
+		},
 		{	Name = "Enchant Cooldown",
 			Direction = "UP",
 			Interval = 5,
@@ -1536,29 +1545,6 @@ C.AuraWatchList = {
 				{AuraID = 253575, UnitID = "player"}, --熊德
 			},
 		},
-		{	Name = "Focus Aura",
-			Direction = "RIGHT",
-			Interval = 5,
-			Mode = "ICON",
-			IconSize = 36,
-			Pos = FocusAuraPoint,
-			List = {
-				--月火术
-				{AuraID = 164812, UnitID = "focus", Caster = "player"},
-				--阳炎术
-				{AuraID = 164815, UnitID = "focus", Caster = "player"},
-				--星辰耀斑
-				{AuraID = 202347, UnitID = "focus", Caster = "player"},
-				--生命绽放
-				{AuraID =  33763, UnitID = "focus", Caster = "player"},
-				--回春术
-				{AuraID =    774, UnitID = "focus", Caster = "player"},
-				--愈合
-				{AuraID =   8936, UnitID = "focus", Caster = "player"},
-				--萌芽
-				{AuraID = 155777, UnitID = "focus", Caster = "player"},
-			},
-		},
 		{	Name = "Spell Cooldown",
 			Direction = "UP",
 			Interval = 5,
@@ -1723,26 +1709,6 @@ C.AuraWatchList = {
 				{AuraID = 246153, UnitID = "player"},
 			},
 		},
-		{	Name = "Focus Aura",
-			Direction = "RIGHT",
-			Interval = 5,
-			Mode = "ICON",
-			IconSize = 36,
-			Pos = FocusAuraPoint,
-			List = {
-				--毒蛇钉刺
-				{AuraID = 118253, UnitID = "focus", Caster = "player"},
-				--黑箭
-				{AuraID = 194599, UnitID = "focus", Caster = "player"},
-				--夺命黑鸦
-				{AuraID = 131894, UnitID = "focus", Caster = "player"},
-				{AuraID = 206505, UnitID = "focus", Caster = "player"},
-				--易伤
-				{AuraID = 187131, UnitID = "focus", Caster = "player"},
-				--精确瞄准
-				{AuraID = 199803, UnitID = "focus", Caster = "player"},
-			},
-		},
 		{	Name = "Spell Cooldown",
 			Direction = "UP",
 			Interval = 5,
@@ -1752,15 +1718,15 @@ C.AuraWatchList = {
 			Pos = SpellCooldownPoint,
 			List = {
 				--群兽奔腾
-				{SpellID =201430, UnitID = "player"},
+				{SpellID = 201430, UnitID = "player"},
 				--灵龟守护
-				{SpellID =186265, UnitID = "player"},
+				{SpellID = 186265, UnitID = "player"},
 				--野性守护
-				{SpellID =193530, UnitID = "player"},
+				{SpellID = 193530, UnitID = "player"},
 				--百发百中
-				{SpellID =193526, UnitID = "player"},
+				{SpellID = 193526, UnitID = "player"},
 				--反制射击
-				{SpellID =147362, UnitID = "player"},
+				{SpellID = 147362, UnitID = "player"},
 			},
 		},
 	},
@@ -1889,21 +1855,6 @@ C.AuraWatchList = {
 				{AuraID = 205766, UnitID = "player"},
 			},
 		},
-		{	Name = "Focus Aura",
-			Direction = "RIGHT",
-			Interval = 5,
-			Mode = "ICON",
-			IconSize = 36,
-			Pos = FocusAuraPoint,
-			List = {
-				--活动炸弹(火)
-				{AuraID =  44457, UnitID = "focus", Caster = "player"},
-				--虚空风暴
-				{AuraID = 114923, UnitID = "focus", Caster = "player"},
-				--寒冰炸弹
-				{AuraID = 112948, UnitID = "focus", Caster = "player"},
-			},
-		},
 		{	Name = "Spell Cooldown",
 			Direction = "UP",
 			Interval = 5,
@@ -1917,7 +1868,7 @@ C.AuraWatchList = {
 				--奥术强化
 				{SpellID = 12042, UnitID = "player"},
 				--燃烧
-				{SpellID =190319, UnitID = "player"},
+				{SpellID = 190319, UnitID = "player"},
 				--能量符文
 				{TotemID =     1, UnitID = "player"},
 			},
@@ -2084,19 +2035,6 @@ C.AuraWatchList = {
 				{AuraID = 189064, UnitID = "player"},
 				--无视痛苦
 				{AuraID = 190456, UnitID = "player", Value = true},
-			},
-		},
-		{	Name = "Focus Aura",
-			Direction = "RIGHT",
-			Interval = 5,
-			Mode = "ICON",
-			IconSize = 36,
-			Pos = FocusAuraPoint,
-			List = {
-				--撕裂
-				{AuraID =    772, UnitID = "focus", Caster = "player"},
-				--重伤
-				{AuraID = 115767, UnitID = "focus", Caster = "player"},
 			},
 		},
 		{	Name = "Spell Cooldown",
@@ -2292,15 +2230,6 @@ C.AuraWatchList = {
 				{AuraID = 157504, UnitID = "player", Value = true},
 			},
 		},
-		{	Name = "Focus Aura",
-			Direction = "RIGHT",
-			Interval = 5,
-			Mode = "ICON",
-			IconSize = 36,
-			Pos = FocusAuraPoint,
-			List = {
-			},
-		},
 		{	Name = "Spell Cooldown",
 			Direction = "UP",
 			Interval = 5,
@@ -2312,15 +2241,15 @@ C.AuraWatchList = {
 				--复生
 				{SpellID = 20608, UnitID = "player"},
 				--升腾
-				{SpellID =114050, UnitID = "player"},
-				{SpellID =114051, UnitID = "player"},
-				{SpellID =114052, UnitID = "player"},
+				{SpellID = 114050, UnitID = "player"},
+				{SpellID = 114051, UnitID = "player"},
+				{SpellID = 114052, UnitID = "player"},
 				--治疗之潮
-				{SpellID =108280, UnitID = "player"},
+				{SpellID = 108280, UnitID = "player"},
 				--灵魂链接
 				{SpellID = 98008, UnitID = "player"},
 				--野性狼魂
-				{SpellID =198506, UnitID = "player"},
+				{SpellID = 198506, UnitID = "player"},
 			},
 		},
 	},
@@ -2436,19 +2365,6 @@ C.AuraWatchList = {
 				{AuraID = 152262, UnitID = "player"},
 				--神圣马驹
 				{AuraID = 221883, UnitID = "player"},
-			},
-		},
-		{	Name = "Focus Aura",
-			Direction = "RIGHT",
-			Interval = 5,
-			Mode = "ICON",
-			IconSize = 36,
-			Pos = FocusAuraPoint,
-			List = {
-				--圣光道标
-				{AuraID =  53563, UnitID = "focus", Caster = "player"},
-				--信仰道标
-				{AuraID = 156910, UnitID = "focus", Caster = "player"},
 			},
 		},
 		{	Name = "Spell Cooldown",
@@ -2588,17 +2504,6 @@ C.AuraWatchList = {
 				{AuraID = 253443, UnitID = "player"}, --神圣4
 			},
 		},
-		{	Name = "Focus Aura",
-			Direction = "RIGHT",
-			Interval = 5,
-			Mode = "ICON",
-			IconSize = 36,
-			Pos = FocusAuraPoint,
-			List = {
-				--恢复
-				{AuraID = 	 139, UnitID = "focus", Caster = "player"},
-			},
-		},
 		{	Name = "Spell Cooldown",
 			Direction = "UP",
 			Interval = 5,
@@ -2719,29 +2624,6 @@ C.AuraWatchList = {
 				{AuraID = 108416, UnitID = "player", Value = true},
 			},
 		},
-		{	Name = "Focus Aura",
-			Direction = "RIGHT",
-			Interval = 5,
-			Mode = "ICON",
-			IconSize = 36,
-			Pos = FocusAuraPoint,
-			List = {
-				--痛楚
-				{AuraID =    980, UnitID = "focus", Caster = "player"},
-				--腐蚀术
-				{AuraID = 146739, UnitID = "focus", Caster = "player"},
-				--痛苦无常
-				{AuraID = 233490, UnitID = "target", Caster = "player"},
-				{AuraID = 233496, UnitID = "target", Caster = "player"},
-				{AuraID = 233497, UnitID = "target", Caster = "player"},
-				{AuraID = 233498, UnitID = "target", Caster = "player"},
-				{AuraID = 233499, UnitID = "target", Caster = "player"},
-				--末日灾祸
-				{AuraID =    603, UnitID = "focus", Caster = "player"},
-				--献祭
-				{AuraID = 157736, UnitID = "focus", Caster = "player"},
-			},
-		},
 		{	Name = "Spell Cooldown",
 			Direction = "UP",
 			Interval = 5,
@@ -2860,7 +2742,7 @@ C.AuraWatchList = {
 				--强势连击
 				{AuraID = 193356, UnitID = "player",Text = "点数"},
 				--暗鲨涌动
-				{AuraID = 193357, UnitID = "player",Text = "爆击"},
+				{AuraID = 193357, UnitID = "player",Text = RAID_BUFF_6},
 				--大乱斗
 				{AuraID = 193358, UnitID = "player",Text = "攻速"},
 				--精准定位
@@ -2881,15 +2763,6 @@ C.AuraWatchList = {
 				{AuraID =  45182, UnitID = "player"},
 			},
 		},
-		{	Name = "Focus Aura",
-			Direction = "RIGHT",
-			Interval = 5,
-			Mode = "ICON",
-			IconSize = 36,
-			Pos = FocusAuraPoint,
-			List = {
-			},
-		},
 		{	Name = "Spell Cooldown",
 			Direction = "UP",
 			Interval = 5,
@@ -2903,7 +2776,7 @@ C.AuraWatchList = {
 				--宿敌
 				{SpellID = 79140, UnitID = "player"},
 				--暗影之刃
-				{SpellID =121471, UnitID = "player"},
+				{SpellID = 121471, UnitID = "player"},
 			},
 		},
 	},
@@ -3093,24 +2966,6 @@ C.AuraWatchList = {
 				{AuraID = 196770, UnitID = "player"},
 				--食尸鬼主宰，2T20
 				{AuraID = 246995, UnitID = "player"},
-			},
-		},
-		{	Name = "Focus Aura",
-			Direction = "RIGHT",
-			Interval = 5,
-			Mode = "ICON",
-			IconSize = 36,
-			Pos = FocusAuraPoint,
-			List = {
-			-->鲜血
-				--血之疫病
-				{AuraID =  55078, UnitID = "focus", Caster = "player"},
-			-->冰霜
-				--冰霜疫病
-				{AuraID =  55095, UnitID = "focus", Caster = "player"},
-			-->邪恶
-				--恶性瘟疫
-				{AuraID = 191587, UnitID = "focus", Caster = "player"},
 			},
 		},
 		{	Name = "Spell Cooldown",
@@ -3348,15 +3203,6 @@ C.AuraWatchList = {
 				{AuraID = 197919, UnitID = "player"},
 			},
 		},
-		{	Name = "Focus Aura",
-			Direction = "RIGHT",
-			Interval = 5,
-			Mode = "ICON",
-			IconSize = 36,
-			Pos = FocusAuraPoint,
-			List = {
-			},
-		},
 		{	Name = "Spell Cooldown",
 			Direction = "UP",
 			Interval = 5,
@@ -3572,15 +3418,6 @@ C.AuraWatchList = {
 				{AuraID = 187827, UnitID = "player"},
 				--浩劫T21
 				{AuraID = 252165, UnitID = "player"},
-			},
-		},
-		{	Name = "Focus Aura",
-			Direction = "RIGHT",
-			Interval = 5,
-			Mode = "ICON",
-			IconSize = 36,
-			Pos = FocusAuraPoint,
-			List = {
 			},
 		},
 		{	Name = "Spell Cooldown",
