@@ -1156,7 +1156,7 @@ C.AuraWatchList = {
 				{AuraID = 255425, UnitID = "target", Text = SPELL_SCHOOL4_NAME}, --冰霜
 				{AuraID = 255430, UnitID = "target", Text = SPELL_SCHOOL5_NAME}, --暗影
 				{AuraID = 255433, UnitID = "target", Text = SPELL_SCHOOL6_NAME}, --奥术
-			-->PLAYER
+			-->玩家
 				--痛苦压制
 				{AuraID =  33206, UnitID = "target"},
 				--盾墙
@@ -1538,6 +1538,7 @@ C.AuraWatchList = {
 				{AuraID = 209406, UnitID = "player"},
 				--欧奈斯的自负
 				{AuraID = 209407, UnitID = "player"},
+			-->套装特效
 				--T21
 				{AuraID = 252752, UnitID = "player"}, --野德
 				{AuraID = 253434, UnitID = "player"}, --奶德
@@ -2498,6 +2499,7 @@ C.AuraWatchList = {
 				{AuraID = 211442, UnitID = "player"},
 				--救赎之魂
 				{AuraID =  27827, UnitID = "player"},
+			-->套装特效
 				--T21
 				{AuraID = 252848, UnitID = "player"}, --戒律
 				{AuraID = 253437, UnitID = "player"}, --神圣2
@@ -2740,17 +2742,17 @@ C.AuraWatchList = {
 				--剑刃乱舞
 				{AuraID =  13877, UnitID = "player"},
 				--强势连击
-				{AuraID = 193356, UnitID = "player",Text = "点数"},
+				{AuraID = 193356, UnitID = "player", Text = "点数"},
 				--暗鲨涌动
-				{AuraID = 193357, UnitID = "player",Text = RAID_BUFF_6},
+				{AuraID = 193357, UnitID = "player", Text = RAID_BUFF_6},
 				--大乱斗
-				{AuraID = 193358, UnitID = "player",Text = "攻速"},
+				{AuraID = 193358, UnitID = "player", Text = "攻速"},
 				--精准定位
-				{AuraID = 193359, UnitID = "player",Text = "缩减"},
+				{AuraID = 193359, UnitID = "player", Text = "缩减"},
 				--骷髅黑帆
-				{AuraID = 199603, UnitID = "player",Text = "攻击"},
+				{AuraID = 199603, UnitID = "player", Text = "攻击"},
 				--埋藏的宝藏
-				{AuraID = 199600, UnitID = "player",Text = "能量"},
+				{AuraID = 199600, UnitID = "player", Text = "能量"},
 				--恐惧之刃诅咒
 				{AuraID = 202665, UnitID = "player"},
 				--还击
@@ -2772,9 +2774,9 @@ C.AuraWatchList = {
 			Pos = SpellCooldownPoint,
 			List = {
 				--冲动
-				{SpellID = 13750, UnitID = "player"},
+				{SpellID =  13750, UnitID = "player"},
 				--宿敌
-				{SpellID = 79140, UnitID = "player"},
+				{SpellID =  79140, UnitID = "player"},
 				--暗影之刃
 				{SpellID = 121471, UnitID = "player"},
 			},
@@ -2875,7 +2877,9 @@ C.AuraWatchList = {
 				{AuraID =  56222, UnitID = "target", Caster = "player"},
 				--寒冰锁链
 				{AuraID =  45524, UnitID = "target", Caster = "player"},
-
+			-->套装特效
+				--T21
+				{AuraID = 253367, UnitID = "target", Caster = "player"},
 			},
 		},
 		{	Name = "Player Special Aura",
@@ -2964,8 +2968,11 @@ C.AuraWatchList = {
 				{AuraID = 216974, UnitID = "player"},
 				--冷库严冬
 				{AuraID = 196770, UnitID = "player"},
-				--食尸鬼主宰，2T20
+			-->套装特效
+				--T20
 				{AuraID = 246995, UnitID = "player"},
+				--T21
+				{AuraID = 253381, UnitID = "player"},
 			},
 		},
 		{	Name = "Spell Cooldown",
@@ -3324,7 +3331,7 @@ C.AuraWatchList = {
 			IconSize = 36,
 			Pos = TargetAuraPoint,
 			List = {
-			--浩劫
+			-->浩劫
 				--复仇回避
 				{AuraID = 198813, UnitID = "target", Caster = "player"},
 				--混乱新星
@@ -3337,7 +3344,7 @@ C.AuraWatchList = {
 				{AuraID = 213405, UnitID = "target", Caster = "player"},
 				--邪能弹幕
 				{AuraID = 211053, UnitID = "target", Caster = "player"},
-			--复仇
+			-->复仇
 				--折磨
 				{AuraID = 185245, UnitID = "target", Caster = "player"},
 				--沉默咒符
@@ -3359,7 +3366,7 @@ C.AuraWatchList = {
 				--烈火烙印
 				{AuraID = 207744, UnitID = "target", Caster = "player"},
 				{AuraID = 207771, UnitID = "target", Caster = "player"},
-			--通用
+			-->通用
 				--邪能爆发
 				{AuraID = 211881, UnitID = "target", Caster = "player"},
 			},
@@ -3371,7 +3378,7 @@ C.AuraWatchList = {
 			IconSize = 36,
 			Pos = PlayerSpecialAuraPoint,
 			List = {
-			--浩劫
+			-->浩劫
 				--疾影
 				{AuraID = 212800, UnitID = "player"},
 				--准备就绪
@@ -3395,7 +3402,7 @@ C.AuraWatchList = {
 				{AuraID = 208612, UnitID = "player"},
 				{AuraID = 208613, UnitID = "player"},
 				{AuraID = 208614, UnitID = "player"},
-			--复仇
+			-->复仇
 				--强化结界
 				{AuraID = 218256, UnitID = "player"},
 				--灵魂盛宴
@@ -3412,11 +3419,12 @@ C.AuraWatchList = {
 				{AuraID = 227225, UnitID = "player", Value = true},
 				--虹吸能量
 				{AuraID = 218561, UnitID = "player", Value = true},
-			--通用
+			-->通用
 				--恶魔变形
 				{AuraID = 162264, UnitID = "player"},
 				{AuraID = 187827, UnitID = "player"},
-				--浩劫T21
+			-->套装特效
+				--T21
 				{AuraID = 252165, UnitID = "player"},
 			},
 		},
@@ -3428,7 +3436,7 @@ C.AuraWatchList = {
 			BarWidth = 150,
 			Pos = SpellCooldownPoint,
 			List = {
-			--浩劫
+			-->浩劫
 				--伊利达雷之怒
 				{SpellID = 201467, UnitID = "player"},
 				--复仇回避
@@ -3451,7 +3459,7 @@ C.AuraWatchList = {
 				{SpellID = 247938, UnitID = "player"},
 				--邪能弹幕
 				{SpellID = 211053, UnitID = "player"},
-			--复仇
+			-->复仇
 				--地狱火撞击
 				{SpellID = 189110, UnitID = "player"},
 				--强化结界
@@ -3476,7 +3484,7 @@ C.AuraWatchList = {
 				{SpellID = 236189, UnitID = "player"},
 				--灵魂壁障
 				{SpellID = 227225, UnitID = "player"},
-			--通用
+			-->通用
 				--幽灵视觉
 				{SpellID = 188501, UnitID = "player"},
 				--吞噬魔法

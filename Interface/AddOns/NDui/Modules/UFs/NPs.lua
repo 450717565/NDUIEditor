@@ -31,7 +31,9 @@ function UF:BlockAddons()
 	end
 end
 
-local CustomUnits = {}
+local CustomUnits = {
+	["邪能炸药"] = true,
+}
 function UF:CreateUnitTable()
 	if not NDuiDB["Nameplate"]["CustomUnitColor"] then return end
 
@@ -45,6 +47,7 @@ C.ShowPowerList = {
 	["Scrubber"] = true,
 	["清扫器"] = true,
 	["清掃者"] = true,
+	["泰沙拉克的余烬"] = true,
 }
 function UF:CreatePowerUnitTable()
 	if not NDuiDB["Nameplate"]["ShowUnitPower"] then return end
