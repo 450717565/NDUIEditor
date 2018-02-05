@@ -785,6 +785,7 @@ RAID_PROGRESSION_LIST = {
 
 DEFAULT_SPAMWORD = [[
 !跟
+!接
 !买
 !卖
 !起
@@ -793,6 +794,8 @@ DEFAULT_SPAMWORD = [[
 !套
 !选
 !在
+!指
+!走
 ]]
 
 ZONE_ACTIVITY_MAP = {

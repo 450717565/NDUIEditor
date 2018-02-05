@@ -533,10 +533,8 @@ elseif GAME_LOCALE == "zhCN" then
 	lib:SetCurrentTranslations {
 	["Blood Elf"] = "血精灵",
 	["Blood elves"] = "血精灵",
-	--Translation missing 
-	-- ["Dark Iron Dwarf"] = "Dark Iron Dwarf",
-	--Translation missing 
-	-- ["Dark Iron Dwarves"] = "Dark Iron Dwarves",
+	["Dark Iron Dwarf"] = "黑铁矮人",
+	["Dark Iron Dwarves"] = "黑铁矮人",
 	["Draenei"] = "德莱尼",
 	["Draenei_PL"] = "德莱尼",
 	["Dwarf"] = "矮人",
@@ -547,23 +545,17 @@ elseif GAME_LOCALE == "zhCN" then
 	["Gnomes"] = "侏儒",
 	["Goblin"] = "地精",
 	["Goblins"] = "地精",
-	--Translation missing 
-	-- ["Highmountain Tauren"] = "Highmountain Tauren",
-	--Translation missing 
-	-- ["Highmountain Tauren_PL"] = "Highmountain Tauren",
+	["Highmountain Tauren"] = "至高岭牛头人",
+	["Highmountain Tauren_PL"] = "至高岭牛头人",
 	["Human"] = "人类",
 	["Humans"] = "人类",
 	["Imp"] = "小鬼",
-	--Translation missing 
-	-- ["Lightforged Draenei"] = "Lightforged Draenei",
-	--Translation missing 
-	-- ["Lightforged Draenei_PL"] = "Lightforged Draenei",
+	["Lightforged Draenei"] = "光铸德莱尼",
+	["Lightforged Draenei_PL"] = "光铸德莱尼",
 	["Night Elf"] = "暗夜精灵",
 	["Night elves"] = "暗夜精灵",
-	--Translation missing 
-	-- ["Nightborne"] = "Nightborne",
-	--Translation missing 
-	-- ["Nightborne_PL"] = "Nightborne",
+	["Nightborne"] = "夜之子",
+	["Nightborne_PL"] = "夜之子",
 	["Orc"] = "兽人",
 	["Orcs"] = "兽人",
 	["Pandaren"] = "熊猫人",
@@ -575,26 +567,20 @@ elseif GAME_LOCALE == "zhCN" then
 	["Trolls"] = "巨魔",
 	["Undead"] = "亡灵",
 	["Undead_PL"] = "亡灵",
-	--Translation missing 
-	-- ["Void Elf"] = "Void Elf",
-	--Translation missing 
-	-- ["Void elves"] = "Void elves",
+	["Void Elf"] = "虚空精灵",
+	["Void elves"] = "虚空精灵",
 	["Voidwalker"] = "虚空行者",
 	["Worgen"] = "狼人",
 	["Worgen_PL"] = "狼人",
-	--Translation missing 
-	-- ["Zandalari Troll"] = "Zandalari Troll",
-	--Translation missing 
-	-- ["Zandalari Trolls"] = "Zandalari Trolls"
+	["Zandalari Troll"] = "赞达拉巨魔",
+	["Zandalari Trolls"] = "赞达拉巨魔"
 }
 elseif GAME_LOCALE == "zhTW" then
 	lib:SetCurrentTranslations {
 	["Blood Elf"] = "血精靈",
 	["Blood elves"] = "血精靈",
-	--Translation missing 
-	-- ["Dark Iron Dwarf"] = "Dark Iron Dwarf",
-	--Translation missing 
-	-- ["Dark Iron Dwarves"] = "Dark Iron Dwarves",
+	["Dark Iron Dwarf"] = "黑鐵矮人",
+	["Dark Iron Dwarves"] = "黑鐵矮人",
 	["Draenei"] = "德萊尼",
 	["Draenei_PL"] = "德萊尼",
 	["Dwarf"] = "矮人",
@@ -605,23 +591,17 @@ elseif GAME_LOCALE == "zhTW" then
 	["Gnomes"] = "地精",
 	["Goblin"] = "哥布林",
 	["Goblins"] = "哥布林",
-	--Translation missing 
-	-- ["Highmountain Tauren"] = "Highmountain Tauren",
-	--Translation missing 
-	-- ["Highmountain Tauren_PL"] = "Highmountain Tauren",
+	["Highmountain Tauren"] = "高嶺牛頭人",
+	["Highmountain Tauren_PL"] = "高嶺牛頭人",
 	["Human"] = "人類",
 	["Humans"] = "人類",
 	["Imp"] = "小鬼",
-	--Translation missing 
-	-- ["Lightforged Draenei"] = "Lightforged Draenei",
-	--Translation missing 
-	-- ["Lightforged Draenei_PL"] = "Lightforged Draenei",
+	["Lightforged Draenei"] = "光鑄德萊尼",
+	["Lightforged Draenei_PL"] = "光鑄德萊尼",
 	["Night Elf"] = "夜精靈",
 	["Night elves"] = "夜精靈",
-	--Translation missing 
-	-- ["Nightborne"] = "Nightborne",
-	--Translation missing 
-	-- ["Nightborne_PL"] = "Nightborne",
+	["Nightborne"] = "夜裔精靈",
+	["Nightborne_PL"] = "夜裔精靈",
 	["Orc"] = "獸人",
 	["Orcs"] = "獸人",
 	["Pandaren"] = "熊貓人",
@@ -633,17 +613,13 @@ elseif GAME_LOCALE == "zhTW" then
 	["Trolls"] = "食人妖",
 	["Undead"] = "不死族",
 	["Undead_PL"] = "不死族",
-	--Translation missing 
-	-- ["Void Elf"] = "Void Elf",
-	--Translation missing 
-	-- ["Void elves"] = "Void elves",
+	["Void Elf"] = "虛無精靈",
+	["Void elves"] = "虛無精靈",
 	["Voidwalker"] = "虛無行者",
 	["Worgen"] = "狼人",
 	["Worgen_PL"] = "狼人",
-	--Translation missing 
-	-- ["Zandalari Troll"] = "Zandalari Troll",
-	--Translation missing 
-	-- ["Zandalari Trolls"] = "Zandalari Trolls"
+	["Zandalari Troll"] = "贊達拉食人妖",
+	["Zandalari Trolls"] = "贊達拉食人妖"
 }
 else
 	error(("%s: Locale %q not supported"):format(MAJOR_VERSION, GAME_LOCALE))
