@@ -21,7 +21,7 @@ function BrowsePanel:OnInitialize()
 			return activity:BaseSortHandler()
 		end)
 		ActivityList:RegisterFilter(function(activity, ...)
-			if activity:GetItemLevel() == 0 then return end
+			if Profile:GetSetting('iLvlFilter') and activity:GetItemLevel() <= 500 then return end
 			return activity:Match(...)
 		end)
 		ActivityList:InitHeader{
@@ -897,6 +897,18 @@ function BrowsePanel:OnFilterButtonClicked()
 			end,
 			func = function(_, _, _, checked)
 				Profile:SetSetting('spamLengthEnabled', checked)
+			end
+		},
+		{
+			text = L['要求装等过滤'],
+			checkable = true,
+			isNotRadio = true,
+			keepShownOnClick = true,
+			checked = function()
+				return Profile:GetSetting('iLvlFilter')
+			end,
+			func = function(_, _, _, checked)
+				Profile:SetSetting('iLvlFilter', checked)
 			end
 		},
 		{
