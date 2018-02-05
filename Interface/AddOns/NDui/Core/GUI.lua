@@ -483,21 +483,21 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{4, "Extras", "ArrowColor", L["Arrow Color"], false, {L["Cyan"], L["Green"], L["Red"]}},
 		{1, "Extras", "PartyFrame", "|cff00cc4c"..L["UFs PartyFrame"], true},
 		{},--blank
-		{1, "Extras", "ShowCharacterItemSheet", L["ShowCharacterItemSheet"]},
-		{1, "Extras", "ShowOwnFrameWhenInspecting", L["ShowOwnFrameWhenInspecting"], true},
-		{1, "Extras", "LootMonitorInGroup", L["LootMonitorInGroup"]},
-		{1, "Extras", "LootMonitorBonusRewards", L["LootMonitorBonusRewards"], true},
+		{1, "Extras", "ShowCharacterItemSheet", L["Show Character Item Sheet"]},
+		{1, "Extras", "ShowOwnFrameWhenInspecting", L["Show Own Frame When Inspecting"], true},
+		{1, "Extras", "LootMonitorInGroup", L["LootMonitor InGroup"]},
+		{1, "Extras", "LootMonitorBonusRewards", L["LootMonitor Bonus Rewards"], true},
 		{},--blank
 		{1, "Extras", "BarrelsOEasy", L["BarrelsOEasy"]},
 		{1, "Extras", "LootMonitor", L["LootMonitor"], true},
-		{1, "Extras", "StarCursor", L["StarCursor"]},
+		{1, "Extras", "StarCursor", L["Star Cursor"]},
 		{1, "Extras", "iLvlTools", L["iLvlTools"], true},
 		{},--blank
-		{1, "Extras", "CombatAlert", L["CombatAlert"]},
+		{1, "Extras", "CombatAlert", L["Combat Alert"]},
 		{1, "Extras", "Durability", L["Show Durability"], true},
 		{1, "Extras", "MoveTalking", L["Move Talking"]},
 		{1, "Extras", "SlotInfo", L["Slot Info"], true},
-		{1, "Extras", "GuildWelcome", L["GuildWelcome"]},
+		{1, "Extras", "GuildWelcome", L["Guild Welcome"]},
 	},
 }
 

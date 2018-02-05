@@ -41,7 +41,7 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 17245 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 17255 $"):sub(12, -3)),
 	DisplayVersion = "7.3.22 alpha", -- the string that is shown as version
 	ReleaseRevision = 17241 -- the revision of the latest stable version that is available
 }
@@ -357,6 +357,7 @@ local dbmToc = 0
 local UpdateChestTimer
 local breakTimerStart
 local AddMsg
+local delayedFunction
 
 local fakeBWVersion, fakeBWHash = 87, "299b522"
 local versionQueryString, versionResponseString = "Q^%d^%s", "V^%d^%s"
@@ -1210,6 +1211,7 @@ do
 				"CHAT_MSG_ADDON",
 				"BN_CHAT_MSG_ADDON",
 				"PLAYER_REGEN_DISABLED",
+				"PLAYER_REGEN_ENABLED",
 				"INSTANCE_ENCOUNTER_ENGAGE_UNIT",
 				"UNIT_TARGETABLE_CHANGED",
 				"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3 boss4 boss5",
@@ -5056,6 +5058,13 @@ do
 			end
 		end
 	end
+	
+	function DBM:PLAYER_REGEN_ENABLED()
+		if delayedFunction then--Will throw error if not a function, purposely not doing and type(delayedFunction) == "function" for now to make sure code works though  cause it always should be function
+			delayedFunction()
+			delayedFunction = nil
+		end
+	end
 
 	local function isBossEngaged(cId)
 		-- note that this is designed to work with any number of bosses, but it might be sufficient to check the first 5 unit ids
@@ -5827,6 +5836,7 @@ do
 				end
 			end
 			if mod.OnCombatEnd then mod:OnCombatEnd(wipe) end
+			if mod.OnLeavingCombat then delayedFunction = mod.OnLeavingCombat end
 			if #inCombat == 0 then--prevent error if you pulled multiple boss. (Earth, Wind and Fire)
 				statusWhisperDisabled = false
 				statusGuildDisabled = false
@@ -6437,6 +6447,7 @@ do
 				DisableEvent(RaidBossEmoteFrame, "RAID_BOSS_EMOTE")
 				DisableEvent(RaidBossEmoteFrame, "RAID_BOSS_WHISPER")
 				DisableEvent(RaidBossEmoteFrame, "CLEAR_BOSS_EMOTES")
+				SOUNDKIT.UI_RAID_BOSS_WHISPER_WARNING = 999999--Since blizzard can still play the sound via RaidBossEmoteFrame_OnEvent (line 148) via encounter scripts in certain cases despite the frame having no registered events
 			end
 			if self.Options.HideGarrisonToasts or custom then
 				DisableEvent(AlertFrame, "GARRISON_MISSION_FINISHED")
@@ -6453,6 +6464,7 @@ do
 				EnableEvent(RaidBossEmoteFrame, "RAID_BOSS_EMOTE")
 				EnableEvent(RaidBossEmoteFrame, "RAID_BOSS_WHISPER")
 				EnableEvent(RaidBossEmoteFrame, "CLEAR_BOSS_EMOTES")
+				SOUNDKIT.UI_RAID_BOSS_WHISPER_WARNING = 37666--restore it
 			end
 			if self.Options.HideGarrisonToasts then
 				EnableEvent(AlertFrame, "GARRISON_MISSION_FINISHED")

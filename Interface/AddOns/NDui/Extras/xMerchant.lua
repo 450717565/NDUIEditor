@@ -659,7 +659,7 @@ end
 
 local function Search_OnEnter(self)
 	GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-	GameTooltip:SetText(L["To browse item tooltips."])
+	GameTooltip:SetText(L["To browse item tooltips"])
 end
 
 local tooltipsearching = CreateFrame("CheckButton", "$parentTooltipSearching", frame, "InterfaceOptionsSmallCheckButtonTemplate")

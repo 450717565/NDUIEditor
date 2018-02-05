@@ -52,7 +52,7 @@ function module:UrlCopy()
 	end
 
 	for i = 1, NUM_CHAT_WINDOWS do
-		if ( i ~= 2 ) then
+		if i ~= 2 then
 			local cf = _G["ChatFrame"..i]
 			cf.am = cf.AddMessage
 			cf.AddMessage = searchforurl

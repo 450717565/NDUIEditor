@@ -95,13 +95,13 @@ info.onEnter = function(self)
 			local green = localSlots[i][3]*2
 			local red = 1 - green
 			local slotIcon = "|T"..GetInventoryItemTexture("player", localSlots[i][1])..":13:15:0:0:50:50:4:46:4:46|t " or ""
-			GameTooltip:AddDoubleLine(slotIcon..localSlots[i][2]..L[":"], string.format("%.1f %%", localSlots[i][3]*100), 1,1,1, red+1,green,0)
+			GameTooltip:AddDoubleLine(slotIcon..localSlots[i][2], string.format("%.1f %%", localSlots[i][3]*100), 1,1,1, red+1,green,0)
 		end
 	end
 
 	GameTooltip:AddDoubleLine(" ", "--------------", 1,1,1, .5,.5,.5)
-	GameTooltip:AddDoubleLine(" ", DB.LeftButton..L["PlayerPanel"], 1,1,1, .6,.8,1)
-	GameTooltip:AddDoubleLine(" ", DB.RightButton..L["AutoRepair:"]..repairlist[NDuiADB["RepairType"]], 1,1,1, .6,.8,1)
+	GameTooltip:AddDoubleLine(" ", DB.LeftButton..L["Player Panel"], 1,1,1, .6,.8,1)
+	GameTooltip:AddDoubleLine(" ", DB.RightButton..L["Auto Repair"]..repairlist[NDuiADB["RepairType"]], 1,1,1, .6,.8,1)
 	GameTooltip:Show()
 end
 
@@ -120,18 +120,18 @@ NDui:EventFrame("MERCHANT_SHOW"):SetScript("OnEvent", function()
 				end
 				if guildMoney >= cost and CanGuildBankRepair() then
 					RepairAllItems(1)
-					print(format("|cff99CCFF"..L["Repair cost covered by G-Bank:"].."|r %s", GetMoneyString(cost)))
+					print(format("|cff99CCFF"..L["Repair cost covered by G-Bank"].."|r %s", GetMoneyString(cost)))
 					return
 				elseif guildMoney == 0 and IsGuildLeader() then
 					RepairAllItems(1)
-					print(format("|cff99CCFF"..L["Repair cost covered by G-Bank:"].."|r %s", GetMoneyString(cost)))
+					print(format("|cff99CCFF"..L["Repair cost covered by G-Bank"].."|r %s", GetMoneyString(cost)))
 					return
 				end
 			end
 
 			if money > cost then
 				RepairAllItems()
-				print(format("|cff99CCFF"..L["Repair cost:"].."|r %s", GetMoneyString(cost)))
+				print(format("|cff99CCFF"..L["Repair cost"].."|r %s", GetMoneyString(cost)))
 			else
 				print("|cff99CCFF"..L["Go farm newbie"].."|r")
 			end

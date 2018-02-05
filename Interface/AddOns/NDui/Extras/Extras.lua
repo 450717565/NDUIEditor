@@ -86,7 +86,7 @@ GuildWelcome:SetScript("OnEvent", function(self, event, msg)
 		name = Ambiguate(name, "guild")
 		if not UnitIsUnit(name, "player") then
 			C_Timer.After(random(1000) / 1000, function()
-				SendChatMessage(L["GuildWelcomeMessage"]:format(name), "GUILD")
+				SendChatMessage(L["Guild Welcome Message"]:format(name), "GUILD")
 			end)
 		end
 	end

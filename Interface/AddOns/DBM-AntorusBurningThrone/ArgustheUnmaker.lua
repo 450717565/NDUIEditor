@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2031, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17215 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17248 $"):sub(12, -3))
 mod:SetCreatureID(124828)
 mod:SetEncounterID(2092)
 mod:SetZone()
@@ -360,7 +360,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerCosmicRayCD:Start()
 	elseif spellId == 252616 and self:AntiSpam(5, 4) then
 		timerCosmicBeaconCD:Start()
-	elseif spellId == 256388 and self:AntiSpam(5, 5) then--Initialization Sequence
+	elseif spellId == 256388 and self:AntiSpam(5, 8) then--Initialization Sequence
 		self.vb.moduleCount = self.vb.moduleCount + 1
 		specWarnReorgModule:Show(self.vb.moduleCount)
 		specWarnReorgModule:Play("killmob")

@@ -97,10 +97,10 @@ function eventFrame:PLAYER_LOGIN()
 	SetCVar("floatingCombatTextCombatDamage", 1)
 	SetCVar("floatingCombatTextCombatHealing", 0)
 
-	B.Mover(frames["InputDamage"], L["InputDamage"], "InputDamage", idPoints, frameWidth, frameHeight)
-	B.Mover(frames["InputHealing"], L["InputHealing"], "InputHealing", ihPoints, frameWidth, frameHeight)
-	B.Mover(frames["OutputDamage"], L["OutputDamage"], "OutputDamage", odPoints, frameWidth, frameHeight)
-	B.Mover(frames["OutputHealing"], L["OutputHealing"], "OutputHealing", ohPoints, frameWidth, frameHeight)
+	B.Mover(frames["InputDamage"], L["Input Damage"], "InputDamage", idPoints, frameWidth, frameHeight)
+	B.Mover(frames["InputHealing"], L["Input Healing"], "InputHealing", ihPoints, frameWidth, frameHeight)
+	B.Mover(frames["OutputDamage"], L["Output Damage"], "OutputDamage", odPoints, frameWidth, frameHeight)
+	B.Mover(frames["OutputHealing"], L["Output Healing"], "OutputHealing", ohPoints, frameWidth, frameHeight)
 end
 
 function eventFrame:COMBAT_LOG_EVENT_UNFILTERED(...)

@@ -576,6 +576,7 @@ do
 		GameTooltip:SetPoint(p, self, rP, x, y)
 
 		self.AnimOut:Stop()
+		self:SetAlpha(1)
 
 		E:RegisterEvent("MODIFIER_STATE_CHANGED", MODIFIER_STATE_CHANGED)
 	end
@@ -680,6 +681,7 @@ do
 
 	local function RecycleToast(self)
 		self:ClearAllPoints()
+		self:SetAlpha(1)
 		self:Hide()
 
 		self:SetScript("OnClick", Toast_OnClick)
@@ -981,38 +983,45 @@ do
 		do
 			local ag = toast:CreateAnimationGroup()
 			ag:SetScript("OnPlay", ToastAnimIn_OnPlay)
+			ag:SetToFinalAlpha(true)
 			toast.AnimIn = ag
 
 			local anim = ag:CreateAnimation("Alpha")
-			anim:SetChildKey("Glow")
 			anim:SetOrder(1)
+			anim:SetFromAlpha(0)
+			anim:SetToAlpha(1)
+			anim:SetDuration(0)
+
+			anim = ag:CreateAnimation("Alpha")
+			anim:SetChildKey("Glow")
+			anim:SetOrder(2)
 			anim:SetFromAlpha(0)
 			anim:SetToAlpha(1)
 			anim:SetDuration(0.2)
 
 			anim = ag:CreateAnimation("Alpha")
 			anim:SetChildKey("Glow")
-			anim:SetOrder(2)
+			anim:SetOrder(3)
 			anim:SetFromAlpha(1)
 			anim:SetToAlpha(0)
 			anim:SetDuration(0.5)
 
 			anim = ag:CreateAnimation("Alpha")
 			anim:SetChildKey("Shine")
-			anim:SetOrder(1)
+			anim:SetOrder(2)
 			anim:SetFromAlpha(0)
 			anim:SetToAlpha(1)
 			anim:SetDuration(0.2)
 
 			anim = ag:CreateAnimation("Translation")
 			anim:SetChildKey("Shine")
-			anim:SetOrder(2)
+			anim:SetOrder(3)
 			anim:SetOffset(168, 0)
 			anim:SetDuration(0.85)
 
 			anim = ag:CreateAnimation("Alpha")
 			anim:SetChildKey("Shine")
-			anim:SetOrder(2)
+			anim:SetOrder(3)
 			anim:SetFromAlpha(1)
 			anim:SetToAlpha(0)
 			anim:SetStartDelay(0.35)

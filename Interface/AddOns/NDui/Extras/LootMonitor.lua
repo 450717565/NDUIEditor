@@ -20,7 +20,7 @@ end
 
 local LMFrame = CreateFrame("Frame", "LootMonitor", UIParent)
 local LMFrame_Title = B.CreateFS(LMFrame, Button_Height-2, L["LootMonitor"], true, "TOPLEFT", 10, -10)
-local LMFrame_Info = B.CreateFS(LMFrame, Button_Height-2, L["LootMonitorInfo"], true, "BOTTOMLEFT", 10, 10)
+local LMFrame_Info = B.CreateFS(LMFrame, Button_Height-2, L["LootMonitor Info"], true, "BOTTOMLEFT", 10, 10)
 B.CreateMF(LMFrame)
 B.CreateBD(LMFrame)
 B.CreateTex(LMFrame)
@@ -40,7 +40,7 @@ end
 
 local function ButtonOnClick(self, button)
 	if button == "RightButton" then
-		SendChatMessage(L["LootMonitorMessage"]:format(LMFrame_Report[self.index]["loot"]), "WHISPER", nil, LMFrame_Report[self.index]["player"])
+		SendChatMessage(L["LootMonitor Message"]:format(LMFrame_Report[self.index]["loot"]), "WHISPER", nil, LMFrame_Report[self.index]["player"])
 	else
 		local editBox = ChatEdit_ChooseBoxForSend()
 		ChatEdit_ActivateChat(editBox)

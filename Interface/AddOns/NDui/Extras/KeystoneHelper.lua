@@ -30,7 +30,7 @@ end
 
 local function WeeklyLootItemLevel(mlvl)
 	if mlvl == "0" then
-		return L["NoWeeklyItem"]
+		return L["No Weekly Item"]
 	elseif mlvl == "2" then
 		return "905+"
 	elseif mlvl == "3" then
@@ -137,8 +137,8 @@ local function DecorateTooltip(self, link, _)
 		end
 		if mythicLevel then
 			self:AddLine(" ")
-			self:AddLine("|cff00ffff"..L["MythicLootItemLevel:"]..ilvl.."|r")
-			self:AddLine("|cff00ffff"..L["WeeklyLootItemLevel:"]..wlvl.."|r")
+			self:AddLine("|cff00ffff"..L["Mythic Loot Item Level"]..ilvl.."|r")
+			self:AddLine("|cff00ffff"..L["Weekly Loot Item Level"]..wlvl.."|r")
 		end
 		if modifiers or mythicLevel then
 			self:Show()

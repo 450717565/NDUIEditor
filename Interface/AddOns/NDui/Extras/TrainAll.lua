@@ -38,7 +38,7 @@ local function Createit()
 	local Button = CreateFrame("Button", "TrainAllButton",ClassTrainerFrame, "MagicButtonTemplate")
 	Button:SetWidth(80)
 	Button:SetHeight(22)
-	Button:SetText(L["TrainAll"])
+	Button:SetText(L["Train All"])
 	Button:SetPoint("RIGHT", ClassTrainerTrainButton, "LEFT", -2, 0)
 	-- Aurora Reskin
 	if IsAddOnLoaded("Aurora") then
@@ -47,7 +47,7 @@ local function Createit()
 	end
 	Button:SetScript("OnEnter", function()
 		GameTooltip:SetOwner(Button,"ANCHOR_RIGHT")
-		GameTooltip:SetText(L["TrainAllNeed:"]..GetMoneyString(Cost))
+		GameTooltip:SetText(L["Train All Need"]..GetMoneyString(Cost))
 	end)
 	Button:SetScript("OnLeave", function()
 		GameTooltip:Hide()

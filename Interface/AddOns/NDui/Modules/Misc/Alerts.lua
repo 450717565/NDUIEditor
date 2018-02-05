@@ -28,7 +28,7 @@ function module:SoloInfo()
 		if event == "ZONE_CHANGED_NEW_AREA" or event == "PLAYER_DIFFICULTY_CHANGED" or event == "PLAYER_ENTERING_WORLD" then
 			if IsInInstance() then
 				local name, _, difficultyID, difficultyName, _, _, _, instanceMapID = GetInstanceInfo()
-				B.AlertRun(L["Difficult:"]..difficultyName)
+				B.AlertRun(L["Difficult"]..difficultyName)
 				if difficultyID ~= 24 then
 					if instList[instanceMapID] and instList[instanceMapID] ~= difficultyID then
 						f:Show()

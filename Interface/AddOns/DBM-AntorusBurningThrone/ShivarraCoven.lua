@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1986, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17245 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17253 $"):sub(12, -3))
 mod:SetCreatureID(122468, 122467, 122469)--122468 Noura, 122467 Asara, 122469 Diima, 125436 Thu'raya (mythic only)
 mod:SetEncounterID(2073)
 mod:SetZone()
@@ -158,7 +158,7 @@ function mod:OnCombatStart(delay)
 		DBM:FireEvent("BossMod_EnableHostileNameplates")
 	end
 	if self.Options.SetLighting and not IsMacClient() then--Mac client doesn't support low (1) setting for lighting (and not InCombatLockdown() needed?)
-		CVAR1, CVAR2 = GetCVarBool("graphicsLightingQuality") or 3, GetCVarBool("raidGraphicsLightingQuality") or 2--Non raid cvar is nil if 3 (default) and raid one is nil if 2 (default)
+		CVAR1, CVAR2 = GetCVar("graphicsLightingQuality") or 3, GetCVar("raidGraphicsLightingQuality") or 2--Non raid cvar is nil if 3 (default) and raid one is nil if 2 (default)
 		SetCVar("graphicsLightingQuality", 1)
 		SetCVar("raidGraphicsLightingQuality", 1)
 	end
@@ -172,6 +172,16 @@ function mod:OnCombatEnd()
 	if self.Options.NPAuraOnVisageofTitan then
 		DBM.Nameplate:Hide(true, nil, nil, nil, true, true)
 	end
+	--Attempt restore right away
+	if (CVAR1 or CVAR2) and not InCombatLockdown() then
+		SetCVar("graphicsLightingQuality", CVAR1)
+		SetCVar("raidGraphicsLightingQuality", CVAR2)
+		CVAR1, CVAR2 = nil, nil
+	end
+end
+
+--Backup check on leaving combat if OnCombatEnd wasn't successful
+function mod:OnLeavingCombat()
 	if CVAR1 or CVAR2 then
 		SetCVar("graphicsLightingQuality", CVAR1)
 		SetCVar("raidGraphicsLightingQuality", CVAR2)

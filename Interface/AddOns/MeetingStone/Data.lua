@@ -791,6 +791,7 @@ DEFAULT_SPAMWORD = [[
 !散
 !躺
 !套
+!选
 !在
 ]]
 

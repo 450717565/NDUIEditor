@@ -294,6 +294,13 @@ if IsAddOnLoaded("Aurora") then
 			end
 		end
 
+		if IsAddOnLoaded("Simulationcraft") then
+			F.CreateBD(SimcCopyFrame)
+			F.CreateSD(SimcCopyFrame)
+			F.Reskin(SimcCopyFrameButton)
+			F.ReskinScroll(SimcCopyFrameScrollScrollBar)
+		end
+
 		if IsAddOnLoaded("TinyInspect") then
 			for i = 1, 9 do
 				select(i, TinyInspectRaidFrame:GetRegions()):Hide()

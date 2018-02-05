@@ -125,7 +125,7 @@ ABF:RegisterEvent("UNIT_EXITED_VEHICLE")
 
 ABF:SetScript("OnEvent", function(self, event, ...)
 	if event == "PLAYER_LOGIN" then
-		B.Mover(ABF, L["AutoButton"], "AutoButton", point)
+		B.Mover(ABF, L["Auto Button"], "AutoButton", point)
 	elseif event == "BAG_UPDATE_DELAYED" then
 		UpdateItem(ABB)
 	elseif event == "PLAYER_REGEN_DISABLED" or event == "PET_BATTLE_OPENING_START" or (event == "UNIT_ENTERED_VEHICLE" and ... == "player" and not InCombatLockdown()) then

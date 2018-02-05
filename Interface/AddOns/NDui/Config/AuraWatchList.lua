@@ -473,6 +473,8 @@ C.AuraWatchList = {
 				{AuraID = 200238, UnitID = "player"},
 				--奥丁：烙印
 				{AuraID = 197996, UnitID = "player"},
+				--海拉：海洋污染
+				{AuraID = 197262, UnitID = "player"},
 				--深须国王：气体泡泡
 				{AuraID = 193018, UnitID = "player", Value = true},
 				--达古尔：燃烧之恨

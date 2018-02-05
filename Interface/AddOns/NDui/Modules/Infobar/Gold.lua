@@ -52,7 +52,7 @@ info.onEvent = function(self, event)
 end
 
 StaticPopupDialogs["RESETGOLD"] = {
-	text = L["Are you sure to reset the gold count?"],
+	text = L["Are you sure to reset the gold count"],
 	button1 = YES,
 	button2 = NO,
 	OnAccept = function()
@@ -97,7 +97,7 @@ info.onEnter = function(self)
 	GameTooltip:AddLine(" ")
 
 	local totalGold = 0
-	GameTooltip:AddLine(L["Character:"], .6,.8,1)
+	GameTooltip:AddLine(L["Character"], .6,.8,1)
 	local thisRealmList = NDuiADB["totalGold"][myRealm]
 	for k, v in pairs(thisRealmList) do
 		local gold, class = unpack(v)
@@ -105,14 +105,13 @@ info.onEnter = function(self)
 		totalGold = totalGold + gold
 	end
 	GameTooltip:AddLine(" ")
-	GameTooltip:AddLine(L["Server:"], .6,.8,1)
-	GameTooltip:AddDoubleLine(TOTAL, getGoldString(totalGold), 1,1,1, 1,1,1)
+	GameTooltip:AddDoubleLine(TOTAL..L[":"], getGoldString(totalGold), .6,.8,1, 1,1,1)
 
 	for i = 1, GetNumWatchedTokens() do
 		local name, count, icon, currencyID = GetBackpackCurrencyInfo(i)
 		if name and i == 1 then
 			GameTooltip:AddLine(" ")
-			GameTooltip:AddLine(CURRENCY..L[":"],.6,.8,1)
+			GameTooltip:AddLine(CURRENCY..L[":"], .6,.8,1)
 		end
 		if name and count then
 			local _, _, _, _, _, total = GetCurrencyInfo(currencyID)
@@ -125,8 +124,8 @@ info.onEnter = function(self)
 		end
 	end
 	GameTooltip:AddDoubleLine(" ", "--------------", 1,1,1, .5,.5,.5)
-	GameTooltip:AddDoubleLine(" ", DB.LeftButton..L["CurrencyPanel"], 1,1,1, .6,.8,1)
-	GameTooltip:AddDoubleLine(" ", DB.RightButton..L["AutoSell Junk:"]..(NDuiADB["AutoSell"] and "|cff55ff55"..VIDEO_OPTIONS_ENABLED or "|cffff5555"..VIDEO_OPTIONS_DISABLED), 1,1,1, .6,.8,1)
+	GameTooltip:AddDoubleLine(" ", DB.LeftButton..L["Currency Panel"], 1,1,1, .6,.8,1)
+	GameTooltip:AddDoubleLine(" ", DB.RightButton..L["AutoSell Junk"]..(NDuiADB["AutoSell"] and "|cff55ff55"..VIDEO_OPTIONS_ENABLED or "|cffff5555"..VIDEO_OPTIONS_DISABLED), 1,1,1, .6,.8,1)
 	GameTooltip:AddDoubleLine(" ", "CTRL+"..DB.RightButton..L["Reset Gold"], 1,1,1, .6,.8,1)
 	GameTooltip:Show()
 end
@@ -168,7 +167,7 @@ local function startSelling()
 
 	local firstRun = sellJunkTicker and sellJunkTicker._remainingIterations == 200
 	if firstRun and c > 0 then
-		print(format("|cff99CCFF"..L["Selljunk Calculate:"].."|r %s", GetMoneyString(c)))
+		print(format("|cff99CCFF"..L["Selljunk Calculate"].."|r %s", GetMoneyString(c)))
 	elseif c == 0 then
 		stopSelling()
 	end

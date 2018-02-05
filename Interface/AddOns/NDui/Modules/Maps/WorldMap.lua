@@ -20,15 +20,20 @@ function module:OnLogin()
 
 	-- Generate Coords
 	if not NDuiDB["Map"]["Coord"] then return end
-	if IsAddOnLoaded("Aurora") then
-		player = B.CreateFS(WorldMapTitleButton, 14, "", false, "TOPLEFT", 40, -8)
-		cursor = B.CreateFS(WorldMapTitleButton, 14, "", false, "TOPLEFT", 170, -8)
-	else
-		player = B.CreateFS(WorldMapTitleButton, 14, "", false, "TOPLEFT", 60, -6)
-		cursor = B.CreateFS(WorldMapTitleButton, 14, "", false, "TOPLEFT", 190, -6)
-	end
+
+	local player = B.CreateFS(WorldMapTitleButton, 14, "")
+	local cursor = B.CreateFS(WorldMapTitleButton, 14, "")
 	player:SetJustifyH("LEFT")
 	cursor:SetJustifyH("LEFT")
+
+	if IsAddOnLoaded("Aurora") then
+		player:SetPoint("TOPLEFT", 40, -8)
+		cursor:SetPoint("TOPLEFT", 170, -8)
+	else
+		player:SetPoint("TOPLEFT", 60, -6)
+		cursor:SetPoint("TOPLEFT", 180, -6)
+	end
+
 	local width, height = WorldMapDetailFrame:GetWidth(), WorldMapDetailFrame:GetHeight()
 	local scale = WorldMapDetailFrame:GetEffectiveScale()
 
