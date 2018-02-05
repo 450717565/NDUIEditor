@@ -368,7 +368,7 @@ local function postCreateIcon(element, button)
 	local parentFrame = CreateFrame("Frame", nil, button)
 	parentFrame:SetAllPoints()
 	parentFrame:SetFrameLevel(button:GetFrameLevel() + 3)
-	button.count = B.CreateFS(parentFrame, fontSize, "", false, "BOTTOMRIGHT", 6, -3)
+	button.count = B.CreateFS(parentFrame, fontSize, "", false, "BOTTOMRIGHT", 4, -4)
 	button.cd:SetReverse(true)
 
 	button.icon:SetTexCoord(unpack(DB.TexCoord))
@@ -511,7 +511,7 @@ function UF:CreateDebuffs(self)
 		bu:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, -11)
 		bu.num = 10
 	elseif self.mystyle == "nameplate" then
-		bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 20)
+		bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", -3, 20)
 		bu.num = NDuiDB["Nameplate"]["maxAuras"]
 		bu.showDebuffType = NDuiDB["Nameplate"]["ColorBorder"]
 		bu.size = NDuiDB["Nameplate"]["AuraSize"]
