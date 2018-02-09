@@ -1,4 +1,5 @@
 <Ui>
+	<Include file="Libs\LibArtifactData-1.0\LibArtifactData-1.0.xml"/>
 	<Include file="Libs\LibBabble-Boss-3.0\LibBabble-Boss-3.0.xml"/>
 	<Include file="Libs\LibBabble-CreatureType-3.0\LibBabble-CreatureType-3.0.xml"/>
 	<Include file="Libs\LibBabble-Inventory-3.0\LibBabble-Inventory-3.0.xml"/>

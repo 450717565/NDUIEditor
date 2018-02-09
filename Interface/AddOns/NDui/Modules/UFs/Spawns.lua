@@ -242,7 +242,7 @@ function UF:OnLogin()
 				self:SetWidth(%d)
 				self:SetHeight(%d)
 			]]):format(196, 19))
-		B.Mover(party, L["Party UF"], "PartyUF", {"LEFT", UIParent, "LEFT", 10, 0}, 196, (19 + 16) * 4)
+		B.Mover(party, L["Party UF"], "PartyUF", {"TOPLEFT", UIParent, 35, -50}, 196, (19 + 16) * 4)
 	end
 
 	if NDuiDB["UFs"]["Boss"] then

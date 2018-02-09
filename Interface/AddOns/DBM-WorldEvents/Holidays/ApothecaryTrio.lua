@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("d288", "DBM-WorldEvents", 1)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17204 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17272 $"):sub(12, -3))
 mod:SetCreatureID(36272, 36296, 36565)
 mod:SetModelID(16176)
 mod:SetZone()
@@ -15,19 +15,18 @@ mod:RegisterEvents(
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 68821",
-	"SPELL_DAMAGE",
-	"SPELL_MISSED"
+	"SPELL_DAMAGE 68927 68934 68641 68947",
+	"SPELL_MISSED 68927 68934 68641 68947"
 )
 
 local warnChainReaction			= mod:NewCastAnnounce(68821, 3, nil, nil, "Melee", 2)
 
-local specWarnPerfumeSpill		= mod:NewSpecialWarningMove(68927)
-local specWarnCologneSpill		= mod:NewSpecialWarningMove(68934)
+local specWarnGTFO				= mod:NewSpecialWarningGTFO(68927, nil, nil, nil, 1, 2)
 
-local timerHummel				= mod:NewTimer(10.5, "HummelActive", "Interface\\Icons\\ability_warrior_offensivestance", nil, false)
-local timerBaxter				= mod:NewTimer(18.5, "BaxterActive", "Interface\\Icons\\ability_warrior_offensivestance", nil, false)
-local timerFrye					= mod:NewTimer(26.5, "FryeActive", "Interface\\Icons\\ability_warrior_offensivestance", nil, false)
-mod:AddBoolOption("TrioActiveTimer", true, "timer")
+local timerHummel				= mod:NewTimer(10.5, "HummelActive", "Interface\\Icons\\ability_warrior_offensivestance", nil, false, "TrioActiveTimer")
+local timerBaxter				= mod:NewTimer(17.5, "BaxterActive", "Interface\\Icons\\ability_warrior_offensivestance", nil, false, "TrioActiveTimer")
+local timerFrye					= mod:NewTimer(25.5, "FryeActive", "Interface\\Icons\\ability_warrior_offensivestance", nil, false, "TrioActiveTimer")
+mod:AddBoolOption("TrioActiveTimer", true, "timer", nil, 1)
 local timerChainReaction		= mod:NewCastTimer(3, 68821, nil, "Melee")
 
 function mod:SPELL_CAST_START(args)
@@ -37,11 +36,10 @@ function mod:SPELL_CAST_START(args)
 	end
 end
 
-function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
-	if spellId == 68927 and destGUID == UnitGUID("player") and self:AntiSpam() then
-		specWarnPerfumeSpill:Show()
-	elseif spellId == 68934 and destGUID == UnitGUID("player") and self:AntiSpam() then
-		specWarnCologneSpill:Show()
+function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
+	if (spellId == 68927 or spellId == 68934 or spellId == 68641 or spellId == 68947) and destGUID == UnitGUID("player") and self:AntiSpam() then
+		specWarnGTFO:Show(spellName)
+		specWarnGTFO:Play("runaway")
 	end
 end
 mod.SPELL_MISSED = mod.SPELL_DAMAGE

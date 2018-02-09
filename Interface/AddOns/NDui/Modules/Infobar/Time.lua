@@ -84,12 +84,9 @@ end
 
 local function whereToGo(nextTime)
 	local elapsed = nextTime - baseTime
-	local round = 1
-	while elapsed >= 66600 do
-		elapsed = elapsed - 66600
-		round = round + 1
-	end
-	return GetMapNameByID(zoneNames[timeTable[mod(round, 12)]])
+	local round = mod(floor(elapsed / 66600) + 1, 12)
+	if round == 0 then round = 12 end
+	return GetMapNameByID(zoneNames[timeTable[round]])
 end
 
 info.onEnter = function(self)
@@ -209,7 +206,7 @@ end
 info.onLeave = function() GameTooltip:Hide() end
 
 info.onMouseUp = function(_, button)
-	if button == "RightButton"  then
+	if button == "RightButton" then
 		ToggleTimeManager()
 	else
 		ToggleCalendar()

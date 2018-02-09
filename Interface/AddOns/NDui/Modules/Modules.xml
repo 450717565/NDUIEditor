@@ -1,4 +1,4 @@
-<Ui xmlns="http://www.blizzard.com/wow/ui/">
+<Ui>
 	<Include file="ActionBar\ActionBar.xml"/>
 	<Include file="Bags\Bags.xml"/>
 	<Include file="Auras\Auras.xml"/>

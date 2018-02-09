@@ -152,9 +152,7 @@ end
 local isAligning = false
 SlashCmdList["TOGGLEGRID"] = function(arg)
 	if isAligning or arg == "1" then
-		if grid then
-			grid:Hide()
-		end
+		if grid then grid:Hide() end
 		isAligning = false
 	else
 		boxSize = (math.ceil((tonumber(arg) or boxSize) / 32) * 32)

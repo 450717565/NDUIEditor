@@ -69,7 +69,7 @@ info.onEvent = function(self)
 			end
 		end)
 	end
-	self.text:SetFormattedText("%s"..L[":"].."%s", currentZone(), formatCoords())
+	self.text:SetFormattedText("%s <%s>", currentZone(), formatCoords())
 	self.text:SetTextColor(r, g, b)
 	self.text:SetJustifyH("LEFT")
 end

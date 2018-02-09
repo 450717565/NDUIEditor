@@ -7,9 +7,9 @@ local info = module:RegisterInfobar(C.Infobar.MemoryPos)
 local function formatMemory(value, color)
 	color = color and DB.MyColor or ""
 	if value > 1024 then
-		return format("%.1f"..color.."Mb", value / 1024)
+		return format(color.."%.1f|rMb", value / 1024)
 	else
-		return format("%.0f"..color.."Kb", value)
+		return format(color.."%.0f|rKb", value)
 	end
 end
 

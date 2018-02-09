@@ -1,4 +1,4 @@
-<Ui xmlns="http://www.blizzard.com/wow/ui/">
+<Ui>
 	<Script file="Tip.lua"/>
 	<Script file="Itemicons.lua"/>
 	<Script file="SpellID.lua"/>

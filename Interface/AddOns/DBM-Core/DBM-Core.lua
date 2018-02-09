@@ -41,7 +41,7 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 17255 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 17277 $"):sub(12, -3)),
 	DisplayVersion = "7.3.22 alpha", -- the string that is shown as version
 	ReleaseRevision = 17241 -- the revision of the latest stable version that is available
 }
@@ -755,12 +755,12 @@ do
 		for i = 1, select("#", ...) do
 			local event = select(i, ...)
 			-- spell events with special care.
-			if event:sub(0, 6) == "SPELL_" and event ~= "SPELL_NAME_UPDATE" or event:sub(0, 6) == "RANGE_" then
+			if event:sub(0, 6) == "SPELL_" and event ~= "SPELL_NAME_UPDATE" or event:sub(0, 6) == "RANGE_" or event == "UNIT_DIED" or event == "UNIT_DESTROYED" then
 				registerCLEUEvent(self, event)
 			else
 				local eventWithArgs = event
 				-- unit events need special care
-				if event:sub(0, 5) == "UNIT_" and event ~= "UNIT_DIED" and event ~= "UNIT_DESTROYED" then
+				if event:sub(0, 5) == "UNIT_" then
 					-- unit events are limited to 8 "parameters", as there is no good reason to ever use more than 5 (it's just that the code old code supported 8 (boss1-5, target, focus))
 					local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8
 					event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8 = strsplit(" ", event)
@@ -931,18 +931,19 @@ do
 		SPELL_LEECH = true,
 		SPELL_CAST_FAILED = true
 	}
-	--C_CombatLog, CombatLogGetCurrentEventInfo(), GetCurrentCombatTextEventInfo() (8.x)
-	function DBM:COMBAT_LOG_EVENT_UNFILTERED(timestamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, ...)
+	function DBM:COMBAT_LOG_EVENT_UNFILTERED(timestamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, extraArg1, extraArg2, extraArg3, extraArg4, extraArg5, extraArg6, extraArg7, extraArg8, extraArg9, extraArg10, ...)
+		if wowVersionString == "8.0.1" then--In 8.x+, CLEU is just an event with no args, all args must be requested via CombatLogGetCurrentEventInfo
+			timestamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, extraArg1, extraArg2, extraArg3, extraArg4, extraArg5, extraArg6, extraArg7, extraArg8, extraArg9, extraArg10 = CombatLogGetCurrentEventInfo()
+		end
 		if not registeredEvents[event] then return end
 		local eventSub6 = event:sub(0, 6)
 		if (eventSub6 == "SPELL_" or eventSub6 == "RANGE_") and not unfilteredCLEUEvents[event] then
-			local spellId = ...
-			if not registeredSpellIds[event][spellId] then return end
+			if not registeredSpellIds[event][extraArg1] then return end
 		end
 		-- process some high volume events without building the whole table which is somewhat faster
 		-- this prevents work-around with mods that used to have their own event handler to prevent this overhead
 		if noArgTableEvents[event] then
-			return handleEvent(nil, event, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, ...)
+			return handleEvent(nil, event, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, extraArg1, extraArg2, extraArg3, extraArg4, extraArg5, extraArg6, extraArg7, extraArg8, extraArg9, extraArg10, ...)
 		else
 			twipe(args)
 			args.timestamp = timestamp
@@ -956,7 +957,7 @@ do
 			args.destFlags = destFlags
 			args.destRaidFlags = destRaidFlags
 			if eventSub6 == "SPELL_" then
-				args.spellId, args.spellName = ...
+				args.spellId, args.spellName = extraArg1, extraArg2
 				if event == "SPELL_AURA_APPLIED" or event == "SPELL_AURA_REFRESH" or event == "SPELL_AURA_REMOVED" then
 					if not args.sourceName then
 						args.sourceName = args.destName
@@ -964,23 +965,21 @@ do
 						args.sourceFlags = args.destFlags
 					end
 				elseif event == "SPELL_AURA_APPLIED_DOSE" or event == "SPELL_AURA_REMOVED_DOSE" then
-					local _
-					_, _, _, _, args.amount = ...
+					args.amount = extraArg5
 					if not args.sourceName then
 						args.sourceName = args.destName
 						args.sourceGUID = args.destGUID
 						args.sourceFlags = args.destFlags
 					end
 				elseif event == "SPELL_INTERRUPT" or event == "SPELL_DISPEL" or event == "SPELL_DISPEL_FAILED" or event == "SPELL_AURA_STOLEN" then
-					local _
-					_, _, _, args.extraSpellId, args.extraSpellName = ...
+					args.extraSpellId, args.extraSpellName = extraArg4, extraArg5
 				end
 			elseif event == "UNIT_DIED" or event == "UNIT_DESTROYED" then
 				args.sourceName = args.destName
 				args.sourceGUID = args.destGUID
 				args.sourceFlags = args.destFlags
 			elseif event == "ENVIRONMENTAL_DAMAGE" then
-				args.environmentalType, args.amount, args.overkill, args.school, args.resisted, args.blocked, args.absorbed, args.critical, args.glancing, args.crushing = ...
+				args.environmentalType, args.amount, args.overkill, args.school, args.resisted, args.blocked, args.absorbed, args.critical, args.glancing, args.crushing = extraArg1, extraArg2, extraArg3, extraArg4, extraArg5, extraArg6, extraArg7, extraArg8, extraArg9, extraArg10
 			end
 			return handleEvent(nil, event, args)
 		end
@@ -3630,6 +3629,9 @@ function DBM:LoadMod(mod, force)
 	end
 	if not currentSpecID then
 		self:SetCurrentSpecInfo()
+	end
+	if not difficultyIndex then -- prevent error in EJ_SetDifficulty if not yet set
+		savedDifficulty, difficultyText, difficultyIndex, LastGroupSize, difficultyModifier = DBM:GetCurrentInstanceDifficulty()
 	end
 	EJ_SetDifficulty(difficultyIndex)--Work around blizzard crash bug where other mods (like Boss) screw with Ej difficulty value, which makes EJ_GetSectionInfo crash the game when called with invalid difficulty index set.
 	self:Debug("LoadAddOn should have fired for "..mod.name, 2)
@@ -6670,7 +6672,7 @@ end
 
 --To speed up creating new mods.
 function DBM:FindDungeonIDs()
-	for i=1, 2000 do
+	for i=1, 3000 do
 		local dungeon = GetRealZoneText(i)
 		if dungeon and dungeon ~= "" then
 			self:AddMsg(i..": "..dungeon)
@@ -6679,7 +6681,7 @@ function DBM:FindDungeonIDs()
 end
 
 function DBM:FindInstanceIDs()
-	for i=1, 2000 do
+	for i=1, 3000 do
 		local instance = EJ_GetInstanceInfo(i)
 		if instance then
 			self:AddMsg(i..": "..instance)
@@ -6687,9 +6689,10 @@ function DBM:FindInstanceIDs()
 	end
 end
 
---/run DBM:FindEncounterIDs(822)--Broken Isles
---/run DBM:FindEncounterIDs(875)--Tomb of Sargeras
---/run DBM:FindEncounterIDs(900, 23)--Cathedral of Eternal Night
+--/run DBM:FindEncounterIDs(1028)--Kul Tiras
+--/run DBM:FindEncounterIDs(1029)--Zandalar
+--/run DBM:FindEncounterIDs(1031)--Uldir
+--/run DBM:FindEncounterIDs(1001, 23)--Dungeon Template (mythic difficulty)
 function DBM:FindEncounterIDs(instanceID, diff)
 	if not instanceID then
 		self:AddMsg("Error: Function requires instanceID be provided")
@@ -9763,6 +9766,8 @@ do
 			local colorId = 0
 			if self.option then
 				colorId = self.mod.Options[self.option .. "TColor"]
+			elseif self.colorType and type(self.colorType) == "string" then--No option for specific timer, but another bool option given that tells us where to look for TColor
+				colorId = self.mod.Options[self.colorType .. "TColor"] or 0
 			end
 			local bar = DBM.Bars:CreateBar(timer, id, self.icon, nil, nil, nil, nil, colorId)
 			if not bar then

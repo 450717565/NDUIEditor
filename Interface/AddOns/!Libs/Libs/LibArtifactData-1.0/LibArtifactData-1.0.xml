@@ -1,0 +1,4 @@
+<Ui>
+	<Script file="data.lua" />
+	<Script file="LibArtifactData-1.0.lua" />
+</Ui>
