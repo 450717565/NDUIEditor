@@ -63,8 +63,6 @@ tinsert(C.themes["Aurora"], function()
 	sep:SetVertexColor(0, 0, 0)
 
 	F.CreateBD(FriendsTooltip)
-	IMECandidatesFrame.background:Hide()
-	F.CreateBD(IMECandidatesFrame)
 
 	-- [[ Pet battle tooltips ]]
 

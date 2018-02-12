@@ -14,6 +14,8 @@ local zoneInfo = {
 	neutral = {format(FACTION_CONTROLLED_TERRITORY, FACTION_STANDING_LABEL4), {1, .93, .76}}
 }
 
+local subzone, zone, pvp, coordX, coordY
+
 local function formatCoords()
 	local coords = ""
 		if IsInInstance() then
@@ -92,11 +94,11 @@ info.onEnter = function(self)
 	end
 
 	GameTooltip:AddDoubleLine(" ", "--------------", 1,1,1, .5,.5,.5)
-	GameTooltip:AddDoubleLine(" ", DB.LeftButton..L["WorldMap"], 1,1,1, .6,.8,1)
+	GameTooltip:AddDoubleLine(" ", DB.LeftButton..L["WorldMap"].." ", 1,1,1, .6,.8,1)
 	if GetCurrentMapAreaID() >= 1190 and GetCurrentMapAreaID() <= 1201 then
-		GameTooltip:AddDoubleLine(" ", DB.ScrollButton..L["Search Invasion Group"], 1,1,1, .6,.8,1)
+		GameTooltip:AddDoubleLine(" ", DB.ScrollButton..L["Search Invasion Group"].." ", 1,1,1, .6,.8,1)
 	end
-	GameTooltip:AddDoubleLine(" ", DB.RightButton..L["Send My Pos"], 1,1,1, .6,.8,1)
+	GameTooltip:AddDoubleLine(" ", DB.RightButton..L["Send My Pos"].." ", 1,1,1, .6,.8,1)
 	GameTooltip:Show()
 end
 

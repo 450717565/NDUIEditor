@@ -299,7 +299,7 @@ function BrowsePanel:OnInitialize()
 		ActivityDropdown:SetDefaultValue(0)
 		ActivityDropdown:SetDefaultText(L['请选择活动类型'])
 		ActivityDropdown:SetCallback('OnSelectChanged', function(_, data, ...)
-			debug(data.value)
+
 			self:StartSet()
 			self:UpdateModeDropdown(data.categoryId)
 			self:UpdateBossFilter(data.activityId, data.customId)

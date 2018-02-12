@@ -2,6 +2,8 @@ local _, C, _, _ = unpack(select(2, ...))
 
 -- 法术白名单
 C.WhiteList = {
+	-- 职业长控
+	[  2094]	= true,		-- 致盲
 	-- 秘境
 	[226510]	= true,		-- 血池
 	-- 副本

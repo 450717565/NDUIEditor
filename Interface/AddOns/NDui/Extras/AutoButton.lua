@@ -90,7 +90,7 @@ local function ScanBags()
 end
 
 local function UpdateItem(self)
-	if (not InCombatLockdown()) or (not UnitHasVehicleUI("player")) then
+	if not InCombatLockdown() then
 		itemLink, bag, slot = ScanBags()
 		if itemLink then
 			self:SetAttribute("type", "item")
@@ -120,19 +120,17 @@ ABF:RegisterEvent("PET_BATTLE_OPENING_START")
 ABF:RegisterEvent("PLAYER_LOGIN")
 ABF:RegisterEvent("PLAYER_REGEN_DISABLED")
 ABF:RegisterEvent("PLAYER_REGEN_ENABLED")
-ABF:RegisterEvent("UNIT_ENTERED_VEHICLE")
-ABF:RegisterEvent("UNIT_EXITED_VEHICLE")
 
-ABF:SetScript("OnEvent", function(self, event, ...)
+ABF:SetScript("OnEvent", function(self, event)
 	if event == "PLAYER_LOGIN" then
 		B.Mover(ABF, L["Auto Button"], "AutoButton", point)
 	elseif event == "BAG_UPDATE_DELAYED" then
 		UpdateItem(ABB)
-	elseif event == "PLAYER_REGEN_DISABLED" or event == "PET_BATTLE_OPENING_START" or (event == "UNIT_ENTERED_VEHICLE" and ... == "player" and not InCombatLockdown()) then
+	elseif event == "PLAYER_REGEN_DISABLED" or event == "PET_BATTLE_OPENING_START" then
 		self:UnregisterEvent("BAG_UPDATE_DELAYED")
 		ABF:Hide()
 		GameTooltip:Hide()
-	elseif event == "PLAYER_REGEN_ENABLED" or event == "PET_BATTLE_CLOSE" or (event == "UNIT_EXITED_VEHICLE" and ... == "player") then
+	elseif event == "PLAYER_REGEN_ENABLED" or event == "PET_BATTLE_CLOSE" then
 		self:RegisterEvent("BAG_UPDATE_DELAYED")
 		UpdateItem(ABB)
 		ABF:Show()

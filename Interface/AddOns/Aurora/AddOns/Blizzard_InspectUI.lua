@@ -46,6 +46,9 @@ C.themes["Blizzard_InspectUI"] = function()
 	end)
 
 	-- PVP
+	InspectPVPFrame.PortraitBackground:SetAlpha(0)
+	InspectPVPFrame.PortraitMouseOverFrame:SetAlpha(0)
+	InspectPVPFrame.SmallWreath:SetAlpha(0)
 	InspectPVPFrame.BG:Hide()
 	for i = 1, 6 do
 		local row = InspectPVPFrame.Talents["Tier"..i]
@@ -108,39 +111,10 @@ C.themes["Blizzard_InspectUI"] = function()
 	end)
 
 	local roleIcon = inspectSpec.roleIcon
-
 	roleIcon:SetTexture(C.media.roleIcons)
-
 	do
-		local left = inspectSpec:CreateTexture(nil, "OVERLAY")
-		left:SetWidth(1)
-		left:SetTexture(C.media.backdrop)
-		left:SetVertexColor(0, 0, 0)
-		left:SetPoint("TOPLEFT", roleIcon, 2, -2)
-		left:SetPoint("BOTTOMLEFT", roleIcon, 2, 2)
-
-		local right = inspectSpec:CreateTexture(nil, "OVERLAY")
-		right:SetWidth(1)
-		right:SetTexture(C.media.backdrop)
-		right:SetVertexColor(0, 0, 0)
-		right:SetPoint("TOPRIGHT", roleIcon, -2, -2)
-		right:SetPoint("BOTTOMRIGHT", roleIcon, -2, 2)
-
-		local top = inspectSpec:CreateTexture(nil, "OVERLAY")
-		top:SetHeight(1)
-		top:SetTexture(C.media.backdrop)
-		top:SetVertexColor(0, 0, 0)
-		top:SetPoint("TOPLEFT", roleIcon, 2, -2)
-		top:SetPoint("TOPRIGHT", roleIcon, -2, -2)
-
-		local bottom = inspectSpec:CreateTexture(nil, "OVERLAY")
-		bottom:SetHeight(1)
-		bottom:SetTexture(C.media.backdrop)
-		bottom:SetVertexColor(0, 0, 0)
-		bottom:SetPoint("BOTTOMLEFT", roleIcon, 2, 2)
-		bottom:SetPoint("BOTTOMRIGHT", roleIcon, -2, 2)
+		F.CreateBDFrame(roleIcon, .5, 2, -2, -2, 2)
 	end
-
 
 	for i = 1, 4 do
 		local tab = _G["InspectFrameTab"..i]

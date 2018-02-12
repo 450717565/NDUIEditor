@@ -107,51 +107,9 @@ C.themes["Blizzard_PVPUI"] = function()
 		for _, roleButton in pairs({f.HealerIcon, f.TankIcon, f.DPSIcon}) do
 			roleButton.cover:SetTexture(C.media.roleIcons)
 			roleButton:SetNormalTexture(C.media.roleIcons)
+			F.CreateBDFrame(roleButton, .5, 5, -4, -5, 7)
+
 			roleButton.checkButton:SetFrameLevel(roleButton:GetFrameLevel() + 2)
-
-			for i = 1, 2 do
-				local left = roleButton:CreateTexture()
-				left:SetDrawLayer("OVERLAY", i)
-				left:SetWidth(1.2)
-				left:SetTexture(C.media.backdrop)
-				left:SetVertexColor(0, 0, 0)
-				left:SetPoint("TOPLEFT", roleButton, 6, -4)
-				left:SetPoint("BOTTOMLEFT", roleButton, 6, 7)
-				roleButton["leftLine"..i] = left
-
-				local right = roleButton:CreateTexture()
-				right:SetDrawLayer("OVERLAY", i)
-				right:SetWidth(1.2)
-				right:SetTexture(C.media.backdrop)
-				right:SetVertexColor(0, 0, 0)
-				right:SetPoint("TOPRIGHT", roleButton, -6, -4)
-				right:SetPoint("BOTTOMRIGHT", roleButton, -6, 7)
-				roleButton["rightLine"..i] = right
-
-				local top = roleButton:CreateTexture()
-				top:SetDrawLayer("OVERLAY", i)
-				top:SetHeight(1.2)
-				top:SetTexture(C.media.backdrop)
-				top:SetVertexColor(0, 0, 0)
-				top:SetPoint("TOPLEFT", roleButton, 6, -4)
-				top:SetPoint("TOPRIGHT", roleButton, -6, -4)
-				roleButton["topLine"..i] = top
-
-				local bottom = roleButton:CreateTexture()
-				bottom:SetDrawLayer("OVERLAY", i)
-				bottom:SetHeight(1.2)
-				bottom:SetTexture(C.media.backdrop)
-				bottom:SetVertexColor(0, 0, 0)
-				bottom:SetPoint("BOTTOMLEFT", roleButton, 6, 7)
-				bottom:SetPoint("BOTTOMRIGHT", roleButton, -6, 7)
-				roleButton["bottomLine"..i] = bottom
-			end
-
-			roleButton.leftLine2:Hide()
-			roleButton.rightLine2:Hide()
-			roleButton.topLine2:Hide()
-			roleButton.bottomLine2:Hide()
-
 			F.ReskinCheck(roleButton.checkButton)
 		end
 	end

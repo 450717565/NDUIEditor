@@ -40,8 +40,6 @@ end
 function LfgService:RemoveActivity(id)
     self.activityRemoved[id] = true
 
-    -- print('remove', id)
-
     local activity = self:GetActivity(id)
     if not activity then
         return
@@ -56,13 +54,11 @@ end
 
 function LfgService:UpdateActivity(id)
     if self:IsActivityRemoved(id) then
-        
         return
     end
 
     local activity = self:GetActivity(id)
     if not activity then
-        
         self:CacheActivity(id)
         self:SendMessage('MEETINGSTONE_ACTIVITIES_COUNT_UPDATED', #self.activityList)
     else
@@ -138,7 +134,6 @@ function LfgService:LFG_LIST_SEARCH_RESULTS_RECEIVED(event)
 
     local _, resultList = C_LFGList.GetSearchResults()
     for _, id in ipairs(resultList) do
-        
         self:CacheActivity(id)
     end
 

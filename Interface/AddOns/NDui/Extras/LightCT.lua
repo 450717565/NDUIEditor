@@ -41,8 +41,8 @@ local envTexture = {
 }
 
 local eventFrame = CreateFrame("Frame")
-eventFrame:RegisterEvent("PLAYER_LOGIN")
 eventFrame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+eventFrame:RegisterEvent("PLAYER_LOGIN")
 eventFrame:SetScript("OnEvent", function(self, event, ...)
 	if not NDuiDB["UFs"]["CombatText"] then return end
 	self[event](self, ...)

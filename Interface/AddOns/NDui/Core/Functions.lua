@@ -65,13 +65,11 @@ end
 B.CreateBG = function(f, m)
 	local frame = f
 	if f:GetObjectType() == "Texture" then frame = f:GetParent() end
-	local offset = m
-	if not m then offset = 1.2 end
 	local lvl = frame:GetFrameLevel()
 
 	local bg = CreateFrame("Frame", nil, frame)
-	bg:SetPoint("TOPLEFT", f, -offset, offset)
-	bg:SetPoint("BOTTOMRIGHT", f, offset, -offset)
+	bg:SetPoint("TOPLEFT", f, -(m or 1.2), (m or 1.2))
+	bg:SetPoint("BOTTOMRIGHT", f, (m or 1.2), -(m or 1.2))
 	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
 	return bg
 end

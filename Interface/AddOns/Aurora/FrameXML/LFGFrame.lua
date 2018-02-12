@@ -71,46 +71,11 @@ tinsert(C.themes["Aurora"], function()
 	LFGDungeonReadyDialogFiligree:Hide()
 
 	LFGDungeonReadyDialogRoleIconTexture:SetTexture(C.media.roleIcons)
-	LFGDungeonReadyDialogRoleIconLeaderIcon:SetTexture(C.media.roleIcons)
-	LFGDungeonReadyDialogRoleIconLeaderIcon:SetTexCoord(0, 0.296875, 0.015625, 0.2875)
-
-	local leaderBg = F.CreateBG(LFGDungeonReadyDialogRoleIconLeaderIcon)
-	leaderBg:SetDrawLayer("ARTWORK", 2)
-	leaderBg:SetPoint("TOPLEFT", LFGDungeonReadyDialogRoleIconLeaderIcon, 2, 0)
-	leaderBg:SetPoint("BOTTOMRIGHT", LFGDungeonReadyDialogRoleIconLeaderIcon, -3, 4)
-
-	hooksecurefunc("LFGDungeonReadyPopup_Update", function()
-		leaderBg:SetShown(LFGDungeonReadyDialogRoleIconLeaderIcon:IsShown())
-	end)
+	LFGDungeonReadyDialogRoleIconLeaderIcon:ClearAllPoints()
+	LFGDungeonReadyDialogRoleIconLeaderIcon:SetPoint("TOPLEFT", LFGDungeonReadyDialogRoleIcon, "TOPLEFT")
 
 	do
-		local left = LFGDungeonReadyDialogRoleIcon:CreateTexture(nil, "OVERLAY")
-		left:SetWidth(1.2)
-		left:SetTexture(C.media.backdrop)
-		left:SetVertexColor(0, 0, 0)
-		left:SetPoint("TOPLEFT", 9, -7)
-		left:SetPoint("BOTTOMLEFT", 9, 10)
-
-		local right = LFGDungeonReadyDialogRoleIcon:CreateTexture(nil, "OVERLAY")
-		right:SetWidth(1.2)
-		right:SetTexture(C.media.backdrop)
-		right:SetVertexColor(0, 0, 0)
-		right:SetPoint("TOPRIGHT", -8, -7)
-		right:SetPoint("BOTTOMRIGHT", -8, 10)
-
-		local top = LFGDungeonReadyDialogRoleIcon:CreateTexture(nil, "OVERLAY")
-		top:SetHeight(1.2)
-		top:SetTexture(C.media.backdrop)
-		top:SetVertexColor(0, 0, 0)
-		top:SetPoint("TOPLEFT", 9, -7)
-		top:SetPoint("TOPRIGHT", -8, -7)
-
-		local bottom = LFGDungeonReadyDialogRoleIcon:CreateTexture(nil, "OVERLAY")
-		bottom:SetHeight(1.2)
-		bottom:SetTexture(C.media.backdrop)
-		bottom:SetVertexColor(0, 0, 0)
-		bottom:SetPoint("BOTTOMLEFT", 9, 10)
-		bottom:SetPoint("BOTTOMRIGHT", -8, 10)
+		F.CreateBDFrame(LFGDungeonReadyDialogRoleIcon, .5, 8, -7, -8, 10)
 	end
 
 	hooksecurefunc("LFGDungeonReadyDialogReward_SetMisc", function(button)
@@ -178,70 +143,24 @@ tinsert(C.themes["Aurora"], function()
 		end
 		roleButton.cover:SetTexture(C.media.roleIcons)
 		roleButton:SetNormalTexture(C.media.roleIcons)
+		F.CreateBDFrame(roleButton, .5, 6, -5, -6, 7)
 
 		roleButton.checkButton:SetFrameLevel(roleButton:GetFrameLevel() + 2)
-
-		for i = 1, 2 do
-			local left = roleButton:CreateTexture()
-			left:SetDrawLayer("OVERLAY", i)
-			left:SetWidth(1.2)
-			left:SetTexture(C.media.backdrop)
-			left:SetVertexColor(0, 0, 0)
-			left:SetPoint("TOPLEFT", roleButton, 6, -5)
-			left:SetPoint("BOTTOMLEFT", roleButton, 6, 7)
-			roleButton["leftLine"..i] = left
-
-			local right = roleButton:CreateTexture()
-			right:SetDrawLayer("OVERLAY", i)
-			right:SetWidth(1.2)
-			right:SetTexture(C.media.backdrop)
-			right:SetVertexColor(0, 0, 0)
-			right:SetPoint("TOPRIGHT", roleButton, -6, -5)
-			right:SetPoint("BOTTOMRIGHT", roleButton, -6, 7)
-			roleButton["rightLine"..i] = right
-
-			local top = roleButton:CreateTexture()
-			top:SetDrawLayer("OVERLAY", i)
-			top:SetHeight(1.2)
-			top:SetTexture(C.media.backdrop)
-			top:SetVertexColor(0, 0, 0)
-			top:SetPoint("TOPLEFT", roleButton, 6, -5)
-			top:SetPoint("TOPRIGHT", roleButton, -6, -5)
-			roleButton["topLine"..i] = top
-
-			local bottom = roleButton:CreateTexture()
-			bottom:SetDrawLayer("OVERLAY", i)
-			bottom:SetHeight(1.2)
-			bottom:SetTexture(C.media.backdrop)
-			bottom:SetVertexColor(0, 0, 0)
-			bottom:SetPoint("BOTTOMLEFT", roleButton, 6, 7)
-			bottom:SetPoint("BOTTOMRIGHT", roleButton, -6, 7)
-			roleButton["bottomLine"..i] = bottom
-		end
-
-		roleButton.leftLine2:Hide()
-		roleButton.rightLine2:Hide()
-		roleButton.topLine2:Hide()
-		roleButton.bottomLine2:Hide()
+		F.ReskinCheck(roleButton.checkButton)
 
 		local shortageBorder = roleButton.shortageBorder
 		if shortageBorder then
-			local icon = roleButton.incentiveIcon
-
 			shortageBorder:SetTexture("")
 
-			icon.border:SetColorTexture(0, 0, 0)
-			icon.border:SetDrawLayer("BACKGROUND")
-			icon.border:SetPoint("TOPLEFT", icon.texture, -1, 1)
-			icon.border:SetPoint("BOTTOMRIGHT", icon.texture, 1, -1)
+			local icon = roleButton.incentiveIcon
+			F.CreateBDFrame(icon, .5, -4, 4, -2, 2)
 
 			icon:SetPoint("BOTTOMRIGHT", 3, -3)
 			icon:SetSize(14, 14)
 			icon.texture:SetSize(14, 14)
 			icon.texture:SetTexCoord(.12, .88, .12, .88)
+			icon.border:Hide()
 		end
-
-		F.ReskinCheck(roleButton.checkButton)
 	end
 
 	for _, roleButton in pairs({LFDRoleCheckPopupRoleButtonTank, LFDRoleCheckPopupRoleButtonHealer, LFDRoleCheckPopupRoleButtonDPS, LFGInvitePopupRoleButtonTank, LFGInvitePopupRoleButtonHealer, LFGInvitePopupRoleButtonDPS, LFGListApplicationDialog.DamagerButton, LFGListApplicationDialog.TankButton, LFGListApplicationDialog.HealerButton}) do
@@ -249,37 +168,9 @@ tinsert(C.themes["Aurora"], function()
 
 		roleButton.cover:SetTexture(C.media.roleIcons)
 		roleButton:SetNormalTexture(C.media.roleIcons)
+		F.CreateBDFrame(roleButton, .5, 9, -7, -9, 11)
 
 		checkButton:SetFrameLevel(roleButton:GetFrameLevel() + 2)
-
-		local left = roleButton:CreateTexture(nil, "OVERLAY")
-		left:SetWidth(1.2)
-		left:SetTexture(C.media.backdrop)
-		left:SetVertexColor(0, 0, 0)
-		left:SetPoint("TOPLEFT", roleButton, 9, -7)
-		left:SetPoint("BOTTOMLEFT", roleButton, 9, 11)
-
-		local right = roleButton:CreateTexture(nil, "OVERLAY")
-		right:SetWidth(1.2)
-		right:SetTexture(C.media.backdrop)
-		right:SetVertexColor(0, 0, 0)
-		right:SetPoint("TOPRIGHT", roleButton, -9, -7)
-		right:SetPoint("BOTTOMRIGHT", roleButton, -9, 11)
-
-		local top = roleButton:CreateTexture(nil, "OVERLAY")
-		top:SetHeight(1.2)
-		top:SetTexture(C.media.backdrop)
-		top:SetVertexColor(0, 0, 0)
-		top:SetPoint("TOPLEFT", roleButton, 9, -7)
-		top:SetPoint("TOPRIGHT", roleButton, -9, -7)
-
-		local bottom = roleButton:CreateTexture(nil, "OVERLAY")
-		bottom:SetHeight(1.2)
-		bottom:SetTexture(C.media.backdrop)
-		bottom:SetVertexColor(0, 0, 0)
-		bottom:SetPoint("BOTTOMLEFT", roleButton, 9, 11)
-		bottom:SetPoint("BOTTOMRIGHT", roleButton, -9, 11)
-
 		F.ReskinCheck(checkButton)
 	end
 
@@ -293,34 +184,7 @@ tinsert(C.themes["Aurora"], function()
 		for _, roleButton in pairs(roleButtons) do
 			roleButton.texture:SetTexture(C.media.roleIcons)
 			roleButton.statusIcon:SetDrawLayer("OVERLAY", 2)
-
-			local left = roleButton:CreateTexture(nil, "OVERLAY")
-			left:SetWidth(1.2)
-			left:SetTexture(C.media.backdrop)
-			left:SetVertexColor(0, 0, 0)
-			left:SetPoint("TOPLEFT", 7, -6)
-			left:SetPoint("BOTTOMLEFT", 7, 8)
-
-			local right = roleButton:CreateTexture(nil, "OVERLAY")
-			right:SetWidth(1.2)
-			right:SetTexture(C.media.backdrop)
-			right:SetVertexColor(0, 0, 0)
-			right:SetPoint("TOPRIGHT", -7, -6)
-			right:SetPoint("BOTTOMRIGHT", -7, 8)
-
-			local top = roleButton:CreateTexture(nil, "OVERLAY")
-			top:SetHeight(1.2)
-			top:SetTexture(C.media.backdrop)
-			top:SetVertexColor(0, 0, 0)
-			top:SetPoint("TOPLEFT", 7, -6)
-			top:SetPoint("TOPRIGHT", -7, -6)
-
-			local bottom = roleButton:CreateTexture(nil, "OVERLAY")
-			bottom:SetHeight(1.2)
-			bottom:SetTexture(C.media.backdrop)
-			bottom:SetVertexColor(0, 0, 0)
-			bottom:SetPoint("BOTTOMLEFT", 7, 8)
-			bottom:SetPoint("BOTTOMRIGHT", -7, 8)
+			F.CreateBDFrame(roleButton, .5, 7, -6, -7, 8)
 		end
 	end
 
@@ -331,48 +195,35 @@ tinsert(C.themes["Aurora"], function()
 			local tex
 			if incentiveIndex == LFG_ROLE_SHORTAGE_PLENTIFUL then
 				tex = "Interface\\Icons\\INV_Misc_Coin_19"
+				roleButton:SetBackdropBorderColor(.93, .65, .37)
 			elseif incentiveIndex == LFG_ROLE_SHORTAGE_UNCOMMON then
 				tex = "Interface\\Icons\\INV_Misc_Coin_18"
+				roleButton:SetBackdropBorderColor(.78, .78, .81)
 			elseif incentiveIndex == LFG_ROLE_SHORTAGE_RARE then
 				tex = "Interface\\Icons\\INV_Misc_Coin_17"
+				roleButton:SetBackdropBorderColor(1, .84, 0)
 			end
 			roleButton.incentiveIcon.texture:SetTexture(tex)
-			roleButton.leftLine2:Show()
-			roleButton.rightLine2:Show()
-			roleButton.topLine2:Show()
-			roleButton.bottomLine2:Show()
 		else
-			roleButton.leftLine2:Hide()
-			roleButton.rightLine2:Hide()
-			roleButton.topLine2:Hide()
-			roleButton.bottomLine2:Hide()
+			roleButton:SetBackdropBorderColor(0, 0, 0)
 		end
 	end)
 
 	hooksecurefunc("LFG_PermanentlyDisableRoleButton", function(button)
 		if button.shortageBorder then
-			button.leftLine2:SetVertexColor(.5, .45, .03)
-			button.rightLine2:SetVertexColor(.5, .45, .03)
-			button.topLine2:SetVertexColor(.5, .45, .03)
-			button.bottomLine2:SetVertexColor(.5, .45, .03)
+			button:SetBackdropBorderColor(1, .84, 0)
 		end
 	end)
 
 	hooksecurefunc("LFG_DisableRoleButton", function(button)
 		if button.shortageBorder then
-			button.leftLine2:SetVertexColor(.5, .45, .03)
-			button.rightLine2:SetVertexColor(.5, .45, .03)
-			button.topLine2:SetVertexColor(.5, .45, .03)
-			button.bottomLine2:SetVertexColor(.5, .45, .03)
+			button:SetBackdropBorderColor(1, .84, 0)
 		end
 	end)
 
 	hooksecurefunc("LFG_EnableRoleButton", function(button)
 		if button.shortageBorder then
-			button.leftLine2:SetVertexColor(1, .9, .06)
-			button.rightLine2:SetVertexColor(1, .9, .06)
-			button.topLine2:SetVertexColor(1, .9, .06)
-			button.bottomLine2:SetVertexColor(1, .9, .06)
+			button:SetBackdropBorderColor(1, .84, 0)
 		end
 	end)
 end)

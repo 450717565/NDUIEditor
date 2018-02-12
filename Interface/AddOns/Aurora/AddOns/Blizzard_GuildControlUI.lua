@@ -66,47 +66,7 @@ C.themes["Blizzard_GuildControlUI"] = function()
 				F.ReskinInput(ownedTab.editBox)
 
 				for _, ch in pairs({ownedTab.viewCB, ownedTab.depositCB, ownedTab.infoCB}) do
-					-- can't get a backdrop frame to appear behind the checked texture for some reason
-					ch:SetNormalTexture("")
-					ch:SetPushedTexture("")
-					ch:SetHighlightTexture(C.media.backdrop)
-
-					local hl = ch:GetHighlightTexture()
-					hl:SetPoint("TOPLEFT", 5, -5)
-					hl:SetPoint("BOTTOMRIGHT", -5, 5)
-					hl:SetVertexColor(r, g, b, .2)
-
-					local check = ch:GetCheckedTexture()
-					check:SetDesaturated(true)
-					check:SetVertexColor(r, g, b)
-
-					local tex = F.CreateGradient(ch)
-					tex:SetPoint("TOPLEFT", 5, -5)
-					tex:SetPoint("BOTTOMRIGHT", -5, 5)
-
-					local left = ch:CreateTexture(nil, "BACKGROUND")
-					left:SetWidth(1)
-					left:SetColorTexture(0, 0, 0)
-					left:SetPoint("TOPLEFT", tex, -1, 1)
-					left:SetPoint("BOTTOMLEFT", tex, -1, -1)
-
-					local right = ch:CreateTexture(nil, "BACKGROUND")
-					right:SetWidth(1)
-					right:SetColorTexture(0, 0, 0)
-					right:SetPoint("TOPRIGHT", tex, 1, 1)
-					right:SetPoint("BOTTOMRIGHT", tex, 1, -1)
-
-					local top = ch:CreateTexture(nil, "BACKGROUND")
-					top:SetHeight(1)
-					top:SetColorTexture(0, 0, 0)
-					top:SetPoint("TOPLEFT", tex, -1, 1)
-					top:SetPoint("TOPRIGHT", tex, 1, 1)
-
-					local bottom = ch:CreateTexture(nil, "BACKGROUND")
-					bottom:SetHeight(1)
-					bottom:SetColorTexture(0, 0, 0)
-					bottom:SetPoint("BOTTOMLEFT", tex, -1, -1)
-					bottom:SetPoint("BOTTOMRIGHT", tex, 1, -1)
+					F.ReskinCheck(ch)
 				end
 
 				bu.styled = true

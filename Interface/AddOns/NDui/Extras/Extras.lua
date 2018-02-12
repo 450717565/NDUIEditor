@@ -99,7 +99,7 @@ PvPTab:SetScript("OnEvent", function(self, event)
 	local pvpType = GetZonePVPInfo()
 	local _, zoneType = IsInInstance()
 
-	if (zoneType == "arena") or (zoneType == "pvp") or (pvpType == "combat") or (event == "DUEL_REQUESTED") then
+	if zoneType == "arena" or zoneType == "pvp" or pvpType == "combat" or event == "DUEL_REQUESTED" then
 		SetBinding("TAB", "TARGETNEARESTENEMYPLAYER")
 		SetBinding("SHIFT-TAB", "TARGETPREVIOUSENEMYPLAYER")
 		--print("TAB目标选择增强功能 |cff00FF00已开启")

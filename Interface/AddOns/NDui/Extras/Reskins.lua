@@ -40,6 +40,9 @@ if IsAddOnLoaded("Aurora") then
 						arrow:SetNormalTexture(C.media.arrowRight)
 						arrow:SetSize(10, 10)
 
+						local hl = _G["L_DropDownList"..i.."Button"..j.."Highlight"]
+						hl:SetColorTexture(r, g, b, .25)
+
 						local check = _G["L_DropDownList"..i.."Button"..j.."Check"]
 						check:SetDesaturated(true)
 						check:SetSize(20, 20)
@@ -134,6 +137,11 @@ if IsAddOnLoaded("Aurora") then
 			F.CreateBDFrame(BaudAuctionProgressBarIcon)
 			F.ReskinScroll(BaudAuctionBrowseScrollBoxScrollBarScrollBar)
 			F.ReskinStatusBar(BaudAuctionProgressBar, true)
+
+			local boxHL = BaudAuctionBrowseScrollBoxHighlight
+			boxHL:SetTexture(C.media.backdrop)
+			boxHL:SetPoint("LEFT", 4, 0)
+			boxHL:SetPoint("RIGHT", 10, 0)
 
 			for i = 1, 2 do
 				select(i, BaudAuctionBrowseScrollBoxScrollBar:GetRegions()):Hide()

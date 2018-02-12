@@ -634,21 +634,19 @@ F.ReskinPortraitFrame = function(f, isButtonFrame)
 	F.ReskinClose(_G[name.."CloseButton"])
 end
 
-F.CreateBDFrame = function(f, a, NoSD)
+F.CreateBDFrame = function(f, a, TLx, TLy, BRx, BRy)
 	local frame = f
 	if f:GetObjectType() == "Texture" then frame = f:GetParent() end
 
 	local lvl = frame:GetFrameLevel()
 
 	local bg = CreateFrame("Frame", nil, frame)
-	bg:SetPoint("TOPLEFT", f, -1.2, 1.2)
-	bg:SetPoint("BOTTOMRIGHT", f, 1.2, -1.2)
+	bg:SetPoint("TOPLEFT", f, TLx or -1.2, TLy or 1.2)
+	bg:SetPoint("BOTTOMRIGHT", f, BRx or 1.2, BRy or -1.2)
 	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
 
 	F.CreateBD(bg, a or .5)
-	if not NoSD then
-		F.CreateSD(bg)
-	end
+	F.CreateSD(bg)
 
 	return bg
 end
@@ -1010,58 +1008,6 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 			end
 		end)
 
-		local createBackdrop = function(parent, texture)
-			local bg = parent:CreateTexture(nil, "BACKGROUND")
-			bg:SetColorTexture(0, 0, 0, .5)
-			bg:SetPoint("CENTER", texture)
-			bg:SetSize(12, 12)
-			parent.bg = bg
-
-			local left = parent:CreateTexture(nil, "BACKGROUND")
-			left:SetWidth(1.2)
-			left:SetColorTexture(0, 0, 0)
-			left:SetPoint("TOPLEFT", bg)
-			left:SetPoint("BOTTOMLEFT", bg)
-			parent.left = left
-
-			local right = parent:CreateTexture(nil, "BACKGROUND")
-			right:SetWidth(1.2)
-			right:SetColorTexture(0, 0, 0)
-			right:SetPoint("TOPRIGHT", bg)
-			right:SetPoint("BOTTOMRIGHT", bg)
-			parent.right = right
-
-			local top = parent:CreateTexture(nil, "BACKGROUND")
-			top:SetHeight(1.2)
-			top:SetColorTexture(0, 0, 0)
-			top:SetPoint("TOPLEFT", bg)
-			top:SetPoint("TOPRIGHT", bg)
-			parent.top = top
-
-			local bottom = parent:CreateTexture(nil, "BACKGROUND")
-			bottom:SetHeight(1.2)
-			bottom:SetColorTexture(0, 0, 0)
-			bottom:SetPoint("BOTTOMLEFT", bg)
-			bottom:SetPoint("BOTTOMRIGHT", bg)
-			parent.bottom = bottom
-		end
-
-		local toggleBackdrop = function(bu, show)
-			if show then
-				bu.bg:Show()
-				bu.left:Show()
-				bu.right:Show()
-				bu.top:Show()
-				bu.bottom:Show()
-			else
-				bu.bg:Hide()
-				bu.left:Hide()
-				bu.right:Hide()
-				bu.top:Hide()
-				bu.bottom:Hide()
-			end
-		end
-
 		hooksecurefunc("ToggleDropDownMenu", function(level, _, dropDownFrame, anchorName)
 			if not level then level = 1 end
 
@@ -1120,44 +1066,24 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 				local bu = _G["DropDownList"..level.."Button"..j]
 				local _, _, _, x = bu:GetPoint()
 				if bu:IsShown() and x then
+					local arrow = _G["DropDownList"..level.."Button"..j.."ExpandArrow"]
+					arrow:SetNormalTexture(C.media.arrowRight)
+					arrow:SetSize(8, 8)
+
 					local hl = _G["DropDownList"..level.."Button"..j.."Highlight"]
+					hl:SetColorTexture(r, g, b, .2)
+					hl:SetPoint("TOPLEFT", -x + 2, 0)
+					hl:SetPoint("BOTTOMRIGHT", listFrame:GetWidth() - bu:GetWidth() - x - 2, 0)
+
 					local check = _G["DropDownList"..level.."Button"..j.."Check"]
+					check:SetDesaturated(true)
+					check:SetSize(20, 20)
+					check:SetTexCoord(0, 1, 0, 1)
+					check:SetTexture("Interface\\Buttons\\UI-CheckBox-Check")
+					check:SetVertexColor(r, g, b, 1)
 
-					hl:SetPoint("TOPLEFT", -x + 1, 0)
-					hl:SetPoint("BOTTOMRIGHT", listFrame:GetWidth() - bu:GetWidth() - x - 1, 0)
-
-					if not bu.bg then
-						createBackdrop(bu, check)
-						hl:SetColorTexture(r, g, b, .2)
-						_G["DropDownList"..level.."Button"..j.."UnCheck"]:SetTexture("")
-
-						local arrow = _G["DropDownList"..level.."Button"..j.."ExpandArrow"]
-						arrow:SetNormalTexture(C.media.arrowRight)
-						arrow:SetSize(8, 8)
-					end
-
-					if not bu.notCheckable then
-						toggleBackdrop(bu, true)
-
-						-- only reliable way to see if button is radio or or check...
-						local _, co = check:GetTexCoord()
-
-						if co == 0 then
-							check:SetTexture("Interface\\Buttons\\UI-CheckBox-Check")
-							check:SetVertexColor(r, g, b, 1)
-							check:SetSize(20, 20)
-							check:SetDesaturated(true)
-						else
-							check:SetTexture(C.media.backdrop)
-							check:SetVertexColor(r, g, b, .6)
-							check:SetSize(10, 10)
-							check:SetDesaturated(false)
-						end
-
-						check:SetTexCoord(0, 1, 0, 1)
-					else
-						toggleBackdrop(bu, false)
-					end
+					local uncheck = _G["DropDownList"..level.."Button"..j.."UnCheck"]
+					uncheck:SetTexture("")
 				end
 			end
 		end)
@@ -2144,35 +2070,8 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 		PVPReadyDialogFiligree:Hide()
 
 		PVPReadyDialogRoleIconTexture:SetTexture(C.media.roleIcons)
-
 		do
-			local left = PVPReadyDialogRoleIcon:CreateTexture(nil, "OVERLAY")
-			left:SetWidth(1.2)
-			left:SetTexture(C.media.backdrop)
-			left:SetVertexColor(0, 0, 0)
-			left:SetPoint("TOPLEFT", 9, -7)
-			left:SetPoint("BOTTOMLEFT", 9, 10)
-
-			local right = PVPReadyDialogRoleIcon:CreateTexture(nil, "OVERLAY")
-			right:SetWidth(1.2)
-			right:SetTexture(C.media.backdrop)
-			right:SetVertexColor(0, 0, 0)
-			right:SetPoint("TOPRIGHT", -8, -7)
-			right:SetPoint("BOTTOMRIGHT", -8, 10)
-
-			local top = PVPReadyDialogRoleIcon:CreateTexture(nil, "OVERLAY")
-			top:SetHeight(1.2)
-			top:SetTexture(C.media.backdrop)
-			top:SetVertexColor(0, 0, 0)
-			top:SetPoint("TOPLEFT", 9, -7)
-			top:SetPoint("TOPRIGHT", -8, -7)
-
-			local bottom = PVPReadyDialogRoleIcon:CreateTexture(nil, "OVERLAY")
-			bottom:SetHeight(1.2)
-			bottom:SetTexture(C.media.backdrop)
-			bottom:SetVertexColor(0, 0, 0)
-			bottom:SetPoint("BOTTOMLEFT", 9, 10)
-			bottom:SetPoint("BOTTOMRIGHT", -8, 10)
+			F.CreateBDFrame(PVPReadyDialogRoleIcon, .5, 8, -7, -8, 10)
 		end
 
 		F.CreateBD(PVPReadyDialog)

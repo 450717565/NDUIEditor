@@ -12,34 +12,7 @@ tinsert(C.themes["Aurora"], function()
 		for _, roleButton in next, {entry.HealersFound, entry.TanksFound, entry.DamagersFound} do
 			roleButton.Texture:SetTexture(C.media.roleIcons)
 			roleButton.Cover:SetTexture(C.media.roleIcons)
-
-			local left = roleButton:CreateTexture(nil, "OVERLAY")
-			left:SetWidth(1.2)
-			left:SetTexture(C.media.backdrop)
-			left:SetVertexColor(0, 0, 0)
-			left:SetPoint("TOPLEFT", 5, -3)
-			left:SetPoint("BOTTOMLEFT", 5, 6)
-
-			local right = roleButton:CreateTexture(nil, "OVERLAY")
-			right:SetWidth(1.2)
-			right:SetTexture(C.media.backdrop)
-			right:SetVertexColor(0, 0, 0)
-			right:SetPoint("TOPRIGHT", -4, -3)
-			right:SetPoint("BOTTOMRIGHT", -4, 6)
-
-			local top = roleButton:CreateTexture(nil, "OVERLAY")
-			top:SetHeight(1.2)
-			top:SetTexture(C.media.backdrop)
-			top:SetVertexColor(0, 0, 0)
-			top:SetPoint("TOPLEFT", 5, -3)
-			top:SetPoint("TOPRIGHT", -4, -3)
-
-			local bottom = roleButton:CreateTexture(nil, "OVERLAY")
-			bottom:SetHeight(1.2)
-			bottom:SetTexture(C.media.backdrop)
-			bottom:SetVertexColor(0, 0, 0)
-			bottom:SetPoint("BOTTOMLEFT", 5, 6)
-			bottom:SetPoint("BOTTOMRIGHT", -4, 6)
+			F.CreateBDFrame(roleButton, .5, 4, -3, -4, 5)
 		end
 
 		for i = 1, LFD_NUM_ROLES do
@@ -81,13 +54,12 @@ tinsert(C.themes["Aurora"], function()
 			bottom:SetPoint("BOTTOMRIGHT", roleIcon, -2, 3)
 			tinsert(borders, bottom)
 		end
-
-		entry._auroraSkinned = true
 	end
 
 	hooksecurefunc("QueueStatusEntry_SetMinimalDisplay", function(entry)
-		if not entry._auroraSkinned then
+		if not entry.styled then
 			SkinEntry(entry)
+			entry.styled = true
 		end
 
 		for i = 1, LFD_NUM_ROLES do
@@ -98,8 +70,9 @@ tinsert(C.themes["Aurora"], function()
 	end)
 
 	hooksecurefunc("QueueStatusEntry_SetFullDisplay", function(entry)
-		if not entry._auroraSkinned then
+		if not entry.styled then
 			SkinEntry(entry)
+			entry.styled = true
 		end
 
 		for i = 1, LFD_NUM_ROLES do

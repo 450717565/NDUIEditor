@@ -77,7 +77,7 @@ local function CreateToTStyle(self)
 end
 
 local function CreateFocusTargetStyle(self)
-	self.mystyle = "focustarget"
+	self.mystyle = "fot"
 	self:SetSize(120, 18)
 
 	UF:CreateHeader(self)
@@ -179,7 +179,7 @@ end
 
 oUF:RegisterStyle("Player", CreatePlayerStyle)
 oUF:RegisterStyle("Target", CreateTargetStyle)
-oUF:RegisterStyle("ToT", CreateToTStyle)
+oUF:RegisterStyle("TargetTarget", CreateToTStyle)
 oUF:RegisterStyle("Focus", CreateFocusStyle)
 oUF:RegisterStyle("FocusTarget", CreateFocusTargetStyle)
 oUF:RegisterStyle("Pet", CreatePetStyle)
@@ -215,7 +215,7 @@ function UF:OnLogin()
 	local target = oUF:Spawn("Target", "oUF_Target")
 	B.Mover(target, L["TargetUF"], "TargetUF", C.UFs.TargetPos, 245, 30)
 
-	oUF:SetActiveStyle("ToT")
+	oUF:SetActiveStyle("TargetTarget")
 	local targettarget = oUF:Spawn("TargetTarget", "oUF_ToT")
 	B.Mover(targettarget, L["TotUF"], "TotUF", C.UFs.ToTPos, 120, 30)
 
@@ -228,12 +228,12 @@ function UF:OnLogin()
 	B.Mover(focus, L["FocusUF"], "FocusUF", C.UFs.FocusPos, 200, 30)
 
 	oUF:SetActiveStyle("FocusTarget")
-	local focustarget = oUF:Spawn("FocusTarget", "oUF_FocusTarget")
+	local focustarget = oUF:Spawn("FocusTarget", "oUF_FoT")
 	B.Mover(focustarget, L["FotUF"], "FotUF", C.UFs.FoTPos, 120, 30)
 
 	if NDuiDB["Extras"]["PartyFrame"] then
 		oUF:SetActiveStyle("Party")
-		local party = oUF:SpawnHeader('oUF_Party', nil, "solo,party",
+		local party = oUF:SpawnHeader("oUF_Party", nil, "solo,party",
 			"showPlayer", false,
 			"showSolo", false,
 			"showParty", true,

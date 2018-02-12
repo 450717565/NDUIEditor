@@ -287,10 +287,11 @@ LightRoll:SetScript("OnEvent", function(frame, event, addon)
 	B.Mover(LightRoll, "LightRoll", "LightRoll", points, width, height)
 
 	LightRoll:UnregisterEvent("ADDON_LOADED")
-	LightRoll:RegisterEvent("START_LOOT_ROLL")
 	LightRoll:RegisterEvent("LOOT_HISTORY_ROLL_CHANGED")
-	UIParent:UnregisterEvent("START_LOOT_ROLL")
+	LightRoll:RegisterEvent("START_LOOT_ROLL")
+
 	UIParent:UnregisterEvent("CANCEL_LOOT_ROLL")
+	UIParent:UnregisterEvent("START_LOOT_ROLL")
 
 	LightRoll:SetScript("OnEvent", function(frame, event, ...)
 		if event == "LOOT_HISTORY_ROLL_CHANGED" then

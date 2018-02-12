@@ -150,7 +150,7 @@ function SettingPanel:OnInitialize()
                 width = 'full',
                 order = order(),
                 min = 10,
-                max = 30,
+                max = MAX_MEETINGSTONE_SUMMARY_LETTERS,
                 step = 1,
                 disabled = function()
                     return not self.db.profile.settings.spamLengthEnabled

@@ -139,13 +139,12 @@ end)
 f:SetScript("OnEvent",f.OnEvent)
 
 -- registers the /afk scene
-f:RegisterEvent("PLAYER_FLAGS_CHANGED")
 f:RegisterEvent("PLAYER_ENTERING_WORLD")
+f:RegisterEvent("PLAYER_FLAGS_CHANGED")
 f:RegisterEvent("PLAYER_LEAVING_WORLD")
 f:RegisterEvent("PLAYER_LOGIN")
 
--- Aurora Reskin
-if IsAddOnLoaded("Aurora") then
-	local F = unpack(Aurora)
-	F.Reskin(button)
-end
+-- NDui Reskin
+local B, C, L, DB = unpack(select(2, ...))
+B.CreateBC(button)
+B.CreateBD(button, .3)

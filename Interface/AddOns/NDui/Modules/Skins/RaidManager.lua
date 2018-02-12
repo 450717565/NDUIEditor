@@ -14,12 +14,12 @@ function module:CreateRM()
 	B.Mover(header, L["Raid Tool"], "RaidManager", C.Skins.RMPos)
 	header:RegisterEvent("GROUP_ROSTER_UPDATE")
 	header:RegisterEvent("PLAYER_ENTERING_WORLD")
-	header:SetScript("OnEvent", function()
-		header:UnregisterEvent("PLAYER_ENTERING_WORLD")
+	header:SetScript("OnEvent", function(self)
+		self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 		if IsInGroup() then
-			header:Show()
+			self:Show()
 		else
-			header:Hide()
+			self:Hide()
 		end
 	end)
 
@@ -76,9 +76,9 @@ function module:CreateRM()
 	res:SetPoint("LEFT", 5, 0)
 	B.CreateIF(res)
 	res.Icon:SetTexture(GetSpellTexture(20484))
-	res.Count = B.CreateFS(res, 16, "0")
+	res.Count = B.CreateFS(resFrame, 16, "0")
 	res.Count:ClearAllPoints()
-	res.Count:SetPoint("LEFT", res, "RIGHT", 10, 0)
+	res.Count:SetPoint("LEFT", res, "RIGHT", 5, 0)
 	res.Timer = B.CreateFS(resFrame, 16, "00:00", false, "RIGHT", -5, 0)
 
 	res:SetScript("OnUpdate", function(self, elapsed)
@@ -86,9 +86,16 @@ function module:CreateRM()
 		if self.elapsed > .1 then
 			local charges, _, started, duration = GetSpellCharges(20484)
 			if charges then
-				local timer = duration - (GetTime() - started)
-				self.Timer:SetFormattedText("%d:%02d", floor(timer/60), timer%60)
 				self.Count:SetText(charges)
+
+				local timer = duration - (GetTime() - started)
+				if timer > 0 then
+					self.Timer:SetFormattedText("%d:%02d", floor(timer/60), timer%60)
+				else
+					self.Timer:SetText(CAPPED)
+					self.Timer:SetTextColor(1, 0, 0)
+				end
+
 				if charges == 0 then
 					self.Count:SetTextColor(1, 0, 0)
 				else
@@ -337,6 +344,7 @@ function module:CreateRM()
 			if UnitIsGroupLeader("player") and not HasLFGRestrictions() and GetNumGroupMembers() <= 5 then
 				if IsInRaid() then ConvertToParty() else ConvertToRaid() end
 				menu:Hide()
+				menu:SetScript("OnUpdate", nil)
 			else
 				UIErrorsFrame:AddMessage(DB.InfoColor..ERR_NOT_LEADER)
 			end

@@ -42,7 +42,7 @@ function Profile:OnInitialize()
 				packedPvp = true,
 				spamLengthEnabled = true,
 				spamLength = 20,
-				iLvlFilter = true,
+		iLvlFilter = true,
 			},
 			minimap = {
 				minimapPos = 192.68,

@@ -334,9 +334,9 @@ f:SetScript("OnEvent", function(self, event, ...)
 		end
 	end
 end)
-f:RegisterEvent("GOSSIP_SHOW")
-f:RegisterEvent("GOSSIP_CLOSED")
 f:RegisterEvent("GET_ITEM_INFO_RECEIVED")
+f:RegisterEvent("GOSSIP_CLOSED")
+f:RegisterEvent("GOSSIP_SHOW")
 f:RegisterEvent("PLAYER_LOGIN")
 
 local function OutputRecipes()
@@ -459,13 +459,13 @@ do -- Experimental work order stuff
 			if ... == 122 then -- we"re talking to nomi
 				ShipmentOpenTime = time()
 				NumWorkOrdersOrdered, WorkOrderType = 0, nil
-				self:RegisterEvent("SHIPMENT_UPDATE")
 				self:RegisterEvent("SHIPMENT_CRAFTER_CLOSED")
 				self:RegisterEvent("SHIPMENT_CRAFTER_INFO")
+				self:RegisterEvent("SHIPMENT_UPDATE")
 			else -- these events shouldn"t be registered, but make absolutely certain we don"t respond to them when not talking to nomi
-				self:UnregisterEvent("SHIPMENT_UPDATE")
 				self:UnregisterEvent("SHIPMENT_CRAFTER_CLOSED")
 				self:UnregisterEvent("SHIPMENT_CRAFTER_INFO")
+				self:UnregisterEvent("SHIPMENT_UPDATE")
 			end
 		elseif event == "SHIPMENT_CRAFTER_INFO" and ... then
 			-- shipment information should be available at this point, record it
@@ -518,9 +518,9 @@ do -- Experimental work order stuff
 			-- output what work orders were placed when the window is closed
 
 			-- todo: figure out how this could possibly print twice, since the event is being unregistered
-			self:UnregisterEvent("SHIPMENT_UPDATE")
 			self:UnregisterEvent("SHIPMENT_CRAFTER_CLOSED")
 			self:UnregisterEvent("SHIPMENT_CRAFTER_INFO") -- this shouldn"t be necessary
+			self:UnregisterEvent("SHIPMENT_UPDATE")
 			if WorkOrderType and NumWorkOrdersOrdered > 0 then
 				local itemID = WorkOrderType
 				local name = LocalizedIngredientList[itemID] and LocalizedIngredientList[itemID][2] or "???"

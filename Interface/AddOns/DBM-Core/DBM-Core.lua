@@ -41,7 +41,7 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 17280 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 17292 $"):sub(12, -3)),
 	DisplayVersion = "7.3.22 alpha", -- the string that is shown as version
 	ReleaseRevision = 17241 -- the revision of the latest stable version that is available
 }
@@ -669,6 +669,7 @@ do
 		function registerSpellId(event, spellId)
 			if type(spellId) == "string" then--Something is screwed up, like SPELL_AURA_APPLIED DOSE
 				DBM:AddMsg("DBM RegisterEvents Error: "..spellId.." is not a number!")
+				return
 			end
 			if spellId and not DBM:GetSpellInfo(spellId) then
 				DBM:AddMsg("DBM RegisterEvents Error: "..spellId.." spell id does not exist!")
@@ -941,7 +942,7 @@ do
 		end
 		if not registeredEvents[event] then return end
 		local eventSub6 = event:sub(0, 6)
-		if (eventSub6 == "SPELL_" or eventSub6 == "RANGE_") and not unfilteredCLEUEvents[event] then
+		if (eventSub6 == "SPELL_" or eventSub6 == "RANGE_") and not unfilteredCLEUEvents[event] and registeredSpellIds[event] then
 			if not registeredSpellIds[event][extraArg1] then return end
 		end
 		-- process some high volume events without building the whole table which is somewhat faster
@@ -1144,6 +1145,7 @@ do
 								hasTimeWalker	= tonumber(GetAddOnMetadata(i, "X-DBM-Mod-Has-TimeWalker") or 0) == 1,
 								isWorldBoss		= tonumber(GetAddOnMetadata(i, "X-DBM-Mod-World-Boss") or 0) == 1,
 								minRevision		= tonumber(GetAddOnMetadata(i, "X-DBM-Mod-MinCoreRevision") or 0),
+								minExpansion	= tonumber(GetAddOnMetadata(i, "X-DBM-Mod-MinExpansion") or 0),
 								modId			= addonName,
 							})
 							for i = #self.AddOns[#self.AddOns].mapId, 1, -1 do
@@ -3629,6 +3631,10 @@ function DBM:LoadMod(mod, force)
 		if self:AntiSpam(60, "VER_MISMATCH") then--Throttle message in case person keeps trying to load mod (or it's a world boss player keeps targeting
 			self:AddMsg(DBM_CORE_LOAD_MOD_VER_MISMATCH:format(mod.name))
 		end
+		return
+	end
+	if mod.minExpansion > GetExpansionLevel() then
+		self:AddMsg(DBM_CORE_LOAD_MOD_EXP_MISMATCH:format(mod.name))
 		return
 	end
 	if not currentSpecID then
@@ -8925,7 +8931,7 @@ do
 	end
 
 	function yellPrototype:Yell(...)
-		if DBM.Options.DontSendYells or self.yellType and self.yellType == "position" and UnitBuff("player", DBM:GetSpellInfo(194249)) then return end
+		if DBM.Options.DontSendYells or self.yellType and self.yellType == "position" and UnitBuff("player", DBM:GetSpellInfo(194249)) or ScriptsDisallowedForBeta() then return end
 		if not self.option or self.mod.Options[self.option] then
 			SendChatMessage(pformat(self.text, ...), self.chatType or "SAY")
 		end
@@ -8937,9 +8943,7 @@ do
 	end
 
 	function yellPrototype:Countdown(time, numAnnounces, ...)
-		if not UnitBuff("player", DBM:GetSpellInfo(194249)) then
-			scheduleCountdown(time, numAnnounces, self.Yell, self.mod, self, ...)
-		end
+		scheduleCountdown(time, numAnnounces, self.Yell, self.mod, self, ...)
 	end
 
 	function yellPrototype:Cancel(...)

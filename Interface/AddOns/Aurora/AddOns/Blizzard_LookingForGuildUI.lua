@@ -4,15 +4,26 @@ C.themes["Blizzard_LookingForGuildUI"] = function()
 	local r, g, b = C.r, C.g, C.b
 
 	F.SetBD(LookingForGuildFrame)
+
 	F.CreateBD(LookingForGuildInterestFrame, .25)
+	F.CreateSD(LookingForGuildInterestFrame)
 	LookingForGuildInterestFrameBg:Hide()
+
 	F.CreateBD(LookingForGuildAvailabilityFrame, .25)
+	F.CreateSD(LookingForGuildAvailabilityFrame)
 	LookingForGuildAvailabilityFrameBg:Hide()
+
 	F.CreateBD(LookingForGuildRolesFrame, .25)
+	F.CreateSD(LookingForGuildRolesFrame)
 	LookingForGuildRolesFrameBg:Hide()
+
 	F.CreateBD(LookingForGuildCommentFrame, .25)
+	F.CreateSD(LookingForGuildCommentFrame)
 	LookingForGuildCommentFrameBg:Hide()
+
 	F.CreateBD(LookingForGuildCommentInputFrame, .12)
+	F.CreateSD(LookingForGuildCommentInputFrame)
+
 	LookingForGuildFrame:DisableDrawLayer("BACKGROUND")
 	LookingForGuildFrame:DisableDrawLayer("BORDER")
 	LookingForGuildFrameInset:DisableDrawLayer("BACKGROUND")
@@ -76,43 +87,7 @@ C.themes["Blizzard_LookingForGuildUI"] = function()
 	-- [[ Role buttons ]]
 
 	for _, roleButton in pairs({LookingForGuildTankButton, LookingForGuildHealerButton, LookingForGuildDamagerButton}) do
-		roleButton.cover:SetTexture(C.media.roleIcons)
-		roleButton:SetNormalTexture(C.media.roleIcons)
-
 		roleButton.checkButton:SetFrameLevel(roleButton:GetFrameLevel() + 2)
-
-		local left = roleButton:CreateTexture()
-		left:SetDrawLayer("OVERLAY", 1)
-		left:SetWidth(1.2)
-		left:SetTexture(C.media.backdrop)
-		left:SetVertexColor(0, 0, 0)
-		left:SetPoint("TOPLEFT", 5, -4)
-		left:SetPoint("BOTTOMLEFT", 5, 6)
-
-		local right = roleButton:CreateTexture()
-		right:SetDrawLayer("OVERLAY", 1)
-		right:SetWidth(1.2)
-		right:SetTexture(C.media.backdrop)
-		right:SetVertexColor(0, 0, 0)
-		right:SetPoint("TOPRIGHT", -5, -4)
-		right:SetPoint("BOTTOMRIGHT", -5, 6)
-
-		local top = roleButton:CreateTexture()
-		top:SetDrawLayer("OVERLAY", 1)
-		top:SetHeight(1.2)
-		top:SetTexture(C.media.backdrop)
-		top:SetVertexColor(0, 0, 0)
-		top:SetPoint("TOPLEFT", 5, -4)
-		top:SetPoint("TOPRIGHT", -5, -4)
-
-		local bottom = roleButton:CreateTexture()
-		bottom:SetDrawLayer("OVERLAY", 1)
-		bottom:SetHeight(1.2)
-		bottom:SetTexture(C.media.backdrop)
-		bottom:SetVertexColor(0, 0, 0)
-		bottom:SetPoint("BOTTOMLEFT", 5, 6)
-		bottom:SetPoint("BOTTOMRIGHT", -5, 6)
-
 		F.ReskinCheck(roleButton.checkButton)
 	end
 end

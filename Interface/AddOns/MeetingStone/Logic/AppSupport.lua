@@ -363,13 +363,13 @@ end
 
 function AppSupport:ENCOUNTER_START(_, id, name, difficulty, size)
     if not self:GetInstanceId() then
-        debug('invalid', id, name, difficulty, size)
+        
         return
     end
     CombatStat:Reset()
     CombatStat:Enable()
     self.encounterStartStamp = time()
-    debug('ENCOUNTER_START', id, name, difficulty, size, self:GetRaidInfo())
+    
 end
 
 function AppSupport:ENCOUNTER_END(_, bossId, name, difficulty, maxPlayers, status)
