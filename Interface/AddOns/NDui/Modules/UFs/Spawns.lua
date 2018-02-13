@@ -150,9 +150,9 @@ local function CreateRaidStyle(self)
 	UF:CreatePrediction(self)
 	UF:CreateClickSets(self)
 	UF:CreateRaidDebuffs(self)
+	UF:CreateThreatBorder(self)
 
 	if not NDuiDB["UFs"]["SimpleMode"] then UF:CreateBuffs(self) end
-	if NDuiDB["UFs"]["ThreatBorder"] then UF:CreateThreatBorder(self) end
 end
 
 local function CreatePartyStyle(self)
@@ -173,8 +173,7 @@ local function CreatePartyStyle(self)
 	UF:CreatePrediction(self)
 	UF:CreateClickSets(self)
 	UF:CreateDebuffs(self)
-
-	if NDuiDB["UFs"]["ThreatBorder"] then UF:CreateThreatBorder(self) end
+	UF:CreateThreatBorder(self)
 end
 
 oUF:RegisterStyle("Player", CreatePlayerStyle)
@@ -411,10 +410,17 @@ function UF:OnLogin()
 					end
 				else
 					if horizon then
-						groups[i]:SetPoint("TOPLEFT", groups[i-1], "BOTTOMLEFT", 0, -10)
+						groups[i]:SetPoint("TOPLEFT", groups[i-1], "BOTTOMLEFT", 0, NDuiDB["UFs"]["ShowTeamIndex"] and -25 or -15)
 					else
 						groups[i]:SetPoint("TOPLEFT", groups[i-1], "TOPRIGHT", 5, 0)
 					end
+				end
+
+				if NDuiDB["UFs"]["ShowTeamIndex"] then
+					local parent = _G["oUF_Raid"..i.."UnitButton1"]
+					local teamIndex = B.CreateFS(parent, 12, format(GROUP_NUMBER, i), true)
+					teamIndex:ClearAllPoints()
+					teamIndex:SetPoint("BOTTOMLEFT", parent, "TOPLEFT", 0, 5)
 				end
 			end
 		end

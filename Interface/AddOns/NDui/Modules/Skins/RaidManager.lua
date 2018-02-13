@@ -89,11 +89,11 @@ function module:CreateRM()
 				self.Count:SetText(charges)
 
 				local timer = duration - (GetTime() - started)
-				if timer > 0 then
-					self.Timer:SetFormattedText("%d:%02d", floor(timer/60), timer%60)
-				else
+				if timer < 0 then
 					self.Timer:SetText(CAPPED)
 					self.Timer:SetTextColor(1, 0, 0)
+				else
+					self.Timer:SetFormattedText("%d:%.2d", floor(timer/60), timer%60)
 				end
 
 				if charges == 0 then
@@ -119,8 +119,8 @@ function module:CreateRM()
 	marker:SetParent(header)
 	marker:SetSize(30, 30)
 	marker:GetNormalTexture():SetVertexColor(cr, cg, cb)
-	marker.SetNormalTexture = function() end
-	marker.SetPushedTexture = function() end
+	marker.SetNormalTexture = B.Dummy
+	marker.SetPushedTexture = B.Dummy
 	for i = 1, 9 do
 		select(i, marker:GetRegions()):Hide()
 	end
@@ -215,7 +215,14 @@ function module:CreateRM()
 				if #NoBuff[i] >= numPlayer then
 					sendMsg(L["Lack"]..BuffName[i]..L[":"]..ALL..PLAYER)
 				else
-					sendMsg(L["Lack"]..BuffName[i]..L[":"]..table.concat(NoBuff[i], ", "))
+					local str = L["Lack"]..BuffName[i]..L[":"]
+					for j = 1, #NoBuff[i] do
+						str = str..NoBuff[i][j]..(j < #NoBuff[i] and L[","] or "")
+						if #str > 230 then
+							sendMsg(str)
+							str = ""
+						end
+					end
 				end
 			end
 		end
@@ -242,11 +249,11 @@ function module:CreateRM()
 
 	local reset = true
 	checker:RegisterForClicks("AnyUp")
-	checker:SetScript("OnClick", function(self, button)
+	checker:SetScript("OnClick", function(_, btn)
 		if InCombatLockdown() then return end
-		if button == "RightButton" then
+		if btn == "RightButton" then
 			scanBuff()
-		elseif button == "LeftButton" then
+		elseif btn == "LeftButton" then
 			DoReadyCheck()
 		else
 			if IsAddOnLoaded("DBM-Core") then

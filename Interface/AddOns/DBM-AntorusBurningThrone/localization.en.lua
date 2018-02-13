@@ -130,8 +130,9 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2031)
 
 L:SetMiscLocalization({
-	SeaText =		"{rt6} Haste/Vers",
-	SkyText =		"{rt5} Crit/Mast"
+	SeaText		=	"{rt6} Haste/Vers",
+	SkyText		=	"{rt5} Crit/Mast",
+	Blight		=	"Blight"--Does not auto localize correctly
 })
 
 -------------

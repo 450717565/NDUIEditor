@@ -189,8 +189,8 @@ info.onLeave = function(self)
 	self:UnregisterEvent("MODIFIER_STATE_CHANGED")
 end
 
-info.onMouseUp = function(_, button)
-	if button ~= "LeftButton" then return end
+info.onMouseUp = function(_, btn)
+	if btn ~= "LeftButton" then return end
 	GameTooltip:Hide()
 	ToggleFriendsFrame()
 end

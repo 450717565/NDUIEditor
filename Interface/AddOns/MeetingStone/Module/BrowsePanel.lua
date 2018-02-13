@@ -1140,5 +1140,3 @@ function BrowsePanel:QuickSearch(activityCode, mode, loot, searchText)
 	self.SearchInput:SetText(searchText or '')
 	self:EndSet()
 end
-
-_G["BrowsePanel"] = BrowsePanel

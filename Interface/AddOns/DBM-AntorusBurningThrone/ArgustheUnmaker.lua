@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2031, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17248 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17303 $"):sub(12, -3))
 mod:SetCreatureID(124828)
 mod:SetEncounterID(2092)
 mod:SetZone()
@@ -73,18 +73,19 @@ local specWarnGiftofSky				= mod:NewSpecialWarningYou(258646, nil, nil, nil, 1, 
 local yellGiftofSky					= mod:NewPosYell(258646, L.SkyText)
 --Mythic P1
 local specWarnSargRage				= mod:NewSpecialWarningMoveAway(257869, nil, nil, nil, 3, 2)
-local yellSargRage					= mod:NewYell(257869)
+local yellSargRage					= mod:NewYell(257869, 6612)
 local specWarnSargFear				= mod:NewSpecialWarningMoveTo(257931, nil, nil, nil, 3, 2)
-local yellSargFear					= mod:NewYell(257931)
-local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
+local yellSargFear					= mod:NewYell(257931, 5782)
+local yellSargFearCombo				= mod:NewComboYell(257931, 5782)
+local specWarnGTFO					= mod:NewSpecialWarningGTFO(248167, nil, nil, nil, 1, 2)
 --Stage Two: The Protector Redeemed
 local specWarnSoulburst				= mod:NewSpecialWarningYou(250669, nil, nil, nil, 1, 2)
-local yellSoulburst					= mod:NewPosYell(250669)
-local yellSoulburstFades			= mod:NewIconFadesYell(250669)
+local yellSoulburst					= mod:NewPosYell(250669, DBM_CORE_AUTO_YELL_CUSTOM_POSITION)
+local yellSoulburstFades			= mod:NewIconFadesYell(250669, 240443)
 local specWarnSoulbomb				= mod:NewSpecialWarningYou(251570, nil, nil, nil, 1, 2)
-local specWarnSoulbombMoveTo		= mod:NewSpecialWarningMoveTo(251570, nil, nil, nil, 1, 7)
+local specWarnSoulbombMoveTo		= mod:NewSpecialWarningMoveTo(251570, nil, nil, nil, 1, 2)
 local yellSoulbomb					= mod:NewPosYell(251570, DBM_CORE_AUTO_YELL_CUSTOM_POSITION)
-local yellSoulbombFades				= mod:NewIconFadesYell(251570)
+local yellSoulbombFades				= mod:NewIconFadesYell(251570, 155188)
 local specWarnEdgeofObliteration	= mod:NewSpecialWarningSpell(255826, nil, nil, nil, 2, 2)
 local specWarnAvatarofAggra			= mod:NewSpecialWarningYou(255199, nil, nil, nil, 1, 2)
 --Stage Three: The Arcane Masters
@@ -92,8 +93,8 @@ local specWarnCosmicRay				= mod:NewSpecialWarningYou(252729, nil, nil, nil, 1, 
 local yellCosmicRay					= mod:NewYell(252729)
 --Stage Three Mythic
 local specWarnSargSentence			= mod:NewSpecialWarningYou(257966, nil, nil, nil, 1, 2)
-local yellSargSentence				= mod:NewYell(257966)
-local yellSargSentenceFades			= mod:NewShortFadesYell(257966)
+local yellSargSentence				= mod:NewYell(257966, 241803)
+local yellSargSentenceFades			= mod:NewShortFadesYell(257966, 241803)
 local specWarnApocModule			= mod:NewSpecialWarningSwitchCount(258029, "Dps", nil, nil, 3, 2)--EVERYONE
 local specWarnEdgeofAnni			= mod:NewSpecialWarningDodge(258834, nil, nil, nil, 2, 2)
 local specWarnSoulrendingScythe		= mod:NewSpecialWarningStack(258838, nil, 2, nil, nil, 1, 2)
@@ -127,7 +128,7 @@ local timerCosmicBeaconCD			= mod:NewCDTimer(19.9, 252616, nil, nil, nil, 3)--Al
 local timerDiscsofNorg				= mod:NewCastTimer(12, 252516, nil, nil, nil, 6)
 mod:AddTimerLine(ENCOUNTER_JOURNAL_SECTION_FLAG12)--Mythic 3
 local timerSoulrendingScytheCD		= mod:NewCDTimer(8.5, 258838, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
-local timerSargSentenceCD			= mod:NewCDCountTimer(35.2, 257966, nil, nil, nil, 3, nil, DBM_CORE_HEROIC_ICON)
+local timerSargSentenceCD			= mod:NewCDCountTimer(35.2, 257966, 241803, nil, nil, 3, nil, DBM_CORE_HEROIC_ICON)
 local timerEdgeofAnniCD				= mod:NewCDTimer(5.5, 258834, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON)
 --Stage Four: The Gift of Life, The Forge of Loss (Non Mythic)
 mod:AddTimerLine(SCENARIO_STAGE:format(4))
@@ -175,6 +176,32 @@ local sargSentence = {53, 56.9, 60, 53, 53}--1 timer from method video not logs,
 local apocModule = {31, 47, 48.2, 46.6, 53, 53}--Some variation detected in logs do to delay in combat log between spawn and cast (one timer from method video)
 local sargGaze = {23, 75, 70, 53, 53}--1 timer from method video not logs, verify by logs to improve accuracy
 local edgeofAnni = {5, 5, 90, 5, 45, 5}--All timers from method video (6:05 P3 start, 6:10, 6:15, 7:45, 7:50, 8:35, 8:40)
+--Both of these should be in fearCheck object for efficiency but with uncertainty of async, I don't want to come back and fix this later. Doing it this way ensures without a doubt it'll work by calling on load and again on combatstart
+local burstShortName, bombShortName, chainsShortName = DBM:GetSpellInfo(240443), DBM:GetSpellInfo(155188), DBM:GetSpellInfo(241803), DBM:GetSpellInfo(59285)
+local soulBurst, soulBomb, sargSentence, soulBlight, sargFear = DBM:GetSpellInfo(250669), DBM:GetSpellInfo(251570), DBM:GetSpellInfo(257966), DBM:GetSpellInfo(248396), DBM:GetSpellInfo(257931)
+
+local function fearCheck(self)
+	self:Unschedule(fearCheck)
+	if UnitDebuff("player", sargFear) then
+		local comboActive = false
+		if UnitDebuff("player", soulBurst) then
+			yellSargFearCombo:Yell(burstShortName)
+			comboActive = true
+		elseif UnitDebuff("player", soulBomb) then
+			yellSargFearCombo:Yell(bombShortName)
+			comboActive = true
+		elseif UnitDebuff("player", sargSentence) then
+			yellSargFearCombo:Yell(chainsShortName)
+			comboActive = true
+		elseif UnitDebuff("player", soulBlight) then
+			yellSargFearCombo:Yell(L.Blight)
+			comboActive = true
+		end
+		if comboActive then
+			self:Schedule(2, fearCheck, self)
+		end
+	end
+end
 
 local function startAnnihilationStuff(self, quiet)
 	self.vb.EdgeofObliteration = self.vb.EdgeofObliteration + 1
@@ -203,11 +230,13 @@ end
 
 local function delayedBoonCheck(self)
 	specWarnSoulbombMoveTo:Show(DBM_CORE_ROOM_EDGE)
-	specWarnSoulbombMoveTo:Play("runtoedge")
+	specWarnSoulbombMoveTo:Play("bombnow")--Detonate Soon makes more sense than "run to edge" which is still too assumptive
 end
 
 function mod:OnCombatStart(delay)
 	avatarOfAggramar, aggramarsBoon = DBM:GetSpellInfo(255199), DBM:GetSpellInfo(255200)
+	burstShortName, bombShortName, chainsShortName = DBM:GetSpellInfo(240443), DBM:GetSpellInfo(155188), DBM:GetSpellInfo(241803), DBM:GetSpellInfo(59285)
+	soulBurst, soulBomb, sargSentence, soulBlight, sargFear = DBM:GetSpellInfo(250669), DBM:GetSpellInfo(251570), DBM:GetSpellInfo(257966), DBM:GetSpellInfo(248396), DBM:GetSpellInfo(257931)
 	playerAvatar = false
 	self.vb.phase = 1
 	self.vb.coneCount = 0
@@ -432,6 +461,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnSoulblight:Play("runout")
 			yellSoulblight:Yell()
 			yellSoulblightFades:Countdown(8)
+			fearCheck(self)
 		end
 	elseif spellId == 250669 then
 		warnSoulburst:CombinedShow(0.3, args.destName)--2 Targets
@@ -442,9 +472,10 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnSoulburst:Show()
 			specWarnSoulburst:Play("targetyou")
-			--specWarnSoulburst:ScheduleVoice(self:IsMythic() and 7 or 10, "runout")
-			yellSoulburst:Yell(icon == 7 and 2 or 1, icon, icon)
+			specWarnSoulburst:ScheduleVoice(self:IsMythic() and 7 or 10, "bombnow")
+			yellSoulburst:Yell(icon, burstShortName, icon)
 			yellSoulburstFades:Countdown(self:IsMythic() and 12 or 15, nil, icon)
+			fearCheck(self)
 		end
 		if self.Options.SetIconOnSoulBurst then
 			self:SetIcon(args.destName, icon)
@@ -453,10 +484,11 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 251570 then
 		if args:IsPlayer() then
 			specWarnSoulbomb:Show()
-			specWarnSoulbomb:Play("targetyou")
+			specWarnSoulbomb:Play("targetyou")--Would be better if bombrun was "bomb on you" and not "bomb on you, run". Since Don't want to give misinformation, generic it is
 			self:Schedule(self:IsMythic() and 5 or 8, delayedBoonCheck, self)
-			yellSoulbomb:Yell(2, args.spellName, 2)
+			yellSoulbomb:Yell(2, bombShortName, 2)
 			yellSoulbombFades:Countdown(self:IsMythic() and 12 or 15, nil, 2)
+			fearCheck(self)
 		elseif playerAvatar then
 			specWarnSoulbombMoveTo:Show(args.destName)
 			specWarnSoulbombMoveTo:Play("helpsoak")
@@ -567,6 +599,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnSargFear:Show(DBM_ALLY)
 			specWarnSargFear:Play("gathershare")
 			yellSargFear:Yell()
+			fearCheck(self)
 		end
 	elseif spellId == 257966 then--Sentence of Sargeras
 		if self:AntiSpam(5, 6) then
@@ -584,6 +617,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnSargSentence:Play("targetyou")
 			yellSargSentence:Yell()
 			yellSargSentenceFades:Countdown(30)
+			fearCheck(self)
 		end
 	end
 end

@@ -161,14 +161,7 @@ function Activity:Match(search, bossFilter, enableSpamWord, spamLength)
 	if enableSpamWord and (CheckSpamWord(summary) or CheckSpamWord(comment)) then
 		return false
 	end
---[[
-	local activityItem = BrowsePanel:GetCurrentActivity()
-	if activityItem and activityItem.activityId and not ACTIVITY_CUSTOM_DATA.A[activityItem.activityId] then
-		if activityItem.activityId ~= self:GetActivityID() or activityItem.customId ~= self:GetCustomID() then
-			return false
-		end
-	end
-]]
+
 	if search then
 		if summary and summary:find(search, 1, true) then
 			return true

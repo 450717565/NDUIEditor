@@ -28,6 +28,7 @@ tinsert(C.themes["Aurora"], function()
 	end)
 
 	F.CreateBD(LFDRoleCheckPopup)
+	F.CreateSD(LFDRoleCheckPopup)
 	F.Reskin(LFDRoleCheckPopupAcceptButton)
 	F.Reskin(LFDRoleCheckPopupDeclineButton)
 	F.Reskin(LFDQueueFrameRandomScrollFrameChildFrame.bonusRepFrame.ChooseButton)

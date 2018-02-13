@@ -232,7 +232,7 @@ local function UNIT_SPELLCAST_CHANNEL_START(self, event, unit, _, _, _, spellID)
 	end
 
 	if (element.PostChannelStart) then
-		element:PostChannelStart(unit, name, castID, spellID)
+		element:PostChannelStart(unit, name, spellID)
 	end
 	element:Show()
 end
