@@ -1,5 +1,8 @@
-local L
+-- Mini Dragon(projecteurs@gmail.com)
+-- Last update: 2018/02/14
 
+if GetLocale() ~= "zhCN" then return end
+local L
 -----------------------
 -- <<<Atal'Dazar >>> --
 -----------------------
@@ -29,7 +32,7 @@ L= DBM:GetModLocalization(2030)
 L = DBM:GetModLocalization("AtalDazarTrash")
 
 L:SetGeneralLocalization({
-	name =	"Atal'Dazar Trash"
+	name =	"阿塔达萨小怪"
 })
 
 -----------------------
@@ -61,7 +64,7 @@ L= DBM:GetModLocalization(2095)
 L = DBM:GetModLocalization("FreeholdTrash")
 
 L:SetGeneralLocalization({
-	name =	"Freehold Trash"
+	name =	"自由镇小怪"
 })
 
 -----------------------
@@ -78,7 +81,7 @@ L= DBM:GetModLocalization(2165)
 L = DBM:GetModLocalization("KingsRestTrash")
 
 L:SetGeneralLocalization({
-	name =	"Kings' Rest Trash"
+	name =	"国王之眠小怪"
 })
 
 -----------------------
@@ -110,7 +113,7 @@ L= DBM:GetModLocalization(2156)
 L = DBM:GetModLocalization("SotSTrash")
 
 L:SetGeneralLocalization({
-	name =	"SotS Trash"
+	name =	"风暴神殿小怪"
 })
 
 -----------------------
@@ -137,7 +140,7 @@ L= DBM:GetModLocalization(2140)
 L = DBM:GetModLocalization("BoralusTrash")
 
 L:SetGeneralLocalization({
-	name =	"Siege of Boralus Trash"
+	name =	"围攻伯拉勒斯小怪"
 })
 
 -----------------------
@@ -169,7 +172,7 @@ L= DBM:GetModLocalization(2145)
 L = DBM:GetModLocalization("SethralissTrash")
 
 L:SetGeneralLocalization({
-	name =	"Temple of Sethraliss Trash"
+	name =	"塞塔里斯神殿小怪"
 })
 
 -----------------------
@@ -233,7 +236,7 @@ L= DBM:GetModLocalization(2158)
 L = DBM:GetModLocalization("UnderrotTrash")
 
 L:SetGeneralLocalization({
-	name =	"The Underrot Trash"
+	name =	"地渊孢林小怪"
 })
 
 -----------------------
@@ -265,24 +268,24 @@ L= DBM:GetModLocalization(2096)
 L = DBM:GetModLocalization("TolDagorTrash")
 
 L:SetGeneralLocalization({
-	name =	"Tol Dagor Trash"
+	name =	"托尔达戈小怪"
 })
 
 -----------------------
 -- <<<Waycrest Manor>>> --
 -----------------------
 -----------------------
--- Heartsbane Triad --
+-- Witch Council --
 -----------------------
 L= DBM:GetModLocalization(2125)
 
 -----------------------
--- Soulbound Goliath --
+-- Wicker Goliath --
 -----------------------
 L= DBM:GetModLocalization(2126)
 
 -----------------------
--- Raal the Gluttonous --
+-- Gluttony --
 -----------------------
 L= DBM:GetModLocalization(2127)
 
@@ -292,7 +295,7 @@ L= DBM:GetModLocalization(2127)
 L= DBM:GetModLocalization(2128)
 
 -----------------------
--- Gorak Tul --
+-- Drust King --
 -----------------------
 L= DBM:GetModLocalization(2129)
 
@@ -302,5 +305,5 @@ L= DBM:GetModLocalization(2129)
 L = DBM:GetModLocalization("WaycrestTrash")
 
 L:SetGeneralLocalization({
-	name =	"Waycrest Manor Trash"
+	name =	"维克雷斯庄园小怪"
 })

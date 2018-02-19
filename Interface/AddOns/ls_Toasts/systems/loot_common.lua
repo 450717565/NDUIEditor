@@ -43,14 +43,14 @@ local function Toast_SetUp(event, link, quantity)
 	local toast, isNew, isQueued
 
 	-- Check if there's a toast for this item from another event
-	toast, isQueued = E:FindToast(nil, "link", sanitizedLink)
+	toast, isQueued = E:FindToast(nil, "item_id", itemID)
 
 	if toast then
 		if toast._data.event ~= event then
 			return
 		end
 	else
-		toast, isNew, isQueued = E:GetToast()
+		toast, isNew, isQueued = E:GetToast(event, "link", sanitizedLink)
 	end
 
 	if isNew then
@@ -71,8 +71,18 @@ local function Toast_SetUp(event, link, quantity)
 
 			toast.IconText1.PostSetAnimatedValue = PostSetAnimatedValue
 
-			if C.db.profile.colors.name then
-				name = color.hex..name.."|r"
+			if quality >= C.db.profile.colors.threshold then
+				if C.db.profile.colors.name then
+					name = color.hex..name.."|r"
+				end
+
+				if C.db.profile.colors.border then
+					toast.Border:SetVertexColor(color.r, color.g, color.b)
+				end
+
+				if C.db.profile.colors.icon_border then
+					toast.IconBorder:SetVertexColor(color.r, color.g, color.b)
+				end
 			end
 
 			if C.db.profile.types.loot_common.ilvl then
@@ -83,29 +93,27 @@ local function Toast_SetUp(event, link, quantity)
 				end
 			end
 
-			if C.db.profile.colors.border then
-				toast.Border:SetVertexColor(color.r, color.g, color.b)
-			end
-
-			if C.db.profile.colors.icon_border then
-				toast.IconBorder:SetVertexColor(color.r, color.g, color.b)
+			if not toast.IconHL.isHidden then
+				toast.IconHL:SetShown(isQuestItem)
 			end
 
 			toast.Title:SetText(L["YOU_RECEIVED"])
 			toast.Text:SetText(name)
 			toast.Icon:SetTexture(icon)
 			toast.IconBorder:Show()
-			toast.IconHL:SetShown(isQuestItem)
 			toast.IconText1:SetAnimatedValue(quantity, true)
 
 			toast._data = {
 				count = quantity,
 				event = event,
 				link = sanitizedLink,
-				sound_file = 31578, -- SOUNDKIT.UI_EPICLOOT_TOAST
 				tooltip_link = originalLink,
 				item_id = itemID,
 			}
+
+			if C.db.profile.types.loot_common.sfx then
+				toast._data.sound_file = 31578 -- SOUNDKIT.UI_EPICLOOT_TOAST
+			end
 
 			toast:HookScript("OnClick", Toast_OnClick)
 			toast:HookScript("OnEnter", Toast_OnEnter)
@@ -192,11 +200,18 @@ end
 E:RegisterOptions("loot_common", {
 	enabled = true,
 	dnd = false,
-	threshold = 1,
+	sfx = true,
 	ilvl = true,
 	quest = false,
+	threshold = 1,
 }, {
 	name = L["TYPE_LOOT_COMMON"],
+	get = function(info)
+		return C.db.profile.types.loot_common[info[#info]]
+	end,
+	set = function(info, value)
+		C.db.profile.types.loot_common[info[#info]] = value
+	end,
 	args = {
 		desc = {
 			order = 1,
@@ -207,9 +222,6 @@ E:RegisterOptions("loot_common", {
 			order = 2,
 			type = "toggle",
 			name = L["ENABLE"],
-			get = function()
-				return C.db.profile.types.loot_common.enabled
-			end,
 			set = function(_, value)
 				C.db.profile.types.loot_common.enabled = value
 
@@ -225,27 +237,20 @@ E:RegisterOptions("loot_common", {
 			type = "toggle",
 			name = L["DND"],
 			desc = L["DND_TOOLTIP"],
-			get = function()
-				return C.db.profile.types.loot_common.dnd
-			end,
-			set = function(_, value)
-				C.db.profile.types.loot_common.dnd = value
-			end
+		},
+		sfx = {
+			order = 4,
+			type = "toggle",
+			name = L["SFX"],
 		},
 		ilvl = {
-			order = 4,
+			order = 5,
 			type = "toggle",
 			name = L["SHOW_ILVL"],
 			desc = L["SHOW_ILVL_DESC"],
-			get = function()
-				return C.db.profile.types.loot_common.ilvl
-			end,
-			set = function(_, value)
-				C.db.profile.types.loot_common.ilvl = value
-			end
 		},
 		threshold = {
-			order = 5,
+			order = 6,
 			type = "select",
 			name = L["LOOT_THRESHOLD"],
 			values = {
@@ -254,24 +259,12 @@ E:RegisterOptions("loot_common", {
 				[3] = ITEM_QUALITY_COLORS[3].hex..ITEM_QUALITY3_DESC.."|r",
 				[4] = ITEM_QUALITY_COLORS[4].hex..ITEM_QUALITY4_DESC.."|r",
 			},
-			get = function()
-				return C.db.profile.types.loot_common.threshold
-			end,
-			set = function(_, value)
-					C.db.profile.types.loot_common.threshold = value
-			end,
 		},
 		quest = {
-			order = 6,
+			order = 7,
 			type = "toggle",
 			name = L["SHOW_QUEST_ITEMS"],
 			desc = L["SHOW_QUEST_ITEMS_DESC"],
-			get = function()
-				return C.db.profile.types.loot_common.quest
-			end,
-			set = function(_, value)
-				C.db.profile.types.loot_common.quest = value
-			end
 		},
 		test = {
 			type = "execute",

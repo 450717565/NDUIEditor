@@ -43,16 +43,18 @@ end
 
 local function Toast_SetUp(event, ID, isMount, isPet, isToy)
 	local toast, isNew, isQueued = E:GetToast(event, "collection_id", ID)
-	local color, name, icon, _
 
 	if isNew then
+		local color, name, icon, rarity, _
+
 		if isMount then
 			name, _, icon = C_MountJournal.GetMountInfoByID(ID)
 		elseif isPet then
-			local customName, rarity
+			local customName
 			_, _, _, _, rarity = C_PetJournal.GetPetStats(ID)
 			_, customName, _, _, _, _, _, name, icon = C_PetJournal.GetPetInfoByPetID(ID)
-			color = ITEM_QUALITY_COLORS[(rarity or 2) - 1]
+			rarity = (rarity or 2) - 1
+			color = ITEM_QUALITY_COLORS[rarity]
 			name = customName or name
 		elseif isToy then
 			_, name, icon = C_ToyBox.GetToyInfo(ID)
@@ -64,21 +66,23 @@ local function Toast_SetUp(event, ID, isMount, isPet, isToy)
 
 		toast.IconText1.PostSetAnimatedValue = PostSetAnimatedValue
 
-		if color and C.db.profile.colors.name then
-			toast.Text:SetTextColor(color.r, color.g, color.b)
+		if rarity and rarity >= C.db.profile.colors.threshold then
+			if color and C.db.profile.colors.name then
+				toast.Text:SetTextColor(color.r, color.g, color.b)
+			end
+
+			if color and C.db.profile.colors.border then
+				toast.Border:SetVertexColor(color.r, color.g, color.b)
+			end
+
+			if color and C.db.profile.colors.icon_border then
+				toast.IconBorder:SetVertexColor(color.r, color.g, color.b)
+			end
 		end
 
-		if color and C.db.profile.colors.border then
-			toast.Border:SetVertexColor(color.r, color.g, color.b)
-		end
-
-		if color and C.db.profile.colors.icon_border then
-			toast.IconBorder:SetVertexColor(color.r, color.g, color.b)
-		end
-
+		toast:SetBackground("collection")
 		toast.Title:SetText(L["YOU_EARNED"])
 		toast.Text:SetText(name)
-		toast.BG:SetTexture("Interface\\AddOns\\ls_Toasts\\media\\toast-bg-collection")
 		toast.Icon:SetTexture(icon)
 		toast.IconBorder:Show()
 		toast.IconText1:SetAnimatedValue(1, true)
@@ -90,8 +94,11 @@ local function Toast_SetUp(event, ID, isMount, isPet, isToy)
 			is_mount = isMount,
 			is_pet = isPet,
 			is_toy = isToy,
-			sound_file = 31578, -- SOUNDKIT.UI_EPICLOOT_TOAST
 		}
+
+		if C.db.profile.types.collection.sfx then
+			toast._data.sound_file = 31578 -- SOUNDKIT.UI_EPICLOOT_TOAST
+		end
 
 		if C.db.profile.types.collection.left_click then
 			toast:HookScript("OnClick", Toast_OnClick)
@@ -160,11 +167,18 @@ local function Test()
 end
 
 E:RegisterOptions("collection", {
-	left_click = false,
 	enabled = true,
 	dnd = false,
+	sfx = true,
+	left_click = false,
 }, {
 	name = L["TYPE_COLLECTION"],
+	get = function(info)
+		return C.db.profile.types.collection[info[#info]]
+	end,
+	set = function(info, value)
+		C.db.profile.types.collection[info[#info]] = value
+	end,
 	args = {
 		desc = {
 			order = 1,
@@ -175,9 +189,6 @@ E:RegisterOptions("collection", {
 			order = 2,
 			type = "toggle",
 			name = L["ENABLE"],
-			get = function()
-				return C.db.profile.types.collection.enabled
-			end,
 			set = function(_, value)
 				C.db.profile.types.collection.enabled = value
 
@@ -193,25 +204,18 @@ E:RegisterOptions("collection", {
 			type = "toggle",
 			name = L["DND"],
 			desc = L["DND_TOOLTIP"],
-			get = function()
-				return C.db.profile.types.collection.dnd
-			end,
-			set = function(_, value)
-				C.db.profile.types.collection.dnd = value
-			end
+		},
+		sfx = {
+			order = 4,
+			type = "toggle",
+			name = L["SFX"],
 		},
 		left_click = {
-			order = 4,
+			order = 5,
 			type = "toggle",
 			name = L["HANDLE_LEFT_CLICK"],
 			desc = L["COLLECTIONS_TAINT_WARNING"],
 			image = "Interface\\DialogFrame\\UI-Dialog-Icon-AlertNew",
-			get = function()
-				return C.db.profile.types.collection.left_click
-			end,
-			set = function(_, value)
-				C.db.profile.types.collection.left_click = value
-			end
 		},
 		test = {
 			type = "execute",

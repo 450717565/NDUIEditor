@@ -8,23 +8,27 @@ local hooksecurefunc = _G.hooksecurefunc
 -- Mine
 local function Toast_SetUp(event, researchFieldID)
 	local toast = E:GetToast()
-	local raceName, raceTexture	= GetArchaeologyRaceInfoByID(researchFieldID)
+	local raceName, raceTexture = GetArchaeologyRaceInfoByID(researchFieldID)
 
 	if C.db.profile.colors.border then
 		toast.Border:SetVertexColor(0.9, 0.4, 0.1)
 	end
 
+	toast:SetBackground("archaeology")
 	toast.Title:SetText(L["DIGSITE_COMPLETED"])
 	toast.Text:SetText(raceName)
-	toast.BG:SetTexture("Interface\\AddOns\\ls_Toasts\\media\\toast-bg-archaeology")
-	toast.Icon:SetPoint("TOPLEFT", 7, -3)
-	toast.Icon:SetSize(76, 76)
+	toast.Icon:SetPoint("TOPLEFT", 1, 3)
+	toast.Icon:SetSize(40, 48)
 	toast.Icon:SetTexture(raceTexture)
+	toast.Icon:SetTexCoord(0 / 128, 74 / 128, 0 / 128, 88 / 128)
 
 	toast._data = {
 		event = event,
-		sound_file = 38326, -- SOUNDKIT.UI_DIG_SITE_COMPLETION_TOAST
 	}
+
+	if C.db.profile.types.archaeology.sfx then
+		toast._data.sound_file = 38326 -- SOUNDKIT.UI_DIG_SITE_COMPLETION_TOAST
+	end
 
 	toast:Spawn(C.db.profile.types.archaeology.dnd)
 end
@@ -62,22 +66,26 @@ local function Disable()
 end
 
 local function Test()
-	Toast_SetUp("ARCHAEOLOGY_TEST", 408)
+	Toast_SetUp("ARCHAEOLOGY_TEST", 2)
 end
 
 E:RegisterOptions("archaeology", {
 	enabled = true,
 	dnd = false,
+	sfx = true,
 }, {
 	name = L["TYPE_ARCHAEOLOGY"],
+	get = function(info)
+		return C.db.profile.types.archaeology[info[#info]]
+	end,
+	set = function(info, value)
+		C.db.profile.types.archaeology[info[#info]] = value
+	end,
 	args = {
 		enabled = {
 			order = 1,
 			type = "toggle",
 			name = L["ENABLE"],
-			get = function()
-				return C.db.profile.types.archaeology.enabled
-			end,
 			set = function(_, value)
 				C.db.profile.types.archaeology.enabled = value
 
@@ -93,12 +101,11 @@ E:RegisterOptions("archaeology", {
 			type = "toggle",
 			name = L["DND"],
 			desc = L["DND_TOOLTIP"],
-			get = function()
-				return C.db.profile.types.archaeology.dnd
-			end,
-			set = function(_, value)
-				C.db.profile.types.archaeology.dnd = value
-			end
+		},
+		sfx = {
+			order = 3,
+			type = "toggle",
+			name = L["SFX"],
 		},
 		test = {
 			type = "execute",

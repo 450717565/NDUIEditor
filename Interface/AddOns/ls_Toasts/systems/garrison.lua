@@ -24,7 +24,8 @@ end
 
 local function MissionToast_SetUp(event, garrisonType, missionID, isAdded)
 	local missionInfo = C_Garrison.GetBasicMissionInfo(missionID)
-	local color = missionInfo.isRare and ITEM_QUALITY_COLORS[3] or ITEM_QUALITY_COLORS[1]
+	local rarity = missionInfo.isRare and 3 or 1
+	local color = ITEM_QUALITY_COLORS[rarity]
 	local level = missionInfo.iLevel == 0 and missionInfo.level or missionInfo.iLevel
 	local toast = E:GetToast()
 
@@ -34,32 +35,41 @@ local function MissionToast_SetUp(event, garrisonType, missionID, isAdded)
 		toast.Title:SetText(L["GARRISON_MISSION_COMPLETED"])
 	end
 
-	if C.db.profile.colors.name then
-		toast.Text:SetTextColor(color.r, color.g, color.b)
-	end
+	if rarity >= C.db.profile.colors.threshold then
+		if C.db.profile.colors.name then
+			toast.Text:SetTextColor(color.r, color.g, color.b)
+		end
 
-	if C.db.profile.colors.border then
-		toast.Border:SetVertexColor(color.r, color.g, color.b)
+		if C.db.profile.colors.border then
+			toast.Border:SetVertexColor(color.r, color.g, color.b)
+		end
 	end
 
 	toast.Text:SetText(missionInfo.name)
+	toast.Icon:SetPoint("TOPLEFT", -1, 1)
+	toast.Icon:SetSize(44, 44)
+	toast.Icon:SetTexCoord(0, 1, 0, 1)
 	toast.Icon:SetAtlas(missionInfo.typeAtlas, false)
 	toast.IconText1:SetText(level)
 
 	toast._data = {
 		event = event,
 		mission_id = missionID,
-		sound_file = 44294, -- SOUNDKIT.UI_GARRISON_TOAST_MISSION_COMPLETE
 	}
 
-	toast:Spawn(garrisonType == LE_GARRISON_TYPE_7_0 and C.db.profile.types.garrison_7_0.dnd or C.db.profile.types.garrison_6_0.dnd)
+	if (garrisonType == LE_GARRISON_TYPE_7_0 and C.db.profile.types.garrison_7_0.sfx)
+	or (garrisonType == LE_GARRISON_TYPE_6_0 and C.db.profile.types.garrison_6_0.sfx) then
+		toast._data.sound_file = 44294 -- SOUNDKIT.UI_GARRISON_TOAST_MISSION_COMPLETE
+	end
+
+	toast:Spawn((garrisonType == LE_GARRISON_TYPE_7_0 and C.db.profile.types.garrison_7_0.dnd) or (garrisonType == LE_GARRISON_TYPE_6_0 and C.db.profile.types.garrison_6_0.dnd))
 end
 
 local function GARRISON_MISSION_FINISHED(followerTypeID, missionID)
 	local garrisonType = GetGarrisonTypeByFollowerType(followerTypeID)
 
 	if (garrisonType == LE_GARRISON_TYPE_7_0 and not C.db.profile.types.garrison_7_0.enabled)
-		or (garrisonType == LE_GARRISON_TYPE_6_0 and not C.db.profile.types.garrison_6_0.enabled) then
+	or (garrisonType == LE_GARRISON_TYPE_6_0 and not C.db.profile.types.garrison_6_0.enabled) then
 		return
 	end
 
@@ -79,7 +89,7 @@ local function GARRISON_RANDOM_MISSION_ADDED(followerTypeID, missionID)
 	local garrisonType = GetGarrisonTypeByFollowerType(followerTypeID)
 
 	if (garrisonType == LE_GARRISON_TYPE_7_0 and not C.db.profile.types.garrison_7_0.enabled)
-		or (garrisonType == LE_GARRISON_TYPE_6_0 and not C.db.profile.types.garrison_6_0.enabled) then
+	or (garrisonType == LE_GARRISON_TYPE_6_0 and not C.db.profile.types.garrison_6_0.enabled) then
 		return
 	end
 
@@ -122,26 +132,26 @@ local function FollowerToast_SetUp(event, garrisonType, followerTypeID, follower
 	local toast = E:GetToast()
 
 	if followerTypeID == LE_FOLLOWER_TYPE_SHIPYARD_6_2 then
-		toast.Icon:SetSize(84, 44)
-		toast.Icon:SetAtlas(texPrefix.."-List", false)
-		toast.IconText1:SetText("")
+		toast.Icon:SetPoint("TOPLEFT", -2, -1)
+		toast.Icon:SetSize(46, 40)
+		toast.Icon:SetTexCoord(0, 1, 0, 1)
+		toast.Icon:SetAtlas(texPrefix.."-Portrait", false)
 	else
 		local portrait
-
 		if followerInfo.portraitIconID and followerInfo.portraitIconID ~= 0 then
 			portrait = followerInfo.portraitIconID
 		else
 			portrait = "Interface\\Garrison\\Portraits\\FollowerPortrait_NoPortrait"
 		end
 
-		toast.Icon:SetSize(44, 44)
 		toast.Icon:SetTexture(portrait)
+		toast.Icon:SetTexCoord(0, 1, 0, 1)
 		toast.IconText1:SetText(level)
 	end
 
 	if isUpgraded then
+		toast:SetBackground("upgrade")
 		toast.Title:SetText(followerStrings.FOLLOWER_ADDED_UPGRADED_TOAST)
-		toast.BG:SetTexture("Interface\\AddOns\\ls_Toasts\\media\\toast-bg-upgrade")
 
 		for i = 1, 5 do
 			toast["Arrow"..i]:SetAtlas(upgradeTexture.arrow, true)
@@ -150,12 +160,14 @@ local function FollowerToast_SetUp(event, garrisonType, followerTypeID, follower
 		toast.Title:SetText(followerStrings.FOLLOWER_ADDED_TOAST)
 	end
 
-	if C.db.profile.colors.name then
-		toast.Text:SetTextColor(color.r, color.g, color.b)
-	end
+	if quality >= C.db.profile.colors.threshold then
+		if C.db.profile.colors.name then
+			toast.Text:SetTextColor(color.r, color.g, color.b)
+		end
 
-	if C.db.profile.colors.border then
-		toast.Border:SetVertexColor(color.r, color.g, color.b)
+		if C.db.profile.colors.border then
+			toast.Border:SetVertexColor(color.r, color.g, color.b)
+		end
 	end
 
 	toast.Text:SetText(name)
@@ -164,18 +176,22 @@ local function FollowerToast_SetUp(event, garrisonType, followerTypeID, follower
 		event = event,
 		follower_id = followerID,
 		show_arrows = isUpgraded,
-		sound_file = 44296, -- SOUNDKIT.UI_GARRISON_TOAST_FOLLOWER_GAINED
 	}
 
+	if (garrisonType == LE_GARRISON_TYPE_7_0 and C.db.profile.types.garrison_7_0.sfx)
+	or (garrisonType == LE_GARRISON_TYPE_6_0 and C.db.profile.types.garrison_6_0.sfx) then
+		toast._data.sound_file = 44296 -- SOUNDKIT.UI_GARRISON_TOAST_FOLLOWER_GAINED
+	end
+
 	toast:HookScript("OnEnter", FollowerToast_OnEnter)
-	toast:Spawn(garrisonType == LE_GARRISON_TYPE_7_0 and C.db.profile.types.garrison_7_0.dnd or C.db.profile.types.garrison_6_0.dnd)
+	toast:Spawn((garrisonType == LE_GARRISON_TYPE_7_0 and C.db.profile.types.garrison_7_0.dnd) or (garrisonType == LE_GARRISON_TYPE_6_0 and C.db.profile.types.garrison_6_0.dnd))
 end
 
 local function GARRISON_FOLLOWER_ADDED(followerID, name, _, level, quality, isUpgraded, texPrefix, followerTypeID)
 	local garrisonType = GetGarrisonTypeByFollowerType(followerTypeID)
 
 	if (garrisonType == LE_GARRISON_TYPE_7_0 and not C.db.profile.types.garrison_7_0.enabled)
-		or (garrisonType == LE_GARRISON_TYPE_6_0 and not C.db.profile.types.garrison_6_0.enabled) then
+	or (garrisonType == LE_GARRISON_TYPE_6_0 and not C.db.profile.types.garrison_6_0.enabled) then
 		return
 	end
 
@@ -194,8 +210,11 @@ local function BuildingToast_SetUp(event, buildingName)
 
 	toast._data = {
 		event = event,
-		sound_file = 44295, -- SOUNDKIT.UI_GARRISON_TOAST_BUILDING_COMPLETE
 	}
+
+	if C.db.profile.types.garrison_6_0.sfx then
+		toast._data.sound_file = 44295 -- SOUNDKIT.UI_GARRISON_TOAST_BUILDING_COMPLETE
+	end
 
 	toast:Spawn(C.db.profile.types.garrison_6_0.dnd)
 end
@@ -217,9 +236,12 @@ local function TalentToast_SetUp(event, talentID)
 
 	toast._data = {
 		event = event,
-		sound_file = 73280, -- SOUNDKIT.UI_ORDERHALL_TALENT_READY_TOAST
 		talend_id = talentID,
 	}
+
+	if C.db.profile.types.garrison_7_0.sfx then
+		toast._data.sound_file = 73280 -- SOUNDKIT.UI_ORDERHALL_TALENT_READY_TOAST
+	end
 
 	toast:Spawn(C.db.profile.types.garrison_7_0.dnd)
 end
@@ -340,16 +362,20 @@ end
 E:RegisterOptions("garrison_6_0", {
 	enabled = false,
 	dnd = true,
+	sfx = true,
 }, {
 	name = L["TYPE_GARRISON"],
+	get = function(info)
+		return C.db.profile.types.garrison_6_0[info[#info]]
+	end,
+	set = function(info, value)
+		C.db.profile.types.garrison_6_0[info[#info]] = value
+	end,
 	args = {
 		enabled = {
 			order = 1,
 			type = "toggle",
 			name = L["ENABLE"],
-			get = function()
-				return C.db.profile.types.garrison_6_0.enabled
-			end,
 			set = function(_, value)
 				C.db.profile.types.garrison_6_0.enabled = value
 
@@ -365,12 +391,11 @@ E:RegisterOptions("garrison_6_0", {
 			type = "toggle",
 			name = L["DND"],
 			desc = L["DND_TOOLTIP"],
-			get = function()
-				return C.db.profile.types.garrison_6_0.dnd
-			end,
-			set = function(_, value)
-				C.db.profile.types.garrison_6_0.dnd = value
-			end
+		},
+		sfx = {
+			order = 3,
+			type = "toggle",
+			name = L["SFX"],
 		},
 		test = {
 			type = "execute",
@@ -385,16 +410,20 @@ E:RegisterOptions("garrison_6_0", {
 E:RegisterOptions("garrison_7_0", {
 	enabled = true,
 	dnd = true,
+	sfx = true,
 }, {
 	name = L["TYPE_CLASS_HALL"],
+	get = function(info)
+		return C.db.profile.types.garrison_7_0[info[#info]]
+	end,
+	set = function(info, value)
+		C.db.profile.types.garrison_7_0[info[#info]] = value
+	end,
 	args = {
 		enabled = {
 			order = 1,
 			type = "toggle",
 			name = L["ENABLE"],
-			get = function()
-				return C.db.profile.types.garrison_7_0.enabled
-			end,
 			set = function(_, value)
 				C.db.profile.types.garrison_7_0.enabled = value
 
@@ -410,12 +439,11 @@ E:RegisterOptions("garrison_7_0", {
 			type = "toggle",
 			name = L["DND"],
 			desc = L["DND_TOOLTIP"],
-			get = function()
-				return C.db.profile.types.garrison_7_0.dnd
-			end,
-			set = function(_, value)
-				C.db.profile.types.garrison_7_0.dnd = value
-			end
+		},
+		sfx = {
+			order = 3,
+			type = "toggle",
+			name = L["SFX"],
 		},
 		test = {
 			type = "execute",

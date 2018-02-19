@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2031, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17303 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17315 $"):sub(12, -3))
 mod:SetCreatureID(124828)
 mod:SetEncounterID(2092)
 mod:SetZone()
@@ -81,7 +81,7 @@ local specWarnGTFO					= mod:NewSpecialWarningGTFO(248167, nil, nil, nil, 1, 2)
 --Stage Two: The Protector Redeemed
 local specWarnSoulburst				= mod:NewSpecialWarningYou(250669, nil, nil, nil, 1, 2)
 local yellSoulburst					= mod:NewPosYell(250669, DBM_CORE_AUTO_YELL_CUSTOM_POSITION)
-local yellSoulburstFades			= mod:NewIconFadesYell(250669, 240443)
+local yellSoulburstFades			= mod:NewIconFadesYell(250669)
 local specWarnSoulbomb				= mod:NewSpecialWarningYou(251570, nil, nil, nil, 1, 2)
 local specWarnSoulbombMoveTo		= mod:NewSpecialWarningMoveTo(251570, nil, nil, nil, 1, 2)
 local yellSoulbomb					= mod:NewPosYell(251570, DBM_CORE_AUTO_YELL_CUSTOM_POSITION)
@@ -128,7 +128,7 @@ local timerCosmicBeaconCD			= mod:NewCDTimer(19.9, 252616, nil, nil, nil, 3)--Al
 local timerDiscsofNorg				= mod:NewCastTimer(12, 252516, nil, nil, nil, 6)
 mod:AddTimerLine(ENCOUNTER_JOURNAL_SECTION_FLAG12)--Mythic 3
 local timerSoulrendingScytheCD		= mod:NewCDTimer(8.5, 258838, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
-local timerSargSentenceCD			= mod:NewCDCountTimer(35.2, 257966, 241803, nil, nil, 3, nil, DBM_CORE_HEROIC_ICON)
+local timerSargSentenceCD			= mod:NewCDCountTimer(35.2, 257966, nil, nil, nil, 3, nil, DBM_CORE_HEROIC_ICON)
 local timerEdgeofAnniCD				= mod:NewCDTimer(5.5, 258834, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON)
 --Stage Four: The Gift of Life, The Forge of Loss (Non Mythic)
 mod:AddTimerLine(SCENARIO_STAGE:format(4))
@@ -177,7 +177,7 @@ local apocModule = {31, 47, 48.2, 46.6, 53, 53}--Some variation detected in logs
 local sargGaze = {23, 75, 70, 53, 53}--1 timer from method video not logs, verify by logs to improve accuracy
 local edgeofAnni = {5, 5, 90, 5, 45, 5}--All timers from method video (6:05 P3 start, 6:10, 6:15, 7:45, 7:50, 8:35, 8:40)
 --Both of these should be in fearCheck object for efficiency but with uncertainty of async, I don't want to come back and fix this later. Doing it this way ensures without a doubt it'll work by calling on load and again on combatstart
-local burstShortName, bombShortName, chainsShortName = DBM:GetSpellInfo(240443), DBM:GetSpellInfo(155188), DBM:GetSpellInfo(241803), DBM:GetSpellInfo(59285)
+local bombShortName, chainsShortName = DBM:GetSpellInfo(155188), DBM:GetSpellInfo(241803)
 local soulBurst, soulBomb, sargSentence, soulBlight, sargFear = DBM:GetSpellInfo(250669), DBM:GetSpellInfo(251570), DBM:GetSpellInfo(257966), DBM:GetSpellInfo(248396), DBM:GetSpellInfo(257931)
 
 local function fearCheck(self)
@@ -185,7 +185,7 @@ local function fearCheck(self)
 	if UnitDebuff("player", sargFear) then
 		local comboActive = false
 		if UnitDebuff("player", soulBurst) then
-			yellSargFearCombo:Yell(burstShortName)
+			yellSargFearCombo:Yell(L.Burst)
 			comboActive = true
 		elseif UnitDebuff("player", soulBomb) then
 			yellSargFearCombo:Yell(bombShortName)
@@ -235,7 +235,7 @@ end
 
 function mod:OnCombatStart(delay)
 	avatarOfAggramar, aggramarsBoon = DBM:GetSpellInfo(255199), DBM:GetSpellInfo(255200)
-	burstShortName, bombShortName, chainsShortName = DBM:GetSpellInfo(240443), DBM:GetSpellInfo(155188), DBM:GetSpellInfo(241803), DBM:GetSpellInfo(59285)
+	bombShortName, chainsShortName = DBM:GetSpellInfo(155188), DBM:GetSpellInfo(241803)
 	soulBurst, soulBomb, sargSentence, soulBlight, sargFear = DBM:GetSpellInfo(250669), DBM:GetSpellInfo(251570), DBM:GetSpellInfo(257966), DBM:GetSpellInfo(248396), DBM:GetSpellInfo(257931)
 	playerAvatar = false
 	self.vb.phase = 1
@@ -473,7 +473,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnSoulburst:Show()
 			specWarnSoulburst:Play("targetyou")
 			specWarnSoulburst:ScheduleVoice(self:IsMythic() and 7 or 10, "bombnow")
-			yellSoulburst:Yell(icon, burstShortName, icon)
+			yellSoulburst:Yell(icon, L.Burst, icon)
 			yellSoulburstFades:Countdown(self:IsMythic() and 12 or 15, nil, icon)
 			fearCheck(self)
 		end
@@ -711,6 +711,7 @@ function mod:SPELL_INTERRUPT(args)
 			countdownReorgModule:Start(31.3)
 			timerTorturedRageCD:Start(40, 1)
 			timerSargSentenceCD:Start(53, 1)
+			self:Schedule(63, checkForMissingSentence, self)
 		else
 			if not self:IsHeroic() then
 				timerSweepingScytheCD:Start(5, 1)

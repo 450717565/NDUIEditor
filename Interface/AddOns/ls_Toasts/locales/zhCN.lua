@@ -6,7 +6,7 @@ local L = addonTable.L
 -- Lua
 local _G = getfenv(0)
 
-if _G.GetLocale() ~= "zhCN" then return end
+if GetLocale() ~= "zhCN" then return end
 
 L["ANCHOR"] = "通知定位点"
 L["ANCHOR_FRAME"] = "定位框架"
@@ -19,6 +19,7 @@ L["COPPER_THRESHOLD_DESC"] = "设置显示通知的最小金币数量。"
 L["DND"] = "勿扰"
 L["DND_TOOLTIP"] = "通知处于勿扰模式将不会在战斗中显示，但会取代成在系统队列。一但你离开战斗，就会开始跳出通知。"
 L["FADE_OUT_DELAY"] = "淡出延迟"
+L["FONTS"] = "字体"
 L["GROWTH_DIR"] = "成长方向"
 L["GROWTH_DIR_DOWN"] = "下"
 L["GROWTH_DIR_LEFT"] = "左"
@@ -28,12 +29,14 @@ L["HANDLE_LEFT_CLICK"] = "左键点击处理"
 L["ICON_BORDER"] = "图标边框"
 L["NAME"] = "物品名称"
 L["OPEN_CONFIG"] = "打开设置"
+L["RARITY_THRESHOLD"] = "染色品质"
 L["SCALE"] = "缩放"
 L["SETTINGS_TYPE_LABEL"] = "通知类型"
 L["SHOW_ILVL"] = "等级"
 L["SHOW_ILVL_DESC"] = "在物品名称旁边显示物品等级。"
 L["SHOW_QUEST_ITEMS"] = "任务物品"
 L["SHOW_QUEST_ITEMS_DESC"] = "显示任务物品，不论品质。"
+L["SIZE"] = "大小"
 L["SKIN"] = "皮肤"
 L["STRATA"] = "层级"
 L["TEST"] = "测试"

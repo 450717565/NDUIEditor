@@ -52,6 +52,8 @@ local function Toast_SetUp(event, sourceID, isAdded, attempt)
 	local toast, isNew, isQueued = E:GetToast(nil, "source_id", sourceID)
 
 	if isNew then
+		local skin = E:GetSkin()
+
 		if isAdded then
 			toast.Title:SetText(L["TRANSMOG_ADDED"])
 		else
@@ -66,17 +68,20 @@ local function Toast_SetUp(event, sourceID, isAdded, attempt)
 			toast.IconBorder:SetVertexColor(1, 0.5, 1)
 		end
 
+		toast:SetBackground("transmog")
 		toast.Text:SetText(name)
-		toast.BG:SetTexture("Interface\\AddOns\\ls_Toasts\\media\\toast-bg-transmog")
 		toast.Icon:SetTexture(icon)
 		toast.IconBorder:Show()
 
 		toast._data = {
 			event = event,
 			link = link,
-			sound_file = 38326, -- SOUNDKIT.UI_DIG_SITE_COMPLETION_TOAST
 			source_id = sourceID,
 		}
+
+		if C.db.profile.types.transmog.sfx then
+			toast._data.sound_file = 38326 -- SOUNDKIT.UI_DIG_SITE_COMPLETION_TOAST
+		end
 
 		if C.db.profile.types.transmog.left_click then
 			toast:HookScript("OnClick", Toast_OnClick)
@@ -147,19 +152,23 @@ local function Test()
 end
 
 E:RegisterOptions("transmog", {
-	left_click = false,
 	enabled = true,
 	dnd = false,
+	sfx = true,
+	left_click = false,
 }, {
 	name = L["TYPE_TRANSMOG"],
+	get = function(info)
+		return C.db.profile.types.transmog[info[#info]]
+	end,
+	set = function(info, value)
+		C.db.profile.types.transmog[info[#info]] = value
+	end,
 	args = {
 		enabled = {
 			order = 1,
 			type = "toggle",
 			name = L["ENABLE"],
-			get = function()
-				return C.db.profile.types.transmog.enabled
-			end,
 			set = function(_, value)
 				C.db.profile.types.transmog.enabled = value
 
@@ -175,25 +184,18 @@ E:RegisterOptions("transmog", {
 			type = "toggle",
 			name = L["DND"],
 			desc = L["DND_TOOLTIP"],
-			get = function()
-				return C.db.profile.types.transmog.dnd
-			end,
-			set = function(_, value)
-				C.db.profile.types.transmog.dnd = value
-			end
+		},
+		sfx = {
+			order = 3,
+			type = "toggle",
+			name = L["SFX"],
 		},
 		left_click = {
-			order = 3,
+			order = 4,
 			type = "toggle",
 			name = L["HANDLE_LEFT_CLICK"],
 			desc = L["COLLECTIONS_TAINT_WARNING"],
 			image = "Interface\\DialogFrame\\UI-Dialog-Icon-AlertNew",
-			get = function()
-				return C.db.profile.types.transmog.left_click
-			end,
-			set = function(_, value)
-				C.db.profile.types.transmog.left_click = value
-			end
 		},
 		test = {
 			type = "execute",

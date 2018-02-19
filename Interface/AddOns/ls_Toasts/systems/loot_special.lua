@@ -4,6 +4,7 @@ local E, L, C = addonTable.E, addonTable.L, addonTable.C
 -- Lua
 local _G = getfenv(0)
 local m_random = _G.math.random
+local s_lower = _G.string.lower
 local s_split = _G.string.split
 local tonumber = _G.tonumber
 
@@ -45,7 +46,6 @@ local function Toast_SetUp(event, link, quantity, rollType, roll, factionGroup, 
 	if isItem then
 		if link then
 			local sanitizedLink, originalLink, _, itemID = E:SanitizeLink(link)
-
 			local toast, isNew, isQueued = E:GetToast(event, "link", sanitizedLink)
 
 			if isNew then
@@ -55,12 +55,9 @@ local function Toast_SetUp(event, link, quantity, rollType, roll, factionGroup, 
 					local color = ITEM_QUALITY_COLORS[quality] or ITEM_QUALITY_COLORS[1]
 					local title = L["YOU_WON"]
 					local soundFile = 31578 -- SOUNDKIT.UI_EPICLOOT_TOAST
+					local bgTexture
 
 					toast.IconText1.PostSetAnimatedValue = PostSetAnimatedValue
-
-					if factionGroup then
-						toast.BG:SetTexture("Interface\\AddOns\\ls_Toasts\\media\\toast-bg-"..factionGroup)
-					end
 
 					if isPersonal or lessAwesome then
 						title = L["YOU_RECEIVED"]
@@ -78,29 +75,33 @@ local function Toast_SetUp(event, link, quantity, rollType, roll, factionGroup, 
 						end
 
 						soundFile = 51561 -- SOUNDKIT.UI_WARFORGED_ITEM_LOOT_TOAST
+						bgTexture = "upgrade"
 
 						local upgradeTexture = LOOTUPGRADEFRAME_QUALITY_TEXTURES[quality] or LOOTUPGRADEFRAME_QUALITY_TEXTURES[2]
 
 						for i = 1, 5 do
 							toast["Arrow"..i]:SetAtlas(upgradeTexture.arrow, true)
 						end
+					end
 
-						toast.BG:SetTexture("Interface\\AddOns\\ls_Toasts\\media\\toast-bg-upgrade")
+					if factionGroup then
+						bgTexture = s_lower(factionGroup)
 					end
 
 					if isLegendary then
 						title = L["ITEM_LEGENDARY"]
 						soundFile = 63971 -- SOUNDKIT.UI_LEGENDARY_LOOT_TOAST
+						bgTexture = "legendary"
 
-						toast.BG:SetTexture("Interface\\AddOns\\ls_Toasts\\media\\toast-bg-legendary")
-						toast.Dragon:Show()
+						if not toast.Dragon.isHidden then
+							toast.Dragon:Show()
+						end
 					end
 
 					if isStorePurchase then
 						title = L["BLIZZARD_STORE_PURCHASE_DELIVERED"]
 						soundFile = 39517 -- SOUNDKIT.UI_IG_STORE_PURCHASE_DELIVERED_TOAST_01
-
-						toast.BG:SetTexture("Interface\\AddOns\\ls_Toasts\\media\\toast-bg-store")
+						bgTexture = "store"
 					end
 
 					if rollType == LOOT_ROLL_TYPE_NEED then
@@ -111,8 +112,18 @@ local function Toast_SetUp(event, link, quantity, rollType, roll, factionGroup, 
 						title = TITLE_DE_TEMPLATE:format(title, roll)
 					end
 
-					if C.db.profile.colors.name then
-						name = color.hex..name.."|r"
+					if quality >= C.db.profile.colors.threshold then
+						if C.db.profile.colors.name then
+							name = color.hex..name.."|r"
+						end
+
+						if C.db.profile.colors.border then
+							toast.Border:SetVertexColor(color.r, color.g, color.b)
+						end
+
+						if C.db.profile.colors.icon_border then
+							toast.IconBorder:SetVertexColor(color.r, color.g, color.b)
+						end
 					end
 
 					if C.db.profile.types.loot_special.ilvl then
@@ -123,12 +134,8 @@ local function Toast_SetUp(event, link, quantity, rollType, roll, factionGroup, 
 						end
 					end
 
-					if C.db.profile.colors.border then
-						toast.Border:SetVertexColor(color.r, color.g, color.b)
-					end
-
-					if C.db.profile.colors.icon_border then
-						toast.IconBorder:SetVertexColor(color.r, color.g, color.b)
+					if bgTexture then
+						toast:SetBackground(bgTexture)
 					end
 
 					toast.Title:SetText(title)
@@ -136,7 +143,6 @@ local function Toast_SetUp(event, link, quantity, rollType, roll, factionGroup, 
 					toast.Icon:SetTexture(icon)
 					toast.IconBorder:Show()
 					toast.IconText1:SetAnimatedValue(quantity, true)
-					toast.UpgradeIcon:SetShown(E:IsItemUpgrade(originalLink))
 
 					toast._data = {
 						count = quantity,
@@ -144,9 +150,12 @@ local function Toast_SetUp(event, link, quantity, rollType, roll, factionGroup, 
 						item_id = itemID,
 						link = sanitizedLink,
 						show_arrows = isUpgraded,
-						sound_file = soundFile,
 						tooltip_link = originalLink,
 					}
+
+					if C.db.profile.types.loot_special.sfx then
+						toast._data.sound_file = soundFile
+					end
 
 					toast:HookScript("OnClick", Toast_OnClick)
 					toast:HookScript("OnEnter", Toast_OnEnter)
@@ -186,7 +195,7 @@ local function Toast_SetUp(event, link, quantity, rollType, roll, factionGroup, 
 
 		if isNew then
 			if factionGroup then
-				toast.BG:SetTexture("Interface\\AddOns\\ls_Toasts\\media\\toast-bg-"..factionGroup)
+				toast:SetBackground(s_lower(factionGroup))
 			end
 
 			toast.Title:SetText(L["YOU_RECEIVED"])
@@ -199,8 +208,11 @@ local function Toast_SetUp(event, link, quantity, rollType, roll, factionGroup, 
 				count = quantity,
 				event = event,
 				is_honor = true,
-				sound_file = 31578, -- SOUNDKIT.UI_EPICLOOT_TOAST
 			}
+
+			if C.db.profile.types.loot_special.sfx then
+				toast._data.sound_file = 31578 -- SOUNDKIT.UI_EPICLOOT_TOAST
+			end
 
 			toast:Spawn(C.db.profile.types.loot_special.dnd)
 		else
@@ -338,8 +350,9 @@ local function Test()
 	if link then
 		Toast_SetUp("SPECIAL_LOOT_TEST", link, 1, nil, nil, nil, true, nil, nil, nil, true, 2)
 	end
+
 	-- legendary, Aman'Thul's Vision
-	_, link = GetItemInfo(154172)
+	_, link = GetItemInfo("item:154172::::::::110:64:::1:3571:::")
 
 	if link then
 		Toast_SetUp("SPECIAL_LOOT_TEST", link, 1, nil, nil, nil, true, nil, nil, nil, nil, nil, true)
@@ -356,10 +369,17 @@ end
 E:RegisterOptions("loot_special", {
 	enabled = true,
 	dnd = false,
-	threshold = 1,
+	sfx = true,
 	ilvl = true,
+	threshold = 1,
 }, {
 	name = L["TYPE_LOOT_SPECIAL"],
+	get = function(info)
+		return C.db.profile.types.loot_special[info[#info]]
+	end,
+	set = function(info, value)
+		C.db.profile.types.loot_special[info[#info]] = value
+	end,
 	args = {
 		desc = {
 			order = 1,
@@ -370,9 +390,6 @@ E:RegisterOptions("loot_special", {
 			order = 2,
 			type = "toggle",
 			name = L["ENABLE"],
-			get = function()
-				return C.db.profile.types.loot_special.enabled
-			end,
 			set = function(_, value)
 				C.db.profile.types.loot_special.enabled = value
 
@@ -388,27 +405,20 @@ E:RegisterOptions("loot_special", {
 			type = "toggle",
 			name = L["DND"],
 			desc = L["DND_TOOLTIP"],
-			get = function()
-				return C.db.profile.types.loot_special.dnd
-			end,
-			set = function(_, value)
-				C.db.profile.types.loot_special.dnd = value
-			end
+		},
+		sfx = {
+			order = 3,
+			type = "toggle",
+			name = L["SFX"],
 		},
 		ilvl = {
-			order = 4,
+			order = 5,
 			type = "toggle",
 			name = L["SHOW_ILVL"],
 			desc = L["SHOW_ILVL_DESC"],
-			get = function()
-				return C.db.profile.types.loot_special.ilvl
-			end,
-			set = function(_, value)
-				C.db.profile.types.loot_special.ilvl = value
-			end
 		},
 		threshold = {
-			order = 5,
+			order = 6,
 			type = "select",
 			name = L["LOOT_THRESHOLD"],
 			values = {
@@ -418,12 +428,6 @@ E:RegisterOptions("loot_special", {
 				[4] = ITEM_QUALITY_COLORS[4].hex..ITEM_QUALITY4_DESC.."|r",
 				[5] = ITEM_QUALITY_COLORS[5].hex..ITEM_QUALITY5_DESC.."|r",
 			},
-			get = function()
-				return C.db.profile.types.loot_special.threshold
-			end,
-			set = function(_, value)
-					C.db.profile.types.loot_special.threshold = value
-			end,
 		},
 		test = {
 			type = "execute",

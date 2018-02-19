@@ -41,9 +41,9 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 17303 $"):sub(12, -3)),
-	DisplayVersion = "7.3.22 alpha", -- the string that is shown as version
-	ReleaseRevision = 17241 -- the revision of the latest stable version that is available
+	Revision = tonumber(("$Revision: 17319 $"):sub(12, -3)),
+	DisplayVersion = "7.3.23 alpha", -- the string that is shown as version
+	ReleaseRevision = 17315 -- the revision of the latest stable version that is available
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -421,10 +421,7 @@ local Ambiguate = Ambiguate
 local C_TimerNewTicker, C_TimerAfter = C_Timer.NewTicker, C_Timer.After
 
 --TODO, remove RegisterAddonMessagePrefix upvalue in 8.x, this is only a temp live/beta work around
-local RegisterAddonMessagePrefix, SendAddonMessage = RegisterAddonMessagePrefix or nil, SendAddonMessage or nil
-if C_ChatInfo then--8.x chat functions moved to C_ChatInfo
-	RegisterAddonMessagePrefix, SendAddonMessage = C_ChatInfo.RegisterAddonMessagePrefix, C_ChatInfo.SendAddonMessage
-end
+local RegisterAddonMessagePrefix, SendAddonMessage = RegisterAddonMessagePrefix or C_ChatInfo.RegisterAddonMessagePrefix, SendAddonMessage or C_ChatInfo.SendAddonMessage
 
 -- for Phanx' Class Colors
 local RAID_CLASS_COLORS = CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS

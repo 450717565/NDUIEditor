@@ -79,6 +79,8 @@ if IsAddOnLoaded("Aurora") then
 			F.ReskinArrow(BuyAdvancedButton, "down")
 			F.ReskinArrow(SellRememberButton, "down")
 			F.ReskinArrow(BuySummaryButton, "left")
+			SellRememberButtonDisabledTexture:Hide()
+			SellRememberButtonHighlightTexture:Hide()
 			SellSize:SetWidth(40)
 			SellSize:ClearAllPoints()
 			SellSize:SetPoint("LEFT", SellStacks, "RIGHT", 66, 0)
@@ -178,52 +180,53 @@ if IsAddOnLoaded("Aurora") then
 
 		if IsAddOnLoaded("ls_Toasts") then
 			local LST = unpack(ls_Toasts)
-			LST:RegisterSkin("NDui MOD", function(toast)
-				local title = toast.Title:GetText()
-				local r, g, b = toast.Border:GetVertexColor()
-
-				F.CreateBD(toast)
-				F.CreateSD(toast)
-
-				toast.BG:SetAllPoints(toast)
-				toast.BG:SetBlendMode("ADD")
-				toast.BG:SetDrawLayer("BACKGROUND", 0)
-				toast.Border:Hide()
-				toast.Icon:SetTexCoord(.08, .92, .08, .92)
-				toast.Title:SetPoint("TOPLEFT", 55, -10)
-				toast.Text:SetPoint("BOTTOMLEFT", 55, 9)
-
-				if toast.IconBorder then
-					toast.IconBorder:Hide()
-				end
-				if toast.IconHL then
-					toast.IconHL:Hide()
-				end
-				if title ~= _G.ARCHAEOLOGY_DIGSITE_COMPLETE_TOAST_FRAME_TITLE then
-					if not toast.styled then
-						F.CreateBDFrame(toast.Icon)
-						toast.styled = true
-					end
-				end
-				if r and g and b then
-					toast:SetBackdropBorderColor(r*.8, g*.8, b*.8)
-					toast.Shadow:SetBackdropBorderColor(r*.8, g*.8, b*.8)
-				end
-				for i = 1, 5 do
-					local rw = toast["Slot"..i]
-					local rwic = rw.Icon
-					rwic:SetTexCoord(.08, .92, .08, .92)
-					rwic:SetPoint("TOPLEFT", 3, -2)
-					rwic:SetPoint("BOTTOMRIGHT", -4, 5)
-					if i == 1 then
-						rw:SetPoint("TOPRIGHT", -2, 15)
-					else
-						rw:SetPoint("RIGHT", toast["Slot"..(i - 1)], "LEFT", -2 , 0)
-					end
-				end
-			end)
-
-			LST:SetSkin("NDui MOD")
+			LST:RegisterSkin("ndui", {
+				name = "NDui",
+				border = {
+					color = {0, 0, 0},
+					offset = 0,
+					size = 1,
+					texture = {1, 1, 1, 1},
+				},
+				title = {
+					flags = "OUTLINE",
+					shadow = false,
+				},
+				text = {
+					flags = "OUTLINE",
+					shadow = false,
+				},
+				bonus = {
+					hidden = false,
+				},
+				dragon = {
+					hidden = false,
+				},
+				icon = {
+					tex_coords = {.08, .92, .08, .92},
+				},
+				icon_border = {
+					color = {0, 0, 0},
+					offset = 0,
+					size = 1,
+					texture = {1, 1, 1, 1},
+				},
+				icon_highlight = {
+					hidden = true,
+				},
+				icon_text_1 = {
+					flags = "OUTLINE",
+					shadow = false,
+				},
+				icon_text_2 = {
+					flags = "OUTLINE",
+					shadow = false,
+				},
+				skull = {
+					hidden = false,
+				},
+			})
+			LST:SetSkin("ndui")
 		end
 
 		if IsAddOnLoaded("Overachiever") then

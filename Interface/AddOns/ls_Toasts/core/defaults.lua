@@ -10,14 +10,15 @@ D.profile = {
 	strata = "DIALOG",
 	fadeout_delay = 3,
 	growth_direction = "UP",
-	skin = "Default",
-	sfx = {
-		enabled = true,
+	skin = "default",
+	font = {
+		size = 16,
 	},
 	colors = {
 		name = true,
 		border = true,
 		icon_border = true,
+		threshold = 2,
 	},
 	point = {
 		p = "CENTER",

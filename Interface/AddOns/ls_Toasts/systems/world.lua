@@ -49,6 +49,7 @@ local function Toast_SetUp(event, isUpdate, questID, name, moneyReward, xpReward
 	-- "Invasion: Azshara", 0, 0, 0, false, false, true, 12345, 12345, 4, "Azshara"
 
 	if isNew then
+		local skin = E:GetSkin()
 		local usedSlots = 0
 		local soundFile
 
@@ -110,7 +111,7 @@ local function Toast_SetUp(event, isUpdate, questID, name, moneyReward, xpReward
 		end
 
 		if isInvasion then
-			if isInvasionBonusComplete then
+			if isInvasionBonusComplete and not toast.Bonus.isHidden then
 				toast.Bonus:Show()
 			end
 
@@ -122,8 +123,8 @@ local function Toast_SetUp(event, isUpdate, questID, name, moneyReward, xpReward
 				toast.IconBorder:SetVertexColor(60 / 255, 255 / 255, 38 / 255) -- fel green #3cff26
 			end
 
+			toast:SetBackground("legion")
 			toast.Title:SetText(L["SCENARIO_INVASION_COMPLETED"])
-			toast.BG:SetTexture("Interface\\AddOns\\ls_Toasts\\media\\toast-bg-legion")
 			toast.Icon:SetTexture("Interface\\Icons\\Ability_Warlock_DemonicPower")
 
 			soundFile = 31754 -- SOUNDKIT.UI_SCENARIO_ENDING
@@ -143,16 +144,18 @@ local function Toast_SetUp(event, isUpdate, questID, name, moneyReward, xpReward
 				toast.Icon:SetTexture("Interface\\Icons\\Achievement_Quests_Completed_TwilightHighlands")
 			end
 
-			if C.db.profile.colors.border then
-				toast.Border:SetVertexColor(color.r, color.g, color.b)
+			if rarity >= C.db.profile.colors.threshold then
+				if C.db.profile.colors.border then
+					toast.Border:SetVertexColor(color.r, color.g, color.b)
+				end
+
+				if C.db.profile.colors.icon_border then
+					toast.IconBorder:SetVertexColor(color.r, color.g, color.b)
+				end
 			end
 
-			if C.db.profile.colors.icon_border then
-				toast.IconBorder:SetVertexColor(color.r, color.g, color.b)
-			end
-
+			toast:SetBackground("worldquest")
 			toast.Title:SetText(L["WORLD_QUEST_COMPLETED"])
-			toast.BG:SetTexture("Interface\\AddOns\\ls_Toasts\\media\\toast-bg-worldquest")
 
 			soundFile = 73277 -- SOUNDKIT.UI_WORLDQUEST_COMPLETE
 		end
@@ -163,9 +166,12 @@ local function Toast_SetUp(event, isUpdate, questID, name, moneyReward, xpReward
 		toast._data = {
 			event = event,
 			quest_id = questID,
-			sound_file = soundFile,
 			used_slots = usedSlots,
 		}
+
+		if C.db.profile.types.world.sfx then
+			toast._data.sound_file = soundFile
+		end
 
 		toast:Spawn(C.db.profile.types.world.dnd)
 	else
@@ -293,16 +299,20 @@ end
 E:RegisterOptions("world", {
 	enabled = true,
 	dnd = false,
+	sfx = true,
 }, {
 	name = L["TYPE_WORLD_QUEST"],
+	get = function(info)
+		return C.db.profile.types.world[info[#info]]
+	end,
+	set = function(info, value)
+		C.db.profile.types.world[info[#info]] = value
+	end,
 	args = {
 		enabled = {
 			order = 1,
 			type = "toggle",
 			name = L["ENABLE"],
-			get = function()
-				return C.db.profile.types.world.enabled
-			end,
 			set = function(_, value)
 				C.db.profile.types.world.enabled = value
 
@@ -318,12 +328,11 @@ E:RegisterOptions("world", {
 			type = "toggle",
 			name = L["DND"],
 			desc = L["DND_TOOLTIP"],
-			get = function()
-				return C.db.profile.types.world.dnd
-			end,
-			set = function(_, value)
-				C.db.profile.types.world.dnd = value
-			end
+		},
+		sfx = {
+			order = 3,
+			type = "toggle",
+			name = L["SFX"],
 		},
 		test = {
 			type = "execute",

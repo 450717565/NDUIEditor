@@ -91,7 +91,6 @@ function module:CreateRM()
 				local timer = duration - (GetTime() - started)
 				if timer < 0 then
 					self.Timer:SetText(CAPPED)
-					self.Timer:SetTextColor(1, 0, 0)
 				else
 					self.Timer:SetFormattedText("%d:%.2d", floor(timer/60), timer%60)
 				end
