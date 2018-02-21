@@ -167,7 +167,7 @@ local function startSelling()
 
 	local firstRun = sellJunkTicker and sellJunkTicker._remainingIterations == 200
 	if firstRun and c > 0 then
-		print(format("|cff99CCFF"..L["Selljunk Calculate"].."|r %s", GetMoneyString(c)))
+		print(format("|cff99CCFF"..L["Selljunk Calculate"].."|r%s", GetMoneyString(c)))
 	elseif c == 0 then
 		stopSelling()
 	end

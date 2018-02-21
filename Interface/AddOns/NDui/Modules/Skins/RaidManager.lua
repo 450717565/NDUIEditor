@@ -92,7 +92,7 @@ function module:CreateRM()
 				if timer < 0 then
 					self.Timer:SetText(CAPPED)
 				else
-					self.Timer:SetFormattedText("%d:%.2d", floor(timer/60), timer%60)
+					self.Timer:SetFormattedText("%d:%.2d", timer/60, timer%60)
 				end
 
 				if charges == 0 then
@@ -222,6 +222,7 @@ function module:CreateRM()
 							str = ""
 						end
 					end
+					sendMsg(str)
 				end
 			end
 		end

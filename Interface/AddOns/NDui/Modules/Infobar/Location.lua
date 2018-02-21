@@ -114,6 +114,6 @@ info.onMouseUp = function(_, btn)
 		LFGListCategorySelection_SelectCategory(LFGListFrame.CategorySelection, 6, 0)
 		LFGListCategorySelection_StartFindGroup(LFGListFrame.CategorySelection, zone)
 	else
-		ChatFrame_OpenChat(format("%s: %s <%s>", L["My Position"], totalZone(), formatCoords()), chatFrame)
+		ChatFrame_OpenChat(format("%s %s <%s>", L["My Position"], totalZone(), formatCoords()), chatFrame)
 	end
 end

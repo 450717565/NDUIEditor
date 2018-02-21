@@ -41,7 +41,7 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 17319 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 17324 $"):sub(12, -3)),
 	DisplayVersion = "7.3.23 alpha", -- the string that is shown as version
 	ReleaseRevision = 17315 -- the revision of the latest stable version that is available
 }
@@ -359,7 +359,7 @@ local breakTimerStart
 local AddMsg
 local delayedFunction
 
-local fakeBWVersion, fakeBWHash = 87, "299b522"
+local fakeBWVersion, fakeBWHash = 88, "5a0d494"
 local versionQueryString, versionResponseString = "Q^%d^%s", "V^%d^%s"
 
 local enableIcons = true -- set to false when a raid leader or a promoted player has a newer version of DBM
@@ -8930,7 +8930,11 @@ do
 	function yellPrototype:Yell(...)
 		if DBM.Options.DontSendYells or self.yellType and self.yellType == "position" and UnitBuff("player", DBM:GetSpellInfo(194249)) or ScriptsDisallowedForBeta() then return end
 		if not self.option or self.mod.Options[self.option] then
-			SendChatMessage(pformat(self.text, ...), self.chatType or "SAY")
+			if self.yellType == "combo" then
+				SendChatMessage(pformat(self.text, ...), self.chatType or "YELL")
+			else
+				SendChatMessage(pformat(self.text, ...), self.chatType or "SAY")
+			end
 		end
 	end
 	yellPrototype.Show = yellPrototype.Yell

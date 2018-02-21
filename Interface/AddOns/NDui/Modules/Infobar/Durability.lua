@@ -120,18 +120,18 @@ NDui:EventFrame("MERCHANT_SHOW"):SetScript("OnEvent", function()
 				end
 				if guildMoney >= cost and CanGuildBankRepair() then
 					RepairAllItems(1)
-					print(format("|cff99CCFF"..L["Repair cost covered by G-Bank"].."|r %s", GetMoneyString(cost)))
+					print(format("|cff99CCFF"..L["Repair cost covered by G-Bank"].."|r%s", GetMoneyString(cost)))
 					return
 				elseif guildMoney == 0 and IsGuildLeader() then
 					RepairAllItems(1)
-					print(format("|cff99CCFF"..L["Repair cost covered by G-Bank"].."|r %s", GetMoneyString(cost)))
+					print(format("|cff99CCFF"..L["Repair cost covered by G-Bank"].."|r%s", GetMoneyString(cost)))
 					return
 				end
 			end
 
 			if money > cost then
 				RepairAllItems()
-				print(format("|cff99CCFF"..L["Repair cost"].."|r %s", GetMoneyString(cost)))
+				print(format("|cff99CCFF"..L["Repair cost"].."|r%s", GetMoneyString(cost)))
 			else
 				print("|cff99CCFF"..L["Go farm newbie"].."|r")
 			end
