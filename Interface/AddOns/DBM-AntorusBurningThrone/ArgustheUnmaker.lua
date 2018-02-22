@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2031, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17323 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17327 $"):sub(12, -3))
 mod:SetCreatureID(124828)
 mod:SetEncounterID(2092)
 mod:SetZone()
@@ -22,6 +22,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_INTERRUPT",
 	"SPELL_PERIODIC_DAMAGE 248167",
 	"SPELL_PERIODIC_MISSED 248167",
+	"CHAT_MSG_RAID_BOSS_EMOTE",
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3 boss4 boss5"
 )
 
@@ -73,9 +74,9 @@ local specWarnGiftofSky				= mod:NewSpecialWarningYou(258646, nil, nil, nil, 1, 
 local yellGiftofSky					= mod:NewPosYell(258646, L.SkyText)
 --Mythic P1
 local specWarnSargRage				= mod:NewSpecialWarningMoveAway(257869, nil, nil, nil, 3, 2)
-local yellSargRage					= mod:NewYell(257869, 6612)
+local yellSargRage					= mod:NewShortYell(257869, 6612)
 local specWarnSargFear				= mod:NewSpecialWarningMoveTo(257931, nil, nil, nil, 3, 2)
-local yellSargFear					= mod:NewYell(257931, 5782)
+local yellSargFear					= mod:NewShortYell(257931, 5782)
 local yellSargFearCombo				= mod:NewComboYell(257931, 5782)
 local specWarnGTFO					= mod:NewSpecialWarningGTFO(248167, nil, nil, nil, 1, 2)
 --Stage Two: The Protector Redeemed
@@ -93,7 +94,7 @@ local specWarnCosmicRay				= mod:NewSpecialWarningYou(252729, nil, nil, nil, 1, 
 local yellCosmicRay					= mod:NewYell(252729)
 --Stage Three Mythic
 local specWarnSargSentence			= mod:NewSpecialWarningYou(257966, nil, nil, nil, 1, 2)
-local yellSargSentence				= mod:NewYell(257966, 241803)
+local yellSargSentence				= mod:NewShortYell(257966, 241803)
 local yellSargSentenceFades			= mod:NewShortFadesYell(257966, 241803)
 local specWarnApocModule			= mod:NewSpecialWarningSwitchCount(258029, "Dps", nil, nil, 3, 2)--EVERYONE
 local specWarnEdgeofAnni			= mod:NewSpecialWarningDodge(258834, nil, nil, nil, 2, 2)
@@ -138,12 +139,14 @@ local timerReorgModuleCD			= mod:NewCDCountTimer(48.1, 256389, nil, nil, nil, 1)
 local berserkTimer					= mod:NewBerserkTimer(600)
 
 --Stage One: Storm and Sky
-local countdownSoulbomb				= mod:NewCountdown(50, 251570)
+local countdownSweapingScythe		= mod:NewCountdown("Alt5", 248499, false, nil, 3)--Off by default since it'd be almost non stop, so users can elect into this one
+local countdownSoulbomb				= mod:NewCountdown("AltTwo50", 251570)
+local countdownSargGaze				= mod:NewCountdown(35, 258068)
 --Stage Two: The Protector Redeemed
 
 --Stage Four
 local countdownDeadlyScythe			= mod:NewCountdown("Alt5", 258039, false, nil, 3)--Off by default since it'd be almost non stop, so users can elect into this one
-local countdownReorgModule			= mod:NewCountdown("AltTwo48", 256389, "-Tank")
+local countdownReorgModule			= mod:NewCountdown("Alt48", 256389, "-Tank")
 
 mod:AddSetIconOption("SetIconGift", 255594, true)--5 and 6
 mod:AddSetIconOption("SetIconOnAvatar", 255199, true)--4
@@ -174,7 +177,7 @@ mod.vb.firstscytheSwap = false
 local torturedRage = {40, 40, 50, 30, 35, 10, 8, 35, 10, 8, 35}--3 timers from method video not logs, verify by logs to improve accuracy
 local sargSentenceTimers = {53, 56.9, 60, 53, 53}--1 timer from method video not logs, verify by logs to improve accuracy
 local apocModuleTimers = {31, 47, 48.2, 46.6, 53, 53}--Some variation detected in logs do to delay in combat log between spawn and cast (one timer from method video)
-local sargGaze = {23, 75, 70, 53, 53}--1 timer from method video not logs, verify by logs to improve accuracy
+local sargGazeTimers = {23, 75, 70, 53, 53}--1 timer from method video not logs, verify by logs to improve accuracy
 local edgeofAnni = {5, 5, 90, 5, 45, 5}--All timers from method video (6:05 P3 start, 6:10, 6:15, 7:45, 7:50, 8:35, 8:40)
 --Both of these should be in fearCheck object for efficiency but with uncertainty of async, I don't want to come back and fix this later. Doing it this way ensures without a doubt it'll work by calling on load and again on combatstart
 local bombShortName, chainsShortName = DBM:GetSpellInfo(155188), DBM:GetSpellInfo(241803)
@@ -250,13 +253,15 @@ function mod:OnCombatStart(delay)
 	self.vb.gazeCount = 0
 	self.vb.scytheCastCount = 0
 	self.vb.firstscytheSwap = false
-	timerSweepingScytheCD:Start(5.8-delay, 1)
-	timerSkyandSeaCD:Start(10.8-delay, 1)
+	timerSweepingScytheCD:Start(5.5-delay, 1)
+	countdownSweapingScythe:Start(5.5)
+	timerSkyandSeaCD:Start(10.1-delay, 1)
 	timerTorturedRageCD:Start(12-delay, 1)
 	timerConeofDeathCD:Start(30.3-delay, 1)
 	timerBlightOrbCD:Start(35.2-delay, 1)
 	if self:IsMythic() then
-		timerSargGazeCD:Start(8.5-delay, 1)
+		timerSargGazeCD:Start(8.2-delay, 1)
+		countdownSargGaze:Start(8.2)
 		berserkTimer:Start(660-delay)
 	else
 		berserkTimer:Start(720-delay)
@@ -315,10 +320,13 @@ function mod:SPELL_CAST_START(args)
 		timerBlightOrbCD:Stop()
 		timerTorturedRageCD:Stop()
 		timerSweepingScytheCD:Stop()
+		countdownSweapingScythe:Cancel()
 		timerSkyandSeaCD:Stop()
 		timerSargGazeCD:Stop()
+		countdownSargGaze:Cancel()
 		timerNextPhase:Start(16)
 		timerSweepingScytheCD:Start(17.3, 1)
+		countdownSweapingScythe:Start(17.3)
 		timerAvatarofAggraCD:Start(20.9)
 		timerEdgeofObliterationCD:Start(21, 1)
 		timerSoulBombCD:Start(30.8)
@@ -327,6 +335,7 @@ function mod:SPELL_CAST_START(args)
 		if self:IsMythic() then
 			self.vb.gazeCount = 0
 			timerSargGazeCD:Start(28.4, 1)
+			countdownSargGaze:Start(28.4)
 		end
 	elseif spellId == 257645 then--Temporal Blast (Stage 3)
 		timerAvatarofAggraCD:Stop()--Always cancel this here, it's not canceled by argus becoming inactive and can still be cast during argus inactive transition phase
@@ -334,6 +343,7 @@ function mod:SPELL_CAST_START(args)
 			self.vb.phase = 3
 			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(3))
 			timerSweepingScytheCD:Stop()
+			countdownSweapingScythe:Cancel()
 			timerTorturedRageCD:Stop()
 			timerSoulBombCD:Stop()
 			countdownSoulbomb:Cancel()
@@ -341,6 +351,7 @@ function mod:SPELL_CAST_START(args)
 			timerEdgeofObliterationCD:Stop()
 			timerAvatarofAggraCD:Stop()
 			timerSargGazeCD:Stop()
+			countdownSargGaze:Cancel()
 			if not self:IsMythic() then
 				timerCosmicRayCD:Start(30)
 				timerCosmicBeaconCD:Start(40)
@@ -361,6 +372,7 @@ function mod:SPELL_CAST_START(args)
 		timerCosmicBeaconCD:Stop()
 		timerDiscsofNorg:Stop()
 		timerSargGazeCD:Stop()
+		countdownSargGaze:Cancel()
 		timerNextPhase:Start(35)--or 53.8
 	elseif spellId == 257619 then--Gift of the Lifebinder (p4/p3mythic)
 		warnGiftOfLifebinder:Show()
@@ -374,7 +386,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 		if self.vb.scytheCastCount == 3 then
 			self.vb.firstscytheSwap = true
 		end
-		timerSweepingScytheCD:Start(nil, self.vb.scytheCastCount+1)
+		timerSweepingScytheCD:Start(5.6, self.vb.scytheCastCount+1)
+		countdownSweapingScythe:Start(5.6)
 	elseif spellId == 258039 then
 		timerDeadlyScytheCD:Start()
 		countdownDeadlyScythe:Start(5.5)
@@ -712,6 +725,7 @@ function mod:SPELL_INTERRUPT(args)
 			timerEdgeofAnniCD:Start(5, 1)
 			self:Schedule(5, startAnnihilationStuff, self)
 			timerSargGazeCD:Start(23, 1)
+			countdownSargGaze:Start(23)
 			timerReorgModuleCD:Start(31.3, 1)
 			countdownReorgModule:Start(31.3)
 			timerTorturedRageCD:Start(40, 1)
@@ -720,6 +734,7 @@ function mod:SPELL_INTERRUPT(args)
 		else
 			if not self:IsHeroic() then
 				timerSweepingScytheCD:Start(5, 1)
+				countdownSweapingScythe:Start(5)
 			else
 				timerDeadlyScytheCD:Start(5)
 			end
@@ -748,6 +763,25 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
+function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
+	if msg:find("spell:258068") then
+		self.vb.gazeCount = self.vb.gazeCount + 1
+		if self.vb.phase == 2 then
+			timerSargGazeCD:Start(60, self.vb.gazeCount+1)
+			countdownSargGaze:Start(60)
+		elseif self.vb.phase == 3 then
+			local timer = sargGazeTimers[self.vb.gazeCount+1]
+			if timer then
+				timerSargGazeCD:Start(timer, self.vb.gazeCount+1)
+				countdownSargGaze:Start(timer)
+			end
+		else--Stage 1
+			timerSargGazeCD:Start(35.2, self.vb.gazeCount+1)
+			countdownSargGaze:Start(35.2)
+		end
+	end
+end
+
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, spellName, _, _, spellId)
 	if spellId == 257300 and self:AntiSpam(5, 1) then--Ember of Rage
 		specWarnEmberofRage:Show()
@@ -756,30 +790,20 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, spellName, _, _, spellId)
 		self.vb.phase = 3
 		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(3))
 		timerSweepingScytheCD:Stop()
+		countdownSweapingScythe:Cancel()
 		timerTorturedRageCD:Stop()
 		timerSoulBombCD:Stop()
 		countdownSoulbomb:Cancel()
 		timerSoulBurstCD:Stop()
 		timerEdgeofObliterationCD:Stop()
 		timerSargGazeCD:Stop()
+		countdownSargGaze:Cancel()
 		if not self:IsMythic() then
 			timerCosmicRayCD:Start(42)
 			timerCosmicBeaconCD:Start(52)
 			if self.Options.InfoFrame then
 				DBM.InfoFrame:Hide()
 			end
-		end
-	elseif spellId == 258068 then--Sargeras' Gaze
-		self.vb.gazeCount = self.vb.gazeCount + 1
-		if self.vb.phase == 2 then
-			timerSargGazeCD:Start(60, self.vb.gazeCount+1)
-		elseif self.vb.phase == 3 then
-			local timer = sargGaze[self.vb.gazeCount+1]
-			if timer then
-				timerSargGazeCD:Start(timer, self.vb.gazeCount+1)
-			end
-		else--Stage 1
-			timerSargGazeCD:Start(35.2, self.vb.gazeCount+1)
 		end
 	end
 end

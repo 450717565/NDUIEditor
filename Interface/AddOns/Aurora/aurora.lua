@@ -684,6 +684,8 @@ F.ReskinNavBar = function(f)
 	f:DisableDrawLayer("BORDER")
 	f.overlay:Hide()
 	f.homeButton:GetRegions():Hide()
+	f.homeButton.text:ClearAllPoints()
+	f.homeButton.text:SetPoint("CENTER")
 
 	F.Reskin(f.homeButton)
 	F.Reskin(overflowButton, true)

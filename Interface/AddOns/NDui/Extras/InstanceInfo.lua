@@ -1,35 +1,4 @@
---## Version: 0.1.1
---## Notes: Adds saved instances info to EncounterJournal
---## Author: PeckZeg
-
-if GetLocale() == "zhCN" then
-	EJPlus_InstanceInfo_TXT = {
-		["SAVED_INSTANCES_OVERVIEW"] = "本周已保存%s：%s"
-	}
-elseif GetLocale() == "zhTW" then
-	EJPlus_InstanceInfo_TXT = {
-		["SAVED_INSTANCES_OVERVIEW"] = "本週已保存%s：%s"
-	}
-else
-	EJPlus_InstanceInfo_TXT = {
-		["SAVED_INSTANCES_OVERVIEW"] = "This CD saved %s：%s"
-	}
-end
-
---[[------------------------------------------------------------
-main.lua
----------------------------------------------------------------]]
-local function GetTableSize(tb)
-	local size = 0
-
-	if type(tb) == "table" then
-		for i, val in pairs(tb) do
-			size = size + 1
-		end
-	end
-
-	return size
-end
+local B, C, L, DB = unpack(select(2, ...))
 
 local function GetSavedInstances()
 	local db = {
@@ -117,7 +86,7 @@ local function GetEncounterJournalEncounterBossButtonKilledTexture(button)
 		button.killedTexture = button:CreateTexture(nil, "OVERLAY")
 		button.killedTexture:SetTexture("Interface\\EncounterJournal\\UI-EJ-HeroicTextIcon")
 		button.killedTexture:SetPoint("RIGHT", -14, 0)
-		button.killedTexture:SetAlpha(0.66)
+		button.killedTexture:SetAlpha(.75)
 	end
 
 	button.killedTexture:Hide()
@@ -154,34 +123,19 @@ end
 local function ResetEncounterJournalScrollInstancesInfo()
 	HandleEncounterJournalScrollInstances(function(instanceButton)
 		if instanceButton.instanceInfoDifficulty == nil then
-			instanceButton.instanceInfoDifficulty = instanceButton:CreateFontString(
-				instanceButton:GetName() .. "InstanceInfoDifficulty",
-				"OVERLAY",
-				"QuestTitleFontBlackShadow"
-			)
+			instanceButton.instanceInfoDifficulty = B.CreateFS(instanceButton, 16, "", false, "BOTTOMLEFT", 9, 7)
+			instanceButton.instanceInfoDifficulty:SetJustifyH("LEFT")
+			instanceButton.instanceInfoDifficulty:SetWordWrap(true)
 		end
 
 		if instanceButton.instanceInfoEncounterProgress == nil then
-			instanceButton.instanceInfoEncounterProgress = instanceButton:CreateFontString(
-				instanceButton:GetName() .. "InstanceInfoEncounterProgress",
-				"OVERLAY",
-				"QuestTitleFontBlackShadow"
-			)
+			instanceButton.instanceInfoEncounterProgress = B.CreateFS(instanceButton, 16, "", false, "BOTTOMRIGHT", -9, 7)
+			instanceButton.instanceInfoEncounterProgress:SetJustifyH("RIGHT")
+			instanceButton.instanceInfoEncounterProgress:SetWordWrap(true)
 		end
 
-		local difficultyText = instanceButton.instanceInfoDifficulty
-		local encounterProgressText = instanceButton.instanceInfoEncounterProgress
-		local font = difficultyText:GetFont()
-
-		difficultyText:SetPoint("BOTTOMLEFT", 9, 7)
-		difficultyText:SetJustifyH("LEFT")
-	difficultyText:SetFont(font, 16)
-		difficultyText:Hide()
-
-		encounterProgressText:SetPoint("BOTTOMRIGHT", -7, 7)
-		encounterProgressText:SetJustifyH("RIGHT")
-	encounterProgressText:SetFont(font, 16)
-		encounterProgressText:Hide()
+		instanceButton.instanceInfoDifficulty:Hide()
+		instanceButton.instanceInfoEncounterProgress:Hide()
 	end)
 end
 
@@ -199,30 +153,21 @@ local function ResetEncounterJournalBossButtonKilledTexture()
 	end
 end
 
-local function RenderSavedInstancesOverview(savedDB)
+local function RenderSavedInstancesInfo(savedDB)
 	if EncounterJournal ~= nil then
-		local scroll = EncounterJournal.instanceSelect.scroll.child
+		local scroll = EncounterJournal.instanceSelect.scroll
 
-		if scroll.savedInstancesOverview == nil then
-			scroll.savedInstancesOverview = scroll:CreateFontString(
-				scroll:GetName() .. "SavedInstancesOverview",
-				"OVERLAY",
-				"QuestTitleFontBlackShadow"
-			)
+		if scroll.savedInstancesInfo == nil then
+			scroll.savedInstancesInfo = B.CreateFS(scroll, 16, "", false, "BOTTOMRIGHT", -35, 7)
+			scroll.savedInstancesInfo:SetJustifyH("RIGHT")
+			scroll.savedInstancesInfo:SetWordWrap(true)
 		end
 
 		local dungeonsTab, raidsTab = GetEncounterJournalInstanceTabs()
 		local currentInstanceType = (raidsTab ~= nil and not raidsTab:IsEnabled()) and "raids" or "dungeons"
 
-		local overview = scroll.savedInstancesOverview
-		local font = overview:GetFont()
-
-	overview:SetPoint("BOTTOMRIGHT", -35, 7)
-	overview:SetJustifyH("RIGHT")
-	overview:SetFont(font, 16)
-	overview:SetText(string.format(EJPlus_InstanceInfo_TXT.SAVED_INSTANCES_OVERVIEW, _G[string.upper(currentInstanceType)], GetNumSavedDBInstances(savedDB, currentInstanceType)))
-	overview:SetTextColor(1, 1, 1)
-  end
+		scroll.savedInstancesInfo:SetText(string.format(L["Sacve Instances Info"], _G[string.upper(currentInstanceType)], GetNumSavedDBInstances(savedDB, currentInstanceType)))
+	end
 end
 
 local function RenderInstanceInfo(instanceButton, savedInstance)
@@ -233,21 +178,19 @@ local function RenderInstanceInfo(instanceButton, savedInstance)
 
 	table.foreach(savedInstance, function(index, instance)
 		difficulty = difficulty .. "\n" .. instance.difficultyName
-		encounterProgress = encounterProgress .. "\n" .. string.format("%s/%s", instance.encounterProgress, instance.numEncounters)
+		encounterProgress = encounterProgress .. "\n" .. string.format("%s / %s", instance.encounterProgress, instance.numEncounters)
 	end)
 
 	if difficultyButton then
 		difficultyButton:SetText(difficulty)
-	difficultyButton:SetTextColor(1, 1, 1)
 		difficultyButton:SetWidth(difficultyButton:GetStringWidth() * 1.25)
 		difficultyButton:Show()
 	end
-  if encounterProgressButton then
-	encounterProgressButton:SetText(encounterProgress)
-	encounterProgressButton:SetTextColor(1, 1, 1)
-	encounterProgressButton:SetWidth(encounterProgressButton:GetStringWidth() * 1.25)
-	encounterProgressButton:Show()
-  end
+	if encounterProgressButton then
+		encounterProgressButton:SetText(encounterProgress)
+		encounterProgressButton:SetWidth(encounterProgressButton:GetStringWidth() * 1.25)
+		encounterProgressButton:Show()
+	end
 end
 
 local function RenderEncounterJournalEncounterBossInfo(index)
@@ -293,7 +236,7 @@ local function RenderEncounterJournalInstances()
 	local dungeonsTab, raidsTab = GetEncounterJournalInstanceTabs()
 	local savedInstances = savedDB[(raidsTab ~= nil and not raidsTab:IsEnabled()) and "raids" or "dungeons"]
 
-	RenderSavedInstancesOverview(savedDB)
+	RenderSavedInstancesInfo(savedDB)
 
 	HandleEncounterJournalScrollInstances(function(instanceButton)
 		local instanceName = EJ_GetInstanceInfo(instanceButton.instanceID)
@@ -331,11 +274,6 @@ local function EncounterJournalEncounter_OnHook()
 	end)
 end
 
-function InstanceInfo_OnLoad(self)
-	self:RegisterEvent("ADDON_LOADED")
-	self:RegisterEvent("UPDATE_INSTANCE_INFO")
-end
-
 function InstanceInfo_OnEvent(self, event, arg1)
 	if event == "ADDON_LOADED" and arg1 == "Blizzard_EncounterJournal" then
 		hooksecurefunc(EncounterJournal, "Show", function()
@@ -356,6 +294,4 @@ function InstanceInfo_OnEvent(self, event, arg1)
 	end
 end
 
-local frame = CreateFrame("Frame")
-InstanceInfo_OnLoad(frame)
-frame:SetScript("OnEvent", InstanceInfo_OnEvent)
+NDui:EventFrame({"ADDON_LOADED", "UPDATE_INSTANCE_INFO"}):SetScript("OnEvent", InstanceInfo_OnEvent)

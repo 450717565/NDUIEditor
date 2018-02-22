@@ -21,6 +21,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 
 	EncounterJournalEncounterFrameInfoLootScrollFrameClassFilterClearFrameExitButton.texture:Hide()
 	F.ReskinClose(EncounterJournalEncounterFrameInfoLootScrollFrameClassFilterClearFrameExitButton)
+
 	-- [[ Dungeon / raid tabs ]]
 
 	local function onEnable(self)
@@ -62,8 +63,6 @@ C.themes["Blizzard_EncounterJournal"] = function()
 
 		F.Reskin(tab)
 	end
-
-	EncounterJournalInstanceSelectSuggestTab:SetBackdropColor(r, g, b, .2)
 
 	-- [[ Side tabs ]]
 
