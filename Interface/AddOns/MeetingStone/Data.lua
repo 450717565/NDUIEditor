@@ -786,10 +786,13 @@ RAID_PROGRESSION_LIST = {
 
 DEFAULT_SPAMWORD = [[
 !/
+!G
+!帮
 !地
 !個
 !跟
 !接
+!金
 !就
 !买
 !卖

@@ -21,7 +21,7 @@ function BrowsePanel:OnInitialize()
 			return activity:BaseSortHandler()
 		end)
 		ActivityList:RegisterFilter(function(activity, ...)
-			if Profile:GetSetting('iLvlFilter') and activity:GetItemLevel() <= 500 then return end
+			if Profile:GetSetting('iLvlFilter') and (activity:GetItemLevel() > 0 and activity:GetItemLevel() <= 250) then return end
 			return activity:Match(...)
 		end)
 		ActivityList:InitHeader{

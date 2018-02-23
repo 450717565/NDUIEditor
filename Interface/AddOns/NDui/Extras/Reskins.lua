@@ -183,7 +183,7 @@ if IsAddOnLoaded("Aurora") then
 			LST:RegisterSkin("ndui", {
 				name = "NDui",
 				border = {
-					color = {0, 0, 0},
+					--color = {0, 0, 0},
 					offset = 0,
 					size = 1,
 					texture = {1, 1, 1, 1},
@@ -206,7 +206,7 @@ if IsAddOnLoaded("Aurora") then
 					tex_coords = {.08, .92, .08, .92},
 				},
 				icon_border = {
-					color = {0, 0, 0},
+					--color = {0, 0, 0},
 					offset = 0,
 					size = 1,
 					texture = {1, 1, 1, 1},
@@ -224,6 +224,15 @@ if IsAddOnLoaded("Aurora") then
 				},
 				skull = {
 					hidden = false,
+				},
+				slot = {
+					tex_coords = {.08, .92, .08, .92},
+				},
+				slot_border = {
+					--color = {0, 0, 0},
+					offset = 0,
+					size = 1,
+					texture = {1, 1, 1, 1},
 				},
 			})
 			LST:SetSkin("ndui")

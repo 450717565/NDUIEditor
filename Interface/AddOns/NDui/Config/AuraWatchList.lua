@@ -199,8 +199,8 @@ C.AuraWatchList = {
 				--晶化身体
 				{AuraID = 214366, UnitID = "player", Value = true},
 				--影灼之牙
-				{AuraID = 253307, UnitID = "player"},
-				{AuraID = 253308, UnitID = "player"},
+				{AuraID = 253307, UnitID = "player", Text = RAID_BUFF_6},
+				{AuraID = 253308, UnitID = "player", Text = RAID_BUFF_1},
 				--裂隙世界法典
 				{AuraID = 252545, UnitID = "player", Value = true},
 				{AuraID = 251938, UnitID = "player"},
@@ -996,18 +996,20 @@ C.AuraWatchList = {
 				--赫娅
 				{AuraID = 192132, UnitID = "target"},
 				{AuraID = 192133, UnitID = "target"},
-				--格雷泽
+				--光束折射，格雷泽
 				{AuraID = 194333, UnitID = "target"},
-				--阿什高姆：脆弱
+				--脆弱，阿什高姆
 				{AuraID = 192517, UnitID = "target"},
-				--黑暗笼罩，执政团鲁拉
+				--黑暗笼罩，鲁拉
 				{AuraID = 254020, UnitID = "target"},
-				--黑暗滋生，执政团鲁拉
+				--黑暗滋生，鲁拉
 				{AuraID = 247915, UnitID = "target"},
-				--反冲，执政团鲁拉
+				--反冲，鲁拉
 				{AuraID = 247816, UnitID = "target"},
 				--水晶迸裂，熔火焦皮
 				{AuraID = 200672, UnitID = "target"},
+				--黑暗能量，提拉宋
+				{AuraID = 200672, UnitID = "target", Value = true},
 			-->勇气试练
 				--奥丁，弧光风暴
 				{AuraID = 229256, UnitID = "target"},
