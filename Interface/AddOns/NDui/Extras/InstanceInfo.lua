@@ -294,4 +294,5 @@ function InstanceInfo_OnEvent(self, event, arg1)
 	end
 end
 
-NDui:EventFrame({"ADDON_LOADED", "UPDATE_INSTANCE_INFO"}):SetScript("OnEvent", InstanceInfo_OnEvent)
+local InstanceInfo = NDui:EventFrame{"ADDON_LOADED", "UPDATE_INSTANCE_INFO"}
+InstanceInfo:SetScript("OnEvent", InstanceInfo_OnEvent)

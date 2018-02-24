@@ -14,7 +14,7 @@ oUF.Tags.Methods["hp"] = function(unit)
 			else
 				return B.Numb(cur)
 			end
-		elseif unit == "party1" or unit == "party2" or unit == "party3" or unit == "party4" then
+		elseif UnitInParty(unit) and unit:match("party") then
 			return B.Numb(cur)
 		else
 			return per
@@ -27,7 +27,7 @@ oUF.Tags.Methods["power"] = function(unit)
 	local cur, max = UnitPower(unit), UnitPowerMax(unit)
 	local per = oUF.Tags.Methods["perpp"](unit).."%" or 0
 	if (unit == "player" and not UnitHasVehicleUI(unit)) or unit == "target" or unit == "focus" then
-		if cur ~= max and UnitPowerType(unit) == 0 then
+		if cur < max and UnitPowerType(unit) == 0 then
 			return B.Numb(cur).." | "..per
 		else
 			return B.Numb(cur)
@@ -83,21 +83,21 @@ oUF.Tags.Methods["fulllevel"] = function(unit)
 	if level > 0 then
 		level = color..level.."|r"
 	else
-		level = "|cffff0000首领|r"
+		level = "|cffff0000"..BOSS.."|r"
 	end
 	local str = level
 
 	local class = UnitClassification(unit)
 	if not UnitIsConnected(unit) then
-		str = "首领"
-	elseif class == "worldboss" then
-		str = "|cffff0000首领|r"
-	elseif class == "rareelite" then
-		str = level.." |cff0080ff稀有精英|r"
+		str = PLAYER_OFFLINE
 	elseif class == "elite" then
-		str = level.." 精英"
+		str = level.." |cffffff00"..ELITE.."|r"
 	elseif class == "rare" then
-		str = level.." |cff0080ff稀有|r"
+		str = level.." |cffff00ff"..L["Rare"].."|r"
+	elseif class == "rareelite" then
+		str = level.." |cff00ffff"..L["Rare"]..ELITE.."|r"
+	elseif class == "worldboss" then
+		str = "|cffff0000"..BOSS.."|r"
 	end
 
 	return str
@@ -147,7 +147,7 @@ oUF.Tags.Methods["nplevel"] = function(unit)
 		if level > 0 then
 			level = B.HexRGB(GetCreatureDifficultyColor(level))..level.."|r "
 		else
-			level = "|cffff0000首领|r "
+			level = "|cffff0000"..BOSS.."|r "
 		end
 	else
 		level = ""

@@ -67,7 +67,7 @@ function module:OnLogin()
 
 		f.bank = MyContainer:New("Bank", {Columns = NDuiDB["Bags"]["BankWidth"], Bags = "bank"})
 		f.bank:SetFilter(onlyBank, true)
-		f.bank:SetPoint("BOTTOMRIGHT", f.main, "BOTTOMLEFT", -20, -20)
+		f.bank:SetPoint("BOTTOMRIGHT", f.main, "BOTTOMLEFT", -50, -50)
 		f.bank:Hide()
 
 		f.reagent = MyContainer:New("Reagent", {Columns = NDuiDB["Bags"]["BankWidth"], Bags = "bankreagent"})

@@ -22,16 +22,17 @@ DB.arrowRedTex = Media.."NeonRedArrow"
 DB.bgTex = Media.."bgTex"
 DB.glowTex = Media.."glowTex"
 DB.Micro = Media.."MicroMenu\\"
+DB.newItemFlash = "Interface\\Cooldown\\star4"
 DB.normTex = Media.."normTex"
 
 DB.bdTex = "Interface\\ChatFrame\\ChatFrameBackground"
 DB.binTex = "Interface\\HelpFrame\\ReportLagIcon-Loot"
 DB.copyTex = "Interface\\Buttons\\UI-GuildButton-PublicNote-Up"
-DB.eyeTex = "Interface\\Minimap\\Raid_Icon"
+DB.creditTex = "Interface\\HelpFrame\\HelpIcon-KnowledgeBase"
+DB.eyeTex = "Interface\\Minimap\\Raid_Icon"	-- blue: \\Dungeon_Icon
 DB.garrTex = "Interface\\HelpFrame\\HelpIcon-ReportLag"
 DB.gearTex = "Interface\\WorldMap\\Gear_64"
 DB.mailTex = "Interface\\Minimap\\Tracking\\Mailbox"
-DB.newItemFlash = "Interface\\Cooldown\\star4"
 DB.questTex = "Interface\\BUTTONS\\AdventureGuideMicrobuttonAlert"
 DB.sparkTex = "Interface\\CastingBar\\UI-CastingBar-Spark"
 
@@ -64,7 +65,7 @@ local function CheckRole()
 		end
 	end
 end
-NDui:EventFrame({"PLAYER_LOGIN", "PLAYER_TALENT_UPDATE"}):SetScript("OnEvent", CheckRole)
+NDui:EventFrame{"PLAYER_LOGIN", "PLAYER_TALENT_UPDATE"}:SetScript("OnEvent", CheckRole)
 
 -- Raidbuff Checklist
 DB.BuffList = {

@@ -65,7 +65,7 @@ hooksecurefunc(StaticPopupDialogs["DELETE_GOOD_ITEM"], "OnShow", function(self)
 end)
 
 --- 进入/脱离战斗提示
-local CombatAlert = NDui:EventFrame({"PLAYER_REGEN_ENABLED", "PLAYER_REGEN_DISABLED"})
+local CombatAlert = NDui:EventFrame{"PLAYER_REGEN_ENABLED", "PLAYER_REGEN_DISABLED"}
 CombatAlert:SetScript("OnEvent", function(self, event)
 	if not NDuiDB["Extras"]["CombatAlert"] then return end
 	if UnitIsDeadOrGhost("player") then return end
@@ -77,7 +77,7 @@ CombatAlert:SetScript("OnEvent", function(self, event)
 end)
 
 --- 新人加入公会自动欢迎
-local GuildWelcome = NDui:EventFrame("CHAT_MSG_SYSTEM")
+local GuildWelcome = NDui:EventFrame{"CHAT_MSG_SYSTEM"}
 GuildWelcome:SetScript("OnEvent", function(self, event, msg)
 	if not NDuiDB["Extras"]["GuildWelcome"] then return end
 	local str = GUILDEVENT_TYPE_JOIN:gsub("%%s", "")
@@ -93,7 +93,7 @@ GuildWelcome:SetScript("OnEvent", function(self, event, msg)
 end)
 
 --- 进入PVP地区自动切换TAB功能
-local PvPTab = NDui:EventFrame({"ZONE_CHANGED_NEW_AREA", "DUEL_REQUESTED", "DUEL_FINISHED"})
+local PvPTab = NDui:EventFrame{"ZONE_CHANGED_NEW_AREA", "DUEL_REQUESTED", "DUEL_FINISHED"}
 PvPTab:SetScript("OnEvent", function(self, event)
 	local bindSet = GetCurrentBindingSet()
 	local pvpType = GetZonePVPInfo()

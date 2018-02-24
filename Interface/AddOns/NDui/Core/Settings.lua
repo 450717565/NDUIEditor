@@ -53,7 +53,7 @@ local function ForceDefaultSettings()
 	SetCVar("overrideArchive", 0)
 	SetCVar("screenshotFormat", jpg)
 	SetCVar("screenshotQuality", 10)
-	SetCVar("ShowClassColorInNameplate", 1)
+	SetCVar("ShowClassColorInFriendlyNameplate", 1)
 	SetCVar("showTutorials", 0)
 	SetCVar("useCompactPartyFrames", 1)
 	SetCVar("WorldTextScale", 1.5)
@@ -95,7 +95,7 @@ local function ForceUIScale()
 		end
 	end
 
-	NDui:EventFrame("UI_SCALE_CHANGED"):SetScript("OnEvent", function()
+	NDui:EventFrame{"UI_SCALE_CHANGED"}:SetScript("OnEvent", function()
 		if scale < .65 then
 			RestoreUIScale(scale)
 		end

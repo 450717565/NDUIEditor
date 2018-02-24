@@ -47,7 +47,7 @@ local function changelog()
 	close:SetScript("OnClick", function(self) f:Hide() end)
 end
 
-NDui:EventFrame("PLAYER_ENTERING_WORLD"):SetScript("OnEvent", function(self)
+NDui:EventFrame{"PLAYER_ENTERING_WORLD"}:SetScript("OnEvent", function(self)
 	self:UnregisterAllEvents()
 	if HelloWorld then return end
 	if not NDuiADB["Changelog"] then NDuiADB["Changelog"] = {} end

@@ -1,9 +1,9 @@
 local B, C, L, DB = unpack(select(2, ...))
 
 local classification = {
-	elite = " |cffcc8800"..ELITE.."|r",
-	rare = " |cffff99cc"..L["Rare"].."|r",
-	rareelite = " |cffff99cc"..L["Rare"].."|r ".."|cffcc8800"..ELITE.."|r",
+	elite = " |cffffff00"..ELITE.."|r",
+	rare = " |cffff00ff"..L["Rare"].."|r",
+	rareelite = " |cff00ffff"..L["Rare"]..ELITE.."|r",
 	worldboss = " |cffff0000"..BOSS.."|r",
 }
 
@@ -185,7 +185,7 @@ GameTooltip:HookScript("OnTooltipSetUnit", function(self)
 
 		if level then
 			local boss
-			if level <= 0 then boss = "|cffff0000首领|r" end
+			if level <= 0 then boss = "|cffff0000"..BOSS.."|r" end
 
 			local diff = GetCreatureDifficultyColor(level)
 			local classify = UnitClassification(unit)
@@ -320,7 +320,7 @@ local function extrastyle(f)
 	end
 end
 
-NDui:EventFrame("ADDON_LOADED"):SetScript("OnEvent", function(_, _, addon)
+NDui:EventFrame{"ADDON_LOADED"}:SetScript("OnEvent", function(_, _, addon)
 	if addon == "Blizzard_DebugTools" and not IsAddOnLoaded("Aurora") then
 		FrameStackTooltip:HookScript("OnShow", style)
 		EventTraceTooltip:HookScript("OnShow", style)

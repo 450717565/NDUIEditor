@@ -36,6 +36,6 @@ function module:ShowDurability()
 		end
 	end
 
-	local f = NDui:EventFrame({"PLAYER_ENTERING_WORLD", "UPDATE_INVENTORY_DURABILITY"})
+	local f = NDui:EventFrame{"PLAYER_ENTERING_WORLD", "UPDATE_INVENTORY_DURABILITY"}
 	f:SetScript("OnEvent", RefreshData)
 end

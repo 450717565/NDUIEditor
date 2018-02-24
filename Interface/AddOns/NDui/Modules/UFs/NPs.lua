@@ -32,7 +32,11 @@ function UF:BlockAddons()
 end
 
 local CustomUnits = {
+	["Fel Explosive"] = true,
 	["邪能炸药"] = true,
+	["魔化炸彈"] = true,
+	["深渊追猎者"] = true,
+	["尖啸反舌鸟"] = true,
 }
 function UF:CreateUnitTable()
 	if not NDuiDB["Nameplate"]["CustomUnitColor"] then return end
@@ -164,10 +168,10 @@ local function UpdateQuestUnit(self, unit)
 end
 
 local classify = {
-	rare = {.7, .7, .7},
 	elite = {1, 1, 0},
-	rareelite = {1, .1, .1},
-	worldboss = {0, 1, 0},
+	rare = {1, 0, 1},
+	rareelite = {0, 1, 1},
+	worldboss = {1, 0, 0},
 }
 
 local function UpdateUnitClassify(self, unit)

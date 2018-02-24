@@ -49,7 +49,7 @@ info.onUpdate = function(self, elapsed)
 				total = total + usage
 			end
 		end
-		info.text:SetText(formatMemory(total, true))
+		self.text:SetText(formatMemory(total, true))
 		self.text:SetJustifyH("LEFT")
 
 		self.timer = 0
@@ -120,6 +120,7 @@ info.eventList = {
 
 info.onEvent = function(self, event, arg1)
 	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
+	if NDuiADB["AutoCollect"] == nil then NDuiADB["AutoCollect"] = true end
 	if event == "MODIFIER_STATE_CHANGED" and arg1 == "LSHIFT" then
 		self:GetScript("OnEnter")(self)
 	end
