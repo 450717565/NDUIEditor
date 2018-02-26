@@ -461,6 +461,8 @@ C.AuraWatchList = {
 			Pos = RaidDebuffPoint,
 			List = {
 		-->史诗钥石
+				--复仇之剪
+				{AuraID = 197429, UnitID = "player"},
 				--血池
 				{AuraID = 226512, UnitID = "player"},
 				--死疽溃烂
@@ -991,6 +993,10 @@ C.AuraWatchList = {
 			Pos = TargetSpecialAuraPoint,
 			List = {
 			-->史诗钥石
+				--恶魔飞升
+				{AuraID = 226285, UnitID = "player"},
+				--军团烙印
+				{AuraID = 211632, UnitID = "player"},
 				--血池
 				{AuraID = 226510, UnitID = "target"},
 				--赫娅

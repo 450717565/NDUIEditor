@@ -7,7 +7,6 @@ function module:OnLogin()
 
 	-- Default Settings
 	SetCVar("lockedWorldMap", 0)
-	WorldMapFrameTutorialButton:Hide()
 	WorldMapFrame:SetScale(NDuiDB["Map"]["MapScale"])
 	hooksecurefunc("WorldMap_ToggleSizeUp", function()
 		if InCombatLockdown() then return end

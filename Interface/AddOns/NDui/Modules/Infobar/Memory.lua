@@ -60,7 +60,7 @@ info.onMouseUp = function(self, btn)
 	if btn == "LeftButton" then
 		local before = gcinfo()
 		collectgarbage()
-		print(format("|cff66C6FF%s|r%s", L["Collect Memory"], formatMemory(before - gcinfo())))
+		print(format("|cff66C6FF%s:|r %s", L["Collect Memory"], formatMemory(before - gcinfo())))
 		updateMemory()
 	elseif btn == "RightButton" then
 		NDuiADB["AutoCollect"] = not NDuiADB["AutoCollect"]
