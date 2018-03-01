@@ -1,6 +1,6 @@
 local parent, ns = ...
 local global = GetAddOnMetadata(parent, 'X-oUF')
-local _VERSION = '7.0.14'
+local _VERSION = '7.0.15'
 if (_VERSION:find('project%-version')) then
 	_VERSION = 'devel'
 end
@@ -179,7 +179,13 @@ for k, v in next, {
 		UnregisterUnitWatch(self)
 		self:Hide()
 	end,
+	--[[ frame:IsEnabled()
+	Used to check if a unit frame is registered with the unit existence monitor. This is a reference to
+	`UnitWatchRegistered`.
 
+	* self - unit frame
+	--]]
+	IsEnabled = UnitWatchRegistered,
 	--[[ frame:UpdateAllElements(event)
 	Used to update all enabled elements on the given frame.
 

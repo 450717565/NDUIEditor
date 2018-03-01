@@ -1,7 +1,7 @@
-local mod	= DBM:NewMod("EmeraldNightmareTrash", "DBM-Uldir")
+local mod	= DBM:NewMod("UldirTrash", "DBM-Uldir")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17335 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17346 $"):sub(12, -3))
 --mod:SetModelID(47785)
 mod:SetZone()
 mod.isTrashMod = true

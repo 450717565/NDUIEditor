@@ -1249,7 +1249,7 @@ Skin:SetScript("OnEvent", function(self, event, addon)
 		ReputationListScrollFrame:GetRegions():Hide()
 		select(2, ReputationListScrollFrame:GetRegions()):Hide()
 
-		ReputationDetailFrame:SetPoint("TOPLEFT", ReputationFrame, "TOPRIGHT", 1, -28)
+		ReputationDetailFrame:SetPoint("TOPLEFT", ReputationFrame, "TOPRIGHT", 2, -28)
 
 		local function UpdateFactionSkins()
 			for i = 1, GetNumFactions() do

@@ -115,7 +115,7 @@ function BrowsePanel:OnInitialize()
 					grid:SetActivity(activity)
 				end,
 				sortHandler = function(activity)
-					return activity:GetNumMembers()
+					return activity:GetMaxMembers() - activity:GetNumMembers()
 				end
 			},
 			{
@@ -137,7 +137,7 @@ function BrowsePanel:OnInitialize()
 					end
 				end,
 				sortHandler = function(activity)
-					return activity:GetMinLevel()
+					return 0xFFFF - activity:GetMinLevel()
 				end
 			},
 			{
@@ -164,11 +164,7 @@ function BrowsePanel:OnInitialize()
 					end
 				end,
 				sortHandler = function(activity)
-					if activity:IsArenaActivity() then
-						return activity:GetPvPRating()
-					else
-						return activity:GetItemLevel()
-					end
+					return 0xFFFF - activity:GetItemLevel()
 				end
 			},
 			{
@@ -204,6 +200,8 @@ function BrowsePanel:OnInitialize()
 		end)
 		ActivityList:SetCallback('OnSelectChanged', function(_, _, activity)
 			self:UpdateSignUpButton(activity)
+
+
 		end)
 		ActivityList:SetCallback('OnRefresh', function(ActivityList)
 			local shownCount = ActivityList:GetShownCount()
@@ -313,7 +311,8 @@ function BrowsePanel:OnInitialize()
 			self.SearchInput:GetText():lower(),
 			self.bossFilter,
 			Profile:GetSetting('spamWord'),
-			Profile:GetSetting('spamLengthEnabled') and Profile:GetSetting('spamLength') or nil
+			Profile:GetSetting('spamLengthEnabled') and Profile:GetSetting('spamLength') or nil,
+			Profile:GetSetting('spamChar')
 		)
 	end
 

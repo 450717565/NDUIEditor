@@ -236,7 +236,7 @@ C.AuraWatchList = {
 				--黑暗打击，+伤害
 				{AuraID = 215658, UnitID = "player"},
 				--黑暗打击，+护盾
-				{AuraID = 215659, UnitID = "player"},
+				{AuraID = 215659, UnitID = "player", Value = true},
 				--专注闪电，+精通
 				{AuraID = 215632, UnitID = "player"},
 				--混沌能量，+力量/敏捷

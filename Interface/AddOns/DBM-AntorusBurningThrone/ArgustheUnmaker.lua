@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2031, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17334 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17354 $"):sub(12, -3))
 mod:SetCreatureID(124828)
 mod:SetEncounterID(2092)
 mod:SetZone()
@@ -48,7 +48,7 @@ local warnSargFear					= mod:NewTargetAnnounce(257931, 3)
 --Stage Two: The Protector Redeemed
 local warnSoulburst					= mod:NewTargetAnnounce(250669, 2)
 local warnSoulbomb					= mod:NewTargetAnnounce(251570, 3)
-local warnAvatarofAggra				= mod:NewTargetAnnounce(255199, 1)
+local warnAvatarofAggra				= mod:NewTargetNoFilterAnnounce(255199, 1)
 --Stage Three: The Arcane Masters
 local warnCosmicRay					= mod:NewTargetAnnounce(252729, 3)
 local warnCosmicBeacon				= mod:NewTargetAnnounce(252616, 2)
@@ -129,7 +129,7 @@ local timerCosmicBeaconCD			= mod:NewCDTimer(19.9, 252616, nil, nil, nil, 3)--Al
 local timerDiscsofNorg				= mod:NewCastTimer(12, 252516, nil, nil, nil, 6)
 mod:AddTimerLine(ENCOUNTER_JOURNAL_SECTION_FLAG12)--Mythic 3
 local timerSoulrendingScytheCD		= mod:NewCDTimer(8.5, 258838, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
-local timerSargSentenceCD			= mod:NewTimer(35.2, "timerSargSentenceCD", nil, nil, nil, 3, 257966, DBM_CORE_HEROIC_ICON)
+local timerSargSentenceCD			= mod:NewTimer(35.2, "timerSargSentenceCD", 257966, nil, nil, 3, DBM_CORE_HEROIC_ICON)
 local timerEdgeofAnniCD				= mod:NewCDTimer(5.5, 258834, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON)
 --Stage Four: The Gift of Life, The Forge of Loss (Non Mythic)
 mod:AddTimerLine(SCENARIO_STAGE:format(4))
@@ -332,8 +332,8 @@ function mod:SPELL_CAST_START(args)
 		timerSoulBurstCD:Start(30.3, 1)
 		if self:IsMythic() then
 			self.vb.gazeCount = 0
-			timerSargGazeCD:Start(27.2, 1)
-			countdownSargGaze:Start(27.2)
+			timerSargGazeCD:Start(25.7, 1)
+			countdownSargGaze:Start(25.7)
 		end
 	elseif spellId == 257645 then--Temporal Blast (Stage 3)
 		timerAvatarofAggraCD:Stop()--Always cancel this here, it's not canceled by argus becoming inactive and can still be cast during argus inactive transition phase
@@ -476,7 +476,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnSoulblight:Show()
 			specWarnSoulblight:Play("runout")
 			yellSoulblight:Yell()
-			yellSoulblightFades:Countdown(8)
+			yellSoulblightFades:Countdown(8, 4)
 			fearCheck(self)
 		end
 	elseif spellId == 250669 then
@@ -490,7 +490,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnSoulburst:Play("targetyou")
 			specWarnSoulburst:ScheduleVoice(self:IsMythic() and 7 or 10, "bombnow")
 			yellSoulburst:Yell(icon, L.Burst, icon)
-			yellSoulburstFades:Countdown(self:IsMythic() and 12 or 15, nil, icon)
+			yellSoulburstFades:Countdown(self:IsMythic() and 12 or 15, 4, icon)
 			fearCheck(self)
 		end
 		if self.Options.SetIconOnSoulBurst then
@@ -503,7 +503,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnSoulbomb:Play("targetyou")--Would be better if bombrun was "bomb on you" and not "bomb on you, run". Since Don't want to give misinformation, generic it is
 			self:Schedule(self:IsMythic() and 5 or 8, delayedBoonCheck, self)
 			yellSoulbomb:Yell(2, L.Bomb, 2)
-			yellSoulbombFades:Countdown(self:IsMythic() and 12 or 15, nil, 2)
+			yellSoulbombFades:Countdown(self:IsMythic() and 12 or 15, 4, 2)
 			fearCheck(self)
 		elseif playerAvatar then
 			specWarnSoulbombMoveTo:Show(args.destName)
