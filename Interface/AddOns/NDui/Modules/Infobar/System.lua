@@ -5,22 +5,22 @@ local module = NDui:GetModule("Infobar")
 local info = module:RegisterInfobar(C.Infobar.SystemPos)
 
 local function colorLatency(latency)
-	if latency < 300 then
-		return "|cff0CD809"..latency.."|r"
-	elseif latency >= 300 and latency < 500 then
-		return "|cffE8DA0F"..latency.."|r"
+	if latency > 250 then
+		return "|cffC0C000"..latency.."|r"
+	elseif latency > 500 then
+		return "|cffC00000"..latency.."|r"
 	else
-		return "|cffD80909"..latency.."|r"
+		return "|cff00C000"..latency.."|r"
 	end
 end
 
 local function colorFps(fps)
-	if fps >= 30 then
-		return "|cff0CD809"..fps.."|r"
-	elseif (fps > 15 and fps < 30) then
-		return "|cffE8DA0F"..fps.."|r"
+	if fps < 30 then
+		return "|cffC00000"..fps.."|r"
+	elseif fps < 60 then
+		return "|cffC0C000"..fps.."|r"
 	else
-		return "|cffD80909"..fps.."|r"
+		return "|cff00C000"..fps.."|r"
 	end
 end
 
@@ -30,7 +30,7 @@ info.onUpdate = function(self, elapsed)
 		local _, _, latencyHome, latencyWorld = GetNetStats()
 		local latency = math.max(latencyHome, latencyWorld)
 		local fps = floor(GetFramerate())
-		self.text:SetText("Fps"..colorFps(fps)..DB.MyColor.." / |rMs"..colorLatency(latency))
+		self.text:SetFormattedText(L["Fps: %s"]..DB.MyColor.." | |r"..L["Ms: %s"], colorFps(fps), colorLatency(latency))
 		self.text:SetJustifyH("LEFT")
 
 		self.timer = 0
@@ -47,8 +47,7 @@ local function retrieveUsage()
 	for i = 1, GetNumAddOns() do
 		if IsAddOnLoaded(i) then
 			count = count + 1
-			local usage = GetAddOnCPUUsage(i)
-			usage = format("%.2f", usage/passTime)
+			local usage = format("%.2f", GetAddOnCPUUsage(i)/passTime)
 			usageTable[count] = {select(2, GetAddOnInfo(i)), usage}
 		end
 	end

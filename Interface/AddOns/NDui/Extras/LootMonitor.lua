@@ -108,7 +108,7 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 		LMFrame_Reset()
 	elseif event == "CHAT_MSG_LOOT" then
 		local lootstring, _, _, _, player = ...
-		local rollInfo = string.find(lootstring, BONUS_REWARDS)
+		local rollInfo = string.match(lootstring, BONUS_REWARDS)
 		local itemLink = string.match(lootstring,"|%x+|Hitem:.-|h.-|h|r")
 		local itemString = string.match(itemLink, "item[%-?%d:]+")
 		local _, _, itemRarity, _, _, _, itemSubType, _, itemEquipLoc, _, _, itemClassID, itemSubClassID, bindType = GetItemInfo(itemString)

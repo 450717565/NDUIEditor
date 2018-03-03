@@ -28,7 +28,7 @@ function module:ShowDurability()
 
 			if v1 and v2 and v2 ~= 0 then
 				local str = fontstrings[slot]
-				str:SetText(string.format("%d%%", v1/v2*100))
+				str:SetFormattedText("%d%%", v1/v2*100)
 			else
 				local str = rawget(fontstrings, slot)
 				if str then str:SetText(nil) end

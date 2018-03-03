@@ -118,9 +118,9 @@ local function refreshData()
 	local total, _, online = GetNumGuildMembers()
 	local guildName, guildRank = GetGuildInfo("player")
 
-	gName:SetText("|cff0099ff<"..(guildName or "")..">")
-	gOnline:SetText(format(DB.InfoColor.."%s: %d / %d", GUILD_ONLINE_LABEL, online, total))
-	gApps:SetText(format(DB.InfoColor..GUILDINFOTAB_APPLICANTS, GetNumGuildApplicants()))
+	gName:SetText("|cff0099FF<"..(guildName or "")..">")
+	gOnline:SetFormattedText(DB.InfoColor.."%s: %d / %d", GUILD_ONLINE_LABEL, online, total)
+	gApps:SetFormattedText(DB.InfoColor..GUILDINFOTAB_APPLICANTS, GetNumGuildApplicants())
 	gRank:SetText(DB.InfoColor..RANK..": "..(guildRank or ""))
 
 	for i = 1, total do

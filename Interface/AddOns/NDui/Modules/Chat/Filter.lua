@@ -159,7 +159,7 @@ hooksecurefunc("BNToastFrame_Show", function()
 		BNToastFrameBottomLine:Hide()
 		BNToastFrameDoubleLine:Show()
 		local hexColor = B.HexRGB(B.ClassColor(at.class))
-		BNToastFrameDoubleLine:SetText(format("%s "..DB.InfoColor.."@"..YOU.."! ("..GUILD..")", hexColor..Ambiguate(at.author, "short")))
+		BNToastFrameDoubleLine:SetFormattedText("%s "..DB.InfoColor.."@"..YOU.."! ("..GUILD..")", hexColor..Ambiguate(at.author, "short"))
 		at.checker = false
 	end
 end)

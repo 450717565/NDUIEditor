@@ -617,7 +617,7 @@ local function CreateOption(i)
 			_G[s:GetName().."High"]:SetText(max)
 			_G[s:GetName().."Text"]:ClearAllPoints()
 			_G[s:GetName().."Text"]:SetPoint("TOP", s, "BOTTOM", 0, 3)
-			_G[s:GetName().."Text"]:SetText(format("%."..step.."f", NDuiDB[key][value]))
+			_G[s:GetName().."Text"]:SetFormattedText("%."..step.."f", NDuiDB[key][value])
 			s:SetBackdrop(nil)
 			s.SetBackdrop = B.Dummy
 			local bd = CreateFrame("Frame", nil, s)

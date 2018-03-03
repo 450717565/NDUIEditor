@@ -42,7 +42,7 @@ end
 
 info.onEnter = function(self)
 	if not GetSpecialization() then return end
-	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 14)
+	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 15)
 	GameTooltip:ClearLines()
 	GameTooltip:AddLine(TALENTS_BUTTON, 0,.6,1)
 	GameTooltip:AddLine(" ")

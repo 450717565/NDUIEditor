@@ -22,14 +22,12 @@ function module:CreateRM()
 			self:Hide()
 		end
 	end)
-	header:SetScript("OnEnter", function(self)
-		if not IsInInstance() then
-			GameTooltip:SetOwner(self, "ANCHOR_BOTTOM", 0, 0)
-			GameTooltip:ClearLines()
-			GameTooltip:AddLine(DB.InfoColor..L["Double-click"]..DB.RightButton..PARTY_LEAVE)
-			GameTooltip:Show()
-		end
-		self:SetBackdropBorderColor(cr, cg, cb, 1)
+	header:HookScript("OnEnter", function(self)
+		if IsInInstance() then return end
+		GameTooltip:SetOwner(self, "ANCHOR_BOTTOM", 0, 0)
+		GameTooltip:ClearLines()
+		GameTooltip:AddLine(DB.InfoColor..L["Double-click"]..DB.RightButton..PARTY_LEAVE)
+		GameTooltip:Show()
 	end)
 	header:HookScript("OnLeave", GameTooltip_Hide)
 
@@ -160,7 +158,6 @@ function module:CreateRM()
 	B.CreateBC(marker, .5)
 	marker:HookScript("OnMouseUp", function(self, btn)
 		if btn == "RightButton" then ClearRaidMarker() end
-		self:SetBackdropColor(0, 0, 0, .5)
 	end)
 	marker:RegisterEvent("GROUP_ROSTER_UPDATE")
 	marker:RegisterEvent("PLAYER_ENTERING_WORLD")
@@ -174,12 +171,11 @@ function module:CreateRM()
 			marker:SetAlpha(.5)
 		end
 	end)
-	marker:SetScript("OnEnter", function(self)
+	marker:HookScript("OnEnter", function(self)
 		GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT", 0, 0)
 		GameTooltip:ClearLines()
 		GameTooltip:AddLine(DB.RightButton..DB.InfoColor..REMOVE_WORLD_MARKERS)
 		GameTooltip:Show()
-		self:SetBackdropBorderColor(cr, cg, cb, 1)
 	end)
 	marker:HookScript("OnLeave", GameTooltip_Hide)
 
@@ -255,14 +251,13 @@ function module:CreateRM()
 		end
 	end
 
-	checker:SetScript("OnEnter", function(self)
+	checker:HookScript("OnEnter", function(self)
 		GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT", 0, 0)
 		GameTooltip:ClearLines()
 		GameTooltip:AddLine(DB.LeftButton..DB.InfoColor..READY_CHECK)
 		GameTooltip:AddLine(DB.ScrollButton..DB.InfoColor..L["Count Down"])
 		GameTooltip:AddLine(DB.RightButton..DB.InfoColor..L["Check Status"])
 		GameTooltip:Show()
-		self:SetBackdropBorderColor(cr, cg, cb, 1)
 	end)
 	checker:HookScript("OnLeave", GameTooltip_Hide)
 

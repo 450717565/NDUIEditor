@@ -17,9 +17,9 @@ info.onUpdate = function(self, elapsed)
 		end
 
 		if GetCVarBool("timeMgrUseMilitaryTime") then
-			self.text:SetText(format(color..TIMEMANAGER_TICKER_24HOUR, hour, minute))
+			self.text:SetFormattedText(color..TIMEMANAGER_TICKER_24HOUR, hour, minute)
 		else
-			self.text:SetText(format(color..TIMEMANAGER_TICKER_12HOUR..DB.MyColor..(hour < 12 and "AM" or "PM"), hour, minute))
+			self.text:SetFormattedText(color..TIMEMANAGER_TICKER_12HOUR..DB.MyColor..(hour < 12 and "AM" or "PM"), hour, minute)
 		end
 
 		self.text:SetJustifyH("RIGHT")

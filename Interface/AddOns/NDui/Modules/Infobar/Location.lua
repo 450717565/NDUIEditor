@@ -18,15 +18,15 @@ local subzone, zone, pvp, coordX, coordY
 
 local function formatCoords()
 	local coords = ""
-		if IsInInstance() then
-			coords = select(4, GetInstanceInfo())
+	if IsInInstance() then
+		coords = select(4, GetInstanceInfo())
+	else
+		if (not coordX) or (not coordY) or (orcoordX == 0) or (coordY == 0) then
+			coords = "-- , --"
 		else
-			if (not coordX) or (not coordY) or (orcoordX == 0) or (coordY == 0) then
-				coords = "-- , --"
-			else
-				coords = format("%.1f , %.1f", coordX * 100, coordY * 100)
-			end
+			coords = format("%.1f , %.1f", coordX * 100, coordY * 100)
 		end
+	end
 	return coords
 end
 
@@ -96,9 +96,9 @@ info.onEnter = function(self)
 	if pvp[1] and not IsInInstance() then
 		if subzone and subzone ~= zone and subzone ~= "" then
 			GameTooltip:AddLine(" ")
-			GameTooltip:AddLine(subzone, r, g, b)
+			GameTooltip:AddDoubleLine(subzone, " ", r,g,b, 1,1,1)
 		end
-		GameTooltip:AddLine(format(zoneInfo[pvp[1]][1], pvp[3] or ""), r, g, b)
+		GameTooltip:AddDoubleLine(" ", format(zoneInfo[pvp[1]][1], pvp[3] or ""), 1,1,1, r,g,b)
 	end
 
 	GameTooltip:AddDoubleLine(" ", "--------------", 1,1,1, .5,.5,.5)

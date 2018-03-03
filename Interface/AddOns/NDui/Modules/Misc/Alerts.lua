@@ -237,7 +237,7 @@ function module:VersionCheck()
 			if not self.checked then
 				local b1, b2, b3 = string.split(".", DB.Version)
 				if tonumber(c1) > tonumber(b1) or tonumber(c2) > tonumber(b2) then
-					f.Text:SetText(format(L["Outdated NDui"], NDuiADB["DetectVersion"]))
+					f.Text:SetFormattedText(L["Outdated NDui"], NDuiADB["DetectVersion"])
 					f:Show()
 				elseif tonumber(c1) < tonumber(b1) or tonumber(c2) < tonumber(b2) then
 					SendAddonMessage("NDuiVersionCheck", DB.Version, "GUILD")

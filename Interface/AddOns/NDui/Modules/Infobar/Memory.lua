@@ -21,8 +21,8 @@ local function updateMemory()
 	local total, count = 0, 0
 	for i = 1, GetNumAddOns() do
 		if IsAddOnLoaded(i) then
-			local usage = GetAddOnMemoryUsage(i)
 			count = count + 1
+			local usage = GetAddOnMemoryUsage(i)
 			memoryTable[count] = {select(2, GetAddOnInfo(i)), usage}
 			total = total + usage
 		end
@@ -50,7 +50,7 @@ info.onUpdate = function(self, elapsed)
 			end
 		end
 		self.text:SetText(formatMemory(total, true))
-		self.text:SetJustifyH("LEFT")
+		self.text:SetJustifyH("RIGHT")
 
 		self.timer = 0
 	end
@@ -70,7 +70,7 @@ end
 
 info.onEnter = function(self)
 	local totalMemory = updateMemory()
-	GameTooltip:SetOwner(self, "ANCHOR_BOTTOM", 0, -15)
+	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 15)
 	GameTooltip:ClearLines()
 	GameTooltip:AddDoubleLine(ADDONS, formatMemory(totalMemory), 0,.6,1, .6,.8,1)
 	GameTooltip:AddLine(" ")

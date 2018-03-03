@@ -166,7 +166,7 @@ local function RenderSavedInstancesInfo(savedDB)
 		local dungeonsTab, raidsTab = GetEncounterJournalInstanceTabs()
 		local currentInstanceType = (raidsTab ~= nil and not raidsTab:IsEnabled()) and "raids" or "dungeons"
 
-		scroll.savedInstancesInfo:SetText(string.format(L["Sacve Instances Info"], _G[string.upper(currentInstanceType)], GetNumSavedDBInstances(savedDB, currentInstanceType)))
+		scroll.savedInstancesInfo:SetFormattedText(L["Sacve Instances Info"], _G[string.upper(currentInstanceType)], GetNumSavedDBInstances(savedDB, currentInstanceType))
 	end
 end
 
