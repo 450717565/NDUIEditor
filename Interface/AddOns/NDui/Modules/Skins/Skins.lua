@@ -3,13 +3,9 @@ local module = NDui:RegisterModule("Skins")
 
 function module:OnLogin()
 	local cr, cg, cb = 0, 0, 0
-	local basicW = ""
-	local basicH = ""
+	if NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b end
 
-	if NDuiDB["Skins"]["ClassLine"] then
-		cr, cg, cb = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b
-	end
-
+	local basicW, basicH = 0, 0
 	if NDuiDB["Actionbar"]["Style"] == 2 then
 		basicW = 450
 		basicH = 94

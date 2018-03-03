@@ -26,6 +26,7 @@ oUF.Tags.Events["hp"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION"
 oUF.Tags.Methods["power"] = function(unit)
 	local cur, max = UnitPower(unit), UnitPowerMax(unit)
 	local per = oUF.Tags.Methods["perpp"](unit).."%" or 0
+
 	if (unit == "player" and not UnitHasVehicleUI(unit)) or unit == "target" or unit == "focus" then
 		if cur < max and UnitPowerType(unit) == 0 then
 			return B.Numb(cur).." | "..per
@@ -43,7 +44,7 @@ oUF.Tags.Methods["color"] = function(unit)
 	local reaction = UnitReaction(unit, "player")
 
 	if UnitIsDeadOrGhost(unit) or not UnitIsConnected(unit) then
-		return "|cffA0A0A0"
+		return "|cffC0C0C0"
 	elseif UnitIsTapDenied(unit) then
 		return B.HexRGB(oUF.colors.tapped)
 	elseif UnitIsPlayer(unit) then
@@ -57,17 +58,17 @@ end
 oUF.Tags.Events["color"] = "UNIT_REACTION UNIT_HEALTH UNIT_CONNECTION"
 
 oUF.Tags.Methods["afkdnd"] = function(unit)
-	return UnitIsAFK(unit) and "|cffCFCFCF <"..AFK..">|r" or UnitIsDND(unit) and "|cffCFCFCF <"..DND..">|r" or ""
+	return UnitIsAFK(unit) and " |cffC0C0C0<"..AFK..">|r" or UnitIsDND(unit) and " |cffC0C0C0<"..DND..">|r" or ""
 end
 oUF.Tags.Events["afkdnd"] = "PLAYER_FLAGS_CHANGED"
 
 oUF.Tags.Methods["DDG"] = function(unit)
 	if UnitIsDead(unit) then
-		return "|cffCFCFCF"..DEAD.."|r"
+		return "|cffC0C0C0"..DEAD.."|r"
 	elseif UnitIsGhost(unit) then
-		return "|cffCFCFCF"..L["Ghost"].."|r"
+		return "|cffC0C0C0"..L["Ghost"].."|r"
 	elseif not UnitIsConnected(unit) then
-		return "|cffCFCFCF"..PLAYER_OFFLINE.."|r"
+		return "|cffC0C0C0"..PLAYER_OFFLINE.."|r"
 	end
 end
 oUF.Tags.Events["DDG"] = "UNIT_HEALTH UNIT_CONNECTION"
@@ -75,29 +76,32 @@ oUF.Tags.Events["DDG"] = "UNIT_HEALTH UNIT_CONNECTION"
 -- Level tags
 oUF.Tags.Methods["fulllevel"] = function(unit)
 	local level = UnitLevel(unit)
+	local class = UnitClassification(unit)
+	local color = B.HexRGB(GetCreatureDifficultyColor(level))
+
 	if UnitIsWildBattlePet(unit) or UnitIsBattlePetCompanion(unit) then
 		level = UnitBattlePetLevel(unit)
 	end
 
-	local color = B.HexRGB(GetCreatureDifficultyColor(level))
-	if level > 0 then
-		level = color..level.."|r"
+	if level and level ~= UnitLevel("player") then
+		if level > 0 then
+			level = color..level.."|r"
+		else
+			level = "|cffFF0000"..BOSS.."|r"
+		end
 	else
-		level = "|cffff0000"..BOSS.."|r"
+		level = ""
 	end
-	local str = level
 
-	local class = UnitClassification(unit)
-	if not UnitIsConnected(unit) then
-		str = PLAYER_OFFLINE
-	elseif class == "elite" then
-		str = level.." |cffffff00"..ELITE.."|r"
+	local str = level
+	if class == "elite" then
+		str = level.." |cffFFFF00"..ELITE.."|r"
 	elseif class == "rare" then
-		str = level.." |cffff00ff"..L["Rare"].."|r"
+		str = level.." |cffFF00FF"..L["Rare"].."|r"
 	elseif class == "rareelite" then
-		str = level.." |cff00ffff"..L["Rare"]..ELITE.."|r"
+		str = level.." |cff00FFFF"..L["Rare"]..ELITE.."|r"
 	elseif class == "worldboss" then
-		str = "|cffff0000"..BOSS.."|r"
+		str = " |cffFF0000"..BOSS.."|r"
 	end
 
 	return str
@@ -121,7 +125,7 @@ oUF.Tags.Methods["nphp"] = function(unit)
 	local min, max = UnitHealth(unit), UnitHealthMax(unit)
 
 	if min == max then return end
-	per = "|cff00ffff"..per.."|r"
+	per = "|cff00FFFF"..per.."|r"
 
 	return per
 end
@@ -133,21 +137,21 @@ oUF.Tags.Methods["nppp"] = function(unit)
 	local min, max = UnitPower(unit), UnitPowerMax(unit)
 
 	if min == 0 then return end
-	per = "|cff00ffff"..per.."|r"
+	per = "|cff00FFFF"..per.."|r"
 
 	return per
 end
 oUF.Tags.Events["nppp"] = "UNIT_POWER_FREQUENT UNIT_MAXPOWER"
 
 oUF.Tags.Methods["nplevel"] = function(unit)
-	local class = UnitClassification(unit)
 	local level = UnitLevel(unit)
+	local color = B.HexRGB(GetCreatureDifficultyColor(level))
 
 	if level and level ~= UnitLevel("player") then
 		if level > 0 then
-			level = B.HexRGB(GetCreatureDifficultyColor(level))..level.."|r "
+			level = color..level.."|r "
 		else
-			level = "|cffff0000"..BOSS.."|r "
+			level = "|cffFF0000"..BOSS.."|r "
 		end
 	else
 		level = ""
@@ -161,7 +165,8 @@ oUF.Tags.Events["nplevel"] = "UNIT_LEVEL PLAYER_LEVEL_UP UNIT_CLASSIFICATION_CHA
 oUF.Tags.Methods["altpower"] = function(unit)
 	local cur = UnitPower(unit, ALTERNATE_POWER_INDEX)
 	local max = UnitPowerMax(unit, ALTERNATE_POWER_INDEX)
-	if (max > 0 and not UnitIsDeadOrGhost(unit)) then
+
+	if max > 0 and not UnitIsDeadOrGhost(unit) then
 		return ("%.1f%%"):format(cur / max*100)
 	end
 end

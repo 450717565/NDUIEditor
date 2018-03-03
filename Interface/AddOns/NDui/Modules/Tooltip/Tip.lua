@@ -1,10 +1,10 @@
 local B, C, L, DB = unpack(select(2, ...))
 
 local classification = {
-	elite = " |cffffff00"..ELITE.."|r",
-	rare = " |cffff00ff"..L["Rare"].."|r",
-	rareelite = " |cff00ffff"..L["Rare"]..ELITE.."|r",
-	worldboss = " |cffff0000"..BOSS.."|r",
+	elite = " |cffFFFF00"..ELITE.."|r",
+	rare = " |cffFF00FF"..L["Rare"].."|r",
+	rareelite = " |cff00FFFF"..L["Rare"]..ELITE.."|r",
+	worldboss = " |cffFF0000"..BOSS.."|r",
 }
 
 local find = string.find
@@ -57,7 +57,7 @@ end
 
 local function getTarget(unit)
 	if UnitIsUnit(unit, "player") then
-		return ("|cffff0000%s|r"):format(">"..string.upper(YOU).."<")
+		return ("|cffFF0000%s|r"):format(">"..string.upper(YOU).."<")
 	else
 		return B.HexRGB(B.UnitColor(unit))..UnitName(unit).."|r"
 	end
@@ -185,7 +185,7 @@ GameTooltip:HookScript("OnTooltipSetUnit", function(self)
 
 		if level then
 			local boss
-			if level <= 0 then boss = "|cffff0000"..BOSS.."|r" end
+			if level <= 0 then boss = "|cffFF0000"..BOSS.."|r" end
 
 			local diff = GetCreatureDifficultyColor(level)
 			local classify = UnitClassification(unit)

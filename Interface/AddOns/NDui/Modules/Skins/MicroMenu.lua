@@ -25,13 +25,8 @@ function module:CreateMMB(parent, data)
 	local bg = B.CreateBG(bu, 0)
 	B.CreateBD(bg)
 	bg:Hide()
-	if not NDuiDB["Skins"]["ClassLine"] then
-		bg:SetBackdropColor(1, 1, 1, .5)
-		bg:SetBackdropBorderColor(1, 1, 1)
-	else
-		bg:SetBackdropColor(cr, cg, cb, .5)
-		bg:SetBackdropBorderColor(cr, cg, cb)
-	end
+	bg:SetBackdropColor(cr, cg, cb, .5)
+	bg:SetBackdropBorderColor(cr, cg, cb)
 	bu:HookScript("OnEnter", function() bg:Show() end)
 	bu:HookScript("OnLeave", function() bg:Hide() end)
 	bu:SetScript("OnClick", func)

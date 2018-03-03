@@ -96,7 +96,7 @@ function UF:CreateHealthText(self)
 	end
 
 	if self.mystyle == "player" then
-		self:Tag(name, "  [color][name]")
+		self:Tag(name, " [color][name]")
 	elseif self.mystyle == "target" or self.mystyle == "party" then
 		self:Tag(name, "[fulllevel] [color][name][afkdnd]")
 	elseif self.mystyle == "focus" then
@@ -610,7 +610,7 @@ function UF:CreateAltPower(self)
 	local bar = CreateFrame("StatusBar", nil, self)
 	bar:SetHeight(4)
 	bar:SetStatusBarTexture(DB.normTex)
-	bar:SetPoint("TOP", self.Power, "BOTTOM", 0, -4)
+	bar:SetPoint("TOP", self.Power, "BOTTOM", 0, -3)
 	bar:SetWidth(self:GetWidth())
 	B.CreateBD(bar, .5, .1)
 	B.CreateSD(bar, 3, 3)

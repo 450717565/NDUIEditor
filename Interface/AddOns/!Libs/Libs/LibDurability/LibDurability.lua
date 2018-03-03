@@ -22,7 +22,8 @@ local callbackMap = LD.callbackMap
 local frame = LD.frame
 
 local next, type, error, tonumber, format, match = next, type, error, tonumber, string.format, string.match
-local Ambiguate, GetTime, GetInventoryItemDurability, IsInGroup, IsInRaid, SendAddonMessage = Ambiguate, GetTime, GetInventoryItemDurability, IsInGroup, IsInRaid, SendAddonMessage
+local Ambiguate, GetTime, GetInventoryItemDurability, IsInGroup, IsInRaid = Ambiguate, GetTime, GetInventoryItemDurability, IsInGroup, IsInRaid
+local SendAddonMessage = C_ChatInfo and C_ChatInfo.SendAddonMessage or SendAddonMessage -- XXX 8.0
 local pName = UnitName("player")
 
 local function GetDurability()
@@ -42,7 +43,11 @@ local function GetDurability()
 end
 LD.GetDurability = GetDurability
 
-RegisterAddonMessagePrefix("Durability")
+if C_ChatInfo then -- XXX 8.0
+	C_ChatInfo.RegisterAddonMessagePrefix("Durability")
+else
+	RegisterAddonMessagePrefix("Durability")
+end
 frame:SetScript("OnEvent", function(_, _, prefix, msg, channel, sender)
 	if prefix == "Durability" and throttleTable[channel] then
 		if msg == "R" then

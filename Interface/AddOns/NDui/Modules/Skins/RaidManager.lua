@@ -23,11 +23,12 @@ function module:CreateRM()
 		end
 	end)
 	header:SetScript("OnEnter", function(self)
-		if IsInInstance() then return end
-		GameTooltip:SetOwner(self, "ANCHOR_BOTTOM", 0, 0)
-		GameTooltip:ClearLines()
-		GameTooltip:AddLine(DB.InfoColor..L["Double-click"]..DB.RightButton..PARTY_LEAVE)
-		GameTooltip:Show()
+		if not IsInInstance() then
+			GameTooltip:SetOwner(self, "ANCHOR_BOTTOM", 0, 0)
+			GameTooltip:ClearLines()
+			GameTooltip:AddLine(DB.InfoColor..L["Double-click"]..DB.RightButton..PARTY_LEAVE)
+			GameTooltip:Show()
+		end
 		self:SetBackdropBorderColor(cr, cg, cb, 1)
 	end)
 	header:HookScript("OnLeave", GameTooltip_Hide)
