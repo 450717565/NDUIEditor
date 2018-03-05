@@ -402,7 +402,10 @@ C.themes["Blizzard_Collections"] = function()
 		bu.slotFrameUncollected:SetTexture("")
 
 		ic:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(ic)
+		F.CreateBG(ic)
+		local bg = F.CreateBDFrame(bu)
+		bg:SetPoint("TOPLEFT", 2.8, -1.8)
+		bg:SetPoint("BOTTOMRIGHT", -2.8, 3.8)
 
 		hooksecurefunc(bu.name, "SetTextColor", changeTextColor)
 	end

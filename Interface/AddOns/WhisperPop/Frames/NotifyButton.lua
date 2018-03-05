@@ -31,7 +31,7 @@ button.icon:SetDesaturated(true)
 
 button.text = button:CreateFontString(button:GetName().."Text", "ARTWORK", "GameFontGreenSmall")
 button.text:SetPoint("LEFT", button, "RIGHT", 2, 0)
-button.text:SetFont(STANDARD_TEXT_FONT, 13)
+button.text:SetFont(STANDARD_TEXT_FONT, 13, "OUTLINE")
 
 button:RegisterForDrag("LeftButton")
 button:SetScript("OnDragStart", button.StartMoving)

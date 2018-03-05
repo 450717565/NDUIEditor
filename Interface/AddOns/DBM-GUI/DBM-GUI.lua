@@ -43,7 +43,7 @@
 --
 
 
-local revision =("$Revision: 17361 $"):sub(12, -3)
+local revision =("$Revision: 17364 $"):sub(12, -3)
 local FrameTitle = "DBM_GUI_Option_"	-- all GUI frames get automatically a name FrameTitle..ID
 
 local PanelPrototype = {}
@@ -3042,7 +3042,7 @@ local function CreateOptionsMenu()
 		local randomMusic			= eventSoundsExtrasArea:CreateCheckButton(L.EventRandomMusic, true, nil, "EventRandomMusic")
 		
 		local eventSoundsFiltersArea= eventSoundsPanel:CreateArea(L.Area_EventSoundsFilters, nil, 48, true)
-		local musicMythicFilter		= eventSoundsFiltersArea:CreateCheckButton(L.EventFilterMythicMusic, true, nil, "EventFilterMythicMusic")
+		local musicMythicFilter		= eventSoundsFiltersArea:CreateCheckButton(L.EventFilterMythicMusic, true, nil, "EventMusicMythicFilter")
 		
 		eventSoundsPanel:SetMyOwnHeight()
 	end

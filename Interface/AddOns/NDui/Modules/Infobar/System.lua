@@ -5,12 +5,12 @@ local module = NDui:GetModule("Infobar")
 local info = module:RegisterInfobar(C.Infobar.SystemPos)
 
 local function colorLatency(latency)
-	if latency > 250 then
-		return "|cffC0C000"..latency.."|r"
-	elseif latency > 500 then
-		return "|cffC00000"..latency.."|r"
-	else
+	if latency < 250 then
 		return "|cff00C000"..latency.."|r"
+	elseif latency < 500 then
+		return "|cffC0C000"..latency.."|r"
+	else
+		return "|cffC00000"..latency.."|r"
 	end
 end
 

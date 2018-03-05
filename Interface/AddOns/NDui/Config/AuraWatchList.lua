@@ -1016,6 +1016,12 @@ C.AuraWatchList = {
 				{AuraID = 200672, UnitID = "target"},
 				--黑暗能量，提拉宋
 				{AuraID = 200672, UnitID = "target", Value = true},
+				--贞洁圣女：神圣壁垒
+				{AuraID = 227817, UnitID = "target", Value = true},
+				--国王：易伤
+				{AuraID = 229495, UnitID = "target"},
+				--馆长：易伤
+				{AuraID = 227254, UnitID = "target"},
 			-->勇气试练
 				--奥丁，弧光风暴
 				{AuraID = 229256, UnitID = "target"},
@@ -1027,13 +1033,6 @@ C.AuraWatchList = {
 				{AuraID = 203816, UnitID = "target"},
 				--小怪，幽灵怒火
 				{AuraID = 228611, UnitID = "target"},
-			-->卡拉赞
-				--贞洁圣女：神圣壁垒
-				{AuraID = 227817, UnitID = "target", Value = true},
-				--国王：易伤
-				{AuraID = 229495, UnitID = "target"},
-				--馆长：易伤
-				{AuraID = 227254, UnitID = "target"},
 			-->翡翠梦魇
 				--梦魇之怒
 				{AuraID = 215234, UnitID = "target"},

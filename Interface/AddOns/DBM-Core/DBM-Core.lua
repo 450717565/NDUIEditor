@@ -41,7 +41,7 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 17362 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 17366 $"):sub(12, -3)),
 	DisplayVersion = "7.3.24 alpha", -- the string that is shown as version
 	ReleaseRevision = 17327 -- the revision of the latest stable version that is available
 }
@@ -108,7 +108,7 @@ DBM.DefaultOptions = {
 	EventRandomVictory = false,
 	EventRandomDefeat = true,
 	EventRandomMusic = false,
-	EventFilterMythicMusic = false,
+	EventMusicMythicFilter = true,
 	Enabled = true,
 	ShowWarningsInChat = true,
 	ShowSWarningsInChat = true,
@@ -285,7 +285,7 @@ DBM.Counts = {
 }
 DBM.Victory = {
 	{text = "None",value  = "None"},
-	{text = "Blakbyrd: FF Victory (NYI)",value = "Interface\\AddOns\\DBM-Core\\sounds\\BlakbyrdAlerts\\bbvictory.ogg",},
+	{text = "Blakbyrd: FF Fanfare (temp version)",value = "Interface\\AddOns\\DBM-Core\\sounds\\BlakbyrdAlerts\\bbvictory.ogg",},
 }
 DBM.Defeat = {
 	{text = "None",value  = "None"},
@@ -5621,7 +5621,7 @@ do
 				if self.Options.EventEngageSound and self.Options.EventEngageSound ~= "" and self.Options.EventEngageSound ~= "None" then
 					self:PlaySoundFile(self.Options.EventEngageSound)
 				end
-				if self.Options.EventEngageMusic and self.Options.EventEngageMusic ~= "None" and self.Options.EventEngageMusic ~= "" and not (self.Options.EventFilterMythicMusic and (savedDifficulty == "Mythic" or savedDifficulty == "Challenge")) then
+				if self.Options.EventEngageMusic and self.Options.EventEngageMusic ~= "None" and self.Options.EventEngageMusic ~= "" and not (self.Options.EventMusicMythicFilter and (savedDifficulty == "Mythic" or savedDifficulty == "Challenge")) then
 					self.Options.tempMusicSetting = tonumber(GetCVar("Sound_EnableMusic"))
 					if self.Options.tempMusicSetting == 0 then
 						SetCVar("Sound_EnableMusic", 1)
