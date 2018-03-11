@@ -181,6 +181,7 @@ local function ForceDBMOptions()
 	if not DBM_AllSavedOptions["Default"] then DBM_AllSavedOptions["Default"] = {} end
 	DBM_AllSavedOptions = {
 		["Default"] = {
+			["EventSoundVictory"] = "None",
 			["HideObjectivesFrame"] = false,
 			["ShowMinimapButton"] = false,
 			["SpecialWarningFontSize2"] = 24,

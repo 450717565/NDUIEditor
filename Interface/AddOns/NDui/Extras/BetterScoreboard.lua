@@ -438,7 +438,7 @@ function WorldStateScoreFrame_Update()
 	-- Set count text and anchor team count to last button shown
 	WorldStateScorePlayerCount:Show();
 	if ( numHorde > 0 and numAlliance > 0 ) then
-		WorldStateScorePlayerCount:SetFormattedText(PLAYER_COUNT_ALLIANCE, numAlliance.." / "..PLAYER_COUNT_HORDE, numHorde);
+		WorldStateScorePlayerCount:SetFormattedText(PLAYER_COUNT_ALLIANCE.." / "..PLAYER_COUNT_HORDE, numAlliance, numHorde);
 	elseif ( numAlliance > 0 ) then
 		WorldStateScorePlayerCount:SetFormattedText(PLAYER_COUNT_ALLIANCE, numAlliance);
 	elseif ( numHorde > 0 ) then

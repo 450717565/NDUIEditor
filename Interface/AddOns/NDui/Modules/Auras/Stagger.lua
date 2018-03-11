@@ -14,7 +14,7 @@ local function StaggerGo()
 	B.CreateSB(bar, true)
 	bar:SetMinMaxValues(0, 100)
 	bar:SetValue(0)
-	bar.Text = B.CreateFS(bar, 16, "", false, "CENTER", 0, -14)
+	bar.Count = B.CreateFS(bar, 16, "", false, "CENTER", 0, -14)
 
 	local spells = {214326, 115072, 115308, 124275}
 	for i = 1, 4 do
@@ -149,7 +149,7 @@ f:SetScript("OnEvent", function(self, event)
 				bu[4].CD:SetCooldown(0, 0)
 			end
 			bar:SetValue(Per)
-			bar.Text:SetText(DB.InfoColor..B.Numb(value).."|r | "..DB.MyColor..string.format("%.1f%%", Per).."|r | "..DB.InfoColor..B.Numb(total).."|r")
+			bar.Count:SetText(DB.InfoColor..B.Numb(value).."|r | "..DB.MyColor..string.format("%.1f%%", Per).."|r | "..DB.InfoColor..B.Numb(total).."|r")
 			if Per >= 150 then
 				ActionButton_ShowOverlayGlow(bu[4])
 			else

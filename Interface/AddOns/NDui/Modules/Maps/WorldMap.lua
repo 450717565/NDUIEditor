@@ -3,7 +3,9 @@ local module = NDui:RegisterModule("Maps")
 
 function module:OnLogin()
 	local WorldMapDetailFrame, WorldMapTitleButton, WorldMapFrame, WorldMapFrameTutorialButton = _G.WorldMapDetailFrame, _G.WorldMapTitleButton, _G.WorldMapFrame, _G.WorldMapFrameTutorialButton
-	local formattext = DB.MyColor.."%.1f , %.1f"
+	local formatText = DB.MyColor.."%.1f , %.1f"
+	local playerText = PLAYER..L[":"]
+	local mouseText = MOUSE_LABEL..L[":"]
 
 	-- Default Settings
 	SetCVar("lockedWorldMap", 0)
@@ -49,14 +51,14 @@ function module:OnLogin()
 		local cx, cy = CursorCoords()
 		local px, py = GetPlayerMapPosition("player")
 		if cx and cy then
-			cursor:SetFormattedText(MOUSE_LABEL..L[":"]..formattext, 100 * cx, 100 * cy)
+			cursor:SetFormattedText(mouseText..formatText, 100 * cx, 100 * cy)
 		else
-			cursor:SetText(MOUSE_LABEL..L[":"]..DB.MyColor.."-- , --")
+			cursor:SetText(mouseText..DB.MyColor.."-- , --")
 		end
 		if (not px) or (not py) or (px == 0) or (py == 0) then
-			player:SetText(PLAYER..L[":"]..DB.MyColor.."-- , --")
+			player:SetText(playerText..DB.MyColor.."-- , --")
 		else
-			player:SetFormattedText(PLAYER..L[":"]..formattext, 100 * px, 100 * py)
+			player:SetFormattedText(playerText..formatText, 100 * px, 100 * py)
 		end
 	end
 

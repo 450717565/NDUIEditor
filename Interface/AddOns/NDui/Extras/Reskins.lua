@@ -22,9 +22,13 @@ if IsAddOnLoaded("Aurora") then
 			F.CreateSD(BaudErrorFrameDetailScrollBox)
 			F.ReskinScroll(BaudErrorFrameListScrollBoxScrollBarScrollBar)
 			F.ReskinScroll(BaudErrorFrameDetailScrollFrameScrollBar)
+			
+			local boxHL = BaudErrorFrameListScrollBoxHighlightTexture
+			boxHL:SetTexture(C.media.backdrop)
+			boxHL:SetVertexColor(r, g, b, .5)
 
-			local list = {"ClearButton", "CloseButton", "ReloadUIButton"}
-			for k, v in pairs(list) do
+			local Buttonlist = {"ClearButton", "CloseButton", "ReloadUIButton"}
+			for k, v in pairs(Buttonlist) do
 				F.Reskin(_G["BaudErrorFrame"..v])
 			end
 		end

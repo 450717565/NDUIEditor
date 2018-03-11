@@ -29,7 +29,7 @@ function module:OnLogin()
 			if NDuiDB["Bags"]["ItemSetFilter"] then
 				return item.isInSet
 			else
-				return item.level and item.rarity > 1 and (item.subType == EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC or item.equipLoc ~= "")
+				return item.level and item.rarity > 1 and (item.subType == EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC or (item.equipLoc ~= "" and item.equipLoc ~= "INVTYPE_BAG"))
 			end
 		end
 
@@ -240,7 +240,7 @@ function module:OnLogin()
 			local link = GetContainerItemLink(item.bagID, item.slotID)
 			if link
 			and (item.rarity and item.rarity > 1)
-			and ((item.level and item.level > 0) and (item.subType == EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC or (item.equipLoc ~= "" and item.equipLoc ~= "INVTYPE_TABARD" and item.equipLoc ~= "INVTYPE_BODY")))
+			and ((item.level and item.level > 0) and (item.subType == EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC or (item.equipLoc ~= "" and item.equipLoc ~= "INVTYPE_TABARD" and item.equipLoc ~= "INVTYPE_BODY" and item.equipLoc ~= "INVTYPE_BAG")))
 			or ((item.classID and item.classID == 15 and item.subclassID) and (item.subclassID == 2 or item.subclassID == 5)) then
 				local level = GetBagItemLevel(item.link, item.bagID, item.slotID) or item.level
 				local _, _, _, _, _, _, itemSubType, itemStackCount, itemEquipLoc, _, _, itemClassID, itemSubClassID, bindType = GetItemInfo(link)

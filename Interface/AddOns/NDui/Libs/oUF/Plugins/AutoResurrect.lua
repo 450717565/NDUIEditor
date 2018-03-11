@@ -34,7 +34,7 @@ local classList = {
 	["HUNTER"] = {
 		combat1 = GetSpellInfo(126393),		-- 永恒守护者
 		combat2 = GetSpellInfo(159931),		-- 赤精之赐
-		combat3 = GetSpellInfo(159956)
+		combat3 = GetSpellInfo(159956),		-- 生命之尘
 	},
 	["WARLOCK"] = {
 		combat = GetSpellInfo(20707),		-- 灵魂石

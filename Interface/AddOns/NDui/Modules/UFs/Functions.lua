@@ -478,6 +478,7 @@ function UF:CreateBuffs(self)
 		bu.size = 14*NDuiDB["UFs"]["RaidScale"]
 		bu.spacing = 2
 		bu.CustomFilter = customFilter
+		bu.EnableTooltip = not NDuiDB["UFs"]["AurasClickThrough"]
 	else
 		bu.num = 0
 	end

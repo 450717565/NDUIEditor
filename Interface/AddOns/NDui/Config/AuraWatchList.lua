@@ -473,6 +473,8 @@ C.AuraWatchList = {
 				{AuraID = 240443, UnitID = "player"},
 				--萨维斯：弱肉强食
 				{AuraID = 200238, UnitID = "player"},
+				--奥丁：符文烙印
+				{AuraID = 197964, UnitID = "player"},
 				--奥丁：烙印
 				{AuraID = 197996, UnitID = "player"},
 				--海拉：海洋污染
@@ -869,18 +871,20 @@ C.AuraWatchList = {
 		-->燃烧王座
 			--加洛西灭世者
 				--屠戮
-				{AuraID = 244410, UnitID = "player", Text = "跑场边"},
+				{AuraID = 244410, UnitID = "player", Text = L["Get Out"]},
 				--强化屠戮
 				{AuraID = 245294, UnitID = "player"},
 				--错乱屠戮
 				{AuraID = 246920, UnitID = "player"},
+				--邪能轰炸
+				{AuraID = 246220, UnitID = "player", Text = L["Get Out"]},
 			--萨格拉斯的恶犬
 				--烧焦
 				{AuraID = 244091, UnitID = "player"},
 				--点燃
 				{AuraID = 248815, UnitID = "player"},
 				--荒芜凝视
-				{AuraID = 244768, UnitID = "player", Text = "跑场边"},
+				{AuraID = 244768, UnitID = "player", Text = L["Get Out"]},
 				--虹吸
 				{AuraID = 248819, UnitID = "player", Text = "分摊"},
 				--暗影触痕

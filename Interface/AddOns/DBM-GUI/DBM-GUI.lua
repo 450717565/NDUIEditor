@@ -43,7 +43,7 @@
 --
 
 
-local revision =("$Revision: 17364 $"):sub(12, -3)
+local revision =("$Revision: 17386 $"):sub(12, -3)
 local FrameTitle = "DBM_GUI_Option_"	-- all GUI frames get automatically a name FrameTitle..ID
 
 local PanelPrototype = {}
@@ -3011,37 +3011,68 @@ local function CreateOptionsMenu()
 		})
 
 		local eventSoundsPanel	 	= DBM_GUI_Frame:CreateNewPanel(L.Panel_EventSounds, "option")
-		local eventSoundsGeneralArea	= eventSoundsPanel:CreateArea(L.Area_SoundSelection, nil, 105, true)
+		local eventSoundsGeneralArea	= eventSoundsPanel:CreateArea(L.Area_SoundSelection, nil, 145, true)
 
-		local VictorySoundDropdown = eventSoundsGeneralArea:CreateDropdown(L.EventVictorySound, DBM.Victory, "DBM", "EventVictorySound", function(value)
-			DBM.Options.EventVictorySound = value
-			DBM:PlaySoundFile(DBM.Options.EventVictorySound)
+		local VictorySoundDropdown = eventSoundsGeneralArea:CreateDropdown(L.EventVictorySound, DBM.Victory, "DBM", "EventSoundVictory", function(value)
+			DBM.Options.EventSoundVictory = value
+			if value ~= "Random" then
+				DBM:PlaySoundFile(value)
+			end
 		end)
 		VictorySoundDropdown:SetPoint("TOPLEFT", eventSoundsGeneralArea.frame, "TOPLEFT", 0, -20)
 		
-		local VictorySoundDropdown2 = eventSoundsGeneralArea:CreateDropdown(L.EventWipeSound, DBM.Defeat, "DBM", "EventWipeSound", function(value)
-			DBM.Options.EventWipeSound = value
-			DBM:PlaySoundFile(DBM.Options.EventWipeSound)
+		local VictorySoundDropdown2 = eventSoundsGeneralArea:CreateDropdown(L.EventWipeSound, DBM.Defeat, "DBM", "EventSoundWipe", function(value)
+			DBM.Options.EventSoundWipe = value
+			if value ~= "Random" then
+				DBM:PlaySoundFile(value)
+			end
 		end)
 		VictorySoundDropdown2:SetPoint("LEFT", VictorySoundDropdown, "RIGHT", 50, 0)
-
-		local VictorySoundDropdown3 = eventSoundsGeneralArea:CreateDropdown(L.EventEngageSound, Sounds, "DBM", "EventEngageSound", function(value)
-			DBM.Options.EventEngageSound = value
-			DBM:PlaySoundFile(DBM.Options.EventEngageSound)
-		end)
-		VictorySoundDropdown3:SetPoint("TOPLEFT", VictorySoundDropdown, "TOPLEFT", 0, -45)
 		
-		local MusicDropDown = eventSoundsGeneralArea:CreateDropdown(L.EventEngageMusic, DBM.Music, "DBM", "EventEngageMusic", function(value)
-			DBM.Options.EventEngageMusic = value
+		local useCombined = DBM.Options.EventSoundMusicCombined
+		local DungeonMusicDropDown = eventSoundsGeneralArea:CreateDropdown(L.EventDungeonMusic, useCombined and DBM.Music or DBM.DungeonMusic, "DBM", "EventSoundDungeonBGM", function(value)
+			DBM.Options.EventSoundDungeonBGM = value
+			if value ~= "Random" then
+				if not DBM.Options.tempMusicSetting then
+					DBM.Options.tempMusicSetting = tonumber(GetCVar("Sound_EnableMusic"))
+					if DBM.Options.tempMusicSetting == 0 then
+						SetCVar("Sound_EnableMusic", 1)
+					else
+						DBM.Options.tempMusicSetting = nil--Don't actually need it
+					end
+				end
+				PlayMusic(value)
+			end
+		end)
+		DungeonMusicDropDown:SetPoint("TOPLEFT", VictorySoundDropdown, "TOPLEFT", 0, -45)
+		
+		local MusicDropDown = eventSoundsGeneralArea:CreateDropdown(L.EventEngageMusic, useCombined and DBM.Music or DBM.BattleMusic, "DBM", "EventSoundMusic", function(value)
+			DBM.Options.EventSoundMusic = value
+			if value ~= "Random" then
+				if not DBM.Options.tempMusicSetting then
+					DBM.Options.tempMusicSetting = tonumber(GetCVar("Sound_EnableMusic"))
+					if DBM.Options.tempMusicSetting == 0 then
+						SetCVar("Sound_EnableMusic", 1)
+					else
+						DBM.Options.tempMusicSetting = nil--Don't actually need it
+					end
+				end
+				PlayMusic(value)
+			end
 		end)
 		MusicDropDown:SetPoint("TOPLEFT", VictorySoundDropdown2, "TOPLEFT", 0, -45)
 		
-		local eventSoundsExtrasArea	= eventSoundsPanel:CreateArea(L.Area_EventSoundsExtras, nil, 97, true)
-		local randomVictory			= eventSoundsExtrasArea:CreateCheckButton(L.EventRandomVictory, true, nil, "EventRandomVictory")
-		local randomDefeat			= eventSoundsExtrasArea:CreateCheckButton(L.EventRandomDefeat, true, nil, "EventRandomDefeat")
-		local randomMusic			= eventSoundsExtrasArea:CreateCheckButton(L.EventRandomMusic, true, nil, "EventRandomMusic")
+		local VictorySoundDropdown3 = eventSoundsGeneralArea:CreateDropdown(L.EventEngageSound, Sounds, "DBM", "EventSoundEngage", function(value)
+			DBM.Options.EventSoundEngage = value
+			DBM:PlaySoundFile(DBM.Options.EventSoundEngage)
+		end)
+		VictorySoundDropdown3:SetPoint("TOPLEFT", DungeonMusicDropDown, "TOPLEFT", 0, -45)
 		
-		local eventSoundsFiltersArea= eventSoundsPanel:CreateArea(L.Area_EventSoundsFilters, nil, 48, true)
+		local eventSoundsExtrasArea	= eventSoundsPanel:CreateArea(L.Area_EventSoundsExtras, nil, 52, true)
+		local combineMusic			= eventSoundsExtrasArea:CreateCheckButton(L.EventMusicCombined, true, nil, "EventSoundMusicCombined")
+		
+		local eventSoundsFiltersArea= eventSoundsPanel:CreateArea(L.Area_EventSoundsFilters, nil, 72, true)
+		local musicDungMythicFilter	= eventSoundsFiltersArea:CreateCheckButton(L.EventFilterDungMythicMusic, true, nil, "EventMusicMythicFilter")
 		local musicMythicFilter		= eventSoundsFiltersArea:CreateCheckButton(L.EventFilterMythicMusic, true, nil, "EventMusicMythicFilter")
 		
 		eventSoundsPanel:SetMyOwnHeight()

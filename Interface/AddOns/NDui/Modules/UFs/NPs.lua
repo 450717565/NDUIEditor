@@ -52,7 +52,9 @@ C.ShowPowerList = {
 	["Scrubber"] = true,
 	["清扫器"] = true,
 	["清掃者"] = true,
+	["Ember of Taeshalach"] = true,
 	["泰沙拉克的余烬"] = true,
+	["泰夏拉克燼火"] = true,
 }
 function UF:CreatePowerUnitTable()
 	if not NDuiDB["Nameplate"]["ShowUnitPower"] then return end
@@ -230,7 +232,7 @@ function UF:CreateClassBar()
 		["DEATHKNIGHT"] = {.77, .12, .23},
 	}
 
-	local bar, bars = CreateFrame("Frame", "oUF_NPClassPower", UIParent), {}
+	local bar, bars = CreateFrame("Frame", "NDui_NPClassPower", UIParent), {}
 	bar:SetSize(width, height)
 	bar.__max = 6
 	for i = 1, bar.__max do
@@ -511,7 +513,7 @@ local function UpdatePlates(self, event, unit)
 	end
 
 	-- Update ClassPowerBar
-	local bar = _G.oUF_NPClassPower
+	local bar = NDui_NPClassPower
 	if not bar then return end
 	if GetCVar("nameplateShowSelf") == "0" then return end
 

@@ -116,7 +116,6 @@ function module:CreateRM()
 		if self.elapsed > .1 then
 			local charges, _, started, duration = GetSpellCharges(20484)
 			if charges then
-				self.Count:SetText(charges)
 
 				local timer = duration - (GetTime() - started)
 				if timer < 0 then
@@ -125,6 +124,7 @@ function module:CreateRM()
 					self.Timer:SetFormattedText("%d:%.2d", timer/60, timer%60)
 				end
 
+				self.Count:SetText(charges)
 				if charges == 0 then
 					self.Count:SetTextColor(1, 0, 0)
 				else
@@ -140,6 +140,52 @@ function module:CreateRM()
 			self.elapsed = 0
 		end
 	end)
+
+	-- Ready check indicator
+	local rcFrame = CreateFrame("Frame", nil, header)
+	rcFrame:SetPoint("TOP", header, "BOTTOM")
+	rcFrame:SetSize(120, 50)
+	rcFrame:Hide()
+	B.CreateBD(rcFrame)
+	B.CreateTex(rcFrame)
+	B.CreateFS(rcFrame, 14, READY_CHECK, true, "TOP", 0, -8)
+	local rc = B.CreateFS(rcFrame, 14, "", false, "TOP", 0, -28)
+
+	local count, total
+	rcFrame:RegisterEvent("READY_CHECK")
+	rcFrame:RegisterEvent("READY_CHECK_CONFIRM")
+	rcFrame:RegisterEvent("READY_CHECK_FINISHED")
+	rcFrame:SetScript("OnEvent", function(self, event)
+		if event == "READY_CHECK_FINISHED" then
+			if count == total then
+				rc:SetTextColor(0, 1, 0)
+			else
+				rc:SetTextColor(1, 0, 0)
+			end
+			C_Timer.After(5, function()
+				self:Hide()
+				rc:SetText("")
+				count, total = 0, 0
+			end)
+		else
+			count, total = 0, 0
+			self:Show()
+			local maxgroup = getRaidMaxGroup()
+			for i = 1, GetNumGroupMembers() do
+				local name, _, subgroup = GetRaidRosterInfo(i)
+				if name and subgroup <= maxgroup then
+					total = total + 1
+					local status = GetReadyCheckStatus(name)
+					if status and status == "ready" then
+						count = count + 1
+					end
+				end
+			end
+			rc:SetText(count.." / "..total)
+			rc:SetTextColor(1, 1, 0)
+		end
+	end)
+	rcFrame:SetScript("OnMouseUp", function(self) self:Hide() end)
 
 	-- World marker
 	local marker = CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton
@@ -381,13 +427,9 @@ function module:CreateRM()
 	}
 	local bu = {}
 	for i, j in pairs(buttons) do
-		bu[i] = CreateFrame("Button", nil, menu)
+		bu[i] = B.CreateButton(menu, 85, 30, j[1], 12)
 		bu[i]:SetPoint(mod(i, 2) == 0 and "TOPRIGHT" or "TOPLEFT", mod(i, 2) == 0 and -5 or 5, i > 2 and -35 or -5)
-		bu[i]:SetSize(85, 30)
-		B.CreateBD(bu[i], .3)
-		B.CreateBC(bu[i])
 		bu[i]:SetScript("OnClick", j[2])
-		bu[i].text = B.CreateFS(bu[i], 12, j[1], true)
 	end
 
 	local function updateText(text)

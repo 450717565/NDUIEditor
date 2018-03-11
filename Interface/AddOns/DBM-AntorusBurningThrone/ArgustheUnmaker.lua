@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2031, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17358 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17385 $"):sub(12, -3))
 mod:SetCreatureID(124828)
 mod:SetEncounterID(2092)
 mod:SetZone()
@@ -141,7 +141,8 @@ local countdownSweapingScythe		= mod:NewCountdown("Alt5", 248499, false, nil, 3)
 local countdownSargGaze				= mod:NewCountdown(35, 258068)
 --Stage Two: The Protector Redeemed
 local countdownSoulbomb				= mod:NewCountdown("AltTwo50", 251570)
-
+--Stage Three: Mythic
+local countdownSoulScythe			= mod:NewCountdown("Alt5", 258838, "Tank", nil, 3)
 --Stage Four
 local countdownDeadlyScythe			= mod:NewCountdown("Alt5", 258039, false, nil, 3)--Off by default since it'd be almost non stop, so users can elect into this one
 local countdownReorgModule			= mod:NewCountdown("Alt48", 256389, "-Tank")
@@ -209,6 +210,7 @@ local function startAnnihilationStuff(self, quiet)
 		warnEdgeofAnni:Show(self.vb.EdgeofObliteration)
 	else--Special warning
 		specWarnEdgeofAnni:Show(self.vb.EdgeofObliteration)
+		specWarnEdgeofAnni:Play("watchstep")
 	end
 	local timer = edgeofAnni[self.vb.EdgeofObliteration+1]
 	if timer then
@@ -389,6 +391,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		countdownDeadlyScythe:Start(5.5)
 	elseif spellId == 258838 then--Mythic Scythe
 		timerSoulrendingScytheCD:Start()
+		countdownSoulScythe:Start(8.5)
 	elseif spellId == 255826 then
 		self.vb.EdgeofObliteration = self.vb.EdgeofObliteration + 1
 		specWarnEdgeofObliteration:Show()
@@ -718,6 +721,7 @@ function mod:SPELL_INTERRUPT(args)
 			self.vb.gazeCount = 0
 			self.vb.EdgeofObliteration = 0
 			timerSoulrendingScytheCD:Start(3.5)
+			countdownSoulScythe:Start(3.5)
 			timerEdgeofAnniCD:Start(5, 1)
 			self:Schedule(5, startAnnihilationStuff, self)
 			timerSargGazeCD:Start(20.2, 1)

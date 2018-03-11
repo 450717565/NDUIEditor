@@ -49,9 +49,9 @@ tinsert(C.themes["Aurora"], function()
 
 					_G[barname.."RightLine"]:SetAlpha(0)
 					_G[barname.."LeftLine"]:SetAlpha(0)
-					select(4, bar:GetRegions()):Hide()
 					_G[barname.."LeftIconHighlight"]:SetAlpha(0)
 					_G[barname.."RightIconHighlight"]:SetAlpha(0)
+					select(4, bar:GetRegions()):Hide()
 
 					bar.bg = bar:CreateTexture(nil, "BACKGROUND")
 					bar.bg:SetPoint("TOPLEFT", left, -1, 1)
