@@ -131,6 +131,7 @@ local function CreateArenaStyle(self)
 	UF:CreateBuffs(self)
 	UF:CreateDebuffs(self)
 	UF:CreateTargetBorder(self)
+	UF:CreateFactionIcon(self)
 end
 
 local function CreateRaidStyle(self)
@@ -271,16 +272,18 @@ function UF:OnLogin()
 
 		local bars = {}
 		for i = 1, 5 do
-			bars[i] = CreateFrame("Frame", nil, UIParent)
-			bars[i]:SetAllPoints(arena[i])
-			B.CreateSD(bars[i], 3, 3)
-			bars[i]:Hide()
+			local bar = CreateFrame("Frame", nil, UIParent)
+			bar:SetAllPoints(arena[i])
+			B.CreateSD(bar, 3, 3)
+			bar:Hide()
 
-			bars[i].Health = CreateFrame("StatusBar", nil, bars[i])
-			bars[i].Health:SetAllPoints()
-			bars[i].Health:SetStatusBarTexture(DB.normTex)
-			bars[i].Health:SetStatusBarColor(.3, .3, .3)
-			bars[i].SpecClass = B.CreateFS(bars[i].Health, 12, "")
+			bar.Health = CreateFrame("StatusBar", nil, bar)
+			bar.Health:SetAllPoints()
+			bar.Health:SetStatusBarTexture(DB.normTex)
+			bar.Health:SetStatusBarColor(.3, .3, .3)
+			bar.SpecClass = B.CreateFS(bar.Health, 12, "")
+
+			bars[i] = bar
 		end
 
 		local f = NDui:EventFrame{"PLAYER_ENTERING_WORLD", "ARENA_PREP_OPPONENT_SPECIALIZATIONS", "ARENA_OPPONENT_UPDATE"}
@@ -298,12 +301,10 @@ function UF:OnLogin()
 						if s and s > 0 then
 							_, spec, _, _, _, class = GetSpecializationInfoByID(s)
 						end
-						if (i <= numOpps) then
-							if class and spec then
-								bars[i].Health:SetStatusBarColor(B.ClassColor(class))
-								bars[i].SpecClass:SetText(spec.."  -  "..LOCALIZED_CLASS_NAMES_MALE[class] or "UNKNOWN")
-								bars[i]:Show()
-							end
+						if i <= numOpps and class and spec then
+							bars[i].Health:SetStatusBarColor(B.ClassColor(class))
+							bars[i].SpecClass:SetText(spec.."  -  "..LOCALIZED_CLASS_NAMES_MALE[class] or "UNKNOWN")
+							bars[i]:Show()
 						else
 							bars[i]:Hide()
 						end
