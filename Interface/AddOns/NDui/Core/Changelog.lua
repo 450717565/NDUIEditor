@@ -5,16 +5,20 @@ if DB.Client ~= "zhCN" then return end
 local hx = {
 	"Aurora部分模块调整；",
 	"更新部分法术；",
-	"团队工具更新，添加就位确认指示器；",
-	"快速加入功能优化",
-	"背包调整；",
-	"姓名板调整；",
-	"代码整理；",
-	"团队框体的点击穿越影响所有法术；",
-	"控制台和本地语言调整；",
-	"鼠标提示信息支持地下城手册的技能链接；",
-	"竞技场框体调整，支持战场的阵营信息；",
-	"部分反馈的错误修正。",
+	"更新NPC过滤列表；",
+	"聊天过滤更新；",
+	"优化信息条低耐久提醒；",
+	"头像及团队框体调整；",
+	"BOSS/竞技场框体及其施法条调整；",
+	"控制台调整；",
+	"插件面板移动控制调整；",
+	"附加控制台简化，现在会预输入部分选项；",
+	"团队工具的就位确认指示器调整，只监视在线的玩家；",
+	"默认关闭简易战斗信息的过量治疗；",
+	"Buff栏调整，debuff会比buff略大；",
+	"团队工具的倒数按钮现在是按下即响应；",
+	"更新姓名板的相关过滤列表；",
+	"修复部分潜在的内存泄露。",
 }
 
 local function changelog()
@@ -44,7 +48,7 @@ local function changelog()
 	f:SetSize(400, 60 + offset)
 	local close = B.CreateButton(f, 20, 20, "X")
 	close:SetPoint("TOPRIGHT", -10, -10)
-	close:SetScript("OnClick", function(self) f:Hide() end)
+	close:SetScript("OnClick", function() f:Hide() end)
 end
 
 NDui:EventFrame{"PLAYER_ENTERING_WORLD"}:SetScript("OnEvent", function(self)
@@ -52,8 +56,8 @@ NDui:EventFrame{"PLAYER_ENTERING_WORLD"}:SetScript("OnEvent", function(self)
 	if HelloWorld then return end
 	if not NDuiADB["Changelog"] then NDuiADB["Changelog"] = {} end
 
-	local old1, old2, old3 = string.split(".", NDuiADB["Changelog"].Version or "")
-	local cur1, cur2, cur3 = string.split(".", DB.Version)
+	local old1, old2 = string.split(".", NDuiADB["Changelog"].Version or "")
+	local cur1, cur2 = string.split(".", DB.Version)
 	if old1 ~= cur1 or old2 ~= cur2 then
 		changelog()
 		NDuiADB["Changelog"].Version = DB.Version

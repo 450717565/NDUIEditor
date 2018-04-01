@@ -39,7 +39,7 @@ function module:QuestTracker()
 			QuestMapQuestOptions_ShareQuest(id)
 		end
 	end
-	hooksecurefunc(QUEST_TRACKER_MODULE, "OnBlockHeaderClick", function(self, block) QuestHook(block.id) end)
+	hooksecurefunc(QUEST_TRACKER_MODULE, "OnBlockHeaderClick", function(_, block) QuestHook(block.id) end)
 	hooksecurefunc("QuestMapLogTitleButton_OnClick", function(self) QuestHook(self.questID) end)
 
 	-- Show quest color and level
@@ -71,7 +71,7 @@ function module:QuestTracker()
 	if not NDuiDB["Skins"]["TrackerSkin"] then return end
 
 	-- Reskin QuestIcons
-	local function reskinQuestIcon(self, block)
+	local function reskinQuestIcon(_, block)
 		local itemButton = block.itemButton
 		if itemButton and not itemButton.styled then
 			itemButton:SetNormalTexture("")
@@ -122,7 +122,7 @@ function module:QuestTracker()
 	for _, header in pairs(headers) do reskinHeader(header) end
 
 	-- Reskin Progressbars
-	local function reskinProgressbar(self, block, line)
+	local function reskinProgressbar(_, _, line)
 		local progressBar = line.ProgressBar
 		local bar = progressBar.Bar
 		local icon = bar.Icon
@@ -138,7 +138,9 @@ function module:QuestTracker()
 			bar:SetPoint("LEFT", 22, 0)
 			bar:SetStatusBarTexture(DB.normTex)
 			bar:SetStatusBarColor(r*.8, g*.8, b*.8)
-			local bg = B.CreateBG(bar, 3)
+			local bg = B.CreateBG(progressBar)
+			bg:SetPoint("TOPLEFT", bar, -3, 3)
+			bg:SetPoint("BOTTOMRIGHT", bar, 3, -3)
 			B.CreateBD(bg)
 			B.CreateTex(bg)
 			if bar.AnimIn then	-- Fix bg opacity
@@ -161,7 +163,7 @@ function module:QuestTracker()
 	hooksecurefunc(WORLD_QUEST_TRACKER_MODULE, "AddProgressBar", reskinProgressbar)
 	hooksecurefunc(SCENARIO_TRACKER_MODULE, "AddProgressBar", reskinProgressbar)
 
-	hooksecurefunc(QUEST_TRACKER_MODULE, "AddProgressBar", function(self, block, line)
+	hooksecurefunc(QUEST_TRACKER_MODULE, "AddProgressBar", function(_, _, line)
 		local progressBar = line.ProgressBar
 		local bar = progressBar.Bar
 
@@ -216,7 +218,7 @@ function module:QuestTracker()
 	end)
 
 	hooksecurefunc("Scenario_ChallengeMode_SetUpAffixes", function(block)
-		for i, frame in ipairs(block.Affixes) do
+		for _, frame in ipairs(block.Affixes) do
 			frame.Border:Hide()
 			frame.Portrait:SetTexture(nil)
 			frame.Portrait:SetTexCoord(unpack(DB.TexCoord))

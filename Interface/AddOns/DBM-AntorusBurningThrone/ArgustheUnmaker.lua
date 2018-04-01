@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2031, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17385 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17414 $"):sub(12, -3))
 mod:SetCreatureID(124828)
 mod:SetEncounterID(2092)
 mod:SetZone()
@@ -49,6 +49,7 @@ local warnSoulbomb					= mod:NewTargetAnnounce(251570, 3)
 local warnAvatarofAggra				= mod:NewTargetNoFilterAnnounce(255199, 1)
 --Stage Three: The Arcane Masters
 local warnCosmicRay					= mod:NewTargetAnnounce(252729, 3)
+local warnCosmicBeaconCast			= mod:NewCastAnnounce(252616, 2)
 local warnCosmicBeacon				= mod:NewTargetAnnounce(252616, 2)
 local warnDiscsofNorg				= mod:NewCastAnnounce(252516, 1)
 --Stage Three Mythic
@@ -64,7 +65,7 @@ local specWarnSweepingScythe		= mod:NewSpecialWarningStack(248499, nil, 3, nil, 
 local specWarnSweepingScytheTaunt	= mod:NewSpecialWarningTaunt(248499, nil, nil, nil, 1, 2)
 local specWarnConeofDeath			= mod:NewSpecialWarningDodge(248165, nil, nil, nil, 1, 2)
 local specWarnSoulblight			= mod:NewSpecialWarningMoveAway(248396, nil, nil, nil, 1, 2)
-local yellSoulblight				= mod:NewYell(248396)
+local yellSoulblight				= mod:NewShortYell(248396, L.Blight)
 local yellSoulblightFades			= mod:NewShortFadesYell(248396)
 local specWarnGiftofSea				= mod:NewSpecialWarningYou(258647, nil, nil, nil, 1, 2)
 local yellGiftofSea					= mod:NewPosYell(258647, L.SeaText)
@@ -123,7 +124,7 @@ local timerAvatarofAggraCD			= mod:NewCDTimer(59.9, 255199, nil, nil, nil, 5, ni
 --Stage Three: The Arcane Masters
 mod:AddTimerLine(SCENARIO_STAGE:format(3))
 local timerCosmicRayCD				= mod:NewCDTimer(19.9, 252729, nil, nil, nil, 3)--All adds seem to cast it at same time, so one timer for all
-local timerCosmicBeaconCD			= mod:NewCDTimer(19.9, 252616, nil, nil, nil, 3)--All adds seem to cast it at same time, so one timer for all
+local timerCosmicBeaconCD			= mod:NewCDTimer(19.9, 252616, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON)--All adds seem to cast it at same time, so one timer for all
 local timerDiscsofNorg				= mod:NewCastTimer(12, 252516, nil, nil, nil, 6)
 mod:AddTimerLine(ENCOUNTER_JOURNAL_SECTION_FLAG12)--Mythic 3
 local timerSoulrendingScytheCD		= mod:NewCDTimer(8.5, 258838, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
@@ -175,7 +176,7 @@ mod.vb.firstscytheSwap = false
 --P3 Mythic Timers
 local torturedRage = {40, 40, 50, 30, 35, 10, 8, 35, 10, 8, 35}--3 timers from method video not logs, verify by logs to improve accuracy
 local sargSentenceTimers = {53, 56.9, 60, 53, 53}--1 timer from method video not logs, verify by logs to improve accuracy
-local apocModuleTimers = {31, 47, 48.2, 46.6, 53, 53}--Some variation detected in logs do to delay in combat log between spawn and cast (one timer from method video)
+local apocModuleTimers = {31, 47, 47, 46.6, 53, 53}--Some variation detected in logs do to delay in combat log between spawn and cast (one timer from method video)
 local sargGazeTimers = {23, 75, 70, 53, 53}--1 timer from method video not logs, verify by logs to improve accuracy
 local edgeofAnni = {5, 5, 90, 5, 45, 5}--All timers from method video (6:05 P3 start, 6:10, 6:15, 7:45, 7:50, 8:35, 8:40)
 --Both of these should be in fearCheck object for efficiency but with uncertainty of async, I don't want to come back and fix this later. Doing it this way ensures without a doubt it'll work by calling on load and again on combatstart
@@ -400,6 +401,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 252729 and self:AntiSpam(5, 3) then
 		timerCosmicRayCD:Start()
 	elseif spellId == 252616 and self:AntiSpam(5, 4) then
+		warnCosmicBeaconCast:Show()
 		timerCosmicBeaconCD:Start()
 	elseif spellId == 256388 and self:AntiSpam(5, 8) then--Initialization Sequence
 		self.vb.moduleCount = self.vb.moduleCount + 1
@@ -805,5 +807,14 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, spellName, _, _, spellId)
 				DBM.InfoFrame:Hide()
 			end
 		end
+	end
+end
+
+--RL can run this macro to auto release everyone in raid any time they hit it
+--/run DBM:GetModByName("2031"):SendSync("Release")
+function mod:OnSync(msg, sender)
+	if not self:IsInCombat() then return end
+	if msg == "Release" and DBM:GetRaidRank(sender) == 2 then
+		RepopMe()
 	end
 end

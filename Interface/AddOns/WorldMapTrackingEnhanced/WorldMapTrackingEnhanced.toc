@@ -19,12 +19,12 @@
 # ## Notes-zhTW: 強化的世界地圖追蹤選項，支援最熱門的遊戲插件
 #@end-debug@
 ## Author: arith
-## Version: v2.12
+## Version: v2.18
 # # RequiredDeps: 
 ## OptionalDeps: Ace3, LibStub, CallbackHandler-1.0, LibUIDropDownMenu
 ## DefaultState: enabled
 ## SavedVariables: WorldMapTrackingEnhancedDB
-## X-Date: 2017-11-09T13:31:09Z
+## X-Date: 2018-03-30T10:13:49Z
 ## X-License: GPLv2
 ## X-Category: Map
 
@@ -34,6 +34,4 @@ Core\Constants.lua
 Core\Core.lua
 Core\Config.lua
 
-Modules\HandyNotes.lua
-Modules\GatherMate2.lua
-Modules\PetTracker.lua
+Modules.xml

@@ -47,8 +47,8 @@ function module:OnLogin()
 		local Linfobar3 = CreateFrame("Frame", nil, Linfobar)
 		Linfobar3:SetPoint("TOP", Linfobar, "BOTTOM")
 		B.CreateGF(Linfobar3, 450, 3, "Horizontal", cr, cg, cb, .7, 0)
-		ChatFrame1Tab:HookScript("OnMouseUp", function(self, arg1)
-			if arg1 == "LeftButton" then
+		ChatFrame1Tab:HookScript("OnMouseUp", function(_, btn)
+			if btn == "LeftButton" then
 				Linfobar:SetHeight(ChatFrame1:GetHeight() + 26)
 			end
 		end)

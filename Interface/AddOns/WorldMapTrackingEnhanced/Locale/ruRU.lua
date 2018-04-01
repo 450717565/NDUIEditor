@@ -5,7 +5,7 @@ local L = LibStub("AceLocale-3.0"):NewLocale("WorldMapTrackingEnhanced", "ruRU",
 if not L then return end
 
 if L then
-L[" (Core}"] = " (Ядро}"
+L[" (Core)"] = " (Ядро)"
 L["Click to open HandyNotes' config panel"] = "Щелкните, чтобы открыть панель конфигурации HandyNotes."
 L["HandyNotes Config"] = "Конфигурация HandyNotes"
 L["Options"] = "Опции"

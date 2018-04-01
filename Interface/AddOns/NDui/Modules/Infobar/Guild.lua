@@ -103,7 +103,7 @@ local function createRoster(i)
 			end
 		else
 			if btn == "LeftButton" then return end
-			ChatFrame_OpenChat("/w "..name.." ", chatFrame)
+			ChatFrame_OpenChat("/w "..name.." ", SELECTED_DOCK_FRAME)
 		end
 	end)
 	return button
@@ -124,7 +124,7 @@ local function refreshData()
 	gRank:SetText(DB.InfoColor..RANK..": "..(guildRank or ""))
 
 	for i = 1, total do
-		local name, _, rank, level, _, zone, _, _, connected, status, class, _, _, mobile = GetGuildRosterInfo(i)
+		local name, _, _, level, _, zone, _, _, connected, status, class, _, _, mobile = GetGuildRosterInfo(i)
 		if connected or mobile then
 			if mobile and not connected then
 				zone = REMOTE_CHAT
@@ -147,7 +147,7 @@ local function refreshData()
 			if not zone then zone = UNKNOWN end
 
 			count = count + 1
-			guildTable[count] = {level, class, name, zone, rank, status}
+			guildTable[count] = {level, class, name, zone, status}
 		end
 	end
 
@@ -188,7 +188,7 @@ local function applyData()
 	end)
 
 	for i = 1, previous do
-		local level, class, name, zone, rank, status = unpack(guildTable[i])
+		local level, class, name, zone, status = unpack(guildTable[i])
 
 		local levelcolor = B.HexRGB(GetQuestDifficultyColor(level))
 		frames[i].level:SetText(levelcolor..level)

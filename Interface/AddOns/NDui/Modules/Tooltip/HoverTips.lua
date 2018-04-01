@@ -27,16 +27,14 @@ local function OnHyperlinkEnter(frame, link, ...)
 		local name, description, icon, _, idString
 		if idType == "0" then
 			name, description = EJ_GetInstanceInfo(id)
-			idString = "InstanceID:"
+			idString = INSTANCE.."ID:"
 		elseif idType == "1" then
 			name, description = EJ_GetEncounterInfo(id)
-			idString = "EncounterID:"
+			idString = BOSS.."ID:"
 		elseif idType == "2" then
 			name, description, _, icon = EJ_GetSectionInfo(id)
-			if icon then
-				name = "|T"..icon..":20:20:0:0:64:64:5:59:5:59:20|t "..name
-			end
-			idString = "SectionID:"
+			name = icon and "|T"..icon..":20:20:0:0:64:64:5:59:5:59:20|t "..name or name
+			idString = L["Section"].."ID:"
 		end
 		if not name then return end
 
@@ -55,7 +53,7 @@ local function OnHyperlinkEnter(frame, link, ...)
 	if orig1[frame] then return orig1[frame](frame, link, ...) end
 end
 
-local function OnHyperlinkLeave(frame, link, ...)
+local function OnHyperlinkLeave(frame, _, ...)
 	BattlePetTooltip:Hide()
 	GameTooltip:Hide()
 

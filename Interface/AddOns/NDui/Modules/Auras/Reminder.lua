@@ -1,12 +1,13 @@
 local B, C, L, DB = unpack(select(2, ...))
 
 local tab = DB.ReminderBuffs[DB.MyClass]
-if not tab then tab = {} end
+if not tab then return end
+
 local function OnEvent(self)
 	if UnitLevel("player") < 10 then return end
 	local group = tab[self.id]
 	if not group.spells and not group.stance then return end
-	if not GetActiveSpecGroup() then return end
+	if not GetSpecialization() then return end
 	if group.level and UnitLevel("player") < group.level then return end
 
 	self.icon:SetTexture(nil)
@@ -155,7 +156,7 @@ for groupName, _ in pairs(tab) do
 		if not NDuiDB["Auras"]["Reminder"] then return end
 		OnEvent(self)
 	end)
-	frame:SetScript("OnUpdate", function(self, elapsed)
+	frame:SetScript("OnUpdate", function(self)
 		if not self.icon:GetTexture() then
 			self:Hide()
 		end

@@ -28,7 +28,21 @@ local function applyBackground(bu)
 end
 
 --update hotkey func
-local function updateHotkey(self, actionButtonType)
+local replaces = {
+	{"(Mouse Button )", "M"},
+	{"(鼠标按键)", "M"},
+	{"(滑鼠按鍵)", "M"},
+	{"(a%-)", "a"},
+	{"(c%-)", "c"},
+	{"(s%-)", "s"},
+	{KEY_BUTTON3, "M3"},
+	{KEY_MOUSEWHEELUP, "MU"},
+	{KEY_MOUSEWHEELDOWN, "MD"},
+	{KEY_SPACE, "SP"},
+	{CAPSLOCK_KEY_TEXT, "CL"},
+}
+
+local function updateHotkey(self)
 	local ho = _G[self:GetName().."HotKey"]
 	if ho and ho:IsShown() and not NDuiDB["Actionbar"]["Hotkeys"] then
 		ho:Hide()
@@ -37,24 +51,11 @@ local function updateHotkey(self, actionButtonType)
 
 	local text = ho:GetText()
 	if not text then return end
-	local replaces = {
-		{"(Mouse Button )", "M"},
-		{"(鼠标按键)", "M"},
-		{"(滑鼠按鍵)", "M"},
-		{"(a%-)", "a"},
-		{"(c%-)", "c"},
-		{"(s%-)", "s"},
-		{KEY_BUTTON3, "M3"},
-		{KEY_MOUSEWHEELUP, "MU"},
-		{KEY_MOUSEWHEELDOWN, "MD"},
-		{KEY_SPACE, "SP"},
-		{CAPSLOCK_KEY_TEXT, "CL"},
-	}
+
 	for _, value in pairs(replaces) do
 		text = gsub(text, value[1], value[2])
 	end
 
-	-- might be unnecessary, need reviewed
 	if ho:GetText() == RANGE_INDICATOR then
 		ho:SetText("")
 	else
@@ -178,7 +179,7 @@ local function styleActionButton(bu)
 	nt:SetAllPoints(bu)
 	nt:SetTexCoord(unpack(DB.TexCoord))
 	--hook to prevent Blizzard from reseting our colors
-	hooksecurefunc(nt, "SetVertexColor", function(nt, r, g, b, a)
+	hooksecurefunc(nt, "SetVertexColor", function(nt, r, g, b)
 		local bu = nt:GetParent()
 		local action = bu.action
 		--print("bu"..bu:GetName().."R"..r.."G"..g.."B"..b)
@@ -342,7 +343,7 @@ function Bar:ReskinBars()
 	SpellFlyoutBackgroundEnd:SetTexture(nil)
 	SpellFlyoutHorizontalBackground:SetTexture(nil)
 	SpellFlyoutVerticalBackground:SetTexture(nil)
-	local function checkForFlyoutButtons(self)
+	local function checkForFlyoutButtons()
 		local NUM_FLYOUT_BUTTONS = 13
 		for i = 1, NUM_FLYOUT_BUTTONS do
 			styleActionButton(_G["SpellFlyoutButton"..i])

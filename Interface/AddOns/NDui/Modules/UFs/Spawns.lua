@@ -14,10 +14,11 @@ local function CreatePlayerStyle(self)
 	UF:CreatePowerText(self)
 	UF:CreatePortrait(self)
 	UF:CreateCastBar(self)
-	UF:CreateMirrorBar(self)
 	UF:CreateRaidMark(self)
 	UF:CreateIcons(self)
 	UF:CreatePrediction(self)
+	UF:CreateFCT(self)
+	UF:CreateMirrorBar()
 
 	if NDuiDB["UFs"]["ClassPower"] then UF:CreateClassPower(self) end
 	if NDuiDB["UFs"]["AddPower"] then UF:CreateAddPower(self) end
@@ -43,6 +44,7 @@ local function CreateTargetStyle(self)
 	UF:CreateRaidMark(self)
 	UF:CreateIcons(self)
 	UF:CreatePrediction(self)
+	UF:CreateFCT(self)
 	UF:CreateAuras(self)
 end
 

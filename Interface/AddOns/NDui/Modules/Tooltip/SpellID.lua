@@ -1,12 +1,12 @@
 local B, C, L, DB = unpack(select(2, ...))
 
 local types = {
-	spell       = SPELLS..ID..": ",
-	item        = ITEMS..ID..": ",
-	quest       = QUESTS_LABEL..ID..": ",
-	talent      = TALENT..ID..": ",
-	achievement = ACHIEVEMENTS..ID..": ",
-	currency 	= CURRENCY..ID..": ",
+	spell = SPELLS.."ID:",
+	item = ITEMS.."ID:",
+	quest = QUESTS_LABEL.."ID:",
+	talent = TALENT.."ID:",
+	achievement = ACHIEVEMENTS.."ID:",
+	currency = CURRENCY.."ID:",
 }
 
 local function addLine(self, id, type, noadd)
@@ -62,7 +62,7 @@ GameTooltip:HookScript("OnTooltipSetSpell", function(self)
 	local id = select(3, self:GetSpell())
 	if id then addLine(self, id, types.spell) end
 end)
-hooksecurefunc("SetItemRef", function(link, ...)
+hooksecurefunc("SetItemRef", function(link)
 	local id = tonumber(link:match("spell:(%d+)"))
 	if id then addLine(ItemRefTooltip, id, types.spell) end
 end)

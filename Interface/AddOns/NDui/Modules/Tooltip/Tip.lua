@@ -6,9 +6,6 @@ local classification = {
 	rareelite = " |cff00FFFF"..L["Rare"]..ELITE.."|r",
 	worldboss = " |cffFF0000"..BOSS.."|r",
 }
-
-local find = string.find
-local format = string.format
 local COALESCED_REALM_TOOLTIP1 = string.split(FOREIGN_SERVER_LABEL, COALESCED_REALM_TOOLTIP)
 local INTERACTIVE_REALM_TOOLTIP1 = string.split(INTERACTIVE_SERVER_LABEL, INTERACTIVE_REALM_TOOLTIP)
 
@@ -278,14 +275,9 @@ local function style(frame)
 		frame.bg = bg
 
 		-- other gametooltip-like support
-		local function getBackdrop() return bg:GetBackdrop() end
-		frame.GetBackdrop = getBackdrop
-
-		local function getBackdropColor() return 0, 0, 0, .7 end
-		frame.GetBackdropColor = getBackdropColor
-
-		local function getBackdropBorderColor() return 0, 0, 0 end
-		frame.GetBackdropBorderColor = getBackdropBorderColor
+		frame.GetBackdrop = function() return bg:GetBackdrop() end
+		frame.GetBackdropColor = function() return 0, 0, 0, .7 end
+		frame.GetBackdropBorderColor = function() return 0, 0, 0 end
 	end
 
 	frame.bg:SetBackdropBorderColor(0, 0, 0)
@@ -342,9 +334,6 @@ NDui:EventFrame{"ADDON_LOADED"}:SetScript("OnEvent", function(_, _, addon)
 			WorldMapTooltip,
 			WorldMapCompareTooltip1,
 			WorldMapCompareTooltip2,
-			WorldMapCompareTooltip3,
-			FriendsMenuXPMenuBackdrop,
-			FriendsMenuXPSecureMenuBackdrop,
 			QuestScrollFrame.StoryTooltip,
 			GeneralDockManagerOverflowButtonList,
 			ReputationParagonTooltip,
@@ -378,7 +367,7 @@ NDui:EventFrame{"ADDON_LOADED"}:SetScript("OnEvent", function(_, _, addon)
 		end
 
 		-- DropdownMenu
-		hooksecurefunc("UIDropDownMenu_CreateFrames", function(level, index)
+		hooksecurefunc("UIDropDownMenu_CreateFrames", function()
 			for i = 1, UIDROPDOWNMENU_MAXLEVELS do
 				local menu = _G["DropDownList"..i.."MenuBackdrop"]
 				if menu and not menu.styled then

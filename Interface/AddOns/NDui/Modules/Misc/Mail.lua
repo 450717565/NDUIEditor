@@ -8,7 +8,7 @@ function module:Mailbox()
 	if not NDuiDB["Misc"]["Mail"] then return end
 
 	local deletedelay, t, mailIndex, mailItemIndex = .5, 0, 1, 0
-	local button1, button2, button3, lastopened, imOrig_InboxFrame_OnClick, hasNewMail, takingOnlyCash, onlyCurrentMail, needsToWait, skipMail, OpenMail, StopOpening
+	local button1, button2, button3, button4, lastopened, imOrig_InboxFrame_OnClick, hasNewMail, takingOnlyCash, onlyCurrentMail, needsToWait, skipMail, OpenMail, StopOpening, inboxItems
 
 	InboxNextPageButton:SetScript("OnClick", function()
 		mailIndex = mailIndex + 1
@@ -111,11 +111,11 @@ function module:Mailbox()
 		skipMail = false
 	end
 
-	local function OpenAll_OnEvent(frame, event, arg1, arg2)
+	local function OpenAll_OnEvent(_, event, _, arg)
 		if event == "UI_ERROR_MESSAGE" then
-			if arg2 == ERR_INV_FULL then
+			if arg == ERR_INV_FULL then
 				StopOpening()
-			elseif arg2 == ERR_ITEM_MAX_COUNT then
+			elseif arg == ERR_ITEM_MAX_COUNT then
 				skipMail = true
 			end
 		elseif event == "MAIL_CLOSED" then
@@ -145,26 +145,26 @@ function module:Mailbox()
 		return button
 	end
 
-	button1 = CreatButton("OpenAllButton1", InboxFrame, L["Collect All"], 80, 28, "TOPLEFT", InboxFrame, "TOPLEFT", 25, -35)
+	button1 = CreatButton("MailButton1", InboxFrame, L["Collect All"], 80, 28, "TOPLEFT", InboxFrame, "TOPLEFT", 25, -35)
 	button1:RegisterEvent("MAIL_CLOSED")
 	button1:SetScript("OnClick", OpenAll)
 	button1:SetScript("OnEvent", OpenAll_OnEvent)
 
-	button2 = CreatButton("OpenAllButton2", InboxFrame, L["Collect Gold"], 80, 28, "TOP", InboxFrame, "TOP", -23, -35)
+	button2 = CreatButton("MailButton2", InboxFrame, L["Collect Gold"], 80, 28, "TOP", InboxFrame, "TOP", -23, -35)
 	button2:SetScript("OnClick", function() takingOnlyCash = true OpenAll() end)
 	button2:SetScript("OnEnter", TotalCash_OnEnter)
 	button2:SetScript("OnUpdate", function(self) if GameTooltip:IsOwned(self) then TotalCash_OnEnter(self) end end)
 	button2:SetScript("OnLeave", GameTooltip_Hide)
 
-	button3 = CreatButton("OpenAllButton3", OpenMailFrame, L["Collect Letters"], 80, 22, "RIGHT", OpenMailReplyButton, "LEFT", -1, 0)
+	button3 = CreatButton("MailButton3", OpenMailFrame, L["Collect Letters"], 80, 22, "RIGHT", OpenMailReplyButton, "LEFT", -1, 0)
 	button3:SetScript("OnClick", function() onlyCurrentMail = true OpenAll() end)
 	button3:SetScript("OnEvent", OpenAll_OnEvent)
 
-	button4 = CreatButton("OpenAllButton4", InboxFrame, L["Refrsh Mail"], 80, 28, "TOPRIGHT", InboxFrame, "TOPRIGHT", -70, -35)
+	button4 = CreatButton("MailButton4", InboxFrame, L["Refrsh Mail"], 80, 28, "TOPRIGHT", InboxFrame, "TOPRIGHT", -70, -35)
 	button4:SetScript("OnClick", function() CheckInbox() end)
 
-	local function deleteClick(self, button, down)
-		selectedID = self.id + (InboxFrame.pageNum-1)*7
+	local function deleteClick(self)
+		local selectedID = self.id + (InboxFrame.pageNum-1)*7
 		if InboxItemCanDelete(selectedID) then
 			DeleteInboxItem(selectedID)
 		else
@@ -203,7 +203,7 @@ function module:Mailbox()
 	end)
 
 	hooksecurefunc("InboxFrameItem_OnEnter", function(self)
-		local items = {}
+		inboxItems = {}
 
 		local itemAttached = select(8, GetInboxHeaderInfo(self.index))
 		if itemAttached then
@@ -212,13 +212,13 @@ function module:Mailbox()
 				if itemCount and itemCount > 0 then
 					local _, itemid = strsplit(":", GetInboxItemLink(self.index, attachID))
 					itemid = tonumber(itemid)
-					items[itemid] = (items[itemid] or 0) + itemCount
+					inboxItems[itemid] = (inboxItems[itemid] or 0) + itemCount
 				end
 			end
 
 			if itemAttached > 1 then
 				GameTooltip:AddLine(L["Attach List"])
-				for key, value in pairs(items) do
+				for key, value in pairs(inboxItems) do
 					local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture = GetItemInfo(key)
 					if itemName then
 						local r, g, b = GetItemQualityColor(itemQuality)
@@ -240,7 +240,7 @@ function module:Mailbox()
 	if IsAddOnLoaded("Aurora") then
 		local F = unpack(Aurora)
 		for i = 1, 4 do
-			F.Reskin(_G["OpenAllButton"..i])
+			F.Reskin(_G["MailButton"..i])
 		end
 	end
 

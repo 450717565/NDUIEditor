@@ -11,7 +11,6 @@
 	<Include file="InspectFix.lua"/>
 	<Include file="InstanceInfo.lua"/>
 	<Include file="KeystoneHelper.lua"/>
-	<Include file="LightCT.lua"/>
 	<Include file="LightLoot.lua"/>
 	<Include file="LightRoll.lua"/>
 	<Include file="LootMonitor.lua"/>

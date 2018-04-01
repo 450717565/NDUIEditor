@@ -124,7 +124,7 @@ local function ForceChatSettings()
 	"WHISPER","PARTY","PARTY_LEADER","RAID","RAID_LEADER","RAID_WARNING","INSTANCE_CHAT",
 	"INSTANCE_CHAT_LEADER","CHANNEL1","CHANNEL2","CHANNEL3","CHANNEL4","CHANNEL5","CHANNEL6","CHANNEL7",
 	}
-	for i, v in ipairs(channels) do
+	for _, v in ipairs(channels) do
 		ToggleChatColorNamesByClassGroup(true, v)
 	end
 	FCF_SavePositionAndDimensions(ChatFrame1)
@@ -489,7 +489,6 @@ local function HelloWorld()
 
 	local c1, c2 = "|c00FFFF00", "|c0000FF00"
 	local lines = {
-		c1.." /aw "..c2..L["Help Info4"],
 		c1.." /ww "..c2..L["Help Info12"],
 		c1.." /hb "..c2..L["Help Info5"],
 		c1.." /mm "..c2..L["Help Info6"],

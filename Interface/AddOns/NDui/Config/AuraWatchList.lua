@@ -123,7 +123,7 @@ C.AuraWatchList = {
 				{AuraID = 230039, UnitID = "player"},
 			-->LEG橙装
 				--诺甘农的预见
-				{AuraID = 236430, UnitID = "player"},
+				{AuraID = 236380, UnitID = "player", Combat = true},
 				--罗宁的突袭裹腕
 				{AuraID = 208081, UnitID = "player"},
 				--塞弗斯的秘密
@@ -483,6 +483,8 @@ C.AuraWatchList = {
 				{AuraID = 193018, UnitID = "player", Value = true},
 				--达古尔：燃烧之恨
 				{AuraID = 200154, UnitID = "player", Text = L["Get Out"]},
+				--振作
+				{AuraID = 230087, UnitID = "player"},
 		-->卡拉赞
 			--夜之魇
 				--燃魂
@@ -2084,7 +2086,7 @@ C.AuraWatchList = {
 				{SpellID = 202168, UnitID = "player"},
 			-->神器
 				--奥丁之怒
-				{SpellID = 225545, UnitID = "player"},
+				{SpellID = 205545, UnitID = "player"},
 				--灭战者
 				{SpellID = 209577, UnitID = "player"},
 				--奈萨里奥之怒
@@ -2381,6 +2383,8 @@ C.AuraWatchList = {
 				{AuraID = 152262, UnitID = "player"},
 				--神圣马驹
 				{AuraID = 221883, UnitID = "player"},
+				--正义裁决
+				{AuraID = 238996, UnitID = "player"},
 			},
 		},
 		{	Name = "Spell Cooldown",
@@ -2417,8 +2421,10 @@ C.AuraWatchList = {
 				{AuraID =     17, UnitID = "player"},
 				--暗影洞察
 				{AuraID = 124430, UnitID = "player"},
-				--身心合一
+				--提神愈心
 				{AuraID = 214121, UnitID = "player"},
+				--救赎
+				{AuraID = 194384, UnitID = "player"},
 			},
 		},
 		{	Name = "Target Aura",
@@ -2452,7 +2458,7 @@ C.AuraWatchList = {
 				{AuraID = 200200, UnitID = "target", Caster = "player"},
 				--愈合祷言
 				{AuraID =  41635, UnitID = "target", Caster = "player"},
-				--身心合一
+				--提神愈心
 				{AuraID = 214121, UnitID = "target", Caster = "player"},
 				--闪光力场
 				{AuraID = 204263, UnitID = "target", Caster = "player"},
@@ -2519,6 +2525,8 @@ C.AuraWatchList = {
 				{AuraID = 252848, UnitID = "player"}, --戒律
 				{AuraID = 253437, UnitID = "player"}, --神圣2
 				{AuraID = 253443, UnitID = "player"}, --神圣4
+				--戒律法袍
+				{AuraID = 216135, UnitID = "player"},
 			},
 		},
 		{	Name = "Spell Cooldown",

@@ -1,4 +1,4 @@
--- $Id: Constants.lua 24 2017-05-24 14:29:40Z arith $
+-- $Id: Constants.lua 64 2018-03-28 04:33:06Z arith $
 -----------------------------------------------------------------------
 -- Upvalued Lua API.
 -----------------------------------------------------------------------
@@ -19,9 +19,11 @@ private.constants = constants
 constants.defaults = {
 	profile = {
 		handynotes_contextMenu = true,
+		worldQuestTracker_contextMenu = false,
 		enable_HandyNotes = true,
 		enable_GatherMate2 = true,
 		enable_PetTracker = true,
+		enable_WorldQuestTracker = true,
 	},
 }
 

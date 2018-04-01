@@ -73,6 +73,7 @@ local defaultSettings = {
 		CombatText = true,
 		HotsDots = false,
 		AutoAttack = false,
+		FCTOverHealing = false,
 		PetCombatText = true,
 		RaidClickSets = false,
 		ShowTeamIndex = false,
@@ -216,7 +217,7 @@ local defaultSettings = {
 
 NDui:EventFrame{"ADDON_LOADED"}:SetScript("OnEvent", function(self, event, addon)
 	if addon ~= "NDui" then return end
-	self:UnregisterEvent("ADDON_LOADED")
+	self:UnregisterEvent(event)
 	if not NDuiDB["LEGION"] then
 		NDuiDB = {}
 		NDuiDB["LEGION"] = true
@@ -307,8 +308,9 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "UFs", "ExpRep", L["UFs Expbar"]},
 		{},--blank
 		{1, "UFs", "CombatText", "|cff00cc4c"..L["UFs CombatText"]},
-		{1, "UFs", "AutoAttack", L["CombatText AutoAttack"], true},
 		{1, "UFs", "HotsDots", L["CombatText HotsDots"]},
+		{1, "UFs", "FCTOverHealing", L["CombatText OverHealing"], true},
+		{1, "UFs", "AutoAttack", L["CombatText AutoAttack"]},
 		{1, "UFs", "PetCombatText", L["CombatText ShowPets"], true},
 	},
 	[4] = {
@@ -394,7 +396,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Chat", "NoFade", L["Chat Nofade"], true},
 		{1, "Chat", "Timestamp", L["Timestamp"]},
 		{1, "Chat", "EasyResize", L["Resizing"], true},
-		{2, "Chat", "AtList", L["@List"]},
+		{2, "Chat", "AtList", L["@List"], false, nil, function() B.genChatAtList() end},
 		{},--blank
 		{1, "Chat", "EnableFilter", L["Enable Chatfilter"]},
 		{1, "Chat", "BlockAddonAlert", L["Block Addon Alert"], true},
@@ -501,7 +503,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 }
 
 local r, g, b = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b
-local guiTab, guiPage, f, x, y = {}, {}
+local guiTab, guiPage, f = {}, {}
 
 local function SelectTab(i)
 	for num = 1, #tabList do
@@ -529,7 +531,7 @@ local function CreateTab(i, name)
 		label:SetTextColor(.6, .8, 1)
 	end
 
-	tab:SetScript("OnClick", function(self)
+	tab:SetScript("OnClick", function()
 		PlaySound(SOUNDKIT.GS_TITLE_OPTION_OK)
 		SelectTab(i)
 	end)
@@ -605,7 +607,7 @@ local function CreateOption(i)
 			s:SetWidth(190)
 			s:SetMinMaxValues(min, max)
 			s:SetValue(NDuiDB[key][value])
-			s:SetScript("OnValueChanged", function(self, v)
+			s:SetScript("OnValueChanged", function(_, v)
 				local current = tonumber(format("%."..step.."f", v))
 				NDuiDB[key][value] = current
 				_G[s:GetName().."Text"]:SetText(current)
@@ -797,15 +799,17 @@ local function OpenGUI()
 	-- Toggle RaidFrame ClickSets
 	local clickSet = B.CreateButton(guiPage[4], 150, 30, L["Add ClickSets"])
 	clickSet:SetPoint("TOPLEFT", 40, -440)
+	clickSet.text:SetTextColor(1, .8, 0)
 	clickSet:SetScript("OnClick", function()
 		f:Hide()
 		SlashCmdList["NDUI_AWCONFIG"]()
-		_G["NDui_AWConfigTab12"]:Click()
+		NDui_AWConfigTab12:Click()
 	end)
 
 	-- Toggle AuraWatch Console
 	local aura = B.CreateButton(guiPage[6], 150, 30, L["Add AuraWatch"])
 	aura:SetPoint("TOPLEFT", 340, -50)
+	aura.text:SetTextColor(1, .8, 0)
 	aura:SetScript("OnClick", function()
 		f:Hide()
 		SlashCmdList["NDUI_AWCONFIG"]()

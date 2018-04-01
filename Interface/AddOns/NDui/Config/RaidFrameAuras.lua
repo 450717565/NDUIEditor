@@ -1,15 +1,12 @@
 local B, C, L, DB = unpack(select(2, ...))
 local module = NDui:RegisterModule("RaidFrameAuras")
 
-local TIER, BOSS = 1, 1
-local RaidBuffs, RaidDebuffs = {}, {}
-
 -- 团队框体职业相关Buffs
 local RaidBuffs = {
 	["ALL"] = {			-- 全职业
+		-- Buffs
 		[27827] = true,		-- 救赎之魂
 		[98008] = true,		-- 灵魂链接
-		[192082] = true,	-- 狂风
 		[1022] = true,		-- 保护祝福
 		[204018] = true,	-- 破咒祝福
 		[204150] = true,	-- 圣光护盾
@@ -19,14 +16,12 @@ local RaidBuffs = {
 		[33206] = true,		-- 痛苦压制
 		[102342] = true,	-- 铁木树皮
 		[209426] = true,	-- 黑暗
-		[77761] = true,		-- 狂奔怒吼
-		[77764] = true,		-- 狂奔怒吼
-		[87023] = true,		-- 灸灼
 		[45438] = true,		-- 冰箱
 		[186265] = true,	-- 灵龟守护
 		[642] = true,		-- 圣盾术
+		-- Debuffs
 		[123981] = true,	-- 永劫不复
-
+		[87023] = true,		-- 灸灼
 		[57723] = true,		-- 筋疲力尽
 		[57724] = true,		-- 心满意足
 		[80354] = true,		-- 时空错位
@@ -62,6 +57,9 @@ local RaidBuffs = {
 		[6940] = true,		-- 牺牲祝福
 		[25771] = true,		-- 自律
 		[223306] = true,	-- 赋予信仰
+		[200025] = true,	-- 美德道标
+		[200654] = true,	-- 提尔的拯救
+		[243174] = true,	-- 神圣黎明
 	},
 	["PRIEST"] = {		-- 牧师
 		[17] = true,		-- 真言术盾
@@ -90,9 +88,9 @@ local RaidBuffs = {
 	},
 }
 
-function module:RegisterDebuff(tierID, instID, bossID, spellID, level)
+local RaidDebuffs = {}
+function module:RegisterDebuff(_, instID, _, spellID, level)
 	local instName = EJ_GetInstanceInfo(instID)
-	--local bossName = EJ_GetEncounterInfo(bossID)
 	if not instName then print("Invalid instance ID: "..instID) return end
 
 	if not RaidDebuffs[instName] then RaidDebuffs[instName] = {} end

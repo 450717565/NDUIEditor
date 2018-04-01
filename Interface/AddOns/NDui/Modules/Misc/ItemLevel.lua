@@ -67,14 +67,13 @@ function module:ShowItemLevel()
 				level = self:GetUnitItemLevel(link, unit, index, quality) or level
 
 				if level and level > 1 and quality then
-					local color = BAG_ITEM_QUALITY_COLORS[quality]
 					str:SetText(level)
 				end
 			end
 		end
 	end
 
-	hooksecurefunc("PaperDollItemSlotButton_OnShow", function(self)
+	hooksecurefunc("PaperDollItemSlotButton_OnShow", function()
 		SetupItemLevel("player", myString)
 	end)
 
@@ -84,7 +83,7 @@ function module:ShowItemLevel()
 		end
 	end)
 
-	NDui:EventFrame{"INSPECT_READY"}:SetScript("OnEvent", function(self, event, ...)
+	NDui:EventFrame{"INSPECT_READY"}:SetScript("OnEvent", function(_, _, ...)
 		local guid = ...
 		if InspectFrame and InspectFrame.unit and UnitGUID(InspectFrame.unit) == guid then
 			SetupItemLevel(InspectFrame.unit, tarString)

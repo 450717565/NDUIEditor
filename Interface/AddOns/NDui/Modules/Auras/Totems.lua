@@ -2,7 +2,7 @@ local B, C, L, DB = unpack(select(2, ...))
 if DB.MyClass ~= "SHAMAN" then return end
 
 -- Style
-local Totembar, totem, debugCheck = CreateFrame("Frame", nil, UIParent), {}
+local Totembar, totem = CreateFrame("Frame", nil, UIParent), {}
 local icons = {
 	[1] = 120217, -- Fire
 	[2] = 120218, -- Earth
@@ -24,7 +24,8 @@ local function TotemsGo()
 		totem[i].Icon:SetTexture(GetSpellTexture(icons[i]))
 		totem[i]:SetAlpha(.3)
 		if NDuiDB["Auras"]["DestroyTotems"] then
-			totem[i]:SetAttribute("type", "macro")
+			totem[i]:RegisterForClicks("RightButtonUp")
+			totem[i]:SetAttribute("type2", "macro")
 			totem[i]:SetAttribute("macrotext", "/click TotemFrameTotem"..SHAMAN_TOTEM_PRIORITIES[i].." RightButton")
 		end
 	end
@@ -66,7 +67,7 @@ f:SetScript("OnEvent", function(self)
 			end)
 			Totem:SetScript("OnLeave", GameTooltip_Hide)
 
-			Totem:SetScript("OnUpdate", function(self, elapsed)
+			Totem:SetScript("OnUpdate", function()
 				local Time = start + dur - GetTime()
 				if Time > 0 and Time < .8 then
 					ActionButton_ShowOverlayGlow(Totem)

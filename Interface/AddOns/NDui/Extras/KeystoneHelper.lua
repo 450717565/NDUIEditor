@@ -1,85 +1,37 @@
 local B, C, L, DB = unpack(select(2, ...))
 
-local function MythicLootItemLevel(mlvl)
-	if mlvl == "2" then
-		return "890+"
-	elseif mlvl == "3" or mlvl == "4" then
-		return "895+"
-	elseif mlvl == "5" then
-		return "900+"
-	elseif mlvl == "6" or mlvl == "7" then
-		return "905+"
-	elseif mlvl == "8" or mlvl == "9" then
-		return "910+"
-	elseif mlvl == "10" then
-		return "915+"
-	elseif mlvl == "11" then
-		return "920+"
-	elseif mlvl == "12" then
-		return "925+"
-	elseif mlvl == "13" then
-		return "930+"
-	elseif mlvl == "14" then
-		return "935+"
-	elseif mlvl == "15" then
-		return "940+"
-	else
-		return "940+"
-	end
-end
-
-local function WeeklyLootItemLevel(mlvl)
-	if mlvl == "0" then
-		return L["No Weekly Item"]
-	elseif mlvl == "2" then
-		return "905+"
-	elseif mlvl == "3" then
-		return "910+"
-	elseif mlvl == "4" then
-		return "915+"
-	elseif mlvl == "5" or mlvl == "6" then
-		return "920+"
-	elseif mlvl == "7" or mlvl == "8" then
-		return "925+"
-	elseif mlvl == "9" then
-		return "930+"
-	elseif mlvl == "10" then
-		return "935+"
-	elseif mlvl == "11" then
-		return "940+"
-	elseif mlvl == "12" then
-		return "945+"
-	elseif mlvl == "13" then
-		return "950+"
-	elseif mlvl == "14" then
-		return "955+"
-	elseif mlvl == "15" then
-		return "960+"
-	else
-		return "960+"
-	end
-end
+local MythicLootItemLevel = {  0 ,890 ,895 ,895 ,900 ,900 ,905 ,910 ,910 ,915 ,920 ,925 ,930 ,935 ,940}
+local WeeklyLootItemLevel = {  0 ,910 ,910 ,915 ,915 ,920 ,925 ,925 ,930 ,935 ,940 ,945 ,950 ,955 ,960}
 
 local numScreen = ""
-local frame = CreateFrame("Frame")
-frame:RegisterEvent("ADDON_LOADED")
-frame:SetScript("OnEvent", function(self, event, addonName, ...)
+local KeystoneHelper = NDui:EventFrame{"ADDON_LOADED"}
+KeystoneHelper:SetScript("OnEvent", function(self, event, addonName, ...)
 	if event == "ADDON_LOADED" and addonName == "Blizzard_ChallengesUI" then
 		local iLvlFrm = CreateFrame("Frame", "LootLevel", ChallengesModeWeeklyBest)
 		iLvlFrm:SetSize(200, 50)
 		iLvlFrm:SetPoint("TOP", ChallengesModeWeeklyBest.Child.Level, "BOTTOM", 0, 5)
 		iLvlFrm.text = B.CreateFS(iLvlFrm, 40, "", true)
 		iLvlFrm.text:SetJustifyH("CENTER")
+		iLvlFrm.text:SetJustifyV("MIDDLE")
 		iLvlFrm:SetScript("OnUpdate", function(self, elaps)
 			self.time = (self.time or 1) - elaps
 			if self.time > 0 then
 				return
 			end
+
 			while self.time <= 0 do
 				if ChallengesModeWeeklyBest then
-					numScreen = ChallengesModeWeeklyBest.Child.Level:GetText()
+					numScreen = tonumber(ChallengesModeWeeklyBest.Child.Level:GetText())
+					if numScreen > 15 then
+						numScreen = 15
+					end
+
 					self.time = self.time + 1
-					self.text:SetText(WeeklyLootItemLevel(numScreen))
+					if WeeklyLootItemLevel[numScreen] and WeeklyLootItemLevel[numScreen] > 0 then
+						self.text:SetText(WeeklyLootItemLevel[numScreen].."+")
+					else
+						self.text:SetText(L["No Weekly Item"])
+					end
 					self:SetScript("OnUpdate", nil)
 				end
 			end
@@ -90,10 +42,20 @@ end)
 local function GetModifiers(linkType, ...)
 	if type(linkType) ~= "string" then return end
 	local modifierOffset = 3
-	local instanceID, mythicLevel, notDepleted, _ = ... -- "keystone" links
-	if linkType:find("item") then -- only used for ItemRefTooltip currently
+	local instanceID, mythicLevel, notDepleted, _ = ...
+
+	if mythicLevel and mythicLevel ~= "" then
+		mythicLevel = tonumber(mythicLevel)
+		if mythicLevel and mythicLevel > 15 then
+			mythicLevel = 15
+		end
+	else
+		mythicLevel = nil
+	end
+
+	if linkType:find("item") then
 		_, _, _, _, _, _, _, _, _, _, _, _, _, instanceID, mythicLevel = ...
-		if ... == "138019" then -- mythic keystone
+		if ... == "138019" then
 			modifierOffset = 16
 		else
 			return
@@ -107,7 +69,6 @@ local function GetModifiers(linkType, ...)
 		local num = strmatch(select(i, ...) or "", "^(%d+)")
 		if num then
 			local modifierID = tonumber(num)
-			--if not modifierID then break end
 			tinsert(modifiers, modifierID)
 		end
 	end
@@ -118,14 +79,12 @@ local function GetModifiers(linkType, ...)
 	return modifiers, instanceID, mythicLevel
 end
 
-local function DecorateTooltip(self, link, _)
-	if not link then
-		_, link = self:GetItem()
-	end
-	if type(link) == "string" then
+local function DecorateTooltip(self)
+	local _, link = self:GetItem()
+	if type(link) == "string" and link:find("keystone") then
 		local modifiers, instanceID, mythicLevel = GetModifiers(strsplit(":", link))
-		local ilvl = MythicLootItemLevel(mythicLevel)
-		local wlvl = WeeklyLootItemLevel(mythicLevel)
+		local ilvl = MythicLootItemLevel[mythicLevel]
+		local wlvl = WeeklyLootItemLevel[mythicLevel]
 		if modifiers then
 			self:AddLine(" ")
 			for _, modifierID in ipairs(modifiers) do
@@ -135,10 +94,10 @@ local function DecorateTooltip(self, link, _)
 				end
 			end
 		end
-		if mythicLevel then
+		if type(mythicLevel) == "number" and mythicLevel > 0 then
 			self:AddLine(" ")
-			self:AddLine("|cff00ffff"..L["Mythic Loot Item Level"]..ilvl.."|r")
-			self:AddLine("|cff00ffff"..L["Weekly Loot Item Level"]..wlvl.."|r")
+			self:AddLine("|cff00ffff"..L["Mythic Loot Item Level"]..ilvl.."+|r")
+			self:AddLine("|cff00ffff"..L["Weekly Loot Item Level"]..wlvl.."+|r")
 		end
 		if modifiers or mythicLevel then
 			self:Show()
@@ -147,4 +106,5 @@ local function DecorateTooltip(self, link, _)
 end
 
 hooksecurefunc(ItemRefTooltip, "SetHyperlink", DecorateTooltip)
+ItemRefTooltip:HookScript("OnTooltipSetItem", DecorateTooltip)
 GameTooltip:HookScript("OnTooltipSetItem", DecorateTooltip)

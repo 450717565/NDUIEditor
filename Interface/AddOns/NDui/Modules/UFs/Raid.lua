@@ -43,7 +43,7 @@ function UF:CreateTargetBorder(self)
 	self:RegisterEvent("GROUP_ROSTER_UPDATE", UpdateTargetBorder)
 end
 
-local function UpdateThreatBorder(self, event, unit)
+local function UpdateThreatBorder(self, _, unit)
 	if unit ~= self.unit then return end
 
 	local element = self.Health.Shadow
@@ -135,7 +135,7 @@ local defaultSpellList = {
 	},
 	["PALADIN"] = {
 		[2] = 4987,			-- 驱散
-		[5] = 20476,		-- 神圣震击
+		[5] = 20473,		-- 神圣震击
 		[6] = 1022,			-- 保护祝福
 	},
 	["PRIEST"] = {
@@ -168,7 +168,7 @@ function UF:DefaultClickSets()
 	end
 end
 
-local function setupClickSets(self, ...)
+local function setupClickSets(self)
 	if InCombatLockdown() then return end
 
 	for _, data in pairs(NDuiDB["RaidClickSets"]) do
@@ -178,14 +178,9 @@ local function setupClickSets(self, ...)
 		for _, v in ipairs(keyList) do
 			if v[1] == key and v[2] == modKey then
 				if tonumber(value) then
-					if tonumber(value) == 13 or tonumber(value) == 14 then
-						self:SetAttribute(format(v[3], "type"), "item")
-						self:SetAttribute(format(v[3], "item"), tonumber(value))
-					else
-						local name = GetSpellInfo(value)
-						self:SetAttribute(format(v[3], "type"), "spell")
-						self:SetAttribute(format(v[3], "spell"), name)
-					end
+					local name = GetSpellInfo(value)
+					self:SetAttribute(format(v[3], "type"), "spell")
+					self:SetAttribute(format(v[3], "spell"), name)
 				elseif value == "target" then
 					self:SetAttribute(format(v[3], "type"), "target")
 				elseif value == "focus" then
@@ -193,6 +188,9 @@ local function setupClickSets(self, ...)
 				elseif value == "follow" then
 					self:SetAttribute(format(v[3], "type"), "macro")
 					self:SetAttribute(format(v[3], "macrotext"), "/follow mouseover")
+				elseif value:match("/") then
+					self:SetAttribute(format(v[3], "type"), "macro")
+					self:SetAttribute(format(v[3], "macrotext"), value)
 				end
 				break
 			end

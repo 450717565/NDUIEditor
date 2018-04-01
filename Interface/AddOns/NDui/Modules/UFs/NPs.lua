@@ -1,5 +1,4 @@
 local B, C, L, DB = unpack(select(2, ...))
-local cast = NDui.cast
 local UF = NDui:GetModule("UnitFrames")
 
 -- Init
@@ -11,16 +10,20 @@ function UF:SetupCVars()
 		SetCVar("nameplateOtherTopInset", -1)
 		SetCVar("nameplateOtherBottomInset", -1)
 	end
-	SetCVar("nameplateMaxDistance", NDuiDB["Nameplate"]["Distance"])
 	SetCVar("nameplateOverlapH", .5)
 	SetCVar("nameplateOverlapV", NDuiDB["Nameplate"]["VerticalSpacing"])
+	SetCVar("nameplateMaxDistance", NDuiDB["Nameplate"]["Distance"])
+
 	SetCVar("nameplateMinAlpha", NDuiDB["Nameplate"]["MinAlpha"])
-	SetCVar("nameplateOccludedAlphaMult", .3)
+	SetCVar("nameplateMaxAlpha", NDuiDB["Nameplate"]["MinAlpha"])
+	SetCVar("nameplateSelectedAlpha", 1)
+	SetCVar("nameplateOccludedAlphaMult", .4)
+
 	SetCVar("namePlateMinScale", .8)
 	SetCVar("namePlateMaxScale", .8)
 	SetCVar("nameplateSelectedScale", 1)
 	SetCVar("nameplateLargerScale", 1)
-	C_NamePlate.SetNamePlateSelfClickThrough(false)
+	SetCVar("nameplateSelfScale", .75)
 end
 
 function UF:BlockAddons()
@@ -35,9 +38,10 @@ local CustomUnits = {
 	["Fel Explosive"] = true,
 	["邪能炸药"] = true,
 	["魔化炸彈"] = true,
-	["海拉加尔观雾者"] = true,
-	["深渊追猎者"] = true,
-	["尖啸反舌鸟"] = true,
+	[EJ_GetSectionInfo(14544)] = true,	-- 海拉加尔观雾者
+	[EJ_GetSectionInfo(14595)] = true,	-- 深渊追猎者
+	[EJ_GetSectionInfo(16588)] = true,	-- 尖啸反舌鸟
+	[EJ_GetSectionInfo(16350)] = true,	-- 瓦里玛萨斯之影
 }
 function UF:CreateUnitTable()
 	if not NDuiDB["Nameplate"]["CustomUnitColor"] then return end
@@ -49,12 +53,8 @@ function UF:CreateUnitTable()
 end
 
 C.ShowPowerList = {
-	["Scrubber"] = true,
-	["清扫器"] = true,
-	["清掃者"] = true,
-	["Ember of Taeshalach"] = true,
-	["泰沙拉克的余烬"] = true,
-	["泰夏拉克燼火"] = true,
+	[EJ_GetSectionInfo(13015)] = true,	-- 清扫器
+	[EJ_GetSectionInfo(15903)] = true,	-- 泰沙拉克的余烬
 }
 function UF:CreatePowerUnitTable()
 	if not NDuiDB["Nameplate"]["ShowUnitPower"] then return end
@@ -118,7 +118,7 @@ local function UpdateColor(element, unit)
 	end
 end
 
-local function UpdateThreatColor(self, event, unit)
+local function UpdateThreatColor(self, _, unit)
 	if unit ~= self.unit then return end
 	UpdateColor(self.Health, unit)
 end
@@ -326,7 +326,7 @@ function UF:CreateClassBar()
 		end
 	end
 
-	local function UpdateRune(self, event, runeID, energized)
+	local function UpdateRune(_, _, runeID, energized)
 		local rune = bars[runeID]
 		if not rune then return end
 
@@ -495,18 +495,15 @@ local function UpdatePlates(self, event, unit)
 	-- Update PlayerPlate
 	if event == "NAME_PLATE_UNIT_ADDED" then
 		if UnitIsUnit(unit, "player") then
-			self:SetScale(.75)
 			self.nameFrame:Hide()
 			enableElement(self, "Power", self.Power)
 			disableElement(self, "Castbar")
 		else
-			self:SetScale(1)
 			self.nameFrame:Show()
 			disableElement(self, "Power")
 			enableElement(self, "Castbar", self.Castbar)
 		end
 	elseif event == "NAME_PLATE_UNIT_REMOVED" then
-		self:SetScale(1)
 		self.nameFrame:Hide()
 		disableElement(self, "Power")
 		disableElement(self, "Castbar")

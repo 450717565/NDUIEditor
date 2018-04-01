@@ -41,9 +41,9 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 17394 $"):sub(12, -3)),
-	DisplayVersion = "7.3.25 alpha", -- the string that is shown as version
-	ReleaseRevision = 17376 -- the revision of the latest stable version that is available
+	Revision = tonumber(("$Revision: 17422 $"):sub(12, -3)),
+	DisplayVersion = "7.3.26 alpha", -- the string that is shown as version
+	ReleaseRevision = 17402 -- the revision of the latest stable version that is available
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -101,7 +101,7 @@ DBM.DefaultOptions = {
 	ChosenVoicePack = "None",
 	VoiceOverSpecW2 = "DefaultOnly",
 	AlwaysPlayVoice = false,
-	EventSoundVictory = "Interface\\AddOns\\DBM-Core\\sounds\\Victory\\SmoothMcGroove_Fanfare.ogg",
+	EventSoundVictory2 = "None",
 	EventSoundWipe = "None",
 	EventSoundEngage = "",
 	EventSoundMusic = "None",
@@ -280,7 +280,7 @@ DBM.Counts = {
 DBM.Victory = {
 	{text = "None",value  = "None"},
 	{text = "Random",value  = "Random"},
-	{text = "Blakbyrd: FF Fanfare (temp version)",value = "Interface\\AddOns\\DBM-Core\\sounds\\Victory\\bbvictory.ogg", length=4},
+	{text = "Blakbyrd: FF Fanfare",value = "Interface\\AddOns\\DBM-Core\\sounds\\Victory\\bbvictory.ogg", length=4},
 	{text = "SMG: FF Fanfare",value = "Interface\\AddOns\\DBM-Core\\sounds\\Victory\\SmoothMcGroove_Fanfare.ogg", length=4},
 }
 DBM.Defeat = {
@@ -400,7 +400,7 @@ local breakTimerStart
 local AddMsg
 local delayedFunction
 
-local fakeBWVersion, fakeBWHash = 89, "e601bae"
+local fakeBWVersion, fakeBWHash = 91, "eb13dfc"
 local versionQueryString, versionResponseString = "Q^%d^%s", "V^%d^%s"
 
 local enableIcons = true -- set to false when a raid leader or a promoted player has a newer version of DBM
@@ -3087,7 +3087,7 @@ function DBM:LoadModOptions(modId, inCombat, first)
 			stats.timewalkerPulls = stats.timewalkerPulls or 0
 			mod.stats = stats
 			--run OnInitialize function
-			if mod.OnInitialize then mod:OnInitialize() end
+			if mod.OnInitialize then mod:OnInitialize(mod) end
 		end
 	end
 	--clean unused saved variables (do not work on combat load)
@@ -3472,6 +3472,8 @@ function DBM:READY_CHECK()
 			self:PlaySoundFile("Sound\\interface\\levelup2.ogg", true)--Because regular sound uses SFX channel which is too low of volume most of time
 		end
 	end
+	self:TransitionToDungeonBGM(false, true)
+	self:Schedule(4, self.TransitionToDungeonBGM, self)
 end
 
 function DBM:PLAYER_SPECIALIZATION_CHANGED()
@@ -3619,9 +3621,11 @@ do
 				self.Options.musicPlaying = nil
 				DBM:Debug("Stopping music")
 			end
+			fireEvent("DBM_MusicStop", "ZoneOrCombatEndTransition")
 			return
 		end
 		if LastInstanceType ~= "raid" and LastInstanceType ~= "party" and not force then return end
+		fireEvent("DBM_MusicStart", "RaidOrDungeon")
 		if self.Options.EventSoundDungeonBGM and self.Options.EventSoundDungeonBGM ~= "None" and self.Options.EventSoundDungeonBGM ~= "" and not (self.Options.EventDungMusicMythicFilter and (savedDifficulty == "mythic" or savedDifficulty == "challenge")) then
 			if not self.Options.tempMusicSetting then
 				self.Options.tempMusicSetting = tonumber(GetCVar("Sound_EnableMusic"))
@@ -3646,6 +3650,9 @@ do
 	end
 	local function SecondaryLoadCheck(self)
 		local _, instanceType, difficulty, _, _, _, _, mapID, instanceGroupSize = GetInstanceInfo()
+		if not savedDifficulty then
+			savedDifficulty, difficultyText = self:GetCurrentInstanceDifficulty()
+		end
 		self:Debug("Instance Check fired with mapID "..mapID.." and difficulty "..difficulty, 2)
 		if LastInstanceMapID == mapID then
 			self:TransitionToDungeonBGM()
@@ -5685,6 +5692,7 @@ do
 				if self.Options.EventSoundEngage and self.Options.EventSoundEngage ~= "" and self.Options.EventSoundEngage ~= "None" then
 					self:PlaySoundFile(self.Options.EventSoundEngage)
 				end
+				fireEvent("DBM_MusicStart", "BossEncounter")
 				if self.Options.EventSoundMusic and self.Options.EventSoundMusic ~= "None" and self.Options.EventSoundMusic ~= "" and not (self.Options.EventMusicMythicFilter and (savedDifficulty == "mythic" or savedDifficulty == "challenge")) then
 					if not self.Options.tempMusicSetting then
 						self.Options.tempMusicSetting = tonumber(GetCVar("Sound_EnableMusic"))
@@ -6000,12 +6008,12 @@ do
 						end
 					end
 				end
-				if self.Options.EventSoundVictory and self.Options.EventSoundVictory ~= "" then
-					if self.Options.EventSoundVictory == "Random" then
+				if self.Options.EventSoundVictory2 and self.Options.EventSoundVictory2 ~= "" then
+					if self.Options.EventSoundVictory2 == "Random" then
 						local random = fastrandom(3, #DBM.Victory)
 						self:PlaySoundFile(DBM.Victory[random].value)
 					else
-						self:PlaySoundFile(self.Options.EventSoundVictory)
+						self:PlaySoundFile(self.Options.EventSoundVictory2)
 					end
 				end
 			end

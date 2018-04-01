@@ -2,8 +2,7 @@
 -- oUF_Swing, by p3lim
 -- NDui MOD
 -------------------------
-local _, ns = ...
-local oUF = oUF or ns.oUF
+local oUF = NDui.oUF or oUF
 
 local meleeing
 local rangeing
@@ -95,7 +94,7 @@ do
 	end
 end
 
-local MeleeChange = function(self, event, unit)
+local MeleeChange = function(self, _, unit)
 	if unit ~= "player" then return end
 	if not meleeing then return end
 
@@ -177,7 +176,7 @@ local MeleeChange = function(self, event, unit)
 	end
 end
 
-local RangedChange = function(self, event, unit)
+local RangedChange = function(self, _, unit)
 	if unit ~= "player" then return end
 	if not rangeing then return end
 
@@ -205,7 +204,7 @@ local RangedChange = function(self, event, unit)
 	end
 end
 
-local Ranged = function(self, event, unit, spellName)
+local Ranged = function(self, _, unit, spellName)
 	if unit ~= "player" then return end
 	if spellName ~= GetSpellInfo(75) and spellName ~= GetSpellInfo(5019) then return end
 
@@ -231,7 +230,7 @@ local Ranged = function(self, event, unit, spellName)
 	swingOH:SetScript("OnUpdate", nil)
 end
 
-local Melee = function(self, event, _, subevent, _, GUID)
+local Melee = function(self, _, _, subevent, _, GUID)
 	if GUID ~= UnitGUID("player") then return end
 	if not string.find(subevent, "SWING") then return end
 
@@ -285,7 +284,7 @@ local Melee = function(self, event, _, subevent, _, GUID)
 	lasthit = GetTime()
 end
 
-local ParryHaste = function(self, event, _, subevent, ...)
+local ParryHaste = function(self, _, _, subevent, ...)
 	local tarGUID, missType
 	tarGUID = select(7, ...)
 	missType = select(9, ...)

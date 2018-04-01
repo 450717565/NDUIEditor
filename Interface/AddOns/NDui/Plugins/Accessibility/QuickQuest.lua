@@ -21,7 +21,7 @@ end)
 local QuickQuest = CreateFrame("Frame")
 QuickQuest:SetScript("OnEvent", function(self, event, ...) self[event](...) end)
 
-local choiceQueue
+local choiceQueue, quests
 
 function QuickQuest:Register(event, func)
 	self:RegisterEvent(event)
@@ -58,7 +58,6 @@ local ignoreQuestNPC = {
 	[108868] = true,	-- Hunter's order hall
 	[101462] = true,	-- Reaves
 	[43929] = true,		-- 4000
-	[106655] = true,	-- Legendary Item Upgrade
 	[14847] = true,		-- DarkMoon
 	[119388] = true,	-- 酋长哈顿
 	[114719] = true,	-- 商人塞林
@@ -66,10 +65,11 @@ local ignoreQuestNPC = {
 	[126954] = true,	-- 图拉扬
 	[124312] = true,	-- 图拉扬
 	[103792] = true,	-- 格里伏塔
+	[101880] = true,	-- 泰克泰克
 }
 
 local function GetQuestLogQuests(onlyComplete)
-	local quests = {}
+	quests = {}
 	for index = 1, GetNumQuestLogEntries() do
 		local title, _, _, isHeader, _, isComplete, _, questID = GetQuestLogTitle(index)
 		if (not isHeader) then
@@ -244,7 +244,7 @@ end)
 
 QuickQuest:Register("QUEST_ACCEPT_CONFIRM", AcceptQuest)
 
-QuickQuest:Register("QUEST_ACCEPTED", function(id)
+QuickQuest:Register("QUEST_ACCEPTED", function()
 	if (QuestFrame:IsShown() and QuestGetAutoAccept()) then
 		CloseQuest()
 	end

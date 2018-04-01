@@ -5,8 +5,9 @@ local L = LibStub("AceLocale-3.0"):NewLocale("WorldMapTrackingEnhanced", "deDE",
 if not L then return end
 
 if L then
-L[" (Core}"] = " (Kern}"
+L[" (Core)"] = " (Kern)"
 L["Click to open HandyNotes' config panel"] = "Klicken, um das Einstellungsmenü von Handynotes zu öffnen"
+L["HandyNotes Config"] = "HandyNotes konfigurieren"
 L["Options"] = "Optionen"
 L["Others"] = "Sonstige"
 L["Profile Options"] = "Profiloptionen"

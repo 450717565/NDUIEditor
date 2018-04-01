@@ -5,7 +5,7 @@ local L = LibStub("AceLocale-3.0"):NewLocale("WorldMapTrackingEnhanced", "koKR",
 if not L then return end
 
 if L then
-L[" (Core}"] = "(코어}"
+L[" (Core)"] = "(코어)"
 L["Click to open HandyNotes' config panel"] = "HandyNotes의 설정 창을 열려면 클릭하세요"
 L["HandyNotes Config"] = "HandyNotes 설정"
 L["Options"] = "옵션"

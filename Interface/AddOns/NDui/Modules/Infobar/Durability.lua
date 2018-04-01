@@ -22,21 +22,7 @@ inform:SetPoint("BOTTOM", info, "TOP", 0, 23)
 inform.Text:SetText(L["Low Durability"])
 inform:Hide()
 
-local function gradientColor(perc)
-	perc = perc > 1 and 1 or perc < 0 and 0 or perc -- Stay between 0-1
-	local seg, relperc = math.modf(perc*2)
-	local r1, g1, b1, r2, g2, b2 = select(seg*3+1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0) -- R -> Y -> G
-	local r, g, b = r1+(r2-r1)*relperc, g1+(g2-g1)*relperc, b1+(b2-b1)*relperc
-	return format("|cff%02x%02x%02x", r*255, g*255, b*255), r, g, b
-end
-
-info.eventList = {
-	"UPDATE_INVENTORY_DURABILITY", "PLAYER_ENTERING_WORLD",
-}
-
-info.onEvent = function(self)
-	if not NDuiADB["RepairType"] then NDuiADB["RepairType"] = 1 end
-
+local function getItemDurability()
 	local numSlots = 0
 	for i = 1, 10 do
 		if GetInventoryItemLink("player", localSlots[i][1]) then
@@ -51,21 +37,57 @@ info.onEvent = function(self)
 	end
 	sort(localSlots, function(a, b) return a[3] < b[3] end)
 
+	return numSlots
+end
+
+local function isLowDurability()
 	for i = 1, 10 do
 		if localSlots[i][3] < .25 then
-			inform:Show()
-			break
+			return true
 		end
 	end
+end
 
-	if numSlots > 0 then
-		self.text:SetText(format(gsub("[color]%.1f%%|r"..L["D"], "%[color%]", (gradientColor(string.format(localSlots[1][3]*100)/100))), string.format(localSlots[1][3]*100)))
+local function gradientColor(perc)
+	perc = perc > 1 and 1 or perc < 0 and 0 or perc -- Stay between 0-1
+	local seg, relperc = math.modf(perc*2)
+	local r1, g1, b1, r2, g2, b2 = select(seg*3+1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0) -- R -> Y -> G
+	local r, g, b = r1+(r2-r1)*relperc, g1+(g2-g1)*relperc, b1+(b2-b1)*relperc
+	return format("|cff%02x%02x%02x", r*255, g*255, b*255), r, g, b
+end
+
+info.eventList = {
+	"UPDATE_INVENTORY_DURABILITY", "PLAYER_ENTERING_WORLD",
+}
+
+info.onEvent = function(self, event)
+	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
+	if not NDuiADB["RepairType"] then NDuiADB["RepairType"] = 1 end
+
+	if event == "PLAYER_REGEN_ENABLED" then
+		self:UnregisterEvent(event)
+		self:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
+		getItemDurability()
+		if isLowDurability() then inform:Show() end
 	else
-		self.text:SetText(DB.MyColor..NONE.."|r"..L["D"])
-	end
+		local numSlots = getItemDurability()
+		if numSlots > 0 then
+			self.text:SetText(format(gsub("[color]%.1f%%|r"..L["D"], "%[color%]", (gradientColor(string.format(localSlots[1][3]*100)/100))), string.format(localSlots[1][3]*100)))
+		else
+			self.text:SetText(DB.MyColor..NONE.."|r"..L["D"])
+		end
 
+		if isLowDurability() then inform:Show() else inform:Hide() end
+	end
 	self.text:SetJustifyH("RIGHT")
 end
+
+inform.CloseButton:HookScript("OnClick", function()
+	if InCombatLockdown() then
+		info:UnregisterEvent("UPDATE_INVENTORY_DURABILITY")
+		info:RegisterEvent("PLAYER_REGEN_ENABLED")
+	end
+end)
 
 info.onMouseUp = function(self, btn)
 	if btn == "RightButton" then

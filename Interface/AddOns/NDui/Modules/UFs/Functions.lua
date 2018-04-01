@@ -1,7 +1,7 @@
 local B, C, L, DB = unpack(select(2, ...))
 local cast = NDui.cast
 local oUF = NDui.oUF or oUF
-local UF = NDui:GetModule("UnitFrames")
+local UF = NDui:RegisterModule("UnitFrames")
 
 -- Custom colors
 oUF.colors.smooth = {1, 0, 0, .85, .8, .45, .1, .1, .1}
@@ -81,7 +81,7 @@ function UF:CreateHealthText(self)
 	local textFrame = CreateFrame("Frame", nil, self)
 	textFrame:SetAllPoints()
 
-	local name = B.CreateFS(textFrame, retVal(self, 12, 12, 12, 11), "", false, "LEFT", 3, -1)
+	local name = B.CreateFS(textFrame, retVal(self, 13, 12, 12, 11), "", false, "LEFT", 3, -1)
 	name:SetJustifyH("LEFT")
 	if self.mystyle == "raid" then
 		name:SetWidth(self:GetWidth()*.95)
@@ -158,7 +158,7 @@ function UF:CreatePowerText(self)
 	local textFrame = CreateFrame("Frame", nil, self)
 	textFrame:SetAllPoints(self.Power)
 
-	local ppval = B.CreateFS(textFrame, retVal(self, 14, 12, 12), "", false, "RIGHT", -3, 1)
+	local ppval = B.CreateFS(textFrame, retVal(self, 14, 13, 12), "", false, "RIGHT", -3, 1)
 	self:Tag(ppval, "[color][power]")
 end
 
@@ -179,32 +179,31 @@ end
 function UF:CreateIcons(self)
 	if self.mystyle == "player" then
 		local combat = self:CreateTexture(nil, "OVERLAY")
+		combat:SetPoint("CENTER", self, "BOTTOMLEFT")
 		combat:SetSize(20, 20)
-		combat:SetPoint("BOTTOMLEFT", -10, -10)
 		combat:SetTexture("Interface\\WORLDSTATEFRAME\\CombatSwords")
 		combat:SetTexCoord(0, .5, 0, .5)
 		combat:SetVertexColor(.8, 0, 0)
 		self.CombatIndicator = combat
 
 		local rest = self:CreateTexture(nil, "OVERLAY")
-		rest:SetPoint("TOPLEFT", -12, 2)
+		rest:SetPoint("CENTER", self, "LEFT", -2, 4)
 		rest:SetSize(18, 18)
 		rest:SetTexture("Interface\\PLAYERFRAME\\DruidEclipse")
 		rest:SetTexCoord(.445, .55, .648, .905)
 		rest:SetVertexColor(.6, .8, 1)
 		self.RestingIndicator = rest
-
 	elseif self.mystyle == "target" or self.mystyle == "party" then
-		local phase = self:CreateTexture(nil, "OVERLAY")
-		phase:SetPoint("TOP", self, 0, 12)
-		phase:SetSize(22, 22)
-		self.PhaseIndicator = phase
-
 		local quest = self:CreateTexture(nil, "OVERLAY")
 		quest:SetPoint("TOPLEFT", self, "TOPLEFT", 0, 8)
 		quest:SetSize(16, 16)
 		self.QuestIndicator = quest
 	end
+
+	local phase = self:CreateTexture(nil, "OVERLAY")
+	phase:SetPoint("TOP", self, 0, 12)
+	phase:SetSize(22, 22)
+	self.PhaseIndicator = phase
 
 	local ri = self:CreateTexture(nil, "OVERLAY")
 	if self.mystyle == "raid" then
@@ -268,7 +267,7 @@ function UF:CreateCastBar(self)
 		cb.Mover = B.Mover(cb, L["Focus Castbar"], "FocusCB", C.UFs.Focuscb, cb:GetWidth(), 32)
 	elseif self.mystyle == "boss" or self.mystyle == "arena" then
 		cb:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, -10)
-		cb:SetSize(self:GetWidth()-15, 10)
+		cb:SetSize(self:GetWidth(), 10)
 	elseif self.mystyle == "nameplate" then
 		cb:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, -5)
 		cb:SetSize(self:GetWidth(), 5)
@@ -284,17 +283,23 @@ function UF:CreateCastBar(self)
 	spark:SetBlendMode("ADD")
 	spark:SetAlpha(0.5)
 	spark:SetHeight(cb:GetHeight()*2.5)
+	cb.Spark = spark
 
 	local timer = B.CreateFS(cb, retVal(self, 12, 12, 12, 10), "", false, "RIGHT", -2, 0)
+	cb.Time = timer
+
 	local name = B.CreateFS(cb, retVal(self, 12, 12, 12, 10), "", false, "LEFT", 2, 0)
 	name:SetJustifyH("LEFT")
 	name:SetPoint("RIGHT", timer, "LEFT", -5, 0)
+	cb.Text = name
 
-	local icon = cb:CreateTexture(nil, "ARTWORK")
-	icon:SetSize(cb:GetHeight(), cb:GetHeight())
-	icon:SetPoint("BOTTOMRIGHT", cb, "BOTTOMLEFT", -5, 0)
-	icon:SetTexCoord(unpack(DB.TexCoord))
-	B.CreateSD(icon, 3, 3)
+	if self.mystyle ~= "boss" and self.mystyle ~= "arena" then
+		cb.Icon = cb:CreateTexture(nil, "ARTWORK")
+		cb.Icon:SetSize(cb:GetHeight(), cb:GetHeight())
+		cb.Icon:SetPoint("BOTTOMRIGHT", cb, "BOTTOMLEFT", -5, 0)
+		cb.Icon:SetTexCoord(unpack(DB.TexCoord))
+		B.CreateSD(cb.Icon, 3, 3)
+	end
 
 	if self.mystyle == "player" then
 		local safe = cb:CreateTexture(nil,"OVERLAY")
@@ -311,8 +316,6 @@ function UF:CreateCastBar(self)
 		cb.Lag = lag
 		self:RegisterEvent("CURRENT_SPELL_CAST_CHANGED", cast.OnCastSent)
 	elseif self.mystyle == "nameplate" then
-		local iconSize = self.Health:GetHeight() + cb:GetHeight() + 5
-		icon:SetSize(iconSize, iconSize)
 		name:SetPoint("LEFT", cb, "BOTTOMLEFT", 0, -3)
 		timer:SetPoint("RIGHT", cb, "BOTTOMRIGHT", 0, -3)
 
@@ -321,6 +324,9 @@ function UF:CreateCastBar(self)
 		shield:SetSize(15, 15)
 		shield:SetPoint("CENTER", 0, -5)
 		cb.Shield = shield
+
+		local iconSize = self.Health:GetHeight() + cb:GetHeight() + 5
+		cb.Icon:SetSize(iconSize, iconSize)
 	end
 
 	cb.OnUpdate = cast.OnCastbarUpdate
@@ -334,13 +340,9 @@ function UF:CreateCastBar(self)
 	cb.PostCastNotInterruptible = cast.PostUpdateInterruptible
 
 	self.Castbar = cb
-	self.Castbar.Text = name
-	self.Castbar.Time = timer
-	self.Castbar.Icon = icon
-	self.Castbar.Spark = spark
 end
 
-function UF:CreateMirrorBar(self)
+function UF:CreateMirrorBar()
 	for _, bar in pairs({"MirrorTimer1", "MirrorTimer2", "MirrorTimer3"}) do
 		_G[bar]:GetRegions():Hide()
 		_G[bar.."Border"]:Hide()
@@ -404,13 +406,13 @@ local function postUpdateIcon(element, unit, button, index)
 	end
 end
 
-local function postUpdateGapIcon(element, unit, icon)
+local function postUpdateGapIcon(_, _, icon)
 	if icon.Shadow and icon.Shadow:IsShown() then
 		icon.Shadow:Hide()
 	end
 end
 
-local function customFilter(element, unit, button, name, _, _, _, _, _, _, caster, _, nameplateShowSelf, spellID, _, _, _, nameplateShowAll)
+local function customFilter(element, unit, button, name, _, _, _, _, _, _, caster, _, _, spellID, _, _, _, nameplateShowAll)
 	local style = element:GetParent().mystyle
 	if style == "raid" then
 		local auraList = C.RaidAuraWatch[DB.MyClass]
@@ -433,11 +435,13 @@ local function customFilter(element, unit, button, name, _, _, _, _, _, _, caste
 	end
 end
 
+local function auraIconSize(w, n, s)
+	return (w-(n-1)*s)/n
+end
+
 function UF:CreateAuras(self)
 	local bu = CreateFrame("Frame", nil, self)
 	bu.gap = true
-	bu:SetWidth(self:GetWidth())
-	bu:SetHeight(41)
 	bu.initialAnchor = "TOPLEFT"
 	bu["growth-x"] = "RIGHT"
 	bu["growth-y"] = "DOWN"
@@ -445,9 +449,16 @@ function UF:CreateAuras(self)
 		bu:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -13)
 		bu.numBuffs = 20
 		bu.numDebuffs = 20
-		bu.size = 23
 		bu.spacing = 5
+		bu.iconsPerRow = 9
 	end
+
+	local width = self:GetWidth()
+	local maxAuras = bu.numTotal or bu.numBuffs + bu.numDebuffs
+	local maxLines = bu.iconsPerRow and floor(maxAuras/bu.iconsPerRow + .5) or 2
+	bu.size = bu.iconsPerRow and auraIconSize(width, bu.iconsPerRow, bu.spacing) or bu.size
+	bu:SetWidth(width)
+	bu:SetHeight((bu.size + bu.spacing) * maxLines)
 
 	bu.showStealableBuffs = NDuiDB["UFs"]["StealableBuff"]
 	bu.CustomFilter = customFilter
@@ -460,28 +471,30 @@ end
 
 function UF:CreateBuffs(self)
 	local bu = CreateFrame("Frame", nil, self)
-	bu.size = 18
-	bu.spacing = 5
 	bu.onlyShowPlayer = false
-	bu:SetWidth(self:GetWidth())
-	bu:SetHeight((bu.size + bu.spacing) * 4)
 	bu.initialAnchor = "BOTTOMLEFT"
 	bu["growth-x"] = "RIGHT"
 	bu["growth-y"] = "UP"
 	if self.mystyle == "boss" or self.mystyle == "arena" then
 		bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 5)
-		bu.num = 6
-		bu.size = 22
+		bu.num = 12
+		bu.spacing = 5
+		bu.iconsPerRow = 6
 	elseif self.mystyle == "raid" then
 		bu:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 1, 0)
 		bu.num = 6
 		bu.size = 14*NDuiDB["UFs"]["RaidScale"]
 		bu.spacing = 2
 		bu.CustomFilter = customFilter
-		bu.EnableTooltip = not NDuiDB["UFs"]["AurasClickThrough"]
-	else
-		bu.num = 0
+		bu.disableMouse = NDuiDB["UFs"]["AurasClickThrough"]
 	end
+
+	local width = self:GetWidth()
+	local maxLines = bu.iconsPerRow and floor(bu.num/bu.iconsPerRow + .5) or 2
+	bu.size = bu.iconsPerRow and auraIconSize(width, bu.iconsPerRow, bu.spacing) or bu.size
+	bu:SetWidth(self:GetWidth())
+	bu:SetHeight((bu.size + bu.spacing) * maxLines)
+
 	bu.PostCreateIcon = postCreateIcon
 	bu.PostUpdateIcon = postUpdateIcon
 
@@ -490,41 +503,41 @@ end
 
 function UF:CreateDebuffs(self)
 	local bu = CreateFrame("Frame", nil, self)
-	bu.size = 20
 	bu.spacing = 5
 	bu.onlyShowPlayer = false
-	bu:SetWidth(self:GetWidth())
-	bu:SetHeight((bu.size + bu.spacing) * 4)
 	bu.initialAnchor = "TOPRIGHT"
 	bu["growth-x"] = "LEFT"
 	bu["growth-y"] = "DOWN"
 	if self.mystyle == "arena" or self.mystyle == "boss" then
 		bu:SetPoint("TOPRIGHT", self, "TOPLEFT", -5, 0)
-		bu.num = 6
+		bu.num = 10
 		bu.size = 27
 		bu.onlyShowPlayer = true
 	elseif self.mystyle == "focus" then
 		bu:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -11)
-		bu.num = 7
-		bu.size = 25
+		bu.num = 14
+		bu.iconsPerRow = 7
 		bu.CustomFilter = customFilter
 		bu.initialAnchor = "TOPLEFT"
 		bu["growth-x"] = "RIGHT"
 		bu["growth-y"] = "DOWN"
 	elseif self.mystyle == "player" then
 		bu:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, -13)
-		bu.size = 23
+		bu.num = 14
+		bu.iconsPerRow = 7
 	elseif self.mystyle == "tot" then
 		bu:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, -11)
 		bu.num = 10
+		bu.iconsPerRow = 5
 	elseif self.mystyle == "nameplate" then
-		bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", -3, 20)
+		bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 20)
 		bu.num = NDuiDB["Nameplate"]["maxAuras"]
-		bu.showDebuffType = NDuiDB["Nameplate"]["ColorBorder"]
 		bu.size = NDuiDB["Nameplate"]["AuraSize"]
 		bu.spacing = 3
+		bu.iconsPerRow = 6
 		bu.disableMouse = true
 		bu.CustomFilter = customFilter
+		bu.showDebuffType = NDuiDB["Nameplate"]["ColorBorder"]
 		bu.initialAnchor = "BOTTOMLEFT"
 		bu["growth-x"] = "RIGHT"
 		bu["growth-y"] = "UP"
@@ -535,9 +548,14 @@ function UF:CreateDebuffs(self)
 		bu.initialAnchor = "TOPLEFT"
 		bu["growth-x"] = "RIGHT"
 		bu["growth-y"] = "DOWN"
-	else
-		bu.num = 0
 	end
+
+	local width = self:GetWidth()
+	local maxLines = bu.iconsPerRow and floor(bu.num/bu.iconsPerRow + .5) or 2
+	bu.size = bu.iconsPerRow and auraIconSize(width, bu.iconsPerRow, bu.spacing) or bu.size
+	bu:SetWidth(self:GetWidth())
+	bu:SetHeight((bu.size + bu.spacing) * maxLines)
+
 	bu.PostCreateIcon = postCreateIcon
 	bu.PostUpdateIcon = postUpdateIcon
 
@@ -548,7 +566,7 @@ end
 local margin = C.UFs.BarMargin
 local width, height = unpack(C.UFs.BarSize)
 
-local function postUpdateClassPower(element, cur, max, diff, event)
+local function postUpdateClassPower(element, _, max, diff, event)
 	if (diff or event == "ClassPowerEnable") then
 		if max <= 6 then
 			for i = 1, 6 do
@@ -594,7 +612,7 @@ function UF:CreateClassPower(self)
 	end
 end
 
-local function postUpdateAltPower(element, unit, cur, min, max)
+local function postUpdateAltPower(element, _, cur, _, max)
 	if cur and max then
 		local perc = math.floor((cur/max)*100)
 		if perc < 34 then
@@ -609,10 +627,9 @@ end
 
 function UF:CreateAltPower(self)
 	local bar = CreateFrame("StatusBar", nil, self)
-	bar:SetHeight(4)
 	bar:SetStatusBarTexture(DB.normTex)
 	bar:SetPoint("TOP", self.Power, "BOTTOM", 0, -3)
-	bar:SetWidth(self:GetWidth())
+	bar:SetSize(self:GetWidth(), 2)
 	B.CreateBD(bar, .5, .1)
 	B.CreateSD(bar, 3, 3)
 
@@ -648,8 +665,8 @@ function UF:CreateExpBar(self)
 	self.Experience = bar
 end
 
-local function postUpdateRepColor(element, event, unit, bar)
-	local name, id, _, _, _, factionID = GetWatchedFactionInfo()
+local function postUpdateRepColor(_, _, _, bar)
+	local _, id, _, _, _, factionID = GetWatchedFactionInfo()
 	local friendID = GetFriendshipReputation(factionID)
 	if friendID then id = 5 end
 	bar:SetStatusBarColor(FACTION_BAR_COLORS[id].r, FACTION_BAR_COLORS[id].g, FACTION_BAR_COLORS[id].b)
@@ -727,7 +744,7 @@ function UF:CreatePrediction(self)
 	}
 end
 
-local function postUpdateAddPower(element, unit, cur, max)
+local function postUpdateAddPower(element, _, cur, max)
 	if element.Text then
 		local perc = cur/max * 100
 		if perc == 100 then
@@ -794,7 +811,7 @@ function UF:CreateSwing(self)
 	self.Swing.Offhand = off
 	self.Swing.hideOoc = true
 end
---[[
+
 function UF:CreateFCT(self)
 	if not NDuiDB["UFs"]["CombatText"] then return end
 
@@ -815,6 +832,7 @@ function UF:CreateFCT(self)
 	fcf.showPets = NDuiDB["UFs"]["PetCombatText"]
 	fcf.showHots = NDuiDB["UFs"]["HotsDots"]
 	fcf.showAutoAttack = NDuiDB["UFs"]["AutoAttack"]
+	fcf.showOverHealing = NDuiDB["UFs"]["FCTOverHealing"]
 	fcf.abbreviateNumbers = true
 	self.FloatingCombatFeedback = fcf
 
@@ -822,7 +840,7 @@ function UF:CreateFCT(self)
 	SetCVar("enableFloatingCombatText", 0)
 	InterfaceOptionsCombatPanelEnableFloatingCombatText:Hide()
 end
-]]
+
 local function postUpdateFaction(self)
 	local _, instanceType = IsInInstance()
 	local faction = UnitFactionGroup(self.unit)
@@ -842,7 +860,7 @@ function UF:CreateFactionIcon(self)
 	bu.Icon:SetAllPoints()
 
 	self.factionIndicator = bu
+	self:RegisterEvent("UNIT_AURA", postUpdateFaction)	-- need reviewed
 	self:RegisterEvent("ARENA_OPPONENT_UPDATE", postUpdateFaction)
 	self:RegisterEvent("UNIT_NAME_UPDATE", postUpdateFaction)
-	postUpdateFaction(self)
 end

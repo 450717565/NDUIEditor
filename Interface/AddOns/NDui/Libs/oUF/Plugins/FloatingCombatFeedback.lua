@@ -3,8 +3,7 @@
 -- NDui MOD
 -----------------------------------------------
 local B, C, L, DB = unpack(select(2, ...))
-local _, ns = ...
-local oUF = ns.oUF or oUF
+local oUF = NDui.oUF or oUF
 assert(oUF, "oUF FloatingCombatFeedback was unable to locate oUF install")
 
 local _G = getfenv(0)
@@ -15,34 +14,6 @@ local tremove, tinsert = table.remove, table.insert
 local BreakUpLargeNumbers = _G.BreakUpLargeNumbers
 local MY_PET_FLAGS = bit.bor(COMBATLOG_OBJECT_AFFILIATION_MINE, COMBATLOG_OBJECT_REACTION_FRIENDLY, COMBATLOG_OBJECT_CONTROL_PLAYER, COMBATLOG_OBJECT_TYPE_PET)
 local MY_VEHICLE_FLAGS = bit.bor(COMBATLOG_OBJECT_AFFILIATION_MINE, COMBATLOG_OBJECT_REACTION_FRIENDLY, COMBATLOG_OBJECT_CONTROL_PLAYER, COMBATLOG_OBJECT_TYPE_GUARDIAN)
-
-local colors = {
-	ABSORB		= {r = 1.00, g = 1.00, b = 1.00},
-	BLOCK		= {r = 1.00, g = 1.00, b = 1.00},
-	DEFLECT		= {r = 1.00, g = 1.00, b = 1.00},
-	DODGE		= {r = 1.00, g = 1.00, b = 1.00},
-	ENERGIZE	= {r = 0.41, g = 0.80, b = 0.94},
-	EVADE		= {r = 1.00, g = 1.00, b = 1.00},
-	HEAL		= {r = 0.10, g = 0.80, b = 0.10},
-	IMMUNE		= {r = 1.00, g = 1.00, b = 1.00},
-	INTERRUPT	= {r = 1.00, g = 1.00, b = 1.00},
-	MISS		= {r = 1.00, g = 1.00, b = 1.00},
-	PARRY		= {r = 1.00, g = 1.00, b = 1.00},
-	REFLECT		= {r = 1.00, g = 1.00, b = 1.00},
-	RESIST		= {r = 1.00, g = 1.00, b = 1.00},
-	WOUND		= {r = 0.80, g = 0.10, b = 0.10},
-}
-
-local schoolColors = {
-	[SCHOOL_MASK_NONE]		= {r = 1.00, g = 1.00, b = 1.00},	-- 0x00 or 0
-	[SCHOOL_MASK_PHYSICAL]	= {r = 1.00, g = 1.00, b = 0.00},	-- 0x01 or 1
-	[SCHOOL_MASK_HOLY]		= {r = 1.00, g = 0.90, b = 0.50},	-- 0x02 or 2
-	[SCHOOL_MASK_FIRE]		= {r = 1.00, g = 0.50, b = 0.00},	-- 0x04 or 4
-	[SCHOOL_MASK_NATURE]	= {r = 0.30, g = 1.00, b = 0.30},	-- 0x08 or 8
-	[SCHOOL_MASK_FROST]		= {r = 0.50, g = 1.00, b = 1.00},	-- 0x10 or 16
-	[SCHOOL_MASK_SHADOW]	= {r = 0.50, g = 0.50, b = 1.00},	-- 0x20 or 32
-	[SCHOOL_MASK_ARCANE]	= {r = 1.00, g = 0.50, b = 1.00},	-- 0x40 or 64
-}
 
 local function removeString(self, i, string)
 	tremove(self.FeedbackToAnimate, i)
@@ -139,7 +110,18 @@ local function getFloatingIconTexture(iconType, spellID, isPet)
 		texture = envTexture[spellID] or "ability_creature_cursed_05"
 		texture = "Interface\\Icons\\"..texture
 	end
+
 	return texture
+end
+
+local function formatNumber(self, amount)
+	local element = self.FloatingCombatFeedback
+
+	if element.abbreviateNumbers then
+		return B.Numb(amount)
+	else
+		return BreakUpLargeNumbers(amount)
+	end
 end
 
 local function Update(self, event, ...)
@@ -149,7 +131,7 @@ local function Update(self, event, ...)
 	local unit = self.unit
 
 	if event == "COMBAT_LOG_EVENT_UNFILTERED" then
-		local _, eventType, _, sourceGUID, sourceName, sourceFlags, _, destGUID, destName, destFlags, _, spellID, spellName, school = ...
+		local _, eventType, _, sourceGUID, _, sourceFlags, _, destGUID, _, _, _, spellID, _, school = ...
 		local isPlayer = UnitGUID("player") == sourceGUID
 		local atTarget = UnitGUID("target") == destGUID
 		local atPlayer = UnitGUID("player") == destGUID
@@ -164,9 +146,9 @@ local function Update(self, event, ...)
 				if value.autoAttack and not element.showAutoAttack then return end
 				if value.isPeriod and not element.showHots then return end
 
-				local amount, overkill, school, resisted, blocked, absorbed, critical, glancing, crushing, isOffHand = select(value.index, ...)
+				local amount, _, _, _, _, _, critical, _, crushing = select(value.index, ...)
 				texture = getFloatingIconTexture(value.iconType, spellID, isPet)
-				text = "-"..(element.abbreviateNumbers and B.Numb(amount) or BreakUpLargeNumbers(amount))
+				text = "-"..formatNumber(self, amount)
 
 				if critical or crushing then
 					multiplier = 1.25
@@ -175,35 +157,41 @@ local function Update(self, event, ...)
 			elseif value.suffix == "HEAL" then
 				if value.isPeriod and not element.showHots then return end
 
-				local amount, overhealing, absorbed, critical = select(value.index, ...)
+				local amount, overhealing, _, critical = select(value.index, ...)
 				texture = getFloatingIconTexture(value.iconType, spellID)
-				text = "+"..(element.abbreviateNumbers and B.Numb(amount) or BreakUpLargeNumbers(amount))
+				local overhealText = ""
+				if overhealing > 0 then
+					amount = amount - overhealing
+					overhealText = " ("..formatNumber(self, overhealing)..")"
+				end
+				if amount == 0 and not element.showOverHealing then return end
+				text = "+"..formatNumber(self, amount)..overhealText
 
 				if critical then
 					multiplier = 1.25
 					critMark = true
 				end
 			elseif value.suffix == "MISS" then
-				local missType, isOffHand, amountMissed = select(value.index, ...)
+				local missType = select(value.index, ...)
 				texture = getFloatingIconTexture(value.iconType, spellID, isPet)
 				text = _G["COMBAT_TEXT_"..missType]
 			elseif value.suffix == "ENVIRONMENT" then
-				local envType, amount, overkill, school = select(value.index, ...)
+				local envType, amount = select(value.index, ...)
 				texture = getFloatingIconTexture(value.iconType, envType)
-				text = "-"..(element.abbreviateNumbers and B.Numb(amount) or BreakUpLargeNumbers(amount))
+				text = "-"..formatNumber(self, amount)
 			end
 
-			color = schoolColors[school] or schoolColors[0]
+			color = _G.CombatLog_Color_ColorArrayBySchool(school) or {r = .5, g = .5, b = .5}
 		end
 	elseif event == "PLAYER_REGEN_DISABLED" then
 		texture = ""
 		text = _G.ENTERING_COMBAT
-		color = colors.WOUND
+		color = {r = 1, g = 0, b = 0}
 		multiplier = 1.25
 	elseif event == "PLAYER_REGEN_ENABLED" then
 		texture = ""
 		text = _G.LEAVING_COMBAT
-		color = colors.HEAL
+		color = {r = 0, g = 1, b = 0}
 		multiplier = 1.25
 	end
 

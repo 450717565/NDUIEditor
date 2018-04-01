@@ -1,4 +1,4 @@
--- $Id: Config.lua 12 2017-05-09 04:27:23Z arith $
+-- $Id: Config.lua 64 2018-03-28 04:33:06Z arith $
 -----------------------------------------------------------------------
 -- Upvalued Lua API.
 -----------------------------------------------------------------------
@@ -92,20 +92,41 @@ local function getOptions()
 								return not iPetTracker
 							end,
 						},
+						enable_WorldQuestTracker = {
+							order = 14,
+							type = "toggle",
+							name = select(2, GetAddOnInfo("WorldQuestTracker")) or L["WorldQuestTracker"],
+							desc = select(3, GetAddOnInfo("WorldQuestTracker")) or nil,
+							disabled = function() 
+								local iWorldQuestTracker = select(4, GetAddOnInfo("WorldQuestTracker"))
+								return not iWorldQuestTracker
+							end,
+						},
 						header2 = {
 							order = 20,
 							type = "header",
-							name = select(2, GetAddOnInfo("HandyNotes")) or L["HandyNotes"],
+							name = L["Second Level Menu"],
 						},
 						handynotes_contextMenu = {
 							order = 21,
 							type = "toggle",
-							name = L["Second Level Menu"],
+							name = select(2, GetAddOnInfo("HandyNotes")) or L["HandyNotes"],
 							desc = L["Show HandyNotes plugins in second level menu."],
 							width = "full",
 							disabled = function() 
 								local iHandyNotes = select(4, GetAddOnInfo("HandyNotes"))
 								return not iHandyNotes or not addon.db.profile.enable_HandyNotes
+							end,
+						},
+						worldQuestTracker_contextMenu = {
+							order = 22,
+							type = "toggle",
+							name = select(2, GetAddOnInfo("WorldQuestTracker")) or L["WorldQuestTracker"],
+							desc = L["Show WorldQuestTracker's filter selections in second level menu."],
+							width = "full",
+							disabled = function() 
+								local iWorldQuestTracker = select(4, GetAddOnInfo("WorldQuestTracker"))
+								return not iWorldQuestTracker or not addon.db.profile.enable_WorldQuestTracker
 							end,
 						},
 					},
