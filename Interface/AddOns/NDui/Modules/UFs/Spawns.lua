@@ -211,27 +211,27 @@ function UF:OnLogin()
 
 	oUF:SetActiveStyle("Player")
 	local player = oUF:Spawn("Player", "oUF_Player")
-	B.Mover(player, L["PlayerUF"], "PlayerUF", C.UFs.PlayerPos, 245, 30)
+	B.Mover(player, L["PlayerUF"], "PlayerUF", C.UFs.PlayerPos)
 
 	oUF:SetActiveStyle("Target")
 	local target = oUF:Spawn("Target", "oUF_Target")
-	B.Mover(target, L["TargetUF"], "TargetUF", C.UFs.TargetPos, 245, 30)
+	B.Mover(target, L["TargetUF"], "TargetUF", C.UFs.TargetPos)
 
 	oUF:SetActiveStyle("TargetTarget")
 	local targettarget = oUF:Spawn("TargetTarget", "oUF_ToT")
-	B.Mover(targettarget, L["TotUF"], "TotUF", C.UFs.ToTPos, 120, 30)
+	B.Mover(targettarget, L["TotUF"], "TotUF", C.UFs.ToTPos)
 
 	oUF:SetActiveStyle("Pet")
 	local pet = oUF:Spawn("Pet", "oUF_Pet")
-	B.Mover(pet, L["PetUF"], "PetUF", C.UFs.PetPos, 120, 30)
+	B.Mover(pet, L["PetUF"], "PetUF", C.UFs.PetPos)
 
 	oUF:SetActiveStyle("Focus")
 	local focus = oUF:Spawn("Focus", "oUF_Focus")
-	B.Mover(focus, L["FocusUF"], "FocusUF", C.UFs.FocusPos, 200, 30)
+	B.Mover(focus, L["FocusUF"], "FocusUF", C.UFs.FocusPos)
 
 	oUF:SetActiveStyle("FocusTarget")
 	local focustarget = oUF:Spawn("FocusTarget", "oUF_FoT")
-	B.Mover(focustarget, L["FotUF"], "FotUF", C.UFs.FoTPos, 120, 30)
+	B.Mover(focustarget, L["FotUF"], "FotUF", C.UFs.FoTPos)
 
 	if NDuiDB["Extras"]["PartyFrame"] then
 		oUF:SetActiveStyle("Party")
@@ -253,9 +253,9 @@ function UF:OnLogin()
 		for i = 1, MAX_BOSS_FRAMES do
 			boss[i] = oUF:Spawn("Boss"..i, "oUF_Boss"..i)
 			if i == 1 then
-				B.Mover(boss[i], L["Boss1"], "Boss1", {"TOPRIGHT", Minimap, "BOTTOMLEFT", -100, -100}, 157, 30)
+				B.Mover(boss[i], L["Boss1"], "Boss1", {"TOPRIGHT", Minimap, "BOTTOMLEFT", -100, -100})
 			else
-				B.Mover(boss[i], L["Boss"..i], "Boss"..i, {"TOPRIGHT", boss[i-1], "BOTTOMRIGHT", 0, -55}, 157, 30)
+				B.Mover(boss[i], L["Boss"..i], "Boss"..i, {"TOPRIGHT", boss[i-1], "BOTTOMRIGHT", 0, -55})
 			end
 		end
 	end
@@ -266,9 +266,9 @@ function UF:OnLogin()
 		for i = 1, 5 do
 			arena[i] = oUF:Spawn("Arena"..i, "oUF_Arena"..i)
 			if i == 1 then
-				B.Mover(arena[i], L["Arena1"], "Arena1", {"TOPRIGHT", Minimap, "BOTTOMLEFT", 75, -100}, 157, 30)
+				B.Mover(arena[i], L["Arena1"], "Arena1", {"TOPRIGHT", Minimap, "BOTTOMLEFT", 75, -100})
 			else
-				B.Mover(arena[i], L["Arena"..i], "Arena"..i, {"TOPRIGHT", arena[i-1], "BOTTOMRIGHT", 0, -55}, 157, 30)
+				B.Mover(arena[i], L["Arena"..i], "Arena"..i, {"TOPRIGHT", arena[i-1], "BOTTOMRIGHT", 0, -55})
 			end
 		end
 

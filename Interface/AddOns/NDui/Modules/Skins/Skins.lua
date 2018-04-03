@@ -7,118 +7,106 @@ function module:OnLogin()
 
 	local basicW, basicH = 0, 0
 	if NDuiDB["Actionbar"]["Style"] == 2 then
-		basicW = 450
-		basicH = 94
+		basicW, basicH = 450, 97
 	elseif NDuiDB["Actionbar"]["Style"] == 3 then
-		basicW = 325
-		basicH = 94
+		basicW, basicH = 325, 97
 	elseif NDuiDB["Actionbar"]["Style"] == 4 then
-		basicW = 250
-		basicH = 130
+		basicW, basicH = 250, 133
 	else
-		basicW = 350
-		basicH = 94
+		basicW, basicH = 350, 97
 	end
 
 	-- TOPLEFT
 	if NDuiDB["Skins"]["InfobarLine"] then
-		local Tinfobar = CreateFrame("Frame", nil, UIParent)
-		Tinfobar:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 0, -5)
-		B.CreateGF(Tinfobar, 600, 18, "Horizontal", 0, 0, 0, .5, 0)
-		local Tinfobar1 = CreateFrame("Frame", nil, Tinfobar)
-		Tinfobar1:SetPoint("BOTTOM", Tinfobar, "TOP")
-		B.CreateGF(Tinfobar1, 600, 3, "Horizontal", cr, cg, cb, .7, 0)
-		local Tinfobar2 = CreateFrame("Frame", nil, Tinfobar)
-		Tinfobar2:SetPoint("TOP", Tinfobar, "BOTTOM")
-		B.CreateGF(Tinfobar2, 600, 3, "Horizontal", cr, cg, cb, .7, 0)
+		local InfobarLineTL = CreateFrame("Frame", nil, UIParent)
+		InfobarLineTL:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 0, -5)
+		B.CreateGF(InfobarLineTL, 600, 18, "Horizontal", 0, 0, 0, .5, 0)
+		local InfobarLineTL1 = CreateFrame("Frame", nil, InfobarLineTL)
+		InfobarLineTL1:SetPoint("BOTTOM", InfobarLineTL, "TOP")
+		B.CreateGF(InfobarLineTL1, 600, 3, "Horizontal", cr, cg, cb, .7, 0)
+		local InfobarLineTL2 = CreateFrame("Frame", nil, InfobarLineTL)
+		InfobarLineTL2:SetPoint("TOP", InfobarLineTL, "BOTTOM")
+		B.CreateGF(InfobarLineTL2, 600, 3, "Horizontal", cr, cg, cb, .7, 0)
 	end
 
 	-- BOTTOMLEFT
 	if NDuiDB["Skins"]["ChatLine"] then
-		local Linfobar = CreateFrame("Frame", nil, UIParent)
-		Linfobar:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", 0, 5)
-		B.CreateGF(Linfobar, 450, ChatFrame1:GetHeight() + 26, "Horizontal", 0, 0, 0, .5, 0)
-		local Linfobar1 = CreateFrame("Frame", nil, Linfobar)
-		Linfobar1:SetPoint("BOTTOM", Linfobar, "TOP")
-		B.CreateGF(Linfobar1, 450, 3, "Horizontal", cr, cg, cb, .7, 0)
-		local Linfobar2 = CreateFrame("Frame", nil, Linfobar)
-		Linfobar2:SetPoint("BOTTOM", Linfobar, "BOTTOM", 0, 18)
-		B.CreateGF(Linfobar2, 450, 3, "Horizontal", cr, cg, cb, .7, 0)
-		local Linfobar3 = CreateFrame("Frame", nil, Linfobar)
-		Linfobar3:SetPoint("TOP", Linfobar, "BOTTOM")
-		B.CreateGF(Linfobar3, 450, 3, "Horizontal", cr, cg, cb, .7, 0)
+		local ChatLine = CreateFrame("Frame", nil, UIParent)
+		ChatLine:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", 0, 5)
+		B.CreateGF(ChatLine, 450, ChatFrame1:GetHeight() + 26, "Horizontal", 0, 0, 0, .5, 0)
+		local ChatLine1 = CreateFrame("Frame", nil, ChatLine)
+		ChatLine1:SetPoint("BOTTOM", ChatLine, "TOP")
+		B.CreateGF(ChatLine1, 450, 3, "Horizontal", cr, cg, cb, .7, 0)
+		local ChatLine2 = CreateFrame("Frame", nil, ChatLine)
+		ChatLine2:SetPoint("BOTTOM", ChatLine, "BOTTOM", 0, 18)
+		B.CreateGF(ChatLine2, 450, 3, "Horizontal", cr, cg, cb, .7, 0)
+		local ChatLine3 = CreateFrame("Frame", nil, ChatLine)
+		ChatLine3:SetPoint("TOP", ChatLine, "BOTTOM")
+		B.CreateGF(ChatLine3, 450, 3, "Horizontal", cr, cg, cb, .7, 0)
 		ChatFrame1Tab:HookScript("OnMouseUp", function(_, btn)
 			if btn == "LeftButton" then
-				Linfobar:SetHeight(ChatFrame1:GetHeight() + 26)
+				ChatLine:SetHeight(ChatFrame1:GetHeight() + 26)
 			end
 		end)
 	end
 
 	-- BOTTOMRIGHT
 	if NDuiDB["Skins"]["InfobarLine"] then
-		local Rinfobar = CreateFrame("Frame", nil, UIParent)
-		Rinfobar:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", 0, 5)
-		B.CreateGF(Rinfobar, 450, 18, "Horizontal", 0, 0, 0, 0, .5)
-		local Rinfobar1 = CreateFrame("Frame", nil, Rinfobar)
-		Rinfobar1:SetPoint("BOTTOM", Rinfobar, "TOP")
-		B.CreateGF(Rinfobar1, 450, 3, "Horizontal", cr, cg, cb, 0, .7)
-		local Rinfobar2 = CreateFrame("Frame", nil, Rinfobar)
-		Rinfobar2:SetPoint("TOP", Rinfobar, "BOTTOM")
-		B.CreateGF(Rinfobar2, 450, 3, "Horizontal", cr, cg, cb, 0, .7)
+		local InfobarLineBR = CreateFrame("Frame", nil, UIParent)
+		InfobarLineBR:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", 0, 5)
+		B.CreateGF(InfobarLineBR, 450, 18, "Horizontal", 0, 0, 0, 0, .5)
+		local InfobarLineBR1 = CreateFrame("Frame", nil, InfobarLineBR)
+		InfobarLineBR1:SetPoint("BOTTOM", InfobarLineBR, "TOP")
+		B.CreateGF(InfobarLineBR1, 450, 3, "Horizontal", cr, cg, cb, 0, .7)
+		local InfobarLineBR2 = CreateFrame("Frame", nil, InfobarLineBR)
+		InfobarLineBR2:SetPoint("TOP", InfobarLineBR, "BOTTOM")
+		B.CreateGF(InfobarLineBR2, 450, 3, "Horizontal", cr, cg, cb, 0, .7)
 	end
 
 	-- MICROMENU
 	if NDuiDB["Skins"]["MenuLine"] then
-		local mmbottomL = CreateFrame("Frame", nil, UIParent)
-		mmbottomL:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOM", 0, 0)
-		B.CreateGF(mmbottomL, basicW, 3, "Horizontal", cr, cg, cb, 0, .7)
-		local mmbottomR = CreateFrame("Frame", nil, UIParent)
-		mmbottomR:SetPoint("BOTTOMLEFT", UIParent, "BOTTOM", 0, 0)
-		B.CreateGF(mmbottomR, basicW, 3, "Horizontal", cr, cg, cb, .7, 0)
-
-		local mmtopL = CreateFrame("Frame", nil, UIParent)
-		mmtopL:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOM", 0, 21)
-		B.CreateGF(mmtopL, basicW, 3, "Horizontal", cr, cg, cb, 0, .7)
-		local mmtopR = CreateFrame("Frame", nil, UIParent)
-		mmtopR:SetPoint("BOTTOMLEFT", UIParent, "BOTTOM", 0, 21)
-		B.CreateGF(mmtopR, basicW, 3, "Horizontal", cr, cg, cb, .7, 0)
+		local MenuLineL = CreateFrame("Frame", nil, UIParent)
+		MenuLineL:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOM", 0, 22)
+		B.CreateGF(MenuLineL, basicW, 3, "Horizontal", cr, cg, cb, 0, .7)
+		local MenuLineR = CreateFrame("Frame", nil, UIParent)
+		MenuLineR:SetPoint("BOTTOMLEFT", UIParent, "BOTTOM", 0, 22)
+		B.CreateGF(MenuLineR, basicW, 3, "Horizontal", cr, cg, cb, .7, 0)
 	end
 
 	-- ACTIONBAR
-
 	if NDuiDB["Skins"]["BarLine"] then
-		local MactionbarL = CreateFrame("Frame", nil, UIParent)
-		MactionbarL:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOM", 0, 4)
-		B.CreateGF(MactionbarL, basicW, basicH, "Horizontal", 0, 0, 0, 0, .5)
-		local MactionbarL1 = CreateFrame("Frame", nil, MactionbarL)
-		MactionbarL1:SetPoint("BOTTOMRIGHT", MactionbarL, "TOPRIGHT")
-		B.CreateGF(MactionbarL1, basicW, 3, "Horizontal", cr, cg, cb, 0, .7)
-		RegisterStateDriver(MactionbarL, "visibility", "[petbattle][overridebar][vehicleui][possessbar,@vehicle,exists] hide; show")
+		local ActionBarL = CreateFrame("Frame", nil, UIParent)
+		ActionBarL:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOM", 0, 0)
+		B.CreateGF(ActionBarL, basicW, basicH, "Horizontal", 0, 0, 0, 0, .5)
+		local ActionBarL1 = CreateFrame("Frame", nil, ActionBarL)
+		ActionBarL1:SetPoint("BOTTOMRIGHT", ActionBarL, "TOPRIGHT")
+		B.CreateGF(ActionBarL1, basicW, 3, "Horizontal", cr, cg, cb, 0, .7)
+		RegisterStateDriver(ActionBarL, "visibility", "[petbattle][overridebar][vehicleui][possessbar,@vehicle,exists] hide; show")
 
-		local MactionbarR = CreateFrame("Frame", nil, UIParent)
-		MactionbarR:SetPoint("BOTTOMLEFT", UIParent, "BOTTOM", 0, 4)
-		B.CreateGF(MactionbarR, basicW, basicH, "Horizontal", 0, 0, 0, .5, 0)
-		local MactionbarR1 = CreateFrame("Frame", nil, MactionbarR)
-		MactionbarR1:SetPoint("BOTTOMLEFT", MactionbarR, "TOPLEFT")
-		B.CreateGF(MactionbarR1, basicW, 3, "Horizontal", cr, cg, cb, .7, 0)
-		RegisterStateDriver(MactionbarR, "visibility", "[petbattle][overridebar][vehicleui][possessbar,@vehicle,exists] hide; show")
+		local ActionBarR = CreateFrame("Frame", nil, UIParent)
+		ActionBarR:SetPoint("BOTTOMLEFT", UIParent, "BOTTOM", 0, 0)
+		B.CreateGF(ActionBarR, basicW, basicH, "Horizontal", 0, 0, 0, .5, 0)
+		local ActionBarR1 = CreateFrame("Frame", nil, ActionBarR)
+		ActionBarR1:SetPoint("BOTTOMLEFT", ActionBarR, "TOPLEFT")
+		B.CreateGF(ActionBarR1, basicW, 3, "Horizontal", cr, cg, cb, .7, 0)
+		RegisterStateDriver(ActionBarR, "visibility", "[petbattle][overridebar][vehicleui][possessbar,@vehicle,exists] hide; show")
 
 		-- OVERRIDEBAR
-		local OverbarL = CreateFrame("Frame", nil, UIParent)
-		OverbarL:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOM", 0, 4)
-		B.CreateGF(OverbarL, 250, 57, "Horizontal", 0, 0, 0, 0, .5)
-		local OverbarL1 = CreateFrame("Frame", nil, OverbarL)
-		OverbarL1:SetPoint("BOTTOMRIGHT", OverbarL, "TOPRIGHT")
-		B.CreateGF(OverbarL1, 250, 3, "Horizontal", cr, cg, cb, 0, .7)
-		RegisterStateDriver(OverbarL, "visibility", "[petbattle]hide; [overridebar][vehicleui][possessbar,@vehicle,exists] show; hide")
+		local OverBarL = CreateFrame("Frame", nil, UIParent)
+		OverBarL:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOM", 0, 0)
+		B.CreateGF(OverBarL, 250, 61, "Horizontal", 0, 0, 0, 0, .5)
+		local OverBarL1 = CreateFrame("Frame", nil, OverBarL)
+		OverBarL1:SetPoint("BOTTOMRIGHT", OverBarL, "TOPRIGHT")
+		B.CreateGF(OverBarL1, 250, 3, "Horizontal", cr, cg, cb, 0, .7)
+		RegisterStateDriver(OverBarL, "visibility", "[petbattle]hide; [overridebar][vehicleui][possessbar,@vehicle,exists] show; hide")
 
-		local OverbarR = CreateFrame("Frame", nil, UIParent)
-		OverbarR:SetPoint("BOTTOMLEFT", UIParent, "BOTTOM", 0, 4)
-		B.CreateGF(OverbarR, 250, 57, "Horizontal", 0, 0, 0, .5, 0)
-		local OverbarR1 = CreateFrame("Frame", nil, OverbarR)
-		OverbarR1:SetPoint("BOTTOMLEFT", OverbarR, "TOPLEFT")
-		B.CreateGF(OverbarR1, 250, 3, "Horizontal", cr, cg, cb, .7, 0)
-		RegisterStateDriver(OverbarR, "visibility", "[petbattle]hide; [overridebar][vehicleui][possessbar,@vehicle,exists] show; hide")
+		local OverBarR = CreateFrame("Frame", nil, UIParent)
+		OverBarR:SetPoint("BOTTOMLEFT", UIParent, "BOTTOM", 0, 0)
+		B.CreateGF(OverBarR, 250, 61, "Horizontal", 0, 0, 0, .5, 0)
+		local OverBarR1 = CreateFrame("Frame", nil, OverBarR)
+		OverBarR1:SetPoint("BOTTOMLEFT", OverBarR, "TOPLEFT")
+		B.CreateGF(OverBarR1, 250, 3, "Horizontal", cr, cg, cb, .7, 0)
+		RegisterStateDriver(OverBarR, "visibility", "[petbattle]hide; [overridebar][vehicleui][possessbar,@vehicle,exists] show; hide")
 	end
 
 	-- Add Skins

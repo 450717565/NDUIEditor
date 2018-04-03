@@ -7,6 +7,7 @@ oUF.Tags.Methods["hp"] = function(unit)
 	else
 		local per = oUF.Tags.Methods["perhp"](unit).."%" or 0
 		local cur, max = UnitHealth(unit), UnitHealthMax(unit)
+
 		if (unit == "player" and not UnitHasVehicleUI(unit)) or unit == "target" or unit == "focus" then
 			if cur < max then
 				return B.Numb(cur).." | "..per
@@ -123,10 +124,9 @@ oUF.Tags.Methods["nphp"] = function(unit)
 	local per = oUF.Tags.Methods["perhp"](unit).."%" or 0
 	local min, max = UnitHealth(unit), UnitHealthMax(unit)
 
-	if min == max then return end
-	per = "|cff00FFFF"..per.."|r"
-
-	return per
+	if min < max then
+		return "|cff00FFFF"..per.."|r"
+	end
 end
 oUF.Tags.Events["nphp"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION"
 
@@ -135,10 +135,9 @@ oUF.Tags.Methods["nppp"] = function(unit)
 	local per = oUF.Tags.Methods["perpp"](unit).."%" or 0
 	local min, max = UnitPower(unit), UnitPowerMax(unit)
 
-	if min == 0 then return end
-	per = "|cff00FFFF"..per.."|r"
-
-	return per
+	if min > 0 then
+		return "|cffFFFF00"..per.."|r"
+	end
 end
 oUF.Tags.Events["nppp"] = "UNIT_POWER_FREQUENT UNIT_MAXPOWER"
 

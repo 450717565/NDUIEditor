@@ -47,9 +47,9 @@ local TargetAuraPoint = {"BOTTOMLEFT", UIParent, "CENTER", 200, -160}
 
 local RaidBuffPoint = {"BOTTOMRIGHT", UIParent, "CENTER", -200, 200}
 local SpellCooldownPoint = {"BOTTOMLEFT", UIParent, "CENTER", -445, -40}
-local EnchantAuraPoint = {"BOTTOMRIGHT", UIParent, "CENTER", -198, -92}
-local PlayerSpecialAuraPoint = {"BOTTOMRIGHT", UIParent, "CENTER", -198, -133}
-local PlayerAuraPoint = {"BOTTOMRIGHT", UIParent, "CENTER", -198, -160}
+local EnchantAuraPoint = {"BOTTOMRIGHT", UIParent, "CENTER", -200, -92}
+local PlayerSpecialAuraPoint = {"BOTTOMRIGHT", UIParent, "CENTER", -200, -133}
+local PlayerAuraPoint = {"BOTTOMRIGHT", UIParent, "CENTER", -200, -160}
 
 local FocusSpecialAuraPoint = {"BOTTOMLEFT", UIParent, "LEFT", 5, -130}
 
@@ -154,6 +154,8 @@ C.AuraWatchList = {
 				{AuraID = 216995, UnitID = "player", Text = "瞬发氤氲"},
 				{AuraID = 217000, UnitID = "player", Text = "加速泉水"},
 				{AuraID = 217006, UnitID = "player", Text = "免费活血"},
+				--皇帝的容电皮甲
+				{AuraID = 235054, UnitID = "player", Combat = true},
 			-->泰坦之路系列饰品
 				--阿格拉玛的信念
 				{AuraID = 256816, UnitID = "player"},
