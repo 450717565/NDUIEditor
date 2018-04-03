@@ -1248,6 +1248,8 @@ C.AuraWatchList = {
 				{AuraID = 125174, UnitID = "target"},
 				--爱情光线
 				{AuraID = 171607, UnitID = "target"},
+				--克罗塔的护盾
+				{AuraID = 228323, UnitID = "target", Value = true},
 			-->职业长控
 				--纠缠根须
 				{AuraID =    339, UnitID = "target"},

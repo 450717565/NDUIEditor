@@ -1,5 +1,5 @@
 local MAJOR_VERSION = "LibDogTag-Unit-3.0"
-local MINOR_VERSION = 90000 + (tonumber(("20160527101845"):match("%d+")) or 33333333333333)
+local MINOR_VERSION = 90000 + (tonumber(("20180401225840"):match("%d+")) or 33333333333333)
 
 if MINOR_VERSION > _G.DogTag_Unit_MINOR_VERSION then
 	_G.DogTag_Unit_MINOR_VERSION = MINOR_VERSION
@@ -117,7 +117,7 @@ DogTag:AddTag("Unit", "IncomingHeal", {
 	},
 	ret = 'number',
 	events = "UNIT_HEAL_PREDICTION#$unit",
-	doc = L["Return the total amount of damage the unit can take without losing health"],
+	doc = L["Return the estimated total amount of healing pending on the unit, such as incomplete casts"],
 	example = ('[IncomingHeal] => "%d"'):format(UnitHealthMax("player")*.258),
 	category = L["Health"],
 })

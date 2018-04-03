@@ -45,7 +45,7 @@
 -- @class file
 -- @name LibDDI-1.0
 
-local ddiVersion = 1
+local ddiVersion = 2
 local prototype = LibStub("AceGUI-3.0-DropDown-ItemBase"):GetItemBase()
 local version = ddiVersion + prototype.version
 

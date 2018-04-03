@@ -11,13 +11,6 @@ local LMFrame_CFG = {
 	other = true,
 }
 
-local function UnitClassColor(String)
-	if not UnitExists(String) then return string.format("|cffff0000%s|r", String) end
-	local _, class = UnitClass(String)
-	local color = (_G["CUSTOM_CLASS_COLORS"] or _G["RAID_CLASS_COLORS"])[class]
-	return string.format("|cff%02x%02x%02x%s|r", color.r*255, color.g*255, color.b*255, String)
-end
-
 local LMFrame = CreateFrame("Frame", "LootMonitor", UIParent)
 local LMFrame_Title = B.CreateFS(LMFrame, Button_Height-2, L["LootMonitor"], true, "TOPLEFT", 10, -10)
 local LMFrame_Info = B.CreateFS(LMFrame, Button_Height-2, L["LootMonitor Info"], true, "BOTTOMLEFT", 10, 10)
@@ -27,6 +20,13 @@ B.CreateTex(LMFrame)
 LMFrame:SetFrameStrata("HIGH")
 LMFrame:SetClampedToScreen(true)
 LMFrame:SetPoint("LEFT")
+
+local function UnitClassColor(String)
+	if not UnitExists(String) then return string.format("|cffff0000%s|r", String) end
+	local _, class = UnitClass(String)
+	local color = (_G["CUSTOM_CLASS_COLORS"] or _G["RAID_CLASS_COLORS"])[class]
+	return string.format("|cff%02x%02x%02x%s|r", color.r*255, color.g*255, color.b*255, String)
+end
 
 local function LMFrame_Reset()
 	LMFrame_Report = {}

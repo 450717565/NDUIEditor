@@ -1,5 +1,5 @@
 local MAJOR_VERSION = "LibDogTag-Unit-3.0"
-local MINOR_VERSION = 90000 + (tonumber(("2016102991302"):match("%d+")) or 33333333333333)
+local MINOR_VERSION = 90000 + (tonumber(("20180401225840"):match("%d+")) or 33333333333333)
 
 if MINOR_VERSION > _G.DogTag_Unit_MINOR_VERSION then
 	_G.DogTag_Unit_MINOR_VERSION = MINOR_VERSION
@@ -416,6 +416,13 @@ local specialPowers = {
 		eventPowerIdentifier = "SOUL_SHARDS",
 	},
 	{
+		class = "WARLOCK",
+		tag = "SoulShardParts",
+		arg2 = SPELL_POWER_SOUL_SHARDS,
+		arg3 = true,
+		eventPowerIdentifier = "SOUL_SHARDS",
+	},
+	{
 		class = "PALADIN",
 		tag = "HolyPower",
 		arg2 = SPELL_POWER_HOLY_POWER,
@@ -457,14 +464,6 @@ if not wow_700 then -- Parnic: shadow orbs are no more in 7.0
 		tag = "DemonicFury",
 		arg2 = SPELL_POWER_DEMONIC_FURY,
 		eventPowerIdentifier = "DEMONIC_FURY",
-	}
-	specialPowers[#specialPowers + 1] =
-	{
-		class = "WARLOCK",
-		tag = "SoulShardParts",
-		arg2 = SPELL_POWER_SOUL_SHARDS,
-		arg3 = true,
-		eventPowerIdentifier = "SOUL_SHARDS",
 	}
 	specialPowers[#specialPowers + 1] =
 	{
