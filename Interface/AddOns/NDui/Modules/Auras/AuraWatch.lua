@@ -1,5 +1,5 @@
 local B, C, L, DB = unpack(select(2, ...))
-local AuraList, Aura, UnitIDTable, IntTable, IntCD = {}, {}, {}, {}, C.InternalCD
+local AuraList, Aura, UnitIDTable, IntTable, IntCD = {}, {}, {}, {}, {}
 local MaxFrame = 12	-- Max Tracked Auras
 
 -- Init
@@ -40,8 +40,8 @@ local function ConvertTable()
 				end
 			end
 		else
-			if NDuiDB["InternalCD"] then
-				for _, v in pairs(NDuiDB["InternalCD"]) do
+			if NDuiDB["Internal CD"] then
+				for _, v in pairs(NDuiDB["Internal CD"]) do
 					tinsert(myTable[i], DataAnalyze(v))
 				end
 			end
@@ -65,7 +65,7 @@ local function ConvertTable()
 			InsertData(2, v.List)
 		elseif v.Name == "Target Aura" then
 			InsertData(4, v.List)
-		elseif v.Name == "Spell Cooldown" then
+		elseif v.Name == "Spell CD" then
 			InsertData(9, v.List)
 		end
 	end
@@ -81,13 +81,13 @@ local function ConvertTable()
 			InsertData(7, v.List)
 		elseif v.Name == "Raid Debuff" then
 			InsertData(8, v.List)
-		elseif v.Name == "Enchant Cooldown" then
+		elseif v.Name == "Enchant CD" then
 			InsertData(10, v.List)
+		elseif v.Name == "Internal CD" then
+			InsertData(11, v.List)
+			IntCD = v
 		end
 	end
-
-	-- Fill InternalCD List
-	InsertData(11, IntCD.List)
 end
 
 local function CheckAuraList()
@@ -105,8 +105,8 @@ end
 
 local function BuildAuraList()
 	AuraList = C.AuraWatchList["ALL"] and C.AuraWatchList["ALL"] or {}
-	for key, _ in pairs(C.AuraWatchList) do
-		if key == DB.MyClass then
+	for class in pairs(C.AuraWatchList) do
+		if class == DB.MyClass then
 			for _, value in pairs(C.AuraWatchList[DB.MyClass]) do
 				tinsert(AuraList, value)
 			end
@@ -281,7 +281,7 @@ local function Pos()
 			local Frame = VALUE[i]
 			if i == 1 then
 				Frame:SetPoint("CENTER", Frame.MoveHandle)
-			elseif value.IconsPerRow and i == value.IconsPerRow + 1 then
+			elseif value.Name == "Target Aura" and i == 7 then
 				Frame:SetPoint("BOTTOM", VALUE[1], "TOP", 0, value.Interval)
 			else
 				if value.Direction:lower() == "right" then
@@ -505,7 +505,7 @@ end
 -- Update InternalCD
 local function SortBars()
 	if not IntCD.MoveHandle then
-		IntCD.MoveHandle = MakeMoveHandle(IntTable[1], L[IntCD.Name], "InternalCD", IntCD.Pos)
+		IntCD.MoveHandle = MakeMoveHandle(IntTable[1], L[IntCD.Name], "Internal CD", IntCD.Pos)
 	end
 	for i = 1, #IntTable do
 		IntTable[i]:ClearAllPoints()
@@ -582,6 +582,7 @@ local eventList = {
 }
 
 local function UpdateInt(_, _, ...)
+	if not IntCD.List then return end
 	for _, value in pairs(IntCD.List) do
 		if value.IntID then
 			local _, eventType, _, _, sourceName, _, _, _, destName, _, _, spellID = ...

@@ -590,7 +590,7 @@ function UF:CreateClassPower(self)
 		bars[i]:SetStatusBarTexture(DB.normTex)
 		B.CreateSD(bars[i], 3, 3)
 		if i == 1 then
-			bars[i]:SetPoint(unpack(C.UFs.BarPoint))
+			bars[i]:SetPoint(unpack(C.UFs.BarPos))
 		else
 			bars[i]:SetPoint("LEFT", bars[i-1], "RIGHT", margin, 0)
 		end

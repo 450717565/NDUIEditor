@@ -2,7 +2,7 @@ local B, C, L, DB = unpack(select(2, ...))
 local module = NDui:RegisterModule("Auras")
 
 local BuffFrame = BuffFrame
-local buffsPerRow, buffSize, margin, offset = C.Auras.IconsPerRow, C.Auras.IconSize - 2, C.Auras.Spacing, 12
+local buffsPerRow, buffSize, margin, offset = C.Auras.IconsPerRow, C.Auras.IconSize - 2, C.Auras.Spacing, 10
 local debuffsPerRow, debuffSize = C.Auras.IconsPerRow - 4, C.Auras.IconSize + 3
 local parentFrame, buffAnchor, debuffAnchor
 

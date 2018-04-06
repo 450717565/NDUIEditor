@@ -11,6 +11,7 @@ C.WhiteList = {
 	[  2094]	= true,		-- 致盲
 	-- Mythic dungeons
 	[226510]	= true,		-- 血池
+	[227909]	= true,		-- 幽灵陷阱
 	[226285]	= true,		-- 恶魔飞升，驱散
 	-- Raids
 	[207327]	= true,		-- 净化毁灭，崔利艾克斯

@@ -207,117 +207,117 @@ function UF:OnLogin()
 	-- Default Clicksets for RaidFrame
 	self:DefaultClickSets()
 
-	if not NDuiDB["UFs"]["Enable"] then return end
+	if NDuiDB["UFs"]["Enable"] then
+		oUF:SetActiveStyle("Player")
+		local player = oUF:Spawn("Player", "oUF_Player")
+		B.Mover(player, L["PlayerUF"], "PlayerUF", C.UFs.PlayerPos)
 
-	oUF:SetActiveStyle("Player")
-	local player = oUF:Spawn("Player", "oUF_Player")
-	B.Mover(player, L["PlayerUF"], "PlayerUF", C.UFs.PlayerPos)
+		oUF:SetActiveStyle("Target")
+		local target = oUF:Spawn("Target", "oUF_Target")
+		B.Mover(target, L["TargetUF"], "TargetUF", C.UFs.TargetPos)
 
-	oUF:SetActiveStyle("Target")
-	local target = oUF:Spawn("Target", "oUF_Target")
-	B.Mover(target, L["TargetUF"], "TargetUF", C.UFs.TargetPos)
+		oUF:SetActiveStyle("TargetTarget")
+		local targettarget = oUF:Spawn("TargetTarget", "oUF_ToT")
+		B.Mover(targettarget, L["TotUF"], "TotUF", C.UFs.ToTPos)
 
-	oUF:SetActiveStyle("TargetTarget")
-	local targettarget = oUF:Spawn("TargetTarget", "oUF_ToT")
-	B.Mover(targettarget, L["TotUF"], "TotUF", C.UFs.ToTPos)
+		oUF:SetActiveStyle("Pet")
+		local pet = oUF:Spawn("Pet", "oUF_Pet")
+		B.Mover(pet, L["PetUF"], "PetUF", C.UFs.PetPos)
 
-	oUF:SetActiveStyle("Pet")
-	local pet = oUF:Spawn("Pet", "oUF_Pet")
-	B.Mover(pet, L["PetUF"], "PetUF", C.UFs.PetPos)
+		oUF:SetActiveStyle("Focus")
+		local focus = oUF:Spawn("Focus", "oUF_Focus")
+		B.Mover(focus, L["FocusUF"], "FocusUF", C.UFs.FocusPos)
 
-	oUF:SetActiveStyle("Focus")
-	local focus = oUF:Spawn("Focus", "oUF_Focus")
-	B.Mover(focus, L["FocusUF"], "FocusUF", C.UFs.FocusPos)
+		oUF:SetActiveStyle("FocusTarget")
+		local focustarget = oUF:Spawn("FocusTarget", "oUF_FoT")
+		B.Mover(focustarget, L["FotUF"], "FotUF", C.UFs.FoTPos)
 
-	oUF:SetActiveStyle("FocusTarget")
-	local focustarget = oUF:Spawn("FocusTarget", "oUF_FoT")
-	B.Mover(focustarget, L["FotUF"], "FotUF", C.UFs.FoTPos)
-
-	if NDuiDB["Extras"]["PartyFrame"] then
-		oUF:SetActiveStyle("Party")
-		local party = oUF:SpawnHeader("oUF_Party", nil, "solo,party",
-			"showPlayer", false,
-			"showSolo", false,
-			"showParty", true,
-			"yoffset", -16,
-			"oUF-initialConfigFunction", ([[
-				self:SetWidth(%d)
-				self:SetHeight(%d)
-			]]):format(196, 19))
-		B.Mover(party, L["Party UF"], "PartyUF", {"TOPLEFT", UIParent, 35, -50}, 196, (19 + 16) * 4)
-	end
-
-	if NDuiDB["UFs"]["Boss"] then
-		oUF:SetActiveStyle("Boss")
-		local boss = {}
-		for i = 1, MAX_BOSS_FRAMES do
-			boss[i] = oUF:Spawn("Boss"..i, "oUF_Boss"..i)
-			if i == 1 then
-				B.Mover(boss[i], L["Boss1"], "Boss1", {"TOPRIGHT", Minimap, "BOTTOMLEFT", -100, -100})
-			else
-				B.Mover(boss[i], L["Boss"..i], "Boss"..i, {"TOPRIGHT", boss[i-1], "BOTTOMRIGHT", 0, -55})
-			end
-		end
-	end
-
-	if NDuiDB["UFs"]["Arena"] then
-		oUF:SetActiveStyle("Arena")
-		local arena = {}
-		for i = 1, 5 do
-			arena[i] = oUF:Spawn("Arena"..i, "oUF_Arena"..i)
-			if i == 1 then
-				B.Mover(arena[i], L["Arena1"], "Arena1", {"TOPRIGHT", Minimap, "BOTTOMLEFT", 75, -100})
-			else
-				B.Mover(arena[i], L["Arena"..i], "Arena"..i, {"TOPRIGHT", arena[i-1], "BOTTOMRIGHT", 0, -55})
-			end
+		if NDuiDB["Extras"]["PartyFrame"] then
+			oUF:SetActiveStyle("Party")
+			local party = oUF:SpawnHeader("oUF_Party", nil, "solo,party",
+				"showPlayer", false,
+				"showSolo", false,
+				"showParty", true,
+				"yoffset", -16,
+				"oUF-initialConfigFunction", ([[
+					self:SetWidth(%d)
+					self:SetHeight(%d)
+				]]):format(196, 19))
+			B.Mover(party, L["Party UF"], "PartyUF", {"TOPLEFT", UIParent, 35, -50}, 196, (19 + 16) * 4)
 		end
 
-		local bars = {}
-		for i = 1, 5 do
-			local bar = CreateFrame("Frame", nil, UIParent)
-			bar:SetAllPoints(arena[i])
-			B.CreateSD(bar, 3, 3)
-			bar:Hide()
-
-			bar.Health = CreateFrame("StatusBar", nil, bar)
-			bar.Health:SetAllPoints()
-			bar.Health:SetStatusBarTexture(DB.normTex)
-			bar.Health:SetStatusBarColor(.3, .3, .3)
-			bar.SpecClass = B.CreateFS(bar.Health, 12, "")
-
-			bars[i] = bar
-		end
-
-		local f = NDui:EventFrame{"PLAYER_ENTERING_WORLD", "ARENA_PREP_OPPONENT_SPECIALIZATIONS", "ARENA_OPPONENT_UPDATE"}
-		f:SetScript("OnEvent", function(_, event)
-			if event == "ARENA_OPPONENT_UPDATE" then
-				for i = 1, 5 do
-					bars[i]:Hide()
-				end
-			else
-				local numOpps = GetNumArenaOpponentSpecs()
-				if numOpps > 0 then
-					for i = 1, 5 do
-						local s = GetArenaOpponentSpec(i)
-						local _, spec, class
-						if s and s > 0 then
-							_, spec, _, _, _, class = GetSpecializationInfoByID(s)
-						end
-						if i <= numOpps and class and spec then
-							bars[i].Health:SetStatusBarColor(B.ClassColor(class))
-							bars[i].SpecClass:SetText(spec.."  -  "..LOCALIZED_CLASS_NAMES_MALE[class] or "UNKNOWN")
-							bars[i]:Show()
-						else
-							bars[i]:Hide()
-						end
-					end
+		if NDuiDB["UFs"]["Boss"] then
+			oUF:SetActiveStyle("Boss")
+			local boss = {}
+			for i = 1, MAX_BOSS_FRAMES do
+				boss[i] = oUF:Spawn("Boss"..i, "oUF_Boss"..i)
+				if i == 1 then
+					B.Mover(boss[i], L["Boss1"], "Boss1", {"TOPRIGHT", Minimap, "BOTTOMLEFT", -100, -100})
 				else
+					B.Mover(boss[i], L["Boss"..i], "Boss"..i, {"TOPRIGHT", boss[i-1], "BOTTOMRIGHT", 0, -55})
+				end
+			end
+		end
+
+		if NDuiDB["UFs"]["Arena"] then
+			oUF:SetActiveStyle("Arena")
+			local arena = {}
+			for i = 1, 5 do
+				arena[i] = oUF:Spawn("Arena"..i, "oUF_Arena"..i)
+				if i == 1 then
+					B.Mover(arena[i], L["Arena1"], "Arena1", {"TOPRIGHT", Minimap, "BOTTOMLEFT", 75, -100})
+				else
+					B.Mover(arena[i], L["Arena"..i], "Arena"..i, {"TOPRIGHT", arena[i-1], "BOTTOMRIGHT", 0, -55})
+				end
+			end
+
+			local bars = {}
+			for i = 1, 5 do
+				local bar = CreateFrame("Frame", nil, UIParent)
+				bar:SetAllPoints(arena[i])
+				B.CreateSD(bar, 3, 3)
+				bar:Hide()
+
+				bar.Health = CreateFrame("StatusBar", nil, bar)
+				bar.Health:SetAllPoints()
+				bar.Health:SetStatusBarTexture(DB.normTex)
+				bar.Health:SetStatusBarColor(.3, .3, .3)
+				bar.SpecClass = B.CreateFS(bar.Health, 12, "")
+
+				bars[i] = bar
+			end
+
+			local f = NDui:EventFrame{"PLAYER_ENTERING_WORLD", "ARENA_PREP_OPPONENT_SPECIALIZATIONS", "ARENA_OPPONENT_UPDATE"}
+			f:SetScript("OnEvent", function(_, event)
+				if event == "ARENA_OPPONENT_UPDATE" then
 					for i = 1, 5 do
 						bars[i]:Hide()
 					end
+				else
+					local numOpps = GetNumArenaOpponentSpecs()
+					if numOpps > 0 then
+						for i = 1, 5 do
+							local s = GetArenaOpponentSpec(i)
+							local _, spec, class
+							if s and s > 0 then
+								_, spec, _, _, _, class = GetSpecializationInfoByID(s)
+							end
+							if i <= numOpps and class and spec then
+								bars[i].Health:SetStatusBarColor(B.ClassColor(class))
+								bars[i].SpecClass:SetText(spec.."  -  "..LOCALIZED_CLASS_NAMES_MALE[class] or "UNKNOWN")
+								bars[i]:Show()
+							else
+								bars[i]:Hide()
+							end
+						end
+					else
+						for i = 1, 5 do
+							bars[i]:Hide()
+						end
+					end
 				end
-			end
-		end)
+			end)
+		end
 	end
 
 	if NDuiDB["UFs"]["RaidFrame"] then

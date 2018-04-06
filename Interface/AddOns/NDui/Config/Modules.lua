@@ -3,7 +3,7 @@ local _, C, _, _ = unpack(select(2, ...))
 
 -- BUFF/DEBUFF相关
 C.Auras = {
-	IconSize		= 32,													-- BUFF图标大小
+	IconSize		= 32,													-- BUFF及相关职业助手图标大小
 	IconsPerRow		= 14,													-- BUFF每行个数
 	Spacing			= 6,													-- BUFF图标间距
 	BuffPos			= {"TOPRIGHT", Minimap, "TOPLEFT", -10, -5},			-- BUFF默认位置
@@ -14,6 +14,20 @@ C.Auras = {
 	MarksmanPos		= {"CENTER", UIParent, "CENTER", 0, -206},				-- 射击猎助手默认位置
 	FamiliarPos		= {"CENTER", UIParent, "CENTER", 0, -240},				-- 奥法魔宠默认位置
 	StatuePos		= {"CENTER", UIParent, "CENTER", 0, -240},				-- 武僧雕像默认位置
+
+	-- 技能监控各组初始位置
+
+	EnchantAuraPos			= {"BOTTOMRIGHT", UIParent, "CENTER", -200, -92},	-- 附魔及饰品分组
+	PlayerAuraPos			= {"BOTTOMRIGHT", UIParent, "CENTER", -200, -160},	-- 玩家光环分组
+	PlayerSpecialAuraPos	= {"BOTTOMRIGHT", UIParent, "CENTER", -200, -133},	-- 玩家重要光环分组
+	TargetAuraPos			= {"BOTTOMLEFT", UIParent, "CENTER", 200, -160},	-- 目标光环分组
+	TargetSpecialAuraPos	= {"BOTTOMLEFT", UIParent, "CENTER", 200, -119},	-- 目标重要光环分组
+	FocusSpecialAuraPos		= {"BOTTOMLEFT", UIParent, "LEFT", 5, -130},		-- 焦点重要光环分组
+	SpellCDPos				= {"LEFT", UIParent, "LEFT", 5, -30},				-- 技能冷却计时分组
+	EnchantCDPos			= {"LEFT", UIParent, "LEFT", 200, -30},			-- 物品冷却计时分组
+	InternalCDPos			= {"BOTTOMLEFT", UIParent, "CENTER", 499, -210},	-- 法术内置冷却分组
+	RaidBuffPos				= {"BOTTOMRIGHT", UIParent, "CENTER", -200, 200},	-- 团队增益分组
+	RaidDebuffPos			= {"BOTTOMLEFT", UIParent, "CENTER", 200, 200},	-- 团队减益分组
 }
 
 -- 头像相关
@@ -36,7 +50,7 @@ C.UFs = {
 	FocusPos		= {"LEFT", UIParent, "LEFT", 5, -150},					-- 焦点框体默认位置
 	FoTPos			= {"LEFT", UIParent, "LEFT", 215, -153},				-- 焦点目标框体默认位置
 
-	BarPoint		= {"TOPLEFT", 12, 4},									-- 资源条位置（以自身头像为基准）
+	BarPos			= {"TOPLEFT", 12, 4},									-- 资源条位置（以自身头像为基准）
 	BarSize			= {150, 5},												-- 资源条的尺寸（宽，长）
 	BarMargin		= 2,													-- 资源条间隔
 }
