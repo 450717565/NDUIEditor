@@ -12,9 +12,9 @@ function Bar:CreateExtrabar()
 	frame:SetWidth(num*cfg.size + (num-1)*margin + 2*padding)
 	frame:SetHeight(cfg.size + 2*padding)
 	if NDuiDB["Actionbar"]["Style"] ~= 4 then
-		frame.Pos = {"BOTTOMLEFT", MultiBarBottomLeftButton12, "TOPRIGHT", -4, 0}
+		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 210, 100}
 	else
-		frame.Pos = {"TOPLEFT", MultiBarBottomRightButton12, "TOPRIGHT", -5, 10}
+		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 210, 17}
 	end
 	frame:SetScale(cfg.scale)
 

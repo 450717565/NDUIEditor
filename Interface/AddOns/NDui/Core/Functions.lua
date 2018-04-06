@@ -250,7 +250,9 @@ B.Numb = function(n)
 				return ("%.0f"):format(n)
 			end
 		elseif NDuiDB["Settings"]["Format"] == 2 then
-			if n >= 1e8 then
+			if n >= 1e12 then
+				return ("%.3f"..L["NumberCap3"]):format(n / 1e12)
+			elseif n >= 1e8 then
 				return ("%.2f"..L["NumberCap2"]):format(n / 1e8)
 			elseif n >= 1e4 then
 				return ("%.1f"..L["NumberCap1"]):format(n / 1e4)

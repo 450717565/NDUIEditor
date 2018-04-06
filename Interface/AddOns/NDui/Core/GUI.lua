@@ -144,7 +144,7 @@ local defaultSettings = {
 		BarLine = true,
 		InfobarLine = true,
 		ChatLine = true,
-		MenuLine = true,
+		--MenuLine = true,
 		ClassLine = true,
 	},
 	Tooltip = {
@@ -173,7 +173,7 @@ local defaultSettings = {
 		Autoequip = true,
 		ExpRep = true,
 		Screenshot = true,
-		TradeTab = false,
+		--TradeTab = false,
 		Interrupt = false,
 		OwnInterrupt = false,
 		FasterLoot = false,
@@ -420,8 +420,8 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Skins", "BarLine", L["Bar Line"]},
 		{1, "Skins", "InfobarLine", L["Infobar Line"], true},
 		{1, "Skins", "ChatLine", L["Chat Line"]},
-		{1, "Skins", "MenuLine", L["Menu Line"], true},
-		{1, "Skins", "ClassLine", L["ClassColor Line"]},
+		--{1, "Skins", "MenuLine", L["Menu Line"], true},
+		{1, "Skins", "ClassLine", L["ClassColor Line"], true},
 		{},--blank
 		{1, "Skins", "MicroMenu", L["Micromenu"]},
 		{1, "Skins", "FontFlag", L["Global FontStyle"], true},
@@ -454,7 +454,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 	[12] = {
 		{1, "Misc", "Mail", L["Mail Tool"]},
 		{1, "Misc", "Focuser", L["Easy Focus"], true},
-		{1, "Misc", "TradeTab", L["TradeTabs"]},
+		--{1, "Misc", "TradeTab", L["TradeTabs"]},
 		{1, "Misc", "PetFilter", L["Show PetFilter"], true},
 		{},--blank
 		{1, "Misc", "ItemLevel", L["Show ItemLevel"]},

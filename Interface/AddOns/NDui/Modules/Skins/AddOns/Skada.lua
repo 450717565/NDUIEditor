@@ -158,7 +158,9 @@ function module:SkadaSkin()
 					return math.floor(number)
 				end
 			elseif NDuiDB["Settings"]["Format"] == 2 then
-				if number > 1e8 then
+				if number > 1e12 then
+					return ("%02.3f"..L["NumberCap3"]):format(number / 1e12)
+				elseif number > 1e8 then
 					return ("%02.2f"..L["NumberCap2"]):format(number / 1e8)
 				elseif number > 1e4 then
 					return ("%02.1f"..L["NumberCap1"]):format(number / 1e4)

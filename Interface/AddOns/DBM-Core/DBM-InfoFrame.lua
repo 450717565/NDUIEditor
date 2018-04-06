@@ -81,6 +81,7 @@ local twipe = table.wipe
 local select, tonumber = select, tonumber
 local mfloor = math.floor
 local getGroupId = DBM.GetGroupId
+local betaCompat = false
 
 -- for Phanx' Class Colors
 local RAID_CLASS_COLORS = CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS
@@ -384,7 +385,11 @@ local function updateEnemyAbsorb()
 		if UnitExists(uId) then
 			local absorbAmount
 			if spellName then--Get specific spell absorb
-				absorbAmount = select(17, UnitBuff(uId, spellName)) or select(17, UnitDebuff(uId, spellName))
+				if betaCompat then
+					absorbAmount = select(16, UnitBuff(uId, spellName)) or select(16, UnitDebuff(uId, spellName))
+				else
+					absorbAmount = select(17, UnitBuff(uId, spellName)) or select(17, UnitDebuff(uId, spellName))
+				end
 			else--Get all of them
 				absorbAmount = UnitGetTotalAbsorbs(uId)
 			end
@@ -413,7 +418,11 @@ local function updateAllAbsorb()
 		if UnitExists(uId) then
 			local absorbAmount
 			if spellName then--Get specific spell absorb
-				absorbAmount = select(17, UnitBuff(uId, spellName)) or select(17, UnitDebuff(uId, spellName))
+				if betaCompat then
+					absorbAmount = select(16, UnitBuff(uId, spellName)) or select(16, UnitDebuff(uId, spellName))
+				else
+					absorbAmount = select(17, UnitBuff(uId, spellName)) or select(17, UnitDebuff(uId, spellName))
+				end
 			else--Get all of them
 				absorbAmount = UnitGetTotalAbsorbs(uId)
 			end
@@ -429,7 +438,12 @@ local function updateAllAbsorb()
 		end
 	end
 	for uId in DBM:GetGroupMembers() do
-		local absorbAmount = select(17, UnitBuff(uId, spellName)) or select(17, UnitDebuff(uId, spellName))
+		local absorbAmount
+		if betaCompat then
+			absorbAmount = select(16, UnitBuff(uId, spellName)) or select(16, UnitDebuff(uId, spellName))
+		else
+			absorbAmount = select(17, UnitBuff(uId, spellName)) or select(17, UnitDebuff(uId, spellName))
+		end
 		if absorbAmount then
 			local text
 			if totalAbsorb2 then
@@ -449,7 +463,12 @@ local function updatePlayerAbsorb()
 	local spellName = value[1]
 	local totalAbsorb = value[2]
 	for uId in DBM:GetGroupMembers() do
-		local absorbAmount = select(17, UnitBuff(uId, spellName)) or select(17, UnitDebuff(uId, spellName))
+		local absorbAmount
+		if betaCompat then
+			absorbAmount = select(16, UnitBuff(uId, spellName)) or select(16, UnitDebuff(uId, spellName))
+		else
+			absorbAmount = select(17, UnitBuff(uId, spellName)) or select(17, UnitDebuff(uId, spellName))
+		end
 		if absorbAmount then
 			local text
 			if totalAbsorb then
@@ -520,17 +539,17 @@ local function updatePlayerDebuffRemaining()
 	twipe(lines)
 	local spellName = value[1]
 	for uId in DBM:GetGroupMembers() do
-		local _, _, _, _, _, _, expires, _, _, _, _, _, _, _, _, timeMod = UnitDebuff(uId, spellName)
+		local expires
+		if betaCompat then
+			expires = select(6, UnitDebuff(uId, spellName))
+		else
+			expires = select(7, UnitDebuff(uId, spellName))
+		end
 		if expires then
 			if expires == 0 then
 				lines[UnitName(uId)] = 9000--Force sorting the unknowns under the ones we do know.
 			else
 				local debuffTime = expires - GetTime()
-				--[[if timeMod then
-					debuffTime = expires - GetTime() / timeMod
-				else
-					debuffTime = expires - GetTime()
-				end--]]
 				lines[UnitName(uId)] = mfloor(debuffTime)
 			end
 		end
@@ -544,7 +563,12 @@ local function updatePlayerBuffRemaining()
 	twipe(lines)
 	local spellName = value[1]
 	for uId in DBM:GetGroupMembers() do
-		local _, _, _, _, _, _, expires = UnitBuff(uId, spellName)
+		local expires
+		if betaCompat then
+			expires = select(6, UnitBuff(uId, spellName))
+		else
+			expires = select(7, UnitBuff(uId, spellName))
+		end
 		if expires then
 			if expires == 0 then
 				lines[UnitName(uId)] = 9000--Force sorting the unknowns under the ones we do know.
@@ -567,7 +591,8 @@ local function updateBadPlayerDebuffsBySpellID()
 	for uId in DBM:GetGroupMembers() do
 		if tankIgnored and (UnitGroupRolesAssigned(uId) == "TANK" or GetPartyAssignment("MAINTANK", uId, 1)) then
 		else
-			if select(11, UnitDebuff(uId, spellName)) == value[1] and not UnitIsDeadOrGhost(uId) then
+			local spellId = betaCompat and select(10, UnitDebuff(uId, spellName)) or select(11, UnitDebuff(uId, spellName))
+			if spellId == value[1] and not UnitIsDeadOrGhost(uId) then
 				lines[UnitName(uId)] = ""
 			end
 		end
@@ -577,6 +602,7 @@ local function updateBadPlayerDebuffsBySpellID()
 end
 
 --Debuffs that are bad to have, but we want to show players who do NOT have them
+local spiritofRedemption = DBM:GetSpellInfo(27827)
 local function updateReverseBadPlayerDebuffs()
 	twipe(lines)
 	local spellName = value[1]
@@ -584,7 +610,7 @@ local function updateReverseBadPlayerDebuffs()
 	for uId in DBM:GetGroupMembers() do
 		if tankIgnored and (UnitGroupRolesAssigned(uId) == "TANK" or GetPartyAssignment("MAINTANK", uId, 1)) then
 		else
-			if not UnitDebuff(uId, spellName) and not UnitIsDeadOrGhost(uId) and not UnitDebuff(uId, DBM:GetSpellInfo(27827)) then--27827 Spirit of Redemption. This particular info frame wants to ignore this
+			if not UnitDebuff(uId, spellName) and not UnitIsDeadOrGhost(uId) and not UnitDebuff(uId, spiritofRedemption) then--27827 Spirit of Redemption. This particular info frame wants to ignore this
 				lines[UnitName(uId)] = ""
 			end
 		end
@@ -598,7 +624,13 @@ local function updatePlayerBuffStacks()
 	local spellName = value[1]
 	for uId in DBM:GetGroupMembers() do
 		if UnitBuff(uId, spellName) then
-			lines[UnitName(uId)] = select(4, UnitBuff(uId, spellName))
+			local count
+			if betaCompat then
+				count = select(3, UnitBuff(uId, spellName))
+			else
+				count = select(4, UnitBuff(uId, spellName))
+			end
+			lines[UnitName(uId)] = count
 		end
 	end
 	updateIcons()
@@ -610,7 +642,13 @@ local function updatePlayerDebuffStacks()
 	local spellName = value[1]
 	for uId in DBM:GetGroupMembers() do
 		if UnitDebuff(uId, spellName) then
-			lines[UnitName(uId)] = select(4, UnitDebuff(uId, spellName))
+			local count
+			if betaCompat then
+				count = select(3, UnitDebuff(uId, spellName))
+			else
+				count = select(4, UnitDebuff(uId, spellName))
+			end
+			lines[UnitName(uId)] = count
 		end
 	end
 	updateIcons()
@@ -828,8 +866,7 @@ function infoFrame:Show(maxLines, event, ...)
 	--If spellId is given as value one, convert to spell name on show instead of in every onupdate
 	--this also allows spell name to be given by mod, since value 1 verifies it's a number
 	if type(value[1]) == "number" and event ~= "health" and event ~= "function" and event ~= "playertargets" and event ~= "playeraggro" and event ~= "playerpower" and event ~= "enemypower" and event ~= "test" then
-		--value[1] = DBM:GetSpellInfo(value[1])
-		error("DBM-InfoFrame: Must pass spell NAME, not ID number. Report boss and this error to DBM author (MysticalOS)", 2)
+		value[1] = DBM:GetSpellInfo(value[1])
 	end
 
 	if events[currentEvent] then
@@ -847,6 +884,10 @@ function infoFrame:Show(maxLines, event, ...)
 	onUpdate(frame)
 	if not frame.ticker and not value[4] then
 		frame.ticker = C_Timer.NewTicker(0.5, function() onUpdate(frame) end)
+	end
+	local wowToc, testBuild, wowVersionString = DBM:GetTOC()
+	if wowVersionString == "8.0.1" then
+		betaCompat = true
 	end
 end
 
@@ -881,6 +922,7 @@ function infoFrame:Hide()
 	end
 	currentEvent = nil
 	sortMethod = 1
+	betaCompat = false
 end
 
 function infoFrame:IsShown()

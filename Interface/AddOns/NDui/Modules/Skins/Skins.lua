@@ -5,15 +5,11 @@ function module:OnLogin()
 	local cr, cg, cb = 0, 0, 0
 	if NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b end
 
-	local basicW, basicH = 0, 0
-	if NDuiDB["Actionbar"]["Style"] == 2 then
-		basicW, basicH = 450, 97
-	elseif NDuiDB["Actionbar"]["Style"] == 3 then
-		basicW, basicH = 325, 97
-	elseif NDuiDB["Actionbar"]["Style"] == 4 then
-		basicW, basicH = 250, 133
+	local barW, barH = 0, 0
+	if NDuiDB["Actionbar"]["Style"] ~= 4 then
+		barW, barH = 250, 99
 	else
-		basicW, basicH = 350, 97
+		barW, barH = 250, 135
 	end
 
 	-- TOPLEFT
@@ -63,50 +59,35 @@ function module:OnLogin()
 		B.CreateGF(InfobarLineBR2, 450, 3, "Horizontal", cr, cg, cb, 0, .7)
 	end
 
-	-- MICROMENU
-	if NDuiDB["Skins"]["MenuLine"] then
-		local MenuLineL = CreateFrame("Frame", nil, UIParent)
-		MenuLineL:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOM", 0, 22)
-		B.CreateGF(MenuLineL, basicW, 3, "Horizontal", cr, cg, cb, 0, .7)
-		local MenuLineR = CreateFrame("Frame", nil, UIParent)
-		MenuLineR:SetPoint("BOTTOMLEFT", UIParent, "BOTTOM", 0, 22)
-		B.CreateGF(MenuLineR, basicW, 3, "Horizontal", cr, cg, cb, .7, 0)
-	end
-
 	-- ACTIONBAR
 	if NDuiDB["Skins"]["BarLine"] then
+		-- ACTIONBAR
 		local ActionBarL = CreateFrame("Frame", nil, UIParent)
-		ActionBarL:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOM", 0, 0)
-		B.CreateGF(ActionBarL, basicW, basicH, "Horizontal", 0, 0, 0, 0, .5)
-		local ActionBarL1 = CreateFrame("Frame", nil, ActionBarL)
-		ActionBarL1:SetPoint("BOTTOMRIGHT", ActionBarL, "TOPRIGHT")
-		B.CreateGF(ActionBarL1, basicW, 3, "Horizontal", cr, cg, cb, 0, .7)
+		ActionBarL:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOM", 0, barH)
+		B.CreateGF(ActionBarL, barW, 3, "Horizontal", cr, cg, cb, 0, .7)
 		RegisterStateDriver(ActionBarL, "visibility", "[petbattle][overridebar][vehicleui][possessbar,@vehicle,exists] hide; show")
-
 		local ActionBarR = CreateFrame("Frame", nil, UIParent)
-		ActionBarR:SetPoint("BOTTOMLEFT", UIParent, "BOTTOM", 0, 0)
-		B.CreateGF(ActionBarR, basicW, basicH, "Horizontal", 0, 0, 0, .5, 0)
-		local ActionBarR1 = CreateFrame("Frame", nil, ActionBarR)
-		ActionBarR1:SetPoint("BOTTOMLEFT", ActionBarR, "TOPLEFT")
-		B.CreateGF(ActionBarR1, basicW, 3, "Horizontal", cr, cg, cb, .7, 0)
+		ActionBarR:SetPoint("BOTTOMLEFT", UIParent, "BOTTOM", 0, barH)
+		B.CreateGF(ActionBarR, barW, 3, "Horizontal", cr, cg, cb, .7, 0)
 		RegisterStateDriver(ActionBarR, "visibility", "[petbattle][overridebar][vehicleui][possessbar,@vehicle,exists] hide; show")
 
 		-- OVERRIDEBAR
 		local OverBarL = CreateFrame("Frame", nil, UIParent)
-		OverBarL:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOM", 0, 0)
-		B.CreateGF(OverBarL, 250, 61, "Horizontal", 0, 0, 0, 0, .5)
-		local OverBarL1 = CreateFrame("Frame", nil, OverBarL)
-		OverBarL1:SetPoint("BOTTOMRIGHT", OverBarL, "TOPRIGHT")
-		B.CreateGF(OverBarL1, 250, 3, "Horizontal", cr, cg, cb, 0, .7)
+		OverBarL:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOM", 0, 63)
+		B.CreateGF(OverBarL, barW, 3, "Horizontal", cr, cg, cb, 0, .7)
 		RegisterStateDriver(OverBarL, "visibility", "[petbattle]hide; [overridebar][vehicleui][possessbar,@vehicle,exists] show; hide")
-
 		local OverBarR = CreateFrame("Frame", nil, UIParent)
-		OverBarR:SetPoint("BOTTOMLEFT", UIParent, "BOTTOM", 0, 0)
-		B.CreateGF(OverBarR, 250, 61, "Horizontal", 0, 0, 0, .5, 0)
-		local OverBarR1 = CreateFrame("Frame", nil, OverBarR)
-		OverBarR1:SetPoint("BOTTOMLEFT", OverBarR, "TOPLEFT")
-		B.CreateGF(OverBarR1, 250, 3, "Horizontal", cr, cg, cb, .7, 0)
+		OverBarR:SetPoint("BOTTOMLEFT", UIParent, "BOTTOM", 0, 63)
+		B.CreateGF(OverBarR, barW, 3, "Horizontal", cr, cg, cb, .7, 0)
 		RegisterStateDriver(OverBarR, "visibility", "[petbattle]hide; [overridebar][vehicleui][possessbar,@vehicle,exists] show; hide")
+
+		-- BOTTOMLINE
+		local BarLineL = CreateFrame("Frame", nil, UIParent)
+		BarLineL:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOM", 0, 22)
+		B.CreateGF(BarLineL, barW, 3, "Horizontal", cr, cg, cb, 0, .7)
+		local BarLineR = CreateFrame("Frame", nil, UIParent)
+		BarLineR:SetPoint("BOTTOMLEFT", UIParent, "BOTTOM", 0, 22)
+		B.CreateGF(BarLineR, barW, 3, "Horizontal", cr, cg, cb, .7, 0)
 	end
 
 	-- Add Skins

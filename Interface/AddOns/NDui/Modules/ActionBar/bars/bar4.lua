@@ -13,11 +13,11 @@ function Bar:CreateBar4()
 	if layout == 2 then
 		frame:SetWidth(25*cfg.size + 25*margin + 2*padding)
 		frame:SetHeight(2*cfg.size + margin + 2*padding)
-		frame.Pos = {"BOTTOM", UIParent, "BOTTOM", 0, 26}
+		frame.Pos = {"BOTTOM", NDui_ActionBar1, "BOTTOM", 0, 2}
 	elseif layout == 3 then
 		frame:SetWidth(4*cfg.size + 3*margin + 2*padding)
 		frame:SetHeight(3*cfg.size + 2*margin + 2*padding)
-		frame.Pos = {"BOTTOM", UIParent, "BOTTOM", 395, 26}
+		frame.Pos = {"BOTTOMLEFT", NDui_ActionBar3, "BOTTOMRIGHT", 2, 0}
 	else
 		frame:SetWidth(cfg.size + 2*padding)
 		frame:SetHeight(num*cfg.size + (num-1)*margin + 2*padding)

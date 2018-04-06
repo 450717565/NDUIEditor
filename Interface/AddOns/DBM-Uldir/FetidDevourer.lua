@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2146, "DBM-Uldir", nil, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17343 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17429 $"):sub(12, -3))
 mod:SetCreatureID(133298)
 mod:SetEncounterID(2128)
 --mod:DisableESCombatDetection()
@@ -78,6 +78,8 @@ do
 				if cid == 133492 then
 					local unitHealth = UnitHealth(UnitID) / UnitHealthMax(UnitID)
 					local _, _, _, _, startTime, endTime = UnitCastingInfo(UnitID)
+					--8.0 FIXME
+					--local _, _, _, startTime, endTime = UnitCastingInfo(UnitID)
 					local time = ((endTime or 0) - (startTime or 0)) / 1000
 					if time then
 						lines[floor(unitHealth).."%"] = floor(time)
@@ -208,7 +210,7 @@ function mod:UNIT_DIED(args)
 	end
 end
 
-function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
+function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
 	if spellId == 257939 then
 
 	end

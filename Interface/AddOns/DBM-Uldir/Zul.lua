@@ -1,9 +1,9 @@
-local mod	= DBM:NewMod(2168, "DBM-Uldir", nil, 1031)
+local mod	= DBM:NewMod(2195, "DBM-Uldir", nil, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17343 $"):sub(12, -3))
---mod:SetCreatureID(122104)--6 CIDs, need to wait to add
---mod:SetEncounterID(2064)
+mod:SetRevision(("$Revision: 17430 $"):sub(12, -3))
+--mod:SetCreatureID(122104)
+mod:SetEncounterID(2145)
 --mod:DisableESCombatDetection()
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
@@ -86,7 +86,7 @@ function mod:SPELL_AURA_APPLIED(args)
 					specWarnRealityTear:Show(amount)
 					specWarnRealityTear:Play("stackhigh")
 				else
-					local _, _, _, _, _, _, expireTime = UnitDebuff("player", args.spellName)
+					local _, _, _, _, _, expireTime = UnitDebuff("player", args.spellName)
 					local remaining
 					if expireTime then
 						remaining = expireTime-GetTime()
@@ -128,7 +128,7 @@ function mod:UNIT_DIED(args)
 	end
 end
 
-function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
+function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
 	if spellId == 257939 then
 
 	end

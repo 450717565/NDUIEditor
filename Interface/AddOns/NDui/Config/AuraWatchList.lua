@@ -721,11 +721,11 @@ C.AuraWatchList = {
 				--碎裂星辰
 				{AuraID = 233272, UnitID = "player", Text = "躲柱子后"},
 				--燃烧护甲
-				{AuraID = 231363, UnitID = "player", Text = "离开人群"},
+				{AuraID = 231363, UnitID = "player", Text = L["Get Out"]},
 				--熔化护甲
 				{AuraID = 234264, UnitID = "player", Text = "易伤"},
 				--彗星冲撞
-				{AuraID = 230345, UnitID = "player", Text = "离开人群"},
+				{AuraID = 230345, UnitID = "player", Text = L["Get Out"]},
 			--恶魔审判庭
 				--骨锯
 				{AuraID = 248741, UnitID = "player"},
@@ -749,14 +749,14 @@ C.AuraWatchList = {
 				--浸透
 				{AuraID = 231770, UnitID = "player", Text = "浸透"},
 				--水之爆发
-				{AuraID = 231729, UnitID = "player", Text = "离开人群"},
+				{AuraID = 231729, UnitID = "player", Text = L["Get Out"]},
 				--病态锁定
 				{AuraID = 241600, UnitID = "player", Text = "蝌蚪追你"},
 			--月之姐妹
 				--月蚀之拥
 				{AuraID = 233263, UnitID = "player", Value = true},
 				--急速射击
-				{AuraID = 236596, UnitID = "player", Text = "离开人群"},
+				{AuraID = 236596, UnitID = "player", Text = L["Get Out"]},
 				--月光信标
 				{AuraID = 236712, UnitID = "player"},
 				--月光之火
@@ -770,7 +770,7 @@ C.AuraWatchList = {
 				--无形
 				{AuraID = 236550, UnitID = "player", Text = "切换区域"},
 				--灵体射击
-				{AuraID = 236305, UnitID = "player", Text = "扯线分摊"},
+				{AuraID = 236305, UnitID = "player", Text = ACTION_DAMAGE_SPLIT},
 				--星界易伤
 				{AuraID = 236330, UnitID = "player"},
 			--主母萨斯琳
@@ -812,9 +812,9 @@ C.AuraWatchList = {
 				{AuraID = 238018, UnitID = "player"},
 			--戒卫侍女
 				--光明灌注
-				{AuraID = 235213, UnitID = "player", Text = L["AW Light"]},
+				{AuraID = 235213, UnitID = "player", Text = RELIC_SLOT_TYPE_HOLY},
 				--邪能灌注
-				{AuraID = 235240, UnitID = "player", Text = L["AW Fel"]},
+				{AuraID = 235240, UnitID = "player", Text = RELIC_SLOT_TYPE_FEL},
 				--动荡的灵魂
 				{AuraID = 243276, UnitID = "player", Text = "准备跳坑"},
 				{AuraID = 235117, UnitID = "player", Text = "准备跳坑"},
@@ -890,11 +890,11 @@ C.AuraWatchList = {
 				--荒芜凝视
 				{AuraID = 244768, UnitID = "player", Text = L["Get Out"]},
 				--虹吸
-				{AuraID = 248819, UnitID = "player", Text = "分摊"},
+				{AuraID = 248819, UnitID = "player", Text = ACTION_DAMAGE_SPLIT},
 				--暗影触痕
-				{AuraID = 244055, UnitID = "player", Text = L["Shadow Side"]},
+				{AuraID = 244055, UnitID = "player", Text = SPELL_SCHOOL5_NAME},
 				--烈焰触痕
-				{AuraID = 244054, UnitID = "player", Text = L["Fire Side"]},
+				{AuraID = 244054, UnitID = "player", Text = SPELL_SCHOOL2_NAME},
 			--安托兰统帅议会
 				--混乱脉冲
 				{AuraID = 257974, UnitID = "player"},
@@ -948,8 +948,8 @@ C.AuraWatchList = {
 				--毁灭回响
 				{AuraID = 248732, UnitID = "player"},
 				--冥魂之拥
-				{AuraID = 244093, UnitID = "player", Text = "离开8码"},
-				{AuraID = 244094, UnitID = "player", Text = "离开8码"},
+				{AuraID = 244093, UnitID = "player", Text = L["Get Out"]},
+				{AuraID = 244094, UnitID = "player", Text = L["Get Out"]},
 			--破坏魔女巫会
 				--火焰打击
 				{AuraID = 244899, UnitID = "player"},
@@ -980,17 +980,17 @@ C.AuraWatchList = {
 				--灵魂凋零
 				{AuraID = 248396, UnitID = "player", Text = "放水"},
 				--天空之力
-				{AuraID = 253903, UnitID = "player", Text = "爆击精通"},
+				{AuraID = 253903, UnitID = "player", Text = RAID_BUFF_6..RAID_BUFF_7},
 				--海洋之力
-				{AuraID = 253901, UnitID = "player", Text = "急速全能"},
+				{AuraID = 253901, UnitID = "player", Text = RAID_BUFF_4..RAID_BUFF_8},
 				--阿格拉玛的化身
 				{AuraID = 255199, UnitID = "player"},
 				--宇宙射线
 				{AuraID = 252729, UnitID = "player"},
 				--灵魂炸弹
-				{AuraID = 251570, UnitID = "player", Text = "找T分摊"},
+				{AuraID = 251570, UnitID = "player", Text = ACTION_DAMAGE_SPLIT},
 				--灵魂爆发
-				{AuraID = 250669, UnitID = "player", Text =  L["Get Out"]},
+				{AuraID = 250669, UnitID = "player", Text = L["Get Out"]},
 			},
 		},
 		{	Name = "Target Special Aura",
@@ -2243,9 +2243,9 @@ C.AuraWatchList = {
 				--风暴守护者
 				{AuraID = 205495, UnitID = "player"},
 				--元素冲击
-				{AuraID = 118522, UnitID = "player"}, --爆击
-				{AuraID = 173183, UnitID = "player"}, --急速
-				{AuraID = 173184, UnitID = "player"}, --精通
+				{AuraID = 118522, UnitID = "player", Text = RAID_BUFF_6}, --爆击
+				{AuraID = 173183, UnitID = "player", Text = RAID_BUFF_4}, --急速
+				{AuraID = 173184, UnitID = "player", Text = RAID_BUFF_7}, --精通
 				--冰怒
 				{AuraID = 210714, UnitID = "player"},
 				--暴雨图腾

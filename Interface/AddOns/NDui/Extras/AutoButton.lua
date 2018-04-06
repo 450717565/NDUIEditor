@@ -46,7 +46,7 @@ local itemList = {
 
 local itemLink, bag, slot
 local Cache = {}
-local point = {"CENTER", UIParent, "BOTTOM", -245, 130}
+local point = {"BOTTOMRIGHT", UIParent, "BOTTOM", -220, 110}
 
 local ABF = CreateFrame("Frame", "AutoButtonFrame", UIParent)
 ABF:SetSize(48, 48)

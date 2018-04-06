@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1738, "DBM-EmeraldNightmare", nil, 768)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17126 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17429 $"):sub(12, -3))
 mod:SetCreatureID(105393)
 mod:SetEncounterID(1873)
 mod:SetZone()
@@ -176,7 +176,7 @@ end
 
 local autoMarkOozes
 do
-	local UnitHealth, UnitHealthMax, UnitGUID, UnitCastingInfo, UnitIsUnit = UnitHealth, UnitHealthMax, UnitGUID, UnitCastingInfo, UnitIsUnit
+	local UnitHealth, UnitHealthMax, UnitGUID, UnitIsUnit = UnitHealth, UnitHealthMax, UnitGUID, UnitIsUnit
 	autoMarkOozes = function(self)
 		self:Unschedule(autoMarkOozes)
 		if self.vb.IchorCount == 0 then
