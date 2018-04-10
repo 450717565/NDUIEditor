@@ -5,19 +5,35 @@ oUF.Tags.Methods["hp"] = function(unit)
 	if UnitIsDeadOrGhost(unit) or not UnitIsConnected(unit) then
 		return oUF.Tags.Methods["DDG"](unit)
 	else
+		local color = oUF.Tags.Methods["color"](unit)
 		local per = oUF.Tags.Methods["perhp"](unit).."%" or 0
 		local cur, max = UnitHealth(unit), UnitHealthMax(unit)
-
-		if (unit == "player" and not UnitHasVehicleUI(unit)) or unit == "target" or unit == "focus" then
-			if cur < max then
-				return B.Numb(cur).." | "..per
-			else
+		local maxval = color..B.Numb(max).."|r"
+		local minval = "|cff00FFFF"..B.Numb(cur).."|r"
+		if not NDuiDB["Extras"]["OtherUFs"] then
+			if (unit == "player" and not UnitHasVehicleUI(unit)) or unit == "target" or unit == "focus" then
+				if cur < max then
+					return B.Numb(cur).." | "..per
+				else
+					return B.Numb(cur)
+				end
+			elseif UnitInParty(unit) and unit:match("party") then
 				return B.Numb(cur)
+			else
+				return per
 			end
-		elseif UnitInParty(unit) and unit:match("party") then
-			return B.Numb(cur)
 		else
-			return per
+			if cur < max then
+				if UnitInParty(unit) and unit:match("party") then
+					return minval
+				elseif unit == "player" and not UnitHasVehicleUI(unit) then
+					return maxval.." | "..minval
+				else
+					return minval.." | "..maxval
+				end
+			else
+				return maxval
+			end
 		end
 	end
 end
@@ -83,14 +99,22 @@ oUF.Tags.Methods["fulllevel"] = function(unit)
 		level = UnitBattlePetLevel(unit)
 	end
 
-	if level and level ~= UnitLevel("player") then
+	if not NDuiDB["Extras"]["OtherUFs"] then
+		if level ~= UnitLevel("player") then
+			if level > 0 then
+				level = color..level.."|r"
+			else
+				level = "|cffFF0000"..BOSS.."|r"
+			end
+		else
+			level = ""
+		end
+	else
 		if level > 0 then
-			level = color..level.."|r"
+			level = "Lv"..color..level.."|r"
 		else
 			level = "|cffFF0000"..BOSS.."|r"
 		end
-	else
-		level = ""
 	end
 
 	local str = level

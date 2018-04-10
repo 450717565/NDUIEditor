@@ -107,8 +107,8 @@ local defaultSettings = {
 		Enable = true,
 		ColorBorder = true,
 		AllAuras = true,
-		maxAuras = 10,
-		AuraSize = 22,
+		maxAuras = 12,
+		AutoPerRow = 6,
 		FriendlyCC = false,
 		HostileCC = true,
 		TankMode = false,
@@ -144,7 +144,6 @@ local defaultSettings = {
 		BarLine = true,
 		InfobarLine = true,
 		ChatLine = true,
-		--MenuLine = true,
 		ClassLine = true,
 	},
 	Tooltip = {
@@ -207,6 +206,7 @@ local defaultSettings = {
 		LootMonitorBonusRewards = false,
 		LootMonitorInGroup = true,
 		MoveTalking = true,
+		OtherUFs = false,
 		PartyFrame = true,
 		ShowCharacterItemSheet = true,
 		ShowOwnFrameWhenInspecting = true,
@@ -338,8 +338,8 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{},--blank
 		{1, "Nameplate", "ColorBorder", L["Auras Border"]},
 		{1, "Nameplate", "AllAuras", L["Show All Auras"], true},
-		{3, "Nameplate", "maxAuras", L["Max Auras"], false, {0, 10, 0}},
-		{3, "Nameplate", "AuraSize", L["Auras Size"], true, {18, 40, 0}},
+		{3, "Nameplate", "maxAuras", L["Max Auras"], false, {0, 12, 0}},
+		{3, "Nameplate", "AutoPerRow", L["Auto Per Row"], true, {3, 6, 0}},
 		{},--blank
 		{1, "Nameplate", "CustomUnitColor", "|cff00cc4c"..L["CustomUnitColor"]},
 		{1, "Nameplate", "ShowUnitPower", "|cff70c0f5"..L["ShowUnitPower"], true},
@@ -420,7 +420,6 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Skins", "BarLine", L["Bar Line"]},
 		{1, "Skins", "InfobarLine", L["Infobar Line"], true},
 		{1, "Skins", "ChatLine", L["Chat Line"]},
-		--{1, "Skins", "MenuLine", L["Menu Line"], true},
 		{1, "Skins", "ClassLine", L["ClassColor Line"], true},
 		{},--blank
 		{1, "Skins", "MicroMenu", L["Micromenu"]},
@@ -455,7 +454,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Misc", "Mail", L["Mail Tool"]},
 		{1, "Misc", "Focuser", L["Easy Focus"], true},
 		--{1, "Misc", "TradeTab", L["TradeTabs"]},
-		{1, "Misc", "PetFilter", L["Show PetFilter"], true},
+		{1, "Misc", "PetFilter", L["Show PetFilter"]},
 		{},--blank
 		{1, "Misc", "ItemLevel", L["Show ItemLevel"]},
 		{1, "Misc", "MissingStats", L["Show MissingStats"], true},
@@ -481,8 +480,9 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{4, "Settings", "Format", L["Numberize"], true, {L["Number Type1"], L["Number Type2"], L["Number Type3"]}},
 	},
 	[14] = {
-		{4, "Extras", "ArrowColor", L["Arrow Color"], false, {L["Cyan"], L["Green"], L["Red"]}},
-		{1, "Extras", "PartyFrame", "|cff00cc4c"..L["UFs PartyFrame"], true},
+		{1, "Extras", "PartyFrame", "|cff00FF00"..L["UFs PartyFrame"]},
+		{1, "Extras", "OtherUFs", "|cff00FFFF"..L["Other UFs"]},
+		{4, "Extras", "ArrowColor", L["Arrow Color"], true, {L["Cyan"], L["Green"], L["Red"]}},
 		{},--blank
 		{1, "Extras", "ShowCharacterItemSheet", L["Show Character Item Sheet"]},
 		{1, "Extras", "ShowOwnFrameWhenInspecting", L["Show Own Frame When Inspecting"], true},

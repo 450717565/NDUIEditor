@@ -373,16 +373,16 @@ local function CreatePanel()
 	if not NDuiDB["AuraWatchList"] then NDuiDB["AuraWatchList"] = {} end
 	if not NDuiDB["Internal CD"] then NDuiDB["Internal CD"] = {} end
 	local groups = {
-		L["Player Aura"],			-- 1 Player Aura
-		L["Player Special Aura"],	-- 2 Player Special Aura
-		L["Enchant Aura"],			-- 3 Enchant Aura
+		L["Enchant Aura"],			-- 1 Enchant Aura
+		L["Player Aura"],			-- 2 Player Aura
+		L["Player Special Aura"],	-- 3 Player Special Aura
 		L["Target Aura"],			-- 4 Target Aura
 		L["Target Special Aura"],	-- 5 Target Special Aura
 		L["Focus Special Aura"],	-- 6 Focus Aura
 		L["Raid Buff"],				-- 7 Raid Buff
 		L["Raid Debuff"],			-- 8 Raid Debuff
-		L["Spell CD"],		-- 9 Spell Cooldown
-		L["Enchant CD"],		-- 10 Enchant Cooldown
+		L["Spell CD"],				-- 9 Spell Cooldown
+		L["Enchant CD"],			-- 10 Enchant Cooldown
 		L["Internal CD"],			-- 11 InternalCD
 		L["RaidFrame Debuffs"],		-- 12 RaidFrame Debuffs
 		L["RaidFrame ClickSets"],	-- 13 RaidFrame ClickSets

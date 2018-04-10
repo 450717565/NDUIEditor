@@ -20,7 +20,7 @@ local CreateFrame, error, setmetatable, UIParent = CreateFrame, error, setmetata
 if not LibStub then error("LibCandyBar-3.0 requires LibStub.") end
 local cbh = LibStub:GetLibrary("CallbackHandler-1.0")
 if not cbh then error("LibCandyBar-3.0 requires CallbackHandler-1.0") end
-local lib, old = LibStub:NewLibrary("LibCandyBar-3.0", 94) -- Bump minor on changes
+local lib, old = LibStub:NewLibrary("LibCandyBar-3.0", 95) -- Bump minor on changes
 if not lib then return end
 lib.callbacks = lib.callbacks or cbh:New(lib)
 local cb = lib.callbacks
@@ -166,7 +166,7 @@ local function restyleBar(self)
 		self.candyBarBar:SetPoint("BOTTOMRIGHT", self)
 		self.candyBarIconFrame:Hide()
 	end
-	if self.candyBarLabel:GetText() then
+	if self.candyBarLabel then
 		self.candyBarLabel:Show()
 	else
 		self.candyBarLabel:Hide()
@@ -265,7 +265,11 @@ end
 function barPrototype:SetLabel(text)
 	self.candyBarLabel.text = text
 	self.candyBarLabel:SetText(text)
-	restyleBar(self)
+	if text then
+		self.candyBarLabel:Show()
+	else
+		self.candyBarLabel:Hide()
+	end
 end
 --- Returns the icon texture path currently set on the bar, if it has an icon set.
 function barPrototype:GetIcon()
@@ -293,7 +297,14 @@ end
 --- Sets wether or not the time indicator on the right of the bar should be shown.
 -- Time is shown by default.
 -- @param bool true to show the time, false/nil to hide the time.
-function barPrototype:SetTimeVisibility(bool) self.showTime = bool; restyleBar(self) end
+function barPrototype:SetTimeVisibility(bool)
+	self.showTime = bool
+	if bool then
+		self.candyBarDuration:Show()
+	else
+		self.candyBarDuration:Hide()
+	end
+end
 --- Sets the duration of the bar.
 -- This can also be used while the bar is running to adjust the time remaining, within the bounds of the original duration.
 -- @param duration Duration of the bar in seconds.

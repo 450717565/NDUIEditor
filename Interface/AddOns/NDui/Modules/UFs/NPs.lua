@@ -415,7 +415,7 @@ local function CreatePlates(self, unit)
 		UF:CreateCastBar(self)
 		UF:CreateRaidMark(self)
 		UF:CreatePrediction(self)
-		UF:CreateDebuffs(self)
+		UF:CreateAuras(self)
 		UF:CreatePowerBar(self)
 
 		self.powerText = B.CreateFS(self, 15, "", false, "LEFT", 0, 0)

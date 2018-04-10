@@ -122,6 +122,68 @@ function UF:CreateHealthText(self)
 		self:Tag(hpval, "[hp]")
 	end
 
+	if NDuiDB["Extras"]["OtherUFs"] then
+		if self.mystyle == "player" then
+			name:SetJustifyH("RIGHT")
+			name:SetWidth(self:GetWidth())
+			name:ClearAllPoints()
+			name:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 3, 24)
+		elseif self.mystyle == "target" or self.mystyle == "focus" then
+			name:SetJustifyH("LEFT")
+			name:SetWidth(self:GetWidth())
+			name:ClearAllPoints()
+			name:SetPoint("BOTTOMLEFT", self, "TOPLEFT", -3, 24)
+		elseif self.mystyle == "tot" or self.mystyle == "pet" or self.mystyle == "fot" then
+			name:SetJustifyH("CENTER")
+			name:SetWidth(self:GetWidth())
+			name:ClearAllPoints()
+			name:SetPoint("BOTTOM", self, "TOP", 0, 5)
+		elseif self.mystyle == "party" then
+			name:SetJustifyH("LEFT")
+			name:SetWidth(self:GetWidth())
+			name:ClearAllPoints()
+			name:SetPoint("BOTTOMLEFT", self, "TOPLEFT", -3, 8)
+		end
+
+		if self.mystyle == "player" then
+			self:Tag(name, "[afkdnd] [fulllevel] - [color][name]|r")
+		elseif self.mystyle == "target" or self.mystyle == "focus" or self.mystyle == "party" then
+			self:Tag(name, "[color][name]|r - [fulllevel] [afkdnd]")
+		elseif self.mystyle == "focus" then
+			self:Tag(name, "[color][name][afkdnd]")
+		elseif self.mystyle == "party" then
+			self:Tag(name, "[fulllevel] [color][name][afkdnd]")
+		end
+
+		if self.mystyle == "player" then
+			hpval:ClearAllPoints()
+			hpval:SetPoint("BOTTOMLEFT", self, "TOPLEFT", -3, 8)
+			self:Tag(hpval, "[hp]")
+		elseif self.mystyle == "target" or self.mystyle == "focus" or self.mystyle == "party" then
+			hpval:ClearAllPoints()
+			hpval:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 3, 8)
+			self:Tag(hpval, "[hp]")
+		end
+
+		local hpper = B.CreateFS(textFrame, retVal(self, 14, 13, 13, 14), "")
+		if self.mystyle == "player" then
+			hpper:ClearAllPoints()
+			hpper:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 3, 8)
+			self:Tag(hpper, "[perhp]%")
+		elseif self.mystyle == "target" or self.mystyle == "focus" then
+			hpper:ClearAllPoints()
+			hpper:SetPoint("BOTTOMLEFT", self, "TOPLEFT", -3, 8)
+			self:Tag(hpper, "[perhp]%")
+		elseif self.mystyle == "tot" or self.mystyle == "pet" or self.mystyle == "fot" then
+			hpper:ClearAllPoints()
+			hpper:SetPoint("CENTER", self, "CENTER", 0, 0)
+			self:Tag(hpper, "[perhp]%")
+			self:Tag(hpval, "")
+		elseif self.mystyle == "party" then
+			self:Tag(hpper, "")
+		end
+	end
+
 	self.nameFrame = textFrame
 end
 
@@ -160,6 +222,17 @@ function UF:CreatePowerText(self)
 
 	local ppval = B.CreateFS(textFrame, retVal(self, 14, 13, 12), "", false, "RIGHT", -3, 1)
 	self:Tag(ppval, "[color][power]")
+
+	if NDuiDB["Extras"]["OtherUFs"] then
+		if self.mystyle == "player" then
+			ppval:ClearAllPoints()
+			ppval:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -3)
+		elseif self.mystyle == "target" or self.mystyle == "focus" then
+			ppval:ClearAllPoints()
+			ppval:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, -3)
+		end
+		self:Tag(ppval, "[power]")
+	end
 end
 
 function UF:CreatePortrait(self)
@@ -441,16 +514,34 @@ end
 
 function UF:CreateAuras(self)
 	local bu = CreateFrame("Frame", nil, self)
-	bu.gap = true
-	bu.initialAnchor = "TOPLEFT"
 	bu["growth-x"] = "RIGHT"
 	bu["growth-y"] = "DOWN"
 	if self.mystyle == "target" then
-		bu:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -13)
+		bu:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 0, NDuiDB["Extras"]["OtherUFs"] and -12 or -6)
 		bu.numBuffs = 20
 		bu.numDebuffs = 20
 		bu.spacing = 5
 		bu.iconsPerRow = 9
+		bu.gap = true
+		bu.initialAnchor = "TOPLEFT"
+	elseif self.mystyle == "raid" then
+		bu:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 0, 0)
+		bu.numTotal = 6
+		bu.spacing = 2
+		bu.iconsPerRow = 6
+		bu.gap = false
+		bu.disableMouse = NDuiDB["UFs"]["AurasClickThrough"]
+		bu.initialAnchor = "BOTTOMLEFT"
+	elseif self.mystyle == "nameplate" then
+		bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 20)
+		bu.numTotal = NDuiDB["Nameplate"]["maxAuras"]
+		bu.spacing = 3
+		bu.iconsPerRow = NDuiDB["Nameplate"]["AutoPerRow"]
+		bu.gap = false
+		bu.disableMouse = true
+		bu.showDebuffType = NDuiDB["Nameplate"]["ColorBorder"]
+		bu.initialAnchor = "BOTTOMLEFT"
+		bu["growth-y"] = "UP"
 	end
 
 	local width = self:GetWidth()
@@ -480,13 +571,6 @@ function UF:CreateBuffs(self)
 		bu.num = 12
 		bu.spacing = 5
 		bu.iconsPerRow = 6
-	elseif self.mystyle == "raid" then
-		bu:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 1, 0)
-		bu.num = 6
-		bu.size = 14*NDuiDB["UFs"]["RaidScale"]
-		bu.spacing = 2
-		bu.CustomFilter = customFilter
-		bu.disableMouse = NDuiDB["UFs"]["AurasClickThrough"]
 	end
 
 	local width = self:GetWidth()
@@ -511,43 +595,36 @@ function UF:CreateDebuffs(self)
 	if self.mystyle == "arena" or self.mystyle == "boss" then
 		bu:SetPoint("TOPRIGHT", self, "TOPLEFT", -5, 0)
 		bu.num = 10
-		bu.size = 27
+		bu.size = self:GetHeight()+self.Power:GetHeight()+4
 		bu.onlyShowPlayer = true
+	elseif self.mystyle == "player" then
+		bu:SetPoint("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, NDuiDB["Extras"]["OtherUFs"] and -12 or -6)
+		bu.num = 21
+		bu.iconsPerRow = 7
+	elseif self.mystyle == "tot" then
+		bu:SetPoint("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, -6)
+		bu.num = 10
+		bu.iconsPerRow = 5
 	elseif self.mystyle == "focus" then
-		bu:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -11)
+		bu:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 0, NDuiDB["Extras"]["OtherUFs"] and -12 or -6)
 		bu.num = 14
 		bu.iconsPerRow = 7
 		bu.CustomFilter = customFilter
 		bu.initialAnchor = "TOPLEFT"
 		bu["growth-x"] = "RIGHT"
 		bu["growth-y"] = "DOWN"
-	elseif self.mystyle == "player" then
-		bu:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, -13)
-		bu.num = 14
-		bu.iconsPerRow = 7
-	elseif self.mystyle == "tot" then
-		bu:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, -11)
-		bu.num = 10
-		bu.iconsPerRow = 5
-	elseif self.mystyle == "nameplate" then
-		bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 20)
-		bu.num = NDuiDB["Nameplate"]["maxAuras"]
-		bu.size = NDuiDB["Nameplate"]["AuraSize"]
-		bu.spacing = 3
-		bu.iconsPerRow = 6
-		bu.disableMouse = true
-		bu.CustomFilter = customFilter
-		bu.showDebuffType = NDuiDB["Nameplate"]["ColorBorder"]
-		bu.initialAnchor = "BOTTOMLEFT"
-		bu["growth-x"] = "RIGHT"
-		bu["growth-y"] = "UP"
 	elseif self.mystyle == "party" then
 		bu:SetPoint("TOPLEFT", self, "TOPRIGHT", 5, 0)
 		bu.num = 10
-		bu.size = 25
+		bu.size = self:GetHeight()+self.Power:GetHeight()+4
 		bu.initialAnchor = "TOPLEFT"
 		bu["growth-x"] = "RIGHT"
 		bu["growth-y"] = "DOWN"
+		if NDuiDB["Extras"]["OtherUFs"] then
+			bu:SetPoint("BOTTOMLEFT", self.Power, "BOTTOMRIGHT", 5, -1)
+			bu.size = (self:GetHeight()+self.Power:GetHeight())*2
+			bu.initialAnchor = "BOTTOMLEFT"
+		end
 	end
 
 	local width = self:GetWidth()

@@ -5,14 +5,13 @@ local UF = NDui:GetModule("UnitFrames")
 -- Units
 local function CreatePlayerStyle(self)
 	self.mystyle = "player"
-	self:SetSize(247, 24)
+	self:SetSize(247, NDuiDB["Extras"]["OtherUFs"] and 12 or 24)
 
 	UF:CreateHeader(self)
 	UF:CreateHealthBar(self)
 	UF:CreateHealthText(self)
 	UF:CreatePowerBar(self)
 	UF:CreatePowerText(self)
-	UF:CreatePortrait(self)
 	UF:CreateCastBar(self)
 	UF:CreateRaidMark(self)
 	UF:CreateIcons(self)
@@ -28,46 +27,49 @@ local function CreatePlayerStyle(self)
 	end
 	if NDuiDB["UFs"]["PlayerDebuff"] then UF:CreateDebuffs(self) end
 	if NDuiDB["UFs"]["SwingBar"] then UF:CreateSwing(self) end
+	if not NDuiDB["Extras"]["OtherUFs"]then UF:CreatePortrait(self) end
 end
 
 local function CreateTargetStyle(self)
 	self.mystyle = "target"
-	self:SetSize(247, 24)
+	self:SetSize(247, NDuiDB["Extras"]["OtherUFs"] and 12 or 24)
 
 	UF:CreateHeader(self)
 	UF:CreateHealthBar(self)
 	UF:CreateHealthText(self)
 	UF:CreatePowerBar(self)
 	UF:CreatePowerText(self)
-	UF:CreatePortrait(self)
 	UF:CreateCastBar(self)
 	UF:CreateRaidMark(self)
 	UF:CreateIcons(self)
 	UF:CreatePrediction(self)
 	UF:CreateFCT(self)
 	UF:CreateAuras(self)
+
+	if not NDuiDB["Extras"]["OtherUFs"]then UF:CreatePortrait(self) end
 end
 
 local function CreateFocusStyle(self)
 	self.mystyle = "focus"
-	self:SetSize(205, 22)
+	self:SetSize(205, NDuiDB["Extras"]["OtherUFs"] and 11 or 22)
 
 	UF:CreateHeader(self)
 	UF:CreateHealthBar(self)
 	UF:CreateHealthText(self)
 	UF:CreatePowerBar(self)
 	UF:CreatePowerText(self)
-	UF:CreatePortrait(self)
 	UF:CreateCastBar(self)
 	UF:CreateRaidMark(self)
 	UF:CreateIcons(self)
 	UF:CreatePrediction(self)
 	UF:CreateDebuffs(self)
+
+	if not NDuiDB["Extras"]["OtherUFs"]then UF:CreatePortrait(self) end
 end
 
 local function CreateToTStyle(self)
 	self.mystyle = "tot"
-	self:SetSize(120, 18)
+	self:SetSize(120, NDuiDB["Extras"]["OtherUFs"] and 9 or 18)
 
 	UF:CreateHeader(self)
 	UF:CreateHealthBar(self)
@@ -80,7 +82,7 @@ end
 
 local function CreateFocusTargetStyle(self)
 	self.mystyle = "fot"
-	self:SetSize(120, 18)
+	self:SetSize(120, NDuiDB["Extras"]["OtherUFs"] and 9 or 18)
 
 	UF:CreateHeader(self)
 	UF:CreateHealthBar(self)
@@ -91,7 +93,7 @@ end
 
 local function CreatePetStyle(self)
 	self.mystyle = "pet"
-	self:SetSize(120, 18)
+	self:SetSize(120, NDuiDB["Extras"]["OtherUFs"] and 9 or 18)
 
 	UF:CreateHeader(self)
 	UF:CreateHealthBar(self)
@@ -110,12 +112,12 @@ local function CreateBossStyle(self)
 	UF:CreateHealthText(self)
 	UF:CreatePowerBar(self)
 	UF:CreatePowerText(self)
-	UF:CreatePortrait(self)
 	UF:CreateCastBar(self)
 	UF:CreateRaidMark(self)
 	UF:CreateAltPower(self)
 	UF:CreateBuffs(self)
 	UF:CreateDebuffs(self)
+	UF:CreatePortrait(self)
 	UF:CreateTargetBorder(self)
 end
 
@@ -127,13 +129,13 @@ local function CreateArenaStyle(self)
 	UF:CreateHealthBar(self)
 	UF:CreateHealthText(self)
 	UF:CreatePowerBar(self)
-	UF:CreatePortrait(self)
 	UF:CreateCastBar(self)
 	UF:CreateRaidMark(self)
 	UF:CreateBuffs(self)
 	UF:CreateDebuffs(self)
-	UF:CreateTargetBorder(self)
 	UF:CreateFactionIcon(self)
+	UF:CreatePortrait(self)
+	UF:CreateTargetBorder(self)
 end
 
 local function CreateRaidStyle(self)
@@ -155,7 +157,7 @@ local function CreateRaidStyle(self)
 	UF:CreateRaidDebuffs(self)
 	UF:CreateThreatBorder(self)
 
-	if not NDuiDB["UFs"]["SimpleMode"] then UF:CreateBuffs(self) end
+	if not NDuiDB["UFs"]["SimpleMode"] then UF:CreateAuras(self) end
 end
 
 local function CreatePartyStyle(self)
@@ -168,7 +170,6 @@ local function CreatePartyStyle(self)
 	UF:CreateHealthBar(self)
 	UF:CreateHealthText(self)
 	UF:CreatePowerBar(self)
-	UF:CreatePortrait(self)
 	UF:CreateRaidMark(self)
 	UF:CreateIcons(self)
 	UF:CreateTargetBorder(self)
@@ -177,6 +178,8 @@ local function CreatePartyStyle(self)
 	UF:CreateClickSets(self)
 	UF:CreateDebuffs(self)
 	UF:CreateThreatBorder(self)
+
+	if not NDuiDB["Extras"]["OtherUFs"]then UF:CreatePortrait(self) end
 end
 
 oUF:RegisterStyle("Player", CreatePlayerStyle)
@@ -238,12 +241,12 @@ function UF:OnLogin()
 				"showPlayer", false,
 				"showSolo", false,
 				"showParty", true,
-				"yoffset", -16,
+				"yoffset", NDuiDB["Extras"]["OtherUFs"] and -30 or -16,
 				"oUF-initialConfigFunction", ([[
 					self:SetWidth(%d)
 					self:SetHeight(%d)
-				]]):format(196, 19))
-			B.Mover(party, L["Party UF"], "PartyUF", {"TOPLEFT", UIParent, 35, -50}, 196, (19 + 16) * 4)
+				]]):format(196, NDuiDB["Extras"]["OtherUFs"] and 9 or 19))
+			B.Mover(party, L["Party UF"], "PartyUF", {"TOPLEFT", UIParent, 35, -50}, 196, (NDuiDB["Extras"]["OtherUFs"] and 9 + 30 or 19 + 16) * 4)
 		end
 
 		if NDuiDB["UFs"]["Boss"] then

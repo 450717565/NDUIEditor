@@ -41,7 +41,7 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 17431 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 17437 $"):sub(12, -3)),
 	DisplayVersion = "7.3.27 alpha", -- the string that is shown as version
 	ReleaseRevision = 17424 -- the revision of the latest stable version that is available
 }
@@ -332,6 +332,7 @@ local dbmIsEnabled = true
 local lastCombatStarted = GetTime()
 local loadcIds = {}
 local inCombat = {}
+local oocBWComms = {}
 local combatInfo = {}
 local bossIds = {}
 local updateFunctions = {}
@@ -4826,6 +4827,12 @@ do
 							mod:OnBWSync(bwMsg, extra, sender)
 						end
 					end
+					for i = 1, #oocBWComms do
+						local mod = oocBWComms[i]
+						if mod and mod.OnBWSync then
+							mod:OnBWSync(bwMsg, extra, sender)
+						end
+					end
 				end
 			end
 		elseif prefix == "Transcriptor" and msg then
@@ -9047,7 +9054,7 @@ end
 --  Yell Object  --
 --------------------
 do
-	local voidForm = DBM:GetSpellInfo(194249)
+	local voidForm = GetSpellInfo(194249)
 	local yellPrototype = {}
 	local mt = { __index = yellPrototype }
 	local function newYell(self, yellType, spellId, yellText, optionDefault, optionName, chatType)
@@ -10832,6 +10839,10 @@ end
 function bossModPrototype:SetReCombatTime(t, t2)--T1, after kill. T2 after wipe
 	self.reCombatTime = t
 	self.reCombatTime2 = t2
+end
+
+function bossModPrototype:SetOOCBWComms()
+	tinsert(oocBWComms, self)
 end
 
 -----------------------

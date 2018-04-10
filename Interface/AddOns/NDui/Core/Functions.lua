@@ -240,7 +240,9 @@ end
 B.Numb = function(n)
 	if type(n) == "number" then
 		if NDuiDB["Settings"]["Format"] == 1 then
-			if n >= 1e9 then
+			if n >= 1e12 then
+				return ("%.4ft"):format(n / 1e12)
+			elseif n >= 1e9 then
 				return ("%.3fb"):format(n / 1e9)
 			elseif n >= 1e6 then
 				return ("%.2fm"):format(n / 1e6)

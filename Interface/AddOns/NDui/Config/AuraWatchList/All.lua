@@ -1,4 +1,5 @@
 local B, C, L, DB = unpack(select(2, ...))
+local module = NDui:GetModule("AurasTable")
 --[[
 	>>>自定义添加时，要注意格式，注意逗号，注意字母大小写<<<
 	ALL下面是对全职业通用的设置，其他情况请在自己职业下添加。当你添加时，要注意是否重复。
@@ -135,6 +136,8 @@ local list = {
 		{AuraID = 256828, UnitID = "player"},
 		{AuraID = 256836, UnitID = "player"},
 	-->LEG饰品
+		--警戒栖木
+		{AuraID = 242066, UnitID = "player"},
 		--天启引擎
 		{AuraID = 251952, UnitID = "player", Value = true},
 		--高沙拉克的遗产
@@ -1248,6 +1251,7 @@ local list = {
 		{AuraID = 242536, UnitID = "target", Caster = "player"},
 	},
 	["Focus Special Aura"] = {		-- 焦点重要光环组
+		{AuraID = 116847, UnitID = "focus"},
 	},
 	["Enchant CD"] = {		-- 物品冷却计时组
 	-->物品
@@ -1315,4 +1319,4 @@ local list = {
 	},
 }
 
-C.AddNewAuraWatch("ALL", list)
+module:AddNewAuraWatch("ALL", list)

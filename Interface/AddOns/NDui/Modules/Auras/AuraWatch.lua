@@ -60,9 +60,9 @@ local function ConvertTable()
 
 	for _, v in pairs(C.AuraWatchList[DB.MyClass]) do
 		if v.Name == "Player Aura" then
-			InsertData(1, v.List)
-		elseif v.Name == "Player Special Aura" then
 			InsertData(2, v.List)
+		elseif v.Name == "Player Special Aura" then
+			InsertData(3, v.List)
 		elseif v.Name == "Target Aura" then
 			InsertData(4, v.List)
 		elseif v.Name == "Spell CD" then
@@ -72,7 +72,7 @@ local function ConvertTable()
 
 	for _, v in pairs(C.AuraWatchList["ALL"]) do
 		if v.Name == "Enchant Aura" then
-			InsertData(3, v.List)
+			InsertData(1, v.List)
 		elseif v.Name == "Target Special Aura" then
 			InsertData(5, v.List)
 		elseif v.Name == "Focus Special Aura" then

@@ -1,5 +1,4 @@
 local B, C, L, DB = unpack(select(2, ...))
-local cr, cg, cb = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b
 if DB.Client ~= "zhCN" then return end
 
 local hx = {
@@ -22,6 +21,7 @@ local hx = {
 }
 
 local function changelog()
+	local cr, cg, cb = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b
 	local f = CreateFrame("Frame", "NDuiChangeLog", UIParent)
 	f:SetPoint("CENTER")
 	f:SetScale(1.2)
