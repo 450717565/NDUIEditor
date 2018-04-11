@@ -292,7 +292,11 @@ function UF:CreateRaidMark(self)
 	elseif self.mystyle == "nameplate" then
 		ri:SetPoint("RIGHT", self, "LEFT", -3, 3)
 	else
-		ri:SetPoint("TOPRIGHT", self, "TOPRIGHT", -30, 10)
+		if not NDuiDB["Extras"]["OtherUFs"] then
+			ri:SetPoint("TOPRIGHT", self, "TOPRIGHT", -30, 10)
+		else
+			ri:SetPoint("CENTER", self.Power, "BOTTOMRIGHT", 0, 0)
+		end
 	end
 	local size = retVal(self, 14, 13, 12, 20)
 	ri:SetSize(size, size)
@@ -321,7 +325,7 @@ function UF:CreateCastBar(self)
 		cb:SetSize(unpack(C.UFs.FocuscbSize))
 		cb.Mover = B.Mover(cb, L["Focus Castbar"], "FocusCB", C.UFs.Focuscb)
 	elseif self.mystyle == "boss" or self.mystyle == "arena" then
-		cb:SetPoint("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, -6)
+		cb:SetPoint("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, -3)
 		cb:SetSize(self:GetWidth(), 10)
 	elseif self.mystyle == "nameplate" then
 		cb:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, -5)
@@ -644,13 +648,21 @@ function UF:CreateClassPower(self)
 	for i = 1, 6 do
 		bars[i] = CreateFrame("StatusBar", nil, self)
 		bars[i]:SetHeight(height)
-		bars[i]:SetWidth((width - 5*margin) / 6)
+		bars[i]:SetWidth(((NDuiDB["Extras"]["OtherUFs"] and 100 or width) - 5*margin) / 6)
 		bars[i]:SetStatusBarTexture(DB.normTex)
 		B.CreateSD(bars[i], 3, 3)
-		if i == 1 then
-			bars[i]:SetPoint(unpack(C.UFs.BarPos))
+		if not NDuiDB["Extras"]["OtherUFs"] then
+			if i == 1 then
+				bars[i]:SetPoint(unpack(C.UFs.BarPos))
+			else
+				bars[i]:SetPoint("LEFT", bars[i-1], "RIGHT", margin, 0)
+			end
 		else
-			bars[i]:SetPoint("LEFT", bars[i-1], "RIGHT", margin, 0)
+			if i == 1 then
+				bars[i]:SetPoint("TOPRIGHT", -15, 4)
+			else
+				bars[i]:SetPoint("RIGHT", bars[i-1], "LEFT", -margin, 0)
+			end
 		end
 
 		if DB.MyClass == "DEATHKNIGHT" then

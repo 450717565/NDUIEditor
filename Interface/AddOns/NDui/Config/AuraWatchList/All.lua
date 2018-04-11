@@ -1320,6 +1320,16 @@ local list = {
 		{IntID = 208052, Duration = 30, ItemID = 132452},
 		--践踏
 		{IntID = 240447, Duration = 20},
+		--奥术洪流
+		{IntID =  20546, Duration = 90, OnSuccess = true, UnitID = "All"},
+		{IntID =  28730, Duration = 90, OnSuccess = true, UnitID = "All"},
+		{IntID =  50613, Duration = 90, OnSuccess = true, UnitID = "All"},
+		{IntID =  69179, Duration = 90, OnSuccess = true, UnitID = "All"},
+		{IntID =  80483, Duration = 90, OnSuccess = true, UnitID = "All"},
+		{IntID = 129597, Duration = 90, OnSuccess = true, UnitID = "All"},
+		{IntID = 155145, Duration = 90, OnSuccess = true, UnitID = "All"},
+		{IntID = 202719, Duration = 90, OnSuccess = true, UnitID = "All"},
+		{IntID = 232633, Duration = 90, OnSuccess = true, UnitID = "All"},
 	},
 }
 
