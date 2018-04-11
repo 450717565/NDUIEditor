@@ -5,47 +5,39 @@ oUF.Tags.Methods["hp"] = function(unit)
 	if UnitIsDeadOrGhost(unit) or not UnitIsConnected(unit) then
 		return oUF.Tags.Methods["DDG"](unit)
 	else
-		local color = oUF.Tags.Methods["color"](unit)
 		local per = oUF.Tags.Methods["perhp"](unit).."%" or 0
 		local cur, max = UnitHealth(unit), UnitHealthMax(unit)
-		local maxval = color..B.Numb(max).."|r"
-		local minval = "|cff00FFFF"..B.Numb(cur).."|r"
-		if not NDuiDB["Extras"]["OtherUFs"] then
-			if (unit == "player" and not UnitHasVehicleUI(unit)) or unit == "target" or unit == "focus" then
-				if cur < max then
-					return B.Numb(cur).." | "..per
-				else
-					return B.Numb(cur)
-				end
-			elseif UnitInParty(unit) and unit:match("party") then
-				return B.Numb(cur)
-			else
-				return per
-			end
-		else
+
+		if unit == "player" or unit == "target" or unit == "focus" then
 			if cur < max then
-				if UnitInParty(unit) and unit:match("party") then
-					return minval
-				elseif unit == "player" and not UnitHasVehicleUI(unit) then
-					return maxval.." | "..minval
+				if NDuiDB["Extras"]["OtherUFs"] and unit == "player" then
+					return per.." | "..B.Numb(cur)
 				else
-					return minval.." | "..maxval
+					return B.Numb(cur).." | "..per
 				end
 			else
-				return maxval
+				return B.Numb(cur)
 			end
+		elseif UnitInParty(unit) and unit:match("party") then
+			return B.Numb(cur)
+		else
+			return per
 		end
 	end
 end
-oUF.Tags.Events["hp"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION UNIT_REACTION"
+oUF.Tags.Events["hp"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION"
 
 oUF.Tags.Methods["power"] = function(unit)
 	local cur, max = UnitPower(unit), UnitPowerMax(unit)
 	local per = oUF.Tags.Methods["perpp"](unit).."%" or 0
 
-	if (unit == "player" and not UnitHasVehicleUI(unit)) or unit == "target" or unit == "focus" then
+	if unit == "player" or unit == "target" or unit == "focus" then
 		if cur < max and UnitPowerType(unit) == 0 then
-			return B.Numb(cur).." | "..per
+			if NDuiDB["Extras"]["OtherUFs"] and unit == "player" then
+				return per.." | "..B.Numb(cur)
+			else
+				return B.Numb(cur).." | "..per
+			end
 		else
 			return B.Numb(cur)
 		end

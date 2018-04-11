@@ -188,16 +188,18 @@ function module:QuestTracker()
 	-- Reskin Blocks
 	hooksecurefunc("ScenarioStage_CustomizeBlock", function(block)
 		block.NormalBG:SetTexture("")
-		if not block.bg then
+		if not block.bg and not block.styled then
 			block.bg = B.CreateBG(block.GlowTexture)
 			B.CreateBD(block.bg)
 			B.CreateTex(block.bg)
+
+			block.styled = true
 		end
 	end)
 
 	hooksecurefunc("Scenario_ChallengeMode_ShowBlock", function()
 		local block = ScenarioChallengeModeBlock
-		if not block.bg then
+		if not block.bg and not block.styled then
 			block.TimerBG:Hide()
 			block.TimerBGBack:Hide()
 			block.timerbg = B.CreateBG(block.TimerBGBack)
@@ -214,21 +216,27 @@ function module:QuestTracker()
 			block.bg:SetPoint("TOPLEFT", 2, 0)
 			B.CreateBD(block.bg)
 			B.CreateTex(block.bg)
+
+			block.styled = true
 		end
 	end)
 
 	hooksecurefunc("Scenario_ChallengeMode_SetUpAffixes", function(block)
 		for _, frame in ipairs(block.Affixes) do
-			frame.Border:Hide()
-			frame.Portrait:SetTexture(nil)
-			frame.Portrait:SetTexCoord(unpack(DB.TexCoord))
-			B.CreateSD(frame.Portrait, 3, 3)
+			if not block.styled then
+				frame.Border:Hide()
+				frame.Portrait:SetTexture(nil)
+				frame.Portrait:SetTexCoord(unpack(DB.TexCoord))
+				B.CreateSD(frame.Portrait, 3, 3)
 
-			if frame.info then
-				frame.Portrait:SetTexture(CHALLENGE_MODE_EXTRA_AFFIX_INFO[frame.info.key].texture)
-			elseif frame.affixID then
-				local _, _, filedataid = C_ChallengeMode.GetAffixInfo(frame.affixID)
-				frame.Portrait:SetTexture(filedataid)
+				if frame.info then
+					frame.Portrait:SetTexture(CHALLENGE_MODE_EXTRA_AFFIX_INFO[frame.info.key].texture)
+				elseif frame.affixID then
+					local _, _, filedataid = C_ChallengeMode.GetAffixInfo(frame.affixID)
+					frame.Portrait:SetTexture(filedataid)
+				end
+
+				block.styled = true
 			end
 		end
 	end)
