@@ -275,7 +275,7 @@ function module:SistersAlert()
 		elseif eventType == "SPELL_AURA_REMOVED" and spellID == tarSpell and destGUID == myID then
 			SendChatMessage("------------", "RAID")
 			for player, value in pairs(data) do
-				SendChatMessage(player..": "..table.concat(value, ", "), "RAID")
+				SendChatMessage(player..L[":"]..table.concat(value, ", "), "RAID")
 			end
 			data = {}
 		end

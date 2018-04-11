@@ -6,8 +6,8 @@ local B, C, L, DB = unpack(select(2, ...))
 
 --- Variables ---
 local GearDB, SpecDB, currentUNIT, currentGUID, weapon = {}, {}
-local gearPrefix = STAT_AVERAGE_ITEM_LEVEL..": "..DB.InfoColor
-local specPrefix = SPECIALIZATION..": "..DB.InfoColor
+local gearPrefix = STAT_AVERAGE_ITEM_LEVEL..L[":"]..DB.InfoColor
+local specPrefix = SPECIALIZATION..L[":"]..DB.InfoColor
 
 local f = NDui:EventFrame{"UNIT_INVENTORY_CHANGED"}
 

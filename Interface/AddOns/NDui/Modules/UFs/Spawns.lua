@@ -21,10 +21,7 @@ local function CreatePlayerStyle(self)
 
 	if NDuiDB["UFs"]["ClassPower"] then UF:CreateClassPower(self) end
 	if NDuiDB["UFs"]["AddPower"] then UF:CreateAddPower(self) end
-	if NDuiDB["UFs"]["ExpRep"] then
-		UF:CreateExpBar(self)
-		UF:CreateRepBar(self)
-	end
+	if NDuiDB["UFs"]["ExpRep"] then UF:CreateExpRepBar(self) end
 	if NDuiDB["UFs"]["PlayerDebuff"] then UF:CreateDebuffs(self) end
 	if NDuiDB["UFs"]["SwingBar"] then UF:CreateSwing(self) end
 	if not NDuiDB["Extras"]["OtherUFs"]then UF:CreatePortrait(self) end

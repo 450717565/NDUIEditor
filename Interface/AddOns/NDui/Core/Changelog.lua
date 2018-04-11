@@ -42,7 +42,7 @@ local function changelog()
 	lr:SetFrameStrata("HIGH")
 	local offset = 0
 	for n, t in pairs(hx) do
-		B.CreateFS(f, 12, n..": "..t, false, "TOPLEFT", 15, -(50 + offset))
+		B.CreateFS(f, 12, n..L[":"]..t, false, "TOPLEFT", 15, -(50 + offset))
 		offset = offset + 20
 	end
 	f:SetSize(400, 60 + offset)

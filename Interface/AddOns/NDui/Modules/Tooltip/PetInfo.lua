@@ -29,6 +29,6 @@ local function addPetInfo(self)
 
 	-- Pet ID
 	local speciesID = UnitBattlePetSpeciesID(unit)
-	self:AddDoubleLine(PET..ID..":", ((DB.InfoColor..speciesID.."|r") or (DB.GreyColor..UNKNOWN.."|r")))
+	self:AddDoubleLine(PET.."ID:", ((DB.InfoColor..speciesID.."|r") or (DB.GreyColor..UNKNOWN.."|r")))
 end
 GameTooltip:HookScript("OnTooltipSetUnit", addPetInfo)

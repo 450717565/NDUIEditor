@@ -20,12 +20,12 @@ local function addLine(self, id, type, noadd)
 
 	if type == types.item then
 		if GetItemCount(id, true) and GetItemCount(id, true) - GetItemCount(id) > 0 then
-			self:AddDoubleLine(BAGSLOT.." / "..BANK..": ", format(DB.InfoColor.."%s|r", GetItemCount(id).." / "..GetItemCount(id, true) - GetItemCount(id)))
+			self:AddDoubleLine(BAGSLOT.." / "..BANK..L[":"], format(DB.InfoColor.."%s|r", GetItemCount(id).." / "..GetItemCount(id, true) - GetItemCount(id)))
 		elseif GetItemCount(id) > 0 then
-			self:AddDoubleLine(BAGSLOT..": ", format(DB.InfoColor.."%s|r", GetItemCount(id)))
+			self:AddDoubleLine(BAGSLOT..L[":"], format(DB.InfoColor.."%s|r", GetItemCount(id)))
 		end
 		if select(8, GetItemInfo(id)) and select(8, GetItemInfo(id)) > 1 then
-			self:AddDoubleLine(L["Stack Cap"]..": ", format(DB.InfoColor.."%s|r", select(8, GetItemInfo(id))))
+			self:AddDoubleLine(L["Stack Cap"], format(DB.InfoColor.."%s|r", select(8, GetItemInfo(id))))
 		end
 	end
 	self:AddDoubleLine(type, format(DB.InfoColor.."%s|r", id))
@@ -113,7 +113,7 @@ local function SetCaster(self, unit, index, filter)
 	if unitCaster then
 		local name = GetUnitName(unitCaster, true)
 		local hexColor = B.HexRGB(B.UnitColor(unitCaster))
-		self:AddDoubleLine(L["From"]..":", hexColor..name)
+		self:AddDoubleLine(SPELL_TARGET_CENTER_CASTER..":", hexColor..name)
 		self:Show()
 	end
 end

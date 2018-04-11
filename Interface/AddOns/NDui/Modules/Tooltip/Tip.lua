@@ -206,7 +206,7 @@ GameTooltip:HookScript("OnTooltipSetUnit", function(self)
 		if UnitExists(unit.."target") then
 			local tarRicon = GetRaidTargetIndex(unit.."target")
 			local tar = ("%s%s"):format((tarRicon and ICON_LIST[tarRicon].."10|t") or "", getTarget(unit.."target"))
-			self:AddLine(TARGET..": "..tar)
+			self:AddLine(TARGET..L[":"]..tar)
 		end
 
 		if alive then

@@ -425,7 +425,11 @@ local list = {
 		--萨维斯：弱肉强食
 		{AuraID = 200238, UnitID = "player"},
 		--奥丁：符文烙印
+		{AuraID = 197963, UnitID = "player"},
 		{AuraID = 197964, UnitID = "player"},
+		{AuraID = 197965, UnitID = "player"},
+		{AuraID = 197966, UnitID = "player"},
+		{AuraID = 197967, UnitID = "player"},
 		--奥丁：烙印
 		{AuraID = 197996, UnitID = "player"},
 		--海拉：海洋污染

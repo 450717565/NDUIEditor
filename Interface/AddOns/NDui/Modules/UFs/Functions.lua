@@ -339,7 +339,7 @@ function UF:CreateCastBar(self)
 		cb:SetSize(unpack(C.UFs.FocuscbSize))
 		cb.Mover = B.Mover(cb, L["Focus Castbar"], "FocusCB", C.UFs.Focuscb)
 	elseif self.mystyle == "boss" or self.mystyle == "arena" then
-		cb:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, -10)
+		cb:SetPoint("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, -6)
 		cb:SetSize(self:GetWidth(), 10)
 	elseif self.mystyle == "nameplate" then
 		cb:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, -5)
@@ -595,7 +595,7 @@ function UF:CreateDebuffs(self)
 	if self.mystyle == "arena" or self.mystyle == "boss" then
 		bu:SetPoint("TOPRIGHT", self, "TOPLEFT", -5, 0)
 		bu.num = 10
-		bu.size = self:GetHeight()+self.Power:GetHeight()+4
+		bu.size = self:GetHeight()+self.Power:GetHeight()+3.5
 		bu.onlyShowPlayer = true
 	elseif self.mystyle == "player" then
 		bu:SetPoint("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, NDuiDB["Extras"]["OtherUFs"] and -12 or -6)
@@ -616,7 +616,7 @@ function UF:CreateDebuffs(self)
 	elseif self.mystyle == "party" then
 		bu:SetPoint("TOPLEFT", self, "TOPRIGHT", 5, 0)
 		bu.num = 10
-		bu.size = self:GetHeight()+self.Power:GetHeight()+4
+		bu.size = self:GetHeight()+self.Power:GetHeight()+3.5
 		bu.initialAnchor = "TOPLEFT"
 		bu["growth-x"] = "RIGHT"
 		bu["growth-y"] = "DOWN"
@@ -718,51 +718,23 @@ function UF:CreateAltPower(self)
 	self.AlternativePower.PostUpdate = postUpdateAltPower
 end
 
-function UF:CreateExpBar(self)
+function UF:CreateExpRepBar(self)
 	local bar = CreateFrame("StatusBar", nil, self)
-	bar:SetStatusBarTexture(DB.normTex)
-	bar:SetStatusBarColor(0, 0.7, 1)
-	bar:SetPoint("TOPRIGHT", "oUF_Player", "TOPRIGHT", 9, 0)
-	bar:SetHeight(30)
-	bar:SetWidth(5)
-	bar:SetFrameLevel(2)
+	bar:SetPoint("TOPLEFT", self, "TOPRIGHT", 5, 0)
+	bar:SetPoint("BOTTOMRIGHT", self.Power, "BOTTOMRIGHT", 10, 0)
 	bar:SetOrientation("VERTICAL")
-	B.CreateBD(bar, .5, .1)
-	B.CreateSD(bar, 3, 3)
+	B.CreateSB(bar)
 
 	local rest = CreateFrame("StatusBar", nil, bar)
-	rest:SetStatusBarTexture(DB.normTex)
-	rest:SetStatusBarColor(0, 0.4, 1, 0.6)
-	rest:SetFrameLevel(2)
-	rest:SetOrientation("VERTICAL")
 	rest:SetAllPoints(bar)
+	rest:SetStatusBarTexture(DB.normTex)
+	rest:SetStatusBarColor(0, .4, 1, .6)
+	rest:SetFrameLevel(bar:GetFrameLevel() - 1)
+	rest:SetOrientation("VERTICAL")
+	bar.restBar = rest
 
-	bar.Tooltip = true
-	bar.Rested = rest
-	self.Experience = bar
-end
-
-local function postUpdateRepColor(_, _, _, bar)
-	local _, id, _, _, _, factionID = GetWatchedFactionInfo()
-	local friendID = GetFriendshipReputation(factionID)
-	if friendID then id = 5 end
-	bar:SetStatusBarColor(FACTION_BAR_COLORS[id].r, FACTION_BAR_COLORS[id].g, FACTION_BAR_COLORS[id].b)
-end
-
-function UF:CreateRepBar(self)
-	local bar = CreateFrame("StatusBar", nil, self)
-	bar:SetStatusBarTexture(DB.normTex)
-	bar:SetPoint("TOPLEFT", "oUF_Player", "TOPLEFT", -9, 0)
-	bar:SetWidth(5)
-	bar:SetHeight(30)
-	bar:SetFrameLevel(2)
-	bar:SetOrientation("VERTICAL")
-	B.CreateBD(bar, .5, .1)
-	B.CreateSD(bar, 3, 3)
-
-	bar.Tooltip = true
-	bar.PostUpdate = postUpdateRepColor
-	self.Reputation = bar
+	local module = NDui:GetModule("Misc")
+	module:SetupScript(bar)
 end
 
 function UF:CreatePrediction(self)

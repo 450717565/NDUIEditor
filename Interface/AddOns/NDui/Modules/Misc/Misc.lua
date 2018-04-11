@@ -22,7 +22,7 @@ end
 
 -- Archaeology counts
 local function CalculateArches()
-	print("|cff0080ff【NDui】".."|c0000FF00"..L["Arch Count"]..":")
+	print("|cff0080ff【NDui】".."|c0000FF00"..L["Arch Count"]..L[":"])
 	local ta = 0
 	for x = 1, 15 do
 		local c = GetNumArtifactsByRace(x)
@@ -33,11 +33,11 @@ local function CalculateArches()
 		end
 		local rn = GetArchaeologyRaceInfo(x)
 		if (c > 1) then
-			print("     - |cfffed100"..rn..": ".."|cff70C0F5"..a)
+			print("     - |cfffed100"..rn..L[":"].."|cff70C0F5"..a)
 			ta = ta + a
 		end
 	end
-	print("    -> |c0000ff00"..TOTAL..": ".."|cffff0000"..ta)
+	print("    -> |c0000ff00"..TOTAL..L[":"].."|cffff0000"..ta)
 	print("|cff70C0F5------------------------")
 end
 local function AddCalculateIcon()
@@ -478,7 +478,7 @@ if DB.Client == "zhCN" then
 				sendMsg("所有的金币都已经被抢完，分别是：")
 				local text = ""
 				for k, v in pairs(goldList) do
-					text = text..k..": "..v.."金 "
+					text = text..k..L[":"]..v.."金 "
 					if #text > 212 then	-- 255-13*3-4=212
 						sendMsg(text)
 						text = ""
