@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1984, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17395 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17445 $"):sub(12, -3))
 mod:SetCreatureID(121975)
 mod:SetEncounterID(2063)
 mod:SetZone()
@@ -229,7 +229,6 @@ do
 					addLine(mod.vb.comboCount+1, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
 				else
 					addLine(L.Current, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
-					--DBM.InfoFrame:Hide()
 				end
 			else
 				if mod.vb.comboCount == 0 then
@@ -254,7 +253,6 @@ do
 					addLine(mod.vb.comboCount+1, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
 				else
 					addLine(L.Current, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
-					--DBM.InfoFrame:Hide()
 				end
 			end
 		end
@@ -277,7 +275,6 @@ function mod:OnCombatStart(delay)
 	self.vb.wakeOfFlameCount = 0
 	self.vb.blazeIcon = 1
 	self.vb.techActive = false
-	foeBreaker1, foeBreaker2 = DBM:GetSpellInfo(245458), DBM:GetSpellInfo(255059)
 	if self:IsMythic() then
 		comboUsed[1] = false
 		comboUsed[2] = false
@@ -532,6 +529,11 @@ function mod:SPELL_AURA_REMOVED(args)
 			timerFlareCD:Start(self:IsMythic() and 8 or 10)
 			if self:IsMythic() then
 				countdownFlare:Start(8)
+				if comboUsed[1] then--Foe, Tempest doesn't count as Foe, Empoweed Tempest. This seems to be only time this bug occurs
+					--Roll back this combo used and tech count
+					comboUsed[1] = false
+					--self.vb.techCount = self.vb.techCount - 1
+				end
 			end
 		elseif self.vb.phase == 3 then
 			warnPhase:Play("pthree")

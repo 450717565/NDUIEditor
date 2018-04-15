@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1992, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17160 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17440 $"):sub(12, -3))
 mod:SetCreatureID(122450)
 mod:SetEncounterID(2076)
 mod:SetZone()
@@ -102,7 +102,6 @@ do
 end
 
 function mod:OnCombatStart(delay)
-	decimination, mythicDecimination, FelBombardment = DBM:GetSpellInfo(244410), DBM:GetSpellInfo(246919), DBM:GetSpellInfo(246220)
 	self.vb.deciminationActive = 0
 	self.vb.FelBombardmentActive = 0
 	self.vb.lastCannon = 1--Anniilator 1 decimator 2

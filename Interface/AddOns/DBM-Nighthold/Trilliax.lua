@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1731, "DBM-Nighthold", nil, 786)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17132 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17440 $"):sub(12, -3))
 mod:SetCreatureID(104288)
 mod:SetEncounterID(1867)
 mod:SetZone()
@@ -107,7 +107,6 @@ function mod:OnCombatStart(delay)
 	countdownModes:Start(45)
 	--On combat start he starts in a custom cleaner mode (206570) that doesn't have sterilize or cleansing rage abilities but casts cake and ArcaneSlashs more often
 	if self.Options.InfoFrame then
-		spellName = DBM:GetSpellInfo(214573)
 		DBM.InfoFrame:SetHeader(DBM_NO_DEBUFF:format(spellName))
 		DBM.InfoFrame:Show(10, "playergooddebuff", spellName, true)
 	end

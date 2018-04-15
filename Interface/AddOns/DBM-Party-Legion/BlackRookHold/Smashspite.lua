@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1664, "DBM-Party-Legion", 1, 740)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17126 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17440 $"):sub(12, -3))
 mod:SetCreatureID(98949)
 mod:SetEncounterID(1834)
 mod:SetZone()
@@ -41,7 +41,6 @@ function mod:OnCombatStart(delay)
 	if not self:IsNormal() then
 		timerHatefulGazeCD:Start(5-delay)
 		if self.Options.InfoFrame then
-			infoFrameDebuff = DBM:GetSpellInfo(198080)
 			DBM.InfoFrame:SetHeader(infoFrameDebuff)
 			DBM.InfoFrame:Show(5, "reverseplayerbaddebuff", infoFrameDebuff)
 		end

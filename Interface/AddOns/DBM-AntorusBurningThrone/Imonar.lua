@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2009, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17190 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17440 $"):sub(12, -3))
 mod:SetCreatureID(124158)--or 124158 or 125692
 mod:SetEncounterID(2082)
 mod:SetZone()
@@ -140,7 +140,6 @@ do
 end
 
 function mod:OnCombatStart(delay)
-	empoweredPulse, sleepCanister = DBM:GetSpellInfo(250006), DBM:GetSpellInfo(254244)
 	table.wipe(empoweredPulseTargets)
 	self.vb.phase = 1
 	self.vb.shrapnalCast = 0

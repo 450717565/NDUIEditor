@@ -1321,15 +1321,41 @@ local list = {
 		--践踏
 		{IntID = 240447, Duration = 20},
 		--奥术洪流
-		{IntID =  20546, Duration = 90, OnSuccess = true, UnitID = "All"},
-		{IntID =  28730, Duration = 90, OnSuccess = true, UnitID = "All"},
-		{IntID =  50613, Duration = 90, OnSuccess = true, UnitID = "All"},
-		{IntID =  69179, Duration = 90, OnSuccess = true, UnitID = "All"},
-		{IntID =  80483, Duration = 90, OnSuccess = true, UnitID = "All"},
-		{IntID = 129597, Duration = 90, OnSuccess = true, UnitID = "All"},
-		{IntID = 155145, Duration = 90, OnSuccess = true, UnitID = "All"},
-		{IntID = 202719, Duration = 90, OnSuccess = true, UnitID = "All"},
-		{IntID = 232633, Duration = 90, OnSuccess = true, UnitID = "All"},
+		{IntID =  20546, Duration = 90, UnitID = "All", OnSuccess = true},
+		{IntID =  28730, Duration = 90, UnitID = "All", OnSuccess = true},
+		{IntID =  50613, Duration = 90, UnitID = "All", OnSuccess = true},
+		{IntID =  69179, Duration = 90, UnitID = "All", OnSuccess = true},
+		{IntID =  80483, Duration = 90, UnitID = "All", OnSuccess = true},
+		{IntID = 129597, Duration = 90, UnitID = "All", OnSuccess = true},
+		{IntID = 155145, Duration = 90, UnitID = "All", OnSuccess = true},
+		{IntID = 202719, Duration = 90, UnitID = "All", OnSuccess = true},
+		{IntID = 232633, Duration = 90, UnitID = "All", OnSuccess = true},
+		--脚踢
+		{IntID =   1766, Duration = 15, UnitID = "All", OnSuccess = true},
+		--法术反制
+		{IntID =   2139, Duration = 24, UnitID = "All", OnSuccess = true},
+		--拳击
+		{IntID =   6552, Duration = 15, UnitID = "All", OnSuccess = true},
+		--沉默
+		{IntID =  15487, Duration = 45, UnitID = "All", OnSuccess = true},
+		--心灵冰冻
+		{IntID =  47528, Duration = 15, UnitID = "All", OnSuccess = true},
+		--风剪
+		{IntID =  57994, Duration = 12, UnitID = "All", OnSuccess = true},
+		--责难
+		{IntID =  96231, Duration = 15, UnitID = "All", OnSuccess = true},
+		--迎头痛击
+		{IntID = 106839, Duration = 15, UnitID = "All", OnSuccess = true},
+		--切喉手
+		{IntID = 116705, Duration = 15, UnitID = "All", OnSuccess = true},
+		--反制射击
+		{IntID = 147362, Duration = 24, UnitID = "All", OnSuccess = true},
+		--暗影封印@PET
+		{IntID = 171138, Duration = 24, UnitID = "All", OnSuccess = true},
+		--吞噬魔法
+		{IntID = 183752, Duration = 15, UnitID = "All", OnSuccess = true},
+		--压制
+		{IntID = 187707, Duration = 15, UnitID = "All", OnSuccess = true},
 	},
 }
 

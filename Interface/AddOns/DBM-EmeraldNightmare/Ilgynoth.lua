@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1738, "DBM-EmeraldNightmare", nil, 768)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17429 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17440 $"):sub(12, -3))
 mod:SetCreatureID(105393)
 mod:SetEncounterID(1873)
 mod:SetZone()
@@ -265,7 +265,6 @@ function mod:OnCombatStart(delay)
 	end
 	if self.Options.InfoFrame then
 		if self.Options.InfoFrameBehavior == "Fixates" then
-			infoFrameSpell = DBM:GetSpellInfo(210099)
 			DBM.InfoFrame:SetHeader(infoFrameSpell)
 			DBM.InfoFrame:Show(10, "playerbaddebuff", infoFrameSpell)
 		else

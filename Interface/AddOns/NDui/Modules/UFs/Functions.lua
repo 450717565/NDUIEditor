@@ -629,6 +629,7 @@ local margin = C.UFs.BarMargin
 local width, height = unpack(C.UFs.BarSize)
 
 local function postUpdateClassPower(element, _, max, diff, event)
+	if NDuiDB["Extras"]["OtherUFs"] then width = 100 end
 	if (diff or event == "ClassPowerEnable") then
 		if max <= 6 then
 			for i = 1, 6 do
@@ -644,11 +645,12 @@ local function postUpdateClassPower(element, _, max, diff, event)
 end
 
 function UF:CreateClassPower(self)
+	if NDuiDB["Extras"]["OtherUFs"] then width = 100 end
 	local bars = {}
 	for i = 1, 6 do
 		bars[i] = CreateFrame("StatusBar", nil, self)
 		bars[i]:SetHeight(height)
-		bars[i]:SetWidth(((NDuiDB["Extras"]["OtherUFs"] and 100 or width) - 5*margin) / 6)
+		bars[i]:SetWidth((width - 5*margin) / 6)
 		bars[i]:SetStatusBarTexture(DB.normTex)
 		B.CreateSD(bars[i], 3, 3)
 		if not NDuiDB["Extras"]["OtherUFs"] then

@@ -41,7 +41,7 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 17437 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 17447 $"):sub(12, -3)),
 	DisplayVersion = "7.3.27 alpha", -- the string that is shown as version
 	ReleaseRevision = 17424 -- the revision of the latest stable version that is available
 }
@@ -1326,7 +1326,7 @@ do
 				"UPDATE_BATTLEFIELD_STATUS",
 				"PLAY_MOVIE",
 				"CINEMATIC_START",
-				"PLAYER_LEVEL_UP",
+				--"PLAYER_LEVEL_UP",--PLAYER_LEVEL_CHANGED
 				"PLAYER_SPECIALIZATION_CHANGED",
 				"PARTY_INVITE_REQUEST",
 				"LOADING_SCREEN_DISABLED",
@@ -2770,9 +2770,13 @@ do
 		end
 	end
 
-	function DBM:GROUP_ROSTER_UPDATE()
+	function DBM:GROUP_ROSTER_UPDATE(force)
 		self:Unschedule(updateAllRoster)
-		self:Schedule(1.5, updateAllRoster, self)
+		if force then
+			updateAllRoster(self)
+		else
+			self:Schedule(1.5, updateAllRoster, self)
+		end
 	end
 	
 	function DBM:INSTANCE_GROUP_SIZE_CHANGED()
@@ -3795,6 +3799,7 @@ function DBM:LoadMod(mod, force)
 				self:Schedule(10, self.RequestTimers, self, 2)
 				self:Schedule(13, self.RequestTimers, self, 3)
 				C_TimerAfter(15, function() timerRequestInProgress = false end)
+				self:GROUP_ROSTER_UPDATE(true)
 			end
 		end
 		if not InCombatLockdown() and not UnitAffectingCombat("player") and not IsFalling() then--We loaded in combat but still need to avoid garbage collect in combat
@@ -4767,7 +4772,7 @@ do
 	end
 
 	whisperSyncHandlers["TI"] = function(sender, mod, timeLeft, totalTime, id, ...)
-		if not DBM:GetRaidUnitId(sender) then return end
+		if not DBM:GetRaidUnitId(sender) then return end--This can't be checked fast enough on timer recovery, so it causes it to fail
 		mod = DBM:GetModByName(mod or "")
 		timeLeft = tonumber(timeLeft or 0)
 		totalTime = tonumber(totalTime or 0)
@@ -4777,7 +4782,7 @@ do
 	end
 
 	whisperSyncHandlers["VI"] = function(sender, mod, name, value)
-		if not DBM:GetRaidUnitId(sender) then return end
+		if not DBM:GetRaidUnitId(sender) then return end--This can't be checked fast enough on timer recovery, so it causes it to fail
 		mod = DBM:GetModByName(mod or "")
 		value = tonumber(value) or value
 		if mod and name and value then
@@ -5238,7 +5243,7 @@ do
 
 	function DBM:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
 		local spellId = legacySpellId or bfaSpellId
-		local spellName = DBM:GetSpellInfo(spellId)
+		local spellName = self:GetSpellInfo(spellId)
 		self:Debug("UNIT_SPELLCAST_SUCCEEDED fired: "..UnitName(uId).."'s "..spellName.."("..spellId..")", 3)
 	end
 
@@ -9105,7 +9110,7 @@ do
 	end
 
 	function yellPrototype:Yell(...)
-		if DBM.Options.DontSendYells or ScriptsDisallowedForBeta() or self.yellType and self.yellType == "position" and UnitBuff("player", voidForm) then return end
+		if DBM.Options.DontSendYells or wowVersionString == "8.0.1" or self.yellType and self.yellType == "position" and UnitBuff("player", voidForm) then return end
 		if not self.option or self.mod.Options[self.option] then
 			if self.yellType == "combo" then
 				SendChatMessage(pformat(self.text, ...), self.chatType or "YELL")
@@ -9624,13 +9629,13 @@ do
 		if obj.option then
 			local catType = "announce"--Default to General announce
 			--Directly affects another target (boss or player) that you need to know about
-			if announceType == "target" or announceType == "targetcount" or announceType == "close" or announceType == "reflect" or announceType == "switch" or announceType == "switchcount" then
+			if announceType == "target" or announceType == "targetcount" or announceType == "close" or announceType == "reflect" then
 				catType = "announceother"
 			--Directly affects you
 			elseif announceType == "you" or announceType == "youcount" or announceType == "youpos" or announceType == "move" or announceType == "dodge" or announceType == "moveaway" or announceType == "run" or announceType == "stack" or announceType == "moveto" or announceType == "soakpos" then
 				catType = "announcepersonal"
 			--Things you have to do to fulfil your role
-			elseif announceType == "taunt" or announceType == "dispel" or announceType == "interrupt" or announceType == "interruptcount" then
+			elseif announceType == "taunt" or announceType == "dispel" or announceType == "interrupt" or announceType == "interruptcount" or announceType == "switch" or announceType == "switchcount" then
 				catType = "announcerole"
 			end
 			self:AddSpecialWarningOption(obj.option, optionDefault, runSound, catType)
@@ -10947,7 +10952,7 @@ do
 
 	function bossModPrototype:SetIcon(target, icon, timer)
 		if not target then return end--Fix a rare bug where target becomes nil at last second (end combat fires and clears targets)
-		if DBM.Options.DontSetIcons or not enableIcons or DBM:GetRaidRank(playerName) == 0 then
+		if DBM.Options.DontSetIcons or wowVersionString == "8.0.1" or not enableIcons or DBM:GetRaidRank(playerName) == 0 then
 			return
 		end
 		self:UnscheduleMethod("SetIcon", target)

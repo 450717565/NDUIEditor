@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1862, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17112 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17440 $"):sub(12, -3))
 mod:SetCreatureID(115844)
 mod:SetEncounterID(2032)
 mod:SetZone()
@@ -74,7 +74,6 @@ mod.vb.brimstoneCount = 0
 mod.vb.burningArmorCount = 0
 
 function mod:OnCombatStart(delay)
-	infernalSpike, crashingComet, tankDebuff = DBM:GetSpellInfo(233021), DBM:GetSpellInfo(232249), DBM:GetSpellInfo(234264)
 	table.wipe(cometTable)
 	self.vb.shatteringStarCount = 0
 	self.vb.burningArmorCount = 0

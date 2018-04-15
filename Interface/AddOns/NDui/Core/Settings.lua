@@ -433,6 +433,8 @@ local function YesTutor()
 	apply:SetScript("OnClick", function()
 		pass:Show()
 		if currentPage == 1 then
+			if not NDuiDB["AuraWatchList"] then NDuiDB["AuraWatchList"] = {} end
+			if not NDuiDB["Internal CD"] then NDuiDB["Internal CD"] = {} end
 			ForceDefaultSettings()
 			ForceRaidFrame()
 			UIErrorsFrame:AddMessage(DB.InfoColor..L["Default Settings Check"])
