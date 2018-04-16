@@ -4,8 +4,6 @@ local MaxFrame = 12	-- Max Tracked Auras
 
 -- Init
 local function ConvertTable()
-	if not NDuiDB["AuraWatchList"] then return end
-
 	local function DataAnalyze(v)
 		newTable = {}
 		if type(v[1]) == "number" then
@@ -109,7 +107,7 @@ local function BuildAuraList()
 	AuraList = C.AuraWatchList["ALL"] and C.AuraWatchList["ALL"] or {}
 	for class in pairs(C.AuraWatchList) do
 		if class == DB.MyClass then
-			for _, value in pairs(C.AuraWatchList[DB.MyClass]) do
+			for _, value in pairs(C.AuraWatchList[class]) do
 				tinsert(AuraList, value)
 			end
 		end
@@ -543,7 +541,7 @@ local function UpdateIntFrame(intID, itemID, duration, unitID, guid)
 		Frame.type = 1
 		Frame.spellID = intID
 	end
-	if unitID == "All" then
+	if unitID:lower() == "all" then
 		_, class, _, _, _, name = GetPlayerInfoByGUID(guid)
 		if UnitGUID(guid) ~= UnitGUID("player") then name = "*"..name end
 	else
@@ -588,11 +586,11 @@ local eventList = {
 
 local function isUnitWeNeed(value, sourceName, destName)
 	if not value.UnitID then value.UnitID = "Player" end
-	if value.UnitID == "All" then
+	if value.UnitID:lower() == "all" then
 		if sourceName and (UnitInRaid(sourceName) or UnitInParty(sourceName)) then
 			return true
 		end
-	elseif value.UnitID == "Player" then
+	elseif value.UnitID:lower() == "player" then
 		if sourceName and sourceName == UnitName("player") or destName == UnitName("player") then
 			return true
 		end
