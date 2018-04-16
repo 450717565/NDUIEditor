@@ -9,11 +9,11 @@ local groups = {
 	["Target Aura"]			= {"RIGHT", 5, "ICON", 32, C.Auras.TargetAuraPos},
 	["Target Special Aura"]	= {"RIGHT", 5, "ICON", 40, C.Auras.TargetSpecialAuraPos},
 	["Focus Special Aura"]	= {"RIGHT", 5, "ICON", 32, C.Auras.FocusSpecialAuraPos},
+	["Raid Buff"]			= {"LEFT", 5, "ICON", 48, C.Auras.RaidBuffPos},
+	["Raid Debuff"]			= {"RIGHT", 5, "ICON", 48, C.Auras.RaidDebuffPos},
 	["Spell CD"]			= {"UP", 5, "BAR", 20, C.Auras.SpellCDPos, 150},
 	["Enchant CD"]			= {"UP", 5, "BAR", 20, C.Auras.EnchantCDPos, 150},
 	["Internal CD"]			= {"UP", 5, "BAR", 20, C.Auras.InternalCDPos, 150},
-	["Raid Buff"]			= {"LEFT", 5, "ICON", 48, C.Auras.RaidBuffPos},
-	["Raid Debuff"]			= {"RIGHT", 5, "ICON", 48, C.Auras.RaidDebuffPos},
 }
 
 -- AuraWatch
@@ -65,7 +65,7 @@ end
 
 function module:OnLogin()
 	if not NDuiDB["AuraWatchList"] then NDuiDB["AuraWatchList"] = {} end
-	if not NDuiDB["InternalCD"] then NDuiDB["InternalCD"] = {} end
+	if not NDuiDB["Internal CD"] then NDuiDB["Internal CD"] = {} end
 	if not NDuiADB["RaidDebuffs"] then NDuiADB["RaidDebuffs"] = {} end
 	local newTable = {}
 	for _, value in pairs(NDuiADB["RaidDebuffs"]) do

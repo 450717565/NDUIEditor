@@ -23,11 +23,11 @@ C.Auras = {
 	TargetAuraPos			= {"BOTTOMLEFT", UIParent, "CENTER", 200, -165},	-- 目标光环分组
 	TargetSpecialAuraPos	= {"BOTTOMLEFT", UIParent, "CENTER", 200, -128},	-- 目标重要光环分组
 	FocusSpecialAuraPos		= {"BOTTOMLEFT", UIParent, "LEFT", 5, -130},		-- 焦点重要光环分组
+	RaidBuffPos				= {"BOTTOMRIGHT", UIParent, "CENTER", -200, 200},	-- 团队增益分组
+	RaidDebuffPos			= {"BOTTOMLEFT", UIParent, "CENTER", 200, 200},	-- 团队减益分组
 	SpellCDPos				= {"LEFT", UIParent, "LEFT", 5, -30},				-- 技能冷却计时分组
 	EnchantCDPos			= {"LEFT", UIParent, "LEFT", 200, -30},			-- 物品冷却计时分组
 	InternalCDPos			= {"BOTTOMLEFT", UIParent, "CENTER", 499, -210},	-- 法术内置冷却分组
-	RaidBuffPos				= {"BOTTOMRIGHT", UIParent, "CENTER", -200, 200},	-- 团队增益分组
-	RaidDebuffPos			= {"BOTTOMLEFT", UIParent, "CENTER", 200, 200},	-- 团队减益分组
 }
 
 -- 头像相关
