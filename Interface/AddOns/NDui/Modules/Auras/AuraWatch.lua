@@ -70,7 +70,7 @@ local function ConvertTable()
 		end
 	end
 
-	for _, v in pairs(C.AuraWatchList["ALL"]) do
+	for i, v in pairs(C.AuraWatchList["ALL"]) do
 		if v.Name == "Enchant Aura" then
 			InsertData(1, v.List)
 		elseif v.Name == "Target Special Aura" then
@@ -86,6 +86,7 @@ local function ConvertTable()
 		elseif v.Name == "Internal CD" then
 			InsertData(11, v.List)
 			IntCD = v
+			tremove(C.AuraWatchList["ALL"], i)
 		end
 	end
 end
@@ -104,7 +105,7 @@ local function CheckAuraList()
 end
 
 local function BuildAuraList()
-	AuraList = C.AuraWatchList["ALL"] and C.AuraWatchList["ALL"] or {}
+	AuraList = C.AuraWatchList["ALL"] or {}
 	for class in pairs(C.AuraWatchList) do
 		if class == DB.MyClass then
 			for _, value in pairs(C.AuraWatchList[class]) do
