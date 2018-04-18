@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1984, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17445 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17450 $"):sub(12, -3))
 mod:SetCreatureID(121975)
 mod:SetEncounterID(2063)
 mod:SetZone()
@@ -17,9 +17,6 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 245990 245994 244894 244903 247091 254452",
 	"SPELL_AURA_APPLIED_DOSE 245990",
 	"SPELL_AURA_REMOVED 244894 244903 247091 254452",
---	"SPELL_PERIODIC_DAMAGE 247135",
---	"SPELL_PERIODIC_MISSED 247135",
---	"UNIT_DIED",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
@@ -46,7 +43,6 @@ local specWarnRavenousBlaze				= mod:NewSpecialWarningMoveAway(254452, nil, nil,
 local yellRavenousBlaze					= mod:NewPosYell(254452, DBM_CORE_AUTO_YELL_CUSTOM_POSITION)
 local specWarnWakeofFlame				= mod:NewSpecialWarningDodge(244693, nil, nil, nil, 2, 2)
 local yellWakeofFlame					= mod:NewYell(244693)
---local specWarnFoeBreaker				= mod:NewSpecialWarningDodge(245458, nil, nil, nil, 3, 2)
 local specWarnFoeBreakerTaunt			= mod:NewSpecialWarningTaunt(245458, nil, nil, nil, 3, 2)
 local specWarnFoeBreakerDefensive		= mod:NewSpecialWarningDefensive(245458, nil, nil, nil, 3, 2)
 local specWarnFlameRend					= mod:NewSpecialWarningCount(245463, nil, nil, nil, 1, 2)
@@ -54,8 +50,6 @@ local specWarnFlameRendTaunt			= mod:NewSpecialWarningTaunt(245463, nil, nil, ni
 local specWarnSearingTempest			= mod:NewSpecialWarningRun(245301, nil, nil, nil, 4, 2)
 --Stage Two: Champion of Sargeras
 local specWarnFlare						= mod:NewSpecialWarningDodge(245983, "-Melee", nil, 2, 2, 2)
-
---local specWarnGTFO						= mod:NewSpecialWarningGTFO(247135, nil, nil, nil, 1, 2)
 
 --Stage One: Wrath of Aggramar
 local timerTaeshalachTechCD				= mod:NewNextCountTimer(61, 244688, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON)
@@ -93,6 +87,8 @@ mod.vb.firstCombo = nil
 mod.vb.secondCombo = nil
 mod.vb.comboCount = 0
 local foeBreaker1, foeBreaker2 = DBM:GetSpellInfo(245458), DBM:GetSpellInfo(255059)
+local comboDebug = {}
+local comboDebugCounter = 0
 
 local comboUsed = {
 	[1] = false,--L.Foe, L.Tempest, L.Rend, L.Foe, L.Rend
@@ -153,9 +149,13 @@ do
 					if mod.vb.firstCombo == "Foe" then--L.Foe, L.Tempest, L.Rend, L.Foe, L.Rend
 						addLine(mod.vb.comboCount+1, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend)
 						comboUsed[1] = true
+						comboDebugCounter = comboDebugCounter + 1
+						comboDebug[comboDebugCounter] = L.Foe..", "..L.Tempest..", "..L.Rend..", "..L.Foe..", "..L.Rend
 					elseif mod.vb.firstCombo == "Rend" then--L.Rend, L.Tempest, L.Foe, L.Foe, L.Rend
 						addLine(mod.vb.comboCount+1, DBM_CORE_TANK_ICON_SMALL..L.Foe)
 						comboUsed[3] = true
+						comboDebugCounter = comboDebugCounter + 1
+						comboDebug[comboDebugCounter] = L.Rend..", "..L.Tempest..", "..L.Foe..", "..L.Foe..", "..L.Rend
 					end
 					--Same in both combos
 					addLine(mod.vb.comboCount+2, DBM_CORE_TANK_ICON_SMALL..L.Foe.."(2)")
@@ -164,11 +164,15 @@ do
 					addLine(mod.vb.comboCount+1, DBM_CORE_TANK_ICON_SMALL..L.Foe.."(2)")
 					addLine(mod.vb.comboCount+2, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
 					comboUsed[4] = true
+					comboDebugCounter = comboDebugCounter + 1
+					comboDebug[comboDebugCounter] = L.Rend..", "..L.Foe..", "..L.Foe..", "..L.Tempest..", "..L.Rend
 				elseif mod.vb.secondCombo == "Rend" then--L.Foe, L.Rend, L.Tempest, L.Foe, L.Rend
 					addLine(L.Current, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend)
 					addLine(mod.vb.comboCount+1, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
 					addLine(mod.vb.comboCount+2, DBM_CORE_TANK_ICON_SMALL..L.Foe.."(2)")
 					comboUsed[2] = true
+					comboDebugCounter = comboDebugCounter + 1
+					comboDebug[comboDebugCounter] = L.Foe..", "..L.Rend..", "..L.Tempest..", "..L.Foe..", "..L.Rend
 				end
 				--Rend always last
 				addLine(mod.vb.comboCount+3, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."(2)")
@@ -286,6 +290,8 @@ function mod:OnCombatStart(delay)
 		timerTaeshalachTechCD:Start(14.3-delay, 1)--Health based?
 		countdownTaeshalachTech:Start(14.3-delay)
 		berserkTimer:Start(540-delay)
+		table.wipe(comboDebug)
+		comboDebugCounter = 0
 	else
 		timerScorchingBlazeCD:Start(4.8-delay)
 		timerWakeofFlameCD:Start(5.1-delay)
@@ -311,6 +317,11 @@ function mod:OnCombatEnd()
 	end
 	if self.Options.NPAuraOnPresence then
 		DBM.Nameplate:Hide(true, nil, nil, nil, true, true)
+	end
+	if DBM.Options.DebugMode then
+		for i, v in ipairs(comboDebug) do
+			DBM:AddMsg(v)
+		end
 	end
 end
 
@@ -341,7 +352,7 @@ function mod:SPELL_CAST_START(args)
 			if tanking or (status == 3) then--Player is current target
 				specWarnFoeBreakerDefensive:Show()
 				specWarnFoeBreakerDefensive:Play("defensive")
-			elseif not UnitDebuff("player", args.spellName) and self.vb.foeCount == 2 then
+			elseif not UnitDebuff("player", foeBreaker1) and not UnitDebuff("player", foeBreaker2) and self.vb.foeCount == 2 then
 				if self.Options.ignoreThreeTank and self:GetNumAliveTanks() >= 3 then return end
 				if self:AntiSpam(2, 6) then--Second cast and you didn't take first and didn't get a flame rend taunt warning in last 2 seconds
 					specWarnFoeBreakerTaunt:Show(BOSS)
@@ -499,8 +510,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.NPAuraOnPresence then
 			DBM.Nameplate:Show(true, args.destGUID, spellId)
 		end
---	elseif spellId == 245923 then--Debuff version of flare
---		warnFlare:CombinedShow(0.3, args.destName)
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -529,11 +538,6 @@ function mod:SPELL_AURA_REMOVED(args)
 			timerFlareCD:Start(self:IsMythic() and 8 or 10)
 			if self:IsMythic() then
 				countdownFlare:Start(8)
-				if comboUsed[1] then--Foe, Tempest doesn't count as Foe, Empoweed Tempest. This seems to be only time this bug occurs
-					--Roll back this combo used and tech count
-					comboUsed[1] = false
-					--self.vb.techCount = self.vb.techCount - 1
-				end
 			end
 		elseif self.vb.phase == 3 then
 			warnPhase:Play("pthree")
@@ -558,26 +562,6 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	end
 end
-
---[[
-function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
-	if spellId == 247135 and destGUID == UnitGUID("player") and self:AntiSpam(2, 4) then
-		specWarnGTFO:Show()
-		specWarnGTFO:Play("runaway")
-	end
-end
-mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
-
---http://ptr.wowhead.com/npc=121985/flame-of-taeshalach
---http://ptr.wowhead.com/npc=122532/ember-of-taeshalach
---http://ptr.wowhead.com/npc=123531/blazing-ember-of-taeshalach
-function mod:UNIT_DIED(args)
-	local cid = self:GetCIDFromGUID(args.destGUID)
-	if cid == 121193 then
-
-	end
-end
---]]
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, spellName, _, _, spellId)
 	if spellId == 245993 then--Scorching Blaze

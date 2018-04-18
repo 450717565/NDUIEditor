@@ -503,6 +503,7 @@ end
 function UF:CreateAuras(self)
 	local bu = CreateFrame("Frame", nil, self)
 	bu.gap = false
+	bu.initialAnchor = "BOTTOMLEFT"
 	bu["growth-x"] = "RIGHT"
 	bu["growth-y"] = "DOWN"
 	if self.mystyle == "target" then
@@ -519,7 +520,6 @@ function UF:CreateAuras(self)
 		bu.spacing = 2
 		bu.iconsPerRow = 6
 		bu.disableMouse = NDuiDB["UFs"]["AurasClickThrough"]
-		bu.initialAnchor = "BOTTOMLEFT"
 	elseif self.mystyle == "nameplate" then
 		bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 20)
 		bu.numTotal = NDuiDB["Nameplate"]["maxAuras"]
@@ -527,7 +527,6 @@ function UF:CreateAuras(self)
 		bu.iconsPerRow = NDuiDB["Nameplate"]["AutoPerRow"]
 		bu.disableMouse = true
 		bu.showDebuffType = NDuiDB["Nameplate"]["ColorBorder"]
-		bu.initialAnchor = "BOTTOMLEFT"
 		bu["growth-y"] = "UP"
 	end
 
@@ -549,16 +548,14 @@ end
 
 function UF:CreateBuffs(self)
 	local bu = CreateFrame("Frame", nil, self)
+	bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 5)
+	bu.num = 12
+	bu.spacing = 5
+	bu.iconsPerRow = 6
 	bu.onlyShowPlayer = false
 	bu.initialAnchor = "BOTTOMLEFT"
 	bu["growth-x"] = "RIGHT"
 	bu["growth-y"] = "UP"
-	if self.mystyle == "boss" or self.mystyle == "arena" then
-		bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 5)
-		bu.num = 12
-		bu.spacing = 5
-		bu.iconsPerRow = 6
-	end
 
 	local width = self:GetWidth()
 	local maxLines = bu.iconsPerRow and floor(bu.num/bu.iconsPerRow + .5) or 2
@@ -599,14 +596,12 @@ function UF:CreateDebuffs(self)
 		bu.CustomFilter = customFilter
 		bu.initialAnchor = "TOPLEFT"
 		bu["growth-x"] = "RIGHT"
-		bu["growth-y"] = "DOWN"
 	elseif self.mystyle == "party" then
 		bu:SetPoint("TOPLEFT", self, "TOPRIGHT", 5, 0)
 		bu.num = 10
 		bu.size = self:GetHeight()+self.Power:GetHeight()+3.5
 		bu.initialAnchor = "TOPLEFT"
 		bu["growth-x"] = "RIGHT"
-		bu["growth-y"] = "DOWN"
 		if NDuiDB["Extras"]["OtherUFs"] then
 			bu:SetPoint("BOTTOMLEFT", self.Power, "BOTTOMRIGHT", 5, -1)
 			bu.size = (self:GetHeight()+self.Power:GetHeight())*2

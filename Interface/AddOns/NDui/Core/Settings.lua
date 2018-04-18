@@ -437,7 +437,7 @@ local function YesTutor()
 			ForceRaidFrame()
 			UIErrorsFrame:AddMessage(DB.InfoColor..L["Default Settings Check"])
 		elseif currentPage == 2 then
-			NDuiDB["Settings"]["LockUIScale"] = true
+			--NDuiDB["Settings"]["LockUIScale"] = true
 			ForceUIScale()
 			UIErrorsFrame:AddMessage(DB.InfoColor..L["UIScale Check"])
 		elseif currentPage == 3 then
