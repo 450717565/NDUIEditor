@@ -101,7 +101,7 @@ info.onEnter = function(self)
 		GameTooltip:AddDoubleLine(" ", format(zoneInfo[pvp[1]][1], pvp[3] or ""), 1,1,1, r,g,b)
 	end
 
-	GameTooltip:AddDoubleLine(" ", "--------------", 1,1,1, .5,.5,.5)
+	GameTooltip:AddDoubleLine(" ", DB.LineString)
 	GameTooltip:AddDoubleLine(" ", DB.LeftButton..L["WorldMap"].." ", 1,1,1, .6,.8,1)
 	if isInvasionPoint() then
 		GameTooltip:AddDoubleLine(" ", DB.ScrollButton..L["Search Invasion Group"].." ", 1,1,1, .6,.8,1)

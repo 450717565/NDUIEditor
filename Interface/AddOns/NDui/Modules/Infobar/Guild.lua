@@ -39,12 +39,11 @@ B.CreateFS(bu[2], 13, CLASS_ABBR)
 B.CreateFS(bu[3], 13, NAME, false, "LEFT", 5, 0)
 B.CreateFS(bu[4], 13, ZONE, false, "RIGHT", -5, 0)
 
-local infoLine = DB.GreyColor.."--------------"
-B.CreateFS(infoFrame, 13, infoLine, false, "BOTTOMRIGHT", -15, 70)
+B.CreateFS(infoFrame, 13, DB.LineString, false, "BOTTOMRIGHT", -15, 58)
 local whspInfo = DB.InfoColor..DB.RightButton..L["Whisper"].." "
-B.CreateFS(infoFrame, 13, whspInfo, false, "BOTTOMRIGHT", -15, 50)
+B.CreateFS(infoFrame, 13, whspInfo, false, "BOTTOMRIGHT", -15, 42)
 local copyInfo = DB.InfoColor.."ALT +"..DB.LeftButton..L["Copy Name"].." "
-B.CreateFS(infoFrame, 13, copyInfo, false, "BOTTOMRIGHT", -15, 30)
+B.CreateFS(infoFrame, 13, copyInfo, false, "BOTTOMRIGHT", -15, 26)
 local invtInfo = DB.InfoColor.."ALT +"..DB.RightButton..L["Invite"].." "
 B.CreateFS(infoFrame, 13, invtInfo, false, "BOTTOMRIGHT", -15, 10)
 

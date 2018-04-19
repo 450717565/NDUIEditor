@@ -8,11 +8,12 @@ DB.MyClass = select(2, UnitClass("player"))
 DB.ClassColor = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[DB.MyClass]
 DB.MyColor = format("|cff%02x%02x%02x", DB.ClassColor.r*255, DB.ClassColor.g*255, DB.ClassColor.b*255)
 DB.InfoColor = "|cff70C0F5"
-DB.GreyColor = "|cffB5B5B5"
+DB.GreyColor = "|cff808080"
 
 -- Fonts
 DB.Font = {STANDARD_TEXT_FONT, 12, "OUTLINE"}
 DB.TipFont = {GameTooltipText:GetFont(), 14, "OUTLINE"}
+DB.LineString = DB.GreyColor.."---------------"
 
 -- Textures
 local Media = "Interface\\Addons\\NDui\\Media\\"
@@ -21,7 +22,7 @@ DB.arrowGreenTex = Media.."NeonGreenArrow"
 DB.arrowRedTex = Media.."NeonRedArrow"
 DB.bgTex = Media.."bgTex"
 DB.glowTex = Media.."glowTex"
-DB.Micro = Media.."MicroMenu\\"
+DB.MicroTex = Media.."MicroMenu\\micro_"
 DB.newItemFlash = "Interface\\Cooldown\\star4"
 DB.normTex = Media.."normTex"
 

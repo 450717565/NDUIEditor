@@ -2,8 +2,9 @@ local B, C, L, DB = unpack(select(2, ...))
 local module = NDui:GetModule("Skins")
 
 local buttonList = {}
-function module:CreateMMB(parent, data)
-	local cr, cg, cb = 0, 0, 0
+local cr, cg, cb = 0, 0, 0
+
+local function CreateMicroButton(parent, data)
 	if NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b end
 
 	local texture, onside, tip, func = unpack(data)
@@ -19,10 +20,12 @@ function module:CreateMMB(parent, data)
 	local icon = bu:CreateTexture(nil, "ARTWORK")
 	icon:SetPoint("CENTER", offset, 0)
 	icon:SetSize(50, 50)
-	icon:SetTexture(DB.Micro..texture)
+	icon:SetTexture(DB.MicroTex..texture)
 	icon:SetVertexColor(cr, cg, cb)
 
 	local bg = B.CreateBG(bu, 0)
+	bg:SetPoint("TOPLEFT", 1, 0)
+	bg:SetPoint("BOTTOMRIGHT", -1, 0)
 	B.CreateBD(bg)
 	bg:Hide()
 	bg:SetBackdropColor(cr, cg, cb, .5)
@@ -46,20 +49,11 @@ function module:MicroMenu()
 	menubar:SetSize(384, 20)
 	B.Mover(menubar, L["Menubar"], "Menubar", C.Skins.MicroMenuPos)
 
-	-- Retrieve Keybind
-	local function key(text, action)
-		if GetBindingKey(action) then
-			return text.."（"..GetBindingText(GetBindingKey(action)).."）"
-		else
-			return text
-		end
-	end
-
 	-- Generate Buttons
 	local buttonInfo = {
-		{"micro_player", true, key(CHARACTER_BUTTON, "TOGGLECHARACTER0"), function() ToggleFrame(CharacterFrame) end},
-		{"micro_spellbook", false, key(SPELLBOOK_ABILITIES_BUTTON, "TOGGLESPELLBOOK"), function() ToggleFrame(SpellBookFrame) end},
-		{"micro_talents", false, key(TALENTS_BUTTON, "TOGGLETALENTS"), function()
+		{"player", true, MicroButtonTooltipText(CHARACTER_BUTTON, "TOGGLECHARACTER0"), function() ToggleFrame(CharacterFrame) end},
+		{"spellbook", false, MicroButtonTooltipText(SPELLBOOK_ABILITIES_BUTTON, "TOGGLESPELLBOOK"), function() ToggleFrame(SpellBookFrame) end},
+		{"talents", false, MicroButtonTooltipText(TALENTS_BUTTON, "TOGGLETALENTS"), function()
 			if not PlayerTalentFrame then LoadAddOn("Blizzard_TalentUI") end
 			if UnitLevel("player") < SHOW_SPEC_LEVEL then
 				UIErrorsFrame:AddMessage(DB.InfoColor..format(FEATURE_BECOMES_AVAILABLE_AT_LEVEL, SHOW_SPEC_LEVEL))
@@ -67,9 +61,9 @@ function module:MicroMenu()
 				ToggleFrame(PlayerTalentFrame)
 			end
 		end},
-		{"micro_achievements", false, key(ACHIEVEMENT_BUTTON, "TOGGLEACHIEVEMENT"), function() ToggleAchievementFrame() end},
-		{"micro_quests", false, key(QUESTLOG_BUTTON, "TOGGLEQUESTLOG"), function() ToggleFrame(WorldMapFrame) end},
-		{"micro_guild", false, IsInGuild() and key(GUILD, "TOGGLEGUILDTAB") or key(LOOKINGFORGUILD, "TOGGLEGUILDTAB"), function()
+		{"achievements", false, MicroButtonTooltipText(ACHIEVEMENT_BUTTON, "TOGGLEACHIEVEMENT"), function() ToggleAchievementFrame() end},
+		{"quests", false, MicroButtonTooltipText(QUESTLOG_BUTTON, "TOGGLEQUESTLOG"), function() ToggleFrame(WorldMapFrame) end},
+		{"guild", false, IsInGuild() and MicroButtonTooltipText(GUILD, "TOGGLEGUILDTAB") or MicroButtonTooltipText(LOOKINGFORGUILD, "TOGGLEGUILDTAB"), function()
 			if IsTrialAccount() then
 				UIErrorsFrame:AddMessage(DB.InfoColor..ERR_GUILD_TRIAL_ACCOUNT_TRIAL)
 			elseif faction == "Neutral" then
@@ -81,7 +75,7 @@ function module:MicroMenu()
 				ToggleGuildFinder()
 			end
 		end},
-		{"micro_pvp", false, key(PLAYER_V_PLAYER, "TOGGLECHARACTER4"), function()
+		{"pvp", false, MicroButtonTooltipText(PLAYER_V_PLAYER, "TOGGLECHARACTER4"), function()
 			if faction == "Neutral" then
 				UIErrorsFrame:AddMessage(DB.InfoColor..FEATURE_NOT_AVAILBLE_PANDAREN)
 			elseif UnitLevel("player") < LFDMicroButton.minLevel then
@@ -90,7 +84,7 @@ function module:MicroMenu()
 				TogglePVPUI()
 			end
 		end},
-		{"micro_LFD", false, key(DUNGEONS_BUTTON, "TOGGLEGROUPFINDER"), function()
+		{"LFD", false, MicroButtonTooltipText(DUNGEONS_BUTTON, "TOGGLEGROUPFINDER"), function()
 			if faction == "Neutral" then
 				UIErrorsFrame:AddMessage(DB.InfoColor..FEATURE_NOT_AVAILBLE_PANDAREN)
 			elseif UnitLevel("player") < LFDMicroButton.minLevel then
@@ -99,15 +93,15 @@ function module:MicroMenu()
 				PVEFrame_ToggleFrame()
 			end
 		end},
-		{"micro_encounter", false, key(ENCOUNTER_JOURNAL, "TOGGLEENCOUNTERJOURNAL"), function() ToggleEncounterJournal() end},
-		{"micro_pets", false, key(COLLECTIONS, "TOGGLECOLLECTIONS"), function()
+		{"encounter", false, MicroButtonTooltipText(ADVENTURE_JOURNAL, "TOGGLEENCOUNTERJOURNAL"), function() ToggleEncounterJournal() end},
+		{"pets", false, MicroButtonTooltipText(COLLECTIONS, "TOGGLECOLLECTIONS"), function()
 			if InCombatLockdown() and not IsAddOnLoaded("Blizzard_Collections") then
 				UIErrorsFrame:AddMessage(DB.InfoColor..ERR_POTION_COOLDOWN)
 				return
 			end
 			ToggleCollectionsJournal()
 		end},
-		{"micro_store", false, BLIZZARD_STORE, function()
+		{"store", false, BLIZZARD_STORE, function()
 			if IsTrialAccount() then
 				UIErrorsFrame:AddMessage(DB.InfoColor..ERR_GUILD_TRIAL_ACCOUNT)
 			elseif C_StorePublic.IsDisabledByParentalControls() then
@@ -116,11 +110,11 @@ function module:MicroMenu()
 				ToggleStoreUI()
 			end
 		end},
-		{"micro_gm", false, HELP_BUTTON, function() ToggleFrame(HelpFrame) end},
-		{"micro_settings", false, MAIN_MENU, function() ToggleFrame(GameMenuFrame) PlaySound(SOUNDKIT.IG_MINIMAP_OPEN) end},
-		{"micro_bags", true, key(BAGSLOT, "OPENALLBAGS"), function() ToggleAllBags() end},
+		{"gm", false, HELP_BUTTON, function() ToggleFrame(HelpFrame) end},
+		{"settings", false, MicroButtonTooltipText(MAINMENU_BUTTON, "TOGGLEGAMEMENU"), function() ToggleFrame(GameMenuFrame) PlaySound(SOUNDKIT.IG_MINIMAP_OPEN) end},
+		{"bags", true, MicroButtonTooltipText(BAGSLOT, "OPENALLBAGS"), function() ToggleAllBags() end},
 	}
-	for _, info in pairs(buttonInfo) do self:CreateMMB(menubar, info) end
+	for _, info in pairs(buttonInfo) do CreateMicroButton(menubar, info) end
 
 	-- Order Positions
 	for i = 1, #buttonList do

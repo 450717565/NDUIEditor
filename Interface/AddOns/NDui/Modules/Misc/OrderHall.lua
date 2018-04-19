@@ -136,7 +136,7 @@ else
 				GameTooltip:AddLine(description, .6,.8,1,true)
 			end
 		end
-		GameTooltip:AddDoubleLine(" ", "--------------", 1,1,1, .5,.5,.5)
+		GameTooltip:AddDoubleLine(" ", DB.LineString)
 		GameTooltip:AddDoubleLine(" ", L["Details by Shift"], 1,1,1, .6,.8,1)
 		GameTooltip:Show()
 

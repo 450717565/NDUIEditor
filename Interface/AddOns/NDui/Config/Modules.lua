@@ -62,7 +62,7 @@ C.Minimap = {
 
 -- 美化及皮肤
 C.Skins = {
-	MicroMenuPos	= {"BOTTOM", UIParent, "BOTTOM", 0, 2},				-- 微型菜单默认坐标
+	MicroMenuPos	= {"BOTTOM", UIParent, "BOTTOM", 0, 1},				-- 微型菜单默认坐标
 	RMPos			= {"TOP", UIParent, "TOP", 0, 0},						-- 团队工具默认坐标
 }
 

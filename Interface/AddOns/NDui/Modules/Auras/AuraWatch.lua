@@ -544,7 +544,7 @@ local function UpdateIntFrame(intID, itemID, duration, unitID, guid)
 	end
 	if unitID:lower() == "all" then
 		_, class, _, _, _, name = GetPlayerInfoByGUID(guid)
-		if UnitGUID(guid) ~= UnitGUID("player") then name = "*"..name end
+		name = "*"..name
 	else
 		class = DB.MyClass
 	end
@@ -632,12 +632,12 @@ local function CleanUp()
 end
 
 -- Event
-local f = NDui:EventFrame{"PLAYER_ENTERING_WORLD", "COMBAT_LOG_EVENT_UNFILTERED"}
+local f = NDui:EventFrame{"PLAYER_LOGIN", "COMBAT_LOG_EVENT_UNFILTERED"}
 f:SetScript("OnEvent", function(self, event, ...)
 	if not NDuiDB["AuraWatch"]["Enable"] then return end
-	if event == "PLAYER_ENTERING_WORLD" then
+	if event == "PLAYER_LOGIN" then
 		Init()
-		self:UnregisterEvent(event)
+		if not IntCD.MoveHandle then UpdateIntFrame(102364, nil, 0, "player") end
 	else
 		UpdateInt(self, event, ...)
 	end
@@ -676,7 +676,7 @@ SlashCmdList.AuraWatch = function(msg)
 					value[i]:SetScript("OnUpdate", nil)
 					value[i]:Show()
 				end
-				if value[i].Icon then value[i].Icon:SetTexture(GetSpellTexture(2825)) end
+				if value[i].Icon then value[i].Icon:SetTexture(GetSpellTexture(102364)) end
 				if value[i].Count then value[i].Count:SetText("") end
 				if value[i].Time then value[i].Time:SetText("59") end
 				if value[i].Statusbar then value[i].Statusbar:SetValue(1) end
@@ -684,14 +684,26 @@ SlashCmdList.AuraWatch = function(msg)
 			end
 			value[1].MoveHandle:Show()
 		end
-		if IntCD.MoveHandle and IntTable[1] then
+		if IntCD.MoveHandle then
 			IntCD.MoveHandle:Show()
-			IntTable[1]:SetScript("OnUpdate", nil)
-			IntTable[1]:Show()
-			IntTable[1].Spellname:SetText("")
-			IntTable[1].Time:SetText("59")
-			IntTable[1].Statusbar:SetMinMaxValues(0, 1)
-			IntTable[1].Statusbar:SetValue(1)
+			for i = 1, #IntTable do
+				if IntTable[i] then IntTable[i]:Hide() end
+			end
+			wipe(IntTable)
+			UpdateIntFrame(102364, nil, 0, "player")
+			UpdateIntFrame(102364, nil, 0, "player")
+			UpdateIntFrame(102364, nil, 0, "player")
+			UpdateIntFrame(102364, nil, 0, "player")
+			UpdateIntFrame(102364, nil, 0, "player")
+			UpdateIntFrame(102364, nil, 0, "player")
+			for i = 1, 6 do
+				IntTable[i]:SetScript("OnUpdate", nil)
+				IntTable[i]:Show()
+				IntTable[i].Spellname:SetText("")
+				IntTable[i].Time:SetText("59")
+				IntTable[i].Statusbar:SetMinMaxValues(0, 1)
+				IntTable[i].Statusbar:SetValue(1)
+			end
 		end
 	elseif msg:lower() == "lock" then
 		CleanUp()
@@ -699,9 +711,12 @@ SlashCmdList.AuraWatch = function(msg)
 			value[1].MoveHandle:Hide()
 		end
 		f:SetScript("OnUpdate", onUpdate)
-		if IntCD.MoveHandle and IntTable[1] then
+		if IntCD.MoveHandle then
 			IntCD.MoveHandle:Hide()
-			IntTable[1]:Hide()
+			for i = 1, 6 do
+				if IntTable[i] then IntTable[i]:Hide() end
+			end
+			wipe(IntTable)
 		end
 	end
 end
