@@ -93,7 +93,7 @@ local list = {
 		{AuraID = 214342, UnitID = "player"},--下冲气流
 		{AuraID = 214366, UnitID = "player", Value = true},--晶化身体
 		{AuraID = 214423, UnitID = "player", Value = true},--山峰形态，+护盾
-		{AuraID = 214624, UnitID = "player"},--督军的坚韧
+		{AuraID = 214624, UnitID = "player", Value = true},--督军的坚韧
 		{AuraID = 214831, UnitID = "player"},--混沌能量，+力量/敏捷
 		{AuraID = 214962, UnitID = "player"},--霜覆
 		{AuraID = 215294, UnitID = "player"},--召云聚气
@@ -227,7 +227,6 @@ local list = {
 		--猎人
 		{AuraID =  34477, UnitID = "player"},--误导
 		{AuraID = 204477, UnitID = "player"},--风之爆裂
-		{AuraID = 219223, UnitID = "player"},--疾风之行
 		--牧师
 		{AuraID =  33206, UnitID = "player"},--痛苦压制
 		{AuraID =  47788, UnitID = "player"},--守护之魂

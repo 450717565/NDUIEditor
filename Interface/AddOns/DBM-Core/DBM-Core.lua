@@ -41,7 +41,7 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 17451 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 17470 $"):sub(12, -3)),
 	DisplayVersion = "7.3.27 alpha", -- the string that is shown as version
 	ReleaseRevision = 17424 -- the revision of the latest stable version that is available
 }
@@ -510,7 +510,7 @@ local function sendSync(prefix, msg)
 	if IsInGroup(LE_PARTY_CATEGORY_INSTANCE) and IsInInstance() then--For BGs, LFR and LFG (we also check IsInInstance() so if you're in queue but fighting something outside like a world boss, it'll sync in "RAID" instead)
 		SendAddonMessage("D4", prefix .. "\t" .. msg, "INSTANCE_CHAT")
 	else
-		--if IsInRaid() and not wowVersionString == "8.0.1" then--Don't send syncs to raid in 8.x, raid no longer exists
+		--if IsInRaid() and not wowTOC == 80000 then--Don't send syncs to raid in 8.x, raid no longer exists
 		if IsInRaid() then
 			SendAddonMessage("D4", prefix .. "\t" .. msg, "RAID")
 		elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
@@ -977,7 +977,7 @@ do
 		SPELL_CAST_FAILED = true
 	}
 	function DBM:COMBAT_LOG_EVENT_UNFILTERED(timestamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, extraArg1, extraArg2, extraArg3, extraArg4, extraArg5, extraArg6, extraArg7, extraArg8, extraArg9, extraArg10, ...)
-		if wowVersionString == "8.0.1" then--In 8.x+, CLEU is just an event with no args, all args must be requested via CombatLogGetCurrentEventInfo
+		if wowTOC == 80000 then--In 8.x+, CLEU is just an event with no args, all args must be requested via CombatLogGetCurrentEventInfo
 			timestamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, extraArg1, extraArg2, extraArg3, extraArg4, extraArg5, extraArg6, extraArg7, extraArg8, extraArg9, extraArg10 = CombatLogGetCurrentEventInfo()
 		end
 		if not registeredEvents[event] then return end
@@ -1805,13 +1805,13 @@ do
 		local xNum, yNum = tonumber(x or ""), tonumber(y or "")
 		local success
 		if xNum and yNum then
-			DBM.Arrow:ShowRunTo(xNum, yNum, 1, nil, true)
+			DBM.Arrow:ShowRunTo(xNum, yNum, 1, nil, true, true)
 			success = true
 		else--Check if they used , instead of space.
 			x, y = string.split(",", msg:sub(1):trim())
 			xNum, yNum = tonumber(x or ""), tonumber(y or "")
 			if xNum and yNum then
-				DBM.Arrow:ShowRunTo(xNum, yNum, 1, nil, true)
+				DBM.Arrow:ShowRunTo(xNum, yNum, 1, nil, true, true)
 				success = true
 			end
 		end
@@ -1821,8 +1821,6 @@ do
 			else--error
 				DBM:AddMsg(DBM_ARROW_WAY_USAGE)
 			end
-		else
-			DBM:AddMsg(DBM_ARROW_WAY_SUCCESS)
 		end
 	end
 	if not BigWigs then
@@ -2157,12 +2155,12 @@ do
 		elseif cmd:sub(1, 8) == "whereiam" or cmd:sub(1, 8) == "whereami" then
 			if DBM:HasMapRestrictions() then
 				local _, _, _, map = UnitPosition("player")
-				local mapID = GetCurrentMapAreaID()
+				local mapID = C_Map and C_Map.GetCurrentMapID() or GetCurrentMapAreaID()
 				DBM:AddMsg(("Location Information\nYou are at zone %u (%s).\nLocal Map ID %u (%s)"):format(map, GetRealZoneText(map), mapID, GetZoneText()))
 			else
 				local x, y, _, map = UnitPosition("player")
 				SetMapToCurrentZone()
-				local mapID = GetCurrentMapAreaID()
+				local mapID = C_Map and C_Map.GetCurrentMapID() or GetCurrentMapAreaID()
 				local mapx, mapy = GetPlayerMapPosition("player")
 				DBM:AddMsg(("Location Information\nYou are at zone %u (%s): x=%f, y=%f.\nLocal Map ID %u (%s): x=%f, y=%f"):format(map, GetRealZoneText(map), x, y, mapID, GetZoneText(), mapx, mapy))
 			end
@@ -2784,6 +2782,7 @@ do
 		LastGroupSize = instanceGroupSize
 	end
 	
+	--C_Map.GetMapGroupMembersInfo
 	function DBM:GetNumRealPlayersInZone()
 		if not IsInGroup() then return 1 end
 		local total = 0
@@ -2973,17 +2972,41 @@ function DBM:IsCreatureGUID(guid)
 	return false
 end
 
-function DBM:GetBossUnitId(name)
+function DBM:GetBossUnitId(name, bossOnly)
+	local returnUnitID
 	for i = 1, 5 do
 		if UnitName("boss" .. i) == name then
-			return "boss" .. i
+			returnUnitID = "boss"..i
 		end
 	end
-	for uId in self:GetGroupMembers() do
-		if UnitName(uId .. "target") == name and not UnitIsPlayer(uId .. "target") then
-			return uId .. "target"
+	if not returnUnitID and not bossOnly then
+		for uId in self:GetGroupMembers() do
+			if UnitName(uId .. "target") == name and not UnitIsPlayer(uId .. "target") then
+				returnUnitID = uId.."target"
+			end
 		end
 	end
+	return returnUnitID
+end
+
+function DBM:GetUnitIdFromGUID(guid, bossOnly)
+	local returnUnitID
+	for i = 1, 5 do
+		local unitId = "boss"..i
+		local bossGUID = UnitGUID(unitId)
+		if bossGUID == guid then
+			returnUnitID = bossGUID
+		end
+	end
+	--Didn't find valid unitID from boss units, scan raid targets
+	if not returnUnitID and not bossOnly then
+		for uId in self:GetGroupMembers() do
+			if UnitGUID(uId .. "target") == guid then
+				returnUnitID = uId.."target"
+			end
+		end
+	end
+	return returnUnitID
 end
 
 ---------------
@@ -6506,15 +6529,16 @@ do
 		return alive
 	end
 
+	--Cleanup in 8.x with C_Map.GetMapGroupMembersInfo
 	local function getNumRealAlivePlayers()
 		local alive = 0
 		local isInInstance = IsInInstance() or false
-		local currentMapId = isInInstance and select(4, UnitPosition("player")) or GetPlayerMapAreaID("player")
-		if not currentMapId then
+		local currentMapId = isInInstance and select(4, UnitPosition("player")) or C_Map and C_Map.GetCurrentMapID() or GetPlayerMapAreaID("player")
+		if not currentMapId then--REMOVE in 8.x, C_Map should never fail
 			SetMapToCurrentZone()
-			currentMapId = GetCurrentMapAreaID()
+			currentMapId = C_Map and C_Map.GetCurrentMapID() or GetCurrentMapAreaID()
 		end
-		local currentMapName = GetMapNameByID(currentMapId)
+		local currentMapName = C_Map and C_Map.GetMapInfo(currentMapId) or GetMapNameByID(currentMapId)
 		if IsInRaid() then
 			for i = 1, GetNumGroupMembers() do
 				if isInInstance and select(4, UnitPosition("raid"..i)) == currentMapId or select(7, GetRaidRosterInfo(i)) == currentMapName then
@@ -6927,8 +6951,8 @@ do
 		local isInstance, instanceType = IsInInstance()
 		if not isInstance or C_Garrison:IsOnGarrisonMap() or instanceType == "scenario" or self.Options.MovieFilter == "Never" then return end
 		SetMapToCurrentZone()
-		local currentMapID = GetCurrentMapAreaID()
-		local currentFloor = GetCurrentMapDungeonLevel() or 0
+		local currentMapID = C_Map and C_Map.GetCurrentMapID() or GetCurrentMapAreaID()
+		local currentFloor = GetCurrentMapDungeonLevel and GetCurrentMapDungeonLevel() or 0--REMOVE In 8.x
 		if self.Options.MovieFilter == "Block" or self.Options.MovieFilter == "AfterFirst" and self.Options.MoviesSeen[currentMapID..currentFloor] then
 			CinematicFrame_CancelCinematic()
 			self:AddMsg(DBM_CORE_MOVIE_SKIPPED)
@@ -7255,6 +7279,7 @@ bossModPrototype.HasMapRestrictions = DBM.HasMapRestrictions
 bossModPrototype.GetUnitCreatureId = DBM.GetUnitCreatureId
 bossModPrototype.GetCIDFromGUID = DBM.GetCIDFromGUID
 bossModPrototype.IsCreatureGUID = DBM.IsCreatureGUID
+bossModPrototype.GetUnitIdFromGUID = DBM.GetUnitIdFromGUID
 
 do
 	local bossTargetuIds = {
@@ -9110,7 +9135,7 @@ do
 	end
 
 	function yellPrototype:Yell(...)
-		if DBM.Options.DontSendYells or wowVersionString == "8.0.1" or self.yellType and self.yellType == "position" and UnitBuff("player", voidForm) then return end
+		if DBM.Options.DontSendYells or self.yellType and self.yellType == "position" and UnitBuff("player", voidForm) then return end
 		if not self.option or self.mod.Options[self.option] then
 			if self.yellType == "combo" then
 				SendChatMessage(pformat(self.text, ...), self.chatType or "YELL")
@@ -10952,7 +10977,7 @@ do
 
 	function bossModPrototype:SetIcon(target, icon, timer)
 		if not target then return end--Fix a rare bug where target becomes nil at last second (end combat fires and clears targets)
-		if DBM.Options.DontSetIcons or wowVersionString == "8.0.1" or not enableIcons or DBM:GetRaidRank(playerName) == 0 then
+		if DBM.Options.DontSetIcons or not enableIcons or DBM:GetRaidRank(playerName) == 0 then
 			return
 		end
 		self:UnscheduleMethod("SetIcon", target)

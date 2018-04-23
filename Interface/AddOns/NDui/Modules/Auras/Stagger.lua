@@ -34,6 +34,13 @@ local function StaggerGo()
 	B.Mover(bar, L["Stagger"], "Stagger", C.Auras.StaggerPos, bar:GetWidth(), 20)
 end
 
+-- localized
+local ironskinBrew = GetSpellInfo(215479)
+local lightStagger = GetSpellInfo(124275)
+local lightStaggerTex = GetSpellTexture(124275)
+local moderateStagger = GetSpellInfo(124274)
+local heavyStagger = GetSpellInfo(124273)
+
 local f = NDui:EventFrame{"PLAYER_LOGIN", "PLAYER_TALENT_UPDATE"}
 f:SetScript("OnEvent", function(self, event)
 	if not NDuiDB["Auras"]["Stagger"] then
@@ -96,7 +103,7 @@ f:SetScript("OnEvent", function(self, event)
 
 		-- Ironskin Brew
 		do
-			local name, _, _, _, _, dur, exp = UnitBuff("player", GetSpellInfo(215479))
+			local name, _, _, _, _, dur, exp = UnitBuff("player", ironskinBrew)
 			local charges, maxCharges, chargeStart, chargeDuration = GetSpellCharges(115308)
 			local start, duration = GetSpellCooldown(115308)
 			bu[3].Count:SetText(charges)
@@ -130,9 +137,9 @@ f:SetScript("OnEvent", function(self, event)
 		-- Stagger
 		do
 			local Per
-			local name, _, icon, _, _, duration, expire, _, _, _, _, _, _, _, _, _, value, total = UnitAura("player", GetSpellInfo(124275), "", "HARMFUL")
-			if (not name) then name, _, icon, _, _, duration, expire, _, _, _, _, _, _, _, _, _, value, total = UnitAura("player", GetSpellInfo(124274), "", "HARMFUL") end
-			if (not name) then name, _, icon, _, _, duration, expire, _, _, _, _, _, _, _, _, _, value, total = UnitAura("player", GetSpellInfo(124273), "", "HARMFUL") end
+			local name, _, icon, _, _, duration, expire, _, _, _, _, _, _, _, _, _, value, total = UnitAura("player", lightStagger, "", "HARMFUL")
+			if (not name) then name, _, icon, _, _, duration, expire, _, _, _, _, _, _, _, _, _, value, total = UnitAura("player", moderateStagger, "", "HARMFUL") end
+			if (not name) then name, _, icon, _, _, duration, expire, _, _, _, _, _, _, _, _, _, value, total = UnitAura("player", heavyStagger, "", "HARMFUL") end
 			if name and value > 0 and duration > 0 then
 				Per = UnitStagger("player") / UnitHealthMax("player") * 100
 				bar:SetAlpha(1)
@@ -145,7 +152,7 @@ f:SetScript("OnEvent", function(self, event)
 				total = 0
 				bar:SetAlpha(.5)
 				bu[4]:SetAlpha(.5)
-				bu[4].Icon:SetTexture(GetSpellTexture(124275))
+				bu[4].Icon:SetTexture(lightStaggerTex)
 				bu[4].CD:SetCooldown(0, 0)
 			end
 			bar:SetValue(Per)

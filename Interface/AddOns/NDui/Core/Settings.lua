@@ -26,6 +26,7 @@ print("|cff70C0F5------------------------")
 -- Tuitorial
 local function ForceDefaultSettings()
 	SetActionBarToggles(1, 1, 1, 1)
+	SetCVar("ActionButtonUseKeyDown", 1)
 	SetCVar("alwaysCompareItems", 1)
 	SetCVar("alwaysShowActionBars", 1)
 	SetCVar("autoLootDefault", 1)

@@ -188,7 +188,7 @@ C.themes["Blizzard_TalentUI"] = function()
 				local _, _, _, selected, _, _, _, _, _, _, known = GetTalentInfo(i, j, 1)
 				local bu = _G["PlayerTalentFrameTalentsTalentRow"..i.."Talent"..j]
 				if known then
-					bu.bg:SetBackdropColor(r, g, b, .7)
+					bu.bg:SetBackdropColor(1, .5, 0, .7)
 				elseif selected then
 					bu.bg:SetBackdropColor(r, g, b, .25)
 				else

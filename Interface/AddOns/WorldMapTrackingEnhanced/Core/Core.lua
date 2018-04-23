@@ -1,4 +1,4 @@
--- $Id: Core.lua 70 2018-03-29 07:50:58Z arith $
+-- $Id: Core.lua 78 2018-04-23 09:18:05Z arith $
 -----------------------------------------------------------------------
 -- Upvalued Lua API.
 -----------------------------------------------------------------------
@@ -88,9 +88,10 @@ local function dropDown_Initialize(self, level)
 		end
 		-- If we aren't on a map with world quests don't show the world quest reward filter options.
 		if (WorldMapFrame.UIElementsFrame.BountyBoard and WorldMapFrame.UIElementsFrame.BountyBoard:AreBountiesAvailable()) then
-			L_UIDropDownMenu_AddSeparator(info)
+			
 			-- Adding World Quest Tracker menus;
 			if (checkAddonStatus("WorldQuestTracker") and profile.enable_WorldQuestTracker) then
+				L_UIDropDownMenu_AddSeparator(info)
 				local WQT = addon:GetModule("WorldQuestTracker", true)
 				local menu = WQT:DropDownMenus()
 
@@ -103,6 +104,16 @@ local function dropDown_Initialize(self, level)
 				end
 			-- With World Quest Tracker enabled, actually the WoW built-in World Quest menu filters will not working. 
 			else
+				-- Clear out the info from the separator wholesale.
+				info = L_UIDropDownMenu_CreateInfo()
+
+				info.isTitle = nil
+				info.disabled = nil
+				info.notCheckable = nil
+				info.isNotRadio = true
+				info.keepShownOnClick = true
+				info.func = WorldMapTrackingOptionsDropDown_OnClick
+
 				if prof1 or prof2 then
 					info.text = SHOW_PRIMARY_PROFESSION_ON_MAP_TEXT
 					info.value = "primaryProfessionsFilter"
@@ -116,6 +127,8 @@ local function dropDown_Initialize(self, level)
 					info.checked = GetCVarBool("secondaryProfessionsFilter")
 					L_UIDropDownMenu_AddButton(info)
 				end
+				
+				L_UIDropDownMenu_AddSeparator(info)
 
 				-- Clear out the info from the separator wholesale.
 				info = L_UIDropDownMenu_CreateInfo()

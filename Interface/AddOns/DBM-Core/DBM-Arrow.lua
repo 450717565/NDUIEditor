@@ -203,8 +203,13 @@ local function clearVariable()
 	recentlyHidden = false
 end
 
-local function show(runAway, x, y, distance, time, legacy)
+local function show(runAway, x, y, distance, time, legacy, dwayed)
 	if DBM:HasMapRestrictions() then return end
+	local wowToC = DBM:GetTOC()
+	if legacy and wowToC == 80000 then
+		DBM:AddMsg("Not Currently Supported in BfA")
+		return
+	end 
 	if not frame:IsShown() and not recentlyHidden then
 		DBM:AddMsg(DBM_CORE_ARROW_SUMMONED)
 	end
@@ -229,6 +234,9 @@ local function show(runAway, x, y, distance, time, legacy)
 			x, y = MapToWorldCoords(x, y)
 		end
 		targetX, targetY = x, y
+	end
+	if dwayed then
+		DBM:AddMsg(DBM_ARROW_WAY_SUCCESS)
 	end
 end
 

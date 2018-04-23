@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1984, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17450 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17463 $"):sub(12, -3))
 mod:SetCreatureID(121975)
 mod:SetEncounterID(2063)
 mod:SetZone()
@@ -17,10 +17,10 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 245990 245994 244894 244903 247091 254452",
 	"SPELL_AURA_APPLIED_DOSE 245990",
 	"SPELL_AURA_REMOVED 244894 244903 247091 254452",
+	"UNIT_DIED",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
---TODO, if ember energy gains are detectable with ease, use hostile nameplates to show power circle over them all fancy like
 --[[
 (ability.id = 244693 or ability.id = 245458 or ability.id = 245463 or ability.id = 245301 or ability.id = 255058 or ability.id = 255061 or ability.id = 255059) and type = "begincast"
  or ability.id = 244894 and (type = "applybuff" or type = "removebuff")
@@ -72,7 +72,7 @@ local countdownWakeofFlame				= mod:NewCountdown("AltTwo24", 244693, "-Tank")
 mod:AddSetIconOption("SetIconOnBlaze2", 254452, false)--Both off by default, both conflit with one another
 mod:AddSetIconOption("SetIconOnAdds", 244903, false, true)--Both off by default, both conflit with one another
 mod:AddInfoFrameOption(244688, true)
-mod:AddRangeFrameOption("6", "Ranged")
+mod:AddRangeFrameOption("6", nil, "Ranged")
 mod:AddNamePlateOption("NPAuraOnPresence", 244903)
 mod:AddBoolOption("ignoreThreeTank", true)
 
@@ -86,9 +86,11 @@ mod.vb.techActive = false
 mod.vb.firstCombo = nil
 mod.vb.secondCombo = nil
 mod.vb.comboCount = 0
+--mod.vb.incompleteCombo = false
 local foeBreaker1, foeBreaker2 = DBM:GetSpellInfo(245458), DBM:GetSpellInfo(255059)
 local comboDebug = {}
 local comboDebugCounter = 0
+local unitTracked = {}
 
 local comboUsed = {
 	[1] = false,--L.Foe, L.Tempest, L.Rend, L.Foe, L.Rend
@@ -115,32 +117,32 @@ do
 			elseif mod.vb.comboCount == 1 and mod.vb.firstCombo then
 				if mod.vb.firstCombo == "Foe" then--L.Foe, L.Tempest, L.Rend, L.Foe, L.Rend or L.Foe, L.Rend, L.Tempest, L.Foe, L.Rend
 					addLine(L.Current, DBM_CORE_TANK_ICON_SMALL..L.Foe)
-					if comboUsed[1] then--It's L.Foe, L.Rend, L.Tempest, L.Foe, L.Rend (combo 2) for sure
+					--[[if comboUsed[1] then--It's L.Foe, L.Rend, L.Tempest, L.Foe, L.Rend (combo 2) for sure
 						addLine(mod.vb.comboCount+1, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend)
 						addLine(mod.vb.comboCount+2, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
 					elseif comboUsed[2] then--It's L.Foe, L.Tempest, L.Rend, L.Foe, L.Rend (Combo 1) for sure
 						addLine(mod.vb.comboCount+1, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
-						addLine(mod.vb.comboCount+2, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend)
-					else--Could be either one
+						addLine(mod.vb.comboCount+2, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend)--]]
+					--else--Could be either one
 						addLine(mod.vb.comboCount+1, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."/"..DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
 						addLine(mod.vb.comboCount+2, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."/"..DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
-					end
+					--end
 					addLine(mod.vb.comboCount+3, DBM_CORE_TANK_ICON_SMALL..L.Foe.."(2)")
 				elseif mod.vb.firstCombo == "Rend" then----L.Rend, L.Tempest, L.Foe, L.Foe, L.Rend or L.Rend, L.Foe, L.Foe, L.Tempest, L.Rend
 					addLine(L.Current, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend)
-					if comboUsed[3] then--It's L.Rend, L.Foe, L.Foe, L.Tempest, L.Rend (combo 4) for sure
+					--[[if comboUsed[3] then--It's L.Rend, L.Foe, L.Foe, L.Tempest, L.Rend (combo 4) for sure
 						addLine(mod.vb.comboCount+1, DBM_CORE_TANK_ICON_SMALL..L.Foe)
 						addLine(mod.vb.comboCount+2, DBM_CORE_TANK_ICON_SMALL..L.Foe.."(2)")
 						addLine(mod.vb.comboCount+3, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
 					elseif comboUsed[4] then--It's L.Rend, L.Tempest, L.Foe, L.Foe, L.Rend (combo 3) for sure
 						addLine(mod.vb.comboCount+1, DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
 						addLine(mod.vb.comboCount+2, DBM_CORE_TANK_ICON_SMALL..L.Foe)
-						addLine(mod.vb.comboCount+3, DBM_CORE_TANK_ICON_SMALL..L.Foe.."(2)")
-					else
+						addLine(mod.vb.comboCount+3, DBM_CORE_TANK_ICON_SMALL..L.Foe.."(2)")--]]
+					--else
 						addLine(mod.vb.comboCount+1, DBM_CORE_TANK_ICON_SMALL..L.Foe.."/"..DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
 						addLine(mod.vb.comboCount+2, DBM_CORE_TANK_ICON_SMALL..L.Foe.."/"..DBM_CORE_TANK_ICON_SMALL..L.Foe.."(2)")
 						addLine(mod.vb.comboCount+3, DBM_CORE_TANK_ICON_SMALL..L.Foe.."(2)/"..DBM_CORE_DEADLY_ICON_SMALL..L.Tempest)
-					end
+					--end
 				end
 				addLine(mod.vb.comboCount+4, DBM_CORE_IMPORTANT_ICON_SMALL..L.Rend.."(2)")
 			elseif mod.vb.comboCount == 2 and mod.vb.secondCombo then
@@ -279,6 +281,8 @@ function mod:OnCombatStart(delay)
 	self.vb.wakeOfFlameCount = 0
 	self.vb.blazeIcon = 1
 	self.vb.techActive = false
+	--self.vb.incompleteCombo = false
+	table.wipe(unitTracked)
 	if self:IsMythic() then
 		comboUsed[1] = false
 		comboUsed[2] = false
@@ -299,12 +303,47 @@ function mod:OnCombatStart(delay)
 		timerTaeshalachTechCD:Start(35-delay, 1)
 		countdownTaeshalachTech:Start(35-delay)
 	end
-	--Everyone should lose spead except tanks which should stay stacked. Maybe melee are safe too?
+	--Everyone should lose spread except tanks which should stay stacked. Maybe melee are safe too?
 	if self.Options.RangeFrame and not self:IsTank() then
 		DBM.RangeCheck:Show(6)
 	end
 	if self.Options.NPAuraOnPresence then
 		DBM:FireEvent("BossMod_EnableHostileNameplates")
+		self:RegisterOnUpdateHandler(function(self)
+			for i = 1, 40 do
+				local UnitID = "nameplate"..i
+				local GUID = UnitGUID(UnitID)
+				local cid = self:GetCIDFromGUID(GUID)
+				if cid == 122532 then
+					local unitPower = UnitPower(UnitID)
+					if not unitTracked[GUID] then unitTracked[GUID] = "None" end
+					if (unitPower < 30) then
+						if unitTracked[GUID] ~= "Green" then
+							unitTracked[GUID] = "Green"
+							DBM.Nameplate:Show(true, GUID, 244912, 463281)
+						end
+					elseif (unitPower < 60) then
+						if unitTracked[GUID] ~= "Yellow" then
+							unitTracked[GUID] = "Yellow"
+							DBM.Nameplate:Hide(true, GUID, 244912, 463281)
+							DBM.Nameplate:Show(true, GUID, 244912, 460954)
+						end
+					elseif (unitPower < 90) then
+						if unitTracked[GUID] ~= "Red" then
+							unitTracked[GUID] = "Red"
+							DBM.Nameplate:Hide(true, GUID, 244912, 460954)
+							DBM.Nameplate:Show(true, GUID, 244912, 463282)
+						end
+					elseif (unitPower < 100) then
+						if unitTracked[GUID] ~= "Critical" then
+							unitTracked[GUID] = "Critical"
+							DBM.Nameplate:Hide(true, GUID, 244912, 463282)
+							DBM.Nameplate:Show(true, GUID, 244912, 1029718)
+						end
+					end
+				end
+			end
+		end, 1)
 	end
 end
 
@@ -483,6 +522,11 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		self.vb.blazeIcon = self.vb.blazeIcon + 1
 	elseif spellId == 244894 then--Corrupt Aegis
+		if self.vb.comboCount > 0 and self.vb.comboCount < 5 then
+			--self.vb.incompleteCombo = true
+			comboDebugCounter = comboDebugCounter + 1
+			comboDebug[comboDebugCounter] = "Phase changed aborted a combo before it finished"
+		end
 		warnPhase:Play("phasechange")
 		self.vb.wakeOfFlameCount = 0
 		self.vb.techActive = false
@@ -518,6 +562,8 @@ function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
 	if spellId == 244894 then--Corrupt Aegis
 		self.vb.phase = self.vb.phase + 1
+		comboDebugCounter = comboDebugCounter + 1
+		comboDebug[comboDebugCounter] = "Phase: "..self.vb.phase
 		self.vb.wakeOfFlameCount = 0
 		self.vb.comboCount = 0
 		self.vb.firstCombo = nil
@@ -560,6 +606,13 @@ function mod:SPELL_AURA_REMOVED(args)
 		if self.Options.SetIconOnBlaze2 then
 			self:SetIcon(args.destName, 0)
 		end
+	end
+end
+
+function mod:UNIT_DIED(args)
+	local cid = self:GetCIDFromGUID(args.destGUID)
+	if cid == 122532 then
+		DBM.Nameplate:Hide(true, args.destGUID)
 	end
 end
 
