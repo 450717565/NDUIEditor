@@ -440,8 +440,7 @@ local function postCreateIcon(element, button)
 	button.HL:SetAllPoints()
 end
 
-local function postUpdateIcon(element, unit, button, index)
-	local _, _, _, _, debuffType, duration = UnitAura(unit, index, button.filter)
+local function postUpdateIcon(element, _, button, _, _, duration, _, debuffType)
 	if duration then button.Shadow:Show() end
 
 	local style = element.__owner.mystyle
@@ -471,7 +470,7 @@ local function postUpdateGapIcon(_, _, icon)
 	end
 end
 
-local spellName = EJ_GetSectionInfo(15903)
+local unitName = EJ_GetSectionInfo(15903)
 local function customFilter(element, unit, button, name, _, _, _, _, _, _, caster, _, _, spellID, _, _, _, nameplateShowAll)
 	local style = element.__owner.mystyle
 	if style == "raid" then
@@ -482,7 +481,7 @@ local function customFilter(element, unit, button, name, _, _, _, _, _, _, caste
 		end
 	elseif style == "nameplate" or style == "focus" then
 		if UnitIsUnit("player", unit) then return end
-		if UnitName(unit) == spellName and spellID == 146739 and DB.isDeveloper then
+		if UnitName(unit) == unitName and spellID == 146739 and DB.isDeveloper then
 			return true
 		elseif C.WhiteList and C.WhiteList[spellID] then
 			return true

@@ -12,7 +12,6 @@ local classList = {
 	["DRUID"] = {
 		combat = GetSpellInfo(20484),		-- 复生
 		oneres = GetSpellInfo(50769),		-- 起死回生
-		allres = GetSpellInfo(212040),		-- 新生
 	},
 	["HUNTER"] = {
 		[1] = GetSpellInfo(126393),		-- 永恒守护者
@@ -21,19 +20,15 @@ local classList = {
 	},
 	["MONK"] = {
 		oneres = GetSpellInfo(115178),		-- 轮回转世
-		allres = GetSpellInfo(212051),		-- 死而复生
 	},
 	["PALADIN"] = {
 		oneres = GetSpellInfo(7328),		-- 救赎
-		allres = GetSpellInfo(212056),		-- 宽恕
 	},
 	["PRIEST"] = {
 		oneres = GetSpellInfo(2006),		-- 复活术
-		allres = GetSpellInfo(212036),		-- 群体复活
 	},
 	["SHAMAN"] = {
 		oneres = GetSpellInfo(2008),		-- 先祖之魂
-		allres = GetSpellInfo(212048),		-- 先祖视界
 	},
 	["WARLOCK"] = {
 		combat = GetSpellInfo(20707),		-- 灵魂石
@@ -51,13 +46,15 @@ local function macroBody(class)
 	else
 		local combatSpell = classList[class].combat
 		local oneresSpell = classList[class].oneres
-		local allresSpell = classList[class].allres
-		local cbsEnabled = GetSpellCooldown(classList[class].combat)
-		if cbsEnabled == 0 then
-			body = body.."/cast [@mouseover,help,dead][help,dead] "..combatSpell.."\n"
-		else
-			body = body.."/cast [nocombat] "..allresSpell.."\n"
-			body = body.."/cast [nocombat,@mouseover,help,dead][nocombat,help,dead] "..oneresSpell.."\n"
+		if combatSpell then
+			if oneresSpell then
+				body = body.."/cast [@mouseover,help,dead][help,dead] "..combatSpell.."; "
+				body = body.."[nocombat,@mouseover,help,dead][nocombat,help,dead] "..oneresSpell.."\n"
+			else
+				body = body.."/cast [@mouseover,help,dead][help,dead] "..combatSpell.."\n"
+			end
+		elseif oneresSpell then
+			body = body.."/cast [@mouseover,help,dead][help,dead] "..oneresSpell.."\n"
 		end
 	end
 
