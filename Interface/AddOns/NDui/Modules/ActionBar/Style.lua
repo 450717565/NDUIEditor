@@ -15,16 +15,6 @@ local function applyBackground(bu)
 	else
 		bu.bg:SetBackdropColor(.2, .2, .2, .25)
 	end
-
-	if bu.__faderParent then
-		bu.__faderParent.fader:HookScript("OnFinished", function()
-			if NDuiDB["Actionbar"]["Classcolor"] then
-				bu.bg:SetBackdropColor(cr, cg, cb, .2)
-			else
-				bu.bg:SetBackdropColor(.2, .2, .2, .2)
-			end
-		end)
-	end
 end
 
 --update hotkey func

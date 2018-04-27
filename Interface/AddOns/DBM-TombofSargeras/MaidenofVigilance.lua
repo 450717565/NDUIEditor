@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1897, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17440 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17471 $"):sub(12, -3))
 mod:SetCreatureID(118289)
 mod:SetEncounterID(2052)
 mod:SetZone()
@@ -126,7 +126,7 @@ function mod:SPELL_CAST_START(args)
 			timerFelHammerCD:Start(18, self.vb.hammerCount+1)--20 on Mythic, 18 on LFR?
 			countdownFelHammer:Start(18)
 		end
-		if UnitDebuff("player", lightDebuff) then
+		if DBM:UnitDebuff("player", lightDebuff) then
 			specWarnLightHammer:Play("helpsoak")
 		else
 			specWarnLightHammer:Play("shockwave")
@@ -138,7 +138,7 @@ function mod:SPELL_CAST_START(args)
 			timerLightHammerCD:Start(18, 3)
 			countdownLightHammer:Start(18)
 		end
-		if UnitDebuff("player", felDebuff) then
+		if DBM:UnitDebuff("player", felDebuff) then
 			specWarnFelhammer:Play("helpsoak")
 		else
 			specWarnFelhammer:Play("shockwave")

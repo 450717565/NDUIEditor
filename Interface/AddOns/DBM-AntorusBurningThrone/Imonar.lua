@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2009, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17440 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17471 $"):sub(12, -3))
 mod:SetCreatureID(124158)--or 124158 or 125692
 mod:SetEncounterID(2082)
 mod:SetZone()
@@ -92,12 +92,11 @@ local mythicP5ShrapnalTimers = {15, 15.8, 14.5, 12, 10}--Doesn't seem right, see
 local empoweredPulseTargets = {}
 
 local debuffFilter
-local UnitDebuff = UnitDebuff
 local playerSleepDebuff = false
 local empoweredPulse, sleepCanister = DBM:GetSpellInfo(250006), DBM:GetSpellInfo(254244)
 do
 	debuffFilter = function(uId)
-		if UnitDebuff(uId, empoweredPulse) then
+		if DBM:UnitDebuff(uId, empoweredPulse) then
 			return true
 		end
 	end
@@ -107,7 +106,7 @@ local function updateRangeFrame(self)
 	if not self.Options.RangeFrame then return end
 	if playerSleepDebuff then
 		DBM.RangeCheck:Show(10)--There are no 15 yard items that are actually 15 yard, this will round to 18 :\
-	elseif UnitDebuff("player", empoweredPulse) then
+	elseif DBM:UnitDebuff("player", empoweredPulse) then
 		DBM.RangeCheck:Show(5)
 	elseif self.vb.empoweredPulseActive > 0 then--Spread for Horn of Valor
 		DBM.RangeCheck:Show(5, debuffFilter)
@@ -247,7 +246,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self:IsTanking(uId) then
 			local amount = args.amount or 1
 			if spellId == 247367 and amount >= 4 then
-				local _, _, _, _, _, _, expireTime = UnitDebuff("player", args.spellName)
+				local _, _, _, _, _, _, expireTime = DBM:UnitDebuff("player", args.spellName)
 				local remaining
 				if expireTime then
 					remaining = expireTime-GetTime()
@@ -267,7 +266,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self:IsTanking(uId) then
 			local amount = args.amount or 1
 			if amount >= 2 then
-				local _, _, _, _, _, _, expireTime = UnitDebuff("player", args.spellName)
+				local _, _, _, _, _, _, expireTime = DBM:UnitDebuff("player", args.spellName)
 				local remaining
 				if expireTime then
 					remaining = expireTime-GetTime()

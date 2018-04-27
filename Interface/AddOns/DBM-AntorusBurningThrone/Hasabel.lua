@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1985, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17440 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17471 $"):sub(12, -3))
 mod:SetCreatureID(122104)
 mod:SetEncounterID(2064)
 mod:DisableESCombatDetection()--Remove if blizz fixes clicking portals causing this event to fire (even though boss isn't engaged)
@@ -125,17 +125,16 @@ local everBurningFlames, causticSlime, CloyingShadows, hungeringGloom = DBM:GetS
 
 local updateRangeFrame
 do
-	local UnitDebuff = UnitDebuff
 	local function debuffFilter(uId)
-		if UnitDebuff(uId, everBurningFlames) or UnitDebuff(uId, hungeringGloom) or UnitDebuff(uId, causticSlime) then
+		if DBM:UnitDebuff(uId, everBurningFlames) or DBM:UnitDebuff(uId, hungeringGloom) or DBM:UnitDebuff(uId, causticSlime) then
 			return true
 		end
 	end
 	updateRangeFrame = function(self)
 		if not self.Options.RangeFrame then return end
-		if UnitDebuff("player", causticSlime) then
+		if DBM:UnitDebuff("player", causticSlime) then
 			DBM.RangeCheck:Show(10)
-		elseif UnitDebuff("player", everBurningFlames) or UnitDebuff("player", CloyingShadows) or UnitDebuff("player", hungeringGloom) then
+		elseif DBM:UnitDebuff("player", everBurningFlames) or DBM:UnitDebuff("player", CloyingShadows) or DBM:UnitDebuff("player", hungeringGloom) then
 			DBM.RangeCheck:Show(8)
 		else
 			DBM.RangeCheck:Show(10, debuffFilter)
@@ -285,7 +284,7 @@ function mod:SPELL_AURA_APPLIED(args)
 					specWarnRealityTear:Show(amount)
 					specWarnRealityTear:Play("stackhigh")
 				else--Taunt as soon as stacks are clear, regardless of stack count.
-					local _, _, _, _, _, _, expireTime = UnitDebuff("player", args.spellName)
+					local _, _, _, _, _, _, expireTime = DBM:UnitDebuff("player", args.spellName)
 					local remaining
 					if expireTime then
 						remaining = expireTime-GetTime()

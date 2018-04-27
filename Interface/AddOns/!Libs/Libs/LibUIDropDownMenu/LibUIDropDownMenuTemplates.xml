@@ -1,5 +1,6 @@
-<!-- $Id: LibUIDropDownMenuTemplates.xml 29 2018-04-23 09:44:14Z arith $ -->
-<Ui>
+<!-- $Id: LibUIDropDownMenuTemplates.xml 31 2018-04-24 08:55:11Z arith $ -->
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
 	<Include file="LibUIDropDownMenuTemplates.lua"/>
 	<Frame name="L_UIDropDownCustomMenuEntryTemplate" enableMouse="true" hidden="true" mixin="L_UIDropDownCustomMenuEntryMixin" virtual="true">
 		<Scripts>
@@ -374,7 +375,7 @@
 						end
 					</OnLeave>
 					<OnClick>
-						ToggleDropDownMenu(nil, nil, self:GetParent());
+						L_ToggleDropDownMenu(nil, nil, self:GetParent());
 						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 					</OnClick>
 				</Scripts>

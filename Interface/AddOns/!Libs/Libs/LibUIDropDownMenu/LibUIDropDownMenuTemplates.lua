@@ -1,11 +1,11 @@
--- $Id: LibUIDropDownMenuTemplates.lua 29 2018-04-23 09:44:14Z arith $
+-- $Id: LibUIDropDownMenuTemplates.lua 30 2018-04-24 06:44:39Z arith $
 -- ----------------------------------------------------------------------------
 -- Localized Lua globals.
 -- ----------------------------------------------------------------------------
 local _G = getfenv(0)
 -- ----------------------------------------------------------------------------
-local MAJOR_VERSION = "LibUIDropDownMenuTemplates-1.08.8000126433"
-local MINOR_VERSION = 90000 + tonumber(("$Rev: 29 $"):match("%d+"))
+local MAJOR_VERSION = "LibUIDropDownMenuTemplates"
+local MINOR_VERSION = 90000 + tonumber(("$Rev: 30 $"):match("%d+"))
 
 local LibStub = _G.LibStub
 if not LibStub then error(MAJOR_VERSION .. " requires LibStub.") end

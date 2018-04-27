@@ -97,9 +97,9 @@ function module:MicroMenu()
 		{"pets", false, MicroButtonTooltipText(COLLECTIONS, "TOGGLECOLLECTIONS"), function()
 			if InCombatLockdown() and not IsAddOnLoaded("Blizzard_Collections") then
 				UIErrorsFrame:AddMessage(DB.InfoColor..ERR_POTION_COOLDOWN)
-				return
+			else
+				ToggleCollectionsJournal()
 			end
-			ToggleCollectionsJournal()
 		end},
 		{"store", false, BLIZZARD_STORE, function()
 			if IsTrialAccount() then

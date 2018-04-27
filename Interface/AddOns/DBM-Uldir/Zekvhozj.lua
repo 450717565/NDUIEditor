@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2169, "DBM-Uldir", nil, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17444 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17471 $"):sub(12, -3))
 mod:SetCreatureID(134445)--Zek'vhozj, 134503/qiraji-warrior
 mod:SetEncounterID(2136)
 --mod:DisableESCombatDetection()
@@ -151,7 +151,7 @@ function mod:SPELL_AURA_APPLIED(args)
 					specWarnVoidLash:Show(amount)
 					specWarnVoidLash:Play("stackhigh")
 				else
-				--[[	local _, _, _, _, _, expireTime = UnitDebuff("player", args.spellName)
+				--[[	local _, _, _, _, _, expireTime = DBM:UnitDebuff("player", args.spellName)
 					local remaining
 					if expireTime then
 						remaining = expireTime-GetTime()
@@ -200,7 +200,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 265646 then
 		warnWillofCorruptor:CombinedShow(0.5, args.destName)
-		if not UnitDebuff("player", args.spellName) then
+		if not DBM:UnitDebuff("player", args.spellName) then
 			specWarnWillofCorruptor:Show()
 			specWarnWillofCorruptor:Play("findmc")
 		end

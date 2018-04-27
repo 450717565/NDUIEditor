@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1861, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17440 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17471 $"):sub(12, -3))
 mod:SetCreatureID(115767)--116328 Vellius, 115795 Abyss Stalker, 116329/116843 Sarukel
 mod:SetEncounterID(2037)
 mod:SetZone()
@@ -168,7 +168,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnCrashingWave:Show()
 		specWarnCrashingWave:Play("chargemove")
 	elseif spellId == 230358 then
-		if UnitDebuff("player", consumingHunger) then
+		if DBM:UnitDebuff("player", consumingHunger) then
 			specWarnConsumingHunger:Show(thunderingShock)
 			specWarnConsumingHunger:Play("movetojelly")
 		else
@@ -337,7 +337,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 		if self:IsMythic() then
 			--Every two sharks
 			specWarnDreadShark:Show()
-			if UnitDebuff("player", bufferFish) then--Has bufferfish
+			if DBM:UnitDebuff("player", bufferFish) then--Has bufferfish
 				specWarnDreadShark:Play("takedamage")
 			else
 				specWarnDreadShark:Play("watchstep")

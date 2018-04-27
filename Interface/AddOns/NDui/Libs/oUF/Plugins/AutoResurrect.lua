@@ -48,13 +48,13 @@ local function macroBody(class)
 		local oneresSpell = classList[class].oneres
 		if combatSpell then
 			if oneresSpell then
-				body = body.."/cast [@mouseover,help,dead][help,dead] "..combatSpell.."; "
+				body = body.."/cast [combat,@mouseover,help,dead][combat,help,dead] "..combatSpell.."; "
 				body = body.."[nocombat,@mouseover,help,dead][nocombat,help,dead] "..oneresSpell.."\n"
 			else
-				body = body.."/cast [@mouseover,help,dead][help,dead] "..combatSpell.."\n"
+				body = body.."/cast [nocombat,@mouseover,help,dead][nocombat,help,dead] "..combatSpell.."\n"
 			end
 		elseif oneresSpell then
-			body = body.."/cast [@mouseover,help,dead][help,dead] "..oneresSpell.."\n"
+			body = body.."/cast [nocombat,@mouseover,help,dead][nocombat,help,dead] "..oneresSpell.."\n"
 		end
 	end
 

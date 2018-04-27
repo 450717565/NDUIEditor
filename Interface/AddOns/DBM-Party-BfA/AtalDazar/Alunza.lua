@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2082, "DBM-Party-BfA", 1, 968)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17429 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17471 $"):sub(12, -3))
 mod:SetCreatureID(128956)
 mod:SetEncounterID(2084)
 mod:SetZone()
@@ -40,7 +40,7 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 255577 then
 		timerTransfusionCD:Start()
-		local _, _, _, _, _, expireTime = UnitDebuff("player", taintedBlood)
+		local _, _, _, _, _, expireTime = DBM:UnitDebuff("player", taintedBlood)
 		local remaining
 		if expireTime then
 			remaining = expireTime-GetTime()

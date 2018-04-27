@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2167, "DBM-Uldir", nil, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17466 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17471 $"):sub(12, -3))
 mod:SetCreatureID(135452)
 mod:SetEncounterID(2141)
 --mod:DisableESCombatDetection()
@@ -96,7 +96,7 @@ function mod:SPELL_AURA_APPLIED(args)
 					specWarnSunderingScalpel:Show(amount)
 					specWarnSunderingScalpel:Play("stackhigh")
 				else
-					local _, _, _, _, _, expireTime = UnitDebuff("player", args.spellName)
+					local _, _, _, _, _, expireTime = DBM:UnitDebuff("player", args.spellName)
 					local remaining
 					if expireTime then
 						remaining = expireTime-GetTime()

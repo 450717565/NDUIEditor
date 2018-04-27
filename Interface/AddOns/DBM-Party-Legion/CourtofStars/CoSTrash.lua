@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("CoSTrash", "DBM-Party-Legion", 7)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17436 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17472 $"):sub(12, -3))
 --mod:SetModelID(47785)
 mod:SetZone()
 mod:SetOOCBWComms()
@@ -229,11 +229,11 @@ do
 				local clue = clues[GetGossipText()]
 				if clue and not hints[clue] then
 					CloseGossip()
-					if IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+					--[[if IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
 						SendChatMessage(hintTranslations[clue], "INSTANCE_CHAT")
 					elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
 						SendChatMessage(hintTranslations[clue], "PARTY")
-					end
+					end--]]
 					hints[clue] = true
 					self:SendSync("CoS", clue)
 					DBM.InfoFrame:Show(5, "function", updateInfoFrame)
