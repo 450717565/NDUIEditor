@@ -19,12 +19,12 @@
 # ## Notes-zhTW: 強化的世界地圖追蹤選項，支援最熱門的遊戲插件
 #@end-debug@
 ## Author: arith
-## Version: v2.20
+## Version: v2.21
 # # RequiredDeps: 
 ## OptionalDeps: Ace3, LibStub, CallbackHandler-1.0, LibUIDropDownMenu
 ## DefaultState: enabled
 ## SavedVariables: WorldMapTrackingEnhancedDB
-## X-Date: 2018-04-23T9:18:05Z
+## X-Date: 2018-04-24T9:44:47Z
 ## X-License: GPLv2
 ## X-Category: Map
 

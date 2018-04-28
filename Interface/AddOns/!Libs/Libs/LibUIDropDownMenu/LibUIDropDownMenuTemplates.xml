@@ -1,6 +1,5 @@
 <!-- $Id: LibUIDropDownMenuTemplates.xml 31 2018-04-24 08:55:11Z arith $ -->
-<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
-..\FrameXML\UI.xsd">
+<Ui>
 	<Include file="LibUIDropDownMenuTemplates.lua"/>
 	<Frame name="L_UIDropDownCustomMenuEntryTemplate" enableMouse="true" hidden="true" mixin="L_UIDropDownCustomMenuEntryMixin" virtual="true">
 		<Scripts>
@@ -101,7 +100,7 @@
 						<Offset>
 							<AbsDimension x="0" y="0"/>
 						</Offset>
-					</Anchor>                   
+					</Anchor>
 				</Anchors>
 				<Scripts>
 					<OnClick>
@@ -155,7 +154,7 @@
 			</Button>
 		</Frames>
 		<Scripts>
-			<OnLoad>				
+			<OnLoad>
 				self:SetFrameLevel(self:GetParent():GetFrameLevel()+2);
 			</OnLoad>
 			<OnClick>
@@ -207,7 +206,7 @@
 		<HighlightFont style="GameFontHighlightSmallLeft"/>
 		<DisabledFont style="GameFontDisableSmallLeft"/>
 	</Button>
-	
+
 	<Button name="L_UIDropDownListTemplate" hidden="true" frameStrata="DIALOG" enableMouse="true" virtual="true">
 		<Frames>
 			<Frame name="$parentBackdrop" setAllPoints="true">
@@ -283,7 +282,7 @@
 			</OnHide>
 		</Scripts>
 	</Button>
-	
+
 	<Frame name="L_UIDropDownMenuTemplate" virtual="true">
 		<Size>
 			<AbsDimension x="40" y="32"/>
