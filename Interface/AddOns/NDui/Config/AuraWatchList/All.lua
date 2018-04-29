@@ -575,6 +575,7 @@ local list = {
 		{AuraID = 227254, UnitID = "target"},--馆长：易伤
 		{AuraID = 227817, UnitID = "target", Value = true},--贞洁圣女：神圣壁垒
 		{AuraID = 229495, UnitID = "target"},--国王：易伤
+		{AuraID = 244621, UnitID = "target"},--虚空裂隙，执政团尾王
 		{AuraID = 247816, UnitID = "target"},--反冲，鲁拉
 		{AuraID = 247915, UnitID = "target"},--黑暗滋生，鲁拉
 		{AuraID = 254020, UnitID = "target"},--黑暗笼罩，鲁拉
