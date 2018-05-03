@@ -41,9 +41,9 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 17473 $"):sub(12, -3)),
-	DisplayVersion = "7.3.27 alpha", -- the string that is shown as version
-	ReleaseRevision = 17424 -- the revision of the latest stable version that is available
+	Revision = tonumber(("$Revision: 17483 $"):sub(12, -3)),
+	DisplayVersion = "7.3.28 alpha", -- the string that is shown as version
+	ReleaseRevision = 17479 -- the revision of the latest stable version that is available
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -401,7 +401,7 @@ local breakTimerStart
 local AddMsg
 local delayedFunction
 
-local fakeBWVersion, fakeBWHash = 93, "aaab2d6"
+local fakeBWVersion, fakeBWHash = 97, "1bd751b"
 local versionQueryString, versionResponseString = "Q^%d^%s", "V^%d^%s"
 
 local enableIcons = true -- set to false when a raid leader or a promoted player has a newer version of DBM
@@ -6296,7 +6296,7 @@ end
 
 function DBM:UnitDebuff(uId, spellInput)
 	if wowTOC == 80000 then
-		for i = 1, 40 do
+		for i = 1, 60 do
 			local spellName, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, nameplateShowAll, timeMod, value1, value2, value3 = UnitDebuff(uId, i)
 			if not spellName then return end
 			if spellInput == spellName or spellInput == spellId then
@@ -6310,7 +6310,7 @@ end
 
 function DBM:UnitBuff(uId, spellInput)
 	if wowTOC == 80000 then
-		for i = 1, 40 do
+		for i = 1, 60 do
 			local spellName, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, nameplateShowAll, timeMod, value1, value2, value3 = UnitBuff(uId, i)
 			if not spellName then return end
 			if spellInput == spellName or spellInput == spellId then
@@ -6561,7 +6561,7 @@ do
 	local function getNumRealAlivePlayers()
 		local alive = 0
 		local isInInstance = IsInInstance() or false
-		local currentMapId = isInInstance and select(4, UnitPosition("player")) or C_Map and C_Map.GetCurrentMapID() or GetPlayerMapAreaID("player")
+		local currentMapId = isInInstance and select(4, UnitPosition("player")) or C_Map and C_Map.GetCurrentMapID("player") or GetPlayerMapAreaID("player")
 		if not currentMapId then--REMOVE in 8.x, C_Map should never fail
 			SetMapToCurrentZone()
 			currentMapId = C_Map and C_Map.GetCurrentMapID() or GetCurrentMapAreaID()

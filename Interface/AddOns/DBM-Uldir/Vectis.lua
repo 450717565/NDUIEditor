@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2166, "DBM-Uldir", nil, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17429 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17476 $"):sub(12, -3))
 mod:SetCreatureID(134442)--135016 Plague Amalgam
 mod:SetEncounterID(2134)
 --mod:DisableESCombatDetection()
@@ -65,19 +65,17 @@ mod:AddRangeFrameOption(8, 265212)
 mod:AddInfoFrameOption(265127, true)
 
 mod.vb.ContagionCount = 0
-local lingeringInfectino = DBM:GetSpellInfo(265127)
 local availableRaidIcons = {[1] = true, [2] = true, [3] = true, [4] = true, [5] = true, [6] = true, [7] = true, [8] = true}
 
 function mod:OnCombatStart(delay)
 	self.vb.ContagionCount = 0
-	lingeringInfectino = DBM:GetSpellInfo(265127)
 	availableRaidIcons = {[1] = true, [2] = true, [3] = true, [4] = true, [5] = true, [6] = true, [7] = true, [8] = true}
 	timerMutagenicPathogenCD:Start(1-delay)
 	timerGestateCD:Start(1-delay)
 	timerContagionCD:Start(1-delay)
 	if self.Options.InfoFrame then
-		DBM.InfoFrame:SetHeader(lingeringInfectino)
-		DBM.InfoFrame:Show(6, "playerdebuffstacks", lingeringInfectino)
+		DBM.InfoFrame:SetHeader(DBM:GetSpellInfo(265127))
+		DBM.InfoFrame:Show(6, "playerdebuffstacks", 265127)
 	end
 end
 
@@ -131,7 +129,7 @@ function mod:SPELL_AURA_APPLIED(args)
 					yellMutagenicPathogen:Cancel()
 					yellMutagenicPathogen:Countdown(12)
 				else
-					local _, _, _, _, _, expireTime = UnitDebuff("player", args.spellName)
+					local _, _, _, _, _, expireTime = UnitDebuff("player", spellId)
 					local remaining
 					if expireTime then
 						remaining = expireTime-GetTime()
