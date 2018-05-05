@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2167, "DBM-Uldir", nil, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17483 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17499 $"):sub(12, -3))
 mod:SetCreatureID(135452)--136429 Chamber 01, 137022 Chamber 02, 137023 Chamber 03
 mod:SetEncounterID(2141)
 mod:SetZone()
@@ -20,7 +20,7 @@ mod:RegisterEventsInCombat(
 
 --TODO, if tanks are still able to dodge scalpel in next test, refactor warning to be a shockwave/dodge instead of tank swap mechanic
 --local warnXorothPortal				= mod:NewSpellAnnounce(244318, 2, nil, nil, nil, nil, nil, 7)
-local warnSunderingScalpelCast			= mod:NewCastAnnounce(267787, 2, nil, "Tank")
+local warnSunderingScalpelCast			= mod:NewCastAnnounce(267787, 2, nil, nil, "Tank")
 local warnSunderingScalpel				= mod:NewStackAnnounce(267787, 2, nil, "Tank")
 local warnWindTunnel					= mod:NewSpellAnnounce(267945, 2)
 local warnDepletedEnergy				= mod:NewSpellAnnounce(274205, 1)
@@ -41,8 +41,8 @@ local timerCleansingFlameCD				= mod:NewCastSourceTimer(180, 268089, nil, nil, n
 
 --local berserkTimer					= mod:NewBerserkTimer(600)
 
-local countdownPurifyingFlame			= mod:NewCountdown(50, 267795, true, 3, 3)
-local countdownSunderingScalpel			= mod:NewCountdown("Alt23", 267787, "Tank", 2, 3)
+local countdownPurifyingFlame			= mod:NewCountdown(50, 267795, true, nil, 3)
+local countdownSunderingScalpel			= mod:NewCountdown("Alt23", 267787, "Tank", nil, 3)
 local countdownSurgicalBeam				= mod:NewCountdown("AltTwo30", 269827, nil, nil, 4)
 
 mod:AddInfoFrameOption(268095, true)
@@ -54,6 +54,7 @@ function mod:OnCombatStart(delay)
 	countdownPurifyingFlame:Start(10.8-delay)
 	timerWindTunnelCD:Start(20.6-delay)
 	if self.Options.InfoFrame then
+		DBM.InfoFrame:SetHeader(DBM_CORE_INFOFRAME_POWER)
 		DBM.InfoFrame:Show(4, "enemypower", 1)
 	end
 end

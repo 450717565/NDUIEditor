@@ -188,10 +188,11 @@ local list = {
 		{AuraID = 201414, UnitID = "player", Value = true},--坦克
 		{AuraID = 202052, UnitID = "player", Value = true},--坦克
 	-->其他
+		{AuraID =  54861, UnitID = "player"},--火箭靴
+		{AuraID = 188024, UnitID = "player"},--天行药水
+		{AuraID = 201670, UnitID = "player"},--疾跑
 		{AuraID = 248779, UnitID = "player"},--奥术回响遮罩
 		{AuraID = 254161, UnitID = "player"},--超能奥术回响遮罩
-		{AuraID =  54861, UnitID = "player"},--火箭靴
-		{AuraID = 201670, UnitID = "player"},--疾跑
 		--隐形
 		{AuraID =   3680, UnitID = "player"},
 		{AuraID =  11392, UnitID = "player"},

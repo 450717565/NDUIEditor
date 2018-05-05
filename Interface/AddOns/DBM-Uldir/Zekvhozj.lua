@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2169, "DBM-Uldir", nil, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17475 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17499 $"):sub(12, -3))
 mod:SetCreatureID(134445)--Zek'vhozj, 134503/qiraji-warrior
 mod:SetEncounterID(2136)
 --mod:DisableESCombatDetection()
@@ -95,6 +95,7 @@ function mod:OnCombatStart(delay)
 	timerMightofVoidCD:Start(1-delay)
 	timerSurgingDarknessCD:Start(1-delay)--30 based on energy math
 	if self.Options.InfoFrame then
+		DBM.InfoFrame:SetHeader(DBM_CORE_INFOFRAME_POWER)
 		DBM.InfoFrame:Show(4, "enemypower", 2)
 	end
 end

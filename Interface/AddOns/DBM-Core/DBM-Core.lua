@@ -41,8 +41,8 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 17483 $"):sub(12, -3)),
-	DisplayVersion = "7.3.28 alpha", -- the string that is shown as version
+	Revision = tonumber(("$Revision: 17499 $"):sub(12, -3)),
+	DisplayVersion = "7.3.29 alpha", -- the string that is shown as version
 	ReleaseRevision = 17479 -- the revision of the latest stable version that is available
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
@@ -2155,12 +2155,12 @@ do
 		elseif cmd:sub(1, 8) == "whereiam" or cmd:sub(1, 8) == "whereami" then
 			if DBM:HasMapRestrictions() then
 				local _, _, _, map = UnitPosition("player")
-				local mapID = C_Map and C_Map.GetCurrentMapID() or GetCurrentMapAreaID()
+				local mapID = C_Map and C_Map.GetBestMapForUnit("player") or GetCurrentMapAreaID()
 				DBM:AddMsg(("Location Information\nYou are at zone %u (%s).\nLocal Map ID %u (%s)"):format(map, GetRealZoneText(map), mapID, GetZoneText()))
 			else
 				local x, y, _, map = UnitPosition("player")
 				SetMapToCurrentZone()
-				local mapID = C_Map and C_Map.GetCurrentMapID() or GetCurrentMapAreaID()
+				local mapID = C_Map and C_Map.GetBestMapForUnit("player") or GetCurrentMapAreaID()
 				local mapx, mapy = GetPlayerMapPosition("player")
 				DBM:AddMsg(("Location Information\nYou are at zone %u (%s): x=%f, y=%f.\nLocal Map ID %u (%s): x=%f, y=%f"):format(map, GetRealZoneText(map), x, y, mapID, GetZoneText(), mapx, mapy))
 			end
@@ -6561,10 +6561,10 @@ do
 	local function getNumRealAlivePlayers()
 		local alive = 0
 		local isInInstance = IsInInstance() or false
-		local currentMapId = isInInstance and select(4, UnitPosition("player")) or C_Map and C_Map.GetCurrentMapID("player") or GetPlayerMapAreaID("player")
+		local currentMapId = isInInstance and select(4, UnitPosition("player")) or C_Map and C_Map.GetBestMapForUnit("player") or GetPlayerMapAreaID("player")
 		if not currentMapId then--REMOVE in 8.x, C_Map should never fail
 			SetMapToCurrentZone()
-			currentMapId = C_Map and C_Map.GetCurrentMapID() or GetCurrentMapAreaID()
+			currentMapId = C_Map and C_Map.GetCurrentMapID("player") or GetCurrentMapAreaID()
 		end
 		local currentMapName = C_Map and C_Map.GetMapInfo(currentMapId) or GetMapNameByID(currentMapId)
 		if IsInRaid() then
@@ -6979,7 +6979,13 @@ do
 		local isInstance, instanceType = IsInInstance()
 		if not isInstance or C_Garrison:IsOnGarrisonMap() or instanceType == "scenario" or self.Options.MovieFilter == "Never" then return end
 		SetMapToCurrentZone()
-		local currentMapID = C_Map and C_Map.GetCurrentMapID() or GetCurrentMapAreaID()
+		local currentMapID
+		if C_Map then
+			currentMapID = C_Map.GetBestMapForUnit("player")
+		else
+			currentMapID = GetCurrentMapAreaID()
+		end
+		if not currentMapID then return end--Protection from map failures in zones that have no maps yet
 		local currentFloor = GetCurrentMapDungeonLevel and GetCurrentMapDungeonLevel() or 0--REMOVE In 8.x
 		if self.Options.MovieFilter == "Block" or self.Options.MovieFilter == "AfterFirst" and self.Options.MoviesSeen[currentMapID..currentFloor] then
 			CinematicFrame_CancelCinematic()

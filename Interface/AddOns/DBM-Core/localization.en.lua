@@ -201,6 +201,7 @@ DBM_CORE_INFOFRAME_SHOW_SELF		= "Always show your power"		-- Always show your ow
 DBM_CORE_INFOFRAME_SETLINES			= "Set max lines"
 DBM_CORE_INFOFRAME_LINESDEFAULT		= "Set by mod"
 DBM_CORE_INFOFRAME_LINES_TO			= "%d lines"
+DBM_CORE_INFOFRAME_POWER			= "Power"
 DBM_CORE_INFOFRAME_MAIN				= "Main:"--Main power
 DBM_CORE_INFOFRAME_ALT				= "Alt:"--Alternate Power
 
@@ -261,7 +262,8 @@ DBM_CORE_ORB						= "Orb"
 DBM_CHEST							= "Chest"--As in Treasure 'Chest'. Not Chest as in body part.
 DBM_NO_DEBUFF						= "Not %s"--For use in places like info frame where you put "Not Spellname"
 DBM_ALLY							= "Ally"--Such as "Move to Ally"
-DBM_ADDS							= "Adds"--Such as "Move to Ally"
+DBM_ADD								= "Add"--A fight Add as in "boss spawned extra adds"
+DBM_ADDS							= "Adds"
 DBM_CORE_ROOM_EDGE					= "Room Edge"
 DBM_CORE_FAR_AWAY					= "Far Away"
 DBM_CORE_BREAK_LOS					= "Break LOS"
