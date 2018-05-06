@@ -41,7 +41,7 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 17499 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 17501 $"):sub(12, -3)),
 	DisplayVersion = "7.3.29 alpha", -- the string that is shown as version
 	ReleaseRevision = 17479 -- the revision of the latest stable version that is available
 }
@@ -219,6 +219,7 @@ DBM.DefaultOptions = {
 	DontShowBossAnnounces = false,
 	DontShowTargetAnnouncements = true,
 	DontShowSpecialWarnings = false,
+	DontShowSpecialWarningText = false,
 	DontShowBossTimers = false,
 	DontShowUserTimers = false,
 	DontShowFarWarnings = true,
@@ -9427,7 +9428,7 @@ do
 	end
 
 	function specialWarningPrototype:Show(...)
-		if not DBM.Options.DontShowSpecialWarnings and (not self.option or self.mod.Options[self.option]) and not moving and frame then
+		if not DBM.Options.DontShowSpecialWarnings and not DBM.Options.DontShowSpecialWarningText and (not self.option or self.mod.Options[self.option]) and not moving and frame then
 			if self.announceType == "taunt" and DBM.Options.FilterTankSpec and not self.mod:IsTank() then return end--Don't tell non tanks to taunt, ever.
 			local argTable = {...}
 			-- add a default parameter for move away warnings
@@ -9544,7 +9545,7 @@ do
 	end
 
 	function specialWarningPrototype:CombinedShow(delay, ...)
-		if DBM.Options.DontShowSpecialWarnings then return end
+		if DBM.Options.DontShowSpecialWarnings or DBM.Options.DontShowSpecialWarningText then return end
 		if self.option and not self.mod.Options[self.option] then return end
 		local argTable = {...}
 		for i = 1, #argTable do
