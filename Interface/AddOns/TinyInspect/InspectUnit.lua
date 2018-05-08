@@ -35,6 +35,10 @@ local slots = {
 local function GetInspectItemListFrame(parent)
 	if (not parent.inspectFrame) then
 		local frame = CreateFrame("Frame", nil, parent)
+		local height = parent:GetHeight()
+		if (height < 424) then
+			height = 424
+		end
 		frame.backdrop = {
 			bgFile   = "Interface\\Tooltips\\UI-Tooltip-Background",
 			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
@@ -43,7 +47,7 @@ local function GetInspectItemListFrame(parent)
 			edgeSize = 16,
 			insets   = {left = 4, right = 4, top = 4, bottom = 4}
 		}
-		frame:SetSize(160, 424)
+		frame:SetSize(160, height)
 		frame:SetToplevel(true)
 		frame:SetPoint("TOPLEFT", parent, "TOPRIGHT", 0, 0)
 		frame:SetBackdrop(frame.backdrop)
@@ -67,7 +71,7 @@ local function GetInspectItemListFrame(parent)
 		}
 		for i, v in ipairs(slots) do
 			itemframe = CreateFrame("Button", nil, frame)
-			itemframe:SetSize(120, 342/#slots)
+			itemframe:SetSize(120, (height-82)/#slots)
 			itemframe.index = v.index
 			if (i == 1) then
 				itemframe:SetPoint("TOPLEFT", frame, "TOPLEFT", 15, -70)
@@ -84,7 +88,7 @@ local function GetInspectItemListFrame(parent)
 			itemframe.label.text:SetSize(34, 14)
 			itemframe.label.text:SetTextColor(0, 0.9, 0.9)
 			itemframe.levelString = B.CreateFS(itemframe, 16, "")
-			itemframe.levelString:SetJustifyH("CENTER")
+			itemframe.levelString:SetJustifyH("LEFT")
 			itemframe.levelString:SetPoint("LEFT", itemframe.label, "RIGHT", 4, 0)
 			itemframe.itemString = B.CreateFS(itemframe, 16, "")
 			itemframe.itemString:SetJustifyH("LEFT")
@@ -110,6 +114,7 @@ local function GetInspectItemListFrame(parent)
 				end
 			end)
 			frame["item"..i] = itemframe
+			LibEvent:trigger("INSPECT_ITEMFRAME_CREATED", itemframe)
 		end
 
 		frame.closeButton = CreateFrame("Button", nil, frame)
@@ -141,7 +146,7 @@ end
 local ItemLevelPattern = gsub(ITEM_LEVEL, "%%d", "%%.1f")
 
 --顯示面板
-function ShowInspectItemListFrame(unit, parent, ilevel)
+function ShowInspectItemListFrame(unit, parent, ilevel, maxLevel)
 	if (not parent:IsShown()) then return end
 	local frame = GetInspectItemListFrame(parent)
 	local class = select(2, UnitClass(unit))
@@ -158,6 +163,10 @@ function ShowInspectItemListFrame(unit, parent, ilevel)
 	local _, name, level, link, quality
 	local itemframe, mframe, oframe, itemwidth
 	local width = 160
+	local formats = "%3s"
+	if (maxLevel) then
+		formats = "%" .. string.len(floor(maxLevel)) .. "s"
+	end
 	for i, v in ipairs(slots) do
 		_, level, name, link, quality = LibItemInfo:GetUnitItemInfo(unit, v.index)
 		itemframe = frame["item"..i]
@@ -167,7 +176,7 @@ function ShowInspectItemListFrame(unit, parent, ilevel)
 		itemframe.quality = quality
 		itemframe.itemString:SetWidth(0)
 		if (level > 0) then
-			itemframe.levelString:SetText(format("%d",level))
+			itemframe.levelString:SetText(format(formats,level))
 			itemframe.itemString:SetText(link or name)
 		else
 			itemframe.levelString:SetText("")
@@ -176,7 +185,7 @@ function ShowInspectItemListFrame(unit, parent, ilevel)
 
 		itemwidth = itemframe.itemString:GetWidth()
 		itemframe.itemString:SetWidth(itemwidth)
-		itemframe.width = itemwidth + 64
+		itemframe.width = itemwidth + max(64, floor(itemframe.label:GetWidth() + itemframe.levelString:GetWidth()) + 4)
 		itemframe:SetWidth(itemframe.width)
 		if (width < itemframe.width) then
 			width = itemframe.width
@@ -193,10 +202,10 @@ function ShowInspectItemListFrame(unit, parent, ilevel)
 	if (mframe and oframe and (mframe.quality == 6 or oframe.quality == 6)) then
 		level = max(mframe.level, oframe.level)
 		if mframe.link then
-			mframe.levelString:SetText(format("%d",level))
+			mframe.levelString:SetText(format(formats,level))
 		end
 		if oframe.link then
-			oframe.levelString:SetText(format("%d",level))
+			oframe.levelString:SetText(format(formats,level))
 		end
 	end
 	if (mframe and mframe.level <= 0) then
@@ -205,7 +214,7 @@ function ShowInspectItemListFrame(unit, parent, ilevel)
 	if (oframe and oframe.level <= 0) then
 		oframe:SetAlpha(0.4)
 	end
-	frame:SetWidth(width + 38)
+	frame:SetWidth(width + 34)
 	frame:Show()
 
 	LibEvent:trigger("INSPECT_FRAME_SHOWN", frame, parent, ilevel)
@@ -231,7 +240,7 @@ end)
 --@see InspectCore.lua
 LibEvent:attachTrigger("UNIT_INSPECT_READY, UNIT_REINSPECT_READY", function(self, data)
 	if (InspectFrame and InspectFrame.unit and UnitGUID(InspectFrame.unit) == data.guid) then
-		local frame = ShowInspectItemListFrame(InspectFrame.unit, InspectFrame, data.ilevel)
+		local frame = ShowInspectItemListFrame(InspectFrame.unit, InspectFrame, data.ilevel, data.maxLevel)
 		LibEvent:trigger("INSPECT_FRAME_COMPARE", frame)
 	end
 end)
@@ -278,7 +287,8 @@ end)
 LibEvent:attachTrigger("INSPECT_FRAME_COMPARE", function(self, frame)
 	if (not frame) then return end
 	if (ShowOwnFrameWhenInspecting) then
-		local playerFrame = ShowInspectItemListFrame("player", frame, select(2,GetAverageItemLevel()))
+		local _, ilevel, _, _, _, maxLevel = LibItemInfo:GetUnitItemLevel("player")
+		local playerFrame = ShowInspectItemListFrame("player", frame, ilevel, maxLevel)
 		if (frame.statsFrame) then
 			frame.statsFrame:SetParent(playerFrame)
 		end
@@ -297,11 +307,13 @@ end)
 
 PaperDollFrame:HookScript("OnShow", function(self)
 	if (not ShowCharacterItemSheet) then return end
-	ShowInspectItemListFrame("player", self, select(2,GetAverageItemLevel()))
+	local _, ilevel, _, _, _, maxLevel = LibItemInfo:GetUnitItemLevel("player")
+	ShowInspectItemListFrame("player", self, ilevel, maxLevel)
 end)
 
 LibEvent:attachEvent("PLAYER_EQUIPMENT_CHANGED", function(self)
 	if (CharacterFrame:IsShown() and ShowCharacterItemSheet) then
-		ShowInspectItemListFrame("player", PaperDollFrame, select(2,GetAverageItemLevel()))
+		local _, ilevel, _, _, _, maxLevel = LibItemInfo:GetUnitItemLevel("player")
+		ShowInspectItemListFrame("player", PaperDollFrame, ilevel, maxLevel)
 	end
 end)

@@ -136,7 +136,7 @@ local function ShowGemAndEnchant(frame, ItemLink, anchorFrame, itemframe)
 			_, _, quality, _, _, _, _, _, _, texture = GetItemInfo(v.link)
 			r, g, b = GetItemQualityColor(quality or 0)
 			icon.bg:SetVertexColor(r, g, b)
-			icon.texture:SetTexture(texture)
+			icon.texture:SetTexture(texture or "Interface\\Cursor\\Quest")
 			UpdateIconTexture(icon, texture, v.link, "item")
 		else
 			icon.bg:SetVertexColor(1, 0.82, 0, 0.5)
@@ -201,7 +201,7 @@ local function ShowGemAndEnchant(frame, ItemLink, anchorFrame, itemframe)
 end
 
 --功能附着
-hooksecurefunc("ShowInspectItemListFrame", function(unit, parent, itemLevel)
+hooksecurefunc("ShowInspectItemListFrame", function(unit, parent, itemLevel, maxLevel)
 	local frame = parent.inspectFrame
 	if (not frame) then return end
 	local i = 1
@@ -211,8 +211,8 @@ hooksecurefunc("ShowInspectItemListFrame", function(unit, parent, itemLevel)
 	while (frame["item"..i]) do
 		itemframe = frame["item"..i]
 		iconWidth = ShowGemAndEnchant(frame, itemframe.link, itemframe.itemString, itemframe)
-		if (width < itemframe.width + iconWidth + 38) then
-			width = itemframe.width + iconWidth + 38
+		if (width < itemframe.width + iconWidth + 34) then
+			width = itemframe.width + iconWidth + 34
 		end
 		i = i + 1
 	end

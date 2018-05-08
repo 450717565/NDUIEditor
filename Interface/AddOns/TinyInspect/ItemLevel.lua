@@ -19,6 +19,8 @@ local ShowItemSlotString = true
 local EnableItemLevelGuildNews = true
 local PaperDollItemLevelOutsideString = true
 
+local Caches = {}
+
 --框架 #category Bag|Bank|Merchant|Trade|GuildBank|Auction|AltEquipment|PaperDoll
 local function GetItemLevelFrame(self, category)
 	if (not self.ItemLevelFrame) then
@@ -220,17 +222,17 @@ end
 -- ForAddons: Bagnon Combuctor LiteBag ArkInventory
 LibEvent:attachEvent("PLAYER_LOGIN", function()
 	-- For Bagnon
-	if (Bagnon and Bagnon.ItemSlot) then
+	if (Bagnon and Bagnon.ItemSlot and Bagnon.ItemSlot.Update) then
 		hooksecurefunc(Bagnon.ItemSlot, "Update", function(self)
 			SetItemLevel(self, self:GetItem(), "Bag", self:GetBag(), self:GetID())
 		end)
 	end
 	-- For Combuctor
-	if (Combuctor and Combuctor.ItemSlot) then
+	if (Combuctor and Combuctor.ItemSlot and Combuctor.ItemSlot.Update) then
 		hooksecurefunc(Combuctor.ItemSlot, "Update", function(self)
 			SetItemLevel(self, self:GetItem(), "Bag", self:GetBag(), self:GetID())
 		end)
-	elseif (Combuctor and Combuctor.Item) then
+	elseif (Combuctor and Combuctor.Item and Combuctor.Item.Update) then
 		hooksecurefunc(Combuctor.Item, "Update", function(self)
 			SetItemLevel(self, self.hasItem, "Bag", self.bag, self.GetID and self:GetID())
 		end)
@@ -280,6 +282,8 @@ end)
 ----------------------
 
 local function ChatItemLevel(Hyperlink)
+	if Caches[Hyperlink] then return Caches[Hyperlink] end
+
 	local itemLink = string.match(Hyperlink, "|H(.-)|h")
 	local _, _, itemRarity, _, _, _, itemSubType, _, itemEquipLoc, itemTexture, _, itemClassID, itemSubClassID, bindType = GetItemInfo(itemLink)
 	if not itemTexture then return end
@@ -319,6 +323,7 @@ local function ChatItemLevel(Hyperlink)
 
 	if totalText then
 		Hyperlink = Hyperlink:gsub("|h%[(.-)%]|h", "|h[%1"..totalText.."]|h")
+		Caches[Hyperlink] = Hyperlink
 	end
 
 	return Hyperlink

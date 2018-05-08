@@ -812,6 +812,7 @@ local list = {
 		{IntID =  15487, Duration = 45, UnitID = "all", OnSuccess = true},--沉默
 		{IntID =  47528, Duration = 15, UnitID = "all", OnSuccess = true},--心灵冰冻
 		{IntID =  57994, Duration = 12, UnitID = "all", OnSuccess = true},--风剪
+		{IntID =  78675, Duration = 60, UnitID = "all", OnSuccess = true},--日光术
 		{IntID =  96231, Duration = 15, UnitID = "all", OnSuccess = true},--责难
 		{IntID = 106839, Duration = 15, UnitID = "all", OnSuccess = true},--迎头痛击
 		{IntID = 116705, Duration = 15, UnitID = "all", OnSuccess = true},--切喉手

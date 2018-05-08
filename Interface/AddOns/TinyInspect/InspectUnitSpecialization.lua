@@ -6,7 +6,7 @@
 -------------------------------------
 local B, C, L, DB = unpack(NDui)
 
-hooksecurefunc("ShowInspectItemListFrame", function(unit, parent, itemLevel)
+hooksecurefunc("ShowInspectItemListFrame", function(unit, parent, itemLevel, maxLevel)
 	local frame = parent.inspectFrame
 	if (not frame) then return end
 	if (not frame.specicon) then
