@@ -112,31 +112,14 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 		local itemLink = string.match(lootstring,"|%x+|Hitem:.-|h.-|h|r")
 		local itemString = string.match(itemLink, "item[%-?%d:]+")
 		local _, _, itemRarity, _, _, _, itemSubType, _, itemEquipLoc, _, _, itemClassID, itemSubClassID, bindType = GetItemInfo(itemString)
-		local itemLvl = B.GetItemLevel(itemLink, itemRarity)
+
 		local Enabled = 0
-		local slotText, totalInfo
+		local totalInfo = ""
 		local lootTime = GameTime_GetGameTime(true)
 		local filterBR = NDuiDB["Extras"]["LootMonitorBonusRewards"] and rollInfo
 
-		if itemEquipLoc and string.find(itemEquipLoc, "INVTYPE_") then
-			slotText = _G[itemEquipLoc] or ""
-		end
-		if itemEquipLoc and string.find(itemEquipLoc, "INVTYPE_FEET") then
-			slotText = L["Feet"] or ""
-		elseif itemEquipLoc and string.find(itemEquipLoc, "INVTYPE_HAND") then
-			slotText = L["Hands"] or ""
-		elseif itemEquipLoc and string.find(itemEquipLoc, "INVTYPE_HOLDABLE") then
-			slotText = INVTYPE_WEAPONOFFHAND or ""
-		elseif itemEquipLoc and string.find(itemEquipLoc, "INVTYPE_SHIELD") then
-			slotText = itemSubType or ""
-		elseif itemSubType and string.find(itemSubType, RELICSLOT) then
-			slotText = RELICSLOT or ""
-		elseif (itemClassID and itemClassID == 15) and (itemSubClassID and (itemSubClassID == 2 or itemSubClassID == 5)) then
-			slotText = (itemSubClassID == 2 and PET) or (itemSubClassID == 5 and itemSubType) or ""
-		end
-		if bindType and (bindType == 2 or bindType == 3) then
-			slotText = (bindType == 2 and "BoE") or (bindType == 3 and "BoU") or ""
-		end
+		local itemLvl = B.GetItemLevel(itemLink, itemRarity)
+		local slotText = B.ItemSlotInfo(itemSubType, itemEquipLoc, itemClassID, itemSubClassID, bindType)
 
 		if NDuiDB["Extras"]["LootMonitorInGroup"] == true and not IsInGroup() then
 			Enabled = 0
