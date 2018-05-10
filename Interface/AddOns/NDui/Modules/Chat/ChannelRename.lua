@@ -12,7 +12,7 @@ function module:ChannelRename()
 				text = text:gsub(CHAT_FLAG_DND, DB.DNDTex)
 
 				local r, g, b = ...
-				if text:find(L["Tell"].." |Hplayer.+%]") then r, g, b = .6, .6, .6 end
+				if text:find(L["Tell"].." |H[BN]*player.+%]") then r, g, b = r*.7, g*.7, b*.7 end
 				if NDuiDB["Chat"]["Oldname"] then
 					text = text:gsub("|h%[(%d+)%. 大脚世界频道%]|h", "|h%[%1%. 世界%]|h")
 					text = text:gsub("|h%[(%d+)%. 大腳世界頻道%]|h", "|h%[%1%. 世界%]|h")
@@ -29,31 +29,31 @@ function module:ChannelRename()
 	ERR_FRIEND_OFFLINE_S = ERR_FRIEND_OFFLINE_S:gsub("%%s", "%%s|cffff7f50")
 
 	--whisper
-	CHAT_WHISPER_INFORM_GET = L["Tell"].." %s "
-	CHAT_WHISPER_GET = L["From"].." %s "
-	CHAT_BN_WHISPER_INFORM_GET = L["Tell"].." %s "
-	CHAT_BN_WHISPER_GET = L["From"].." %s "
+	CHAT_WHISPER_INFORM_GET = L["Tell"].." %s"..L[":"]
+	CHAT_WHISPER_GET = L["From"].." %s"..L[":"]
+	CHAT_BN_WHISPER_INFORM_GET = L["Tell"].." %s"..L[":"]
+	CHAT_BN_WHISPER_GET = L["From"].." %s"..L[":"]
 
 	--say / yell
-	CHAT_SAY_GET = "%s "
-	CHAT_YELL_GET = "%s "
+	CHAT_SAY_GET = "%s"..L[":"]
+	CHAT_YELL_GET = "%s"..L[":"]
 
 	if NDuiDB["Chat"]["Oldname"] then return end
 	--guild
-	CHAT_GUILD_GET = "|Hchannel:GUILD|h[G]|h %s "
-	CHAT_OFFICER_GET = "|Hchannel:OFFICER|h[O]|h %s "
+	CHAT_GUILD_GET = "|Hchannel:GUILD|h[G]|h %s"..L[":"]
+	CHAT_OFFICER_GET = "|Hchannel:OFFICER|h[O]|h %s"..L[":"]
 
 	--raid
-	CHAT_RAID_GET = "|Hchannel:RAID|h[R]|h %s "
-	CHAT_RAID_WARNING_GET = "[RW] %s "
-	CHAT_RAID_LEADER_GET = "|Hchannel:RAID|h[RL]|h %s "
+	CHAT_RAID_GET = "|Hchannel:RAID|h[R]|h %s"..L[":"]
+	CHAT_RAID_WARNING_GET = "[RW] %s"..L[":"]
+	CHAT_RAID_LEADER_GET = "|Hchannel:RAID|h[RL]|h %s"..L[":"]
 
 	--party
-	CHAT_PARTY_GET = "|Hchannel:PARTY|h[P]|h %s "
-	CHAT_PARTY_LEADER_GET =  "|Hchannel:PARTY|h[PL]|h %s "
-	CHAT_PARTY_GUIDE_GET =  "|Hchannel:PARTY|h[PG]|h %s "
+	CHAT_PARTY_GET = "|Hchannel:PARTY|h[P]|h %s"..L[":"]
+	CHAT_PARTY_LEADER_GET =  "|Hchannel:PARTY|h[PL]|h %s"..L[":"]
+	CHAT_PARTY_GUIDE_GET =  "|Hchannel:PARTY|h[PG]|h %s"..L[":"]
 
 	--instance
-	CHAT_INSTANCE_CHAT_GET = "|Hchannel:INSTANCE|h[I]|h %s "
-	CHAT_INSTANCE_CHAT_LEADER_GET = "|Hchannel:INSTANCE|h[IL]|h %s "
+	CHAT_INSTANCE_CHAT_GET = "|Hchannel:INSTANCE|h[I]|h %s"..L[":"]
+	CHAT_INSTANCE_CHAT_LEADER_GET = "|Hchannel:INSTANCE|h[IL]|h %s"..L[":"]
 end

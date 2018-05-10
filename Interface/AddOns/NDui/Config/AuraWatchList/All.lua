@@ -172,10 +172,10 @@ local list = {
 		{AuraID = 238500, UnitID = "player"},
 		{AuraID = 238501, UnitID = "player"},
 		--PVP饰品
+		{AuraID = 170397, UnitID = "player"},
 		{AuraID = 190025, UnitID = "player"},
 		{AuraID = 190026, UnitID = "player"},
 		{AuraID = 190027, UnitID = "player"},
-		{AuraID = 170397, UnitID = "player"},
 		--抗磨联军的调和
 		{AuraID = 242583, UnitID = "player"},
 		{AuraID = 242584, UnitID = "player"},
@@ -269,6 +269,7 @@ local list = {
 		{AuraID = 200154, UnitID = "player", Text = L["Get Out"]},--达古尔：燃烧之恨
 		{AuraID = 200238, UnitID = "player"},--萨维斯：弱肉强食
 		{AuraID = 209858, UnitID = "player"},--死疽溃烂
+		{AuraID = 220871, UnitID = "player", Text = L["Get Out"]},--顾问凡多斯：不稳定的魔法
 		{AuraID = 226512, UnitID = "player"},--血池
 		{AuraID = 230087, UnitID = "player"},--振作
 		{AuraID = 240443, UnitID = "player"},--爆裂
@@ -816,6 +817,7 @@ local list = {
 		{IntID =  96231, Duration = 15, UnitID = "all", OnSuccess = true},--责难
 		{IntID = 106839, Duration = 15, UnitID = "all", OnSuccess = true},--迎头痛击
 		{IntID = 116705, Duration = 15, UnitID = "all", OnSuccess = true},--切喉手
+		{IntID = 132469, Duration = 30, UnitID = "all", OnSuccess = true},--台风
 		{IntID = 147362, Duration = 24, UnitID = "all", OnSuccess = true},--反制射击
 		{IntID = 171138, Duration = 24, UnitID = "all", OnSuccess = true},--暗影封印@PET
 		{IntID = 183752, Duration = 15, UnitID = "all", OnSuccess = true},--吞噬魔法
