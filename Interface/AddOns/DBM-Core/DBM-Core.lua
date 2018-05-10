@@ -41,7 +41,7 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 17507 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 17509 $"):sub(12, -3)),
 	DisplayVersion = "7.3.29 alpha", -- the string that is shown as version
 	ReleaseRevision = 17479 -- the revision of the latest stable version that is available
 }
@@ -10735,6 +10735,10 @@ end
 
 function bossModPrototype:AddTimerLine(text)
 	return self:AddOptionLine(text, "timer")
+end
+
+function bossModPrototype:AddMiscLine(text)
+	return self:AddOptionLine(text, "misc")
 end
 
 function bossModPrototype:RemoveOption(name)
