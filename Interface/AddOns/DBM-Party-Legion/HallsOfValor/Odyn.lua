@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1489, "DBM-Party-Legion", 4, 721)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17077 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17522 $"):sub(12, -3))
 mod:SetCreatureID(95676)
 mod:SetEncounterID(1809)
 mod:SetZone()
@@ -106,7 +106,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnShatterSpears:Show()
 		specWarnShatterSpears:Play("watchorb")
 		timerShatterSpearsCD:Start()
-	elseif spellId == 198750 and self:CheckInterruptFilter(args.sourceGUID) then
+	elseif spellId == 198750 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnSurge:Show(args.sourceName)
 		specWarnSurge:Play("kickcast")
 	end

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1704, "DBM-EmeraldNightmare", nil, 768)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17440 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17522 $"):sub(12, -3))
 mod:SetCreatureID(102679)--Ysondre, 102683 (Emeriss), 102682 (Lethon), 102681 (Taerar)
 mod:SetEncounterID(1854)
 mod:SetZone()
@@ -246,10 +246,10 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 207573 then
 		warnCallDefiledSpirit:Show()
 		self:SendSync("DefiledSpirit")
-	elseif spellId == 205300 and self:CheckInterruptFilter(args.sourceGUID) then
+	elseif spellId == 205300 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnCorruption:Show(args.sourceName)
 		specWarnCorruption:Play("kickcast")
-	elseif spellId == 214540 and self:CheckInterruptFilter(args.sourceGUID) then
+	elseif spellId == 214540 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnCollapsingNightmare:Show(args.sourceName)
 		specWarnCollapsingNightmare:Play("kickcast")
 	elseif spellId == 203817 and self:AntiSpam(5, 6) then

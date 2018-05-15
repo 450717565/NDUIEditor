@@ -1,3 +1,9 @@
+-- Mini Dragon(projecteurs@gmail.com)
+-- 夏一可
+-- Blizzard Entertainment
+-- Last update: 2018/05/12
+
+if GetLocale() ~= "zhCN" then return end
 local L
 
 ---------------------------
@@ -6,7 +12,7 @@ local L
 L= DBM:GetModLocalization(2168)
 
 L:SetMiscLocalization({
-	Aggro	 =	"Has Aggro"
+	Aggro	 =	"有仇恨"
 })
 
 ---------------------------
@@ -36,7 +42,7 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2166)
 
 L:SetOptionLocalization({
-	ShowHighestFirst	 =	"Sort Lingering Infection Infoframe by highest debuff stack (instead of lowest)"
+	ShowHighestFirst	 =	"将信息窗中持续感染的层数从高往低显示(默认从低到高)"
 })
 
 ---------------
@@ -54,7 +60,7 @@ L:SetTimerLocalization({
 })
 
 L:SetOptionLocalization({
-	timerAddIncoming		= "Show timer for when incoming add is attackable"
+	timerAddIncoming		= "计时条：当小怪可以进攻时"
 })
 
 ------------------
@@ -68,5 +74,5 @@ L= DBM:GetModLocalization(2147)
 L = DBM:GetModLocalization("UldirTrash")
 
 L:SetGeneralLocalization({
-	name =	"Uldir Trash"
+	name =	"奥迪尔小怪"
 })

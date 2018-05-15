@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2194, "DBM-Uldir", nil, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17491 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17522 $"):sub(12, -3))
 mod:SetCreatureID(134546)--138324 Xalzaix
 mod:SetEncounterID(2135)
 --mod:DisableESCombatDetection()
@@ -148,7 +148,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnVisionsofMadness:Show()
 		specWarnVisionsofMadness:Play("killmob")
 		timerVisionsoMadnessCD:Start()
-	elseif spellId == 274019 and self:CheckInterruptFilter(args.sourceGUID) then
+	elseif spellId == 274019 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnMindFlay:Show(args.sourceName)
 		specWarnMindFlay:Play("kickcast")
 	end

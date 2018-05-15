@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("SotSTrash", "DBM-Party-BfA", 4)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17469 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17522 $"):sub(12, -3))
 --mod:SetModelID(47785)
 mod:SetZone()
 
@@ -30,7 +30,7 @@ local specWarnMendingRapids			= mod:NewSpecialWarningInterrupt(268030, "HasInter
 function mod:SPELL_CAST_START(args)
 	if not self.Options.Enabled then return end
 	local spellId = args.spellId
-	if spellId == 268030 and self:CheckInterruptFilter(args.sourceGUID) then
+	if spellId == 268030 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnMendingRapids:Show(args.sourceName)
 		specWarnMendingRapids:Play("kickcast")
 	elseif spellId == 267973 and self:AntiSpam(5, 1) then

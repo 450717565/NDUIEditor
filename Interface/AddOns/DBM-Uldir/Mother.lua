@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2167, "DBM-Uldir", nil, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17499 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17522 $"):sub(12, -3))
 mod:SetCreatureID(135452)--136429 Chamber 01, 137022 Chamber 02, 137023 Chamber 03
 mod:SetEncounterID(2141)
 mod:SetZone()
@@ -18,16 +18,16 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED_DOSE 267787"
 )
 
---TODO, if tanks are still able to dodge scalpel in next test, refactor warning to be a shockwave/dodge instead of tank swap mechanic
 --local warnXorothPortal				= mod:NewSpellAnnounce(244318, 2, nil, nil, nil, nil, nil, 7)
-local warnSunderingScalpelCast			= mod:NewCastAnnounce(267787, 2, nil, nil, "Tank")
-local warnSunderingScalpel				= mod:NewStackAnnounce(267787, 2, nil, "Tank")
+--local warnSunderingScalpelCast			= mod:NewCastAnnounce(267787, 2, nil, nil, "Tank")
+local warnSunderingScalpel				= mod:NewStackAnnounce(267787, 3, nil, "Tank")
 local warnWindTunnel					= mod:NewSpellAnnounce(267945, 2)
 local warnDepletedEnergy				= mod:NewSpellAnnounce(274205, 1)
-local warnCleansingPurgeFinish			= mod:NewTargetNoFilterAnnounce(268089, 4)
+local warnCleansingPurgeFinish			= mod:NewTargetNoFilterAnnounce(268095, 4)
 
-local specWarnSunderingScalpel			= mod:NewSpecialWarningStack(267787, nil, 2, nil, nil, 1, 6)
-local specWarnSunderingScalpelOther		= mod:NewSpecialWarningTaunt(267787, nil, nil, nil, 1, 2)
+local specWarnSunderingScalpel			= mod:NewSpecialWarningDodge(267787, nil, nil, nil, 1, 2)
+--local specWarnSunderingScalpel			= mod:NewSpecialWarningStack(267787, nil, 2, nil, nil, 1, 6)
+--local specWarnSunderingScalpelOther		= mod:NewSpecialWarningTaunt(267787, nil, nil, nil, 1, 2)
 local specWarnPurifyingFlame			= mod:NewSpecialWarningDodge(267787, nil, nil, nil, 2, 2)
 local specWarnClingingCorruption		= mod:NewSpecialWarningInterrupt(268198, "HasInterrupt", nil, nil, 1, 2)
 local specWarnSurgicalBeam				= mod:NewSpecialWarningDodge(269827, nil, nil, nil, 3, 2)
@@ -37,7 +37,7 @@ local timerSunderingScalpelCD			= mod:NewNextTimer(23.1, 267787, nil, "Tank", ni
 local timerPurifyingFlameCD				= mod:NewNextTimer(23.1, 267795, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON)
 local timerWindTunnelCD					= mod:NewNextTimer(40.1, 267945, nil, nil, nil, 2)
 local timerSurgicalBeamCD				= mod:NewNextTimer(30, 269827, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON)
-local timerCleansingFlameCD				= mod:NewCastSourceTimer(180, 268089, nil, nil, nil, 6)
+local timerCleansingFlameCD				= mod:NewCastSourceTimer(180, 268095, nil, nil, nil, 6)
 
 --local berserkTimer					= mod:NewBerserkTimer(600)
 
@@ -47,6 +47,40 @@ local countdownSurgicalBeam				= mod:NewCountdown("AltTwo30", 269827, nil, nil, 
 
 mod:AddInfoFrameOption(268095, true)
 
+local updateInfoFrame
+do
+	local lines = {}
+	local sortedLines = {}
+	local function addLine(key, value)
+		-- sort by insertion order
+		lines[key] = value
+		sortedLines[#sortedLines + 1] = key
+	end
+	updateInfoFrame = function()
+		table.wipe(lines)
+		table.wipe(sortedLines)
+		--Boss Powers first
+		for i = 1, 5 do
+			local uId = "boss"..i
+			--Primary Power
+			local currentPower, maxPower = UnitPower(uId), UnitPowerMax(uId)
+			if maxPower and maxPower ~= 0 then
+				if currentPower / maxPower * 100 >= 1 then
+					addLine(UnitName(uId), currentPower)
+				end
+			end
+		end
+		--Player personal checks
+		local spellName, _, _, _, _, expireTime = DBM:UnitDebuff("player", 267821)
+		if spellName and expireTime then--Personal Defense Grid. Same spellId is used for going through and lingering, but expire time will only exist for lingering
+			local remaining = expireTime-GetTime()
+			addLine(spellName, remaining)
+		end
+		--TODO, player tracking per chamber if possible
+		return lines, sortedLines
+	end
+end
+
 function mod:OnCombatStart(delay)
 	timerSunderingScalpelCD:Start(5.9-delay)
 	countdownSunderingScalpel:Start(5.9-delay)
@@ -55,7 +89,7 @@ function mod:OnCombatStart(delay)
 	timerWindTunnelCD:Start(20.6-delay)
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:SetHeader(DBM_CORE_INFOFRAME_POWER)
-		DBM.InfoFrame:Show(4, "enemypower", 1)
+		DBM.InfoFrame:Show(5, "function", updateInfoFrame, false, false)
 	end
 end
 
@@ -68,10 +102,14 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 267787 then
-		warnSunderingScalpelCast:Show()
+		local tanking, status = UnitDetailedThreatSituation("player", "boss1")
+		if tanking or (status == 3) then
+			specWarnSunderingScalpel:Show()
+			specWarnSunderingScalpel:Play("shockwave")
+		end
 		timerSunderingScalpelCD:Start()
 		countdownSunderingScalpel:Start()
-	elseif spellId == 268198 and self:CheckInterruptFilter(args.sourceGUID) then
+	elseif spellId == 268198 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnClingingCorruption:Show(args.sourceName)
 		specWarnClingingCorruption:Play("kickcast")
 	end
@@ -101,7 +139,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		countdownSurgicalBeam:Start()
 	elseif spellId == 269051 then--Begin Cast of Cleansing Purge
 		--136429 Chamber 01, 137022 Chamber 02, 137023 Chamber 03
-		local cid = self:GetCIDFromGUID(args.destGUID)
+		local cid = self:GetCIDFromGUID(args.sourceGUID)
 		if cid == 136429 then
 			timerCleansingFlameCD:Start(180, 1)
 		elseif cid == 137022 then
@@ -120,7 +158,8 @@ function mod:SPELL_AURA_APPLIED(args)
 		local uId = DBM:GetRaidUnitId(args.destName)
 		if self:IsTanking(uId) then
 			local amount = args.amount or 1
-			if amount >= 2 then
+			warnSunderingScalpel:Show(args.destName, amount)
+			--[[if amount >= 2 then
 				if args:IsPlayer() then
 					specWarnSunderingScalpel:Show(amount)
 					specWarnSunderingScalpel:Play("stackhigh")
@@ -139,7 +178,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				end
 			else
 				warnSunderingScalpel:Show(args.destName, amount)
-			end
+			end--]]
 		end
 	elseif spellId == 274205 then
 		warnDepletedEnergy:Show()

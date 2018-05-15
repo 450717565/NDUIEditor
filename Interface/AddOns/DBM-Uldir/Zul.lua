@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2195, "DBM-Uldir", nil, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17499 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17522 $"):sub(12, -3))
 mod:SetCreatureID(138967)
 mod:SetEncounterID(2145)
 mod:DisableESCombatDetection()--ES fires moment you throw out CC, so it can't be trusted for combatstart
@@ -210,7 +210,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnCongealBlood:Show()
 		specWarnCongealBlood:Play("targetchange")
 		timerCongealBloodCD:Start(23, args.sourceGUID)
-	elseif spellId == 273350 and self:CheckInterruptFilter(args.sourceGUID) then
+	elseif spellId == 273350 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnBloodshard:Show(args.sourceName)
 		specWarnBloodshard:Play("kickcast")
 	end

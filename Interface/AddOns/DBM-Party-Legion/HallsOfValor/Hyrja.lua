@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1486, "DBM-Party-Legion", 4, 721)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17440 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17522 $"):sub(12, -3))
 mod:SetCreatureID(95833)
 mod:SetEncounterID(1806)
 mod:SetZone()
@@ -98,7 +98,7 @@ function mod:SPELL_CAST_START(args)
 			countdownSpecial:Cancel()
 			countdownSpecial:Start()
 		end
-	elseif spellId == 192288 and self:CheckInterruptFilter(args.sourceGUID) then
+	elseif spellId == 192288 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnSearingLight:Show(args.sourceName)
 		specWarnSearingLight:Play("kickcast")
 	end

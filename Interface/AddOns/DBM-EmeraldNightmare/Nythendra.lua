@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1703, "DBM-EmeraldNightmare", nil, 768)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17440 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17522 $"):sub(12, -3))
 mod:SetCreatureID(102672)
 mod:SetEncounterID(1853)
 mod:SetZone()
@@ -133,7 +133,7 @@ function mod:SPELL_CAST_START(args)
 		timerSwarm:Start()
 	elseif spellId == 202977 then
 		DBM:Debug("CLEU event for breath, pruned. If you see this message it was unpruned!")
-	elseif spellId == 205070 and self:CheckInterruptFilter(args.sourceGUID) then
+	elseif spellId == 205070 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnSpreadInfestation:Show(args.sourceName)
 		specWarnSpreadInfestation:Play("kickcast")
 	elseif spellId == 225943 then

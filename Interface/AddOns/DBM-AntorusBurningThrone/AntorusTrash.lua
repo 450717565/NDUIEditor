@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("AntorusTrash", "DBM-AntorusBurningThrone")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17506 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17522 $"):sub(12, -3))
 --mod:SetModelID(47785)
 mod:SetZone()
 mod.isTrashMod = true
@@ -47,9 +47,6 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 245807 and self:AntiSpam(5, 1) then
 		specWarnAnnihilation:Show()
 		specWarnAnnihilation:Play("helpsoak")
-	--elseif spellId == 246209 and self:CheckInterruptFilter(args.sourceGUID) then
-		--specWarnShadowBoltVolley:Show(args.sourceName)
-		--specWarnShadowBoltVolley:Play("kickcast")
 	end
 end
 
