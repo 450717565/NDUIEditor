@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2139, "DBM-Zandalar", nil, 1029)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17428 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17548 $"):sub(12, -3))
 mod:SetCreatureID(132701)
 --mod:SetEncounterID(1880)
 mod:SetReCombatTime(20)
@@ -53,8 +53,7 @@ function mod:SPELL_CAST_START(args)
 	if spellId == 262004 then
 		timerCrushingSlamCD:Start()
 		if UnitExists("target") then
-			local tanking, status = UnitDetailedThreatSituation("player", "target")
-			if tanking or (status == 3) then--Player is current target
+			if self:IsTanking("player", "target", nil, true) then
 				specWarnCrushingSlam:Show()
 				specWarnCrushingSlam:Play("defensive")
 			end

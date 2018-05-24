@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1984, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17506 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17548 $"):sub(12, -3))
 mod:SetCreatureID(121975)
 mod:SetEncounterID(2063)
 mod:SetZone()
@@ -386,8 +386,7 @@ function mod:SPELL_CAST_START(args)
 		end
 		self.vb.foeCount = self.vb.foeCount + 1
 		if self:IsTank() then
-			local tanking, status = UnitDetailedThreatSituation("player", "boss1")
-			if tanking or (status == 3) then--Player is current target
+			if self:IsTanking("player", "boss1", nil, true) then
 				specWarnFoeBreakerDefensive:Show()
 				specWarnFoeBreakerDefensive:Play("defensive")
 			elseif not DBM:UnitDebuff("player", 245458, 255059) and self.vb.foeCount == 2 then

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1738, "DBM-EmeraldNightmare", nil, 768)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17522 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17549 $"):sub(12, -3))
 mod:SetCreatureID(105393)
 mod:SetEncounterID(1873)
 mod:SetZone()
@@ -103,7 +103,7 @@ mod.vb.IchorCount = 0
 --Not to be confused with counts above, this is SPANW count not add total count like above
 mod.vb.DeathglareSpawn = 0
 mod.vb.CorruptorSpawn = 0
-local UnitExists, UnitGUID, UnitDetailedThreatSituation = UnitExists, UnitGUID, UnitDetailedThreatSituation
+local UnitExists, UnitGUID = UnitExists, UnitGUID
 local eyeName = DBM:EJ_GetSectionInfo(13185)
 local addsTable = {}
 local phase1EasyDeathglares = {26, 62, 85, 55}--Normal/LFR OCT 16
@@ -176,7 +176,7 @@ end
 
 local autoMarkOozes
 do
-	local UnitHealth, UnitHealthMax, UnitGUID, UnitIsUnit = UnitHealth, UnitHealthMax, UnitGUID, UnitIsUnit
+	local UnitHealth, UnitHealthMax, UnitIsUnit = UnitHealth, UnitHealthMax, UnitIsUnit
 	autoMarkOozes = function(self)
 		self:Unschedule(autoMarkOozes)
 		if self.vb.IchorCount == 0 then
@@ -474,7 +474,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		--Hopefully this has a boss unitID
 		for i = 1, 5 do
 			local bossUnitID = "boss"..i
-			if UnitExists(bossUnitID) and UnitGUID(bossUnitID) == args.sourceGUID and UnitDetailedThreatSituation("player", bossUnitID) then--We are highest threat target
+			if UnitExists(bossUnitID) and UnitGUID(bossUnitID) == args.sourceGUID and self:IsTanking("player", bossUnitID, nil, true) then--We are highest threat target
 				specWarnNightmarishFury:Show()
 				specWarnNightmarishFury:Play("defensive")
 				break

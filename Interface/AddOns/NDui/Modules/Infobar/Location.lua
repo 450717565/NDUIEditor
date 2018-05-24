@@ -61,6 +61,7 @@ info.onEvent = function(self)
 	subzone, zone, pvp = GetSubZoneText(), GetZoneText(), {GetZonePVPInfo()}
 	if not pvp[1] then pvp[1] = "neutral" end
 	local r, g, b = unpack(zoneInfo[pvp[1]][2])
+
 	if GetPlayerMapPosition("player") then
 		self:SetScript("OnUpdate", function(self, elapsed)
 			self.timer = (self.timer or 0) + elapsed
@@ -71,6 +72,7 @@ info.onEvent = function(self)
 			end
 		end)
 	end
+
 	self.text:SetFormattedText("%s <%s>", currentZone(), formatCoords())
 	self.text:SetTextColor(r, g, b)
 	self.text:SetJustifyH("LEFT")
@@ -92,20 +94,13 @@ info.onEnter = function(self)
 	local r, g, b = unpack(zoneInfo[pvp[1]][2])
 
 	GameTooltip:AddLine(format("%s", zone), r, g, b)
-
-	if pvp[1] and not IsInInstance() then
-		if subzone and subzone ~= zone and subzone ~= "" then
-			GameTooltip:AddLine(" ")
-			GameTooltip:AddDoubleLine(subzone, " ", r,g,b, 1,1,1)
-		end
-		GameTooltip:AddDoubleLine(" ", format(zoneInfo[pvp[1]][1], pvp[3] or ""), 1,1,1, r,g,b)
-	end
-
 	GameTooltip:AddDoubleLine(" ", DB.LineString)
 	GameTooltip:AddDoubleLine(" ", DB.LeftButton..L["WorldMap"].." ", 1,1,1, .6,.8,1)
+
 	if isInvasionPoint() then
 		GameTooltip:AddDoubleLine(" ", DB.ScrollButton..L["Search Invasion Group"].." ", 1,1,1, .6,.8,1)
 	end
+
 	GameTooltip:AddDoubleLine(" ", DB.RightButton..L["Send My Pos"].." ", 1,1,1, .6,.8,1)
 	GameTooltip:Show()
 end

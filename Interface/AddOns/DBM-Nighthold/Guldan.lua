@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1737, "DBM-Nighthold", nil, 786)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17522 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17551 $"):sub(12, -3))
 mod:SetCreatureID(104154)--The Demon Within (111022)
 mod:SetEncounterID(1866)
 mod:SetZone()
@@ -92,9 +92,9 @@ local specWarnParasiticWound		= mod:NewSpecialWarningMoveAway(206847, nil, nil, 
 local yellParasiticWound			= mod:NewYell(206847, 36469)
 local yellParasiticWoundFades		= mod:NewFadesYell(206847, 36469)
 --local specWarnShearedSoul			= mod:NewSpecialWarningYou(206458, nil, nil, nil, 1)
-local specWarnSoulsever				= mod:NewSpecialWarningCount(220957, nil, nil, nil, 3)--Needs voice, but what?
+local specWarnSoulsever				= mod:NewSpecialWarningCount(220957, nil, nil, nil, 3, 2)--Needs voice, but what?
 local specWarnVisionsofDarkTitan	= mod:NewSpecialWarningMoveTo(227008, nil, nil, nil, 3, 7)
-local specWarnSummonNightorb		= mod:NewSpecialWarningSwitchCount(227283, "-Healer", nil, nil, 1, 2)
+local specWarnSummonNightorb		= mod:NewSpecialWarningCount(227283, "Dps", nil, nil, 1, 2)
 --Shard
 local specWarnManifestAzzinoth		= mod:NewSpecialWarningSwitchCount(221149, "-Healer", nil, nil, 1, 2)
 local specWarnBulwarkofAzzinoth		= mod:NewSpecialWarningSpell(221408, nil, nil, nil, 1)--Needs voice, but what?
@@ -332,8 +332,7 @@ function mod:SPELL_CAST_START(args)
 			timerShatterEssenceCD:Start()
 		end
 		local targetName, uId, bossuid = self:GetBossTarget(104537)--Add true if it has a boss unitID
-		local tanking, status = UnitDetailedThreatSituation("player", bossuid)
-		if tanking or (status == 3) then--Player is current target
+		if self:IsTanking("player", bossuid, nil, true) then--Player is current target
 			specWarnShatterEssence:Show()
 			specWarnShatterEssence:Play("defensive")
 		end
@@ -350,8 +349,7 @@ function mod:SPELL_CAST_START(args)
 			timerSoulVortexCD:Start(21)
 		else
 			local targetName, uId, bossuid = self:GetBossTarget(104534, true)
-			local tanking, status = UnitDetailedThreatSituation("player", bossuid)
-			if tanking or (status == 3) then--Player is current target
+			if self:IsTanking("player", bossuid, nil, true) then--Player is current target
 				specWarnSoulVortex:Show()
 				specWarnSoulVortex:Play("runout")
 				yellSoulVortex:Yell()
@@ -413,8 +411,7 @@ function mod:SPELL_CAST_START(args)
 		end
 	elseif spellId == 206222 or spellId == 206221 then
 		table.wipe(bondsIcons)
-		local tanking, status = UnitDetailedThreatSituation("player", "boss1")
-		if tanking or (status == 3) then
+		if self:IsTanking("player", "boss1", nil, true) then
 			if spellId == 206221 then
 				specWarnBondsofFel:Play("carefly")
 			end
@@ -435,7 +432,8 @@ function mod:SPELL_CAST_START(args)
 		upValueCapsAreStupid(self)
 	elseif spellId == 220957 then
 		self.vb.severCastCount = self.vb.severCastCount + 1
-		if self:IsTank() then
+		local _, _, bossuid = self:GetBossTarget(111022, true)
+		if self:IsTanking("player", bossuid, nil, true) then
 			specWarnSoulsever:Show(self.vb.severCastCount)
 			specWarnSoulsever:Play("defensive")
 		end
@@ -564,7 +562,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellBondsofFel:Yell(count, count, count)
 		else
 			local uId = DBM:GetRaidUnitId(name)
-			if self:IsTanking(uId, "boss1") and not UnitDetailedThreatSituation("player", "boss1") then
+			if self:IsTank() and not self:IsTanking("player", "boss1", nil, true) then
 				--secondary warning, in case first one didn't go through
 				if self:AntiSpam(5, name) then
 					specWarnBondsofFelTank:Show(name)
@@ -890,7 +888,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 	elseif spellId == 227283 then -- Nightorb
 		self.vb.orbCastCount = self.vb.orbCastCount + 1
 		specWarnSummonNightorb:Show(self.vb.orbCastCount)
-		specWarnSummonNightorb:Play("killmob")
+		specWarnSummonNightorb:Play("mobsoon")
 		if self.vb.orbCastCount ~= 4 then
 			if self.vb.orbCastCount == 2 then
 				timerSummonNightorbCD:Start(60, self.vb.orbCastCount+1)

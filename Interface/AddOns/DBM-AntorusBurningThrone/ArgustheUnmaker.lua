@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2031, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17510 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17527 $"):sub(12, -3))
 mod:SetCreatureID(124828)
 mod:SetEncounterID(2092)
 mod:SetZone()
@@ -285,12 +285,6 @@ do
 			end
 		end
 		--Tank Debuffs
-		--[[if #tankStacks > 0 then
-			for k, v in pairs(tankStacks) do
-				--addLine(k, v)
-				addLine(tankStacks[k], v)
-			end
-		end--]]
 		for i = 1, #tankStacks do
 			local name = tankStacks[i]
 			local uId = DBM:GetRaidUnitId(name)

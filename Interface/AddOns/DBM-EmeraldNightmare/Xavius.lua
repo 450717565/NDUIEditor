@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1726, "DBM-EmeraldNightmare", nil, 768)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17440 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17549 $"):sub(12, -3))
 mod:SetCreatureID(103769)
 mod:SetEncounterID(1864)
 mod:SetZone()
@@ -200,8 +200,7 @@ function mod:SPELL_CAST_START(args)
 			countdownNightmareInfusion:Start()
 		end
 		local targetName, uId = self:GetBossTarget(args.sourceGUID, true)
-		local tanking, status = UnitDetailedThreatSituation("player", "boss1")
-		if tanking or (status == 3) then
+		if self:IsTanking("player", "boss1", nil, true) then
 			--Player is current target, just give a generic warning, since if player has dream it doesn't matter, if player doesn't, it's OTHER tanks job to fix this
 			warnNightmareInfusion:Show()
 		else
@@ -275,7 +274,7 @@ function mod:SPELL_AURA_APPLIED(args)
 					for i = 1, 5 do
 						--Check if tanking a big add
 						local bossUnitID = "boss"..i
-						if UnitExists(bossUnitID) and UnitDetailedThreatSituation("player", bossUnitID) and self:GetCIDFromGUID(UnitGUID(bossUnitID)) == 103695 then
+						if UnitExists(bossUnitID) and self:IsTanking("player", bossUnitID, nil, true) and self:GetCIDFromGUID(UnitGUID(bossUnitID)) == 103695 then
 							filterWarning = true--Tanking big add, in 3 tank strat means this tank has nothing to do with boss swapping.
 							break
 						end
@@ -304,7 +303,7 @@ function mod:SPELL_AURA_APPLIED(args)
 					for i = 1, 5 do
 						--Check if tanking a big add
 						local bossUnitID = "boss"..i
-						if UnitExists(bossUnitID) and UnitDetailedThreatSituation("player", bossUnitID) and self:GetCIDFromGUID(UnitGUID(bossUnitID)) == 103695 then
+						if UnitExists(bossUnitID) and self:IsTanking("player", bossUnitID, nil, true) and self:GetCIDFromGUID(UnitGUID(bossUnitID)) == 103695 then
 							filterWarning = true--Tanking big add, in 3 tank strat means this tank has nothing to do with boss swapping.
 							break
 						end

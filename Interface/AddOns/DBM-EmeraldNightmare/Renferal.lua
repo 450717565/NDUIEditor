@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1744, "DBM-EmeraldNightmare", nil, 768)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17440 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17548 $"):sub(12, -3))
 mod:SetCreatureID(106087)
 mod:SetEncounterID(1876)
 mod:SetZone()
@@ -169,8 +169,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 215582 then
 		self.vb.talonsCast = self.vb.talonsCast + 1
 		local targetName, uId, bossuid = self:GetBossTarget(106087, true)
-		local tanking, status = UnitDetailedThreatSituation("player", bossuid)
-		if tanking or (status == 3) then--Player is current target
+		if self:IsTanking("player", bossuid, nil, true) then
 			specWarnRakingTalon:Show()
 			specWarnRakingTalon:Play("defensive")
 		end

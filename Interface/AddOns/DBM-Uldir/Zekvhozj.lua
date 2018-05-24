@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2169, "DBM-Uldir", nil, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17522 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17548 $"):sub(12, -3))
 mod:SetCreatureID(134445)--Zek'vhozj, 134503/qiraji-warrior
 mod:SetEncounterID(2136)
 --mod:DisableESCombatDetection()
@@ -133,8 +133,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnEntropicBlast:Play("kickcast")
 	elseif spellId == 265231 then--First Void Lash
 		timerMightofVoidCD:Start()
-		local tanking, status = UnitDetailedThreatSituation("player", "boss1")
-		if tanking or (status == 3) then
+		if self:IsTanking("player", "boss1", nil, true) then
 			specWarnMightofVoid:Show()
 			specWarnMightofVoid:Play("defensive")
 		end

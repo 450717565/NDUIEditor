@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1673, "DBM-Party-Legion", 5, 767)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17077 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17548 $"):sub(12, -3))
 mod:SetCreatureID(91005)
 mod:SetEncounterID(1792)
 mod:SetZone()
@@ -55,9 +55,7 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 199176 then
-		local tanking, status = UnitDetailedThreatSituation("player", "boss1")
-		--Do based on threat, because there is a good chance tank might die and backup melee needs warning too.
-		if tanking or (status == 3) then
+		if self:IsTanking("player", "boss1", nil, true) then
 			specWarnSpikedTongue:Show()
 			specWarnSpikedTongue:Play("runout")
 			specWarnSpikedTongue:ScheduleVoice(1.5, "keepmove")

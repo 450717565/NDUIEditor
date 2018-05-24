@@ -436,7 +436,7 @@ local function CreatePanel()
 		tabs[i]:SetSize(130, 30)
 		B.CreateBD(tabs[i], .3)
 		local label = B.CreateFS(tabs[i], 15, group, true, "LEFT", 10, 0)
-		if i < 11 then
+		if i < 12 then
 			label:SetTextColor(1, .8, 0)
 		else
 			label:SetTextColor(.6, .8, 1)
