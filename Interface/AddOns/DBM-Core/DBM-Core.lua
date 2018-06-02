@@ -41,7 +41,7 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 17552 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 17573 $"):sub(12, -3)),
 	DisplayVersion = "7.3.31 alpha", -- the string that is shown as version
 	ReleaseRevision = 17510 -- the revision of the latest stable version that is available
 }
@@ -2176,9 +2176,16 @@ do
 				DBM:AddMsg(("Location Information\nYou are at zone %u (%s).\nLocal Map ID %u (%s)"):format(map, GetRealZoneText(map), mapID, GetZoneText()))
 			else
 				local x, y, _, map = UnitPosition("player")
-				SetMapToCurrentZone()
-				local mapID = C_Map and C_Map.GetBestMapForUnit("player") or GetCurrentMapAreaID()
-				local mapx, mapy = GetPlayerMapPosition("player")
+				local mapID, mapx, mapy
+				if wowTOC == 80000 then
+					mapID = C_Map.GetBestMapForUnit("player")
+					local tempTable = C_Map.GetPlayerMapPosition(mapID, "player")
+					mapx, mapy = tempTable.x, tempTable.y
+				else
+					SetMapToCurrentZone()
+					mapID = GetCurrentMapAreaID()
+					mapx, mapy = GetPlayerMapPosition("player")
+				end
 				DBM:AddMsg(("Location Information\nYou are at zone %u (%s): x=%f, y=%f.\nLocal Map ID %u (%s): x=%f, y=%f"):format(map, GetRealZoneText(map), x, y, mapID, GetZoneText(), mapx, mapy))
 			end
 		elseif cmd:sub(1, 7) == "request" then

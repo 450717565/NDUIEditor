@@ -76,15 +76,20 @@ local list = {
 		{AuraID = 235966, UnitID = "player"},--维纶的未来预言
 	-->泰坦之路系列饰品
 		{AuraID = 256816, UnitID = "player"},--阿格拉玛的信念
-		{AuraID = 256831, UnitID = "player"},--阿格拉玛的信念
 		{AuraID = 256818, UnitID = "player"},--阿曼苏尔的预见
-		{AuraID = 256832, UnitID = "player"},--阿曼苏尔的预见
-		{AuraID = 256833, UnitID = "player"},--高戈奈斯的活力
-		{AuraID = 256834, UnitID = "player"},--艾欧娜尔的怜悯
 		{AuraID = 256826, UnitID = "player"},--卡兹格罗斯的勇气
-		{AuraID = 256835, UnitID = "player"},--卡兹格罗斯的勇气
 		{AuraID = 256828, UnitID = "player"},--诺甘农的威能
-		{AuraID = 256836, UnitID = "player"},--诺甘农的威能
+		{AuraID = 256831, UnitID = "player"},--阿格拉玛的坚韧
+		{AuraID = 256832, UnitID = "player"},--阿曼苏尔的威严
+		{AuraID = 256833, UnitID = "player"},--高戈奈斯的雷霆之怒
+		{AuraID = 256835, UnitID = "player"},--卡兹格罗斯的创造
+		{AuraID = 256836, UnitID = "player"},--诺甘农的指令
+		{AuraID = 257470, UnitID = "player"},--艾欧娜尔的怜悯（恢复德鲁伊）
+		{AuraID = 257471, UnitID = "player"},--艾欧娜尔的怜悯（织雾武僧）
+		{AuraID = 257472, UnitID = "player"},--艾欧娜尔的怜悯（神圣圣骑士）
+		{AuraID = 257473, UnitID = "player"},--艾欧娜尔的怜悯（戒律牧师）
+		{AuraID = 257474, UnitID = "player"},--艾欧娜尔的怜悯（神圣牧师）
+		{AuraID = 257475, UnitID = "player"},--艾欧娜尔的怜悯（恢复萨满）
 	-->LEG饰品
 		{AuraID = 191554, UnitID = "player"},--暗月套牌：统御（八）
 		{AuraID = 191631, UnitID = "player"},--暗月套牌：不朽（八）

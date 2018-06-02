@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2194, "DBM-Uldir", nil, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17548 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17573 $"):sub(12, -3))
 mod:SetCreatureID(134546)--138324 Xalzaix
 mod:SetEncounterID(2135)
 --mod:DisableESCombatDetection()
@@ -28,7 +28,8 @@ mod:RegisterEventsInCombat(
 
 --TODO, verify and enable tank stuff if assumptions are correct.
 --TODO, add massive claw? "Massive Claw-274772-npc:134546 = pull:6.2, 11.1, 9.0, 11.0, 9.0, 11.1, 9.0, 11.1, 9.0, 11.0, 9.0, 11.0, 9.0, 11.0, 9.0, 11.0, 9.0, 11.1, 9.1, 10.9, 8.9, 11.0, 9.0, 11.0, 9.0
---TODO, detect Obliteration Beam target?
+--TODO, detect Obliteration Blast target?
+--TODO, move timerObliterationBlastCD to success?
 --Stage One: Oblivion's Call
 --local warnXorothPortal				= mod:NewSpellAnnounce(244318, 2, nil, nil, nil, nil, nil, 7)
 --local warnImminentRuin					= mod:NewTargetAnnounce(272536, 2)
@@ -38,7 +39,7 @@ local warnPhase2						= mod:NewPhaseAnnounce(2, 2, nil, nil, nil, nil, nil, 2)
 local specWarnEssenceShearDodge			= mod:NewSpecialWarningDodge(274693, false, nil, nil, 3, 2)
 local specWarnEssenceShear				= mod:NewSpecialWarningDefensive(274693, nil, nil, nil, 1, 2)
 local specWarnEssenceShearOther			= mod:NewSpecialWarningTaunt(274693, nil, nil, nil, 1, 2)
-local specWarnObliterationWave			= mod:NewSpecialWarningDodge(273538, nil, nil, nil, 2, 2)--Mythic
+local specWarnObliterationBlast			= mod:NewSpecialWarningDodge(273538, nil, nil, nil, 2, 2)--Mythic
 local specWarnOblivionSphere			= mod:NewSpecialWarningSwitch(272407, "RangedDps", nil, nil, 1, 2)
 local yellOblivionSphere				= mod:NewYell(272407)
 local specWarnImminentRuin				= mod:NewSpecialWarningMoveAway(272536, nil, nil, nil, 1, 2)
@@ -54,9 +55,9 @@ local specWarnMindFlay					= mod:NewSpecialWarningInterrupt(274019, "HasInterrup
 
 mod:AddTimerLine(SCENARIO_STAGE:format(1))
 local timerEssenceShearCD				= mod:NewNextSourceTimer(19.9, 274693, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--All timers generlaly 20 but 19.9 can happen and DBM has to use lost known time
-local timerObliterationWaveCD			= mod:NewNextTimer(19.9, 273538, nil, nil, nil, 3)
+local timerObliterationBlastCD			= mod:NewNextSourceTimer(19.9, 273538, nil, nil, nil, 3)
 local timerOblivionSphereCD				= mod:NewNextCountTimer(19.9, 272407, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON)
-local timerImminentRuinCD				= mod:NewNextTimer(19.9, 272536, nil, nil, nil, 3)
+local timerImminentRuinCD				= mod:NewNextCountTimer(19.9, 272536, nil, nil, nil, 3)
 mod:AddTimerLine(SCENARIO_STAGE:format(2))
 local timerVeil							= mod:NewBuffActiveTimer(60, 274230, nil, nil, nil, 6)
 local timerObliterationbeamCD			= mod:NewCDCountTimer(12.1, 272115, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON)
@@ -82,12 +83,12 @@ function mod:OnCombatStart(delay)
 	self.vb.phase = 1
 	self.vb.ruinCast = 0
 	self.vb.sphereCast = 0
-	timerEssenceShearCD:Start(3.2-delay)--START
-	countdownEssenceShear:Start(3.2-delay)
-	timerObliterationWaveCD:Start(9.2-delay)
+	--timerEssenceShearCD:Start(3.2-delay, BOSS)--START
+	--countdownEssenceShear:Start(3.2-delay)
+	timerObliterationBlastCD:Start(9.2-delay, BOSS)
 	timerOblivionSphereCD:Start(20-delay, 1)
 	countdownOblivionSphere:Start(20-delay)
-	--timerImminentRuinCD:Start(1-delay)--Cast instantly on pull
+	--timerImminentRuinCD:Start(1-delay, 1)--Cast instantly on pull
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:SetHeader(DBM:GetSpellInfo(272146))
 		DBM.InfoFrame:Show(5, "playerdebuffstacks", 272146, 1)
@@ -117,10 +118,18 @@ function mod:SPELL_CAST_START(args)
 		else--Big Adds (cid==139381)
 			timerEssenceShearCD:Start(22.5, DBM_ADD, args.sourceGUID)
 		end
-	elseif spellId == 273538 then
-		specWarnObliterationWave:Show()
-		specWarnObliterationWave:Play("watchwave")
-		timerObliterationWaveCD:Start()
+	elseif spellId == 273538 then--Antispammed since he casts double on mythic
+		if self:AntiSpam(3, 1) then
+			specWarnObliterationBlast:Show()
+			specWarnObliterationBlast:Play("watchwave")
+		end
+		local cid = self:GetCIDFromGUID(args.sourceGUID)
+		if cid == 134546 then--Main boss
+			timerObliterationBlastCD:Start(19.9, BOSS)
+			countdownEssenceShear:Start(19.9)
+		else--Big Adds (cid==139381)
+			--timerObliterationBlastCD:Start(22.5, DBM_ADD)
+		end
 	elseif spellId == 273810 then
 		self.vb.phase = 2
 		self.vb.beamCast = 0
@@ -128,7 +137,7 @@ function mod:SPELL_CAST_START(args)
 		warnPhase2:Play("ptwo")
 		timerEssenceShearCD:Stop()
 		countdownEssenceShear:Cancel()
-		timerObliterationWaveCD:Stop()
+		timerObliterationBlastCD:Stop()
 		timerOblivionSphereCD:Stop()
 		countdownOblivionSphere:Cancel()
 		timerImminentRuinCD:Stop()
@@ -241,13 +250,14 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	elseif spellId == 274230 then--Boss active again
 		self.vb.sphereCast = 0--Does this reset? does it follow same rules? 40 seconds after each multiple of 3?
+		self.vb.ruinCast = 0--Does this reset? does it follow same rules?
 		timerVeil:Stop()
 		timerObliterationbeamCD:Stop()--Not sure it stops, didn't get far enough
 		timerVisionsoMadnessCD:Stop()--Not sure it stops, didn't get far enough
-		timerEssenceShearCD:Start(3)--START
+		timerEssenceShearCD:Start(3, BOSS)--START
 		countdownEssenceShear:Start(3)
-		timerObliterationWaveCD:Start(9)
-		timerImminentRuinCD:Start(17)--SUCCESS
+		timerObliterationBlastCD:Start(9, BOSS)
+		timerImminentRuinCD:Start(17, 1)--SUCCESS
 		countdownImminentRuin:Start(17)
 		timerOblivionSphereCD:Start(20, 1)
 		countdownOblivionSphere:Start(20)

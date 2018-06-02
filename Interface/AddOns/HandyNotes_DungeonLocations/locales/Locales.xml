@@ -7,7 +7,7 @@
 	<Script file="koKR.lua"/>
 	<Script file="ptBR.lua"/>
 	<Script file="ruRU.lua"/>
-	<Script file="zhTW.lua"/>
 	<Script file="zhCN.lua"/>
+	<Script file="zhTW.lua"/>
 </Ui>
 

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1984, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17548 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17553 $"):sub(12, -3))
 mod:SetCreatureID(121975)
 mod:SetEncounterID(2063)
 mod:SetZone()
@@ -316,12 +316,12 @@ function mod:OnCombatStart(delay)
 				if cid == 122532 then
 					local unitPower = UnitPower(UnitID)
 					if not unitTracked[GUID] then unitTracked[GUID] = "None" end
-					if (unitPower < 30) then
+					if (unitPower < 35) then
 						if unitTracked[GUID] ~= "Green" then
 							unitTracked[GUID] = "Green"
 							DBM.Nameplate:Show(true, GUID, 244912, 463281)
 						end
-					elseif (unitPower < 60) then
+					elseif (unitPower < 70) then
 						if unitTracked[GUID] ~= "Yellow" then
 							unitTracked[GUID] = "Yellow"
 							DBM.Nameplate:Hide(true, GUID, 244912, 463281)
