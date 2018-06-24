@@ -19,7 +19,14 @@ local subzone, zone, pvp, coordX, coordY
 local function formatCoords()
 	local coords = ""
 	if IsInInstance() then
-		coords = select(4, GetInstanceInfo())
+		local name, instanceType, difficultyID, difficultyName = GetInstanceInfo()
+		if instanceType == "arena" then
+			coords = ARENA
+		elseif instanceType == "pvp" then
+			coords = BATTLEGROUND
+		else
+			coords = difficultyName
+		end
 	else
 		if (not coordX) or (not coordY) or (orcoordX == 0) or (coordY == 0) then
 			coords = "-- , --"

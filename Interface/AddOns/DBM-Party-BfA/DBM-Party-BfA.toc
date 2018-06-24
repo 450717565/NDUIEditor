@@ -23,6 +23,7 @@
 localization.en.lua
 localization.kr.lua
 localization.cn.lua
+localization.es.lua
 AtalDazar\Alunza.lua
 AtalDazar\Volkaal.lua
 AtalDazar\Rezan.lua
@@ -44,9 +45,9 @@ ShrineoftheStorm\Stormsong.lua
 ShrineoftheStorm\Volzith.lua
 ShrineoftheStorm\SotSTrash.lua
 SiegeofBoralus\Lockwood.lua
-SiegeofBoralus\Redhook.lua
+SiegeofBoralus\Redhook_Bainbridge.lua
 SiegeofBoralus\Darkfathom.lua
-SiegeofBoralus\Kraken.lua
+SiegeofBoralus\ViqGoth.lua
 SiegeofBoralus\BoralusTrash.lua
 TempleofSethraliss\AdderisandAspix.lua
 TempleofSethraliss\Merektha.lua
@@ -61,7 +62,7 @@ TheMotherload\UndermineTrash.lua
 TheUnderrot\ElderLeaxa.lua
 TheUnderrot\InfestedCrawg.lua
 TheUnderrot\SporecallerZancha.lua
-TheUnderrot\Taloc.lua
+TheUnderrot\Unbound.lua
 TheUnderrot\UnderrotTrash.lua
 TolDagor\TheSandQueen.lua
 TolDagor\JesHowlis.lua

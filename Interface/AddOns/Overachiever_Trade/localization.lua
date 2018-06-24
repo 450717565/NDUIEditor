@@ -23,12 +23,14 @@ Wyrmfrikadellen=Wurmfrikadellen
 L["TRADE_SKILLET_ACHSORT"] = "Nach Erfolg"
 
 
+
 elseif (locale == "frFR") then  -- French
 -- Trade
 L["TRADE_COOKING_OBJRENAME"] = [=[Steak de wyrm épicé=Steak de ver épicé
 Steak de wyrm rhinolicieux=Steak de ver rhinolicieux
 ]=]
 L["TRADE_SKILLET_ACHSORT"] = "Par haut fait"
+
 
 
 elseif (locale == "zhTW") then  -- Traditional Chinese
@@ -41,16 +43,19 @@ L["TRADE_COOKING_OBJRENAME"] = [=[
 L["TRADE_SKILLET_ACHSORT"] = "的成就"
 
 
+
 elseif (locale == "zhCN") then  -- Simplified Chinese
 -- Trade
 L["TRADE_COOKING_OBJRENAME"] = "交易"
 L["TRADE_SKILLET_ACHSORT"] = "的成就"
 
 
+
 elseif (locale == "ruRU") then  -- Russian
 -- Trade
 L["TRADE_COOKING_OBJRENAME"] = "Используйте это в кулинарной задаче которая дала неверное имя в списке достижений. Используйте формат \"<неправильное имя>=<правильное название вещи>\"."
 L["TRADE_SKILLET_ACHSORT"] = "относится к достижению"
+
 
 
 elseif (locale == "koKR") then  -- Korean
@@ -60,18 +65,21 @@ L["TRADE_COOKING_OBJRENAME"] = [=[매콤한 고룡 햄버거=매콤한 벌레 �
 L["TRADE_SKILLET_ACHSORT"] = "업적 순"
 
 
+
 elseif (locale == "esES" or locale == "esMX") then  -- Spanish
 -- Trade
 L["TRADE_COOKING_OBJRENAME"] = "Hamburguesa de vermis especiada=Hamburguesa de gusano especiada"
 L["TRADE_SKILLET_ACHSORT"] = "Por logro"
 
 
+
 	if (locale == "esMX") then  -- Spanish (Mexican)
 -- Trade
---Translation missing 
--- L["TRADE_COOKING_OBJRENAME"] = ""
---Translation missing 
--- L["TRADE_SKILLET_ACHSORT"] = ""
+--[[Translation missing --]]
+--[[ L["TRADE_COOKING_OBJRENAME"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["TRADE_SKILLET_ACHSORT"] = ""--]] 
+
 
 	end
 
@@ -82,11 +90,13 @@ L["TRADE_COOKING_OBJRENAME"] = [=[<Sopa Névoa Rodopiante>=<Sopa Névoa Rodopian
 L["TRADE_SKILLET_ACHSORT"] = "Por Conquista"
 
 
+
 elseif (locale == "itIT") then  -- Italian
 -- Trade
---Translation missing 
--- L["TRADE_COOKING_OBJRENAME"] = ""
+--[[Translation missing --]]
+--[[ L["TRADE_COOKING_OBJRENAME"] = ""--]] 
 L["TRADE_SKILLET_ACHSORT"] = "Per Impresa"
+
 
 
 end

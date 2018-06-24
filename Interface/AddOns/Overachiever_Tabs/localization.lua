@@ -17,6 +17,7 @@ L.SEARCH_TYPE_ALL = "All";
 L.SEARCH_SUBMIT = "Search";
 L.SEARCH_RESET = "Reset";
 L.SEARCH_RESULTS = "Found %s |4achievement:achievements;.";
+L.SEARCH_FILTERED_OUT = "%s |4achievement was:achievements were; omitted by the filter.";
 
 L.SUGGESTIONS_TAB = "Suggestions";
 L.SUGGESTIONS_HELP = "Suggested achievements are listed here based on your current location. Also listed are all \"Recent Reminder\" achievements.|n|n|cffffffffShift-right-click|r on a suggested achievement to hide it. (This is character-specific and affects all locations.)";
@@ -73,6 +74,7 @@ L.WATCH_POPUP_NEWLIST = "Enter the name of your new achievement watch list:";
 L.WATCH_POPUP_DELETELIST = "Are you sure you want to permanently delete the current achievement watch list?";
 L.WATCH_POPUP_CLEARLIST = "Are you sure you want to clear the contents of the current achievement watch list?";
 L.WATCH_ERR_INVALIDID = 'Removed "%s" from Watch List: An achievement with that ID could not be found.';
+L.WATCH_FILTERED_OUT = "%s |4achievement was:achievements were; omitted by the filter.";
 
 L.RELATED_TAB = "Related";
 L.RELATED_HELP = "This tab shows achievements that are related to one another. One achievement was chosen as the base. The rest are in the same series as the base, are one of the criteria of the base or of another in its series, or have as one of their own criteria either the base or an achievement in its series.";
@@ -102,6 +104,35 @@ L.EVENTNOTICE_ENDS_DATETIME = "It ends on %2$d/%1$02d at %3$s (server time).";  
 L.EVENTNOTICE_ENDS_TIME = "It ends today at %3$s (server time).";
 L.EVENTNOTICE_TIP = "Hold |cffffffffShift|r for more details.";
 L.EVENTNOTICE_HELP = "|cffffffffClick|r to see related achievements.|n|cffffffffCtrl-click|r to open the calendar.|n|cffffffffShift-right-click|r to temporarily hide this notice."; --|n|cffffffffRight-click|r for more options.";
+
+
+L.SUBZONES = {
+-- Ulduar:
+	["Formation Grounds"] = "Formation Grounds",
+	["Razorscale's Aerie"] = "Razorscale's Aerie",
+	["The Assembly of Iron"] = "The Assembly of Iron",
+	["The Celestial Planetarium"] = "The Celestial Planetarium",
+	["The Clash of Thunder"] = "The Clash of Thunder",
+	["The Colossal Forge"] = "The Colossal Forge",
+	["The Conservatory of Life"] = "The Conservatory of Life",
+	["The Descent into Madness"] = "The Descent into Madness",
+	["The Halls of Winter"] = "The Halls of Winter",
+	["The Observation Ring"] = "The Observation Ring",
+	["The Prison of Yogg-Saron"] = "The Prison of Yogg-Saron",
+	["The Scrapyard"] = "The Scrapyard",
+	["The Shattered Walkway"] = "The Shattered Walkway",
+	["The Spark of Imagination"] = "The Spark of Imagination",
+-- Icecrown:
+	["Argent Tournament Grounds"] = "Argent Tournament Grounds",
+	["The Ring of Champions"] = "The Ring of Champions",
+	["Argent Pavilion"] = "Argent Pavilion",
+	["The Argent Valiants' Ring"] = "The Argent Valiants' Ring",
+	["The Aspirants' Ring"] = "The Aspirants' Ring",
+	["The Alliance Valiants' Ring"] = "The Alliance Valiants' Ring",
+	["Silver Covenant Pavilion"] = "Silver Covenant Pavilion",
+	["Sunreaver Pavilion"] = "Sunreaver Pavilion",
+	["The Horde Valiants' Ring"] = "The Horde Valiants' Ring",
+}
 
 
 --if (locale == "enGB") then  -- English (EU)
@@ -211,47 +242,73 @@ L["WATCH_POPUP_DELETELIST"] = "Willst du wirklich und endgültig die aktuelle Er
 L["WATCH_POPUP_NEWLIST"] = "Trage den Namen deiner neuen Erfolgsbeobachtungsliste ein:"
 L["WATCH_TAB"] = "Beobachten"
 
+-- Tabs/SUBZONES
+	L.SUBZONES["Argent Pavilion"] = "Argentumpavillon"
+	L.SUBZONES["Argent Tournament Grounds"] = "Argentumturnierplatz"
+	L.SUBZONES["Formation Grounds"] = "Gestaltungsgelände"
+	L.SUBZONES["Razorscale's Aerie"] = "Klingenschuppes Kanzel"
+	L.SUBZONES["Silver Covenant Pavilion"] = "Silberbundpavillon"
+	L.SUBZONES["Sunreaver Pavilion"] = "Sonnenhäscherpavillon"
+	L.SUBZONES["The Alliance Valiants' Ring"] = "Der Ring der Recken der Allianz"
+	L.SUBZONES["The Argent Valiants' Ring"] = "Der Ring der Recken des Argentumkreuzzugs"
+	L.SUBZONES["The Aspirants' Ring"] = "Der Ring der Streiter"
+	L.SUBZONES["The Assembly of Iron"] = "Die Versammlung des Eisens"
+	L.SUBZONES["The Celestial Planetarium"] = "Das himmlische Planetarium"
+	L.SUBZONES["The Clash of Thunder"] = "Der Donnerschlag"
+	L.SUBZONES["The Colossal Forge"] = "Die kolossale Schmiede"
+	L.SUBZONES["The Conservatory of Life"] = "Das Konservatorium des Lebens"
+	L.SUBZONES["The Descent into Madness"] = "Der Abstieg in den Wahnsinn"
+	L.SUBZONES["The Halls of Winter"] = "Die Hallen des Winters"
+	L.SUBZONES["The Horde Valiants' Ring"] = "Der Ring der Recken der Horde"
+	L.SUBZONES["The Observation Ring"] = "Der Beobachtungsring"
+	L.SUBZONES["The Prison of Yogg-Saron"] = "Das Gefängnis von Yogg-Saron"
+	L.SUBZONES["The Ring of Champions"] = "Der Ring der Champions"
+	L.SUBZONES["The Scrapyard"] = "Der Schrottplatz"
+	L.SUBZONES["The Shattered Walkway"] = "Der zerschmetterte Gang"
+	L.SUBZONES["The Spark of Imagination"] = "Der Funke der Imagination"
+
+
 
 elseif (locale == "frFR") then  -- French
 -- Tabs
---Translation missing 
--- L["EVENTNOTICE_ENDED_TODAY"] = ""
---Translation missing 
--- L["EVENTNOTICE_ENDS_DATETIME"] = ""
---Translation missing 
--- L["EVENTNOTICE_ENDS_DAYS"] = ""
---Translation missing 
--- L["EVENTNOTICE_ENDS_HOURS"] = ""
---Translation missing 
--- L["EVENTNOTICE_ENDS_MINUTES"] = ""
---Translation missing 
--- L["EVENTNOTICE_ENDS_TIME"] = ""
---Translation missing 
--- L["EVENTNOTICE_HELP"] = ""
---Translation missing 
--- L["EVENTNOTICE_ONGOING"] = ""
---Translation missing 
--- L["EVENTNOTICE_STARTED_TODAY"] = ""
---Translation missing 
--- L["EVENTNOTICE_STARTS_HOURS"] = ""
---Translation missing 
--- L["EVENTNOTICE_STARTS_MINUTES"] = ""
---Translation missing 
--- L["EVENTNOTICE_TIP"] = ""
---Translation missing 
--- L["RELATED_BASE"] = ""
---Translation missing 
--- L["RELATED_CLOSE"] = ""
---Translation missing 
--- L["RELATED_HELP"] = ""
---Translation missing 
--- L["RELATED_RECURSIVE"] = ""
---Translation missing 
--- L["RELATED_RECURSIVE_TIP"] = ""
---Translation missing 
--- L["RELATED_RESULTS"] = ""
---Translation missing 
--- L["RELATED_TAB"] = ""
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_ENDED_TODAY"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_ENDS_DATETIME"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_ENDS_DAYS"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_ENDS_HOURS"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_ENDS_MINUTES"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_ENDS_TIME"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_HELP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_ONGOING"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_STARTED_TODAY"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_STARTS_HOURS"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_STARTS_MINUTES"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RELATED_BASE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RELATED_CLOSE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RELATED_HELP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RELATED_RECURSIVE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RELATED_RECURSIVE_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RELATED_RESULTS"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RELATED_TAB"] = ""--]] 
 L["SEARCH_ANY"] = "Tout ce qui précède :"
 L["SEARCH_CRITERIA"] = "Critère :"
 L["SEARCH_DESC"] = "Description :"
@@ -271,14 +328,14 @@ L["SEARCH_TYPE_INDIV"] = "Personnel"
 L["SUGGESTIONS_DIFFICULTY"] = "Difficulté d'instance :"
 L["SUGGESTIONS_DIFFICULTY_AUTO"] = "Auto-détection"
 L["SUGGESTIONS_DIFFICULTY_HEROIC"] = "Héroïque"
---Translation missing 
--- L["SUGGESTIONS_DIFFICULTY_MYTHIC"] = ""
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_DIFFICULTY_MYTHIC"] = ""--]] 
 L["SUGGESTIONS_DIFFICULTY_NORMAL"] = "Normale"
 L["SUGGESTIONS_EMPTY"] = "Overachiever n'a aucune suggestion pour le moment"
 L["SUGGESTIONS_EMPTY_TRADESKILL"] = " %s: Overachiever n'a aucune suggestion à faire pour le moment."
 L["SUGGESTIONS_HELP"] = "Les hauts faits suggérés sont affichés ici en fonction de votre localisation. Sont également listés tous les hauts faits qui vous ont été rappelés par une infobulle dans les 2 dernières minutes ou qui ont une alarme qui s'est déclenchée récemment."
---Translation missing 
--- L["SUGGESTIONS_HIDDENLOCATION"] = ""
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_HIDDENLOCATION"] = ""--]] 
 L["SUGGESTIONS_LOCATION"] = "Emplacement :"
 L["SUGGESTIONS_LOCATION_NOSUBZONE"] = "(indéterminé)"
 L["SUGGESTIONS_LOCATION_SUBZONE"] = "Sous-zone :"
@@ -290,40 +347,40 @@ L["SUGGESTIONS_RAIDSIZE_25"] = "25 joueurs"
 L["SUGGESTIONS_RAIDSIZE_AUTO"] = "Auto-détection"
 L["SUGGESTIONS_REFRESH"] = "Rafraîchir"
 L["SUGGESTIONS_RESULTS"] = "%d |4suggestion trouvée:suggestions trouvées;."
---Translation missing 
--- L["SUGGESTIONS_RESULTS_HIDDEN"] = ""
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_RESULTS_HIDDEN"] = ""--]] 
 L["SUGGESTIONS_RESULTS_TRADESKILL"] = " %s: %d |4suggestion trouvée:suggestions trouvées;."
---Translation missing 
--- L["SUGGESTIONS_RESULTS_TRADESKILL_HIDDEN"] = ""
---Translation missing 
--- L["SUGGESTIONS_SHOWHIDDEN"] = ""
---Translation missing 
--- L["SUGGESTIONS_SHOWHIDDEN_TIP"] = ""
---Translation missing 
--- L["SUGGESTIONS_SHOWHIDDEN_TIP2"] = ""
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_RESULTS_TRADESKILL_HIDDEN"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_SHOWHIDDEN"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_SHOWHIDDEN_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_SHOWHIDDEN_TIP2"] = ""--]] 
 L["SUGGESTIONS_TAB"] = "Suggestions"
---Translation missing 
--- L["SUGGESTIONS_ZONERENAME_DALARAN_BROKENISLES"] = ""
---Translation missing 
--- L["SUGGESTIONS_ZONERENAME_DALARAN_NORTHREND"] = ""
---Translation missing 
--- L["SUGGESTIONS_ZONERENAME_KARAZHAN_LEGION"] = ""
---Translation missing 
--- L["SUGGESTIONS_ZONERENAME_NAGRAND_DRAENOR"] = ""
---Translation missing 
--- L["SUGGESTIONS_ZONERENAME_NAGRAND_OUTLAND"] = ""
---Translation missing 
--- L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_DRAENOR"] = ""
---Translation missing 
--- L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_OUTLAND"] = ""
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_DALARAN_BROKENISLES"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_DALARAN_NORTHREND"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_KARAZHAN_LEGION"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_NAGRAND_DRAENOR"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_NAGRAND_OUTLAND"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_DRAENOR"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_OUTLAND"] = ""--]] 
 L["TAB_HELP"] = "|cffffffffCtrl-click|r sur un haut fait pour l'afficher dans l'IU standard.|n|nUn |cfffffffffond bleu|r signifie qu'il fait partie d'une série dont vous n'avez pas encore effectué une étape précédente.|n|nUn |cfffffffffond rouge|r signifie qu'il ne peut pas être trouvé dans l'IU standard de ce personnage car il est propre à la faction adverse ou bien il s'agit d'un Tour de force non accompli.|n|nA |cfffffffffond vert|r signifie qu'un rappel pour ce haut fait a été affiché récemment dans une infobulle ou qu'il possède une alarme qui s'est déclenchée il y a peu."
 L["TAB_SORT"] = "Trier par :"
 L["TAB_SORT_COMPLETE"] = "Date d'accomplissement"
 L["TAB_SORT_ID"] = "ID"
 L["TAB_SORT_NAME"] = "Nom"
 L["TAB_SORT_POINTS"] = "Valeur en point"
---Translation missing 
--- L["TAB_SORT_RELATION"] = ""
+--[[Translation missing --]]
+--[[ L["TAB_SORT_RELATION"] = ""--]] 
 L["WATCH_CLEAR"] = "Vider"
 L["WATCH_COPY"] = "Copier vers :"
 L["WATCH_COPY_TIP"] = "Quand activé, si vous |cffffffffmajuscule+alt+clicquez|r sur un haut-fait sur cet onglet, il sera ajouté à la liste de suivi spécifiée."
@@ -343,47 +400,73 @@ L["WATCH_POPUP_DELETELIST"] = "Êtes-vous certain de vouloir supprimer définiti
 L["WATCH_POPUP_NEWLIST"] = "Entrez le nom de votre nouvelle liste de suivi :"
 L["WATCH_TAB"] = "Suivi"
 
+-- Tabs/SUBZONES
+	L.SUBZONES["Argent Pavilion"] = "Pavillon d'Argent"
+	L.SUBZONES["Argent Tournament Grounds"] = "Enceinte du tournoi d'Argent"
+	L.SUBZONES["Formation Grounds"] = "Champs d'entraînement"
+	L.SUBZONES["Razorscale's Aerie"] = "Aire de Tranchécaille"
+	L.SUBZONES["Silver Covenant Pavilion"] = "Pavillon du Concordat argenté"
+	L.SUBZONES["Sunreaver Pavilion"] = "Pavillon de Saccage-soleil"
+	L.SUBZONES["The Alliance Valiants' Ring"] = "Lice des vaillants de l'Alliance"
+	L.SUBZONES["The Argent Valiants' Ring"] = "Lice des vaillants d'Argent"
+	L.SUBZONES["The Aspirants' Ring"] = "Lice des aspirants"
+	L.SUBZONES["The Assembly of Iron"] = "L'assemblée du Fer"
+	L.SUBZONES["The Celestial Planetarium"] = "Le planétarium céleste"
+	L.SUBZONES["The Clash of Thunder"] = "Le fracas du tonnerre"
+	L.SUBZONES["The Colossal Forge"] = "La forge colossale"
+	L.SUBZONES["The Conservatory of Life"] = "Le jardin de  la vie"
+	L.SUBZONES["The Descent into Madness"] = "La descente dans la folie"
+	L.SUBZONES["The Halls of Winter"] = "Les salles de l'hiver"
+	L.SUBZONES["The Horde Valiants' Ring"] = "Lice des vaillants de la Horde"
+	L.SUBZONES["The Observation Ring"] = "Le cercle d'observation"
+	L.SUBZONES["The Prison of Yogg-Saron"] = "Prison de Yogg-Saron"
+	L.SUBZONES["The Ring of Champions"] = "Lice des champions"
+	L.SUBZONES["The Scrapyard"] = "La ferraillerie"
+	L.SUBZONES["The Shattered Walkway"] = "Le passage brisé"
+	L.SUBZONES["The Spark of Imagination"] = "L'étincelle d'imagination"
+
+
 
 elseif (locale == "zhTW") then  -- Traditional Chinese
 -- Tabs
---Translation missing 
--- L["EVENTNOTICE_ENDED_TODAY"] = ""
---Translation missing 
--- L["EVENTNOTICE_ENDS_DATETIME"] = ""
---Translation missing 
--- L["EVENTNOTICE_ENDS_DAYS"] = ""
---Translation missing 
--- L["EVENTNOTICE_ENDS_HOURS"] = ""
---Translation missing 
--- L["EVENTNOTICE_ENDS_MINUTES"] = ""
---Translation missing 
--- L["EVENTNOTICE_ENDS_TIME"] = ""
---Translation missing 
--- L["EVENTNOTICE_HELP"] = ""
---Translation missing 
--- L["EVENTNOTICE_ONGOING"] = ""
---Translation missing 
--- L["EVENTNOTICE_STARTED_TODAY"] = ""
---Translation missing 
--- L["EVENTNOTICE_STARTS_HOURS"] = ""
---Translation missing 
--- L["EVENTNOTICE_STARTS_MINUTES"] = ""
---Translation missing 
--- L["EVENTNOTICE_TIP"] = ""
---Translation missing 
--- L["RELATED_BASE"] = ""
---Translation missing 
--- L["RELATED_CLOSE"] = ""
---Translation missing 
--- L["RELATED_HELP"] = ""
---Translation missing 
--- L["RELATED_RECURSIVE"] = ""
---Translation missing 
--- L["RELATED_RECURSIVE_TIP"] = ""
---Translation missing 
--- L["RELATED_RESULTS"] = ""
---Translation missing 
--- L["RELATED_TAB"] = ""
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_ENDED_TODAY"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_ENDS_DATETIME"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_ENDS_DAYS"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_ENDS_HOURS"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_ENDS_MINUTES"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_ENDS_TIME"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_HELP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_ONGOING"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_STARTED_TODAY"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_STARTS_HOURS"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_STARTS_MINUTES"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RELATED_BASE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RELATED_CLOSE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RELATED_HELP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RELATED_RECURSIVE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RELATED_RECURSIVE_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RELATED_RESULTS"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RELATED_TAB"] = ""--]] 
 L["SEARCH_ANY"] = "以上皆可："
 L["SEARCH_CRITERIA"] = "條件："
 L["SEARCH_DESC"] = "描述："
@@ -427,28 +510,28 @@ L["SUGGESTIONS_SHOWHIDDEN"] = "顯示隱藏建議"
 L["SUGGESTIONS_SHOWHIDDEN_TIP"] = "顯示這個位置的隱藏建議。"
 L["SUGGESTIONS_SHOWHIDDEN_TIP2"] = "如果你想要看到所有隱藏建議，不分地區，在上方的地區欄位中輸入 \\\"隱藏\\\"。|n|n|cffffffffShift-右鍵|r點擊成就切換顯示/隱藏。"
 L["SUGGESTIONS_TAB"] = "建議"
---Translation missing 
--- L["SUGGESTIONS_ZONERENAME_DALARAN_BROKENISLES"] = ""
---Translation missing 
--- L["SUGGESTIONS_ZONERENAME_DALARAN_NORTHREND"] = ""
---Translation missing 
--- L["SUGGESTIONS_ZONERENAME_KARAZHAN_LEGION"] = ""
---Translation missing 
--- L["SUGGESTIONS_ZONERENAME_NAGRAND_DRAENOR"] = ""
---Translation missing 
--- L["SUGGESTIONS_ZONERENAME_NAGRAND_OUTLAND"] = ""
---Translation missing 
--- L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_DRAENOR"] = ""
---Translation missing 
--- L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_OUTLAND"] = ""
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_DALARAN_BROKENISLES"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_DALARAN_NORTHREND"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_KARAZHAN_LEGION"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_NAGRAND_DRAENOR"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_NAGRAND_OUTLAND"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_DRAENOR"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_OUTLAND"] = ""--]] 
 L["TAB_HELP"] = "|cffffffffCtrl + 點選|r 所選成就會跳轉到該成就的頁面.|n|n |cffffffff藍色背景|r表示此成就是你還沒有完成前續內容的系列成就部分.|n|n |cffffffff紅色背景|r表示此成就無法在你當前人物的標準成就界面中找到,因為這是陣營專屬成就,或者是你尚未取得的『光輝事跡』成就."
 L["TAB_SORT"] = "類型:"
 L["TAB_SORT_COMPLETE"] = "完成時間"
 L["TAB_SORT_ID"] = "成就ID"
 L["TAB_SORT_NAME"] = "名稱"
 L["TAB_SORT_POINTS"] = "成就點數"
---Translation missing 
--- L["TAB_SORT_RELATION"] = ""
+--[[Translation missing --]]
+--[[ L["TAB_SORT_RELATION"] = ""--]] 
 L["WATCH_CLEAR"] = "清除"
 L["WATCH_COPY"] = "複製到:"
 L["WATCH_COPY_TIP"] = "當啟用時，假如你 |cffffffffshift+alt+點擊|r 在一個標籤上的成就，將會新增至指定的觀察列表中。"
@@ -468,6 +551,32 @@ L["WATCH_POPUP_DELETELIST"] = "要將這個成就觀察列表刪除?"
 L["WATCH_POPUP_NEWLIST"] = "輸入新建成就列表的名稱:"
 L["WATCH_TAB"] = "觀察"
 
+-- Tabs/SUBZONES
+	L.SUBZONES["Argent Pavilion"] = "銀白亭閣"
+	L.SUBZONES["Argent Tournament Grounds"] = "銀白聯賽場地"
+	L.SUBZONES["Formation Grounds"] = "構築之地"
+	L.SUBZONES["Razorscale's Aerie"] = "銳鱗之巢"
+	L.SUBZONES["Silver Covenant Pavilion"] = "白銀誓盟亭閣"
+	L.SUBZONES["Sunreaver Pavilion"] = "奪日者亭閣"
+	L.SUBZONES["The Alliance Valiants' Ring"] = "聯盟驍士競技場"
+	L.SUBZONES["The Argent Valiants' Ring"] = "銀白驍士競技場"
+	L.SUBZONES["The Aspirants' Ring"] = "志士競技場"
+	L.SUBZONES["The Assembly of Iron"] = "鐵之集會所"
+	L.SUBZONES["The Celestial Planetarium"] = "星穹渾天儀"
+	L.SUBZONES["The Clash of Thunder"] = "雷鳴之廳"
+	L.SUBZONES["The Colossal Forge"] = "巨熔爐"
+	L.SUBZONES["The Conservatory of Life"] = "生命溫室"
+	L.SUBZONES["The Descent into Madness"] = "驟狂斜廊"
+	L.SUBZONES["The Halls of Winter"] = "凜冬之廳"
+	L.SUBZONES["The Horde Valiants' Ring"] = "部落驍士競技場"
+	L.SUBZONES["The Observation Ring"] = "觀察之環"
+	L.SUBZONES["The Prison of Yogg-Saron"] = "尤格薩倫之獄"
+	L.SUBZONES["The Ring of Champions"] = "勇士競技場"
+	L.SUBZONES["The Scrapyard"] = "廢料場"
+	L.SUBZONES["The Shattered Walkway"] = "破碎走道"
+	L.SUBZONES["The Spark of Imagination"] = "創思之廳"
+
+
 
 elseif (locale == "zhCN") then  -- Simplified Chinese
 -- Tabs
@@ -485,11 +594,11 @@ L["EVENTNOTICE_STARTS_MINUTES"] = "距事件开始还有|cff7eff00 %s |4minute:�
 L["EVENTNOTICE_TIP"] = "按住|cffffffffShift|r显示更多细节。"
 L["RELATED_BASE"] = "成就成果:"
 L["RELATED_CLOSE"] = "关闭"
---Translation missing 
--- L["RELATED_HELP"] = ""
+--[[Translation missing --]]
+--[[ L["RELATED_HELP"] = ""--]] 
 L["RELATED_RECURSIVE"] = "额外"
---Translation missing 
--- L["RELATED_RECURSIVE_TIP"] = ""
+--[[Translation missing --]]
+--[[ L["RELATED_RECURSIVE_TIP"] = ""--]] 
 L["RELATED_RESULTS"] = "找到 %s |4achievement:成就;。"
 L["RELATED_TAB"] = "相关的"
 L["SEARCH_ANY"] = "以上所有："
@@ -528,17 +637,14 @@ L["SUGGESTIONS_RAIDSIZE_25"] = "25人"
 L["SUGGESTIONS_RAIDSIZE_AUTO"] = "自动检测"
 L["SUGGESTIONS_REFRESH"] = "刷新"
 L["SUGGESTIONS_RESULTS"] = "找到 %d 个建议。"
---Translation missing 
--- L["SUGGESTIONS_RESULTS_HIDDEN"] = ""
+L["SUGGESTIONS_RESULTS_HIDDEN"] = "找到 %d 个建议。|n(有 %d 个被隐藏)"
 L["SUGGESTIONS_RESULTS_TRADESKILL"] = "%s：找到 %d 个建议。"
---Translation missing 
--- L["SUGGESTIONS_RESULTS_TRADESKILL_HIDDEN"] = ""
---Translation missing 
--- L["SUGGESTIONS_SHOWHIDDEN"] = ""
---Translation missing 
--- L["SUGGESTIONS_SHOWHIDDEN_TIP"] = ""
---Translation missing 
--- L["SUGGESTIONS_SHOWHIDDEN_TIP2"] = ""
+L["SUGGESTIONS_RESULTS_TRADESKILL_HIDDEN"] = "%s：找到 %d 个建议。|n(有 %d 个被隐藏)"
+L["SUGGESTIONS_SHOWHIDDEN"] = "显示隐藏"
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_SHOWHIDDEN_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_SHOWHIDDEN_TIP2"] = ""--]] 
 L["SUGGESTIONS_TAB"] = "建议"
 L["SUGGESTIONS_ZONERENAME_DALARAN_BROKENISLES"] = "达拉然 (破碎群岛)"
 L["SUGGESTIONS_ZONERENAME_DALARAN_NORTHREND"] = "达拉然 (诺森德)"
@@ -572,6 +678,32 @@ L["WATCH_POPUP_CLEARLIST"] = "确定要清除这个成就监视列表的内容�
 L["WATCH_POPUP_DELETELIST"] = "确定要删除这个成就监视列表么？"
 L["WATCH_POPUP_NEWLIST"] = "输入一个新的成就监视列表名称："
 L["WATCH_TAB"] = "监视"
+
+-- Tabs/SUBZONES
+	L.SUBZONES["Argent Pavilion"] = "银色大帐"
+	L.SUBZONES["Argent Tournament Grounds"] = "银色比武场"
+	L.SUBZONES["Formation Grounds"] = "练兵场"
+	L.SUBZONES["Razorscale's Aerie"] = "锋鳞之巢"
+	L.SUBZONES["Silver Covenant Pavilion"] = "银色盟约大帐"
+	L.SUBZONES["Sunreaver Pavilion"] = "夺日者大帐"
+	L.SUBZONES["The Alliance Valiants' Ring"] = "联盟勇士赛场"
+	L.SUBZONES["The Argent Valiants' Ring"] = "银色勇士赛场"
+	L.SUBZONES["The Aspirants' Ring"] = "候选者赛场"
+	L.SUBZONES["The Assembly of Iron"] = "钢铁议会"
+	L.SUBZONES["The Celestial Planetarium"] = "天文台"
+	L.SUBZONES["The Clash of Thunder"] = "雷霆角斗场"
+	L.SUBZONES["The Colossal Forge"] = "巨人熔炉"
+	L.SUBZONES["The Conservatory of Life"] = "生命温室"
+	L.SUBZONES["The Descent into Madness"] = "疯狂阶梯"
+	L.SUBZONES["The Halls of Winter"] = "寒冬大厅"
+	L.SUBZONES["The Horde Valiants' Ring"] = "部落勇士赛场"
+	L.SUBZONES["The Observation Ring"] = "观测场"
+	L.SUBZONES["The Prison of Yogg-Saron"] = "尤格-萨隆的监狱"
+	L.SUBZONES["The Ring of Champions"] = "冠军赛场"
+	L.SUBZONES["The Scrapyard"] = "废料场"
+	L.SUBZONES["The Shattered Walkway"] = "破碎通道"
+	L.SUBZONES["The Spark of Imagination"] = "思想火花"
+
 
 
 elseif (locale == "ruRU") then  -- Russian
@@ -671,6 +803,32 @@ L["WATCH_POPUP_DELETELIST"] = "Действительно хотите удал�
 L["WATCH_POPUP_NEWLIST"] = "Введите имя нового списка слежения за достижениями:"
 L["WATCH_TAB"] = "Наблюдение"
 
+-- Tabs/SUBZONES
+	L.SUBZONES["Argent Pavilion"] = "Серебряный павильон"
+	L.SUBZONES["Argent Tournament Grounds"] = "Ристалище Серебряного турнира"
+	L.SUBZONES["Formation Grounds"] = "Плац"
+	L.SUBZONES["Razorscale's Aerie"] = "Гнездо Острокрылой"
+	L.SUBZONES["Silver Covenant Pavilion"] = "Павильон Серебряного Союза"
+	L.SUBZONES["Sunreaver Pavilion"] = "Павильон Похитителей Солнца"
+	L.SUBZONES["The Alliance Valiants' Ring"] = "Арена искателей славы из Альянса"
+	L.SUBZONES["The Argent Valiants' Ring"] = "Арена искателей славы Серебряного Авангарда"
+	L.SUBZONES["The Aspirants' Ring"] = "Арена претендентов"
+	L.SUBZONES["The Assembly of Iron"] = "Железное Собрание"
+	L.SUBZONES["The Celestial Planetarium"] = "Священный Планетарий"
+	L.SUBZONES["The Clash of Thunder"] = "Раскаты Грома"
+	L.SUBZONES["The Colossal Forge"] = "Гигантская кузня"
+	L.SUBZONES["The Conservatory of Life"] = "Оранжерея Жизни"
+	L.SUBZONES["The Descent into Madness"] = "Провал Безумия"
+	L.SUBZONES["The Halls of Winter"] = "Залы Зимы"
+	L.SUBZONES["The Horde Valiants' Ring"] = "Арена искателей славы из Орды"
+	L.SUBZONES["The Observation Ring"] = "Круг Наблюдения"
+	L.SUBZONES["The Prison of Yogg-Saron"] = "Темница Йогг-Сарона"
+	L.SUBZONES["The Ring of Champions"] = "Арена чемпионов"
+	L.SUBZONES["The Scrapyard"] = "Мусорная свалка"
+	L.SUBZONES["The Shattered Walkway"] = "Обвалившаяся галерея"
+	L.SUBZONES["The Spark of Imagination"] = "Искра Воображения"
+
+
 
 elseif (locale == "koKR") then  -- Korean
 -- Tabs
@@ -769,47 +927,73 @@ L["WATCH_POPUP_DELETELIST"] = "현재 추천 업적 목록을 삭제 하시겠�
 L["WATCH_POPUP_NEWLIST"] = "새로운 추천 업적 목록의 이름을 입력하세요."
 L["WATCH_TAB"] = "추적"
 
+-- Tabs/SUBZONES
+	L.SUBZONES["Argent Pavilion"] = "은빛십자군 막사"
+	L.SUBZONES["Argent Tournament Grounds"] = "은빛십자군 마상시합 광장"
+	L.SUBZONES["Formation Grounds"] = "전투대형 훈련장"
+	L.SUBZONES["Razorscale's Aerie"] = "칼날비늘의 둥지"
+	L.SUBZONES["Silver Covenant Pavilion"] = "은빛 서약단 막사"
+	L.SUBZONES["Sunreaver Pavilion"] = "선리버 막사"
+	L.SUBZONES["The Alliance Valiants' Ring"] = "얼라이언스 용맹전사의 투기장"
+	L.SUBZONES["The Argent Valiants' Ring"] = "은빛십자군 용맹전사의 투기장"
+	L.SUBZONES["The Aspirants' Ring"] = "지원자의 투기장"
+	L.SUBZONES["The Assembly of Iron"] = "무쇠 회합실"
+	L.SUBZONES["The Celestial Planetarium"] = "별자리 투영관"
+	L.SUBZONES["The Clash of Thunder"] = "천둥의 울림"
+	L.SUBZONES["The Colossal Forge"] = "거대 제련실"
+	L.SUBZONES["The Conservatory of Life"] = "생명의 정원"
+	L.SUBZONES["The Descent into Madness"] = "광기의 내리막길"
+	L.SUBZONES["The Halls of Winter"] = "겨울의 전당"
+	L.SUBZONES["The Horde Valiants' Ring"] = "호드 용맹전사의 투기장"
+	L.SUBZONES["The Observation Ring"] = "관찰 지구"
+	L.SUBZONES["The Prison of Yogg-Saron"] = "요그사론의 감옥"
+	L.SUBZONES["The Ring of Champions"] = "용사의 투기장"
+	L.SUBZONES["The Scrapyard"] = "고철 야적장"
+	L.SUBZONES["The Shattered Walkway"] = "부서진 산책로"
+	L.SUBZONES["The Spark of Imagination"] = "상상의 흔적"
+
+
 
 elseif (locale == "esES" or locale == "esMX") then  -- Spanish
 -- Tabs
---Translation missing 
--- L["EVENTNOTICE_ENDED_TODAY"] = ""
---Translation missing 
--- L["EVENTNOTICE_ENDS_DATETIME"] = ""
---Translation missing 
--- L["EVENTNOTICE_ENDS_DAYS"] = ""
---Translation missing 
--- L["EVENTNOTICE_ENDS_HOURS"] = ""
---Translation missing 
--- L["EVENTNOTICE_ENDS_MINUTES"] = ""
---Translation missing 
--- L["EVENTNOTICE_ENDS_TIME"] = ""
---Translation missing 
--- L["EVENTNOTICE_HELP"] = ""
---Translation missing 
--- L["EVENTNOTICE_ONGOING"] = ""
---Translation missing 
--- L["EVENTNOTICE_STARTED_TODAY"] = ""
---Translation missing 
--- L["EVENTNOTICE_STARTS_HOURS"] = ""
---Translation missing 
--- L["EVENTNOTICE_STARTS_MINUTES"] = ""
---Translation missing 
--- L["EVENTNOTICE_TIP"] = ""
---Translation missing 
--- L["RELATED_BASE"] = ""
---Translation missing 
--- L["RELATED_CLOSE"] = ""
---Translation missing 
--- L["RELATED_HELP"] = ""
---Translation missing 
--- L["RELATED_RECURSIVE"] = ""
---Translation missing 
--- L["RELATED_RECURSIVE_TIP"] = ""
---Translation missing 
--- L["RELATED_RESULTS"] = ""
---Translation missing 
--- L["RELATED_TAB"] = ""
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_ENDED_TODAY"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_ENDS_DATETIME"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_ENDS_DAYS"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_ENDS_HOURS"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_ENDS_MINUTES"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_ENDS_TIME"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_HELP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_ONGOING"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_STARTED_TODAY"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_STARTS_HOURS"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_STARTS_MINUTES"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RELATED_BASE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RELATED_CLOSE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RELATED_HELP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RELATED_RECURSIVE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RELATED_RECURSIVE_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RELATED_RESULTS"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RELATED_TAB"] = ""--]] 
 L["SEARCH_ANY"] = "Cualquiera de los anteriores:"
 L["SEARCH_CRITERIA"] = "Requisitos:"
 L["SEARCH_DESC"] = "Descripción:"
@@ -829,14 +1013,14 @@ L["SEARCH_TYPE_INDIV"] = "Personal"
 L["SUGGESTIONS_DIFFICULTY"] = "Dificultad de la instancia:"
 L["SUGGESTIONS_DIFFICULTY_AUTO"] = "Autodetectar"
 L["SUGGESTIONS_DIFFICULTY_HEROIC"] = "Heroico"
---Translation missing 
--- L["SUGGESTIONS_DIFFICULTY_MYTHIC"] = ""
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_DIFFICULTY_MYTHIC"] = ""--]] 
 L["SUGGESTIONS_DIFFICULTY_NORMAL"] = "Normal"
 L["SUGGESTIONS_EMPTY"] = "Overachiever no tiene sugerencias para ti en este momento."
 L["SUGGESTIONS_EMPTY_TRADESKILL"] = "%s: Overachiever no tiene sugerencias para tí en este momento."
 L["SUGGESTIONS_HELP"] = "Las sugerencias de logros aquí listados se basan en tu ubicación actual. También se lista cualquier logro del cual se te ha mostrado un tooltip recordatorio en los últimos dos minutos."
---Translation missing 
--- L["SUGGESTIONS_HIDDENLOCATION"] = ""
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_HIDDENLOCATION"] = ""--]] 
 L["SUGGESTIONS_LOCATION"] = "Ubicación:"
 L["SUGGESTIONS_LOCATION_NOSUBZONE"] = "(sin especificar)"
 L["SUGGESTIONS_LOCATION_SUBZONE"] = "Subzona:"
@@ -848,40 +1032,40 @@ L["SUGGESTIONS_RAIDSIZE_25"] = "25 jugadores"
 L["SUGGESTIONS_RAIDSIZE_AUTO"] = "Autodetectar"
 L["SUGGESTIONS_REFRESH"] = "Actualizar"
 L["SUGGESTIONS_RESULTS"] = "%d |4sugerencia:sugerencias; |4encontrada:encontradas;"
---Translation missing 
--- L["SUGGESTIONS_RESULTS_HIDDEN"] = ""
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_RESULTS_HIDDEN"] = ""--]] 
 L["SUGGESTIONS_RESULTS_TRADESKILL"] = "%s: %d |4sugerencia:sugerencias; |4encontrada:encontradas;"
---Translation missing 
--- L["SUGGESTIONS_RESULTS_TRADESKILL_HIDDEN"] = ""
---Translation missing 
--- L["SUGGESTIONS_SHOWHIDDEN"] = ""
---Translation missing 
--- L["SUGGESTIONS_SHOWHIDDEN_TIP"] = ""
---Translation missing 
--- L["SUGGESTIONS_SHOWHIDDEN_TIP2"] = ""
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_RESULTS_TRADESKILL_HIDDEN"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_SHOWHIDDEN"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_SHOWHIDDEN_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_SHOWHIDDEN_TIP2"] = ""--]] 
 L["SUGGESTIONS_TAB"] = "Sugerencias"
---Translation missing 
--- L["SUGGESTIONS_ZONERENAME_DALARAN_BROKENISLES"] = ""
---Translation missing 
--- L["SUGGESTIONS_ZONERENAME_DALARAN_NORTHREND"] = ""
---Translation missing 
--- L["SUGGESTIONS_ZONERENAME_KARAZHAN_LEGION"] = ""
---Translation missing 
--- L["SUGGESTIONS_ZONERENAME_NAGRAND_DRAENOR"] = ""
---Translation missing 
--- L["SUGGESTIONS_ZONERENAME_NAGRAND_OUTLAND"] = ""
---Translation missing 
--- L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_DRAENOR"] = ""
---Translation missing 
--- L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_OUTLAND"] = ""
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_DALARAN_BROKENISLES"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_DALARAN_NORTHREND"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_KARAZHAN_LEGION"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_NAGRAND_DRAENOR"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_NAGRAND_OUTLAND"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_DRAENOR"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_OUTLAND"] = ""--]] 
 L["TAB_HELP"] = "|cffffffffCtrl-click|r sobre un logro para saltar a su posición en el interface estándar.|n|nUn |cfffffffffondo azul|r indica que es parte de una serie para la que aún no has completado un paso anterior.|n|nUn |cfffffffffondo rojo|r indica que no se encuentra en el interface estándar para este personaje porque es exclusivo de la facción contraria o es una Proeza de fuerza que aún no has logrado.|n|nUn |cfffffffffondo verde|r indica que se ha mostrado un tooltip recordatorio sobre este logro recientemente."
 L["TAB_SORT"] = "Ordenado por:"
 L["TAB_SORT_COMPLETE"] = "Fecha de finalización"
 L["TAB_SORT_ID"] = "ID"
 L["TAB_SORT_NAME"] = "Nombre"
 L["TAB_SORT_POINTS"] = "Puntuación"
---Translation missing 
--- L["TAB_SORT_RELATION"] = ""
+--[[Translation missing --]]
+--[[ L["TAB_SORT_RELATION"] = ""--]] 
 L["WATCH_CLEAR"] = "Limpiar"
 L["WATCH_COPY"] = "Copiar a:"
 L["WATCH_COPY_TIP"] = "Al activarlo, si haces |cffffffffshift+alt+click|r sobre un logro en esta pestaña, éste será añadido a la lista de seguimiento especificada."
@@ -901,238 +1085,296 @@ L["WATCH_POPUP_DELETELIST"] = "¿ Estás seguro de que deseas borrar permanentem
 L["WATCH_POPUP_NEWLIST"] = "Introduce el nombre de tu nueva lista de seguimiento de logros:"
 L["WATCH_TAB"] = "Seguimiento"
 
+-- Tabs/SUBZONES
+	L.SUBZONES["Argent Pavilion"] = "Pabellón Argenta"
+	L.SUBZONES["Argent Tournament Grounds"] = "Campos del Torneo Argenta"
+	L.SUBZONES["Formation Grounds"] = "Campo de Formación"
+	L.SUBZONES["Razorscale's Aerie"] = "Nidal de Tajoescama"
+	L.SUBZONES["Silver Covenant Pavilion"] = "Pabellón de El Pacto de Plata"
+	L.SUBZONES["Sunreaver Pavilion"] = "Pabellón Atracasol"
+	L.SUBZONES["The Alliance Valiants' Ring"] = "La Liza de los Valerosos de la Alianza"
+	L.SUBZONES["The Argent Valiants' Ring"] = "La Liza de los Valerosos Argenta"
+	L.SUBZONES["The Aspirants' Ring"] = "La Liza de los Aspirantes"
+	L.SUBZONES["The Assembly of Iron"] = "La Asamblea de Hierro"
+	L.SUBZONES["The Celestial Planetarium"] = "El Planetario Celestial"
+	L.SUBZONES["The Clash of Thunder"] = "El Fragor del Trueno"
+	L.SUBZONES["The Colossal Forge"] = "La Forja Colosal"
+	L.SUBZONES["The Conservatory of Life"] = "El Invernadero de Vida"
+	L.SUBZONES["The Descent into Madness"] = "El Descenso a la Locura"
+	L.SUBZONES["The Halls of Winter"] = "Las Cámaras del Invierno"
+	L.SUBZONES["The Horde Valiants' Ring"] = "La Liza de los Valerosos de la Horda"
+	L.SUBZONES["The Observation Ring"] = "El Circulo de Observación"
+	L.SUBZONES["The Prison of Yogg-Saron"] = "La Prisión de Yogg-Saron"
+	L.SUBZONES["The Ring of Champions"] = "La Liza de los Campeones"
+	L.SUBZONES["The Scrapyard"] = "La Chatarrería"
+	L.SUBZONES["The Shattered Walkway"] = "La Pasarela Devastada"
+	L.SUBZONES["The Spark of Imagination"] = "Chispa de Imaginación"
+
+
 
 	if (locale == "esMX") then  -- Spanish (Mexican)
---Translation missing 
--- L["Tabs/EVENTNOTICE_ENDED_TODAY"] = ""
---Translation missing 
--- L["Tabs/EVENTNOTICE_ENDS_DATETIME"] = ""
---Translation missing 
--- L["Tabs/EVENTNOTICE_ENDS_DAYS"] = ""
---Translation missing 
--- L["Tabs/EVENTNOTICE_ENDS_HOURS"] = ""
---Translation missing 
--- L["Tabs/EVENTNOTICE_ENDS_MINUTES"] = ""
---Translation missing 
--- L["Tabs/EVENTNOTICE_ENDS_TIME"] = ""
---Translation missing 
--- L["Tabs/EVENTNOTICE_HELP"] = ""
---Translation missing 
--- L["Tabs/EVENTNOTICE_ONGOING"] = ""
---Translation missing 
--- L["Tabs/EVENTNOTICE_STARTED_TODAY"] = ""
---Translation missing 
--- L["Tabs/EVENTNOTICE_STARTS_HOURS"] = ""
---Translation missing 
--- L["Tabs/EVENTNOTICE_STARTS_MINUTES"] = ""
---Translation missing 
--- L["Tabs/EVENTNOTICE_TIP"] = ""
---Translation missing 
--- L["Tabs/RELATED_BASE"] = ""
---Translation missing 
--- L["Tabs/RELATED_CLOSE"] = ""
---Translation missing 
--- L["Tabs/RELATED_HELP"] = ""
---Translation missing 
--- L["Tabs/RELATED_RECURSIVE"] = ""
---Translation missing 
--- L["Tabs/RELATED_RECURSIVE_TIP"] = ""
---Translation missing 
--- L["Tabs/RELATED_RESULTS"] = ""
---Translation missing 
--- L["Tabs/RELATED_TAB"] = ""
---Translation missing 
--- L["Tabs/SEARCH_ANY"] = ""
---Translation missing 
--- L["Tabs/SEARCH_CRITERIA"] = ""
---Translation missing 
--- L["Tabs/SEARCH_DESC"] = ""
---Translation missing 
--- L["Tabs/SEARCH_FULLLIST"] = ""
---Translation missing 
--- L["Tabs/SEARCH_FULLLIST_TIP"] = ""
---Translation missing 
--- L["Tabs/SEARCH_HELP"] = ""
---Translation missing 
--- L["Tabs/SEARCH_NAME"] = ""
---Translation missing 
--- L["Tabs/SEARCH_RESET"] = ""
---Translation missing 
--- L["Tabs/SEARCH_RESULTS"] = ""
---Translation missing 
--- L["Tabs/SEARCH_REWARD"] = ""
---Translation missing 
--- L["Tabs/SEARCH_SUBMIT"] = ""
---Translation missing 
--- L["Tabs/SEARCH_TAB"] = ""
---Translation missing 
--- L["Tabs/SEARCH_TYPE"] = ""
---Translation missing 
--- L["Tabs/SEARCH_TYPE_ALL"] = ""
---Translation missing 
--- L["Tabs/SEARCH_TYPE_GUILD"] = ""
---Translation missing 
--- L["Tabs/SEARCH_TYPE_INDIV"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_DIFFICULTY"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_DIFFICULTY_AUTO"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_DIFFICULTY_HEROIC"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_DIFFICULTY_MYTHIC"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_DIFFICULTY_NORMAL"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_EMPTY"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_EMPTY_TRADESKILL"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_HELP"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_HIDDENLOCATION"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_LOCATION"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_LOCATION_NOSUBZONE"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_LOCATION_SUBZONE"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_LOCATION_TIP"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_LOCATION_TIP2"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_RAIDSIZE"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_RAIDSIZE_10"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_RAIDSIZE_25"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_RAIDSIZE_AUTO"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_REFRESH"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_RESULTS"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_RESULTS_HIDDEN"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_RESULTS_TRADESKILL"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_RESULTS_TRADESKILL_HIDDEN"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_SHOWHIDDEN"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_SHOWHIDDEN_TIP"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_SHOWHIDDEN_TIP2"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_TAB"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_ZONERENAME_DALARAN_BROKENISLES"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_ZONERENAME_DALARAN_NORTHREND"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_ZONERENAME_KARAZHAN_LEGION"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_ZONERENAME_NAGRAND_DRAENOR"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_ZONERENAME_NAGRAND_OUTLAND"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_DRAENOR"] = ""
---Translation missing 
--- L["Tabs/SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_OUTLAND"] = ""
---Translation missing 
--- L["Tabs/TAB_HELP"] = ""
---Translation missing 
--- L["Tabs/TAB_SORT"] = ""
---Translation missing 
--- L["Tabs/TAB_SORT_COMPLETE"] = ""
---Translation missing 
--- L["Tabs/TAB_SORT_ID"] = ""
---Translation missing 
--- L["Tabs/TAB_SORT_NAME"] = ""
---Translation missing 
--- L["Tabs/TAB_SORT_POINTS"] = ""
---Translation missing 
--- L["Tabs/TAB_SORT_RELATION"] = ""
---Translation missing 
--- L["Tabs/WATCH_CLEAR"] = ""
---Translation missing 
--- L["Tabs/WATCH_COPY"] = ""
---Translation missing 
--- L["Tabs/WATCH_COPY_TIP"] = ""
---Translation missing 
--- L["Tabs/WATCH_DEFAULTLIST"] = ""
---Translation missing 
--- L["Tabs/WATCH_DEFAULTLIST_TIP"] = ""
---Translation missing 
--- L["Tabs/WATCH_DELETE"] = ""
---Translation missing 
--- L["Tabs/WATCH_DISPLAYEDLIST"] = ""
---Translation missing 
--- L["Tabs/WATCH_EMPTY"] = ""
---Translation missing 
--- L["Tabs/WATCH_EMPTY_SHORT"] = ""
---Translation missing 
--- L["Tabs/WATCH_ERR_INVALIDID"] = ""
---Translation missing 
--- L["Tabs/WATCH_HELP"] = ""
---Translation missing 
--- L["Tabs/WATCH_LIST_GLOBAL"] = ""
---Translation missing 
--- L["Tabs/WATCH_LIST_PERCHAR"] = ""
---Translation missing 
--- L["Tabs/WATCH_NEW"] = ""
---Translation missing 
--- L["Tabs/WATCH_POPUP_CLEARLIST"] = ""
---Translation missing 
--- L["Tabs/WATCH_POPUP_DELETELIST"] = ""
---Translation missing 
--- L["Tabs/WATCH_POPUP_NEWLIST"] = ""
---Translation missing 
--- L["Tabs/WATCH_TAB"] = ""
+-- Tabs
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_ENDED_TODAY"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_ENDS_DATETIME"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_ENDS_DAYS"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_ENDS_HOURS"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_ENDS_MINUTES"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_ENDS_TIME"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_HELP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_ONGOING"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_STARTED_TODAY"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_STARTS_HOURS"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_STARTS_MINUTES"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["EVENTNOTICE_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RELATED_BASE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RELATED_CLOSE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RELATED_HELP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RELATED_RECURSIVE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RELATED_RECURSIVE_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RELATED_RESULTS"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["RELATED_TAB"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SEARCH_ANY"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SEARCH_CRITERIA"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SEARCH_DESC"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SEARCH_FULLLIST"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SEARCH_FULLLIST_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SEARCH_HELP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SEARCH_NAME"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SEARCH_RESET"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SEARCH_RESULTS"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SEARCH_REWARD"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SEARCH_SUBMIT"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SEARCH_TAB"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SEARCH_TYPE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SEARCH_TYPE_ALL"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SEARCH_TYPE_GUILD"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SEARCH_TYPE_INDIV"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_DIFFICULTY"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_DIFFICULTY_AUTO"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_DIFFICULTY_HEROIC"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_DIFFICULTY_MYTHIC"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_DIFFICULTY_NORMAL"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_EMPTY"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_EMPTY_TRADESKILL"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_HELP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_HIDDENLOCATION"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_LOCATION"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_LOCATION_NOSUBZONE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_LOCATION_SUBZONE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_LOCATION_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_LOCATION_TIP2"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_RAIDSIZE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_RAIDSIZE_10"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_RAIDSIZE_25"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_RAIDSIZE_AUTO"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_REFRESH"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_RESULTS"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_RESULTS_HIDDEN"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_RESULTS_TRADESKILL"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_RESULTS_TRADESKILL_HIDDEN"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_SHOWHIDDEN"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_SHOWHIDDEN_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_SHOWHIDDEN_TIP2"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_TAB"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_DALARAN_BROKENISLES"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_DALARAN_NORTHREND"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_KARAZHAN_LEGION"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_NAGRAND_DRAENOR"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_NAGRAND_OUTLAND"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_DRAENOR"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_OUTLAND"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["TAB_HELP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["TAB_SORT"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["TAB_SORT_COMPLETE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["TAB_SORT_ID"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["TAB_SORT_NAME"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["TAB_SORT_POINTS"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["TAB_SORT_RELATION"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["WATCH_CLEAR"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["WATCH_COPY"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["WATCH_COPY_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["WATCH_DEFAULTLIST"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["WATCH_DEFAULTLIST_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["WATCH_DELETE"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["WATCH_DISPLAYEDLIST"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["WATCH_EMPTY"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["WATCH_EMPTY_SHORT"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["WATCH_ERR_INVALIDID"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["WATCH_HELP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["WATCH_LIST_GLOBAL"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["WATCH_LIST_PERCHAR"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["WATCH_NEW"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["WATCH_POPUP_CLEARLIST"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["WATCH_POPUP_DELETELIST"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["WATCH_POPUP_NEWLIST"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["WATCH_TAB"] = ""--]] 
+
+-- Tabs/SUBZONES
+	--[[Translation missing --]]
+	--[[ L.SUBZONES["Argent Pavilion"] = ""--]] 
+	--[[Translation missing --]]
+	--[[ L.SUBZONES["Argent Tournament Grounds"] = ""--]] 
+	--[[Translation missing --]]
+	--[[ L.SUBZONES["Formation Grounds"] = ""--]] 
+	--[[Translation missing --]]
+	--[[ L.SUBZONES["Razorscale's Aerie"] = ""--]] 
+	--[[Translation missing --]]
+	--[[ L.SUBZONES["Silver Covenant Pavilion"] = ""--]] 
+	--[[Translation missing --]]
+	--[[ L.SUBZONES["Sunreaver Pavilion"] = ""--]] 
+	--[[Translation missing --]]
+	--[[ L.SUBZONES["The Alliance Valiants' Ring"] = ""--]] 
+	--[[Translation missing --]]
+	--[[ L.SUBZONES["The Argent Valiants' Ring"] = ""--]] 
+	--[[Translation missing --]]
+	--[[ L.SUBZONES["The Aspirants' Ring"] = ""--]] 
+	--[[Translation missing --]]
+	--[[ L.SUBZONES["The Assembly of Iron"] = ""--]] 
+	--[[Translation missing --]]
+	--[[ L.SUBZONES["The Celestial Planetarium"] = ""--]] 
+	--[[Translation missing --]]
+	--[[ L.SUBZONES["The Clash of Thunder"] = ""--]] 
+	--[[Translation missing --]]
+	--[[ L.SUBZONES["The Colossal Forge"] = ""--]] 
+	--[[Translation missing --]]
+	--[[ L.SUBZONES["The Conservatory of Life"] = ""--]] 
+	--[[Translation missing --]]
+	--[[ L.SUBZONES["The Descent into Madness"] = ""--]] 
+	--[[Translation missing --]]
+	--[[ L.SUBZONES["The Halls of Winter"] = ""--]] 
+	--[[Translation missing --]]
+	--[[ L.SUBZONES["The Horde Valiants' Ring"] = ""--]] 
+	--[[Translation missing --]]
+	--[[ L.SUBZONES["The Observation Ring"] = ""--]] 
+	--[[Translation missing --]]
+	--[[ L.SUBZONES["The Prison of Yogg-Saron"] = ""--]] 
+	--[[Translation missing --]]
+	--[[ L.SUBZONES["The Ring of Champions"] = ""--]] 
+	--[[Translation missing --]]
+	--[[ L.SUBZONES["The Scrapyard"] = ""--]] 
+	--[[Translation missing --]]
+	--[[ L.SUBZONES["The Shattered Walkway"] = ""--]] 
+	--[[Translation missing --]]
+	--[[ L.SUBZONES["The Spark of Imagination"] = ""--]] 
+
 	end
+
 
 elseif (locale == "ptBR") then  -- Brazilian Portuguese
 -- Tabs
---Translation missing 
--- L["EVENTNOTICE_ENDED_TODAY"] = ""
---Translation missing 
--- L["EVENTNOTICE_ENDS_DATETIME"] = ""
---Translation missing 
--- L["EVENTNOTICE_ENDS_DAYS"] = ""
---Translation missing 
--- L["EVENTNOTICE_ENDS_HOURS"] = ""
---Translation missing 
--- L["EVENTNOTICE_ENDS_MINUTES"] = ""
---Translation missing 
--- L["EVENTNOTICE_ENDS_TIME"] = ""
---Translation missing 
--- L["EVENTNOTICE_HELP"] = ""
---Translation missing 
--- L["EVENTNOTICE_ONGOING"] = ""
---Translation missing 
--- L["EVENTNOTICE_STARTED_TODAY"] = ""
---Translation missing 
--- L["EVENTNOTICE_STARTS_HOURS"] = ""
---Translation missing 
--- L["EVENTNOTICE_STARTS_MINUTES"] = ""
---Translation missing 
--- L["EVENTNOTICE_TIP"] = ""
---Translation missing 
--- L["RELATED_BASE"] = ""
---Translation missing 
--- L["RELATED_CLOSE"] = ""
---Translation missing 
--- L["RELATED_HELP"] = ""
---Translation missing 
--- L["RELATED_RECURSIVE"] = ""
---Translation missing 
--- L["RELATED_RECURSIVE_TIP"] = ""
---Translation missing 
--- L["RELATED_RESULTS"] = ""
---Translation missing 
--- L["RELATED_TAB"] = ""
+L["EVENTNOTICE_ENDED_TODAY"] = "|cffff2020Este evento terminou|r hoje mais cedo."
+L["EVENTNOTICE_ENDS_DATETIME"] = "Acaba em %1$02d/%2$d às %3$s (horário do servidor)."
+L["EVENTNOTICE_ENDS_DAYS"] = "Termina em|cffff2020 %s |4dia:dias;|r."
+L["EVENTNOTICE_ENDS_HOURS"] = "Termina em|cffff2020 %s |4hora:horas;|r."
+L["EVENTNOTICE_ENDS_MINUTES"] = "Termina em|cffff2020 %s |4minuto:minutos;|r."
+L["EVENTNOTICE_ENDS_TIME"] = "Termina hoje às %3$s (horário do servidor)."
+L["EVENTNOTICE_HELP"] = "|cffffffffClique|r para ver conquistas relacionadas.|n|cffffffffCtrl+clique|r para abrir o calendário.|n|cffffffffShift+clique|r para ocultar este aviso temporariamente."
+L["EVENTNOTICE_ONGOING"] = "Este evento está acontecendo agora."
+L["EVENTNOTICE_STARTED_TODAY"] = "Este evento começou hoje mais cedo."
+L["EVENTNOTICE_STARTS_HOURS"] = "Este evento começa em|cff7eff00 %s |4hora:horas;|r."
+L["EVENTNOTICE_STARTS_MINUTES"] = "Este evento começa em|cff7eff00 %s |4minuto:minutos;|r."
+L["EVENTNOTICE_TIP"] = "Segure |cffffffffShift|r para mais detalhes."
+L["RELATED_BASE"] = "Conquista base:"
+L["RELATED_CLOSE"] = "Fechar"
+L["RELATED_HELP"] = "Esta aba mostra conquistas que estão relacionadas entre si. Uma conquista foi escolhida como a base. O resto está na mesma série que a base, é um dos critérios da base ou de outra conquista na série, ou então tem como um se seus próprios critérios a conquista base ou uma na série da conquista base."
+L["RELATED_RECURSIVE"] = "Estendida"
+L["RELATED_RECURSIVE_TIP"] = "Faz uma busca recursiva para incluir também todas as conquistas que estão indiretamente relacionadas à conquista base."
+L["RELATED_RESULTS"] = "%s |4conquista encontrada:conquistas encontradas;."
+L["RELATED_TAB"] = "Relacionadas"
 L["SEARCH_ANY"] = "Qualquer acima:"
 L["SEARCH_CRITERIA"] = "Critérios:"
 L["SEARCH_DESC"] = "Descrição:"
@@ -1149,62 +1391,47 @@ L["SEARCH_TYPE"] = "Tipo:"
 L["SEARCH_TYPE_ALL"] = "Todas"
 L["SEARCH_TYPE_GUILD"] = "De Guilda"
 L["SEARCH_TYPE_INDIV"] = "Pessoais"
-L["SUGGESTIONS_DIFFICULTY"] = "Dificuldade da Instância:"
-L["SUGGESTIONS_DIFFICULTY_AUTO"] = "Detectar Automaticamente"
-L["SUGGESTIONS_DIFFICULTY_HEROIC"] = "Heróica"
---Translation missing 
--- L["SUGGESTIONS_DIFFICULTY_MYTHIC"] = ""
+L["SUGGESTIONS_DIFFICULTY"] = "Dificuldade da instância:"
+L["SUGGESTIONS_DIFFICULTY_AUTO"] = "Detectar autom."
+L["SUGGESTIONS_DIFFICULTY_HEROIC"] = "Heroica"
+L["SUGGESTIONS_DIFFICULTY_MYTHIC"] = "Mítica"
 L["SUGGESTIONS_DIFFICULTY_NORMAL"] = "Normal"
 L["SUGGESTIONS_EMPTY"] = "O Overachiever não tem sugestões para você neste momento."
 L["SUGGESTIONS_EMPTY_TRADESKILL"] = "%s: O Overachiever não tem sugestões para você neste momento."
 L["SUGGESTIONS_HELP"] = "As conquistas sugeridas listadas aqui são baseadas em seu local atual. Também estão listadas todas as conquistas \"Recentemente Lembradas\".|n|n|cffffffffShift+botão direito|r em uma conquista sugerida para ocultá-la. (Este é um atributo específico e afeta todas os locais.)."
---Translation missing 
--- L["SUGGESTIONS_HIDDENLOCATION"] = ""
+L["SUGGESTIONS_HIDDENLOCATION"] = "ocultas"
 L["SUGGESTIONS_LOCATION"] = "Local:"
 L["SUGGESTIONS_LOCATION_NOSUBZONE"] = "(não especificado)"
 L["SUGGESTIONS_LOCATION_SUBZONE"] = "Subzona:"
 L["SUGGESTIONS_LOCATION_TIP"] = "Substituir Zona/Instância Atual"
 L["SUGGESTIONS_LOCATION_TIP2"] = "Deixe em branco para mostrar sugestões para seu local atual ou comece a digitar para mostrar sugestões com base no nome de uma zona ou instância. Pressione |cffffffffTab|r para alternar entre locais que correspondem ao texto à esquerda do cursor. |cffffffffShift+Tab|r alterna na ordem inversa. Se o cursor estiver na posição mais à esquerda, alterna entre todos os locais válidos."
-L["SUGGESTIONS_RAIDSIZE"] = "Tamando da Raide:"
-L["SUGGESTIONS_RAIDSIZE_10"] = "10-jogadores"
-L["SUGGESTIONS_RAIDSIZE_25"] = "25-jogadores"
-L["SUGGESTIONS_RAIDSIZE_AUTO"] = "Detectar Automaticamente"
+L["SUGGESTIONS_RAIDSIZE"] = "Tamanho do raide:"
+L["SUGGESTIONS_RAIDSIZE_10"] = "10 jogadores"
+L["SUGGESTIONS_RAIDSIZE_25"] = "25 jogadores"
+L["SUGGESTIONS_RAIDSIZE_AUTO"] = "Detectar autom."
 L["SUGGESTIONS_REFRESH"] = "Atualizar"
 L["SUGGESTIONS_RESULTS"] = "%d |4sugestão encontrada:sugestões encontradas;."
---Translation missing 
--- L["SUGGESTIONS_RESULTS_HIDDEN"] = ""
+L["SUGGESTIONS_RESULTS_HIDDEN"] = "%d |4sugestão encontrada:sugestões encontradas;.|n(%d |4está oculta:estão ocultas;.)"
 L["SUGGESTIONS_RESULTS_TRADESKILL"] = "%s: %d |4sugestão encontrada:sugestões encontradas;."
---Translation missing 
--- L["SUGGESTIONS_RESULTS_TRADESKILL_HIDDEN"] = ""
---Translation missing 
--- L["SUGGESTIONS_SHOWHIDDEN"] = ""
---Translation missing 
--- L["SUGGESTIONS_SHOWHIDDEN_TIP"] = ""
---Translation missing 
--- L["SUGGESTIONS_SHOWHIDDEN_TIP2"] = ""
+L["SUGGESTIONS_RESULTS_TRADESKILL_HIDDEN"] = "%s: %d |4sugestão encontrada:sugestões encontradas;.|n(%d |4está oculta:estão ocultas;.)"
+L["SUGGESTIONS_SHOWHIDDEN"] = "Mostrar ocultas"
+L["SUGGESTIONS_SHOWHIDDEN_TIP"] = "Marque para mostrar sugestões ocultas para este local."
+L["SUGGESTIONS_SHOWHIDDEN_TIP2"] = "Se você quer ver todas as sugestões ocultas independentemente de localização, insira \"ocultas\" no campo Localização acima.|n|n|cffffffffShift+clique-direito|r em uma conquista a oculta ou exibe."
 L["SUGGESTIONS_TAB"] = "Sugestões"
---Translation missing 
--- L["SUGGESTIONS_ZONERENAME_DALARAN_BROKENISLES"] = ""
---Translation missing 
--- L["SUGGESTIONS_ZONERENAME_DALARAN_NORTHREND"] = ""
---Translation missing 
--- L["SUGGESTIONS_ZONERENAME_KARAZHAN_LEGION"] = ""
---Translation missing 
--- L["SUGGESTIONS_ZONERENAME_NAGRAND_DRAENOR"] = ""
---Translation missing 
--- L["SUGGESTIONS_ZONERENAME_NAGRAND_OUTLAND"] = ""
---Translation missing 
--- L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_DRAENOR"] = ""
---Translation missing 
--- L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_OUTLAND"] = ""
+L["SUGGESTIONS_ZONERENAME_DALARAN_BROKENISLES"] = "Dalaran (Ilhas Partidas)"
+L["SUGGESTIONS_ZONERENAME_DALARAN_NORTHREND"] = "Dalaran (Nortúndria)"
+L["SUGGESTIONS_ZONERENAME_KARAZHAN_LEGION"] = "Retorno a Karazhan"
+L["SUGGESTIONS_ZONERENAME_NAGRAND_DRAENOR"] = "Nagrand (Draenor)"
+L["SUGGESTIONS_ZONERENAME_NAGRAND_OUTLAND"] = "Nagrand (Terralém)"
+L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_DRAENOR"] = "Vale da Lua Negra (Draenor)"
+L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_OUTLAND"] = "Vale da Lua Negra (Terralém)"
 L["TAB_HELP"] = "|cffffffffCtrl-clique|r em uma conquista para ir ao seu lugar na página padrão.|n|nUm |cfffffffffundo azul|r significa que é parte de uma série da qual você não completou um passo anterior.|n|nUm |cfffffffffundo vermelho|r significa que não pode ser encontrada na página padrão para este personagem por ser exclusiva à facção oposta ou por ser uma Proeza Memorável não conquistada.|n|nUm |cfffffffffundo verde|r significa que um lembrete desta conquista foi exibido numa dica de tela recentemente ou tem um cronômetro que começou recentemente."
 L["TAB_SORT"] = "Classificar por:"
 L["TAB_SORT_COMPLETE"] = "Data completada"
 L["TAB_SORT_ID"] = "ID"
 L["TAB_SORT_NAME"] = "Nome"
 L["TAB_SORT_POINTS"] = "Valor de pontos"
---Translation missing 
--- L["TAB_SORT_RELATION"] = ""
+L["TAB_SORT_RELATION"] = "Relação"
 L["WATCH_CLEAR"] = "Limpar"
 L["WATCH_COPY"] = "Copiar Para:"
 L["WATCH_COPY_TIP"] = "Quando ativado, se você |cffffffffshift+alt+clicar|r em uma conquista nesta aba, ela será adicionada à lista de vigia especificada. "
@@ -1223,6 +1450,32 @@ L["WATCH_POPUP_CLEARLIST"] = "Tem certeza de que deseja limpar o conteúdo da li
 L["WATCH_POPUP_DELETELIST"] = "Tem certeza de que deseja excluir permanentemente a lista de conquistas vigiadas atual?"
 L["WATCH_POPUP_NEWLIST"] = "Digite o nome da sua nova lista de conquistas vigiadas:"
 L["WATCH_TAB"] = "Vigiar"
+
+-- Tabs/SUBZONES
+	L.SUBZONES["Argent Pavilion"] = "Pavilhão Argênteo"
+	L.SUBZONES["Argent Tournament Grounds"] = "Campos do Torneio Argênteo"
+	L.SUBZONES["Formation Grounds"] = "Campos de Formação"
+	L.SUBZONES["Razorscale's Aerie"] = "Refúgio da Navalhada"
+	L.SUBZONES["Silver Covenant Pavilion"] = "Pavilhão do Pacto de Prata"
+	L.SUBZONES["Sunreaver Pavilion"] = "Pavilhão Fendessol"
+	L.SUBZONES["The Alliance Valiants' Ring"] = "Arena dos Valentes da Aliança"
+	L.SUBZONES["The Argent Valiants' Ring"] = "Arena dos Valentes Argênteos"
+	L.SUBZONES["The Aspirants' Ring"] = "Arena dos Aspirantes"
+	L.SUBZONES["The Assembly of Iron"] = "A Assembleia de Ferro"
+	L.SUBZONES["The Celestial Planetarium"] = "O Planetário Celestial"
+	L.SUBZONES["The Clash of Thunder"] = "Estrondo do Trovão"
+	L.SUBZONES["The Colossal Forge"] = "Forja Colossal"
+	L.SUBZONES["The Conservatory of Life"] = "Reserva Biológica"
+	L.SUBZONES["The Descent into Madness"] = "A Espiral da Loucura"
+	L.SUBZONES["The Halls of Winter"] = "Os Salões do Inverno"
+	L.SUBZONES["The Horde Valiants' Ring"] = "Arena dos Valentes da Horda"
+	L.SUBZONES["The Observation Ring"] = "Campos de Observação"
+	L.SUBZONES["The Prison of Yogg-Saron"] = "Prisão de Yogg-Saron"
+	L.SUBZONES["The Ring of Champions"] = "Arena dos Campeões"
+	L.SUBZONES["The Scrapyard"] = "O Ferro Velho"
+	L.SUBZONES["The Shattered Walkway"] = "A Passarela Despedaçada"
+	L.SUBZONES["The Spark of Imagination"] = "Centelha da Imaginação"
+
 
 
 elseif (locale == "itIT") then  -- Italian
@@ -1269,16 +1522,16 @@ L["SUGGESTIONS_DIFFICULTY_MYTHIC"] = "Mitica"
 L["SUGGESTIONS_DIFFICULTY_NORMAL"] = "Normale"
 L["SUGGESTIONS_EMPTY"] = "Al momento Overachiever non ha suggerimenti per te."
 L["SUGGESTIONS_EMPTY_TRADESKILL"] = "%s: Overachiever non ha consigli per te al momento."
---Translation missing 
--- L["SUGGESTIONS_HELP"] = ""
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_HELP"] = ""--]] 
 L["SUGGESTIONS_HIDDENLOCATION"] = "nascosto"
 L["SUGGESTIONS_LOCATION"] = "Luogo:"
 L["SUGGESTIONS_LOCATION_NOSUBZONE"] = "(non specificata)"
 L["SUGGESTIONS_LOCATION_SUBZONE"] = "Sottozona:"
---Translation missing 
--- L["SUGGESTIONS_LOCATION_TIP"] = ""
---Translation missing 
--- L["SUGGESTIONS_LOCATION_TIP2"] = ""
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_LOCATION_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_LOCATION_TIP2"] = ""--]] 
 L["SUGGESTIONS_RAIDSIZE"] = "Dimensione Incursione:"
 L["SUGGESTIONS_RAIDSIZE_10"] = "10 giocatori"
 L["SUGGESTIONS_RAIDSIZE_25"] = "25 giocatori"
@@ -1290,19 +1543,19 @@ L["SUGGESTIONS_RESULTS_TRADESKILL"] = "%s: %d |4suggerimento trovato:suggeriment
 L["SUGGESTIONS_RESULTS_TRADESKILL_HIDDEN"] = "%s: %d |4suggerimento trovato:suggerimenti trovati;.|n(%d |4nascosto:nascosti;.)"
 L["SUGGESTIONS_SHOWHIDDEN"] = "Mostra Nascoste"
 L["SUGGESTIONS_SHOWHIDDEN_TIP"] = "Seleziona per mostrare i suggerimenti nascosti di questo luogo."
---Translation missing 
--- L["SUGGESTIONS_SHOWHIDDEN_TIP2"] = ""
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_SHOWHIDDEN_TIP2"] = ""--]] 
 L["SUGGESTIONS_TAB"] = "Suggerimenti"
 L["SUGGESTIONS_ZONERENAME_DALARAN_BROKENISLES"] = "Dalaran (Isole Disperse)"
 L["SUGGESTIONS_ZONERENAME_DALARAN_NORTHREND"] = "Dalaran (Nordania)"
---Translation missing 
--- L["SUGGESTIONS_ZONERENAME_KARAZHAN_LEGION"] = ""
+--[[Translation missing --]]
+--[[ L["SUGGESTIONS_ZONERENAME_KARAZHAN_LEGION"] = ""--]] 
 L["SUGGESTIONS_ZONERENAME_NAGRAND_DRAENOR"] = "Nagrand (Draenor)"
 L["SUGGESTIONS_ZONERENAME_NAGRAND_OUTLAND"] = "Nagrand (Terre Esterne)"
 L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_DRAENOR"] = "Valle di Torvaluna (Draenor)"
 L["SUGGESTIONS_ZONERENAME_SHADOWMOONVALLEY_OUTLAND"] = "Valle di Torvaluna (Terre Esterne)"
---Translation missing 
--- L["TAB_HELP"] = ""
+--[[Translation missing --]]
+--[[ L["TAB_HELP"] = ""--]] 
 L["TAB_SORT"] = "Ordina per:"
 L["TAB_SORT_COMPLETE"] = "Data completamento"
 L["TAB_SORT_ID"] = "ID"
@@ -1311,315 +1564,59 @@ L["TAB_SORT_POINTS"] = "Punti ottenuti"
 L["TAB_SORT_RELATION"] = "Relazione"
 L["WATCH_CLEAR"] = "Svuota"
 L["WATCH_COPY"] = "Copia In:"
---Translation missing 
--- L["WATCH_COPY_TIP"] = ""
+--[[Translation missing --]]
+--[[ L["WATCH_COPY_TIP"] = ""--]] 
 L["WATCH_DEFAULTLIST"] = "Lista Predefinita:"
---Translation missing 
--- L["WATCH_DEFAULTLIST_TIP"] = ""
+--[[Translation missing --]]
+--[[ L["WATCH_DEFAULTLIST_TIP"] = ""--]] 
 L["WATCH_DELETE"] = "Elimina"
---Translation missing 
--- L["WATCH_DISPLAYEDLIST"] = ""
+--[[Translation missing --]]
+--[[ L["WATCH_DISPLAYEDLIST"] = ""--]] 
 L["WATCH_EMPTY"] = "La tua lista è vuota. Usa alt+click su un'impresa in un'altra scheda o collegamento alla chat per osservarlo."
 L["WATCH_EMPTY_SHORT"] = "Lista vuota"
---Translation missing 
--- L["WATCH_ERR_INVALIDID"] = ""
---Translation missing 
--- L["WATCH_HELP"] = ""
+--[[Translation missing --]]
+--[[ L["WATCH_ERR_INVALIDID"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["WATCH_HELP"] = ""--]] 
 L["WATCH_LIST_GLOBAL"] = "Scheda Globale"
 L["WATCH_LIST_PERCHAR"] = "Personaggio specifico"
 L["WATCH_NEW"] = "Nuova"
---Translation missing 
--- L["WATCH_POPUP_CLEARLIST"] = ""
---Translation missing 
--- L["WATCH_POPUP_DELETELIST"] = ""
---Translation missing 
--- L["WATCH_POPUP_NEWLIST"] = ""
+--[[Translation missing --]]
+--[[ L["WATCH_POPUP_CLEARLIST"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["WATCH_POPUP_DELETELIST"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["WATCH_POPUP_NEWLIST"] = ""--]] 
 L["WATCH_TAB"] = "Osserva"
 
+-- Tabs/SUBZONES
+	L.SUBZONES["Argent Pavilion"] = "Padiglione d'argento"
+	L.SUBZONES["Argent Tournament Grounds"] = "Campi del Torneo d'Argento"
+	L.SUBZONES["Formation Grounds"] = "Campi di Formazione"
+	--[[Translation missing --]]
+	--[[ L.SUBZONES["Razorscale's Aerie"] = ""--]] 
+	--[[Translation missing --]]
+	--[[ L.SUBZONES["Silver Covenant Pavilion"] = ""--]] 
+	L.SUBZONES["Sunreaver Pavilion"] = "Padiglione dei Predatori del Sole"
+	L.SUBZONES["The Alliance Valiants' Ring"] = "Arena dei Valorosi dell'Alleanza"
+	L.SUBZONES["The Argent Valiants' Ring"] = "Arena dei Valorosi d'Argento"
+	L.SUBZONES["The Aspirants' Ring"] = "Arena degli Aspiranti"
+	L.SUBZONES["The Assembly of Iron"] = "Adunanza del Ferro"
+	L.SUBZONES["The Celestial Planetarium"] = "Planetario Celeste"
+	L.SUBZONES["The Clash of Thunder"] = "Sala del Tuono"
+	L.SUBZONES["The Colossal Forge"] = "Forgia Colossale"
+	L.SUBZONES["The Conservatory of Life"] = "Serra della Vita"
+	L.SUBZONES["The Descent into Madness"] = "Discesa nella Follia"
+	L.SUBZONES["The Halls of Winter"] = "Sale dell'Inverno"
+	L.SUBZONES["The Horde Valiants' Ring"] = "Arena dei Valorosi dell'Orda"
+	--[[Translation missing --]]
+	--[[ L.SUBZONES["The Observation Ring"] = ""--]] 
+	L.SUBZONES["The Prison of Yogg-Saron"] = "Prigione di Yogg-Saron"
+	L.SUBZONES["The Ring of Champions"] = "Arena dei Campioni"
+	L.SUBZONES["The Scrapyard"] = "Cantiere di Demolizione"
+	L.SUBZONES["The Shattered Walkway"] = "Passaggio Infranto"
+	L.SUBZONES["The Spark of Imagination"] = "Scintilla dell'Immaginazione"
 
-end
 
 
-
-if (locale == "deDE") then  -- German
-
-	L["SUBZONES"] = {
-		["Argent Pavilion"] = "Argentumpavillon",
-		["Argent Tournament Grounds"] = "Argentumturnierplatz",
-		["Formation Grounds"] = "Gestaltungsgelände",
-		["Razorscale's Aerie"] = "Klingenschuppes Kanzel",
-		["Silver Covenant Pavilion"] = "Silberbundpavillon",
-		["Sunreaver Pavilion"] = "Sonnenhäscherpavillon",
-		["The Alliance Valiants' Ring"] = "Der Ring der Recken der Allianz",
-		["The Argent Valiants' Ring"] = "Der Ring der Recken des Argentumkreuzzugs",
-		["The Aspirants' Ring"] = "Der Ring der Streiter",
-		["The Assembly of Iron"] = "Die Versammlung des Eisens",
-		["The Celestial Planetarium"] = "Das himmlische Planetarium",
-		["The Clash of Thunder"] = "Der Donnerschlag",
-		["The Colossal Forge"] = "Die kolossale Schmiede",
-		["The Conservatory of Life"] = "Das Konservatorium des Lebens",
-		["The Descent into Madness"] = "Der Abstieg in den Wahnsinn",
-		["The Halls of Winter"] = "Die Hallen des Winters",
-		["The Horde Valiants' Ring"] = "Der Ring der Recken der Horde",
-		["The Observation Ring"] = "Der Beobachtungsring",
-		["The Prison of Yogg-Saron"] = "Das Gefängnis von Yogg-Saron",
-		["The Ring of Champions"] = "Der Ring der Champions",
-		["The Scrapyard"] = "Der Schrottplatz",
-		["The Shattered Walkway"] = "Der zerschmetterte Gang",
-		["The Spark of Imagination"] = "Der Funke der Imagination",
-	}
-
-elseif (locale == "frFR") then  -- French
-	L["SUBZONES"] = {
-		["Argent Pavilion"] = "Pavillon d'Argent",
-		["Argent Tournament Grounds"] = "Enceinte du tournoi d'Argent",
-		["Formation Grounds"] = "Champs d'entraînement",
-		["Razorscale's Aerie"] = "Aire de Tranchécaille",
-		["Silver Covenant Pavilion"] = "Pavillon du Concordat argenté",
-		["Sunreaver Pavilion"] = "Pavillon de Saccage-soleil",
-		["The Alliance Valiants' Ring"] = "Lice des vaillants de l'Alliance",
-		["The Argent Valiants' Ring"] = "Lice des vaillants d'Argent",
-		["The Aspirants' Ring"] = "Lice des aspirants",
-		["The Assembly of Iron"] = "L'assemblée du Fer",
-		["The Celestial Planetarium"] = "Le planétarium céleste",
-		["The Clash of Thunder"] = "Le fracas du tonnerre",
-		["The Colossal Forge"] = "La forge colossale",
-		["The Conservatory of Life"] = "Le jardin de  la vie",
-		["The Descent into Madness"] = "La descente dans la folie",
-		["The Halls of Winter"] = "Les salles de l'hiver",
-		["The Horde Valiants' Ring"] = "Lice des vaillants de la Horde",
-		["The Observation Ring"] = "Le cercle d'observation",
-		["The Prison of Yogg-Saron"] = "Prison de Yogg-Saron",
-		["The Ring of Champions"] = "Lice des champions",
-		["The Scrapyard"] = "La ferraillerie",
-		["The Shattered Walkway"] = "Le passage brisé",
-		["The Spark of Imagination"] = "L'étincelle d'imagination",
-	}
-
-elseif (locale == "zhTW") then  -- Traditional Chinese
-	L["SUBZONES"] = {
-		["Argent Pavilion"] = "銀白亭閣",
-		["Argent Tournament Grounds"] = "銀白聯賽場地",
-		["Formation Grounds"] = "構築之地",
-		["Razorscale's Aerie"] = "銳鱗之巢",
-		["Silver Covenant Pavilion"] = "白銀誓盟亭閣",
-		["Sunreaver Pavilion"] = "奪日者亭閣",
-		["The Alliance Valiants' Ring"] = "聯盟驍士競技場",
-		["The Argent Valiants' Ring"] = "銀白驍士競技場",
-		["The Aspirants' Ring"] = "志士競技場",
-		["The Assembly of Iron"] = "鐵之集會所",
-		["The Celestial Planetarium"] = "星穹渾天儀",
-		["The Clash of Thunder"] = "雷鳴之廳",
-		["The Colossal Forge"] = "巨熔爐",
-		["The Conservatory of Life"] = "生命溫室",
-		["The Descent into Madness"] = "驟狂斜廊",
-		["The Halls of Winter"] = "凜冬之廳",
-		["The Horde Valiants' Ring"] = "部落驍士競技場",
-		["The Observation Ring"] = "觀察之環",
-		["The Prison of Yogg-Saron"] = "尤格薩倫之獄",
-		["The Ring of Champions"] = "勇士競技場",
-		["The Scrapyard"] = "廢料場",
-		["The Shattered Walkway"] = "破碎走道",
-		["The Spark of Imagination"] = "創思之廳",
-	}
-
-elseif (locale == "zhCN") then  -- Simplified Chinese
-	L["SUBZONES"] = {
-		["Argent Pavilion"] = "银色大帐",
-		["Argent Tournament Grounds"] = "银色比武场",
-		["Formation Grounds"] = "练兵场",
-		["Razorscale's Aerie"] = "锋鳞之巢",
-		["Silver Covenant Pavilion"] = "银色盟约大帐",
-		["Sunreaver Pavilion"] = "夺日者大帐",
-		["The Alliance Valiants' Ring"] = "联盟勇士赛场",
-		["The Argent Valiants' Ring"] = "银色勇士赛场",
-		["The Aspirants' Ring"] = "候选者赛场",
-		["The Assembly of Iron"] = "钢铁议会",
-		["The Celestial Planetarium"] = "天文台",
-		["The Clash of Thunder"] = "雷霆角斗场",
-		["The Colossal Forge"] = "巨人熔炉",
-		["The Conservatory of Life"] = "生命温室",
-		["The Descent into Madness"] = "疯狂阶梯",
-		["The Halls of Winter"] = "寒冬大厅",
-		["The Horde Valiants' Ring"] = "部落勇士赛场",
-		["The Observation Ring"] = "观测场",
-		["The Prison of Yogg-Saron"] = "尤格-萨隆的监狱",
-		["The Ring of Champions"] = "冠军赛场",
-		["The Scrapyard"] = "废料场",
-		["The Shattered Walkway"] = "破碎通道",
-		["The Spark of Imagination"] = "思想火花",
-	}
-
-elseif (locale == "ruRU") then  -- Russian
-
-	L["SUBZONES"] = {
-		["Argent Pavilion"] = "Серебряный павильон",
-		["Argent Tournament Grounds"] = "Ристалище Серебряного турнира",
-		["Formation Grounds"] = "Плац",
-		["Razorscale's Aerie"] = "Гнездо Острокрылой",
-		["Silver Covenant Pavilion"] = "Павильон Серебряного Союза",
-		["Sunreaver Pavilion"] = "Павильон Похитителей Солнца",
-		["The Alliance Valiants' Ring"] = "Арена искателей славы из Альянса",
-		["The Argent Valiants' Ring"] = "Арена искателей славы Серебряного Авангарда",
-		["The Aspirants' Ring"] = "Арена претендентов",
-		["The Assembly of Iron"] = "Железное Собрание",
-		["The Celestial Planetarium"] = "Священный Планетарий",
-		["The Clash of Thunder"] = "Раскаты Грома",
-		["The Colossal Forge"] = "Гигантская кузня",
-		["The Conservatory of Life"] = "Оранжерея Жизни",
-		["The Descent into Madness"] = "Провал Безумия",
-		["The Halls of Winter"] = "Залы Зимы",
-		["The Horde Valiants' Ring"] = "Арена искателей славы из Орды",
-		["The Observation Ring"] = "Круг Наблюдения",
-		["The Prison of Yogg-Saron"] = "Темница Йогг-Сарона",
-		["The Ring of Champions"] = "Арена чемпионов",
-		["The Scrapyard"] = "Мусорная свалка",
-		["The Shattered Walkway"] = "Обвалившаяся галерея",
-		["The Spark of Imagination"] = "Искра Воображения",
-	}
-
-elseif (locale == "koKR") then  -- Korean
-	L["SUBZONES"] = {
-		["Argent Pavilion"] = "은빛십자군 막사",
-		["Argent Tournament Grounds"] = "은빛십자군 마상시합 광장",
-		["Formation Grounds"] = "전투대형 훈련장",
-		["Razorscale's Aerie"] = "칼날비늘의 둥지",
-		["Silver Covenant Pavilion"] = "은빛 서약단 막사",
-		["Sunreaver Pavilion"] = "선리버 막사",
-		["The Alliance Valiants' Ring"] = "얼라이언스 용맹전사의 투기장",
-		["The Argent Valiants' Ring"] = "은빛십자군 용맹전사의 투기장",
-		["The Aspirants' Ring"] = "지원자의 투기장",
-		["The Assembly of Iron"] = "무쇠 회합실",
-		["The Celestial Planetarium"] = "별자리 투영관",
-		["The Clash of Thunder"] = "천둥의 울림",
-		["The Colossal Forge"] = "거대 제련실",
-		["The Conservatory of Life"] = "생명의 정원",
-		["The Descent into Madness"] = "광기의 내리막길",
-		["The Halls of Winter"] = "겨울의 전당",
-		["The Horde Valiants' Ring"] = "호드 용맹전사의 투기장",
-		["The Observation Ring"] = "관찰 지구",
-		["The Prison of Yogg-Saron"] = "요그사론의 감옥",
-		["The Ring of Champions"] = "용사의 투기장",
-		["The Scrapyard"] = "고철 야적장",
-		["The Shattered Walkway"] = "부서진 산책로",
-		["The Spark of Imagination"] = "상상의 흔적",
-	}
-
-elseif (locale == "esES" or locale == "esMX") then  -- Spanish
-
-	L["SUBZONES"] = {
-		["Argent Pavilion"] = "Pabellón Argenta",
-		["Argent Tournament Grounds"] = "Campos del Torneo Argenta",
-		["Formation Grounds"] = "Campo de Formación",
-		["Razorscale's Aerie"] = "Nidal de Tajoescama",
-		["Silver Covenant Pavilion"] = "Pabellón de El Pacto de Plata",
-		["Sunreaver Pavilion"] = "Pabellón Atracasol",
-		["The Alliance Valiants' Ring"] = "La Liza de los Valerosos de la Alianza",
-		["The Argent Valiants' Ring"] = "La Liza de los Valerosos Argenta",
-		["The Aspirants' Ring"] = "La Liza de los Aspirantes",
-		["The Assembly of Iron"] = "La Asamblea de Hierro",
-		["The Celestial Planetarium"] = "El Planetario Celestial",
-		["The Clash of Thunder"] = "El Fragor del Trueno",
-		["The Colossal Forge"] = "La Forja Colosal",
-		["The Conservatory of Life"] = "El Invernadero de Vida",
-		["The Descent into Madness"] = "El Descenso a la Locura",
-		["The Halls of Winter"] = "Las Cámaras del Invierno",
-		["The Horde Valiants' Ring"] = "La Liza de los Valerosos de la Horda",
-		["The Observation Ring"] = "El Circulo de Observación",
-		["The Prison of Yogg-Saron"] = "La Prisión de Yogg-Saron",
-		["The Ring of Champions"] = "La Liza de los Campeones",
-		["The Scrapyard"] = "La Chatarrería",
-		["The Shattered Walkway"] = "La Pasarela Devastada",
-		["The Spark of Imagination"] = "Chispa de Imaginación",
-	}
-
-elseif (locale == "ptBR") then  -- Brazilian Portuguese
-
-	L["SUBZONES"] = {
-		["Argent Pavilion"] = "Pavilhão Argênteo",
-		["Argent Tournament Grounds"] = "Campos do Torneio Argênteo",
-		["Formation Grounds"] = "Campos de Formação",
-		["Razorscale's Aerie"] = "Refúgio da Navalhada",
-		["Silver Covenant Pavilion"] = "Pavilhão do Pacto de Prata",
-		["Sunreaver Pavilion"] = "Pavilhão Fendessol",
-		["The Alliance Valiants' Ring"] = "Arena dos Valentes da Aliança",
-		["The Argent Valiants' Ring"] = "Arena dos Valentes Argênteos",
-		["The Aspirants' Ring"] = "Arena dos Aspirantes",
-		["The Assembly of Iron"] = "A Assembleia de Ferro",
-		["The Celestial Planetarium"] = "O Planetário Celestial",
-		["The Clash of Thunder"] = "Estrondo do Trovão",
-		["The Colossal Forge"] = "Forja Colossal",
-		["The Conservatory of Life"] = "Reserva Biológica",
-		["The Descent into Madness"] = "A Espiral da Loucura",
-		["The Halls of Winter"] = "Os Salões do Inverno",
-		["The Horde Valiants' Ring"] = "Arena dos Valentes da Horda",
-		["The Observation Ring"] = "Campos de Observação",
-		["The Prison of Yogg-Saron"] = "Prisão de Yogg-Saron",
-		["The Ring of Champions"] = "Arena dos Campeões",
-		["The Scrapyard"] = "O Ferro Velho",
-		["The Shattered Walkway"] = "A Passarela Despedaçada",
-		["The Spark of Imagination"] = "Centelha da Imaginação",
-	}
-
-elseif (locale == "itIT") then  -- Italian
-
-	L["SUBZONES"] = {
-		["Argent Pavilion"] = "Padiglione d'argento",
-		["Argent Tournament Grounds"] = "Campi del Torneo d'Argento",
-		["Formation Grounds"] = "Campi di Formazione",
-		--Translation missing 
-		-- ["Razorscale's Aerie"] = "",
-		--Translation missing 
-		-- ["Silver Covenant Pavilion"] = "",
-		["Sunreaver Pavilion"] = "Padiglione dei Predatori del Sole",
-		["The Alliance Valiants' Ring"] = "Arena dei Valorosi dell'Alleanza",
-		["The Argent Valiants' Ring"] = "Arena dei Valorosi d'Argento",
-		["The Aspirants' Ring"] = "Arena degli Aspiranti",
-		["The Assembly of Iron"] = "Adunanza del Ferro",
-		["The Celestial Planetarium"] = "Planetario Celeste",
-		["The Clash of Thunder"] = "Sala del Tuono",
-		["The Colossal Forge"] = "Forgia Colossale",
-		["The Conservatory of Life"] = "Serra della Vita",
-		["The Descent into Madness"] = "Discesa nella Follia",
-		["The Halls of Winter"] = "Sale dell'Inverno",
-		["The Horde Valiants' Ring"] = "Arena dei Valorosi dell'Orda",
-		--Translation missing 
-		-- ["The Observation Ring"] = "",
-		["The Prison of Yogg-Saron"] = "Prigione di Yogg-Saron",
-		["The Ring of Champions"] = "Arena dei Campioni",
-		["The Scrapyard"] = "Cantiere di Demolizione",
-		["The Shattered Walkway"] = "Passaggio Infranto",
-		["The Spark of Imagination"] = "Scintilla dell'Immaginazione",
-	}
-
-end
-
-if (not L.SUBZONES) then
-	L.SUBZONES = {
-	-- Ulduar:
-		["Formation Grounds"] = "Formation Grounds",
-		["Razorscale's Aerie"] = "Razorscale's Aerie",
-		["The Assembly of Iron"] = "The Assembly of Iron",
-		["The Celestial Planetarium"] = "The Celestial Planetarium",
-		["The Clash of Thunder"] = "The Clash of Thunder",
-		["The Colossal Forge"] = "The Colossal Forge",
-		["The Conservatory of Life"] = "The Conservatory of Life",
-		["The Descent into Madness"] = "The Descent into Madness",
-		["The Halls of Winter"] = "The Halls of Winter",
-		["The Observation Ring"] = "The Observation Ring",
-		["The Prison of Yogg-Saron"] = "The Prison of Yogg-Saron",
-		["The Scrapyard"] = "The Scrapyard",
-		["The Shattered Walkway"] = "The Shattered Walkway",
-		["The Spark of Imagination"] = "The Spark of Imagination",
-	-- Icecrown:
-		["Argent Tournament Grounds"] = "Argent Tournament Grounds",
-		["The Ring of Champions"] = "The Ring of Champions",
-		["Argent Pavilion"] = "Argent Pavilion",
-		["The Argent Valiants' Ring"] = "The Argent Valiants' Ring",
-		["The Aspirants' Ring"] = "The Aspirants' Ring",
-		["The Alliance Valiants' Ring"] = "The Alliance Valiants' Ring",
-		["Silver Covenant Pavilion"] = "Silver Covenant Pavilion",
-		["Sunreaver Pavilion"] = "Sunreaver Pavilion",
-		["The Horde Valiants' Ring"] = "The Horde Valiants' Ring",
-	}
 end

@@ -14,11 +14,19 @@ For commonly called functions that "replace" standard WoW API calls, it is sugge
 following near the top of your script:
   local GetAchievementCriteriaInfo = TjAchieve.GetAchievementCriteriaInfo
 
+A note on terminology: An achievement that's "visible" in the GUI is one you can find and select in the non-modded achievement GUI. This does
+not include achievements in a series which aren't shown because you aren't on that step and it isn't the most recently completed step. The
+"standard" achievements are all the visible ones plus those that aren't visible but are in a series with a visible achievement. This does not
+include achievements exclusive to the opposite faction or unacquired Feats of Strength.
 
-Safe to call before a cache is built
-------------------------------------
+CAREFUL: As a general rule, you should not alter the contents of tables returned by these functions. Many of them are used internally.
 
-These functions either don't use a cache or build caches quickly enough that you don't need to worry about processing time before calling them.
+
+Quick and safe to call any time
+-------------------------------
+
+These functions get results quickly enough that you shouldn't need to worry about processing time or listeners. They either don't use caches
+or rapidly build them on demand.
 
 TjAchieve.GetAchievementCriteriaInfo( achievementID, criteriaIndex )
   Call this instead of the normal GetAchievementCriteriaInfo function to prevent an error from being thrown when an invalid achievement or
@@ -37,6 +45,45 @@ list = TjAchieve.GetGuildAchIDs()
 
 list = TjAchieve.GetPersonalAchIDs()
   Returns a list of all non-guild achievement IDs.
+
+num = TjAchieve.GetRealNumCriteria( achievementID )
+  Returns the actual number of criteria for the given achievement. This is usually the same what the normal GetAchievementNumCriteria function
+gives but there are a few achievements where that number is different. (This can vary depending on the faction of the current player character.)
+  For instance, as of WoW 7.3.5 and likely earlier, both versions of "Warlord of Draenor" (9508 for Horde, 9738 for Alliance) only list one or
+two criteria in the achievement GUI when they really should show eight. (This function successfully returns 8 but, because of a quirk or bug with
+WoW itself that we can't work around, only for the achievement for your own faction. Usually, faction does not make a difference, though.)
+  NOTE: Sometimes the discrepancy is apparently the result of a bug (as with "Warlord of Draenor") which means this function can be a helpful
+workaround. Other times, there is a good reason for the difference. (For instance, a criteria may used internally but is only confusing if shown
+to the player.) Still other times, it is debatable whether the criteria should be shown or it is useful only in certain circumstances. For this
+reason, it's recommended that you use this feature carefully.
+
+
+Cacheless but with optional throttled processing
+------------------------------------------------
+
+These functions don't use a cache but the results can take a while to process, so a listener can (optionally) be used. The listener is a function
+you pass to them which will be called with your results when they're ready.
+
+TjAchieve.StartSearchCriteriaByCategory( query, [categoriesList,] listenerFunc )
+  Gathers a list of achievement IDs that criteria which matches the given query and which are within one of the given categories.
+  Arguments:
+    query (string)			The text to look for.
+    categoriesList (table)	A numerically indexed table containing achievement category IDs. You can omit this argument or pass false to include
+							all achievement categories.
+    listenerFunc (function)	The listener function. When the search is complete, it will be passed either a table containing the list mentioned
+							above or false, indicating nothing was found.
+
+list = TjAchieve.SearchCriteriaByCategoryNow( query[, categoriesList] )
+  As TjAchieve.StartSearchCriteriaByCategory, except it isn't throttled and the results are returned immediately instead of being passed to another
+function. This may cause the game to stutter for a few moments.
+
+TjAchieve.StartSearchCriteriaByID( query, [idList,] listenerFunc )
+  As TjAchieve.StartSearchCriteriaByCategory except it looks at all achievements in a list of achievement IDs instead of looking at achievement
+categories. You can omit the idList argument or pass false there to include all achievements (even those that aren't found in the UI).
+
+list = TjAchieve.SearchCriteriaByIDNow( query[, idList] )
+  As TjAchieve.StartSearchCriteriaByID, except it isn't throttled and the results are returned immediately instead of being passed to another
+function. This may cause the game to stutter for a few moments.
 
 
 Calling before a cache is built may build it
@@ -60,6 +107,15 @@ id, index[, id2, index2, ...] OR list = TjAchieve.GetCriteriaByAsset( assetType,
   Given an asset's type and ID, returns all of the achievement IDs and criteria indexes associated with that asset.
   If the packed argument evaluates to true, then the values normally returned will instead be part of a table which is then the only return
 value. Do not alter the table's contents! They are used internally.
+
+list = TjAchieve.GetStandardAchIDs()
+  Returns a list of IDs for all standard achievements. ("Standard" as per the definition given at the top of this file.)
+
+list = TjAchieve.GetStandardPersonalAchIDs()
+  Returns a list of IDs for all standard personal (non-guild) achievements.
+
+list = TjAchieve.GetStandardGuildAchIDs()
+  Returns a list of IDs for all standard guild achievements.
 
 
 Achievement ID cache management
@@ -121,7 +177,7 @@ TjAchieve.CRITTYPE_KILL		The asset type for kill criteria.
 --]]
 
 
-local THIS_VERSION = "0.04"
+local THIS_VERSION = "0.05"
 
 if (TjAchieve and TjAchieve.Version >= THIS_VERSION) then  return;  end  -- Lua's pretty good at this. It even knows that "1.0.10" > "1.0.9". However, be aware that it thinks "1.0" < "1.0b" so putting a "b" on the end for Beta, nothing for release, doesn't work.
 
@@ -132,14 +188,19 @@ TjAchieve.Version = THIS_VERSION
 TjAchieve.CRITTYPE_KILL = 0
 TjAchieve.CRITTYPE_META = 8
 
-
 -- Set this to a higher number to finish building the lookup table faster. If frame rate drops occur, lower the number. Minimum 1.
 -- Can also/instead change INTERVAL in libs/TjThreads.lua to try to reduce drops in frame rate (theoretically).
 local BUILD_CRIT_STEPS = 50 --15 --50
+local BUILD_CRITCOUNT_STEPS = 100
+local SEARCH_CRIT_CAT_STEPS = 100
+local SEARCH_CRIT_IDS_STEPS = 750
+
+local ACH, CRITCOUNT
+
 
 
 ----------------------------------------------------------------------------------------------------------------------------------------------
--- API WRAPPERS
+-- API WRAPPERS AND ALTERNATIVES
 -- These exist because using WoW's default API functions can result in errors in some cases.
 ----------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -172,6 +233,19 @@ local function tryCall(func, ...)
 end
 --]]
 
+--[[
+local function copytab(from, to)
+	for k,v in pairs(from) do
+		if(type(v) == "table") then
+			to[k] = {}
+			copytab(v, to[k]);
+		else
+			to[k] = v;
+		end
+	end
+end
+--]]
+
 
 -- Overcome problem where GetAchievementCriteriaInfo throws an error if the achievement ID or criteria number is invalid:
 do
@@ -183,6 +257,28 @@ do
 	end
 end
 local GetAchievementCriteriaInfo = TjAchieve.GetAchievementCriteriaInfo
+
+
+local orig_GetAchievementNumCriteria = GetAchievementNumCriteria
+do
+	function TjAchieve.GetRealNumCriteria(achievementID)
+		--assert(type(achievementID) == "number", "Usage: TjAchieve.GetRealNumCriteria(achievementID)")
+		if (CRITCOUNT[achievementID]) then  return CRITCOUNT[achievementID];  end
+		if (TjAchieve.status_ACH) then
+			-- If the cache was built and it's not in there, then the count from the normal function is correct so it may be quicker to call that than
+			-- do our own calculation.
+			return orig_GetAchievementNumCriteria(achievementID)
+		end
+		local i = 0
+		local _, asset
+		repeat
+			i = i + 1
+			_, _, completed, _, _, _, _, asset = GetAchievementCriteriaInfo(achievementID, i)
+		until (not asset)
+		return i - 1
+	end
+end
+local real_GetAchievementNumCriteria = TjAchieve.GetRealNumCriteria
 
 --[[ UNUSED:
 -- Overcome problem where GetAchievementInfo throws an error if the achievement ID is invalid:
@@ -231,7 +327,7 @@ end
 -- NOTE: It is recommended that you use the functions provided to get data (see above) instead of directly referencing the variables
 -- that make up a cache.
 
--- TjAchieve.status_ACH	values: nil = Not started. false = Building. true = Ready.
+-- TjAchieve.status_ACH 	values: nil = Not started. false = Building. true = Ready.
 
 -- ALL ACHIEVEMENTS ID cache. When fully populated, it includes every achievement the API tells us exists.
 -- Keys are IDs (integers). Possible values:
@@ -242,27 +338,14 @@ end
 --				(Only the last complete and first incomplete achievement in a series are displayed. This ID will be the incomplete
 --				achievement if the requested achievement is incomplete or the complete achievement otherwise.)
 TjAchieve.ACH = TjAchieve.ACH or {}
-local ACH = TjAchieve.ACH
+ACH = TjAchieve.ACH  -- ACH defined above as local
 
 
---[[ UNUSED:
--- UI ACHIEVEMENTS ID cache. When fully populated, it includes every achievement that should be visible in the
--- default UI as well as any that are part of a series which, through another achievement, is visible in the
--- default UI. 
--- Keys are IDs (integers). Possible values:
--- true		This achievement is visible in the UI.
--- number	The ID of a previous achievement in this one's series which is visible in the UI.
-TjAchieve.ACH_VIS = TjAchieve.ACH_VIS or {}
-local ACH_VIS = TjAchieve.ACH_VIS
---]]
-
---[[ UNUSED:
--- Achievement criteria index cache. Stores highest numbered criteria found for a given achievement.
--- (Doesn't use GetAchievementNumCriteria because there are, or at least used to be, hidden criteria with indexes
--- higher than the number that function would give.)
+-- Achievement criteria index cache. Stores highest numbered criteria found for a given achievement. THIS IS NOT A COMPLETE LIST. Even when
+-- fully populated, it only includes achievements where GetAchievementNumCriteria does not match the value from TjAchieve.GetRealNumCriteria.
 TjAchieve.CRITCOUNT = TjAchieve.CRITCOUNT or {}
-local CRITCOUNT = TjAchieve.CRITCOUNT
---]]
+CRITCOUNT = TjAchieve.CRITCOUNT  -- CRITCOUNT defined above as local
+
 
 --[[ UNUSED:
 -- Achievement criteria/statistic ID cache. Possible values:
@@ -283,7 +366,7 @@ local CRIT = TjAchieve.CRIT
 -- Or, if there are multiple IDs and associated indexes, like this:
 --   { id1, index1, id2, index2, ... }
 -- You can tell whether indexes are included or not by checking against the key "saveIndex" of the associated data table, which will be true
--- if indexes they are.
+-- if indexes are included.
 TjAchieve.ASSETS = TjAchieve.ASSETS or {}
 local ASSETS = TjAchieve.ASSETS
 
@@ -317,7 +400,7 @@ local function getAllAchievements(key, catfunc)
 		TjAchieve.ACHIEVEMENTS_ALL = ACHIEVEMENTS_ALL
 	end
 	if (ACHIEVEMENTS_ALL[key]) then  return ACHIEVEMENTS_ALL[key];  end
-	local catlist = catfunc and catfunc() or TjAchieve.GetAllCategories()
+	local catlist = catfunc()
 	local catlookup = {}
 	for i,c in ipairs(catlist) do
 		catlookup[c] = true
@@ -350,7 +433,7 @@ local function getAllAchievements(key, catfunc)
 end
 
 function TjAchieve.GetAchIDs()
-	return getAllAchievements(1)
+	return getAllAchievements(1, TjAchieve.GetAllCategories)
 end
 
 function TjAchieve.GetPersonalAchIDs()
@@ -423,6 +506,48 @@ function TjAchieve.GetCriteriaByAsset(assetType, assetID, packed)
 end
 
 
+local ACH_standard, ACH_standard_personal, ACH_standard_guild
+
+local function buildStandardList(achList, tab)
+	if (not TjAchieve.status_ACH and not getFirstSeenInSeries_precache) then
+		TjAchieve.RushBuildIDCache()
+	end
+	local n = 0
+	for i,id in ipairs(achList) do
+		if (ACH[id] ~= 0) then
+			n = n + 1
+			tab[n] = id
+		end
+	end
+end
+
+
+function TjAchieve.GetStandardAchIDs()
+	if (not ACH_standard) then
+		ACH_standard = {}
+		buildStandardList(TjAchieve.GetPersonalAchIDs(), ACH_standard)
+	end
+	return ACH_standard
+end
+
+function TjAchieve.GetStandardPersonalAchIDs()
+	if (not ACH_standard_personal) then
+		ACH_standard_personal = {}
+		buildStandardList(TjAchieve.GetPersonalAchIDs(), ACH_standard_personal)
+	end
+	return ACH_standard_personal
+end
+
+function TjAchieve.GetStandardGuildAchIDs()
+	if (not ACH_standard_guild) then
+		ACH_standard_guild = {}
+		buildStandardList(TjAchieve.GetPersonalAchIDs(), ACH_standard_guild)
+	end
+	return ACH_standard_guild
+end
+
+
+
 ----------------------------------------------------------------------------------------------------------------------------------------------
 -- THROTTLED POPULATION OF CACHES AND EVENT MONITORING TO KEEP IT ACCURATE
 ----------------------------------------------------------------------------------------------------------------------------------------------
@@ -432,10 +557,20 @@ TjAchieve.Frame = TjAchieve.Frame or CreateFrame("Frame")
 TjAchieve.Frame:RegisterEvent("ACHIEVEMENT_EARNED")
 TjAchieve.Frame:SetScript("OnEvent", function(self, event, arg1)
 	ACH[arg1] = true -- Most recently completed achievements are shown
+
 	local id = GetPreviousAchievement(arg1)
-	if (id) then  ACH[id] = arg1;  end -- Achievements prior to the most recent are not shown
+	if (id) then
+		-- Achievements prior to the most recent are not shown
+		ACH[id] = arg1
+	end
+
 	id = GetNextAchievement(arg1)
-	if (id) then  ACH[id] = true;  end -- The next achievement after the most recently completed one is shown
+	if (id) then
+		-- The next achievement after the most recently completed one is shown
+		ACH[id] = true
+	end
+
+	ACH_standard, ACH_standard_personal, ACH_standard_guild = nil, nil, nil
 end)
 
 local idCacheBuildStep
@@ -475,10 +610,10 @@ do
 		TjAchieve.GetGuildAchIDs()
 		coroutine.yield()
 
+		-- Determine which achievements currently show in the UI. (We'll listen to the ACHIEVEMENT_EARNED event to update this as needed.)
 		while (not buildStepUIAch()) do
 			coroutine.yield()
 		end
-
 		-- Save our results:
 		for i,ach in ipairs(tab) do
 			ACH[ach] = true
@@ -496,6 +631,26 @@ do
 		end
 		-- Handle possible changes to UI visibility:
 		--do this earlier in case something changes while the cache is being built -- TjAchieve.Frame:RegisterEvent("ACHIEVEMENT_EARNED")
+
+		-- Flag which achievements have mismatched max criteria numbers
+		do
+			local list = TjAchieve.GetAchIDs()
+			local yieldIn = BUILD_CRITCOUNT_STEPS
+			for x,id in ipairs(list) do
+				if (yieldIn < 1) then
+					--print("yield before", id)
+					coroutine.yield()
+					yieldIn = BUILD_CRITCOUNT_STEPS
+				end
+				yieldIn = yieldIn - 1
+
+				local old = orig_GetAchievementNumCriteria(id)
+				local new = real_GetAchievementNumCriteria(id)
+				if (old ~= new) then
+					CRITCOUNT[id] = new
+				end
+			end
+		end
 
 		-- We're done!
 		TjAchieve.status_ACH = true
@@ -555,11 +710,17 @@ local function createAssetLookupFunc(assetType, saveIndex)
 		local _, critType
 		local numc, i
 		local GetAchievementCriteriaInfo = GetAchievementCriteriaInfo
-		local GetAchievementNumCriteria = GetAchievementNumCriteria
 		local yieldIn = BUILD_CRIT_STEPS
 		for x,id in ipairs(list) do
+			if (yieldIn < 1) then
+				--print("yield before", id,"(",assetType,")")
+				coroutine.yield()
+				yieldIn = BUILD_CRIT_STEPS
+			end
+			yieldIn = yieldIn - 1
+
 			--for i=1,GetAchievementNumCriteria(id) do
-			numc = GetAchievementNumCriteria(id)
+			numc = real_GetAchievementNumCriteria(id)
 			i = 1
 			repeat
 				_, critType, _, _, _, _, _, assetID = GetAchievementCriteriaInfo(id, i)
@@ -583,13 +744,6 @@ local function createAssetLookupFunc(assetType, saveIndex)
 				end
 				i = i + 1
 			until (i > numc or not assetID)
-
-			yieldIn = yieldIn - 1
-			if (yieldIn < 1) then
-				--print("yield after", id,"(",assetType,")")
-				coroutine.yield()
-				yieldIn = BUILD_CRIT_STEPS
-			end
 		end
 
 		-- We're done!
@@ -662,6 +816,120 @@ function TjAchieve.AddBuildCritAssetCacheListener(assetType, func)
 		TjAchieve.listeners_CACache[assetType][#TjAchieve.listeners_CACache[assetType] + 1] = func
 	end
 end
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+-- OTHER THROTTLED FUNCTIONALITY
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+local createCriteriaSearchFunc
+do
+	local results
+
+	local function findCriteria(id, pattern)
+		local critString, foundCrit
+		--print("findCriteria " .. id .. " " .. pattern)
+		for i=1,orig_GetAchievementNumCriteria(id) do
+			critString = GetAchievementCriteriaInfo(id, i)
+			foundCrit = strfind(strlower(critString), pattern, 1, true)
+			if (foundCrit) then  return true;  end
+		end
+	end
+
+	function createCriteriaSearchFunc(query, listener, categories, achList)
+		query = strlower(query)
+		if (categories == true) then
+			categories = TjAchieve.GetAllCategories()
+		elseif (achList == true) then
+			achList = TjAchieve.GetAchIDs()
+		end
+		return function()
+			local found = {}
+			local anyFound
+			if (categories) then
+				local yieldIn = SEARCH_CRIT_CAT_STEPS
+				local id
+				for _,cat in ipairs(categories) do
+					for i=1,GetCategoryNumAchievements(cat) do
+
+						if (yieldIn < 1) then
+							print("yield before", cat,",",i)
+							coroutine.yield()
+							yieldIn = SEARCH_CRIT_CAT_STEPS
+						end
+						yieldIn = yieldIn - 1
+
+						id = GetAchievementInfo(cat, i)
+						if (id and findCriteria(id, query)) then
+							found[#found+1] = id
+							anyFound = true
+						end
+					end
+				end
+			else
+				local yieldIn = SEARCH_CRIT_IDS_STEPS
+				for i,id in ipairs(achList) do
+
+					if (yieldIn < 1) then
+						print("yield before", i,",",id)
+						coroutine.yield()
+						yieldIn = SEARCH_CRIT_IDS_STEPS
+					end
+					yieldIn = yieldIn - 1
+
+					if (findCriteria(id, query)) then
+						found[#found+1] = id
+						anyFound = true
+					end
+				end
+			end
+			if (listener) then  listener(found);  end
+			return found
+		end
+	end
+end
+
+
+function TjAchieve.StartSearchCriteriaByCategory(query, categoriesList, listenerFunc)
+	if (type(categoriesList) == "function" and not listenerFunc) then
+		listenerFunc = categoriesList
+		categoriesList = nil
+	end
+	local func = createCriteriaSearchFunc(query, listenerFunc, categoriesList or true, nil)
+	TjThreads.AddTask(func)
+end
+
+function TjAchieve.SearchCriteriaByCategoryNow(query, categoriesList)
+	local func = createCriteriaSearchFunc(query, false, categoriesList or true, nil)
+	TjThreads.AddTask(func)
+	return TjThreads.RushTask(func)
+end
+
+function TjAchieve.StartSearchCriteriaByID(query, idList, listenerFunc)
+	if (type(idList) == "function" and not listenerFunc) then
+		listenerFunc = idList
+		idList = nil
+	end
+	local func = createCriteriaSearchFunc(query, listenerFunc, nil, idList or true)
+	TjThreads.AddTask(func)
+end
+
+function TjAchieve.SearchCriteriaByIDNow(query, idList)
+	local func = createCriteriaSearchFunc(query, false, nil, idList or true)
+	TjThreads.AddTask(func)
+	return TjThreads.RushTask(func)
+end
+
+-- /dump TjAchieve.SearchCriteriaByCategoryNow("course")
+-- /dump TjAchieve.StartSearchCriteriaByID("course", function(...) print("done", unpack(...)) end)
+-- /dump TjAchieve.StartSearchCriteriaByCategory("course", function(...) print("done", unpack(...)) end)
+
+-- /dump TjAchieve.StartSearchCriteriaByID("course", function(...) print("done", unpack(...)) end)
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------
 
 
 --[[

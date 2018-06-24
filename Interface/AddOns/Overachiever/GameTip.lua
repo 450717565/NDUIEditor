@@ -520,11 +520,12 @@ function Overachiever.ExamineSetUnit(tooltip)
 	  local tab = Overachiever.GetKillCriteriaLookup(true)
 	  if (tab) then  tab = tab[guid];  end
       if (tab) then
-        local num, numincomplete, potential, _, achcom, c, t = 0, 0
+	    local excludeGuild = Overachiever_Settings.CreatureTip_killed_exclude_guild
+        local num, numincomplete, potential, _, achcom, guild, c, t = 0, 0
         for i = 1, #tab, 2 do
           id = tab[i]
-          _, _, _, achcom = GetAchievementInfo(id)
-          if (not achcom) then
+          _, _, _, achcom, _, _, _, _, _, _, _, guild = GetAchievementInfo(id)
+          if (not achcom and (not guild or not excludeGuild)) then
             num = num + 1
             _, _, c = GetAchievementCriteriaInfo(id, tab[i+1])
             if (not c) then

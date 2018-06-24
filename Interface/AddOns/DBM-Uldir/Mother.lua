@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2167, "DBM-Uldir", nil, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17548 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17579 $"):sub(12, -3))
 mod:SetCreatureID(135452)--136429 Chamber 01, 137022 Chamber 02, 137023 Chamber 03
 mod:SetEncounterID(2141)
 mod:SetZone()
@@ -19,8 +19,10 @@ mod:RegisterEventsInCombat(
 )
 
 --More mythic timer work
---local warnXorothPortal				= mod:NewSpellAnnounce(244318, 2, nil, nil, nil, nil, nil, 7)
---local warnSunderingScalpelCast			= mod:NewCastAnnounce(267787, 2, nil, nil, "Tank")
+--[[
+ability.id = 267787 and type = "begincast"
+ or (ability.id = 267795 or ability.id = 267945 or ability.id = 269827 or ability.id = 277973 or ability.id = 277961 or ability.id = 268089) and type = "cast"
+--]]
 local warnSunderingScalpel				= mod:NewStackAnnounce(267787, 3, nil, "Tank")
 local warnWindTunnel					= mod:NewSpellAnnounce(267945, 2)
 local warnDepletedEnergy				= mod:NewSpellAnnounce(274205, 1)

@@ -779,6 +779,7 @@ function Overachiever.BuildNewTab(name, text, watermark, helptip, loadFunc, filt
   scrollbar:SetPoint("TOPLEFT", scrollframe, "TOPRIGHT", 1, -16)
   scrollbar:SetPoint("BOTTOMLEFT", scrollframe, "BOTTOMRIGHT", 1, 12)
   frame.scrollFrame = scrollframe
+  frame.scrollbar = scrollbar
 
   scrollbar.Show =
     function (self)
@@ -797,6 +798,49 @@ function Overachiever.BuildNewTab(name, text, watermark, helptip, loadFunc, filt
       end
       getmetatable(self).__index.Hide(self);
     end
+
+	local frameWarning = CreateFrame("Frame", nil, frame)
+	frameWarning:SetPoint("BOTTOM", frame, "BOTTOM", 0, 3)
+	frameWarning:SetWidth(520)  -- 492  490
+	frameWarning:SetHeight(26)
+	frameWarning:SetFrameLevel(frameWarning:GetFrameLevel() + 2)
+	frameWarning.tex = frameWarning:CreateTexture("$parentBackground", "BACKGROUND")
+	frameWarning.tex:SetColorTexture(0.025, 0.025, 0.025, 0.75)
+	frameWarning.tex:SetAllPoints()
+	frameWarning:Hide()
+	frame.frameWarning = frameWarning
+
+	local filteredOutLabel = frameWarning:CreateFontString(nil, "HIGH", "GameFontGreen") --"GameFontNormal" "GameFontHighlight"
+	filteredOutLabel:SetPoint("CENTER", frameWarning, "CENTER", 0, 0)
+	filteredOutLabel:SetWidth(490)
+	--filteredOutLabel:Font:SetTextColor(r, g, b, a)
+	--filteredOutLabel:SetShadowColor(1, 0, 0, 1)
+	frameWarning.label = filteredOutLabel
+
+	scrollbar:HookScript("OnValueChanged", function(self, value, ...)
+		local vmin, vmax = self:GetMinMaxValues()
+		local prev = frameWarning.top
+		--local new = (value >= (vmax / 2))
+		local new = (value >= vmax - 20)
+		if (prev ~= new) then
+			frameWarning.top = new
+			frameWarning:ClearAllPoints()
+			if (new) then
+				frameWarning:SetPoint("TOP", frame, "TOP", 0, -3)
+			else
+				frameWarning:SetPoint("BOTTOM", frame, "BOTTOM", 0, 3)
+			end
+		end
+	end)
+
+	scrollbar:HookScript("OnShow", function(self)
+		frameWarning:SetWidth(492)
+	end)
+
+	scrollbar:HookScript("OnHide", function(self)
+		frameWarning:SetWidth(520)
+	end)
+
 
   tinsert(ACHIEVEMENTFRAME_SUBFRAMES, name)
 

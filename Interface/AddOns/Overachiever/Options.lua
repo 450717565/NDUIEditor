@@ -28,6 +28,7 @@ Overachiever.DefaultSettings = {
   Item_consumed_whencomplete = false;
   Item_satisfied = true;
   CreatureTip_killed = true;
+  CreatureTip_killed_exclude_guild = false;
   LetItSnow_flaked = false;
   FistfulOfLove_petals = false;
   BunnyMaker_eared = false;
@@ -54,6 +55,7 @@ Overachiever.DefaultSettings = {
   ToastCalendar_misc = false;
   ToastCalendar_noautofade = false;
   ToastCalendar_onlyclickfade = false;
+  Throttle_AchLookup = true;
   Version = THIS_VERSION;
 };
 
@@ -122,12 +124,16 @@ function Overachiever.CreateOptions(THIS_TITLE, BuildCriteriaLookupTab_check, Au
 	  tooltip = L.OPT_SELECTSOUND_ANGLERCHECKPOLE_TIP, xOffset = 15 },
 	{ variable = "SoundAchIncomplete_KillCheckCombat", text = L.OPT_SELECTSOUND_CHECKCOMBAT,
 	  tooltip = L.OPT_SELECTSOUND_CHECKCOMBAT_TIP, xOffset = 15 },
+
+	{ type = "labelwrap", text = L.OPT_LABEL_MISC, topBuffer = 4, xOffset = 0 },
+	{ variable = "Throttle_AchLookup", text = L.OPT_THROTTLE_ACHLOOKUP, tooltip = L.OPT_THROTTLE_ACHLOOKUP_TIP },
   }
 
   local items_reminders = {
 	{ type = "Oa_AchLabel", text = L.OPT_LABEL_NEEDTOKILL, topBuffer = 4, id1 = IDs.MediumRare, id2 = IDs.NorthernExposure, id3 = IDs.Glorious },
 	{ variable = "CreatureTip_killed", text = L.OPT_KILLCREATURETIPS, tooltip = L.OPT_KILLCREATURETIPS_TIP,
 	  tooltip2 = L.OPT_KILLCREATURETIPS_TIP2, OnChange = BuildCriteriaLookupTab_check, xOffset = 28 },
+	{ variable = "CreatureTip_killed_exclude_guild", text = L.OPT_KILLCREATURETIPS_EXCLUDE_GUILD, xOffset = 39 },
 
 	{ type = "Oa_AchLabel", text = L.OPT_LABEL_ACHFOUR, topBuffer = 4, id1 = IDs.LoveCritters, id2 = IDs.LoveCritters2, id3 = IDs.LoveCritters3, id4 = IDs.LoveCritters4, xOffset = 0 },
 	{ variable = "CritterTip_loved", text = L.OPT_CRITTERTIPS, tooltip = L.OPT_CRITTERTIPS_TIP, xOffset = 28 },

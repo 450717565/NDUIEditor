@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("BrawlRank4", "DBM-Brawlers")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17564 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17576 $"):sub(12, -3))
 --mod:SetModelID(28115)
 mod:SetZone()
 mod:SetUsedIcons(8)
@@ -49,7 +49,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 --	elseif args.spellId == 133129 then
 --		DominikaGUID = args.destGUID
-	elseif spellId == 236155 and args:IsPlayer() then
+	elseif args.spellId == 236155 and args:IsPlayer() then
 		local amount = args.amount or 1
 		if amount >= 8 then
 			specWarnAuraofRot:Show(amount)

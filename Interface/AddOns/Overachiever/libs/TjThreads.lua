@@ -33,10 +33,12 @@ ok = TjThreads.RemoveTask( func )
   Returns:
     ok (boolean)		True if the task was removed. False if that function wasn't on the list.
 
-TjThreads.RushTask( func )
+ret = TjThreads.RushTask( func )
   Force a task to finish. The coroutine will be resumed repeatedly until the thread is dead (when the function is exited without using
   coroutine.yield()). Careful not to use this with a function that will not naturally end when called repeatedly in this manner! The task
   is automatically removed afterward.
+  Returns:
+    ret (any)			The first return value output by func when it finished. (Only one is returned. Others are ignored.)
 
 Example usage:
 
@@ -58,7 +60,7 @@ Example usage:
 --]]
 
 
-local THIS_VERSION = "0.02"
+local THIS_VERSION = "0.03"
 
 if (TjThreads and TjThreads.Version >= THIS_VERSION) then  return;  end  -- Lua's pretty good at this. It even knows that "1.0.10" > "1.0.9". However, be aware that it thinks "1.0" < "1.0b" so putting a "b" on the end for Beta, nothing for release, doesn't work.
 
@@ -69,7 +71,7 @@ TjThreads.Version = THIS_VERSION
 
 local coroutine = coroutine
 
-local INTERVAL = 4 --2
+local INTERVAL = 2 --4
 local waitLeft = INTERVAL
 
 local tasks, threads
@@ -77,6 +79,8 @@ local nextTask = 1
 
 local frame = CreateFrame("Frame")
 frame:Hide() -- Just in case it doesn't start hidden, which it should
+
+local lastErr = nil
 
 
 --[[
@@ -90,16 +94,20 @@ local function doTask(func)
 end
 --]]
 
-local function resumeThread(thread)
+local function resumeThread(thread, noErrorOut)
+	lastErr = nil
 	if (coroutine.status(thread) == "dead") then  return true;  end
 	local noerrors, ret2 = coroutine.resume(thread)
 	if (not noerrors) then
-		C_Timer.After(0, function()  -- Use a timer so as to not interrupt what we're doing.
-			error("TjThreads library encountered an error while running a task. To prevent further errors, the task was terminated. Check the task function for problems. The original error message follows:|n" .. ret2)
-		end)
+		lastErr = ret2
+		if (not noErrorOut) then
+			C_Timer.After(0, function()  -- Use a timer so as to not interrupt what we're doing.
+				error("TjThreads library encountered an error while running a task. To prevent further errors, the task was terminated. Check the task function for problems. The original error message follows:|n" .. ret2)
+			end)
+		end
 		return true  -- End the task as if it was complete
 	end
-	if (coroutine.status(thread) == "dead") then  return true;  end
+	if (coroutine.status(thread) == "dead") then  return true, ret2;  end
 end
 
 frame:SetScript("OnUpdate", function(self, elapsed)
@@ -168,9 +176,15 @@ function TjThreads.RushTask(func)
 		thread = threads[func]
 		assert(thread)
 	end
-	while (not resumeThread(thread)) do  -- Run until it reports it is finished (returning true).
-		-- This space intentionally left blank.
-	end
+	local complete, ret
+	repeat
+		complete, ret = resumeThread(thread, true)
+		-- Run until it reports it is finished.
+	until (complete)
 	TjThreads.RemoveTask(func)
+	if (lastErr) then
+		error("TjThreads.RushTask(): Encountered an error while running a task. To prevent further errors, the task was terminated. Check the task function for problems. The original error message follows:|n" .. lastErr)
+	end
+	return ret
 end
 

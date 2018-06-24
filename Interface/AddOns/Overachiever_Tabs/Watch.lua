@@ -149,6 +149,17 @@ function frame.SetNumListed(num)
   else
     NoneWatchedLabel:Show()
   end
+
+  local c = #frame.AchList
+  if (num < c) then
+    frame.frameWarning.label:SetText(L.WATCH_FILTERED_OUT:format(c - num))
+	--local w = frame.frameWarning.label:GetStringWidth() + 100
+	--if (w > 492) then  w = 492;  end
+	--frame.frameWarning:SetWidth(w)
+    frame.frameWarning:Show()
+  else
+    frame.frameWarning:Hide()
+  end
 end
 
 

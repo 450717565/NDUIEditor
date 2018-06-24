@@ -323,6 +323,14 @@ local achBrawlersGuild = {
 	11573, -- Rumble Club
 }
 
+local achArgus = {
+	12101, -- We Came Here For Two Reasons
+	12077, -- Adventurer of Argus
+	12100, -- Family Fighter
+	12084, -- Infused and Abused
+	12083, -- Paragon of Argus
+}
+
 local ACHID_ZONE_MISC = {
 -- Kalimdor
 	["Ashenvale"] = "4827:6",	-- "Surveying the Damage"
@@ -608,6 +616,9 @@ local ACHID_ZONE_MISC = {
 		11786, -- Terrors of the Shore
 		11787, -- The Gates of Hell
 	},
+	["Krokuun"] = achArgus,
+	["Mac'Aree"] = achArgus,
+	["Antoran Wastes"] = achArgus,
 -- Legion: Class Halls
 	["Acherus: The Ebon Hold"] = achClassHall, -- Death knight
 	["The Fel Hammer"] = achClassHall, -- Demon hunter
@@ -951,6 +962,14 @@ local ACHID_INSTANCES = {
 		11760, -- Retro Trend
 		11788, -- Wailing Halls
 	},
+	["Antorus, the Burning Throne"] = {
+		11987, -- Glory of the Argus Raider
+		12020, -- Argussy Up
+		11989, -- Forbidden Descent
+		11990, -- Hope's End
+		11988, -- Light's Breach
+		11991, -- Seat of the Pantheon
+	},
 
 -- Legion Scenarios
 	["The Deaths of Chromie"] = 11941,
@@ -1089,6 +1108,9 @@ local ACHID_INSTANCES_HEROIC = {
 		9223, -- Weed Whacker
 	},
 	["Upper Blackrock Spire"] = { 9045, 9058, 9056, 9057 },
+
+-- Legion Dungeons
+	["Seat of the Triumvirate"] = 12007,
 }
 -- Aliases
 --ACHID_INSTANCES_HEROIC["Hall of Blackhand"] = ACHID_INSTANCES_HEROIC["Upper Blackrock Spire"]
@@ -1314,6 +1336,25 @@ local ACHID_INSTANCES_MYTHIC = {
 	},
 	["Tomb of Sargeras"] = {
 		11774, 11780, 11767, 11775, 11781, 11779, 11776, 11777, 11778,
+	},
+	["Seat of the Triumvirate"] = {
+		12008,
+		12009,
+		12005,
+		12004,
+	},
+	["Antorus, the Burning Throne"] = {
+		12001, -- Mythic: Aggramar
+		11994, -- Mythic: Antoran High Command
+		12002, -- Mythic: Argus the Unmaker
+		11996, -- Mythic: Eonar
+		11992, -- Mythic: Garothi Worldbreaker
+		11993, -- Mythic: Hounds of Sargeras
+		11997, -- Mythic: Imonar the Soulhunter
+		11998, -- Mythic: Kin'garoth
+		11995, -- Mythic: Portal Keeper Hasabel
+		12000, -- Mythic: The Coven of Shivarra
+		11999, -- Mythic: Varimathras
 	},
 }
 
@@ -2190,6 +2231,7 @@ end)
 ----------------------------------------------------
 
 function Overachiever.OpenSuggestionsTab(text)
+	if (not AchievementFrame:IsShown()) then  ToggleAchievementFrame();  end
 	EditZoneOverride:SetText(text)
 	if (Overachiever.GetSelectedTab() == frame) then
 		Overachiever.OpenTab_frame(frame)

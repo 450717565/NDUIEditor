@@ -354,6 +354,10 @@ OVERACHIEVER_EXPLOREZONEID = {
 	["Stormheim"] = 10668,
 	["Suramar"] = 10669,
 	["Broken Shore"] = 11543,
+	-- Explore Argus:
+	["Krokuun"] = 12069,
+	["Mac'Aree"] = 12069,
+	["Antoran Wastes"] = 12069,
 };
 OVERACHIEVER_EXPLOREZONEID["Thunder Totem"] = OVERACHIEVER_EXPLOREZONEID["Highmountain"]
 -- "Explore Cataclysm": 4868

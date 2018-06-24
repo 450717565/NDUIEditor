@@ -41,9 +41,9 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 17573 $"):sub(12, -3)),
-	DisplayVersion = "7.3.31 alpha", -- the string that is shown as version
-	ReleaseRevision = 17510 -- the revision of the latest stable version that is available
+	Revision = tonumber(("$Revision: 17605 $"):sub(12, -3)),
+	DisplayVersion = "7.3.32 alpha", -- the string that is shown as version
+	ReleaseRevision = 17598 -- the revision of the latest stable version that is available
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -53,7 +53,7 @@ if not DBM.Revision then
 	DBM.Revision = DBM.ReleaseRevision
 end
 
-local wowVersionString, _, _, wowTOC = GetBuildInfo()
+local wowVersionString, wowBuild, _, wowTOC = GetBuildInfo()
 local testBuild = false
 if IsTestBuild() then
 	testBuild = true
@@ -418,6 +418,8 @@ local bannedMods = { -- a list of "banned" (meaning they are replaced by another
 	"DBM-ProvingGrounds",--Renamed to DBM-Challenges going forward to include proving grounds and any new single player challendges of similar design such as mage tower artifact quests
 	"DBM-VPKiwiBeta",--Renamed to DBM-VPKiwi in final version.
 	"DBM-Suramar",--Renamed to DBM-Nighthold
+	"DBM-KulTiras",--Merged to DBM-Azeroth-BfA
+	"DBM-Zandalar",--Merged to DBM-Azeroth-BfA
 --	"DBM-PvP",--Discontinued do to inability to maintain such large scale external projects with limitted time/resources
 }
 
@@ -584,7 +586,7 @@ local BNSendWhisper = sendWhisper
 local function stripServerName(cap)
 	cap = cap:sub(2, -2)
 	if DBM.Options.StripServerName then
-		cap = Ambiguate(cap, "short")
+		cap = Ambiguate(cap, "none")
 	end
 	return cap
 end
@@ -1313,6 +1315,7 @@ do
 				"GROUP_ROSTER_UPDATE",
 				"INSTANCE_GROUP_SIZE_CHANGED",
 				"CHAT_MSG_ADDON",
+				--"CHAT_MSG_ADDON_LOGGED",--Enable in next Beta Build
 				"BN_CHAT_MSG_ADDON",
 				"PLAYER_REGEN_DISABLED",
 				"PLAYER_REGEN_ENABLED",
@@ -4911,6 +4914,7 @@ do
 			end
 		end
 	end
+	--DBM.CHAT_MSG_ADDON_LOGGED = DBM.CHAT_MSG_ADDON
 	
 	function DBM:BN_CHAT_MSG_ADDON(prefix, msg, channel, sender)
 		if prefix == "D4" and msg then
@@ -6942,7 +6946,7 @@ function DBM:AntiSpam(time, id)
 end
 
 function DBM:GetTOC()
-	return wowTOC, testBuild, wowVersionString
+	return wowTOC, testBuild, wowVersionString, wowBuild
 end
 
 function DBM:InCombat()
@@ -6987,8 +6991,7 @@ function DBM:FindInstanceIDs()
 	end
 end
 
---/run DBM:FindEncounterIDs(1028)--Kul Tiras
---/run DBM:FindEncounterIDs(1029)--Zandalar
+--/run DBM:FindEncounterIDs(1028)--Azeroth (BfA)
 --/run DBM:FindEncounterIDs(1031)--Uldir
 --/run DBM:FindEncounterIDs(1001, 23)--Dungeon Template (mythic difficulty)
 function DBM:FindEncounterIDs(instanceID, diff)
@@ -7315,6 +7318,14 @@ function bossModPrototype:IsTrivial(level)
 	if difficultyIndex == 24 then return false end--Timewalker dungeon, ignore level and return false for trivial
 	if playerLevel >= level then
 		return true
+	end
+	return false
+end
+
+function bossModPrototype:IsValidWarning(sourceGUID)
+	for uId in DBM:GetGroupMembers() do
+		local target = uId.."target"
+		if UnitExists(target) and UnitGUID(target) == sourceGUID and UnitAffectingCombat(target) then return true end
 	end
 	return false
 end

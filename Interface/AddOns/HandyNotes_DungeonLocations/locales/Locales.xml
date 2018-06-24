@@ -4,6 +4,7 @@
 ..\FrameXML\UI.xsd">
     <Script file="enUS.lua"/>
 	<Script file="deDE.lua"/>
+	<Script file="frFR.lua"/>
 	<Script file="koKR.lua"/>
 	<Script file="ptBR.lua"/>
 	<Script file="ruRU.lua"/>

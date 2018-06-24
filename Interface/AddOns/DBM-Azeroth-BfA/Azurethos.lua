@@ -1,7 +1,7 @@
-local mod	= DBM:NewMod(2199, "DBM-KulTiras", nil, 1028)
+local mod	= DBM:NewMod(2199, "DBM-Azeroth-BfA", nil, 1028)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17462 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17584 $"):sub(12, -3))
 mod:SetCreatureID(136385)
 --mod:SetEncounterID(1880)
 mod:SetReCombatTime(20)

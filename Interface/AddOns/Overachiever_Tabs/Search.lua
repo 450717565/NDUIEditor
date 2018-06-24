@@ -194,7 +194,7 @@ local function beginSearch(self)
 
   local name, desc, criteria, reward, any = EditName:GetText(), EditDesc:GetText(), EditCriteria:GetText(), EditReward:GetText(), EditAny:GetText()
   if (name == "" and desc == "" and criteria == "" and reward == "" and any == "") then  -- all fields are blank
-    ResultsLabel:Hide()
+    --ResultsLabel:Hide()
     return;
   end
   local list = VARS.SearchFullList and Overachiever.GetAllAchievements(categories_sel) or nil
@@ -234,9 +234,21 @@ local function beginSearch(self)
   frame:ForceUpdate(true)
   ResultsLabel:Show()
 end
+-- /dump Overachiever_SearchFrame.AchList
 
 function frame.SetNumListed(num)
   ResultsLabel:SetText(L.SEARCH_RESULTS:format(num))
+
+  local c = #frame.AchList
+  if (num < c) then
+    frame.frameWarning.label:SetText(L.SEARCH_FILTERED_OUT:format(c - num))
+	--local w = frame.frameWarning.label:GetStringWidth() + 100
+	--if (w > 492) then  w = 492;  end
+	--frame.frameWarning:SetWidth(w)
+    frame.frameWarning:Show()
+  else
+    frame.frameWarning:Hide()
+  end
 end
 
 

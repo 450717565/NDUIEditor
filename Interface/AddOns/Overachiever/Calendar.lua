@@ -363,10 +363,15 @@ function Overachiever.ToastForEvents(holiday, microholiday, bonusevent, dungeone
 			local holidayType = type(arr) == "table" and arr[1] or arr
 			if (holidayType == "holiday") then
 				onClick = function()
-					if (not AchievementFrame or not AchievementFrame:IsShown()) then
-						ToggleAchievementFrame()
+					if (not AchievementFrame and CanShowAchievementUI()) then
+						AchievementFrame_LoadUI()
 					end
-					Overachiever.OpenSuggestionsTab(localizedEventTitle)
+					if (Overachiever.OpenSuggestionsTab) then
+						Overachiever.OpenSuggestionsTab(localizedEventTitle)
+					else
+						Calendar_LoadUI()
+						if (Calendar_Show) then  Calendar_Show();  end
+					end
 				end
 			else
 				onClick = function()

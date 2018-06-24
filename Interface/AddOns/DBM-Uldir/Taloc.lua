@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2168, "DBM-Uldir", nil, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17548 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17579 $"):sub(12, -3))
 mod:SetCreatureID(137119)--Taloc
 mod:SetEncounterID(2144)
 mod:SetZone()
@@ -21,6 +21,11 @@ mod:RegisterEventsInCombat(
 	"SPELL_PERIODIC_MISSED 270290"
 )
 
+--[[
+(ability.id = 271296 or ability.id = 271728 or ability.id = 271895) and type = "begincast"
+ or (ability.id = 271224 or ability.id = 275205) and type = "cast"
+ or ability.id = 271965 and (type = "removebuff" or type = "applybuff")
+--]]
 local warnPoweringDown					= mod:NewSpellAnnounce(271965, 2, nil, nil, nil, nil, nil, 2)
 local warnPlastmaDischarge				= mod:NewTargetAnnounce(271225, 2)
 local warnPoweringDownOver				= mod:NewEndAnnounce(271965, 2, nil, nil, nil, nil, nil, 2)

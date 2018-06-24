@@ -24,9 +24,11 @@ local MadeDraggable_AchFrame, MadeDragSave_AchFrame
 local TexAlert = "Interface\\AddOns\\Overachiever\\AlertGreenLine"
 local TexAlertBorders = "Interface\\AddOns\\Overachiever\\AlertBordersGreen"
 
+--[[ This is no longer used. Instead, use the "Startup: Throttle achievement lookup" setting in Overachiever options.
 -- Set this to true to make the achievement criteria lookup builder run in a background task after entering the world instead of
 -- during startup. Also see the variable BUILD_CRIT_STEPS in libs/TjAchieve.lua.
 local THROTTLE_ACHLOOKUP = true
+--]]
 
 
 -- Overcome problem where GetAchievementInfo throws an error if the achievement ID is invalid:
@@ -418,7 +420,8 @@ local function BuildCriteriaLookupTab_check()
 	if (Overachiever_Settings.UI_RequiredForMetaTooltip) then
 		local status = TjAchieve.BuildCritAssetCache(TjAchieve.CRITTYPE_META)
 		if (status == "started") then
-			if (not THROTTLE_ACHLOOKUP) then
+			--if (not THROTTLE_ACHLOOKUP) then
+			if (not Overachiever_Settings.Throttle_AchLookup) then
 				TjAchieve.RushBuildCritAssetCache(TjAchieve.CRITTYPE_META)
 				if (Overachiever_Debug) then  chatprint("BuildCriteriaLookupTab_check: meta caching rushed");  end
 			elseif (Overachiever_Debug) then
@@ -432,7 +435,8 @@ local function BuildCriteriaLookupTab_check()
 	if (Overachiever_Settings.CreatureTip_killed) then
 		local status = TjAchieve.BuildCritAssetCache(TjAchieve.CRITTYPE_KILL, true)
 		if (status == "started") then
-			if (not THROTTLE_ACHLOOKUP) then
+			--if (not THROTTLE_ACHLOOKUP) then
+			if (not Overachiever_Settings.Throttle_AchLookup) then
 				TjAchieve.RushBuildCritAssetCache(TjAchieve.CRITTYPE_KILL, true)
 				if (Overachiever_Debug) then  chatprint("BuildCriteriaLookupTab_check: meta caching rushed");  end
 			elseif (Overachiever_Debug) then
@@ -700,9 +704,12 @@ end
 -- ACHIEVEMENT HYPERLINK HOOK
 -------------------------------
 
---local orig_SetItemRef = SetItemRef
-local orig_ChatFrame_OnHyperlinkShow = ChatFrame_OnHyperlinkShow
-ChatFrame_OnHyperlinkShow = function(self, link, text, button, ...)
+----local orig_SetItemRef = SetItemRef
+--local orig_ChatFrame_OnHyperlinkShow = ChatFrame_OnHyperlinkShow
+--ChatFrame_OnHyperlinkShow = function(self, link, text, button, ...)
+hooksecurefunc("ChatFrame_OnHyperlinkShow", function(self, link, text, button)
+  -- IIRC, hooksecurefunc wasn't good enough before (I believe we needed to be able to prevent original processing because Control and Alt clicking the links had
+  -- some sort of reaction), but something has changed. It's fine, now, so we'll use it since it's safe and simple.
   if (strsub(link, 1, 11) == "achievement") then
     if (IsControlKeyDown()) then
       local id = strsplit(":", strsub(link, 13));
@@ -748,8 +755,10 @@ ChatFrame_OnHyperlinkShow = function(self, link, text, button, ...)
       end
     end
   end
-  return orig_ChatFrame_OnHyperlinkShow(self, link, text, button, ...)
-end
+  --return orig_ChatFrame_OnHyperlinkShow(self, link, text, button, ...)
+end)
+
+
 
 -- ACHIEVEMENT TRACKER CHANGES AND PROGRESS TRACKING
 ------------------------------------------------------
