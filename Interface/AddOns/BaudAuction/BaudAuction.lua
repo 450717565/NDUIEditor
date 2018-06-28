@@ -35,6 +35,7 @@ local ScrollBox, ScrollBar, Highlight
 local Config
 
 local SearchResults = {}
+_G.SR = SearchResults
 
 local SearchItem
 local Text
@@ -209,8 +210,8 @@ function BaudAuction_OnLoad(self)
 
 	for Key, Value in ipairs(HideBliz) do
 		Value:Hide()
-		--hooksecurefunc(Value, "Show", function() Value:Hide() end)
-		Value.Show = function() end
+		hooksecurefunc(Value, "Show", function() Value:Hide() end)
+		--Value.Show = function() end
 	end
 
 	for Index = 1, 8 do
@@ -623,6 +624,7 @@ hooksecurefunc("AuctionFrameBrowse_Search", function()
 end)
 
 
+local MAX_INT = 2^64-1
 function BaudAuctionSortBrowseList()
 	BaudAuctionArrow:ClearAllPoints()
 	BaudAuctionArrow:SetPoint("RIGHT", getglobal(Columns[SortColumn].Header:GetName()), "RIGHT", 0, -2)
@@ -643,22 +645,53 @@ function BaudAuctionSortBrowseList()
 	local lastSort = lastSortColumn and Columns[lastSortColumn].Sort
 	table.sort(BrowseDisplay, function(a, b)
 		if (SearchResults and SearchResults[a] and SearchResults[b]) then
-			if (SearchResults[a][Sort] == SearchResults[b][Sort]) then
+			--item[9] buyoutPrice  item[15] bidPrice item[16] bid/per item[17] buyoutPer
+			--use bidPrice for buyoutPrice if not set buyout
+			local sa,sb = SearchResults[a][Sort], SearchResults[b][Sort]
+			if Sort == 9 or Sort == 17 then
+				sa = sa == 0 and MAX_INT or sa
+				sb = sb == 0 and MAX_INT or sb
+			end
+			--[[
+			if Sort == 9 then
+				sa = sa == 0 and SearchResults[a][15] or sa
+				sb = sb == 0 and SearchResults[b][15] or sb
+			elseif Sort == 17 then
+				sa = sa == 0 and SearchResults[a][16] or sa
+				sb = sb == 0 and SearchResults[b][16] or sb
+			end
+			--]]
+
+			if (sa == sb) then
 				if lastSort and lastSort~=Sort then --按上次的排序
-					if (SearchResults[a][lastSort] == SearchResults[b][lastSort]) then
+					local lsa, lsb = SearchResults[a][lastSort], SearchResults[b][lastSort]
+					if lastSort == 9 or lastSort == 17 then
+						lsa = lsa == 0 and MAX_INT or lsa
+						lsb = lsb == 0 and MAX_INT or lsb
+					end
+					--[[
+					if lastSort == 9 then
+						lsa = lsa == 0 and SearchResults[a][15] or lsa
+						lsb = lsb == 0 and SearchResults[b][15] or lsb
+					elseif lastSort == 17 then
+						lsa = lsa == 0 and SearchResults[a][16] or lsa
+						lsb = lsb == 0 and SearchResults[b][16] or lsb
+					end
+					--]]
+					if (lsa == lsb) then
 						return (a<b)
 					elseif not lastSortReverse then
-						return (SearchResults[a][lastSort] < SearchResults[b][lastSort])
+						return (lsa < lsb)
 					else
-						return (SearchResults[a][lastSort] > SearchResults[b][lastSort])
+						return (lsa > lsb)
 					end
 				else
 					return (a < b)
 				end
 			elseif not SortReverse then
-				return (SearchResults[a][Sort] < SearchResults[b][Sort])
+				return (sa < sb)
 			else
-				return (SearchResults[a][Sort] > SearchResults[b][Sort])
+				return (sa > sb)
 			end
 		end
 	end)

@@ -2,29 +2,30 @@ local B, C, L, DB = unpack(select(2, ...))
 local cr, cg, cb = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b
 
 -- Item Slot Info
-B.ItemSlotInfo = function(itemSubType, itemEquipLoc, itemClassID, itemSubClassID, bindType)
+B.ItemSlotInfo = function(item)
+	local _, _, _, _, _, _, itemSubType, _, itemEquipLoc, _, _, itemClassID, itemSubClassID, bindType = GetItemInfo(item)
 	local slotText = ""
 
 	if itemEquipLoc and string.find(itemEquipLoc, "INVTYPE_") then
-		slotText = _G[itemEquipLoc] or ""
+		slotText = _G[itemEquipLoc]
 	end
 
 	if itemEquipLoc and string.find(itemEquipLoc, "INVTYPE_FEET") then
-		slotText = L["Feet"] or ""
+		slotText = L["Feet"]
 	elseif itemEquipLoc and string.find(itemEquipLoc, "INVTYPE_HAND") then
-		slotText = L["Hands"] or ""
+		slotText = L["Hands"]
 	elseif itemEquipLoc and string.find(itemEquipLoc, "INVTYPE_HOLDABLE") then
-		slotText = INVTYPE_WEAPONOFFHAND or ""
+		slotText = INVTYPE_WEAPONOFFHAND
 	elseif itemEquipLoc and string.find(itemEquipLoc, "INVTYPE_SHIELD") then
-		slotText = itemSubType or ""
+		slotText = itemSubType
 	elseif itemSubType and string.find(itemSubType, RELICSLOT) then
-		slotText = RELICSLOT or ""
+		slotText = RELICSLOT
 	elseif (itemClassID and itemClassID == 15) and (itemSubClassID and (itemSubClassID == 2 or itemSubClassID == 5)) then
-		slotText = (itemSubClassID == 2 and PET) or (itemSubClassID == 5 and itemSubType) or ""
+		slotText = (itemSubClassID == 2 and PET) or (itemSubClassID == 5 and itemSubType)
 	end
 
 	if bindType and (bindType == 2 or bindType == 3) then
-		slotText = (bindType == 2 and "BoE") or (bindType == 3 and "BoU") or ""
+		slotText = (bindType == 2 and "BoE") or (bindType == 3 and "BoU")
 	end
 
 	return slotText

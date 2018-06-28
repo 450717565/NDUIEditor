@@ -147,6 +147,11 @@ end
 
 local function startSelling()
 	if stop then return end
+	if HasArtifactEquipped() then
+		pointsSpent = select(6, C_ArtifactUI.GetEquippedArtifactInfo())
+	else
+		pointsSpent = 0
+	end
 	for bag = 0, 4 do
 		for slot = 1, GetContainerNumSlots(bag) do
 			if stop then return end
@@ -154,7 +159,7 @@ local function startSelling()
 			if link then
 				local price = select(11, GetItemInfo(link))
 				local _, count, _, quality = GetContainerItemInfo(bag, slot)
-				if quality == 0 and price > 0 and not cache["b"..bag.."s"..slot] then
+				if ((quality == 0 and price > 0) or (pointsSpent >= 126 and IsArtifactPowerItem(link))) and not cache["b"..bag.."s"..slot] then
 					sellCount = sellCount + price*count
 					cache["b"..bag.."s"..slot] = true
 					UseContainerItem(bag, slot)

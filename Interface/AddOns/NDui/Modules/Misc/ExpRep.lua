@@ -139,9 +139,11 @@ local function UpdateTooltip(bar)
 		else
 			GameTooltip:AddLine(name.." ("..format(SPELLBOOK_AVAILABLE_AT, pointsSpent)..")", 0,.6,1)
 		end
+		if pointsSpent < 126 then
 			GameTooltip:AddDoubleLine(ARTIFACT_POWER..L[":"], B.Numb(totalXP).." ("..num..")", .6,.8,1, 1,1,1)
 			GameTooltip:AddDoubleLine(L["Next Trait"]..L[":"], B.Numb(xp).." / "..B.Numb(xpForNextPoint)..string.format(" (%.1f%%)", xp/xpForNextPoint*100), .6,.8,1, 1,1,1)
 			GameTooltip:AddDoubleLine(L["Need Trait"]..L[":"], B.Numb(xpForNextPoint-xp)..string.format(" (%.1f%%)", (1-xp/xpForNextPoint)*100), .6,.8,1, 1,1,1)
+		end
 	end
 	GameTooltip:Show()
 end

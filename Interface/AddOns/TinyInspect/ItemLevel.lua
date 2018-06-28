@@ -287,31 +287,11 @@ local function ChatItemLevel(Hyperlink)
 	local itemLink = string.match(Hyperlink, "|H(.-)|h")
 	local _, _, itemRarity, _, _, _, itemSubType, _, itemEquipLoc, itemTexture, _, itemClassID, itemSubClassID, bindType = GetItemInfo(itemLink)
 	if not itemTexture then return end
-	local slotText, totalText
+	local totalText = ""
 	local level = B.GetItemLevel(itemLink, itemRarity)
+	local slotText = B.ItemSlotInfo(itemLink)
 
-	if itemEquipLoc and string.find(itemEquipLoc, "INVTYPE_") then
-		slotText = _G[itemEquipLoc] or ""
-	end
-
-	if itemEquipLoc and string.find(itemEquipLoc, "INVTYPE_FEET") then
-		slotText = L["Feet"] or ""
-	elseif itemEquipLoc and string.find(itemEquipLoc, "INVTYPE_HAND") then
-		slotText = L["Hands"] or ""
-	elseif itemEquipLoc and string.find(itemEquipLoc, "INVTYPE_HOLDABLE") then
-		slotText = INVTYPE_WEAPONOFFHAND or ""
-	elseif itemEquipLoc and string.find(itemEquipLoc, "INVTYPE_SHIELD") then
-		slotText = itemSubType or ""
-	elseif itemSubType and string.find(itemSubType, RELICSLOT) then
-		slotText = RELICSLOT or ""
-	elseif (itemClassID and itemClassID == 15 and itemSubClassID) and (itemSubClassID == 2 or itemSubClassID == 5) then
-		slotText = (itemSubClassID == 2 and PET) or (itemSubClassID == 5 and itemSubType) or ""
-	end
-	if bindType and (bindType == 2 or bindType == 3) then
-		slotText = (bindType == 2 and "BoE") or (bindType == 3 and "BoU") or ""
-	end
-
-	if level and slotText then
+	if level and (slotText and slotText ~= "") then
 		totalText = "<"..level.."-"..slotText..">"
 	elseif level then
 		totalText = "<"..level..">"
