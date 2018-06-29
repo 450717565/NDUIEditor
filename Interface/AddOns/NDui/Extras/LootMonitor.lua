@@ -111,7 +111,7 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 		local rollInfo = string.match(lootstring, BONUS_REWARDS)
 		local itemLink = string.match(lootstring,"|%x+|Hitem:.-|h.-|h|r")
 		local itemString = string.match(itemLink, "item[%-?%d:]+")
-		local itemRarity = select(3, GetItemInfo(itemString))
+		local _, _, itemRarity, _, _, _, itemSubType, _, itemEquipLoc, _, _, itemClassID, itemSubClassID, bindType = GetItemInfo(itemString)
 
 		local Enabled = 0
 		local totalInfo = ""

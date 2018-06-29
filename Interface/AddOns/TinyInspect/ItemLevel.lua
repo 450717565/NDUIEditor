@@ -285,7 +285,8 @@ local function ChatItemLevel(Hyperlink)
 	if Caches[Hyperlink] then return Caches[Hyperlink] end
 
 	local itemLink = string.match(Hyperlink, "|H(.-)|h")
-	local _, _, itemRarity, _, _, _, itemSubType, _, itemEquipLoc, itemTexture, _, itemClassID, itemSubClassID, bindType = GetItemInfo(itemLink)
+	local itemRarity = select(3, GetItemInfo(itemLink))
+	local itemTexture = select(10, GetItemInfo(itemLink))
 	if not itemTexture then return end
 	local totalText = ""
 	local level = B.GetItemLevel(itemLink, itemRarity)
