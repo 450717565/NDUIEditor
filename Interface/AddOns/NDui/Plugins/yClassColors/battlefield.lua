@@ -5,7 +5,7 @@ hooksecurefunc("WorldStateScoreFrame_Update", function()
 	local inArena = IsActiveBattlefieldArena()
 	local offset = FauxScrollFrame_GetOffset(WorldStateScoreScrollFrame)
 
-	for i = 1, MAX_WORLDSTATE_SCORE_BUTTONS do
+	for i = 1, 20 do
 	local index = offset + i
 	local name, _, _, _, _, faction, _, _, class = GetBattlefieldScore(index)
 		-- faction: Battlegrounds: Horde = 0, Alliance = 1 / Arenas: Green Team = 0, Yellow Team = 1

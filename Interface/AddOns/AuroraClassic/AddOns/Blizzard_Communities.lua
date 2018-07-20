@@ -55,8 +55,12 @@ C.themes["Blizzard_Communities"] = function()
 
 	for _, name in next, {"ChatTab", "RosterTab", "GuildBenefitsTab", "GuildInfoTab"} do
 		local tab = CommunitiesFrame[name]
-		tab:GetRegions():Hide()
-		F.ReskinIcon(tab.Icon)
+		if not tab.styled then
+			tab:GetRegions():Hide()
+			tab.Icon:SetTexCoord(.08, .92, .08, .92)
+			F.CreateBDFrame(tab.Icon)
+			tab.styled = true
+		end
 		tab:SetCheckedTexture(C.media.checked)
 		tab:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 	end
@@ -295,7 +299,7 @@ C.themes["Blizzard_Communities"] = function()
 	local factionFrameBar = CommunitiesFrame.GuildBenefitsFrame.FactionFrame.Bar
 	F.StripTextures(factionFrameBar)
 	F.CreateBDFrame(factionFrameBar, .25)
-	factionFrameBar.Progress:SetTexture(C.media.backdrop)
+	factionFrameBar.Progress:SetTexture(C.media.statusbar)
 	factionFrameBar.Progress:SetAllPoints()
 
 	hooksecurefunc("CommunitiesGuildPerks_Update", function(self)
@@ -303,7 +307,8 @@ C.themes["Blizzard_Communities"] = function()
 		for i = 1, #buttons do
 			local button = buttons[i]
 			if button and button:IsShown() and not button.bg then
-				F.ReskinIcon(button.Icon)
+				button.Icon:SetTexCoord(.08, .92, .08, .92)
+				F.CreateBDFrame(button.Icon)
 				for i = 1, 4 do
 					select(i, button:GetRegions()):SetAlpha(0)
 				end
@@ -320,12 +325,13 @@ C.themes["Blizzard_Communities"] = function()
 			local button = buttons[i]
 			if button then
 				if not button.bg then
-					F.ReskinIcon(button.Icon)
+					button.Icon:SetTexCoord(.08, .92, .08, .92)
+					F.CreateBDFrame(button.Icon)
 					select(6, button:GetRegions()):SetAlpha(0)
 					select(7, button:GetRegions()):SetAlpha(0)
 
 					button.bg = F.CreateBDFrame(button, .25)
-					button.bg:SetPoint("TOPLEFT", button.Icon, 0, 1)
+					button.bg:SetPoint("TOPLEFT", 0, 0)
 					button.bg:SetPoint("BOTTOMRIGHT", 0, 3)
 				end
 				button.DisabledBG:Hide()

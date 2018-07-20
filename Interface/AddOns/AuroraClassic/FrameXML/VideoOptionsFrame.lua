@@ -170,7 +170,11 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		local testInputDevie = AudioOptionsVoicePanelTestInputDevice
 		F.Reskin(testInputDevie.ToggleTest)
-		F.ReskinStatusBar(testInputDevie.VUMeter, false, true)
+		F.StripTextures(testInputDevie.VUMeter)
+		testInputDevie.VUMeter.Status:SetStatusBarTexture(C.media.backdrop)
+		local bg = F.CreateBDFrame(testInputDevie.VUMeter, .3)
+		bg:SetPoint("TOPLEFT", 4, -4)
+		bg:SetPoint("BOTTOMRIGHT", -4, 4)
 
 		styledOptions = true
 	end)
