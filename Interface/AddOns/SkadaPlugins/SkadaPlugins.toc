@@ -1,4 +1,4 @@
-## Interface: 70300
+## Interface: 80000
 ## Title: SkadaExplosiveOrbs
 ## Author: warbaby, b1ueb1ues
 ## Dependencies: Skada

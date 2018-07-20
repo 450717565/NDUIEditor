@@ -64,54 +64,22 @@ hooksecurefunc(StaticPopupDialogs["DELETE_GOOD_ITEM"], "OnShow", function(self)
 	self.editBox:SetText(DELETE_ITEM_CONFIRM_STRING)
 end)
 
---- 进入/脱离战斗提示
-local CombatAlert = NDui:EventFrame{"PLAYER_REGEN_ENABLED", "PLAYER_REGEN_DISABLED"}
-CombatAlert:SetScript("OnEvent", function(self, event)
-	if not NDuiDB["Extras"]["CombatAlert"] then return end
-	if UnitIsDeadOrGhost("player") then return end
-	if event == "PLAYER_REGEN_ENABLED" then
-		B.AlertRun(LEAVING_COMBAT..L["!"], 0.1, 1, 0.1)
-	elseif event == "PLAYER_REGEN_DISABLED" then
-		B.AlertRun(ENTERING_COMBAT..L["!"], 1, 0.1, 0.1)
-	end
-end)
-
 --- 新人加入公会自动欢迎
-local GuildWelcome = NDui:EventFrame{"CHAT_MSG_SYSTEM"}
-GuildWelcome:SetScript("OnEvent", function(self, event, msg)
-	if not NDuiDB["Extras"]["GuildWelcome"] then return end
-	local str = GUILDEVENT_TYPE_JOIN:gsub("%%s", "")
-	if msg:find(str) then
-		local name = msg:gsub(str, "")
-		name = Ambiguate(name, "guild")
-		if not UnitIsUnit(name, "player") then
-			C_Timer.After(random(1000) / 1000, function()
-				SendChatMessage(L["Guild Welcome Message"]:format(name), "GUILD")
-			end)
+do
+	B:RegisterEvent("CHAT_MSG_SYSTEM", function(_, _, msg)
+		if not NDuiDB["Extras"]["GuildWelcome"] then return end
+		local str = GUILDEVENT_TYPE_JOIN:gsub("%%s", "")
+		if msg:find(str) then
+			local name = msg:gsub(str, "")
+			name = Ambiguate(name, "guild")
+			if not UnitIsUnit(name, "player") then
+				C_Timer.After(random(1000) / 1000, function()
+					SendChatMessage(L["Guild Welcome Message"]:format(name), "GUILD")
+				end)
+			end
 		end
-	end
-end)
-
---- 进入PVP地区自动切换TAB功能
-local PvPTab = NDui:EventFrame{"ZONE_CHANGED_NEW_AREA", "DUEL_REQUESTED", "DUEL_FINISHED"}
-PvPTab:SetScript("OnEvent", function(self, event)
-	local bindSet = GetCurrentBindingSet()
-	local pvpType = GetZonePVPInfo()
-	local _, zoneType = IsInInstance()
-
-	if zoneType == "arena" or zoneType == "pvp" or pvpType == "combat" or event == "DUEL_REQUESTED" then
-		SetBinding("TAB", "TARGETNEARESTENEMYPLAYER")
-		SetBinding("SHIFT-TAB", "TARGETPREVIOUSENEMYPLAYER")
-		--print("TAB目标选择增强功能 |cff00FF00已开启")
-	else
-		SetBinding("TAB", "TARGETNEARESTENEMY")
-		SetBinding("SHIFT-TAB", "TARGETPREVIOUSENEMY")
-		--print("TAB目标选择增强功能 |cffFF0000已关闭")
-	end
-
-	SaveBindings(bindSet)
-end)
-
+	end)
+end
 --- 优化巅峰声望显示
 hooksecurefunc("ReputationFrame_Update",function()
 	ReputationFrame.paragonFramesPool:ReleaseAll()

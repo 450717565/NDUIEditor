@@ -8,124 +8,23 @@
 --
 
 local L = OVERACHIEVER_STRINGS
-local GetAchievementInfo = Overachiever.GetAchievementInfo
+local GetAchievementInfo = GetAchievementInfo
 local GetAchievementCriteriaInfo = Overachiever.GetAchievementCriteriaInfo
 
-local categories_sel = Overachiever.UI_GetValidCategories(1)
 local EditBoxes = {}
+
+local searchInProgress = false
 
 
 -- Set this to "true" (without quotes) to make Search tab edit boxes lose their input focus when a search begins.
 local OPTION_LoseFocusOnSearch = false
 
 
-local function copytab(from, to)
-  for k,v in pairs(from) do
-    if(type(v) == "table") then
-      to[k] = {}
-      copytab(v, to[k]);
-    else
-      to[k] = v;
-    end
-  end
-end
-
-local function tabcontains(tab, element)
-  for k,v in pairs(tab) do
-    if (v == element) then  return true;  end
-  end
-  return false
-end
-
-local function AchSearch(isCustomList, searchList, ...)
-  if (not searchList) then
-    return Overachiever.SearchForAchievement(nil, categories_sel, ...)
-  end
-  return Overachiever.SearchForAchievement(isCustomList, searchList, ...)
-end
-
-local function findCriteria(id, pattern)
-  local critString, foundCrit
-  --print("findCriteria " .. id .. " " .. pattern)
-  for i=1,GetAchievementNumCriteria(id) do
-    critString = GetAchievementCriteriaInfo(id, i)
-    foundCrit = strfind(strlower(critString), pattern, 1, true)
-    if (foundCrit) then  return true;  end
-  end
-end
-
-local found
-
-local function AchSearch_Criteria(list, pattern, results)
-  pattern = strlower(pattern)
-  found = found and wipe(found) or {}
-  local anyFound
-  if (list) then
-    for i,id in ipairs(list) do
-      if (findCriteria(id, pattern)) then
-        found[#found+1] = id
-        anyFound = true
-      end
-    end
-  else
-    local id
-    for _,cat in ipairs(categories_sel) do
-      for i=1,GetCategoryNumAchievements(cat) do
-        id = GetAchievementInfo(cat, i)
-        if (id and findCriteria(id, pattern)) then
-          found[#found+1] = id
-          anyFound = true
-        end
-      end
-    end
-  end
-  if (anyFound) then
-    if (results ~= found) then
-      results = results and wipe(results) or {}
-      copytab(found, results)
-    end
-    return results
-  end
-end
-
-local multifound
-
-local function AchSearch_multiple(list, pattern, results, ...)
-  found = found or {}
-  multifound = multifound and wipe(multifound) or {}
-  local anyFound, argnum, foundB
-  for i=1, select("#", ...) do
-    argnum = select(i, ...)
-    foundB = AchSearch(true, list, argnum, pattern, nil, true, found)
-    if (foundB) then  -- Theoretically faster than checking if #(found) < 1.
-      for _,id in ipairs(found) do
-        multifound[id] = true  -- With this method, we won't get duplicate IDs.
-      end
-      anyFound = true
-    end
-  end
-  foundB = AchSearch_Criteria(list, pattern, found)
-  if (foundB) then
-    for _,id in ipairs(found) do
-      multifound[id] = true
-    end
-    anyFound = true
-  end
-  if (anyFound) then
-    results = results and wipe(results) or {}
-    for id in pairs(multifound) do  -- pairs, not ipairs
-      results[#results+1] = id
-    end
-    return results
-  end
-end
-
-
 local VARS
 local frame, panel, sortdrop
 local EditAny, EditName, EditDesc, EditCriteria, EditReward
-local SubmitBtn, ResetBtn, ResultsLabel
-local FullListCheckbox
+local SubmitBtn, ResetBtn, ResultsLabel, SearchingLabel
+local FullListCheckbox, FullListCheckboxTextColor
 local typedrop
 
 local function SortDrop_OnSelect(self, value)
@@ -136,8 +35,17 @@ end
 
 local function TypeDrop_OnSelect(self, value)
   VARS.SearchType = value
-  categories_sel = Overachiever.UI_GetValidCategories(value)
   frame.guildView_default = value == 2 and true or nil
+  if (value == 3) then
+    FullListCheckbox:Disable()
+	if (not FullListCheckboxTextColor) then
+	  FullListCheckboxTextColor = { FullListCheckbox.Text:GetTextColor() }
+	end
+	FullListCheckbox.Text:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b)
+  else
+    FullListCheckbox:Enable()
+	if (FullListCheckboxTextColor) then  FullListCheckbox.Text:SetTextColor( unpack(FullListCheckboxTextColor) );  end
+  end
 end
 
 local function FullList_OnClick(self)
@@ -152,9 +60,9 @@ end
 
 local function OnLoad(v)
   VARS = v
+  if (VARS.SearchFullList) then  FullListCheckbox:SetChecked(true);  end
   sortdrop:SetSelectedValue(VARS.SearchSort or 0)
   typedrop:SetSelectedValue(VARS.SearchType or 1)
-  if (VARS.SearchFullList) then  FullListCheckbox:SetChecked(true);  end
 end
 
 frame, panel = Overachiever.BuildNewTab("Overachiever_SearchFrame", L.SEARCH_TAB,
@@ -182,9 +90,27 @@ sortdrop:SetLabel(L.TAB_SORT, true)
 sortdrop:SetPoint("TOPLEFT", panel, "TOPLEFT", -16, -22)
 sortdrop:OnSelect(SortDrop_OnSelect)
 
+
+local function clearSearchResults()
+	frame.AchList = {}
+	Overachiever_SearchFrameContainerScrollBar:SetValue(0)
+	frame:ForceUpdate(true)
+	ResultsLabel:Hide()
+end
+
+local function processSearchResults(results)
+	searchInProgress = false
+	frame.AchList = results -- If you find a bug later, try changing this to do a wipe and table copy (to preserve references). Seems unneeded, though.
+	Overachiever_SearchFrameContainerScrollBar:SetValue(0)
+	frame:ForceUpdate(true)
+	ResultsLabel:Show()
+	SearchingLabel:Hide()
+end
+
 local function beginSearch(self)
+  if (searchInProgress) then  return;  end
   PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
-  
+
   if (OPTION_LoseFocusOnSearch) then
     for i,editbox in ipairs(EditBoxes) do
       _G[editbox]:SetAutoFocus(false)
@@ -197,46 +123,27 @@ local function beginSearch(self)
     --ResultsLabel:Hide()
     return;
   end
-  local list = VARS.SearchFullList and Overachiever.GetAllAchievements(categories_sel) or nil
-  local results = frame.AchList
-  if (list ~= 0 and name ~= "") then  -- Check name first since it may be a numeric ID (which eliminates all other achievements) and it helps make the "OR" logic here simpler (name OR id) since we won't have to consider results-so-far
-    list = AchSearch(true, list, 2, name, nil, true, results) or 0
-    local id = tonumber(name)
-	if (not id and name:sub(1, 1) == "#") then  id = tonumber(name:sub(2));  end  -- Get ID from strings like "#123"
-    if (id) then
-      if (GetAchievementInfo(id)) then
-        if (list == 0) then
-          list = { id }
-        elseif (not tabcontains(list, id)) then
-          list[#list+1] = id
-        end
-        if (list ~= results) then
-          wipe(results)
-          copytab(list, results)
-        end
-      end
-    end
+
+  local excludeHidden = not VARS.SearchFullList
+  local achType = nil
+  if (VARS.SearchType == 1) then
+	achType = "p"
+  elseif (VARS.SearchType == 2) then
+	achType = "g"
+  elseif (VARS.SearchType == 3) then
+	achType = "o"
+	excludeHidden = false
   end
-  if (list ~= 0 and reward ~= "") then  -- Rewards next since there are few of these so it may narrow the list quickly
-    list = AchSearch(true, list, 11, reward, nil, true, results) or 0
-  end
-  if (list ~= 0 and desc ~= "") then
-    list = AchSearch(true, list, 8, desc, nil, true, results) or 0
-  end
-  if (list ~= 0 and criteria ~= "") then
-    list = AchSearch_Criteria(list, criteria, results) or 0
-  end
-  if (list ~= 0 and any ~= "") then
-    list = AchSearch_multiple(list, any, results, 11, 2, 8) or 0
-  end
-  if (list == 0 or not list) then  wipe(results);  end
-  Overachiever_SearchFrameContainerScrollBar:SetValue(0)
-  frame:ForceUpdate(true)
-  ResultsLabel:Show()
+
+  searchInProgress = true
+  clearSearchResults()
+  Overachiever.StartAchSearch(excludeHidden, achType, nil, name, desc, criteria, reward, any, processSearchResults)
+  SearchingLabel:Show()
 end
 -- /dump Overachiever_SearchFrame.AchList
 
 function frame.SetNumListed(num)
+  if (searchInProgress) then  return;  end
   ResultsLabel:SetText(L.SEARCH_RESULTS:format(num))
 
   local c = #frame.AchList
@@ -305,6 +212,10 @@ typedrop = TjDropDownMenu.CreateDropDown("Overachiever_SearchFrameTypeDrop", pan
   {
     text = L.SEARCH_TYPE_GUILD,
     value = 2
+  },
+  {
+    text = L.SEARCH_TYPE_OTHER,
+    value = 3
   };
 })
 typedrop:SetLabel(L.SEARCH_TYPE, true)
@@ -328,8 +239,8 @@ FullListCheckbox:SetScript("OnEnter", function(self)
 end)
 FullListCheckbox:SetScript("OnLeave", GameTooltip_Hide)
 
-local function resetEditBoxes()
-  PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF)
+local function resetEditBoxes(self, button, ...)
+  if (button ~= true) then  PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF);  end
   for i,editbox in ipairs(EditBoxes) do
     _G[editbox]:SetText("")
   end
@@ -350,6 +261,25 @@ ResetBtn:SetScript("OnClick", resetEditBoxes)
 ResultsLabel = panel:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
 ResultsLabel:SetPoint("TOPLEFT", SubmitBtn, "BOTTOMLEFT", 0, -8)
 ResultsLabel:Hide()
+
+SearchingLabel = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
+SearchingLabel:SetPoint("TOP", frame, "TOP", 0, -189)
+SearchingLabel:SetText(L.SEARCH_SEARCHING)
+SearchingLabel:SetWidth(490)
+SearchingLabel:Hide()
+
+
+
+function Overachiever.OpenSearchTab(name)
+	if (not AchievementFrame:IsShown()) then  ToggleAchievementFrame();  end
+	resetEditBoxes(ResetBtn, true)
+	if (name) then  EditName:SetText(name);  end
+	if (Overachiever.GetSelectedTab() ~= frame) then
+		Overachiever.OpenTab_frame(frame, true)
+	end
+	beginSearch()
+end
+
 
 
 --[[

@@ -1,6 +1,6 @@
 
 local L = OVERACHIEVER_STRINGS
-local GetAchievementInfo = Overachiever.GetAchievementInfo
+local GetAchievementInfo = GetAchievementInfo
 local GetAchievementCriteriaInfo = Overachiever.GetAchievementCriteriaInfo
 local LBI = LibStub:GetLibrary("LibBabble-Inventory-3.0"):GetReverseLookupTable()
 

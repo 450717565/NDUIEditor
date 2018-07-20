@@ -207,9 +207,9 @@ local function AltCurrencyFrame_Update(item, texture, cost, itemID, currencyName
 	item:SetWidth(item.count:GetWidth() + iconWidth + 4)
 	item:SetHeight(item.count:GetHeight() + 4)
 	-- Aurora Reskin
-	if IsAddOnLoaded("Aurora") then
+	if IsAddOnLoaded("AuroraClassic") then
 		if not item.styled then
-			local F = unpack(Aurora)
+			local F = unpack(AuroraClassic)
 			F.ReskinIcon(item.icon)
 			item.styled = true
 		end
@@ -860,8 +860,8 @@ for _, frame in next, { MerchantNextPageButton, MerchantPrevPageButton, Merchant
 end
 
 -- Aurora Reskin
-if IsAddOnLoaded("Aurora") then
-	local F, C= unpack(Aurora)
+if IsAddOnLoaded("AuroraClassic") then
+	local F, C= unpack(AuroraClassic)
 	search:SetSize(122, 20)
 	search:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 10, 13)
 	tooltipsearching:SetSize(28, 28)

@@ -72,7 +72,7 @@ local function OnUpdate(self)
 end
 
 local function CreateSlot(id)
-	local cr, cg, cb = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b
+	local cr, cg, cb = DB.CC.r, DB.CC.g, DB.CC.b
 
 	local button = CreateFrame("Button", "LightLootSlot"..id, LightLoot)
 	button:SetHeight(math.max(fontSizeItem, iconSize))
@@ -185,7 +185,7 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 	if items > 0 then
 		for i = 1, items do
 			local slot = slots[i] or CreateSlot(i)
-			local lootIcon, lootName, lootQuantity, lootQuality, isLocked, isQuestItem, questID, isActive = GetLootSlotInfo(i)
+			local lootIcon, lootName, lootQuantity, currencyID, lootQuality, locked, isQuestItem, questID, isActive = GetLootSlotInfo(i)
 			if lootIcon then
 				local color = BAG_ITEM_QUALITY_COLORS[lootQuality]
 				local r, g, b = color.r, color.g, color.b

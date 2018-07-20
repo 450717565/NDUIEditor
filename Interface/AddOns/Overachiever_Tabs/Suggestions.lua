@@ -8,8 +8,11 @@
 --
 
 local L = OVERACHIEVER_STRINGS
-local GetAchievementInfo = Overachiever.GetAchievementInfo
+local GetAchievementInfo = GetAchievementInfo
 local GetAchievementCriteriaInfo = Overachiever.GetAchievementCriteriaInfo
+
+-- BFA
+local WOW_BFA = select(4, GetBuildInfo()) >= 80000
 
 local LBZ = LibStub("LibBabble-SubZone-3.0"):GetUnstrictLookupTable()
 local LBZR = LibStub("LibBabble-SubZone-3.0"):GetReverseLookupTable()
@@ -22,8 +25,6 @@ local IsAlliance = UnitFactionGroup("player") == "Alliance"
 local suggested = {}
 
 local showHidden, numHidden = false, 0
-
-local ZONE_RENAME = Overachiever.ZONE_RENAME
 
 local ZONE_RENAME_REV = { -- lookup table so localizations can use their own renames
 --	["What we're calling this zone (localized)"] = "The key we're using for this zone",
@@ -826,7 +827,35 @@ local ACHID_INSTANCES = {
 	--["Naxxramas"] = 11744, -- Drop Dead, Gorgeous (feat of strength - for old Naxxramas, not WotLK, though gear obtainable from black market AH)
 	["Naxxramas"] = 11750, -- Undying Aesthetic
 	["Icecrown Citadel"] = 11753, -- Winter Catalog
-	["Ulduar"] = 11751, -- Mogg-Saron
+	["Ulduar"] = {
+		11751, -- Mogg-Saron
+		12401, -- Glory of the Ulduar Raider
+		12311, -- Secrets of Ulduar
+		SUBZONES = {
+			--["*Formation Grounds*The Colossal Forge*Razorscale's Aerie*The Scrapyard*"] = 12297, -- Siege
+			["Formation Grounds"] = { 12312, 12313, 12314, 12315, 12316, 12317 },
+			["Razorscale's Aerie"] = { 12321, 12322 },
+			["The Colossal Forge"] = { 12323, 12324, 12325 },
+			["The Scrapyard"] = { 12326, 12327, 12328, 12329, 12330 },
+
+			--["*The Assembly of Iron*The Shattered Walkway*The Observation Ring*"] = 12302, -- Antechamber
+			["The Assembly of Iron"] = { 12332, 12333, 12334, 12335, 12336 },
+			["The Shattered Walkway"] = { 12337, 12338, 12339, 12340 },
+			["The Observation Ring"] = { 12341, 12342 },
+
+			--["*The Spark of Imagination*The Conservatory of Life*The Clash of Thunder*The Halls of Winter*"] = 12309, -- Keepers
+			["The Halls of Winter"] = { 12343, 12344, 12345, 12347, 12346 },
+			["The Clash of Thunder"] = { 12348, 12349, 12350, 12351 },
+			["The Conservatory of Life"] = { 12360, 12361, 12362, 12363, 12364 },
+			["The Spark of Imagination"] = { 12367, 12368, 12369 },
+
+			--["*The Descent into Madness*The Prison of Yogg-Saron*"] = 12310, -- Descent
+			["The Descent into Madness"] = { 12372, 12373 },
+			["The Prison of Yogg-Saron"] = { 12384, 12385, 12395, 12396, 12397, 12398 },
+
+			["The Celestial Planetarium"] = { 12399, 12400 }, -- Alganon
+		},
+	},
 
 -- Cataclysm Dungeons
 	-- Heroic only, but these dungeons are heroic only so it may as well always show up if suggesting for the zone:
@@ -989,6 +1018,7 @@ ACHID_INSTANCES["Wildhammer Stronghold"] = 5223  -- Also part of Twin Peaks
 ACHID_INSTANCES["Dragonmaw Stronghold"] = 5223  -- Also part of Twin Peaks
 ACHID_INSTANCES["Temple of Kotmogu"] = 6981 -- "Master of Temple of Kotmogu"
 ACHID_INSTANCES["Deepwind Gorge"] = 8360 -- "Master of Deepwind Gorge"
+ACHID_INSTANCES["Seething Shore"] = 12412  -- "Master of Seething Shore"
 if (IsAlliance) then
 	ACHID_INSTANCES["Alterac Valley"] = { 1167, 907, 226 }
 	ACHID_INSTANCES["Arathi Basin"] = { 1169, 907 }
@@ -1142,6 +1172,7 @@ local ACHID_INSTANCES_10 = {
 	["Onyxia's Lair"] = { 4396, 4402, 4403, 4404 },
 	["The Eye of Eternity"] = { 622, 1874, 2148, 1869 },
 	["The Obsidian Sanctum"] = { 1876, 2047, 2049, 2050, 2051, 624 },
+	--[[ As of WoW 7.3.5, the 10-man and 25-man version of Ulduar achievements are unobtainable. A single new achievement exists for each, instead.
 	["Ulduar"] = { 2957, 2894, -- 2903 "Champion of Ulduar" is now a Feat of Strength
 		SUBZONES = {
 			--["*Formation Grounds*The Colossal Forge*Razorscale's Aerie*The Scrapyard*"] = 2886, -- Siege
@@ -1169,6 +1200,7 @@ local ACHID_INSTANCES_10 = {
 			  -- 3004 "He Feeds On Your Tears (10 player)" and 3316 "Herald of the Titans" are now Feats of Strength
 		},
 	},
+	--]]
 	["Vault of Archavon"] = { 1722, 3136, 3836, 4016 },
 	["Trial of the Crusader"] = { 3917, 3936, 3798, 3799, 3800, 3996, 3797 },
 	["Icecrown Citadel"] = { 4580, 4601, 4534, 4538, 4577, 4535, 4536, 4537, 4578, 4581, 4539, 4579, 4582 },
@@ -1183,6 +1215,7 @@ local ACHID_INSTANCES_25 = {
 	["Onyxia's Lair"] = { 4397, 4405, 4406, 4407 },
 	["The Eye of Eternity"] = { 623, 1875, 1870, 2149 },
 	["The Obsidian Sanctum"] = { 625, 2048, 2052, 2053, 2054, 1877 },
+	--[[ As of WoW 7.3.5, the 10-man and 25-man version of Ulduar achievements are unobtainable. A single new achievement exists for each, instead.
 	["Ulduar"] = { 2958, 2895, -- 2904 "Conqueror of Ulduar" is now a Feat of Strength
 		SUBZONES = {
 			--["*Formation Grounds*The Colossal Forge*Razorscale's Aerie*The Scrapyard*"] = 2887, -- Siege
@@ -1210,6 +1243,7 @@ local ACHID_INSTANCES_25 = {
 			  -- 3005 "He Feeds On Your Tears (25 player)" is now a Feat of Strength
 		},
 	},
+	--]]
 	["Vault of Archavon"] = { 1721, 3137, 3837, 4017 },
 	["Trial of the Crusader"] = { 3916, 3937, 3815, 3816, 3997, 3813 }, -- removed 3814
 	["Icecrown Citadel"] = { 4620, 4621, 4610, 4614, 4615, 4611, 4612, 4613, 4616, 4622, 4618, 4619, 4617 },
@@ -1451,15 +1485,6 @@ local function ZoneLookup(zoneName, isSub, subz)
   local trimz = strtrim(zoneName)
   local result = isSub and SUBZONES_REV[trimz] or LBZR[trimz] or LBZR[zoneName] or trimz
   if (not isSub) then  result = Overachiever.GetZoneKey(result);  end
-  --[[
-  if (not isSub and ZONE_RENAME[result]) then
-    local mapID = Overachiever.GetCurrentMapID()
-	if (mapID and ZONE_RENAME[result][mapID]) then
-      --Overachiever.chatprint(result .. " got renamed to " .. ZONE_RENAME[result][mapID])
-      return ZONE_RENAME[result][mapID]
-	end
-  end
-  --]]
   return result
 end
 
@@ -1669,7 +1694,9 @@ local function Refresh(self, instanceRetry)
     EditZoneOverride:SetTextColor(1, 1, 1)
     if (self ~= subzdrop) then  subzdrop_Update(zone);  end
     local subz = subzdrop:GetSelectedValue()
-    if (subz ~= 0) then  CurrentSubzone = subz;  end
+    if (subz ~= 0) then
+	  CurrentSubzone = SUBZONES_REV[subz] or subz
+	end
   else
     if (instanceRetry ~= true) then -- check specifically against true because it could be "LeftButton"
       zone = GetZoneSpecialOverride()
@@ -1868,6 +1895,22 @@ function frame.SetNumListed(num)
     end
     if (numHidden < 1) then  ResultsLabel:SetText(" ");  end
   end
+  
+  local c = #frame.AchList
+  local msg
+  if (num < c) then
+    if (ACHIEVEMENTUI_SELECTEDFILTER == AchievementFrame_GetCategoryNumAchievements_Complete) then
+      msg = L.SUGGESTIONS_FILTERED_OUT_INCOMPLETE
+    elseif (ACHIEVEMENTUI_SELECTEDFILTER == AchievementFrame_GetCategoryNumAchievements_Incomplete) then
+	  msg = L.SUGGESTIONS_FILTERED_OUT_EARNED
+	end
+  end
+  if (msg) then
+    frame.frameWarning.label:SetText(msg:format(c - num))
+    frame.frameWarning:Show()
+  else
+    frame.frameWarning:Hide()
+  end
 end
 
 RefreshBtn = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate")
@@ -1965,18 +2008,26 @@ do
   label:SetText(L.SUGGESTIONS_LOCATION)
 
   -- CREATE LIST OF VALID LOCATIONS:
-  -- Add all zones to the list:
-  local zonetab = {}
-  for i=1,select("#",Overachiever.GetMapContinents_names()) do  zonetab[i] = { Overachiever.GetMapZones_names(i) };  end
-  for i,tab in ipairs(zonetab) do
-    for n,z in ipairs(tab) do
-	  if (not ZONE_RENAME[LBZR[z] or z]) then  -- Omit zones that we use a different name for so we don't create a confusing autocomplete (e.g. people type "Dalaran" but get no suggestions because we put them somewhere else).
-	    suggested[z] = true -- Already localized so no need for LBZ here.
-	  --else  Overachiever.chatprint("omitting "..z)
-	  end
+
+  local places = {}
+
+  local function extractNames(list)
+    local ZONE_RENAME = Overachiever.ZONE_RENAME
+    local INSTANCE_RENAME = Overachiever.INSTANCE_RENAME
+	for i,v in ipairs(list) do
+		local z = WOW_BFA and v.name or v
+		local lz = LBZR[z] or z
+		if (not ZONE_RENAME[lz] and not INSTANCE_RENAME[lz]) then  -- Omit zones that we use a different name for so we don't create a confusing autocomplete (e.g. people type "Dalaran" but get no suggestions because we put them somewhere else).
+			places[z] = true -- Already localized so no need for LBZ here.
+		--else	Overachiever.chatprint("omitting "..z)
+		end
 	end
   end
-  zonetab = nil
+
+  -- Add all zones to the list:
+  extractNames(Overachiever.GetZones())
+  --extractNames(Overachiever.GetDungeons())
+
   -- Add instances for which we have suggestions:
   local locallookup = nil
   local function addtolist(list, ...)
@@ -1990,25 +2041,25 @@ do
 	  end
     end
   end
-  addtolist(suggested, ACHID_INSTANCES, ACHID_INSTANCES_NORMAL, ACHID_INSTANCES_HEROIC, ACHID_INSTANCES_HEROIC_PLUS,
+  addtolist(places, ACHID_INSTANCES, ACHID_INSTANCES_NORMAL, ACHID_INSTANCES_HEROIC, ACHID_INSTANCES_HEROIC_PLUS,
             ACHID_INSTANCES_10, ACHID_INSTANCES_25, ACHID_INSTANCES_10_NORMAL, ACHID_INSTANCES_25_NORMAL,
             ACHID_INSTANCES_10_HEROIC, ACHID_INSTANCES_25_HEROIC, ACHID_INSTANCES_MYTHIC)
-  addtolist(suggested, ACHID_ZONE_MISC); -- Required for "unlisted" zones like Molten Front (doesn't appear in GetMapContinents/GetMapZones scan)
+  addtolist(places, ACHID_ZONE_MISC); -- Required for "unlisted" zones like Molten Front (doesn't appear in GetMapContinents/GetMapZones scan)
   locallookup = Overachiever.HOLIDAY_REV
-  addtolist(suggested, ACHID_HOLIDAY); -- These aren't actual zones but we want the user to be able to look them up by name.
+  addtolist(places, ACHID_HOLIDAY); -- These aren't actual zones but we want the user to be able to look them up by name.
   locallookup = nil
   addtolist = nil
 
-  suggested[L.SUGGESTIONS_HIDDENLOCATION] = true  -- Add another special location, this for Hidden suggestions
+  places[L.SUGGESTIONS_HIDDENLOCATION] = true  -- Add another special location, this for Hidden suggestions
 
   -- Arrange into alphabetically-sorted array:
   local count = 0
-  for k in pairs(suggested) do
+  for k in pairs(places) do
     count = count + 1
     LocationsList[count] = k
 	--print("adding "..k)
   end
-  wipe(suggested)
+  places = nil
   sort(LocationsList)
   -- Cross-reference by lowercase key to place in the array:
   for i,v in ipairs(LocationsList) do  LocationsList[strlower(v)] = i;  end
@@ -2234,8 +2285,9 @@ function Overachiever.OpenSuggestionsTab(text)
 	if (not AchievementFrame:IsShown()) then  ToggleAchievementFrame();  end
 	EditZoneOverride:SetText(text)
 	if (Overachiever.GetSelectedTab() == frame) then
-		Overachiever.OpenTab_frame(frame)
-		PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
+		--Overachiever.OpenTab_frame(frame)
+		--PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
+		Refresh(RefreshBtn)
 	else
 		Overachiever.OpenTab_frame(frame, true)
 	end

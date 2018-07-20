@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1983, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17587 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17611 $"):sub(12, -3))
 mod:SetCreatureID(122366)
 mod:SetEncounterID(2069)
 mod:SetZone()
@@ -17,8 +17,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 243961 244042 244094 248732 243968 243977 243980 243973",
 	"SPELL_AURA_REMOVED 244042 244094",
 	"SPELL_PERIODIC_DAMAGE 244005 248740",
-	"SPELL_PERIODIC_MISSED 244005 248740",
-	"UNIT_SPELLCAST_SUCCEEDED boss1"
+	"SPELL_PERIODIC_MISSED 244005 248740"
 )
 
 --TODO, on phase changes most ability CDs extended by 2+ seconds, but NOT ALWAYS so difficult to hard code a rule for it right now

@@ -1,4 +1,4 @@
 <Ui>
 	<Include file="Other\DRData-1.0\DRData-1.0.lua"/>
-	<Include file="Other\HereBeDragons-1.0\HereBeDragons-1.0.xml"/>
+	<Include file="Other\HereBeDragons-2.0\HereBeDragons.xml"/>
 </Ui>

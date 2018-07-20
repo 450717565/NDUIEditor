@@ -1,4 +1,9 @@
 
+local WOW_BFA = select(4, GetBuildInfo()) >= 80000
+
+
+local IsAlliance = UnitFactionGroup("player") == "Alliance"
+
 OVERACHIEVER_ACHID = {
 	WorldExplorer = 46,		-- "World Explorer"
 	LoveCritters = 1206,	-- "To All The Squirrels I've Loved Before"
@@ -59,8 +64,6 @@ OVERACHIEVER_ACHID = {
 	--1774 "Different beverages consumed"
 	--1775 "Different foods eaten"
 };
-
-local IsAlliance = UnitFactionGroup("player") == "Alliance"
 
 OVERACHIEVER_MOB_CRIT = {
 	-- For achievements where Overachiever's "kill" criteria lookup doesn't work, e.g. due to the asset ID being for quests instead of NPCs for some
@@ -400,33 +403,93 @@ OVERACHIEVER_HEROIC_CRITERIA = {
 
 -- ZONE RENAMES AND LOOKUP BY MAP ID (helps handle issues where a zone name is used multiple times)
 -- To find a zone's map ID, open the map to it and use: /dump GetCurrentMapAreaID()
-Overachiever.ZONE_RENAME = {
---[[
-	["Zone's real name"] = {
-		[one of the map IDs] = "The key we're using for this zone",
-	},
---]]
-	["Dalaran"] = {
-		[504] = "Dalaran (Northrend)",
-		[1014] = "Dalaran (Broken Isles)",
-	},
-	["Shadowmoon Valley"] = {
-		[473] = "Shadowmoon Valley (Outland)",
-		[947] = "Shadowmoon Valley (Draenor)",
+if (WOW_BFA) then
+	Overachiever.ZONE_RENAME = {
+	--[[
+		["name from GetRealZoneText()"] = {
+			[one of the map IDs] = "The key we're using for this zone",
+		},
+	--]]
 	}
-	,
-	["Nagrand"] = {
-		[477] = "Nagrand (Outland)",
-		[950] = "Nagrand (Draenor)",
-	},
-	["Karazhan"] = { -- !! double check
-		[1115] = "Return to Karazhan",
-	},
-}
+	Overachiever.INSTANCE_RENAME = {
+	--[[
+		["name from GetRealZoneText()"] = {
+			[the InstanceMapID (NOT the map ID)] = "The key we're using for this zone",
+		},
+	--]]
+		["Shadowmoon Valley"] = {
+			[530] = "Shadowmoon Valley (Outland)", -- 530 = Outland
+			[1116] = "Shadowmoon Valley (Draenor)", -- 1116 = Draenor
+		},
+		["Nagrand"] = {
+			[530] = "Nagrand (Outland)",
+			[1116] = "Nagrand (Draenor)",
+		},
+		["Dalaran"] = {
+			[571] = "Dalaran (Northrend)",
+			[1220] = "Dalaran (Broken Isles)", -- 1220 = Broken Isles
+		},
+		["Karazhan"] = { -- !! double check this is the zone name
+			[1651] = "Return to Karazhan", -- !! confirm this weeks in both Upper and Lower
+		},
+	}
+else
+	Overachiever.ZONE_RENAME = {
+	--[[
+		["Zone's real name"] = {
+			[one of the map IDs] = "The key we're using for this zone",
+		},
+	--]]
+		["Dalaran"] = {
+			[504] = "Dalaran (Northrend)",
+			[1014] = "Dalaran (Broken Isles)",
+		},
+		["Shadowmoon Valley"] = {
+			[473] = "Shadowmoon Valley (Outland)",
+			[947] = "Shadowmoon Valley (Draenor)",
+		}
+		,
+		["Nagrand"] = {
+			[477] = "Nagrand (Outland)",
+			[950] = "Nagrand (Draenor)",
+		},
+		["Karazhan"] = { -- !! double check
+			[1115] = "Return to Karazhan",
+		},
+	}
+	Overachiever.INSTANCE_RENAME = {}
+end
 -- If adding to this, don't forget to add to ZONE_RENAME_REV in Overachiever_Tabs\Suggestions.lua as well.
 
 local ZONE_RENAME = Overachiever.ZONE_RENAME
+local INSTANCE_RENAME = Overachiever.INSTANCE_RENAME
 
+if (WOW_BFA) then
+----- BFA:
+
+function Overachiever.GetZoneKey(zoneName) -- zoneName here is expected to be in English
+	if (ZONE_RENAME[zoneName]) then
+		local mapID = C_Map.GetBestMapForUnit("player")
+		if (mapID and ZONE_RENAME[zoneName][mapID]) then
+			--Overachiever.chatprint(zoneName .. " got renamed to " .. ZONE_RENAME[zoneName][mapID])
+			return ZONE_RENAME[zoneName][mapID]
+		end
+	end
+	if (INSTANCE_RENAME[zoneName]) then
+		local _, insType, insMapID
+		_, insType, _, _, _, _, _, insMapID = GetInstanceInfo()
+		--if (insType ~= "none" and insMapID and INSTANCE_RENAME[zoneName][insMapID]) then
+		if (insMapID and INSTANCE_RENAME[zoneName][insMapID]) then
+			--Overachiever.chatprint(zoneName .. " (instance) got renamed to " .. INSTANCE_RENAME[zoneName][insMapID])
+			return INSTANCE_RENAME[zoneName][insMapID]
+		end
+	end
+return zoneName
+end
+
+----- :BFA
+else
+----- Legion:
 
 function Overachiever.GetZoneKey(zoneName) -- zoneName here is expected to be in English
   if (ZONE_RENAME[zoneName]) then
@@ -464,3 +527,5 @@ function Overachiever.GetCurrentMapID()
   return id
 end
 
+----- :Legion
+end

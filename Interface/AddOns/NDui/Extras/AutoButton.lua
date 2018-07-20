@@ -139,7 +139,7 @@ ABF:SetScript("OnEvent", function(self, event)
 end)
 
 -- Aurora Reskin
-if IsAddOnLoaded("Aurora") then
-	local F = unpack(Aurora)
+if IsAddOnLoaded("AuroraClassic") then
+	local F = unpack(AuroraClassic)
 	F.ReskinIconStyle(ABB)
 end

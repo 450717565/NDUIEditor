@@ -1,7 +1,6 @@
 
 local L = OVERACHIEVER_STRINGS
 local THIS_VERSION = GetAddOnMetadata("Overachiever", "Version")
-local GetAchievementInfo = Overachiever.GetAchievementInfo
 
 local holidayNoticeChange
 
@@ -56,6 +55,7 @@ Overachiever.DefaultSettings = {
   ToastCalendar_noautofade = false;
   ToastCalendar_onlyclickfade = false;
   Throttle_AchLookup = true;
+  Slash_SearchTab = true;
   Version = THIS_VERSION;
 };
 
@@ -127,6 +127,7 @@ function Overachiever.CreateOptions(THIS_TITLE, BuildCriteriaLookupTab_check, Au
 
 	{ type = "labelwrap", text = L.OPT_LABEL_MISC, topBuffer = 4, xOffset = 0 },
 	{ variable = "Throttle_AchLookup", text = L.OPT_THROTTLE_ACHLOOKUP, tooltip = L.OPT_THROTTLE_ACHLOOKUP_TIP },
+	{ variable = "Slash_SearchTab", text = L.OPT_SLASHSEARCH_TAB, tooltip = L.OPT_SLASHSEARCH_TAB_TIP, tooltip2 = L.OPT_SLASHSEARCH_TIP2 },
   }
 
   local items_reminders = {

@@ -70,8 +70,8 @@ function ArtifactTab:TalentLoaded()
 	for k, v in pairs(artifactTable) do
 		parent = ArtifactTab:CreateTab("ArtifactTabTalentTab"..k, parent, v["name"], k, "PlayerTalentTabTemplate")
 		-- Aurora Reskin
-		if IsAddOnLoaded("Aurora") then
-			local F = unpack(Aurora)
+		if IsAddOnLoaded("AuroraClassic") then
+			local F = unpack(AuroraClassic)
 			F.ReskinTab(_G["ArtifactTabTalentTab"..k])
 		end
 	end
@@ -83,8 +83,8 @@ function ArtifactTab:ArtifactLoaded()
 	for k, v in pairs(artifactTable) do
 		parent = ArtifactTab:CreateTab("ArtifactTabArtifactTab"..k, parent, v["name"], k, "ArtifactFrameTabButtonTemplate")
 		-- Aurora Reskin
-		if IsAddOnLoaded("Aurora") then
-			local F = unpack(Aurora)
+		if IsAddOnLoaded("AuroraClassic") then
+			local F = unpack(AuroraClassic)
 			F.ReskinTab(_G["ArtifactTabArtifactTab"..k])
 		end
 		ArtifactFrameTab2:HookScript("OnShow", function(self)

@@ -1,7 +1,8 @@
-﻿local B, C, L, DB = unpack(select(2, ...))
+﻿local _, ns = ...
+local B, C, L, DB = unpack(ns)
 if not C.Infobar.Gold then return end
 
-local module = NDui:GetModule("Infobar")
+local module = B:GetModule("Infobar")
 local info = module:RegisterInfobar(C.Infobar.GoldPos)
 
 local profit, spent, oldMoney = 0, 0, 0
@@ -132,8 +133,7 @@ end
 
 info.onLeave = function() GameTooltip:Hide() end
 
--- Auto sell junk
-local f = NDui:EventFrame{"MERCHANT_SHOW", "MERCHANT_CLOSED"}
+-- Auto selljunk
 local sellCount, stop, cache = 0, true, {}
 local errorText = _G.ERR_VENDOR_DOESNT_BUY
 
@@ -147,11 +147,6 @@ end
 
 local function startSelling()
 	if stop then return end
-	if HasArtifactEquipped() then
-		pointsSpent = select(6, C_ArtifactUI.GetEquippedArtifactInfo())
-	else
-		pointsSpent = 0
-	end
 	for bag = 0, 4 do
 		for slot = 1, GetContainerNumSlots(bag) do
 			if stop then return end
@@ -159,7 +154,7 @@ local function startSelling()
 			if link then
 				local price = select(11, GetItemInfo(link))
 				local _, count, _, quality = GetContainerItemInfo(bag, slot)
-				if ((quality == 0 and price > 0) or (pointsSpent >= 126 and IsArtifactPowerItem(link))) and not cache["b"..bag.."s"..slot] then
+				if quality == 0 and price > 0 and not cache["b"..bag.."s"..slot] then
 					sellCount = sellCount + price*count
 					cache["b"..bag.."s"..slot] = true
 					UseContainerItem(bag, slot)
@@ -171,7 +166,7 @@ local function startSelling()
 	end
 end
 
-f:SetScript("OnEvent", function(_, event, ...)
+local function updateSelling(event, ...)
 	if not NDuiADB["AutoSell"] then return end
 
 	local _, arg = ...
@@ -180,10 +175,12 @@ f:SetScript("OnEvent", function(_, event, ...)
 		stop = false
 		wipe(cache)
 		startSelling()
-		f:RegisterEvent("UI_ERROR_MESSAGE")
+		B:RegisterEvent("UI_ERROR_MESSAGE", updateSelling)
 	elseif event == "UI_ERROR_MESSAGE" and arg == errorText then
 		stopSelling(false)
 	elseif event == "MERCHANT_CLOSED" then
 		stopSelling(true)
 	end
-end)
+end
+B:RegisterEvent("MERCHANT_SHOW", updateSelling)
+B:RegisterEvent("MERCHANT_CLOSED", updateSelling)

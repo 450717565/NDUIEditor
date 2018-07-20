@@ -142,6 +142,20 @@ hooksecurefunc("TradeFrame_UpdateTargetItem", function(id)
 	SetItemLevel(_G["TradeRecipientItem"..id.."ItemButton"], GetTradeTargetItemLink(id), "Trade")
 end)
 
+-- Loot
+hooksecurefunc("LootFrame_UpdateButton", function(index)
+	local button = _G["LootButton"..index]
+	local numLootItems = LootFrame.numLootItems
+	local numLootToShow = LOOTFRAME_NUMBUTTONS
+	if (numLootItems > LOOTFRAME_NUMBUTTONS) then
+		numLootToShow = numLootToShow - 1
+	end
+	local slot = (numLootToShow * (LootFrame.page - 1)) + index
+	if (button:IsShown()) then
+		SetItemLevel(button, GetLootSlotLink(slot), "Loot")
+	end
+end)
+
 -- GuildBank
 LibEvent:attachEvent("ADDON_LOADED", function(self, addonName)
 	if (addonName == "Blizzard_GuildBankUI") then
@@ -292,7 +306,7 @@ local function ChatItemLevel(Hyperlink)
 	local level = B.GetItemLevel(itemLink, itemRarity)
 	local slotText = B.ItemSlotInfo(itemLink)
 
-	if level and (slotText and slotText ~= "") then
+	if level and slotText then
 		totalText = "<"..level.."-"..slotText..">"
 	elseif level then
 		totalText = "<"..level..">"

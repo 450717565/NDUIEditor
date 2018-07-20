@@ -1,8 +1,10 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 if not C.Infobar.Location then return end
 
-local module = NDui:GetModule("Infobar")
+local module = B:GetModule("Infobar")
 local info = module:RegisterInfobar(C.Infobar.LocationPos)
+local mapModule = B:GetModule("Maps")
 
 local zoneInfo = {
 	sanctuary = {SANCTUARY_TERRITORY, {.41, .8, .94}},
@@ -57,6 +59,22 @@ local function totalZone()
 	return totalzone
 end
 
+local function UpdateCoords(self, elapsed)
+	self.elapsed = (self.elapsed or 0) + elapsed
+	if self.elapsed > .1 then
+		local x, y = mapModule:GetPlayerMapPos(C_Map.GetBestMapForUnit("player"))
+		if x then
+			coordX, coordY = x, y
+		else
+			coordX, coordY = 0, 0
+			self:SetScript("OnUpdate", nil)
+		end
+		self:GetScript("OnEvent")(self)
+
+		self.elapsed = 0
+	end
+end
+
 info.eventList = {
 	"ZONE_CHANGED",
 	"ZONE_CHANGED_INDOORS",
@@ -69,26 +87,16 @@ info.onEvent = function(self)
 	if not pvp[1] then pvp[1] = "neutral" end
 	local r, g, b = unpack(zoneInfo[pvp[1]][2])
 
-	if GetPlayerMapPosition("player") then
-		self:SetScript("OnUpdate", function(self, elapsed)
-			self.timer = (self.timer or 0) + elapsed
-			if self.timer > .1 then
-				coordX, coordY = GetPlayerMapPosition("player")
-				self:GetScript("OnEvent")(self)
-				self.timer = 0
-			end
-		end)
-	end
-
+	self:SetScript("OnUpdate", UpdateCoords)
 	self.text:SetFormattedText("%s <%s>", currentZone(), formatCoords())
 	self.text:SetTextColor(r, g, b)
 	self.text:SetJustifyH("LEFT")
 end
 
 local function isInvasionPoint()
-	local mapName = GetMapInfo()
+	local mapID = C_Map.GetBestMapForUnit("player")
 	local invaName = C_Scenario.GetInfo()
-	if mapName and mapName:match("InvasionPoint") and invaName then
+	if mapID and mapID >= 921 and mapID <= 926 and invaName then
 		return true
 	end
 end
@@ -124,6 +132,6 @@ info.onMouseUp = function(_, btn)
 		LFGListCategorySelection_SelectCategory(LFGListFrame.CategorySelection, 6, 0)
 		LFGListCategorySelection_StartFindGroup(LFGListFrame.CategorySelection, zone)
 	elseif btn == "RightButton" then
-		ChatFrame_OpenChat(format("%s %s <%s>", L["My Position"], totalZone(), formatCoords()), chatFrame)
+		ChatFrame_OpenChat(format("%s %s <%s>", L["My Position"], totalZone(), formatCoords()), SELECTED_DOCK_FRAME)
 	end
 end

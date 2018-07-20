@@ -1,5 +1,6 @@
 -- Configure 配置页面
-local _, C, _, _ = unpack(select(2, ...))
+local _, ns = ...
+local _, C = unpack(ns)
 
 -- BUFF/DEBUFF相关
 C.Auras = {
@@ -11,7 +12,7 @@ C.Auras = {
 	BHPos			= {"CENTER", UIParent, "CENTER", 0, -206},				-- 血DK助手默认位置
 	StaggerPos		= {"CENTER", UIParent, "CENTER", 0, -206},				-- 坦僧工具默认位置
 	TotemsPos		= {"CENTER", UIParent, "CENTER", 0, -206},				-- 图腾助手默认位置
-	MarksmanPos		= {"CENTER", UIParent, "CENTER", 0, -206},				-- 射击猎助手默认位置
+	HunterToolPos		= {"CENTER", UIParent, "CENTER", 0, -206},				-- 生存猎助手默认位置
 	FamiliarPos		= {"CENTER", UIParent, "CENTER", 0, -240},				-- 奥法魔宠默认位置
 	StatuePos		= {"CENTER", UIParent, "CENTER", 0, -240},				-- 武僧雕像默认位置
 

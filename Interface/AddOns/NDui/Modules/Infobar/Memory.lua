@@ -1,15 +1,34 @@
-﻿local B, C, L, DB = unpack(select(2, ...))
+﻿local _, ns = ...
+local B, C, L, DB = unpack(ns)
 if not C.Infobar.Memory then return end
 
-local module = NDui:GetModule("Infobar")
+local module = B:GetModule("Infobar")
 local info = module:RegisterInfobar(C.Infobar.MemoryPos)
 
 local function formatMemory(value, color)
 	color = color and DB.MyColor or ""
 	if value > 1024 then
-		return format(color.."%.1f|rMb", value / 1024)
+		return format(color.."%.1f|rMB", value / 1024)
 	else
-		return format(color.."%.0f|rKb", value)
+		return format(color.."%.0f|rKB", value)
+	end
+end
+
+local function memoryColor(value, times)
+	if not times then times = 1 end
+
+	if value <= 1024*times then
+		return 0, 1, 0
+	elseif value <= 2048*times then
+		return .75, 1, 0
+	elseif value <= 4096*times then
+		return 1, 1, 0
+	elseif value <= 8192*times then
+		return 1, .75, 0
+	elseif value <= 16384*times then
+		return 1, .5, 0
+	else
+		return 1, .1, 0
 	end
 end
 
@@ -62,10 +81,8 @@ info.onMouseUp = function(self, btn)
 		collectgarbage()
 		print(format("|cff66C6FF%s:|r %s", L["Collect Memory"], formatMemory(before - gcinfo())))
 		updateMemory()
-	elseif btn == "RightButton" then
-		NDuiADB["AutoCollect"] = not NDuiADB["AutoCollect"]
+		self:GetScript("OnEnter")(self)
 	end
-	self:GetScript("OnEnter")(self)
 end
 
 info.onEnter = function(self)
@@ -78,13 +95,7 @@ info.onEnter = function(self)
 	local maxAddOns = IsShiftKeyDown() and #memoryTable or min(C.Infobar.MaxAddOns, #memoryTable)
 	for i = 1, maxAddOns do
 		local usage = memoryTable[i][2]
-		local color = usage <= 102.4 and {0,1} -- 0 - 100k
-		or usage <= 1024 and {.75,1} -- 100k - 1mb
-		or usage <= 2048 and {1,1} -- 1mb - 2mb
-		or usage <= 4096 and {1,.75} -- 2mb - 4mb
-		or usage <= 8192 and {1,.5} -- 4mb - 8mb
-		or {1,.1} -- 8mb +
-		GameTooltip:AddDoubleLine(memoryTable[i][1], formatMemory(usage), 1, 1, 1, color[1], color[2], 0)
+		GameTooltip:AddDoubleLine(memoryTable[i][1], formatMemory(usage), 1,1,1, memoryColor(usage))
 	end
 
 	local hiddenMemory = 0
@@ -97,13 +108,12 @@ info.onEnter = function(self)
 			GameTooltip:AddDoubleLine(format("%d %s (%s)", numHidden, L["Hidden"], L["Hold Shift"]), formatMemory(hiddenMemory), .6,.8,1, .6,.8,1)
 		end
 	end
-	GameTooltip:AddLine(" ")
 
+	GameTooltip:AddLine(" ")
 	GameTooltip:AddDoubleLine(L["Default UI Memory Usage"], formatMemory(gcinfo() - totalMemory), .6,.8,1, 1,1,1)
 	GameTooltip:AddDoubleLine(L["Total Memory Usage"], formatMemory(collectgarbage("count")), .6,.8,1, 1,1,1)
 	GameTooltip:AddDoubleLine(" ", DB.LineString)
 	GameTooltip:AddDoubleLine(" ", DB.LeftButton..L["Collect Memory"].." ", 1,1,1, .6,.8,1)
-	GameTooltip:AddDoubleLine(" ", DB.RightButton..L["Auto Collect"]..(NDuiADB["AutoCollect"] and "|cff55ff55"..VIDEO_OPTIONS_ENABLED or "|cffff5555"..VIDEO_OPTIONS_DISABLED).." ", 1,1,1, .6,.8,1)
 	GameTooltip:Show()
 
 	self:RegisterEvent("MODIFIER_STATE_CHANGED")
@@ -120,7 +130,6 @@ info.eventList = {
 
 info.onEvent = function(self, event, arg1)
 	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
-	if NDuiADB["AutoCollect"] == nil then NDuiADB["AutoCollect"] = true end
 	if event == "MODIFIER_STATE_CHANGED" and arg1 == "LSHIFT" then
 		self:GetScript("OnEnter")(self)
 	end
@@ -129,7 +138,7 @@ end
 local f = CreateFrame("Frame")
 f:RegisterAllEvents()
 f:SetScript("OnEvent", function(_, event)
-	if InCombatLockdown() or not NDuiADB["AutoCollect"] then return end
+	if InCombatLockdown() then return end
 	f.events = (f.events or 0) + 1
 	if f.events > 6000 or event == "PLAYER_ENTERING_WORLD" or event == "PLAYER_REGEN_ENABLED" then
 		collectgarbage()

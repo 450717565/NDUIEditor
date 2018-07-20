@@ -40,6 +40,12 @@ ret = TjThreads.RushTask( func )
   Returns:
     ret (any)			The first return value output by func when it finished. (Only one is returned. Others are ignored.)
 
+ret = TjThreads.IsTaskActive( func )
+  Returns true if an active task exists for the given function. False otherwise.
+
+func = TjThreads.GetLatestTask()
+  Returns the function for the most recently added task that is still active. Returns nil if there are no active tasks.
+
 Example usage:
 
   TjThreads.AddTask(
@@ -56,17 +62,25 @@ Example usage:
     end
   )
 
+Special yield values:
+
+  If you pass TjThreads.QUICKYIELD to your function's yield statement (giving "coroutine.yield(TjThreads.QUICKYIELD)"), then TjThreads
+considers that thread to have taken up a negligible amount of time and so another thread will be allowed to process, if there is one.
+This may be useful when one thread is simply waiting on another thread to complete.
+
 -------------------------------------------------------------------------------------------------------------------------------------------
 --]]
 
 
-local THIS_VERSION = "0.03"
+local THIS_VERSION = "0.04"
 
 if (TjThreads and TjThreads.Version >= THIS_VERSION) then  return;  end  -- Lua's pretty good at this. It even knows that "1.0.10" > "1.0.9". However, be aware that it thinks "1.0" < "1.0b" so putting a "b" on the end for Beta, nothing for release, doesn't work.
 
 TjThreads = TjThreads or {}
 local TjThreads = TjThreads
 TjThreads.Version = THIS_VERSION
+
+TjThreads.QUICKYIELD = "QUICKYIELD"
 
 
 local coroutine = coroutine
@@ -108,6 +122,7 @@ local function resumeThread(thread, noErrorOut)
 		return true  -- End the task as if it was complete
 	end
 	if (coroutine.status(thread) == "dead") then  return true, ret2;  end
+	return nil, ret2
 end
 
 frame:SetScript("OnUpdate", function(self, elapsed)
@@ -115,23 +130,32 @@ frame:SetScript("OnUpdate", function(self, elapsed)
 	if (waitLeft > 0) then  return;  end
 	waitLeft = INTERVAL
 
-	local task = tasks[nextTask]
-	if (task) then
-		nextTask = nextTask + 1
-	else
-		task = tasks[1]
-		if (not task) then
-			tasks = nil
-			nextTask = 1
-			frame:Hide()
-			return;
+	local task, loopTask
+	local ret
+	repeat
+		task = tasks[nextTask]
+		if (task) then
+			if (task == loopTask) then  break;  end
+			nextTask = nextTask + 1
+		else
+			task = tasks[1]
+			if (not task) then
+				tasks = nil
+				nextTask = 1
+				frame:Hide()
+				return;
+			end
+			nextTask = 2
 		end
-		nextTask = 2
-	end
 
-	if (resumeThread(threads[task])) then  -- If the task is complete
-		TjThreads.RemoveTask(task)
-	end
+		local complete
+		complete, ret = resumeThread(threads[task])
+		if (complete) then  -- If the task is complete
+			TjThreads.RemoveTask(task)
+			--break
+		end
+		if (not loopTask) then  loopTask = task;  end
+	until ret ~= TjThreads.QUICKYIELD
 end)
 
 
@@ -188,3 +212,11 @@ function TjThreads.RushTask(func)
 	return ret
 end
 
+function TjThreads.IsTaskActive(func)
+	local thread = threads and threads[func] or nil
+	return not not thread
+end
+
+function TjThreads.GetLatestTask()
+	return tasks and tasks[#tasks] or nil
+end

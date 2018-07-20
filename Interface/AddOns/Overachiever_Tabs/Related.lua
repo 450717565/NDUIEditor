@@ -10,7 +10,7 @@
 local DEFAULT_SERIES_DEEPER_META = true
 
 local L = OVERACHIEVER_STRINGS
-local GetAchievementInfo = Overachiever.GetAchievementInfo
+local GetAchievementInfo = GetAchievementInfo
 local GetAchievementCriteriaInfo = Overachiever.GetAchievementCriteriaInfo
 
 
@@ -230,6 +230,17 @@ local function buildRelatedTab()
 
 	function frame.SetNumListed(num)
 	  ResultsLabel:SetText(L.RELATED_RESULTS:format(num))
+
+	  local c = #frame.AchList
+	  if (num < c) then
+		frame.frameWarning.label:SetText(L.RELATED_FILTERED_OUT:format(c - num))
+		--local w = frame.frameWarning.label:GetStringWidth() + 100
+		--if (w > 492) then  w = 492;  end
+		--frame.frameWarning:SetWidth(w)
+		frame.frameWarning:Show()
+	  else
+		frame.frameWarning:Hide()
+	  end
 	end
 
 

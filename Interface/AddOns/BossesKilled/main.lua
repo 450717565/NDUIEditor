@@ -106,8 +106,8 @@ function addon:CreateButton(parent, scale)
 	end
 
 	-- Aurora Reskin
-	if IsAddOnLoaded("Aurora") then
-		local F, C = unpack(Aurora)
+	if IsAddOnLoaded("AuroraClassic") then
+		local F, C = unpack(AuroraClassic)
 		button:SetSize(70, 40)
 		button:SetCheckedTexture(C.media.checked)
 		F.ReskinTab(button)
@@ -136,7 +136,7 @@ function addon:CreateNumberFontstring(parentButton)
 	local number = parentButton:CreateFontString(parentButton:GetName().."Number", "OVERLAY", "SystemFont_Shadow_Huge3")
 
 	-- Aurora Reskin
-	if IsAddOnLoaded("Aurora") then
+	if IsAddOnLoaded("AuroraClassic") then
 		number:SetPoint("CENTER", 2, -2)
 		number:SetFont(STANDARD_TEXT_FONT, 32, "OUTLINE")
 	else

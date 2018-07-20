@@ -1,48 +1,50 @@
 local B, C, L, DB = unpack(select(2, ...))
 
-local Event = CreateFrame("frame")
-Event:RegisterEvent("ADDON_LOADED")
+-- Game version 8.0.1
+local event = CreateFrame("frame")
+event:RegisterEvent("ADDON_LOADED")
+local spot = 0
+local cani, found, Numskills, Cost, TrainAll
+local done = false
 
-local Spot = 0
-local Category, Found, Number, Cost, TrainAll
-local Done = false
-
-local function Pauseit()
-	Spot = 0
+local function pauseit()
+	spot = 0
 	TrainAll()
 end
 
 function TrainAll()
-	if Done == true then
-		Spot = 0
+	if done == true then
+		spot = 0
 		return
 	end
-	Number = GetNumTrainerServices()
-	Found = false
-	while Found == false do
-		Spot = Spot + 1
-		_,_,Category = GetTrainerServiceInfo(Spot)
-		if Category == "available" then
-			BuyTrainerService(Spot)
-			C_Timer.After(0.3, Pauseit)
-			Found = true
+	Numskills = GetNumTrainerServices()
+	found = false
+	while found == false do
+		spot = spot + 1
+		_, cani = GetTrainerServiceInfo(spot)
+		if cani == "available" then
+			BuyTrainerService(spot)
+			C_Timer.After(0.3, pauseit)
+			found = true
 		end
-		if Spot >= Number then
-			Done = true
+		if spot >= Numskills then
+			done = true
 			break
 		end
 	end
 end
 
-local function Createit()
+
+
+local function createit()
 	local Button = CreateFrame("Button", "TrainAllButton",ClassTrainerFrame, "MagicButtonTemplate")
 	Button:SetWidth(80)
 	Button:SetHeight(22)
 	Button:SetText(L["Train All"])
 	Button:SetPoint("RIGHT", ClassTrainerTrainButton, "LEFT", -2, 0)
 	-- Aurora Reskin
-	if IsAddOnLoaded("Aurora") then
-		local F = unpack(Aurora)
+	if IsAddOnLoaded("AuroraClassic") then
+		local F = unpack(AuroraClassic)
 		F.Reskin(Button)
 	end
 	Button:SetScript("OnEnter", function()
@@ -52,17 +54,18 @@ local function Createit()
 	Button:SetScript("OnLeave", function()
 		GameTooltip:Hide()
 	end)
-	Button:SetScript("OnClick",function()
-		Spot = 0
-		Done = false
+	Button:SetScript("ONClick",function()
+		spot = 0
+		done = false
 		TrainAll()
 	end)
+
 	hooksecurefunc("ClassTrainerFrame_Update",function()
-	Cost = 0
-	local Enable = false
+		Cost = 0
+		local Enable = false
 		for i = 1, GetNumTrainerServices() do
-			local _, _, Category = GetTrainerServiceInfo(i)
-			if Category == "available" then
+			local _, cani = GetTrainerServiceInfo(i)
+			if cani == "available" then
 				Cost = Cost + GetTrainerServiceCost(i)
 				TrainAllButton:Enable()
 				Enable = true
@@ -74,16 +77,16 @@ local function Createit()
 	end)
 end
 
-local function Woho(_, _, name)
+local function woho(_, _, name)
 	if name == "NDui" then
 		if IsAddOnLoaded("Blizzard_TrainerUI") then
-			Createit()
-			Event:UnregisterEvent("ADDON_LOADED")
+			createit()
+			event:UnregisterEvent("ADDON_LOADED")
 		end
 	elseif name == "Blizzard_TrainerUI" then
-		Createit()
-		Event:UnregisterEvent("ADDON_LOADED")
+		createit()
+		event:UnregisterEvent("ADDON_LOADED")
 	end
 end
 
-Event:SetScript("OnEvent", Woho)
+event:SetScript("OnEvent", woho)

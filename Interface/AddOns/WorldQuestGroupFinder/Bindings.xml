@@ -1,5 +1,0 @@
-<Bindings>
-	<Binding name="WQGF_HARDWARE_EVENT" header="WQGF" category="ADDONS" >
-		WorldQuestGroupCurrentWQFrameNextButton__OnClick()
-	</Binding>
-</Bindings>

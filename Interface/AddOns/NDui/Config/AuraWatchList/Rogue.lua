@@ -1,5 +1,6 @@
-local B, C, L, DB = unpack(select(2, ...))
-local module = NDui:GetModule("AurasTable")
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
+local module = B:GetModule("AurasTable")
 
 -- 盗贼的法术监控
 local list = {
@@ -8,6 +9,7 @@ local list = {
 		{AuraID =   2983, UnitID = "player"},--疾跑
 		{AuraID =  36554, UnitID = "player"},--暗影步
 		{AuraID = 197603, UnitID = "player"},--黑暗之拥
+		{AuraID = 270070, UnitID = "player"},	-- 隐藏之刃
 	},
 	["Target Aura"] = { -- 目标光环组
 		{AuraID =    408, UnitID = "target", Caster = "player"},--肾击
@@ -28,6 +30,10 @@ local list = {
 		{AuraID = 196937, UnitID = "target", Caster = "player"},--鬼魅攻击
 		{AuraID = 199804, UnitID = "target", Caster = "player"},--正中眉心
 		{AuraID = 192925, UnitID = "target", Caster = "player"},--遇刺者之血
+		{AuraID = 245389, UnitID = "target", Caster = "player"},	-- 淬毒之刃
+		{AuraID = 121411, UnitID = "target", Caster = "player"},	-- 猩红风暴
+		{AuraID = 255909, UnitID = "target", Caster = "player"},	-- 欺凌
+		{AuraID = 91021, UnitID = "target", Caster = "player"},		-- 洞悉弱点
 	},
 	["Player Special Aura"] = { -- 玩家重要光环组
 		{AuraID =   1966, UnitID = "player"},--佯攻

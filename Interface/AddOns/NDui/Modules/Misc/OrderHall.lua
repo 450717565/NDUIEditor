@@ -1,12 +1,13 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 
 --[[
 	职业大厅图标，取代自带的信息条
 ]]
 
-if IsAddOnLoaded("Aurora") then
-	local F = unpack(Aurora)
-	local r, g, b = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b
+if IsAddOnLoaded("AuroraClassic") then
+	local F = unpack(AuroraClassic)
+	local r, g, b = DB.CC.r, DB.CC.g, DB.CC.b
 
 	local OrderHall_Frame = CreateFrame("Frame")
 	OrderHall_Frame:RegisterEvent("ADDON_LOADED")

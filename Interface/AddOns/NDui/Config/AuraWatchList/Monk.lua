@@ -1,5 +1,6 @@
-local B, C, L, DB = unpack(select(2, ...))
-local module = NDui:GetModule("AurasTable")
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
+local module = B:GetModule("AurasTable")
 
 -- 武僧的法术监控
 local list = {
@@ -70,7 +71,6 @@ local list = {
 		{AuraID = 247255, UnitID = "player"},--点穴踢
 		{AuraID = 228563, UnitID = "player"},--幻灭连击
 		{AuraID = 195630, UnitID = "player"},--醉拳大师
-		{AuraID = 196739, UnitID = "player"},--迷踪步
 		{AuraID = 195381, UnitID = "player"},--治疗之风
 		{AuraID = 202090, UnitID = "player"},--禅院教诲
 		--生生不息

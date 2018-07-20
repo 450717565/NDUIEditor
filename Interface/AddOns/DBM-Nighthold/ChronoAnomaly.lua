@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1725, "DBM-Nighthold", nil, 786)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17603 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17623 $"):sub(12, -3))
 mod:SetCreatureID(104415)--104731 (Depleted Time Particle). 104676 (Waning Time Particle). 104491 (Accelerated Time particle). 104492 (Slow Time Particle)
 mod:SetEncounterID(1865)
 mod:SetZone()
@@ -65,7 +65,7 @@ mod.vb.timeBombDebuffCount = 0
 local timeBombDebuff = DBM:GetSpellInfo(206617)
 local timeRelease = DBM:GetSpellInfo(206610)
 local function updateTimeBomb(self)
-	local _, _, _, _, _, _, expires = UnitDebuff("player", timeBombDebuff)
+	local _, _, _, _, _, expires = UnitDebuff("player", timeBombDebuff)
 	if expires then
 		specWarnTimeBomb:Cancel()
 		specWarnTimeBomb:CancelVoice()
@@ -186,8 +186,8 @@ local function delayedOrbs(self, time, count)
 	timerTemporalOrbsCD:Start(time, count)
 end
 
-function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
-	local spellId = tonumber(select(5, strsplit("-", spellGUID)), 10)
+function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
+	local spellId = legacySpellId or bfaSpellId
 	if spellId == 207012 then--Speed: Normal
 		self.vb.currentPhase = 2
 		self.vb.interruptCount = 0

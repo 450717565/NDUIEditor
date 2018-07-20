@@ -51,7 +51,7 @@ local function GetInspectItemListFrame(parent)
 		frame:SetToplevel(true)
 		frame:SetPoint("TOPLEFT", parent, "TOPRIGHT", 0, 0)
 		frame:SetBackdrop(frame.backdrop)
-		frame:SetBackdropColor(0, 0, 0, 0.9)
+		frame:SetBackdropColor(0, 0, 0, 0.8)
 		frame:SetBackdropBorderColor(0.6, 0.6, 0.6)
 		frame.portrait = CreateFrame("Frame", nil, frame, "GarrisonFollowerPortraitTemplate")
 		frame.portrait:SetPoint("TOPLEFT", frame, "TOPLEFT", 18, -16)
@@ -73,6 +73,7 @@ local function GetInspectItemListFrame(parent)
 			itemframe = CreateFrame("Button", nil, frame)
 			itemframe:SetSize(120, (height-82)/#slots)
 			itemframe.index = v.index
+			itemframe.backdrop = backdrop
 			if (i == 1) then
 				itemframe:SetPoint("TOPLEFT", frame, "TOPLEFT", 15, -70)
 			else
@@ -131,8 +132,8 @@ local function GetInspectItemListFrame(parent)
 		parent.inspectFrame = frame
 		LibEvent:trigger("INSPECT_FRAME_CREATED", frame, parent)
 
-		if IsAddOnLoaded("Aurora") then
-			local F, C = unpack(Aurora)
+		if IsAddOnLoaded("AuroraClassic") then
+			local F, C = unpack(AuroraClassic)
 			F.CreateBD(frame)
 			F.CreateSD(frame)
 			--F.ReskinGarrisonPortrait(frame.portrait)
@@ -222,7 +223,7 @@ function ShowInspectItemListFrame(unit, parent, ilevel, maxLevel)
 	frame:SetBackdropColor(0, 0, 0, 0.9)
 	frame:SetBackdropBorderColor(color.r, color.g, color.b)
 
-	if IsAddOnLoaded("Aurora") then
+	if IsAddOnLoaded("AuroraClassic") then
 		frame.Shadow:SetBackdropBorderColor(color.r, color.g, color.b)
 	end
 
@@ -247,7 +248,7 @@ end)
 
 --設置邊框
 LibEvent:attachTrigger("INSPECT_FRAME_SHOWN", function(self, frame, parent, ilevel)
-	if IsAddOnLoaded("Aurora") then
+	if IsAddOnLoaded("AuroraClassic") then
 		frame.backdrop.edgeSize = 1
 		frame.backdrop.edgeFile = "Interface\\Buttons\\WHITE8X8"
 		frame.backdrop.insets.top = 1

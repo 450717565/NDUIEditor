@@ -8,7 +8,7 @@
 --  often requires the calendar to be set to the current month in order to be reliable, but if the user is currently
 --  looking at the calendar, this can be disruptive. So, two functions are provided here: One to indicate you're
 --  about to read from the calendar, which sets its position to the current month (and year!), and another to
---  indicate you're done reading from the calendar, which puts the calendar position back where it was (IF there
+--  indicate you're done reading from the calendar, which puts the calendar position back where it was (if there
 --  actually was a change).
 --
 --  These two functions are, in order, TjCalendar.StartReading() and TjCalendar.StopReading(). In this file, the
@@ -37,7 +37,7 @@
 --
 
 
-local THIS_VERSION = 0.01
+local THIS_VERSION = 0.02
 
 if (TjCalendar and TjCalendar.Version >= THIS_VERSION) then  return;  end
 
@@ -48,6 +48,22 @@ TjCalendar.Version = THIS_VERSION
 local monthSet, yearSet
 
 local internal_monthSet, internal_yearSet
+
+
+-- BFA
+local CalendarSetAbsMonth = CalendarSetAbsMonth or C_Calendar.SetAbsMonth
+
+local CalendarGetDate = CalendarGetDate or function(...)
+	local info = C_Calendar.GetDate(...)
+	return info.weekday, info.month, info.monthDay, info.year, info.hour, info.minute
+end
+
+local CalendarGetMonth = CalendarGetMonth or function(...)
+	local info = C_Calendar.GetMonthInfo(...)
+	return info.month, info.year, info.numDays, info.firstWeekday
+end
+-- BFA
+
 
 function internal_StartReadingAt(year, month, getMonthData)
 	if (not year) then

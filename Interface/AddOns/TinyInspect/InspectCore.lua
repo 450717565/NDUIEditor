@@ -109,7 +109,7 @@ hooksecurefunc("NotifyInspect", function(unit)
 	if (not data.realm) then
 		data.realm = GetRealmName()
 	end
-	data.expired = time() + 4
+	data.expired = time() + 3
 	inspecting = data
 	LibEvent:trigger("UNIT_INSPECT_STARTED", data)
 end)

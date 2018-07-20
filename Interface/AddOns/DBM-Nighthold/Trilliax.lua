@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1731, "DBM-Nighthold", nil, 786)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17603 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17623 $"):sub(12, -3))
 mod:SetCreatureID(104288)
 mod:SetEncounterID(1867)
 mod:SetZone()
@@ -235,7 +235,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if amount >= 2 then
 			if not args:IsPlayer() and not UnitIsDeadOrGhost("player") then
 				local warnPlayer = false
-				local _, _, _, _, _, _, expireTime = DBM:UnitDebuff("player", args.spellName)
+				local _, _, _, _, _, expireTime = DBM:UnitDebuff("player", args.spellName)
 				if expireTime then--Debuff, make sure it'll be gone before next slash
 					local remainingDebuff = expireTime-GetTime()
 					local arcaneSlashRemaining = timerArcaneSlashCD:GetRemaining() or 0

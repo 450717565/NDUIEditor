@@ -8,7 +8,7 @@
 --
 
 local L = OVERACHIEVER_STRINGS
-local GetAchievementInfo = Overachiever.GetAchievementInfo
+local GetAchievementInfo = GetAchievementInfo
 
 
 local VARS, CurrentWatchList, DestinationWatchList

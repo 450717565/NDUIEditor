@@ -1,9 +1,10 @@
-local B, C, L, DB = unpack(select(2, ...))
-local module = NDui:GetModule("Skins")
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
+local module = B:GetModule("Skins")
 
 function module:PetBattleUI()
 	if not NDuiDB["Skins"]["PetBattle"] then return end
-	local r, g, b = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b
+	local r, g, b = DB.CC.r, DB.CC.g, DB.CC.b
 
 	-- Head Frame
 	local frame = PetBattleFrame

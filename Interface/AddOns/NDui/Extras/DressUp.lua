@@ -13,8 +13,8 @@ local function CreateButton(name, frame, label, width, height, point, relativeTo
 	name:RegisterForClicks("AnyUp")
 	name:SetHitRectInsets(0, 0, 0, 0)
 	-- Aurora Reskin
-	if IsAddOnLoaded("Aurora") then
-		local F = unpack(Aurora)
+	if IsAddOnLoaded("AuroraClassic") then
+		local F = unpack(AuroraClassic)
 		F.Reskin(name)
 	end
 	return name

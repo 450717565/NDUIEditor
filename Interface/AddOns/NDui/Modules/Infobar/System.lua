@@ -1,7 +1,8 @@
-﻿local B, C, L, DB = unpack(select(2, ...))
+﻿local _, ns = ...
+local B, C, L, DB = unpack(ns)
 if not C.Infobar.System then return end
 
-local module = NDui:GetModule("Infobar")
+local module = B:GetModule("Infobar")
 local info = module:RegisterInfobar(C.Infobar.SystemPos)
 
 local function colorLatency(latency)
@@ -14,7 +15,7 @@ local function colorLatency(latency)
 	end
 end
 
-local function colorFps(fps)
+local function colorFPS(fps)
 	if fps < 30 then
 		return "|cffC00000"..fps.."|r"
 	elseif fps < 60 then
@@ -30,7 +31,7 @@ info.onUpdate = function(self, elapsed)
 		local _, _, latencyHome, latencyWorld = GetNetStats()
 		local latency = math.max(latencyHome, latencyWorld)
 		local fps = floor(GetFramerate())
-		self.text:SetFormattedText(L["Fps: %s"]..DB.MyColor.." | |r"..L["Ms: %s"], colorFps(fps), colorLatency(latency))
+		self.text:SetFormattedText(L["Fps: %s"]..DB.MyColor.." | |r"..L["Ms: %s"], colorFPS(fps), colorLatency(latency))
 		self.text:SetJustifyH("LEFT")
 
 		self.timer = 0

@@ -110,8 +110,7 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 		local lootstring, _, _, _, player = ...
 		local rollInfo = string.match(lootstring, BONUS_REWARDS)
 		local itemLink = string.match(lootstring,"|%x+|Hitem:.-|h.-|h|r")
-		local itemString = string.match(itemLink, "item[%-?%d:]+")
-		local _, _, itemRarity, _, _, _, itemSubType, _, itemEquipLoc, _, _, itemClassID, itemSubClassID, bindType = GetItemInfo(itemString)
+		local _, _, itemRarity, _, _, _, itemSubType, _, itemEquipLoc, _, _, itemClassID, itemSubClassID, bindType = GetItemInfo(itemLink)
 
 		local Enabled = 0
 		local totalInfo = ""
@@ -119,7 +118,7 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 		local filterBR = NDuiDB["Extras"]["LootMonitorBonusRewards"] and rollInfo
 
 		local itemLvl = B.GetItemLevel(itemLink, itemRarity)
-		local slotText = B.ItemSlotInfo(itemString)
+		local slotText = B.ItemSlotInfo(itemLink)
 
 		if NDuiDB["Extras"]["LootMonitorInGroup"] == true and not IsInGroup() then
 			Enabled = 0
@@ -129,7 +128,7 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 			Enabled = 1
 		end
 
-		if itemLvl and (slotText and slotText ~= "") then
+		if itemLvl and slotText then
 			totalInfo = "<"..itemLvl.."-"..slotText..">"
 		elseif itemLvl then
 			totalInfo = "<"..itemLvl..">"

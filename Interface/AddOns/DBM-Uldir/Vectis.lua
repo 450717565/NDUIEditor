@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2166, "DBM-Uldir", nil, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17579 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17623 $"):sub(12, -3))
 mod:SetCreatureID(134442)--135016 Plague Amalgam
 mod:SetEncounterID(2134)
 mod:SetZone()
@@ -158,7 +158,7 @@ function mod:SPELL_AURA_APPLIED(args)
 					--yellMutagenicPathogen:Cancel()
 					--yellMutagenicPathogen:Countdown(12)
 				else
-					local _, _, _, _, _, expireTime = UnitDebuff("player", spellId)
+					local _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
 					local remaining
 					if expireTime then
 						remaining = expireTime-GetTime()

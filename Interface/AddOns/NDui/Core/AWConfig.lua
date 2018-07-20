@@ -1,6 +1,7 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 
-local r, g, b = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b
+local r, g, b = DB.CC.r, DB.CC.g, DB.CC.b
 local f
 
 local function CreatePanel()
@@ -122,8 +123,8 @@ local function CreatePanel()
 		scroll:SetPoint("BOTTOMLEFT", 10, 10)
 		B.CreateBD(scroll, .2)
 		B.CreateFS(scroll, 15, L["AuraWatch List"], false, "TOPLEFT", 5, 20)
-		if IsAddOnLoaded("Aurora") then
-			local F = unpack(Aurora)
+		if IsAddOnLoaded("AuroraClassic") then
+			local F = unpack(AuroraClassic)
 			F.ReskinScroll(scroll.ScrollBar)
 		end
 
@@ -236,7 +237,7 @@ local function CreatePanel()
 		icon:SetPoint("LEFT", 5, 0)
 		B.CreateIF(icon, true)
 		icon.Icon:SetTexture(texture)
-		B.CreateAT(icon, "ANCHOR_RIGHT", intID)
+		B.AddTooltip(icon, "ANCHOR_RIGHT", intID)
 
 		local close = CreateFrame("Button", nil, bar)
 		close:SetSize(20, 20)
@@ -255,7 +256,7 @@ local function CreatePanel()
 		spellName:SetWidth(180)
 		spellName:SetJustifyH("LEFT")
 		B.CreateFS(bar, 14, duration, false, "RIGHT", -30, 0)
-		B.CreateGT(bar, "ANCHOR_TOP", L["Trigger"]..trigger.." - "..unit, "system")
+		B.AddTooltip(bar, "ANCHOR_TOP", L["Trigger"]..trigger.." - "..unit, "system")
 
 		SortBars(index)
 	end
@@ -274,7 +275,7 @@ local function CreatePanel()
 		icon:SetPoint("LEFT", 5, 0)
 		B.CreateIF(icon, true)
 		icon.Icon:SetTexture(texture)
-		B.CreateAT(icon, "ANCHOR_RIGHT", spellID)
+		B.AddTooltip(icon, "ANCHOR_RIGHT", spellID)
 
 		local close = CreateFrame("Button", nil, bar)
 		close:SetSize(20, 20)
@@ -327,11 +328,7 @@ local function CreatePanel()
 		icon:SetPoint("LEFT", 5, 0)
 		B.CreateIF(icon, true)
 		icon.Icon:SetTexture(texture)
-		if tonumber(value) then
-			B.CreateAT(icon, "ANCHOR_RIGHT", value)
-		else
-			B.CreateGT(icon, "ANCHOR_RIGHT", value, "system")
-		end
+		B.AddTooltip(icon, "ANCHOR_RIGHT", value, "system")
 
 		local close = CreateFrame("Button", nil, bar)
 		close:SetSize(20, 20)
@@ -392,6 +389,7 @@ local function CreatePanel()
 		[3] = EJ_GetInstanceInfo(786),
 		[4] = EJ_GetInstanceInfo(875),
 		[5] = EJ_GetInstanceInfo(946),
+		[6] = EJ_GetInstanceInfo(1031),
 	}
 	local preSet = {
 		[1] = {1, true},
@@ -496,9 +494,13 @@ local function CreatePanel()
 			for _, v in pairs(NDuiADB["RaidDebuffs"]) do
 				AddRaidDebuffs(tabs[i].List.Child, i, v)
 			end
-			Option[17] = CreateDropdown(tabs[i].Page, L["Instance*"], 20, -30, {instList[1], instList[2], instList[3], instList[4], instList[5]}, L["Instance Intro"], 150, 30)
-			Option[18] = CreateEditbox(tabs[i].Page, "ID*", 200, -30, L["ID Intro"])
-			Option[19] = CreateEditbox(tabs[i].Page, L["Priority"], 320, -30, L["Priority Intro"])
+			local instTable = {}
+			for _, inst in ipairs(instList) do
+				tinsert(instTable, inst)
+			end
+			Option[17] = CreateDropdown(tabs[i].Page, L["Instance*"], 20, -30, instTable, L["Instance Intro"], 200, 30)
+			Option[18] = CreateEditbox(tabs[i].Page, "ID*", 250, -30, L["ID Intro"])
+			Option[19] = CreateEditbox(tabs[i].Page, L["Priority"], 370, -30, L["Priority Intro"])
 		elseif i == 13 then
 			for _, v in pairs(NDuiDB["RaidClickSets"]) do
 				AddRaidClickSets(tabs[i].List.Child, i, v)
@@ -607,17 +609,18 @@ local function CreatePanel()
 
 	tabs[1]:Click()
 
-	NDui:EventFrame{"PLAYER_REGEN_DISABLED"}:SetScript("OnEvent", function(self, event)
+	local function showLater(event)
 		if event == "PLAYER_REGEN_DISABLED" then
 			if f:IsShown() then
 				f:Hide()
-				self:RegisterEvent("PLAYER_REGEN_ENABLED")
+				B:RegisterEvent("PLAYER_REGEN_ENABLED", showLater)
 			end
 		else
 			f:Show()
-			self:UnregisterEvent("PLAYER_REGEN_ENABLED")
+			B:UnregisterEvent(event, showLater)
 		end
-	end)
+	end
+	B:RegisterEvent("PLAYER_REGEN_DISABLED", showLater)
 end
 
 SlashCmdList["NDUI_AWCONFIG"] = function()

@@ -1,5 +1,0 @@
-<Ui>
-	<Script file="AddonList.lua"/>
-	<Script file="ModelPreviewFrame.lua"/>
-	<Script file="SharedBasicControls.lua"/>
-</Ui>

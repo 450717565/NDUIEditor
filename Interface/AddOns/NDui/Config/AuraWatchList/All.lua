@@ -1,6 +1,6 @@
-local B, C, L, DB = unpack(select(2, ...))
-local module = NDui:GetModule("AurasTable")
-
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
+local module = B:GetModule("AurasTable")
 --[[
 	>>>自定义添加时，要注意格式，注意逗号，注意字母大小写<<<
 	ALL下面是对全职业通用的设置，其他情况请在自己职业下添加。当你添加时，要注意是否重复。
@@ -61,6 +61,18 @@ local list = {
 		{AuraID =  59547, UnitID = "player"},
 		{AuraID =  59548, UnitID = "player"},
 		{AuraID = 121093, UnitID = "player"},
+	-->艾泽里特特质
+		{AuraID = 273685, UnitID = "player"},	-- 缜密计谋
+		{AuraID = 273714, UnitID = "player"},	-- 争分夺秒
+		{AuraID = 274443, UnitID = "player"},	-- 死亡之舞
+		{AuraID = 280433, UnitID = "player"},	-- 呼啸狂沙
+		{AuraID = 268953, UnitID = "player", Text = RAID_BUFF_6},	-- 元素回旋 爆击
+		{AuraID = 268954, UnitID = "player", Text = RAID_BUFF_4},	-- 急速
+		{AuraID = 268955, UnitID = "player", Text = RAID_BUFF_7},	-- 精通
+		{AuraID = 268956, UnitID = "player", Text = RAID_BUFF_8},	-- 全能
+		{AuraID = 280780, UnitID = "player"},	-- 战斗荣耀
+		{AuraID = 280787, UnitID = "player"},	-- 反击之怒
+		{AuraID = 279928, UnitID = "player"},	-- 大地链接
 	-->LEG药水附魔
 		{AuraID = 188027, UnitID = "player"},--致命优雅，远程
 		{AuraID = 188028, UnitID = "player"},--上古战神，近战
@@ -675,7 +687,6 @@ local list = {
 		{AuraID =   6940, UnitID = "target"},--牺牲祝福
 		{AuraID =  19574, UnitID = "target"},--狂野怒火
 		{AuraID =  23920, UnitID = "target"},--法术反射
-		{AuraID =  31842, UnitID = "target"},--复仇之怒 神圣
 		{AuraID =  31884, UnitID = "target"},--复仇之怒 惩戒
 		{AuraID =  33206, UnitID = "target"},--痛苦压制
 		{AuraID =  45438, UnitID = "target"},--寒冰屏障

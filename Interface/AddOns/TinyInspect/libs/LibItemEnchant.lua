@@ -97,7 +97,7 @@ local EnchantItemDB = {
 	[5931] = 153247,
 }
 
---Data from: RRRRBUA(NGA), KibsItemLevel
+--Data from: M, RRRRBUA(NGA), KibsItemLevel
 local EnchantSpellDB = {
 	[15] = 2831,
 	[16] = 2832,

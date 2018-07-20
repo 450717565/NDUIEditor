@@ -4,13 +4,15 @@ local OVERACHIEVER_ACHID = OVERACHIEVER_ACHID
 local GetStatistic = GetStatistic
 
 local Overachiever = Overachiever
-local GetAchievementInfo = Overachiever.GetAchievementInfo
 local GetAchievementCriteriaInfo = Overachiever.GetAchievementCriteriaInfo
 local chatprint = Overachiever.chatprint
 
 local AchievementIcon = "Interface\\AddOns\\Overachiever\\AchShield"
 local tooltip_complete = { r = 0.2, g = 0.5, b = 0.2 }
 local tooltip_incomplete = { r = 1, g = 0.1, b = 0.1 }
+
+local ARROW_UP = "|TInterface\\Minimap\\Minimap-PositionArrows:0:0:0:0:16:32:0:16:0:16|t"
+local ARROW_DOWN = "|TInterface\\Minimap\\Minimap-PositionArrows:0:0:0:0:16:32:0:16:16:32|t"
 
 local LBI = LibStub:GetLibrary("LibBabble-Inventory-3.0"):GetLookupTable()
 local time = time
@@ -192,13 +194,13 @@ function Overachiever.GetRecentReminders(id, getNames)
 	end
 end
 
-local function flagReminder(id, nameOrCritID)
+local function flagReminder(id, nameOrCritID, t)
 	nameOrCritID = nameOrCritID or 0
 	local r = RecentReminders[id]
 	if (r) then
-		r[nameOrCritID] = time()
+		r[nameOrCritID] = t or time()
 	else
-		RecentReminders[id] = { [nameOrCritID] = time() }
+		RecentReminders[id] = { [nameOrCritID] = t or time() }
 	end
 end
 Overachiever.FlagReminder = flagReminder
@@ -649,10 +651,37 @@ local function WorldObjCheck(ach, text)
   return id, complete and data[2] or data[3], complete, data[4]
 end
 
+
 do
-  local last_check, last_tiptext = 0
-  local last_id, last_text, last_complete, last_angler
-  local tooltipUsed
+  Overachiever.Last_Tooltip_Check = 0
+  local tip_cache, last_tiptext = {}
+  local tooltipUsed, sizeAdjusted
+
+  local function examineLine(line)
+      local id, text, complete, angler
+
+	  -- Remove up or down arrow from front of text (as given when above/below something on the minimap):
+	  local tiptext
+	  if (strsub(line, 1, 68) == ARROW_UP) then
+	    tiptext = strsub(line, 69)
+	  elseif (strsub(line, 1, 69) == ARROW_DOWN) then
+	    tiptext = strsub(line, 70)
+	  else
+	    tiptext = line
+	  end
+
+	  id, text, complete, angler = WorldObjCheck(nil, tiptext)
+	  if (not text) then
+        for key,tab in pairs(WorldObjAch) do
+          if (Overachiever_Settings[ tab[1] ]) then
+            id, text, complete, angler = WorldObjCheck(key, tiptext)
+            if (text) then  break;  end
+          end
+        end
+	  end
+
+      return text and { line = line, cleantip = tiptext, id = id, text = text, complete = complete, angler = angler } or nil
+  end
 
   function Overachiever.ExamineOneLiner(tooltip)
   -- Unfortunately, there isn't a "GameTooltip:SetWorldObject" or similar type of thing, so we have to check for
@@ -666,53 +695,85 @@ do
 	-- do without it.
 
     tooltip = tooltip or GameTooltip  -- Workaround since another addon is known to break this
+
+	--if (tooltip:NumLines() == 1 or MouseIsOver(Minimap)) then
     if (tooltip:NumLines() == 1) then
-      local n = tooltip:GetName()
-      if (_G[n.."TextRight1"]:GetText()) then  return;  end
-      local id, text, complete, angler
-      local tiptext = _G[n.."TextLeft1"]:GetText()
-      local t = time()
+	  local n = tooltip:GetName()
+	  if (_G[n.."TextRight1"]:GetText()) then  return;  end
 
-      local cache_used
-	  --local prev_tiptext = last_tiptext
-      if (tiptext ~= last_tiptext or t ~= last_check) then
-	    id, text, complete, angler = WorldObjCheck(nil, tiptext)
-		if (not text) then
-          for key,tab in pairs(WorldObjAch) do
-            if (Overachiever_Settings[ tab[1] ]) then
-              id, text, complete, angler = WorldObjCheck(key, tiptext)
-              if (text) then  break;  end
-            end
-          end
+	  local tiptext = _G[n.."TextLeft1"]:GetText()
+	  local t = time()
+	  local last_check = Overachiever.Last_Tooltip_Check
+
+	  if (tiptext ~= last_tiptext or t >= last_check + 60) then
+	    last_tiptext = tiptext
+		Overachiever.Last_Tooltip_Check = t
+		wipe(tip_cache)
+
+	    if (tiptext:find("\n")) then
+		  local arr = { strsplit("\n", tiptext) }
+		  local num, found = 0, 0
+		  for i,line in ipairs(arr) do
+		    local results = examineLine(line)
+			num = num + 1
+			if (results) then  found = found + 1;  end
+			tip_cache[num] = results or line
+		  end
+		  if (found == 0) then  wipe(tip_cache);  end
+		else
+		  local results = examineLine(tiptext)
+		  if (results) then
+		    tip_cache[1] = results
+		  end
+	    end
+	  end
+
+	  if (next(tip_cache) ~= nil) then
+		local needRewrite = #tip_cache > 1
+		local count, needSound = 0
+		for i,arr in ipairs(tip_cache) do
+			local line, text, r, g, b
+			if (type(arr) == "table") then
+				line, text = arr.line, arr.text
+				if (arr.complete) then
+					r, g, b = tooltip_complete.r, tooltip_complete.g, tooltip_complete.b
+				else
+					r, g, b = tooltip_incomplete.r, tooltip_incomplete.g, tooltip_incomplete.b
+					--if (t ~= last_check) then -- Different from previous check since reminder's "last seen" time (from flagReminder) should be reset if you mouse over the object again.
+						flagReminder(arr.id, arr.cleantip, t)
+						if (not arr.angler or not Overachiever_Settings.SoundAchIncomplete_AnglerCheckPole or not IsEquippedItemType(LBI["Fishing Poles"])) then
+							needSound = true
+						end
+					--end
+				end
+			else
+				line = arr
+			end
+			if (needRewrite and i == 1) then -- can also have a setting that makes it never rewrite, just append to bottom (even if it may be a little confusing determining which it's referring to)
+				_G[n.."TextLeft1"]:SetText(line)
+				count = 1
+			elseif (i > 1) then
+				-- Have to force the color because of a glitch where the font is white if the tooltip hasn't been that long before.
+				--tooltip:AddLine(line, NORMAL_FONT_COLOR:GetRGB())
+				-- Above doesn't work for some reason. Have to do it this way:
+				tooltip:AddLine(NORMAL_FONT_COLOR_CODE .. line)
+				-- !! (try w/o this in beta, or using rgb instead? okay there?) !!
+				count = count + 1
+				-- Make font not small; large, as if it's on the first line.
+				_G[n.."TextLeft"..count]:SetFontObject(GameTooltipHeaderText)
+				sizeAdjusted = true
+			end
+			if (text) then
+				tooltip:AddLine(text, r, g, b)
+				count = count + 1
+				tooltip:AddTexture(AchievementIcon)
+			end
 		end
-        last_tiptext, last_check = tiptext, t
-        last_id, last_text, last_complete, last_angler = id, text, complete, angler
-      else
-        id, text, complete, angler = last_id, last_text, last_complete, last_angler
-        cache_used = true
-      end
-
-      if (text) then
-        local r, g, b
-        if (complete) then
-          r, g, b = tooltip_complete.r, tooltip_complete.g, tooltip_complete.b
-        else
-          r, g, b = tooltip_incomplete.r, tooltip_incomplete.g, tooltip_incomplete.b
-          if (not cache_used) then
-            flagReminder(id, tiptext)
-			--if (tiptext ~= prev_tiptext) then
-              if (not angler or not Overachiever_Settings.SoundAchIncomplete_AnglerCheckPole or
-                  not IsEquippedItemType(LBI["Fishing Poles"])) then
-                PlayReminder()
-              end
-			--end
-          end
-        end
-        tooltip:AddLine(text, r, g, b)
-        tooltip:AddTexture(AchievementIcon)
-        tooltip:Show()
 		tooltipUsed = true
-      end
+		tooltip:Show()
+		if (needSound) then  PlayReminder();  end
+	  end
+
     end
   end
 
@@ -736,7 +797,19 @@ do
 	elseif (tooltip == GameTooltip) then
 	  C_Timer.After(0, delayedExamine)
 	end
+
+	if (sizeAdjusted) then
+	  local i = 2
+	  local lineObj = _G["GameTooltipTextLeft"..i]
+	  while (lineObj) do
+	    lineObj:SetFontObject(GameTooltipText)
+		i = i + 1
+		lineObj = _G["GameTooltipTextLeft"..i]
+	  end
+	  sizeAdjusted = nil
+	end
   end
+
 end
 
 

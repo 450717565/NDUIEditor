@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1737, "DBM-Nighthold", nil, 786)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17604 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17623 $"):sub(12, -3))
 mod:SetCreatureID(104154)--The Demon Within (111022)
 mod:SetEncounterID(1866)
 mod:SetZone()
@@ -680,7 +680,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 206847 then
 		warnParasiticWound:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
-			local _, _, _, _, _, _, expires = UnitDebuff(args.destName, args.spellName)
+			local _, _, _, _, _, expires = DBM:UnitDebuff(args.destName, args.spellName)
 			local remaining = expires-GetTime()
 			specWarnParasiticWound:Show()
 			specWarnParasiticWound:Play("scatter")
@@ -733,8 +733,8 @@ function mod:SPELL_AURA_REMOVED(args)
 			yellParasiticWoundFades:Cancel()
 		end
 	elseif spellId == 206310 and args:IsPlayer() then
-		if UnitDebuff("player", parasiteName) then
-			local _, _, _, _, _, _, expires = UnitDebuff("player", parasiteName)
+		if DBM:UnitDebuff("player", parasiteName) then
+			local _, _, _, _, _, expires = DBM:UnitDebuff("player", parasiteName)
 			local remaining = expires-GetTime()
 			yellParasiticWoundFades:Countdown(remaining)
 		end

@@ -1,4 +1,4 @@
-## Interface: 70300
+## Interface: 80000
 ## Title: WhisperPop
 ## Version: 4.30
 ## Author: Abin

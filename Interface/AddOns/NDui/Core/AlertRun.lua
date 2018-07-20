@@ -2,8 +2,9 @@
 -- Credit Alleykat
 -- Entering combat and alertrun function (can be used in anther ways)
 ------------------------------------------------------------------------------------
-local B, C, L, DB = unpack(select(2, ...))
-local cr, cg, cb = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
+local cr, cg, cb = DB.CC.r, DB.CC.g, DB.CC.b
 
 local speed = .057799924
 local point = {"CENTER", UIParent, "CENTER", -300, 180}
@@ -114,7 +115,7 @@ end
 
 backrun:SetScript("OnUpdate", rollback)
 
-B.AlertRun = function(text, r, g, b)
+function B.AlertRun(text, r, g, b)
 	flowingframe:Hide()
 	updaterun:Hide()
 	backrun:Hide()

@@ -1,4 +1,5 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 
 local orig1, orig2, GameTooltip = {}, {}, GameTooltip
 local linktypes = {
@@ -15,6 +16,7 @@ local linktypes = {
 	keystone = true,
 }
 
+local sectionInfo
 local function OnHyperlinkEnter(frame, link, ...)
 	local linktype = link:match("^([^:]+)")
 	if linktype and linktype == "battlepet" then
@@ -32,7 +34,8 @@ local function OnHyperlinkEnter(frame, link, ...)
 			name, description = EJ_GetEncounterInfo(id)
 			idString = BOSS.."ID:"
 		elseif idType == "2" then
-			name, description, _, icon = EJ_GetSectionInfo(id)
+			sectionInfo = C_EncounterJournal.GetSectionInfo(id)
+			name, description, icon = sectionInfo.title, sectionInfo.description, sectionInfo.abilityIcon
 			name = icon and "|T"..icon..":20:20:0:0:64:64:5:59:5:59:20|t "..name or name
 			idString = L["Section"].."ID:"
 		end
@@ -68,3 +71,13 @@ for i = 1, NUM_CHAT_WINDOWS do
 	orig2[frame] = frame:GetScript("OnHyperlinkLeave")
 	frame:SetScript("OnHyperlinkLeave", OnHyperlinkLeave)
 end
+
+local function hookCommunitiesFrame(event, addon)
+	if addon == "Blizzard_Communities" then
+		CommunitiesFrame.Chat.MessageFrame:SetScript("OnHyperlinkEnter", OnHyperlinkEnter)
+		CommunitiesFrame.Chat.MessageFrame:SetScript("OnHyperlinkLeave", OnHyperlinkLeave)
+
+		B:UnregisterEvent(event, hookCommunitiesFrame)
+	end
+end
+B:RegisterEvent("ADDON_LOADED", hookCommunitiesFrame)

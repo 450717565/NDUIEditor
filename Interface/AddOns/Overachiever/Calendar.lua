@@ -3,6 +3,38 @@ local L = OVERACHIEVER_STRINGS
 
 --local showUnknownToasts = true
 
+-- BFA
+local CalendarGetNumDayEvents = CalendarGetNumDayEvents or C_Calendar.GetNumDayEvents
+local CalendarGetHolidayInfo = CalendarGetHolidayInfo or C_Calendar.GetHolidayInfo
+
+local CalendarGetDate = CalendarGetDate or function(...)
+	local info = C_Calendar.GetDate(...)
+	return info.weekday, info.month, info.monthDay, info.year, info.hour, info.minute
+end
+
+local CalendarGetMonth = CalendarGetMonth or function(...)
+	local info = C_Calendar.GetMonthInfo(...)
+	return info.month, info.year, info.numDays, info.firstWeekday
+end
+-- BFA
+
+local function CalendarGetDayEvent(monthOffset, monthDay, index)
+	local event = C_Calendar.GetDayEvent(monthOffset, monthDay, index);
+	if (event) then
+		local hour, minute;
+		if (event.sequenceType == "END") then
+			hour = event.endTime.hour;
+			minute = event.endTime.minute;
+		else
+			hour = event.startTime.hour;
+			minute = event.startTime.minute;
+		end
+		return event.title, hour, minute, event.calendarType, event.sequenceType, event.eventType, event.iconTexture, event.modStatus, event.inviteStatus, event.invitedBy, event.difficulty, event.inviteType, event.sequenceIndex, event.numSequenceDays, event.difficultyName;
+	else
+		return nil, 0, 0, "", "", 0, "", "", 0, "", 0, 0, 0, 0, "";
+	end
+end
+
 
 Overachiever.HOLIDAY_REV = { -- lookup table to support localization
 --	["Localized holiday/event name"] = "The key we're using for this holiday/event",
@@ -57,11 +89,12 @@ local function getEventEnding(title, calendarType, yearStart, monthStart, daySta
 	for i = 1, 100 do -- Look up to 100 days away, which should be more than enough; this is a failsafe.
 		local numEvents = CalendarGetNumDayEvents(m, day)
 		for e = 1, numEvents do
-			local title2, hour, minute, calendarType2, sequenceType = CalendarGetDayEvent(m, day, e)
-			if (sequenceType == "END" and title == title2 and calendarType == calendarType2) then
-				local month, year = CalendarGetMonth(m)
+			local event = C_Calendar.GetDayEvent(m, day, e)
+			if (event and event.sequenceType == "END" and title == event.title and calendarType == event.calendarType) then
+				--local month, year = CalendarGetMonth(m)
 				TjCalendar.StopReading()
-				return year, month, day, hour, minute
+				--return year, month, event.endTime.monthDay, event.endTime.hour, event.endTime.minute
+				return event.endTime.year, event.endTime.month, event.endTime.monthDay, event.endTime.hour, event.endTime.minute
 			end
 		end
 		day = day + 1

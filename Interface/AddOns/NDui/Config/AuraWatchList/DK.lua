@@ -1,5 +1,6 @@
-local B, C, L, DB = unpack(select(2, ...))
-local module = NDui:GetModule("AurasTable")
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
+local module = B:GetModule("AurasTable")
 
 -- DK的法术监控
 local list = {
@@ -72,7 +73,6 @@ local list = {
 		{AuraID = 207127, UnitID = "player"},--饥饿符文武器
 		{AuraID = 207203, UnitID = "player", Value = true},--寒冰之盾
 		{AuraID = 207256, UnitID = "player"},--湮灭
-		{AuraID = 207290, UnitID = "player"},--邪恶狂乱
 		{AuraID = 207319, UnitID = "player"},--血肉之盾
 		{AuraID = 211805, UnitID = "player"},--风暴汇聚
 		{AuraID = 213003, UnitID = "player"},--灵魂吞噬

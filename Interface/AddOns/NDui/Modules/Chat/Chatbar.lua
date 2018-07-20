@@ -1,5 +1,6 @@
-local B, C, L, DB = unpack(select(2, ...))
-local module = NDui:GetModule("Chat")
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
+local module = B:GetModule("Chat")
 
 function module:Chatbar()
 	local chatFrame = SELECTED_DOCK_FRAME
@@ -18,7 +19,7 @@ function module:Chatbar()
 		bu.Icon:SetVertexColor(r, g, b)
 		bu:SetHitRectInsets(0, 0, -8, -8)
 		bu:RegisterForClicks("AnyUp")
-		if text then B.CreateGT(bu, "ANCHOR_TOP", DB.MyColor..text) end
+		if text then B.AddTooltip(bu, "ANCHOR_TOP", B.HexRGB(r, g, b)..text) end
 		if funcC then bu:SetScript("OnClick", funcC) end
 		if funcM then bu:SetScript("OnMouseUp", funcM) end
 
@@ -142,7 +143,7 @@ function module:Chatbar()
 			end
 		end
 		IsInChannel()
-		NDui:EventFrame{"CHANNEL_UI_UPDATE"}:SetScript("OnEvent", IsInChannel)
+		B:RegisterEvent("CHANNEL_UI_UPDATE", IsInChannel)
 
 		wc:SetScript("OnClick", function(_, btn)
 			if wc.inChannel then

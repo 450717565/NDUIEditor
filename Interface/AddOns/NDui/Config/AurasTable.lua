@@ -1,5 +1,6 @@
-local B, C, L, DB = unpack(select(2, ...))
-local module = NDui:RegisterModule("AurasTable")
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
+local module = B:RegisterModule("AurasTable")
 
 local groups = {
 	-- groups name = direction, interval, mode, iconsize, position, barwidth
@@ -64,8 +65,6 @@ function module:RegisterDebuff(_, instID, _, spellID, level)
 end
 
 function module:OnLogin()
-	if not NDuiDB["AuraWatchList"] then NDuiDB["AuraWatchList"] = {} end
-	if not NDuiDB["Internal CD"] then NDuiDB["Internal CD"] = {} end
 	if not NDuiADB["RaidDebuffs"] then NDuiADB["RaidDebuffs"] = {} end
 	local newTable = {}
 	for _, value in pairs(NDuiADB["RaidDebuffs"]) do

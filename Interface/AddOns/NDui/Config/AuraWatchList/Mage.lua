@@ -1,5 +1,6 @@
-local B, C, L, DB = unpack(select(2, ...))
-local module = NDui:GetModule("AurasTable")
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
+local module = B:GetModule("AurasTable")
 
 -- 法师的法术监控
 local list = {
@@ -23,19 +24,17 @@ local list = {
 		{AuraID = 157981, UnitID = "target", Caster = "player"},--冲击波
 		{AuraID = 217694, UnitID = "target", Caster = "player"},--活动炸弹
 		{AuraID = 114923, UnitID = "target", Caster = "player"},--虚空风暴
-		{AuraID = 112948, UnitID = "target", Caster = "player"},--寒冰炸弹
 		{AuraID = 205708, UnitID = "target", Caster = "player"},--寒冰箭
 		{AuraID = 212792, UnitID = "target", Caster = "player"},--冰锥术
 		{AuraID = 157997, UnitID = "target", Caster = "player"},--寒冰新星
 		{AuraID = 210134, UnitID = "target", Caster = "player"},--奥术侵蚀
 		{AuraID = 199786, UnitID = "target", Caster = "player"},--冰川尖刺
-		{AuraID = 135029, UnitID = "target", Caster = "pet"},--水流喷射
+		{AuraID = 210824, UnitID = "target", Caster = "player"},	-- 大法师之触
 	},
 	["Player Special Aura"] = { -- 玩家重要光环组
 		{AuraID =     66, UnitID = "player"},--隐形术
 		{AuraID =  45438, UnitID = "player"},--寒冰屏障
 		{AuraID =  36032, UnitID = "player"},--奥术充能
-		{AuraID =  79683, UnitID = "player"},--奥术飞弹!
 		{AuraID =  12042, UnitID = "player"},--奥术强化
 		{AuraID =  12472, UnitID = "player"},--冰冷血脉
 		{AuraID =  44544, UnitID = "player"},--寒冰指
@@ -55,6 +54,10 @@ local list = {
 		{AuraID = 205473, UnitID = "player"},--冰刺
 		{AuraID = 205766, UnitID = "player"},--刺骨冰寒
 		{AuraID = 209455, UnitID = "player"},--凯尔萨斯的绝招，抱歉护腕
+		{AuraID = 263725, UnitID = "player"},	-- 节能施法
+		{AuraID = 264774, UnitID = "player"},	-- 三之准则
+		{AuraID = 157644, UnitID = "player"},	-- 强化烟火之术
+		{AuraID = 269651, UnitID = "player"},	-- 火焰冲撞
 	},
 	["Spell CD"] = { -- 技能冷却计时组
 		{TotemID =      1, UnitID = "player"},--能量符文

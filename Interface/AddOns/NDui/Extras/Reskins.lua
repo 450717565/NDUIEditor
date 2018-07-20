@@ -1,6 +1,6 @@
 -- Aurora Reskin
-if IsAddOnLoaded("Aurora") then
-	local F, C = unpack(Aurora)
+if IsAddOnLoaded("AuroraClassic") then
+	local F, C = unpack(AuroraClassic)
 	local Delay = CreateFrame("Frame")
 	Delay:RegisterEvent("PLAYER_ENTERING_WORLD")
 	Delay:SetScript("OnEvent", function()
@@ -135,12 +135,8 @@ if IsAddOnLoaded("Aurora") then
 		if IsAddOnLoaded("BaudAuction") then
 			F.CreateBD(BaudAuctionProgress)
 			F.CreateSD(BaudAuctionProgress)
-			--F.ReskinClose(BaudAuctionCancelButton)
-			BaudAuctionProgressBar:SetPoint("CENTER", 12, -5)
-			BaudAuctionProgressBarIcon:SetTexCoord(.08, .92, .08, .92)
-			BaudAuctionProgressBarIcon:SetPoint("RIGHT", BaudAuctionProgressBar, "LEFT", -2, 0)
+			BaudAuctionProgressBar:SetPoint("CENTER", 0, -5)
 			BaudAuctionProgressBarBorder:Hide()
-			F.CreateBDFrame(BaudAuctionProgressBarIcon)
 			F.ReskinScroll(BaudAuctionBrowseScrollBoxScrollBarScrollBar)
 			F.ReskinStatusBar(BaudAuctionProgressBar, true)
 
@@ -171,10 +167,6 @@ if IsAddOnLoaded("Aurora") then
 			for i = 1, 3 do
 				select(i, BuyEmAllFrame:GetRegions()):Hide()
 			end
-		end
-
-		if IsAddOnLoaded("HandyNotes_WorldMapButton") then
-			F.SetBD(HandyNotesWorldMapButton)
 		end
 
 		if IsAddOnLoaded("Immersion") then

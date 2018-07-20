@@ -1,5 +1,6 @@
-local B, C, L, DB = unpack(select(2, ...))
-local module = NDui:GetModule("Misc")
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
+local module = B:GetModule("Misc")
 
 --[[
 	在角色面板显示耐久度
@@ -36,6 +37,6 @@ function module:ShowDurability()
 		end
 	end
 
-	local f = NDui:EventFrame{"PLAYER_ENTERING_WORLD", "UPDATE_INVENTORY_DURABILITY"}
-	f:SetScript("OnEvent", RefreshData)
+	B:RegisterEvent("PLAYER_ENTERING_WORLD", RefreshData)
+	B:RegisterEvent("UPDATE_INVENTORY_DURABILITY", RefreshData)
 end

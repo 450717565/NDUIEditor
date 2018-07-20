@@ -97,7 +97,10 @@ School of %s
 	MSG_OPENINGTO = "Opening to: ";
 	MSG_ONEFOUND = "1 other achievement found: ";
 	MSG_NUMFOUNDLIST = "%s other achievements found:";
+	MSG_NOOPEN = "Could not open to an achievement. None visible in UI.";
+	MSG_NOOPEN_LIST = "%s |4achievement:achievements; found:";
 	MSG_ACHNOTFOUND = "Achievement not found.";
+
 	MSG_CRITERIAPROGRESS = "|cff7eff00Achievement Progress:|r %s (%s)";
 
 	OPTPANEL_REMINDERTOOLTIPS = "Reminder Tooltips";
@@ -223,6 +226,9 @@ School of %s
 	OPT_LABEL_MISC = "Miscellaneous";
 	OPT_THROTTLE_ACHLOOKUP = "Startup: Throttle achievement lookup";
 	OPT_THROTTLE_ACHLOOKUP_TIP = "Overachiever looks up certain data on startup. If this is unchecked, lookup happens all at once while the UI is first loading. If checked, data is gathered over time after the player enters the world.|n|nThe advantage to throttled lookup is a faster initial loading time, but, for some users and on some characters, this can temporarily impact performance.";
+	OPT_SLASHSEARCH_TAB = "Slash commands use Search tab";
+	OPT_SLASHSEARCH_TAB_TIP = "Use the Search tab to show search results from slash commands like \"/ach food\". If this is unchecked, results are output to the chat log instead (unless a silent output command like \"/achs\" is used).";
+	OPT_SLASHSEARCH_TIP2 = "|cffffffffTabs module with Search tab is required.|r";
 
 	SOUND_BELL_ALLIANCE = "Bell - Alliance";
 	SOUND_BELL_HORDE = "Bell - Horde";
@@ -360,6 +366,7 @@ L["OPT_DRAGSAVE"] = "Position merken"
 L["OPT_FISTFULOFLOVETIPS"] = "Handvoll Rosenblüten angewendet?"
 L["OPT_FISTFULOFLOVETIPS_TIP"] = "Wenn der Erfolg noch nicht abgeschlossen ist, wird im Tooltip eines Spielers der Hinweis angezeigt, ob bei seinem Volk bzw. Klasse noch eine Handvoll Rosenblüten angewendet werden muss."
 L["OPT_KILLCREATURETIPS"] = "Kreatur getötet?"
+L["OPT_KILLCREATURETIPS_EXCLUDE_GUILD"] = "Gildenerfolge ausschließen"
 L["OPT_KILLCREATURETIPS_TIP"] = "Zeigt im Tooltip einer Kreatur (außer Kleintiere) den Hinweis an, ob sie für einen Erfolg noch getötet werden muss."
 L["OPT_KILLCREATURETIPS_TIP2"] = "Anmerkung: Beim Start (oder wenn diese Option aktiviert ist), wird jeder Erfolg gescannt, um die IDs der Einheiten festzustellen. Nicht alle Erfolge liefern derartige IDs. Die meisten tun es, aber Tooltips von Kreaturen, deren IDs nicht ermittelt werden konnten, bleiben unverändert."
 L["OPT_LABEL_ACHFIVE"] = "\"%s,\" \"%s,\"|n\"%s,\" \"%s\"|n\"%s\""
@@ -371,6 +378,7 @@ L["OPT_LABEL_ACHTWO"] = "\"%s\" und \"%s\""
 L["OPT_LABEL_CRITERIATOAST"] = "Reaktion auf Fortschritt (Nicht verfolgte)"
 L["OPT_LABEL_DRAENORANGLER"] = "\"%s\" Teilerfolge"
 L["OPT_LABEL_MAINUI"] = "Besondere UI-Modifikationen für Erfolge"
+L["OPT_LABEL_MISC"] = "Sonstiges"
 L["OPT_LABEL_NEEDTOKILL"] = "Erfolge für's Kreaturen töten (\"%s,\" \"%s,\" etc.)"
 L["OPT_LABEL_SEASONALACHS"] = "WELTEREIGNIS-ERFOLGE"
 L["OPT_LABEL_STARTTOAST"] = "Feiertag/Veranstaltung Toasts"
@@ -399,14 +407,21 @@ L["OPT_STARTTOAST_BONUS"] = "Zeigt die heutigen Bonus-Events"
 L["OPT_STARTTOAST_BONUS_TIP"] = "Zeigt die heutigen Bonus-Events in Toast-Benachrichtigungen beim Betreten der Spielwelt an."
 L["OPT_STARTTOAST_DUNGEON"] = "Zeigt die heutigen Dungeon-Events"
 L["OPT_STARTTOAST_DUNGEON_TIP"] = "Zeigt die heutigen Dungeon-Events in Toast-Benachrichtigungen beim Betreten der Spielwelt an."
-L["OPT_STARTTOAST_HOLIDAY"] = "Zeigt den heutigen Festag"
-L["OPT_STARTTOAST_HOLIDAY_TIP"] = "Zeigt den heutigen Festag in Toast-Benachrichtigungen beim Betreten der Spielwelt an."
-L["OPT_STARTTOAST_MICROHOLIDAY"] = "Zeigt den heutigen Mini-Festag"
-L["OPT_STARTTOAST_MICROHOLIDAY_TIP"] = "Zeigt den heutigen Mini-Festag in Toast-Benachrichtigungen beim Betreten der Spielwelt an."
+L["OPT_STARTTOAST_HOLIDAY"] = "Zeigt die heutigen Feiertage"
+L["OPT_STARTTOAST_HOLIDAY_TIP"] = "Zeigt die heutigen Feiertage in Toast-Benachrichtigungen beim Betreten der Spielwelt an."
+L["OPT_STARTTOAST_MICROHOLIDAY"] = "Zeigt die heutigen Mini-Feiertage"
+L["OPT_STARTTOAST_MICROHOLIDAY_TIP"] = "Zeigt die heutigen Mini-Feiertage in Toast-Benachrichtigungen beim Betreten der Spielwelt an."
+L["OPT_STARTTOAST_MISC"] = "Zeigt die heutigen sonstigen Feiertage"
+L["OPT_STARTTOAST_MISC_TIP"] = "Zeigt die heutigen sonstigen \"Feiertags\"-Events in Toast-Benachrichtigungen beim Betreten der Spielwelt an."
+L["OPT_STARTTOAST_MISC_TIP2"] = "Es sind Events die im Standardkalender als \"Feiertage\" angegeben sind, aber weder als ganze Feiertage zählen noch in eine andere Kategorie hier passen. Beispiele wären hier die WoW-Geburtstage und Schlachtzugeröffnungstage (für neue Schlachtzüge oder Schwierigkeitsgrade aber nicht die wöchentlichen Zurücksetzungen)."
 L["OPT_STARTTOAST_ONLYCLICKFADE"] = "Klick, um zu verbergen"
 L["OPT_STARTTOAST_ONLYCLICKFADE_TIP"] = "Hindert Toast-Benachrichtigungen am Verblassen, wenn diese nicht links- oder rechtsgeklickt werden. (Wenn diese Option nicht aktiviert ist, werden sie auch verblassen, wenn der Mauszeiger über sie geht und sich dann wegbewegt)."
+L["OPT_STARTTOAST_PVPBRAWL"] = "Zeigt die heutigen PvP-Raufereien"
+L["OPT_STARTTOAST_PVPBRAWL_TIP"] = "Zeigt die heutigen PvP-Raufereien in Toast-Benachrichtigungen beim Betreten der Spielwelt an."
 L["OPT_STARTTOAST_TIMEFADE"] = "Nicht automatisch verbergen"
 L["OPT_STARTTOAST_TIMEFADE_TIP"] = "Vermeidet, dass Toast-Benachrichtigungen, mit denen du nicht interagierst, nach ein paar Sekunden verblassen."
+L["OPT_THROTTLE_ACHLOOKUP"] = "Beim Start: Gebremste Durchsicht der Erfolge"
+L["OPT_THROTTLE_ACHLOOKUP_TIP"] = "Overachiever schaut beim starten nach gewissen Daten. Wenn dies nicht ausgewählt ist, findet diese Durchsicht sofort wenn das UI zum ersten Mal geladen wird, statt. Wenn dies ausgewählt ist, werden Daten nach und nach gesammelt, nachdem der Spieler die Welt betreten hat.|n|nDer Vorteil gegenüber der gebremsten Durchsicht besteht in einer schnelleren Anfangsladezeit, aber bei einigen Benutzern und einigen Charakteren kann sich das vorrübergehend auf die Leistung auswirken."
 L["OPT_TRADESKILL_SHOWCOMPLETEDACH_COOKING"] = "Noch zu kochende Rezepte kennzeichnen, um Erfolge vervollständigen zu können"
 L["OPT_TRADESKILL_SHOWCOMPLETEDACH_COOKING_TIP"] = "Wenn Overarchievers Handelsmodul aktiviert ist, erscheint ein Symbol neben den Rezepten, die noch gekocht werden müssen, um diverse Erfolge abzuschließen. Wenn die Option aktiviert ist, erscheinen diese Symbole auch dann noch neben ungekochten Rezepten, wenn der dazugehörige Erfolg schon abgeschlossen sein sollte. "
 L["OPT_TURKEYLURKEYTIPS"] = "Truthahnbüchse angewendet?"
@@ -581,6 +596,8 @@ L["OPT_DRAGSAVE"] = "Sauver la position"
 L["OPT_FISTFULOFLOVETIPS"] = "Vous signale si vous avez besoin de lancer une Poignée de pétales de rose"
 L["OPT_FISTFULOFLOVETIPS_TIP"] = "Si le haut fait est inachevé, ajoute une ligne à l'infobulle des joueurs des combinaisons race/classe concernées pour vous indiquer si vous devez utiliser une Poignée de pétales de rose sur eux."
 L["OPT_KILLCREATURETIPS"] = "Ajoute si vous devez tuer une créature"
+--[[Translation missing --]]
+--[[ L["OPT_KILLCREATURETIPS_EXCLUDE_GUILD"] = ""--]] 
 L["OPT_KILLCREATURETIPS_TIP"] = "Ajoute une ligne à l'infobulle des créatures (hormis les bestioles) qui doivent être tuées pour atteindre l'objectif d'un haut fait inachevé pour indiquer si vous devez encore les tuer."
 L["OPT_KILLCREATURETIPS_TIP2"] = "Note : Au démarrage (ou lorsque cette option est activée) tous les hauts faits sont analysés afin de découvrir les IDs des \"unités\". Ils n'en fournissent pas tous. La plupart le font, mais les infobulles des créatures concernées par ceux qui ne le font pas ne seront pas affectées par cette option."
 --[[Translation missing --]]
@@ -596,6 +613,8 @@ L["OPT_LABEL_ACHTWO"] = "\"%s\" et \"%s\""
 --[[Translation missing --]]
 --[[ L["OPT_LABEL_DRAENORANGLER"] = ""--]] 
 L["OPT_LABEL_MAINUI"] = "Modifications de l'IU principale des Hauts faits"
+--[[Translation missing --]]
+--[[ L["OPT_LABEL_MISC"] = ""--]] 
 L["OPT_LABEL_NEEDTOKILL"] = "Hauts faits d'élimination de monstres (\"%s,\" \"%s,\" etc.)"
 L["OPT_LABEL_SEASONALACHS"] = "SAISON ACHEVÉES"
 --[[Translation missing --]]
@@ -640,13 +659,27 @@ L["OPT_SHOWPROGRESS_TIP"] = "Ajouter votre progression quand un haut fait est ba
 --[[Translation missing --]]
 --[[ L["OPT_STARTTOAST_MICROHOLIDAY_TIP"] = ""--]] 
 --[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_MISC"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_MISC_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_MISC_TIP2"] = ""--]] 
+--[[Translation missing --]]
 --[[ L["OPT_STARTTOAST_ONLYCLICKFADE"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["OPT_STARTTOAST_ONLYCLICKFADE_TIP"] = ""--]] 
 --[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_PVPBRAWL"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_PVPBRAWL_TIP"] = ""--]] 
+--[[Translation missing --]]
 --[[ L["OPT_STARTTOAST_TIMEFADE"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["OPT_STARTTOAST_TIMEFADE_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_THROTTLE_ACHLOOKUP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_THROTTLE_ACHLOOKUP_TIP"] = ""--]] 
 L["OPT_TRADESKILL_SHOWCOMPLETEDACH_COOKING"] = "Indique les recettes non préparées pour compléter les haut-faits"
 L["OPT_TRADESKILL_SHOWCOMPLETEDACH_COOKING_TIP"] = "Si le module Professions de Overachiever est activé, une icône de haut-fait apparaît près des recettes que vous devez cuisiner pour obtenir certains haut-faits. Si cette option est cochée, ces icônes apparaîtront près des recettes non préparées même si le haut-fait associé est déjà complété."
 L["OPT_TURKEYLURKEYTIPS"] = "Dindoflingue utilisé ?"
@@ -837,6 +870,8 @@ L["OPT_DRAGSAVE"] = "記住視窗位置"
 L["OPT_FISTFULOFLOVETIPS"] = "提示是否需要使用一把玫瑰花瓣"
 L["OPT_FISTFULOFLOVETIPS_TIP"] = "增加玩家提示說明。"
 L["OPT_KILLCREATURETIPS"] = "新增您是否需要殺死的怪物"
+--[[Translation missing --]]
+--[[ L["OPT_KILLCREATURETIPS_EXCLUDE_GUILD"] = ""--]] 
 L["OPT_KILLCREATURETIPS_TIP"] = "新增一行動物提示(不包括小動物 )需要加以殺害，以符合標準的未完成的成就說明，表明您是否仍然需要殺死他們。"
 L["OPT_KILLCREATURETIPS_TIP2"] = "注意：在啟動時(或是這設定啟用)，每個成就會被掃描來找出單位編號。並非所有成就提供編號。大部分如此，但是其中的生物的提示不會因為這設定而有改變。"
 --[[Translation missing --]]
@@ -851,6 +886,8 @@ L["OPT_LABEL_CRITERIATOAST"] = "進度相關動作 (不追蹤)"
 --[[Translation missing --]]
 --[[ L["OPT_LABEL_DRAENORANGLER"] = ""--]] 
 L["OPT_LABEL_MAINUI"] = "成就視窗微調"
+--[[Translation missing --]]
+--[[ L["OPT_LABEL_MISC"] = ""--]] 
 L["OPT_LABEL_NEEDTOKILL"] = "擊殺怪物成就 (\"%s\",\"%s\",及其他)"
 L["OPT_LABEL_SEASONALACHS"] = "世界事件成就"
 L["OPT_LABEL_STARTTOAST"] = "節慶/事件彈出通知"
@@ -884,10 +921,24 @@ L["OPT_STARTTOAST_HOLIDAY"] = "顯示今天的節慶"
 L["OPT_STARTTOAST_HOLIDAY_TIP"] = "進入遊戲時顯示顯示今天的節慶彈出通知。"
 L["OPT_STARTTOAST_MICROHOLIDAY"] = "顯示今天的小型節慶"
 L["OPT_STARTTOAST_MICROHOLIDAY_TIP"] = "進入遊戲時顯示今天的小型節慶彈出通知。"
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_MISC"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_MISC_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_MISC_TIP2"] = ""--]] 
 L["OPT_STARTTOAST_ONLYCLICKFADE"] = "需要滑鼠點擊來隱藏通知"
 L["OPT_STARTTOAST_ONLYCLICKFADE_TIP"] = "彈出通知不會自動消失除非使用滑鼠左鍵或右鍵點擊。 (停用時，滑鼠游標指向通知然後移開便會消失。)"
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_PVPBRAWL"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_PVPBRAWL_TIP"] = ""--]] 
 L["OPT_STARTTOAST_TIMEFADE"] = "不要自動隱藏"
 L["OPT_STARTTOAST_TIMEFADE_TIP"] = "避免尚未使用滑鼠指向或點擊的彈出通知在幾秒後隱藏。"
+--[[Translation missing --]]
+--[[ L["OPT_THROTTLE_ACHLOOKUP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_THROTTLE_ACHLOOKUP_TIP"] = ""--]] 
 L["OPT_TRADESKILL_SHOWCOMPLETEDACH_COOKING"] = "標示未烹飪食譜來完成成就"
 L["OPT_TRADESKILL_SHOWCOMPLETEDACH_COOKING_TIP"] = "如果Overachiever_Trade模組啟用，那麼成就圖示顯示在你需要烹飪的食譜旁邊為了獲得一些成就。如果設定被勾選，那麼這些圖示會顯示在未被烹飪食譜旁邊即使相關成就已經完成。"
 L["OPT_TURKEYLURKEYTIPS"] = "提示是否需要使用火雞獵槍"
@@ -1053,6 +1104,8 @@ L["OPT_DRAGSAVE"] = "记住位置"
 L["OPT_FISTFULOFLOVETIPS"] = "提示是否需要使用一堆玫瑰花瓣"
 L["OPT_FISTFULOFLOVETIPS_TIP"] = "提示是否需要使用一堆玫瑰花瓣。"
 L["OPT_KILLCREATURETIPS"] = "新增需要杀死的怪物"
+--[[Translation missing --]]
+--[[ L["OPT_KILLCREATURETIPS_EXCLUDE_GUILD"] = ""--]] 
 L["OPT_KILLCREATURETIPS_TIP"] = "新增需要杀死的怪物提示（不包括小动物）。"
 L["OPT_KILLCREATURETIPS_TIP2"] = "Note: At startup (or when this is option is enabled), every achievement is scanned to find unit IDs. Not all achievements provide such IDs. Most do, but the tooltips of creatures which are the criteria of those that don't won't be altered by this option."
 L["OPT_LABEL_ACHFIVE"] = "\"%s,\" \"%s,\"|n\"%s,\" \"%s\"|n\"%s\""
@@ -1064,6 +1117,8 @@ L["OPT_LABEL_ACHTWO"] = "\"%s\"和\"%s\""
 L["OPT_LABEL_CRITERIATOAST"] = "进度反馈 (非跟踪)"
 L["OPT_LABEL_DRAENORANGLER"] = "\"%s\" 子成就"
 L["OPT_LABEL_MAINUI"] = "主成就界面修改"
+--[[Translation missing --]]
+--[[ L["OPT_LABEL_MISC"] = ""--]] 
 L["OPT_LABEL_NEEDTOKILL"] = "击杀怪物成就（\"%s\"、\"%s\"及其它）"
 L["OPT_LABEL_SEASONALACHS"] = "节日成就"
 L["OPT_LABEL_STARTTOAST"] = "节日/事件庆典"
@@ -1100,12 +1155,26 @@ L["OPT_STARTTOAST_DUNGEON_TIP"] = "在进入游戏时，显示今天的地下城
 --[[ L["OPT_STARTTOAST_MICROHOLIDAY"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["OPT_STARTTOAST_MICROHOLIDAY_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_MISC"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_MISC_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_MISC_TIP2"] = ""--]] 
 L["OPT_STARTTOAST_ONLYCLICKFADE"] = "需要点击隐藏"
 --[[Translation missing --]]
 --[[ L["OPT_STARTTOAST_ONLYCLICKFADE_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_PVPBRAWL"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_PVPBRAWL_TIP"] = ""--]] 
 L["OPT_STARTTOAST_TIMEFADE"] = "不要自动隐藏"
 --[[Translation missing --]]
 --[[ L["OPT_STARTTOAST_TIMEFADE_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_THROTTLE_ACHLOOKUP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_THROTTLE_ACHLOOKUP_TIP"] = ""--]] 
 L["OPT_TRADESKILL_SHOWCOMPLETEDACH_COOKING"] = "已完成的烹饪成就仍然提示"
 L["OPT_TRADESKILL_SHOWCOMPLETEDACH_COOKING_TIP"] = "即使烹饪成就已完成，仍然在技能旁显示提示图标。"
 L["OPT_TURKEYLURKEYTIPS"] = "提示是否需要使用火鸡枪"
@@ -1264,6 +1333,8 @@ L["OPT_DRAGSAVE"] = "Запомнить позицию"
 L["OPT_FISTFULOFLOVETIPS"] = "Добавляет, нужно ли вам использовать горсть розовых лепестков"
 L["OPT_FISTFULOFLOVETIPS_TIP"] = "Если это достижение не выполнено, во всплывающую подсказку игрокам, подходящих по расе/классу, будет добавлена строка, указывающая на необходимость использования горсти розовых лепестков."
 L["OPT_KILLCREATURETIPS"] = "Добавлять строку о необходимости убить существо"
+--[[Translation missing --]]
+--[[ L["OPT_KILLCREATURETIPS_EXCLUDE_GUILD"] = ""--]] 
 L["OPT_KILLCREATURETIPS_TIP"] = "Если это достижение не выполнено, во всплывающую подсказку существам (исключая спутников) добавится строка, уведомляющая о необходимости убить их."
 L["OPT_KILLCREATURETIPS_TIP2"] = "Заметка: Вначале (или когда эта опция включена), каждое достижение сканируется на поиск Номера НПС. Не все достижения предоставляют правильные номера. Поэтому подсказки для существ, которые подходят по критериям, не будут отображаться этой опцией."
 L["OPT_LABEL_ACHFIVE"] = "\"%s,\" \"%s,\"|n\"%s,\" \"%s\"|n\"%s\""
@@ -1275,6 +1346,8 @@ L["OPT_LABEL_ACHTWO"] = "\"%s\" и \"%s\""
 L["OPT_LABEL_CRITERIATOAST"] = "Прогресс Реакции (Без Отслеживания)"
 L["OPT_LABEL_DRAENORANGLER"] = "\"%s\" Cуб-Достижение"
 L["OPT_LABEL_MAINUI"] = "Модификации главного интерфейса достижений"
+--[[Translation missing --]]
+--[[ L["OPT_LABEL_MISC"] = ""--]] 
 L["OPT_LABEL_NEEDTOKILL"] = "Достижения по убийству существ (\"%s,\" \"%s,\" и т.д.)"
 L["OPT_LABEL_SEASONALACHS"] = "СЕЗОННЫЕ ДОСТИЖЕНИЯ"
 L["OPT_LABEL_STARTTOAST"] = "Праздник/Всплывающие Событие"
@@ -1307,10 +1380,24 @@ L["OPT_STARTTOAST_HOLIDAY"] = "Показать сегодняшние праз�
 L["OPT_STARTTOAST_HOLIDAY_TIP"] = "Показать сегодняшние праздники в всплывающие уведомления при входе, в игровой мир."
 L["OPT_STARTTOAST_MICROHOLIDAY"] = "Показать сегодняшние маленькие праздники"
 L["OPT_STARTTOAST_MICROHOLIDAY_TIP"] = "Показать сегодняшние маленькие праздники в всплывающие уведомления при входе, в игровой мир."
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_MISC"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_MISC_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_MISC_TIP2"] = ""--]] 
 L["OPT_STARTTOAST_ONLYCLICKFADE"] = "Требуется клик, чтобы скрыть"
 L["OPT_STARTTOAST_ONLYCLICKFADE_TIP"] = "Эти всплывающие уведомления не будут исчезать, если только левой или правой кнопкой, не кликните. (Если отключено, то они будут также исчезать, если мышь проходит над ними, и после пропадают.)"
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_PVPBRAWL"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_PVPBRAWL_TIP"] = ""--]] 
 L["OPT_STARTTOAST_TIMEFADE"] = "При отключенной функции, уведомление будут пропадать автоматически"
 L["OPT_STARTTOAST_TIMEFADE_TIP"] = "Предотвращает всплывающие уведомления, с которыми Вы не взаимодействуете, задержка исчезновения около нескольких секунд."
+--[[Translation missing --]]
+--[[ L["OPT_THROTTLE_ACHLOOKUP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_THROTTLE_ACHLOOKUP_TIP"] = ""--]] 
 L["OPT_TRADESKILL_SHOWCOMPLETEDACH_COOKING"] = "Отображает не приготовленные рецепты для завершения достижений"
 L["OPT_TRADESKILL_SHOWCOMPLETEDACH_COOKING_TIP"] = "Если торговый модуль Overachiever'а включен, иконка достижения появится рядом с рецептом, который необходимо приготовить для получения соответствующего достижения. Если эта опция включена, то иконки появляться рядом с еще не приготовленными рецептами даже если эти достижения завершены."
 L["OPT_TURKEYLURKEYTIPS"] = "Добавлять строку о необходимости использовать индейкомет"
@@ -1468,6 +1555,8 @@ L["OPT_DRAGSAVE"] = "위치 저장"
 L["OPT_FISTFULOFLOVETIPS"] = "붉은 꽃잎 한 줌 사용 표시"
 L["OPT_FISTFULOFLOVETIPS_TIP"] = "업적을 완료하지 않은 경우 해당하는 종족/직업의 플레이어 툴팁에 붉은 꽃잎 한 줌을 사용할 필요가 있는지 표시합니다."
 L["OPT_KILLCREATURETIPS"] = "몬스터를 죽인 횟수 표시"
+--[[Translation missing --]]
+--[[ L["OPT_KILLCREATURETIPS_EXCLUDE_GUILD"] = ""--]] 
 L["OPT_KILLCREATURETIPS_TIP"] = "업적이 완료되지 않았다면 업적에 몬스터를 죽인 횟수를 표시합니다."
 L["OPT_KILLCREATURETIPS_TIP2"] = "주의: 게임 시작시(설정에서 사용한 후 부터), 매 업적마다 유닛 ID를 찾습니다."
 L["OPT_LABEL_ACHFIVE"] = "\"%s,\" \"%s,\"|n\"%s,\" \"%s\"|n\"%s\""
@@ -1479,6 +1568,8 @@ L["OPT_LABEL_ACHTWO"] = "\"%s\"|1과;와; \"%s\""
 L["OPT_LABEL_CRITERIATOAST"] = "진행상황 반응 (비 추적)"
 L["OPT_LABEL_DRAENORANGLER"] = "\\\"%s\\\"의 하위 업적"
 L["OPT_LABEL_MAINUI"] = "기본 업적창 툴팁 변경"
+--[[Translation missing --]]
+--[[ L["OPT_LABEL_MISC"] = ""--]] 
 L["OPT_LABEL_NEEDTOKILL"] = "처치 업적 (\"%s,\" \"%s,\" 등.)"
 L["OPT_LABEL_SEASONALACHS"] = "계절 이벤트 업적"
 L["OPT_LABEL_STARTTOAST"] = "기념일/이벤트 팝업"
@@ -1511,10 +1602,24 @@ L["OPT_STARTTOAST_HOLIDAY"] = "오늘의 기념일 표시"
 L["OPT_STARTTOAST_HOLIDAY_TIP"] = "게임에 접속할 때 오늘의 기념일을 팝업으로 표시합니다."
 L["OPT_STARTTOAST_MICROHOLIDAY"] = "오늘의 작은 기념일 표시"
 L["OPT_STARTTOAST_MICROHOLIDAY_TIP"] = "게임에 접속할 때 오늘의 작은 기념일을 팝업으로 표시합니다."
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_MISC"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_MISC_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_MISC_TIP2"] = ""--]] 
 L["OPT_STARTTOAST_ONLYCLICKFADE"] = "클릭해야만 사라지도록 설정"
 L["OPT_STARTTOAST_ONLYCLICKFADE_TIP"] = "팝업 알림은 왼쪽 또는 오른쪽 마우스를 클릭하지 않으면 사라지지 않습니다.(체크하지 않으면 마우스를 멀리 이동하면 사라집니다.)"
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_PVPBRAWL"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_PVPBRAWL_TIP"] = ""--]] 
 L["OPT_STARTTOAST_TIMEFADE"] = "자동으로 숨기지 않음"
 L["OPT_STARTTOAST_TIMEFADE_TIP"] = "이벤트 알림 팝업창을 자동으로 숨기지 않습니다."
+--[[Translation missing --]]
+--[[ L["OPT_THROTTLE_ACHLOOKUP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_THROTTLE_ACHLOOKUP_TIP"] = ""--]] 
 L["OPT_TRADESKILL_SHOWCOMPLETEDACH_COOKING"] = "업적이 요구하는 요리 중에서 요리하지 않은 요리법 표시"
 L["OPT_TRADESKILL_SHOWCOMPLETEDACH_COOKING_TIP"] = "Overachiever의 거래 모듈이 활성화되어 있으면, 업적 아이콘은 업적이 요구하는 특정한 요리를 획득하기 위해 요리를 해야 하는 요리법 옆에 나타납니다. 이 옵션이 표시되어 있으면, 이 아이콘은 관련 업적이 완료된 경우에도 요리하지 않은 요리법 옆에 나타납니다."
 L["OPT_TURKEYLURKEYTIPS"] = "칠면조 사냥총 사용 표시"
@@ -1690,6 +1795,8 @@ L["OPT_DRAGSAVE"] = "Recordar posición"
 L["OPT_FISTFULOFLOVETIPS"] = "Añadir si aún necesitas usar un Puñado de Pétalos de Rosa"
 L["OPT_FISTFULOFLOVETIPS_TIP"] = "Si este logro está incompleto, añade una línea al tooltip de los jugadores con la combinación de clase/raza incluida en el logro, para indicar que necesitas usar un Puñado de Pétalos de Rosa sobre él."
 L["OPT_KILLCREATURETIPS"] = "Añadir si necesitas matar una criatura a su tooltip"
+--[[Translation missing --]]
+--[[ L["OPT_KILLCREATURETIPS_EXCLUDE_GUILD"] = ""--]] 
 L["OPT_KILLCREATURETIPS_TIP"] = "Añade una linea al tooltip de las criaturas (excluyendo alimañas) que necesitan ser matadas para cumplir los requisitos de un logro incompleto, para indicar que aún necesitas matarlas."
 L["OPT_KILLCREATURETIPS_TIP2"] = "Nota: Al inicio (o cuando esta opción es activada), cada logro es escaneado para encontrar la ID de las criaturas afectadas. No todos los logros informan de esas IDs. Muchos lo hacen, pero los tooltips de las criaturas que son necesarias para los logros que no lo hacen no serán afectadas por esta opción."
 --[[Translation missing --]]
@@ -1705,6 +1812,8 @@ L["OPT_LABEL_ACHTWO"] = "\"%s\" y \"%s\""
 --[[Translation missing --]]
 --[[ L["OPT_LABEL_DRAENORANGLER"] = ""--]] 
 L["OPT_LABEL_MAINUI"] = "Modificiaciones del interface de Logros"
+--[[Translation missing --]]
+--[[ L["OPT_LABEL_MISC"] = ""--]] 
 L["OPT_LABEL_NEEDTOKILL"] = "Logros de matar criaturas (\"%s,\" \"%s,\" etc.)"
 L["OPT_LABEL_SEASONALACHS"] = "LOGROS DE TEMPORADA"
 --[[Translation missing --]]
@@ -1749,13 +1858,27 @@ L["OPT_SHOWPROGRESS_TIP"] = "Añade tu progreso cuando un logro esta basado en u
 --[[Translation missing --]]
 --[[ L["OPT_STARTTOAST_MICROHOLIDAY_TIP"] = ""--]] 
 --[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_MISC"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_MISC_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_MISC_TIP2"] = ""--]] 
+--[[Translation missing --]]
 --[[ L["OPT_STARTTOAST_ONLYCLICKFADE"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["OPT_STARTTOAST_ONLYCLICKFADE_TIP"] = ""--]] 
 --[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_PVPBRAWL"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_PVPBRAWL_TIP"] = ""--]] 
+--[[Translation missing --]]
 --[[ L["OPT_STARTTOAST_TIMEFADE"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["OPT_STARTTOAST_TIMEFADE_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_THROTTLE_ACHLOOKUP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_THROTTLE_ACHLOOKUP_TIP"] = ""--]] 
 L["OPT_TRADESKILL_SHOWCOMPLETEDACH_COOKING"] = "Indica las recetas sin cocinar para logros completados"
 L["OPT_TRADESKILL_SHOWCOMPLETEDACH_COOKING_TIP"] = "Si el módulo Overachiever - Trade está activado, aparecerá el icono de logro junto a las recetas que necesites cocinar para obtener ciertos logros. Si esta opción está  seleccionada, esos iconos aparecerán junto a las recetas sin cocinar incluso si el logro asociado a ellas ya ha sido completado."
 L["OPT_TURKEYLURKEYTIPS"] = "Añadir si aún necesitas usar una Pavopistola"
@@ -2011,6 +2134,8 @@ L["YOURPROGRESS"] = "Tu progreso"
 --[[Translation missing --]]
 --[[ L["OPT_KILLCREATURETIPS"] = ""--]] 
 --[[Translation missing --]]
+--[[ L["OPT_KILLCREATURETIPS_EXCLUDE_GUILD"] = ""--]] 
+--[[Translation missing --]]
 --[[ L["OPT_KILLCREATURETIPS_TIP"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["OPT_KILLCREATURETIPS_TIP2"] = ""--]] 
@@ -2032,6 +2157,8 @@ L["YOURPROGRESS"] = "Tu progreso"
 --[[ L["OPT_LABEL_DRAENORANGLER"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["OPT_LABEL_MAINUI"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_LABEL_MISC"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["OPT_LABEL_NEEDTOKILL"] = ""--]] 
 --[[Translation missing --]]
@@ -2097,13 +2224,27 @@ L["YOURPROGRESS"] = "Tu progreso"
 --[[Translation missing --]]
 --[[ L["OPT_STARTTOAST_MICROHOLIDAY_TIP"] = ""--]] 
 --[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_MISC"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_MISC_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_MISC_TIP2"] = ""--]] 
+--[[Translation missing --]]
 --[[ L["OPT_STARTTOAST_ONLYCLICKFADE"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["OPT_STARTTOAST_ONLYCLICKFADE_TIP"] = ""--]] 
 --[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_PVPBRAWL"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_PVPBRAWL_TIP"] = ""--]] 
+--[[Translation missing --]]
 --[[ L["OPT_STARTTOAST_TIMEFADE"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["OPT_STARTTOAST_TIMEFADE_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_THROTTLE_ACHLOOKUP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_THROTTLE_ACHLOOKUP_TIP"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["OPT_TRADESKILL_SHOWCOMPLETEDACH_COOKING"] = ""--]] 
 --[[Translation missing --]]
@@ -2317,6 +2458,8 @@ L["OPT_DRAGSAVE"] = "Lembrar posição"
 L["OPT_FISTFULOFLOVETIPS"] = "Punhado de Pétalas de Rosas usado?"
 L["OPT_FISTFULOFLOVETIPS_TIP"] = "Se a conquista estiver incompleta, acrescenta uma linha às dicas de tela de jogadores da combinação de raça/classe apropriada para indicar se você precisa usar um Punhado de Pétalas de Rosas neles."
 L["OPT_KILLCREATURETIPS"] = "Criatura morta?"
+--[[Translation missing --]]
+--[[ L["OPT_KILLCREATURETIPS_EXCLUDE_GUILD"] = ""--]] 
 L["OPT_KILLCREATURETIPS_TIP"] = "Adiciona uma linha às dicas de telas de criaturas (excluindo bichos) que precisam ser mortas para satisfazer os critérios de uma conquista incompleta, indicando se você ainda precisa matá-las."
 L["OPT_KILLCREATURETIPS_TIP2"] = "Nota: Ao iniciar (ou quando esta opção está marcada), cada conquista é escaneada para encontrar IDs de unidades. Nem todas as conquistas fornecem estas IDs. A maioria sim, mas as dicas de tela de criaturas que são critério das que não fornecem não serão alteradas por esta opção."
 L["OPT_LABEL_ACHFIVE"] = "\"%s,\" \"%s,\"|n\"%s,\" \"%s\"|n\"%s\""
@@ -2328,6 +2471,8 @@ L["OPT_LABEL_ACHTWO"] = "\"%s\" e \"%s\""
 L["OPT_LABEL_CRITERIATOAST"] = "Reação a progresso (sem rastreio)"
 L["OPT_LABEL_DRAENORANGLER"] = "Subconquistas de \"%s\""
 L["OPT_LABEL_MAINUI"] = "Modificações da Página Principal das Conquistas"
+--[[Translation missing --]]
+--[[ L["OPT_LABEL_MISC"] = ""--]] 
 L["OPT_LABEL_NEEDTOKILL"] = "Conquistas de Matar criaturas (\"%s,\" \"%s,\" etc.)"
 L["OPT_LABEL_SEASONALACHS"] = "CONQUISTAS SAZONAIS"
 L["OPT_LABEL_STARTTOAST"] = "Avisos de feriados/eventos"
@@ -2360,10 +2505,24 @@ L["OPT_STARTTOAST_HOLIDAY"] = "Mostrar feriados de hoje"
 L["OPT_STARTTOAST_HOLIDAY_TIP"] = "Mostra os feriados de hoje em avisos na tela assim que entrar no jogo."
 L["OPT_STARTTOAST_MICROHOLIDAY"] = "Mostrar os microferiados de hoje"
 L["OPT_STARTTOAST_MICROHOLIDAY_TIP"] = "Mostra os microferiados de hoje em avisos na tela assim que entrar no jogo."
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_MISC"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_MISC_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_MISC_TIP2"] = ""--]] 
 L["OPT_STARTTOAST_ONLYCLICKFADE"] = "Exigir clique para ocultar"
 L["OPT_STARTTOAST_ONLYCLICKFADE_TIP"] = "Impede que notificações de aviso na tela desapareçam sozinhas a não ser que sejam clicadas com um botão do mouse. (Se desmarcada, os avisos também desaparecerão quando o ponteiro passa por cima deles e depois sai.)"
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_PVPBRAWL"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_PVPBRAWL_TIP"] = ""--]] 
 L["OPT_STARTTOAST_TIMEFADE"] = "Não ocultar automaticamente"
 L["OPT_STARTTOAST_TIMEFADE_TIP"] = "Impede que os avisos na tela com os quais você não interagir desapareçam depois de alguns segundos."
+--[[Translation missing --]]
+--[[ L["OPT_THROTTLE_ACHLOOKUP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_THROTTLE_ACHLOOKUP_TIP"] = ""--]] 
 L["OPT_TRADESKILL_SHOWCOMPLETEDACH_COOKING"] = "Indicar receitas não cozinhadas para completar conquistas"
 L["OPT_TRADESKILL_SHOWCOMPLETEDACH_COOKING_TIP"] = "Se o módulo Overachiever Trade estiver habilitado, então um ícone da conquista aparece próximo às receitas que você precisa cozinhar para ganhar certas conquistas. Se esta opção estiver marcada, então estes ícones aparecerão próximos às receitas não cozinhadas mesmo que a conquista associadas esteja completa."
 L["OPT_TURKEYLURKEYTIPS"] = "Atirador de Peru usado?"
@@ -2526,6 +2685,8 @@ L["OPT_DRAGSAVE"] = "Ricorda la posizione"
 L["OPT_FISTFULOFLOVETIPS"] = "Manciata di Petali di Rosa usata?"
 L["OPT_FISTFULOFLOVETIPS_TIP"] = "Se l'impresa è incompleta, aggiungere una riga nel tooltip del giocatore con la combo razza/classe appropriata per indicare se è necessario utilizzare una manciata di petali di rosa su di loro."
 L["OPT_KILLCREATURETIPS"] = "Creatura uccisa?"
+--[[Translation missing --]]
+--[[ L["OPT_KILLCREATURETIPS_EXCLUDE_GUILD"] = ""--]] 
 L["OPT_KILLCREATURETIPS_TIP"] = "Aggiungere una riga nel tooltip delle creature (escluse i critter) che devono essere uccisi per soddisfare i criteri di un'impresa non completa che indica se hai ancora bisogno di ucciderli."
 L["OPT_KILLCREATURETIPS_TIP2"] = "Nota: All'avvio (o quando questa è l'opzione è abilitata), ogni realizzazione viene analizzata per individuare gli ID di unità. Non tutte le realizzazioni forniscono tali ID. La maggior parte fanno, ma le descrizioni comandi di creature che sono i criteri di coloro che non lo fanno non sarà alterato da questa opzione."
 L["OPT_LABEL_ACHFIVE"] = "\"%s,\" \"%s,\"|n\"%s,\" \"%s\"|n\"%s\""
@@ -2538,6 +2699,8 @@ L["OPT_LABEL_ACHTWO"] = "\"%s\" e \"%s\""
 --[[ L["OPT_LABEL_CRITERIATOAST"] = ""--]] 
 L["OPT_LABEL_DRAENORANGLER"] = "Sottoimprese \"%s\""
 L["OPT_LABEL_MAINUI"] = "Modifiche Pannello Interfaccia Imprese"
+--[[Translation missing --]]
+--[[ L["OPT_LABEL_MISC"] = ""--]] 
 L["OPT_LABEL_NEEDTOKILL"] = "Uccidi la creatura dell'Impresa (\"%s,\" \"%s,\" ecc.)"
 L["OPT_LABEL_SEASONALACHS"] = "IMPRESE STAGIONALI"
 --[[Translation missing --]]
@@ -2586,13 +2749,27 @@ L["OPT_SHOWPROGRESS_TIP"] = "Aggiungi il tuo progresso quando un'impresa ha dei 
 --[[Translation missing --]]
 --[[ L["OPT_STARTTOAST_MICROHOLIDAY_TIP"] = ""--]] 
 --[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_MISC"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_MISC_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_MISC_TIP2"] = ""--]] 
+--[[Translation missing --]]
 --[[ L["OPT_STARTTOAST_ONLYCLICKFADE"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["OPT_STARTTOAST_ONLYCLICKFADE_TIP"] = ""--]] 
 --[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_PVPBRAWL"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_STARTTOAST_PVPBRAWL_TIP"] = ""--]] 
+--[[Translation missing --]]
 --[[ L["OPT_STARTTOAST_TIMEFADE"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["OPT_STARTTOAST_TIMEFADE_TIP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_THROTTLE_ACHLOOKUP"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["OPT_THROTTLE_ACHLOOKUP_TIP"] = ""--]] 
 L["OPT_TRADESKILL_SHOWCOMPLETEDACH_COOKING"] = "Indica le ricette non cucinate per completare le imprese"
 L["OPT_TRADESKILL_SHOWCOMPLETEDACH_COOKING_TIP"] = "Se il modulo del commercio Overachiever è abilitata, l'icona appare accanto al risultato ricette che è necessario per cucinare, al fine di ottenere obiettivi determinati. Se questa opzione è selezionata, queste icone apparirà accanto alle ricette crudi, anche se il risultato associato è completa."
 L["OPT_TURKEYLURKEYTIPS"] = "Usare il fucile sul tacchino?"

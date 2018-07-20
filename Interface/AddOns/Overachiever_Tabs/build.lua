@@ -1,5 +1,5 @@
 local L = OVERACHIEVER_STRINGS
-local GetAchievementInfo = Overachiever.GetAchievementInfo
+local GetAchievementInfo = GetAchievementInfo
 local GetAchievementCriteriaInfo = Overachiever.GetAchievementCriteriaInfo
 
 
@@ -18,18 +18,21 @@ local In_Guild_View   -- imitation of Blizzard's local IN_GUILD_VIEW
 local GetPreviousAchievement = GetPreviousAchievement
 
 
+--[[
 local isAchievementInUI_cache = {}
-local function isAchievementInUI(id, checkNext, useCache)
+local function isAchievementInUI(id, checkNext, ignoreCache)
 -- The cache is here and not in the main Overachiever.IsAchievementInUI function because there are some issues that
 -- could arise where the cache would have outdated data, but those issues shouldn't be relevant in the places the
--- function here is called with the "useCache" arg set to true. (In theory, there are ways to mitigate those issues
+-- function here is called with the "ignoreCache" arg set to nil/false (or omitted). (In theory, there are ways to mitigate those issues
 -- so in the future the cache could automatically be used when appropriate, but this solution will do for now.)
-  if (useCache and isAchievementInUI_cache[id] ~= nil) then  return isAchievementInUI_cache[id];  end
+  if (not ignoreCache and isAchievementInUI_cache[id] ~= nil) then  return isAchievementInUI_cache[id];  end
   local result = Overachiever.IsAchievementInUI(id, checkNext)
   isAchievementInUI_cache[id] = result
   return result
 end
+--]]
 
+local isAchievementInUI = Overachiever.IsAchievementInUI
 
 
 local FilterByTab = {}
@@ -119,7 +122,7 @@ end
 local function isPreviousAchievementInUI(id)
   id = GetPreviousAchievement(id)
   if (id) then
-    if (isAchievementInUI(id, false, true)) then  return true;  end
+    if (isAchievementInUI(id, false)) then  return true;  end
     return isPreviousAchievementInUI(id)
   end
 end
@@ -276,7 +279,7 @@ local function displayAchievement(button, frame, achievement, index, selectionID
         --button:SetBackdropBorderColor(.8, .5, .5)
         _G[name .. "Background"]:SetTexture("Interface\\AddOns\\Overachiever_Tabs\\ParchmentDesaturateGreen")
         _G[name.."Glow"]:SetVertexColor(.13, .52, .17)
-      elseif (not isAchievementInUI(id, false, true)) then
+      elseif (not isAchievementInUI(id, false)) then
         local name = button:GetName()
         --button:SetBackdropBorderColor(.8, .5, .5)
         if (isPreviousAchievementInUI(id)) then
@@ -641,6 +644,15 @@ do
     tabselected = self.frame
     AchievementFrame_ShowSubFrame(self.frame, LeftFrame)
     LeftFrame.label:SetText(self:GetText())
+
+	-- Working around a strange bug where the Help Icon -- or its texture (if not the frame itself) -- floats on its own.
+	-- Problem seems to only happen when Make Draggable option is checked.
+	--LeftFrame.helpIcon:ClearAllPoints()
+	--LeftFrame.helpIcon:SetPoint("LEFT", LeftFrame.label, "RIGHT", 4, 0)
+	LeftFrame.helpIcon.tex:ClearAllPoints()
+	LeftFrame.helpIcon.tex:SetPoint("CENTER", LeftFrame.helpIcon, "CENTER", 0, 0)
+	-- End workaround. Hopefully, whatever bug is causing this will be fixed and this workaround will be unnecessary soon.
+
     AchievementFrameWaterMark:SetTexture(self.watermark) -- Note: nil actually works here for watermark texture. No error; just no visible watermark!
     --PanelTemplates_Tab_OnClick(self, AchievementFrame)  -- Not needed here any more: AchievementFrame_UpdateTabs, called by AchievementFrameBaseTab_OnClick, will call it.
     updateAchievementsList(self.frame)
@@ -657,7 +669,7 @@ local function compheader_OnShow(...)
   if (not tabselected) then  orig_compheader_OnShow(...);  end
 end
 
-local function achbtnOnClick(self, button)
+local function achbtnOnClick(self, button, ignoreModifiers)
   if (button == "RightButton") then
     local frame = getFrameOfButton(self)
 	if (frame.HandleRightClick) then  frame.HandleRightClick(self.id);  end
@@ -667,14 +679,33 @@ local function achbtnOnClick(self, button)
   if ( IsShiftKeyDown() and IsControlKeyDown() and Overachiever.OpenRelatedTab ) then
     Overachiever.OpenRelatedTab(id)
 	return;
-  elseif ( IsControlKeyDown() and (GetPreviousAchievement(id) or isAchievementInUI(id, true)) ) then
+  --elseif ( IsControlKeyDown() and (GetPreviousAchievement(id) or isAchievementInUI(id, true, true)) ) then
+  elseif ( IsControlKeyDown() and isAchievementInUI(id, true, true) ) then -- GetPreviousAchievement no longer needed since isAchievementInUI checks previous
     Overachiever.UI_SelectAchievement(id, silentDisplay, self)
     return;
   elseif (Overachiever_WatchFrame and IsAltKeyDown()) then
     Overachiever_WatchFrame.SetAchWatchList(id, tabselected ~= Overachiever_WatchFrame)
     return;
   end
+
   -- This section based on the AchievementButton_OnClick function in Blizzard_AchievementUI.lua:
+  if (IsModifiedClick() and not ignoreModifiers) then
+  	local handled = nil;
+	if ( IsModifiedClick("CHATLINK") ) then
+		local achievementLink = GetAchievementLink(self.id);
+		if ( achievementLink ) then
+			handled = ChatEdit_InsertLink(achievementLink);
+			if ( not handled and SocialPostFrame and Social_IsShown() ) then
+				Social_InsertLink(achievementLink);  -- Can this introduce taint??
+				handled = true;
+			end
+		end
+	end
+	if ( not handled and IsModifiedClick("QUESTWATCHTOGGLE") ) then
+		AchievementButton_ToggleTracking(self.id);
+	end
+	return;
+--[[ Pre Overachiever 1.0 (released with WoW 8.0, though some changes made were to catch up with previous changes):
   if (IsModifiedClick()) then
     if ( IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow() ) then
       local achievementLink = GetAchievementLink(self.id);
@@ -685,6 +716,7 @@ local function achbtnOnClick(self, button)
       AchievementButton_ToggleTracking(self.id);
     end
     return;
+--]]
   end
 
   local frame = getFrameOfButton(self)
@@ -945,7 +977,8 @@ do
 
   -- Meta-criteria recolor:
   function recolor_AchievementObjectives_DisplayCriteria(objectivesFrame, id)
-    if (isSet or not id or GetPreviousAchievement(id) or isAchievementInUI(id, true, true)) then  return;  end
+    --if (isSet or not id or GetPreviousAchievement(id) or isAchievementInUI(id, true)) then  return;  end
+	if (isSet or not id or isAchievementInUI(id, true)) then  return;  end -- GetPreviousAchievement is now redundant with isAchievementInUI
     -- Checking for isSet like this means we "ignore" calls when CRITERIA_UPDATE events have been detected until
     -- the OnUpdate function clears it. Since the OnUpdate func calls AchievementButton_DisplayObjectives
     -- which in turn calls AchievementObjectives_DisplayCriteria which will in turn trigger this function (since
@@ -957,7 +990,8 @@ do
     -- achievements while in combat or otherwise triggering AchievementObjectives_DisplayCriteria repeatedly.
     local metaCriteria, index = AchievementFrameMeta1, 1
     while (metaCriteria and metaCriteria:IsShown()) do
-      if (not GetPreviousAchievement(metaCriteria.id) and not isAchievementInUI(metaCriteria.id, true, true)) then
+      --if (not GetPreviousAchievement(metaCriteria.id) and not isAchievementInUI(metaCriteria.id, true)) then
+      if (not isAchievementInUI(metaCriteria.id, true)) then -- GetPreviousAchievement is redundant
         metaCriteria.label:SetTextColor(.9, .4, .4, 1)
       end
       index = index + 1
@@ -992,6 +1026,7 @@ do
       if (isSet) then  return;  end
       self:SetScript("OnUpdate", LeftFrame_OnUpdate)
       isSet = true
+	--[[ Handled by TjAcheive now:
 	elseif (event == "ACHIEVEMENT_EARNED") then
       isAchievementInUI_cache[arg1] = nil
 	  local failsafe = 0
@@ -1001,6 +1036,7 @@ do
         nextID = GetNextAchievement(nextID)
 		failsafe = failsafe + 1
       end
+	--]]
     end
   end
 
@@ -1030,6 +1066,7 @@ do
   HelpIcon:SetScript("OnLeave", HelpIcon_OnLeave)
   HelpIcon.tip = GetAddOnMetadata("Overachiever", "Title")..": %s"
   HelpIcon:SetScale(0.85)
+  LeftFrame.helpIcon = HelpIcon
 
   LeftFrame:Hide()
   LeftFrame:SetScript("OnShow", LeftFrame_OnShow)
@@ -1042,7 +1079,7 @@ do
     if (arg1 == "Overachiever_Tabs") then
       self:UnregisterEvent("ADDON_LOADED")
       self:RegisterEvent("CRITERIA_UPDATE")
-	  self:RegisterEvent("ACHIEVEMENT_EARNED")
+	  --self:RegisterEvent("ACHIEVEMENT_EARNED")
       self:SetScript("OnEvent", LeftFrame_OnEvent)
       varsLoaded = true
 
@@ -1079,7 +1116,8 @@ end
 -- Meta-criteria creation intercept (in addition to the base Overachiever intercept):
 local function MetaCriteriaOnClick(self)
   local id = self.id
-  if (id and (GetPreviousAchievement(id) or isAchievementInUI(id, true)) ) then
+  --if (id and (GetPreviousAchievement(id) or isAchievementInUI(id, true, true)) ) then
+  if (id and isAchievementInUI(id, true, true) ) then -- GetPreviousAchievement is redundant
     Overachiever.UI_SelectAchievement(id, silentDisplay, self:GetParent():GetParent())
   end
 end

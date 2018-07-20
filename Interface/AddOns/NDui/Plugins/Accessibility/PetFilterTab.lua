@@ -1,10 +1,12 @@
-local B, C, L, DB = unpack(select(2, ...))
-local cr, cg, cb = DB.ClassColor.r, DB.ClassColor.g, DB.ClassColor.b
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
+
 -------------------------------------
 -- Pet Quick Filter, by Windrunner
 -- NDui MOD
 -------------------------------------
 local function loadPetFilter()
+	local cr, cg, cb = DB.CC.r, DB.CC.g, DB.CC.b
 	PetJournalListScrollFrame:SetPoint("TOPLEFT", PetJournalLeftInset, 3, -60)
 	if PetJournalEnhancedListScrollFrame then
 		PetJournalEnhancedListScrollFrame:SetPoint("TOPLEFT", PetJournalLeftInset, 3, -60)
@@ -82,13 +84,12 @@ local function loadPetFilter()
 		end
 	end
 end
-
-NDui:EventFrame{"ADDON_LOADED"}:SetScript("OnEvent", function(self, _, addon)
+local function setupPetFilter(event, addon)
 	if not NDuiDB["Misc"]["PetFilter"] then
-		self:UnregisterAllEvents()
-		return
+		B:UnregisterEvent(event, setupPetFilter)
 	elseif addon == "Blizzard_Collections" then
 		loadPetFilter()
-		self:UnregisterAllEvents()
+		B:UnregisterEvent(event, setupPetFilter)
 	end
-end)
+end
+B:RegisterEvent("ADDON_LOADED", setupPetFilter)

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2031, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17603 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17623 $"):sub(12, -3))
 mod:SetCreatureID(124828)
 mod:SetEncounterID(2092)
 mod:SetZone()
@@ -289,7 +289,7 @@ do
 			local name = tankStacks[i]
 			local uId = DBM:GetRaidUnitId(name)
 			if not uId then break end
-			local _, _, _, currentStack = DBM:UnitDebuff(uId, 248499, 258039, 258838)
+			local _, _, currentStack = DBM:UnitDebuff(uId, 248499, 258039, 258838)
 			if currentStack then
 				addLine(name, currentStack)
 			end
@@ -505,7 +505,7 @@ function mod:SPELL_AURA_APPLIED(args)
 					specWarnSweepingScythe:Show(amount)
 					specWarnSweepingScythe:Play("stackhigh")
 				else--Taunt as soon as stacks are clear, regardless of stack count.
-					local _, _, _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
+					local _, _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
 					local remaining
 					if expireTime then
 						remaining = expireTime-GetTime()
@@ -888,8 +888,7 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 	end
 end
 
-function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, bfaSpellId, _, legacySpellId)
-	local spellId = legacySpellId or bfaSpellId
+function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
 	if spellId == 257300 and self:AntiSpam(5, 1) then--Ember of Rage
 		specWarnEmberofRage:Show()
 		specWarnEmberofRage:Play("watchstep")

@@ -1,12 +1,15 @@
-local _, _, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
+
 DB.Version = GetAddOnMetadata("NDui", "Version")
 DB.Support = GetAddOnMetadata("NDui", "X-Support")
 DB.Client = GetLocale()
+DB.ScreenWidth, DB.ScreenHeight = GetPhysicalScreenSize()
 
 -- Colors
 DB.MyClass = select(2, UnitClass("player"))
-DB.ClassColor = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[DB.MyClass]
-DB.MyColor = format("|cff%02x%02x%02x", DB.ClassColor.r*255, DB.ClassColor.g*255, DB.ClassColor.b*255)
+DB.CC = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[DB.MyClass]
+DB.MyColor = format("|cff%02x%02x%02x", DB.CC.r*255, DB.CC.g*255, DB.CC.b*255)
 DB.InfoColor = "|cff70C0F5"
 DB.GreyColor = "|cff808080"
 
@@ -17,9 +20,7 @@ DB.LineString = DB.GreyColor.."---------------"
 
 -- Textures
 local Media = "Interface\\Addons\\NDui\\Media\\"
-DB.arrowCyanTex = Media.."NeonCyanArrow"
-DB.arrowGreenTex = Media.."NeonGreenArrow"
-DB.arrowRedTex = Media.."NeonRedArrow"
+DB.arrowTex = Media.."arrowTex_"
 DB.bgTex = Media.."bgTex"
 DB.glowTex = Media.."glowTex"
 DB.MicroTex = Media.."MicroMenu\\micro_"
@@ -30,10 +31,11 @@ DB.bdTex = "Interface\\ChatFrame\\ChatFrameBackground"
 DB.binTex = "Interface\\HelpFrame\\ReportLagIcon-Loot"
 DB.copyTex = "Interface\\Buttons\\UI-GuildButton-PublicNote-Up"
 DB.creditTex = "Interface\\HelpFrame\\HelpIcon-KnowledgeBase"
-DB.eyeTex = "Interface\\Minimap\\Raid_Icon"	-- blue: \\Dungeon_Icon
+DB.eyeTex = "Interface\\Minimap\\Raid_Icon"		-- blue: \\Dungeon_Icon
 DB.garrTex = "Interface\\HelpFrame\\HelpIcon-ReportLag"
 DB.gearTex = "Interface\\WorldMap\\Gear_64"
 DB.mailTex = "Interface\\Minimap\\Tracking\\Mailbox"
+DB.newItemFlash = "Interface\\Cooldown\\star4"
 DB.questTex = "Interface\\BUTTONS\\AdventureGuideMicrobuttonAlert"
 DB.sparkTex = "Interface\\CastingBar\\UI-CastingBar-Spark"
 
@@ -68,7 +70,8 @@ local function CheckRole()
 		end
 	end
 end
-NDui:EventFrame{"PLAYER_LOGIN", "PLAYER_TALENT_UPDATE"}:SetScript("OnEvent", CheckRole)
+B:RegisterEvent("PLAYER_LOGIN", CheckRole)
+B:RegisterEvent("PLAYER_TALENT_UPDATE", CheckRole)
 
 -- Raidbuff Checklist
 DB.BuffList = {
@@ -81,75 +84,81 @@ DB.BuffList = {
 	[2] = {     -- 进食充分
 		104273, -- 250敏捷，BUFF名一致
 	},
-	[3] = {     -- 符文
+	[3] = {     -- 10%智力
+		1459,
+	},
+	[4] = {     -- 10%耐力
+		21562,
+	},
+	[5] = {     -- 10%攻强
+		6673,
+	},
+	[6] = {     -- 符文
 		224001,
+		270058,
 	},
 }
 
 -- Reminder Buffs Checklist
 DB.ReminderBuffs = {
 	MAGE = {
-		[GetSpellInfo(205022)] = {		-- 奥术魔宠
-			["spells"] = {
+		{	spells = {	-- 奥术魔宠
 				[210126] = true,
 			},
-			["requirespell"] = 205022,
-			["tree"] = 1,
-			["combat"] = true,
-			["instance"] = true,
-			["pvp"] = true,
+			depend = 205022,
+			spec = 1,
+			combat = true,
+			instance = true,
+			pvp = true,
+		},
+		{	spells = {	-- 奥术智慧
+				[1459] = true,
+			},
+			depend = 1459,
+			instance = true,
 		},
 	},
-	DRUID = {
-		[GetSpellInfo(202360)] = {		-- 远古祝福
-			["spells"] = {
-				[202737] = true,
-				[202739] = true,
+	PRIEST = {
+		{	spells = {	-- 真言术耐
+				[21562] = true,
 			},
-			["requirespell"] = 202360,
-			["tree"] = 1,
-			["combat"] = true,
-			["instance"] = true,
-			["pvp"] = true,
+			depend = 21562,
+			instance = true,
+		},
+	},
+	WARRIOR = {
+		{	spells = {	-- 战斗怒吼
+				[6673] = true,
+			},
+			depend = 6673,
+			instance = true,
 		},
 	},
 	SHAMAN = {
-		[GetSpellInfo(192106)] = {		-- 闪电之盾
-			["spells"] = {
+		{	spells = {	-- 闪电之盾
 				[192106] = true,
 			},
-			["requirespell"] = 192106,
-			["combat"] = true,
-			["instance"] = true,
-			["pvp"] = true,
+			depend = 192106,
+			combat = true,
+			instance = true,
+			pvp = true,
 		},
 	},
 	ROGUE = {
-		[L["Damage Poison"]] = {		-- 伤害类毒药
-			["spells"] = {
-				[2823] = true,			-- 致命药膏
+		{	spells = {	-- 伤害类毒药
+				[2823] = true,		-- 致命药膏
+				[8679] = true,		-- 致伤药膏
 			},
-			["negate_spells"] = {
-				[8679] = true,			-- 致伤药膏
-				[200802] = true,		-- 苦痛毒液
-			},
-			["tree"] = 1,
-			["combat"] = true,
-			["instance"] = true,
-			["pvp"] = true,
+			spec = 1,
+			combat = true,
+			instance = true,
+			pvp = true,
 		},
-		[L["Effect Poison"]] = { 		-- 效果类毒药
-			["spells"] = {
-				[3408] = true,   		-- 减速药膏
+		{	spells = {	-- 效果类毒药
+				[3408] = true,		-- 减速药膏
 			},
-			["negate_spells"] = {
-				[108211] = true, 		-- 吸血药膏
-			},
-			["tree"] = 1,
-			["pvp"] = true,
+			spec = 1,
+			pvp = true,
 		},
 	},
 }
-
--- Filter Chat symbols
-DB.Symbols = {"`", "～", "＠", "＃", "^", "＊", "！", "？", "。", "|", " ", "—", "——", "￥", "’", "‘", "“", "”", "【", "】", "『", "』", "《", "》", "〈", "〉", "（", "）", "〔", "〕", "、", "，", "：", ",", "_", "/", "~", "-"}

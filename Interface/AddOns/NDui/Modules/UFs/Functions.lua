@@ -1,7 +1,8 @@
-local B, C, L, DB = unpack(select(2, ...))
-local cast = NDui.cast
-local oUF = NDui.oUF or oUF
-local UF = NDui:RegisterModule("UnitFrames")
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
+local oUF = ns.oUF or oUF
+local cast = ns.cast
+local UF = B:RegisterModule("UnitFrames")
 
 -- Custom colors
 oUF.colors.smooth = {1, 0, 0, .85, .8, .45, .1, .1, .1}
@@ -63,7 +64,9 @@ function UF:CreateHealthBar(self)
 	bg:SetVertexColor(.6, .6, .6)
 	bg.multiplier = .25
 
-	if (self.mystyle == "raid" and NDuiDB["UFs"]["RaidClassColor"]) or (self.mystyle ~= "raid" and NDuiDB["UFs"]["ClassColor"]) then
+	if self.mystyle == "PlayerPlate" then
+		health.colorHealth = true
+	elseif (self.mystyle == "raid" and NDuiDB["UFs"]["RaidClassColor"]) or (self.mystyle ~= "raid" and NDuiDB["UFs"]["ClassColor"]) then
 		health.colorClass = true
 		health.colorTapping = true
 		health.colorReaction = true
@@ -173,7 +176,11 @@ end
 function UF:CreatePowerBar(self)
 	local power = CreateFrame("StatusBar", nil, self)
 	power:SetStatusBarTexture(DB.normTex)
-	power:SetHeight(retVal(self, 4, 3, 2, 4))
+	if self.mystyle == "PlayerPlate" then
+		power:SetHeight(self:GetHeight())
+	else
+		power:SetHeight(retVal(self, 4, 3, 2, 4))
+	end
 	power:SetWidth(self:GetWidth())
 	power:SetPoint("TOP", self, "BOTTOM", 0, -3)
 	power:SetFrameLevel(self:GetFrameLevel() - 2)
@@ -185,7 +192,7 @@ function UF:CreatePowerBar(self)
 	bg:SetTexture(DB.normTex)
 	bg.multiplier = .25
 
-	if (self.mystyle == "raid" and NDuiDB["UFs"]["RaidClassColor"]) or (self.mystyle ~= "raid" and NDuiDB["UFs"]["ClassColor"]) or self.mystyle == "nameplate" then
+	if (self.mystyle == "raid" and NDuiDB["UFs"]["RaidClassColor"]) or (self.mystyle ~= "raid" and NDuiDB["UFs"]["ClassColor"]) or self.mystyle == "PlayerPlate" then
 		power.colorPower = true
 	else
 		power.colorClass = true
@@ -231,6 +238,17 @@ function UF:CreatePortrait(self)
 	self.Health.bg:SetParent(self)
 end
 
+local roleTexCoord = {
+	["TANK"] = {.5, .75, 0, 1},
+	["HEALER"] = {.75, 1, 0, 1},
+	["DAMAGER"] = {.25, .5, 0, 1},
+}
+local function postUpdateRole(element, role)
+	if element:IsShown() then
+		element:SetTexCoord(unpack(roleTexCoord[role]))
+	end
+end
+
 function UF:CreateIcons(self)
 	if self.mystyle == "player" then
 		local combat = self:CreateTexture(nil, "OVERLAY")
@@ -267,6 +285,8 @@ function UF:CreateIcons(self)
 		ri:SetPoint("TOPRIGHT", self, 0, 8)
 	end
 	ri:SetSize(12, 12)
+	ri:SetTexture("Interface\\LFGFrame\\LFGROLE")
+	ri.PostUpdate = postUpdateRole
 	self.GroupRoleIndicator = ri
 
 	local li = self:CreateTexture(nil, "OVERLAY")
@@ -278,11 +298,6 @@ function UF:CreateIcons(self)
 	ai:SetPoint("TOPLEFT", self, 0, 8)
 	ai:SetSize(12, 12)
 	self.AssistantIndicator = ai
-
-	local ml = self:CreateTexture(nil, "OVERLAY")
-	ml:SetPoint("LEFT", li, "RIGHT")
-	ml:SetSize(12, 12)
-	self.MasterLooterIndicator = ml
 end
 
 function UF:CreateRaidMark(self)
@@ -435,6 +450,10 @@ local function postCreateIcon(element, button)
 	B.CreateSD(button, 2, 2)
 	button.overlay:SetTexture(nil)
 
+	button.stealable:SetTexture(DB.textures.pushed)
+	button.stealable:SetPoint("TOPLEFT", -2, 2)
+	button.stealable:SetPoint("BOTTOMRIGHT", 2, -2)
+
 	button.HL = button:CreateTexture(nil, "HIGHLIGHT")
 	button.HL:SetColorTexture(1, 1, 1, .3)
 	button.HL:SetAllPoints()
@@ -485,10 +504,15 @@ local function postUpdateGapIcon(_, _, icon)
 	end
 end
 
-local unitName = EJ_GetSectionInfo(15903)
-local function customFilter(element, unit, button, name, _, _, _, _, _, _, caster, _, _, spellID, _, _, _, nameplateShowAll)
+local function customFilter(element, unit, button, name, _, _, _, _, _, caster, _, _, spellID, _, _, _, nameplateShowAll)
 	local style = element.__owner.mystyle
-	if style == "raid" then
+	if name and spellID == 209859 then
+		element.bolster = element.bolster + 1
+		if not element.bolsterIndex then
+			element.bolsterIndex = button
+			return true
+		end
+	elseif style == "raid" then
 		if C.RaidBuffs[DB.MyClass] and C.RaidBuffs[DB.MyClass][spellID] and button.isPlayer then
 			return true
 		elseif C.RaidBuffs["ALL"][spellID] then
@@ -497,14 +521,6 @@ local function customFilter(element, unit, button, name, _, _, _, _, _, _, caste
 	elseif style == "nameplate" or style == "focus" then
 		if UnitIsUnit("player", unit) then
 			return false
-		elseif name and spellID == 209859 then
-			element.bolster = element.bolster + 1
-			if not element.bolsterIndex then
-				element.bolsterIndex = button
-				return true
-			end
-		elseif UnitName(unit) == unitName and spellID == 146739 and DB.isDeveloper then
-			return true
 		elseif C.WhiteList and C.WhiteList[spellID] then
 			return true
 		elseif C.BlackList and C.BlackList[spellID] then
@@ -565,6 +581,8 @@ function UF:CreateAuras(self)
 	bu.PostCreateIcon = postCreateIcon
 	bu.PostUpdateIcon = postUpdateIcon
 	bu.PostUpdateGapIcon = postUpdateGapIcon
+	bu.PreUpdate = bolsterPreUpdate
+	bu.PostUpdate = bolsterPostUpdate
 
 	self.Auras = bu
 end
@@ -648,30 +666,42 @@ end
 local margin = C.UFs.BarMargin
 local width, height = unpack(C.UFs.BarSize)
 
-local function postUpdateClassPower(element, _, max, diff, event)
+local function postUpdateClassPower(element, cur, max, diff, powerType, event)
 	if NDuiDB["Extras"]["OtherUFs"] then width = 100 end
-	if (diff or event == "ClassPowerEnable") then
-		if max <= 6 then
+	if diff or event == "ClassPowerEnable" then
+		for i = 1, 6 do
+			element[i]:SetWidth((width - (max-1)*margin)/max)
+		end
+	end
+
+	if NDuiDB["Nameplate"]["ShowPlayerPlate"] then
+		if (powerType == "COMBO_POINTS" or powerType == "HOLY_POWER") and element.__owner.unit ~= "vehicle" and cur == max then
 			for i = 1, 6 do
-				element[i]:SetWidth((width - (max-1)*margin)/max)
+				if element[i]:IsShown() then
+					ActionButton_ShowOverlayGlow(element[i].glow)
+				end
 			end
 		else
-			for i = 1, 5 do
-				element[i]:SetWidth((width - (5-1)*margin)/5)
+			for i = 1, 6 do
+				ActionButton_HideOverlayGlow(element[i].glow)
 			end
-			element[6]:Hide()
 		end
 	end
 end
 
 function UF:CreateClassPower(self)
+	if self.mystyle == "PlayerPlate" then
+		width, height = self:GetWidth(), self:GetHeight()*2 + 3
+		C.UFs.BarPoint = {"BOTTOMLEFT", self, "TOPLEFT", 0, 3}
+	end
 	if NDuiDB["Extras"]["OtherUFs"] then width = 100 end
 	local bars = {}
 	for i = 1, 6 do
-		bars[i] = CreateFrame("StatusBar", nil, self)
+		bars[i] = CreateFrame("StatusBar", nil, self.Health)
 		bars[i]:SetHeight(height)
 		bars[i]:SetWidth((width - 5*margin) / 6)
 		bars[i]:SetStatusBarTexture(DB.normTex)
+		bars[i]:SetFrameLevel(self:GetFrameLevel() + 1)
 		B.CreateSD(bars[i], 3, 3)
 		if not NDuiDB["Extras"]["OtherUFs"] then
 			if i == 1 then
@@ -693,10 +723,17 @@ function UF:CreateClassPower(self)
 			bars[i].bg:SetTexture(DB.normTex)
 			bars[i].bg.multiplier = .2
 		end
+
+		if NDuiDB["Nameplate"]["ShowPlayerPlate"] then
+			bars[i].glow = CreateFrame("Frame", nil, bars[i])
+			bars[i].glow:SetPoint("TOPLEFT", -3, 2)
+			bars[i].glow:SetPoint("BOTTOMRIGHT", 3, -2)
+		end
 	end
 
 	if DB.MyClass == "DEATHKNIGHT" then
 		bars.colorSpec = true
+		if NDuiDB["UFs"]["SortRunes"] then bars.sortOrder = "asc" end
 		self.Runes = bars
 	else
 		bars.PostUpdate = postUpdateClassPower
@@ -748,7 +785,7 @@ function UF:CreateExpRepBar(self)
 	rest:SetOrientation("VERTICAL")
 	bar.restBar = rest
 
-	local module = NDui:GetModule("Misc")
+	local module = B:GetModule("Misc")
 	module:SetupScript(bar)
 end
 
@@ -809,13 +846,13 @@ function UF:CreatePrediction(self)
 end
 
 local function postUpdateAddPower(element, _, cur, max)
-	if element.Text then
+	if element.Text and max > 0 then
 		local perc = cur/max * 100
 		if perc == 100 then
 			perc = ""
 			element:SetAlpha(0)
 		else
-			perc = format("%d%%", perc)
+			perc = format("%.1f%%", perc)
 			element:SetAlpha(1)
 		end
 		element.Text:SetText(perc)
@@ -824,7 +861,7 @@ end
 
 function UF:CreateAddPower(self)
 	local bar = CreateFrame("StatusBar", nil, self)
-	bar:SetSize(100, 4)
+	bar:SetSize(self:GetWidth()/2, self.Power:GetHeight())
 	bar:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -10)
 	bar:SetStatusBarTexture(DB.normTex)
 	B.CreateSD(bar, 3, 3)
@@ -879,7 +916,8 @@ end
 function UF:CreateFCT(self)
 	if not NDuiDB["UFs"]["CombatText"] then return end
 
-	local fcf = CreateFrame("Frame", "oUF_CombatTextFrame", self)
+	local parentFrame = CreateFrame("Frame", nil, UIParent)
+	local fcf = CreateFrame("Frame", "oUF_CombatTextFrame", parentFrame)
 	fcf:SetSize(32, 32)
 	if self.mystyle == "player" then
 		B.Mover(fcf, L["CombatText"], "PlayerCombatText", {"BOTTOM", self, "TOPLEFT", 0, 120})
@@ -888,7 +926,7 @@ function UF:CreateFCT(self)
 	end
 
 	for i = 1, 36 do
-		fcf[i] = self:CreateFontString("$parentText", "OVERLAY")
+		fcf[i] = parentFrame:CreateFontString("$parentText", "OVERLAY")
 	end
 
 	fcf.xOffset = 60
@@ -902,7 +940,7 @@ function UF:CreateFCT(self)
 
 	-- Default CombatText
 	SetCVar("enableFloatingCombatText", 0)
-	InterfaceOptionsCombatPanelEnableFloatingCombatText:Hide()
+	B.HideOption(InterfaceOptionsCombatPanelEnableFloatingCombatText)
 end
 
 local function postUpdateFaction(self)

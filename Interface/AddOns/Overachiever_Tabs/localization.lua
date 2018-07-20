@@ -13,11 +13,13 @@ L.SEARCH_FULLLIST_TIP = "Include in the search achievements that aren't normally
 L.SEARCH_TYPE = "Type:";
 L.SEARCH_TYPE_INDIV = "Personal";
 L.SEARCH_TYPE_GUILD = "Guild";
+L.SEARCH_TYPE_OTHER = "Other";
 L.SEARCH_TYPE_ALL = "All";
 L.SEARCH_SUBMIT = "Search";
 L.SEARCH_RESET = "Reset";
 L.SEARCH_RESULTS = "Found %s |4achievement:achievements;.";
 L.SEARCH_FILTERED_OUT = "%s |4achievement was:achievements were; omitted by the filter.";
+L.SEARCH_SEARCHING = "Searching..."
 
 L.SUGGESTIONS_TAB = "Suggestions";
 L.SUGGESTIONS_HELP = "Suggested achievements are listed here based on your current location. Also listed are all \"Recent Reminder\" achievements.|n|n|cffffffffShift-right-click|r on a suggested achievement to hide it. (This is character-specific and affects all locations.)";
@@ -46,6 +48,8 @@ L.SUGGESTIONS_SHOWHIDDEN = "Show Hidden"
 L.SUGGESTIONS_SHOWHIDDEN_TIP = "Check to show hidden suggestions for this location."
 L.SUGGESTIONS_SHOWHIDDEN_TIP2 = "If you want to see all hidden suggestions regardless of location, enter \"hidden\" into the Location field, above.|n|n|cffffffffShift-right-click|r on an achievement to toggle whether it is hidden."
 L.SUGGESTIONS_HIDDENLOCATION = "hidden"
+L.SUGGESTIONS_FILTERED_OUT_INCOMPLETE = "Showing COMPLETED achievements. %s |4achievement was:achievements were; filtered out.";
+L.SUGGESTIONS_FILTERED_OUT_EARNED = "%s |4achievement was:achievements were; already earned.";
 
 L.SUGGESTIONS_ZONERENAME_DALARAN_NORTHREND = "Dalaran (Northrend)"
 L.SUGGESTIONS_ZONERENAME_DALARAN_BROKENISLES = "Dalaran (Broken Isles)"
@@ -83,6 +87,7 @@ L.RELATED_BASE = "Base Achievement:";
 L.RELATED_CLOSE = "Close";
 L.RELATED_RECURSIVE = "Extended";
 L.RELATED_RECURSIVE_TIP = "Do a recursive search so all achievements that are indirectly related to the base achievement are also included.";
+L.RELATED_FILTERED_OUT = "%s |4achievement was:achievements were; omitted by the filter.";
 
 L.TAB_SORT = "Sort by:";
 L.TAB_SORT_NAME = "Name";
@@ -167,6 +172,7 @@ L["RELATED_TAB"] = "Verwandt"
 L["SEARCH_ANY"] = "Überall suchen:"
 L["SEARCH_CRITERIA"] = "Kriterien:"
 L["SEARCH_DESC"] = "Beschreibung:"
+L["SEARCH_FILTERED_OUT"] = "%s |4Erfolg wurde:Erfolge wurden; durch den Filter weggelassen."
 L["SEARCH_FULLLIST"] = "Versteckte Erfolge"
 L["SEARCH_FULLLIST_TIP"] = "Auch Erfolge durchsuchen, die man nicht erreichen kann. Zum Beispiel sind das Erfolge aus der gegnerischen Fraktion, fehlende Heldentaten und so weiter."
 L["SEARCH_HELP"] = "In diesem Tab können Erfolge gesucht werden. Erfolge können auch via Name oder ID mithilfe von Schrägstrichbefehlen gesucht werden. Schau dir die readme.txt an, um mehr zu erfahren."
@@ -233,6 +239,7 @@ L["WATCH_DISPLAYEDLIST"] = "Angezeigte Liste:"
 L["WATCH_EMPTY"] = "Deine Beobachtungsliste ist leer. ALT+Klick auf einen Erfolg in einem anderen Tab oder auf einen Chat-Link, um seine Beobachtung zu starten."
 L["WATCH_EMPTY_SHORT"] = "Liste leeren"
 L["WATCH_ERR_INVALIDID"] = " \"%s\" wurde aus der Beobachtungsliste entfernt. Ein Erfolg mit solch einer ID ist nicht bekannt."
+L["WATCH_FILTERED_OUT"] = "%s |4Erfolg wurde:Erfolge wurden; durch den Filter weggelassen."
 L["WATCH_HELP"] = "Fülle deine Beobachtungsliste, indem du via |cffffffffALT+Klick|r auf Erfolge in anderen Tabs oder auf Chat-Links klickst. |cffffffffALT+Klick|r auf einen hier angezeigten Erfolg, um seine Beobachtung zu beenden."
 L["WATCH_LIST_GLOBAL"] = "Global"
 L["WATCH_LIST_PERCHAR"] = "Charakterspezifisch"
@@ -312,6 +319,8 @@ elseif (locale == "frFR") then  -- French
 L["SEARCH_ANY"] = "Tout ce qui précède :"
 L["SEARCH_CRITERIA"] = "Critère :"
 L["SEARCH_DESC"] = "Description :"
+--[[Translation missing --]]
+--[[ L["SEARCH_FILTERED_OUT"] = ""--]] 
 L["SEARCH_FULLLIST"] = "Inclure tous les hauts faits"
 L["SEARCH_FULLLIST_TIP"] = "Inclut dans la recherche les hauts faits qui ne sont pas normalement affichés dans l'IU par défaut, comme ceux de la faction adverse, les Tours de force non accomplis, etc."
 L["SEARCH_HELP"] = "Utilisez cet onglet pour chercher des hauts faits. Vous pouvez également rechercher des hauts faits par nom ou par ID en utilisant les commandes \"slash\". Référez-vous au fichier readme.txt d'Overachiever pour les détails."
@@ -391,6 +400,8 @@ L["WATCH_DISPLAYEDLIST"] = "Liste Affichée :"
 L["WATCH_EMPTY"] = "Votre liste de suivi est vide. Vous pouvez faire Alt+click sur un haut fait dans un autre onglet ou sur un lien de haut fait dans la fenêtre de discussion pour l'afficher."
 L["WATCH_EMPTY_SHORT"] = "Vider la Liste"
 L["WATCH_ERR_INVALIDID"] = "\"%s\" supprimé de la liste: Le haut-fait avec cet ID est introuvable."
+--[[Translation missing --]]
+--[[ L["WATCH_FILTERED_OUT"] = ""--]] 
 L["WATCH_HELP"] = "Vous pouvez créer votre liste de suivi avec un |cffffffffalt+click|r sur un haut fait dans un autre onglet ou sur un lien de haut fait dans la fenêtre de discussion. Avec un |cffffffffAlt+click|r sur un haut fait affiché ici, vous arrêtez le suivi."
 L["WATCH_LIST_GLOBAL"] = "Global"
 L["WATCH_LIST_PERCHAR"] = "Spécifique-Personnage"
@@ -470,6 +481,8 @@ elseif (locale == "zhTW") then  -- Traditional Chinese
 L["SEARCH_ANY"] = "以上皆可："
 L["SEARCH_CRITERIA"] = "條件："
 L["SEARCH_DESC"] = "描述："
+--[[Translation missing --]]
+--[[ L["SEARCH_FILTERED_OUT"] = ""--]] 
 L["SEARCH_FULLLIST"] = "搜索所有成就"
 L["SEARCH_FULLLIST_TIP"] = "包括所有成就、已完成的、未完成的、無法完成的，等等。"
 L["SEARCH_HELP"] = "使用此標籤來搜索成就。您也可以使用命令搜索成就的名稱或編號。見 Overachiever 的 Readme.txt 文件的相關內容。"
@@ -542,6 +555,8 @@ L["WATCH_DISPLAYEDLIST"] = "顯示列表:"
 L["WATCH_EMPTY"] = "你的觀察列表是空的。Alt+點擊在其它成就標籤上或是成就連結來觀察。"
 L["WATCH_EMPTY_SHORT"] = "空的列表"
 L["WATCH_ERR_INVALIDID"] = "已從觀察列表移除\"%s\": 此成就ID並未被發現。"
+--[[Translation missing --]]
+--[[ L["WATCH_FILTERED_OUT"] = ""--]] 
 L["WATCH_HELP"] = "在其它成就標籤上或是成就連結使用 |cffffffffalt+點擊|r新建你的觀察列表。 |cffffffffAlt+點擊|r 停止觀察。"
 L["WATCH_LIST_GLOBAL"] = "全部"
 L["WATCH_LIST_PERCHAR"] = "字符特殊"
@@ -604,6 +619,8 @@ L["RELATED_TAB"] = "相关的"
 L["SEARCH_ANY"] = "以上所有："
 L["SEARCH_CRITERIA"] = "条件："
 L["SEARCH_DESC"] = "描述："
+--[[Translation missing --]]
+--[[ L["SEARCH_FILTERED_OUT"] = ""--]] 
 L["SEARCH_FULLLIST"] = "包含隐藏成就"
 L["SEARCH_FULLLIST_TIP"] = "包括没有在默认列表中显示的成就，例如阵营专属成就、‘光辉事迹’成就等。"
 L["SEARCH_HELP"] = "使用这个标签来搜索成就。你也可以通过斜杠命令用名字或ID来搜索成就。详细请参见Overachiever的readme.txt文件。"
@@ -670,6 +687,8 @@ L["WATCH_DISPLAYEDLIST"] = "已显示列表："
 L["WATCH_EMPTY"] = "你的监视列表是空的。在成就标签上或是成就链接上 Alt+点击 来监视。"
 L["WATCH_EMPTY_SHORT"] = "清空列表"
 L["WATCH_ERR_INVALIDID"] = "已将\"%s\"从监视列表中移除：找不到这个成就。"
+--[[Translation missing --]]
+--[[ L["WATCH_FILTERED_OUT"] = ""--]] 
 L["WATCH_HELP"] = "在其他成就标签上或是成就链接使用 |cffffffffalt+点击|r来新建你的监视列表. |cffffffffAlt+点击|r 将停止监视. "
 L["WATCH_LIST_GLOBAL"] = "全局"
 L["WATCH_LIST_PERCHAR"] = "字符特殊"
@@ -730,6 +749,8 @@ L["RELATED_TAB"] = "Связанный"
 L["SEARCH_ANY"] = "Всё перечисленное:"
 L["SEARCH_CRITERIA"] = "Критерий:"
 L["SEARCH_DESC"] = "Описание:"
+--[[Translation missing --]]
+--[[ L["SEARCH_FILTERED_OUT"] = ""--]] 
 L["SEARCH_FULLLIST"] = "Включить отсутствующие|nв списке достижения"
 L["SEARCH_FULLLIST_TIP"] = "В поиск будут включаться все достижения, включая не представленные в стандартном интерфейсе (например, достижения для противоположной фракции или невыполнимые)."
 L["SEARCH_HELP"] = "Воспользуйтесь этой вкладкой для поиска достижений. Вы также можете искать достижения по имени или номеру, используя команды чата. Более подробную информацию вы найдёте в файле readme.txt в папке аддона."
@@ -794,6 +815,8 @@ L["WATCH_DISPLAYEDLIST"] = "Отображаемый лист:"
 L["WATCH_EMPTY"] = "Ваш список наблюдений пуст. Нажмите на достижение Alt+Клик для наблюдения за ним, а также, получите ссылку на достижения в чат, чтобы посмотреть его."
 L["WATCH_EMPTY_SHORT"] = "Пустой лист"
 L["WATCH_ERR_INVALIDID"] = "Удален \"%s\" из списка: не удалось найти достижение с таким ID"
+--[[Translation missing --]]
+--[[ L["WATCH_FILTERED_OUT"] = ""--]] 
 L["WATCH_HELP"] = "Создайте ваш список наблюдений нажав  |cffffffffalt+клик|r по достижению в других закладках или по ссылке в чате. Нажав |cffffffffAlt+клик|r по одному из присутствующих достижений вы удалите его из списка."
 L["WATCH_LIST_GLOBAL"] = "Общее"
 L["WATCH_LIST_PERCHAR"] = "По персонажу"
@@ -854,6 +877,8 @@ L["RELATED_TAB"] = "연계"
 L["SEARCH_ANY"] = "다음 중 적어도 하나 포함:"
 L["SEARCH_CRITERIA"] = "기준:"
 L["SEARCH_DESC"] = "내용:"
+--[[Translation missing --]]
+--[[ L["SEARCH_FILTERED_OUT"] = ""--]] 
 L["SEARCH_FULLLIST"] = "모든 업적(숨겨진 업적 포함) 검색"
 L["SEARCH_FULLLIST_TIP"] = "달성하지 않은 위업이나 반대 평판때문에 기본 UI에서는 표시되지 않는 업적들도 모두 표시합니다."
 L["SEARCH_HELP"] = "업적을 검색하려면 이 탭을 이용하십시오. 또한 /명령어를 이용해서 이름이나 ID로 검색할 수도 있습니다. (자세한 내용은 readme.txt 참고하세요.)"
@@ -918,6 +943,8 @@ L["WATCH_DISPLAYEDLIST"] = "표시된 목록:"
 L["WATCH_EMPTY"] = "추적 목록이 비었습니다. 다른 탭의 업적을 <알트+클릭>하여 해당 업적을 추적할 수 있습니다."
 L["WATCH_EMPTY_SHORT"] = "빈 목록"
 L["WATCH_ERR_INVALIDID"] = "추적 목록에서 '%s' 삭제: 업적 ID를 찾을 수 없습니다."
+--[[Translation missing --]]
+--[[ L["WATCH_FILTERED_OUT"] = ""--]] 
 L["WATCH_HELP"] = "다른 탭이나 업적 링크에서 |cffffffffAlt+좌클릭|r하여 추적 항목을 추가할 수 있습니다. 현재 창에서 |cffffffffAlt+좌클릭|r하면 추적 목록에서 제거합니다."
 L["WATCH_LIST_GLOBAL"] = "전체"
 L["WATCH_LIST_PERCHAR"] = "현재 캐릭터 한정"
@@ -997,6 +1024,8 @@ elseif (locale == "esES" or locale == "esMX") then  -- Spanish
 L["SEARCH_ANY"] = "Cualquiera de los anteriores:"
 L["SEARCH_CRITERIA"] = "Requisitos:"
 L["SEARCH_DESC"] = "Descripción:"
+--[[Translation missing --]]
+--[[ L["SEARCH_FILTERED_OUT"] = ""--]] 
 L["SEARCH_FULLLIST"] = "Incluir logros ocultos"
 L["SEARCH_FULLLIST_TIP"] = "Incluye en la búsqueda de logros aquellos que normalmente no aparecen en el interface por defecto, como aquellos exclusivos de la facción contraria, Logros de fuerza sin conseguir, etc."
 L["SEARCH_HELP"] = "Usa esta pestaña para buscar logros. También puedes usar los comandos de chat para buscar logros por nombre o ID. Lee el archivo readme.txt de Overachiever para más detalles."
@@ -1076,6 +1105,8 @@ L["WATCH_DISPLAYEDLIST"] = "Lista Mostrada:"
 L["WATCH_EMPTY"] = "Tu lista de vigilancia está vacía. Alt+click sobre un logro en otra pestaña o sobre el enlace de un logro en el chat para vigilarlo."
 L["WATCH_EMPTY_SHORT"] = "Lista Vacía"
 L["WATCH_ERR_INVALIDID"] = "Quitado \"%s\" de la lista de vigilancia: no se ha podido encontrar ningún logro con esa ID."
+--[[Translation missing --]]
+--[[ L["WATCH_FILTERED_OUT"] = ""--]] 
 L["WATCH_HELP"] = "Crea tu lista de vigilancia haciendo |cffffffffalt+click|r sobre logros en las otras pestañas o sobre enlaces de logros el el chat. |cffffffffAlt+click|r sobre uno mostrado aquí para dejar de vigilarlo."
 L["WATCH_LIST_GLOBAL"] = "Global"
 L["WATCH_LIST_PERCHAR"] = "Específica de cada personaje"
@@ -1158,6 +1189,8 @@ L["WATCH_TAB"] = "Seguimiento"
 --[[ L["SEARCH_CRITERIA"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["SEARCH_DESC"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["SEARCH_FILTERED_OUT"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["SEARCH_FULLLIST"] = ""--]] 
 --[[Translation missing --]]
@@ -1287,6 +1320,8 @@ L["WATCH_TAB"] = "Seguimiento"
 --[[Translation missing --]]
 --[[ L["WATCH_ERR_INVALIDID"] = ""--]] 
 --[[Translation missing --]]
+--[[ L["WATCH_FILTERED_OUT"] = ""--]] 
+--[[Translation missing --]]
 --[[ L["WATCH_HELP"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["WATCH_LIST_GLOBAL"] = ""--]] 
@@ -1378,6 +1413,8 @@ L["RELATED_TAB"] = "Relacionadas"
 L["SEARCH_ANY"] = "Qualquer acima:"
 L["SEARCH_CRITERIA"] = "Critérios:"
 L["SEARCH_DESC"] = "Descrição:"
+--[[Translation missing --]]
+--[[ L["SEARCH_FILTERED_OUT"] = ""--]] 
 L["SEARCH_FULLLIST"] = "Incluir conquistas|nocultas"
 L["SEARCH_FULLLIST_TIP"] = "Inclui na busca conquistas que não são normalmente listadas na página padrão, como aquelas exclusivas à facção oposta, Proezas Memoráveis não obtidas, etc."
 L["SEARCH_HELP"] = "Use essa aba para pesquisar conquistas. Voce também pode pesquisar conquistas por nome ou ID usando comandos de barra. Veja o arquivo readme.txt do Overachiever para detalhes."
@@ -1442,6 +1479,8 @@ L["WATCH_DISPLAYEDLIST"] = "Lista Exibida:"
 L["WATCH_EMPTY"] = "Sua lista de conquistas vigiadas está vazia. Alt+clique em uma conquista em outra aba ou em um link para uma conquista em uma conversa para vigiá-la."
 L["WATCH_EMPTY_SHORT"] = "Lista Vazia"
 L["WATCH_ERR_INVALIDID"] = "\"%s\" foi removida da Lista de Conquistas Vigiadas: Uma conquista com este ID não pôde ser encontrada."
+--[[Translation missing --]]
+--[[ L["WATCH_FILTERED_OUT"] = ""--]] 
 L["WATCH_HELP"] = "Crie sua lista de conquistas vigiadas dando um |cffffffffalt+clique|r em conquistas nas outras abas ou em links de conquistas em uma conversa. |cffffffffAlt+clique|r em uma mostrada aqui para deixar de vigiá-la."
 L["WATCH_LIST_GLOBAL"] = "Global"
 L["WATCH_LIST_PERCHAR"] = "Este personagem"
@@ -1502,6 +1541,8 @@ L["RELATED_TAB"] = "Correlate"
 L["SEARCH_ANY"] = "Ovunque:"
 L["SEARCH_CRITERIA"] = "Criteri:"
 L["SEARCH_DESC"] = "Descrizione:"
+--[[Translation missing --]]
+--[[ L["SEARCH_FILTERED_OUT"] = ""--]] 
 L["SEARCH_FULLLIST"] = "Includi imprese|nfuori lista"
 L["SEARCH_FULLLIST_TIP"] = "Includi nella ricerca le imprese normalmente non visibili nell'Interfaccia, come quelle esclusive della fazione opposta, le prove di forza non ottenute, ecc..."
 L["SEARCH_HELP"] = "Usa questa scheda per ricercare le imprese. Puoi cercare le imprese anche per nome o per ID usando i comandi slash. Leggi il file readme.txt di Overachiever per ulteriori dettagli"
@@ -1576,6 +1617,8 @@ L["WATCH_EMPTY"] = "La tua lista è vuota. Usa alt+click su un'impresa in un'alt
 L["WATCH_EMPTY_SHORT"] = "Lista vuota"
 --[[Translation missing --]]
 --[[ L["WATCH_ERR_INVALIDID"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["WATCH_FILTERED_OUT"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["WATCH_HELP"] = ""--]] 
 L["WATCH_LIST_GLOBAL"] = "Scheda Globale"

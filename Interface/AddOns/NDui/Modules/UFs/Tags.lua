@@ -1,5 +1,6 @@
-local B, C, L, DB = unpack(select(2, ...))
-local oUF = NDui.oUF or oUF
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
+local oUF = ns.oUF or oUF
 
 oUF.Tags.Methods["hp"] = function(unit)
 	if UnitIsDeadOrGhost(unit) or not UnitIsConnected(unit) then
@@ -63,7 +64,7 @@ oUF.Tags.Methods["color"] = function(unit)
 		return B.HexRGB(1, 1, 1)
 	end
 end
-oUF.Tags.Events["color"] = "UNIT_REACTION UNIT_HEALTH UNIT_CONNECTION"
+oUF.Tags.Events["color"] = "UNIT_HEALTH UNIT_CONNECTION"
 
 oUF.Tags.Methods["afkdnd"] = function(unit)
 	return UnitIsAFK(unit) and " |cffC0C0C0<"..AFK..">|r" or UnitIsDND(unit) and " |cffC0C0C0<"..DND..">|r" or ""
@@ -184,4 +185,4 @@ oUF.Tags.Methods["altpower"] = function(unit)
 		return ("%.1f%%"):format(cur / max*100)
 	end
 end
-oUF.Tags.Events["altpower"] = "UNIT_POWER"
+oUF.Tags.Events["altpower"] = "UNIT_POWER_UPDATE"

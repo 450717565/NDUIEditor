@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1704, "DBM-EmeraldNightmare", nil, 768)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17603 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17623 $"):sub(12, -3))
 mod:SetCreatureID(102679)--Ysondre, 102683 (Emeriss), 102682 (Lethon), 102681 (Taerar)
 mod:SetEncounterID(1854)
 mod:SetZone()
@@ -136,16 +136,16 @@ local updateInfoFrame
 do
 --	local playerName = UnitName("player")
 	local lines = {}
-	local UnitDebuff, floor = UnitDebuff, math.floor
+	local floor = math.floor
 	updateInfoFrame = function()
 		table.wipe(lines)
 		local playersWithTwo = false
 		for uId in DBM:GetGroupMembers() do
 			local debuffCount = 0
 			local text = ""
-			if UnitDebuff(uId, spellName1) then
+			if DBM:UnitDebuff(uId, spellName1) then
 				debuffCount = debuffCount + 1
-				local _, _, _, stackCount, _, _, expires = UnitDebuff(uId, spellName1)
+				local _, _, stackCount, _, _, expires = DBM:UnitDebuff(uId, spellName1)
 				if expires == 0 then
 					text = SPELL_FAILED_OUT_OF_RANGE
 				else
@@ -153,9 +153,9 @@ do
 					text = floor(debuffTime)
 				end
 			end
-			if UnitDebuff(uId, spellName2) then
+			if DBM:UnitDebuff(uId, spellName2) then
 				debuffCount = debuffCount + 1
-				local _, _, _, stackCount, _, _, expires = UnitDebuff(uId, spellName2)
+				local _, _, stackCount, _, _, expires = DBM:UnitDebuff(uId, spellName2)
 				if expires == 0 then
 					text = SPELL_FAILED_OUT_OF_RANGE
 				else
@@ -163,9 +163,9 @@ do
 					text = text..", "..floor(debuffTime)
 				end
 			end
-			if UnitDebuff(uId, spellName3) then
+			if DBM:UnitDebuff(uId, spellName3) then
 				debuffCount = debuffCount + 1
-				local _, _, _, stackCount, _, _, expires = UnitDebuff(uId, spellName3)
+				local _, _, stackCount, _, _, expires = DBM:UnitDebuff(uId, spellName3)
 				if expires == 0 then
 					text = SPELL_FAILED_OUT_OF_RANGE
 				else
@@ -173,9 +173,9 @@ do
 					text = text..", "..floor(debuffTime)
 				end
 			end
-			if UnitDebuff(uId, spellName4) then
+			if DBM:UnitDebuff(uId, spellName4) then
 				debuffCount = debuffCount + 1
-				local _, _, _, stackCount, _, _, expires = UnitDebuff(uId, spellName4)
+				local _, _, stackCount, _, _, expires = DBM:UnitDebuff(uId, spellName4)
 				if expires == 0 then
 					text = SPELL_FAILED_OUT_OF_RANGE
 				else
