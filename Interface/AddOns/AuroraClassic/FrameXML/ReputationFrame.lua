@@ -10,20 +10,17 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	local function UpdateFactionSkins()
 		for i = 1, GetNumFactions() do
+			local repbar = _G["ReputationBar"..i]
 			local statusbar = _G["ReputationBar"..i.."ReputationBar"]
 
-			if statusbar and not statusbar.reskinned then
-				F.ReskinStatusBar(statusbar, false, true)
-				statusbar.reskinned = true
-			end
+			if statusbar then
+				if not statusbar.reskinned then
+					F.ReskinStatusBar(statusbar, false, true)
+					statusbar.reskinned = true
+				end
 
-			_G["ReputationBar"..i.."Background"]:SetTexture(nil)
-			_G["ReputationBar"..i.."ReputationBarHighlight1"]:SetTexture(nil)
-			_G["ReputationBar"..i.."ReputationBarHighlight2"]:SetTexture(nil)
-			_G["ReputationBar"..i.."ReputationBarAtWarHighlight1"]:SetTexture(nil)
-			_G["ReputationBar"..i.."ReputationBarAtWarHighlight2"]:SetTexture(nil)
-			_G["ReputationBar"..i.."ReputationBarLeftTexture"]:SetTexture(nil)
-			_G["ReputationBar"..i.."ReputationBarRightTexture"]:SetTexture(nil)
+				F.StripTextures(repbar, true)
+			end
 		end
 	end
 

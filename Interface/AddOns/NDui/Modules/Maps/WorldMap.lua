@@ -3,13 +3,11 @@ local B, C, L, DB = unpack(ns)
 local module = B:RegisterModule("Maps")
 
 function module:PlayerCoords()
-	local px, py
+	local px, py = 0, 0
 	local mapID = C_Map.GetBestMapForUnit("player")
 
-	if not IsInInstance() then
+	if not IsInInstance() or mapID then
 		px, py = C_Map.GetPlayerMapPosition(mapID, "player"):GetXY()
-	else
-		px, py = 0, 0
 	end
 
 	return px, py

@@ -136,19 +136,6 @@ GameTooltip:HookScript("OnTooltipSetItem", function(self)
 	end
 end)
 
---- 按住 Ctrl 键快速举报
-local _ChatFrame_OnHyperlinkShow = ChatFrame_OnHyperlinkShow;
-function ChatFrame_OnHyperlinkShow(chatframe, link, text, button)
-	if IsControlKeyDown() then
-		local line = string.match(link, "player:[^:]+:(%d+):")
-		if line then
-			ReportPlayer("spam", line)
-			return
-		end
-	end
-	return _ChatFrame_OnHyperlinkShow(chatframe, link, text, button)
-end
-
 --- 特殊物品购买无需确认
 --[[
 MerchantItemButton_OnClick = function(self, button, ...)

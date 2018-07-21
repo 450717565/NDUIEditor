@@ -157,12 +157,12 @@ local function UNIT_SPELLCAST_START(self, event, unit)
 	* name - name of the spell being cast (string)
 	--]]
 	if (element.PostCastStart) then
-		element:PostCastStart(unit, name, castID, spellID)
+		element:PostCastStart(unit, name)
 	end
 	element:Show()
 end
 
-local function UNIT_SPELLCAST_FAILED(self, event, unit, castID, spellID)
+local function UNIT_SPELLCAST_FAILED(self, event, unit, castID)
 	if (self.unit ~= unit and self.realUnit ~= unit) then return end
 
 	local element = self.Castbar
@@ -186,11 +186,11 @@ local function UNIT_SPELLCAST_FAILED(self, event, unit, castID, spellID)
 	* unit - unit for which the update has been triggered (string)
 	--]]
 	if (element.PostCastFailed) then
-		return element:PostCastFailed(unit, GetSpellInfo(spellID), castID, spellID)
+		return element:PostCastFailed(unit)
 	end
 end
 
-local function UNIT_SPELLCAST_INTERRUPTED(self, event, unit, castID, spellID)
+local function UNIT_SPELLCAST_INTERRUPTED(self, event, unit, castID)
 	if (self.unit ~= unit and self.realUnit ~= unit) then return end
 
 	local element = self.Castbar
@@ -214,7 +214,7 @@ local function UNIT_SPELLCAST_INTERRUPTED(self, event, unit, castID, spellID)
 	* unit - unit for which the update has been triggered (string)
 	--]]
 	if (element.PostCastInterrupted) then
-		return element:PostCastInterrupted(unit, GetSpellInfo(spellID), castID, spellID)
+		return element:PostCastInterrupted(unit)
 	end
 end
 
@@ -262,11 +262,11 @@ local function UNIT_SPELLCAST_NOT_INTERRUPTIBLE(self, event, unit)
 	end
 end
 
-local function UNIT_SPELLCAST_DELAYED(self, event, unit, _, spellID)
+local function UNIT_SPELLCAST_DELAYED(self, event, unit)
 	if (self.unit ~= unit and self.realUnit ~= unit) then return end
 
 	local element = self.Castbar
-	local name, _, _, startTime, _, _, castID = UnitCastingInfo(unit)
+	local name, _, _, startTime = UnitCastingInfo(unit)
 	if (not startTime or not element:IsShown()) then return end
 
 	local duration = GetTime() - (startTime / 1000)
@@ -285,11 +285,11 @@ local function UNIT_SPELLCAST_DELAYED(self, event, unit, _, spellID)
 	* name - name of the delayed spell (string)
 	--]]
 	if (element.PostCastDelayed) then
-		return element:PostCastDelayed(unit, name, castID, spellID)
+		return element:PostCastDelayed(unit, name)
 	end
 end
 
-local function UNIT_SPELLCAST_STOP(self, event, unit, castID, spellID)
+local function UNIT_SPELLCAST_STOP(self, event, unit, castID)
 	if (self.unit ~= unit and self.realUnit ~= unit) then return end
 
 	local element = self.Castbar
@@ -307,7 +307,7 @@ local function UNIT_SPELLCAST_STOP(self, event, unit, castID, spellID)
 	* unit - unit for which the update has been triggered (string)
 	--]]
 	if (element.PostCastStop) then
-		return element:PostCastStop(unit, GetSpellInfo(spellID), castID, spellID)
+		return element:PostCastStop(unit)
 	end
 end
 
@@ -370,12 +370,12 @@ local function UNIT_SPELLCAST_CHANNEL_START(self, event, unit, _, spellID)
 	* name - name of the channeled spell (string)
 	--]]
 	if (element.PostChannelStart) then
-		element:PostChannelStart(unit, name, spellID)
+		element:PostChannelStart(unit, name)
 	end
 	element:Show()
 end
 
-local function UNIT_SPELLCAST_CHANNEL_UPDATE(self, event, unit, _, spellID)
+local function UNIT_SPELLCAST_CHANNEL_UPDATE(self, event, unit)
 	if (self.unit ~= unit and self.realUnit ~= unit) then return end
 
 	local element = self.Castbar
@@ -401,11 +401,11 @@ local function UNIT_SPELLCAST_CHANNEL_UPDATE(self, event, unit, _, spellID)
 	* name - name of the channeled spell (string)
 	--]]
 	if (element.PostChannelUpdate) then
-		return element:PostChannelUpdate(unit, name, spellID)
+		return element:PostChannelUpdate(unit, name)
 	end
 end
 
-local function UNIT_SPELLCAST_CHANNEL_STOP(self, event, unit, _, spellID)
+local function UNIT_SPELLCAST_CHANNEL_STOP(self, event, unit)
 	if (self.unit ~= unit and self.realUnit ~= unit) then return end
 
 	local element = self.Castbar
@@ -420,7 +420,7 @@ local function UNIT_SPELLCAST_CHANNEL_STOP(self, event, unit, _, spellID)
 		* unit - unit for which the update has been triggered (string)
 		--]]
 		if (element.PostChannelStop) then
-			return element:PostChannelStop(unit, GetSpellInfo(spellID), spellID)
+			return element:PostChannelStop(unit)
 		end
 	end
 end

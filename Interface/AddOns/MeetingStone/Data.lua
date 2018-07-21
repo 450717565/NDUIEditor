@@ -785,14 +785,7 @@ RAID_PROGRESSION_LIST = {
 }
 
 DEFAULT_SPAMWORD = [[
-!%d+元
-!tao.*bao
-!支.*付.*宝
-!淘.*宝
-5173
-平台
-门票
-LFG:
+!同.*甲
 ]]
 
 ZONE_ACTIVITY_MAP = {

@@ -132,7 +132,7 @@ else
 				blank = true
 			end
 			local name, count, limit, description = unpack(self.Category[i])
-			GameTooltip:AddDoubleLine(name, count.."/"..limit, 1,1,1, 1,1,1)
+			GameTooltip:AddDoubleLine(name, count.." / "..limit, 1,1,1, 1,1,1)
 			if IsShiftKeyDown() then
 				GameTooltip:AddLine(description, .6,.8,1,true)
 			end

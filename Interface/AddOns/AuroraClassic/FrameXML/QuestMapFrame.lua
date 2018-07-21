@@ -26,12 +26,14 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinScroll(QuestScrollFrame.ScrollBar)
 
 	for _, header in next, {campaignHeader, StoryHeader} do
+		header.Text:SetPoint("TOPLEFT", 10, -15)
+		header.Progress:SetPoint("BOTTOMLEFT", 10, -5)
 		header.Background:SetAlpha(0)
 		header.HighlightTexture:Hide()
 
 		local bg = F.CreateBDFrame(header, .25)
-		bg:SetPoint("TOPLEFT", 0, -1)
-		bg:SetPoint("BOTTOMRIGHT", -4, 0)
+		bg:SetPoint("TOPLEFT", 0, -10)
+		bg:SetPoint("BOTTOMRIGHT", -5, 0)
 		if header == campaignHeader then
 			local newTex = bg:CreateTexture(nil, "OVERLAY")
 			newTex:SetPoint("TOPRIGHT", -20, -5)

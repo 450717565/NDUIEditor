@@ -17,5 +17,6 @@
 	<Include file="Slashin.lua"/>
 	<Include file="StarCursor.lua"/>
 	<Include file="TrainAll.lua"/>
+	<Include file="WorldFlightMap.lua"/>
 	<Include file="xMerchant.lua"/>
 </Ui>

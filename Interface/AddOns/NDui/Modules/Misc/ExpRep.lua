@@ -147,7 +147,7 @@ local function UpdateTooltip(bar)
 		local currentLevel = C_AzeriteItem.GetPowerLevel(azeriteItemLocation)
 		GameTooltip:AddLine(" ")
 		GameTooltip:AddLine(azeriteItemName.." ("..format(SPELLBOOK_AVAILABLE_AT, currentLevel)..")", 0,.6,1)
-		GameTooltip:AddDoubleLine(ARTIFACT_POWER, B.Numb(xp).."/"..B.Numb(totalLevelXP).." ("..floor(xp/totalLevelXP*100).."%)", .6,.8,1, 1,1,1)
+		GameTooltip:AddDoubleLine(ARTIFACT_POWER, B.Numb(xp).." / "..B.Numb(totalLevelXP).." ("..floor(xp/totalLevelXP*100).."%)", .6,.8,1, 1,1,1)
 	end
 
 	if HasArtifactEquipped() then

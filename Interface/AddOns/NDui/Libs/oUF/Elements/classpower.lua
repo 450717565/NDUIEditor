@@ -155,7 +155,7 @@ local function Update(self, event, unit, powerType)
 	* powerType     - the active power type (string)
 	--]]
 	if (element.PostUpdate) then
-		return element:PostUpdate(cur, max, oldMax ~= max, powerType, event)
+		return element:PostUpdate(cur, max, oldMax ~= max, powerType)
 	end
 end
 

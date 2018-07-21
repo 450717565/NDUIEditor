@@ -25,12 +25,14 @@ local list = {
 		{AuraID = 213405, UnitID = "target", Caster = "player"},--战刃大师
 		{AuraID = 224509, UnitID = "target", Caster = "player"},--幽魂炸弹
 		{AuraID = 247456, UnitID = "target", Caster = "player"},--脆弱
+		{AuraID = 258860, UnitID = "target", Caster = "player"},--黑暗鞭笞
+		{AuraID = 258883, UnitID = "target", Caster = "player"},--毁灭之痕
+		{AuraID = 268178, UnitID = "target", Caster = "player"},--虚空掠夺者
 		--烈火烙印
 		{AuraID = 207744, UnitID = "target", Caster = "player"},
 		{AuraID = 207771, UnitID = "target", Caster = "player"},
 	},
 	["Player Special Aura"] = { -- 玩家重要光环组
-		{AuraID = 178740, UnitID = "player"},--献祭光环
 		{AuraID = 196555, UnitID = "player"},--虚空行走
 		{AuraID = 203650, UnitID = "player"},--准备就绪
 		{AuraID = 203819, UnitID = "player"},--恶魔尖刺
@@ -39,14 +41,16 @@ local list = {
 		{AuraID = 211053, UnitID = "player"},--邪能弹幕
 		{AuraID = 212800, UnitID = "player"},--疾影
 		{AuraID = 212988, UnitID = "player"},--痛苦使者
-		{AuraID = 218256, UnitID = "player"},--强化结界
 		{AuraID = 218561, UnitID = "player", Value = true},--虹吸能量
-		{AuraID = 227225, UnitID = "player", Value = true},--灵魂屏障
 		{AuraID = 247253, UnitID = "player"},--剑刃扭转
 		{AuraID = 247938, UnitID = "player"},--混乱之刃
+		{AuraID = 263648, UnitID = "player", Value = true},--灵魂屏障
 		--恶魔变形
 		{AuraID = 162264, UnitID = "player"},
 		{AuraID = 187827, UnitID = "player"},
+		--献祭光环
+		{AuraID = 178740, UnitID = "player"},
+		{AuraID = 258920, UnitID = "player"},
 		--涅墨西斯
 		{AuraID = 208579, UnitID = "player"},
 		{AuraID = 208605, UnitID = "player"},
@@ -81,14 +85,14 @@ local list = {
 		{SpellID = 206491, UnitID = "player"},--涅墨西斯
 		{SpellID = 207407, UnitID = "player"},--灵魂切削
 		{SpellID = 207684, UnitID = "player"},--悲苦咒符
-		{SpellID = 211053, UnitID = "player"},--邪能弹幕
 		{SpellID = 211881, UnitID = "player"},--邪能爆发
 		{SpellID = 212084, UnitID = "player"},--邪能毁灭
 		{SpellID = 217832, UnitID = "player"},--禁锢
-		{SpellID = 218256, UnitID = "player"},--强化结界
 		{SpellID = 227225, UnitID = "player"},--灵魂壁障
 		{SpellID = 236189, UnitID = "player"},--恶魔灌注
 		{SpellID = 247938, UnitID = "player"},--混乱之刃
+		{SpellID = 258860, UnitID = "player"},--黑暗鞭笞
+		{SpellID = 258925, UnitID = "player"},--邪能弹幕
 		--恶魔变形
 		{SpellID = 187827, UnitID = "player"},
 		{SpellID = 191427, UnitID = "player"},

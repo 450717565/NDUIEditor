@@ -405,7 +405,7 @@ function UF:CreateCastBar(self)
 
 	cb.OnUpdate = cast.OnCastbarUpdate
 	cb.PostCastStart = cast.PostCastStart
-	cb.PostChannelStart = cast.PostChannelStart
+	cb.PostChannelStart = cast.PostCastStart
 	cb.PostCastStop = cast.PostCastStop
 	cb.PostChannelStop = cast.PostChannelStop
 	cb.PostCastFailed = cast.PostCastFailed
@@ -449,10 +449,6 @@ local function postCreateIcon(element, button)
 	button.icon:SetDrawLayer("ARTWORK")
 	B.CreateSD(button, 2, 2)
 	button.overlay:SetTexture(nil)
-
-	button.stealable:SetTexture(DB.textures.pushed)
-	button.stealable:SetPoint("TOPLEFT", -2, 2)
-	button.stealable:SetPoint("BOTTOMRIGHT", 2, -2)
 
 	button.HL = button:CreateTexture(nil, "HIGHLIGHT")
 	button.HL:SetColorTexture(1, 1, 1, .3)
@@ -701,7 +697,7 @@ function UF:CreateClassPower(self)
 		bars[i]:SetHeight(height)
 		bars[i]:SetWidth((width - 5*margin) / 6)
 		bars[i]:SetStatusBarTexture(DB.normTex)
-		bars[i]:SetFrameLevel(self:GetFrameLevel() + 1)
+		bars[i]:SetFrameLevel(self:GetFrameLevel() + 2)
 		B.CreateSD(bars[i], 3, 3)
 		if not NDuiDB["Extras"]["OtherUFs"] then
 			if i == 1 then

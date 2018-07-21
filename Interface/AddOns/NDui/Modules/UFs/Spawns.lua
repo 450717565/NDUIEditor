@@ -26,7 +26,7 @@ local function CreatePlayerStyle(self)
 	if NDuiDB["UFs"]["PlayerDebuff"] then UF:CreateDebuffs(self) end
 	if NDuiDB["UFs"]["SwingBar"] then UF:CreateSwing(self) end
 	if NDuiDB["UFs"]["AddPower"] then UF:CreateAddPower(self) end
-	if not NDuiDB["Extras"]["OtherUFs"]then UF:CreatePortrait(self) end
+	if not NDuiDB["Extras"]["OtherUFs"] then UF:CreatePortrait(self) end
 end
 
 local function CreateTargetStyle(self)
@@ -45,7 +45,7 @@ local function CreateTargetStyle(self)
 	UF:CreateFCT(self)
 	UF:CreateAuras(self)
 
-	if not NDuiDB["Extras"]["OtherUFs"]then UF:CreatePortrait(self) end
+	if not NDuiDB["Extras"]["OtherUFs"] then UF:CreatePortrait(self) end
 end
 
 local function CreateFocusStyle(self)
@@ -63,7 +63,7 @@ local function CreateFocusStyle(self)
 	UF:CreatePrediction(self)
 	UF:CreateDebuffs(self)
 
-	if not NDuiDB["Extras"]["OtherUFs"]then UF:CreatePortrait(self) end
+	if not NDuiDB["Extras"]["OtherUFs"] then UF:CreatePortrait(self) end
 end
 
 local function CreateToTStyle(self)
@@ -178,7 +178,7 @@ local function CreatePartyStyle(self)
 	UF:CreateDebuffs(self)
 	UF:CreateThreatBorder(self)
 
-	if not NDuiDB["Extras"]["OtherUFs"]then UF:CreatePortrait(self) end
+	if not NDuiDB["Extras"]["OtherUFs"] then UF:CreatePortrait(self) end
 end
 
 oUF:RegisterStyle("Player", CreatePlayerStyle)
@@ -438,7 +438,7 @@ function UF:OnLogin()
 			if not NDuiDB["UFs"]["SpecRaidPos"] then return end
 
 			local function UpdateSpecPos(event, ...)
-				local unit, _, _, _, spellID = ...
+				local unit, _, spellID = ...
 				if (event == "UNIT_SPELLCAST_SUCCEEDED" and unit == "player" and spellID == 200749) or event == "PLAYER_ENTERING_WORLD" then
 					if not GetSpecialization() then return end
 					local specIndex = GetSpecialization()

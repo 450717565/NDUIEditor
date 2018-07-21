@@ -62,15 +62,8 @@ end
 local function UpdateCoords(self, elapsed)
 	self.elapsed = (self.elapsed or 0) + elapsed
 	if self.elapsed > .1 then
-		local x, y = mapModule:PlayerCoords()
-		if (x and x~= 0) and (y and y~= 0) then
-			coordX, coordY = x, y
-		else
-			coordX, coordY = 0, 0
-			self:SetScript("OnUpdate", nil)
-		end
-		self:GetScript("OnEvent")(self)
-
+		coordX, coordY = mapModule:PlayerCoords()
+		self:GetScript("onEvent")(self)
 		self.elapsed = 0
 	end
 end
