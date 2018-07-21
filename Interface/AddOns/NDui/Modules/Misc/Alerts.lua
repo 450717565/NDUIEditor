@@ -41,7 +41,6 @@ function module:SoloInfo()
 	local function updateAlert()
 		if IsInInstance() then
 			local name, _, difficultyID, difficultyName, _, _, _, instanceMapID = GetInstanceInfo()
-			B.AlertRun(L["Difficult"]..difficultyName)
 			if difficultyID ~= 24 and instList[instanceMapID] and instList[instanceMapID] ~= difficultyID then
 				f:Show()
 				f.Text:SetText(DB.InfoColor..name.."\n< "..difficultyName.." >\n\n"..DB.MyColor..L["Wrong Difficulty"])
@@ -90,9 +89,8 @@ function module:RareAlert()
 			local tex = string.format("|T%s:%d:%d:0:0:%d:%d:%d:%d:%d:%d|t", filename, 0, 0, atlasWidth, atlasHeight, atlasWidth*txLeft, atlasWidth*txRight, atlasHeight*txTop, atlasHeight*txBottom)
 			UIErrorsFrame:AddMessage(DB.InfoColor..L["Rare Found"]..tex..(info.name or ""))
 			if NDuiDB["Misc"]["AlertinChat"] then
-				B.AlertRun(name)
 				if not UnitIsDeadOrGhost("player") then
-					SendChatMessage(">>> "..name.." <<<", "SAY")
+					SendChatMessage(">>> "..info.name.." <<<", "SAY")
 				end
 			end
 			PlaySoundFile("Sound\\Interface\\PVPFlagTakenMono.ogg", "master")

@@ -2,25 +2,17 @@
 local B, C, L, DB = unpack(ns)
 local module = B:RegisterModule("Maps")
 
-local mapRects = {}
-local tempVec2D = CreateVector2D(0, 0)
+function module:PlayerCoords()
+	local px, py
+	local mapID = C_Map.GetBestMapForUnit("player")
 
-function module:GetPlayerMapPos(mapID)
-	tempVec2D.x, tempVec2D.y = UnitPosition("player")
-	if not tempVec2D.x then return end
-
-	local mapRect = mapRects[mapID]
-	if not mapRect then
-		mapRect = {}
-		mapRect[1] = select(2, C_Map.GetWorldPosFromMapPos(mapID, CreateVector2D(0, 0)))
-		mapRect[2] = select(2, C_Map.GetWorldPosFromMapPos(mapID, CreateVector2D(1, 1)))
-		mapRect[2]:Subtract(mapRect[1])
-
-		mapRects[mapID] = mapRect
+	if not IsInInstance() then
+		px, py = C_Map.GetPlayerMapPosition(mapID, "player"):GetXY()
+	else
+		px, py = 0, 0
 	end
-	tempVec2D:Subtract(mapRect[1])
 
-	return tempVec2D.y/mapRect[2].y, tempVec2D.x/mapRect[2].x
+	return px, py
 end
 
 function module:OnLogin()
@@ -65,15 +57,6 @@ function module:OnLogin()
 		width, height = mapBody:GetWidth(), mapBody:GetHeight()
 	end)
 
-	local mapID
-	hooksecurefunc(WorldMapFrame, "OnMapChanged", function(self)
-		if self:GetMapID() == C_Map.GetBestMapForUnit("player") then
-			mapID = self:GetMapID()
-		else
-			mapID = nil
-		end
-	end)
-
 	local function CursorCoords()
 		local left, top = mapBody:GetLeft() or 0, mapBody:GetTop() or 0
 		local x, y = GetCursorPosition()
@@ -98,15 +81,11 @@ function module:OnLogin()
 				cursor:SetText(CoordsFormat(mouseText, true))
 			end
 
-			if not mapID then
-				player:SetText(CoordsFormat(playerText, true))
+			local px, py = module:PlayerCoords()
+			if (px and px~= 0) and (py and py~= 0) then
+				player:SetFormattedText(CoordsFormat(playerText), 100 * px, 100 * py)
 			else
-				local x, y = module:GetPlayerMapPos(mapID)
-				if not x or (x == 0 and y == 0) then
-					player:SetText(CoordsFormat(playerText, true))
-				else
-					player:SetFormattedText(CoordsFormat(playerText), 100 * x, 100 * y)
-				end
+				player:SetText(CoordsFormat(playerText, true))
 			end
 
 			self.elapsed = 0

@@ -10,7 +10,7 @@ do
 	-- Move Tracker Frame
 	local mover = CreateFrame("Frame", "NDuiQuestMover", tracker)
 	mover:SetPoint("TOPRIGHT", Minimap, "BOTTOMRIGHT", -60, -25)
-	mover:SetSize(49, 49)
+	mover:SetSize(50, 50)
 	B.CreateMF(minimize, mover)
 	minimize:SetFrameStrata("HIGH")
 	minimize:HookScript("OnEnter", function(self)

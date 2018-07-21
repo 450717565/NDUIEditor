@@ -20,8 +20,8 @@ C.themes["Blizzard_OrderHallUI"] = function()
 	F.CreateSD(OrderHallTalentFrame)
 	ClassHallTalentInset:SetAlpha(0)
 	F.Reskin(OrderHallTalentFrame.BackButton)
-	OrderHallTalentFrame.CurrencyIcon:SetTexCoord(.08, .92, .08, .92)
-	F.CreateBDFrame(OrderHallTalentFrame.CurrencyIcon)
+	OrderHallTalentFrame.Currency.Icon:SetTexCoord(.08, .92, .08, .92)
+	F.CreateBDFrame(OrderHallTalentFrame.Currency.Icon)
 	OrderHallTalentFrame.StyleFrame:SetAlpha(0)
 	F.ReskinClose(OrderHallTalentFrameCloseButton)
 	OrderHallTalentFrameCloseButton:ClearAllPoints()
@@ -32,7 +32,7 @@ C.themes["Blizzard_OrderHallUI"] = function()
 		for i = 34, OrderHallTalentFrame:GetNumRegions() do
 			select(i, OrderHallTalentFrame:GetRegions()):SetAlpha(0)
 		end
-
+--[[
 		for i = 1, OrderHallTalentFrame:GetNumChildren() do
 			local bu = select(i, OrderHallTalentFrame:GetChildren())
 			if bu.Icon then
@@ -55,5 +55,6 @@ C.themes["Blizzard_OrderHallUI"] = function()
 				end
 			end
 		end
+]]
 	end)
 end

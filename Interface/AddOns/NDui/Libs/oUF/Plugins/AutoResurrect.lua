@@ -48,7 +48,8 @@ local function macroBody(class)
 
 	if class == "HUNTER" then
 		for i = 1, #classList.HUNTER do
-			body = body.."/cast [combat,@mouseover,help,dead][combat,help,dead] "..classList.HUNTER[i].."\n"
+			local hunterSpell = classList.HUNTER[i]
+			body = body.."/cast [combat,@mouseover,help,dead][combat,help,dead] "..hunterSpell.."\n"
 		end
 	else
 		local combatSpell = classList[class].combat
