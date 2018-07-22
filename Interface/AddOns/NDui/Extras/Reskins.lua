@@ -15,6 +15,10 @@ if IsAddOnLoaded("AuroraClassic") then
 		-- 特殊任务按钮
 		ExtraQuestButtonArtwork:Hide()
 
+		-- 顶部信息板
+		UIWidgetTopCenterContainerFrame:ClearAllPoints()
+		UIWidgetTopCenterContainerFrame:SetPoint("TOP", 0, -30)
+
 		if IsAddOnLoaded("!BaudErrorFrame") then
 			F.CreateBD(BaudErrorFrame)
 			F.CreateSD(BaudErrorFrame)

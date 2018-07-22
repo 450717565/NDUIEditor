@@ -6,7 +6,7 @@ function module:PlayerCoords()
 	local px, py = 0, 0
 	local mapID = C_Map.GetBestMapForUnit("player")
 
-	if not IsInInstance() or mapID then
+	if not IsInInstance() and mapID then
 		px, py = C_Map.GetPlayerMapPosition(mapID, "player"):GetXY()
 	end
 

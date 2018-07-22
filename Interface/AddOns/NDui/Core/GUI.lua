@@ -75,7 +75,7 @@ local defaultSettings = {
 		ShowTeamIndex = false,
 		ShowPlayerPlate = false,
 		SortRunes = true,
-		AddPower = false,
+		AddPower = true,
 	},
 	Chat = {
 		Sticky = true,

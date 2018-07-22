@@ -83,7 +83,7 @@ local list = {
 		{AuraID = 215711, UnitID = "player"},--灵魂收割
 		{AuraID = 216974, UnitID = "player"},--坏疽
 		{AuraID = 218100, UnitID = "player"},--亵渎
-		{AuraID = 218209, UnitID = "player", Combat = true},--酷寒突袭
+		{AuraID = 281209, UnitID = "player", Combat = true},--冷酷之心
 		{AuraID = 219809, UnitID = "player", Value = true},--墓石
 		{AuraID = 240558, UnitID = "player", Value = true},--饮魂者
 		{AuraID = 253595, UnitID = "player", Combat = true},--酷寒突袭

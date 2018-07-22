@@ -1,6 +1,6 @@
 local B, C, L, DB = unpack(select(2, ...))
 
-local MythicLootItemLevel = {  0 ,890 ,895 ,895 ,900 ,900 ,905 ,910 ,910 ,915 ,920 ,925 ,930 ,935 ,940}
+local MythicLootItemLevel = {  0 ,155 ,160 ,165 ,170 ,175 ,180 ,185 ,190 ,195 ,200 ,205 ,210 ,215 ,220}
 local WeeklyLootItemLevel = {  0 ,910 ,910 ,915 ,915 ,920 ,925 ,925 ,930 ,935 ,940 ,945 ,950 ,955 ,960}
 
 local function GetModifiers(linkType, ...)
