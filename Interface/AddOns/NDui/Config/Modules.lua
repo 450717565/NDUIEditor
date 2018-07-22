@@ -12,7 +12,7 @@ C.Auras = {
 	BHPos			= {"CENTER", UIParent, "CENTER", 0, -206},				-- 血DK助手默认位置
 	StaggerPos		= {"CENTER", UIParent, "CENTER", 0, -206},				-- 坦僧工具默认位置
 	TotemsPos		= {"CENTER", UIParent, "CENTER", 0, -206},				-- 图腾助手默认位置
-	HunterToolPos		= {"CENTER", UIParent, "CENTER", 0, -206},				-- 生存猎助手默认位置
+	HunterToolPos	= {"CENTER", UIParent, "CENTER", 0, -206},				-- 生存猎助手默认位置
 	FamiliarPos		= {"CENTER", UIParent, "CENTER", 0, -240},				-- 奥法魔宠默认位置
 	StatuePos		= {"CENTER", UIParent, "CENTER", 0, -240},				-- 武僧雕像默认位置
 
@@ -51,6 +51,7 @@ C.UFs = {
 	FocusPos		= {"LEFT", UIParent, "LEFT", 5, -150},					-- 焦点框体默认位置
 	FoTPos			= {"LEFT", UIParent, "LEFT", 215, -153},				-- 焦点目标框体默认位置
 
+	PlayerPlate		= {"BOTTOM", UIParent, "BOTTOM", 0, 280},				-- 玩家姓名板默认位置
 	BarPos			= {"TOPLEFT", 12, 4},									-- 资源条位置（以自身头像为基准）
 	BarSize			= {150, 5},												-- 资源条的尺寸（宽，长）
 	BarMargin		= 2,													-- 资源条间隔

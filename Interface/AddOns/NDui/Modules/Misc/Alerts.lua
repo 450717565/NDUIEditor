@@ -104,7 +104,7 @@ end
 
 --[[
 	闭上你的嘴！
-	打断/偷取法术时的警报。
+	打断/偷取/驱散法术时的警报。
 ]]
 function module:InterruptAlert()
 	if not NDuiDB["Misc"]["Interrupt"] then return end
@@ -120,6 +120,8 @@ function module:InterruptAlert()
 				infoText = L["Interrupt"]
 			elseif eventType == "SPELL_STOLEN" then
 				infoText = L["Steal"]
+			elseif eventType == "SPELL_DISPEL" then
+				infoText = L["Dispel"]
 			end
 
 			if infoText then

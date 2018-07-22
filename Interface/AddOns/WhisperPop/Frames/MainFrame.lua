@@ -30,7 +30,7 @@ end
 addon.OnClashCmd = addon.ToggleFrame
 
 frame.text:SetText("WhisperPop")
-frame:SetPoint("LEFT", UIParent, "LEFT", 40, -15)
+frame:SetPoint("LEFT", UIParent, "LEFT", 2, -15)
 frame:SetSize(200, 324)
 
 local list = UICreateVirtualScrollList(frame:GetName().."List", frame, 1, nil, nil, "icon")

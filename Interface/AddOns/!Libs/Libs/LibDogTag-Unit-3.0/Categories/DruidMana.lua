@@ -1,5 +1,5 @@
 local MAJOR_VERSION = "LibDogTag-Unit-3.0"
-local MINOR_VERSION = 90000 + (tonumber(("2016052751845"):match("%d+")) or 33333333333333)
+local MINOR_VERSION = 90000 + (tonumber(("2018072233502"):match("%d+")) or 33333333333333)
 
 if MINOR_VERSION > _G.DogTag_Unit_MINOR_VERSION then
 	_G.DogTag_Unit_MINOR_VERSION = MINOR_VERSION
@@ -33,12 +33,7 @@ if isDruid then
 	end
 end
 
--- Parnic: support for Cataclysm; UNIT_MANA changed to UNIT_POWER
-local wow_400 = select(4, GetBuildInfo()) >= 40000
-local mpEvents = "DruidMana;UNIT_MANA#$unit;UNIT_MAXMANA#$unit"
-if wow_400 then
-	mpEvents = "DruidMana;UNIT_POWER#$unit;UNIT_MAXPOWER#$unit"
-end
+local mpEvents = "DruidMana;UNIT_POWER_UPDATE#$unit;UNIT_MAXPOWER#$unit"
 
 DogTag:AddTag("Unit", "DruidMP", {
 	code = function(args)

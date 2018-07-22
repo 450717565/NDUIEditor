@@ -181,7 +181,7 @@ local defaultSettings = {
 		SwapingAlert = false,
 		SistersAlert = false,
 		AntoranBlast = false,
-		QuestNotifier = false,
+		QuestNotifier = true,
 		QuestProgress = false,
 	},
 	Settings = {

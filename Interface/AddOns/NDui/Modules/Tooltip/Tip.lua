@@ -340,6 +340,19 @@ local function style(self)
 	end
 end
 
+-- Addon Supports
+if IsAddOnLoaded("MeetingStone") then
+	local tips = {
+		NetEaseGUI20_Tooltip51,
+		NetEaseGUI20_Tooltip52,
+	}
+	for _, f in pairs(tips) do
+		if f then
+			f:HookScript("OnShow", style)
+		end
+	end
+end
+
 local function extrastyle(self)
 	if not self.styled then
 		self:DisableDrawLayer("BACKGROUND")

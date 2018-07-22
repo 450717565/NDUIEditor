@@ -1,5 +1,5 @@
 local MAJOR_VERSION = "LibDogTag-Unit-3.0"
-local MINOR_VERSION = 90000 + (tonumber(("2016052751845"):match("%d+")) or 33333333333333)
+local MINOR_VERSION = 90000 + (tonumber(("2018072233502"):match("%d+")) or 33333333333333)
 
 if MINOR_VERSION > _G.DogTag_Unit_MINOR_VERSION then
 	_G.DogTag_Unit_MINOR_VERSION = MINOR_VERSION
@@ -30,10 +30,7 @@ local wow_400 = wow_ver >= 40000
 local wow_500 = wow_ver >= 50000
 local wow_600 = wow_ver >= 60000
 local wow_700 = wow_ver >= 70000
-local petHappinessEvent = "UNIT_HAPPINESS"
-if wow_400 then
-	petHappinessEvent = "UNIT_POWER"
-end
+local petHappinessEvent = "UNIT_POWER_UPDATE"
 local partyChangedEvent = "PARTY_MEMBERS_CHANGED"
 if wow_500 then
 	UnitIsPartyLeader = UnitIsGroupLeader

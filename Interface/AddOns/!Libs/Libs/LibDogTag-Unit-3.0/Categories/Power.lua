@@ -1,5 +1,5 @@
 local MAJOR_VERSION = "LibDogTag-Unit-3.0"
-local MINOR_VERSION = 90000 + (tonumber(("20180716133541"):match("%d+")) or 33333333333333)
+local MINOR_VERSION = 90000 + (tonumber(("2018072233502"):match("%d+")) or 33333333333333)
 
 if MINOR_VERSION > _G.DogTag_Unit_MINOR_VERSION then
 	_G.DogTag_Unit_MINOR_VERSION = MINOR_VERSION
@@ -505,7 +505,7 @@ for _, data in pairs(specialPowers) do
 	--local category = class == pclass and L["Power"] or nil
 	--local noDoc = class ~= pclass
 
-	local specialPowerEvents = "UNIT_POWER#player#" .. data.eventPowerIdentifier .. ";UNIT_MAXPOWER#player#" .. data.eventPowerIdentifier .. ";UNIT_DISPLAYPOWER#player"
+	local specialPowerEvents = "UNIT_POWER_UPDATE#player#" .. data.eventPowerIdentifier .. ";UNIT_MAXPOWER#player#" .. data.eventPowerIdentifier .. ";UNIT_DISPLAYPOWER#player"
 
 	DogTag:AddTag("Unit", tag, {
 		code = function()

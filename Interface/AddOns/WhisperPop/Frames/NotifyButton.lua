@@ -22,7 +22,7 @@ addon.frame:HookScript("OnHide", function()
 	button:SetChecked(false)
 end)
 
-button:SetPoint("LEFT", UIParent, "LEFT", 3, -105)
+button:SetPoint("LEFT", UIParent, "LEFT", 2, -190)
 button:SetMovable(true)
 button:SetUserPlaced(true)
 button:SetDontSavePosition(false)
