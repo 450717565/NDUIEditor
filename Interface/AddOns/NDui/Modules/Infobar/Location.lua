@@ -59,7 +59,14 @@ local function totalZone()
 	return totalzone
 end
 
-local function UpdateCoords(self, elapsed)
+info.eventList = {
+	"ZONE_CHANGED",
+	"ZONE_CHANGED_INDOORS",
+	"ZONE_CHANGED_NEW_AREA",
+	"PLAYER_ENTERING_WORLD",
+}
+
+info.onUpdate = function(self, elapsed)
 	self.elapsed = (self.elapsed or 0) + elapsed
 	if self.elapsed > .1 then
 		coordX, coordY = mapModule:PlayerCoords()
@@ -68,19 +75,11 @@ local function UpdateCoords(self, elapsed)
 	end
 end
 
-info.eventList = {
-	"ZONE_CHANGED",
-	"ZONE_CHANGED_INDOORS",
-	"ZONE_CHANGED_NEW_AREA",
-	"PLAYER_ENTERING_WORLD",
-}
-
 info.onEvent = function(self)
 	subzone, zone, pvp = GetSubZoneText(), GetZoneText(), {GetZonePVPInfo()}
 	if not pvp[1] then pvp[1] = "neutral" end
 	local r, g, b = unpack(zoneInfo[pvp[1]][2])
 
-	self:SetScript("OnUpdate", UpdateCoords)
 	self.text:SetFormattedText("%s <%s>", currentZone(), formatCoords())
 	self.text:SetTextColor(r, g, b)
 	self.text:SetJustifyH("LEFT")
