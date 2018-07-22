@@ -120,23 +120,10 @@ local function UpdateTooltip(bar)
 	end
 
 	if IsWatchingHonorAsXP() then
-		local current, max = UnitHonor("player"), UnitHonorMax("player")
-		local level, levelmax = UnitHonorLevel("player"), GetMaxPlayerHonorLevel()
-		local text
-		if CanPrestige() then
-			text = PVP_HONOR_PRESTIGE_AVAILABLE
-		elseif level == levelmax then
-			text = MAX_HONOR_LEVEL
-		else
-			text = current.." / "..max
-		end
+		local current, max, level = UnitHonor("player"), UnitHonorMax("player"), UnitHonorLevel("player")
 		GameTooltip:AddLine(" ")
-		if UnitPrestige("player") > 0 then
-			GameTooltip:AddLine(select(2, GetPrestigeInfo(UnitPrestige("player"))), .0,.6,1)
-		else
-			GameTooltip:AddLine(PVP_PRESTIGE_RANK_UP_TITLE..LEVEL.."0", .0,.6,1)
-		end
-		GameTooltip:AddDoubleLine(HONOR_POINTS..LEVEL..level, text, .6,.8,1, 1,1,1)
+		GameTooltip:AddLine(HONOR, .0,.6,1)
+		GameTooltip:AddDoubleLine(LEVEL.." "..level, current.." / "..max, .6,.8,1, 1,1,1)
 	end
 
 	if C_AzeriteItem.HasActiveAzeriteItem() then
@@ -155,16 +142,18 @@ local function UpdateTooltip(bar)
 		local num, xp, xpForNextPoint = ArtifactBarGetNumArtifactTraitsPurchasableFromXP(pointsSpent, totalXP, artifactTier)
 		GameTooltip:AddLine(" ")
 		if pointsSpent > 51 then
-			GameTooltip:AddLine(name.." ("..format(SPELLBOOK_AVAILABLE_AT.." - "..SPELLBOOK_AVAILABLE_AT, pointsSpent, pointsSpent-51)..")", 0,.6,1)
+			GameTooltip:AddLine(name.." ("..format(SPELLBOOK_AVAILABLE_AT.." - "..SPELLBOOK_AVAILABLE_AT, pointsSpent, pointsSpent - 51)..")", 0,.6,1)
 		else
 			GameTooltip:AddLine(name.." ("..format(SPELLBOOK_AVAILABLE_AT, pointsSpent)..")", 0,.6,1)
 		end
-		if pointsSpent < 126 then
-			GameTooltip:AddDoubleLine(ARTIFACT_POWER..L[":"], B.Numb(totalXP).." ("..num..")", .6,.8,1, 1,1,1)
+		if xpForNextPoint ~= 0 then
+			local numText = num > 0 and " ("..num..")" or ""
+			GameTooltip:AddDoubleLine(ARTIFACT_POWER..L[":"], B.Numb(totalXP)..numText, .6,.8,1, 1,1,1)
 			GameTooltip:AddDoubleLine(L["Next Trait"]..L[":"], B.Numb(xp).." / "..B.Numb(xpForNextPoint)..string.format(" (%.1f%%)", xp/xpForNextPoint*100), .6,.8,1, 1,1,1)
 			GameTooltip:AddDoubleLine(L["Need Trait"]..L[":"], B.Numb(xpForNextPoint-xp)..string.format(" (%.1f%%)", (1-xp/xpForNextPoint)*100), .6,.8,1, 1,1,1)
 		end
 	end
+
 	GameTooltip:Show()
 end
 
