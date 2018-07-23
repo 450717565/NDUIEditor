@@ -65,21 +65,21 @@ hooksecurefunc(StaticPopupDialogs["DELETE_GOOD_ITEM"], "OnShow", function(self)
 end)
 
 --- 新人加入公会自动欢迎
-do
-	B:RegisterEvent("CHAT_MSG_SYSTEM", function(_, _, msg)
-		if not NDuiDB["Extras"]["GuildWelcome"] then return end
-		local str = GUILDEVENT_TYPE_JOIN:gsub("%%s", "")
-		if msg:find(str) then
-			local name = msg:gsub(str, "")
-			name = Ambiguate(name, "guild")
-			if not UnitIsUnit(name, "player") then
-				C_Timer.After(random(1000) / 1000, function()
-					SendChatMessage(L["Guild Welcome Message"]:format(name), "GUILD")
-				end)
-			end
+local function GuildWelcome(self, event, msg)
+	if not NDuiDB["Extras"]["GuildWelcome"] then return end
+	local str = GUILDEVENT_TYPE_JOIN:gsub("%%s", "")
+	if msg:find(str) then
+		local name = msg:gsub(str, "")
+		name = Ambiguate(name, "guild")
+		if not UnitIsUnit(name, "player") then
+			C_Timer.After(random(1000) / 1000, function()
+				SendChatMessage(L["Guild Welcome Message"]:format(name), "GUILD")
+			end)
 		end
-	end)
+	end
 end
+B:RegisterEvent("CHAT_MSG_SYSTEM", GuildWelcome)
+
 --- 优化巅峰声望显示
 hooksecurefunc("ReputationFrame_Update",function()
 	ReputationFrame.paragonFramesPool:ReleaseAll()

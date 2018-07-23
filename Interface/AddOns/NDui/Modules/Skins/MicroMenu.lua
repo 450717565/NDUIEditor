@@ -3,10 +3,13 @@ local B, C, L, DB = unpack(ns)
 local module = B:GetModule("Skins")
 
 local buttonList = {}
-local cr, cg, cb = DB.CC.r, DB.CC.g, DB.CC.b
 
 local function CreateMicroButton(parent, data)
-	if not NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = 0, 0, 0 end
+	local alpha = NDuiDB["Extras"]["SkinColorA"]
+	local cr = NDuiDB["Extras"]["SkinColorR"]
+	local cg = NDuiDB["Extras"]["SkinColorG"]
+	local cb = NDuiDB["Extras"]["SkinColorB"]
+	if NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = DB.CC.r, DB.CC.g, DB.CC.b end
 
 	local texture, onside, tip, func = unpack(data)
 	local width, offset = 24, 0
@@ -22,7 +25,7 @@ local function CreateMicroButton(parent, data)
 	icon:SetPoint("CENTER", offset, 0)
 	icon:SetSize(50, 50)
 	icon:SetTexture(DB.MicroTex..texture)
-	icon:SetVertexColor(cr, cg, cb)
+	icon:SetVertexColor(cr, cg, cb, alpha)
 
 	local bg = B.CreateBG(bu, 0)
 	bg:SetPoint("TOPLEFT", 1, 0)

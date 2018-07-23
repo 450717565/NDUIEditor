@@ -207,6 +207,10 @@ local defaultSettings = {
 		PartyFrame = true,
 		ShowCharacterItemSheet = true,
 		ShowOwnFrameWhenInspecting = true,
+		SkinColorA = .8,
+		SkinColorB = .5,
+		SkinColorG = .5,
+		SkinColorR = .5,
 		SlotInfo = true,
 		StarCursor = true,
 	},
@@ -479,6 +483,16 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Extras", "OtherUFs", "|cff00FFFF"..L["Other UFs"]},
 		{4, "Extras", "ArrowColor", L["Arrow Color"], true, {L["Cyan"], L["Green"], L["Red"]}},
 		{},--blank
+		{3, "Extras", "SkinColorA", L["Skin Color A"], false, {0, 1, 2}},
+		{3, "Extras", "SkinColorR", "|cffFF0000"..L["Skin Color R"], true, {0, 1, 2}},
+		{3, "Extras", "SkinColorG", "|cff00FF00"..L["Skin Color G"], false, {0, 1, 2}},
+		{3, "Extras", "SkinColorB", "|cff0000FF"..L["Skin Color B"], true, {0, 1, 2}},
+		{},--blank
+		{1, "Extras", "Durability", L["Show Durability"]},
+		{1, "Extras", "MoveTalking", L["Move Talking"], true},
+		{1, "Extras", "SlotInfo", L["Slot Info"]},
+		{1, "Extras", "GuildWelcome", L["Guild Welcome"], true},
+		{},--blank
 		{1, "Extras", "ShowCharacterItemSheet", L["Show Character Item Sheet"]},
 		{1, "Extras", "ShowOwnFrameWhenInspecting", L["Show Own Frame When Inspecting"], true},
 		{1, "Extras", "LootMonitorInGroup", L["LootMonitor InGroup"]},
@@ -487,11 +501,6 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Extras", "LootMonitor", L["LootMonitor"]},
 		{1, "Extras", "StarCursor", L["Star Cursor"], true},
 		{1, "Extras", "iLvlTools", L["iLvlTools"]},
-		{},--blank
-		{1, "Extras", "Durability", L["Show Durability"]},
-		{1, "Extras", "MoveTalking", L["Move Talking"], true},
-		{1, "Extras", "SlotInfo", L["Slot Info"]},
-		{1, "Extras", "GuildWelcome", L["Guild Welcome"], true},
 	},
 }
 

@@ -356,25 +356,47 @@ if IsAddOnLoaded("AuroraClassic") then
 			WQT_TabNormal.TabBg:Hide()
 			WQT_TabNormal.Hider:Hide()
 			WQT_TabNormal.Highlight:SetTexture("")
+			WQT_TabNormal.Icon:SetPoint("CENTER", 0, 0)
+
+			WQT_TabWorld:ClearAllPoints()
+			WQT_TabWorld:SetPoint("LEFT", WQT_TabNormal, "RIGHT", 2, 0)
 			WQT_TabWorld.TabBg:Hide()
 			WQT_TabWorld.Hider:Hide()
 			WQT_TabWorld.Highlight:SetTexture("")
+			WQT_TabWorld.Icon:SetPoint("CENTER", 0, 0)
+
+			F.StripTextures(WQT_WorldQuestFrame, true)
 			F.Reskin(WQT_TabNormal)
 			F.Reskin(WQT_TabWorld)
 			F.ReskinDropDown(WQT_WorldQuestFrameSortButton)
 			F.ReskinFilterButton(WQT_WorldQuestFrameFilterButton)
 			F.ReskinScroll(WQT_QuestScrollFrameScrollBar)
 
+			WQT_WorldQuestFrame.filterBar:GetRegions():Hide()
+
+			local WQTDF = WQT_QuestScrollFrame.DetailFrame
+			WQTDF.TopDetail:Hide()
+			WQTDF.BottomDetail:Hide()
+
 			for i = 1, 2 do
 				select(i, WQT_QuestScrollFrameScrollBar:GetRegions()):Hide()
 			end
 			for r = 1, 15 do
 				local bu = _G["WQT_QuestScrollFrameButton"..r]
-				local re = bu.reward
-				re:SetSize(26, 26)
-				re.icon:SetTexCoord(.08, .92, .08, .92)
-				re.iconBorder:Hide()
-				F.CreateBDFrame(re.icon)
+
+				local rw = bu.reward
+				rw:SetSize(26, 26)
+				rw.icon:SetTexCoord(.08, .92, .08, .92)
+				rw.iconBorder:Hide()
+				F.CreateBDFrame(rw.icon)
+
+				local fac = bu.faction
+				fac.icon:SetTexCoord(.08, .92, .08, .92)
+				F.CreateBDFrame(fac.icon)
+
+				local tm = bu.time
+				tm:ClearAllPoints()
+				tm:SetPoint("LEFT", fac, "RIGHT", 5, -7)
 			end
 		end
 

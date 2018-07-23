@@ -2,15 +2,25 @@
 local B, C, L, DB = unpack(ns)
 local module = B:RegisterModule("Maps")
 
-function module:PlayerCoords()
-	local px, py = 0, 0
-	local mapID = C_Map.GetBestMapForUnit("player")
+local mapRects = {}
+local tempVec2D = CreateVector2D(0, 0)
 
-	if not IsInInstance() and mapID then
-		px, py = C_Map.GetPlayerMapPosition(mapID, "player"):GetXY()
+function module:PlayerCoords(mapID)
+	tempVec2D.x, tempVec2D.y = UnitPosition("player")
+	if not tempVec2D.x or not mapID then return end
+
+	local mapRect = mapRects[mapID]
+	if not mapRect then
+		mapRect = {}
+		mapRect[1] = select(2, C_Map.GetWorldPosFromMapPos(mapID, CreateVector2D(0, 0)))
+		mapRect[2] = select(2, C_Map.GetWorldPosFromMapPos(mapID, CreateVector2D(1, 1)))
+		mapRect[2]:Subtract(mapRect[1])
+
+		mapRects[mapID] = mapRect
 	end
+	tempVec2D:Subtract(mapRect[1])
 
-	return px, py
+	return tempVec2D.y/mapRect[2].y, tempVec2D.x/mapRect[2].x
 end
 
 function module:OnLogin()
@@ -55,6 +65,15 @@ function module:OnLogin()
 		width, height = mapBody:GetWidth(), mapBody:GetHeight()
 	end)
 
+	local mapID
+	hooksecurefunc(WorldMapFrame, "OnMapChanged", function(self)
+		if self:GetMapID() == C_Map.GetBestMapForUnit("player") then
+			mapID = self:GetMapID()
+		else
+			mapID = nil
+		end
+	end)
+
 	local function CursorCoords()
 		local left, top = mapBody:GetLeft() or 0, mapBody:GetTop() or 0
 		local x, y = GetCursorPosition()
@@ -79,7 +98,7 @@ function module:OnLogin()
 				cursor:SetText(CoordsFormat(mouseText, true))
 			end
 
-			local px, py = module:PlayerCoords()
+			local px, py = module:PlayerCoords(mapID)
 			if (px and px~= 0) and (py and py~= 0) then
 				player:SetFormattedText(CoordsFormat(playerText), 100 * px, 100 * py)
 			else
@@ -92,4 +111,8 @@ function module:OnLogin()
 
 	local CoordsUpdater = CreateFrame("Frame", nil, WorldMapFrame.BorderFrame)
 	CoordsUpdater:SetScript("OnUpdate", UpdateCoords)
+
+	-- Elements
+	self:SetupMinimap()
+	--self:MapReveal()
 end

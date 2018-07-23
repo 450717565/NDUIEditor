@@ -69,7 +69,7 @@ info.eventList = {
 info.onUpdate = function(self, elapsed)
 	self.elapsed = (self.elapsed or 0) + elapsed
 	if self.elapsed > .1 then
-		coordX, coordY = mapModule:PlayerCoords()
+		coordX, coordY = mapModule:PlayerCoords(C_Map.GetBestMapForUnit("player"))
 		self:GetScript("onEvent")(self)
 		self.elapsed = 0
 	end
