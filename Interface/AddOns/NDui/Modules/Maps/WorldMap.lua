@@ -114,5 +114,5 @@ function module:OnLogin()
 
 	-- Elements
 	self:SetupMinimap()
-	--self:MapReveal()
+	self:MapReveal()
 end

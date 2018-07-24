@@ -356,14 +356,14 @@ if IsAddOnLoaded("AuroraClassic") then
 			WQT_TabNormal.TabBg:Hide()
 			WQT_TabNormal.Hider:Hide()
 			WQT_TabNormal.Highlight:SetTexture("")
-			WQT_TabNormal.Icon:SetPoint("CENTER", 0, 0)
+			WQT_TabNormal.Icon:SetPoint("CENTER")
 
 			WQT_TabWorld:ClearAllPoints()
 			WQT_TabWorld:SetPoint("LEFT", WQT_TabNormal, "RIGHT", 2, 0)
 			WQT_TabWorld.TabBg:Hide()
 			WQT_TabWorld.Hider:Hide()
 			WQT_TabWorld.Highlight:SetTexture("")
-			WQT_TabWorld.Icon:SetPoint("CENTER", 0, 0)
+			WQT_TabWorld.Icon:SetPoint("CENTER")
 
 			F.StripTextures(WQT_WorldQuestFrame, true)
 			F.Reskin(WQT_TabNormal)

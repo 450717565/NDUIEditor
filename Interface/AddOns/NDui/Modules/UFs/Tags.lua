@@ -2,6 +2,20 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local oUF = ns.oUF or oUF
 
+local function ColorPercent(value)
+	local r, g, b
+	if value < 20 then
+		r, g, b = 1, .1, .1
+	elseif value < 35 then
+		r, g, b = 1, .5, 0
+	elseif value < 80 then
+		r, g, b = 1, .9, .3
+	else
+		r, g, b = 1, 1, 1
+	end
+	return B.HexRGB(r, g, b)..value
+end
+
 oUF.Tags.Methods["hp"] = function(unit)
 	if UnitIsDeadOrGhost(unit) or not UnitIsConnected(unit) then
 		return oUF.Tags.Methods["DDG"](unit)
@@ -49,7 +63,7 @@ end
 oUF.Tags.Events["power"] = "UNIT_POWER_FREQUENT UNIT_MAXPOWER UNIT_DISPLAYPOWER"
 
 oUF.Tags.Methods["color"] = function(unit)
-	local _, class = UnitClass(unit)
+	local class = select(2, UnitClass(unit))
 	local reaction = UnitReaction(unit, "player")
 
 	if UnitIsDeadOrGhost(unit) or not UnitIsConnected(unit) then
@@ -67,7 +81,13 @@ end
 oUF.Tags.Events["color"] = "UNIT_HEALTH UNIT_CONNECTION"
 
 oUF.Tags.Methods["afkdnd"] = function(unit)
-	return UnitIsAFK(unit) and " |cffC0C0C0<"..AFK..">|r" or UnitIsDND(unit) and " |cffC0C0C0<"..DND..">|r" or ""
+	if UnitIsAFK(unit) then
+		return " |cffC0C0C0<"..AFK..">|r"
+	elseif UnitIsDND(unit) then
+		return " |cffC0C0C0<"..DND..">|r"
+	else
+		return ""
+	end
 end
 oUF.Tags.Events["afkdnd"] = "PLAYER_FLAGS_CHANGED"
 
@@ -130,8 +150,7 @@ oUF.Tags.Methods["raidhp"] = function(unit)
 	if UnitIsDeadOrGhost(unit) or not UnitIsConnected(unit) then
 		return oUF.Tags.Methods["DDG"](unit)
 	else
-		local per = oUF.Tags.Methods["perhp"](unit).."%" or 0
-		return per
+		return oUF.Tags.Methods["perhp"](unit).."%" or 0
 	end
 end
 oUF.Tags.Events["raidhp"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION"

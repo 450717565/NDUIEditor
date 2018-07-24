@@ -15,6 +15,7 @@ function module:OnLogin()
 	self:ShowDurability()
 	self:QuickJoin()
 	self:QuestNotifier()
+	self:GuildBest()
 
 	-- Hide Bossbanner
 	if NDuiDB["Misc"]["HideBanner"] then

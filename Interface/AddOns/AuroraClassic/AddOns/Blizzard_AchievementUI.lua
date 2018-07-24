@@ -3,16 +3,14 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_AchievementUI"] = function()
 	local r, g, b = C.r, C.g, C.b
 
+	F.StripTextures(AchievementFrame, true)
 	F.CreateBD(AchievementFrame)
 	F.CreateSD(AchievementFrame)
 	AchievementFrameCategories:SetBackdrop(nil)
-	AchievementFrameSummary:SetBackdrop(nil)
-	for i = 1, 17 do
-		select(i, AchievementFrame:GetRegions()):Hide()
-	end
-	AchievementFrameSummaryBackground:Hide()
-	AchievementFrameSummary:GetChildren():Hide()
 	AchievementFrameCategoriesContainerScrollBarBG:SetAlpha(0)
+	AchievementFrameSummary:SetBackdrop(nil)
+	AchievementFrameSummary:GetChildren():Hide()
+	AchievementFrameSummaryBackground:Hide()
 	for i = 1, 4 do
 		select(i, AchievementFrameHeader:GetRegions()):Hide()
 	end

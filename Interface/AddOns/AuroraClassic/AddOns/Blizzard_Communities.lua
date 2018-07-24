@@ -79,6 +79,7 @@ C.themes["Blizzard_Communities"] = function()
 
 	do
 		local dialog = CommunitiesFrame.NotificationSettingsDialog
+		dialog.ScrollFrame.Child.Separator:Hide()
 		F.StripTextures(dialog)
 		dialog.BG:Hide()
 		F.SetBD(dialog)
@@ -98,6 +99,7 @@ C.themes["Blizzard_Communities"] = function()
 				if child.StreamName and not child.styled then
 					F.ReskinRadio(child.ShowNotificationsButton)
 					F.ReskinRadio(child.HideNotificationsButton)
+					child.Separator:Hide()
 
 					child.styled = true
 				end
@@ -292,20 +294,18 @@ C.themes["Blizzard_Communities"] = function()
 	end)
 
 	-- Benefits
-	CommunitiesFrame.GuildBenefitsFrame.Perks:GetRegions():SetAlpha(0)
-	CommunitiesFrame.GuildBenefitsFrame.InsetBorderLeft:SetAlpha(0)
-	CommunitiesFrame.GuildBenefitsFrame.InsetBorderLeft2:SetAlpha(0)
-	CommunitiesFrame.GuildBenefitsFrame.InsetBorderTopLeft2:SetAlpha(0)
-	CommunitiesFrame.GuildBenefitsFrame.InsetBorderBottomLeft2:SetAlpha(0)
-	CommunitiesFrame.GuildBenefitsFrame.InsetBorderRight:SetAlpha(0)
-	CommunitiesFrame.GuildBenefitsFrame.Rewards.Bg:SetAlpha(0)
+	CommunitiesFrame.GuildBenefitsFrame.Perks:GetRegions():Hide()
+	CommunitiesFrame.GuildBenefitsFrame.Rewards.Bg:Hide()
+	F.StripTextures(CommunitiesFrame.GuildBenefitsFrame, true)
 	F.ReskinScroll(CommunitiesFrameRewards.scrollBar)
 
 	local factionFrameBar = CommunitiesFrame.GuildBenefitsFrame.FactionFrame.Bar
 	F.StripTextures(factionFrameBar)
 	F.CreateBDFrame(factionFrameBar, .25)
 	factionFrameBar.Progress:SetTexture(C.media.statusbar)
-	factionFrameBar.Progress:SetAllPoints()
+	factionFrameBar.Progress:SetVertexColor(r*.8, g*.8, b*.8)
+	factionFrameBar.Progress:SetPoint("TOPLEFT")
+	factionFrameBar.Progress:SetPoint("BOTTOMLEFT")
 
 	hooksecurefunc("CommunitiesGuildPerks_Update", function(self)
 		local buttons = self.Container.buttons

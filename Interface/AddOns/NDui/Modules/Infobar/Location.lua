@@ -18,7 +18,16 @@ local zoneInfo = {
 
 local subzone, zone, pvp, coordX, coordY
 
-local function formatCoords()
+local function UpdateCoords(self, elapsed)
+	self.elapsed = (self.elapsed or 0) + elapsed
+	if self.elapsed > .1 then
+		coordX, coordY = mapModule:PlayerCoords(C_Map.GetBestMapForUnit("player"))
+		self:GetScript("onEvent")(self)
+		self.elapsed = 0
+	end
+end
+
+local function FormatCoords()
 	local coords = ""
 	if IsInInstance() then
 		local name, instanceType, difficultyID, difficultyName = GetInstanceInfo()
@@ -39,7 +48,7 @@ local function formatCoords()
 	return coords
 end
 
-local function currentZone()
+local function CurrentZone()
 	local currentzone = ""
 	if subzone and subzone ~= "" and subzone ~= zone then
 		currentzone = subzone
@@ -49,7 +58,7 @@ local function currentZone()
 	return currentzone
 end
 
-local function totalZone()
+local function TotalZone()
 	local totalzone = ""
 	if subzone and subzone ~= "" and subzone ~= zone then
 		totalzone = zone.." - "..subzone
@@ -66,21 +75,14 @@ info.eventList = {
 	"PLAYER_ENTERING_WORLD",
 }
 
-info.onUpdate = function(self, elapsed)
-	self.elapsed = (self.elapsed or 0) + elapsed
-	if self.elapsed > .1 then
-		coordX, coordY = mapModule:PlayerCoords(C_Map.GetBestMapForUnit("player"))
-		self:GetScript("onEvent")(self)
-		self.elapsed = 0
-	end
-end
-
 info.onEvent = function(self)
+	self:SetScript("OnUpdate", UpdateCoords)
+
 	subzone, zone, pvp = GetSubZoneText(), GetZoneText(), {GetZonePVPInfo()}
 	if not pvp[1] then pvp[1] = "neutral" end
 	local r, g, b = unpack(zoneInfo[pvp[1]][2])
 
-	self.text:SetFormattedText("%s <%s>", currentZone(), formatCoords())
+	self.text:SetFormattedText("%s <%s>", CurrentZone(), FormatCoords())
 	self.text:SetTextColor(r, g, b)
 	self.text:SetJustifyH("LEFT")
 end
@@ -124,6 +126,6 @@ info.onMouseUp = function(_, btn)
 		LFGListCategorySelection_SelectCategory(LFGListFrame.CategorySelection, 6, 0)
 		LFGListCategorySelection_StartFindGroup(LFGListFrame.CategorySelection, zone)
 	elseif btn == "RightButton" then
-		ChatFrame_OpenChat(format("%s %s <%s>", L["My Position"], totalZone(), formatCoords()), SELECTED_DOCK_FRAME)
+		ChatFrame_OpenChat(format("%s %s <%s>", L["My Position"], TotalZone(), FormatCoords()), SELECTED_DOCK_FRAME)
 	end
 end

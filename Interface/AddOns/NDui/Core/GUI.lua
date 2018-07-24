@@ -100,6 +100,7 @@ local defaultSettings = {
 		MinmapScale = 1.2,
 		ShowRecycleBin = true,
 		WhoPings = true,
+		MapReveal = true,
 	},
 	Nameplate = {
 		Enable = true,

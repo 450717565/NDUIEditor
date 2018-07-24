@@ -6,7 +6,7 @@ local rowCount = 4
 
 local requestKeystoneCheck
 
--- 1: Overflowing, 2: Skittish, 3: Volcanic, 4: Necrotic, 5: Teeming, 6: Raging, 7: Bolstering, 8: Sanguine, 9: Tyrannical, 10: Fortified, 11: Bursting, 12: Grievous, 13: Explosive, 14: Quaking
+-- 1: 溢出, 2: 无常, 3: 火山, 4: 死疽, 5: 繁盛, 6: 暴怒, 7: 激励, 8: 血池, 9: 残暴, 10: 强韧, 11: 崩裂, 12: 重伤, 13: 易爆, 14: 震荡
 local affixSchedule = {
 	{ 6, 3, 9 },
 	{ 5, 13, 10 },
@@ -70,13 +70,9 @@ local function makeAffix(parent)
 end
 
 function Mod:Blizzard_ChallengesUI()
-	ChallengesFrame.GuildBest:ClearAllPoints()
-	ChallengesFrame.GuildBest:SetPoint("TOPLEFT", ChallengesFrame.WeeklyBest.Child.Star, "BOTTOMRIGHT", 9, 30)
-
 	local frame = CreateFrame("Frame", nil, ChallengesFrame)
-	frame:SetSize(206, 110)
-	frame:SetPoint("TOP", ChallengesFrame.WeeklyBest.Child.Star, "BOTTOM", 0, 30)
-	frame:SetPoint("LEFT", ChallengesFrame, "LEFT", 40, 0)
+	frame:SetPoint("BOTTOMLEFT", 6, 70)
+	frame:SetSize(170, 110)
 	Mod.Frame = frame
 
 	local bg = frame:CreateTexture(nil, "BACKGROUND")
@@ -86,7 +82,7 @@ function Mod:Blizzard_ChallengesUI()
 
 	local title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalMed2")
 	title:SetText(Addon.Locale.scheduleTitle)
-	title:SetPoint("TOPLEFT", 15, -7)
+	title:SetPoint("TOPLEFT", 10, -9)
 
 	local line = frame:CreateTexture(nil, "ARTWORK")
 	line:SetSize(192, 9)
@@ -145,9 +141,9 @@ end
 
 function Mod:CheckInventoryKeystone()
 	currentWeek = nil
-	for container=BACKPACK_CONTAINER, NUM_BAG_SLOTS do
+	for container = BACKPACK_CONTAINER, NUM_BAG_SLOTS do
 		local slots = GetContainerNumSlots(container)
-		for slot=1, slots do
+		for slot = 1, slots do
 			local _, _, _, _, _, _, slotLink = GetContainerItemInfo(container, slot)
 			local itemString = slotLink and slotLink:match("|Hkeystone:([0-9:]+)|h(%b[])|h")
 			if itemString then

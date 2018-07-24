@@ -274,7 +274,7 @@ local function EncounterJournalEncounter_OnHook()
 	end)
 end
 
-function InstanceInfo_OnEvent(self, event, arg1)
+function InstanceInfo_OnEvent(event, arg1)
 	if event == "ADDON_LOADED" and arg1 == "Blizzard_EncounterJournal" then
 		hooksecurefunc(EncounterJournal, "Show", function()
 			local dungeonsTab, raidsTab = GetEncounterJournalInstanceTabs()

@@ -151,20 +151,14 @@ C.themes["Blizzard_GuildUI"] = function()
 		bu:GetRegions():SetVertexColor(r, g, b, .2)
 	end
 
+	F.StripTextures(GuildFactionBar)
+	F.CreateBDFrame(GuildFactionBar, .25)
+	GuildFactionBar:ClearAllPoints()
+	GuildFactionBar:SetPoint("BOTTOMLEFT", 0, -3)
 	GuildFactionBarProgress:SetTexture(C.media.statusbar)
 	GuildFactionBarProgress:SetVertexColor(r*.8, g*.8, b*.8)
-	GuildFactionBarLeft:Hide()
-	GuildFactionBarMiddle:Hide()
-	GuildFactionBarRight:Hide()
-	GuildFactionBarShadow:SetAlpha(0)
-	GuildFactionBarBG:Hide()
-	GuildFactionBarCap:SetAlpha(0)
-	GuildFactionBar.bg = CreateFrame("Frame", nil, GuildFactionFrame)
-	GuildFactionBar.bg:SetPoint("TOPLEFT", GuildFactionFrame, -1, -1)
-	GuildFactionBar.bg:SetPoint("BOTTOMRIGHT", GuildFactionFrame, -3, 0)
-	GuildFactionBar.bg:SetFrameLevel(0)
-	F.CreateBD(GuildFactionBar.bg, .25)
-	F.CreateSD(GuildFactionBar.bg)
+	GuildFactionBarProgress:SetPoint("TOPLEFT")
+	GuildFactionBarProgress:SetPoint("BOTTOMLEFT")
 
 	for _, bu in pairs(GuildPerksContainer.buttons) do
 		for i = 1, 4 do
@@ -196,7 +190,7 @@ C.themes["Blizzard_GuildUI"] = function()
 				bu.bg = F.CreateBDFrame(bu, .25)
 				bu.bg:ClearAllPoints()
 				bu.bg:SetPoint("TOPLEFT", 1, -1)
-				bu.bg:SetPoint("BOTTOMRIGHT", 0, 0)
+				bu.bg:SetPoint("BOTTOMRIGHT", 0, 2)
 			end
 		end
 	end)
