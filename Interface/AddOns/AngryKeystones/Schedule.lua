@@ -6,7 +6,7 @@ local rowCount = 4
 
 local requestKeystoneCheck
 
--- 1: æº¢å‡º, 2: æ— å¸¸, 3: ç«å±±, 4: æ­»ç–½, 5: ç¹ç››, 6: æš´æ€’, 7: æ¿€åŠ±, 8: è¡€æ± , 9: æ®‹æš´, 10: å¼ºéŸ§, 11: å´©è£‚, 12: é‡ä¼¤, 13: æ˜“çˆ†, 14: éœ‡è¡
+-- 1: Òç³ö, 2: ÎŞ³£, 3: »ğÉ½, 4: ËÀ¾Ò, 5: ·±Ê¢, 6: ±©Å­, 7: ¼¤Àø, 8: Ñª³Ø, 9: ²Ğ±©, 10: Ç¿ÈÍ, 11: ±ÀÁÑ, 12: ÖØÉË, 13: Ò×±¬, 14: Õğµ´
 local affixSchedule = {
 	{ 6, 3, 9 },
 	{ 5, 13, 10 },
@@ -141,9 +141,9 @@ end
 
 function Mod:CheckInventoryKeystone()
 	currentWeek = nil
-	for container = BACKPACK_CONTAINER, NUM_BAG_SLOTS do
+	for container=BACKPACK_CONTAINER, NUM_BAG_SLOTS do
 		local slots = GetContainerNumSlots(container)
-		for slot = 1, slots do
+		for slot=1, slots do
 			local _, _, _, _, _, _, slotLink = GetContainerItemInfo(container, slot)
 			local itemString = slotLink and slotLink:match("|Hkeystone:([0-9:]+)|h(%b[])|h")
 			if itemString then

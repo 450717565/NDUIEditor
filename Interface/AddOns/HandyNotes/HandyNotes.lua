@@ -97,7 +97,7 @@ local function getNewPin()
 	local texture = pin:CreateTexture(nil, "OVERLAY")
 	pin.texture = texture
 	texture:SetAllPoints(pin)
-	pin:RegisterForClicks("LeftButtonDown", "LeftButtonUp", "RightButtonDown", "RightButtonUp")
+	pin:RegisterForClicks("AnyUp", "AnyDown")
 	pin:SetMovable(true)
 	pin:Hide()
 	return pin
@@ -296,20 +296,6 @@ end
 
 HandyNotes.WorldMapDataProvider = CreateFromMixins(MapCanvasDataProviderMixin)
 
-function HandyNotes.WorldMapDataProvider:OnShow()
-	--self:RegisterEvent("WORLD_MAP_UPDATE")
-end
-
-function HandyNotes.WorldMapDataProvider:OnHide()
-	--self:UnregisterEvent("WORLD_MAP_UPDATE")
-end
-
-function HandyNotes.WorldMapDataProvider:OnEvent(event, ...)
-	--[[if event == "WORLD_MAP_UPDATE" then
-		self:RefreshAllData()
-	end]]
-end
-
 function HandyNotes.WorldMapDataProvider:RemoveAllData()
 	if self:GetMap() then
 		self:GetMap():RemoveAllPinsByTemplate("HandyNotesWorldMapPinTemplate")
@@ -345,7 +331,9 @@ function HandyNotes.WorldMapDataProvider:RefreshPlugin(pluginName)
 		if not HandyNotes.plugins[pluginName].GetNodes2 then
 			mapFile = select(3, HBDMigrate:GetLegacyMapInfo(uiMapID2 or uiMapID))
 		end
-		self:GetMap():AcquirePin("HandyNotesWorldMapPinTemplate", pluginName, x, y, iconpath, scale, alpha, coord, uiMapID2 or uiMapID, mapFile)
+		if x and y then
+			self:GetMap():AcquirePin("HandyNotesWorldMapPinTemplate", pluginName, x, y, iconpath, scale, alpha, coord, uiMapID2 or uiMapID, mapFile)
+		end
 	end
 end
 
@@ -354,7 +342,6 @@ HandyNotesWorldMapPinMixin = CreateFromMixins(MapCanvasPinMixin)
 
 function HandyNotesWorldMapPinMixin:OnLoad()
 	self:UseFrameLevelType("PIN_FRAME_LEVEL_AREA_POI")
-	--self:RegisterForClicks("LeftButtonDown", "LeftButtonUp", "RightButtonDown", "RightButtonUp")
 	self:SetMovable(true)
 	self:SetScalingLimits(1, 1.0, 1.2);
 end
@@ -477,7 +464,7 @@ function HandyNotes:UpdateMinimapPlugin(pluginName)
 			icon.mapFile = select(3, HBDMigrate:GetLegacyMapInfo(uiMapID2 or uiMapID))
 		else
 			icon.mapFile = nil
-		 end
+		end
 		icon.uiMapID = uiMapID2 or uiMapID
 	end
 end

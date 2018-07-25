@@ -663,7 +663,6 @@ local margin = C.UFs.BarMargin
 local width, height = unpack(C.UFs.BarSize)
 
 local function postUpdateClassPower(element, cur, max, diff, powerType, event)
-	if NDuiDB["Extras"]["OtherUFs"] then width = 100 end
 	if diff or event == "ClassPowerEnable" then
 		for i = 1, 6 do
 			element[i]:SetWidth((width - (max-1)*margin)/max)
@@ -686,11 +685,12 @@ local function postUpdateClassPower(element, cur, max, diff, powerType, event)
 end
 
 function UF:CreateClassPower(self)
+	if NDuiDB["Extras"]["OtherUFs"] then width = 100 end
 	if self.mystyle == "PlayerPlate" then
 		width, height = self:GetWidth(), self:GetHeight()*2 + 3
 		C.UFs.BarPos = {"BOTTOMLEFT", self, "TOPLEFT", 0, 3}
 	end
-	if NDuiDB["Extras"]["OtherUFs"] then width = 100 end
+	
 	local bars = {}
 	for i = 1, 6 do
 		bars[i] = CreateFrame("StatusBar", nil, self.Health)
@@ -699,7 +699,7 @@ function UF:CreateClassPower(self)
 		bars[i]:SetStatusBarTexture(DB.normTex)
 		bars[i]:SetFrameLevel(self:GetFrameLevel() + 2)
 		B.CreateSD(bars[i], 3, 3)
-		if not NDuiDB["Extras"]["OtherUFs"] then
+		if not NDuiDB["Extras"]["OtherUFs"] or NDuiDB["Nameplate"]["ShowPlayerPlate"] then
 			if i == 1 then
 				bars[i]:SetPoint(unpack(C.UFs.BarPos))
 			else
