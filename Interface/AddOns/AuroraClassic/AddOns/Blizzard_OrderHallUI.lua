@@ -4,8 +4,8 @@ C.themes["Blizzard_OrderHallUI"] = function()
 	-- Orderhall tooltips
 	if AuroraConfig.tooltips then
 		GarrisonFollowerAbilityWithoutCountersTooltip:DisableDrawLayer("BACKGROUND")
-		GarrisonFollowerMissionAbilityWithoutCountersTooltip:DisableDrawLayer("BACKGROUND")
 		F.CreateBDFrame(GarrisonFollowerAbilityWithoutCountersTooltip)
+		GarrisonFollowerMissionAbilityWithoutCountersTooltip:DisableDrawLayer("BACKGROUND")
 		F.CreateBDFrame(GarrisonFollowerMissionAbilityWithoutCountersTooltip)
 	end
 

@@ -90,6 +90,7 @@ local list = {
 		{AuraID = 203975, UnitID = "player", Combat = true},--大地守卫者
 		{AuraID = 252216, UnitID = "player"},--猛虎冲刺
 		{AuraID = 279709, UnitID = "player"},--星辰领主
+		{AuraID = 279943, UnitID = "player"}, 	-- 锋利兽爪
 	},
 	["Spell CD"] = { -- 技能冷却计时组
 		{TotemID =      1, UnitID = "player"},--蘑菇

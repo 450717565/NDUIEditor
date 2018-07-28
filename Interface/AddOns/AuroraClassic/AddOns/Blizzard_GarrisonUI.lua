@@ -122,8 +122,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		local missionComplete = self.MissionComplete
 		local bonusRewards = missionComplete.BonusRewards
 		select(11, bonusRewards:GetRegions()):SetTextColor(1, .8, 0)
-		bonusRewards.Saturated:Hide()
-		bonusRewards.Saturated.Show = F.dummy
+		F.StripTextures(bonusRewards.Saturated)
 		for i = 1, 9 do
 			select(i, bonusRewards:GetRegions()):SetAlpha(0)
 		end
@@ -252,6 +251,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 		F.ReskinMissionComplete(self)
 		F.ReskinMissionPage(self.MissionTab.MissionPage)
+		F.StripTextures(self.FollowerTab)
 		F.ReskinXPBar(self.FollowerTab)
 
 		for _, item in pairs({self.FollowerTab.ItemWeapon, self.FollowerTab.ItemArmor}) do
@@ -373,9 +373,9 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 		for i = 1, 9 do
 			select(i, BuildingLevelTooltip:GetRegions()):Hide()
-			F.CreateBD(BuildingLevelTooltip)
-			F.CreateSD(BuildingLevelTooltip)
 		end
+		F.CreateBD(BuildingLevelTooltip)
+		F.CreateSD(BuildingLevelTooltip)
 	end
 
 	-- Follower list
@@ -712,9 +712,9 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	if AuroraConfig.tooltips then
 		GarrisonMissionMechanicTooltip:SetBackdrop(nil)
+		F.CreateBDFrame(GarrisonMissionMechanicTooltip)
 		GarrisonMissionMechanicFollowerCounterTooltip:SetBackdrop(nil)
-		F.CreateBDFrame(GarrisonMissionMechanicTooltip, .6)
-		F.CreateBDFrame(GarrisonMissionMechanicFollowerCounterTooltip, .6)
+		F.CreateBDFrame(GarrisonMissionMechanicFollowerCounterTooltip)
 	end
 
 	-- [[ Recruiter frame ]]

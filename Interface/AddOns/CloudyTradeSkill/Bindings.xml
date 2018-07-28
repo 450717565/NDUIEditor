@@ -1,0 +1,13 @@
+<!--
+	Cloudy TradeSkill
+	Copyright (c) 2016, Cloudyfa
+	All rights reserved.
+-->
+
+<Bindings>
+	<Binding name="Cloudy TradeSkill" category="ADDONS">
+		if CTradeSkillDB and CTradeSkillDB['Panel'] then
+			CastSpellByID(CTradeSkillDB['Panel'])
+		end
+	</Binding>
+</Bindings>

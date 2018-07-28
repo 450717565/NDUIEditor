@@ -4,7 +4,7 @@
 ## Author: Ermad
 ## SavedVariables: AngryWorldQuests_Config
 ## SavedVariablesPerCharacter: AngryWorldQuests_CharacterConfig
-## X-Packaged-Version: v0.19.3
+## X-Packaged-Version: v0.19.5
 
 Core.lua
 
@@ -13,4 +13,3 @@ Locale.lua
 
 QuestFrame.lua
 Data.lua
-FlightMap.lua

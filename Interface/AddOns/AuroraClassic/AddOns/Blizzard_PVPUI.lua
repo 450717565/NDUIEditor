@@ -160,8 +160,6 @@ C.themes["Blizzard_PVPUI"] = function()
 	if AuroraConfig.tooltips then
 		F.CreateBD(ConquestTooltip)
 		F.CreateSD(ConquestTooltip)
-		F.CreateBD(PVPRewardTooltip)
-		F.CreateSD(PVPRewardTooltip)
 	end
 
 	local ConquestFrameButton_OnEnter = function(self)
