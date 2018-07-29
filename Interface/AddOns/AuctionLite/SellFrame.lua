@@ -818,8 +818,10 @@ function AuctionLite:UserChangedPrices()
   -- If we're pricing by stack, divide by our stack size.
   if self.db.profile.method == METHOD_PER_STACK then
     local stackSize = SellSize:GetNumber();
-    bid = bid / stackSize;
-    buyout = buyout / stackSize;
+    if stacksize > 0 then
+      bid = bid / stackSize;
+      buyout = buyout / stackSize;
+    end
   end
 
   -- Set our new state.

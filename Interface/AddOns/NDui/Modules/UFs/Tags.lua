@@ -23,7 +23,7 @@ oUF.Tags.Methods["hp"] = function(unit)
 		local per = oUF.Tags.Methods["perhp"](unit).."%" or 0
 		local cur, max = UnitHealth(unit), UnitHealthMax(unit)
 
-		if unit == "player" or unit == "target" or unit == "focus" then
+		if (unit == "player" and not UnitHasVehicleUI(unit)) or unit == "target" or unit == "focus" then
 			if cur < max then
 				if NDuiDB["Extras"]["OtherUFs"] and unit == "player" then
 					return per.." | "..B.Numb(cur)
@@ -46,7 +46,7 @@ oUF.Tags.Methods["power"] = function(unit)
 	local cur, max = UnitPower(unit), UnitPowerMax(unit)
 	local per = oUF.Tags.Methods["perpp"](unit).."%" or 0
 
-	if unit == "player" or unit == "target" or unit == "focus" then
+	if (unit == "player" and not UnitHasVehicleUI(unit)) or unit == "target" or unit == "focus" then
 		if cur < max and UnitPowerType(unit) == 0 then
 			if NDuiDB["Extras"]["OtherUFs"] and unit == "player" then
 				return per.." | "..B.Numb(cur)

@@ -36,7 +36,7 @@ if IsAddOnLoaded("AuroraClassic") then
 				F.Reskin(_G["BaudErrorFrame"..v])
 			end
 		end
-
+--[[
 		if IsAddOnLoaded("!Libs") then
 			-- LibUIDropDownMenu
 			local function SkinDDM(info, level)
@@ -65,24 +65,7 @@ if IsAddOnLoaded("AuroraClassic") then
 			end
 			hooksecurefunc("L_UIDropDownMenu_AddButton", SkinDDM)
 		end
-
-		if IsAddOnLoaded("APIInterface") then
-			APIIListsInsetLeft.Bg:Hide()
-			F.CreateBD(APII_Core)
-			F.CreateSD(APII_Core)
-			F.ReskinClose(APII_Core.CloseButton)
-			F.ReskinInput(APIILists.searchBox)
-			F.ReskinScroll(APIIListsSystemListScrollBar)
-
-			local list = {"TitleBackground", "InsetTopBorder", "InsetBottomBorder", "InsetLeftBorder", "InsetRightBorder", "InsetTopLeftCorner", "InsetTopRightCorner", "InsetBotLeftCorner", "InsetBotRightCorner"}
-			for k, v in pairs(list) do
-				_G["APIIListsInsetLeft"..v]:Hide()
-			end
-			for i = 1, 16 do
-				select(i, APII_Core:GetRegions()):Hide()
-			end
-		end
-
+]]
 		if IsAddOnLoaded("AuctionLite") then
 			F.ReskinArrow(BuyAdvancedButton, "down")
 			F.ReskinArrow(SellRememberButton, "down")

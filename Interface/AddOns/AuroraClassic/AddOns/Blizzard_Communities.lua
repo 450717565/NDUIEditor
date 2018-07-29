@@ -79,7 +79,6 @@ C.themes["Blizzard_Communities"] = function()
 
 	do
 		local dialog = CommunitiesFrame.NotificationSettingsDialog
-		dialog.ScrollFrame.Child.Separator:Hide()
 		F.StripTextures(dialog)
 		dialog.BG:Hide()
 		F.SetBD(dialog)
@@ -367,15 +366,7 @@ C.themes["Blizzard_Communities"] = function()
 	F.ReskinScroll(CommunitiesFrameGuildDetailsFrameInfoScrollBar)
 	F.CreateBDFrame(CommunitiesFrameGuildDetailsFrameInfo.DetailsFrame, .25)
 	F.ReskinScroll(CommunitiesFrameGuildDetailsFrameNewsContainer.ScrollBar)
-	CommunitiesFrameGuildDetailsFrame.InsetBorderLeft:SetAlpha(0)
-	CommunitiesFrameGuildDetailsFrame.InsetBorderLeft2:SetAlpha(0)
-	CommunitiesFrameGuildDetailsFrame.InsetBorderRight:SetAlpha(0)
-	CommunitiesFrameGuildDetailsFrame.InsetBorderTopLeft:SetAlpha(0)
-	CommunitiesFrameGuildDetailsFrame.InsetBorderTopLeft2:SetAlpha(0)
-	CommunitiesFrameGuildDetailsFrame.InsetBorderTopRight:SetAlpha(0)
-	CommunitiesFrameGuildDetailsFrame.InsetBorderBottomLeft:SetAlpha(0)
-	CommunitiesFrameGuildDetailsFrame.InsetBorderBottomLeft2:SetAlpha(0)
-	CommunitiesFrameGuildDetailsFrame.InsetBorderBottomRight:SetAlpha(0)
+	F.StripTextures(CommunitiesFrameGuildDetailsFrame)
 
 	hooksecurefunc("CommunitiesGuildNewsButton_SetNews", function(button)
 		if button.header:IsShown() then
@@ -401,4 +392,10 @@ C.themes["Blizzard_Communities"] = function()
 	F.CreateBDFrame(CommunitiesGuildLogFrame.Container, .25)
 	local closeButton = select(3, CommunitiesGuildLogFrame:GetChildren())
 	F.Reskin(closeButton)
+
+	-- Ticket Frame
+	F.StripTextures(CommunitiesFrame.TicketFrame.InsetFrame)
+	F.SetBD(CommunitiesFrame.TicketFrame.InsetFrame)
+	F.Reskin(CommunitiesFrame.TicketFrame.AcceptButton)
+	F.Reskin(CommunitiesFrame.TicketFrame.DeclineButton)
 end

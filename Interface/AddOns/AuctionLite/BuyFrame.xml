@@ -825,7 +825,7 @@
 						end
 					</OnEnterPressed>
 				</Scripts>
-				<FontString inherits="ChatFontNormal" bytes="64"/>
+				<!--FontString inherits="ChatFontNormal" bytes="64"/-->
 			</EditBox>
 			<EditBox name="BuyQuantity" numeric="true" autoFocus="false" inherits="InputBoxTemplate">
 				<Size>
@@ -849,7 +849,7 @@
 						end
 					</OnEnterPressed>
 				</Scripts>
-				<FontString inherits="ChatFontNormal" bytes="64"/>
+				<!--FontString inherits="ChatFontNormal" bytes="64"/-->
 			</EditBox>
 			<Button name="BuyAdvancedButton">
 				<Size>

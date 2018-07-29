@@ -8,6 +8,5 @@
 Core.xml
 Ace3.xml
 Libs.xml
-Other.xml
 
 Fixer.lua

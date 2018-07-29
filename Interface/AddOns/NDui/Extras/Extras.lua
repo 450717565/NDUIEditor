@@ -1,18 +1,5 @@
 local B, C, L, DB = unpack(select(2, ...))
 
---- 修复世界地图错位
-local old_ResetZoom = _G.WorldMapScrollFrame_ResetZoom
-function _G.WorldMapScrollFrame_ResetZoom()
-	if _G.InCombatLockdown() then
-		_G.WorldMapFrame_Update()
-		_G.WorldMapScrollFrame_ReanchorQuestPOIs()
-		_G.WorldMapFrame_ResetPOIHitTranslations()
-		_G.WorldMapBlobFrame_DelayedUpdateBlobs()
-	else
-		old_ResetZoom()
-	end
-end
-
 --- 修复MirrorTimer重叠
 local mt = {"MirrorTimer1", "MirrorTimer2", "MirrorTimer3"}
 for i = 1, #mt do
