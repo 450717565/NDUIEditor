@@ -232,6 +232,7 @@ local list = {
 		{AuraID = 160452, UnitID = "player"},--虚空鳐：虚空之风
 		{AuraID = 178207, UnitID = "player"},--狂怒战鼓
 		{AuraID = 230935, UnitID = "player"},--高山战鼓
+		{AuraID = 264667, UnitID = "player"},--原始暴怒
 	-->职业增益
 		--德鲁伊
 		{AuraID =  29166, UnitID = "player"},--激活

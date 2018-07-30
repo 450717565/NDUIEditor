@@ -291,6 +291,51 @@ LibEvent:attachEvent("ADDON_LOADED", function(self, addonName)
 	end
 end)
 
+-------------------
+--   PaperDoll  --
+-------------------
+
+local function SetPaperDollItemLevel(self, unit)
+	if (not self) then return end
+	local id = self:GetID()
+	local frame = GetItemLevelFrame(self, "PaperDoll")
+	if (unit and self.hasItem) then
+		local count, level, _, link, quality = LibItemInfo:GetUnitItemInfo(unit, id)
+		SetItemLevelString(frame.levelString, level > 0 and level or "", quality)
+		if (id == 16 or id == 17) then
+			local _, mlevel, _, _, mquality = LibItemInfo:GetUnitItemInfo(unit, 16)
+			local _, olevel, _, _, oquality = LibItemInfo:GetUnitItemInfo(unit, 17)
+			if (mlevel > 0 and olevel > 0 and (mquality == 6 or oquality == 6)) then
+				SetItemLevelString(frame.levelString, max(mlevel,olevel), mquality or oquality)
+			end
+		end
+	else
+		SetItemLevelString(frame.levelString, "")
+	end
+end
+
+hooksecurefunc("PaperDollItemSlotButton_OnShow", function(self, isBag)
+	SetPaperDollItemLevel(self, "player")
+end)
+
+hooksecurefunc("PaperDollItemSlotButton_OnEvent", function(self, event, id, ...)
+	if (event == "PLAYER_EQUIPMENT_CHANGED" and self:GetID() == id) then
+		SetPaperDollItemLevel(self, "player")
+	end
+end)
+
+LibEvent:attachTrigger("UNIT_INSPECT_READY", function(self, data)
+	if (InspectFrame and InspectFrame.unit and UnitGUID(InspectFrame.unit) == data.guid) then
+		for _, button in ipairs({
+				InspectHeadSlot,InspectNeckSlot,InspectShoulderSlot,InspectBackSlot,InspectChestSlot,InspectWristSlot,
+				InspectHandsSlot,InspectWaistSlot,InspectLegsSlot,InspectFeetSlot,InspectFinger0Slot,InspectFinger1Slot,
+				InspectTrinket0Slot,InspectTrinket1Slot,InspectMainHandSlot,InspectSecondaryHandSlot
+			}) do
+			SetPaperDollItemLevel(button, InspectFrame.unit)
+		end
+	end
+end)
+
 ----------------------
 --  Chat ItemLevel  --
 ----------------------
@@ -357,51 +402,6 @@ local chatEvents = {
 for _, v in pairs(chatEvents) do
 	ChatFrame_AddMessageEventFilter(v, filter)
 end
-
--------------------
---   PaperDoll  --
--------------------
-
-local function SetPaperDollItemLevel(self, unit)
-	if (not self) then return end
-	local id = self:GetID()
-	local frame = GetItemLevelFrame(self, "PaperDoll")
-	if (unit and self.hasItem) then
-		local count, level, _, link, quality = LibItemInfo:GetUnitItemInfo(unit, id)
-		SetItemLevelString(frame.levelString, level > 0 and level or "", quality)
-		if (id == 16 or id == 17) then
-			local _, mlevel, _, _, mquality = LibItemInfo:GetUnitItemInfo(unit, 16)
-			local _, olevel, _, _, oquality = LibItemInfo:GetUnitItemInfo(unit, 17)
-			if (mlevel > 0 and olevel > 0 and (mquality == 6 or oquality == 6)) then
-				SetItemLevelString(frame.levelString, max(mlevel,olevel), mquality or oquality)
-			end
-		end
-	else
-		SetItemLevelString(frame.levelString, "")
-	end
-end
-
-hooksecurefunc("PaperDollItemSlotButton_OnShow", function(self, isBag)
-	SetPaperDollItemLevel(self, "player")
-end)
-
-hooksecurefunc("PaperDollItemSlotButton_OnEvent", function(self, event, id, ...)
-	if (event == "PLAYER_EQUIPMENT_CHANGED" and self:GetID() == id) then
-		SetPaperDollItemLevel(self, "player")
-	end
-end)
-
-LibEvent:attachTrigger("UNIT_INSPECT_READY", function(self, data)
-	if (InspectFrame and InspectFrame.unit and UnitGUID(InspectFrame.unit) == data.guid) then
-		for _, button in ipairs({
-				InspectHeadSlot,InspectNeckSlot,InspectShoulderSlot,InspectBackSlot,InspectChestSlot,InspectWristSlot,
-				InspectHandsSlot,InspectWaistSlot,InspectLegsSlot,InspectFeetSlot,InspectFinger0Slot,InspectFinger1Slot,
-				InspectTrinket0Slot,InspectTrinket1Slot,InspectMainHandSlot,InspectSecondaryHandSlot
-			}) do
-			SetPaperDollItemLevel(button, InspectFrame.unit)
-		end
-	end
-end)
 
 -- OutsideString For PaperDoll ItemLevel
 LibEvent:attachTrigger("ITEMLEVEL_FRAME_CREATED", function(self, frame, parent)

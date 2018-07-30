@@ -14,16 +14,17 @@ C.themes["Blizzard_Communities"] = function()
 	CommunitiesFrameInset:Hide()
 	F.ReskinArrow(CommunitiesFrame.AddToChatButton, "down")
 	F.ReskinDropDown(CommunitiesFrame.CommunitiesListDropDownMenu)
-	CommunitiesFrame.GuildFinderFrame:GetRegions():Hide()
-	CommunitiesFrame.GuildFinderFrame.InsetFrame:Hide()
-	F.Reskin(CommunitiesFrame.GuildFinderFrame.FindAGuildButton)
 
-	F.StripTextures(CommunitiesFrame.InvitationFrame)
-	F.CreateBD(CommunitiesFrame.InvitationFrame, .25)
-	F.CreateSD(CommunitiesFrame.InvitationFrame)
-	CommunitiesFrame.InvitationFrame.InsetFrame:Hide()
-	F.Reskin(CommunitiesFrame.InvitationFrame.AcceptButton)
-	F.Reskin(CommunitiesFrame.InvitationFrame.DeclineButton)
+	for _, name in next, {"GuildFinderFrame", "InvitationFrame", "TicketFrame"} do
+		local frame = CommunitiesFrame[name]
+		F.StripTextures(frame)
+		F.CreateBD(frame, .25)
+		F.CreateSD(frame)
+		frame.InsetFrame:Hide()
+		if frame.FindAGuildButton then F.Reskin(frame.FindAGuildButton) end
+		if frame.AcceptButton then F.Reskin(frame.AcceptButton) end
+		if frame.DeclineButton then F.Reskin(frame.DeclineButton) end
+	end
 
 	F.StripTextures(CommunitiesFrameCommunitiesList)
 	CommunitiesFrameCommunitiesList.InsetFrame:Hide()
@@ -293,9 +294,9 @@ C.themes["Blizzard_Communities"] = function()
 	end)
 
 	-- Benefits
-	CommunitiesFrame.GuildBenefitsFrame.Perks:GetRegions():Hide()
-	CommunitiesFrame.GuildBenefitsFrame.Rewards.Bg:Hide()
-	F.StripTextures(CommunitiesFrame.GuildBenefitsFrame, true)
+	CommunitiesFrame.GuildBenefitsFrame.Perks:GetRegions():SetAlpha(0)
+	CommunitiesFrame.GuildBenefitsFrame.Rewards.Bg:SetAlpha(0)
+	F.StripTextures(CommunitiesFrame.GuildBenefitsFrame)
 	F.ReskinScroll(CommunitiesFrameRewards.scrollBar)
 
 	local factionFrameBar = CommunitiesFrame.GuildBenefitsFrame.FactionFrame.Bar
@@ -392,10 +393,4 @@ C.themes["Blizzard_Communities"] = function()
 	F.CreateBDFrame(CommunitiesGuildLogFrame.Container, .25)
 	local closeButton = select(3, CommunitiesGuildLogFrame:GetChildren())
 	F.Reskin(closeButton)
-
-	-- Ticket Frame
-	F.StripTextures(CommunitiesFrame.TicketFrame.InsetFrame)
-	F.SetBD(CommunitiesFrame.TicketFrame.InsetFrame)
-	F.Reskin(CommunitiesFrame.TicketFrame.AcceptButton)
-	F.Reskin(CommunitiesFrame.TicketFrame.DeclineButton)
 end

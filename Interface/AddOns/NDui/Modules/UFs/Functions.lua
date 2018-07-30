@@ -417,7 +417,8 @@ function UF:CreateCastBar(self)
 end
 
 function UF:CreateMirrorBar()
-	for _, bar in pairs({"MirrorTimer1", "MirrorTimer2", "MirrorTimer3"}) do
+	local mt = {"MirrorTimer1", "MirrorTimer2", "MirrorTimer3"}
+	for i, bar in pairs(mt) do
 		_G[bar]:GetRegions():Hide()
 		_G[bar.."Border"]:Hide()
 		_G[bar]:SetParent(UIParent)
@@ -432,7 +433,12 @@ function UF:CreateMirrorBar()
 		_G[bar.."Text"]:ClearAllPoints()
 		_G[bar.."Text"]:SetPoint("CENTER")
 		_G[bar.."StatusBar"]:SetAllPoints(_G[bar])
+		B.CreateTex(_G[bar])
 		B.CreateSD(_G[bar], 3, 3)
+
+		if i > 1 then
+			_G[mt[i]]:SetPoint("TOP", _G[mt[i-1]], "BOTTOM", 0, -5)
+		end
 	end
 end
 
@@ -618,6 +624,7 @@ function UF:CreateDebuffs(self)
 		bu.num = 10
 		bu.size = self:GetHeight()+self.Power:GetHeight()+3.5
 		bu.onlyShowPlayer = true
+		bu["growth-y"] = "UP"
 	elseif self.mystyle == "player" then
 		bu:SetPoint("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, NDuiDB["Extras"]["OtherUFs"] and -10 or -6)
 		bu.num = 21
@@ -690,7 +697,7 @@ function UF:CreateClassPower(self)
 		width, height = self:GetWidth(), self:GetHeight()*2 + 3
 		C.UFs.BarPos = {"BOTTOMLEFT", self, "TOPLEFT", 0, 3}
 	end
-	
+
 	local bars = {}
 	for i = 1, 6 do
 		bars[i] = CreateFrame("StatusBar", nil, self.Health)

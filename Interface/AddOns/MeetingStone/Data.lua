@@ -785,7 +785,11 @@ RAID_PROGRESSION_LIST = {
 }
 
 DEFAULT_SPAMWORD = [[
+!4=1
+!免.*费
+!大.*米
 !甲
+!钾
 ]]
 
 ZONE_ACTIVITY_MAP = {

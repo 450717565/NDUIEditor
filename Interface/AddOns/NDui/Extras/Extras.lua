@@ -1,13 +1,5 @@
 local B, C, L, DB = unpack(select(2, ...))
 
---- 修复MirrorTimer重叠
-local mt = {"MirrorTimer1", "MirrorTimer2", "MirrorTimer3"}
-for i = 1, #mt do
-	if i > 1 then
-		_G[mt[i]]:SetPoint("TOP", _G[mt[i-1]], "BOTTOM", 0, -5)
-	end
-end
-
 --- 修复部分职业大厅地图返回问题
 local ohMap = {
 	[23] = function() return select(4, GetMapInfo()) and 1007 end, -- Paladin, Sanctum of Light; Eastern Plaguelands

@@ -181,8 +181,8 @@ L["Searching:"] = "Buscando:"
 L["Select a Favorites List"] = "Seleccionar una lista de favoritos"
 L["Selected Stack Size"] = "Tamaño Seleccionado de Montón"
 L["Sell Tab"] = "Pestaña Venta"
---Translation missing 
--- L["Shift-click to search for the exact name. Normal click to perform a regular search."] = ""
+--[[Translation missing --]]
+--[[ L["Shift-click to search for the exact name. Normal click to perform a regular search."] = ""--]] 
 L["Show auction house value in tooltips."] = "Mostrar precio de subasta en los textos de ayuda"
 L["Show Auction Value"] = "Mostrar valor de subasta"
 L["Show Deals"] = "Mostrar oportunidades"

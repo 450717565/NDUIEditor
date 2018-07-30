@@ -8,9 +8,8 @@ if IsAddOnLoaded("AuroraClassic") then
 		local r, g, b = C.r, C.g, C.b
 
 		-- 区域技能按钮
-		local zb = ZoneAbilityFrame.SpellButton
-		zb.Style:Hide()
-		F.ReskinIconStyle(zb)
+		ZoneAbilityFrame.SpellButton.Style:Hide()
+		F.ReskinIconStyle(ZoneAbilityFrame.SpellButton)
 
 		-- 特殊任务按钮
 		ExtraQuestButtonArtwork:Hide()

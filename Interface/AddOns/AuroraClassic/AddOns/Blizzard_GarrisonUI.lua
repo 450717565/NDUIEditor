@@ -59,14 +59,17 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 		local env = self.Stage.MissionEnvIcon
 		env.Texture:SetDrawLayer("BORDER", 1)
-		F.ReskinIcon(env.Texture)
+		env.Texture:SetTexCoord(.08, .92, .08, .92)
+		F.CreateBDFrame(env.Texture)
 
 		local item = self.RewardsFrame.OvermaxItem
 		item.Icon:SetDrawLayer("BORDER", 1)
-		F.ReskinIcon(item.Icon)
+		item.Icon:SetTexCoord(.08, .92, .08, .92)
+		F.CreateBDFrame(item.Icon)
 
 		local cost = self.CostFrame
-		F.ReskinIcon(cost.CostIcon)
+		cost.CostIcon:SetTexCoord(.08, .92, .08, .92)
+		F.CreateBDFrame(cost.CostIcon)
 	end
 
 	function F:ReskinMissionTabs()
@@ -88,6 +91,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	function F:ReskinGarrMaterial()
 		self.MaterialFrame.Icon:SetTexCoord(.08, .92, .08, .92)
+		F.CreateBDFrame(self.MaterialFrame.Icon)
 		self.MaterialFrame:GetRegions():Hide()
 		local bg = F.CreateBDFrame(self.MaterialFrame, .25)
 		bg:SetPoint("TOPLEFT", 5, -5)
@@ -135,12 +139,14 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		for i = 1, 2 do
 			local trait = self.Traits[i]
 			trait.Border:Hide()
-			F.ReskinIcon(trait.Portrait)
+			trait.Portrait:SetTexCoord(.08, .92, .08, .92)
+			F.CreateBDFrame(trait.Portrait)
 
 			local equipment = self.EquipmentFrame.Equipment[i]
 			equipment.BG:Hide()
 			equipment.Border:Hide()
-			F.ReskinIcon(equipment.Icon)
+			equipment.Icon:SetTexCoord(.08, .92, .08, .92)
+			F.CreateBDFrame(equipment.Icon)
 		end
 	end
 
@@ -157,9 +163,17 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				button.BG:Hide()
 				button.Selection:SetTexture("")
 				button.AbilitiesBG:SetTexture("")
+				button.BusyFrame:SetAllPoints()
 
 				F.CreateBD(button, .25)
 				F.CreateSD(button)
+
+				local cicon = button.Class
+				cicon:SetTexCoord(.08, .92, .08, .92)
+				cicon:SetSize(40, 40)
+				cicon:ClearAllPoints()
+				cicon:SetPoint("RIGHT", -9, 0)
+				F.CreateBDFrame(cicon)
 
 				local hl = button:GetHighlightTexture()
 				hl:SetColorTexture(r, g, b, .1)
@@ -192,17 +206,12 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	local function onShowFollower(followerList)
 		local self = followerList.followerTab
 		local abilities = self.AbilitiesFrame.Abilities
-
-		if self.numAbilitiesStyled == nil then
-			self.numAbilitiesStyled = 1
-		end
+		if not self.numAbilitiesStyled then self.numAbilitiesStyled = 1 end
 
 		local numAbilitiesStyled = self.numAbilitiesStyled
-
 		local ability = abilities[numAbilitiesStyled]
 		while ability do
 			local icon = ability.IconButton.Icon
-
 			icon:SetTexCoord(.08, .92, .08, .92)
 			icon:SetDrawLayer("BACKGROUND", 1)
 			F.CreateBDFrame(icon)
@@ -210,23 +219,27 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			numAbilitiesStyled = numAbilitiesStyled + 1
 			ability = abilities[numAbilitiesStyled]
 		end
-
 		self.numAbilitiesStyled = numAbilitiesStyled
 
-		local ally = self.AbilitiesFrame.CombatAllySpell[1].iconTexture
-		ally:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(ally)
-
-		for i = 1, 3 do
-			if not self.AbilitiesFrame.Equipment then return end
-			local equip = self.AbilitiesFrame.Equipment[i]
-			if equip then
-				equip.Border:Hide()
-				equip.BG:Hide()
-				equip.Icon:SetTexCoord(.08, .92, .08, .92)
-				if not equip.bg then
+		if self.AbilitiesFrame.Equipment then
+			for i = 1, 3 do
+				local equip = self.AbilitiesFrame.Equipment[i]
+				if equip and not equip.bg then
+					equip.Border:Hide()
+					equip.BG:Hide()
+					equip.Icon:SetTexCoord(.08, .92, .08, .92)
 					equip.bg = F.CreateBDFrame(equip.Icon, .25)
 				end
+			end
+		end
+
+		local allySpell = self.AbilitiesFrame.CombatAllySpell
+		for i = 1, #allySpell do
+			if not allySpell.styled then
+				local iconTexture = allySpell[i].iconTexture
+				iconTexture:SetTexCoord(.08, .92, .08, .92)
+				F.CreateBDFrame(iconTexture)
+				allySpell.styled = true
 			end
 		end
 	end
@@ -341,7 +354,8 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			if not button.styled then
 				button.BG:Hide()
 
-				F.ReskinIcon(button.Icon)
+				button.Icon:SetTexCoord(.08, .92, .08, .92)
+				F.CreateBDFrame(button.Icon)
 
 				local bg = CreateFrame("Frame", nil, button)
 				bg:SetPoint("TOPLEFT", 44, -5)
@@ -530,8 +544,8 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		local button = buttons[i]
 		button.BG:Hide()
 		local bg = CreateFrame("Frame", nil, button)
-		bg:SetPoint("TOPLEFT")
-		bg:SetPoint("BOTTOMRIGHT", 0, 1)
+		bg:SetPoint("TOPLEFT", 1, -1)
+		bg:SetPoint("BOTTOMRIGHT", -1, 1)
 		bg:SetFrameLevel(button:GetFrameLevel() - 1)
 
 		for _, reward in pairs(button.Rewards) do
@@ -613,6 +627,13 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	local FollowerTab = GarrisonLandingPage.FollowerTab
 	F.ReskinXPBar(FollowerTab)
 
+	local cicon = FollowerTab.Class
+	cicon:SetTexCoord(.08, .92, .08, .92)
+	cicon:SetSize(50, 50)
+	--cicon:ClearAllPoints()
+	cicon:SetPoint("TOPRIGHT", 0, -3)
+	F.CreateBDFrame(cicon)
+
 	-- Ship follower tab
 
 	local FollowerTab = GarrisonLandingPage.ShipFollowerTab
@@ -639,16 +660,43 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		if not ability.styled then
 			local icon = ability.Icon
 			icon:SetSize(19, 19)
-			F.ReskinIcon(icon)
+			icon:SetTexCoord(.08, .92, .08, .92)
+			F.CreateBDFrame(icon)
 
 			ability.styled = true
 		end
 	end)
 
-	hooksecurefunc("GarrisonMissionButton_SetRewards", function(self, _, numRewards)
-		if self.numRewardsStyled == nil then
-			self.numRewardsStyled = 0
+	hooksecurefunc("GarrisonFollowerButton_SetCounterButton", function(button, _, index)
+		local counter = button.Counters[index]
+		if counter and not counter.styled then
+			counter.Icon:SetTexCoord(.08, .92, .08, .92)
+			F.CreateBDFrame(counter.Icon)
+			counter.styled = true
 		end
+	end)
+
+	hooksecurefunc(GarrisonMission, "UpdateMissionParty", function(_, followers)
+		for followerIndex = 1, #followers do
+			local followerFrame = followers[followerIndex]
+			if followerFrame.info then
+				local i = 1
+				local counter = followerFrame.Counters[i]
+				while counter do
+					if not counter.styled then
+						counter.Icon:SetTexCoord(.08, .92, .08, .92)
+						F.CreateBDFrame(counter.Icon)
+						counter.styled = true
+					end
+					i = i + 1
+					counter = followerFrame.Counters[i]
+				end
+			end
+		end
+	end)
+
+	hooksecurefunc("GarrisonMissionButton_SetRewards", function(self, _, numRewards)
+		if not self.numRewardsStyled then self.numRewardsStyled = 0 end
 
 		while self.numRewardsStyled < numRewards do
 			self.numRewardsStyled = self.numRewardsStyled + 1
@@ -661,12 +709,8 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		end
 	end)
 
-	hooksecurefunc(GarrisonMission, "AssignFollowerToMission", function(_, frame)
-		frame.PortraitFrame.LevelBorder:SetAlpha(0)
-	end)
-
 	hooksecurefunc(GarrisonMission, "RemoveFollowerFromMission", function(_, frame)
-		if frame.PortraitFrame.squareBG then
+		if frame.PortraitFrame and frame.PortraitFrame.squareBG then
 			frame.PortraitFrame.squareBG:Hide()
 		end
 	end)
@@ -677,7 +721,8 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			if frame:IsShown() and not frame.styled then
 				for j = 1, #frame.Mechanics do
 					local mechanic = frame.Mechanics[j]
-					F.ReskinIcon(mechanic.Icon)
+					mechanic.Icon:SetTexCoord(.08, .92, .08, .92)
+					F.CreateBDFrame(mechanic.Icon)
 				end
 				frame.styled = true
 			end
@@ -690,7 +735,8 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			for i = 1, #buffsFrame.Buffs do
 				local buff = buffsFrame.Buffs[i]
 				if not buff.styled then
-					F.ReskinIcon(buff.Icon)
+					buff.Icon:SetTexCoord(.08, .92, .08, .92)
+					F.CreateBDFrame(buff.Icon)
 					buff.styled = true
 				end
 			end
@@ -860,12 +906,22 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	local OrderHallMissionFrame = OrderHallMissionFrame
 	F.ReskinMissionFrame(OrderHallMissionFrame)
 
+	local FollowerTab = OrderHallMissionFrame.FollowerTab
+	FollowerTab:DisableDrawLayer("BORDER")
+	FollowerTab.Class:SetSize(50, 50)
+	FollowerTab.Class:SetPoint("TOPRIGHT", 0, -3)
+	FollowerTab.Class:SetTexCoord(.08, .92, .08, .92)
+	F.CreateBDFrame(FollowerTab.Class)
+
 	-- Ally
 	local combatAlly = OrderHallMissionFrameMissions.CombatAllyUI
 	F.Reskin(combatAlly.InProgress.Unassign)
 	combatAlly:GetRegions():Hide()
 	F.CreateBDFrame(combatAlly, .25)
-	F.ReskinIcon(combatAlly.InProgress.CombatAllySpell.iconTexture)
+
+	local ipas = combatAlly.InProgress.CombatAllySpell.iconTexture
+	ipas:SetTexCoord(.08, .92, .08, .92)
+	F.CreateBDFrame(ipas)
 
 	local allyPortrait = combatAlly.InProgress.PortraitFrame
 	F.ReskinGarrisonPortrait(allyPortrait)
@@ -875,10 +931,6 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		end
 		combatAlly.Available.AddFollowerButton.EmptyPortrait:SetAlpha(0)
 		combatAlly.Available.AddFollowerButton.PortraitHighlight:SetAlpha(0)
-	end)
-
-	hooksecurefunc(OrderHallCombatAllyMixin, "SetMission", function(self)
-		self.InProgress.PortraitFrame.LevelBorder:SetAlpha(0)
 	end)
 
 	hooksecurefunc(OrderHallCombatAllyMixin, "UnassignAlly", function(self)
@@ -894,11 +946,18 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	F.CreateSD(ZoneSupportMissionPage)
 	F.ReskinClose(ZoneSupportMissionPage.CloseButton)
 	F.Reskin(ZoneSupportMissionPage.StartMissionButton)
-	F.ReskinIcon(ZoneSupportMissionPage.CombatAllySpell.iconTexture)
 	ZoneSupportMissionPage.Follower1:GetRegions():Hide()
 	F.CreateBD(ZoneSupportMissionPage.Follower1, .25)
 	F.CreateSD(ZoneSupportMissionPage.Follower1)
 	F.ReskinGarrisonPortrait(ZoneSupportMissionPage.Follower1.PortraitFrame)
+
+	local zsas = ZoneSupportMissionPage.CombatAllySpell.iconTexture
+	zsas:SetTexCoord(.08, .92, .08, .92)
+	F.CreateBDFrame(zsas)
+
+	local cost = ZoneSupportMissionPage.CostFrame
+	cost.CostIcon:SetTexCoord(.08, .92, .08, .92)
+	F.CreateBDFrame(cost.CostIcon)
 
 	-- [[ BFA Mission UI]]
 

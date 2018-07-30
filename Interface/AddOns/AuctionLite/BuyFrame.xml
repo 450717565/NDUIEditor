@@ -803,7 +803,7 @@
 					</Button>
 				</Frames>
 			</Frame>
-			<EditBox name="BuyName" autoFocus="false" inherits="InputBoxTemplate">
+			<EditBox name="BuyName" autoFocus="false" inherits="InputBoxTemplate" bytes="64">
 				<Size>
 					<AbsDimension x="300" y="16"/>
 				</Size>
@@ -825,9 +825,9 @@
 						end
 					</OnEnterPressed>
 				</Scripts>
-				<!--FontString inherits="ChatFontNormal" bytes="64"/-->
+				<FontString inherits="ChatFontNormal"/>
 			</EditBox>
-			<EditBox name="BuyQuantity" numeric="true" autoFocus="false" inherits="InputBoxTemplate">
+			<EditBox name="BuyQuantity" numeric="true" autoFocus="false" inherits="InputBoxTemplate" bytes="64">
 				<Size>
 					<AbsDimension x="50" y="16"/>
 				</Size>
@@ -849,7 +849,7 @@
 						end
 					</OnEnterPressed>
 				</Scripts>
-				<!--FontString inherits="ChatFontNormal" bytes="64"/-->
+				<FontString inherits="ChatFontNormal"/>
 			</EditBox>
 			<Button name="BuyAdvancedButton">
 				<Size>

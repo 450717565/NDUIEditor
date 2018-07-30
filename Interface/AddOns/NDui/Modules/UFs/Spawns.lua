@@ -203,12 +203,12 @@ function UF:OnLogin()
 
 		oUF:SetActiveStyle("Nameplates")
 		oUF:SpawnNamePlates("oUF_NPs", UF.PostUpdatePlates)
+	end
 
-		if NDuiDB["Nameplate"]["ShowPlayerPlate"] then
-			oUF:SetActiveStyle("PlayerPlate")
-			local plate = oUF:Spawn("player", "oUF_PlayerPlate")
-			B.Mover(plate, L["PlayerNP"], "PlayerPlate", C.UFs.PlayerPlate, plate:GetWidth(), 20)
-		end
+	if NDuiDB["Nameplate"]["ShowPlayerPlate"] then
+		oUF:SetActiveStyle("PlayerPlate")
+		local plate = oUF:Spawn("player", "oUF_PlayerPlate")
+		B.Mover(plate, L["PlayerNP"], "PlayerPlate", C.UFs.PlayerPlate, plate:GetWidth(), 20)
 	end
 
 	-- Default Clicksets for RaidFrame

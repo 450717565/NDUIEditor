@@ -71,7 +71,7 @@ local list = {
 		{AuraID = 204957, UnitID = "player"},--冰冻灵魂
 		{AuraID = 205725, UnitID = "player"},--反魔法屏障
 		{AuraID = 206977, UnitID = "player"},--鲜血镜像
-		{AuraID = 207127, UnitID = "player"},--饥饿符文武器
+		{AuraID =  47568, UnitID = "player"},--符文武器增效
 		{AuraID = 207203, UnitID = "player", Value = true},--寒冰之盾
 		{AuraID = 207256, UnitID = "player"},--湮灭
 		{AuraID = 207289, UnitID = "player"},--邪恶狂乱

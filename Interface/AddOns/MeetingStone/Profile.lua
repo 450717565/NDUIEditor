@@ -45,6 +45,7 @@ function Profile:OnInitialize()
             },
             minimap = {
                 minimapPos = 192.68,
+				hide = true,
             },
             searchHistoryList  = {},
             createHistoryList  = {},

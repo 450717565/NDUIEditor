@@ -4,13 +4,13 @@
 ]]
 
 local HideBliz = {
-	BrowseQualitySort,
-	BrowseLevelSort,
+	BrowseCurrentBidSort,
 	BrowseDurationSort,
 	BrowseHighBidderSort,
-	BrowseCurrentBidSort,
-	BrowsePrevPageButton,
+	BrowseLevelSort,
 	BrowseNextPageButton,
+	BrowsePrevPageButton,
+	BrowseQualitySort,
 }
 
 --local AuctionTime = { "< 30分", "30分-2小时", "2小时-12小时", "超过12小时" }
@@ -18,27 +18,31 @@ local AuctionTime = { AUCTION_TIME_LEFT1, AUCTION_TIME_LEFT2, AUCTION_TIME_LEFT3
 local None = NONE.."    "
 local CLOSES_IN = "时间"
 
-local SortColumn = 6
-local SortReverse
-local lastSortColumn, lastSortReverse --可以2个排序同时生效的功能。
-local BrowseDisplay = {}
-local SelectedItem
-local SearchParam
-local SearchDelay = 0
-local CurrentPage
-local ScanPage
+local BrowseDisplay, SearchResults = {}, {}
+local SearchDelay, SortColumn = 0, 6
+local Config, CurrentPage, Highlight, lastSortColumn, lastSortReverse, ScanPage, ScrollBar, ScrollBox, SearchItem, SearchParam, SelectedItem, SortReverse,Text
+
 local ScanFrame = CreateFrame("Frame", nil, AuctionFrame)
 ScanFrame:Hide()
+
 local UpdateResults = CreateFrame("Frame", nil, AuctionFrame)
 UpdateResults:Hide()
-local ScrollBox, ScrollBar, Highlight
-local Config
 
-local SearchResults = {}
-_G.SR = SearchResults
+local function BaudAuctionToMoney(Money)
+	local Text = ""
+	if Money < 1e5 then
+		Text = GetMoneyString(Money)
+	elseif Money < 1e8 then
+		local Money = format("%d", Money / 1e2)
+		Text = GetMoneyString(Money * 1e2)
+	else
+		local Money = format("%d", Money / 1e4)
+		Text = GetMoneyString(Money * 1e4)
+	end
 
-local SearchItem
-local Text
+	return Text
+end
+
 local Columns = {
 	{
 		Name = NAME,
@@ -124,43 +128,6 @@ local Columns = {
 	},
 }
 
-local SILVER_AMOUNT_TEXTURE = "%d|TInterface\\MoneyFrame\\UI-SilverIcon:%d:%d:1:0|t"
-local GOLD_AMOUNT_TEXTURE = "%d|TInterface\\MoneyFrame\\UI-GoldIcon:%d:%d:1:0|t"
-local COPPER_AMOUNT_TEXTURE = "%d|TInterface\\MoneyFrame\\UI-CopperIcon:%d:%d:1:0|t"
-function BaudAuctionToMoney(Money)
-	local Text = ""
-	Money = floor(Money)
-	if (Money % 100 > 0) and (Money < 100000) or (Money == 0) then
-		Text = format(COPPER_AMOUNT_TEXTURE, Money%100, 0, 0)
-	end
-	Money = floor(Money / 100)
-	if (Money % 100 > 0) and (Money < 100000) then
-		Text = format(SILVER_AMOUNT_TEXTURE, Money%100, 0, 0) .. Text
-	end
-	Money = floor(Money / 100)
-	if (Money > 0) then
-		Text = format(GOLD_AMOUNT_TEXTURE, Money, 0, 0) .. Text
-	end
-	return Text
-end
-
---[[
-function BaudAuctionToMoney(Money)
-	local Text = ""
-	if Money >= 1e7 then
-		local Money = format("%d", Money / 1e4)
-		Text = GetMoneyString(Money * 1e4)
-	end
-	if Money >= 1e6 and Money < 1e7 then
-		local Money = format("%d", Money / 1e2)
-		Text = GetMoneyString(Money * 1e2)
-	end
-	if Money > 0 and Money < 1e6 then
-		Text = GetMoneyString(Money)
-	end
-	return Text
-end
-]]
 local EventFuncs = {
 	ADDON_LOADED = function(self, AddOn)
 		if (AddOn ~= "BaudAuction") then
@@ -190,7 +157,6 @@ local EventFuncs = {
 		UpdateResults:Show()
 	end,
 }
-
 
 function BaudAuction_OnLoad(self)
 	AuctionFrame:SetMovable(true)
@@ -288,7 +254,6 @@ function BaudAuction_OnLoad(self)
 	--  DEFAULT_CHAT_FRAME:AddMessage("Baud Auction: AddOn loaded.")
 end
 
-
 function BaudAuctionUpdateProgress(Progress)
 	BaudAuctionProgressBar:SetValue(Progress)
 	BaudAuctionProgressBarText:SetText(string.format("%.1f", Progress * 100) .. "%")
@@ -302,7 +267,6 @@ function BaudAuctionUpdateProgress(Progress)
 	end
 	BaudAuctionProgress:Show()
 end
-
 
 function BaudAuctionProgress_OnUpdate(self)
 	if not BaudAuctionProgress.Finish then
@@ -318,7 +282,6 @@ function BaudAuctionProgress_OnUpdate(self)
 	end
 	self:SetAlpha(1 - Elapsed)
 end
-
 
 function BaudAuctionUpdateBidButtons()
 	local Index = GetSelectedAuctionItem("list")
@@ -336,7 +299,6 @@ function BaudAuctionUpdateBidButtons()
 	end
 end
 
-
 function BaudAuctionIsMatch(Item1, Item2)
 	if not Item1 or not Item2 then
 		return
@@ -348,7 +310,6 @@ function BaudAuctionIsMatch(Item1, Item2)
 	end
 	return true
 end
-
 
 function BaudAuctionListUpdate()
 	UpdateResults:Hide()
@@ -432,7 +393,6 @@ function BaudAuctionListUpdate()
 	BaudAuctionSortBrowseList()
 end
 
-
 UpdateResults:SetScript("OnUpdate", BaudAuctionListUpdate)
 ScanFrame:SetScript("OnUpdate", function(self)
 	if not (ScanPage or SelectedItem) then
@@ -450,7 +410,6 @@ ScanFrame:SetScript("OnUpdate", function(self)
 	end
 end)
 
-
 function BaudAuctionSearchCancelButton_OnClick()
 	if BaudAuctionProgress.Finish then
 		return
@@ -462,26 +421,21 @@ function BaudAuctionSearchCancelButton_OnClick()
 	CloseAuctionStaticPopups()
 end
 
-
 function BaudAuction_OnShow()
 	BaudAuctionSortBrowseList()
 end
 
-
 function BaudAuction_OnHide()
 end
-
 
 function BaudAuction_OnDragStart(self)
 	self:StartMoving()
 end
 
-
 function BaudAuction_OnDragStop(self)
 	self:StopMovingOrSizing()
 	self:SetUserPlaced(false)
 end
-
 
 function BaudAuctionColumn_OnClick(self)
 	PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
@@ -496,7 +450,6 @@ function BaudAuctionColumn_OnClick(self)
 	BaudAuctionSortBrowseList()
 end
 
-
 function BaudAuctionSelectItem()
 	if (CurrentPage == ceil(SelectedItem / NUM_AUCTION_ITEMS_PER_PAGE) - 1) then
 		SetSelectedAuctionItem("list", (SelectedItem - 1) % NUM_AUCTION_ITEMS_PER_PAGE + 1)
@@ -505,7 +458,6 @@ function BaudAuctionSelectItem()
 		SetSelectedAuctionItem("list", 0)
 	end
 end
-
 
 function BaudAuctionBrowseEntry_OnClick(self)
 	if IsControlKeyDown() then
@@ -525,7 +477,6 @@ function BaudAuctionBrowseEntry_OnClick(self)
 	end
 end
 
-
 local HackFrame = CreateFrame("Frame", "BrowseButton0")
 local RefreshFunc = function(self)
 	if GameTooltip:IsOwned(self) then
@@ -534,6 +485,7 @@ local RefreshFunc = function(self)
 		self:SetScript("OnUpdate", nil)
 	end
 end
+
 function BaudAuctionBrowseEntry_OnEnter(self)
 	local Index = self:GetParent().Index
 	local Item = SearchResults[Index]
@@ -589,7 +541,6 @@ function BaudAuctionBrowseEntry_OnEnter(self)
 	end
 end
 
-
 function BaudAuctionBrowseEntry_OnLeave()
 	GameTooltip:Hide()
 	BattlePetTooltip:Hide()
@@ -616,13 +567,11 @@ hooksecurefunc("QueryAuctionItems", function(...)
 	end
 end)
 
-
 hooksecurefunc("AuctionFrameBrowse_Search", function()
 	AuctionFrameBrowse.isSearching = nil
 	BrowseNoResultsText:Hide()
 	BrowseSearchDotsText:Hide()
 end)
-
 
 local MAX_INT = 2^64-1
 function BaudAuctionSortBrowseList()
@@ -697,7 +646,6 @@ function BaudAuctionSortBrowseList()
 	end)
 	BaudAuctionBrowseScrollBar_Update()
 end
-
 
 function BaudAuctionBrowseScrollBar_Update()
 	FauxScrollFrame_Update(ScrollBar, #SearchResults, ScrollBox.Entries, 16)
