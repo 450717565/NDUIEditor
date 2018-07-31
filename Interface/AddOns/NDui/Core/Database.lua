@@ -12,6 +12,7 @@ DB.CC = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[DB.MyClass]
 DB.MyColor = format("|cff%02x%02x%02x", DB.CC.r*255, DB.CC.g*255, DB.CC.b*255)
 DB.InfoColor = "|cff70C0F5"
 DB.GreyColor = "|cff808080"
+DB.Separator = DB.MyColor.." | |r"
 
 -- Fonts
 DB.Font = {STANDARD_TEXT_FONT, 12, "OUTLINE"}

@@ -1,13 +1,10 @@
 ## Interface: 80000
-## Title: SkadaExplosiveOrbs
-## Author: warbaby, b1ueb1ues
+## Title: Skada 扩展组件
+## Notes: 为 Skada 增加额外的功能。
+## Version: 1.0
+## Author: warbaby
+## X-Vendor: AbyUI
 ## Dependencies: Skada
 
 Locale.lua
 SkadaExplosiveOrbs.lua
-SkadaStagger.lua
-
-## Title: |cff880303[有爱]|r Skada 扩展插件
-## X-Vendor: NetEase
-
-## X-163UI-Version: 20170413024241

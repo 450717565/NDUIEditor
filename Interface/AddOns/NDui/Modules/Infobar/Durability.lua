@@ -29,7 +29,7 @@ local function getItemDurability()
 		if GetInventoryItemLink("player", localSlots[i][1]) then
 			local current, max = GetInventoryItemDurability(localSlots[i][1])
 			if current then
-				localSlots[i][3] = current/max
+				localSlots[i][3] = tonumber(string.format("%.1f", current/max*100))
 				numSlots = numSlots + 1
 			end
 		else
@@ -43,18 +43,10 @@ end
 
 local function isLowDurability()
 	for i = 1, 10 do
-		if localSlots[i][3] < .25 then
+		if localSlots[i][3] < 25 then
 			return true
 		end
 	end
-end
-
-local function gradientColor(perc)
-	perc = perc > 1 and 1 or perc < 0 and 0 or perc -- Stay between 0-1
-	local seg, relperc = math.modf(perc*2)
-	local r1, g1, b1, r2, g2, b2 = select(seg*3+1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0) -- R -> Y -> G
-	local r, g, b = r1+(r2-r1)*relperc, g1+(g2-g1)*relperc, b1+(b2-b1)*relperc
-	return format("|cff%02x%02x%02x", r*255, g*255, b*255), r, g, b
 end
 
 info.eventList = {
@@ -73,7 +65,7 @@ info.onEvent = function(self, event)
 	else
 		local numSlots = getItemDurability()
 		if numSlots > 0 then
-			self.text:SetText(format(gsub("[color]%.1f%%|r"..L["D"], "%[color%]", (gradientColor(string.format(localSlots[1][3]*100)/100))), string.format(localSlots[1][3]*100)))
+			self.text:SetText(B.ColorPercent(localSlots[1][3])..L["D"])
 		else
 			self.text:SetText(DB.MyColor..NONE.."|r"..L["D"])
 		end
@@ -115,10 +107,12 @@ info.onEnter = function(self)
 
 	for i = 1, 10 do
 		if localSlots[i][3] ~= 1000 then
-			local green = localSlots[i][3]*2
-			local red = 1 - green
+			local v = localSlots[i][3] / 100
+			local r = 1 - v
+			local g = v
+			local b = 0
 			local slotIcon = "|T"..GetInventoryItemTexture("player", localSlots[i][1])..":13:15:0:0:50:50:4:46:4:46|t " or ""
-			GameTooltip:AddDoubleLine(slotIcon..localSlots[i][2], string.format("%.1f %%", localSlots[i][3]*100), 1,1,1, red+1,green,0)
+			GameTooltip:AddDoubleLine(slotIcon..localSlots[i][2], string.format("%.1f%%", localSlots[i][3]), 1,1,1, r,g,b)
 		end
 	end
 

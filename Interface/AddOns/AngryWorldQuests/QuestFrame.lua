@@ -424,7 +424,7 @@ local function TitleButton_Initiliaze(button)
 		button.TagTexture:SetSize(16, 16)
 		button.TagText:ClearAllPoints()
 		button.TagText:SetPoint("RIGHT", button.TagTexture , "LEFT", -3, 0)
-		button.TagText:SetFont(filename, fontHeight, "")
+		button.TagText:SetFont(filename, fontHeight, "OUTLINE")
 
 		button.awq = true
 	end

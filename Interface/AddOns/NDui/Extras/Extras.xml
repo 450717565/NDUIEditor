@@ -1,6 +1,5 @@
 <Ui>
 	<Include file="AfkDelight.lua"/>
-	<Include file="AutoButton.lua"/>
 	<Include file="ChatAtFriends.lua"/>
 	<Include file="ChatEmote.lua"/>
 	<Include file="DressUp.lua"/>

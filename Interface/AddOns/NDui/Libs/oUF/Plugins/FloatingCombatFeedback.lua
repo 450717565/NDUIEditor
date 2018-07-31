@@ -200,7 +200,7 @@ local function Update(self, event)
 		local string = getAvailableString(element)
 
 		string:SetFont(DB.Font[1], element.fontHeight * multiplier, DB.Font[3])
-		string:SetFormattedText("|T%s:18:18:-2:0:64:64:5:59:5:59|t%s", texture, (critMark and "*" or "")..text)
+		string:SetFormattedText("|T%s:14:14:-2:0:64:64:5:59:5:59|t%s", texture, (critMark and "*" or "")..text)
 		string:SetTextColor(color.r, color.g, color.b)
 		string.elapsed = 0
 		string.scrollHeight = element.scrollHeight

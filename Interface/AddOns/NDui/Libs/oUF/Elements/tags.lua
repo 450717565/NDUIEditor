@@ -159,7 +159,7 @@ local tagStrings = {
 		if (m == 0) then
 			return 0
 		else
-			return string.format("%.1f", UnitHealth(u)/m*100)
+			return tonumber(string.format("%.1f", UnitHealth(u)/m*100))
 		end
 	end]],
 
@@ -168,7 +168,7 @@ local tagStrings = {
 		if (m == 0) then
 			return 0
 		else
-			return string.format("%.1f", UnitPower(u)/m*100)
+			return tonumber(string.format("%.1f", UnitPower(u)/m*100))
 		end
 	end]],
 

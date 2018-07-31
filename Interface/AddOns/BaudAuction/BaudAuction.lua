@@ -177,7 +177,6 @@ function BaudAuction_OnLoad(self)
 	for Key, Value in ipairs(HideBliz) do
 		Value:Hide()
 		hooksecurefunc(Value, "Show", function() Value:Hide() end)
-		--Value.Show = function() end
 	end
 
 	for Index = 1, 8 do

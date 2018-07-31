@@ -5,7 +5,6 @@
 ## Notes: Better toasts, cheers!
 ## SavedVariables: LS_TOASTS_GLOBAL_CONFIG
 
-embeds\_embeds.xml
 locales\_locales.xml
 core\_core.xml
 skins\_skins.xml

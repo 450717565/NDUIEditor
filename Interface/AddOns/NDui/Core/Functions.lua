@@ -2,6 +2,23 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local cr, cg, cb = DB.CC.r, DB.CC.g, DB.CC.b
 
+-- Color Percent
+function B.ColorPercent(value, reverse)
+	local v = value / 100
+	local r, g, b
+
+	if reverse then
+		r = v
+		g = 1 - v
+	else
+		r = 1 - v
+		g = v
+	end
+	b = 0
+
+	return B.HexRGB(r, g, b)..string.format("%.1f%%", value).."|r"
+end
+
 -- Item Slot Info
 function B.ItemSlotInfo(item)
 	local _, _, _, _, _, _, itemSubType, _, itemEquipLoc, _, _, itemClassID, itemSubClassID, bindType = GetItemInfo(item)

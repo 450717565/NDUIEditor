@@ -19,5 +19,3 @@ Frames\MainFrame.lua
 Frames\MessageFrame.lua
 Frames\NotifyButton.lua
 Frames\OptionFrame.lua
-
-Broker\Embeds.xml

@@ -75,11 +75,6 @@ info.onMouseUp = function(self, btn)
 	end
 end
 
-local function getGoldString(number)
-	local money = format("%.0f", number/1e4)
-	return GetMoneyString(money*1e4)
-end
-
 info.onEnter = function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_NONE")
 	GameTooltip:SetPoint("BOTTOMRIGHT", UIParent, -10, 35)
@@ -102,11 +97,11 @@ info.onEnter = function(self)
 	local thisRealmList = NDuiADB["totalGold"][myRealm]
 	for k, v in pairs(thisRealmList) do
 		local gold, class = unpack(v)
-		GameTooltip:AddDoubleLine(getClassIcon(class)..k, getGoldString(gold), 1,1,1, 1,1,1)
+		GameTooltip:AddDoubleLine(getClassIcon(class)..k, formatTextMoney(gold), 1,1,1, 1,1,1)
 		totalGold = totalGold + gold
 	end
 	GameTooltip:AddLine(" ")
-	GameTooltip:AddDoubleLine(TOTAL..L[":"], getGoldString(totalGold), .6,.8,1, 1,1,1)
+	GameTooltip:AddDoubleLine(TOTAL..L[":"], formatTextMoney(totalGold), .6,.8,1, 1,1,1)
 
 	for i = 1, GetNumWatchedTokens() do
 		local name, count, icon, currencyID = GetBackpackCurrencyInfo(i)
