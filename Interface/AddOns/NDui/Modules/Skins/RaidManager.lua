@@ -4,7 +4,6 @@ local module = B:GetModule("Skins")
 
 function module:CreateRM()
 	if not NDuiDB["Skins"]["RM"] then return end
-	local cr, cg, cb = DB.CC.r, DB.CC.g, DB.CC.b
 
 	local header = CreateFrame("Button", nil, UIParent)
 	header:SetSize(120, 30)
@@ -76,10 +75,10 @@ function module:CreateRM()
 
 	local raidCounts
 	roleFrame:RegisterEvent("GROUP_ROSTER_UPDATE")
-	roleFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-	roleFrame:RegisterEvent("PLAYER_FLAGS_CHANGED")
-	roleFrame:RegisterEvent("UNIT_FLAGS")
 	roleFrame:RegisterEvent("UPDATE_ACTIVE_BATTLEFIELD")
+	roleFrame:RegisterEvent("UNIT_FLAGS")
+	roleFrame:RegisterEvent("PLAYER_FLAGS_CHANGED")
+	roleFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 	roleFrame:SetScript("OnEvent", function()
 		raidCounts = {totalTANK = 0, totalHEALER = 0, totalDAMAGER = 0}
 
@@ -196,15 +195,14 @@ function module:CreateRM()
 	marker:SetPoint("RIGHT", header, "LEFT", 0, 0)
 	marker:SetParent(header)
 	marker:SetSize(30, 30)
-	marker:GetNormalTexture():SetVertexColor(cr, cg, cb)
-	marker.SetNormalTexture = B.Dummy
-	marker.SetPushedTexture = B.Dummy
 	for i = 1, 9 do
 		select(i, marker:GetRegions()):Hide()
 	end
 	B.CreateBD(marker)
 	B.CreateTex(marker)
 	B.CreateBC(marker, .5)
+	marker:SetNormalTexture("Interface\\RaidFrame\\Raid-WorldPing")
+	marker:GetNormalTexture():SetVertexColor(DB.CC.r, DB.CC.g, DB.CC.b)
 	marker:HookScript("OnMouseUp", function(_, btn)
 		if btn == "RightButton" then ClearRaidMarker() end
 	end)

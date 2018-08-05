@@ -181,9 +181,9 @@ function module:FontStyle()
 				end
 			end)
 			hooksecurefunc("GuildRoster_SetView", updateLevelString)
-		end
 
-		B:UnregisterEvent(event, updateGuildString)
+			B:UnregisterEvent(event, updateGuildString)
+		end
 	end
 	B:RegisterEvent("ADDON_LOADED", updateGuildString)
 

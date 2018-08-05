@@ -10,16 +10,12 @@ oUF.Tags.Methods["hp"] = function(unit)
 		local cur, max = UnitHealth(unit), UnitHealthMax(unit)
 
 		if (unit == "player" and not UnitHasVehicleUI(unit)) or unit == "target" or unit == "focus" then
-			if cur < max then
-				if NDuiDB["Extras"]["OtherUFs"] and unit == "player" then
-					return B.ColorPercent(per).." | "..B.Numb(cur)
-				else
-					return B.Numb(cur).." | "..B.ColorPercent(per)
-				end
+			if per < 100 then
+				return B.Numb(cur).." | "..B.ColorPercent(per)
 			else
 				return B.Numb(cur)
 			end
-		elseif unit == "arena" or unit == "boss" then
+		elseif unit:match("arena") or unit:match("boss") then
 			return B.ColorPercent(per, true)
 		elseif UnitInParty(unit) and unit:match("party") then
 			return B.Numb(cur)
@@ -35,16 +31,12 @@ oUF.Tags.Methods["power"] = function(unit)
 	local cur, max = UnitPower(unit), UnitPowerMax(unit)
 
 	if (unit == "player" and not UnitHasVehicleUI(unit)) or unit == "target" or unit == "focus" then
-		if cur < max and UnitPowerType(unit) == 0 then
-			if NDuiDB["Extras"]["OtherUFs"] and unit == "player" then
-				return B.ColorPercent(per).." | "..B.Numb(cur)
-			else
-				return B.Numb(cur).." | "..B.ColorPercent(per)
-			end
+		if per < 100 and UnitPowerType(unit) == 0 then
+			return B.Numb(cur).." | "..B.ColorPercent(per)
 		else
 			return B.Numb(cur)
 		end
-	elseif unit == "arena" or unit == "boss" then
+	elseif unit:match("arena") or unit:match("boss") then
 		return B.ColorPercent(per, true)
 	else
 		return B.ColorPercent(per)
@@ -102,22 +94,14 @@ oUF.Tags.Methods["fulllevel"] = function(unit)
 		level = UnitBattlePetLevel(unit)
 	end
 
-	if not NDuiDB["Extras"]["OtherUFs"] then
-		if level ~= UnitLevel("player") then
-			if level > 0 then
-				level = color..level.."|r"
-			else
-				level = "|cffFF0000"..BOSS.."|r"
-			end
-		else
-			level = ""
-		end
-	else
+	if level ~= UnitLevel("player") then
 		if level > 0 then
-			level = "Lv"..color..level.."|r"
+			level = color..level.."|r"
 		else
 			level = "|cffFF0000"..BOSS.."|r"
 		end
+	else
+		level = ""
 	end
 
 	local str = level

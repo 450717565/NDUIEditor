@@ -4,5 +4,4 @@
 	<Script file="ExtraQuestButton.lua"/>
 	<Script file="PetFilterTab.lua"/>
 	<Script file="QuickQuest.lua"/>
-	<Script file="TinyMenu.lua"/>
 </Ui>

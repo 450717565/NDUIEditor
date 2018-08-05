@@ -148,7 +148,7 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 			}
 			local numButtons = #LMFrame_Report
 			for index = 1, numButtons do
-				LMFrame[index].text:SetText(DB.InfoColor..LMFrame_Report[index]["loottime"].."|r " ..UnitClassColor(LMFrame_Report[index]["player"]).."|r " ..LMFrame_Report[index]["loot"].." "..LMFrame_Report[index]["info"])
+				LMFrame[index].text:SetText(DB.InfoColor..LMFrame_Report[index]["loottime"].."|r " ..UnitClassColor(LMFrame_Report[index]["player"]).." " ..LMFrame_Report[index]["loot"].." "..LMFrame_Report[index]["info"])
 				LMFrame[index]:Show()
 			end
 			LMFrame:SetWidth(LMFrame_Width*2)

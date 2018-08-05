@@ -21,6 +21,10 @@ C.themes["Blizzard_Communities"] = function()
 		F.CreateBD(frame, .25)
 		F.CreateSD(frame)
 		frame.InsetFrame:Hide()
+		if frame.CircleMask then
+			frame.CircleMask:Hide()
+			F.CreateBDFrame(frame.Icon)
+		end
 		if frame.FindAGuildButton then F.Reskin(frame.FindAGuildButton) end
 		if frame.AcceptButton then F.Reskin(frame.AcceptButton) end
 		if frame.DeclineButton then F.Reskin(frame.DeclineButton) end

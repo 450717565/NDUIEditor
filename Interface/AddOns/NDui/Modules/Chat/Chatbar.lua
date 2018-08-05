@@ -123,11 +123,11 @@ function module:Chatbar()
 	for _, info in pairs(buttonInfo) do AddButton(unpack(info)) end
 
 	-- WORLD CHANNEL
-	if DB.Client == "zhCN" or DB.Client == "zhTW" then
+	if DB.Client == "zhCN" then
 		local channelName, channelID, channels = L["World Channel Name"]
 		local wc = AddButton(1, .75, .75, L["World Channel"])
 
-		local function IsInChannel()
+		local function isInChannel(event)
 			channels = {GetChannelList()}
 			for i = 1, #channels do
 				if channels[i] == channelName then
@@ -136,14 +136,19 @@ function module:Chatbar()
 					break
 				end
 			end
+
 			if wc.inChannel then
 				wc.Icon:SetVertexColor(1, .75, .75)
 			else
 				wc.Icon:SetVertexColor(1, .1, .1)
 			end
+
+			if event == "PLAYER_ENTERING_WORLD" then
+				B:UnregisterEvent(event, isInChannel)
+			end
 		end
-		IsInChannel()
-		B:RegisterEvent("CHANNEL_UI_UPDATE", IsInChannel)
+		B:RegisterEvent("PLAYER_ENTERING_WORLD", isInChannel)
+		B:RegisterEvent("CHANNEL_UI_UPDATE", isInChannel)
 
 		wc:SetScript("OnClick", function(_, btn)
 			if wc.inChannel then

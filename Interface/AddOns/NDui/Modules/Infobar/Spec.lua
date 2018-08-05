@@ -50,7 +50,7 @@ info.onEnter = function(self)
 	GameTooltip:AddLine(" ")
 
 	local _, specName, _, specIcon = GetSpecializationInfo(GetSpecialization())
-	GameTooltip:AddLine(addIcon(specIcon).." "..specName, 1,1,1)
+	GameTooltip:AddLine(addIcon(specIcon).." "..specName, .6,.8,1)
 
 	for t = 1, MAX_TALENT_TIERS do
 		for c = 1, 3 do
@@ -67,7 +67,7 @@ info.onEnter = function(self)
 		if #pvpTalents > 0 then
 			local texture = select(3, GetCurrencyInfo(104))
 			GameTooltip:AddLine(" ")
-			GameTooltip:AddLine(addIcon(texture).." "..PVP_TALENTS, 1,1,1)
+			GameTooltip:AddLine(addIcon(texture).." "..PVP_TALENTS, .6,.8,1)
 			for _, talentID in next, pvpTalents do
 				local _, name, icon, _, _, _, unlocked = GetPvpTalentInfoByID(talentID)
 				if name and unlocked then

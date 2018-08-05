@@ -1,4 +1,4 @@
-if GetBuildInfo() ~= "7.2.0" then return end
+--if GetBuildInfo() ~= "7.2.0" then return end
 local ADDON, Addon = ...
 local Mod = Addon:NewModule('Schedule')
 
@@ -6,7 +6,7 @@ local rowCount = 4
 
 local requestKeystoneCheck
 
--- 1: Òç³ö, 2: ÎÞ³£, 3: »ðÉ½, 4: ËÀ¾Ò, 5: ·±Ê¢, 6: ±©Å­, 7: ¼¤Àø, 8: Ñª³Ø, 9: ²Ð±©, 10: Ç¿ÈÍ, 11: ±ÀÁÑ, 12: ÖØÉË, 13: Ò×±¬, 14: Õðµ´
+-- 1: æº¢å‡º, 2: æ— å¸¸, 3: ç«å±±, 4: æ­»ç–½, 5: ç¹ç››, 6: æš´æ€’, 7: æ¿€åŠ±, 8: è¡€æ± , 9: æ®‹æš´, 10: å¼ºéŸ§, 11: å´©è£‚, 12: é‡ä¼¤, 13: æ˜“çˆ†, 14: éœ‡è¡
 local affixSchedule = {
 	{ 6, 3, 9 },
 	{ 5, 13, 10 },
@@ -71,31 +71,31 @@ end
 
 function Mod:Blizzard_ChallengesUI()
 	local frame = CreateFrame("Frame", nil, ChallengesFrame)
-	frame:SetPoint("BOTTOMLEFT", 6, 70)
 	frame:SetSize(170, 110)
+	frame:SetPoint("BOTTOMLEFT", 6, 70)
 	Mod.Frame = frame
 
 	local bg = frame:CreateTexture(nil, "BACKGROUND")
 	bg:SetAllPoints()
 	bg:SetAtlas("ChallengeMode-guild-background")
-	bg:SetAlpha(0.4)
+	bg:SetAlpha(.4)
 
-	local title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalMed2")
+	local title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	title:SetText(Addon.Locale.scheduleTitle)
 	title:SetPoint("TOPLEFT", 10, -9)
 
 	local line = frame:CreateTexture(nil, "ARTWORK")
-	line:SetSize(192, 9)
-	line:SetAtlas("ChallengeMode-RankLineDivider", false)
-	line:SetPoint("TOP", 0, -20)
+	line:SetSize(160, 1)
+	line:SetColorTexture(.5, .5, .5)
+	line:SetPoint("TOP", 0, -27)
 
 	local entries = {}
 	for i = 1, rowCount do
 		local entry = CreateFrame("Frame", nil, frame)
-		entry:SetSize(176, 18)
+		entry:SetSize(150, 18)
 
 		local text = entry:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-		text:SetWidth(120)
+		text:SetWidth(100)
 		text:SetJustifyH("LEFT")
 		text:SetWordWrap(false)
 		text:SetText( Addon.Locale["scheduleWeek"..i] )
@@ -117,7 +117,7 @@ function Mod:Blizzard_ChallengesUI()
 		entry.Affixes = affixes
 
 		if i == 1 then
-			entry:SetPoint("TOP", line, "BOTTOM")
+			entry:SetPoint("TOP", line, "BOTTOM", 0, -3)
 		else
 			entry:SetPoint("TOP", entries[i-1], "BOTTOM")
 		end
@@ -148,9 +148,9 @@ function Mod:CheckInventoryKeystone()
 			local itemString = slotLink and slotLink:match("|Hkeystone:([0-9:]+)|h(%b[])|h")
 			if itemString then
 				local info = { strsplit(":", itemString) }
-				local mapLevel = tonumber(info[2])
+				local mapLevel = tonumber(info[3])
 				if mapLevel >= 7 then
-					local affix1, affix2 = tonumber(info[3]), tonumber(info[4])
+					local affix1, affix2 = tonumber(info[4]), tonumber(info[5])
 					for index, affixes in ipairs(affixSchedule) do
 						if affix1 == affixes[1] and affix2 == affixes[2] then
 							currentWeek = index

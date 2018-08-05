@@ -204,7 +204,6 @@ local defaultSettings = {
 		LootMonitorBonusRewards = false,
 		LootMonitorInGroup = true,
 		MoveTalking = true,
-		OtherUFs = false,
 		PartyFrame = true,
 		ShowCharacterItemSheet = true,
 		ShowOwnFrameWhenInspecting = true,
@@ -480,9 +479,8 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{4, "Settings", "Format", L["Numberize"], true, {L["Number Type1"], L["Number Type2"], L["Number Type3"]}},
 	},
 	[14] = {
-		{1, "Extras", "PartyFrame", "|cff00FF00"..L["UFs PartyFrame"]},
-		{1, "Extras", "OtherUFs", "|cff00FFFF"..L["Other UFs"]},
-		{4, "Extras", "ArrowColor", L["Arrow Color"], true, {L["Cyan"], L["Green"], L["Red"]}},
+		{4, "Extras", "ArrowColor", L["Arrow Color"], false, {L["Cyan"], L["Green"], L["Red"]}},
+		{1, "Extras", "PartyFrame", "|cff00FF00"..L["UFs PartyFrame"], true},
 		{},--blank
 		{3, "Extras", "SkinColorA", L["Skin Color A"], false, {0, 1, 2}},
 		{3, "Extras", "SkinColorR", "|cffFF0000"..L["Skin Color R"], true, {0, 1, 2}},

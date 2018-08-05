@@ -205,15 +205,10 @@ function module:DBMSkin()
 	DBM_AllSavedOptions["Default"]["EventSoundVictory"] = "None"
 	DBT_AllPersistentOptions["Default"]["DBM"].BarYOffset = 15
 	DBT_AllPersistentOptions["Default"]["DBM"].HugeBarYOffset = 15
-	if IsAddOnLoaded("DBM-VPTaotao") then
-		DBM_AllSavedOptions["Default"]["ChosenVoicePack"] = "Taotao"
-		DBM_AllSavedOptions["Default"]["CountdownVoice"] = "VP:Taotao"
-		DBM_AllSavedOptions["Default"]["CountdownVoice2"] = "VP:Taotao"
-		DBM_AllSavedOptions["Default"]["CountdownVoice3v2"] = "VP:Taotao"
-	elseif IsAddOnLoaded("DBM-VPYike") then
-		DBM_AllSavedOptions["Default"]["ChosenVoicePack"] = "Yike"
-		DBM_AllSavedOptions["Default"]["CountdownVoice"] = "VP:Yike"
-		DBM_AllSavedOptions["Default"]["CountdownVoice2"] = "VP:Yike"
-		DBM_AllSavedOptions["Default"]["CountdownVoice3v2"] = "VP:Yike"
+	if IsAddOnLoaded("DBM-VPVV") then
+		DBM_AllSavedOptions["Default"]["ChosenVoicePack"] = "VV"
+		DBM_AllSavedOptions["Default"]["CountdownVoice"] = "VP:VV"
+		DBM_AllSavedOptions["Default"]["CountdownVoice2"] = "VP:VV"
+		DBM_AllSavedOptions["Default"]["CountdownVoice3v2"] = "VP:VV"
 	end
 end

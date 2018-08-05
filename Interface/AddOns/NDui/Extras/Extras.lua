@@ -1,25 +1,5 @@
 local B, C, L, DB = unpack(select(2, ...))
 
---- 修复部分职业大厅地图返回问题
-local ohMap = {
-	[23] = function() return select(4, GetMapInfo()) and 1007 end, -- Paladin, Sanctum of Light; Eastern Plaguelands
-	[1040] = function() return 1007 end, -- Priest, Netherlight Temple; Azeroth
-	[1044] = function() return 1007 end, -- Monk, Temple of Five Dawns; none
-	[1048] = function() return 1007 end, -- Druid, Emerald Dreamway; none
-	[1052] = function() return GetCurrentMapDungeonLevel() > 1 and 1007 end, -- Demon Hunter, Fel Hammer; Mardum
-	[1088] = function() return GetCurrentMapDungeonLevel() == 3 and 1033 end, -- Nighthold -> Suramar
-}
-local OnClick = WorldMapZoomOutButton_OnClick
-function WorldMapZoomOutButton_OnClick()
-	local id = ohMap[GetCurrentMapAreaID()]
-	local out = id and id()
-	if out then
-		SetMapByID(out)
-	else
-		OnClick()
-	end
-end
-
 --- 共享计量条材质
 local media = LibStub("LibSharedMedia-3.0")
 media:Register("statusbar", "Altz01", [[Interface\AddOns\NDui\Media\StatusBar\Altz01]])
@@ -37,11 +17,6 @@ media:Register("statusbar", "Ya02", [[Interface\AddOns\NDui\Media\StatusBar\Ya02
 media:Register("statusbar", "Ya03", [[Interface\AddOns\NDui\Media\StatusBar\Ya03]])
 media:Register("statusbar", "Ya04", [[Interface\AddOns\NDui\Media\StatusBar\Ya04]])
 media:Register("statusbar", "Ya05", [[Interface\AddOns\NDui\Media\StatusBar\Ya05]])
-
---- 自动填写DELETE
-hooksecurefunc(StaticPopupDialogs["DELETE_GOOD_ITEM"], "OnShow", function(self)
-	self.editBox:SetText(DELETE_ITEM_CONFIRM_STRING)
-end)
 
 --- 新人加入公会自动欢迎
 local function GuildWelcome(event, msg)
@@ -92,25 +67,6 @@ hooksecurefunc("ReputationFrame_Update",function()
 			end
 		else
 			factionRow:Hide()
-		end
-	end
-end)
-
---- 神器能量提示当前专精和武器
-GameTooltip:HookScript("OnTooltipSetItem", function(self)
-	local _, link = self:GetItem()
-	if type(link) == "string" then
-		if IsArtifactPowerItem(link) then
-			local artifactID, _, artifactName = C_ArtifactUI.GetEquippedArtifactInfo()
-			if artifactName then
-				local spec = GetSpecialization()
-				local _, specName = GetSpecializationInfo(spec)
-				if artifactName then
-					self:AddLine(" ")
-					self:AddDoubleLine(format(DB.MyColor.."<%s>", specName), format("|cffe6cc80[%s]", artifactName))
-					self:Show()
-				end
-			end
 		end
 	end
 end)

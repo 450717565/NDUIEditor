@@ -357,11 +357,12 @@ function B:HideObject()
 	self:Hide()
 end
 
-function B:StripTextures()
+function B:StripTextures(hideTex)
 	for i = 1, self:GetNumRegions() do
 		local region = select(i, self:GetRegions())
 		if region and region:GetObjectType() == "Texture" then
 			region:SetTexture("")
+			if hideTex then region:Hide() end
 		end
 	end
 end
