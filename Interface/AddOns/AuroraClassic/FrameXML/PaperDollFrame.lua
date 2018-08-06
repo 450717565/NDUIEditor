@@ -130,7 +130,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			end
 		end
 
-		tab.Highlight:SetColorTexture(r, g, b, .2)
+		tab.Highlight:SetColorTexture(r, g, b, .25)
 		tab.Highlight:SetPoint("TOPLEFT", 3, -4)
 		tab.Highlight:SetPoint("BOTTOMRIGHT", -1, 0)
 		tab.Hider:SetColorTexture(.3, .3, .3, .4)
@@ -205,9 +205,9 @@ tinsert(C.themes["AuroraClassic"], function()
 				_G["PaperDollEquipmentManagerPaneButton"..i.."BgMiddle"]:Hide()
 				_G["PaperDollEquipmentManagerPaneButton"..i.."BgBottom"]:SetAlpha(0)
 
-				bu.HighlightBar:SetColorTexture(r, g, b, .1)
+				bu.HighlightBar:SetColorTexture(r, g, b, .25)
 				bu.HighlightBar:SetDrawLayer("BACKGROUND")
-				bu.SelectedBar:SetColorTexture(r, g, b, .2)
+				bu.SelectedBar:SetColorTexture(r, g, b, .25)
 				bu.SelectedBar:SetDrawLayer("BACKGROUND")
 
 				bd:Hide()

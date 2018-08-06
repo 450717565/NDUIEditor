@@ -178,6 +178,7 @@ LibEvent:attachEvent("ADDON_LOADED", function(self, addonName)
 end)
 
 -- Auction
+--[[
 LibEvent:attachEvent("ADDON_LOADED", function(self, addonName)
 	if (addonName == "Blizzard_AuctionUI") then
 		hooksecurefunc("AuctionFrameBrowse_Update", function()
@@ -213,7 +214,7 @@ LibEvent:attachEvent("ADDON_LOADED", function(self, addonName)
 		end)
 	end
 end)
-
+]]
 -- ALT
 if (EquipmentFlyout_DisplayButton) then
 	hooksecurefunc("EquipmentFlyout_DisplayButton", function(button, paperDollItemSlot)
@@ -348,7 +349,7 @@ local function ChatItemLevel(Hyperlink)
 	local itemTexture = select(10, GetItemInfo(itemLink))
 	if not itemTexture then return end
 	local totalText = ""
-	local level = B.GetItemLevel(itemLink, itemRarity)
+	local level = B.GetItemLevel(itemLink)
 	local slotText = B.ItemSlotInfo(itemLink)
 
 	if level and slotText then

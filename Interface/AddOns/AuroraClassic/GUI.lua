@@ -76,7 +76,7 @@ local function addSubCategory(parent, name)
 	local line = parent:CreateTexture(nil, "ARTWORK")
 	line:SetSize(610, 1)
 	line:SetPoint("TOPLEFT", header, "BOTTOMLEFT", 0, -4)
-	line:SetColorTexture(1, 1, 1, .2)
+	line:SetColorTexture(1, 1, 1, .25)
 
 	return header
 end
@@ -191,7 +191,7 @@ AuroraOptionsAlphaText:SetText(L["Opacity"])
 local line = gui:CreateTexture(nil, "ARTWORK")
 line:SetSize(610, 1)
 line:SetPoint("TOPLEFT", alphaSlider, "BOTTOMLEFT", -20, -30)
-line:SetColorTexture(1, 1, 1, .2)
+line:SetColorTexture(1, 1, 1, .25)
 
 local reloadText = gui:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
 reloadText:SetPoint("TOPLEFT", line, "BOTTOMLEFT", 0, -40)

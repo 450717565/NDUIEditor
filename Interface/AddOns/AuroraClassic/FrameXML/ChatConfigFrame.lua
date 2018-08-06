@@ -90,7 +90,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	local line = ChatConfigFrame:CreateTexture()
 	line:SetSize(1, 460)
 	line:SetPoint("TOPLEFT", ChatConfigCategoryFrame, "TOPRIGHT")
-	line:SetColorTexture(1, 1, 1, .2)
+	line:SetColorTexture(1, 1, 1, .25)
 
 	ChatConfigCategoryFrame:SetBackdrop(nil)
 	ChatConfigBackgroundFrame:SetBackdrop(nil)

@@ -17,7 +17,7 @@ C.themes["Blizzard_RaidUI"] = function()
 	for i = 1, MAX_RAID_MEMBERS do
 		local bu = _G["RaidGroupButton"..i]
 		select(4, bu:GetRegions()):SetAlpha(0)
-		select(5, bu:GetRegions()):SetColorTexture(r, g, b, .2)
+		select(5, bu:GetRegions()):SetColorTexture(r, g, b, .25)
 		F.CreateBDFrame(bu)
 	end
 end

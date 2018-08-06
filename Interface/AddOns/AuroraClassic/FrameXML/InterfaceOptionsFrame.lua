@@ -38,7 +38,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		local line = InterfaceOptionsFrame:CreateTexture(nil, "ARTWORK")
 		line:SetSize(1, 546)
 		line:SetPoint("LEFT", 205, 10)
-		line:SetColorTexture(1, 1, 1, .2)
+		line:SetColorTexture(1, 1, 1, .25)
 
 		local checkboxes = {
 			"InterfaceOptionsControlsPanelStickyTargeting",

@@ -162,7 +162,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				F.CreateBDFrame(cicon)
 
 				local hl = button:GetHighlightTexture()
-				hl:SetColorTexture(r, g, b, .1)
+				hl:SetColorTexture(r, g, b, .25)
 				hl:ClearAllPoints()
 				hl:SetPoint("TOPLEFT", button, "TOPLEFT", 1, -1)
 				hl:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", -1, 1)
@@ -319,7 +319,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		tab.bg = bg
 
 		local hl = tab:GetHighlightTexture()
-		hl:SetColorTexture(r, g, b, .1)
+		hl:SetColorTexture(r, g, b, .25)
 		hl:ClearAllPoints()
 		hl:SetPoint("TOPLEFT", bg, 1, -1)
 		hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
@@ -350,13 +350,13 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				F.CreateBD(bg, .25)
 				F.CreateSD(bg)
 
-				button.SelectedBG:SetColorTexture(r, g, b, .2)
+				button.SelectedBG:SetColorTexture(r, g, b, .25)
 				button.SelectedBG:ClearAllPoints()
 				button.SelectedBG:SetPoint("TOPLEFT", bg, 1, -1)
 				button.SelectedBG:SetPoint("BOTTOMRIGHT", bg, -1, 1)
 
 				local hl = button:GetHighlightTexture()
-				hl:SetColorTexture(r, g, b, .1)
+				hl:SetColorTexture(r, g, b, .25)
 				hl:ClearAllPoints()
 				hl:SetPoint("TOPLEFT", bg, 1, -1)
 				hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
@@ -560,7 +560,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 		local selectedTex = bg:CreateTexture(nil, "BACKGROUND")
 		selectedTex:SetAllPoints()
-		selectedTex:SetColorTexture(r, g, b, .2)
+		selectedTex:SetColorTexture(r, g, b, .25)
 		selectedTex:Hide()
 		tab.selectedTex = selectedTex
 

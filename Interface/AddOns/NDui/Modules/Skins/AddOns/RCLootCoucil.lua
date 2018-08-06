@@ -107,7 +107,7 @@ function module:RCLootCoucil()
 		local bu = _G["RCButton"..index]
 		while bu do
 			bu:GetNormalTexture():SetTexCoord(unpack(DB.TexCoord))
-			bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .3)
+			bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 			bu:SetBackdrop(nil)
 			B.CreateSD(bu, 3, 3)
 

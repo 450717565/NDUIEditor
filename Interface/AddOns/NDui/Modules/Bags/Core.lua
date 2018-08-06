@@ -38,7 +38,7 @@ function module:OnLogin()
 
 		f.bank = MyContainer:New("Bank", {Columns = NDuiDB["Bags"]["BankWidth"], Bags = "bank"})
 		f.bank:SetFilter(onlyBank, true)
-		f.bank:SetPoint("BOTTOMRIGHT", f.main, "BOTTOMLEFT", -20, 0)
+		f.bank:SetPoint("BOTTOMRIGHT", f.main, "BOTTOMLEFT", -20, -50)
 		f.bank:Hide()
 
 		f.bankAzeriteItem = MyContainer:New("BankAzeriteItem", {Columns = NDuiDB["Bags"]["BankWidth"], Bags = "bankazeriteitem"})
@@ -83,7 +83,7 @@ function module:OnLogin()
 	function MyButton:OnCreate()
 		self:SetNormalTexture(nil)
 		self:SetPushedTexture(nil)
-		self:GetHighlightTexture():SetColorTexture(1, 1, 1, .3)
+		self:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 		self:SetSize(iconSize, iconSize)
 
 		self.Icon:SetAllPoints()
@@ -150,27 +150,6 @@ function module:OnLogin()
 		self.ShowNewItems = true
 	end
 
-	local itemLevelString = _G["ITEM_LEVEL"]:gsub("%%d", "")
-	local ItemDB = {}
-	local function GetBagItemLevel(link, bag, slot)
-		if ItemDB[link] then return ItemDB[link] end
-
-		local tip = _G["NDuiBagItemTooltip"] or CreateFrame("GameTooltip", "NDuiBagItemTooltip", nil, "GameTooltipTemplate")
-		tip:SetOwner(UIParent, "ANCHOR_NONE")
-		tip:SetBagItem(bag, slot)
-
-		for i = 2, 5 do
-			local text = _G[tip:GetName().."TextLeft"..i]:GetText() or ""
-			local hasLevel = string.find(text, itemLevelString)
-			if hasLevel then
-				local level = string.match(text, "(%d+)%)?$")
-				ItemDB[link] = tonumber(level)
-				break
-			end
-		end
-		return ItemDB[link]
-	end
-
 	function MyButton:OnUpdate(item)
 		self.Junk:SetAlpha(0)
 		if item.rarity == LE_ITEM_QUALITY_POOR and item.sellPrice > 0 then
@@ -198,7 +177,7 @@ function module:OnLogin()
 			and (item.rarity and item.rarity > 1)
 			and ((item.level and item.level > 0) and (item.subType == EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC or (item.equipLoc ~= "" and item.equipLoc ~= "INVTYPE_TABARD" and item.equipLoc ~= "INVTYPE_BODY" and item.equipLoc ~= "INVTYPE_BAG")))
 			or ((item.classID and item.classID == 15 and item.subclassID) and (item.subclassID == 2 or item.subclassID == 5)) then
-				local level = GetBagItemLevel(item.link, item.bagID, item.slotID) or item.level
+				local level = B.GetItemLevel(item.link, item.bagID, item.slotID) or item.level
 				if NDuiDB["Bags"]["BagsiLvl"] then
 					self.iLvl:SetText(level)
 				end
@@ -231,7 +210,7 @@ function module:OnLogin()
 	local BagButton = Backpack:GetClass("BagButton", true, "BagButton")
 	function BagButton:OnCreate()
 		self:SetNormalTexture(nil)
-		self:GetHighlightTexture():SetColorTexture(1, 1, 1, .3)
+		self:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 		self:SetPushedTexture(nil)
 		self:SetCheckedTexture(DB.textures.pushed)
 		self:GetCheckedTexture():SetVertexColor(.3, .9, .9, .5)

@@ -233,6 +233,7 @@ if IsAddOnLoaded("AuroraClassic") then
 			for k, v in pairs(Framelist) do
 				_G["Overachiever_"..v]:DisableDrawLayer("ARTWORK")
 				_G["Overachiever_"..v]:DisableDrawLayer("BACKGROUND")
+				_G["Overachiever_"..v]:GetChildren():Hide()
 			end
 
 			local Checklist = {"SearchFrameFullListCheckbox", "SuggestionsFrameShowHiddenCheckbox", "WatchFrameCopyDestCheckbox"}

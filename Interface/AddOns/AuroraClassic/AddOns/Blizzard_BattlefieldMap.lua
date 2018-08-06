@@ -1,7 +1,6 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_BattlefieldMap"] = function()
-	local BattlefieldMapFrame = _G.BattlefieldMapFrame
 	local BorderFrame = BattlefieldMapFrame.BorderFrame
 
 	F.StripTextures(BorderFrame)

@@ -77,7 +77,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	end
 
 	local function styleTab(bu)
-		bu.selected:SetColorTexture(r, g, b, .2)
+		bu.selected:SetColorTexture(r, g, b, .25)
 		bu.selected:SetDrawLayer("BACKGROUND")
 		bu.text:SetFont(C.media.font, 14, "OUTLINE")
 		F.Reskin(bu, true)

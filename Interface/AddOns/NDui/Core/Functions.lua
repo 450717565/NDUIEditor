@@ -50,19 +50,24 @@ function B.ItemSlotInfo(item)
 end
 
 -- Scan Item Level
-local itemLevelString = _G["ITEM_LEVEL"]:gsub("%%d", "(%%d+)")
+local itemLevelString = _G["ITEM_LEVEL"]:gsub("%%d", "")
 local ItemDB = {}
-function B.GetItemLevel(link, quality)
-	if ItemDB[link] and quality ~= 6 then return ItemDB[link] end
+function B.GetItemLevel(link, bag, slot)
+	if ItemDB[link] then return ItemDB[link] end
 
 	local tip = _G["NDuiScanTooltip"] or CreateFrame("GameTooltip", "NDuiScanTooltip", nil, "GameTooltipTemplate")
 	tip:SetOwner(UIParent, "ANCHOR_NONE")
-	tip:SetHyperlink(link)
+	if bag and slot then
+		tip:SetBagItem(bag, slot)
+	else
+		tip:SetHyperlink(link)
+	end
 
 	for i = 2, 5 do
 		local text = _G[tip:GetName().."TextLeft"..i]:GetText() or ""
-		local level = string.match(text, itemLevelString)
-		if level then
+		local hasLevel = string.find(text, itemLevelString)
+		if hasLevel then
+			local level = string.match(text, "(%d+)%)?$")
 			ItemDB[link] = tonumber(level)
 			break
 		end
@@ -241,7 +246,7 @@ function B:CreateIF(mouse, cd)
 	if mouse then
 		self:EnableMouse(true)
 		self.HL = self:CreateTexture(nil, "HIGHLIGHT")
-		self.HL:SetColorTexture(1, 1, 1, .3)
+		self.HL:SetColorTexture(1, 1, 1, .25)
 		self.HL:SetAllPoints(self.Icon)
 	end
 	if cd then

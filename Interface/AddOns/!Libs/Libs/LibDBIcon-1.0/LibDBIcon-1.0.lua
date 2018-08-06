@@ -6,7 +6,7 @@
 --
 
 local DBICON10 = "LibDBIcon-1.0"
-local DBICON10_MINOR = 36 -- Bump on changes
+local DBICON10_MINOR = 37 -- Bump on changes
 if not LibStub then error(DBICON10 .. " requires LibStub.") end
 local ldb = LibStub("LibDataBroker-1.1", true)
 if not ldb then error(DBICON10 .. " requires LibDataBroker-1.1.") end
@@ -96,19 +96,23 @@ do
 		["TRICORNER-BOTTOMRIGHT"] = {true, true, true, false},
 	}
 
+	local rad, cos, sin, sqrt, max, min = math.rad, math.cos, math.sin, math.sqrt, math.max, math.min
 	function updatePosition(button)
-		local angle = math.rad(button.db and button.db.minimapPos or button.minimapPos or 225)
-		local x, y, q = math.cos(angle), math.sin(angle), 1
+		local angle = rad(button.db and button.db.minimapPos or button.minimapPos or 225)
+		local x, y, q = cos(angle), sin(angle), 1
 		if x < 0 then q = q + 1 end
 		if y > 0 then q = q + 2 end
 		local minimapShape = GetMinimapShape and GetMinimapShape() or "ROUND"
 		local quadTable = minimapShapes[minimapShape]
+		local w = (Minimap:GetWidth() / 2) + 5
+		local h = (Minimap:GetHeight() / 2) + 5
 		if quadTable[q] then
-			x, y = x*80, y*80
+			x, y = x*w, y*h
 		else
-			local diagRadius = 103.13708498985 --math.sqrt(2*(80)^2)-10
-			x = math.max(-80, math.min(x*diagRadius, 80))
-			y = math.max(-80, math.min(y*diagRadius, 80))
+			local diagRadiusW = sqrt(2*(w)^2)-10
+			local diagRadiusH = sqrt(2*(h)^2)-10
+			x = max(-w, min(x*diagRadiusW, w))
+			y = max(-h, min(y*diagRadiusH, h))
 		end
 		button:SetPoint("CENTER", Minimap, "CENTER", x, y)
 	end
@@ -119,15 +123,16 @@ function onMouseDown(self) self.isMouseDown = true; self.icon:UpdateCoord() end
 function onMouseUp(self) self.isMouseDown = false; self.icon:UpdateCoord() end
 
 do
+	local deg, atan2 = math.deg, math.atan2
 	local function onUpdate(self)
 		local mx, my = Minimap:GetCenter()
 		local px, py = GetCursorPosition()
 		local scale = Minimap:GetEffectiveScale()
 		px, py = px / scale, py / scale
 		if self.db then
-			self.db.minimapPos = math.deg(math.atan2(py - my, px - mx)) % 360
+			self.db.minimapPos = deg(atan2(py - my, px - mx)) % 360
 		else
-			self.minimapPos = math.deg(math.atan2(py - my, px - mx)) % 360
+			self.minimapPos = deg(atan2(py - my, px - mx)) % 360
 		end
 		updatePosition(self)
 	end
@@ -332,3 +337,11 @@ function lib:DisableLibrary()
 	end
 end
 
+-- Upgrade!
+for k,v in next, lib.objects do
+	local db = getDatabase(k)
+	if not db or not db.lock then
+		v:SetScript("OnDragStart", onDragStart)
+		v:SetScript("OnDragStop", onDragStop)
+	end
+end

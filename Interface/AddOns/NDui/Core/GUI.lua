@@ -197,7 +197,6 @@ local defaultSettings = {
 	},
 	Extras = {
 		ArrowColor = 1,
-		Durability = false,
 		GuildWelcome = true,
 		iLvlTools = true,
 		LootMonitor = true,
@@ -472,7 +471,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 	[13] = {
 		{1, "Settings", "VersionCheck", L["Version Check"]},
 		{},--blank
-		{3, "Settings", "UIScale", L["Setup UIScale"], false, {.6, 1.1, 2}},
+		{3, "Settings", "UIScale", L["Setup UIScale"], false, {.5, 1.1, 2}},
 		{1, "Settings", "LockUIScale", "|cff00cc4c"..L["Lock UIScale"], true},
 		{},--blank
 		{3, "Settings", "GUIScale", L["GUI Scale"], false, {.5, 1.5, 1}},
@@ -487,10 +486,9 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{3, "Extras", "SkinColorG", "|cff00FF00"..L["Skin Color G"], false, {0, 1, 2}},
 		{3, "Extras", "SkinColorB", "|cff0000FF"..L["Skin Color B"], true, {0, 1, 2}},
 		{},--blank
-		{1, "Extras", "Durability", L["Show Durability"]},
-		{1, "Extras", "MoveTalking", L["Move Talking"], true},
-		{1, "Extras", "SlotInfo", L["Slot Info"]},
-		{1, "Extras", "GuildWelcome", L["Guild Welcome"], true},
+		{1, "Extras", "MoveTalking", L["Move Talking"]},
+		{1, "Extras", "SlotInfo", L["Slot Info"], true},
+		{1, "Extras", "GuildWelcome", L["Guild Welcome"]},
 		{},--blank
 		{1, "Extras", "ShowCharacterItemSheet", L["Show Character Item Sheet"]},
 		{1, "Extras", "ShowOwnFrameWhenInspecting", L["Show Own Frame When Inspecting"], true},

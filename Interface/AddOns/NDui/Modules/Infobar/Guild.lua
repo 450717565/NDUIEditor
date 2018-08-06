@@ -33,7 +33,7 @@ for i = 1, 4 do
 	end
 	bu[i].HL = bu[i]:CreateTexture(nil, "HIGHLIGHT")
 	bu[i].HL:SetAllPoints(bu[i])
-	bu[i].HL:SetColorTexture(r, g, b, .2)
+	bu[i].HL:SetColorTexture(r, g, b, .25)
 end
 B.CreateFS(bu[1], 13, LEVEL_ABBR)
 B.CreateFS(bu[2], 13, CLASS_ABBR)
@@ -67,7 +67,7 @@ local function createRoster(i)
 	button:SetSize(312, 22)
 	button.HL = button:CreateTexture(nil, "HIGHLIGHT")
 	button.HL:SetAllPoints()
-	button.HL:SetColorTexture(r, g, b, .2)
+	button.HL:SetColorTexture(r, g, b, .25)
 
 	button.level = B.CreateFS(button, 13, "Level", false, "LEFT", 5, 0)
 

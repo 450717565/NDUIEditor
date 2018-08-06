@@ -24,7 +24,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		local line = VideoOptionsFrame:CreateTexture(nil, "ARTWORK")
 		line:SetSize(1, 512)
 		line:SetPoint("LEFT", 205, 30)
-		line:SetColorTexture(1, 1, 1, .2)
+		line:SetColorTexture(1, 1, 1, .25)
 
 		Display_:SetBackdrop(nil)
 		Graphics_:SetBackdrop(nil)
@@ -36,7 +36,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		local hline = Display_:CreateTexture(nil, "ARTWORK")
 		hline:SetSize(580, 1)
 		hline:SetPoint("TOPLEFT", GraphicsButton, "BOTTOMLEFT", 14, -4)
-		hline:SetColorTexture(1, 1, 1, .2)
+		hline:SetColorTexture(1, 1, 1, .25)
 
 		local frames = {AudioOptionsSoundPanelPlayback, AudioOptionsSoundPanelHardware, AudioOptionsSoundPanelVolume}
 		for _, frame in next, frames do

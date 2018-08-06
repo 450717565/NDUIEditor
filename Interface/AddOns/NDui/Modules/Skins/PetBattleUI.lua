@@ -230,7 +230,7 @@ function module:PetBattleUI()
 			bu.Icon:SetTexCoord(unpack(DB.TexCoord))
 			bu:SetNormalTexture("")
 			bu:GetPushedTexture():SetTexture(DB.textures.pushed)
-			bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .3)
+			bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 			B.CreateSD(bu, 3, 3)
 
 			bu.Cooldown:SetFont(DB.Font[1], 26, "OUTLINE")
@@ -238,7 +238,7 @@ function module:PetBattleUI()
 			bu.SelectedHighlight:SetPoint("TOPLEFT", bu, -12, 12)
 			bu.SelectedHighlight:SetPoint("BOTTOMRIGHT", bu, 12, -12)
 		end
-		buttonList[4]:GetCheckedTexture():SetColorTexture(r, g, b, .3)
+		buttonList[4]:GetCheckedTexture():SetColorTexture(r, g, b, .25)
 	end)
 
 	local skipButton = bottomFrame.TurnTimer.SkipButton

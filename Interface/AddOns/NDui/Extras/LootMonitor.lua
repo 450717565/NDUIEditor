@@ -117,7 +117,7 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 		local lootTime = GameTime_GetGameTime(true)
 		local filterBR = NDuiDB["Extras"]["LootMonitorBonusRewards"] and rollInfo
 
-		local itemLvl = B.GetItemLevel(itemLink, itemRarity)
+		local itemLvl = B.GetItemLevel(itemLink)
 		local slotText = B.ItemSlotInfo(itemLink)
 
 		if NDuiDB["Extras"]["LootMonitorInGroup"] == true and not IsInGroup() then

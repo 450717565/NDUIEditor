@@ -4,7 +4,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	local r, g, b = C.r, C.g, C.b
 
 	hooksecurefunc("UIDropDownMenu_CreateFrames", function()
-		for i = 1, _G.UIDROPDOWNMENU_MAXLEVELS do
+		for i = 1, UIDROPDOWNMENU_MAXLEVELS do
 			local menu = _G["DropDownList"..i.."MenuBackdrop"]
 			local backdrop = _G["DropDownList"..i.."Backdrop"]
 			if not backdrop.reskinned then
@@ -18,6 +18,12 @@ tinsert(C.themes["AuroraClassic"], function()
 			end
 		end
 	end)
+
+	local function isCheckTexture(check)
+		if check:GetTexture() == "Interface\\Common\\UI-DropDownRadioChecks" then
+			return true
+		end
+	end
 
 	hooksecurefunc("ToggleDropDownMenu", function(level, _, dropDownFrame, anchorName)
 		if not level then level = 1 end
@@ -74,33 +80,35 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		for j = 1, UIDROPDOWNMENU_MAXBUTTONS do
 			local bu = _G["DropDownList"..level.."Button"..j]
-			local _, _, _, x = bu:GetPoint()
+			local x = select(4, bu:GetPoint())
 			if bu:IsShown() and x then
 				local arrow = _G["DropDownList"..level.."Button"..j.."ExpandArrow"]
 				arrow:SetNormalTexture(C.media.arrowRight)
 				arrow:SetSize(8, 8)
 
 				local hl = _G["DropDownList"..level.."Button"..j.."Highlight"]
-				hl:SetColorTexture(r, g, b, .2)
+				hl:SetColorTexture(r, g, b, .25)
 				hl:SetPoint("TOPLEFT", -x + 2, 0)
 				hl:SetPoint("BOTTOMRIGHT", listFrame:GetWidth() - bu:GetWidth() - x - 2, 0)
 
 				local check = _G["DropDownList"..level.."Button"..j.."Check"]
-				check:SetDesaturated(true)
-				check:SetSize(20, 20)
-				check:SetTexCoord(0, 1, 0, 1)
-				check:SetTexture("Interface\\Buttons\\UI-CheckBox-Check")
-				check:SetVertexColor(r, g, b, 1)
+				if isCheckTexture(check) then
+					check:SetSize(20, 20)
+					check:SetTexCoord(0, 1, 0, 1)
+					check:SetTexture("Interface\\Buttons\\UI-CheckBox-Check")
+					check:SetVertexColor(r, g, b, 1)
+					check:SetDesaturated(true)
+				end
 
 				local uncheck = _G["DropDownList"..level.."Button"..j.."UnCheck"]
-				uncheck:SetTexture("")
+				if isCheckTexture(uncheck) then uncheck:SetTexture("") end
 			end
 		end
 	end)
 
 	hooksecurefunc("UIDropDownMenu_SetIconImage", function(icon, texture)
 		if texture:find("Divider") then
-			icon:SetColorTexture(1, 1, 1, .2)
+			icon:SetColorTexture(1, 1, 1, .25)
 			icon:SetHeight(1)
 		end
 	end)

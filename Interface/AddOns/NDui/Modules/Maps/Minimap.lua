@@ -141,7 +141,9 @@ end
 
 function module:RecycleBin()
 	if not NDuiDB["Map"]["ShowRecycleBin"] then return end
-	local r, g, b = DB.CC.r, DB.CC.g, DB.CC.b
+
+	local alpha = NDuiDB["Extras"]["SkinColorA"]
+	local cr, cg, cb = DB.CC.r, DB.CC.g, DB.CC.b
 
 	local buttons = {}
 	local blackList = {
@@ -171,16 +173,16 @@ function module:RecycleBin()
 	local bin = CreateFrame("Frame", "RecycleBinFrame", UIParent)
 	bin:SetPoint("RIGHT", bu, "LEFT", -5, 0)
 	bin:Hide()
-	B.CreateGF(bin, 220, 40, "Horizontal", 0, 0, 0, 0, .7)
+	B.CreateGF(bin, 220, 40, "Horizontal", 0, 0, 0, 0, .5)
 	local topLine = CreateFrame("Frame", nil, bin)
-	topLine:SetPoint("BOTTOMRIGHT", bin, "TOPRIGHT", 1, 0)
-	B.CreateGF(topLine, 220, 3, "Horizontal", r, g, b, 0, .7)
+	topLine:SetPoint("BOTTOM", bin, "TOP", 1, 0)
+	B.CreateGF(topLine, 220, 3, "Horizontal", cr, cg, cb, 0, alpha)
 	local bottomLine = CreateFrame("Frame", nil, bin)
-	bottomLine:SetPoint("TOPRIGHT", bin, "BOTTOMRIGHT", 1, 0)
-	B.CreateGF(bottomLine, 220, 3, "Horizontal", r, g, b, 0, .7)
+	bottomLine:SetPoint("TOP", bin, "BOTTOM", 1, 0)
+	B.CreateGF(bottomLine, 220, 3, "Horizontal", cr, cg, cb, 0, alpha)
 	local rightLine = CreateFrame("Frame", nil, bin)
 	rightLine:SetPoint("LEFT", bin, "RIGHT", 0, 0)
-	B.CreateGF(rightLine, 3, 46, "Vertical", r, g, b, .7, .7)
+	B.CreateGF(rightLine, 3, 46, "Vertical", cr, cg, cb, alpha, alpha)
 	bin:SetFrameStrata("LOW")
 
 	local function clickFunc()
@@ -216,11 +218,11 @@ function module:RecycleBin()
 
 					if child:GetObjectType() == "Button" then
 						child:SetHighlightTexture(DB.bdTex) -- prevent nil function
-						child:GetHighlightTexture():SetColorTexture(1, 1, 1, .3)
+						child:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 					elseif child:GetObjectType() == "Frame" then
 						child.highlight = child:CreateTexture(nil, "HIGHLIGHT")
 						child.highlight:SetAllPoints()
-						child.highlight:SetColorTexture(1, 1, 1, .3)
+						child.highlight:SetColorTexture(1, 1, 1, .25)
 					end
 					B.CreateSD(child, 3, 3)
 
@@ -360,8 +362,7 @@ function module:SetupMinimap()
 	}
 
 	for _, v in pairs(frames) do
-		_G[v]:Hide()
-		_G[v].Show = B.Dummy
+		B.HideObject(_G[v])
 	end
 	MinimapCluster:EnableMouse(false)
 	Minimap:SetArchBlobRingScalar(0)

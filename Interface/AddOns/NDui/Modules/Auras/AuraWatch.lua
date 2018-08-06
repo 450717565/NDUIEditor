@@ -183,7 +183,7 @@ local function BuildICON(iconSize)
 	if not NDuiDB["AuraWatch"]["ClickThrough"] then
 		Frame:EnableMouse(true)
 		Frame.HL = Frame:CreateTexture(nil, "HIGHLIGHT")
-		Frame.HL:SetColorTexture(1, 1, 1, .3)
+		Frame.HL:SetColorTexture(1, 1, 1, .25)
 		Frame.HL:SetAllPoints(Frame.Icon)
 
 		Frame:SetScript("OnEnter", function(self)
@@ -234,7 +234,7 @@ local function BuildBAR(barWidth, iconSize)
 	if not NDuiDB["AuraWatch"]["ClickThrough"] then
 		Frame:EnableMouse(true)
 		Frame.HL = Frame:CreateTexture(nil, "HIGHLIGHT")
-		Frame.HL:SetColorTexture(1, 1, 1, .3)
+		Frame.HL:SetColorTexture(1, 1, 1, .25)
 		Frame.HL:SetAllPoints(Frame.Icon)
 
 		Frame:SetScript("OnEnter", function(self)

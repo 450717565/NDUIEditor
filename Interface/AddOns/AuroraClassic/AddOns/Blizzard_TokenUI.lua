@@ -23,7 +23,7 @@ tinsert(C.themes["AuroraClassic"], function()
 				bu.highlight:SetPoint("TOPLEFT", 1, 0)
 				bu.highlight:SetPoint("BOTTOMRIGHT", -1, 0)
 				bu.highlight.SetPoint = F.dummy
-				bu.highlight:SetColorTexture(r, g, b, .2)
+				bu.highlight:SetColorTexture(r, g, b, .25)
 				bu.highlight.SetTexture = F.dummy
 
 				bu.categoryMiddle:SetAlpha(0)

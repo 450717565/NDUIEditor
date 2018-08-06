@@ -60,7 +60,7 @@ tinsert(C.themes["AuroraClassic"], function()
 				bu.inv:SetAlpha(0.25)
 				bu.travelPassButton:SetAlpha(0.25)
 			end
-			for invite in _G.FriendsFrameFriendsScrollFrame.invitePool:EnumerateActive() do
+			for invite in FriendsFrameFriendsScrollFrame.invitePool:EnumerateActive() do
 				if not invite.styled then
 					local lineOfs = 4
 					local childbtn = FriendsFrameFriendsScrollFrameScrollChild:GetChildren()
@@ -76,11 +76,12 @@ tinsert(C.themes["AuroraClassic"], function()
 							line:SetEndPoint("BOTTOMLEFT", lineOfs, lineOfs)
 						end
 					end
+					childbtn.BG:Hide()
 					invite.DeclineButton:SetSize(22, 22)
 					invite.DeclineButton.Icon:Hide()
-					F.ReskinStretchButton(childbtn)
-					F.ReskinStretchButton(invite.DeclineButton)
-					F.ReskinStretchButton(invite.AcceptButton)
+					F.Reskin(childbtn)
+					F.Reskin(invite.DeclineButton)
+					F.Reskin(invite.AcceptButton)
 					invite.styled = true
 				end
 			end
