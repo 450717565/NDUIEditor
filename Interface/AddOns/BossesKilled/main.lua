@@ -108,6 +108,7 @@ function addon:CreateButton(parent, scale)
 	-- Aurora Reskin
 	if IsAddOnLoaded("AuroraClassic") then
 		local F, C = unpack(AuroraClassic)
+		local r, g, b = C.r, C.g, C.b
 		button:SetSize(70, 40)
 		button:SetCheckedTexture(C.media.checked)
 		F.ReskinTab(button)
@@ -119,7 +120,7 @@ function addon:CreateButton(parent, scale)
 		local ct = button:GetCheckedTexture()
 		ct:SetPoint("TOPLEFT", 9, -4)
 		ct:SetPoint("BOTTOMRIGHT", -9, 1)
-		ct:SetColorTexture(1, 1, 1, .5)
+		ct:SetColorTexture(r, g, b, .5)
 	end
 
 	return button
