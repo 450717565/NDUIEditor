@@ -12,4 +12,4 @@ Use in-game slash command "/ndui" for help.
 
 游戏内使用 /ndui 获取帮助。
 
-FAQs：http://nga.178.com/read.php?tid=5483616
+FAQs：http://nga.178.com/read.php?pid=140346531
