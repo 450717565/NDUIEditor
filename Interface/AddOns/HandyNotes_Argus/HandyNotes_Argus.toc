@@ -1,0 +1,17 @@
+## Interface: 80000
+## Title: HandyNotes_Argus
+## Version: 0.26.6
+## Notes: Shows location of treasures and rares in Argus & more
+## OptionalDeps: Ace3
+## RequiredDeps: HandyNotes
+## X-Embeds: Ace3
+## SavedVariables: HandyNotesArgusDB
+
+localization\enUS.lua
+localization\deDE.lua
+localization\esES.lua
+localization\zhCN.lua
+localization\zhTW.lua
+localization\koKR.lua
+localization\ruRU.lua
+HandyNotes_Argus.lua

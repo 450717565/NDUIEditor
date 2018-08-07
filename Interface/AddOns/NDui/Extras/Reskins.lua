@@ -7,13 +7,6 @@ if IsAddOnLoaded("AuroraClassic") then
 		Delay:UnregisterEvent("PLAYER_ENTERING_WORLD")
 		local r, g, b = C.r, C.g, C.b
 
-		-- 区域技能按钮
-		ZoneAbilityFrame.SpellButton.Style:Hide()
-		F.ReskinIconStyle(ZoneAbilityFrame.SpellButton)
-
-		-- 特殊任务按钮
-		ExtraQuestButtonArtwork:Hide()
-
 		-- 顶部信息板
 		UIWidgetTopCenterContainerFrame:ClearAllPoints()
 		UIWidgetTopCenterContainerFrame:SetPoint("TOP", 0, -30)

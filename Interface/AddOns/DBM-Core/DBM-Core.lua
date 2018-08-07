@@ -41,7 +41,7 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 17671 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 17675 $"):sub(12, -3)),
 	DisplayVersion = "8.0.2 alpha", -- the string that is shown as version
 	ReleaseRevision = 17635 -- the revision of the latest stable version that is available
 }
@@ -6116,6 +6116,7 @@ function DBM:OnMobKill(cId, synced)
 		if not v.combatInfo then
 			return
 		end
+		if v.combatInfo.noBossDeathKill then return end
 		if v.combatInfo.killMobs and v.combatInfo.killMobs[cId] then
 			if not synced then
 				sendSync("K", cId)
@@ -10825,6 +10826,9 @@ function bossModPrototype:RegisterCombat(cType, ...)
 	end
 	if self.noWBEsync then
 		info.noWBEsync = self.noWBEsync
+	end
+	if self.noBossDeathKill then
+		info.noBossDeathKill = self.noBossDeathKill
 	end
 	-- use pull-mobs as kill mobs by default, can be overriden by RegisterKill
 	if self.multiMobPullDetection then

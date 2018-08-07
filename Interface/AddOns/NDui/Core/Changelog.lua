@@ -23,6 +23,7 @@ local f
 local function changelog()
 	if f then f:Show() return end
 
+	local alpha = NDuiDB["Extras"]["SkinColorA"]
 	local cr, cg, cb = DB.CC.r, DB.CC.g, DB.CC.b
 	local f = CreateFrame("Frame", "NDuiChangeLog", UIParent)
 	f:SetPoint("CENTER")
@@ -36,11 +37,11 @@ local function changelog()
 	B.CreateFS(f, 16, L["Changelog"], true, "TOP", 0, -10)
 	local ll = CreateFrame("Frame", nil, f)
 	ll:SetPoint("TOP", -50, -35)
-	B.CreateGF(ll, 100, 3, "Horizontal", cr, cg, cb, 0, .7)
+	B.CreateGF(ll, 100, 3, "Horizontal", cr, cg, cb, 0, alpha)
 	ll:SetFrameStrata("HIGH")
 	local lr = CreateFrame("Frame", nil, f)
 	lr:SetPoint("TOP", 50, -35)
-	B.CreateGF(lr, 100, 3, "Horizontal", cr, cg, cb, .7, 0)
+	B.CreateGF(lr, 100, 3, "Horizontal", cr, cg, cb, alpha, 0)
 	lr:SetFrameStrata("HIGH")
 	local offset = 0
 	for n, t in pairs(hx) do

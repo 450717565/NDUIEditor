@@ -4,6 +4,7 @@ local module = B:GetModule("Skins")
 
 function module:PetBattleUI()
 	if not NDuiDB["Skins"]["PetBattle"] then return end
+	local alpha = NDuiDB["Extras"]["SkinColorA"]
 	local r, g, b = DB.CC.r, DB.CC.g, DB.CC.b
 
 	-- Head Frame
@@ -229,7 +230,7 @@ function module:PetBattleUI()
 
 			bu.Icon:SetTexCoord(unpack(DB.TexCoord))
 			bu:SetNormalTexture("")
-			bu:GetPushedTexture():SetTexture(DB.textures.pushed)
+			bu:SetTexture(DB.textures.pushed)
 			bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 			B.CreateSD(bu, 3, 3)
 
@@ -320,7 +321,7 @@ function module:PetBattleUI()
 	B.CreateGF(bgLeft, 180, 68, "Horizontal", 0, 0, 0, 0, .5)
 	local lineLeft = CreateFrame("Frame", nil, bgLeft)
 	lineLeft:SetPoint("BOTTOMRIGHT", bgLeft, "TOPRIGHT")
-	B.CreateGF(lineLeft, 180, 3, "Horizontal", r, g, b, 0, .7)
+	B.CreateGF(lineLeft, 180, 3, "Horizontal", r, g, b, 0, alpha)
 	RegisterStateDriver(bgLeft, "visibility", visibleState)
 
 	local bgRight = CreateFrame("Frame", nil, UIParent)
@@ -328,6 +329,6 @@ function module:PetBattleUI()
 	B.CreateGF(bgRight, 180, 68, "Horizontal", 0, 0, 0, .5, 0)
 	local lineRight = CreateFrame("Frame", nil, bgRight)
 	lineRight:SetPoint("BOTTOMLEFT", bgRight, "TOPLEFT")
-	B.CreateGF(lineRight, 180, 3, "Horizontal", r, g, b, .7, 0)
+	B.CreateGF(lineRight, 180, 3, "Horizontal", r, g, b, alpha, 0)
 	RegisterStateDriver(bgRight, "visibility", visibleState)
 end

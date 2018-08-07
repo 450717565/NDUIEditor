@@ -9,25 +9,6 @@ function module:OnLogin()
 	local cb = NDuiDB["Extras"]["SkinColorB"]
 	if NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = DB.CC.r, DB.CC.g, DB.CC.b end
 
-	local overLP = {"BOTTOMRIGHT", NDui_ActionBar1, "TOP"}
-	local overRP = {"BOTTOMLEFT", NDui_ActionBar1, "TOP"}
-	local topLP = {"BOTTOMRIGHT", NDui_ActionBar2, "TOP"}
-	local topRP = {"BOTTOMLEFT", NDui_ActionBar2, "TOP"}
-	local botLP = {"TOPRIGHT", NDui_ActionBar1, "BOTTOM"}
-	local botRP = {"TOPLEFT", NDui_ActionBar1, "BOTTOM"}
-
-	if NDuiDB["Actionbar"]["Style"] == 4 then
-		topLP = {"BOTTOMRIGHT", NDui_ActionBar3, "TOP"}
-		topRP = {"BOTTOMLEFT", NDui_ActionBar3, "TOP"}
-	elseif NDuiDB["Actionbar"]["Style"] == 5 then
-		overLP = {"BOTTOMRIGHT", ActionButton9, "TOPRIGHT", 1 , 2}
-		overRP = {"BOTTOMLEFT", ActionButton10, "TOPLEFT", -1 , 2}
-		topLP = {"BOTTOMRIGHT", MultiBarBottomLeftButton9, "TOPRIGHT", 1 , 2}
-		topRP = {"BOTTOMLEFT", MultiBarBottomLeftButton10, "TOPLEFT", -1 , 2}
-		botLP = {"TOPRIGHT", ActionButton9, "BOTTOMRIGHT", 1 , -2}
-		botRP = {"TOPLEFT", ActionButton10, "BOTTOMLEFT", -1 , -2}
-	end
-
 	-- TOPLEFT
 	if NDuiDB["Skins"]["InfobarLine"] then
 		local InfobarLineTL = CreateFrame("Frame", nil, UIParent)
@@ -79,33 +60,36 @@ function module:OnLogin()
 	if NDuiDB["Actionbar"]["Enable"] then
 		if NDuiDB["Skins"]["BarLine"] then
 			local barWidth = NDui_ActionBar1:GetWidth() * .6
+			local relativeTo = NDui_ActionBar2
+
+			if NDuiDB["Actionbar"]["Style"] == 4 then relativeTo = NDui_ActionBar3 end
 
 			-- ACTIONBAR
 			local ActionBarL = CreateFrame("Frame", nil, UIParent)
-			ActionBarL:SetPoint(unpack(topLP))
+			ActionBarL:SetPoint("BOTTOMRIGHT", relativeTo, "TOP")
 			B.CreateGF(ActionBarL, barWidth, 3, "Horizontal", cr, cg, cb, 0, alpha)
 			RegisterStateDriver(ActionBarL, "visibility", "[petbattle][overridebar][vehicleui][possessbar,@vehicle,exists] hide; show")
 			local ActionBarR = CreateFrame("Frame", nil, UIParent)
-			ActionBarR:SetPoint(unpack(topRP))
+			ActionBarR:SetPoint("BOTTOMLEFT", relativeTo, "TOP")
 			B.CreateGF(ActionBarR, barWidth, 3, "Horizontal", cr, cg, cb, alpha, 0)
 			RegisterStateDriver(ActionBarR, "visibility", "[petbattle][overridebar][vehicleui][possessbar,@vehicle,exists] hide; show")
 
 			-- OVERRIDEBAR
 			local OverBarL = CreateFrame("Frame", nil, UIParent)
-			OverBarL:SetPoint(unpack(overLP))
+			OverBarL:SetPoint("BOTTOMRIGHT", NDui_ActionBar1, "TOP")
 			B.CreateGF(OverBarL, barWidth, 3, "Horizontal", cr, cg, cb, 0, alpha)
 			RegisterStateDriver(OverBarL, "visibility", "[petbattle]hide; [overridebar][vehicleui][possessbar,@vehicle,exists] show; hide")
 			local OverBarR = CreateFrame("Frame", nil, UIParent)
-			OverBarR:SetPoint(unpack(overRP))
+			OverBarR:SetPoint("BOTTOMLEFT", NDui_ActionBar1, "TOP")
 			B.CreateGF(OverBarR, barWidth, 3, "Horizontal", cr, cg, cb, alpha, 0)
 			RegisterStateDriver(OverBarR, "visibility", "[petbattle]hide; [overridebar][vehicleui][possessbar,@vehicle,exists] show; hide")
 
 			-- BOTTOMLINE
 			local BarLineL = CreateFrame("Frame", nil, UIParent)
-			BarLineL:SetPoint(unpack(botLP))
+			BarLineL:SetPoint("TOPRIGHT", NDui_ActionBar1, "BOTTOM")
 			B.CreateGF(BarLineL, barWidth, 3, "Horizontal", cr, cg, cb, 0, alpha)
 			local BarLineR = CreateFrame("Frame", nil, UIParent)
-			BarLineR:SetPoint(unpack(botRP))
+			BarLineR:SetPoint("TOPLEFT", NDui_ActionBar1, "BOTTOM")
 			B.CreateGF(BarLineR, barWidth, 3, "Horizontal", cr, cg, cb, alpha, 0)
 		end
 	end

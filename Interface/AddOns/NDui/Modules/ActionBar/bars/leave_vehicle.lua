@@ -13,9 +13,9 @@ function Bar:CreateLeaveVehicle()
 	frame:SetWidth(num*cfg.size + (num-1)*margin + 2*padding)
 	frame:SetHeight(cfg.size + 2*padding)
 	if NDuiDB["Actionbar"]["Style"] ~= 4 then
-		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 280, 100}
+		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 278, 96}
 	else
-		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 210, 90}
+		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 212, 90}
 	end
 	frame:SetScale(cfg.scale)
 
@@ -26,8 +26,9 @@ function Bar:CreateLeaveVehicle()
 	button:SetPoint("BOTTOMLEFT", frame, padding, padding)
 	button:RegisterForClicks("AnyUp")
 	button.icon:SetTexture("INTERFACE\\PLAYERACTIONBARALT\\NATURAL")
-	button.icon:SetTexCoord(.0859375, .1679688, .359375, .4414063)
+	button.icon:SetTexCoord(.095, .165, .360, .440)
 	button:SetNormalTexture(nil)
+	button:SetPushedTexture(DB.textures.pushed)
 	button:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 	B.CreateSD(button, 3, 3)
 

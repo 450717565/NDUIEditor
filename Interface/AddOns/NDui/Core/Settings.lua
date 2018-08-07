@@ -364,6 +364,7 @@ end
 local tutor
 local function YesTutor()
 	if tutor then tutor:Show() return end
+	local alpha = NDuiDB["Extras"]["SkinColorA"]
 	tutor = CreateFrame("Frame", nil, UIParent)
 	tutor:SetPoint("CENTER")
 	tutor:SetSize(400, 250)
@@ -375,11 +376,11 @@ local function YesTutor()
 	B.CreateFS(tutor, 30, "NDui", true, "TOPLEFT", 10, 25)
 	local ll = CreateFrame("Frame", nil, tutor)
 	ll:SetPoint("TOP", -40, -32)
-	B.CreateGF(ll, 80, 3, "Horizontal", cr, cg, cb, 0, .7)
+	B.CreateGF(ll, 80, 3, "Horizontal", cr, cg, cb, 0, alpha)
 	ll:SetFrameStrata("HIGH")
 	local lr = CreateFrame("Frame", nil, tutor)
 	lr:SetPoint("TOP", 40, -32)
-	B.CreateGF(lr, 80, 3, "Horizontal", cr, cg, cb, .7, 0)
+	B.CreateGF(lr, 80, 3, "Horizontal", cr, cg, cb, alpha, 0)
 	lr:SetFrameStrata("HIGH")
 
 	local title = B.CreateFS(tutor, 12, "", true, "TOP", 0, -10)
@@ -446,6 +447,7 @@ end
 local welcome
 local function HelloWorld()
 	if welcome then welcome:Show() return end
+	local alpha = NDuiDB["Extras"]["SkinColorA"]
 	welcome = CreateFrame("Frame", "HelloWorld", UIParent)
 	welcome:SetPoint("CENTER")
 	welcome:SetSize(350, 400)
@@ -459,11 +461,11 @@ local function HelloWorld()
 	B.CreateFS(welcome, 16, L["Help Title"], true, "TOP", 0, -10)
 	local ll = CreateFrame("Frame", nil, welcome)
 	ll:SetPoint("TOP", -50, -35)
-	B.CreateGF(ll, 100, 3, "Horizontal", cr, cg, cb, 0, .7)
+	B.CreateGF(ll, 100, 3, "Horizontal", cr, cg, cb, 0, alpha)
 	ll:SetFrameStrata("HIGH")
 	local lr = CreateFrame("Frame", nil, welcome)
 	lr:SetPoint("TOP", 50, -35)
-	B.CreateGF(lr, 100, 3, "Horizontal", cr, cg, cb, .7, 0)
+	B.CreateGF(lr, 100, 3, "Horizontal", cr, cg, cb, alpha, 0)
 	lr:SetFrameStrata("HIGH")
 	B.CreateFS(welcome, 12, L["Help Info1"], false, "TOPLEFT", 20, -50)
 	B.CreateFS(welcome, 12, L["Help Info2"], false, "TOPLEFT", 20, -70)

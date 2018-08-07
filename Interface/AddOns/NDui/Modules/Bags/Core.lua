@@ -177,8 +177,8 @@ function module:OnLogin()
 			and (item.rarity and item.rarity > 1)
 			and ((item.level and item.level > 0) and (item.subType == EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC or (item.equipLoc ~= "" and item.equipLoc ~= "INVTYPE_TABARD" and item.equipLoc ~= "INVTYPE_BODY" and item.equipLoc ~= "INVTYPE_BAG")))
 			or ((item.classID and item.classID == 15 and item.subclassID) and (item.subclassID == 2 or item.subclassID == 5)) then
-				local level = B.GetItemLevel(item.link, item.bagID, item.slotID) or item.level
 				if NDuiDB["Bags"]["BagsiLvl"] then
+					local level = B.GetItemLevel(item.link, item.bagID, item.slotID) or item.level
 					self.iLvl:SetText(level)
 				end
 				if NDuiDB["Extras"]["SlotInfo"] then
@@ -278,9 +278,14 @@ function module:OnLogin()
 
 	function MyContainer:OnCreate(name, settings)
 		self.Settings = settings
-		B.CreateBD(self, .5, 1)
-		B.CreateSD(self, 2, 3)
-		B.CreateTex(self)
+		if IsAddOnLoaded("AuroraClassic") then
+			local F = unpack(AuroraClassic)
+			F.SetBD(self)
+		else
+			B.CreateBD(self, .5, 1)
+			B.CreateSD(self, 2, 3)
+			B.CreateTex(self)
+		end
 
 		self:SetParent(settings.Parent or Backpack)
 		self:SetFrameStrata("HIGH")
@@ -369,10 +374,15 @@ function module:OnLogin()
 			self.BagBar = bagBar
 			bagBar:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 8, -12)
 			local bg = CreateFrame("Frame", nil, bagBar)
-			bg:SetPoint("TOPLEFT", -10, 10)
-			bg:SetPoint("BOTTOMRIGHT", -115, -10)
-			B.CreateBD(bg)
-			B.CreateTex(bg)
+			bg:SetPoint("TOPLEFT", -8, 8)
+			bg:SetPoint("BOTTOMRIGHT", -118, -8)
+			if IsAddOnLoaded("AuroraClassic") then
+				local F = unpack(AuroraClassic)
+				F.SetBD(bg)
+			else
+				B.CreateBD(bg)
+				B.CreateTex(bg)
+			end
 
 			local bagToggle = B.CreateButton(self, 60, 20, BAGSLOT)
 			bagToggle:SetPoint("LEFT", SortButton, "RIGHT", 6, 0)
