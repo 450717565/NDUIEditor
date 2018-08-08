@@ -210,7 +210,7 @@ C.themes["Blizzard_GuildUI"] = function()
 
 			if not bu.bg then
 				bu:SetHighlightTexture(C.media.backdrop)
-				bu:GetHighlightTexture():SetVertexColor(r, g, b, .2)
+				bu:GetHighlightTexture():SetVertexColor(r, g, b, .25)
 
 				bu.bg = F.CreateBDFrame(bu.icon)
 			end

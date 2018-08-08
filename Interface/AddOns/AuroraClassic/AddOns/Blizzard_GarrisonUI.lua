@@ -585,7 +585,6 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	-- Follower list
 
 	local FollowerList = GarrisonLandingPage.FollowerList
-
 	FollowerList:GetRegions():Hide()
 	select(2, FollowerList:GetRegions()):Hide()
 	F.ReskinInput(FollowerList.SearchBox)
@@ -599,13 +598,11 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	-- Ship follower list
 
 	local FollowerList = GarrisonLandingPage.ShipFollowerList
-
 	FollowerList:GetRegions():Hide()
 	select(2, FollowerList:GetRegions()):Hide()
 	F.ReskinInput(FollowerList.SearchBox)
 
 	local scrollFrame = FollowerList.listScroll
-
 	F.ReskinScroll(scrollFrame.scrollBar)
 
 	-- Follower tab

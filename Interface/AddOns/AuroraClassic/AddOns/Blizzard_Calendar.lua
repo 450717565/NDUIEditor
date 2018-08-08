@@ -29,7 +29,7 @@ C.themes["Blizzard_Calendar"] = function()
 		bu:DisableDrawLayer("BACKGROUND")
 		bu:SetHighlightTexture(C.media.backdrop)
 		local hl = bu:GetHighlightTexture()
-		hl:SetVertexColor(r, g, b, .2)
+		hl:SetVertexColor(r, g, b, .25)
 		hl.SetAlpha = F.dummy
 	end
 

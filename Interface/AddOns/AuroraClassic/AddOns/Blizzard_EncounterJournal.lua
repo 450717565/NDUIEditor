@@ -27,7 +27,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 	end
 
 	local function onDisable(self)
-		self:SetBackdropColor(r, g, b, .2)
+		self:SetBackdropColor(r, g, b, .25)
 	end
 
 	local function onClick(self)
@@ -61,7 +61,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		F.Reskin(tab)
 	end
 
-	EncounterJournalInstanceSelectSuggestTab:SetBackdropColor(r, g, b, .2)
+	EncounterJournalInstanceSelectSuggestTab:SetBackdropColor(r, g, b, .25)
 
 	-- [[ Side tabs ]]
 
@@ -282,7 +282,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 
 		result:SetHighlightTexture(C.media.backdrop)
 		local hl = result:GetHighlightTexture()
-		hl:SetVertexColor(r, g, b, .2)
+		hl:SetVertexColor(r, g, b, .25)
 		hl:SetPoint("TOPLEFT", 1, -2)
 		hl:SetPoint("BOTTOMRIGHT", -1, 1)
 	end
@@ -315,7 +315,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 
 			bu:SetHighlightTexture(C.media.backdrop)
 			local hl = bu:GetHighlightTexture()
-			hl:SetVertexColor(r, g, b, .2)
+			hl:SetVertexColor(r, g, b, .25)
 			hl:SetPoint("TOPLEFT", 1, -2)
 			hl:SetPoint("BOTTOMRIGHT", -1, 1)
 		end

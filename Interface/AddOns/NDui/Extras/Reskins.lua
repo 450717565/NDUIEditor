@@ -21,7 +21,7 @@ if IsAddOnLoaded("AuroraClassic") then
 
 			local boxHL = BaudErrorFrameListScrollBoxHighlightTexture
 			boxHL:SetTexture(C.media.backdrop)
-			boxHL:SetVertexColor(r, g, b, .5)
+			boxHL:SetVertexColor(r, g, b, .25)
 
 			local Buttonlist = {"ClearButton", "CloseButton", "ReloadUIButton"}
 			for k, v in pairs(Buttonlist) do
@@ -31,6 +31,12 @@ if IsAddOnLoaded("AuroraClassic") then
 --[[
 		if IsAddOnLoaded("!Libs") then
 			-- LibUIDropDownMenu
+			local function isCheckTexture(check)
+				if check:GetTexture() == "Interface\\Common\\UI-DropDownRadioChecks" then
+					return true
+				end
+			end
+
 			local function SkinDDM(info, level)
 				for i = 1, L_UIDROPDOWNMENU_MAXLEVELS do
 					F.CreateBD(_G["L_DropDownList"..i.."MenuBackdrop"])
@@ -44,14 +50,16 @@ if IsAddOnLoaded("AuroraClassic") then
 						hl:SetColorTexture(r, g, b, .25)
 
 						local check = _G["L_DropDownList"..i.."Button"..j.."Check"]
-						check:SetDesaturated(true)
-						check:SetSize(20, 20)
-						check:SetTexCoord(0, 1, 0, 1)
-						check:SetTexture("Interface\\Buttons\\UI-CheckBox-Check")
-						check:SetVertexColor(r, g, b, 1)
+						if isCheckTexture(check) then
+							check:SetSize(20, 20)
+							check:SetTexCoord(0, 1, 0, 1)
+							check:SetTexture("Interface\\Buttons\\UI-CheckBox-Check")
+							check:SetVertexColor(r, g, b, 1)
+							check:SetDesaturated(true)
+						end
 
 						local uncheck = _G["L_DropDownList"..i.."Button"..j.."UnCheck"]
-						uncheck:SetTexture("")
+						if isCheckTexture(uncheck) then uncheck:SetTexture("") end
 					end
 				end
 			end
@@ -321,6 +329,10 @@ if IsAddOnLoaded("AuroraClassic") then
 			F.ReskinIconStyle(WhisperPopFrameConfig)
 			F.ReskinIconStyle(WhisperPopNotifyButton)
 			F.ReskinScroll(WhisperPopFrameListScrollBar)
+
+			local listHL = WhisperPopFrameListHighlightTexture
+			listHL:SetTexture(C.media.backdrop)
+			listHL:SetVertexColor(r, g, b, .25)
 
 			local list = {"WhisperPopFrameListDelete", "WhisperPopFrameTopCloseButton", "WhisperPopMessageFrameTopCloseButton"}
 			for k, v in pairs(list) do

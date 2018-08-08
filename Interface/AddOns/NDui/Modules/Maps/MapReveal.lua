@@ -244,7 +244,7 @@ local LeaMapsData = {
 -- Function to refresh overlays (Blizzard_SharedMapDataProviders\MapExplorationDataProvider)
 local overlayTextures, TileExists = {}, {}
 
-local function RefMap(self)
+local function MapExplorationPin_RefreshOverlays(pin, fullUpdate)
 	wipe(overlayTextures)
 	wipe(TileExists)
 
@@ -260,9 +260,9 @@ local function RefMap(self)
 		end
 	end
 
-	self.layerIndex = self:GetMap():GetCanvasContainer():GetCurrentLayerIndex()
+	pin.layerIndex = pin:GetMap():GetCanvasContainer():GetCurrentLayerIndex()
 	local layers = C_Map.GetMapArtLayers(mapID)
-	local layerInfo = layers and layers[self.layerIndex]
+	local layerInfo = layers and layers[pin.layerIndex]
 	if not layerInfo then return end
 	local TILE_SIZE_WIDTH = layerInfo.tileWidth
 	local TILE_SIZE_HEIGHT = layerInfo.tileHeight
@@ -290,7 +290,7 @@ local function RefMap(self)
 					end
 				end
 				for k = 1, numTexturesWide do
-					local texture = self.overlayTexturePool:Acquire()
+					local texture = pin.overlayTexturePool:Acquire()
 					if ( k < numTexturesWide ) then
 						texturePixelWidth = TILE_SIZE_WIDTH
 						textureFileWidth = TILE_SIZE_WIDTH
@@ -309,7 +309,14 @@ local function RefMap(self)
 					texture:SetPoint("TOPLEFT", offsetX + (TILE_SIZE_WIDTH * (k-1)), -(offsetY + (TILE_SIZE_HEIGHT * (j - 1))))
 					texture:SetTexture(tonumber(fileDataIDs[((j - 1) * numTexturesWide) + k]), nil, nil, "TRILINEAR")
 					texture:SetDrawLayer("ARTWORK", -1)
-					texture:SetShown(NDuiDB["Map"]["MapReveal"])
+					if NDuiDB["Map"]["MapReveal"] then
+						texture:Show()
+						if fullUpdate then
+							pin.textureLoadGroup:AddTexture(texture)
+						end
+					else
+						texture:Hide()
+					end
 					tinsert(overlayTextures, texture)
 				end
 			end
@@ -326,7 +333,7 @@ function module:MapReveal()
 	bu.text = B.CreateFS(bu, 14, L["Map Reveal"], false, "LEFT", 25, 0)
 
 	for pin in WorldMapFrame:EnumeratePinsByTemplate("MapExplorationPinTemplate") do
-		hooksecurefunc(pin, "RefreshOverlays", RefMap)
+		hooksecurefunc(pin, "RefreshOverlays", MapExplorationPin_RefreshOverlays)
 	end
 
 	bu:SetScript("OnClick", function(self)

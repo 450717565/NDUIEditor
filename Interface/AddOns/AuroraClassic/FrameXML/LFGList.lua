@@ -97,7 +97,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			local hl = result:CreateTexture(nil, "BACKGROUND")
 			hl:SetAllPoints()
 			hl:SetTexture(C.media.backdrop)
-			hl:SetVertexColor(r, g, b, .2)
+			hl:SetVertexColor(r, g, b, .25)
 			hl:Hide()
 			result.hl = hl
 
@@ -141,7 +141,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		local hl = header:CreateTexture(nil, "BACKGROUND")
 		hl:SetAllPoints()
 		hl:SetTexture(C.media.backdrop)
-		hl:SetVertexColor(r, g, b, .2)
+		hl:SetVertexColor(r, g, b, .25)
 		hl:Hide()
 		header.hl = hl
 

@@ -407,11 +407,11 @@ local function MerchantUpdate()
 			end
 
 			if numAvailable == 0 then
-				button.highlight:SetVertexColor(0.5, 0.5, 0.5, 0.5)
+				button.highlight:SetVertexColor(0.5, 0.5, 0.5, 0.25)
 				button.highlight:Show()
 				button.isShown = true
 			elseif not isUsable then
-				button.highlight:SetVertexColor(1, 0.2, 0.2, 0.5)
+				button.highlight:SetVertexColor(1, 0.2, 0.2, 0.25)
 				button.highlight:Show()
 				button.isShown = true
 
@@ -420,11 +420,11 @@ local function MerchantUpdate()
 					iteminfo_text = "|cffd00000"..iteminfo_text.." - "..errors.."|r"
 				end
 			elseif itemType and itemType == RECIPE and not GetKnown(link) then
-				button.highlight:SetVertexColor(0.2, 1, 0.2, 0.5)
+				button.highlight:SetVertexColor(0.2, 1, 0.2, 0.25)
 				button.highlight:Show()
 				button.isShown = true
 			else
-				button.highlight:SetVertexColor(r, g, b, 0.5)
+				button.highlight:SetVertexColor(r, g, b, 0.25)
 				button.highlight:Hide()
 				button.isShown = false
 

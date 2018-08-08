@@ -47,7 +47,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 
 					bu:SetHighlightTexture(C.media.backdrop)
 					local hl = bu:GetHighlightTexture()
-					hl:SetVertexColor(r, g, b, .2)
+					hl:SetVertexColor(r, g, b, .25)
 					hl:SetPoint("TOPLEFT", 1, -2)
 					hl:SetPoint("BOTTOMRIGHT", -1, 1)
 				end
@@ -328,7 +328,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 
 		result:SetHighlightTexture(C.media.backdrop)
 		local hl = result:GetHighlightTexture()
-		hl:SetVertexColor(r, g, b, .2)
+		hl:SetVertexColor(r, g, b, .25)
 		hl:SetPoint("TOPLEFT", 1, -2)
 		hl:SetPoint("BOTTOMRIGHT", -1, 1)
 	end
@@ -361,7 +361,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 			select(8, ic:GetRegions()):SetAlpha(0)
 			ic:SetHighlightTexture(C.media.backdrop)
 			local hl = ic:GetHighlightTexture()
-			hl:SetVertexColor(r, g, b, .2)
+			hl:SetVertexColor(r, g, b, .25)
 			hl:SetPoint("TOPLEFT", 1, -2)
 			hl:SetPoint("BOTTOMRIGHT", -1, 1)
 		end
