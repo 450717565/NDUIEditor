@@ -6,14 +6,13 @@
 --
 
 local DBICON10 = "LibDBIcon-1.0"
-local DBICON10_MINOR = 37 -- Bump on changes
+local DBICON10_MINOR = 38 -- Bump on changes
 if not LibStub then error(DBICON10 .. " requires LibStub.") end
 local ldb = LibStub("LibDataBroker-1.1", true)
 if not ldb then error(DBICON10 .. " requires LibDataBroker-1.1.") end
 local lib = LibStub:NewLibrary(DBICON10, DBICON10_MINOR)
 if not lib then return end
 
-lib.disabled = lib.disabled or nil
 lib.objects = lib.objects or {}
 lib.callbackRegistered = lib.callbackRegistered or nil
 lib.callbacks = lib.callbacks or LibStub("CallbackHandler-1.0"):New(lib)
@@ -71,12 +70,14 @@ end
 local function onLeave(self)
 	local obj = self.dataObject
 	lib.tooltip:Hide()
-	if obj.OnLeave then obj.OnLeave(self) end
+	if obj.OnLeave then
+		obj.OnLeave(self)
+	end
 end
 
 --------------------------------------------------------------------------------
 
-local onClick, onMouseUp, onMouseDown, onDragStart, onDragStop, updatePosition
+local onDragStart, updatePosition
 
 do
 	local minimapShapes = {
@@ -118,9 +119,21 @@ do
 	end
 end
 
-function onClick(self, b) if self.dataObject.OnClick then self.dataObject.OnClick(self, b) end end
-function onMouseDown(self) self.isMouseDown = true; self.icon:UpdateCoord() end
-function onMouseUp(self) self.isMouseDown = false; self.icon:UpdateCoord() end
+local function onClick(self, b)
+	if self.dataObject.OnClick then
+		self.dataObject.OnClick(self, b)
+	end
+end
+
+local function onMouseDown(self)
+	self.isMouseDown = true
+	self.icon:UpdateCoord()
+end
+
+local function onMouseUp(self)
+	self.isMouseDown = false
+	self.icon:UpdateCoord()
+end
 
 do
 	local deg, atan2 = math.deg, math.atan2
@@ -147,7 +160,7 @@ do
 	end
 end
 
-function onDragStop(self)
+local function onDragStop(self)
 	self:SetScript("OnUpdate", nil)
 	self.isMouseDown = false
 	self.icon:UpdateCoord()
@@ -211,8 +224,11 @@ local function createButton(name, object, db)
 
 	if lib.loggedIn then
 		updatePosition(button)
-		if not db or not db.hide then button:Show()
-		else button:Hide() end
+		if not db or not db.hide then
+			button:Show()
+		else
+			button:Hide()
+		end
 	end
 	lib.callbacks:Fire("LibDBIcon_IconCreated", button, name) -- Fire 'Icon Created' callback
 end
@@ -226,20 +242,21 @@ local function check(name)
 	end
 end
 
-lib.loggedIn = lib.loggedIn or false
 -- Wait a bit with the initial positioning to let any GetMinimapShape addons
 -- load up.
 if not lib.loggedIn then
 	local f = CreateFrame("Frame")
-	f:SetScript("OnEvent", function()
+	f:SetScript("OnEvent", function(f)
 		for _, object in pairs(lib.objects) do
 			updatePosition(object)
-			if not lib.disabled and (not object.db or not object.db.hide) then object:Show()
-			else object:Hide() end
+			if not object.db or not object.db.hide then
+				object:Show()
+			else
+				object:Hide()
+			end
 		end
 		lib.loggedIn = true
 		f:SetScript("OnEvent", nil)
-		f = nil
 	end)
 	f:RegisterEvent("PLAYER_LOGIN")
 end
@@ -250,8 +267,8 @@ end
 
 function lib:Register(name, object, db)
 	if not object.icon then error("Can't register LDB objects without icons set!") end
-	if lib.objects[name] or lib.notCreated[name] then error("Already registered, nubcake.") end
-	if not lib.disabled and (not db or not db.hide) then
+	if lib.objects[name] or lib.notCreated[name] then error(DBICON10.. ": Object '".. name .."' is already registered.") end
+	if not db or not db.hide then
 		createButton(name, object, db)
 	else
 		lib.notCreated[name] = {object, db}
@@ -265,7 +282,9 @@ function lib:Lock(name)
 		lib.objects[name]:SetScript("OnDragStop", nil)
 	end
 	local db = getDatabase(name)
-	if db then db.lock = true end
+	if db then
+		db.lock = true
+	end
 end
 
 function lib:Unlock(name)
@@ -275,27 +294,32 @@ function lib:Unlock(name)
 		lib.objects[name]:SetScript("OnDragStop", onDragStop)
 	end
 	local db = getDatabase(name)
-	if db then db.lock = nil end
+	if db then
+		db.lock = nil
+	end
 end
 
 function lib:Hide(name)
 	if not lib.objects[name] then return end
 	lib.objects[name]:Hide()
 end
+
 function lib:Show(name)
-	if lib.disabled then return end
 	check(name)
 	lib.objects[name]:Show()
 	updatePosition(lib.objects[name])
 end
+
 function lib:IsRegistered(name)
 	return (lib.objects[name] or lib.notCreated[name]) and true or false
 end
+
 function lib:Refresh(name, db)
-	if lib.disabled then return end
 	check(name)
 	local button = lib.objects[name]
-	if db then button.db = db end
+	if db then
+		button.db = db
+	end
 	updatePosition(button)
 	if not button.db or not button.db.hide then
 		button:Show()
@@ -312,29 +336,6 @@ function lib:Refresh(name, db)
 end
 function lib:GetMinimapButton(name)
 	return lib.objects[name]
-end
-
-function lib:EnableLibrary()
-	lib.disabled = nil
-	for name, object in pairs(lib.objects) do
-		if not object.db or not object.db.hide then
-			object:Show()
-			updatePosition(object)
-		end
-	end
-	for name, data in pairs(lib.notCreated) do
-		if not data.db or not data.db.hide then
-			createButton(name, data[1], data[2])
-			lib.notCreated[name] = nil
-		end
-	end
-end
-
-function lib:DisableLibrary()
-	lib.disabled = true
-	for name, object in pairs(lib.objects) do
-		object:Hide()
-	end
 end
 
 -- Upgrade!

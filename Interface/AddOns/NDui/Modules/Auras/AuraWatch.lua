@@ -320,14 +320,8 @@ local function UpdateCDFrame(index, name, icon, start, duration, _, type, id, ch
 	if Frame.Icon then Frame.Icon:SetTexture(icon) end
 	if Frame.Cooldown then
 		Frame.Cooldown:SetReverse(false)
-		if charges and charges > 0 then
-			StartChargeCooldown(Frame, start, duration)
-			Frame.Cooldown:Hide()
-		else
-			ClearChargeCooldown(Frame)
-			Frame.Cooldown:SetCooldown(start, duration)
-			Frame.Cooldown:Show()
-		end
+		Frame.Cooldown:SetCooldown(start, duration)
+		Frame.Cooldown:Show()
 	end
 	if Frame.Count then Frame.Count:SetText(charges) end
 	if Frame.Spellname then Frame.Spellname:SetText(name) end
@@ -336,7 +330,7 @@ local function UpdateCDFrame(index, name, icon, start, duration, _, type, id, ch
 		Frame.start = start
 		Frame.Timer = 0
 		Frame.Statusbar:SetMinMaxValues(0, duration)
-		Frame:SetScript("OnUpdate", function(self, elapsed)
+		Frame:SetScript("OnUpdate", function(self)
 			self.Timer = self.start + self.duration - GetTime()
 			if self.Timer < 0 then
 				self:SetScript("OnUpdate", nil)
@@ -416,7 +410,7 @@ local function UpdateAuraFrame(index, UnitID, name, icon, count, duration, expir
 		Frame.expires = expires
 		Frame.Timer = 0
 		Frame.Statusbar:SetMinMaxValues(0, duration)
-		Frame:SetScript("OnUpdate", function(self, elapsed)
+		Frame:SetScript("OnUpdate", function(self)
 			self.Timer = self.expires-GetTime()
 			if self.Timer < 0 then
 				self:SetScript("OnUpdate", nil)
