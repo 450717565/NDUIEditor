@@ -582,12 +582,33 @@ function F:SetBD(x, y, x2, y2)
 	F.CreateSD(bg)
 end
 
-function F:StripTextures(hideTex)
+-- Disable function
+F.HiddenFrame = CreateFrame("Frame")
+F.HiddenFrame:Hide()
+
+function F:HideObject()
+	if self.UnregisterAllEvents then
+		self:UnregisterAllEvents()
+		self:SetParent(F.HiddenFrame)
+	else
+		self.Show = self.Hide
+	end
+	self:Hide()
+end
+
+function F:StripTextures(kill)
 	for i = 1, self:GetNumRegions() do
 		local region = select(i, self:GetRegions())
 		if region and region:GetObjectType() == "Texture" then
-			region:SetTexture("")
-			if hideTex then region:Hide() end
+			if kill and type(kill) == "boolean" then
+				F.HideObject(region)
+			elseif region:GetDrawLayer() == kill then
+				region:SetTexture(nil)
+			elseif kill and type(kill) == "string" and region:GetTexture() ~= kill then
+				region:SetTexture("")
+			else
+				region:SetTexture("")
+			end
 		end
 	end
 end

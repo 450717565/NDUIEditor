@@ -357,29 +357,29 @@ function UF:CreateCastBar(self)
 	self.Castbar = cb
 end
 
-function UF:CreateMirrorBar()
-	local mt = {"MirrorTimer1", "MirrorTimer2", "MirrorTimer3"}
-	for i, bar in pairs(mt) do
-		_G[bar]:GetRegions():Hide()
-		_G[bar.."Border"]:Hide()
-		_G[bar]:SetParent(UIParent)
-		_G[bar]:SetScale(1)
-		_G[bar]:SetHeight(15)
-		_G[bar]:SetWidth(280)
-		_G[bar.."Background"] = _G[bar]:CreateTexture(bar.."Background", "BACKGROUND", _G[bar])
-		_G[bar.."Background"]:SetTexture(DB.normTex)
-		_G[bar.."Background"]:SetAllPoints(bar)
-		_G[bar.."Background"]:SetVertexColor(0, 0, 0, .5)
-		_G[bar.."Text"]:SetFont(unpack(DB.Font))
-		_G[bar.."Text"]:ClearAllPoints()
-		_G[bar.."Text"]:SetPoint("CENTER")
-		_G[bar.."StatusBar"]:SetAllPoints(_G[bar])
-		B.CreateTex(_G[bar])
-		B.CreateSD(_G[bar], 3, 3)
+function UF:ReskinMirrorBars()
+	local previous
+	for i = 1, 3 do
+		local bar = _G["MirrorTimer"..i]
+		B.StripTextures(bar, true)
+		bar:SetSize(280, 17)
 
-		if i > 1 then
-			_G[mt[i]]:SetPoint("TOP", _G[mt[i-1]], "BOTTOM", 0, -5)
+		local bg = B.CreateBG(bar, 3)
+		B.CreateBD(bg)
+		B.CreateTex(bg)
+
+		local statusbar = _G["MirrorTimer"..i.."StatusBar"]
+		statusbar:SetAllPoints()
+		statusbar:SetStatusBarTexture(DB.normTex)
+
+		local text = _G["MirrorTimer"..i.."Text"]
+		text:ClearAllPoints()
+		text:SetPoint("CENTER")
+
+		if previous then
+			bar:SetPoint("TOP", previous, "BOTTOM", 0, -5)
 		end
+		previous = bar
 	end
 end
 
