@@ -197,7 +197,7 @@ Skada:AddLoadableModule("DamageTaken", nil, function(Skada, L)
 
 				d.valuetext = Skada:FormatValueText(
 												Skada:FormatNumber(player.damagetaken), self.metadata.columns.Damage,
-												Skada:FormatNumber(dtps), self.metadata.columns.DTPS,
+												string.format("%02.1f", dtps), self.metadata.columns.DTPS,
 												string.format("%02.1f%%", player.damagetaken / set.damagetaken * 100), self.metadata.columns.Percent
 											)
 				d.id = player.id

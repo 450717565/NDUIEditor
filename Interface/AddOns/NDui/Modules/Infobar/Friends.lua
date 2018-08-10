@@ -33,7 +33,7 @@ local function buildFriendTable(num)
 	end
 
 	sort(friendTable, function(a, b)
-		if a[1] and b[1] then
+		if a and b then
 			return a[1] < b[1]
 		end
 	end)
@@ -75,7 +75,7 @@ local function buildBNetTable(num)
 	end
 
 	sort(bnetTable, function(a, b)
-		if a[5] and b[5] then
+		if a and b then
 			return a[5] > b[5]
 		end
 	end)

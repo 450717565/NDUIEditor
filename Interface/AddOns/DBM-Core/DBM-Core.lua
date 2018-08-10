@@ -41,7 +41,7 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 17676 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 17682 $"):sub(12, -3)),
 	DisplayVersion = "8.0.2 alpha", -- the string that is shown as version
 	ReleaseRevision = 17635 -- the revision of the latest stable version that is available
 }
@@ -1312,7 +1312,7 @@ do
 				"GROUP_ROSTER_UPDATE",
 				"INSTANCE_GROUP_SIZE_CHANGED",
 				"CHAT_MSG_ADDON",
-				--"CHAT_MSG_ADDON_LOGGED",--Enable in next Beta Build
+				"CHAT_MSG_ADDON_LOGGED",--Enable in next Beta Build
 				"BN_CHAT_MSG_ADDON",
 				"PLAYER_REGEN_DISABLED",
 				"PLAYER_REGEN_ENABLED",
@@ -4896,7 +4896,7 @@ do
 			end
 		end
 	end
-	--DBM.CHAT_MSG_ADDON_LOGGED = DBM.CHAT_MSG_ADDON
+	DBM.CHAT_MSG_ADDON_LOGGED = DBM.CHAT_MSG_ADDON
 	
 	function DBM:BN_CHAT_MSG_ADDON(prefix, msg, channel, sender)
 		if prefix == "D4" and msg then

@@ -5,12 +5,11 @@ if not C.Infobar.Memory then return end
 local module = B:GetModule("Infobar")
 local info = module:RegisterInfobar(C.Infobar.MemoryPos)
 
-local function formatMemory(value, color)
-	color = color and DB.MyColor or ""
+local function formatMemory(value)
 	if value > 1024 then
-		return format(color.."%.1f|rMB", value / 1024)
+		return format("%.1fMB", value / 1024)
 	else
-		return format(color.."%.0f|rKB", value)
+		return format("%.0fKB", value)
 	end
 end
 
@@ -28,11 +27,12 @@ local function memoryColor(value, times)
 	elseif value <= 16384*times then
 		return 1, .5, 0
 	else
-		return 1, .1, 0
+		return 1, 0, 0
 	end
 end
 
-local memoryTable = {}
+local memoryTable, totalMemory = {}
+
 local function updateMemory()
 	wipe(memoryTable)
 	UpdateAddOnMemoryUsage()
@@ -59,16 +59,8 @@ end
 info.onUpdate = function(self, elapsed)
 	self.timer = (self.timer or 5) + elapsed
 	if self.timer > 5 then
-		UpdateAddOnMemoryUsage()
-
-		local total = 0
-		for i = 1, GetNumAddOns() do
-			if IsAddOnLoaded(i) then
-				local usage = GetAddOnMemoryUsage(i)
-				total = total + usage
-			end
-		end
-		self.text:SetText(formatMemory(total, true))
+		totalMemory = updateMemory()
+		self.text:SetText(B.HexRGB(memoryColor(totalMemory, 10))..formatMemory(totalMemory, true))
 		self.text:SetJustifyH("RIGHT")
 
 		self.timer = 0
@@ -79,14 +71,13 @@ info.onMouseUp = function(self, btn)
 	if btn == "LeftButton" then
 		local before = gcinfo()
 		collectgarbage()
-		print(format("|cff66C6FF%s:|r %s", L["Collect Memory"], formatMemory(before - gcinfo())))
+		print(format("|cff66C6FF%s|r%s", L["Collect Memory"]..L[":"], formatMemory(before - gcinfo())))
 		updateMemory()
 		self:GetScript("OnEnter")(self)
 	end
 end
 
 info.onEnter = function(self)
-	local totalMemory = updateMemory()
 	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 15)
 	GameTooltip:ClearLines()
 	GameTooltip:AddDoubleLine(ADDONS, formatMemory(totalMemory), 0,.6,1, .6,.8,1)
