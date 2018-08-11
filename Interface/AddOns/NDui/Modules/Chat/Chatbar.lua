@@ -128,20 +128,21 @@ function module:Chatbar()
 		local wc = AddButton(1, .75, .75, L["World Channel"])
 
 		local function isInChannel(event)
-			channels = {GetChannelList()}
-			for i = 1, #channels do
-				if channels[i] == channelName then
-					wc.inChannel = true
-					channelID = channels[i-1]
-					break
+			C_Timer.After(.1, function()
+				channels = {GetChannelList()}
+				for i = 1, #channels do
+					if channels[i] == channelName then
+						wc.inChannel = true
+						channelID = channels[i-1]
+						break
+					end
 				end
-			end
-
-			if wc.inChannel then
-				wc.Icon:SetVertexColor(1, .75, .75)
-			else
-				wc.Icon:SetVertexColor(1, .1, .1)
-			end
+				if wc.inChannel then
+					wc.Icon:SetVertexColor(1, .75, .75)
+				else
+					wc.Icon:SetVertexColor(1, .1, .1)
+				end
+			end)
 
 			if event == "PLAYER_ENTERING_WORLD" then
 				B:UnregisterEvent(event, isInChannel)

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2168, "DBM-Uldir", nil, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17679 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17684 $"):sub(12, -3))
 mod:SetCreatureID(137119)--Taloc
 mod:SetEncounterID(2144)
 mod:SetZone()
@@ -126,7 +126,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnRetrieveCudgel:Show()
 		specWarnRetrieveCudgel:Play("chargemove")
 	elseif spellId == 271895 then--Sanguine Static
-		self:BossUnitTargetScanner(uId, "StaticTarget")
+		self:BossUnitTargetScanner("boss1", "StaticTarget")
 		specWarnSanguineStatic:Show()
 		specWarnSanguineStatic:Play("watchwave")
 		timerSanguineStaticCD:Start()

@@ -61,6 +61,8 @@ local list = {
 		{AuraID = 260734, UnitID = "player"},	-- 元素宗师
 		{AuraID = 263806, UnitID = "player"},	-- 呼啸狂风
 		{AuraID = 191634, UnitID = "player"},	-- 风暴守护者
+		{AuraID = 202004, UnitID = "player"},	-- 山崩
+		{AuraID = 262652, UnitID = "player"},	-- 强风
 	},
 	["Spell CD"] = { -- 技能冷却计时组
 		{SpellID =  20608, UnitID = "player"},--复生
