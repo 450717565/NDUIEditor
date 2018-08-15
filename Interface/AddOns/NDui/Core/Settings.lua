@@ -163,7 +163,6 @@ local function ForceDBMOptions()
 		["Default"] = {
 			["EventSoundVictory"] = "None",
 			["HideObjectivesFrame"] = false,
-			["ShowMinimapButton"] = false,
 			["SpecialWarningFontSize2"] = 24,
 			["SpecialWarningFontStyle"] = "OUTLINE",
 			["SpecialWarningPoint"] = "TOP",
@@ -177,6 +176,11 @@ local function ForceDBMOptions()
 			["WarningX"] = 0,
 			["WarningY"] = -180,
 		},
+	}
+
+	if not DBM_MinimapIcon then DBM_MinimapIcon = {} end
+	DBM_MinimapIcon = {
+		["hide"] = true,
 	}
 	NDuiDB["Settings"]["DBMRequest"] = false
 end

@@ -4,11 +4,6 @@ local module = B:GetModule("Auras")
 
 if DB.MyClass ~= "DEATHKNIGHT" then return end
 
-function module:CheckLumos()
-	if not NDuiDB["Auras"]["DKTool"] then return end
-	return true
-end
-
 function module:PostCreateLumos(self)
 	local shield = B.CreateFS(self.Health, 18, "")
 	shield:ClearAllPoints()
@@ -38,6 +33,21 @@ local function UpdateDebuff(button, spellID, auraID, cooldown)
 	return module:UpdateAura(button, "target", auraID, "HARMFUL", spellID, cooldown)
 end
 
+local function UpdateBuffValue(button, spellID)
+	button.Icon:SetTexture(GetSpellTexture(spellID))
+	local name, _, duration, expire, _, _, value = GetUnitAura("player", spellID, "HELPFUL")
+	if name then
+		button.Count:SetText(B.Numb(value))
+		button.CD:SetCooldown(expire-duration, duration)
+		button.CD:Show()
+		button:SetAlpha(1)
+	else
+		button.Count:SetText("")
+		UpdateCooldown(button, spellID)
+	end
+	button.Count:SetTextColor(1, 1, 1)
+end
+
 function module:ChantLumos(self)
 	if GetSpecialization() == 1 then
 		do
@@ -63,23 +73,7 @@ function module:ChantLumos(self)
 
 		UpdateBuff(self.bu[2], 195181, 195181)
 		UpdateBuff(self.bu[3], 49028, 81256, true)
-
-		do
-			local button = self.bu[4]
-			button.Icon:SetTexture(GetSpellTexture(48707))
-			local name, _, duration, expire, _, _, value = GetUnitAura("player", 48707, "HELPFUL")
-			if name then
-				button.Count:SetText(B.Numb(value))
-				button.CD:SetCooldown(expire-duration, duration)
-				button.CD:Show()
-				button:SetAlpha(1)
-			else
-				button.Count:SetText("")
-				UpdateCooldown(button, 48707)
-			end
-			button.Count:SetTextColor(1, 1, 1)
-		end
-
+		UpdateBuffValue(self.bu[4], 48707)
 		UpdateBuff(self.bu[5], 55233, 55233, true)
 	elseif GetSpecialization() == 2 then
 		do
@@ -105,13 +99,35 @@ function module:ChantLumos(self)
 		end
 
 		UpdateBuff(self.bu[3], 196770, 196770, true)
-		UpdateBuff(self.bu[4], 51271, 51271, true)
+		UpdateBuffValue(self.bu[4], 51271)
 		UpdateBuff(self.bu[5], 47568, 47568, true)
 	elseif GetSpecialization() == 3 then
-		UpdateBuff(self.bu[1], 51460, 51460)
+		do
+			local button = self.bu[1]
+			local name, _, duration, expire = GetUnitAura("player", 51460, "HELPFUL")
+			if name then
+				button.CD:SetCooldown(expire-duration, duration)
+				button.CD:Show()
+				button:SetAlpha(1)
+				button.Count:SetText("")
+				button.Icon:SetTexture(GetSpellTexture(51460))
+			else
+				local count = floor(UnitPower("player")/40)
+				if count == 0 then
+					button:SetAlpha(.5)
+				else
+					button:SetAlpha(1)
+				end
+				button.CD:Hide()
+				button.Count:SetText(count)
+				button.Icon:SetTexture(GetSpellTexture(47541))
+			end
+		end
+
 		UpdateBuff(self.bu[2], 63560, 63560, true, true)
 		UpdateDebuff(self.bu[3], 194310, 194310)
 		UpdateCooldown(self.bu[4], 275699, true)
+
 		do
 			local button = self.bu[5]
 			if IsPlayerSpell(207289) then

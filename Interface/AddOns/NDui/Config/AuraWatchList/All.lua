@@ -43,23 +43,23 @@ local module = B:GetModule("AurasTable")
 local list = {
 	["Enchant Aura"] = { -- 附魔及饰品组
 	-->种族技能
-		{AuraID =  20577, UnitID = "player"},--食尸
-		{AuraID =  20594, UnitID = "player"},--石像形态
-		{AuraID =  26297, UnitID = "player"},--狂暴
-		{AuraID =  58984, UnitID = "player"},--影遁
-		{AuraID =  68992, UnitID = "player"},--疾步夜行
+		{AuraID = 20577, UnitID = "player"},--食尸
+		{AuraID = 20594, UnitID = "player"},--石像形态
+		{AuraID = 26297, UnitID = "player"},--狂暴
+		{AuraID = 58984, UnitID = "player"},--影遁
+		{AuraID = 68992, UnitID = "player"},--疾步夜行
 		--血性狂怒
-		{AuraID =  20572, UnitID = "player"},
-		{AuraID =  33697, UnitID = "player"},
-		{AuraID =  33702, UnitID = "player"},
+		{AuraID = 20572, UnitID = "player"},
+		{AuraID = 33697, UnitID = "player"},
+		{AuraID = 33702, UnitID = "player"},
 		--纳鲁的赐福
-		{AuraID =  28880, UnitID = "player"},
-		{AuraID =  59542, UnitID = "player"},
-		{AuraID =  59543, UnitID = "player"},
-		{AuraID =  59544, UnitID = "player"},
-		{AuraID =  59545, UnitID = "player"},
-		{AuraID =  59547, UnitID = "player"},
-		{AuraID =  59548, UnitID = "player"},
+		{AuraID = 28880, UnitID = "player"},
+		{AuraID = 59542, UnitID = "player"},
+		{AuraID = 59543, UnitID = "player"},
+		{AuraID = 59544, UnitID = "player"},
+		{AuraID = 59545, UnitID = "player"},
+		{AuraID = 59547, UnitID = "player"},
+		{AuraID = 59548, UnitID = "player"},
 		{AuraID = 121093, UnitID = "player"},
 	-->艾泽里特特质
 		{AuraID = 273685, UnitID = "player"},	-- 缜密计谋
@@ -73,6 +73,10 @@ local list = {
 		{AuraID = 280780, UnitID = "player"},	-- 战斗荣耀
 		{AuraID = 280787, UnitID = "player"},	-- 反击之怒
 		{AuraID = 279928, UnitID = "player"},	-- 大地链接
+		{AuraID = 280385, UnitID = "player"},	-- 压力渐增
+		{AuraID = 273842, UnitID = "player"},	-- 深渊秘密
+		{AuraID = 273843, UnitID = "player"},	-- 深渊秘密
+		{AuraID = 280412, UnitID = "player"},	-- 激励兽群
 	-->LEG药水附魔
 		{AuraID = 188027, UnitID = "player"},--致命优雅，远程
 		{AuraID = 188028, UnitID = "player"},--上古战神，近战
@@ -205,14 +209,14 @@ local list = {
 		{AuraID = 201414, UnitID = "player", Value = true},--坦克
 		{AuraID = 202052, UnitID = "player", Value = true},--坦克
 	-->其他
-		{AuraID =  54861, UnitID = "player"},--火箭靴
+		{AuraID = 54861, UnitID = "player"},--火箭靴
 		{AuraID = 188024, UnitID = "player"},--天行药水
 		{AuraID = 201670, UnitID = "player"},--疾跑
 		{AuraID = 248779, UnitID = "player"},--奥术回响遮罩
 		{AuraID = 254161, UnitID = "player"},--超能奥术回响遮罩
 		--隐形
-		{AuraID =   3680, UnitID = "player"},
-		{AuraID =  11392, UnitID = "player"},
+		{AuraID = 3680, UnitID = "player"},
+		{AuraID = 11392, UnitID = "player"},
 		{AuraID = 175833, UnitID = "player"},
 		{AuraID = 188023, UnitID = "player"},
 	},
@@ -224,10 +228,10 @@ local list = {
 		{AuraID = 240673, UnitID = "player", Text = RAID_BUFF_4},--思维加速（急速）
 		{AuraID = 238698, UnitID = "player", Text = STAT_LIFESTEAL},--吸血光环（死亡骑士）
 	-->急速增益
-		{AuraID =   2825, UnitID = "player"},--嗜血
-		{AuraID =  32182, UnitID = "player"},--英勇
-		{AuraID =  80353, UnitID = "player"},--时间扭曲
-		{AuraID =  90355, UnitID = "player"},--熔岩犬：远古狂乱
+		{AuraID = 2825, UnitID = "player"},--嗜血
+		{AuraID = 32182, UnitID = "player"},--英勇
+		{AuraID = 80353, UnitID = "player"},--时间扭曲
+		{AuraID = 90355, UnitID = "player"},--熔岩犬：远古狂乱
 		{AuraID = 102364, UnitID = "player"},--青铜龙的祝福
 		{AuraID = 160452, UnitID = "player"},--虚空鳐：虚空之风
 		{AuraID = 178207, UnitID = "player"},--狂怒战鼓
@@ -235,46 +239,46 @@ local list = {
 		{AuraID = 264667, UnitID = "player"},--原始暴怒
 	-->职业增益
 		--德鲁伊
-		{AuraID =  29166, UnitID = "player"},--激活
-		{AuraID =  77761, UnitID = "player"},--狂奔怒吼
-		{AuraID =  77764, UnitID = "player"},--狂奔怒吼
+		{AuraID = 29166, UnitID = "player"},--激活
+		{AuraID = 77761, UnitID = "player"},--狂奔怒吼
+		{AuraID = 77764, UnitID = "player"},--狂奔怒吼
 		{AuraID = 102342, UnitID = "player"},--铁木树皮
 		--恶魔猎手
 		{AuraID = 209426, UnitID = "player"},--幻影打击
 		--法师
-		{AuraID =    130, UnitID = "player"},--缓落术
+		{AuraID = 130, UnitID = "player"},--缓落术
 		--猎人
-		{AuraID =  34477, UnitID = "player"},--误导
+		{AuraID = 34477, UnitID = "player"},--误导
 		{AuraID = 204477, UnitID = "player"},--风之爆裂
 		--牧师
-		{AuraID =  33206, UnitID = "player"},--痛苦压制
-		{AuraID =  47788, UnitID = "player"},--守护之魂
-		{AuraID =  64901, UnitID = "player"},--希望象征
-		{AuraID =  65081, UnitID = "player"},--身心合一
-		{AuraID =  81782, UnitID = "player"},--真言术：障
+		{AuraID = 33206, UnitID = "player"},--痛苦压制
+		{AuraID = 47788, UnitID = "player"},--守护之魂
+		{AuraID = 64901, UnitID = "player"},--希望象征
+		{AuraID = 65081, UnitID = "player"},--身心合一
+		{AuraID = 81782, UnitID = "player"},--真言术：障
 		{AuraID = 111759, UnitID = "player"},--漂浮术
 		{AuraID = 121557, UnitID = "player"},--天堂之羽
 		{AuraID = 214121, UnitID = "player"},--提神愈心
 		--潜行者
-		{AuraID =  57934, UnitID = "player"},--嫁祸诀窍
+		{AuraID = 57934, UnitID = "player"},--嫁祸诀窍
 		{AuraID = 115834, UnitID = "player"},--潜伏帷幕
 		--萨满祭司
-		{AuraID =  98007, UnitID = "player"},--灵魂链接图腾
+		{AuraID = 98007, UnitID = "player"},--灵魂链接图腾
 		{AuraID = 192082, UnitID = "player"},--狂风图腾
 		{AuraID = 201633, UnitID = "player"},--大地之盾图腾
 		{AuraID = 207498, UnitID = "player"},--先祖护佑图腾
 		--圣骑士
-		{AuraID =   1022, UnitID = "player"},--保护祝福
-		{AuraID =   1044, UnitID = "player"},--自由祝福
-		{AuraID =   6940, UnitID = "player"},--牺牲祝福
-		{AuraID =  53563, UnitID = "player"},--圣光道标
+		{AuraID = 1022, UnitID = "player"},--保护祝福
+		{AuraID = 1044, UnitID = "player"},--自由祝福
+		{AuraID = 6940, UnitID = "player"},--牺牲祝福
+		{AuraID = 53563, UnitID = "player"},--圣光道标
 		{AuraID = 156910, UnitID = "player"},--信仰道标
 		{AuraID = 200025, UnitID = "player"},--美德道标
 		{AuraID = 204018, UnitID = "player"},--破咒祝福
 		--武僧
 		{AuraID = 116849, UnitID = "player", Value = true},--作茧缚命
 		--战士
-		{AuraID =  97463, UnitID = "player"},--命令怒吼
+		{AuraID = 97463, UnitID = "player"},--命令怒吼
 		{AuraID = 147833, UnitID = "player"},--援护
 		{AuraID = 223658, UnitID = "player"},--捍卫
 	},
@@ -679,22 +683,22 @@ local list = {
 		{AuraID = 255430, UnitID = "target", Text = SPELL_SCHOOL5_NAME},--暗影
 		{AuraID = 255433, UnitID = "target", Text = SPELL_SCHOOL6_NAME},--奥术
 	-->PvP
-		{AuraID =    498, UnitID = "target"},--圣佑术
-		{AuraID =    642, UnitID = "target"},--圣盾术
-		{AuraID =    871, UnitID = "target"},--盾墙
-		{AuraID =   1022, UnitID = "target"},--保护祝福
-		{AuraID =   1044, UnitID = "target"},--自由祝福
-		{AuraID =   5277, UnitID = "target"},--闪避
-		{AuraID =   6940, UnitID = "target"},--牺牲祝福
-		{AuraID =  19574, UnitID = "target"},--狂野怒火
-		{AuraID =  23920, UnitID = "target"},--法术反射
-		{AuraID =  31884, UnitID = "target"},--复仇之怒 惩戒
-		{AuraID =  33206, UnitID = "target"},--痛苦压制
-		{AuraID =  45438, UnitID = "target"},--寒冰屏障
-		{AuraID =  47788, UnitID = "target"},--守护之魂
-		{AuraID =  48707, UnitID = "target"},--反魔法护罩
-		{AuraID =  48792, UnitID = "target"},--冰封之韧
-		{AuraID =  61336, UnitID = "target"},--生存本能
+		{AuraID = 498, UnitID = "target"},--圣佑术
+		{AuraID = 642, UnitID = "target"},--圣盾术
+		{AuraID = 871, UnitID = "target"},--盾墙
+		{AuraID = 1022, UnitID = "target"},--保护祝福
+		{AuraID = 1044, UnitID = "target"},--自由祝福
+		{AuraID = 5277, UnitID = "target"},--闪避
+		{AuraID = 6940, UnitID = "target"},--牺牲祝福
+		{AuraID = 19574, UnitID = "target"},--狂野怒火
+		{AuraID = 23920, UnitID = "target"},--法术反射
+		{AuraID = 31884, UnitID = "target"},--复仇之怒 惩戒
+		{AuraID = 33206, UnitID = "target"},--痛苦压制
+		{AuraID = 45438, UnitID = "target"},--寒冰屏障
+		{AuraID = 47788, UnitID = "target"},--守护之魂
+		{AuraID = 48707, UnitID = "target"},--反魔法护罩
+		{AuraID = 48792, UnitID = "target"},--冰封之韧
+		{AuraID = 61336, UnitID = "target"},--生存本能
 		{AuraID = 104773, UnitID = "target"},--不灭决心
 		{AuraID = 113862, UnitID = "target"},--强化隐形术
 		{AuraID = 114050, UnitID = "target"},--升腾 元素
@@ -722,32 +726,33 @@ local list = {
 		{AuraID = 247938, UnitID = "target"},--混乱之刃
 	-->职业长控
 		--变形术
-		{AuraID =    118, UnitID = "target"},
-		{AuraID =  28271, UnitID = "target"},
-		{AuraID =  28272, UnitID = "target"},
-		{AuraID =  61305, UnitID = "target"},
-		{AuraID =  61721, UnitID = "target"},
-		{AuraID =  61780, UnitID = "target"},
+		{AuraID = 118, UnitID = "target"},
+		{AuraID = 28271, UnitID = "target"},
+		{AuraID = 28272, UnitID = "target"},
+		{AuraID = 61305, UnitID = "target"},
+		{AuraID = 61721, UnitID = "target"},
+		{AuraID = 61780, UnitID = "target"},
 		{AuraID = 126819, UnitID = "target"},
 		{AuraID = 161353, UnitID = "target"},
 		{AuraID = 161354, UnitID = "target"},
 		{AuraID = 161355, UnitID = "target"},
 		{AuraID = 161372, UnitID = "target"},
 		--妖术
-		{AuraID =  51514, UnitID = "target"},
+		{AuraID = 51514, UnitID = "target"},
 		{AuraID = 210873, UnitID = "target"},
 		{AuraID = 211004, UnitID = "target"},
 		{AuraID = 211010, UnitID = "target"},
 		{AuraID = 211015, UnitID = "target"},
 		--其他
-		{AuraID =    339, UnitID = "target"},--纠缠根须
-		{AuraID =    710, UnitID = "target"},--放逐术
-		{AuraID =   2094, UnitID = "target"},--致盲
-		{AuraID =   3355, UnitID = "target"},--冰冻陷阱
-		{AuraID =   6770, UnitID = "target"},--闷棍
-		{AuraID =   9484, UnitID = "target"},--束缚亡灵
-		{AuraID =  19386, UnitID = "target"},--翼龙钉刺
-		{AuraID =  20066, UnitID = "target"},--忏悔
+		{AuraID = 339, UnitID = "target"},--纠缠根须
+		{AuraID = 710, UnitID = "target"},--放逐术
+		{AuraID = 2094, UnitID = "target"},--致盲
+		{AuraID = 2637, UnitID = "target"},--休眠
+		{AuraID = 3355, UnitID = "target"},--冰冻陷阱
+		{AuraID = 6770, UnitID = "target"},--闷棍
+		{AuraID = 9484, UnitID = "target"},--束缚亡灵
+		{AuraID = 19386, UnitID = "target"},--翼龙钉刺
+		{AuraID = 20066, UnitID = "target"},--忏悔
 		{AuraID = 102359, UnitID = "target"},--群体缠绕
 		{AuraID = 115078, UnitID = "target"},--分筋错骨
 		{AuraID = 207685, UnitID = "target"},--悲苦咒符
@@ -764,48 +769,48 @@ local list = {
 	},
 	["Enchant CD"] = { -- 物品冷却计时组
 	-->物品
-		{SlotID  =      6, UnitID = "player"},--腰带
-		{SlotID  =     11, UnitID = "player"},--戒指1
-		{SlotID  =     12, UnitID = "player"},--戒指2
-		{SlotID  =     13, UnitID = "player"},--饰品1
-		{SlotID  =     14, UnitID = "player"},--饰品2
-		{SlotID  =     15, UnitID = "player"},--披风
+		{SlotID = 6, UnitID = "player"},--腰带
+		{SlotID = 11, UnitID = "player"},--戒指1
+		{SlotID = 12, UnitID = "player"},--戒指2
+		{SlotID = 13, UnitID = "player"},--饰品1
+		{SlotID = 14, UnitID = "player"},--饰品2
+		{SlotID = 15, UnitID = "player"},--披风
 	-->种族技能
 		--纳鲁的赐福
-		{SpellID =  28880, UnitID = "player"},
-		{SpellID =  59542, UnitID = "player"},
-		{SpellID =  59543, UnitID = "player"},
-		{SpellID =  59544, UnitID = "player"},
-		{SpellID =  59545, UnitID = "player"},
-		{SpellID =  59547, UnitID = "player"},
-		{SpellID =  59548, UnitID = "player"},
+		{SpellID = 28880, UnitID = "player"},
+		{SpellID = 59542, UnitID = "player"},
+		{SpellID = 59543, UnitID = "player"},
+		{SpellID = 59544, UnitID = "player"},
+		{SpellID = 59545, UnitID = "player"},
+		{SpellID = 59547, UnitID = "player"},
+		{SpellID = 59548, UnitID = "player"},
 		{SpellID = 121093, UnitID = "player"},
 		--奥术洪流
-		{SpellID =  20546, UnitID = "player"},
-		{SpellID =  28730, UnitID = "player"},
-		{SpellID =  50613, UnitID = "player"},
-		{SpellID =  69179, UnitID = "player"},
-		{SpellID =  80483, UnitID = "player"},
+		{SpellID = 20546, UnitID = "player"},
+		{SpellID = 28730, UnitID = "player"},
+		{SpellID = 50613, UnitID = "player"},
+		{SpellID = 69179, UnitID = "player"},
+		{SpellID = 80483, UnitID = "player"},
 		{SpellID = 129597, UnitID = "player"},
 		{SpellID = 155145, UnitID = "player"},
 		{SpellID = 202719, UnitID = "player"},
 		{SpellID = 232633, UnitID = "player"},
 		--血性狂怒
-		{SpellID =  20572, UnitID = "player"},
-		{SpellID =  33697, UnitID = "player"},
-		{SpellID =  33702, UnitID = "player"},
+		{SpellID = 20572, UnitID = "player"},
+		{SpellID = 33697, UnitID = "player"},
+		{SpellID = 33702, UnitID = "player"},
 		--其他
-		{SpellID =   7744, UnitID = "player"},--被遗忘者的意志
-		{SpellID =  20549, UnitID = "player"},--战争践踏
-		{SpellID =  20577, UnitID = "player"},--食尸
-		{SpellID =  20589, UnitID = "player"},--逃命专家
-		{SpellID =  20594, UnitID = "player"},--石像形态
-		{SpellID =  26297, UnitID = "player"},--狂暴
-		{SpellID =  58984, UnitID = "player"},--影遁
-		{SpellID =  59752, UnitID = "player"},--自利
-		{SpellID =  68992, UnitID = "player"},--疾步夜行
-		{SpellID =  69041, UnitID = "player"},--火箭弹幕
-		{SpellID =  69070, UnitID = "player"},--火箭跳
+		{SpellID = 7744, UnitID = "player"},--被遗忘者的意志
+		{SpellID = 20549, UnitID = "player"},--战争践踏
+		{SpellID = 20577, UnitID = "player"},--食尸
+		{SpellID = 20589, UnitID = "player"},--逃命专家
+		{SpellID = 20594, UnitID = "player"},--石像形态
+		{SpellID = 26297, UnitID = "player"},--狂暴
+		{SpellID = 58984, UnitID = "player"},--影遁
+		{SpellID = 59752, UnitID = "player"},--自利
+		{SpellID = 68992, UnitID = "player"},--疾步夜行
+		{SpellID = 69041, UnitID = "player"},--火箭弹幕
+		{SpellID = 69070, UnitID = "player"},--火箭跳
 		{SpellID = 107079, UnitID = "player"},--震山掌
 	},
 	["Internal CD"] = { -- 自定义内置冷却组
@@ -814,24 +819,24 @@ local list = {
 		{IntID = 208052, Duration = 30, ItemID = 132452},--塞弗斯的秘密
 	-->种族技能
 		--奥术洪流
-		{IntID =  20546, Duration = 90, UnitID = "all", OnSuccess = true},
-		{IntID =  28730, Duration = 90, UnitID = "all", OnSuccess = true},
-		{IntID =  50613, Duration = 90, UnitID = "all", OnSuccess = true},
-		{IntID =  69179, Duration = 90, UnitID = "all", OnSuccess = true},
-		{IntID =  80483, Duration = 90, UnitID = "all", OnSuccess = true},
+		{IntID = 20546, Duration = 90, UnitID = "all", OnSuccess = true},
+		{IntID = 28730, Duration = 90, UnitID = "all", OnSuccess = true},
+		{IntID = 50613, Duration = 90, UnitID = "all", OnSuccess = true},
+		{IntID = 69179, Duration = 90, UnitID = "all", OnSuccess = true},
+		{IntID = 80483, Duration = 90, UnitID = "all", OnSuccess = true},
 		{IntID = 129597, Duration = 90, UnitID = "all", OnSuccess = true},
 		{IntID = 155145, Duration = 90, UnitID = "all", OnSuccess = true},
 		{IntID = 202719, Duration = 90, UnitID = "all", OnSuccess = true},
 		{IntID = 232633, Duration = 90, UnitID = "all", OnSuccess = true},
 	-->打断技能
-		{IntID =   1766, Duration = 15, UnitID = "all", OnSuccess = true},--脚踢
-		{IntID =   2139, Duration = 24, UnitID = "all", OnSuccess = true},--法术反制
-		{IntID =   6552, Duration = 15, UnitID = "all", OnSuccess = true},--拳击
-		{IntID =  15487, Duration = 45, UnitID = "all", OnSuccess = true},--沉默
-		{IntID =  47528, Duration = 15, UnitID = "all", OnSuccess = true},--心灵冰冻
-		{IntID =  57994, Duration = 12, UnitID = "all", OnSuccess = true},--风剪
-		{IntID =  78675, Duration = 60, UnitID = "all", OnSuccess = true},--日光术
-		{IntID =  96231, Duration = 15, UnitID = "all", OnSuccess = true},--责难
+		{IntID = 1766, Duration = 15, UnitID = "all", OnSuccess = true},--脚踢
+		{IntID = 2139, Duration = 24, UnitID = "all", OnSuccess = true},--法术反制
+		{IntID = 6552, Duration = 15, UnitID = "all", OnSuccess = true},--拳击
+		{IntID = 15487, Duration = 45, UnitID = "all", OnSuccess = true},--沉默
+		{IntID = 47528, Duration = 15, UnitID = "all", OnSuccess = true},--心灵冰冻
+		{IntID = 57994, Duration = 12, UnitID = "all", OnSuccess = true},--风剪
+		{IntID = 78675, Duration = 60, UnitID = "all", OnSuccess = true},--日光术
+		{IntID = 96231, Duration = 15, UnitID = "all", OnSuccess = true},--责难
 		{IntID = 106839, Duration = 15, UnitID = "all", OnSuccess = true},--迎头痛击
 		{IntID = 116705, Duration = 15, UnitID = "all", OnSuccess = true},--切喉手
 		{IntID = 132469, Duration = 30, UnitID = "all", OnSuccess = true},--台风

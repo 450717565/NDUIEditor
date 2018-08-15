@@ -20,6 +20,9 @@ function module:OnLogin()
 	if NDuiDB["Misc"]["HideBanner"] then
 		BossBanner:UnregisterAllEvents()
 	end
+
+	-- Fix patch 27326
+	GuildControlUIRankSettingsFrameRosterLabel = CreateFrame("Frame", nil, B.HiddenFrame)
 end
 
 -- Archaeology counts
@@ -125,7 +128,7 @@ do
 				for i = 1, NUM_BROWSE_TO_DISPLAY do
 					local index = offset + i + (NUM_AUCTION_ITEMS_PER_PAGE * AuctionFrameBrowse.page)
 					if index <= numBatchAuctions + (NUM_AUCTION_ITEMS_PER_PAGE * AuctionFrameBrowse.page) then
-						local name, _, _, _, _, _, _, _, _, buyoutPrice, bidAmount =  GetAuctionItemInfo("list", offset + i)
+						local name, _, _, _, _, _, _, _, _, buyoutPrice, bidAmount = GetAuctionItemInfo("list", offset + i)
 						local alpha = .5
 						local color = "yellow"
 						if name then

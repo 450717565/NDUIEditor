@@ -5,23 +5,23 @@ local module = B:GetModule("AurasTable")
 -- DK的法术监控
 local list = {
 	["Player Aura"] = { -- 玩家光环组
-		{AuraID =   3714, UnitID = "player"},--冰霜之路
-		{AuraID =  48265, UnitID = "player"},--死亡脚步
-		{AuraID =  48707, UnitID = "player"},--反魔法护罩
-		{AuraID =  48792, UnitID = "player"},--冰封之韧
-		{AuraID =  53365, UnitID = "player"},--不洁之力
+		{AuraID = 3714, UnitID = "player"},--冰霜之路
+		{AuraID = 48265, UnitID = "player"},--死亡脚步
+		{AuraID = 48707, UnitID = "player"},--反魔法护罩
+		{AuraID = 48792, UnitID = "player"},--冰封之韧
+		{AuraID = 53365, UnitID = "player"},--不洁之力
 		{AuraID = 101568, UnitID = "player"},--黑暗援助
 		{AuraID = 111673, UnitID = "pet"},--控制亡灵
 		{AuraID = 180612, UnitID = "player"},--最近使用过灵界打击
 		{AuraID = 188290, UnitID = "player"},--枯萎凋零
 	},
 	["Target Aura"] = { -- 目标光环组
-		{AuraID =  45524, UnitID = "target", Caster = "player"},--寒冰锁链
-		{AuraID =  51399, UnitID = "target", Caster = "player"},--死亡之握
-		{AuraID =  51714, UnitID = "target", Caster = "player"},--锋锐之寒
-		{AuraID =  55078, UnitID = "target", Caster = "player"},--血之疫病
-		{AuraID =  55095, UnitID = "target", Caster = "player"},--冰霜疫病
-		{AuraID =  56222, UnitID = "target", Caster = "player"},--黑暗命令
+		{AuraID = 45524, UnitID = "target", Caster = "player"},--寒冰锁链
+		{AuraID = 51399, UnitID = "target", Caster = "player"},--死亡之握
+		{AuraID = 51714, UnitID = "target", Caster = "player"},--锋锐之寒
+		{AuraID = 55078, UnitID = "target", Caster = "player"},--血之疫病
+		{AuraID = 55095, UnitID = "target", Caster = "player"},--冰霜疫病
+		{AuraID = 56222, UnitID = "target", Caster = "player"},--黑暗命令
 		{AuraID = 108194, UnitID = "target", Caster = "player"},--窒息
 		{AuraID = 130736, UnitID = "target", Caster = "player"},--灵魂收割
 		{AuraID = 143375, UnitID = "target", Caster = "player"},--枯萎之握
@@ -48,16 +48,16 @@ local list = {
 		{AuraID = 253367, UnitID = "target", Caster = "player"},
 	},
 	["Player Special Aura"] = { -- 玩家重要光环组
-		{AuraID =  51124, UnitID = "player"},--杀戮机器
-		{AuraID =  51271, UnitID = "player"},--冰霜之柱
-		{AuraID =  51460, UnitID = "player"},--符文腐蚀
-		{AuraID =  55233, UnitID = "player"},--吸血鬼之血
-		{AuraID =  59052, UnitID = "player"},--白霜
-		{AuraID =  63560, UnitID = "pet"},--黑暗突变
-		{AuraID =  77535, UnitID = "player", Value = true},--鲜血护盾
-		{AuraID =  81141, UnitID = "player"},--赤色天灾
-		{AuraID =  81256, UnitID = "player"},--符文刃舞
-		{AuraID =  81340, UnitID = "player"},--末日突降
+		{AuraID = 51124, UnitID = "player"},--杀戮机器
+		{AuraID = 51271, UnitID = "player"},--冰霜之柱
+		{AuraID = 51460, UnitID = "player"},--符文腐蚀
+		{AuraID = 55233, UnitID = "player"},--吸血鬼之血
+		{AuraID = 59052, UnitID = "player"},--白霜
+		{AuraID = 63560, UnitID = "pet"},--黑暗突变
+		{AuraID = 77535, UnitID = "player", Value = true},--鲜血护盾
+		{AuraID = 81141, UnitID = "player"},--赤色天灾
+		{AuraID = 81256, UnitID = "player"},--符文刃舞
+		{AuraID = 81340, UnitID = "player"},--末日突降
 		{AuraID = 115989, UnitID = "player"},--邪恶虫群
 		{AuraID = 152279, UnitID = "player"},--冰龙吐息
 		{AuraID = 193320, UnitID = "player", Value = true},--永恒脐带
@@ -71,7 +71,7 @@ local list = {
 		{AuraID = 204957, UnitID = "player"},--冰冻灵魂
 		{AuraID = 205725, UnitID = "player"},--反魔法屏障
 		{AuraID = 206977, UnitID = "player"},--鲜血镜像
-		{AuraID =  47568, UnitID = "player"},--符文武器增效
+		{AuraID = 47568, UnitID = "player"},--符文武器增效
 		{AuraID = 207203, UnitID = "player", Value = true},--寒冰之盾
 		{AuraID = 207256, UnitID = "player"},--湮灭
 		{AuraID = 207289, UnitID = "player"},--邪恶狂乱
@@ -98,21 +98,21 @@ local list = {
 		{AuraID = 235599, UnitID = "player", Combat = true},--冷酷之心
 	},
 	["Spell CD"] = { -- 技能冷却计时组
-		{SpellID =  46584, UnitID = "player"},--亡者复生
-		{SpellID =  47528, UnitID = "player"},--心灵冰冻
-		{SpellID =  47568, UnitID = "player"},--符文武器增效
-		{SpellID =  48707, UnitID = "player"},--反魔法护罩
-		{SpellID =  48743, UnitID = "player"},--天灾契约
-		{SpellID =  48792, UnitID = "player"},--冰封之韧
-		{SpellID =  49028, UnitID = "player"},--符文刃舞
-		{SpellID =  49206, UnitID = "player"},--召唤石鬼像
-		{SpellID =  49576, UnitID = "player"},--死亡之握
-		{SpellID =  51271, UnitID = "player"},--冰霜之柱
-		{SpellID =  55233, UnitID = "player"},--吸血鬼之血
-		{SpellID =  56222, UnitID = "player"},--黑暗命令
-		{SpellID =  57330, UnitID = "player"},--寒冬号角
-		{SpellID =  61999, UnitID = "player"},--复活盟友
-		{SpellID =  63560, UnitID = "player"},--黑暗突变
+		{SpellID = 46584, UnitID = "player"},--亡者复生
+		{SpellID = 47528, UnitID = "player"},--心灵冰冻
+		{SpellID = 47568, UnitID = "player"},--符文武器增效
+		{SpellID = 48707, UnitID = "player"},--反魔法护罩
+		{SpellID = 48743, UnitID = "player"},--天灾契约
+		{SpellID = 48792, UnitID = "player"},--冰封之韧
+		{SpellID = 49028, UnitID = "player"},--符文刃舞
+		{SpellID = 49206, UnitID = "player"},--召唤石鬼像
+		{SpellID = 49576, UnitID = "player"},--死亡之握
+		{SpellID = 51271, UnitID = "player"},--冰霜之柱
+		{SpellID = 55233, UnitID = "player"},--吸血鬼之血
+		{SpellID = 56222, UnitID = "player"},--黑暗命令
+		{SpellID = 57330, UnitID = "player"},--寒冬号角
+		{SpellID = 61999, UnitID = "player"},--复活盟友
+		{SpellID = 63560, UnitID = "player"},--黑暗突变
 		{SpellID = 108194, UnitID = "player"},--窒息
 		{SpellID = 108199, UnitID = "player"},--血魔之握
 		{SpellID = 127344, UnitID = "player"},--邪爆

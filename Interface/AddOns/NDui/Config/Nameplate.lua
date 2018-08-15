@@ -11,7 +11,8 @@ C.WhiteList = {
 	[186265]	= true,		-- 灵龟守护
 	-- Debuffs
 	[2094]		= true,		-- 致盲
-	-- Mythic dungeons
+	-- Dungeons
+	[260805]	= true,		-- 聚焦之虹
 	[228318]	= true,		-- 激怒
 	[226510]	= true,		-- 血池
 	[200672]	= true,		-- 水晶迸裂

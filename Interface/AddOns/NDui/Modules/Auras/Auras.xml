@@ -1,7 +1,6 @@
 <Ui>
 	<Script file="Buff.lua"/>
 	<Script file="Reminder.lua"/>
-	<Script file="Stagger.lua"/>
 	<Script file="Totems.lua"/>
 	<Script file="AuraWatch.lua"/>
 	<Script file="MonkStatue.lua"/>

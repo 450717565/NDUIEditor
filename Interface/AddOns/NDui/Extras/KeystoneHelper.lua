@@ -1,7 +1,7 @@
 local B, C, L, DB = unpack(select(2, ...))
 
-local MythicLootItemLevel = {  0 ,155 ,160 ,165 ,170 ,175 ,180 ,185 ,190 ,195 ,200 ,205 ,210 ,215 ,220}
-local WeeklyLootItemLevel = {  0 ,175 ,180 ,185 ,190 ,195 ,200 ,205 ,210 ,215 ,220 ,225 ,230 ,235 ,240}
+local MythicLootItemLevel = {  0 ,345 ,345 ,350 ,355 ,355 ,360 ,365 ,365 ,370}
+local WeeklyLootItemLevel = {  0 ,355 ,355 ,360 ,360 ,365 ,370 ,370 ,375 ,380}
 
 local function GetModifiers(linkType, ...)
 	if type(linkType) ~= "string" then return end
@@ -10,8 +10,8 @@ local function GetModifiers(linkType, ...)
 
 	if mythicLevel and mythicLevel ~= "" then
 		mythicLevel = tonumber(mythicLevel)
-		if mythicLevel and mythicLevel > 15 then
-			mythicLevel = 15
+		if mythicLevel and mythicLevel > 10 then
+			mythicLevel = 10
 		end
 	else
 		mythicLevel = nil

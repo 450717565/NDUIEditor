@@ -5,30 +5,31 @@ local module = B:GetModule("AurasTable")
 -- 猎人的法术监控
 local list = {
 	["Player Aura"] = { -- 玩家光环组
-		{AuraID =    136, UnitID = "pet"},--治疗宠物
+		{AuraID = 136, UnitID = "pet"},			-- 治疗宠物
 		{AuraID = 19577, UnitID = "pet"},		-- 胁迫
-		{AuraID =  90361, UnitID = "player"},--灵魂治愈
-		{AuraID =  35079, UnitID = "player"},--误导
-		{AuraID =  61648, UnitID = "player"},--变色龙守护
-		{AuraID = 199483, UnitID = "player"},--伪装
-		{AuraID = 118922, UnitID = "player"},--迅疾如风
-		{AuraID = 164857, UnitID = "player"},--生存专家
-		{AuraID = 186258, UnitID = "player"},--猎豹守护
+		{AuraID = 160058, UnitID = "pet"},		-- 厚皮
+		{AuraID = 90361, UnitID = "player"},	-- 灵魂治愈
+		{AuraID = 35079, UnitID = "player"},	-- 误导
+		{AuraID = 61648, UnitID = "player"},	-- 变色龙守护
+		{AuraID = 199483, UnitID = "player"},	-- 伪装
+		{AuraID = 118922, UnitID = "player"},	-- 迅疾如风
+		{AuraID = 164857, UnitID = "player"},	-- 生存专家
+		{AuraID = 186258, UnitID = "player"},	-- 猎豹守护
 		{AuraID = 246152, UnitID = "player"},	-- 倒刺射击
 		{AuraID = 246851, UnitID = "player"},	-- 倒刺射击
 		{AuraID = 246852, UnitID = "player"},	-- 倒刺射击
 		{AuraID = 246853, UnitID = "player"},	-- 倒刺射击
 		{AuraID = 246854, UnitID = "player"},	-- 倒刺射击
-		{AuraID = 203924, UnitID = "player"},--守护屏障
-		{AuraID = 197161, UnitID = "player"},--灵龟守护回血
-		{AuraID = 160007, UnitID = "player"},--上升气流（双头龙）
+		{AuraID = 203924, UnitID = "player"},	-- 守护屏障
+		{AuraID = 197161, UnitID = "player"},	-- 灵龟守护回血
+		{AuraID = 160007, UnitID = "player"},	-- 上升气流（双头龙）
 		{AuraID = 231390, UnitID = "player"},	-- 开拓者
 		{AuraID = 164273, UnitID = "player", Combat = true},	-- 独来独往
 	},
-	["Target Aura"] = {		-- 目标光环组
-		{AuraID =   5116, UnitID = "target", Caster = "player"},		-- 震荡射击
-		{AuraID =  19386, UnitID = "target", Caster = "player"},		-- 翼龙钉刺
-		{AuraID =  24394, UnitID = "target", Caster = "pet"},		-- 胁迫
+	["Target Aura"] = { -- 目标光环组
+		{AuraID = 5116, UnitID = "target", Caster = "player"},		-- 震荡射击
+		{AuraID = 19386, UnitID = "target", Caster = "player"},		-- 翼龙钉刺
+		{AuraID = 24394, UnitID = "target", Caster = "pet"},		-- 胁迫
 		{AuraID = 117526, UnitID = "target"},						-- 束缚射击
 		{AuraID = 131894, UnitID = "target", Caster = "player"},	-- 夺命黑鸦
 		{AuraID = 199803, UnitID = "target", Caster = "player"},	-- 精确瞄准
@@ -50,8 +51,8 @@ local list = {
 		{AuraID = 259277, UnitID = "target", Caster = "pet"},		-- 杀戮命令
 	},
 	["Player Special Aura"] = { -- 玩家重要光环组
-		{AuraID =  19574, UnitID = "player"},	-- 狂野怒火
-		{AuraID =  54216, UnitID = "player"},	-- 主人的召唤
+		{AuraID = 19574, UnitID = "player"},	-- 狂野怒火
+		{AuraID = 54216, UnitID = "player"},	-- 主人的召唤
 		{AuraID = 186257, UnitID = "player"},	-- 猎豹守护
 		{AuraID = 186265, UnitID = "player"},	-- 灵龟守护
 		{AuraID = 190515, UnitID = "player"},	-- 适者生存
@@ -91,11 +92,8 @@ local list = {
 		{AuraID = 257622, UnitID = "player", Text = "A"},	-- 技巧射击
 	},
 	["Spell CD"] = { -- 技能冷却计时组
-		{SpellID = 201430, UnitID = "player"},--群兽奔腾
-		{SpellID = 186265, UnitID = "player"},--灵龟守护
-		{SpellID = 193530, UnitID = "player"},--野性守护
-		{SpellID = 193526, UnitID = "player"},--百发百中
-		{SpellID = 147362, UnitID = "player"},--反制射击
+		{SpellID = 186265, UnitID = "player"},	-- 灵龟守护
+		{SpellID = 147362, UnitID = "player"},	-- 反制射击
 	},
 }
 

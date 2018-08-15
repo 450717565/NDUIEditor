@@ -17,7 +17,7 @@
 ## DefaultState: enabled
 ## Author: Tandanu and Nitram
 ## X-Website: http://www.deadlybossmods.com
-## Version: 8.0.1-47-gf02d15792
+## Version: 8.0.2-1-g7839e5b8d
 
 localization.en.lua
 localization.de.lua

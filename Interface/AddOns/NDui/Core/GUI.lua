@@ -29,14 +29,10 @@ local defaultSettings = {
 	},
 	Auras = {
 		Reminder = true,
-		Stagger = true,
 		Totems = true,
 		DestroyTotems = true,
 		Statue = true,
-		HunterTool = true,
-		PriestTool = true,
-		DKTool = true,
-		ShamanTool = true,
+		ClassAuras = true,
 	},
 	AuraWatch = {
 		Enable = true,
@@ -360,16 +356,12 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "AuraWatch", "Enable", L["Enable AuraWatch"]},
 		{1, "AuraWatch", "ClickThrough", L["AuraWatch ClickThrough"]},
 		{},--blank
-		{1, "Auras", "Reminder", L["Enable Reminder"]},
-		{1, "Auras", "Stagger", L["Enable Stagger"], true},
 		{1, "Auras", "Statue", L["Enable Statue"]},
 		{1, "Auras", "Totems", L["Enable Totems"], true},
+		{1, "Auras", "Reminder", L["Enable Reminder"]},
 		{},--blank
 		{1, "Nameplate", "ShowPlayerPlate", "|cff00cc4c"..L["Enable PlayerPlate"]},
-		{1, "Auras", "HunterTool", L["Enable HunterTool"]},
-		{1, "Auras", "PriestTool", L["Enable PriestTool"], true},
-		{1, "Auras", "DKTool", L["Enable DKTool"]},
-		{1, "Auras", "ShamanTool", L["Enable ShamanTool"], true},
+		{1, "Auras", "ClassAuras", L["Enable ClassAuras"], true},
 	},
 	[7] = {
 		{1, "Skins", "RM", L["Raid Manger"]},

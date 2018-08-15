@@ -4,15 +4,6 @@ local module = B:GetModule("Auras")
 
 if DB.MyClass ~= "SHAMAN" then return end
 
-function module:CheckLumos()
-	if not NDuiDB["Auras"]["ShamanTool"] then return end
-	return true
-end
-
-local function GetUnitAura(unit, spell, filter)
-	return module:GetUnitAura(unit, spell, filter)
-end
-
 local function UpdateCooldown(button, spellID, texture)
 	return module:UpdateCooldown(button, spellID, texture)
 end
@@ -23,6 +14,10 @@ end
 
 local function UpdateDebuff(button, spellID, auraID, cooldown)
 	return module:UpdateAura(button, "target", auraID, "HARMFUL", spellID, cooldown)
+end
+
+local function UpdateTotemAura(button, texture)
+	return module:UpdateTotemAura(button, texture)
 end
 
 function module:ChantLumos(self)
@@ -63,10 +58,10 @@ function module:ChantLumos(self)
 
 		do
 			local button = self.bu[2]
-			if IsPlayerSpell(197992) then
-				UpdateBuff(button, 197992, 202004)
-			elseif IsPlayerSpell(262647) then
-				UpdateBuff(button, 262647, 262652)
+			if IsPlayerSpell(210853) then
+				UpdateBuff(button, 210853, 196834)
+			elseif IsPlayerSpell(210727) then
+				UpdateCooldown(button, 187837, true)
 			else
 				UpdateDebuff(button, 192087, 268429)
 			end
@@ -74,27 +69,12 @@ function module:ChantLumos(self)
 
 		do
 			local button = self.bu[3]
-			if IsPlayerSpell(210853) then
-				UpdateBuff(button, 210853, 196834)
-			elseif IsPlayerSpell(210727) then
-				UpdateCooldown(button, 187837, true)
+			if IsPlayerSpell(197992) then
+				UpdateBuff(button, 197992, 202004)
+			elseif IsPlayerSpell(262647) then
+				UpdateBuff(button, 262647, 262652)
 			else
-				button.Icon:SetTexture(511726)
-				local found
-				for slot = 1, 4 do
-					local haveTotem, _, start, dur, icon = GetTotemInfo(slot)
-					if haveTotem and icon == 511726 then
-						button.CD:SetCooldown(start, dur)
-						button.CD:Show()
-						button:SetAlpha(1)
-						found = true
-						break
-					end
-				end
-				if not found then
-					button.CD:Hide()
-					button:SetAlpha(.5)
-				end
+				UpdateTotemAura(button, 511726)
 			end
 		end
 

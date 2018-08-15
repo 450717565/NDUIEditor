@@ -87,14 +87,6 @@ info.onEvent = function(self)
 	self.text:SetJustifyH("LEFT")
 end
 
-local function isInvasionPoint()
-	local mapID = C_Map.GetBestMapForUnit("player")
-	local invaName = C_Scenario.GetInfo()
-	if mapID and mapID >= 921 and mapID <= 926 and invaName then
-		return true
-	end
-end
-
 info.onEnter = function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOM", 0, -15)
 	GameTooltip:ClearLines()
@@ -102,14 +94,9 @@ info.onEnter = function(self)
 	if not pvp[1] then pvp[1] = "neutral" end
 	local r, g, b = unpack(zoneInfo[pvp[1]][2])
 
-	GameTooltip:AddLine(format("%s", zone), r, g, b)
+	GameTooltip:AddLine(zone, r, g, b)
 	GameTooltip:AddDoubleLine(" ", DB.LineString)
 	GameTooltip:AddDoubleLine(" ", DB.LeftButton..L["WorldMap"].." ", 1,1,1, .6,.8,1)
-
-	if isInvasionPoint() then
-		GameTooltip:AddDoubleLine(" ", DB.ScrollButton..L["Search Invasion Group"].." ", 1,1,1, .6,.8,1)
-	end
-
 	GameTooltip:AddDoubleLine(" ", DB.RightButton..L["Send My Pos"].." ", 1,1,1, .6,.8,1)
 	GameTooltip:Show()
 end
@@ -121,10 +108,6 @@ end
 info.onMouseUp = function(_, btn)
 	if btn == "LeftButton" then
 		ToggleFrame(WorldMapFrame)
-	elseif btn == "MiddleButton" and isInvasionPoint() then
-		PVEFrame_ShowFrame("GroupFinderFrame", LFGListPVEStub)
-		LFGListCategorySelection_SelectCategory(LFGListFrame.CategorySelection, 6, 0)
-		LFGListCategorySelection_StartFindGroup(LFGListFrame.CategorySelection, zone)
 	elseif btn == "RightButton" then
 		ChatFrame_OpenChat(format("%s %s <%s>", L["My Position"], TotalZone(), FormatCoords()), SELECTED_DOCK_FRAME)
 	end
