@@ -36,7 +36,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		bg:SetPoint("BOTTOMRIGHT", -5, 0)
 		if header == campaignHeader then
 			local newTex = bg:CreateTexture(nil, "OVERLAY")
-			newTex:SetPoint("TOPRIGHT", -20, 0)
+			newTex:SetPoint("TOPRIGHT", -5, 0)
 			newTex:SetSize(50, 50)
 			newTex:SetBlendMode("ADD")
 			newTex:SetAlpha(0)

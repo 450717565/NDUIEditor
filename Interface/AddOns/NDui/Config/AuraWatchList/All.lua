@@ -586,7 +586,8 @@ local list = {
 		{AuraID = 250669, UnitID = "player", Text = L["Get Out"]},--灵魂爆发
 	},
 	["Target Special Aura"] = { -- 目标重要光环组
-	-->史诗钥石
+	-->5人本
+		{AuraID = 257458, UnitID = "target"},	-- 自由镇尾王易伤
 		{AuraID = 192132, UnitID = "target"},--英灵殿赫娅
 		{AuraID = 192133, UnitID = "target"},--英灵殿赫娅
 		{AuraID = 192517, UnitID = "target"},--脆弱，阿什高姆
@@ -603,18 +604,18 @@ local list = {
 		{AuraID = 247816, UnitID = "target"},--反冲，鲁拉
 		{AuraID = 247915, UnitID = "target"},--黑暗滋生，鲁拉
 		{AuraID = 254020, UnitID = "target"},--黑暗笼罩，鲁拉
-	-->勇气试练
-		{AuraID = 229256, UnitID = "target"},--奥丁，弧光风暴
-		{AuraID = 228174, UnitID = "target"},--高姆，吐沫狂怒
-		{AuraID = 228803, UnitID = "target"},--海拉，酝酿风暴
-		{AuraID = 203816, UnitID = "target"},--小怪，精力
-		{AuraID = 228611, UnitID = "target"},--小怪，幽灵怒火
 	-->翡翠梦魇
 		{AuraID = 215234, UnitID = "target"},--梦魇之怒
 		{AuraID = 211137, UnitID = "target"},--腐溃之风
 		{AuraID = 212707, UnitID = "target"},--召云聚气
 		{AuraID = 210346, UnitID = "target"},--恐惧荆棘光环
 		{AuraID = 210340, UnitID = "target"},--恐惧荆棘光环
+	-->勇气试练
+		{AuraID = 229256, UnitID = "target"},--奥丁，弧光风暴
+		{AuraID = 228174, UnitID = "target"},--高姆，吐沫狂怒
+		{AuraID = 228803, UnitID = "target"},--海拉，酝酿风暴
+		{AuraID = 203816, UnitID = "target"},--小怪，精力
+		{AuraID = 228611, UnitID = "target"},--小怪，幽灵怒火
 	-->暗夜要塞
 		{AuraID = 204697, UnitID = "target"},--毒蝎虫群
 		{AuraID = 204448, UnitID = "target"},--几丁质外壳

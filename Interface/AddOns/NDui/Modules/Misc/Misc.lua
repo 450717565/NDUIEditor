@@ -331,20 +331,20 @@ do
 		if event == "PLAYER_ENTERING_WORLD" then
 			B:UnregisterEvent(event, setupMisc)
 			if IsAddOnLoaded("Blizzard_TalkingHeadUI") then
-				if NDuiDB["Misc"]["HideTalking"] then
-					NoTalkingHeads()
-				end
 				if NDuiDB["Extras"]["MoveTalking"] then
 					MoveTalkingHeads()
+				end
+				if NDuiDB["Misc"]["HideTalking"] then
+					NoTalkingHeads()
 				end
 				B:UnregisterEvent("ADDON_LOADED", setupMisc)
 			end
 		elseif event == "ADDON_LOADED" and addon == "Blizzard_TalkingHeadUI" then
-			if NDuiDB["Misc"]["HideTalking"] then
-				NoTalkingHeads()
-			end
 			if NDuiDB["Extras"]["MoveTalking"] then
 				MoveTalkingHeads()
+			end
+			if NDuiDB["Misc"]["HideTalking"] then
+				NoTalkingHeads()
 			end
 			B:UnregisterEvent(event, setupMisc)
 		end

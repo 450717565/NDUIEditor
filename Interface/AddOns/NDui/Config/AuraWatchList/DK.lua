@@ -18,7 +18,6 @@ local list = {
 	["Target Aura"] = { -- 目标光环组
 		{AuraID = 45524, UnitID = "target", Caster = "player"},--寒冰锁链
 		{AuraID = 51399, UnitID = "target", Caster = "player"},--死亡之握
-		{AuraID = 51714, UnitID = "target", Caster = "player"},--锋锐之寒
 		{AuraID = 55078, UnitID = "target", Caster = "player"},--血之疫病
 		{AuraID = 55095, UnitID = "target", Caster = "player"},--冰霜疫病
 		{AuraID = 56222, UnitID = "target", Caster = "player"},--黑暗命令

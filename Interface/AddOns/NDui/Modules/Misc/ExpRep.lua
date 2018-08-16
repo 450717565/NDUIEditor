@@ -81,7 +81,7 @@ local function UpdateTooltip(bar)
 
 	if UnitLevel("player") < MAX_PLAYER_LEVEL then
 		local xp, mxp, rxp = UnitXP("player"), UnitXPMax("player"), GetXPExhaustion()
-			GameTooltip:AddDoubleLine(EXPERIENCE_COLON, B.Numb(xp).." / "..B.Numb(mxp)..string.format("(%.1f%%)", xp/mxp*100), .6,.8,1, 1,1,1)
+			GameTooltip:AddDoubleLine(EXPERIENCE_COLON, B.Numb(xp).." / "..B.Numb(mxp)..string.format(" (%.1f%%)", xp/mxp*100), .6,.8,1, 1,1,1)
 			GameTooltip:AddDoubleLine(L["Next Need"], B.Numb(mxp-xp)..string.format(" (%.1f%%)", (1-xp/mxp)*100), .6,.8,1, 1,1,1)
 		if rxp then
 			GameTooltip:AddDoubleLine(TUTORIAL_TITLE26..L[":"], "+ "..B.Numb(rxp)..string.format(" (%.1f%%)", rxp/mxp*100), .6,.8,1, 1,1,1)

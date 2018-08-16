@@ -35,6 +35,10 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			F.ReskinGarrisonPortrait(follower.PortraitFrame)
 			follower.PortraitFrame:ClearAllPoints()
 			follower.PortraitFrame:SetPoint("TOPLEFT", 0, -3)
+
+			if follower.Class then
+				F.ReskinClassIcon(follower, 40, "RIGHT", -17, -1)
+			end
 		end
 
 		for i = 1, 10 do
@@ -116,7 +120,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		for i = 1, 9 do
 			select(i, bonusRewards:GetRegions()):SetAlpha(0)
 		end
-		F.CreateBD(bonusRewards, .25)
+		F.CreateBD(bonusRewards)
 		F.CreateSD(bonusRewards)
 		F.Reskin(missionComplete.NextMissionButton)
 	end
@@ -136,13 +140,13 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		end
 	end
 
-	function F:ReskinFollowerTabClass()
-		local tab = self.FollowerTab
-		tab:DisableDrawLayer("BORDER")
-		tab.Class:SetSize(50, 50)
-		tab.Class:SetPoint("TOPRIGHT", 0, -3)
-		tab.Class:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(tab.Class)
+	function F:ReskinClassIcon(size, point, x, y)
+		local class = self.Class
+		class:SetSize(size, size)
+		class:ClearAllPoints()
+		class:SetPoint(point, x, y)
+		class:SetTexCoord(.08, .92, .08, .92)
+		F.CreateBDFrame(class)
 	end
 
 	local function onUpdateData(self)
@@ -163,13 +167,6 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				F.CreateBD(button, .25)
 				F.CreateSD(button)
 
-				local cicon = button.Class
-				cicon:SetTexCoord(.08, .92, .08, .92)
-				cicon:SetSize(40, 40)
-				cicon:ClearAllPoints()
-				cicon:SetPoint("RIGHT", -9, 0)
-				F.CreateBDFrame(cicon)
-
 				local hl = button:GetHighlightTexture()
 				hl:SetColorTexture(r, g, b, .25)
 				hl:ClearAllPoints()
@@ -180,6 +177,10 @@ C.themes["Blizzard_GarrisonUI"] = function()
 					F.ReskinGarrisonPortrait(portrait)
 					portrait:ClearAllPoints()
 					portrait:SetPoint("TOPLEFT", 4, -1)
+				end
+
+				if button.Class then
+					F.ReskinClassIcon(button, 40, "RIGHT", -9, 0)
 				end
 
 				button.restyled = true
@@ -618,13 +619,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	local FollowerTab = GarrisonLandingPage.FollowerTab
 	F.ReskinXPBar(FollowerTab)
-
-	local cicon = FollowerTab.Class
-	cicon:SetTexCoord(.08, .92, .08, .92)
-	cicon:SetSize(50, 50)
-	--cicon:ClearAllPoints()
-	cicon:SetPoint("TOPRIGHT", 0, -3)
-	F.CreateBDFrame(cicon)
+	F.ReskinClassIcon(FollowerTab, 50, "TOPRIGHT", 0, -3)
 
 	-- Ship follower tab
 
@@ -776,6 +771,14 @@ C.themes["Blizzard_GarrisonUI"] = function()
 					local color = BAG_ITEM_QUALITY_COLORS[quality]
 					frame.PortraitFrame.squareBG:SetBackdropBorderColor(color.r, color.g, color.b)
 					frame.PortraitFrame.squareBG:Show()
+				end
+
+				if frame.XP then
+					F.ReskinStatusBar(frame.XP, false, true)
+				end
+
+				if frame.Class then
+					F.ReskinClassIcon(frame, 40, "RIGHT", -17, -1)
 				end
 			end
 		end
@@ -938,7 +941,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	local OrderHallMissionFrame = OrderHallMissionFrame
 	F.ReskinMissionFrame(OrderHallMissionFrame)
-	F.ReskinFollowerTabClass(OrderHallMissionFrame)
+	F.ReskinClassIcon(OrderHallMissionFrame.FollowerTab, 50, "TOPRIGHT", 0, -3)
 
 	-- Ally
 	local combatAlly = OrderHallMissionFrameMissions.CombatAllyUI
@@ -990,7 +993,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	local BFAMissionFrame = BFAMissionFrame
 	F.ReskinMissionFrame(BFAMissionFrame)
-	F.ReskinFollowerTabClass(BFAMissionFrame)
+	F.ReskinClassIcon(BFAMissionFrame.FollowerTab, 50, "TOPRIGHT", 0, -3)
 
 	-- [[ Addon supports ]]
 
