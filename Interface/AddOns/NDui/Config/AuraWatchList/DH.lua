@@ -62,8 +62,6 @@ local list = {
 		{AuraID = 208612, UnitID = "player"},
 		{AuraID = 208613, UnitID = "player"},
 		{AuraID = 208614, UnitID = "player"},
-		--套装效果
-		{AuraID = 252165, UnitID = "player"},
 	},
 	["Spell CD"] = { -- 技能冷却计时组
 		{SpellID = 179057, UnitID = "player"},--混乱新星

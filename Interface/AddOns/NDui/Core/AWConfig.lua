@@ -377,9 +377,9 @@ local function CreatePanel()
 		L["Focus Special Aura"],	-- 6 Focus Aura
 		L["Raid Buff"],				-- 7 Raid Buff
 		L["Raid Debuff"],			-- 8 Raid Debuff
-		L["Spell CD"],				-- 9 Spell Cooldown
-		L["Enchant CD"],			-- 10 Enchant Cooldown
-		L["Internal CD"],			-- 11 InternalCD
+		L["Spell CD"],				-- 9 Spell CD
+		L["Enchant CD"],			-- 10 Enchant CD
+		L["Internal CD"],			-- 11 Internal CD
 		L["RaidFrame Debuffs"],		-- 12 RaidFrame Debuffs
 		L["RaidFrame ClickSets"],	-- 13 RaidFrame ClickSets
 	}

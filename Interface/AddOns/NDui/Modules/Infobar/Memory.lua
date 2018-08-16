@@ -16,14 +16,12 @@ end
 local function memoryColor(value, times)
 	if not times then times = 1 end
 
-	if value <= 1024*times then
+	if value <= 2048*times then
 		return 0, 1, 0
-	elseif value <= 2048*times then
-		return .75, 1, 0
 	elseif value <= 4096*times then
-		return 1, 1, 0
+		return .5, 1, 0
 	elseif value <= 8192*times then
-		return 1, .75, 0
+		return 1, 1, 0
 	elseif value <= 16384*times then
 		return 1, .5, 0
 	else
@@ -60,7 +58,7 @@ info.onUpdate = function(self, elapsed)
 	self.timer = (self.timer or 5) + elapsed
 	if self.timer > 5 then
 		totalMemory = updateMemory()
-		self.text:SetText(B.HexRGB(memoryColor(totalMemory, 10))..formatMemory(totalMemory, true))
+		self.text:SetText(B.HexRGB(memoryColor(totalMemory, 5))..formatMemory(totalMemory))
 		self.text:SetJustifyH("RIGHT")
 
 		self.timer = 0
@@ -101,8 +99,8 @@ info.onEnter = function(self)
 	end
 
 	GameTooltip:AddLine(" ")
-	GameTooltip:AddDoubleLine(L["Default UI Memory Usage"], formatMemory(gcinfo() - totalMemory), .6,.8,1, 1,1,1)
-	GameTooltip:AddDoubleLine(L["Total Memory Usage"], formatMemory(collectgarbage("count")), .6,.8,1, 1,1,1)
+	GameTooltip:AddDoubleLine(L["Default UI Memory Usage"], formatMemory(gcinfo() - totalMemory), .6,.8,1, memoryColor((gcinfo() - totalMemory), 5))
+	GameTooltip:AddDoubleLine(L["Total Memory Usage"], formatMemory(collectgarbage("count")), .6,.8,1, memoryColor(collectgarbage("count"), 10))
 	GameTooltip:AddDoubleLine(" ", DB.LineString)
 	GameTooltip:AddDoubleLine(" ", DB.LeftButton..L["Collect Memory"].." ", 1,1,1, .6,.8,1)
 	GameTooltip:Show()

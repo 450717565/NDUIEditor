@@ -77,14 +77,14 @@ end
 local function UpdateTooltip(bar)
 	GameTooltip:SetOwner(bar, "ANCHOR_LEFT")
 	GameTooltip:ClearLines()
-	GameTooltip:AddLine(LEVEL.." "..UnitLevel("player"), 0,.6,1)
+	GameTooltip:AddLine(format(LEVEL_GAINED, UnitLevel("player")), 0,.6,1)
 
 	if UnitLevel("player") < MAX_PLAYER_LEVEL then
 		local xp, mxp, rxp = UnitXP("player"), UnitXPMax("player"), GetXPExhaustion()
-			GameTooltip:AddDoubleLine(XP..L[":"], B.Numb(xp).." / "..B.Numb(mxp)..string.format("(%.1f%%)", xp/mxp*100), .6,.8,1, 1,1,1)
-			GameTooltip:AddDoubleLine(L["Need XP"]..L[":"], B.Numb(mxp-xp)..string.format(" (%.1f%%)", (1-xp/mxp)*100), .6,.8,1, 1,1,1)
+			GameTooltip:AddDoubleLine(EXPERIENCE_COLON, B.Numb(xp).." / "..B.Numb(mxp)..string.format("(%.1f%%)", xp/mxp*100), .6,.8,1, 1,1,1)
+			GameTooltip:AddDoubleLine(L["Next Need"], B.Numb(mxp-xp)..string.format(" (%.1f%%)", (1-xp/mxp)*100), .6,.8,1, 1,1,1)
 		if rxp then
-			GameTooltip:AddDoubleLine(TUTORIAL_TITLE26..L[":"], "+"..B.Numb(rxp)..string.format(" (%.1f%%)", rxp/mxp*100), .6,.8,1, 1,1,1)
+			GameTooltip:AddDoubleLine(TUTORIAL_TITLE26..L[":"], "+ "..B.Numb(rxp)..string.format(" (%.1f%%)", rxp/mxp*100), .6,.8,1, 1,1,1)
 		end
 		if IsXPUserDisabled() then GameTooltip:AddLine("|cffff0000"..XP..LOCKED) end
 	end
@@ -135,8 +135,9 @@ local function UpdateTooltip(bar)
 		local xp, totalLevelXP = C_AzeriteItem.GetAzeriteItemXPInfo(C_AzeriteItem.FindActiveAzeriteItem())
 		local currentLevel = C_AzeriteItem.GetPowerLevel(azeriteItemLocation)
 		GameTooltip:AddLine(" ")
-		GameTooltip:AddLine(azeriteItemName.." ("..format(SPELLBOOK_AVAILABLE_AT, currentLevel)..")", 0,.6,1)
-		GameTooltip:AddDoubleLine(ARTIFACT_POWER, B.Numb(xp).." / "..B.Numb(totalLevelXP).." ("..floor(xp/totalLevelXP*100).."%)", .6,.8,1, 1,1,1)
+		GameTooltip:AddLine(azeriteItemName.." "..format(SPELLBOOK_AVAILABLE_AT, currentLevel), 0,.6,1)
+		GameTooltip:AddDoubleLine(ARTIFACT_POWER..L[":"], B.Numb(xp).." / "..B.Numb(totalLevelXP)..string.format(" (%.1f%%)", xp/totalLevelXP*100), .6,.8,1, 1,1,1)
+		GameTooltip:AddDoubleLine(L["Next Need"], B.Numb(totalLevelXP-xp)..string.format(" (%.1f%%)", (1-xp/totalLevelXP)*100), .6,.8,1, 1,1,1)
 	end
 
 	if HasArtifactEquipped() then
@@ -147,13 +148,13 @@ local function UpdateTooltip(bar)
 			GameTooltip:AddLine(name, 0,.6,1)
 			GameTooltip:AddLine(ARTIFACT_RETIRED, .6,.8,1, 1)
 		else
-			GameTooltip:AddLine(name.." ("..format(SPELLBOOK_AVAILABLE_AT, pointsSpent)..")", 0,.6,1)
-		end
-		if xpForNextPoint ~= 0 then
+			GameTooltip:AddLine(name.." "..format(SPELLBOOK_AVAILABLE_AT, pointsSpent), 0,.6,1)
 			local numText = num > 0 and " ("..num..")" or ""
 			GameTooltip:AddDoubleLine(ARTIFACT_POWER..L[":"], B.Numb(totalXP)..numText, .6,.8,1, 1,1,1)
-			GameTooltip:AddDoubleLine(L["Next Trait"]..L[":"], B.Numb(xp).." / "..B.Numb(xpForNextPoint)..string.format(" (%.1f%%)", xp/xpForNextPoint*100), .6,.8,1, 1,1,1)
-			GameTooltip:AddDoubleLine(L["Need Trait"]..L[":"], B.Numb(xpForNextPoint-xp)..string.format(" (%.1f%%)", (1-xp/xpForNextPoint)*100), .6,.8,1, 1,1,1)
+			if xpForNextPoint ~= 0 then
+				GameTooltip:AddDoubleLine(L["Next Trait"], B.Numb(xp).." / "..B.Numb(xpForNextPoint)..string.format(" (%.1f%%)", xp/xpForNextPoint*100), .6,.8,1, 1,1,1)
+				GameTooltip:AddDoubleLine(L["Next Need"], B.Numb(xpForNextPoint-xp)..string.format(" (%.1f%%)", (1-xp/xpForNextPoint)*100), .6,.8,1, 1,1,1)
+			end
 		end
 	end
 

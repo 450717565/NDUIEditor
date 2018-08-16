@@ -44,8 +44,6 @@ local list = {
 		--凛冬将至
 		{AuraID = 207171, UnitID = "target", Caster = "player"},
 		{AuraID = 211794, UnitID = "target", Caster = "player"},
-		--套装效果
-		{AuraID = 253367, UnitID = "target", Caster = "player"},
 	},
 	["Player Special Aura"] = { -- 玩家重要光环组
 		{AuraID = 51124, UnitID = "player"},--杀戮机器
@@ -89,13 +87,7 @@ local list = {
 		{AuraID = 253595, UnitID = "player", Combat = true},--酷寒突袭
 		{AuraID = 273947, UnitID = "player"},--鲜血禁闭
 		{AuraID = 274009, UnitID = "player"},--饮血
-		--套装效果
-		{AuraID = 242010, UnitID = "player"},
-		{AuraID = 246995, UnitID = "player"},
-		{AuraID = 247240, UnitID = "player", Combat = true},
-		{AuraID = 253381, UnitID = "player"},
-		--橙装效果
-		{AuraID = 235599, UnitID = "player", Combat = true},--冷酷之心
+		{AuraID = 272723, UnitID = "player"},--冰霜堡垒
 	},
 	["Spell CD"] = { -- 技能冷却计时组
 		{SpellID = 46584, UnitID = "player"},--亡者复生
@@ -121,7 +113,6 @@ local list = {
 		{SpellID = 194844, UnitID = "player"},--白骨风暴
 		{SpellID = 194918, UnitID = "player"},--凋零符文武器
 		{SpellID = 206977, UnitID = "player"},--血之镜像
-		{SpellID = 207127, UnitID = "player"},--饥饿符文武器
 		{SpellID = 207167, UnitID = "player"},--致盲冰雨
 		{SpellID = 207256, UnitID = "player"},--湮灭
 		{SpellID = 207289, UnitID = "player"},--邪恶狂乱

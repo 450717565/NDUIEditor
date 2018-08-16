@@ -136,6 +136,15 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		end
 	end
 
+	function F:ReskinFollowerTabClass()
+		local tab = self.FollowerTab
+		tab:DisableDrawLayer("BORDER")
+		tab.Class:SetSize(50, 50)
+		tab.Class:SetPoint("TOPRIGHT", 0, -3)
+		tab.Class:SetTexCoord(.08, .92, .08, .92)
+		F.CreateBDFrame(tab.Class)
+	end
+
 	local function onUpdateData(self)
 		local followerFrame = self:GetParent()
 		local scrollFrame = followerFrame.FollowerList.listScroll
@@ -929,13 +938,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	local OrderHallMissionFrame = OrderHallMissionFrame
 	F.ReskinMissionFrame(OrderHallMissionFrame)
-
-	local FollowerTab = OrderHallMissionFrame.FollowerTab
-	FollowerTab:DisableDrawLayer("BORDER")
-	FollowerTab.Class:SetSize(50, 50)
-	FollowerTab.Class:SetPoint("TOPRIGHT", 0, -3)
-	FollowerTab.Class:SetTexCoord(.08, .92, .08, .92)
-	F.CreateBDFrame(FollowerTab.Class)
+	F.ReskinFollowerTabClass(OrderHallMissionFrame)
 
 	-- Ally
 	local combatAlly = OrderHallMissionFrameMissions.CombatAllyUI
@@ -987,6 +990,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	local BFAMissionFrame = BFAMissionFrame
 	F.ReskinMissionFrame(BFAMissionFrame)
+	F.ReskinFollowerTabClass(BFAMissionFrame)
 
 	-- [[ Addon supports ]]
 

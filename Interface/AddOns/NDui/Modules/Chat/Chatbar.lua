@@ -31,12 +31,12 @@ function module:Chatbar()
 		local info = ""
 		local mainStat = {"STRENGTH", "AGILITY", nil, "INTELLECT"}
 		local _, spec, _, _, _, main = GetSpecializationInfo(GetSpecialization())
-		local artifactLvl = select(6, C_ArtifactUI.GetEquippedArtifactInfo()) or 0
+		local currentLevel = C_AzeriteItem.GetPowerLevel(C_AzeriteItem.FindActiveAzeriteItem())
 		local statCollect = {
 			{str = CLASS..":%s ", UnitClass("player")},
 			{str = SPECIALIZATION..":%s ", disabel = not GetSpecialization(), spec},
 			{str = STAT_AVERAGE_ITEM_LEVEL..":%.1f(%.1f) ", GetAverageItemLevel()},
-			{str = ARCHAEOLOGY_CURRENT..":%s(%s) " , disable = not C_ArtifactUI.GetEquippedArtifactInfo(), artifactLvl, artifactLvl > 51 and  artifactLvl - 51 or 0},
+			{str = ORDER_HALL_SHAMAN..":"..SPELLBOOK_AVAILABLE_AT.." " , disable = not C_AzeriteItem.FindActiveAzeriteItem(), currentLevel},
 			{str = _G["SPEC_FRAME_PRIMARY_STAT_"..mainStat[main]]..":%s ", UnitStat("player", main)},
 			{str = HEALTH..":%s ", B.Numb(UnitHealthMax("player"))},
 			{str = STAT_CRITICAL_STRIKE..":%.2f%% ", GetCritChance()},
@@ -60,31 +60,31 @@ function module:Chatbar()
 
 	-- Create Chatbars
 	local buttonInfo = {
-		{1, 1, 1, L["Say / Yell"], function(_, btn)
+		{1, 1, 1, SAY.." / "..YELL, function(_, btn)
 			if btn == "RightButton" then
 				ChatFrame_OpenChat("/y ", chatFrame)
 			else
 				ChatFrame_OpenChat("/s ", chatFrame)
 			end
 		end},
-		{.65, .65, 1, L["Instance / Party"], function()
+		{.65, .65, 1, INSTANCE.." / "..PARTY, function()
 			ChatFrame_OpenChat("/p ", chatFrame)
 		end},
-		{1, .5, 0, L["Instance / Raid"], function()
+		{1, .5, 0, INSTANCE.." / "..RAID, function()
 			if IsPartyLFG() then
 				ChatFrame_OpenChat("/i ", chatFrame)
 			else
 				ChatFrame_OpenChat("/raid ", chatFrame)
 			end
 		end},
-		{.25, 1, .25, L["Guild / Officer"], function(_, btn)
+		{.25, 1, .25, GUILD.." / "..OFFICER, function(_, btn)
 			if btn == "RightButton" and CanEditOfficerNote() then
 				ChatFrame_OpenChat("/o ", chatFrame)
 			else
 				ChatFrame_OpenChat("/g ", chatFrame)
 			end
 		end},
-		{1, .5, 1, L["Whisper"], function(_, btn)
+		{1, .5, 1, WHISPER, function(_, btn)
 			if btn == "RightButton" then
 				ChatFrame_ReplyTell(chatFrame)
 				if not editBox:IsVisible() or editBox:GetAttribute("chatType") ~= "WHISPER" then
@@ -99,7 +99,7 @@ function module:Chatbar()
 				end
 			end
 		end},
-		{0, 1, 1, L["Emotion / Roll"], nil, function(self, btn)
+		{0, 1, 1, EMOTE.." / "..ROLL, nil, function(self, btn)
 			self:SetAttribute("type", "macro")
 			if btn == "RightButton" then
 				self:SetAttribute("macrotext", "/roll")

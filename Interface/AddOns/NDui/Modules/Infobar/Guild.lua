@@ -41,11 +41,11 @@ B.CreateFS(bu[3], 13, NAME, false, "LEFT", 5, 0)
 B.CreateFS(bu[4], 13, ZONE, false, "RIGHT", -5, 0)
 
 B.CreateFS(infoFrame, 13, DB.LineString, false, "BOTTOMRIGHT", -15, 58)
-local whspInfo = DB.InfoColor..DB.RightButton..L["Whisper"].." "
+local whspInfo = DB.InfoColor..DB.RightButton..WHISPER.." "
 B.CreateFS(infoFrame, 13, whspInfo, false, "BOTTOMRIGHT", -15, 42)
-local copyInfo = DB.InfoColor.."ALT +"..DB.LeftButton..L["Copy Name"].." "
+local copyInfo = DB.InfoColor.."ALT +"..DB.LeftButton..COPY_NAME.." "
 B.CreateFS(infoFrame, 13, copyInfo, false, "BOTTOMRIGHT", -15, 26)
-local invtInfo = DB.InfoColor.."ALT +"..DB.RightButton..L["Invite"].." "
+local invtInfo = DB.InfoColor.."ALT +"..DB.RightButton..GUILDCONTROL_OPTION7.." "
 B.CreateFS(infoFrame, 13, invtInfo, false, "BOTTOMRIGHT", -15, 10)
 
 local scrollFrame = CreateFrame("ScrollFrame", nil, infoFrame, "UIPanelScrollFrameTemplate")

@@ -12,6 +12,8 @@ C.themes["Blizzard_AlliedRacesUI"] = function()
 
 	AlliedRacesFrame:HookScript("OnShow", function(self)
 		local parent = self.RaceInfoFrame.ScrollFrame.Child
+		F.StripTextures(parent.ObjectivesFrame.HeaderButton, true)
+
 		for i = 1, parent:GetNumChildren() do
 			local bu = select(i, parent:GetChildren())
 
