@@ -13,14 +13,20 @@ function module:PetBattleUI()
 		select(i, frame:GetRegions()):Hide()
 	end
 	frame.TopVersusText:SetPoint("TOP", 0, -90)
+
 	frame.ActiveAlly:ClearAllPoints()
 	frame.ActiveAlly:SetPoint("TOP", -350, -50)
 	frame.AllyBuffFrame:ClearAllPoints()
 	frame.AllyBuffFrame:SetPoint("TOPLEFT", frame.ActiveAlly, "BOTTOMLEFT", 0, -5)
+	frame.AllyPadBuffFrame:ClearAllPoints()
+	frame.AllyPadBuffFrame:SetPoint("TOPRIGHT", frame.ActiveAlly, "BOTTOMLEFT", 0, -5)
+
 	frame.ActiveEnemy:ClearAllPoints()
 	frame.ActiveEnemy:SetPoint("TOP", 350, -50)
 	frame.EnemyBuffFrame:ClearAllPoints()
 	frame.EnemyBuffFrame:SetPoint("TOPRIGHT", frame.ActiveEnemy, "BOTTOMRIGHT", 0, -5)
+	frame.EnemyPadBuffFrame:ClearAllPoints()
+	frame.EnemyPadBuffFrame:SetPoint("TOPLEFT", frame.ActiveEnemy, "BOTTOMRIGHT", 0, -5)
 
 	-- Weather
 	local weather = frame.WeatherFrame
