@@ -77,6 +77,8 @@ local list = {
 		{AuraID = 273842, UnitID = "player"},	-- 深渊秘密
 		{AuraID = 273843, UnitID = "player"},	-- 深渊秘密
 		{AuraID = 280412, UnitID = "player"},	-- 激励兽群
+		{AuraID = 280204, UnitID = "player"},	-- 徘徊的灵魂
+		{AuraID = 269279, UnitID = "player", Value = true, Combat = true},	--回声防护
 	-->LEG药水附魔
 		{AuraID = 188027, UnitID = "player"},--致命优雅，远程
 		{AuraID = 188028, UnitID = "player"},--上古战神，近战

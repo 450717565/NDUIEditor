@@ -12,16 +12,24 @@ function module:PetBattleUI()
 	for i = 1, 3 do
 		select(i, frame:GetRegions()):Hide()
 	end
-	frame.TopVersusText:SetPoint("TOP", 0, -45)
+	frame.TopVersusText:SetPoint("TOP", 0, -90)
+	frame.ActiveAlly:ClearAllPoints()
+	frame.ActiveAlly:SetPoint("TOP", -350, -50)
+	frame.AllyBuffFrame:ClearAllPoints()
+	frame.AllyBuffFrame:SetPoint("TOPLEFT", frame.ActiveAlly, "BOTTOMLEFT", 0, -5)
+	frame.ActiveEnemy:ClearAllPoints()
+	frame.ActiveEnemy:SetPoint("TOP", 350, -50)
+	frame.EnemyBuffFrame:ClearAllPoints()
+	frame.EnemyBuffFrame:SetPoint("TOPRIGHT", frame.ActiveEnemy, "BOTTOMRIGHT", 0, -5)
 
 	-- Weather
 	local weather = frame.WeatherFrame
 	weather:ClearAllPoints()
-	weather:SetPoint("TOP", UIParent, 0, -15)
+	weather:SetPoint("TOP", 0, -60)
 	weather.Label:Hide()
 	weather.Name:Hide()
 	weather.Icon:ClearAllPoints()
-	weather.Icon:SetPoint("TOP", UIParent, 0, -10)
+	weather.Icon:SetPoint("TOP", 0, -55)
 	weather.Icon:SetTexCoord(unpack(DB.TexCoord))
 	B.CreateSD(weather.Icon, 3, 3)
 	weather.Icon.Shadow:SetFrameLevel(weather:GetFrameLevel())
@@ -208,7 +216,7 @@ function module:PetBattleUI()
 
 	-- Reskin Petbar
 	local bar = CreateFrame("Frame", "NDuiPetBattleBar", UIParent, "SecureHandlerStateTemplate")
-	bar:SetPoint("BOTTOM", UIParent, 0, 28)
+	bar:SetPoint("BOTTOM", 0, 28)
 	bar:SetSize(310, 40)
 	local visibleState = "[petbattle] show; hide"
 	RegisterStateDriver(bar, "visibility", visibleState)
@@ -230,7 +238,7 @@ function module:PetBattleUI()
 
 			bu.Icon:SetTexCoord(unpack(DB.TexCoord))
 			bu:SetNormalTexture("")
-			bu:SetTexture(DB.textures.pushed)
+			bu:GetPushedTexture():SetTexture(DB.textures.pushed)
 			bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 			B.CreateSD(bu, 3, 3)
 
@@ -315,20 +323,16 @@ function module:PetBattleUI()
 		B.CreateTex(bg)
 	end
 
-	-- Petbar Background
-	local bgLeft = CreateFrame("Frame", nil, UIParent)
-	bgLeft:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOM", 0, 3)
-	B.CreateGF(bgLeft, 180, 68, "Horizontal", 0, 0, 0, 0, .5)
-	local lineLeft = CreateFrame("Frame", nil, bgLeft)
-	lineLeft:SetPoint("BOTTOMRIGHT", bgLeft, "TOPRIGHT")
-	B.CreateGF(lineLeft, 180, 3, "Horizontal", r, g, b, 0, alpha)
-	RegisterStateDriver(bgLeft, "visibility", visibleState)
+	if NDuiDB["Skins"]["BarLine"] then
+		-- Petbar Background
+		local lineLeft = CreateFrame("Frame", nil, UIParent)
+		lineLeft:SetPoint("BOTTOMRIGHT", bar, "TOP", 0, 2)
+		B.CreateGF(lineLeft, 260, 3, "Horizontal", r, g, b, 0, alpha)
+		RegisterStateDriver(lineLeft, "visibility", visibleState)
 
-	local bgRight = CreateFrame("Frame", nil, UIParent)
-	bgRight:SetPoint("BOTTOMLEFT", UIParent, "BOTTOM", 0, 3)
-	B.CreateGF(bgRight, 180, 68, "Horizontal", 0, 0, 0, .5, 0)
-	local lineRight = CreateFrame("Frame", nil, bgRight)
-	lineRight:SetPoint("BOTTOMLEFT", bgRight, "TOPLEFT")
-	B.CreateGF(lineRight, 180, 3, "Horizontal", r, g, b, alpha, 0)
-	RegisterStateDriver(bgRight, "visibility", visibleState)
+		local lineRight = CreateFrame("Frame", nil, UIParent)
+		lineRight:SetPoint("BOTTOMLEFT", bar, "TOP", 0, 2)
+		B.CreateGF(lineRight, 260, 3, "Horizontal", r, g, b, alpha, 0)
+		RegisterStateDriver(lineRight, "visibility", visibleState)
+	end
 end

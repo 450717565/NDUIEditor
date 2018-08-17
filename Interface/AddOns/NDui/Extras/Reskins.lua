@@ -9,7 +9,7 @@ if IsAddOnLoaded("AuroraClassic") then
 
 		-- 顶部信息板
 		UIWidgetTopCenterContainerFrame:ClearAllPoints()
-		UIWidgetTopCenterContainerFrame:SetPoint("TOP", 0, -30)
+		UIWidgetTopCenterContainerFrame:SetPoint("TOP", 0, -40)
 
 		if IsAddOnLoaded("!BaudErrorFrame") then
 			F.CreateBD(BaudErrorFrame)
