@@ -121,6 +121,8 @@ local defaultSettings = {
 		ShowPowerList = "",
 		VerticalSpacing = .7,
 		ShowPlayerPlate = false,
+		PPHeight = 5,
+		CPHeight = 15,
 	},
 	Skins = {
 		DBM = true,
@@ -132,7 +134,6 @@ local defaultSettings = {
 		DBMCount = "5",
 		EasyMarking = true,
 		TMW = true,
-		FontFlag = true,
 		PetBattle = true,
 		TrackerSkin = true,
 		ExtraCD = true,
@@ -260,7 +261,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{},--blank
 		{1, "Actionbar", "Bar4Fade", L["Bar4 Fade"]},
 		{1, "Actionbar", "Bar5Fade", L["Bar5 Fade"]},
-		{4, "Actionbar", "Style", L["Actionbar Style"], true, {L["BarStyle1"], L["BarStyle2"], L["BarStyle3"], L["BarStyle4"]}},
+		{4, "Actionbar", "Style", L["Actionbar Style"], true, {L["BarStyle1"], L["BarStyle2"], L["BarStyle3"], L["BarStyle4"], L["BarStyle5"]}},
 		{},--blank
 		{1, "Actionbar", "Hotkeys", L["Actionbar Hotkey"]},
 		{1, "Actionbar", "Macro", L["Actionbar Macro"], true},
@@ -362,6 +363,8 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{},--blank
 		{1, "Nameplate", "ShowPlayerPlate", "|cff00cc4c"..L["Enable PlayerPlate"]},
 		{1, "Auras", "ClassAuras", L["Enable ClassAuras"], true},
+		{3, "Nameplate", "PPHeight", L["PlayerPlate Height"], false, {5, 10, 0}},
+		{3, "Nameplate", "CPHeight", L["PlayerPlate CPHeight"], true, {10, 20, 0}},
 	},
 	[7] = {
 		{1, "Skins", "RM", L["Raid Manger"]},
@@ -420,9 +423,8 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Skins", "ClassLine", L["ClassColor Line"], true},
 		{},--blank
 		{1, "Skins", "MicroMenu", L["Micromenu"]},
-		{1, "Skins", "FontFlag", L["Global FontStyle"], true},
-		{1, "Skins", "PetBattle", L["PetBattle Skin"]},
 		{1, "Skins", "TrackerSkin", L["ObjectiveTracker Skin"], true},
+		{1, "Skins", "PetBattle", L["PetBattle Skin"]},
 		{},--blank
 		{1, "Skins", "DBM", L["DBM Skin"]},
 		{1, "Skins", "Skada", L["Skada Skin"], true},

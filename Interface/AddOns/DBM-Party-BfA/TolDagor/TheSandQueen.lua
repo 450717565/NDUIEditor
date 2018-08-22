@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2097, "DBM-Party-BfA", 9, 1001)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17473 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17722 $"):sub(12, -3))
 mod:SetCreatureID(127479)
 mod:SetEncounterID(2101)
 mod:SetZone()
@@ -14,6 +14,7 @@ mod:RegisterEventsInCombat(
 	"CHAT_MSG_RAID_BOSS_EMOTE"
 )
 
+--TODO, figure out why cast time for upheavel isn't honoring 5 second pre coded
 local warnUpheavel					= mod:NewTargetAnnounce(257617, 2)
 local warnUpheavelCast				= mod:NewCastAnnounce(257617, 2, 5)--Cast time until we have a target
 
@@ -27,14 +28,14 @@ local specWarnSandstorm				= mod:NewSpecialWarningSpell(257092, nil, nil, nil, 2
 --local timerReapSoulCD				= mod:NewNextTimer(13, 194956, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_DEADLY_ICON)
 local timerSandTrapCD				= mod:NewCDTimer(14.2, 257092, nil, nil, nil, 3)--14.2-18.6
 local timerUpheavelCD				= mod:NewCDTimer(43.4, 257617, nil, nil, nil, 3)
-local timerSandstormCD				= mod:NewCDTimer(41.3, 257495, nil, nil, nil, 2)
+local timerSandstormCD				= mod:NewCDTimer(34, 257495, nil, nil, nil, 2)--Health based?
 
 --mod:AddRangeFrameOption(5, 194966)
 
 function mod:OnCombatStart(delay)
 	timerSandTrapCD:Start(8.5-delay)
 	timerUpheavelCD:Start(20.5-delay)
-	timerSandstormCD:Start(31.5-delay)
+	timerSandstormCD:Start(30.3-delay)
 end
 
 function mod:OnCombatEnd()

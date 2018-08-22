@@ -61,24 +61,29 @@ local list = {
 		{AuraID = 59547, UnitID = "player"},
 		{AuraID = 59548, UnitID = "player"},
 		{AuraID = 121093, UnitID = "player"},
+	-->饰品附魔
+		{AuraID = 275765, UnitID = "player"},	-- 艾泽里特强化
+		{AuraID = 271194, UnitID = "player"},	-- 火炮
+		{AuraID = 273992, UnitID = "player"},	-- 灵魂之速
 	-->艾泽里特特质
 		{AuraID = 273685, UnitID = "player"},	-- 缜密计谋
 		{AuraID = 273714, UnitID = "player"},	-- 争分夺秒
 		{AuraID = 274443, UnitID = "player"},	-- 死亡之舞
 		{AuraID = 280433, UnitID = "player"},	-- 呼啸狂沙
-		{AuraID = 268953, UnitID = "player", Text = RAID_BUFF_6},	-- 元素回旋 爆击
+		{AuraID = 268953, UnitID = "player", Text = RAID_BUFF_6},	-- 爆击
 		{AuraID = 268954, UnitID = "player", Text = RAID_BUFF_4},	-- 急速
 		{AuraID = 268955, UnitID = "player", Text = RAID_BUFF_7},	-- 精通
 		{AuraID = 268956, UnitID = "player", Text = RAID_BUFF_8},	-- 全能
 		{AuraID = 280780, UnitID = "player"},	-- 战斗荣耀
 		{AuraID = 280787, UnitID = "player"},	-- 反击之怒
-		{AuraID = 279928, UnitID = "player"},	-- 大地链接
+		{AuraID = 279928, UnitID = "player", Combat = true},	-- 大地链接
 		{AuraID = 280385, UnitID = "player"},	-- 压力渐增
 		{AuraID = 273842, UnitID = "player"},	-- 深渊秘密
 		{AuraID = 273843, UnitID = "player"},	-- 深渊秘密
 		{AuraID = 280412, UnitID = "player"},	-- 激励兽群
 		{AuraID = 280204, UnitID = "player"},	-- 徘徊的灵魂
 		{AuraID = 269279, UnitID = "player", Value = true, Combat = true},	--回声防护
+		{AuraID = 280409, UnitID = "player"},	-- 血祭之力
 	-->LEG药水附魔
 		{AuraID = 188027, UnitID = "player"},--致命优雅，远程
 		{AuraID = 188028, UnitID = "player"},--上古战神，近战
@@ -298,6 +303,7 @@ local list = {
 		{AuraID = 230087, UnitID = "player"},--振作
 		{AuraID = 240443, UnitID = "player"},--爆裂
 		{AuraID = 240559, UnitID = "player"},--重伤
+		{AuraID = 268007, UnitID = "player"},--心脏打击
 		--奥丁：符文烙印
 		{AuraID = 197963, UnitID = "player"},
 		{AuraID = 197964, UnitID = "player"},
@@ -606,6 +612,7 @@ local list = {
 		{AuraID = 247816, UnitID = "target"},--反冲，鲁拉
 		{AuraID = 247915, UnitID = "target"},--黑暗滋生，鲁拉
 		{AuraID = 254020, UnitID = "target"},--黑暗笼罩，鲁拉
+		{AuraID = 256493, UnitID = "target"},--炽燃的艾泽里特
 	-->翡翠梦魇
 		{AuraID = 215234, UnitID = "target"},--梦魇之怒
 		{AuraID = 211137, UnitID = "target"},--腐溃之风

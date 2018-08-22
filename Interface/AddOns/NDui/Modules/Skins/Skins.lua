@@ -58,7 +58,7 @@ function module:OnLogin()
 
 	-- ACTIONBAR
 	if NDuiDB["Actionbar"]["Enable"] then
-		if NDuiDB["Skins"]["BarLine"] then
+		if NDuiDB["Skins"]["BarLine"] and NDuiDB["Actionbar"]["Style"] ~= 5 then
 			local relativeTo = NDui_ActionBar2
 			if NDuiDB["Actionbar"]["Style"] == 4 then relativeTo = NDui_ActionBar3 end
 
@@ -95,7 +95,6 @@ function module:OnLogin()
 	-- Add Skins
 	self:MicroMenu()
 	self:CreateRM()
-	self:FontStyle()
 	self:QuestTracker()
 	self:PetBattleUI()
 

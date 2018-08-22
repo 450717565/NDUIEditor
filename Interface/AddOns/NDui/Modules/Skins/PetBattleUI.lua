@@ -4,8 +4,6 @@ local module = B:GetModule("Skins")
 
 function module:PetBattleUI()
 	if not NDuiDB["Skins"]["PetBattle"] then return end
-	local alpha = NDuiDB["Extras"]["SkinColorA"]
-	local r, g, b = DB.CC.r, DB.CC.g, DB.CC.b
 
 	-- Head Frame
 	local frame = PetBattleFrame
@@ -253,7 +251,7 @@ function module:PetBattleUI()
 			bu.SelectedHighlight:SetPoint("TOPLEFT", bu, -12, 12)
 			bu.SelectedHighlight:SetPoint("BOTTOMRIGHT", bu, 12, -12)
 		end
-		buttonList[4]:GetCheckedTexture():SetColorTexture(r, g, b, .25)
+		buttonList[4]:GetCheckedTexture():SetColorTexture(DB.CC.r, DB.CC.g, DB.CC.b, .25)
 	end)
 
 	local skipButton = bottomFrame.TurnTimer.SkipButton
@@ -330,15 +328,21 @@ function module:PetBattleUI()
 	end
 
 	if NDuiDB["Skins"]["BarLine"] then
+		local alpha = NDuiDB["Extras"]["SkinColorA"]
+		local cr = NDuiDB["Extras"]["SkinColorR"]
+		local cg = NDuiDB["Extras"]["SkinColorG"]
+		local cb = NDuiDB["Extras"]["SkinColorB"]
+		if NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = DB.CC.r, DB.CC.g, DB.CC.b end
+
 		-- Petbar Background
 		local lineLeft = CreateFrame("Frame", nil, UIParent)
 		lineLeft:SetPoint("BOTTOMRIGHT", bar, "TOP", 0, 2)
-		B.CreateGF(lineLeft, 260, 3, "Horizontal", r, g, b, 0, alpha)
+		B.CreateGF(lineLeft, 260, 3, "Horizontal", cr, cg, cb, 0, alpha)
 		RegisterStateDriver(lineLeft, "visibility", visibleState)
 
 		local lineRight = CreateFrame("Frame", nil, UIParent)
 		lineRight:SetPoint("BOTTOMLEFT", bar, "TOP", 0, 2)
-		B.CreateGF(lineRight, 260, 3, "Horizontal", r, g, b, alpha, 0)
+		B.CreateGF(lineRight, 260, 3, "Horizontal", cr, cg, cb, alpha, 0)
 		RegisterStateDriver(lineRight, "visibility", visibleState)
 	end
 end

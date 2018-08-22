@@ -239,6 +239,7 @@ SlashCmdList.MOUSEOVERBIND = function()
 			frame = CreateFrame("Frame", nil, UIParent)
 			frame:SetSize(320, 100)
 			frame:SetPoint("TOP", 0, -135)
+			B.CreateTex(frame)
 			B.CreateBD(frame)
 			B.CreateFS(frame, 14, KEY_BINDING, false, "TOP", 0, -15)
 

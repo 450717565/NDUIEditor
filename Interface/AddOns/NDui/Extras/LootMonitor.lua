@@ -6,7 +6,7 @@ local LMFrame_Width = 250
 local LMFrame_Report = {}
 local LMFrame_CFG = {
 	maxloots = 20,
-	rarity = 4,
+	rarity = 3,
 	equip = true,
 	other = true,
 }

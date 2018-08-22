@@ -282,6 +282,25 @@ CATEGORY = {
         activities = {
             [458] = true,
         },
+    },
+    [7] = {
+        groups = {
+            [135] = true,
+            [136] = true,
+            [137] = true,
+            [138] = true,
+            [139] = true,
+            [140] = true,
+            [141] = true,
+            [142] = true,
+            [143] = true,
+            [144] = true,
+            [145] = true,
+            [146] = true,
+        },
+        activities = {
+            [657] = true,
+        },
     }
 }
 
@@ -786,11 +805,14 @@ RAID_PROGRESSION_LIST = {
 }
 
 DEFAULT_SPAMWORD = [[
-!4=1
-!免.*费
-!大.*米
-!甲
-!钾
+!%d+元
+!tao.*bao
+!支.*付.*宝
+!淘.*宝
+5173
+平台
+门票
+LFG:
 ]]
 
 ZONE_ACTIVITY_MAP = {

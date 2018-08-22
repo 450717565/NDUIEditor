@@ -12,8 +12,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	ChannelFrameInset:Hide()
 	ChannelFrame.LeftInset:Hide()
 	ChannelFrame.RightInset:Hide()
-	ChannelFrame.NewButton:ClearAllPoints()
-	ChannelFrame.NewButton:SetPoint("BOTTOMLEFT", 5, 4)
 
 	hooksecurefunc(ChannelFrame.ChannelList, "Update", function(self)
 		for i = 1, self.Child:GetNumChildren() do
@@ -35,43 +33,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinClose(CreateChannelPopup.CloseButton)
 	F.ReskinInput(CreateChannelPopup.Name)
 	F.ReskinInput(CreateChannelPopup.Password)
-
-	local friendTex = "Interface\\HELPFRAME\\ReportLagIcon-Chat"
-	local queueTex = "Interface\\HELPFRAME\\HelpIcon-ItemRestoration"
-
-	QuickJoinToastButton.FriendsButton:SetTexture(friendTex)
-	QuickJoinToastButton.QueueButton:SetTexture(queueTex)
-	QuickJoinToastButton:SetHighlightTexture("")
-	hooksecurefunc(QuickJoinToastButton, "ToastToFriendFinished", function(self)
-		self.FriendsButton:SetShown(not self.displayedToast)
-	end)
-	hooksecurefunc(QuickJoinToastButton, "UpdateQueueIcon", function(self)
-		if not self.displayedToast then return end
-		self.QueueButton:SetTexture(queueTex)
-		self.FlashingLayer:SetTexture(queueTex)
-		self.FriendsButton:SetShown(false)
-	end)
-	QuickJoinToastButton:HookScript("OnMouseDown", function(self)
-		self.FriendsButton:SetTexture(friendTex)
-	end)
-	QuickJoinToastButton:HookScript("OnMouseUp", function(self)
-		self.FriendsButton:SetTexture(friendTex)
-	end)
-	QuickJoinToastButton.Toast.Background:SetTexture("")
-	local bg = F.CreateBDFrame(QuickJoinToastButton.Toast)
-	bg:SetPoint("TOPLEFT", 10, -1)
-	bg:SetPoint("BOTTOMRIGHT", 0, 3)
-	bg:Hide()
-	hooksecurefunc(QuickJoinToastButton, "ShowToast", function() bg:Show() end)
-	hooksecurefunc(QuickJoinToastButton, "HideToast", function() bg:Hide() end)
-
-	local buttons = {ChatFrameChannelButton, ChatFrameToggleVoiceDeafenButton, ChatFrameToggleVoiceMuteButton, ChatFrameMenuButton}
-	for _, button in next, buttons do
-		F.Reskin(button)
-		button:SetSize(20, 20)
-	end
-	ChatFrameMenuButton:SetNormalTexture("Interface\\Buttons\\UI-HomeButton")
-	ChatFrameMenuButton:SetPushedTexture("Interface\\Buttons\\UI-HomeButton")
 
 	F.CreateBD(VoiceChatPromptActivateChannel)
 	F.CreateSD(VoiceChatPromptActivateChannel)

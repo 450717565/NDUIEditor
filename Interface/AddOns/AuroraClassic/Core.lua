@@ -37,12 +37,13 @@ C.defaults = {
 	["useButtonGradientColour"] = true,
 	["chatBubbles"] = true,
 	["bubbleColor"] = false,
-	["enableFont"] = false,
-	["loot"] = true,
+	["reskinFont"] = true,
+	["loot"] = false,
 	["useCustomColour"] = false,
 	["customColour"] = {r = 1, g = 1, b = 1},
 	["tooltips"] = false,
 	["shadow"] = true,
+	["fontScale"] = 1,
 }
 
 C.frames = {}

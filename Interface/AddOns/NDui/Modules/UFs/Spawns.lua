@@ -76,7 +76,7 @@ local function CreateToTStyle(self)
 	if NDuiDB["UFs"]["ToTAuras"] then UF:CreateDebuffs(self) end
 end
 
-local function CreateFocusTargetStyle(self)
+local function CreateFoTStyle(self)
 	self.mystyle = "fot"
 	self:SetSize(120, 18)
 
@@ -177,13 +177,6 @@ local function CreatePartyStyle(self)
 	UF:CreateThreatBorder(self)
 end
 
-oUF:RegisterStyle("Player", CreatePlayerStyle)
-oUF:RegisterStyle("Target", CreateTargetStyle)
-oUF:RegisterStyle("TargetTarget", CreateToTStyle)
-oUF:RegisterStyle("Focus", CreateFocusStyle)
-oUF:RegisterStyle("FocusTarget", CreateFocusTargetStyle)
-oUF:RegisterStyle("Pet", CreatePetStyle)
-
 -- Spawns
 function UF:OnLogin()
 	if NDuiDB["Nameplate"]["Enable"] then
@@ -208,6 +201,15 @@ function UF:OnLogin()
 	self:DefaultClickSets()
 
 	if NDuiDB["UFs"]["Enable"] then
+		-- Register
+		oUF:RegisterStyle("Player", CreatePlayerStyle)
+		oUF:RegisterStyle("Target", CreateTargetStyle)
+		oUF:RegisterStyle("TargetTarget", CreateToTStyle)
+		oUF:RegisterStyle("Focus", CreateFocusStyle)
+		oUF:RegisterStyle("FocusTarget", CreateFoTStyle)
+		oUF:RegisterStyle("Pet", CreatePetStyle)
+
+		-- Loader
 		oUF:SetActiveStyle("Player")
 		local player = oUF:Spawn("Player", "oUF_Player")
 		B.Mover(player, L["PlayerUF"], "PlayerUF", C.UFs.PlayerPos)
@@ -244,7 +246,7 @@ function UF:OnLogin()
 					self:SetWidth(%d)
 					self:SetHeight(%d)
 				]]):format(196, 19))
-			B.Mover(party, L["Party UF"], "PartyUF", {"TOPLEFT", UIParent, 35, -50}, 196, (19 + 16) * 4)
+			B.Mover(party, L["PartyFrame"], "PartyUF", {"TOPLEFT", UIParent, 35, -50}, 196, (19 + 16) * 4)
 		end
 
 		if NDuiDB["UFs"]["Boss"] then

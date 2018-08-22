@@ -1,0 +1,5 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+	<Include file="libs\LibInit\LibInit.xml"/>
+	<Include file="libs\LibDialog-1.0\LibDialog-1.0.lua"/>
+	<Include file="libs\LibItemUpgradeInfo-1.0\Core.lua"/>
+</Ui>

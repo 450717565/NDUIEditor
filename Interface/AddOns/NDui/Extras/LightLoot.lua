@@ -266,7 +266,7 @@ function LightLoot:LOOT_CLOSED()
 	end
 end
 LightLoot:RegisterEvent("LOOT_CLOSED")
-
+--[[
 function LightLoot:OPEN_MASTER_LOOT_LIST()
 	ToggleDropDownMenu(1, nil, GroupLootDropDown, LootFrame.selectedLootButton, 0, 0)
 end
@@ -276,6 +276,6 @@ function LightLoot:UPDATE_MASTER_LOOT_LIST()
 	UIDropDownMenu_Refresh(GroupLootDropDown)
 end
 LightLoot:RegisterEvent("UPDATE_MASTER_LOOT_LIST")
-
+]]
 LootFrame:UnregisterAllEvents()
 table.insert(UISpecialFrames, "LightLoot")

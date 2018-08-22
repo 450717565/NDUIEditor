@@ -30,7 +30,7 @@ UpdateResults:Hide()
 
 local function BaudAuctionToMoney(Money)
 	local Text = ""
-	if Money < 1e5 then
+	if Money < 1e4 then
 		Text = GetMoneyString(Money)
 	elseif Money < 1e8 then
 		local Money = format("%d", Money / 1e2)

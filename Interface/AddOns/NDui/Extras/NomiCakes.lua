@@ -132,7 +132,7 @@ local RegisteredFrames = {} -- Holds a list of frames that should be registered 
 local Callback
 local function RequestCookingStuff(callback)
 	Callback = callback
-	if C_TradeSkillUI.GetTradeSkillLine() ~= 185 then
+	if select(6,C_TradeSkillUI.GetTradeSkillLine()) ~= 185 then
 		RegisteredFrames = {GetFramesRegisteredForEvent("TRADE_SKILL_SHOW")}
 		for _, frame in pairs(RegisteredFrames) do
 			frame:UnregisterEvent("TRADE_SKILL_SHOW")

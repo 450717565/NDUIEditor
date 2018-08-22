@@ -464,12 +464,12 @@ local function customFilter(element, unit, button, name, _, _, _, _, _, caster, 
 	elseif style == "nameplate" or style == "focus" then
 		if UnitIsUnit("player", unit) then
 			return false
-		elseif element.showStealableBuffs and isStealable then
+		elseif C.BlackList and C.BlackList[spellID] then
+			return false
+		elseif element.showStealableBuffs and isStealable and not UnitIsPlayer(unit) then
 			return true
 		elseif C.WhiteList and C.WhiteList[spellID] then
 			return true
-		elseif C.BlackList and C.BlackList[spellID] then
-			return false
 		else
 			return (NDuiDB["Nameplate"]["AllAuras"] and nameplateShowAll) or (caster == "player" or caster == "pet" or caster == "vehicle")
 		end
@@ -643,7 +643,7 @@ end
 
 function UF:CreateClassPower(self)
 	if self.mystyle == "PlayerPlate" then
-		width, height = self:GetWidth(), self:GetHeight()*2 + 3
+		width, height = self:GetWidth(), NDuiDB["Nameplate"]["CPHeight"]
 		C.UFs.BarPos = {"BOTTOMLEFT", self, "TOPLEFT", 0, 3}
 	end
 
