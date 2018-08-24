@@ -123,13 +123,13 @@ end
 local function ResetEncounterJournalScrollInstancesInfo()
 	HandleEncounterJournalScrollInstances(function(instanceButton)
 		if instanceButton.instanceInfoDifficulty == nil then
-			instanceButton.instanceInfoDifficulty = B.CreateFS(instanceButton, 16, "", true, "BOTTOMLEFT", 9, 7)
+			instanceButton.instanceInfoDifficulty = B.CreateFS(instanceButton, 16, "", false, "BOTTOMLEFT", 9, 7)
 			instanceButton.instanceInfoDifficulty:SetJustifyH("LEFT")
 			instanceButton.instanceInfoDifficulty:SetWordWrap(true)
 		end
 
 		if instanceButton.instanceInfoEncounterProgress == nil then
-			instanceButton.instanceInfoEncounterProgress = B.CreateFS(instanceButton, 16, "", true, "BOTTOMRIGHT", -9, 7)
+			instanceButton.instanceInfoEncounterProgress = B.CreateFS(instanceButton, 16, "", false, "BOTTOMRIGHT", -9, 7)
 			instanceButton.instanceInfoEncounterProgress:SetJustifyH("RIGHT")
 			instanceButton.instanceInfoEncounterProgress:SetWordWrap(true)
 		end

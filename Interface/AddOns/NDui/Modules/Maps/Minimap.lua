@@ -143,7 +143,10 @@ function module:RecycleBin()
 	if not NDuiDB["Map"]["ShowRecycleBin"] then return end
 
 	local alpha = NDuiDB["Extras"]["SkinColorA"]
-	local cr, cg, cb = DB.CC.r, DB.CC.g, DB.CC.b
+	local cr = NDuiDB["Extras"]["SkinColorR"]
+	local cg = NDuiDB["Extras"]["SkinColorG"]
+	local cb = NDuiDB["Extras"]["SkinColorB"]
+	if NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = DB.CC.r, DB.CC.g, DB.CC.b end
 
 	local buttons = {}
 	local blackList = {

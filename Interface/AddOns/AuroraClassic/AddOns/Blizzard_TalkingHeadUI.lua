@@ -1,7 +1,8 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_TalkingHeadUI"] = function()
-	F.ReskinClose(TalkingHeadFrame.MainFrame.CloseButton)
+	local main = TalkingHeadFrame.MainFrame
+	F.ReskinClose(main.CloseButton, "TOPRIGHT", main, "TOPRIGHT", -20, -20)
 
 	hooksecurefunc("TalkingHeadFrame_PlayCurrent", function()
 		local frame = TalkingHeadFrame

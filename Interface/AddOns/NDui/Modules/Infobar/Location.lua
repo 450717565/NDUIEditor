@@ -109,6 +109,6 @@ info.onMouseUp = function(_, btn)
 	if btn == "LeftButton" then
 		ToggleFrame(WorldMapFrame)
 	elseif btn == "RightButton" then
-		ChatFrame_OpenChat(format("%s %s <%s>", L["My Position"], TotalZone(), FormatCoords()), SELECTED_DOCK_FRAME)
+		ChatFrame_OpenChat(format("%s%s <%s>", L["My Position"], TotalZone(), FormatCoords()), SELECTED_DOCK_FRAME)
 	end
 end

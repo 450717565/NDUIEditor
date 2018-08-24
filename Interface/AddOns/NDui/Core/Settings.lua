@@ -178,6 +178,13 @@ local function ForceDBMOptions()
 		},
 	}
 
+	if IsAddOnLoaded("DBM-VPVV") then
+		DBM_AllSavedOptions["Default"]["ChosenVoicePack"] = "VV"
+		DBM_AllSavedOptions["Default"]["CountdownVoice"] = "VP:VV"
+		DBM_AllSavedOptions["Default"]["CountdownVoice2"] = "VP:VV"
+		DBM_AllSavedOptions["Default"]["CountdownVoice3v2"] = "VP:VV"
+	end
+
 	if not DBM_MinimapIcon then DBM_MinimapIcon = {} end
 	DBM_MinimapIcon = {
 		["hide"] = true,
@@ -480,7 +487,6 @@ local function HelloWorld()
 		c1.." /hb "..c2..L["Help Info5"],
 		c1.." /mm "..c2..L["Help Info6"],
 		c1.." /rl "..c2..L["Help Info7"],
-		c1.." /kro "..c2..L["Help Info13"],
 		c1.." /ncl "..c2..L["Help Info9"],
 	}
 	for index, line in pairs(lines) do

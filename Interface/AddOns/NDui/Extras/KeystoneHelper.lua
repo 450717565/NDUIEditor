@@ -1,7 +1,7 @@
 local B, C, L, DB = unpack(select(2, ...))
 
-local MythicLootItemLevel = {  0 ,345 ,345 ,350 ,355 ,355 ,360 ,365 ,365 ,370}
-local WeeklyLootItemLevel = {  0 ,355 ,355 ,360 ,360 ,365 ,370 ,370 ,375 ,380}
+local MythicLootItemLevel = {  0, 345, 345, 350, 355, 355, 360, 365, 365, 370}
+local WeeklyLootItemLevel = {  0, 355, 355, 360, 360, 365, 370, 370, 375, 380}
 
 local function GetModifiers(linkType, ...)
 	if type(linkType) ~= "string" then return end

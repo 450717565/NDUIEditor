@@ -205,10 +205,4 @@ function module:DBMSkin()
 	DBM_AllSavedOptions["Default"]["EventSoundVictory"] = "None"
 	DBT_AllPersistentOptions["Default"]["DBM"].BarYOffset = 15
 	DBT_AllPersistentOptions["Default"]["DBM"].HugeBarYOffset = 15
-	if IsAddOnLoaded("DBM-VPVV") then
-		DBM_AllSavedOptions["Default"]["ChosenVoicePack"] = "VV"
-		DBM_AllSavedOptions["Default"]["CountdownVoice"] = "VP:VV"
-		DBM_AllSavedOptions["Default"]["CountdownVoice2"] = "VP:VV"
-		DBM_AllSavedOptions["Default"]["CountdownVoice3v2"] = "VP:VV"
-	end
 end

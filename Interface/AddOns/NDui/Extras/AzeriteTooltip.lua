@@ -1,8 +1,9 @@
+local currentLevel = 0
+
 local function AzeriteTooltip_GetSpellID(powerID)
 	local powerInfo = C_AzeriteEmpoweredItem.GetPowerInfo(powerID)
-	if (powerInfo) then
-		local azeriteSpellID = powerInfo["spellID"]
-		return azeriteSpellID
+	if powerInfo then
+		return powerInfo["spellID"]
 	end
 end
 
@@ -16,8 +17,6 @@ local function AzeriteTooltip_ScanSelectedTraits(powerName)
 	end
 end
 
-local currentLevel = 0
-
 local function AzeriteTooltip_BuildTooltip(itemLink, tooltip)
 	-- Current Azerite Level
 	local azeriteItemLocation = C_AzeriteItem.FindActiveAzeriteItem()
@@ -30,18 +29,18 @@ local function AzeriteTooltip_BuildTooltip(itemLink, tooltip)
 
 	if not allTierInfo[1]["azeritePowerIDs"][1] then return end
 
-	tooltip:AddLine(" ")
-
-	for j=1, 3 do
+	for j = 1, 3 do
 		local tierLevel = allTierInfo[j]["unlockLevel"]
 		local azeritePowerID = allTierInfo[j]["azeritePowerIDs"][1]
 
 		if azeritePowerID == 13 then break end -- Ignore +5 item level tier
 
 		if tierLevel <= currentLevel then
-			tooltip:AddLine(PVP_RATING..tierLevel, 1, 0.8, 0)
+			tooltip:AddLine(" ")
+			tooltip:AddLine(PVP_RATING..tierLevel, 0, 1, 0)
 		else
-			tooltip:AddLine(PVP_RATING..tierLevel, 0.5, 0.5, 0.5)
+			tooltip:AddLine(" ")
+			tooltip:AddLine(PVP_RATING..tierLevel, 1, 0, 0)
 		end
 
 		for i, _ in pairs(allTierInfo[j]["azeritePowerIDs"]) do
@@ -67,29 +66,15 @@ local function AzeriteTooltip_BuildTooltip(itemLink, tooltip)
 	end
 end
 
-GameTooltip:HookScript("OnTooltipSetItem", function(self)
+local function AzeriteTooltip_Check(self)
 	local name, link = self:GetItem()
 	if not name then return end
 
 	if C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID(link) then
 		AzeriteTooltip_BuildTooltip(link, self)
 	end
-end)
+end
 
-ItemRefTooltip:HookScript("OnTooltipSetItem", function(self)
-	local name, link = self:GetItem()
-	if not name then return end
-
-	if C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID(link) then
-		AzeriteTooltip_BuildTooltip(link, self)
-	end
-end)
-
-WorldMapTooltip.ItemTooltip.Tooltip:HookScript("OnTooltipSetItem", function(self)
-	local name, link = self:GetItem()
-	if not name then return end
-
-	if C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID(link) then
-		AzeriteTooltip_BuildTooltip(link, self)
-	end
-end)
+GameTooltip:HookScript("OnTooltipSetItem", AzeriteTooltip_Check)
+ItemRefTooltip:HookScript("OnTooltipSetItem", AzeriteTooltip_Check)
+WorldMapTooltip.ItemTooltip.Tooltip:HookScript("OnTooltipSetItem", AzeriteTooltip_Check)

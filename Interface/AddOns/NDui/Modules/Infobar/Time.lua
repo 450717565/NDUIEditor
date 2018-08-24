@@ -113,7 +113,7 @@ info.onEnter = function(self)
 		local name, id, reset = GetSavedWorldBossInfo(i)
 		if not (id == 11 or id == 12 or id == 13) then
 			addTitle(RAID_INFO_WORLD_BOSS)
-			GameTooltip:AddDoubleLine(name, SecondsToTime(reset, true, nil, 3), 1,1,1, 1,1,1)
+			GameTooltip:AddDoubleLine(name, SecondsToTime(reset, true, nil, 3), 1,1,1, 0,1,0)
 		end
 	end
 
@@ -124,7 +124,13 @@ info.onEnter = function(self)
 		if diff == 23 and (locked or extended) then
 			addTitle(DUNGEON_DIFFICULTY3..DUNGEONS)
 			local r,g,b
-			if extended then r,g,b = .3,1,.3 else r,g,b = 1,1,1 end
+			if extended then
+				r,g,b = 1,0,0
+			elseif locked then
+				r,g,b = 0,1,0
+			else
+				r,g,b = 1,1,1
+			end
 			GameTooltip:AddDoubleLine(name, SecondsToTime(reset, true, nil, 3), 1,1,1, r,g,b)
 		end
 	end
@@ -136,7 +142,13 @@ info.onEnter = function(self)
 		if isRaid and (locked or extended) then
 			addTitle(RAID_INFO)
 			local r,g,b
-			if extended then r,g,b = .3,1,.3 else r,g,b = 1,1,1 end
+			if extended then
+				r,g,b = 1,0,0
+			elseif locked then
+				r,g,b = 0,1,0
+			else
+				r,g,b = 1,1,1
+			end
 			GameTooltip:AddDoubleLine(name.." - "..diffName, SecondsToTime(reset, true, nil, 3), 1,1,1, r,g,b)
 		end
 	end
@@ -154,6 +166,19 @@ info.onEnter = function(self)
 		local r,g,b
 		if count == 3 then r,g,b = 1,0,0 else r,g,b = 0,1,0 end
 		GameTooltip:AddDoubleLine(bonusname, count.." / 3", 1,1,1, r,g,b)
+	end
+
+	local iwqID = C_IslandsQueue.GetIslandsWeeklyQuestID()
+	if iwqID and UnitLevel("player") == 120 then
+		addTitle(QUESTS_LABEL)
+		if IsQuestFlaggedCompleted(iwqID) then
+			GameTooltip:AddDoubleLine(ISLANDS_HEADER, QUEST_COMPLETE, 1,1,1, 1,0,0)
+		else
+			local cur, max = select(4, GetQuestObjectiveInfo(iwqID, 1, false))
+			local stautsText = cur.." / "..max
+			if not cur or not max then stautsText = LFG_LIST_LOADING end
+			GameTooltip:AddDoubleLine(ISLANDS_HEADER, stautsText, 1,1,1, 0,1,0)
+		end
 	end
 
 	for _, index in pairs(questlist) do
@@ -192,7 +217,7 @@ info.onEnter = function(self)
 		if timeLeft < 60 then r,g,b = 1,0,0 else r,g,b = 0,1,0 end
 		GameTooltip:AddDoubleLine(L["Current Invasion"]..zoneName, format("%.2d:%.2d", timeLeft/60, timeLeft%60), 1,1,1, r,g,b)
 	end
-	GameTooltip:AddDoubleLine(L["Next Invasion"]..whereToGo(nextTime), date("%m/%d %H:%M", nextTime), 1,1,1, 1,1,1)
+	GameTooltip:AddDoubleLine(L["Next Invasion"]..whereToGo(nextTime), date("%m/%d %H:%M", nextTime), 1,1,1, 1,1,0)
 
 	-- Help Info
 	GameTooltip:AddDoubleLine(" ", DB.LineString)

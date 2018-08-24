@@ -642,9 +642,11 @@ local function postUpdateRunes(element, runemap)
 end
 
 function UF:CreateClassPower(self)
+	local lvl = self:GetFrameLevel() + 2
 	if self.mystyle == "PlayerPlate" then
 		width, height = self:GetWidth(), NDuiDB["Nameplate"]["CPHeight"]
 		C.UFs.BarPos = {"BOTTOMLEFT", self, "TOPLEFT", 0, 3}
+		lvl = self:GetFrameLevel() - 2
 	end
 
 	local bars = {}
@@ -653,7 +655,7 @@ function UF:CreateClassPower(self)
 		bars[i]:SetHeight(height)
 		bars[i]:SetWidth((width - 5*margin) / 6)
 		bars[i]:SetStatusBarTexture(DB.normTex)
-		bars[i]:SetFrameLevel(self:GetFrameLevel() + 2)
+		bars[i]:SetFrameLevel(lvl)
 		B.CreateSD(bars[i], 3, 3)
 		if i == 1 then
 			bars[i]:SetPoint(unpack(C.UFs.BarPos))
@@ -677,7 +679,7 @@ function UF:CreateClassPower(self)
 
 	if DB.MyClass == "DEATHKNIGHT" then
 		bars.colorSpec = true
-		if NDuiDB["UFs"]["SortRunes"] then bars.sortOrder = "asc" end
+		bars.sortOrder = "asc"
 		bars.PostUpdate = postUpdateRunes
 		self.Runes = bars
 	else
@@ -688,10 +690,8 @@ end
 
 local function postUpdateAltPower(element, _, cur, _, max)
 	if cur and max then
-		local perc = tonumber(format("%.1f", cur/max))
-		local r = perc
-		local g = 1 - perc
-		local b = 0
+		local v = tonumber(format("%.1f", cur/max))
+		local r, g, b = v, 1 - v, 0
 
 		element:SetStatusBarColor(r, g, b)
 	end

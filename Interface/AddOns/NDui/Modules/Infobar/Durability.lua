@@ -112,9 +112,7 @@ info.onEnter = function(self)
 	for i = 1, 10 do
 		if localSlots[i][3] ~= 1000 then
 			local v = localSlots[i][3] / 100
-			local r = 1 - v
-			local g = v
-			local b = 0
+			local r, g, b = 1 - v, v, 0
 			local slotIcon = "|T"..GetInventoryItemTexture("player", localSlots[i][1])..":13:15:0:0:50:50:4:46:4:46|t " or ""
 			GameTooltip:AddDoubleLine(slotIcon..localSlots[i][2], string.format("%.1f%%", localSlots[i][3]), 1,1,1, r,g,b)
 		end

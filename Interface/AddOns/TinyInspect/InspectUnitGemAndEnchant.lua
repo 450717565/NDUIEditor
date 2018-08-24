@@ -13,7 +13,7 @@ local LibItemEnchant = LibStub:GetLibrary("LibItemEnchant.7000")
 
 --0:optional
 local EnchantParts = {
-	[2]  = {1, NECKSLOT},
+--	[2]  = {1, NECKSLOT},
 	[11] = {1, FINGER1SLOT},
 	[12] = {1, FINGER1SLOT},
 	[15] = {1, BACKSLOT},

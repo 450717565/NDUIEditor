@@ -8,13 +8,10 @@ function B.ColorPercent(value, reverse)
 	local r, g, b
 
 	if reverse then
-		r = v
-		g = 1 - v
+		r, g, b = v, 1 - v, 0
 	else
-		r = 1 - v
-		g = v
+		r, g, b = 1 - v, v, 0
 	end
-	b = 0
 
 	return B.HexRGB(r, g, b)..string.format("%.1f%%", value).."|r"
 end

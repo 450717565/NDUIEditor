@@ -12,6 +12,8 @@ tinsert(C.themes["AuroraClassic"], function()
 	ChannelFrameInset:Hide()
 	ChannelFrame.LeftInset:Hide()
 	ChannelFrame.RightInset:Hide()
+	ChannelFrame.NewButton:ClearAllPoints()
+ 	ChannelFrame.NewButton:SetPoint("BOTTOMLEFT", 5, 4)
 
 	hooksecurefunc(ChannelFrame.ChannelList, "Update", function(self)
 		for i = 1, self.Child:GetNumChildren() do

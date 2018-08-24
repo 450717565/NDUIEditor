@@ -167,6 +167,27 @@ oUF.Tags.Methods["nplevel"] = function(unit)
 end
 oUF.Tags.Events["nplevel"] = "UNIT_LEVEL PLAYER_LEVEL_UP UNIT_CLASSIFICATION_CHANGED"
 
+oUF.Tags.Methods["pphealth"] = function(unit)
+	local cur = UnitHealth(unit)
+	local per = oUF.Tags.Methods["perhp"](unit)
+	local v = per / 100
+	local r, g, b = 1 - v, v, 0
+
+	return B.HexRGB(r, g, b)..B.Numb(cur).."|r "
+end
+oUF.Tags.Events["pphealth"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION"
+
+oUF.Tags.Methods["pppower"] = function(unit)
+	local cur = UnitPower(unit)
+	local per = oUF.Tags.Methods["perpp"](unit)
+	if UnitPowerType(unit) == 0 then
+		return B.ColorPercent(per)
+	else
+		return cur
+	end
+end
+oUF.Tags.Events["pppower"] = "UNIT_POWER_FREQUENT UNIT_MAXPOWER UNIT_DISPLAYPOWER"
+
 -- AltPower value tag
 oUF.Tags.Methods["altpower"] = function(unit)
 	local cur = UnitPower(unit, ALTERNATE_POWER_INDEX)
