@@ -27,12 +27,10 @@ tinsert(C.themes["AuroraClassic"], function()
 		bu.TextBackground:Hide()
 		bu.TextBackground2:Hide()
 		bu.UnlearnedFrame:SetAlpha(0)
-
 		bu:SetCheckedTexture("")
 		bu:SetPushedTexture("")
 
 		ic:SetTexCoord(.08, .92, .08, .92)
-
 		ic.bg = F.CreateBDFrame(ic)
 	end
 
@@ -83,6 +81,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			if not tab.styled then
 				tab:GetRegions():Hide()
 				tab:SetCheckedTexture(C.media.checked)
+				tab:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 				F.CreateBDFrame(tab)
 
 				tab.styled = true
@@ -167,10 +166,9 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 	end)
 
-	local frames = {SecondaryProfession1, SecondaryProfession2, SecondaryProfession3}
-	for _, frame in next, frames do
-		F.CreateBD(frame, .25)
-		F.CreateSD(frame)
+	for i = 1, 3 do
+		F.CreateBD(_G["SecondaryProfession"..i], .25)
+		F.CreateSD(_G["SecondaryProfession"..i])
 	end
 	F.ReskinArrow(SpellBookPrevPageButton, "left")
 	F.ReskinArrow(SpellBookNextPageButton, "right")

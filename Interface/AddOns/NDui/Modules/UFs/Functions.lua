@@ -644,7 +644,7 @@ end
 function UF:CreateClassPower(self)
 	local lvl = self:GetFrameLevel() + 2
 	if self.mystyle == "PlayerPlate" then
-		width, height = self:GetWidth(), NDuiDB["Nameplate"]["CPHeight"]
+		width, height = self:GetWidth(), NDuiDB["Extras"]["CPHeight"]
 		C.UFs.BarPos = {"BOTTOMLEFT", self, "TOPLEFT", 0, 3}
 		lvl = self:GetFrameLevel() - 2
 	end
@@ -716,7 +716,7 @@ end
 function UF:CreateExpRepBar(self)
 	local bar = CreateFrame("StatusBar", nil, self)
 	bar:SetPoint("TOPLEFT", self, "TOPRIGHT", 5, 0)
-	bar:SetPoint("BOTTOMRIGHT", self.Power, "BOTTOMRIGHT", 10, 0)
+	bar:SetSize(5, self:GetHeight()+self.Power:GetHeight()+3)
 	bar:SetOrientation("VERTICAL")
 	B.CreateSB(bar)
 

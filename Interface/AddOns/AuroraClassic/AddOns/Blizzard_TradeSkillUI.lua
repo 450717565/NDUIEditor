@@ -10,18 +10,17 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 		select(i, TradeSkillFrame:GetRegions()):Hide()
 	end
 	TradeSkillFrameTitleText:Show()
-	TradeSkillFramePortrait:Hide()
-	TradeSkillFramePortrait.Show = F.dummy
+	TradeSkillFramePortrait:SetAlpha(0)
 
 	local rankFrame = TradeSkillFrame.RankFrame
 	F.ReskinStatusBar(rankFrame, true, true)
-
-	TradeSkillFrame.SearchBox:SetWidth(200)
 	F.ReskinInput(TradeSkillFrame.SearchBox)
+	TradeSkillFrame.SearchBox:SetWidth(200)
 	F.ReskinFilterButton(TradeSkillFrame.FilterButton)
 	F.ReskinArrow(TradeSkillFrame.LinkToButton, "right")
 
 	-- Recipe List
+
 	local recipe = TradeSkillFrame.RecipeList
 	TradeSkillFrame.RecipeInset:Hide()
 	F.ReskinScroll(recipe.scrollBar)
@@ -45,7 +44,6 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 		recipe.Tabs[2].bg:SetBackdropColor(r, g, b, .2)
 	end)
 
-
 	hooksecurefunc(recipe, "RefreshDisplay", function(self)
 		for i = 1, #self.buttons do
 			local button = self.buttons[i]
@@ -61,6 +59,7 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 			button.SelectedTexture:SetVertexColor(r, g, b, .5)
 		end
 	end)
+
 	-- Recipe Details
 
 	local detailsInset = TradeSkillFrame.DetailsInset
@@ -102,6 +101,10 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 	F.Reskin(details.ViewGuildCraftersButton)
 
 	-- Guild Recipe
+
+	TradeSkillFrame.TabardBorder:SetAlpha(0)
+	TradeSkillFrame.TabardBackground:SetAlpha(0)
+
 	local guildFrame = details.GuildFrame
 	F.ReskinClose(guildFrame.CloseButton)
 	for i = 1, 10 do
@@ -118,9 +121,4 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 	end
 	F.CreateBD(guildFrame.Container)
 	F.CreateSD(guildFrame.Container)
-
-	-- Guild Tabard
-	TradeSkillFrame.TabardBackground:SetAlpha(0)
-	TradeSkillFrame.TabardBorder:SetAlpha(0)
-	TradeSkillFrame.TabardEmblem:SetAlpha(0)
 end

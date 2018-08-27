@@ -237,6 +237,7 @@ function UF:OnLogin()
 		if NDuiDB["Extras"]["PartyFrame"] then
 			oUF:RegisterStyle("Party", CreatePartyStyle)
 			oUF:SetActiveStyle("Party")
+			local scale = NDuiDB["UFs"]["HeightScale"]
 			local party = oUF:SpawnHeader("oUF_Party", nil, "solo,party",
 				"showPlayer", false,
 				"showSolo", false,
@@ -245,8 +246,8 @@ function UF:OnLogin()
 				"oUF-initialConfigFunction", ([[
 					self:SetWidth(%d)
 					self:SetHeight(%d)
-				]]):format(196, 19))
-			B.Mover(party, L["PartyFrame"], "PartyUF", {"TOPLEFT", UIParent, 35, -50}, 196, (19 + 16) * 4)
+				]]):format(196, 19*scale))
+			B.Mover(party, L["PartyFrame"], "PartyUF", {"TOPLEFT", UIParent, 35, -50}, 196, (19*scale + 16) * 4)
 		end
 
 		if NDuiDB["UFs"]["Boss"] then
@@ -325,12 +326,9 @@ function UF:OnLogin()
 
 	if NDuiDB["UFs"]["RaidFrame"] then
 		-- Disable Default RaidFrame
-		CompactRaidFrameContainer:UnregisterAllEvents()
-		CompactRaidFrameContainer:Hide()
-		CompactRaidFrameContainer.Show = CompactRaidFrameContainer.Hide
-		CompactRaidFrameManager:UnregisterAllEvents()
-		CompactRaidFrameManager:Hide()
-		CompactRaidFrameManager.Show = CompactRaidFrameManager.Hide
+		B.HideObject(CompactRaidFrameContainer)
+		B.HideObject(CompactRaidFrameManager)
+		RaidOptionsFrame_UpdatePartyFrames = B.Dummy	-- need reviewed
 
 		-- Group Styles
 		oUF:RegisterStyle("Raid", CreateRaidStyle)
@@ -425,9 +423,10 @@ function UF:OnLogin()
 
 				if NDuiDB["UFs"]["ShowTeamIndex"] then
 					local parent = _G["oUF_Raid"..i.."UnitButton1"]
-					local teamIndex = B.CreateFS(parent, 12, format(GROUP_NUMBER, i), true)
+					local teamIndex = B.CreateFS(parent, 12, format(GROUP_NUMBER, i))
 					teamIndex:ClearAllPoints()
 					teamIndex:SetPoint("BOTTOMLEFT", parent, "TOPLEFT", 0, 5)
+					teamIndex:SetTextColor(.6, .8, 1)
 				end
 			end
 		end

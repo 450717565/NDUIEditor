@@ -9,16 +9,31 @@ local IconScale = 1.0
 
 -- InFlight uses FlightMapFrame directly, so it's necessary to change references
 FlightMapFrame = WorldMapFrame
+-- TaxiFrame = WorldMapFrame
 
 -- Map data functions
 local MapSizeCache = {} -- [uiMapID] = {left, top, right, bottom, etc}
 local function GetCurrentMapContinent(uiMapID)
-	local uiMapID = uiMapID -- or WorldMapFrame:GetMapID()
+	--local uiMapID = uiMapID -- or WorldMapFrame:GetMapID()
 	if uiMapID then
 		local continent = MapUtil.GetMapParentInfo(uiMapID, Enum.UIMapType.Continent)
 		if continent then
 			return continent.mapID
 		end
+	end
+end
+
+local function GetParentZone(uiMapID)
+	if uiMapID then
+		local zone = MapUtil.GetMapParentInfo(uiMapID, Enum.UIMapType.Zone)
+		if zone then
+			return zone.mapID
+		end
+		local continent = MapUtil.GetMapParentInfo(WorldMapFrame:GetMapID(), Enum.UIMapType.Continent)
+		if continent then
+			return continent.mapID
+		end
+		return uiMapID
 	end
 end
 
@@ -136,23 +151,36 @@ end
 
 function WorldFlightMapProvider:OnEvent(event, ...)
 	if event == 'TAXIMAP_OPENED' then
-		self:SetTaxiState(true)
-		self.taxiMap = GetMapSize(GetTaxiMapID())
-		
-		local playerMapID = C_Map.GetBestMapForUnit('player')
-		local playerMapInfo = C_Map.GetMapInfo(playerMapID)
-		self.playerContinent = GetCurrentMapContinent(playerMapID)
-		
-		if not self:GetMap():IsShown() and not InCombatLockdown() then
-			ToggleWorldMap()
-			if self.playerContinent == 905 and playerMapInfo.mapType > 3 and playerMapInfo.parentMapID then
-				self:GetMap():SetMapID(playerMapInfo.parentMapID)
-			else
-				self:GetMap():SetMapID(self.playerContinent)
+		-- You can't take a flight in combat, and opening the world map in combat taints the interface
+		-- Therefor we need to prevent the interaction in the first place
+		if InCombatLockdown() then
+			CloseTaxiMap()
+		else
+			self:SetTaxiState(true)
+			self.taxiMap = GetMapSize(GetTaxiMapID())
+			
+			local playerMapID = C_Map.GetBestMapForUnit('player')
+			local playerMapInfo = C_Map.GetMapInfo(playerMapID)
+			self.playerContinent = GetCurrentMapContinent(playerMapID)
+			
+			if not self:GetMap():IsShown() and not InCombatLockdown() then
+				ToggleWorldMap()
+				--if self.playerContinent == 905 and playerMapInfo.mapType > Enum.UIMapType.Zone and playerMapInfo.parentMapID then
+				--	self:GetMap():SetMapID(playerMapInfo.parentMapID)
+				-- Zoom to parent zone if we're in a lower map
+				-- We used to zoom out until we could fit multiple flight points on the same map, but this is simpler
+				if playerMapInfo.mapType > Enum.UIMapType.Zone and playerMapInfo.parentMapID then
+					local parentZone = GetParentZone(playerMapID)
+					if parentZone then
+						self:GetMap():SetMapID(parentZone)
+					end
+				--else
+					--self:GetMap():SetMapID(self.playerContinent)
+				end
 			end
-		end
 
-		self:RefreshAllData()
+			self:RefreshAllData()
+		end
 	elseif event == 'TAXIMAP_CLOSED' then
 		self:SetTaxiState(false)
 

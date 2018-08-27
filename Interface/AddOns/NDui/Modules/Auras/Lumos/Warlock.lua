@@ -80,7 +80,14 @@ function module:ChantLumos(self)
 			end
 		end
 
-		UpdateTotemAura(self.bu[5], 1416161, 205180)
+		do
+			local button = self.bu[5]
+			if IsPlayerSpell(63106) then
+				UpdateDebuff(button, 63106, 63106)
+			else
+				UpdateTotemAura(button, 1416161, 205180)
+			end
+		end
 	elseif GetSpecialization() == 2 then
 		UpdateBuff(self.bu[1], 264178, 264173)
 

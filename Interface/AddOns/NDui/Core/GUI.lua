@@ -14,6 +14,7 @@ local defaultSettings = {
 		Style = 1,
 		Bar4Fade = false,
 		Bar5Fade = false,
+		Scale = 1,
 	},
 	Bags = {
 		Enable = true,
@@ -122,9 +123,7 @@ local defaultSettings = {
 		VerticalSpacing = .8,
 		ShowPlayerPlate = false,
 		PPHeight = 5,
-		CPHeight = 15,
 		PPPowerText = false,
-		PPHealthText = false,
 	},
 	Skins = {
 		DBM = true,
@@ -156,7 +155,7 @@ local defaultSettings = {
 		HideFaction = false,
 		FactionIcon = false,
 		LFDRole = false,
-		TargetBy = false,
+		TargetBy = true,
 		Scale = 1,
 	},
 	Misc = {
@@ -181,6 +180,7 @@ local defaultSettings = {
 		SwapingAlert = false,
 		QuestNotifier = true,
 		QuestProgress = false,
+		OnlyCompleteRing = false,
 	},
 	Settings = {
 		LockUIScale = false,
@@ -194,6 +194,7 @@ local defaultSettings = {
 	},
 	Extras = {
 		ArrowColor = 1,
+		CPHeight = 15,
 		GuildWelcome = true,
 		iLvlTools = true,
 		LootMonitor = true,
@@ -201,6 +202,7 @@ local defaultSettings = {
 		LootMonitorInGroup = true,
 		MoveTalking = true,
 		PartyFrame = true,
+		PPHealthText = false,
 		ShowCharacterItemSheet = true,
 		ShowOwnFrameWhenInspecting = true,
 		SkinColorA = .8,
@@ -259,8 +261,9 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Actionbar", "Enable", "|cff00cc4c"..L["Enable Actionbar"]},
 		{},--blank
 		{1, "Actionbar", "Bar4Fade", L["Bar4 Fade"]},
-		{1, "Actionbar", "Bar5Fade", L["Bar5 Fade"]},
-		{4, "Actionbar", "Style", L["Actionbar Style"], true, {L["BarStyle1"], L["BarStyle2"], L["BarStyle3"], L["BarStyle4"], L["BarStyle5"]}},
+		{1, "Actionbar", "Bar5Fade", L["Bar5 Fade"], true},
+		{4, "Actionbar", "Style", L["Actionbar Style"], false, {L["BarStyle1"], L["BarStyle2"], L["BarStyle3"], L["BarStyle4"], L["BarStyle5"]}},
+		{3, "Actionbar", "Scale", L["Actionbar Scale"], true, {.8, 1.5, 1}},
 		{},--blank
 		{1, "Actionbar", "Hotkeys", L["Actionbar Hotkey"]},
 		{1, "Actionbar", "Macro", L["Actionbar Macro"], true},
@@ -278,6 +281,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Bags", "ItemFilter", L["Bags ItemFilter"]},
 		{1, "Bags", "ItemSetFilter", L["Use ItemSetFilter"], true},
 		{1, "Bags", "ReverseSort", L["Bags ReverseSort"]},
+		{1, "Extras", "SlotInfo", L["Slot Info"], true},
 		{},--blank
 		{3, "Bags", "BagsScale", L["Bags Scale"], false, {.5, 1.5, 1}},
 		{3, "Bags", "IconSize", L["Bags IconSize"], true, {30, 42, 0}},
@@ -362,10 +366,10 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{},--blank
 		{1, "Nameplate", "ShowPlayerPlate", "|cff00cc4c"..L["Enable PlayerPlate"]},
 		{1, "Auras", "ClassAuras", L["Enable ClassAuras"], true},
-		{1, "Nameplate", "PPHealthText", L["PlayerPlate HealthText"]},
+		{1, "Extras", "PPHealthText", L["PlayerPlate HealthText"]},
 		{1, "Nameplate", "PPPowerText", L["PlayerPlate PowerText"], true},
 		{3, "Nameplate", "PPHeight", L["PlayerPlate Height"], false, {5, 10, 0}},
-		{3, "Nameplate", "CPHeight", L["PlayerPlate CPHeight"], true, {10, 20, 0}},
+		{3, "Extras", "CPHeight", L["PlayerPlate CPHeight"], true, {10, 20, 0}},
 	},
 	[7] = {
 		{1, "Skins", "RM", "|cff00cc4c"..L["Raid Manger"]},
@@ -374,11 +378,13 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{2, "Skins", "DBMCount", L["Countdown Sec"], true},
 		{},--blank
 		{1, "Chat", "Invite", L["Whisper Invite"]},
-		{1, "Chat", "GuildInvite", L["Guild Invite Only"], true},
-		{2, "Chat", "Keyword", L["Whisper Keyword"]},
+		{1, "Chat", "GuildInvite", L["Guild Invite Only"]},
+		{2, "Chat", "Keyword", L["Whisper Keyword"], true},
 		{},--blank
-		{1, "Misc", "QuestNotifier", L["QuestNotifier"]},
-		{1, "Misc", "QuestProgress", L["QuestProgress"], true},
+		{1, "Misc", "QuestNotifier", "|cff00cc4c"..L["QuestNotifier"]},
+		{1, "Misc", "QuestProgress", L["QuestProgress"]},
+		{1, "Misc", "OnlyCompleteRing", L["OnlyCompleteRing"], true},
+		{},--blank
 		{1, "Misc", "RareAlerter", L["Rare Alert"]},
 		{1, "Misc", "AlertinChat", L["Alert In Chat"], true},
 		{1, "Misc", "Interrupt", L["Interrupt Alert"]},
@@ -480,8 +486,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{3, "Extras", "SkinColorB", "|cff0000FF"..L["Skin Color B"], true, {0, 1, 2}},
 		{},--blank
 		{1, "Extras", "MoveTalking", L["Move Talking"]},
-		{1, "Extras", "SlotInfo", L["Slot Info"], true},
-		{1, "Extras", "GuildWelcome", L["Guild Welcome"]},
+		{1, "Extras", "GuildWelcome", L["Guild Welcome"], true},
 		{},--blank
 		{1, "Extras", "ShowCharacterItemSheet", L["Show Character Item Sheet"]},
 		{1, "Extras", "ShowOwnFrameWhenInspecting", L["Show Own Frame When Inspecting"], true},
@@ -613,7 +618,6 @@ local function CreateOption(i)
 			_G[s:GetName().."Text"]:SetPoint("TOP", s, "BOTTOM", 0, 3)
 			_G[s:GetName().."Text"]:SetFormattedText("%."..step.."f", NDuiDB[key][value])
 			s:SetBackdrop(nil)
-			s.SetBackdrop = B.Dummy
 			local bd = CreateFrame("Frame", nil, s)
 			bd:SetPoint("TOPLEFT", 14, -2)
 			bd:SetPoint("BOTTOMRIGHT", -15, 3)

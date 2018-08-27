@@ -43,17 +43,17 @@ B.CreateFS(bu[4], 13, ZONE, false, "RIGHT", -5, 0)
 B.CreateFS(infoFrame, 13, DB.LineString, false, "BOTTOMRIGHT", -15, 58)
 local whspInfo = DB.InfoColor..DB.RightButton..WHISPER.." "
 B.CreateFS(infoFrame, 13, whspInfo, false, "BOTTOMRIGHT", -15, 42)
-local copyInfo = DB.InfoColor.."ALT +"..DB.LeftButton..COPY_NAME.." "
-B.CreateFS(infoFrame, 13, copyInfo, false, "BOTTOMRIGHT", -15, 26)
-local invtInfo = DB.InfoColor.."ALT +"..DB.RightButton..GUILDCONTROL_OPTION7.." "
-B.CreateFS(infoFrame, 13, invtInfo, false, "BOTTOMRIGHT", -15, 10)
+local invtInfo = DB.InfoColor.."ALT +"..DB.LeftButton..GUILDCONTROL_OPTION7.." "
+B.CreateFS(infoFrame, 13, invtInfo, false, "BOTTOMRIGHT", -15, 26)
+local copyInfo = DB.InfoColor.."SHIFT +"..DB.LeftButton..COPY_NAME.." "
+B.CreateFS(infoFrame, 13, copyInfo, false, "BOTTOMRIGHT", -15, 10)
 
 local scrollFrame = CreateFrame("ScrollFrame", nil, infoFrame, "UIPanelScrollFrameTemplate")
 scrollFrame:SetSize(312, 375)
 scrollFrame:SetPoint("CENTER", 0, -15)
 scrollFrame.ScrollBar:Hide()
 scrollFrame.ScrollBar.Show = B.Dummy
-scrollFrame:SetScript("OnMouseWheel", function(self, delta)
+scrollFrame:SetScript("OnMouseWheel", function(_, delta)
 	local scrollBar = scrollFrame.ScrollBar
 	scrollBar:SetValue(scrollBar:GetValue() - delta*50)
 end)
@@ -88,8 +88,10 @@ local function createRoster(i)
 	button:RegisterForClicks("AnyUp")
 	button:SetScript("OnClick", function(_, btn)
 		local name = guildTable[i][3]
-		if IsAltKeyDown() then
-			if btn == "LeftButton" then
+		if btn == "LeftButton" then
+			if IsAltKeyDown() then
+				InviteToGroup(name)
+			elseif IsShiftKeyDown() then
 				if MailFrame:IsShown() then
 					MailFrameTab_OnClick(nil, 2)
 					SendMailNameEditBox:SetText(name)
@@ -101,14 +103,12 @@ local function createRoster(i)
 					editBox:Insert(name)
 					if not hasText then editBox:HighlightText() end
 				end
-			else
-				InviteToGroup(name)
 			end
 		else
-			if btn == "LeftButton" then return end
 			ChatFrame_OpenChat("/w "..name.." ", SELECTED_DOCK_FRAME)
 		end
 	end)
+
 	return button
 end
 

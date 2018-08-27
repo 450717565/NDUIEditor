@@ -304,7 +304,7 @@ function UF:CreatePlayerPlate()
 	UF:CreateClassPower(self)
 	if NDuiDB["Auras"]["ClassAuras"] then auras:CreateLumos(self) end
 
-	if NDuiDB["Nameplate"]["PPHealthText"] then
+	if NDuiDB["Extras"]["PPHealthText"] then
 		local textFrame = CreateFrame("Frame", nil, self.Health)
 		textFrame:SetAllPoints()
 		local health = B.CreateFS(textFrame, 14, "", false, "LEFT", 0, 0)

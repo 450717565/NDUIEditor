@@ -19,6 +19,8 @@ local function completeText(link)
 end
 
 local function sendQuestMsg(msg)
+	if NDuiDB["Misc"]["OnlyCompleteRing"] then return end
+
 	if debugMode and DB.isDeveloper then
 		print(msg)
 	elseif IsPartyLFG() then
@@ -68,6 +70,8 @@ local function FindQuestAccept(_, questLogIndex, questID)
 	local title, _, _, _, _, _, frequency = GetQuestLogTitle(questLogIndex)
 	local link = GetQuestLink(questID)
 	if title then
+		local tagID, _, worldQuestType = GetQuestTagInfo(questID)
+		if tagID == 109 or worldQuestType == LE_QUEST_TAG_TYPE_PROFESSION then return end
 		sendQuestMsg(acceptText(link, frequency == LE_QUEST_FREQUENCY_DAILY))
 	end
 end
@@ -107,7 +111,7 @@ function module:QuestNotifier()
 	B:RegisterEvent("QUEST_ACCEPTED", FindQuestAccept)
 	B:RegisterEvent("QUEST_LOG_UPDATE", FindQuestComplete)
 	B:RegisterEvent("QUEST_TURNED_IN", FindWorldQuestComplete)
-	if NDuiDB["Misc"]["QuestProgress"] then
+	if NDuiDB["Misc"]["QuestProgress"] and not NDuiDB["Misc"]["OnlyCompleteRing"] then
 		B:RegisterEvent("UI_INFO_MESSAGE", FindQuestProgress)
 	end
 end

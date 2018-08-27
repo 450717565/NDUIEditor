@@ -31,8 +31,8 @@ tinsert(C.themes["AuroraClassic"], function()
 			self.AzeriteTexture:SetAlpha(0)
 			self.RankFrame.Texture:SetTexture("")
 			self.RankFrame.Label:ClearAllPoints()
-			self.RankFrame.Label:SetPoint("TOPLEFT", self, 2, -1)
-			self.RankFrame.Label:SetTextColor(1, .5, 0)
+			self.RankFrame.Label:SetPoint("BOTTOM", 1, 5)
+			self.RankFrame.Label:SetTextColor(.9, .8, .5)
 
 			self.styled = true
 		end

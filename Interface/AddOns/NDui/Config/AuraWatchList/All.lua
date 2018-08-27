@@ -68,12 +68,20 @@ local list = {
 		{AuraID = 273955, UnitID = "player"},	-- 望远镜视野
 		{AuraID = 261612, UnitID = "player"},	-- 迅击风暴
 		{AuraID = 264957, UnitID = "player"},	-- 急速瞄准镜
+		{AuraID = 274472, UnitID = "player"},	-- 狂战士之怒
+		{AuraID = 268769, UnitID = "player"},	-- 标记死穴
 	-->艾泽里特特质
+		{AuraID = 280409, UnitID = "player"},	-- 血祭之力
+		{AuraID = 279902, UnitID = "player"},	-- 不稳定的烈焰
+		{AuraID = 281843, UnitID = "player"},	-- 汇帆
+		{AuraID = 280204, UnitID = "player"},	-- 徘徊的灵魂
 		{AuraID = 273685, UnitID = "player"},	-- 缜密计谋
 		{AuraID = 273714, UnitID = "player"},	-- 争分夺秒
 		{AuraID = 274443, UnitID = "player"},	-- 死亡之舞
 		{AuraID = 280433, UnitID = "player"},	-- 呼啸狂沙
-		{AuraID = 268953, UnitID = "player", Text = RAID_BUFF_6},	-- 爆击
+		{AuraID = 271711, UnitID = "player"},	-- 压倒能量
+		{AuraID = 272733, UnitID = "player"},	-- 弦之韵律
+		{AuraID = 268953, UnitID = "player", Text = RAID_BUFF_6},	-- 元素回旋 爆击
 		{AuraID = 268954, UnitID = "player", Text = RAID_BUFF_4},	-- 急速
 		{AuraID = 268955, UnitID = "player", Text = RAID_BUFF_7},	-- 精通
 		{AuraID = 268956, UnitID = "player", Text = RAID_BUFF_8},	-- 全能
@@ -84,9 +92,7 @@ local list = {
 		{AuraID = 273842, UnitID = "player"},	-- 深渊秘密
 		{AuraID = 273843, UnitID = "player"},	-- 深渊秘密
 		{AuraID = 280412, UnitID = "player"},	-- 激励兽群
-		{AuraID = 280204, UnitID = "player"},	-- 徘徊的灵魂
 		{AuraID = 269279, UnitID = "player", Value = true, Combat = true},	--回声防护
-		{AuraID = 280409, UnitID = "player"},	-- 血祭之力
 	-->LEG药水附魔
 		{AuraID = 188027, UnitID = "player"},--致命优雅，远程
 		{AuraID = 188028, UnitID = "player"},--上古战神，近战

@@ -17,7 +17,7 @@ function Bar:CreatePetbar()
 	else
 		frame.Pos = {"BOTTOMRIGHT", NDui_ActionBar3, "TOPRIGHT", 0, 5}
 	end
-	frame:SetScale(cfg.scale)
+	frame:SetScale(NDuiDB["Actionbar"]["Scale"])
 
 	--move the buttons into position and reparent them
 	PetActionBarFrame:SetParent(frame)

@@ -57,7 +57,7 @@ function module:OnLogin()
 	end
 
 	-- ACTIONBAR
-	if NDuiDB["Actionbar"]["Enable"] then
+	if NDuiDB["Actionbar"]["Enable"] and NDuiDB["Actionbar"]["Scale"] == 1 then
 		if NDuiDB["Skins"]["BarLine"] and NDuiDB["Actionbar"]["Style"] ~= 5 then
 			local relativeTo = NDui_ActionBar2
 			if NDuiDB["Actionbar"]["Style"] == 4 then relativeTo = NDui_ActionBar3 end

@@ -302,7 +302,7 @@ end)
 local function style(self)
 	self:SetScale(NDuiDB["Tooltip"]["Scale"])
 
-	if not self.bg then
+	if not self.tipStyled then
 		self:SetBackdrop(nil)
 		local bg = B.CreateBG(self, 0)
 		bg:SetFrameLevel(self:GetFrameLevel())
@@ -314,6 +314,8 @@ local function style(self)
 		self.GetBackdrop = function() return bg:GetBackdrop() end
 		self.GetBackdropColor = function() return 0, 0, 0, .7 end
 		self.GetBackdropBorderColor = function() return 0, 0, 0 end
+
+		self.tipStyled = true
 	end
 
 	self.bg:SetBackdropBorderColor(0, 0, 0)
@@ -340,19 +342,6 @@ local function style(self)
 	end
 end
 
--- Addon Supports
-if IsAddOnLoaded("MeetingStone") then
-	local tips = {
-		NetEaseGUI20_Tooltip51,
-		NetEaseGUI20_Tooltip52,
-	}
-	for _, f in pairs(tips) do
-		if f then
-			f:HookScript("OnShow", style)
-		end
-	end
-end
-
 local function extrastyle(self)
 	if not self.styled then
 		self:DisableDrawLayer("BACKGROUND")
@@ -363,6 +352,7 @@ local function extrastyle(self)
 end
 
 hooksecurefunc("GameTooltip_SetBackdropStyle", function(self)
+	if not self.tipStyled then return end
 	self:SetBackdrop(nil)
 end)
 
@@ -373,8 +363,8 @@ B:RegisterEvent("ADDON_LOADED", function(_, addon)
 
 	elseif addon == "NDui" then
 		if IsAddOnLoaded("AuroraClassic") then
+			AuroraOptionstooltips:SetAlpha(0)
 			AuroraOptionstooltips:Disable()
-			AuroraOptionstooltips.Text:SetTextColor(.5, .5, .5)
 			AuroraConfig.tooltips = false
 		end
 
@@ -494,6 +484,19 @@ B:RegisterEvent("ADDON_LOADED", function(_, addon)
 				end
 			end
 		end)
+
+		-- MeetingShit
+		if IsAddOnLoaded("MeetingStone") then
+			local tips = {
+				NetEaseGUI20_Tooltip51,
+				NetEaseGUI20_Tooltip52,
+			}
+			for _, f in pairs(tips) do
+				if f then
+					f:HookScript("OnShow", style)
+				end
+			end
+		end
 
 	elseif addon == "Blizzard_Collections" then
 		local pet = {
