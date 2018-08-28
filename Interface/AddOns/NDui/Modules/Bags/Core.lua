@@ -38,7 +38,7 @@ function module:OnLogin()
 
 		f.bank = MyContainer:New("Bank", {Columns = NDuiDB["Bags"]["BankWidth"], Bags = "bank"})
 		f.bank:SetFilter(onlyBank, true)
-		f.bank:SetPoint("BOTTOMRIGHT", f.main, "BOTTOMLEFT", -20, -50)
+		f.bank:SetPoint("BOTTOMRIGHT", f.main, "BOTTOMLEFT", -20, -100)
 		f.bank:Hide()
 
 		f.bankAzeriteItem = MyContainer:New("BankAzeriteItem", {Columns = NDuiDB["Bags"]["BankWidth"], Bags = "bankazeriteitem"})

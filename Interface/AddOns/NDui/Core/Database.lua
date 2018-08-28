@@ -25,8 +25,6 @@ DB.arrowTex = Media.."arrowTex_"
 DB.bgTex = Media.."bgTex"
 DB.glowTex = Media.."glowTex"
 DB.MicroTex = Media.."MicroMenu\\micro_"
-DB.newItemFlash = "Interface\\Cooldown\\star4"
-DB.normTex = Media.."normTex"
 
 DB.bdTex = "Interface\\ChatFrame\\ChatFrameBackground"
 DB.binTex = "Interface\\HelpFrame\\ReportLagIcon-Loot"
@@ -37,7 +35,8 @@ DB.garrTex = "Interface\\HelpFrame\\HelpIcon-ReportLag"
 DB.gearTex = "Interface\\WorldMap\\Gear_64"
 DB.mailTex = "Interface\\Minimap\\Tracking\\Mailbox"
 DB.newItemFlash = "Interface\\Cooldown\\star4"
-DB.questTex = "Interface\\BUTTONS\\AdventureGuideMicrobuttonAlert"
+DB.normTex = "Interface\\TargetingFrame\\UI-TargetingFrame-BarFill"
+DB.questTex = "Interface\\Buttons\\AdventureGuideMicrobuttonAlert"
 DB.sparkTex = "Interface\\CastingBar\\UI-CastingBar-Spark"
 
 DB.TexCoord = {.08, .92, .08, .92}
