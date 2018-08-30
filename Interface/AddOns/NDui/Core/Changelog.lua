@@ -29,15 +29,16 @@ local function changelog()
 
 	local alpha = NDuiDB["Extras"]["SkinColorA"]
 	local cr, cg, cb = DB.CC.r, DB.CC.g, DB.CC.b
-	local f = CreateFrame("Frame", "NDuiChangeLog", UIParent)
+	f = CreateFrame("Frame", "NDuiChangeLog", UIParent)
 	f:SetPoint("CENTER")
 	f:SetScale(1.2)
 	f:SetFrameStrata("HIGH")
 	B.CreateMF(f)
 	B.CreateBD(f)
+	B.CreateSD(f)
 	B.CreateTex(f)
-	B.CreateFS(f, 30, "NDui", true, "TOPLEFT", 10, 25)
-	B.CreateFS(f, 14, DB.Version, true, "TOPRIGHT", -10, 12)
+	B.CreateFS(f, 30, "NDui", true, "TOPLEFT", 10, 27)
+	B.CreateFS(f, 14, DB.Version, true, "TOPRIGHT", -10, 14)
 	B.CreateFS(f, 16, L["Changelog"], true, "TOP", 0, -10)
 	local ll = CreateFrame("Frame", nil, f)
 	ll:SetPoint("TOP", -50, -35)
@@ -53,7 +54,7 @@ local function changelog()
 		offset = offset + 20
 	end
 	f:SetSize(400, 60 + offset)
-	local close = B.CreateButton(f, 20, 20, "X")
+	local close = B.CreateButton(f, 16, 16, "X")
 	close:SetPoint("TOPRIGHT", -10, -10)
 	close:SetScript("OnClick", function() f:Hide() end)
 end

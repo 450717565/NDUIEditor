@@ -128,7 +128,7 @@ local function colourButton(self)
 	if not self:IsEnabled() then return end
 
 	if useButtonGradientColour then
-		self:SetBackdropColor(r, g, b, .3)
+		self:SetBackdropColor(r, g, b, .25)
 	else
 		self.bgTex:SetVertexColor(r / 4, g / 4, b / 4)
 	end
@@ -223,7 +223,7 @@ F.clearArrow = textureOnLeave
 local function scrollOnEnter(self)
 	local bu = (self.ThumbTexture or self.thumbTexture) or _G[self:GetName().."ThumbTexture"]
 	if not bu then return end
-	bu.bg:SetBackdropColor(r, g, b, .3)
+	bu.bg:SetBackdropColor(r, g, b, .25)
 	bu.bg:SetBackdropBorderColor(r, g, b)
 end
 
@@ -418,7 +418,7 @@ function F:ReskinArrow(direction)
 
 	self:SetDisabledTexture(C.media.backdrop)
 	local dis = self:GetDisabledTexture()
-	dis:SetVertexColor(0, 0, 0, .3)
+	dis:SetVertexColor(0, 0, 0, .25)
 	dis:SetDrawLayer("OVERLAY")
 
 	local tex = self:CreateTexture(nil, "ARTWORK")
@@ -521,12 +521,12 @@ end
 
 local function expandOnEnter(self)
 	if self:IsEnabled() then
-		self.bg:SetBackdropColor(r, g, b, .3)
+		self.bg:SetBackdropColor(r, g, b, .25)
 	end
 end
 
 local function expandOnLeave(self)
-	self.bg:SetBackdropColor(0, 0, 0, .3)
+	self.bg:SetBackdropColor(0, 0, 0, .25)
 end
 
 local function SetupTexture(self, texture)
@@ -551,7 +551,7 @@ function F:ReskinExpandOrCollapse()
 	self:SetHighlightTexture("")
 	self:SetPushedTexture("")
 
-	local bg = F.CreateBDFrame(self, .3)
+	local bg = F.CreateBDFrame(self, .25)
 	bg:ClearAllPoints()
 	bg:SetSize(13, 13)
 	bg:SetPoint("TOPLEFT", self:GetNormalTexture())

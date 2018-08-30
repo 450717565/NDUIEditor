@@ -137,7 +137,6 @@ local function MakeMoveHandle(Frame, Text, key, Pos)
 	MoveHandle:SetWidth(Frame:GetWidth())
 	MoveHandle:SetHeight(Frame:GetHeight())
 	MoveHandle:SetFrameStrata("HIGH")
-	B.CreateBD(MoveHandle)
 	B.CreateFS(MoveHandle, 12, Text)
 	if not NDuiDB["AuraWatchMover"] then NDuiDB["AuraWatchMover"] = {} end
 	if not NDuiDB["AuraWatchMover"][key] then

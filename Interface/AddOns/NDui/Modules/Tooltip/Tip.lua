@@ -224,8 +224,8 @@ GameTooltip:HookScript("OnTooltipSetUnit", function(self)
 
 	if GameTooltipStatusBar:IsShown() then
 		GameTooltipStatusBar:ClearAllPoints()
-		GameTooltipStatusBar:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 3, 2)
-		GameTooltipStatusBar:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", -3, 2)
+		GameTooltipStatusBar:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 2, 3)
+		GameTooltipStatusBar:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", -2, 3)
 	end
 end)
 
@@ -233,9 +233,9 @@ end)
 do
 	GameTooltipStatusBar:SetStatusBarTexture(DB.normTex)
 	GameTooltipStatusBar:SetHeight(5)
-	B.CreateSD(GameTooltipStatusBar, 3, 3)
-	local bg = B.CreateBG(GameTooltipStatusBar, 3)
+	local bg = B.CreateBG(GameTooltipStatusBar, 1)
 	B.CreateBD(bg, .7)
+	B.CreateSD(bg)
 	B.CreateTex(bg)
 end
 
@@ -263,8 +263,10 @@ hooksecurefunc("GameTooltip_ShowStatusBar", function(self)
 			local _, bd, tex = bar:GetRegions()
 			tex:SetTexture(DB.normTex)
 			bd:Hide()
-			local bg = B.CreateBG(bd)
+			bd:SetAllPoints()
+			local bg = B.CreateBG(bd, 0)
 			B.CreateBD(bg, .25)
+			B.CreateSD(bg)
 
 			bar.styled = true
 		end
@@ -274,12 +276,16 @@ end)
 hooksecurefunc("GameTooltip_ShowProgressBar", function(self)
 	if self.progressBarPool then
 		local bar = self.progressBarPool:Acquire()
-		B.StripTextures(bar.Bar)
-		select(7, bar.Bar:GetRegions()):Hide()
-		bar.Bar:SetStatusBarTexture(DB.normTex)
-		bar.Bar:SetStatusBarColor(r*.8, g*.8, b*.8)
-		B.CreateBD(bar, .25, 2)
-		bar:SetSize(219, 19)
+		if bar and not bar.styled then
+			B.StripTextures(bar.Bar, true)
+			bar.Bar:SetStatusBarTexture(DB.normTex)
+			bar.Bar:SetStatusBarColor(r*.8, g*.8, b*.8)
+			B.CreateBD(bar, .25)
+			B.CreateSD(bar)
+			bar:SetSize(216, 18)
+
+			bar.styled = true
+		end
 	end
 end)
 
@@ -307,6 +313,7 @@ local function style(self)
 		local bg = B.CreateBG(self, 0)
 		bg:SetFrameLevel(self:GetFrameLevel())
 		B.CreateBD(bg, .7)
+		B.CreateSD(bg)
 		B.CreateTex(bg)
 		self.bg = bg
 
@@ -357,9 +364,16 @@ hooksecurefunc("GameTooltip_SetBackdropStyle", function(self)
 end)
 
 B:RegisterEvent("ADDON_LOADED", function(_, addon)
-	if addon == "Blizzard_DebugTools" and not IsAddOnLoaded("AuroraClassic") then
-		FrameStackTooltip:HookScript("OnShow", style)
-		EventTraceTooltip:HookScript("OnShow", style)
+	if addon == "Blizzard_DebugTools" then
+		local tooltips = {
+			FrameStackTooltip,
+			EventTraceTooltip
+		}
+		for _, tip in pairs(tooltips) do
+			tip:SetParent(UIParent)
+			tip:SetFrameStrata("TOOLTIP")
+			tip:HookScript("OnShow", style)
+		end
 
 	elseif addon == "NDui" then
 		if IsAddOnLoaded("AuroraClassic") then

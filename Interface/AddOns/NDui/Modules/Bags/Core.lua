@@ -92,11 +92,8 @@ function module:OnLogin()
 		self.Count:SetFont(unpack(DB.Font))
 
 		self.BG = B.CreateBG(self, 1.2)
-		self.BG:SetBackdrop({
-			bgFile = DB.bdTex, edgeFile = DB.bdTex, edgeSize = 1.2,
-		})
-		self.BG:SetBackdropColor(0, 0, 0, .3)
-		self.BG:SetBackdropBorderColor(0, 0, 0)
+		B.CreateBD(self.BG, .3)
+		B.CreateSD(self.BG)
 
 		self.Junk = self:CreateTexture(nil, "ARTWORK")
 		self.Junk:SetAtlas("bags-junkcoin")
@@ -227,7 +224,7 @@ function module:OnLogin()
 		local offset = -32
 		if self.name == "Main" or self.name == "Bank" or self.name == "Reagent" then offset = -10 end
 
-		local width, height = self:LayoutButtons("grid", self.Settings.Columns, 6, 10, offset)
+		local width, height = self:LayoutButtons("grid", self.Settings.Columns, 5, 10, offset)
 		self:SetSize(width + 20, height + 45)
 
 		local anchor = f.main
@@ -282,8 +279,8 @@ function module:OnLogin()
 			local F = unpack(AuroraClassic)
 			F.SetBD(self)
 		else
-			B.CreateBD(self, .5, 1)
-			B.CreateSD(self, 2, 3)
+			B.CreateBD(self)
+			B.CreateSD(self)
 			B.CreateTex(self)
 		end
 
@@ -332,7 +329,8 @@ function module:OnLogin()
 		sbg:SetPoint("CENTER", search, "CENTER")
 		sbg:SetSize(230, 22)
 		sbg:SetFrameLevel(search:GetFrameLevel() - 1)
-		B.CreateBD(sbg, .5, 1)
+		B.CreateBD(sbg)
+		B.CreateSD(sbg)
 
 		local tagDisplay = self:SpawnPlugin("TagDisplay", "[money]", infoFrame)
 		tagDisplay:SetFont(unpack(DB.Font))
@@ -372,7 +370,7 @@ function module:OnLogin()
 			bagBar.isGlobal = true
 			bagBar:Hide()
 			self.BagBar = bagBar
-			bagBar:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 8, -12)
+			bagBar:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 8, -11)
 			local bg = CreateFrame("Frame", nil, bagBar)
 			bg:SetPoint("TOPLEFT", -8, 8)
 			bg:SetPoint("BOTTOMRIGHT", -118, -8)
@@ -381,6 +379,7 @@ function module:OnLogin()
 				F.SetBD(bg)
 			else
 				B.CreateBD(bg)
+				B.CreateSD(bg)
 				B.CreateTex(bg)
 			end
 

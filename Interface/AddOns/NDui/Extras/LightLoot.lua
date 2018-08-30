@@ -8,8 +8,8 @@ local point = {"CENTER", 300, 0}
 local slots = {}
 
 local LightLoot = CreateFrame("Button", "LightLoot")
-B.CreateBD(LightLoot, .5, 1, true)
-B.CreateSD(LightLoot, 2, 3)
+B.CreateBD(LightLoot, .5)
+B.CreateSD(LightLoot)
 B.CreateTex(LightLoot)
 LightLoot:RegisterForClicks("AnyUp")
 LightLoot:SetClampedToScreen(true)
@@ -89,7 +89,7 @@ local function CreateSlot(id)
 	local icBD = CreateFrame("Frame", nil, button)
 	icBD:SetSize(iconSize, iconSize)
 	icBD:SetPoint("LEFT", button)
-	B.CreateBD(icBD, 1, 1, true)
+	B.CreateBD(icBD, 1)
 	button.icBD = icBD
 
 	local icon = icBD:CreateTexture(nil, "ARTWORK")

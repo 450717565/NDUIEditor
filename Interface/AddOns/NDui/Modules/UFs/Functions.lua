@@ -211,7 +211,7 @@ function UF:CreateIcons(self)
 		rest:SetTexCoord(.445, .55, .648, .905)
 		rest:SetVertexColor(.6, .8, 1)
 		self.RestingIndicator = rest
-	elseif self.mystyle == "target" or self.mystyle == "party" then
+	elseif self.mystyle == "target" then
 		local quest = self:CreateTexture(nil, "OVERLAY")
 		quest:SetPoint("TOPLEFT", self, "TOPLEFT", 0, 8)
 		quest:SetSize(16, 16)
@@ -267,9 +267,11 @@ function UF:CreateCastBar(self)
 	cb:SetWidth(self:GetWidth() - 22)
 	cb:SetStatusBarTexture(DB.normTex)
 	cb:SetFrameLevel(1)
-	B.CreateBD(cb, .5, .1)
-	B.CreateSD(cb, 3, 3.01)
-	B.CreateTex(cb)
+
+	local bg = B.CreateBG(cb)
+	B.CreateBD(bg)
+	B.CreateSD(bg)
+	B.CreateTex(bg)
 
 	if self.mystyle == "player" then
 		cb:SetSize(unpack(C.UFs.PlayercbSize))
@@ -364,8 +366,9 @@ function UF:ReskinMirrorBars()
 		B.StripTextures(bar, true)
 		bar:SetSize(280, 17)
 
-		local bg = B.CreateBG(bar, 3)
+		local bg = B.CreateBG(bar, 1)
 		B.CreateBD(bg)
+		B.CreateSD(bg)
 		B.CreateTex(bg)
 
 		local statusbar = _G["MirrorTimer"..i.."StatusBar"]
@@ -701,8 +704,7 @@ function UF:CreateAltPower(self)
 	local bar = CreateFrame("StatusBar", nil, self)
 	bar:SetStatusBarTexture(DB.normTex)
 	bar:SetPoint("TOP", self.Power, "BOTTOM", 0, -3)
-	bar:SetSize(self:GetWidth(), 2)
-	B.CreateBD(bar, .5, .1)
+	bar:SetSize(self:GetWidth(), self.Power:GetHeight())
 	B.CreateSD(bar, 3, 3)
 
 	local text = B.CreateFS(bar, 14, "")

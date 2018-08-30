@@ -41,9 +41,9 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 17738 $"):sub(12, -3)),
-	DisplayVersion = "8.0.5 alpha", -- the string that is shown as version
-	ReleaseRevision = 17719 -- the revision of the latest stable version that is available
+	Revision = tonumber(("$Revision: 17746 $"):sub(12, -3)),
+	DisplayVersion = "8.0.6 alpha", -- the string that is shown as version
+	ReleaseRevision = 17739 -- the revision of the latest stable version that is available
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -3819,8 +3819,9 @@ do
 	end
 	local function SecondaryLoadCheck(self)
 		local _, instanceType, difficulty, _, _, _, _, mapID, instanceGroupSize = GetInstanceInfo()
-		if not savedDifficulty then
-			savedDifficulty, difficultyText = self:GetCurrentInstanceDifficulty()
+		local currentDifficulty, currentDifficultyText = self:GetCurrentInstanceDifficulty()
+		if currentDifficulty ~= savedDifficulty then
+			savedDifficulty, difficultyText = currentDifficulty, currentDifficultyText
 		end
 		self:Debug("Instance Check fired with mapID "..mapID.." and difficulty "..difficulty, 2)
 		if LastInstanceMapID == mapID then

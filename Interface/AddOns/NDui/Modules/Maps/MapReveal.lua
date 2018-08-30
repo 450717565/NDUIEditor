@@ -329,7 +329,7 @@ function module:MapReveal()
 	local bu = CreateFrame("CheckButton", nil, WorldMapFrame.BorderFrame, "OptionsCheckButtonTemplate")
 	bu:SetPoint("TOPRIGHT", -270, 0)
 	bu:SetSize(26, 26)
-	B.CreateCB(bu)
+	B.CreateCB(bu, .3)
 	bu:SetChecked(NDuiDB["Map"]["MapReveal"])
 	bu.text = B.CreateFS(bu, 14, L["Map Reveal"], false, "LEFT", 25, 0)
 

@@ -150,19 +150,6 @@
 						<AbsInset left="-1" right="-1" top="-1" bottom="-1"/>
 					</BackgroundInsets>
 				</Backdrop>
-				<Layers>
-					<Layer level="BACKGROUND">
-						<FontString name="$parentTitle" inherits="GameFontNormal" text="ERRORS">
-							<Anchors>
-								<Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT">
-									<Offset>
-										<AbsDimension x="0" y="1"/>
-									</Offset>
-								</Anchor>
-							</Anchors>
-						</FontString>
-					</Layer>
-				</Layers>
 				<Frames>
 					<ScrollFrame name="$parentScrollBar" inherits="FauxScrollFrameTemplate">
 						<Anchors>
@@ -245,19 +232,6 @@
 						<AbsInset left="-1" right="-1" top="-1" bottom="-1"/>
 					</BackgroundInsets>
 				</Backdrop>
-				<Layers>
-					<Layer level="BACKGROUND">
-						<FontString name="$parentTitle" inherits="GameFontNormal" text="QUEST_DESCRIPTION">
-							<Anchors>
-								<Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT">
-									<Offset>
-										<AbsDimension x="0" y="1"/>
-									</Offset>
-								</Anchor>
-							</Anchors>
-						</FontString>
-					</Layer>
-				</Layers>
 				<Frames>
 					<ScrollFrame name="BaudErrorFrameDetailScrollFrame" inherits="UIPanelScrollFrameTemplate">
 						<Size>

@@ -1,34 +1,37 @@
--- Aurora Reskin
-if IsAddOnLoaded("AuroraClassic") then
-	local F, C = unpack(AuroraClassic)
-	local Delay = CreateFrame("Frame")
-	Delay:RegisterEvent("PLAYER_ENTERING_WORLD")
-	Delay:SetScript("OnEvent", function()
-		Delay:UnregisterEvent("PLAYER_ENTERING_WORLD")
+local B, C, L, DB = unpack(select(2, ...))
+
+local function Reskins()
+	B:UnregisterEvent("PLAYER_ENTERING_WORLD", Reskins)
+
+	if IsAddOnLoaded("!BaudErrorFrame") then
+		B.CreateBD(BaudErrorFrame)
+		B.CreateSD(BaudErrorFrame)
+		B.CreateTex(BaudErrorFrame)
+		B.StripTextures(BaudErrorFrameListScrollBox)
+		B.CreateBD(BaudErrorFrameListScrollBox)
+		B.CreateSD(BaudErrorFrameListScrollBox)
+		B.StripTextures(BaudErrorFrameDetailScrollBox)
+		B.CreateBD(BaudErrorFrameDetailScrollBox)
+		B.CreateSD(BaudErrorFrameDetailScrollBox)
+
+		local boxHL = BaudErrorFrameListScrollBoxHighlightTexture
+		boxHL:SetTexture(DB.bdTex)
+		boxHL:SetVertexColor(DB.CC.r, DB.CC.g, DB.CC.b, .25)
+
+		for _, button in next, {BaudErrorFrameClearButton, BaudErrorFrameCloseButton, BaudErrorFrameReloadUIButton} do
+			B.CreateBC(button)
+		end
+	end
+
+	if IsAddOnLoaded("AuroraClassic") then
+		local F, C = unpack(AuroraClassic)
 		local r, g, b = C.r, C.g, C.b
 
-		-- 顶部信息板
-		UIWidgetTopCenterContainerFrame:ClearAllPoints()
-		UIWidgetTopCenterContainerFrame:SetPoint("TOP", 0, -40)
-
 		if IsAddOnLoaded("!BaudErrorFrame") then
-			F.CreateBD(BaudErrorFrame)
-			F.CreateSD(BaudErrorFrame)
-			F.CreateSD(BaudErrorFrameListScrollBox)
-			F.CreateSD(BaudErrorFrameDetailScrollBox)
 			F.ReskinScroll(BaudErrorFrameListScrollBoxScrollBarScrollBar)
 			F.ReskinScroll(BaudErrorFrameDetailScrollFrameScrollBar)
-
-			local boxHL = BaudErrorFrameListScrollBoxHighlightTexture
-			boxHL:SetTexture(C.media.backdrop)
-			boxHL:SetVertexColor(r, g, b, .25)
-
-			local Buttonlist = {"ClearButton", "CloseButton", "ReloadUIButton"}
-			for k, v in pairs(Buttonlist) do
-				F.Reskin(_G["BaudErrorFrame"..v])
-			end
 		end
---[[
+	--[[
 		if IsAddOnLoaded("!Libs") then
 			-- LibUIDropDownMenu
 			local function isCheckTexture(check)
@@ -65,7 +68,7 @@ if IsAddOnLoaded("AuroraClassic") then
 			end
 			hooksecurefunc("L_UIDropDownMenu_AddButton", SkinDDM)
 		end
-]]
+	]]
 		if IsAddOnLoaded("AuctionLite") then
 			F.ReskinArrow(BuyAdvancedButton, "down")
 			F.ReskinArrow(SellRememberButton, "down")
@@ -387,6 +390,7 @@ if IsAddOnLoaded("AuroraClassic") then
 				tm:SetPoint("LEFT", fac, "RIGHT", 5, -7)
 			end
 		end
-
-	end)
+	end
 end
+
+B:RegisterEvent("PLAYER_ENTERING_WORLD", Reskins)

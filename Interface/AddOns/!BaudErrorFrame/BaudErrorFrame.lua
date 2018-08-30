@@ -21,7 +21,7 @@ function BaudErrorFrame_OnLoad(self)
 			BaudErrorFrame:Show()
 		end
 	end
-	SLASH_BaudErrorFrame1 = "/bauderror"
+	SLASH_BaudErrorFrame1 = "/bef"
 	seterrorhandler(BaudErrorFrameHandler)
 end
 

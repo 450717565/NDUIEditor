@@ -175,7 +175,7 @@ info.onEnter = function(self)
 			GameTooltip:AddDoubleLine(ISLANDS_HEADER, QUEST_COMPLETE, 1,1,1, 1,0,0)
 		else
 			local cur, max = select(4, GetQuestObjectiveInfo(iwqID, 1, false))
-			local stautsText = cur.." / "..max
+			local stautsText = B.Numb(cur).." / "..B.Numb(max)
 			if not cur or not max then stautsText = LFG_LIST_LOADING end
 			GameTooltip:AddDoubleLine(ISLANDS_HEADER, stautsText, 1,1,1, 0,1,0)
 		end

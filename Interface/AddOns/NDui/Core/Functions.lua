@@ -83,10 +83,9 @@ function B:CreateGF(w, h, o, r, g, b, a1, a2)
 end
 
 -- Create Backdrop
-function B:CreateBD(a, s, square)
+function B:CreateBD(a)
 	self:SetBackdrop({
-		bgFile = DB.bdTex, edgeFile = square and DB.bdTex or DB.glowTex, edgeSize = s or 3,
-		insets = {left = s or 3, right = s or 3, top = s or 3, bottom = s or 3},
+		bgFile = DB.bdTex, edgeFile = DB.bdTex, edgeSize = 1.2,
 	})
 	self:SetBackdropColor(0, 0, 0, a or .5)
 	self:SetBackdropBorderColor(0, 0, 0)
@@ -99,13 +98,14 @@ function B:CreateSD(m, s)
 	local frame = self
 	if self:GetObjectType() == "Texture" then frame = self:GetParent() end
 	local lvl = frame:GetFrameLevel()
+	if not m then m, s = 2, 3 end
 
 	self.Shadow = CreateFrame("Frame", nil, frame)
 	self.Shadow:SetPoint("TOPLEFT", self, -m, m)
 	self.Shadow:SetPoint("BOTTOMRIGHT", self, m, -m)
 	self.Shadow:SetBackdrop({edgeFile = DB.glowTex, edgeSize = s})
 	self.Shadow:SetBackdropBorderColor(0, 0, 0, 1)
-	self.Shadow:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
+	self.Shadow:SetFrameLevel(lvl == 0 and 0 or lvl - 1)
 
 	return self.Shadow
 end
@@ -120,7 +120,7 @@ function B:CreateBG(offset)
 	local bg = CreateFrame("Frame", nil, frame)
 	bg:SetPoint("TOPLEFT", self, -offset, offset)
 	bg:SetPoint("BOTTOMRIGHT", self, offset, -offset)
-	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
+	bg:SetFrameLevel(lvl == 0 and 0 or lvl - 1)
 	return bg
 end
 
@@ -189,6 +189,9 @@ function B:CreateBC(a)
 	if self.LeftSeparator then self.LeftSeparator:Hide() end
 	if self.RightSeparator then self.RightSeparator:Hide() end
 
+	B.CreateBD(self, a)
+	B.CreateSD(self)
+
 	self:SetScript("OnEnter", function()
 		self:SetBackdropBorderColor(cr, cg, cb, 1)
 	end)
@@ -209,12 +212,13 @@ function B:CreateCB(a)
 	self:SetPushedTexture("")
 	self:SetHighlightTexture(DB.bdTex)
 	local hl = self:GetHighlightTexture()
-	hl:SetPoint("TOPLEFT", 6, -6)
-	hl:SetPoint("BOTTOMRIGHT", -6, 6)
+	hl:SetPoint("TOPLEFT", 5, -5)
+	hl:SetPoint("BOTTOMRIGHT", -5, 5)
 	hl:SetVertexColor(cr, cg, cb, .25)
 
 	local bd = B.CreateBG(self, -4)
-	B.CreateBD(bd, a, 2)
+	B.CreateBD(bd, a)
+	B.CreateSD(bd)
 
 	local ch = self:GetCheckedTexture()
 	ch:SetDesaturated(true)
@@ -472,7 +476,6 @@ end
 function B:CreateButton(width, height, text, fontSize)
 	local bu = CreateFrame("Button", nil, self)
 	bu:SetSize(width, height)
-	B.CreateBD(bu, .3)
 	B.CreateBC(bu)
 	bu.text = B.CreateFS(bu, fontSize or 14, text, true)
 
@@ -481,7 +484,7 @@ end
 
 function B:CreateCheckBox()
 	local cb = CreateFrame("CheckButton", nil, self, "InterfaceOptionsCheckButtonTemplate")
-	B.CreateCB(cb)
+	B.CreateCB(cb, .3)
 
 	cb.Type = "CheckBox"
 	return cb
@@ -494,6 +497,7 @@ function B:CreateEditBox(width, height)
 	eb:SetTextInsets(10, 10, 0, 0)
 	eb:SetFontObject(GameFontHighlight)
 	B.CreateBD(eb, .3)
+	B.CreateSD(eb)
 	eb:SetScript("OnEscapePressed", function()
 		eb:ClearFocus()
 	end)
@@ -509,6 +513,7 @@ function B:CreateDropDown(width, height, data)
 	local dd = CreateFrame("Frame", nil, self)
 	dd:SetSize(width, height)
 	B.CreateBD(dd, .3)
+	B.CreateSD(dd)
 	dd.Text = B.CreateFS(dd, 14, "")
 	dd.options = {}
 
@@ -523,7 +528,8 @@ function B:CreateDropDown(width, height, data)
 	bu:GetHighlightTexture():SetTexCoord(0, .5, 0, .5)
 	local list = CreateFrame("Frame", nil, dd)
 	list:SetPoint("TOP", dd, "BOTTOM")
-	B.CreateBD(list, .7)
+	B.CreateBD(list, 1)
+	B.CreateSD(list)
 	bu:SetScript("OnShow", function() list:Hide() end)
 	bu:SetScript("OnClick", function()
 		PlaySound(SOUNDKIT.GS_TITLE_OPTION_OK)
@@ -548,7 +554,7 @@ function B:CreateDropDown(width, height, data)
 	end
 	local function optOnEnter(self)
 		if self.selected then return end
-		self:SetBackdropColor(1, 1, 1, .3)
+		self:SetBackdropColor(1, 1, 1, .25)
 	end
 	local function optOnLeave(self)
 		if self.selected then return end
@@ -557,9 +563,11 @@ function B:CreateDropDown(width, height, data)
 
 	for i, j in pairs(data) do
 		opt[i] = CreateFrame("Button", nil, list)
-		opt[i]:SetPoint("TOPLEFT", 5, -5 - (i-1)*height)
-		opt[i]:SetSize(width - 10, height)
+		opt[i]:SetPoint("TOPLEFT", 4, -4 - (i-1)*(height+2))
+		opt[i]:SetSize(width - 8, height)
 		B.CreateBD(opt[i], .3)
+		B.CreateSD(opt[i])
+		opt[i]:SetBackdropBorderColor(1, 1, 1, .2)
 		B.CreateFS(opt[i], 14, j, false, "LEFT", 5, 0)
 		opt[i].text = j
 		opt[i]:SetScript("OnClick", optOnClick)
@@ -569,7 +577,7 @@ function B:CreateDropDown(width, height, data)
 		dd.options[i] = opt[i]
 		index = index + 1
 	end
-	list:SetSize(width, index*height + 10)
+	list:SetSize(width, index*(height+2) + 6)
 
 	dd.Type = "DropDown"
 	return dd

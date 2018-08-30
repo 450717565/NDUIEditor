@@ -24,7 +24,7 @@ C.Auras = {
 	RaidDebuffPos			= {"BOTTOMLEFT", UIParent, "CENTER", 200, 200},	-- 团队减益分组
 	SpellCDPos				= {"LEFT", UIParent, "LEFT", 5, -30},				-- 技能冷却计时分组
 	EnchantCDPos			= {"LEFT", UIParent, "LEFT", 200, -30},			-- 物品冷却计时分组
-	InternalCDPos			= {"BOTTOMLEFT", UIParent, "CENTER", 499, -210},	-- 法术内置冷却分组
+	InternalCDPos			= {"BOTTOMLEFT", UIParent, "CENTER", 495, -202},	-- 法术内置冷却分组
 }
 
 -- 头像相关
@@ -61,7 +61,7 @@ C.Minimap = {
 -- 美化及皮肤
 C.Skins = {
 	MicroMenuPos	= {"BOTTOM", UIParent, "BOTTOM", 0, 1},				-- 微型菜单默认坐标
-	RMPos			= {"TOP", UIParent, "TOP", 0, 0},						-- 团队工具默认坐标
+	RMPos			= {"TOP", UIParent, "TOP", 0, -2},						-- 团队工具默认坐标
 }
 
 -- 鼠标提示框

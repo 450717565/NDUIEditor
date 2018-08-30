@@ -14,6 +14,7 @@ end
 	SoloInfo是一个告知你当前副本难度的小工具，防止我有时候单刷时进错难度了，同时切换团队也会提示。
 	instList左侧是副本ID，你可以使用"/getid"命令来获取当前副本的ID；右侧的是副本难度，常用的一般是：2为5H，4为25普通，6为25H。
 ]]
+
 function module:SoloInfo()
 	if not NDuiDB["Misc"]["SoloInfo"] then return end
 
@@ -29,6 +30,7 @@ function module:SoloInfo()
 	f:SetSize(200, 70)
 	f:Hide()
 	B.CreateBD(f)
+	B.CreateSD(f)
 	B.CreateTex(f)
 	f.Text = B.CreateFS(f, 12, "")
 	f.Text:SetWordWrap(true)

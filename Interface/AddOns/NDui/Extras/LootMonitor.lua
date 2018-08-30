@@ -16,10 +16,11 @@ local LMFrame_Title = B.CreateFS(LMFrame, Button_Height-2, L["LootMonitor"], tru
 local LMFrame_Info = B.CreateFS(LMFrame, Button_Height-2, L["LootMonitor Info"], true, "BOTTOMLEFT", 10, 10)
 B.CreateMF(LMFrame)
 B.CreateBD(LMFrame)
+B.CreateSD(LMFrame)
 B.CreateTex(LMFrame)
 LMFrame:SetFrameStrata("HIGH")
 LMFrame:SetClampedToScreen(true)
-LMFrame:SetPoint("LEFT")
+LMFrame:SetPoint("LEFT", 4, 0)
 
 local function UnitClassColor(String)
 	if not UnitExists(String) then return string.format("|cffff0000%s|r", String) end

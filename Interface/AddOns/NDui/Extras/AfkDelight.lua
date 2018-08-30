@@ -4,13 +4,7 @@
 -- Changelog
 -- Toc push for 7.3
 -- end changelog
-
--- Start --
-
-local A, L = ...
-L.addonName = A
-
--- end --
+local B, C, L, DB = unpack(select(2, ...))
 
 -- the actual frame
 local f = CreateFrame("Frame",nil,UIParent)
@@ -22,7 +16,6 @@ f:SetAlpha(0)
 f:Hide()
 
 -- frame when /afk is initiated
-
 function f:Enable()
 	if self.isActive then return end
 	self.isActive = true
@@ -125,15 +118,9 @@ f.gradient4:SetPoint("BOTTOMRIGHT",f)
 f.gradient4:SetWidth(50)
 
 -- close button at bottom left incase /afk bugs out
-local button = CreateFrame("Button", A.."Button", f.model, "UIPanelButtonTemplate")
-button.text = _G[button:GetName().."Text"]
-button.text:SetText(AFK)
-button:SetWidth(button.text:GetStringWidth()+20)
-button:SetHeight(button.text:GetStringHeight()+12)
-button:SetPoint("BOTTOMLEFT",f,10,10)
-button:HookScript("OnClick", function(self)
-	f:Disable()
-end)
+local button = B.CreateButton(f.model, 40, 20, AFK)
+button:SetPoint("BOTTOMLEFT", f, 20, 20)
+button:SetScript("OnClick", function() f:Disable() end)
 
 -- on event start
 f:SetScript("OnEvent",f.OnEvent)
@@ -143,8 +130,3 @@ f:RegisterEvent("PLAYER_ENTERING_WORLD")
 f:RegisterEvent("PLAYER_FLAGS_CHANGED")
 f:RegisterEvent("PLAYER_LEAVING_WORLD")
 f:RegisterEvent("PLAYER_LOGIN")
-
--- NDui Reskin
-local B, C, L, DB = unpack(select(2, ...))
-B.CreateBC(button)
-B.CreateBD(button, .3)

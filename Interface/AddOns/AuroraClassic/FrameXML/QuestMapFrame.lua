@@ -32,7 +32,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		header.HighlightTexture:Hide()
 
 		local bg = F.CreateBDFrame(header, .25)
-		bg:SetPoint("TOPLEFT", 0, -10)
+		bg:SetPoint("TOPLEFT", 2, -10)
 		bg:SetPoint("BOTTOMRIGHT", -5, 0)
 		if header == campaignHeader then
 			local newTex = bg:CreateTexture(nil, "OVERLAY")

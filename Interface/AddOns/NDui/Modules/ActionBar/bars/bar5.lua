@@ -16,7 +16,7 @@ function Bar:CreateBar5()
 	if layout == 1 or layout == 4 or layout == 5 then
 		frame.Pos = {"RIGHT", NDui_ActionBar4, "LEFT", 2, 0}
 	else
-		frame.Pos = {"RIGHT", UIParent, "RIGHT", -1, 0}
+		frame.Pos = {"RIGHT", UIParent, "RIGHT", -1, 5}
 	end
 	frame:SetScale(NDuiDB["Actionbar"]["Scale"])
 

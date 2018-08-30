@@ -32,16 +32,18 @@ tinsert(C.themes["AuroraClassic"], function()
 		CompactRaidFrameManagerDisplayFrameFilterOptionsFilterGroup8,
 		CompactRaidFrameManagerDisplayFrameLeaderOptionsInitiateRolePoll,
 		CompactRaidFrameManagerDisplayFrameLeaderOptionsInitiateReadyCheck,
+		CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton,
 		CompactRaidFrameManagerDisplayFrameLockedModeToggle,
 		CompactRaidFrameManagerDisplayFrameHiddenModeToggle,
 		CompactRaidFrameManagerDisplayFrameConvertToRaid
 	}
 	for _, button in pairs(buttons) do
 		for i = 1, 9 do
-			select(i, button:GetRegions()):SetAlpha(0)
+			select(i, button:GetRegions()):Hide()
 		end
 		F.Reskin(button)
 	end
+	CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:SetNormalTexture("Interface\\RaidFrame\\Raid-WorldPing")
 
 	for i = 1, 8 do
 		select(i, CompactRaidFrameManager:GetRegions()):SetAlpha(0)

@@ -22,7 +22,7 @@ function Bar:CreateBar4()
 	else
 		frame:SetWidth(cfg.size + 2*padding)
 		frame:SetHeight(num*cfg.size + (num-1)*margin + 2*padding)
-		frame.Pos = {"RIGHT", UIParent, "RIGHT", -1, 0}
+		frame.Pos = {"RIGHT", UIParent, "RIGHT", -1, 5}
 	end
 	frame:SetScale(NDuiDB["Actionbar"]["Scale"])
 
