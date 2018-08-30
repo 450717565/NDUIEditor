@@ -231,12 +231,8 @@ end)
 
 -- Tooltip statusbars
 do
-	GameTooltipStatusBar:SetStatusBarTexture(DB.normTex)
 	GameTooltipStatusBar:SetHeight(5)
-	local bg = B.CreateBG(GameTooltipStatusBar, 1)
-	B.CreateBD(bg, .7)
-	B.CreateSD(bg)
-	B.CreateTex(bg)
+	B.CreateSB(GameTooltipStatusBar)
 end
 
 GameTooltipStatusBar:SetScript("OnValueChanged", function(self, value)

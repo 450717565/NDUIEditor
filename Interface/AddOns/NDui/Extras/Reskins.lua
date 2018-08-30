@@ -308,18 +308,6 @@ local function Reskins()
 			F.ReskinScroll(SimcCopyFrameScrollScrollBar)
 		end
 
-		if IsAddOnLoaded("TinyInspect") then
-			for i = 1, 9 do
-				select(i, TinyInspectRaidFrame:GetRegions()):Hide()
-				select(i, TinyInspectRaidFrame.panel:GetRegions()):Hide()
-			end
-
-			F.CreateBD(TinyInspectRaidFrame)
-			F.CreateSD(TinyInspectRaidFrame)
-			F.CreateBD(TinyInspectRaidFrame.panel)
-			F.CreateSD(TinyInspectRaidFrame.panel)
-		end
-
 		if IsAddOnLoaded("WhisperPop") then
 			F.CreateBD(WhisperPopFrame)
 			F.CreateSD(WhisperPopFrame)

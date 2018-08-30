@@ -32,7 +32,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		CompactRaidFrameManagerDisplayFrameFilterOptionsFilterGroup8,
 		CompactRaidFrameManagerDisplayFrameLeaderOptionsInitiateRolePoll,
 		CompactRaidFrameManagerDisplayFrameLeaderOptionsInitiateReadyCheck,
-		CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton,
+		--CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton,
 		CompactRaidFrameManagerDisplayFrameLockedModeToggle,
 		CompactRaidFrameManagerDisplayFrameHiddenModeToggle,
 		CompactRaidFrameManagerDisplayFrameConvertToRaid
@@ -43,7 +43,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 		F.Reskin(button)
 	end
-	CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:SetNormalTexture("Interface\\RaidFrame\\Raid-WorldPing")
+	--CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:SetNormalTexture("Interface\\RaidFrame\\Raid-WorldPing")
 
 	for i = 1, 8 do
 		select(i, CompactRaidFrameManager:GetRegions()):SetAlpha(0)

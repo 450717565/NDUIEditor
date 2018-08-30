@@ -1,6 +1,8 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_OrderHallUI"] = function()
+	local r, g, b = C.r, C.g, C.b
+
 	-- Orderhall tooltips
 	if AuroraConfig.tooltips then
 		GarrisonFollowerAbilityWithoutCountersTooltip:DisableDrawLayer("BACKGROUND")
@@ -44,7 +46,7 @@ C.themes["Blizzard_OrderHallUI"] = function()
 				end
 
 				if bu.talent.selected then
-					bu.bg:SetBackdropBorderColor(1, 1, 0)
+					bu.bg:SetBackdropBorderColor(r, g, b)
 				else
 					bu.bg:SetBackdropBorderColor(0, 0, 0)
 				end

@@ -622,6 +622,7 @@ local list = {
 		{AuraID = 247915, UnitID = "target"},--黑暗滋生，鲁拉
 		{AuraID = 254020, UnitID = "target"},--黑暗笼罩，鲁拉
 		{AuraID = 256493, UnitID = "target"},--炽燃的艾泽里特
+		{AuraID = 267901, UnitID = "target"},--铁墙祝福
 	-->翡翠梦魇
 		{AuraID = 215234, UnitID = "target"},--梦魇之怒
 		{AuraID = 211137, UnitID = "target"},--腐溃之风

@@ -197,10 +197,8 @@ function module:CreateRM()
 	marker:SetSize(28, 28)
 	B.CreateTex(marker)
 	B.CreateBC(marker, .5)
-	if not IsAddOnLoaded("AuroraClassic") then
-		for i = 1, 9 do
-			select(i, marker:GetRegions()):Hide()
-		end
+	for i = 1, 9 do
+		select(i, marker:GetRegions()):Hide()
 	end
 	marker:SetNormalTexture("Interface\\RaidFrame\\Raid-WorldPing")
 	marker:GetNormalTexture():SetVertexColor(DB.CC.r, DB.CC.g, DB.CC.b)

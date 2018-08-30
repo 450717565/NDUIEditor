@@ -114,7 +114,7 @@ local defaultSettings = {
 		InsideView = true,
 		QuestIcon = true,
 		MinAlpha = .8,
-		Distance = 42,
+		Distance = 40,
 		Width = 100,
 		Height = 5,
 		CustomUnitColor = true,
@@ -264,7 +264,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Actionbar", "Bar4Fade", L["Bar4 Fade"]},
 		{1, "Actionbar", "Bar5Fade", L["Bar5 Fade"], true},
 		{4, "Actionbar", "Style", L["Actionbar Style"], false, {L["BarStyle1"], L["BarStyle2"], L["BarStyle3"], L["BarStyle4"], L["BarStyle5"]}},
-		{3, "Actionbar", "Scale", L["Actionbar Scale"], true, {.8, 1.5, 1}},
+		{3, "Actionbar", "Scale", L["Actionbar Scale"], true, {.5, 1.5, 1}},
 		{},--blank
 		{1, "Actionbar", "Hotkeys", L["Actionbar Hotkey"]},
 		{1, "Actionbar", "Macro", L["Actionbar Macro"], true},
@@ -304,7 +304,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "UFs", "SmoothColor", L["Smoothcolor HpBar"], true},
 		{1, "UFs", "PlayerDebuff", L["Player Debuff"]},
 		{1, "UFs", "ToTAuras", L["ToT Debuff"]},
-		{3, "UFs", "HeightScale", L["UFs HeightScale"], true, {.8, 1.5, 1}},
+		{3, "UFs", "HeightScale", L["UFs HeightScale"], true, {.5, 1.5, 1}},
 		{},--blank
 		{1, "UFs", "CombatText", "|cff00cc4c"..L["UFs CombatText"]},
 		{1, "UFs", "HotsDots", L["CombatText HotsDots"]},
@@ -323,7 +323,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "UFs", "SpecRaidPos", L["Spec RaidPos"]},
 		{1, "UFs", "RaidClassColor", L["ClassColor RaidFrame"], true},
 		{3, "UFs", "NumGroups", L["Num Groups"], false, {4, 8, 0}},
-		{3, "UFs", "RaidScale", L["RaidFrame Scale"], true, {.8, 1.5, 1}},
+		{3, "UFs", "RaidScale", L["RaidFrame Scale"], true, {.5, 1.5, 1}},
 		{},--blank
 		{1, "UFs", "AurasClickThrough", L["RaidAuras ClickThrough"]},
 		{1, "UFs", "DebuffBorder", L["Auras Border"], true},
@@ -336,21 +336,21 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 	[5] = {
 		{1, "Nameplate", "Enable", "|cff00cc4c"..L["Enable Nameplate"]},
 		{},--blank
-		{1, "Nameplate", "ColorBorder", L["Auras Border"]},
-		{1, "Nameplate", "AllAuras", L["Show All Auras"], true},
-		{3, "Nameplate", "maxAuras", L["Max Auras"], false, {0, 12, 0}},
-		{3, "Nameplate", "AutoPerRow", L["Auto Per Row"], true, {3, 6, 0}},
-		{},--blank
 		{1, "Nameplate", "CustomUnitColor", "|cff00cc4c"..L["CustomUnitColor"]},
 		{1, "Nameplate", "ShowUnitPower", "|cff70c0f5"..L["ShowUnitPower"], true},
 		{2, "Nameplate", "UnitList", L["UnitColor List"]},
 		{2, "Nameplate", "ShowPowerList", L["ShowPowerList"], true},
+		{},--blank
+		{1, "Nameplate", "ColorBorder", L["Auras Border"]},
+		{1, "Nameplate", "AllAuras", L["Show All Auras"], true},
+		{3, "Nameplate", "maxAuras", L["Max Auras"], false, {0, 12, 0}},
+		{3, "Nameplate", "AutoPerRow", L["Auto Per Row"], true, {3, 6, 0}},
 		{1, "Nameplate", "FriendlyCC", L["Friendly CC"]},
 		{1, "Nameplate", "HostileCC", L["Hostile CC"], true},
 		{1, "Nameplate", "TankMode", L["Tank Mode"]},
 		{1, "Nameplate", "Arrow", L["Show Arrow"], true},
-		{1, "Nameplate", "InsideView", L["Nameplate InsideView"]},
-		{1, "Nameplate", "QuestIcon", L["Nameplate QuestIcon"], true},
+		{1, "Nameplate", "QuestIcon", L["Nameplate QuestIcon"]},
+		{1, "Nameplate", "InsideView", L["Nameplate InsideView"], true},
 		{3, "Nameplate", "VerticalSpacing", L["NP VerticalSpacing"], false, {.5, 1.5, 1}},
 		{3, "Nameplate", "Distance", L["Nameplate Distance"], true, {20, 100, 0}},
 		{3, "Nameplate", "Width", L["NP Width"], false, {50, 150, 0}},
@@ -360,7 +360,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 	[6] = {
 		{1, "AuraWatch", "Enable", "|cff00cc4c"..L["Enable AuraWatch"]},
 		{1, "AuraWatch", "ClickThrough", L["AuraWatch ClickThrough"]},
-		{3, "AuraWatch", "IconScale", L["AuraWatch IconScale"], false, {.8, 2, 1}},
+		{3, "AuraWatch", "IconScale", L["AuraWatch IconScale"], false, {.5, 1.5, 1}},
 		{},--blank
 		{1, "Auras", "Statue", L["Enable Statue"]},
 		{1, "Auras", "Totems", L["Enable Totems"], true},
@@ -418,8 +418,8 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Map", "WhoPings", L["Show WhoPings"]},
 		{1, "Misc", "ExpRep", L["Show Expbar"], true},
 		{},--blank
-		{3, "Map", "MapScale", L["Map Scale"], false, {1, 2, 1}},
-		{3, "Map", "MinmapScale", L["Minimap Scale"], true, {1, 2, 1}},
+		{3, "Map", "MapScale", L["Map Scale"], false, {.5, 1.5, 1}},
+		{3, "Map", "MinmapScale", L["Minimap Scale"], true, {.5, 1.5, 1}},
 	},
 	[10] = {
 		{1, "Skins", "BarLine", L["Bar Line"]},

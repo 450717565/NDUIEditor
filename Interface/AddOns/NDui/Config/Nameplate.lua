@@ -12,6 +12,7 @@ C.WhiteList = {
 	-- Debuffs
 	[2094]		= true,		-- 致盲
 	-- Dungeons
+	[260792]	= true,		-- 尘土云
 	[268186]	= true,		-- 强化结界
 	[263246]	= true,		-- 闪电之盾
 	[260416]	= true,		-- 蜕变

@@ -263,15 +263,8 @@ function UF:CreateCastBar(self)
 	if self.mystyle ~= "nameplate" and not NDuiDB["UFs"]["Castbars"] then return end
 
 	local cb = CreateFrame("StatusBar", "oUF_Castbar"..self.mystyle, self)
-	cb:SetHeight(20)
-	cb:SetWidth(self:GetWidth() - 22)
-	cb:SetStatusBarTexture(DB.normTex)
 	cb:SetFrameLevel(1)
-
-	local bg = B.CreateBG(cb)
-	B.CreateBD(bg)
-	B.CreateSD(bg)
-	B.CreateTex(bg)
+	B.CreateSB(cb, true)
 
 	if self.mystyle == "player" then
 		cb:SetSize(unpack(C.UFs.PlayercbSize))
@@ -287,7 +280,7 @@ function UF:CreateCastBar(self)
 		cb:SetSize(self:GetWidth(), 10)
 	elseif self.mystyle == "nameplate" then
 		cb:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, -5)
-		cb:SetSize(self:GetWidth(), 5)
+		cb:SetSize(self:GetWidth(), self:GetHeight())
 	end
 
 	cb.CastingColor = {.3, .7, 1}
@@ -295,12 +288,6 @@ function UF:CreateCastBar(self)
 	cb.notInterruptibleColor = {1, .5, .5}
 	cb.CompleteColor = {.1, .8, 0}
 	cb.FailColor = {1, .1, 0}
-
-	local spark = cb:CreateTexture(nil, "OVERLAY")
-	spark:SetBlendMode("ADD")
-	spark:SetAlpha(0.5)
-	spark:SetHeight(cb:GetHeight()*2.5)
-	cb.Spark = spark
 
 	local timer = B.CreateFS(cb, retVal(self, 12, 12, 12, 10), "", false, "RIGHT", -2, 0)
 	cb.Time = timer
@@ -321,16 +308,12 @@ function UF:CreateCastBar(self)
 	if self.mystyle == "player" then
 		local safe = cb:CreateTexture(nil,"OVERLAY")
 		safe:SetTexture(DB.normTex)
-		safe:SetVertexColor(1, 0.1, 0, .6)
+		safe:SetVertexColor(1, .1, 0, .6)
 		safe:SetPoint("TOPRIGHT")
 		safe:SetPoint("BOTTOMRIGHT")
 		cb:SetFrameLevel(10)
 		cb.SafeZone = safe
 
-		local lag = B.CreateFS(cb, 10, "", false, "CENTER", -2, 17)
-		lag:SetJustifyH("RIGHT")
-		lag:Hide()
-		cb.Lag = lag
 		self:RegisterEvent("CURRENT_SPELL_CAST_CHANGED", cast.OnCastSent)
 	elseif self.mystyle == "nameplate" then
 		name:SetPoint("LEFT", cb, "BOTTOMLEFT", 0, -3)
@@ -702,12 +685,11 @@ end
 
 function UF:CreateAltPower(self)
 	local bar = CreateFrame("StatusBar", nil, self)
-	bar:SetStatusBarTexture(DB.normTex)
 	bar:SetPoint("TOP", self.Power, "BOTTOM", 0, -3)
 	bar:SetSize(self:GetWidth(), self.Power:GetHeight())
-	B.CreateSD(bar, 3, 3)
+	B.CreateSB(bar)
 
-	local text = B.CreateFS(bar, 14, "")
+	local text = B.CreateFS(bar, 12, "")
 	text:SetJustifyH("CENTER")
 	self:Tag(text, "[altpower]")
 

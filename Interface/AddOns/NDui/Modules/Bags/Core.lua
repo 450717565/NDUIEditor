@@ -91,7 +91,7 @@ function module:OnLogin()
 		self.Count:SetPoint("BOTTOMRIGHT", 0, 0)
 		self.Count:SetFont(unpack(DB.Font))
 
-		self.BG = B.CreateBG(self, 1.2)
+		self.BG = B.CreateBG(self)
 		B.CreateBD(self.BG, .3)
 		B.CreateSD(self.BG)
 
