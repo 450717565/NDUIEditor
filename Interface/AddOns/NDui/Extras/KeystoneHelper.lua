@@ -1,7 +1,8 @@
 local B, C, L, DB = unpack(select(2, ...))
 
-local MythicLootItemLevel = {  0, 345, 345, 350, 355, 355, 360, 365, 365, 370}
-local WeeklyLootItemLevel = {  0, 355, 355, 360, 360, 365, 370, 370, 375, 380}
+local MythicLootItemLevel =  {  0, 345, 345, 350, 355, 355, 360, 365, 365, 370}
+local WeeklyLootItemLevel =  {  0, 355, 355, 360, 360, 365, 370, 370, 375, 380}
+local WeeklyArmorItemLevel = {  0, 340, 340, 355, 355, 355, 370, 370, 370, 385}
 
 local function GetModifiers(linkType, ...)
 	if type(linkType) ~= "string" then return end
@@ -49,6 +50,7 @@ local function DecorateTooltip(self)
 		local modifiers, instanceID, mythicLevel = GetModifiers(strsplit(":", link))
 		local ilvl = MythicLootItemLevel[mythicLevel]
 		local wlvl = WeeklyLootItemLevel[mythicLevel]
+		local alvl = WeeklyArmorItemLevel[mythicLevel]
 		if modifiers then
 			self:AddLine(" ")
 			for _, modifierID in ipairs(modifiers) do
@@ -62,6 +64,7 @@ local function DecorateTooltip(self)
 			self:AddLine(" ")
 			self:AddLine("|cff00ffff"..L["Mythic Loot Item Level"]..ilvl.."+|r")
 			self:AddLine("|cff00ffff"..L["Weekly Loot Item Level"]..wlvl.."+|r")
+			self:AddLine("|cff00ffff"..L["Weekly Armor Item Level"]..alvl.."|r")
 		end
 		if modifiers or mythicLevel then
 			self:Show()

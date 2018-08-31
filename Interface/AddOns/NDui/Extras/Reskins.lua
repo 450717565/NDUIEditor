@@ -23,6 +23,19 @@ local function Reskins()
 		end
 	end
 
+	if IsAddOnLoaded("PremadeGroupsFilter") then
+		local rebtn = LFGListFrame.SearchPanel.RefreshButton
+		UsePFGButton:SetSize(32, 32)
+		UsePFGButton:ClearAllPoints()
+		UsePFGButton:SetPoint("RIGHT", rebtn, "LEFT", -55, 0)
+		UsePFGButton.text:SetText(FILTER)
+		UsePFGButton.text:SetWidth(UsePFGButton.text:GetStringWidth()+2)
+
+		local dialog = PremadeGroupsFilterDialog
+		dialog.Defeated.Title:ClearAllPoints()
+		dialog.Defeated.Title:SetPoint("LEFT", dialog.Defeated.Act, "RIGHT", 12, 0)
+	end
+
 	if IsAddOnLoaded("AuroraClassic") then
 		local F, C = unpack(AuroraClassic)
 		local r, g, b = C.r, C.g, C.b
@@ -162,6 +175,47 @@ local function Reskins()
 		if IsAddOnLoaded("Immersion") then
 			local talkbox = ImmersionFrame.TalkBox.MainFrame
 			F.ReskinClose(talkbox.CloseButton, "TOPRIGHT", talkbox, "TOPRIGHT", -20, -20)
+		end
+
+		if IsAddOnLoaded("ExtVendor") then
+			MerchantFrameSearchBox:SetHeight(22)
+			F.ReskinInput(MerchantFrameSearchBox)
+
+			MerchantFrameSellJunkButtonIcon:SetTexCoord(.08, .92, .08, .92)
+			F.CreateBDFrame(MerchantFrameSellJunkButton)
+
+			F.Reskin(MerchantFrameFilterButton)
+
+			for i = 13, 20 do
+				_G["MerchantItem"..i.."SlotTexture"]:Hide()
+				_G["MerchantItem"..i.."NameFrame"]:Hide()
+				_G["MerchantItem"..i.."Name"]:SetHeight(20)
+
+				local button = _G["MerchantItem"..i]
+				button.bd = CreateFrame("Frame", nil, button)
+				button.bd:SetPoint("TOPLEFT", 39, 0)
+				button.bd:SetPoint("BOTTOMRIGHT")
+				button.bd:SetFrameLevel(0)
+				F.CreateBD(button.bd, .25)
+				F.CreateSD(button.bd)
+
+				local mo = _G["MerchantItem"..i.."MoneyFrame"]
+				local a3, p2, a4, x, y = mo:GetPoint()
+				mo:SetPoint(a3, p2, a4, x+1, y+4)
+
+				local bu = _G["MerchantItem"..i.."ItemButton"]
+				local a1, p, a2 = bu:GetPoint()
+				bu:SetPoint(a1, p, a2, -4, -2)
+				bu:SetNormalTexture("")
+				bu:SetPushedTexture("")
+				bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
+				bu:SetSize(40, 40)
+				bu.IconBorder:SetAlpha(0)
+				F.CreateBDFrame(bu, 0)
+
+				local ic = bu.icon
+				ic:SetTexCoord(.08, .92, .08, .92)
+			end
 		end
 
 		if IsAddOnLoaded("ls_Toasts") then
@@ -306,6 +360,35 @@ local function Reskins()
 			F.CreateSD(SimcCopyFrame)
 			F.Reskin(SimcCopyFrameButton)
 			F.ReskinScroll(SimcCopyFrameScrollScrollBar)
+		end
+
+		if IsAddOnLoaded("PremadeGroupsFilter") then
+			local dialog = PremadeGroupsFilterDialog
+			F.StripTextures(dialog, true)
+			F.StripTextures(dialog.Advanced, true)
+			F.StripTextures(dialog.Expression, true)
+			F.CreateBD(dialog)
+			F.CreateSD(dialog)
+			F.CreateBD(dialog.Expression)
+			F.CreateSD(dialog.Expression)
+			F.ReskinClose(dialog.CloseButton)
+			F.Reskin(dialog.ResetButton)
+			F.Reskin(dialog.RefreshButton)
+			F.ReskinDropDown(dialog.Difficulty.DropDown)
+			F.ReskinCheck(UsePFGButton)
+
+			local buttons = {dialog.Defeated.Act, dialog.Difficulty.Act, dialog.Dps.Act, dialog.Heals.Act, dialog.Ilvl.Act, dialog.Members.Act, dialog.Noilvl.Act, dialog.Tanks.Act}
+			for _, button in next, buttons do
+				local p1, p2, p3, _, _ = button:GetPoint()
+				button:SetPoint(p1, p2, p3, 0, -3)
+				button:SetSize(24, 24)
+				F.ReskinCheck(button)
+			end
+
+			local inputs = {dialog.Defeated.Min, dialog.Dps.Min, dialog.Heals.Min, dialog.Ilvl.Min, dialog.Members.Min, dialog.Tanks.Min, dialog.Defeated.Max, dialog.Dps.Max, dialog.Heals.Max, dialog.Ilvl.Max, dialog.Members.Max, dialog.Tanks.Max}
+			for _, input in next, inputs do
+				F.ReskinInput(input)
+			end
 		end
 
 		if IsAddOnLoaded("WhisperPop") then

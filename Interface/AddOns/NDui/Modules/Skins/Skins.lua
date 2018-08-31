@@ -99,7 +99,6 @@ function module:OnLogin()
 	self:PetBattleUI()
 
 	self:DBMSkin()
-	self:ExtraCDSkin()
 	self:SkadaSkin()
 	self:BigWigsSkin()
 end

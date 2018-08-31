@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2154, "DBM-Party-BfA", 4, 1001)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17743 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17751 $"):sub(12, -3))
 mod:SetCreatureID(134063, 134058)
 mod:SetEncounterID(2131)
 mod:SetZone()
@@ -25,7 +25,7 @@ local specWarnSwiftnessWardT		= mod:NewSpecialWarningMove(267891, nil, nil, nil,
 local specWarnSwiftnessWard			= mod:NewSpecialWarningMoveTo(267891, nil, nil, nil, 1, 2)
 local specWarnSlicingBlast			= mod:NewSpecialWarningInterrupt(267818, true, nil, 3, 1, 2)
 local specWarnHinderingCleave		= mod:NewSpecialWarningDefensive(267899, "Tank", nil, nil, 1, 2)
-local specWarnBlessingofIronsides	= mod:NewSpecialWarningRun(267901, nil, nil, nil, 4, 2)
+local specWarnBlessingofIronsides	= mod:NewSpecialWarningRun(267901, "Tank", nil, 2, 4, 2)
 --local yellSwirlingScythe			= mod:NewYell(195254)
 --local specWarnGTFO				= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
 

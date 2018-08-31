@@ -54,6 +54,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	OpenMailLetterButton:SetNormalTexture("")
 	OpenMailLetterButton:SetPushedTexture("")
+	OpenMailLetterButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 	OpenMailLetterButtonIconTexture:SetTexCoord(.08, .92, .08, .92)
 
 	for i = 1, 2 do
