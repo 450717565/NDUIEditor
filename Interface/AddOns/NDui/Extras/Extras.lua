@@ -1,7 +1,5 @@
 local B, C, L, DB = unpack(select(2, ...))
 
---- 测试更新器专用3
-
 --- 共享计量条材质
 do
 	local media = LibStub("LibSharedMedia-3.0")
