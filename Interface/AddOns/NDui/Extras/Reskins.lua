@@ -29,11 +29,11 @@ local function Reskins()
 		UsePFGButton:ClearAllPoints()
 		UsePFGButton:SetPoint("RIGHT", rebtn, "LEFT", -55, 0)
 		UsePFGButton.text:SetText(FILTER)
-		UsePFGButton.text:SetWidth(UsePFGButton.text:GetStringWidth()+2)
+		UsePFGButton.text:SetWidth(UsePFGButton.text:GetStringWidth())
 
 		local dialog = PremadeGroupsFilterDialog
 		dialog.Defeated.Title:ClearAllPoints()
-		dialog.Defeated.Title:SetPoint("LEFT", dialog.Defeated.Act, "RIGHT", 12, 0)
+		dialog.Defeated.Title:SetPoint("LEFT", dialog.Defeated.Act, "RIGHT", 2, 0)
 	end
 
 	if IsAddOnLoaded("AuroraClassic") then
@@ -187,34 +187,37 @@ local function Reskins()
 			F.Reskin(MerchantFrameFilterButton)
 
 			for i = 13, 20 do
-				_G["MerchantItem"..i.."SlotTexture"]:Hide()
-				_G["MerchantItem"..i.."NameFrame"]:Hide()
-				_G["MerchantItem"..i.."Name"]:SetHeight(20)
+				local item = _G["MerchantItem"..i]
+				F.StripTextures(item, true)
+				item.bd = F.CreateBDFrame(item, .25)
+				item.bd:SetPoint("TOPLEFT", 40, 2)
+				item.bd:SetPoint("BOTTOMRIGHT", 0, -2)
 
-				local button = _G["MerchantItem"..i]
-				button.bd = CreateFrame("Frame", nil, button)
-				button.bd:SetPoint("TOPLEFT", 39, 0)
-				button.bd:SetPoint("BOTTOMRIGHT")
-				button.bd:SetFrameLevel(0)
-				F.CreateBD(button.bd, .25)
-				F.CreateSD(button.bd)
+				local button = _G["MerchantItem"..i.."ItemButton"]
+				F.StripTextures(button)
+				button:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
+				button:SetSize(40, 40)
+				button.IconBorder:SetAlpha(0)
+				F.CreateBDFrame(button)
 
-				local mo = _G["MerchantItem"..i.."MoneyFrame"]
-				local a3, p2, a4, x, y = mo:GetPoint()
-				mo:SetPoint(a3, p2, a4, x+1, y+4)
+				local b1, b2, b3 = button:GetPoint()
+				button:SetPoint(b1, b2, b3, -4, -2)
 
-				local bu = _G["MerchantItem"..i.."ItemButton"]
-				local a1, p, a2 = bu:GetPoint()
-				bu:SetPoint(a1, p, a2, -4, -2)
-				bu:SetNormalTexture("")
-				bu:SetPushedTexture("")
-				bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-				bu:SetSize(40, 40)
-				bu.IconBorder:SetAlpha(0)
-				F.CreateBDFrame(bu, 0)
-
-				local ic = bu.icon
+				local ic = button.icon
 				ic:SetTexCoord(.08, .92, .08, .92)
+
+				local name = _G["MerchantItem"..i.."Name"]
+				local n1, n2, n3 = name:GetPoint()
+				name:SetPoint(n1, n2, n3, -10, 5)
+
+				local money = _G["MerchantItem"..i.."MoneyFrame"]
+				local m1, m2, m3, m4, m5 = money:GetPoint()
+				money:SetPoint(m1, m2, m3, m4-2, m5)
+
+				for j = 1, 3 do
+					local acTex = _G["MerchantItem"..i.."AltCurrencyFrameItem"..j.."Texture"]
+					F.ReskinIcon(acTex)
+				end
 			end
 		end
 
@@ -377,9 +380,14 @@ local function Reskins()
 			F.ReskinDropDown(dialog.Difficulty.DropDown)
 			F.ReskinCheck(UsePFGButton)
 
+			dialog.Defeated.Title:ClearAllPoints()
+			dialog.Defeated.Title:SetPoint("LEFT", dialog.Defeated.Act, "RIGHT", 10, 0)
+			dialog.Difficulty.DropDown:ClearAllPoints()
+			dialog.Difficulty.DropDown:SetPoint("RIGHT", dialog.Difficulty, "RIGHT", 13, -3)
+
 			local buttons = {dialog.Defeated.Act, dialog.Difficulty.Act, dialog.Dps.Act, dialog.Heals.Act, dialog.Ilvl.Act, dialog.Members.Act, dialog.Noilvl.Act, dialog.Tanks.Act}
 			for _, button in next, buttons do
-				local p1, p2, p3, _, _ = button:GetPoint()
+				local p1, p2, p3, x, y = button:GetPoint()
 				button:SetPoint(p1, p2, p3, 0, -3)
 				button:SetSize(24, 24)
 				F.ReskinCheck(button)

@@ -615,34 +615,15 @@ function F:StripTextures(kill)
 end
 
 function F:ReskinPortraitFrame(isButtonFrame)
-	local name = self:GetName()
-
-	_G[name.."Bg"]:Hide()
-	_G[name.."TitleBg"]:Hide()
-	_G[name.."Portrait"]:Hide()
-	_G[name.."PortraitFrame"]:Hide()
-	_G[name.."TopRightCorner"]:Hide()
-	_G[name.."TopLeftCorner"]:Hide()
-	_G[name.."TopBorder"]:Hide()
-	_G[name.."TopTileStreaks"]:SetTexture("")
-	_G[name.."BotLeftCorner"]:Hide()
-	_G[name.."BotRightCorner"]:Hide()
-	_G[name.."BottomBorder"]:Hide()
-	_G[name.."LeftBorder"]:Hide()
-	_G[name.."RightBorder"]:Hide()
+	F.StripTextures(self, true)
 
 	if isButtonFrame then
-		_G[name.."BtnCornerLeft"]:SetTexture("")
-		_G[name.."BtnCornerRight"]:SetTexture("")
-		_G[name.."ButtonBottomBorder"]:SetTexture("")
-
-		self.Inset.Bg:Hide()
-		self.Inset:DisableDrawLayer("BORDER")
+		F.StripTextures(self.Inset, true)
 	end
 
 	F.CreateBD(self)
 	F.CreateSD(self)
-	F.ReskinClose(_G[name.."CloseButton"])
+	F.ReskinClose(_G[self:GetName().."CloseButton"])
 end
 
 function F:CreateBDFrame(a, TLx, TLy, BRx, BRy)
@@ -654,7 +635,7 @@ function F:CreateBDFrame(a, TLx, TLy, BRx, BRy)
 	bg:SetPoint("TOPLEFT", self, TLx or -1.2, TLy or 1.2)
 	bg:SetPoint("BOTTOMRIGHT", self, BRx or 1.2, BRy or -1.2)
 	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
-	F.CreateBD(bg, a or .5)
+	F.CreateBD(bg, a)
 	F.CreateSD(bg)
 
 	return bg
@@ -675,16 +656,7 @@ function F:ReskinColourSwatch()
 end
 
 function F:ReskinFilterButton()
-	self.TopLeft:Hide()
-	self.TopRight:Hide()
-	self.BottomLeft:Hide()
-	self.BottomRight:Hide()
-	self.TopMiddle:Hide()
-	self.MiddleLeft:Hide()
-	self.MiddleRight:Hide()
-	self.BottomMiddle:Hide()
-	self.MiddleMiddle:Hide()
-
+	F.StripTextures(self)
 	F.Reskin(self)
 	self.Text:SetPoint("CENTER")
 	self.Icon:SetTexture(C.media.arrowRight)

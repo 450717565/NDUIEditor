@@ -1,19 +1,13 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	MerchantMoneyInset:DisableDrawLayer("BORDER")
-	MerchantExtraCurrencyInset:DisableDrawLayer("BORDER")
-	BuybackBG:SetAlpha(0)
-	MerchantMoneyBg:Hide()
-	MerchantMoneyInsetBg:Hide()
-	MerchantFrameBottomLeftBorder:SetAlpha(0)
-	MerchantFrameBottomRightBorder:SetAlpha(0)
-	MerchantExtraCurrencyBg:SetAlpha(0)
-	MerchantExtraCurrencyInsetBg:Hide()
-	MerchantPrevPageButton:GetRegions():Hide()
-	MerchantNextPageButton:GetRegions():Hide()
 	select(2, MerchantPrevPageButton:GetRegions()):Hide()
 	select(2, MerchantNextPageButton:GetRegions()):Hide()
+
+	F.StripTextures(MerchantMoneyBg, true)
+	F.StripTextures(MerchantMoneyInset, true)
+	F.StripTextures(MerchantExtraCurrencyBg, true)
+	F.StripTextures(MerchantExtraCurrencyInset, true)
 
 	F.ReskinPortraitFrame(MerchantFrame, true)
 	F.ReskinDropDown(MerchantFrameLootFilter)
@@ -23,47 +17,42 @@ tinsert(C.themes["AuroraClassic"], function()
 	MerchantFrameTab1:ClearAllPoints()
 	MerchantFrameTab1:SetPoint("CENTER", MerchantFrame, "BOTTOMLEFT", 50, -14)
 	MerchantFrameTab2:SetPoint("LEFT", MerchantFrameTab1, "RIGHT", -15, 0)
-
-	for i = 1, 2 do
-		F.ReskinTab(_G["MerchantFrameTab"..i])
-	end
+	F.ReskinTab(MerchantFrameTab1)
+	F.ReskinTab(MerchantFrameTab2)
 
 	MerchantNameText:SetDrawLayer("ARTWORK")
 
 	for i = 1, BUYBACK_ITEMS_PER_PAGE do
-		_G["MerchantItem"..i.."SlotTexture"]:Hide()
-		_G["MerchantItem"..i.."NameFrame"]:Hide()
-		_G["MerchantItem"..i.."Name"]:SetHeight(20)
+		local item = _G["MerchantItem"..i]
+		F.StripTextures(item, true)
+		item.bd = F.CreateBDFrame(item, .25)
+		item.bd:SetPoint("TOPLEFT", 40, 2)
+		item.bd:SetPoint("BOTTOMRIGHT", 0, -2)
 
-		local button = _G["MerchantItem"..i]
-		button.bd = CreateFrame("Frame", nil, button)
-		button.bd:SetPoint("TOPLEFT", 39, 0)
-		button.bd:SetPoint("BOTTOMRIGHT")
-		button.bd:SetFrameLevel(0)
-		F.CreateBD(button.bd, .25)
-		F.CreateSD(button.bd)
+		local button = _G["MerchantItem"..i.."ItemButton"]
+		F.StripTextures(button)
+		button:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
+		button:SetSize(40, 40)
+		button.IconBorder:SetAlpha(0)
+		F.CreateBDFrame(button)
 
-		local mo = _G["MerchantItem"..i.."MoneyFrame"]
-		local a3, p2, a4, x, y = mo:GetPoint()
-		mo:SetPoint(a3, p2, a4, x+1, y+4)
+		local b1, b2, b3 = button:GetPoint()
+		button:SetPoint(b1, b2, b3, -4, -2)
 
-		local bu = _G["MerchantItem"..i.."ItemButton"]
-		local a1, p, a2 = bu:GetPoint()
-		bu:SetPoint(a1, p, a2, -4, -2)
-		bu:SetNormalTexture("")
-		bu:SetPushedTexture("")
-		bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-		bu:SetSize(40, 40)
-		bu.IconBorder:SetAlpha(0)
-		F.CreateBDFrame(bu, 0)
-
-		local ic = bu.icon
+		local ic = button.icon
 		ic:SetTexCoord(.08, .92, .08, .92)
+
+		local name = _G["MerchantItem"..i.."Name"]
+		local n1, n2, n3 = name:GetPoint()
+		name:SetPoint(n1, n2, n3, -10, 5)
+
+		local money = _G["MerchantItem"..i.."MoneyFrame"]
+		local m1, m2, m3, m4, m5 = money:GetPoint()
+		money:SetPoint(m1, m2, m3, m4-2, m5)
 
 		for j = 1, 3 do
 			local acTex = _G["MerchantItem"..i.."AltCurrencyFrameItem"..j.."Texture"]
-			acTex:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(acTex)
+			F.ReskinIcon(acTex)
 		end
 	end
 
@@ -72,11 +61,6 @@ tinsert(C.themes["AuroraClassic"], function()
 		for i = 1, MERCHANT_ITEMS_PER_PAGE do
 			local index = ((MerchantFrame.page - 1) * MERCHANT_ITEMS_PER_PAGE) + i
 			if index <= numMerchantItems then
-				local _, _, price, _, _, _, extendedCost = GetMerchantItemInfo(index)
-				if extendedCost and (price <= 0) then
-					_G["MerchantItem"..i.."AltCurrencyFrame"]:SetPoint("BOTTOMLEFT", "MerchantItem"..i.."NameFrame", "BOTTOMLEFT", 0, 35)
-				end
-
 				local bu = _G["MerchantItem"..i.."ItemButton"]
 				local name = _G["MerchantItem"..i.."Name"]
 				if bu.link then
@@ -118,25 +102,20 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 	end)
 
-	local bmo = MerchantBuyBackItemMoneyFrame
-	local b1, b2, b3, bx, by = bmo:GetPoint()
-	bmo:SetPoint(b1, b2, b3, bx+3, by+1)
-
-	MerchantBuyBackItemSlotTexture:SetAlpha(0)
-	F.CreateBD(MerchantBuyBackItem, .25)
-	F.CreateSD(MerchantBuyBackItem)
-
-	MerchantBuyBackItemItemButton:SetNormalTexture("")
-	MerchantBuyBackItemItemButton:SetPushedTexture("")
+	F.StripTextures(MerchantBuyBackItem, true)
+	F.CreateBDFrame(MerchantBuyBackItem, .25)
+	F.StripTextures(MerchantBuyBackItemItemButton)
 	MerchantBuyBackItemItemButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 	MerchantBuyBackItemItemButtonIconTexture:SetTexCoord(.08, .92, .08, .92)
 	MerchantBuyBackItemItemButton.IconBorder:SetAlpha(0)
-	F.CreateBDFrame(MerchantBuyBackItemItemButton, 0)
+	F.CreateBG(MerchantBuyBackItemItemButton)
 
-	MerchantBuyBackItemNameFrame:Hide()
-	MerchantBuyBackItemName:SetHeight(25)
-	MerchantBuyBackItemName:ClearAllPoints()
-	MerchantBuyBackItemName:SetPoint("LEFT", MerchantBuyBackItemSlotTexture, "RIGHT", -5, 9)
+	local backName = MerchantBuyBackItemName
+	backName:ClearAllPoints()
+	backName:SetPoint("TOPLEFT", MerchantBuyBackItemItemButton, "TOPRIGHT", 3, 5)
+	local backMoney = MerchantBuyBackItemMoneyFrame
+	backMoney:ClearAllPoints()
+	backMoney:SetPoint("BOTTOMLEFT", MerchantBuyBackItemItemButton, "BOTTOMRIGHT", 3, 1)
 
 	MerchantGuildBankRepairButton:SetPushedTexture("")
 	MerchantGuildBankRepairButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)

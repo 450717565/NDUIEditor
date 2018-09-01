@@ -1,8 +1,5 @@
 local B, C, L, DB = unpack(select(2, ...))
 
--- Game version 8.0.1
-local event = CreateFrame("frame")
-event:RegisterEvent("ADDON_LOADED")
 local spot = 0
 local cani, found, Numskills, Cost, TrainAll
 local done = false
@@ -33,8 +30,6 @@ function TrainAll()
 		end
 	end
 end
-
-
 
 local function createit()
 	local Button = CreateFrame("Button", "TrainAllButton",ClassTrainerFrame, "MagicButtonTemplate")
@@ -77,16 +72,11 @@ local function createit()
 	end)
 end
 
-local function woho(_, _, name)
-	if name == "NDui" then
-		if IsAddOnLoaded("Blizzard_TrainerUI") then
-			createit()
-			event:UnregisterEvent("ADDON_LOADED")
-		end
-	elseif name == "Blizzard_TrainerUI" then
+local function Init(event, addon)
+	if addon == "Blizzard_TrainerUI" then
 		createit()
-		event:UnregisterEvent("ADDON_LOADED")
+		B:UnregisterEvent(event, Init)
 	end
 end
 
-event:SetScript("OnEvent", woho)
+B:RegisterEvent("ADDON_LOADED", Init)
