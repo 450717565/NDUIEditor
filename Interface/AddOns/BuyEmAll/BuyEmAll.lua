@@ -231,7 +231,7 @@ function BuyEmAll:MerchantItemButton_OnModifiedClick(frame, button)
             self.afford = floor(GetMoney() / ceil(self.price / self.preset));
         end
 
-        self.max = min(self.fit or 0, self.afford or 0);
+        self.max = min(self.fit, self.afford);
         if (numAvailable > -1) then
             self.max = min(self.max, numAvailable);
         end

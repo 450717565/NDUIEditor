@@ -3,18 +3,14 @@ local F, C = unpack(select(2, ...))
 tinsert(C.themes["AuroraClassic"], function()
 	local r, g, b = C.r, C.g, C.b
 
-	local QuestMapFrame = QuestMapFrame
-
 	-- [[ Quest scroll frame ]]
 
-	local QuestScrollFrame = QuestScrollFrame
 	local campaignHeader = QuestScrollFrame.Contents.WarCampaignHeader
 	local StoryHeader = QuestScrollFrame.Contents.StoryHeader
 
-	QuestMapFrame.VerticalSeparator:SetAlpha(0)
-	QuestScrollFrame.Background:SetAlpha(0)
-	QuestScrollFrame.DetailFrame.TopDetail:SetAlpha(0)
-	QuestScrollFrame.DetailFrame.BottomDetail:SetAlpha(0)
+	F.StripTextures(QuestMapFrame, true)
+	F.StripTextures(QuestScrollFrame, true)
+	F.StripTextures(QuestScrollFrame.DetailFrame, true)
 	QuestScrollFrame.Contents.Separator:SetAlpha(0)
 
 	if AuroraConfig.tooltips then
@@ -73,10 +69,8 @@ tinsert(C.themes["AuroraClassic"], function()
 	local RewardsFrame = DetailsFrame.RewardsFrame
 	local CompleteQuestFrame = DetailsFrame.CompleteQuestFrame
 
-	F.StripTextures(DetailsFrame)
-	select(6, DetailsFrame.ShareButton:GetRegions()):SetAlpha(0)
-	select(7, DetailsFrame.ShareButton:GetRegions()):SetAlpha(0)
-	DetailsFrame.SealMaterialBG:SetAlpha(0)
+	F.StripTextures(DetailsFrame, true)
+	F.StripTextures(DetailsFrame.ShareButton, true)
 
 	F.Reskin(DetailsFrame.BackButton)
 	F.Reskin(DetailsFrame.AbandonButton)
@@ -85,21 +79,20 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinScroll(QuestMapDetailsScrollFrameScrollBar)
 
 	DetailsFrame.AbandonButton:ClearAllPoints()
-	DetailsFrame.AbandonButton:SetPoint("BOTTOMLEFT", DetailsFrame, -1, 0)
-	DetailsFrame.AbandonButton:SetWidth(95)
+	DetailsFrame.AbandonButton:SetPoint("BOTTOMLEFT", DetailsFrame, 1, 0)
+	DetailsFrame.AbandonButton:SetWidth(93)
 
 	DetailsFrame.ShareButton:ClearAllPoints()
-	DetailsFrame.ShareButton:SetPoint("LEFT", DetailsFrame.AbandonButton, "RIGHT", 1, 0)
-	DetailsFrame.ShareButton:SetWidth(94)
+	DetailsFrame.ShareButton:SetPoint("LEFT", DetailsFrame.AbandonButton, "RIGHT", 2, 0)
+	DetailsFrame.ShareButton:SetWidth(93)
 
 	DetailsFrame.TrackButton:ClearAllPoints()
-	DetailsFrame.TrackButton:SetPoint("LEFT", DetailsFrame.ShareButton, "RIGHT", 1, 0)
-	DetailsFrame.TrackButton:SetWidth(96)
+	DetailsFrame.TrackButton:SetPoint("LEFT", DetailsFrame.ShareButton, "RIGHT", 2, 0)
+	DetailsFrame.TrackButton:SetWidth(93)
 
 	-- Rewards frame
 
-	RewardsFrame.Background:SetAlpha(0)
-	select(2, RewardsFrame:GetRegions()):SetAlpha(0)
+	F.StripTextures(RewardsFrame, true)
 
 	-- Scroll frame
 
@@ -119,23 +112,13 @@ tinsert(C.themes["AuroraClassic"], function()
 	end)
 
 	-- Complete quest frame
-	CompleteQuestFrame:GetRegions():SetAlpha(0)
-	select(2, CompleteQuestFrame:GetRegions()):SetAlpha(0)
-	select(6, CompleteQuestFrame.CompleteButton:GetRegions()):SetAlpha(0)
-	select(7, CompleteQuestFrame.CompleteButton:GetRegions()):SetAlpha(0)
-
+	F.StripTextures(CompleteQuestFrame, true)
 	F.Reskin(CompleteQuestFrame.CompleteButton)
 
 	-- [[ Quest log popup detail frame ]]
 
-	local QuestLogPopupDetailFrame = QuestLogPopupDetailFrame
-
-	select(18, QuestLogPopupDetailFrame:GetRegions()):SetAlpha(0)
-	QuestLogPopupDetailFrameScrollFrameTop:SetAlpha(0)
-	QuestLogPopupDetailFrameScrollFrameBottom:SetAlpha(0)
-	QuestLogPopupDetailFrameScrollFrameMiddle:SetAlpha(0)
-
 	F.ReskinPortraitFrame(QuestLogPopupDetailFrame, true)
+	F.StripTextures(QuestLogPopupDetailFrameScrollFrame, true)
 	F.ReskinScroll(QuestLogPopupDetailFrameScrollFrameScrollBar)
 	F.Reskin(QuestLogPopupDetailFrame.AbandonButton)
 	F.Reskin(QuestLogPopupDetailFrame.TrackButton)
@@ -144,10 +127,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	-- Show map button
 
 	local ShowMapButton = QuestLogPopupDetailFrame.ShowMapButton
-
-	ShowMapButton.Texture:SetAlpha(0)
-	ShowMapButton.Highlight:SetTexture("")
-	ShowMapButton.Highlight:SetTexture("")
+	F.StripTextures(ShowMapButton, true)
 
 	ShowMapButton:SetSize(ShowMapButton.Text:GetStringWidth() + 14, 22)
 	ShowMapButton.Text:ClearAllPoints()

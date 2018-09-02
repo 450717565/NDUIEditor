@@ -1,7 +1,7 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	F.StripTextures(ChannelFrame)
+	F.StripTextures(ChannelFrame, true)
 	F.SetBD(ChannelFrame)
 	F.ReskinClose(ChannelFrameCloseButton)
 	F.Reskin(ChannelFrame.NewButton)
@@ -13,7 +13,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	ChannelFrame.LeftInset:Hide()
 	ChannelFrame.RightInset:Hide()
 	ChannelFrame.NewButton:ClearAllPoints()
- 	ChannelFrame.NewButton:SetPoint("BOTTOMLEFT", 5, 4)
+	ChannelFrame.NewButton:SetPoint("BOTTOMLEFT", 5, 4)
 
 	hooksecurefunc(ChannelFrame.ChannelList, "Update", function(self)
 		for i = 1, self.Child:GetNumChildren() do
@@ -28,7 +28,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 	end)
 
-	F.StripTextures(CreateChannelPopup)
+	F.StripTextures(CreateChannelPopup, true)
 	F.SetBD(CreateChannelPopup)
 	F.Reskin(CreateChannelPopup.OKButton)
 	F.Reskin(CreateChannelPopup.CancelButton)

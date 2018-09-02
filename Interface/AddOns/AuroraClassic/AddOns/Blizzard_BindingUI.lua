@@ -3,16 +3,11 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_BindingUI"] = function()
 	local r, g, b = C.r, C.g, C.b
 
-	local KeyBindingFrame = KeyBindingFrame
-
-	KeyBindingFrame.header:DisableDrawLayer("BACKGROUND")
-	KeyBindingFrame.header:DisableDrawLayer("BORDER")
-	KeyBindingFrame.scrollFrame.scrollBorderTop:SetTexture("")
-	KeyBindingFrame.scrollFrame.scrollBorderBottom:SetTexture("")
-	KeyBindingFrame.scrollFrame.scrollBorderMiddle:SetTexture("")
-	KeyBindingFrame.scrollFrame.scrollFrameScrollBarBackground:SetTexture("")
-	KeyBindingFrame.categoryList:DisableDrawLayer("BACKGROUND")
-	KeyBindingFrame.bindingsContainer:SetBackdrop(nil)
+	F.StripTextures(KeyBindingFrame, true)
+	F.StripTextures(KeyBindingFrame.header, true)
+	F.StripTextures(KeyBindingFrame.scrollFrame, true)
+	F.StripTextures(KeyBindingFrame.categoryList, true)
+	F.StripTextures(KeyBindingFrame.bindingsContainer, true)
 
 	F.CreateBD(KeyBindingFrame)
 	F.CreateSD(KeyBindingFrame)
@@ -22,7 +17,6 @@ C.themes["Blizzard_BindingUI"] = function()
 	F.Reskin(KeyBindingFrame.cancelButton)
 	F.ReskinCheck(KeyBindingFrame.characterSpecificButton)
 	F.ReskinScroll(KeyBindingFrameScrollFrameScrollBar)
-	KeyBindingFrameScrollFrame.scrollFrameScrollBarBackground:Hide()
 
 	for i = 1, KEY_BINDINGS_DISPLAYED do
 		local button1 = _G["KeyBindingFrameKeyBinding"..i.."Key1Button"]
@@ -43,14 +37,15 @@ C.themes["Blizzard_BindingUI"] = function()
 		end
 	end)
 
+	KeyBindingFrame.characterSpecificButton:SetSize(24, 24)
 	KeyBindingFrame.header.text:ClearAllPoints()
 	KeyBindingFrame.header.text:SetPoint("TOP", KeyBindingFrame, "TOP", 0, -8)
 	KeyBindingFrame.unbindButton:ClearAllPoints()
 	KeyBindingFrame.unbindButton:SetPoint("BOTTOMRIGHT", -207, 16)
 	KeyBindingFrame.okayButton:ClearAllPoints()
-	KeyBindingFrame.okayButton:SetPoint("BOTTOMLEFT", KeyBindingFrame.unbindButton, "BOTTOMRIGHT", 1, 0)
+	KeyBindingFrame.okayButton:SetPoint("BOTTOMLEFT", KeyBindingFrame.unbindButton, "BOTTOMRIGHT", 2, 0)
 	KeyBindingFrame.cancelButton:ClearAllPoints()
-	KeyBindingFrame.cancelButton:SetPoint("BOTTOMLEFT", KeyBindingFrame.okayButton, "BOTTOMRIGHT", 1, 0)
+	KeyBindingFrame.cancelButton:SetPoint("BOTTOMLEFT", KeyBindingFrame.okayButton, "BOTTOMRIGHT", 2, 0)
 
 	local line = KeyBindingFrame:CreateTexture(nil, "ARTWORK")
 	line:SetSize(1, 546)

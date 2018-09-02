@@ -1,12 +1,9 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_BarbershopUI"] = function()
-	for i = 1, 3 do
-		select(i, BarberShopFrame:GetRegions()):Hide()
-	end
-	BarberShopFrameMoneyFrame:GetRegions():Hide()
-	BarberShopAltFormFrameBackground:Hide()
-	BarberShopAltFormFrameBorder:Hide()
+	F.StripTextures(BarberShopFrame, true)
+	F.StripTextures(BarberShopAltFormFrame, true)
+	F.StripTextures(BarberShopFrameMoneyFrame, true)
 
 	BarberShopAltFormFrame:ClearAllPoints()
 	BarberShopAltFormFrame:SetPoint("BOTTOM", BarberShopFrame, "TOP", 0, -74)
@@ -26,7 +23,6 @@ C.themes["Blizzard_BarbershopUI"] = function()
 
 	-- [[ Banner frame ]]
 
-	BarberShopBannerFrameBGTexture:Hide()
-
+	F.StripTextures(BarberShopBannerFrame, true)
 	F.SetBD(BarberShopBannerFrame, 25, -80, -20, 75)
 end

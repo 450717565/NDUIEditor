@@ -3,9 +3,7 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_AdventureMap"] = function()
 	local dialog = AdventureMapQuestChoiceDialog
 
-	for i = 1, 4 do
-		select(i, dialog:GetRegions()):SetAlpha(0)
-	end
+	F.StripTextures(dialog, true)
 	F.CreateBD(dialog)
 	F.CreateSD(dialog)
 	F.Reskin(dialog.AcceptButton)

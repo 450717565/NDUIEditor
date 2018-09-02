@@ -1,9 +1,12 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_ItemUpgradeUI"] = function()
-	local ItemUpgradeFrame = ItemUpgradeFrame
 	local ItemButton = ItemUpgradeFrame.ItemButton
-
+	F.StripTextures(ItemUpgradeFrame, true)
+	F.StripTextures(ItemUpgradeFrameMoneyFrame, true)
+	F.StripTextures(ItemUpgradeFrame.ButtonFrame, true)
+	F.StripTextures(ItemButton, true)
+--[[
 	ItemUpgradeFrame:DisableDrawLayer("BACKGROUND")
 	ItemUpgradeFrame:DisableDrawLayer("BORDER")
 	ItemUpgradeFrameMoneyFrameLeft:Hide()
@@ -16,7 +19,7 @@ C.themes["Blizzard_ItemUpgradeUI"] = function()
 	ItemButton.Grabber:Hide()
 	ItemButton.TextFrame:Hide()
 	ItemButton.TextGrabber:Hide()
-
+]]
 	F.CreateBD(ItemButton, .25)
 	F.CreateSD(ItemButton)
 	ItemButton:SetHighlightTexture("")

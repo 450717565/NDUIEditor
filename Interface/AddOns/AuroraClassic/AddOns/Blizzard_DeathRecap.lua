@@ -1,12 +1,7 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_DeathRecap"] = function()
-	local DeathRecapFrame = DeathRecapFrame
-
-	DeathRecapFrame:DisableDrawLayer("BORDER")
-	DeathRecapFrame.Background:Hide()
-	DeathRecapFrame.BackgroundInnerGlow:Hide()
-	DeathRecapFrame.Divider:Hide()
+	F.StripTextures(DeathRecapFrame, true)
 
 	F.CreateBD(DeathRecapFrame)
 	F.CreateSD(DeathRecapFrame)

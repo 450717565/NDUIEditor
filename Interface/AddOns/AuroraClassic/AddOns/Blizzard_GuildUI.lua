@@ -7,8 +7,8 @@ C.themes["Blizzard_GuildUI"] = function()
 
 	local frames = {GuildMemberDetailFrame, GuildMemberNoteBackground, GuildMemberOfficerNoteBackground, GuildLogFrame, GuildLogContainer, GuildNewsFiltersFrame, GuildTextEditFrame, GuildTextEditContainer, GuildRecruitmentInterestFrame, GuildRecruitmentAvailabilityFrame, GuildRecruitmentRolesFrame, GuildRecruitmentLevelFrame}
 	for _, frame in next, frames do
-		F.CreateBD(frame)
-		F.CreateSD(frame)
+		F.StripTextures(frame, true)
+		F.CreateBDFrame(frame)
 	end
 
 	for i = 1, 5 do
@@ -21,52 +21,11 @@ C.themes["Blizzard_GuildUI"] = function()
 	GuildFrameTabardBackground:Hide()
 	GuildFrameTabardEmblem:Hide()
 	GuildFrameTabardBorder:Hide()
-	select(5, GuildInfoFrameInfo:GetRegions()):Hide()
-	select(11, GuildMemberDetailFrame:GetRegions()):Hide()
-	GuildMemberDetailCorner:Hide()
-	for i = 1, 9 do
-		select(i, GuildLogFrame:GetRegions()):Hide()
-		select(i, GuildNewsFiltersFrame:GetRegions()):Hide()
-		select(i, GuildTextEditFrame:GetRegions()):Hide()
-	end
-	GuildAllPerksFrame:GetRegions():Hide()
-	GuildNewsFrame:GetRegions():Hide()
-	GuildRewardsFrame:GetRegions():Hide()
-	GuildNewsBossModelShadowOverlay:Hide()
-	GuildInfoFrameInfoHeader1:SetAlpha(0)
-	GuildInfoFrameInfoHeader2:SetAlpha(0)
-	GuildInfoFrameInfoHeader3:SetAlpha(0)
-	select(9, GuildInfoFrameInfo:GetRegions()):Hide()
-	GuildRecruitmentCommentInputFrameTop:Hide()
-	GuildRecruitmentCommentInputFrameTopLeft:Hide()
-	GuildRecruitmentCommentInputFrameTopRight:Hide()
-	GuildRecruitmentCommentInputFrameBottom:Hide()
-	GuildRecruitmentCommentInputFrameBottomLeft:Hide()
-	GuildRecruitmentCommentInputFrameBottomRight:Hide()
-	GuildRecruitmentInterestFrameBg:Hide()
-	GuildRecruitmentAvailabilityFrameBg:Hide()
-	GuildRecruitmentRolesFrameBg:Hide()
-	GuildRecruitmentLevelFrameBg:Hide()
-	GuildRecruitmentCommentFrameBg:Hide()
-	GuildNewsFrameHeader:SetAlpha(0)
 
-	GuildFrameBottomInset:DisableDrawLayer("BACKGROUND")
-	GuildFrameBottomInset:DisableDrawLayer("BORDER")
-	GuildInfoFrameInfoBar1Left:SetAlpha(0)
-	GuildInfoFrameInfoBar2Left:SetAlpha(0)
-	select(2, GuildInfoFrameInfo:GetRegions()):SetAlpha(0)
-	select(4, GuildInfoFrameInfo:GetRegions()):SetAlpha(0)
-	GuildRosterColumnButton1:DisableDrawLayer("BACKGROUND")
-	GuildRosterColumnButton2:DisableDrawLayer("BACKGROUND")
-	GuildRosterColumnButton3:DisableDrawLayer("BACKGROUND")
-	GuildRosterColumnButton4:DisableDrawLayer("BACKGROUND")
-	GuildNewsBossModel:DisableDrawLayer("BACKGROUND")
-	GuildNewsBossModel:DisableDrawLayer("OVERLAY")
-	GuildNewsBossNameText:SetDrawLayer("ARTWORK")
-	GuildNewsBossModelTextFrame:DisableDrawLayer("BACKGROUND")
-	for i = 2, 6 do
-		select(i, GuildNewsBossModelTextFrame:GetRegions()):Hide()
-	end
+	F.StripTextures(GuildNewsFrame, true)
+	F.StripTextures(GuildAllPerksFrame, true)
+	F.StripTextures(GuildRewardsFrame, true)
+	F.StripTextures(GuildInfoFrameInfo, true)
 
 	GuildMemberRankDropdown:HookScript("OnShow", function()
 		GuildMemberDetailRankText:Hide()
@@ -82,20 +41,15 @@ C.themes["Blizzard_GuildUI"] = function()
 		end
 	end)
 
+	local scrolls = {GuildPerksContainerScrollBar, GuildRosterContainerScrollBar, GuildNewsContainerScrollBar, GuildRewardsContainerScrollBar, GuildInfoFrameInfoMOTDScrollFrameScrollBar, GuildInfoDetailsFrameScrollBar, GuildLogScrollFrameScrollBar, GuildTextEditScrollFrameScrollBar, GuildRecruitmentCommentInputFrameScrollFrameScrollBar, GuildInfoFrameApplicantsContainerScrollBar}
+	for _, scroll in next, scrolls do
+		F.ReskinScroll(scroll)
+	end
+
 	F.ReskinClose(GuildNewsFiltersFrameCloseButton)
 	F.ReskinClose(GuildLogFrameCloseButton)
 	F.ReskinClose(GuildMemberDetailCloseButton)
 	F.ReskinClose(GuildTextEditFrameCloseButton)
-	F.ReskinScroll(GuildPerksContainerScrollBar)
-	F.ReskinScroll(GuildRosterContainerScrollBar)
-	F.ReskinScroll(GuildNewsContainerScrollBar)
-	F.ReskinScroll(GuildRewardsContainerScrollBar)
-	F.ReskinScroll(GuildInfoFrameInfoMOTDScrollFrameScrollBar)
-	F.ReskinScroll(GuildInfoDetailsFrameScrollBar)
-	F.ReskinScroll(GuildLogScrollFrameScrollBar)
-	F.ReskinScroll(GuildTextEditScrollFrameScrollBar)
-	F.ReskinScroll(GuildRecruitmentCommentInputFrameScrollFrameScrollBar)
-	F.ReskinScroll(GuildInfoFrameApplicantsContainerScrollBar)
 	F.ReskinDropDown(GuildRosterViewDropdown)
 	F.ReskinDropDown(GuildMemberRankDropdown)
 	F.ReskinInput(GuildRecruitmentCommentInputFrame)

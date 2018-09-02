@@ -3,40 +3,40 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_ArtifactUI"] = function()
 	local r, g, b = C.r, C.g, C.b
 
-	F.SetBD(ArtifactFrame)
+	F.StripTextures(ArtifactFrame, true)
+	F.StripTextures(ArtifactFrame.PerksTab, true)
+	F.StripTextures(ArtifactFrame.PerksTab.DisabledFrame, true)
+	F.StripTextures(ArtifactFrame.BorderFrame, true)
+	F.StripTextures(ArtifactFrame.ForgeBadgeFrame, true)
+	F.CreateBD(ArtifactFrame)
+	F.CreateSD(ArtifactFrame)
 	F.ReskinTab(ArtifactFrameTab1)
 	F.ReskinTab(ArtifactFrameTab2)
+	F.ReskinClose(ArtifactFrame.CloseButton)
+
+	ArtifactFrame.PerksTab.Model:SetAlpha(.5)
 	ArtifactFrameTab1:ClearAllPoints()
 	ArtifactFrameTab1:SetPoint("TOPLEFT", ArtifactFrame, "BOTTOMLEFT", 10, 2)
-	F.ReskinClose(ArtifactFrame.CloseButton)
-	for i = 1, 7 do
-		select(i, ArtifactFrame.BorderFrame:GetRegions()):Hide()
-	end
-	ArtifactFrame.Background:Hide()
-	ArtifactFrame.PerksTab.BackgroundBack:Hide()
-	ArtifactFrame.PerksTab.HeaderBackground:Hide()
-	ArtifactFrame.PerksTab.TitleContainer.Background:SetAlpha(0)
-	ArtifactFrame.PerksTab.Model:SetAlpha(.5)
-	ArtifactFrame.PerksTab.Model.BackgroundFront:Hide()
-	ArtifactFrame.ForgeBadgeFrame.ForgeLevelBackground:SetAlpha(0)
-	ArtifactFrame.ForgeBadgeFrame.ForgeLevelBackgroundBlack:SetAlpha(0)
-	ArtifactFrame.ForgeBadgeFrame.ItemIcon:Hide()
-	ArtifactFrame.AppearancesTab.Background:Hide()
 
 	-- Appearance
 
+	F.StripTextures(ArtifactFrame.AppearancesTab, true)
 	for i = 1, 6 do
 		local set = ArtifactFrame.AppearancesTab.appearanceSetPool:Acquire()
-		set.Background:Hide()
+		set.Name:SetTextColor(.9, .8, .5)
+		F.StripTextures(set, true)
+
 		local bg = F.CreateGradient(set)
 		bg:SetPoint("TOPLEFT", 10, -5)
 		bg:SetPoint("BOTTOMRIGHT", -10, 5)
+		F.CreateBDFrame(bg, 0)
+
 		for j = 1, 4 do
 			local slot = ArtifactFrame.AppearancesTab.appearanceSlotPool:Acquire()
 			slot.Border:SetAlpha(0)
+			slot.Background:Hide()
 			F.CreateBDFrame(slot)
 
-			slot.Background:Hide()
 			slot.SwatchTexture:SetTexCoord(.2, .8, .2, .8)
 			slot.SwatchTexture:SetAllPoints()
 			slot.HighlightTexture:SetColorTexture(1, 1, 1, .25)

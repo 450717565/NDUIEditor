@@ -1,6 +1,9 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_ItemSocketingUI"] = function()
+	F.StripTextures(ItemSocketingFrame, true)
+	F.StripTextures(ItemSocketingScrollFrame, true)
+--[[
 	ItemSocketingFrame:DisableDrawLayer("ARTWORK")
 	ItemSocketingScrollFrameTop:SetAlpha(0)
 	ItemSocketingScrollFrameMiddle:SetAlpha(0)
@@ -15,7 +18,7 @@ C.themes["Blizzard_ItemSocketingUI"] = function()
 	for i = 36, 51 do
 		select(i, ItemSocketingFrame:GetRegions()):Hide()
 	end
-
+]]
 	local title = select(18, ItemSocketingFrame:GetRegions())
 	title:ClearAllPoints()
 	title:SetPoint("TOP", 0, -5)

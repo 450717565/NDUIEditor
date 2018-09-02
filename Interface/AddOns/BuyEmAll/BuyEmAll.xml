@@ -56,11 +56,24 @@
 				</Texture>
 			</Layer>
 			<Layer level="BORDER">
-				<FontString name="BuyEmAllText" inherits="GameFontHighlight" justifyH="CENTER">
+				<Texture name="$parentMoneyTex" file="Interface\MoneyFrame\UI-MoneyFrame">
+					<Size>
+						<AbsDimension x="121" y="33" />
+					</Size>
 					<Anchors>
-						<Anchor point="TOP" relativeTo="BuyEmAllFrame" relativePoint="TOP">
+						<Anchor point="TOP">
 							<Offset>
-								<AbsDimension x="0" y="-22" />
+								<AbsDimension x="1" y="-14" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.10546875" right="0.578125" top="0.109375" bottom="0.3671875" />
+				</Texture>
+				<FontString name="BuyEmAllText" inherits="GameFontHighlight" justifyH="RIGHT">
+					<Anchors>
+						<Anchor point="RIGHT" relativeTo="$parentMoneyTex">
+							<Offset>
+								<AbsDimension x="-12" y="2" />
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -73,9 +86,9 @@
 					<AbsDimension x="16" y="16" />
 				</Size>
 				<Anchors>
-					<Anchor point="TOPRIGHT" relativeTo="BuyEmAllFrame" relativePoint="TOP">
+					<Anchor point="TOPRIGHT" relativeTo="$parentMoneyTex" relativePoint="TOP">
 						<Offset>
-							<AbsDimension x="-60" y="-20" />
+							<AbsDimension x="-60" y="-8" />
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -93,9 +106,9 @@
 					<AbsDimension x="16" y="16" />
 				</Size>
 				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="BuyEmAllFrame" relativePoint="TOP">
+					<Anchor point="TOPLEFT" relativeTo="$parentMoneyTex" relativePoint="TOP">
 						<Offset>
-							<AbsDimension x="63" y="-20" />
+							<AbsDimension x="63" y="-8" />
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -167,7 +180,7 @@
 				</Size>
 				<Anchors>
 					<Anchor point="TOP">
-						<Offset x="0" y="-40" />
+						<Offset x="2" y="-45" />
 					</Anchor>
 				</Anchors>
 				<Backdrop bgFile="" edgeFile="">

@@ -1,14 +1,13 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_AlliedRacesUI"] = function()
-	for i = 1, 19 do
-		select(i, AlliedRacesFrame:GetRegions()):Hide()
-	end
-	select(8, AlliedRacesFrame:GetRegions()):Show()
-	F.SetBD(AlliedRacesFrame)
+	F.StripTextures(AlliedRacesFrame, true)
+	F.StripTextures(AlliedRacesFrame.ModelFrame, true)
+	F.CreateBD(AlliedRacesFrame)
+	F.CreateSD(AlliedRacesFrame)
 	F.ReskinClose(AlliedRacesFrameCloseButton)
 	F.ReskinScroll(AlliedRacesFrame.RaceInfoFrame.ScrollFrame.ScrollBar)
-	select(2, AlliedRacesFrame.ModelFrame:GetRegions()):Hide()
+	AlliedRacesFrame.RaceInfoFrame.AlliedRacesRaceName:SetTextColor(1, .8, 0)
 
 	AlliedRacesFrame:HookScript("OnShow", function(self)
 		local parent = self.RaceInfoFrame.ScrollFrame.Child

@@ -178,7 +178,7 @@ local function BuildICON(iconSize)
 	local parentFrame = CreateFrame("Frame", nil, Frame)
 	parentFrame:SetAllPoints()
 	parentFrame:SetFrameLevel(Frame:GetFrameLevel() + 3)
-	Frame.Spellname = B.CreateFS(parentFrame, 14, "", false, "TOP", 0, 5)
+	Frame.Spellname = B.CreateFS(parentFrame, 13, "", false, "TOP", 0, 5)
 	Frame.Count = B.CreateFS(parentFrame, iconSize*.55, "", false, "BOTTOMRIGHT", 5, -5)
 
 	if not NDuiDB["AuraWatch"]["ClickThrough"] then

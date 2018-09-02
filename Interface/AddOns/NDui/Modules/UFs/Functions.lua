@@ -119,7 +119,7 @@ function UF:CreateHealthText(self)
 			self:Tag(hpval, "[DDG]")
 		end
 	elseif self.mystyle == "nameplate" then
-		hpval:SetPoint("RIGHT", self, "TOPRIGHT", 0, 3)
+		hpval:SetPoint("RIGHT", self, 0, 5)
 		self:Tag(hpval, "[nphp]")
 	else
 		self:Tag(hpval, "[hp]")
@@ -316,8 +316,8 @@ function UF:CreateCastBar(self)
 
 		self:RegisterEvent("CURRENT_SPELL_CAST_CHANGED", cast.OnCastSent)
 	elseif self.mystyle == "nameplate" then
-		name:SetPoint("LEFT", cb, "BOTTOMLEFT", 0, -3)
-		timer:SetPoint("RIGHT", cb, "BOTTOMRIGHT", 0, -3)
+		name:SetPoint("LEFT", cb, 0, -5)
+		timer:SetPoint("RIGHT", cb, 0, -5)
 
 		local shield = cb:CreateTexture(nil, "OVERLAY")
 		shield:SetAtlas("nameplates-InterruptShield")

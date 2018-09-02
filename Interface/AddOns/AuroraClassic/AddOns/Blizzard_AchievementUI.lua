@@ -3,34 +3,16 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_AchievementUI"] = function()
 	local r, g, b = C.r, C.g, C.b
 
-	F.StripTextures(AchievementFrame, true)
+	local frames = {AchievementFrame, AchievementFrameHeader, AchievementFrameSummary, AchievementFrameSummaryCategoriesHeader, AchievementFrameSummaryAchievementsHeader, AchievementFrameCategories, AchievementFrameCategoriesContainerScrollBar, AchievementFrameAchievements, AchievementFrameComparison, AchievementFrameComparisonHeader, AchievementFrameStatsBG}
+	for _, frame in next, frames do
+		F.StripTextures(frame, true)
+	end
 	F.CreateBD(AchievementFrame)
 	F.CreateSD(AchievementFrame)
-	AchievementFrameCategories:SetBackdrop(nil)
-	AchievementFrameCategoriesContainerScrollBarBG:SetAlpha(0)
-	AchievementFrameSummary:SetBackdrop(nil)
 	AchievementFrameSummary:GetChildren():Hide()
-	AchievementFrameSummaryBackground:Hide()
-	for i = 1, 4 do
-		select(i, AchievementFrameHeader:GetRegions()):Hide()
-	end
-	AchievementFrameHeaderRightDDLInset:SetAlpha(0)
-	AchievementFrameHeaderLeftDDLInset:SetAlpha(0)
 	select(2, AchievementFrameAchievements:GetChildren()):Hide()
-	AchievementFrameAchievementsBackground:Hide()
-	select(3, AchievementFrameAchievements:GetRegions()):Hide()
-	AchievementFrameStatsBG:Hide()
-	AchievementFrameSummaryAchievementsHeaderHeader:Hide()
-	AchievementFrameSummaryCategoriesHeaderTexture:Hide()
-	select(3, AchievementFrameStats:GetChildren()):Hide()
 	select(5, AchievementFrameComparison:GetChildren()):Hide()
-	AchievementFrameComparisonHeaderBG:Hide()
-	AchievementFrameComparisonHeaderPortrait:Hide()
-	AchievementFrameComparisonHeaderPortraitBg:Hide()
-	AchievementFrameComparisonBackground:Hide()
-	AchievementFrameComparisonDark:SetAlpha(0)
-	AchievementFrameComparisonSummaryPlayerBackground:Hide()
-	AchievementFrameComparisonSummaryFriendBackground:Hide()
+	select(3, AchievementFrameStats:GetChildren()):Hide()
 
 	do
 		local first = true
@@ -38,8 +20,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 			if first then
 				for i = 1, 19 do
 					local bu = _G["AchievementFrameCategoriesContainerButton"..i]
-
-					bu.background:Hide()
+					F.StripTextures(bu)
 
 					local bg = F.CreateBDFrame(bu, .25)
 					bg:SetPoint("TOPLEFT", 0, -1)
@@ -56,7 +37,10 @@ C.themes["Blizzard_AchievementUI"] = function()
 		end)
 	end
 
+	AchievementFrameHeaderPoints:ClearAllPoints()
 	AchievementFrameHeaderPoints:SetPoint("TOP", AchievementFrame, "TOP", 0, -6)
+	AchievementFrameHeaderTitle:ClearAllPoints()
+	AchievementFrameHeaderTitle:SetPoint("LEFT", AchievementFrameHeaderPoints, "LEFT")
 	AchievementFrameFilterDropDown:ClearAllPoints()
 	AchievementFrameFilterDropDown:SetPoint("TOPRIGHT", -120, 1)
 	AchievementFrameFilterDropDownText:ClearAllPoints()
@@ -68,49 +52,35 @@ C.themes["Blizzard_AchievementUI"] = function()
 	F.ReskinStatusBar(AchievementFrameSummaryCategoriesStatusBar, true, true)
 
 	for i = 1, 3 do
-		local tab = _G["AchievementFrameTab"..i]
-		if tab then
-			F.ReskinTab(tab)
-		end
+		F.ReskinTab(_G["AchievementFrameTab"..i])
 	end
 
 	for i = 1, 7 do
 		local bu = _G["AchievementFrameAchievementsContainerButton"..i]
 		local buic = _G["AchievementFrameAchievementsContainerButton"..i.."Icon"]
-		bu:DisableDrawLayer("BORDER")
-		bu.background:Hide()
 
-		_G["AchievementFrameAchievementsContainerButton"..i.."TitleBackground"]:Hide()
-		_G["AchievementFrameAchievementsContainerButton"..i.."Glow"]:Hide()
-		_G["AchievementFrameAchievementsContainerButton"..i.."RewardBackground"]:SetAlpha(0)
-		_G["AchievementFrameAchievementsContainerButton"..i.."PlusMinus"]:SetAlpha(0)
+		F.StripTextures(bu, true)
 		_G["AchievementFrameAchievementsContainerButton"..i.."Highlight"]:SetAlpha(0)
 		_G["AchievementFrameAchievementsContainerButton"..i.."IconOverlay"]:Hide()
-		_G["AchievementFrameAchievementsContainerButton"..i.."GuildCornerL"]:SetAlpha(0)
-		_G["AchievementFrameAchievementsContainerButton"..i.."GuildCornerR"]:SetAlpha(0)
 
 		bu.description:SetTextColor(.9, .9, .9)
 		bu.description.SetTextColor = F.dummy
 		bu.description:SetShadowOffset(1, -1)
 		bu.description.SetShadowOffset = F.dummy
 
+		bu.icon.texture:SetTexCoord(.08, .92, .08, .92)
+		F.CreateBDFrame(bu.icon.texture)
+
 		local bg = F.CreateBDFrame(bu, .25)
 		bg:SetPoint("TOPLEFT", 1, -1)
 		bg:SetPoint("BOTTOMRIGHT", 0, 2)
 
-		bu.icon.texture:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(bu.icon.texture)
-
-		-- can't get a backdrop frame to appear behind the checked texture for some reason
-
 		local ch = bu.tracked
 		ch:SetSize(22, 22)
 		ch:ClearAllPoints()
-		ch:SetPoint("TOPLEFT", buic, "BOTTOMLEFT", 1.5, 8)
+		ch:SetPoint("TOPLEFT", buic, "BOTTOMLEFT", 2, 8)
 		F.ReskinCheck(ch)
 	end
-
-	AchievementFrameAchievementsContainerButton1.background:SetPoint("TOPLEFT", AchievementFrameAchievementsContainerButton1, "TOPLEFT", 2, -3)
 
 	hooksecurefunc("AchievementButton_DisplayAchievement", function(button, category, achievement)
 		local _, _, _, completed = GetAchievementInfo(category, achievement)
@@ -165,29 +135,23 @@ C.themes["Blizzard_AchievementUI"] = function()
 			end
 
 			if not bu.reskinned then
-				bu:DisableDrawLayer("BORDER")
-
-				local bd = _G["AchievementFrameSummaryAchievement"..i.."Background"]
-
-				bd:SetTexture(C.media.backdrop)
-				bd:SetVertexColor(0, 0, 0, .25)
-
-				_G["AchievementFrameSummaryAchievement"..i.."TitleBackground"]:Hide()
-				_G["AchievementFrameSummaryAchievement"..i.."Glow"]:Hide()
+				F.StripTextures(bu, true)
 				_G["AchievementFrameSummaryAchievement"..i.."Highlight"]:SetAlpha(0)
 				_G["AchievementFrameSummaryAchievement"..i.."IconOverlay"]:Hide()
+
+				local bg = F.CreateBDFrame(bu, .25)
+				bg:SetPoint("TOPLEFT", 2, -2)
+				bg:SetPoint("BOTTOMRIGHT", -2, 2)
+
+				local bd = _G["AchievementFrameSummaryAchievement"..i.."Background"]
+				bd:SetTexture(C.media.backdrop)
+				bd:SetVertexColor(0, 0, 0, .25)
 
 				local text = _G["AchievementFrameSummaryAchievement"..i.."Description"]
 				text:SetTextColor(.9, .9, .9)
 				text.SetTextColor = F.dummy
 				text:SetShadowOffset(1, -1)
 				text.SetShadowOffset = F.dummy
-
-				local bg = CreateFrame("Frame", nil, bu)
-				bg:SetPoint("TOPLEFT", 2, -2)
-				bg:SetPoint("BOTTOMRIGHT", -2, 2)
-				F.CreateBD(bg, 0)
-				F.CreateSD(bg)
 
 				local ic = _G["AchievementFrameSummaryAchievement"..i.."IconTexture"]
 				ic:SetTexCoord(.08, .92, .08, .92)
@@ -211,81 +175,56 @@ C.themes["Blizzard_AchievementUI"] = function()
 	end
 
 	for i = 1, 20 do
-		local bu = "AchievementFrameStatsContainerButton"..i
-		_G[bu.."BG"]:Hide()
-		_G[bu.."BG"].Show = F.dummy
-		_G[bu.."HeaderLeft"]:SetAlpha(0)
-		_G[bu.."HeaderMiddle"]:SetAlpha(0)
-		_G[bu.."HeaderRight"]:SetAlpha(0)
-		_G[bu]:GetHighlightTexture():SetColorTexture(r, g, b, .25)
-		_G[bu]:GetHighlightTexture():SetBlendMode("BLEND")
+		local bu = _G["AchievementFrameStatsContainerButton"..i]
+		F.StripTextures(bu)
+		bu:GetHighlightTexture():SetColorTexture(r, g, b, .25)
+		bu:GetHighlightTexture():SetBlendMode("BLEND")
 	end
+	AchievementFrameComparisonHeader:ClearAllPoints()
+	AchievementFrameComparisonHeader:SetPoint("BOTTOMRIGHT", AchievementFrame, "TOPRIGHT", -10, 8)
 
-	AchievementFrameComparisonHeader:SetPoint("BOTTOMRIGHT", AchievementFrameComparison, "TOPRIGHT", 39, 26)
-
-	local headerbg = CreateFrame("Frame", nil, AchievementFrameComparisonHeader)
+	local headerbg = F.CreateBDFrame(AchievementFrameComparisonHeader)
 	headerbg:SetPoint("TOPLEFT", 20, -20)
 	headerbg:SetPoint("BOTTOMRIGHT", -28, -5)
 	headerbg:SetFrameLevel(AchievementFrameComparisonHeader:GetFrameLevel()-1)
-	F.CreateBD(headerbg)
-	F.CreateSD(headerbg)
 
 	local summaries = {AchievementFrameComparisonSummaryPlayer, AchievementFrameComparisonSummaryFriend}
-
 	for _, frame in pairs(summaries) do
-		frame:SetBackdrop(nil)
-		local bg = CreateFrame("Frame", nil, frame)
+		F.StripTextures(frame, true)
+
+		local bg = F.CreateBDFrame(frame, 0)
 		bg:SetPoint("TOPLEFT", 2, -2)
 		bg:SetPoint("BOTTOMRIGHT", -2, 0)
 		bg:SetFrameLevel(frame:GetFrameLevel()-1)
-		F.CreateBD(bg, .25)
-		F.CreateSD(bg)
 	end
 
 	local bars = {AchievementFrameComparisonSummaryPlayerStatusBar, AchievementFrameComparisonSummaryFriendStatusBar}
-
 	for _, bar in pairs(bars) do
-		local name = bar:GetName()
+		F.ReskinStatusBar(bar, true, true)
 
+		local name = bar:GetName()
 		_G[name.."Title"]:SetTextColor(1, 1, 1)
 		_G[name.."Title"]:SetPoint("LEFT", bar, "LEFT", 6, 0)
 		_G[name.."Text"]:SetPoint("RIGHT", bar, "RIGHT", -5, 0)
-
-		F.ReskinStatusBar(bar, true, true)
 	end
 
 	for i = 1, 9 do
 		local buttons = {_G["AchievementFrameComparisonContainerButton"..i.."Player"], _G["AchievementFrameComparisonContainerButton"..i.."Friend"]}
-
 		for _, button in pairs(buttons) do
-			button:DisableDrawLayer("BORDER")
-			local bg = CreateFrame("Frame", nil, button)
-			bg:SetPoint("TOPLEFT", 2, -3)
+			F.StripTextures(button, true)
+
+			local bg = F.CreateBDFrame(button, 0)
+			bg:SetPoint("TOPLEFT", 2, 0)
 			bg:SetPoint("BOTTOMRIGHT", -2, 2)
-			F.CreateBD(bg, 0)
-			F.CreateSD(bg)
 		end
-
-		local bd = _G["AchievementFrameComparisonContainerButton"..i.."PlayerBackground"]
-		bd:SetTexture(C.media.backdrop)
-		bd:SetVertexColor(0, 0, 0, .25)
-
-		local bd = _G["AchievementFrameComparisonContainerButton"..i.."FriendBackground"]
-		bd:SetTexture(C.media.backdrop)
-		bd:SetVertexColor(0, 0, 0, .25)
+		_G["AchievementFrameComparisonContainerButton"..i.."PlayerIconOverlay"]:Hide()
+		_G["AchievementFrameComparisonContainerButton"..i.."FriendIconOverlay"]:Hide()
 
 		local text = _G["AchievementFrameComparisonContainerButton"..i.."PlayerDescription"]
 		text:SetTextColor(.9, .9, .9)
 		text.SetTextColor = F.dummy
 		text:SetShadowOffset(1, -1)
 		text.SetShadowOffset = F.dummy
-
-		_G["AchievementFrameComparisonContainerButton"..i.."PlayerTitleBackground"]:Hide()
-		_G["AchievementFrameComparisonContainerButton"..i.."PlayerGlow"]:Hide()
-		_G["AchievementFrameComparisonContainerButton"..i.."PlayerIconOverlay"]:Hide()
-		_G["AchievementFrameComparisonContainerButton"..i.."FriendTitleBackground"]:Hide()
-		_G["AchievementFrameComparisonContainerButton"..i.."FriendGlow"]:Hide()
-		_G["AchievementFrameComparisonContainerButton"..i.."FriendIconOverlay"]:Hide()
 
 		local ic = _G["AchievementFrameComparisonContainerButton"..i.."PlayerIconTexture"]
 		ic:SetTexCoord(.08, .92, .08, .92)
@@ -302,35 +241,30 @@ C.themes["Blizzard_AchievementUI"] = function()
 	F.ReskinScroll(AchievementFrameCategoriesContainerScrollBar)
 	F.ReskinScroll(AchievementFrameComparisonContainerScrollBar)
 	F.ReskinDropDown(AchievementFrameFilterDropDown)
+
+	local sbox = AchievementFrame.searchBox
+	sbox:SetSize(100, 17)
+	sbox:ClearAllPoints()
+	sbox:SetPoint("RIGHT", AchievementFrameCloseButton, "LEFT", -5, 0)
 	F.ReskinInput(AchievementFrame.searchBox)
-	AchievementFrame.searchBox:ClearAllPoints()
-	AchievementFrame.searchBox:SetPoint("TOPRIGHT", AchievementFrame, "TOPRIGHT", -25, -3)
-	AchievementFrame.searchBox:SetPoint("BOTTOMLEFT", AchievementFrame, "TOPRIGHT", -130, -23)
 
-	for i = 1, 7 do
-		select(i, AchievementFrame.searchPreviewContainer:GetRegions()):Hide()
-	end
-
+	F.StripTextures(AchievementFrame.searchPreviewContainer, true)
 	local function styleSearchButton(result)
-		select(1, result:GetRegions()):SetAlpha(0)
+		F.StripTextures(result)
+
 		if result.icon then
-			select(2, result:GetRegions()):SetAlpha(0)
-			select(3, result:GetRegions()):SetTexCoord(.08, .92, .08, .92)
-			F.ReskinIcon(select(3, result:GetRegions()))
-			select(5, result:GetRegions()):SetAlpha(0)
-			select(6, result:GetRegions()):SetAlpha(0)
-		else
-			select(3, result:GetRegions()):SetAlpha(0)
-			select(4, result:GetRegions()):SetAlpha(0)
+			F.ReskinIcon(result.icon)
 		end
-		F.CreateBD(result)
-		F.CreateSD(result)
+
+		local bd = F.CreateBDFrame(result, .25)
+		bd:SetPoint("TOPLEFT")
+		bd:SetPoint("BOTTOMRIGHT", 0, 1)
 
 		result:SetHighlightTexture(C.media.backdrop)
 		local hl = result:GetHighlightTexture()
 		hl:SetVertexColor(r, g, b, .25)
-		hl:SetPoint("TOPLEFT", 1, -2)
-		hl:SetPoint("BOTTOMRIGHT", -1, 1)
+		hl:SetPoint("TOPLEFT", 1, -1)
+		hl:SetPoint("BOTTOMRIGHT", -1, 2)
 	end
 
 	for i = 1, 5 do
@@ -341,10 +275,8 @@ C.themes["Blizzard_AchievementUI"] = function()
 	do
 		local result = AchievementFrame.searchResults
 		result:SetPoint("BOTTOMLEFT", AchievementFrame, "BOTTOMRIGHT", 10, 0)
-		for i = 1, 14 do
-			select(i, result:GetRegions()):Hide()
-		end
-		result.titleText:Show()
+		F.StripTextures(result, true)
+
 		local bg = F.CreateBDFrame(result)
 		bg:SetPoint("TOPLEFT", -10, 0)
 		bg:SetPoint("BOTTOMRIGHT")
@@ -352,34 +284,29 @@ C.themes["Blizzard_AchievementUI"] = function()
 		F.ReskinClose(result.closeButton)
 		F.ReskinScroll(AchievementFrameScrollFrameScrollBar)
 		for i = 1, 8 do
-			local ic = _G["AchievementFrameScrollFrameButton"..i]
-			ic.icon:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBD(ic, .25)
-			F.CreateSD(ic)
-			select(1, ic:GetRegions()):SetAlpha(0)
-			F.CreateBDFrame(ic.icon)
-			select(8, ic:GetRegions()):SetAlpha(0)
-			ic:SetHighlightTexture(C.media.backdrop)
-			local hl = ic:GetHighlightTexture()
+			local bu = _G["AchievementFrameScrollFrameButton"..i]
+			F.StripTextures(bu)
+
+			local bd = F.CreateBDFrame(bu, .25)
+			bd:SetPoint("TOPLEFT", 2, -2)
+			bd:SetPoint("BOTTOMRIGHT", -1, 1)
+
+			bu.icon:SetTexCoord(.08, .92, .08, .92)
+			F.CreateBDFrame(bu.icon)
+
+			bu:SetHighlightTexture(C.media.backdrop)
+			local hl = bu:GetHighlightTexture()
 			hl:SetVertexColor(r, g, b, .25)
-			hl:SetPoint("TOPLEFT", 1, -2)
-			hl:SetPoint("BOTTOMRIGHT", -1, 1)
+			hl:SetPoint("TOPLEFT", 3, -3)
+			hl:SetPoint("BOTTOMRIGHT", -2, 2)
 		end
 	end
 
 	for i = 1, 20 do
-		local bu = "AchievementFrameComparisonStatsContainerButton"..i
-		_G[bu.."BG"]:Hide()
-		_G[bu.."BG"].Show = F.dummy
-		_G[bu.."HeaderLeft"]:SetAlpha(0)
-		_G[bu.."HeaderMiddle"]:SetAlpha(0)
-		_G[bu.."HeaderRight"]:SetAlpha(0)
-		_G[bu.."HeaderLeft2"]:SetAlpha(0)
-		_G[bu.."HeaderMiddle2"]:SetAlpha(0)
-		_G[bu.."HeaderRight2"]:SetAlpha(0)
+		local bu = _G["AchievementFrameComparisonStatsContainerButton"..i]
+		F.StripTextures(bu, true)
 	end
 	F.ReskinScroll(AchievementFrameComparisonStatsContainerScrollBar)
-	AchievementFrameComparisonWatermark:SetAlpha(0)
 
 	-- Font width fix
 	hooksecurefunc("AchievementObjectives_DisplayProgressiveAchievement", function()

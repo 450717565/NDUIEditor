@@ -71,5 +71,5 @@ end
 
 GameTooltip:HookScript("OnTooltipSetItem", AzeriteTooltip_BuildTooltip)
 ItemRefTooltip:HookScript("OnTooltipSetItem", AzeriteTooltip_BuildTooltip)
-ShoppingTooltip1:HookScript("OnTooltipSetItem", AzeriteTooltip_BuildTooltip)
+--ShoppingTooltip1:HookScript("OnTooltipSetItem", AzeriteTooltip_BuildTooltip)
 WorldMapTooltip.ItemTooltip.Tooltip:HookScript("OnTooltipSetItem", AzeriteTooltip_BuildTooltip)

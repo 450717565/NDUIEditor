@@ -2,10 +2,10 @@ local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_Contribution"] = function()
 	local frame = ContributionCollectionFrame
+	F.StripTextures(frame, true)
+	F.StripTextures(frame.CloseButton, true)
 	F.SetBD(frame)
 	F.ReskinClose(frame.CloseButton)
-	frame.CloseButton.CloseButtonBackground:Hide()
-	frame.Background:Hide()
 
 	hooksecurefunc(ContributionMixin, "Update", function(self)
 		if not self.styled then

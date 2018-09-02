@@ -108,7 +108,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	MerchantBuyBackItemItemButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 	MerchantBuyBackItemItemButtonIconTexture:SetTexCoord(.08, .92, .08, .92)
 	MerchantBuyBackItemItemButton.IconBorder:SetAlpha(0)
-	F.CreateBG(MerchantBuyBackItemItemButton)
+	F.CreateBDFrame(MerchantBuyBackItemItemButton, 0)
 
 	local backName = MerchantBuyBackItemName
 	backName:ClearAllPoints()
