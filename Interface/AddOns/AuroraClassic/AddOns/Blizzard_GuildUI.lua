@@ -187,14 +187,14 @@ C.themes["Blizzard_GuildUI"] = function()
 	F.Reskin(select(4, GuildTextEditFrame:GetChildren()))
 	F.Reskin(select(3, GuildLogFrame:GetChildren()))
 
-	local gbuttons = {"GuildAddMemberButton", "GuildViewLogButton", "GuildControlButton", "GuildTextEditFrameAcceptButton", "GuildMemberGroupInviteButton", "GuildMemberRemoveButton", "GuildRecruitmentInviteButton", "GuildRecruitmentMessageButton", "GuildRecruitmentDeclineButton", "GuildRecruitmentListGuildButton"}
-	for i = 1, #gbuttons do
-		F.Reskin(_G[gbuttons[i]])
+	local gbuttons = {GuildAddMemberButton, GuildViewLogButton, GuildControlButton, GuildTextEditFrameAcceptButton, GuildMemberGroupInviteButton, GuildMemberRemoveButton, GuildRecruitmentInviteButton, GuildRecruitmentMessageButton, GuildRecruitmentDeclineButton, GuildRecruitmentListGuildButton}
+	for _, button in next, gbuttons do
+		F.Reskin(button)
 	end
 
-	local checkboxes = {"GuildRecruitmentQuestButton", "GuildRecruitmentDungeonButton", "GuildRecruitmentRaidButton", "GuildRecruitmentPvPButton", "GuildRecruitmentRPButton", "GuildRecruitmentWeekdaysButton", "GuildRecruitmentWeekendsButton"}
-	for i = 1, #checkboxes do
-		F.ReskinCheck(_G[checkboxes[i]])
+	local checkboxes = {GuildRecruitmentQuestButton, GuildRecruitmentDungeonButton, GuildRecruitmentRaidButton, GuildRecruitmentPvPButton, GuildRecruitmentRPButton, GuildRecruitmentWeekdaysButton, GuildRecruitmentWeekendsButton}
+	for _, check in next, checkboxes do
+		F.ReskinCheck(check)
 	end
 
 	F.ReskinCheck(GuildRecruitmentTankButton:GetChildren())
@@ -205,12 +205,13 @@ C.themes["Blizzard_GuildUI"] = function()
 	F.ReskinRadio(GuildRecruitmentLevelMaxButton)
 
 	for i = 1, 3 do
-		for j = 1, 6 do
-			select(j, _G["GuildInfoFrameTab"..i]:GetRegions()):Hide()
-			select(j, _G["GuildInfoFrameTab"..i]:GetRegions()).Show = F.dummy
-		end
+		--for j = 1, 6 do
+		--	select(j, _G["GuildInfoFrameTab"..i]:GetRegions()):Hide()
+		--	select(j, _G["GuildInfoFrameTab"..i]:GetRegions()).Show = F.dummy
+		--end
 		local tab = _G["GuildInfoFrameTab"..i]
-		tab:SetHighlightTexture("")
+		F.StripTextures(tab, true)
+		--tab:SetHighlightTexture("")
 	end
 
 	-- Tradeskill View

@@ -3,16 +3,10 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_GuildControlUI"] = function()
 	local r, g, b = C.r, C.g, C.b
 
+	F.StripTextures(GuildControlUI, true)
+	F.StripTextures(GuildControlUIRankBankFrameInset, true)
 	F.CreateBD(GuildControlUI)
 	F.CreateSD(GuildControlUI)
-
-	for i = 1, 9 do
-		select(i, GuildControlUI:GetRegions()):Hide()
-	end
-
-	for i = 1, 8 do
-		select(i, GuildControlUIRankBankFrameInset:GetRegions()):Hide()
-	end
 
 	GuildControlUIRankSettingsFrameOfficerBg:SetAlpha(0)
 	GuildControlUIRankSettingsFrameRosterBg:SetAlpha(0)

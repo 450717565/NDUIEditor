@@ -2,12 +2,17 @@ local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_AuctionUI"] = function()
 	local r, g, b = C.r, C.g, C.b
-	
-	F.StripTextures(AuctionFrame, true)
-	F.StripTextures(BrowseScrollFrame, true)
-	F.StripTextures(BrowseFilterScrollFrame, true)
+
+	local frames = {AuctionFrame, BrowseScrollFrame, BrowseFilterScrollFrame, BidScrollFrame, AuctionsScrollFrame, AuctionProgressFrame}
+	for _, frame in next, frames do
+		F.StripTextures(frame, true)
+	end
 
 	F.SetBD(AuctionFrame, 2, -10, 0, 10)
+	F.CreateBD(AuctionProgressFrame)
+	F.CreateSD(AuctionProgressFrame)
+	F.ReskinStatusBar(AuctionProgressBar, true, true)
+	F.ReskinClose(AuctionProgressFrameCancelButton, "LEFT", AuctionProgressBar, "RIGHT", 4, 0)
 
 	hooksecurefunc("FilterButton_SetUp", function(button)
 		button:SetNormalTexture("")

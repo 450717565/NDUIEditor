@@ -9,6 +9,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 	end
 	F.CreateBD(AchievementFrame)
 	F.CreateSD(AchievementFrame)
+	AchievementFrameHeaderTitle:Hide()
 	AchievementFrameSummary:GetChildren():Hide()
 	select(2, AchievementFrameAchievements:GetChildren()):Hide()
 	select(5, AchievementFrameComparison:GetChildren()):Hide()
@@ -38,9 +39,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 	end
 
 	AchievementFrameHeaderPoints:ClearAllPoints()
-	AchievementFrameHeaderPoints:SetPoint("TOP", AchievementFrame, "TOP", 0, -6)
-	AchievementFrameHeaderTitle:ClearAllPoints()
-	AchievementFrameHeaderTitle:SetPoint("LEFT", AchievementFrameHeaderPoints, "LEFT")
+	AchievementFrameHeaderPoints:SetPoint("BOTTOM", AchievementFrameSummaryAchievementsHeaderTitle, "TOP", 0, 6)
 	AchievementFrameFilterDropDown:ClearAllPoints()
 	AchievementFrameFilterDropDown:SetPoint("TOPRIGHT", -120, 1)
 	AchievementFrameFilterDropDownText:ClearAllPoints()

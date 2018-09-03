@@ -111,6 +111,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.CreateBDFrame(MerchantBuyBackItemItemButton, 0)
 
 	local backName = MerchantBuyBackItemName
+	backName:SetWordWrap(false)
 	backName:ClearAllPoints()
 	backName:SetPoint("TOPLEFT", MerchantBuyBackItemItemButton, "TOPRIGHT", 3, 5)
 	local backMoney = MerchantBuyBackItemMoneyFrame

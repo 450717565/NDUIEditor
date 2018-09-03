@@ -1,34 +1,13 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_GuildBankUI"] = function()
-	GuildBankFrame:DisableDrawLayer("BACKGROUND")
-	GuildBankFrame:DisableDrawLayer("BORDER")
-
-	GuildBankFrame.TopLeftCorner:Hide()
-	GuildBankFrame.TopRightCorner:Hide()
-	GuildBankFrame.TopBorder:Hide()
-	GuildBankTabTitleBackground:SetTexture("")
-	GuildBankTabTitleBackgroundLeft:SetTexture("")
-	GuildBankTabTitleBackgroundRight:SetTexture("")
-	GuildBankTabLimitBackground:SetTexture("")
-	GuildBankTabLimitBackgroundLeft:SetTexture("")
-	GuildBankTabLimitBackgroundRight:SetTexture("")
-	GuildBankEmblemFrame:Hide()
-	GuildBankMoneyFrameBackgroundLeft:Hide()
-	GuildBankMoneyFrameBackgroundMiddle:Hide()
-	GuildBankMoneyFrameBackgroundRight:Hide()
-	GuildBankPopupNameLeft:Hide()
-	GuildBankPopupNameMiddle:Hide()
-	GuildBankPopupNameRight:Hide()
-	for i = 1, 3 do
-		select(i, GuildBankPopupScrollFrame:GetRegions()):Hide()
-	end
-	for i = 1, 2 do
-		select(i, GuildBankTransactionsScrollFrame:GetRegions()):Hide()
-		select(i, GuildBankInfoScrollFrame:GetRegions()):Hide()
+	local lists = {GuildBankFrame, GuildBankEmblemFrame, GuildBankMoneyFrameBackground, GuildBankPopupScrollFrame, GuildBankTransactionsScrollFrame, GuildBankInfoScrollFrame, GuildBankTabTitleBackground, GuildBankPopupFrame}
+	for _, list in next, lists do
+		F.StripTextures(list, true)
 	end
 
-	F.SetBD(GuildBankFrame)
+	F.CreateBD(GuildBankFrame)
+	F.CreateSD(GuildBankFrame)
 	F.Reskin(GuildBankFrameWithdrawButton)
 	F.Reskin(GuildBankFrameDepositButton)
 	F.Reskin(GuildBankFramePurchaseButton)
@@ -50,18 +29,13 @@ C.themes["Blizzard_GuildBankUI"] = function()
 		end
 	end
 
-	for i = 1, 8 do
-		select(i, GuildBankPopupFrame.BorderBox:GetRegions()):Hide()
-	end
-	GuildBankPopupFrame.BG:Hide()
 	F.CreateBD(GuildBankPopupFrame)
 	F.CreateSD(GuildBankPopupFrame)
-	F.CreateBD(GuildBankPopupEditBox, .25)
-	F.CreateSD(GuildBankPopupEditBox)
+	F.CreateBDFrame(GuildBankPopupEditBox, .25)
 	GuildBankPopupFrame:SetPoint("TOPLEFT", GuildBankFrame, "TOPRIGHT", 2, -30)
 	GuildBankPopupFrame:SetHeight(525)
 
-	GuildBankFrameWithdrawButton:SetPoint("RIGHT", GuildBankFrameDepositButton, "LEFT", -1, 0)
+	GuildBankFrameWithdrawButton:SetPoint("RIGHT", GuildBankFrameDepositButton, "LEFT", -2, 0)
 
 	for i = 1, NUM_GUILDBANK_COLUMNS do
 		_G["GuildBankColumn"..i]:GetRegions():Hide()

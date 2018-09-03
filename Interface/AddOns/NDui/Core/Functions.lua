@@ -476,7 +476,7 @@ end
 function B:CreateButton(width, height, text, fontSize)
 	local bu = CreateFrame("Button", nil, self)
 	bu:SetSize(width, height)
-	B.CreateBC(bu)
+	B.CreateBC(bu, .3)
 	bu.text = B.CreateFS(bu, fontSize or 14, text, true)
 
 	return bu

@@ -18,8 +18,7 @@ C.themes["Blizzard_Communities"] = function()
 	for _, name in next, {"GuildFinderFrame", "InvitationFrame", "TicketFrame"} do
 		local frame = CommunitiesFrame[name]
 		F.StripTextures(frame)
-		F.CreateBD(frame, .25)
-		F.CreateSD(frame)
+		F.CreateBDFrame(frame, .25)
 		frame.InsetFrame:Hide()
 		if frame.CircleMask then
 			frame.CircleMask:Hide()

@@ -793,7 +793,14 @@ function F:ReskinIconStyle()
 
 	local ps = self:GetPushedTexture()
 	ps:SetDrawLayer("OVERLAY")
-	--ps:SetVertexColor(r, g, b)
+
+	if self.SetCheckedTexture then
+		self:SetCheckedTexture(C.media.backdrop)
+		local check = self:GetCheckedTexture()
+		check:SetVertexColor(1, 1, 1, .25)
+		check:SetPoint("TOPLEFT", 1, -1)
+		check:SetPoint("BOTTOMRIGHT", -1, 1)
+	end
 
 	local ic = self.Icon or self.icon
 	if ic then

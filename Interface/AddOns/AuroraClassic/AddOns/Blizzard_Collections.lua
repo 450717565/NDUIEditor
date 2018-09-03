@@ -59,7 +59,7 @@ C.themes["Blizzard_Collections"] = function()
 			bu.selectedTexture:SetTexture("")
 
 			local hl = bu:GetHighlightTexture()
-			hl:SetColorTexture(1, 1, 1, .25)
+			hl:SetColorTexture(r, g, b, .25)
 			hl:SetPoint("TOPLEFT", 1, -2)
 			hl:SetPoint("BOTTOMRIGHT", -1, 2)
 
@@ -483,7 +483,7 @@ C.themes["Blizzard_Collections"] = function()
 
 		local hl = bu.HighlightTexture
 		hl:SetTexture(C.media.backdrop)
-		hl:SetVertexColor(1, 1, 1, .25)
+		hl:SetVertexColor(r, g, b, .25)
 		hl:SetPoint("TOPLEFT", 1, -2)
 		hl:SetPoint("BOTTOMRIGHT", -1, 2)
 
@@ -557,7 +557,7 @@ C.themes["Blizzard_Collections"] = function()
 
 			slot:SetHighlightTexture(C.media.backdrop)
 			local hl = slot:GetHighlightTexture()
-			hl:SetVertexColor(1, 1, 1, .25)
+			hl:SetVertexColor(r, g, b, .25)
 			hl:SetPoint("TOPLEFT", 2, -2)
 			hl:SetPoint("BOTTOMRIGHT", -2, 2)
 		end

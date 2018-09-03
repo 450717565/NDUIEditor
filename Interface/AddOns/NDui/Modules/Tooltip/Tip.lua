@@ -322,6 +322,7 @@ local function style(self)
 	end
 
 	self.bg:SetBackdropBorderColor(0, 0, 0)
+	self.bg.Shadow:SetBackdropBorderColor(0, 0, 0)
 	if NDuiDB["Tooltip"]["ClassColor"] and self.GetItem then
 		local _, item = self:GetItem()
 		if item then
@@ -329,6 +330,7 @@ local function style(self)
 			local color = BAG_ITEM_QUALITY_COLORS[quality or 1]
 			if color then
 				self.bg:SetBackdropBorderColor(color.r, color.g, color.b)
+				self.bg.Shadow:SetBackdropBorderColor(color.r, color.g, color.b)
 			end
 		end
 	end
