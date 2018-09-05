@@ -8,7 +8,8 @@ C.themes["Blizzard_LookingForGuildUI"] = function()
 		if styled then return end
 
 		F.StripTextures(LookingForGuildFrame)
-		F.SetBD(LookingForGuildFrame)
+		F.CreateBD(LookingForGuildFrame)
+		F.CreateSD(LookingForGuildFrame)
 		LookingForGuildInterestFrameBg:Hide()
 		LookingForGuildAvailabilityFrameBg:Hide()
 		LookingForGuildRolesFrameBg:Hide()

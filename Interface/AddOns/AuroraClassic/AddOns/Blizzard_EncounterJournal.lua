@@ -74,7 +74,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 			hl:SetPoint("TOPLEFT", 4, -4)
 			hl:SetPoint("BOTTOMRIGHT", -5, 3)
 
-			local bg = F.CreateBDFrame(bu.bgImage)
+			local bg = F.CreateBDFrame(bu.bgImage, .25)
 			bg:SetPoint("TOPLEFT", 3, -3)
 			bg:SetPoint("BOTTOMRIGHT", -4, 2)
 
@@ -246,7 +246,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 
 			bu.icon:SetTexCoord(.08, .92, .08, .92)
 			bu.icon.SetTexCoord = F.dummy
-			F.CreateBDFrame(bu.icon)
+			F.CreateBDFrame(bu.icon, .25)
 
 			bu:SetHighlightTexture(C.media.backdrop)
 			local hl = bu:GetHighlightTexture()
@@ -274,8 +274,8 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		F.CreateSD(EncounterJournalTooltip)
 		EncounterJournalTooltip.Item1.icon:SetTexCoord(.08, .92, .08, .92)
 		EncounterJournalTooltip.Item2.icon:SetTexCoord(.08, .92, .08, .92)
-		EncounterJournalTooltip.Item1.newBg = F.CreateBDFrame(EncounterJournalTooltip.Item1.icon)
-		EncounterJournalTooltip.Item2.newBg = F.CreateBDFrame(EncounterJournalTooltip.Item2.icon)
+		EncounterJournalTooltip.Item1.newBg = F.CreateBDFrame(EncounterJournalTooltip.Item1.icon, .25)
+		EncounterJournalTooltip.Item2.newBg = F.CreateBDFrame(EncounterJournalTooltip.Item2.icon, .25)
 	end
 
 	-- [[ Suggest frame ]]
@@ -288,7 +288,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 
 	suggestion.icon:ClearAllPoints()
 	suggestion.icon:SetPoint("TOP", 0, -15)
-	F.CreateBDFrame(suggestion.icon)
+	F.CreateBDFrame(suggestion.icon, .25)
 
 	local centerDisplay = suggestion.centerDisplay
 	centerDisplay.title.text:SetTextColor(1, 1, 1)
@@ -310,7 +310,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		F.CreateBDFrame(suggestion, .25)
 
 		suggestion.icon:SetPoint("TOPLEFT", 10, -10)
-		F.CreateBDFrame(suggestion.icon)
+		F.CreateBDFrame(suggestion.icon, .25)
 
 		local centerDisplay = suggestion.centerDisplay
 		centerDisplay:ClearAllPoints()
@@ -322,7 +322,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		local reward = suggestion.reward
 		F.StripTextures(reward)
 
-		local bd = F.CreateBDFrame(reward.icon)
+		local bd = F.CreateBDFrame(reward.icon, .25)
 		bd:SetFrameLevel(reward:GetFrameLevel()+1)
 	end
 
@@ -399,7 +399,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		if not button.bg then
 			button.Border:SetAlpha(0)
 			button.Icon:SetTexCoord(.08, .92, .08, .92)
-			button.bg = F.CreateBDFrame(button.Icon)
+			button.bg = F.CreateBDFrame(button.Icon, .25)
 		end
 
 		local quality = select(3, GetItemInfo(button.itemID))

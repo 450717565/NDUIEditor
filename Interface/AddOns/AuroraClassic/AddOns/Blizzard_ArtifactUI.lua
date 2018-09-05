@@ -35,7 +35,7 @@ C.themes["Blizzard_ArtifactUI"] = function()
 			local slot = ArtifactFrame.AppearancesTab.appearanceSlotPool:Acquire()
 			slot.Border:SetAlpha(0)
 			slot.Background:Hide()
-			F.CreateBDFrame(slot)
+			F.CreateBDFrame(slot, .25)
 
 			slot.SwatchTexture:SetTexCoord(.2, .8, .2, .8)
 			slot.SwatchTexture:SetAllPoints()

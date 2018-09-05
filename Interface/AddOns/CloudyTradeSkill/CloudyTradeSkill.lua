@@ -108,7 +108,7 @@ local function addTab(id, index, isSub)
 			hl:SetVertexColor(1, 1, 1, .25)
 		elseif (skinUI == "ElvUI") then
 			checkedTexture = tab:CreateTexture(nil, "HIGHLIGHT")
-			checkedTexture:SetColorTexture(1, 1, 1, 0.3)
+			checkedTexture:SetColorTexture(1, 1, 1, .25)
 			checkedTexture:SetInside()
 			tab:SetHighlightTexture(nil)
 		end

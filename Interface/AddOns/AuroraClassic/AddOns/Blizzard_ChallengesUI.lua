@@ -7,7 +7,7 @@ C.themes["Blizzard_ChallengesUI"] = function()
 			frame.Portrait:SetTexture(nil)
 			if not frame.bg then
 				frame.Portrait:SetTexCoord(.08, .92, .08, .92)
-				frame.bg = F.CreateBDFrame(frame.Portrait)
+				frame.bg = F.CreateBDFrame(frame.Portrait, .25)
 			end
 
 			if frame.info then
@@ -63,7 +63,8 @@ C.themes["Blizzard_ChallengesUI"] = function()
 	end)
 
 	local keystone = ChallengesKeystoneFrame
-	F.SetBD(keystone)
+	F.CreateBD(keystone)
+	F.CreateSD(keystone)
 	F.ReskinClose(keystone.CloseButton)
 	F.Reskin(keystone.StartButton)
 

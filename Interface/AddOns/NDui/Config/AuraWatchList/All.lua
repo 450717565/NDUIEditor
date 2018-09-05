@@ -67,9 +67,15 @@ local list = {
 		{AuraID = 273992, UnitID = "player"},	-- 灵魂之速
 		{AuraID = 273955, UnitID = "player"},	-- 望远镜视野
 		{AuraID = 261612, UnitID = "player"},	-- 迅击风暴
+		{AuraID = 268887, UnitID = "player"},	-- 迅捷远航
+		{AuraID = 268854, UnitID = "player"},	-- 全能远航
 		{AuraID = 264957, UnitID = "player"},	-- 急速瞄准镜
 		{AuraID = 274472, UnitID = "player"},	-- 狂战士之怒
 		{AuraID = 268769, UnitID = "player"},	-- 标记死穴
+		{AuraID = 267179, UnitID = "player"},	-- 非凡的力量
+		{AuraID = 267325, UnitID = "player", Text = RAID_BUFF_7},	-- 注铅骰子，精通
+		{AuraID = 267329, UnitID = "player", Text = RAID_BUFF_4},	-- 急速
+		{AuraID = 267331, UnitID = "player", Text = RAID_BUFF_6},	-- 爆击
 	-->艾泽里特特质
 		{AuraID = 280409, UnitID = "player"},	-- 血祭之力
 		{AuraID = 279902, UnitID = "player"},	-- 不稳定的烈焰
@@ -319,6 +325,9 @@ local list = {
 		{AuraID = 197965, UnitID = "player"},
 		{AuraID = 197966, UnitID = "player"},
 		{AuraID = 197967, UnitID = "player"},
+	-->奥迪尔
+		{AuraID = 265662, UnitID = "player"},	-- 腐化者的契约，泽克沃兹
+		{AuraID = 267409, UnitID = "player"},	-- 黑暗交易，戈霍恩
 	-->翡翠梦魇
 		--尼珊德拉
 		{AuraID = 221028, UnitID = "player"},--不稳定的腐烂，小怪
@@ -604,7 +613,24 @@ local list = {
 	},
 	["Target Special Aura"] = { -- 目标重要光环组
 	-->5人本
+		{AuraID = 226510, UnitID = "target"},	-- 血池回血
+	-->8.0副本
 		{AuraID = 257458, UnitID = "target"},	-- 自由镇尾王易伤
+		{AuraID = 260512, UnitID = "target"},	-- 灵魂收割，神庙
+		{AuraID = 256493, UnitID = "target"},--炽燃的艾泽里特
+		{AuraID = 267901, UnitID = "target"},--铁墙祝福
+	-->奥迪尔
+		{AuraID = 278218, UnitID = "target"},	-- 虚空召唤，泽克沃兹
+		{AuraID = 278220, UnitID = "target"},	-- 虚空超脱，泽克沃兹
+		{AuraID = 273432, UnitID = "target"},	-- 暗影束缚，祖尔
+		{AuraID = 273288, UnitID = "target"},	-- 婆娑脉动，祖尔
+		{AuraID = 274761, UnitID = "target"},	-- 湮灭帷幕，拆解者米斯拉克斯
+		{AuraID = 276900, UnitID = "target"},	-- 临界炽焰，拆解者米斯拉克斯
+		{AuraID = 279013, UnitID = "target"},	-- 精华碎裂，拆解者米斯拉克斯
+		{AuraID = 263482, UnitID = "target"},	-- 重组冲击，戈霍恩
+		{AuraID = 263372, UnitID = "target"},	-- 能量矩阵，戈霍恩
+		{AuraID = 270447, UnitID = "target"},	-- 腐化滋长，戈霍恩
+	-->7.0副本
 		{AuraID = 192132, UnitID = "target"},--英灵殿赫娅
 		{AuraID = 192133, UnitID = "target"},--英灵殿赫娅
 		{AuraID = 192517, UnitID = "target"},--脆弱，阿什高姆
@@ -613,7 +639,6 @@ local list = {
 		{AuraID = 200672, UnitID = "target"},--水晶迸裂，熔火焦皮
 		{AuraID = 211632, UnitID = "player"},--军团烙印
 		{AuraID = 226285, UnitID = "player"},--恶魔飞升
-		{AuraID = 226510, UnitID = "target"},--血池回血
 		{AuraID = 227254, UnitID = "target"},--馆长：易伤
 		{AuraID = 227817, UnitID = "target", Value = true},--贞洁圣女：神圣壁垒
 		{AuraID = 229495, UnitID = "target"},--国王：易伤
@@ -621,8 +646,6 @@ local list = {
 		{AuraID = 247816, UnitID = "target"},--反冲，鲁拉
 		{AuraID = 247915, UnitID = "target"},--黑暗滋生，鲁拉
 		{AuraID = 254020, UnitID = "target"},--黑暗笼罩，鲁拉
-		{AuraID = 256493, UnitID = "target"},--炽燃的艾泽里特
-		{AuraID = 267901, UnitID = "target"},--铁墙祝福
 	-->翡翠梦魇
 		{AuraID = 215234, UnitID = "target"},--梦魇之怒
 		{AuraID = 211137, UnitID = "target"},--腐溃之风

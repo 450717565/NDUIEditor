@@ -68,7 +68,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 		bu.description.SetShadowOffset = F.dummy
 
 		bu.icon.texture:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(bu.icon.texture)
+		F.CreateBDFrame(bu.icon.texture, .25)
 
 		local bg = F.CreateBDFrame(bu, .25)
 		bg:SetPoint("TOPLEFT", 1, -1)
@@ -227,11 +227,11 @@ C.themes["Blizzard_AchievementUI"] = function()
 
 		local ic = _G["AchievementFrameComparisonContainerButton"..i.."PlayerIconTexture"]
 		ic:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(ic)
+		F.CreateBDFrame(ic, .25)
 
 		local ic = _G["AchievementFrameComparisonContainerButton"..i.."FriendIconTexture"]
 		ic:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(ic)
+		F.CreateBDFrame(ic, .25)
 	end
 
 	F.ReskinClose(AchievementFrameCloseButton)
@@ -291,7 +291,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 			bd:SetPoint("BOTTOMRIGHT", -1, 1)
 
 			bu.icon:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(bu.icon)
+			F.CreateBDFrame(bu.icon, .25)
 
 			bu:SetHighlightTexture(C.media.backdrop)
 			local hl = bu:GetHighlightTexture()

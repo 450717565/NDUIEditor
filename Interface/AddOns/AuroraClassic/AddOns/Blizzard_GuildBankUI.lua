@@ -99,7 +99,7 @@ C.themes["Blizzard_GuildBankUI"] = function()
 
 				_G["GuildBankPopupButton"..i.."Icon"]:SetTexCoord(.08, .92, .08, .92)
 
-				F.CreateBDFrame(_G["GuildBankPopupButton"..i.."Icon"])
+				F.CreateBDFrame(_G["GuildBankPopupButton"..i.."Icon"], .25)
 				bu.styled = true
 			end
 		end

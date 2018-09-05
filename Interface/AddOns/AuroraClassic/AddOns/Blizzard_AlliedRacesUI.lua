@@ -19,7 +19,7 @@ C.themes["Blizzard_AlliedRacesUI"] = function()
 			if bu.Icon and not bu.styled then
 				bu.Icon:SetTexCoord(.08, .92, .08, .92)
 				select(3, bu:GetRegions()):Hide()
-				F.CreateBDFrame(bu.Icon)
+				F.CreateBDFrame(bu.Icon, .25)
 
 				bu.styled = true
 			end

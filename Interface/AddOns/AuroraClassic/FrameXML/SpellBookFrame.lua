@@ -1,12 +1,11 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	SpellBookFrame:DisableDrawLayer("BACKGROUND")
-	SpellBookFrame:DisableDrawLayer("BORDER")
-	SpellBookFrame:DisableDrawLayer("OVERLAY")
-	SpellBookFrameInset:DisableDrawLayer("BORDER")
+	F.StripTextures(SpellBookFrame, true)
+	F.StripTextures(SpellBookFrameInset, true)
 
-	F.SetBD(SpellBookFrame)
+	F.CreateBD(SpellBookFrame)
+	F.CreateSD(SpellBookFrame)
 	F.ReskinClose(SpellBookFrameCloseButton)
 
 	SpellBookFrameTabButton1:ClearAllPoints()
@@ -19,17 +18,10 @@ tinsert(C.themes["AuroraClassic"], function()
 	for i = 1, SPELLS_PER_PAGE do
 		local bu = _G["SpellButton"..i]
 		local ic = _G["SpellButton"..i.."IconTexture"]
-
-		_G["SpellButton"..i.."SlotFrame"]:SetAlpha(0)
-		bu.EmptySlot:SetAlpha(0)
-		bu.TextBackground:Hide()
-		bu.TextBackground2:Hide()
-		bu.UnlearnedFrame:SetAlpha(0)
-		bu:SetCheckedTexture("")
-		bu:SetPushedTexture("")
+		F.StripTextures(bu)
 
 		ic:SetTexCoord(.08, .92, .08, .92)
-		ic.bg = F.CreateBDFrame(ic)
+		ic.bg = F.CreateBDFrame(ic, .25)
 	end
 
 	hooksecurefunc("SpellButton_UpdateButton", function(self)
@@ -115,8 +107,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	for _, button in pairs(professionbuttons) do
 		local icon = _G[button.."IconTexture"]
 		local bu = _G[button]
-		_G[button.."NameFrame"]:SetAlpha(0)
-		bu:SetPushedTexture("")
+		F.StripTextures(bu)
 		bu:SetCheckedTexture(C.media.checked)
 
 		if icon then
@@ -124,7 +115,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			icon:ClearAllPoints()
 			icon:SetPoint("TOPLEFT", 2, -2)
 			icon:SetPoint("BOTTOMRIGHT", -2, 2)
-			F.CreateBDFrame(icon)
+			F.CreateBDFrame(icon, .25)
 			bu.highlightTexture:SetAllPoints(icon)
 		end
 	end
@@ -140,7 +131,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		bu.icon:SetAlpha(1)
 		bu.icon:SetTexCoord(.08, .92, .08, .92)
 		bu.icon:SetDesaturated(false)
-		F.CreateBDFrame(bu.icon)
+		F.CreateBDFrame(bu.icon, .25)
 
 		local bg = F.CreateBDFrame(bu, .25)
 		bg:SetPoint("TOPLEFT")

@@ -125,7 +125,7 @@ C.themes["Blizzard_GuildUI"] = function()
 		bg:SetPoint("BOTTOMRIGHT", 0, 4)
 
 		bu.icon:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(bu.icon)
+		F.CreateBDFrame(bu.icon, .25)
 	end
 	GuildPerksContainerButton1:SetPoint("LEFT", -1, 0)
 
@@ -137,7 +137,7 @@ C.themes["Blizzard_GuildUI"] = function()
 				bu:SetNormalTexture("")
 				bu:SetHighlightTexture("")
 				bu.icon:SetTexCoord(.08, .92, .08, .92)
-				F.CreateBDFrame(bu.icon)
+				F.CreateBDFrame(bu.icon, .25)
 				bu.disabledBG:Hide()
 				bu.disabledBG.Show = F.dummy
 
@@ -166,7 +166,7 @@ C.themes["Blizzard_GuildUI"] = function()
 				bu:SetHighlightTexture(C.media.backdrop)
 				bu:GetHighlightTexture():SetVertexColor(r, g, b, .25)
 
-				bu.bg = F.CreateBDFrame(bu.icon)
+				bu.bg = F.CreateBDFrame(bu.icon, .25)
 			end
 
 			index = offset + i

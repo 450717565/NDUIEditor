@@ -103,7 +103,7 @@ local function UpdateSavedInstances()
 			if not wb.bosses[n].name then
 				wb.bosses[n].name = EJ_GetEncounterInfo(wb.bosses[n].encounter)
 			end
-			table.insert(worldBosses[z], {
+			tinsert(worldBosses[z], {
 				name = wb.bosses[n].name,
 				isKilled = IsQuestFlaggedCompleted(wb.bosses[n].quest)
 			})
@@ -120,7 +120,7 @@ local function UpdateSavedInstances()
 		if worldBossesData[z].instanceName and savedInstances[worldBossesData[z].instanceName] then
 			local maxBosses = worldBossesData[z].maxBosses
 			if defeatedBosses > 0 then
-				table.insert(savedInstances[worldBossesData[z].instanceName], {
+				tinsert(savedInstances[worldBossesData[z].instanceName], {
 					bosses = worldBosses[z],
 					instanceName = worldBossesData[z].instanceName,
 					difficulty = difficulty,
@@ -150,7 +150,7 @@ local function UpdateSavedInstances()
 		local b = 1
 		while GetSavedInstanceEncounterInfo(i, b) do
 			local bossName, _, isKilled = GetSavedInstanceEncounterInfo(i, b)
-			table.insert(bosses, {
+			tinsert(bosses, {
 				name = bossName,
 				isKilled = isKilled
 			})
@@ -159,7 +159,7 @@ local function UpdateSavedInstances()
 
 		if reset > 0 and defeatedBosses > 0 then
 			savedInstances[instanceName] = savedInstances[instanceName] or {}
-			table.insert(savedInstances[instanceName], {
+			tinsert(savedInstances[instanceName], {
 				bosses = bosses,
 				instanceName = instanceName,
 				instanceDifficulty = instanceDifficulty,
@@ -174,44 +174,44 @@ local function UpdateSavedInstances()
 	end
 end
 
-local function UpdateStatusFramePosition(instanceFrame)
-	local savedFrames = statusFrames[instanceFrame:GetName()]
+local function UpdateStatusFramePosition(instanceButton)
+	local savedFrames = statusFrames[instanceButton:GetName()]
 	local lfrVisible = savedFrames and savedFrames["lfr"] and savedFrames["lfr"]:IsShown()
 	local normalVisible = savedFrames and savedFrames["normal"] and savedFrames["normal"]:IsShown()
 	local heroicVisible = savedFrames and savedFrames["heroic"] and savedFrames["heroic"]:IsShown()
 	local mythicVisible = savedFrames and savedFrames["mythic"] and savedFrames["mythic"]:IsShown()
 
 	if mythicVisible then
-		savedFrames["mythic"]:SetPoint("BOTTOMRIGHT", instanceFrame, "BOTTOMRIGHT", 4, -12)
+		savedFrames["mythic"]:SetPoint("BOTTOMRIGHT", instanceButton, "BOTTOMRIGHT", 4, -12)
 	end
 
 	if heroicVisible then
 		if mythicVisible then
-			savedFrames["heroic"]:SetPoint("BOTTOMRIGHT", instanceFrame, "BOTTOMRIGHT", -28, -12)
+			savedFrames["heroic"]:SetPoint("BOTTOMRIGHT", instanceButton, "BOTTOMRIGHT", -28, -12)
 		else
-			savedFrames["heroic"]:SetPoint("BOTTOMRIGHT", instanceFrame, "BOTTOMRIGHT", 4, -12)
+			savedFrames["heroic"]:SetPoint("BOTTOMRIGHT", instanceButton, "BOTTOMRIGHT", 4, -12)
 		end
 	end
 
 	if normalVisible then
 		if heroicVisible and mythicVisible then
-			savedFrames["normal"]:SetPoint("BOTTOMRIGHT", instanceFrame, "BOTTOMRIGHT", -60, -23)
+			savedFrames["normal"]:SetPoint("BOTTOMRIGHT", instanceButton, "BOTTOMRIGHT", -60, -23)
 		elseif heroicVisible or mythicVisible then
-			savedFrames["normal"]:SetPoint("BOTTOMRIGHT", instanceFrame, "BOTTOMRIGHT", -28, -23)
+			savedFrames["normal"]:SetPoint("BOTTOMRIGHT", instanceButton, "BOTTOMRIGHT", -28, -23)
 		else
-			savedFrames["normal"]:SetPoint("BOTTOMRIGHT", instanceFrame, "BOTTOMRIGHT", 4, -23)
+			savedFrames["normal"]:SetPoint("BOTTOMRIGHT", instanceButton, "BOTTOMRIGHT", 4, -23)
 		end
 	end
 
 	if lfrVisible then
 		if normalVisible and heroicVisible and mythicVisible then
-			savedFrames["lfr"]:SetPoint("BOTTOMRIGHT", instanceFrame, "BOTTOMRIGHT", -92, -23)
+			savedFrames["lfr"]:SetPoint("BOTTOMRIGHT", instanceButton, "BOTTOMRIGHT", -92, -23)
 		elseif heroicVisible and mythicVisible or heroicVisible and normalVisible or mythicVisible and normalVisible then
-			savedFrames["lfr"]:SetPoint("BOTTOMRIGHT", instanceFrame, "BOTTOMRIGHT", -60, -23)
+			savedFrames["lfr"]:SetPoint("BOTTOMRIGHT", instanceButton, "BOTTOMRIGHT", -60, -23)
 		elseif normalVisible or heroicVisible or mythicVisible then
-			savedFrames["lfr"]:SetPoint("BOTTOMRIGHT", instanceFrame, "BOTTOMRIGHT", -28, -23)
+			savedFrames["lfr"]:SetPoint("BOTTOMRIGHT", instanceButton, "BOTTOMRIGHT", -28, -23)
 		else
-			savedFrames["lfr"]:SetPoint("BOTTOMRIGHT", instanceFrame, "BOTTOMRIGHT", 4, -23)
+			savedFrames["lfr"]:SetPoint("BOTTOMRIGHT", instanceButton, "BOTTOMRIGHT", 4, -23)
 		end
 	end
 end
@@ -232,8 +232,8 @@ local function ShowTooltip(frame)
 	GameTooltip:Show()
 end
 
-local function CreateStatusFrame(instanceFrame, difficulty)
-	local statusFrame = CreateFrame("Frame", nil, instanceFrame)
+local function CreateStatusFrame(instanceButton, difficulty)
+	local statusFrame = CreateFrame("Frame", nil, instanceButton)
 	statusFrame:Hide()
 
 	statusFrame:SetScript("OnEnter", ShowTooltip)
@@ -246,7 +246,7 @@ local function CreateStatusFrame(instanceFrame, difficulty)
 	statusFrame.texture:SetTexture("Interface\\Minimap\\UI-DungeonDifficulty-Button")
 	statusFrame.texture:SetSize(38, 46)
 
-	statusFrame:SetPoint("BOTTOMRIGHT", instanceFrame, "BOTTOMRIGHT", 17, -12)
+	statusFrame:SetPoint("BOTTOMRIGHT", instanceButton, "BOTTOMRIGHT", 17, -12)
 
 	if difficulty == "mythic" then
 		statusFrame.texture:SetTexCoord(0.30, 0.45, 0.0703125, 0.4296875)
@@ -285,28 +285,28 @@ local function CreateStatusFrame(instanceFrame, difficulty)
 	statusFrame.completeFrame = completeFrame
 	statusFrame.progressFrame = progressFrame
 
-	if statusFrames[instanceFrame:GetName()] == nil then
-		statusFrames[instanceFrame:GetName()] = {}
+	if statusFrames[instanceButton:GetName()] == nil then
+		statusFrames[instanceButton:GetName()] = {}
 	end
-	statusFrames[instanceFrame:GetName()][difficulty] = statusFrame
+	statusFrames[instanceButton:GetName()][difficulty] = statusFrame
 
 	return statusFrame
 end
 
-local function UpdateInstanceStatusFrame(instanceFrame)
-	if statusFrames[instanceFrame:GetName()] then
-		for difficulty, frame in pairs(statusFrames[instanceFrame:GetName()]) do
+local function UpdateInstanceStatusFrame(instanceButton)
+	if statusFrames[instanceButton:GetName()] then
+		for difficulty, frame in pairs(statusFrames[instanceButton:GetName()]) do
 			frame:Hide()
 		end
 	end
 
-	local instances = savedInstances[instanceFrame.tooltipTitle]
+	local instances = savedInstances[instanceButton.tooltipTitle]
 	if instances == nil then
 		return
 	end
 
 	for key, instance in ipairs(instances) do
-		local frame = (statusFrames[instanceFrame:GetName()] and statusFrames[instanceFrame:GetName()][instance.difficulty]) or CreateStatusFrame(instanceFrame, instance.difficulty)
+		local frame = (statusFrames[instanceButton:GetName()] and statusFrames[instanceButton:GetName()][instance.difficulty]) or CreateStatusFrame(instanceButton, instance.difficulty)
 		if instance.complete then
 			frame.completeFrame:Show()
 			frame.progressFrame:Hide()
@@ -322,7 +322,7 @@ local function UpdateInstanceStatusFrame(instanceFrame)
 
 		frame.instanceInfo = instance
 	end
-	UpdateStatusFramePosition(instanceFrame)
+	UpdateStatusFramePosition(instanceButton)
 end
 
 -------------------
@@ -354,7 +354,7 @@ local function OnUpdate(self, elapsed)
 			end
 		end
 		hooksecurefunc("EncounterJournal_ListInstances", UpdateFrames)
-		EncounterJournal_ListInstances()
+		UpdateFrames()
 	end
 end
 

@@ -173,7 +173,7 @@ end
 
 local function blockWhisperString(_, _, msg, author)
 	local name = Ambiguate(author, "none")
-	if msg:find("%[World Quest Tracker%]") or msg:find("一起做世界任务吧：") then
+	if msg:find("%[World Quest Tracker%]") or msg:find("一起做世界任务吧：") or msg:find("一起来做世界任务<") then
 		if not WQTUsers[name] then
 			WQTUsers[name] = true
 		end
@@ -205,6 +205,7 @@ local chatEvents = {
 	"CHAT_MSG_RAID_LEADER",
 	"CHAT_MSG_RAID_WARNING",
 	"CHAT_MSG_SAY",
+	"CHAT_MSG_SYSTEM",
 	"CHAT_MSG_WHISPER",
 	"CHAT_MSG_WHISPER_INFORM",
 	"CHAT_MSG_YELL",
@@ -221,5 +222,7 @@ function module:ChatFilter()
 
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_GUILD", chatAtMe)
 
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", blockInviteString)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", blockWhisperString)
 	B:RegisterEvent("PARTY_INVITE_REQUEST", hideInvitePopup)
 end

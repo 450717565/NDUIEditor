@@ -5,7 +5,8 @@ C.themes["Blizzard_Communities"] = function()
 	local CommunitiesFrame = CommunitiesFrame
 
 	F.StripTextures(CommunitiesFrame)
-	F.SetBD(CommunitiesFrame)
+	F.CreateBD(CommunitiesFrame)
+	F.CreateSD(CommunitiesFrame)
 	CommunitiesFrame.PortraitOverlay:SetAlpha(0)
 	CommunitiesFrame.MaximizeMinimizeFrame:GetRegions():Hide()
 	F.ReskinDropDown(CommunitiesFrame.StreamDropDownMenu)
@@ -23,7 +24,7 @@ C.themes["Blizzard_Communities"] = function()
 		if frame.CircleMask then
 			frame.CircleMask:Hide()
 			frame.Icon:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(frame.Icon)
+			F.CreateBDFrame(frame.Icon, .25)
 		end
 		if frame.FindAGuildButton then F.Reskin(frame.FindAGuildButton) end
 		if frame.AcceptButton then F.Reskin(frame.AcceptButton) end
@@ -86,7 +87,8 @@ C.themes["Blizzard_Communities"] = function()
 		local dialog = CommunitiesFrame.NotificationSettingsDialog
 		F.StripTextures(dialog)
 		dialog.BG:Hide()
-		F.SetBD(dialog)
+		F.CreateBD(dialog)
+		F.CreateSD(dialog)
 		F.ReskinDropDown(dialog.CommunitiesListDropDownMenu)
 		F.Reskin(dialog.OkayButton)
 		F.Reskin(dialog.CancelButton)
@@ -114,7 +116,8 @@ C.themes["Blizzard_Communities"] = function()
 	do
 		local dialog = CommunitiesFrame.EditStreamDialog
 		F.StripTextures(dialog)
-		F.SetBD(dialog)
+		F.CreateBD(dialog)
+		F.CreateSD(dialog)
 		F.StripTextures(dialog.NameEdit)
 		local bg = F.CreateBDFrame(dialog.NameEdit, .25)
 		bg:SetPoint("TOPLEFT", -3, -3)
@@ -130,7 +133,8 @@ C.themes["Blizzard_Communities"] = function()
 	do
 		local dialog = CommunitiesTicketManagerDialog
 		F.StripTextures(dialog)
-		F.SetBD(dialog)
+		F.CreateBD(dialog)
+		F.CreateSD(dialog)
 		dialog.Background:Hide()
 		F.Reskin(dialog.LinkToChat)
 		F.Reskin(dialog.Copy)
@@ -188,7 +192,8 @@ C.themes["Blizzard_Communities"] = function()
 
 	local detailFrame = CommunitiesFrame.GuildMemberDetailFrame
 	F.StripTextures(detailFrame)
-	F.SetBD(detailFrame)
+	F.CreateBD(detailFrame)
+	F.CreateSD(detailFrame)
 	detailFrame.BackBackground:Hide()
 	F.ReskinClose(detailFrame.CloseButton)
 	F.Reskin(detailFrame.RemoveButton)
@@ -204,7 +209,8 @@ C.themes["Blizzard_Communities"] = function()
 	do
 		local dialog = CommunitiesSettingsDialog
 		F.StripTextures(dialog)
-		F.SetBD(dialog)
+		F.CreateBD(dialog)
+		F.CreateSD(dialog)
 		F.Reskin(dialog.ChangeAvatarButton)
 		F.Reskin(dialog.Accept)
 		F.Reskin(dialog.Delete)
@@ -220,7 +226,8 @@ C.themes["Blizzard_Communities"] = function()
 	do
 		local dialog = CommunitiesAvatarPickerDialog
 		F.StripTextures(dialog)
-		F.SetBD(dialog)
+		F.CreateBD(dialog)
+		F.CreateSD(dialog)
 		select(9, dialog:GetRegions()):Hide()
 		CommunitiesAvatarPickerDialogTop:Hide()
 		CommunitiesAvatarPickerDialogMiddle:Hide()
@@ -252,7 +259,7 @@ C.themes["Blizzard_Communities"] = function()
 	local function updateNameFrame(self)
 		if not self.expanded then return end
 		if not self.bg then
-			self.bg = F.CreateBDFrame(self.Class)
+			self.bg = F.CreateBDFrame(self.Class, .25)
 		end
 		local memberInfo = self:GetMemberInfo()
 		if memberInfo and memberInfo.classID then
@@ -286,7 +293,7 @@ C.themes["Blizzard_Communities"] = function()
 					F.CreateBDFrame(header, .45)
 					header:SetHighlightTexture(C.media.backdrop)
 					header:GetHighlightTexture():SetVertexColor(r, g, b, .25)
-					F.CreateBDFrame(header.Icon)
+					F.CreateBDFrame(header.Icon, .25)
 				end
 
 				button.hooked = true
@@ -317,7 +324,7 @@ C.themes["Blizzard_Communities"] = function()
 			local button = buttons[i]
 			if button and button:IsShown() and not button.bg then
 				button.Icon:SetTexCoord(.08, .92, .08, .92)
-				F.CreateBDFrame(button.Icon)
+				F.CreateBDFrame(button.Icon, .25)
 				for i = 1, 4 do
 					select(i, button:GetRegions()):SetAlpha(0)
 				end
@@ -335,7 +342,7 @@ C.themes["Blizzard_Communities"] = function()
 			if button then
 				if not button.bg then
 					button.Icon:SetTexCoord(.08, .92, .08, .92)
-					F.CreateBDFrame(button.Icon)
+					F.CreateBDFrame(button.Icon, .25)
 					select(6, button:GetRegions()):SetAlpha(0)
 					select(7, button:GetRegions()):SetAlpha(0)
 
@@ -358,7 +365,8 @@ C.themes["Blizzard_Communities"] = function()
 	bg3:SetPoint("BOTTOMRIGHT", -5, -4)
 
 	F.StripTextures(CommunitiesGuildTextEditFrame)
-	F.SetBD(CommunitiesGuildTextEditFrame)
+	F.CreateBD(CommunitiesGuildTextEditFrame)
+	F.CreateSD(CommunitiesGuildTextEditFrame)
 	CommunitiesGuildTextEditFrameBg:Hide()
 	F.StripTextures(CommunitiesGuildTextEditFrame.Container)
 	F.CreateBDFrame(CommunitiesGuildTextEditFrame.Container, .25)
@@ -381,7 +389,8 @@ C.themes["Blizzard_Communities"] = function()
 
 	F.StripTextures(CommunitiesGuildNewsFiltersFrame)
 	CommunitiesGuildNewsFiltersFrameBg:Hide()
-	F.SetBD(CommunitiesGuildNewsFiltersFrame)
+	F.CreateBD(CommunitiesGuildNewsFiltersFrame)
+	F.CreateSD(CommunitiesGuildNewsFiltersFrame)
 	F.ReskinClose(CommunitiesGuildNewsFiltersFrame.CloseButton)
 	for _, name in next, {"GuildAchievement", "Achievement", "DungeonEncounter", "EpicItemLooted", "EpicItemPurchased", "EpicItemCrafted", "LegendaryItemLooted"} do
 		local filter = CommunitiesGuildNewsFiltersFrame[name]
@@ -390,7 +399,8 @@ C.themes["Blizzard_Communities"] = function()
 
 	F.StripTextures(CommunitiesGuildLogFrame)
 	CommunitiesGuildLogFrameBg:Hide()
-	F.SetBD(CommunitiesGuildLogFrame)
+	F.CreateBD(CommunitiesGuildLogFrame)
+	F.CreateSD(CommunitiesGuildLogFrame)
 	F.ReskinClose(CommunitiesGuildLogFrameCloseButton)
 	F.ReskinScroll(CommunitiesGuildLogFrameScrollBar)
 	F.StripTextures(CommunitiesGuildLogFrame.Container)

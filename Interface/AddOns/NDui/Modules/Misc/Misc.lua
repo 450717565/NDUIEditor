@@ -30,15 +30,15 @@ do
 	local function CalculateArches()
 		print("|cff0080ff【NDui】".."|c0000FF00"..L["Arch Count"]..L[":"])
 		local ta = 0
-		for x = 1, 15 do
+		for x = 1, GetNumArchaeologyRaces() do
 			local c = GetNumArtifactsByRace(x)
 			local a = 0
 			for y = 1, c do
-				local t = select(9, GetArtifactInfoByRace(x, y))
+				local t = select(10, GetArtifactInfoByRace(x, y))
 				a = a + t
 			end
 			local rn = GetArchaeologyRaceInfo(x)
-			if (c > 1) then
+			if c > 1 then
 				print("     - |cfffed100"..rn..L[":"].."|cff70C0F5"..a)
 				ta = ta + a
 			end

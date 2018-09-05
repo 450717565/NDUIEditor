@@ -182,8 +182,8 @@ local function UpdateQuestUnit(self, unit)
 end
 
 local classify = {
-	elite = {1, 1, 0},
 	rare = {1, 0, 1},
+	elite = {1, 1, 0},
 	rareelite = {0, 1, 1},
 	worldboss = {1, 0, 0},
 }

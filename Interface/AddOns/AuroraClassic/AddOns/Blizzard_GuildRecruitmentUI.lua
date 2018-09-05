@@ -4,7 +4,8 @@ C.themes["Blizzard_GuildRecruitmentUI"] = function()
 	local r, g, b = C.r, C.g, C.b
 
 	F.StripTextures(CommunitiesGuildRecruitmentFrame)
-	F.SetBD(CommunitiesGuildRecruitmentFrame)
+	F.CreateBD(CommunitiesGuildRecruitmentFrame)
+	F.CreateSD(CommunitiesGuildRecruitmentFrame)
 	F.StripTextures(CommunitiesGuildRecruitmentFrameTab1)
 	F.StripTextures(CommunitiesGuildRecruitmentFrameTab2)
 	F.ReskinClose(CommunitiesGuildRecruitmentFrameCloseButton)
@@ -26,7 +27,7 @@ C.themes["Blizzard_GuildRecruitmentUI"] = function()
 	for _, button in next, {rolesFrame.TankButton, rolesFrame.HealerButton, rolesFrame.DamagerButton} do
 		button:SetNormalTexture(C.media.roleIcons)
 		F.ReskinCheck(button.checkButton)
-		local bg = F.CreateBDFrame(button, 1)
+		local bg = F.CreateBDFrame(button, .25)
 		bg:SetPoint("TOPLEFT", 4, -3)
 		bg:SetPoint("BOTTOMRIGHT", -4, 5)
 	end

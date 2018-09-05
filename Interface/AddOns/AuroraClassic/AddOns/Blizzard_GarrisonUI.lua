@@ -16,7 +16,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		select(4, self.Stage:GetRegions()):Hide()
 		select(5, self.Stage:GetRegions()):Hide()
 
-		local bg = F.CreateBDFrame(self.Stage)
+		local bg = F.CreateBDFrame(self.Stage, .25)
 		bg:SetPoint("TOPLEFT", 4, 1)
 		bg:SetPoint("BOTTOMRIGHT", -4, -1)
 		local overlay = self.Stage:CreateTexture()
@@ -50,16 +50,16 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		local env = self.Stage.MissionEnvIcon
 		env.Texture:SetDrawLayer("BORDER", 1)
 		env.Texture:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(env.Texture)
+		F.CreateBDFrame(env.Texture, .25)
 
 		local item = self.RewardsFrame.OvermaxItem
 		item.Icon:SetDrawLayer("BORDER", 1)
 		item.Icon:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(item.Icon)
+		F.CreateBDFrame(item.Icon, .25)
 
 		local cost = self.CostFrame
 		cost.CostIcon:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(cost.CostIcon)
+		F.CreateBDFrame(cost.CostIcon, .25)
 	end
 
 	function F:ReskinMissionTabs()
@@ -81,7 +81,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	function F:ReskinGarrMaterial()
 		self.MaterialFrame.Icon:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(self.MaterialFrame.Icon)
+		F.CreateBDFrame(self.MaterialFrame.Icon, .25)
 		self.MaterialFrame:GetRegions():Hide()
 		local bg = F.CreateBDFrame(self.MaterialFrame, .25)
 		bg:SetPoint("TOPLEFT", 5, -5)
@@ -130,13 +130,13 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			local trait = self.Traits[i]
 			trait.Border:Hide()
 			trait.Portrait:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(trait.Portrait)
+			F.CreateBDFrame(trait.Portrait, .25)
 
 			local equipment = self.EquipmentFrame.Equipment[i]
 			equipment.BG:Hide()
 			equipment.Border:Hide()
 			equipment.Icon:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(equipment.Icon)
+			F.CreateBDFrame(equipment.Icon, .25)
 		end
 	end
 
@@ -146,7 +146,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		class:ClearAllPoints()
 		class:SetPoint(point, x, y)
 		class:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(class)
+		F.CreateBDFrame(class, .25)
 	end
 
 	local function onUpdateData(self)
@@ -211,7 +211,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			local icon = ability.IconButton.Icon
 			icon:SetTexCoord(.08, .92, .08, .92)
 			icon:SetDrawLayer("BACKGROUND", 1)
-			F.CreateBDFrame(icon)
+			F.CreateBDFrame(icon, .25)
 
 			numAbilitiesStyled = numAbilitiesStyled + 1
 			ability = abilities[numAbilitiesStyled]
@@ -235,7 +235,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			if not allySpell.styled then
 				local iconTexture = allySpell[i].iconTexture
 				iconTexture:SetTexCoord(.08, .92, .08, .92)
-				F.CreateBDFrame(iconTexture)
+				F.CreateBDFrame(iconTexture, .25)
 				allySpell.styled = true
 			end
 		end
@@ -243,7 +243,8 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	function F:ReskinMissionFrame()
 		F.StripTextures(self)
-		F.SetBD(self)
+		F.CreateBD(self)
+		F.CreateSD(self)
 		F.StripTextures(self.CloseButton)
 		F.ReskinClose(self.CloseButton)
 		self.GarrCorners:Hide()
@@ -269,7 +270,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				local icon = item.Icon
 				item.Border:Hide()
 				icon:SetTexCoord(.08, .92, .08, .92)
-				F.CreateBDFrame(icon)
+				F.CreateBDFrame(icon, .25)
 
 				local bg = F.CreateBDFrame(item, .25)
 				bg:SetPoint("TOPLEFT", 41, -1)
@@ -299,7 +300,8 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	-- Building frame
 	local GarrisonBuildingFrame = GarrisonBuildingFrame
 	F.StripTextures(GarrisonBuildingFrame)
-	F.SetBD(GarrisonBuildingFrame)
+	F.CreateBD(GarrisonBuildingFrame)
+	F.CreateSD(GarrisonBuildingFrame)
 	F.ReskinClose(GarrisonBuildingFrame.CloseButton)
 	GarrisonBuildingFrame.GarrCorners:Hide()
 
@@ -352,7 +354,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				button.BG:Hide()
 
 				button.Icon:SetTexCoord(.08, .92, .08, .92)
-				F.CreateBDFrame(button.Icon)
+				F.CreateBDFrame(button.Icon, .25)
 
 				local bg = CreateFrame("Frame", nil, button)
 				bg:SetPoint("TOPLEFT", 44, -5)
@@ -480,7 +482,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	do
 		local icon = CapacitiveDisplay.ShipmentIconFrame.Icon
 		icon:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(icon)
+		F.CreateBDFrame(icon, .25)
 		F.ReskinGarrisonPortrait(CapacitiveDisplay.ShipmentIconFrame.Follower)
 	end
 
@@ -494,7 +496,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 			reagent.Icon:SetTexCoord(.08, .92, .08, .92)
 			reagent.Icon:SetDrawLayer("BORDER")
-			F.CreateBDFrame(reagent.Icon)
+			F.CreateBDFrame(reagent.Icon, .25)
 
 			local bg = CreateFrame("Frame", nil, reagent)
 			bg:SetPoint("TOPLEFT")
@@ -549,7 +551,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			reward:GetRegions():Hide()
 			reward.Icon:SetTexCoord(.08, .92, .08, .92)
 			reward.IconBorder:SetAlpha(0)
-			F.CreateBDFrame(reward.Icon)
+			F.CreateBDFrame(reward.Icon, .25)
 			reward:ClearAllPoints()
 			reward:SetPoint("TOPRIGHT", -4, -4)
 		end
@@ -649,7 +651,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			local icon = ability.Icon
 			icon:SetSize(19, 19)
 			icon:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(icon)
+			F.CreateBDFrame(icon, .25)
 
 			ability.styled = true
 		end
@@ -659,7 +661,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		local counter = button.Counters[index]
 		if counter and not counter.styled then
 			counter.Icon:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(counter.Icon)
+			F.CreateBDFrame(counter.Icon, .25)
 			counter.styled = true
 		end
 	end)
@@ -673,7 +675,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			reward:GetRegions():Hide()
 			reward.Icon:SetTexCoord(.08, .92, .08, .92)
 			reward.IconBorder:SetAlpha(0)
-			F.CreateBDFrame(reward.Icon)
+			F.CreateBDFrame(reward.Icon, .25)
 		end
 	end)
 
@@ -691,7 +693,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	hooksecurefunc("GarrisonMissionPage_SetReward", function(frame)
 		if not frame.bg then
 			frame.Icon:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(frame.Icon)
+			F.CreateBDFrame(frame.Icon, .25)
 			frame.BG:SetAlpha(0)
 			frame.bg = F.CreateBDFrame(frame.BG, .25)
 			frame.IconBorder:SetScale(.0001)
@@ -706,7 +708,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 					local counter = followerFrame.Counters[i]
 					if not counter.styled then
 						counter.Icon:SetTexCoord(.08, .92, .08, .92)
-						F.CreateBDFrame(counter.Icon)
+						F.CreateBDFrame(counter.Icon, .25)
 						counter.styled = true
 					end
 				end
@@ -727,7 +729,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				for j = 1, #frame.Mechanics do
 					local mechanic = frame.Mechanics[j]
 					mechanic.Icon:SetTexCoord(.08, .92, .08, .92)
-					F.CreateBDFrame(mechanic.Icon)
+					F.CreateBDFrame(mechanic.Icon, .25)
 				end
 				frame.styled = true
 			end
@@ -741,7 +743,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				local buff = buffsFrame.Buffs[i]
 				if not buff.styled then
 					buff.Icon:SetTexCoord(.08, .92, .08, .92)
-					F.CreateBDFrame(buff.Icon)
+					F.CreateBDFrame(buff.Icon, .25)
 					buff.styled = true
 				end
 			end
@@ -762,7 +764,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 					local oldBg = frame:GetRegions()
 					oldBg:Hide()
-					frame.bg = F.CreateBDFrame(oldBg)
+					frame.bg = F.CreateBDFrame(oldBg, .25)
 					frame.bg:SetPoint("TOPLEFT", frame.PortraitFrame, -1, 1)
 					frame.bg:SetPoint("BOTTOMRIGHT", -10, 8)
 				end
@@ -901,7 +903,8 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	GarrisonShipyardFrame.BorderFrame.TitleText:Show()
 	GarrisonShipyardFrame.BorderFrame.GarrCorners:Hide()
 	GarrisonShipyardFrame.BackgroundTile:Hide()
-	F.SetBD(GarrisonShipyardFrame)
+	F.CreateBD(GarrisonShipyardFrame)
+	F.CreateSD(GarrisonShipyardFrame)
 	F.ReskinInput(GarrisonShipyardFrameFollowers.SearchBox)
 	F.ReskinScroll(GarrisonShipyardFrameFollowersListScrollFrameScrollBar)
 	GarrisonShipyardFrameFollowers:GetRegions():Hide()
@@ -922,7 +925,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	F.StripTextures(shipyardMission)
 	F.ReskinClose(shipyardMission.CloseButton)
 	F.Reskin(shipyardMission.StartMissionButton)
-	local smbg = F.CreateBDFrame(shipyardMission.Stage)
+	local smbg = F.CreateBDFrame(shipyardMission.Stage, .25)
 	smbg:SetPoint("TOPLEFT", 4, 1)
 	smbg:SetPoint("BOTTOMRIGHT", -4, -1)
 
@@ -952,7 +955,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	local ipas = combatAlly.InProgress.CombatAllySpell.iconTexture
 	ipas:SetTexCoord(.08, .92, .08, .92)
-	F.CreateBDFrame(ipas)
+	F.CreateBDFrame(ipas, .25)
 
 	local allyPortrait = combatAlly.InProgress.PortraitFrame
 	F.ReskinGarrisonPortrait(allyPortrait)
@@ -984,11 +987,11 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	local zsas = ZoneSupportMissionPage.CombatAllySpell.iconTexture
 	zsas:SetTexCoord(.08, .92, .08, .92)
-	F.CreateBDFrame(zsas)
+	F.CreateBDFrame(zsas, .25)
 
 	local cost = ZoneSupportMissionPage.CostFrame
 	cost.CostIcon:SetTexCoord(.08, .92, .08, .92)
-	F.CreateBDFrame(cost.CostIcon)
+	F.CreateBDFrame(cost.CostIcon, .25)
 
 	-- [[ BFA Mission UI]]
 

@@ -12,6 +12,6 @@ C.themes["Blizzard_DeathRecap"] = function()
 		local recap = DeathRecapFrame["Recap"..i].SpellInfo
 		recap.IconBorder:Hide()
 		recap.Icon:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(recap.Icon)
+		F.CreateBDFrame(recap.Icon, .25)
 	end
 end

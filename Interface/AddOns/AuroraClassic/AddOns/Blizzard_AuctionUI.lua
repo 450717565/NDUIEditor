@@ -14,6 +14,9 @@ C.themes["Blizzard_AuctionUI"] = function()
 	F.ReskinStatusBar(AuctionProgressBar, true, true)
 	F.ReskinClose(AuctionProgressFrameCancelButton, "LEFT", AuctionProgressBar, "RIGHT", 4, 0)
 
+	AuctionProgressBar.Text:ClearAllPoints()
+	AuctionProgressBar.Text:SetPoint("CENTER")
+
 	hooksecurefunc("FilterButton_SetUp", function(button)
 		button:SetNormalTexture("")
 	end)
@@ -78,7 +81,7 @@ C.themes["Blizzard_AuctionUI"] = function()
 			it:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 			it.IconBorder:SetAlpha(0)
 			ic:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(ic)
+			F.CreateBDFrame(ic, .25)
 		end
 	end
 
@@ -182,7 +185,7 @@ C.themes["Blizzard_AuctionUI"] = function()
 		F.Reskin(Buyout)
 
 		icon:SetTexCoord(.08, .92, .08, .92)
-		local bd = F.CreateBDFrame(icon)
+		local bd = F.CreateBDFrame(icon, .25)
 		bd:SetBackdropBorderColor(0, .8, 1)
 		bd.Shadow:SetBackdropBorderColor(0, .8, 1)
 	end

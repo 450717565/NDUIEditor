@@ -1,22 +1,18 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_InspectUI"] = function()
-	InspectModelFrame:DisableDrawLayer("OVERLAY")
+	F.ReskinPortraitFrame(InspectFrame, true)
 
-	InspectTalentFrame:GetRegions():Hide()
-	select(2, InspectTalentFrame:GetRegions()):Hide()
+	F.StripTextures(InspectModelFrame, true)
+	F.StripTextures(InspectPVPFrame, true)
+	F.StripTextures(InspectTalentFrame, true)
 	InspectGuildFrameBG:Hide()
-	for i = 1, 5 do
-		select(i, InspectModelFrame:GetRegions()):Hide()
-	end
+
 	F.Reskin(InspectPaperDollFrame.ViewButton)
 	InspectPaperDollFrame.ViewButton:ClearAllPoints()
-	InspectPaperDollFrame.ViewButton:SetPoint("TOP", InspectFrame, 0, -45)
+	InspectPaperDollFrame.ViewButton:SetPoint("TOP", InspectFrame, 0, -44)
 
 	-- Character
-
-	select(11, InspectMainHandSlot:GetRegions()):Hide()
-
 	local slots = {
 		"Head", "Neck", "Shoulder", "Shirt", "Chest", "Waist", "Legs", "Feet", "Wrist",
 		"Hands", "Finger0", "Finger1", "Trinket0", "Trinket1", "Back", "MainHand",
@@ -27,10 +23,8 @@ C.themes["Blizzard_InspectUI"] = function()
 		local slot = _G["Inspect"..slots[i].."Slot"]
 		local border = slot.IconBorder
 
-		_G["Inspect"..slots[i].."SlotFrame"]:Hide()
+		F.StripTextures(slot)
 
-		slot:SetNormalTexture("")
-		slot:SetPushedTexture("")
 		slot:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 
 		border:SetPoint("TOPLEFT", -1.2, 1.2)
@@ -45,14 +39,8 @@ C.themes["Blizzard_InspectUI"] = function()
 		button.icon:SetShown(button.hasItem)
 	end)
 
-	-- PVP
-
-	InspectPVPFrame.BG:Hide()
-
 	-- Talents
-
 	local inspectSpec = InspectTalentFrame.InspectSpec
-
 	inspectSpec.ring:Hide()
 
 	for i = 1, 7 do
@@ -60,18 +48,17 @@ C.themes["Blizzard_InspectUI"] = function()
 		for j = 1, 3 do
 			local bu = row["talent"..j]
 
-			bu.Slot:Hide()
-			bu.border:SetTexture("")
+			F.StripTextures(bu)
 
 			bu.icon:SetDrawLayer("ARTWORK")
 			bu.icon:SetTexCoord(.08, .92, .08, .92)
 
-			F.CreateBDFrame(bu.icon)
+			F.CreateBDFrame(bu.icon, .25)
 		end
 	end
 
 	inspectSpec.specIcon:SetTexCoord(.08, .92, .08, .92)
-	F.CreateBDFrame(inspectSpec.specIcon)
+	F.CreateBDFrame(inspectSpec.specIcon, .25)
 
 	local function updateIcon(self)
 		local spec = nil
@@ -97,7 +84,7 @@ C.themes["Blizzard_InspectUI"] = function()
 
 	local roleIcon = inspectSpec.roleIcon
 	roleIcon:SetTexture(C.media.roleIcons)
-	F.CreateBDFrame(roleIcon, .5, 2, -2, -2, 2)
+	F.CreateBDFrame(roleIcon, .25, 2, -2, -2, 2)
 
 	for i = 1, 4 do
 		local tab = _G["InspectFrameTab"..i]
@@ -106,6 +93,4 @@ C.themes["Blizzard_InspectUI"] = function()
 			tab:SetPoint("LEFT", _G["InspectFrameTab"..i-1], "RIGHT", -15, 0)
 		end
 	end
-
-	F.ReskinPortraitFrame(InspectFrame, true)
 end

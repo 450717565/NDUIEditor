@@ -63,14 +63,14 @@ C.themes["Blizzard_Collections"] = function()
 			hl:SetPoint("TOPLEFT", 1, -2)
 			hl:SetPoint("BOTTOMRIGHT", -1, 2)
 
-			local bg = F.CreateBDFrame(bu)
+			local bg = F.CreateBDFrame(bu, .25)
 			bg:SetPoint("TOPLEFT", 0, -1)
 			bg:SetPoint("BOTTOMRIGHT", 0, 1)
 			bg:SetFrameLevel(bu:GetFrameLevel()-1)
 			bu.bg = bg
 
 			ic:SetTexCoord(.08, .92, .08, .92)
-			ic.bg = F.CreateBDFrame(ic)
+			ic.bg = F.CreateBDFrame(ic, .25)
 
 			bu.name:SetParent(bg)
 
@@ -154,14 +154,14 @@ C.themes["Blizzard_Collections"] = function()
 
 	local ic = MountJournal.MountDisplay.InfoButton.Icon
 	ic:SetTexCoord(.08, .92, .08, .92)
-	F.CreateBDFrame(ic)
+	F.CreateBDFrame(ic, .25)
 
 	PetJournalHealPetButtonBorder:Hide()
 	PetJournalHealPetButtonIconTexture:SetTexCoord(.08, .92, .08, .92)
 	PetJournal.HealPetButton:SetPushedTexture("")
 	PetJournal.HealPetButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 	PetJournal.HealPetButton:SetPoint("BOTTOMRIGHT", PetJournalPetCard, "TOPRIGHT", -1, 4)
-	F.CreateBDFrame(PetJournal.HealPetButton)
+	F.CreateBDFrame(PetJournal.HealPetButton, .25)
 
 	if AuroraConfig.tooltips then
 		for _, f in pairs({PetJournalPrimaryAbilityTooltip, PetJournalSecondaryAbilityTooltip}) do
@@ -180,7 +180,7 @@ C.themes["Blizzard_Collections"] = function()
 	PetJournalSummonRandomFavoritePetButtonIconTexture:SetTexCoord(.08, .92, .08, .92)
 	PetJournalSummonRandomFavoritePetButton:SetPushedTexture("")
 	PetJournalSummonRandomFavoritePetButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-	F.CreateBDFrame(PetJournalSummonRandomFavoritePetButton)
+	F.CreateBDFrame(PetJournalSummonRandomFavoritePetButton, .25)
 
 	-- Favourite mount button
 	MountJournalSummonRandomFavoriteButtonBorder:Hide()
@@ -188,7 +188,7 @@ C.themes["Blizzard_Collections"] = function()
 	MountJournalSummonRandomFavoriteButton:SetPushedTexture("")
 	MountJournalSummonRandomFavoriteButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 	MountJournalSummonRandomFavoriteButton:SetPoint("BOTTOMRIGHT", MountJournal.MountDisplay, "TOPRIGHT", 0, 4)
-	F.CreateBDFrame(MountJournalSummonRandomFavoriteButton)
+	F.CreateBDFrame(MountJournalSummonRandomFavoriteButton, .25)
 
 	-- Pet card
 	local card = PetJournalPetCard
@@ -261,7 +261,7 @@ C.themes["Blizzard_Collections"] = function()
 			spell.FlyoutArrow:SetTexCoord(0, 1, 0, 1)
 
 			spell.icon:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(spell.icon)
+			F.CreateBDFrame(spell.icon, .25)
 		end
 	end
 
@@ -289,7 +289,7 @@ C.themes["Blizzard_Collections"] = function()
 
 		bu.icon:SetDrawLayer("ARTWORK")
 		bu.icon:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(bu.icon)
+		F.CreateBDFrame(bu.icon, .25)
 	end
 
 	-- [[ Toy box ]]
@@ -336,7 +336,7 @@ C.themes["Blizzard_Collections"] = function()
 		bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 		bu:GetHighlightTexture():SetAllPoints(ic)
 		ic:SetTexCoord(.08, .92, .08, .92)
-		local bg = F.CreateBDFrame(bu)
+		local bg = F.CreateBDFrame(bu, .25)
 		bg:SetPoint("TOPLEFT", 2.8, -1.8)
 		bg:SetPoint("BOTTOMRIGHT", -2.8, 3.8)
 
@@ -553,7 +553,7 @@ C.themes["Blizzard_Collections"] = function()
 			slot.Border:Hide()
 			slot.Icon:SetDrawLayer("BACKGROUND", 1)
 			slot.Icon:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(slot.Icon)
+			F.CreateBDFrame(slot.Icon, .25)
 
 			slot:SetHighlightTexture(C.media.backdrop)
 			local hl = slot:GetHighlightTexture()
@@ -591,7 +591,7 @@ C.themes["Blizzard_Collections"] = function()
 				PetJournalBandageButtonIcon:SetTexCoord(.08, .92, .08, .92)
 				PetJournalBandageButton:SetPoint("TOPRIGHT", PetJournalHealPetButton, "TOPLEFT", -3, 0)
 				PetJournalBandageButton:SetPoint("BOTTOMLEFT", PetJournalHealPetButton, "BOTTOMLEFT", -35, 0)
-				F.CreateBDFrame(PetJournalBandageButtonIcon)
+				F.CreateBDFrame(PetJournalBandageButtonIcon, .25)
 			end
 			reskinHPet = true
 		end
@@ -632,7 +632,7 @@ do
 					bu.NormalTexture:SetTexture(nil)
 					bu.NormalTexture.SetTexture = F.dummy
 					bu.Icon:SetTexCoord(.08, .92, .08, .92)
-					local bg = F.CreateBDFrame(bu.Icon)
+					local bg = F.CreateBDFrame(bu.Icon, .25)
 					F.CreateSD(bg)
 				end
 				f.styled = true

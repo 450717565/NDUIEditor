@@ -16,7 +16,7 @@ local function ScanTargets(unit)
 	end
 
 	if #targetTable > 0 then
-		GameTooltip:AddLine(L["Targeted By"]..DB.InfoColor.."("..#targetTable..")|r "..table.concat(targetTable, ", "), nil, nil, nil, 1)
+		GameTooltip:AddLine(L["Targeted By"]..DB.InfoColor.."<"..#targetTable..">|r "..table.concat(targetTable, L[","]), nil, nil, nil, 1)
 	end
 end
 

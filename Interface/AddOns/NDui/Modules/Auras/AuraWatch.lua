@@ -178,6 +178,7 @@ local function BuildICON(iconSize)
 	local parentFrame = CreateFrame("Frame", nil, Frame)
 	parentFrame:SetAllPoints()
 	parentFrame:SetFrameLevel(Frame:GetFrameLevel() + 3)
+
 	Frame.Spellname = B.CreateFS(parentFrame, 13, "", false, "TOP", 0, 5)
 	Frame.Count = B.CreateFS(parentFrame, iconSize*.55, "", false, "BOTTOMRIGHT", 5, -5)
 
@@ -589,14 +590,20 @@ local eventList = {
 	["SPELL_AURA_REFRESH"] = true,
 }
 
-local function isUnitWeNeed(value, sourceName, destName)
+local function checkPetFlags(sourceFlags, all)
+	if sourceFlags == DB.MyPetFlags or (all and (sourceFlags == DB.PartyPetFlags or sourceFlags == DB.RaidPetFlags)) then
+		return true
+	end
+end
+
+local function isUnitWeNeed(value, sourceName, destName, sourceFlags)
 	if not value.UnitID then value.UnitID = "Player" end
 	if value.UnitID:lower() == "all" then
-		if sourceName and (UnitInRaid(sourceName) or UnitInParty(sourceName)) then
+		if sourceName and (UnitInRaid(sourceName) or UnitInParty(sourceName) or checkPetFlags(sourceFlags, true)) then
 			return true
 		end
 	elseif value.UnitID:lower() == "player" then
-		if sourceName and sourceName == UnitName("player") or destName == UnitName("player") then
+		if sourceName and sourceName == UnitName("player") or destName == UnitName("player") or checkPetFlags(sourceFlags) then
 			return true
 		end
 	end
@@ -607,8 +614,8 @@ local function UpdateInt(_, ...)
 	if not IntCD.List then return end
 	for _, value in pairs(IntCD.List) do
 		if value.IntID then
-			local timestamp, eventType, _, sourceGUID, sourceName, _, _, _, destName, _, _, spellID = ...
-			if value.IntID == spellID and isUnitWeNeed(value, sourceName, destName) and cache[timestamp] ~= spellID and
+			local timestamp, eventType, _, sourceGUID, sourceName, sourceFlags, _, _, destName, _, _, spellID = ...
+			if value.IntID == spellID and isUnitWeNeed(value, sourceName, destName, sourceFlags) and cache[timestamp] ~= spellID and
 				((value.OnSuccess and eventType == "SPELL_CAST_SUCCESS") or (not value.OnSuccess and eventList[eventType])) then
 				UpdateIntFrame(value.IntID, value.ItemID, value.Duration, value.UnitID, sourceGUID)
 				cache[timestamp] = spellID

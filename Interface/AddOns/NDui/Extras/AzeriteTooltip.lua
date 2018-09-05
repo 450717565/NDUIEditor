@@ -6,7 +6,7 @@ local function AzeriteTooltip_GetSpellID(powerID)
 end
 
 local function AzeriteTooltip_ScanSelectedTraits(tooltip, powerName)
-	for i = 10, tooltip:NumLines() do
+	for i = 8, tooltip:NumLines() do
 		local left = _G[tooltip:GetName().."TextLeft"..i]
 		local text = left:GetText()
 		if text and text:find(powerName) then
@@ -29,9 +29,9 @@ local function AzeriteTooltip_BuildTooltip(self)
 		local specID = GetSpecializationInfo(GetSpecialization())
 		local allTierInfo = C_AzeriteEmpoweredItem.GetAllTierInfoByItemID(link)
 
-		if not allTierInfo then return end
+		if (not allTierInfo) or (not specID) then return end
 
-		for j = 1, 4 do
+		for j = 1, 3 do
 			local tierLevel = allTierInfo[j]["unlockLevel"]
 			local azeritePowerID = allTierInfo[j]["azeritePowerIDs"][1]
 
@@ -71,5 +71,5 @@ end
 
 GameTooltip:HookScript("OnTooltipSetItem", AzeriteTooltip_BuildTooltip)
 ItemRefTooltip:HookScript("OnTooltipSetItem", AzeriteTooltip_BuildTooltip)
---ShoppingTooltip1:HookScript("OnTooltipSetItem", AzeriteTooltip_BuildTooltip)
+ShoppingTooltip1:HookScript("OnTooltipSetItem", AzeriteTooltip_BuildTooltip)
 WorldMapTooltip.ItemTooltip.Tooltip:HookScript("OnTooltipSetItem", AzeriteTooltip_BuildTooltip)

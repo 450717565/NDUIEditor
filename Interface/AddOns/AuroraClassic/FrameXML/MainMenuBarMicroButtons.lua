@@ -7,7 +7,8 @@ tinsert(C.themes["AuroraClassic"], function()
 		button:DisableDrawLayer("BORDER")
 		button.Arrow:Hide()
 
-		F.SetBD(button)
+		F.CreateBD(button)
+		F.CreateSD(button)
 		F.ReskinClose(button.CloseButton)
 	end
 end)

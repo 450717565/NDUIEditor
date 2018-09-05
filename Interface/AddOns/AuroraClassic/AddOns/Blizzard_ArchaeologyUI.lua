@@ -68,5 +68,5 @@ C.themes["Blizzard_ArchaeologyUI"] = function()
 	F.ReskinStatusBar(ArchaeologyFrameRankBar, true, true)
 	F.ReskinStatusBar(ArchaeologyFrameArtifactPageSolveFrameStatusBar, true, true)
 	ArchaeologyFrameArtifactPageIcon:SetTexCoord(.08, .92, .08, .92)
-	F.CreateBDFrame(ArchaeologyFrameArtifactPageIcon)
+	F.CreateBDFrame(ArchaeologyFrameArtifactPageIcon, .25)
 end

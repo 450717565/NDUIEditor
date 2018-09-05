@@ -4,7 +4,8 @@ tinsert(C.themes["AuroraClassic"], function()
 	local r, g, b = C.r, C.g, C.b
 
 	F.StripTextures(HelpFrame)
-	F.SetBD(HelpFrame)
+	F.CreateBD(HelpFrame)
+	F.CreateSD(HelpFrame)
 	HelpFrameHeader:Hide()
 	F.ReskinClose(HelpFrameCloseButton)
 

@@ -4,7 +4,8 @@ C.themes["Blizzard_Contribution"] = function()
 	local frame = ContributionCollectionFrame
 	F.StripTextures(frame, true)
 	F.StripTextures(frame.CloseButton, true)
-	F.SetBD(frame)
+	F.CreateBD(frame)
+	F.CreateSD(frame)
 	F.ReskinClose(frame.CloseButton)
 
 	hooksecurefunc(ContributionMixin, "Update", function(self)
@@ -22,7 +23,7 @@ C.themes["Blizzard_Contribution"] = function()
 			self.Icon:SetTexCoord(.08, .92, .08, .92)
 			self.Border:Hide()
 			self:GetRegions():Hide()
-			F.CreateBDFrame(self.Icon)
+			F.CreateBDFrame(self.Icon, .25)
 
 			self.styled = true
 		end
