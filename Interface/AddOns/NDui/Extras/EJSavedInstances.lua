@@ -127,7 +127,7 @@ local function UpdateSavedInstances()
 					difficultyName = RAID_INFO_WORLD_BOSS,
 					maxBosses = worldBossesData[z].maxBosses,
 					defeatedBosses = defeatedBosses,
-					progress = defeatedBosses.."/"..maxBosses,
+					progress = defeatedBosses,
 					complete = defeatedBosses == maxBosses
 				})
 			end
@@ -167,7 +167,7 @@ local function UpdateSavedInstances()
 				difficultyName = difficultyName,
 				maxBosses = maxBosses,
 				defeatedBosses = defeatedBosses,
-				progress = defeatedBosses.."/"..maxBosses,
+				progress = defeatedBosses,
 				complete = defeatedBosses == maxBosses
 			})
 		end
@@ -264,9 +264,9 @@ local function CreateStatusFrame(instanceButton, difficulty)
 	completeFrame:SetSize(16, 16)
 
 	if difficulty == "lfr" or difficulty == "normal" then
-		completeFrame:SetPoint("BOTTOM", statusFrame, "BOTTOM", 0, 14)
+		completeFrame:SetPoint("CENTER", 1, 6)
 	else
-		completeFrame:SetPoint("BOTTOM", statusFrame, "BOTTOM", 0, 3)
+		completeFrame:SetPoint("BOTTOM", 1, 8)
 	end
 
 	completeFrame.texture:ClearAllPoints()
@@ -274,12 +274,12 @@ local function CreateStatusFrame(instanceButton, difficulty)
 	completeFrame.texture:Show()
 
 	-- progress
-	local progressFrame = B.CreateFS(statusFrame, 13, "")
+	local progressFrame = B.CreateFS(statusFrame, 13, "", false, "CENTER", 0, 0)
 	progressFrame:Hide()
 	if difficulty == "lfr" or difficulty == "normal" then
-		progressFrame:SetPoint("BOTTOM", statusFrame, "BOTTOM", 0, 19)
+		progressFrame:SetPoint("CENTER", 1, 6)
 	else
-		progressFrame:SetPoint("BOTTOM", statusFrame, "BOTTOM", 0, 8)
+		progressFrame:SetPoint("BOTTOM", 1, 8)
 	end
 
 	statusFrame.completeFrame = completeFrame

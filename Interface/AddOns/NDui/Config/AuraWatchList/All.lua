@@ -74,7 +74,10 @@ local list = {
 		{AuraID = 268769, UnitID = "player"},	-- 标记死穴
 		{AuraID = 267179, UnitID = "player"},	-- 非凡的力量
 		{AuraID = 267325, UnitID = "player", Text = RAID_BUFF_7},	-- 注铅骰子，精通
+		{AuraID = 267326, UnitID = "player", Text = RAID_BUFF_7},	-- 精通
+		{AuraID = 267327, UnitID = "player", Text = RAID_BUFF_4},	-- 急速
 		{AuraID = 267329, UnitID = "player", Text = RAID_BUFF_4},	-- 急速
+		{AuraID = 267330, UnitID = "player", Text = RAID_BUFF_6},	-- 爆击
 		{AuraID = 267331, UnitID = "player", Text = RAID_BUFF_6},	-- 爆击
 	-->艾泽里特特质
 		{AuraID = 280409, UnitID = "player"},	-- 血祭之力
@@ -312,12 +315,7 @@ local list = {
 		{AuraID = 197996, UnitID = "player"},--奥丁：烙印
 		{AuraID = 200154, UnitID = "player", Text = L["Get Out"]},--达古尔：燃烧之恨
 		{AuraID = 200238, UnitID = "player"},--萨维斯：弱肉强食
-		{AuraID = 209858, UnitID = "player"},--死疽溃烂
 		{AuraID = 220871, UnitID = "player", Text = L["Get Out"]},--顾问凡多斯：不稳定的魔法
-		{AuraID = 226512, UnitID = "player"},--血池
-		{AuraID = 230087, UnitID = "player"},--振作
-		{AuraID = 240443, UnitID = "player"},--爆裂
-		{AuraID = 240559, UnitID = "player"},--重伤
 		{AuraID = 268007, UnitID = "player"},--心脏打击
 		--奥丁：符文烙印
 		{AuraID = 197963, UnitID = "player"},
@@ -325,9 +323,15 @@ local list = {
 		{AuraID = 197965, UnitID = "player"},
 		{AuraID = 197966, UnitID = "player"},
 		{AuraID = 197967, UnitID = "player"},
+		{AuraID = 226512, UnitID = "player"},--血池
+		{AuraID = 209858, UnitID = "player"},--死疽溃烂
+		{AuraID = 240559, UnitID = "player"},--重伤
+		{AuraID = 240443, UnitID = "player"},--爆裂
+		{AuraID = 230087, UnitID = "player"},	-- 振作
 	-->奥迪尔
 		{AuraID = 265662, UnitID = "player"},	-- 腐化者的契约，泽克沃兹
-		{AuraID = 267409, UnitID = "player"},	-- 黑暗交易，戈霍恩
+		{AuraID = 273405, UnitID = "player"},	-- 黑暗交易，戈霍恩
+		{AuraID = 274262, UnitID = "player"},	-- 爆炸腐蚀，戈霍恩
 	-->翡翠梦魇
 		--尼珊德拉
 		{AuraID = 221028, UnitID = "player"},--不稳定的腐烂，小怪
@@ -617,8 +621,7 @@ local list = {
 	-->8.0副本
 		{AuraID = 257458, UnitID = "target"},	-- 自由镇尾王易伤
 		{AuraID = 260512, UnitID = "target"},	-- 灵魂收割，神庙
-		{AuraID = 256493, UnitID = "target"},--炽燃的艾泽里特
-		{AuraID = 267901, UnitID = "target"},--铁墙祝福
+		{AuraID = 277965, UnitID = "target"},	-- 重型军火，围攻1
 	-->奥迪尔
 		{AuraID = 278218, UnitID = "target"},	-- 虚空召唤，泽克沃兹
 		{AuraID = 278220, UnitID = "target"},	-- 虚空超脱，泽克沃兹
@@ -627,7 +630,8 @@ local list = {
 		{AuraID = 274761, UnitID = "target"},	-- 湮灭帷幕，拆解者米斯拉克斯
 		{AuraID = 276900, UnitID = "target"},	-- 临界炽焰，拆解者米斯拉克斯
 		{AuraID = 279013, UnitID = "target"},	-- 精华碎裂，拆解者米斯拉克斯
-		{AuraID = 263482, UnitID = "target"},	-- 重组冲击，戈霍恩
+		{AuraID = 263504, UnitID = "target"},	-- 重组冲击，戈霍恩
+		{AuraID = 273251, UnitID = "target"},	-- 重组冲击，戈霍恩
 		{AuraID = 263372, UnitID = "target"},	-- 能量矩阵，戈霍恩
 		{AuraID = 270447, UnitID = "target"},	-- 腐化滋长，戈霍恩
 	-->7.0副本

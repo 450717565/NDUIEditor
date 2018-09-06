@@ -197,7 +197,7 @@ local PLAYERS = {};
 
 local function debugMsg( msg )
 	if ( Arathi.db.profile.show_debug ) then
-		--print( msg );
+		print( msg );
 	end
 end
 
@@ -274,7 +274,6 @@ local function prepareNodesData()
 		local lookup = nodes[mapId][1]["lookup"];
 		for i = 1,numNodes do
 			local node = nodes[mapId][i];
-			--print( node["coord"] );
 			node["allLootKnown"] = true;
 			if ( i < numNodes ) then
 				node["nextNode"] = nodes[mapId][i+1];

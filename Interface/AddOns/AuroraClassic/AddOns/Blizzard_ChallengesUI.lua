@@ -19,11 +19,8 @@ C.themes["Blizzard_ChallengesUI"] = function()
 		end
 	end
 
-	ChallengesFrameInset:DisableDrawLayer("BORDER")
-	ChallengesFrameInsetBg:Hide()
-	for i = 1, 2 do
-		select(i, ChallengesFrame:GetRegions()):Hide()
-	end
+	F.StripTextures(ChallengesFrame, true)
+	F.StripTextures(ChallengesFrameInset, true)
 
 	local angryStyle
 	local function UpdateIcons(self)

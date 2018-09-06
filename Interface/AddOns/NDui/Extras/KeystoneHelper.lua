@@ -4,74 +4,67 @@ local MythicLootItemLevel =  {  0, 345, 345, 350, 355, 355, 360, 365, 365, 370}
 local WeeklyLootItemLevel =  {  0, 355, 355, 360, 360, 365, 370, 370, 375, 380}
 local WeeklyArmorItemLevel = {  0, 340, 340, 355, 355, 355, 370, 370, 370, 385}
 
-local function GetModifiers(linkType, ...)
-	if type(linkType) ~= "string" then return end
-	local modifierOffset = 3
-	local instanceID, mythicLevel, notDepleted, _ = ...
-
-	if mythicLevel and mythicLevel ~= "" then
-		mythicLevel = tonumber(mythicLevel)
-		if mythicLevel and mythicLevel > 10 then
-			mythicLevel = 10
-		end
+local function CheckLink(link)
+	if link and type(link) == "string" and link:match("|Hkeystone:([0-9:]+)|h(%b[])|h") then
+		return true
 	else
-		mythicLevel = nil
+		return false
+	end
+end
+
+local function CheckKeystone(link)
+	local mapLevel, affixIDs = 0, {}
+
+	if CheckLink(link) then
+		local info = {strsplit(":", link)}
+		mapLevel = tonumber(info[4])
+
+		if mapLevel > 10 then mapLevel = 10 end
+		if mapLevel >= 2 then
+			for i = 5, 8 do
+				local affixID = tonumber(info[i])
+				if affixID then
+					tinsert(affixIDs, affixID)
+				end
+			end
+		end
+
+		local affixid = #affixIDs
+		if affixIDs[affixid] and affixIDs[affixid] < 2 then
+			tremove(affixIDs, affixid)
+		end
 	end
 
-	if linkType:find("item") then
-		_, _, _, _, _, _, _, _, _, _, _, _, _, instanceID, mythicLevel = ...
-		if ... == "138019" then
-			modifierOffset = 16
-		else
-			return
-		end
-	elseif not linkType:find("keystone") then
-		return
-	end
-
-	local modifiers = {}
-	for i = modifierOffset, select("#", ...) do
-		local num = strmatch(select(i, ...) or "", "^(%d+)")
-		if num then
-			local modifierID = tonumber(num)
-			tinsert(modifiers, modifierID)
-		end
-	end
-	local numModifiers = #modifiers
-	if modifiers[numModifiers] and modifiers[numModifiers] < 2 then
-		tremove(modifiers, numModifiers)
-	end
-	return modifiers, instanceID, mythicLevel
+	return affixIDs, mapLevel
 end
 
 local function DecorateTooltip(self)
 	local _, link = self:GetItem()
-	if type(link) == "string" and link:find("keystone") then
-		local modifiers, instanceID, mythicLevel = GetModifiers(strsplit(":", link))
-		local ilvl = MythicLootItemLevel[mythicLevel]
-		local wlvl = WeeklyLootItemLevel[mythicLevel]
-		local alvl = WeeklyArmorItemLevel[mythicLevel]
-		if modifiers then
+
+	if CheckLink(link) then
+		local affixIDs, mapLevel = CheckKeystone(link)
+		local ilvl = MythicLootItemLevel[mapLevel]
+		local wlvl = WeeklyLootItemLevel[mapLevel]
+		local alvl = WeeklyArmorItemLevel[mapLevel]
+
+		if affixIDs then
 			self:AddLine(" ")
-			for _, modifierID in ipairs(modifiers) do
+			for _, modifierID in ipairs(affixIDs) do
 				local modifierName, modifierDescription = C_ChallengeMode.GetAffixInfo(modifierID)
 				if modifierName and modifierDescription then
 					self:AddLine(format("|cffff0000%s|r - %s", modifierName, modifierDescription), 0, 1, 0, true)
 				end
 			end
 		end
-		if type(mythicLevel) == "number" and mythicLevel > 0 then
+
+		if mapLevel >= 2 then
 			self:AddLine(" ")
-			self:AddLine("|cff00ffff"..L["Mythic Loot Item Level"]..ilvl.."+|r")
-			self:AddLine("|cff00ffff"..L["Weekly Loot Item Level"]..wlvl.."+|r")
-			self:AddLine("|cff00ffff"..L["Weekly Armor Item Level"]..alvl.."|r")
-		end
-		if modifiers or mythicLevel then
-			self:Show()
+			self:AddLine(format(L["Mythic Loot Item Level"], ilvl), 0,1,1)
+			self:AddLine(format(L["Weekly Loot Item Level"], wlvl), 0,1,1)
+			self:AddLine(format(L["Weekly Armor Item Level"], alvl), .9,.8,.5)
 		end
 	end
 end
 
-hooksecurefunc(ItemRefTooltip, "SetHyperlink", DecorateTooltip)
---ItemRefTooltip:HookScript("OnTooltipSetItem", DecorateTooltip)
 GameTooltip:HookScript("OnTooltipSetItem", DecorateTooltip)
+ItemRefTooltip:HookScript("OnTooltipSetItem", DecorateTooltip)
