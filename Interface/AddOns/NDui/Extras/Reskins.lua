@@ -186,7 +186,7 @@ local function Reskins()
 			F.ReskinInput(MerchantFrameSearchBox)
 
 			MerchantFrameSellJunkButtonIcon:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(MerchantFrameSellJunkButton)
+			F.CreateBDFrame(MerchantFrameSellJunkButton, .25)
 
 			F.Reskin(MerchantFrameFilterButton)
 
@@ -202,7 +202,7 @@ local function Reskins()
 				button:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 				button:SetSize(40, 40)
 				button.IconBorder:SetAlpha(0)
-				F.CreateBDFrame(button)
+				F.CreateBDFrame(button, .25)
 
 				local b1, b2, b3 = button:GetPoint()
 				button:SetPoint(b1, b2, b3, -4, -2)
@@ -337,7 +337,7 @@ local function Reskins()
 					bu.description.SetShadowOffset = F.dummy
 
 					bu.icon.texture:SetTexCoord(.08, .92, .08, .92)
-					F.CreateBDFrame(bu.icon.texture)
+					F.CreateBDFrame(bu.icon.texture, .25)
 
 					local bg = F.CreateBDFrame(bu, .25)
 					bg:SetPoint("TOPLEFT", 1, -1)
@@ -445,11 +445,11 @@ local function Reskins()
 				rw:SetSize(26, 26)
 				rw.Icon:SetTexCoord(.08, .92, .08, .92)
 				rw.IconBorder:Hide()
-				F.CreateBDFrame(rw.Icon)
+				F.CreateBDFrame(rw.Icon, .25)
 
 				local fac = bu.Faction
 				fac.Icon:SetTexCoord(.08, .92, .08, .92)
-				F.CreateBDFrame(fac.Icon)
+				F.CreateBDFrame(fac.Icon, .25)
 
 				local tm = bu.Time
 				tm:ClearAllPoints()

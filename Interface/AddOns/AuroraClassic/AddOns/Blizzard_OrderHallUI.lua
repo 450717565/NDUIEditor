@@ -11,25 +11,19 @@ C.themes["Blizzard_OrderHallUI"] = function()
 		F.CreateBDFrame(GarrisonFollowerMissionAbilityWithoutCountersTooltip)
 	end
 
-	-- Talent Frame
-	for i = 1, 15 do
-		--if i ~= 8 then
-			select(i, OrderHallTalentFrame:GetRegions()):SetAlpha(0)
-		--end
-	end
+	F.StripTextures(OrderHallTalentFrame.StyleFrame, true)
+	F.StripTextures(ClassHallTalentInset, true)
 
-	ClassHallTalentInset:SetAlpha(0)
-	F.CreateBD(OrderHallTalentFrame)
-	F.CreateSD(OrderHallTalentFrame)
 	F.Reskin(OrderHallTalentFrame.BackButton)
 	OrderHallTalentFrame.Currency.Icon:SetTexCoord(.08, .92, .08, .92)
-	F.CreateBDFrame(OrderHallTalentFrame.Currency.Icon)
-	F.ReskinClose(OrderHallTalentFrameCloseButton)
+	F.CreateBDFrame(OrderHallTalentFrame.Currency.Icon, .25)
 
 	hooksecurefunc(OrderHallTalentFrame, "RefreshAllData", function()
-		for i = 34, OrderHallTalentFrame:GetNumRegions() do
-			select(i, OrderHallTalentFrame:GetRegions()):SetAlpha(0)
-		end
+		F.StripTextures(OrderHallTalentFrame, true)
+
+		F.CreateBD(OrderHallTalentFrame)
+		F.CreateSD(OrderHallTalentFrame)
+		F.ReskinClose(OrderHallTalentFrameCloseButton)
 
 		for i = 1, OrderHallTalentFrame:GetNumChildren() do
 			local bu = select(i, OrderHallTalentFrame:GetChildren())
@@ -38,13 +32,15 @@ C.themes["Blizzard_OrderHallUI"] = function()
 					bu.Icon:SetTexCoord(.08, .92, .08, .92)
 					bu.Border:SetAlpha(0)
 					bu.Highlight:SetColorTexture(1, 1, 1, .25)
-					bu.bg = F.CreateBDFrame(bu.Icon)
+					bu.bg = F.CreateBDFrame(bu.Icon, .25)
 				end
 
 				if bu.talent.selected then
 					bu.bg:SetBackdropBorderColor(r, g, b)
+					bu.bg.Shadow:SetBackdropBorderColor(r, g, b)
 				else
 					bu.bg:SetBackdropBorderColor(0, 0, 0)
+					bu.bg.Shadow:SetBackdropBorderColor(0, 0, 0)
 				end
 			end
 		end
