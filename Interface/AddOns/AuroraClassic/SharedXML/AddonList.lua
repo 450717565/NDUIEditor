@@ -10,6 +10,9 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinDropDown(AddonCharacterDropDown)
 	F.ReskinScroll(AddonListScrollFrameScrollBar)
 
+	AddonListForceLoad:SetScale(.8)
+	AddonListCancelButton:SetWidth(120)
+	AddonListOkayButton:SetWidth(120)
 	AddonCharacterDropDown:SetWidth(170)
 
 	local r, g, b = C.r, C.g, C.b

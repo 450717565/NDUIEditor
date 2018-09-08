@@ -96,7 +96,6 @@ local list = {
 		{AuraID = 268956, UnitID = "player", Text = RAID_BUFF_8},	-- 全能
 		{AuraID = 280780, UnitID = "player"},	-- 战斗荣耀
 		{AuraID = 280787, UnitID = "player"},	-- 反击之怒
-		{AuraID = 279928, UnitID = "player", Combat = true},	-- 大地链接
 		{AuraID = 280385, UnitID = "player"},	-- 压力渐增
 		{AuraID = 273842, UnitID = "player"},	-- 深渊秘密
 		{AuraID = 273843, UnitID = "player"},	-- 深渊秘密

@@ -2,16 +2,11 @@ local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
 	-- Dressup Frame
-
-	DressUpFramePortrait:Hide()
-	for i = 1, 17 do
-		select(i, DressUpFrame:GetRegions()):Hide()
-	end
-	select(8, DressUpFrame:GetRegions()):Show()
-	DressUpFrameInset:Hide()
-	MaximizeMinimizeFrame:GetRegions():Hide()
-
+	F.StripTextures(DressUpFrame, true)
+	F.StripTextures(DressUpFrameInset, true)
+	F.StripTextures(MaximizeMinimizeFrame, true)
 	F.SetBD(DressUpFrame, 5, 5, -5, 0)
+
 	F.Reskin(DressUpFrameOutfitDropDown.SaveButton)
 	F.Reskin(DressUpFrameCancelButton)
 	F.Reskin(DressUpFrameResetButton)
@@ -28,18 +23,15 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinMinMax(MaximizeMinimizeFrame)
 
 	-- SideDressUp
-
-	for i = 1, 4 do
-		select(i, SideDressUpFrame:GetRegions()):Hide()
-	end
-	select(5, SideDressUpModelCloseButton:GetRegions()):Hide()
+	F.StripTextures(SideDressUpFrame, true)
+	F.StripTextures(SideDressUpModelCloseButton, true)
+	F.CreateBD(SideDressUpModel)
+	F.CreateSD(SideDressUpModel)
+	F.Reskin(SideDressUpModelResetButton)
+	F.ReskinClose(SideDressUpModelCloseButton)
 
 	SideDressUpModel:HookScript("OnShow", function(self)
 		self:ClearAllPoints()
-		self:SetPoint("LEFT", self:GetParent():GetParent(), "RIGHT", 1, 0)
+		self:SetPoint("LEFT", self:GetParent():GetParent(), "RIGHT", 4, 0)
 	end)
-
-	F.Reskin(SideDressUpModelResetButton)
-	F.ReskinClose(SideDressUpModelCloseButton)
-	F.CreateBDFrame(SideDressUpModel)
 end)

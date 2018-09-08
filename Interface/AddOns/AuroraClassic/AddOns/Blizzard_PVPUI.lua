@@ -3,31 +3,33 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_PVPUI"] = function()
 	local r, g, b = C.r, C.g, C.b
 
-	local PVPQueueFrame = PVPQueueFrame
-	local HonorFrame = HonorFrame
-	local ConquestFrame = ConquestFrame
+	-- Main style
+	F.StripTextures(PVPQueueFrame.HonorInset, true)
+	F.Reskin(HonorFrame.QueueButton)
+	F.Reskin(ConquestFrame.JoinButton)
+	F.ReskinDropDown(HonorFrameTypeDropDown)
+	F.ReskinScroll(HonorFrameSpecificFrameScrollBar)
 
 	-- Category buttons
-
 	for i = 1, 3 do
 		local bu = PVPQueueFrame["CategoryButton"..i]
 		local icon = bu.Icon
 		local cu = bu.CurrencyDisplay
 
 		bu.Ring:Hide()
-
-		F.Reskin(bu, true)
-
 		bu.Background:SetAllPoints()
 		bu.Background:SetColorTexture(r, g, b, .25)
 		bu.Background:Hide()
+
+		F.Reskin(bu, true)
 
 		icon:SetTexCoord(.08, .92, .08, .92)
 		icon:SetPoint("LEFT", bu, "LEFT")
 		icon:SetDrawLayer("OVERLAY")
 		F.CreateBDFrame(icon)
-		icon.bg = F.CreateBG(icon)
-		icon.bg:SetDrawLayer("ARTWORK")
+
+		local bg = F.CreateBG(icon)
+		bg:SetDrawLayer("ARTWORK")
 
 		if cu then
 			local ic = cu.Icon
@@ -37,8 +39,8 @@ C.themes["Blizzard_PVPUI"] = function()
 			cu.Amount:SetPoint("LEFT", ic, "RIGHT", 4, 0)
 
 			ic:SetTexCoord(.08, .92, .08, .92)
-			ic.bg = F.CreateBG(ic)
-			ic.bg:SetDrawLayer("BACKGROUND", 1)
+			local bg = F.CreateBG(ic)
+			bg:SetDrawLayer("BACKGROUND", 1)
 		end
 	end
 
@@ -58,63 +60,51 @@ C.themes["Blizzard_PVPUI"] = function()
 		end
 	end)
 
-	PVPQueueFrame.CategoryButton1.Background:Show()
-	F.StripTextures(PVPQueueFrame.HonorInset)
+	-- ConquestBar
+	local function styleBar(f)
+		F.StripTextures(f.ConquestBar, true)
+		F.CreateBDFrame(f.ConquestBar, .25)
 
-	-- Honor frame
-
-	local Inset = HonorFrame.Inset
-	local BonusFrame = HonorFrame.BonusFrame
-
-	for i = 1, 9 do
-		select(i, Inset:GetRegions()):Hide()
+		local cbreward = f.ConquestBar.Reward
+		cbreward:ClearAllPoints()
+		cbreward:SetPoint("LEFT", f.ConquestBar, "RIGHT", 2, 0)
+		cbreward.CircleMask:Hide()
+		cbreward.Ring:Hide()
+		cbreward.Icon:SetTexCoord(.08, .92, .08, .92)
+		F.CreateBDFrame(cbreward.Icon, .25)
 	end
-	BonusFrame.WorldBattlesTexture:Hide()
-	BonusFrame.ShadowOverlay:Hide()
-
-	for _, bonusButton in pairs({"RandomBGButton", "RandomEpicBGButton", "Arena1Button", "BrawlButton"}) do
-		local bu = BonusFrame[bonusButton]
-		local reward = bu.Reward
-
-		F.Reskin(bu, true)
-
-		bu.SelectedTexture:SetDrawLayer("BACKGROUND")
-		bu.SelectedTexture:SetColorTexture(r, g, b, .25)
-		bu.SelectedTexture:SetAllPoints()
-
-		if reward then
-			reward.Border:Hide()
-			reward.Icon:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(reward.Icon)
-		end
-	end
-
-	F.StripTextures(HonorFrame.ConquestBar, true)
-	F.StripTextures(HonorFrame.ConquestBar.Reward, true)
-	F.CreateBDFrame(HonorFrame.ConquestBar, .25)
 
 	-- Role buttons
-
 	local function styleRole(f)
-		f:DisableDrawLayer("BACKGROUND")
-		f:DisableDrawLayer("BORDER")
+		F.StripTextures(f, true)
 
-		for _, roleButton in pairs({f.HealerIcon, f.TankIcon, f.DPSIcon}) do
-			roleButton.cover:SetTexture(C.media.roleIcons)
-			roleButton:SetNormalTexture(C.media.roleIcons)
-			roleButton.checkButton:SetFrameLevel(roleButton:GetFrameLevel() + 2)
-			local bg = F.CreateBDFrame(roleButton, 1)
-			bg:SetPoint("TOPLEFT", roleButton, 3, -2)
-			bg:SetPoint("BOTTOMRIGHT", roleButton, -3, 4)
-
+		for _, roleButton in next, {f.HealerIcon, f.TankIcon, f.DPSIcon} do
 			F.ReskinCheck(roleButton.checkButton)
 		end
 	end
 	styleRole(HonorFrame)
 	styleRole(ConquestFrame)
+	styleBar(HonorFrame)
+	styleBar(ConquestFrame)
+
+	-- Honor frame
+	local Inset = HonorFrame.Inset
+	local BonusFrame = HonorFrame.BonusFrame
+	F.StripTextures(Inset, true)
+	F.StripTextures(BonusFrame, true)
+	BonusFrame.ShadowOverlay:Hide()
+
+	for _, bonusButton in next, {"RandomBGButton", "RandomEpicBGButton", "Arena1Button", "BrawlButton"} do
+		local bu = BonusFrame[bonusButton]
+
+		F.Reskin(bu, true)
+		bu.SelectedTexture:SetDrawLayer("BACKGROUND")
+		bu.SelectedTexture:SetColorTexture(r, g, b, .25)
+		bu.SelectedTexture:SetAllPoints()
+	end
 
 	-- Honor frame specific
-
+	--[[
 	for _, bu in pairs(HonorFrame.SpecificFrame.buttons) do
 		bu.Bg:Hide()
 		bu.Border:Hide()
@@ -149,13 +139,9 @@ C.themes["Blizzard_PVPUI"] = function()
 		bu.InfoText:ClearAllPoints()
 		bu.InfoText:SetPoint("BOTTOMRIGHT", -5, 5)
 	end
-
+]]
 	-- Conquest Frame
-
-	for i = 1, 9 do
-		select(i, ConquestFrame.Inset:GetRegions()):Hide()
-	end
-	ConquestFrame.RatedBGTexture:Hide()
+	F.StripTextures(ConquestFrame.Inset, true)
 	ConquestFrame.ShadowOverlay:Hide()
 
 	if AuroraConfig.tooltips then
@@ -171,29 +157,10 @@ C.themes["Blizzard_PVPUI"] = function()
 	ConquestFrame.Arena3v3:HookScript("OnEnter", ConquestFrameButton_OnEnter)
 	ConquestFrame.RatedBG:HookScript("OnEnter", ConquestFrameButton_OnEnter)
 
-	for _, bu in pairs({ConquestFrame.Arena2v2, ConquestFrame.Arena3v3, ConquestFrame.RatedBG}) do
+	for _, bu in next, {ConquestFrame.Arena2v2, ConquestFrame.Arena3v3, ConquestFrame.RatedBG} do
 		F.Reskin(bu, true)
-		local reward = bu.Reward
-		if reward then
-			reward.Border:Hide()
-			reward.Icon:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(reward.Icon)
-		end
-
 		bu.SelectedTexture:SetDrawLayer("BACKGROUND")
 		bu.SelectedTexture:SetColorTexture(r, g, b, .25)
 		bu.SelectedTexture:SetAllPoints()
 	end
-
-	ConquestFrame.Arena3v3:SetPoint("TOP", ConquestFrame.Arena2v2, "BOTTOM", 0, -1)
-	F.StripTextures(ConquestFrame.ConquestBar, true)
-	F.StripTextures(ConquestFrame.ConquestBar.Reward, true)
-	F.CreateBDFrame(ConquestFrame.ConquestBar, .25)
-
-	-- Main style
-
-	F.Reskin(HonorFrame.QueueButton)
-	F.Reskin(ConquestFrame.JoinButton)
-	F.ReskinDropDown(HonorFrameTypeDropDown)
-	F.ReskinScroll(HonorFrameSpecificFrameScrollBar)
 end

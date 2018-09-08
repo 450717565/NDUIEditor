@@ -8,7 +8,7 @@ C.themes["Blizzard_Calendar"] = function()
 		F.StripTextures(list, true)
 	end
 
-	F.SetBD(CalendarFrame, 12, 0, -9, 4)
+	F.SetBD(CalendarFrame, 11, 0, -9, 3)
 
 	for i = 1, 42 do
 		_G["CalendarDayButton"..i.."DarkFrame"]:SetAlpha(.5)
@@ -55,13 +55,6 @@ C.themes["Blizzard_Calendar"] = function()
 		ic:SetTexCoord(tcoords[1] + .022, tcoords[2] - .025, tcoords[3] + .022, tcoords[4] - .025)
 	end
 
-	local bd = CreateFrame("Frame", nil, CalendarFilterFrame)
-	bd:SetPoint("TOPLEFT", 40, 0)
-	bd:SetPoint("BOTTOMRIGHT", -19, 0)
-	bd:SetFrameLevel(CalendarFilterFrame:GetFrameLevel()-1)
-	F.CreateBDFrame(bd, 0)
-	F.CreateGradient(bd)
-
 	for i = 1, 6 do
 		local vline = CreateFrame("Frame", nil, _G["CalendarDayButton"..i])
 		vline:SetFrameLevel(_G["CalendarDayButton"..i]:GetFrameLevel()+1)
@@ -71,12 +64,13 @@ C.themes["Blizzard_Calendar"] = function()
 		F.CreateBD(vline)
 		F.CreateSD(vline)
 	end
+
 	for i = 1, 36, 7 do
 		local hline = CreateFrame("Frame", nil, _G["CalendarDayButton"..i])
 		hline:SetFrameLevel(_G["CalendarDayButton"..i]:GetFrameLevel()+1)
-		hline:SetWidth(636)
+		hline:SetWidth(637)
 		hline:SetHeight(1)
-		hline:SetPoint("LEFT", _G["CalendarDayButton"..i], "TOPLEFT", 1, 0)
+		hline:SetPoint("LEFT", _G["CalendarDayButton"..i], "TOPLEFT")
 		F.CreateBD(hline)
 		F.CreateSD(hline)
 	end

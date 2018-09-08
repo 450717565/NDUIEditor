@@ -1,19 +1,18 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_GuildBankUI"] = function()
-	local lists = {GuildBankFrame, GuildBankEmblemFrame, GuildBankMoneyFrameBackground, GuildBankPopupScrollFrame, GuildBankTransactionsScrollFrame, GuildBankInfoScrollFrame, GuildBankTabTitleBackground, GuildBankPopupFrame}
+	local lists = {GuildBankFrame, GuildBankEmblemFrame, GuildBankMoneyFrameBackground, GuildBankTransactionsScrollFrame, GuildBankInfoScrollFrame}
 	for _, list in next, lists do
 		F.StripTextures(list, true)
 	end
 
+	local buttons = {GuildBankFrameWithdrawButton, GuildBankFrameDepositButton, GuildBankFramePurchaseButton, GuildBankPopupOkayButton, GuildBankPopupCancelButton, GuildBankInfoSaveButton}
+	for _, button in next, buttons do
+		F.Reskin(button)
+	end
+
 	F.CreateBD(GuildBankFrame)
 	F.CreateSD(GuildBankFrame)
-	F.Reskin(GuildBankFrameWithdrawButton)
-	F.Reskin(GuildBankFrameDepositButton)
-	F.Reskin(GuildBankFramePurchaseButton)
-	F.Reskin(GuildBankPopupOkayButton)
-	F.Reskin(GuildBankPopupCancelButton)
-	F.Reskin(GuildBankInfoSaveButton)
 	F.ReskinClose(GuildBankFrame.CloseButton)
 	F.ReskinScroll(GuildBankTransactionsScrollFrameScrollBar)
 	F.ReskinScroll(GuildBankInfoScrollFrameScrollBar)
@@ -38,25 +37,28 @@ C.themes["Blizzard_GuildBankUI"] = function()
 	GuildBankFrameWithdrawButton:SetPoint("RIGHT", GuildBankFrameDepositButton, "LEFT", -2, 0)
 
 	for i = 1, NUM_GUILDBANK_COLUMNS do
-		_G["GuildBankColumn"..i]:GetRegions():Hide()
+		F.StripTextures(_G["GuildBankColumn"..i])
 		for j = 1, NUM_SLOTS_PER_GUILDBANK_GROUP do
 			local bu = _G["GuildBankColumn"..i.."Button"..j]
-			local border = bu.IconBorder
-			local searchOverlay = bu.searchOverlay
-
-			bu:SetNormalTexture("")
-			bu:SetPushedTexture("")
-			bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
+			F.StripTextures(bu)
+			F.CreateBDFrame(bu, .25)
 
 			bu.icon:SetTexCoord(.08, .92, .08, .92)
 
+			local border = bu.IconBorder
+			border:SetTexture(C.media.backdrop)
+			border.SetTexture = F.dummy
 			border:SetPoint("TOPLEFT", -1.2, 1.2)
 			border:SetPoint("BOTTOMRIGHT", 1.2, -1.2)
 			border:SetDrawLayer("BACKGROUND")
 
+			local searchOverlay = bu.searchOverlay
 			searchOverlay:SetPoint("TOPLEFT", -1.2, 1.2)
 			searchOverlay:SetPoint("BOTTOMRIGHT", 1.2, -1.2)
-			F.CreateBDFrame(bu, .25)
+
+			bu:SetHighlightTexture(C.media.backdrop)
+			local hl = bu:GetHighlightTexture()
+			hl:SetVertexColor(1, 1, 1, .25)
 		end
 	end
 
@@ -71,21 +73,19 @@ C.themes["Blizzard_GuildBankUI"] = function()
 
 	for i = 1, 8 do
 		local tb = _G["GuildBankTab"..i]
+		F.StripTextures(tb)
+
 		local bu = _G["GuildBankTab"..i.."Button"]
-		local ic = _G["GuildBankTab"..i.."ButtonIconTexture"]
-		local nt = _G["GuildBankTab"..i.."ButtonNormalTexture"]
-
-		bu:SetPushedTexture("")
-		bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-		tb:GetRegions():Hide()
-		nt:SetAlpha(0)
-
-		bu:SetCheckedTexture(C.media.checked)
+		F.StripTextures(bu)
 		F.CreateBDFrame(bu)
+		bu:SetSize(34, 34)
+		bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
+		bu:SetCheckedTexture(C.media.checked)
 
 		local a1, p, a2, x, y = bu:GetPoint()
 		bu:SetPoint(a1, p, a2, x + 1, y)
 
+		local ic = _G["GuildBankTab"..i.."ButtonIconTexture"]
 		ic:SetTexCoord(.08, .92, .08, .92)
 	end
 

@@ -8,8 +8,9 @@ C.themes["Blizzard_BarbershopUI"] = function()
 	BarberShopAltFormFrame:ClearAllPoints()
 	BarberShopAltFormFrame:SetPoint("BOTTOM", BarberShopFrame, "TOP", 0, -74)
 
-	F.SetBD(BarberShopFrame, 44, -75, -40, 44)
-	F.SetBD(BarberShopAltFormFrame, 0, 0, 2, -2)
+	F.SetBD(BarberShopFrame, 45, -75, -45, 45)
+	F.CreateBD(BarberShopAltFormFrame)
+	F.CreateSD(BarberShopAltFormFrame)
 
 	F.Reskin(BarberShopFrameOkayButton)
 	F.Reskin(BarberShopFrameCancelButton)

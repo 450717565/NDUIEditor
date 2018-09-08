@@ -1,75 +1,71 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_VoidStorageUI"] = function()
-	F.SetBD(VoidStorageFrame, 20, 0, 0, 20)
+	F.StripTextures(VoidStorageFrame, true)
+	F.StripTextures(VoidStorageBorderFrame, true)
+	F.CreateBD(VoidStorageFrame)
+	F.CreateSD(VoidStorageFrame)
+
+	F.StripTextures(VoidStoragePurchaseFrame, true)
 	F.CreateBD(VoidStoragePurchaseFrame)
 	F.CreateSD(VoidStoragePurchaseFrame)
 
-	VoidStorageBorderFrame:DisableDrawLayer("BORDER")
-	VoidStorageBorderFrame:DisableDrawLayer("BACKGROUND")
-	VoidStorageBorderFrame:DisableDrawLayer("OVERLAY")
-	VoidStorageDepositFrame:DisableDrawLayer("BACKGROUND")
-	VoidStorageDepositFrame:DisableDrawLayer("BORDER")
-	VoidStorageWithdrawFrame:DisableDrawLayer("BACKGROUND")
-	VoidStorageWithdrawFrame:DisableDrawLayer("BORDER")
-	VoidStorageCostFrame:DisableDrawLayer("BACKGROUND")
-	VoidStorageCostFrame:DisableDrawLayer("BORDER")
-	VoidStorageStorageFrame:DisableDrawLayer("BACKGROUND")
-	VoidStorageStorageFrame:DisableDrawLayer("BORDER")
-	VoidStorageFrameMarbleBg:Hide()
-	select(2, VoidStorageFrame:GetRegions()):Hide()
-	VoidStorageFrameLines:Hide()
-	VoidStorageStorageFrameLine1:Hide()
-	VoidStorageStorageFrameLine2:Hide()
-	VoidStorageStorageFrameLine3:Hide()
-	VoidStorageStorageFrameLine4:Hide()
-	select(12, VoidStorageDepositFrame:GetRegions()):Hide()
-	select(12, VoidStorageWithdrawFrame:GetRegions()):Hide()
-	for i = 1, 10 do
-		select(i, VoidStoragePurchaseFrame:GetRegions()):Hide()
+	F.Reskin(VoidStoragePurchaseButton)
+	F.Reskin(VoidStorageHelpBoxButton)
+	F.Reskin(VoidStorageTransferButton)
+	F.ReskinClose(VoidStorageBorderFrame.CloseButton)
+	F.ReskinInput(VoidItemSearchBox)
+
+	F.StripTextures(VoidStorageCostFrame, true)
+
+	local frames = {VoidStorageDepositFrame, VoidStorageWithdrawFrame, VoidStorageStorageFrame}
+	for _, frame in next, frames do
+		F.StripTextures(frame, true)
+		F.CreateBDFrame(frame, .25)
 	end
 
-	for _, voidButton in pairs({"VoidStorageDepositButton", "VoidStorageWithdrawButton"}) do
+	for _, voidButton in next, {"VoidStorageDepositButton", "VoidStorageWithdrawButton"} do
 		for i = 1, 9 do
 			local bu = _G[voidButton..i]
-			local border = bu.IconBorder
-
-			bu:SetPushedTexture("")
-			bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-			_G[voidButton..i.."Bg"]:Hide()
-
 			bu.icon:SetTexCoord(.08, .92, .08, .92)
+			F.StripTextures(bu)
+			F.CreateBDFrame(bu, .25)
 
+			bu:SetHighlightTexture(C.media.backdrop)
+			local hl = bu:GetHighlightTexture()
+			hl:SetVertexColor(1, 1, 1, .25)
+
+			local border = bu.IconBorder
 			border:SetTexture(C.media.backdrop)
 			border.SetTexture = F.dummy
 			border:SetPoint("TOPLEFT", -1.2, 1.2)
 			border:SetPoint("BOTTOMRIGHT", 1.2, -1.2)
 			border:SetDrawLayer("BACKGROUND")
-
-			F.CreateBDFrame(bu, .25)
 		end
 	end
 
 	for i = 1, 80 do
 		local bu = _G["VoidStorageStorageButton"..i]
-		local border = bu.IconBorder
-		local searchOverlay = bu.searchOverlay
-
-		bu:SetPushedTexture("")
-		bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
+		F.StripTextures(bu)
 		F.CreateBDFrame(bu, .25)
 
+		local icon = _G["VoidStorageStorageButton"..i.."IconTexture"]
+		icon:SetTexCoord(.08, .92, .08, .92)
+
+		local border = bu.IconBorder
 		border:SetTexture(C.media.backdrop)
 		border.SetTexture = F.dummy
 		border:SetPoint("TOPLEFT", -1.2, 1.2)
 		border:SetPoint("BOTTOMRIGHT", 1.2, -1.2)
 		border:SetDrawLayer("BACKGROUND")
 
-		searchOverlay:SetPoint("TOPLEFT", -1, 1)
-		searchOverlay:SetPoint("BOTTOMRIGHT", 1, -1)
+		local searchOverlay = bu.searchOverlay
+		searchOverlay:SetPoint("TOPLEFT", -1.2, 1.2)
+		searchOverlay:SetPoint("BOTTOMRIGHT", 1.2, -1.2)
 
-		_G["VoidStorageStorageButton"..i.."Bg"]:Hide()
-		_G["VoidStorageStorageButton"..i.."IconTexture"]:SetTexCoord(.08, .92, .08, .92)
+		bu:SetHighlightTexture(C.media.backdrop)
+		local hl = bu:GetHighlightTexture()
+		hl:SetVertexColor(1, 1, 1, .25)
 	end
 
 	for i = 1, 2 do
@@ -80,13 +76,6 @@ C.themes["Blizzard_VoidStorageUI"] = function()
 		tab:GetNormalTexture():SetTexCoord(.08, .92, .08, .92)
 		F.CreateBDFrame(tab)
 	end
-
 	VoidStorageFrame.Page1:ClearAllPoints()
-	VoidStorageFrame.Page1:SetPoint("LEFT", VoidStorageFrame, "TOPRIGHT", 2, -60)
-
-	F.Reskin(VoidStoragePurchaseButton)
-	F.Reskin(VoidStorageHelpBoxButton)
-	F.Reskin(VoidStorageTransferButton)
-	F.ReskinClose(VoidStorageBorderFrame:GetChildren(), nil)
-	F.ReskinInput(VoidItemSearchBox)
+	VoidStorageFrame.Page1:SetPoint("TOPLEFT", VoidStorageFrame, "TOPRIGHT", 4, -50)
 end

@@ -1,11 +1,9 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_FlightMap"] = function()
-	F.StripTextures(FlightMapFrame.BorderFrame)
+	F.StripTextures(FlightMapFrame, true)
+	F.StripTextures(FlightMapFrame.BorderFrame, true)
 	F.CreateBD(FlightMapFrame)
 	F.CreateSD(FlightMapFrame)
-	FlightMapFramePortrait:Hide()
 	F.ReskinClose(FlightMapFrameCloseButton)
-	FlightMapFrameBg:Hide()
-	FlightMapFrame.ScrollContainer.Child.TiledBackground:Hide()
 end

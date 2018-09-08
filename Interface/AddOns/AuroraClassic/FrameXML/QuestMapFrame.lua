@@ -12,6 +12,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.StripTextures(QuestScrollFrame, true)
 	F.StripTextures(QuestScrollFrame.DetailFrame, true)
 	QuestScrollFrame.Contents.Separator:SetAlpha(0)
+	QuestScrollFrame.Contents.Separator:SetHeight(20)
 
 	if AuroraConfig.tooltips then
 		F.CreateBD(QuestScrollFrame.StoryTooltip)

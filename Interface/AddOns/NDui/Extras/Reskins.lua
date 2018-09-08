@@ -378,17 +378,21 @@ local function Reskins()
 			dialog.Difficulty.DropDown:ClearAllPoints()
 			dialog.Difficulty.DropDown:SetPoint("RIGHT", dialog.Difficulty, "RIGHT", 13, -3)
 
-			local buttons = {dialog.Defeated.Act, dialog.Difficulty.Act, dialog.Dps.Act, dialog.Heals.Act, dialog.Ilvl.Act, dialog.Members.Act, dialog.Noilvl.Act, dialog.Tanks.Act}
+			local buttons = {dialog.Defeated, dialog.Difficulty, dialog.Dps, dialog.Heals, dialog.Ilvl, dialog.Members, dialog.Noilvl, dialog.Tanks}
 			for _, button in next, buttons do
-				local p1, p2, p3, x, y = button:GetPoint()
-				button:SetPoint(p1, p2, p3, 0, -3)
-				button:SetSize(24, 24)
-				F.ReskinCheck(button)
+				local btn = button["Act"]
+				local p1, p2, p3, x, y = btn:GetPoint()
+				btn:SetPoint(p1, p2, p3, 0, -3)
+				btn:SetSize(24, 24)
+				F.ReskinCheck(btn)
 			end
 
-			local inputs = {dialog.Defeated.Min, dialog.Dps.Min, dialog.Heals.Min, dialog.Ilvl.Min, dialog.Members.Min, dialog.Tanks.Min, dialog.Defeated.Max, dialog.Dps.Max, dialog.Heals.Max, dialog.Ilvl.Max, dialog.Members.Max, dialog.Tanks.Max}
+			local inputs = {dialog.Defeated, dialog.Dps, dialog.Heals, dialog.Ilvl, dialog.Members, dialog.Tanks}
 			for _, input in next, inputs do
-				F.ReskinInput(input)
+				local min = input["Min"]
+				local max = input["Max"]
+				F.ReskinInput(min)
+				F.ReskinInput(max)
 			end
 		end
 

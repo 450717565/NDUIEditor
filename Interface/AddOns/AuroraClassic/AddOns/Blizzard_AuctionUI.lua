@@ -8,7 +8,7 @@ C.themes["Blizzard_AuctionUI"] = function()
 		F.StripTextures(frame, true)
 	end
 
-	F.SetBD(AuctionFrame, 2, -10, 0, 10)
+	F.SetBD(AuctionFrame, 10, -10, 0, 10)
 	F.CreateBD(AuctionProgressFrame)
 	F.CreateSD(AuctionProgressFrame)
 	F.ReskinStatusBar(AuctionProgressBar, true, true)

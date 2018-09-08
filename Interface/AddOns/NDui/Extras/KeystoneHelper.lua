@@ -38,7 +38,7 @@ local function CheckKeystone(link)
 	return affixIDs, mapLevel
 end
 
-local function DecorateTooltip(self)
+local function OnTooltipSetItem(self)
 	local _, link = self:GetItem()
 
 	if CheckLink(link) then
@@ -49,10 +49,10 @@ local function DecorateTooltip(self)
 
 		if affixIDs then
 			self:AddLine(" ")
-			for _, modifierID in ipairs(affixIDs) do
-				local modifierName, modifierDescription = C_ChallengeMode.GetAffixInfo(modifierID)
-				if modifierName and modifierDescription then
-					self:AddLine(format("|cffff0000%s|r - %s", modifierName, modifierDescription), 0, 1, 0, true)
+			for _, affixID in ipairs(affixIDs) do
+				local affixName, affixDescription = C_ChallengeMode.GetAffixInfo(affixID)
+				if affixName and affixDescription then
+					self:AddLine(format("|cffFF0000%s|r - |cff00FF00%s|r", affixName, affixDescription), nil, nil, nil, true)
 				end
 			end
 		end
@@ -66,5 +66,5 @@ local function DecorateTooltip(self)
 	end
 end
 
-GameTooltip:HookScript("OnTooltipSetItem", DecorateTooltip)
-ItemRefTooltip:HookScript("OnTooltipSetItem", DecorateTooltip)
+GameTooltip:HookScript("OnTooltipSetItem", OnTooltipSetItem)
+ItemRefTooltip:HookScript("OnTooltipSetItem", OnTooltipSetItem)
