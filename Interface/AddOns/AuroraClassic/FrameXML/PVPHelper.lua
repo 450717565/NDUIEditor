@@ -6,11 +6,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	PVPReadyDialogBackground:Hide()
 	PVPReadyDialogBottomArt:Hide()
 	PVPReadyDialogFiligree:Hide()
-	PVPReadyDialogRoleIconTexture:SetTexture(C.media.roleIcons)
-
-	local bg = F.CreateBDFrame(PVPReadyDialogRoleIcon, 1)
-	bg:SetPoint("TOPLEFT", 9, -7)
-	bg:SetPoint("BOTTOMRIGHT", -8, 10)
 
 	F.CreateBD(PVPReadyDialog)
 	F.CreateSD(PVPReadyDialog)

@@ -138,6 +138,7 @@ do
 			
 			local allLocked = true
 			local anyLocked = false
+			if value.name == nil then value.name = value.id end
 			local instances = { strsplit("\n", value.name) }
 			for i, v in pairs(instances) do
 				if (not LOCKOUTS[v] and not LOCKOUTS[alterName[v]]) then
@@ -297,7 +298,7 @@ function pluginHandler:OnClick(button, pressed, mapFile, coord)
   end
   
   if (not dungeonID) then return end
-  --print(dungeonID)
+  --dungeonID)
   local name, _, _, _, _, _, _, link = EJ_GetInstanceInfo(dungeonID)
   if not link then return end
   local difficulty = string.match(link, 'journal:.-:.-:(.-)|h') 
@@ -345,6 +346,8 @@ local function updateStuff()
 end
 
 function Addon:PLAYER_ENTERING_WORLD()
+ self.faction = UnitFactionGroup("player")
+ --print(self.faction)
  self:CheckForPOIs()
  updateStuff()
 end
@@ -549,8 +552,8 @@ function Addon:PLAYER_LOGIN()
  -- Populate Dungeon/Raid names based on Journal
  
  updateLockouts()
- Addon:RegisterEvent("PLAYER_ENTERING_WORLD") -- Check for any lockout changes when we zone
- Addon:RegisterEvent("UPDATE_INSTANCE_INFO")
+ --Addon:RegisterEvent("PLAYER_ENTERING_WORLD") -- Check for any lockout changes when we zone (FIX ME)
+ --Addon:RegisterEvent("UPDATE_INSTANCE_INFO") -- FIX ME
  --Addon:RegisterEvent("WORLD_MAP_UPDATE") -- For the mess that is the legion stuff I've done
 end
 
@@ -1799,6 +1802,28 @@ if (not minimap[641]) then
  }
 end
 end
+
+if (not self.db.profile.hideBfA) then
+nodes[895] = { } -- Tiragarde Sound
+nodes[942] = { } -- Stormsong Valley
+
+nodes[942][78932647] = {
+ id = 1036,
+ type = "Dungeon",
+} -- Shrine of Storm
+
+	--if (self.faction == "Alliance") then
+		nodes[895][74752350] = {
+		 id = 1023, -- LFG 1700, 1701
+		 type = "Dungeon",
+		} -- Siege of Baralus
+		nodes[1161] = { } -- Boralus
+		nodes[1161][71961540] = {
+		 id = 1023, -- LFG 1700, 1701
+		 type = "Dungeon",
+		} -- Siege of Baralus
+--	end
+end
 end
 
 
@@ -2013,6 +2038,7 @@ end
 
 -- Looks through the legions maps and checks if the default blizzard thingies are visible.
 function Addon:CheckForPOIs()
+ if (true) then return end -- Placeholder until this function is fixed
  if (WorldMapFrame:IsVisible()) then return end -- This function will interrupt the user if map is open while we do stuff
  local needsUpdate = false
  local LegionInstanceMapIDs = { 1015, 1017, 1018, 1024, 1033, 1170, 1171 }

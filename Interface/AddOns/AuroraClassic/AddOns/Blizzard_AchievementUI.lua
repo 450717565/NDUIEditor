@@ -302,8 +302,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 	end
 
 	for i = 1, 20 do
-		local bu = _G["AchievementFrameComparisonStatsContainerButton"..i]
-		F.StripTextures(bu, true)
+		F.StripTextures(_G["AchievementFrameComparisonStatsContainerButton"..i], true)
 	end
 	F.ReskinScroll(AchievementFrameComparisonStatsContainerScrollBar)
 

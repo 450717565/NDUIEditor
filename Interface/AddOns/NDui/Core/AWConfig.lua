@@ -611,7 +611,7 @@ local function CreatePanel()
 		tabs[i]:SetScript("OnLeave", tabOnLeave)
 	end
 
-	for i = 1, 10 do
+	for i = 1, 11 do
 		CreateGroupSwitcher(tabs[i].Page, i)
 	end
 

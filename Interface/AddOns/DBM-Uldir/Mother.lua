@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2167, "DBM-Uldir", nil, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17779 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17811 $"):sub(12, -3))
 mod:SetCreatureID(135452)--136429 Chamber 01, 137022 Chamber 02, 137023 Chamber 03
 mod:SetEncounterID(2141)
 mod:SetZone()
@@ -15,9 +15,10 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 267787 268198",
 	"SPELL_CAST_SUCCESS 267795 267945 267885 267878 269827 268089 277973 277961 277742",
-	"SPELL_AURA_APPLIED 267787 274205 269051",
+	"SPELL_SUMMON 268871",
+	"SPELL_AURA_APPLIED 267787 274205 269051 279662 279663",
 	"SPELL_AURA_APPLIED_DOSE 267787",
-	"SPELL_SUMMON 268871"
+	"SPELL_AURA_REMOVED 279662 279663"
 )
 
 --More mythic timer work
@@ -35,6 +36,11 @@ local specWarnSanitizingStrike			= mod:NewSpecialWarningDodge(267787, nil, nil, 
 local specWarnPurifyingFlame			= mod:NewSpecialWarningDodge(267795, nil, nil, nil, 2, 2)
 local specWarnClingingCorruption		= mod:NewSpecialWarningInterrupt(268198, "HasInterrupt", nil, nil, 1, 2)
 local specWarnSurgicalBeam				= mod:NewSpecialWarningDodgeLoc(269827, nil, nil, nil, 3, 2)
+local specWarnEndemicVirus				= mod:NewSpecialWarningMoveAway(279662, nil, nil, nil, 1, 2)
+local yellEndemicVirus					= mod:NewYell(279662)
+local yellEndemicVirusFades				= mod:NewShortFadesYell(279662)
+local specWarnSpreadingEpidemic			= mod:NewSpecialWarningMoveAway(279663, nil, nil, nil, 1, 2)
+local yellSpreadingEpidemic				= mod:NewYell(279663)
 
 --mod:AddTimerLine(Nexus)
 local timerSanitizingStrikeCD			= mod:NewNextTimer(23.1, 267787, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
@@ -51,6 +57,7 @@ local countdownSurgicalBeam				= mod:NewCountdown("AltTwo30", 269827, nil, nil, 
 
 mod:AddInfoFrameOption(268095, true)
 mod:AddSetIconOption("SetIconOnAdds", 268871, true, true)
+mod:AddRangeFrameOption(5, 272407)
 
 mod.vb.startIcon = 1
 mod.vb.phase = 1
@@ -91,23 +98,25 @@ local function updateAllTimers(self, ICD)
 		timerWindTunnelCD:Stop()
 		timerWindTunnelCD:Update(elapsed, total+extend)
 	end
-	if (self.vb.nextLaser == 1) and timerSurgicalBeamCD:GetRemaining(DBM_CORE_SIDE) < ICD then
-		local elapsed, total = timerSurgicalBeamCD:GetTime(DBM_CORE_SIDE)
-		local extend = ICD - (total-elapsed)
-		DBM:Debug("timerSurgicalBeamCD SIDE extended by: "..extend, 2)
-		timerSurgicalBeamCD:Stop()
-		timerSurgicalBeamCD:Update(elapsed, total+extend, DBM_CORE_SIDE)
-		countdownSurgicalBeam:Cancel()
-		countdownSurgicalBeam:Start(ICD)
-	end
-	if (self.vb.nextLaser == 2) and timerSurgicalBeamCD:GetRemaining(DBM_CORE_TOP) < ICD then
-		local elapsed, total = timerSurgicalBeamCD:GetTime(DBM_CORE_TOP)
-		local extend = ICD - (total-elapsed)
-		DBM:Debug("timerSurgicalBeamCD TOP extended by: "..extend, 2)
-		timerSurgicalBeamCD:Stop()
-		timerSurgicalBeamCD:Update(elapsed, total+extend, DBM_CORE_TOP)
-		countdownSurgicalBeam:Cancel()
-		countdownSurgicalBeam:Start(ICD)
+	if self.vb.phase >= 2 then
+		if (self.vb.nextLaser == 1) and timerSurgicalBeamCD:GetRemaining(DBM_CORE_SIDE) < ICD then
+			local elapsed, total = timerSurgicalBeamCD:GetTime(DBM_CORE_SIDE)
+			local extend = ICD - (total-elapsed)
+			DBM:Debug("timerSurgicalBeamCD SIDE extended by: "..extend, 2)
+			timerSurgicalBeamCD:Stop()
+			timerSurgicalBeamCD:Update(elapsed, total+extend, DBM_CORE_SIDE)
+			countdownSurgicalBeam:Cancel()
+			countdownSurgicalBeam:Start(ICD)
+		end
+		if (self.vb.nextLaser == 2) and timerSurgicalBeamCD:GetRemaining(DBM_CORE_TOP) < ICD then
+			local elapsed, total = timerSurgicalBeamCD:GetTime(DBM_CORE_TOP)
+			local extend = ICD - (total-elapsed)
+			DBM:Debug("timerSurgicalBeamCD TOP extended by: "..extend, 2)
+			timerSurgicalBeamCD:Stop()
+			timerSurgicalBeamCD:Update(elapsed, total+extend, DBM_CORE_TOP)
+			countdownSurgicalBeam:Cancel()
+			countdownSurgicalBeam:Start(ICD)
+		end
 	end
 end
 
@@ -145,6 +154,23 @@ do
 	end
 end
 
+local updateRangeFrame
+do
+	local function debuffFilter(uId)
+		if DBM:UnitDebuff(uId, 279662, 279663) then--Endemic Virus, Spreading Epidemic
+			return true
+		end
+	end
+	updateRangeFrame = function(self)
+		if not self.Options.RangeFrame then return end
+		if DBM:UnitDebuff("player", 279662, 279663) then
+			DBM.RangeCheck:Show(10)
+		else
+			DBM.RangeCheck:Show(10, debuffFilter)
+		end
+	end
+end
+
 function mod:OnCombatStart(delay)
 	self.vb.startIcon = 1
 	self.vb.phase = 1
@@ -162,11 +188,17 @@ function mod:OnCombatStart(delay)
 	if self:AntiSpam(3, 1) then
 		--Do nothing
 	end
+	if self:IsMythic() then
+		updateRangeFrame(self)
+	end
 end
 
 function mod:OnCombatEnd()
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
+	end
+	if self.Options.RangeFrame then
+		DBM.RangeCheck:Hide()
 	end
 end
 
@@ -203,12 +235,13 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 267945 then--Global Id for winds
 		warnWindTunnel:Show()
 		timerWindTunnelCD:Show()--40-47
+		updateAllTimers(self, 6)
 	elseif spellId == 269827 or spellId == 277973 or spellId == 277961 or spellId == 277742 then
 		if spellId == 277961 or spellId == 277742 or spellId == 269827 then--Top (277961 mythic chamber 2, 277742 heroic Chamber 2, 269827 heroic chamber 3)
 			specWarnSurgicalBeam:Show(DBM_CORE_TOP)
 			--Next Beam side
-			timerSurgicalBeamCD:Start(16, DBM_CORE_SIDE)
-			countdownSurgicalBeam:Start(16)
+			timerSurgicalBeamCD:Start(11, DBM_CORE_SIDE)--Usually delayed, but yes it's 11
+			countdownSurgicalBeam:Start(11)
 			self.vb.nextLaser = 1
 		else--Sides (277973 all)
 			specWarnSurgicalBeam:Show(DBM_CORE_SIDE)
@@ -221,9 +254,9 @@ function mod:SPELL_CAST_SUCCESS(args)
 				if self.vb.phase == 3 then
 					timerSurgicalBeamCD:Start(24, DBM_CORE_TOP)
 					countdownSurgicalBeam:Start(24)
-				else--TODO, confirm it's 30 here and not just always delayed by 6/5 second ICD
-					timerSurgicalBeamCD:Start(30, DBM_CORE_TOP)
-					countdownSurgicalBeam:Start(30)
+				else--TODO, confirm it's 29 here and not just always delayed by 6/5 second ICD (I'm even more confident it's 24 here too based on watching stream, think it's usually 30 cause of ICD)
+					timerSurgicalBeamCD:Start(29, DBM_CORE_TOP)
+					countdownSurgicalBeam:Start(29)
 				end
 			end
 		end
@@ -281,6 +314,35 @@ function mod:SPELL_AURA_APPLIED(args)
 			timerSurgicalBeamCD:Start(15, DBM_CORE_SIDE)--15 if delayed by nothing, but can be longer if flames ICD gets triggered
 			timerCleansingFlameCD:Start(time, 3)
 		end
+	elseif spellId == 279662 then
+		if args:IsPlayer() then
+			specWarnEndemicVirus:Show()
+			specWarnEndemicVirus:Play("runout")
+			yellEndemicVirus:Yell()
+			yellEndemicVirusFades:Countdown(20)
+			updateRangeFrame(self)
+		end
+	elseif spellId == 279663 then
+		if args:IsPlayer() then
+			specWarnSpreadingEpidemic:Show()
+			specWarnSpreadingEpidemic:Play("runout")
+			yellSpreadingEpidemic:Yell()
+			updateRangeFrame(self)
+		end
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
+
+function mod:SPELL_AURA_REMOVED(args)
+	local spellId = args.spellId
+	if spellId == 279662 then
+		if args:IsPlayer() then
+			updateRangeFrame(self)
+			yellEndemicVirusFades:Cancel()
+		end
+	elseif spellId == 279663 then
+		if args:IsPlayer() then
+			updateRangeFrame(self)
+		end
+	end
+end

@@ -1,18 +1,11 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	LFDParentFrame:DisableDrawLayer("BACKGROUND")
-	LFDParentFrameInset:DisableDrawLayer("BACKGROUND")
-	LFDParentFrame:DisableDrawLayer("BORDER")
-	LFDParentFrameInset:DisableDrawLayer("BORDER")
-	LFDParentFrame:DisableDrawLayer("OVERLAY")
-
-	LFDQueueFrameRandomScrollFrameScrollBackgroundTopLeft:Hide()
-	LFDQueueFrameRandomScrollFrameScrollBackgroundBottomRight:Hide()
+	F.StripTextures(LFDParentFrame, true)
+	F.StripTextures(LFDParentFrameInset, true)
+	F.StripTextures(LFDQueueFrameRandomScrollFrame, true)
+	F.StripTextures(LFDQueueFrameSpecificListScrollFrame, true)
 	LFDQueueFrameBackground:Hide()
-	LFDQueueFrameRandomScrollFrameScrollBackground:Hide()
-	LFDQueueFrameSpecificListScrollFrameScrollBackgroundTopLeft:Hide()
-	LFDQueueFrameSpecificListScrollFrameScrollBackgroundBottomRight:Hide()
 
 	-- this fixes right border of second reward being cut off
 	LFDQueueFrameRandomScrollFrame:SetWidth(LFDQueueFrameRandomScrollFrame:GetWidth()+1)

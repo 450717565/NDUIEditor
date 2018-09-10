@@ -62,8 +62,7 @@ C.themes["Blizzard_PVPUI"] = function()
 
 	-- ConquestBar
 	local function styleBar(f)
-		F.StripTextures(f.ConquestBar, true)
-		F.CreateBDFrame(f.ConquestBar, .25)
+		F.ReskinStatusBar(f.ConquestBar, true, true)
 
 		local cbreward = f.ConquestBar.Reward
 		cbreward:ClearAllPoints()

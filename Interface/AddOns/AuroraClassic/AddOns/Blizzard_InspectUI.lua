@@ -82,10 +82,6 @@ C.themes["Blizzard_InspectUI"] = function()
 		end
 	end)
 
-	local roleIcon = inspectSpec.roleIcon
-	roleIcon:SetTexture(C.media.roleIcons)
-	F.CreateBDFrame(roleIcon, .25, 2, -2, -2, 2)
-
 	for i = 1, 4 do
 		local tab = _G["InspectFrameTab"..i]
 		F.ReskinTab(tab)

@@ -549,7 +549,7 @@ local function UpdateIntFrame(intID, itemID, duration, unitID, guid)
 	end
 	if unitID:lower() == "all" then
 		_, class, _, _, _, name = GetPlayerInfoByGUID(guid)
-		name = "*"..name
+		name = "*"..(name and name or PET)
 	else
 		class = DB.MyClass
 	end
@@ -603,7 +603,7 @@ local function isUnitWeNeed(value, sourceName, destName, sourceFlags)
 			return true
 		end
 	elseif value.UnitID:lower() == "player" then
-		if sourceName and sourceName == UnitName("player") or destName == UnitName("player") or checkPetFlags(sourceFlags) then
+		if sourceName and (sourceName == UnitName("player") or destName == UnitName("player") or checkPetFlags(sourceFlags)) then
 			return true
 		end
 	end

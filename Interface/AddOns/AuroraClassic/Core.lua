@@ -182,12 +182,10 @@ function F:ReskinTab()
 	self:DisableDrawLayer("BACKGROUND")
 
 	local lvl = self:GetFrameLevel()
-	local bg = CreateFrame("Frame", nil, self)
+	local bg = F.CreateBDFrame(self)
 	bg:SetPoint("TOPLEFT", 8, -3)
 	bg:SetPoint("BOTTOMRIGHT", -8, 0)
 	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
-	F.CreateBD(bg)
-	F.CreateSD(bg)
 
 	self:SetHighlightTexture(C.media.backdrop)
 	local hl = self:GetHighlightTexture()
@@ -250,15 +248,10 @@ function F:ReskinScroll()
 	bu:SetAlpha(0)
 	bu:SetWidth(17)
 
-	bu.bg = CreateFrame("Frame", nil, self)
-	bu.bg:SetPoint("TOPLEFT", bu, 0, -2)
-	bu.bg:SetPoint("BOTTOMRIGHT", bu, 0, 4)
-	F.CreateBD(bu.bg, 0)
-	F.CreateSD(bu.bg)
-
-	local tex = F.CreateGradient(self)
-	tex:SetPoint("TOPLEFT", bu.bg, 1, -1)
-	tex:SetPoint("BOTTOMRIGHT", bu.bg, -1, 1)
+	bu.bg = F.CreateBDFrame(self, 0)
+	bu.bg:SetPoint("TOPLEFT", bu, 0, -3)
+	bu.bg:SetPoint("BOTTOMRIGHT", bu, 0, 3)
+	F.CreateGradient(bu.bg)
 
 	local up, down = self:GetChildren()
 	up:SetWidth(17)
@@ -335,16 +328,11 @@ function F:ReskinDropDown()
 	down:HookScript("OnLeave", textureOnLeave)
 
 	local lvl = self:GetFrameLevel()
-	local bg = CreateFrame("Frame", nil, self)
+	local bg = F.CreateBDFrame(self, 0)
 	bg:SetPoint("TOPLEFT", 16, -4)
 	bg:SetPoint("BOTTOMRIGHT", -18, 8)
 	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
-	F.CreateBD(bg, 0)
-	F.CreateSD(bg)
-
-	local gradient = F.CreateGradient(self)
-	gradient:SetPoint("TOPLEFT", bg, 1, -1)
-	gradient:SetPoint("BOTTOMRIGHT", bg, -1, 1)
+	F.CreateGradient(bg)
 end
 
 function F:ReskinClose(a1, p, a2, x, y)
@@ -397,16 +385,11 @@ function F:ReskinInput(height, width)
 	right:Hide()
 
 	local lvl = self:GetFrameLevel()
-	local bd = CreateFrame("Frame", nil, self)
-	bd:SetPoint("TOPLEFT", -2, 0)
-	bd:SetPoint("BOTTOMRIGHT")
-	bd:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
-	F.CreateBD(bd, 0)
-	F.CreateSD(bd)
-
-	local gradient = F.CreateGradient(self)
-	gradient:SetPoint("TOPLEFT", bd, 1, -1)
-	gradient:SetPoint("BOTTOMRIGHT", bd, -1, 1)
+	local bg = F.CreateBDFrame(self, 0)
+	bg:SetPoint("TOPLEFT", -2, 0)
+	bg:SetPoint("BOTTOMRIGHT")
+	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
+	F.CreateGradient(bg)
 
 	if height then self:SetHeight(height) end
 	if width then self:SetWidth(width) end
@@ -442,16 +425,11 @@ function F:ReskinCheck()
 	hl:SetVertexColor(r, g, b, .25)
 
 	local lvl = self:GetFrameLevel()
-	local bd = CreateFrame("Frame", nil, self)
-	bd:SetPoint("TOPLEFT", 4, -4)
-	bd:SetPoint("BOTTOMRIGHT", -4, 4)
-	bd:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
-	F.CreateBD(bd, 0)
-	F.CreateSD(bd)
-
-	local tex = F.CreateGradient(self)
-	tex:SetPoint("TOPLEFT", 5, -5)
-	tex:SetPoint("BOTTOMRIGHT", -5, 5)
+	local bg = F.CreateBDFrame(self, 0)
+	bg:SetPoint("TOPLEFT", 4, -4)
+	bg:SetPoint("BOTTOMRIGHT", -4, 4)
+	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
+	F.CreateGradient(bg)
 
 	local ch = self:GetCheckedTexture()
 	ch:SetDesaturated(true)
@@ -459,11 +437,11 @@ function F:ReskinCheck()
 end
 
 local function colourRadio(self)
-	self.bd:SetBackdropBorderColor(r, g, b)
+	self.bg:SetBackdropBorderColor(r, g, b)
 end
 
 local function clearRadio(self)
-	self.bd:SetBackdropBorderColor(0, 0, 0)
+	self.bg:SetBackdropBorderColor(0, 0, 0)
 end
 
 function F:ReskinRadio()
@@ -477,17 +455,12 @@ function F:ReskinRadio()
 	ch:SetVertexColor(r, g, b, .6)
 
 	local lvl = self:GetFrameLevel()
-	local bd = CreateFrame("Frame", nil, self)
-	bd:SetPoint("TOPLEFT", 3, -3)
-	bd:SetPoint("BOTTOMRIGHT", -3, 3)
-	bd:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
-	F.CreateBD(bd, 0)
-	F.CreateSD(bd)
-	self.bd = bd
-
-	local tex = F.CreateGradient(self)
-	tex:SetPoint("TOPLEFT", 4, -4)
-	tex:SetPoint("BOTTOMRIGHT", -4, 4)
+	local bg = F.CreateBDFrame(self, 0)
+	bg:SetPoint("TOPLEFT", 3, -3)
+	bg:SetPoint("BOTTOMRIGHT", -3, 3)
+	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
+	F.CreateGradient(bg)
+	self.bg = bg
 
 	self:HookScript("OnEnter", colourRadio)
 	self:HookScript("OnLeave", clearRadio)
@@ -498,15 +471,12 @@ function F:ReskinSlider(verticle)
 	self.SetBackdrop = F.dummy
 
 	local lvl = self:GetFrameLevel()
-	local bd = CreateFrame("Frame", nil, self)
-	bd:SetPoint("TOPLEFT", 14, -2)
-	bd:SetPoint("BOTTOMRIGHT", -15, 3)
-	bd:SetFrameStrata("BACKGROUND")
-	bd:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
-	F.CreateBD(bd, 0)
-	F.CreateSD(bd)
-
-	F.CreateGradient(bd)
+	local bg = F.CreateBDFrame(self, 0)
+	bg:SetPoint("TOPLEFT", 14, -2)
+	bg:SetPoint("BOTTOMRIGHT", -15, 3)
+	bg:SetFrameStrata("BACKGROUND")
+	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
+	F.CreateGradient(bg)
 
 	for i = 1, self:GetNumRegions() do
 		local region = select(i, self:GetRegions())
@@ -570,17 +540,14 @@ end
 
 function F:SetBD(x, y, x2, y2)
 	local lvl = self:GetFrameLevel()
-	local bg = CreateFrame("Frame", nil, self)
-	if not x then
-		bg:SetPoint("TOPLEFT")
-		bg:SetPoint("BOTTOMRIGHT")
-	else
+	local bg = F.CreateBDFrame(self)
+
+	if x and y and x2 and y2 then
 		bg:SetPoint("TOPLEFT", x, y)
 		bg:SetPoint("BOTTOMRIGHT", x2, y2)
 	end
+
 	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
-	F.CreateBD(bg)
-	F.CreateSD(bg)
 end
 
 -- Disable function
@@ -626,14 +593,14 @@ function F:ReskinPortraitFrame(isButtonFrame)
 	F.ReskinClose(_G[self:GetName().."CloseButton"])
 end
 
-function F:CreateBDFrame(a, TLx, TLy, BRx, BRy)
+function F:CreateBDFrame(a)
 	local frame = self
 	if self:GetObjectType() == "Texture" then frame = self:GetParent() end
-
 	local lvl = frame:GetFrameLevel()
+
 	local bg = CreateFrame("Frame", nil, frame)
-	bg:SetPoint("TOPLEFT", self, TLx or -1.2, TLy or 1.2)
-	bg:SetPoint("BOTTOMRIGHT", self, BRx or 1.2, BRy or -1.2)
+	bg:SetPoint("TOPLEFT", self, -1.2, 1.2)
+	bg:SetPoint("BOTTOMRIGHT", self, 1.2, -1.2)
 	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
 	F.CreateBD(bg, a)
 	F.CreateSD(bg)
@@ -772,13 +739,9 @@ function F:ReskinStatusBar(classColor, stripTex)
 	if classColor then self:SetStatusBarColor(r*.8, g*.8, b*.8) end
 
 	local lvl = self:GetFrameLevel()
-	local bg = CreateFrame("Frame", nil, self)
-	bg:SetPoint("TOPLEFT", -1, 1)
-	bg:SetPoint("BOTTOMRIGHT", 1, -1)
+	local bg = F.CreateBDFrame(self, .25)
 	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
 
-	F.CreateBD(bg, .25)
-	F.CreateSD(bg)
 end
 
 function F:ReskinIconStyle()
