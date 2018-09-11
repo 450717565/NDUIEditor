@@ -528,7 +528,7 @@ local function SortBars()
 	end
 end
 
-local function UpdateIntFrame(intID, itemID, duration, unitID, guid)
+local function UpdateIntFrame(intID, itemID, duration, unitID, guid, sourceName)
 	if not UIParent:IsShown() then return end
 
 	local Frame = BuildBAR(IntCD.BarWidth, IntCD.IconSize)
@@ -548,8 +548,8 @@ local function UpdateIntFrame(intID, itemID, duration, unitID, guid)
 		Frame.spellID = intID
 	end
 	if unitID:lower() == "all" then
-		_, class, _, _, _, name = GetPlayerInfoByGUID(guid)
-		name = "*"..(name and name or PET)
+		class = select(2, GetPlayerInfoByGUID(guid))
+		name = "*"..sourceName
 	else
 		class = DB.MyClass
 	end
@@ -603,7 +603,7 @@ local function isUnitWeNeed(value, sourceName, destName, sourceFlags)
 			return true
 		end
 	elseif value.UnitID:lower() == "player" then
-		if sourceName and (sourceName == UnitName("player") or destName == UnitName("player") or checkPetFlags(sourceFlags)) then
+		if sourceName and sourceName == UnitName("player") or destName == UnitName("player") or checkPetFlags(sourceFlags) then
 			return true
 		end
 	end
@@ -617,7 +617,7 @@ local function UpdateInt(_, ...)
 			local timestamp, eventType, _, sourceGUID, sourceName, sourceFlags, _, _, destName, _, _, spellID = ...
 			if value.IntID == spellID and isUnitWeNeed(value, sourceName, destName, sourceFlags) and cache[timestamp] ~= spellID and
 				((value.OnSuccess and eventType == "SPELL_CAST_SUCCESS") or (not value.OnSuccess and eventList[eventType])) then
-				UpdateIntFrame(value.IntID, value.ItemID, value.Duration, value.UnitID, sourceGUID)
+				UpdateIntFrame(value.IntID, value.ItemID, value.Duration, value.UnitID, sourceGUID, sourceName)
 				cache[timestamp] = spellID
 			end
 		end

@@ -84,7 +84,7 @@ tinsert(C.themes["AuroraClassic"], function()
 				F.CreateBDFrame(frame.Icon)
 				frame.SpecRing:SetTexture("")
 				frame.SpecIcon:SetTexCoord(.08, .92, .08, .92)
-				frame.SpecIcon.bg = F.CreateBG(frame.SpecIcon)
+				frame.SpecIcon.bg = F.CreateBDFrame(frame.SpecIcon)
 				frame.SpecIcon.bg:SetDrawLayer("BORDER", 2)
 			end
 			frame.glow:SetTexture("")
@@ -328,7 +328,7 @@ tinsert(C.themes["AuroraClassic"], function()
 					reward.texture:ClearAllPoints()
 					reward.texture:SetPoint("TOPLEFT", 6, -6)
 					reward.texture:SetPoint("BOTTOMRIGHT", -6, 6)
-					reward.bg = F.CreateBG(reward.texture)
+					reward.bg = F.CreateBDFrame(reward.texture)
 				end
 			end
 		end
@@ -349,7 +349,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 			f.SpecRing:SetTexture("")
 			f.SpecIcon:SetTexCoord(.08, .92, .08, .92)
-			f.SpecIcon.bg = F.CreateBG(f.SpecIcon)
+			f.SpecIcon.bg = F.CreateBDFrame(f.SpecIcon)
 			f.SpecIcon.bg:SetDrawLayer("BORDER", 2)
 			f.SpecIcon.bg:SetShown(f.SpecIcon:IsShown() and f.SpecIcon:GetTexture() ~= nil)
 		end

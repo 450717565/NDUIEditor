@@ -189,9 +189,9 @@ function F:ReskinTab()
 
 	self:SetHighlightTexture(C.media.backdrop)
 	local hl = self:GetHighlightTexture()
-	hl:SetPoint("TOPLEFT", 9, -4)
-	hl:SetPoint("BOTTOMRIGHT", -9, 1)
 	hl:SetVertexColor(r, g, b, .25)
+	hl:SetPoint("TOPLEFT", bg, "TOPLEFT", 1, -1)
+	hl:SetPoint("BOTTOMRIGHT", bg, "BOTTOMRIGHT", -1, 1)
 end
 
 local function textureOnEnter(self)
@@ -419,17 +419,17 @@ function F:ReskinCheck()
 	self:SetPushedTexture("")
 	self:SetHighlightTexture(C.media.backdrop)
 
-	local hl = self:GetHighlightTexture()
-	hl:SetPoint("TOPLEFT", 5, -5)
-	hl:SetPoint("BOTTOMRIGHT", -5, 5)
-	hl:SetVertexColor(r, g, b, .25)
-
 	local lvl = self:GetFrameLevel()
 	local bg = F.CreateBDFrame(self, 0)
 	bg:SetPoint("TOPLEFT", 4, -4)
 	bg:SetPoint("BOTTOMRIGHT", -4, 4)
 	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
 	F.CreateGradient(bg)
+
+	local hl = self:GetHighlightTexture()
+	hl:SetVertexColor(r, g, b, .25)
+	hl:SetPoint("TOPLEFT", bg, "TOPLEFT", 1, -1)
+	hl:SetPoint("BOTTOMRIGHT", bg, "BOTTOMRIGHT", -1, 1)
 
 	local ch = self:GetCheckedTexture()
 	ch:SetDesaturated(true)
@@ -741,7 +741,23 @@ function F:ReskinStatusBar(classColor, stripTex)
 	local lvl = self:GetFrameLevel()
 	local bg = F.CreateBDFrame(self, .25)
 	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
+end
 
+function F:ReskinDecline()
+	self.Icon:Hide()
+
+	local w = self:GetWidth()
+	self.pixels = {}
+	for i = 1, 2 do
+		local tex = self:CreateTexture()
+		tex:SetColorTexture(1, 0, 0)
+		tex:SetSize(w*.75, 2)
+		tex:SetPoint("CENTER")
+		tex:SetRotation(math.rad((i-1/2)*90))
+		tinsert(self.pixels, tex)
+	end
+
+	F.Reskin(self)
 end
 
 function F:ReskinIconStyle()

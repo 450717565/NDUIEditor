@@ -226,15 +226,15 @@ C.themes["Blizzard_TalentUI"] = function()
 			self.Icon:SetPoint("LEFT", 9, 1)
 			F.CreateBDFrame(self.Icon, .25)
 
-			self:SetHighlightTexture(C.media.backdrop)
-			local hl = self:GetHighlightTexture()
-			hl:SetVertexColor(r, g, b, .25)
-			hl:SetPoint("TOPLEFT", 3, -2)
-			hl:SetPoint("BOTTOMRIGHT", -1, 4)
-
 			local bg = F.CreateBDFrame(self, .25)
 			bg:SetPoint("TOPLEFT", 2, -1)
 			bg:SetPoint("BOTTOMRIGHT", 0, 3)
+
+			self:SetHighlightTexture(C.media.backdrop)
+			local hl = self:GetHighlightTexture()
+			hl:SetVertexColor(r, g, b, .25)
+			hl:SetPoint("TOPLEFT", bg, "TOPLEFT", 1, -1)
+			hl:SetPoint("BOTTOMRIGHT", bg, "BOTTOMRIGHT", -1, 1)
 
 			self.styled = true
 		end

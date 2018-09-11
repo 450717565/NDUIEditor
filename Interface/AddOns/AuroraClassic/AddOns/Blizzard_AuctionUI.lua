@@ -185,8 +185,8 @@ C.themes["Blizzard_AuctionUI"] = function()
 		F.Reskin(Buyout)
 
 		icon:SetTexCoord(.08, .92, .08, .92)
-		local bd = F.CreateBDFrame(icon, .25)
-		bd:SetBackdropBorderColor(0, .8, 1)
-		bd.Shadow:SetBackdropBorderColor(0, .8, 1)
+		local bg = F.CreateBDFrame(icon, .25)
+		bg:SetBackdropBorderColor(0, .8, 1)
+		bg.Shadow:SetBackdropBorderColor(0, .8, 1)
 	end
 end

@@ -79,7 +79,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	for s = 1, 9 do
 		local bu = _G["LFGListSearchPanelScrollFrameButton"..s]
-		F.Reskin(bu.CancelButton)
+		F.ReskinDecline(bu.CancelButton)
 	end
 
 	-- [[ Application viewer ]]
@@ -101,7 +101,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	for a = 1, 10 do
 		local bu = _G["LFGListApplicationViewerScrollFrameButton"..a]
 		F.Reskin(bu.InviteButton)
-		F.Reskin(bu.DeclineButton)
+		F.ReskinDecline(bu.DeclineButton)
 	end
 
 	ApplicationViewer.UnempoweredCover.Background:Hide()

@@ -173,12 +173,12 @@ local defaultSettings = {
 		Interrupt = false,
 		OwnInterrupt = false,
 		AlertInInstance = true,
+		BrokenSpell = false,
 		FasterLoot = false,
 		AutoQuest = false,
 		HideTalking = false,
 		HideBanner = true,
 		PetFilter = true,
-		SwapingAlert = false,
 		QuestNotifier = true,
 		QuestProgress = false,
 		OnlyCompleteRing = false,
@@ -388,6 +388,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Misc", "OnlyCompleteRing", L["OnlyCompleteRing"], true},
 		{},--blank
 		{1, "Misc", "Interrupt", "|cff00cc4c"..L["Interrupt Alert"]},
+		{1, "Misc", "BrokenSpell", L["Broken Spell"], true},
 		{1, "Misc", "OwnInterrupt", L["Own Interrupt"]},
 		{1, "Misc", "AlertInInstance", L["Alert In Instance"], true},
 		{},--blank

@@ -86,7 +86,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		local bu = _G["MailItem"..i.."Button"]
 		local st = _G["MailItem"..i.."ButtonSlot"]
 		local ic = _G["MailItem"..i.."Button".."Icon"]
-		local bd = _G["MailItem"..i.."Button".."IconBorder"]
+		local ib = _G["MailItem"..i.."Button".."IconBorder"]
 		local line = select(3, _G["MailItem"..i]:GetRegions())
 
 		local a, b = it:GetRegions()
@@ -98,7 +98,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		st:Hide()
 		line:Hide()
 		ic:SetTexCoord(.08, .92, .08, .92)
-		bd:SetAlpha(0)
+		ib:SetAlpha(0)
 		if not ic.styled then
 			F.CreateBDFrame(ic)
 			ic.styled = true

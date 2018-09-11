@@ -35,29 +35,51 @@ C.themes["Blizzard_LookingForGuildUI"] = function()
 			F.ReskinCheck(button)
 		end
 
+		local function reskinButtons(button, i)
+			local bu = _G[button..i]
+			bu:SetBackdrop(nil)
+
+			local bg = F.CreateBDFrame(bu, .25)
+			bg:SetPoint("TOPLEFT", 1, -1)
+			bg:SetPoint("BOTTOMRIGHT", -1, 3)
+
+			local hl = _G[button..i.."Highlight"]
+			hl:SetTexture(C.media.backdrop)
+			hl:SetVertexColor(r, g, b, .25)
+			hl:SetPoint("TOPLEFT", bg, "TOPLEFT", 1, -1)
+			hl:SetPoint("BOTTOMRIGHT", bg, "BOTTOMRIGHT", -1, 1)
+
+			local pd = _G[button..i.."Pending"]
+			if pd then
+				pd.pendingTex:SetPoint("TOPLEFT", bg, "TOPLEFT", 1, -1)
+				pd.pendingTex:SetPoint("BOTTOMRIGHT", bg, "BOTTOMRIGHT", -1, 1)
+			end
+
+			local rm = _G[button..i.."RemoveButton"]
+			if rm then
+				rm:SetPoint("RIGHT", -10, 1)
+			end
+
+			local selected = bu.selectedTex
+			if selected then
+				selected:SetTexture(C.media.backdrop)
+				selected:SetVertexColor(r, g, b, .25)
+				selected:SetPoint("TOPLEFT", bg, "TOPLEFT", 1, -1)
+				selected:SetPoint("BOTTOMRIGHT", bg, "BOTTOMRIGHT", -1, 1)
+			end
+		end
+
 		-- [[ Browse frame ]]
 		F.Reskin(LookingForGuildRequestButton)
 		F.ReskinScroll(LookingForGuildBrowseFrameContainerScrollBar)
 
 		for i = 1, 5 do
-			local bu = _G["LookingForGuildBrowseFrameContainerButton"..i]
-			bu:SetBackdrop(nil)
+			reskinButtons("LookingForGuildBrowseFrameContainerButton", i)
+		end
 
-			local selected = bu.selectedTex
-			selected:SetTexture(C.media.backdrop)
-			selected:SetVertexColor(r, g, b, .25)
-			selected:SetPoint("TOPLEFT", 2, -2)
-			selected:SetPoint("BOTTOMRIGHT", -2, 4)
-
-			local hl = _G["LookingForGuildBrowseFrameContainerButton"..i.."Highlight"]
-			hl:SetTexture(C.media.backdrop)
-			hl:SetVertexColor(r, g, b, .25)
-			hl:SetPoint("TOPLEFT", 2, -2)
-			hl:SetPoint("BOTTOMRIGHT", -2, 4)
-
-			local bg = F.CreateBDFrame(bu, .25)
-			bg:SetPoint("TOPLEFT", 1, -1)
-			bg:SetPoint("BOTTOMRIGHT", -1, 3)
+		-- [[ App frame ]]
+		for i = 1, 10 do
+			reskinButtons("LookingForGuildAppsFrameContainerButton", i)
 		end
 
 		-- [[ Role buttons ]]

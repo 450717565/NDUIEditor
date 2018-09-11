@@ -24,14 +24,15 @@ C.themes["Blizzard_ArchaeologyUI"] = function()
 		local button = _G[bu]
 		F.StripTextures(button)
 
-		local bd = F.CreateBDFrame(button, .25)
-		bd:SetPoint("TOPLEFT", -1, 1)
-		bd:SetPoint("BOTTOMRIGHT", 1, -1)
-		bd:SetFrameLevel(button:GetFrameLevel()-1)
+		local bg = F.CreateBDFrame(button, .25)
+		bg:SetPoint("TOPLEFT", -1, 1)
+		bg:SetPoint("BOTTOMRIGHT", 1, -1)
+		bg:SetFrameLevel(button:GetFrameLevel()-1)
 
 		local hl = button:GetHighlightTexture()
-		hl:SetAllPoints()
 		hl:SetVertexColor(1, 1, 1, .5)
+		hl:SetPoint("TOPLEFT", bg, "TOPLEFT", 1, -1)
+		hl:SetPoint("BOTTOMRIGHT", bg, "BOTTOMRIGHT", -1, 1)
 
 		local icon = _G[bu.."Icon"]
 		F.ReskinIcon(icon)

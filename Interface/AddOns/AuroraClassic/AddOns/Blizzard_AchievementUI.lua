@@ -142,9 +142,9 @@ C.themes["Blizzard_AchievementUI"] = function()
 				bg:SetPoint("TOPLEFT", 2, -2)
 				bg:SetPoint("BOTTOMRIGHT", -2, 2)
 
-				local bd = _G["AchievementFrameSummaryAchievement"..i.."Background"]
-				bd:SetTexture(C.media.backdrop)
-				bd:SetVertexColor(0, 0, 0, .25)
+				local back = _G["AchievementFrameSummaryAchievement"..i.."Background"]
+				back:SetTexture(C.media.backdrop)
+				back:SetVertexColor(0, 0, 0, .25)
 
 				local text = _G["AchievementFrameSummaryAchievement"..i.."Description"]
 				text:SetTextColor(.9, .9, .9)
@@ -255,15 +255,15 @@ C.themes["Blizzard_AchievementUI"] = function()
 			F.ReskinIcon(result.icon)
 		end
 
-		local bd = F.CreateBDFrame(result, .25)
-		bd:SetPoint("TOPLEFT")
-		bd:SetPoint("BOTTOMRIGHT", 0, 1)
+		local bg = F.CreateBDFrame(result, .25)
+		bg:SetPoint("TOPLEFT")
+		bg:SetPoint("BOTTOMRIGHT", 0, 1)
 
 		result:SetHighlightTexture(C.media.backdrop)
 		local hl = result:GetHighlightTexture()
 		hl:SetVertexColor(r, g, b, .25)
-		hl:SetPoint("TOPLEFT", bd, "TOPLEFT", 1, -1)
-		hl:SetPoint("BOTTOMRIGHT", bd, "BOTTOMRIGHT", -1, 1)
+		hl:SetPoint("TOPLEFT", bg, "TOPLEFT", 1, -1)
+		hl:SetPoint("BOTTOMRIGHT", bg, "BOTTOMRIGHT", -1, 1)
 	end
 
 	for i = 1, 5 do
@@ -286,9 +286,9 @@ C.themes["Blizzard_AchievementUI"] = function()
 			local bu = _G["AchievementFrameScrollFrameButton"..i]
 			F.StripTextures(bu)
 
-			local bd = F.CreateBDFrame(bu, .25)
-			bd:SetPoint("TOPLEFT", 2, -2)
-			bd:SetPoint("BOTTOMRIGHT", -1, 1)
+			local bg = F.CreateBDFrame(bu, .25)
+			bg:SetPoint("TOPLEFT", 2, -2)
+			bg:SetPoint("BOTTOMRIGHT", -1, 1)
 
 			bu.icon:SetTexCoord(.08, .92, .08, .92)
 			F.CreateBDFrame(bu.icon, .25)
@@ -296,8 +296,8 @@ C.themes["Blizzard_AchievementUI"] = function()
 			bu:SetHighlightTexture(C.media.backdrop)
 			local hl = bu:GetHighlightTexture()
 			hl:SetVertexColor(r, g, b, .25)
-			hl:SetPoint("TOPLEFT", 3, -3)
-			hl:SetPoint("BOTTOMRIGHT", -2, 2)
+			hl:SetPoint("TOPLEFT", bg, "TOPLEFT", 1, -1)
+			hl:SetPoint("BOTTOMRIGHT", bg, "BOTTOMRIGHT", -1, 1)
 		end
 	end
 

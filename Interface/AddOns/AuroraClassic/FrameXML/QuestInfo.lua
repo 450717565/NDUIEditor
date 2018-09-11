@@ -38,14 +38,12 @@ tinsert(C.themes["AuroraClassic"], function()
 		icon:SetPoint("TOPLEFT", 3, -2)
 		icon:SetDrawLayer("ARTWORK")
 		icon:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(icon)
+		F.CreateBDFrame(icon, .25)
 
-		local bg = CreateFrame("Frame", nil, bu)
+		local bg = F.CreateBDFrame(bu, .25)
 		bg:SetPoint("TOPLEFT", 2, -1)
 		bg:SetPoint("BOTTOMRIGHT", 0, 14)
 		bg:SetFrameLevel(0)
-		F.CreateBD(bg, .25)
-		F.CreateSD(bg)
 	end
 
 	-- [[ Objectives ]]
@@ -132,7 +130,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		local nameFrame = spellRewardFrame.NameFrame
 
 		icon:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(icon)
+		F.CreateBDFrame(icon, .25)
 		nameFrame:Hide()
 		local bg = F.CreateBDFrame(nameFrame, .25)
 		bg:SetPoint("TOPLEFT", icon, "TOPRIGHT", 0, 2)
@@ -145,7 +143,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		local icon = frame.Icon
 
 		icon:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(icon)
+		F.CreateBDFrame(icon, .25)
 		for i = 2, 4 do
 			select(i, frame:GetRegions()):Hide()
 		end
@@ -163,6 +161,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		if numSpellRewards > 0 then
 			for reward in rewardsFrame.followerRewardPool:EnumerateActive() do
+				local class = reward.Class
 				local portrait = reward.PortraitFrame
 				if not reward.styled then
 					portrait:ClearAllPoints()
@@ -173,6 +172,14 @@ tinsert(C.themes["AuroraClassic"], function()
 					local bg = F.CreateBDFrame(reward, .25)
 					bg:SetPoint("TOPLEFT", 0, -3)
 					bg:SetPoint("BOTTOMRIGHT", 2, 7)
+
+					if class then
+						class:SetSize(35, 35)
+						class:ClearAllPoints()
+						class:SetPoint("RIGHT", -3, 2)
+						class:SetTexCoord(.08, .92, .08, .92)
+						F.CreateBDFrame(class, .25)
+					end
 
 					reward.styled = true
 				end

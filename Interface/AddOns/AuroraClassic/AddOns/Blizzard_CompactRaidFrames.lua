@@ -49,8 +49,8 @@ tinsert(C.themes["AuroraClassic"], function()
 	CompactRaidFrameManagerDisplayFrameHeaderBackground:Hide()
 	CompactRaidFrameManagerDisplayFrameHeaderDelineator:Hide()
 
-	local bd = F.CreateBDFrame(CompactRaidFrameManager)
-	bd:SetFrameLevel(CompactRaidFrameManager:GetFrameLevel() - 1)
+	local bg = F.CreateBDFrame(CompactRaidFrameManager)
+	bg:SetFrameLevel(CompactRaidFrameManager:GetFrameLevel() - 1)
 
 	F.ReskinDropDown(CompactRaidFrameManagerDisplayFrameProfileSelector)
 	F.ReskinCheck(CompactRaidFrameManagerDisplayFrameEveryoneIsAssistButton)

@@ -62,25 +62,11 @@ tinsert(C.themes["AuroraClassic"], function()
 			end
 			for invite in FriendsFrameFriendsScrollFrame.invitePool:EnumerateActive() do
 				if not invite.styled then
-					local lineOfs = 4
 					local childbtn = FriendsFrameFriendsScrollFrameScrollChild:GetChildren()
-					for i = 1, 2 do
-						local line = invite.DeclineButton:CreateLine()
-						line:SetColorTexture(1, 0, 0)
-						line:SetThickness(0.5)
-						if i == 1 then
-							line:SetStartPoint("TOPLEFT", lineOfs, -lineOfs)
-							line:SetEndPoint("BOTTOMRIGHT", -lineOfs, lineOfs)
-						else
-							line:SetStartPoint("TOPRIGHT", -lineOfs, -lineOfs)
-							line:SetEndPoint("BOTTOMLEFT", lineOfs, lineOfs)
-						end
-					end
 					childbtn.BG:Hide()
 					invite.DeclineButton:SetSize(22, 22)
-					invite.DeclineButton.Icon:Hide()
 					F.Reskin(childbtn)
-					F.Reskin(invite.DeclineButton)
+					F.ReskinDecline(invite.DeclineButton)
 					F.Reskin(invite.AcceptButton)
 					invite.styled = true
 				end
@@ -191,11 +177,11 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	local borderlayers = {"WhoFrameListInset", "WhoFrameEditBoxInset"}
 	for i = 1, #borderlayers do
-		local bd = _G[borderlayers[i]]
-		if not bd then
+		local bl = _G[borderlayers[i]]
+		if not bl then
 			print(borderlayers[i], "not found")
 		else
-			bd:DisableDrawLayer("BORDER")
+			bl:DisableDrawLayer("BORDER")
 		end
 	end
 

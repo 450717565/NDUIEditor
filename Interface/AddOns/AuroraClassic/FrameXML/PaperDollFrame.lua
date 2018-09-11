@@ -199,7 +199,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		if sets == false then
 			for i = 1, 9 do
 				local bu = _G["PaperDollEquipmentManagerPaneButton"..i]
-				local bd = _G["PaperDollEquipmentManagerPaneButton"..i.."Stripe"]
+				local sp = _G["PaperDollEquipmentManagerPaneButton"..i.."Stripe"]
 				local ic = _G["PaperDollEquipmentManagerPaneButton"..i.."Icon"]
 				_G["PaperDollEquipmentManagerPaneButton"..i.."BgTop"]:SetAlpha(0)
 				_G["PaperDollEquipmentManagerPaneButton"..i.."BgMiddle"]:Hide()
@@ -210,8 +210,8 @@ tinsert(C.themes["AuroraClassic"], function()
 				bu.SelectedBar:SetColorTexture(r, g, b, .25)
 				bu.SelectedBar:SetDrawLayer("BACKGROUND")
 
-				bd:Hide()
-				bd.Show = F.dummy
+				sp:Hide()
+				sp.Show = F.dummy
 				ic:SetTexCoord(.08, .92, .08, .92)
 
 				F.CreateBDFrame(ic)

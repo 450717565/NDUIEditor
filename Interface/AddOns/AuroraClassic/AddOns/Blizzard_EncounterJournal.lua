@@ -68,15 +68,15 @@ C.themes["Blizzard_EncounterJournal"] = function()
 			bu:SetNormalTexture("")
 			bu:SetPushedTexture("")
 
-			bu:SetHighlightTexture(C.media.backdrop)
-			local hl = bu:GetHighlightTexture()
-			hl:SetVertexColor(1, 1, 1, .25)
-			hl:SetPoint("TOPLEFT", 4, -4)
-			hl:SetPoint("BOTTOMRIGHT", -5, 3)
-
 			local bg = F.CreateBDFrame(bu.bgImage, .25)
 			bg:SetPoint("TOPLEFT", 3, -3)
 			bg:SetPoint("BOTTOMRIGHT", -4, 2)
+
+			bu:SetHighlightTexture(C.media.backdrop)
+			local hl = bu:GetHighlightTexture()
+			hl:SetVertexColor(1, 1, 1, .25)
+			hl:SetPoint("TOPLEFT", bg, "TOPLEFT", 1, -1)
+			hl:SetPoint("BOTTOMRIGHT", bg, "BOTTOMRIGHT", -1, 1)
 
 			index = index + 1
 		end
@@ -208,15 +208,15 @@ C.themes["Blizzard_EncounterJournal"] = function()
 			F.ReskinIcon(result.icon)
 		end
 
-		local bd = F.CreateBDFrame(result, .25)
-		bd:SetPoint("TOPLEFT")
-		bd:SetPoint("BOTTOMRIGHT", 0, 1)
+		local bg = F.CreateBDFrame(result, .25)
+		bg:SetPoint("TOPLEFT")
+		bg:SetPoint("BOTTOMRIGHT", 0, 1)
 
 		result:SetHighlightTexture(C.media.backdrop)
 		local hl = result:GetHighlightTexture()
 		hl:SetVertexColor(r, g, b, .25)
-		hl:SetPoint("TOPLEFT", 1, -1)
-		hl:SetPoint("BOTTOMRIGHT", -1, 2)
+		hl:SetPoint("TOPLEFT", bg, "TOPLEFT", 1, -1)
+		hl:SetPoint("BOTTOMRIGHT", bg, "BOTTOMRIGHT", -1, 1)
 	end
 
 	for i = 1, 5 do
@@ -240,9 +240,9 @@ C.themes["Blizzard_EncounterJournal"] = function()
 			local bu = _G["EncounterJournalSearchResultsScrollFrameButton"..i]
 			F.StripTextures(bu)
 
-			local bd = F.CreateBDFrame(bu, .25)
-			bd:SetPoint("TOPLEFT", 2, -2)
-			bd:SetPoint("BOTTOMRIGHT", -1, 1)
+			local bg = F.CreateBDFrame(bu, .25)
+			bg:SetPoint("TOPLEFT", 2, -2)
+			bg:SetPoint("BOTTOMRIGHT", -1, 1)
 
 			bu.icon:SetTexCoord(.08, .92, .08, .92)
 			bu.icon.SetTexCoord = F.dummy
@@ -251,8 +251,8 @@ C.themes["Blizzard_EncounterJournal"] = function()
 			bu:SetHighlightTexture(C.media.backdrop)
 			local hl = bu:GetHighlightTexture()
 			hl:SetVertexColor(r, g, b, .25)
-			hl:SetPoint("TOPLEFT", 3, -3)
-			hl:SetPoint("BOTTOMRIGHT", -2, 2)
+			hl:SetPoint("TOPLEFT", bg, "TOPLEFT", 1, -1)
+			hl:SetPoint("BOTTOMRIGHT", bg, "BOTTOMRIGHT", -1, 1)
 		end
 	end
 
@@ -322,8 +322,8 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		local reward = suggestion.reward
 		F.StripTextures(reward)
 
-		local bd = F.CreateBDFrame(reward.icon, .25)
-		bd:SetFrameLevel(reward:GetFrameLevel()+1)
+		local bg = F.CreateBDFrame(reward.icon, .25)
+		bg:SetFrameLevel(reward:GetFrameLevel()+1)
 	end
 
 	-- Hook functions

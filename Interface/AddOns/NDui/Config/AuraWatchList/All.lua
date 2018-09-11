@@ -61,7 +61,25 @@ local list = {
 		{AuraID = 59547, UnitID = "player"},
 		{AuraID = 59548, UnitID = "player"},
 		{AuraID = 121093, UnitID = "player"},
+	-->传家宝饰品
+		{AuraID = 201405, UnitID = "player"},--力量
+		{AuraID = 201408, UnitID = "player"},--敏捷
+		{AuraID = 201410, UnitID = "player"},--智力
+		{AuraID = 201414, UnitID = "player", Value = true},--坦克
+		{AuraID = 202052, UnitID = "player", Value = true},--坦克
+	-->其他
+		{AuraID = 54861, UnitID = "player"},--火箭靴
+		{AuraID = 188024, UnitID = "player"},--天行药水
+		{AuraID = 201670, UnitID = "player"},--疾跑
+		{AuraID = 248779, UnitID = "player"},--奥术回响遮罩
+		{AuraID = 254161, UnitID = "player"},--超能奥术回响遮罩
+		--隐形
+		{AuraID = 3680, UnitID = "player"},
+		{AuraID = 11392, UnitID = "player"},
+		{AuraID = 175833, UnitID = "player"},
+		{AuraID = 188023, UnitID = "player"},
 	-->饰品附魔
+		{AuraID = 271103, UnitID = "player"},	-- 莱赞的微光之眼
 		{AuraID = 275765, UnitID = "player"},	-- 艾泽里特强化
 		{AuraID = 271194, UnitID = "player"},	-- 火炮
 		{AuraID = 273992, UnitID = "player"},	-- 灵魂之速
@@ -107,23 +125,6 @@ local list = {
 		{AuraID = 188029, UnitID = "player"},--不屈药水，坦克
 		{AuraID = 229206, UnitID = "player"},--延时之力
 		{AuraID = 230039, UnitID = "player"},--拳手的延时之力
-	-->传家宝饰品
-		{AuraID = 201405, UnitID = "player"},--力量
-		{AuraID = 201408, UnitID = "player"},--敏捷
-		{AuraID = 201410, UnitID = "player"},--智力
-		{AuraID = 201414, UnitID = "player", Value = true},--坦克
-		{AuraID = 202052, UnitID = "player", Value = true},--坦克
-	-->其他
-		{AuraID = 54861, UnitID = "player"},--火箭靴
-		{AuraID = 188024, UnitID = "player"},--天行药水
-		{AuraID = 201670, UnitID = "player"},--疾跑
-		{AuraID = 248779, UnitID = "player"},--奥术回响遮罩
-		{AuraID = 254161, UnitID = "player"},--超能奥术回响遮罩
-		--隐形
-		{AuraID = 3680, UnitID = "player"},
-		{AuraID = 11392, UnitID = "player"},
-		{AuraID = 175833, UnitID = "player"},
-		{AuraID = 188023, UnitID = "player"},
 	},
 	["Raid Buff"] = { -- 团队增益组
 	-->急速增益
@@ -702,7 +703,6 @@ local list = {
 	["Internal CD"] = { -- 自定义内置冷却组
 	-->其他
 		{IntID = 240447, Duration = 20},--践踏
-		{IntID = 208052, Duration = 30, ItemID = 132452},--塞弗斯的秘密
 	-->种族技能
 		--奥术洪流
 		{IntID = 20546, Duration = 90, UnitID = "all", OnSuccess = true},
@@ -715,21 +715,21 @@ local list = {
 		{IntID = 202719, Duration = 90, UnitID = "all", OnSuccess = true},
 		{IntID = 232633, Duration = 90, UnitID = "all", OnSuccess = true},
 	-->打断技能
-		{IntID = 1766, Duration = 15, UnitID = "all", OnSuccess = true},--脚踢
-		{IntID = 2139, Duration = 24, UnitID = "all", OnSuccess = true},--法术反制
-		{IntID = 6552, Duration = 15, UnitID = "all", OnSuccess = true},--拳击
-		{IntID = 15487, Duration = 45, UnitID = "all", OnSuccess = true},--沉默
-		{IntID = 47528, Duration = 15, UnitID = "all", OnSuccess = true},--心灵冰冻
-		{IntID = 57994, Duration = 12, UnitID = "all", OnSuccess = true},--风剪
-		{IntID = 78675, Duration = 60, UnitID = "all", OnSuccess = true},--日光术
-		{IntID = 96231, Duration = 15, UnitID = "all", OnSuccess = true},--责难
 		{IntID = 106839, Duration = 15, UnitID = "all", OnSuccess = true},--迎头痛击
 		{IntID = 116705, Duration = 15, UnitID = "all", OnSuccess = true},--切喉手
 		{IntID = 132469, Duration = 30, UnitID = "all", OnSuccess = true},--台风
 		{IntID = 147362, Duration = 24, UnitID = "all", OnSuccess = true},--反制射击
-		{IntID = 171138, Duration = 24, UnitID = "all", OnSuccess = true},--暗影封印@PET
-		{IntID = 183752, Duration = 15, UnitID = "all", OnSuccess = true},--吞噬魔法
+		{IntID = 15487, Duration = 45, UnitID = "all", OnSuccess = true},--沉默
+		{IntID = 1766, Duration = 15, UnitID = "all", OnSuccess = true},--脚踢
+		{IntID = 183752, Duration = 15, UnitID = "all", OnSuccess = true},--瓦解
 		{IntID = 187707, Duration = 15, UnitID = "all", OnSuccess = true},--压制
+		{IntID = 19647, Duration = 24, UnitID = "all", OnSuccess = true},--法术封锁@术士
+		{IntID = 2139, Duration = 24, UnitID = "all", OnSuccess = true},--法术反制
+		{IntID = 47528, Duration = 15, UnitID = "all", OnSuccess = true},--心灵冰冻
+		{IntID = 57994, Duration = 12, UnitID = "all", OnSuccess = true},--风剪
+		{IntID = 6552, Duration = 15, UnitID = "all", OnSuccess = true},--拳击
+		{IntID = 78675, Duration = 60, UnitID = "all", OnSuccess = true},--日光术
+		{IntID = 96231, Duration = 15, UnitID = "all", OnSuccess = true},--责难
 	},
 }
 

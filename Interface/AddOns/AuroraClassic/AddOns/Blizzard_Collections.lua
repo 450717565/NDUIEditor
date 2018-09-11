@@ -58,16 +58,16 @@ C.themes["Blizzard_Collections"] = function()
 			bu.iconBorder:SetTexture("")
 			bu.selectedTexture:SetTexture("")
 
-			local hl = bu:GetHighlightTexture()
-			hl:SetColorTexture(r, g, b, .25)
-			hl:SetPoint("TOPLEFT", 1, -2)
-			hl:SetPoint("BOTTOMRIGHT", -1, 2)
-
 			local bg = F.CreateBDFrame(bu, .25)
 			bg:SetPoint("TOPLEFT", 0, -1)
 			bg:SetPoint("BOTTOMRIGHT", 0, 1)
 			bg:SetFrameLevel(bu:GetFrameLevel()-1)
 			bu.bg = bg
+
+			local hl = bu:GetHighlightTexture()
+			hl:SetColorTexture(r, g, b, .25)
+			hl:SetPoint("TOPLEFT", bg, "TOPLEFT", 1, -1)
+			hl:SetPoint("BOTTOMRIGHT", bg, "BOTTOMRIGHT", -1, 1)
 
 			ic:SetTexCoord(.08, .92, .08, .92)
 			ic.bg = F.CreateBDFrame(ic, .25)
@@ -234,9 +234,9 @@ C.themes["Blizzard_Collections"] = function()
 		local bu = PetJournal.Loadout["Pet"..i]
 		F.StripTextures(bu)
 
-		local bd = F.CreateBDFrame(bu, .25)
-		bd:SetPoint("TOPLEFT", 0, -4)
-		bd:SetPoint("BOTTOMRIGHT")
+		local bg = F.CreateBDFrame(bu, .25)
+		bg:SetPoint("TOPLEFT", 0, -4)
+		bg:SetPoint("BOTTOMRIGHT")
 
 		bu.dragButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 		bu.level:SetFontObject(GameFontNormal)

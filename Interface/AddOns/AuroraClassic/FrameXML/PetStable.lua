@@ -36,11 +36,11 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	for i = 1, NUM_PET_STABLE_SLOTS do
 		local bu = _G["PetStableStabledPet"..i]
-		local bd = CreateFrame("Frame", nil, bu)
-		bd:SetPoint("TOPLEFT", -1, 1)
-		bd:SetPoint("BOTTOMRIGHT", 1, -1)
-		F.CreateBD(bd, .25)
-		F.CreateSD(bd)
+		local bg = CreateFrame("Frame", nil, bu)
+		bg:SetPoint("TOPLEFT", -1, 1)
+		bg:SetPoint("BOTTOMRIGHT", 1, -1)
+		F.CreateBD(bg, .25)
+		F.CreateSD(bg)
 		bu:SetNormalTexture("")
 		bu:DisableDrawLayer("BACKGROUND")
 		_G["PetStableStabledPet"..i.."IconTexture"]:SetTexCoord(.08, .92, .08, .92)

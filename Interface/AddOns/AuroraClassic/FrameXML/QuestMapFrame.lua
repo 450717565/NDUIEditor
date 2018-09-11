@@ -12,7 +12,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.StripTextures(QuestScrollFrame, true)
 	F.StripTextures(QuestScrollFrame.DetailFrame, true)
 	QuestScrollFrame.Contents.Separator:SetAlpha(0)
-	QuestScrollFrame.Contents.Separator:SetHeight(20)
+	QuestScrollFrame.Contents.Separator:SetHeight(5)
 
 	if AuroraConfig.tooltips then
 		F.CreateBD(QuestScrollFrame.StoryTooltip)
@@ -23,18 +23,18 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinScroll(QuestScrollFrame.ScrollBar)
 
 	for _, header in next, {campaignHeader, StoryHeader} do
-		header.Text:SetPoint("TOPLEFT", 10, -15)
-		header.Progress:SetPoint("BOTTOMLEFT", 10, -5)
 		header.Background:SetAlpha(0)
 		header.HighlightTexture:Hide()
+		header.Text:SetPoint("TOPLEFT", 10, -20)
+		header.Progress:SetPoint("BOTTOMLEFT", 10, 10)
 
 		local bg = F.CreateBDFrame(header, .25)
-		bg:SetPoint("TOPLEFT", 2, -10)
-		bg:SetPoint("BOTTOMRIGHT", -5, 0)
+		bg:SetPoint("TOPLEFT", 2, -15)
+		bg:SetPoint("BOTTOMRIGHT", -5, 5)
 		if header == campaignHeader then
 			local newTex = bg:CreateTexture(nil, "OVERLAY")
-			newTex:SetPoint("TOPRIGHT", -5, -3)
-			newTex:SetSize(45, 45)
+			newTex:SetPoint("TOPRIGHT", -5, -1)
+			newTex:SetSize(40, 40)
 			newTex:SetBlendMode("ADD")
 			newTex:SetAlpha(0)
 			header.newTex = newTex

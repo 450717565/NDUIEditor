@@ -25,9 +25,9 @@ tinsert(C.themes["AuroraClassic"], function()
 	for i = 1, BUYBACK_ITEMS_PER_PAGE do
 		local item = _G["MerchantItem"..i]
 		F.StripTextures(item, true)
-		item.bd = F.CreateBDFrame(item, .25)
-		item.bd:SetPoint("TOPLEFT", 40, 2)
-		item.bd:SetPoint("BOTTOMRIGHT", 0, -2)
+		item.bg = F.CreateBDFrame(item, .25)
+		item.bg:SetPoint("TOPLEFT", 40, 2)
+		item.bg:SetPoint("BOTTOMRIGHT", 0, -2)
 
 		local button = _G["MerchantItem"..i.."ItemButton"]
 		F.StripTextures(button)
