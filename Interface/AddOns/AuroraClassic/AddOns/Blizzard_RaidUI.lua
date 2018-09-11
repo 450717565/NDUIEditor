@@ -10,7 +10,7 @@ C.themes["Blizzard_RaidUI"] = function()
 			local slot = _G["RaidGroup"..i.."Slot"..j]
 			select(1, slot:GetRegions()):SetAlpha(0)
 			select(2, slot:GetRegions()):SetColorTexture(r, g, b, .25)
-			F.CreateBDFrame(slot, .2)
+			F.CreateBDFrame(slot, .25)
 		end
 	end
 
@@ -18,6 +18,5 @@ C.themes["Blizzard_RaidUI"] = function()
 		local bu = _G["RaidGroupButton"..i]
 		select(4, bu:GetRegions()):SetAlpha(0)
 		select(5, bu:GetRegions()):SetColorTexture(r, g, b, .25)
-		F.CreateBDFrame(bu)
 	end
 end

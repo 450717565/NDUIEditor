@@ -11,7 +11,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	SpellBookFrameTabButton1:ClearAllPoints()
 	SpellBookFrameTabButton1:SetPoint("TOPLEFT", SpellBookFrame, "BOTTOMLEFT", 0, 2)
 
-	for i = 1, 5 do
+	for i = 1, 3 do
 		F.ReskinTab(_G["SpellBookFrameTabButton"..i])
 	end
 

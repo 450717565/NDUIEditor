@@ -264,7 +264,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		F.StripTextures(self.FollowerTab)
 		F.ReskinXPBar(self.FollowerTab)
 
-		for _, item in pairs({self.FollowerTab.ItemWeapon, self.FollowerTab.ItemArmor}) do
+		for _, item in next, {self.FollowerTab.ItemWeapon, self.FollowerTab.ItemArmor} do
 			if item then
 				local icon = item.Icon
 				item.Border:Hide()
@@ -559,7 +559,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		F.CreateSD(bg)
 	end
 
-	for _, tab in pairs({Report.InProgress, Report.Available}) do
+	for _, tab in next, {Report.InProgress, Report.Available} do
 		tab:SetHighlightTexture("")
 		tab.Text:ClearAllPoints()
 		tab.Text:SetPoint("CENTER")

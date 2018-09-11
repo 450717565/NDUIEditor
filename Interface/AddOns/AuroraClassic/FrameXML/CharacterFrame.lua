@@ -6,9 +6,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	F.ReskinPortraitFrame(CharacterFrame, true)
 
-	local i = 1
-	while _G["CharacterFrameTab"..i] do
+	for i = 1, 3 do
 		F.ReskinTab(_G["CharacterFrameTab"..i])
-		i = i + 1
 	end
 end)

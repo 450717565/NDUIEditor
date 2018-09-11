@@ -4,7 +4,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.CreateBD(ChatConfigFrame)
 	F.CreateSD(ChatConfigFrame)
 	ChatConfigFrameHeader:SetAlpha(0)
-	ChatConfigFrameHeader:SetPoint("TOP", ChatConfigFrame, 0, 0)
+	ChatConfigFrameHeader:SetPoint("TOP")
 
 	hooksecurefunc("ChatConfig_CreateCheckboxes", function(frame, checkBoxTable)
 		if frame.styled then return end
@@ -15,12 +15,10 @@ tinsert(C.themes["AuroraClassic"], function()
 			local checkbox = _G[checkBoxName]
 
 			checkbox:SetBackdrop(nil)
-			local bg = CreateFrame("Frame", nil, checkbox)
-			bg:SetPoint("TOPLEFT")
-			bg:SetPoint("BOTTOMRIGHT", 0, 1)
+			local bg = F.CreateBDFrame(checkbox, .25)
+			bg:SetPoint("TOPLEFT", 0, -.5)
+			bg:SetPoint("BOTTOMRIGHT", 0, .5)
 			bg:SetFrameLevel(checkbox:GetFrameLevel()-1)
-			F.CreateBD(bg, .25)
-			F.CreateSD(bg)
 
 			local swatch = _G[checkBoxName.."ColorSwatch"]
 			if swatch then
@@ -58,12 +56,10 @@ tinsert(C.themes["AuroraClassic"], function()
 			local swatch = _G[swatchName]
 
 			swatch:SetBackdrop(nil)
-			local bg = CreateFrame("Frame", nil, swatch)
-			bg:SetPoint("TOPLEFT")
-			bg:SetPoint("BOTTOMRIGHT", 0, 1)
+			local bg = F.CreateBDFrame(swatch)
+			bg:SetPoint("TOPLEFT", 0, -.5)
+			bg:SetPoint("BOTTOMRIGHT", 0, .5)
 			bg:SetFrameLevel(swatch:GetFrameLevel()-1)
-			F.CreateBD(bg, .25)
-			F.CreateSD(bg)
 
 			F.ReskinColourSwatch(_G[swatchName.."ColorSwatch"])
 		end
@@ -82,9 +78,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	end)
 
 	for i = 1, 5 do
-		_G["CombatConfigTab"..i.."Left"]:Hide()
-		_G["CombatConfigTab"..i.."Middle"]:Hide()
-		_G["CombatConfigTab"..i.."Right"]:Hide()
+		F.StripTextures(_G["CombatConfigTab"..i], true)
 	end
 
 	local line = ChatConfigFrame:CreateTexture()
@@ -92,15 +86,10 @@ tinsert(C.themes["AuroraClassic"], function()
 	line:SetPoint("TOPLEFT", ChatConfigCategoryFrame, "TOPRIGHT")
 	line:SetColorTexture(1, 1, 1, .25)
 
-	ChatConfigCategoryFrame:SetBackdrop(nil)
-	ChatConfigBackgroundFrame:SetBackdrop(nil)
-	ChatConfigCombatSettingsFilters:SetBackdrop(nil)
-	CombatConfigColorsHighlighting:SetBackdrop(nil)
-	CombatConfigColorsColorizeUnitName:SetBackdrop(nil)
-	CombatConfigColorsColorizeSpellNames:SetBackdrop(nil)
-	CombatConfigColorsColorizeDamageNumber:SetBackdrop(nil)
-	CombatConfigColorsColorizeDamageSchool:SetBackdrop(nil)
-	CombatConfigColorsColorizeEntireLine:SetBackdrop(nil)
+	local frames = {ChatConfigCategoryFrame, ChatConfigBackgroundFrame, ChatConfigCombatSettingsFilters, CombatConfigColorsHighlighting, CombatConfigColorsColorizeUnitName, CombatConfigColorsColorizeSpellNames, CombatConfigColorsColorizeDamageNumber, CombatConfigColorsColorizeDamageSchool, CombatConfigColorsColorizeEntireLine}
+	for _, frame in next, frames do
+		F.StripTextures(frame, true)
+	end
 
 	local combatBoxes = {
 		CombatConfigColorsHighlightingLine,
@@ -130,12 +119,10 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.ReskinCheck(box)
 	end
 
-	local bg = CreateFrame("Frame", nil, ChatConfigCombatSettingsFilters)
+	local bg = F.CreateBDFrame(ChatConfigCombatSettingsFilters, .25)
 	bg:SetPoint("TOPLEFT", 3, 0)
 	bg:SetPoint("BOTTOMRIGHT", 0, 1)
 	bg:SetFrameLevel(ChatConfigCombatSettingsFilters:GetFrameLevel()-1)
-	F.CreateBD(bg, .25)
-	F.CreateSD(bg)
 
 	F.Reskin(CombatLogDefaultButton)
 	F.Reskin(ChatConfigCombatSettingsFiltersCopyFilterButton)

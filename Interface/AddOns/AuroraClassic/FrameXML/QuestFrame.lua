@@ -55,7 +55,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 	end)
 
-	for _, questButton in pairs({"QuestFrameAcceptButton", "QuestFrameDeclineButton", "QuestFrameCompleteQuestButton", "QuestFrameCompleteButton", "QuestFrameGoodbyeButton", "QuestFrameGreetingGoodbyeButton"}) do
+	for _, questButton in next, {"QuestFrameAcceptButton", "QuestFrameDeclineButton", "QuestFrameCompleteQuestButton", "QuestFrameCompleteButton", "QuestFrameGoodbyeButton", "QuestFrameGreetingGoodbyeButton"} do
 		F.Reskin(_G[questButton])
 	end
 	F.ReskinScroll(QuestProgressScrollFrameScrollBar)

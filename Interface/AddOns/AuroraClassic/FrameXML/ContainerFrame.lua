@@ -19,13 +19,11 @@ tinsert(C.themes["AuroraClassic"], function()
 		local con = _G["ContainerFrame"..i]
 		local name = _G["ContainerFrame"..i.."Name"]
 
-		for j = 1, 5 do
-			select(j, con:GetRegions()):SetAlpha(0)
-		end
-		select(7, con:GetRegions()):SetAlpha(0)
+		F.StripTextures(con, true)
+		F.SetBD(con, 8, -4, -3, 0)
+		F.ReskinClose(_G["ContainerFrame"..i.."CloseButton"], "TOPRIGHT", con, "TOPRIGHT", -6, -7)
 
 		con.PortraitButton.Highlight:SetTexture("")
-
 		name:ClearAllPoints()
 		name:SetPoint("TOP", 0, -10)
 
@@ -45,8 +43,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			button:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 
 			button.icon:SetTexCoord(.08, .92, .08, .92)
-
-			button.bg = F.CreateBDFrame(button, 0)
+			F.CreateBDFrame(button, .25)
 
 			-- easiest way to 'hide' it without breaking stuff
 			newItemTexture:SetDrawLayer("BACKGROUND")
@@ -62,22 +59,13 @@ tinsert(C.themes["AuroraClassic"], function()
 			button:HookScript("OnEnter", onEnter)
 			button:HookScript("OnLeave", onLeave)
 		end
-
-		local f = CreateFrame("Frame", nil, con)
-		f:SetPoint("TOPLEFT", 8, -4)
-		f:SetPoint("BOTTOMRIGHT", -4, 3)
-		f:SetFrameLevel(con:GetFrameLevel()-1)
-		F.CreateBD(f)
-		F.CreateSD(f)
-
-		F.ReskinClose(_G["ContainerFrame"..i.."CloseButton"], "TOPRIGHT", con, "TOPRIGHT", -6, -6)
 	end
 
 	for i = 1, 3 do
 		local ic = _G["BackpackTokenFrameToken"..i.."Icon"]
 		ic:SetDrawLayer("OVERLAY")
 		ic:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(ic)
+		F.CreateBDFrame(ic, .25)
 	end
 
 	F.ReskinInput(BagItemSearchBox)
@@ -88,9 +76,9 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		if id == 0 then
 			BagItemSearchBox:ClearAllPoints()
-			BagItemSearchBox:SetPoint("TOPLEFT", frame, "TOPLEFT", 50, -35)
+			BagItemSearchBox:SetPoint("TOP", 0, -35)
 			BagItemAutoSortButton:ClearAllPoints()
-			BagItemAutoSortButton:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -9, -31)
+			BagItemAutoSortButton:SetPoint("TOPRIGHT", -10, -30)
 		end
 
 		for i = 1, frame.size do
@@ -105,5 +93,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	BagItemAutoSortButton:GetNormalTexture():SetTexCoord(.17, .83, .17, .83)
 	BagItemAutoSortButton:GetPushedTexture():SetTexCoord(.17, .83, .17, .83)
-	F.CreateBDFrame(BagItemAutoSortButton)
+	BagItemAutoSortButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
+	BagItemAutoSortButton:GetHighlightTexture():SetAllPoints()
+	F.CreateBDFrame(BagItemAutoSortButton, .25)
 end)

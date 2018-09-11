@@ -342,7 +342,7 @@ end
 
 -- Use a memoization table so each x/y colorstring is only computed once and then does a simple lookup
 addon.textColorTable = setmetatable({}, {__index = function(t, k)
-	local colorStr = addon:TextColorGradient(k, GREEN_FONT_COLOR.r, GREEN_FONT_COLOR.g, GREEN_FONT_COLOR.b, RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b)   -- "To" color
+	local colorStr = addon:TextColorGradient(k, GREEN_FONT_COLOR.r, GREEN_FONT_COLOR.g, GREEN_FONT_COLOR.b, RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b)
 	rawset(t, k, colorStr)
 	return colorStr
 end})

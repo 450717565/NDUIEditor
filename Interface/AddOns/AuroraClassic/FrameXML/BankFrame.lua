@@ -6,22 +6,15 @@ tinsert(C.themes["AuroraClassic"], function()
 	local r, g, b = C.r, C.g, C.b
 
 	-- [[ Bank ]]
-
-	select(16, BankFrame:GetRegions()):Hide()
-	BankSlotsFrame:DisableDrawLayer("BORDER")
-	BankPortraitTexture:Hide()
-	BankFrameMoneyFrameInset:Hide()
-	BankFrameMoneyFrameBorder:Hide()
-
-	-- "item slots" and "bag slots" text
-	select(9, BankSlotsFrame:GetRegions()):SetDrawLayer("OVERLAY")
-	select(10, BankSlotsFrame:GetRegions()):SetDrawLayer("OVERLAY")
-
 	F.ReskinPortraitFrame(BankFrame)
 	F.Reskin(BankFramePurchaseButton)
 	F.ReskinTab(BankFrameTab1)
 	F.ReskinTab(BankFrameTab2)
 	F.ReskinInput(BankItemSearchBox)
+
+	F.StripTextures(BankSlotsFrame, true)
+	BankFrameMoneyFrameInset:Hide()
+	BankFrameMoneyFrameBorder:Hide()
 
 	local function onEnter(self)
 		self.bg:SetBackdropBorderColor(r, g, b)
@@ -53,8 +46,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 
 		bu.icon:SetTexCoord(.08, .92, .08, .92)
-
-		bu.bg = F.CreateBDFrame(bu, 0)
+		F.CreateBDFrame(bu, .25)
 
 		bu:HookScript("OnEnter", onEnter)
 		bu:HookScript("OnLeave", onLeave)
@@ -87,7 +79,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		bag.icon:SetTexCoord(.08, .92, .08, .92)
 
-		bag.bg = F.CreateBDFrame(bag, 0)
+		F.CreateBDFrame(bag, .25)
 
 		bag:HookScript("OnEnter", onEnter)
 		bag:HookScript("OnLeave", onLeave)
@@ -95,7 +87,9 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	BankItemAutoSortButton:GetNormalTexture():SetTexCoord(.17, .83, .17, .83)
 	BankItemAutoSortButton:GetPushedTexture():SetTexCoord(.17, .83, .17, .83)
-	F.CreateBDFrame(BankItemAutoSortButton)
+	BankItemAutoSortButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
+	BankItemAutoSortButton:GetHighlightTexture():SetAllPoints()
+	F.CreateBDFrame(BankItemAutoSortButton, .25)
 
 	hooksecurefunc("BankFrameItemButton_Update", function(button)
 		if not button.isBag and button.IconQuestTexture:IsShown() then
@@ -104,7 +98,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	end)
 
 	-- [[ Reagent bank ]]
-
 	ReagentBankFrame:DisableDrawLayer("BACKGROUND")
 	ReagentBankFrame:DisableDrawLayer("BORDER")
 	ReagentBankFrame:DisableDrawLayer("ARTWORK")

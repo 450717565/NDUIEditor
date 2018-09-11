@@ -164,7 +164,7 @@ C.themes["Blizzard_Collections"] = function()
 	F.CreateBDFrame(PetJournal.HealPetButton, .25)
 
 	if AuroraConfig.tooltips then
-		for _, f in pairs({PetJournalPrimaryAbilityTooltip, PetJournalSecondaryAbilityTooltip}) do
+		for _, f in next, {PetJournalPrimaryAbilityTooltip, PetJournalSecondaryAbilityTooltip} do
 			local bg = CreateFrame("Frame", nil, f)
 			bg:SetAllPoints()
 			bg:SetFrameLevel(0)

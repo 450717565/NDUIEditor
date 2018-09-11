@@ -59,7 +59,7 @@ C.themes["Blizzard_GuildControlUI"] = function()
 				F.Reskin(bu.buy.button)
 				F.ReskinInput(ownedTab.editBox)
 
-				for _, ch in pairs({ownedTab.viewCB, ownedTab.depositCB, ownedTab.infoCB}) do
+				for _, ch in next, {ownedTab.viewCB, ownedTab.depositCB, ownedTab.infoCB} do
 					F.ReskinCheck(ch)
 				end
 
