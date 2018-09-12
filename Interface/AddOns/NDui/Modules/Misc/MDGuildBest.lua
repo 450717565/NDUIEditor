@@ -24,9 +24,9 @@ function module:GuildBest()
 		frame = CreateFrame("Frame", nil, ChallengesFrame)
 		frame:SetPoint("BOTTOMRIGHT", -6, 80)
 		frame:SetSize(170, 110)
-		B.CreateTex(frame)
 		B.CreateBD(frame, .3)
 		B.CreateSD(frame)
+		B.CreateTex(frame)
 		B.CreateFS(frame, 14, CHALLENGE_MODE_THIS_WEEK , "system", "TOPLEFT", 10, -9)
 
 		frame.entries = {}

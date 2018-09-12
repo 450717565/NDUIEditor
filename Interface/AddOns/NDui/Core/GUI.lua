@@ -524,7 +524,8 @@ local function CreateTab(parent, i, name)
 	tab:SetPoint("TOPLEFT", 20, -30*i - 20)
 	tab:SetSize(130, 28)
 	B.CreateBD(tab, .3)
-	B.CreateFS(tab, 15, name, "system", "LEFT", 10, 0)
+	B.CreateSD(tab)
+	local label = B.CreateFS(tab, 15, name, "system", "LEFT", 10, 0)
 	if i > 13 then
 		label:SetTextColor(.6, .8, 1)
 	end
