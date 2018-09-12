@@ -80,6 +80,14 @@ local list = {
 		{AuraID = 188023, UnitID = "player"},
 	-->饰品附魔
 		{AuraID = 271103, UnitID = "player"},	-- 莱赞的微光之眼
+		--默认
+		{AuraID = 229206, UnitID = "player"},	-- 延时之力
+		{AuraID = 279151, UnitID = "player"},	-- 智力药水
+		{AuraID = 279152, UnitID = "player"},	-- 敏捷药水
+		{AuraID = 279153, UnitID = "player"},	-- 力量药水
+		{AuraID = 279154, UnitID = "player"},	-- 耐力药水
+		{AuraID = 190026, UnitID = "player"},	-- PVP饰品，+敏捷
+		{AuraID = 170397, UnitID = "player"},	-- PVP饰品，+全能
 		{AuraID = 275765, UnitID = "player"},	-- 艾泽里特强化
 		{AuraID = 271194, UnitID = "player"},	-- 火炮
 		{AuraID = 273992, UnitID = "player"},	-- 灵魂之速
@@ -119,12 +127,10 @@ local list = {
 		{AuraID = 273843, UnitID = "player"},	-- 深渊秘密
 		{AuraID = 280412, UnitID = "player"},	-- 激励兽群
 		{AuraID = 269279, UnitID = "player", Value = true, Combat = true},	--回声防护
-	-->7.0药水附魔
-		{AuraID = 188027, UnitID = "player"},--致命优雅，远程
-		{AuraID = 188028, UnitID = "player"},--上古战神，近战
-		{AuraID = 188029, UnitID = "player"},--不屈药水，坦克
-		{AuraID = 229206, UnitID = "player"},--延时之力
-		{AuraID = 230039, UnitID = "player"},--拳手的延时之力
+	-->炼金石
+		{AuraID = 60233, UnitID = "player"},	-- 敏捷
+		{AuraID = 60229, UnitID = "player"},	-- 力量
+		{AuraID = 60234, UnitID = "player"},	-- 智力
 	},
 	["Raid Buff"] = { -- 团队增益组
 	-->急速增益
@@ -137,6 +143,7 @@ local list = {
 		{AuraID = 178207, UnitID = "player"},--狂怒战鼓
 		{AuraID = 230935, UnitID = "player"},--高山战鼓
 		{AuraID = 264667, UnitID = "player"},--原始暴怒
+		{AuraID = 256740, UnitID = "player"},--漩涡战鼓
 	-->职业增益
 		--德鲁伊
 		{AuraID = 29166, UnitID = "player"},--激活
@@ -186,13 +193,13 @@ local list = {
 		{AuraID = 209858, UnitID = "player"},	-- 死疽溃烂
 		{AuraID = 240559, UnitID = "player"},	-- 重伤
 		{AuraID = 240443, UnitID = "player"},	-- 爆裂
-		{AuraID = 226510, UnitID = "player"},	-- 血池
-		{AuraID = 230087, UnitID = "player"},	-- 振作
+		{AuraID = 226512, UnitID = "player"},	-- 血池
 		{AuraID = 268007, UnitID = "player"},--心脏打击
 	-->奥迪尔
 		{AuraID = 265662, UnitID = "player"},	-- 腐化者的契约，泽克沃兹
+		{AuraID = 272536, UnitID = "player", Text = L["Get Out"]},	-- 毁灭迫近，拆解者
+		{AuraID = 274262, UnitID = "player", Text = L["Get Out"]},	-- 爆炸腐蚀，戈霍恩
 		{AuraID = 273405, UnitID = "player"},	-- 黑暗交易，戈霍恩
-		{AuraID = 274262, UnitID = "player"},	-- 爆炸腐蚀，戈霍恩
 	-->翡翠梦魇
 		--尼珊德拉
 		{AuraID = 221028, UnitID = "player"},--不稳定的腐烂，小怪
@@ -470,7 +477,9 @@ local list = {
 		--寂灭者阿古斯
 		{AuraID = 248499, UnitID = "player"},--巨镰横扫
 		{AuraID = 253903, UnitID = "player", Text = RAID_BUFF_6..RAID_BUFF_7},--天空之力
+		{AuraID = 258646, UnitID = "player", Text = RAID_BUFF_6..RAID_BUFF_7},	-- 天空之赐
 		{AuraID = 253901, UnitID = "player", Text = RAID_BUFF_4..RAID_BUFF_8},--海洋之力
+		{AuraID = 258647, UnitID = "player", Text = RAID_BUFF_4..RAID_BUFF_8},	-- 海洋之赐
 		{AuraID = 255199, UnitID = "player"},--阿格拉玛的化身
 		{AuraID = 252729, UnitID = "player"},--宇宙射线
 		{AuraID = 248396, UnitID = "player", Text = L["Get Out"]},--灵魂凋零
@@ -489,7 +498,7 @@ local list = {
 		{AuraID = 278220, UnitID = "target"},	-- 虚空超脱，泽克沃兹
 		{AuraID = 273432, UnitID = "target"},	-- 暗影束缚，祖尔
 		{AuraID = 273288, UnitID = "target"},	-- 婆娑脉动，祖尔
-		{AuraID = 274761, UnitID = "target"},	-- 湮灭帷幕，拆解者米斯拉克斯
+		{AuraID = 274230, UnitID = "target"},	-- 湮灭帷幕，拆解者米斯拉克斯
 		{AuraID = 276900, UnitID = "target"},	-- 临界炽焰，拆解者米斯拉克斯
 		{AuraID = 279013, UnitID = "target"},	-- 精华碎裂，拆解者米斯拉克斯
 		{AuraID = 263504, UnitID = "target"},	-- 重组冲击，戈霍恩
@@ -585,7 +594,7 @@ local list = {
 		{AuraID = 6940, UnitID = "target"},--牺牲祝福
 		{AuraID = 19574, UnitID = "target"},--狂野怒火
 		{AuraID = 23920, UnitID = "target"},--法术反射
-		{AuraID = 31884, UnitID = "target"},--复仇之怒 惩戒
+		{AuraID = 31884, UnitID = "target"},--复仇之怒
 		{AuraID = 33206, UnitID = "target"},--痛苦压制
 		{AuraID = 45438, UnitID = "target"},--寒冰屏障
 		{AuraID = 47788, UnitID = "target"},--守护之魂
@@ -607,13 +616,11 @@ local list = {
 		{AuraID = 171607, UnitID = "target"},--爱情光线
 		{AuraID = 186265, UnitID = "target"},--灵龟守护
 		{AuraID = 187827, UnitID = "target"},--恶魔变形
-		{AuraID = 188499, UnitID = "target"},--刃舞
 		{AuraID = 193526, UnitID = "target"},--百发百中
 		{AuraID = 197690, UnitID = "target"},--防御姿态
 		{AuraID = 199754, UnitID = "target"},--还击
 		{AuraID = 204018, UnitID = "target"},--破咒祝福
-		{AuraID = 205191, UnitID = "target"},--以眼还眼 惩戒
-		{AuraID = 210152, UnitID = "target"},--刃舞
+		{AuraID = 205191, UnitID = "target"},--以眼还眼
 		{AuraID = 212800, UnitID = "target"},--疾影
 		{AuraID = 228323, UnitID = "target", Value = true},--克罗塔的护盾
 		{AuraID = 247938, UnitID = "target"},--混乱之刃

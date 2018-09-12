@@ -1,11 +1,11 @@
 local mod	= DBM:NewMod(2166, "DBM-Uldir", nil, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17818 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17831 $"):sub(12, -3))
 mod:SetCreatureID(134442)--135016 Plague Amalgam
 mod:SetEncounterID(2134)
 mod:SetZone()
-mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7, 8)
+mod:SetUsedIcons(1, 2, 3, 4)
 --mod:SetHotfixNoticeRev(16950)
 --mod:SetMinSyncRevision(16950)
 mod.respawnTime = 29
@@ -15,7 +15,7 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 267242 265217 265206",
 	"SPELL_CAST_SUCCESS 265178 265212 266459 265209",
-	"SPELL_AURA_APPLIED 265178 265129 265212 274990",
+	"SPELL_AURA_APPLIED 265178 265129 265212",
 	"SPELL_AURA_APPLIED_DOSE 265178 265127",
 	"SPELL_AURA_REMOVED 265178 265129 265212 265217",
 	"SPELL_SUMMON 275055",
@@ -35,7 +35,7 @@ mod:RegisterEventsInCombat(
 --local warnXorothPortal					= mod:NewSpellAnnounce(244318, 2, nil, nil, nil, nil, nil, 7)
 local warnEvolvingAffliction				= mod:NewStackAnnounce(265178, 2, nil, "Tank")
 local warnGestate							= mod:NewTargetAnnounce(265212, 3)
-local warnHypergenesis						= mod:NewSpellAnnounce(266926, 3)
+local warnplagueBomb						= mod:NewSpellAnnounce(266926, 3)
 local warnContagion							= mod:NewCountAnnounce(267242, 3)
 local warnImmunoSupp						= mod:NewCountAnnounce(265206, 3)
 
@@ -65,7 +65,7 @@ local timerEvolvingAfflictionCD				= mod:NewCDTimer(8.5, 265178, nil, "Tank", ni
 local timerGestateCD						= mod:NewCDTimer(25.5, 265212, nil, nil, nil, 3)
 local timerContagionCD						= mod:NewCDCountTimer(23, 267242, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON)
 local timerLiquefyCD						= mod:NewCDTimer(90.9, 265217, nil, nil, nil, 6)
-local timerHypergenesisCD					= mod:NewCDCountTimer(11.4, 266459, nil, nil, nil, 5)--11.4 or 12.2, not sure which one blizz decided on, find out later
+local timerplagueBombCD						= mod:NewCDCountTimer(11.4, 266459, nil, nil, nil, 5)--11.4 or 12.2, not sure which one blizz decided on, find out later
 local timerImmunoSuppCD						= mod:NewCDCountTimer(25.5, 265206, nil, nil, nil, 5, nil, DBM_CORE_HEALER_ICON)
 
 --local berserkTimer						= mod:NewBerserkTimer(600)
@@ -80,9 +80,8 @@ mod:AddInfoFrameOption(265127, true)
 mod:AddBoolOption("ShowHighestFirst", true)--The priority for mythic, non mythic will probably turn off
 
 mod.vb.ContagionCount = 0
-mod.vb.hyperGenesisCount = 0
-mod.vb.ImmunosuppCount = 0
-local availableRaidIcons = {[1] = true, [2] = true, [3] = true, [4] = true, [5] = true, [6] = true, [7] = true, [8] = true}
+mod.vb.plagueBombCount = 0
+mod.vb.omegaIcon = 1
 local playerHasSix, playerHasTwelve, playerHasTwentyFive = false, false, false
 local seenAdds = {}
 local castsPerGUID = {}
@@ -92,8 +91,9 @@ function mod:OnCombatStart(delay)
 	table.wipe(castsPerGUID)
 	playerHasSix, playerHasTwelve, playerHasTwentyFive = false, false, false
 	self.vb.ContagionCount = 0
-	availableRaidIcons = {[1] = true, [2] = true, [3] = true, [4] = true, [5] = true, [6] = true, [7] = true, [8] = true}
-	timerEvolvingAfflictionCD:Start(4.7-delay)--Instantly on engage
+	self.vb.plagueBombCount = 0
+	self.vb.omegaIcon = 1
+	timerEvolvingAfflictionCD:Start(4.7-delay)
 	timerGestateCD:Start(10-delay)--SUCCESS
 	countdownGestate:Start(10-delay)
 	timerContagionCD:Start(20.5-delay, 1)
@@ -144,7 +144,7 @@ function mod:SPELL_CAST_START(args)
 		--specWarnContagion:Play("aesoon")
 		timerContagionCD:Start(nil, self.vb.ContagionCount+1)
 		if self:IsMythic() then
-			if playerHasSix then
+			if playerHasSix then--Done here so earlier warning, not on APPLIED
 				specWarnBurstingLesions:Show()
 				specWarnBurstingLesions:Play("range5")
 				--Yell Priorities
@@ -168,13 +168,13 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 265217 then
 		specWarnLiquefy:Show()
 		specWarnLiquefy:Play("phasechange")
-		self.vb.ContagionCount = 0
-		self.vb.hyperGenesisCount = 0
+		--self.vb.ContagionCount = 0
+		self.vb.plagueBombCount = 0
 		timerGestateCD:Stop()
 		countdownGestate:Cancel()
 		timerEvolvingAfflictionCD:Stop()
 		timerContagionCD:Stop()
-		timerHypergenesisCD:Start(9.8, 1)
+		timerplagueBombCD:Start(9.8, 1)
 	elseif spellId == 265206 then
 		castsPerGUID[args.sourceGUID] = castsPerGUID[args.sourceGUID] + 1
 		warnImmunoSupp:Show(castsPerGUID[args.sourceGUID])
@@ -187,10 +187,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if spellId == 265178 then
 		timerEvolvingAfflictionCD:Start()
 	elseif spellId == 266459 then
-		self.vb.hyperGenesisCount = self.vb.hyperGenesisCount + 1
-		warnHypergenesis:Show(self.vb.hyperGenesisCount)
-		if self.vb.hyperGenesisCount == 1 then
-			timerHypergenesisCD:Start(nil, 2)
+		self.vb.plagueBombCount = self.vb.plagueBombCount + 1
+		warnplagueBomb:Show(self.vb.plagueBombCount)
+		if self.vb.plagueBombCount == 1 then
+			timerplagueBombCD:Start(nil, 2)
 		end
 	elseif spellId == 265212 or spellId == 265209 then
 		timerGestateCD:Start()
@@ -217,8 +217,6 @@ function mod:SPELL_AURA_APPLIED(args)
 					warnEvolvingAffliction:Show(args.destName, amount)
 					specWarnEvolvingAffliction:Show(amount)
 					specWarnEvolvingAffliction:Play("stackhigh")
-					--yellEvolvingAffliction:Cancel()
-					--yellEvolvingAffliction:Countdown(12)
 				else
 					local _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
 					local remaining
@@ -248,18 +246,12 @@ function mod:SPELL_AURA_APPLIED(args)
 			end
 		end
 		if self.Options.SetIconVector then
-			local uId = DBM:GetRaidUnitId(args.destName)
-			local currentIcon = GetRaidTargetIndex(uId) or 0
-			if currentIcon == 0 then--Don't set icon i target already has one
-				--Find first available icon
-				for i = 1, 8 do
-					if availableRaidIcons[i] then
-						self:SetIcon(args.destName, i)
-						availableRaidIcons[i] = false
-						break
-					end
-				end
-			end
+			self:SetIcon(args.destName, self.vb.omegaIcon)
+		end
+		self.vb.omegaIcon = self.vb.omegaIcon + 1
+		local expectedDebuffs = self:IsMythic() and 5 or 4
+		if self.vb.omegaIcon == expectedDebuffs then
+			self.vb.omegaIcon = 1
 		end
 	elseif spellId == 265212 and self:AntiSpam(4, args.destName) then
 		if args:IsPlayer() then
@@ -314,12 +306,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			yellOmegaVectorFades:Cancel()
 		end
 		if self.Options.SetIconVector then
-			local uId = DBM:GetRaidUnitId(args.destName)
-			local currentIcon = GetRaidTargetIndex(uId) or 0
 			self:SetIcon(args.destName, 0)
-			if currentIcon > 0 then
-				availableRaidIcons[currentIcon] = true
-			end
 		end
 	elseif spellId == 265212 then
 		--specWarnAmalgam:Show()

@@ -1,4 +1,4 @@
-if GetBuildInfo() ~= "7.2.0" then return end
+--if GetBuildInfo() == "8.0.1" then return end
 local ADDON, Addon = ...
 local Mod = Addon:NewModule('Schedule')
 
@@ -6,22 +6,28 @@ local rowCount = 4
 
 local requestKeystoneCheck
 
--- 1: 溢出, 2: 无常, 3: 火山, 4: 死疽, 5: 繁盛, 6: 暴怒, 7: 激励, 8: 血池, 9: 残暴, 10: 强韧, 11: 崩裂, 12: 重伤, 13: 易爆, 14: 震荡
+-- 1: 溢出, 2: 无常, 3: 火山, 4: 死疽, 5: 繁盛, 6: 暴怒, 7: 激励, 8: 血池, 9: 残暴, 10: 强韧, 11: 崩裂, 12: 重伤, 13: 易爆, 14: 震荡, 15: 冷酷, 16: 共生
 local affixSchedule = {
-	{ 6, 3, 9 },
-	{ 5, 13, 10 },
-	{ 7, 12, 9 },
-	{ 8, 4, 10 },
-	{ 11, 2, 9 },
-	{ 5, 14, 10 },
-	{ 6, 4, 9 },
-	{ 7, 2, 10 },
-	{ 5, 3, 9 },
-	{ 8, 12, 10 },
-	{ 7, 13, 9 },
-	{ 11, 14, 10 },
+	{  6,  3,  9, 16 },
+	{  5, 13, 10, 16 },
+	{  7, 12,  9, 16 },
+	{  8,  4, 10, 16 },
+	{ 11,  2,  9, 16 },
+	{  5, 14, 10, 16 },
+	{  6,  4,  9, 16 },
+	{  7,  2, 10, 16 },
+	{  5,  3,  9, 16 },
+	{  8, 12, 10, 16 },
+	{  7, 13,  9, 16 },
+	{ 11, 14, 10, 16 },
 }
 local currentWeek
+local affixOrder = {
+	[1] = 3,
+	[2] = 1,
+	[3] = 2,
+	[4] = 4,
+}
 
 local function UpdateAffixes()
 	if requestKeystoneCheck then
@@ -36,7 +42,7 @@ local function UpdateAffixes()
 			local affixes = affixSchedule[scheduleWeek]
 			for j = 1, #affixes do
 				local affix = entry.Affixes[j]
-				affix:SetUp(affixes[j])
+				affix:SetUp(affixes[affixOrder[j]])
 			end
 		end
 		Mod.Frame.Label:Hide()
@@ -72,7 +78,7 @@ end
 function Mod:Blizzard_ChallengesUI()
 	local frame = CreateFrame("Frame", nil, ChallengesFrame)
 	frame:SetSize(170, 110)
-	frame:SetPoint("BOTTOMLEFT", 6, 70)
+	frame:SetPoint("BOTTOMLEFT", 6, 80)
 	Mod.Frame = frame
 
 	local bg = frame:CreateTexture(nil, "BACKGROUND")
@@ -104,7 +110,7 @@ function Mod:Blizzard_ChallengesUI()
 
 		local affixes = {}
 		local prevAffix
-		for j = 3, 1, -1 do
+		for j = 4, 1, -1 do
 			local affix = makeAffix(entry)
 			if prevAffix then
 				affix:SetPoint("RIGHT", prevAffix, "LEFT", -4, 0)
@@ -141,34 +147,20 @@ end
 
 function Mod:CheckInventoryKeystone()
 	currentWeek = nil
-	for container=BACKPACK_CONTAINER, NUM_BAG_SLOTS do
-		local slots = GetContainerNumSlots(container)
-		for slot=1, slots do
-			local _, _, _, _, _, _, slotLink = GetContainerItemInfo(container, slot)
-			local itemString = slotLink and slotLink:match("|Hkeystone:([0-9:]+)|h(%b[])|h")
-			if itemString then
-				local info = { strsplit(":", itemString) }
-				local mapLevel = tonumber(info[3])
-				if mapLevel >= 7 then
-					local affix1, affix2 = tonumber(info[4]), tonumber(info[5])
-					for index, affixes in ipairs(affixSchedule) do
-						if affix1 == affixes[1] and affix2 == affixes[2] then
-							currentWeek = index
-						end
-					end
-				end
-			end
+
+	C_MythicPlus.RequestCurrentAffixes()
+	local affixIds = C_MythicPlus.GetCurrentAffixes()
+	if not affixIds then return end
+	for index, affixes in ipairs(affixSchedule) do
+		if affixIds[1] == affixes[1] and affixIds[2] == affixes[2] then
+			currentWeek = index
 		end
 	end
-	requestKeystoneCheck = false
-end
 
-function Mod:BAG_UPDATE()
-	requestKeystoneCheck = true
+	requestKeystoneCheck = false
 end
 
 function Mod:Startup()
 	self:RegisterAddOnLoaded("Blizzard_ChallengesUI")
-	self:RegisterEvent("BAG_UPDATE")
 	requestKeystoneCheck = true
 end

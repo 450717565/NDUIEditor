@@ -1,6 +1,9 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_ChallengesUI"] = function()
+	F.StripTextures(ChallengesFrame, true)
+	F.StripTextures(ChallengesFrameInset, true)
+
 	local function AffixesSetup(self)
 		for _, frame in ipairs(self.Affixes) do
 			frame.Border:SetTexture(nil)
@@ -18,9 +21,6 @@ C.themes["Blizzard_ChallengesUI"] = function()
 			end
 		end
 	end
-
-	F.StripTextures(ChallengesFrame, true)
-	F.StripTextures(ChallengesFrameInset, true)
 
 	local angryStyle
 	local function UpdateIcons(self)

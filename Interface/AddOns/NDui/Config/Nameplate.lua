@@ -12,6 +12,7 @@ C.WhiteList = {
 	-- Debuffs
 	[2094]		= true,		-- 致盲
 	-- Dungeons
+	[274631]	= true,		-- 次级铁墙祝福
 	[267901]	= true,		-- 铁墙祝福
 	[276767]	= true,		-- 吞噬虚空
 	[260792]	= true,		-- 尘土云

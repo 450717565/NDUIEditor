@@ -41,9 +41,9 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 17818 $"):sub(12, -3)),
-	DisplayVersion = "8.0.7 alpha", -- the string that is shown as version
-	ReleaseRevision = 17762 -- the revision of the latest stable version that is available
+	Revision = tonumber(("$Revision: 17832 $"):sub(12, -3)),
+	DisplayVersion = "8.0.9 alpha", -- the string that is shown as version
+	ReleaseRevision = 17821 -- the revision of the latest stable version that is available
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -405,7 +405,7 @@ local AddMsg
 local delayedFunction
 local dataBroker
 
-local fakeBWVersion, fakeBWHash = 104, "1585351"
+local fakeBWVersion, fakeBWHash = 111, "61869dc"
 local versionQueryString, versionResponseString = "Q^%d^%s", "V^%d^%s"
 
 local enableIcons = true -- set to false when a raid leader or a promoted player has a newer version of DBM
@@ -9269,10 +9269,6 @@ do
 	local function newCountdown(self, countdownType, timer, spellId, optionDefault, optionName, count, textDisabled, altVoice)
 		if not spellId and not optionName then
 			print("NewCountdown: you must provide either spellId or optionName", 2)
-			return
-		end
-		if type(timer) == "string" and timer:match("OptionVersion") then
-			print("OptionVersion depricated for newCountdown :"..optionDefault)
 			return
 		end
 		local optionVersion

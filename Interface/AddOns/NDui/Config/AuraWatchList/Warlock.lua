@@ -7,7 +7,7 @@ local list = {
 	["Player Aura"] = { -- 玩家光环组
 		{AuraID = 5697, UnitID = "player"},		-- 无尽呼吸
 		{AuraID = 48018, UnitID = "player"},	-- 恶魔法阵
-		{AuraID = 108366, UnitID = "player"},	-- 灵魂榨取
+		{AuraID = 108366, UnitID = "player", Combat = true},	-- 灵魂榨取
 		{AuraID = 119899, UnitID = "player"},	-- 灼烧主人
 		{AuraID = 196099, UnitID = "player"},	-- 牺牲魔典
 	},
