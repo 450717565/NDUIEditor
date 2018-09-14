@@ -333,7 +333,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			end
 		end
 	end)
-
+--[[
 	-- BonusRollLootWonFrame
 	hooksecurefunc("LootWonAlertFrame_SetUp", function(f)
 		if not f.bg then
@@ -376,4 +376,5 @@ tinsert(C.themes["AuroraClassic"], function()
 			f.IconBorder:SetTexture("")
 		end
 	end)
+]]
 end)

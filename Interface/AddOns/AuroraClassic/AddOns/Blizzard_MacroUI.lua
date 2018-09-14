@@ -77,4 +77,7 @@ C.themes["Blizzard_MacroUI"] = function()
 	for _, button in next, buttons do
 		F.Reskin(button)
 	end
+
+	MacroNewButton:ClearAllPoints()
+	MacroNewButton:SetPoint("RIGHT", MacroExitButton, "LEFT", -2, 0)
 end

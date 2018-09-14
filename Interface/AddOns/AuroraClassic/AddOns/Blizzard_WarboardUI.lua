@@ -26,6 +26,9 @@ C.themes["Blizzard_WarboardUI"] = function()
 						child.Text.SetTextColor = F.dummy
 					end
 				end
+
+				option.Background:Hide()
+				option.Header.Ribbon:Hide()
 				F.Reskin(option.OptionButtonsContainer.OptionButton1)
 				F.Reskin(option.OptionButtonsContainer.OptionButton2)
 

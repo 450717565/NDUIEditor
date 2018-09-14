@@ -284,7 +284,10 @@ C.themes["Blizzard_EncounterJournal"] = function()
 	-- Suggestion 1
 	local suggestion = suggestFrame.Suggestion1
 	F.StripTextures(suggestion)
-	F.CreateBDFrame(suggestion, .25)
+
+	local bg = F.CreateBDFrame(suggestion, .25)
+	bg:SetPoint("TOPLEFT", 0, 5)
+	bg:SetPoint("BOTTOMRIGHT", suggestFrame.Suggestion3, 15, 0)
 
 	suggestion.icon:ClearAllPoints()
 	suggestion.icon:SetPoint("TOP", 0, -15)
@@ -307,9 +310,8 @@ C.themes["Blizzard_EncounterJournal"] = function()
 	for i = 2, 3 do
 		local suggestion = suggestFrame["Suggestion"..i]
 		F.StripTextures(suggestion)
-		F.CreateBDFrame(suggestion, .25)
 
-		suggestion.icon:SetPoint("TOPLEFT", 10, -10)
+		suggestion.icon:SetPoint("TOPLEFT", 25, -25)
 		F.CreateBDFrame(suggestion.icon, .25)
 
 		local centerDisplay = suggestion.centerDisplay

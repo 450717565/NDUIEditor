@@ -59,21 +59,22 @@ tinsert(C.themes["AuroraClassic"], function()
 	SearchPanel.RefreshButton:SetSize(24, 24)
 	SearchPanel.RefreshButton.Icon:SetPoint("CENTER")
 
-	local numResults = 1
 	hooksecurefunc("LFGListSearchPanel_UpdateAutoComplete", function(self)
 		local AutoCompleteFrame = self.AutoCompleteFrame
 
-		for i = numResults, #AutoCompleteFrame.Results do
+		for i = 1, #AutoCompleteFrame.Results do
 			local result = AutoCompleteFrame.Results[i]
 			F.StripTextures(result, true)
 
-			local bg = F.CreateBDFrame(result, .25)
-			bg:SetPoint("TOPLEFT", 0, -1)
-			bg:SetPoint("BOTTOMRIGHT", 0, 1)
+			if not result.styled then
+				local bg = F.CreateBDFrame(result, .25)
+				bg:SetPoint("TOPLEFT", 0, -1)
+				bg:SetPoint("BOTTOMRIGHT", 0, 1)
 
-			reskinHL(result, bg)
+				reskinHL(result, bg)
 
-			numResults = numResults + 1
+				result.styled = true
+			end
 		end
 	end)
 

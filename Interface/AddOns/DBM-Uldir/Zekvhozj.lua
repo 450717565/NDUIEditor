@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2169, "DBM-Uldir", nil, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17832 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17838 $"):sub(12, -3))
 mod:SetCreatureID(134445)--Zek'vhozj, 134503/qiraji-warrior
 mod:SetEncounterID(2136)
 --mod:DisableESCombatDetection()
@@ -36,14 +36,15 @@ mod:RegisterEventsInCombat(
  or ability.id = 265360 and type = "applydebuff"
  or (ability.id = 267180 or ability.id = 270620) and type = "begincast"
 --]]
-local warnPhase						= mod:NewPhaseChangeAnnounce()
+local warnPhase							= mod:NewPhaseChangeAnnounce()
 --local warnXorothPortal					= mod:NewSpellAnnounce(244318, 2, nil, nil, nil, nil, nil, 7)
 local warnVoidLash						= mod:NewStackAnnounce(265264, 2, nil, "Tank")
 --Stage One: Chaos
-local warnEyeBeam						= mod:NewTargetAnnounce(264382, 2)
+local warnEyeBeam						= mod:NewTargetCountAnnounce(264382, 2)
 --local warnFixate						= mod:NewTargetAnnounce(264219, 2)
 --Stage Two: Deception
-local warnRoilingDeceit					= mod:NewTargetAnnounce(265360, 4)
+local warnRoilingDeceit					= mod:NewTargetCountAnnounce(265360, 4)
+local warnCasterAddsRemaining			= mod:NewAddsLeftAnnounce("ej18397", 2, 31700)
 --Stage Three: Corruption
 local warnCorruptorsPact				= mod:NewTargetCountAnnounce(265662, 2, nil, nil, nil, nil, nil, nil, true)--Non Filtered Alert
 local warnWillofCorruptor				= mod:NewTargetAnnounce(265646, 4, nil, false)
@@ -55,12 +56,12 @@ local specWarnShatter					= mod:NewSpecialWarningTaunt(265237, nil, nil, nil, 1,
 local specWarnAdds						= mod:NewSpecialWarningAdds(31700, nil, nil, nil, 1, 2)--Generic Warning only used on Mythic
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
 --Stage One: Chaos
-local specWarnEyeBeam					= mod:NewSpecialWarningMoveAway(264382, nil, nil, nil, 1, 2)
-local yellEyeBeam						= mod:NewYell(264382)
+local specWarnEyeBeam					= mod:NewSpecialWarningMoveAway(264382, nil, nil, 2, 3, 2)
+local yellEyeBeam						= mod:NewCountYell(264382)
 --local specWarnFixate					= mod:NewSpecialWarningRun(264219, nil, nil, nil, 4, 2)
 --Stage Two: Deception
 local specWarnRoilingDeceit				= mod:NewSpecialWarningMoveTo(265360, nil, nil, nil, 3, 7)
-local yellRoilingDeceit					= mod:NewYell(265360)
+local yellRoilingDeceit					= mod:NewCountYell(265360)
 local yellRoilingDeceitFades			= mod:NewFadesYell(265360)
 local specWarnVoidbolt					= mod:NewSpecialWarningInterrupt(267180, "HasInterrupt", nil, nil, 1, 2)
 --Stage Three: Corruption
@@ -101,16 +102,20 @@ mod.vb.phase = 1
 mod.vb.orbCount = 0
 mod.vb.addIcon = 1
 mod.vb.lastPower = 0
+mod.vb.eyeCount = 0
+mod.vb.roilingCount = 0
 mod.vb.corruptorsPactCount = 0
+mod.vb.casterAddsRemaining = 0
 
 function mod:EyeBeamTarget(targetname, uId)
 	if not targetname then return end
+	self.vb.eyeCount = self.vb.eyeCount + 1
 	if targetname == UnitName("player") and self:AntiSpam(5, 5) then
 		specWarnEyeBeam:Show()
 		specWarnEyeBeam:Play("runout")
-		yellEyeBeam:Yell()
+		yellEyeBeam:Yell(self.vb.eyeCount)
 	else
-		warnEyeBeam:Show(targetname)
+		warnEyeBeam:Show(self.vb.eyeCount, targetname)
 	end
 end
 
@@ -119,10 +124,10 @@ function mod:RollingTarget(targetname, uId)
 	if targetname == UnitName("player") and self:AntiSpam(5, 6) then
 		specWarnRoilingDeceit:Show(DBM_CORE_ROOM_EDGE)
 		specWarnRoilingDeceit:Play("runtoedge")
-		yellRoilingDeceit:Yell()
+		yellRoilingDeceit:Yell(self.vb.roilingCount)
 		yellRoilingDeceitFades:Countdown(12)
 	else
-		warnRoilingDeceit:Show(targetname)
+		warnRoilingDeceit:Show(self.vb.roilingCount, targetname)
 	end
 end
 
@@ -131,23 +136,32 @@ function mod:OnCombatStart(delay)
 	self.vb.orbCount = 0
 	self.vb.addIcon = 1
 	self.vb.lastPower = 0
+	self.vb.eyeCount = 0
+	self.vb.roilingCount = 0
 	self.vb.corruptorsPactCount = 0
+	self.vb.casterAddsRemaining = 0
+	--Same in All
 	timerTitanSparkCD:Start(10-delay)
 	timerMightofVoidCD:Start(15-delay)
 	countdownMightofVoid:Start(15-delay)
-	timerSurgingDarknessCD:Start(25-delay)
-	countdownSurgingDarkness:Start(25)
-	timerEyeBeamCD:Start(52-delay)--Despite what journal says, this is always 52-54 regardless
+	timerEyeBeamCD:Start(52-delay)--52-54
+	if self:IsLFR() then
+		timerSurgingDarknessCD:Start(41-delay)--Custom for LFR
+		countdownSurgingDarkness:Start(41)--Custom for LFR
+	else
+		timerSurgingDarknessCD:Start(25-delay)--Same in rest of them
+		countdownSurgingDarkness:Start(25)--Same in rest of them
+		if self:IsMythic() then
+			timerAddsCD:Start(62.7)--Both adds with custom adds trigger
+			timerRoilingDeceitCD:Start(26.5)--CAST_START
+		else
+			timerQirajiWarriorCD:Start(56-delay)--56-58 regardless
+		end
+	end
 --	if self.Options.InfoFrame then
 --		DBM.InfoFrame:SetHeader(DBM_CORE_INFOFRAME_POWER)
 --		DBM.InfoFrame:Show(4, "enemypower", 2)
 --	end
-	if self:IsMythic() then
-		timerAddsCD:Start(62.7)--Both adds
-		timerRoilingDeceitCD:Start(27)--CAST_START
-	else
-		timerQirajiWarriorCD:Start(56-delay)--Despite what journal says, this is always 56-58 regardless
-	end
 end
 
 function mod:OnCombatEnd()
@@ -176,9 +190,9 @@ function mod:SPELL_CAST_START(args)
 		specWarnOrbOfCorruption:Show(self.vb.orbCount)
 		specWarnOrbOfCorruption:Play("161612")--catch balls
 		timerOrbLands:Start(5, 1)
-		if not self:IsMythic() then--Didn't see cast on mythic?
-			timerOrbofCorruptionCD:Start(50, self.vb.orbCount+1)
-		end
+		--if not self:IsMythic() then--Didn't see cast on mythic?
+			--timerOrbofCorruptionCD:Start(50, self.vb.orbCount+1)
+		--end
 	elseif spellId == 270620 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnEntropicBlast:Show(args.sourceName)
 		specWarnEntropicBlast:Play("kickcast")
@@ -213,6 +227,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 --			warnEyeBeam:Show(args.destName)
 		end
 	elseif spellId == 271099 then--Mythic Summon Adds
+		self.vb.casterAddsRemaining = self.vb.casterAddsRemaining + 3
 		specWarnAdds:Show()
 		specWarnAdds:Play("killmob")
 		timerAddsCD:Start()
@@ -292,6 +307,8 @@ function mod:UNIT_DIED(args)
 	elseif cid == 135083 then--Guardian of Yogg-Saron
 	
 	elseif cid == 135824 then--Anub'ar Voidweaver
+		self.vb.casterAddsRemaining = self.vb.casterAddsRemaining - 1
+		warnCasterAddsRemaining:Show(self.vb.casterAddsRemaining)
 		--timerVoidBoltCD:Stop(args.destGUID)
 	end
 end
@@ -300,18 +317,19 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
 	if spellId == 266913 and not self:IsMythic() then--Spawn Qiraji Warrior
 		timerQirajiWarriorCD:Start()
 	elseif spellId == 267192 and not self:IsMythic() then--Spawn Anub'ar Caster
+		self.vb.casterAddsRemaining = self.vb.casterAddsRemaining + 3
 		timerAnubarCasterCD:Start()--80
 	elseif spellId == 265437 then--Roiling Deceit
+		self.vb.roilingCount = 0
 		--here because this spell ID fires at beginning of each set ONCE
-		--if self:IsMythic() then
-		--	timerRoilingDeceitCD:Schedule(6, 60)
-		--else
-			timerRoilingDeceitCD:Schedule(6, 60)--Same in both
-		--end
+		timerRoilingDeceitCD:Schedule(6, 60)--Same in all
 	elseif spellId == 264746 then--Eye beam
+		self.vb.eyeCount = 0
 		--here because this spell ID fires at beginning of each set ONCE
 		if self:IsMythic() then
 			timerEyeBeamCD:Schedule(6, 60)
+		elseif self:IsLFR() then
+			timerEyeBeamCD:Schedule(6, 50)
 		else
 			timerEyeBeamCD:Schedule(6, 40)
 		end
@@ -351,18 +369,18 @@ function mod:UNIT_POWER_FREQUENT(uId)
 			if not self:IsMythic() then
 				timerQirajiWarriorCD:Stop()
 				timerEyeBeamCD:Stop()
-				timerAnubarCasterCD:Start(20.5)
+				if not self:IsLFR() then
+					timerAnubarCasterCD:Start(20.5)
+				end
 				timerRoilingDeceitCD:Start(22)--CAST_START
 			else--Mythic Stage 2 is final stage, start final stage timer
 				timerAddsCD:Stop()
 				timerOrbofCorruptionCD:Start(12, 1)--Assumed
 			end
-		elseif self.vb.phase == 3 then
+		elseif self.vb.phase == 3 then--Should only happen on non mythic
 			warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(3))
-			if not self:IsMythic() then
-				timerAnubarCasterCD:Stop()
-				timerRoilingDeceitCD:Cancel()
-			end
+			timerAnubarCasterCD:Stop()
+			timerRoilingDeceitCD:Cancel()
 			timerOrbofCorruptionCD:Start(12, 1)
 		end
 	end
