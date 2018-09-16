@@ -41,7 +41,7 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 17838 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 17849 $"):sub(12, -3)),
 	DisplayVersion = "8.0.9 alpha", -- the string that is shown as version
 	ReleaseRevision = 17821 -- the revision of the latest stable version that is available
 }
@@ -251,6 +251,7 @@ DBM.DefaultOptions = {
 	HelpMessageVersion = 3,
 	MoviesSeen = {},
 	MovieFilter = "AfterFirst",
+	--BonusFilter = "Never",
 	LastRevision = 0,
 	DebugMode = false,
 	DebugLevel = 1,
@@ -1355,7 +1356,8 @@ do
 				"UPDATE_BATTLEFIELD_STATUS",
 				"PLAY_MOVIE",
 				"CINEMATIC_START",
-				--"PLAYER_LEVEL_UP",--PLAYER_LEVEL_CHANGED
+				--"BONUS_ROLL_STARTED",
+				"PLAYER_LEVEL_CHANGED",
 				"PLAYER_SPECIALIZATION_CHANGED",
 				"PARTY_INVITE_REQUEST",
 				"LOADING_SCREEN_DISABLED",
@@ -3296,7 +3298,7 @@ function DBM:SpecChanged(force)
 	end
 end
 
-function DBM:PLAYER_LEVEL_UP()
+function DBM:PLAYER_LEVEL_CHANGED()
 	playerLevel = UnitLevel("player")
 	if playerLevel < 15 and playerLevel > 9 then
 		self:PLAYER_SPECIALIZATION_CHANGED()
@@ -7167,6 +7169,53 @@ do
 		end
 	end
 end
+
+-------------------
+--  Bonus Filter --
+-------------------
+--[[
+do
+	local bonusTimeStamp = 0
+	local warFrontMaps = {
+		[14] = true, -- Arathi Highlands
+	}
+	local function hideBonusRoll(self)
+		bonusTimeStamp = GetTime()
+		BonusRollFrame:Hide()
+		self:AddMsg(DBM_CORE_BONUS_SKIPPED)
+	end
+	local function showBonusRoll(self)
+		if (GetTime() - bonusTimeStamp) < 180 then--3 min timer still active
+			BonusRollFrame:Show()
+			BonusRollFrame:Show()
+		else--Out of Time
+			self:AddMsg(DBM_CORE_BONUS_EXPIRED)
+		end
+	end
+	SLASH_DBMBONUS1 = "/dbmbonusroll"
+	SlashCmdList["DBMBONUS"] = function(msg)
+		showBonusRoll(DBM)
+	end
+	--TODO, see where timewalking ilvl fits into filters
+	function DBM:BONUS_ROLL_STARTED()
+		DBM:Debug("BONUS_ROLL_STARTED fired", 2)
+		if self.Options.BonusFilter == "Never" then return end
+		local _, _, difficultyId, _, _, _, _, mapID = GetInstanceInfo()
+		local localMapID = C_Map.GetBestMapForUnit("player") or 0
+		local keystoneLevel = C_ChallengeMode.GetActiveKeystoneInfo() or 0
+		self:Unschedule(hideBonusRoll)
+		if self.Options.BonusFilter == "TrivialContent" and (difficultyId == 1 or difficultyId == 2) then--Basically anything below 340 ilvl (normal/heroic dungeons)
+			self:Schedule(0.2, hideBonusRoll, self)
+		elseif self.Options.BonusFilter == "NormalRaider" and (difficultyId == 14 or difficultyId == 17 or difficultyId == 23 or (difficultyId == 8 and keystoneLevel < 5)) then--Basically, anything below 355 (normal/heroic/mythic dungeons lower than 5, LFR
+			self:Schedule(0.2, hideBonusRoll, self)
+		elseif self.Options.BonusFilter == "HeroicRaider" and (difficultyId == 14 or difficultyId == 15 or difficultyId == 17 or difficultyId == 23 or (difficultyId == 8 and keystoneLevel < 10) or (difficultyId == 0 and not warFrontMaps[localMapID])) then--Basically, anything below 370 (normal/heroic/mythic dungeons lower than 10, LFR/Normal Raids
+			self:Schedule(0.2, hideBonusRoll, self)
+		elseif self.Options.BonusFilter == "MythicRaider" and (difficultyId == 14 or difficultyId == 15 or difficultyId == 16 or difficultyId == 17 or difficultyId == 23 or difficultyId == 8 or difficultyId == 0) then--Basically, anything below 385 (ANY dungeon, LFR/Normal/Heroic Raids
+			self:Schedule(0.2, hideBonusRoll, self)
+		end
+	end
+end
+--]]
 
 ----------------------------
 --  Boss Mod Constructor  --

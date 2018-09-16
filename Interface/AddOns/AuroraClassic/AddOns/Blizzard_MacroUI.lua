@@ -13,6 +13,7 @@ C.themes["Blizzard_MacroUI"] = function()
 	F.StripTextures(MacroFrameTab2, true)
 	F.StripTextures(MacroFrameTextBackground, true)
 
+	MacroPopupFrame:SetHeight(525)
 	F.StripTextures(MacroPopupFrame, true)
 	F.StripTextures(MacroPopupFrame.BorderBox, true)
 	F.CreateBD(MacroPopupFrame)

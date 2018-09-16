@@ -5,7 +5,7 @@ local module = B:RegisterModule("Tooltip")
 function module:OnLogin()
 	self:ExtraTipInfo()
 	self:TargetedInfo()
-	self:AzeriteArmor()
+	--self:AzeriteArmor()
 end
 
 local r, g, b = DB.CC.r, DB.CC.g, DB.CC.b

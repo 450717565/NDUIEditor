@@ -110,7 +110,7 @@ function UF:CreateHealthText(self)
 		self:Tag(name, "[color][name]")
 	end
 
-	local hpval = B.CreateFS(textFrame, retVal(self, 14, 13, 13, 14), "", false, "RIGHT", -3, -1)
+	local hpval = B.CreateFS(textFrame, retVal(self, 14, 13, 12, 14), "", false, "RIGHT", -3, -1)
 	if self.mystyle == "raid" then
 		hpval:SetPoint("RIGHT", -3, -7)
 		if NDuiDB["UFs"]["HealthPerc"] then
@@ -457,7 +457,7 @@ local function customFilter(element, unit, button, name, _, _, _, _, _, caster, 
 		elseif C.WhiteList and C.WhiteList[spellID] then
 			return true
 		else
-			return (NDuiDB["Nameplate"]["AllAuras"] and nameplateShowAll) or (caster == "player" or caster == "pet" or caster == "vehicle")
+			return nameplateShowAll or (caster == "player" or caster == "pet" or caster == "vehicle")
 		end
 	elseif (element.onlyShowPlayer and button.isPlayer) or (not element.onlyShowPlayer and name) then
 		return true
@@ -628,11 +628,9 @@ local function postUpdateRunes(element, runemap)
 end
 
 function UF:CreateClassPower(self)
-	local lvl = self:GetFrameLevel() + 2
 	if self.mystyle == "PlayerPlate" then
 		width, height = self:GetWidth(), NDuiDB["Extras"]["CPHeight"]
 		C.UFs.BarPos = {"BOTTOMLEFT", self, "TOPLEFT", 0, 3}
-		lvl = self:GetFrameLevel() - 2
 	end
 
 	local bars = {}
@@ -641,7 +639,7 @@ function UF:CreateClassPower(self)
 		bars[i]:SetHeight(height)
 		bars[i]:SetWidth((width - 5*margin) / 6)
 		bars[i]:SetStatusBarTexture(DB.normTex)
-		bars[i]:SetFrameLevel(lvl)
+		bars[i]:SetFrameLevel(self:GetFrameLevel() + 2)
 		B.CreateSD(bars[i], 3, 3)
 		if i == 1 then
 			bars[i]:SetPoint(unpack(C.UFs.BarPos))

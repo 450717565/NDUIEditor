@@ -140,6 +140,29 @@ do
 	end
 end
 
+--- BOSS战斗自动收起任务追踪
+do
+	local collapse = false
+	local function autoCollapse(event)
+		B:UnregisterEvent("PLAYER_ENTERING_WORLD", autoCollapse)
+
+		if event == "ENCOUNTER_START" then
+			if not collapse then
+				ObjectiveTracker_Collapse()
+				collapse = true
+			end
+		elseif event == "ENCOUNTER_END" then
+			if collapse then
+				ObjectiveTracker_Expand()
+				collapse = false
+			end
+		end
+	end
+	B:RegisterEvent("PLAYER_ENTERING_WORLD", autoCollapse)
+	B:RegisterEvent("ENCOUNTER_START", autoCollapse)
+	B:RegisterEvent("ENCOUNTER_END", autoCollapse)
+end
+
 --- 特殊物品购买无需确认
 --[[
 do

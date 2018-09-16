@@ -41,7 +41,7 @@ C.themes["Blizzard_BlackMarketUI"] = function()
 				bu.Item:SetPushedTexture("")
 				bu.Item:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 				bu.Item.IconTexture:SetTexCoord(.08, .92, .08, .92)
-				bu.Item.IconBorder:Hide()
+				bu.Item.IconBorder:SetAlpha(0)
 				F.CreateBDFrame(bu.Item, .25)
 
 				local bg = F.CreateBDFrame(bu, .25)

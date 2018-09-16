@@ -2,20 +2,13 @@ local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
 	EquipmentFlyoutFrameHighlight:Hide()
-
-	local border = F.CreateBDFrame(EquipmentFlyoutFrame, 0)
-	border:SetBackdropBorderColor(1, 1, 1)
-	border:SetPoint("TOPLEFT", 2, -2)
-	border:SetPoint("BOTTOMRIGHT", -2, 2)
-
-	local navFrame = EquipmentFlyoutFrame.NavigationFrame
-
 	EquipmentFlyoutFrameButtons.bg1:SetAlpha(0)
 	EquipmentFlyoutFrameButtons:DisableDrawLayer("ARTWORK")
-	Test2:Hide() -- wat
 
-	navFrame:SetWidth(204)
-	navFrame:SetPoint("TOPLEFT", EquipmentFlyoutFrameButtons, "BOTTOMLEFT", 1, 0)
+	F.CreateBD(EquipmentFlyoutFrame.NavigationFrame)
+	F.CreateSD(EquipmentFlyoutFrame.NavigationFrame)
+	F.ReskinArrow(EquipmentFlyoutFrame.NavigationFrame.PrevButton, "left")
+	F.ReskinArrow(EquipmentFlyoutFrame.NavigationFrame.NextButton, "right")
 
 	hooksecurefunc("EquipmentFlyout_CreateButton", function()
 		local bu = EquipmentFlyoutFrame.buttons[#EquipmentFlyoutFrame.buttons]
@@ -46,9 +39,4 @@ tinsert(C.themes["AuroraClassic"], function()
 			border:Show()
 		end
 	end)
-
-	F.CreateBD(EquipmentFlyoutFrame.NavigationFrame)
-	F.CreateSD(EquipmentFlyoutFrame.NavigationFrame)
-	F.ReskinArrow(EquipmentFlyoutFrame.NavigationFrame.PrevButton, "left")
-	F.ReskinArrow(EquipmentFlyoutFrame.NavigationFrame.NextButton, "right")
 end)

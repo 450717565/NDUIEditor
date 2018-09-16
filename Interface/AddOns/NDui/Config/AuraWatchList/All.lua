@@ -79,7 +79,7 @@ local list = {
 		{AuraID = 175833, UnitID = "player"},
 		{AuraID = 188023, UnitID = "player"},
 	-->饰品附魔
-		{AuraID = 271103, UnitID = "player"},	-- 莱赞的微光之眼
+		{AuraID = 266047, UnitID = "player"},	-- 激励咆哮
 		--默认
 		{AuraID = 229206, UnitID = "player"},	-- 延时之力
 		{AuraID = 279151, UnitID = "player"},	-- 智力药水
@@ -100,6 +100,9 @@ local list = {
 		{AuraID = 268769, UnitID = "player"},	-- 标记死穴
 		{AuraID = 267179, UnitID = "player"},	-- 非凡的力量
 		{AuraID = 278070, UnitID = "player"},	-- 泰坦过载
+		{AuraID = 271103, UnitID = "player"},	-- 莱赞的微光之眼
+		{AuraID = 273942, UnitID = "player"},	-- 提振精神
+		{AuraID = 268518, UnitID = "player"},	-- 狂风风铃
 		{AuraID = 267325, UnitID = "player", Text = RAID_BUFF_7},	-- 注铅骰子，精通
 		{AuraID = 267326, UnitID = "player", Text = RAID_BUFF_7},	-- 精通
 		{AuraID = 267327, UnitID = "player", Text = RAID_BUFF_4},	-- 急速
@@ -200,7 +203,7 @@ local list = {
 		{AuraID = 265662, UnitID = "player"},	-- 腐化者的契约，泽克沃兹
 		{AuraID = 272536, UnitID = "player", Text = L["Get Out"]},	-- 毁灭迫近，拆解者
 		{AuraID = 274262, UnitID = "player", Text = L["Get Out"]},	-- 爆炸腐蚀，戈霍恩
-		{AuraID = 273405, UnitID = "player"},	-- 黑暗交易，戈霍恩
+		{AuraID = 267409, UnitID = "player"},	-- 黑暗交易，戈霍恩
 	-->翡翠梦魇
 		--尼珊德拉
 		{AuraID = 221028, UnitID = "player"},--不稳定的腐烂，小怪
@@ -488,8 +491,10 @@ local list = {
 	},
 	["Target Special Aura"] = { -- 目标重要光环组
 	-->史诗钥石
-		{AuraID = 226510, UnitID = "target"},	-- 血池回血
+		{AuraID = 271867, UnitID = "target"},	-- 暴富矿区1号
 	-->8.0副本
+		{AuraID = 257458, UnitID = "target"},	-- 自由镇尾王易伤
+		--默认
 		{AuraID = 257458, UnitID = "target"},	-- 自由镇尾王易伤
 		{AuraID = 260512, UnitID = "target"},	-- 灵魂收割，神庙
 		{AuraID = 277965, UnitID = "target"},	-- 重型军火，围攻1

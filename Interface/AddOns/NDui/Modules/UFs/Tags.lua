@@ -11,7 +11,7 @@ oUF.Tags.Methods["hp"] = function(unit)
 
 		if (unit == "player" and not UnitHasVehicleUI(unit)) or unit == "target" or unit == "focus" then
 			if per < 100 then
-				return B.Numb(cur).." | "..B.ColorPercent(per)
+				return B.Numb(cur)..DB.ccSeparator..B.ColorPercent(per)
 			else
 				return B.Numb(cur)
 			end
@@ -32,7 +32,7 @@ oUF.Tags.Methods["power"] = function(unit)
 
 	if (unit == "player" and not UnitHasVehicleUI(unit)) or unit == "target" or unit == "focus" then
 		if per < 100 and UnitPowerType(unit) == 0 then
-			return B.Numb(cur).." | "..B.ColorPercent(per)
+			return B.Numb(cur)..DB.Separator..B.ColorPercent(per)
 		else
 			return B.Numb(cur)
 		end
@@ -131,10 +131,18 @@ oUF.Tags.Events["raidhp"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION
 
 -- Nameplate tags
 oUF.Tags.Methods["nphp"] = function(unit)
+	local cur = UnitHealth(unit)
 	local per = oUF.Tags.Methods["perhp"](unit)
 
+	local v = per / 100
+	local r, g, b = v, 1 - v, 0
+
 	if per < 100 then
-		return B.ColorPercent(per, true)
+		if NDuiDB["Nameplate"]["FullHealth"] then
+			return B.HexRGB(r, g, b)..B.Numb(cur).."|r"
+		else
+			return B.ColorPercent(per, true)
+		end
 	end
 end
 oUF.Tags.Events["nphp"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION"
@@ -166,16 +174,6 @@ oUF.Tags.Methods["nplevel"] = function(unit)
 	return level
 end
 oUF.Tags.Events["nplevel"] = "UNIT_LEVEL PLAYER_LEVEL_UP UNIT_CLASSIFICATION_CHANGED"
-
-oUF.Tags.Methods["pphealth"] = function(unit)
-	local cur = UnitHealth(unit)
-	local per = oUF.Tags.Methods["perhp"](unit)
-	local v = per / 100
-	local r, g, b = 1 - v, v, 0
-
-	return B.HexRGB(r, g, b)..B.Numb(cur).."|r "
-end
-oUF.Tags.Events["pphealth"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION"
 
 oUF.Tags.Methods["pppower"] = function(unit)
 	local cur = UnitPower(unit)
