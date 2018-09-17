@@ -9,7 +9,7 @@ local module = B:GetModule("AurasTable")
 		Player Special Aura，是自己头像上偏大的buff组，用来监视稍微重要的buff；
 		Target Aura，是目标头像上的buff组，用来监视你循环中需要的debuff；
 		Target Special Aura，是目标身上需要注意的buff及debuff，可以用来监视BOSS的易伤、PVP对方的大招等等。
-		Focus Aura，是焦点的buff组，用来监视焦点目标的buff及debuff；
+		Focus Special Aura，是焦点的buff组，用来监视焦点目标的buff及debuff；
 		Enchant Aura，是各种种族技能、药水、饰品触发的buff分组；
 		Spell Cooldown，是技能冷却时间监控组，用来监视技能CD等；
 		Enchant Cooldown，是物品冷却时间监控组，用来监视饰品、戒指等；
@@ -96,6 +96,7 @@ local list = {
 		{AuraID = 268887, UnitID = "player"},	-- 迅捷远航
 		{AuraID = 268854, UnitID = "player"},	-- 全能远航
 		{AuraID = 264957, UnitID = "player"},	-- 急速瞄准镜
+		{AuraID = 264878, UnitID = "player"},	-- 爆击瞄准镜
 		{AuraID = 274472, UnitID = "player"},	-- 狂战士之怒
 		{AuraID = 268769, UnitID = "player"},	-- 标记死穴
 		{AuraID = 267179, UnitID = "player"},	-- 非凡的力量

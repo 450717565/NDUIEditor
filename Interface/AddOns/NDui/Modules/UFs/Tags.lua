@@ -79,7 +79,7 @@ oUF.Tags.Methods["DDG"] = function(unit)
 	elseif UnitIsGhost(unit) then
 		return "|cffC0C0C0"..L["Ghost"].."|r"
 	elseif not UnitIsConnected(unit) then
-		return "|cffC0C0C0"..PLAYER_OFFLINE.."|r"
+		return GetNumArenaOpponentSpecs() > 0 and "" or "|cffC0C0C0"..PLAYER_OFFLINE.."|r"
 	end
 end
 oUF.Tags.Events["DDG"] = "UNIT_HEALTH UNIT_CONNECTION"

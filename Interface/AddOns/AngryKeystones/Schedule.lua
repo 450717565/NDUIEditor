@@ -5,7 +5,7 @@ local rowCount = 3
 
 local requestPartyKeystones
 
--- 1: æº¢å‡º, 2: æ— å¸¸, 3: ç«å±±, 4: æ­»ç–½, 5: ç¹ç››, 6: æš´æ€’, 7: æ¿€åŠ±, 8: è¡€æ± , 9: æ®‹æš´, 10: å¼ºéŸ§, 11: å´©è£‚, 12: é‡ä¼¤, 13: æ˜“çˆ†, 14: éœ‡è¡, 15: å†·é…·, 16: å…±ç”Ÿ
+-- 1: Òç³ö, 2: ÎŞ³£, 3: »ğÉ½, 4: ËÀ¾Ò, 5: ·±Ê¢, 6: ±©Å­, 7: ¼¤Àø, 8: Ñª³Ø, 9: ²Ğ±©, 10: Ç¿ÈÍ, 11: ±ÀÁÑ, 12: ÖØÉË, 13: Ò×±¬, 14: Õğµ´, 15: Àä¿á, 16: ¹²Éú
 local affixSchedule = {
 	{ 10,  8,  4, 16 },
 	{  9, 11,  2, 16 },
@@ -91,8 +91,16 @@ local function UpdateFrame()
 	Mod.AffixFrame:Show()
 	Mod.PartyFrame:Show()
 	Mod.KeystoneText:Show()
+
 	ChallengesFrame.WeeklyInfo.Child.WeeklyChest:ClearAllPoints()
 	ChallengesFrame.WeeklyInfo.Child.WeeklyChest:SetPoint("LEFT", 50, -30)
+	if ChallengesFrame.WeeklyInfo.Child.WeeklyChest:IsShown() then
+		ChallengesFrame.WeeklyInfo.Child.RunStatus:SetWidth(240)
+	else
+		ChallengesFrame.WeeklyInfo.Child.RunStatus:SetWidth(240)
+		ChallengesFrame.WeeklyInfo.Child.RunStatus:ClearAllPoints()
+		ChallengesFrame.WeeklyInfo.Child.RunStatus:SetPoint("TOP", ChallengesFrame.WeeklyInfo.Child.WeeklyChest, "TOP", -10, 35)
+	end
 
 	local currentKeystoneName = GetNameForKeystone(C_MythicPlus.GetOwnedKeystoneChallengeMapID(), C_MythicPlus.GetOwnedKeystoneLevel())
 	if currentKeystoneName then
@@ -262,8 +270,6 @@ function Mod:Blizzard_ChallengesUI()
 	end
 	frame2.Entries = entries2
 
-	ChallengesFrame.WeeklyInfo.Child.RunStatus:SetWidth(220)
-
 	local keystoneText = ChallengesFrame.WeeklyInfo.Child:CreateFontString(nil, "ARTWORK", "GameFontNormalMed2")
 	keystoneText:SetPoint("BOTTOM", ChallengesFrame.WeeklyInfo.Child.WeeklyChest, "BOTTOM", 0, -25)
 	keystoneText:SetWidth(220)
@@ -304,8 +310,15 @@ function Mod:CheckAffixes()
 	end
 end
 
+local bagUpdateTimerStarted = false
 function Mod:BAG_UPDATE()
-	self:CheckCurrentKeystone(true)
+	if not bagUpdateTimerStarted then
+		bagUpdateTimerStarted = true
+		C_Timer.After(1, function()
+			Mod:CheckCurrentKeystone(true)
+			bagUpdateTimerStarted = false
+		end)
+	end
 end
 
 function Mod:CHAT_MSG_LOOT(...)
@@ -352,7 +365,7 @@ end
 function Mod:SendCurrentKeystone()
 	local keystoneMapID = C_MythicPlus.GetOwnedKeystoneChallengeMapID()
 	local keystoneLevel = C_MythicPlus.GetOwnedKeystoneLevel()
-
+	
 	local message = "0"
 	if keystoneLevel and keystoneMapID then
 		message = string.format("%d:%d", keystoneMapID, keystoneLevel)
@@ -404,6 +417,6 @@ function Mod:Startup()
 	self:CheckCurrentKeystone()
 
 	C_Timer.NewTicker(60, function() self:CheckCurrentKeystone(false) end)
-
+	
 	requestPartyKeystones = true
 end
