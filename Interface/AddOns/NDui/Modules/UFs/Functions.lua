@@ -39,11 +39,11 @@ function UF:CreateHeader(self)
 	self.Highlight = hl
 
 	self:RegisterForClicks("AnyUp")
-	self:SetScript("OnEnter", function()
+	self:HookScript("OnEnter", function()
 		UnitFrame_OnEnter(self)
 		self.Highlight:Show()
 	end)
-	self:SetScript("OnLeave", function()
+	self:HookScript("OnLeave", function()
 		UnitFrame_OnLeave(self)
 		self.Highlight:Hide()
 	end)
@@ -84,7 +84,7 @@ function UF:CreateHealthText(self)
 	local textFrame = CreateFrame("Frame", nil, self)
 	textFrame:SetAllPoints()
 
-	local name = B.CreateFS(textFrame, retVal(self, 13, 12, 12, 11), "", false, "LEFT", 3, -1)
+	local name = B.CreateFS(textFrame, retVal(self, 13, 12, 11, 11), "", false, "LEFT", 3, -1)
 	name:SetJustifyH("LEFT")
 	if self.mystyle == "raid" then
 		name:SetWidth(self:GetWidth()*.95)
@@ -289,10 +289,10 @@ function UF:CreateCastBar(self)
 	cb.CompleteColor = {.1, .8, 0}
 	cb.FailColor = {1, .1, 0}
 
-	local timer = B.CreateFS(cb, retVal(self, 12, 12, 12, 10), "", false, "RIGHT", -2, 0)
+	local timer = B.CreateFS(cb, retVal(self, 12, 12, 10, 10), "", false, "RIGHT", -2, 0)
 	cb.Time = timer
 
-	local name = B.CreateFS(cb, retVal(self, 12, 12, 12, 10), "", false, "LEFT", 2, 0)
+	local name = B.CreateFS(cb, retVal(self, 12, 12, 10, 10), "", false, "LEFT", 2, 0)
 	name:SetJustifyH("LEFT")
 	name:SetPoint("RIGHT", timer, "LEFT", -5, 0)
 	cb.Text = name

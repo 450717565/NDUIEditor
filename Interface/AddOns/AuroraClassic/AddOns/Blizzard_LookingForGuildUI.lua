@@ -46,13 +46,13 @@ C.themes["Blizzard_LookingForGuildUI"] = function()
 			local hl = _G[button..i.."Highlight"]
 			hl:SetTexture(C.media.backdrop)
 			hl:SetVertexColor(r, g, b, .25)
-			hl:SetPoint("TOPLEFT", bg, "TOPLEFT", 1, -1)
-			hl:SetPoint("BOTTOMRIGHT", bg, "BOTTOMRIGHT", -1, 1)
+			hl:SetPoint("TOPLEFT", bg, 1, -1)
+			hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
 
 			local pd = _G[button..i.."Pending"]
 			if pd then
-				pd.pendingTex:SetPoint("TOPLEFT", bg, "TOPLEFT", 1, -1)
-				pd.pendingTex:SetPoint("BOTTOMRIGHT", bg, "BOTTOMRIGHT", -1, 1)
+				pd.pendingTex:SetPoint("TOPLEFT", bg, 1, -1)
+				pd.pendingTex:SetPoint("BOTTOMRIGHT", bg, -1, 1)
 			end
 
 			local rm = _G[button..i.."RemoveButton"]
@@ -64,8 +64,8 @@ C.themes["Blizzard_LookingForGuildUI"] = function()
 			if selected then
 				selected:SetTexture(C.media.backdrop)
 				selected:SetVertexColor(r, g, b, .25)
-				selected:SetPoint("TOPLEFT", bg, "TOPLEFT", 1, -1)
-				selected:SetPoint("BOTTOMRIGHT", bg, "BOTTOMRIGHT", -1, 1)
+				selected:SetPoint("TOPLEFT", bg, 1, -1)
+				selected:SetPoint("BOTTOMRIGHT", bg, -1, 1)
 			end
 		end
 

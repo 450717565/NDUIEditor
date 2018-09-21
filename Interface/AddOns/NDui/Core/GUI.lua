@@ -209,7 +209,6 @@ local defaultSettings = {
 		SkinColorG = .5,
 		SkinColorR = .5,
 		SlotInfo = true,
-		StarCursor = true,
 	},
 }
 
@@ -493,8 +492,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Extras", "LootMonitorBonusRewards", L["LootMonitor Bonus Rewards"], true},
 		{},--blank
 		{1, "Extras", "LootMonitor", L["LootMonitor"]},
-		{1, "Extras", "StarCursor", L["Star Cursor"], true},
-		{1, "Extras", "iLvlTools", L["iLvlTools"]},
+		{1, "Extras", "iLvlTools", L["iLvlTools"], true},
 	},
 }
 

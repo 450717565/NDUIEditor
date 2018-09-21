@@ -53,6 +53,7 @@ local CustomUnits = {
 	[GetSectionInfo(18540)] = true,	-- 纳兹曼尼鲜血妖术师
 	[GetSectionInfo(18104)] = true,	-- 散疫触须
 	[GetSectionInfo(18232)] = true,	-- 艾什凡炮手
+	[GetSectionInfo(18499)] = true,	-- 凝结之血
 	["Spawn of G'huun"] = true,
 	["戈霍恩之嗣"] = true,
 	["古翰幼體"] = true,
@@ -93,7 +94,7 @@ local function UpdateColor(element, unit)
 		r, g, b = .7, .7, .7
 	else
 		if CustomUnits and CustomUnits[name] then
-			r, g, b = 0, .8, .3
+			r, g, b = 0, 1, 1
 		elseif UnitIsPlayer(unit) and (reaction and reaction >= 5) then
 			if NDuiDB["Nameplate"]["FriendlyCC"] then
 				r, g, b = B.UnitColor(unit)
@@ -108,9 +109,9 @@ local function UpdateColor(element, unit)
 			r, g, b = UnitSelectionColor(unit, true)
 			if status and (NDuiDB["Nameplate"]["TankMode"] or DB.Role == "Tank") then
 				if status == 3 then
-					r, g, b = 1, 0, 1
+					r, g, b = 0, 1, 0
 				elseif status == 2 or status == 1 then
-					r, g, b = 1, .8, 0
+					r, g, b = 1, 1, 0
 				end
 			end
 		end

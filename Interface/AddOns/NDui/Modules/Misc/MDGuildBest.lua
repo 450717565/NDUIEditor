@@ -86,7 +86,7 @@ function module:GuildBest()
 			local scheduel = select(4, self:GetChildren())
 			frame:SetWidth(248)
 			frame:ClearAllPoints()
-			frame:SetPoint("BOTTOMLEFT", scheduel, "TOPLEFT", -1, 10)
+			frame:SetPoint("BOTTOMLEFT", scheduel, "TOPLEFT", -1, 9)
 
 			self.WeeklyInfo.Child.Label:SetPoint("TOP", -135, -25)
 			local affix = self.WeeklyInfo.Child.Affixes[1]

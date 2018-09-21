@@ -78,41 +78,6 @@ do
 	end)
 end
 
---- 鼠标闪光
-do
-	local cursor = CreateFrame("Frame", nil, UIParent)
-	cursor:SetFrameStrata("TOOLTIP")
-
-	local flash = cursor:CreateTexture(nil, "ARTWORK")
-	flash:SetTexture(DB.newItemFlash)
-	flash:SetBlendMode("ADD")
-	flash:SetAlpha(.6)
-
-	local x, y, speed = 0, 0, 0
-	local function OnUpdate(_, elapsed)
-		if not NDuiDB["Extras"]["StarCursor"] then return end
-
-		local dX, dY = x, y
-		x, y = GetCursorPosition()
-		dX, dY = x - dX, y - dY
-
-		local weight = 2048 ^ - elapsed
-		speed = math.min(weight * speed + (1 - weight) * math.sqrt(dX * dX + dY * dY) / elapsed, 1024)
-
-		local size = speed / 10 - 20
-		if size > 0 then
-			local scale = UIParent:GetEffectiveScale()
-			flash:SetSize(size, size)
-			flash:SetPoint("CENTER", UIParent, "BOTTOMLEFT", (x + 0.5 * dX) / scale, (y + 0.5 * dY) / scale)
-			flash:Show()
-		else
-			flash:Hide()
-		end
-	end
-
-	cursor:SetScript("OnUpdate", OnUpdate)
-end
-
 --- /in 命令
 do
 	local _, SlashIn = ...
@@ -161,6 +126,20 @@ do
 	B:RegisterEvent("PLAYER_ENTERING_WORLD", autoCollapse)
 	B:RegisterEvent("ENCOUNTER_START", autoCollapse)
 	B:RegisterEvent("ENCOUNTER_END", autoCollapse)
+end
+
+--- 自动选择节日BOSS
+do
+	local function autoSelect()
+		for i = 1, GetNumRandomDungeons() do
+			local id, name = GetLFGRandomDungeonInfo(i)
+			local isHoliday = select(15, GetLFGDungeonInfo(id))
+			if isHoliday and not GetLFGDungeonRewards(id) then
+				LFDQueueFrame_SetType(id)
+			end
+		end
+	end
+	LFDParentFrame:HookScript("OnShow", autoSelect)
 end
 
 --- 特殊物品购买无需确认

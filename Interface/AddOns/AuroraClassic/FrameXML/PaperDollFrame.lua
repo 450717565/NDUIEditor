@@ -130,9 +130,11 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 
 		tab.Hider:SetColorTexture(.5, .5, .5, .5)
-		tab.Hider:SetAllPoints(bg)
+		tab.Hider:SetPoint("TOPLEFT", bg, 1, -1)
+		tab.Hider:SetPoint("BOTTOMRIGHT", bg, -1, 1)
 		tab.Highlight:SetColorTexture(1, 1, 1, .25)
-		tab.Highlight:SetAllPoints(bg)
+		tab.Highlight:SetPoint("TOPLEFT", bg, 1, -1)
+		tab.Highlight:SetPoint("BOTTOMRIGHT", bg, -1, 1)
 	end
 
 	-- [[ Equipment manager ]]

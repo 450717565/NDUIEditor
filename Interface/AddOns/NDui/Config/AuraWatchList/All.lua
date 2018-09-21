@@ -69,7 +69,6 @@ local list = {
 		{AuraID = 202052, UnitID = "player", Value = true},--坦克
 	-->其他
 		{AuraID = 54861, UnitID = "player"},--火箭靴
-		{AuraID = 188024, UnitID = "player"},--天行药水
 		{AuraID = 201670, UnitID = "player"},--疾跑
 		{AuraID = 248779, UnitID = "player"},--奥术回响遮罩
 		{AuraID = 254161, UnitID = "player"},--超能奥术回响遮罩
@@ -82,10 +81,15 @@ local list = {
 		{AuraID = 266047, UnitID = "player"},	-- 激励咆哮
 		--默认
 		{AuraID = 229206, UnitID = "player"},	-- 延时之力
+		{AuraID = 251231, UnitID = "player"},	-- 钢肤药水
 		{AuraID = 279151, UnitID = "player"},	-- 智力药水
 		{AuraID = 279152, UnitID = "player"},	-- 敏捷药水
 		{AuraID = 279153, UnitID = "player"},	-- 力量药水
 		{AuraID = 279154, UnitID = "player"},	-- 耐力药水
+		{AuraID = 251316, UnitID = "player"},	-- 鲜血爆发药水
+		{AuraID = 269853, UnitID = "player"},	-- 死亡崛起药水
+		{AuraID = 188024, UnitID = "player"},	-- 天行药水
+		{AuraID = 250878, UnitID = "player"},	-- 轻足药水
 		{AuraID = 190026, UnitID = "player"},	-- PVP饰品，+敏捷
 		{AuraID = 170397, UnitID = "player"},	-- PVP饰品，+全能
 		{AuraID = 275765, UnitID = "player"},	-- 艾泽里特强化
@@ -104,6 +108,8 @@ local list = {
 		{AuraID = 271103, UnitID = "player"},	-- 莱赞的微光之眼
 		{AuraID = 273942, UnitID = "player"},	-- 提振精神
 		{AuraID = 268518, UnitID = "player"},	-- 狂风风铃
+		{AuraID = 265946, UnitID = "player", Value = true},	-- 仪式裹手
+		{AuraID = 278143, UnitID = "player"},	-- 血珠狂怒
 		{AuraID = 267325, UnitID = "player", Text = RAID_BUFF_7},	-- 注铅骰子，精通
 		{AuraID = 267326, UnitID = "player", Text = RAID_BUFF_7},	-- 精通
 		{AuraID = 267327, UnitID = "player", Text = RAID_BUFF_4},	-- 急速
@@ -492,9 +498,9 @@ local list = {
 	},
 	["Target Special Aura"] = { -- 目标重要光环组
 	-->史诗钥石
-		{AuraID = 271867, UnitID = "target"},	-- 暴富矿区1号
+		{AuraID = 226510, UnitID = "target"},	-- 血池回血
 	-->8.0副本
-		{AuraID = 257458, UnitID = "target"},	-- 自由镇尾王易伤
+		{AuraID = 271867, UnitID = "target"},	-- 暴富矿区1号
 		--默认
 		{AuraID = 257458, UnitID = "target"},	-- 自由镇尾王易伤
 		{AuraID = 260512, UnitID = "target"},	-- 灵魂收割，神庙
@@ -512,6 +518,8 @@ local list = {
 		{AuraID = 273251, UnitID = "target"},	-- 重组冲击，戈霍恩
 		{AuraID = 263372, UnitID = "target"},	-- 能量矩阵，戈霍恩
 		{AuraID = 270447, UnitID = "target"},	-- 腐化滋长，戈霍恩
+		{AuraID = 263217, UnitID = "target"},	-- 鲜血护盾，戈霍恩
+		{AuraID = 275129, UnitID = "target"},	-- 臃肿肥胖，戈霍恩
 	-->翡翠梦魇
 		{AuraID = 215234, UnitID = "target"},--梦魇之怒
 		{AuraID = 211137, UnitID = "target"},--腐溃之风

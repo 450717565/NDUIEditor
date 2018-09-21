@@ -233,8 +233,8 @@ C.themes["Blizzard_TalentUI"] = function()
 			self:SetHighlightTexture(C.media.backdrop)
 			local hl = self:GetHighlightTexture()
 			hl:SetVertexColor(r, g, b, .25)
-			hl:SetPoint("TOPLEFT", bg, "TOPLEFT", 1, -1)
-			hl:SetPoint("BOTTOMRIGHT", bg, "BOTTOMRIGHT", -1, 1)
+			hl:SetPoint("TOPLEFT", bg, 1, -1)
+			hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
 
 			self.styled = true
 		end

@@ -75,8 +75,8 @@ C.themes["Blizzard_EncounterJournal"] = function()
 			bu:SetHighlightTexture(C.media.backdrop)
 			local hl = bu:GetHighlightTexture()
 			hl:SetVertexColor(1, 1, 1, .25)
-			hl:SetPoint("TOPLEFT", bg, "TOPLEFT", 1, -1)
-			hl:SetPoint("BOTTOMRIGHT", bg, "BOTTOMRIGHT", -1, 1)
+			hl:SetPoint("TOPLEFT", bg, 1, -1)
+			hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
 
 			index = index + 1
 		end
@@ -215,8 +215,8 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		result:SetHighlightTexture(C.media.backdrop)
 		local hl = result:GetHighlightTexture()
 		hl:SetVertexColor(r, g, b, .25)
-		hl:SetPoint("TOPLEFT", bg, "TOPLEFT", 1, -1)
-		hl:SetPoint("BOTTOMRIGHT", bg, "BOTTOMRIGHT", -1, 1)
+		hl:SetPoint("TOPLEFT", bg, 1, -1)
+		hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
 	end
 
 	for i = 1, 5 do
@@ -251,8 +251,8 @@ C.themes["Blizzard_EncounterJournal"] = function()
 			bu:SetHighlightTexture(C.media.backdrop)
 			local hl = bu:GetHighlightTexture()
 			hl:SetVertexColor(r, g, b, .25)
-			hl:SetPoint("TOPLEFT", bg, "TOPLEFT", 1, -1)
-			hl:SetPoint("BOTTOMRIGHT", bg, "BOTTOMRIGHT", -1, 1)
+			hl:SetPoint("TOPLEFT", bg, 1, -1)
+			hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
 		end
 	end
 

@@ -153,8 +153,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	end)
 
 	for i = 1, 3 do
-		F.CreateBD(_G["SecondaryProfession"..i], .25)
-		F.CreateSD(_G["SecondaryProfession"..i])
+		F.CreateBDFrame(_G["SecondaryProfession"..i], .25)
 	end
 	F.ReskinArrow(SpellBookPrevPageButton, "left")
 	F.ReskinArrow(SpellBookNextPageButton, "right")

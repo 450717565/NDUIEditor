@@ -145,7 +145,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		class:SetSize(size, size)
 		class:ClearAllPoints()
 		class:SetPoint(point, x, y)
-		class:SetTexCoord(.08, .92, .08, .92)
+		class:SetTexCoord(.18, .92, .08, .92)
 		F.CreateBDFrame(class, .25)
 	end
 

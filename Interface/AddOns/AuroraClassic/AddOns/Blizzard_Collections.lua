@@ -66,8 +66,8 @@ C.themes["Blizzard_Collections"] = function()
 
 			local hl = bu:GetHighlightTexture()
 			hl:SetColorTexture(r, g, b, .25)
-			hl:SetPoint("TOPLEFT", bg, "TOPLEFT", 1, -1)
-			hl:SetPoint("BOTTOMRIGHT", bg, "BOTTOMRIGHT", -1, 1)
+			hl:SetPoint("TOPLEFT", bg, 1, -1)
+			hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
 
 			ic:SetTexCoord(.08, .92, .08, .92)
 			ic.bg = F.CreateBDFrame(ic, .25)

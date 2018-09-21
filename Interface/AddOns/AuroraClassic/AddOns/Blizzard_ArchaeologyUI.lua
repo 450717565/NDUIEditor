@@ -31,8 +31,8 @@ C.themes["Blizzard_ArchaeologyUI"] = function()
 
 		local hl = button:GetHighlightTexture()
 		hl:SetVertexColor(1, 1, 1, .5)
-		hl:SetPoint("TOPLEFT", bg, "TOPLEFT", 1, -1)
-		hl:SetPoint("BOTTOMRIGHT", bg, "BOTTOMRIGHT", -1, 1)
+		hl:SetPoint("TOPLEFT", bg, 1, -1)
+		hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
 
 		local icon = _G[bu.."Icon"]
 		F.ReskinIcon(icon)

@@ -10,6 +10,7 @@ if GetLocale() ~= "zhCN" then return end
 
 L["ANCHOR"] = "通知定位点"
 L["ANCHOR_FRAME"] = "定位框架"
+L["ANCHOR_RESET_DESC"] = "|cffffffff按住Shift点击|r重置框架位置。"
 L["BORDER"] = "通知边框"
 L["COLLECTIONS_TAINT_WARNING"] = "开启这个选项后可能会出现报错，尤其是在战斗中。"
 L["COLORS"] = "染色名称"

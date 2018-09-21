@@ -7,7 +7,7 @@ oUF.Tags.Methods["hp"] = function(unit)
 		return oUF.Tags.Methods["DDG"](unit)
 	else
 		local cur = UnitHealth(unit)
-		local per = oUF.Tags.Methods["perhp"](unit)
+		local per = oUF.Tags.Methods["perhp"](unit) or 0
 
 		if (unit == "player" and not UnitHasVehicleUI(unit)) or unit == "target" or unit == "focus" then
 			if per < 100 then
@@ -28,7 +28,7 @@ oUF.Tags.Events["hp"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION"
 
 oUF.Tags.Methods["power"] = function(unit)
 	local cur = UnitPower(unit)
-	local per = oUF.Tags.Methods["perpp"](unit)
+	local per = oUF.Tags.Methods["perpp"](unit) or 0
 
 	if (unit == "player" and not UnitHasVehicleUI(unit)) or unit == "target" or unit == "focus" then
 		if per < 100 and UnitPowerType(unit) == 0 then
@@ -132,7 +132,7 @@ oUF.Tags.Events["raidhp"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION
 -- Nameplate tags
 oUF.Tags.Methods["nphp"] = function(unit)
 	local cur = UnitHealth(unit)
-	local per = oUF.Tags.Methods["perhp"](unit)
+	local per = oUF.Tags.Methods["perhp"](unit) or 0
 
 	local v = per / 100
 	local r, g, b = v, 1 - v, 0
@@ -149,7 +149,7 @@ oUF.Tags.Events["nphp"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION"
 
 oUF.Tags.Methods["nppp"] = function(unit)
 	if not C.ShowPowerList[UnitName(unit)] then return end
-	local per = oUF.Tags.Methods["perpp"](unit)
+	local per = oUF.Tags.Methods["perpp"](unit) or 0
 
 	if per > 0 then
 		return B.ColorPercent(per, true)
@@ -177,7 +177,8 @@ oUF.Tags.Events["nplevel"] = "UNIT_LEVEL PLAYER_LEVEL_UP UNIT_CLASSIFICATION_CHA
 
 oUF.Tags.Methods["pppower"] = function(unit)
 	local cur = UnitPower(unit)
-	local per = oUF.Tags.Methods["perpp"](unit)
+	local per = oUF.Tags.Methods["perpp"](unit) or 0
+
 	if UnitPowerType(unit) == 0 then
 		return B.ColorPercent(per)
 	else

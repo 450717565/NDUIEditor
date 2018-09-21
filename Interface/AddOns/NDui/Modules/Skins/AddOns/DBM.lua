@@ -65,7 +65,7 @@ function module:DBMSkin()
 						frame.bg:SetAllPoints()
 					end
 					B.CreateSD(frame.bg, 1, 3)
-					B.CreateTex(frame.bg)
+					B.CreateTex(frame)
 					frame.styled = true
 				end
 

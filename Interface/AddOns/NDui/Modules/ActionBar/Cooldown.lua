@@ -68,7 +68,7 @@ function module:OnLogin()
 		timer:SetScript("OnUpdate", Timer_OnUpdate)
 
 		local text = timer:CreateFontString(nil, "BACKGROUND")
-		text:SetPoint("CENTER", 1, 0)
+		text:SetPoint("CENTER", 1, -.5)
 		text:SetJustifyH("CENTER")
 		timer.text = text
 

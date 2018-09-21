@@ -30,8 +30,8 @@ C.themes["Blizzard_AchievementUI"] = function()
 					bu:SetHighlightTexture(C.media.backdrop)
 					local hl = bu:GetHighlightTexture()
 					hl:SetVertexColor(r, g, b, .25)
-					hl:SetPoint("TOPLEFT", bg, "TOPLEFT", 1, -1)
-					hl:SetPoint("BOTTOMRIGHT", bg, "BOTTOMRIGHT", -1, 1)
+					hl:SetPoint("TOPLEFT", bg, 1, -1)
+					hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
 				end
 				first = false
 			end
@@ -242,10 +242,9 @@ C.themes["Blizzard_AchievementUI"] = function()
 	F.ReskinDropDown(AchievementFrameFilterDropDown)
 
 	local sbox = AchievementFrame.searchBox
-	sbox:SetSize(100, 17)
 	sbox:ClearAllPoints()
 	sbox:SetPoint("RIGHT", AchievementFrameCloseButton, "LEFT", -5, 0)
-	F.ReskinInput(AchievementFrame.searchBox)
+	F.ReskinInput(AchievementFrame.searchBox, 17, 100)
 
 	F.StripTextures(AchievementFrame.searchPreviewContainer, true)
 	local function styleSearchButton(result)
@@ -262,8 +261,8 @@ C.themes["Blizzard_AchievementUI"] = function()
 		result:SetHighlightTexture(C.media.backdrop)
 		local hl = result:GetHighlightTexture()
 		hl:SetVertexColor(r, g, b, .25)
-		hl:SetPoint("TOPLEFT", bg, "TOPLEFT", 1, -1)
-		hl:SetPoint("BOTTOMRIGHT", bg, "BOTTOMRIGHT", -1, 1)
+		hl:SetPoint("TOPLEFT", bg, 1, -1)
+		hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
 	end
 
 	for i = 1, 5 do
@@ -296,8 +295,8 @@ C.themes["Blizzard_AchievementUI"] = function()
 			bu:SetHighlightTexture(C.media.backdrop)
 			local hl = bu:GetHighlightTexture()
 			hl:SetVertexColor(r, g, b, .25)
-			hl:SetPoint("TOPLEFT", bg, "TOPLEFT", 1, -1)
-			hl:SetPoint("BOTTOMRIGHT", bg, "BOTTOMRIGHT", -1, 1)
+			hl:SetPoint("TOPLEFT", bg, 1, -1)
+			hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
 		end
 	end
 

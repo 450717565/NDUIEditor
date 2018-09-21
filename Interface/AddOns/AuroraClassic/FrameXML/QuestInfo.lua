@@ -177,7 +177,7 @@ tinsert(C.themes["AuroraClassic"], function()
 						class:SetSize(35, 35)
 						class:ClearAllPoints()
 						class:SetPoint("RIGHT", -3, 2)
-						class:SetTexCoord(.08, .92, .08, .92)
+						class:SetTexCoord(.18, .92, .08, .92)
 						F.CreateBDFrame(class, .25)
 					end
 
