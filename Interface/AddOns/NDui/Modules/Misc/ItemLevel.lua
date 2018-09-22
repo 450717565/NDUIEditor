@@ -1,31 +1,12 @@
 ﻿local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local module = B:GetModule("Misc")
+local bagModule = B:GetModule("Bags")
+local tipModule = B:GetModule("Tooltip")
 
 --[[
 	在角色面板显示装备等级
 ]]
-local itemLevelString = _G["ITEM_LEVEL"]:gsub("%%d", "")
-local ItemDB = {}
-function module:GetUnitItemLevel(link, unit, index, quality)
-	if ItemDB[link] and quality ~= 6 then return ItemDB[link] end
-
-	local tip = _G["NDuiItemLevelTooltip"] or CreateFrame("GameTooltip", "NDuiItemLevelTooltip", nil, "GameTooltipTemplate")
-	tip:SetOwner(UIParent, "ANCHOR_NONE")
-	tip:SetInventoryItem(unit, index)
-
-	for i = 2, 5 do
-		local text = _G[tip:GetName().."TextLeft"..i]:GetText() or ""
-		local hasLevel = string.find(text, itemLevelString)
-		if hasLevel then
-			local level = string.match(text, "(%d+)%)?$")
-			ItemDB[link] = tonumber(level)
-			break
-		end
-	end
-	return ItemDB[link]
-end
-
 function module:ShowItemLevel()
 	if not NDuiDB["Misc"]["ItemLevel"] then return end
 
@@ -65,7 +46,7 @@ function module:ShowItemLevel()
 			local link = GetInventoryItemLink(unit, index)
 			if link and index ~= 4 then
 				local _, _, quality, level = GetItemInfo(link)
-				level = self:GetUnitItemLevel(link, unit, index, quality) or level
+				level = B.GetItemLevel(link, unit, index, "unit") or level
 
 				if level and level > 1 and quality then
 					str:SetText(level)
@@ -91,6 +72,7 @@ function module:ShowItemLevel()
 		end
 	end)
 
+	-- ilvl on flyout buttons
 	local function SetupFlyoutLevel(button, bag, slot, quality)
 		if not button.iLvl then
 			button.iLvl = B.CreateFS(button, DB.Font[2]+1, "", false, "BOTTOMLEFT", 1, 1)
@@ -98,10 +80,10 @@ function module:ShowItemLevel()
 		local link, level
 		if bag then
 			link = GetContainerItemLink(bag, slot)
-			level = B.GetItemLevel(link, bag, slot)
+			level = B.GetItemLevel(link, bag, slot, "bag")
 		else
 			link = GetInventoryItemLink("player", slot)
-			level = self:GetUnitItemLevel(link, "player", slot, quality)
+			level = B.GetItemLevel(link, "player", slot, "unit")
 		end
 		button.iLvl:SetText(level)
 	end
@@ -123,4 +105,26 @@ function module:ShowItemLevel()
 			SetupFlyoutLevel(button, nil, slot, quality)
 		end
 	end)
+
+	-- ilvl on scrapping machine
+	local function updateMachineLevel(self)
+		if not self.iLvl then
+			self.iLvl = B.CreateFS(self, DB.Font[2]+1, "", false, "BOTTOMLEFT", 1, 1)
+		end
+		if not self.itemLink then self.iLvl:SetText("") return end
+
+		local level = B.GetItemLevel(self.itemLink)
+		self.iLvl:SetText(level)
+	end
+
+	local function itemLevelOnScrapping(event, addon)
+		if addon == "Blizzard_ScrappingMachineUI" then
+			for button in pairs(ScrappingMachineFrame.ItemSlots.scrapButtons.activeObjects) do
+				hooksecurefunc(button, "RefreshIcon", updateMachineLevel)
+			end
+
+			B:UnregisterEvent(event, itemLevelOnScrapping)
+		end
+	end
+	B:RegisterEvent("ADDON_LOADED", itemLevelOnScrapping)
 end

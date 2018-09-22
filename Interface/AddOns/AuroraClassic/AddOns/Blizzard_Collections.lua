@@ -330,15 +330,20 @@ C.themes["Blizzard_Collections"] = function()
 	local buttons = ToyBox.iconsFrame
 	for i = 1, 18 do
 		local bu = buttons["spellButton"..i]
-		local ic = bu.iconTexture
 		F.StripTextures(bu)
 
-		bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-		bu:GetHighlightTexture():SetAllPoints(ic)
-		ic:SetTexCoord(.08, .92, .08, .92)
 		local bg = F.CreateBDFrame(bu, .25)
 		bg:SetPoint("TOPLEFT", 2.8, -1.8)
 		bg:SetPoint("BOTTOMRIGHT", -2.8, 3.8)
+
+		local ic = bu.iconTexture
+		ic:SetTexCoord(.08, .92, .08, .92)
+
+		local cd = bu.cooldown
+		cd:SetAllPoints(ic)
+
+		bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
+		bu:GetHighlightTexture():SetAllPoints(ic)
 
 		hooksecurefunc(bu.name, "SetTextColor", changeTextColor)
 	end

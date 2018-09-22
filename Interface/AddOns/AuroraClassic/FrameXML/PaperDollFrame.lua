@@ -27,7 +27,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			self.RankFrame.Texture:SetTexture("")
 			self.RankFrame.Label:ClearAllPoints()
 			self.RankFrame.Label:SetPoint("BOTTOM", 1, 5)
-			self.RankFrame.Label:SetTextColor(.9, .8, .5)
+			self.RankFrame.Label:SetTextColor(0, 1, 1)
 
 			self.styled = true
 		end

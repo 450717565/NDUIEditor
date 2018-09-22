@@ -49,13 +49,17 @@ end
 -- Scan Item Level
 local itemLevelString = _G["ITEM_LEVEL"]:gsub("%%d", "")
 local ItemDB = {}
-function B.GetItemLevel(link, bag, slot)
+function B.GetItemLevel(link, val1, val2, type)
 	if ItemDB[link] then return ItemDB[link] end
 
 	local tip = _G["NDuiScanTooltip"] or CreateFrame("GameTooltip", "NDuiScanTooltip", nil, "GameTooltipTemplate")
 	tip:SetOwner(UIParent, "ANCHOR_NONE")
-	if bag and slot then
-		tip:SetBagItem(bag, slot)
+	if type then
+		if type == "bag" and val1 and val2 then
+			tip:SetBagItem(val1, val2)
+		elseif type == "unit" and val1 and val2 then
+			tip:SetInventoryItem(val1, val2)
+		end
 	else
 		tip:SetHyperlink(link)
 	end

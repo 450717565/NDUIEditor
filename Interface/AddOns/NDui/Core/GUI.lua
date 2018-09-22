@@ -333,8 +333,8 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 	[5] = {
 		{1, "Nameplate", "Enable", "|cff00cc4c"..L["Enable Nameplate"]},
 		{},--blank
-		{1, "Nameplate", "CustomUnitColor", "|cff00cc4c"..L["CustomUnitColor"]},
-		{1, "Nameplate", "ShowUnitPower", "|cff70c0f5"..L["ShowUnitPower"], true},
+		{1, "Nameplate", "CustomUnitColor", "|cff00ffff"..L["CustomUnitColor"]},
+		{1, "Nameplate", "ShowUnitPower", "|cff00cc4c"..L["ShowUnitPower"], true},
 		{2, "Nameplate", "UnitList", L["UnitColor List"]},
 		{2, "Nameplate", "ShowPowerList", L["ShowPowerList"], true},
 		{},--blank
