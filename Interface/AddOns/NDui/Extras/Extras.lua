@@ -142,6 +142,21 @@ do
 	LFDParentFrame:HookScript("OnShow", autoSelect)
 end
 
+--- 修复预创建队伍人数显示问题
+do
+	-- [[ Player Count ]]
+	hooksecurefunc("LFGListGroupDataDisplayPlayerCount_Update", function(self)
+		self.Count:SetWidth(20)
+	end)
+
+	-- [[ Role Count ]]
+	hooksecurefunc("LFGListGroupDataDisplayRoleCount_Update", function(self)
+		self.TankCount:SetWidth(20)
+		self.HealerCount:SetWidth(20)
+		self.DamagerCount:SetWidth(20)
+	end)
+end
+
 --- 特殊物品购买无需确认
 --[[
 do

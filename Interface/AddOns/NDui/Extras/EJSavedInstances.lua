@@ -378,7 +378,7 @@ local function ShowTooltip(frame)
 	local info = frame.instanceInfo
 	GameTooltip:SetOwner(frame, "ANCHOR_RIGHT")
 	if info.defeatedBosses > 0 then
-		GameTooltip:SetText(info.instanceName.." <"..info.difficultyName..">")
+		GameTooltip:SetText(info.instanceName.." |cff00FFFF<"..info.difficultyName..">|r")
 		for i, boss in ipairs(info.bosses) do
 			if boss.isKilled then
 				GameTooltip:AddDoubleLine(boss.name, BOSS_DEAD, 1, 1, 1, 1, 0, 0)
@@ -434,8 +434,9 @@ local function CreateStatusFrame(instanceButton, difficulty)
 	completeFrame.texture:Show()
 
 	-- progress
-	local progressFrame = B.CreateFS(statusFrame, 13, "", false, "CENTER", 0, 0)
+	local progressFrame = B.CreateFS(statusFrame, 13, "")
 	progressFrame:Hide()
+	progressFrame:ClearAllPoints()
 	if difficulty == "lfr" or difficulty == "normal" then
 		progressFrame:SetPoint("CENTER", 1, 6)
 	else

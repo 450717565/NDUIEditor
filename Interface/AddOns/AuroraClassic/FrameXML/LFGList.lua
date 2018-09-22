@@ -138,37 +138,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinCheck(EntryCreation.PrivateGroup.CheckButton)
 	F.ReskinCheck(LFGListFrame.ApplicationViewer.AutoAcceptButton)
 
-	-- [[ Player Count ]]
-	hooksecurefunc("LFGListGroupDataDisplayPlayerCount_Update", function(self)
-		self.Count:SetWidth(20)
-	end)
-
-	-- [[ Role Count ]]
-	hooksecurefunc("LFGListGroupDataDisplayRoleCount_Update", function(self)
-		self.TankCount:SetWidth(20)
-		self.HealerCount:SetWidth(20)
-		self.DamagerCount:SetWidth(20)
-	end)
-
-	-- Activity finder
---[[
-	local ActivityFinder = EntryCreation.ActivityFinder
-
-	ActivityFinder.Background:SetTexture("")
-	ActivityFinder.Dialog.Bg:Hide()
-	for i = 1, 9 do
-		select(i, ActivityFinder.Dialog.BorderFrame:GetRegions()):Hide()
-	end
-
-	F.CreateBD(ActivityFinder.Dialog)
-	F.CreateSD(ActivityFinder.Dialog)
-	ActivityFinder.Dialog:SetBackdropColor(.2, .2, .2, .9)
-
-	F.Reskin(ActivityFinder.Dialog.SelectButton)
-	F.Reskin(ActivityFinder.Dialog.CancelButton)
-	F.ReskinInput(ActivityFinder.Dialog.EntryBox)
-	F.ReskinScroll(LFGListEntryCreationSearchScrollFrameScrollBar)
-]]
 	-- [[ Application dialog ]]
 	F.StripTextures(LFGListApplicationDialog.Description, true)
 	F.CreateBD(LFGListApplicationDialog)
