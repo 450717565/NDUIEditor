@@ -332,10 +332,9 @@ function module:PetBattleUI()
 	end
 
 	if NDuiDB["Skins"]["BarLine"] then
-		local alpha = NDuiDB["Extras"]["SkinColorA"]
-		local cr = NDuiDB["Extras"]["SkinColorR"]
-		local cg = NDuiDB["Extras"]["SkinColorG"]
-		local cb = NDuiDB["Extras"]["SkinColorB"]
+		local alpha = NDuiDB["Extras"]["SkinAlpha"]
+		local color = NDuiDB["Extras"]["SkinColor"]
+		local cr, cg, cb = color.r, color.g, color.b
 		if NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = DB.CC.r, DB.CC.g, DB.CC.b end
 
 		-- Petbar Background

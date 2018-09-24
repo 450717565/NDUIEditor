@@ -117,8 +117,8 @@ local defaultSettings = {
 		Width = 100,
 		Height = 5,
 		CustomUnitColor = true,
+		CustomColor = {r=0, g=1, b=1},
 		UnitList = "",
-		ShowUnitPower = true,
 		ShowPowerList = "",
 		VerticalSpacing = .8,
 		ShowPlayerPlate = false,
@@ -126,6 +126,10 @@ local defaultSettings = {
 		PPPowerText = false,
 		FullHealth = false,
 		HighlightIndicator = true,
+		SecureColor = {r=1, g=0, b=1},
+		TransColor = {r=1, g=1, b=0},
+		InsecureColor = {r=1, g=0, b=0},
+		DPSRevertThreat = false,
 	},
 	Skins = {
 		DBM = true,
@@ -205,10 +209,8 @@ local defaultSettings = {
 		PartyFrame = true,
 		ShowCharacterItemSheet = true,
 		ShowOwnFrameWhenInspecting = true,
-		SkinColorA = .8,
-		SkinColorB = .5,
-		SkinColorG = .5,
-		SkinColorR = .5,
+		SkinAlpha = .8,
+		SkinColor = {r=.5, g=.5, b=.5},
 		SlotInfo = true,
 	},
 }
@@ -334,20 +336,25 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 	[5] = {
 		{1, "Nameplate", "Enable", "|cff00cc4c"..L["Enable Nameplate"]},
 		{},--blank
-		{1, "Nameplate", "CustomUnitColor", "|cff00ffff"..L["CustomUnitColor"]},
-		{1, "Nameplate", "ShowUnitPower", "|cff00cc4c"..L["ShowUnitPower"], true},
+		{1, "Nameplate", "CustomUnitColor", "|cff00cc4c"..L["CustomUnitColor"]},
+		{5, "Nameplate", "CustomColor", L["Custom Color"], 2},
 		{2, "Nameplate", "UnitList", L["UnitColor List"]},
 		{2, "Nameplate", "ShowPowerList", L["ShowPowerList"], true},
 		{},--blank
+		{1, "Nameplate", "TankMode", "|cff00cc4c"..L["Tank Mode"]},
+		{1, "Nameplate", "DPSRevertThreat", L["DPS Revert Threat"], true},
+		{5, "Nameplate", "SecureColor", L["Secure Color"]},
+		{5, "Nameplate", "TransColor", L["Trans Color"], 1},
+		{5, "Nameplate", "InsecureColor", L["Insecure Color"], 2},
+		{},--blank
 		{1, "Nameplate", "FriendlyCC", L["Friendly CC"]},
 		{1, "Nameplate", "HostileCC", L["Hostile CC"], true},
-		{1, "Nameplate", "TankMode", L["Tank Mode"]},
-		{1, "Nameplate", "FullHealth", L["Show FullHealth"], true},
 		{1, "Nameplate", "Arrow", L["Show Arrow"]},
 		{1, "Nameplate", "HighlightIndicator", L["Show HighlightIndicator"], true},
 		{1, "Nameplate", "QuestIcon", L["Nameplate QuestIcon"]},
 		{1, "Nameplate", "ColorBorder", L["Auras Border"], true},
 		{1, "Nameplate", "InsideView", L["Nameplate InsideView"]},
+		{1, "Nameplate", "FullHealth", L["Show FullHealth"], true},
 		{3, "Nameplate", "maxAuras", L["Max Auras"], false, {0, 12, 0}},
 		{3, "Nameplate", "AutoPerRow", L["Auto Per Row"], true, {3, 6, 0}},
 		{3, "Nameplate", "VerticalSpacing", L["NP VerticalSpacing"], false, {.5, 1.5, 1}},
@@ -478,23 +485,20 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 	},
 	[14] = {
 		{4, "Extras", "ArrowColor", L["Arrow Color"], false, {L["Cyan"], L["Green"], L["Red"]}},
-		{1, "Extras", "PartyFrame", "|cff00cc4c"..L["UFs PartyFrame"], true},
+		{3, "Extras", "SkinAlpha", L["Skin Alpha"], true, {0, 1, 2}},
 		{},--blank
-		{3, "Extras", "SkinColorA", L["Skin Color A"], false, {0, 1, 2}},
-		{3, "Extras", "SkinColorR", "|cffFF0000"..L["Skin Color R"], true, {0, 1, 2}},
-		{3, "Extras", "SkinColorG", "|cff00FF00"..L["Skin Color G"], false, {0, 1, 2}},
-		{3, "Extras", "SkinColorB", "|cff0000FF"..L["Skin Color B"], true, {0, 1, 2}},
-		{},--blank
+		{1, "Extras", "PartyFrame", "|cff00cc4c"..L["UFs PartyFrame"]},
+		{5, "Extras", "SkinColor", L["Skin Color"], 2},
 		{1, "Extras", "MoveTalking", L["Move Talking"]},
 		{1, "Extras", "GuildWelcome", L["Guild Welcome"], true},
+		{},--blank
+		{1, "Extras", "LootMonitor", L["LootMonitor"]},
+		{1, "Extras", "iLvlTools", L["iLvlTools"], true},
 		{},--blank
 		{1, "Extras", "ShowCharacterItemSheet", L["Show Character Item Sheet"]},
 		{1, "Extras", "ShowOwnFrameWhenInspecting", L["Show Own Frame When Inspecting"], true},
 		{1, "Extras", "LootMonitorInGroup", L["LootMonitor InGroup"]},
 		{1, "Extras", "LootMonitorBonusRewards", L["LootMonitor Bonus Rewards"], true},
-		{},--blank
-		{1, "Extras", "LootMonitor", L["LootMonitor"]},
-		{1, "Extras", "iLvlTools", L["iLvlTools"], true},
 	},
 }
 
@@ -653,19 +657,49 @@ local function CreateOption(i)
 			end
 
 			B.CreateFS(dd, 14, name, "system", "CENTER", 0, 25)
-		-- String
+		-- Colorswatch
 		elseif type == 5 then
-			local fs = B.CreateFS(parent, 14, name, "system")
-			fs:ClearAllPoints()
+			local f = CreateFrame("Button", nil, parent)
+			local width = 25 + (horizon or 0)*155
 			if horizon then
-				fs:SetPoint("TOPLEFT", 335, -offset + 30)
+				f:SetPoint("TOPLEFT", width, -offset + 30)
 			else
-				fs:SetPoint("TOPLEFT", 25, -offset - 5)
+				f:SetPoint("TOPLEFT", width, -offset - 5)
 				offset = offset + 35
 			end
+			f:SetSize(18, 18)
+			B.CreateBD(f, .3)
+			B.CreateSD(f)
+			B.CreateFS(f, 14, name, false, "LEFT", 26, 0)
+
+			local tex = f:CreateTexture()
+			tex:SetPoint("TOPLEFT", 1, -1)
+			tex:SetPoint("BOTTOMRIGHT", -1, 1)
+			tex:SetColorTexture(NDuiDB[key][value].r, NDuiDB[key][value].g, NDuiDB[key][value].b)
+
+			local function onUpdate()
+				local r, g, b = ColorPickerFrame:GetColorRGB()
+				tex:SetColorTexture(r, g, b)
+				NDuiDB[key][value].r, NDuiDB[key][value].g, NDuiDB[key][value].b = r, g, b
+			end
+
+			local function onCancel()
+				local r, g, b = ColorPicker_GetPreviousValues()
+				tex:SetColorTexture(r, g, b)
+				NDuiDB[key][value].r, NDuiDB[key][value].g, NDuiDB[key][value].b = r, g, b
+			end
+
+			f:SetScript("OnClick", function()
+				local r, g, b = NDuiDB[key][value].r, NDuiDB[key][value].g, NDuiDB[key][value].b
+				ColorPickerFrame.func = onUpdate
+				ColorPickerFrame.previousValues = {r = r, g = g, b = b}
+				ColorPickerFrame.cancelFunc = onCancel
+				ColorPickerFrame:SetColorRGB(r, g, b)
+				ColorPickerFrame:Show()
+			end)
 		-- Blank, no type
 		else
-			local alpha = NDuiDB["Extras"]["SkinColorA"]
+			local alpha = NDuiDB["Extras"]["SkinAlpha"]
 			local l = CreateFrame("Frame", nil, parent)
 			l:SetPoint("TOPLEFT", 25, -offset - 12)
 			B.CreateGF(l, 550, 3, "Horizontal", r, g, b, alpha, 0)
@@ -686,7 +720,7 @@ local function OpenGUI()
 	f:SetPoint("CENTER")
 	f:SetFrameStrata("HIGH")
 	B.CreateMF(f)
-	B.CreateBD(f, .5, 1)
+	B.CreateBD(f)
 	B.CreateSD(f)
 	B.CreateTex(f)
 	B.CreateFS(f, 18, L["NDui Console"], true, "TOP", 0, -10)

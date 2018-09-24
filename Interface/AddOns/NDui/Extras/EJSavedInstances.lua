@@ -48,6 +48,7 @@ local instancesData = {
 	[624] = 753,	-- Vault of Archavon
 	[533] = 754,	-- Naxxramas
 	[615] = 755,	-- The Obsidian Sanctum
+	[616] = 756,	-- The Eye of Eternity
 	[603] = 759,	-- Ulduar
 	[649] = 757,	-- Trial of the Crusader
 	[249] = 760,	-- Onyxia's Lair
@@ -192,7 +193,7 @@ local worldBossesData = {
 			{encounter = 2139, quest = 52181},	-- T'zane
 			{encounter = 2141, quest = 52169},	-- Ji'arak
 			{encounter = 2197, quest = 52157},	-- Hailstone Construct
-										   {},	-- The Lion's Roar/Doom's Howl
+			{encounter = 0, quest = 0},  		-- The Lion's Roar/Doom's Howl
 			{encounter = 2199, quest = 52163},	-- Azurethos, The Winged Typhoon
 			{encounter = 2198, quest = 52166},	-- Warbringer Yenajz
 			{encounter = 2210, quest = 52196}	-- Dunegorger Kraulok
@@ -295,7 +296,7 @@ local function UpdateSavedInstances()
 				name = boss.name,
 				isKilled = IsQuestFlaggedCompleted(boss.quest)
 			})
-			if worldBosses[1028] then
+			if instanceID == 1028 then
 				if tagInfo and timeLeft > 0 or worldBosses[1028][i].isKilled then
 					worldBosses[1028][i].isAvailable = true
 				else

@@ -357,7 +357,7 @@ end
 local tutor
 local function YesTutor()
 	if tutor then tutor:Show() return end
-	local alpha = NDuiDB["Extras"]["SkinColorA"]
+	local alpha = NDuiDB["Extras"]["SkinAlpha"]
 	tutor = CreateFrame("Frame", nil, UIParent)
 	tutor:SetPoint("CENTER")
 	tutor:SetSize(400, 250)
@@ -441,7 +441,7 @@ end
 local welcome
 local function HelloWorld()
 	if welcome then welcome:Show() return end
-	local alpha = NDuiDB["Extras"]["SkinColorA"]
+	local alpha = NDuiDB["Extras"]["SkinAlpha"]
 	welcome = CreateFrame("Frame", "HelloWorld", UIParent)
 	welcome:SetPoint("CENTER")
 	welcome:SetSize(350, 400)
