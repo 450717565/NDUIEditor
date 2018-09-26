@@ -65,18 +65,21 @@ tinsert(C.themes["AuroraClassic"], function()
 	LFGDungeonReadyDialogBottomArt:Hide()
 	LFGDungeonReadyDialogFiligree:Hide()
 
+	local function styleDungeonReady(button)
+		local border = _G[button:GetName().."Border"]
+
+		button.texture:SetTexCoord(.08, .92, .08, .92)
+		F.CreateBDFrame(button.texture, .25)
+
+		border:SetColorTexture(0, 0, 0)
+		border:SetDrawLayer("BACKGROUND")
+		border:SetPoint("TOPLEFT", button.texture, -1, 1)
+		border:SetPoint("BOTTOMRIGHT", button.texture, 1, -1)
+	end
+
 	hooksecurefunc("LFGDungeonReadyDialogReward_SetMisc", function(button)
 		if not button.styled then
-			local border = _G[button:GetName().."Border"]
-
-			button.texture:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(button.texture)
-
-			border:SetColorTexture(0, 0, 0)
-			border:SetDrawLayer("BACKGROUND")
-			border:SetPoint("TOPLEFT", button.texture, -1, 1)
-			border:SetPoint("BOTTOMRIGHT", button.texture, 1, -1)
-
+			styleDungeonReady(button)
 			button.styled = true
 		end
 
@@ -85,16 +88,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	hooksecurefunc("LFGDungeonReadyDialogReward_SetReward", function(button, dungeonID, rewardIndex, rewardType, rewardArg)
 		if not button.styled then
-			local border = _G[button:GetName().."Border"]
-
-			button.texture:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(button.texture)
-
-			border:SetColorTexture(0, 0, 0)
-			border:SetDrawLayer("BACKGROUND")
-			border:SetPoint("TOPLEFT", button.texture, -1, 1)
-			border:SetPoint("BOTTOMRIGHT", button.texture, 1, -1)
-
+			styleDungeonReady(button)
 			button.styled = true
 		end
 
@@ -135,15 +129,15 @@ tinsert(C.themes["AuroraClassic"], function()
 			shortageBorder:SetTexture("")
 
 			local icon = roleButton.incentiveIcon
-			local bg = F.CreateBDFrame(icon, .25)
-			bg:SetPoint("TOPLEFT", -4, 4)
-			bg:SetPoint("BOTTOMRIGHT", -2, 2)
-
 			icon:SetPoint("BOTTOMRIGHT", 3, -3)
 			icon:SetSize(14, 14)
 			icon.texture:SetSize(14, 14)
 			icon.texture:SetTexCoord(.12, .88, .12, .88)
 			icon.border:Hide()
+
+			local bg = F.CreateBDFrame(icon, .25)
+			bg:SetPoint("TOPLEFT", -4, 4)
+			bg:SetPoint("BOTTOMRIGHT", -2, 2)
 		end
 	end
 

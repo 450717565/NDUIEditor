@@ -9,17 +9,9 @@ tinsert(C.themes["AuroraClassic"], function()
 		InterfaceOptionsFrameCategories:DisableDrawLayer("BACKGROUND")
 		InterfaceOptionsFrameAddOns:DisableDrawLayer("BACKGROUND")
 		InterfaceOptionsFramePanelContainer:DisableDrawLayer("BORDER")
-		InterfaceOptionsFrameTab1TabSpacer:SetAlpha(0)
-		for i = 1, 2 do
-			_G["InterfaceOptionsFrameTab"..i.."Left"]:SetAlpha(0)
-			_G["InterfaceOptionsFrameTab"..i.."Middle"]:SetAlpha(0)
-			_G["InterfaceOptionsFrameTab"..i.."Right"]:SetAlpha(0)
-			_G["InterfaceOptionsFrameTab"..i.."LeftDisabled"]:SetAlpha(0)
-			_G["InterfaceOptionsFrameTab"..i.."MiddleDisabled"]:SetAlpha(0)
-			_G["InterfaceOptionsFrameTab"..i.."RightDisabled"]:SetAlpha(0)
-			_G["InterfaceOptionsFrameTab2TabSpacer"..i]:SetAlpha(0)
-		end
 
+		F.StripTextures(InterfaceOptionsFrameTab1, true)
+		F.StripTextures(InterfaceOptionsFrameTab2, true)
 		F.CreateBD(InterfaceOptionsFrame)
 		F.CreateSD(InterfaceOptionsFrame)
 		F.Reskin(InterfaceOptionsFrameDefaults)
@@ -29,11 +21,11 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.Reskin(InterfaceOptionsSocialPanelTwitterLoginButton)
 		F.Reskin(InterfaceOptionsDisplayPanelResetTutorials)
 
+		InterfaceOptionsFrameHeader:Hide()
 		InterfaceOptionsFrameOkay:SetPoint("BOTTOMRIGHT", InterfaceOptionsFrameCancel, "BOTTOMLEFT", -1, 0)
 
-		InterfaceOptionsFrameHeader:SetTexture("")
 		InterfaceOptionsFrameHeader:ClearAllPoints()
-		InterfaceOptionsFrameHeader:SetPoint("TOP", InterfaceOptionsFrame, 0, 0)
+		InterfaceOptionsFrameHeader:SetPoint("TOP")
 
 		local line = InterfaceOptionsFrame:CreateTexture(nil, "ARTWORK")
 		line:SetSize(1, 546)
@@ -41,102 +33,102 @@ tinsert(C.themes["AuroraClassic"], function()
 		line:SetColorTexture(1, 1, 1, .25)
 
 		local checkboxes = {
-			"InterfaceOptionsControlsPanelStickyTargeting",
-			"InterfaceOptionsControlsPanelAutoDismount",
-			"InterfaceOptionsControlsPanelAutoClearAFK",
-			"InterfaceOptionsControlsPanelAutoLootCorpse",
-			"InterfaceOptionsControlsPanelInteractOnLeftClick",
-			"InterfaceOptionsControlsPanelLootAtMouse",
-			"InterfaceOptionsCombatPanelTargetOfTarget",
-			"InterfaceOptionsCombatPanelFlashLowHealthWarning",
-			"InterfaceOptionsCombatPanelLossOfControl",
-			"InterfaceOptionsCombatPanelEnableFloatingCombatText",
-			"InterfaceOptionsCombatPanelAutoSelfCast",
-			"InterfaceOptionsDisplayPanelRotateMinimap",
-			"InterfaceOptionsDisplayPanelAJAlerts",
-			"InterfaceOptionsDisplayPanelShowTutorials",
-			"InterfaceOptionsSocialPanelProfanityFilter",
-			"InterfaceOptionsSocialPanelSpamFilter",
-			"InterfaceOptionsSocialPanelGuildMemberAlert",
-			"InterfaceOptionsSocialPanelBlockTrades",
-			"InterfaceOptionsSocialPanelBlockGuildInvites",
-			"InterfaceOptionsSocialPanelBlockChatChannelInvites",
-			"InterfaceOptionsSocialPanelShowAccountAchievments",
-			"InterfaceOptionsSocialPanelOnlineFriends",
-			"InterfaceOptionsSocialPanelOfflineFriends",
-			"InterfaceOptionsSocialPanelBroadcasts",
-			"InterfaceOptionsSocialPanelFriendRequests",
-			"InterfaceOptionsSocialPanelShowToastWindow",
-			"InterfaceOptionsSocialPanelEnableTwitter",
-			"InterfaceOptionsSocialPanelAutoAcceptQuickJoinRequests",
-			"InterfaceOptionsActionBarsPanelBottomLeft",
-			"InterfaceOptionsActionBarsPanelBottomRight",
-			"InterfaceOptionsActionBarsPanelRight",
-			"InterfaceOptionsActionBarsPanelRightTwo",
-			"InterfaceOptionsActionBarsPanelStackRightBars",
-			"InterfaceOptionsActionBarsPanelLockActionBars",
-			"InterfaceOptionsActionBarsPanelAlwaysShowActionBars",
-			"InterfaceOptionsActionBarsPanelCountdownCooldowns",
-			"InterfaceOptionsNamesPanelMyName",
-			"InterfaceOptionsNamesPanelNonCombatCreature",
-			"InterfaceOptionsNamesPanelFriendlyPlayerNames",
-			"InterfaceOptionsNamesPanelFriendlyMinions",
-			"InterfaceOptionsNamesPanelEnemyPlayerNames",
-			"InterfaceOptionsNamesPanelEnemyMinions",
-			"InterfaceOptionsNamesPanelUnitNameplatesPersonalResource",
-			"InterfaceOptionsNamesPanelUnitNameplatesPersonalResourceOnEnemy",
-			"InterfaceOptionsNamesPanelUnitNameplatesMakeLarger",
-			"InterfaceOptionsNamesPanelUnitNameplatesShowAll",
-			"InterfaceOptionsNamesPanelUnitNameplatesAggroFlash",
-			"InterfaceOptionsNamesPanelUnitNameplatesFriendlyMinions",
-			"InterfaceOptionsNamesPanelUnitNameplatesEnemyMinions",
-			"InterfaceOptionsNamesPanelUnitNameplatesEnemyMinus",
-			"InterfaceOptionsNamesPanelUnitNameplatesEnemies",
-			"InterfaceOptionsNamesPanelUnitNameplatesFriends",
-			"InterfaceOptionsCameraPanelWaterCollision",
-			"InterfaceOptionsMousePanelInvertMouse",
-			"InterfaceOptionsMousePanelEnableMouseSpeed",
-			"InterfaceOptionsMousePanelClickToMove",
-			"InterfaceOptionsMousePanelLockCursorToScreen",
-			"InterfaceOptionsAccessibilityPanelMovePad",
-			"InterfaceOptionsAccessibilityPanelCinematicSubtitles",
-			"InterfaceOptionsAccessibilityPanelColorblindMode"
+			InterfaceOptionsControlsPanelStickyTargeting,
+			InterfaceOptionsControlsPanelAutoDismount,
+			InterfaceOptionsControlsPanelAutoClearAFK,
+			InterfaceOptionsControlsPanelAutoLootCorpse,
+			InterfaceOptionsControlsPanelInteractOnLeftClick,
+			InterfaceOptionsControlsPanelLootAtMouse,
+			InterfaceOptionsCombatPanelTargetOfTarget,
+			InterfaceOptionsCombatPanelFlashLowHealthWarning,
+			InterfaceOptionsCombatPanelLossOfControl,
+			InterfaceOptionsCombatPanelEnableFloatingCombatText,
+			InterfaceOptionsCombatPanelAutoSelfCast,
+			InterfaceOptionsDisplayPanelRotateMinimap,
+			InterfaceOptionsDisplayPanelAJAlerts,
+			InterfaceOptionsDisplayPanelShowTutorials,
+			InterfaceOptionsSocialPanelProfanityFilter,
+			InterfaceOptionsSocialPanelSpamFilter,
+			InterfaceOptionsSocialPanelGuildMemberAlert,
+			InterfaceOptionsSocialPanelBlockTrades,
+			InterfaceOptionsSocialPanelBlockGuildInvites,
+			InterfaceOptionsSocialPanelBlockChatChannelInvites,
+			InterfaceOptionsSocialPanelShowAccountAchievments,
+			InterfaceOptionsSocialPanelOnlineFriends,
+			InterfaceOptionsSocialPanelOfflineFriends,
+			InterfaceOptionsSocialPanelBroadcasts,
+			InterfaceOptionsSocialPanelFriendRequests,
+			InterfaceOptionsSocialPanelShowToastWindow,
+			InterfaceOptionsSocialPanelEnableTwitter,
+			InterfaceOptionsSocialPanelAutoAcceptQuickJoinRequests,
+			InterfaceOptionsActionBarsPanelBottomLeft,
+			InterfaceOptionsActionBarsPanelBottomRight,
+			InterfaceOptionsActionBarsPanelRight,
+			InterfaceOptionsActionBarsPanelRightTwo,
+			InterfaceOptionsActionBarsPanelStackRightBars,
+			InterfaceOptionsActionBarsPanelLockActionBars,
+			InterfaceOptionsActionBarsPanelAlwaysShowActionBars,
+			InterfaceOptionsActionBarsPanelCountdownCooldowns,
+			InterfaceOptionsNamesPanelMyName,
+			InterfaceOptionsNamesPanelNonCombatCreature,
+			InterfaceOptionsNamesPanelFriendlyPlayerNames,
+			InterfaceOptionsNamesPanelFriendlyMinions,
+			InterfaceOptionsNamesPanelEnemyPlayerNames,
+			InterfaceOptionsNamesPanelEnemyMinions,
+			InterfaceOptionsNamesPanelUnitNameplatesPersonalResource,
+			InterfaceOptionsNamesPanelUnitNameplatesPersonalResourceOnEnemy,
+			InterfaceOptionsNamesPanelUnitNameplatesMakeLarger,
+			InterfaceOptionsNamesPanelUnitNameplatesShowAll,
+			InterfaceOptionsNamesPanelUnitNameplatesAggroFlash,
+			InterfaceOptionsNamesPanelUnitNameplatesFriendlyMinions,
+			InterfaceOptionsNamesPanelUnitNameplatesEnemyMinions,
+			InterfaceOptionsNamesPanelUnitNameplatesEnemyMinus,
+			InterfaceOptionsNamesPanelUnitNameplatesEnemies,
+			InterfaceOptionsNamesPanelUnitNameplatesFriends,
+			InterfaceOptionsCameraPanelWaterCollision,
+			InterfaceOptionsMousePanelInvertMouse,
+			InterfaceOptionsMousePanelEnableMouseSpeed,
+			InterfaceOptionsMousePanelClickToMove,
+			InterfaceOptionsMousePanelLockCursorToScreen,
+			InterfaceOptionsAccessibilityPanelMovePad,
+			InterfaceOptionsAccessibilityPanelCinematicSubtitles,
+			InterfaceOptionsAccessibilityPanelColorblindMode
 		}
-		for i = 1, #checkboxes do
-			F.ReskinCheck(_G[checkboxes[i]])
+		for _, checkboxe in next, checkboxes do
+			F.ReskinCheck(checkboxe)
 		end
 
 		local dropdowns = {
-			"InterfaceOptionsControlsPanelAutoLootKeyDropDown",
-			"InterfaceOptionsCombatPanelFocusCastKeyDropDown",
-			"InterfaceOptionsCombatPanelSelfCastKeyDropDown",
-			"InterfaceOptionsDisplayPanelOutlineDropDown",
-			"InterfaceOptionsDisplayPanelSelfHighlightDropDown",
-			"InterfaceOptionsDisplayPanelDisplayDropDown",
-			"InterfaceOptionsDisplayPanelChatBubblesDropDown",
-			"InterfaceOptionsSocialPanelChatStyle",
-			"InterfaceOptionsSocialPanelTimestamps",
-			"InterfaceOptionsSocialPanelWhisperMode",
-			"InterfaceOptionsActionBarsPanelPickupActionKeyDropDown",
-			"InterfaceOptionsNamesPanelNPCNamesDropDown",
-			"InterfaceOptionsNamesPanelUnitNameplatesMotionDropDown",
-			"InterfaceOptionsCameraPanelStyleDropDown",
-			"InterfaceOptionsMousePanelClickMoveStyleDropDown",
-			"InterfaceOptionsAccessibilityPanelColorFilterDropDown"
+			InterfaceOptionsControlsPanelAutoLootKeyDropDown,
+			InterfaceOptionsCombatPanelFocusCastKeyDropDown,
+			InterfaceOptionsCombatPanelSelfCastKeyDropDown,
+			InterfaceOptionsDisplayPanelOutlineDropDown,
+			InterfaceOptionsDisplayPanelSelfHighlightDropDown,
+			InterfaceOptionsDisplayPanelDisplayDropDown,
+			InterfaceOptionsDisplayPanelChatBubblesDropDown,
+			InterfaceOptionsSocialPanelChatStyle,
+			InterfaceOptionsSocialPanelTimestamps,
+			InterfaceOptionsSocialPanelWhisperMode,
+			InterfaceOptionsActionBarsPanelPickupActionKeyDropDown,
+			InterfaceOptionsNamesPanelNPCNamesDropDown,
+			InterfaceOptionsNamesPanelUnitNameplatesMotionDropDown,
+			InterfaceOptionsCameraPanelStyleDropDown,
+			InterfaceOptionsMousePanelClickMoveStyleDropDown,
+			InterfaceOptionsAccessibilityPanelColorFilterDropDown
 		}
-		for i = 1, #dropdowns do
-			F.ReskinDropDown(_G[dropdowns[i]])
+		for _, dropdown in next, dropdowns do
+			F.ReskinDropDown(dropdown)
 		end
 
 		local sliders = {
-			"InterfaceOptionsCombatPanelSpellAlertOpacitySlider",
-			"InterfaceOptionsCameraPanelFollowSpeedSlider",
-			"InterfaceOptionsMousePanelMouseSensitivitySlider",
-			"InterfaceOptionsMousePanelMouseLookSpeedSlider",
-			"InterfaceOptionsAccessibilityPanelColorblindStrengthSlider"
+			InterfaceOptionsCombatPanelSpellAlertOpacitySlider,
+			InterfaceOptionsCameraPanelFollowSpeedSlider,
+			InterfaceOptionsMousePanelMouseSensitivitySlider,
+			InterfaceOptionsMousePanelMouseLookSpeedSlider,
+			InterfaceOptionsAccessibilityPanelColorblindStrengthSlider
 		}
-		for i = 1, #sliders do
-			F.ReskinSlider(_G[sliders[i]])
+		for _, slider in next, sliders do
+			F.ReskinSlider(slider)
 		end
 
 		if IsAddOnLoaded("Blizzard_CompactRaidFrames") then

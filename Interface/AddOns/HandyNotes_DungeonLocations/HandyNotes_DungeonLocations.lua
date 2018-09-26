@@ -586,7 +586,7 @@ function Addon:PLAYER_LOGIN()
  updateLockouts()
  self:CheckForPOIs()
  Addon:RegisterEvent("PLAYER_ENTERING_WORLD") -- Check for any lockout changes when we zone (FIX ME)
- Addon:RegisterEvent("UPDATE_INSTANCE_INFO") -- FIX ME
+ --Addon:RegisterEvent("UPDATE_INSTANCE_INFO") -- Causes lots of lag
 end
 
 -- I only put a few specific nodes on the minimap, so if the minimap is used in a zone then I need to add all zone nodes to it except for the specific ones

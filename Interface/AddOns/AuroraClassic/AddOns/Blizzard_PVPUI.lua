@@ -102,43 +102,6 @@ C.themes["Blizzard_PVPUI"] = function()
 		bu.SelectedTexture:SetAllPoints()
 	end
 
-	-- Honor frame specific
-	--[[
-	for _, bu in pairs(HonorFrame.SpecificFrame.buttons) do
-		bu.Bg:Hide()
-		bu.Border:Hide()
-
-		bu:SetNormalTexture("")
-		bu:SetHighlightTexture("")
-
-		local bg = CreateFrame("Frame", nil, bu)
-		bg:SetPoint("TOPLEFT", 2, 0)
-		bg:SetPoint("BOTTOMRIGHT", -1, 2)
-		F.CreateBD(bg, 0)
-		F.CreateSD(bg)
-		bg:SetFrameLevel(bu:GetFrameLevel()-1)
-
-		bu.tex = F.CreateGradient(bu)
-		bu.tex:SetDrawLayer("BACKGROUND")
-		bu.tex:SetPoint("TOPLEFT", bg, 1, -1)
-		bu.tex:SetPoint("BOTTOMRIGHT", bg, -1, 1)
-
-		bu.SelectedTexture:SetDrawLayer("BACKGROUND")
-		bu.SelectedTexture:SetColorTexture(r, g, b, .25)
-		bu.SelectedTexture:SetAllPoints(bu.tex)
-
-		bu.Icon:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(bu.Icon)
-		bu.Icon.bg = F.CreateBG(bu.Icon)
-		bu.Icon.bg:SetDrawLayer("BACKGROUND", 1)
-		bu.Icon:SetPoint("TOPLEFT", 5, -3)
-
-		bu.SizeText:ClearAllPoints()
-		bu.SizeText:SetPoint("TOPRIGHT", -5, -5)
-		bu.InfoText:ClearAllPoints()
-		bu.InfoText:SetPoint("BOTTOMRIGHT", -5, 5)
-	end
-]]
 	-- Conquest Frame
 	F.StripTextures(ConquestFrame.Inset, true)
 	ConquestFrame.ShadowOverlay:Hide()

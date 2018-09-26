@@ -230,7 +230,6 @@ local function Reskins()
 			LST:RegisterSkin("ndui", {
 				name = "NDui",
 				border = {
-					--color = {0, 0, 0},
 					offset = 0,
 					size = 1,
 					texture = {1, 1, 1, 1},
@@ -253,7 +252,6 @@ local function Reskins()
 					tex_coords = {.08, .92, .08, .92},
 				},
 				icon_border = {
-					--color = {0, 0, 0},
 					offset = 0,
 					size = 1,
 					texture = {1, 1, 1, 1},
@@ -276,7 +274,6 @@ local function Reskins()
 					tex_coords = {.08, .92, .08, .92},
 				},
 				slot_border = {
-					--color = {0, 0, 0},
 					offset = 0,
 					size = 1,
 					texture = {1, 1, 1, 1},

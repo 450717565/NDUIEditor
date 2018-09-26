@@ -3,7 +3,6 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_ItemSocketingUI"] = function()
 	F.ReskinPortraitFrame(ItemSocketingFrame, true)
 
-	F.StripTextures(ItemSocketingDescription, true)
 	F.StripTextures(ItemSocketingScrollFrame, true)
 	F.CreateBDFrame(ItemSocketingScrollFrame, .25)
 	F.Reskin(ItemSocketingSocketButton)
@@ -23,6 +22,8 @@ C.themes["Blizzard_ItemSocketingUI"] = function()
 		_G["ItemSocketingSocket"..i.."Background"]:SetAlpha(0)
 		select(2, bu:GetRegions()):Hide()
 
+		bu:SetPushedTexture("")
+		bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 		bu.icon:SetTexCoord(.08, .92, .08, .92)
 		F.CreateBDFrame(bu.icon, .25)
 
@@ -48,5 +49,6 @@ C.themes["Blizzard_ItemSocketingUI"] = function()
 		else
 			ItemSocketingSocket1:SetPoint("BOTTOM", ItemSocketingFrame, "BOTTOM", 0, 38)
 		end
+		ItemSocketingDescription:SetBackdrop(nil)
 	end)
 end

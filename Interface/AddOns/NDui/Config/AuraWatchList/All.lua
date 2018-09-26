@@ -78,6 +78,7 @@ local list = {
 		{AuraID = 175833, UnitID = "player"},
 		{AuraID = 188023, UnitID = "player"},
 	-->饰品附魔
+		{AuraID = 271105, UnitID = "player"},	-- 屠夫之眼
 		--默认
 		{AuraID = 229206, UnitID = "player"},	-- 延时之力
 		{AuraID = 251231, UnitID = "player"},	-- 钢肤药水
@@ -95,7 +96,7 @@ local list = {
 		{AuraID = 271194, UnitID = "player"},	-- 火炮
 		{AuraID = 273992, UnitID = "player"},	-- 灵魂之速
 		{AuraID = 273955, UnitID = "player"},	-- 望远镜视野
-		{AuraID = 261612, UnitID = "player"},	-- 迅击风暴
+		{AuraID = 267612, UnitID = "player"},	-- 迅击风暴
 		{AuraID = 268887, UnitID = "player"},	-- 迅捷远航
 		{AuraID = 268854, UnitID = "player"},	-- 全能远航
 		{AuraID = 264957, UnitID = "player"},	-- 急速瞄准镜

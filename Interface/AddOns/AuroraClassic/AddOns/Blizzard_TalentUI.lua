@@ -166,28 +166,7 @@ C.themes["Blizzard_TalentUI"] = function()
 			end
 		end
 	end)
---[[
-	for i = 1, 2 do
-		local tab = _G["PlayerSpecTab"..i]
-		_G["PlayerSpecTab"..i.."Background"]:Hide()
 
-		tab:SetCheckedTexture(C.media.checked)
-
-		local bg = CreateFrame("Frame", nil, tab)
-		bg:SetPoint("TOPLEFT", -1, 1)
-		bg:SetPoint("BOTTOMRIGHT", 1, -1)
-		bg:SetFrameLevel(tab:GetFrameLevel()-1)
-		F.CreateBD(bg)
-		F.CreateSD(bg)
-
-		select(2, tab:GetRegions()):SetTexCoord(.08, .92, .08, .92)
-	end
-
-	hooksecurefunc("PlayerTalentFrame_UpdateSpecs", function()
-		PlayerSpecTab1:SetPoint("TOPLEFT", PlayerTalentFrame, "TOPRIGHT", 2, -36)
-		PlayerSpecTab2:SetPoint("TOP", PlayerSpecTab1, "BOTTOM")
-	end)
-]]
 	PlayerTalentFrameTalentsTutorialButton.Ring:Hide()
 	PlayerTalentFrameTalentsTutorialButton:SetPoint("TOPLEFT", PlayerTalentFrame, "TOPLEFT", -12, 12)
 	PlayerTalentFrameSpecializationTutorialButton.Ring:Hide()

@@ -6,46 +6,44 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.StripTextures(HelpFrame)
 	F.CreateBD(HelpFrame)
 	F.CreateSD(HelpFrame)
-	HelpFrameHeader:Hide()
 	F.ReskinClose(HelpFrameCloseButton)
 
 	F.StripTextures(HelpFrameMainInset)
 	F.StripTextures(HelpFrameLeftInset)
 	F.StripTextures(HelpBrowser.BrowserInset)
 
+	HelpFrameHeader:Hide()
+
 	local frames = {HelpFrameGM_ResponseScrollFrame1, HelpFrameGM_ResponseScrollFrame2, HelpFrameReportBugScrollFrame, HelpFrameSubmitSuggestionScrollFrame, ReportCheatingDialogCommentFrame}
 	for _, frame in next, frames do
-		F.CreateBD(frame, .25)
-		F.CreateSD(frame)
-	end
-	for i = 1, 9 do
-		select(i, ReportCheatingDialogCommentFrame:GetRegions()):Hide()
+		F.StripTextures(frame)
+		F.CreateBDFrame(frame, .25)
 	end
 
 	local scrolls = {
-		"HelpFrameKnowledgebaseScrollFrameScrollBar",
-		"HelpFrameReportBugScrollFrameScrollBar",
-		"HelpFrameSubmitSuggestionScrollFrameScrollBar",
-		"HelpFrameGM_ResponseScrollFrame1ScrollBar",
-		"HelpFrameGM_ResponseScrollFrame2ScrollBar",
-		"HelpFrameKnowledgebaseScrollFrame2ScrollBar",
+		HelpFrameKnowledgebaseScrollFrameScrollBar,
+		HelpFrameReportBugScrollFrameScrollBar,
+		HelpFrameSubmitSuggestionScrollFrameScrollBar,
+		HelpFrameGM_ResponseScrollFrame1ScrollBar,
+		HelpFrameGM_ResponseScrollFrame2ScrollBar,
+		HelpFrameKnowledgebaseScrollFrame2ScrollBar
 	}
 	for _, scroll in next, scrolls do
-		F.ReskinScroll(_G[scroll])
+		F.ReskinScroll(scroll)
 	end
 
 	local buttons = {
-		"HelpFrameAccountSecurityOpenTicket",
-		"HelpFrameCharacterStuckStuck",
-		"HelpFrameOpenTicketHelpOpenTicket",
-		"HelpFrameKnowledgebaseSearchButton",
-		"HelpFrameGM_ResponseNeedMoreHelp",
-		"HelpFrameGM_ResponseCancel",
-		"HelpFrameReportBugSubmit",
-		"HelpFrameSubmitSuggestionSubmit"
+		HelpFrameAccountSecurityOpenTicket,
+		HelpFrameCharacterStuckStuck,
+		HelpFrameOpenTicketHelpOpenTicket,
+		HelpFrameKnowledgebaseSearchButton,
+		HelpFrameGM_ResponseNeedMoreHelp,
+		HelpFrameGM_ResponseCancel,
+		HelpFrameReportBugSubmit,
+		HelpFrameSubmitSuggestionSubmit
 	}
 	for _, button in next, buttons do
-		F.Reskin(_G[button])
+		F.Reskin(button)
 	end
 
 	F.StripTextures(HelpFrameKnowledgebase)
@@ -55,18 +53,18 @@ tinsert(C.themes["AuroraClassic"], function()
 	select(3, HelpFrameSubmitSuggestion:GetChildren()):Hide()
 	select(5, HelpFrameGM_Response:GetChildren()):Hide()
 	select(6, HelpFrameGM_Response:GetChildren()):Hide()
-	HelpFrameReportBugScrollFrameScrollBar:SetPoint("TOPLEFT", HelpFrameReportBugScrollFrame, "TOPRIGHT", 1, -16)
-	HelpFrameSubmitSuggestionScrollFrameScrollBar:SetPoint("TOPLEFT", HelpFrameSubmitSuggestionScrollFrame, "TOPRIGHT", 1, -16)
-	HelpFrameGM_ResponseScrollFrame1ScrollBar:SetPoint("TOPLEFT", HelpFrameGM_ResponseScrollFrame1, "TOPRIGHT", 1, -16)
-	HelpFrameGM_ResponseScrollFrame2ScrollBar:SetPoint("TOPLEFT", HelpFrameGM_ResponseScrollFrame2, "TOPRIGHT", 1, -16)
+
+	HelpFrameReportBugScrollFrameScrollBar:SetPoint("TOPLEFT", HelpFrameReportBugScrollFrame, "TOPRIGHT", 3, -16)
+	HelpFrameSubmitSuggestionScrollFrameScrollBar:SetPoint("TOPLEFT", HelpFrameSubmitSuggestionScrollFrame, "TOPRIGHT", 3, -16)
+	HelpFrameGM_ResponseScrollFrame1ScrollBar:SetPoint("TOPLEFT", HelpFrameGM_ResponseScrollFrame1, "TOPRIGHT", 3, -16)
+	HelpFrameGM_ResponseScrollFrame2ScrollBar:SetPoint("TOPLEFT", HelpFrameGM_ResponseScrollFrame2, "TOPRIGHT", 3, -16)
 
 	for i = 1, 15 do
 		local bu = _G["HelpFrameKnowledgebaseScrollFrameButton"..i]
 		bu:DisableDrawLayer("ARTWORK")
-		F.CreateBD(bu, 0)
-		F.CreateSD(bu)
 
-		F.CreateGradient(bu)
+		local bg = F.CreateBDFrame(bu, .25)
+		F.CreateGradient(bg)
 	end
 
 	local function colourTab(f)
@@ -115,9 +113,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	LoadingIcon:ClearAllPoints()
 	LoadingIcon:SetPoint("LEFT", HelpBrowserNavStop, "RIGHT")
 
-	for i = 1, 9 do
-		select(i, BrowserSettingsTooltip:GetRegions()):Hide()
-	end
+	F.StripTextures(BrowserSettingsTooltip)
 
 	F.CreateBD(BrowserSettingsTooltip)
 	F.CreateSD(BrowserSettingsTooltip)

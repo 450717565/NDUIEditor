@@ -12,3 +12,4 @@
 ## X-DBM-Voice-ShortName: VV
 ## X-DBM-Voice-Version: 8
 ## X-DBM-Voice-HasCount: 1
+DBM-VPVV.lua
