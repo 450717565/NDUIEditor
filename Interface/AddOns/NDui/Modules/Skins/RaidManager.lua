@@ -31,27 +31,6 @@ function module:CreateRM()
 	header:HookScript("OnLeave", GameTooltip_Hide)
 
 	-- Role counts
-	local function getRaidMaxGroup()
-		local _, instType, difficulty = GetInstanceInfo()
-		if (instType == "party" or instType == "scenario") and not IsInRaid() then
-			return 1
-		elseif instType ~= "raid" then
-			return 8
-		elseif difficulty == 8 or difficulty == 1 or difficulty == 2 or difficulty == 24 then
-			return 1
-		elseif difficulty == 14 or difficulty == 15 then
-			return 6
-		elseif difficulty == 16 then
-			return 4
-		elseif difficulty == 3 or difficulty == 5 then
-			return 2
-		elseif difficulty == 9 then
-			return 8
-		else
-			return 5
-		end
-	end
-
 	local roleTexCoord = {
 		{.5, .75, 0, 1},
 		{.75, 1, 0, 1},
@@ -81,10 +60,9 @@ function module:CreateRM()
 	roleFrame:SetScript("OnEvent", function()
 		raidCounts = {totalTANK = 0, totalHEALER = 0, totalDAMAGER = 0}
 
-		local maxgroup = getRaidMaxGroup()
 		for i = 1, GetNumGroupMembers() do
-			local name, _, subgroup, _, _, _, _, online, isDead, _, _, assignedRole = GetRaidRosterInfo(i)
-			if name and online and subgroup <= maxgroup and not isDead and assignedRole ~= "NONE" then
+			local name, _, _, _, _, _, _, online, isDead, _, _, assignedRole = GetRaidRosterInfo(i)
+			if name and online and not isDead and assignedRole ~= "NONE" then
 				raidCounts["total"..assignedRole] = raidCounts["total"..assignedRole] + 1
 			end
 		end
@@ -168,10 +146,9 @@ function module:CreateRM()
 		else
 			count, total = 0, 0
 			self:Show()
-			local maxgroup = getRaidMaxGroup()
 			for i = 1, GetNumGroupMembers() do
-				local name, _, subgroup, _, _, _, _, online = GetRaidRosterInfo(i)
-				if name and online and subgroup <= maxgroup then
+				local name, _, _, _, _, _, _, online = GetRaidRosterInfo(i)
+				if name and online then
 					total = total + 1
 					local status = GetReadyCheckStatus(name)
 					if status and status == "ready" then
@@ -268,10 +245,9 @@ function module:CreateRM()
 		for i = 1, numGroups do wipe(NoBuff[i]) end
 		numPlayer = 0
 
-		local maxgroup = getRaidMaxGroup()
 		for i = 1, GetNumGroupMembers() do
-			local name, _, subgroup, _, _, _, _, online, isDead = GetRaidRosterInfo(i)
-			if name and online and subgroup <= maxgroup and not isDead then
+			local name, _, _, _, _, _, _, online, isDead = GetRaidRosterInfo(i)
+			if name and online and not isDead then
 				numPlayer = numPlayer + 1
 				for j = 1, numGroups do
 					local HasBuff

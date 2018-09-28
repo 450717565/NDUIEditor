@@ -7,7 +7,7 @@ local B, C, L, DB = unpack(ns)
 
 if IsAddOnLoaded("AuroraClassic") then
 	local F = unpack(AuroraClassic)
-	local r, g, b = DB.CC.r, DB.CC.g, DB.CC.b
+	local cr, cg, cb = DB.CC.r, DB.CC.g, DB.CC.b
 
 	local OrderHall_Frame = CreateFrame("Frame")
 	OrderHall_Frame:RegisterEvent("ADDON_LOADED")
@@ -39,14 +39,14 @@ if IsAddOnLoaded("AuroraClassic") then
 				OrderHallCommandBar.AreaName:ClearAllPoints()
 				OrderHallCommandBar.AreaName:SetPoint("LEFT", OrderHallCommandBar.ClassIcon, "RIGHT", 5, 0)
 				OrderHallCommandBar.AreaName:SetFont(unpack(DB.Font))
-				OrderHallCommandBar.AreaName:SetTextColor(r, g, b)
+				OrderHallCommandBar.AreaName:SetTextColor(cr, cg, cb)
 
 				OrderHallCommandBar.CurrencyIcon:ClearAllPoints()
 				OrderHallCommandBar.CurrencyIcon:SetPoint("LEFT", OrderHallCommandBar.AreaName, "RIGHT", 5, 0)
 				OrderHallCommandBar.Currency:ClearAllPoints()
 				OrderHallCommandBar.Currency:SetPoint("LEFT", OrderHallCommandBar.CurrencyIcon, "RIGHT", 0, 0)
 				OrderHallCommandBar.Currency:SetFont(unpack(DB.Font))
-				OrderHallCommandBar.Currency:SetTextColor(r, g, b)
+				OrderHallCommandBar.Currency:SetTextColor(cr, cg, cb)
 
 				OrderHallCommandBar.WorldMapButton:Hide()
 			end)
@@ -67,7 +67,7 @@ if IsAddOnLoaded("AuroraClassic") then
 						child.Count:ClearAllPoints()
 						child.Count:SetPoint("LEFT", child.Icon, "RIGHT", 5, 0)
 						child.Count:SetFont(unpack(DB.Font))
-						child.Count:SetTextColor(r, g, b)
+						child.Count:SetTextColor(cr, cg, cb)
 
 						index = index + 1
 					end

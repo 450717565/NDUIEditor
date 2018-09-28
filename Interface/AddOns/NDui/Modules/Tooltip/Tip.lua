@@ -8,7 +8,7 @@ function module:OnLogin()
 	self:AzeriteArmor()
 end
 
-local r, g, b = DB.CC.r, DB.CC.g, DB.CC.b
+local cr, cg, cb = DB.CC.r, DB.CC.g, DB.CC.b
 
 local classification = {
 	elite = " |cffFFFF00"..ELITE.."|r",
@@ -253,7 +253,7 @@ hooksecurefunc("GameTooltip_ShowStatusBar", function(self)
 	if self.statusBarPool then
 		local bar = self.statusBarPool:Acquire()
 		if bar and not bar.styled then
-			bar:SetStatusBarColor(r*.8, g*.8, b*.8)
+			bar:SetStatusBarColor(cr*.8, cg*.8, cb*.8)
 			local _, bd, tex = bar:GetRegions()
 			tex:SetTexture(DB.normTex)
 			bd:Hide()
@@ -272,7 +272,7 @@ hooksecurefunc("GameTooltip_ShowProgressBar", function(self)
 		if bar and not bar.styled then
 			B.StripTextures(bar.Bar, true)
 			bar.Bar:SetStatusBarTexture(DB.normTex)
-			bar.Bar:SetStatusBarColor(r*.8, g*.8, b*.8)
+			bar.Bar:SetStatusBarColor(cr*.8, cg*.8, cb*.8)
 			B.CreateBD(bar, .25)
 			B.CreateSD(bar)
 			bar:SetSize(216, 18)
@@ -450,7 +450,7 @@ local function addonStyled(_, addon)
 		end)
 
 		-- IME
-		IMECandidatesFrame.selection:SetVertexColor(r, g, b)
+		IMECandidatesFrame.selection:SetVertexColor(cr, cg, cb)
 
 		-- Pet Tooltip
 		local petTips = {

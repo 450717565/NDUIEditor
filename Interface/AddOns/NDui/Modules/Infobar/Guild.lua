@@ -5,7 +5,7 @@ if not C.Infobar.Guild then return end
 local module = B:GetModule("Infobar")
 local info = module:RegisterInfobar(C.Infobar.GuildPos)
 
-local r, g, b = DB.CC.r, DB.CC.g, DB.CC.b
+local cr, cg, cb = DB.CC.r, DB.CC.g, DB.CC.b
 local infoFrame = CreateFrame("Frame", "NDuiGuildInfobar", info)
 infoFrame:SetSize(335, 560)
 infoFrame:SetPoint("TOPLEFT", UIParent, 15, -35)
@@ -34,7 +34,7 @@ for i = 1, 4 do
 	end
 	bu[i].HL = bu[i]:CreateTexture(nil, "HIGHLIGHT")
 	bu[i].HL:SetAllPoints(bu[i])
-	bu[i].HL:SetColorTexture(r, g, b, .25)
+	bu[i].HL:SetColorTexture(cr, cg, cb, .25)
 end
 B.CreateFS(bu[1], 13, LEVEL_ABBR)
 B.CreateFS(bu[2], 13, CLASS_ABBR)
@@ -68,7 +68,7 @@ local function createRoster(i)
 	button:SetSize(312, 22)
 	button.HL = button:CreateTexture(nil, "HIGHLIGHT")
 	button.HL:SetAllPoints()
-	button.HL:SetColorTexture(r, g, b, .25)
+	button.HL:SetColorTexture(cr, cg, cb, .25)
 
 	button.level = B.CreateFS(button, 13, "Level", false, "LEFT", 5, 0)
 

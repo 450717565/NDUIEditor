@@ -1,7 +1,7 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local module = B:GetModule("Skins")
-local r, g, b = DB.CC.r, DB.CC.g, DB.CC.b
+local cr, cg, cb = DB.CC.r, DB.CC.g, DB.CC.b
 
 local tracker = ObjectiveTrackerFrame
 local minimize = tracker.HeaderMenu.MinimizeButton
@@ -103,12 +103,12 @@ function module:QuestTracker()
 
 	-- Reskin Headers
 	local function reskinHeader(header)
-		header.Text:SetTextColor(r, g, b)
+		header.Text:SetTextColor(cr, cg, cb)
 		header.Background:Hide()
 		local bg = header:CreateTexture(nil, "ARTWORK")
 		bg:SetTexture("Interface\\LFGFrame\\UI-LFG-SEPARATOR")
 		bg:SetTexCoord(0, .66, 0, .31)
-		bg:SetVertexColor(r, g, b, .8)
+		bg:SetVertexColor(cr, cg, cb, .8)
 		bg:SetPoint("BOTTOMLEFT", -30, -4)
 		bg:SetSize(250, 30)
 	end
@@ -139,7 +139,7 @@ function module:QuestTracker()
 
 			bar:SetPoint("LEFT", 22, 0)
 			bar:SetStatusBarTexture(DB.normTex)
-			bar:SetStatusBarColor(r*.8, g*.8, b*.8)
+			bar:SetStatusBarColor(cr*.8, cg*.8, cb*.8)
 			B.SmoothBar(bar)
 
 			local bg = B.CreateBG(progressBar)
@@ -177,7 +177,7 @@ function module:QuestTracker()
 				select(i, bar:GetRegions()):Hide()
 			end
 			bar:SetStatusBarTexture(DB.normTex)
-			bar:SetStatusBarColor(r*.8, g*.8, b*.8)
+			bar:SetStatusBarColor(cr*.8, cg*.8, cb*.8)
 			bar.Label:Show()
 			local oldBg = select(5, bar:GetRegions())
 			local bg = B.CreateBG(oldBg)
@@ -209,7 +209,7 @@ function module:QuestTracker()
 			block.TimerBGBack:Hide()
 
 			block.StatusBar:SetStatusBarTexture(DB.normTex)
-			block.StatusBar:SetStatusBarColor(r*.8, g*.8, b*.8)
+			block.StatusBar:SetStatusBarColor(cr*.8, cg*.8, cb*.8)
 			block.StatusBar:SetHeight(10)
 
 			block.timerbg = B.CreateBG(block.StatusBar)

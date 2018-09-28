@@ -16,9 +16,9 @@ function module:OnLogin()
 	frame:SetWidth(num*cfg.size + (num-1)*margin + 2*padding)
 	frame:SetHeight(cfg.size + 2*padding)
 	if layout == 5 then
-		frame.Pos = {"BOTTOM", UIParent, "BOTTOM", -108, 25}
+		frame.Pos = {"BOTTOM", UIParent, "BOTTOM", -108, 27}
 	else
-		frame.Pos = {"BOTTOM", UIParent, "BOTTOM", 0, 25}
+		frame.Pos = {"BOTTOM", UIParent, "BOTTOM", 0, 27}
 	end
 	frame:SetScale(NDuiDB["Actionbar"]["Scale"])
 

@@ -13,9 +13,9 @@ function Bar:CreateLeaveVehicle()
 	frame:SetWidth(num*cfg.size + (num-1)*margin + 2*padding)
 	frame:SetHeight(cfg.size + 2*padding)
 	if NDuiDB["Actionbar"]["Style"] ~= 4 then
-		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 278, 96}
+		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 278, 99}
 	else
-		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 212, 90}
+		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 211, 92}
 	end
 	frame:SetScale(NDuiDB["Actionbar"]["Scale"])
 

@@ -1,5 +1,8 @@
 local B, C, L, DB = unpack(select(2, ...))
 
+local GetState, GetQuestTimeLeftMinutes = C_ContributionCollector.GetState, C_TaskQuest.GetQuestTimeLeftMinutes
+local BOSS_UNAVAILABLE, WORLD_BOSS = QUEUE_TIME_UNAVAILABLE, RAID_INFO_WORLD_BOSS
+
 local instancesData = {
 	[409] = 741,	-- Molten Core
 	[469] = 742,	-- Blackwing Lair
@@ -268,18 +271,24 @@ local function UpdateSavedInstances()
 		end
 	end
 
+	local isBossAvailable = false
+	local state = GetState(11)
 	if UnitFactionGroup("player") == "Horde" then
 		worldBossesData[1028].bosses[4].encounter = 2212
 		worldBossesData[1028].bosses[4].quest = 52848
+
+		if state == 3 or state == 4 then
+			isBossAvailable = true
+			worldBossesData[1028].maxBosses = 2
+		end
 	else
 		worldBossesData[1028].bosses[4].encounter = 2213
 		worldBossesData[1028].bosses[4].quest = 52847
-	end
-	local warfrontBoss = worldBossesData[1028].bosses[4].quest
-	local timeLeft = C_TaskQuest.GetQuestTimeLeftMinutes(warfrontBoss)
-	local tagInfo = GetQuestTagInfo(warfrontBoss)
-	if tagInfo and timeLeft > 0 or IsQuestFlaggedCompleted(warfrontBoss) then
-		worldBossesData[1028].maxBosses = 2
+
+		if state == 1 or state == 2 then
+			isBossAvailable = true
+			worldBossesData[1028].maxBosses = 2
+		end
 	end
 
 	local worldBosses = {}
@@ -297,10 +306,11 @@ local function UpdateSavedInstances()
 				isKilled = IsQuestFlaggedCompleted(boss.quest)
 			})
 			if instanceID == 1028 then
-				if tagInfo and timeLeft > 0 or worldBosses[1028][i].isKilled then
-					worldBosses[1028][i].isAvailable = true
+				if i == 4 then
+					worldBosses[1028][i].isAvailable = isBossAvailable
+					worldBosses[1028][i].isKilled = worldBosses[1028][i].isKilled and isBossAvailable
 				else
-					worldBosses[1028][i].isAvailable = false
+					worldBosses[1028][i].isAvailable = GetQuestTimeLeftMinutes(boss.quest) > 0
 				end
 			end
 		end
@@ -322,7 +332,7 @@ local function UpdateSavedInstances()
 					bosses = worldBosses[instanceID],
 					instanceName = worldBossesData[instanceID].instanceName,
 					difficulty = "normal",
-					difficultyName = RAID_INFO_WORLD_BOSS,
+					difficultyName = WORLD_BOSS,
 					maxBosses = maxBosses,
 					defeatedBosses = defeatedBosses,
 					progress = defeatedBosses.."/"..maxBosses,
@@ -384,7 +394,7 @@ local function ShowTooltip(frame)
 			if boss.isKilled then
 				GameTooltip:AddDoubleLine(boss.name, BOSS_DEAD, 1, 1, 1, 1, 0, 0)
 			elseif boss.isAvailable ~= nil and not boss.isAvailable then
-				GameTooltip:AddDoubleLine(boss.name, QUEUE_TIME_UNAVAILABLE, 1, 1, 1, .5, .5, .5)
+				GameTooltip:AddDoubleLine(boss.name, BOSS_UNAVAILABLE, 1, 1, 1, .5, .5, .5)
 			else
 				GameTooltip:AddDoubleLine(boss.name, BOSS_ALIVE, 1, 1, 1, 0, 1, 0)
 			end

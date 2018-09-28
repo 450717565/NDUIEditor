@@ -340,6 +340,7 @@ local defaults = {
   continent = true,
   tomtom = true,
   journal = true,
+  checkForPOI = false,
   lockouts = true,
   lockoutgray = true,
   uselockoutalpha = false,
@@ -373,11 +374,6 @@ end
 function Addon:PLAYER_ENTERING_WORLD()
  self.faction = UnitFactionGroup("player")
  --print(self.faction)
- self:CheckForPOIs()
- updateStuff()
-end
-
-function Addon:UPDATE_INSTANCE_INFO()
  self:CheckForPOIs()
  updateStuff()
 end
@@ -440,6 +436,12 @@ function Addon:PLAYER_LOGIN()
    name = L["Journal Integration"],
    desc = L["Allow left click to open journal to dungeon or raid"],
    order = 2,
+  },
+  checkForPOI = {
+   type = "toggle",
+   name = L["Don't show discovered dungeons"],
+   desc = L["This will check for legion and bfa dungeons that have already been discovered. THIS IS KNOWN TO CAUSE TAINT, ENABLE AT OWN RISK."],
+   order = 2.1,
   },
   showheader = {
    type = "header",
@@ -578,15 +580,10 @@ function Addon:PLAYER_LOGIN()
  self:PopulateTable()
  self:PopulateMinimap()
  self:ProcessTable()
- --self:ProcessExtraInfo()
- 
- --name, description, bgImage, buttonImage, loreImage, dungeonAreaMapID, link = EJ_GetInstanceInfo([instanceID])
- -- Populate Dungeon/Raid names based on Journal
  
  updateLockouts()
  self:CheckForPOIs()
- Addon:RegisterEvent("PLAYER_ENTERING_WORLD") -- Check for any lockout changes when we zone (FIX ME)
- --Addon:RegisterEvent("UPDATE_INSTANCE_INFO") -- Causes lots of lag
+ Addon:RegisterEvent("PLAYER_ENTERING_WORLD") -- Check for any lockout changes when we zone
 end
 
 -- I only put a few specific nodes on the minimap, so if the minimap is used in a zone then I need to add all zone nodes to it except for the specific ones
@@ -2138,15 +2135,17 @@ end
 
 -- Looks through the legions maps and checks if the default blizzard thingies are visible.
 function Addon:CheckForPOIs()
+ if (not db.checkForPOI) then return end -- The Pin enumeration seems to cause taint so disabled by default fo rnow
  if (WorldMapFrame:IsVisible()) then return end -- This function will interrupt the user if map is open while we do stuff
  local needsUpdate = false
  local LegionBfaInstanceMapIDs = { 627, 630, 634, 641, 646, 650, 680, 862, 863, 864, 895, 896, 942, 1169 }
  for k,v in pairs(LegionBfaInstanceMapIDs) do
   WorldMapFrame:SetMapID(v)
   for pin in WorldMapFrame:EnumeratePinsByTemplate("DungeonEntrancePinTemplate") do
-   if not legionInstancesDiscovered[pin.journalInstanceID] then
+   local instanceId = pin.journalInstanceID
+   if not legionInstancesDiscovered[instanceId] then
     --print(pin.name, 'Discovered')
-    legionInstancesDiscovered[pin.journalInstanceID] = true
+    legionInstancesDiscovered[instanceId] = true
     needsUpdate = true
   end
  end

@@ -57,6 +57,7 @@ local CustomUnits = {
 	["Explosives"] = true,
 	["爆炸物"] = true,
 	["炸彈"] = true,
+	["耐受病菌"] = true,
 }
 function UF:CreateUnitTable()
 	if not NDuiDB["Nameplate"]["CustomUnitColor"] then return end

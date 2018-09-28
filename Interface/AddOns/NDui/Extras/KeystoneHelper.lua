@@ -61,7 +61,7 @@ local function OnTooltipSetItem(self)
 			self:AddLine(" ")
 			self:AddLine(format(L["Mythic Loot Item Level"], ilvl), 0,1,1)
 			self:AddLine(format(L["Weekly Loot Item Level"], wlvl), 0,1,1)
-			self:AddLine(format(L["Weekly Armor Item Level"], alvl), .9,.8,.5)
+			self:AddLine(format(L["Weekly Azerite Item Level"], alvl), .9,.8,.5)
 		end
 	end
 end

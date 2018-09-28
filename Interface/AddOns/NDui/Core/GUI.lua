@@ -147,6 +147,7 @@ local defaultSettings = {
 		BarLine = true,
 		InfobarLine = true,
 		ChatLine = true,
+		MenuLine = true,
 		ClassLine = true,
 	},
 	Tooltip = {
@@ -432,7 +433,8 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Skins", "BarLine", L["Bar Line"]},
 		{1, "Skins", "InfobarLine", L["Infobar Line"], true},
 		{1, "Skins", "ChatLine", L["Chat Line"]},
-		{1, "Skins", "ClassLine", L["ClassColor Line"], true},
+		{1, "Skins", "MenuLine", L["Menu Line"], true},
+		{1, "Skins", "ClassLine", L["ClassColor Line"]},
 		{},--blank
 		{1, "Skins", "MicroMenu", L["Micromenu"]},
 		{1, "Skins", "TrackerSkin", L["ObjectiveTracker Skin"], true},
@@ -502,13 +504,13 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 	},
 }
 
-local r, g, b = DB.CC.r, DB.CC.g, DB.CC.b
+local cr, cg, cb = DB.CC.r, DB.CC.g, DB.CC.b
 local guiTab, guiPage, f = {}, {}
 
 local function SelectTab(i)
 	for num = 1, #tabList do
 		if num == i then
-			guiTab[num]:SetBackdropColor(r, g, b, .3)
+			guiTab[num]:SetBackdropColor(cr, cg, cb, .3)
 			guiTab[num].checked = true
 			guiPage[num]:Show()
 		else
@@ -536,7 +538,7 @@ local function CreateTab(parent, i, name)
 	end)
 	tab:SetScript("OnEnter", function(self)
 		if self.checked then return end
-		self:SetBackdropColor(r, g, b, .3)
+		self:SetBackdropColor(cr, cg, cb, .3)
 	end)
 	tab:SetScript("OnLeave", function(self)
 		if self.checked then return end
@@ -678,23 +680,23 @@ local function CreateOption(i)
 			tex:SetColorTexture(NDuiDB[key][value].r, NDuiDB[key][value].g, NDuiDB[key][value].b)
 
 			local function onUpdate()
-				local r, g, b = ColorPickerFrame:GetColorRGB()
-				tex:SetColorTexture(r, g, b)
-				NDuiDB[key][value].r, NDuiDB[key][value].g, NDuiDB[key][value].b = r, g, b
+				local cr, cg, cb = ColorPickerFrame:GetColorRGB()
+				tex:SetColorTexture(cr, cg, cb)
+				NDuiDB[key][value].r, NDuiDB[key][value].g, NDuiDB[key][value].b = cr, cg, cb
 			end
 
 			local function onCancel()
-				local r, g, b = ColorPicker_GetPreviousValues()
-				tex:SetColorTexture(r, g, b)
-				NDuiDB[key][value].r, NDuiDB[key][value].g, NDuiDB[key][value].b = r, g, b
+				local cr, cg, cb = ColorPicker_GetPreviousValues()
+				tex:SetColorTexture(cr, cg, cb)
+				NDuiDB[key][value].r, NDuiDB[key][value].g, NDuiDB[key][value].b = cr, cg, cb
 			end
 
 			f:SetScript("OnClick", function()
-				local r, g, b = NDuiDB[key][value].r, NDuiDB[key][value].g, NDuiDB[key][value].b
+				local cr, cg, cb = NDuiDB[key][value].r, NDuiDB[key][value].g, NDuiDB[key][value].b
 				ColorPickerFrame.func = onUpdate
 				ColorPickerFrame.previousValues = {r = r, g = g, b = b}
 				ColorPickerFrame.cancelFunc = onCancel
-				ColorPickerFrame:SetColorRGB(r, g, b)
+				ColorPickerFrame:SetColorRGB(cr, cg, cb)
 				ColorPickerFrame:Show()
 			end)
 		-- Blank, no type
@@ -702,7 +704,7 @@ local function CreateOption(i)
 			local alpha = NDuiDB["Extras"]["SkinAlpha"]
 			local l = CreateFrame("Frame", nil, parent)
 			l:SetPoint("TOPLEFT", 25, -offset - 12)
-			B.CreateGF(l, 550, 3, "Horizontal", r, g, b, alpha, 0)
+			B.CreateGF(l, 550, 3, "Horizontal", cr, cg, cb, alpha, 0)
 			offset = offset + 35
 		end
 	end

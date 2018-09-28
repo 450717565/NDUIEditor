@@ -1,7 +1,7 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
-local r, g, b = DB.CC.r, DB.CC.g, DB.CC.b
+local cr, cg, cb = DB.CC.r, DB.CC.g, DB.CC.b
 local f
 
 local function CreatePanel()
@@ -426,7 +426,7 @@ local function CreatePanel()
 		for i = 1, #tabs do
 			if self == tabs[i] then
 				tabs[i].Page:Show()
-				tabs[i]:SetBackdropColor(r, g, b, .3)
+				tabs[i]:SetBackdropColor(cr, cg, cb, .3)
 				tabs[i].selected = true
 			else
 				tabs[i].Page:Hide()
@@ -437,7 +437,7 @@ local function CreatePanel()
 	end
 	local function tabOnEnter(self)
 		if self.selected then return end
-		self:SetBackdropColor(r, g, b, .3)
+		self:SetBackdropColor(cr, cg, cb, .3)
 	end
 	local function tabOnLeave(self)
 		if self.selected then return end

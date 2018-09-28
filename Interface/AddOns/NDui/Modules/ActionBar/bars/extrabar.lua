@@ -14,9 +14,9 @@ function Bar:CreateExtrabar()
 	frame:SetWidth(num*cfg.size + (num-1)*margin + 2*padding)
 	frame:SetHeight(cfg.size + 2*padding)
 	if layout ~= 4 then
-		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 211, 95}
+		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 211, 99}
 	else
-		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 211, 17}
+		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 211, 20}
 	end
 	frame:SetScale(NDuiDB["Actionbar"]["Scale"])
 
@@ -47,9 +47,9 @@ function Bar:CreateExtrabar()
 	end
 
 	--zone ability
-	local abPos = {"BOTTOMRIGHT", UIParent, "BOTTOM", -216, 100}
+	local abPos = {"BOTTOMRIGHT", UIParent, "BOTTOM", -216, 102}
 	if layout == 4 then
-		abPos = {"BOTTOMRIGHT", UIParent, "BOTTOM", -216, 22}
+		abPos = {"BOTTOMRIGHT", UIParent, "BOTTOM", -216, 24}
 	end
 
 	ZoneAbilityFrame:ClearAllPoints()
