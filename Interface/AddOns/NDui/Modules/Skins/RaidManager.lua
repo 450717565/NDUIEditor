@@ -91,14 +91,12 @@ function module:CreateRM()
 		if self.elapsed > .1 then
 			local charges, _, started, duration = GetSpellCharges(20484)
 			if charges then
-
 				local timer = duration - (GetTime() - started)
 				if timer < 0 then
 					self.Timer:SetText(CAPPED)
 				else
 					self.Timer:SetFormattedText("%d:%.2d", timer/60, timer%60)
 				end
-
 				self.Count:SetText(charges)
 				if charges == 0 then
 					self.Count:SetTextColor(1, 0, 0)

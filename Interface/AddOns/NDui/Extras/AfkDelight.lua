@@ -1,9 +1,3 @@
--- By Frost-Xavius
--- License: http://creativecommons.org/licenses/by-nc-sa/2.5
--- LegalCode: http://creativecommons.org/licenses/by-nc-sa/2.5/legalcode
--- Changelog
--- Toc push for 7.3
--- end changelog
 local B, C, L, DB = unpack(select(2, ...))
 
 -- the actual frame
@@ -35,8 +29,6 @@ function f:OnEvent(event)
 	if event == "PLAYER_LOGIN" then
 		self.model:SetUnit("player")
 		self.model:SetRotation(math.rad(-30))
-		self.galaxy:SetDisplayInfo(67918)
-		self.galaxy:SetCamDistanceScale(2)
 		return
 	end
 	if UnitIsAFK("player") then
@@ -72,17 +64,13 @@ end)
 -- complete black background to make it look better
 f.bg = f:CreateTexture(nil,"BACKGROUND",nil,-8)
 f.bg:SetTexture(1,1,1)
-f.bg:SetVertexColor(0,0,0,1)
+f.bg:SetVertexColor(0,0,0,.5)
 f.bg:SetAllPoints()
 
--- galaxy animation .. azeroth ..
-f.galaxy = CreateFrame("PlayerModel",nil,f)
-f.galaxy:SetAllPoints()
-
 -- player model with actualy transmog enabled aswell
-f.model = CreateFrame("PlayerModel",nil,f.galaxy)
+f.model = CreateFrame("PlayerModel",nil,f)
 f.model:SetSize(f.h,f.h*1.5)
-f.model:SetPoint("BOTTOMRIGHT",f.h*0.25,-f.h*0.5)
+f.model:SetPoint("BOTTOMRIGHT",f.h*0.2,-f.h*0.4)
 
 -- shadow gran
 f.gradient = f.model:CreateTexture(nil,"BACKGROUND",nil,-7)

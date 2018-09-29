@@ -47,6 +47,7 @@ local function SetUnitInfo(gear, spec)
 
 	GameTooltip:Show()
 end
+
 local function UnitGear(unit)
 	if (not unit) or (UnitGUID(unit) ~= currentGUID) then return end
 	local class = select(2, UnitClass(unit))

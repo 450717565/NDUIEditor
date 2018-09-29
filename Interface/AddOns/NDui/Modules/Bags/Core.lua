@@ -147,9 +147,10 @@ function module:OnLogin()
 	end
 
 	function MyButton:OnUpdate(item)
-		self.Junk:SetAlpha(0)
 		if item.rarity == LE_ITEM_QUALITY_POOR and item.sellPrice > 0 then
 			self.Junk:SetAlpha(1)
+		else
+			self.Junk:SetAlpha(0)
 		end
 
 		if item.link and C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID(item.link) then
@@ -174,7 +175,7 @@ function module:OnLogin()
 			and ((item.level and item.level > 0) and (item.subType == EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC or (item.equipLoc ~= "" and item.equipLoc ~= "INVTYPE_TABARD" and item.equipLoc ~= "INVTYPE_BODY" and item.equipLoc ~= "INVTYPE_BAG")))
 			or ((item.classID and item.classID == 15 and item.subclassID) and (item.subclassID == 2 or item.subclassID == 5)) then
 				if NDuiDB["Bags"]["BagsiLvl"] then
-					local level = B.GetItemLevel(item.link, item.bagID, item.slotID, "bag") or item.level
+					local level = B.GetItemLevel(item.link, item.bagID, item.slotID) or item.level
 					self.iLvl:SetText(level)
 				end
 				if NDuiDB["Extras"]["SlotInfo"] then

@@ -143,6 +143,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	for _, roleButton in next, {LFDRoleCheckPopupRoleButtonTank, LFDRoleCheckPopupRoleButtonHealer, LFDRoleCheckPopupRoleButtonDPS, LFGInvitePopupRoleButtonTank, LFGInvitePopupRoleButtonHealer, LFGInvitePopupRoleButtonDPS, LFGListApplicationDialog.DamagerButton, LFGListApplicationDialog.TankButton, LFGListApplicationDialog.HealerButton} do
 		local checkButton = roleButton.checkButton or roleButton.CheckButton
+		F.StripTextures(checkButton, true)
 		F.ReskinCheck(checkButton)
 	end
 

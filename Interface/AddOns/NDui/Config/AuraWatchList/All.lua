@@ -78,7 +78,6 @@ local list = {
 		{AuraID = 175833, UnitID = "player"},
 		{AuraID = 188023, UnitID = "player"},
 	-->饰品附魔
-		{AuraID = 271105, UnitID = "player"},	-- 屠夫之眼
 		--默认
 		{AuraID = 229206, UnitID = "player"},	-- 延时之力
 		{AuraID = 251231, UnitID = "player"},	-- 钢肤药水
@@ -112,6 +111,8 @@ local list = {
 		{AuraID = 278143, UnitID = "player"},	-- 血珠狂怒
 		{AuraID = 278381, UnitID = "player"},	-- 海上风暴
 		{AuraID = 273974, UnitID = "player"},	-- 洛阿意志
+		{AuraID = 271105, UnitID = "player"},	-- 屠夫之眼
+		{AuraID = 271107, UnitID = "player"},	-- 金色光泽
 		{AuraID = 274430, UnitID = "player", Text = RAID_BUFF_4},	-- 永不间断的时钟，急速
 		{AuraID = 274431, UnitID = "player", Text = RAID_BUFF_7},	-- 精通
 		{AuraID = 267325, UnitID = "player", Text = RAID_BUFF_7},	-- 注铅骰子，精通
@@ -204,16 +205,40 @@ local list = {
 	},
 	["Raid Debuff"] = { -- 团队减益组
 	-->史诗钥石
+		{AuraID = 268007, UnitID = "player"},--心脏打击
+		--默认
 		{AuraID = 209858, UnitID = "player"},	-- 死疽溃烂
 		{AuraID = 240559, UnitID = "player"},	-- 重伤
 		{AuraID = 240443, UnitID = "player"},	-- 爆裂
 		{AuraID = 226512, UnitID = "player"},	-- 血池
-		{AuraID = 268007, UnitID = "player"},--心脏打击
+		{AuraID = 240447, UnitID = "player"},	-- 践踏
+		{AuraID = 272421, UnitID = "player"},	-- 瞄准火炮，围攻
+		{AuraID = 265773, UnitID = "player"},	-- 吐金，诸王
+		{AuraID = 274507, UnitID = "player"},	-- 湿滑肥皂，自由镇
 	-->奥迪尔
+		{AuraID = 271224, UnitID = "player", Text = L["Get Out"]},	-- 赤红迸发，塔罗克
+		{AuraID = 271225, UnitID = "player", Text = L["Get Out"]},
+		{AuraID = 278888, UnitID = "player", Text = L["Get Out"]},
+		{AuraID = 278889, UnitID = "player", Text = L["Get Out"]},
+		{AuraID = 267787, UnitID = "player"},	-- 消毒打击，纯净圣母
+		{AuraID = 262313, UnitID = "player"},	-- 恶臭沼气，腐臭吞噬者
+		{AuraID = 265237, UnitID = "player"},	-- 粉碎，泽克沃兹
+		{AuraID = 265264, UnitID = "player"},	-- 虚空鞭笞，泽克沃兹
+		{AuraID = 265360, UnitID = "player", Text = L["Get Out"]},	-- 翻滚欺诈，泽克沃兹
 		{AuraID = 265662, UnitID = "player"},	-- 腐化者的契约，泽克沃兹
+		{AuraID = 265129, UnitID = "player"},	-- 终极菌体，维克提斯
+		{AuraID = 267160, UnitID = "player"},
+		{AuraID = 267161, UnitID = "player"},
+		{AuraID = 274990, UnitID = "player"},	-- 破裂损伤，维克提斯
+		{AuraID = 273434, UnitID = "player"},	-- 绝望深渊，祖尔
+		{AuraID = 274271, UnitID = "player"},	-- 死亡之愿，祖尔
+		{AuraID = 273365, UnitID = "player"},	-- 黑暗启示，祖尔
+		{AuraID = 272146, UnitID = "player"},	-- 毁灭，拆解者
 		{AuraID = 272536, UnitID = "player", Text = L["Get Out"]},	-- 毁灭迫近，拆解者
 		{AuraID = 274262, UnitID = "player", Text = L["Get Out"]},	-- 爆炸腐蚀，戈霍恩
 		{AuraID = 267409, UnitID = "player"},	-- 黑暗交易，戈霍恩
+		{AuraID = 263227, UnitID = "player"},	-- 腐败之血，戈霍恩
+		{AuraID = 267700, UnitID = "player"},	-- 戈霍恩的凝视，戈霍恩
 	-->翡翠梦魇
 		--尼珊德拉
 		{AuraID = 221028, UnitID = "player"},--不稳定的腐烂，小怪
@@ -407,8 +432,8 @@ local list = {
 		{AuraID = 248812, UnitID = "player"},--反冲
 		{AuraID = 248801, UnitID = "player"},--碎片爆发
 		{AuraID = 241729, UnitID = "player"},--复仇的灵魂
-		{AuraID = 235213, UnitID = "player", Text = L["AW Light"]},--光明灌注
-		{AuraID = 235240, UnitID = "player", Text = L["AW Fel"]},--邪能灌注
+		{AuraID = 235213, UnitID = "player", Text = RELIC_SLOT_TYPE_HOLY},--光明灌注
+		{AuraID = 235240, UnitID = "player", Text = RELIC_SLOT_TYPE_FEL},--邪能灌注
 		--堕落的化身
 		{AuraID = 234059, UnitID = "player"},--释放混沌
 		{AuraID = 236494, UnitID = "player"},--风蚀
@@ -440,8 +465,8 @@ local list = {
 		{AuraID = 248815, UnitID = "player"},--点燃
 		{AuraID = 244768, UnitID = "player"},--荒芜凝视
 		{AuraID = 248819, UnitID = "player", Text = ACTION_DAMAGE_SPLIT},--虹吸
-		{AuraID = 244055, UnitID = "player", Text = L["Shadow Side"]},--暗影触痕
-		{AuraID = 244054, UnitID = "player", Text = L["Fire Side"]},--烈焰触痕
+		{AuraID = 244055, UnitID = "player", Text = RELIC_SLOT_TYPE_SHADOW},--暗影触痕
+		{AuraID = 244054, UnitID = "player", Text = RELIC_SLOT_TYPE_FIRE},--烈焰触痕
 		--安托兰统帅议会
 		{AuraID = 257974, UnitID = "player"},--混乱脉冲
 		{AuraID = 244172, UnitID = "player"},--灵能突袭
@@ -510,8 +535,10 @@ local list = {
 		{AuraID = 277965, UnitID = "target"},	-- 重型军火，围攻1
 		{AuraID = 256493, UnitID = "target"},	-- 炽燃的艾泽里特，矿区1
 	-->奥迪尔
+		{AuraID = 271965, UnitID = "target"},	-- 能源关闭，塔罗克
 		{AuraID = 278218, UnitID = "target"},	-- 虚空召唤，泽克沃兹
 		{AuraID = 278220, UnitID = "target"},	-- 虚空超脱，泽克沃兹
+		{AuraID = 265264, UnitID = "target"},	-- 虚空鞭笞，泽克沃兹
 		{AuraID = 273432, UnitID = "target"},	-- 暗影束缚，祖尔
 		{AuraID = 273288, UnitID = "target"},	-- 婆娑脉动，祖尔
 		{AuraID = 274230, UnitID = "target"},	-- 湮灭帷幕，拆解者米斯拉克斯
@@ -603,45 +630,45 @@ local list = {
 		{AuraID = 255430, UnitID = "target", Text = SPELL_SCHOOL5_NAME},--暗影
 		{AuraID = 255433, UnitID = "target", Text = SPELL_SCHOOL6_NAME},--奥术
 	-->PvP
-		{AuraID = 498, UnitID = "target"},--圣佑术
-		{AuraID = 642, UnitID = "target"},--圣盾术
-		{AuraID = 871, UnitID = "target"},--盾墙
-		{AuraID = 1022, UnitID = "target"},--保护祝福
-		{AuraID = 1044, UnitID = "target"},--自由祝福
-		{AuraID = 5277, UnitID = "target"},--闪避
-		{AuraID = 6940, UnitID = "target"},--牺牲祝福
-		{AuraID = 19574, UnitID = "target"},--狂野怒火
-		{AuraID = 23920, UnitID = "target"},--法术反射
-		{AuraID = 31884, UnitID = "target"},--复仇之怒
-		{AuraID = 33206, UnitID = "target"},--痛苦压制
-		{AuraID = 45438, UnitID = "target"},--寒冰屏障
-		{AuraID = 47788, UnitID = "target"},--守护之魂
-		{AuraID = 48707, UnitID = "target"},--反魔法护罩
-		{AuraID = 48792, UnitID = "target"},--冰封之韧
-		{AuraID = 61336, UnitID = "target"},--生存本能
-		{AuraID = 104773, UnitID = "target"},--不灭决心
-		{AuraID = 113862, UnitID = "target"},--强化隐形术
-		{AuraID = 114050, UnitID = "target"},--升腾 元素
-		{AuraID = 114051, UnitID = "target"},--升腾 增强
-		{AuraID = 114052, UnitID = "target"},--升腾 恢复
-		{AuraID = 118038, UnitID = "target"},--剑在人在
-		{AuraID = 120954, UnitID = "target"},--壮胆酒
-		{AuraID = 122278, UnitID = "target"},--躯不坏
-		{AuraID = 122783, UnitID = "target"},--散魔功
-		{AuraID = 125174, UnitID = "target"},--业报之触
-		{AuraID = 147833, UnitID = "target"},--援护
-		{AuraID = 162264, UnitID = "target"},--恶魔变形
-		{AuraID = 171607, UnitID = "target"},--爱情光线
-		{AuraID = 186265, UnitID = "target"},--灵龟守护
-		{AuraID = 187827, UnitID = "target"},--恶魔变形
-		{AuraID = 193526, UnitID = "target"},--百发百中
-		{AuraID = 197690, UnitID = "target"},--防御姿态
-		{AuraID = 199754, UnitID = "target"},--还击
-		{AuraID = 204018, UnitID = "target"},--破咒祝福
-		{AuraID = 205191, UnitID = "target"},--以眼还眼
-		{AuraID = 212800, UnitID = "target"},--疾影
-		{AuraID = 228323, UnitID = "target", Value = true},--克罗塔的护盾
-		{AuraID = 247938, UnitID = "target"},--混乱之刃
+		{AuraID = 498, UnitID = "target"},		-- 圣佑术
+		{AuraID = 642, UnitID = "target"},		-- 圣盾术
+		{AuraID = 871, UnitID = "target"},		-- 盾墙
+		{AuraID = 5277, UnitID = "target"},		-- 闪避
+		{AuraID = 1044, UnitID = "target"},		-- 自由祝福
+		{AuraID = 6940, UnitID = "target"},		-- 牺牲祝福
+		{AuraID = 1022, UnitID = "target"},		-- 保护祝福
+		{AuraID = 19574, UnitID = "target"},	-- 狂野怒火
+		{AuraID = 23920, UnitID = "target"},	-- 法术反射
+		{AuraID = 31884, UnitID = "target"},	-- 复仇之怒
+		{AuraID = 33206, UnitID = "target"},	-- 痛苦压制
+		{AuraID = 45438, UnitID = "target"},	-- 寒冰屏障
+		{AuraID = 47788, UnitID = "target"},	-- 守护之魂
+		{AuraID = 48792, UnitID = "target"},	-- 冰封之韧
+		{AuraID = 48707, UnitID = "target"},	-- 反魔法护罩
+		{AuraID = 61336, UnitID = "target"},	-- 生存本能
+		{AuraID = 197690, UnitID = "target"},	-- 防御姿态
+		{AuraID = 147833, UnitID = "target"},	-- 援护
+		{AuraID = 186265, UnitID = "target"},	-- 灵龟守护
+		{AuraID = 113862, UnitID = "target"},	-- 强化隐形术
+		{AuraID = 118038, UnitID = "target"},	-- 剑在人在
+		{AuraID = 114050, UnitID = "target"},	-- 升腾 元素
+		{AuraID = 114051, UnitID = "target"},	-- 升腾 增强
+		{AuraID = 114052, UnitID = "target"},	-- 升腾 恢复
+		{AuraID = 204018, UnitID = "target"},	-- 破咒祝福
+		{AuraID = 205191, UnitID = "target"},	-- 以眼还眼 惩戒
+		{AuraID = 193526, UnitID = "target"},	-- 百发百中
+		{AuraID = 104773, UnitID = "target"},	-- 不灭决心
+		{AuraID = 199754, UnitID = "target"},	-- 还击
+		{AuraID = 120954, UnitID = "target"},	-- 壮胆酒
+		{AuraID = 122278, UnitID = "target"},	-- 躯不坏
+		{AuraID = 122783, UnitID = "target"},	-- 散魔功
+		{AuraID = 247938, UnitID = "target"},	-- 混乱之刃
+		{AuraID = 212800, UnitID = "target"},	-- 疾影
+		{AuraID = 162264, UnitID = "target"},	-- 恶魔变形
+		{AuraID = 187827, UnitID = "target"},	-- 恶魔变形
+		{AuraID = 125174, UnitID = "target"},	-- 业报之触
+		{AuraID = 171607, UnitID = "target"},	-- 爱情光线
+		{AuraID = 228323, UnitID = "target", Value = true},	-- 克罗塔的护盾
 	-->职业长控
 		--变形术
 		{AuraID = 118, UnitID = "target"},

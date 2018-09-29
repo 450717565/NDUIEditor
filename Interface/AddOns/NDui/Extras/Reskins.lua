@@ -231,7 +231,7 @@ local function Reskins()
 				name = "NDui",
 				border = {
 					offset = 0,
-					size = 1,
+					size = 1.2,
 					texture = {1, 1, 1, 1},
 				},
 				title = {
@@ -253,7 +253,7 @@ local function Reskins()
 				},
 				icon_border = {
 					offset = 0,
-					size = 1,
+					size = 1.2,
 					texture = {1, 1, 1, 1},
 				},
 				icon_highlight = {
@@ -275,7 +275,7 @@ local function Reskins()
 				},
 				slot_border = {
 					offset = 0,
-					size = 1,
+					size = 1.2,
 					texture = {1, 1, 1, 1},
 				},
 			})

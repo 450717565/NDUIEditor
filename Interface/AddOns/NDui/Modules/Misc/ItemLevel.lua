@@ -1,11 +1,9 @@
 ﻿local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local module = B:GetModule("Misc")
-local bagModule = B:GetModule("Bags")
-local tipModule = B:GetModule("Tooltip")
 
 --[[
-	在角色面板显示装备等级
+	在角色面板等显示装备等级
 ]]
 function module:ShowItemLevel()
 	if not NDuiDB["Misc"]["ItemLevel"] then return end
@@ -46,7 +44,7 @@ function module:ShowItemLevel()
 			local link = GetInventoryItemLink(unit, index)
 			if link and index ~= 4 then
 				local _, _, quality, level = GetItemInfo(link)
-				level = B.GetItemLevel(link, unit, index, "unit") or level
+				level = B.GetItemLevel(link, unit, index) or level
 
 				if level and level > 1 and quality then
 					str:SetText(level)
@@ -80,10 +78,10 @@ function module:ShowItemLevel()
 		local link, level
 		if bag then
 			link = GetContainerItemLink(bag, slot)
-			level = B.GetItemLevel(link, bag, slot, "bag")
+			level = B.GetItemLevel(link, bag, slot)
 		else
 			link = GetInventoryItemLink("player", slot)
-			level = B.GetItemLevel(link, "player", slot, "unit")
+			level = B.GetItemLevel(link, "player", slot)
 		end
 		button.iLvl:SetText(level)
 	end

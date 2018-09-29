@@ -46,36 +46,6 @@ function B.ItemSlotInfo(item)
 	return slotText
 end
 
--- Scan Item Level
-local itemLevelString = _G["ITEM_LEVEL"]:gsub("%%d", "")
-local ItemDB = {}
-function B.GetItemLevel(link, val1, val2, type)
-	if ItemDB[link] then return ItemDB[link] end
-
-	local tip = _G["NDuiScanTooltip"] or CreateFrame("GameTooltip", "NDuiScanTooltip", nil, "GameTooltipTemplate")
-	tip:SetOwner(UIParent, "ANCHOR_NONE")
-	if type then
-		if type == "bag" and val1 and val2 then
-			tip:SetBagItem(val1, val2)
-		elseif type == "unit" and val1 and val2 then
-			tip:SetInventoryItem(val1, val2)
-		end
-	else
-		tip:SetHyperlink(link)
-	end
-
-	for i = 2, 5 do
-		local text = _G[tip:GetName().."TextLeft"..i]:GetText() or ""
-		local hasLevel = string.find(text, itemLevelString)
-		if hasLevel then
-			local level = string.match(text, "(%d+)%)?$")
-			ItemDB[link] = tonumber(level)
-			break
-		end
-	end
-	return ItemDB[link]
-end
-
 -- Gradient Frame
 function B:CreateGF(w, h, o, r, g, b, a1, a2)
 	self:SetSize(w, h)
@@ -478,6 +448,35 @@ function B.CopyTable(source, target)
 			target[key] = value
 		end
 	end
+end
+
+-- Itemlevel
+local iLvlDB = {}
+local itemLevelString = _G["ITEM_LEVEL"]:gsub("%%d", "")
+local tip = CreateFrame("GameTooltip", "NDui_iLvlTooltip", nil, "GameTooltipTemplate")
+
+function B.GetItemLevel(link, arg1, arg2)
+	if iLvlDB[link] then return iLvlDB[link] end
+
+	tip:SetOwner(UIParent, "ANCHOR_NONE")
+	if arg1 and type(arg1) == "string" then
+		tip:SetInventoryItem(arg1, arg2)
+	elseif arg1 and type(arg1) == "number" then
+		tip:SetBagItem(arg1, arg2)
+	else
+		tip:SetHyperlink(link)
+	end
+
+	for i = 2, 5 do
+		local text = _G[tip:GetName().."TextLeft"..i]:GetText() or ""
+		local found = text:find(itemLevelString)
+		if found then
+			local level = text:match("(%d+)%)?$")
+			iLvlDB[link] = tonumber(level)
+			break
+		end
+	end
+	return iLvlDB[link]
 end
 
 -- GUI APIs
