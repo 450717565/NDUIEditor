@@ -25,6 +25,30 @@ local function Reskins()
 		end
 	end
 
+	if IsAddOnLoaded("DungeonWatchDog") then
+		local allbtn = LFGListFrame.SearchPanel.IgnoreAllBtn
+		allbtn:SetHeight(20)
+		allbtn:ClearAllPoints()
+		allbtn:SetPoint("RIGHT", PVEFrameCloseButton, "LEFT", -5, 0)
+
+		local ignore = ignorePanelFrame
+		B.CreateBD(ignore)
+		B.CreateSD(ignore)
+		B.CreateTex(ignore)
+
+		local ebtn = ignore.exportBtn
+		ebtn:SetWidth(134)
+		ebtn:SetPoint("BOTTOMLEFT", 1, 1)
+		B.CreateBC(ebtn)
+
+		local cbtn = ignore.closeBtn
+		cbtn:SetWidth(134)
+		cbtn:SetPoint("BOTTOMRIGHT", -1, 1)
+		B.CreateBC(cbtn)
+
+		BagBuddy_Icon:SetHeight(39)
+	end
+
 	if IsAddOnLoaded("PremadeGroupsFilter") then
 		local rebtn = LFGListFrame.SearchPanel.RefreshButton
 		UsePFGButton:SetSize(32, 32)
@@ -223,6 +247,23 @@ local function Reskins()
 					F.ReskinIcon(acTex)
 				end
 			end
+		end
+
+		if IsAddOnLoaded("DungeonWatchDog") then
+			F.Reskin(LFGListFrame.SearchPanel.IgnoreAllBtn)
+
+			local export = exportPanelFrame
+			F.StripTextures(export, true)
+			F.CreateBD(export)
+			F.CreateSD(export)
+			F.Reskin(export.editBtn0)
+			F.Reskin(export.editBtn1)
+			F.Reskin(export.editBtn2)
+
+			local editbox = export.editBox
+			editbox:ClearAllPoints()
+			editbox:SetPoint("CENTER", 0, 10)
+			F.ReskinInput(editbox, 20)
 		end
 
 		if IsAddOnLoaded("ls_Toasts") then

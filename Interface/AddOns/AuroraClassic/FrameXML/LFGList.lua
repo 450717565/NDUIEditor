@@ -105,7 +105,10 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.ReskinDecline(bu.DeclineButton)
 	end
 
-	ApplicationViewer.UnempoweredCover.Background:Hide()
+	local ucbg = ApplicationViewer.UnempoweredCover.Background
+	ucbg:SetPoint("TOPLEFT", 3, -1)
+	ucbg:SetPoint("BOTTOMRIGHT", 1, 0)
+
 	ApplicationViewer.RoleColumnHeader:SetPoint("LEFT", ApplicationViewer.NameColumnHeader, "RIGHT", 1, 0)
 	ApplicationViewer.ItemLevelColumnHeader:SetPoint("LEFT", ApplicationViewer.RoleColumnHeader, "RIGHT", 1, 0)
 

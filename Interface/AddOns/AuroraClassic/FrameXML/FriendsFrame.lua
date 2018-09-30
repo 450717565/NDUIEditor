@@ -99,8 +99,12 @@ tinsert(C.themes["AuroraClassic"], function()
 			for invite in FriendsFrameFriendsScrollFrame.invitePool:EnumerateActive() do
 				if not invite.styled then
 					F.StripTextures(FriendsFrameFriendsScrollFrameScrollChild, true)
+
+					local child = FriendsFrameFriendsScrollFrameScrollChild:GetChildren()
+					F.StripTextures(child, true)
+					F.Reskin(child)
+
 					invite.DeclineButton:SetSize(22, 22)
-					F.Reskin(childbtn)
 					F.ReskinDecline(invite.DeclineButton)
 					F.Reskin(invite.AcceptButton)
 
