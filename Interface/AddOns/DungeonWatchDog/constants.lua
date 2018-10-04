@@ -1,9 +1,10 @@
 
 local infos = {
     ADDON_BASE_NAME = 'DungeonWatchDog',
-    VERSION = '1.10.1',
+    VERSION = '1.10.2',
     IGNORE_PLANEL_FRAME = 'ignorePanelFrame',
     EXPORT_PLANEL_FRAME = 'exportPanelFrame',
+    KEYWORD_PLANEL_FRAME = 'keywordPanelFrame',
     BACKDROP_PLANEL = {
         bgFile = "Interface\\ChatFrame\\ChatFrameBackground",
         tile = true,

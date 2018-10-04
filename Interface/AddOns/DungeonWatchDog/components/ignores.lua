@@ -3,6 +3,7 @@ local L = LibStub("AceLocale-3.0"):GetLocale(INFO.ADDON_BASE_NAME, false)
 local Ignores = {}
 
 Ignores.init = function()
+    -- local planel = CreateFrame('Frame', INFO.EXPORT_PLANEL_FRAME, UIParent, 'TranslucentFrameTemplate')
     local planel = CreateFrame('Frame', INFO.IGNORE_PLANEL_FRAME, UIParent)
     planel:Hide()
     planel:SetSize(INFO.DEFAULT_PLANEL_WIDTH, 450)

@@ -454,7 +454,9 @@ local function CreatePanel()
 		B.CreateBD(tabs[i], .3)
 		B.CreateSD(tabs[i])
 		local label = B.CreateFS(tabs[i], 15, group, "system", "LEFT", 10, 0)
-		if i > 11 then
+		if i == 11 then
+			label:SetTextColor(0, .8, .3)
+		elseif i > 11 then
 			label:SetTextColor(.6, .8, 1)
 		end
 		tabs[i].Page = CreatePage(group)

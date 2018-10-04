@@ -14,4 +14,5 @@
   <Script file="ignores.lua" />
 	<Script file="export.lua" />
 	<Script file="ignore_all.lua" />
+	<Script file="keyword.lua" />
 </Ui>

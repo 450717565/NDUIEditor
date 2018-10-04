@@ -79,7 +79,7 @@ f.gradient:SetVertexColor(0,0,0,1)
 f.gradient:SetGradientAlpha("VERTICAL", 0, 0, 0, 1, 0, 0, 0, 0)
 f.gradient:SetPoint("BOTTOMLEFT",f)
 f.gradient:SetPoint("BOTTOMRIGHT",f)
-f.gradient:SetHeight(100)
+f.gradient:SetHeight(50)
 
 f.gradient2 = f.model:CreateTexture(nil,"BACKGROUND",nil,-7)
 f.gradient2:SetTexture(1,1,1)

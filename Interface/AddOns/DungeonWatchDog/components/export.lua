@@ -4,7 +4,6 @@ local Export = {}
 
 Export.init = function()
     local planel = CreateFrame('Frame', INFO.EXPORT_PLANEL_FRAME, UIParent, 'GlowBoxTemplate')
-    -- local planel = CreateFrame('Frame', INFO.EXPORT_PLANEL_FRAME, UIParent, 'TranslucentFrameTemplate')
     planel:Hide()
     planel:SetSize(500, 150)
     planel:SetPoint('CENTER', 'UIParent', 'CENTER', 0, 250)

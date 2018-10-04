@@ -93,8 +93,8 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.StripTextures(header)
 
 		local bg = F.CreateBDFrame(header, .25)
-		bg:SetPoint("TOPLEFT", 1, -1)
-		bg:SetPoint("BOTTOMRIGHT", -1, 1)
+		bg:SetPoint("TOPLEFT", 3, -1)
+		bg:SetPoint("BOTTOMRIGHT", 2, 1)
 
 		reskinHL(header, bg)
 	end

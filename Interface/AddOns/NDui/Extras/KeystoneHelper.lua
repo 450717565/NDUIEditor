@@ -13,7 +13,7 @@ local function CheckLink(link)
 end
 
 local function CheckKeystone(link)
-	local mapLevel, affixIDs = 0, {}
+	local affixIDs, mapLevel = {}, 0
 
 	if CheckLink(link) then
 		local info = {strsplit(":", link)}
@@ -59,7 +59,7 @@ local function OnTooltipSetItem(self)
 
 		if mapLevel >= 2 then
 			self:AddLine(" ")
-			self:AddLine(format(L["Mythic Loot Item Level"], ilvl), 0,1,1)
+			self:AddLine(format(L["Mythic Loot Item Level"], ilvl), 1,1,0)
 			self:AddLine(format(L["Weekly Loot Item Level"], wlvl), 0,1,1)
 			self:AddLine(format(L["Weekly Azerite Item Level"], alvl), .9,.8,.5)
 		end

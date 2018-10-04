@@ -44,6 +44,7 @@ C.defaults = {
 	["tooltips"] = false,
 	["shadow"] = true,
 	["fontScale"] = 1,
+	["objectiveTracker"] = true,
 }
 
 C.frames = {}

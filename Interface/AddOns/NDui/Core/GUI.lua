@@ -142,7 +142,6 @@ local defaultSettings = {
 		EasyMarking = true,
 		TMW = true,
 		PetBattle = true,
-		TrackerSkin = true,
 		WeakAuras = true,
 		BarLine = true,
 		InfobarLine = true,
@@ -437,8 +436,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Skins", "ClassLine", L["ClassColor Line"]},
 		{},--blank
 		{1, "Skins", "MicroMenu", L["Micromenu"]},
-		{1, "Skins", "TrackerSkin", L["ObjectiveTracker Skin"], true},
-		{1, "Skins", "PetBattle", L["PetBattle Skin"]},
+		{1, "Skins", "PetBattle", L["PetBattle Skin"], true},
 		{},--blank
 		{1, "Skins", "DBM", L["DBM Skin"]},
 		{1, "Skins", "Skada", L["Skada Skin"], true},
@@ -680,23 +678,23 @@ local function CreateOption(i)
 			tex:SetColorTexture(NDuiDB[key][value].r, NDuiDB[key][value].g, NDuiDB[key][value].b)
 
 			local function onUpdate()
-				local cr, cg, cb = ColorPickerFrame:GetColorRGB()
-				tex:SetColorTexture(cr, cg, cb)
-				NDuiDB[key][value].r, NDuiDB[key][value].g, NDuiDB[key][value].b = cr, cg, cb
+				local r, g, b = ColorPickerFrame:GetColorRGB()
+				tex:SetColorTexture(r, g, b)
+				NDuiDB[key][value].r, NDuiDB[key][value].g, NDuiDB[key][value].b = r, g, b
 			end
 
 			local function onCancel()
-				local cr, cg, cb = ColorPicker_GetPreviousValues()
-				tex:SetColorTexture(cr, cg, cb)
-				NDuiDB[key][value].r, NDuiDB[key][value].g, NDuiDB[key][value].b = cr, cg, cb
+				local r, g, b = ColorPicker_GetPreviousValues()
+				tex:SetColorTexture(r, g, b)
+				NDuiDB[key][value].r, NDuiDB[key][value].g, NDuiDB[key][value].b = r, g, b
 			end
 
 			f:SetScript("OnClick", function()
-				local cr, cg, cb = NDuiDB[key][value].r, NDuiDB[key][value].g, NDuiDB[key][value].b
+				local r, g, b = NDuiDB[key][value].r, NDuiDB[key][value].g, NDuiDB[key][value].b
 				ColorPickerFrame.func = onUpdate
 				ColorPickerFrame.previousValues = {r = r, g = g, b = b}
 				ColorPickerFrame.cancelFunc = onCancel
-				ColorPickerFrame:SetColorRGB(cr, cg, cb)
+				ColorPickerFrame:SetColorRGB(r, g, b)
 				ColorPickerFrame:Show()
 			end)
 		-- Blank, no type

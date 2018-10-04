@@ -94,7 +94,7 @@ local function CreateSlot(id)
 
 	local icon = icBD:CreateTexture(nil, "ARTWORK")
 	icon:SetAlpha(.8)
-	icon:SetTexCoord(.08, .92, .08, .92)
+	icon:SetTexCoord(unpack(DB.TexCoord))
 	icon:SetPoint("TOPLEFT", 1, -1)
 	icon:SetPoint("BOTTOMRIGHT", -1, 1)
 	button.icon = icon
