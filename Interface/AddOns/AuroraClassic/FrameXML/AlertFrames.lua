@@ -309,7 +309,7 @@ tinsert(C.themes["AuroraClassic"], function()
 				select(1, frame:GetRegions()):Hide()
 				local icon = select(2, frame:GetRegions())
 				icon:SetTexCoord(.08, .92, .08, .92)
-				F.CreateBDFrame(Icon, .25)
+				F.CreateBDFrame(icon, .25)
 			end
 		end
 
@@ -327,7 +327,7 @@ tinsert(C.themes["AuroraClassic"], function()
 					reward.texture:ClearAllPoints()
 					reward.texture:SetPoint("TOPLEFT", 6, -6)
 					reward.texture:SetPoint("BOTTOMRIGHT", -6, 6)
-					reward.bg = F.CreateBDFrame(reward.Texture, .25)
+					reward.bg = F.CreateBDFrame(reward.texture, .25)
 				end
 			end
 		end
