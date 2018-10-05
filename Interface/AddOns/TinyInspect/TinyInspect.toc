@@ -12,7 +12,7 @@ libs\lib.xml
 InspectCore.lua
 InspectiLvl.lua
 InspectUnit.lua
-
+InspectUnitGemAndEnchant.lua
 InspectUnitSpecialization.lua
 ItemLevel.lua
 PluginGreenState.lua

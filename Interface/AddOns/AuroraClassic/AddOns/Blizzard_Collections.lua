@@ -558,13 +558,13 @@ C.themes["Blizzard_Collections"] = function()
 			slot.Border:Hide()
 			slot.Icon:SetDrawLayer("BACKGROUND", 1)
 			slot.Icon:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(slot.Icon, .25)
+			local bg = F.CreateBDFrame(slot.Icon, .25)
 
 			slot:SetHighlightTexture(C.media.backdrop)
 			local hl = slot:GetHighlightTexture()
-			hl:SetVertexColor(r, g, b, .25)
-			hl:SetPoint("TOPLEFT", 2, -2)
-			hl:SetPoint("BOTTOMRIGHT", -2, 2)
+			hl:SetVertexColor(1, 1, 1, .25)
+			hl:SetPoint("TOPLEFT", bg, 1, -1)
+			hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
 		end
 	end
 

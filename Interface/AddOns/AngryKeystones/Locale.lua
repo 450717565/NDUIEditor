@@ -42,7 +42,7 @@ langs.enUS = {
 	config_resetPopup = "Show popup to reset instances upon leaving a completed Mythic Keystone dungeon",
 	partyKeysTitle = "Party Keystones",
 	newKeystoneAnnounce = "New Keystone: %s",
-	currentKeystoneText = "Current: %s",
+	currentKeystoneText = "Current: |cffFFFFFF%s|r",
 	config_announceKeystones = "Announce newly acquired Mythic Keystones to your party",
 }
 langs.enGB = langs.enUS
@@ -125,7 +125,7 @@ langs.koKR = {
 	config_resetPopup = "완료한 신화 쐐기돌 던전을 나가면 인스턴스 초기화 팝업창 표시",
 	partyKeysTitle = "파티 쐐기돌",
 	newKeystoneAnnounce = "새 쐐기돌: %s",
-	currentKeystoneText = "현재 쐐기돌: %s",
+	currentKeystoneText = "현재 쐐기돌: |cffFFFFFF%s|r",
 	config_announceKeystones = "신화 쐐기돌을 새로 받으면 파티에 알림",
 }
 
@@ -151,7 +151,7 @@ langs.zhCN = {
 	config_splitsFormat_1 = "禁用",
 	config_splitsFormat_2 = "从头计时",
 	config_splitsFormat_3 = "相对于之前",
-	currentKeystoneText = "当前钥石：%s",
+	currentKeystoneText = "当前钥石：|cffFFFFFF%s|r",
 	keystoneFormat = "[%s（%d级）]",
 	newKeystoneAnnounce = "全新钥石：%s",
 	partyKeysTitle = "队伍钥石",
@@ -185,7 +185,7 @@ langs.zhTW = {
 	config_splitsFormat_1 = "禁用",
 	config_splitsFormat_2 = "從頭計時",
 	config_splitsFormat_3 = "相對於之前",
-	currentKeystoneText = "當前鑰石：%s",
+	currentKeystoneText = "當前鑰石：|cffFFFFFF%s|r",
 	keystoneFormat = "[%s（%d級）]",
 	newKeystoneAnnounce = "全新鑰石：%s",
 	partyKeysTitle = "隊伍鑰石",

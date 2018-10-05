@@ -1,7 +1,7 @@
-local mod	= DBM:NewMod(2337, "DBM-ZuldazarRaid", 1, 1176)
+local mod	= DBM:NewMod(2337, "DBM-ZuldazarRaid", 3, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17952 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17956 $"):sub(12, -3))
 --mod:SetCreatureID(138967)
 mod:SetEncounterID(2280)
 --mod:DisableESCombatDetection()
