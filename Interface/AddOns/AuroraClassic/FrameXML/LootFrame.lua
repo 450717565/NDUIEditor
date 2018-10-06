@@ -25,7 +25,6 @@ tinsert(C.themes["AuroraClassic"], function()
 			local bg = F.CreateBDFrame(bu, .25)
 			bg:SetPoint("TOPLEFT")
 			bg:SetPoint("BOTTOMRIGHT", 114, 0)
-			bg:SetFrameLevel(bu:GetFrameLevel()-1)
 
 			ic:SetTexCoord(.08, .92, .08, .92)
 			ic.bg = F.CreateBDFrame(ic, .25)

@@ -196,7 +196,6 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		local bg = F.CreateBDFrame(item, .25)
 		bg:SetPoint("TOPLEFT", 1, -1)
 		bg:SetPoint("BOTTOMRIGHT", -1, 1)
-		bg:SetFrameLevel(item:GetFrameLevel() - 1)
 	end
 
 	-- [[ Search results ]]

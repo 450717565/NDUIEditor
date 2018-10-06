@@ -185,7 +185,6 @@ C.themes["Blizzard_AchievementUI"] = function()
 	local headerbg = F.CreateBDFrame(AchievementFrameComparisonHeader)
 	headerbg:SetPoint("TOPLEFT", 20, -20)
 	headerbg:SetPoint("BOTTOMRIGHT", -28, -5)
-	headerbg:SetFrameLevel(AchievementFrameComparisonHeader:GetFrameLevel()-1)
 
 	local summaries = {AchievementFrameComparisonSummaryPlayer, AchievementFrameComparisonSummaryFriend}
 	for _, frame in pairs(summaries) do
@@ -194,7 +193,6 @@ C.themes["Blizzard_AchievementUI"] = function()
 		local bg = F.CreateBDFrame(frame, 0)
 		bg:SetPoint("TOPLEFT", 2, -2)
 		bg:SetPoint("BOTTOMRIGHT", -2, 0)
-		bg:SetFrameLevel(frame:GetFrameLevel()-1)
 	end
 
 	local bars = {AchievementFrameComparisonSummaryPlayerStatusBar, AchievementFrameComparisonSummaryFriendStatusBar}

@@ -18,7 +18,6 @@ tinsert(C.themes["AuroraClassic"], function()
 			local bg = F.CreateBDFrame(checkbox, .25)
 			bg:SetPoint("TOPLEFT", 0, -.5)
 			bg:SetPoint("BOTTOMRIGHT", 0, .5)
-			bg:SetFrameLevel(checkbox:GetFrameLevel()-1)
 
 			local swatch = _G[checkBoxName.."ColorSwatch"]
 			if swatch then
@@ -59,7 +58,6 @@ tinsert(C.themes["AuroraClassic"], function()
 			local bg = F.CreateBDFrame(swatch)
 			bg:SetPoint("TOPLEFT", 0, -.5)
 			bg:SetPoint("BOTTOMRIGHT", 0, .5)
-			bg:SetFrameLevel(swatch:GetFrameLevel()-1)
 
 			F.ReskinColourSwatch(_G[swatchName.."ColorSwatch"])
 		end
@@ -122,7 +120,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	local bg = F.CreateBDFrame(ChatConfigCombatSettingsFilters, .25)
 	bg:SetPoint("TOPLEFT", 3, 0)
 	bg:SetPoint("BOTTOMRIGHT", 0, 1)
-	bg:SetFrameLevel(ChatConfigCombatSettingsFilters:GetFrameLevel()-1)
 
 	F.Reskin(CombatLogDefaultButton)
 	F.Reskin(ChatConfigCombatSettingsFiltersCopyFilterButton)

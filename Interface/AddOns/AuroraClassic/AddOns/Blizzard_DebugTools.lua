@@ -11,11 +11,9 @@ C.themes["Blizzard_DebugTools"] = function()
 	local bu = select(2, EventTraceFrameScroll:GetRegions())
 	bu:SetAlpha(0)
 	bu:SetWidth(17)
-	bu.bg = CreateFrame("Frame", nil, EventTraceFrame)
+	bu.bg = F.CreateBDFrame(EventTraceFrame, 0)
 	bu.bg:SetPoint("TOPLEFT", bu, 0, 0)
 	bu.bg:SetPoint("BOTTOMRIGHT", bu, 0, 0)
-	F.CreateBD(bu.bg, 0)
-	F.CreateSD(bu.bg)
 	F.CreateGradient(bu.bg)
 
 	if AuroraConfig.tooltips then

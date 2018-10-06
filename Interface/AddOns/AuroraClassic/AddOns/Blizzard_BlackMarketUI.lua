@@ -19,7 +19,6 @@ C.themes["Blizzard_BlackMarketUI"] = function()
 		local bg = F.CreateBDFrame(header, .25)
 		bg:SetPoint("TOPLEFT", 2, -2)
 		bg:SetPoint("BOTTOMRIGHT", -1, -3)
-		bg:SetFrameLevel(header:GetFrameLevel()-1)
 	end
 
 	F.CreateBD(BlackMarketFrame)
@@ -47,7 +46,6 @@ C.themes["Blizzard_BlackMarketUI"] = function()
 				local bg = F.CreateBDFrame(bu, .25)
 				bg:SetPoint("TOPLEFT")
 				bg:SetPoint("BOTTOMRIGHT", 0, 5)
-				bg:SetFrameLevel(bu:GetFrameLevel()-1)
 
 				bu:SetHighlightTexture(C.media.backdrop)
 				local hl = bu:GetHighlightTexture()

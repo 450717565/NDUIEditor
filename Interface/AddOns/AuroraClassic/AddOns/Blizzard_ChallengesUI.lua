@@ -4,24 +4,6 @@ C.themes["Blizzard_ChallengesUI"] = function()
 	F.StripTextures(ChallengesFrame, true)
 	F.StripTextures(ChallengesFrameInset, true)
 
-	local function AffixesSetup(self)
-		for _, frame in ipairs(self.Affixes) do
-			frame.Border:SetTexture(nil)
-			frame.Portrait:SetTexture(nil)
-			if not frame.bg then
-				frame.Portrait:SetTexCoord(.08, .92, .08, .92)
-				frame.bg = F.CreateBDFrame(frame.Portrait, .25)
-			end
-
-			if frame.info then
-				frame.Portrait:SetTexture(CHALLENGE_MODE_EXTRA_AFFIX_INFO[frame.info.key].texture)
-			elseif frame.affixID then
-				local _, _, filedataid = C_ChallengeMode.GetAffixInfo(frame.affixID)
-				frame.Portrait:SetTexture(filedataid)
-			end
-		end
-	end
-
 	local angryStyle
 	local function UpdateIcons(self)
 		for i = 1, #self.maps do
@@ -43,7 +25,7 @@ C.themes["Blizzard_ChallengesUI"] = function()
 			F.CreateBDFrame(scheduel, .25)
 			if scheduel.Entries then
 				for i = 1, 3 do
-					AffixesSetup(scheduel.Entries[i])
+					F.AffixesSetup(scheduel.Entries[i])
 				end
 			end
 
@@ -59,7 +41,7 @@ C.themes["Blizzard_ChallengesUI"] = function()
 	hooksecurefunc(ChallengesFrame.WeeklyInfo, "SetUp", function(self)
 		local affixes = C_MythicPlus.GetCurrentAffixes()
 		if affixes then
-			AffixesSetup(self.Child)
+			F.AffixesSetup(self.Child)
 		end
 	end)
 
@@ -74,5 +56,5 @@ C.themes["Blizzard_ChallengesUI"] = function()
 		self.InstructionBackground:SetAlpha(0)
 	end)
 
-	hooksecurefunc(keystone, "OnKeystoneSlotted", AffixesSetup)
+	hooksecurefunc(keystone, "OnKeystoneSlotted", F.AffixesSetup)
 end

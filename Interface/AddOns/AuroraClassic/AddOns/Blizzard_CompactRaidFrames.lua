@@ -46,11 +46,9 @@ tinsert(C.themes["AuroraClassic"], function()
 	--CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:SetNormalTexture("Interface\\RaidFrame\\Raid-WorldPing")
 
 	F.StripTextures(CompactRaidFrameManager, true)
+	F.CreateBDFrame(CompactRaidFrameManager)
 	CompactRaidFrameManagerDisplayFrameHeaderBackground:Hide()
 	CompactRaidFrameManagerDisplayFrameHeaderDelineator:Hide()
-
-	local bg = F.CreateBDFrame(CompactRaidFrameManager)
-	bg:SetFrameLevel(CompactRaidFrameManager:GetFrameLevel() - 1)
 
 	F.ReskinDropDown(CompactRaidFrameManagerDisplayFrameProfileSelector)
 	F.ReskinCheck(CompactRaidFrameManagerDisplayFrameEveryoneIsAssistButton)

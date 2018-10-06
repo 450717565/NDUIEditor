@@ -21,28 +21,25 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	for i = 1, MAX_REQUIRED_ITEMS do
 		local bu = _G["QuestProgressItem"..i]
-		local ic = _G["QuestProgressItem"..i.."IconTexture"]
-		local na = _G["QuestProgressItem"..i.."NameFrame"]
-		local co = _G["QuestProgressItem"..i.."Count"]
+		F.CreateBDFrame(bu, .25)
 
+		local line = F.CreateBDFrame(bu)
+		line:SetSize(1, 40)
+		line:SetPoint("RIGHT", ic, 1, 0)
+
+		local ic = _G["QuestProgressItem"..i.."IconTexture"]
 		ic:SetSize(40, 40)
 		ic:SetTexCoord(.08, .92, .08, .92)
 		ic:SetDrawLayer("OVERLAY")
 		ic:ClearAllPoints()
 		ic:SetPoint("LEFT")
-		F.CreateBDFrame(ic)
+		F.CreateBDFrame(ic, .25)
 
-		F.CreateBD(bu, .25)
-		F.CreateSD(bu)
-
+		local na = _G["QuestProgressItem"..i.."NameFrame"]
 		na:Hide()
-		co:SetDrawLayer("OVERLAY")
 
-		local line = CreateFrame("Frame", nil, bu)
-		line:SetSize(1, 40)
-		line:SetPoint("RIGHT", ic, 1, 0)
-		F.CreateBD(line)
-		F.CreateSD(line)
+		local co = _G["QuestProgressItem"..i.."Count"]
+		co:SetDrawLayer("OVERLAY")
 	end
 
 	QuestDetailScrollFrame:SetWidth(302) -- else these buttons get cut off
@@ -86,19 +83,15 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.StripTextures(QuestNPCModel, true)
 	F.StripTextures(QuestNPCModelTextFrame, true)
 
-	local npcbd = CreateFrame("Frame", nil, QuestNPCModel)
+	local npcbd = F.CreateBDFrame(QuestNPCModel)
 	npcbd:SetPoint("TOPLEFT", -1, 0)
 	npcbd:SetPoint("BOTTOMRIGHT", 0, -20)
 	npcbd:SetFrameLevel(0)
-	F.CreateBD(npcbd)
-	F.CreateSD(npcbd)
 
-	local textbd = CreateFrame("Frame", nil, QuestNPCModelTextFrame)
+	local textbd = F.CreateBDFrame(QuestNPCModelTextFrame)
 	textbd:SetPoint("TOPLEFT", -1, 1)
 	textbd:SetPoint("BOTTOMRIGHT",0 , 5)
 	textbd:SetFrameLevel(0)
-	F.CreateBD(textbd)
-	F.CreateSD(textbd)
 
 	hooksecurefunc("QuestFrame_ShowQuestPortrait", function(parentFrame, _, _, _, _, x, y)
 		if parentFrame == QuestLogPopupDetailFrame or parentFrame == QuestFrame then

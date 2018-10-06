@@ -56,14 +56,9 @@ tinsert(C.themes["AuroraClassic"], function()
 	for i = 1, #tooltips do
 		local t = tooltips[i]
 		t:SetBackdrop(nil)
-		local bg = CreateFrame("Frame", nil, t)
+		local bg = F.CreateBDFrame(t, .6)
 		bg:SetPoint("TOPLEFT")
 		bg:SetPoint("BOTTOMRIGHT")
-		bg:SetFrameLevel(t:GetFrameLevel()-1)
-		bg:SetBackdrop(backdrop)
-		bg:SetBackdropColor(0, 0, 0, .6)
-		bg:SetBackdropBorderColor(0, 0, 0)
-		F.CreateSD(bg)
 
 		t.auroraTip = true
 		t.GetBackdrop = getBackdrop
@@ -91,11 +86,9 @@ tinsert(C.themes["AuroraClassic"], function()
 	local tooltips = {PetBattlePrimaryAbilityTooltip, PetBattlePrimaryUnitTooltip, FloatingBattlePetTooltip, BattlePetTooltip, FloatingPetBattleAbilityTooltip}
 	for _, f in pairs(tooltips) do
 		f:DisableDrawLayer("BACKGROUND")
-		local bg = CreateFrame("Frame", nil, f)
+		local bg = F.CreateBDFrame(f)
 		bg:SetAllPoints()
 		bg:SetFrameLevel(0)
-		F.CreateBD(bg)
-		F.CreateSD(bg)
 	end
 
 	PetBattlePrimaryUnitTooltip.Delimiter:SetColorTexture(0, 0, 0)

@@ -61,7 +61,6 @@ C.themes["Blizzard_Collections"] = function()
 			local bg = F.CreateBDFrame(bu, .25)
 			bg:SetPoint("TOPLEFT", 0, -1)
 			bg:SetPoint("BOTTOMRIGHT", 0, 1)
-			bg:SetFrameLevel(bu:GetFrameLevel()-1)
 			bu.bg = bg
 
 			local hl = bu:GetHighlightTexture()
@@ -165,11 +164,9 @@ C.themes["Blizzard_Collections"] = function()
 
 	if AuroraConfig.tooltips then
 		for _, f in next, {PetJournalPrimaryAbilityTooltip, PetJournalSecondaryAbilityTooltip} do
-			local bg = CreateFrame("Frame", nil, f)
+			local bg = F.CreateBDFrame(f)
 			bg:SetAllPoints()
 			bg:SetFrameLevel(0)
-			F.CreateBD(bg)
-			F.CreateSD(bg)
 		end
 	end
 

@@ -147,7 +147,6 @@ C.themes["Blizzard_TalentUI"] = function()
 			bu.bg = F.CreateBDFrame(bu)
 			bu.bg:SetPoint("TOPLEFT", 10, 0)
 			bu.bg:SetPoint("BOTTOMRIGHT")
-			bu.bg:SetFrameLevel(bu:GetFrameLevel()-1)
 		end
 	end
 

@@ -56,23 +56,21 @@ C.themes["Blizzard_Calendar"] = function()
 	end
 
 	for i = 1, 6 do
-		local vline = CreateFrame("Frame", nil, _G["CalendarDayButton"..i])
+		local vline = F.CreateBDFrame(_G["CalendarDayButton"..i])
 		vline:SetFrameLevel(_G["CalendarDayButton"..i]:GetFrameLevel()+1)
 		vline:SetHeight(546)
 		vline:SetWidth(1)
+		vline:ClearAllPoints()
 		vline:SetPoint("TOP", _G["CalendarDayButton"..i], "TOPRIGHT")
-		F.CreateBD(vline)
-		F.CreateSD(vline)
 	end
 
 	for i = 1, 36, 7 do
-		local hline = CreateFrame("Frame", nil, _G["CalendarDayButton"..i])
+		local hline = F.CreateBDFrame(_G["CalendarDayButton"..i])
 		hline:SetFrameLevel(_G["CalendarDayButton"..i]:GetFrameLevel()+1)
 		hline:SetWidth(637)
 		hline:SetHeight(1)
+		hline:ClearAllPoints()
 		hline:SetPoint("LEFT", _G["CalendarDayButton"..i], "TOPLEFT")
-		F.CreateBD(hline)
-		F.CreateSD(hline)
 	end
 
 	if AuroraConfig.tooltips then
@@ -80,12 +78,9 @@ C.themes["Blizzard_Calendar"] = function()
 
 		for _, tooltip in pairs(tooltips) do
 			tooltip:SetBackdrop(nil)
-			local bg = CreateFrame("Frame", nil, tooltip)
+			local bg = F.CreateBDFrame(tooltip)
 			bg:SetPoint("TOPLEFT", 2, -2)
 			bg:SetPoint("BOTTOMRIGHT", -1, 2)
-			bg:SetFrameLevel(tooltip:GetFrameLevel()-1)
-			F.CreateBD(bg)
-			F.CreateSD(bg)
 		end
 	end
 

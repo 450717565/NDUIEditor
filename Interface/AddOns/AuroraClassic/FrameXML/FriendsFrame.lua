@@ -25,7 +25,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	local whoBg = F.CreateBDFrame(WhoFrameEditBoxInset, .25)
 	whoBg:SetPoint("TOPLEFT")
 	whoBg:SetPoint("BOTTOMRIGHT", -1, 1)
-	whoBg:SetFrameLevel(WhoFrameEditBoxInset:GetFrameLevel()-1)
 	F.CreateGradient(whoBg)
 
 	for i = 1, 3 do
