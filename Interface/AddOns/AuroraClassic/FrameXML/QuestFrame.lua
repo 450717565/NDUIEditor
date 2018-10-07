@@ -23,10 +23,6 @@ tinsert(C.themes["AuroraClassic"], function()
 		local bu = _G["QuestProgressItem"..i]
 		F.CreateBDFrame(bu, .25)
 
-		local line = F.CreateBDFrame(bu)
-		line:SetSize(1, 40)
-		line:SetPoint("RIGHT", ic, 1, 0)
-
 		local ic = _G["QuestProgressItem"..i.."IconTexture"]
 		ic:SetSize(40, 40)
 		ic:SetTexCoord(.08, .92, .08, .92)

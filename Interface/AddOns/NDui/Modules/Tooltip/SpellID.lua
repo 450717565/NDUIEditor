@@ -31,7 +31,7 @@ function module:ExtraTipInfo()
 				self:AddDoubleLine(BAGSLOT..L[":"], DB.InfoColor..bagCount)
 			end
 			if itemStackCount and itemStackCount > 1 then
-				self:AddDoubleLine(L["Stack Cap"]..L[":"], DB.InfoColor..itemStackCount)
+				self:AddDoubleLine(AUCTION_STACK_SIZE..L[":"], DB.InfoColor..itemStackCount)
 			end
 		end
 		self:AddDoubleLine(type, format(DB.InfoColor.."%s|r", id))

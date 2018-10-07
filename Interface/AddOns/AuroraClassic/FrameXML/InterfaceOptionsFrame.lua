@@ -22,7 +22,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.Reskin(InterfaceOptionsDisplayPanelResetTutorials)
 
 		InterfaceOptionsFrameHeader:Hide()
-		InterfaceOptionsFrameOkay:SetPoint("BOTTOMRIGHT", InterfaceOptionsFrameCancel, "BOTTOMLEFT", -1, 0)
+		InterfaceOptionsFrameOkay:SetPoint("RIGHT", InterfaceOptionsFrameCancel, "LEFT", -1, 0)
 
 		InterfaceOptionsFrameHeader:ClearAllPoints()
 		InterfaceOptionsFrameHeader:SetPoint("TOP")

@@ -262,7 +262,7 @@ local function Reskins()
 
 			local editbox = export.editBox
 			editbox:ClearAllPoints()
-			editbox:SetPoint("CENTER", 0, 10)
+			editbox:SetPoint("CENTER", 1, 10)
 			F.ReskinInput(editbox, 20)
 		end
 

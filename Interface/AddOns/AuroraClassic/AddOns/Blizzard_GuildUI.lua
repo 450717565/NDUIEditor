@@ -74,6 +74,7 @@ C.themes["Blizzard_GuildUI"] = function()
 	f:SetPoint("BOTTOMRIGHT", 1, -52)
 
 	local line = F.CreateBDFrame(GuildNewsBossModel, 0)
+	line:ClearAllPoints()
 	line:SetPoint("BOTTOMLEFT", 0, -1)
 	line:SetPoint("BOTTOMRIGHT", 0, -1)
 	line:SetHeight(1)

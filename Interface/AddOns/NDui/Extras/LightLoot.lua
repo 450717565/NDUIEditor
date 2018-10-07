@@ -2,13 +2,13 @@ local B, C, L, DB = unpack(select(2, ...))
 
 local iconSize = 33
 
-local fontSizeItem = math.floor(select(2, GameFontWhite:GetFont()) + .5)
+local fontSize = math.floor(select(2, GameFontWhite:GetFont()) + .5)
 
 local point = {"CENTER", 300, 0}
 local slots = {}
 
 local LightLoot = CreateFrame("Button", "LightLoot")
-B.CreateBD(LightLoot, .5)
+B.CreateBD(LightLoot)
 B.CreateSD(LightLoot)
 B.CreateTex(LightLoot)
 LightLoot:RegisterForClicks("AnyUp")
@@ -72,10 +72,8 @@ local function OnUpdate(self)
 end
 
 local function CreateSlot(id)
-	local cr, cg, cb = DB.CC.r, DB.CC.g, DB.CC.b
-
 	local button = CreateFrame("Button", "LightLootSlot"..id, LightLoot)
-	button:SetHeight(math.max(fontSizeItem, iconSize))
+	button:SetHeight(math.max(fontSize, iconSize))
 	button:SetPoint("LEFT", 5, 0)
 	button:SetPoint("RIGHT", -5, 0)
 	button:SetID(id)
@@ -86,13 +84,13 @@ local function CreateSlot(id)
 	button:SetScript("OnClick", OnClick)
 	button:SetScript("OnUpdate", OnUpdate)
 
-	local icBD = CreateFrame("Frame", nil, button)
-	icBD:SetSize(iconSize, iconSize)
-	icBD:SetPoint("LEFT", button)
-	B.CreateBD(icBD, 1)
-	button.icBD = icBD
+	local border = CreateFrame("Frame", nil, button)
+	border:SetSize(iconSize, iconSize)
+	border:SetPoint("LEFT", button)
+	B.CreateBD(border, 1)
+	button.border = border
 
-	local icon = icBD:CreateTexture(nil, "ARTWORK")
+	local icon = border:CreateTexture(nil, "ARTWORK")
 	icon:SetAlpha(.8)
 	icon:SetTexCoord(unpack(DB.TexCoord))
 	icon:SetPoint("TOPLEFT", 1, -1)
@@ -100,21 +98,23 @@ local function CreateSlot(id)
 	button.icon = icon
 
 	local glow = button:CreateTexture(nil, "ARTWORK")
-	glow:SetAlpha(.5)
 	glow:SetPoint("TOPLEFT", icon, "TOPRIGHT", 3, 0)
 	glow:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT")
 	glow:SetTexture(DB.bdTex)
-	glow:SetVertexColor(cr, cg, cb)
+	glow:SetVertexColor(DB.CC.r, DB.CC.g, DB.CC.b, .5)
 	glow:Hide()
 	button.glow = glow
 
-	local count = B.CreateFS(icBD, 14, "", false, "BOTTOMRIGHT", -1, 1)
+	local count = B.CreateFS(button, 14, "")
 	count:SetJustifyH("RIGHT")
+	count:ClearAllPoints()
+	count:SetPoint("BOTTOMRIGHT", border, "BOTTOMRIGHT", -1, 1)
 	button.count = count
 
-	local name = B.CreateFS(icBD, 14, "")
+	local name = B.CreateFS(button, 14, "")
 	name:SetJustifyH("LEFT")
-	name:SetPoint("LEFT", icon, "RIGHT", 5, 0)
+	name:ClearAllPoints()
+	name:SetPoint("LEFT", border, "RIGHT", 5, 0)
 	name:SetNonSpaceWrap(true)
 	button.name = name
 
@@ -192,7 +192,7 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 				local slotType = GetLootSlotType(i)
 
 				if slotType == LOOT_SLOT_MONEY then
-					lootName = lootName:gsub("\n", "，")
+					lootName = lootName:gsub("\n", L[","])
 				end
 
 				if lootQuantity and lootQuantity > 1 then
@@ -207,10 +207,10 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 						r, g, b = .8, .8, 0
 					end
 					slot.name:SetTextColor(r, g, b)
-					slot.icBD:SetBackdropBorderColor(r, g, b)
+					slot.border:SetBackdropBorderColor(r, g, b)
 				else
 					slot.name:SetTextColor(.5, .5, .5)
-					slot.icBD:SetBackdropBorderColor(.5, .5, .5)
+					slot.border:SetBackdropBorderColor(.5, .5, .5)
 				end
 
 				slot.lootQuality = lootQuality
@@ -228,12 +228,12 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 	else
 		local slot = slots[1] or CreateSlot(1)
 
-		slot.name:SetText(NONE)
-		slot.name:SetTextColor(.5, .5, .5)
-		slot.icon:SetTexture(nil)
-
+		slot.border:Hide()
 		slot.count:Hide()
 		slot.glow:Hide()
+		slot.icon:Hide()
+		slot.name:Hide()
+
 		slot:Disable()
 		slot:Show()
 	end
