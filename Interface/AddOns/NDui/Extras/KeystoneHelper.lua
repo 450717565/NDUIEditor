@@ -66,5 +66,6 @@ local function OnTooltipSetItem(self)
 	end
 end
 
+hooksecurefunc(ItemRefTooltip, "SetHyperlink", OnTooltipSetItem)
 GameTooltip:HookScript("OnTooltipSetItem", OnTooltipSetItem)
 ItemRefTooltip:HookScript("OnTooltipSetItem", OnTooltipSetItem)

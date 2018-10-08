@@ -156,9 +156,10 @@ end
 actions.checkListInfo = function(id, limitLevel)
     local passed, lastPlayer = false, nil
     local info = { C_LFGList.GetSearchResultInfo(id) }
-    local ilvl, minutes, leaderName, members = info[6], info[8] / 60, info[13], info[14]
+    if not info then return passed, lastPlayer end
+    local ilvl, minutes, leaderName, members = info[6], (info[8] or 0) / 60, info[13], info[14]
     -- ilvl == 0 is not set
-    local ilvlPassed = (ilvl == 0 and true) or (ilvl > limitLevel and true) or nil
+    local ilvlPassed = (not ilvl and true) or (ilvl == 0 and true) or (ilvl > limitLevel and true) or nil
     local memberPassed = not (minutes > 20 and members <= 1)
 
     if not actions.isBannedPlayer(leaderName) and ilvlPassed and memberPassed then
@@ -235,11 +236,17 @@ end
 actions.sendVersionMessage = function()
     if not WATCHDOG_DB then return end
     if not WATCHDOG_DB.nextVersion then return end
-
-    if WATCHDOG_DB.nextVersion == INFO.VERSION then
+    local major1, minor1, revision1 = string.match(WATCHDOG_DB.nextVersion, '(%d).(%d).(%d)')
+    local major2, minor2, revision2 = string.match(INFO.VERSION, '(%d).(%d).(%d)')
+    local resetVersion = function()
         WATCHDOG_DB.nextVersion = nil
-        return
     end
+    if not major1 or not minor1 or not revision1 then return resetVersion() end
+    if major1 < major2 then return resetVersion() end
+    if major1 == major2 and minor1 < minor2 then return resetVersion() end
+    if major1 == major2 and minor1 == minor2 and revision1 < revision2 then return resetVersion() end 
+
+    if WATCHDOG_DB.nextVersion == INFO.VERSION then return resetVersion() end
     actions.log(L.VERSION_EXPIRED)
 end
 
