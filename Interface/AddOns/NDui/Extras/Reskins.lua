@@ -36,14 +36,10 @@ local function Reskins()
 		B.CreateSD(ignore)
 		B.CreateTex(ignore)
 
-		local ebtn = ignore.exportBtn
-		ebtn:SetWidth(134)
-		ebtn:SetPoint("BOTTOMLEFT", 1, 1)
-		B.CreateBC(ebtn)
-
 		local cbtn = ignore.closeBtn
-		cbtn:SetWidth(134)
-		cbtn:SetPoint("BOTTOMRIGHT", -1, 1)
+		cbtn:SetWidth(269)
+		cbtn:ClearAllPoints()
+		cbtn:SetPoint("BOTTOM", 0, 1)
 		B.CreateBC(cbtn)
 
 		BagBuddy_Icon:SetHeight(39)
@@ -251,19 +247,6 @@ local function Reskins()
 
 		if IsAddOnLoaded("DungeonWatchDog") then
 			F.Reskin(LFGListFrame.SearchPanel.IgnoreAllBtn)
-
-			local export = exportPanelFrame
-			F.StripTextures(export, true)
-			F.CreateBD(export)
-			F.CreateSD(export)
-			F.Reskin(export.editBtn0)
-			F.Reskin(export.editBtn1)
-			F.Reskin(export.editBtn2)
-
-			local editbox = export.editBox
-			editbox:ClearAllPoints()
-			editbox:SetPoint("CENTER", 1, 10)
-			F.ReskinInput(editbox, 20)
 		end
 
 		if IsAddOnLoaded("ls_Toasts") then

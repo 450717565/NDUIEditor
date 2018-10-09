@@ -450,11 +450,11 @@ local function customFilter(element, unit, button, name, _, _, _, _, _, caster, 
 	elseif style == "nameplate" or style == "focus" then
 		if UnitIsUnit("player", unit) then
 			return false
-		elseif C.BlackList and C.BlackList[spellID] then
+		elseif NDuiADB["NameplateFilter"][2][spellID] or C.BlackList[spellID] then
 			return false
 		elseif element.showStealableBuffs and isStealable and not UnitIsPlayer(unit) then
 			return true
-		elseif C.WhiteList and C.WhiteList[spellID] then
+		elseif NDuiADB["NameplateFilter"][1][spellID] or C.WhiteList[spellID] then
 			return true
 		else
 			return nameplateShowAll or (caster == "player" or caster == "pet" or caster == "vehicle")
@@ -796,7 +796,7 @@ function UF:CreateAddPower(self)
 	b:SetAllPoints()
 	b:SetTexture(DB.normTex)
 	b.multiplier = .3
-	local t = B.CreateFS(bar, 12, "", false, "CENTER", 1, -3)
+	local t = B.CreateFS(bar, 12, "")
 
 	self.AdditionalPower = bar
 	self.AdditionalPower.bg = b

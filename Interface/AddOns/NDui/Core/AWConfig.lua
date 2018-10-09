@@ -178,7 +178,7 @@ local function CreatePanel()
 		end
 
 		local bar = CreateFrame("Frame", nil, parent)
-		bar:SetSize(280, 30)
+		bar:SetSize(270, 30)
 		B.CreateBD(bar, .3)
 		B.CreateSD(bar)
 		barTable[index][spellID] = bar
@@ -231,7 +231,7 @@ local function CreatePanel()
 		end
 
 		local bar = CreateFrame("Frame", nil, parent)
-		bar:SetSize(280, 30)
+		bar:SetSize(270, 30)
 		B.CreateBD(bar, .3)
 		B.CreateSD(bar)
 		barTable[index][intID] = bar
@@ -270,7 +270,7 @@ local function CreatePanel()
 		local name, _, texture = GetSpellInfo(spellID)
 
 		local bar = CreateFrame("Frame", nil, parent)
-		bar:SetSize(280, 30)
+		bar:SetSize(270, 30)
 		B.CreateBD(bar, .3)
 		B.CreateSD(bar)
 		barTable[index][spellID] = bar
@@ -324,7 +324,7 @@ local function CreatePanel()
 		end
 
 		local bar = CreateFrame("Frame", nil, parent)
-		bar:SetSize(280, 30)
+		bar:SetSize(270, 30)
 		B.CreateBD(bar, .3)
 		B.CreateSD(bar)
 		barTable[index][clickSet] = bar

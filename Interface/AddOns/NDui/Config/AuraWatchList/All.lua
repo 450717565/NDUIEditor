@@ -78,6 +78,7 @@ local list = {
 		{AuraID = 175833, UnitID = "player"},
 		{AuraID = 188023, UnitID = "player"},
 	-->饰品附魔
+		{AuraID = 268062, UnitID = "player"},	-- 萦索孢子囊
 		--默认
 		{AuraID = 229206, UnitID = "player"},	-- 延时之力
 		{AuraID = 251231, UnitID = "player"},	-- 钢肤药水

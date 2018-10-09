@@ -136,12 +136,14 @@ function module:InterruptAlert()
 		[1784] = true,		-- 潜行
 		[5246] = true,		-- 破胆怒吼
 		[8122] = true,		-- 心灵尖啸
-		[33395] = true,		-- 冰冻术
+		[33395] = true,	-- 冰冻术
 		[228600] = true,	-- 冰川尖刺
 		[197214] = true,	-- 裂地术
 		[157997] = true,	-- 寒冰新星
 		[102359] = true,	-- 群体缠绕
 		[226943] = true,	-- 心灵炸弹
+		[105421] = true,	-- 盲目之光
+		[207167] = true,	-- 致盲冰雨
 	}
 
 	local function msgChannel()
