@@ -95,6 +95,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				local rareText = button.RareText
 
 				F.StripTextures(button)
+
 				local bg = F.CreateBDFrame(button, .25)
 				bg:SetPoint("TOPLEFT", 0, 1)
 				bg:SetPoint("BOTTOMRIGHT", 0, 1)

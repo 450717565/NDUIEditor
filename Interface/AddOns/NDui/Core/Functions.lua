@@ -3,8 +3,8 @@ local B, C, L, DB = unpack(ns)
 local cr, cg, cb = DB.CC.r, DB.CC.g, DB.CC.b
 
 -- Color Percent
-function B.ColorPercent(value, reverse)
-	local v = value / 100
+function B.ColorText(per, reverse, val)
+	local v = per / 100
 	local r, g, b
 
 	if reverse then
@@ -13,7 +13,11 @@ function B.ColorPercent(value, reverse)
 		r, g, b = 1 - v, v, 0
 	end
 
-	return B.HexRGB(r, g, b)..string.format("%.1f%%", value).."|r"
+	if val then
+		return B.HexRGB(r, g, b)..val.."|r"
+	else
+		return B.HexRGB(r, g, b)..string.format("%.1f%%", per).."|r"
+	end
 end
 
 -- Item Slot Info

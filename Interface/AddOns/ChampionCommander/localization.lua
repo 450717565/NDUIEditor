@@ -103,7 +103,7 @@ L["Resurrect troops effect"] = true
 L["Reward type"] = true
 L["Sets all switches to a very permissive setup. Very similar to 1.4.4"] = true
 L["Show tutorial"] = true
-L["Show/hide OrderHallCommander mission menu"] = true
+L["Show/hide OrderHallCommander mission menu"] = "Show/hide ChampionCommander mission menu"
 L["Sort missions by:"] = true
 L["Started with "] = true
 L["Success Chance"] = true
@@ -535,138 +535,133 @@ return
 end
 L=l:NewLocale(me,"itIT")
 if (L) then
-L["%1$d%% lower than %2$d%%. Lower %s"] = "%2$d%%보다 %1$d%% 낮습니다. %3$s 낮습니다"
-L["%s for a wowhead link popup"] = "%s - wowhead 링크 팝업"
-L["%s start the mission without even opening the mission page. No question asked"] = "%s - 임무 페이지를 열지 않고 임무를 시작합니다. 아무것도 묻지 않습니다"
-L["%s starts missions"] = "%s - 임무 시작"
-L["%s to actually start mission"] = true
-L["%s to blacklist"] = "차단하려면 %s"
-L["%s to remove from blacklist"] = "차단목록에서 제거하려면 %s"
+L["%1$d%% lower than %2$d%%. Lower %s"] = "%1$d%% è inferiore a %2$d%%. Abbassa %s"
+L["%s for a wowhead link popup"] = true
+L["%s start the mission without even opening the mission page. No question asked"] = true
+L["%s starts missions"] = "%s avvia le missioni"
+L["%s to actually start mission"] = "%s per far partire realmente la missione"
+L["%s to blacklist"] = "%s per mettere in blacklist"
+L["%s to remove from blacklist"] = "%s per rimuovere dalla blacklist"
 L[ [=[%s, please review the tutorial
-(Click the icon to dismiss this message and start the tutorial)]=] ] = [=[%s님, 설명서를 살펴봐주세요
-(아이콘을 클릭하면 이 메시지를 닫고 설명서를 시작합니다)]=]
-L["%s, please review the tutorial\\n(Click the icon to dismiss this message)"] = [=[%s님, 설명서를 살펴봐주세요
-(이 메시지를 닫으려면 아이콘을 클릭하세요)]=]
-L["Allow to start a mission directly from the mission list page (no single mission page shown)"] = "임무 목록 페이지에서 임무를 바로 시작할 수 있도록 허용합니다 (단일 임무 페이지가 표시되지 않습니다)"
-L["Always counter increased resource cost"] = "자원 비용 증가 항상 대응"
-L["Always counter increased time"] = "소요 시간 증가 항상 대응"
-L["Always counter kill troops (ignored if we can only use troops with just 1 durability left)"] = "병력 죽이기 항상 대응 (활력이 1만 남은 병력만 있을 땐 무시)"
-L["Always counter no bonus loot threat"] = "추가 전리품 획득 불가 항상 대응"
-L["Artifact shown value is the base value without considering knowledge multiplier"] = "표시된 유물력 수치는 유물 지식 레벨을 고려하지 않은 기본 수치입니다"
-L["Attempting %s"] = "%s 시도 중"
-L["Base Chance"] = "기본 성공 확률"
-L["Better parties available in next future"] = "다음 시간 후엔 더 나은 파티가 가능합니다"
-L["Blacklisted"] = "차단됨"
-L["Blacklisted missions are ignored in Mission Control"] = "차단된 임무는 임무 제어에서 무시됩니다"
-L["Bonus Chance"] = "보너스 주사위"
-L["Building Final report"] = "최종 보고서 작성"
-L["but using troops with just one durability left"] = "활력이 하나만 남은 병력은 사용합니다"
-L["Capped %1$s. Spend at least %2$d of them"] = "%1$s에 도달했습니다. 최소 %2$d|1을;를; 소모하세요"
-L["Changes the sort order of missions in Mission panel"] = "임무 창 내 임무의 정렬 방법을 변경합니다"
-L["Combat ally is proposed for missions so you can consider unassigning him"] = "전투 동료가 임무에 제안되며 전투 동료 지정 해제를 해야 할 수 있습니다"
-L["Complete all missions without confirmation"] = "확인 없이 모든 임무를 완료합니다"
-L["Configuration for mission party builder"] = "임무 파티 구성 설정"
-L["Cost reduced"] = "비용 감소"
-L["Could not fulfill mission, aborting"] = "임무를 완료할 수 없습니다, 취소합니다"
-L["Counter kill Troops"] = "병력 죽이기 대응"
-L["Customization options (non mission related)"] = true
-L["Disables warning: "] = "경고 비활성: "
-L["Dont use this slot"] = "이 칸 사용하지 않기"
-L["Don't use troops"] = "병력 사용하지 않기"
-L["Duration reduced"] = "소요 시간 감소"
-L["Duration Time"] = "소요 시간"
+(Click the icon to dismiss this message and start the tutorial)]=] ] = true
+L["%s, please review the tutorial\\n(Click the icon to dismiss this message)"] = true
+L["Allow to start a mission directly from the mission list page (no single mission page shown)"] = true
+L["Always counter increased resource cost"] = "Contrasta sempre incremento risorse"
+L["Always counter increased time"] = "Contrasta sempre incremento durata"
+L["Always counter kill troops (ignored if we can only use troops with just 1 durability left)"] = "Contrasta sempre morte milizie (ignorato tutte le milizie hanno solo una vita rimanente)"
+L["Always counter no bonus loot threat"] = "Contrasta sempre il \"no bonus\""
+L["Artifact shown value is the base value without considering knowledge multiplier"] = "Il valore mostrato è quello base, senza considerare il moltiplicatore dalla conoscenza"
+L["Attempting %s"] = "Provo %s"
+L["Base Chance"] = "Percentuale base"
+L["Better parties available in next future"] = "Ci sono combinazioni migliori nel futuro"
+L["Blacklisted"] = "In blacklist"
+L["Blacklisted missions are ignored in Mission Control"] = "Le missioni in blacklist vengono ignorate negli automatismi"
+L["Bonus Chance"] = "Percentuale globale"
+L["Building Final report"] = "Sto preparando il rapporto finale"
+L["but using troops with just one durability left"] = "ma uso truppe con solo un punto vita rimasto"
+L["Capped %1$s. Spend at least %2$d of them"] = "%1$s ha un limite. Spendine almeno %2%d"
+L["Changes the sort order of missions in Mission panel"] = "Cambia l'ordine delle mission nel Pannello Missioni"
+L["Combat ally is proposed for missions so you can consider unassigning him"] = "Viene proposto l'alleato, per poter valutare se rimuoverlo dalla missione di scorta"
+L["Complete all missions without confirmation"] = "Completa tutte le missioni senza chiedere conferma"
+L["Configuration for mission party builder"] = "Configurazioni per il generatore di gruppi"
+L["Cost reduced"] = "Costo ridotto"
+L["Could not fulfill mission, aborting"] = "Non riesco a completare il party per la missione, rinuncio"
+L["Counter kill Troops"] = "Contrasta \"Uccide le truppe\""
+L["Customization options (non mission related)"] = "Opzioni di personallizzazione (non per le missioni)"
+L["Disables warning: "] = "Disabilita l'avviso:"
+L["Dont use this slot"] = "Non usare questo slot"
+L["Don't use troops"] = "Non usare truppe"
+L["Duration reduced"] = "Durata ridotta"
+L["Duration Time"] = "Durata"
 L["Elite: Prefer overcap"] = true
-L["Elites mission mode"] = "정예 임무 모드"
-L["Empty missions sorted as last"] = "빈 임무를 마지막에 정렬"
-L["Empty or 0% success mission are sorted as last. Does not apply to \"original\" method"] = "비었거나 성공률이 0%인 임무가 마지막에 정렬됩니다. \"원래의 방법\"에는 적용되지 않습니다"
-L["Equipped by following champions:"] = "다음 용사가 장착함:"
-L["Expiration Time"] = "만료 시간"
-L["Favours leveling follower for xp missions"] = "레벨 육성 중인 추종자를 경험치 임무에 우선 지정합니다"
-L["For elite missions, tries hard to not go under 100% even at cost of overcapping"] = true
-L["General"] = "일반"
-L["Global approx. xp reward"] = "총 예상 경험치 보상"
-L["Global approx. xp reward per hour"] = "시간 당 예상 경험치 보상"
-L["HallComander Quick Mission Completion"] = "HallCommander 빠른 임무 완료"
-L["If %1$s is lower than this, then we try to achieve at least %2$s without going over 100%%. Ignored for elite missions."] = "%1$s|1이;가; 이 값보다 낮으면 100%%를 넘기지 않고 최소 %2$s|1을;를; 달성하도록 시도합니다. 정예 임무는 무시합니다."
-L["If not checked, inactive followers are used as last chance"] = "선택하지 않으면 비활성 추종자가 확률 계산에 사용됩니다"
+L["Elites mission mode"] = "Modalità missioni \"elite\""
+L["Empty missions sorted as last"] = "Le missioni senza campioni vengono ordinate come ultime"
+L["Empty or 0% success mission are sorted as last. Does not apply to \"original\" method"] = "Le missioni senza campioni o con lo 0% o meno di possibilità di successo vengono ordinate come ultime. Non si applica all'ordinamento originale Blizzard"
+L["Equipped by following champions:"] = "Usato da questi campioni:"
+L["Expiration Time"] = "Scadenza"
+L["Favours leveling follower for xp missions"] = "Preferisci i campioni che devono livellare"
+L["For elite missions, tries hard to not go under 100% even at cost of overcapping"] = "Per le missioni elite cerca in tutti i modi di non scendere sotto il 100%"
+L["General"] = "Generale"
+L["Global approx. xp reward"] = "Approssimativi PE globali"
+L["Global approx. xp reward per hour"] = "Approssimativi PE globali per ora"
+L["HallComander Quick Mission Completion"] = "OrderHallCommander Completamento rapido"
+L["If %1$s is lower than this, then we try to achieve at least %2$s without going over 100%%. Ignored for elite missions."] = "Se %1$s è inferiore a questa, allora cerchiamo di raggiungere almeno %2$s senza superare il 100%%. Viene ignorato nelle missioni elite."
+L["If not checked, inactive followers are used as last chance"] = "Se non attivo, visualizzerà seguaci inattivi pur di riempire la missione"
 L[ [=[If you %s, you will lose them
-Click on %s to abort]=] ] = [=[만약 %s|1이라면;라면; 그들을 잃게 됩니다
-취소하려면 %s|1을;를; 클릭하세요]=]
-L["Ignore busy followers"] = "바쁜 추종자 무시"
-L["Ignore inactive followers"] = "비활성 추종자 무시"
-L["Keep cost low"] = "비용 절감 유지"
-L["Keep extra bonus"] = "추가 전리품 유지"
-L["Keep time short"] = "시간 절약 유지"
-L["Keep time VERY short"] = "시간 매우 절약 유지"
+Click on %s to abort]=] ] = "Se %s le perderai. Clicca su %s per interrompere"
+L["Ignore busy followers"] = "Ignora i seguaci occupati"
+L["Ignore inactive followers"] = "Ignora i seguaci inattivi"
+L["Keep cost low"] = "Mantieni il costo basso"
+L["Keep extra bonus"] = "Ottieni il bonus aggiuntivo"
+L["Keep time short"] = "Riduci la durata"
+L["Keep time VERY short"] = "Riduci MOLTO la durata"
 L[ [=[Launch the first filled mission with at least one locked follower.
-Keep %s pressed to actually launch, a simple click will only print mission name with its followers list]=] ] = [=[최소 한명의 추종자가 고정된 첫번째로 채워진 임무를 시작합니다.
-%s|1을;를; 누르고 있어야 실제로 시작하며, 단순히 클릭만 하면 임무 이름과 배정된 추종자 명단만 출력합니다]=]
+Keep %s pressed to actually launch, a simple click will only print mission name with its followers list]=] ] = true
 L[ [=[Launch the first filled mission with at least one locked follower.
 Keep SHIFT pressed to actually launch, a simple click will only print mission name with its followers list]=] ] = true
-L["Level"] = "레벨"
-L["Lock all"] = "모두 고정"
-L["Lock this follower"] = "이 추종자 고정"
-L["Locked follower are only used in this mission"] = "고정된 추종자는 이 임무에서만 사용됩니다"
-L["Make Order Hall Mission Panel movable"] = "직업 전당 임무 창 이동 가능 설정"
-L["Makes sure that no troops will be killed"] = "병력이 죽지 않게 합니다"
-L["Max champions"] = "최대 용사"
-L["Maximize xp gain"] = "경험치 획득 최대화"
-L["Mission duration reduced"] = "임무 소요 시간 감소"
-L["Mission was capped due to total chance less than"] = "전체 확률이 다음보다 낮아서 임무가 제한되었습니다:"
-L["Missions"] = "임무"
-L["Never kill Troops"] = "병력 죽이지 않기"
-L["No follower gained xp"] = "경험치를 획득한 추종자 없음"
-L["No suitable missions. Have you reserved at least one follower?"] = "적절한 임무가 없습니다. 최소 한명의 추종자를 예약했나요?"
-L["Not blacklisted"] = "차단되지 않음"
-L["Nothing to report"] = "보고할 내용 없음"
-L["Notifies you when you have troops ready to be collected"] = "병력을 회수할 준비가 되면 당신에게 알립니다"
-L["Only accept missions with time improved"] = "소요 시간이 감소한 임무만 수락합니다"
-L["Only consider elite missions"] = "정예 임무만 고려"
+L["Level"] = "Livello"
+L["Lock all"] = "Riserva tutti"
+L["Lock this follower"] = "Riserva questo seguace"
+L["Locked follower are only used in this mission"] = "I seguaci riservati saranno usati solo in questa missione"
+L["Make Order Hall Mission Panel movable"] = "Rendi spostabile il pannello missioni"
+L["Makes sure that no troops will be killed"] = "Si accerta che nessuna truppa venga uccisa"
+L["Max champions"] = "Campioni massimi"
+L["Maximize xp gain"] = "Massimizza il guadagno di PE"
+L["Mission duration reduced"] = "Durata missione ridotta"
+L["Mission was capped due to total chance less than"] = "La percentuale di success è stata ridotta perché era comunque inferiore a"
+L["Missions"] = "Missioni"
+L["Never kill Troops"] = "Non uccidere mai le truppe"
+L["No follower gained xp"] = "Nessun campione ha guaagnato PE"
+L["No suitable missions. Have you reserved at least one follower?"] = "Nessuna missione valida. Hai riservato almeno un seguace?"
+L["Not blacklisted"] = "Non blacklistata"
+L["Nothing to report"] = "Niente da segnalare"
+L["Notifies you when you have troops ready to be collected"] = "Notificami quando ho truppe pronte per essere raccolte"
+L["Only accept missions with time improved"] = "Accetta solo missioni con bonus durata ridotta"
+L["Only consider elite missions"] = "Visualizza solo missioni elite"
 L["Only need %s instead of %s to start a mission from mission list"] = true
-L["Only use champions even if troops are available"] = "병력을 사용가능 해도 용사만 사용합니다"
-L["Open configuration"] = "설정 열기"
+L["Only use champions even if troops are available"] = "Usa solo campioni anche se ci sono truppe disponibili"
+L["Open configuration"] = true
 L[ [=[OrderHallCommander overrides GarrisonCommander for Order Hall Management.
  You can revert to GarrisonCommander simply disabling OrderhallCommander.
-If instead you like OrderHallCommander remember to add it to Curse client and keep it updated]=] ] = [=[OrderHallCommander는 직업 전당 관리에 GarrisonCommander보다 우선됩니다.
-OrderHallCommander를 비활성하면 GarrisonCommander로 전환할 수 있습니다.
-대신 당신이 OrderHallCommander를 좋아한다면 Curse 클라이언트에 추가하고 업데이트를 유지하세요]=]
-L["Original method"] = "원래의 방법"
-L["Position is not saved on logout"] = "접속 종료시 위치는 저장되지 않습니다"
-L["Prefer high durability"] = "높은 활력 선호"
-L["Quick start first mission"] = "첫번째 임무 빠른 시작"
-L["Remove no champions warning"] = "용사 없음 경고 제거"
-L["Restart tutorial from beginning"] = "처음부터 설명서 다시 시작"
-L["Resume tutorial"] = "설명서 이어서 시작"
-L["Resurrect troops effect"] = "병력 부활 효과"
-L["Reward type"] = "보상 유형"
-L["Sets all switches to a very permissive setup. Very similar to 1.4.4"] = "모든 전환 설정을 허용적인 구성으로 설정"
-L["Show tutorial"] = "살명서 보기"
-L["Show/hide OrderHallCommander mission menu"] = "OrderHallCommander 임무 메뉴 표시/숨기기"
-L["Sort missions by:"] = "임무 정렬 방법:"
-L["Started with "] = "다음과 함께 시작:"
-L["Success Chance"] = "성공 확률"
-L["Troop ready alert"] = "병력 준비 경보"
-L["Unable to fill missions, raise \"%s\""] = "임무를 채울 수 없습니다, \"%s\"|1을;를; 늘리세요"
-L["Unable to fill missions. Check your switches"] = "임무를 채울 수 없습니다. 설정을 확인하세요"
-L["Unable to start mission, aborting"] = "임무를 시작할 수 없습니다, 취소합니다"
-L["Unlock all"] = "모두 고정 해제"
-L["Unlock this follower"] = "이 추종자 고정 해제"
-L["Unlocks all follower and slots at once"] = "모든 추종자와 칸을 한번에 고정 해제"
+If instead you like OrderHallCommander remember to add it to Curse client and keep it updated]=] ] = [=[OrderHallCommander sostituisce l'interfaccia di GarrisonComamnder per le missioni di classe
+Disabilitalo se preferisci GarrisonCommander.
+Se invece ti piace, aggiungilo al client Curse e tienilo aggiornato]=]
+L["Original method"] = "Metodo originale"
+L["Position is not saved on logout"] = "La posizione non è salvata alla disconnessione"
+L["Prefer high durability"] = "Alta durabilità preferita"
+L["Quick start first mission"] = "Avvio rapido prima missione"
+L["Remove no champions warning"] = "Rimuovi avviso campioni insufficienti"
+L["Restart tutorial from beginning"] = true
+L["Resume tutorial"] = true
+L["Resurrect troops effect"] = "Resurrezione truppe possibile"
+L["Reward type"] = "Tipo ricompensa"
+L["Sets all switches to a very permissive setup. Very similar to 1.4.4"] = true
+L["Show tutorial"] = true
+L["Show/hide OrderHallCommander mission menu"] = "Mostra/ascondi il menu di missione di ChampionCommander"
+L["Sort missions by:"] = "Ordina le missioni per:"
+L["Started with "] = "Avviata con"
+L["Success Chance"] = "Percentuale di successo"
+L["Troop ready alert"] = "Avviso truppe pronte"
+L["Unable to fill missions, raise \"%s\""] = "Non riesco ad assegnare seguaci alle mission, incrementa \"%s\""
+L["Unable to fill missions. Check your switches"] = "Impossibile riempire le missioni. Controlla le opzioni scelte"
+L["Unable to start mission, aborting"] = "Non riesco a far partire la missione, rinuncio"
+L["Unlock all"] = "Libera tutti"
+L["Unlock this follower"] = "Libera questo seguace"
+L["Unlocks all follower and slots at once"] = "Libera tutti i seguaci riservati e gli slot vietati in un colpo solo"
 L["Unsafe mission start"] = true
-L["Upgrading to |cff00ff00%d|r"] = "|cff00ff00%d|r|1으로;로; 향상시키기"
-L["URL Copy"] = "URL 복사"
-L["Use at most this many champions"] = "되도록 이 숫자의 용사를 사용합니다"
-L["Use combat ally"] = "전투 동료 사용"
-L["Use this slot"] = "이 칸 사용"
-L["Uses troops with the highest durability instead of the ones with the lowest"] = "가장 낮은 활력을 가진 병력 대신 가장 높은 활력을 가진 병력을 사용합니다"
-L["When no free followers are available shows empty follower"] = "사용 가능한 추종자가 없으면 추종자 칸을 빈 상태로 표시합니다"
-L["When we cant achieve the requested %1$s, we try to reach at least this one without (if possible) going over 100%%"] = "요청된 %1$s|1을;를; 달성하지 못했을 때 (가능하다면) 100%%를 넘기지 않고 최소한 이 값에 근접하도록 시도합니다"
-L["Would start with "] = "다음과 같이 시작할 예정:"
-L["You are wasting |cffff0000%d|cffffd200 point(s)!!!"] = "|cffff0000%d|cffffd200점을 낭비하고 있습니다!!!"
+L["Upgrading to |cff00ff00%d|r"] = "Incremento a |cff00ff00%d|r"
+L["URL Copy"] = "Copia la URL"
+L["Use at most this many champions"] = "Usa al massimo questo numero di campioni"
+L["Use combat ally"] = "Usa l'alleato"
+L["Use this slot"] = "Usa questo slot"
+L["Uses troops with the highest durability instead of the ones with the lowest"] = "Sceglie la truppe con durabilità residua piu' alta anziché quelle con durabilità residua piu' bassa"
+L["When no free followers are available shows empty follower"] = "Quando non ci sono seguaci disponibili mostra le caselle vuote"
+L["When we cant achieve the requested %1$s, we try to reach at least this one without (if possible) going over 100%%"] = "Se non è possibile raggiungere la percentuale di successo globale, si cerca di raggiungere almeno questa senza superare il 100%"
+L["Would start with "] = "Avvierei con"
+L["You are wasting |cffff0000%d|cffffd200 point(s)!!!"] = "Stai sprecando |cffff0000%d|cffffd200 punti!!"
 L[ [=[You need to close and restart World of Warcraft in order to update this version of OrderHallCommander.
-Simply reloading UI is not enough]=] ] = [=[이 버전의 OrderHallCommander를 업데이트하기 위해 월드 오브 워크래프트를 종료한 후 다시 시작해야 합니다.
-UI를 다시 불러오는 것으로 충분하지 않습니다]=]
-L["You now need to press both %s and %s to start mission"] = "임무를 시작하려면 %s|1과;와; %s|1을;를; 같이 눌러야 합니다"
+Simply reloading UI is not enough]=] ] = true
+L["You now need to press both %s and %s to start mission"] = true
 
 return
 end
@@ -1079,14 +1074,14 @@ end
 L=l:NewLocale(me,"zhCN")
 if (L) then
 L["%1$d%% lower than %2$d%%. Lower %s"] = "%1$d%%低于%2$d%%，降低%s"
-L["%s for a wowhead link popup"] = true
+L["%s for a wowhead link popup"] = "%s弹出wowhead链接"
 L["%s start the mission without even opening the mission page. No question asked"] = "Shift-点击可以不打开任务页面就启动任务。没有问题"
-L["%s starts missions"] = true
-L["%s to actually start mission"] = true
+L["%s starts missions"] = "按下 %s 开始任务"
+L["%s to actually start mission"] = "按下 %s 马上开始任务"
 L["%s to blacklist"] = "点击右键加入黑名单"
 L["%s to remove from blacklist"] = "点击右键从黑名单中删除"
 L[ [=[%s, please review the tutorial
-(Click the icon to dismiss this message and start the tutorial)]=] ] = true
+(Click the icon to dismiss this message and start the tutorial)]=] ] = "%s，请检查教程\\\\n（单击图标取消此消息）"
 L["%s, please review the tutorial\\n(Click the icon to dismiss this message)"] = "%s，请检查教程\\n（单击图标取消此消息）"
 L["Allow to start a mission directly from the mission list page (no single mission page shown)"] = true
 L["Always counter increased resource cost"] = "总是反制增加资源花费"
@@ -1110,20 +1105,20 @@ L["Configuration for mission party builder"] = "任务队伍构建设置"
 L["Cost reduced"] = "已降低花费"
 L["Could not fulfill mission, aborting"] = "任务无法执行被忽略"
 L["Counter kill Troops"] = "反制危害（致命）防止部队阵亡"
-L["Customization options (non mission related)"] = true
+L["Customization options (non mission related)"] = "自定义选项（非任务相关）"
 L["Disables warning: "] = "停用警告："
 L["Dont use this slot"] = "不要使用这个空位"
 L["Don't use troops"] = "不要使用部队"
 L["Duration reduced"] = "持续时间已缩短"
 L["Duration Time"] = "持续时间"
-L["Elite: Prefer overcap"] = true
+L["Elite: Prefer overcap"] = "精英: 宁愿增加花费"
 L["Elites mission mode"] = "精英任务模式"
 L["Empty missions sorted as last"] = "空的任务排在最后"
 L["Empty or 0% success mission are sorted as last. Does not apply to \"original\" method"] = "空或者0%成功率的任务排在最后，对于\\\"原始\\\"方式排序无效。"
-L["Equipped by following champions:"] = true
+L["Equipped by following champions:"] = "已装备在下列勇士："
 L["Expiration Time"] = "到期时间"
 L["Favours leveling follower for xp missions"] = "倾向于使用升级中追隨者在经验值任务"
-L["For elite missions, tries hard to not go under 100% even at cost of overcapping"] = true
+L["For elite missions, tries hard to not go under 100% even at cost of overcapping"] = "对于精英任务，就算花费会增加，也別让成功率低于 100%。"
 L["General"] = "一般"
 L["Global approx. xp reward"] = "整体大约经验值奖励"
 L["Global approx. xp reward per hour"] = "每小时获得的整体经验值奖励"
@@ -1140,9 +1135,11 @@ L["Keep extra bonus"] = "优先额外奖励"
 L["Keep time short"] = "减少任务时间"
 L["Keep time VERY short"] = "最短任务时间"
 L[ [=[Launch the first filled mission with at least one locked follower.
-Keep %s pressed to actually launch, a simple click will only print mission name with its followers list]=] ] = true
+Keep %s pressed to actually launch, a simple click will only print mission name with its followers list]=] ] = [=[至少使用一个锁定的追随者来做第一个任务。
+按住 %s 会直接派出，点一下只会显示任务名称和追随者清单。]=]
 L[ [=[Launch the first filled mission with at least one locked follower.
-Keep SHIFT pressed to actually launch, a simple click will only print mission name with its followers list]=] ] = true
+Keep SHIFT pressed to actually launch, a simple click will only print mission name with its followers list]=] ] = [=[至少使用一个锁定的追随者来做第一个任务。
+按住 SHIFT 会直接派出，点一下只会显示任务名称和和追随者清单。]=]
 L["Level"] = "等级"
 L["Lock all"] = "全部锁定"
 L["Lock this follower"] = "锁定此追随者"
@@ -1162,12 +1159,13 @@ L["Nothing to report"] = "没什么可报告"
 L["Notifies you when you have troops ready to be collected"] = "当部队已准备好获取时提醒你"
 L["Only accept missions with time improved"] = "只允许有时间改善的任务"
 L["Only consider elite missions"] = "只考虑精英任务"
-L["Only need %s instead of %s to start a mission from mission list"] = true
+L["Only need %s instead of %s to start a mission from mission list"] = "从任务清单开始任務，只需要 %s 而不是 %s。"
 L["Only use champions even if troops are available"] = "有可用的部队时，仍然只使用追随者"
 L["Open configuration"] = "打开配置"
 L[ [=[OrderHallCommander overrides GarrisonCommander for Order Hall Management.
  You can revert to GarrisonCommander simply disabling OrderhallCommander.
-If instead you like OrderHallCommander remember to add it to Curse client and keep it updated]=] ] = true
+If instead you like OrderHallCommander remember to add it to Curse client and keep it updated]=] ] = [=[职业大厅指挥官已經取代要塞指挥官來管理职业大厅。
+要返回使用要塞指挥官，只要停用职业大厅指挥官插件就可以了。]=]
 L["Original method"] = "原始方法"
 L["Position is not saved on logout"] = "位置不会在登出后储存"
 L["Prefer high durability"] = "喜欢高生命值"
@@ -1177,7 +1175,7 @@ L["Restart tutorial from beginning"] = true
 L["Resume tutorial"] = true
 L["Resurrect troops effect"] = "复活部队效果"
 L["Reward type"] = "奖励类型"
-L["Sets all switches to a very permissive setup. Very similar to 1.4.4"] = true
+L["Sets all switches to a very permissive setup. Very similar to 1.4.4"] = "所有设置都改为非常宽松的设定，和 1.44 版非常相似。"
 L["Show tutorial"] = "显示教程"
 L["Show/hide OrderHallCommander mission menu"] = "显示/隐藏大厅指挥官任务选单"
 L["Sort missions by:"] = "排列任务根据："
@@ -1190,20 +1188,21 @@ L["Unable to start mission, aborting"] = "无法开始任务，中止"
 L["Unlock all"] = "全部解除锁定"
 L["Unlock this follower"] = "解锁此追随者"
 L["Unlocks all follower and slots at once"] = "一次性解锁所有追随者和空位"
-L["Unsafe mission start"] = true
+L["Unsafe mission start"] = "不安全的一键开始"
 L["Upgrading to |cff00ff00%d|r"] = "升级到|cff00ff00%d|r"
 L["URL Copy"] = "复制网址"
 L["Use at most this many champions"] = "最多使用不超过这个数量的勇士"
 L["Use combat ally"] = "使用战斗盟友"
 L["Use this slot"] = "使用这个空位"
 L["Uses troops with the highest durability instead of the ones with the lowest"] = "使用最高生命值的部队，而不是最低的部队"
-L["When no free followers are available shows empty follower"] = true
-L["When we cant achieve the requested %1$s, we try to reach at least this one without (if possible) going over 100%%"] = true
+L["When no free followers are available shows empty follower"] = "沒有可用的追随者时，显示空的追随者。"
+L["When we cant achieve the requested %1$s, we try to reach at least this one without (if possible) going over 100%%"] = "当我们无法实现请求的%1$s时, 我们尝试至少达到这个目标, 而不 (如果可能) 超过100%%"
 L["Would start with "] = "将开始"
 L["You are wasting |cffff0000%d|cffffd200 point(s)!!!"] = "你浪费了|cffff0000%d|cffffd200 点数!!!"
 L[ [=[You need to close and restart World of Warcraft in order to update this version of OrderHallCommander.
-Simply reloading UI is not enough]=] ] = true
-L["You now need to press both %s and %s to start mission"] = true
+Simply reloading UI is not enough]=] ] = [=[您需要关闭并重启魔兽世界才能更新此版本的OrderHallCommander。
+简单的重新载入插件是不够的]=]
+L["You now need to press both %s and %s to start mission"] = "您现在需要同时按下%s和%s來启动任务"
 
 return
 end

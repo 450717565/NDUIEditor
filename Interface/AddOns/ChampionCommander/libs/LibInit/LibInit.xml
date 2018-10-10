@@ -1,6 +1,0 @@
-<Ui>
-	<Script file="LibInit.lua"/>
-	<Script file="localization.lua"/>
-	<Script file="colorize.lua"/>
-	<Script file="factory.lua"/>
-</Ui>

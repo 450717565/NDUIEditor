@@ -382,7 +382,7 @@ function UF:CreatePlayerPlate()
 		local textFrame = CreateFrame("Frame", nil, self.Power)
 		textFrame:SetAllPoints()
 		local power = B.CreateFS(textFrame, 9+NDuiDB["Nameplate"]["PPHeight"], "", false, "CENTER", 0, -1)
-		self:Tag(power, "[pppower]")
+		self:Tag(power, "[power]")
 	end
 
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", PlateVisibility)
