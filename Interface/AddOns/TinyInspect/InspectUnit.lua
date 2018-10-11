@@ -136,7 +136,6 @@ local function GetInspectItemListFrame(parent)
 			local F, C = unpack(AuroraClassic)
 			F.CreateBD(frame)
 			F.CreateSD(frame)
-			--F.ReskinGarrisonPortrait(frame.portrait)
 		end
 	end
 

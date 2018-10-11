@@ -67,6 +67,11 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 	F.ReskinArrow(details.CreateMultipleInputBox.DecrementButton, "left")
 	F.ReskinArrow(details.CreateMultipleInputBox.IncrementButton, "right")
 
+	details.CreateMultipleInputBox.DecrementButton:ClearAllPoints()
+	details.CreateMultipleInputBox.DecrementButton:SetPoint("RIGHT", details.CreateMultipleInputBox, "LEFT", -5, 0)
+	details.CreateMultipleInputBox.IncrementButton:ClearAllPoints()
+	details.CreateMultipleInputBox.IncrementButton:SetPoint("LEFT", details.CreateMultipleInputBox, "RIGHT", 3, 0)
+
 	local contents = details.Contents
 	hooksecurefunc(contents.ResultIcon, "SetNormalTexture", function(self)
 		if not self.styled then

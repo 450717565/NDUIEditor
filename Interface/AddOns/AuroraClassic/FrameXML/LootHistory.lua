@@ -127,7 +127,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		info.notCheckable = 1;
 		local name, class = C_LootHistory.GetPlayerInfo(self.itemIdx, self.playerIdx);
 		local classColor = C.classcolours[class];
-		local colorCode = string.format("|cFF%02x%02x%02x",  classColor.r*255,  classColor.g*255,  classColor.b*255);
+		local colorCode = string.format("|cFF%02x%02x%02x", classColor.r*255, classColor.g*255, classColor.b*255);
 		info.text = string.format(MASTER_LOOTER_GIVE_TO, colorCode..name.."|r");
 		info.func = LootHistoryDropDown_OnClick;
 		UIDropDownMenu_AddButton(info);
