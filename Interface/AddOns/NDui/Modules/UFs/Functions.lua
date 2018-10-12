@@ -447,7 +447,7 @@ local function customFilter(element, unit, button, name, _, _, _, _, _, caster, 
 		elseif C.RaidBuffs["ALL"][spellID] then
 			return true
 		end
-	elseif style == "nameplate" or style == "focus" then
+	elseif style == "nameplate" or style == "focus" or style == "arena" or style == "boss" then
 		if UnitIsUnit("player", unit) then
 			return false
 		elseif NDuiADB["NameplateFilter"][2][spellID] or C.BlackList[spellID] then
@@ -552,7 +552,7 @@ function UF:CreateDebuffs(self)
 		bu:SetPoint("TOPRIGHT", self, "TOPLEFT", -5, 0)
 		bu.num = 10
 		bu.size = self:GetHeight()+self.Power:GetHeight()+3.5
-		bu.onlyShowPlayer = true
+		bu.CustomFilter = customFilter
 		bu["growth-y"] = "UP"
 	elseif self.mystyle == "player" then
 		bu:SetPoint("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, -6)

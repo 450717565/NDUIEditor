@@ -66,6 +66,7 @@ local list = {
 		{AuraID = 224125, UnitID = "player"},	-- 火
 		{AuraID = 224126, UnitID = "player"},	-- 冰
 		{AuraID = 224127, UnitID = "player"},	-- 电
+		{AuraID = 187878, UnitID = "player"},	-- 毁灭闪电
 	},
 	["Spell CD"] = { -- 技能冷却计时组
 		{SpellID = 20608, UnitID = "player"},	-- 复生
