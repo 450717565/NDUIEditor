@@ -31,11 +31,19 @@ function UF:SetupCVars()
 end
 
 function UF:BlockAddons()
-	if DBM and DBM.Nameplate then
-		function DBM.Nameplate:SupportedNPMod()
-			return true
+	if not DBM or not DBM.Nameplate then return end
+
+	function DBM.Nameplate:SupportedNPMod()
+		return true
+	end
+
+	local function showAurasForDBM(_, _, _, spellID)
+		if not tonumber(spellID) then return end
+		if not C.WhiteList[spellID] then
+			C.WhiteList[spellID] = true
 		end
 	end
+	hooksecurefunc(DBM.Nameplate, "Show", showAurasForDBM)
 end
 
 local function GetSectionInfo(id)
@@ -52,13 +60,13 @@ local CustomUnits = {
 	[GetSectionInfo(18232)] = true,	-- 艾什凡炮手
 	[GetSectionInfo(18499)] = true,	-- 凝结之血
 	[GetSectionInfo(18078)] = true,	-- 蛛魔编织者
+	[GetSectionInfo(18007)] = true,	-- 瘟疫聚合体
 	["Spawn of G'huun"] = true,
 	["戈霍恩之嗣"] = true,
 	["古翰幼體"] = true,
 	["Explosives"] = true,
 	["爆炸物"] = true,
 	["炸彈"] = true,
-	["耐受病菌"] = true,
 }
 function UF:CreateUnitTable()
 	if not NDuiDB["Nameplate"]["CustomUnitColor"] then return end

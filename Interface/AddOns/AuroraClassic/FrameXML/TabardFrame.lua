@@ -2,6 +2,7 @@ local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinPortraitFrame(TabardFrame, true)
+	F.StripTextures(TabardFrameCostFrame, true)
 	F.CreateBDFrame(TabardFrameCostFrame, .25)
 	F.Reskin(TabardFrameAcceptButton)
 	F.Reskin(TabardFrameCancelButton)

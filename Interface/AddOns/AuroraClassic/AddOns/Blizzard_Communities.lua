@@ -65,11 +65,15 @@ C.themes["Blizzard_Communities"] = function()
 			tab:GetRegions():Hide()
 			tab.Icon:SetTexCoord(.08, .92, .08, .92)
 			F.CreateBDFrame(tab.Icon)
+
 			tab.styled = true
 		end
 		tab:SetCheckedTexture(C.media.checked)
 		tab:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 	end
+	local p1, p2, p3, x, y = CommunitiesFrame.ChatTab:GetPoint()
+	CommunitiesFrame.ChatTab:ClearAllPoints()
+	CommunitiesFrame.ChatTab:SetPoint(p1, p2, p3, x+2, y)
 
 	-- ChatTab
 	F.Reskin(CommunitiesFrame.InviteButton)
@@ -276,7 +280,9 @@ C.themes["Blizzard_Communities"] = function()
 			local child = select(i, self.ColumnDisplay:GetChildren())
 			if not child.styled then
 				F.StripTextures(child)
-				F.CreateBDFrame(child, .25)
+				local bg = F.CreateBDFrame(child, .25)
+				bg:SetPoint("TOPLEFT", 4, -2)
+				bg:SetPoint("BOTTOMRIGHT", 0, 2)
 
 				child.styled = true
 			end
@@ -359,7 +365,7 @@ C.themes["Blizzard_Communities"] = function()
 	F.Reskin(CommunitiesFrame.GuildLogButton)
 	F.StripTextures(CommunitiesFrameGuildDetailsFrameInfo)
 	F.StripTextures(CommunitiesFrameGuildDetailsFrameNews)
-	F.ReskinScroll(CommunitiesFrameGuildDetailsFrameInfoMOTDScrollFrameScrollBar)
+	CommunitiesFrameGuildDetailsFrameInfoMOTDScrollFrameScrollBar:SetAlpha(0)
 	local bg3 = F.CreateBDFrame(CommunitiesFrameGuildDetailsFrameInfoMOTDScrollFrame, .25)
 	bg3:SetPoint("TOPLEFT", 0, 3)
 	bg3:SetPoint("BOTTOMRIGHT", -5, -4)

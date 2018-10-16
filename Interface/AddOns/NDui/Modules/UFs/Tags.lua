@@ -84,8 +84,6 @@ oUF.Tags.Methods["DDG"] = function(unit)
 end
 oUF.Tags.Events["DDG"] = "UNIT_HEALTH UNIT_CONNECTION"
 
-oUF.Tags.Events["arenaspec"] = "ARENA_PREP_OPPONENT_SPECIALIZATIONS UNIT_NAME_UPDATE"
-
 -- Level tags
 oUF.Tags.Methods["fulllevel"] = function(unit)
 	local level = UnitLevel(unit)
@@ -178,10 +176,10 @@ oUF.Tags.Events["nplevel"] = "UNIT_LEVEL PLAYER_LEVEL_UP UNIT_CLASSIFICATION_CHA
 oUF.Tags.Methods["altpower"] = function(unit)
 	local cur = UnitPower(unit, ALTERNATE_POWER_INDEX)
 	local max = UnitPowerMax(unit, ALTERNATE_POWER_INDEX)
-	local per = cur / max * 100
+	local per = format("%.1f%%", cur / max * 100)
 
 	if max > 0 and not UnitIsDeadOrGhost(unit) then
-		return B.ColorText(per, true)
+		return per
 	end
 end
 oUF.Tags.Events["altpower"] = "UNIT_POWER_UPDATE"

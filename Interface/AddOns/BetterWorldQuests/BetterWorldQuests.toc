@@ -1,0 +1,10 @@
+## Interface: 80000
+## Author: p3lim
+## Version: 80000.1-Release
+## Title: Better World Quests
+## Notes: Improves the World Quest POIs on the map
+
+## X-Curse-Project-ID: 302035
+## X-WoWI-ID: 24797
+
+BetterWorldQuests.xml

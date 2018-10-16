@@ -41,7 +41,7 @@ local function CreatePanel()
 		button2 = NO,
 		OnAccept = function()
 			NDuiDB["AuraWatchList"] = {}
-			NDuiDB["Internal CD"] = {}
+			NDuiDB["InternalCD"] = {}
 			NDuiADB["RaidDebuffs"] = {}
 			NDuiDB["RaidClickSets"] = nil
 			ReloadUI()
@@ -140,7 +140,7 @@ local function CreatePanel()
 	local function SortBars(index)
 		local num, onLeft, onRight = 1, 1, 1
 		for k in pairs(barTable[index]) do
-			if (index < 11 and NDuiDB["AuraWatchList"][index][k]) or (index == 11 and NDuiDB["Internal CD"][k]) or (index == 12 and NDuiADB["RaidDebuffs"][k]) or (index == 13 and NDuiDB["RaidClickSets"][k]) then
+			if (index < 11 and NDuiDB["AuraWatchList"][index][k]) or (index == 11 and NDuiDB["InternalCD"][k]) or (index == 12 and NDuiADB["RaidDebuffs"][k]) or (index == 13 and NDuiDB["RaidClickSets"][k]) then
 				local bar = barTable[index][k]
 				if num == 1 then
 					bar:SetPoint("TOPLEFT", 10, -10)
@@ -252,7 +252,7 @@ local function CreatePanel()
 		close:SetHighlightTexture(close.Icon:GetTexture())
 		close:SetScript("OnClick", function()
 			bar:Hide()
-			NDuiDB["Internal CD"][intID] = nil
+			NDuiDB["InternalCD"][intID] = nil
 			barTable[index][intID] = nil
 			SortBars(index)
 		end)
@@ -296,7 +296,7 @@ local function CreatePanel()
 			SortBars(index)
 		end)
 
-		local prioString = B.CreateFS(bar, 14, priority, false, "LEFT", 30, 0)
+		local prioString = B.CreateFS(icon, 14, priority)
 		prioString:SetTextColor(0, 1, 0)
 		local spellName = B.CreateFS(bar, 14, name, false, "LEFT", 40, 0)
 		spellName:SetWidth(120)
@@ -502,7 +502,7 @@ local function CreatePanel()
 				end)
 			end
 		elseif i == 11 then
-			for _, v in pairs(NDuiDB["Internal CD"]) do
+			for _, v in pairs(NDuiDB["InternalCD"]) do
 				AddInternal(tabs[i].List.Child, i, v)
 			end
 			Option[12] = CreateEditbox(tabs[i].Page, L["IntID*"], 20, -30, L["IntID Intro"])
@@ -588,10 +588,10 @@ local function CreatePanel()
 				local intID, duration, trigger, unit, itemID = tonumber(Option[12]:GetText()), tonumber(Option[13]:GetText()), Option[14].Text:GetText(), Option[15].Text:GetText(), tonumber(Option[16]:GetText())
 				if not intID or not duration or not trigger or not unit then UIErrorsFrame:AddMessage(DB.InfoColor..L["Incomplete Input"]) return end
 				if intID and not GetSpellInfo(intID) then UIErrorsFrame:AddMessage(DB.InfoColor..L["Incorrect SpellID"]) return end
-				if NDuiDB["Internal CD"][intID] then UIErrorsFrame:AddMessage(DB.InfoColor..L["Existing ID"]) return end
+				if NDuiDB["InternalCD"][intID] then UIErrorsFrame:AddMessage(DB.InfoColor..L["Existing ID"]) return end
 
-				NDuiDB["Internal CD"][intID] = {intID, duration, trigger, unit, itemID}
-				AddInternal(tabs[i].List.Child, i, NDuiDB["Internal CD"][intID])
+				NDuiDB["InternalCD"][intID] = {intID, duration, trigger, unit, itemID}
+				AddInternal(tabs[i].List.Child, i, NDuiDB["InternalCD"][intID])
 				for i = 12, 16 do ClearEdit(Option[i]) end
 			elseif i == 12 then
 				local instName, spellID, priority = Option[17].Text:GetText(), tonumber(Option[18]:GetText()), tonumber(Option[19]:GetText())
@@ -599,7 +599,7 @@ local function CreatePanel()
 				if spellID and not GetSpellInfo(spellID) then UIErrorsFrame:AddMessage(DB.InfoColor..L["Incorrect SpellID"]) return end
 				if NDuiADB["RaidDebuffs"][spellID] then UIErrorsFrame:AddMessage(DB.InfoColor..L["Existing ID"]) return end
 
-				priority = (priority and priority < 0 and 0) or (not priority and 2)
+				priority = (priority and priority < 0 and 0) or priority or 2
 				NDuiADB["RaidDebuffs"][spellID] = {instName, spellID, priority}
 				AddRaidDebuffs(tabs[i].List.Child, i, NDuiADB["RaidDebuffs"][spellID])
 				for i = 17, 19 do ClearEdit(Option[i]) end

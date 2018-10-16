@@ -136,7 +136,7 @@ function module:InterruptAlert()
 		[1784] = true,		-- 潜行
 		[5246] = true,		-- 破胆怒吼
 		[8122] = true,		-- 心灵尖啸
-		[33395] = true,	-- 冰冻术
+		[33395] = true,		-- 冰冻术
 		[228600] = true,	-- 冰川尖刺
 		[197214] = true,	-- 裂地术
 		[157997] = true,	-- 寒冰新星
@@ -178,9 +178,7 @@ end
 	NDui版本过期提示
 ]]
 function module:VersionCheck()
-	if not NDuiDB["Settings"]["VersionCheck"] then return end
-	if not NDuiADB["DetectVersion"] then NDuiADB["DetectVersion"] = DB.Version end
-	if not IsInGuild() then return end
+	if not NDuiADB["VersionCheck"] then return end
 
 	local f = CreateFrame("Frame", nil, nil, "MicroButtonAlertTemplate")
 	f:SetPoint("BOTTOMLEFT", ChatFrame1, "TOPLEFT", 20, 70)
@@ -201,28 +199,30 @@ function module:VersionCheck()
 
 	local checked
 	local function UpdateVersionCheck(_, ...)
-		local prefix, msg, distType = ...
-		if distType ~= "GUILD" then return end
+		local prefix, msg, distType, author = ...
+		if prefix ~= "NDuiVersionCheck" then return end
+		if Ambiguate(author, "none") == UnitName("player") then return end
 
-		if prefix == "NDuiVersionCheck" then
-			if CompareVersion(msg, NDuiADB["DetectVersion"]) == "IsNew" then
-				NDuiADB["DetectVersion"] = msg
-			end
+		local status = CompareVersion(msg, NDuiADB["DetectVersion"])
+		if status == "IsNew" then
+			NDuiADB["DetectVersion"] = msg
+		elseif status == "IsOld" then
+			C_ChatInfo.SendAddonMessage("NDuiVersionCheck", NDuiADB["DetectVersion"], distType)
+		end
 
-			if not checked then
-				local status = CompareVersion(NDuiADB["DetectVersion"], DB.Version)
-				if status == "IsNew" then
-					f.Text:SetText(format(L["Outdated NDui"], NDuiADB["DetectVersion"]))
-					f:Show()
-				elseif status == "IsOld" then
-					C_ChatInfo.SendAddonMessage("NDuiVersionCheck", DB.Version, "GUILD")
-				end
-				checked = true
+		if not checked then
+			if CompareVersion(NDuiADB["DetectVersion"], DB.Version) == "IsNew" then
+				local release = NDuiADB["DetectVersion"]:gsub("(%d)$", "0")
+				f.Text:SetText(format(L["Outdated NDui"], release))
+				f:Show()
 			end
+			checked = true
 		end
 	end
 
 	B:RegisterEvent("CHAT_MSG_ADDON", UpdateVersionCheck)
 	C_ChatInfo.RegisterAddonMessagePrefix("NDuiVersionCheck")
-	C_ChatInfo.SendAddonMessage("NDuiVersionCheck", DB.Version, "GUILD")
+	if IsInGuild() then
+		C_ChatInfo.SendAddonMessage("NDuiVersionCheck", DB.Version, "GUILD")
+	end
 end

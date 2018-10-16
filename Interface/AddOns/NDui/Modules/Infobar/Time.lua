@@ -29,7 +29,6 @@ info.onUpdate = function(self, elapsed)
 end
 
 -- Data
-local isAlliance = select(2, UnitFactionGroup("player")) == FACTION_ALLIANCE
 local bonus = {
 	52834, 52838,	-- Gold
 	52835, 52839,	-- Honor
@@ -44,7 +43,7 @@ local questlist = {
 	{name = L["Mean One"], id = 6983},
 	{name = "TBC"..L["Timewarped"], id = 40168},
 	{name = "WLK"..L["Timewarped"], id = 40173},
-	{name = "CTM"..L["Timewarped"], id = isAlliance and 40787 or 40786},
+	{name = "CTM"..L["Timewarped"], id = 40786},
 	{name = "MOP"..L["Timewarped"], id = 45799},
 }
 

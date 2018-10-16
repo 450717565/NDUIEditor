@@ -99,6 +99,7 @@ local list = {
 		{AuraID = 267612, UnitID = "player"},	-- 迅击风暴
 		{AuraID = 268887, UnitID = "player"},	-- 迅捷远航
 		{AuraID = 268854, UnitID = "player"},	-- 全能远航
+		{AuraID = 268905, UnitID = "player"},	-- 致命远航
 		{AuraID = 264957, UnitID = "player"},	-- 急速瞄准镜
 		{AuraID = 264878, UnitID = "player"},	-- 爆击瞄准镜
 		{AuraID = 267685, UnitID = "player"},	-- 元素洪流
@@ -220,6 +221,8 @@ local list = {
 		{AuraID = 274507, UnitID = "player"},	-- 湿滑肥皂，自由镇
 		{AuraID = 266923, UnitID = "player"},	-- 充电，神庙
 		{AuraID = 257407, UnitID = "player"},	-- 追踪，阿塔达萨
+		{AuraID = 258058, UnitID = "player"},	-- 挤压，托尔达戈
+		{AuraID = 260067, UnitID = "player"},	-- 恶毒槌击，托尔达戈
 		{AuraID = 273226, UnitID = "player"},	-- 腐烂孢子，孢林
 	-->奥迪尔
 		{AuraID = 271224, UnitID = "player", Text = L["Get Out"]},	-- 赤红迸发，塔罗克
@@ -232,6 +235,7 @@ local list = {
 		{AuraID = 265264, UnitID = "player"},	-- 虚空鞭笞，泽克沃兹
 		{AuraID = 265360, UnitID = "player", Text = L["Get Out"]},	-- 翻滚欺诈，泽克沃兹
 		{AuraID = 265662, UnitID = "player"},	-- 腐化者的契约，泽克沃兹
+		{AuraID = 265127, UnitID = "player"},	-- 持续感染，维克提斯
 		{AuraID = 265129, UnitID = "player"},	-- 终极菌体，维克提斯
 		{AuraID = 267160, UnitID = "player"},
 		{AuraID = 267161, UnitID = "player"},
@@ -542,6 +546,7 @@ local list = {
 		{AuraID = 256493, UnitID = "target"},	-- 炽燃的艾泽里特，矿区1
 	-->奥迪尔
 		{AuraID = 271965, UnitID = "target"},	-- 能源关闭，塔罗克
+		{AuraID = 277548, UnitID = "target"},	-- 粉碎黑暗，小怪
 		{AuraID = 278218, UnitID = "target"},	-- 虚空召唤，泽克沃兹
 		{AuraID = 278220, UnitID = "target"},	-- 虚空超脱，泽克沃兹
 		{AuraID = 265264, UnitID = "target"},	-- 虚空鞭笞，泽克沃兹

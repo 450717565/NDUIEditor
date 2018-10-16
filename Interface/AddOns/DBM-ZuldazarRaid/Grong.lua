@@ -1,10 +1,18 @@
-if UnitFactionGroup("player") ~= "Alliance" then return end--Don't load this version of fight on horde side
-local mod	= DBM:NewMod(2340, "DBM-ZuldazarRaid", 1, 1176)
+local dungeonID, creatureID
+local coreSpellId, energyAOESpellId, slamSpellId, addSpawnId, addCastId, tankComboId
+if UnitFactionGroup("player") == "Alliance" then
+	dungeonID, creatureID = 2340, 144638--Grong the Revenant
+	coreSpellId, energyAOESpellId, slamSpellId, addSpawnId, addCastId, tankComboId = 286434, 282399, 282543, 282526, 282533, 286450
+else--Horde
+	dungeonID, creatureID = 2325, 147268--King Grong
+	coreSpellId, energyAOESpellId, slamSpellId, addSpawnId, addCastId, tankComboId = 285659, 281936, 282179, 282247, 282243, 282082
+end
+local mod	= DBM:NewMod(dungeonID, "DBM-ZuldazarRaid", 1, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17978 $"):sub(12, -3))
-mod:SetCreatureID(144638)
-mod:SetEncounterID(2263)--Grongs are separate mods because they have too many diff names and IDs plus have unique encounter IDs
+mod:SetRevision(("$Revision: 17985 $"):sub(12, -3))
+mod:SetCreatureID(creatureID)
+mod:SetEncounterID(2263)--One shared ID right now, but supposed to be split agian soon™
 --mod:DisableESCombatDetection()
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
@@ -16,31 +24,30 @@ mod:SetZone()
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 282399 285994 282533 286435",
-	"SPELL_CAST_SUCCESS 282543 282526 286450",
-	"SPELL_AURA_APPLIED 285671 285875 286434",
+	"SPELL_CAST_START 282399 285994 282533 286435 282243 285660 281936",
+	"SPELL_CAST_SUCCESS 282543 282526 286450 282179 282247 282082",
+	"SPELL_AURA_APPLIED 285671 285875 286434 285659",
 --	"SPELL_AURA_APPLIED_DOSE",
-	"SPELL_AURA_REMOVED 286434",
-	"SPELL_ENERGIZE 282533",
+	"SPELL_AURA_REMOVED 286434 285659",
+	"SPELL_ENERGIZE 282533 282243",
 	"UNIT_DIED"
 --	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
---TODO, verify tank swaps, for most part, asuming it's Ursoc 2.0, but it may be more of a zekvoz and one tank gets both attacks. Until verified, disabled taunt warnings to avoid misleading
 --TODO, detect Voodoo Blast targets and add runout?
 --TODO, add exploding soon and now warnings?
 --TODO, same as above, but with Core. Update energy/timers
 --local warnXorothPortal				= mod:NewSpellAnnounce(244318, 2, nil, nil, nil, nil, nil, 7)
 local warnCrushed						= mod:NewYouAnnounce(285671, 3)
 local warnRendingBite					= mod:NewYouAnnounce(285875, 3)
-local warnShadowCore					= mod:NewTargetNoFilterAnnounce(286434, 2)
+local warnCore							= mod:NewTargetNoFilterAnnounce(coreSpellId, 2)
 --local warnRupturingBlood				= mod:NewStackAnnounce(274358, 2, nil, "Tank")
 
-local specWarnDeathKnell				= mod:NewSpecialWarningCount(282399, nil, nil, nil, 2, 2)
-local specWarnDeathlySlam				= mod:NewSpecialWarningDodge(282543, nil, nil, nil, 2, 2)
+local specWarnEnergyAOE					= mod:NewSpecialWarningCount(energyAOESpellId, nil, nil, nil, 2, 2)
+local specWarnSlam						= mod:NewSpecialWarningDodge(slamSpellId, nil, nil, nil, 2, 2)
 local specWarnFerociousRoar				= mod:NewSpecialWarningSpell(285994, nil, nil, nil, 2, 2)
-local specWarnAdd						= mod:NewSpecialWarningSwitch(282526, "Dps", nil, nil, 1, 2)
-local specWarnAddInterrupt				= mod:NewSpecialWarningInterruptCount(282533, "HasInterrupt", nil, nil, 1, 2)
+local specWarnAdd						= mod:NewSpecialWarningSwitch(addSpawnId, "Dps", nil, nil, 1, 2)
+local specWarnAddInterrupt				= mod:NewSpecialWarningInterruptCount(addCastId, "HasInterrupt", nil, nil, 1, 2)
 local specWarnCrushedTaunt				= mod:NewSpecialWarningTaunt(285671, nil, nil, nil, 1, 2)
 local specWarnRendingBiteTaunt			= mod:NewSpecialWarningTaunt(285875, nil, nil, nil, 1, 2)
 --local yellDarkRevolation				= mod:NewPosYell(273365)
@@ -48,11 +55,11 @@ local specWarnRendingBiteTaunt			= mod:NewSpecialWarningTaunt(285875, nil, nil, 
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 2)
 
 --mod:AddTimerLine(DBM:EJ_GetSectionInfo(18527))
-local timerDeathKnellCD					= mod:NewCDCountTimer(100, 282399, nil, nil, nil, 2)
-local timerNecroticComboCD				= mod:NewCDTimer(20.1, 286450, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
-local timerDeathlySlamCD				= mod:NewCDTimer(23.1, 282543, nil, nil, nil, 3)
+local timerEnergyAOECD					= mod:NewCDCountTimer(100, energyAOESpellId, nil, nil, nil, 2)
+local timerTankComboCD					= mod:NewCDTimer(20.1, tankComboId, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
+local timerSlamCD						= mod:NewCDTimer(23.1, slamSpellId, nil, nil, nil, 3)
 local timerFerociousRoarCD				= mod:NewCDTimer(21.9, 285994, nil, nil, nil, 2)
-local timerAddCD						= mod:NewCDTimer(60.7, 282526, nil, nil, nil, 1)
+local timerAddCD						= mod:NewCDTimer(60.7, addSpawnId, nil, nil, nil, 1)
 
 --local berserkTimer					= mod:NewBerserkTimer(600)
 
@@ -62,12 +69,12 @@ local timerAddCD						= mod:NewCDTimer(60.7, 282526, nil, nil, nil, 1)
 
 --mod:AddSetIconOption("SetIconGift", 255594, true)
 --mod:AddRangeFrameOption("8/10")
-mod:AddInfoFrameOption(282399, true)
+mod:AddInfoFrameOption(energyAOESpellId, true)
 --mod:AddNamePlateOption("NPAuraOnPresence", 276093)
 --mod:AddSetIconOption("SetIconDarkRev", 273365, true)
 
 --mod.vb.phase = 1
-mod.vb.deathKnellCount = 0
+mod.vb.EnergyAOECount = 0
 local coreTargets = {}
 local castsPerGUID = {}
 
@@ -95,7 +102,7 @@ do
 			local name = coreTargets[i]
 			local uId = DBM:GetRaidUnitId(name)
 			if not uId then break end
-			local _, _, _, _, _, expireTime = DBM:UnitDebuff(uId, 286434)
+			local _, _, _, _, _, expireTime = DBM:UnitDebuff(uId, 286434, 285659)
 			if expireTime then
 				local remaining = expireTime-GetTime()
 				addLine(name, math.floor(remaining))
@@ -106,14 +113,14 @@ do
 end
 
 function mod:OnCombatStart(delay)
-	self.vb.deathKnellCount = 0
+	self.vb.EnergyAOECount = 0
 	table.wipe(coreTargets)
 	table.wipe(castsPerGUID)
-	timerDeathlySlamCD:Start(13.2-delay)
+	timerSlamCD:Start(13.2-delay)
 	timerAddCD:Start(16.8-delay)
-	timerNecroticComboCD:Start(18-delay)
+	timerTankComboCD:Start(18-delay)
 	--timerFerociousRoarCD:Start(27.7-delay)--VERIFY
-	timerDeathKnellCD:Start(100-delay, 1)
+	timerEnergyAOECD:Start(100-delay, 1)
 --	if self.Options.NPAuraOnPresence then
 --		DBM:FireEvent("BossMod_EnableHostileNameplates")
 --	end
@@ -137,17 +144,17 @@ end
 
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
-	if spellId == 273316 then
-		self.vb.deathKnellCount = self.vb.deathKnellCount + 1
-		specWarnDeathKnell:Show(self.vb.deathKnellCount)
-		specWarnDeathKnell:Play("aesoon")
-		timerDeathKnellCD:Stop()
-		timerDeathKnellCD:Start(100, self.vb.deathKnellCount+1)
+	if spellId == 282399 or spellId == 281936 then
+		self.vb.EnergyAOECount = self.vb.EnergyAOECount + 1
+		specWarnEnergyAOE:Show(self.vb.EnergyAOECount)
+		specWarnEnergyAOE:Play("aesoon")
+		timerEnergyAOECD:Stop()
+		timerEnergyAOECD:Start(100, self.vb.EnergyAOECount+1)
 	elseif spellId == 285994 then
 		specWarnFerociousRoar:Show()
 		specWarnFerociousRoar:Play("fearsoon")
 		timerFerociousRoarCD:Start()
-	elseif spellId == 282533 then
+	elseif spellId == 282533 or spellId == 282243 then
 		if not castsPerGUID[args.sourceGUID] then
 			castsPerGUID[args.sourceGUID] = 0
 		end
@@ -169,23 +176,23 @@ function mod:SPELL_CAST_START(args)
 				specWarnAddInterrupt:Play("kickcast")
 			end
 		end
-	elseif spellId == 286435 then
-		--timerDeathKnellCD:Stop()
+	elseif spellId == 286435 or spellId == 285660 then
+		--timerEnergyAOECD:Stop()
 	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
-	if spellId == 282543 then
-		specWarnDeathlySlam:Show()
-		specWarnDeathlySlam:Play("watchstep")
-		timerDeathlySlamCD:Start()
-	elseif spellId == 282526 then--Death Spectre
+	if spellId == 282543 or spellId == 282179 then
+		specWarnSlam:Show()
+		specWarnSlam:Play("watchstep")
+		timerSlamCD:Start()
+	elseif spellId == 282526 or spellId == 282247 then--Death Spectre/Apetagonizer 3000 Bomb
 		specWarnAdd:Show()
 		specWarnAdd:Play("killmob")
 		timerAddCD:Start()
-	elseif spellId == 286450 then--Necrotic Combo
-		timerNecroticComboCD:Start()
+	elseif spellId == 286450 or spellId == 282082 then--Necrotic Combo/Bestial Combo
+		timerTankComboCD:Start()
 	end
 end
 
@@ -219,8 +226,8 @@ function mod:SPELL_AURA_APPLIED(args)
 				end
 			end
 		end
-	elseif spellId == 286434 then
-		warnShadowCore:Show(args.destName)
+	elseif spellId == 286434 or spellId == 285659 then
+		warnCore:Show(args.destName)
 		if not tContains(coreTargets, args.destName) then
 			table.insert(coreTargets, args.destName)
 		end
@@ -230,7 +237,7 @@ end
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
-	if spellId == 286434 then
+	if spellId == 286434 or spellId == 285659 then
 		tDeleteItem(coreTargets, args.destName)
 	end
 end
@@ -246,16 +253,16 @@ mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 --]]
 
 function mod:SPELL_ENERGIZE(_, _, _, _, destGUID, _, _, _, spellId, _, _, amount)
-	if spellId == 282533 and destGUID == UnitGUID("boss1") then
+	if (spellId == 282533 or spellId == 282243) and destGUID == UnitGUID("boss1") then
 		DBM:Debug("SPELL_ENERGIZE fired on Boss. Amount: "..amount)
-		local elapsed, total = timerDeathKnellCD:GetTime(self.vb.deathKnellCount+1)--Grab current timer
+		local elapsed, total = timerEnergyAOECD:GetTime(self.vb.EnergyAOECount+1)--Grab current timer
 		local adjustAmount = 10--Assume on easy difficulties etc it'll be less, or more on harder ones
 		elapsed = elapsed + adjustAmount
 		local remaining = total-elapsed
 		--countdownRottingRegurg:Cancel()
-		timerDeathKnellCD:Stop()--Trash old timer
+		timerEnergyAOECD:Stop()--Trash old timer
 		if remaining >= 3 then--It's worth showing updated timer
-			timerDeathKnellCD:Update(elapsed, total, self.vb.deathKnellCount+1)--Construct new timer with adjustment
+			timerEnergyAOECD:Update(elapsed, total, self.vb.EnergyAOECount+1)--Construct new timer with adjustment
 			--countdownRottingRegurg:Start(remaining)
 		end
 	end
@@ -263,14 +270,14 @@ end
 
 function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
-	if cid == 144998 then--Death Specter
+	if cid == 144998 or cid == 144876 then--Death Specter/Apetagonizer 3000
 		castsPerGUID[args.destGUID] = nil
 	end
 end
 
---282523/death-specter-summon in case removed from combat log later
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
-	if spellId == 286450 then
+	--Backup add spawn triggers in case CLEU stuff gets purged
+	if spellId == 286450 or spellId == 282082 then
 
 	end
 end

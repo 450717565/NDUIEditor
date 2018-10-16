@@ -189,39 +189,47 @@ function module:CreateRM()
 
 	-- World marker
 	local marker = CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton
-	marker:ClearAllPoints()
-	marker:SetPoint("RIGHT", header, "LEFT", -2, 0)
-	marker:SetParent(header)
-	marker:SetSize(28, 28)
-	B.CreateTex(marker)
-	B.CreateBC(marker, .5)
-	for i = 1, 9 do
-		select(i, marker:GetRegions()):Hide()
-	end
-	marker:SetNormalTexture("Interface\\RaidFrame\\Raid-WorldPing")
-	marker:GetNormalTexture():SetVertexColor(DB.CC.r, DB.CC.g, DB.CC.b)
-	marker:HookScript("OnMouseUp", function(_, btn)
-		if btn == "RightButton" then ClearRaidMarker() end
-	end)
-	marker:RegisterEvent("GROUP_ROSTER_UPDATE")
-	marker:RegisterEvent("PLAYER_ENTERING_WORLD")
-	marker:SetScript("OnEvent", function()
-		marker:UnregisterEvent("PLAYER_ENTERING_WORLD")
-		if (IsInGroup() and not IsInRaid()) or UnitIsGroupLeader("player") or UnitIsGroupAssistant("player") then
-			marker:Enable()
-			marker:SetAlpha(1)
-		else
-			marker:Disable()
-			marker:SetAlpha(.5)
+	if not marker then
+		for _, addon in next, {"Blizzard_CUFProfiles", "Blizzard_CompactRaidFrames"} do
+			EnableAddOn(addon)
+			LoadAddOn(addon)
 		end
-	end)
-	marker:HookScript("OnEnter", function(self)
-		GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT", 0, -5)
-		GameTooltip:ClearLines()
-		GameTooltip:AddLine(DB.RightButton..DB.InfoColor..REMOVE_WORLD_MARKERS)
-		GameTooltip:Show()
-	end)
-	marker:HookScript("OnLeave", GameTooltip_Hide)
+	end
+	if marker then
+		marker:ClearAllPoints()
+		marker:SetPoint("RIGHT", header, "LEFT", -2, 0)
+		marker:SetParent(header)
+		marker:SetSize(28, 28)
+		for i = 1, 9 do
+			select(i, marker:GetRegions()):Hide()
+		end
+		B.CreateTex(marker)
+		B.CreateBC(marker, .5)
+		marker:SetNormalTexture("Interface\\RaidFrame\\Raid-WorldPing")
+		marker:GetNormalTexture():SetVertexColor(DB.CC.r, DB.CC.g, DB.CC.b)
+		marker:HookScript("OnMouseUp", function(_, btn)
+			if btn == "RightButton" then ClearRaidMarker() end
+		end)
+		marker:RegisterEvent("GROUP_ROSTER_UPDATE")
+		marker:RegisterEvent("PLAYER_ENTERING_WORLD")
+		marker:SetScript("OnEvent", function()
+			marker:UnregisterEvent("PLAYER_ENTERING_WORLD")
+			if (IsInGroup() and not IsInRaid()) or UnitIsGroupLeader("player") or UnitIsGroupAssistant("player") then
+				marker:Enable()
+				marker:SetAlpha(1)
+			else
+				marker:Disable()
+				marker:SetAlpha(.5)
+			end
+		end)
+		marker:HookScript("OnEnter", function(self)
+			GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT", 0, -5)
+			GameTooltip:ClearLines()
+			GameTooltip:AddLine(DB.RightButton..DB.InfoColor..REMOVE_WORLD_MARKERS)
+			GameTooltip:Show()
+		end)
+		marker:HookScript("OnLeave", GameTooltip_Hide)
+	end
 
 	-- Buff checker
 	local checker = CreateFrame("Button", nil, header)

@@ -176,7 +176,7 @@ function ShowInspectItemListFrame(unit, parent, ilevel, maxLevel)
 		itemframe.quality = quality
 		itemframe.itemString:SetWidth(0)
 		if (level > 0) then
-			itemframe.levelString:SetText(format(formats,level))
+			itemframe.levelString:SetText(format(formats, level))
 			itemframe.itemString:SetText(link or name)
 		else
 			itemframe.levelString:SetText("")

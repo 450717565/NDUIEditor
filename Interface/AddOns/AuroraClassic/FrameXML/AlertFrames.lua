@@ -333,4 +333,45 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 	end)
 
+	-- BonusRollLootWonFrame
+	hooksecurefunc("LootWonAlertFrame_SetUp", function(f)
+		if not f.bg then
+			f.bg = F.CreateBDFrame(f)
+			f.bg:SetPoint("TOPLEFT", 10, -10)
+			f.bg:SetPoint("BOTTOMRIGHT", -10, 10)
+			fixAnim(f)
+
+			f.shine:SetTexture("")
+			f.Icon:SetDrawLayer("BORDER")
+			f.Icon:SetTexCoord(.08, .92, .08, .92)
+			F.CreateBDFrame(f.Icon, .25)
+
+			f.SpecRing:SetTexture("")
+			f.SpecIcon:SetTexCoord(.08, .92, .08, .92)
+			f.SpecIcon.bg = F.CreateBDFrame(f.SpecIcon, .25)
+			f.SpecIcon.bg:SetShown(f.SpecIcon:IsShown() and f.SpecIcon:GetTexture() ~= nil)
+		end
+
+		f.glow:SetTexture("")
+		f.Background:SetTexture("")
+		f.PvPBackground:SetTexture("")
+		f.BGAtlas:SetTexture("")
+		f.IconBorder:SetTexture("")
+	end)
+
+	-- BonusRollMoneyWonFrame
+	hooksecurefunc("MoneyWonAlertFrame_SetUp", function(f)
+		if not f.bg then
+			f.bg = F.CreateBDFrame(f)
+			f.bg:SetPoint("TOPLEFT", 5, -5)
+			f.bg:SetPoint("BOTTOMRIGHT", -5, 5)
+			fixAnim(f)
+
+			f.Background:SetTexture("")
+			f.Icon:SetTexCoord(.08, .92, .08, .92)
+			f.Icon:SetDrawLayer("ARTWORK")
+			F.CreateBDFrame(f.Icon, .25)
+			f.IconBorder:SetTexture("")
+		end
+	end)
 end)

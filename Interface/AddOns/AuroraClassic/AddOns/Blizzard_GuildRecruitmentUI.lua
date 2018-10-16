@@ -3,19 +3,16 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_GuildRecruitmentUI"] = function()
 	local r, g, b = C.r, C.g, C.b
 
-	F.StripTextures(CommunitiesGuildRecruitmentFrame)
-	F.CreateBD(CommunitiesGuildRecruitmentFrame)
-	F.CreateSD(CommunitiesGuildRecruitmentFrame)
-	F.StripTextures(CommunitiesGuildRecruitmentFrameTab1)
-	F.StripTextures(CommunitiesGuildRecruitmentFrameTab2)
+	F.ReskinPortraitFrame(CommunitiesGuildRecruitmentFrame, true)
+	F.StripTextures(CommunitiesGuildRecruitmentFrameTab1, true)
+	F.StripTextures(CommunitiesGuildRecruitmentFrameTab2, true)
 	F.ReskinClose(CommunitiesGuildRecruitmentFrameCloseButton)
 	F.Reskin(CommunitiesGuildRecruitmentFrameRecruitment.ListGuildButton)
-	F.StripTextures(CommunitiesGuildRecruitmentFrame)
-	CommunitiesGuildRecruitmentFrameInset:Hide()
 
-	for _, name in next, {"InterestFrame", "AvailabilityFrame", "RolesFrame", "LevelFrame", "CommentFrame"} do
+	for _, name in next, {"InterestFrame", "AvailabilityFrame", "RolesFrame", "LevelFrame"} do
 		local frame = CommunitiesGuildRecruitmentFrameRecruitment[name]
-		frame:GetRegions():Hide()
+		F.StripTextures(frame, true)
+		F.CreateBDFrame(frame, .25)
 	end
 
 	for _, name in next, {"QuestButton", "DungeonButton", "RaidButton", "PvPButton", "RPButton"} do
@@ -28,14 +25,23 @@ C.themes["Blizzard_GuildRecruitmentUI"] = function()
 		F.ReskinCheck(button.checkButton)
 	end
 
+	CommunitiesGuildRecruitmentFrameRecruitmentScrollFrame.CommentEditBox:SetWidth(284)
+
+	local recruitment = CommunitiesGuildRecruitmentFrameRecruitment
+	F.StripTextures(recruitment.CommentFrame, true)
+	recruitment.CommentFrame:ClearAllPoints()
+	recruitment.CommentFrame:SetPoint("TOPLEFT", recruitment.LevelFrame, "BOTTOMLEFT", 0, 1)
+
+	local input = recruitment.CommentFrame.CommentInputFrame
+	input:SetWidth(312)
+	F.StripTextures(input, true)
+	F.CreateBDFrame(input, .25)
+
 	F.ReskinCheck(CommunitiesGuildRecruitmentFrameRecruitment.AvailabilityFrame.WeekdaysButton)
 	F.ReskinCheck(CommunitiesGuildRecruitmentFrameRecruitment.AvailabilityFrame.WeekendsButton)
 	F.ReskinRadio(CommunitiesGuildRecruitmentFrameRecruitment.LevelFrame.LevelAnyButton)
 	F.ReskinRadio(CommunitiesGuildRecruitmentFrameRecruitment.LevelFrame.LevelMaxButton)
-	F.StripTextures(CommunitiesGuildRecruitmentFrameRecruitment.CommentFrame.CommentInputFrame)
-	F.CreateBDFrame(CommunitiesGuildRecruitmentFrameRecruitment.CommentFrame.CommentInputFrame, .25)
 	F.ReskinScroll(CommunitiesGuildRecruitmentFrameRecruitmentScrollFrameScrollBar)
-
 	F.ReskinScroll(CommunitiesGuildRecruitmentFrameApplicantsContainer.scrollBar)
 	F.Reskin(CommunitiesGuildRecruitmentFrameApplicants.InviteButton)
 	F.Reskin(CommunitiesGuildRecruitmentFrameApplicants.MessageButton)

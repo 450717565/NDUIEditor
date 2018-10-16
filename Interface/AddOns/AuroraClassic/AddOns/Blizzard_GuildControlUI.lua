@@ -4,17 +4,24 @@ C.themes["Blizzard_GuildControlUI"] = function()
 	local r, g, b = C.r, C.g, C.b
 
 	F.StripTextures(GuildControlUI, true)
-	F.StripTextures(GuildControlUIRankBankFrameInset, true)
 	F.CreateBD(GuildControlUI)
 	F.CreateSD(GuildControlUI)
 
-	GuildControlUIRankSettingsFrameOfficerBg:SetAlpha(0)
-	GuildControlUIRankSettingsFrameRosterBg:SetAlpha(0)
-	GuildControlUIRankSettingsFrameBankBg:SetAlpha(0)
-	GuildControlUITopBg:Hide()
-	GuildControlUIHbar:Hide()
-	GuildControlUIRankBankFrameInsetScrollFrameTop:SetAlpha(0)
-	GuildControlUIRankBankFrameInsetScrollFrameBottom:SetAlpha(0)
+	F.StripTextures(GuildControlUIRankBankFrameInset, true)
+	F.StripTextures(GuildControlUIRankBankFrameInsetScrollFrame, true)
+	F.Reskin(GuildControlUIRankOrderFrameNewButton)
+	F.ReskinClose(GuildControlUICloseButton)
+	F.ReskinScroll(GuildControlUIRankBankFrameInsetScrollFrameScrollBar)
+	F.ReskinDropDown(GuildControlUINavigationDropDown)
+	F.ReskinDropDown(GuildControlUIRankSettingsFrameRankDropDown)
+	F.ReskinDropDown(GuildControlUIRankBankFrameRankDropDown)
+	F.ReskinInput(GuildControlUIRankSettingsFrameGoldBox, 20)
+	F.ReskinCheck(GuildControlUIRankSettingsFrameOfficerCheckbox)
+
+	local lists = {GuildControlUIHbar, GuildControlUIRankSettingsFrameOfficerBg, GuildControlUIRankSettingsFrameRosterBg, GuildControlUIRankSettingsFrameBankBg}
+	for _, list in next, lists do
+		list:Hide()
+	end
 
 	do
 		local function updateGuildRanks()
@@ -22,13 +29,21 @@ C.themes["Blizzard_GuildControlUI"] = function()
 				local rank = _G["GuildControlUIRankOrderFrameRank"..i]
 				if not rank.styled then
 					rank.upButton.icon:Hide()
+					rank.upButton:ClearAllPoints()
+					rank.upButton:SetPoint("LEFT", rank.nameBox, "RIGHT", 10, 0)
+
 					rank.downButton.icon:Hide()
+					rank.downButton:ClearAllPoints()
+					rank.downButton:SetPoint("LEFT", rank.upButton, "RIGHT", 5, 0)
+
 					rank.deleteButton.icon:Hide()
+					rank.deleteButton:ClearAllPoints()
+					rank.deleteButton:SetPoint("TOPLEFT", rank.downButton, "TOPRIGHT", 5, 0)
+					rank.deleteButton:SetPoint("BOTTOMRIGHT", rank.downButton, "BOTTOMRIGHT", 0, 0)
 
 					F.ReskinArrow(rank.upButton, "up")
 					F.ReskinArrow(rank.downButton, "down")
 					F.ReskinClose(rank.deleteButton)
-
 					F.ReskinInput(rank.nameBox, 20)
 
 					rank.styled = true
@@ -44,19 +59,20 @@ C.themes["Blizzard_GuildControlUI"] = function()
 
 	hooksecurefunc("GuildControlUI_BankTabPermissions_Update", function()
 		for i = 1, GetNumGuildBankTabs() + 1 do
-			local tab = "GuildControlBankTab"..i
-			local bu = _G[tab]
+			local bu = _G["GuildControlBankTab"..i]
 			if bu and not bu.styled then
-				local ownedTab = bu.owned
-
-				_G[tab.."Bg"]:Hide()
-
-				ownedTab.tabIcon:SetTexCoord(.08, .92, .08, .92)
-				F.CreateBDFrame(ownedTab.tabIcon)
-
-				F.CreateBD(bu, .25)
-				F.CreateSD(bu)
+				F.StripTextures(bu, true)
 				F.Reskin(bu.buy.button)
+
+				local bg = F.CreateBDFrame(bu, .25)
+				bg:SetPoint("TOPLEFT", 2, -1)
+				bg:SetPoint("BOTTOMRIGHT", 0, 1)
+
+				local ownedTab = bu.owned
+				ownedTab.tabIcon:ClearAllPoints()
+				ownedTab.tabIcon:SetPoint("TOPLEFT", ownedTab, "TOPLEFT", 6, -5)
+				ownedTab.tabIcon:SetTexCoord(.08, .92, .08, .92)
+				F.CreateBDFrame(ownedTab.tabIcon, .25)
 				F.ReskinInput(ownedTab.editBox)
 
 				for _, ch in next, {ownedTab.viewCB, ownedTab.depositCB, ownedTab.infoCB} do
@@ -68,19 +84,10 @@ C.themes["Blizzard_GuildControlUI"] = function()
 		end
 	end)
 
-	F.ReskinCheck(GuildControlUIRankSettingsFrameOfficerCheckbox)
 	for i = 1, 20 do
 		local checbox = _G["GuildControlUIRankSettingsFrameCheckbox"..i]
 		if checbox then
 			F.ReskinCheck(checbox)
 		end
 	end
-
-	F.Reskin(GuildControlUIRankOrderFrameNewButton)
-	F.ReskinClose(GuildControlUICloseButton)
-	F.ReskinScroll(GuildControlUIRankBankFrameInsetScrollFrameScrollBar)
-	F.ReskinDropDown(GuildControlUINavigationDropDown)
-	F.ReskinDropDown(GuildControlUIRankSettingsFrameRankDropDown)
-	F.ReskinDropDown(GuildControlUIRankBankFrameRankDropDown)
-	F.ReskinInput(GuildControlUIRankSettingsFrameGoldBox, 20)
 end

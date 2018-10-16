@@ -96,6 +96,10 @@ local function updateArenaPreparationElements(self, event, elementName, specID)
 end
 
 local function updateArenaPreparation(self, event)
+	if (not self:GetAttribute('oUF-enableArenaPrep')) then
+		return
+	end
+
 	if (event == 'ARENA_OPPONENT_UPDATE' and not self:IsEnabled()) then
 		self:Enable()
 		self:UpdateAllElements('ArenaPreparation')
@@ -174,6 +178,7 @@ function oUF:HandleUnit(object, unit)
 	elseif (unit:match('arena%d?$')) then
 		object:RegisterEvent('ARENA_OPPONENT_UPDATE', object.UpdateAllElements)
 		object:RegisterEvent('ARENA_PREP_OPPONENT_SPECIALIZATIONS', updateArenaPreparation, true)
+		object:SetAttribute('oUF-enableArenaPrep', true)
 		-- the event handler only fires for visible frames, so we have to hook it for arena prep
 		object:HookScript('OnEvent', updateArenaPreparation)
 	elseif (unit:match('%w+target')) then

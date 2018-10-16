@@ -30,7 +30,6 @@ info.eventList = {
 
 info.onEvent = function(self, event)
 	if event == "PLAYER_ENTERING_WORLD" then
-		if NDuiADB["AutoSell"] == nil then NDuiADB["AutoSell"] = true end
 		oldMoney = GetMoney()
 		self:UnregisterEvent(event)
 	end
@@ -45,7 +44,6 @@ info.onEvent = function(self, event)
 	self.text:SetText(formatTextMoney(newMoney))
 	self.text:SetJustifyH("RIGHT")
 
-	if not NDuiADB["totalGold"] then NDuiADB["totalGold"] = {} end
 	if not NDuiADB["totalGold"][myRealm] then NDuiADB["totalGold"][myRealm] = {} end
 	NDuiADB["totalGold"][myRealm][myName] = {GetMoney(), DB.MyClass}
 

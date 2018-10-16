@@ -4,11 +4,17 @@ C.themes["Blizzard_GuildUI"] = function()
 	local r, g, b = C.r, C.g, C.b
 
 	F.ReskinPortraitFrame(GuildFrame, true)
+	local bdsds = {GuildNewsFiltersFrame, GuildTextEditFrame, GuildLogFrame, }
+	for _, bdsd in next, bdsds do
+		F.StripTextures(bdsd, true)
+		F.CreateBD(bdsd)
+		F.CreateSD(bdsd)
+	end
 
-	local frames = {GuildMemberDetailFrame, GuildMemberNoteBackground, GuildMemberOfficerNoteBackground, GuildLogFrame, GuildLogContainer, GuildNewsFiltersFrame, GuildTextEditFrame, GuildTextEditContainer, GuildRecruitmentInterestFrame, GuildRecruitmentAvailabilityFrame, GuildRecruitmentRolesFrame, GuildRecruitmentLevelFrame}
+	local frames = {GuildMemberDetailFrame, GuildMemberNoteBackground, GuildMemberOfficerNoteBackground, GuildLogContainer, GuildTextEditContainer, GuildRecruitmentInterestFrame, GuildRecruitmentAvailabilityFrame, GuildRecruitmentRolesFrame, GuildRecruitmentLevelFrame, GuildInfoFrameInfoMOTDScrollFrame, GuildInfoDetailsFrame, GuildRecruitmentCommentInputFrame}
 	for _, frame in next, frames do
 		F.StripTextures(frame, true)
-		F.CreateBDFrame(frame)
+		F.CreateBDFrame(frame, .25)
 	end
 
 	for i = 1, 5 do
@@ -52,8 +58,9 @@ C.themes["Blizzard_GuildUI"] = function()
 	F.ReskinClose(GuildTextEditFrameCloseButton)
 	F.ReskinDropDown(GuildRosterViewDropdown)
 	F.ReskinDropDown(GuildMemberRankDropdown)
-	F.ReskinInput(GuildRecruitmentCommentInputFrame)
 
+	GuildInfoFrameInfoMOTDScrollFrameScrollBar:SetAlpha(0)
+	GuildRecruitmentCommentFrameBg:Hide()
 	GuildRecruitmentCommentInputFrame:SetWidth(312)
 	GuildRecruitmentCommentEditBox:SetWidth(284)
 	GuildRecruitmentCommentFrame:ClearAllPoints()
@@ -69,9 +76,9 @@ C.themes["Blizzard_GuildUI"] = function()
 	GuildNewsBossModel:ClearAllPoints()
 	GuildNewsBossModel:SetPoint(a1, p, a2, x+5, y)
 
-	local f = F.CreateBDFrame(GuildNewsBossModel)
-	f:SetPoint("TOPLEFT", 0, 1)
-	f:SetPoint("BOTTOMRIGHT", 1, -52)
+	local bg = F.CreateBDFrame(GuildNewsBossModel)
+	bg:SetPoint("TOPLEFT", 0, 1)
+	bg:SetPoint("BOTTOMRIGHT", 1, -52)
 
 	local line = F.CreateBDFrame(GuildNewsBossModel, 0)
 	line:ClearAllPoints()
@@ -92,7 +99,6 @@ C.themes["Blizzard_GuildUI"] = function()
 		bu:SetHighlightTexture("")
 
 		local bg = F.CreateBDFrame(bu, .25)
-		bg:ClearAllPoints()
 		bg:SetPoint("TOPLEFT")
 		bg:SetPoint("BOTTOMRIGHT")
 
@@ -115,7 +121,6 @@ C.themes["Blizzard_GuildUI"] = function()
 		end
 
 		local bg = F.CreateBDFrame(bu, .25)
-		bg:ClearAllPoints()
 		bg:SetPoint("TOPLEFT", 1, -3)
 		bg:SetPoint("BOTTOMRIGHT", 0, 4)
 
@@ -137,7 +142,6 @@ C.themes["Blizzard_GuildUI"] = function()
 				bu.disabledBG.Show = F.dummy
 
 				bu.bg = F.CreateBDFrame(bu, .25)
-				bu.bg:ClearAllPoints()
 				bu.bg:SetPoint("TOPLEFT", 1, -1)
 				bu.bg:SetPoint("BOTTOMRIGHT", 0, 2)
 			end
@@ -179,34 +183,21 @@ C.themes["Blizzard_GuildUI"] = function()
 	hooksecurefunc("GuildRoster_Update", UpdateIcons)
 	hooksecurefunc(GuildRosterContainer, "update", UpdateIcons)
 
-	F.Reskin(select(4, GuildTextEditFrame:GetChildren()))
-	F.Reskin(select(3, GuildLogFrame:GetChildren()))
-
-	local gbuttons = {GuildAddMemberButton, GuildViewLogButton, GuildControlButton, GuildTextEditFrameAcceptButton, GuildMemberGroupInviteButton, GuildMemberRemoveButton, GuildRecruitmentInviteButton, GuildRecruitmentMessageButton, GuildRecruitmentDeclineButton, GuildRecruitmentListGuildButton}
+	local gbuttons = {GuildAddMemberButton, GuildViewLogButton, GuildControlButton, GuildTextEditFrameAcceptButton, GuildMemberGroupInviteButton, GuildMemberRemoveButton, GuildRecruitmentInviteButton, GuildRecruitmentMessageButton, GuildRecruitmentDeclineButton, GuildRecruitmentListGuildButton, select(4, GuildTextEditFrame:GetChildren()), select(3, GuildLogFrame:GetChildren())}
 	for _, button in next, gbuttons do
 		F.Reskin(button)
 	end
 
-	local checkboxes = {GuildRecruitmentQuestButton, GuildRecruitmentDungeonButton, GuildRecruitmentRaidButton, GuildRecruitmentPvPButton, GuildRecruitmentRPButton, GuildRecruitmentWeekdaysButton, GuildRecruitmentWeekendsButton}
+	local checkboxes = {GuildRecruitmentQuestButton, GuildRecruitmentDungeonButton, GuildRecruitmentRaidButton, GuildRecruitmentPvPButton, GuildRecruitmentRPButton, GuildRecruitmentWeekdaysButton, GuildRecruitmentWeekendsButton, GuildRecruitmentTankButton:GetChildren(), GuildRecruitmentHealerButton:GetChildren(), GuildRecruitmentDamagerButton:GetChildren()}
 	for _, check in next, checkboxes do
 		F.ReskinCheck(check)
 	end
-
-	F.ReskinCheck(GuildRecruitmentTankButton:GetChildren())
-	F.ReskinCheck(GuildRecruitmentHealerButton:GetChildren())
-	F.ReskinCheck(GuildRecruitmentDamagerButton:GetChildren())
 
 	F.ReskinRadio(GuildRecruitmentLevelAnyButton)
 	F.ReskinRadio(GuildRecruitmentLevelMaxButton)
 
 	for i = 1, 3 do
-		--for j = 1, 6 do
-		--	select(j, _G["GuildInfoFrameTab"..i]:GetRegions()):Hide()
-		--	select(j, _G["GuildInfoFrameTab"..i]:GetRegions()).Show = F.dummy
-		--end
-		local tab = _G["GuildInfoFrameTab"..i]
-		F.StripTextures(tab, true)
-		--tab:SetHighlightTexture("")
+		F.StripTextures(_G["GuildInfoFrameTab"..i], true)
 	end
 
 	-- Tradeskill View
