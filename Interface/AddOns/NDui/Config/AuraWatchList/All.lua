@@ -72,11 +72,12 @@ local list = {
 		{AuraID = 201670, UnitID = "player"},--疾跑
 		{AuraID = 248779, UnitID = "player"},--奥术回响遮罩
 		{AuraID = 254161, UnitID = "player"},--超能奥术回响遮罩
-		--隐形
+		--隐形药水
 		{AuraID = 3680, UnitID = "player"},
 		{AuraID = 11392, UnitID = "player"},
 		{AuraID = 175833, UnitID = "player"},
 		{AuraID = 188023, UnitID = "player"},
+		{AuraID = 250873, UnitID = "player"},
 	-->饰品附魔
 		{AuraID = 268062, UnitID = "player"},	-- 萦索孢子囊
 		--默认

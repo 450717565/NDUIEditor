@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2147, "DBM-Uldir", nil, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 18003 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 18006 $"):sub(12, -3))
 mod:SetCreatureID(132998)
 mod:SetEncounterID(2122)
 mod:SetZone()
@@ -488,9 +488,11 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 268074 then
 		warnDarkPurpose:CombinedShow(0.5, args.destName)
 		if args:IsPlayer() then
-			specWarnDarkPurpose:Show()
-			specWarnDarkPurpose:Play("justrun")
-			yellDarkPurpose:Yell()
+			if self:AntiSpam(3, 9) then
+				specWarnDarkPurpose:Show()
+				specWarnDarkPurpose:Play("justrun")
+				yellDarkPurpose:Yell()
+			end
 			if self.Options.NPAuraOnFixate then
 				DBM.Nameplate:Show(true, args.sourceGUID, spellId)
 			end
@@ -545,7 +547,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnGrowingCorruption:Show(amount)
 				specWarnGrowingCorruption:Play("changemt")
 			else
-				specWarnGrowingCorruptionOther:Show(L.name)
+				specWarnGrowingCorruptionOther:Show(args.destName)
 				specWarnGrowingCorruptionOther:Play("changemt")
 			end
 		end

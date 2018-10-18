@@ -204,10 +204,6 @@ local worldBossesData = {
 	}
 }
 
-local eventFrame = CreateFrame("Frame", "EncounterJournalSavedInstances_EventFrame", UIParent)
-eventFrame:Show()
-
-local startTime = -1
 local savedInstances = {}
 local statusFrames = {}
 
