@@ -105,13 +105,13 @@ local function CreateSlot(id)
 	glow:Hide()
 	button.glow = glow
 
-	local count = B.CreateFS(button, 14, "")
+	local count = B.CreateFS(border, 14, "")
 	count:SetJustifyH("RIGHT")
 	count:ClearAllPoints()
 	count:SetPoint("BOTTOMRIGHT", border, "BOTTOMRIGHT", -1, 1)
 	button.count = count
 
-	local name = B.CreateFS(button, 14, "")
+	local name = B.CreateFS(border, 14, "")
 	name:SetJustifyH("LEFT")
 	name:ClearAllPoints()
 	name:SetPoint("LEFT", border, "RIGHT", 5, 0)

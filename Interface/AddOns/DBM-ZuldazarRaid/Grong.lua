@@ -10,9 +10,9 @@ end
 local mod	= DBM:NewMod(dungeonID, "DBM-ZuldazarRaid", 1, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17985 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 18002 $"):sub(12, -3))
 mod:SetCreatureID(creatureID)
-mod:SetEncounterID(2263)--One shared ID right now, but supposed to be split agian soon™
+mod:SetEncounterID(2263, 2284)--2263 Alliance, 2284 Horde
 --mod:DisableESCombatDetection()
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()

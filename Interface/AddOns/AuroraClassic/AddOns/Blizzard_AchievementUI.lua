@@ -25,7 +25,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 
 					local bg = F.CreateBDFrame(bu, .25)
 					bg:SetPoint("TOPLEFT", 0, -1)
-					bg:SetPoint("BOTTOMRIGHT")
+					bg:SetPoint("BOTTOMRIGHT", 0, 1)
 
 					bu:SetHighlightTexture(C.media.backdrop)
 					local hl = bu:GetHighlightTexture()

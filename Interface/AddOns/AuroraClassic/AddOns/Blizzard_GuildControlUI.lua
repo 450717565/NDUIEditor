@@ -28,15 +28,12 @@ C.themes["Blizzard_GuildControlUI"] = function()
 			for i = 1, GuildControlGetNumRanks() do
 				local rank = _G["GuildControlUIRankOrderFrameRank"..i]
 				if not rank.styled then
-					rank.upButton.icon:Hide()
 					rank.upButton:ClearAllPoints()
 					rank.upButton:SetPoint("LEFT", rank.nameBox, "RIGHT", 10, 0)
 
-					rank.downButton.icon:Hide()
 					rank.downButton:ClearAllPoints()
 					rank.downButton:SetPoint("LEFT", rank.upButton, "RIGHT", 5, 0)
 
-					rank.deleteButton.icon:Hide()
 					rank.deleteButton:ClearAllPoints()
 					rank.deleteButton:SetPoint("TOPLEFT", rank.downButton, "TOPRIGHT", 5, 0)
 					rank.deleteButton:SetPoint("BOTTOMRIGHT", rank.downButton, "BOTTOMRIGHT", 0, 0)

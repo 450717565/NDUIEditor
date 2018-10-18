@@ -339,6 +339,9 @@ end
 function F:ReskinClose(a1, p, a2, x, y)
 	self:SetSize(17, 17)
 
+	local ic = self.icon or self.Icon
+	if ic then ic:Hide() end
+
 	if not a1 then
 		self:SetPoint("TOPRIGHT", -6, -6)
 	else
@@ -399,6 +402,9 @@ end
 function F:ReskinArrow(direction)
 	self:SetSize(18, 18)
 	F.Reskin(self, true)
+
+	local ic = self.icon or self.Icon
+	if ic then ic:Hide() end
 
 	self:SetDisabledTexture(C.media.backdrop)
 	local dis = self:GetDisabledTexture()
@@ -763,7 +769,8 @@ function F:ReskinStatusBar(classColor, stripTex)
 end
 
 function F:ReskinDecline()
-	self.Icon:Hide()
+	local ic = self.icon or self.Icon
+	if ic then ic:Hide() end
 
 	local w = self:GetWidth()
 	self.pixels = {}

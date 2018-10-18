@@ -30,19 +30,6 @@ local function Reskins()
 		allbtn:SetHeight(20)
 		allbtn:ClearAllPoints()
 		allbtn:SetPoint("RIGHT", PVEFrameCloseButton, "LEFT", -5, 0)
-
-		local ignore = ignorePanelFrame
-		B.CreateBD(ignore)
-		B.CreateSD(ignore)
-		B.CreateTex(ignore)
-
-		local cbtn = ignore.closeBtn
-		cbtn:SetWidth(269)
-		cbtn:ClearAllPoints()
-		cbtn:SetPoint("BOTTOM", 0, 1)
-		B.CreateBC(cbtn)
-
-		BagBuddy_Icon:SetHeight(39)
 	end
 
 	if IsAddOnLoaded("PremadeGroupsFilter") then

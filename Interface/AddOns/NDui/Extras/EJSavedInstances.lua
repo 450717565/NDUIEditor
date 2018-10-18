@@ -499,37 +499,27 @@ end
 
 -------------------
 
-local eventFrame = CreateFrame("Frame")
+local function UpdateFrames()
+	UpdateSavedInstances()
 
-local function OnEvent(self, event, ...)
-	if event == "PLAYER_LOGIN" then
-		startTime = GetTime()
+	local button = _G["EncounterJournalInstanceSelectScrollFrameScrollChildInstanceButton1"]
+	if button then
+		UpdateInstanceStatusFrame(button)
+	end
+
+	for i = 1, 100 do
+		local list = _G["EncounterJournalInstanceSelectScrollFrameinstance"..i]
+		if list then
+			UpdateInstanceStatusFrame(list)
+		end
 	end
 end
 
-local function OnUpdate(self, elapsed)
-	if startTime >= 0 and GetTime() - startTime > 2 and IsAddOnLoaded("Blizzard_EncounterJournal") then
-		eventFrame:SetScript("OnUpdate", nil)
-		startTime = nil
-
-		local function UpdateFrames()
-			UpdateSavedInstances()
-			local b1 = _G["EncounterJournalInstanceSelectScrollFrameScrollChildInstanceButton1"]
-			if b1 then
-				UpdateInstanceStatusFrame(b1)
-			end
-			for i = 1, 100 do
-				local b = _G["EncounterJournalInstanceSelectScrollFrameinstance"..i]
-				if b then
-					UpdateInstanceStatusFrame(b)
-				end
-			end
-		end
+local function UpdateStatus(event, addon)
+	if event == "ADDON_LOADED" and addon == "Blizzard_EncounterJournal" then
 		hooksecurefunc("EncounterJournal_ListInstances", UpdateFrames)
 		UpdateFrames()
 	end
 end
 
-eventFrame:RegisterEvent("PLAYER_LOGIN")
-eventFrame:SetScript("OnEvent", OnEvent)
-eventFrame:SetScript("OnUpdate", OnUpdate)
+B:RegisterEvent("ADDON_LOADED", UpdateStatus)

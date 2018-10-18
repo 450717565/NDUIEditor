@@ -1,5 +1,5 @@
 local dungeonID, creatureID
-local breathId, strikeId
+local breathId, strikeId, gtfoId
 if UnitFactionGroup("player") == "Alliance" then
 	dungeonID, creatureID = 2345, 148295--Ivus the Decayed
 	breathId, strikeId, gtfoId = 287537, 287549, 287538
@@ -10,7 +10,7 @@ end
 local mod	= DBM:NewMod(dungeonID, "DBM-Azeroth-BfA", nil, 1028)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17986 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17996 $"):sub(12, -3))
 mod:SetCreatureID(creatureID)
 --mod:SetEncounterID(2263)
 --mod:DisableESCombatDetection()

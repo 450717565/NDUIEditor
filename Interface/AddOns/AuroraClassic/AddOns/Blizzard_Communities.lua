@@ -403,8 +403,7 @@ C.themes["Blizzard_Communities"] = function()
 		F.ReskinCheck(filter)
 	end
 
-	F.StripTextures(CommunitiesGuildLogFrame)
-	CommunitiesGuildLogFrameBg:Hide()
+	F.StripTextures(CommunitiesGuildLogFrame, true)
 	F.CreateBD(CommunitiesGuildLogFrame)
 	F.CreateSD(CommunitiesGuildLogFrame)
 	F.ReskinClose(CommunitiesGuildLogFrameCloseButton)

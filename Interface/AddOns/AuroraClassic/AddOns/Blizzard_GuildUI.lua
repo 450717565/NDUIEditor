@@ -4,7 +4,7 @@ C.themes["Blizzard_GuildUI"] = function()
 	local r, g, b = C.r, C.g, C.b
 
 	F.ReskinPortraitFrame(GuildFrame, true)
-	local bdsds = {GuildNewsFiltersFrame, GuildTextEditFrame, GuildLogFrame, }
+	local bdsds = {GuildNewsFiltersFrame, GuildTextEditFrame, GuildLogFrame}
 	for _, bdsd in next, bdsds do
 		F.StripTextures(bdsd, true)
 		F.CreateBD(bdsd)
