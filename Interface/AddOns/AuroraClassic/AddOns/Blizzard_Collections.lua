@@ -456,9 +456,9 @@ C.themes["Blizzard_Collections"] = function()
 		for index = 1, 2 do
 			local tab = _G["WardrobeCollectionFrameTab"..index]
 			if tabID == index then
-				tab.bg:SetBackdropColor(r, g, b, .2)
+				tab.bg:SetBackdropColor(r, g, b, .25)
 			else
-				tab.bg:SetBackdropColor(0, 0, 0, .2)
+				tab.bg:SetBackdropColor(0, 0, 0, .25)
 			end
 		end
 	end)

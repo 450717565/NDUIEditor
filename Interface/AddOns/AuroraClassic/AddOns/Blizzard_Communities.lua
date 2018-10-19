@@ -69,7 +69,10 @@ C.themes["Blizzard_Communities"] = function()
 			tab.styled = true
 		end
 		tab:SetCheckedTexture(C.media.checked)
-		tab:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
+
+		local hl = tab:GetHighlightTexture()
+		hl:SetColorTexture(1, 1, 1, .25)
+		hl:SetAllPoints(tab.Icon)
 	end
 	local p1, p2, p3, x, y = CommunitiesFrame.ChatTab:GetPoint()
 	CommunitiesFrame.ChatTab:ClearAllPoints()

@@ -79,44 +79,44 @@ local list = {
 		{AuraID = 81340, UnitID = "player"},--末日突降
 	},
 	["Spell CD"] = { -- 技能冷却计时组
-		{SpellID = 108194, UnitID = "player"},--窒息
-		{SpellID = 108199, UnitID = "player"},--血魔之握
-		{SpellID = 127344, UnitID = "player"},--邪爆
-		{SpellID = 130736, UnitID = "player"},--灵魂收割
-		{SpellID = 152279, UnitID = "player"},--冰龙吐息
-		{SpellID = 194844, UnitID = "player"},--白骨风暴
-		{SpellID = 203173, UnitID = "player"},--死亡锁链
-		{SpellID = 204160, UnitID = "player"},--寒冰联结
-		{SpellID = 206940, UnitID = "player"},--鲜血印记
-		{SpellID = 207018, UnitID = "player"},--杀戮意图
-		{SpellID = 207167, UnitID = "player"},--致盲冰雨
-		{SpellID = 207289, UnitID = "player"},--邪恶狂乱
-		{SpellID = 210764, UnitID = "player"},--符文打击
-		{SpellID = 212552, UnitID = "player"},--幽魂步
-		{SpellID = 219809, UnitID = "player"},--墓石
-		{SpellID = 221562, UnitID = "player"},--窒息
-		{SpellID = 274156, UnitID = "player"},--吞噬
-		{SpellID = 275699, UnitID = "player"},--天启
-		{SpellID = 279302, UnitID = "player"},--冰霜巨龙之怒
-		{SpellID = 46584, UnitID = "player"},--亡者复生
-		{SpellID = 47476, UnitID = "player"},--窒息
-		{SpellID = 47528, UnitID = "player"},--心灵冰冻
-		{SpellID = 47568, UnitID = "player"},--符文武器增效
-		{SpellID = 48265, UnitID = "player"},--死亡脚步
-		{SpellID = 48707, UnitID = "player"},--反魔法护罩
-		{SpellID = 48743, UnitID = "player"},--天灾契约
-		{SpellID = 48792, UnitID = "player"},--冰封之韧
-		{SpellID = 49028, UnitID = "player"},--符文刃舞
-		{SpellID = 49206, UnitID = "player"},--召唤石鬼像
-		{SpellID = 49576, UnitID = "player"},--死亡之握
-		{SpellID = 51052, UnitID = "player"},--反魔法领域
-		{SpellID = 51271, UnitID = "player"},--冰霜之柱
-		{SpellID = 55233, UnitID = "player"},--吸血鬼之血
-		{SpellID = 56222, UnitID = "player"},--黑暗命令
-		{SpellID = 57330, UnitID = "player"},--寒冬号角
-		{SpellID = 61999, UnitID = "player"},--复活盟友
-		{SpellID = 63560, UnitID = "player"},--黑暗突变
-		{SpellID = 77606, UnitID = "player"},--黑暗模拟
+		{SpellID = 108194},--窒息
+		{SpellID = 108199},--血魔之握
+		{SpellID = 127344},--邪爆
+		{SpellID = 130736},--灵魂收割
+		{SpellID = 152279},--冰龙吐息
+		{SpellID = 194844},--白骨风暴
+		{SpellID = 203173},--死亡锁链
+		{SpellID = 204160},--寒冰联结
+		{SpellID = 206940},--鲜血印记
+		{SpellID = 207018},--杀戮意图
+		{SpellID = 207167},--致盲冰雨
+		{SpellID = 207289},--邪恶狂乱
+		{SpellID = 210764},--符文打击
+		{SpellID = 212552},--幽魂步
+		{SpellID = 219809},--墓石
+		{SpellID = 221562},--窒息
+		{SpellID = 274156},--吞噬
+		{SpellID = 275699},--天启
+		{SpellID = 279302},--冰霜巨龙之怒
+		{SpellID = 46584},--亡者复生
+		{SpellID = 47476},--窒息
+		{SpellID = 47528},--心灵冰冻
+		{SpellID = 47568},--符文武器增效
+		{SpellID = 48265},--死亡脚步
+		{SpellID = 48707},--反魔法护罩
+		{SpellID = 48743},--天灾契约
+		{SpellID = 48792},--冰封之韧
+		{SpellID = 49028},--符文刃舞
+		{SpellID = 49206},--召唤石鬼像
+		{SpellID = 49576},--死亡之握
+		{SpellID = 51052},--反魔法领域
+		{SpellID = 51271},--冰霜之柱
+		{SpellID = 55233},--吸血鬼之血
+		{SpellID = 56222},--黑暗命令
+		{SpellID = 57330},--寒冬号角
+		{SpellID = 61999},--复活盟友
+		{SpellID = 63560},--黑暗突变
+		{SpellID = 77606},--黑暗模拟
 	},
 }
 

@@ -14,12 +14,27 @@ local groups = {
 	["Raid Debuff"]			= {"RIGHT", 5, "ICON", 48, C.Auras.RaidDebuffPos},
 	["Spell CD"]			= {"UP", 5, "BAR", 20, C.Auras.SpellCDPos, 150},
 	["Enchant CD"]			= {"UP", 5, "BAR", 20, C.Auras.EnchantCDPos, 150},
-	["Internal CD"]			= {"UP", 5, "BAR", 20, C.Auras.InternalCDPos, 150},
+	["Custom CD"]			= {"UP", 5, "BAR", 20, C.Auras.CustomCDPos, 150},
 }
 
 -- AuraWatch
 local AuraWatchList = {}
 function module:AddNewAuraWatch(class, list)
+	for _, k in pairs(list) do
+		for _, v in pairs(k) do
+			local spellID = v.AuraID or v.SpellID
+			if spellID then
+				local name = GetSpellInfo(spellID)
+				if not name then
+					wipe(v)
+					if DB.isDeveloper then
+						print(format("|cffFF0000Invalid spellID:|r '%s' %s", class, spellID))
+					end
+				end
+			end
+		end
+	end
+
 	if class ~= "ALL" and class ~= DB.MyClass then return end
 	if not AuraWatchList[class] then AuraWatchList[class] = {} end
 

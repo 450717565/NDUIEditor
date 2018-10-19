@@ -25,6 +25,7 @@ local module = B:GetModule("AurasTable")
 	各种过滤方式：
 		Caster，是法术的释放者，如果你没有标明，则任何释放该法术的都会被监视，例如猎人印记，元素诅咒等；
 		Combat，启用时将仅在战斗中监视该buff，例如猎人的狙击训练，萨满的闪电护盾；
+		Flash，启用时在图标显示一圈高亮；
 		Stack，是部分法术的层数，未标明则全程监视，有标明则只在达到该层数后显示，例如DK鲜血充能仅在10层后才提示；
 		Text，启用时将在BUFF图标下用文字提醒，优先级低于Value。比如中了某个BUFF需要出人群时，你就可以使用这个文字提醒。
 		Timeless，具体例如萨满的闪电盾，因为持续1个小时，没有必要一直监视时间，启用Timeless则只监视层数；
@@ -226,15 +227,15 @@ local list = {
 		{AuraID = 260067, UnitID = "player"},	-- 恶毒槌击，托尔达戈
 		{AuraID = 273226, UnitID = "player"},	-- 腐烂孢子，孢林
 	-->奥迪尔
-		{AuraID = 271224, UnitID = "player", Text = L["Get Out"]},	-- 赤红迸发，塔罗克
-		{AuraID = 271225, UnitID = "player", Text = L["Get Out"]},
-		{AuraID = 278888, UnitID = "player", Text = L["Get Out"]},
-		{AuraID = 278889, UnitID = "player", Text = L["Get Out"]},
+		{AuraID = 271224, UnitID = "player", Text = L["Get Out"], Flash = true},	-- 赤红迸发，塔罗克
+		{AuraID = 271225, UnitID = "player", Text = L["Get Out"], Flash = true},
+		{AuraID = 278888, UnitID = "player", Text = L["Get Out"], Flash = true},
+		{AuraID = 278889, UnitID = "player", Text = L["Get Out"], Flash = true},
 		{AuraID = 267787, UnitID = "player"},	-- 消毒打击，纯净圣母
 		{AuraID = 262313, UnitID = "player"},	-- 恶臭沼气，腐臭吞噬者
 		{AuraID = 265237, UnitID = "player"},	-- 粉碎，泽克沃兹
 		{AuraID = 265264, UnitID = "player"},	-- 虚空鞭笞，泽克沃兹
-		{AuraID = 265360, UnitID = "player", Text = L["Get Out"]},	-- 翻滚欺诈，泽克沃兹
+		{AuraID = 265360, UnitID = "player", Text = L["Get Out"], Flash = true},	-- 翻滚欺诈，泽克沃兹
 		{AuraID = 265662, UnitID = "player"},	-- 腐化者的契约，泽克沃兹
 		{AuraID = 265127, UnitID = "player"},	-- 持续感染，维克提斯
 		{AuraID = 265129, UnitID = "player"},	-- 终极菌体，维克提斯
@@ -243,10 +244,10 @@ local list = {
 		{AuraID = 274990, UnitID = "player"},	-- 破裂损伤，维克提斯
 		{AuraID = 273434, UnitID = "player"},	-- 绝望深渊，祖尔
 		{AuraID = 274271, UnitID = "player"},	-- 死亡之愿，祖尔
-		{AuraID = 273365, UnitID = "player"},	-- 黑暗启示，祖尔
+		{AuraID = 273365, UnitID = "player", Text = L["Get Out"], Flash = true},	-- 黑暗启示，祖尔
 		{AuraID = 272146, UnitID = "player"},	-- 毁灭，拆解者
-		{AuraID = 272536, UnitID = "player", Text = L["Get Out"]},	-- 毁灭迫近，拆解者
-		{AuraID = 274262, UnitID = "player", Text = L["Get Out"]},	-- 爆炸腐蚀，戈霍恩
+		{AuraID = 272536, UnitID = "player", Text = L["Get Out"], Flash = true},	-- 毁灭迫近，拆解者
+		{AuraID = 274262, UnitID = "player", Text = L["Get Out"], Flash = true},	-- 爆炸腐蚀，戈霍恩
 		{AuraID = 267409, UnitID = "player"},	-- 黑暗交易，戈霍恩
 		{AuraID = 263227, UnitID = "player"},	-- 腐败之血，戈霍恩
 		{AuraID = 267700, UnitID = "player"},	-- 戈霍恩的凝视，戈霍恩
@@ -720,51 +721,51 @@ local list = {
 	},
 	["Enchant CD"] = { -- 物品冷却计时组
 	-->物品
-		{SlotID = 6, UnitID = "player"},--腰带
-		{SlotID = 11, UnitID = "player"},--戒指1
-		{SlotID = 12, UnitID = "player"},--戒指2
-		{SlotID = 13, UnitID = "player"},--饰品1
-		{SlotID = 14, UnitID = "player"},--饰品2
-		{SlotID = 15, UnitID = "player"},--披风
+		{SlotID = 6},--腰带
+		{SlotID = 11},--戒指1
+		{SlotID = 12},--戒指2
+		{SlotID = 13},--饰品1
+		{SlotID = 14},--饰品2
+		{SlotID = 15},--披风
 	-->种族技能
 		--纳鲁的赐福
-		{SpellID = 28880, UnitID = "player"},
-		{SpellID = 59542, UnitID = "player"},
-		{SpellID = 59543, UnitID = "player"},
-		{SpellID = 59544, UnitID = "player"},
-		{SpellID = 59545, UnitID = "player"},
-		{SpellID = 59547, UnitID = "player"},
-		{SpellID = 59548, UnitID = "player"},
-		{SpellID = 121093, UnitID = "player"},
+		{SpellID = 28880},
+		{SpellID = 59542},
+		{SpellID = 59543},
+		{SpellID = 59544},
+		{SpellID = 59545},
+		{SpellID = 59547},
+		{SpellID = 59548},
+		{SpellID = 121093},
 		--奥术洪流
-		{SpellID = 20546, UnitID = "player"},
-		{SpellID = 28730, UnitID = "player"},
-		{SpellID = 50613, UnitID = "player"},
-		{SpellID = 69179, UnitID = "player"},
-		{SpellID = 80483, UnitID = "player"},
-		{SpellID = 129597, UnitID = "player"},
-		{SpellID = 155145, UnitID = "player"},
-		{SpellID = 202719, UnitID = "player"},
-		{SpellID = 232633, UnitID = "player"},
+		{SpellID = 20546},
+		{SpellID = 28730},
+		{SpellID = 50613},
+		{SpellID = 69179},
+		{SpellID = 80483},
+		{SpellID = 129597},
+		{SpellID = 155145},
+		{SpellID = 202719},
+		{SpellID = 232633},
 		--血性狂怒
-		{SpellID = 20572, UnitID = "player"},
-		{SpellID = 33697, UnitID = "player"},
-		{SpellID = 33702, UnitID = "player"},
+		{SpellID = 20572},
+		{SpellID = 33697},
+		{SpellID = 33702},
 		--其他
-		{SpellID = 7744, UnitID = "player"},--被遗忘者的意志
-		{SpellID = 20549, UnitID = "player"},--战争践踏
-		{SpellID = 20577, UnitID = "player"},--食尸
-		{SpellID = 20589, UnitID = "player"},--逃命专家
-		{SpellID = 20594, UnitID = "player"},--石像形态
-		{SpellID = 26297, UnitID = "player"},--狂暴
-		{SpellID = 58984, UnitID = "player"},--影遁
-		{SpellID = 59752, UnitID = "player"},--自利
-		{SpellID = 68992, UnitID = "player"},--疾步夜行
-		{SpellID = 69041, UnitID = "player"},--火箭弹幕
-		{SpellID = 69070, UnitID = "player"},--火箭跳
-		{SpellID = 107079, UnitID = "player"},--震山掌
+		{SpellID = 7744},--被遗忘者的意志
+		{SpellID = 20549},--战争践踏
+		{SpellID = 20577},--食尸
+		{SpellID = 20589},--逃命专家
+		{SpellID = 20594},--石像形态
+		{SpellID = 26297},--狂暴
+		{SpellID = 58984},--影遁
+		{SpellID = 59752},--自利
+		{SpellID = 68992},--疾步夜行
+		{SpellID = 69041},--火箭弹幕
+		{SpellID = 69070},--火箭跳
+		{SpellID = 107079},--震山掌
 	},
-	["Internal CD"] = { -- 自定义内置冷却组
+	["Custom CD"] = { -- 自定义内置冷却组
 	-->其他
 		{IntID = 240447, Duration = 20},--践踏
 		{IntID = 114018, Duration = 15, OnSuccess = true, UnitID = "all"},	-- 帷幕

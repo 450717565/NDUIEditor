@@ -57,7 +57,7 @@ C.themes["Blizzard_BlackMarketUI"] = function()
 				bu.Selection:SetPoint("TOPLEFT", 0, -1)
 				bu.Selection:SetPoint("BOTTOMRIGHT", -1, 6)
 				bu.Selection:SetTexture(C.media.backdrop)
-				bu.Selection:SetVertexColor(r, g, b, .1)
+				bu.Selection:SetVertexColor(r, g, b, .25)
 
 				bu.reskinned = true
 			end

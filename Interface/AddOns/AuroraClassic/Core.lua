@@ -263,12 +263,12 @@ function F:ReskinScroll()
 
 	up:SetDisabledTexture(C.media.backdrop)
 	local dis1 = up:GetDisabledTexture()
-	dis1:SetVertexColor(0, 0, 0, .4)
+	dis1:SetVertexColor(0, 0, 0, .5)
 	dis1:SetDrawLayer("OVERLAY")
 
 	down:SetDisabledTexture(C.media.backdrop)
 	local dis2 = down:GetDisabledTexture()
-	dis2:SetVertexColor(0, 0, 0, .4)
+	dis2:SetVertexColor(0, 0, 0, .5)
 	dis2:SetDrawLayer("OVERLAY")
 
 	local uptex = up:CreateTexture(nil, "ARTWORK")
@@ -314,7 +314,7 @@ function F:ReskinDropDown()
 
 	down:SetDisabledTexture(C.media.backdrop)
 	local dis = down:GetDisabledTexture()
-	dis:SetVertexColor(0, 0, 0, .4)
+	dis:SetVertexColor(0, 0, 0, .5)
 	dis:SetDrawLayer("OVERLAY")
 	dis:SetAllPoints()
 
@@ -359,7 +359,7 @@ function F:ReskinClose(a1, p, a2, x, y)
 
 	self:SetDisabledTexture(C.media.backdrop)
 	local dis = self:GetDisabledTexture()
-	dis:SetVertexColor(0, 0, 0, .4)
+	dis:SetVertexColor(0, 0, 0, .5)
 	dis:SetDrawLayer("OVERLAY")
 	dis:SetAllPoints()
 
@@ -459,7 +459,7 @@ function F:ReskinRadio()
 	local ch = self:GetCheckedTexture()
 	ch:SetPoint("TOPLEFT", 4, -4)
 	ch:SetPoint("BOTTOMRIGHT", -4, 4)
-	ch:SetVertexColor(r, g, b, .6)
+	ch:SetVertexColor(r, g, b, .75)
 
 	local lvl = self:GetFrameLevel()
 	local bg = F.CreateBDFrame(self, 0)

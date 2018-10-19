@@ -64,36 +64,36 @@ local list = {
 		{AuraID = 208614, UnitID = "player"},
 	},
 	["Spell CD"] = { -- 技能冷却计时组
-		{SpellID = 179057, UnitID = "player"},--混乱新星
-		{SpellID = 183752, UnitID = "player"},--吞噬魔法
-		{SpellID = 185245, UnitID = "player"},--折磨
-		{SpellID = 188501, UnitID = "player"},--幽灵视觉
-		{SpellID = 189110, UnitID = "player"},--地狱火撞击
-		{SpellID = 195072, UnitID = "player"},--邪能冲撞
-		{SpellID = 196555, UnitID = "player"},--虚空行走
-		{SpellID = 196718, UnitID = "player"},--幻影打击
-		{SpellID = 198013, UnitID = "player"},--眼棱
-		{SpellID = 198589, UnitID = "player"},--疾影
-		{SpellID = 198793, UnitID = "player"},--复仇回避
-		{SpellID = 201467, UnitID = "player"},--伊利达雷之怒
-		{SpellID = 202137, UnitID = "player"},--沉默咒符
-		{SpellID = 202138, UnitID = "player"},--锁链咒符
-		{SpellID = 204021, UnitID = "player"},--烈火烙印
-		{SpellID = 204596, UnitID = "player"},--烈焰咒符
-		{SpellID = 206491, UnitID = "player"},--涅墨西斯
-		{SpellID = 207407, UnitID = "player"},--灵魂切削
-		{SpellID = 207684, UnitID = "player"},--悲苦咒符
-		{SpellID = 211881, UnitID = "player"},--邪能爆发
-		{SpellID = 212084, UnitID = "player"},--邪能毁灭
-		{SpellID = 217832, UnitID = "player"},--禁锢
-		{SpellID = 227225, UnitID = "player"},--灵魂壁障
-		{SpellID = 236189, UnitID = "player"},--恶魔灌注
-		{SpellID = 247938, UnitID = "player"},--混乱之刃
-		{SpellID = 258860, UnitID = "player"},--黑暗鞭笞
-		{SpellID = 258925, UnitID = "player"},--邪能弹幕
+		{SpellID = 179057},--混乱新星
+		{SpellID = 183752},--吞噬魔法
+		{SpellID = 185245},--折磨
+		{SpellID = 188501},--幽灵视觉
+		{SpellID = 189110},--地狱火撞击
+		{SpellID = 195072},--邪能冲撞
+		{SpellID = 196555},--虚空行走
+		{SpellID = 196718},--幻影打击
+		{SpellID = 198013},--眼棱
+		{SpellID = 198589},--疾影
+		{SpellID = 198793},--复仇回避
+		{SpellID = 201467},--伊利达雷之怒
+		{SpellID = 202137},--沉默咒符
+		{SpellID = 202138},--锁链咒符
+		{SpellID = 204021},--烈火烙印
+		{SpellID = 204596},--烈焰咒符
+		{SpellID = 206491},--涅墨西斯
+		{SpellID = 207407},--灵魂切削
+		{SpellID = 207684},--悲苦咒符
+		{SpellID = 211881},--邪能爆发
+		{SpellID = 212084},--邪能毁灭
+		{SpellID = 217832},--禁锢
+		{SpellID = 227225},--灵魂壁障
+		{SpellID = 236189},--恶魔灌注
+		{SpellID = 247938},--混乱之刃
+		{SpellID = 258860},--黑暗鞭笞
+		{SpellID = 258925},--邪能弹幕
 		--恶魔变形
-		{SpellID = 187827, UnitID = "player"},
-		{SpellID = 191427, UnitID = "player"},
+		{SpellID = 187827},
+		{SpellID = 191427},
 	},
 }
 

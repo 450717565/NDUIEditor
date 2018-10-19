@@ -69,13 +69,13 @@ local list = {
 		{AuraID = 187878, UnitID = "player"},	-- 毁灭闪电
 	},
 	["Spell CD"] = { -- 技能冷却计时组
-		{SpellID = 20608, UnitID = "player"},	-- 复生
-		{SpellID = 98008, UnitID = "player"},	-- 灵魂链接
-		{SpellID = 114050, UnitID = "player"},	-- 升腾 元素
-		{SpellID = 114051, UnitID = "player"},	-- 升腾 增强
-		{SpellID = 114052, UnitID = "player"},	-- 升腾 恢复
-		{SpellID = 108280, UnitID = "player"},	-- 治疗之潮
-		{SpellID = 198506, UnitID = "player"},	-- 野性狼魂
+		{SpellID = 20608},	-- 复生
+		{SpellID = 98008},	-- 灵魂链接
+		{SpellID = 114050},	-- 升腾 元素
+		{SpellID = 114051},	-- 升腾 增强
+		{SpellID = 114052},	-- 升腾 恢复
+		{SpellID = 108280},	-- 治疗之潮
+		{SpellID = 198506},	-- 野性狼魂
 	},
 }
 

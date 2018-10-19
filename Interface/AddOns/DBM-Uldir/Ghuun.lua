@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2147, "DBM-Uldir", nil, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 18006 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 18008 $"):sub(12, -3))
 mod:SetCreatureID(132998)
 mod:SetEncounterID(2122)
 mod:SetZone()
@@ -729,13 +729,5 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
 		else--Need to help soak them
 			warnBurstingBoil:Show(self.vb.burstingCount)
 		end
-	--elseif spellId == 268251 then--Phase 2
-
-	--elseif spellId == 269803 then--Phase 3
-		
-	--elseif spellId == 274318 then--Spell Picker (Wave of Corruption & Blood Feast alternating)
-	
-	--elseif spellId == 270373 or spellId == 270428 then--Wave of Corruption
-
 	end
 end

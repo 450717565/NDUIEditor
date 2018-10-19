@@ -64,8 +64,8 @@ local list = {
 		{AuraID = 271466, UnitID = "player"},	-- 微光屏障
 	},
 	["Spell CD"] = { -- 技能冷却计时组
-		{SpellID = 64843, UnitID = "player"},	-- 神圣赞美诗
-		{SpellID = 33206, UnitID = "player"},	-- 痛苦压制
+		{SpellID = 64843},	-- 神圣赞美诗
+		{SpellID = 33206},	-- 痛苦压制
 	},
 }
 

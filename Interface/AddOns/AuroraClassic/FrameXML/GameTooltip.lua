@@ -41,7 +41,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	end
 
 	local getBackdropColor = function()
-		return 0, 0, 0, .6
+		return 0, 0, 0, .5
 	end
 
 	local getBackdropBorderColor = function()

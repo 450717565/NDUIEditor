@@ -71,9 +71,9 @@ local list = {
 		{AuraID = 196980, UnitID = "player"},	-- 暗影大师
 	},
 	["Spell CD"] = { -- 技能冷却计时组
-		{SpellID = 13750, UnitID = "player"},	-- 冲动
-		{SpellID = 79140, UnitID = "player"},	-- 宿敌
-		{SpellID = 121471, UnitID = "player"},	-- 暗影之刃
+		{SpellID = 13750},	-- 冲动
+		{SpellID = 79140},	-- 宿敌
+		{SpellID = 121471},	-- 暗影之刃
 	},
 }
 

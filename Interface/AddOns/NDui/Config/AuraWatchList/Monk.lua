@@ -63,7 +63,7 @@ local list = {
 		{AuraID = 116847, UnitID = "player"},	-- 碧玉疾风
 	},
 	["Spell CD"] = { -- 技能冷却计时组
-		{SpellID = 115203, UnitID = "player"},	-- 壮胆酒
+		{SpellID = 115203},	-- 壮胆酒
 	},
 }
 

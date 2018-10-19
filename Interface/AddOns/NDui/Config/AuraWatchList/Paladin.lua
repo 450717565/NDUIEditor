@@ -62,9 +62,8 @@ local list = {
 		{AuraID = 216331, UnitID = "player"},	-- 复仇十字军
 	},
 	["Spell CD"] = { -- 技能冷却计时组
-		{SpellID = 31884, UnitID = "player"},	-- 复仇之怒
-		{SpellID = 31842, UnitID = "player"},	-- 复仇之怒
-		{SpellID = 31821, UnitID = "player"},	-- 光环掌握
+		{SpellID = 31884},	-- 复仇之怒
+		{SpellID = 31821},	-- 光环掌握
 	},
 }
 

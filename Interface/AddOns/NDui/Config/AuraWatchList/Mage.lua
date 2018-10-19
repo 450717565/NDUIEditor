@@ -61,10 +61,10 @@ local list = {
 		{AuraID = 190446, UnitID = "player"},	-- 冰冷智慧
 	},
 	["Spell CD"] = { -- 技能冷却计时组
-		{TotemID = 1, UnitID = "player"},		-- 能量符文
-		{SpellID = 12472, UnitID = "player"},	-- 冰冷血脉
-		{SpellID = 12042, UnitID = "player"},	-- 奥术强化
-		{SpellID = 190319, UnitID = "player"},	-- 燃烧
+		{TotemID = 1},		-- 能量符文
+		{SpellID = 12472},	-- 冰冷血脉
+		{SpellID = 12042},	-- 奥术强化
+		{SpellID = 190319},	-- 燃烧
 	},
 }
 

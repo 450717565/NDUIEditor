@@ -20,7 +20,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		bu.ring:Hide()
 		bu.bg:SetTexture(C.media.backdrop)
-		bu.bg:SetVertexColor(r, g, b, .2)
+		bu.bg:SetVertexColor(r, g, b, .25)
 		bu.bg:SetAllPoints()
 
 		F.Reskin(bu, true)

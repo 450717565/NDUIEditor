@@ -109,7 +109,7 @@ C.themes["Blizzard_TalentUI"] = function()
 
 			bu.learnedTex:SetTexture("")
 			bu.selectedTex:SetTexture(C.media.backdrop)
-			bu.selectedTex:SetVertexColor(r, g, b, .2)
+			bu.selectedTex:SetVertexColor(r, g, b, .25)
 			bu.selectedTex:SetPoint("TOPLEFT", 1, -1)
 			bu.selectedTex:SetPoint("BOTTOMRIGHT", -1, 1)
 
@@ -156,7 +156,7 @@ C.themes["Blizzard_TalentUI"] = function()
 				local _, _, _, selected, _, _, _, _, _, _, known = GetTalentInfo(i, j, 1)
 				local bu = _G["PlayerTalentFrameTalentsTalentRow"..i.."Talent"..j]
 				if known then
-					bu.bg:SetBackdropColor(r, g, b, .6)
+					bu.bg:SetBackdropColor(r, g, b, .75)
 				elseif selected then
 					bu.bg:SetBackdropColor(r, g, b, .25)
 				else

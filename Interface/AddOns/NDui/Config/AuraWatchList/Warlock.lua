@@ -68,7 +68,7 @@ local list = {
 		{AuraID = 266030, UnitID = "player"},	-- 熵能返转
 	},
 	["Spell CD"] = { -- 技能冷却计时组
-		{SpellID = 20707, UnitID = "player"},--灵魂石
+		{SpellID = 20707},--灵魂石
 	},
 }
 

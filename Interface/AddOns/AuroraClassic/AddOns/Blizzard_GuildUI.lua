@@ -103,7 +103,7 @@ C.themes["Blizzard_GuildUI"] = function()
 		bg:SetPoint("BOTTOMRIGHT")
 
 		bu:GetRegions():SetTexture(C.media.backdrop)
-		bu:GetRegions():SetVertexColor(r, g, b, .2)
+		bu:GetRegions():SetVertexColor(r, g, b, .25)
 	end
 
 	F.StripTextures(GuildFactionBar)

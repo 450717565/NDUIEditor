@@ -94,8 +94,8 @@ local list = {
 		{AuraID = 257622, UnitID = "player", Text = "A"},	-- 技巧射击
 	},
 	["Spell CD"] = { -- 技能冷却计时组
-		{SpellID = 186265, UnitID = "player"},	-- 灵龟守护
-		{SpellID = 147362, UnitID = "player"},	-- 反制射击
+		{SpellID = 186265},	-- 灵龟守护
+		{SpellID = 147362},	-- 反制射击
 	},
 }
 

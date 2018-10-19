@@ -147,7 +147,7 @@ local function CreatePanel()
 		button2 = NO,
 		OnAccept = function()
 			NDuiDB["AuraWatchList"] = {}
-			NDuiDB["InternalCD"] = {}
+			NDuiDB["CustomCD"] = {}
 			ReloadUI()
 		end,
 		whileDead = 1,
@@ -160,7 +160,7 @@ local function CreatePanel()
 	local function SortBars(index)
 		local num, onLeft, onRight = 1, 1, 1
 		for k in pairs(barTable[index]) do
-			if (index < 11 and NDuiDB["AuraWatchList"][index][k]) or (index == 11 and NDuiDB["InternalCD"][k]) then
+			if (index < 11 and NDuiDB["AuraWatchList"][index][k]) or (index == 11 and NDuiDB["CustomCD"][k]) then
 				local bar = barTable[index][k]
 				if num == 1 then
 					bar:SetPoint("TOPLEFT", 10, -10)
@@ -186,14 +186,15 @@ local function CreatePanel()
 		[14] = INVTYPE_TRINKET.."2",
 		[15] = INVTYPE_CLOAK,
 	}
+
 	local function AddAura(parent, index, data)
-		local typeID, spellID, _, _, _, _, _, _, text = unpack(data)
+		local typeID, spellID, unitID, caster, stack, amount, timeless, combat, text, flash = unpack(data)
 		local name, _, texture = GetSpellInfo(spellID)
 		if typeID == "SlotID" then
 			texture = GetInventoryItemTexture("player", spellID)
 			name = slotIndex[spellID]
 		elseif typeID == "TotemID" then
-			texture = "Interface\\ICONS\\INV_Misc_QuestionMark"
+			texture = "Interface\\ICONS\\Spell_Shaman_TotemRecall"
 			name = L["TotemSlot"]..spellID
 		end
 
@@ -228,6 +229,24 @@ local function CreatePanel()
 		spellName:SetWidth(180)
 		spellName:SetJustifyH("LEFT")
 		B.CreateFS(bar, 14, text, false, "RIGHT", -30, 0)
+		B.AddTooltip(bar, "ANCHOR_TOP", L["Type*"].." "..typeID, "system")
+
+		typeID = typeID.." = "..spellID
+		unitID = unitID and ", UnitID = \""..unitID.."\"" or ""
+		caster = caster and ", Caster = \""..caster.."\"" or ""
+		stack = stack and ", Stack = "..stack or ""
+		amount = amount and ", Value = true" or ""
+		timeless = timeless and ", Timeless = true" or ""
+		combat = combat and ", Combat = true" or ""
+		flash = flash and ", Flash = true" or ""
+		text = text ~= "" and ", Text = \""..text.."\"" or ""
+		local output = "{"..typeID..unitID..caster..stack..amount..timeless..combat..flash..text.."}"
+		bar:SetScript("OnMouseUp", function()
+			local editBox = ChatEdit_ChooseBoxForSend()
+			ChatEdit_ActivateChat(editBox)
+			editBox:SetText(output..",")
+			editBox:HighlightText()
+		end)
 
 		SortBars(index)
 	end
@@ -249,7 +268,7 @@ local function CreatePanel()
 		B.AddTooltip(icon, "ANCHOR_RIGHT", intID)
 		close:SetScript("OnClick", function()
 			bar:Hide()
-			NDuiDB["InternalCD"][intID] = nil
+			NDuiDB["CustomCD"][intID] = nil
 			barTable[index][intID] = nil
 			SortBars(index)
 		end)
@@ -286,7 +305,7 @@ local function CreatePanel()
 		L["Raid Debuff"],			-- 8 Raid Debuff
 		L["Spell CD"],				-- 9 Spell CD
 		L["Enchant CD"],			-- 10 Enchant CD
-		L["Internal CD"],			-- 11 Internal CD
+		L["Custom CD"],			-- 11 Custom CD
 	}
 
 	local preSet = {
@@ -353,65 +372,65 @@ local function CreatePanel()
 			Option[6] = module:CreateCheckBox(tabs[i].Page, L["Value"], 40, -95, L["Value Intro"])
 			Option[7] = module:CreateCheckBox(tabs[i].Page, L["Timeless"], 120, -95, L["Timeless Intro"])
 			Option[8] = module:CreateCheckBox(tabs[i].Page, L["Combat"], 200, -95, L["Combat Intro"])
-			Option[9] = module:CreateEditbox(tabs[i].Page, L["Text"], 260, -90, L["Text Intro"])
-			Option[10] = module:CreateDropdown(tabs[i].Page, L["Slot*"], 140, -30, {slotIndex[6], slotIndex[11], slotIndex[12], slotIndex[13], slotIndex[14], slotIndex[15]}, L["Slot Intro"])
-			Option[11] = module:CreateDropdown(tabs[i].Page, L["Totem*"], 140, -30, {L["TotemSlot"].."1", L["TotemSlot"].."2", L["TotemSlot"].."3", L["TotemSlot"].."4"}, L["Totem Intro"])
+			Option[9] = module:CreateEditbox(tabs[i].Page, L["Text"], 340, -90, L["Text Intro"])
+			Option[10] = module:CreateCheckBox(tabs[i].Page, L["Flash"], 280, -95, L["Flash Intro"])
+			Option[11] = module:CreateDropdown(tabs[i].Page, L["Slot*"], 140, -30, {slotIndex[6], slotIndex[11], slotIndex[12], slotIndex[13], slotIndex[14], slotIndex[15]}, L["Slot Intro"])
+			Option[12] = module:CreateDropdown(tabs[i].Page, L["Totem*"], 140, -30, {L["TotemSlot"].."1", L["TotemSlot"].."2", L["TotemSlot"].."3", L["TotemSlot"].."4"}, L["Totem Intro"])
 
-			for j = 2, 11 do Option[j]:Hide() end
+			for j = 2, 12 do Option[j]:Hide() end
 
 			for j = 1, #Option[1].options do
 				Option[1].options[j]:HookScript("OnClick", function()
-					for k = 2, 11 do
+					for k = 2, 12 do
 						Option[k]:Hide()
 						module:ClearEdit(Option[k])
 					end
 
 					if Option[1].Text:GetText() == "AuraID" then
-						for k = 2, 9 do Option[k]:Show() end
+						for k = 2, 10 do Option[k]:Show() end
 						Option[3].options[preSet[i][1]]:Click()
 						if preSet[i][2] then Option[4].options[1]:Click() end
 					elseif Option[1].Text:GetText() == "SpellID" then
 						Option[2]:Show()
 					elseif Option[1].Text:GetText() == "SlotID" then
-						Option[10]:Show()
-					elseif Option[1].Text:GetText() == "TotemID" then
 						Option[11]:Show()
+					elseif Option[1].Text:GetText() == "TotemID" then
+						Option[12]:Show()
 					end
 				end)
 			end
 		elseif i == 11 then
-			for _, v in pairs(NDuiDB["InternalCD"]) do
+			for _, v in pairs(NDuiDB["CustomCD"]) do
 				AddInternal(tabs[i].List.child, i, v)
 			end
-			Option[12] = module:CreateEditbox(tabs[i].Page, L["IntID*"], 20, -30, L["IntID Intro"])
-			Option[13] = module:CreateEditbox(tabs[i].Page, L["Duration*"], 140, -30, L["Duration Intro"])
-			Option[14] = module:CreateDropdown(tabs[i].Page, L["Trigger"].."*", 260, -30, {"OnAuraGain", "OnCastSuccess"}, L["Trigger Intro"], 130, 30)
-			Option[15] = module:CreateDropdown(tabs[i].Page, L["Unit*"], 420, -30, {"Player", "All"}, L["Trigger Unit Intro"])
-			Option[16] = module:CreateEditbox(tabs[i].Page, L["ItemID"], 20, -95, L["ItemID Intro"])
+			Option[13] = module:CreateEditbox(tabs[i].Page, L["IntID*"], 20, -30, L["IntID Intro"])
+			Option[14] = module:CreateEditbox(tabs[i].Page, L["Duration*"], 140, -30, L["Duration Intro"])
+			Option[15] = module:CreateDropdown(tabs[i].Page, L["Trigger"].."*", 260, -30, {"OnAuraGain", "OnCastSuccess"}, L["Trigger Intro"], 130, 30)
+			Option[16] = module:CreateDropdown(tabs[i].Page, L["Unit*"], 420, -30, {"Player", "All"}, L["Trigger Unit Intro"])
+			Option[17] = module:CreateEditbox(tabs[i].Page, L["ItemID"], 20, -95, L["ItemID Intro"])
 		end
 
-		local clear = B.CreateButton(tabs[i].Page, 70, 25, KEY_NUMLOCK_MAC)
-		clear:SetPoint("TOPRIGHT", -120, -90)
+		local clear = B.CreateButton(tabs[i].Page, 60, 25, KEY_NUMLOCK_MAC)
+		clear:SetPoint("TOPRIGHT", -100, -90)
 		clear:SetScript("OnClick", function()
 			if i < 11 then
-				for j = 1, 11 do module:ClearEdit(Option[j]) end
-				for j = 2, 11 do Option[j]:Hide() end
+				for j = 2, 12 do module:ClearEdit(Option[j]) end
 			elseif i == 11 then
-				for j = 12, 16 do module:ClearEdit(Option[j]) end
+				for j = 13, 17 do module:ClearEdit(Option[j]) end
 			end
 		end)
 
 		local slotTable = {6, 11, 12, 13, 14, 15}
-		local add = B.CreateButton(tabs[i].Page, 70, 25, ADD)
-		add:SetPoint("TOPRIGHT", -40, -90)
+		local add = B.CreateButton(tabs[i].Page, 60, 25, ADD)
+		add:SetPoint("TOPRIGHT", -30, -90)
 		add:SetScript("OnClick", function()
 			if i < 11 then
 				local typeID, spellID, unitID, slotID, totemID = Option[1].Text:GetText(), tonumber(Option[2]:GetText()), Option[3].Text:GetText()
-				for i = 1, #Option[10].options do
-					if Option[10].options[i].selected then slotID = slotTable[i] break end
-				end
 				for i = 1, #Option[11].options do
-					if Option[11].options[i].selected then totemID = i break end
+					if Option[11].options[i].selected then slotID = slotTable[i] break end
+				end
+				for i = 1, #Option[12].options do
+					if Option[12].options[i].selected then totemID = i break end
 				end
 
 				if not typeID then UIErrorsFrame:AddMessage(DB.InfoColor..L["Choose a Type"]) return end
@@ -421,18 +440,18 @@ local function CreatePanel()
 				local realID = spellID or slotID or totemID
 				if NDuiDB["AuraWatchList"][i][realID] then UIErrorsFrame:AddMessage(DB.InfoColor..L["Existing ID"]) return end
 
-				NDuiDB["AuraWatchList"][i][realID] = {typeID, realID, unitID, Option[4].Text:GetText(), tonumber(Option[5]:GetText()), Option[6]:GetChecked(), Option[7]:GetChecked(), Option[8]:GetChecked(), Option[9]:GetText()}
+				NDuiDB["AuraWatchList"][i][realID] = {typeID, realID, unitID, Option[4].Text:GetText(), tonumber(Option[5]:GetText()), Option[6]:GetChecked(), Option[7]:GetChecked(), Option[8]:GetChecked(), Option[9]:GetText(), Option[10]:GetChecked()}
 				AddAura(tabs[i].List.child, i, NDuiDB["AuraWatchList"][i][realID])
-				for i = 1, 11 do module:ClearEdit(Option[i]) end
+				for i = 2, 12 do module:ClearEdit(Option[i]) end
 			elseif i == 11 then
-				local intID, duration, trigger, unit, itemID = tonumber(Option[12]:GetText()), tonumber(Option[13]:GetText()), Option[14].Text:GetText(), Option[15].Text:GetText(), tonumber(Option[16]:GetText())
+				local intID, duration, trigger, unit, itemID = tonumber(Option[13]:GetText()), tonumber(Option[14]:GetText()), Option[15].Text:GetText(), Option[16].Text:GetText(), tonumber(Option[17]:GetText())
 				if not intID or not duration or not trigger or not unit then UIErrorsFrame:AddMessage(DB.InfoColor..L["Incomplete Input"]) return end
 				if intID and not GetSpellInfo(intID) then UIErrorsFrame:AddMessage(DB.InfoColor..L["Incorrect SpellID"]) return end
-				if NDuiDB["InternalCD"][intID] then UIErrorsFrame:AddMessage(DB.InfoColor..L["Existing ID"]) return end
+				if NDuiDB["CustomCD"][intID] then UIErrorsFrame:AddMessage(DB.InfoColor..L["Existing ID"]) return end
 
-				NDuiDB["InternalCD"][intID] = {intID, duration, trigger, unit, itemID}
-				AddInternal(tabs[i].List.child, i, NDuiDB["InternalCD"][intID])
-				for i = 12, 16 do module:ClearEdit(Option[i]) end
+				NDuiDB["CustomCD"][intID] = {intID, duration, trigger, unit, itemID}
+				AddInternal(tabs[i].List.child, i, NDuiDB["CustomCD"][intID])
+				for i = 13, 17 do module:ClearEdit(Option[i]) end
 			end
 		end)
 

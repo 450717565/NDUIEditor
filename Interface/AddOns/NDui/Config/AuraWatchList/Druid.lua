@@ -94,8 +94,8 @@ local list = {
 		{AuraID = 197721, UnitID = "player"}, 	-- 繁盛
 	},
 	["Spell CD"] = { -- 技能冷却计时组
-		{TotemID = 1, UnitID = "player"},--蘑菇
-		{SpellID = 61336, UnitID = "player"},--生存本能
+		{TotemID = 1},--蘑菇
+		{SpellID = 61336},--生存本能
 	},
 }
 
