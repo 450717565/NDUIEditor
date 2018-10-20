@@ -5,10 +5,15 @@ local module = B:GetModule("Bags")
 -- Custom filter
 local CustomFilterList = {
 	[37863] = false,	-- 酒吧传送器
+	[40772] = false,	-- 侏儒军刀
+	[49040] = false,	-- 基维斯
+	[114943] = false,	-- 终极版侏儒军刀
+	[144341] = false,	-- 可充电的里弗斯电池
 	[141333] = true,	-- 宁神圣典
 	[141446] = true,	-- 宁神书卷
 	[153646] = true,	-- 静心圣典
 	[153647] = true,	-- 静心书卷
+	[161053] = true,	-- 水手咸饼干
 }
 
 local function isCustomFilter(item)
@@ -48,7 +53,7 @@ end
 local function isItemConsumble(item)
 	if not NDuiDB["Bags"]["ItemFilter"] then return end
 	if isCustomFilter(item) == false then return end
-	return isCustomFilter(item) or (item.classID and (item.classID == LE_ITEM_CLASS_CONSUMABLE or item.classID == LE_ITEM_CLASS_ITEM_ENHANCEMENT))
+	return isCustomFilter(item) or (item.classID and (item.classID == LE_ITEM_CLASS_CONSUMABLE or item.classID == LE_ITEM_CLASS_ITEM_ENHANCEMENT or item.classID == LE_ITEM_CLASS_GEM))
 end
 
 local function isItemLegendary(item)

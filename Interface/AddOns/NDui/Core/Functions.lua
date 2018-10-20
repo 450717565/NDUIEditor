@@ -39,8 +39,8 @@ function B.ItemSlotInfo(item)
 		slotText = itemSubType
 	elseif itemSubType and string.find(itemSubType, RELICSLOT) then
 		slotText = RELICSLOT
-	elseif (itemClassID and itemClassID == 15) and (itemSubClassID and (itemSubClassID == 2 or itemSubClassID == 5)) then
-		slotText = (itemSubClassID == 2 and PET) or (itemSubClassID == 5 and itemSubType)
+	elseif (itemClassID and itemClassID == LE_ITEM_CLASS_MISCELLANEOUS) and (itemSubClassID and (itemSubClassID == LE_ITEM_MISCELLANEOUS_COMPANION_PET or itemSubClassID == LE_ITEM_MISCELLANEOUS_MOUNT)) then
+		slotText = (itemSubClassID == LE_ITEM_MISCELLANEOUS_COMPANION_PET and PET) or (itemSubClassID == LE_ITEM_MISCELLANEOUS_MOUNT and MOUNTS)
 	end
 
 	if bindType and (bindType == 2 or bindType == 3) then

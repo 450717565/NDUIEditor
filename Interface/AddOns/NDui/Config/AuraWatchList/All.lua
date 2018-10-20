@@ -73,6 +73,7 @@ local list = {
 		{AuraID = 201670, UnitID = "player"},--疾跑
 		{AuraID = 248779, UnitID = "player"},--奥术回响遮罩
 		{AuraID = 254161, UnitID = "player"},--超能奥术回响遮罩
+		{AuraID = 279819, UnitID = "player"},--阿薯
 		--隐形药水
 		{AuraID = 3680, UnitID = "player"},
 		{AuraID = 11392, UnitID = "player"},
