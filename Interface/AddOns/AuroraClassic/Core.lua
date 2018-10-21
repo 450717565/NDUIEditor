@@ -14,37 +14,37 @@ local F, C = unpack(ns)
 local mediaPath = "Interface\\AddOns\\AuroraClassic\\media\\"
 
 C.media = {
-	["arrowUp"] = mediaPath.."arrow-up-active",
 	["arrowDown"] = mediaPath.."arrow-down-active",
 	["arrowLeft"] = mediaPath.."arrow-left-active",
 	["arrowRight"] = mediaPath.."arrow-right-active",
+	["arrowUp"] = mediaPath.."arrow-up-active",
 	["backdrop"] = "Interface\\ChatFrame\\ChatFrameBackground",
+	["bgTex"] = mediaPath.."bgTex",
 	["checked"] = mediaPath.."CheckButtonHilight",
 	["font"] = STANDARD_TEXT_FONT,
-	["gradient"] = mediaPath.."gradient",
-	["roleIcons"] = mediaPath.."UI-LFG-ICON-ROLES",
-	["bgTex"] = mediaPath.."bgTex",
 	["glowTex"] = mediaPath.."glowTex",
+	["gradient"] = mediaPath.."gradient",
 	["pushed"] = mediaPath.."pushed",
+	["roleIcons"] = mediaPath.."UI-LFG-ICON-ROLES",
 	["statusbar"] = "Interface\\TARGETINGFRAME\\UI-TargetingFrame-BarFill",
 }
 
 C.defaults = {
 	["alpha"] = 0.5,
 	["bags"] = false,
+	["bubbleColor"] = false,
 	["buttonGradientColour"] = {.3, .3, .3, .3},
 	["buttonSolidColour"] = {.2, .2, .2, .6},
-	["useButtonGradientColour"] = true,
 	["chatBubbles"] = true,
-	["bubbleColor"] = false,
-	["reskinFont"] = true,
-	["loot"] = false,
-	["useCustomColour"] = false,
 	["customColour"] = {r = 1, g = 1, b = 1},
-	["tooltips"] = false,
-	["shadow"] = true,
 	["fontScale"] = 1,
+	["loot"] = false,
 	["objectiveTracker"] = true,
+	["reskinFont"] = true,
+	["shadow"] = true,
+	["tooltips"] = false,
+	["useButtonGradientColour"] = true,
+	["useCustomColour"] = false,
 }
 
 C.frames = {}
@@ -807,7 +807,7 @@ function F:ReskinIconStyle()
 		check:SetPoint("BOTTOMRIGHT", -1, 1)
 	end
 
-	local ic = self.Icon or self.icon
+	local ic = self.icon or self.Icon
 	if ic then
 		ic:SetDrawLayer("ARTWORK")
 		ic:SetTexCoord(.08, .92, .08, .92)

@@ -6,6 +6,11 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.StripTextures(LFDQueueFrameRandomScrollFrame, true)
 	F.StripTextures(LFDQueueFrameSpecificListScrollFrame, true)
 	LFDQueueFrameBackground:Hide()
+	LFDQueueFrameRandomScrollFrameScrollBackground:Hide()
+	LFDQueueFrameRandomScrollFrameScrollBackgroundBottomRight:Hide()
+	LFDQueueFrameRandomScrollFrameScrollBackgroundTopLeft:Hide()
+	LFDQueueFrameSpecificListScrollFrameScrollBackgroundBottomRight:Hide()
+	LFDQueueFrameSpecificListScrollFrameScrollBackgroundTopLeft:Hide()
 
 	-- this fixes right border of second reward being cut off
 	LFDQueueFrameRandomScrollFrame:SetWidth(LFDQueueFrameRandomScrollFrame:GetWidth()+1)
