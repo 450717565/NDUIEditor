@@ -91,21 +91,36 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		for i = 1, #buttons do
 			local button = buttons[i]
 			if not button.styled then
-				local rareOverlay = button.RareOverlay
-				local rareText = button.RareText
-
 				F.StripTextures(button)
 
 				local bg = F.CreateBDFrame(button, .25)
-				bg:SetPoint("TOPLEFT", 0, 1)
-				bg:SetPoint("BOTTOMRIGHT", 0, 1)
+				bg:SetPoint("TOPLEFT", 2, -2)
+				bg:SetPoint("BOTTOMRIGHT", -2, 2)
 
-				rareText:ClearAllPoints()
-				rareText:SetPoint("BOTTOMLEFT", button, 20, 10)
+				local locBG = button.LocBG
+				locBG:ClearAllPoints()
+				locBG:SetPoint("TOPLEFT", bg, 1, 0)
+				locBG:SetPoint("BOTTOMRIGHT", bg, -1, -2)
+
+				local rareOverlay = button.RareOverlay
 				rareOverlay:SetDrawLayer("BACKGROUND")
 				rareOverlay:SetTexture(C.media.backdrop)
-				rareOverlay:SetAllPoints()
 				rareOverlay:SetVertexColor(.098, .537, .969, .2)
+				rareOverlay:ClearAllPoints()
+				rareOverlay:SetPoint("TOPLEFT", locBG, 0, -1)
+				rareOverlay:SetPoint("BOTTOMRIGHT", locBG, 0, 3)
+
+				local levelText = button.Level
+				levelText:ClearAllPoints()
+				levelText:SetPoint("TOPLEFT", button, 10, -4)
+
+				local itemText = button.ItemLevel
+				itemText:ClearAllPoints()
+				itemText:SetPoint("TOP", levelText, "BOTTOM", 2, 3)
+
+				local rareText = button.RareText
+				rareText:ClearAllPoints()
+				rareText:SetPoint("BOTTOMLEFT", button, 14, 8)
 
 				button.styled = true
 			end

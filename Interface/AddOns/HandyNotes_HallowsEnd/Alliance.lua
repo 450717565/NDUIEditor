@@ -37,7 +37,7 @@ points[23] = { -- "EasternPlaguelands"
 	[75575230] = 12402, -- Light's Hope Chapel
 }
 
-points[38] = { -- "Elwynn"
+points[37] = { -- "Elwynn"
 	[43746590] = 12286, -- Goldshire
 	[24894013] = 12336, -- Trade District, Stormwind City
 }

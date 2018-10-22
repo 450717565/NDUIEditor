@@ -26,10 +26,7 @@ local function Reskins()
 	end
 
 	if IsAddOnLoaded("DungeonWatchDog") then
-		local allbtn = LFGListFrame.SearchPanel.IgnoreAllBtn
-		allbtn:SetHeight(20)
-		allbtn:ClearAllPoints()
-		allbtn:SetPoint("RIGHT", PVEFrameCloseButton, "LEFT", -5, 0)
+		select(11, LFGListFrame.SearchPanel:GetChildren()):Hide()
 	end
 
 	if IsAddOnLoaded("PremadeGroupsFilter") then
@@ -230,10 +227,6 @@ local function Reskins()
 					F.ReskinIcon(acTex)
 				end
 			end
-		end
-
-		if IsAddOnLoaded("DungeonWatchDog") then
-			F.Reskin(LFGListFrame.SearchPanel.IgnoreAllBtn)
 		end
 
 		if IsAddOnLoaded("ls_Toasts") then
