@@ -399,12 +399,16 @@ local function ShowTooltip(frame)
 	GameTooltip:Show()
 end
 
+local function HideTooltip(frame)
+	GameTooltip:Hide()
+end
+
 local function CreateStatusFrame(instanceButton, difficulty)
 	local statusFrame = CreateFrame("Frame", nil, instanceButton)
 	statusFrame:Hide()
 
 	statusFrame:SetScript("OnEnter", ShowTooltip)
-	statusFrame:SetScript("OnLeave", GameTooltip_Hide)
+	statusFrame:SetScript("OnLeave", HideTooltip)
 
 	-- skull flag
 	statusFrame.texture = statusFrame:CreateTexture(nil, "ARTWORK")

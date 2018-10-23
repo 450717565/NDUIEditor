@@ -108,6 +108,7 @@ LMFrame:RegisterEvent("CHAT_MSG_LOOT")
 LMFrame:RegisterEvent("PLAYER_LOGIN")
 LMFrame:SetScript("OnEvent", function(self, event, ...)
 	if not NDuiDB["Extras"]["LootMonitor"] then return end
+
 	if event == "PLAYER_LOGIN" then
 		LMFrame:UnregisterEvent(event)
 		for index = 1, LMFrame_CFG["maxloots"] do
@@ -122,6 +123,7 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 
 		local Enabled = 0
 		local totalInfo = ""
+		local textWidth, maxWidth = 0, 0
 		local lootTime = GameTime_GetGameTime(true)
 		local filterBR = NDuiDB["Extras"]["LootMonitorBonusRewards"] and rollInfo
 
@@ -148,19 +150,25 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 
 		if player and Enabled == 1 then
 			if #LMFrame_Report >= LMFrame_CFG["maxloots"] then table.remove(LMFrame_Report, 1) end
+
 			LMFrame_Report[#LMFrame_Report+1] = {
 				info	 = totalInfo,
 				loot	 = itemLink,
 				loottime = lootTime,
 				player   = player,
 			}
+
 			local numButtons = #LMFrame_Report
 			for index = 1, numButtons do
 				LMFrame[index].text:SetText(DB.InfoColor..LMFrame_Report[index]["loottime"].."|r " ..UnitClassColor(LMFrame_Report[index]["player"]).." " ..LMFrame_Report[index]["loot"].." "..LMFrame_Report[index]["info"])
 				LMFrame[index]:Show()
+				textWidth = math.floor(LMFrame[index].text:GetStringWidth() + 20.5)
+				maxWidth = math.max(textWidth, maxWidth)
 			end
-			LMFrame:SetWidth(LMFrame_Width*2)
+
+			LMFrame:SetWidth(maxWidth)
 			LMFrame:SetHeight((Button_Height+1)*(numButtons+3)+6)
+
 			if not LMFrame:IsShown() then
 				LMFrame:Show()
 			end

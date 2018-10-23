@@ -5,6 +5,8 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	-- [[ Shared codes ]]
 
+	GARRISON_FOLLOWER_ITEM_LEVEL = "iLvl %d"
+
 	function F:ReskinMissionPage()
 		F.StripTextures(self)
 		self.StartMissionButton.Flash:SetTexture("")
@@ -102,13 +104,20 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				locBG:SetPoint("TOPLEFT", bg, 1, 0)
 				locBG:SetPoint("BOTTOMRIGHT", bg, -1, -2)
 
+				local lists = {button.RareOverlay, button.Overlay.Overlay}
+				for _, list in next, lists do
+					list:SetDrawLayer("BACKGROUND")
+					list:SetTexture(C.media.backdrop)
+					list:ClearAllPoints()
+					list:SetPoint("TOPLEFT", locBG, 0, -1)
+					list:SetPoint("BOTTOMRIGHT", locBG, 0, 3)
+				end
+
 				local rareOverlay = button.RareOverlay
-				rareOverlay:SetDrawLayer("BACKGROUND")
-				rareOverlay:SetTexture(C.media.backdrop)
-				rareOverlay:SetVertexColor(.098, .537, .969, .2)
-				rareOverlay:ClearAllPoints()
-				rareOverlay:SetPoint("TOPLEFT", locBG, 0, -1)
-				rareOverlay:SetPoint("BOTTOMRIGHT", locBG, 0, 3)
+				rareOverlay:SetVertexColor(.1, .5, .1, .25)
+
+				local overlay = button.Overlay.Overlay
+				overlay:SetVertexColor(.1, .1, .1, .5)
 
 				local levelText = button.Level
 				levelText:ClearAllPoints()

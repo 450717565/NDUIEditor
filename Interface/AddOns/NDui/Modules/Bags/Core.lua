@@ -149,8 +149,11 @@ function module:OnLogin()
 			self.Artifact:SetPoint("TOPLEFT", -12, 10)
 		end
 
-		if NDuiDB["Bags"]["BagsiLvl"] or NDuiDB["Extras"]["SlotInfo"] then
+		if NDuiDB["Bags"]["BagsiLvl"] then
 			self.iLvl = B.CreateFS(self, 12, "", false, "BOTTOMRIGHT", 0, 0)
+		end
+
+		if NDuiDB["Extras"]["SlotInfo"] then
 			self.SlotInfo = B.CreateFS(self, 12, "", false, "TOPLEFT", 1, -2)
 		end
 
@@ -182,6 +185,12 @@ function module:OnLogin()
 		self.ShowNewItems = true
 	end
 
+	function MyButton:OnEnter(item)
+		if self.ShowNewItems then
+			if self.anim:IsPlaying() then self.anim:Stop() end
+		end
+	end
+
 	function MyButton:OnUpdate(item)
 		if item.rarity == LE_ITEM_QUALITY_POOR and item.sellPrice > 0 then
 			self.junkIcon:SetAlpha(1)
@@ -203,22 +212,30 @@ function module:OnLogin()
 			end
 		end
 
-		if NDuiDB["Bags"]["BagsiLvl"] or NDuiDB["Extras"]["SlotInfo"] then
-			self.iLvl:SetText("")
-			self.SlotInfo:SetText("")
-			if item.link
-			and (item.rarity and item.rarity > 1)
-			and ((item.level and item.level > 0) and (item.subType == EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC or (item.equipLoc ~= "" and item.equipLoc ~= "INVTYPE_TABARD" and item.equipLoc ~= "INVTYPE_BODY" and item.equipLoc ~= "INVTYPE_BAG")))
-			or ((item.classID and item.classID == 15 and item.subclassID) and (item.subclassID == 2 or item.subclassID == 5)) then
-				if NDuiDB["Bags"]["BagsiLvl"] then
-					local level = B.GetItemLevel(item.link, item.bagID, item.slotID) or item.level
-					self.iLvl:SetText(level)
-				end
-				if NDuiDB["Extras"]["SlotInfo"] then
-					local slotText = B.ItemSlotInfo(item.link)
-					if string.len(slotText) > 9 then slotText = "" end
-					self.SlotInfo:SetText(slotText)
-				end
+		if item.link and (item.rarity and item.rarity > 0) and (item.level and item.level > 0) and ((item.equipLoc ~= "" and item.equipLoc ~= "INVTYPE_BAG") or ((item.classID and item.classID == LE_ITEM_CLASS_MISCELLANEOUS) and (item.subclassID and (item.subclassID == LE_ITEM_MISCELLANEOUS_COMPANION_PET or item.subclassID == LE_ITEM_MISCELLANEOUS_MOUNT)))) then
+			if NDuiDB["Bags"]["BagsiLvl"] then
+				local level = B.GetItemLevel(item.link, item.bagID, item.slotID) or item.level
+				self.iLvl:SetText(level)
+			end
+			if NDuiDB["Extras"]["SlotInfo"] then
+				local slotText = B.ItemSlotInfo(item.link)
+				if string.len(slotText) > 9 then slotText = "" end
+				self.SlotInfo:SetText(slotText)
+			end
+		else
+			if NDuiDB["Bags"]["BagsiLvl"] then
+				self.iLvl:SetText("")
+			end
+			if NDuiDB["Extras"]["SlotInfo"] then
+				self.SlotInfo:SetText("")
+			end
+		end
+
+		if self.ShowNewItems then
+			if C_NewItems.IsNewItem(item.bagID, item.slotID) then
+				self.anim:Play()
+			else
+				if self.anim:IsPlaying() then self.anim:Stop() end
 			end
 		end
 	end
