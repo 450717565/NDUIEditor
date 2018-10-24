@@ -114,7 +114,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				end
 
 				local rareOverlay = button.RareOverlay
-				rareOverlay:SetVertexColor(.1, .5, .1, .25)
+				rareOverlay:SetVertexColor(.1, .5, .9, .25)
 
 				local overlay = button.Overlay.Overlay
 				overlay:SetVertexColor(.1, .1, .1, .5)

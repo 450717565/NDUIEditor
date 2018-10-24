@@ -25,26 +25,38 @@ function B.ItemSlotInfo(item)
 	local _, _, _, _, _, _, itemSubType, _, itemEquipLoc, _, _, itemClassID, itemSubClassID, bindType = GetItemInfo(item)
 	local slotText
 
-	if itemEquipLoc and string.find(itemEquipLoc, "INVTYPE_") then
+	if itemEquipLoc and itemEquipLoc ~= "" then
 		slotText = _G[itemEquipLoc]
+
+		if itemEquipLoc == "INVTYPE_FEET" then
+			slotText = L["Feet"]
+		elseif itemEquipLoc == "INVTYPE_HAND" then
+			slotText = L["Hands"]
+		elseif itemEquipLoc == "INVTYPE_HOLDABLE" then
+			slotText = SECONDARYHANDSLOT
+		elseif itemEquipLoc == "INVTYPE_SHIELD" then
+			slotText = SHIELDSLOT
+		end
 	end
 
-	if itemEquipLoc and string.find(itemEquipLoc, "INVTYPE_FEET") then
-		slotText = L["Feet"]
-	elseif itemEquipLoc and string.find(itemEquipLoc, "INVTYPE_HAND") then
-		slotText = L["Hands"]
-	elseif itemEquipLoc and string.find(itemEquipLoc, "INVTYPE_HOLDABLE") then
-		slotText = INVTYPE_WEAPONOFFHAND
-	elseif itemEquipLoc and string.find(itemEquipLoc, "INVTYPE_SHIELD") then
-		slotText = itemSubType
-	elseif itemSubType and string.find(itemSubType, RELICSLOT) then
+	if itemSubType and itemSubType == EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC then
 		slotText = RELICSLOT
-	elseif (itemClassID and itemClassID == LE_ITEM_CLASS_MISCELLANEOUS) and (itemSubClassID and (itemSubClassID == LE_ITEM_MISCELLANEOUS_COMPANION_PET or itemSubClassID == LE_ITEM_MISCELLANEOUS_MOUNT)) then
-		slotText = (itemSubClassID == LE_ITEM_MISCELLANEOUS_COMPANION_PET and PET) or (itemSubClassID == LE_ITEM_MISCELLANEOUS_MOUNT and MOUNTS)
 	end
 
-	if bindType and (bindType == 2 or bindType == 3) then
-		slotText = (bindType == 2 and "BoE") or (bindType == 3 and "BoU")
+	if itemClassID and itemClassID == LE_ITEM_CLASS_MISCELLANEOUS then
+		if itemSubClassID and itemSubClassID == LE_ITEM_MISCELLANEOUS_COMPANION_PET then
+			slotText = PETS
+		elseif itemSubClassID and itemSubClassID == LE_ITEM_MISCELLANEOUS_MOUNT then
+			slotText = MOUNTS
+		end
+	end
+
+	if bindType and itemEquipLoc ~= "INVTYPE_BAG" then
+		if bindType == 2 then
+			slotText = "BoE"
+		elseif bindType == 3 then
+			slotText = "BoU"
+		end
 	end
 
 	return slotText

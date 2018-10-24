@@ -48,17 +48,17 @@ end
 
 local function ButtonOnClick(self, button)
 	if button == "RightButton" then
-		SendChatMessage(Message_Info[random(4)]:format(LMFrame_Report[self.index]["loot"]), "WHISPER", nil, LMFrame_Report[self.index]["player"])
+		SendChatMessage(Message_Info[random(4)]:format(LMFrame_Report[self.index]["lootinfo"]), "WHISPER", nil, LMFrame_Report[self.index]["player"])
 	else
 		local editBox = ChatEdit_ChooseBoxForSend()
 		ChatEdit_ActivateChat(editBox)
-		editBox:SetText(editBox:GetText()..LMFrame_Report[self.index]["loot"])
+		editBox:SetText(editBox:GetText()..LMFrame_Report[self.index]["lootinfo"])
 	end
 end
 
 local function ButtonOnEnter(self)
 	GameTooltip:SetOwner(self, "ANCHOR_RIGHT", 10, 0)
-	GameTooltip:SetHyperlink(LMFrame_Report[self.index]["loot"])
+	GameTooltip:SetHyperlink(LMFrame_Report[self.index]["lootinfo"])
 end
 
 local function ButtonOnLeave(self)
@@ -152,15 +152,15 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 			if #LMFrame_Report >= LMFrame_CFG["maxloots"] then table.remove(LMFrame_Report, 1) end
 
 			LMFrame_Report[#LMFrame_Report+1] = {
-				info	 = totalInfo,
-				loot	 = itemLink,
 				loottime = lootTime,
-				player   = player,
+				player = player,
+				lootinfo = itemLink,
+				soltinfo = totalInfo,
 			}
 
 			local numButtons = #LMFrame_Report
 			for index = 1, numButtons do
-				LMFrame[index].text:SetText(DB.InfoColor..LMFrame_Report[index]["loottime"].."|r " ..UnitClassColor(LMFrame_Report[index]["player"]).." " ..LMFrame_Report[index]["loot"].." "..LMFrame_Report[index]["info"])
+				LMFrame[index].text:SetText(DB.InfoColor..LMFrame_Report[index]["loottime"].."|r " ..UnitClassColor(LMFrame_Report[index]["player"]).." " ..LMFrame_Report[index]["lootinfo"].." "..LMFrame_Report[index]["soltinfo"])
 				LMFrame[index]:Show()
 				textWidth = math.floor(LMFrame[index].text:GetStringWidth() + 20.5)
 				maxWidth = math.max(textWidth, maxWidth)

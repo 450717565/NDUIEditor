@@ -12,13 +12,13 @@ DB.CC = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[DB.MyClass]
 DB.MyColor = format("|cff%02x%02x%02x", DB.CC.r*255, DB.CC.g*255, DB.CC.b*255)
 DB.InfoColor = "|cff70C0F5"
 DB.GreyColor = "|cff808080"
-DB.Separator = "|cffFFFFFF | |r"
-DB.ccSeparator = DB.MyColor.." | |r"
 
 -- Fonts
 DB.Font = {STANDARD_TEXT_FONT, 12, "OUTLINE"}
 DB.TipFont = {GameTooltipText:GetFont(), 14, "OUTLINE"}
 DB.LineString = DB.GreyColor.."---------------"
+DB.Separator = "|cffFFFFFF | |r"
+DB.ccSeparator = DB.MyColor.." | |r"
 
 -- Textures
 local Media = "Interface\\Addons\\NDui\\Media\\"

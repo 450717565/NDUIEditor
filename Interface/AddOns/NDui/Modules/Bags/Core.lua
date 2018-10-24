@@ -212,7 +212,7 @@ function module:OnLogin()
 			end
 		end
 
-		if item.link and (item.rarity and item.rarity > 0) and (item.level and item.level > 0) and ((item.equipLoc ~= "" and item.equipLoc ~= "INVTYPE_BAG") or ((item.classID and item.classID == LE_ITEM_CLASS_MISCELLANEOUS) and (item.subclassID and (item.subclassID == LE_ITEM_MISCELLANEOUS_COMPANION_PET or item.subclassID == LE_ITEM_MISCELLANEOUS_MOUNT)))) then
+		if item.link and (item.rarity and item.rarity > 0) and (item.level and item.level > 0) and ((item.subType == EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC or item.equipLoc ~= "") or ((item.classID and item.classID == LE_ITEM_CLASS_MISCELLANEOUS) and (item.subclassID and (item.subclassID == LE_ITEM_MISCELLANEOUS_COMPANION_PET or item.subclassID == LE_ITEM_MISCELLANEOUS_MOUNT)))) then
 			if NDuiDB["Bags"]["BagsiLvl"] then
 				local level = B.GetItemLevel(item.link, item.bagID, item.slotID) or item.level
 				self.iLvl:SetText(level)
