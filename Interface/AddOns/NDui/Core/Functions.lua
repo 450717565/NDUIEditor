@@ -452,7 +452,7 @@ function B.FormatTime(s)
 	end
 end
 
--- Table Backup
+-- Table
 function B.CopyTable(source, target)
 	for key, value in pairs(source) do
 		if type(value) == "table" then
@@ -463,6 +463,14 @@ function B.CopyTable(source, target)
 		else
 			target[key] = value
 		end
+	end
+end
+
+function B.SplitList(list, variable, cleanup)
+	if cleanup then wipe(list) end
+
+	for word in variable:gmatch("%S+") do
+		list[word] = true
 	end
 end
 

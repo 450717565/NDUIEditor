@@ -11,7 +11,7 @@ local LMFrame_CFG = {
 	other = true,
 }
 
-local Message_Info = {
+local LM_Message_Info = {
 	L["LM Message 1"],
 	L["LM Message 2"],
 	L["LM Message 3"],
@@ -48,7 +48,7 @@ end
 
 local function ButtonOnClick(self, button)
 	if button == "RightButton" then
-		SendChatMessage(Message_Info[random(4)]:format(LMFrame_Report[self.index]["lootinfo"]), "WHISPER", nil, LMFrame_Report[self.index]["player"])
+		SendChatMessage(LM_Message_Info[random(4)]:format(LMFrame_Report[self.index]["lootinfo"]), "WHISPER", nil, LMFrame_Report[self.index]["player"])
 	else
 		local editBox = ChatEdit_ChooseBoxForSend()
 		ChatEdit_ActivateChat(editBox)

@@ -22,6 +22,12 @@ end
 
 --- 新人加入公会自动欢迎
 do
+	local GW_Message_Info = {
+		L["GW Message 1"],
+		L["GW Message 2"],
+		L["GW Message 3"],
+		L["GW Message 4"],
+	}
 	local function GuildWelcome(event, msg)
 		if not NDuiDB["Extras"]["GuildWelcome"] then return end
 
@@ -31,7 +37,7 @@ do
 			name = Ambiguate(name, "guild")
 			if not UnitIsUnit(name, "player") then
 				C_Timer.After(random(1000) / 1000, function()
-					SendChatMessage(L["Guild Welcome Message"]:format(name), "GUILD")
+					SendChatMessage(GW_Message_Info[random(4)]:format(name), "GUILD")
 				end)
 			end
 		end
