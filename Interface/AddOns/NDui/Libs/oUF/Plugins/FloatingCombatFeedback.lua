@@ -72,6 +72,7 @@ local eventFilter = {
 	["RANGE_DAMAGE"] = {suffix = "DAMAGE", index = 15, iconType = "range", autoAttack = true},
 	["SPELL_DAMAGE"] = {suffix = "DAMAGE", index = 15, iconType = "spell"},
 	["SPELL_PERIODIC_DAMAGE"] = {suffix = "DAMAGE", index = 15, iconType = "spell", isPeriod = true},
+	["SPELL_BUILDING_DAMAGE"] = {suffix = "DAMAGE", index = 15, iconType = "spell"},
 
 	["SPELL_HEAL"] = {suffix = "HEAL", index = 15, iconType = "spell"},
 	["SPELL_PERIODIC_HEAL"] = {suffix = "HEAL", index = 15, iconType = "spell", isPeriod = true},
@@ -122,14 +123,14 @@ local function formatNumber(self, amount)
 	end
 end
 
-local function Update(self, event)
+local function onEvent(self, event, ...)
 	local element = self.FloatingCombatFeedback
 	local multiplier = 1
 	local text, color, texture, critMark
 	local unit = self.unit
 
 	if event == "COMBAT_LOG_EVENT_UNFILTERED" then
-		local _, eventType, _, sourceGUID, _, sourceFlags, _, destGUID, _, _, _, spellID, _, school = CombatLogGetCurrentEventInfo()
+		local _, eventType, _, sourceGUID, _, sourceFlags, _, destGUID, _, _, _, spellID, _, school = ...
 		local isPlayer = UnitGUID("player") == sourceGUID
 		local atTarget = UnitGUID("target") == destGUID
 		local atPlayer = UnitGUID("player") == destGUID
@@ -144,7 +145,7 @@ local function Update(self, event)
 				if value.autoAttack and not element.showAutoAttack then return end
 				if value.isPeriod and not element.showHots then return end
 
-				local amount, _, _, _, _, _, critical, _, crushing = select(value.index, CombatLogGetCurrentEventInfo())
+				local amount, _, _, _, _, _, critical, _, crushing = select(value.index, ...)
 				texture = getFloatingIconTexture(value.iconType, spellID, isPet)
 				text = "-"..formatNumber(self, amount)
 
@@ -155,7 +156,7 @@ local function Update(self, event)
 			elseif value.suffix == "HEAL" then
 				if value.isPeriod and not element.showHots then return end
 
-				local amount, overhealing, _, critical = select(value.index, CombatLogGetCurrentEventInfo())
+				local amount, overhealing, _, critical = select(value.index, ...)
 				texture = getFloatingIconTexture(value.iconType, spellID)
 				local overhealText = ""
 				if overhealing > 0 then
@@ -170,11 +171,11 @@ local function Update(self, event)
 					critMark = true
 				end
 			elseif value.suffix == "MISS" then
-				local missType = select(value.index, CombatLogGetCurrentEventInfo())
+				local missType = select(value.index, ...)
 				texture = getFloatingIconTexture(value.iconType, spellID, isPet)
 				text = _G["COMBAT_TEXT_"..missType]
 			elseif value.suffix == "ENVIRONMENT" then
-				local envType, amount = select(value.index, CombatLogGetCurrentEventInfo())
+				local envType, amount = select(value.index, ...)
 				texture = getFloatingIconTexture(value.iconType, envType)
 				text = "-"..formatNumber(self, amount)
 			end
@@ -185,12 +186,12 @@ local function Update(self, event)
 		texture = ""
 		text = _G.ENTERING_COMBAT
 		color = {r = 1, g = 0, b = 0}
-		multiplier = 1.25
+		multiplier = 1.3
 	elseif event == "PLAYER_REGEN_ENABLED" then
 		texture = ""
 		text = _G.LEAVING_COMBAT
 		color = {r = 0, g = 1, b = 0}
-		multiplier = 1.25
+		multiplier = 1.3
 	end
 
 	if text and texture then
@@ -219,6 +220,14 @@ local function Update(self, event)
 
 			element:SetScript("OnUpdate", onUpdate)
 		end
+	end
+end
+
+local function Update(self, event, ...)
+	if event == "COMBAT_LOG_EVENT_UNFILTERED" then
+		onEvent(self, event, CombatLogGetCurrentEventInfo())
+	else
+		onEvent(self, event, ...)
 	end
 end
 

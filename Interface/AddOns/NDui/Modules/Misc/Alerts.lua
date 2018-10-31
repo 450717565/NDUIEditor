@@ -7,6 +7,7 @@ function module:AddAlerts()
 	self:RareAlert()
 	self:InterruptAlert()
 	self:VersionCheck()
+	self:ExplosiveAlert()
 end
 
 --[[
@@ -136,7 +137,7 @@ function module:InterruptAlert()
 		[1784] = true,		-- 潜行
 		[5246] = true,		-- 破胆怒吼
 		[8122] = true,		-- 心灵尖啸
-		[33395] = true,		-- 冰冻术
+		[33395] = true,	-- 冰冻术
 		[228600] = true,	-- 冰川尖刺
 		[197214] = true,	-- 裂地术
 		[157997] = true,	-- 寒冰新星
@@ -225,4 +226,53 @@ function module:VersionCheck()
 	if IsInGuild() then
 		C_ChatInfo.SendAddonMessage("NDuiVersionCheck", DB.Version, "GUILD")
 	end
+end
+
+--[[
+	大米完成时，通报打球统计
+]]
+function module:ExplosiveAlert()
+	if not NDuiDB["Misc"]["ExplosiveCount"] then return end
+
+	local affixes = C_MythicPlus.GetCurrentAffixes()
+	if affixes and affixes[3] ~= 13 then return end
+
+	local eventList = {
+		["SWING_DAMAGE"] = 13,
+		["RANGE_DAMAGE"] = 16,
+		["SPELL_DAMAGE"] = 16,
+		["SPELL_PERIODIC_DAMAGE"] = 16,
+		["SPELL_BUILDING_DAMAGE"] = 16,
+	}
+
+	local cache = {}
+	local function updateCount(_, ...)
+		local _, eventType, _, _, sourceName, _, _, destGUID = ...
+		local index = eventList[eventType]
+		if index and B.GetNPCID(destGUID) == 120651 then
+			local overkill = select(index, ...)
+			if overkill and overkill > 0 then
+				local name = string.split("-", sourceName)
+				if not cache[name] then cache[name] = 0 end
+				cache[name] = cache[name] + 1
+			end
+		end
+	end
+
+	local function startCount()
+		wipe(cache)
+		B:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED", updateCount)
+	end
+
+	local function endCount()
+		local text
+		for name, count in pairs(cache) do
+			text = (text or L["ExplosiveCount"])..name.."("..count..") "
+		end
+		if text then SendChatMessage(text, "PARTY") end
+		B:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED", updateCount)
+	end
+
+	B:RegisterEvent("CHALLENGE_MODE_START", startCount)
+	B:RegisterEvent("CHALLENGE_MODE_COMPLETED", endCount)
 end

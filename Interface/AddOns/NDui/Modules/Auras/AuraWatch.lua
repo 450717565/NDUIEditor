@@ -507,7 +507,7 @@ local function UpdateIntFrame(intID, itemID, duration, unitID, guid, sourceName)
 	end
 	if unitID:lower() == "all" then
 		class = select(2, GetPlayerInfoByGUID(guid))
-		name = "*"..sourceName
+		name = "*"..string.split("-", sourceName)
 	else
 		class = DB.MyClass
 	end

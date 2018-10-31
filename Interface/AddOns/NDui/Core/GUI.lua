@@ -195,6 +195,7 @@ local defaultSettings = {
 		QuestNotifier = true,
 		QuestProgress = false,
 		OnlyCompleteRing = false,
+		ExplosiveCount = true,
 	},
 	Tutorial = {
 		Complete = false,
@@ -432,6 +433,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Misc", "BrokenSpell", L["Broken Spell"], true},
 		{1, "Misc", "OwnInterrupt", L["Own Interrupt"]},
 		{1, "Misc", "AlertInInstance", L["Alert In Instance"], true},
+		{1, "Misc", "ExplosiveCount", L["Explosive Alert"]},
 		{},--blank
 		{1, "Misc", "RareAlerter", "|cff00cc4c"..L["Rare Alert"]},
 		{1, "Misc", "AlertinChat", L["Alert In Chat"], true},
