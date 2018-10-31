@@ -34,7 +34,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		button:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 		button:SetSize(40, 40)
 		button.IconBorder:SetAlpha(0)
-		F.CreateBDFrame(button)
+		F.CreateBDFrame(button, .25)
 
 		local b1, b2, b3 = button:GetPoint()
 		button:SetPoint(b1, b2, b3, -4, -2)
@@ -108,7 +108,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	MerchantBuyBackItemItemButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 	MerchantBuyBackItemItemButtonIconTexture:SetTexCoord(.08, .92, .08, .92)
 	MerchantBuyBackItemItemButton.IconBorder:SetAlpha(0)
-	F.CreateBDFrame(MerchantBuyBackItemItemButton, 0)
+	F.CreateBDFrame(MerchantBuyBackItemItemButton, .25)
 
 	local backName = MerchantBuyBackItemName
 	backName:SetWordWrap(false)
@@ -120,17 +120,17 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	MerchantGuildBankRepairButton:SetPushedTexture("")
 	MerchantGuildBankRepairButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-	F.CreateBDFrame(MerchantGuildBankRepairButton)
+	F.CreateBDFrame(MerchantGuildBankRepairButton, .25)
 	MerchantGuildBankRepairButtonIcon:SetTexCoord(0.595, 0.8075, 0.05, 0.52)
 
 	MerchantRepairAllButton:SetPushedTexture("")
 	MerchantRepairAllButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-	F.CreateBDFrame(MerchantRepairAllButton)
+	F.CreateBDFrame(MerchantRepairAllButton, .25)
 	MerchantRepairAllIcon:SetTexCoord(0.31375, 0.53, 0.06, 0.52)
 
 	MerchantRepairItemButton:SetPushedTexture("")
 	MerchantRepairItemButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-	F.CreateBDFrame(MerchantRepairItemButton)
+	F.CreateBDFrame(MerchantRepairItemButton, .25)
 	local ic = MerchantRepairItemButton:GetRegions()
 	ic:SetTexture("Interface\\Icons\\INV_Hammer_20")
 	ic:SetTexCoord(.08, .92, .08, .92)
@@ -147,7 +147,7 @@ tinsert(C.themes["AuroraClassic"], function()
 				ic:SetPoint("LEFT", co, "RIGHT", 2, 0)
 				co:SetPoint("TOPLEFT", bu, "TOPLEFT", -2, 0)
 
-				F.CreateBDFrame(ic)
+				F.CreateBDFrame(ic, .25)
 				bu.reskinned = true
 			end
 		end

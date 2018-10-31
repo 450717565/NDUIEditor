@@ -253,7 +253,7 @@ function module:PetBattleUI()
 			bu.SelectedHighlight:SetPoint("TOPLEFT", bu, -12, 12)
 			bu.SelectedHighlight:SetPoint("BOTTOMRIGHT", bu, 12, -12)
 		end
-		buttonList[4]:GetCheckedTexture():SetColorTexture(DB.CC.r, DB.CC.g, DB.CC.b, .25)
+		buttonList[4]:GetCheckedTexture():SetColorTexture(DB.r, DB.g, DB.b, .25)
 	end)
 
 	local skipButton = bottomFrame.TurnTimer.SkipButton
@@ -335,7 +335,7 @@ function module:PetBattleUI()
 		local alpha = NDuiDB["Extras"]["SkinAlpha"]
 		local color = NDuiDB["Extras"]["SkinColor"]
 		local cr, cg, cb = color.r, color.g, color.b
-		if NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = DB.CC.r, DB.CC.g, DB.CC.b end
+		if NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = DB.r, DB.g, DB.b end
 
 		-- Petbar Background
 		local lineLeft = CreateFrame("Frame", nil, UIParent)

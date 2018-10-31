@@ -206,7 +206,7 @@ function module:CreateRM()
 		B.CreateTex(marker)
 		B.CreateBC(marker, .5)
 		marker:SetNormalTexture("Interface\\RaidFrame\\Raid-WorldPing")
-		marker:GetNormalTexture():SetVertexColor(DB.CC.r, DB.CC.g, DB.CC.b)
+		marker:GetNormalTexture():SetVertexColor(DB.r, DB.g, DB.b)
 		marker:HookScript("OnMouseUp", function(_, btn)
 			if btn == "RightButton" then ClearRaidMarker() end
 		end)
@@ -395,7 +395,7 @@ function module:CreateRM()
 				SendChatMessage(L["Disband Process"], "RAID")
 				for i = 1, GetNumGroupMembers() do
 					local name, _, _, _, _, _, _, online = GetRaidRosterInfo(i)
-					if online and name ~= UnitName("player") then
+					if online and name ~= DB.MyName then
 						UninviteUnit(name)
 					end
 				end
@@ -499,4 +499,6 @@ function module:CreateRM()
 	-- UIWidget reanchor
 	UIWidgetTopCenterContainerFrame:ClearAllPoints()
 	UIWidgetTopCenterContainerFrame:SetPoint("TOP", 0, -40)
+	UIWidgetBelowMinimapContainerFrame:ClearAllPoints()
+	UIWidgetBelowMinimapContainerFrame:SetPoint("TOP", 0, -50)
 end

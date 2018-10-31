@@ -212,7 +212,7 @@ C.themes["Blizzard_Collections"] = function()
 		local bu = card["spell"..i]
 
 		bu.icon:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(bu.icon)
+		F.CreateBDFrame(bu.icon, .25)
 	end
 
 	hooksecurefunc("PetJournal_UpdatePetCard", function(self)
@@ -375,7 +375,7 @@ C.themes["Blizzard_Collections"] = function()
 			button:GetHighlightTexture():SetAllPoints(ic)
 
 			button.iconTextureUncollected:SetTexCoord(.08, .92, .08, .92)
-			button.bg = F.CreateBDFrame(ic)
+			button.bg = F.CreateBDFrame(ic, .25)
 
 			button.level:ClearAllPoints()
 			button.level:SetPoint("BOTTOM", 0, 1)
@@ -496,7 +496,7 @@ C.themes["Blizzard_Collections"] = function()
 		bar:SetPoint("BOTTOMLEFT", -1, 2)
 
 		bu.Icon:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(bu.Icon)
+		F.CreateBDFrame(bu.Icon, .25)
 
 		bu.SelectedTexture:SetColorTexture(r, g, b, .25)
 		bu.SelectedTexture:SetPoint("TOPLEFT", 1, -2)
@@ -513,7 +513,7 @@ C.themes["Blizzard_Collections"] = function()
 		if not ic.bg then
 			itemFrame.IconBorder:Hide()
 			ic:SetTexCoord(.08, .92, .08, .92)
-			ic.bg = F.CreateBDFrame(ic)
+			ic.bg = F.CreateBDFrame(ic, .25)
 		end
 
 		if itemFrame.collected then

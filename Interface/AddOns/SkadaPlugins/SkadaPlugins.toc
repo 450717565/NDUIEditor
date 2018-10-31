@@ -1,10 +1,9 @@
 ## Interface: 80000
 ## Title: Skada 扩展组件
 ## Notes: 为 Skada 增加额外的功能。
-## Version: 1.0
+## Version: 2.0
 ## Author: warbaby
 ## X-Vendor: AbyUI
 ## Dependencies: Skada
 
-Locale.lua
-SkadaExplosiveOrbs.lua
+ExplosiveOrbs.lua

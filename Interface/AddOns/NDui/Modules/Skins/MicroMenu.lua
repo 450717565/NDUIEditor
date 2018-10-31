@@ -3,7 +3,7 @@ local B, C, L, DB = unpack(ns)
 local module = B:GetModule("Skins")
 
 local buttonList = {}
-local cr, cg, cb = DB.CC.r, DB.CC.g, DB.CC.b
+local cr, cg, cb = DB.r, DB.g, DB.b
 local function CreateMicroButton(parent, data)
 	local texture, texcoord, tip, func = unpack(data)
 	local alpha = NDuiDB["Extras"]["SkinAlpha"]

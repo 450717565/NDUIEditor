@@ -7,7 +7,7 @@ local B, C, L, DB = unpack(ns)
 
 if IsAddOnLoaded("AuroraClassic") then
 	local F = unpack(AuroraClassic)
-	local cr, cg, cb = DB.CC.r, DB.CC.g, DB.CC.b
+	local cr, cg, cb = DB.r, DB.g, DB.b
 
 	local OrderHall_Frame = CreateFrame("Frame")
 	OrderHall_Frame:RegisterEvent("ADDON_LOADED")

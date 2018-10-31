@@ -406,7 +406,7 @@ local function updateEnemyAbsorb()
 			else--Get all of them
 				absorbAmount = UnitGetTotalAbsorbs(uId)
 			end
-			if absorbAmount then
+			if absorbAmount and absorbAmount > 0 then
 				local text
 				if totalAbsorb then
 					text = absorbAmount / totalAbsorb * 100
@@ -668,14 +668,13 @@ end
 
 --Unsorted table maintained by mod and just sent here.
 --Never updated by onupdate method, requires manual updates when mod updates table
-local function updateByTable()
+local function updateByTable(table)
 	twipe(lines)
-	local table = value[1]
 	--Copy table into lines
-	for i, v in ipairs(table) do
+	for i, v in pairs(table) do
 		lines[i] = v
 	end
-	--Pass to update lines code for sort handling
+	--Pass to update lines for sort handling
 	updateLines()
 	updateIcons()
 end
@@ -731,9 +730,9 @@ local friendlyEvents = {
 	["playertargets"] = true
 }
 
-function onUpdate(frame)
+function onUpdate(frame, table)
 	if events[currentEvent] then
-		events[currentEvent]()
+		events[currentEvent](table)
 	else
 		if frame then
 			frame:Hide()
@@ -878,6 +877,9 @@ function infoFrame:Show(maxLines, event, ...)
 	onUpdate(frame)
 	if not frame.ticker and not value[4] and event ~= "table" then
 		frame.ticker = C_Timer.NewTicker(0.5, function() onUpdate(frame) end)
+	elseif frame.ticker and event == "table" then--Redundancy, in event calling a new table based infoframe show without a hide event to unschedule ticker based infoframe
+		frame.ticker:Cancel()
+		frame.ticker = nil
 	end
 	local wowToc, testBuild, wowVersionString = DBM:GetTOC()
 end
@@ -900,8 +902,7 @@ end
 function infoFrame:UpdateTable(table)
 	frame = frame or createFrame()
 	if frame:IsShown() then
-		value[1] = table
-		onUpdate(frame)
+		onUpdate(frame, table)
 	end
 end
 

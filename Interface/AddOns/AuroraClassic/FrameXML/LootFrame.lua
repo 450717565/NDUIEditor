@@ -48,7 +48,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	end
 
 	-- Bonus roll
-	F.StripTextures(BonusRollFrame, true)
+	F.StripTextures(BonusRollFrame)
 	F.CreateBD(BonusRollFrame)
 	F.CreateSD(BonusRollFrame)
 
@@ -62,6 +62,8 @@ tinsert(C.themes["AuroraClassic"], function()
 	end)
 
 	local PromptFrame = BonusRollFrame.PromptFrame
+	BonusRollFrame.SpecIcon:ClearAllPoints()
+	BonusRollFrame.SpecIcon:SetPoint("RIGHT", PromptFrame.InfoFrame, "RIGHT", -5, 0)
 
 	PromptFrame.Icon:SetTexCoord(.08, .92, .08, .92)
 	F.CreateBDFrame(PromptFrame.Icon, .25)

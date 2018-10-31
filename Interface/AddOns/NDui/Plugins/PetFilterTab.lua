@@ -1,12 +1,12 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-
 -------------------------------------
 -- Pet Quick Filter, by Windrunner
 -- NDui MOD
 -------------------------------------
 local function loadPetFilter()
-	local cr, cg, cb = DB.CC.r, DB.CC.g, DB.CC.b
+	local cr, cg, cb = DB.r, DB.g, DB.b
+
 	PetJournalListScrollFrame:SetPoint("TOPLEFT", PetJournalLeftInset, 3, -60)
 	if PetJournalEnhancedListScrollFrame then
 		PetJournalEnhancedListScrollFrame:SetPoint("TOPLEFT", PetJournalLeftInset, 3, -60)

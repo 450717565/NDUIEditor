@@ -172,7 +172,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.Reskin(testInputDevie.ToggleTest)
 		F.StripTextures(testInputDevie.VUMeter)
 		testInputDevie.VUMeter.Status:SetStatusBarTexture(C.media.backdrop)
-		local bg = F.CreateBDFrame(testInputDevie.VUMeter, .3)
+		local bg = F.CreateBDFrame(testInputDevie.VUMeter, .25)
 		bg:SetPoint("TOPLEFT", 4, -4)
 		bg:SetPoint("BOTTOMRIGHT", -4, 4)
 

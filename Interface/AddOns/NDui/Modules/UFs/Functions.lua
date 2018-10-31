@@ -342,21 +342,29 @@ function UF:CreateCastBar(self)
 	self.Castbar = cb
 end
 
+local function reskinTimerBar(bar)
+	bar:SetSize(280, 17)
+	B.StripTextures(bar, true)
+
+	local statusbar = _G[bar:GetName().."StatusBar"]
+	if statusbar then
+		statusbar:SetAllPoints()
+		statusbar:SetStatusBarTexture(DB.normTex)
+	else
+		bar:SetStatusBarTexture(DB.normTex)
+	end
+
+	local bg = B.CreateBG(bar)
+	B.CreateBD(bg)
+	B.CreateSD(bg)
+	B.CreateTex(bg)
+end
+
 function UF:ReskinMirrorBars()
 	local previous
 	for i = 1, 3 do
 		local bar = _G["MirrorTimer"..i]
-		B.StripTextures(bar, true)
-		bar:SetSize(280, 17)
-
-		local bg = B.CreateBG(bar, 1)
-		B.CreateBD(bg)
-		B.CreateSD(bg)
-		B.CreateTex(bg)
-
-		local statusbar = _G["MirrorTimer"..i.."StatusBar"]
-		statusbar:SetAllPoints()
-		statusbar:SetStatusBarTexture(DB.normTex)
+		reskinTimerBar(bar)
 
 		local text = _G["MirrorTimer"..i.."Text"]
 		text:ClearAllPoints()
@@ -367,6 +375,19 @@ function UF:ReskinMirrorBars()
 		end
 		previous = bar
 	end
+end
+
+function UF:ReskinTimerTrakcer(self)
+	local function updateTimerTracker()
+		for _, timer in pairs(TimerTracker.timerList) do
+			if timer.bar and not timer.bar.styled then
+				reskinTimerBar(timer.bar)
+
+				timer.bar.styled = true
+			end
+		end
+	end
+	self:RegisterEvent("START_TIMER", updateTimerTracker)
 end
 
 -- Auras Relevant
@@ -507,7 +528,7 @@ function UF:CreateAuras(self)
 	bu:SetWidth(width)
 	bu:SetHeight((bu.size + bu.spacing) * maxLines)
 
-	bu.showStealableBuffs = NDuiDB["UFs"]["StealableBuff"]
+	bu.showStealableBuffs = true
 	bu.CustomFilter = customFilter
 	bu.PostCreateIcon = postCreateIcon
 	bu.PostUpdateIcon = postUpdateIcon

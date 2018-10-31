@@ -1,7 +1,7 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local module = B:RegisterModule("Settings")
-local cr, cg, cb = DB.CC.r, DB.CC.g, DB.CC.b
+local cr, cg, cb = DB.r, DB.g, DB.b
 
 -- Addon Info
 print("|cff0080ff< NDui >|cff70C0F5----------------")

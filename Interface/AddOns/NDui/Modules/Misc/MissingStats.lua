@@ -58,6 +58,7 @@ function module:MissingStats()
 				{stat = "INTELLECT", hideAt = 0, primary = LE_UNIT_STAT_INTELLECT},
 				{stat = "STAMINA", hideAt = 0},
 				{stat = "ARMOR", hideAt = 0},
+				{stat = "STAGGER", hideAt = 0, roles = { "TANK" }},
 				{stat = "ATTACK_DAMAGE", hideAt = 0},
 				{stat = "ATTACK_AP", hideAt = 0, primary = LE_UNIT_STAT_STRENGTH},
 				{stat = "ATTACK_ATTACKSPEED", hideAt = 0, primary = LE_UNIT_STAT_STRENGTH},
@@ -69,7 +70,6 @@ function module:MissingStats()
 				{stat = "FOCUS_REGEN", hideAt = 0, primary = LE_UNIT_STAT_AGILITY},
 				{stat = "MANAREGEN", hideAt = 0, primary = LE_UNIT_STAT_INTELLECT},
 				{stat = "MOVESPEED", hideAt = 0},
-				{stat = "STAGGER", hideAt = 0, roles = { "TANK" }},
 			},
 		},
 		[2] = {
@@ -132,5 +132,24 @@ function module:MissingStats()
 	PAPERDOLL_STATINFO["FOCUS_REGEN"].updateFunc = function(statFrame, unit)
 		statFrame.numericValue = 0
 		PaperDollFrame_SetFocusRegen(statFrame, unit)
+	end
+
+	function PaperDollFrame_SetAttackSpeed(statFrame, unit)
+		local meleeHaste = GetMeleeHaste()
+		local speed, offhandSpeed = UnitAttackSpeed(unit)
+		local displaySpeed = format("%.2f", speed)
+		if offhandSpeed then
+			offhandSpeed = format("%.2f", offhandSpeed)
+		end
+		if offhandSpeed then
+			displaySpeed = BreakUpLargeNumbers(displaySpeed).." / "..offhandSpeed
+		else
+			displaySpeed = BreakUpLargeNumbers(displaySpeed)
+		end
+		PaperDollFrame_SetLabelAndText(statFrame, WEAPON_SPEED, displaySpeed, false, speed)
+
+		statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..format(PAPERDOLLFRAME_TOOLTIP_FORMAT, ATTACK_SPEED).." "..displaySpeed..FONT_COLOR_CODE_CLOSE
+		statFrame.tooltip2 = format(STAT_ATTACK_SPEED_BASE_TOOLTIP, BreakUpLargeNumbers(meleeHaste))
+		statFrame:Show()
 	end
 end

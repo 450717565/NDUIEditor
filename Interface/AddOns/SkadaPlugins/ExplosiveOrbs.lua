@@ -1,10 +1,22 @@
-local addonName, vars = ...
-local L = vars.L
+local locale, L = GetLocale(), {}
+
+if locale == "zhCN" then
+	L["Explosive Orbs"] = "易爆打球"
+	L["Number of Spells"] = "技能次数"
+	L["Click: %s Hit: %s"] = "选：%s 击：%s"
+elseif locale == "zhTW" then
+	L["Explosive Orbs"] = "易爆打球"
+	L["Number of Spells"] = "技能次數"
+	L["Click: %s Hit: %s"] = "選：%s 擊：%s"
+else
+	L["Explosive Orbs"] = "Explosive Orbs"
+	L["Number of Spells"] = "Number of Spells"
+	L["Click: %s Hit: %s"] = "Click: %s Hit: %s"
+end
 
 local Skada = Skada
-
 local mod = Skada:NewModule(L["Explosive Orbs"])
-local spellmod = Skada:NewModule(L["Explosive Orbs"].." - "..L["Number of player spells"])
+local spellmod = Skada:NewModule(L["Explosive Orbs"].." - "..L["Number of Spells"])
 
 local DEBUG = false
 local debug = function(...) if DEBUG then print(...) end end
@@ -72,7 +84,7 @@ state_frame:RegisterEvent("CHALLENGE_MODE_START")
 state_frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 state_frame:SetScript("OnEvent", function()
 	local level, affixes, wasEnergized = C_ChallengeMode.GetActiveKeystoneInfo();
-	if affixes and (affixes[1] == 13 or affixes[2] == 13) then
+	if affixes and (affixes[1] == 13 or affixes[2] == 13 or affixes[3] == 13) then
 		RegisterOrUnregisterUnitTargetEvent(true)
 		in_challenge_with_orb = true
 	else
@@ -146,7 +158,7 @@ function mod:Update(win, set)
 
 			d.label = player.name
 			d.value = player.orb_hit
-			d.valuetext = "选:" .. Skada:FormatNumber(player.orb_click) .. " 击:" .. Skada:FormatNumber(player.orb_hit)..(" (%02.1f%%)"):format(player.orb_hit / set.orb_count * 100)
+			d.valuetext = L["Click: %s Hit: %s"]:format(player.orb_click, player.orb_hit)..(" (%02.1f%%)"):format(player.orb_hit / set.orb_count * 100)
 			d.id = player.id
 			d.class = player.class
 

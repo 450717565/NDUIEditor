@@ -15,18 +15,18 @@ C.themes["Blizzard_QuestChoice"] = function()
 		option.Artwork:SetTexCoord(0.140625, 0.84375, 0.2265625, 0.78125)
 		option.Artwork:SetSize(180, 71)
 		option.Artwork:SetPoint("TOP", 0, -20)
-		F.CreateBDFrame(option.Artwork)
+		F.CreateBDFrame(option.Artwork, .25)
 		option.OptionText:SetTextColor(.9, .9, .9)
 
 		item.Name:SetTextColor(1, 1, 1)
 		item.Icon:SetTexCoord(.08, .92, .08, .92)
-		item.bg = F.CreateBDFrame(item.Icon)
+		item.bg = F.CreateBDFrame(item.Icon, .25)
 
 		for j = 1, 3 do
 			local cu = currencies["Currency"..j]
 
 			cu.Icon:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(cu.Icon)
+			F.CreateBDFrame(cu.Icon, .25)
 		end
 		F.Reskin(option.OptionButtonsContainer.OptionButton1)
 		F.Reskin(option.OptionButtonsContainer.OptionButton2)

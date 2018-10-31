@@ -101,7 +101,7 @@ local function CreateSlot(id)
 	glow:SetPoint("TOPLEFT", icon, "TOPRIGHT", 3, 0)
 	glow:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT")
 	glow:SetTexture(DB.bdTex)
-	glow:SetVertexColor(DB.CC.r, DB.CC.g, DB.CC.b, .5)
+	glow:SetVertexColor(DB.r, DB.g, DB.b, .5)
 	glow:Hide()
 	button.glow = glow
 

@@ -18,7 +18,7 @@ local function Reskins()
 
 		local boxHL = BaudErrorFrameListScrollBoxHighlightTexture
 		boxHL:SetTexture(DB.bdTex)
-		boxHL:SetVertexColor(DB.CC.r, DB.CC.g, DB.CC.b, .25)
+		boxHL:SetVertexColor(DB.r, DB.g, DB.b, .25)
 
 		for _, button in next, {BaudErrorFrameClearButton, BaudErrorFrameCloseButton, BaudErrorFrameReloadUIButton} do
 			B.CreateBC(button)

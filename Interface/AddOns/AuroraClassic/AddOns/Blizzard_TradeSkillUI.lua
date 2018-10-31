@@ -76,7 +76,7 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 	hooksecurefunc(contents.ResultIcon, "SetNormalTexture", function(self)
 		if not self.styled then
 			self:GetNormalTexture():SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(self:GetNormalTexture())
+			F.CreateBDFrame(self:GetNormalTexture(), .25)
 			self.IconBorder:SetAlpha(0)
 			self.ResultBorder:SetAlpha(0)
 
@@ -87,9 +87,9 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 		local reagent = contents.Reagents[i]
 		reagent.NameFrame:Hide()
 		reagent.Icon:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(reagent.Icon)
+		F.CreateBDFrame(reagent.Icon, .25)
 
-		local bg = F.CreateBDFrame(reagent.NameFrame, .2)
+		local bg = F.CreateBDFrame(reagent.NameFrame, .25)
 		bg:SetPoint("TOPLEFT", reagent.Icon, "TOPRIGHT", 2, 1)
 		bg:SetPoint("BOTTOMRIGHT", -4, 1)
 	end

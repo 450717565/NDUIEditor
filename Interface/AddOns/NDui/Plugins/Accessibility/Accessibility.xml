@@ -1,7 +1,0 @@
-<Ui>
-	<Script file="AlreadyKnown.lua"/>
-	<Script file="DragEmAll.lua"/>
-	<Script file="ExtraQuestButton.lua"/>
-	<Script file="PetFilterTab.lua"/>
-	<Script file="QuickQuest.lua"/>
-</Ui>

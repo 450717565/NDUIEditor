@@ -300,7 +300,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 	local reward = suggestion.reward
 	F.StripTextures(reward)
 	reward.text:SetTextColor(.9, .9, .9)
-	F.CreateBDFrame(reward.icon)
+	F.CreateBDFrame(reward.icon, .25)
 
 	F.ReskinArrow(suggestion.prevButton, "left")
 	F.ReskinArrow(suggestion.nextButton, "right")

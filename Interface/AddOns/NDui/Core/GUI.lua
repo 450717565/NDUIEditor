@@ -57,7 +57,6 @@ local defaultSettings = {
 		Boss = true,
 		Arena = true,
 		Castbars = true,
-		StealableBuff = true,
 		SwingBar = false,
 		SwingTimer = false,
 		RaidFrame = true,
@@ -82,6 +81,7 @@ local defaultSettings = {
 		RaidClickSets = false,
 		ShowTeamIndex = false,
 		HeightScale = 1,
+		ClassPower = true,
 	},
 	Chat = {
 		Sticky = true,
@@ -257,9 +257,7 @@ local function InitialSettings(source, target)
 	end
 
 	for i in pairs(target) do
-		if source[i] == nil then
-			target[i] = nil
-		end
+		if source[i] == nil then target[i] = nil end
 	end
 end
 
@@ -338,7 +336,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "UFs", "Boss", L["Boss Frame"]},
 		{1, "UFs", "Arena", L["Arena Frame"], true},
 		{1, "UFs", "Portrait", L["UFs Portrait"]},
-		{1, "UFs", "StealableBuff", L["Stealable Buff"], true},
+		{1, "UFs", "ClassPower", L["UFs ClassPower"], true},
 		{1, "UFs", "ClassColor", L["Classcolor HpBar"]},
 		{1, "UFs", "SmoothColor", L["Smoothcolor HpBar"], true},
 		{1, "UFs", "PlayerDebuff", L["Player Debuff"]},
@@ -542,7 +540,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 	},
 }
 
-local cr, cg, cb = DB.CC.r, DB.CC.g, DB.CC.b
+local cr, cg, cb = DB.r, DB.g, DB.b
 local guiTab, guiPage, f = {}, {}
 
 local function SelectTab(i)
@@ -834,7 +832,7 @@ local function setupRaidDebuffs()
 
 	local frame = raidDebuffsGUI.bg
 	local options = {}
-	local iType = module:CreateDropdown(frame, L["Type*"], 10, -30, {DUNGEONS, RAID})
+	local iType = module:CreateDropdown(frame, L["Type*"], 10, -30, {DUNGEONS, RAID}, L["Instance Type"])
 	for i = 1, 2 do
 		iType.options[i]:HookScript("OnClick", function()
 			for j = 1, 2 do
@@ -858,9 +856,9 @@ local function setupRaidDebuffs()
 		[1] = EJ_GetInstanceInfo(1031),
 	}
 
-	options[1] = module:CreateDropdown(frame, DUNGEONS.."*", 120, -30, dungeons, nil, 130, 30)
+	options[1] = module:CreateDropdown(frame, DUNGEONS.."*", 120, -30, dungeons, L["Dungeons Intro"], 130, 30)
 	options[1]:Hide()
-	options[2] = module:CreateDropdown(frame, RAID.."*", 120, -30, raids, nil, 130, 30)
+	options[2] = module:CreateDropdown(frame, RAID.."*", 120, -30, raids, L["Raid Intro"], 130, 30)
 	options[2]:Hide()
 	for i = 1, 2 do
 		for j = 1, #options[i].options do
@@ -927,6 +925,7 @@ local function setupRaidDebuffs()
 		if NDuiADB["RaidDebuffs"][instName][spellID] then UIErrorsFrame:AddMessage(DB.InfoColor..L["Existing ID"]) return end
 
 		priority = (priority and priority < 0 and 0) or priority or 2
+		if priority > 6 then priority = 6 end
 		NDuiADB["RaidDebuffs"][instName][spellID] = priority
 		createBar(scroll.child, instName, spellID, priority)
 	end

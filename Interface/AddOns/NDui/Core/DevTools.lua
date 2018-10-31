@@ -15,7 +15,7 @@ local B, C, L, DB = unpack(ns)
 local dev = {"寧德"}
 local function isDeveloper()
 	for _, name in pairs(dev) do
-		if UnitName("player") == name then
+		if DB.MyName == name then
 			return true
 		end
 	end
@@ -126,7 +126,7 @@ do
 	end
 	B:RegisterEvent("CHAT_MSG_ADDON", VerCheckListen)
 
-	SlashCmdList["NDUI_VER_CHECK"] = function()
+	SlashCmdList["NDUI_VER_CHECK"] = function(msg)
 		if not DB.isDeveloper then return end
 		local channel
 		if IsInRaid() then
@@ -134,6 +134,7 @@ do
 		elseif IsInGuild() then
 			channel = "GUILD"
 		end
+		if msg ~= "" then channel = msg end
 		if channel then SendVerCheck(channel) end
 	end
 	SLASH_NDUI_VER_CHECK1 = "/nduiver"

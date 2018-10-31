@@ -144,7 +144,7 @@ C.themes["Blizzard_TalentUI"] = function()
 			ic:SetTexCoord(.08, .92, .08, .92)
 			F.CreateBDFrame(ic, .25)
 
-			bu.bg = F.CreateBDFrame(bu)
+			bu.bg = F.CreateBDFrame(bu, .25)
 			bu.bg:SetPoint("TOPLEFT", 10, 0)
 			bu.bg:SetPoint("BOTTOMRIGHT")
 		end

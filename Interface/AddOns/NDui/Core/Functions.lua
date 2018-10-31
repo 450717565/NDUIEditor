@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local cr, cg, cb = DB.CC.r, DB.CC.g, DB.CC.b
+local cr, cg, cb = DB.r, DB.g, DB.b
 
 -- Color Percent
 function B.ColorText(per, reverse, val)
@@ -319,7 +319,7 @@ function B.HexRGB(r, g, b)
 end
 
 function B.ClassColor(class)
-	local color = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[class]
+	local color = DB.ClassColors[class]
 	if not color then return .5, .5, .5 end
 	return color.r, color.g, color.b
 end

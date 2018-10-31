@@ -55,7 +55,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			local swatch = _G[swatchName]
 
 			swatch:SetBackdrop(nil)
-			local bg = F.CreateBDFrame(swatch)
+			local bg = F.CreateBDFrame(swatch, .25)
 			bg:SetPoint("TOPLEFT", 0, -.5)
 			bg:SetPoint("BOTTOMRIGHT", 0, .5)
 

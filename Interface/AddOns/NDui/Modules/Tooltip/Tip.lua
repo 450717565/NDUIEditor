@@ -8,7 +8,7 @@ function module:OnLogin()
 	self:AzeriteArmor()
 end
 
-local cr, cg, cb = DB.CC.r, DB.CC.g, DB.CC.b
+local cr, cg, cb = DB.r, DB.g, DB.b
 
 local classification = {
 	elite = " |cffFFFF00"..ELITE.."|r",
@@ -161,6 +161,7 @@ GameTooltip:HookScript("OnTooltipSetUnit", function(self)
 				else
 					GameTooltipTextLeft2:SetText("<"..text.."> "..rank.."("..rankIndex..")")
 				end
+
 				local myGuild, _, _, myGuildRealm = GetGuildInfo("player")
 				if IsInGuild() and guildName == myGuild and guildRealm == myGuildRealm then
 					GameTooltipTextLeft2:SetTextColor(.25, 1, .25)
@@ -237,6 +238,7 @@ GameTooltipStatusBar:SetScript("OnValueChanged", function(self, value)
 	if not value then return end
 	local min, max = self:GetMinMaxValues()
 	if (value < min) or (value > max) then return end
+
 	local unit = getUnit(GameTooltip)
 	if UnitExists(unit) then
 		min, max = UnitHealth(unit), UnitHealthMax(unit)

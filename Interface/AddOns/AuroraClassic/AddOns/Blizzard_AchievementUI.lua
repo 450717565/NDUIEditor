@@ -154,7 +154,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 
 				local ic = _G["AchievementFrameSummaryAchievement"..i.."IconTexture"]
 				ic:SetTexCoord(.08, .92, .08, .92)
-				F.CreateBDFrame(ic)
+				F.CreateBDFrame(ic, .25)
 
 				bu.reskinned = true
 			end

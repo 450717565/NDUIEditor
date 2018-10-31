@@ -20,7 +20,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinArrow(PetStableNextPageButton, "right")
 
 	PetStableSelectedPetIcon:SetTexCoord(.08, .92, .08, .92)
-	F.CreateBDFrame(PetStableSelectedPetIcon)
+	F.CreateBDFrame(PetStableSelectedPetIcon, .25)
 
 	for i = 1, NUM_PET_ACTIVE_SLOTS do
 		local bu = _G["PetStableActivePet"..i]

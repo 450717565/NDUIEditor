@@ -26,7 +26,7 @@ C.themes["Blizzard_ItemUpgradeUI"] = function()
 	end)
 
 	ItemButton.Cost.Icon:SetTexCoord(.08, .92, .08, .92)
-	ItemButton.Cost.Icon.bg = F.CreateBDFrame(ItemButton.Cost.Icon)
+	ItemButton.Cost.Icon.bg = F.CreateBDFrame(ItemButton.Cost.Icon, .25)
 
 	hooksecurefunc("ItemUpgradeFrame_Update", function()
 		if GetItemUpgradeItemInfo() then
@@ -41,7 +41,7 @@ C.themes["Blizzard_ItemUpgradeUI"] = function()
 	local currency = ItemUpgradeFrameMoneyFrame.Currency
 	currency.icon:SetPoint("LEFT", currency.count, "RIGHT", 1, 0)
 	currency.icon:SetTexCoord(.08, .92, .08, .92)
-	F.CreateBDFrame(currency.icon)
+	F.CreateBDFrame(currency.icon, .25)
 
 	local bg = F.CreateBDFrame(ItemUpgradeFrame)
 	bg:SetAllPoints(ItemUpgradeFrame)

@@ -26,7 +26,7 @@ C.themes["Blizzard_PVPUI"] = function()
 		icon:SetTexCoord(.08, .92, .08, .92)
 		icon:SetPoint("LEFT", bu, "LEFT")
 		icon:SetDrawLayer("OVERLAY")
-		F.CreateBDFrame(icon)
+		F.CreateBDFrame(icon, .25)
 
 		local bg = F.CreateBG(icon)
 		bg:SetDrawLayer("ARTWORK")
