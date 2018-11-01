@@ -344,21 +344,23 @@ end)
 local function ChatItemLevel(Hyperlink)
 	if Caches[Hyperlink] then return Caches[Hyperlink] end
 
+	local totalText
 	local itemLink = string.match(Hyperlink, "|H(.-)|h")
-	local itemTexture = select(10, GetItemInfo(itemLink))
-	if not itemTexture then return end
-	local totalText = ""
-	local level = B.GetItemLevel(itemLink)
-	local slotText = B.ItemSlotInfo(itemLink)
+	local _, _, _, _, _, _, itemSubType, _, itemEquipLoc, _, _, itemClassID, itemSubClassID = GetItemInfo(itemLink)
 
-	if level and slotText then
-		totalText = "<"..level.."-"..slotText..">"
-	elseif level then
-		totalText = "<"..level..">"
-	elseif slotText then
-		totalText = "<"..slotText..">"
-	else
-		totalText = ""
+	if ((itemSubType and itemSubType == EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC) or (itemEquipLoc and itemEquipLoc ~= "")) or ((itemClassID and itemClassID == 15) and (itemSubClassID and (itemSubClassID == 2 or itemSubClassID == 5))) then
+		local level = B.GetItemLevel(itemLink)
+		local slotText = B.ItemSlotInfo(itemLink)
+
+		if level and slotText then
+			totalText = "<"..level.."-"..slotText..">"
+		elseif level then
+			totalText = "<"..level..">"
+		elseif slotText then
+			totalText = "<"..slotText..">"
+		else
+			totalText = ""
+		end
 	end
 
 	if totalText then

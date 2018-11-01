@@ -121,8 +121,8 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 		local itemLink = string.match(lootstring,"|%x+|Hitem:.-|h.-|h|r")
 		local _, _, itemRarity, _, _, _, itemSubType, _, itemEquipLoc, _, _, itemClassID, itemSubClassID, bindType = GetItemInfo(itemLink)
 
-		local Enabled = 0
-		local totalInfo = ""
+		local Enabled = false
+		local totalText
 		local textWidth, maxWidth = 0, 0
 		local lootTime = GameTime_GetGameTime(true)
 		local filterBR = NDuiDB["Extras"]["LootMonitorBonusRewards"] and rollInfo
@@ -131,31 +131,31 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 		local slotText = B.ItemSlotInfo(itemLink)
 
 		if NDuiDB["Extras"]["LootMonitorInGroup"] == true and not IsInGroup() then
-			Enabled = 0
+			Enabled = false
 		elseif LMFrame_CFG["other"] == true and itemClassID == 15 and (itemSubClassID == 2 or itemSubClassID == 5) then
-			Enabled = 1
-		elseif LMFrame_CFG["equip"] == true and ((itemRarity >= LMFrame_CFG["rarity"] and itemClassID > 0 and itemClassID < 5) or (itemRarity == 5 and itemClassID == 0)) and not filterBR then
-			Enabled = 1
+			Enabled = true
+		elseif LMFrame_CFG["equip"] == true and (((itemRarity >= LMFrame_CFG["rarity"] and itemRarity < 7) and (itemSubType == EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC or itemEquipLoc ~= "")) or (itemRarity == 5 and itemClassID == 0)) and not filterBR then
+			Enabled = true
 		end
 
 		if itemLvl and slotText then
-			totalInfo = "<"..itemLvl.."-"..slotText..">"
+			totalText = "<"..itemLvl.."-"..slotText..">"
 		elseif itemLvl then
-			totalInfo = "<"..itemLvl..">"
+			totalText = "<"..itemLvl..">"
 		elseif slotText then
-			totalInfo = "<"..slotText..">"
+			totalText = "<"..slotText..">"
 		else
-			totalInfo = ""
+			totalText = ""
 		end
 
-		if player and Enabled == 1 then
+		if player and Enabled then
 			if #LMFrame_Report >= LMFrame_CFG["maxloots"] then table.remove(LMFrame_Report, 1) end
 
 			LMFrame_Report[#LMFrame_Report+1] = {
 				loottime = lootTime,
 				player = player,
 				lootinfo = itemLink,
-				soltinfo = totalInfo,
+				soltinfo = totalText,
 			}
 
 			local numButtons = #LMFrame_Report
