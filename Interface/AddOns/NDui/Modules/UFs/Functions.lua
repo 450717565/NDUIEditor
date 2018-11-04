@@ -264,7 +264,7 @@ function UF:CreateCastBar(self)
 
 	local cb = CreateFrame("StatusBar", "oUF_Castbar"..self.mystyle, self)
 	cb:SetFrameLevel(1)
-	B.CreateSB(cb, true)
+	B.CreateSB(cb, true, .3, .7, 1)
 
 	if self.mystyle == "player" then
 		cb:SetSize(unpack(C.UFs.PlayercbSize))
@@ -290,12 +290,9 @@ function UF:CreateCastBar(self)
 	cb.FailColor = {1, .1, 0}
 
 	local timer = B.CreateFS(cb, retVal(self, 12, 12, 10, 10), "", false, "RIGHT", -2, 0)
-	cb.Time = timer
-
 	local name = B.CreateFS(cb, retVal(self, 12, 12, 10, 10), "", false, "LEFT", 2, 0)
 	name:SetJustifyH("LEFT")
 	name:SetPoint("RIGHT", timer, "LEFT", -5, 0)
-	cb.Text = name
 
 	if self.mystyle ~= "boss" and self.mystyle ~= "arena" then
 		cb.Icon = cb:CreateTexture(nil, "ARTWORK")
@@ -308,7 +305,7 @@ function UF:CreateCastBar(self)
 	if self.mystyle == "player" then
 		local safe = cb:CreateTexture(nil,"OVERLAY")
 		safe:SetTexture(DB.normTex)
-		safe:SetVertexColor(1, .1, 0, .6)
+		safe:SetVertexColor(1, 0, 0, .6)
 		safe:SetPoint("TOPRIGHT")
 		safe:SetPoint("BOTTOMRIGHT")
 		cb:SetFrameLevel(10)
@@ -329,6 +326,8 @@ function UF:CreateCastBar(self)
 		cb.Icon:SetSize(iconSize, iconSize)
 	end
 
+	cb.Time = timer
+	cb.Text = name
 	cb.OnUpdate = cast.OnCastbarUpdate
 	cb.PostCastStart = cast.PostCastStart
 	cb.PostChannelStart = cast.PostCastStart
@@ -857,6 +856,25 @@ function UF:CreateSwing(self)
 	self.Swing.Mainhand = main
 	self.Swing.Offhand = off
 	self.Swing.hideOoc = true
+end
+
+function UF:CreateQuakeTimer(self)
+	local bar = CreateFrame("StatusBar", nil, self)
+	bar:SetPoint("TOPLEFT", self.Castbar, "TOPLEFT", 0, 25)
+	bar:SetPoint("BOTTOMRIGHT", self.Castbar, "TOPRIGHT", 0, 5)
+	B.CreateSB(bar, true, 0, 1, 0)
+	bar:Hide()
+	bar.SpellName = B.CreateFS(bar, 12, "", false, "LEFT", 2, 0)
+	bar.Text = B.CreateFS(bar, 12, "", false, "RIGHT", -2, 0)
+
+	local icon = bar:CreateTexture(nil, "ARTWORK")
+	icon:SetSize(20, 20)
+	icon:SetPoint("RIGHT", bar, "LEFT", -5, 0)
+	icon:SetTexCoord(unpack(DB.TexCoord))
+	B.CreateSD(icon, 3, 3)
+	bar.Icon = icon
+
+	self.QuakeTimer = bar
 end
 
 function UF:CreateFCT(self)

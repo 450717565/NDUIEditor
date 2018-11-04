@@ -10,36 +10,13 @@ function B:GenFilterList()
 	B.SplitList(FilterList, NDuiADB["ChatFilterList"], true)
 end
 
-DB.FriendsList = {}
-local function updateFriends()
-	wipe(DB.FriendsList)
-
-	for i = 1, GetNumFriends() do
-		local name = GetFriendInfo(i)
-		if name then
-			DB.FriendsList[Ambiguate(name, "none")] = true
-		end
-	end
-
-	for i = 1, select(2, BNGetNumFriends()) do
-		for j = 1, BNGetNumFriendGameAccounts(i) do
-			local _, characterName, client, realmName = BNGetFriendGameAccountInfo(i, j)
-			if client == BNET_CLIENT_WOW then
-				DB.FriendsList[Ambiguate(characterName.."-"..realmName, "none")] = true
-			end
-		end
-	end
-end
-B:RegisterEvent("FRIENDLIST_UPDATE", updateFriends)
-B:RegisterEvent("BN_FRIEND_INFO_CHANGED", updateFriends)
-
-local function genChatFilter(_, event, msg, author, _, _, _, flag)
+local function genChatFilter(_, event, msg, author, _, _, _, flag, _, _, _, _, _, guid)
 	if not NDuiDB["Chat"]["EnableFilter"] then return end
 
 	local name = Ambiguate(author, "none")
 	if UnitIsUnit(name, "player") or (event == "CHAT_MSG_WHISPER" and flag == "GM") or flag == "DEV" then
 		return
-	elseif B.UnitInGuild(author) or UnitInRaid(name) or UnitInParty(name) or DB.FriendsList[name] then
+	elseif IsGuildMember(guid) or BNGetGameAccountInfoByGUID(guid) or IsCharacterFriend(guid) or IsGUIDInGroup(guid) then
 		return
 	end
 
@@ -67,7 +44,20 @@ local addonBlockList = {
 	"<iLvl>", ("%-"):rep(30), "<小队物品等级:.+>", "<LFG>", "进度:", "属性通报", "blizzard%.cn.+%.vip"
 }
 
-local function genAddonBlock(_, _, msg, author)
+local function restoreCVar(cvar)
+	C_Timer.After(.01, function()
+		SetCVar(cvar, 1)
+	end)
+end
+
+local function toggleBubble(party)
+	local cvar = "chatBubbles"..(party and "Party" or "")
+	if not GetCVarBool(cvar) then return end
+	SetCVar(cvar, 0)
+	restoreCVar(cvar)
+end
+
+local function genAddonBlock(_, event, msg, author)
 	if not NDuiDB["Chat"]["BlockAddonAlert"] then return end
 
 	local name = Ambiguate(author, "none")
@@ -75,11 +65,15 @@ local function genAddonBlock(_, _, msg, author)
 
 	for _, word in ipairs(addonBlockList) do
 		if msg:find(word) then
+			if event == "CHAT_MSG_SAY" or event == "CHAT_MSG_YELL" then
+				toggleBubble()
+			elseif event == "CHAT_MSG_PARTY" or event == "CHAT_MSG_PARTY_LEADER" then
+				toggleBubble(true)
+			end
 			return true
 		end
 	end
 end
-
 
 --[[
 	公会频道有人@时提示你

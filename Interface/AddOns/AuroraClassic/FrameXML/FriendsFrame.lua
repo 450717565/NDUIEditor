@@ -27,17 +27,25 @@ tinsert(C.themes["AuroraClassic"], function()
 	whoBg:SetPoint("BOTTOMRIGHT", -1, 1)
 	F.CreateGradient(whoBg)
 
+	local header = FriendsFrameFriendsScrollFrame.PendingInvitesHeaderButton
+	for i = 1, 11 do
+		select(i, header:GetRegions()):Hide()
+	end
+	local headerBg = F.CreateBDFrame(header, .25)
+	headerBg:SetPoint("TOPLEFT", 2, -2)
+	headerBg:SetPoint("BOTTOMRIGHT", -2, 2)
+
+	local buttons = {AddFriendEntryFrameAcceptButton, AddFriendEntryFrameCancelButton, AddFriendInfoFrameContinueButton, FriendsFrameAddFriendButton, FriendsFrameIgnorePlayerButton, FriendsFrameSendMessageButton, FriendsFrameUnsquelchButton, FriendsFriendsCloseButton, FriendsFriendsSendRequestButton, FriendsListFrameContinueButton, WhoFrameAddFriendButton, WhoFrameGroupInviteButton, WhoFrameWhoButton}
+	for _, button in next, buttons do
+		F.Reskin(button)
+	end
+
 	for i = 1, 3 do
 		F.StripTextures(_G["FriendsTabHeaderTab"..i], true)
 	end
 
 	for i = 1, 4 do
 		F.StripTextures(_G["WhoFrameColumnHeader"..i], true)
-	end
-
-	local buttons = {AddFriendEntryFrameAcceptButton, AddFriendEntryFrameCancelButton, AddFriendInfoFrameContinueButton, FriendsFrameAddFriendButton, FriendsFrameIgnorePlayerButton, FriendsFrameSendMessageButton, FriendsFrameUnsquelchButton, FriendsFriendsCloseButton, FriendsFriendsSendRequestButton, FriendsListFrameContinueButton, WhoFrameAddFriendButton, WhoFrameGroupInviteButton, WhoFrameWhoButton}
-	for _, button in next, buttons do
-		F.Reskin(button)
 	end
 
 	for i = 1, 3 do
@@ -73,6 +81,12 @@ tinsert(C.themes["AuroraClassic"], function()
 		bu.bg:SetAllPoints(ic)
 		F.CreateBD(bu.bg)
 		F.CreateSD(bu.bg)
+	end
+
+	for _, button in pairs({FriendsTabHeaderSoRButton, FriendsTabHeaderRecruitAFriendButton}) do
+		button:SetPushedTexture("")
+		button:GetRegions():SetTexCoord(.08, .92, .08, .92)
+		F.CreateBDFrame(button, .25)
 	end
 
 	local function UpdateScroll()
@@ -116,8 +130,24 @@ tinsert(C.themes["AuroraClassic"], function()
 	hooksecurefunc("FriendsFrame_UpdateFriends", UpdateScroll)
 	hooksecurefunc(FriendsFrameFriendsScrollFrame, "update", UpdateScroll)
 
-	FriendsFrameStatusDropDown:ClearAllPoints()
-	FriendsFrameStatusDropDown:SetPoint("TOPLEFT", 10, -30)
+	local function reskinInvites(self)
+		for invite in self:EnumerateActive() do
+			if not invite.styled then
+				invite.DeclineButton:SetSize(22, 22)
+				F.ReskinDecline(invite.DeclineButton)
+				F.Reskin(invite.AcceptButton)
+
+				invite.styled = true
+			end
+		end
+	end
+
+	hooksecurefunc("FriendsFrame_UpdateFriendButton", function(button)
+		if button.buttonType == FRIENDS_BUTTON_TYPE_INVITE then
+			reskinInvites(FriendsFrameFriendsScrollFrame.invitePool)
+		end
+	end)
+	hooksecurefunc(FriendsFrameFriendsScrollFrame.invitePool, "Acquire", reskinInvites)
 
 	hooksecurefunc("FriendsFrame_CheckBattlenetStatus", function()
 		if BNFeaturesEnabled() then
@@ -140,6 +170,18 @@ tinsert(C.themes["AuroraClassic"], function()
 			FriendsFrameTitleText:Show()
 		end
 	end)
+
+	F.CreateBDFrame(FriendsFrameBattlenetFrame.UnavailableInfoFrame, .25)
+	FriendsFrameBattlenetFrame.UnavailableInfoFrame:SetPoint("TOPLEFT", FriendsFrame, "TOPRIGHT", 1, -18)
+
+	FriendsFrameBattlenetFrame:GetRegions():Hide()
+	F.CreateBDFrame(FriendsFrameBattlenetFrame, .25)
+
+	FriendsFrameBattlenetFrame.Tag:SetParent(FriendsListFrame)
+	FriendsFrameBattlenetFrame.Tag:SetPoint("TOP", FriendsFrame, "TOP", 0, -8)
+
+	FriendsFrameStatusDropDown:ClearAllPoints()
+	FriendsFrameStatusDropDown:SetPoint("TOPLEFT", 10, -30)
 
 	WhoFrameWhoButton:SetPoint("RIGHT", WhoFrameAddFriendButton, "LEFT", -1, 0)
 	WhoFrameAddFriendButton:SetPoint("RIGHT", WhoFrameGroupInviteButton, "LEFT", -1, 0)
