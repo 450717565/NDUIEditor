@@ -251,7 +251,7 @@ local function UpdateSavedInstances()
 			b = b + 1
 		end
 
-		if reset > 0 and defeatedBosses > 0 then
+		if reset > 0 and defeatedBosses > 0 and instanceID then
 			savedInstances[instanceID] = savedInstances[instanceID] or {}
 			tinsert(savedInstances[instanceID], {
 				bosses = bosses,

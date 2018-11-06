@@ -163,6 +163,11 @@ do
 	end)
 end
 
+--- 修复队长分配遗留问题
+do
+	if GroupLootContainer then GroupLootContainer:Hide() end
+end
+
 --- 特殊物品购买无需确认
 --[[
 do

@@ -11,7 +11,10 @@ local _G = getfenv(0)
 local pairs = pairs
 local cos, sin, mmax = cos, sin, math.max
 local tremove, tinsert = table.remove, table.insert
+
 local BreakUpLargeNumbers = _G.BreakUpLargeNumbers
+local ENTERING_COMBAT = _G.ENTERING_COMBAT
+local LEAVING_COMBAT = _G.LEAVING_COMBAT
 
 local function removeString(self, i, string)
 	tremove(self.FeedbackToAnimate, i)
@@ -128,6 +131,7 @@ local function onEvent(self, event, ...)
 	local multiplier = 1
 	local text, color, texture, critMark
 	local unit = self.unit
+	local grey = {r = .5, g = .5, b = .5}
 
 	if event == "COMBAT_LOG_EVENT_UNFILTERED" then
 		local _, eventType, _, sourceGUID, _, sourceFlags, _, destGUID, _, _, _, spellID, _, school = ...
@@ -180,16 +184,17 @@ local function onEvent(self, event, ...)
 				text = "-"..formatNumber(self, amount)
 			end
 
-			color = _G.CombatLog_Color_ColorArrayBySchool(school) or {r = .5, g = .5, b = .5}
+			local ColorArrayBySchool = _G.CombatLog_Color_ColorArrayBySchool
+			color = ColorArrayBySchool(school) or grey
 		end
 	elseif event == "PLAYER_REGEN_DISABLED" then
 		texture = ""
-		text = _G.ENTERING_COMBAT
+		text = ENTERING_COMBAT
 		color = {r = 1, g = 0, b = 0}
 		multiplier = 1.3
 	elseif event == "PLAYER_REGEN_ENABLED" then
 		texture = ""
-		text = _G.LEAVING_COMBAT
+		text = LEAVING_COMBAT
 		color = {r = 0, g = 1, b = 0}
 		multiplier = 1.3
 	end
