@@ -330,9 +330,9 @@ function module:CreateRM()
 		else
 			if IsAddOnLoaded("DBM-Core") then
 				if reset then
-					SlashCmdList["DEADLYBOSSMODS"]("pull "..NDuiDB["Skins"]["DBMCount"])
+					SlashCmdList["DEADLYBOSSMODSPULL"](NDuiDB["Skins"]["DBMCount"])
 				else
-					SlashCmdList["DEADLYBOSSMODS"]("pull 0")
+					SlashCmdList["DEADLYBOSSMODSPULL"]("0")
 				end
 				reset = not reset
 			elseif IsAddOnLoaded("BigWigs") then

@@ -344,7 +344,7 @@ end)
 local function ChatItemLevel(Hyperlink)
 	if Caches[Hyperlink] then return Caches[Hyperlink] end
 
-	local totalText
+	local totalText = ""
 	local itemLink = string.match(Hyperlink, "|H(.-)|h")
 	local _, _, _, _, _, _, itemSubType, _, itemEquipLoc, _, _, itemClassID, itemSubClassID = GetItemInfo(itemLink)
 
@@ -358,8 +358,6 @@ local function ChatItemLevel(Hyperlink)
 			totalText = "<"..level..">"
 		elseif slotText then
 			totalText = "<"..slotText..">"
-		else
-			totalText = ""
 		end
 	end
 

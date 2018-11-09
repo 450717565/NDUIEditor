@@ -219,7 +219,6 @@ function module:OnLogin()
 			end
 			if NDuiDB["Extras"]["SlotInfo"] then
 				local slotText = B.ItemSlotInfo(item.link)
-				if string.len(slotText) > 9 then slotText = "" end
 				self.SlotInfo:SetText(slotText)
 			end
 		else

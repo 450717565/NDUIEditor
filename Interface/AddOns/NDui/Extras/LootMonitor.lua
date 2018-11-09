@@ -122,7 +122,7 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 		local _, _, itemRarity, _, _, _, itemSubType, _, itemEquipLoc, _, _, itemClassID, itemSubClassID, bindType = GetItemInfo(itemLink)
 
 		local Enabled = false
-		local totalText
+		local totalText = ""
 		local textWidth, maxWidth = 0, 0
 		local lootTime = GameTime_GetGameTime(true)
 		local filterBR = NDuiDB["Extras"]["LootMonitorBonusRewards"] and rollInfo
@@ -144,8 +144,6 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 			totalText = "<"..itemLvl..">"
 		elseif slotText then
 			totalText = "<"..slotText..">"
-		else
-			totalText = ""
 		end
 
 		if player and Enabled then

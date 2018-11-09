@@ -1,13 +1,13 @@
 local dungeonID, creatureID, creatureID2
 if UnitFactionGroup("player") == "Alliance" then
-	dungeonID, creatureID, creatureID2 = 2323, 148238, 146100--Ma'ra Grimfang and Anathos Firecaller
+	dungeonID, creatureID, creatureID2 = 2323, 144691, 144692--Ma'ra Grimfang and Anathos Firecaller
 else--Horde
 	dungeonID, creatureID, creatureID2 = 2341, 144693, 144690--Manceroy Flamefist and the Mestrah <the Illuminated>
 end
 local mod	= DBM:NewMod(dungeonID, "DBM-ZuldazarRaid", 1, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 18026 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 18072 $"):sub(12, -3))
 mod:SetCreatureID(creatureID, creatureID2)
 mod:SetEncounterID(2266, 2285)--2266 horde, 2285 Alliance
 --mod:DisableESCombatDetection()
@@ -231,7 +231,8 @@ function mod:SPELL_AURA_REMOVED(args)
 		specWarnPyroblast:Show(args.destName)
 		specWarnPyroblast:Play("kickcast")
 		if self.Options.InfoFrame and self.vb.shieldsActive == 0 then
-			DBM.InfoFrame:Hide()
+			DBM.InfoFrame:SetHeader(DBM_CORE_INFOFRAME_POWER)
+			DBM.InfoFrame:Show(4, "enemypower", 2)
 		end
 	elseif spellId == 286988 then
 		if args:IsPlayer() then

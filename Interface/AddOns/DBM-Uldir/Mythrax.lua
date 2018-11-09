@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2194, "DBM-Uldir", nil, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 18052 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 18078 $"):sub(12, -3))
 mod:SetCreatureID(134546)--138324 Xalzaix
 mod:SetEncounterID(2135)
 --mod:DisableESCombatDetection()
@@ -125,6 +125,10 @@ function mod:OnCombatStart(delay)
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Show(5)
 	end
+	if self.Options.InfoFrame then
+		DBM.InfoFrame:SetHeader(DBM:GetSpellInfo(272146))
+		DBM.InfoFrame:Show(5, "table", infoframeTable, 1)
+	end
 end
 
 function mod:OnCombatEnd()
@@ -173,7 +177,7 @@ function mod:SPELL_CAST_START(args)
 			timerObliterationBlastCD:Start(12, DBM_ADD)
 		end
 	elseif spellId == 273810 then--Timers start here, because we have to factor boss movement
-		timerOblivionSphereCD:Start(7)--Resets to 7
+		timerOblivionSphereCD:Start(7, self.vb.sphereCast+1)--Resets to 7
 		countdownOblivionSphere:Start(7)--Still seems same in all
 		if self:IsMythic() then
 			timerObliterationbeamCD:Start(18.5, 1)
@@ -303,12 +307,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 272146 then
 		infoframeTable[args.destName] = args.amount or 1
 		if self.Options.InfoFrame then
-			if not DBM.InfoFrame:IsShown() then
-				DBM.InfoFrame:SetHeader(DBM:GetSpellInfo(272146))
-				DBM.InfoFrame:Show(5, "table", infoframeTable, 1)
-			else
-				DBM.InfoFrame:UpdateTable(infoframeTable)
-			end
+			DBM.InfoFrame:UpdateTable(infoframeTable)
 		end
 	end
 end
@@ -331,11 +330,7 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif spellId == 272146 then
 		infoframeTable[args.destName] = nil
 		if self.Options.InfoFrame then
-			if #infoframeTable > 0 then
-				DBM.InfoFrame:UpdateTable(infoframeTable)
-			else
-				DBM.InfoFrame:Hide()
-			end
+			DBM.InfoFrame:UpdateTable(infoframeTable)
 		end
 	end
 end

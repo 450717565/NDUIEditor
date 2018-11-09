@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2335, "DBM-ZuldazarRaid", 2, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 18052 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 18078 $"):sub(12, -3))
 mod:SetCreatureID(145616)--145644 Bwonsamdi
 mod:SetEncounterID(2272)
 --mod:DisableESCombatDetection()
@@ -291,12 +291,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 285195 then
 		infoframeTable[args.destName] = args.amount or 1
 		if self.Options.InfoFrame then
-			if not DBM.InfoFrame:IsShown() then
-				DBM.InfoFrame:SetHeader(DBM:GetSpellInfo(285195))
-				DBM.InfoFrame:Show(5, "table", infoframeTable, 1)
-			else
-				DBM.InfoFrame:UpdateTable(infoframeTable)
-			end
+			DBM.InfoFrame:UpdateTable(infoframeTable)
 		end
 	elseif spellId == 284662 then
 		if args:IsPlayer() then
@@ -435,6 +430,10 @@ function mod:SPELL_AURA_REMOVED(args)
 		if self.Options.RangeFrame then
 			DBM.RangeCheck:Show(8)
 		end
+		if self.Options.InfoFrame then
+			DBM.InfoFrame:SetHeader(DBM:GetSpellInfo(285195))
+			DBM.InfoFrame:Show(5, "table", infoframeTable, 1)
+		end
 	elseif spellId == 284455 and args:IsPlayer() then
 		playerDeathPhase = false
 	end
@@ -445,11 +444,7 @@ function mod:SPELL_AURA_REMOVED_DOSE(args)
 	if spellId == 285195 then
 		infoframeTable[args.destName] = args.amount or 1
 		if self.Options.InfoFrame then
-			if #infoframeTable > 0 then
-				DBM.InfoFrame:UpdateTable(infoframeTable)
-			else
-				DBM.InfoFrame:Hide()
-			end
+			DBM.InfoFrame:UpdateTable(infoframeTable)
 		end
 	end
 end

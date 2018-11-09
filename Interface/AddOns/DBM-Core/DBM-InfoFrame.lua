@@ -377,7 +377,7 @@ local function updateEnemyPower()
 			local currentPower, maxPower = UnitPower(uId), UnitPowerMax(uId)
 			if maxPower and maxPower ~= 0 then--Prevent division by 0 in addition to filtering non existing units that may still return false on UnitExists()
 				if currentPower / maxPower * 100 >= threshold then
-					lines[UnitName(uId)] = DBM_CORE_INFOFRAME_MAIN..currentPower
+					lines[UnitName(uId)] = currentPower
 				end
 			end
 			--Alternate Power
@@ -669,11 +669,12 @@ end
 --Unsorted table maintained by mod and just sent here.
 --Never updated by onupdate method, requires manual updates when mod updates table
 local function updateByTable(table)
-	if not table then return end
 	twipe(lines)
 	--Copy table into lines
-	for i, v in pairs(table) do
-		lines[i] = v
+	if table then
+		for i, v in pairs(table) do
+			lines[i] = v
+		end
 	end
 	--Pass to update lines for sort handling
 	updateLines()
