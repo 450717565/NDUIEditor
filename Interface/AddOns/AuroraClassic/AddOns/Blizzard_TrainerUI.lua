@@ -28,6 +28,9 @@ C.themes["Blizzard_TrainerUI"] = function()
 	hl:SetPoint("TOPLEFT", bg, 1, -1)
 	hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
 
+	step.disabledBG:SetPoint("TOPLEFT", bg, 1, -1)
+	step.disabledBG:SetPoint("BOTTOMRIGHT", bg, -1, 1)
+
 	step.selectedTex:SetTexture(C.media.backdrop)
 	step.selectedTex:SetVertexColor(r, g, b, .25)
 	step.selectedTex:SetPoint("TOPLEFT", bg, 1, -1)

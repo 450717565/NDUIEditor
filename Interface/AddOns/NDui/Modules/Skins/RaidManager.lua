@@ -321,28 +321,26 @@ function module:CreateRM()
 	checker:HookScript("OnLeave", GameTooltip_Hide)
 
 	local reset = true
+	local function Pull(val)
+		if reset then
+			SlashCmdList[val](NDuiDB["Skins"]["DBMCount"])
+		else
+			SlashCmdList[val]("0")
+		end
+		reset = not reset
+	end
 	checker:HookScript("OnMouseDown", function(_, btn)
-		if InCombatLockdown() then return end
+		if InCombatLockdown() then UIErrorsFrame:AddMessage(DB.InfoColor..ERR_NOT_IN_COMBAT) return end
 		if btn == "RightButton" then
 			scanBuff()
 		elseif btn == "LeftButton" then
 			DoReadyCheck()
 		else
 			if IsAddOnLoaded("DBM-Core") then
-				if reset then
-					SlashCmdList["DEADLYBOSSMODSPULL"](NDuiDB["Skins"]["DBMCount"])
-				else
-					SlashCmdList["DEADLYBOSSMODSPULL"]("0")
-				end
-				reset = not reset
+				Pull("DEADLYBOSSMODSPULL")
 			elseif IsAddOnLoaded("BigWigs") then
 				if not SlashCmdList["BIGWIGSPULL"] then LoadAddOn("BigWigs_Plugins") end
-				if reset then
-					SlashCmdList["BIGWIGSPULL"](NDuiDB["Skins"]["DBMCount"])
-				else
-					SlashCmdList["BIGWIGSPULL"]("0")
-				end
-				reset = not reset
+				Pull("BIGWIGSPULL")
 			else
 				UIErrorsFrame:AddMessage(DB.InfoColor..L["DBM Required"])
 			end
@@ -390,7 +388,7 @@ function module:CreateRM()
 		button1 = YES,
 		button2 = NO,
 		OnAccept = function()
-			if InCombatLockdown() then return end
+			if InCombatLockdown() then UIErrorsFrame:AddMessage(DB.InfoColor..ERR_NOT_IN_COMBAT) return end
 			if IsInRaid() then
 				SendChatMessage(L["Disband Process"], "RAID")
 				for i = 1, GetNumGroupMembers() do

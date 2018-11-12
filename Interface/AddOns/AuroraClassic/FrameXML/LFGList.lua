@@ -78,10 +78,14 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 	end)
 
-	for s = 1, 9 do
-		local bu = _G["LFGListSearchPanelScrollFrameButton"..s]
-		F.ReskinDecline(bu.CancelButton)
-	end
+	hooksecurefunc("LFGListSearchEntry_Update", function(self)
+		local cancelButton = self.CancelButton
+		if not cancelButton.styled then
+			F.ReskinDecline(cancelButton)
+
+			cancelButton.styled = true
+		end
+	end)
 
 	-- [[ Application viewer ]]
 	local ApplicationViewer = LFGListFrame.ApplicationViewer
@@ -99,11 +103,14 @@ tinsert(C.themes["AuroraClassic"], function()
 		reskinHL(header, bg)
 	end
 
-	for a = 1, 10 do
-		local bu = _G["LFGListApplicationViewerScrollFrameButton"..a]
-		F.Reskin(bu.InviteButton)
-		F.ReskinDecline(bu.DeclineButton)
-	end
+	hooksecurefunc("LFGListApplicationViewer_UpdateApplicant", function(button)
+		if not button.styled then
+			F.ReskinDecline(button.DeclineButton)
+			F.Reskin(button.InviteButton)
+
+			button.styled = true
+		end
+	end)
 
 	local ucbg = ApplicationViewer.UnempoweredCover.Background
 	ucbg:SetPoint("TOPLEFT", 3, 0)
