@@ -220,7 +220,7 @@ function B:CreateCB(a)
 end
 
 -- Movable Frame
-function B:CreateMF(parent)
+function B:CreateMF(parent, saved)
 	local frame = parent or self
 	frame:SetMovable(true)
 	frame:SetUserPlaced(true)
@@ -229,7 +229,20 @@ function B:CreateMF(parent)
 	self:EnableMouse(true)
 	self:RegisterForDrag("LeftButton")
 	self:SetScript("OnDragStart", function() frame:StartMoving() end)
-	self:SetScript("OnDragStop", function() frame:StopMovingOrSizing() end)
+	self:SetScript("OnDragStop", function()
+		frame:StopMovingOrSizing()
+		if not saved then return end
+		local orig, _, tar, x, y = frame:GetPoint()
+		NDuiDB["TempAnchor"][frame:GetName()] = {orig, "UIParent", tar, x, y}
+	end)
+end
+
+function B:RestoreMF()
+	local name = self:GetName()
+	if name and NDuiDB["TempAnchor"][name] then
+		self:ClearAllPoints()
+		self:SetPoint(unpack(NDuiDB["TempAnchor"][name]))
+	end
 end
 
 -- Icon Style
@@ -499,8 +512,14 @@ end
 function B:CreateButton(width, height, text, fontSize)
 	local bu = CreateFrame("Button", nil, self)
 	bu:SetSize(width, height)
-	B.CreateBC(bu, .3)
-	bu.text = B.CreateFS(bu, fontSize or 14, text, true)
+	if type(text) == "boolean" then
+		B.CreateBD(bu, .3)
+		B.CreateIF(bu, true)
+		bu.Icon:SetTexture(fontSize)
+	else
+		B.CreateBC(bu, .3)
+		bu.text = B.CreateFS(bu, fontSize or 14, text, true)
+	end
 
 	return bu
 end
