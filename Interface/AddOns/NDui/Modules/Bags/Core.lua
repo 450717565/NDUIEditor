@@ -106,11 +106,12 @@ function module:CreateRestoreButton(f)
 		NDuiDB["TempAnchor"][f.bank:GetName()] = nil
 		NDuiDB["TempAnchor"][f.reagent:GetName()] = nil
 		f.main:ClearAllPoints()
-		f.main:SetPoint("BOTTOMRIGHT", -100, 150)
+		f.main:SetPoint("BOTTOMRIGHT", -150, 150)
 		f.bank:ClearAllPoints()
-		f.bank:SetPoint("BOTTOMRIGHT", f.main, "BOTTOMLEFT", -10, -100)
+		f.bank:SetPoint("BOTTOMRIGHT", f.main, "BOTTOMLEFT", -25, -125)
 		f.reagent:ClearAllPoints()
 		f.reagent:SetPoint("BOTTOMLEFT", f.bank)
+		PlaySound(SOUNDKIT.IG_MINIMAP_OPEN)
 	end)
 
 	return bu
@@ -205,7 +206,7 @@ function module:OnLogin()
 
 		f.main = MyContainer:New("Main", {Columns = NDuiDB["Bags"]["BagsWidth"], Bags = "bags"})
 		f.main:SetFilter(onlyBags, true)
-		f.main:SetPoint("BOTTOMRIGHT", -100, 150)
+		f.main:SetPoint("BOTTOMRIGHT", -150, 150)
 
 		f.junk = MyContainer:New("Junk", {Columns = NDuiDB["Bags"]["BagsWidth"], Parent = f.main})
 		f.junk:SetFilter(bagsJunk, true)
@@ -221,7 +222,7 @@ function module:OnLogin()
 
 		f.bank = MyContainer:New("Bank", {Columns = NDuiDB["Bags"]["BankWidth"], Bags = "bank"})
 		f.bank:SetFilter(onlyBank, true)
-		f.bank:SetPoint("BOTTOMRIGHT", f.main, "BOTTOMLEFT", -10, -100)
+		f.bank:SetPoint("BOTTOMRIGHT", f.main, "BOTTOMLEFT", -25, -125)
 		f.bank:Hide()
 
 		f.bankAzeriteItem = MyContainer:New("BankAzeriteItem", {Columns = NDuiDB["Bags"]["BankWidth"], Parent = f.bank})
@@ -403,9 +404,7 @@ function module:OnLogin()
 	function MyContainer:OnContentsChanged()
 		self:SortButtons("bagSlot")
 
-		local offset = 30
-		if self.name == "Main" or self.name == "Bank" or self.name == "Reagent" then offset = 40 end
-
+		local offset = 38
 		local width, height = self:LayoutButtons("grid", self.Settings.Columns, 5, 5, -offset + 5)
 		self:SetSize(width + 10, height + offset)
 
@@ -437,7 +436,7 @@ function module:OnLogin()
 		elseif name:match("Junk") then
 			label = BAG_FILTER_JUNK
 		end
-		if label then B.CreateFS(self, 14, label, true, "TOPLEFT", 5, -5) return end
+		if label then B.CreateFS(self, 14, label, true, "TOPLEFT", 5, -9) return end
 
 		module.CreateInfoFrame(self)
 
