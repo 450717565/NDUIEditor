@@ -2,6 +2,9 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local module = B:RegisterModule("GUI")
 
+local format, tonumber, type = string.format, tonumber, type
+local pairs, ipairs, next = pairs, ipairs, next
+
 -- Default Settings
 local defaultSettings = {
 	BFA = false,
@@ -84,6 +87,7 @@ local defaultSettings = {
 		HeightScale = 1,
 		ClassPower = true,
 		QuakeTimer = true,
+		LagString = false,
 	},
 	Chat = {
 		Sticky = true,
@@ -134,11 +138,11 @@ local defaultSettings = {
 		PPHeight = 5,
 		PPPowerText = false,
 		FullHealth = false,
-		HighlightIndicator = true,
 		SecureColor = {r=1, g=0, b=1},
 		TransColor = {r=1, g=1, b=0},
 		InsecureColor = {r=1, g=0, b=0},
 		DPSRevertThreat = false,
+		ExplosivesScale = false,
 	},
 	Skins = {
 		DBM = true,
@@ -198,6 +202,7 @@ local defaultSettings = {
 		QuestProgress = false,
 		OnlyCompleteRing = false,
 		ExplosiveCount = true,
+		ExplosiveCache = {},
 	},
 	Tutorial = {
 		Complete = false,
@@ -333,9 +338,10 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "UFs", "Enable", "|cff00cc4c"..L["Enable UFs"]},
 		{},--blank
 		{1, "UFs", "Castbars", "|cff00cc4c"..L["UFs Castbar"]},
-		{1, "UFs", "QuakeTimer", L["UFs QuakeTimer"], true},
 		{1, "UFs", "SwingBar", L["UFs SwingBar"]},
 		{1, "UFs", "SwingTimer", L["UFs SwingTimer"], true},
+		{1, "UFs", "LagString", L["Castbar LagString"]},
+		{1, "UFs", "QuakeTimer", L["UFs QuakeTimer"], true},
 		{},--blank
 		{1, "UFs", "Boss", L["Boss Frame"]},
 		{1, "UFs", "Arena", L["Arena Frame"], true},
@@ -389,19 +395,19 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{},--blank
 		{1, "Nameplate", "FriendlyCC", L["Friendly CC"]},
 		{1, "Nameplate", "HostileCC", L["Hostile CC"], true},
-		{1, "Nameplate", "Arrow", L["Show Arrow"]},
-		{1, "Nameplate", "HighlightIndicator", L["Show HighlightIndicator"], true},
 		{1, "Nameplate", "QuestIcon", L["Nameplate QuestIcon"]},
 		{1, "Nameplate", "ColorBorder", L["Auras Border"], true},
 		{1, "Nameplate", "InsideView", L["Nameplate InsideView"]},
 		{1, "Nameplate", "FullHealth", L["Show FullHealth"], true},
+		{1, "Nameplate", "Arrow", L["Show Arrow"]},
+		{1, "Nameplate", "ExplosivesScale", L["ExplosivesScale"]},
+		{3, "Nameplate", "MinAlpha", L["Nameplate MinAlpha"], true, {0, 1, 1}},
 		{3, "Nameplate", "maxAuras", L["Max Auras"], false, {0, 12, 0}},
 		{3, "Nameplate", "AutoPerRow", L["Auto Per Row"], true, {3, 6, 0}},
 		{3, "Nameplate", "VerticalSpacing", L["NP VerticalSpacing"], false, {.5, 1.5, 1}},
 		{3, "Nameplate", "Distance", L["Nameplate Distance"], true, {20, 100, 0}},
 		{3, "Nameplate", "Width", L["NP Width"], false, {50, 150, 0}},
 		{3, "Nameplate", "Height", L["NP Height"], true, {5, 15, 0}},
-		{3, "Nameplate", "MinAlpha", L["Nameplate MinAlpha"], false, {0, 1, 1}},
 	},
 	[6] = {
 		{1, "AuraWatch", "Enable", "|cff00cc4c"..L["Enable AuraWatch"]},
@@ -424,10 +430,6 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Skins", "EasyMarking", L["Easy Mark"]},
 		{2, "Skins", "DBMCount", L["Countdown Sec"], true},
 		{},--blank
-		{1, "Chat", "Invite", "|cff00cc4c"..L["Whisper Invite"]},
-		{1, "Chat", "GuildInvite", L["Guild Invite Only"]},
-		{2, "Chat", "Keyword", L["Whisper Keyword"], true, nil, function() B.GenWhisperList() end},
-		{},--blank
 		{1, "Misc", "QuestNotifier", "|cff00cc4c"..L["QuestNotifier"]},
 		{1, "Misc", "QuestProgress", L["QuestProgress"]},
 		{1, "Misc", "OnlyCompleteRing", L["OnlyCompleteRing"], true},
@@ -442,7 +444,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Misc", "AlertinChat", L["Alert In Chat"], true},
 	},
 	[8] = {
-		{1, "Chat", "Lock", L["Lock Chat"]},
+		{1, "Chat", "Lock", "|cff00cc4c"..L["Lock Chat"]},
 		{},--blank
 		{1, "Chat", "Freedom", L["Language Filter"]},
 		{1, "Chat", "Sticky", L["Chat Sticky"], true},
@@ -450,11 +452,15 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Chat", "WhisperColor", L["Differ WhipserColor"], true},
 		{1, "ACCOUNT", "Timestamp", L["Timestamp"], false, nil, function() B.UpdateTimestamp() end},
 		{},--blank
-		{1, "Chat", "EnableFilter", L["Enable Chatfilter"]},
+		{1, "Chat", "EnableFilter", "|cff00cc4c"..L["Enable Chatfilter"]},
 		{1, "Chat", "BlockAddonAlert", L["Block Addon Alert"], true},
 		{3, "Chat", "Matches", L["Keyword Match"], false, {1, 3, 0}},
 		{2, "ACCOUNT", "ChatFilterList", L["Filter List"], true, nil, function() B.GenFilterList() end},
-		{2, "ACCOUNT", "ChatAtList", L["@List"], false, nil, function() B.GenChatAtList() end},
+		{},--blank
+		{1, "Chat", "Invite", "|cff00cc4c"..L["Whisper Invite"]},
+		{1, "Chat", "GuildInvite", L["Guild Invite Only"], true},
+		{2, "Chat", "Keyword", L["Whisper Keyword"], false, nil, function() B.GenWhisperList() end},
+		{2, "ACCOUNT", "ChatAtList", L["@List"], true, nil, function() B.GenChatAtList() end},
 	},
 	[9] = {
 		{1, "Map", "Coord", L["Map Coords"]},
@@ -986,11 +992,11 @@ local function setupClickCast()
 	local function createBar(parent, data)
 		local key, modKey, value = unpack(data)
 		local clickSet = modKey..key
-		local name, texture, _
+		local texture
 		if tonumber(value) then
-			name, _, texture = GetSpellInfo(value)
+			texture = GetSpellTexture(value)
 		else
-			name = textIndex[value] or MACRO
+			value = textIndex[value] or value
 			texture = 136243
 		end
 

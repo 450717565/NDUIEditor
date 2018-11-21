@@ -1,8 +1,11 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
+
 local oUF = ns.oUF or oUF
 local cast = ns.cast
 local UF = B:RegisterModule("UnitFrames")
+local format, floor = string.format, math.floor
+local pairs, next = pairs, next
 
 -- Custom colors
 oUF.colors.smooth = {1, 0, 0, .85, .8, .45, .1, .1, .1}
@@ -259,28 +262,34 @@ function UF:CreateRaidMark(self)
 	self.RaidTargetIndicator = ri
 end
 
+local function createBarMover(bar, text, value, anchor)
+	local mover = B.Mover(bar, text, value, anchor, bar:GetHeight()+bar:GetWidth()+5, bar:GetHeight()+5)
+	bar:ClearAllPoints()
+	bar:SetPoint("RIGHT", mover)
+end
+
 function UF:CreateCastBar(self)
 	if self.mystyle ~= "nameplate" and not NDuiDB["UFs"]["Castbars"] then return end
 
 	local cb = CreateFrame("StatusBar", "oUF_Castbar"..self.mystyle, self)
-	cb:SetFrameLevel(1)
 	B.CreateSB(cb, true, .3, .7, 1)
 
 	if self.mystyle == "player" then
 		cb:SetSize(unpack(C.UFs.PlayercbSize))
-		cb.Mover = B.Mover(cb, L["Player Castbar"], "PlayerCB", C.UFs.Playercb)
+		createBarMover(cb, L["Player Castbar"], "PlayerCB", C.UFs.Playercb)
 	elseif self.mystyle == "target" then
 		cb:SetSize(unpack(C.UFs.TargetcbSize))
-		cb.Mover = B.Mover(cb, L["Target Castbar"], "TargetCB", C.UFs.Targetcb)
+		createBarMover(cb, L["Target Castbar"], "TargetCB", C.UFs.Targetcb)
 	elseif self.mystyle == "focus" then
 		cb:SetSize(unpack(C.UFs.FocuscbSize))
-		cb.Mover = B.Mover(cb, L["Focus Castbar"], "FocusCB", C.UFs.Focuscb)
+		createBarMover(cb, L["Focus Castbar"], "FocusCB", C.UFs.Focuscb)
 	elseif self.mystyle == "boss" or self.mystyle == "arena" then
 		cb:SetPoint("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, -3)
 		cb:SetSize(self:GetWidth(), 10)
 	elseif self.mystyle == "nameplate" then
+		cb:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -5)
 		cb:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, -5)
-		cb:SetSize(self:GetWidth(), self:GetHeight())
+		cb:SetHeight(self:GetHeight())
 	end
 
 	cb.CastingColor = {.3, .7, 1}
@@ -291,8 +300,8 @@ function UF:CreateCastBar(self)
 
 	local timer = B.CreateFS(cb, retVal(self, 12, 12, 10, 10), "", false, "RIGHT", -2, 0)
 	local name = B.CreateFS(cb, retVal(self, 12, 12, 10, 10), "", false, "LEFT", 2, 0)
-	name:SetJustifyH("LEFT")
 	name:SetPoint("RIGHT", timer, "LEFT", -5, 0)
+	name:SetJustifyH("LEFT")
 
 	if self.mystyle ~= "boss" and self.mystyle ~= "arena" then
 		cb.Icon = cb:CreateTexture(nil, "ARTWORK")
@@ -311,7 +320,11 @@ function UF:CreateCastBar(self)
 		cb:SetFrameLevel(10)
 		cb.SafeZone = safe
 
-		self:RegisterEvent("CURRENT_SPELL_CAST_CHANGED", cast.OnCastSent)
+		if NDuiDB["UFs"]["LagString"] then
+			local lag = B.CreateFS(cb, 10, "", false, "CENTER", -6, 17)
+			cb.Lag = lag
+			self:RegisterEvent("CURRENT_SPELL_CAST_CHANGED", cast.OnCastSent)
+		end
 	elseif self.mystyle == "nameplate" then
 		name:SetPoint("LEFT", cb, 0, -5)
 		timer:SetPoint("RIGHT", cb, 0, -5)
@@ -322,7 +335,7 @@ function UF:CreateCastBar(self)
 		shield:SetPoint("CENTER", 0, -5)
 		cb.Shield = shield
 
-		local iconSize = self.Health:GetHeight() + cb:GetHeight() + 5
+		local iconSize = self:GetHeight()*2 + 5
 		cb.Icon:SetSize(iconSize, iconSize)
 	end
 
@@ -718,7 +731,7 @@ end
 function UF:CreateExpRepBar(self)
 	local bar = CreateFrame("StatusBar", nil, self)
 	bar:SetPoint("TOPLEFT", self, "TOPRIGHT", 5, 0)
-	bar:SetSize(5, self:GetHeight()+self.Power:GetHeight()+3)
+	bar:SetPoint("BOTTOMRIGHT", self.Power, "BOTTOMRIGHT", 10, 0)
 	bar:SetOrientation("VERTICAL")
 	B.CreateSB(bar)
 
@@ -862,15 +875,16 @@ function UF:CreateQuakeTimer(self)
 	if not NDuiDB["UFs"]["Castbars"] then return end
 
 	local bar = CreateFrame("StatusBar", nil, self)
-	bar:SetPoint("TOPLEFT", self.Castbar, "TOPLEFT", 0, 25)
-	bar:SetPoint("BOTTOMRIGHT", self.Castbar, "TOPRIGHT", 0, 5)
+	bar:SetSize(unpack(C.UFs.PlayercbSize))
 	B.CreateSB(bar, true, 0, 1, 0)
 	bar:Hide()
+
 	bar.SpellName = B.CreateFS(bar, 12, "", false, "LEFT", 2, 0)
 	bar.Text = B.CreateFS(bar, 12, "", false, "RIGHT", -2, 0)
+	createBarMover(bar, L["QuakeTimer"], "QuakeTimer", {"BOTTOM", UIParent, "BOTTOM", 0, 200})
 
 	local icon = bar:CreateTexture(nil, "ARTWORK")
-	icon:SetSize(20, 20)
+	icon:SetSize(bar:GetHeight(), bar:GetHeight())
 	icon:SetPoint("RIGHT", bar, "LEFT", -5, 0)
 	icon:SetTexCoord(unpack(DB.TexCoord))
 	B.CreateSD(icon, 3, 3)
