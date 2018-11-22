@@ -1,5 +1,7 @@
 local B, C, L, DB = unpack(select(2, ...))
 
+local strfind = string.find
+
 local buttons = {}
 local currencies = {}
 local errors = {}
@@ -351,7 +353,7 @@ local function MerchantUpdate()
 						iLevelText = tostring(iLevel)
 						iteminfo_text = iteminfo_text.." - "..iLevelText
 					end
-					if itemEquipLoc and string.find(itemEquipLoc, "INVTYPE_") then
+					if itemEquipLoc and strfind(itemEquipLoc, "INVTYPE_") then
 						iteminfo_text = iteminfo_text.." - ".._G[itemEquipLoc]
 					end
 				else

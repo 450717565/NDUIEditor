@@ -1,5 +1,7 @@
 local B, C, L, DB = unpack(select(2, ...))
 
+local strmatch, strformat = string.match, string.format
+
 local Button_Height = 16
 local LMFrame_Width = 250
 
@@ -30,10 +32,10 @@ LMFrame:SetClampedToScreen(true)
 LMFrame:SetPoint("LEFT", 4, 0)
 
 local function UnitClassColor(String)
-	if not UnitExists(String) then return string.format("|cffff0000%s|r", String) end
+	if not UnitExists(String) then return strformat("|cffff0000%s|r", String) end
 	local _, class = UnitClass(String)
 	local color = DB.ClassColors[class]
-	return string.format("|cff%02x%02x%02x%s|r", color.r*255, color.g*255, color.b*255, String)
+	return strformat("|cff%02x%02x%02x%s|r", color.r*255, color.g*255, color.b*255, String)
 end
 
 local function LMFrame_Reset()
@@ -117,8 +119,8 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 		LMFrame_Reset()
 	elseif event == "CHAT_MSG_LOOT" then
 		local lootstring, _, _, _, player = ...
-		local rollInfo = string.match(lootstring, BONUS_REWARDS)
-		local itemLink = string.match(lootstring,"|%x+|Hitem:.-|h.-|h|r")
+		local rollInfo = strmatch(lootstring, BONUS_REWARDS)
+		local itemLink = strmatch(lootstring,"|%x+|Hitem:.-|h.-|h|r")
 		local _, _, itemRarity, _, _, _, itemSubType, _, itemEquipLoc, _, _, itemClassID, itemSubClassID, bindType = GetItemInfo(itemLink)
 
 		local Enabled = false

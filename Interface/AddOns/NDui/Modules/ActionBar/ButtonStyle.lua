@@ -369,21 +369,21 @@ function Bar:ReskinBars()
 		name = {
 			font = DB.Font,
 			points = {
-				{"BOTTOMLEFT", 0, 0},
-				{"BOTTOMRIGHT", 0, 0},
+				{"BOTTOMLEFT", 0, 3},
+				{"BOTTOMRIGHT", 0, 3},
 			},
 		},
 		hotkey = {
 			font = DB.Font,
 			points = {
-				{"TOPRIGHT", 0, 0},
-				{"TOPLEFT", 0, 0},
+				{"TOPRIGHT", 0, -3},
+				{"TOPLEFT", 0, -3},
 			},
 		},
 		count = {
 			font = DB.Font,
 			points = {
-				{"BOTTOMRIGHT", 2, 0},
+				{"BOTTOMRIGHT", 0, 1},
 			},
 		},
 		buttonstyle = { file = ""},
