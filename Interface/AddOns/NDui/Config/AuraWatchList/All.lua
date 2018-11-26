@@ -534,10 +534,10 @@ local list = {
 		{AuraID = 254452, UnitID = "player"},--饕餮烈焰
 		--寂灭者阿古斯
 		{AuraID = 248499, UnitID = "player"},--巨镰横扫
-		{AuraID = 253903, UnitID = "player", Text = RAID_BUFF_6..RAID_BUFF_7},--天空之力
-		{AuraID = 258646, UnitID = "player", Text = RAID_BUFF_6..RAID_BUFF_7},	-- 天空之赐
-		{AuraID = 253901, UnitID = "player", Text = RAID_BUFF_4..RAID_BUFF_8},--海洋之力
-		{AuraID = 258647, UnitID = "player", Text = RAID_BUFF_4..RAID_BUFF_8},	-- 海洋之赐
+		{AuraID = 253903, UnitID = "player", Text = L["Crit"]..L["Mastery"]},--天空之力
+		{AuraID = 258646, UnitID = "player", Text = L["Crit"]..L["Mastery"]},	-- 天空之赐
+		{AuraID = 253901, UnitID = "player", Text = L["Haste"]..L["Versa"]},--海洋之力
+		{AuraID = 258647, UnitID = "player", Text = L["Haste"]..L["Versa"]},	-- 海洋之赐
 		{AuraID = 255199, UnitID = "player"},--阿格拉玛的化身
 		{AuraID = 252729, UnitID = "player"},--宇宙射线
 		{AuraID = 248396, UnitID = "player", Text = L["Get Out"]},--灵魂凋零

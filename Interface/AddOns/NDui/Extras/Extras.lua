@@ -1,5 +1,7 @@
 local B, C, L, DB = unpack(select(2, ...))
 
+local strformat = string.format
+
 --- 共享计量条材质
 do
 	local media = LibStub("LibSharedMedia-3.0")
@@ -37,7 +39,7 @@ do
 			name = Ambiguate(name, "guild")
 			if not UnitIsUnit(name, "player") then
 				C_Timer.After(random(1000) / 1000, function()
-					SendChatMessage(GW_Message_Info[random(4)]:format(name), "GUILD")
+					SendChatMessage(GW_Message_Info[random(4)]:strformat(name), "GUILD")
 				end)
 			end
 		end
@@ -73,7 +75,7 @@ do
 					factionBar:SetMinMaxValues(0, threshold)
 					factionBar:SetValue(value)
 					factionBar:SetStatusBarColor(0, .5, .9)
-					factionRow.rolloverText = HIGHLIGHT_FONT_COLOR_CODE..format(REPUTATION_PROGRESS_FORMAT, BreakUpLargeNumbers(value), BreakUpLargeNumbers(threshold))..FONT_COLOR_CODE_CLOSE
+					factionRow.rolloverText = HIGHLIGHT_FONT_COLOR_CODE..strformat(REPUTATION_PROGRESS_FORMAT, BreakUpLargeNumbers(value), BreakUpLargeNumbers(threshold))..FONT_COLOR_CODE_CLOSE
 					factionStanding:SetText(L["Paragon"])
 					factionRow.standingText = L["Paragon"]
 				end

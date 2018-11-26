@@ -480,7 +480,7 @@ local function customFilter(element, unit, button, name, _, _, _, _, _, caster, 
 		elseif C.RaidBuffs["ALL"][spellID] then
 			return true
 		end
-	elseif style == "nameplate" or style == "focus" or style == "arena" or style == "boss" then
+	elseif style == "nameplate" or style == "boss" or style == "arena" or style == "focus" then
 		if UnitIsUnit("player", unit) then
 			return false
 		elseif NDuiADB["NameplateFilter"][2][spellID] or C.BlackList[spellID] then
@@ -648,14 +648,35 @@ local function postUpdateClassPower(element, cur, max, diff, powerType)
 	end
 end
 
+local function onUpdateRunes(self, elapsed)
+	local duration = self.duration + elapsed
+	self.duration = duration
+	self:SetValue(duration)
+
+	if self.timer then
+		local remain = self.runeDuration - duration
+		if remain > 0 then
+			self.timer:SetText(B.FormatTime(remain))
+		else
+			self.timer:SetText(nil)
+		end
+	end
+end
+
 local function postUpdateRunes(element, runemap)
 	for index, runeID in next, runemap do
 		local rune = element[index]
-		local runeReady = select(3, GetRuneCooldown(runeID))
-		if rune:IsShown() and not runeReady then
-			rune:SetAlpha(.6)
-		else
-			rune:SetAlpha(1)
+		local start, duration, runeReady = GetRuneCooldown(runeID)
+		if rune:IsShown() then
+			if runeReady then
+				rune:SetAlpha(1)
+				rune:SetScript("OnUpdate", nil)
+				if rune.timer then rune.timer:SetText(nil) end
+			elseif start then
+				rune:SetAlpha(.6)
+				rune.runeDuration = duration
+				rune:SetScript("OnUpdate", onUpdateRunes)
+			end
 		end
 	end
 end
@@ -672,7 +693,7 @@ function UF:CreateClassPower(self)
 		bars[i]:SetHeight(height)
 		bars[i]:SetWidth((width - 5*margin) / 6)
 		bars[i]:SetStatusBarTexture(DB.normTex)
-		bars[i]:SetFrameLevel(self:GetFrameLevel() + 2)
+		bars[i]:SetFrameLevel(self:GetFrameLevel() + 5)
 		B.CreateSD(bars[i], 3, 3)
 		if i == 1 then
 			bars[i]:SetPoint(unpack(C.UFs.BarPos))
@@ -685,6 +706,8 @@ function UF:CreateClassPower(self)
 			bars[i].bg:SetAllPoints()
 			bars[i].bg:SetTexture(DB.normTex)
 			bars[i].bg.multiplier = .2
+
+			bars[i].timer = B.CreateFS(bars[i], 13, "", false, "CENTER", 0, 0)
 		end
 
 		if NDuiDB["Nameplate"]["ShowPlayerPlate"] then

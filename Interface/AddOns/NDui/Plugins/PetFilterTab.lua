@@ -4,6 +4,8 @@ local B, C, L, DB = unpack(ns)
 -- Pet Quick Filter, by Windrunner
 -- NDui MOD
 -------------------------------------
+local ipairs = ipairs
+
 local function loadPetFilter()
 	local cr, cg, cb = DB.r, DB.g, DB.b
 

@@ -5,6 +5,9 @@ local module = B:GetModule("Misc")
 --[[
 	一个工具条用来替代系统的经验条、声望条、神器经验等等
 ]]
+local format, pairs = string.format, pairs
+local math_min, mod, floor = math.min, mod, math.floor
+
 local function UpdateBar(bar)
 	local rest = bar.restBar
 	if rest then rest:Hide() end
@@ -17,7 +20,7 @@ local function UpdateBar(bar)
 		bar:Show()
 		if rxp then
 			rest:SetMinMaxValues(0, mxp)
-			rest:SetValue(math.min(xp + rxp, mxp))
+			rest:SetValue(math_min(xp + rxp, mxp))
 			rest:Show()
 		end
 		if IsXPUserDisabled() then bar:SetStatusBarColor(.7, 0, 0) end
@@ -81,10 +84,10 @@ local function UpdateTooltip(bar)
 
 	if UnitLevel("player") < MAX_PLAYER_LEVEL then
 		local xp, mxp, rxp = UnitXP("player"), UnitXPMax("player"), GetXPExhaustion()
-			GameTooltip:AddDoubleLine(EXPERIENCE_COLON, B.Numb(xp).." / "..B.Numb(mxp)..string.format(" (%.1f%%)", xp/mxp*100), .6,.8,1, 1,1,1)
-			GameTooltip:AddDoubleLine(L["Next Need"], B.Numb(mxp-xp)..string.format(" (%.1f%%)", (1-xp/mxp)*100), .6,.8,1, 1,1,1)
+			GameTooltip:AddDoubleLine(EXPERIENCE_COLON, B.Numb(xp).." / "..B.Numb(mxp)..format(" (%.1f%%)", xp/mxp*100), .6,.8,1, 1,1,1)
+			GameTooltip:AddDoubleLine(L["Next Need"], B.Numb(mxp-xp)..format(" (%.1f%%)", (1-xp/mxp)*100), .6,.8,1, 1,1,1)
 		if rxp then
-			GameTooltip:AddDoubleLine(TUTORIAL_TITLE26..L[":"], "+ "..B.Numb(rxp)..string.format(" (%.1f%%)", rxp/mxp*100), .6,.8,1, 1,1,1)
+			GameTooltip:AddDoubleLine(TUTORIAL_TITLE26..L[":"], "+ "..B.Numb(rxp)..format(" (%.1f%%)", rxp/mxp*100), .6,.8,1, 1,1,1)
 		end
 		if IsXPUserDisabled() then GameTooltip:AddLine("|cffff0000"..XP..LOCKED) end
 	end
@@ -111,13 +114,13 @@ local function UpdateTooltip(bar)
 		end
 		GameTooltip:AddLine(" ")
 		GameTooltip:AddLine(name, 0,.6,1)
-		GameTooltip:AddDoubleLine(standingtext, value - min.." / "..max - min..string.format(" (%.1f%%)", (value - min)/(max - min)*100), .6,.8,1, 1,1,1)
+		GameTooltip:AddDoubleLine(standingtext, value - min.." / "..max - min..format(" (%.1f%%)", (value - min)/(max - min)*100), .6,.8,1, 1,1,1)
 
 		if C_Reputation.IsFactionParagon(factionID) then
 			local currentValue, threshold = C_Reputation.GetFactionParagonInfo(factionID)
 			local paraCount = floor(currentValue/threshold)
 			currentValue = mod(currentValue, threshold)
-			GameTooltip:AddDoubleLine(L["ParagonRep"]..paraCount, currentValue.." / "..threshold..string.format(" (%.1f%%)", (currentValue/threshold*100)), .6,.8,1, 1,1,1)
+			GameTooltip:AddDoubleLine(L["ParagonRep"]..paraCount, currentValue.." / "..threshold..format(" (%.1f%%)", (currentValue/threshold*100)), .6,.8,1, 1,1,1)
 		end
 	end
 
@@ -136,8 +139,8 @@ local function UpdateTooltip(bar)
 		local currentLevel = C_AzeriteItem.GetPowerLevel(azeriteItemLocation)
 		GameTooltip:AddLine(" ")
 		GameTooltip:AddLine(azeriteItemName.." "..format(SPELLBOOK_AVAILABLE_AT, currentLevel), 0,.6,1)
-		GameTooltip:AddDoubleLine(ARTIFACT_POWER..L[":"], B.Numb(xp).." / "..B.Numb(totalLevelXP)..string.format(" (%.1f%%)", xp/totalLevelXP*100), .6,.8,1, 1,1,1)
-		GameTooltip:AddDoubleLine(L["Next Need"], B.Numb(totalLevelXP-xp)..string.format(" (%.1f%%)", (1-xp/totalLevelXP)*100), .6,.8,1, 1,1,1)
+		GameTooltip:AddDoubleLine(ARTIFACT_POWER..L[":"], B.Numb(xp).." / "..B.Numb(totalLevelXP)..format(" (%.1f%%)", xp/totalLevelXP*100), .6,.8,1, 1,1,1)
+		GameTooltip:AddDoubleLine(L["Next Need"], B.Numb(totalLevelXP-xp)..format(" (%.1f%%)", (1-xp/totalLevelXP)*100), .6,.8,1, 1,1,1)
 	end
 
 	if HasArtifactEquipped() then
@@ -152,8 +155,8 @@ local function UpdateTooltip(bar)
 			local numText = num > 0 and " ("..num..")" or ""
 			GameTooltip:AddDoubleLine(ARTIFACT_POWER..L[":"], B.Numb(totalXP)..numText, .6,.8,1, 1,1,1)
 			if xpForNextPoint ~= 0 then
-				GameTooltip:AddDoubleLine(L["Next Trait"], B.Numb(xp).." / "..B.Numb(xpForNextPoint)..string.format(" (%.1f%%)", xp/xpForNextPoint*100), .6,.8,1, 1,1,1)
-				GameTooltip:AddDoubleLine(L["Next Need"], B.Numb(xpForNextPoint-xp)..string.format(" (%.1f%%)", (1-xp/xpForNextPoint)*100), .6,.8,1, 1,1,1)
+				GameTooltip:AddDoubleLine(L["Next Trait"], B.Numb(xp).." / "..B.Numb(xpForNextPoint)..format(" (%.1f%%)", xp/xpForNextPoint*100), .6,.8,1, 1,1,1)
+				GameTooltip:AddDoubleLine(L["Next Need"], B.Numb(xpForNextPoint-xp)..format(" (%.1f%%)", (1-xp/xpForNextPoint)*100), .6,.8,1, 1,1,1)
 			end
 		end
 	end

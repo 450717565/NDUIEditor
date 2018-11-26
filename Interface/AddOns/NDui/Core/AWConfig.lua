@@ -3,6 +3,7 @@ local B, C, L, DB = unpack(ns)
 local module = B:GetModule("GUI")
 
 local cr, cg, cb = DB.r, DB.g, DB.b
+local pairs, floor = pairs, math.floor
 local f
 
 -- Elements

@@ -4,6 +4,8 @@ if not C.Infobar.System then return end
 
 local module = B:GetModule("Infobar")
 local info = module:RegisterInfobar(C.Infobar.SystemPos)
+local min, max, floor = math.min, math.max, math.floor
+local format, sort = string.format, table.sort
 
 local function colorLatency(latency)
 	if latency < 250 then

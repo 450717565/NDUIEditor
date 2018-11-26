@@ -3,8 +3,6 @@ local B, C, L, DB = unpack(ns)
 local module = B:GetModule("Skins")
 
 local function ReskinDetails()
-	if NDuiADB["ResetDetails"] == nil then NDuiADB["ResetDetails"] = true end
-
 	local function setupInstance(instance)
 		if instance.styled then return end
 		if not instance.baseframe then return end

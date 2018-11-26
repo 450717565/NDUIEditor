@@ -4,6 +4,7 @@ local module = B:GetModule("Skins")
 
 function module:PetBattleUI()
 	if not NDuiDB["Skins"]["PetBattle"] then return end
+	local cr, cg, cb, pairs = DB.r, DB.g, DB.b, pairs
 
 	-- Head Frame
 	local frame = PetBattleFrame
@@ -253,7 +254,7 @@ function module:PetBattleUI()
 			bu.SelectedHighlight:SetPoint("TOPLEFT", bu, -12, 12)
 			bu.SelectedHighlight:SetPoint("BOTTOMRIGHT", bu, 12, -12)
 		end
-		buttonList[4]:GetCheckedTexture():SetColorTexture(DB.r, DB.g, DB.b, .25)
+		buttonList[4]:GetCheckedTexture():SetColorTexture(cr, cg, cb, .25)
 	end)
 
 	local skipButton = bottomFrame.TurnTimer.SkipButton

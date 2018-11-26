@@ -1,6 +1,8 @@
 local B, C, L, DB = unpack(select(2, ...))
 
 local strmatch, strformat = string.match, string.format
+local tbwipe, tbinsert, tbremove = table.wipe, table.insert, table.remove
+local mmax, mfloor = math.max, math.floor
 
 local Button_Height = 16
 local LMFrame_Width = 250
@@ -39,9 +41,8 @@ local function UnitClassColor(String)
 end
 
 local function LMFrame_Reset()
-	LMFrame_Report = {}
+	tbwipe(LMFrame_Report)
 	for index = 1, LMFrame_CFG["maxloots"] do
-		LMFrame[index].text:SetText("")
 		LMFrame[index]:Hide()
 	end
 	LMFrame:SetSize(LMFrame_Width, Button_Height*4)
@@ -50,7 +51,7 @@ end
 
 local function ButtonOnClick(self, button)
 	if button == "RightButton" then
-		SendChatMessage(LM_Message_Info[random(4)]:format(LMFrame_Report[self.index]["lootinfo"]), "WHISPER", nil, LMFrame_Report[self.index]["player"])
+		SendChatMessage(LM_Message_Info[random(4)]:strformat(LMFrame_Report[self.index]["lootinfo"]), "WHISPER", nil, LMFrame_Report[self.index]["player"])
 	else
 		local editBox = ChatEdit_ChooseBoxForSend()
 		ChatEdit_ActivateChat(editBox)
@@ -149,21 +150,16 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 		end
 
 		if player and Enabled then
-			if #LMFrame_Report >= LMFrame_CFG["maxloots"] then table.remove(LMFrame_Report, 1) end
+			if #LMFrame_Report >= LMFrame_CFG["maxloots"] then tbremove(LMFrame_Report, 1) end
 
-			LMFrame_Report[#LMFrame_Report+1] = {
-				loottime = lootTime,
-				player = player,
-				lootinfo = itemLink,
-				soltinfo = totalText,
-			}
+			tbinsert(LMFrame_Report, {loottime = lootTime, player = player, lootinfo = itemLink, soltinfo = totalText,})
 
 			local numButtons = #LMFrame_Report
 			for index = 1, numButtons do
 				LMFrame[index].text:SetText(DB.InfoColor..LMFrame_Report[index]["loottime"].."|r " ..UnitClassColor(LMFrame_Report[index]["player"]).." " ..LMFrame_Report[index]["lootinfo"].." "..LMFrame_Report[index]["soltinfo"])
 				LMFrame[index]:Show()
-				textWidth = math.floor(LMFrame[index].text:GetStringWidth() + 20.5)
-				maxWidth = math.max(textWidth, maxWidth)
+				textWidth = mfloor(LMFrame[index].text:GetStringWidth() + 20.5)
+				maxWidth = mmax(textWidth, maxWidth)
 			end
 
 			LMFrame:SetWidth(maxWidth)

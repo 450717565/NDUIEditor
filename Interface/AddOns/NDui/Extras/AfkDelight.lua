@@ -1,5 +1,7 @@
 local B, C, L, DB = unpack(select(2, ...))
 
+local mrad = math.rad
+
 -- the actual frame
 local f = CreateFrame("Frame",nil,UIParent)
 f:SetFrameStrata("FULLSCREEN")
@@ -28,7 +30,7 @@ end
 function f:OnEvent(event)
 	if event == "PLAYER_LOGIN" then
 		self.model:SetUnit("player")
-		self.model:SetRotation(math.rad(-30))
+		self.model:SetRotation(mrad(-30))
 		return
 	end
 	if UnitIsAFK("player") then

@@ -1,6 +1,9 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
+
 local oUF = ns.oUF or oUF
+local format, floor = string.format, math.floor
+local strmatch = string.match
 
 oUF.Tags.Methods["hp"] = function(unit)
 	if UnitIsDeadOrGhost(unit) or not UnitIsConnected(unit) then
@@ -15,9 +18,9 @@ oUF.Tags.Methods["hp"] = function(unit)
 			else
 				return B.Numb(cur)
 			end
-		elseif unit:match("arena") or unit:match("boss") then
+		elseif strmatch(unit, "arena") or strmatch(unit, "boss") then
 			return B.ColorText(per, true)
-		elseif UnitInParty(unit) and unit:match("party") then
+		elseif UnitInParty(unit) and strmatch(unit, "party") then
 			return B.Numb(cur)
 		else
 			return B.ColorText(per)

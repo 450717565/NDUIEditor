@@ -8,6 +8,7 @@ local max, wipe, sort = math.max, table.wipe, table.sort
 local GetCombatRating = GetCombatRating
 local CR_HASTE_MELEE, CR_MASTERY, CR_VERSATILITY_DAMAGE_DONE = CR_HASTE_MELEE, CR_MASTERY, CR_VERSATILITY_DAMAGE_DONE
 local CR_CRIT_SPELL, CR_CRIT_RANGED, CR_CRIT_MELEE = CR_CRIT_SPELL, CR_CRIT_RANGED, CR_CRIT_MELEE
+local strsplit = string.split
 
 -- Init
 local function ConvertTable()
@@ -522,7 +523,7 @@ local function UpdateIntFrame(intID, itemID, duration, unitID, guid, sourceName)
 	end
 	if unitID:lower() == "all" then
 		class = select(2, GetPlayerInfoByGUID(guid))
-		name = "*"..string.split("-", sourceName)
+		name = "*"..strsplit("-", sourceName)
 	else
 		class = DB.MyClass
 	end

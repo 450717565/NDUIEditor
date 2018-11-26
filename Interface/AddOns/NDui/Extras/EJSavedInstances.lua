@@ -2,6 +2,7 @@ local B, C, L, DB = unpack(select(2, ...))
 
 local GetState, GetQuestTimeLeftMinutes = C_ContributionCollector.GetState, C_TaskQuest.GetQuestTimeLeftMinutes
 local BOSS_UNAVAILABLE, WORLD_BOSS = QUEUE_TIME_UNAVAILABLE, RAID_INFO_WORLD_BOSS
+local tbinsert, tbremove = table.insert, table.remove
 
 local instancesData = {
 	[409] = 741,	-- Molten Core
@@ -241,10 +242,10 @@ local function UpdateSavedInstances()
 		while GetSavedInstanceEncounterInfo(i, b) do
 			local bossName, _, isKilled = GetSavedInstanceEncounterInfo(i, b)
 			if instanceID == 1031 then
-				local encounterID = tremove(encounters, 1)
+				local encounterID = tbremove(encounters, 1)
 				bossName = EJ_GetEncounterInfo(encounterID)
 			end
-			tinsert(bosses, {
+			tbinsert(bosses, {
 				name = bossName,
 				isKilled = isKilled
 			})
@@ -253,7 +254,7 @@ local function UpdateSavedInstances()
 
 		if reset > 0 and defeatedBosses > 0 and instanceID then
 			savedInstances[instanceID] = savedInstances[instanceID] or {}
-			tinsert(savedInstances[instanceID], {
+			tbinsert(savedInstances[instanceID], {
 				bosses = bosses,
 				instanceName = instanceName,
 				instanceDifficulty = instanceDifficulty,
@@ -297,7 +298,7 @@ local function UpdateSavedInstances()
 			if not boss.name then
 				boss.name = EJ_GetEncounterInfo(boss.encounter)
 			end
-			tinsert(worldBosses[instanceID], {
+			tbinsert(worldBosses[instanceID], {
 				name = boss.name,
 				isKilled = IsQuestFlaggedCompleted(boss.quest)
 			})
@@ -324,7 +325,7 @@ local function UpdateSavedInstances()
 
 		if savedInstances[instanceID] then
 			if defeatedBosses > 0 then
-				tinsert(savedInstances[instanceID], {
+				tbinsert(savedInstances[instanceID], {
 					bosses = worldBosses[instanceID],
 					instanceName = worldBossesData[instanceID].instanceName,
 					difficulty = "normal",

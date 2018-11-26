@@ -1,8 +1,11 @@
 local B, C, L, DB = unpack(select(2, ...))
 
+local tbinsert = table.insert
+local mmax, mfloor = math.max, math.floor
+
 local iconSize = 33
 
-local fontSize = math.floor(select(2, GameFontWhite:GetFont()) + .5)
+local fontSize = mfloor(select(2, GameFontWhite:GetFont()) + .5)
 
 local point = {"CENTER", 300, 0}
 local slots = {}
@@ -73,7 +76,7 @@ end
 
 local function CreateSlot(id)
 	local button = CreateFrame("Button", "LightLootSlot"..id, LightLoot)
-	button:SetHeight(math.max(fontSize, iconSize))
+	button:SetHeight(mmax(fontSize, iconSize))
 	button:SetPoint("LEFT", 5, 0)
 	button:SetPoint("RIGHT", -5, 0)
 	button:SetID(id)
@@ -133,7 +136,7 @@ function LightLoot:UpdateWidth()
 		end
 	end
 
-	self:SetWidth(math.max(maxWidth + 16 + iconSize, self.Title:GetStringWidth() + 5))
+	self:SetWidth(mmax(maxWidth + 16 + iconSize, self.Title:GetStringWidth() + 5))
 end
 
 function LightLoot:AnchorSlots()
@@ -147,7 +150,7 @@ function LightLoot:AnchorSlots()
 		end
 	end
 
-	self:SetHeight(math.max(shownSlots * iconSize + 10 + (shownSlots - 1) * 5 , iconSize))
+	self:SetHeight(mmax(shownSlots * iconSize + 10 + (shownSlots - 1) * 5 , iconSize))
 end
 
 function LightLoot:LOOT_OPENED(event, autoloot)
@@ -219,7 +222,7 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 				slot.name:SetText(lootName)
 				slot.icon:SetTexture(lootIcon)
 
-				maxQuality = math.max(maxQuality, lootQuality)
+				maxQuality = mmax(maxQuality, lootQuality)
 
 				slot:Enable()
 				slot:Show()
@@ -268,4 +271,4 @@ end
 LightLoot:RegisterEvent("LOOT_CLOSED")
 
 LootFrame:UnregisterAllEvents()
-table.insert(UISpecialFrames, "LightLoot")
+tbinsert(UISpecialFrames, "LightLoot")

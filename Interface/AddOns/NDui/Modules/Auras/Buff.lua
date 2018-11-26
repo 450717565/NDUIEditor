@@ -6,6 +6,7 @@ local BuffFrame = BuffFrame
 local buffsPerRow, buffSize, margin, offset = C.Auras.IconsPerRow, C.Auras.IconSize - 2, C.Auras.Spacing, 10
 local debuffsPerRow, debuffSize = C.Auras.IconsPerRow - 4, C.Auras.IconSize + 3
 local parentFrame, buffAnchor, debuffAnchor
+local format, mod = string.format, mod
 
 function module:OnLogin()
 	parentFrame = CreateFrame("Frame", nil, UIParent)
@@ -148,7 +149,7 @@ local function flashOnEnd(self)
 end
 hooksecurefunc("AuraButton_OnUpdate", flashOnEnd)
 
-local function FormatAuraTime(s)
+local function formatAuraTime(s)
 	local d, h, m, str = 0, 0, 0
 	if s >= 86400 then
 		d = s/86400
@@ -179,13 +180,14 @@ local function FormatAuraTime(s)
 			str = format("%d "..DB.MyColor..L["Seconds"], s)
 		end
 	end
+
 	return str
 end
 
 hooksecurefunc("AuraButton_UpdateDuration", function(button, timeLeft)
 	local duration = button.duration
 	if SHOW_BUFF_DURATIONS == "1" and timeLeft then
-		duration:SetFormattedText(FormatAuraTime(timeLeft))
+		duration:SetFormattedText(formatAuraTime(timeLeft))
 		duration:SetTextColor(1, 1, 1)
 		duration:Show()
 	else

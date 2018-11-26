@@ -6,22 +6,26 @@ local module = B:GetModule("Tooltip")
 function module:AzeriteArmor()
 	if not NDuiDB["Tooltip"]["AzeriteArmor"] then return end
 
+	local strfind, format = string.find, string.format
+	local tinsert, ipairs = table.insert, ipairs
+
 	local tipList = {}
 	local function scanTooltip(tooltip)
 		for i = 9, tooltip:NumLines() do
 			local line = _G[tooltip:GetName().."TextLeft"..i]
 			local text = line:GetText()
-			if text and text:find("%-") then
+			if text and strfind(text, "%-") then
 				tinsert(tipList, i)
 			end
 		end
 		return #tipList
 	end
 
+	local selstr = DB.MyColor..">|r".."%s"..DB.MyColor.."<|r"
 	local iconString = "|T%s:16:20:0:0:64:64:5:59:5:59"
 	local function getIconString(icon, known)
 		if known then
-			return format(iconString..":255:255:255|t", icon)
+			return format(format(selstr, iconString..":255:255:255|t"), icon)
 		else
 			return format(iconString..":128:128:128|t", icon)
 		end
@@ -44,7 +48,7 @@ function module:AzeriteArmor()
 		for i = 8, tooltip:NumLines() do
 			local line = _G[tooltip:GetName().."TextLeft"..i]
 			local text = line:GetText()
-			if text and text:find("%- "..powerName) then
+			if text and strfind(text, "%- "..powerName) then
 				return true
 			end
 		end

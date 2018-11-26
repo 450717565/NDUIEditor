@@ -1,6 +1,8 @@
 local B, C, L, DB = unpack(select(2, ...))
 
-local strfind = string.find
+local strfind, strformat = string.find, string.format
+local tbwipe, tbinsert = table.wipe, table.insert
+local mmax, mmin, mfloor, mabs = math.max, math.min, math.floor, math.abs
 
 local buttons = {}
 local currencies = {}
@@ -41,7 +43,7 @@ local function GetError(link, isRecipe)
 
 			local level = gettext:match(L["Requires Level (%d+)"])
 			if level then
-				errormsg = errormsg..L["Level %d"]:format(level)
+				errormsg = errormsg..L["Level %d"]:strformat(level)
 			end
 
 			local reputation = gettext:match(L["Requires .+ %- (.+)"])
@@ -60,7 +62,7 @@ local function GetError(link, isRecipe)
 
 			local skill, slevel = gettext:match(L["Requires (.+) %((%d+)%)"])
 			if skill and slevel then
-				errormsg = errormsg..L["%1$s (%2$d)"]:format(skill, slevel)
+				errormsg = errormsg..L["%1$s (%2$d)"]:strformat(skill, slevel)
 			end
 
 			local requires = gettext:match(L["Requires (.+)"])
@@ -125,7 +127,7 @@ end
 
 
 local function FactionsUpdate()
-	wipe(factions)
+	tbwipe(factions)
 
 	for factionIndex = 1, GetNumFactions() do
 		local name, description, standingId, bottomValue, topValue, earnedValue, atWarWith, canToggleAtWar, isHeader, isCollapsed, hasRep, isWatched, isChild, factionID = GetFactionInfo(factionIndex)
@@ -145,7 +147,7 @@ local function FactionsUpdate()
 end
 
 local function CurrencyUpdate()
-	wipe(currencies)
+	tbwipe(currencies)
 
 	local limit = GetCurrencyListSize()
 	for i = 1, limit do
@@ -249,7 +251,7 @@ local function UpdateAltCurrency(button, index, i)
 			else
 				lastFrame = item
 				lastFrame._dbg_name = "item"..i
-				table.insert(currency_frames, item)
+				tbinsert(currency_frames, item)
 				item:Show()
 			end
 		end
@@ -272,7 +274,7 @@ local function UpdateAltCurrency(button, index, i)
 
 		lastFrame = arena
 		lastFrame._dbg_name = "arena"
-		table.insert(currency_frames, arena)
+		tbinsert(currency_frames, arena)
 		arena:Show()
 	else
 		arena:Hide()
@@ -297,14 +299,14 @@ local function UpdateAltCurrency(button, index, i)
 
 		lastFrame = honor
 		lastFrame._dbg_name = "honor"
-		table.insert(currency_frames, arena)
+		tbinsert(currency_frames, arena)
 		honor:Show()
 	else
 		honor:Hide()
 	end
 
 	button.money._dbg_name = "money"
-	table.insert(currency_frames, button.money)
+	tbinsert(currency_frames, button.money)
 
 	lastFrame = nil
 	for i, frame in ipairs(currency_frames) do
@@ -464,13 +466,13 @@ end
 
 local function xScrollFrame_OnVerticalScroll(self, offset)
 	local current_offset_n = FauxScrollFrame_GetOffset(self)
-	local offset_n = (offset >= 0 and 1 or -1) * math.floor(math.abs(offset) / kItemButtonHeight + 0.1)
+	local offset_n = (offset >= 0 and 1 or -1) * mfloor(mabs(offset) / kItemButtonHeight + 0.1)
 	local changed_n = offset_n - current_offset_n
 
 	if scroll_limit_enabled then
 		if changed_n > scroll_limit_amount or changed_n < -scroll_limit_amount then
-			changed_n = math.min(changed_n, scroll_limit_amount)
-			changed_n = math.max(changed_n, -scroll_limit_amount)
+			changed_n = mmin(changed_n, scroll_limit_amount)
+			changed_n = mmax(changed_n, -scroll_limit_amount)
 			offset_n = (current_offset_n + changed_n)
 			offset = (offset_n > 0.1 and (offset_n - 0.1) or 0) * kItemButtonHeight
 		end
@@ -848,8 +850,8 @@ end
 hooksecurefunc("MerchantFrame_Update", Update)
 
 local function OnHide()
-	wipe(errors)
-	wipe(currencies)
+	tbwipe(errors)
+	tbwipe(currencies)
 end
 hooksecurefunc("MerchantFrame_OnHide", OnHide)
 

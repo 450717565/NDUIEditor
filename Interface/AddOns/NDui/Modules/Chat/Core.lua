@@ -1,10 +1,10 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local module = B:RegisterModule("Chat")
-
 -- Reskin Chat
 local maxLines = 1024
 local maxWidth, maxHeight = UIParent:GetWidth(), UIParent:GetHeight()
+local tostring, pairs, ipairs, strsub, strlower = tostring, pairs, ipairs, string.sub, string.lower
 
 local function skinChat(self)
 	if not self or (self and self.styled) then return end
@@ -162,7 +162,7 @@ function module:WhipserInvite()
 				if event == "CHAT_MSG_BN_WHISPER" then
 					local gameID = select(6, BNGetFriendInfoByID(presenceID))
 					if gameID then
-						local _, charName, _, realmName, _, _, _, _, guild = BNGetGameAccountInfo(gameID)
+						local _, charName, _, realmName = BNGetGameAccountInfo(gameID)
 						if CanCooperateWithGameAccount(gameID) and (not NDuiDB["Chat"]["GuildInvite"] or isUnitInGuild(charName.."-"..realmName)) then
 							BNInviteFriend(gameID)
 						end
@@ -180,16 +180,26 @@ function module:WhipserInvite()
 	B:RegisterEvent("CHAT_MSG_BN_WHISPER", onChatWhisper)
 end
 
-local function updateTimestamp()
-	-- Timestamp
-	local greyStamp = DB.GreyColor.."<%H:%M:%S>|r "
+-- Timestamp
+function B.UpdateTimestamp()
+	local greyStamp = DB.GreyColor.."[%H:%M:%S]|r "
 	if NDuiADB["Timestamp"] then
 		SetCVar("showTimestamps", greyStamp)
 	elseif GetCVar("showTimestamps") == greyStamp then
 		SetCVar("showTimestamps", "none")
 	end
 end
-B.UpdateTimestamp = updateTimestamp
+
+-- Sticky whisper
+function B.ChatWhisperSticky()
+	if NDuiDB["Chat"]["Sticky"] then
+		ChatTypeInfo["WHISPER"].sticky = 1
+		ChatTypeInfo["BN_WHISPER"].sticky = 1
+	else
+		ChatTypeInfo["WHISPER"].sticky = 0
+		ChatTypeInfo["BN_WHISPER"].sticky = 0
+	end
+end
 
 function module:OnLogin()
 	for i = 1, NUM_CHAT_WINDOWS do
@@ -223,12 +233,6 @@ function module:OnLogin()
 	B.HideOption(InterfaceOptionsSocialPanelChatStyle)
 	CombatLogQuickButtonFrame_CustomTexture:SetTexture(nil)
 
-	-- Sticky
-	if not NDuiDB["Chat"]["Sticky"] then
-		ChatTypeInfo["WHISPER"].sticky = 0
-		ChatTypeInfo["BN_WHISPER"].sticky = 0
-	end
-
 	-- Easy Resizing
 	ChatFrame1Tab:HookScript("OnMouseDown", function(_, btn)
 		if btn == "LeftButton" then
@@ -252,13 +256,14 @@ function module:OnLogin()
 	end
 
 	-- Add Elements
+	B.UpdateTimestamp()
+	B.ChatWhisperSticky()
 	self:ChatFilter()
 	self:ChannelRename()
 	self:Chatbar()
 	self:ChatCopy()
 	self:UrlCopy()
 	self:WhipserInvite()
-	updateTimestamp()
 
 	-- ProfanityFilter
 	if not BNFeaturesEnabledAndConnected() then return end

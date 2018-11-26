@@ -4,6 +4,8 @@ if not C.Infobar.Time then return end
 
 local module = B:GetModule("Infobar")
 local info = module:RegisterInfobar(C.Infobar.TimePos)
+local strfind, format, floor = string.find, string.format, math.floor
+local mod, tonumber, pairs = mod, tonumber, pairs
 
 info.onUpdate = function(self, elapsed)
 	self.timer = (self.timer or 0) + elapsed

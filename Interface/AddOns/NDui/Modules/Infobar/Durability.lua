@@ -4,6 +4,8 @@ if not C.Infobar.Durability then return end
 
 local module = B:GetModule("Infobar")
 local info = module:RegisterInfobar(C.Infobar.DurabilityPos)
+local format, gsub, sort = string.format, string.gsub, table.sort
+local floor, modf = math.floor, math.modf
 
 local localSlots = {
 	[1] = {1, INVTYPE_HEAD, 1000},
@@ -29,7 +31,7 @@ local function getItemDurability()
 		if GetInventoryItemLink("player", localSlots[i][1]) then
 			local current, max = GetInventoryItemDurability(localSlots[i][1])
 			if current then
-				localSlots[i][3] = tonumber(string.format("%.1f", current/max*100))
+				localSlots[i][3] = tonumber(format("%.1f", current/max*100))
 				numSlots = numSlots + 1
 			end
 		else
@@ -112,7 +114,7 @@ info.onEnter = function(self)
 			local v = localSlots[i][3] / 100
 			local r, g, b = 1 - v, v, 0
 			local slotIcon = "|T"..GetInventoryItemTexture("player", localSlots[i][1])..":13:15:0:0:50:50:4:46:4:46|t " or ""
-			GameTooltip:AddDoubleLine(slotIcon..localSlots[i][2], string.format("%.1f%%", localSlots[i][3]), 1,1,1, r,g,b)
+			GameTooltip:AddDoubleLine(slotIcon..localSlots[i][2], format("%.1f%%", localSlots[i][3]), 1,1,1, r,g,b)
 		end
 	end
 
