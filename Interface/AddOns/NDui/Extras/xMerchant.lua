@@ -43,7 +43,7 @@ local function GetError(link, isRecipe)
 
 			local level = gettext:match(L["Requires Level (%d+)"])
 			if level then
-				errormsg = errormsg..L["Level %d"]:strformat(level)
+				errormsg = errormsg..strformat(L["Level %d"], level)
 			end
 
 			local reputation = gettext:match(L["Requires .+ %- (.+)"])
@@ -62,7 +62,7 @@ local function GetError(link, isRecipe)
 
 			local skill, slevel = gettext:match(L["Requires (.+) %((%d+)%)"])
 			if skill and slevel then
-				errormsg = errormsg..L["%1$s (%2$d)"]:strformat(skill, slevel)
+				errormsg = errormsg..strformat(L["%1$s (%2$d)"], skill, slevel)
 			end
 
 			local requires = gettext:match(L["Requires (.+)"])

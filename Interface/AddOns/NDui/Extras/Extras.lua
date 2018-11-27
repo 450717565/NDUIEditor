@@ -39,7 +39,7 @@ do
 			name = Ambiguate(name, "guild")
 			if not UnitIsUnit(name, "player") then
 				C_Timer.After(random(1000) / 1000, function()
-					SendChatMessage(GW_Message_Info[random(4)]:strformat(name), "GUILD")
+					SendChatMessage(strformat(GW_Message_Info[random(4)], name), "GUILD")
 				end)
 			end
 		end

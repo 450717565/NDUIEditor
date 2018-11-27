@@ -153,6 +153,7 @@ local list = {
 		{AuraID = 273843, UnitID = "player"},	-- 深渊秘密
 		{AuraID = 280412, UnitID = "player"},	-- 激励兽群
 		{AuraID = 274596, UnitID = "player"},	-- 冲击大师
+		{AuraID = 277969, UnitID = "player"},	-- 迅疾爪击
 	-->炼金石
 		{AuraID = 60233, UnitID = "player"},	-- 敏捷
 		{AuraID = 60229, UnitID = "player"},	-- 力量
@@ -233,6 +234,7 @@ local list = {
 		{AuraID = 260067, UnitID = "player"},	-- 恶毒槌击，托尔达戈
 		{AuraID = 273226, UnitID = "player"},	-- 腐烂孢子，孢林
 		{AuraID = 276297, UnitID = "player"},	-- 虚空种子，风暴神殿
+		{AuraID = 268086, UnitID = "player"},	-- 恐怖光环，庄园
 	-->奥迪尔
 		{AuraID = 271224, UnitID = "player", Text = L["Get Out"], Flash = true},	-- 赤红迸发，塔罗克
 		{AuraID = 271225, UnitID = "player", Text = L["Get Out"], Flash = true},
