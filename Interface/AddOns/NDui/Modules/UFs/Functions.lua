@@ -707,7 +707,7 @@ function UF:CreateClassPower(self)
 			bars[i].bg:SetTexture(DB.normTex)
 			bars[i].bg.multiplier = .2
 
-			bars[i].timer = B.CreateFS(bars[i], 13, "", false, "CENTER", 0, 0)
+			bars[i].timer = B.CreateFS(bars[i], 13, "", false, "CENTER", .5, 0)
 		end
 
 		if NDuiDB["Nameplate"]["ShowPlayerPlate"] then

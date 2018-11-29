@@ -5,7 +5,7 @@ local tbwipe, tbinsert, tbremove = table.wipe, table.insert, table.remove
 local mmax, mfloor = math.max, math.floor
 
 local Button_Height = 16
-local LMFrame_Width = 250
+local LMFrame_Width = 200
 
 local LMFrame_Report = {}
 local LMFrame_CFG = {
@@ -24,7 +24,7 @@ local LM_Message_Info = {
 
 local LMFrame = CreateFrame("Frame", "LootMonitor", UIParent)
 local LMFrame_Title = B.CreateFS(LMFrame, Button_Height-2, L["LootMonitor"], true, "TOPLEFT", 10, -10)
-local LMFrame_Info = B.CreateFS(LMFrame, Button_Height-2, L["LootMonitor Info"], true, "BOTTOMLEFT", 10, 10)
+local LMFrame_Info = B.CreateFS(LMFrame, Button_Height-2, L["LootMonitor Info"], true, "BOTTOMRIGHT", -10, 10)
 B.CreateMF(LMFrame)
 B.CreateBD(LMFrame)
 B.CreateSD(LMFrame)
@@ -40,7 +40,7 @@ local function UnitClassColor(String)
 	return strformat("|cff%02x%02x%02x%s|r", color.r*255, color.g*255, color.b*255, String)
 end
 
-local function LMFrame_Reset()
+local function LMFrame_Close()
 	tbwipe(LMFrame_Report)
 	for index = 1, LMFrame_CFG["maxloots"] do
 		LMFrame[index]:Hide()
@@ -68,13 +68,9 @@ local function ButtonOnLeave(self)
 	GameTooltip:Hide()
 end
 
-local LMFrame_CloseBtn = B.CreateButton(LMFrame, 20, 20, "X")
+local LMFrame_CloseBtn = B.CreateButton(LMFrame, 18, 18, "X")
 LMFrame_CloseBtn:SetPoint("TOPRIGHT", -10, -7)
-LMFrame_CloseBtn:SetScript("OnClick", function(self) LMFrame:Hide() end)
-
-local LMFrame_ResetBtn = B.CreateButton(LMFrame, 60, 20, RESET)
-LMFrame_ResetBtn:SetPoint("BOTTOMRIGHT", -10, 7)
-LMFrame_ResetBtn:SetScript("OnClick", function(self) LMFrame_Reset() end)
+LMFrame_CloseBtn:SetScript("OnClick", function(self) LMFrame_Close() end)
 
 local function CreateButton(index)
 	local button = CreateFrame("Button", "LMFrame_Report"..index, LMFrame)
@@ -117,7 +113,7 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 		for index = 1, LMFrame_CFG["maxloots"] do
 			CreateButton(index)
 		end
-		LMFrame_Reset()
+		LMFrame_Close()
 	elseif event == "CHAT_MSG_LOOT" then
 		local lootstring, _, _, _, player = ...
 		local rollInfo = strmatch(lootstring, BONUS_REWARDS)
