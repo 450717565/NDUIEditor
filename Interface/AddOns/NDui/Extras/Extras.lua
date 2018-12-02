@@ -44,15 +44,17 @@ do
 			end
 		end
 	end
+
 	B:RegisterEvent("CHAT_MSG_SYSTEM", GuildWelcome)
 end
 
 --- 优化巅峰声望显示
 do
-	hooksecurefunc("ReputationFrame_Update",function()
+	local function ParagonBar()
 		ReputationFrame.paragonFramesPool:ReleaseAll()
 		local numFactions = GetNumFactions()
 		local factionOffset = FauxScrollFrame_GetOffset(ReputationListScrollFrame)
+
 		for i=1, NUM_FACTIONS_DISPLAYED, 1 do
 			local factionIndex = factionOffset + i
 			local factionRow = _G["ReputationBar"..i]
@@ -83,42 +85,15 @@ do
 				factionRow:Hide()
 			end
 		end
-	end)
-end
-
---- /in 命令
-do
-	local _, SlashIn = ...
-	LibStub("AceTimer-3.0"):Embed(SlashIn)
-
-	local MacroEditBox_OnEvent = MacroEditBox:GetScript("OnEvent")
-
-	local function OnCallback(command)
-		MacroEditBox_OnEvent(MacroEditBox, "EXECUTE_CHAT_LINE", command)
 	end
 
-	SLASH_SLASHIN_IN1 = "/in"
-	SLASH_SLASHIN_IN2 = "/slashin"
-
-	function SlashCmdList.SLASHIN_IN(msg)
-		local secs, command = msg:match("^([^%s]+)%s+(.*)$")
-		secs = tonumber(secs)
-		if (not secs) or (#command == 0) then
-			print("|cff33ff99SlashIn:|r")
-			print("|cff33ff99Usage:|r /in <seconds> <command>")
-			print("|cff33ff99Example:|r /in 1.5 /say hi")
-		else
-			SlashIn:ScheduleTimer(OnCallback, secs, command)
-		end
-	end
+	hooksecurefunc("ReputationFrame_Update", ParagonBar)
 end
 
 --- BOSS战斗自动收起任务追踪
 do
 	local collapse = false
 	local function autoCollapse(event)
-		B:UnregisterEvent("PLAYER_ENTERING_WORLD", autoCollapse)
-
 		if event == "ENCOUNTER_START" then
 			if not collapse then
 				ObjectiveTracker_Collapse()
@@ -131,7 +106,7 @@ do
 			end
 		end
 	end
-	B:RegisterEvent("PLAYER_ENTERING_WORLD", autoCollapse)
+
 	B:RegisterEvent("ENCOUNTER_START", autoCollapse)
 	B:RegisterEvent("ENCOUNTER_END", autoCollapse)
 end
@@ -147,6 +122,7 @@ do
 			end
 		end
 	end
+
 	LFDParentFrame:HookScript("OnShow", autoSelect)
 end
 
@@ -154,14 +130,22 @@ end
 do
 	-- [[ Player Count ]]
 	hooksecurefunc("LFGListGroupDataDisplayPlayerCount_Update", function(self)
-		self.Count:SetWidth(20)
+		if not self.revised then
+			self.Count:SetWidth(20)
+
+			self.revised = true
+		end
 	end)
 
 	-- [[ Role Count ]]
 	hooksecurefunc("LFGListGroupDataDisplayRoleCount_Update", function(self)
-		self.TankCount:SetWidth(20)
-		self.HealerCount:SetWidth(20)
-		self.DamagerCount:SetWidth(20)
+		if not self.revised then
+			self.TankCount:SetWidth(20)
+			self.HealerCount:SetWidth(20)
+			self.DamagerCount:SetWidth(20)
+
+			self.revised = true
+		end
 	end)
 end
 

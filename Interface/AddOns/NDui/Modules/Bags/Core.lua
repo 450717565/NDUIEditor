@@ -94,7 +94,6 @@ end
 
 function module:CreateCloseButton()
 	local bu = B.CreateButton(self, 20, 20, "X")
-	bu:SetPoint("TOPRIGHT", -5, -5)
 	bu:SetScript("OnClick", CloseAllBags)
 
 	return bu

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2337, "DBM-ZuldazarRaid", 3, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 18096 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 18109 $"):sub(12, -3))
 mod:SetCreatureID(146251, 146253, 146256)--Sister Katherine 146251, Brother Joseph 146253, Laminaria 146256
 mod:SetEncounterID(2280)
 --mod:DisableESCombatDetection()
@@ -308,7 +308,7 @@ function mod:OnSync(msg, guid)
 			for i = 1, 3 do
 				local bossUnitID = "boss"..i
 				if UnitGUID(bossUnitID) == guid then--Identify casting unit ID
-					DBM.InfoFrame:SetHeader(args.spellName)
+					DBM.InfoFrame:SetHeader(DBM:GetSpellInfo(286558))
 					DBM.InfoFrame:Show(2, "enemyabsorb", nil, UnitGetTotalAbsorbs(bossUnitID))
 					break
 				end

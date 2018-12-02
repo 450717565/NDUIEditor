@@ -6,6 +6,17 @@ local module = B:GetModule("Infobar")
 local info = module:RegisterInfobar(C.Infobar.TimePos)
 local strfind, format, floor = string.find, string.format, math.floor
 local mod, tonumber, pairs = mod, tonumber, pairs
+local TIMEMANAGER_TICKER_24HOUR, TIME_TWELVEHOURAM, TIME_TWELVEHOURPM = TIMEMANAGER_TICKER_24HOUR, TIME_TWELVEHOURAM, TIME_TWELVEHOURPM
+
+local function updateTimerFormat(color, hour, minute)
+	if GetCVarBool("timeMgrUseMilitaryTime") then
+		return format(color..TIMEMANAGER_TICKER_24HOUR, hour, minute)
+	else
+		local timerUnit = DB.MyColor..(hour < 12 and "AM" or "PM")
+		if hour > 12 then hour = hour - 12 end
+		return format(color..TIMEMANAGER_TICKER_12HOUR..timerUnit, hour, minute)
+	end
+end
 
 info.onUpdate = function(self, elapsed)
 	self.timer = (self.timer or 0) + elapsed
@@ -18,14 +29,9 @@ info.onUpdate = function(self, elapsed)
 		else
 			hour, minute = GetGameTime()
 		end
-
-		if GetCVarBool("timeMgrUseMilitaryTime") then
-			self.text:SetFormattedText(color..TIMEMANAGER_TICKER_24HOUR, hour, minute)
-		else
-			self.text:SetFormattedText(color..TIMEMANAGER_TICKER_12HOUR..DB.MyColor..(hour < 12 and "AM" or "PM"), hour, minute)
-		end
-
+		self.text:SetText(updateTimerFormat(color, hour, minute))
 		self.text:SetJustifyH("RIGHT")
+
 		self.timer = 0
 	end
 end
@@ -50,7 +56,7 @@ local function checkTimeWalker(event)
 
 	for i = 1, numEvents do
 		local info = C_Calendar.GetDayEvent(0, today, i)
-		if info and info.title:find(PLAYER_DIFFICULTY_TIMEWALKER) and info.sequenceType ~= "END" then
+		if info and strfind(info.title, PLAYER_DIFFICULTY_TIMEWALKER) and info.sequenceType ~= "END" then
 			isTimeWalker = true
 			walkerTexture = info.iconTexture
 			break

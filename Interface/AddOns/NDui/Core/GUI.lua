@@ -211,7 +211,7 @@ local defaultSettings = {
 		OnlyCompleteRing = false,
 		ExplosiveCount = true,
 		ExplosiveCache = {},
-		PlacedItemAlert = false,
+		PlacedItemAlert = true,
 	},
 	Tutorial = {
 		Complete = false,
