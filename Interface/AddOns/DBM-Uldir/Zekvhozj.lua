@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(2169, "DBM-Uldir", nil, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 18113 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 18114 $"):sub(12, -3))
 mod:SetCreatureID(134445)--Zek'vhozj, 134503/qiraji-warrior
 mod:SetEncounterID(2136)
 --mod:DisableESCombatDetection()
 mod:SetZone()
-mod:SetUsedIcons(1, 2, 3)
+mod:SetUsedIcons(1, 2, 3, 6, 7, 8)
 mod:SetHotfixNoticeRev(17776)
 --mod:SetMinSyncRevision(16950)
 mod.respawnTime = 29
@@ -91,6 +91,7 @@ local countdownMightofVoid				= mod:NewCountdown("Alt37", 267312, "Tank", nil, 3
 mod:AddRangeFrameOption(6, 264382)
 mod:AddBoolOption("EarlyTankSwap", false)
 mod:AddSetIconOption("SetIconOnAdds", 267192, true, true)
+mod:AddSetIconOption("SetIconOnEyeBeam", 264382, true)
 
 mod.vb.phase = 1
 mod.vb.orbCount = 0
@@ -109,6 +110,9 @@ function mod:EyeBeamTarget(targetname, uId)
 		yellEyeBeam:Yell(self.vb.eyeCount)
 	else
 		warnEyeBeam:Show(self.vb.eyeCount, targetname)
+	end
+	if self.Options.SetIconOnEyeBeam then
+		self:SetIcon(targetname, 9-self.vb.eyeCount, 5)
 	end
 end
 

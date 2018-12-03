@@ -1,6 +1,8 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
+	local icPatch = "Interface\\FriendsFrame\\"
+
 	F.StripTextures(FriendsFrameFriendsScrollFrame, true)
 	F.StripTextures(IgnoreListFrame, true)
 	F.StripTextures(WhoListScrollFrame, true)
@@ -72,15 +74,11 @@ tinsert(C.themes["AuroraClassic"], function()
 		bu.inv:SetSize(20, 20)
 
 		local ic = bu.gameIcon
-		ic:SetSize(22, 22)
-		ic:SetTexCoord(.15, .85, .15, .85)
+		ic:SetSize(19, 19)
+		ic:SetTexCoord(.19, .81, .19, .81)
 		ic:ClearAllPoints()
-		ic:SetPoint("RIGHT", tp, "LEFT", -2, 0)
-
-		bu.bg = CreateFrame("Frame", nil, bu)
-		bu.bg:SetAllPoints(ic)
-		F.CreateBD(bu.bg)
-		F.CreateSD(bu.bg)
+		ic:SetPoint("RIGHT", tp, "LEFT", -4, 0)
+		ic.bg = F.CreateBDFrame(ic)
 	end
 
 	for _, button in pairs({FriendsTabHeaderSoRButton, FriendsTabHeaderRecruitAFriendButton}) do
@@ -92,15 +90,21 @@ tinsert(C.themes["AuroraClassic"], function()
 	local function UpdateScroll()
 		for i = 1, FRIENDS_TO_DISPLAY do
 			local bu = _G["FriendsFrameFriendsScrollFrameButton"..i]
-			local ic = bu.gameIcon
-			local isEnabled = bu.travelPassButton:IsEnabled()
 
+			local ic = bu.gameIcon
 			if ic:IsShown() then
-				bu.bg:Show()
+				ic.bg:Show()
 			else
-				bu.bg:Hide()
+				ic.bg:Hide()
 			end
 
+			local toonID = select(6, BNGetFriendInfo(bu.id))
+			local faction = select(6, BNGetGameAccountInfo(toonID))
+			if faction == "Alliance" or faction == "Horde" or faction == "Neutral" then
+				ic:SetTexture(icPatch..faction)
+			end
+
+			local isEnabled = bu.travelPassButton:IsEnabled()
 			if isEnabled then
 				bu.inv:SetAlpha(1)
 				bu.travelPassButton:SetAlpha(1)
