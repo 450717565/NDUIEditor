@@ -9,7 +9,7 @@ local LMFrame_Width = 200
 
 local LMFrame_Report = {}
 local LMFrame_CFG = {
-	maxloots = 20,
+	nums = 20,
 	rarity = 4,
 	equip = true,
 	other = true,
@@ -42,7 +42,7 @@ end
 
 local function LMFrame_Close()
 	tbwipe(LMFrame_Report)
-	for index = 1, LMFrame_CFG["maxloots"] do
+	for index = 1, LMFrame_CFG["nums"] do
 		LMFrame[index]:Hide()
 	end
 	LMFrame:SetSize(LMFrame_Width, Button_Height*4)
@@ -51,17 +51,17 @@ end
 
 local function ButtonOnClick(self, button)
 	if button == "RightButton" then
-		SendChatMessage(LM_Message_Info[random(4)]:strformat(LMFrame_Report[self.index]["lootinfo"]), "WHISPER", nil, LMFrame_Report[self.index]["player"])
+		SendChatMessage(strformat(LM_Message_Info[random(4)], LMFrame_Report[self.index]["link"]), "WHISPER", nil, LMFrame_Report[self.index]["players"])
 	else
 		local editBox = ChatEdit_ChooseBoxForSend()
 		ChatEdit_ActivateChat(editBox)
-		editBox:SetText(editBox:GetText()..LMFrame_Report[self.index]["lootinfo"])
+		editBox:SetText(editBox:GetText()..LMFrame_Report[self.index]["link"])
 	end
 end
 
 local function ButtonOnEnter(self)
 	GameTooltip:SetOwner(self, "ANCHOR_RIGHT", 10, 0)
-	GameTooltip:SetHyperlink(LMFrame_Report[self.index]["lootinfo"])
+	GameTooltip:SetHyperlink(LMFrame_Report[self.index]["link"])
 end
 
 local function ButtonOnLeave(self)
@@ -110,7 +110,7 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 
 	if event == "PLAYER_LOGIN" then
 		LMFrame:UnregisterEvent(event)
-		for index = 1, LMFrame_CFG["maxloots"] do
+		for index = 1, LMFrame_CFG["nums"] do
 			CreateButton(index)
 		end
 		LMFrame_Close()
@@ -146,13 +146,13 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 		end
 
 		if player and Enabled then
-			if #LMFrame_Report >= LMFrame_CFG["maxloots"] then tbremove(LMFrame_Report, 1) end
+			if #LMFrame_Report >= LMFrame_CFG["nums"] then tbremove(LMFrame_Report, 1) end
 
-			tbinsert(LMFrame_Report, {loottime = lootTime, player = player, lootinfo = itemLink, soltinfo = totalText,})
+			tbinsert(LMFrame_Report, {timer = lootTime, players = player, link = itemLink, solt = totalText,})
 
 			local numButtons = #LMFrame_Report
 			for index = 1, numButtons do
-				LMFrame[index].text:SetText(DB.InfoColor..LMFrame_Report[index]["loottime"].."|r " ..UnitClassColor(LMFrame_Report[index]["player"]).." " ..LMFrame_Report[index]["lootinfo"].." "..LMFrame_Report[index]["soltinfo"])
+				LMFrame[index].text:SetText(DB.InfoColor..LMFrame_Report[index]["timer"].."|r " ..UnitClassColor(LMFrame_Report[index]["players"]).." " ..LMFrame_Report[index]["link"].." "..LMFrame_Report[index]["solt"])
 				LMFrame[index]:Show()
 				textWidth = mfloor(LMFrame[index].text:GetStringWidth() + 20.5)
 				maxWidth = mmax(textWidth, maxWidth)

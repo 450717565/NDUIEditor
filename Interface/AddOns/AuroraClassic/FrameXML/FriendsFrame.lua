@@ -92,11 +92,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			local bu = _G["FriendsFrameFriendsScrollFrameButton"..i]
 
 			local ic = bu.gameIcon
-			if ic:IsShown() then
-				ic.bg:Show()
-			else
-				ic.bg:Hide()
-			end
+			ic.bg:SetShown(ic:IsShown())
 
 			local isEnabled = bu.travelPassButton:IsEnabled()
 			if isEnabled then
