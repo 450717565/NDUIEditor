@@ -98,12 +98,6 @@ tinsert(C.themes["AuroraClassic"], function()
 				ic.bg:Hide()
 			end
 
-			local toonID = select(6, BNGetFriendInfo(bu.id))
-			local faction = select(6, BNGetGameAccountInfo(toonID))
-			if faction == "Alliance" or faction == "Horde" or faction == "Neutral" then
-				ic:SetTexture(icPatch..faction)
-			end
-
 			local isEnabled = bu.travelPassButton:IsEnabled()
 			if isEnabled then
 				bu.inv:SetAlpha(1)
@@ -149,6 +143,15 @@ tinsert(C.themes["AuroraClassic"], function()
 	hooksecurefunc("FriendsFrame_UpdateFriendButton", function(button)
 		if button.buttonType == FRIENDS_BUTTON_TYPE_INVITE then
 			reskinInvites(FriendsFrameFriendsScrollFrame.invitePool)
+		elseif button.buttonType == FRIENDS_BUTTON_TYPE_BNET and BNConnected() then
+			local toonID = select(6, BNGetFriendInfo(button.id))
+			local isOnline = select(8, BNGetFriendInfo(button.id))
+			if isOnline then
+				local faction = select(6, BNGetGameAccountInfo(toonID))
+				if faction == "Alliance" or faction == "Horde" or faction == "Neutral" then
+					button.gameIcon:SetTexture(icPatch..faction)
+				end
+			end
 		end
 	end)
 	hooksecurefunc(FriendsFrameFriendsScrollFrame.invitePool, "Acquire", reskinInvites)

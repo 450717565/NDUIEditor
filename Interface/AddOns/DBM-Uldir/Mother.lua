@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2167, "DBM-Uldir", nil, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 18111 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 18116 $"):sub(12, -3))
 mod:SetCreatureID(135452)--136429 Chamber 01, 137022 Chamber 02, 137023 Chamber 03
 mod:SetEncounterID(2141)
 mod:DisableESCombatDetection()--ES breaks if you pull boss through door to skip trash. Then after that the trash bugs and continues to throw ES events even after mother is defeated
@@ -245,7 +245,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 267945 then--Global Id for winds
 		warnWindTunnel:Show()
 		timerWindTunnelCD:Start()--40 unless delayed by ICD
-		updateAllTimers(self, 6)
+		updateAllTimers(self, 5.6)
 	elseif spellId == 269827 or spellId == 277973 or spellId == 277961 or spellId == 277742 then
 		if self:IsMythic() then--All the things
 			specWarnSurgicalBeam:Show(DBM_CORE_BOTH)

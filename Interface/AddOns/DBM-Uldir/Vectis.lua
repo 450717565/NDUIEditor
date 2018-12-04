@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2166, "DBM-Uldir", nil, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 18113 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 18118 $"):sub(12, -3))
 mod:SetCreatureID(134442)--135016 Plague Amalgam
 mod:SetEncounterID(2134)
 mod:SetZone()
@@ -78,7 +78,7 @@ local countdownLiquefy						= mod:NewCountdown("AltTwo90", 265217, nil, nil, 3)
 mod:AddSetIconOption("SetIconVector", 265129, true)
 mod:AddRangeFrameOption("5/8")
 mod:AddInfoFrameOption(265127, true)
-mod:AddBoolOption("ShowHighestFirst2", false)--Show lest stacks first by default, since it alines with new infoframe
+mod:AddBoolOption("ShowHighestFirst3", true)--Show highest stacks first by default, since it alines with 3rd generation infoframe
 mod:AddBoolOption("ShowOnlyParty", false)
 mod:AddBoolOption("SetIconsRegardless", false)
 
@@ -149,6 +149,7 @@ do
 		table.wipe(tempLines)
 		table.wipe(tempLinesSorted)
 		table.wipe(sortedLines)
+		local showHighest = mod.Options.ShowHighestFirst3
 		if mod.Options.ShowOnlyParty then
 			--Vector Players separately
 			for i=1, 4 do
@@ -157,9 +158,13 @@ do
 					DBM:Debug("Vector "..i.." on "..name, 3)
 					local uId = DBM:GetRaidUnitId(name)
 					if uId then--Failsafe
-						local _, _, _, _, _, expireTime = DBM:UnitDebuff(uId, 265129)
-						local remaining = floor(expireTime-GetTime())
-						addLine(i.."-"..name, remaining)--Insert numeric into name so a person who has more than two vectors will show both of them AND not conflict with lingering entries
+						if expireTime then
+							local _, _, _, _, _, expireTime = DBM:UnitDebuff(uId, 265129)
+							local remaining = floor(expireTime-GetTime())
+							addLine(i.."-"..name, remaining)--Insert numeric into name so a person who has more than two vectors will show both of them AND not conflict with lingering entries
+						else
+							vectorTargets[i] = nil
+						end
 					end
 				end
 			end
@@ -185,7 +190,7 @@ do
 				tempLinesSorted[#tempLinesSorted + 1] = unitName
 			end
 			--Sort lingering according to options
-			if mod.Options.ShowHighestFirst2 then
+			if showHighest then
 				tsort(tempLinesSorted, sortFuncDesc)
 			else
 				tsort(tempLinesSorted, sortFuncAsc)
@@ -206,12 +211,19 @@ do
 				if hasVector then
 					local uId = DBM:GetRaidUnitId(name)
 					local _, _, _, _, _, expireTime = DBM:UnitDebuff(uId, 265129)--Will only return expire time for first debuff player has, if they have multiple, fortunately first one found should be shortest time
-					local remaining = floor(expireTime-GetTime())
-					--Inserts vector numbers unit has and remaining debuff along with lingering stacks
-					addLine(hasVector.."-"..name, tempLines[name].."-"..remaining)--Insert numeric into name so a person who has more than two vectors will show both of them AND not conflict with lingering entries
+					if expireTime then
+						local remaining = floor(expireTime-GetTime())
+						--Inserts vector numbers unit has and remaining debuff along with lingering stacks even if it's 0 stacks
+						addLine(hasVector.."-"..name, tempLines[name].."-"..remaining)--Insert numeric into name so a person who has more than two vectors will show both of them AND not conflict with lingering entries
+					else
+						vectorTargets[i] = nil
+					end
 				else
 					--No vector on this target, just insert name and lingering count
-					addLine(name, tempLines[name])
+					--Omit 0 counts for non vector targets
+					if showHighest and tempLines[name] > 0 then
+						addLine(name, tempLines[name])
+					end
 				end
 			end
 		end
