@@ -313,12 +313,18 @@ function module:CreateRM()
 		end
 	end
 
+	local potionCheck
+	if IsAddOnLoaded("ExRT") then potionCheck = true end
+
 	checker:HookScript("OnEnter", function(self)
 		GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT", 0, -5)
 		GameTooltip:ClearLines()
-		GameTooltip:AddLine(DB.LeftButton..DB.InfoColor..READY_CHECK)
-		GameTooltip:AddLine(DB.ScrollButton..DB.InfoColor..L["Count Down"])
-		GameTooltip:AddLine(DB.RightButton..DB.InfoColor..L["Check Status"])
+		GameTooltip:AddDoubleLine(DB.LeftButton..DB.InfoColor..READY_CHECK)
+		GameTooltip:AddDoubleLine(DB.ScrollButton..DB.InfoColor..L["Count Down"])
+		GameTooltip:AddDoubleLine(DB.RightButton..DB.InfoColor..L["Check Status"])
+		if potionCheck then
+			GameTooltip:AddDoubleLine(DB.RightButton.."(ALT) "..DB.InfoColor..L["ExRT Potioncheck"])
+		end
 		GameTooltip:Show()
 	end)
 	checker:HookScript("OnLeave", GameTooltip_Hide)
@@ -335,7 +341,11 @@ function module:CreateRM()
 	checker:HookScript("OnMouseDown", function(_, btn)
 		if InCombatLockdown() then UIErrorsFrame:AddMessage(DB.InfoColor..ERR_NOT_IN_COMBAT) return end
 		if btn == "RightButton" then
-			scanBuff()
+			if IsAltKeyDown() and potionCheck then
+				SlashCmdList["exrtSlash"]("potionchat")
+			else
+				scanBuff()
+			end
 		elseif btn == "LeftButton" then
 			DoReadyCheck()
 		else
