@@ -5,7 +5,7 @@ local module = B:GetModule("Skins")
 function module:CreateRM()
 	if not NDuiDB["Skins"]["RM"] then return end
 
-	local tinsert, strsplit = table.insert, string.split
+	local tinsert, strsplit, format = table.insert, string.split, string.format
 	local next, pairs, mod = next, pairs, mod
 
 	local header = CreateFrame("Button", nil, UIParent)
@@ -256,12 +256,15 @@ function module:CreateRM()
 	end
 
 	local function sendResult(i)
-		if #NoBuff[i] > 0 then
-			if #NoBuff[i] >= numPlayer then
+		local count = #NoBuff[i]
+		if count > 0 then
+			if count >= numPlayer then
 				sendMsg(L["Lack"]..BuffName[i]..L[":"]..ALL..PLAYER)
+			elseif count >= 5 and i > 2 then
+				sendMsg(L["Lack"]..BuffName[i]..L[":"]..format(L["Player Count"], count))
 			else
 				local str = L["Lack"]..BuffName[i]..L[":"]
-				for j = 1, #NoBuff[i] do
+				for j = 1, count do
 					str = str..NoBuff[i][j]..(j < #NoBuff[i] and L[","] or "")
 					if #str > 230 then
 						sendMsg(str)

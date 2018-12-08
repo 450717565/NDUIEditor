@@ -1216,7 +1216,7 @@ local function setupPlateAura()
 end
 
 local function OpenGUI()
-	if InCombatLockdown() then UIErrorsFrame:AddMessage(DB.InfoColor..ERR_NOT_IN_COMBAT) return end
+	if not f and InCombatLockdown() then UIErrorsFrame:AddMessage(DB.InfoColor..ERR_NOT_IN_COMBAT) return end
 	if f then f:Show() return end
 
 	-- Main Frame
@@ -1313,19 +1313,6 @@ local function OpenGUI()
 		GameTooltip:Show()
 	end)
 	credit:SetScript("OnLeave", GameTooltip_Hide)
-
-	local function showLater(event)
-		if event == "PLAYER_REGEN_DISABLED" then
-			if f:IsShown() then
-				f:Hide()
-				B:RegisterEvent("PLAYER_REGEN_ENABLED", showLater)
-			end
-		else
-			f:Show()
-			B:UnregisterEvent(event, showLater)
-		end
-	end
-	B:RegisterEvent("PLAYER_REGEN_DISABLED", showLater)
 
 	-- Toggle RaidFrame Debuffs
 	local raidDebuffs = B.CreateButton(guiPage[4].child, 150, 30, L["RaidFrame Debuffs"].."*")
