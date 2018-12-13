@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2166, "DBM-Uldir", nil, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 18121 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 18125 $"):sub(12, -3))
 mod:SetCreatureID(134442)--135016 Plague Amalgam
 mod:SetEncounterID(2134)
 mod:SetZone()
@@ -158,12 +158,10 @@ do
 					DBM:Debug("Vector "..i.." on "..name, 3)
 					local uId = DBM:GetRaidUnitId(name)
 					if uId then--Failsafe
+						local _, _, _, _, _, expireTime = DBM:UnitDebuff(uId, 265129)
 						if expireTime then
-							local _, _, _, _, _, expireTime = DBM:UnitDebuff(uId, 265129)
 							local remaining = floor(expireTime-GetTime())
 							addLine(i.."-"..name, remaining)--Insert numeric into name so a person who has more than two vectors will show both of them AND not conflict with lingering entries
-						else
-							vectorTargets[i] = nil
 						end
 					end
 				end
@@ -215,8 +213,6 @@ do
 						local remaining = floor(expireTime-GetTime())
 						--Inserts vector numbers unit has and remaining debuff along with lingering stacks even if it's 0 stacks
 						addLine(hasVector.."-"..name, tempLines[name].."-"..remaining)--Insert numeric into name so a person who has more than two vectors will show both of them AND not conflict with lingering entries
-					else
-						vectorTargets[i] = nil
 					end
 				else
 					--No vector on this target, just insert name and lingering count

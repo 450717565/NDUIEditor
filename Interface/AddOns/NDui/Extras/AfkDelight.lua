@@ -31,12 +31,12 @@ function f:OnEvent(event)
 	if event == "PLAYER_LOGIN" then
 		self.model:SetUnit("player")
 		self.model:SetRotation(mrad(-30))
-		return
-	end
-	if UnitIsAFK("player") then
-		self:Enable()
 	else
-		self:Disable()
+		if UnitIsAFK("player") then
+			self:Enable()
+		else
+			self:Disable()
+		end
 	end
 end
 
@@ -116,7 +116,5 @@ button:SetScript("OnClick", function() f:Disable() end)
 f:SetScript("OnEvent",f.OnEvent)
 
 -- registers the /afk scene
-f:RegisterEvent("PLAYER_ENTERING_WORLD")
 f:RegisterEvent("PLAYER_FLAGS_CHANGED")
-f:RegisterEvent("PLAYER_LEAVING_WORLD")
 f:RegisterEvent("PLAYER_LOGIN")

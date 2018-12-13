@@ -568,6 +568,7 @@ function UF:CreateBuffs(self)
 	bu:SetWidth(self:GetWidth())
 	bu:SetHeight((bu.size + bu.spacing) * maxLines)
 
+	bu.showStealableBuffs = true
 	bu.PostCreateIcon = postCreateIcon
 	bu.PostUpdateIcon = postUpdateIcon
 
@@ -578,19 +579,20 @@ function UF:CreateDebuffs(self)
 	local bu = CreateFrame("Frame", nil, self)
 	bu.spacing = 5
 	bu.onlyShowPlayer = false
+	bu.showDebuffType = true
 	bu.initialAnchor = "TOPRIGHT"
 	bu["growth-x"] = "LEFT"
 	bu["growth-y"] = "DOWN"
-	if self.mystyle == "arena" or self.mystyle == "boss" then
+	if self.mystyle == "player" then
+		bu:SetPoint("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, -6)
+		bu.num = 21
+		bu.iconsPerRow = 7
+	elseif self.mystyle == "boss" or self.mystyle == "arena" then
 		bu:SetPoint("TOPRIGHT", self, "TOPLEFT", -5, 0)
 		bu.num = 10
 		bu.size = self:GetHeight()+self.Power:GetHeight()+3.5
 		bu.CustomFilter = customFilter
 		bu["growth-y"] = "UP"
-	elseif self.mystyle == "player" then
-		bu:SetPoint("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, -6)
-		bu.num = 21
-		bu.iconsPerRow = 7
 	elseif self.mystyle == "tot" then
 		bu:SetPoint("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, -6)
 		bu.num = 10

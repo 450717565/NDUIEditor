@@ -1,4 +1,4 @@
-## Interface: 80000
+## Interface: 80100
 ## Title: Nyx GUI Widgets
 ## Author: Vildiesel - EU Well of Eternity
 ## Notes: A set of widgets with theming properties, used by addons

@@ -1,4 +1,4 @@
-## Interface: 80000
+## Interface: 80100
 ## Title: Lucid Nightmare Helper
 ## Author: Vildiesel EU - Well of Eternity
 ## Notes: Helps to find a path inside the Endless Halls
