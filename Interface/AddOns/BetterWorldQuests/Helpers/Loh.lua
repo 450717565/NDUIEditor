@@ -1,4 +1,4 @@
-local MESSAGE = '狂按 <空格键> 完成任务！'
+local MESSAGE = 'Spam <SpaceBar> to complete!'
 local BUTTON = 'OverrideActionBarButton%d'
 
 local quests = {
@@ -59,6 +59,10 @@ Handler:SetScript('OnEvent', function(self, event, ...)
 		for questID in next, quests do
 			if(C_QuestLog.IsOnQuest(questID)) then
 				self:Watch(questID)
+				if(self:GetCheckpoint() > 0) then
+					self:Control()
+					self:UpdateCheckpoint()
+				end
 				break
 			end
 		end
@@ -132,7 +136,7 @@ function Handler:UpdateAction(_, _, spellID)
 	self:Next()
 end
 
-function Handler:UpdateCheckpoint()
+function Handler:GetCheckpoint()
 	local checkpoint
 	local index = 1
 	while(true) do
@@ -148,6 +152,11 @@ function Handler:UpdateCheckpoint()
 		index = index + 1
 	end
 
+	return checkpoint
+end
+
+function Handler:UpdateCheckpoint()
+	local checkpoint = self:GetCheckpoint()
 	if(checkpoint ~= currentCheckpoint) then
 		currentCheckpoint = checkpoint
 		nextActionIndex = 1
@@ -158,5 +167,5 @@ end
 
 function Handler:Next()
 	local nextAction = quests[currentQuestID][currentCheckpoint][nextActionIndex]
-	SetOverrideBindingClick(self, false, 'SPACE', BUTTON:format(nextAction))
+	SetOverrideBindingClick(self, true, 'SPACE', BUTTON:format(nextAction))
 end

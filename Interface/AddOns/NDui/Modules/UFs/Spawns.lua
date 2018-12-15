@@ -241,6 +241,28 @@ function UF:OnLogin()
 		local focustarget = oUF:Spawn("FocusTarget", "oUF_FoT")
 		B.Mover(focustarget, L["FotUF"], "FotUF", C.UFs.FoTPos)
 
+		oUF:RegisterStyle("Boss", CreateBossStyle)
+		oUF:SetActiveStyle("Boss")
+		local boss = {}
+		for i = 1, MAX_BOSS_FRAMES do
+			boss[i] = oUF:Spawn("Boss"..i, "oUF_Boss"..i)
+			if i == 1 then
+				boss[i].mover = B.Mover(boss[i], L["BossFrame"]..i, "Boss1", {"TOPRIGHT", Minimap, "BOTTOMLEFT", 75, -100})
+			else
+				boss[i].mover = B.Mover(boss[i], L["BossFrame"]..i, "Boss"..i, {"TOP", boss[i-1], "BOTTOM", 0, -55})
+			end
+		end
+
+		if NDuiDB["UFs"]["Arena"] then
+			oUF:RegisterStyle("Arena", CreateArenaStyle)
+			oUF:SetActiveStyle("Arena")
+			local arena = {}
+			for i = 1, 5 do
+				arena[i] = oUF:Spawn("Arena"..i, "oUF_Arena"..i)
+				arena[i]:SetPoint("TOPLEFT", boss[i].mover)
+			end
+		end
+
 		if NDuiDB["Extras"]["PartyFrame"] then
 			oUF:RegisterStyle("Party", CreatePartyStyle)
 			oUF:SetActiveStyle("Party")
@@ -255,34 +277,6 @@ function UF:OnLogin()
 					self:SetHeight(%d)
 				]]):format(200, 22*scale))
 			B.Mover(party, L["PartyFrame"], "PartyUF", {"TOPLEFT", UIParent, 35, -50}, 200, (22*scale + 16) * 4)
-		end
-
-		if NDuiDB["UFs"]["Boss"] then
-			oUF:RegisterStyle("Boss", CreateBossStyle)
-			oUF:SetActiveStyle("Boss")
-			local boss = {}
-			for i = 1, MAX_BOSS_FRAMES do
-				boss[i] = oUF:Spawn("Boss"..i, "oUF_Boss"..i)
-				if i == 1 then
-					B.Mover(boss[i], L["BossFrame"]..i, "Boss1", {"TOPRIGHT", Minimap, "BOTTOMLEFT", 75, -100})
-				else
-					B.Mover(boss[i], L["BossFrame"]..i, "Boss"..i, {"TOPRIGHT", boss[i-1], "BOTTOMRIGHT", 0, -55})
-				end
-			end
-		end
-
-		if NDuiDB["UFs"]["Arena"] then
-			oUF:RegisterStyle("Arena", CreateArenaStyle)
-			oUF:SetActiveStyle("Arena")
-			local arena = {}
-			for i = 1, 5 do
-				arena[i] = oUF:Spawn("Arena"..i, "oUF_Arena"..i)
-				if i == 1 then
-					B.Mover(arena[i], L["ArenaFrame"]..i, "Arena1", {"TOPRIGHT", Minimap, "BOTTOMLEFT", -100, -100})
-				else
-					B.Mover(arena[i], L["ArenaFrame"]..i, "Arena"..i, {"TOPRIGHT", arena[i-1], "BOTTOMRIGHT", 0, -55})
-				end
-			end
 		end
 	end
 

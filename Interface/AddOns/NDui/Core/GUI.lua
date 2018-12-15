@@ -66,7 +66,6 @@ local defaultSettings = {
 		SmoothColor = false,
 		PlayerDebuff = true,
 		ToTAuras = true,
-		Boss = true,
 		Arena = true,
 		Castbars = true,
 		SwingBar = false,
@@ -94,6 +93,7 @@ local defaultSettings = {
 		ClassPower = true,
 		QuakeTimer = true,
 		LagString = false,
+		RuneTimer = true,
 	},
 	Chat = {
 		Sticky = true,
@@ -350,10 +350,10 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "UFs", "LagString", L["Castbar LagString"]},
 		{1, "UFs", "QuakeTimer", L["UFs QuakeTimer"], true},
 		{},--blank
-		{1, "UFs", "Boss", L["Boss Frame"]},
-		{1, "UFs", "Arena", L["Arena Frame"], true},
-		{1, "UFs", "Portrait", L["UFs Portrait"]},
-		{1, "UFs", "ClassPower", L["UFs ClassPower"], true},
+		{1, "UFs", "Arena", L["Arena Frame"]},
+		{1, "UFs", "Portrait", L["UFs Portrait"], true},
+		{1, "UFs", "ClassPower", L["UFs ClassPower"]},
+		{1, "UFs", "RuneTimer", L["UFs RuneTimer"], true},
 		{1, "UFs", "ClassColor", L["Classcolor HpBar"]},
 		{1, "UFs", "SmoothColor", L["Smoothcolor HpBar"], true},
 		{1, "UFs", "PlayerDebuff", L["Player Debuff"]},
@@ -1264,8 +1264,9 @@ local function OpenGUI()
 		guiPage[i] = CreateFrame("ScrollFrame", nil, f, "UIPanelScrollFrameTemplate")
 		guiPage[i]:SetPoint("TOPLEFT", 160, -50)
 		guiPage[i]:SetSize(610, 500)
-		B.CreateBD(guiPage[i], .3)
-		B.CreateSD(guiPage[i])
+		local bg = B.CreateBG(guiPage[i])
+		B.CreateBD(bg, .3)
+		B.CreateSD(bg)
 		guiPage[i]:Hide()
 		guiPage[i].child = CreateFrame("Frame", nil, guiPage[i])
 		guiPage[i].child:SetSize(610, 1)

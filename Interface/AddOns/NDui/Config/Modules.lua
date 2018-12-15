@@ -6,14 +6,13 @@ local _, C = unpack(ns)
 C.Auras = {
 	IconSize		= 32,													-- BUFF及相关职业助手图标大小
 	IconsPerRow		= 14,													-- BUFF每行个数
-	Spacing			= 5,												-- BUFF图标间距
+	Spacing			= 5,													-- BUFF图标间距
 	BuffPos			= {"TOPRIGHT", Minimap, "TOPLEFT", -15, 0},			-- BUFF默认位置
 
 	TotemsPos		= {"CENTER", UIParent, "CENTER", 0, -206},				-- 图腾助手默认位置
 	StatuePos		= {"CENTER", UIParent, "CENTER", 0, -240},				-- 武僧雕像默认位置
 
 	-- 技能监控各组初始位置
-
 	EnchantAuraPos			= {"BOTTOMRIGHT", UIParent, "CENTER", -200, -99},	-- 附魔及饰品分组
 	PlayerAuraPos			= {"BOTTOMRIGHT", UIParent, "CENTER", -200, -165},	-- 玩家光环分组
 	PlayerSpecialAuraPos	= {"BOTTOMRIGHT", UIParent, "CENTER", -200, -136},	-- 玩家重要光环分组
@@ -24,18 +23,18 @@ C.Auras = {
 	RaidDebuffPos			= {"BOTTOMLEFT", UIParent, "CENTER", 200, 200},	-- 团队减益分组
 	SpellCDPos				= {"LEFT", UIParent, "LEFT", 5, -30},				-- 技能冷却计时分组
 	EnchantCDPos			= {"LEFT", UIParent, "LEFT", 200, -30},			-- 物品冷却计时分组
-	CustomCDPos			= {"BOTTOMLEFT", UIParent, "CENTER", 495, -202},	-- 法术内置冷却分组
+	CustomCDPos				= {"BOTTOMLEFT", UIParent, "CENTER", 495, -202},	-- 法术内置冷却分组
 }
 
 -- 头像相关
 C.UFs = {
-	Playercb		= {"BOTTOM", UIParent, "BOTTOM", 0, 175},			-- 玩家施法条默认位置
+	Playercb		= {"BOTTOM", UIParent, "BOTTOM", 0, 150},				-- 玩家施法条默认位置
 	PlayercbSize	= {280, 20},											-- 玩家施法条尺寸
 
-	Targetcb		= {"BOTTOM", UIParent, "BOTTOM", 0, 335},			-- 目标施法条默认位置
+	Targetcb		= {"BOTTOM", UIParent, "BOTTOM", 0, 300},				-- 目标施法条默认位置
 	TargetcbSize	= {300, 20},											-- 目标施法条尺寸
 
-	Focuscb			= {"CENTER", UIParent, "CENTER", 0, 200},			-- 焦点施法条默认位置
+	Focuscb			= {"CENTER", UIParent, "CENTER", 0, 150},				-- 焦点施法条默认位置
 	FocuscbSize		= {320, 20},											-- 焦点施法条尺寸
 
 	PlayerPos		= {"BOTTOMRIGHT", UIParent, "BOTTOM", -200, 280},		-- 玩家框体默认位置

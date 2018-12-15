@@ -72,6 +72,7 @@ local function createRoster(i)
 	button.HL:SetColorTexture(cr, cg, cb, .25)
 
 	button.level = B.CreateFS(button, 13, "Level", false, "LEFT", 5, 0)
+	button.level:SetJustifyH("CENTER")
 
 	button.class = button:CreateTexture(nil, "ARTWORK")
 	button.class:SetPoint("LEFT", 37, 0)

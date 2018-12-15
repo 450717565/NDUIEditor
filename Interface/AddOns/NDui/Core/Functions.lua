@@ -7,9 +7,10 @@ local strmatch, gmatch, strfind, format = string.match, string.gmatch, string.fi
 local min, max, abs, floor = math.min, math.max, math.abs, math.floor
 
 -- Color Percent
-function B.ColorText(per, reverse, val)
-	local v = per / 100
+function B.ColorText(p, reverse, val)
+	local v = p / 100
 	local r, g, b
+	local per = format("%.1f%%", p)
 
 	if reverse then
 		r, g, b = v, 1 - v, 0
@@ -18,9 +19,9 @@ function B.ColorText(per, reverse, val)
 	end
 
 	if val then
-		return B.HexRGB(r, g, b)..val.."|r"
+		return B.HexRGB(r, g, b, val)
 	else
-		return B.HexRGB(r, g, b)..format("%.1f%%", per).."|r"
+		return B.HexRGB(r, g, b, per)
 	end
 end
 
@@ -326,12 +327,16 @@ function B.Numb(n)
 end
 
 -- Color code
-function B.HexRGB(r, g, b)
+function B.HexRGB(r, g, b, unit)
 	if r then
 		if type(r) == "table" then
 			if r.r then r, g, b = r.r, r.g, r.b else r, g, b = unpack(r) end
 		end
-		return format("|cff%02x%02x%02x", r*255, g*255, b*255)
+		if unit then
+			return format("|cff%02x%02x%02x%s|r", r*255, g*255, b*255, unit)
+		else
+			return format("|cff%02x%02x%02x", r*255, g*255, b*255)
+		end
 	end
 end
 

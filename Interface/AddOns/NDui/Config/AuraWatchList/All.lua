@@ -202,8 +202,8 @@ local list = {
 		{AuraID = 1022, UnitID = "player"},--保护祝福
 		{AuraID = 1044, UnitID = "player"},--自由祝福
 		{AuraID = 6940, UnitID = "player"},--牺牲祝福
-		{AuraID = 53563, UnitID = "player"},--圣光道标
-		{AuraID = 156910, UnitID = "player"},--信仰道标
+		{AuraID = 53563, UnitID = "player", Combat = true},--圣光道标
+		{AuraID = 156910, UnitID = "player", Combat = true},--信仰道标
 		{AuraID = 200025, UnitID = "player"},--美德道标
 		{AuraID = 204018, UnitID = "player"},--破咒祝福
 		--武僧
@@ -216,6 +216,7 @@ local list = {
 	["Raid Debuff"] = { -- 团队减益组
 	-->史诗钥石
 		{AuraID = 268007, UnitID = "player"},--心脏打击
+		{AuraID = 266238, UnitID = "player"},--粉碎防御
 		--默认
 		{AuraID = 209858, UnitID = "player"},	-- 死疽溃烂
 		{AuraID = 240559, UnitID = "player"},	-- 重伤

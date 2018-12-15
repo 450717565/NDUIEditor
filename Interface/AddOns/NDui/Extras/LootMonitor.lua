@@ -1,6 +1,6 @@
 local B, C, L, DB = unpack(select(2, ...))
 
-local strmatch, strformat = string.match, string.format
+local strmatch, strformat, strsplit = string.match, string.format, string.split
 local tbwipe, tbinsert, tbremove = table.wipe, table.insert, table.remove
 local mmax, mfloor = math.max, math.floor
 
@@ -33,11 +33,9 @@ LMFrame:SetFrameStrata("HIGH")
 LMFrame:SetClampedToScreen(true)
 LMFrame:SetPoint("LEFT", 4, 0)
 
-local function UnitClassColor(String)
-	if not UnitExists(String) then return strformat("|cffff0000%s|r", String) end
-	local _, class = UnitClass(String)
-	local color = DB.ClassColors[class]
-	return strformat("|cff%02x%02x%02x%s|r", color.r*255, color.g*255, color.b*255, String)
+local function UnitClassColor(unit)
+	local r, g, b = B.UnitColor(unit)
+	return B.HexRGB(r, g, b, unit)
 end
 
 local function LMFrame_Close()
@@ -51,7 +49,7 @@ end
 
 local function ButtonOnClick(self, button)
 	if button == "RightButton" then
-		SendChatMessage(strformat(LM_Message_Info[random(4)], LMFrame_Report[self.index]["link"]), "WHISPER", nil, LMFrame_Report[self.index]["players"])
+		SendChatMessage(strformat(LM_Message_Info[random(4)], LMFrame_Report[self.index]["link"]), "WHISPER", nil, LMFrame_Report[self.index]["player"])
 	else
 		local editBox = ChatEdit_ChooseBoxForSend()
 		ChatEdit_ActivateChat(editBox)
@@ -115,9 +113,10 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 		end
 		LMFrame_Close()
 	elseif event == "CHAT_MSG_LOOT" then
-		local lootstring, _, _, _, player = ...
-		local rollInfo = strmatch(lootstring, BONUS_REWARDS)
-		local itemLink = strmatch(lootstring,"|%x+|Hitem:.-|h.-|h|r")
+		local lootStr, playerStr = ...
+		local rollInfo = strmatch(lootStr, BONUS_REWARDS)
+		local itemLink = strmatch(lootStr,"|%x+|Hitem:.-|h.-|h|r")
+		local playerInfo = strsplit("-", playerStr)
 		local _, _, itemRarity, _, _, _, itemSubType, _, itemEquipLoc, _, _, itemClassID, itemSubClassID, bindType = GetItemInfo(itemLink)
 
 		local Enabled = false
@@ -145,14 +144,14 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 			totalText = "<"..slotText..">"
 		end
 
-		if player and Enabled then
+		if playerInfo and Enabled then
 			if #LMFrame_Report >= LMFrame_CFG["nums"] then tbremove(LMFrame_Report, 1) end
 
-			tbinsert(LMFrame_Report, {timer = lootTime, players = player, link = itemLink, solt = totalText,})
+			tbinsert(LMFrame_Report, {timer = lootTime, player = playerInfo, link = itemLink, solt = totalText,})
 
 			local numButtons = #LMFrame_Report
 			for index = 1, numButtons do
-				LMFrame[index].text:SetText(DB.InfoColor..LMFrame_Report[index]["timer"].."|r " ..UnitClassColor(LMFrame_Report[index]["players"]).." " ..LMFrame_Report[index]["link"].." "..LMFrame_Report[index]["solt"])
+				LMFrame[index].text:SetText(DB.InfoColor..LMFrame_Report[index]["timer"].."|r " ..UnitClassColor(LMFrame_Report[index]["player"]).." " ..LMFrame_Report[index]["link"].." "..LMFrame_Report[index]["solt"])
 				LMFrame[index]:Show()
 				textWidth = mfloor(LMFrame[index].text:GetStringWidth() + 20.5)
 				maxWidth = mmax(textWidth, maxWidth)

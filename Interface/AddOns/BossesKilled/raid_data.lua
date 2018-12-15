@@ -73,4 +73,10 @@ addon.raidData = {
   [1731] = { numEncounters = 3, startFrom =  1 }, -- Halls of Containment
   [1732] = { numEncounters = 3, startFrom =  1 }, -- Crimson Descent
   [1733] = { numEncounters = 2, startFrom =  1 }, -- Heart of Corruption
+	
+	-- Battle of Dazar'alor - coming soon
+	
+	
+	-- Crucible of Storms
+	[1951] = { numEncounters = 2, startFrom =  1 }, -- Crucible of Storms
 }

@@ -421,6 +421,13 @@ local function postCreateIcon(element, button)
 	button.HL:SetAllPoints()
 end
 
+local filteredStyle = {
+	["target"] = true,
+	["nameplate"] = true,
+	["boss"] = true,
+	["arena"] = true,
+}
+
 local function postUpdateIcon(element, _, button, _, _, duration, _, debuffType)
 	if duration then button.Shadow:Show() end
 
@@ -431,7 +438,7 @@ local function postUpdateIcon(element, _, button, _, _, duration, _, debuffType)
 		button:SetSize(element.size, element.size)
 	end
 
-	if button.isDebuff and (style == "target" or style == "nameplate") and not button.isPlayer then
+	if button.isDebuff and filteredStyle[style] and not button.isPlayer then
 		button.icon:SetDesaturated(true)
 	else
 		button.icon:SetDesaturated(false)
@@ -709,7 +716,9 @@ function UF:CreateClassPower(self)
 			bars[i].bg:SetTexture(DB.normTex)
 			bars[i].bg.multiplier = .2
 
-			bars[i].timer = B.CreateFS(bars[i], 13, "", false, "CENTER", .5, 0)
+			if NDuiDB["UFs"]["RuneTimer"] then
+				bars[i].timer = B.CreateFS(bars[i], 13, "", false, "CENTER", .5, 0)
+			end
 		end
 
 		if NDuiDB["Nameplate"]["ShowPlayerPlate"] then
@@ -906,7 +915,7 @@ function UF:CreateQuakeTimer(self)
 
 	bar.SpellName = B.CreateFS(bar, 12, "", false, "LEFT", 2, 0)
 	bar.Text = B.CreateFS(bar, 12, "", false, "RIGHT", -2, 0)
-	createBarMover(bar, L["QuakeTimer"], "QuakeTimer", {"BOTTOM", UIParent, "BOTTOM", 0, 200})
+	createBarMover(bar, L["QuakeTimer"], "QuakeTimer", {"BOTTOM", UIParent, "BOTTOM", 0, 175})
 
 	local icon = bar:CreateTexture(nil, "ARTWORK")
 	icon:SetSize(bar:GetHeight(), bar:GetHeight())

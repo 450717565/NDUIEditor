@@ -483,14 +483,14 @@ function module:CreateRM()
 	local menuFrame = CreateFrame("Frame", "NDui_EastMarking", UIParent, "UIDropDownMenuTemplate")
 	local menuList = {
 		{text = RAID_TARGET_NONE, func = function() SetRaidTarget("target", 0) end},
-		{text = B.HexRGB(1, .92, 0)..RAID_TARGET_1.." "..ICON_LIST[1].."12|t", func = function() SetRaidTarget("target", 1) end},
-		{text = B.HexRGB(.98, .57, 0)..RAID_TARGET_2.." "..ICON_LIST[2].."12|t", func = function() SetRaidTarget("target", 2) end},
-		{text = B.HexRGB(.83, .22, .9)..RAID_TARGET_3.." "..ICON_LIST[3].."12|t", func = function() SetRaidTarget("target", 3) end},
-		{text = B.HexRGB(.04, .95, 0)..RAID_TARGET_4.." "..ICON_LIST[4].."12|t", func = function() SetRaidTarget("target", 4) end},
-		{text = B.HexRGB(.7, .82, .875)..RAID_TARGET_5.." "..ICON_LIST[5].."12|t", func = function() SetRaidTarget("target", 5) end},
-		{text = B.HexRGB(0, .71, 1)..RAID_TARGET_6.." "..ICON_LIST[6].."12|t", func = function() SetRaidTarget("target", 6) end},
-		{text = B.HexRGB(1, .24, .168)..RAID_TARGET_7.." "..ICON_LIST[7].."12|t", func = function() SetRaidTarget("target", 7) end},
-		{text = B.HexRGB(.98, .98, .98)..RAID_TARGET_8.." "..ICON_LIST[8].."12|t", func = function() SetRaidTarget("target", 8) end},
+		{text = B.HexRGB(1, .92, 0, RAID_TARGET_1).." "..ICON_LIST[1].."12|t", func = function() SetRaidTarget("target", 1) end},
+		{text = B.HexRGB(.98, .57, 0, RAID_TARGET_2).." "..ICON_LIST[2].."12|t", func = function() SetRaidTarget("target", 2) end},
+		{text = B.HexRGB(.83, .22, .9, RAID_TARGET_3).." "..ICON_LIST[3].."12|t", func = function() SetRaidTarget("target", 3) end},
+		{text = B.HexRGB(.04, .95, 0, RAID_TARGET_4).." "..ICON_LIST[4].."12|t", func = function() SetRaidTarget("target", 4) end},
+		{text = B.HexRGB(.7, .82, .875, RAID_TARGET_5).." "..ICON_LIST[5].."12|t", func = function() SetRaidTarget("target", 5) end},
+		{text = B.HexRGB(0, .71, 1, RAID_TARGET_6).." "..ICON_LIST[6].."12|t", func = function() SetRaidTarget("target", 6) end},
+		{text = B.HexRGB(1, .24, .168, RAID_TARGET_7).." "..ICON_LIST[7].."12|t", func = function() SetRaidTarget("target", 7) end},
+		{text = B.HexRGB(.98, .98, .98, RAID_TARGET_8).." "..ICON_LIST[8].."12|t", func = function() SetRaidTarget("target", 8) end},
 	}
 
 	WorldFrame:HookScript("OnMouseDown", function(_, btn)

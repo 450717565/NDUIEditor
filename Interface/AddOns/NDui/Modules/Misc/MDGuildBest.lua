@@ -87,7 +87,7 @@ function module:GuildBest()
 		end
 
 		if not resize and IsAddOnLoaded("AngryKeystones") then
-			local scheduel = select(4, self:GetChildren())
+			local scheduel = select(5, self:GetChildren())
 			frame:SetWidth(248)
 			frame:ClearAllPoints()
 			frame:SetPoint("BOTTOMLEFT", scheduel, "TOPLEFT", -1, 9)
