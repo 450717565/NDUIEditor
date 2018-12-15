@@ -7,7 +7,7 @@
 
 local CreateFrame = CreateFrame
 local GetTime = GetTime
-local tinsert = tinsert
+local tinsert = table.insert
 local UISpecialFrames = UISpecialFrames
 local CLASS_ICON_TCOORDS = CLASS_ICON_TCOORDS
 

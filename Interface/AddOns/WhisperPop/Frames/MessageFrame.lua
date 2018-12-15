@@ -6,7 +6,7 @@
 ------------------------------------------------------------
 
 local IsShiftKeyDown = IsShiftKeyDown
-local max = max
+local max = math.max
 local strlower = strlower
 local gmatch = gmatch
 local gsub = gsub

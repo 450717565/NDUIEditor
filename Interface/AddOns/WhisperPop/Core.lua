@@ -7,19 +7,19 @@
 
 local pairs = pairs
 local ipairs = ipairs
-local strfind = strfind
+local strfind = string.find
 local type = type
-local tinsert = tinsert
+local tinsert = table.insert
 local strsub = strsub
 local date = date
 local tonumber = tonumber
 local select = select
 local PlaySoundFile = PlaySoundFile
-local wipe = wipe
-local tremove = tremove
+local wipe = table.wipe
+local tremove = table.remove
 local SendWho = SendWho
-local min = min
-local max = max
+local min = math.min
+local max = math.max
 local GetPlayerInfoByGUID = GetPlayerInfoByGUID
 local BNGetNumFriends = BNGetNumFriends
 local BNGetFriendInfo = BNGetFriendInfo
@@ -188,9 +188,10 @@ function addon:HandleAction(name, action)
 		end
 
 	elseif action == "WHISPER" then
+		if bnName then return ChatFrame_SendBNetTell(bnName) end
 		local editbox = ChatEdit_ChooseBoxForSend()
 		ChatEdit_ActivateChat(editbox)
-		editbox:SetText("/w "..(bnName or name).." ")
+		editbox:SetText("/w "..name.." ")
 		ChatEdit_ParseText(editbox, 0)
 	end
 end

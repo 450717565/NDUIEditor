@@ -6,11 +6,11 @@
 ------------------------------------------------------------
 
 local type = type
-local tinsert = tinsert
+local tinsert = table.insert
 local CreateFrame = CreateFrame
 local IsShiftKeyDown = IsShiftKeyDown
 local IsAltKeyDown = IsAltKeyDown
-local floor = floor
+local floor = math.floor
 local STANDARD_TEXT_FONT = STANDARD_TEXT_FONT
 
 local addon = WhisperPop

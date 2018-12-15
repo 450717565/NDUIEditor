@@ -1,6 +1,6 @@
 ## Interface: 80100
 ## Title: WhisperPop
-## Version: 4.30
+## Version: 5.00
 ## Author: Abin
 ## X-Category: Chat/Communication
 ## SavedVariables: WhisperPopDB

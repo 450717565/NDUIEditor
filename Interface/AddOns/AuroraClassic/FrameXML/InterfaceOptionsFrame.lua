@@ -6,20 +6,13 @@ tinsert(C.themes["AuroraClassic"], function()
 	InterfaceOptionsFrame:HookScript("OnShow", function()
 		if restyled then return end
 
-		InterfaceOptionsFrameCategories:DisableDrawLayer("BACKGROUND")
-		InterfaceOptionsFrameAddOns:DisableDrawLayer("BACKGROUND")
-		InterfaceOptionsFramePanelContainer:DisableDrawLayer("BORDER")
-
+		F.StripTextures(InterfaceOptionsFrameAddOns, true)
+		F.StripTextures(InterfaceOptionsFrameCategories, true)
+		F.StripTextures(InterfaceOptionsFramePanelContainer, true)
 		F.StripTextures(InterfaceOptionsFrameTab1, true)
 		F.StripTextures(InterfaceOptionsFrameTab2, true)
 		F.CreateBD(InterfaceOptionsFrame)
 		F.CreateSD(InterfaceOptionsFrame)
-		F.Reskin(InterfaceOptionsFrameDefaults)
-		F.Reskin(InterfaceOptionsFrameOkay)
-		F.Reskin(InterfaceOptionsFrameCancel)
-		F.Reskin(InterfaceOptionsSocialPanelRedockChat)
-		F.Reskin(InterfaceOptionsSocialPanelTwitterLoginButton)
-		F.Reskin(InterfaceOptionsDisplayPanelResetTutorials)
 
 		InterfaceOptionsFrameHeader:Hide()
 		InterfaceOptionsFrameOkay:SetPoint("RIGHT", InterfaceOptionsFrameCancel, "LEFT", -1, 0)
@@ -31,6 +24,18 @@ tinsert(C.themes["AuroraClassic"], function()
 		line:SetSize(1, 546)
 		line:SetPoint("LEFT", 205, 10)
 		line:SetColorTexture(1, 1, 1, .25)
+
+		local buttons = {
+			InterfaceOptionsFrameDefaults,
+			InterfaceOptionsFrameOkay,
+			InterfaceOptionsFrameCancel,
+			InterfaceOptionsSocialPanelRedockChat,
+			InterfaceOptionsSocialPanelTwitterLoginButton,
+			InterfaceOptionsDisplayPanelResetTutorials,
+		}
+		for _, button in next, buttons do
+			F.Reskin(button)
+		end
 
 		local checkboxes = {
 			InterfaceOptionsControlsPanelStickyTargeting,
@@ -94,8 +99,8 @@ tinsert(C.themes["AuroraClassic"], function()
 			InterfaceOptionsAccessibilityPanelCinematicSubtitles,
 			InterfaceOptionsAccessibilityPanelColorblindMode
 		}
-		for _, checkboxe in next, checkboxes do
-			F.ReskinCheck(checkboxe)
+		for _, checkbox in next, checkboxes do
+			F.ReskinCheck(checkbox)
 		end
 
 		local dropdowns = {

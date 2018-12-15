@@ -310,6 +310,7 @@ function F:ReskinClose(a1, p, a2, x, y)
 	self:SetSize(17, 17)
 
 	F.StripTextures(self, true)
+	F.CleanTextures(self)
 
 	if not a1 then
 		self:SetPoint("TOPRIGHT", -6, -6)
@@ -791,6 +792,8 @@ function F:ReskinStatusBar(classColor, stripTex)
 end
 
 function F:ReskinDecline()
+	F.Reskin(self)
+
 	local w = self:GetWidth()
 	self.pixels = {}
 	for i = 1, 2 do
@@ -801,8 +804,6 @@ function F:ReskinDecline()
 		tex:SetRotation(math.rad((i-1/2)*90))
 		tinsert(self.pixels, tex)
 	end
-
-	F.Reskin(self)
 end
 
 function F:ReskinIconStyle()
