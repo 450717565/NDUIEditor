@@ -4,7 +4,6 @@ C.themes["Blizzard_EncounterJournal"] = function()
 	local r, g, b = C.r, C.g, C.b
 
 	F.ReskinPortraitFrame(EncounterJournal, true)
-	F.StripTextures(EncounterJournalInset, true)
 	F.StripTextures(EncounterJournalEncounterFrameInfo, true)
 	EncounterJournalInstanceSelectBG:Hide()
 	EncounterJournalEncounterFrameInfoInstanceButton:Hide()
@@ -70,11 +69,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 			bg:SetPoint("TOPLEFT", 3, -3)
 			bg:SetPoint("BOTTOMRIGHT", -4, 2)
 
-			bu:SetHighlightTexture(C.media.backdrop)
-			local hl = bu:GetHighlightTexture()
-			hl:SetVertexColor(1, 1, 1, .25)
-			hl:SetPoint("TOPLEFT", bg, 1, -1)
-			hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
+			F.ReskinHighlight(bu, false, bg)
 
 			index = index + 1
 		end
@@ -104,14 +99,9 @@ C.themes["Blizzard_EncounterJournal"] = function()
 			bossButton = _G["EncounterJournalBossButton"..numBossButtons]
 			while bossButton do
 				F.Reskin(bossButton, true)
+				F.ReskinHighlight(bossButton, true)
 
 				bossButton.text:SetTextColor(1, 1, 1)
-
-				local hl = bossButton:GetHighlightTexture()
-				hl:SetColorTexture(r, g, b, .25)
-				hl:SetPoint("TOPLEFT", 1, -1)
-				hl:SetPoint("BOTTOMRIGHT", -1, 1)
-
 				bossButton.creature:SetPoint("TOPLEFT", 0, -4)
 
 				numBossButtons = numBossButtons + 1
@@ -187,9 +177,8 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		item.icon:SetPoint("TOPLEFT", 2, -3)
 		item.icon:SetSize(39, 39)
 
-		item.icon:SetTexCoord(.08, .92, .08, .92)
 		item.icon:SetDrawLayer("OVERLAY")
-		F.CreateBDFrame(item.icon, .25)
+		F.ReskinIcon(item.icon, true)
 
 		local bg = F.CreateBDFrame(item, .25)
 		bg:SetPoint("TOPLEFT", 1, -1)
@@ -209,11 +198,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		bg:SetPoint("TOPLEFT")
 		bg:SetPoint("BOTTOMRIGHT", 0, 1)
 
-		result:SetHighlightTexture(C.media.backdrop)
-		local hl = result:GetHighlightTexture()
-		hl:SetVertexColor(r, g, b, .25)
-		hl:SetPoint("TOPLEFT", bg, 1, -1)
-		hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
+		F.ReskinHighlight(result, true, bg)
 	end
 
 	for i = 1, 5 do
@@ -241,15 +226,9 @@ C.themes["Blizzard_EncounterJournal"] = function()
 			bg:SetPoint("TOPLEFT", 2, -2)
 			bg:SetPoint("BOTTOMRIGHT", -1, 1)
 
-			bu.icon:SetTexCoord(.08, .92, .08, .92)
+			F.ReskinHighlight(bu, true, bg)
+			F.ReskinIcon(bu.icon, true)
 			bu.icon.SetTexCoord = F.dummy
-			F.CreateBDFrame(bu.icon, .25)
-
-			bu:SetHighlightTexture(C.media.backdrop)
-			local hl = bu:GetHighlightTexture()
-			hl:SetVertexColor(r, g, b, .25)
-			hl:SetPoint("TOPLEFT", bg, 1, -1)
-			hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
 		end
 	end
 
@@ -397,8 +376,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 	hooksecurefunc(EncounterJournal.LootJournal.ItemSetsFrame, "ConfigureItemButton", function(_, button)
 		if not button.bg then
 			button.Border:SetAlpha(0)
-			button.Icon:SetTexCoord(.08, .92, .08, .92)
-			button.bg = F.CreateBDFrame(button.Icon, .25)
+			button.bg = F.ReskinIcon(button.Icon, true)
 		end
 
 		local quality = select(3, GetItemInfo(button.itemID))

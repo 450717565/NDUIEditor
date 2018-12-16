@@ -119,6 +119,7 @@ C.themes["Blizzard_Calendar"] = function()
 	downtex:SetPoint("CENTER")
 	downtex:SetVertexColor(1, 1, 1)
 
+	F.ReskinCheck(CalendarCreateEventLockEventCheck)
 	F.ReskinClose(CalendarCloseButton, "TOPRIGHT", CalendarFrame, "TOPRIGHT", -14, -4)
 	F.ReskinClose(CalendarCreateEventCloseButton)
 	F.ReskinClose(CalendarViewEventCloseButton)
@@ -146,7 +147,5 @@ C.themes["Blizzard_Calendar"] = function()
 	F.ReskinArrow(CalendarNextMonthButton, "right")
 	CalendarPrevMonthButton:SetSize(19, 19)
 	CalendarNextMonthButton:SetSize(19, 19)
-	F.ReskinCheck(CalendarCreateEventLockEventCheck)
-
 	CalendarCreateEventDifficultyOptionDropDown:SetWidth(150)
 end

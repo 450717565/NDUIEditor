@@ -3,12 +3,12 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_AchievementUI"] = function()
 	local r, g, b = C.r, C.g, C.b
 
-	local frames = {AchievementFrame, AchievementFrameHeader, AchievementFrameSummary, AchievementFrameSummaryCategoriesHeader, AchievementFrameSummaryAchievementsHeader, AchievementFrameCategories, AchievementFrameCategoriesContainerScrollBar, AchievementFrameAchievements, AchievementFrameComparison, AchievementFrameComparisonHeader, AchievementFrameStatsBG}
+	local frames = {AchievementFrameHeader, AchievementFrameSummary, AchievementFrameSummaryCategoriesHeader, AchievementFrameSummaryAchievementsHeader, AchievementFrameCategories, AchievementFrameCategoriesContainerScrollBar, AchievementFrameAchievements, AchievementFrameComparison, AchievementFrameComparisonHeader, AchievementFrameStatsBG}
 	for _, frame in next, frames do
 		F.StripTextures(frame, true)
 	end
-	F.CreateBD(AchievementFrame)
-	F.CreateSD(AchievementFrame)
+
+	F.ReskinPortraitFrame(AchievementFrame, true)
 	AchievementFrameHeaderTitle:Hide()
 	AchievementFrameSummary:GetChildren():Hide()
 	select(2, AchievementFrameAchievements:GetChildren()):Hide()
@@ -27,11 +27,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 					bg:SetPoint("TOPLEFT", 0, -1)
 					bg:SetPoint("BOTTOMRIGHT", 0, 1)
 
-					bu:SetHighlightTexture(C.media.backdrop)
-					local hl = bu:GetHighlightTexture()
-					hl:SetVertexColor(r, g, b, .25)
-					hl:SetPoint("TOPLEFT", bg, 1, -1)
-					hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
+					F.ReskinHighlight(bu, true, bg)
 				end
 				first = false
 			end
@@ -67,8 +63,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 		bu.description:SetShadowOffset(1, -1)
 		bu.description.SetShadowOffset = F.dummy
 
-		bu.icon.texture:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(bu.icon.texture, .25)
+		F.ReskinIcon(bu.icon.texture, true)
 
 		local bg = F.CreateBDFrame(bu, .25)
 		bg:SetPoint("TOPLEFT", 1, -1)
@@ -153,8 +148,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 				text.SetShadowOffset = F.dummy
 
 				local ic = _G["AchievementFrameSummaryAchievement"..i.."IconTexture"]
-				ic:SetTexCoord(.08, .92, .08, .92)
-				F.CreateBDFrame(ic, .25)
+				F.ReskinIcon(ic, true)
 
 				bu.reskinned = true
 			end
@@ -224,15 +218,12 @@ C.themes["Blizzard_AchievementUI"] = function()
 		text.SetShadowOffset = F.dummy
 
 		local ic = _G["AchievementFrameComparisonContainerButton"..i.."PlayerIconTexture"]
-		ic:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(ic, .25)
+		F.ReskinIcon(ic, true)
 
 		local ic = _G["AchievementFrameComparisonContainerButton"..i.."FriendIconTexture"]
-		ic:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(ic, .25)
+		F.ReskinIcon(ic, true)
 	end
 
-	F.ReskinClose(AchievementFrameCloseButton)
 	F.ReskinScroll(AchievementFrameAchievementsContainerScrollBar)
 	F.ReskinScroll(AchievementFrameStatsContainerScrollBar)
 	F.ReskinScroll(AchievementFrameCategoriesContainerScrollBar)
@@ -256,11 +247,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 		bg:SetPoint("TOPLEFT")
 		bg:SetPoint("BOTTOMRIGHT", 0, 1)
 
-		result:SetHighlightTexture(C.media.backdrop)
-		local hl = result:GetHighlightTexture()
-		hl:SetVertexColor(r, g, b, .25)
-		hl:SetPoint("TOPLEFT", bg, 1, -1)
-		hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
+		F.ReskinHighlight(result, true, bg)
 	end
 
 	for i = 1, 5 do
@@ -287,14 +274,8 @@ C.themes["Blizzard_AchievementUI"] = function()
 			bg:SetPoint("TOPLEFT", 2, -2)
 			bg:SetPoint("BOTTOMRIGHT", -1, 1)
 
-			bu.icon:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(bu.icon, .25)
-
-			bu:SetHighlightTexture(C.media.backdrop)
-			local hl = bu:GetHighlightTexture()
-			hl:SetVertexColor(r, g, b, .25)
-			hl:SetPoint("TOPLEFT", bg, 1, -1)
-			hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
+			F.ReskinIcon(bu.icon, true)
+			F.ReskinHighlight(bu, true, bg)
 		end
 	end
 

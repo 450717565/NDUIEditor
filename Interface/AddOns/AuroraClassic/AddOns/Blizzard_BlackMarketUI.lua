@@ -3,13 +3,18 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_BlackMarketUI"] = function()
 	local r, g, b = C.r, C.g, C.b
 
-	F.StripTextures(BlackMarketFrame, true)
+	F.ReskinPortraitFrame(BlackMarketFrame, true)
 	F.StripTextures(BlackMarketFrame.Inset, true)
-	F.StripTextures(BlackMarketFrame.HotDeal, true)
 	F.StripTextures(BlackMarketFrame.MoneyFrameBorder, true)
 
-	F.CreateBDFrame(BlackMarketFrame.HotDeal.Item, .25)
-	BlackMarketFrame.HotDeal.Item.IconTexture:SetTexCoord(.08, .92, .08, .92)
+	F.Reskin(BlackMarketFrame.BidButton)
+	F.ReskinInput(BlackMarketBidPriceGold)
+	F.ReskinScroll(BlackMarketScrollFrameScrollBar)
+
+	local HotDeal = BlackMarketFrame.HotDeal
+	F.StripTextures(HotDeal, true)
+	F.CreateBDFrame(HotDeal, .25)
+	F.ReskinIcon(HotDeal.Item.IconTexture, true)
 
 	local headers = {"ColumnName", "ColumnLevel", "ColumnType", "ColumnDuration", "ColumnHighBidder", "ColumnCurrentBid"}
 	for _, header in pairs(headers) do
@@ -20,14 +25,6 @@ C.themes["Blizzard_BlackMarketUI"] = function()
 		bg:SetPoint("TOPLEFT", 2, -2)
 		bg:SetPoint("BOTTOMRIGHT", -1, -3)
 	end
-
-	F.CreateBD(BlackMarketFrame)
-	F.CreateSD(BlackMarketFrame)
-	F.CreateBDFrame(BlackMarketFrame.HotDeal, .25)
-	F.Reskin(BlackMarketFrame.BidButton)
-	F.ReskinClose(BlackMarketFrame.CloseButton)
-	F.ReskinInput(BlackMarketBidPriceGold)
-	F.ReskinScroll(BlackMarketScrollFrameScrollBar)
 
 	hooksecurefunc("BlackMarketScrollFrame_Update", function()
 		local buttons = BlackMarketScrollFrame.buttons

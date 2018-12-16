@@ -15,8 +15,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	overlayFrames[2]:DisableDrawLayer("OVERLAY")
 
 	local sideToggle = WorldMapFrame.SidePanelToggle
-	--sideToggle.OpenButton:GetRegions():Hide()
-	--sideToggle.CloseButton:GetRegions():Hide()
 	F.ReskinArrow(sideToggle.OpenButton, "right")
 	F.ReskinArrow(sideToggle.CloseButton, "left")
 

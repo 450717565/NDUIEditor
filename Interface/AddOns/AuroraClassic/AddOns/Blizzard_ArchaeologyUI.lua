@@ -1,10 +1,7 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_ArchaeologyUI"] = function()
-	F.StripTextures(ArchaeologyFrame, true)
-	F.StripTextures(ArchaeologyFrameInset, true)
-	F.CreateBD(ArchaeologyFrame)
-	F.CreateSD(ArchaeologyFrame)
+	F.ReskinPortraitFrame(ArchaeologyFrame, true)
 	F.Reskin(ArchaeologyFrameArtifactPageSolveFrameSolveButton)
 	F.Reskin(ArchaeologyFrameArtifactPageBackButton)
 
@@ -28,10 +25,7 @@ C.themes["Blizzard_ArchaeologyUI"] = function()
 		bg:SetPoint("TOPLEFT", -1, 1)
 		bg:SetPoint("BOTTOMRIGHT", 1, -1)
 
-		local hl = button:GetHighlightTexture()
-		hl:SetVertexColor(1, 1, 1, .5)
-		hl:SetPoint("TOPLEFT", bg, 1, -1)
-		hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
+		F.ReskinHighlight(button, true, bg)
 
 		local icon = _G[bu.."Icon"]
 		F.ReskinIcon(icon)
@@ -54,19 +48,13 @@ C.themes["Blizzard_ArchaeologyUI"] = function()
 	ArchaeologyFrameCompletedButton:SetFrameLevel(ArchaeologyFrame:GetFrameLevel() - 1)
 
 	F.ReskinDropDown(ArchaeologyFrameRaceFilter)
-	F.ReskinClose(ArchaeologyFrameCloseButton)
 	F.ReskinScroll(ArchaeologyFrameArtifactPageHistoryScrollScrollBar)
 	F.ReskinArrow(ArchaeologyFrameCompletedPagePrevPageButton, "left")
 	F.ReskinArrow(ArchaeologyFrameCompletedPageNextPageButton, "right")
-	ArchaeologyFrameCompletedPagePrevPageButtonIcon:Hide()
-	ArchaeologyFrameCompletedPageNextPageButtonIcon:Hide()
 	F.ReskinArrow(ArchaeologyFrameSummaryPagePrevPageButton, "left")
 	F.ReskinArrow(ArchaeologyFrameSummaryPageNextPageButton, "right")
-	ArchaeologyFrameSummaryPagePrevPageButtonIcon:Hide()
-	ArchaeologyFrameSummaryPageNextPageButtonIcon:Hide()
 
 	F.ReskinStatusBar(ArchaeologyFrameRankBar, true, true)
 	F.ReskinStatusBar(ArchaeologyFrameArtifactPageSolveFrameStatusBar, true, true)
-	ArchaeologyFrameArtifactPageIcon:SetTexCoord(.08, .92, .08, .92)
-	F.CreateBDFrame(ArchaeologyFrameArtifactPageIcon, .25)
+	F.ReskinIcon(ArchaeologyFrameArtifactPageIcon, true)
 end

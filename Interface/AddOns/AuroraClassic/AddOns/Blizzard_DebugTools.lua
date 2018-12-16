@@ -2,10 +2,7 @@ local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_DebugTools"] = function()
 	-- EventTraceFrame
-
-	F.CreateBD(EventTraceFrame)
-	F.CreateSD(EventTraceFrame)
-	F.ReskinClose(EventTraceFrameCloseButton)
+	F.ReskinPortraitFrame(EventTraceFrame, true)
 
 	select(1, EventTraceFrameScroll:GetRegions()):Hide()
 	local bu = select(2, EventTraceFrameScroll:GetRegions())
@@ -27,56 +24,30 @@ C.themes["Blizzard_DebugTools"] = function()
 		EventTraceTooltip:SetParent(UIParent)
 	end
 
-	local texs = {
-		"TopLeft",
-		"TopRight",
-		"Top",
-		"BottomLeft",
-		"BottomRight",
-		"Bottom",
-		"Left",
-		"Right",
-		"TitleBG",
-		"DialogBG",
-	}
-
-	for i = 1, #texs do
-		_G["EventTraceFrame"..texs[i]]:SetTexture(nil)
-	end
-
 	-- Table Attribute Display
-
 	local function reskinTableAttribute(frame)
-		F.CreateBD(frame)
-		F.CreateSD(frame)
-		F.ReskinClose(frame.CloseButton)
+		F.ReskinPortraitFrame(frame, true)
+		F.StripTextures(frame.ScrollFrameArt, true)
+		F.CreateBDFrame(frame.ScrollFrameArt, .25)
 		F.ReskinCheck(frame.VisibilityButton)
 		F.ReskinCheck(frame.HighlightButton)
 		F.ReskinCheck(frame.DynamicUpdateButton)
 		F.ReskinInput(frame.FilterBox)
+		F.ReskinScroll(frame.LinesScrollFrame.ScrollBar)
 
 		F.ReskinArrow(frame.OpenParentButton, "up")
 		F.ReskinArrow(frame.NavigateBackwardButton, "left")
 		F.ReskinArrow(frame.NavigateForwardButton, "right")
 		F.ReskinArrow(frame.DuplicateButton, "up")
 
+		frame.OpenParentButton:ClearAllPoints()
+		frame.OpenParentButton:SetPoint("TOPLEFT", frame, "TOPLEFT", 2, -2)
 		frame.NavigateBackwardButton:ClearAllPoints()
-		frame.NavigateBackwardButton:SetPoint("LEFT", frame.OpenParentButton, "RIGHT")
+		frame.NavigateBackwardButton:SetPoint("LEFT", frame.OpenParentButton, "RIGHT", 2, 0)
 		frame.NavigateForwardButton:ClearAllPoints()
-		frame.NavigateForwardButton:SetPoint("LEFT", frame.NavigateBackwardButton, "RIGHT")
+		frame.NavigateForwardButton:SetPoint("LEFT", frame.NavigateBackwardButton, "RIGHT", 2, 0)
 		frame.DuplicateButton:ClearAllPoints()
-		frame.DuplicateButton:SetPoint("LEFT", frame.NavigateForwardButton, "RIGHT")
-
-		for i = 1, 10 do
-			select(i, frame:GetRegions()):Hide()
-		end
-
-		for i = 1, 8 do
-			select(i, frame.ScrollFrameArt:GetRegions()):Hide()
-		end
-		F.CreateBD(frame.ScrollFrameArt, .3)
-		F.CreateSD(frame.ScrollFrameArt)
-		F.ReskinScroll(frame.LinesScrollFrame.ScrollBar)
+		frame.DuplicateButton:SetPoint("LEFT", frame.NavigateForwardButton, "RIGHT", 2, 0)
 	end
 
 	reskinTableAttribute(TableAttributeDisplay)

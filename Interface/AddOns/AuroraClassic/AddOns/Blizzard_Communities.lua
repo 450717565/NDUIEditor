@@ -18,8 +18,7 @@ C.themes["Blizzard_Communities"] = function()
 		frame.InsetFrame:Hide()
 		if frame.CircleMask then
 			frame.CircleMask:Hide()
-			frame.Icon:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(frame.Icon, .25)
+			F.ReskinIcon(frame.Icon, true)
 		end
 		if frame.FindAGuildButton then F.Reskin(frame.FindAGuildButton) end
 		if frame.AcceptButton then F.Reskin(frame.AcceptButton) end
@@ -58,8 +57,7 @@ C.themes["Blizzard_Communities"] = function()
 		local tab = CommunitiesFrame[name]
 		if not tab.styled then
 			tab:GetRegions():Hide()
-			tab.Icon:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(tab.Icon)
+			F.ReskinIcon(tab.Icon, true)
 
 			tab.styled = true
 		end
@@ -327,8 +325,7 @@ C.themes["Blizzard_Communities"] = function()
 		for i = 1, #buttons do
 			local button = buttons[i]
 			if button and button:IsShown() and not button.bg then
-				button.Icon:SetTexCoord(.08, .92, .08, .92)
-				F.CreateBDFrame(button.Icon, .25)
+				F.ReskinIcon(button.Icon, true)
 				for i = 1, 4 do
 					select(i, button:GetRegions()):SetAlpha(0)
 				end
@@ -345,8 +342,7 @@ C.themes["Blizzard_Communities"] = function()
 			local button = buttons[i]
 			if button then
 				if not button.bg then
-					button.Icon:SetTexCoord(.08, .92, .08, .92)
-					F.CreateBDFrame(button.Icon, .25)
+					F.ReskinIcon(button.Icon, true)
 					select(6, button:GetRegions()):SetAlpha(0)
 					select(7, button:GetRegions()):SetAlpha(0)
 

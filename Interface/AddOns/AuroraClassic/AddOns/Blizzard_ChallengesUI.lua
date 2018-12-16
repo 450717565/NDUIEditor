@@ -13,6 +13,7 @@ C.themes["Blizzard_ChallengesUI"] = function()
 				bu.Icon:SetTexCoord(.08, .92, .08, .92)
 				F.CreateBD(bu, .25)
 				F.CreateSD(bu)
+
 				bu.styled = true
 			end
 		end
@@ -20,8 +21,7 @@ C.themes["Blizzard_ChallengesUI"] = function()
 		if IsAddOnLoaded("AngryKeystones") and not angryStyle then
 			local scheduel, party = select(5, self:GetChildren())
 
-			scheduel:GetRegions():SetAlpha(0)
-			select(3, scheduel:GetRegions()):SetAlpha(0)
+			F.StripTextures(scheduel, true)
 			F.CreateBDFrame(scheduel, .25)
 			if scheduel.Entries then
 				for i = 1, 3 do
@@ -29,8 +29,7 @@ C.themes["Blizzard_ChallengesUI"] = function()
 				end
 			end
 
-			party:GetRegions():SetAlpha(0)
-			select(3, party:GetRegions()):SetAlpha(0)
+			F.StripTextures(party, true)
 			F.CreateBDFrame(party, .25)
 
 			angryStyle = true
@@ -45,16 +44,13 @@ C.themes["Blizzard_ChallengesUI"] = function()
 		end
 	end)
 
-	local keystone = ChallengesKeystoneFrame
-	F.CreateBD(keystone)
-	F.CreateSD(keystone)
-	F.ReskinClose(keystone.CloseButton)
-	F.Reskin(keystone.StartButton)
+	F.ReskinPortraitFrame(ChallengesKeystoneFrame, true)
+	F.Reskin(ChallengesKeystoneFrame.StartButton)
 
-	hooksecurefunc(keystone, "Reset", function(self)
+	hooksecurefunc(ChallengesKeystoneFrame, "Reset", function(self)
 		self:GetRegions():SetAlpha(0)
 		self.InstructionBackground:SetAlpha(0)
 	end)
 
-	hooksecurefunc(keystone, "OnKeystoneSlotted", F.AffixesSetup)
+	hooksecurefunc(ChallengesKeystoneFrame, "OnKeystoneSlotted", F.AffixesSetup)
 end

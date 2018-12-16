@@ -15,7 +15,98 @@ C.themes["Blizzard_Collections"] = function()
 	CollectionsJournalTab4:SetPoint("LEFT", CollectionsJournalTab3, "RIGHT", -15, 0)
 	CollectionsJournalTab5:SetPoint("LEFT", CollectionsJournalTab4, "RIGHT", -15, 0)
 
+	F.ReskinFilterButton(HeirloomsJournalFilterButton)
+	F.ReskinFilterButton(MountJournalFilterButton)
+	F.ReskinFilterButton(PetJournalFilterButton)
+	F.ReskinFilterButton(ToyBoxFilterButton)
+	F.ReskinFilterButton(WardrobeCollectionFrame.FilterButton)
+
+	F.ReskinInput(HeirloomsJournalSearchBox)
+	F.ReskinInput(MountJournalSearchBox)
+	F.ReskinInput(PetJournalSearchBox)
+	F.ReskinInput(ToyBox.searchBox)
+	F.ReskinInput(WardrobeCollectionFrameSearchBox)
+
+	F.ReskinScroll(MountJournalListScrollFrameScrollBar)
+	F.ReskinScroll(PetJournalListScrollFrameScrollBar)
+	F.ReskinScroll(WardrobeCollectionFrameScrollFrameScrollBar)
+
+	MountJournalFilterButton:ClearAllPoints()
+	MountJournalFilterButton:SetPoint("LEFT", MountJournalSearchBox, "RIGHT", 2, 0)
+	PetJournalFilterButton:ClearAllPoints()
+	PetJournalFilterButton:SetPoint("LEFT", PetJournalSearchBox, "RIGHT", 2, 0)
+	WardrobeCollectionFrame.FilterButton:ClearAllPoints()
+	WardrobeCollectionFrame.FilterButton:SetPoint("LEFT", WardrobeCollectionFrameSearchBox, "RIGHT", 2, 0)
+
+	local function reskinDrag(drag, point)
+		drag.ActiveTexture:SetTexture(C.media.checked)
+		drag:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
+		drag:GetHighlightTexture():SetAllPoints(point)
+	end
+
+	local scrollFrames = {MountJournal.ListScrollFrame, PetJournal.listScroll, WardrobeCollectionFrame.SetsCollectionFrame.ScrollFrame}
+	for _, scrollFrame in pairs(scrollFrames) do
+		for i = 1, #scrollFrame.buttons do
+			local bu = scrollFrame.buttons[i]
+			F.StripTextures(bu)
+
+			local bg = F.CreateBDFrame(bu, .25)
+			bg:SetPoint("TOPLEFT", 1, -1)
+			bg:SetPoint("BOTTOMRIGHT", -1, 1)
+
+			local sel = bu.SelectedTexture or bu.selectedTexture
+			sel:SetColorTexture(r, g, b, .25)
+			sel:SetPoint("TOPLEFT", bg, 1, -1)
+			sel:SetPoint("BOTTOMRIGHT", bg, -1, 1)
+
+			local ic = bu.Icon or bu.icon
+			F.ReskinIcon(ic, true)
+
+			if bu.HighlightTexture then
+				local hl = bu.HighlightTexture
+				hl:SetTexture(C.media.backdrop)
+				hl:SetVertexColor(r, g, b, .25)
+				hl:SetPoint("TOPLEFT", bg, 1, -1)
+				hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
+			else
+				F.ReskinHighlight(bu, true, bg)
+			end
+
+			if bu.ProgressBar then
+				local bar = bu.ProgressBar
+				bar:SetTexture(C.media.backdrop)
+				bar:SetVertexColor(r, g, b, .25)
+				bar:SetPoint("TOPLEFT", bg, 1, -1)
+				bar:SetPoint("BOTTOMLEFT", bg, -1, 1)
+			end
+
+			if bu.DragButton then
+				reskinDrag(bu.DragButton, ic)
+
+				bu.DragButton.favorites = bu.DragButton:CreateTexture(nil, "ARTWORK")
+				bu.DragButton.favorites:SetAtlas("collections-icon-favorites")
+				bu.DragButton.favorites:SetSize(30, 30)
+				bu.DragButton.favorites:SetPoint("TOPLEFT", -10, 8)
+			end
+
+			if bu.dragButton then
+				reskinDrag(bu.dragButton, ic)
+
+				bu.dragButton.levelBG:SetAlpha(0)
+				bu.dragButton.level:SetTextColor(1, 1, 1)
+			end
+		end
+	end
+
 	-- [[ Mounts and pets ]]
+	if AuroraConfig.tooltips then
+		for _, f in next, {PetJournalPrimaryAbilityTooltip, PetJournalSecondaryAbilityTooltip} do
+			local bg = F.CreateBDFrame(f)
+			bg:SetAllPoints()
+			bg:SetFrameLevel(0)
+		end
+	end
+
 	local lists = {PetJournal, PetJournal.PetCount, PetJournal.LeftInset, PetJournal.RightInset, PetJournal.PetCardInset, PetJournal.loadoutBorder, MountJournal, MountJournal.MountCount, MountJournal.LeftInset, MountJournal.RightInset, MountJournal.MountDisplay, MountJournal.MountDisplay.ShadowOverlay}
 	for _, list in next, lists do
 		F.StripTextures(list, true)
@@ -28,81 +119,38 @@ C.themes["Blizzard_Collections"] = function()
 	F.Reskin(MountJournalMountButton)
 	F.Reskin(PetJournalSummonButton)
 	F.Reskin(PetJournalFindBattle)
-	F.ReskinScroll(MountJournalListScrollFrameScrollBar)
-	F.ReskinScroll(PetJournalListScrollFrameScrollBar)
-	F.ReskinInput(MountJournalSearchBox)
-	F.ReskinInput(PetJournalSearchBox)
+
 	F.ReskinArrow(MountJournal.MountDisplay.ModelScene.RotateLeftButton, "left")
 	F.ReskinArrow(MountJournal.MountDisplay.ModelScene.RotateRightButton, "right")
-	F.ReskinFilterButton(PetJournalFilterButton)
-	F.ReskinFilterButton(MountJournalFilterButton)
 
-	MountJournalFilterButton:ClearAllPoints()
-	MountJournalFilterButton:SetPoint("LEFT", MountJournalSearchBox, "RIGHT", 2, 0)
-	PetJournalFilterButton:ClearAllPoints()
-	PetJournalFilterButton:SetPoint("LEFT", PetJournalSearchBox, "RIGHT", 2, 0)
-	PetJournalTutorialButton:SetPoint("TOPLEFT", -14, 14)
+	F.ReskinIcon(MountJournal.MountDisplay.InfoButton.Icon, true)
 
-	local scrollFrames = {MountJournal.ListScrollFrame.buttons, PetJournal.listScroll.buttons}
-	for _, scrollFrame in pairs(scrollFrames) do
-		for i = 1, #scrollFrame do
-			local bu = scrollFrame[i]
-			bu:GetRegions():Hide()
-			bu.iconBorder:SetTexture("")
-			bu.selectedTexture:SetTexture("")
+	local function reskinButton(button)
+		local bu = _G[button]
+		bu:SetPushedTexture("")
+		bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 
-			local bg = F.CreateBDFrame(bu, .25)
-			bg:SetPoint("TOPLEFT", 0, -1)
-			bg:SetPoint("BOTTOMRIGHT", 0, 1)
-			bu.bg = bg
+		local bd = _G[button.."Border"]
+		bd:Hide()
 
-			local hl = bu:GetHighlightTexture()
-			hl:SetColorTexture(r, g, b, .25)
-			hl:SetPoint("TOPLEFT", bg, 1, -1)
-			hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
-
-			local ic = bu.icon
-			ic:SetTexCoord(.08, .92, .08, .92)
-			ic.bg = F.CreateBDFrame(ic, .25)
-
-			bu.name:SetParent(bg)
-
-			if bu.DragButton then
-				bu.DragButton.ActiveTexture:SetTexture(C.media.checked)
-				bu.DragButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-				bu.DragButton:GetHighlightTexture():SetAllPoints(ic)
-			else
-				bu.dragButton.ActiveTexture:SetTexture(C.media.checked)
-				bu.dragButton.levelBG:SetAlpha(0)
-				bu.dragButton.level:SetFontObject(GameFontNormal)
-				bu.dragButton.level:SetTextColor(1, 1, 1)
-				bu.dragButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-				bu.dragButton:GetHighlightTexture():SetAllPoints(ic)
-			end
-		end
+		local ic = _G[button.."IconTexture"]
+		F.ReskinIcon(ic, true)
 	end
+
+	reskinButton("MountJournalSummonRandomFavoriteButton")
+	reskinButton("PetJournalHealPetButton")
+	reskinButton("PetJournalSummonRandomFavoritePetButton")
+
+	PetJournalTutorialButton:SetPoint("TOPLEFT", -14, 14)
+	MountJournalSummonRandomFavoriteButton:SetPoint("BOTTOMRIGHT", MountJournal.MountDisplay, "TOPRIGHT", 0, 4)
+	PetJournalLoadoutBorderSlotHeaderText:SetParent(PetJournal)
+	PetJournalLoadoutBorderSlotHeaderText:SetPoint("CENTER", PetJournalLoadoutBorderTop, "TOP", 0, 4)
 
 	local function updateMountScroll()
 		local buttons = MountJournal.ListScrollFrame.buttons
 		for i = 1, #buttons do
 			local bu = buttons[i]
-			if bu.bg then
-				if bu.index ~= nil then
-					bu.bg:Show()
-					bu.icon:Show()
-					bu.icon.bg:Show()
-
-					if bu.selectedTexture:IsShown() then
-						bu.bg:SetBackdropColor(r, g, b, .25)
-					else
-						bu.bg:SetBackdropColor(0, 0, 0, .25)
-					end
-				else
-					bu.bg:Hide()
-					bu.icon:Hide()
-					bu.icon.bg:Hide()
-				end
-			end
+			bu.DragButton.favorites:SetShown(bu.favorite:IsShown())
 		end
 	end
 
@@ -131,12 +179,6 @@ C.themes["Blizzard_Collections"] = function()
 					else
 						bu.name:SetTextColor(.5, .5, .5)
 					end
-
-					if bu.selectedTexture:IsShown() then
-						bu.bg:SetBackdropColor(r, g, b, .25)
-					else
-						bu.bg:SetBackdropColor(0, 0, 0, .25)
-					end
 				end
 			end
 		end
@@ -145,68 +187,27 @@ C.themes["Blizzard_Collections"] = function()
 	hooksecurefunc("PetJournal_UpdatePetList", updatePetScroll)
 	hooksecurefunc(PetJournalListScrollFrame, "update", updatePetScroll)
 
-	local ic = MountJournal.MountDisplay.InfoButton.Icon
-	ic:SetTexCoord(.08, .92, .08, .92)
-	F.CreateBDFrame(ic, .25)
-
-	PetJournalHealPetButtonBorder:Hide()
-	PetJournalHealPetButtonIconTexture:SetTexCoord(.08, .92, .08, .92)
-	PetJournal.HealPetButton:SetPushedTexture("")
-	PetJournal.HealPetButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-	PetJournal.HealPetButton:SetPoint("BOTTOMRIGHT", PetJournalPetCard, "TOPRIGHT", -1, 4)
-	F.CreateBDFrame(PetJournal.HealPetButton, .25)
-
-	if AuroraConfig.tooltips then
-		for _, f in next, {PetJournalPrimaryAbilityTooltip, PetJournalSecondaryAbilityTooltip} do
-			local bg = F.CreateBDFrame(f)
-			bg:SetAllPoints()
-			bg:SetFrameLevel(0)
-		end
-	end
-
-	PetJournalLoadoutBorderSlotHeaderText:SetParent(PetJournal)
-	PetJournalLoadoutBorderSlotHeaderText:SetPoint("CENTER", PetJournalLoadoutBorderTop, "TOP", 0, 4)
-
-	PetJournalSummonRandomFavoritePetButtonBorder:Hide()
-	PetJournalSummonRandomFavoritePetButtonIconTexture:SetTexCoord(.08, .92, .08, .92)
-	PetJournalSummonRandomFavoritePetButton:SetPushedTexture("")
-	PetJournalSummonRandomFavoritePetButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-	F.CreateBDFrame(PetJournalSummonRandomFavoritePetButton, .25)
-
-	-- Favourite mount button
-	MountJournalSummonRandomFavoriteButtonBorder:Hide()
-	MountJournalSummonRandomFavoriteButtonIconTexture:SetTexCoord(.08, .92, .08, .92)
-	MountJournalSummonRandomFavoriteButton:SetPushedTexture("")
-	MountJournalSummonRandomFavoriteButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-	MountJournalSummonRandomFavoriteButton:SetPoint("BOTTOMRIGHT", MountJournal.MountDisplay, "TOPRIGHT", 0, 4)
-	F.CreateBDFrame(MountJournalSummonRandomFavoriteButton, .25)
-
 	-- Pet card
 	local card = PetJournalPetCard
-
 	F.StripTextures(card, true)
+	F.CreateBDFrame(card, .25)
 	F.StripTextures(card.PetInfo)
+
 	card.AbilitiesBG1:SetAlpha(0)
 	card.AbilitiesBG2:SetAlpha(0)
 	card.AbilitiesBG3:SetAlpha(0)
 
-	card.PetInfo.level:SetFontObject(GameFontNormal)
 	card.PetInfo.level:SetTextColor(1, 1, 1)
 
 	card.PetInfo.icon:SetTexCoord(.08, .92, .08, .92)
 	card.PetInfo.icon.bg = F.CreateBDFrame(card.PetInfo.icon, .25)
-
-	F.CreateBD(card, .25)
-	F.CreateSD(card)
 
 	F.ReskinStatusBar(card.xpBar, false, true)
 	F.ReskinStatusBar(card.HealthFrame.healthBar, false, true)
 
 	for i = 1, 6 do
 		local bu = card["spell"..i]
-
-		bu.icon:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(bu.icon, .25)
+		F.ReskinIcon(bu.icon, true)
 	end
 
 	hooksecurefunc("PetJournal_UpdatePetCard", function(self)
@@ -230,7 +231,6 @@ C.themes["Blizzard_Collections"] = function()
 		bg:SetPoint("BOTTOMRIGHT")
 
 		bu.dragButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-		bu.level:SetFontObject(GameFontNormal)
 		bu.level:SetTextColor(1, 1, 1)
 		bu.icon:SetTexCoord(.08, .92, .08, .92)
 		bu.icon.bg = F.CreateBDFrame(bu.icon, .25)
@@ -251,8 +251,7 @@ C.themes["Blizzard_Collections"] = function()
 			spell.FlyoutArrow:SetSize(8, 8)
 			spell.FlyoutArrow:SetTexCoord(0, 1, 0, 1)
 
-			spell.icon:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(spell.icon, .25)
+			F.ReskinIcon(spell.icon, true)
 		end
 	end
 
@@ -270,7 +269,6 @@ C.themes["Blizzard_Collections"] = function()
 	end)
 
 	F.StripTextures(PetJournal.SpellSelect, true)
-
 	for i = 1, 2 do
 		local bu = PetJournal.SpellSelect["Spell"..i]
 
@@ -279,15 +277,11 @@ C.themes["Blizzard_Collections"] = function()
 		bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 
 		bu.icon:SetDrawLayer("ARTWORK")
-		bu.icon:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(bu.icon, .25)
+		F.ReskinIcon(bu.icon, true)
 	end
 
 	-- [[ Toy box ]]
-	local icons = ToyBox.iconsFrame
-	F.StripTextures(icons, true)
-	F.ReskinInput(ToyBox.searchBox)
-	F.ReskinFilterButton(ToyBoxFilterButton)
+	F.StripTextures(ToyBox.iconsFrame, true)
 	F.ReskinArrow(ToyBox.PagingFrame.PrevPageButton, "left")
 	F.ReskinArrow(ToyBox.PagingFrame.NextPageButton, "right")
 
@@ -323,28 +317,22 @@ C.themes["Blizzard_Collections"] = function()
 		local bu = buttons["spellButton"..i]
 		F.StripTextures(bu)
 
-		local bg = F.CreateBDFrame(bu, .25)
-		bg:SetPoint("TOPLEFT", 2.8, -1.8)
-		bg:SetPoint("BOTTOMRIGHT", -2.8, 3.8)
-
 		local ic = bu.iconTexture
-		ic:SetTexCoord(.08, .92, .08, .92)
+		F.ReskinIcon(ic, true)
 
 		local cd = bu.cooldown
 		cd:SetAllPoints(ic)
 
-		bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-		bu:GetHighlightTexture():SetAllPoints(ic)
+		local hl = bu:GetHighlightTexture()
+		hl:SetColorTexture(1, 1, 1, .25)
+		hl:SetAllPoints(ic)
 
 		hooksecurefunc(bu.name, "SetTextColor", changeTextColor)
 	end
 
 	-- [[ Heirlooms ]]
-	local icons = HeirloomsJournal.iconsFrame
-	F.StripTextures(icons, true)
-	F.ReskinInput(HeirloomsJournalSearchBox)
+	F.StripTextures(HeirloomsJournal.iconsFrame, true)
 	F.ReskinDropDown(HeirloomsJournalClassDropDown)
-	F.ReskinFilterButton(HeirloomsJournalFilterButton)
 	F.ReskinArrow(HeirloomsJournal.PagingFrame.PrevPageButton, "left")
 	F.ReskinArrow(HeirloomsJournal.PagingFrame.NextPageButton, "right")
 
@@ -363,16 +351,16 @@ C.themes["Blizzard_Collections"] = function()
 		if not button.styled then
 			local ic = button.iconTexture
 			F.StripTextures(button)
-
-			button.levelBackground:SetAlpha(0)
-			button:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-			button:GetHighlightTexture():SetAllPoints(ic)
-
-			button.iconTextureUncollected:SetTexCoord(.08, .92, .08, .92)
 			button.bg = F.CreateBDFrame(ic, .25)
 
+			button.iconTextureUncollected:SetTexCoord(.08, .92, .08, .92)
+			button.levelBackground:SetAlpha(0)
 			button.level:ClearAllPoints()
 			button.level:SetPoint("BOTTOM", 0, 1)
+
+			local hl = button:GetHighlightTexture()
+			hl:SetColorTexture(1, 1, 1, .25)
+			hl:SetAllPoints(ic)
 
 			local newLevelBg = button:CreateTexture(nil, "OVERLAY")
 			newLevelBg:SetColorTexture(0, 0, 0, .5)
@@ -432,12 +420,7 @@ C.themes["Blizzard_Collections"] = function()
 	-- [[ WardrobeCollectionFrame ]]
 	local ItemsCollectionFrame = WardrobeCollectionFrame.ItemsCollectionFrame
 	F.StripTextures(ItemsCollectionFrame, true)
-	F.ReskinFilterButton(WardrobeCollectionFrame.FilterButton)
 	F.ReskinDropDown(WardrobeCollectionFrameWeaponDropDown)
-	F.ReskinInput(WardrobeCollectionFrameSearchBox)
-
-	WardrobeCollectionFrame.FilterButton:ClearAllPoints()
-	WardrobeCollectionFrame.FilterButton:SetPoint("LEFT", WardrobeCollectionFrameSearchBox, "RIGHT", 2, 0)
 
 	for index = 1, 2 do
 		local tab = _G["WardrobeCollectionFrameTab"..index]
@@ -471,36 +454,9 @@ C.themes["Blizzard_Collections"] = function()
 	-- ItemSetsCollection
 	local SetsCollectionFrame = WardrobeCollectionFrame.SetsCollectionFrame
 	F.StripTextures(SetsCollectionFrame, true)
+	F.CreateBDFrame(SetsCollectionFrame.Model, .25)
 	SetsCollectionFrame.LeftInset:Hide()
 	SetsCollectionFrame.RightInset:Hide()
-	F.CreateBDFrame(SetsCollectionFrame.Model, .25)
-
-	local ScrollFrame = SetsCollectionFrame.ScrollFrame
-	F.ReskinScroll(ScrollFrame.scrollBar)
-	for i = 1, #ScrollFrame.buttons do
-		local bu = ScrollFrame.buttons[i]
-		F.StripTextures(bu)
-
-		bu.SelectedTexture:SetColorTexture(r, g, b, .25)
-		bu.SelectedTexture:SetPoint("TOPLEFT", 1, -2)
-		bu.SelectedTexture:SetPoint("BOTTOMRIGHT", -1, 2)
-		F.CreateBDFrame(bu.SelectedTexture, .25)
-
-		bu.Icon:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(bu.Icon, .25)
-
-		local hl = bu.HighlightTexture
-		hl:SetTexture(C.media.backdrop)
-		hl:SetVertexColor(r, g, b, .25)
-		hl:SetPoint("TOPLEFT", 1, -2)
-		hl:SetPoint("BOTTOMRIGHT", -1, 2)
-
-		local bar = bu.ProgressBar
-		bar:SetTexture(C.media.backdrop)
-		bar:SetVertexColor(r, g, b, .25)
-		bar:SetPoint("TOPLEFT", 1, -2)
-		bar:SetPoint("BOTTOMLEFT", -1, 2)
-	end
 
 	local DetailsFrame = SetsCollectionFrame.DetailsFrame
 	F.StripTextures(DetailsFrame, true)
@@ -531,16 +487,16 @@ C.themes["Blizzard_Collections"] = function()
 	F.ReskinArrow(SetsTransmogFrame.PagingFrame.NextPageButton, "right")
 
 	-- [[ Wardrobe ]]
+	F.ReskinPortraitFrame(WardrobeFrame, true)
 	F.StripTextures(WardrobeTransmogFrame, true)
 	F.StripTextures(WardrobeTransmogFrame.Inset, true)
-	F.ReskinPortraitFrame(WardrobeFrame, true)
+	F.StripTextures(WardrobeOutfitFrame, true)
+	F.CreateBDFrame(WardrobeOutfitFrame, .25)
 	F.Reskin(WardrobeTransmogFrame.ApplyButton)
 	F.Reskin(WardrobeTransmogFrame.Model.ClearAllPendingButton)
 	F.Reskin(WardrobeOutfitDropDown.SaveButton)
 	F.ReskinArrow(WardrobeTransmogFrame.SpecButton, "down")
 	F.ReskinDropDown(WardrobeOutfitDropDown)
-	F.StripTextures(WardrobeOutfitFrame, true)
-	F.CreateBDFrame(WardrobeOutfitFrame, .25)
 
 	WardrobeOutfitDropDown:SetHeight(32)
 	WardrobeOutfitDropDown.SaveButton:SetPoint("LEFT", WardrobeOutfitDropDown, "RIGHT", -13, 2)
@@ -552,22 +508,15 @@ C.themes["Blizzard_Collections"] = function()
 		if slot then
 			slot.Border:Hide()
 			slot.Icon:SetDrawLayer("BACKGROUND", 1)
-			slot.Icon:SetTexCoord(.08, .92, .08, .92)
-			local bg = F.CreateBDFrame(slot.Icon, .25)
+			local bg = F.ReskinIcon(slot.Icon, true)
 
-			slot:SetHighlightTexture(C.media.backdrop)
-			local hl = slot:GetHighlightTexture()
-			hl:SetVertexColor(1, 1, 1, .25)
-			hl:SetPoint("TOPLEFT", bg, 1, -1)
-			hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
+			F.ReskinHighlight(slot, false, bg)
 		end
 	end
 
 	-- Edit Frame
-	F.StripTextures(WardrobeOutfitEditFrame, true)
+	F.ReskinPortraitFrame(WardrobeOutfitEditFrame, true)
 	F.StripTextures(WardrobeOutfitEditFrame.EditBox, true)
-	F.CreateBD(WardrobeOutfitEditFrame)
-	F.CreateSD(WardrobeOutfitEditFrame)
 	F.CreateBDFrame(WardrobeOutfitEditFrame.EditBox,.25)
 	F.Reskin(WardrobeOutfitEditFrame.AcceptButton)
 	F.Reskin(WardrobeOutfitEditFrame.CancelButton)
@@ -587,11 +536,10 @@ C.themes["Blizzard_Collections"] = function()
 			if PetJournalBandageButton then
 				PetJournalBandageButton:SetPushedTexture("")
 				PetJournalBandageButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-				PetJournalBandageButtonBorder:Hide()
-				PetJournalBandageButtonIcon:SetTexCoord(.08, .92, .08, .92)
 				PetJournalBandageButton:SetPoint("TOPRIGHT", PetJournalHealPetButton, "TOPLEFT", -3, 0)
 				PetJournalBandageButton:SetPoint("BOTTOMLEFT", PetJournalHealPetButton, "BOTTOMLEFT", -35, 0)
-				F.CreateBDFrame(PetJournalBandageButtonIcon, .25)
+				PetJournalBandageButtonBorder:Hide()
+				F.ReskinIcon(PetJournalBandageButtonIcon, true)
 			end
 			reskinHPet = true
 		end

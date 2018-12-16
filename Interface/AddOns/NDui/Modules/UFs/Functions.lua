@@ -444,7 +444,9 @@ local function postUpdateIcon(element, _, button, _, _, duration, _, debuffType)
 		button.icon:SetDesaturated(false)
 	end
 
-	if element.showDebuffType and button.isDebuff then
+	if style == "raid" and NDuiDB["UFs"]["RaidBuffIndicator"] then
+		button.Shadow:SetBackdropBorderColor(1, 0, 0)
+	elseif element.showDebuffType and button.isDebuff then
 		local color = oUF.colors.debuff[debuffType] or oUF.colors.debuff.none
 		button.Shadow:SetBackdropBorderColor(color[1], color[2], color[3])
 	else
@@ -482,10 +484,10 @@ local function customFilter(element, unit, button, name, _, _, _, _, _, caster, 
 			return true
 		end
 	elseif style == "raid" then
-		if C.RaidBuffs[DB.MyClass] and C.RaidBuffs[DB.MyClass][spellID] and button.isPlayer then
-			return true
-		elseif C.RaidBuffs["ALL"][spellID] then
-			return true
+		if NDuiDB["UFs"]["RaidBuffIndicator"] then
+			return C.RaidBuffs["ALL"][spellID] and not button.isDebuff
+		else
+			return C.RaidBuffs[DB.MyClass][spellID] and button.isPlayer or C.RaidBuffs["ALL"][spellID]
 		end
 	elseif style == "nameplate" or style == "boss" or style == "arena" or style == "focus" then
 		if UnitIsUnit("player", unit) then
@@ -508,8 +510,23 @@ local function auraIconSize(w, n, s)
 	return (w-(n-1)*s)/n
 end
 
+local function auraSetSize(self, bu, isAuras)
+	local width = self:GetWidth()
+	local maxAuras = bu.num
+	if isAuras then
+		maxAuras = bu.numTotal or bu.numBuffs + bu.numDebuffs
+	end
+
+	local maxLines = bu.iconsPerRow and floor(maxAuras/bu.iconsPerRow + .5) or 2
+	bu.size = bu.iconsPerRow and auraIconSize(width, bu.iconsPerRow, bu.spacing) or bu.size
+	bu:SetWidth(width)
+	bu:SetHeight((bu.size + bu.spacing) * maxLines)
+end
+
 function UF:CreateAuras(self)
 	local bu = CreateFrame("Frame", nil, self)
+	bu:SetFrameLevel(self:GetFrameLevel() + 2)
+	bu.spacing = 0
 	bu.gap = false
 	bu.initialAnchor = "BOTTOMLEFT"
 	bu["growth-x"] = "RIGHT"
@@ -523,29 +540,29 @@ function UF:CreateAuras(self)
 		bu.gap = true
 		bu.initialAnchor = "TOPLEFT"
 	elseif self.mystyle == "raid" then
-		bu:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 0, 0)
-		bu.numTotal = 6
-		bu.spacing = 2
-		bu.iconsPerRow = 6
+		if NDuiDB["UFs"]["RaidBuffIndicator"] then
+			bu.initialAnchor = "LEFT"
+			bu:SetPoint("LEFT", self, 15, 0)
+			bu.size = 18*NDuiDB["UFs"]["RaidScale"]
+			bu.numTotal = 1
+		else
+			bu:SetPoint("BOTTOMLEFT", self, 0, 0)
+			bu.numTotal = 6
+			bu.iconsPerRow = 6
+			bu.spacing = 2
+		end
 		bu.disableMouse = NDuiDB["UFs"]["AurasClickThrough"]
 	elseif self.mystyle == "nameplate" then
 		bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 20)
 		bu.numTotal = NDuiDB["Nameplate"]["maxAuras"]
 		bu.spacing = 3
-		bu.iconsPerRow = NDuiDB["Nameplate"]["AutoPerRow"]
 		bu.disableMouse = true
+		bu.iconsPerRow = NDuiDB["Nameplate"]["AutoPerRow"]
 		bu.showDebuffType = NDuiDB["Nameplate"]["ColorBorder"]
 		bu["growth-y"] = "UP"
-		bu.PreUpdate = bolsterPreUpdate
-		bu.PostUpdate = bolsterPostUpdate
 	end
 
-	local width = self:GetWidth()
-	local maxAuras = bu.numTotal or bu.numBuffs + bu.numDebuffs
-	local maxLines = bu.iconsPerRow and floor(maxAuras/bu.iconsPerRow + .5) or 2
-	bu.size = bu.iconsPerRow and auraIconSize(width, bu.iconsPerRow, bu.spacing) or bu.size
-	bu:SetWidth(width)
-	bu:SetHeight((bu.size + bu.spacing) * maxLines)
+	auraSetSize(self, bu, true)
 
 	bu.showStealableBuffs = true
 	bu.CustomFilter = customFilter
@@ -569,11 +586,7 @@ function UF:CreateBuffs(self)
 	bu["growth-x"] = "RIGHT"
 	bu["growth-y"] = "UP"
 
-	local width = self:GetWidth()
-	local maxLines = bu.iconsPerRow and floor(bu.num/bu.iconsPerRow + .5) or 2
-	bu.size = bu.iconsPerRow and auraIconSize(width, bu.iconsPerRow, bu.spacing) or bu.size
-	bu:SetWidth(self:GetWidth())
-	bu:SetHeight((bu.size + bu.spacing) * maxLines)
+	auraSetSize(self, bu, false)
 
 	bu.showStealableBuffs = true
 	bu.PostCreateIcon = postCreateIcon
@@ -619,11 +632,7 @@ function UF:CreateDebuffs(self)
 		bu["growth-x"] = "RIGHT"
 	end
 
-	local width = self:GetWidth()
-	local maxLines = bu.iconsPerRow and floor(bu.num/bu.iconsPerRow + .5) or 2
-	bu.size = bu.iconsPerRow and auraIconSize(width, bu.iconsPerRow, bu.spacing) or bu.size
-	bu:SetWidth(self:GetWidth())
-	bu:SetHeight((bu.size + bu.spacing) * maxLines)
+	auraSetSize(self, bu, false)
 
 	bu.PostCreateIcon = postCreateIcon
 	bu.PostUpdateIcon = postUpdateIcon

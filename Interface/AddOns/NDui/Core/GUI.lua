@@ -94,6 +94,8 @@ local defaultSettings = {
 		QuakeTimer = true,
 		LagString = false,
 		RuneTimer = true,
+		RaidBuffIndicator = false,
+		BuffTimerIndicator = false,
 	},
 	Chat = {
 		Sticky = true,
@@ -311,7 +313,7 @@ local tabList = {
 
 local optionList = {		-- type, key, value, name, horizon, doubleline
 	[1] = {
-		{1, "Actionbar", "Enable", "|cff00cc4c"..L["Enable Actionbar"]},
+		{1, "Actionbar", "Enable", DB.MyColor..L["Enable Actionbar"]},
 		{},--blank
 		{1, "Actionbar", "Bar4Fade", L["Bar4 Fade"]},
 		{1, "Actionbar", "Bar5Fade", L["Bar5 Fade"], true},
@@ -323,11 +325,11 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Actionbar", "Count", L["Actionbar Item Counts"]},
 		{1, "Actionbar", "Classcolor", L["ClassColor BG"], true},
 		{},--blank
-		{1, "Actionbar", "Cooldown", "|cff00cc4c"..L["Show Cooldown"]},
+		{1, "Actionbar", "Cooldown", DB.MyColor..L["Show Cooldown"]},
 		{1, "Actionbar", "DecimalCD", L["Decimal Cooldown"].."*", true},
 	},
 	[2] = {
-		{1, "Bags", "Enable", "|cff00cc4c"..L["Enable Bags"]},
+		{1, "Bags", "Enable", DB.MyColor..L["Enable Bags"]},
 		{},--blank
 		{1, "Bags", "BagsiLvl", L["Bags Itemlevel"]},
 		{1, "Bags", "Artifact", L["Bags Artifact"], true},
@@ -342,9 +344,9 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{3, "Bags", "BankWidth", L["Bank Width"], true, {10, 20, 0}},
 	},
 	[3] = {
-		{1, "UFs", "Enable", "|cff00cc4c"..L["Enable UFs"]},
+		{1, "UFs", "Enable", DB.MyColor..L["Enable UFs"]},
 		{},--blank
-		{1, "UFs", "Castbars", "|cff00cc4c"..L["UFs Castbar"]},
+		{1, "UFs", "Castbars", DB.MyColor..L["UFs Castbar"]},
 		{1, "UFs", "SwingBar", L["UFs SwingBar"]},
 		{1, "UFs", "SwingTimer", L["UFs SwingTimer"], true},
 		{1, "UFs", "LagString", L["Castbar LagString"]},
@@ -360,14 +362,14 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "UFs", "ToTAuras", L["ToT Debuff"]},
 		{3, "UFs", "HeightScale", L["UFs HeightScale"], true, {.5, 1.5, 1}},
 		{},--blank
-		{1, "UFs", "CombatText", "|cff00cc4c"..L["UFs CombatText"]},
+		{1, "UFs", "CombatText", DB.MyColor..L["UFs CombatText"]},
 		{1, "UFs", "HotsDots", L["CombatText HotsDots"]},
 		{1, "UFs", "FCTOverHealing", L["CombatText OverHealing"], true},
 		{1, "UFs", "AutoAttack", L["CombatText AutoAttack"]},
 		{1, "UFs", "PetCombatText", L["CombatText ShowPets"], true},
 	},
 	[4] = {
-		{1, "UFs", "RaidFrame", "|cff00cc4c"..L["UFs RaidFrame"]},
+		{1, "UFs", "RaidFrame", DB.MyColor..L["UFs RaidFrame"]},
 		{1, "UFs", "SimpleMode", L["Simple RaidFrame"], true},
 		{},--blank
 		{1, "UFs", "ShowTeamIndex", L["RaidFrame TeamIndex"]},
@@ -379,20 +381,22 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{3, "UFs", "NumGroups", L["Num Groups"], false, {4, 8, 0}},
 		{3, "UFs", "RaidScale", L["RaidFrame Scale"], true, {.5, 1.5, 1}},
 		{},--blank
+		{1, "UFs", "RaidBuffIndicator", DB.MyColor..L["RaidBuffIndicator"]},
+		{1, "UFs", "BuffTimerIndicator", L["BuffTimerIndicator"], true},
 		{1, "UFs", "AurasClickThrough", L["RaidAuras ClickThrough"]},
 		{1, "UFs", "AutoRes", L["UFs AutoRes"], true},
 		{1, "UFs", "RaidClickSets", L["Enable ClickSets"]},
 		{1, "UFs", "InstanceAuras", L["Instance Auras"], true},
 	},
 	[5] = {
-		{1, "Nameplate", "Enable", "|cff00cc4c"..L["Enable Nameplate"]},
+		{1, "Nameplate", "Enable", DB.MyColor..L["Enable Nameplate"]},
 		{},--blank
-		{1, "Nameplate", "CustomUnitColor", "|cff00cc4c"..L["CustomUnitColor"]},
+		{1, "Nameplate", "CustomUnitColor", DB.MyColor..L["CustomUnitColor"]},
 		{5, "Nameplate", "CustomColor", L["Custom Color"], 2},
 		{2, "Nameplate", "UnitList", L["UnitColor List"]},
 		{2, "Nameplate", "ShowPowerList", L["ShowPowerList"], true},
 		{},--blank
-		{1, "Nameplate", "TankMode", "|cff00cc4c"..L["Tank Mode"].."*"},
+		{1, "Nameplate", "TankMode", DB.MyColor..L["Tank Mode"].."*"},
 		{1, "Nameplate", "DPSRevertThreat", L["DPS Revert Threat"].."*", true},
 		{5, "Nameplate", "SecureColor", L["Secure Color"].."*"},
 		{5, "Nameplate", "TransColor", L["Trans Color"].."*", 1},
@@ -415,7 +419,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{3, "Nameplate", "Height", L["NP Height"], true, {5, 15, 0}},
 	},
 	[6] = {
-		{1, "AuraWatch", "Enable", "|cff00cc4c"..L["Enable AuraWatch"]},
+		{1, "AuraWatch", "Enable", DB.MyColor..L["Enable AuraWatch"]},
 		{1, "AuraWatch", "ClickThrough", L["AuraWatch ClickThrough"]},
 		{3, "AuraWatch", "IconScale", L["AuraWatch IconScale"], false, {.5, 1.5, 1}},
 		{},--blank
@@ -423,34 +427,34 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Auras", "Totems", L["Enable Totems"], true},
 		{1, "Auras", "Reminder", L["Enable Reminder"]},
 		{},--blank
-		{1, "Nameplate", "ShowPlayerPlate", "|cff00cc4c"..L["Enable PlayerPlate"]},
+		{1, "Nameplate", "ShowPlayerPlate", DB.MyColor..L["Enable PlayerPlate"]},
 		{1, "Auras", "ClassAuras", L["Enable ClassAuras"]},
 		{1, "Nameplate", "PPPowerText", L["PlayerPlate PowerText"], true},
 		{3, "Nameplate", "PPHeight", L["PlayerPlate Height"], false, {5, 10, 0}},
 		{3, "Extras", "CPHeight", L["PlayerPlate CPHeight"], true, {10, 20, 0}},
 	},
 	[7] = {
-		{1, "Skins", "RM", "|cff00cc4c"..L["Raid Manger"]},
+		{1, "Skins", "RM", DB.MyColor..L["Raid Manger"]},
 		{1, "Skins", "RMRune", L["Runes Check"].."*"},
 		{1, "Skins", "EasyMarking", L["Easy Mark"].."*"},
 		{2, "Skins", "DBMCount", L["Countdown Sec"].."*", true},
 		{},--blank
-		{1, "Misc", "QuestNotifier", "|cff00cc4c"..L["QuestNotifier"]},
+		{1, "Misc", "QuestNotifier", DB.MyColor..L["QuestNotifier"]},
 		{1, "Misc", "QuestProgress", L["QuestProgress"]},
 		{1, "Misc", "OnlyCompleteRing", L["OnlyCompleteRing"], true},
 		{},--blank
-		{1, "Misc", "Interrupt", "|cff00cc4c"..L["Interrupt Alert"]},
+		{1, "Misc", "Interrupt", DB.MyColor..L["Interrupt Alert"]},
 		{1, "Misc", "BrokenSpell", L["Broken Spell"], true},
 		{1, "Misc", "OwnInterrupt", L["Own Interrupt"].."*"},
 		{1, "Misc", "AlertInInstance", L["Alert In Instance"].."*", true},
 		{1, "Misc", "ExplosiveCount", L["Explosive Alert"]},
 		{1, "Misc", "PlacedItemAlert", L["Placed Item Alert"].."*", true},
 		{},--blank
-		{1, "Misc", "RareAlerter", "|cff00cc4c"..L["Rare Alert"]},
+		{1, "Misc", "RareAlerter", DB.MyColor..L["Rare Alert"]},
 		{1, "Misc", "AlertinChat", L["Alert In Chat"].."*", true},
 	},
 	[8] = {
-		{1, "Chat", "Lock", "|cff00cc4c"..L["Lock Chat"]},
+		{1, "Chat", "Lock", DB.MyColor..L["Lock Chat"]},
 		{},--blank
 		{1, "Chat", "Freedom", L["Language Filter"]},
 		{1, "Chat", "Sticky", L["Chat Sticky"].."*", true, nil, function() B.ChatWhisperSticky() end},
@@ -458,12 +462,12 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Chat", "WhisperColor", L["Differ WhipserColor"].."*", true},
 		{1, "ACCOUNT", "Timestamp", L["Timestamp"], false, nil, function() B.UpdateTimestamp() end},
 		{},--blank
-		{1, "Chat", "EnableFilter", "|cff00cc4c"..L["Enable Chatfilter"]},
+		{1, "Chat", "EnableFilter", DB.MyColor..L["Enable Chatfilter"]},
 		{1, "Chat", "BlockAddonAlert", L["Block Addon Alert"], true},
 		{3, "Chat", "Matches", L["Keyword Match"].."*", false, {1, 3, 0}},
 		{2, "ACCOUNT", "ChatFilterList", L["Filter List"].."*", true, nil, function() B.GenFilterList() end},
 		{},--blank
-		{1, "Chat", "Invite", "|cff00cc4c"..L["Whisper Invite"]},
+		{1, "Chat", "Invite", DB.MyColor..L["Whisper Invite"]},
 		{1, "Chat", "GuildInvite", L["Guild Invite Only"].."*", true},
 		{2, "Chat", "Keyword", L["Whisper Keyword"].."*", false, nil, function() B.GenWhisperList() end},
 		{2, "ACCOUNT", "ChatAtList", L["@List"].."*", true, nil, function() B.GenChatAtList() end},
@@ -533,7 +537,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "ACCOUNT", "VersionCheck", L["Version Check"]},
 		{},--blank
 		{3, "ACCOUNT", "UIScale", L["Setup UIScale"], false, {.5, 1.1, 2}},
-		{1, "ACCOUNT", "LockUIScale", "|cff00cc4c"..L["Lock UIScale"], true},
+		{1, "ACCOUNT", "LockUIScale", DB.MyColor..L["Lock UIScale"], true},
 		{},--blank
 		{3, "ACCOUNT", "GUIScale", L["GUI Scale"].."*", false, {.5, 1.5, 2}, setupGUIScale},
 		{4, "ACCOUNT", "NumberFormat", L["Numberize"], true, {L["Number Type1"], L["Number Type2"], L["Number Type3"]}},
@@ -542,7 +546,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{4, "Extras", "ArrowColor", L["Arrow Color"], false, {L["Cyan"], L["Green"], L["Red"]}},
 		{3, "Extras", "SkinAlpha", L["Skin Alpha"], true, {0, 1, 2}},
 		{},--blank
-		{1, "Extras", "PartyFrame", "|cff00cc4c"..L["UFs PartyFrame"]},
+		{1, "Extras", "PartyFrame", DB.MyColor..L["UFs PartyFrame"]},
 		{5, "Extras", "SkinColor", L["Skin Color"], 2},
 		{1, "Extras", "MoveTalking", L["Move Talking"]},
 		{1, "Extras", "GuildWelcome", L["Guild Welcome"], true},
@@ -1330,7 +1334,7 @@ local function OpenGUI()
 
 	-- Toggle RaidFrame Debuffs
 	local raidDebuffs = B.CreateButton(guiPage[4].child, 150, 30, L["RaidFrame Debuffs"].."*")
-	raidDebuffs:SetPoint("TOPLEFT", 340, -370)
+	raidDebuffs:SetPoint("TOPLEFT", 340, -410)
 	raidDebuffs.text:SetTextColor(.6, .8, 1)
 	raidDebuffs:SetScript("OnClick", function()
 		setupRaidDebuffs()
@@ -1339,7 +1343,7 @@ local function OpenGUI()
 
 	-- Toggle RaidFrame ClickSets
 	local clickSet = B.CreateButton(guiPage[4].child, 150, 30, L["Add ClickSets"])
-	clickSet:SetPoint("TOPLEFT", 40, -370)
+	clickSet:SetPoint("TOPLEFT", 40, -410)
 	clickSet.text:SetTextColor(.6, .8, 1)
 	clickSet:SetScript("OnClick", setupClickCast)
 

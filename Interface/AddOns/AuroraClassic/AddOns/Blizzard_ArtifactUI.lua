@@ -3,16 +3,14 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_ArtifactUI"] = function()
 	local r, g, b = C.r, C.g, C.b
 
-	F.StripTextures(ArtifactFrame, true)
+	F.ReskinPortraitFrame(ArtifactFrame, true)
+	F.StripTextures(ArtifactFrame.BorderFrame, true)
 	F.StripTextures(ArtifactFrame.PerksTab, true)
 	F.StripTextures(ArtifactFrame.PerksTab.DisabledFrame, true)
-	F.StripTextures(ArtifactFrame.BorderFrame, true)
 	F.StripTextures(ArtifactFrame.ForgeBadgeFrame, true)
-	F.CreateBD(ArtifactFrame)
-	F.CreateSD(ArtifactFrame)
+
 	F.ReskinTab(ArtifactFrameTab1)
 	F.ReskinTab(ArtifactFrameTab2)
-	F.ReskinClose(ArtifactFrame.CloseButton)
 
 	ArtifactFrame.PerksTab.Model:SetAlpha(.5)
 	ArtifactFrameTab1:ClearAllPoints()
@@ -26,10 +24,10 @@ C.themes["Blizzard_ArtifactUI"] = function()
 		set.Name:SetTextColor(.9, .8, .5)
 		F.StripTextures(set, true)
 
-		local bg = F.CreateGradient(set)
+		local bg = F.CreateBDFrame(set, .25)
 		bg:SetPoint("TOPLEFT", 10, -5)
 		bg:SetPoint("BOTTOMRIGHT", -10, 5)
-		F.CreateBDFrame(bg, 0)
+		F.CreateGradient(bg)
 
 		for j = 1, 4 do
 			local slot = ArtifactFrame.AppearancesTab.appearanceSlotPool:Acquire()

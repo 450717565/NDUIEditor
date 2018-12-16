@@ -54,7 +54,7 @@ C.frames = {}
 local useButtonGradientColour
 local _, class = UnitClass("player")
 C.classcolours = CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS
-local r, g, b = C.classcolours[class].r, C.classcolours[class].g, C.classcolours[class].b
+local cr, cg, cb = C.classcolours[class].r, C.classcolours[class].g, C.classcolours[class].b
 
 function F:dummy()
 end
@@ -129,12 +129,12 @@ local function colourButton(self)
 	if not self:IsEnabled() then return end
 
 	if useButtonGradientColour then
-		self:SetBackdropColor(r, g, b, .25)
+		self:SetBackdropColor(cr, cg, cb, .25)
 	else
 		self.bgTex:SetVertexColor(r / 4, g / 4, b / 4)
 	end
 
-	self:SetBackdropBorderColor(r, g, b)
+	self:SetBackdropBorderColor(cr, cg, cb)
 end
 
 local function clearButton(self)
@@ -172,7 +172,7 @@ function F:ReskinTab()
 
 	self:SetHighlightTexture(C.media.backdrop)
 	local hl = self:GetHighlightTexture()
-	hl:SetVertexColor(r, g, b, .25)
+	hl:SetVertexColor(cr, cg, cb, .25)
 	hl:SetPoint("TOPLEFT", bg, 1, -1)
 	hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
 end
@@ -181,10 +181,10 @@ local function textureOnEnter(self)
 	if self:IsEnabled() then
 		if self.pixels then
 			for _, pixel in pairs(self.pixels) do
-				pixel:SetVertexColor(r, g, b)
+				pixel:SetVertexColor(cr, cg, cb)
 			end
 		else
-			self.bgTex:SetVertexColor(r, g, b)
+			self.bgTex:SetVertexColor(cr, cg, cb)
 		end
 	end
 end
@@ -205,8 +205,8 @@ local function scrollOnEnter(self)
 	local name = self:GetName()
 	local bu = (self.ThumbTexture or self.thumbTexture) or _G[name.."ThumbTexture"]
 	if not bu then return end
-	bu.bg:SetBackdropColor(r, g, b, .25)
-	bu.bg:SetBackdropBorderColor(r, g, b)
+	bu.bg:SetBackdropColor(cr, cg, cb, .25)
+	bu.bg:SetBackdropBorderColor(cr, cg, cb)
 end
 
 local function scrollOnLeave(self)
@@ -390,17 +390,17 @@ function F:ReskinCheck()
 
 	self:SetHighlightTexture(C.media.backdrop)
 	local hl = self:GetHighlightTexture()
-	hl:SetVertexColor(r, g, b, .25)
+	hl:SetVertexColor(cr, cg, cb, .25)
 	hl:SetPoint("TOPLEFT", bg, 1, -1)
 	hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
 
 	local ch = self:GetCheckedTexture()
 	ch:SetDesaturated(true)
-	ch:SetVertexColor(r, g, b)
+	ch:SetVertexColor(cr, cg, cb)
 end
 
 local function colourRadio(self)
-	self.bg:SetBackdropBorderColor(r, g, b)
+	self.bg:SetBackdropBorderColor(cr, cg, cb)
 end
 
 local function clearRadio(self)
@@ -414,7 +414,7 @@ function F:ReskinRadio()
 	local ch = self:GetCheckedTexture()
 	ch:SetPoint("TOPLEFT", 4, -4)
 	ch:SetPoint("BOTTOMRIGHT", -4, 4)
-	ch:SetVertexColor(r, g, b, .75)
+	ch:SetVertexColor(cr, cg, cb, .75)
 
 	local lvl = self:GetFrameLevel()
 	local bg = F.CreateBDFrame(self, 0)
@@ -453,7 +453,7 @@ end
 
 local function expandOnEnter(self)
 	if self:IsEnabled() then
-		self.bg:SetBackdropColor(r, g, b, .25)
+		self.bg:SetBackdropColor(cr, cg, cb, .25)
 	end
 end
 
@@ -560,19 +560,24 @@ function F:CleanInset()
 	F.RemoveSlice(self)
 end
 
-function F:ReskinPortraitFrame(bdsd)
+function F:ReskinPortraitFrame(setBS)
 	F.StripTextures(self, true)
 
 	local insetFrame = self.inset or self.Inset
 	if insetFrame then F.StripTextures(insetFrame, true) end
 	if self.portrait then self.portrait:SetAlpha(0) end
 
-	if bdsd then
+	if setBS then
 		F.CreateBD(self)
 		F.CreateSD(self)
 	end
 
-	F.ReskinClose(self.CloseButton)
+	local name = self:GetName()
+	local closeButton = self.CloseButton or _G[name.."CloseButton"]
+
+	if closeButton then
+		F.ReskinClose(closeButton)
+	end
 end
 
 function F:CreateBDFrame(a)
@@ -604,7 +609,7 @@ function F:ReskinColourSwatch()
 end
 
 function F:ReskinFilterButton()
-	F.StripTextures(self, true)
+	F.StripTextures(self)
 	F.Reskin(self)
 
 	self.Text:SetPoint("CENTER")
@@ -668,9 +673,14 @@ function F:ReskinGarrisonPortrait()
 	end
 end
 
-function F:ReskinIcon()
+function F:ReskinIcon(setBS)
 	self:SetTexCoord(.08, .92, .08, .92)
-	return F.CreateBG(self)
+
+	if setBS then
+		return F.CreateBDFrame(self, .25)
+	else
+		return F.CreateBG(self)
+	end
 end
 
 function F:ReskinMinMax()
@@ -780,11 +790,22 @@ function F:CleanTextures()
 	if bottom then bottom:Hide() end
 end
 
+function F:ReskinHighlight(classColor, relativeTo)
+	local r, g, b = 1, 1, 1
+	if classColor then r, g, b = cr, cg, cb end
+
+	self:SetHighlightTexture(C.media.backdrop)
+	local hl = self:GetHighlightTexture()
+	hl:SetVertexColor(r, g, b, .25)
+	hl:SetPoint("TOPLEFT", relativeTo or self, 1, -1)
+	hl:SetPoint("BOTTOMRIGHT", relativeTo or self, -1, 1)
+end
+
 function F:ReskinStatusBar(classColor, stripTex)
 	F.StripTextures(self, stripTex)
 
 	self:SetStatusBarTexture(C.media.statusbar)
-	if classColor then self:SetStatusBarColor(r*.8, g*.8, b*.8) end
+	if classColor then self:SetStatusBarColor(cr*.8, cg*.8, cb*.8) end
 
 	local lvl = self:GetFrameLevel()
 	local bg = F.CreateBDFrame(self, .25)
@@ -882,11 +903,11 @@ Skin:SetScript("OnEvent", function(_, _, addon)
 		end
 
 		if AuroraConfig.useCustomColour then
-			r, g, b = AuroraConfig.customColour.r, AuroraConfig.customColour.g, AuroraConfig.customColour.b
+			cr, cg, cb = AuroraConfig.customColour.r, AuroraConfig.customColour.g, AuroraConfig.customColour.b
 		end
 
 		-- for modules
-		C.r, C.g, C.b = r, g, b
+		C.r, C.g, C.b = cr, cg, cb
 	end
 
 	-- [[ Load modules ]]

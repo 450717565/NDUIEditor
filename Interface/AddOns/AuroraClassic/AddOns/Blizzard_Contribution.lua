@@ -1,12 +1,7 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_Contribution"] = function()
-	local frame = ContributionCollectionFrame
-	F.StripTextures(frame, true)
-	F.StripTextures(frame.CloseButton, true)
-	F.CreateBD(frame)
-	F.CreateSD(frame)
-	F.ReskinClose(frame.CloseButton)
+	F.ReskinPortraitFrame(ContributionCollectionFrame, true)
 
 	hooksecurefunc(ContributionMixin, "Update", function(self)
 		if not self.styled then
@@ -20,10 +15,9 @@ C.themes["Blizzard_Contribution"] = function()
 	hooksecurefunc(ContributionRewardMixin, "Setup", function(self)
 		if not self.styled then
 			self.RewardName:SetTextColor(1, 1, 1)
-			self.Icon:SetTexCoord(.08, .92, .08, .92)
 			self.Border:Hide()
 			self:GetRegions():Hide()
-			F.CreateBDFrame(self.Icon, .25)
+			F.ReskinIcon(self.Icon, true)
 
 			self.styled = true
 		end

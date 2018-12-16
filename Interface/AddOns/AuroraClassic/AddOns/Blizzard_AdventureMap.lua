@@ -3,12 +3,9 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_AdventureMap"] = function()
 	local dialog = AdventureMapQuestChoiceDialog
 
-	F.StripTextures(dialog, true)
-	F.CreateBD(dialog)
-	F.CreateSD(dialog)
+	F.ReskinPortraitFrame(dialog, true)
 	F.Reskin(dialog.AcceptButton)
 	F.Reskin(dialog.DeclineButton)
-	F.ReskinClose(dialog.CloseButton)
 	F.ReskinScroll(dialog.Details.ScrollBar)
 
 	dialog:HookScript("OnShow", function(self)
@@ -17,7 +14,8 @@ C.themes["Blizzard_AdventureMap"] = function()
 		for i = 6, 7 do
 			local bu = select(i, dialog:GetChildren())
 			if bu then
-				bu.Icon:SetTexCoord(.08, .92, .08, .92)
+				F.ReskinIcon(bu.Icon, true)
+
 				local bg = F.CreateBDFrame(bu.Icon, .25)
 				bg:SetPoint("BOTTOMRIGHT")
 				bu.ItemNameBG:Hide()

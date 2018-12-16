@@ -80,8 +80,7 @@ C.themes["Blizzard_AuctionUI"] = function()
 
 			it:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 			it.IconBorder:SetAlpha(0)
-			ic:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(ic, .25)
+			F.ReskinIcon(ic, true)
 		end
 	end
 
@@ -181,8 +180,7 @@ C.themes["Blizzard_AuctionUI"] = function()
 		F.StripTextures(Token)
 		F.Reskin(Buyout)
 
-		icon:SetTexCoord(.08, .92, .08, .92)
-		local bg = F.CreateBDFrame(icon, .25)
+		local bg = F.ReskinIcon(icon, true)
 		bg:SetBackdropBorderColor(0, .8, 1)
 		bg.Shadow:SetBackdropBorderColor(0, .8, 1)
 	end

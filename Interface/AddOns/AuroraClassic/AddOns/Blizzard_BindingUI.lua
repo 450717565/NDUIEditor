@@ -3,14 +3,12 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_BindingUI"] = function()
 	local r, g, b = C.r, C.g, C.b
 
-	F.StripTextures(KeyBindingFrame, true)
+	F.ReskinPortraitFrame(KeyBindingFrame, true)
 	F.StripTextures(KeyBindingFrame.header, true)
 	F.StripTextures(KeyBindingFrame.scrollFrame, true)
 	F.StripTextures(KeyBindingFrame.categoryList, true)
 	F.StripTextures(KeyBindingFrame.bindingsContainer, true)
 
-	F.CreateBD(KeyBindingFrame)
-	F.CreateSD(KeyBindingFrame)
 	F.Reskin(KeyBindingFrame.defaultsButton)
 	F.Reskin(KeyBindingFrame.unbindButton)
 	F.Reskin(KeyBindingFrame.okayButton)
