@@ -47,11 +47,10 @@ tinsert(C.themes["AuroraClassic"], function()
 		local btn = _G[button]
 		btn:SetNormalTexture("")
 		btn:SetPushedTexture("")
-		btn:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 
 		local ic = _G[button.."IconTexture"]
-		ic:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(ic, .25)
+		local bg = F.ReskinIcon(ic, true)
+		F.ReskinTexture(btn, "hl", false, bg)
 	end
 
 	for i = 1, INBOXITEMS_TO_DISPLAY do
@@ -61,19 +60,10 @@ tinsert(C.themes["AuroraClassic"], function()
 		local bu = _G["MailItem"..i.."Button"]
 		F.StripTextures(bu)
 		bu:SetCheckedTexture(C.media.checked)
-		bu:SetHighlightTexture(C.media.backdrop)
-
-		local hl = bu:GetHighlightTexture()
-		hl:SetVertexColor(1, 1, 1, .25)
-		hl:SetPoint("TOPLEFT", 0, 0)
-		hl:SetPoint("BOTTOMRIGHT", -1, 1)
 
 		local ic = _G["MailItem"..i.."Button".."Icon"]
-		ic:SetTexCoord(.08, .92, .08, .92)
-		if not ic.styled then
-			F.CreateBDFrame(ic, .25)
-			ic.styled = true
-		end
+		local bg = F.ReskinIcon(ic, true)
+		F.ReskinTexture(bu, "hl", false, bg)
 
 		local ib = _G["MailItem"..i.."Button".."IconBorder"]
 		ib:SetAlpha(0)
@@ -82,12 +72,13 @@ tinsert(C.themes["AuroraClassic"], function()
 	for i = 1, ATTACHMENTS_MAX_SEND do
 		local bu = _G["SendMailAttachment"..i]
 		bu:GetRegions():Hide()
-		bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-		F.CreateBDFrame(bu, .25)
+
+		local bg = F.CreateBDFrame(bu, .25)
+		F.ReskinTexture(bu, "hl", false, bg)
 
 		local border = bu.IconBorder
-		border:SetPoint("TOPLEFT", -1.2, 1.2)
-		border:SetPoint("BOTTOMRIGHT", 1.2, -1.2)
+		border:SetPoint("TOPLEFT", -C.mult, C.mult)
+		border:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
 		border:SetDrawLayer("BACKGROUND")
 	end
 
@@ -105,17 +96,16 @@ tinsert(C.themes["AuroraClassic"], function()
 		local bu = _G["OpenMailAttachmentButton"..i]
 		bu:SetNormalTexture("")
 		bu:SetPushedTexture("")
-		bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-		F.CreateBDFrame(bu, .25)
 
 		local ic = _G["OpenMailAttachmentButton"..i.."IconTexture"]
-		ic:SetTexCoord(.08, .92, .08, .92)
+		local bg = F.ReskinIcon(ic, true)
+		F.ReskinTexture(bu, "hl", false, bg)
 
 		local border = bu.IconBorder
 		border:SetTexture(C.media.backdrop)
 		border.SetTexture = F.dummy
-		border:SetPoint("TOPLEFT", -1.2, 1.2)
-		border:SetPoint("BOTTOMRIGHT", 1.2, -1.2)
+		border:SetPoint("TOPLEFT", -C.mult, C.mult)
+		border:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
 		border:SetDrawLayer("BACKGROUND")
 	end
 
@@ -131,9 +121,9 @@ tinsert(C.themes["AuroraClassic"], function()
 	end)
 
 	MailFont_Large:SetTextColor(1, 1, 1)
-	MailFont_Large:SetShadowOffset(1, -1)
+	MailFont_Large:SetShadowOffset(C.mult, -C.mult)
 	MailTextFontNormal:SetTextColor(1, 1, 1)
-	MailTextFontNormal:SetShadowOffset(1, -1)
+	MailTextFontNormal:SetShadowOffset(C.mult, -C.mult)
 	InvoiceTextFontNormal:SetTextColor(1, 1, 1)
 	InvoiceTextFontSmall:SetTextColor(1, 1, 1)
 end)

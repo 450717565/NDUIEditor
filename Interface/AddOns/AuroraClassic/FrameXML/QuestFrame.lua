@@ -87,7 +87,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	npcbd:SetFrameLevel(0)
 
 	local textbd = F.CreateBDFrame(QuestNPCModelTextFrame)
-	textbd:SetPoint("TOPLEFT", -1, 1)
+	textbd:SetPoint("TOPLEFT", -C.mult, C.mult)
 	textbd:SetPoint("BOTTOMRIGHT",0 , 5)
 	textbd:SetFrameLevel(0)
 

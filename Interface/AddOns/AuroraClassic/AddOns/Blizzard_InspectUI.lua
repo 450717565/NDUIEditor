@@ -28,8 +28,8 @@ C.themes["Blizzard_InspectUI"] = function()
 		F.CreateBDFrame(slot, .25)
 
 		local border = slot.IconBorder
-		border:SetPoint("TOPLEFT", -1.2, 1.2)
-		border:SetPoint("BOTTOMRIGHT", 1.2, -1.2)
+		border:SetPoint("TOPLEFT", -C.mult, C.mult)
+		border:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
 		border:SetDrawLayer("BACKGROUND")
 	end
 

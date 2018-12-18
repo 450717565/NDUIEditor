@@ -4,23 +4,42 @@ if not C.Infobar.Guild then return end
 
 local module = B:GetModule("Infobar")
 local info = module:RegisterInfobar(C.Infobar.GuildPos)
+
 local wipe, sort, format = table.wipe, table.sort, format
-
 local cr, cg, cb = DB.r, DB.g, DB.b
-local infoFrame = CreateFrame("Frame", "NDuiGuildInfobar", info)
-infoFrame:SetSize(335, 560)
-infoFrame:SetPoint("TOPLEFT", UIParent, 15, -35)
-infoFrame:SetClampedToScreen(true)
-infoFrame:SetFrameStrata("TOOLTIP")
-B.CreateBD(infoFrame, .7)
-B.CreateSD(infoFrame)
-B.CreateTex(infoFrame)
-infoFrame:Hide()
+local infoFrame, gName, gOnline, gApps, gRank, applyData
 
-local gName = B.CreateFS(infoFrame, 18, "Guild", true, "TOPLEFT", 15, -10)
-local gOnline = B.CreateFS(infoFrame, 13, "Online", false, "TOPLEFT", 15, -35)
-local gApps = B.CreateFS(infoFrame, 13, "Applications", false, "TOPRIGHT", -15, -35)
-local gRank = B.CreateFS(infoFrame, 13, "Rank", false, "TOPLEFT", 15, -55)
+local function setupInfoFrame()
+	if infoFrame then infoFrame:Show() return end
+
+	infoFrame = CreateFrame("Frame", "NDuiGuildInfobar", info)
+	infoFrame:SetSize(335, 495)
+	infoFrame:SetPoint("TOPLEFT", UIParent, 15, -30)
+	infoFrame:SetClampedToScreen(true)
+	infoFrame:SetFrameStrata("TOOLTIP")
+	B.CreateBD(infoFrame, .7)
+	B.CreateSD(infoFrame)
+	B.CreateTex(infoFrame)
+
+	local function onUpdate(self, elapsed)
+		self.timer = (self.timer or 0) + elapsed
+		if self.timer > .1 then
+			if not infoFrame:IsMouseOver() then
+				self:Hide()
+				self:SetScript("OnUpdate", nil)
+			end
+
+			self.timer = 0 
+		end
+	end
+	infoFrame:SetScript("OnLeave", function(self)
+		self:SetScript("OnUpdate", onUpdate)
+	end)
+
+	gName = B.CreateFS(infoFrame, 18, "Guild", true, "TOPLEFT", 15, -10)
+	gOnline = B.CreateFS(infoFrame, 13, "Online", false, "TOPLEFT", 15, -35)
+	gApps = B.CreateFS(infoFrame, 13, "Applications", false, "TOPRIGHT", -15, -35)
+	gRank = B.CreateFS(infoFrame, 13, "Rank", false, "TOPLEFT", 15, -51)
 
 local bu = {}
 local width = {30, 35, 126, 126}
@@ -42,31 +61,41 @@ B.CreateFS(bu[2], 13, CLASS_ABBR)
 B.CreateFS(bu[3], 13, NAME, false, "LEFT", 5, 0)
 B.CreateFS(bu[4], 13, ZONE, false, "RIGHT", -5, 0)
 
-B.CreateFS(infoFrame, 13, DB.LineString, false, "BOTTOMRIGHT", -15, 58)
-local whspInfo = DB.InfoColor..DB.RightButton..WHISPER.." "
-B.CreateFS(infoFrame, 13, whspInfo, false, "BOTTOMRIGHT", -15, 42)
-local invtInfo = DB.InfoColor.."ALT +"..DB.LeftButton..GUILDCONTROL_OPTION7.." "
-B.CreateFS(infoFrame, 13, invtInfo, false, "BOTTOMRIGHT", -15, 26)
-local copyInfo = DB.InfoColor.."SHIFT +"..DB.LeftButton..COPY_NAME.." "
-B.CreateFS(infoFrame, 13, copyInfo, false, "BOTTOMRIGHT", -15, 10)
+	for i = 1, 4 do
+		bu[i]:SetScript("OnClick", function()
+			NDuiADB["GuildSortBy"] = i
+			NDuiADB["GuildSortOrder"] = not NDuiADB["GuildSortOrder"]
+			applyData()
+		end)
+	end
 
-local scrollFrame = CreateFrame("ScrollFrame", nil, infoFrame, "UIPanelScrollFrameTemplate")
-scrollFrame:SetSize(312, 375)
-scrollFrame:SetPoint("CENTER", 0, -15)
-scrollFrame.ScrollBar:Hide()
-scrollFrame.ScrollBar.Show = B.Dummy
-scrollFrame:SetScript("OnMouseWheel", function(_, delta)
-	local scrollBar = scrollFrame.ScrollBar
-	scrollBar:SetValue(scrollBar:GetValue() - delta*50)
-end)
-local roster = CreateFrame("Frame", nil, scrollFrame)
-roster:SetSize(312, 1)
-scrollFrame:SetScrollChild(roster)
+	B.CreateFS(infoFrame, 13, DB.LineString, false, "BOTTOMRIGHT", -12, 58)
+	local whspInfo = DB.InfoColor..DB.RightButton..WHISPER
+	B.CreateFS(infoFrame, 13, whspInfo, false, "BOTTOMRIGHT", -15, 42)
+	local invtInfo = DB.InfoColor.."ALT +"..DB.LeftButton..GUILDCONTROL_OPTION7
+	B.CreateFS(infoFrame, 13, invtInfo, false, "BOTTOMRIGHT", -15, 26)
+	local copyInfo = DB.InfoColor.."SHIFT +"..DB.LeftButton..COPY_NAME
+	B.CreateFS(infoFrame, 13, copyInfo, false, "BOTTOMRIGHT", -15, 10)
+
+	local scrollFrame = CreateFrame("ScrollFrame", nil, infoFrame, "UIPanelScrollFrameTemplate")
+	scrollFrame:SetSize(312, 320)
+	scrollFrame:SetPoint("TOPLEFT", 10, -100)
+	scrollFrame.ScrollBar:Hide()
+	scrollFrame.ScrollBar.Show = B.Dummy
+	scrollFrame:SetScript("OnMouseWheel", function(_, delta)
+		local scrollBar = scrollFrame.ScrollBar
+		scrollBar:SetValue(scrollBar:GetValue() - delta*50)
+	end)
+	local roster = CreateFrame("Frame", nil, scrollFrame)
+	roster:SetSize(312, 1)
+	scrollFrame:SetScrollChild(roster)
+	infoFrame.roster = roster
+end
 
 local guildTable, frames, previous = {}, {}, 0
-local function createRoster(i)
-	local button = CreateFrame("Button", nil, roster)
-	button:SetSize(312, 22)
+local function createRoster(parent, i)
+	local button = CreateFrame("Button", nil, parent)
+	button:SetSize(312, 20)
 	button.HL = button:CreateTexture(nil, "HIGHLIGHT")
 	button.HL:SetAllPoints()
 	button.HL:SetColorTexture(cr, cg, cb, .25)
@@ -75,8 +104,8 @@ local function createRoster(i)
 	button.level:SetJustifyH("CENTER")
 
 	button.class = button:CreateTexture(nil, "ARTWORK")
-	button.class:SetPoint("LEFT", 37, 0)
-	button.class:SetSize(17, 17)
+	button.class:SetPoint("LEFT", 35, 0)
+	button.class:SetSize(16, 16)
 	button.class:SetTexture("Interface\\GLUES\\CHARACTERCREATE\\UI-CHARACTERCREATE-CLASSES")
 	B.CreateSD(button.class, 3, 3)
 
@@ -158,7 +187,7 @@ local function refreshData()
 	if count > previous then
 		for i = previous+1, count do
 			if not frames[i] then
-				frames[i] = createRoster(i)
+				frames[i] = createRoster(infoFrame.roster, i)
 			end
 		end
 	elseif count < previous then
@@ -180,7 +209,7 @@ local function setPosition()
 	end
 end
 
-local function applyData()
+function applyData()
 	sort(guildTable, function(a, b)
 		if a and b then
 			if NDuiADB["GuildSortOrder"] then
@@ -209,14 +238,6 @@ local function applyData()
 	end
 end
 
-for i = 1, 4 do
-	bu[i]:SetScript("OnClick", function()
-		NDuiADB["GuildSortBy"] = i
-		NDuiADB["GuildSortOrder"] = not NDuiADB["GuildSortOrder"]
-		applyData()
-	end)
-end
-
 info.eventList = {
 	"PLAYER_ENTERING_WORLD",
 	"GUILD_ROSTER_UPDATE",
@@ -234,7 +255,7 @@ info.onEvent = function(self)
 	self.text:SetText(GUILD..L[":"]..DB.MyColor..online)
 	self.text:SetJustifyH("LEFT")
 
-	if infoFrame:IsShown() then
+	if infoFrame and infoFrame:IsShown() then
 		refreshData()
 		setPosition()
 		applyData()
@@ -243,10 +264,10 @@ end
 
 info.onEnter = function()
 	if not IsInGuild() then return end
+	setupInfoFrame()
 	refreshData()
 	setPosition()
 	applyData()
-	infoFrame:Show()
 end
 
 info.onLeave = function()
@@ -262,17 +283,3 @@ info.onMouseUp = function()
 	if not GuildFrame then LoadAddOn("Blizzard_GuildUI") end
 	ToggleFrame(GuildFrame)
 end
-
-infoFrame:SetScript("OnLeave", function(self)
-	self:SetScript("OnUpdate", function(self, elapsed)
-		self.timer = (self.timer or 0) + elapsed
-		if self.timer > .1 then
-			if not infoFrame:IsMouseOver() then
-				self:Hide()
-				self:SetScript("OnUpdate", nil)
-			end
-
-			self.timer = 0
-		end
-	end)
-end)

@@ -1,6 +1,12 @@
 local B, C, L, DB = unpack(select(2, ...))
+local module = B:RegisterModule("Extras")
 
 local strformat = string.format
+
+function module:OnLogin()
+	self:ChatAtFriends()
+	self:ChatEmote()
+end
 
 --- 共享计量条材质
 do

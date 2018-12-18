@@ -31,6 +31,11 @@ function f:OnEvent(event)
 	if event == "PLAYER_LOGIN" then
 		self.model:SetUnit("player")
 		self.model:SetRotation(mrad(-30))
+
+		-- close button at bottom left incase /afk bugs out
+		local button = B.CreateButton(f.model, 40, 20, AFK)
+		button:SetPoint("BOTTOMLEFT", f, 20, 20)
+		button:SetScript("OnClick", function() f:Disable() end)
 	else
 		if UnitIsAFK("player") then
 			self:Enable()
@@ -107,14 +112,9 @@ f.gradient4:SetPoint("TOPRIGHT",f)
 f.gradient4:SetPoint("BOTTOMRIGHT",f)
 f.gradient4:SetWidth(50)
 
--- close button at bottom left incase /afk bugs out
-local button = B.CreateButton(f.model, 40, 20, AFK)
-button:SetPoint("BOTTOMLEFT", f, 20, 20)
-button:SetScript("OnClick", function() f:Disable() end)
-
--- on event start
-f:SetScript("OnEvent",f.OnEvent)
-
 -- registers the /afk scene
 f:RegisterEvent("PLAYER_FLAGS_CHANGED")
 f:RegisterEvent("PLAYER_LOGIN")
+
+-- on event start
+f:SetScript("OnEvent",f.OnEvent)

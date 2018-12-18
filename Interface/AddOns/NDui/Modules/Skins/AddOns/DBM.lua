@@ -28,8 +28,8 @@ function module:DBMSkin()
 
 					local backdroptex = icon1.overlay:CreateTexture(nil, "BORDER")
 					backdroptex:SetTexture([=[Interface\Icons\Spell_Nature_WispSplode]=])
-					backdroptex:SetPoint("TOPLEFT", icon1.overlay, "TOPLEFT", 1, -1)
-					backdroptex:SetPoint("BOTTOMRIGHT", icon1.overlay, "BOTTOMRIGHT", -1, 1)
+					backdroptex:SetPoint("TOPLEFT", icon1.overlay, "TOPLEFT", C.mult, -C.mult)
+					backdroptex:SetPoint("BOTTOMRIGHT", icon1.overlay, "BOTTOMRIGHT", -C.mult, C.mult)
 					backdroptex:SetTexCoord(unpack(DB.TexCoord))
 					B.CreateSD(icon1.overlay)
 				end
@@ -41,8 +41,8 @@ function module:DBMSkin()
 
 					local backdroptex = icon2.overlay:CreateTexture(nil, "BORDER")
 					backdroptex:SetTexture([=[Interface\Icons\Spell_Nature_WispSplode]=])
-					backdroptex:SetPoint("TOPLEFT", icon2.overlay, "TOPLEFT", 1, -1)
-					backdroptex:SetPoint("BOTTOMRIGHT", icon2.overlay, "BOTTOMRIGHT", -1, 1)
+					backdroptex:SetPoint("TOPLEFT", icon2.overlay, "TOPLEFT", C.mult, -C.mult)
+					backdroptex:SetPoint("BOTTOMRIGHT", icon2.overlay, "BOTTOMRIGHT", -C.mult, C.mult)
 					backdroptex:SetTexCoord(unpack(DB.TexCoord))
 					B.CreateSD(icon2.overlay)
 				end
@@ -79,8 +79,8 @@ function module:DBMSkin()
 				if not icon1.styled then
 					icon1:SetTexCoord(unpack(DB.TexCoord))
 					icon1:ClearAllPoints()
-					icon1:SetPoint("TOPLEFT", icon1.overlay, 1, -1)
-					icon1:SetPoint("BOTTOMRIGHT", icon1.overlay, -1, 1)
+					icon1:SetPoint("TOPLEFT", icon1.overlay, C.mult, -C.mult)
+					icon1:SetPoint("BOTTOMRIGHT", icon1.overlay, -C.mult, C.mult)
 					icon1.SetSize = B.Dummy
 					icon1.styled = true
 				end
@@ -88,8 +88,8 @@ function module:DBMSkin()
 				if not icon2.styled then
 					icon2:SetTexCoord(unpack(DB.TexCoord))
 					icon2:ClearAllPoints()
-					icon2:SetPoint("TOPLEFT", icon2.overlay, 1, -1)
-					icon2:SetPoint("BOTTOMRIGHT", icon2.overlay, -1, 1)
+					icon2:SetPoint("TOPLEFT", icon2.overlay, C.mult, -C.mult)
+					icon2:SetPoint("BOTTOMRIGHT", icon2.overlay, -C.mult, C.mult)
 					icon2.SetSize = B.Dummy
 					icon2.styled = true
 				end

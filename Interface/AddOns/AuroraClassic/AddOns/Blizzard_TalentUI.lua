@@ -36,8 +36,7 @@ C.themes["Blizzard_TalentUI"] = function()
 			select(i, scrollChild:GetRegions()):Hide()
 		end
 
-		scrollChild.specIcon:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(scrollChild.specIcon, .25)
+		F.ReskinIcon(scrollChild.specIcon, true)
 	end
 
 	hooksecurefunc("PlayerTalentFrame_UpdateSpecFrame", function(self, spec)
@@ -67,8 +66,7 @@ C.themes["Blizzard_TalentUI"] = function()
 
 				if not frame.styled then
 					frame.ring:Hide()
-					frame.icon:SetTexCoord(.08, .92, .08, .92)
-					F.CreateBDFrame(frame.icon, .25)
+					F.ReskinIcon(frame.icon, true)
 
 					frame.styled = true
 				end
@@ -104,20 +102,15 @@ C.themes["Blizzard_TalentUI"] = function()
 
 			bu.bg:Hide()
 			bu.ring:Hide()
+			bu.learnedTex:SetTexture("")
 			_G[name..i.."Glow"]:SetTexture("")
 
 			F.Reskin(bu, true)
+			F.ReskinTexture(bu, "sl", true, bg)
 
-			bu.learnedTex:SetTexture("")
-			bu.selectedTex:SetTexture(C.media.backdrop)
-			bu.selectedTex:SetVertexColor(r, g, b, .25)
-			bu.selectedTex:SetPoint("TOPLEFT", 1, -1)
-			bu.selectedTex:SetPoint("BOTTOMRIGHT", -1, 1)
-
-			bu.specIcon:SetTexCoord(.08, .92, .08, .92)
 			bu.specIcon:SetPoint("LEFT", bu, "LEFT")
 			bu.specIcon:SetDrawLayer("OVERLAY")
-			F.CreateBDFrame(bu.specIcon, .25)
+			F.ReskinIcon(bu.specIcon, true)
 
 			local bg = F.CreateBG(bu.specIcon)
 			bg:SetDrawLayer("ARTWORK")
@@ -142,8 +135,7 @@ C.themes["Blizzard_TalentUI"] = function()
 
 			local ic = _G["PlayerTalentFrameTalentsTalentRow"..i.."Talent"..j.."IconTexture"]
 			ic:SetDrawLayer("ARTWORK")
-			ic:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(ic, .25)
+			F.ReskinIcon(ic, true)
 
 			bu.bg = F.CreateBDFrame(bu, .25)
 			bu.bg:SetPoint("TOPLEFT", 10, 0)
@@ -182,9 +174,7 @@ C.themes["Blizzard_TalentUI"] = function()
 	local talentList = PlayerTalentFrameTalentsPvpTalentFrameTalentList
 	talentList:ClearAllPoints()
 	talentList:SetPoint("LEFT", PlayerTalentFrame, "RIGHT", 2, 0)
-	F.StripTextures(talentList)
-	F.CreateBD(talentList)
-	F.CreateSD(talentList)
+	F.ReskinPortraitFrame(talentList, true)
 
 	F.StripTextures(PlayerTalentFrameTalentsPvpTalentFrame)
 	F.StripTextures(PlayerTalentFrameTalentsPvpTalentFrameTalentListScrollFrameScrollChild)
@@ -194,25 +184,17 @@ C.themes["Blizzard_TalentUI"] = function()
 		if not self.styled then
 			self:GetRegions():SetAlpha(0)
 			self.SelectedOtherOverlay:SetAlpha(0)
-			self.Selected:SetColorTexture(r, g, b, .25)
-			self.Selected:SetDrawLayer("BACKGROUND")
-			self.Selected:SetPoint("TOPLEFT", 3, -2)
-			self.Selected:SetPoint("BOTTOMRIGHT", -1, 4)
 
-			self.Icon:SetTexCoord(.08, .92, .08, .92)
 			self.Icon:SetScale(.75)
 			self.Icon:SetPoint("LEFT", 9, 1)
-			F.CreateBDFrame(self.Icon, .25)
+			F.ReskinIcon(self.Icon, true)
 
 			local bg = F.CreateBDFrame(self, .25)
 			bg:SetPoint("TOPLEFT", 2, -1)
 			bg:SetPoint("BOTTOMRIGHT", 0, 3)
 
-			self:SetHighlightTexture(C.media.backdrop)
-			local hl = self:GetHighlightTexture()
-			hl:SetVertexColor(r, g, b, .25)
-			hl:SetPoint("TOPLEFT", bg, 1, -1)
-			hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
+			F.ReskinTexture(self, "sl", true, bg)
+			F.ReskinTexture(self, "hl", true, bg)
 
 			self.styled = true
 		end

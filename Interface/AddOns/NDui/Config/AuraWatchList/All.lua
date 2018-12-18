@@ -74,6 +74,7 @@ local list = {
 		{AuraID = 248779, UnitID = "player"},--奥术回响遮罩
 		{AuraID = 254161, UnitID = "player"},--超能奥术回响遮罩
 		{AuraID = 279819, UnitID = "player"},--阿薯
+		{AuraID = 286406, UnitID = "player"},--收割者
 		--隐形药水
 		{AuraID = 3680, UnitID = "player"},
 		{AuraID = 11392, UnitID = "player"},

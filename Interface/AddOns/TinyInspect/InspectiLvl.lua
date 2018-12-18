@@ -125,12 +125,12 @@ LibEvent:attachEvent("GROUP_ROSTER_UPDATE", function(self)
 	end
 	numMembers = numCurrent
 	if IsInGroup() then
-		if not TinyInspectRaidFrame:IsShown() then
-			TinyInspectRaidFrame:Show()
+		if not TinyInspectiLvlFrame:IsShown() then
+			TinyInspectiLvlFrame:Show()
 		end
 	else
-		if TinyInspectRaidFrame:IsShown() then
-			TinyInspectRaidFrame:Hide()
+		if TinyInspectiLvlFrame:IsShown() then
+			TinyInspectiLvlFrame:Hide()
 		end
 	end
 end)
@@ -142,10 +142,7 @@ end)
 
 local memberslist = {}
 
-local frame = CreateFrame("Frame", "TinyInspectRaidFrame", UIParent)
-B.CreateBD(frame)
-B.CreateSD(frame)
-B.CreateTex(frame)
+local frame = CreateFrame("Frame", "TinyInspectiLvlFrame", UIParent)
 frame:SetPoint("TOP", 0, -100)
 frame:SetClampedToScreen(true)
 frame:SetMovable(true)
@@ -306,62 +303,10 @@ end
 
 --團友列表
 frame.panel = CreateFrame("Frame", nil, frame)
-B.CreateBD(frame.panel)
-B.CreateSD(frame.panel)
-B.CreateTex(frame.panel)
 frame.panel:SetScript("OnShow", function(self) SortAndShowMembersList() end)
 frame.panel:SetPoint("TOP", frame, "BOTTOM")
 frame.panel:SetSize(230, 106)
 frame.panel:Hide()
-
---排序按鈕
-frame.panel.sortButton = CreateFrame("Button", nil, frame.panel)
-frame.panel.sortButton:SetSize(16, 16)
-frame.panel.sortButton:SetPoint("TOPRIGHT", -10, -4)
-B.CreateBC(frame.panel.sortButton, .3)
-B.CreateFS(frame.panel.sortButton, 13, L["Sort List"], false, "RIGHT", -20, 0)
-frame.panel.sortButton:SetNormalTexture("Interface\\Buttons\\UI-MultiCheck-Up")
-frame.panel.sortButton:SetScript("OnClick", function(self)
-	local texture = self:GetNormalTexture()
-	if (frame.sortWay == "DESC") then
-		frame.sortWay = "ASC"
-		texture:SetTexCoord(0, 0.8, 7/8, 0)
-	else
-		frame.sortWay = "DESC"
-		texture:SetTexCoord(0, 0.8, 0, 7/8)
-	end
-	self.sortCount = (self.sortCount or 0) + 1
-	if (self.sortCount%3 == 0) then
-		frame.sortOn = false
-		self:SetNormalTexture("Interface\\Buttons\\UI-MultiCheck-Up")
-	else
-		frame.sortOn = true
-		self:SetNormalTexture("Interface\\Buttons\\UI-SortArrow")
-	end
-	SortAndShowMembersList()
-end)
-
---重新掃描按鈕
-frame.panel.rescanButton = CreateFrame("Button", nil, frame.panel)
-frame.panel.rescanButton:SetSize(16, 16)
-frame.panel.rescanButton:SetPoint("TOPLEFT", 10, -4)
-B.CreateBC(frame.panel.rescanButton, .3)
-B.CreateFS(frame.panel.rescanButton, 13, L["Rescan List"], false, "LEFT", 20, 0)
-frame.panel.rescanButton:SetNormalTexture("Interface\\Buttons\\UI-RefreshButton")
-frame.panel.rescanButton:SetScript("OnClick", function(self)
-	self:SetAlpha(0.3)
-	LibSchedule:AddTask({
-		identity  = "InspectReccan",
-		elasped   = 4,
-		onTimeout = function() self:SetAlpha(1) end,
-		onStart = function()
-			for _, v in pairs(members) do
-				v.done = false
-			end
-			LibEvent:event("GROUP_ROSTER_UPDATE")
-		end,
-	})
-end)
 
 --團友變更或觀察到數據時更新顯示
 LibEvent:attachTrigger("MEMBER_CHANGED, INSPECT_READY", function(self)
@@ -382,4 +327,58 @@ LibEvent:attachTrigger("INSPECT_STARTED", function(self, data)
 		end
 		i = i + 1
 	end
+end)
+
+--排序按鈕
+local function sortOnClick(self)
+	local text = self.text
+	if frame.sortWay == "DESC" then
+		frame.sortWay = "ASC"
+	else
+		frame.sortWay = "DESC"
+	end
+	self.sortCount = (self.sortCount or 0) + 1
+	if self.sortCount%3 == 0 then
+		frame.sortOn = false
+		text:SetText("升序")
+	else
+		frame.sortOn = true
+		text:SetText("降序")
+	end
+	SortAndShowMembersList()
+end
+
+--重新掃描按鈕
+local function rescanOnClick(self)
+	self:SetAlpha(0.3)
+	LibSchedule:AddTask({
+		identity  = "InspectReccan",
+		elasped   = 4,
+		onTimeout = function() self:SetAlpha(1) end,
+		onStart = function()
+			for _, v in pairs(members) do
+				v.done = false
+			end
+			LibEvent:event("GROUP_ROSTER_UPDATE")
+		end,
+	})
+end
+
+--初始化美化API
+LibEvent:attachEvent("PLAYER_LOGIN", function()
+	B.CreateBD(frame)
+	B.CreateSD(frame)
+	B.CreateTex(frame)
+
+	B.CreateBD(frame.panel)
+	B.CreateSD(frame.panel)
+	B.CreateTex(frame.panel)
+
+	frame.panel.sortButton = B.CreateButton(frame.panel, 40, 20, "升序")
+	frame.panel.sortButton:SetPoint("TOPRIGHT", -10, -4)
+	frame.panel.sortButton:SetScript("OnClick", sortOnClick)
+
+	frame.panel.rescanButton = B.CreateButton(frame.panel, 40, 20, "扫描")
+	frame.panel.rescanButton:SetPoint("TOPLEFT", 10, -4)
+	frame.panel.rescanButton:SetScript("OnClick", rescanOnClick)
 end)

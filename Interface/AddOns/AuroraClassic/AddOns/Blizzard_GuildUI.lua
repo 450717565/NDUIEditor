@@ -143,8 +143,8 @@ C.themes["Blizzard_GuildUI"] = function()
 				bu.disabledBG.Show = F.dummy
 
 				bu.bg = F.CreateBDFrame(bu, .25)
-				bu.bg:SetPoint("TOPLEFT", 1, -1)
-				bu.bg:SetPoint("BOTTOMRIGHT", 0, 2)
+				bu.bg:SetPoint("TOPLEFT", C.mult, -C.mult)
+				bu.bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 			end
 		end
 	end)

@@ -536,7 +536,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 	[13] = {
 		{1, "ACCOUNT", "VersionCheck", L["Version Check"]},
 		{},--blank
-		{3, "ACCOUNT", "UIScale", L["Setup UIScale"], false, {.5, 1.1, 2}},
+		{3, "ACCOUNT", "UIScale", L["Setup UIScale"], false, {.4, 1.1, 2}},
 		{1, "ACCOUNT", "LockUIScale", DB.MyColor..L["Lock UIScale"], true},
 		{},--blank
 		{3, "ACCOUNT", "GUIScale", L["GUI Scale"].."*", false, {.5, 1.5, 2}, setupGUIScale},
@@ -734,7 +734,7 @@ local function CreateOption(i)
 			B.CreateFS(dd, 14, name, "system", "CENTER", 0, 25)
 		-- Colorswatch
 		elseif type == 5 then
-			local f = CreateFrame("Button", nil, parent)
+			local f = B.CreateColorSwatch(parent)
 			local width = 25 + (horizon or 0)*155
 			if horizon then
 				f:SetPoint("TOPLEFT", width, -offset + 30)
@@ -742,26 +742,19 @@ local function CreateOption(i)
 				f:SetPoint("TOPLEFT", width, -offset - 5)
 				offset = offset + 35
 			end
-			f:SetSize(18, 18)
-			B.CreateBD(f, .3)
-			B.CreateSD(f)
 			B.CreateFS(f, 14, name, false, "LEFT", 26, 0)
-
-			local tex = f:CreateTexture()
-			tex:SetPoint("TOPLEFT", 1, -1)
-			tex:SetPoint("BOTTOMRIGHT", -1, 1)
-			tex:SetColorTexture(NDUI_VARIABLE(key, value).r, NDUI_VARIABLE(key, value).g, NDUI_VARIABLE(key, value).b)
+			f.tex:SetColorTexture(NDUI_VARIABLE(key, value).r, NDUI_VARIABLE(key, value).g, NDUI_VARIABLE(key, value).b)
 
 			local function onUpdate()
 				local r, g, b = ColorPickerFrame:GetColorRGB()
-				tex:SetColorTexture(r, g, b)
+				f.tex:SetColorTexture(r, g, b)
 				NDUI_VARIABLE(key, value).r, NDUI_VARIABLE(key, value).g, NDUI_VARIABLE(key, value).b = r, g, b
 				if callback then callback() end
 			end
 
 			local function onCancel()
 				local r, g, b = ColorPicker_GetPreviousValues()
-				tex:SetColorTexture(r, g, b)
+				f.tex:SetColorTexture(r, g, b)
 				NDUI_VARIABLE(key, value).r, NDUI_VARIABLE(key, value).g, NDUI_VARIABLE(key, value).b = r, g, b
 			end
 
@@ -778,7 +771,7 @@ local function CreateOption(i)
 			local alpha = NDuiDB["Extras"]["SkinAlpha"]
 			local l = CreateFrame("Frame", nil, parent)
 			l:SetPoint("TOPLEFT", 25, -offset - 12)
-			B.CreateGF(l, 550, 3, "Horizontal", cr, cg, cb, alpha, 0)
+			B.CreateGF(l, 550, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
 			offset = offset + 35
 		end
 	end

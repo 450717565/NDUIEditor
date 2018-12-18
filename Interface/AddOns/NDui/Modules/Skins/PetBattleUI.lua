@@ -82,8 +82,8 @@ function module:PetBattleUI()
 
 		if index == 1 then
 			unit.ActualHealthBar:SetPoint("BOTTOMLEFT", unit.Icon, "BOTTOMRIGHT", 0, 0)
-			unit.healthBg:SetPoint("TOPLEFT", unit.ActualHealthBar, -1, 1)
-			unit.healthBg:SetPoint("BOTTOMLEFT", unit.ActualHealthBar, -1, -1)
+			unit.healthBg:SetPoint("TOPLEFT", unit.ActualHealthBar, -C.mult, C.mult)
+			unit.healthBg:SetPoint("BOTTOMLEFT", unit.ActualHealthBar, -C.mult, -C.mult)
 			unit.ActualHealthBar:SetGradient("VERTICAL", .26, 1, .22, .13, .5, .11)
 			unit.petIcon:SetPoint("BOTTOMLEFT", unit.ActualHealthBar, "TOPLEFT", 0, 4)
 			unit.Name:SetPoint("LEFT", unit.petIcon, "RIGHT", 5, 0)
@@ -94,8 +94,8 @@ function module:PetBattleUI()
 			end
 		else
 			unit.ActualHealthBar:SetPoint("BOTTOMRIGHT", unit.Icon, "BOTTOMLEFT", 0, 0)
-			unit.healthBg:SetPoint("TOPRIGHT", unit.ActualHealthBar, 1, 1)
-			unit.healthBg:SetPoint("BOTTOMRIGHT", unit.ActualHealthBar, 1, -1)
+			unit.healthBg:SetPoint("TOPRIGHT", unit.ActualHealthBar, -C.mult, C.mult)
+			unit.healthBg:SetPoint("BOTTOMRIGHT", unit.ActualHealthBar, C.mult, -C.mult)
 			unit.ActualHealthBar:SetGradient("VERTICAL", 1, .12, .24, .5, .06, .12)
 			unit.petIcon:SetPoint("BOTTOMRIGHT", unit.ActualHealthBar, "TOPRIGHT", 0, 4)
 			unit.Name:SetPoint("RIGHT", unit.petIcon, "LEFT", -5, 0)
@@ -341,12 +341,12 @@ function module:PetBattleUI()
 		-- Petbar Background
 		local lineLeft = CreateFrame("Frame", nil, UIParent)
 		lineLeft:SetPoint("BOTTOMRIGHT", bar, "TOP", 0, 2)
-		B.CreateGF(lineLeft, 260, 3, "Horizontal", cr, cg, cb, 0, alpha)
+		B.CreateGF(lineLeft, 260, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
 		RegisterStateDriver(lineLeft, "visibility", visibleState)
 
 		local lineRight = CreateFrame("Frame", nil, UIParent)
 		lineRight:SetPoint("BOTTOMLEFT", bar, "TOP", 0, 2)
-		B.CreateGF(lineRight, 260, 3, "Horizontal", cr, cg, cb, alpha, 0)
+		B.CreateGF(lineRight, 260, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
 		RegisterStateDriver(lineRight, "visibility", visibleState)
 	end
 end

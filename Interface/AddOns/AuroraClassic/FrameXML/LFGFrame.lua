@@ -73,8 +73,8 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		border:SetColorTexture(0, 0, 0)
 		border:SetDrawLayer("BACKGROUND")
-		border:SetPoint("TOPLEFT", button.texture, -1, 1)
-		border:SetPoint("BOTTOMRIGHT", button.texture, 1, -1)
+		border:SetPoint("TOPLEFT", button.texture, -C.mult, C.mult)
+		border:SetPoint("BOTTOMRIGHT", button.texture, C.mult, -C.mult)
 	end
 
 	hooksecurefunc("LFGDungeonReadyDialogReward_SetMisc", function(button)

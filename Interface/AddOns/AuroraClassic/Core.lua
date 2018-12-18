@@ -56,6 +56,12 @@ local _, class = UnitClass("player")
 C.classcolours = CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS
 local cr, cg, cb = C.classcolours[class].r, C.classcolours[class].g, C.classcolours[class].b
 
+local function SetupPixelFix()
+	local screenHeight = select(2, GetPhysicalScreenSize())
+	local scale = UIParent:GetScale()
+	C.mult = (768/screenHeight/scale)*2
+end
+
 function F:dummy()
 end
 
@@ -74,11 +80,13 @@ function F:CreateSD()
 	if not AuroraConfig.shadow then return end
 	if self.Shadow then return end
 
+	local Pmult, Smult = C.mult*1.5, C.mult*2.5
+
 	local lvl = self:GetFrameLevel()
 	self.Shadow = CreateFrame("Frame", nil, self)
-	self.Shadow:SetPoint("TOPLEFT", -2, 2)
-	self.Shadow:SetPoint("BOTTOMRIGHT", 2, -2)
-	self.Shadow:SetBackdrop({edgeFile = C.media.glowTex, edgeSize = 3})
+	self.Shadow:SetPoint("TOPLEFT", -Pmult, Pmult)
+	self.Shadow:SetPoint("BOTTOMRIGHT", Pmult, -Pmult)
+	self.Shadow:SetBackdrop({edgeFile = C.media.glowTex, edgeSize = Smult})
 	self.Shadow:SetBackdropBorderColor(0, 0, 0)
 	self.Shadow:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
 	CreateTex(self)
@@ -90,7 +98,7 @@ function F:CreateBD(a)
 	self:SetBackdrop({
 		bgFile = C.media.backdrop,
 		edgeFile = C.media.backdrop,
-		edgeSize = 1.2,
+		edgeSize = C.mult,
 	})
 	self:SetBackdropColor(0, 0, 0, a or AuroraConfig.alpha)
 	self:SetBackdropBorderColor(0, 0, 0)
@@ -103,8 +111,8 @@ function F:CreateBG()
 	if self:GetObjectType() == "Texture" then f = self:GetParent() end
 
 	local bg = f:CreateTexture(nil, "BACKGROUND")
-	bg:SetPoint("TOPLEFT", self, -1.2, 1.2)
-	bg:SetPoint("BOTTOMRIGHT", self, 1.2, -1.2)
+	bg:SetPoint("TOPLEFT", self, -C.mult, C.mult)
+	bg:SetPoint("BOTTOMRIGHT", self, C.mult, -C.mult)
 	bg:SetTexture(C.media.backdrop)
 	bg:SetVertexColor(0, 0, 0)
 
@@ -117,8 +125,8 @@ local buttonR, buttonG, buttonB, buttonA
 
 function F:CreateGradient()
 	local tex = self:CreateTexture(nil, "BORDER")
-	tex:SetPoint("TOPLEFT", 1, -1)
-	tex:SetPoint("BOTTOMRIGHT", -1, 1)
+	tex:SetPoint("TOPLEFT", C.mult, -C.mult)
+	tex:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 	tex:SetTexture(useButtonGradientColour and C.media.gradient or C.media.backdrop)
 	tex:SetVertexColor(buttonR, buttonG, buttonB, buttonA)
 
@@ -170,11 +178,7 @@ function F:ReskinTab()
 	bg:SetPoint("BOTTOMRIGHT", -8, 0)
 	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
 
-	self:SetHighlightTexture(C.media.backdrop)
-	local hl = self:GetHighlightTexture()
-	hl:SetVertexColor(cr, cg, cb, .25)
-	hl:SetPoint("TOPLEFT", bg, 1, -1)
-	hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
+	F.ReskinTexture(self, "hl", true, bg)
 end
 
 local function textureOnEnter(self)
@@ -381,6 +385,10 @@ end
 function F:ReskinCheck()
 	F.CleanTextures(self)
 
+	local ch = self:GetCheckedTexture()
+	ch:SetDesaturated(true)
+	ch:SetVertexColor(cr, cg, cb)
+
 	local lvl = self:GetFrameLevel()
 	local bg = F.CreateBDFrame(self, 0)
 	bg:SetPoint("TOPLEFT", 4, -4)
@@ -388,15 +396,7 @@ function F:ReskinCheck()
 	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
 	F.CreateGradient(bg)
 
-	self:SetHighlightTexture(C.media.backdrop)
-	local hl = self:GetHighlightTexture()
-	hl:SetVertexColor(cr, cg, cb, .25)
-	hl:SetPoint("TOPLEFT", bg, 1, -1)
-	hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
-
-	local ch = self:GetCheckedTexture()
-	ch:SetDesaturated(true)
-	ch:SetVertexColor(cr, cg, cb)
+	F.ReskinTexture(self, "hl", true, bg)
 end
 
 local function colourRadio(self)
@@ -573,7 +573,7 @@ function F:ReskinPortraitFrame(setBS)
 	end
 
 	local name = self:GetName()
-	local closeButton = self.CloseButton or _G[name.."CloseButton"]
+	local closeButton = self.CloseButton or (name and _G[name.."CloseButton"])
 
 	if closeButton then
 		F.ReskinClose(closeButton)
@@ -586,8 +586,8 @@ function F:CreateBDFrame(a)
 	local lvl = frame:GetFrameLevel()
 
 	local bg = CreateFrame("Frame", nil, frame)
-	bg:SetPoint("TOPLEFT", self, -1.2, 1.2)
-	bg:SetPoint("BOTTOMRIGHT", self, 1.2, -1.2)
+	bg:SetPoint("TOPLEFT", self, -C.mult, C.mult)
+	bg:SetPoint("BOTTOMRIGHT", self, C.mult, -C.mult)
 	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
 	F.CreateBD(bg, a)
 	F.CreateSD(bg)
@@ -729,8 +729,7 @@ function F:AffixesSetup()
 		frame.Border:SetTexture(nil)
 		frame.Portrait:SetTexture(nil)
 		if not frame.bg then
-			frame.Portrait:SetTexCoord(.08, .92, .08, .92)
-			frame.bg = F.CreateBDFrame(frame.Portrait, .25)
+			frame.bg = F.ReskinIcon(frame.Portrait, true)
 		end
 
 		if frame.info then
@@ -790,15 +789,24 @@ function F:CleanTextures()
 	if bottom then bottom:Hide() end
 end
 
-function F:ReskinHighlight(classColor, relativeTo)
+function F:ReskinTexture(isTex, classColor, relativeTo)
 	local r, g, b = 1, 1, 1
 	if classColor then r, g, b = cr, cg, cb end
 
-	self:SetHighlightTexture(C.media.backdrop)
-	local hl = self:GetHighlightTexture()
-	hl:SetVertexColor(r, g, b, .25)
-	hl:SetPoint("TOPLEFT", relativeTo or self, 1, -1)
-	hl:SetPoint("BOTTOMRIGHT", relativeTo or self, -1, 1)
+	local tex
+	if isTex == "hl" then
+		self:SetHighlightTexture(C.media.backdrop)
+		tex = self:GetHighlightTexture()
+	elseif isTex == "ck" then
+		self:SetCheckedTexture(C.media.backdrop)
+		tex = self:GetCheckedTexture()
+	elseif isTex == "sl" then
+		tex = self.HighlightTexture or self.Selected or self.SelectedBG or self.SelectedTexture or self.selectedTex or self.selectedTexture or self.selectedHighlight
+	end
+
+	tex:SetColorTexture(r, g, b, .25)
+	tex:SetPoint("TOPLEFT", relativeTo or self, C.mult, -C.mult)
+	tex:SetPoint("BOTTOMRIGHT", relativeTo or self, -C.mult, C.mult)
 end
 
 function F:ReskinStatusBar(classColor, stripTex)
@@ -830,30 +838,22 @@ end
 function F:ReskinIconStyle()
 	self:SetNormalTexture("")
 
-	self:SetHighlightTexture(C.media.backdrop)
-	local hl = self:GetHighlightTexture()
-	hl:SetPoint("TOPLEFT", 1, -1)
-	hl:SetPoint("BOTTOMRIGHT", -1, 1)
-	hl:SetVertexColor(1, 1, 1, .25)
+	F.ReskinTexture(self, "hl", false)
 
 	self:SetPushedTexture(C.media.pushed)
 	local ps = self:GetPushedTexture()
 	ps:SetDrawLayer("OVERLAY")
 
 	if self.SetCheckedTexture then
-		self:SetCheckedTexture(C.media.backdrop)
-		local check = self:GetCheckedTexture()
-		check:SetVertexColor(1, 1, 1, .25)
-		check:SetPoint("TOPLEFT", 1, -1)
-		check:SetPoint("BOTTOMRIGHT", -1, 1)
+		F.ReskinTexture(self, "ck", false)
 	end
 
 	local ic = self.icon or self.Icon
 	if ic then
 		ic:SetDrawLayer("ARTWORK")
 		ic:SetTexCoord(.08, .92, .08, .92)
-		ic:SetPoint("TOPLEFT", 1, -1)
-		ic:SetPoint("BOTTOMRIGHT", -1, 1)
+		ic:SetPoint("TOPLEFT", C.mult, -C.mult)
+		ic:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 	end
 
 	F.CreateBD(self)
@@ -871,6 +871,8 @@ local Skin = CreateFrame("Frame")
 Skin:RegisterEvent("ADDON_LOADED")
 Skin:SetScript("OnEvent", function(_, _, addon)
 	if addon == "AuroraClassic" then
+		SetupPixelFix()
+
 		-- [[ Load Variables ]]
 
 		-- remove deprecated or corrupt variables

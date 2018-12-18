@@ -25,14 +25,9 @@ tinsert(C.themes["AuroraClassic"], function()
 		if bu and ic then
 			F.StripTextures(bu)
 
-			ic:SetTexCoord(.08, .92, .08, .92)
-			local bg = F.CreateBDFrame(bu, .25)
+			local bg = F.ReskinIcon(ic, true)
 
-			bu:SetHighlightTexture(C.media.backdrop)
-			local hl = bu:GetHighlightTexture()
-			hl:SetVertexColor(1, 1, 1, .25)
-			hl:SetPoint("TOPLEFT", bg, 1, -1)
-			hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
+			F.ReskinTexture(bu, "hl", false, bg)
 		end
 	end
 

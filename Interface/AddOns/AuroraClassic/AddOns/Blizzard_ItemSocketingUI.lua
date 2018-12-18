@@ -27,7 +27,7 @@ C.themes["Blizzard_ItemSocketingUI"] = function()
 
 		shine:ClearAllPoints()
 		shine:SetPoint("TOPLEFT")
-		shine:SetPoint("BOTTOMRIGHT", 1, -1)
+		shine:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
 
 		bu.bg = F.CreateBDFrame(bu, .25)
 	end

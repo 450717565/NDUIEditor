@@ -27,7 +27,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 					bg:SetPoint("TOPLEFT", 0, -1)
 					bg:SetPoint("BOTTOMRIGHT", 0, 1)
 
-					F.ReskinHighlight(bu, true, bg)
+					F.ReskinTexture(bu, "hl", true, bg)
 				end
 				first = false
 			end
@@ -60,14 +60,14 @@ C.themes["Blizzard_AchievementUI"] = function()
 
 		bu.description:SetTextColor(.9, .9, .9)
 		bu.description.SetTextColor = F.dummy
-		bu.description:SetShadowOffset(1, -1)
+		bu.description:SetShadowOffset(C.mult, -C.mult)
 		bu.description.SetShadowOffset = F.dummy
 
 		F.ReskinIcon(bu.icon.texture, true)
 
 		local bg = F.CreateBDFrame(bu, .25)
-		bg:SetPoint("TOPLEFT", 1, -1)
-		bg:SetPoint("BOTTOMRIGHT", 0, 2)
+		bg:SetPoint("TOPLEFT", C.mult, -C.mult)
+		bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 
 		local ch = bu.tracked
 		ch:SetSize(22, 22)
@@ -144,7 +144,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 				local text = _G["AchievementFrameSummaryAchievement"..i.."Description"]
 				text:SetTextColor(.9, .9, .9)
 				text.SetTextColor = F.dummy
-				text:SetShadowOffset(1, -1)
+				text:SetShadowOffset(C.mult, -C.mult)
 				text.SetShadowOffset = F.dummy
 
 				local ic = _G["AchievementFrameSummaryAchievement"..i.."IconTexture"]
@@ -214,7 +214,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 		local text = _G["AchievementFrameComparisonContainerButton"..i.."PlayerDescription"]
 		text:SetTextColor(.9, .9, .9)
 		text.SetTextColor = F.dummy
-		text:SetShadowOffset(1, -1)
+		text:SetShadowOffset(C.mult, -C.mult)
 		text.SetShadowOffset = F.dummy
 
 		local ic = _G["AchievementFrameComparisonContainerButton"..i.."PlayerIconTexture"]
@@ -247,7 +247,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 		bg:SetPoint("TOPLEFT")
 		bg:SetPoint("BOTTOMRIGHT", 0, 1)
 
-		F.ReskinHighlight(result, true, bg)
+		F.ReskinTexture(result, "hl", true, bg)
 	end
 
 	for i = 1, 5 do
@@ -272,10 +272,10 @@ C.themes["Blizzard_AchievementUI"] = function()
 
 			local bg = F.CreateBDFrame(bu, .25)
 			bg:SetPoint("TOPLEFT", 2, -2)
-			bg:SetPoint("BOTTOMRIGHT", -1, 1)
+			bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 
 			F.ReskinIcon(bu.icon, true)
-			F.ReskinHighlight(bu, true, bg)
+			F.ReskinTexture(bu, "hl", true, bg)
 		end
 	end
 

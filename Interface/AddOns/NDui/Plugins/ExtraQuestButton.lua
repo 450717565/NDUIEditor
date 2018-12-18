@@ -175,8 +175,8 @@ function ExtraQuestButton:PLAYER_LOGIN()
 	self:SetPushedTexture(DB.textures.pushed)
 	local push = self:GetPushedTexture()
 	push:SetBlendMode("ADD")
-	push:SetPoint("TOPLEFT", -1, 1)
-	push:SetPoint("BOTTOMRIGHT", 1, -1)
+	push:SetPoint("TOPLEFT", -C.mult, C.mult)
+	push:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
 
 	local Icon = self:CreateTexture("$parentIcon", "ARTWORK")
 	Icon:SetAllPoints()
@@ -197,8 +197,8 @@ function ExtraQuestButton:PLAYER_LOGIN()
 	self.Count = Count
 
 	local Cooldown = CreateFrame("Cooldown", "$parentCooldown", self, "CooldownFrameTemplate")
-	Cooldown:SetPoint("TOPLEFT", -1, 1)
-	Cooldown:SetPoint("BOTTOMRIGHT", 1, -1)
+	Cooldown:SetPoint("TOPLEFT", -C.mult, C.mult)
+	Cooldown:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
 	Cooldown:SetReverse(false)
 	Cooldown:Hide()
 	self.Cooldown = Cooldown

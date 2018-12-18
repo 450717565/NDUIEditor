@@ -80,7 +80,7 @@ end
 -- Create Backdrop
 function B:CreateBD(a)
 	self:SetBackdrop({
-		bgFile = DB.bdTex, edgeFile = DB.bdTex, edgeSize = 1.2,
+		bgFile = DB.bdTex, edgeFile = DB.bdTex, edgeSize = C.mult,
 	})
 	self:SetBackdropColor(0, 0, 0, a or .5)
 	self:SetBackdropBorderColor(0, 0, 0)
@@ -93,7 +93,7 @@ function B:CreateSD(m, s)
 	local frame = self
 	if self:GetObjectType() == "Texture" then frame = self:GetParent() end
 	local lvl = frame:GetFrameLevel()
-	if not m then m, s = 2, 3 end
+	if not m then m, s = C.mult*1.5, C.mult*2.5 end
 
 	self.Shadow = CreateFrame("Frame", nil, frame)
 	self.Shadow:SetPoint("TOPLEFT", self, -m, m)
@@ -109,7 +109,7 @@ end
 function B:CreateBG(offset)
 	local frame = self
 	if self:GetObjectType() == "Texture" then frame = self:GetParent() end
-	offset = offset or 1.2
+	offset = offset or C.mult
 	local lvl = frame:GetFrameLevel()
 
 	local bg = CreateFrame("Frame", nil, frame)
@@ -580,8 +580,8 @@ end
 function B:CreateDropDown(width, height, data)
 	local dd = CreateFrame("Frame", nil, self)
 	dd:SetSize(width, height)
-	B.CreateBD(dd, .3)
-	B.CreateSD(dd)
+	B.CreateBD(dd)
+	dd:SetBackdropBorderColor(1, 1, 1, .3)
 	dd.Text = B.CreateFS(dd, 14, "", false, "LEFT", 5, 0)
 	dd.Text:SetPoint("RIGHT", -5, 0)
 	dd.options = {}
@@ -652,4 +652,17 @@ function B:CreateDropDown(width, height, data)
 
 	dd.Type = "DropDown"
 	return dd
+end
+
+function B:CreateColorSwatch()
+	local swatch = CreateFrame("Button", nil, self)
+	swatch:SetSize(18, 18)
+	B.CreateBD(swatch, 1)
+	local mult = C.mult*1.5
+	local tex = swatch:CreateTexture()
+	tex:SetPoint("TOPLEFT", mult, -mult)
+	tex:SetPoint("BOTTOMRIGHT", -mult, mult)
+	swatch.tex = tex
+
+	return swatch
 end

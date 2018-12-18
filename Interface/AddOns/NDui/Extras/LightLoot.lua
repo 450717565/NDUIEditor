@@ -11,9 +11,6 @@ local point = {"CENTER", 300, 0}
 local slots = {}
 
 local LightLoot = CreateFrame("Button", "LightLoot")
-B.CreateBD(LightLoot)
-B.CreateSD(LightLoot)
-B.CreateTex(LightLoot)
 LightLoot:RegisterForClicks("AnyUp")
 LightLoot:SetClampedToScreen(true)
 LightLoot:SetClampRectInsets(0, 0, 14, 0)
@@ -96,8 +93,8 @@ local function CreateSlot(id)
 	local icon = border:CreateTexture(nil, "ARTWORK")
 	icon:SetAlpha(.8)
 	icon:SetTexCoord(unpack(DB.TexCoord))
-	icon:SetPoint("TOPLEFT", 1, -1)
-	icon:SetPoint("BOTTOMRIGHT", -1, 1)
+	icon:SetPoint("TOPLEFT", C.mult, -C.mult)
+	icon:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 	button.icon = icon
 
 	local glow = button:CreateTexture(nil, "ARTWORK")
@@ -111,7 +108,7 @@ local function CreateSlot(id)
 	local count = B.CreateFS(border, 14, "")
 	count:SetJustifyH("RIGHT")
 	count:ClearAllPoints()
-	count:SetPoint("BOTTOMRIGHT", border, "BOTTOMRIGHT", -1, 1)
+	count:SetPoint("BOTTOMRIGHT", border, "BOTTOMRIGHT", -C.mult, C.mult)
 	button.count = count
 
 	local name = B.CreateFS(border, 14, "")
@@ -269,6 +266,13 @@ function LightLoot:LOOT_CLOSED()
 	end
 end
 LightLoot:RegisterEvent("LOOT_CLOSED")
+
+function LightLoot:PLAYER_LOGIN()
+	B.CreateBD(LightLoot)
+	B.CreateSD(LightLoot)
+	B.CreateTex(LightLoot)
+end
+LightLoot:RegisterEvent("PLAYER_LOGIN")
 
 LootFrame:UnregisterAllEvents()
 tbinsert(UISpecialFrames, "LightLoot")

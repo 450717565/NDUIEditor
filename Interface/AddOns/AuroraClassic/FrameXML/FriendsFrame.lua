@@ -26,7 +26,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	local whoBg = F.CreateBDFrame(WhoFrameEditBoxInset, .25)
 	whoBg:SetPoint("TOPLEFT")
-	whoBg:SetPoint("BOTTOMRIGHT", -1, 1)
+	whoBg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 	F.CreateGradient(whoBg)
 
 	local header = FriendsFrameFriendsScrollFrame.PendingInvitesHeaderButton

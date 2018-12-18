@@ -51,33 +51,25 @@ C.themes["Blizzard_Collections"] = function()
 			F.StripTextures(bu)
 
 			local bg = F.CreateBDFrame(bu, .25)
-			bg:SetPoint("TOPLEFT", 1, -1)
-			bg:SetPoint("BOTTOMRIGHT", -1, 1)
-
-			local sel = bu.SelectedTexture or bu.selectedTexture
-			sel:SetColorTexture(r, g, b, .25)
-			sel:SetPoint("TOPLEFT", bg, 1, -1)
-			sel:SetPoint("BOTTOMRIGHT", bg, -1, 1)
+			bg:SetPoint("TOPLEFT", C.mult, -C.mult)
+			bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 
 			local ic = bu.Icon or bu.icon
 			F.ReskinIcon(ic, true)
 
+			F.ReskinTexture(bu, "sl", true, bg)
+			F.ReskinTexture(bu, "hl", true, bg)
+
 			if bu.HighlightTexture then
-				local hl = bu.HighlightTexture
-				hl:SetTexture(C.media.backdrop)
-				hl:SetVertexColor(r, g, b, .25)
-				hl:SetPoint("TOPLEFT", bg, 1, -1)
-				hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
-			else
-				F.ReskinHighlight(bu, true, bg)
+				bu.HighlightTexture:SetVertexColor(r, g, b, .25)
 			end
 
 			if bu.ProgressBar then
 				local bar = bu.ProgressBar
 				bar:SetTexture(C.media.backdrop)
 				bar:SetVertexColor(r, g, b, .25)
-				bar:SetPoint("TOPLEFT", bg, 1, -1)
-				bar:SetPoint("BOTTOMLEFT", bg, -1, 1)
+				bar:SetPoint("TOPLEFT", bg, C.mult, -C.mult)
+				bar:SetPoint("BOTTOMLEFT", bg, -C.mult, C.mult)
 			end
 
 			if bu.DragButton then
@@ -510,7 +502,7 @@ C.themes["Blizzard_Collections"] = function()
 			slot.Icon:SetDrawLayer("BACKGROUND", 1)
 			local bg = F.ReskinIcon(slot.Icon, true)
 
-			F.ReskinHighlight(slot, false, bg)
+			F.ReskinTexture(slot, "hl", false, bg)
 		end
 	end
 

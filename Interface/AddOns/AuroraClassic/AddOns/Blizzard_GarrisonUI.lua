@@ -345,8 +345,8 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		local hl = tab:GetHighlightTexture()
 		hl:SetColorTexture(r, g, b, .25)
 		hl:ClearAllPoints()
-		hl:SetPoint("TOPLEFT", bg, 1, -1)
-		hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
+		hl:SetPoint("TOPLEFT", bg, C.mult, -C.mult)
+		hl:SetPoint("BOTTOMRIGHT", bg, -C.mult, C.mult)
 	end
 
 	hooksecurefunc("GarrisonBuildingList_SelectTab", function(tab)
@@ -364,23 +364,14 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			if not button.styled then
 				button.BG:Hide()
 
-				button.Icon:SetTexCoord(.08, .92, .08, .92)
-				F.CreateBDFrame(button.Icon, .25)
+				F.ReskinIcon(button.Icon, true)
 
 				local bg = F.CreateBDFrame(button, .25)
 				bg:SetPoint("TOPLEFT", 44, -5)
 				bg:SetPoint("BOTTOMRIGHT", 0, 6)
-
-				button.SelectedBG:SetColorTexture(r, g, b, .25)
-				button.SelectedBG:ClearAllPoints()
-				button.SelectedBG:SetPoint("TOPLEFT", bg, 1, -1)
-				button.SelectedBG:SetPoint("BOTTOMRIGHT", bg, -1, 1)
-
-				local hl = button:GetHighlightTexture()
-				hl:SetColorTexture(r, g, b, .25)
-				hl:ClearAllPoints()
-				hl:SetPoint("TOPLEFT", bg, 1, -1)
-				hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
+				
+				F.ReskinTexture(button, "sl", true, bg)
+				F.ReskinTexture(button, "hl", true, bg)
 
 				button.styled = true
 			end
@@ -539,8 +530,8 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		local button = buttons[i]
 		button.BG:Hide()
 		local bg = F.CreateBDFrame(button, .25)
-		bg:SetPoint("TOPLEFT", 1, -1)
-		bg:SetPoint("BOTTOMRIGHT", -1, 1)
+		bg:SetPoint("TOPLEFT", C.mult, -C.mult)
+		bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 
 		for _, reward in pairs(button.Rewards) do
 			reward:GetRegions():Hide()
@@ -756,7 +747,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 					local oldBg = frame:GetRegions()
 					oldBg:Hide()
 					frame.bg = F.CreateBDFrame(oldBg, .25)
-					frame.bg:SetPoint("TOPLEFT", frame.PortraitFrame, -1, 1)
+					frame.bg:SetPoint("TOPLEFT", frame.PortraitFrame, -C.mult, C.mult)
 					frame.bg:SetPoint("BOTTOMRIGHT", -10, 8)
 				end
 

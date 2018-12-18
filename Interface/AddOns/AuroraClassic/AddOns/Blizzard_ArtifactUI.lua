@@ -37,14 +37,10 @@ C.themes["Blizzard_ArtifactUI"] = function()
 
 			slot.SwatchTexture:SetTexCoord(.2, .8, .2, .8)
 			slot.SwatchTexture:SetAllPoints()
-			slot.HighlightTexture:SetColorTexture(1, 1, 1, .25)
-			slot.HighlightTexture:SetAllPoints()
-
 			slot.Selected:SetDrawLayer("BACKGROUND")
-			slot.Selected:SetTexture(C.media.backdrop)
-			slot.Selected:SetVertexColor(r, g, b)
-			slot.Selected:SetPoint("TOPLEFT", -1.2, 1.2)
-			slot.Selected:SetPoint("BOTTOMRIGHT", 1.2, -1.2)
+
+			F.ReskinTexture(slot, "hl", true)
+			F.ReskinTexture(slot, "sl", true)
 		end
 	end
 end

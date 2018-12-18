@@ -18,7 +18,7 @@ function module:ShowItemLevel()
 		__index = function(t, i)
 			local gslot = _G["Character"..i.."Slot"]
 			if not gslot then return end
-			local fstr = B.CreateFS(gslot, DB.Font[2]+1, "", false, "TOP", 1, -1)
+			local fstr = B.CreateFS(gslot, DB.Font[2]+1, "", false, "TOP", C.mult, -C.mult)
 			t[i] = fstr
 			return fstr
 		end
@@ -28,7 +28,7 @@ function module:ShowItemLevel()
 		__index = function(t, i)
 			local gslot = _G["Inspect"..i.."Slot"]
 			if not gslot then return end
-			local fstr = B.CreateFS(gslot, DB.Font[2]+1, "", false, "TOP", 1, -1)
+			local fstr = B.CreateFS(gslot, DB.Font[2]+1, "", false, "TOP", C.mult, -C.mult)
 			t[i] = fstr
 			return fstr
 		end

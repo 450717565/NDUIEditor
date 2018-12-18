@@ -59,8 +59,8 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.CreateBDFrame(slot, .25)
 
 		local border = slot.IconBorder
-		border:SetPoint("TOPLEFT", -1.2, 1.2)
-		border:SetPoint("BOTTOMRIGHT", 1.2, -1.2)
+		border:SetPoint("TOPLEFT", -C.mult, C.mult)
+		border:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
 		border:SetDrawLayer("BACKGROUND")
 
 		local popout = slot.popoutButton
@@ -126,11 +126,11 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 
 		tab.Hider:SetColorTexture(.5, .5, .5, .5)
-		tab.Hider:SetPoint("TOPLEFT", bg, 1, -1)
-		tab.Hider:SetPoint("BOTTOMRIGHT", bg, -1, 1)
+		tab.Hider:SetPoint("TOPLEFT", bg, C.mult, -C.mult)
+		tab.Hider:SetPoint("BOTTOMRIGHT", bg, -C.mult, C.mult)
 		tab.Highlight:SetColorTexture(1, 1, 1, .25)
-		tab.Highlight:SetPoint("TOPLEFT", bg, 1, -1)
-		tab.Highlight:SetPoint("BOTTOMRIGHT", bg, -1, 1)
+		tab.Highlight:SetPoint("TOPLEFT", bg, C.mult, -C.mult)
+		tab.Highlight:SetPoint("BOTTOMRIGHT", bg, -C.mult, C.mult)
 	end
 
 	-- [[ Equipment manager ]]

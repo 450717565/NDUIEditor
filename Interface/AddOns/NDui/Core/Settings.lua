@@ -2,6 +2,7 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local module = B:RegisterModule("Settings")
 local pairs, tonumber, wipe = pairs, tonumber, table.wipe
+local max = math.max
 local cr, cg, cb = DB.r, DB.g, DB.b
 
 -- Addon Info
@@ -63,10 +64,9 @@ local function ForceUIScale()
 
 	local scale = NDuiADB["UIScale"]
 	if NDuiADB["LockUIScale"] then
-		scale = 768/DB.ScreenHeight * .8
 		local minScale = .64
-		if DB.ScreenHeight > 1080 then minScale = .5 end
-		if scale < minScale then scale = minScale end
+		if DB.ScreenHeight > 1080 then minScale = .4 end
+		scale = max(minScale, 768/DB.ScreenHeight)
 		NDuiADB["UIScale"] = scale
 	end
 
@@ -76,6 +76,8 @@ local function ForceUIScale()
 	else
 		SetCVar("uiScale", scale)
 	end
+
+	C.mult = (768/DB.ScreenHeight/scale)*2
 end
 
 local function ForceChatSettings()
@@ -371,11 +373,11 @@ local function YesTutor()
 	B.CreateFS(tutor, 30, "NDui", true, "TOPLEFT", 10, 27)
 	local ll = CreateFrame("Frame", nil, tutor)
 	ll:SetPoint("TOP", -40, -32)
-	B.CreateGF(ll, 80, 3, "Horizontal", cr, cg, cb, 0, alpha)
+	B.CreateGF(ll, 80, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
 	ll:SetFrameStrata("HIGH")
 	local lr = CreateFrame("Frame", nil, tutor)
 	lr:SetPoint("TOP", 40, -32)
-	B.CreateGF(lr, 80, 3, "Horizontal", cr, cg, cb, alpha, 0)
+	B.CreateGF(lr, 80, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
 	lr:SetFrameStrata("HIGH")
 
 	local title = B.CreateFS(tutor, 12, "", true, "TOP", 0, -10)
@@ -457,11 +459,11 @@ local function HelloWorld()
 	B.CreateFS(welcome, 16, L["Help Title"], true, "TOP", 0, -10)
 	local ll = CreateFrame("Frame", nil, welcome)
 	ll:SetPoint("TOP", -50, -35)
-	B.CreateGF(ll, 100, 3, "Horizontal", cr, cg, cb, 0, alpha)
+	B.CreateGF(ll, 100, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
 	ll:SetFrameStrata("HIGH")
 	local lr = CreateFrame("Frame", nil, welcome)
 	lr:SetPoint("TOP", 50, -35)
-	B.CreateGF(lr, 100, 3, "Horizontal", cr, cg, cb, alpha, 0)
+	B.CreateGF(lr, 100, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
 	lr:SetFrameStrata("HIGH")
 	B.CreateFS(welcome, 12, L["Help Info1"], false, "TOPLEFT", 20, -50)
 	B.CreateFS(welcome, 12, L["Help Info2"], false, "TOPLEFT", 20, -70)

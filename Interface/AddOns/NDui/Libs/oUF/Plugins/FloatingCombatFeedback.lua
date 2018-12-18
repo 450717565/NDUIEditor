@@ -154,7 +154,7 @@ local function onEvent(self, event, ...)
 				text = "-"..formatNumber(self, amount)
 
 				if critical or crushing then
-					multiplier = 1.25
+					multiplier = C.mult
 					critMark = true
 				end
 			elseif value.suffix == "HEAL" then
@@ -171,7 +171,7 @@ local function onEvent(self, event, ...)
 				text = "+"..formatNumber(self, amount)..overhealText
 
 				if critical then
-					multiplier = 1.25
+					multiplier = C.mult
 					critMark = true
 				end
 			elseif value.suffix == "MISS" then

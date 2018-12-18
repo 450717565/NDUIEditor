@@ -25,10 +25,6 @@ local LM_Message_Info = {
 local LMFrame = CreateFrame("Frame", "LootMonitor", UIParent)
 local LMFrame_Title = B.CreateFS(LMFrame, Button_Height-2, L["LootMonitor"], true, "TOPLEFT", 10, -10)
 local LMFrame_Info = B.CreateFS(LMFrame, Button_Height-2, L["LootMonitor Info"], true, "BOTTOMRIGHT", -10, 10)
-B.CreateMF(LMFrame)
-B.CreateBD(LMFrame)
-B.CreateSD(LMFrame)
-B.CreateTex(LMFrame)
 LMFrame:SetFrameStrata("HIGH")
 LMFrame:SetClampedToScreen(true)
 LMFrame:SetPoint("LEFT", 4, 0)
@@ -66,11 +62,18 @@ local function ButtonOnLeave(self)
 	GameTooltip:Hide()
 end
 
-local LMFrame_CloseBtn = B.CreateButton(LMFrame, 18, 18, "X")
-LMFrame_CloseBtn:SetPoint("TOPRIGHT", -10, -7)
-LMFrame_CloseBtn:SetScript("OnClick", function(self) LMFrame_Close() end)
+local function CreateLMFrame()
+	B.CreateMF(LMFrame)
+	B.CreateBD(LMFrame)
+	B.CreateSD(LMFrame)
+	B.CreateTex(LMFrame)
 
-local function CreateButton(index)
+	local LMFrame_CloseBtn = B.CreateButton(LMFrame, 18, 18, "X")
+	LMFrame_CloseBtn:SetPoint("TOPRIGHT", -10, -7)
+	LMFrame_CloseBtn:SetScript("OnClick", function(self) LMFrame_Close() end)
+end
+
+local function CreateLMButton(index)
 	local button = CreateFrame("Button", "LMFrame_Report"..index, LMFrame)
 	button:SetHighlightTexture(DB.bdTex)
 	button:SetHeight(Button_Height)
@@ -108,8 +111,9 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 
 	if event == "PLAYER_LOGIN" then
 		LMFrame:UnregisterEvent(event)
+		CreateLMFrame()
 		for index = 1, LMFrame_CFG["nums"] do
-			CreateButton(index)
+			CreateLMButton(index)
 		end
 		LMFrame_Close()
 	elseif event == "CHAT_MSG_LOOT" then

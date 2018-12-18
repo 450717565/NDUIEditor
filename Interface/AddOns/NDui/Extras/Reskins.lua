@@ -235,7 +235,7 @@ local function Reskins()
 				name = "NDui",
 				border = {
 					offset = 0,
-					size = 1.2,
+					size = C.mult,
 					texture = {1, 1, 1, 1},
 				},
 				title = {
@@ -257,7 +257,7 @@ local function Reskins()
 				},
 				icon_border = {
 					offset = 0,
-					size = 1.2,
+					size = C.mult,
 					texture = {1, 1, 1, 1},
 				},
 				icon_highlight = {
@@ -279,7 +279,7 @@ local function Reskins()
 				},
 				slot_border = {
 					offset = 0,
-					size = 1.2,
+					size = C.mult,
 					texture = {1, 1, 1, 1},
 				},
 			})
@@ -334,14 +334,14 @@ local function Reskins()
 
 					bu.description:SetTextColor(.9, .9, .9)
 					bu.description.SetTextColor = F.dummy
-					bu.description:SetShadowOffset(1, -1)
+					bu.description:SetShadowOffset(C.mult, -C.mult)
 					bu.description.SetShadowOffset = F.dummy
 
 					bu.icon.texture:SetTexCoord(.08, .92, .08, .92)
 					F.CreateBDFrame(bu.icon.texture, .25)
 
 					local bg = F.CreateBDFrame(bu, .25)
-					bg:SetPoint("TOPLEFT", 1, -1)
+					bg:SetPoint("TOPLEFT", C.mult, -C.mult)
 					bg:SetPoint("BOTTOMRIGHT", 0, 2)
 
 					local ch = bu.tracked

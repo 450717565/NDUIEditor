@@ -170,9 +170,9 @@ function module:MicroMenu()
 
 		local MenuL = CreateFrame("Frame", nil, UIParent)
 		MenuL:SetPoint("TOPRIGHT", menubar, "BOTTOM")
-		B.CreateGF(MenuL, 200, 3, "Horizontal", cr, cg, cb, 0, alpha)
+		B.CreateGF(MenuL, 200, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
 		local MenuR = CreateFrame("Frame", nil, UIParent)
 		MenuR:SetPoint("TOPLEFT", menubar, "BOTTOM")
-		B.CreateGF(MenuR, 200, 3, "Horizontal", cr, cg, cb, alpha, 0)
+		B.CreateGF(MenuR, 200, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
 	end
 end

@@ -69,7 +69,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 			bg:SetPoint("TOPLEFT", 3, -3)
 			bg:SetPoint("BOTTOMRIGHT", -4, 2)
 
-			F.ReskinHighlight(bu, false, bg)
+			F.ReskinTexture(bu, "hl", false, bg)
 
 			index = index + 1
 		end
@@ -99,7 +99,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 			bossButton = _G["EncounterJournalBossButton"..numBossButtons]
 			while bossButton do
 				F.Reskin(bossButton, true)
-				F.ReskinHighlight(bossButton, true)
+				F.ReskinTexture(bossButton, "hl", true)
 
 				bossButton.text:SetTextColor(1, 1, 1)
 				bossButton.creature:SetPoint("TOPLEFT", 0, -4)
@@ -181,8 +181,8 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		F.ReskinIcon(item.icon, true)
 
 		local bg = F.CreateBDFrame(item, .25)
-		bg:SetPoint("TOPLEFT", 1, -1)
-		bg:SetPoint("BOTTOMRIGHT", -1, 1)
+		bg:SetPoint("TOPLEFT", C.mult, -C.mult)
+		bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 	end
 
 	-- [[ Search results ]]
@@ -198,7 +198,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		bg:SetPoint("TOPLEFT")
 		bg:SetPoint("BOTTOMRIGHT", 0, 1)
 
-		F.ReskinHighlight(result, true, bg)
+		F.ReskinTexture(result, "hl", true, bg)
 	end
 
 	for i = 1, 5 do
@@ -223,10 +223,10 @@ C.themes["Blizzard_EncounterJournal"] = function()
 			F.StripTextures(bu)
 
 			local bg = F.CreateBDFrame(bu, .25)
-			bg:SetPoint("TOPLEFT", 2, -2)
-			bg:SetPoint("BOTTOMRIGHT", -1, 1)
+			bg:SetPoint("TOPLEFT", C.mult, -C.mult)
+			bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 
-			F.ReskinHighlight(bu, true, bg)
+			F.ReskinTexture(bu, "hl", true, bg)
 			F.ReskinIcon(bu.icon, true)
 			bu.icon.SetTexCoord = F.dummy
 		end

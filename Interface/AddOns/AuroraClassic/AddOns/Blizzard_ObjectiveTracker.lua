@@ -75,8 +75,8 @@ tinsert(C.themes["AuroraClassic"], function()
 			bar:SetStatusBarColor(r*.8, g*.8, b*.8)
 
 			local bg = F.CreateBDFrame(progressBar)
-			bg:SetPoint("TOPLEFT", bar, -1.2, 1.2)
-			bg:SetPoint("BOTTOMRIGHT", bar, 1.2, -1.2)
+			bg:SetPoint("TOPLEFT", bar, -C.mult, C.mult)
+			bg:SetPoint("BOTTOMRIGHT", bar, C.mult, -C.mult)
 
 			icon:SetMask(nil)
 			icon:SetTexCoord(.08, .92, .08, .92)
