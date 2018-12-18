@@ -74,6 +74,14 @@ DB.PartyPetFlags = bit.bor(COMBATLOG_OBJECT_AFFILIATION_PARTY, COMBATLOG_OBJECT_
 DB.RaidPetFlags = bit.bor(COMBATLOG_OBJECT_AFFILIATION_RAID, COMBATLOG_OBJECT_REACTION_FRIENDLY, COMBATLOG_OBJECT_CONTROL_PLAYER, COMBATLOG_OBJECT_TYPE_PET)
 DB.GuardianFlags = bit.bor(COMBATLOG_OBJECT_AFFILIATION_MINE, COMBATLOG_OBJECT_REACTION_FRIENDLY, COMBATLOG_OBJECT_CONTROL_PLAYER, COMBATLOG_OBJECT_TYPE_GUARDIAN)
 
+-- PixelFix
+local function SetupPixelFix()
+	local screenHeight = select(2, GetPhysicalScreenSize())
+	local scale = UIParent:GetScale()
+	C.mult = (768/screenHeight/scale)*2
+end
+B:RegisterEvent("PLAYER_LOGIN", SetupPixelFix)
+
 -- RoleUpdater
 local function CheckRole()
 	local tree = GetSpecialization()
