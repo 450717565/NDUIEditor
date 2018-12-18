@@ -78,6 +78,7 @@ DB.GuardianFlags = bit.bor(COMBATLOG_OBJECT_AFFILIATION_MINE, COMBATLOG_OBJECT_R
 local function SetupPixelFix()
 	local screenHeight = select(2, GetPhysicalScreenSize())
 	local scale = UIParent:GetScale()
+
 	C.mult = (768/screenHeight/scale)*2
 end
 B:RegisterEvent("PLAYER_LOGIN", SetupPixelFix)

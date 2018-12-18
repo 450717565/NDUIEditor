@@ -77,7 +77,7 @@ local function ForceUIScale()
 		SetCVar("uiScale", scale)
 	end
 
-	--C.mult = (768/DB.ScreenHeight/scale)*2
+	C.mult = (768/DB.ScreenHeight/scale)*2
 end
 
 local function ForceChatSettings()
