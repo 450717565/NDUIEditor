@@ -53,7 +53,7 @@ LibEvent:attachTrigger("INSPECT_FRAME_CREATED", function(this, frame, parent)
 		tile     = true,
 		tileSize = 8,
 		edgeSize = 1,
-		insets   = {left = 1, right = 1, top = 1, bottom = 1}
+		insets   = {left = C.mult, right = C.mult, top = C.mult, bottom = C.mult}
 	}
 	while(frame["item"..i]) do
 		itemframe = frame["item"..i]

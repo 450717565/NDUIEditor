@@ -54,12 +54,12 @@ C.themes["Blizzard_Collections"] = function()
 			bg:SetPoint("TOPLEFT", C.mult, -C.mult)
 			bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 
-			local ic = bu.Icon or bu.icon
-			F.ReskinIcon(ic, true)
-
-			F.ReskinTexture(bu, "sl", true, bg)
+			F.ReskinTexture(bu, "tx", true, bg)
 			F.ReskinTexture(bu, "hl", true, bg)
 
+			local ic = bu.Icon or bu.icon
+			F.ReskinIcon(ic, true)
+			
 			if bu.HighlightTexture then
 				bu.HighlightTexture:SetVertexColor(r, g, b, .25)
 			end

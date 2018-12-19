@@ -40,7 +40,7 @@ C.themes["Blizzard_ArtifactUI"] = function()
 			slot.Selected:SetDrawLayer("BACKGROUND")
 
 			F.ReskinTexture(slot, "hl", true)
-			F.ReskinTexture(slot, "sl", true)
+			F.ReskinTexture(slot, "tx", true)
 		end
 	end
 end

@@ -22,7 +22,7 @@ C.themes["Blizzard_TrainerUI"] = function()
 	bg:SetPoint("TOPLEFT", ClassTrainerFrameSkillStepButtonIcon, "TOPRIGHT", 2, 2)
 	bg:SetPoint("BOTTOMRIGHT")
 
-	F.ReskinTexture(step, "sl", true, bg)
+	F.ReskinTexture(step, "tx", true, bg)
 	F.ReskinTexture(step, "hl", true, bg)
 
 	step.disabledBG:SetPoint("TOPLEFT", bg, C.mult, -C.mult)
@@ -49,7 +49,7 @@ C.themes["Blizzard_TrainerUI"] = function()
 				bg:SetPoint("TOPLEFT", bu.icon, "TOPRIGHT", 2, 2)
 				bg:SetPoint("BOTTOMRIGHT", 0, 3)
 
-				F.ReskinTexture(bu, "sl", true, bg)
+				F.ReskinTexture(bu, "tx", true, bg)
 				F.ReskinTexture(bu, "hl", true, bg)
 
 				bu.name:SetWordWrap(false)

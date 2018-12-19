@@ -56,7 +56,7 @@ C.themes["Blizzard_LookingForGuildUI"] = function()
 
 			local selected = bu.selectedTex
 			if selected then
-				F.ReskinTexture(bu, "sl", true, bg)
+				F.ReskinTexture(bu, "tx", true, bg)
 			end
 		end
 

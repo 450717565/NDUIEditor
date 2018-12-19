@@ -370,7 +370,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				bg:SetPoint("TOPLEFT", 44, -5)
 				bg:SetPoint("BOTTOMRIGHT", 0, 6)
 				
-				F.ReskinTexture(button, "sl", true, bg)
+				F.ReskinTexture(button, "tx", true, bg)
 				F.ReskinTexture(button, "hl", true, bg)
 
 				button.styled = true

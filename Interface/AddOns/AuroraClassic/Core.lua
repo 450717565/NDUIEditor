@@ -59,6 +59,8 @@ local cr, cg, cb = C.classcolours[class].r, C.classcolours[class].g, C.classcolo
 local function SetupPixelFix()
 	local screenHeight = select(2, GetPhysicalScreenSize())
 	local scale = UIParent:GetScale()
+	scale = tonumber(format("%.2f", scale))
+
 	C.mult = (768/screenHeight/scale)*2
 end
 
@@ -797,11 +799,8 @@ function F:ReskinTexture(isTex, classColor, relativeTo)
 	if isTex == "hl" then
 		self:SetHighlightTexture(C.media.backdrop)
 		tex = self:GetHighlightTexture()
-	elseif isTex == "ck" then
-		self:SetCheckedTexture(C.media.backdrop)
-		tex = self:GetCheckedTexture()
-	elseif isTex == "sl" then
-		tex = self.HighlightTexture or self.Selected or self.SelectedBG or self.SelectedTexture or self.selectedTex or self.selectedTexture or self.selectedHighlight
+	elseif isTex == "tx" then
+		tex = self.HighlightTexture or self.Selected or self.SelectedBG or self.Selection or self.SelectedTexture or self.selectedTex or self.selectedTexture or self.selectedHighlight
 	end
 
 	tex:SetColorTexture(r, g, b, .25)
@@ -833,31 +832,6 @@ function F:ReskinDecline()
 		tex:SetRotation(math.rad((i-1/2)*90))
 		tinsert(self.pixels, tex)
 	end
-end
-
-function F:ReskinIconStyle()
-	self:SetNormalTexture("")
-
-	F.ReskinTexture(self, "hl", false)
-
-	self:SetPushedTexture(C.media.pushed)
-	local ps = self:GetPushedTexture()
-	ps:SetDrawLayer("OVERLAY")
-
-	if self.SetCheckedTexture then
-		F.ReskinTexture(self, "ck", false)
-	end
-
-	local ic = self.icon or self.Icon
-	if ic then
-		ic:SetDrawLayer("ARTWORK")
-		ic:SetTexCoord(.08, .92, .08, .92)
-		ic:SetPoint("TOPLEFT", C.mult, -C.mult)
-		ic:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
-	end
-
-	F.CreateBD(self)
-	F.CreateSD(self)
 end
 
 -- [[ Variable and module handling ]]

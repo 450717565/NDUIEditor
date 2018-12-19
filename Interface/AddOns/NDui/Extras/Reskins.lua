@@ -408,8 +408,6 @@ local function Reskins()
 			F.ReskinArrow(WhisperPopScrollingMessageFrameButtonEnd, "down")
 			F.ReskinArrow(WhisperPopScrollingMessageFrameButtonUp, "up")
 			F.ReskinCheck(WhisperPopMessageFrameProtectCheck)
-			F.ReskinIconStyle(WhisperPopFrameConfig)
-			F.ReskinIconStyle(WhisperPopNotifyButton)
 			F.ReskinScroll(WhisperPopFrameListScrollBar)
 
 			local listHL = WhisperPopFrameListHighlightTexture
@@ -419,6 +417,23 @@ local function Reskins()
 			local lists = {WhisperPopFrameListDelete, WhisperPopFrameTopCloseButton, WhisperPopMessageFrameTopCloseButton}
 			for _, list in next, lists do
 				F.ReskinClose(list)
+			end
+
+			local buttons = {"WhisperPopFrameConfig", "WhisperPopNotifyButton"}
+			for _, button in pairs(buttons) do
+				local bu = _G[button]
+				bu:SetNormalTexture("")
+				bu:SetPushedTexture("")
+
+				local ic = _G[button.."Icon"]
+				ic:SetDrawLayer("ARTWORK")
+
+				local bg = F.ReskinIcon(ic, true)
+				F.ReskinTexture(bu, "hl", false, bg)
+
+				if bu.SetCheckedTexture then
+					bu:SetCheckedTexture(C.media.checked)
+				end
 			end
 		end
 

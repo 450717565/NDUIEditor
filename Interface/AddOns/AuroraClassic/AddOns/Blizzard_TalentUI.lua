@@ -106,7 +106,7 @@ C.themes["Blizzard_TalentUI"] = function()
 			_G[name..i.."Glow"]:SetTexture("")
 
 			F.Reskin(bu, true)
-			F.ReskinTexture(bu, "sl", true, bg)
+			F.ReskinTexture(bu, "tx", true, bg)
 
 			bu.specIcon:SetPoint("LEFT", bu, "LEFT")
 			bu.specIcon:SetDrawLayer("OVERLAY")
@@ -193,7 +193,7 @@ C.themes["Blizzard_TalentUI"] = function()
 			bg:SetPoint("TOPLEFT", 2, -1)
 			bg:SetPoint("BOTTOMRIGHT", 0, 3)
 
-			F.ReskinTexture(self, "sl", true, bg)
+			F.ReskinTexture(self, "tx", true, bg)
 			F.ReskinTexture(self, "hl", true, bg)
 
 			self.styled = true

@@ -100,12 +100,10 @@ local function addTab(id, index, isSub)
 	if skinUI and not tab.skinned then
 		local checkedTexture
 		if (skinUI == "AuroraClassic") then
-			loadedUI.CreateBDFrame(tab)
+			local bg = loadedUI.CreateBDFrame(tab)
 			checkedTexture = mediaUI.media.checked
-			tab:SetHighlightTexture(mediaUI.media.backdrop)
-			local hl = tab:GetHighlightTexture()
-			hl:SetAllPoints()
-			hl:SetVertexColor(1, 1, 1, .25)
+
+			loadedUI.ReskinTexture(tab, "hl", false, bg)
 		elseif (skinUI == "ElvUI") then
 			checkedTexture = tab:CreateTexture(nil, "HIGHLIGHT")
 			checkedTexture:SetColorTexture(1, 1, 1, .25)

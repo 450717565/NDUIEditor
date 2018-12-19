@@ -35,26 +35,17 @@ C.themes["Blizzard_BlackMarketUI"] = function()
 
 				bu.Item:SetNormalTexture("")
 				bu.Item:SetPushedTexture("")
-				bu.Item:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-				bu.Item.IconTexture:SetTexCoord(.08, .92, .08, .92)
 				bu.Item.IconBorder:SetAlpha(0)
-				F.CreateBDFrame(bu.Item, .25)
+
+				local ic = F.ReskinIcon(bu.Item.IconTexture, true)
+				F.ReskinTexture(bu.Item, "hl", false, ic)
 
 				local bg = F.CreateBDFrame(bu, .25)
-				bg:SetPoint("TOPLEFT")
+				bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, -1)
 				bg:SetPoint("BOTTOMRIGHT", 0, 5)
 
-				bu:SetHighlightTexture(C.media.backdrop)
-				local hl = bu:GetHighlightTexture()
-				hl:SetVertexColor(r, g, b, .25)
-				hl:SetPoint("TOPLEFT", bu.Item, "TOPRIGHT", 2, -1)
-				hl:SetPoint("BOTTOMRIGHT", -1, 6)
-
-				bu.Selection:ClearAllPoints()
-				bu.Selection:SetPoint("TOPLEFT", 0, -1)
-				bu.Selection:SetPoint("BOTTOMRIGHT", -1, 6)
-				bu.Selection:SetTexture(C.media.backdrop)
-				bu.Selection:SetVertexColor(r, g, b, .25)
+				F.ReskinTexture(bu, "hl", false, bg)
+				F.ReskinTexture(bu, "tx", true, bg)
 
 				bu.reskinned = true
 			end
