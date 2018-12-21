@@ -65,7 +65,7 @@ local function SetupUIScale()
 	if NDuiADB["LockUIScale"] then
 		scale = max(minScale, min(1.1, fixedHeight))
 	end
-	scale = tonumber(format("%.2f", scale))
+	scale = tonumber(floor(scale*100 + .5)/100)
 	C.mult = (fixedHeight/scale)*2
 
 	SetCVar("useUiScale", 1)
@@ -74,6 +74,8 @@ local function SetupUIScale()
 	else
 		SetCVar("uiScale", scale)
 	end
+
+	NDuiADB["UIScale"] = scale
 end
 
 local function ForceChatSettings()

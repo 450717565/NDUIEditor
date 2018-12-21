@@ -14,10 +14,9 @@ C.themes["Blizzard_Calendar"] = function()
 		_G["CalendarDayButton"..i.."DarkFrame"]:SetAlpha(.5)
 		local bu = _G["CalendarDayButton"..i]
 		F.StripTextures(bu)
+		F.ReskinTexture(bu, true)
 
-		bu:SetHighlightTexture(C.media.backdrop)
 		local hl = bu:GetHighlightTexture()
-		hl:SetVertexColor(r, g, b, .25)
 		hl.SetAlpha = F.dummy
 	end
 
@@ -40,8 +39,6 @@ C.themes["Blizzard_Calendar"] = function()
 	CalendarTodayFrame:SetScript("OnUpdate", nil)
 	F.StripTextures(CalendarTodayFrame, true)
 	local bg = F.CreateBDFrame(CalendarTodayFrame, 0)
-	bg:SetPoint("TOPLEFT", 0, -1)
-	bg:SetPoint("BOTTOMRIGHT", 0, 1)
 	bg:SetBackdropBorderColor(r, g, b)
 	bg.Shadow:SetBackdropBorderColor(r, g, b)
 
@@ -59,18 +56,20 @@ C.themes["Blizzard_Calendar"] = function()
 		local vline = F.CreateBDFrame(_G["CalendarDayButton"..i])
 		vline:SetFrameLevel(_G["CalendarDayButton"..i]:GetFrameLevel()+1)
 		vline:SetHeight(546)
-		vline:SetWidth(1)
+		vline:SetWidth(C.mult)
 		vline:ClearAllPoints()
 		vline:SetPoint("TOP", _G["CalendarDayButton"..i], "TOPRIGHT")
+		vline.Shadow:Hide()
 	end
 
 	for i = 1, 36, 7 do
 		local hline = F.CreateBDFrame(_G["CalendarDayButton"..i])
 		hline:SetFrameLevel(_G["CalendarDayButton"..i]:GetFrameLevel()+1)
 		hline:SetWidth(637)
-		hline:SetHeight(1)
+		hline:SetHeight(C.mult)
 		hline:ClearAllPoints()
 		hline:SetPoint("LEFT", _G["CalendarDayButton"..i], "TOPLEFT")
+		hline.Shadow:Hide()
 	end
 
 	if AuroraConfig.tooltips then
@@ -80,7 +79,7 @@ C.themes["Blizzard_Calendar"] = function()
 			tooltip:SetBackdrop(nil)
 			local bg = F.CreateBDFrame(tooltip)
 			bg:SetPoint("TOPLEFT", 2, -2)
-			bg:SetPoint("BOTTOMRIGHT", -1, 2)
+			bg:SetPoint("BOTTOMRIGHT", -2, 2)
 		end
 	end
 
@@ -96,7 +95,7 @@ C.themes["Blizzard_Calendar"] = function()
 	CalendarCreateEventAMPMDropDown:SetWidth(90)
 
 	local line = CalendarMassInviteFrame:CreateTexture(nil, "BACKGROUND")
-	line:SetSize(240, 1)
+	line:SetSize(240, C.mult)
 	line:SetPoint("TOP", CalendarMassInviteFrame, "TOP", 0, -150)
 	line:SetTexture(C.media.backdrop)
 	line:SetVertexColor(0, 0, 0)

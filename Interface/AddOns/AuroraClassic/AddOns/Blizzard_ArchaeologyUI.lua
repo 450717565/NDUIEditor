@@ -25,7 +25,7 @@ C.themes["Blizzard_ArchaeologyUI"] = function()
 		bg:SetPoint("TOPLEFT", -C.mult, C.mult)
 		bg:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
 
-		F.ReskinTexture(button, "hl", true, bg)
+		F.ReskinTexture(button, true, bg)
 
 		local icon = _G[bu.."Icon"]
 		F.ReskinIcon(icon)

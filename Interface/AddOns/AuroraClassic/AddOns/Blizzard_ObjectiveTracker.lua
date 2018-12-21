@@ -6,27 +6,18 @@ tinsert(C.themes["AuroraClassic"], function()
 	local r, g, b = C.r, C.g, C.b
 
 	local function reskinQuestIcon(_, block)
-		local itemButton = block.itemButton
-		if itemButton and not itemButton.styled then
-			itemButton:SetNormalTexture("")
-			itemButton:SetPushedTexture("")
-			itemButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-			itemButton.icon:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(itemButton.icon)
+		local rightButton = block.rightButton or block.groupFinderButton or block.itemButton
 
-			itemButton.styled = true
-		end
-
-		local rightButton = block.rightButton or block.groupFinderButton
 		if rightButton and not rightButton.styled then
 			rightButton:SetNormalTexture("")
 			rightButton:SetPushedTexture("")
-			rightButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-			local bg = F.CreateBDFrame(rightButton)
-			rightButton:SetSize(22, 22)
-			rightButton.Icon:SetParent(bg)
-			rightButton.Icon:SetSize(18, 18)
-			rightButton.Icon:SetPoint("CENTER")
+
+			local bg = F.ReskinIcon(rightButton.icon, true)
+			F.ReskinTexture(rightButton, false, bg)
+
+			if rightButton.Icon then
+				rightButton.Icon:SetPoint("CENTER")
+			end
 
 			rightButton.styled = true
 		end
@@ -79,8 +70,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			bg:SetPoint("BOTTOMRIGHT", bar, C.mult, -C.mult)
 
 			icon:SetMask(nil)
-			icon:SetTexCoord(.08, .92, .08, .92)
-			icon.bg = F.CreateBDFrame(icon)
+			icon.bg = F.ReskinIcon(icon, true)
 			icon:ClearAllPoints()
 			icon:SetPoint("TOPLEFT", bar, "TOPRIGHT", 5, 0)
 			icon:SetPoint("BOTTOMRIGHT", bar, "BOTTOMRIGHT", bar:GetHeight()+5, 0)
@@ -134,8 +124,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			widgetFrame.Frame:SetAlpha(0)
 			for _, bu in next, {widgetFrame.CurrencyContainer:GetChildren()} do
 				if bu and not bu.styled then
-					bu.Icon:SetTexCoord(.08, .92, .08, .92)
-					F.CreateBDFrame(bu.Icon, .25)
+					F.ReskinIcon(bu.Icon, true)
 
 					bu.styled = true
 				end

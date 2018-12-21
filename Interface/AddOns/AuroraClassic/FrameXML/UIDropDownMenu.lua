@@ -88,8 +88,8 @@ tinsert(C.themes["AuroraClassic"], function()
 
 				local hl = _G["DropDownList"..level.."Button"..j.."Highlight"]
 				hl:SetColorTexture(r, g, b, .25)
-				hl:SetPoint("TOPLEFT", -x + 2, 0)
-				hl:SetPoint("BOTTOMRIGHT", listFrame:GetWidth() - bu:GetWidth() - x - 2, 0)
+				hl:SetPoint("TOPLEFT", -x + C.mult, 0)
+				hl:SetPoint("BOTTOMRIGHT", listFrame:GetWidth() - bu:GetWidth() - x - C.mult, 0)
 
 				local check = _G["DropDownList"..level.."Button"..j.."Check"]
 				if isCheckTexture(check) then

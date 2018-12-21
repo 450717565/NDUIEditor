@@ -71,10 +71,9 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 	local contents = details.Contents
 	hooksecurefunc(contents.ResultIcon, "SetNormalTexture", function(self)
 		if not self.styled then
-			self:GetNormalTexture():SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(self:GetNormalTexture(), .25)
 			self.IconBorder:SetAlpha(0)
 			self.ResultBorder:SetAlpha(0)
+			F.ReskinIcon(self:GetNormalTexture(), true)
 
 			self.styled = true
 		end
@@ -82,11 +81,11 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 	for i = 1, #contents.Reagents do
 		local reagent = contents.Reagents[i]
 		reagent.NameFrame:Hide()
-		reagent.Icon:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(reagent.Icon, .25)
+
+		local ic = F.ReskinIcon(reagent.Icon, true)
 
 		local bg = F.CreateBDFrame(reagent.NameFrame, .25)
-		bg:SetPoint("TOPLEFT", reagent.Icon, "TOPRIGHT", 2, 1)
+		bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
 		bg:SetPoint("BOTTOMRIGHT", -4, 1)
 	end
 	F.Reskin(details.ViewGuildCraftersButton)

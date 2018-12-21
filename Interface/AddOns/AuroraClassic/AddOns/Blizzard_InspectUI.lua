@@ -21,11 +21,10 @@ C.themes["Blizzard_InspectUI"] = function()
 
 	for i = 1, #slots do
 		local slot = _G["Inspect"..slots[i].."Slot"]
-
 		F.StripTextures(slot)
-		slot:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-		slot.icon:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(slot, .25)
+
+		local ic = F.ReskinIcon(slot.icon, true)
+		F.ReskinTexture(slot, false, ic)
 
 		local border = slot.IconBorder
 		border:SetPoint("TOPLEFT", -C.mult, C.mult)
@@ -41,23 +40,17 @@ C.themes["Blizzard_InspectUI"] = function()
 	-- Talents
 	local inspectSpec = InspectTalentFrame.InspectSpec
 	inspectSpec.ring:Hide()
+	F.ReskinIcon(inspectSpec.specIcon, true)
 
 	for i = 1, 7 do
 		local row = InspectTalentFrame.InspectTalents["tier"..i]
 		for j = 1, 3 do
 			local bu = row["talent"..j]
-
 			F.StripTextures(bu)
-
+			F.ReskinIcon(bu.icon, true)
 			bu.icon:SetDrawLayer("ARTWORK")
-			bu.icon:SetTexCoord(.08, .92, .08, .92)
-
-			F.CreateBDFrame(bu.icon, .25)
 		end
 	end
-
-	inspectSpec.specIcon:SetTexCoord(.08, .92, .08, .92)
-	F.CreateBDFrame(inspectSpec.specIcon, .25)
 
 	local function updateIcon(self)
 		local spec = nil

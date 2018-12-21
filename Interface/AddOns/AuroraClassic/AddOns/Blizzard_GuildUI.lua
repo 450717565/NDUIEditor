@@ -33,6 +33,7 @@ C.themes["Blizzard_GuildUI"] = function()
 	GuildFrameTabardEmblem:Hide()
 	GuildFrameTabardBorder:Hide()
 
+	F.StripTextures(GuildFrameInset, true)
 	F.StripTextures(GuildNewsFrame, true)
 	F.StripTextures(GuildAllPerksFrame, true)
 	F.StripTextures(GuildRewardsFrame, true)
@@ -85,7 +86,7 @@ C.themes["Blizzard_GuildUI"] = function()
 	line:ClearAllPoints()
 	line:SetPoint("BOTTOMLEFT", 0, -1)
 	line:SetPoint("BOTTOMRIGHT", 0, -1)
-	line:SetHeight(1)
+	line:SetHeight(C.mult)
 
 	GuildNewsFiltersFrame:SetWidth(224)
 	GuildNewsFiltersFrame:SetPoint("TOPLEFT", GuildFrame, "TOPRIGHT", 1, -20)
@@ -121,12 +122,12 @@ C.themes["Blizzard_GuildUI"] = function()
 			select(i, bu:GetRegions()):SetAlpha(0)
 		end
 
-		local bg = F.CreateBDFrame(bu, .25)
-		bg:SetPoint("TOPLEFT", 1, -3)
-		bg:SetPoint("BOTTOMRIGHT", 0, 4)
+		local ic = F.ReskinIcon(bu.icon, true)
 
-		bu.icon:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(bu.icon, .25)
+		local bg = F.CreateBDFrame(bu, .25)
+		bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
+		bg:SetPoint("BOTTOMRIGHT", 0, 1)
+		F.ReskinTexture(bu, true, bg)
 	end
 	GuildPerksContainerButton1:SetPoint("LEFT", -1, 0)
 
@@ -136,15 +137,15 @@ C.themes["Blizzard_GuildUI"] = function()
 			local bu = buttons[i]
 			if not bu.bg then
 				bu:SetNormalTexture("")
-				bu:SetHighlightTexture("")
-				bu.icon:SetTexCoord(.08, .92, .08, .92)
-				F.CreateBDFrame(bu.icon, .25)
 				bu.disabledBG:Hide()
-				bu.disabledBG.Show = F.dummy
+				--bu.disabledBG.Show = F.dummy
 
 				bu.bg = F.CreateBDFrame(bu, .25)
 				bu.bg:SetPoint("TOPLEFT", C.mult, -C.mult)
 				bu.bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
+
+				F.ReskinTexture(bu, true, bu.bg)
+				F.ReskinIcon(bu.icon, true)
 			end
 		end
 	end)
@@ -201,6 +202,14 @@ C.themes["Blizzard_GuildUI"] = function()
 		F.StripTextures(_G["GuildInfoFrameTab"..i], true)
 	end
 
+	for i = 1, 5 do
+		local md = _G["GuildRosterColumnButton"..i.."Middle"]
+		md:Hide()
+
+		local hl = _G["GuildRosterColumnButton"..i.."HighlightTexture"]
+		F.ReskinTexture(hl, true)
+	end
+
 	-- Tradeskill View
 	hooksecurefunc("GuildRoster_UpdateTradeSkills", function()
 		local buttons = GuildRosterContainer.buttons
@@ -228,8 +237,8 @@ C.themes["Blizzard_GuildUI"] = function()
 
 					header.bg = F.CreateBDFrame(header, .25)
 					header.bg:SetAllPoints()
-					header:SetHighlightTexture(C.media.backdrop)
-					header:GetHighlightTexture():SetVertexColor(r, g, b, .25)
+
+					F.ReskinTexture(header, true, header.bg)
 				end
 			end
 		end

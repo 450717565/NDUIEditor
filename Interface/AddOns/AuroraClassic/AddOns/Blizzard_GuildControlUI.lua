@@ -3,14 +3,11 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_GuildControlUI"] = function()
 	local r, g, b = C.r, C.g, C.b
 
-	F.StripTextures(GuildControlUI, true)
-	F.CreateBD(GuildControlUI)
-	F.CreateSD(GuildControlUI)
+	F.ReskinPortraitFrame(GuildControlUI, true)
 
 	F.StripTextures(GuildControlUIRankBankFrameInset, true)
 	F.StripTextures(GuildControlUIRankBankFrameInsetScrollFrame, true)
 	F.Reskin(GuildControlUIRankOrderFrameNewButton)
-	F.ReskinClose(GuildControlUICloseButton)
 	F.ReskinScroll(GuildControlUIRankBankFrameInsetScrollFrameScrollBar)
 	F.ReskinDropDown(GuildControlUINavigationDropDown)
 	F.ReskinDropDown(GuildControlUIRankSettingsFrameRankDropDown)
@@ -68,8 +65,7 @@ C.themes["Blizzard_GuildControlUI"] = function()
 				local ownedTab = bu.owned
 				ownedTab.tabIcon:ClearAllPoints()
 				ownedTab.tabIcon:SetPoint("TOPLEFT", ownedTab, "TOPLEFT", 6, -5)
-				ownedTab.tabIcon:SetTexCoord(.08, .92, .08, .92)
-				F.CreateBDFrame(ownedTab.tabIcon, .25)
+				F.ReskinIcon(ownedTab.tabIcon, true)
 				F.ReskinInput(ownedTab.editBox)
 
 				for _, ch in next, {ownedTab.viewCB, ownedTab.depositCB, ownedTab.infoCB} do

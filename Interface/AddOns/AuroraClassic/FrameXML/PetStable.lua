@@ -27,7 +27,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 			local bg = F.ReskinIcon(ic, true)
 
-			F.ReskinTexture(bu, "hl", false, bg)
+			F.ReskinTexture(bu, false, bg)
 		end
 	end
 

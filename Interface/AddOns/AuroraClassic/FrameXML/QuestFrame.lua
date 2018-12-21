@@ -10,7 +10,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	local line = QuestFrameGreetingPanel:CreateTexture()
 	line:SetColorTexture(1, 1, 1, .25)
-	line:SetSize(256, 1)
+	line:SetSize(256, C.mult)
 	line:SetPoint("CENTER", QuestGreetingFrameHorizontalBreak)
 
 	QuestGreetingFrameHorizontalBreak:SetTexture("")
@@ -83,12 +83,12 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	local npcbd = F.CreateBDFrame(QuestNPCModel)
 	npcbd:SetPoint("TOPLEFT", -1, 0)
-	npcbd:SetPoint("BOTTOMRIGHT", 0, -20)
+	npcbd:SetPoint("BOTTOMRIGHT", 2, -20)
 	npcbd:SetFrameLevel(0)
 
 	local textbd = F.CreateBDFrame(QuestNPCModelTextFrame)
-	textbd:SetPoint("TOPLEFT", -C.mult, C.mult)
-	textbd:SetPoint("BOTTOMRIGHT",0 , 5)
+	textbd:SetPoint("TOPLEFT", -1, -1)
+	textbd:SetPoint("BOTTOMRIGHT",2 , 5)
 	textbd:SetFrameLevel(0)
 
 	hooksecurefunc("QuestFrame_ShowQuestPortrait", function(parentFrame, _, _, _, _, x, y)

@@ -69,7 +69,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 			bg:SetPoint("TOPLEFT", 3, -3)
 			bg:SetPoint("BOTTOMRIGHT", -4, 2)
 
-			F.ReskinTexture(bu, "hl", false, bg)
+			F.ReskinTexture(bu, false, bg)
 
 			index = index + 1
 		end
@@ -99,7 +99,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 			bossButton = _G["EncounterJournalBossButton"..numBossButtons]
 			while bossButton do
 				F.Reskin(bossButton, true)
-				F.ReskinTexture(bossButton, "hl", true)
+				F.ReskinTexture(bossButton, true, bossButton)
 
 				bossButton.text:SetTextColor(1, 1, 1)
 				bossButton.creature:SetPoint("TOPLEFT", 0, -4)
@@ -198,7 +198,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		bg:SetPoint("TOPLEFT")
 		bg:SetPoint("BOTTOMRIGHT", 0, 1)
 
-		F.ReskinTexture(result, "hl", true, bg)
+		F.ReskinTexture(result, true, bg)
 	end
 
 	for i = 1, 5 do
@@ -226,7 +226,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 			bg:SetPoint("TOPLEFT", C.mult, -C.mult)
 			bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 
-			F.ReskinTexture(bu, "hl", true, bg)
+			F.ReskinTexture(bu, true, bg)
 			F.ReskinIcon(bu.icon, true)
 			bu.icon.SetTexCoord = F.dummy
 		end
@@ -248,10 +248,8 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		local EncounterJournalTooltip = EncounterJournalTooltip
 		F.CreateBD(EncounterJournalTooltip)
 		F.CreateSD(EncounterJournalTooltip)
-		EncounterJournalTooltip.Item1.icon:SetTexCoord(.08, .92, .08, .92)
-		EncounterJournalTooltip.Item2.icon:SetTexCoord(.08, .92, .08, .92)
-		EncounterJournalTooltip.Item1.newBg = F.CreateBDFrame(EncounterJournalTooltip.Item1.icon, .25)
-		EncounterJournalTooltip.Item2.newBg = F.CreateBDFrame(EncounterJournalTooltip.Item2.icon, .25)
+		EncounterJournalTooltip.Item1.newBg = F.ReskinIcon(EncounterJournalTooltip.Item1.icon, true)
+		EncounterJournalTooltip.Item2.newBg = F.ReskinIcon(EncounterJournalTooltip.Item2.icon, true)
 	end
 
 	-- [[ Suggest frame ]]

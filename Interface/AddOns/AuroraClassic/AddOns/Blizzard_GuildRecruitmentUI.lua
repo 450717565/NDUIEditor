@@ -6,7 +6,6 @@ C.themes["Blizzard_GuildRecruitmentUI"] = function()
 	F.ReskinPortraitFrame(CommunitiesGuildRecruitmentFrame, true)
 	F.StripTextures(CommunitiesGuildRecruitmentFrameTab1, true)
 	F.StripTextures(CommunitiesGuildRecruitmentFrameTab2, true)
-	F.ReskinClose(CommunitiesGuildRecruitmentFrameCloseButton)
 	F.Reskin(CommunitiesGuildRecruitmentFrameRecruitment.ListGuildButton)
 
 	for _, name in next, {"InterestFrame", "AvailabilityFrame", "RolesFrame", "LevelFrame"} do
@@ -55,17 +54,12 @@ C.themes["Blizzard_GuildRecruitmentUI"] = function()
 				for i = 1, 9 do
 					select(i, button:GetRegions()):Hide()
 				end
-				button.selectedTex:SetTexture("")
-				button:SetHighlightTexture("")
 				button.bg = F.CreateBDFrame(button, .25)
 				button.bg:SetPoint("TOPLEFT", 3, -3)
 				button.bg:SetPoint("BOTTOMRIGHT", -3, 3)
-			end
 
-			if button.selectedTex:IsShown() then
-				button.bg:SetBackdropColor(r, g, b, .25)
-			else
-				button.bg:SetBackdropColor(0, 0, 0, .25)
+				F.ReskinTexture(button, true, button.bg)
+				F.ReskinTexture(button.selectedTex, true, button.bg)
 			end
 		end
 	end)

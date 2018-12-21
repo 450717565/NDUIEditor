@@ -33,14 +33,17 @@ C.themes["Blizzard_ArtifactUI"] = function()
 			local slot = ArtifactFrame.AppearancesTab.appearanceSlotPool:Acquire()
 			slot.Border:SetAlpha(0)
 			slot.Background:Hide()
-			F.CreateBDFrame(slot, .25)
-
 			slot.SwatchTexture:SetTexCoord(.2, .8, .2, .8)
 			slot.SwatchTexture:SetAllPoints()
-			slot.Selected:SetDrawLayer("BACKGROUND")
+			slot.UnobtainableCover:SetTexCoord(.20, .80, .15, .75)
+			slot.UnobtainableCover:SetAllPoints()
 
-			F.ReskinTexture(slot, "hl", true)
-			F.ReskinTexture(slot, "tx", true)
+			local bg = F.CreateBDFrame(slot, .25)
+			F.ReskinTexture(slot.HighlightTexture, false, bg)
+
+			local sl = slot.Selected
+			F.ReskinTexture(sl, true, bg, true)
+			sl:SetDrawLayer("BACKGROUND")
 		end
 	end
 end

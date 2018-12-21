@@ -1,7 +1,7 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_GuildBankUI"] = function()
-	local lists = {GuildBankFrame, GuildBankEmblemFrame, GuildBankMoneyFrameBackground, GuildBankTransactionsScrollFrame, GuildBankInfoScrollFrame}
+	local lists = {GuildBankEmblemFrame, GuildBankMoneyFrameBackground, GuildBankTransactionsScrollFrame, GuildBankInfoScrollFrame}
 	for _, list in next, lists do
 		F.StripTextures(list, true)
 	end
@@ -11,9 +11,7 @@ C.themes["Blizzard_GuildBankUI"] = function()
 		F.Reskin(button)
 	end
 
-	F.CreateBD(GuildBankFrame)
-	F.CreateSD(GuildBankFrame)
-	F.ReskinClose(GuildBankFrame.CloseButton)
+	F.ReskinPortraitFrame(GuildBankFrame, true)
 	F.ReskinScroll(GuildBankTransactionsScrollFrameScrollBar)
 	F.ReskinScroll(GuildBankInfoScrollFrameScrollBar)
 	F.ReskinScroll(GuildBankPopupScrollFrameScrollBar)
@@ -41,9 +39,12 @@ C.themes["Blizzard_GuildBankUI"] = function()
 		for j = 1, NUM_SLOTS_PER_GUILDBANK_GROUP do
 			local bu = _G["GuildBankColumn"..i.."Button"..j]
 			F.StripTextures(bu)
-			F.CreateBDFrame(bu, .25)
 
-			bu.icon:SetTexCoord(.08, .92, .08, .92)
+			local bg = F.ReskinIcon(bu.icon, true)
+			F.ReskinTexture(bu, false, bg)
+
+			local searchOverlay = bu.searchOverlay
+			searchOverlay:SetAllPoints(bg)
 
 			local border = bu.IconBorder
 			border:SetTexture(C.media.backdrop)
@@ -51,14 +52,6 @@ C.themes["Blizzard_GuildBankUI"] = function()
 			border:SetPoint("TOPLEFT", -C.mult, C.mult)
 			border:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
 			border:SetDrawLayer("BACKGROUND")
-
-			local searchOverlay = bu.searchOverlay
-			searchOverlay:SetPoint("TOPLEFT", -C.mult, C.mult)
-			searchOverlay:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
-
-			bu:SetHighlightTexture(C.media.backdrop)
-			local hl = bu:GetHighlightTexture()
-			hl:SetVertexColor(1, 1, 1, .25)
 		end
 	end
 
@@ -77,16 +70,15 @@ C.themes["Blizzard_GuildBankUI"] = function()
 
 		local bu = _G["GuildBankTab"..i.."Button"]
 		F.StripTextures(bu)
-		F.CreateBDFrame(bu, .25)
 		bu:SetSize(34, 34)
-		bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 		bu:SetCheckedTexture(C.media.checked)
 
 		local a1, p, a2, x, y = bu:GetPoint()
 		bu:SetPoint(a1, p, a2, x + 1, y)
 
 		local ic = _G["GuildBankTab"..i.."ButtonIconTexture"]
-		ic:SetTexCoord(.08, .92, .08, .92)
+		local bg = F.ReskinIcon(ic, true)
+		F.ReskinTexture(bu, false, bg)
 	end
 
 	GuildBankPopupFrame:HookScript("OnShow", function()
@@ -96,10 +88,8 @@ C.themes["Blizzard_GuildBankUI"] = function()
 			if not bu.styled then
 				bu:SetCheckedTexture(C.media.checked)
 				select(2, bu:GetRegions()):Hide()
+				F.ReskinIcon(_G["GuildBankPopupButton"..i.."Icon"], true)
 
-				_G["GuildBankPopupButton"..i.."Icon"]:SetTexCoord(.08, .92, .08, .92)
-
-				F.CreateBDFrame(_G["GuildBankPopupButton"..i.."Icon"], .25)
 				bu.styled = true
 			end
 		end

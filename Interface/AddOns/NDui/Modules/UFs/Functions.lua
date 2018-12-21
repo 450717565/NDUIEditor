@@ -419,6 +419,8 @@ local function postCreateIcon(element, button)
 	button.HL = button:CreateTexture(nil, "HIGHLIGHT")
 	button.HL:SetColorTexture(1, 1, 1, .25)
 	button.HL:SetAllPoints()
+
+	if element.disableCooldown then button.timer = B.CreateFS(button, 12, "") end
 end
 
 local filteredStyle = {
@@ -428,7 +430,7 @@ local filteredStyle = {
 	["arena"] = true,
 }
 
-local function postUpdateIcon(element, _, button, _, _, duration, _, debuffType)
+local function postUpdateIcon(element, _, button, _, _, duration, expiration, debuffType)
 	if duration then button.Shadow:Show() end
 
 	local style = element.__owner.mystyle
@@ -451,6 +453,17 @@ local function postUpdateIcon(element, _, button, _, _, duration, _, debuffType)
 		button.Shadow:SetBackdropBorderColor(color[1], color[2], color[3])
 	else
 		button.Shadow:SetBackdropBorderColor(0, 0, 0)
+	end
+
+	if element.disableCooldown then
+		if duration and duration > 0 then
+			button.expiration = expiration
+			button:SetScript("OnUpdate", B.CooldownOnUpdate)
+			button.timer:Show()
+		else
+			button:SetScript("OnUpdate", nil)
+			button.timer:Hide()
+		end
 	end
 end
 
@@ -485,7 +498,7 @@ local function customFilter(element, unit, button, name, _, _, _, _, _, caster, 
 		end
 	elseif style == "raid" then
 		if NDuiDB["UFs"]["RaidBuffIndicator"] then
-			return C.RaidBuffs["ALL"][spellID] and not button.isDebuff
+			return not button.isDebuff and (C.RaidBuffs["ALL"][spellID] or NDuiADB["RaidAuraWatch"][spellID])
 		else
 			return C.RaidBuffs[DB.MyClass][spellID] and button.isPlayer or C.RaidBuffs["ALL"][spellID]
 		end
@@ -510,14 +523,11 @@ local function auraIconSize(w, n, s)
 	return (w-(n-1)*s)/n
 end
 
-local function auraSetSize(self, bu, isAuras)
+local function auraSetSize(self, bu)
 	local width = self:GetWidth()
-	local maxAuras = bu.num
-	if isAuras then
-		maxAuras = bu.numTotal or bu.numBuffs + bu.numDebuffs
-	end
+	local maxAuras = bu.num or bu.numTotal or bu.numBuffs + bu.numDebuffs
 
-	local maxLines = bu.iconsPerRow and floor(maxAuras/bu.iconsPerRow + .5) or 2
+	local maxLines = bu.iconsPerRow and floor(maxAuras/bu.iconsPerRow + .5) or bu.line or 2
 	bu.size = bu.iconsPerRow and auraIconSize(width, bu.iconsPerRow, bu.spacing) or bu.size
 	bu:SetWidth(width)
 	bu:SetHeight((bu.size + bu.spacing) * maxLines)
@@ -562,7 +572,7 @@ function UF:CreateAuras(self)
 		bu["growth-y"] = "UP"
 	end
 
-	auraSetSize(self, bu, true)
+	auraSetSize(self, bu)
 
 	bu.showStealableBuffs = true
 	bu.CustomFilter = customFilter
@@ -586,7 +596,7 @@ function UF:CreateBuffs(self)
 	bu["growth-x"] = "RIGHT"
 	bu["growth-y"] = "UP"
 
-	auraSetSize(self, bu, false)
+	auraSetSize(self, bu)
 
 	bu.showStealableBuffs = true
 	bu.PostCreateIcon = postCreateIcon
@@ -610,6 +620,7 @@ function UF:CreateDebuffs(self)
 	elseif self.mystyle == "boss" or self.mystyle == "arena" then
 		bu:SetPoint("TOPRIGHT", self, "TOPLEFT", -5, 0)
 		bu.num = 10
+		bu.line = 1
 		bu.size = self:GetHeight()+self.Power:GetHeight()+3.5
 		bu.CustomFilter = customFilter
 		bu["growth-y"] = "UP"
@@ -627,12 +638,13 @@ function UF:CreateDebuffs(self)
 	elseif self.mystyle == "party" then
 		bu:SetPoint("TOPLEFT", self, "TOPRIGHT", 5, 0)
 		bu.num = 10
+		bu.line = 1
 		bu.size = self:GetHeight()+self.Power:GetHeight()+3.5
 		bu.initialAnchor = "TOPLEFT"
 		bu["growth-x"] = "RIGHT"
 	end
 
-	auraSetSize(self, bu, false)
+	auraSetSize(self, bu)
 
 	bu.PostCreateIcon = postCreateIcon
 	bu.PostUpdateIcon = postUpdateIcon

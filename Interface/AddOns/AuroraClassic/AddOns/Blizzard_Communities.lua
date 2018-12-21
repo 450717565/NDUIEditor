@@ -55,17 +55,12 @@ C.themes["Blizzard_Communities"] = function()
 
 	for _, name in next, {"ChatTab", "RosterTab", "GuildBenefitsTab", "GuildInfoTab"} do
 		local tab = CommunitiesFrame[name]
-		if not tab.styled then
-			tab:GetRegions():Hide()
-			F.ReskinIcon(tab.Icon, true)
-
-			tab.styled = true
-		end
+		tab:SetSize(34, 34)
+		tab:GetRegions():Hide()
 		tab:SetCheckedTexture(C.media.checked)
 
-		local hl = tab:GetHighlightTexture()
-		hl:SetColorTexture(1, 1, 1, .25)
-		hl:SetAllPoints(tab.Icon)
+		local bg = F.ReskinIcon(tab.Icon, true)
+		F.ReskinTexture(tab, false, bg)
 	end
 	local p1, p2, p3, x, y = CommunitiesFrame.ChatTab:GetPoint()
 	CommunitiesFrame.ChatTab:ClearAllPoints()
@@ -292,9 +287,8 @@ C.themes["Blizzard_Communities"] = function()
 					for i = 1, 3 do
 						select(i, header:GetRegions()):Hide()
 					end
-					F.CreateBDFrame(header, .45)
-					header:SetHighlightTexture(C.media.backdrop)
-					header:GetHighlightTexture():SetVertexColor(r, g, b, .25)
+					local bg = F.CreateBDFrame(header, .45)
+					F.ReskinTexture(header, true, bg)
 					F.CreateBDFrame(header.Icon, .25)
 				end
 
@@ -314,24 +308,24 @@ C.themes["Blizzard_Communities"] = function()
 
 	local factionFrameBar = CommunitiesFrame.GuildBenefitsFrame.FactionFrame.Bar
 	F.StripTextures(factionFrameBar)
-	F.CreateBDFrame(factionFrameBar, .25)
+	F.CreateBDFrame(factionFrameBar.Progress, .25)
 	factionFrameBar.Progress:SetTexture(C.media.statusbar)
 	factionFrameBar.Progress:SetVertexColor(r*.8, g*.8, b*.8)
-	factionFrameBar.Progress:SetPoint("TOPLEFT")
-	factionFrameBar.Progress:SetPoint("BOTTOMLEFT")
 
 	hooksecurefunc("CommunitiesGuildPerks_Update", function(self)
 		local buttons = self.Container.buttons
 		for i = 1, #buttons do
 			local button = buttons[i]
 			if button and button:IsShown() and not button.bg then
-				F.ReskinIcon(button.Icon, true)
 				for i = 1, 4 do
 					select(i, button:GetRegions()):SetAlpha(0)
 				end
+
+				local ic = F.ReskinIcon(button.Icon, true)
 				button.bg = F.CreateBDFrame(button, .25)
-				button.bg:SetPoint("TOPLEFT", button.Icon, "TOPRIGHT", 4, 0)
-				button.bg:SetPoint("BOTTOMRIGHT", button.Right)
+				button.bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
+				button.bg:SetPoint("BOTTOMRIGHT", 0, 1)
+				F.ReskinTexture(button, true, button.bg)
 			end
 		end
 	end)
@@ -342,14 +336,14 @@ C.themes["Blizzard_Communities"] = function()
 			local button = buttons[i]
 			if button then
 				if not button.bg then
-					F.ReskinIcon(button.Icon, true)
-					select(6, button:GetRegions()):SetAlpha(0)
-					select(7, button:GetRegions()):SetAlpha(0)
-
 					button.bg = F.CreateBDFrame(button, .25)
-					button.bg:SetPoint("TOPLEFT", button.Icon, -5, 5)
-					button.bg:SetPoint("BOTTOMRIGHT", 0, 10)
+					button.bg:SetPoint("TOPLEFT", C.mult, -C.mult)
+					button.bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
+
+					F.ReskinTexture(button, true, button.bg)
+					F.ReskinIcon(button.Icon, true)
 				end
+				button:SetNormalTexture("")
 				button.DisabledBG:Hide()
 			end
 		end

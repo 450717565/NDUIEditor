@@ -82,22 +82,15 @@ tinsert(C.themes["AuroraClassic"], function()
 	local function restyleRewardButton(bu, isMapQuestInfo)
 		bu.NameFrame:Hide()
 
-		bu.Icon:SetTexCoord(.08, .92, .08, .92)
 		bu.Icon:SetDrawLayer("ARTWORK", 1)
-		F.CreateBDFrame(bu.Icon, 1)
+		local ic = F.ReskinIcon(bu.Icon, true)
 		if bu.IconBorder then
 			bu.IconBorder:SetAlpha(0)
 		end
 
 		local bg = F.CreateBDFrame(bu, .25)
-		bg:SetPoint("TOPLEFT", bu, 1, 1)
-
-		if isMapQuestInfo then
-			bg:SetPoint("BOTTOMRIGHT", bu, -3, 0)
-			bu.Icon:SetSize(29, 29)
-		else
-			bg:SetPoint("BOTTOMRIGHT", bu, -3, 1)
-		end
+		bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, -1)
+		bg:SetPoint("BOTTOMRIGHT", bu, -3, 0)
 
 		bu.bg = bg
 	end
@@ -128,8 +121,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		local spellRewardFrame = rewardFrame.spellRewardPool:Acquire()
 
 		local icon = spellRewardFrame.Icon
-		icon:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(icon, .25)
+		F.ReskinIcon(icon, true)
 
 		local nameFrame = spellRewardFrame.NameFrame
 		nameFrame:Hide()
@@ -142,13 +134,13 @@ tinsert(C.themes["AuroraClassic"], function()
 	-- Title Reward
 	do
 		local frame = QuestInfoPlayerTitleFrame
-		local icon = frame.Icon
-
-		icon:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(icon, .25)
 		for i = 2, 4 do
 			select(i, frame:GetRegions()):Hide()
 		end
+
+		local icon = frame.Icon
+		F.ReskinIcon(icon, true)
+
 		local bg = F.CreateBDFrame(frame, .25)
 		bg:SetPoint("TOPLEFT", icon, "TOPRIGHT", 0, 2)
 		bg:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", 220, -1)

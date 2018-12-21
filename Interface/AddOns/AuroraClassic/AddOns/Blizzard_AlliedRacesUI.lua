@@ -12,6 +12,7 @@ C.themes["Blizzard_AlliedRacesUI"] = function()
 
 	AlliedRacesFrame:HookScript("OnShow", function(self)
 		local parent = scrollFrame.Child
+		F.StripTextures(parent.ObjectivesFrame, true)
 		for i = 1, parent:GetNumChildren() do
 			local bu = select(i, parent:GetChildren())
 
@@ -22,7 +23,7 @@ C.themes["Blizzard_AlliedRacesUI"] = function()
 				end
 
 				if bu.Text then
-					bu.Text:SetTextColor(1, .8, 0)
+					bu.Text:SetTextColor(1, 1, 1)
 				end
 
 				bu.styled = true

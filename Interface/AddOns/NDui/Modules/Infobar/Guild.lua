@@ -29,7 +29,7 @@ local function setupInfoFrame()
 				self:SetScript("OnUpdate", nil)
 			end
 
-			self.timer = 0 
+			self.timer = 0
 		end
 	end
 	infoFrame:SetScript("OnLeave", function(self)
@@ -271,6 +271,7 @@ info.onEnter = function()
 end
 
 info.onLeave = function()
+	if not IsInGuild() then return end
 	C_Timer.After(.1, function()
 		if MouseIsOver(infoFrame) then return end
 		infoFrame:Hide()

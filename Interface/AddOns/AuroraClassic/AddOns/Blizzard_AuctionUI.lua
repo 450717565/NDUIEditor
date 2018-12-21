@@ -19,6 +19,7 @@ C.themes["Blizzard_AuctionUI"] = function()
 
 	hooksecurefunc("FilterButton_SetUp", function(button)
 		button:SetNormalTexture("")
+		F.ReskinTexture(button, true, button)
 	end)
 
 	do
@@ -67,20 +68,15 @@ C.themes["Blizzard_AuctionUI"] = function()
 		if bu and it then
 			F.StripTextures(bu)
 			F.StripTextures(it)
-
-			local bg = F.CreateBDFrame(bu, .25)
-			bg:SetPoint("TOPLEFT")
-			bg:SetPoint("BOTTOMRIGHT", 0, 5)
-
-			bu:SetHighlightTexture(C.media.backdrop)
-			local hl = bu:GetHighlightTexture()
-			hl:SetVertexColor(r, g, b, .25)
-			hl:SetPoint("TOPLEFT", it, "TOPRIGHT", 2, -1)
-			hl:SetPoint("BOTTOMRIGHT", -1, 6)
-
-			it:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 			it.IconBorder:SetAlpha(0)
-			F.ReskinIcon(ic, true)
+
+			local icbg = F.ReskinIcon(ic, true)
+			F.ReskinTexture(it, false, icbg)
+
+			local bubg = F.CreateBDFrame(bu, .25)
+			bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, -1)
+			bubg:SetPoint("BOTTOMRIGHT", 0, 5)
+			F.ReskinTexture(bu, true, bubg)
 		end
 	end
 

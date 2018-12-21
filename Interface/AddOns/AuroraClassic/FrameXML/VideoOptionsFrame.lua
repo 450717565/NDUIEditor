@@ -22,7 +22,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		if styledOptions then return end
 
 		local line = VideoOptionsFrame:CreateTexture(nil, "ARTWORK")
-		line:SetSize(1, 512)
+		line:SetSize(C.mult, 512)
 		line:SetPoint("LEFT", 205, 30)
 		line:SetColorTexture(1, 1, 1, .25)
 
@@ -34,7 +34,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		RaidButton:DisableDrawLayer("BACKGROUND")
 
 		local hline = Display_:CreateTexture(nil, "ARTWORK")
-		hline:SetSize(580, 1)
+		hline:SetSize(580, C.mult)
 		hline:SetPoint("TOPLEFT", GraphicsButton, "BOTTOMLEFT", 14, -4)
 		hline:SetColorTexture(1, 1, 1, .25)
 

@@ -59,8 +59,7 @@ local cr, cg, cb = C.classcolours[class].r, C.classcolours[class].g, C.classcolo
 local function SetupPixelFix()
 	local screenHeight = select(2, GetPhysicalScreenSize())
 	local scale = UIParent:GetScale()
-	scale = tonumber(format("%.2f", scale))
-
+	scale = tonumber(floor(scale*100 + .5)/100)
 	C.mult = (768/screenHeight/scale)*2
 end
 
@@ -180,7 +179,7 @@ function F:ReskinTab()
 	bg:SetPoint("BOTTOMRIGHT", -8, 0)
 	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
 
-	F.ReskinTexture(self, "hl", true, bg)
+	F.ReskinTexture(self, true, bg)
 end
 
 local function textureOnEnter(self)
@@ -225,7 +224,7 @@ end
 
 function F:ReskinScroll()
 	F.StripTextures(self, true)
-	F.CleanTextures(self)
+	F.CleanTextures(self, true)
 
 	local name = self:GetName()
 	local bu = (self.ThumbTexture or self.thumbTexture) or _G[name.."ThumbTexture"]
@@ -278,6 +277,7 @@ end
 
 function F:ReskinDropDown()
 	F.StripTextures(self, true)
+	F.CleanTextures(self, true)
 
 	local name = self:GetName()
 	local down = self.Button or _G[name.."Button"]
@@ -316,7 +316,7 @@ function F:ReskinClose(a1, p, a2, x, y)
 	self:SetSize(17, 17)
 
 	F.StripTextures(self, true)
-	F.CleanTextures(self)
+	F.CleanTextures(self, true)
 
 	if not a1 then
 		self:SetPoint("TOPRIGHT", -6, -6)
@@ -351,6 +351,7 @@ end
 
 function F:ReskinInput(height, width)
 	F.StripTextures(self, true)
+	F.CleanTextures(self, true)
 
 	local lvl = self:GetFrameLevel()
 	local bg = F.CreateBDFrame(self, 0)
@@ -385,7 +386,7 @@ function F:ReskinArrow(direction)
 end
 
 function F:ReskinCheck()
-	F.CleanTextures(self)
+	F.CleanTextures(self, true)
 
 	local ch = self:GetCheckedTexture()
 	ch:SetDesaturated(true)
@@ -398,7 +399,7 @@ function F:ReskinCheck()
 	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
 	F.CreateGradient(bg)
 
-	F.ReskinTexture(self, "hl", true, bg)
+	F.ReskinTexture(self, true, bg)
 end
 
 local function colourRadio(self)
@@ -410,7 +411,8 @@ local function clearRadio(self)
 end
 
 function F:ReskinRadio()
-	F.CleanTextures(self)
+	F.StripTextures(self, true)
+	F.CleanTextures(self, true)
 
 	self:SetCheckedTexture(C.media.backdrop)
 	local ch = self:GetCheckedTexture()
@@ -482,7 +484,8 @@ local function SetupTexture(self, texture)
 end
 
 function F:ReskinExpandOrCollapse()
-	F.CleanTextures(self)
+	F.StripTextures(self, true)
+	F.CleanTextures(self, true)
 
 	local bg = F.CreateBDFrame(self, .25)
 	bg:ClearAllPoints()
@@ -564,6 +567,7 @@ end
 
 function F:ReskinPortraitFrame(setBS)
 	F.StripTextures(self, true)
+	F.CleanTextures(self, true)
 
 	local insetFrame = self.inset or self.Inset
 	if insetFrame then F.StripTextures(insetFrame, true) end
@@ -622,6 +626,9 @@ end
 
 function F:ReskinNavBar()
 	if self.navBarStyled then return end
+
+	F.StripTextures(self, true)
+	F.CleanTextures(self, true)
 
 	local homeButton = self.homeButton
 	local overflowButton = self.overflowButton
@@ -689,6 +696,8 @@ function F:ReskinMinMax()
 	for _, name in next, {"MaximizeButton", "MinimizeButton"} do
 		local button = self[name]
 		if button then
+			F.StripTextures(self, true)
+
 			button:SetSize(17, 17)
 			button:ClearAllPoints()
 			button:SetPoint("CENTER", -3, 0)
@@ -743,7 +752,7 @@ function F:AffixesSetup()
 	end
 end
 
-function F:CleanTextures()
+function F:CleanTextures(noIcon)
 	--if self.SetCheckedTexture then self:SetCheckedTexture("") end
 	if self.SetDisabledTexture then self:SetDisabledTexture("") end
 	if self.SetHighlightTexture then self:SetHighlightTexture("") end
@@ -789,27 +798,44 @@ function F:CleanTextures()
 	if middle then middle:Hide() end
 	local bottom = self.ScrollBarBottom or self.ScrollDownBorder
 	if bottom then bottom:Hide() end
+
+	local bd = self.Border or self.border
+	if bd then bd:Hide() end
+
+	if noIcon then
+		local ic = self.icon or self.Icon
+		if ic then ic:Hide() end
+	end
 end
 
-function F:ReskinTexture(isTex, classColor, relativeTo)
-	local r, g, b = 1, 1, 1
-	if classColor then r, g, b = cr, cg, cb end
+function F:ReskinTexture(classColor, relativeTo, isReverse)
+	if not self then return end
+
+	local r, g, b, a = 1, 1, 1, .25
+	if classColor then r, g, b, a = cr, cg, cb, .25 end
+
+	local mult = C.mult
+	if isReverse then mult, a = -C.mult, 1 end
+
+	local parentFrame = self:GetParent()
 
 	local tex
-	if isTex == "hl" then
+	if self.SetHighlightTexture then
 		self:SetHighlightTexture(C.media.backdrop)
 		tex = self:GetHighlightTexture()
-	elseif isTex == "tx" then
-		tex = self.HighlightTexture or self.Selected or self.SelectedBG or self.Selection or self.SelectedTexture or self.selectedTex or self.selectedTexture or self.selectedHighlight
+	else
+		tex = self
+		tex:SetTexture(C.media.backdrop)
 	end
 
-	tex:SetColorTexture(r, g, b, .25)
-	tex:SetPoint("TOPLEFT", relativeTo or self, C.mult, -C.mult)
-	tex:SetPoint("BOTTOMRIGHT", relativeTo or self, -C.mult, C.mult)
+	tex:SetColorTexture(r, g, b, a)
+	tex:SetPoint("TOPLEFT", relativeTo or parentFrame, mult, -mult)
+	tex:SetPoint("BOTTOMRIGHT", relativeTo or parentFrame, -mult, mult)
 end
 
 function F:ReskinStatusBar(classColor, stripTex)
 	F.StripTextures(self, stripTex)
+	F.CleanTextures(self, true)
 
 	self:SetStatusBarTexture(C.media.statusbar)
 	if classColor then self:SetStatusBarColor(cr*.8, cg*.8, cb*.8) end
@@ -820,6 +846,7 @@ function F:ReskinStatusBar(classColor, stripTex)
 end
 
 function F:ReskinDecline()
+	F.StripTextures(self, true)
 	F.Reskin(self)
 
 	local w = self:GetWidth()

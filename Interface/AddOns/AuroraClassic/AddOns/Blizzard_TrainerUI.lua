@@ -15,42 +15,45 @@ C.themes["Blizzard_TrainerUI"] = function()
 	ClassTrainerStatusBarSkillRank:ClearAllPoints()
 	ClassTrainerStatusBarSkillRank:SetPoint("CENTER")
 
+	local function reskinDBG(bu, bg)
+		bu.disabledBG:SetPoint("TOPLEFT", bg, C.mult, -C.mult)
+		bu.disabledBG:SetPoint("BOTTOMRIGHT", bg, -C.mult, C.mult)
+	end
+
 	local step = ClassTrainerFrameSkillStepButton
 	F.StripTextures(step)
 
-	local bg = F.CreateBDFrame(step, .25)
-	bg:SetPoint("TOPLEFT", ClassTrainerFrameSkillStepButtonIcon, "TOPRIGHT", 2, 2)
-	bg:SetPoint("BOTTOMRIGHT")
+	local stepic = F.ReskinIcon(ClassTrainerFrameSkillStepButtonIcon, true)
 
-	F.ReskinTexture(step, "tx", true, bg)
-	F.ReskinTexture(step, "hl", true, bg)
+	local stepbg = F.CreateBDFrame(step, .25)
+	stepbg:SetPoint("TOPLEFT", stepic, "TOPRIGHT", 2, 0)
+	stepbg:SetPoint("BOTTOMRIGHT", -18, 0)
 
-	step.disabledBG:SetPoint("TOPLEFT", bg, C.mult, -C.mult)
-	step.disabledBG:SetPoint("BOTTOMRIGHT", bg, -C.mult, C.mult)
+	F.ReskinTexture(step, true, stepbg)
+	F.ReskinTexture(step.selectedTex, true, stepbg)
+
+	reskinDBG(step, stepbg)
 
 	step.name:ClearAllPoints()
-	step.name:SetPoint("TOPLEFT", ClassTrainerFrameSkillStepButtonIcon, "TOPRIGHT", 5, -5)
+	step.name:SetPoint("TOPLEFT", stepic, "TOPRIGHT", 5, -5)
 	step.subText:ClearAllPoints()
-	step.subText:SetPoint("BOTTOMLEFT", ClassTrainerFrameSkillStepButtonIcon, "BOTTOMRIGHT", 5, -5)
-
-	local stepic = ClassTrainerFrameSkillStepButtonIcon
-	stepic:SetTexCoord(.08, .92, .08, .92)
-	F.CreateBDFrame(stepic, .25)
+	step.subText:SetPoint("BOTTOMLEFT", stepic, "BOTTOMRIGHT", 5, -5)
 
 	hooksecurefunc("ClassTrainerFrame_Update", function()
 		for _, bu in next, ClassTrainerFrame.scrollFrame.buttons do
 			if not bu.styled then
 				bu:SetNormalTexture("")
-				bu:SetHighlightTexture("")
-				bu.disabledBG:Hide()
-				bu.disabledBG.Show = F.dummy
+
+				local ic = F.ReskinIcon(bu.icon, true)
 
 				local bg = F.CreateBDFrame(bu, .25)
-				bg:SetPoint("TOPLEFT", bu.icon, "TOPRIGHT", 2, 2)
-				bg:SetPoint("BOTTOMRIGHT", 0, 3)
+				bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
+				bg:SetPoint("BOTTOMRIGHT", 0, 4)
 
-				F.ReskinTexture(bu, "tx", true, bg)
-				F.ReskinTexture(bu, "hl", true, bg)
+				F.ReskinTexture(bu, true, bg)
+				F.ReskinTexture(bu.selectedTex, true, bg)
+
+				reskinDBG(bu, bg)
 
 				bu.name:SetWordWrap(false)
 				bu.name:ClearAllPoints()
@@ -62,9 +65,6 @@ C.themes["Blizzard_TrainerUI"] = function()
 
 				bu.money:ClearAllPoints()
 				bu.money:SetPoint("TOPRIGHT", bu, "TOPRIGHT", 10, -10)
-
-				bu.icon:SetTexCoord(.08, .92, .08, .92)
-				F.CreateBDFrame(bu.icon, .25)
 
 				bu.styled = true
 			end

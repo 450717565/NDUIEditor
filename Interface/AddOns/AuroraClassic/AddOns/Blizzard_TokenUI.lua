@@ -3,11 +3,7 @@ local F, C = unpack(select(2, ...))
 tinsert(C.themes["AuroraClassic"], function()
 	local r, g, b = C.r, C.g, C.b
 
-	TokenFramePopupCorner:Hide()
-	TokenFramePopup:SetPoint("TOPLEFT", TokenFrame, "TOPRIGHT", 1, -28)
-	F.CreateBD(TokenFramePopup)
-	F.CreateSD(TokenFramePopup)
-	F.ReskinClose(TokenFramePopupCloseButton)
+	F.ReskinPortraitFrame(TokenFramePopup, true)
 	F.ReskinCheck(TokenFramePopupInactiveCheckBox)
 	F.ReskinCheck(TokenFramePopupBackpackCheckBox)
 

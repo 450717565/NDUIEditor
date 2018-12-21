@@ -12,24 +12,22 @@ C.themes["Blizzard_ItemSocketingUI"] = function()
 	title:SetPoint("TOP", 0, -10)
 
 	for i = 1, MAX_NUM_SOCKETS do
-		local bu = _G["ItemSocketingSocket"..i]
-		local shine = _G["ItemSocketingSocket"..i.."Shine"]
-
-		F.StripTextures(bu)
-
 		_G["ItemSocketingSocket"..i.."BracketFrame"]:Hide()
 		_G["ItemSocketingSocket"..i.."Background"]:SetAlpha(0)
 
+		local bu = _G["ItemSocketingSocket"..i]
+		F.StripTextures(bu)
 		bu:SetPushedTexture("")
-		bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-		bu.icon:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(bu.icon, .25)
 
+		local ic = F.ReskinIcon(bu.icon, true)
+		F.ReskinTexture(bu, false, ic)
+
+		bu.bg = ic
+
+		local shine = _G["ItemSocketingSocket"..i.."Shine"]
 		shine:ClearAllPoints()
 		shine:SetPoint("TOPLEFT")
 		shine:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
-
-		bu.bg = F.CreateBDFrame(bu, .25)
 	end
 
 	hooksecurefunc("ItemSocketingFrame_Update", function()

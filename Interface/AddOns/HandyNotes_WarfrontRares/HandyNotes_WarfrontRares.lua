@@ -1,5 +1,5 @@
 -- For the gnomes!!!
-local VERSION = "0.1.0";
+local VERSION = "0.5.3";
 
 local _G = getfenv(0)
 -- Libraries
@@ -154,14 +154,15 @@ nodes["Darkshore"] = {
 	{ coord = 41607640, npcId = 148037, questId = { 54431 }, icon = "skull_grey", group = "rare_darkshore", label = _L["Athil Dewfire"], loot = { { itemId = 166803, itemType = itemTypeMount, mountId = 1203 }, { itemId = 166449, itemType = itemTypePet, speciesId = 2544 } }, note = _L["Horde only"], faction = "Horde" },
 	-- Alliance only
 	{ coord = 62390986, npcId = 147664, questId = { 54274 }, icon = "skull_grey", group = "rare_darkshore", label = _L["Zim'kaga"], loot = { { itemId = 166453, itemType = itemTypePet, speciesId = 2548 } }, note = _L["Alliance only"], faction = "Alliance" },
-	{ coord = 64322008, npcId = 147701, questId = { 54277 }, icon = "skull_grey", group = "rare_darkshore", label = _L["Moxo the Beheader"], loot = { { itemId = 166434, itemType = itemTypeMount, mountId = 1203 } }, note = _L["Alliance only"], faction = "Alliance" },
+	{ coord = 67241877, npcId = 147701, questId = { 54277 }, icon = "skull_grey", group = "rare_darkshore", label = _L["Moxo the Beheader"], loot = { { itemId = 166434, itemType = itemTypeMount, mountId = 1203 } }, note = _L["Alliance only"], faction = "Alliance" },
 	{ coord = 46528585, npcId = 147845, questId = { 54309 }, icon = "skull_grey", group = "rare_darkshore", label = _L["Commander Drald"], loot = { { itemId = 166790, itemType = itemTypeToy } }, note = _L["Alliance only"], faction = "Alliance" },
-	{ coord = 39303410, npcId = 149664, questId = { 0 }, icon = "skull_grey", group = "rare_darkshore", label = _L["Orwell Stevenson"], loot = { { itemId = 166528, itemType = itemTypePet, speciesId = 2563 } }, note = _L["Alliance only"], faction = "Alliance", controllingFaction = "Alliance" },
-	{ coord = 41507640, npcId = 149141, questId = { 0 }, icon = "skull_grey", group = "rare_darkshore", label = _L["Burninator Mark V"], loot = { { itemId = 166788, itemType = itemTypeToy }, { itemId = 166449, itemType = itemTypePet, speciesId = 2544 } }, note = _L["Alliance only"], faction = "Alliance", controllingFaction = "Alliance" },
-	{ coord = 50703230, npcId = 149661, questId = { 0 }, icon = "skull_grey", group = "rare_darkshore", label = _L["Croz Bloodrage"], loot = { { itemId = 166435, itemType = itemTypeMount, mountId = 1205 } }, note = _L["Alliance only"], faction = "Alliance", controllingFaction = "Alliance" },
-	{ coord = 49502510, npcId = 149652, questId = { 0 }, icon = "skull_grey", group = "rare_darkshore", label = _L["Agathe Wyrmwood"], loot = { { itemId = 166438, itemType = itemTypeMount, mountId = 1199 } }, note = _L["Alliance only"], faction = "Alliance", controllingFaction = "Alliance" },
+	{ coord = 39663344, npcId = 149664, questId = { 54889 }, icon = "skull_grey", group = "rare_darkshore", label = _L["Orwell Stevenson"], loot = { { itemId = 166528, itemType = itemTypePet, speciesId = 2563 } }, note = _L["Alliance only"], faction = "Alliance", controllingFaction = "Alliance" },
+	{ coord = 41607674, npcId = 149141, questId = { 54768 }, icon = "skull_grey", group = "rare_darkshore", label = _L["Burninator Mark V"], loot = { { itemId = 166788, itemType = itemTypeToy }, { itemId = 166449, itemType = itemTypePet, speciesId = 2544 } }, note = _L["Alliance only"], faction = "Alliance", controllingFaction = "Alliance" },
+	{ coord = 50703230, npcId = 149661, questId = { 54886 }, icon = "skull_grey", group = "rare_darkshore", label = _L["Croz Bloodrage"], loot = { { itemId = 166435, itemType = itemTypeMount, mountId = 1205 } }, note = _L["Alliance only"], faction = "Alliance", controllingFaction = "Alliance" },
+	{ coord = 49502510, npcId = 149652, questId = { 54883 }, icon = "skull_grey", group = "rare_darkshore", label = _L["Agathe Wyrmwood"], loot = { { itemId = 166438, itemType = itemTypeMount, mountId = 1199 } }, note = _L["Alliance only"], faction = "Alliance", controllingFaction = "Alliance" },
 
-	{ coord = 41403606, npcId = 144946, questId = { 54865 }, icon = "skull_grey", group = "rare_arathi", label = _L["Ivus the Forest Lord"], loot = { { itemId = 163829, itemType = itemTypeToy } }, note = _L["Horde only"], faction = "Horde", controllingFaction = "Horde" },
+	{ coord = 41403606, npcId = 144946, questId = { 54865, 54896 }, icon = "skull_grey", group = "rare_arathi", label = _L["Ivus the Forest Lord"], loot = {  }, note = _L["Horde only"], faction = "Horde", controllingFaction = "Horde" },
+	{ coord = 41243594, npcId = 144946, questId = { 54862, 54895 }, icon = "skull_grey", group = "rare_arathi", label = _L["Ivus the Decayed"], loot = {  }, note = _L["Alliance only"], faction = "Alliance", controllingFaction = "Alliance" },
 --	{ coord = , npcId = , questId = {  }, icon = "skull_grey", group = "rare_darkshore", label = _L["Gren"], loot = {  }, note = nil },
 }
 

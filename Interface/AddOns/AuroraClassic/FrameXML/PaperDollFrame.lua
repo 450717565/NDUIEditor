@@ -49,14 +49,11 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	for i = 1, #slots do
 		local slot = _G["Character"..slots[i].."Slot"]
-
 		F.StripTextures(slot)
-		slot:SetNormalTexture("")
-		slot:SetPushedTexture("")
-		slot:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
+
+		local bg = F.ReskinIcon(slot.icon, true)
+		F.ReskinTexture(slot, false, bg)
 		slot.SetHighlightTexture = F.dummy
-		slot.icon:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(slot, .25)
 
 		local border = slot.IconBorder
 		border:SetPoint("TOPLEFT", -C.mult, C.mult)
@@ -100,7 +97,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	pane.ClassBackground:Hide()
 	local category = {pane.ItemLevelCategory, pane.AttributesCategory, pane.EnhancementsCategory}
 	for _, v in pairs(category) do
-		v:SetHeight(25)
+		v:SetSize(190, 25)
 		F.StripTextures(v)
 
 		local bg = F.CreateBDFrame(v, .25)
@@ -161,16 +158,8 @@ tinsert(C.themes["AuroraClassic"], function()
 		bu:SetCheckedTexture(C.media.checked)
 		select(2, bu:GetRegions()):Hide()
 
-		bu:SetHighlightTexture(C.media.backdrop)
-		local hl = bu:GetHighlightTexture()
-		hl:SetAllPoints()
-		hl:SetVertexColor(1, 1, 1, .25)
-
-		local ic = _G["GearManagerDialogPopupButton"..i.."Icon"]
-		ic:SetAllPoints()
-		ic:SetTexCoord(.08, .92, .08, .92)
-
-		F.CreateBDFrame(bu, .25)
+		local ic = F.ReskinIcon(_G["GearManagerDialogPopupButton"..i.."Icon"], true)
+		F.ReskinTexture(bu, false, ic)
 	end
 
 	local sets = false
@@ -190,8 +179,7 @@ tinsert(C.themes["AuroraClassic"], function()
 				sp.Show = F.dummy
 
 				local ic = _G["PaperDollEquipmentManagerPaneButton"..i.."Icon"]
-				ic:SetTexCoord(.08, .92, .08, .92)
-				F.CreateBDFrame(ic, .25)
+				F.ReskinIcon(ic, true)
 			end
 
 			sets = true

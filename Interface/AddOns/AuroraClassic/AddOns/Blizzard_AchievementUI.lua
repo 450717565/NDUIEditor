@@ -27,7 +27,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 					bg:SetPoint("TOPLEFT", 0, -1)
 					bg:SetPoint("BOTTOMRIGHT", 0, 1)
 
-					F.ReskinTexture(bu, "hl", true, bg)
+					F.ReskinTexture(bu, true, bg)
 				end
 				first = false
 			end
@@ -217,11 +217,11 @@ C.themes["Blizzard_AchievementUI"] = function()
 		text:SetShadowOffset(C.mult, -C.mult)
 		text.SetShadowOffset = F.dummy
 
-		local ic = _G["AchievementFrameComparisonContainerButton"..i.."PlayerIconTexture"]
-		F.ReskinIcon(ic, true)
+		local pic = _G["AchievementFrameComparisonContainerButton"..i.."PlayerIconTexture"]
+		F.ReskinIcon(pic, true)
 
-		local ic = _G["AchievementFrameComparisonContainerButton"..i.."FriendIconTexture"]
-		F.ReskinIcon(ic, true)
+		local fic = _G["AchievementFrameComparisonContainerButton"..i.."FriendIconTexture"]
+		F.ReskinIcon(fic, true)
 	end
 
 	F.ReskinScroll(AchievementFrameAchievementsContainerScrollBar)
@@ -247,7 +247,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 		bg:SetPoint("TOPLEFT")
 		bg:SetPoint("BOTTOMRIGHT", 0, 1)
 
-		F.ReskinTexture(result, "hl", true, bg)
+		F.ReskinTexture(result, true, bg)
 	end
 
 	for i = 1, 5 do
@@ -275,7 +275,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 			bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 
 			F.ReskinIcon(bu.icon, true)
-			F.ReskinTexture(bu, "hl", true, bg)
+			F.ReskinTexture(bu, true, bg)
 		end
 	end
 

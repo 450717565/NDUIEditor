@@ -117,10 +117,7 @@ local function Reskins()
 
 			for i = 1, 16 do
 				local btn = _G["SellButton" .. i]
-				local hl = btn:GetHighlightTexture()
-				hl:SetColorTexture(r, g, b, .25)
-				hl:SetPoint("TOPLEFT", 0, 2)
-				hl:SetPoint("BOTTOMRIGHT", 2, 2)
+				F.ReskinTexture(btn, true, btn)
 			end
 
 			local Inputlist = {BuyName, BuyQuantity, SellStacks, SellSize, SellBidPriceGold, SellBidPriceSilver, SellBidPriceCopper, SellBuyoutPriceGold, SellBuyoutPriceSilver, SellBuyoutPriceCopper}
@@ -186,41 +183,39 @@ local function Reskins()
 		end
 
 		if IsAddOnLoaded("ExtVendor") then
-			MerchantFrameSearchBox:SetHeight(22)
-			F.ReskinInput(MerchantFrameSearchBox)
-
-			MerchantFrameSellJunkButtonIcon:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(MerchantFrameSellJunkButton, .25)
-
+			F.ReskinInput(MerchantFrameSearchBox, 22)
 			F.Reskin(MerchantFrameFilterButton)
 
+			local ic = F.ReskinIcon(MerchantFrameSellJunkButtonIcon, true)
+			F.ReskinTexture(MerchantFrameSellJunkButton, false, ic)
+
 			for i = 13, 20 do
+				local bu = _G["MerchantItem"..i.."ItemButton"]
+				F.StripTextures(bu)
+				bu.IconBorder:SetAlpha(0)
+
+				local ic = F.ReskinIcon(bu.icon, true)
+				F.ReskinTexture(bu, false, ic)
+
 				local item = _G["MerchantItem"..i]
 				F.StripTextures(item, true)
-				item.bd = F.CreateBDFrame(item, .25)
-				item.bd:SetPoint("TOPLEFT", 40, 2)
-				item.bd:SetPoint("BOTTOMRIGHT", 0, -2)
 
-				local button = _G["MerchantItem"..i.."ItemButton"]
-				F.StripTextures(button)
-				button:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-				button:SetSize(40, 40)
-				button.IconBorder:SetAlpha(0)
-				F.CreateBDFrame(button, .25)
-
-				local b1, b2, b3 = button:GetPoint()
-				button:SetPoint(b1, b2, b3, -4, -2)
-
-				local ic = button.icon
-				ic:SetTexCoord(.08, .92, .08, .92)
+				local bg = F.CreateBDFrame(item, .25)
+				bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 4)
+				bg:SetPoint("BOTTOMRIGHT", 0, 0)
 
 				local name = _G["MerchantItem"..i.."Name"]
-				local n1, n2, n3 = name:GetPoint()
-				name:SetPoint(n1, n2, n3, -10, 5)
+				name:ClearAllPoints()
+				name:SetPoint("TOPLEFT", bg, "TOPLEFT", 2, -2)
 
 				local money = _G["MerchantItem"..i.."MoneyFrame"]
-				local m1, m2, m3, m4, m5 = money:GetPoint()
-				money:SetPoint(m1, m2, m3, m4-2, m5)
+				money:ClearAllPoints()
+				money:SetPoint("BOTTOMLEFT", bg, "BOTTOMLEFT", 2, 2)
+
+				local currency = _G["MerchantItem"..i.."AltCurrencyFrame"]
+				currency:ClearAllPoints()
+				currency:SetPoint("BOTTOMLEFT", bg, "BOTTOMLEFT", 2, 3)
+				currency.SetPoint = F.dummy
 
 				for j = 1, 3 do
 					local acTex = _G["MerchantItem"..i.."AltCurrencyFrameItem"..j.."Texture"]
@@ -329,6 +324,7 @@ local function Reskins()
 					local buic = _G["Overachiever_"..v..i.."Icon"]
 
 					F.StripTextures(bu, true)
+					F.ReskinIcon(bu.icon.texture, true)
 					_G["Overachiever_"..v..i.."Highlight"]:SetAlpha(0)
 					_G["Overachiever_"..v..i.."IconOverlay"]:Hide()
 
@@ -336,9 +332,6 @@ local function Reskins()
 					bu.description.SetTextColor = F.dummy
 					bu.description:SetShadowOffset(C.mult, -C.mult)
 					bu.description.SetShadowOffset = F.dummy
-
-					bu.icon.texture:SetTexCoord(.08, .92, .08, .92)
-					F.CreateBDFrame(bu.icon.texture, .25)
 
 					local bg = F.CreateBDFrame(bu, .25)
 					bg:SetPoint("TOPLEFT", C.mult, -C.mult)
@@ -429,7 +422,7 @@ local function Reskins()
 				ic:SetDrawLayer("ARTWORK")
 
 				local bg = F.ReskinIcon(ic, true)
-				F.ReskinTexture(bu, "hl", false, bg)
+				F.ReskinTexture(bu, false, bg)
 
 				if bu.SetCheckedTexture then
 					bu:SetCheckedTexture(C.media.checked)
@@ -465,13 +458,11 @@ local function Reskins()
 
 				local rw = bu.Reward
 				rw:SetSize(26, 26)
-				rw.Icon:SetTexCoord(.08, .92, .08, .92)
 				rw.IconBorder:Hide()
-				F.CreateBDFrame(rw.Icon, .25)
+				F.ReskinIcon(rw.Icon, true)
 
 				local fac = bu.Faction
-				fac.Icon:SetTexCoord(.08, .92, .08, .92)
-				F.CreateBDFrame(fac.Icon, .25)
+				F.ReskinIcon(fac.Icon, true)
 
 				local tm = bu.Time
 				tm:ClearAllPoints()

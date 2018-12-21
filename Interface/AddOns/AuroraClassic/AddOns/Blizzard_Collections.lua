@@ -7,13 +7,13 @@ C.themes["Blizzard_Collections"] = function()
 	F.ReskinPortraitFrame(CollectionsJournal, true)
 
 	for i = 1, 5 do
-		F.ReskinTab(_G["CollectionsJournalTab"..i])
-	end
+		local tab = _G["CollectionsJournalTab"..i]
+		F.ReskinTab(tab)
 
-	CollectionsJournalTab2:SetPoint("LEFT", CollectionsJournalTab1, "RIGHT", -15, 0)
-	CollectionsJournalTab3:SetPoint("LEFT", CollectionsJournalTab2, "RIGHT", -15, 0)
-	CollectionsJournalTab4:SetPoint("LEFT", CollectionsJournalTab3, "RIGHT", -15, 0)
-	CollectionsJournalTab5:SetPoint("LEFT", CollectionsJournalTab4, "RIGHT", -15, 0)
+		if i ~= 1 then
+			tab:SetPoint("LEFT", _G["CollectionsJournalTab"..i-1], "RIGHT", -15, 0)
+		end
+	end
 
 	F.ReskinFilterButton(HeirloomsJournalFilterButton)
 	F.ReskinFilterButton(MountJournalFilterButton)
@@ -54,15 +54,14 @@ C.themes["Blizzard_Collections"] = function()
 			bg:SetPoint("TOPLEFT", C.mult, -C.mult)
 			bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 
-			F.ReskinTexture(bu, "tx", true, bg)
-			F.ReskinTexture(bu, "hl", true, bg)
+			F.ReskinTexture(bu, true, bg)
+			F.ReskinTexture(bu.HighlightTexture, true, bg)
+
+			local sl = bu.SelectedTexture or bu.selectedTexture
+			F.ReskinTexture(sl, true, bg)
 
 			local ic = bu.Icon or bu.icon
 			F.ReskinIcon(ic, true)
-			
-			if bu.HighlightTexture then
-				bu.HighlightTexture:SetVertexColor(r, g, b, .25)
-			end
 
 			if bu.ProgressBar then
 				local bar = bu.ProgressBar
@@ -120,13 +119,12 @@ C.themes["Blizzard_Collections"] = function()
 	local function reskinButton(button)
 		local bu = _G[button]
 		bu:SetPushedTexture("")
-		bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 
 		local bd = _G[button.."Border"]
 		bd:Hide()
 
-		local ic = _G[button.."IconTexture"]
-		F.ReskinIcon(ic, true)
+		local ic = F.ReskinIcon(_G[button.."IconTexture"], true)
+		F.ReskinTexture(bu, false, ic)
 	end
 
 	reskinButton("MountJournalSummonRandomFavoriteButton")
@@ -191,8 +189,7 @@ C.themes["Blizzard_Collections"] = function()
 
 	card.PetInfo.level:SetTextColor(1, 1, 1)
 
-	card.PetInfo.icon:SetTexCoord(.08, .92, .08, .92)
-	card.PetInfo.icon.bg = F.CreateBDFrame(card.PetInfo.icon, .25)
+	card.PetInfo.icon.bg = F.ReskinIcon(card.PetInfo.icon, true)
 
 	F.ReskinStatusBar(card.xpBar, false, true)
 	F.ReskinStatusBar(card.HealthFrame.healthBar, false, true)
@@ -224,10 +221,9 @@ C.themes["Blizzard_Collections"] = function()
 
 		bu.dragButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 		bu.level:SetTextColor(1, 1, 1)
-		bu.icon:SetTexCoord(.08, .92, .08, .92)
-		bu.icon.bg = F.CreateBDFrame(bu.icon, .25)
 		bu.setButton:GetRegions():SetPoint("TOPLEFT", bu.icon, -5, 5)
 		bu.setButton:GetRegions():SetPoint("BOTTOMRIGHT", bu.icon, 5, -5)
+		bu.icon.bg = F.ReskinIcon(bu.icon, true)
 
 		F.ReskinStatusBar(bu.xpBar, false, true)
 		F.ReskinStatusBar(bu.healthFrame.healthBar, false, true)
@@ -309,15 +305,11 @@ C.themes["Blizzard_Collections"] = function()
 		local bu = buttons["spellButton"..i]
 		F.StripTextures(bu)
 
-		local ic = bu.iconTexture
-		F.ReskinIcon(ic, true)
+		local ic = F.ReskinIcon(bu.iconTexture, true)
+		F.ReskinTexture(bu, false, ic)
 
 		local cd = bu.cooldown
 		cd:SetAllPoints(ic)
-
-		local hl = bu:GetHighlightTexture()
-		hl:SetColorTexture(1, 1, 1, .25)
-		hl:SetAllPoints(ic)
 
 		hooksecurefunc(bu.name, "SetTextColor", changeTextColor)
 	end
@@ -341,24 +333,23 @@ C.themes["Blizzard_Collections"] = function()
 	-- Buttons
 	hooksecurefunc("HeirloomsJournal_UpdateButton", function(button)
 		if not button.styled then
-			local ic = button.iconTexture
 			F.StripTextures(button)
-			button.bg = F.CreateBDFrame(ic, .25)
 
 			button.iconTextureUncollected:SetTexCoord(.08, .92, .08, .92)
 			button.levelBackground:SetAlpha(0)
 			button.level:ClearAllPoints()
 			button.level:SetPoint("BOTTOM", 0, 1)
 
-			local hl = button:GetHighlightTexture()
-			hl:SetColorTexture(1, 1, 1, .25)
-			hl:SetAllPoints(ic)
+			local bg = F.ReskinIcon(button.iconTexture, true)
+			F.ReskinTexture(button, false, bg)
 
 			local newLevelBg = button:CreateTexture(nil, "OVERLAY")
 			newLevelBg:SetColorTexture(0, 0, 0, .5)
 			newLevelBg:SetPoint("BOTTOMLEFT", button, "BOTTOMLEFT", 4, 5)
 			newLevelBg:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", -4, 5)
 			newLevelBg:SetHeight(11)
+
+			button.bg = bg
 			button.newLevelBg = newLevelBg
 
 			button.styled = true
@@ -458,8 +449,7 @@ C.themes["Blizzard_Collections"] = function()
 		local ic = itemFrame.Icon
 		if not ic.bg then
 			itemFrame.IconBorder:Hide()
-			ic:SetTexCoord(.08, .92, .08, .92)
-			ic.bg = F.CreateBDFrame(ic, .25)
+			ic.bg = F.ReskinIcon(ic, true)
 		end
 
 		if itemFrame.collected then
@@ -502,7 +492,7 @@ C.themes["Blizzard_Collections"] = function()
 			slot.Icon:SetDrawLayer("BACKGROUND", 1)
 			local bg = F.ReskinIcon(slot.Icon, true)
 
-			F.ReskinTexture(slot, "hl", false, bg)
+			F.ReskinTexture(slot, false, bg)
 		end
 	end
 
@@ -571,9 +561,7 @@ do
 					local bu = HAbiFrameActiveEnemy.AbilityButtons[i]
 					bu.NormalTexture:SetTexture(nil)
 					bu.NormalTexture.SetTexture = F.dummy
-					bu.Icon:SetTexCoord(.08, .92, .08, .92)
-					local bg = F.CreateBDFrame(bu.Icon, .25)
-					F.CreateSD(bg)
+					F.ReskinIcon(bu.Icon, true)
 				end
 				f.styled = true
 			end)

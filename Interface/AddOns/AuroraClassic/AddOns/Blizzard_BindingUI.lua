@@ -25,7 +25,7 @@ C.themes["Blizzard_BindingUI"] = function()
 	hooksecurefunc("BindingButtonTemplate_SetupBindingButton", function(_, button)
 		if not button.styled then
 			F.Reskin(button)
-			F.ReskinTexture(button, "tx", true)
+			F.ReskinTexture(button.selectedHighlight, true)
 
 			button.styled = true
 		end
@@ -42,7 +42,7 @@ C.themes["Blizzard_BindingUI"] = function()
 	KeyBindingFrame.cancelButton:SetPoint("BOTTOMLEFT", KeyBindingFrame.okayButton, "BOTTOMRIGHT", 2, 0)
 
 	local line = KeyBindingFrame:CreateTexture(nil, "ARTWORK")
-	line:SetSize(1, 546)
+	line:SetSize(C.mult, 546)
 	line:SetPoint("LEFT", 205, 10)
 	line:SetColorTexture(1, 1, 1, .25)
 end

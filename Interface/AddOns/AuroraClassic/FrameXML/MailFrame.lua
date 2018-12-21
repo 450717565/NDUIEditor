@@ -50,7 +50,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		local ic = _G[button.."IconTexture"]
 		local bg = F.ReskinIcon(ic, true)
-		F.ReskinTexture(btn, "hl", false, bg)
+		F.ReskinTexture(btn, false, bg)
 	end
 
 	for i = 1, INBOXITEMS_TO_DISPLAY do
@@ -63,7 +63,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		local ic = _G["MailItem"..i.."Button".."Icon"]
 		local bg = F.ReskinIcon(ic, true)
-		F.ReskinTexture(bu, "hl", false, bg)
+		F.ReskinTexture(bu, false, bg)
 
 		local ib = _G["MailItem"..i.."Button".."IconBorder"]
 		ib:SetAlpha(0)
@@ -74,7 +74,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		bu:GetRegions():Hide()
 
 		local bg = F.CreateBDFrame(bu, .25)
-		F.ReskinTexture(bu, "hl", false, bg)
+		F.ReskinTexture(bu, false, bg)
 
 		local border = bu.IconBorder
 		border:SetPoint("TOPLEFT", -C.mult, C.mult)
@@ -99,7 +99,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		local ic = _G["OpenMailAttachmentButton"..i.."IconTexture"]
 		local bg = F.ReskinIcon(ic, true)
-		F.ReskinTexture(bu, "hl", false, bg)
+		F.ReskinTexture(bu, false, bg)
 
 		local border = bu.IconBorder
 		border:SetTexture(C.media.backdrop)

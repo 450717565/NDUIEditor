@@ -5,6 +5,5 @@ C.themes["Blizzard_ObliterumUI"] = function()
 
 	F.ReskinPortraitFrame(obliterum, true)
 	F.Reskin(obliterum.ObliterateButton)
-	obliterum.ItemSlot.Icon:SetTexCoord(.08, .92, .08, .92)
-	F.CreateBDFrame(obliterum.ItemSlot.Icon, .25)
+	F.ReskinIcon(obliterum.ItemSlot.Icon, true)
 end

@@ -13,35 +13,14 @@ C.themes["Blizzard_PVPUI"] = function()
 	-- Category buttons
 	for i = 1, 3 do
 		local bu = PVPQueueFrame["CategoryButton"..i]
-		local icon = bu.Icon
-		local cu = bu.CurrencyDisplay
-
 		bu.Ring:Hide()
-		bu.Background:SetAllPoints()
-		bu.Background:SetColorTexture(r, g, b, .25)
-		bu.Background:Hide()
-
 		F.Reskin(bu, true)
+		F.ReskinTexture(bu.Background, true, bu)
 
-		icon:SetTexCoord(.08, .92, .08, .92)
+		local icon = bu.Icon
 		icon:SetPoint("LEFT", bu, "LEFT")
 		icon:SetDrawLayer("OVERLAY")
-		F.CreateBDFrame(icon, .25)
-
-		local bg = F.CreateBG(icon)
-		bg:SetDrawLayer("ARTWORK")
-
-		if cu then
-			local ic = cu.Icon
-
-			ic:SetSize(16, 16)
-			ic:SetPoint("TOPLEFT", bu.Name, "BOTTOMLEFT", 0, -8)
-			cu.Amount:SetPoint("LEFT", ic, "RIGHT", 4, 0)
-
-			ic:SetTexCoord(.08, .92, .08, .92)
-			local bg = F.CreateBG(ic)
-			bg:SetDrawLayer("BACKGROUND", 1)
-		end
+		F.ReskinIcon(icon, true)
 	end
 
 	PVPQueueFrame.CategoryButton1.Icon:SetTexture("Interface\\Icons\\achievement_bg_winwsg")
@@ -69,8 +48,7 @@ C.themes["Blizzard_PVPUI"] = function()
 		cbreward:SetPoint("LEFT", f.ConquestBar, "RIGHT", 2, 0)
 		cbreward.CircleMask:Hide()
 		cbreward.Ring:Hide()
-		cbreward.Icon:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(cbreward.Icon, .25)
+		F.ReskinIcon(cbreward.Icon, true)
 	end
 
 	-- Role buttons
@@ -97,9 +75,7 @@ C.themes["Blizzard_PVPUI"] = function()
 		local bu = BonusFrame[bonusButton]
 
 		F.Reskin(bu, true)
-		bu.SelectedTexture:SetDrawLayer("BACKGROUND")
-		bu.SelectedTexture:SetColorTexture(r, g, b, .25)
-		bu.SelectedTexture:SetAllPoints()
+		F.ReskinTexture(bu.SelectedTexture, true, bu)
 	end
 
 	-- Conquest Frame
@@ -121,8 +97,6 @@ C.themes["Blizzard_PVPUI"] = function()
 
 	for _, bu in next, {ConquestFrame.Arena2v2, ConquestFrame.Arena3v3, ConquestFrame.RatedBG} do
 		F.Reskin(bu, true)
-		bu.SelectedTexture:SetDrawLayer("BACKGROUND")
-		bu.SelectedTexture:SetColorTexture(r, g, b, .25)
-		bu.SelectedTexture:SetAllPoints()
+		F.ReskinTexture(bu.SelectedTexture, true, bu)
 	end
 end

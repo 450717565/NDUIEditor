@@ -28,6 +28,7 @@ C.themes["Blizzard_TalentUI"] = function()
 		local scrollChild = frame.spellsScroll.child
 
 		F.StripTextures(frame, true)
+
 		select(7, frame:GetChildren()):DisableDrawLayer("OVERLAY")
 
 		scrollChild.ring:Hide()
@@ -44,6 +45,7 @@ C.themes["Blizzard_TalentUI"] = function()
 		local shownSpec = spec or playerTalentSpec or 1
 		local sex = self.isPet and UnitSex("pet") or UnitSex("player")
 		local id, _, _, icon = GetSpecializationInfo(shownSpec, nil, self.isPet, nil, sex)
+		if not id then return end
 		local scrollChild = self.spellsScroll.child
 		scrollChild.specIcon:SetTexture(icon)
 
@@ -99,21 +101,17 @@ C.themes["Blizzard_TalentUI"] = function()
 	for _, name in pairs(buttons) do
 		for i = 1, 4 do
 			local bu = _G[name..i]
-
 			bu.bg:Hide()
 			bu.ring:Hide()
 			bu.learnedTex:SetTexture("")
 			_G[name..i.."Glow"]:SetTexture("")
-
 			F.Reskin(bu, true)
-			F.ReskinTexture(bu, "tx", true, bg)
+			F.ReskinTexture(bu.selectedTex, true, bu)
 
-			bu.specIcon:SetPoint("LEFT", bu, "LEFT")
-			bu.specIcon:SetDrawLayer("OVERLAY")
-			F.ReskinIcon(bu.specIcon, true)
-
-			local bg = F.CreateBG(bu.specIcon)
-			bg:SetDrawLayer("ARTWORK")
+			local ic = bu.specIcon
+			ic:SetPoint("LEFT", bu, "LEFT")
+			ic:SetDrawLayer("OVERLAY")
+			F.ReskinIcon(ic, true)
 		end
 	end
 
@@ -129,7 +127,6 @@ C.themes["Blizzard_TalentUI"] = function()
 
 		for j = 1, NUM_TALENT_COLUMNS do
 			local bu = _G["PlayerTalentFrameTalentsTalentRow"..i.."Talent"..j]
-
 			F.StripTextures(bu)
 			bu.knownSelection:SetAlpha(0)
 
@@ -140,6 +137,8 @@ C.themes["Blizzard_TalentUI"] = function()
 			bu.bg = F.CreateBDFrame(bu, .25)
 			bu.bg:SetPoint("TOPLEFT", 10, 0)
 			bu.bg:SetPoint("BOTTOMRIGHT")
+
+			F.ReskinTexture(bu.highlight, true, bu.bg)
 		end
 	end
 
@@ -149,7 +148,8 @@ C.themes["Blizzard_TalentUI"] = function()
 				local _, _, _, selected, _, _, _, _, _, _, known = GetTalentInfo(i, j, 1)
 				local bu = _G["PlayerTalentFrameTalentsTalentRow"..i.."Talent"..j]
 				if known then
-					bu.bg:SetBackdropColor(r, g, b, .75)
+					bu.bg:SetBackdropBorderColor(r, g, b)
+					bu.bg.Shadow:SetBackdropBorderColor(r, g, b)
 				elseif selected then
 					bu.bg:SetBackdropColor(r, g, b, .25)
 				else
@@ -193,8 +193,8 @@ C.themes["Blizzard_TalentUI"] = function()
 			bg:SetPoint("TOPLEFT", 2, -1)
 			bg:SetPoint("BOTTOMRIGHT", 0, 3)
 
-			F.ReskinTexture(self, "tx", true, bg)
-			F.ReskinTexture(self, "hl", true, bg)
+			F.ReskinTexture(self, true, bg)
+			F.ReskinTexture(self.Selected, true, bg)
 
 			self.styled = true
 		end

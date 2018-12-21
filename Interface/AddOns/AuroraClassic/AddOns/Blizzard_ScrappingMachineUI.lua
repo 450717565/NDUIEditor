@@ -10,8 +10,10 @@ C.themes["Blizzard_ScrappingMachineUI"] = function()
 			local color = BAG_ITEM_QUALITY_COLORS[quality]
 
 			self.bg:SetBackdropBorderColor(color.r, color.g, color.b)
+			self.bg.Shadow:SetBackdropBorderColor(color.r, color.g, color.b)
 		else
 			self.bg:SetBackdropBorderColor(0, 0, 0)
+			self.bg.Shadow:SetBackdropBorderColor(0, 0, 0)
 		end
 	end
 
@@ -20,13 +22,10 @@ C.themes["Blizzard_ScrappingMachineUI"] = function()
 
 	for button in pairs(ItemSlots.scrapButtons.activeObjects) do
 		if not button.styled then
-			button.Icon:SetTexCoord(.08, .92, .08, .92)
 			button.IconBorder:SetAlpha(0)
-			button.bg = F.CreateBDFrame(button, .25)
+			button.bg = F.ReskinIcon(button.Icon, true)
+			F.ReskinTexture(button, false, button.bg)
 
-			local hl = button:GetHighlightTexture()
-			hl:SetColorTexture(1, 1, 1, .25)
-			hl:SetAllPoints(button.Icon)
 			hooksecurefunc(button, "RefreshIcon", refreshIcon)
 
 			button.styled = true

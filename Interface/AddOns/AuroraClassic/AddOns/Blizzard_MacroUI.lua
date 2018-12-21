@@ -19,56 +19,38 @@ C.themes["Blizzard_MacroUI"] = function()
 	F.CreateBD(MacroPopupFrame)
 	F.CreateSD(MacroPopupFrame)
 
-	local selectedbt = MacroFrameSelectedMacroButton
-	selectedbt:ClearAllPoints()
-	selectedbt:SetPoint("BOTTOMRIGHT", MacroEditButton, "BOTTOMLEFT", -7, 1)
+	local function reskinButton(button, i)
+		local bu = _G[button..i]
+		local ic = _G[button..i.."Icon"]
 
-	local selectedic = MacroFrameSelectedMacroButtonIcon
-	selectedic:SetAllPoints()
-	selectedic:SetTexCoord(.08, .92, .08, .92)
+		if bu and ic then
+			F.StripTextures(bu)
 
-	for i = 1, MAX_ACCOUNT_MACROS do
-		local bu = _G["MacroButton"..i]
-		bu:SetCheckedTexture(C.media.checked)
-		select(2, bu:GetRegions()):Hide()
+			bu:SetCheckedTexture(C.media.checked)
+			ic:SetAllPoints()
+			ic:SetTexCoord(.08, .92, .08, .92)
 
-		bu:SetHighlightTexture(C.media.backdrop)
-		local hl = bu:GetHighlightTexture()
-		hl:SetAllPoints()
-		hl:SetVertexColor(1, 1, 1, .25)
-
-		local ic = _G["MacroButton"..i.."Icon"]
-		ic:SetAllPoints()
-		ic:SetTexCoord(.08, .92, .08, .92)
-
-		F.CreateBDFrame(bu, .25)
+			local bg = F.CreateBDFrame(bu, .25)
+			F.ReskinTexture(bu, false, bg)
+		end
 	end
 
+	for i = 1, MAX_ACCOUNT_MACROS do
+		reskinButton("MacroButton", i)
+	end
+
+	local styled = false
 	MacroPopupFrame:HookScript("OnShow", function()
-		for i = 1, NUM_MACRO_ICONS_SHOWN do
-			local bu = _G["MacroPopupButton"..i]
-			local ic = _G["MacroPopupButton"..i.."Icon"]
-
-			if not bu.styled then
-				bu:SetCheckedTexture(C.media.checked)
-				select(2, bu:GetRegions()):Hide()
-
-				bu:SetHighlightTexture(C.media.backdrop)
-				local hl = bu:GetHighlightTexture()
-				hl:SetAllPoints()
-				hl:SetVertexColor(1, 1, 1, .25)
-
-				ic:SetAllPoints()
-				ic:SetTexCoord(.08, .92, .08, .92)
-
-				F.CreateBDFrame(bu, .25)
-
-				bu.styled = true
+		if not styled then
+			for i = 1, NUM_MACRO_ICONS_SHOWN do
+				reskinButton("MacroPopupButton", i)
 			end
+
+			styled = true
 		end
 	end)
 
-	local frames = {MacroFrameScrollFrame, MacroPopupEditBox, MacroFrameSelectedMacroButton}
+	local frames = {MacroFrameScrollFrame, MacroPopupEditBox}
 	for _, frame in next, frames do
 		F.StripTextures(frame)
 		F.CreateBDFrame(frame, .25)
@@ -78,6 +60,18 @@ C.themes["Blizzard_MacroUI"] = function()
 	for _, button in next, buttons do
 		F.Reskin(button)
 	end
+
+	local selectedbt = MacroFrameSelectedMacroButton
+	F.StripTextures(selectedbt)
+	selectedbt:ClearAllPoints()
+	selectedbt:SetPoint("BOTTOMRIGHT", MacroEditButton, "BOTTOMLEFT", -7, C.mult)
+
+	local selectedic = MacroFrameSelectedMacroButtonIcon
+	selectedic:SetAllPoints()
+	selectedic:SetTexCoord(.08, .92, .08, .92)
+
+	local selectedbg = F.CreateBDFrame(selectedbt, .25)
+	F.ReskinTexture(selectedbt, false, selectedbg)
 
 	MacroNewButton:ClearAllPoints()
 	MacroNewButton:SetPoint("RIGHT", MacroExitButton, "LEFT", -2, 0)

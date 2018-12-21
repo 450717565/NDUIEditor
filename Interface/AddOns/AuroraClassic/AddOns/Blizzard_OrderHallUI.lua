@@ -12,8 +12,7 @@ C.themes["Blizzard_OrderHallUI"] = function()
 	end
 
 	OrderHallTalentFrame.OverlayElements:Hide()
-	OrderHallTalentFrame.Currency.Icon:SetTexCoord(.08, .92, .08, .92)
-	F.CreateBDFrame(OrderHallTalentFrame.Currency.Icon, .25)
+	F.ReskinIcon(OrderHallTalentFrame.Currency.Icon, true)
 	F.Reskin(OrderHallTalentFrame.BackButton)
 
 	hooksecurefunc(OrderHallTalentFrame, "RefreshAllData", function()
@@ -23,10 +22,10 @@ C.themes["Blizzard_OrderHallUI"] = function()
 			local bu = select(i, OrderHallTalentFrame:GetChildren())
 			if bu and bu.talent then
 				if not bu.bg then
-					bu.Icon:SetTexCoord(.08, .92, .08, .92)
 					bu.Border:SetAlpha(0)
-					bu.Highlight:SetColorTexture(1, 1, 1, .25)
-					bu.bg = F.CreateBDFrame(bu.Icon, .25)
+					bu.bg = F.ReskinIcon(bu.Icon, true)
+
+					F.ReskinTexture(bu.Highlight, false, bu.bg)
 				end
 
 				if bu.talent.selected then

@@ -34,29 +34,19 @@ C.themes["Blizzard_LookingForGuildUI"] = function()
 			bu:SetBackdrop(nil)
 
 			local bg = F.CreateBDFrame(bu, .25)
-			bg:SetPoint("TOPLEFT", C.mult, -C.mult)
+			bg:SetPoint("TOPLEFT", C.mult, -1)
 			bg:SetPoint("BOTTOMRIGHT", -C.mult, 3)
 
-			local hl = _G[button..i.."Highlight"]
-			hl:SetTexture(C.media.backdrop)
-			hl:SetVertexColor(r, g, b, .25)
-			hl:SetPoint("TOPLEFT", bg, C.mult, -C.mult)
-			hl:SetPoint("BOTTOMRIGHT", bg, -C.mult, C.mult)
+			F.ReskinTexture(bu.selectedTex, true, bg)
+			F.ReskinTexture(_G[button..i.."Highlight"], true, bg)
+
+			local rm = _G[button..i.."RemoveButton"]
+			if rm then rm:SetPoint("RIGHT", -10, 1) end
 
 			local pd = _G[button..i.."Pending"]
 			if pd then
 				pd.pendingTex:SetPoint("TOPLEFT", bg, C.mult, -C.mult)
 				pd.pendingTex:SetPoint("BOTTOMRIGHT", bg, -C.mult, C.mult)
-			end
-
-			local rm = _G[button..i.."RemoveButton"]
-			if rm then
-				rm:SetPoint("RIGHT", -10, 1)
-			end
-
-			local selected = bu.selectedTex
-			if selected then
-				F.ReskinTexture(bu, "tx", true, bg)
 			end
 		end
 

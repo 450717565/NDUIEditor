@@ -1,7 +1,7 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_QuestChoice"] = function()
-	F.StripTextures(QuestChoiceFrame, true)
+	F.ReskinPortraitFrame(QuestChoiceFrame, true)
 
 	local numOptions = #QuestChoiceFrame.Options
 	for i = 1, numOptions do
@@ -39,8 +39,4 @@ C.themes["Blizzard_QuestChoice"] = function()
 			rewards.Item.IconBorder:Hide()
 		end
 	end)
-
-	F.CreateBD(QuestChoiceFrame)
-	F.CreateSD(QuestChoiceFrame)
-	F.ReskinClose(QuestChoiceFrame.CloseButton)
 end
