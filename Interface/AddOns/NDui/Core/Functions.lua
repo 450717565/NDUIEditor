@@ -134,6 +134,18 @@ function B:CreateTex()
 	self.Tex:SetBlendMode("ADD")
 end
 
+function B:SetBackground(a)
+	if IsAddOnLoaded("AuroraClassic") then
+		local F = unpack(AuroraClassic)
+		F.CreateBD(self, a)
+		F.CreateSD(self)
+	else
+		B.CreateBD(self, a)
+		B.CreateSD(self)
+		B.CreateTex(self)
+	end
+end
+
 -- Frame Text
 function B:CreateFS(size, text, classcolor, anchor, x, y)
 	local fs = self:CreateFontString(nil, "OVERLAY")
@@ -267,6 +279,19 @@ function B:CreateIF(mouse, cd)
 		self.CD:SetAllPoints()
 		self.CD:SetReverse(true)
 	end
+end
+
+function B:CreateGear(name)
+	local bu = CreateFrame("Button", name, self)
+	bu:SetSize(22, 22)
+	bu.Icon = bu:CreateTexture(nil, "ARTWORK")
+	bu.Icon:SetAllPoints()
+	bu.Icon:SetTexture(DB.gearTex)
+	bu.Icon:SetTexCoord(0, .5, 0, .5)
+	bu:SetHighlightTexture(DB.gearTex)
+	bu:GetHighlightTexture():SetTexCoord(0, .5, 0, .5)
+
+	return bu
 end
 
 -- Statusbar
@@ -578,7 +603,7 @@ function B:CreateEditBox(width, height)
 	local eb = CreateFrame("EditBox", nil, self)
 	eb:SetSize(width, height)
 	eb:SetAutoFocus(false)
-	eb:SetTextInsets(10, 10, 0, 0)
+	eb:SetTextInsets(5, 5, 0, 0)
 	eb:SetFontObject(GameFontHighlight)
 	B.CreateBD(eb, .3)
 	B.CreateSD(eb)
@@ -602,15 +627,8 @@ function B:CreateDropDown(width, height, data)
 	dd.Text:SetPoint("RIGHT", -5, 0)
 	dd.options = {}
 
-	local bu = CreateFrame("Button", nil, dd)
+	local bu = B.CreateGear(dd)
 	bu:SetPoint("LEFT", dd, "RIGHT", -2, 0)
-	bu:SetSize(22, 22)
-	bu.Icon = bu:CreateTexture(nil, "ARTWORK")
-	bu.Icon:SetAllPoints()
-	bu.Icon:SetTexture(DB.gearTex)
-	bu.Icon:SetTexCoord(0, .5, 0, .5)
-	bu:SetHighlightTexture(DB.gearTex)
-	bu:GetHighlightTexture():SetTexCoord(0, .5, 0, .5)
 	local list = CreateFrame("Frame", nil, dd)
 	list:SetPoint("TOP", dd, "BOTTOM")
 	B.CreateBD(list, 1)

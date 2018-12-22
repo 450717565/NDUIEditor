@@ -15,9 +15,7 @@ function B:Mover(text, value, anchor, width, height, isAuraWatch)
 	B.CreateFS(mover, DB.Font[2], text)
 
 	if not isAuraWatch then
-		B.CreateBD(mover)
-		B.CreateSD(mover)
-		B.CreateTex(mover)
+		B.SetBackground(mover)
 		tinsert(MoverList, mover)
 	end
 
@@ -91,10 +89,8 @@ local function CreateConsole()
 	f = CreateFrame("Frame", nil, UIParent)
 	f:SetPoint("TOP", 0, -150)
 	f:SetSize(296, 65)
-	B.CreateBD(f)
-	B.CreateSD(f)
-	B.CreateTex(f)
 	B.CreateMF(f)
+	B.SetBackground(f)
 	B.CreateFS(f, 15, L["Mover Console"], "system", "TOP", 0, -10)
 	local bu, text = {}, {LOCK, CANCEL, L["Grids"], RESET}
 	for i = 1, 4 do
@@ -125,9 +121,7 @@ local function CreateConsole()
 		local frame = CreateFrame("Frame", nil, f)
 		frame:SetPoint("TOP", f, "BOTTOM", 0, -2)
 		frame:SetSize(296, 65)
-		B.CreateBD(frame)
-		B.CreateSD(frame)
-		B.CreateTex(frame)
+		B.SetBackground(frame)
 		B.CreateFS(frame, 15, L["Toggle AuraWatch"], "system", "TOP", 0, -10)
 
 		local bu, text = {}, {UNLOCK, LOCK, RESET}

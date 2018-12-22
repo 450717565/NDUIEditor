@@ -20,9 +20,7 @@ local function ReskinDetails()
 
 		local bg = B.CreateBG(instance.baseframe)
 		bg:SetPoint("TOPLEFT", -1, 18)
-		B.CreateBD(bg)
-		B.CreateSD(bg)
-		B.CreateTex(bg)
+		B.SetBackground(bg)
 		instance.baseframe.bg = bg
 
 		if instance:GetId() <= 2 then

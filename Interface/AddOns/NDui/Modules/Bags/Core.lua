@@ -41,18 +41,6 @@ function module:DisableAuroraClassic()
 	AuroraConfig.bags = false
 end
 
-function module:SetBackground()
-	if IsAddOnLoaded("AuroraClassic") then
-		local F = unpack(AuroraClassic)
-		F.CreateBD(self)
-		F.CreateSD(self)
-	else
-		B.CreateBD(self)
-		B.CreateSD(self)
-		B.CreateTex(self)
-	end
-end
-
 local function highlightFunction(button, match)
 	button:SetAlpha(match and 1 or .3)
 end
@@ -84,7 +72,7 @@ function module:CreateBagBar(settings, columns)
 	local width, height = bagBar:LayoutButtons("grid", columns, 5, 5, -5)
 	bagBar:SetSize(width + 10, height + 10)
 	bagBar:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, -5)
-	module.SetBackground(bagBar)
+	B.SetBackground(bagBar)
 	bagBar.highlightFunction = highlightFunction
 	bagBar.isGlobal = true
 	bagBar:Hide()
@@ -160,6 +148,13 @@ function module:CreateBagToggle()
 	local bu = B.CreateButton(self, 40, 20, BACKPACK_TOOLTIP)
 	bu:SetScript("OnClick", function()
 		ToggleFrame(self.BagBar)
+		if self.BagBar:IsShown() then
+			bu.Shadow:SetBackdropBorderColor(1, 1, 1)
+			PlaySound(SOUNDKIT.IG_BACKPACK_OPEN)
+		else
+			bu.Shadow:SetBackdropBorderColor(0, 0, 0)
+			PlaySound(SOUNDKIT.IG_BACKPACK_CLOSE)
+		end
 	end)
 
 	return bu
@@ -417,7 +412,7 @@ function module:OnLogin()
 		self:SetParent(settings.Parent or Backpack)
 		self:SetFrameStrata("HIGH")
 		self:SetClampedToScreen(true)
-		module.SetBackground(self)
+		B.SetBackground(self)
 		B.CreateMF(self, settings.Parent, true)
 
 		local label

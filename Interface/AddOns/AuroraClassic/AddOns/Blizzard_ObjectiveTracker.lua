@@ -6,20 +6,27 @@ tinsert(C.themes["AuroraClassic"], function()
 	local r, g, b = C.r, C.g, C.b
 
 	local function reskinQuestIcon(_, block)
-		local rightButton = block.rightButton or block.groupFinderButton or block.itemButton
+		local button = block.rightButton or block.itemButton
 
-		if rightButton and not rightButton.styled then
-			rightButton:SetNormalTexture("")
-			rightButton:SetPushedTexture("")
+		if button and not button.styled then
+			button:SetNormalTexture("")
+			button:SetPushedTexture("")
 
-			local bg = F.ReskinIcon(rightButton.icon, true)
-			F.ReskinTexture(rightButton, false, bg)
+			local bg = F.CreateBDFrame(button.icon or button.Icon, .25)
+			F.ReskinTexture(button, false, bg)
 
-			if rightButton.Icon then
-				rightButton.Icon:SetPoint("CENTER")
+			if button.icon then
+				button.icon:SetTexCoord(.08, .92, .08, .92)
 			end
 
-			rightButton.styled = true
+			if button.Icon then
+				button.Icon:SetPoint("CENTER")
+				button.Icon:SetSize(18, 18)
+				bg:SetPoint("TOPLEFT", 2, -2)
+				bg:SetPoint("BOTTOMRIGHT", -2, 2)
+			end
+
+			button.styled = true
 		end
 	end
 	hooksecurefunc(QUEST_TRACKER_MODULE, "SetBlockHeader", reskinQuestIcon)

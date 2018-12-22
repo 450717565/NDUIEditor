@@ -231,9 +231,7 @@ GameTooltip:HookScript("OnTooltipSetUnit", function(self)
 			GameTooltipStatusBar:SetStatusBarTexture(DB.normTex)
 			GameTooltipStatusBar:SetHeight(5)
 			local bg = B.CreateBG(GameTooltipStatusBar)
-			B.CreateBD(bg, .7)
-			B.CreateSD(bg)
-			B.CreateTex(bg)
+			B.SetBackground(bg)
 			GameTooltipStatusBar.bg = bg
 		end
 	end
@@ -312,9 +310,7 @@ local function style(self)
 		self:SetBackdrop(nil)
 		local bg = B.CreateBG(self, 0)
 		bg:SetFrameLevel(self:GetFrameLevel())
-		B.CreateBD(bg, .7)
-		B.CreateSD(bg)
-		B.CreateTex(bg)
+		B.SetBackground(bg)
 		self.bg = bg
 
 		-- other gametooltip-like support
@@ -379,7 +375,7 @@ local function addonStyled(_, addon)
 
 	elseif addon == "NDui" then
 		if IsAddOnLoaded("AuroraClassic") then
-			local F, C = unpack(AuroraClassic)
+			local F = unpack(AuroraClassic)
 			F.ReskinClose(FloatingBattlePetTooltip.CloseButton)
 			F.ReskinClose(FloatingPetBattleAbilityTooltip.CloseButton)
 			F.ReskinClose(FloatingGarrisonMissionTooltip.CloseButton)

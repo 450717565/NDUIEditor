@@ -17,9 +17,7 @@ local function setupInfoFrame()
 	infoFrame:SetPoint("TOPLEFT", UIParent, 15, -30)
 	infoFrame:SetClampedToScreen(true)
 	infoFrame:SetFrameStrata("TOOLTIP")
-	B.CreateBD(infoFrame, .7)
-	B.CreateSD(infoFrame)
-	B.CreateTex(infoFrame)
+	B.SetBackground(infoFrame)
 
 	local function onUpdate(self, elapsed)
 		self.timer = (self.timer or 0) + elapsed
@@ -41,25 +39,25 @@ local function setupInfoFrame()
 	gApps = B.CreateFS(infoFrame, 13, "Applications", false, "TOPRIGHT", -15, -35)
 	gRank = B.CreateFS(infoFrame, 13, "Rank", false, "TOPLEFT", 15, -51)
 
-local bu = {}
-local width = {30, 35, 126, 126}
-for i = 1, 4 do
-	bu[i] = CreateFrame("Button", nil, infoFrame)
-	bu[i]:SetSize(width[i], 22)
-	bu[i]:SetFrameLevel(infoFrame:GetFrameLevel() + 3)
-	if i == 1 then
-		bu[i]:SetPoint("TOPLEFT", 12, -75)
-	else
-		bu[i]:SetPoint("LEFT", bu[i-1], "RIGHT", -2, 0)
+	local bu = {}
+	local width = {30, 35, 126, 126}
+	for i = 1, 4 do
+		bu[i] = CreateFrame("Button", nil, infoFrame)
+		bu[i]:SetSize(width[i], 22)
+		bu[i]:SetFrameLevel(infoFrame:GetFrameLevel() + 3)
+		if i == 1 then
+			bu[i]:SetPoint("TOPLEFT", 12, -75)
+		else
+			bu[i]:SetPoint("LEFT", bu[i-1], "RIGHT", -2, 0)
+		end
+		bu[i].HL = bu[i]:CreateTexture(nil, "HIGHLIGHT")
+		bu[i].HL:SetAllPoints(bu[i])
+		bu[i].HL:SetColorTexture(cr, cg, cb, .25)
 	end
-	bu[i].HL = bu[i]:CreateTexture(nil, "HIGHLIGHT")
-	bu[i].HL:SetAllPoints(bu[i])
-	bu[i].HL:SetColorTexture(cr, cg, cb, .25)
-end
-B.CreateFS(bu[1], 13, LEVEL_ABBR)
-B.CreateFS(bu[2], 13, CLASS_ABBR)
-B.CreateFS(bu[3], 13, NAME, false, "LEFT", 5, 0)
-B.CreateFS(bu[4], 13, ZONE, false, "RIGHT", -5, 0)
+	B.CreateFS(bu[1], 13, LEVEL_ABBR)
+	B.CreateFS(bu[2], 13, CLASS_ABBR)
+	B.CreateFS(bu[3], 13, NAME, false, "LEFT", 5, 0)
+	B.CreateFS(bu[4], 13, ZONE, false, "RIGHT", -5, 0)
 
 	for i = 1, 4 do
 		bu[i]:SetScript("OnClick", function()

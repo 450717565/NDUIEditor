@@ -49,9 +49,7 @@ function module:SkadaSkin()
 
 		if not window.bg then
 			local bg = B.CreateBG(window)
-			B.CreateBD(bg)
-			B.CreateSD(bg)
-			B.CreateTex(bg)
+			B.SetBackground(bg)
 			window.bg = bg
 
 			local open, close = module:CreateToggle(window)

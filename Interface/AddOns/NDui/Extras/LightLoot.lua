@@ -268,9 +268,7 @@ end
 LightLoot:RegisterEvent("LOOT_CLOSED")
 
 function LightLoot:PLAYER_LOGIN()
-	B.CreateBD(LightLoot)
-	B.CreateSD(LightLoot)
-	B.CreateTex(LightLoot)
+	B.SetBackground(LightLoot)
 end
 LightLoot:RegisterEvent("PLAYER_LOGIN")
 

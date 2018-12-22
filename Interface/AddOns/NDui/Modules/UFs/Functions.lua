@@ -367,9 +367,7 @@ local function reskinTimerBar(bar)
 	end
 
 	local bg = B.CreateBG(bar)
-	B.CreateBD(bg)
-	B.CreateSD(bg)
-	B.CreateTex(bg)
+	B.SetBackground(bg)
 end
 
 function UF:ReskinMirrorBars()

@@ -41,9 +41,7 @@ function module:BigWigsSkin()
 		bar:SetTexture(DB.normTex)
 
 		local bd = bar.candyBarBackdrop
-		B.CreateBD(bd)
-		B.CreateSD(bd)
-		B.CreateTex(bd)
+		B.SetBackground(bd)
 		bd:ClearAllPoints()
 		bd:SetPoint("TOPLEFT", bar, "TOPLEFT", -C.mult, C.mult)
 		bd:SetPoint("BOTTOMRIGHT", bar, "BOTTOMRIGHT", C.mult, -C.mult)
