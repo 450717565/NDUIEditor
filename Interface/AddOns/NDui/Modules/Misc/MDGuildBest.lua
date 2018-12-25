@@ -37,9 +37,9 @@ function module:GuildBest()
 			entry:SetPoint("LEFT", 10, 0)
 			entry:SetPoint("RIGHT", -10, 0)
 			entry:SetHeight(18)
-			entry.CharacterName = B.CreateFS(entry, 14, "", false, "LEFT", 6, 0)
-			entry.CharacterName:SetPoint("RIGHT", -30, 0)
-			entry.CharacterName:SetJustifyH("LEFT")
+			entry.Name = B.CreateFS(entry, 14, "", false, "LEFT", 6, 0)
+			entry.Name:SetPoint("RIGHT", -30, 0)
+			entry.Name:SetJustifyH("LEFT")
 			entry.Level = B.CreateFS(entry, 14, "", "system")
 			entry.Level:SetJustifyH("LEFT")
 			entry.Level:ClearAllPoints()
@@ -59,13 +59,12 @@ function module:GuildBest()
 
 	local function SetUpRecord(self, leaderInfo)
 		self.leaderInfo = leaderInfo
-		local str = CHALLENGE_MODE_GUILD_BEST_LINE
-		if leaderInfo.isYou then
-			str = CHALLENGE_MODE_GUILD_BEST_LINE_YOU
-		end
 
+		local str = "|c%s%s|r<%s>"
+		local mapName = C_ChallengeMode.GetMapUIInfo(leaderInfo.mapChallengeModeID)
 		local classColorStr = DB.ClassColors[leaderInfo.classFileName].colorStr
-		self.CharacterName:SetText(format(str, classColorStr, leaderInfo.name))
+
+		self.Name:SetText(format(str, classColorStr, leaderInfo.name, mapName))
 		self.Level:SetText(leaderInfo.keystoneLevel)
 	end
 

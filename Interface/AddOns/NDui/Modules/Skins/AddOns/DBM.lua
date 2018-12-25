@@ -31,7 +31,7 @@ function module:DBMSkin()
 					backdroptex:SetPoint("TOPLEFT", icon1.overlay, "TOPLEFT", C.mult, -C.mult)
 					backdroptex:SetPoint("BOTTOMRIGHT", icon1.overlay, "BOTTOMRIGHT", -C.mult, C.mult)
 					backdroptex:SetTexCoord(unpack(DB.TexCoord))
-					B.CreateSD(icon1.overlay)
+					B.CreateSD(icon1.overlay, C.mult, C.mult*2)
 				end
 
 				if not (icon2.overlay) then
@@ -44,7 +44,7 @@ function module:DBMSkin()
 					backdroptex:SetPoint("TOPLEFT", icon2.overlay, "TOPLEFT", C.mult, -C.mult)
 					backdroptex:SetPoint("BOTTOMRIGHT", icon2.overlay, "BOTTOMRIGHT", -C.mult, C.mult)
 					backdroptex:SetTexCoord(unpack(DB.TexCoord))
-					B.CreateSD(icon2.overlay)
+					B.CreateSD(icon2.overlay, C.mult, C.mult*2)
 				end
 
 				if bar.color then
@@ -153,7 +153,7 @@ function module:DBMSkin()
 
 	local function SkinRange()
 		if DBMRangeCheckRadar and not DBMRangeCheckRadar.styled then
-			local bg = B.CreateBG(DBMRangeCheckRadar, 1)
+			local bg = B.CreateBG(DBMRangeCheckRadar)
 			B.SetBackground(bg)
 
 			DBMRangeCheckRadar.styled = true
@@ -161,7 +161,7 @@ function module:DBMSkin()
 
 		if DBMRangeCheck and not DBMRangeCheck.styled then
 			DBMRangeCheck:SetBackdrop(nil)
-			local bg = B.CreateBG(DBMRangeCheck, 0)
+			local bg = B.CreateBG(DBMRangeCheck)
 			B.SetBackground(bg)
 			DBMRangeCheck.tipStyled = true
 
@@ -176,7 +176,7 @@ function module:DBMSkin()
 		DBMInfoFrame:HookScript("OnShow", function(self)
 			if not self.bg then
 				self:SetBackdrop(nil)
-				self.bg = B.CreateBG(self, 0)
+				self.bg = B.CreateBG(self)
 				B.SetBackground(self.bg)
 				DBMInfoFrame.tipStyled = true
 			end

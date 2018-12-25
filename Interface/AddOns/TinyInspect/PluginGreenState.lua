@@ -47,14 +47,6 @@ LibEvent:attachTrigger("INSPECT_FRAME_CREATED", function(this, frame, parent)
 	if not ShowPluginGreenState then return end
 	local i = 1
 	local itemframe
-	local backdrop = {
-		bgFile   = "Interface\\Tooltips\\UI-Tooltip-Background",
-		edgeFile = "Interface\\Buttons\\WHITE8X8",
-		tile     = true,
-		tileSize = 8,
-		edgeSize = 1,
-		insets   = {left = C.mult, right = C.mult, top = C.mult, bottom = C.mult}
-	}
 	while(frame["item"..i]) do
 		itemframe = frame["item"..i]
 		itemframe.label:SetBackdrop({})
@@ -65,9 +57,6 @@ LibEvent:attachTrigger("INSPECT_FRAME_CREATED", function(this, frame, parent)
 			itemframe[k] = CreateFrame("Frame", nil, itemframe)
 			itemframe[k]:SetSize(15, 15)
 			itemframe[k]:SetPoint("LEFT", (j-1)*17, 0)
-			itemframe[k]:SetBackdrop(backdrop)
-			itemframe[k]:SetBackdropBorderColor(v.r, v.g, v.b, 0.25)
-			itemframe[k]:SetBackdropColor(0, 0, 0, 0.5)
 			itemframe[k].text= B.CreateFS(itemframe[k], 12, "")
 			itemframe[k].text:SetText(strsubutf8(_G[k] or k,1,1))
 			itemframe[k].text:SetTextColor(v.r, v.g, v.b)

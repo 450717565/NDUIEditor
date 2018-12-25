@@ -18,5 +18,5 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinArrow(sideToggle.OpenButton, "right")
 	F.ReskinArrow(sideToggle.CloseButton, "left")
 
-	--F.ReskinNavBar(WorldMapFrame.NavBar)
+	F.ReskinNavBar(WorldMapFrame.NavBar)
 end)

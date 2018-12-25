@@ -60,7 +60,8 @@ local function SetupPixelFix()
 	local screenHeight = select(2, GetPhysicalScreenSize())
 	local scale = UIParent:GetScale()
 	scale = tonumber(floor(scale*100 + .5)/100)
-	C.mult = (768/screenHeight/scale)*2
+	C.mult = 768/screenHeight/scale
+	if screenHeight > 1080 then C.mult = C.mult*2 end
 end
 
 function F:dummy()
@@ -81,7 +82,7 @@ function F:CreateSD()
 	if not AuroraConfig.shadow then return end
 	if self.Shadow then return end
 
-	local Pmult, Smult = C.mult*1.5, C.mult*2.5
+	local Pmult, Smult = C.mult*1.5, C.mult*2
 
 	local lvl = self:GetFrameLevel()
 	self.Shadow = CreateFrame("Frame", nil, self)

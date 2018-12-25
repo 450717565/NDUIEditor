@@ -93,7 +93,7 @@ function B:CreateSD(m, s)
 	local frame = self
 	if self:GetObjectType() == "Texture" then frame = self:GetParent() end
 	local lvl = frame:GetFrameLevel()
-	if not m then m, s = C.mult*1.5, C.mult*2.5 end
+	if not m then m, s = C.mult*1.5, C.mult*2 end
 
 	self.Shadow = CreateFrame("Frame", nil, frame)
 	self.Shadow:SetPoint("TOPLEFT", self, -m, m)
@@ -221,19 +221,20 @@ end
 function B:CreateCB(a)
 	self:SetNormalTexture("")
 	self:SetPushedTexture("")
-	self:SetHighlightTexture(DB.bdTex)
-	local hl = self:GetHighlightTexture()
-	hl:SetPoint("TOPLEFT", 5, -5)
-	hl:SetPoint("BOTTOMRIGHT", -5, 5)
-	hl:SetVertexColor(cr, cg, cb, .25)
 
-	local bd = B.CreateBG(self, -4)
+	local bd = B.CreateBG(self, -(C.mult*3))
 	B.CreateBD(bd, a)
 	B.CreateSD(bd)
 
 	local ch = self:GetCheckedTexture()
 	ch:SetDesaturated(true)
 	ch:SetVertexColor(cr, cg, cb)
+
+	self:SetHighlightTexture(DB.bdTex)
+	local hl = self:GetHighlightTexture()
+	hl:SetPoint("TOPLEFT", bd, C.mult, -C.mult)
+	hl:SetPoint("BOTTOMRIGHT", bd, -C.mult, C.mult)
+	hl:SetVertexColor(cr, cg, cb, .25)
 end
 
 -- Movable Frame

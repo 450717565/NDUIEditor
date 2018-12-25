@@ -81,7 +81,7 @@ function module:PetBattleUI()
 		if index == 1 then
 			unit.ActualHealthBar:SetPoint("BOTTOMLEFT", unit.Icon, "BOTTOMRIGHT", 0, 0)
 			unit.healthBg:SetPoint("TOPLEFT", unit.ActualHealthBar, -C.mult, C.mult)
-			unit.healthBg:SetPoint("BOTTOMLEFT", unit.ActualHealthBar, -C.mult, -C.mult)
+			unit.healthBg:SetPoint("BOTTOMLEFT", unit.ActualHealthBar, C.mult, -C.mult)
 			unit.ActualHealthBar:SetGradient("VERTICAL", .26, 1, .22, .13, .5, .11)
 			unit.petIcon:SetPoint("BOTTOMLEFT", unit.ActualHealthBar, "TOPLEFT", 0, 4)
 			unit.Name:SetPoint("LEFT", unit.petIcon, "RIGHT", 5, 0)
@@ -92,8 +92,8 @@ function module:PetBattleUI()
 			end
 		else
 			unit.ActualHealthBar:SetPoint("BOTTOMRIGHT", unit.Icon, "BOTTOMLEFT", 0, 0)
-			unit.healthBg:SetPoint("TOPRIGHT", unit.ActualHealthBar, -C.mult, C.mult)
-			unit.healthBg:SetPoint("BOTTOMRIGHT", unit.ActualHealthBar, C.mult, -C.mult)
+			unit.healthBg:SetPoint("TOPRIGHT", unit.ActualHealthBar, C.mult, C.mult)
+			unit.healthBg:SetPoint("BOTTOMRIGHT", unit.ActualHealthBar, -C.mult, -C.mult)
 			unit.ActualHealthBar:SetGradient("VERTICAL", 1, .12, .24, .5, .06, .12)
 			unit.petIcon:SetPoint("BOTTOMRIGHT", unit.ActualHealthBar, "TOPRIGHT", 0, 4)
 			unit.Name:SetPoint("RIGHT", unit.petIcon, "LEFT", -5, 0)
@@ -106,7 +106,7 @@ function module:PetBattleUI()
 	end
 
 	-- Pending Pets
-	local buddy = {frame.Ally2,	frame.Ally3, frame.Enemy2, frame.Enemy3}
+	local buddy = {frame.Ally2, frame.Ally3, frame.Enemy2, frame.Enemy3}
 	for index, unit in pairs(buddy) do
 		unit:ClearAllPoints()
 		unit.HealthBarBG:SetAlpha(0)
@@ -219,7 +219,7 @@ function module:PetBattleUI()
 
 	-- Reskin Petbar
 	local bar = CreateFrame("Frame", "NDuiPetBattleBar", UIParent, "SecureHandlerStateTemplate")
-	bar:SetPoint("BOTTOM", 0, 28)
+	bar:SetPoint("BOTTOM", 0, 27)
 	bar:SetSize(310, 40)
 	local visibleState = "[petbattle] show; hide"
 	RegisterStateDriver(bar, "visibility", visibleState)
@@ -234,7 +234,7 @@ function module:PetBattleUI()
 			bu:SetSize(40, 40)
 			bu:ClearAllPoints()
 			if i == 1 then
-				bu:SetPoint("LEFT", bar)
+				bu:SetPoint("LEFT", bar, 5, 2)
 			else
 				bu:SetPoint("LEFT", buttonList[i-1], "RIGHT", 5, 0)
 			end
@@ -282,7 +282,7 @@ function module:PetBattleUI()
 	turnTimer:SetSize(xpbar:GetWidth()+2, xpbar:GetHeight()+10)
 	turnTimer:ClearAllPoints()
 	turnTimer:SetPoint("BOTTOM", bar, "TOP", 0, 7)
-	turnTimer.bg = B.CreateBG(turnTimer, 0)
+	turnTimer.bg = B.CreateBG(turnTimer)
 	B.SetBackground(turnTimer.bg)
 	turnTimer.Bar:ClearAllPoints()
 	turnTimer.Bar:SetPoint("LEFT", 2, 0)
@@ -332,12 +332,12 @@ function module:PetBattleUI()
 
 		-- Petbar Background
 		local lineLeft = CreateFrame("Frame", nil, UIParent)
-		lineLeft:SetPoint("BOTTOMRIGHT", bar, "TOP", 0, 2)
+		lineLeft:SetPoint("BOTTOMRIGHT", bar, "TOP", 0, 4)
 		B.CreateGF(lineLeft, 260, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
 		RegisterStateDriver(lineLeft, "visibility", visibleState)
 
 		local lineRight = CreateFrame("Frame", nil, UIParent)
-		lineRight:SetPoint("BOTTOMLEFT", bar, "TOP", 0, 2)
+		lineRight:SetPoint("BOTTOMLEFT", bar, "TOP", 0, 4)
 		B.CreateGF(lineRight, 260, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
 		RegisterStateDriver(lineRight, "visibility", visibleState)
 	end

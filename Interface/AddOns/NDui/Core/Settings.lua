@@ -66,7 +66,8 @@ local function SetupUIScale()
 		scale = max(minScale, min(1.1, fixedHeight))
 	end
 	scale = tonumber(floor(scale*100 + .5)/100)
-	C.mult = (fixedHeight/scale)*2
+	C.mult = fixedHeight/scale
+	if DB.ScreenHeight > 1080 then C.mult = C.mult*2 end
 
 	SetCVar("useUiScale", 1)
 	if scale < .64 then

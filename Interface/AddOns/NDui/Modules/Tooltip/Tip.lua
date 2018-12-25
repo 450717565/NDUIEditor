@@ -262,7 +262,7 @@ hooksecurefunc("GameTooltip_ShowStatusBar", function(self)
 			local _, bd, tex = bar:GetRegions()
 			tex:SetTexture(DB.normTex)
 			bd:Hide()
-			local bg = B.CreateBG(bd, 0)
+			local bg = B.CreateBG(bd)
 			B.CreateBD(bg, .25)
 			B.CreateSD(bg)
 
@@ -308,7 +308,7 @@ local function style(self)
 
 	if not self.tipStyled then
 		self:SetBackdrop(nil)
-		local bg = B.CreateBG(self, 0)
+		local bg = B.CreateBG(self)
 		bg:SetFrameLevel(self:GetFrameLevel())
 		B.SetBackground(bg)
 		self.bg = bg

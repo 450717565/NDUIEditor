@@ -220,6 +220,7 @@ local defaultSettings = {
 		ExplosiveCount = true,
 		ExplosiveCache = {},
 		PlacedItemAlert = true,
+		RareAlertInWild = false,
 	},
 	Tutorial = {
 		Complete = false,
@@ -462,7 +463,8 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Misc", "PlacedItemAlert", L["Placed Item Alert"].."*", true},
 		{},--blank
 		{1, "Misc", "RareAlerter", DB.MyColor..L["Rare Alert"]},
-		{1, "Misc", "AlertinChat", L["Alert In Chat"].."*", true},
+		{1, "Misc", "AlertinChat", L["Alert In Chat"].."*"},
+		{1, "Misc", "RareAlertInWild", L["RareAlertInWild"].."*", true},
 	},
 	[8] = {
 		{1, "Chat", "Lock", DB.MyColor..L["Lock Chat"]},
@@ -901,21 +903,6 @@ function setupRaidDebuffs()
 	options[3] = module:CreateEditbox(frame, "ID*", 10, -90, L["ID Intro"])
 	options[4] = module:CreateEditbox(frame, L["Priority"], 120, -90, L["Priority Intro"])
 
-	raidDebuffsGUI:HookScript("OnShow", function()
-		local instName, instType = GetInstanceInfo()
-		if instType == "none" then return end
-		for i = 1, 2 do
-			local option = options[i]
-			for j = 1, #option.options do
-				local name = option.options[j].text
-				if instName == name then
-					iType.options[i]:Click()
-					options[i].options[j]:Click()
-				end
-			end
-		end
-	end)
-
 	local function analyzePrio(priority)
 		priority = priority or 2
 		priority = min(priority, 6)
@@ -1047,6 +1034,23 @@ function setupRaidDebuffs()
 		end
 	end
 	updateBars("")
+
+	local function autoSelectInstance()
+		local instName, instType = GetInstanceInfo()
+		if instType == "none" then return end
+		for i = 1, 2 do
+			local option = options[i]
+			for j = 1, #option.options do
+				local name = option.options[j].text
+				if instName == name then
+					iType.options[i]:Click()
+					options[i].options[j]:Click()
+				end
+			end
+		end
+	end
+	autoSelectInstance()
+	raidDebuffsGUI:HookScript("OnShow", autoSelectInstance)
 end
 
 function setupClickCast()

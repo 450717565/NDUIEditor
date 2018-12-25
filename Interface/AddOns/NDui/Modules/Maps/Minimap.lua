@@ -8,8 +8,8 @@ local pairs, ipairs = pairs, ipairs
 function module:CreatePulse()
 	if not NDuiDB["Map"]["CombatPulse"] then return end
 
-	local MBG = B.CreateBG(Minimap, 1)
-	B.CreateSD(MBG)
+	local MBG = B.CreateBG(Minimap)
+	B.CreateSD(MBG, C.mult, C.mult*2)
 	local anim = MBG:CreateAnimationGroup()
 	anim:SetLooping("BOUNCE")
 	anim.fader = anim:CreateAnimation("Alpha")
