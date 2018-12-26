@@ -7,65 +7,49 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	BackpackTokenFrame:GetRegions():Hide()
 
-	local function onEnter(self)
-		self.bg:SetBackdropBorderColor(r, g, b)
-	end
-
-	local function onLeave(self)
-		self.bg:SetBackdropBorderColor(0, 0, 0)
-	end
-
 	for i = 1, 12 do
-		local con = _G["ContainerFrame"..i]
+		local frame = _G["ContainerFrame"..i]
+		frame.PortraitButton.Highlight:SetTexture("")
+
+		F.StripTextures(frame, true)
+		F.SetBD(frame, 8, -4, -3, 0)
+		F.ReskinClose(_G["ContainerFrame"..i.."CloseButton"], "TOPRIGHT", frame, "TOPRIGHT", -6, -7)
+
 		local name = _G["ContainerFrame"..i.."Name"]
-
-		F.StripTextures(con, true)
-		F.SetBD(con, 8, -4, -3, 0)
-		F.ReskinClose(_G["ContainerFrame"..i.."CloseButton"], "TOPRIGHT", con, "TOPRIGHT", -6, -7)
-
-		con.PortraitButton.Highlight:SetTexture("")
 		name:ClearAllPoints()
 		name:SetPoint("TOP", 0, -10)
 
 		for k = 1, MAX_CONTAINER_ITEMS do
 			local item = "ContainerFrame"..i.."Item"..k
-			local button = _G[item]
-			local border = button.IconBorder
-			local searchOverlay = button.searchOverlay
-			local questTexture = _G[item.."IconQuestTexture"]
-			local newItemTexture = button.NewItemTexture
 
+			local questTexture = _G[item.."IconQuestTexture"]
 			questTexture:SetDrawLayer("BACKGROUND")
 			questTexture:SetSize(1, 1)
 
+			local button = _G[item]
 			button:SetNormalTexture("")
 			button:SetPushedTexture("")
-			button:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 
-			button.icon:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(button, .25)
+			local ic = F.ReskinIcon(button.icon, true)
+			F.ReskinTexture(button, false, ic)
 
-			-- easiest way to 'hide' it without breaking stuff
+			local newItemTexture = button.NewItemTexture
 			newItemTexture:SetDrawLayer("BACKGROUND")
 			newItemTexture:SetSize(1, 1)
 
-			border:SetPoint("TOPLEFT", -C.mult, C.mult)
-			border:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
-			border:SetDrawLayer("BACKGROUND", 1)
+			local border = button.IconBorder
+			F.ReskinTexture(border, false, button, true)
 
+			local searchOverlay = button.searchOverlay
 			searchOverlay:SetPoint("TOPLEFT", -C.mult, C.mult)
 			searchOverlay:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
-
-			button:HookScript("OnEnter", onEnter)
-			button:HookScript("OnLeave", onLeave)
 		end
 	end
 
 	for i = 1, 3 do
 		local ic = _G["BackpackTokenFrameToken"..i.."Icon"]
 		ic:SetDrawLayer("OVERLAY")
-		ic:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(ic, .25)
+		F.ReskinIcon(ic, .25)
 	end
 
 	F.ReskinInput(BagItemSearchBox)

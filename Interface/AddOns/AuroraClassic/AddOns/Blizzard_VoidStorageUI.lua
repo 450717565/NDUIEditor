@@ -25,11 +25,7 @@ C.themes["Blizzard_VoidStorageUI"] = function()
 			F.ReskinTexture(bu, false, ic)
 
 			local border = bu.IconBorder
-			border:SetTexture(C.media.backdrop)
-			border.SetTexture = F.dummy
-			border:SetPoint("TOPLEFT", -C.mult, C.mult)
-			border:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
-			border:SetDrawLayer("BACKGROUND")
+			F.ReskinTexture(border, false, bu, true)
 		end
 	end
 
@@ -41,11 +37,7 @@ C.themes["Blizzard_VoidStorageUI"] = function()
 		F.ReskinTexture(bu, false, ic)
 
 		local border = bu.IconBorder
-		border:SetTexture(C.media.backdrop)
-		border.SetTexture = F.dummy
-		border:SetPoint("TOPLEFT", -C.mult, C.mult)
-		border:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
-		border:SetDrawLayer("BACKGROUND")
+		F.ReskinTexture(border, false, bu, true)
 
 		local searchOverlay = bu.searchOverlay
 		searchOverlay:SetPoint("TOPLEFT", -C.mult, C.mult)

@@ -30,7 +30,6 @@ C.themes["Blizzard_TalentUI"] = function()
 		F.StripTextures(frame, true)
 
 		select(7, frame:GetChildren()):DisableDrawLayer("OVERLAY")
-
 		scrollChild.ring:Hide()
 		scrollChild.Seperator:Hide()
 		for i = 1, 5 do
@@ -112,6 +111,9 @@ C.themes["Blizzard_TalentUI"] = function()
 			ic:SetPoint("LEFT", bu, "LEFT")
 			ic:SetDrawLayer("OVERLAY")
 			F.ReskinIcon(ic, true)
+
+			local bg = F.CreateBG(bu.specIcon)
+			bg:SetDrawLayer("ARTWORK")
 		end
 	end
 

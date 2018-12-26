@@ -4,7 +4,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	local r, g, b = C.r, C.g, C.b
 
 	-- [[ Item reward highlight ]]
-
+--[[
 	QuestInfoItemHighlight:GetRegions():Hide()
 
 	local function clearHighlight()
@@ -25,7 +25,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	hooksecurefunc(QuestInfoItemHighlight, "SetPoint", setHighlight)
 	QuestInfoItemHighlight:HookScript("OnShow", setHighlight)
 	QuestInfoItemHighlight:HookScript("OnHide", clearHighlight)
-
+]]
 	-- [[ Shared ]]
 
 	local function restyleSpellButton(bu)
@@ -84,13 +84,18 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		bu.Icon:SetDrawLayer("ARTWORK", 1)
 		local ic = F.ReskinIcon(bu.Icon, true)
+
+		local bg = F.CreateBDFrame(bu, .25)
+		bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
+		bg:SetPoint("BOTTOMRIGHT", bu, -3, 0)
+
 		if bu.IconBorder then
 			bu.IconBorder:SetAlpha(0)
 		end
 
-		local bg = F.CreateBDFrame(bu, .25)
-		bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, -1)
-		bg:SetPoint("BOTTOMRIGHT", bu, -3, 0)
+		if isMapQuestInfo then
+			bu.Icon:SetSize(29, 29)
+		end
 
 		bu.bg = bg
 	end
@@ -121,14 +126,16 @@ tinsert(C.themes["AuroraClassic"], function()
 		local spellRewardFrame = rewardFrame.spellRewardPool:Acquire()
 
 		local icon = spellRewardFrame.Icon
-		F.ReskinIcon(icon, true)
+		icon:SetSize(29, 29)
 
 		local nameFrame = spellRewardFrame.NameFrame
 		nameFrame:Hide()
 
+		local ic = F.ReskinIcon(icon, true)
+
 		local bg = F.CreateBDFrame(nameFrame, .25)
-		bg:SetPoint("TOPLEFT", icon, "TOPRIGHT", 0, 2)
-		bg:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", 101, -1)
+		bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
+		bg:SetPoint("BOTTOMRIGHT", nameFrame, -1, -1)
 	end
 
 	-- Title Reward
@@ -138,12 +145,11 @@ tinsert(C.themes["AuroraClassic"], function()
 			select(i, frame:GetRegions()):Hide()
 		end
 
-		local icon = frame.Icon
-		F.ReskinIcon(icon, true)
+		local ic = F.ReskinIcon(frame.Icon, true)
 
 		local bg = F.CreateBDFrame(frame, .25)
-		bg:SetPoint("TOPLEFT", icon, "TOPRIGHT", 0, 2)
-		bg:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", 220, -1)
+		bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
+		bg:SetPoint("BOTTOMRIGHT", frame, -1, -1)
 	end
 
 	-- Follower Rewards

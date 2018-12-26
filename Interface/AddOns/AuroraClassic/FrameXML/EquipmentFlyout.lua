@@ -12,20 +12,14 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	hooksecurefunc("EquipmentFlyout_CreateButton", function()
 		local bu = EquipmentFlyoutFrame.buttons[#EquipmentFlyoutFrame.buttons]
-		local border = bu.IconBorder
-
 		bu:SetNormalTexture("")
 		bu:SetPushedTexture("")
-		bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-		F.CreateBDFrame(bu)
 
-		border:SetTexture(C.media.backdrop)
-		border.SetTexture = F.dummy
-		border:SetPoint("TOPLEFT", -C.mult, C.mult)
-		border:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
-		border:SetDrawLayer("BACKGROUND", 1)
+		local ic = F.ReskinIcon(bu.icon, true)
+		F.ReskinTexture(bu, false, ic)
 
-		bu.icon:SetTexCoord(.08, .92, .08, .92)
+		local border = bu.IconBorder
+		F.ReskinTexture(border, false, bu, true)
 	end)
 
 	hooksecurefunc("EquipmentFlyout_DisplayButton", function(button)

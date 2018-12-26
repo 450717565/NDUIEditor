@@ -27,9 +27,7 @@ C.themes["Blizzard_InspectUI"] = function()
 		F.ReskinTexture(slot, false, ic)
 
 		local border = slot.IconBorder
-		border:SetPoint("TOPLEFT", -C.mult, C.mult)
-		border:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
-		border:SetDrawLayer("BACKGROUND")
+		F.ReskinTexture(border, false, slot, true)
 	end
 
 	hooksecurefunc("InspectPaperDollItemSlotButton_Update", function(button)

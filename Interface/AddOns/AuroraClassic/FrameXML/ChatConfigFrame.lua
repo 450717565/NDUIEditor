@@ -7,68 +7,72 @@ tinsert(C.themes["AuroraClassic"], function()
 	ChatConfigFrameHeader:SetPoint("TOP")
 
 	hooksecurefunc("ChatConfig_CreateCheckboxes", function(frame, checkBoxTable)
-		if frame.styled then return end
+		if not frame.styled then
+			F.StripTextures(frame, true)
 
-		frame:SetBackdrop(nil)
-		for index in ipairs(checkBoxTable) do
-			local checkBoxName = frame:GetName().."CheckBox"..index
-			local checkbox = _G[checkBoxName]
+			for index in ipairs(checkBoxTable) do
+				local checkBoxName = frame:GetName().."CheckBox"..index
+				local checkbox = _G[checkBoxName]
 
-			checkbox:SetBackdrop(nil)
-			local bg = F.CreateBDFrame(checkbox, .25)
-			bg:SetPoint("TOPLEFT", 0, -.5)
-			bg:SetPoint("BOTTOMRIGHT", 0, .5)
+				F.StripTextures(checkbox, true)
 
-			local swatch = _G[checkBoxName.."ColorSwatch"]
-			if swatch then
-				F.ReskinColourSwatch(_G[checkBoxName.."ColorSwatch"])
+				local bg = F.CreateBDFrame(checkbox, .25)
+				bg:SetPoint("TOPLEFT", C.mult, -C.mult)
+				bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
+
+				local swatch = _G[checkBoxName.."ColorSwatch"]
+				if swatch then
+					F.ReskinColourSwatch(_G[checkBoxName.."ColorSwatch"])
+				end
+
+				F.ReskinCheck(_G[checkBoxName.."Check"])
 			end
-			F.ReskinCheck(_G[checkBoxName.."Check"])
-		end
 
-		frame.styled = true
+			frame.styled = true
+		end
 	end)
 
 	hooksecurefunc("ChatConfig_CreateTieredCheckboxes", function(frame, checkBoxTable)
-		if frame.styled then return end
+		if not frame.styled then
+			for index, value in ipairs(checkBoxTable) do
+				local checkBoxName = frame:GetName().."CheckBox"..index
+				F.ReskinCheck(_G[checkBoxName])
 
-		for index, value in ipairs(checkBoxTable) do
-			local checkBoxName = frame:GetName().."CheckBox"..index
-			F.ReskinCheck(_G[checkBoxName])
-
-			if value.subTypes then
-				for k in ipairs(value.subTypes) do
-					F.ReskinCheck(_G[checkBoxName.."_"..k])
+				if value.subTypes then
+					for k in ipairs(value.subTypes) do
+						F.ReskinCheck(_G[checkBoxName.."_"..k])
+					end
 				end
 			end
-		end
 
-		frame.styled = true
+			frame.styled = true
+		end
 	end)
 
 	hooksecurefunc("ChatConfig_CreateColorSwatches", function(frame, swatchTable)
-		if frame.styled then return end
+		if not frame.styled then
+			F.StripTextures(frame, true)
 
-		frame:SetBackdrop(nil)
-		for index in ipairs(swatchTable) do
-			local swatchName = frame:GetName().."Swatch"..index
-			local swatch = _G[swatchName]
+			for index in ipairs(swatchTable) do
+				local swatchName = frame:GetName().."Swatch"..index
+				local swatch = _G[swatchName]
 
-			swatch:SetBackdrop(nil)
-			local bg = F.CreateBDFrame(swatch, .25)
-			bg:SetPoint("TOPLEFT", 0, -.5)
-			bg:SetPoint("BOTTOMRIGHT", 0, .5)
+				F.StripTextures(swatch, true)
+				local bg = F.CreateBDFrame(swatch, .25)
+				bg:SetPoint("TOPLEFT", C.mult, -C.mult)
+				bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 
-			F.ReskinColourSwatch(_G[swatchName.."ColorSwatch"])
+				F.ReskinColourSwatch(_G[swatchName.."ColorSwatch"])
+			end
+
+			frame.styled = true
 		end
-
-		frame.styled = true
 	end)
 
 	hooksecurefunc(ChatConfigFrameChatTabManager, "UpdateWidth", function(self)
 		for tab in self.tabPool:EnumerateActive() do
 			if not tab.styled then
-				F.StripTextures(tab)
+				F.StripTextures(tab, true)
 
 				tab.styled = true
 			end

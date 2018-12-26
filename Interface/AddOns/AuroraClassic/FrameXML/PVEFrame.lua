@@ -8,8 +8,8 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.StripTextures(PVEFrame.shadows, true)
 
 	GroupFinderFrameGroupButton1.icon:SetTexture("Interface\\Icons\\INV_Helmet_08")
-	GroupFinderFrameGroupButton2.icon:SetTexture("Interface\\Icons\\Icon_Scenarios")
-	GroupFinderFrameGroupButton3.icon:SetTexture("Interface\\Icons\\inv_helmet_06")
+	GroupFinderFrameGroupButton3.icon:SetTexture("Interface\\Icons\\INV_Helmet_06")
+	GroupFinderFrameGroupButton4.icon:SetTexture("Interface\\Icons\\INV_Misc_GroupNeedMore")
 
 	for i = 1, 3 do
 		local tab = _G["PVEFrameTab"..i]
@@ -30,6 +30,9 @@ tinsert(C.themes["AuroraClassic"], function()
 		icon:SetPoint("LEFT", bu, "LEFT")
 		icon:SetDrawLayer("OVERLAY")
 		F.ReskinIcon(icon, true)
+		
+		local bg = F.CreateBG(bu.icon)
+		bg:SetDrawLayer("ARTWORK")
 	end
 
 	hooksecurefunc("GroupFinderFrame_SelectGroupButton", function(index)

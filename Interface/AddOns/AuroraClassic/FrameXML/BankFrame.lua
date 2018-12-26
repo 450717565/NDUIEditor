@@ -16,40 +16,26 @@ tinsert(C.themes["AuroraClassic"], function()
 	BankFrameMoneyFrameInset:Hide()
 	BankFrameMoneyFrameBorder:Hide()
 
-	local function onEnter(self)
-		self.bg:SetBackdropBorderColor(r, g, b)
-	end
-
-	local function onLeave(self)
-		self.bg:SetBackdropBorderColor(0, 0, 0)
-	end
-
 	local function styleBankButton(bu)
-		local border = bu.IconBorder
-		local questTexture = bu.IconQuestTexture
-		local searchOverlay = bu.searchOverlay
-
-		questTexture:SetDrawLayer("BACKGROUND")
-		questTexture:SetSize(1, 1)
-
-		border:SetTexture(C.media.backdrop)
-		border.SetTexture = F.dummy
-		border:SetPoint("TOPLEFT", -C.mult, C.mult)
-		border:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
-		border:SetDrawLayer("BACKGROUND", 1)
-
-		searchOverlay:SetPoint("TOPLEFT", -C.mult, C.mult)
-		searchOverlay:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
-
 		bu:SetNormalTexture("")
 		bu:SetPushedTexture("")
-		bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 
-		bu.icon:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(bu, .25)
+		local ic = F.ReskinIcon(bu.icon, true)
+		F.ReskinTexture(bu, false, ic)
 
-		bu:HookScript("OnEnter", onEnter)
-		bu:HookScript("OnLeave", onLeave)
+		local questTexture = bu.IconQuestTexture
+
+		if questTexture then
+			questTexture:SetDrawLayer("BACKGROUND")
+			questTexture:SetSize(1, 1)
+		end
+
+		local border = bu.IconBorder
+		F.ReskinTexture(border, false, bu, true)
+
+		local searchOverlay = bu.searchOverlay
+		searchOverlay:SetPoint("TOPLEFT", -C.mult, C.mult)
+		searchOverlay:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
 	end
 
 	for i = 1, 28 do
@@ -57,32 +43,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	end
 
 	for i = 1, 7 do
-		local bag = BankSlotsFrame["Bag"..i]
-		local _, highlightFrame = bag:GetChildren()
-		local border = bag.IconBorder
-		local searchOverlay = bag.searchOverlay
-
-		bag:SetNormalTexture("")
-		bag:SetPushedTexture("")
-		bag:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-
-		highlightFrame:GetRegions():SetTexture(C.media.checked)
-
-		border:SetTexture(C.media.backdrop)
-		border.SetTexture = F.dummy
-		border:SetPoint("TOPLEFT", -C.mult, C.mult)
-		border:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
-		border:SetDrawLayer("BACKGROUND", 1)
-
-		searchOverlay:SetPoint("TOPLEFT", -C.mult, C.mult)
-		searchOverlay:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
-
-		bag.icon:SetTexCoord(.08, .92, .08, .92)
-
-		F.CreateBDFrame(bag, .25)
-
-		bag:HookScript("OnEnter", onEnter)
-		bag:HookScript("OnLeave", onLeave)
+		styleBankButton(BankSlotsFrame["Bag"..i])
 	end
 
 	BankItemAutoSortButton:GetNormalTexture():SetTexCoord(.17, .83, .17, .83)

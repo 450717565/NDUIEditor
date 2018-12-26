@@ -30,9 +30,8 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.CreateGradient(whoBg)
 
 	local header = FriendsFrameFriendsScrollFrame.PendingInvitesHeaderButton
-	for i = 1, 11 do
-		select(i, header:GetRegions()):Hide()
-	end
+	F.StripTextures(header, true)
+
 	local headerBg = F.CreateBDFrame(header, .25)
 	headerBg:SetPoint("TOPLEFT", 2, -2)
 	headerBg:SetPoint("BOTTOMRIGHT", -2, 2)
@@ -43,15 +42,12 @@ tinsert(C.themes["AuroraClassic"], function()
 	end
 
 	for i = 1, 3 do
+		F.ReskinTab(_G["FriendsFrameTab"..i])
 		F.StripTextures(_G["FriendsTabHeaderTab"..i], true)
 	end
 
 	for i = 1, 4 do
 		F.StripTextures(_G["WhoFrameColumnHeader"..i], true)
-	end
-
-	for i = 1, 3 do
-		F.ReskinTab(_G["FriendsFrameTab"..i])
 	end
 
 	for i = 1, FRIENDS_TO_DISPLAY do
@@ -83,8 +79,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	for _, button in pairs({FriendsTabHeaderSoRButton, FriendsTabHeaderRecruitAFriendButton}) do
 		button:SetPushedTexture("")
-		button:GetRegions():SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(button, .25)
+		F.ReskinIcon(button:GetRegions(), true)
 	end
 
 	local function UpdateScroll()

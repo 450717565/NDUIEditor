@@ -277,7 +277,7 @@ function F:ReskinScroll()
 end
 
 function F:ReskinDropDown()
-	F.StripTextures(self, true)
+	F.StripTextures(self)
 	F.CleanTextures(self, true)
 
 	local name = self:GetName()
@@ -809,16 +809,14 @@ function F:CleanTextures(noIcon)
 	end
 end
 
-function F:ReskinTexture(classColor, relativeTo, isReverse)
+function F:ReskinTexture(classColor, relativeTo, isBorder)
 	if not self then return end
 
-	local r, g, b, a = 1, 1, 1, .25
-	if classColor then r, g, b, a = cr, cg, cb, .25 end
+	local r, g, b = 1, 1, 1
+	if classColor then r, g, b = cr, cg, cb end
 
 	local mult = C.mult
-	if isReverse then mult, a = -C.mult, 1 end
-
-	local parentFrame = self:GetParent()
+	if isBorder then mult = -C.mult end
 
 	local tex
 	if self.SetHighlightTexture then
@@ -827,11 +825,18 @@ function F:ReskinTexture(classColor, relativeTo, isReverse)
 	else
 		tex = self
 		tex:SetTexture(C.media.backdrop)
+		if isBorder then
+			tex.SetTexture = F.dummy
+			tex:SetDrawLayer("BACKGROUND")
+		end
 	end
 
-	tex:SetColorTexture(r, g, b, a)
-	tex:SetPoint("TOPLEFT", relativeTo or parentFrame, mult, -mult)
-	tex:SetPoint("BOTTOMRIGHT", relativeTo or parentFrame, -mult, mult)
+	if not isBorder then
+		tex:SetColorTexture(r, g, b, .25)
+	end
+
+	tex:SetPoint("TOPLEFT", relativeTo, mult, -mult)
+	tex:SetPoint("BOTTOMRIGHT", relativeTo, -mult, mult)
 end
 
 function F:ReskinStatusBar(classColor, stripTex)

@@ -216,8 +216,8 @@ local list = {
 	},
 	["Raid Debuff"] = { -- 团队减益组
 	-->史诗钥石
-		{AuraID = 268007, UnitID = "player"},--心脏打击
-		{AuraID = 266238, UnitID = "player"},--粉碎防御
+		{AuraID = 268007, UnitID = "player", Flash = true},--心脏打击
+		{AuraID = 266238, UnitID = "player", Flash = true},--粉碎防御
 		--默认
 		{AuraID = 209858, UnitID = "player"},	-- 死疽溃烂
 		{AuraID = 240559, UnitID = "player"},	-- 重伤
@@ -233,6 +233,7 @@ local list = {
 		{AuraID = 273563, UnitID = "player"},	-- 神经毒素，神庙
 		{AuraID = 257407, UnitID = "player"},	-- 追踪，阿塔达萨
 		{AuraID = 250585, UnitID = "player", Flash = true},	-- 剧毒之池，阿塔达萨
+		{AuraID = 258723, UnitID = "player", Flash = true},	-- 怪诞之池，阿塔达萨
 		{AuraID = 258058, UnitID = "player"},	-- 挤压，托尔达戈
 		{AuraID = 260067, UnitID = "player"},	-- 恶毒槌击，托尔达戈
 		{AuraID = 273226, UnitID = "player"},	-- 腐烂孢子，孢林

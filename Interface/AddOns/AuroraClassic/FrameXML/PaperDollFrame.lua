@@ -56,9 +56,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		slot.SetHighlightTexture = F.dummy
 
 		local border = slot.IconBorder
-		border:SetPoint("TOPLEFT", -C.mult, C.mult)
-		border:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
-		border:SetDrawLayer("BACKGROUND")
+		F.ReskinTexture(border, false, slot, true)
 
 		local popout = slot.popoutButton
 		popout:SetNormalTexture("")

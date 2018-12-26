@@ -1,4 +1,4 @@
-local MESSAGE = 'Spam <SpaceBar> to complete!'
+local MESSAGE = '狂按 <空格键> 完成任务！'
 local BUTTON = 'OverrideActionBarButton%d'
 
 local quests = {

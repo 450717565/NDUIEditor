@@ -203,11 +203,13 @@ C.themes["Blizzard_GuildUI"] = function()
 	end
 
 	for i = 1, 5 do
+		local bu = _G["GuildRosterColumnButton"..i]
+
 		local md = _G["GuildRosterColumnButton"..i.."Middle"]
 		md:Hide()
 
 		local hl = _G["GuildRosterColumnButton"..i.."HighlightTexture"]
-		F.ReskinTexture(hl, true)
+		F.ReskinTexture(hl, true, bu)
 	end
 
 	-- Tradeskill View

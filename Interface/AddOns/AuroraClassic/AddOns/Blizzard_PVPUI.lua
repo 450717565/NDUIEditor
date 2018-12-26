@@ -21,6 +21,9 @@ C.themes["Blizzard_PVPUI"] = function()
 		icon:SetPoint("LEFT", bu, "LEFT")
 		icon:SetDrawLayer("OVERLAY")
 		F.ReskinIcon(icon, true)
+		
+		local bg = F.CreateBG(bu.Icon)
+		bg:SetDrawLayer("ARTWORK")
 	end
 
 	PVPQueueFrame.CategoryButton1.Icon:SetTexture("Interface\\Icons\\achievement_bg_winwsg")

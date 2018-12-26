@@ -14,7 +14,7 @@ C.themes["Blizzard_Calendar"] = function()
 		_G["CalendarDayButton"..i.."DarkFrame"]:SetAlpha(.5)
 		local bu = _G["CalendarDayButton"..i]
 		F.StripTextures(bu)
-		F.ReskinTexture(bu, true)
+		F.ReskinTexture(bu, true, bu)
 
 		local hl = bu:GetHighlightTexture()
 		hl.SetAlpha = F.dummy

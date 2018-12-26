@@ -2,11 +2,9 @@ local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
 	-- Battlenet toast frame
-	F.CreateBD(BNToastFrame)
-	F.CreateSD(BNToastFrame)
+	F.ReskinPortraitFrame(BNToastFrame, true)
 	F.CreateBD(BNToastFrame.TooltipFrame)
 	F.CreateSD(BNToastFrame.TooltipFrame)
-	F.ReskinClose(BNToastFrame.CloseButton)
 
 	-- Battletag invite frame
 	F.CreateBD(BattleTagInviteFrame)

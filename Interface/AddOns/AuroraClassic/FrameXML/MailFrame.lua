@@ -77,9 +77,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.ReskinTexture(bu, false, bg)
 
 		local border = bu.IconBorder
-		border:SetPoint("TOPLEFT", -C.mult, C.mult)
-		border:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
-		border:SetDrawLayer("BACKGROUND")
+		F.ReskinTexture(border, false, bu, true)
 	end
 
 	hooksecurefunc("SendMailFrame_Update", function()
@@ -102,11 +100,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.ReskinTexture(bu, false, bg)
 
 		local border = bu.IconBorder
-		border:SetTexture(C.media.backdrop)
-		border.SetTexture = F.dummy
-		border:SetPoint("TOPLEFT", -C.mult, C.mult)
-		border:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
-		border:SetDrawLayer("BACKGROUND")
+		F.ReskinTexture(border, false, bu, true)
 	end
 
 	hooksecurefunc("SendMailFrame_Update", function()
