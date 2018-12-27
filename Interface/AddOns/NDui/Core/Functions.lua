@@ -222,7 +222,7 @@ function B:CreateCB(a)
 	self:SetNormalTexture("")
 	self:SetPushedTexture("")
 
-	local bd = B.CreateBG(self, -(C.mult*3))
+	local bd = B.CreateBG(self, -4)
 	B.CreateBD(bd, a)
 	B.CreateSD(bd)
 
@@ -693,10 +693,10 @@ function B:CreateColorSwatch()
 	local swatch = CreateFrame("Button", nil, self)
 	swatch:SetSize(18, 18)
 	B.CreateBD(swatch, 1)
-	local mult = C.mult*1.5
+
 	local tex = swatch:CreateTexture()
-	tex:SetPoint("TOPLEFT", mult, -mult)
-	tex:SetPoint("BOTTOMRIGHT", -mult, mult)
+	tex:SetPoint("TOPLEFT", C.mult, -C.mult)
+	tex:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 	tex:SetTexture(DB.bdTex)
 	swatch.tex = tex
 

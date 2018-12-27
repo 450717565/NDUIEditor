@@ -17,7 +17,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		local bg = F.CreateBDFrame(button, .25)
 		bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
-		bg:SetPoint("BOTTOMRIGHT", button, -5, .5)
+		bg:SetPoint("BOTTOMRIGHT", -5, .5)
 
 		local cta = _G[buttonName.."ShortageBorder"]
 		if cta then cta:SetAlpha(0) end

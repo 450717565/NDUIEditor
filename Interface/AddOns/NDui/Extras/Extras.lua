@@ -54,48 +54,6 @@ do
 	B:RegisterEvent("CHAT_MSG_SYSTEM", GuildWelcome)
 end
 
---- 优化巅峰声望显示
-do
-	local function ParagonBar()
-		ReputationFrame.paragonFramesPool:ReleaseAll()
-		local numFactions = GetNumFactions()
-		local factionOffset = FauxScrollFrame_GetOffset(ReputationListScrollFrame)
-
-		for i=1, NUM_FACTIONS_DISPLAYED, 1 do
-			local factionIndex = factionOffset + i
-			local factionRow = _G["ReputationBar"..i]
-			local factionBar = _G["ReputationBar"..i.."ReputationBar"]
-			local factionStanding = _G["ReputationBar"..i.."ReputationBarFactionStanding"]
-			if factionIndex <= numFactions then
-				local factionID = select(14, GetFactionInfo(factionIndex))
-				if factionID and C_Reputation.IsFactionParagon(factionID) then
-					local currentValue, threshold, _, hasRewardPending = C_Reputation.GetFactionParagonInfo(factionID)
-					local value = mod(currentValue, threshold)
-					if hasRewardPending then
-						local paragonFrame = ReputationFrame.paragonFramesPool:Acquire()
-						paragonFrame.factionID = factionID
-						paragonFrame:SetPoint("RIGHT", factionRow, 11, 0)
-						paragonFrame.Glow:SetShown(true)
-						paragonFrame.Check:SetShown(true)
-						paragonFrame:Show()
-						value = value + threshold
-					end
-					factionBar:SetMinMaxValues(0, threshold)
-					factionBar:SetValue(value)
-					factionBar:SetStatusBarColor(0, .5, .9)
-					factionRow.rolloverText = HIGHLIGHT_FONT_COLOR_CODE..strformat(REPUTATION_PROGRESS_FORMAT, BreakUpLargeNumbers(value), BreakUpLargeNumbers(threshold))..FONT_COLOR_CODE_CLOSE
-					factionStanding:SetText(L["Paragon"])
-					factionRow.standingText = L["Paragon"]
-				end
-			else
-				factionRow:Hide()
-			end
-		end
-	end
-
-	hooksecurefunc("ReputationFrame_Update", ParagonBar)
-end
-
 --- BOSS战斗自动收起任务追踪
 do
 	local collapse = false

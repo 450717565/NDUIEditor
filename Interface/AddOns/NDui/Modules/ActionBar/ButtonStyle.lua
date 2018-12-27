@@ -123,7 +123,7 @@ local function SetupBackdrop(button)
 	if NDuiDB["Actionbar"]["Classcolor"] then
 		bg:SetBackdropColor(DB.r, DB.g, DB.b, .25)
 	else
-		bg:SetBackdropColor(.2, .2, .2, .25)
+		bg:SetBackdropColor(0, 0, 0, .25)
 	end
 end
 

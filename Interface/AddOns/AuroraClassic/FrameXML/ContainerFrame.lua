@@ -22,20 +22,18 @@ tinsert(C.themes["AuroraClassic"], function()
 		for k = 1, MAX_CONTAINER_ITEMS do
 			local item = "ContainerFrame"..i.."Item"..k
 
-			local questTexture = _G[item.."IconQuestTexture"]
-			questTexture:SetDrawLayer("BACKGROUND")
-			questTexture:SetSize(1, 1)
-
 			local button = _G[item]
 			button:SetNormalTexture("")
 			button:SetPushedTexture("")
 
-			local ic = F.ReskinIcon(button.icon, true)
-			F.ReskinTexture(button, false, ic)
+			local questTexture = _G[item.."IconQuestTexture"]
+			questTexture:SetAlpha(0)
 
 			local newItemTexture = button.NewItemTexture
-			newItemTexture:SetDrawLayer("BACKGROUND")
-			newItemTexture:SetSize(1, 1)
+			newItemTexture:SetAlpha(0)
+
+			local ic = F.ReskinIcon(button.icon, true)
+			F.ReskinTexture(button, false, ic)
 
 			local border = button.IconBorder
 			F.ReskinTexture(border, false, button, true)

@@ -810,6 +810,8 @@ local list = {
 		{IntID = 6552, Duration = 15, UnitID = "all", OnSuccess = true},--拳击
 		{IntID = 78675, Duration = 60, UnitID = "all", OnSuccess = true},--日光术
 		{IntID = 96231, Duration = 15, UnitID = "all", OnSuccess = true},--责难
+	-->驱散技能
+		{IntID = 278326, Duration = 10, UnitID = "all", OnSuccess = true},--吞噬魔法
 	},
 }
 

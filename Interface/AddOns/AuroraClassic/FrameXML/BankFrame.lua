@@ -20,15 +20,11 @@ tinsert(C.themes["AuroraClassic"], function()
 		bu:SetNormalTexture("")
 		bu:SetPushedTexture("")
 
+		local questTexture = bu.IconQuestTexture
+		if questTexture then questTexture:SetAlpha(0) end
+
 		local ic = F.ReskinIcon(bu.icon, true)
 		F.ReskinTexture(bu, false, ic)
-
-		local questTexture = bu.IconQuestTexture
-
-		if questTexture then
-			questTexture:SetDrawLayer("BACKGROUND")
-			questTexture:SetSize(1, 1)
-		end
 
 		local border = bu.IconBorder
 		F.ReskinTexture(border, false, bu, true)
@@ -43,7 +39,13 @@ tinsert(C.themes["AuroraClassic"], function()
 	end
 
 	for i = 1, 7 do
-		styleBankButton(BankSlotsFrame["Bag"..i])
+		local slots = BankSlotsFrame["Bag"..i]
+		styleBankButton(slots)
+
+		slots:SetCheckedTexture(C.media.checked)
+		local ck = slots:GetCheckedTexture()
+		ck:SetPoint("TOPLEFT", -C.mult, C.mult)
+		ck:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
 	end
 
 	BankItemAutoSortButton:GetNormalTexture():SetTexCoord(.17, .83, .17, .83)

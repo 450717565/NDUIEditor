@@ -109,18 +109,21 @@ function addon:CreateButton(parent, scale)
 	if IsAddOnLoaded("AuroraClassic") then
 		local F, C = unpack(AuroraClassic)
 		local r, g, b = C.r, C.g, C.b
+
 		button:SetSize(70, 40)
-		button:SetCheckedTexture(C.media.checked)
 		F.ReskinTab(button)
+
 		if parent.lastButton then
 			button:SetPoint("TOPLEFT", parent.lastButton, "BOTTOMLEFT", 0, -4)
 		else
-			button:SetPoint("TOPLEFT", parent, "TOPRIGHT", 0, -50)
+			button:SetPoint("TOPLEFT", parent, "TOPRIGHT", C.mult*1.5, -50)
 		end
+
+		button:SetCheckedTexture(C.media.backdrop)
 		local ct = button:GetCheckedTexture()
 		ct:SetPoint("TOPLEFT", 9, -4)
 		ct:SetPoint("BOTTOMRIGHT", -9, 1)
-		ct:SetColorTexture(r, g, b, .5)
+		ct:SetVertexColor(r, g, b, .5)
 	end
 
 	return button

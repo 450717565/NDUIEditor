@@ -4,7 +4,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	local r, g, b = C.r, C.g, C.b
 
 	-- [[ Item reward highlight ]]
---[[
+
 	QuestInfoItemHighlight:GetRegions():Hide()
 
 	local function clearHighlight()
@@ -25,7 +25,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	hooksecurefunc(QuestInfoItemHighlight, "SetPoint", setHighlight)
 	QuestInfoItemHighlight:HookScript("OnShow", setHighlight)
 	QuestInfoItemHighlight:HookScript("OnHide", clearHighlight)
-]]
+
 	-- [[ Shared ]]
 
 	local function restyleSpellButton(bu)
@@ -87,7 +87,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		local bg = F.CreateBDFrame(bu, .25)
 		bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
-		bg:SetPoint("BOTTOMRIGHT", bu, -3, 0)
+		bg:SetPoint("BOTTOMRIGHT", -5, 0)
 
 		if bu.IconBorder then
 			bu.IconBorder:SetAlpha(0)
@@ -135,7 +135,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		local bg = F.CreateBDFrame(nameFrame, .25)
 		bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
-		bg:SetPoint("BOTTOMRIGHT", nameFrame, -1, -1)
+		bg:SetPoint("BOTTOMRIGHT", -1, -1)
 	end
 
 	-- Title Reward
@@ -149,7 +149,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		local bg = F.CreateBDFrame(frame, .25)
 		bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
-		bg:SetPoint("BOTTOMRIGHT", frame, -1, -1)
+		bg:SetPoint("BOTTOMRIGHT", -1, -1)
 	end
 
 	-- Follower Rewards
