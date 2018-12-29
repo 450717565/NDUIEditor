@@ -485,7 +485,7 @@ local function SetupTexture(self, texture)
 end
 
 function F:ReskinExpandOrCollapse()
-	F.StripTextures(self, true)
+	F.StripTextures(self, false)
 	F.CleanTextures(self, true)
 
 	local bg = F.CreateBDFrame(self, .25)

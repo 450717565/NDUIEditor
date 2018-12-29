@@ -114,7 +114,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	local ucbg = ApplicationViewer.UnempoweredCover.Background
 	ucbg:SetPoint("TOPLEFT", 2, 0)
-	ucbg:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
+	ucbg:SetPoint("BOTTOMRIGHT", 1, -1)
 
 	ApplicationViewer.RoleColumnHeader:SetPoint("LEFT", ApplicationViewer.NameColumnHeader, "RIGHT", 1, 0)
 	ApplicationViewer.ItemLevelColumnHeader:SetPoint("LEFT", ApplicationViewer.RoleColumnHeader, "RIGHT", 1, 0)

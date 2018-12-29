@@ -44,7 +44,7 @@ local function Reskins()
 
 	if IsAddOnLoaded("AuroraClassic") then
 		local F, C = unpack(AuroraClassic)
-		local r, g, b = C.r, C.g, C.b
+		local cr, cg, cb = C.r, C.g, C.b
 
 		if IsAddOnLoaded("!BaudErrorFrame") then
 			F.ReskinScroll(BaudErrorFrameListScrollBoxScrollBarScrollBar)
@@ -69,14 +69,14 @@ local function Reskins()
 						arrow:SetSize(10, 10)
 
 						local hl = _G["L_DropDownList"..i.."Button"..j.."Highlight"]
-						hl:SetColorTexture(r, g, b, .25)
+						hl:SetColorTexture(cr, cg, cb, .25)
 
 						local check = _G["L_DropDownList"..i.."Button"..j.."Check"]
 						if isCheckTexture(check) then
 							check:SetSize(20, 20)
 							check:SetTexCoord(0, 1, 0, 1)
 							check:SetTexture("Interface\\Buttons\\UI-CheckBox-Check")
-							check:SetVertexColor(r, g, b, 1)
+							check:SetVertexColor(cr, cg, cb, 1)
 							check:SetDesaturated(true)
 						end
 
@@ -156,6 +156,11 @@ local function Reskins()
 			boxHL:SetTexture(C.media.backdrop)
 			boxHL:SetPoint("LEFT", 4, 0)
 			boxHL:SetPoint("RIGHT", 10, 0)
+
+			for i = 1, 7 do
+				local col = _G["BaudAuctionFrameCol"..i]
+				F.ReskinTexture(col, true, col)
+			end
 
 			for k = 1, 19 do
 				F.ReskinIcon(_G["BaudAuctionBrowseScrollBoxEntry"..k.."Texture"])
@@ -405,7 +410,7 @@ local function Reskins()
 
 			local listHL = WhisperPopFrameListHighlightTexture
 			listHL:SetTexture(C.media.backdrop)
-			listHL:SetVertexColor(r, g, b, .25)
+			listHL:SetVertexColor(cr, cg, cb, .25)
 
 			local lists = {WhisperPopFrameListDelete, WhisperPopFrameTopCloseButton, WhisperPopMessageFrameTopCloseButton}
 			for _, list in next, lists do

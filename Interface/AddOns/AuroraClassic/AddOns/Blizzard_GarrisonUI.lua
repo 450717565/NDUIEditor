@@ -468,13 +468,13 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		local reagent = reagents[reagentIndex]
 		while reagent do
 			reagent.NameFrame:SetAlpha(0)
-
 			reagent.Icon:SetDrawLayer("BORDER")
-			F.ReskinIcon(reagent.Icon, true)
+
+			local ic = F.ReskinIcon(reagent.Icon, true)
 
 			local bg = F.CreateBDFrame(reagent, .25)
-			bg:SetPoint("TOPLEFT")
-			bg:SetPoint("BOTTOMRIGHT", 0, 2)
+			bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
+			bg:SetPoint("BOTTOMRIGHT", -5, 0)
 
 			reagentIndex = reagentIndex + 1
 			reagent = reagents[reagentIndex]

@@ -109,7 +109,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	hooksecurefunc("UIDropDownMenu_SetIconImage", function(icon, texture)
 		if texture:find("Divider") then
 			icon:SetColorTexture(1, 1, 1, .25)
-			icon:SetHeight(1)
+			icon:SetHeight(C.mult)
 		end
 	end)
 end)

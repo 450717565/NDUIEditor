@@ -523,9 +523,9 @@ end
 
 local function auraSetSize(self, bu)
 	local width = self:GetWidth()
-	local maxAuras = bu.num or bu.numTotal or bu.numBuffs + bu.numDebuffs
+	local maxAuras = bu.num or bu.numTotal or (bu.numBuffs + bu.numDebuffs)
 
-	local maxLines = bu.iconsPerRow and floor(maxAuras/bu.iconsPerRow + .5) or bu.line or 2
+	local maxLines = bu.iconsPerRow and floor(maxAuras/bu.iconsPerRow + .5) or 1
 	bu.size = bu.iconsPerRow and auraIconSize(width, bu.iconsPerRow, bu.spacing) or bu.size
 	bu:SetWidth(width)
 	bu:SetHeight((bu.size + bu.spacing) * maxLines)
@@ -553,6 +553,7 @@ function UF:CreateAuras(self)
 			bu:SetPoint("LEFT", self, 15, 0)
 			bu.size = 18*NDuiDB["UFs"]["RaidScale"]
 			bu.numTotal = 1
+			bu.disableCooldown = true
 		else
 			bu:SetPoint("BOTTOMLEFT", self, 0, 0)
 			bu.numTotal = 6
@@ -606,7 +607,6 @@ end
 function UF:CreateDebuffs(self)
 	local bu = CreateFrame("Frame", nil, self)
 	bu.spacing = 5
-	bu.onlyShowPlayer = false
 	bu.showDebuffType = true
 	bu.initialAnchor = "TOPRIGHT"
 	bu["growth-x"] = "LEFT"
@@ -618,7 +618,6 @@ function UF:CreateDebuffs(self)
 	elseif self.mystyle == "boss" or self.mystyle == "arena" then
 		bu:SetPoint("TOPRIGHT", self, "TOPLEFT", -5, 0)
 		bu.num = 10
-		bu.line = 1
 		bu.size = self:GetHeight()+self.Power:GetHeight()+3.5
 		bu.CustomFilter = customFilter
 		bu["growth-y"] = "UP"
@@ -636,7 +635,6 @@ function UF:CreateDebuffs(self)
 	elseif self.mystyle == "party" then
 		bu:SetPoint("TOPLEFT", self, "TOPRIGHT", 5, 0)
 		bu.num = 10
-		bu.line = 1
 		bu.size = self:GetHeight()+self.Power:GetHeight()+3.5
 		bu.initialAnchor = "TOPLEFT"
 		bu["growth-x"] = "RIGHT"

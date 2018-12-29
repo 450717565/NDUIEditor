@@ -100,11 +100,13 @@ tinsert(C.themes["AuroraClassic"], function()
 	hooksecurefunc("QuestLogQuests_Update", function()
 		UpdateCampaignHeader()
 
-		for i = 6, QuestMapFrame.QuestsFrame.Contents:GetNumChildren() do
-			local child = select(i, QuestMapFrame.QuestsFrame.Contents:GetChildren())
+		local Contents = QuestMapFrame.QuestsFrame.Contents
+		for i = 6, Contents:GetNumChildren() do
+			local child = select(i, Contents:GetChildren())
 			if child.ButtonText then
 				if not child.styled then
 					F.ReskinExpandOrCollapse(child)
+
 					child.styled = true
 				end
 				child:SetHighlightTexture("")

@@ -110,13 +110,13 @@ function addon:CreateButton(parent, scale)
 		local F, C = unpack(AuroraClassic)
 		local r, g, b = C.r, C.g, C.b
 
-		button:SetSize(70, 40)
+		button:SetSize(75, 40)
 		F.ReskinTab(button)
 
 		if parent.lastButton then
 			button:SetPoint("TOPLEFT", parent.lastButton, "BOTTOMLEFT", 0, -4)
 		else
-			button:SetPoint("TOPLEFT", parent, "TOPRIGHT", C.mult*1.5, -50)
+			button:SetPoint("TOPLEFT", parent, "TOPRIGHT", 2, -50)
 		end
 
 		button:SetCheckedTexture(C.media.backdrop)

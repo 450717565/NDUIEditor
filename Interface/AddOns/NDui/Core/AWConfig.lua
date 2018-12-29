@@ -7,19 +7,23 @@ local pairs, floor = pairs, math.floor
 local f
 
 -- Elements
+local function labelOnEnter(self)
+	GameTooltip:ClearLines()
+	GameTooltip:SetOwner(self:GetParent(), "ANCHOR_RIGHT", 0, 3)
+	GameTooltip:AddLine(self.text)
+	GameTooltip:AddLine(self.tip, .6,.8,1)
+	GameTooltip:Show()
+end
+
 local function createLabel(parent, text, tip)
 	local label = B.CreateFS(parent, 14, text, "system", "CENTER", 0, 25)
 	if not tip then return end
 	local frame = CreateFrame("Frame", nil, parent)
 	frame:SetAllPoints(label)
-	frame:SetScript("OnEnter", function()
-		GameTooltip:ClearLines()
-		GameTooltip:SetOwner(parent, "ANCHOR_RIGHT", 0, 3)
-		GameTooltip:AddLine(text)
-		GameTooltip:AddLine(tip, .6,.8,1)
-		GameTooltip:Show()
-	end)
-	frame:SetScript("OnLeave", GameTooltip_Hide)
+	frame.text = text
+	frame.tip = tip
+	frame:SetScript("OnEnter", labelOnEnter)
+	frame:SetScript("OnLeave", B.HideTooltip)
 end
 
 function module:CreateEditbox(parent, text, x, y, tip, width, height)
@@ -132,6 +136,7 @@ local function CreatePanel()
 	B.CreateFS(f, 17, L["AWConfig Title"], true, "TOP", 0, -10)
 	B.CreateFS(f, 15, L["Groups"], true, "TOPLEFT", 30, -50)
 	f:SetFrameStrata("HIGH")
+	f:SetFrameLevel(5)
 	tinsert(UISpecialFrames, "NDui_AWConfig")
 
 	auraWatchShow()
@@ -199,6 +204,17 @@ local function CreatePanel()
 		[15] = INVTYPE_CLOAK,
 	}
 
+	local function iconOnEnter(self)
+		GameTooltip:ClearLines()
+		GameTooltip:SetOwner(self, "ANCHOR_RIGHT", 0, 3)
+		if self.typeID == "SlotID" then
+			GameTooltip:SetInventoryItem("player", self.spellID)
+		else
+			GameTooltip:SetSpellByID(self.spellID)
+		end
+		GameTooltip:Show()
+	end
+
 	local function AddAura(parent, index, data)
 		local typeID, spellID, unitID, caster, stack, amount, timeless, combat, text, flash = unpack(data)
 		local name, _, texture = GetSpellInfo(spellID)
@@ -217,18 +233,11 @@ local function CreatePanel()
 		barTable[index][spellID] = bar
 
 		local icon, close = module:CreateBarWidgets(bar, texture)
+		icon.typeID = typeID
+		icon.spellID = spellID
 		if typeID ~= "TotemID" then
-			icon:SetScript("OnEnter", function()
-				GameTooltip:ClearLines()
-				GameTooltip:SetOwner(icon, "ANCHOR_RIGHT", 0, 3)
-				if typeID == "SlotID" then
-					GameTooltip:SetInventoryItem("player", spellID)
-				else
-					GameTooltip:SetSpellByID(spellID)
-				end
-				GameTooltip:Show()
-			end)
-			icon:SetScript("OnLeave", GameTooltip_Hide)
+			icon:SetScript("OnEnter", iconOnEnter)
+			icon:SetScript("OnLeave", B.HideTooltip)
 		end
 		close:SetScript("OnClick", function()
 			bar:Hide()
@@ -366,7 +375,7 @@ local function CreatePanel()
 		B.CreateSD(tabs[i])
 		local label = B.CreateFS(tabs[i], 15, group, "system", "LEFT", 10, 0)
 		if i == 11 then
-			label:SetTextColor(0, .8, .3)
+			label:SetTextColor(cr, cg, cb)
 		end
 		tabs[i].Page = createPage(group)
 		tabs[i].List = module:CreateScroll(tabs[i].Page, 575, 200, L["AuraWatch List"])

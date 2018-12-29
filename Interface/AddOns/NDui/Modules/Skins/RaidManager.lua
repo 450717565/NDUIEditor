@@ -31,7 +31,7 @@ function module:CreateRM()
 		GameTooltip:AddLine(DB.InfoColor..L["Double-click"]..DB.RightButton..PARTY_LEAVE)
 		GameTooltip:Show()
 	end)
-	header:HookScript("OnLeave", GameTooltip_Hide)
+	header:HookScript("OnLeave", B.HideTooltip)
 
 	-- Role counts
 	local function getRaidMaxGroup()
@@ -229,7 +229,7 @@ function module:CreateRM()
 			GameTooltip:AddLine(DB.RightButton..DB.InfoColor..REMOVE_WORLD_MARKERS)
 			GameTooltip:Show()
 		end)
-		marker:HookScript("OnLeave", GameTooltip_Hide)
+		marker:HookScript("OnLeave", B.HideTooltip)
 	end
 
 	-- Buff checker
@@ -328,7 +328,7 @@ function module:CreateRM()
 		end
 		GameTooltip:Show()
 	end)
-	checker:HookScript("OnLeave", GameTooltip_Hide)
+	checker:HookScript("OnLeave", B.HideTooltip)
 
 	local reset = true
 	local function Pull(val)

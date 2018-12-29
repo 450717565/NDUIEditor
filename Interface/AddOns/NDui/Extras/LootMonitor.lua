@@ -45,7 +45,7 @@ end
 
 local function ButtonOnClick(self, button)
 	if button == "RightButton" then
-		SendChatMessage(strformat(LM_Message_Info[random(4)], LMFrame_Report[self.index]["link"]), "WHISPER", nil, LMFrame_Report[self.index]["player"])
+		SendChatMessage(strformat(LM_Message_Info[random(4)], LMFrame_Report[self.index]["link"]), "WHISPER", nil, LMFrame_Report[self.index]["list"])
 	else
 		local editBox = ChatEdit_ChooseBoxForSend()
 		ChatEdit_ActivateChat(editBox)
@@ -149,7 +149,7 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 		if playerInfo and Enabled then
 			if #LMFrame_Report >= LMFrame_CFG["nums"] then tbremove(LMFrame_Report, 1) end
 
-			tbinsert(LMFrame_Report, {timer = lootTime, player = playerInfo, link = itemLink, solt = totalText,})
+			tbinsert(LMFrame_Report, {timer = lootTime, player = playerInfo, link = itemLink, solt = totalText, list = playerStr})
 
 			local numButtons = #LMFrame_Report
 			for index = 1, numButtons do

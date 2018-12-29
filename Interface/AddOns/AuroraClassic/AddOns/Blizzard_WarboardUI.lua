@@ -1,12 +1,13 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_WarboardUI"] = function()
-	F.ReskinPortraitFrame(WarboardQuestChoiceFrame, true)
-	F.StripTextures(WarboardQuestChoiceFrame.BorderFrame, true)
-	F.StripTextures(WarboardQuestChoiceFrame.Title, true)
-	WarboardQuestChoiceFrame.Background:Hide()
+	local function reskin(self)
+		if not self.styled then
+			F.ReskinPortraitFrame(WarboardQuestChoiceFrame, true)
+			F.StripTextures(WarboardQuestChoiceFrame.BorderFrame, true)
+			F.StripTextures(WarboardQuestChoiceFrame.Title, true)
+		end
 
-	hooksecurefunc(WarboardQuestChoiceFrame, "Update", function(self)
 		for i = 1, self:GetNumOptions() do
 			local option = self.Options[i]
 			if AuroraConfig.reskinFont then
@@ -23,5 +24,7 @@ C.themes["Blizzard_WarboardUI"] = function()
 				option.styled = true
 			end
 		end
-	end)
+	end
+
+	hooksecurefunc(WarboardQuestChoiceFrame, "Update", reskin)
 end

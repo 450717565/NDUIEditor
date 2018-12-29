@@ -38,12 +38,14 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 			local button = self.buttons[i]
 			if not button.styled then
 				F.ReskinExpandOrCollapse(button)
+
 				if button.SubSkillRankBar then
 					F.ReskinStatusBar(button.SubSkillRankBar, true, true)
 				end
 
 				button.styled = true
 			end
+			button:SetHighlightTexture("")
 			button.SelectedTexture:SetTexture(C.media.backdrop)
 			button.SelectedTexture:SetVertexColor(r, g, b, .5)
 		end

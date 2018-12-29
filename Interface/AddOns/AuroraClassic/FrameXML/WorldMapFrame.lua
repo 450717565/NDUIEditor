@@ -5,7 +5,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	local BorderFrame = WorldMapFrame.BorderFrame
 
 	F.ReskinPortraitFrame(BorderFrame)
-	F.SetBD(WorldMapFrame, C.mult, 0, -(C.mult*1.5), C.mult)
+	F.SetBD(WorldMapFrame, C.mult, 0, -(C.mult*2), C.mult)
 	F.ReskinMinMax(BorderFrame.MaximizeMinimizeFrame)
 	BorderFrame.Tutorial.Ring:Hide()
 

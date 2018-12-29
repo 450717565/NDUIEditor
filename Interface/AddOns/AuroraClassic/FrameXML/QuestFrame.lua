@@ -20,24 +20,21 @@ tinsert(C.themes["AuroraClassic"], function()
 	end)
 
 	for i = 1, MAX_REQUIRED_ITEMS do
-		local ic = _G["QuestProgressItem"..i.."IconTexture"]
-		ic:SetSize(38, 38)
-		ic:SetTexCoord(.08, .92, .08, .92)
-		ic:SetDrawLayer("OVERLAY")
-		ic:ClearAllPoints()
-		ic:SetPoint("LEFT")
-		F.CreateBDFrame(ic, .25)
+		local icon = _G["QuestProgressItem"..i.."IconTexture"]
+		icon:SetDrawLayer("OVERLAY")
+		icon:ClearAllPoints()
+		icon:SetPoint("LEFT")
 
-		local bu = _G["QuestProgressItem"..i]
-		local bg = F.CreateBDFrame(bu, .25)
+		local ic = F.ReskinIcon(icon, true)
+		local bg = F.CreateBDFrame(_G["QuestProgressItem"..i], .25)
 		bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
-		bg:SetPoint("BOTTOMRIGHT", -2, 1)
+		bg:SetPoint("BOTTOMRIGHT", -5, 0)
 
-		local na = _G["QuestProgressItem"..i.."NameFrame"]
-		na:Hide()
+		local name = _G["QuestProgressItem"..i.."NameFrame"]
+		name:Hide()
 
-		local co = _G["QuestProgressItem"..i.."Count"]
-		co:SetDrawLayer("OVERLAY")
+		local count = _G["QuestProgressItem"..i.."Count"]
+		count:SetDrawLayer("OVERLAY")
 	end
 
 	QuestDetailScrollFrame:SetWidth(302) -- else these buttons get cut off

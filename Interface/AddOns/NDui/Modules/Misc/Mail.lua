@@ -156,7 +156,7 @@ function module:Mailbox()
 	button2:SetScript("OnClick", function() takingOnlyCash = true OpenAll() end)
 	button2:SetScript("OnEnter", TotalCash_OnEnter)
 	button2:SetScript("OnUpdate", function(self) if GameTooltip:IsOwned(self) then TotalCash_OnEnter(self) end end)
-	button2:SetScript("OnLeave", GameTooltip_Hide)
+	button2:SetScript("OnLeave", B.HideTooltip)
 
 	button3 = CreatButton("MailButton3", OpenMailFrame, L["Collect Letters"], 80, 22, "RIGHT", OpenMailReplyButton, "LEFT", -1, 0)
 	button3:SetScript("OnClick", function() onlyCurrentMail = true OpenAll() end)

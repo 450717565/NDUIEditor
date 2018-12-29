@@ -157,7 +157,7 @@ local function TitleButton_OnEnter(self)
 	local tagID, tagName, worldQuestType, rarity, isElite, tradeskillLineIndex = GetQuestTagInfo(self.questID)
 	local _, color = GetQuestDifficultyColor( UnitLevel("player") + TitleButton_RarityColorTable[rarity] )
 	self.Text:SetTextColor( color.r, color.g, color.b )
-	
+
 	hoveredQuestID = self.questID
 
 	if dataProvder then
@@ -192,7 +192,7 @@ local function TitleButton_OnClick(self, button)
 	PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
 	if ( not ChatEdit_TryInsertQuestLinkForQuestID(self.questID) ) then
 		PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
-		
+
 		if ( button == "RightButton" ) then
 			if ( self.mapID ) then
 				QuestMapFrame:GetParent():SetMapID(self.mapID)
@@ -437,7 +437,7 @@ local function GetFilterButton(key)
 		button:SetScript("OnClick", FilterButton_OnClick)
 
 		button:SetSize(24, 24)
-			
+
 		if key == "SORT" then
 			button:SetNormalTexture("Interface\\ChatFrame\\UI-ChatIcon-ScrollDown-Up")
 			button:SetPushedTexture("Interface\\ChatFrame\\UI-ChatIcon-ScrollDown-Down")
@@ -534,7 +534,7 @@ local function QuestFrame_AddQuestButton(questInfo, prevButton)
 
 	local hasIcon = true
 	button.TaskIcon:Show()
-	button.TaskIcon:SetTexCoord(0, 1, 0, 1)
+	button.TaskIcon:SetTexCoord(.08, .92, .08, .92)
 	if questInfo.inProgress then
 		button.TaskIcon:SetAtlas("worldquest-questmarker-questionmark")
 		button.TaskIcon:SetSize(10, 15)
@@ -585,11 +585,11 @@ local function QuestFrame_AddQuestButton(questInfo, prevButton)
 		button.rewardCategory = "GOLD"
 		button.rewardValue = gold
 		button.rewardValue2 = 0
-	end	
+	end
 
 	local numQuestCurrencies = GetNumQuestLogRewardCurrencies(questID)
 	if numQuestCurrencies > 0 then
-		for currencyNum = 1, numQuestCurrencies do 
+		for currencyNum = 1, numQuestCurrencies do
 			local name, texture, numItems, currencyID = GetQuestLogRewardCurrencyInfo(currencyNum, questID)
 			if currencyID ~= CURRENCYID_WAR_SUPPLIES and currencyID ~= CURRENCYID_NETHERSHARD then
 				tagText = numItems
@@ -643,8 +643,13 @@ local function QuestFrame_AddQuestButton(questInfo, prevButton)
 		if tagTexCoords then
 			button.TagTexture:SetTexCoord( unpack(tagTexCoords) )
 		else
-			button.TagTexture:SetTexCoord( 0, 1, 0, 1 )
+			button.TagTexture:SetTexCoord( .08, .92, .08, .92 )
 		end
+	end
+
+	if IsAddOnLoaded("AuroraClassic") then
+		local F = unpack(AuroraClassic)
+		F.CreateBG(button.TagTexture)
 	end
 
 	button:SetHeight(totalHeight)
@@ -660,7 +665,7 @@ local function TaskPOI_IsFilteredReward(selectedFilters, questID)
 	local money = GetQuestLogRewardMoney(questID)
 	if money > 0 and selectedFilters["GOLD"] then
 		positiveMatch = true
-	end	
+	end
 
 	local numQuestCurrencies = GetNumQuestLogRewardCurrencies(questID)
 	for key,_ in pairs(selectedFilters) do
@@ -733,7 +738,7 @@ local function TaskPOI_IsFiltered(info, displayMapID)
 		if lootFiltered ~= nil then
 			isFiltered = lootFiltered
 		end
-		
+
 		if selectedFilters.FACTION then
 			if (factionID == Config.filterFaction or Addon.Data:QuestHasFaction(info.questId, Config.filterFaction)) then
 				isFiltered = false
@@ -969,7 +974,7 @@ local function QuestFrame_Update()
 			button.layoutIndex = QuestMapFrame:GetManagedLayoutIndex("AWQ")
 			button:Show()
 			prevButton = button
-			
+
 			if hoveredQuestID == button.questID then
 				TitleButton_OnEnter(button)
 			end
@@ -1137,7 +1142,7 @@ function Mod:Startup()
 		QuestMapFrame_UpdateAll()
 	end)
 
-	Config:RegisterCallback({'hideUntrackedPOI', 'hideFilteredPOI', 'showContinentPOI', 'onlyCurrentZone', 'sortMethod', 'selectedFilters', 'disabledFilters', 'filterEmissary', 'filterLoot', 'filterFaction', 'filterZone', 'filterTime', 'lootFilterUpgrades', 'lootUpgradesLevel', 'timeFilterDuration'}, function() 
+	Config:RegisterCallback({'hideUntrackedPOI', 'hideFilteredPOI', 'showContinentPOI', 'onlyCurrentZone', 'sortMethod', 'selectedFilters', 'disabledFilters', 'filterEmissary', 'filterLoot', 'filterFaction', 'filterZone', 'filterTime', 'lootFilterUpgrades', 'lootUpgradesLevel', 'timeFilterDuration'}, function()
 		QuestMapFrame_UpdateAll()
 		dataProvder:RefreshAllData()
 	end)
