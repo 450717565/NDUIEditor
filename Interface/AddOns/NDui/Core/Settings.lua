@@ -65,16 +65,16 @@ local function SetupUIScale()
 	if NDuiADB["LockUIScale"] then
 		scale = max(minScale, min(1.1, fixedHeight))
 	end
-	scale = tonumber(floor(scale*100 + .5)/100)
-	C.mult = fixedHeight/scale
-	if DB.ScreenHeight > 1080 then C.mult = C.mult*2 end
 
 	SetCVar("useUiScale", 1)
+	scale = tonumber(floor(scale*100 + .5)/100)
 	if scale < .64 then
 		UIParent:SetScale(scale)
 	else
 		SetCVar("uiScale", scale)
 	end
+	C.mult = fixedHeight/scale
+	if DB.ScreenHeight > 1080 then C.mult = C.mult*2 end
 
 	NDuiADB["UIScale"] = scale
 end

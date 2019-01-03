@@ -552,12 +552,13 @@ end
 
 function F:RemoveSlice()
 	if self.NineSlice then
-		self.NineSlice:Hide()
 		for _, tex in next, self.NineSlice do
 			if type(tex) == "table" then
+				tex:SetTexture(nil)
 				tex:Hide()
 			end
 		end
+		self.NineSlice:Hide()
 	end
 end
 
