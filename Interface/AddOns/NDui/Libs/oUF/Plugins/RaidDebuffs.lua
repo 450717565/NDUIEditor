@@ -229,16 +229,16 @@ end
 local function Enable(self)
 	local rd = self.RaidDebuffs
 	if rd then
-		self:RegisterEvent("UNIT_AURA", Path)
+		self:RegisterEvent("UNIT_AURA", Path, true)
 		rd.ForceUpdate = ForceUpdate
 		rd.__owner = self
 		return true
 	end
 
 	checkSpecs()
-	self:RegisterEvent("PLAYER_TALENT_UPDATE", checkSpecs)
+	self:RegisterEvent("PLAYER_TALENT_UPDATE", checkSpecs, true)
 	checkInstance()
-	self:RegisterEvent("PLAYER_ENTERING_WORLD", checkInstance)
+	self:RegisterEvent("PLAYER_ENTERING_WORLD", checkInstance, true)
 end
 
 local function Disable(self)
@@ -248,8 +248,8 @@ local function Disable(self)
 		self.RaidDebuffs.__owner = nil
 	end
 
-	self:UnregisterEvent("PLAYER_TALENT_UPDATE", checkSpecs)
-	self:UnregisterEvent("PLAYER_ENTERING_WORLD", checkInstance)
+	self:UnregisterEvent("PLAYER_TALENT_UPDATE", checkSpecs, true)
+	self:UnregisterEvent("PLAYER_ENTERING_WORLD", checkInstance, true)
 end
 
 oUF:AddElement("RaidDebuffs", Update, Enable, Disable)

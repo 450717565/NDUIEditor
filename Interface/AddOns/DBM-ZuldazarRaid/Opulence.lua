@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2342, "DBM-ZuldazarRaid", 2, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 18100 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 18147 $"):sub(12, -3))
 --mod:SetCreatureID(138967)--145261 or 147564
 mod:SetEncounterID(2271)
 --mod:DisableESCombatDetection()
@@ -91,9 +91,9 @@ local timerDrawPower					= mod:NewCastTimer(5, 282939, nil, nil, nil, 6)
 local timerLiquidGoldCD					= mod:NewCDTimer(8.5, 287072, nil, nil, nil, 3)
 local timerSpiritsofGoldCD				= mod:NewCDTimer(65.6, 285995, nil, nil, nil, 1)
 local timerCoinShowerCD					= mod:NewCDTimer(30.3, 285014, nil, nil, nil, 5, nil, DBM_CORE_DEADLY_ICON)
-local timerWailofGreedCD				= mod:NewCDTimer(55, 284941, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON)--Timer still needed, DON"T FORGET!
+local timerWailofGreedCD				= mod:NewCDTimer(55, 284941, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON)--Timer still needed beyond first cast
 local timerCoinSweepCD					= mod:NewCDTimer(10.9, 287037, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
-local timerSurgingGoldCD				= mod:NewAITimer(23, 289155, nil, nil, nil, 3)
+local timerSurgingGoldCD				= mod:NewAITimer(23, 289155, nil, nil, nil, 3)--Real timer needed, using AI tech for now
 
 --local berserkTimer					= mod:NewBerserkTimer(600)
 

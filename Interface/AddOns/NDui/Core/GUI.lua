@@ -453,8 +453,8 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{2, "Skins", "DBMCount", L["Countdown Sec"].."*", true},
 		{},--blank
 		{1, "Misc", "QuestNotifier", DB.MyColor..L["QuestNotifier"]},
-		{1, "Misc", "QuestProgress", L["QuestProgress"]},
-		{1, "Misc", "OnlyCompleteRing", L["OnlyCompleteRing"], true},
+		{1, "Misc", "QuestProgress", L["QuestProgress"].."*"},
+		{1, "Misc", "OnlyCompleteRing", L["OnlyCompleteRing"].."*", true},
 		{},--blank
 		{1, "Misc", "Interrupt", DB.MyColor..L["Interrupt Alert"]},
 		{1, "Misc", "AlertInInstance", L["Alert In Instance"].."*", true},
@@ -981,10 +981,6 @@ function setupRaidDebuffs()
 		B.CreateSD(bar)
 		bar.index = index
 
-		local instName = bar.instName
-		local spellID = bar.spellID
-		local priority = bar.priority
-
 		local icon, close = module:CreateBarWidgets(bar, texture)
 		icon:SetScript("OnEnter", iconOnEnter)
 		icon:SetScript("OnLeave", B.HideTooltip)
@@ -992,13 +988,13 @@ function setupRaidDebuffs()
 
 		close:SetScript("OnClick", function()
 			bar:Hide()
-			if C.RaidDebuffs[instName][spellID] then
-				if not NDuiADB["RaidDebuffs"][instName] then NDuiADB["RaidDebuffs"][instName] = {} end
-				NDuiADB["RaidDebuffs"][instName][spellID] = 0
+			if C.RaidDebuffs[bar.instName][bar.spellID] then
+				if not NDuiADB["RaidDebuffs"][bar.instName] then NDuiADB["RaidDebuffs"][bar.instName] = {} end
+				NDuiADB["RaidDebuffs"][bar.instName][bar.spellID] = 0
 			else
-				NDuiADB["RaidDebuffs"][instName][spellID] = nil
+				NDuiADB["RaidDebuffs"][bar.instName][bar.spellID] = nil
 			end
-			setupBars(instName)
+			setupBars(bar.instName)
 		end)
 
 		local spellName = B.CreateFS(bar, 14, "", false, "LEFT", 30, 0)
@@ -1013,12 +1009,12 @@ function setupRaidDebuffs()
 		prioBox:SetTextColor(0, 1, 0)
 		prioBox:SetBackdropColor(1, 1, 1, .2)
 		prioBox:HookScript("OnEscapePressed", function(self)
-			self:SetText(priority)
+			self:SetText(bar.priority)
 		end)
 		prioBox:HookScript("OnEnterPressed", function(self)
 			local prio = analyzePrio(tonumber(self:GetText()))
-			if not NDuiADB["RaidDebuffs"][instName] then NDuiADB["RaidDebuffs"][instName] = {} end
-			NDuiADB["RaidDebuffs"][instName][spellID] = prio
+			if not NDuiADB["RaidDebuffs"][bar.instName] then NDuiADB["RaidDebuffs"][bar.instName] = {} end
+			NDuiADB["RaidDebuffs"][bar.instName][bar.spellID] = prio
 			self:SetText(prio)
 		end)
 		prioBox:SetScript("OnEnter", setupBoxTip)

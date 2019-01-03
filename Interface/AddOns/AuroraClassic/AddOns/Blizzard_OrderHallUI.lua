@@ -21,10 +21,10 @@ C.themes["Blizzard_OrderHallUI"] = function()
 		for i = 1, OrderHallTalentFrame:GetNumChildren() do
 			local bu = select(i, OrderHallTalentFrame:GetChildren())
 			if bu and bu.talent then
-				if not bu.bg then
-					bu.Border:SetAlpha(0)
-					bu.bg = F.ReskinIcon(bu.Icon, true)
+				bu.Border:SetAlpha(0)
 
+				if not bu.bg then
+					bu.bg = F.ReskinIcon(bu.Icon, true)
 					F.ReskinTexture(bu.Highlight, false, bu.bg)
 				end
 
