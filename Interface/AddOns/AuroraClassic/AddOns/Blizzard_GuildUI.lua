@@ -104,7 +104,7 @@ C.themes["Blizzard_GuildUI"] = function()
 		bg:SetPoint("TOPLEFT")
 		bg:SetPoint("BOTTOMRIGHT")
 
-		bu:GetRegions():SetTexture(C.media.backdrop)
+		bu:GetRegions():SetTexture(C.media.bdTex)
 		bu:GetRegions():SetVertexColor(r, g, b, .25)
 	end
 
@@ -112,7 +112,7 @@ C.themes["Blizzard_GuildUI"] = function()
 	F.CreateBDFrame(GuildFactionBar, .25)
 	GuildFactionBar:ClearAllPoints()
 	GuildFactionBar:SetPoint("BOTTOMLEFT", 0, -3)
-	GuildFactionBarProgress:SetTexture(C.media.statusbar)
+	GuildFactionBarProgress:SetTexture(C.media.normTex)
 	GuildFactionBarProgress:SetVertexColor(r*.8, g*.8, b*.8)
 	GuildFactionBarProgress:SetPoint("TOPLEFT")
 	GuildFactionBarProgress:SetPoint("BOTTOMLEFT")
@@ -164,7 +164,7 @@ C.themes["Blizzard_GuildUI"] = function()
 			local bu = GuildRosterContainer.buttons[i]
 
 			if not bu.bg then
-				bu:SetHighlightTexture(C.media.backdrop)
+				bu:SetHighlightTexture(C.media.bdTex)
 				bu:GetHighlightTexture():SetVertexColor(r, g, b, .25)
 
 				bu.bg = F.CreateBDFrame(bu.icon, .25)

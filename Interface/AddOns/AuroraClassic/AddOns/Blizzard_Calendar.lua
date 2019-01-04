@@ -97,7 +97,7 @@ C.themes["Blizzard_Calendar"] = function()
 	local line = CalendarMassInviteFrame:CreateTexture(nil, "BACKGROUND")
 	line:SetSize(240, C.mult)
 	line:SetPoint("TOP", CalendarMassInviteFrame, "TOP", 0, -150)
-	line:SetTexture(C.media.backdrop)
+	line:SetTexture(C.media.bdTex)
 	line:SetVertexColor(0, 0, 0)
 
 	CalendarMassInviteFrame:ClearAllPoints()

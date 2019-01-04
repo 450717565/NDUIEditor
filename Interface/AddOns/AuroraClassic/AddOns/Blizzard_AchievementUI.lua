@@ -138,7 +138,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 				bg:SetPoint("BOTTOMRIGHT", -2, 2)
 
 				local back = _G["AchievementFrameSummaryAchievement"..i.."Background"]
-				back:SetTexture(C.media.backdrop)
+				back:SetTexture(C.media.bdTex)
 				back:SetVertexColor(0, 0, 0, .25)
 
 				local text = _G["AchievementFrameSummaryAchievement"..i.."Description"]

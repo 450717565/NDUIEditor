@@ -66,7 +66,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		for i = 1, frame.size do
 			local itemButton = _G[name.."Item"..i]
 
-			itemButton.IconBorder:SetTexture(C.media.backdrop)
+			itemButton.IconBorder:SetTexture(C.media.bdTex)
 			if _G[name.."Item"..i.."IconQuestTexture"]:IsShown() then
 				itemButton.IconBorder:SetVertexColor(1, 1, 0)
 			end

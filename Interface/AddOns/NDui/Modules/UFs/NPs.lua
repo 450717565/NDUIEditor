@@ -463,6 +463,6 @@ function UF:CreatePlayerPlate()
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", PlateVisibility, true)
 	self:RegisterEvent("PLAYER_REGEN_ENABLED", PlateVisibility, true)
 	self:RegisterEvent("PLAYER_REGEN_DISABLED", PlateVisibility, true)
-	self:RegisterEvent("UNIT_ENTERED_VEHICLE", PlateVisibility, true)
-	self:RegisterEvent("UNIT_EXITED_VEHICLE", PlateVisibility, true)
+	self:RegisterEvent("UNIT_ENTERED_VEHICLE", PlateVisibility)
+	self:RegisterEvent("UNIT_EXITED_VEHICLE", PlateVisibility)
 end

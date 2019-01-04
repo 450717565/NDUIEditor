@@ -54,7 +54,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		local bu = _G["FriendsFrameFriendsScrollFrameButton"..i]
 		bu.background:Hide()
 
-		bu:SetHighlightTexture(C.media.backdrop)
+		bu:SetHighlightTexture(C.media.bdTex)
 		bu:GetHighlightTexture():SetVertexColor(.24, .56, 1, .25)
 
 		local tp = bu.travelPassButton

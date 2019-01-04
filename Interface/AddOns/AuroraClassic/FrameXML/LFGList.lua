@@ -14,7 +14,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	local function reskinHL(f, bg)
 		local hl = bg:CreateTexture(nil, "BACKGROUND")
 		hl:SetAllPoints()
-		hl:SetTexture(C.media.backdrop)
+		hl:SetTexture(C.media.bdTex)
 		hl:SetVertexColor(r, g, b, .25)
 		hl:Hide()
 		f.hl = hl

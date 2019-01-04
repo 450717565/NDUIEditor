@@ -69,7 +69,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			BonusObjectiveTrackerProgressBar_PlayFlareAnim = F.dummy
 
 			bar:SetPoint("LEFT", 22, 0)
-			bar:SetStatusBarTexture(C.media.statusbar)
+			bar:SetStatusBarTexture(C.media.normTex)
 			bar:SetStatusBarColor(r*.8, g*.8, b*.8)
 
 			local bg = F.CreateBDFrame(progressBar)
@@ -103,7 +103,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			for i = 1, 6 do
 				select(i, bar:GetRegions()):Hide()
 			end
-			bar:SetStatusBarTexture(C.media.statusbar)
+			bar:SetStatusBarTexture(C.media.normTex)
 			bar:SetStatusBarColor(r*.8, g*.8, b*.8)
 			bar.Label:Show()
 			local oldBg = select(5, bar:GetRegions())
@@ -145,7 +145,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			block.TimerBG:Hide()
 			block.TimerBGBack:Hide()
 
-			block.StatusBar:SetStatusBarTexture(C.media.statusbar)
+			block.StatusBar:SetStatusBarTexture(C.media.normTex)
 			block.StatusBar:SetStatusBarColor(r*.8, g*.8, b*.8)
 			block.StatusBar:SetHeight(10)
 			F.CreateBDFrame(block.StatusBar, .25)

@@ -103,7 +103,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				local lists = {button.RareOverlay, button.Overlay.Overlay}
 				for _, list in next, lists do
 					list:SetDrawLayer("BACKGROUND")
-					list:SetTexture(C.media.backdrop)
+					list:SetTexture(C.media.bdTex)
 					list:ClearAllPoints()
 					list:SetPoint("TOPLEFT", locBG, 0, -1)
 					list:SetPoint("BOTTOMRIGHT", locBG, 0, 3)
@@ -596,7 +596,6 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	-- [[ Mission UI ]]
 
 	local GarrisonMissionFrame = GarrisonMissionFrame
-
 	F.ReskinMissionFrame(GarrisonMissionFrame)
 
 	hooksecurefunc("GarrisonMissonListTab_SetSelected", function(tab, isSelected)
@@ -951,6 +950,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	-- [[ BFA Mission UI]]
 
 	local BFAMissionFrame = BFAMissionFrame
+	BFAMissionFrame.OverlayElements.Topper:Hide()
 	F.ReskinMissionFrame(BFAMissionFrame)
 	F.ReskinClassIcon(BFAMissionFrame.FollowerTab, 50, "TOPRIGHT", 0, -3)
 

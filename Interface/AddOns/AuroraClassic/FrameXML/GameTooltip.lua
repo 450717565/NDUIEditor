@@ -29,15 +29,15 @@ tinsert(C.themes["AuroraClassic"], function()
 		NamePlateTooltip,
 	}
 
-	local backdrop = {
-		bgFile = C.media.backdrop,
-		edgeFile = C.media.backdrop,
+	local bdTex = {
+		bgFile = C.media.bdTex,
+		edgeFile = C.media.bdTex,
 		edgeSize = 1,
 	}
 
 	-- so other stuff which tries to look like GameTooltip doesn't mess up
 	local getBackdrop = function()
-		return backdrop
+		return bdTex
 	end
 
 	local getBackdropColor = function()
@@ -74,7 +74,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	sep:SetHeight(C.mult)
 	sep:SetPoint("BOTTOMLEFT", 0, 3)
 	sep:SetPoint("BOTTOMRIGHT", 0, 3)
-	sep:SetTexture(C.media.backdrop)
+	sep:SetTexture(C.media.bdTex)
 	sep:SetVertexColor(0, 0, 0)
 
 	IMECandidatesFrame.background:Hide()

@@ -437,13 +437,13 @@ local Enable = function(self, unit)
 			bar.Offhand.OverrideText = bar.OverrideText
 		end
 		if not bar.disableRanged then
-			self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED", Ranged, true)
-			self:RegisterEvent("UNIT_RANGEDDAMAGE", RangedChange, true)
+			self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED", Ranged)
+			self:RegisterEvent("UNIT_RANGEDDAMAGE", RangedChange)
 		end
 		if not bar.disableMelee then
 			self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED", Melee, true)
 			self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED", ParryHaste, true)
-			self:RegisterEvent("UNIT_ATTACK_SPEED", MeleeChange, true)
+			self:RegisterEvent("UNIT_ATTACK_SPEED", MeleeChange)
 		end
 		self:RegisterEvent("PLAYER_REGEN_ENABLED", Ooc, true)
 

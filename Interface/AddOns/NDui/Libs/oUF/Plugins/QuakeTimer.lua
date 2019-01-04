@@ -91,11 +91,11 @@ end
 local function Update(self)
 	local name, _, instID = GetInstanceInfo()
 	if name and instID == 8 then
-		self:RegisterEvent("UNIT_AURA", onEvent, true)
-		self:RegisterEvent("UNIT_SPELLCAST_START", onEvent, true)
-		self:RegisterEvent("UNIT_SPELLCAST_STOP", onEvent, true)
-		self:RegisterEvent("UNIT_SPELLCAST_CHANNEL_START", onEvent, true)
-		self:RegisterEvent("UNIT_SPELLCAST_CHANNEL_STOP", onEvent, true)
+		self:RegisterEvent("UNIT_AURA", onEvent)
+		self:RegisterEvent("UNIT_SPELLCAST_START", onEvent)
+		self:RegisterEvent("UNIT_SPELLCAST_STOP", onEvent)
+		self:RegisterEvent("UNIT_SPELLCAST_CHANNEL_START", onEvent)
+		self:RegisterEvent("UNIT_SPELLCAST_CHANNEL_STOP", onEvent)
 	else
 		self:UnregisterEvent("UNIT_AURA", onEvent)
 		self:UnregisterEvent("UNIT_SPELLCAST_START", onEvent)

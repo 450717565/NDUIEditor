@@ -309,7 +309,7 @@ C.themes["Blizzard_Communities"] = function()
 	local factionFrameBar = CommunitiesFrame.GuildBenefitsFrame.FactionFrame.Bar
 	F.StripTextures(factionFrameBar)
 	F.CreateBDFrame(factionFrameBar.Progress, .25)
-	factionFrameBar.Progress:SetTexture(C.media.statusbar)
+	factionFrameBar.Progress:SetTexture(C.media.normTex)
 	factionFrameBar.Progress:SetVertexColor(r*.8, g*.8, b*.8)
 
 	hooksecurefunc("CommunitiesGuildPerks_Update", function(self)

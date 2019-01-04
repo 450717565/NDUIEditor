@@ -18,15 +18,15 @@ C.media = {
 	["arrowLeft"] = mediaPath.."arrow-left-active",
 	["arrowRight"] = mediaPath.."arrow-right-active",
 	["arrowUp"] = mediaPath.."arrow-up-active",
-	["backdrop"] = "Interface\\ChatFrame\\ChatFrameBackground",
+	["bdTex"] = "Interface\\ChatFrame\\ChatFrameBackground",
 	["bgTex"] = mediaPath.."bgTex",
 	["checked"] = mediaPath.."checked",
 	["font"] = STANDARD_TEXT_FONT,
 	["glowTex"] = mediaPath.."glowTex",
-	["gradient"] = mediaPath.."gradient",
+	["gradientTex"] = mediaPath.."gradientTex",
+	["normTex"] = "Interface\\TARGETINGFRAME\\UI-TargetingFrame-BarFill",
 	["pushed"] = mediaPath.."pushed",
 	["roleIcons"] = mediaPath.."UI-LFG-ICON-ROLES",
-	["statusbar"] = "Interface\\TARGETINGFRAME\\UI-TargetingFrame-BarFill",
 }
 
 C.defaults = {
@@ -36,7 +36,7 @@ C.defaults = {
 	["buttonGradientColour"] = {.3, .3, .3, .3},
 	["buttonSolidColour"] = {.2, .2, .2, .6},
 	["chatBubbles"] = true,
-	["customColour"] = {r = 1, g = 1, b = 1},
+	["customColour"] = {r = .5, g = .5, b = .5},
 	["fontScale"] = 1,
 	["loot"] = false,
 	["objectiveTracker"] = true,
@@ -97,11 +97,7 @@ function F:CreateSD()
 end
 
 function F:CreateBD(a)
-	self:SetBackdrop({
-		bgFile = C.media.backdrop,
-		edgeFile = C.media.backdrop,
-		edgeSize = C.mult,
-	})
+	self:SetBackdrop({bgFile = C.media.bdTex, edgeFile = C.media.bdTex, edgeSize = C.mult})
 	self:SetBackdropColor(0, 0, 0, a or AuroraConfig.alpha)
 	self:SetBackdropBorderColor(0, 0, 0)
 
@@ -115,7 +111,7 @@ function F:CreateBG()
 	local bg = f:CreateTexture(nil, "BACKGROUND")
 	bg:SetPoint("TOPLEFT", self, -C.mult, C.mult)
 	bg:SetPoint("BOTTOMRIGHT", self, C.mult, -C.mult)
-	bg:SetTexture(C.media.backdrop)
+	bg:SetTexture(C.media.bdTex)
 	bg:SetVertexColor(0, 0, 0)
 
 	return bg
@@ -129,7 +125,7 @@ function F:CreateGradient()
 	local tex = self:CreateTexture(nil, "BORDER")
 	tex:SetPoint("TOPLEFT", C.mult, -C.mult)
 	tex:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
-	tex:SetTexture(useButtonGradientColour and C.media.gradient or C.media.backdrop)
+	tex:SetTexture(useButtonGradientColour and C.media.gradientTex or C.media.bdTex)
 	tex:SetVertexColor(buttonR, buttonG, buttonB, buttonA)
 
 	return tex
@@ -244,12 +240,12 @@ function F:ReskinScroll()
 	F.Reskin(up, true)
 	F.Reskin(down, true)
 
-	up:SetDisabledTexture(C.media.backdrop)
+	up:SetDisabledTexture(C.media.bdTex)
 	local dis1 = up:GetDisabledTexture()
 	dis1:SetVertexColor(0, 0, 0, .5)
 	dis1:SetDrawLayer("OVERLAY")
 
-	down:SetDisabledTexture(C.media.backdrop)
+	down:SetDisabledTexture(C.media.bdTex)
 	local dis2 = down:GetDisabledTexture()
 	dis2:SetVertexColor(0, 0, 0, .5)
 	dis2:SetDrawLayer("OVERLAY")
@@ -289,7 +285,7 @@ function F:ReskinDropDown()
 
 	F.Reskin(down, true)
 
-	down:SetDisabledTexture(C.media.backdrop)
+	down:SetDisabledTexture(C.media.bdTex)
 	local dis = down:GetDisabledTexture()
 	dis:SetVertexColor(0, 0, 0, .5)
 	dis:SetDrawLayer("OVERLAY")
@@ -330,7 +326,7 @@ function F:ReskinClose(a1, p, a2, x, y)
 	F.CreateSD(self)
 	F.CreateGradient(self)
 
-	self:SetDisabledTexture(C.media.backdrop)
+	self:SetDisabledTexture(C.media.bdTex)
 	local dis = self:GetDisabledTexture()
 	dis:SetVertexColor(0, 0, 0, .5)
 	dis:SetDrawLayer("OVERLAY")
@@ -371,7 +367,7 @@ function F:ReskinArrow(direction)
 	F.StripTextures(self, true)
 	F.Reskin(self, true)
 
-	self:SetDisabledTexture(C.media.backdrop)
+	self:SetDisabledTexture(C.media.bdTex)
 	local dis = self:GetDisabledTexture()
 	dis:SetVertexColor(0, 0, 0, .25)
 	dis:SetDrawLayer("OVERLAY")
@@ -415,7 +411,7 @@ function F:ReskinRadio()
 	F.StripTextures(self, true)
 	F.CleanTextures(self, true)
 
-	self:SetCheckedTexture(C.media.backdrop)
+	self:SetCheckedTexture(C.media.bdTex)
 	local ch = self:GetCheckedTexture()
 	ch:SetPoint("TOPLEFT", 4, -4)
 	ch:SetPoint("BOTTOMRIGHT", -4, 4)
@@ -604,7 +600,7 @@ function F:CreateBDFrame(a)
 end
 
 function F:ReskinColourSwatch()
-	self:SetNormalTexture(C.media.backdrop)
+	self:SetNormalTexture(C.media.bdTex)
 	local nt = self:GetNormalTexture()
 	nt:SetPoint("TOPLEFT", 3, -3)
 	nt:SetPoint("BOTTOMRIGHT", -3, 3)
@@ -821,11 +817,11 @@ function F:ReskinTexture(classColor, relativeTo, isBorder)
 
 	local tex
 	if self.SetHighlightTexture then
-		self:SetHighlightTexture(C.media.backdrop)
+		self:SetHighlightTexture(C.media.bdTex)
 		tex = self:GetHighlightTexture()
 	else
 		tex = self
-		tex:SetTexture(C.media.backdrop)
+		tex:SetTexture(C.media.bdTex)
 		if isBorder then
 			tex.SetTexture = F.dummy
 			tex:SetDrawLayer("BACKGROUND")
@@ -844,7 +840,7 @@ function F:ReskinStatusBar(classColor, stripTex)
 	F.StripTextures(self, stripTex)
 	F.CleanTextures(self, true)
 
-	self:SetStatusBarTexture(C.media.statusbar)
+	self:SetStatusBarTexture(C.media.normTex)
 	if classColor then self:SetStatusBarColor(cr*.8, cg*.8, cb*.8) end
 
 	local lvl = self:GetFrameLevel()

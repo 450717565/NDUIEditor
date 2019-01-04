@@ -16,7 +16,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	TutorialFrameOkayButton:ClearAllPoints()
 	TutorialFrameOkayButton:SetPoint("BOTTOMLEFT", TutorialFrameNextButton, "BOTTOMRIGHT", 10, 0)
 
-	-- because gradient alpha and OnUpdate doesn't work for some reason...
+	-- because gradientTex alpha and OnUpdate doesn't work for some reason...
 
 	if select(14, TutorialFrameOkayButton:GetRegions()) then
 		select(14, TutorialFrameOkayButton:GetRegions()):Hide()

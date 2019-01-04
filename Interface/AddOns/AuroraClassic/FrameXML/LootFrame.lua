@@ -68,7 +68,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	PromptFrame.Icon:SetTexCoord(.08, .92, .08, .92)
 	F.CreateBDFrame(PromptFrame.Icon, .25)
 
-	PromptFrame.Timer.Bar:SetTexture(C.media.statusbar)
+	PromptFrame.Timer.Bar:SetTexture(C.media.normTex)
 	PromptFrame.Timer.Bar:SetVertexColor(r, g, b)
 	F.CreateBDFrame(PromptFrame.Timer, .25)
 
@@ -87,7 +87,7 @@ tinsert(C.themes["AuroraClassic"], function()
 				F.CreateBD(frame)
 				F.CreateSD(frame)
 
-				frame.Timer.Bar:SetTexture(C.media.statusbar)
+				frame.Timer.Bar:SetTexture(C.media.normTex)
 				frame.Timer.Bar:SetVertexColor(r, g, b)
 				frame.Timer.Background:SetAlpha(0)
 				F.CreateBDFrame(frame.Timer, .25)

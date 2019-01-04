@@ -29,7 +29,7 @@ function UF:CreateRaidIcons(self)
 
 	local summon = parent:CreateTexture(nil, "OVERLAY")
 	summon:SetSize(32, 32)
-	summon:SetPoint("BOTTOM", 0, 1)
+	summon:SetPoint("CENTER", self, 1, 0)
 	self.SummonIndicator = summon
 end
 
@@ -400,5 +400,5 @@ function UF:CreateBuffIndicator(self)
 	end
 
 	self.BuffIndicator = icons
-	self:RegisterEvent("UNIT_AURA", updateBuffIndicator, true)
+	self:RegisterEvent("UNIT_AURA", updateBuffIndicator)
 end

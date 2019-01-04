@@ -106,7 +106,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	hooksecurefunc("SendMailFrame_Update", function()
 		for i = 1, ATTACHMENTS_MAX_SEND do
 			local button = _G["SendMailAttachment"..i]
-			button.IconBorder:SetTexture(C.media.backdrop)
+			button.IconBorder:SetTexture(C.media.bdTex)
 
 			if button:GetNormalTexture() then
 				button:GetNormalTexture():SetTexCoord(.08, .92, .08, .92)

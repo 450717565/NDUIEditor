@@ -105,8 +105,7 @@ function module:RareAlert()
 				SendChatMessage(format(">>> %s <<<", info.name), "SAY")
 			end
 			if not NDuiDB["Misc"]["RareAlertInWild"] or instType == "none" then
-				--PlaySoundFile("Sound\\Interface\\PVPFlagTakenMono.ogg", "master")
-				PlaySound(23404, "master")
+				PlaySoundFile("Sound\\Interface\\PVPFlagTakenMono.ogg", "master")
 			end
 			cache[id] = true
 		end

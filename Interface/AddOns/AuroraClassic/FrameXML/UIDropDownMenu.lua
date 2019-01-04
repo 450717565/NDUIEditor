@@ -6,15 +6,15 @@ tinsert(C.themes["AuroraClassic"], function()
 	hooksecurefunc("UIDropDownMenu_CreateFrames", function()
 		for i = 1, UIDROPDOWNMENU_MAXLEVELS do
 			local menu = _G["DropDownList"..i.."MenuBackdrop"]
-			local backdrop = _G["DropDownList"..i.."Backdrop"]
-			if not backdrop.reskinned then
+			local bdTex = _G["DropDownList"..i.."Backdrop"]
+			if not bdTex.reskinned then
 				if AuroraConfig.tooltips then
 					F.CreateBD(menu)
 					F.CreateSD(menu)
 				end
-				F.CreateBD(backdrop)
-				F.CreateSD(backdrop)
-				backdrop.reskinned = true
+				F.CreateBD(bdTex)
+				F.CreateSD(bdTex)
+				bdTex.reskinned = true
 			end
 		end
 	end)

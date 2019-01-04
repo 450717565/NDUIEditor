@@ -95,13 +95,14 @@ local function UpdateVisibility(self)
 	if module.PostUpdateVisibility then module:PostUpdateVisibility(self) end
 end
 
-local function UpdateIcons(self)
+local function UpdateIcons(self, event, unit)
+	if event == "UNIT_AURA" and unit ~= "player" and unit ~= "target" then return end
 	module:ChantLumos(self)
 	UpdateVisibility(self)
 end
 
 local function TurnOn(self)
-	self:RegisterEvent("UNIT_AURA", UpdateIcons, "player", "target")
+	self:RegisterEvent("UNIT_AURA", UpdateIcons)
 	self:RegisterEvent("PLAYER_TARGET_CHANGED", UpdateIcons, true)
 	self:RegisterEvent("SPELL_UPDATE_COOLDOWN", UpdateIcons, true)
 	self:RegisterEvent("SPELL_UPDATE_CHARGES", UpdateIcons, true)

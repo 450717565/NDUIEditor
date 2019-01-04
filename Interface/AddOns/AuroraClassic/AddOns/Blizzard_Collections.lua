@@ -65,7 +65,7 @@ C.themes["Blizzard_Collections"] = function()
 
 			if bu.ProgressBar then
 				local bar = bu.ProgressBar
-				bar:SetTexture(C.media.backdrop)
+				bar:SetTexture(C.media.bdTex)
 				bar:SetVertexColor(r, g, b, .25)
 				bar:SetPoint("TOPLEFT", bg, C.mult, -C.mult)
 				bar:SetPoint("BOTTOMLEFT", bg, -C.mult, C.mult)

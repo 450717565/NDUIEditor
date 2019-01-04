@@ -84,7 +84,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	hooksecurefunc("PaperDollItemSlotButton_Update", function(button)
 		-- also fires for bag slots, we don't want that
 		if button.popoutButton then
-			button.IconBorder:SetTexture(C.media.backdrop)
+			button.IconBorder:SetTexture(C.media.bdTex)
 			button.icon:SetShown(button.hasItem)
 			colourPopout(button.popoutButton)
 		end
