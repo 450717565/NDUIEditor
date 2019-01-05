@@ -1,6 +1,6 @@
 local B, C, L, DB = unpack(select(2, ...))
 
-local strformat = string.format
+local strformat, strmatch, strsplit = string.format, string.match, string.split
 local tbinsert, tbremove = table.insert, table.remove
 
 local MythicLootItemLevel =  {  0, 345, 345, 350, 355, 355, 360, 365, 365, 370}
@@ -8,7 +8,7 @@ local WeeklyLootItemLevel =  {  0, 355, 355, 360, 360, 365, 370, 370, 375, 380}
 local WeeklyArmorItemLevel = {  0, 340, 340, 355, 355, 355, 370, 370, 370, 385}
 
 local function CheckLink(link)
-	if link and type(link) == "string" and link:match("|Hkeystone:([0-9:]+)|h(%b[])|h") then
+	if link and type(link) == "string" and strmatch(link, "|Hkeystone:([0-9:]+)|h(%b[])|h") then
 		return true
 	else
 		return false

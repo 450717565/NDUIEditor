@@ -188,11 +188,16 @@ local function Reskins()
 		end
 
 		if IsAddOnLoaded("ExtVendor") then
+			F.ReskinPortraitFrame(ExtVendor_SellJunkPopup, true)
+			F.Reskin(ExtVendor_SellJunkPopupYesButton)
+			F.Reskin(ExtVendor_SellJunkPopupNoButton)
+
 			F.ReskinInput(MerchantFrameSearchBox, 22)
 			F.Reskin(MerchantFrameFilterButton)
 
 			local ic = F.ReskinIcon(MerchantFrameSellJunkButtonIcon, true)
 			F.ReskinTexture(MerchantFrameSellJunkButton, false, ic)
+			MerchantFrameSellJunkButton:SetPushedTexture(C.media.pushed)
 
 			for i = 13, 20 do
 				local bu = _G["MerchantItem"..i.."ItemButton"]

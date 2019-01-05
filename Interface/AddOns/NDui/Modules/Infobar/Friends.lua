@@ -112,8 +112,7 @@ info.onEnter = function(self)
 		updateRequest = true
 	end
 
-	GameTooltip:SetOwner(self, "ANCHOR_NONE")
-	GameTooltip:SetPoint("TOPLEFT", UIParent, 20, -35)
+	GameTooltip:SetOwner(self, "ANCHOR_BOTTOM", 75, -15)
 	GameTooltip:ClearLines()
 	GameTooltip:AddDoubleLine(FRIENDS_LIST, format("%s: %s / %s", GUILD_ONLINE_LABEL, totalOnline, totalFriends), 0,.6,1, 0,.6,1)
 

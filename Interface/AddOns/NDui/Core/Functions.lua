@@ -6,7 +6,7 @@ local type, pairs, tonumber, wipe = type, pairs, tonumber, table.wipe
 local strmatch, gmatch, strfind, format = string.match, string.gmatch, string.find, string.format
 local min, max, abs, floor = math.min, math.max, math.abs, math.floor
 
--- Color Percent
+-- Color Text
 function B.ColorText(p, reverse, val)
 	local v = p / 100
 	local r, g, b

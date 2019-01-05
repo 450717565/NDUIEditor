@@ -35,6 +35,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	local headerBg = F.CreateBDFrame(header, .25)
 	headerBg:SetPoint("TOPLEFT", 2, -2)
 	headerBg:SetPoint("BOTTOMRIGHT", -2, 2)
+	F.CreateGradient(headerBg)
 
 	local buttons = {AddFriendEntryFrameAcceptButton, AddFriendEntryFrameCancelButton, AddFriendInfoFrameContinueButton, FriendsFrameAddFriendButton, FriendsFrameIgnorePlayerButton, FriendsFrameSendMessageButton, FriendsFrameUnsquelchButton, FriendsFriendsCloseButton, FriendsFriendsSendRequestButton, FriendsListFrameContinueButton, WhoFrameAddFriendButton, WhoFrameGroupInviteButton, WhoFrameWhoButton}
 	for _, button in next, buttons do

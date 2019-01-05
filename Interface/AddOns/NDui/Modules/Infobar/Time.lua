@@ -147,8 +147,7 @@ info.onEnter = function(self)
 	RequestRaidInfo()
 
 	local r,g,b
-	GameTooltip:SetOwner(self, "ANCHOR_NONE")
-	GameTooltip:SetPoint("BOTTOMRIGHT", UIParent, -10, 35)
+	GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT", 0, 15)
 	GameTooltip:ClearLines()
 	local today = C_Calendar.GetDate()
 	local w, m, d, y = today.weekday, today.month, today.monthDay, today.year

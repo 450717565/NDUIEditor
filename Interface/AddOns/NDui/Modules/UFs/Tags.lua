@@ -14,7 +14,7 @@ oUF.Tags.Methods["hp"] = function(unit)
 
 		if (unit == "player" and not UnitHasVehicleUI(unit)) or unit == "target" or unit == "focus" then
 			if per < 100 then
-				return B.Numb(cur)..DB.ccSeparator..B.ColorText(per)
+				return B.ColorText(per, false, B.Numb(cur)).." | "..B.ColorText(per)
 			else
 				return B.Numb(cur)
 			end
@@ -39,7 +39,7 @@ oUF.Tags.Methods["power"] = function(unit)
 		else
 			return B.Numb(cur)
 		end
-	elseif unit:match("arena") or unit:match("boss") then
+	elseif strmatch(unit, "arena") or strmatch(unit, "boss") then
 		return B.ColorText(per, true)
 	else
 		return B.ColorText(per)

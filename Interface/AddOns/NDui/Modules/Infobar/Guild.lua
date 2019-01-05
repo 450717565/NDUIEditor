@@ -14,7 +14,7 @@ local function setupInfoFrame()
 
 	infoFrame = CreateFrame("Frame", "NDuiGuildInfobar", info)
 	infoFrame:SetSize(335, 495)
-	infoFrame:SetPoint("TOPLEFT", UIParent, 15, -30)
+	infoFrame:SetPoint("TOPLEFT", UIParent, 15, -34)
 	infoFrame:SetClampedToScreen(true)
 	infoFrame:SetFrameStrata("TOOLTIP")
 	B.SetBackground(infoFrame)

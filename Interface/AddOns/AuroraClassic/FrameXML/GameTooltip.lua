@@ -29,15 +29,15 @@ tinsert(C.themes["AuroraClassic"], function()
 		NamePlateTooltip,
 	}
 
-	local bdTex = {
+	local backdrop = {
 		bgFile = C.media.bdTex,
 		edgeFile = C.media.bdTex,
-		edgeSize = 1,
+		edgeSize = C.mult,
 	}
 
 	-- so other stuff which tries to look like GameTooltip doesn't mess up
 	local getBackdrop = function()
-		return bdTex
+		return backdrop
 	end
 
 	local getBackdropColor = function()

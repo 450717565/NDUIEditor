@@ -225,8 +225,8 @@ GameTooltip:HookScript("OnTooltipSetUnit", function(self)
 
 	if GameTooltipStatusBar:IsShown() then
 		GameTooltipStatusBar:ClearAllPoints()
-		GameTooltipStatusBar:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 2, 3)
-		GameTooltipStatusBar:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", -2, 3)
+		GameTooltipStatusBar:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 5)
+		GameTooltipStatusBar:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 0, 5)
 		if C.mult and not GameTooltipStatusBar.bg then
 			GameTooltipStatusBar:SetStatusBarTexture(DB.normTex)
 			GameTooltipStatusBar:SetHeight(5)
@@ -246,7 +246,7 @@ GameTooltipStatusBar:SetScript("OnValueChanged", function(self, value)
 	if UnitExists(unit) then
 		min, max = UnitHealth(unit), UnitHealthMax(unit)
 		if not self.text then
-			self.text = B.CreateFS(self, 12, "")
+			self.text = B.CreateFS(self, 12, "", false, "CENTER", 1, 1)
 		end
 		self.text:Show()
 		local hp = B.Numb(min).." / "..B.Numb(max)

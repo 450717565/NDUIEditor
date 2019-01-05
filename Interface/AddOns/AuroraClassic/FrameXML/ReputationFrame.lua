@@ -11,12 +11,12 @@ tinsert(C.themes["AuroraClassic"], function()
 	local function UpdateFactionSkins()
 		for i = 1, GetNumFactions() do
 			local repbar = _G["ReputationBar"..i]
-			local normTex = _G["ReputationBar"..i.."ReputationBar"]
+			local statusbar = _G["ReputationBar"..i.."ReputationBar"]
 
-			if normTex then
-				if not normTex.reskinned then
-					F.ReskinStatusBar(normTex, false, true)
-					normTex.reskinned = true
+			if statusbar then
+				if not statusbar.reskinned then
+					F.ReskinStatusBar(statusbar, false, true)
+					statusbar.reskinned = true
 				end
 
 				F.StripTextures(repbar, true)

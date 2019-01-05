@@ -14,12 +14,12 @@ function UF:CreateRaidIcons(self)
 
 	local check = parent:CreateTexture(nil, "OVERLAY")
 	check:SetSize(16, 16)
-	check:SetPoint("CENTER")
+	check:SetPoint("CENTER", 1, 0)
 	self.ReadyCheckIndicator = check
 
 	local resurrect = parent:CreateTexture(nil, "OVERLAY")
 	resurrect:SetSize(20, 20)
-	resurrect:SetPoint("CENTER", self, 1, 0)
+	resurrect:SetPoint("CENTER", 1, 0)
 	self.ResurrectIndicator = resurrect
 
 	local role = parent:CreateTexture(nil, "OVERLAY")
@@ -29,7 +29,7 @@ function UF:CreateRaidIcons(self)
 
 	local summon = parent:CreateTexture(nil, "OVERLAY")
 	summon:SetSize(32, 32)
-	summon:SetPoint("CENTER", self, 1, 0)
+	summon:SetPoint("CENTER", 1, 0)
 	self.SummonIndicator = summon
 end
 
