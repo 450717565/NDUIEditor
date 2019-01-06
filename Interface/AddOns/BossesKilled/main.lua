@@ -119,7 +119,7 @@ function addon:CreateButton(parent, scale)
 			button:SetPoint("TOPLEFT", parent, "TOPRIGHT", 2, -50)
 		end
 
-		button:SetCheckedTexture(C.media.backdrop)
+		button:SetCheckedTexture(C.media.bdTex)
 		local ct = button:GetCheckedTexture()
 		ct:SetPoint("TOPLEFT", 9, -4)
 		ct:SetPoint("BOTTOMRIGHT", -9, 1)

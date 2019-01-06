@@ -316,6 +316,12 @@ function module:PlacedItemAlert()
 		[259410] = true,	-- 船长盛宴
 		[276972] = true,	-- 秘法药锅
 		[286050] = true,	-- 鲜血大餐
+		[190336] = true,	-- 造餐术
+		[199109] = true,	-- 自动铁锤
+		[67826] = true,	-- 基维斯
+		[54710] = true,	-- 基维斯
+		[29893] = true,	-- 灵魂之井
+		[698] = true,	-- 召唤仪式
 	}
 
 	local lastTime = 0
