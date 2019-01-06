@@ -30,24 +30,16 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	local function restyleSpellButton(bu)
 		local name = bu:GetName()
-		local icon = bu.Icon
-
 		_G[name.."NameFrame"]:Hide()
 		_G[name.."SpellBorder"]:Hide()
 
-		icon:SetPoint("TOPLEFT", 3, -2)
-		icon:SetDrawLayer("ARTWORK")
-		icon:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBDFrame(icon, .25)
+		bu.Icon:SetDrawLayer("ARTWORK", 1)
+		local ic = F.ReskinIcon(bu.Icon, true)
 
 		local bg = F.CreateBDFrame(bu, .25)
-		bg:SetPoint("TOPLEFT", 2, -1)
-		bg:SetPoint("BOTTOMRIGHT", 0, 14)
-		bg:SetFrameLevel(0)
+		bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
+		bg:SetPoint("BOTTOMRIGHT", -5, 0)
 	end
-
-	-- [[ Objectives ]]
-
 	restyleSpellButton(QuestInfoSpellObjectiveFrame)
 
 	local function colourObjectivesText()

@@ -48,8 +48,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		currency.SetPoint = F.dummy
 
 		for j = 1, 3 do
-			local acTex = _G["MerchantItem"..i.."AltCurrencyFrameItem"..j.."Texture"]
-			F.ReskinIcon(acTex)
+			F.ReskinIcon(_G["MerchantItem"..i.."AltCurrencyFrameItem"..j.."Texture"])
 		end
 	end
 

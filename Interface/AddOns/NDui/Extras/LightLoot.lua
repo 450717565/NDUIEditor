@@ -249,14 +249,6 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 end
 LightLoot:RegisterEvent("LOOT_OPENED")
 
-function LightLoot:LOOT_SLOT_CLEARED(event, slot)
-	if not self:IsShown() then return end
-
-	slots[slot]:Hide()
-	self:AnchorSlots()
-end
-LightLoot:RegisterEvent("LOOT_SLOT_CLEARED")
-
 function LightLoot:LOOT_CLOSED()
 	StaticPopup_Hide("LOOT_BIND")
 	self:Hide()
@@ -266,6 +258,14 @@ function LightLoot:LOOT_CLOSED()
 	end
 end
 LightLoot:RegisterEvent("LOOT_CLOSED")
+
+function LightLoot:LOOT_SLOT_CLEARED(event, slot)
+	if not self:IsShown() then return end
+
+	slots[slot]:Hide()
+	self:AnchorSlots()
+end
+LightLoot:RegisterEvent("LOOT_SLOT_CLEARED")
 
 function LightLoot:PLAYER_LOGIN()
 	B.SetBackground(LightLoot)

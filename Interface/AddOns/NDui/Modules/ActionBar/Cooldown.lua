@@ -107,16 +107,13 @@ function module:OnLogin()
 			Timer_Stop(self.timer)
 		end
 
-		-- hide cooldown flash if not visible
-		local parent = self:GetParent()
-		if parent and parent.isAuraWatch then return end
-		local name = parent:GetName()
-		if name and (strfind(name, "Hekili") or strfind(name, "Zygor")) then return end
-
-		if self:GetEffectiveAlpha() > 0 then
-			self:Show()
-		else
-			self:Hide()
+		-- hide cooldown flash if barFader enabled
+		if self:GetParent().__faderParent then
+			if self:GetEffectiveAlpha() < 1 then
+				self:Hide()
+			else
+				self:Show()
+			end
 		end
 	end
 
@@ -131,7 +128,6 @@ function module:OnLogin()
 
 	local cooldownIndex = getmetatable(ActionButton1Cooldown).__index
 	hooksecurefunc(cooldownIndex, "SetCooldown", Timer_Start)
-	--hooksecurefunc(cooldownIndex, "SetHideCountdownNumbers", hideCooldownNumbers)
 	hooksecurefunc("CooldownFrame_SetDisplayAsPercentage", function(self)
 		hideCooldownNumbers(self, true)
 	end)

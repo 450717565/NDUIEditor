@@ -339,10 +339,10 @@ local function sortOnClick(self)
 	self.sortCount = (self.sortCount or 0) + 1
 	if self.sortCount%3 == 0 then
 		frame.sortOn = false
-		text:SetText("升序")
+		text:SetText(L["Ascending"])
 	else
 		frame.sortOn = true
-		text:SetText("降序")
+		text:SetText(L["Descending"])
 	end
 	SortAndShowMembersList()
 end
@@ -373,11 +373,11 @@ LibEvent:attachEvent("PLAYER_LOGIN", function()
 	B.CreateSD(frame.panel)
 	B.CreateTex(frame.panel)
 
-	frame.panel.sortButton = B.CreateButton(frame.panel, 34, 16, "升序", 12)
+	frame.panel.sortButton = B.CreateButton(frame.panel, 34, 16, L["Ascending"], 12)
 	frame.panel.sortButton:SetPoint("TOPRIGHT", -10, -4)
 	frame.panel.sortButton:SetScript("OnClick", sortOnClick)
 
-	frame.panel.rescanButton = B.CreateButton(frame.panel, 34, 16, "扫描", 12)
+	frame.panel.rescanButton = B.CreateButton(frame.panel, 34, 16, L["Scan"], 12)
 	frame.panel.rescanButton:SetPoint("TOPLEFT", 10, -4)
 	frame.panel.rescanButton:SetScript("OnClick", rescanOnClick)
 end)

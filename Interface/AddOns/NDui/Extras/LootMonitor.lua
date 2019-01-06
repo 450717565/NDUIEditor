@@ -23,11 +23,12 @@ local LM_Message_Info = {
 }
 
 local LMFrame = CreateFrame("Frame", "LootMonitor", UIParent)
-local LMFrame_Title = B.CreateFS(LMFrame, Button_Height-2, L["LootMonitor"], true, "TOPLEFT", 10, -10)
-local LMFrame_Info = B.CreateFS(LMFrame, Button_Height-2, L["LootMonitor Info"], true, "BOTTOMRIGHT", -10, 10)
 LMFrame:SetFrameStrata("HIGH")
 LMFrame:SetClampedToScreen(true)
 LMFrame:SetPoint("LEFT", 4, 0)
+
+local LMFrame_Title = B.CreateFS(LMFrame, Button_Height-2, L["LootMonitor"], true, "TOPLEFT", 10, -10)
+local LMFrame_Info = B.CreateFS(LMFrame, Button_Height-2, L["LootMonitor Info"], true, "BOTTOMRIGHT", -10, 10)
 
 local function UnitClassColor(unit)
 	local r, g, b = B.UnitColor(unit)
