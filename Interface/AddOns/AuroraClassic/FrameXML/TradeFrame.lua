@@ -1,7 +1,6 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-
 	F.ReskinPortraitFrame(TradeFrame, true)
 	TradeFrame.RecipientOverlay:Hide()
 	TradePlayerEnchantInset:Hide()
@@ -24,10 +23,10 @@ tinsert(C.themes["AuroraClassic"], function()
 	local function reskinButton(bu)
 		bu:SetNormalTexture("")
 		bu:SetPushedTexture("")
-		bu.icon:SetTexCoord(.08, .92, .08, .92)
-		bu.IconBorder:SetAlpha(0)
-		bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-		F.CreateBDFrame(bu, .25)
+
+		local ic = F.ReskinIcon(bu.icon, true)
+		F.ReskinTexture(bu, false, ic)
+		F.ReskinTexture(bu.IconBorder, false, bu, true)
 	end
 
 	for i = 1, MAX_TRADE_ITEMS do

@@ -10,10 +10,8 @@ C.themes["Blizzard_ScrappingMachineUI"] = function()
 			local color = BAG_ITEM_QUALITY_COLORS[quality]
 
 			self.bg:SetBackdropBorderColor(color.r, color.g, color.b)
-			self.bg.Shadow:SetBackdropBorderColor(color.r, color.g, color.b)
 		else
 			self.bg:SetBackdropBorderColor(0, 0, 0)
-			self.bg.Shadow:SetBackdropBorderColor(0, 0, 0)
 		end
 	end
 

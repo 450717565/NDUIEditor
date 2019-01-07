@@ -1,15 +1,13 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	F.CreateBD(TutorialFrame)
-	F.CreateSD(TutorialFrame)
+	F.ReskinPortraitFrame(TutorialFrame, true)
 
 	TutorialFrameBackground:Hide()
 	TutorialFrameBackground.Show = F.dummy
 	TutorialFrame:DisableDrawLayer("BORDER")
 
 	F.Reskin(TutorialFrameOkayButton, true)
-	F.ReskinClose(TutorialFrameCloseButton)
 	F.ReskinArrow(TutorialFramePrevButton, "left")
 	F.ReskinArrow(TutorialFrameNextButton, "right")
 

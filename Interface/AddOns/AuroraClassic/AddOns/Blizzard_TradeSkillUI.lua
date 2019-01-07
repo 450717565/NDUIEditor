@@ -40,6 +40,7 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 				F.ReskinExpandOrCollapse(button)
 
 				if button.SubSkillRankBar then
+					button.SubSkillRankBar:SetSize(55, 12)
 					F.ReskinStatusBar(button.SubSkillRankBar, true, true)
 				end
 

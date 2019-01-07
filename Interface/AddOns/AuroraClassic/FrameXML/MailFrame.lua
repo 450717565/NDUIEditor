@@ -42,15 +42,13 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.ReskinTab(_G["MailFrameTab"..i])
 	end
 
-	local buttons = {"OpenMailLetterButton", "OpenMailMoneyButton"}
-	for _, button in next, buttons do
+	for _, button in next, {"OpenMailLetterButton", "OpenMailMoneyButton"} do
 		local btn = _G[button]
 		btn:SetNormalTexture("")
 		btn:SetPushedTexture("")
 
-		local ic = _G[button.."IconTexture"]
-		local bg = F.ReskinIcon(ic, true)
-		F.ReskinTexture(btn, false, bg)
+		local ic = F.ReskinIcon(_G[button.."IconTexture"], true)
+		F.ReskinTexture(btn, false, ic)
 	end
 
 	for i = 1, INBOXITEMS_TO_DISPLAY do
@@ -61,9 +59,8 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.StripTextures(bu)
 		bu:SetCheckedTexture(C.media.checked)
 
-		local ic = _G["MailItem"..i.."Button".."Icon"]
-		local bg = F.ReskinIcon(ic, true)
-		F.ReskinTexture(bu, false, bg)
+		local ic = F.ReskinIcon(_G["MailItem"..i.."Button".."Icon"], true)
+		F.ReskinTexture(bu, false, ic)
 
 		local ib = _G["MailItem"..i.."Button".."IconBorder"]
 		ib:SetAlpha(0)
@@ -80,24 +77,13 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.ReskinTexture(border, false, bu, true)
 	end
 
-	hooksecurefunc("SendMailFrame_Update", function()
-		for i = 1, ATTACHMENTS_MAX_SEND do
-			local bu = _G["SendMailAttachment"..i]
-
-			if bu:GetNormalTexture() == nil and bu.IconBorder:IsShown() then
-				bu.IconBorder:Hide()
-			end
-		end
-	end)
-
 	for i = 1, ATTACHMENTS_MAX_RECEIVE do
 		local bu = _G["OpenMailAttachmentButton"..i]
 		bu:SetNormalTexture("")
 		bu:SetPushedTexture("")
 
-		local ic = _G["OpenMailAttachmentButton"..i.."IconTexture"]
-		local bg = F.ReskinIcon(ic, true)
-		F.ReskinTexture(bu, false, bg)
+		local ic = F.ReskinIcon(_G["OpenMailAttachmentButton"..i.."IconTexture"], true)
+		F.ReskinTexture(bu, false, ic)
 
 		local border = bu.IconBorder
 		F.ReskinTexture(border, false, bu, true)
@@ -106,7 +92,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	hooksecurefunc("SendMailFrame_Update", function()
 		for i = 1, ATTACHMENTS_MAX_SEND do
 			local button = _G["SendMailAttachment"..i]
-			button.IconBorder:SetTexture(C.media.bdTex)
 
 			if button:GetNormalTexture() then
 				button:GetNormalTexture():SetTexCoord(.08, .92, .08, .92)

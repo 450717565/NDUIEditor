@@ -81,17 +81,9 @@ tinsert(C.themes["AuroraClassic"], function()
 				end
 
 				if self.color then
-					if chatbubble.Shadow then
-						chatbubble.Shadow:SetBackdropBorderColor(unpack(self.color))
-					else
-						chatbubble:SetBackdropBorderColor(unpack(self.color))
-					end
+					chatbubble:SetBackdropBorderColor(unpack(self.color))
 				else
-					if chatbubble.Shadow then
-						chatbubble.Shadow:SetBackdropBorderColor(0, 0, 0)
-					else
-						chatbubble:SetBackdropBorderColor(0, 0, 0)
-					end
+					chatbubble:SetBackdropBorderColor(0, 0, 0)
 				end
 			end
 		end

@@ -21,7 +21,7 @@ C.themes["Blizzard_PVPUI"] = function()
 		icon:SetPoint("LEFT", bu, "LEFT")
 		icon:SetDrawLayer("OVERLAY")
 		F.ReskinIcon(icon, true)
-		
+
 		local bg = F.CreateBG(bu.Icon)
 		bg:SetDrawLayer("ARTWORK")
 	end
@@ -76,7 +76,6 @@ C.themes["Blizzard_PVPUI"] = function()
 
 	for _, bonusButton in next, {"RandomBGButton", "RandomEpicBGButton", "Arena1Button", "BrawlButton"} do
 		local bu = BonusFrame[bonusButton]
-
 		F.Reskin(bu, true)
 		F.ReskinTexture(bu.SelectedTexture, true, bu)
 	end
@@ -86,11 +85,10 @@ C.themes["Blizzard_PVPUI"] = function()
 	ConquestFrame.ShadowOverlay:Hide()
 
 	if AuroraConfig.tooltips then
-		F.CreateBD(ConquestTooltip)
-		F.CreateSD(ConquestTooltip)
+		F.ReskinTooltip(ConquestTooltip)
 	end
 
-	local ConquestFrameButton_OnEnter = function(self)
+	local function ConquestFrameButton_OnEnter(self)
 		ConquestTooltip:SetPoint("TOPLEFT", self, "TOPRIGHT", 1, 0)
 	end
 
@@ -98,7 +96,8 @@ C.themes["Blizzard_PVPUI"] = function()
 	ConquestFrame.Arena3v3:HookScript("OnEnter", ConquestFrameButton_OnEnter)
 	ConquestFrame.RatedBG:HookScript("OnEnter", ConquestFrameButton_OnEnter)
 
-	for _, bu in next, {ConquestFrame.Arena2v2, ConquestFrame.Arena3v3, ConquestFrame.RatedBG} do
+	for _, conquestButton in next, {"Arena2v2", "Arena3v3", "RatedBG"} do
+		local bu = ConquestFrame[conquestButton]
 		F.Reskin(bu, true)
 		F.ReskinTexture(bu.SelectedTexture, true, bu)
 	end

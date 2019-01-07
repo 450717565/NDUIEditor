@@ -6,37 +6,31 @@ C.themes["Blizzard_QuestChoice"] = function()
 	local numOptions = #QuestChoiceFrame.Options
 	for i = 1, numOptions do
 		local option = QuestChoiceFrame["Option"..i]
-		local rewards = option.Rewards
-		local item = rewards.Item
-		local currencies = rewards.Currencies
-
 		option.Header.Background:Hide()
 		option.Header.Text:SetTextColor(.9, .9, .9)
+
 		option.Artwork:SetTexCoord(0.140625, 0.84375, 0.2265625, 0.78125)
-		option.Artwork:SetSize(180, 71)
+		option.Artwork:SetSize(180, 70)
 		option.Artwork:SetPoint("TOP", 0, -20)
 		F.CreateBDFrame(option.Artwork, .25)
+
 		option.OptionText:SetTextColor(.9, .9, .9)
+		option.OptionText:SetPoint("TOP", option.Artwork, "BOTTOM", 4, -10)
 
+		local rewards = option.Rewards
+		local item = rewards.Item
 		item.Name:SetTextColor(1, 1, 1)
-		item.Icon:SetTexCoord(.08, .92, .08, .92)
-		item.bg = F.CreateBDFrame(item.Icon, .25)
+		item.Icon:SetDrawLayer("ARTWORK")
+		F.ReskinIcon(item.Icon, true)
+		F.ReskinTexture(item.IconBorder, false, item.Icon, true)
 
+		local currencies = rewards.Currencies
 		for j = 1, 3 do
 			local cu = currencies["Currency"..j]
-
-			cu.Icon:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(cu.Icon, .25)
+			F.ReskinIcon(cu.Icon, true)
 		end
+
 		F.Reskin(option.OptionButtonsContainer.OptionButton1)
 		F.Reskin(option.OptionButtonsContainer.OptionButton2)
 	end
-
-	hooksecurefunc(QuestChoiceFrame, "ShowRewards", function(self)
-		for i = 1, self.numActiveOptionFrames do
-			local rewards = self["Option"..i].Rewards
-			rewards.Item.bg:SetBackdropBorderColor(rewards.Item.IconBorder:GetVertexColor())
-			rewards.Item.IconBorder:Hide()
-		end
-	end)
 end

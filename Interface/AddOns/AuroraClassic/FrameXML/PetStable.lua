@@ -11,12 +11,10 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinArrow(PetStableNextPageButton, "right")
 	F.ReskinArrow(PetStableModelRotateLeftButton, "left")
 	F.ReskinArrow(PetStableModelRotateRightButton, "right")
+	F.ReskinIcon(PetStableSelectedPetIcon, true)
 
 	F.CreateBDFrame(PetStableModel, .25)
 	PetStableModelShadow:Hide()
-
-	PetStableSelectedPetIcon:SetTexCoord(.08, .92, .08, .92)
-	F.CreateBDFrame(PetStableSelectedPetIcon, .25)
 
 	local function reskinSlot(button, i)
 		local bu = _G[button..i]
@@ -26,7 +24,6 @@ tinsert(C.themes["AuroraClassic"], function()
 			F.StripTextures(bu)
 
 			local bg = F.ReskinIcon(ic, true)
-
 			F.ReskinTexture(bu, false, bg)
 		end
 	end

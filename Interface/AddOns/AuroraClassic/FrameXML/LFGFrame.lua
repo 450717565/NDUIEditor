@@ -143,21 +143,17 @@ tinsert(C.themes["AuroraClassic"], function()
 			if incentiveIndex == LFG_ROLE_SHORTAGE_PLENTIFUL then
 				tex = "Interface\\Icons\\INV_Misc_Coin_19"
 				icon.bg:SetBackdropBorderColor(.93, .65, .37)
-				icon.bg.Shadow:SetBackdropBorderColor(.93, .65, .37)
 			elseif incentiveIndex == LFG_ROLE_SHORTAGE_UNCOMMON then
 				tex = "Interface\\Icons\\INV_Misc_Coin_18"
 				icon.bg:SetBackdropBorderColor(.78, .78, .81)
-				icon.bg.Shadow:SetBackdropBorderColor(.78, .78, .81)
 			elseif incentiveIndex == LFG_ROLE_SHORTAGE_RARE then
 				tex = "Interface\\Icons\\INV_Misc_Coin_17"
 				icon.bg:SetBackdropBorderColor(1, .84, 0)
-				icon.bg.Shadow:SetBackdropBorderColor(1, .84, 0)
 			end
 
 			roleButton.incentiveIcon.texture:SetTexture(tex)
 		else
 			icon.bg:SetBackdropBorderColor(0, 0, 0)
-			icon.bg.Shadow:SetBackdropBorderColor(1, .84, 0)
 		end
 	end)
 end)

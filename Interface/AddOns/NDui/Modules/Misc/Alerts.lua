@@ -319,7 +319,7 @@ function module:PlacedItemAlert()
 		[190336] = true,	-- 造餐术
 		[199109] = true,	-- 自动铁锤
 		[67826] = true,	-- 基维斯
-		[54710] = true,	-- 基维斯
+		[54710] = true,	-- 随身邮箱
 		[29893] = true,	-- 灵魂之井
 		[698] = true,	-- 召唤仪式
 	}

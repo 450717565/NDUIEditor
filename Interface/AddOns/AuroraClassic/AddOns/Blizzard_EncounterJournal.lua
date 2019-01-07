@@ -245,11 +245,9 @@ C.themes["Blizzard_EncounterJournal"] = function()
 
 	-- Tooltip
 	if AuroraConfig.tooltips then
-		local EncounterJournalTooltip = EncounterJournalTooltip
-		F.CreateBD(EncounterJournalTooltip)
-		F.CreateSD(EncounterJournalTooltip)
-		EncounterJournalTooltip.Item1.newBg = F.ReskinIcon(EncounterJournalTooltip.Item1.icon, true)
-		EncounterJournalTooltip.Item2.newBg = F.ReskinIcon(EncounterJournalTooltip.Item2.icon, true)
+		F.ReskinTooltip(EncounterJournalTooltip)
+		EncounterJournalTooltip.Item1.newBg = F.ReskinIcon(EncounterJournalTooltip.Item1.icon)
+		EncounterJournalTooltip.Item2.newBg = F.ReskinIcon(EncounterJournalTooltip.Item2.icon)
 	end
 
 	-- [[ Suggest frame ]]
@@ -380,6 +378,5 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		local quality = select(3, GetItemInfo(button.itemID))
 		local color = BAG_ITEM_QUALITY_COLORS[quality or 1]
 		button.bg:SetBackdropBorderColor(color.r, color.g, color.b)
-		button.bg.Shadow:SetBackdropBorderColor(color.r, color.g, color.b)
 	end)
 end

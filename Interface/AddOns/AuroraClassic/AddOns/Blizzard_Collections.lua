@@ -91,11 +91,8 @@ C.themes["Blizzard_Collections"] = function()
 
 	-- [[ Mounts and pets ]]
 	if AuroraConfig.tooltips then
-		for _, f in next, {PetJournalPrimaryAbilityTooltip, PetJournalSecondaryAbilityTooltip} do
-			local bg = F.CreateBDFrame(f)
-			bg:SetAllPoints()
-			bg:SetFrameLevel(0)
-		end
+		F.ReskinTooltip(PetJournalPrimaryAbilityTooltip)
+		F.ReskinTooltip(PetJournalSecondaryAbilityTooltip)
 	end
 
 	local lists = {PetJournal, PetJournal.PetCount, PetJournal.LeftInset, PetJournal.RightInset, PetJournal.PetCardInset, PetJournal.loadoutBorder, MountJournal, MountJournal.MountCount, MountJournal.LeftInset, MountJournal.RightInset, MountJournal.MountDisplay, MountJournal.MountDisplay.ShadowOverlay}
@@ -207,7 +204,6 @@ C.themes["Blizzard_Collections"] = function()
 			r, g, b = self.PetInfo.qualityBorder:GetVertexColor()
 		end
 		self.PetInfo.icon.bg:SetBackdropBorderColor(r, g, b)
-		self.PetInfo.icon.bg.Shadow:SetBackdropBorderColor(r, g, b)
 	end)
 
 	-- Pet loadout
@@ -250,7 +246,6 @@ C.themes["Blizzard_Collections"] = function()
 
 			bu.icon.bg:SetShown(not bu.helpFrame:IsShown())
 			bu.icon.bg:SetBackdropBorderColor(r, g, b)
-			bu.icon.bg.Shadow:SetBackdropBorderColor(r, g, b)
 
 			bu.dragButton:SetEnabled(not bu.helpFrame:IsShown())
 		end
@@ -358,12 +353,10 @@ C.themes["Blizzard_Collections"] = function()
 		if button.iconTexture:IsShown() then
 			button.name:SetTextColor(1, 1, 1)
 			button.bg:SetBackdropBorderColor(0, .8, 1)
-			button.bg.Shadow:SetBackdropBorderColor(0, .8, 1)
 			button.newLevelBg:Show()
 		else
 			button.name:SetTextColor(.5, .5, .5)
 			button.bg:SetBackdropBorderColor(0, 0, 0)
-			button.bg.Shadow:SetBackdropBorderColor(0, 0, 0)
 			button.newLevelBg:Hide()
 		end
 	end)
@@ -386,14 +379,12 @@ C.themes["Blizzard_Collections"] = function()
 				button.name:SetTextColor(1, 1, 1)
 				if button.bg then
 					button.bg:SetBackdropBorderColor(0, .8, 1)
-					button.bg.Shadow:SetBackdropBorderColor(0, .8, 1)
 				end
 				if button.newLevelBg then button.newLevelBg:Show() end
 			else
 				button.name:SetTextColor(.5, .5, .5)
 				if button.bg then
 					button.bg:SetBackdropBorderColor(0, 0, 0)
-					button.bg.Shadow:SetBackdropBorderColor(0, 0, 0)
 				end
 				if button.newLevelBg then button.newLevelBg:Hide() end
 			end
@@ -456,10 +447,8 @@ C.themes["Blizzard_Collections"] = function()
 			local quality = C_TransmogCollection.GetSourceInfo(itemFrame.sourceID).quality
 			local color = BAG_ITEM_QUALITY_COLORS[quality or 1]
 			ic.bg:SetBackdropBorderColor(color.r, color.g, color.b)
-			ic.bg.Shadow:SetBackdropBorderColor(color.r, color.g, color.b)
 		else
 			ic.bg:SetBackdropBorderColor(0, 0, 0)
-			ic.bg.Shadow:SetBackdropBorderColor(0, 0, 0)
 		end
 	end)
 

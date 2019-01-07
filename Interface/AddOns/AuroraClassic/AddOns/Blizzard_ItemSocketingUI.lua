@@ -34,7 +34,6 @@ C.themes["Blizzard_ItemSocketingUI"] = function()
 		for i = 1, MAX_NUM_SOCKETS do
 			local color = GEM_TYPE_INFO[GetSocketTypes(i)]
 			_G["ItemSocketingSocket"..i].bg:SetBackdropBorderColor(color.r, color.g, color.b)
-			_G["ItemSocketingSocket"..i].bg.Shadow:SetBackdropBorderColor(color.r, color.g, color.b)
 		end
 
 		local num = GetNumSockets()

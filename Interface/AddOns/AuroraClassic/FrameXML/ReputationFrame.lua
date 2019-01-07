@@ -3,10 +3,11 @@ local F, C = unpack(select(2, ...))
 tinsert(C.themes["AuroraClassic"], function()
 	ReputationDetailCorner:Hide()
 	ReputationDetailDivider:Hide()
-	ReputationListScrollFrame:GetRegions():Hide()
-	select(2, ReputationListScrollFrame:GetRegions()):Hide()
-
 	ReputationDetailFrame:SetPoint("TOPLEFT", ReputationFrame, "TOPRIGHT", 2, -28)
+
+	for i = 1, 2 do
+		select(i, ReputationListScrollFrame:GetRegions()):Hide()
+	end
 
 	local function UpdateFactionSkins()
 		for i = 1, GetNumFactions() do
@@ -32,6 +33,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.ReskinExpandOrCollapse(bu)
 	end
 
+	F.StripTextures(ReputationDetailFrame, true)
 	F.CreateBD(ReputationDetailFrame)
 	F.CreateSD(ReputationDetailFrame)
 	F.ReskinClose(ReputationDetailCloseButton)
@@ -40,5 +42,4 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinCheck(ReputationDetailMainScreenCheckBox)
 	F.ReskinCheck(ReputationDetailLFGBonusReputationCheckBox)
 	F.ReskinScroll(ReputationListScrollFrameScrollBar)
-	select(3, ReputationDetailFrame:GetRegions()):Hide()
 end)

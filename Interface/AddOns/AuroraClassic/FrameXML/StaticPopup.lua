@@ -3,58 +3,38 @@ local F, C = unpack(select(2, ...))
 tinsert(C.themes["AuroraClassic"], function()
 	local r, g, b = C.r, C.g, C.b
 
-	local function colourMinimize(f)
-		if f:IsEnabled() then
-			f.minimize:SetVertexColor(r, g, b)
-		end
-	end
-
-	local function clearMinimize(f)
-		f.minimize:SetVertexColor(1, 1, 1)
-	end
-
 	for i = 1, 4 do
 		local frame = _G["StaticPopup"..i]
-		local bu = _G["StaticPopup"..i.."ItemFrame"]
-		local close = _G["StaticPopup"..i.."CloseButton"]
-
-		local gold = _G["StaticPopup"..i.."MoneyInputFrameGold"]
-		local silver = _G["StaticPopup"..i.."MoneyInputFrameSilver"]
-		local copper = _G["StaticPopup"..i.."MoneyInputFrameCopper"]
-
-		_G["StaticPopup"..i.."ItemFrameNameFrame"]:Hide()
-		_G["StaticPopup"..i.."ItemFrameIconTexture"]:SetTexCoord(.08, .92, .08, .92)
-
-		bu:SetNormalTexture("")
-		bu:SetHighlightTexture("")
-		bu:SetPushedTexture("")
-		F.CreateBDFrame(bu)
-		bu.IconBorder:SetAlpha(0)
-
-		silver:SetPoint("LEFT", gold, "RIGHT", 1, 0)
-		copper:SetPoint("LEFT", silver, "RIGHT", 1, 0)
-
-		F.CreateBD(frame)
-		F.CreateSD(frame)
+		F.ReskinPortraitFrame(frame, true)
+		F.Reskin(frame["extraButton"])
 
 		for j = 1, 4 do
 			F.Reskin(frame["button"..j])
 		end
-		F.Reskin(frame["extraButton"])
 
-		F.ReskinClose(close)
+		local edit = _G["StaticPopup"..i.."EditBox"]
+		F.ReskinInput(edit, 20)
 
-		close.minimize = close:CreateTexture(nil, "OVERLAY")
-		close.minimize:SetSize(9, 1)
-		close.minimize:SetPoint("CENTER")
-		close.minimize:SetTexture(C.media.bdTex)
-		close.minimize:SetVertexColor(1, 1, 1)
-		close:HookScript("OnEnter", colourMinimize)
-		close:HookScript("OnLeave", clearMinimize)
+		local item = _G["StaticPopup"..i.."ItemFrame"]
+		F.StripTextures(item)
 
-		F.ReskinInput(_G["StaticPopup"..i.."EditBox"], 20)
+		local name = _G["StaticPopup"..i.."ItemFrameNameFrame"]
+		name:Hide()
+
+		local icon = _G["StaticPopup"..i.."ItemFrameIconTexture"]
+		local ic = F.ReskinIcon(icon, true)
+		F.ReskinTexture(item, false, ic)
+		F.ReskinTexture(item.IconBorder, false, item, true)
+
+		local gold = _G["StaticPopup"..i.."MoneyInputFrameGold"]
 		F.ReskinInput(gold)
+
+		local silver = _G["StaticPopup"..i.."MoneyInputFrameSilver"]
+		silver:SetPoint("LEFT", gold, "RIGHT", 1, 0)
 		F.ReskinInput(silver)
+
+		local copper = _G["StaticPopup"..i.."MoneyInputFrameCopper"]
+		copper:SetPoint("LEFT", silver, "RIGHT", 1, 0)
 		F.ReskinInput(copper)
 	end
 
@@ -102,12 +82,10 @@ tinsert(C.themes["AuroraClassic"], function()
 				for _, pixel in pairs(closeButton.pixels) do
 					pixel:Hide()
 				end
-				closeButton.minimize:Show()
 			else
 				for _, pixel in pairs(closeButton.pixels) do
 					pixel:Show()
 				end
-				closeButton.minimize:Hide()
 			end
 		end
 	end)

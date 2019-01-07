@@ -1,12 +1,10 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	F.CreateBD(RolePollPopup)
-	F.CreateSD(RolePollPopup)
+	F.ReskinPortraitFrame(RolePollPopup, true)
 	F.Reskin(RolePollPopupAcceptButton)
-	F.ReskinClose(RolePollPopupCloseButton)
 
 	for _, roleButton in next, {RolePollPopupRoleButtonTank, RolePollPopupRoleButtonHealer, RolePollPopupRoleButtonDPS} do
-		F.ReskinRadio(roleButton.checkButton)
+		F.ReskinCheck(roleButton.checkButton)
 	end
 end)

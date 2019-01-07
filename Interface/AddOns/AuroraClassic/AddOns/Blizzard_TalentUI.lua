@@ -151,7 +151,6 @@ C.themes["Blizzard_TalentUI"] = function()
 				local bu = _G["PlayerTalentFrameTalentsTalentRow"..i.."Talent"..j]
 				if known then
 					bu.bg:SetBackdropBorderColor(r, g, b)
-					bu.bg.Shadow:SetBackdropBorderColor(r, g, b)
 				elseif selected then
 					bu.bg:SetBackdropColor(r, g, b, .25)
 				else

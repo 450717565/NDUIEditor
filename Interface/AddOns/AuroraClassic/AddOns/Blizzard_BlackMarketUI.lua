@@ -41,8 +41,8 @@ C.themes["Blizzard_BlackMarketUI"] = function()
 				F.ReskinTexture(bu.Item, false, ic)
 
 				local bg = F.CreateBDFrame(bu, .25)
-				bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, -1)
-				bg:SetPoint("BOTTOMRIGHT", 0, 5)
+				bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
+				bg:SetPoint("BOTTOMRIGHT", 0, 3)
 
 				F.ReskinTexture(bu, false, bg)
 				F.ReskinTexture(bu.Selection, true, bg)
@@ -63,6 +63,6 @@ C.themes["Blizzard_BlackMarketUI"] = function()
 			local _, _, quality = GetItemInfo(hotDeal.itemLink)
 			hotDeal.Name:SetTextColor(GetItemQualityColor(quality))
 		end
-		hotDeal.Item.IconBorder:Hide()
+		F.ReskinTexture(hotDeal.Item.IconBorder, false, hotDeal.Item, true)
 	end)
 end

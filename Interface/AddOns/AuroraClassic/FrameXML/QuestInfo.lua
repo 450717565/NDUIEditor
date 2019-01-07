@@ -82,7 +82,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		bg:SetPoint("BOTTOMRIGHT", -5, 0)
 
 		if bu.IconBorder then
-			bu.IconBorder:SetAlpha(0)
+			F.ReskinTexture(bu.IconBorder, false, bu, true)
 		end
 
 		if isMapQuestInfo then

@@ -74,8 +74,8 @@ C.themes["Blizzard_AuctionUI"] = function()
 			F.ReskinTexture(it, false, icbg)
 
 			local bubg = F.CreateBDFrame(bu, .25)
-			bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, -1)
-			bubg:SetPoint("BOTTOMRIGHT", 0, 5)
+			bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
+			bubg:SetPoint("BOTTOMRIGHT", 0, 3)
 			F.ReskinTexture(bu, true, bubg)
 		end
 	end
@@ -178,6 +178,5 @@ C.themes["Blizzard_AuctionUI"] = function()
 
 		local bg = F.ReskinIcon(icon, true)
 		bg:SetBackdropBorderColor(0, .8, 1)
-		bg.Shadow:SetBackdropBorderColor(0, .8, 1)
 	end
 end

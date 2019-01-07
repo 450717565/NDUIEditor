@@ -241,7 +241,6 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 	local color = BAG_ITEM_QUALITY_COLORS[maxQuality]
 	local r, g, b = color.r, color.g, color.b
 	self:SetBackdropBorderColor(r, g, b)
-	self.Shadow:SetBackdropBorderColor(r, g, b)
 	self.Title:SetTextColor(r, g, b)
 
 	self:AnchorSlots()

@@ -1,7 +1,7 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	F.StripTextures(StackSplitFrame)
+	F.StripTextures(StackSplitFrame, true)
 	F.CreateBD(StackSplitFrame)
 	F.CreateSD(StackSplitFrame)
 
