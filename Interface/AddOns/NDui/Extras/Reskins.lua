@@ -202,7 +202,7 @@ local function Reskins()
 			for i = 13, 20 do
 				local bu = _G["MerchantItem"..i.."ItemButton"]
 				F.StripTextures(bu)
-				bu.IconBorder:SetAlpha(0)
+				F.ReskinTexture(bu.IconBorder, false, bu, true)
 
 				local ic = F.ReskinIcon(bu.icon, true)
 				F.ReskinTexture(bu, false, ic)
@@ -210,22 +210,13 @@ local function Reskins()
 				local item = _G["MerchantItem"..i]
 				F.StripTextures(item, true)
 
-				local bg = F.CreateBDFrame(item, .25)
-				bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 4)
-				bg:SetPoint("BOTTOMRIGHT", 0, 0)
-
 				local name = _G["MerchantItem"..i.."Name"]
 				name:ClearAllPoints()
-				name:SetPoint("TOPLEFT", bg, "TOPLEFT", 2, -2)
+				name:SetPoint("TOPLEFT", ic, "TOPRIGHT", 4, 1)
 
 				local money = _G["MerchantItem"..i.."MoneyFrame"]
 				money:ClearAllPoints()
-				money:SetPoint("BOTTOMLEFT", bg, "BOTTOMLEFT", 2, 2)
-
-				local currency = _G["MerchantItem"..i.."AltCurrencyFrame"]
-				currency:ClearAllPoints()
-				currency:SetPoint("BOTTOMLEFT", bg, "BOTTOMLEFT", 2, 3)
-				currency.SetPoint = F.dummy
+				money:SetPoint("LEFT", ic, "BOTTOMRIGHT", 4, 2)
 
 				for j = 1, 3 do
 					F.ReskinIcon(_G["MerchantItem"..i.."AltCurrencyFrameItem"..j.."Texture"])

@@ -22,7 +22,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	for i = 1, BUYBACK_ITEMS_PER_PAGE do
 		local bu = _G["MerchantItem"..i.."ItemButton"]
 		F.StripTextures(bu)
-		bu.IconBorder:SetAlpha(0)
+		F.ReskinTexture(bu.IconBorder, false, bu, true)
 
 		local ic = F.ReskinIcon(bu.icon, true)
 		F.ReskinTexture(bu, false, ic)
@@ -30,73 +30,18 @@ tinsert(C.themes["AuroraClassic"], function()
 		local item = _G["MerchantItem"..i]
 		F.StripTextures(item, true)
 
-		local bg = F.CreateBDFrame(item, .25)
-		bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 4)
-		bg:SetPoint("BOTTOMRIGHT", 0, 0)
-
 		local name = _G["MerchantItem"..i.."Name"]
 		name:ClearAllPoints()
-		name:SetPoint("TOPLEFT", bg, "TOPLEFT", 2, -2)
+		name:SetPoint("TOPLEFT", ic, "TOPRIGHT", 4, 1)
 
 		local money = _G["MerchantItem"..i.."MoneyFrame"]
 		money:ClearAllPoints()
-		money:SetPoint("BOTTOMLEFT", bg, "BOTTOMLEFT", 2, 2)
-
-		local currency = _G["MerchantItem"..i.."AltCurrencyFrame"]
-		currency:ClearAllPoints()
-		currency:SetPoint("BOTTOMLEFT", bg, "BOTTOMLEFT", 2, 3)
-		currency.SetPoint = F.dummy
+		money:SetPoint("LEFT", ic, "BOTTOMRIGHT", 4, 2)
 
 		for j = 1, 3 do
 			F.ReskinIcon(_G["MerchantItem"..i.."AltCurrencyFrameItem"..j.."Texture"])
 		end
 	end
-
-	hooksecurefunc("MerchantFrame_UpdateMerchantInfo", function()
-		local numMerchantItems = GetMerchantNumItems()
-		for i = 1, MERCHANT_ITEMS_PER_PAGE do
-			local index = ((MerchantFrame.page - 1) * MERCHANT_ITEMS_PER_PAGE) + i
-			if index <= numMerchantItems then
-				local bu = _G["MerchantItem"..i.."ItemButton"]
-				local name = _G["MerchantItem"..i.."Name"]
-				if bu.link then
-					local _, _, quality = GetItemInfo(bu.link)
-					if quality then
-						local r, g, b = GetItemQualityColor(quality)
-						name:SetTextColor(r, g, b)
-					else
-						name:SetTextColor(1, 1, 1)
-					end
-				else
-					name:SetTextColor(1, 1, 1)
-				end
-			end
-		end
-
-		local name = GetBuybackItemLink(GetNumBuybackItems())
-		if name then
-			local _, _, quality = GetItemInfo(name)
-			local r, g, b = GetItemQualityColor(quality or 1)
-
-			MerchantBuyBackItemName:SetTextColor(r, g, b)
-		end
-	end)
-
-	hooksecurefunc("MerchantFrame_UpdateBuybackInfo", function()
-		for i = 1, BUYBACK_ITEMS_PER_PAGE do
-			local itemLink = GetBuybackItemLink(i)
-			local name = _G["MerchantItem"..i.."Name"]
-
-			if itemLink then
-				local _, _, quality = GetItemInfo(itemLink)
-				local r, g, b = GetItemQualityColor(quality)
-
-				name:SetTextColor(r, g, b)
-			else
-				name:SetTextColor(1, 1, 1)
-			end
-		end
-	end)
 
 	local backIC = F.ReskinIcon(MerchantBuyBackItemItemButtonIconTexture, true)
 
@@ -133,23 +78,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	local ic = MerchantRepairItemButton:GetRegions()
 	ic:SetTexture("Interface\\Icons\\INV_Hammer_20")
 	ic:SetTexCoord(.08, .92, .08, .92)
-
-	hooksecurefunc("MerchantFrame_UpdateCurrencies", function()
-		for i = 1, MAX_MERCHANT_CURRENCIES do
-			local bu = _G["MerchantToken"..i]
-			if bu and not bu.reskinned then
-				local ic = _G["MerchantToken"..i.."Icon"]
-				local co = _G["MerchantToken"..i.."Count"]
-
-				ic:SetDrawLayer("OVERLAY")
-				ic:SetPoint("LEFT", co, "RIGHT", 2, 0)
-				co:SetPoint("TOPLEFT", bu, "TOPLEFT", -2, 0)
-				F.ReskinIcon(ic, true)
-
-				bu.reskinned = true
-			end
-		end
-	end)
 
 	hooksecurefunc("MerchantFrame_UpdateRepairButtons", function()
 		if CanGuildBankRepair() then

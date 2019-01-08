@@ -22,12 +22,12 @@ C.themes["Blizzard_ItemSocketingUI"] = function()
 		local ic = F.ReskinIcon(bu.icon, true)
 		F.ReskinTexture(bu, false, ic)
 
-		bu.bg = ic
-
 		local shine = _G["ItemSocketingSocket"..i.."Shine"]
 		shine:ClearAllPoints()
-		shine:SetPoint("TOPLEFT")
-		shine:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
+		shine:SetPoint("TOPLEFT", ic, C.mult, -C.mult)
+		shine:SetPoint("BOTTOMRIGHT", ic, 0, 0)
+
+		bu.bg = ic
 	end
 
 	hooksecurefunc("ItemSocketingFrame_Update", function()

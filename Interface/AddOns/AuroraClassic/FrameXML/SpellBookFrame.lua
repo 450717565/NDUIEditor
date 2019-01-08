@@ -31,7 +31,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	end
 
 	hooksecurefunc("SpellButton_UpdateButton", function(self)
-		if SpellBookFrame.bookType == BOOKTYPE_SPELL then
+		if SpellBookFrame.bookType ~= BOOKTYPE_PROFESSION then
 			local frame = self:GetName()
 
 			local hl = _G[frame.."Highlight"]
@@ -44,16 +44,23 @@ tinsert(C.themes["AuroraClassic"], function()
 			name:ClearAllPoints()
 			name:SetPoint("TOPLEFT", ic.bg, "TOPRIGHT", 4, -5)
 
-			local subname = _G[frame.."SubSpellName"]
-			subname:SetTextColor(1, 1, 1)
-			subname:ClearAllPoints()
-			subname:SetPoint("BOTTOMLEFT", ic.bg, "BOTTOMRIGHT", 4, 5)
+			local subName = _G[frame.."SubSpellName"]
+			subName:SetTextColor(1, 1, 1)
+			subName:ClearAllPoints()
+			subName:SetPoint("BOTTOMLEFT", ic.bg, "BOTTOMRIGHT", 4, 5)
 
-			local lvlname = _G[frame.."RequiredLevelString"]
-			lvlname:SetJustifyH("CENTER")
-			lvlname:SetTextColor(1, 1, 1)
-			lvlname:ClearAllPoints()
-			lvlname:SetPoint("CENTER", ic.bg, "CENTER", 1, 0)
+			local lvlName = _G[frame.."RequiredLevelString"]
+			lvlName:SetJustifyH("CENTER")
+			lvlName:SetTextColor(1, 1, 1)
+			lvlName:ClearAllPoints()
+			lvlName:SetPoint("CENTER", ic.bg, "CENTER", 1, 0)
+
+			local shine = self.shine
+			if shine then
+				shine:ClearAllPoints()
+				shine:SetPoint("TOPLEFT", ic.bg, 0, 0)
+				shine:SetPoint("BOTTOMRIGHT", ic.bg, 0, 0)
+			end
 		end
 	end)
 
@@ -76,6 +83,8 @@ tinsert(C.themes["AuroraClassic"], function()
 	local professions = {"PrimaryProfession1", "PrimaryProfession2", "SecondaryProfession1", "SecondaryProfession2", "SecondaryProfession3"}
 	for index, button in pairs(professions) do
 		local bu = _G[button]
+		bu.missingHeader:SetTextColor(1, 1, 1)
+		bu.missingText:SetTextColor(1, 1, 1)
 		F.StripTextures(bu)
 
 		local bg = F.CreateBDFrame(bu, .25)
