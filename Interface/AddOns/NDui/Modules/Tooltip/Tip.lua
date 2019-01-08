@@ -306,7 +306,7 @@ end)
 
 -- Tooltip skin
 local function getBackdrop(self) return self.bg:GetBackdrop() end
-local function getBackdropColor() return 0, 0, 0, .7 end
+local function getBackdropColor() return 0, 0, 0, .5 end
 local function getBackdropBorderColor() return 0, 0, 0 end
 
 function B:ReskinTooltip()

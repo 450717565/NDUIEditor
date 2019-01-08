@@ -63,11 +63,11 @@ local function GetInspectItemListFrame(parent)
 		local fontsize = GetLocale():sub(1,2) == "zh" and 12 or 9
 		local backdrop = {
 			bgFile   = "Interface\\Tooltips\\UI-Tooltip-Background",
-			edgeFile = "Interface\\Buttons\\WHITE8X8",
+			edgeFile = "Interface\\ChatFrame\\ChatFrameBackground",
 			tile     = true,
 			tileSize = 8,
-			edgeSize = 1,
-			insets   = {left = 1, right = 1, top = 1, bottom = 1}
+			edgeSize = C.mult,
+			insets   = {left = C.mult, right = C.mult, top = C.mult, bottom = C.mult}
 		}
 		for i, v in ipairs(slots) do
 			itemframe = CreateFrame("Button", nil, frame)
@@ -222,10 +222,6 @@ function ShowInspectItemListFrame(unit, parent, ilevel, maxLevel)
 	frame:SetBackdropColor(0, 0, 0, 0.9)
 	frame:SetBackdropBorderColor(color.r, color.g, color.b)
 
-	if IsAddOnLoaded("AuroraClassic") then
-		frame.Shadow:SetBackdropBorderColor(color.r, color.g, color.b)
-	end
-
 	return frame
 end
 
@@ -248,12 +244,12 @@ end)
 --設置邊框
 LibEvent:attachTrigger("INSPECT_FRAME_SHOWN", function(self, frame, parent, ilevel)
 	if IsAddOnLoaded("AuroraClassic") then
-		frame.backdrop.edgeSize = 1
-		frame.backdrop.edgeFile = "Interface\\Buttons\\WHITE8X8"
-		frame.backdrop.insets.top = 1
-		frame.backdrop.insets.left = 1
-		frame.backdrop.insets.right = 1
-		frame.backdrop.insets.bottom = 1
+		frame.backdrop.edgeSize = C.mult
+		frame.backdrop.edgeFile = "Interface\\ChatFrame\\ChatFrameBackground"
+		frame.backdrop.insets.top = C.mult
+		frame.backdrop.insets.left = C.mult
+		frame.backdrop.insets.right = C.mult
+		frame.backdrop.insets.bottom = C.mult
 		frame:SetPoint("TOPLEFT", parent, "TOPRIGHT", 2, 0)
 	else
 		frame.backdrop.edgeSize = 16

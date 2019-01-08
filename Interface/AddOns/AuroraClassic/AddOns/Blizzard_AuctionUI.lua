@@ -171,7 +171,6 @@ C.themes["Blizzard_AuctionUI"] = function()
 		local Buyout = BrowseWowTokenResults.Buyout
 		local Token = BrowseWowTokenResults.Token
 		local icon = Token.Icon
-		local iconBorder = Token.IconBorder
 
 		F.StripTextures(Token)
 		F.Reskin(Buyout)
