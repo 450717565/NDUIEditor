@@ -104,7 +104,7 @@ C.themes["Blizzard_TalentUI"] = function()
 			bu.ring:Hide()
 			bu.learnedTex:SetTexture("")
 			_G[name..i.."Glow"]:SetTexture("")
-			F.Reskin(bu, true)
+			F.Reskin(bu)
 			F.ReskinTexture(bu.selectedTex, true, bu)
 
 			local ic = bu.specIcon

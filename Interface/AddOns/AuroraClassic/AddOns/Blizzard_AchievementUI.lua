@@ -24,8 +24,8 @@ C.themes["Blizzard_AchievementUI"] = function()
 					F.StripTextures(bu)
 
 					local bg = F.CreateBDFrame(bu, .25)
-					bg:SetPoint("TOPLEFT", 0, -1)
-					bg:SetPoint("BOTTOMRIGHT", 0, 1)
+					bg:SetPoint("TOPLEFT", C.mult, -C.mult)
+					bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 
 					F.ReskinTexture(bu, true, bg)
 				end
@@ -272,7 +272,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 
 			local bg = F.CreateBDFrame(bu, .25)
 			bg:SetPoint("TOPLEFT", 2, -2)
-			bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
+			bg:SetPoint("BOTTOMRIGHT", -2, 2)
 
 			F.ReskinIcon(bu.icon, true)
 			F.ReskinTexture(bu, true, bg)

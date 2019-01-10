@@ -20,25 +20,24 @@ C.themes["Blizzard_ArchaeologyUI"] = function()
 
 		local button = _G[bu]
 		F.StripTextures(button)
+		
+		local icon = F.ReskinIcon(_G[bu.."Icon"], true)
 
 		local bg = F.CreateBDFrame(button, .25)
-		bg:SetPoint("TOPLEFT", -C.mult, C.mult)
-		bg:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
+		bg:SetPoint("TOPLEFT", icon, "TOPRIGHT", 2, 0)
+		bg:SetPoint("BOTTOMRIGHT", 0, -1)
 
 		F.ReskinTexture(button, true, bg)
-
-		local icon = _G[bu.."Icon"]
-		F.ReskinIcon(icon)
 
 		local name = _G[bu.."ArtifactName"]
 		name:SetTextColor(1, 1, 1)
 		name:ClearAllPoints()
-		name:SetPoint("TOPLEFT", icon, "TOPRIGHT", 5, 3)
+		name:SetPoint("TOPLEFT", icon, "TOPRIGHT", 9, 3)
 
 		local text = _G[bu.."ArtifactSubText"]
 		text:SetTextColor(1, 1, 1)
 		text:ClearAllPoints()
-		text:SetPoint("BOTTOMLEFT", icon, "BOTTOMRIGHT", 5, 5)
+		text:SetPoint("BOTTOMLEFT", icon, "BOTTOMRIGHT", 9, 7)
 	end
 
 	ArchaeologyFrameInfoButton:SetPoint("TOPLEFT", 3, -3)

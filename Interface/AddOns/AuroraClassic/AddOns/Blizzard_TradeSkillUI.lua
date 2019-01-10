@@ -89,7 +89,7 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 
 		local bg = F.CreateBDFrame(reagent.NameFrame, .25)
 		bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
-		bg:SetPoint("BOTTOMRIGHT", -4, 1)
+		bg:SetPoint("BOTTOMRIGHT", -5, 1)
 	end
 	F.Reskin(details.ViewGuildCraftersButton)
 

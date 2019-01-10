@@ -23,7 +23,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	for i = 1, 4 do
 		local bu = GroupFinderFrame["groupButton"..i]
 		bu.ring:Hide()
-		F.Reskin(bu, true)
+		F.Reskin(bu)
 		F.ReskinTexture(bu.bg, true, bu)
 
 		local icon = bu.icon

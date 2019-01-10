@@ -225,8 +225,8 @@ function WorldFlightMapProvider:AddFlightNode(taxiNodeData)
 				end
 			--else
 			if not drawPin then
-				taxiNodeData.position.x = mapTaxiX
-				taxiNodeData.position.y = mapTaxiY
+				-- taxiNodeData.position.x = mapTaxiX
+				-- taxiNodeData.position.y = mapTaxiY
 				drawPin = true
 			end
 			

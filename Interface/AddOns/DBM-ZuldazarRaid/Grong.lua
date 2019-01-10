@@ -10,7 +10,7 @@ end
 local mod	= DBM:NewMod(dungeonID, "DBM-ZuldazarRaid", 1, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 18151 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 18156 $"):sub(12, -3))
 mod:SetCreatureID(creatureID)
 mod:SetEncounterID(2263, 2284)--2263 Alliance, 2284 Horde
 --mod:DisableESCombatDetection()
@@ -38,7 +38,8 @@ mod:RegisterEventsInCombat(
 (ability.id = 282399 or ability.id = 281936 or ability.id = 285994 or ability.id = 286435 or ability.id = 285660) and type = "begincast"
  or (ability.id = 282543 or ability.id = 282179 or ability.id = 282526 or ability.id = 282247 or ability.id = 286450 or ability.id = 282082) and type = "cast"
  or (ability.id = 282533 or ability.id = 282243) and type = "begincast"
- --Tank Combo
+ or (ability.id = 286434 or ability.id) = 285659 and type = "applydebuff"
+ --Tank Combo Only
 (ability.id = 285875 or ability.id = 286450 or ability.id = 282082 or ability.id = 282083 or ability.id = 289292) and type = "cast" or ability.id = 285671 and type = "applydebuff"
 --]]
 --TODO, detect Voodoo Blast targets and add runout?

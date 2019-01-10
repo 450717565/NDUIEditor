@@ -193,7 +193,7 @@ local function ShowGemAndEnchant(frame, ItemLink, anchorFrame, itemframe)
 			icon:Show()
 			anchorFrame = icon
 		elseif (not enchantID) then
-			if (qty == 6 and (itemframe.index==16 or itemframe.index==17)) then else
+			if (qty == 6 and (itemframe.index==2 or itemframe.index==16 or itemframe.index==17)) then else
 				num = num + 1
 				icon = GetIconFrame(frame)
 				icon.title = ENCHANTS .. L[":"] .. EnchantParts[itemframe.index][2]

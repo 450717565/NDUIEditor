@@ -225,8 +225,8 @@ GameTooltip:HookScript("OnTooltipSetUnit", function(self)
 
 	if GameTooltipStatusBar:IsShown() then
 		GameTooltipStatusBar:ClearAllPoints()
-		GameTooltipStatusBar:SetPoint("BOTTOMLEFT", self, "TOPLEFT", C.mult, 3)
-		GameTooltipStatusBar:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", -C.mult, 3)
+		GameTooltipStatusBar:SetPoint("BOTTOMLEFT", self, "TOPLEFT", C.mult, C.mult*2)
+		GameTooltipStatusBar:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", -C.mult, C.mult*2)
 		if C.mult and not GameTooltipStatusBar.bg then
 			GameTooltipStatusBar:SetStatusBarTexture(DB.normTex)
 			GameTooltipStatusBar:SetHeight(5)

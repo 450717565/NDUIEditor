@@ -68,8 +68,8 @@ tinsert(C.themes["AuroraClassic"], function()
 
 			if not result.styled then
 				local bg = F.CreateBDFrame(result, .25)
-				bg:SetPoint("TOPLEFT", 0, -1)
-				bg:SetPoint("BOTTOMRIGHT", 0, 1)
+				bg:SetPoint("TOPLEFT", C.mult, -C.mult)
+				bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 
 				reskinHL(result, bg)
 
@@ -97,8 +97,8 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.StripTextures(header)
 
 		local bg = F.CreateBDFrame(header, .25)
-		bg:SetPoint("TOPLEFT", 3, -1)
-		bg:SetPoint("BOTTOMRIGHT", 2, 1)
+		bg:SetPoint("TOPLEFT", C.mult, -C.mult)
+		bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 
 		reskinHL(header, bg)
 	end

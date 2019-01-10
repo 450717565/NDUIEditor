@@ -59,8 +59,8 @@ C.themes["Blizzard_GuildControlUI"] = function()
 				F.Reskin(bu.buy.button)
 
 				local bg = F.CreateBDFrame(bu, .25)
-				bg:SetPoint("TOPLEFT", 2, -1)
-				bg:SetPoint("BOTTOMRIGHT", 0, 1)
+				bg:SetPoint("TOPLEFT", C.mult, -C.mult)
+				bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 
 				local ownedTab = bu.owned
 				ownedTab.tabIcon:ClearAllPoints()

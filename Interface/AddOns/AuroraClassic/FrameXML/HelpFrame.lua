@@ -67,21 +67,11 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.CreateGradient(bg)
 	end
 
-	local function colourTab(f)
-		f.text:SetTextColor(1, 1, 1)
-	end
-
-	local function clearTab(f)
-		f.text:SetTextColor(1, .82, 0)
-	end
-
 	local function styleTab(bu)
 		bu.selected:SetColorTexture(r, g, b, .25)
 		bu.selected:SetDrawLayer("BACKGROUND")
 		bu.text:SetFont(C.media.font, 14, "OUTLINE")
-		F.Reskin(bu, true)
-		bu:SetScript("OnEnter", colourTab)
-		bu:SetScript("OnLeave", clearTab)
+		F.Reskin(bu)
 	end
 
 	for i = 1, 6 do

@@ -14,7 +14,7 @@ C.themes["Blizzard_PVPUI"] = function()
 	for i = 1, 3 do
 		local bu = PVPQueueFrame["CategoryButton"..i]
 		bu.Ring:Hide()
-		F.Reskin(bu, true)
+		F.Reskin(bu)
 		F.ReskinTexture(bu.Background, true, bu)
 
 		local icon = bu.Icon
@@ -29,18 +29,6 @@ C.themes["Blizzard_PVPUI"] = function()
 	PVPQueueFrame.CategoryButton1.Icon:SetTexture("Interface\\Icons\\achievement_bg_winwsg")
 	PVPQueueFrame.CategoryButton2.Icon:SetTexture("Interface\\Icons\\achievement_bg_killxenemies_generalsroom")
 	PVPQueueFrame.CategoryButton3.Icon:SetTexture("Interface\\Icons\\ability_warrior_offensivestance")
-
-	hooksecurefunc("PVPQueueFrame_SelectButton", function(index)
-		local self = PVPQueueFrame
-		for i = 1, 3 do
-			local bu = self["CategoryButton"..i]
-			if i == index then
-				bu.Background:Show()
-			else
-				bu.Background:Hide()
-			end
-		end
-	end)
 
 	-- ConquestBar
 	local function styleBar(f)
@@ -76,7 +64,7 @@ C.themes["Blizzard_PVPUI"] = function()
 
 	for _, bonusButton in next, {"RandomBGButton", "RandomEpicBGButton", "Arena1Button", "BrawlButton"} do
 		local bu = BonusFrame[bonusButton]
-		F.Reskin(bu, true)
+		F.Reskin(bu)
 		F.ReskinTexture(bu.SelectedTexture, true, bu)
 	end
 
@@ -88,17 +76,9 @@ C.themes["Blizzard_PVPUI"] = function()
 		F.ReskinTooltip(ConquestTooltip)
 	end
 
-	local function ConquestFrameButton_OnEnter(self)
-		ConquestTooltip:SetPoint("TOPLEFT", self, "TOPRIGHT", 1, 0)
-	end
-
-	ConquestFrame.Arena2v2:HookScript("OnEnter", ConquestFrameButton_OnEnter)
-	ConquestFrame.Arena3v3:HookScript("OnEnter", ConquestFrameButton_OnEnter)
-	ConquestFrame.RatedBG:HookScript("OnEnter", ConquestFrameButton_OnEnter)
-
 	for _, conquestButton in next, {"Arena2v2", "Arena3v3", "RatedBG"} do
 		local bu = ConquestFrame[conquestButton]
-		F.Reskin(bu, true)
+		F.Reskin(bu)
 		F.ReskinTexture(bu.SelectedTexture, true, bu)
 	end
 end

@@ -135,7 +135,6 @@ LibEvent:attachEvent("GROUP_ROSTER_UPDATE", function(self)
 	end
 end)
 
-
 ----------------
 -- 界面處理
 ----------------

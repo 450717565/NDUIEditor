@@ -81,7 +81,7 @@ end
 function B:CreateBD(a)
 	self:SetBackdrop({bgFile = DB.bdTex, edgeFile = DB.bdTex, edgeSize = C.mult})
 	self:SetBackdropColor(0, 0, 0, a or .5)
-	self:SetBackdropBorderColor(0, 0, 0)
+	self:SetBackdropBorderColor(0, 0, 0, 1)
 end
 
 -- Create Shadow

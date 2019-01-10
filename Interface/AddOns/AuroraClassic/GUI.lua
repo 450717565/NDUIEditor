@@ -15,7 +15,6 @@ if locale == "zhCN" then
 	L["Replace default game fonts"] = "全局字体黑色描边"
 	L["Custom Color"] = "自定义按键高亮颜色"
 	L["Change"] = "点击修改"
-	L["Button Gradient"] = "按键颜色渐变"
 	L["Opacity"] = "背景透明度*"
 	L["Reload Text"] = "不带星号(*)的设置需要重载插件后生效。"
 	L["FontScale"] = "字体缩放"
@@ -32,7 +31,6 @@ elseif locale == "zhTW" then
 	L["Replace default game fonts"] = "全局字體黑色描邊"
 	L["Custom Color"] = "自定義按键高亮顏色"
 	L["Change"] = "點擊修改"
-	L["Button Gradient"] = "按鍵顏色漸變"
 	L["Opacity"] = "背景透明度*"
 	L["Reload Text"] = "不帶星標(*)的設置需要重載插件後生效。"
 	L["FontScale"] = "字體縮放"
@@ -49,7 +47,6 @@ else
 	L["Replace default game fonts"] = "Global Font Outline"
 	L["Custom Color"] = "Custom Highlight Color"
 	L["Change"] = "Change..."
-	L["Button Gradient"] = "Button Gradient Color"
 	L["Opacity"] = "Backdrop Opactiy*"
 	L["Reload Text"] = "Settings not marked with an asterisk (*) require a UI reload."
 	L["FontScale"] = "Font Scale"
@@ -175,15 +172,13 @@ end
 local appearance = addSubCategory(gui, L["Appearance"])
 appearance:SetPoint("TOPLEFT", features, "BOTTOMLEFT", 0, -130)
 
-createToggleBox(gui, "useButtonGradientColour", L["Button Gradient"], appearance, 1)
-
-local colourBox = createToggleBox(gui, "useCustomColour", L["Custom Color"], appearance, 4)
+local colourBox = createToggleBox(gui, "useCustomColour", L["Custom Color"], appearance, 1)
 local colourButton = CreateFrame("Button", nil, gui, "UIPanelButtonTemplate")
 colourButton:SetPoint("LEFT", colourBox.Text, "RIGHT", 20, 0)
 colourButton:SetSize(128, 25)
 colourButton:SetText(L["Change"])
 
-local fontBox = createToggleBox(gui, "reskinFont", L["Replace default game fonts"], appearance, 7)
+local fontBox = createToggleBox(gui, "reskinFont", L["Replace default game fonts"], appearance, 4)
 local fontSlider = CreateFrame("Slider", "AuroraOptionsfontSlider", gui, "OptionsSliderTemplate")
 fontSlider:SetPoint("TOPLEFT", fontBox, "BOTTOMLEFT", 20, -30)
 fontSlider:SetMinMaxValues(.5, 1)

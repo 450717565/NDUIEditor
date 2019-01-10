@@ -19,8 +19,6 @@ local ShowItemSlotString = true
 local EnableItemLevelGuildNews = true
 local PaperDollItemLevelOutsideString = true
 
-local Caches = {}
-
 --框架 #category Bag|Bank|Merchant|Trade|GuildBank|Auction|AltEquipment|PaperDoll
 local function GetItemLevelFrame(self, category)
 	if (not self.ItemLevelFrame) then
@@ -40,6 +38,9 @@ local function GetItemLevelFrame(self, category)
 		LibEvent:trigger("ITEMLEVEL_FRAME_SHOWN", self.ItemLevelFrame, self, category)
 	else
 		self.ItemLevelFrame:Hide()
+	end
+	if (category) then
+		self.ItemLevelCategory = category
 	end
 	return self.ItemLevelFrame
 end
@@ -129,6 +130,41 @@ local function SetItemLevel(self, link, category, BagID, SlotID)
 	end
 end
 
+--[[ #All @todo部分可变物品的动态装等
+hooksecurefunc("SetItemButtonQuality", function(self, quality, itemIDOrLink)
+	if (self.ItemLevelCategory) then return end
+	if (itemIDOrLink) then
+		local frameName = self:GetName() or ""
+		local _, link, _, _, _, class, _, _, equipSlot = GetItemInfo(itemIDOrLink)
+		if (not string.find(frameName, "EncounterJournal")) then
+			SetItemLevel(self, link)
+		else
+			local frame = GetItemLevelFrame(self)
+			SetItemSlotString(frame.slotString, class, equipSlot, link)
+		end
+	end
+end)
+]]
+
+-- Bag
+--[[
+hooksecurefunc("ContainerFrame_Update", function(self)
+	local id = self:GetID()
+	local name = self:GetName()
+	local button
+	for i = 1, self.size do
+		button = _G[name.."Item"..i]
+		SetItemLevel(button, GetContainerItemLink(id, button:GetID()), "Bag", id, button:GetID())
+	end
+end)
+]]
+-- Bank
+--[[
+hooksecurefunc("BankFrameItemButton_Update", function(self)
+	if (self.isBag) then return end
+	SetItemLevel(self, GetContainerItemLink(self:GetParent():GetID(), self:GetID()), "Bank")
+end)
+]]
 -- Merchant
 hooksecurefunc("MerchantFrameItem_UpdateQuality", function(self, link)
 	SetItemLevel(self.ItemButton, link, "Merchant")
@@ -269,26 +305,28 @@ LibEvent:attachEvent("PLAYER_LOGIN", function()
 	end
 end)
 
+local GuildNewsItemCache = {}
+local function setupGuild(button, text_color, text, text1, text2, ...)
+	if (not EnableItemLevel) or (not EnableItemLevelGuildNews) then return end
+	if (text2 and type(text2) == "string") then
+		local link = string.match(text2, "|H(item:%d+:.-)|h.-|h")
+		if (link) then
+			local level = GuildNewsItemCache[link] or select(2, LibItemInfo:GetItemInfo(link))
+			if (level > 0) then
+				GuildNewsItemCache[link] = level
+				text2 = text2:gsub("(%|Hitem:%d+:.-%|h%[)(.-)(%]%|h)", "%1"..level..":%2%3")
+				button.text:SetFormattedText(text, text1, text2, ...)
+			end
+		end
+	end
+end
+
 -- GuildNews
 LibEvent:attachEvent("ADDON_LOADED", function(self, addonName)
 	if (addonName == "Blizzard_GuildUI") then
-		GuildNewsItemCache = {}
-		hooksecurefunc("GuildNewsButton_SetText", function(button, text_color, text, text1, text2, ...)
-			if (not EnableItemLevel) or (not EnableItemLevelGuildNews) then
-			  return
-			end
-			if (text2 and type(text2) == "string") then
-				local link = string.match(text2, "|H(item:%d+:.-)|h.-|h")
-				if (link) then
-					local level = GuildNewsItemCache[link] or select(2, LibItemInfo:GetItemInfo(link))
-					if (level > 0) then
-						GuildNewsItemCache[link] = level
-						text2 = text2:gsub("(%|Hitem:%d+:.-%|h%[)(.-)(%]%|h)", "%1"..level..":%2%3")
-						button.text:SetFormattedText(text, text1, text2, ...)
-					end
-				end
-			end
-		end)
+		hooksecurefunc("GuildNewsButton_SetText", setupGuild)
+	elseif (addonName == "Blizzard_Communities") then
+		hooksecurefunc("CommunitiesGuildNewsButton_SetText", setupGuild)
 	end
 end)
 
@@ -340,7 +378,7 @@ end)
 ----------------------
 --  Chat ItemLevel  --
 ----------------------
-
+local Caches = {}
 local function ChatItemLevel(Hyperlink)
 	if Caches[Hyperlink] then return Caches[Hyperlink] end
 

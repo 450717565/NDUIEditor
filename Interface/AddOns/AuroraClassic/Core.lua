@@ -34,16 +34,14 @@ C.defaults = {
 	["bags"] = false,
 	["bubbleColor"] = false,
 	["buttonGradientColour"] = {.3, .3, .3, .3},
-	["buttonSolidColour"] = {.2, .2, .2, .6},
 	["chatBubbles"] = true,
-	["customColour"] = {r = .5, g = .5, b = .5},
+	["customColour"] = {r = 1, g = 1, b = 1},
 	["fontScale"] = 1,
 	["loot"] = false,
 	["objectiveTracker"] = true,
 	["reskinFont"] = true,
 	["shadow"] = true,
 	["tooltips"] = false,
-	["useButtonGradientColour"] = true,
 	["useCustomColour"] = false,
 }
 
@@ -51,7 +49,6 @@ C.frames = {}
 
 -- [[ Functions ]]
 
-local useButtonGradientColour
 local _, class = UnitClass("player")
 C.classcolours = CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS
 local cr, cg, cb = C.classcolours[class].r, C.classcolours[class].g, C.classcolours[class].b
@@ -125,32 +122,10 @@ function F:CreateGradient()
 	local tex = self:CreateTexture(nil, "BORDER")
 	tex:SetPoint("TOPLEFT", C.mult, -C.mult)
 	tex:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
-	tex:SetTexture(useButtonGradientColour and C.media.gradientTex or C.media.bdTex)
+	tex:SetTexture(C.media.gradientTex)
 	tex:SetVertexColor(buttonR, buttonG, buttonB, buttonA)
 
 	return tex
-end
-
-local function colourButton(self)
-	if not self:IsEnabled() then return end
-
-	if useButtonGradientColour then
-		self:SetBackdropColor(cr, cg, cb, .25)
-	else
-		self.bgTex:SetVertexColor(r / 4, g / 4, b / 4)
-	end
-
-	self:SetBackdropBorderColor(cr, cg, cb)
-end
-
-local function clearButton(self)
-	if useButtonGradientColour then
-		self:SetBackdropColor(0, 0, 0, 0)
-	else
-		self.bgTex:SetVertexColor(buttonR, buttonG, buttonB, buttonA)
-	end
-
-	self:SetBackdropBorderColor(0, 0, 0)
 end
 
 function F:Reskin(noHighlight)
@@ -158,12 +133,25 @@ function F:Reskin(noHighlight)
 
 	F.CreateBD(self, 0)
 	F.CreateSD(self)
-
-	self.bgTex = F.CreateGradient(self)
+	F.CreateGradient(self)
 
 	if not noHighlight then
-		self:HookScript("OnEnter", colourButton)
-		self:HookScript("OnLeave", clearButton)
+		self:HookScript("OnEnter", function()
+			if not self:IsEnabled() then return end
+			self:SetBackdropBorderColor(cr, cg, cb, 1)
+		end)
+		self:HookScript("OnLeave", function()
+			if not self:IsEnabled() then return end
+			self:SetBackdropBorderColor(0, 0, 0, 1)
+		end)
+		self:HookScript("OnMouseDown", function()
+			if not self:IsEnabled() then return end
+			self:SetBackdropColor(cr, cg, cb, .25)
+		end)
+		self:HookScript("OnMouseUp", function()
+			if not self:IsEnabled() then return end
+			self:SetBackdropColor(0, 0, 0, 0)
+		end)
 	end
 end
 
@@ -208,7 +196,7 @@ local function scrollOnEnter(self)
 	local bu = (self.ThumbTexture or self.thumbTexture) or _G[name.."ThumbTexture"]
 	if not bu then return end
 	bu.bg:SetBackdropColor(cr, cg, cb, .25)
-	bu.bg:SetBackdropBorderColor(cr, cg, cb)
+	bu.bg:SetBackdropBorderColor(cr, cg, cb, 1)
 end
 
 local function scrollOnLeave(self)
@@ -216,7 +204,7 @@ local function scrollOnLeave(self)
 	local bu = (self.ThumbTexture or self.thumbTexture) or _G[name.."ThumbTexture"]
 	if not bu then return end
 	bu.bg:SetBackdropColor(0, 0, 0, 0)
-	bu.bg:SetBackdropBorderColor(0, 0, 0)
+	bu.bg:SetBackdropBorderColor(0, 0, 0, 1)
 end
 
 function F:ReskinScroll()
@@ -900,13 +888,7 @@ Skin:SetScript("OnEvent", function(_, _, addon)
 			end
 		end
 
-		useButtonGradientColour = AuroraConfig.useButtonGradientColour
-
-		if useButtonGradientColour then
-			buttonR, buttonG, buttonB, buttonA = unpack(C.defaults.buttonGradientColour)
-		else
-			buttonR, buttonG, buttonB, buttonA = unpack(C.defaults.buttonSolidColour)
-		end
+		buttonR, buttonG, buttonB, buttonA = unpack(C.defaults.buttonGradientColour)
 
 		if AuroraConfig.useCustomColour then
 			cr, cg, cb = AuroraConfig.customColour.r, AuroraConfig.customColour.g, AuroraConfig.customColour.b

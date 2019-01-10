@@ -7,7 +7,7 @@ end
 local mod	= DBM:NewMod(dungeonID, "DBM-ZuldazarRaid", 1, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 18150 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 18156 $"):sub(12, -3))
 mod:SetCreatureID(creatureID)
 mod:SetEncounterID(2265)
 --mod:DisableESCombatDetection()
@@ -43,7 +43,7 @@ local warnAvengingWrath					= mod:NewTargetNoFilterAnnounce(282113, 3)
 local specWarnTargetChange				= mod:NewSpecialWarningTargetChange(283662, nil, nil, nil, 1, 2)
 local specWarnSacredBlade				= mod:NewSpecialWarningStack(283573, nil, 5, nil, nil, 1, 6)
 local specWarnSacredBladeTaunt			= mod:NewSpecialWarningTaunt(283573, false, nil, 2, 1, 2)
-local specWarnWaveofLight				= mod:NewSpecialWarningTarget(283598, "Tank", nil, nil, 3, 2)
+local specWarnWaveofLight				= mod:NewSpecialWarningTarget(283598, false, nil, 2, 1, 2)
 local specWarnWaveofLightYou			= mod:NewSpecialWarningYou(283598, nil, nil, nil, 1, 2)
 local yellWaveofLight					= mod:NewYell(283598)
 --local specWarnWaveofLightGeneral		= mod:NewSpecialWarningDodge(283598, nil, nil, nil, 2, 2)
@@ -87,7 +87,7 @@ mod:AddNamePlateOption("NPAuraOnAngelicRenewal", 287419)
 function mod:WaveofLightTarget(targetname, uId)
 	if uId then
 		if not UnitIsFriend("player", uId) then--Boss targetting one of adds
-			if UnitIsUnit("target", uId) then
+			if UnitIsUnit("target", uId) and self.Options.SpecWarn283598target2 then
 				specWarnWaveofLight:Show(targetname)
 				specWarnWaveofLight:Play("moveboss")
 			else
@@ -164,7 +164,7 @@ function mod:SPELL_CAST_START(args)
 		specWarnDivineBurst:Play("kickcast")
 	elseif spellId == 283650 then
 		timerBlindingFaithCD:Start(13.4, args.sourceGUID)
-		if self:AntiSpam(3, 1) then
+		if self:AntiSpam(3.5, 1) then
 			specWarnBlindingFaith:Show(args.sourceName)
 			specWarnBlindingFaith:Play("turnaway")
 		end
@@ -237,13 +237,13 @@ function mod:SPELL_AURA_APPLIED(args)
 		specWarnJudgmentReckoning:Schedule(47.3)
 		specWarnJudgmentReckoning:ScheduleVoice(47.3, "aesoon")
 		if self:IsMythic() then
-			timerPrayerfortheFallenCD:Start(25.9-delay)
+			timerPrayerfortheFallenCD:Start(25.9)
 		end
 	elseif spellId == 284436 then--Seal of Reckoning
 		warnSealofReckoning:Show()
 		timerJudgmentReckoningCD:Start(52.3)
 		if self:IsMythic() then
-			timerPrayerfortheFallenCD:Start(25.9-delay)
+			timerPrayerfortheFallenCD:Start(25.9)
 		end
 	elseif spellId == 283933 then
 		warnJudgmentRighteousness:Show(args.destName)
