@@ -20,7 +20,7 @@ C.themes["Blizzard_ItemSocketingUI"] = function()
 		bu:SetPushedTexture("")
 
 		local ic = F.ReskinIcon(bu.icon, true)
-		F.ReskinTexture(bu, false, ic)
+		F.ReskinTexture(bu, ic, false)
 
 		local shine = _G["ItemSocketingSocket"..i.."Shine"]
 		shine:ClearAllPoints()

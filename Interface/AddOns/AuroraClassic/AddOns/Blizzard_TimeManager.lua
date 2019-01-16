@@ -7,7 +7,7 @@ C.themes["Blizzard_TimeManager"] = function()
 	check:SetCheckedTexture(C.media.checked)
 
 	local ic = F.ReskinIcon(check:GetNormalTexture(), true)
-	F.ReskinTexture(check, false, ic)
+	F.ReskinTexture(check, ic, false)
 
 	TimeManagerAlarmHourDropDown:SetWidth(80)
 	TimeManagerAlarmMinuteDropDown:SetWidth(80)

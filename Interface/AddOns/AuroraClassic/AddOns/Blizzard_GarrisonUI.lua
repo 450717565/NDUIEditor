@@ -64,7 +64,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 		local env = self.Stage.MissionEnvIcon
 		env.Texture:SetDrawLayer("BORDER", 1)
-		F.ReskinIcon(env.Texture, true)
+		env.bg = F.ReskinIcon(env.Texture, true)
 
 		local cost = self.CostFrame
 		F.ReskinIcon(cost.CostIcon, true)
@@ -192,7 +192,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				button.BusyFrame:SetAllPoints()
 
 				local bg = F.CreateBDFrame(button, .25)
-				F.ReskinTexture(button, true, bg)
+				F.ReskinTexture(button, bg, true)
 
 				if portrait then
 					F.ReskinGarrisonPortrait(portrait)
@@ -341,7 +341,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		local bg = F.CreateBDFrame(tab, .25)
 		bg:SetPoint("TOPLEFT", 6, -7)
 		bg:SetPoint("BOTTOMRIGHT", -6, 7)
-		F.ReskinTexture(tab, true, bg)
+		F.ReskinTexture(tab, bg, true)
 
 		tab.bg = bg
 	end
@@ -367,8 +367,8 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				bg:SetPoint("TOPLEFT", 44, -5)
 				bg:SetPoint("BOTTOMRIGHT", 0, 6)
 
-				F.ReskinTexture(button, true, bg)
-				F.ReskinTexture(button.SelectedBG, true, bg)
+				F.ReskinTexture(button, bg, true)
+				F.ReskinTexture(button.SelectedBG, bg, true)
 
 				button.styled = true
 			end
@@ -748,6 +748,13 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				frame.DurabilityFrame:SetPoint("BOTTOM", frame.PortraitFrame, "BOTTOM", 1, 12)
 				frame.DurabilityBackground:Hide()
 			end
+		end
+	end)
+
+	hooksecurefunc(GarrisonMission, "ShowMission", function(self)
+		local envIcon = self:GetMissionPage().Stage.MissionEnvIcon
+		if envIcon.bg then
+			envIcon.bg:SetShown(envIcon.Texture:GetTexture())
 		end
 	end)
 

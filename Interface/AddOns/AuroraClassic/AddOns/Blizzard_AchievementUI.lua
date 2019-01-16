@@ -27,7 +27,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 					bg:SetPoint("TOPLEFT", C.mult, -C.mult)
 					bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 
-					F.ReskinTexture(bu, true, bg)
+					F.ReskinTexture(bu, bg, true)
 				end
 				first = false
 			end
@@ -247,7 +247,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 		bg:SetPoint("TOPLEFT")
 		bg:SetPoint("BOTTOMRIGHT", 0, 1)
 
-		F.ReskinTexture(result, true, bg)
+		F.ReskinTexture(result, bg, true)
 	end
 
 	for i = 1, 5 do
@@ -275,7 +275,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 			bg:SetPoint("BOTTOMRIGHT", -2, 2)
 
 			F.ReskinIcon(bu.icon, true)
-			F.ReskinTexture(bu, true, bg)
+			F.ReskinTexture(bu, bg, true)
 		end
 	end
 

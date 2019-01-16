@@ -22,10 +22,10 @@ C.themes["Blizzard_VoidStorageUI"] = function()
 			F.StripTextures(bu)
 
 			local ic = F.ReskinIcon(bu.icon, true)
-			F.ReskinTexture(bu, false, ic)
+			F.ReskinTexture(bu, ic, false)
 
 			local border = bu.IconBorder
-			F.ReskinTexture(border, false, bu, true)
+			F.ReskinTexture(border, bu, false, true)
 		end
 	end
 
@@ -34,10 +34,10 @@ C.themes["Blizzard_VoidStorageUI"] = function()
 		F.StripTextures(bu)
 
 		local ic = F.ReskinIcon(_G["VoidStorageStorageButton"..i.."IconTexture"], true)
-		F.ReskinTexture(bu, false, ic)
+		F.ReskinTexture(bu, ic, false)
 
 		local border = bu.IconBorder
-		F.ReskinTexture(border, false, bu, true)
+		F.ReskinTexture(border, bu, false, true)
 
 		local searchOverlay = bu.searchOverlay
 		searchOverlay:SetPoint("TOPLEFT", -C.mult, C.mult)
@@ -51,7 +51,7 @@ C.themes["Blizzard_VoidStorageUI"] = function()
 		tab:SetCheckedTexture(C.media.checked)
 
 		local ic = F.ReskinIcon(tab:GetNormalTexture(), true)
-		F.ReskinTexture(tab, false, ic)
+		F.ReskinTexture(tab, ic, false)
 	end
 	VoidStorageFrame.Page1:ClearAllPoints()
 	VoidStorageFrame.Page1:SetPoint("TOPLEFT", VoidStorageFrame, "TOPRIGHT", 4, -50)

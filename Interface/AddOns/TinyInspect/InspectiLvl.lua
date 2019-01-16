@@ -7,7 +7,7 @@ local B, C, L, DB = unpack(NDui)
 local LibEvent = LibStub:GetLibrary("LibEvent.7000")
 local LibSchedule = LibStub:GetLibrary("LibSchedule.7000")
 
-local members, numMembers = {}, 0
+local members, numCurrent, numMembers = {}, 0, 0
 
 local EnableItemLevel = NDuiDB["Extras"]["iLvlTools"]
 
@@ -42,7 +42,6 @@ local function GetMembers(num)
 	for guid, unit in pairs(temp) do
 		if (members[guid]) then
 			members[guid].unit = unit
-			members[guid].name = UnitName(unit)
 			members[guid].class = select(2, UnitClass(unit))
 			members[guid].role  = UnitGroupRolesAssigned(unit)
 			members[guid].done  = GetInspectInfo(unit, 0, true)
@@ -51,11 +50,14 @@ local function GetMembers(num)
 				done   = false,
 				guid   = guid,
 				unit   = unit,
-				name   = UnitName(unit),
 				class  = select(2, UnitClass(unit)),
 				role   = UnitGroupRolesAssigned(unit),
 				ilevel = -1,
 			}
+		end
+		members[guid].name, members[guid].realm = UnitName(unit)
+		if (not members[guid].realm) then
+			members[guid].realm = GetRealmName()
 		end
 	end
 	LibEvent:trigger("MEMBER_CHANGED", members)
@@ -71,7 +73,7 @@ local function SendInspect(unit)
 		return
 	end
 	for guid, v in pairs(members) do
-		if ((not v.done or v.ilevel <= 0) and UnitIsVisible(v.unit) and CanInspect(v.unit)) and UnitIsConnected(v.unit) then
+		if ((not v.done or v.ilevel <= 0) and UnitIsVisible(v.unit) and CanInspect(v.unit)) then
 			ClearInspectPlayer()
 			NotifyInspect(v.unit)
 			LibEvent:trigger("INSPECT_STARTED", v)
@@ -89,6 +91,7 @@ LibEvent:attachTrigger("UNIT_INSPECT_READY", function(self, data)
 		member.spec = data.spec
 		member.name = data.name
 		member.class = data.class
+		member.realm = data.realm
 		member.done = true
 		LibEvent:trigger("INSPECT_READY", member)
 	end
@@ -97,23 +100,34 @@ end)
 --人員增加時觸發 @trigger INSPECT_TIMEOUT @trigger INSPECT_DONE
 LibEvent:attachEvent("GROUP_ROSTER_UPDATE", function(self)
 	if not EnableItemLevel then return end
-	local numCurrent = GetNumGroupMembers()
+	if IsInGroup() then
+		if not IsInRaid() then
+			numCurrent = GetNumSubgroupMembers()
+		else
+			numCurrent = GetNumGroupMembers()
+		end
+	end
 	if (numCurrent > numMembers) then
 		GetMembers(numCurrent)
-		members[UnitGUID("player")] = {
-			name   = UnitName("player"),
-			class  = select(2, UnitClass("player")),
-			ilevel = select(2, GetAverageItemLevel()),
-			done   = true,
-			unit   = "player",
-			spec   = select(2, GetSpecializationInfo(GetSpecialization())),
-		}
+		if IsInGroup() and not IsInRaid() then
+			members[UnitGUID("player")] = {
+				name   = UnitName("player"),
+				class  = select(2, UnitClass("player")),
+				ilevel = select(2, GetAverageItemLevel()),
+				done   = true,
+				unit   = "player",
+				spec   = select(2, GetSpecializationInfo(GetSpecialization())),
+			}
+		end
 		LibSchedule:AddTask({
 			identity  = "Inspect",
-			--override  = true,
+			timer     = 1,
 			elasped   = 3,
+			begined   = GetTime() + 2,
 			expired   = GetTime() + 1800,
-			onTimeout = function(self) LibEvent:trigger("INSPECT_TIMEOUT", members) end,
+			onTimeout = function(self)
+				LibEvent:trigger("INSPECT_TIMEOUT", members)
+			end,
 			onExecute = function(self)
 				if (InspectDone()) then
 					LibEvent:trigger("INSPECT_DONE", members)

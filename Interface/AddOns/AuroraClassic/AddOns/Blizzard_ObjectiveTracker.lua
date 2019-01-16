@@ -13,7 +13,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			button:SetPushedTexture("")
 
 			local bg = F.CreateBDFrame(button.icon or button.Icon, .25)
-			F.ReskinTexture(button, false, bg)
+			F.ReskinTexture(button, bg, false)
 
 			if button.icon then
 				button.icon:SetTexCoord(.08, .92, .08, .92)

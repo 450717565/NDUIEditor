@@ -103,7 +103,7 @@ local function addTab(id, index, isSub)
 			local bg = loadedUI.CreateBDFrame(tab)
 			checkedTexture = mediaUI.media.checked
 
-			loadedUI.ReskinTexture(tab, false, bg)
+			loadedUI.ReskinTexture(tab, bg, false)
 		elseif (skinUI == "ElvUI") then
 			checkedTexture = tab:CreateTexture(nil, "HIGHLIGHT")
 			checkedTexture:SetColorTexture(1, 1, 1, .25)

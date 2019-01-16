@@ -24,7 +24,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		local bu = GroupFinderFrame["groupButton"..i]
 		bu.ring:Hide()
 		F.Reskin(bu)
-		F.ReskinTexture(bu.bg, true, bu)
+		F.ReskinTexture(bu.bg, bu, true)
 
 		local icon = bu.icon
 		icon:SetPoint("LEFT", bu, "LEFT")

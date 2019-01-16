@@ -164,7 +164,7 @@ function F:ReskinTab()
 	bg:SetPoint("BOTTOMRIGHT", -8, 0)
 	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
 
-	F.ReskinTexture(self, true, bg)
+	F.ReskinTexture(self, bg, true)
 end
 
 local function textureOnEnter(self)
@@ -384,7 +384,7 @@ function F:ReskinCheck()
 	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
 	F.CreateGradient(bg)
 
-	F.ReskinTexture(self, true, bg)
+	F.ReskinTexture(self, bg, true)
 end
 
 local function colourRadio(self)
@@ -794,7 +794,7 @@ function F:CleanTextures(noIcon)
 	end
 end
 
-function F:ReskinTexture(classColor, relativeTo, isBorder)
+function F:ReskinTexture(relativeTo, classColor, isBorder)
 	if not self then return end
 
 	local r, g, b = 1, 1, 1

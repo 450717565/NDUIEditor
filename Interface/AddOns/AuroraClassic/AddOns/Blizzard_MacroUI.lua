@@ -31,7 +31,7 @@ C.themes["Blizzard_MacroUI"] = function()
 			ic:SetTexCoord(.08, .92, .08, .92)
 
 			local bg = F.CreateBDFrame(bu, .25)
-			F.ReskinTexture(bu, false, bg)
+			F.ReskinTexture(bu, bg, false)
 		end
 	end
 
@@ -72,7 +72,7 @@ C.themes["Blizzard_MacroUI"] = function()
 	selectedic:SetTexCoord(.08, .92, .08, .92)
 
 	local selectedbg = F.CreateBDFrame(selectedbt, .25)
-	F.ReskinTexture(selectedbt, false, selectedbg)
+	F.ReskinTexture(selectedbt, selectedbg, false)
 
 	MacroNewButton:ClearAllPoints()
 	MacroNewButton:SetPoint("RIGHT", MacroExitButton, "LEFT", -2, 0)

@@ -15,7 +15,7 @@ C.themes["Blizzard_PVPUI"] = function()
 		local bu = PVPQueueFrame["CategoryButton"..i]
 		bu.Ring:Hide()
 		F.Reskin(bu)
-		F.ReskinTexture(bu.Background, true, bu)
+		F.ReskinTexture(bu.Background, bu, true)
 
 		local icon = bu.Icon
 		icon:SetPoint("LEFT", bu, "LEFT")
@@ -65,7 +65,7 @@ C.themes["Blizzard_PVPUI"] = function()
 	for _, bonusButton in next, {"RandomBGButton", "RandomEpicBGButton", "Arena1Button", "BrawlButton"} do
 		local bu = BonusFrame[bonusButton]
 		F.Reskin(bu)
-		F.ReskinTexture(bu.SelectedTexture, true, bu)
+		F.ReskinTexture(bu.SelectedTexture, bu, true)
 	end
 
 	-- Conquest Frame
@@ -79,6 +79,6 @@ C.themes["Blizzard_PVPUI"] = function()
 	for _, conquestButton in next, {"Arena2v2", "Arena3v3", "RatedBG"} do
 		local bu = ConquestFrame[conquestButton]
 		F.Reskin(bu)
-		F.ReskinTexture(bu.SelectedTexture, true, bu)
+		F.ReskinTexture(bu.SelectedTexture, bu, true)
 	end
 end

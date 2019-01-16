@@ -127,7 +127,7 @@ C.themes["Blizzard_GuildUI"] = function()
 		local bg = F.CreateBDFrame(bu, .25)
 		bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
 		bg:SetPoint("BOTTOMRIGHT", 0, 1)
-		F.ReskinTexture(bu, true, bg)
+		F.ReskinTexture(bu, bg, true)
 	end
 	GuildPerksContainerButton1:SetPoint("LEFT", -1, 0)
 
@@ -144,7 +144,7 @@ C.themes["Blizzard_GuildUI"] = function()
 				bu.bg:SetPoint("TOPLEFT", C.mult, -C.mult)
 				bu.bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 
-				F.ReskinTexture(bu, true, bu.bg)
+				F.ReskinTexture(bu, bu.bg, true)
 				F.ReskinIcon(bu.icon, true)
 			end
 		end
@@ -209,7 +209,7 @@ C.themes["Blizzard_GuildUI"] = function()
 		md:Hide()
 
 		local hl = _G["GuildRosterColumnButton"..i.."HighlightTexture"]
-		F.ReskinTexture(hl, true, bu)
+		F.ReskinTexture(hl, bu, true)
 	end
 
 	-- Tradeskill View
@@ -240,7 +240,7 @@ C.themes["Blizzard_GuildUI"] = function()
 					header.bg = F.CreateBDFrame(header, .25)
 					header.bg:SetAllPoints()
 
-					F.ReskinTexture(header, true, header.bg)
+					F.ReskinTexture(header, header.bg, true)
 				end
 			end
 		end

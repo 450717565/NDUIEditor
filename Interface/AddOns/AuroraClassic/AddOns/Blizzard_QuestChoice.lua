@@ -22,7 +22,7 @@ C.themes["Blizzard_QuestChoice"] = function()
 		item.Name:SetTextColor(1, 1, 1)
 		item.Icon:SetDrawLayer("ARTWORK")
 		F.ReskinIcon(item.Icon, true)
-		F.ReskinTexture(item.IconBorder, false, item.Icon, true)
+		F.ReskinTexture(item.IconBorder, item.Icon, false, true)
 
 		local currencies = rewards.Currencies
 		for j = 1, 3 do

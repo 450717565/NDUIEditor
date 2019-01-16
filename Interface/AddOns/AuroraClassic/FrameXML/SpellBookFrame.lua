@@ -72,7 +72,7 @@ tinsert(C.themes["AuroraClassic"], function()
 				tab:SetCheckedTexture(C.media.checked)
 
 				local ic = F.ReskinIcon(tab:GetNormalTexture(), true)
-				F.ReskinTexture(tab, false, ic)
+				F.ReskinTexture(tab, ic, false)
 
 				tab.styled = true
 			end
@@ -137,7 +137,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 
 		local ic = F.ReskinIcon(icon, true)
-		F.ReskinTexture(bu.highlightTexture, false, ic)
+		F.ReskinTexture(bu.highlightTexture, ic, false)
 
 		local nm = _G[button.."SpellName"]
 		nm:ClearAllPoints()

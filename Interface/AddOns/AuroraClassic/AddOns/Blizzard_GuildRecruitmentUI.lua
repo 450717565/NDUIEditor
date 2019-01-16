@@ -58,8 +58,8 @@ C.themes["Blizzard_GuildRecruitmentUI"] = function()
 				button.bg:SetPoint("TOPLEFT", 3, -3)
 				button.bg:SetPoint("BOTTOMRIGHT", -3, 3)
 
-				F.ReskinTexture(button, true, button.bg)
-				F.ReskinTexture(button.selectedTex, true, button.bg)
+				F.ReskinTexture(button, button.bg, true)
+				F.ReskinTexture(button.selectedTex, button.bg, true)
 			end
 		end
 	end)

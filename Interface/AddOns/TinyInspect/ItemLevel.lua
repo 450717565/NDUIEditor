@@ -14,6 +14,7 @@ local RELICSLOT = RELICSLOT or "Relic"
 local ARTIFACT_POWER = ARTIFACT_POWER or "Artifact"
 
 local EnableItemLevel = true
+local EnableItemLevelOther = true
 local ShowColoredItemLevelString = false
 local ShowItemSlotString = true
 local EnableItemLevelGuildNews = true
@@ -23,14 +24,23 @@ local PaperDollItemLevelOutsideString = true
 local function GetItemLevelFrame(self, category)
 	if (not self.ItemLevelFrame) then
 		local fontAdjust = GetLocale():sub(1,2) == "zh" and 0 or -3
+		local anchor, w, h = self.IconBorder or self, self:GetSize()
+		local ww, hh = anchor:GetSize()
+		if (ww == 0 or hh == 0) then
+			anchor = self.Icon or self.icon or self
+			w, h = anchor:GetSize()
+		else
+			w, h = min(w, ww), min(h, hh)
+		end
 		self.ItemLevelFrame = CreateFrame("Frame", nil, self)
+		self.ItemLevelFrame:SetScale(max(0.75, h<32 and h/32 or 1))
 		self.ItemLevelFrame:SetToplevel(true)
-		self.ItemLevelFrame:SetSize(self:GetSize())
-		self.ItemLevelFrame:SetPoint("CENTER")
-		self.ItemLevelFrame.levelString = B.CreateFS(self.ItemLevelFrame, 14+fontAdjust, "", false, "TOPLEFT", 1, -1)
-		self.ItemLevelFrame.levelString:SetJustifyH("LEFT")
+		self.ItemLevelFrame:SetSize(w, h)
+		self.ItemLevelFrame:SetPoint("CENTER", anchor, "CENTER", 0, 0)
 		self.ItemLevelFrame.slotString = B.CreateFS(self.ItemLevelFrame, 10+fontAdjust, "", false, "BOTTOMRIGHT", 0, 2)
 		self.ItemLevelFrame.slotString:SetJustifyH("RIGHT")
+		self.ItemLevelFrame.levelString = B.CreateFS(self.ItemLevelFrame, 14+fontAdjust, "", false, "TOPLEFT", 1, -1)
+		self.ItemLevelFrame.levelString:SetJustifyH("LEFT")
 		LibEvent:trigger("ITEMLEVEL_FRAME_CREATED", self.ItemLevelFrame, self)
 	end
 	if EnableItemLevel then
@@ -103,7 +113,8 @@ local function SetItemLevel(self, link, category, BagID, SlotID)
 		SetItemLevelString(frame.levelString, self.OrigItemLevel, self.OrigItemQuality)
 		SetItemSlotString(frame.slotString, self.OrigItemClass, self.OrigItemEquipSlot, self.OrigItemLink)
 	else
-		local _, count, level, quality, class, equipSlot
+		local level = ""
+		local _, count, quality, class, equipSlot
 		if (link and string.match(link, "item:(%d+):")) then
 			_, _, quality, _, _, class, _, _, equipSlot = GetItemInfo(link)
 			if (BagID and SlotID and (category == "Bag" or category == "AltEquipment") and (quality == 7 or quality == 6)) then
@@ -115,7 +126,8 @@ local function SetItemLevel(self, link, category, BagID, SlotID)
 				SetItemLevelString(frame.levelString, "...")
 				return SetItemLevelScheduled(self, frame, link)
 			else
-				SetItemLevelString(frame.levelString, level > 0 and level or "", quality)
+				if (tonumber(level) == 0) then level = "" end
+				SetItemLevelString(frame.levelString, level, quality)
 				SetItemSlotString(frame.slotString, class, equipSlot, link)
 			end
 		else
@@ -123,31 +135,52 @@ local function SetItemLevel(self, link, category, BagID, SlotID)
 			SetItemSlotString(frame.slotString)
 		end
 		self.OrigItemLink = link
-		self.OrigItemLevel = (level and level > 0) and level or ""
+		self.OrigItemLevel = level
 		self.OrigItemQuality = quality
 		self.OrigItemClass = class
 		self.OrigItemEquipSlot = equipSlot
 	end
 end
 
---[[ #All @todo部分可变物品的动态装等
+--[[ All ]]
 hooksecurefunc("SetItemButtonQuality", function(self, quality, itemIDOrLink)
-	if (self.ItemLevelCategory) then return end
+	if (self.ItemLevelCategory or self.isBag) then return end
+	local frame = GetItemLevelFrame(self)
+	if (not EnableItemLevelOther) then
+		return frame:Hide()
+	end
 	if (itemIDOrLink) then
-		local frameName = self:GetName() or ""
-		local _, link, _, _, _, class, _, _, equipSlot = GetItemInfo(itemIDOrLink)
-		if (not string.find(frameName, "EncounterJournal")) then
+		local link
+		--Artifact
+		if (IsArtifactRelicItem(itemIDOrLink)) then
+			SetItemLevel(self)
+		--QuestInfo
+		elseif (self.type and self.objectType == "item") then
+			if (QuestInfoFrame and QuestInfoFrame.questLog) then
+				link = GetQuestLogItemLink(self.type, self:GetID())
+			else
+				link = GetQuestItemLink(self.type, self:GetID())
+			end
+			if (not link) then
+				link = select(2, GetItemInfo(itemIDOrLink))
+			end
 			SetItemLevel(self, link)
-		else
-			local frame = GetItemLevelFrame(self)
-			SetItemSlotString(frame.slotString, class, equipSlot, link)
+		--EncounterJournal
+		elseif (self.encounterID and self.link) then
+			link = select(7, EJ_GetLootInfoByIndex(self.index))
+			SetItemLevel(self, link or self.link)
+		--EmbeddedItemTooltip
+		elseif (self.Tooltip) then
+			link = select(2, self.Tooltip:GetItem())
+			SetItemLevel(self, link)
 		end
+	else
+		SetItemLevelString(frame.levelString, "")
+		SetItemSlotString(frame.slotString)
 	end
 end)
-]]
-
--- Bag
 --[[
+-- Bag
 hooksecurefunc("ContainerFrame_Update", function(self)
 	local id = self:GetID()
 	local name = self:GetName()
@@ -157,9 +190,8 @@ hooksecurefunc("ContainerFrame_Update", function(self)
 		SetItemLevel(button, GetContainerItemLink(id, button:GetID()), "Bag", id, button:GetID())
 	end
 end)
-]]
+
 -- Bank
---[[
 hooksecurefunc("BankFrameItemButton_Update", function(self)
 	if (self.isBag) then return end
 	SetItemLevel(self, GetContainerItemLink(self:GetParent():GetID(), self:GetID()), "Bank")
@@ -258,13 +290,13 @@ if (EquipmentFlyout_DisplayButton) then
 		if (not location) then return end
 		local player, bank, bags, voidStorage, slot, bag, tab, voidSlot = EquipmentManager_UnpackLocation(location)
 		if (not player and not bank and not bags and not voidStorage) then return end
-		if (voidStorage) then return end
-		local link
-		if (bags) then
-			link = GetContainerItemLink(bag, slot)
+		if (voidStorage) then
+			SetItemLevel(button, nil, "AltEquipment")
+		elseif (bags) then
+			local link = GetContainerItemLink(bag, slot)
 			SetItemLevel(button, link, "AltEquipment", bag, slot)
 		else
-			link = GetInventoryItemLink("player", slot)
+			local link = GetInventoryItemLink("player", slot)
 			SetItemLevel(button, link, "AltEquipment")
 		end
 	end)
@@ -305,6 +337,24 @@ LibEvent:attachEvent("PLAYER_LOGIN", function()
 	end
 end)
 
+--For Addon: BaudBag
+if (BaudBag and BaudBag.CreateItemButton) then
+	local BaudBagCreateItemButton = BaudBag.CreateItemButton
+	BaudBag.CreateItemButton = function(self, subContainer, slotIndex, buttonTemplate)
+		local ItemButton = BaudBagCreateItemButton(self, subContainer, slotIndex, buttonTemplate)
+		local Prototype = getmetatable(ItemButton).__index
+		local UpdateContent = Prototype.UpdateContent
+		Prototype.UpdateContent = function(self, useCache, slotCache)
+			local link, cacheEntry = UpdateContent(self, useCache, slotCache)
+			SetItemLevel(self.Frame, link)
+			return link, cacheEntry
+		end
+		setmetatable(ItemButton, {__index=Prototype})
+		return ItemButton
+	end
+end
+
+-- GuildNews
 local GuildNewsItemCache = {}
 local function setupGuild(button, text_color, text, text1, text2, ...)
 	if (not EnableItemLevel) or (not EnableItemLevelGuildNews) then return end
@@ -321,7 +371,6 @@ local function setupGuild(button, text_color, text, text1, text2, ...)
 	end
 end
 
--- GuildNews
 LibEvent:attachEvent("ADDON_LOADED", function(self, addonName)
 	if (addonName == "Blizzard_GuildUI") then
 		hooksecurefunc("GuildNewsButton_SetText", setupGuild)
@@ -339,7 +388,7 @@ local function SetPaperDollItemLevel(self, unit)
 	local id = self:GetID()
 	local frame = GetItemLevelFrame(self, "PaperDoll")
 	if (unit and self.hasItem) then
-		local count, level, _, link, quality = LibItemInfo:GetUnitItemInfo(unit, id)
+		local count, level, _, link, quality, _, _, class, _, _, equipSlot = LibItemInfo:GetUnitItemInfo(unit, id)
 		SetItemLevelString(frame.levelString, level > 0 and level or "", quality)
 		if (id == 16 or id == 17) then
 			local _, mlevel, _, _, mquality = LibItemInfo:GetUnitItemInfo(unit, 16)
@@ -366,12 +415,28 @@ end)
 LibEvent:attachTrigger("UNIT_INSPECT_READY", function(self, data)
 	if (InspectFrame and InspectFrame.unit and UnitGUID(InspectFrame.unit) == data.guid) then
 		for _, button in ipairs({
-				InspectHeadSlot,InspectNeckSlot,InspectShoulderSlot,InspectBackSlot,InspectChestSlot,InspectWristSlot,
-				InspectHandsSlot,InspectWaistSlot,InspectLegsSlot,InspectFeetSlot,InspectFinger0Slot,InspectFinger1Slot,
-				InspectTrinket0Slot,InspectTrinket1Slot,InspectMainHandSlot,InspectSecondaryHandSlot
+			 InspectHeadSlot,InspectNeckSlot,InspectShoulderSlot,InspectBackSlot,InspectChestSlot,InspectWristSlot,
+			 InspectHandsSlot,InspectWaistSlot,InspectLegsSlot,InspectFeetSlot,InspectFinger0Slot,InspectFinger1Slot,
+			 InspectTrinket0Slot,InspectTrinket1Slot,InspectMainHandSlot,InspectSecondaryHandSlot
+			 , InspectShirtSlot, InspectTabardSlot
 			}) do
 			SetPaperDollItemLevel(button, InspectFrame.unit)
 		end
+	end
+end)
+
+LibEvent:attachEvent("ADDON_LOADED", function(self, addonName)
+	if (addonName == "Blizzard_InspectUI") then
+		hooksecurefunc(InspectFrame, "Hide", function()
+			for _, button in ipairs({
+				 InspectHeadSlot,InspectNeckSlot,InspectShoulderSlot,InspectBackSlot,InspectChestSlot,InspectWristSlot,
+				 InspectHandsSlot,InspectWaistSlot,InspectLegsSlot,InspectFeetSlot,InspectFinger0Slot,InspectFinger1Slot,
+				 InspectTrinket0Slot,InspectTrinket1Slot,InspectMainHandSlot,InspectSecondaryHandSlot
+				 , InspectShirtSlot, InspectTabardSlot
+				}) do
+				SetPaperDollItemLevel(button)
+			end
+		end)
 	end
 end)
 

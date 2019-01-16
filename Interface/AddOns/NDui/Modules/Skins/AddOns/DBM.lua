@@ -153,18 +153,12 @@ function module:DBMSkin()
 
 	local function SkinRange()
 		if DBMRangeCheckRadar and not DBMRangeCheckRadar.styled then
-			local bg = B.CreateBG(DBMRangeCheckRadar)
-			B.SetBackground(bg)
-
+			B.ReskinTooltip(DBMRangeCheckRadar)
 			DBMRangeCheckRadar.styled = true
 		end
 
 		if DBMRangeCheck and not DBMRangeCheck.styled then
-			DBMRangeCheck:SetBackdrop(nil)
-			local bg = B.CreateBG(DBMRangeCheck)
-			B.SetBackground(bg)
-			DBMRangeCheck.tipStyled = true
-
+			B.ReskinTooltip(DBMRangeCheck)
 			DBMRangeCheck.styled = true
 		end
 	end
@@ -173,14 +167,7 @@ function module:DBMSkin()
 	if DBM.InfoFrame then
 		DBM.InfoFrame:Show(5, "test")
 		DBM.InfoFrame:Hide()
-		DBMInfoFrame:HookScript("OnShow", function(self)
-			if not self.bg then
-				self:SetBackdrop(nil)
-				self.bg = B.CreateBG(self)
-				B.SetBackground(self.bg)
-				DBMInfoFrame.tipStyled = true
-			end
-		end)
+		DBMInfoFrame:HookScript("OnShow", B.ReskinTooltip)
 	end
 
 	local RaidNotice_AddMessage_ = RaidNotice_AddMessage

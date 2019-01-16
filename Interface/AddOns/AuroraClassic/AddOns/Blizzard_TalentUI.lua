@@ -105,7 +105,7 @@ C.themes["Blizzard_TalentUI"] = function()
 			bu.learnedTex:SetTexture("")
 			_G[name..i.."Glow"]:SetTexture("")
 			F.Reskin(bu)
-			F.ReskinTexture(bu.selectedTex, true, bu)
+			F.ReskinTexture(bu.selectedTex, bu, true)
 
 			local ic = bu.specIcon
 			ic:SetPoint("LEFT", bu, "LEFT")
@@ -140,7 +140,7 @@ C.themes["Blizzard_TalentUI"] = function()
 			bu.bg:SetPoint("TOPLEFT", 10, 0)
 			bu.bg:SetPoint("BOTTOMRIGHT")
 
-			F.ReskinTexture(bu.highlight, true, bu.bg)
+			F.ReskinTexture(bu.highlight, bu.bg, true)
 		end
 	end
 
@@ -194,8 +194,8 @@ C.themes["Blizzard_TalentUI"] = function()
 			bg:SetPoint("TOPLEFT", 2, -1)
 			bg:SetPoint("BOTTOMRIGHT", 0, 3)
 
-			F.ReskinTexture(self, true, bg)
-			F.ReskinTexture(self.Selected, true, bg)
+			F.ReskinTexture(self, bg, true)
+			F.ReskinTexture(self.Selected, bg, true)
 
 			self.styled = true
 		end

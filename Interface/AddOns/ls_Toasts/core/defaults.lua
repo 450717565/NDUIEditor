@@ -5,13 +5,10 @@ local C, D = {}, {}
 addonTable.C, addonTable.D = C, D
 
 D.profile = {
-	max_active_toasts = 12,
-	scale = 1,
 	strata = "DIALOG",
-	fadeout_delay = 2,
-	growth_direction = "UP",
 	skin = "default",
 	font = {
+		-- name = nil,
 		size = 16,
 	},
 	colors = {
@@ -21,20 +18,36 @@ D.profile = {
 		threshold = 2,
 	},
 	point = {
-		p = "CENTER",
+		p = "BOTTOM",
 		rP = "BOTTOM",
 		x = 0,
-		y = 200,
+		y = 150,
 	},
 	types = {
-		loot_special = {
+		loot_common = {
 			threshold = 2,
 		},
-		loot_common = {
+		loot_special = {
 			threshold = 2,
 		},
 		loot_gold = {
 			threshold = 100000,
+		},
+	},
+	anchors = {
+		[1] = {
+			fadeout_delay = 2,
+			growth_direction = "UP",
+			growth_offset_x = 26,
+			growth_offset_y = 14,
+			max_active_toasts = 12,
+			scale = 1,
+			point = {
+				p = "BOTTOM",
+				rP = "BOTTOM",
+				x = 0,
+				y = 150,
+			},
 		},
 	},
 }

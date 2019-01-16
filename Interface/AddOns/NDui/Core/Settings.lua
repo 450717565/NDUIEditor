@@ -35,6 +35,7 @@ local function ForceDefaultSettings()
 	SetCVar("lootUnderMouse", 1)
 	SetCVar("missingTransmogSourceInItemTooltips", 1)
 	SetCVar("nameplateMotion", 1)
+	SetCVar("nameplateMotionSpeed", 0.1)
 	SetCVar("nameplateShowAll", 1)
 	SetCVar("nameplateShowEnemies", 1)
 	SetCVar("nameplateShowFriendlyNPCs", 0)
@@ -474,31 +475,32 @@ local function HelloWorld()
 	for index, line in pairs(lines) do
 		B.CreateFS(welcome, 12, line, false, "TOPLEFT", 20, -100-index*20)
 	end
-
 	B.CreateFS(welcome, 12, L["Help Info10"], false, "TOPLEFT", 20, -310)
 	B.CreateFS(welcome, 12, L["Help Info11"], false, "TOPLEFT", 20, -330)
 
 	local close = B.CreateButton(welcome, 16, 16, "X")
 	close:SetPoint("TOPRIGHT", -10, -10)
-	close:SetScript("OnClick", function() welcome:Hide() end)
+	close:SetScript("OnClick", function()
+		welcome:Hide()
+		NDuiDB["Tutorial"]["Complete"] = true
+	end)
 
 	local goTutor = B.CreateButton(welcome, 100, 20, L["Tutorial"])
 	goTutor:SetPoint("BOTTOM", 0, 10)
-	goTutor:SetScript("OnClick", function() welcome:Hide() YesTutor() end)
+	goTutor:SetScript("OnClick", function()
+		welcome:Hide()
+		YesTutor()
+		NDuiDB["Tutorial"]["Complete"] = true
+	end)
 end
-SlashCmdList["NDUI"] = function() HelloWorld() end
+SlashCmdList["NDUI"] = HelloWorld
 SLASH_NDUI1 = "/ndui"
 
 function module:OnLogin()
 	B.HideOption(Advanced_UseUIScale)
 	B.HideOption(Advanced_UIScaleSlider)
 	SetupUIScale()
-
-	if not NDuiDB["Tutorial"]["Complete"] then
-		HelloWorld()
-		NDuiDB["Tutorial"]["Complete"] = true
-	end
-
+	if not NDuiDB["Tutorial"]["Complete"] then HelloWorld() end
 	ForceAddonSkins()
 	if NDuiDB["Chat"]["Lock"] then ForceChatSettings() end
 

@@ -33,10 +33,10 @@ tinsert(C.themes["AuroraClassic"], function()
 			newItemTexture:SetAlpha(0)
 
 			local ic = F.ReskinIcon(button.icon, true)
-			F.ReskinTexture(button, false, ic)
+			F.ReskinTexture(button, ic, false)
 
 			local border = button.IconBorder
-			F.ReskinTexture(border, false, button, true)
+			F.ReskinTexture(border, button, false, true)
 
 			local searchOverlay = button.searchOverlay
 			searchOverlay:SetPoint("TOPLEFT", -C.mult, C.mult)

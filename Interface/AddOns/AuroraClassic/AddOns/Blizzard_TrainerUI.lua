@@ -29,8 +29,8 @@ C.themes["Blizzard_TrainerUI"] = function()
 	stepbg:SetPoint("TOPLEFT", stepic, "TOPRIGHT", 2, 0)
 	stepbg:SetPoint("BOTTOMRIGHT", -18, 0)
 
-	F.ReskinTexture(step, true, stepbg)
-	F.ReskinTexture(step.selectedTex, true, stepbg)
+	F.ReskinTexture(step, stepbg, true)
+	F.ReskinTexture(step.selectedTex, stepbg, true)
 
 	reskinDBG(step, stepbg)
 
@@ -50,8 +50,8 @@ C.themes["Blizzard_TrainerUI"] = function()
 				bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
 				bg:SetPoint("BOTTOMRIGHT", 0, 4)
 
-				F.ReskinTexture(bu, true, bg)
-				F.ReskinTexture(bu.selectedTex, true, bg)
+				F.ReskinTexture(bu, bg, true)
+				F.ReskinTexture(bu.selectedTex, bg, true)
 
 				reskinDBG(bu, bg)
 

@@ -69,7 +69,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 			bg:SetPoint("TOPLEFT", 3, -3)
 			bg:SetPoint("BOTTOMRIGHT", -4, 2)
 
-			F.ReskinTexture(bu, false, bg)
+			F.ReskinTexture(bu, bg, false)
 
 			index = index + 1
 		end
@@ -99,7 +99,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 			bossButton = _G["EncounterJournalBossButton"..numBossButtons]
 			while bossButton do
 				F.Reskin(bossButton, true)
-				F.ReskinTexture(bossButton, true, bossButton)
+				F.ReskinTexture(bossButton, bossButton, true)
 
 				bossButton.text:SetTextColor(1, 1, 1)
 				bossButton.creature:SetPoint("TOPLEFT", 0, -4)
@@ -198,7 +198,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		bg:SetPoint("TOPLEFT")
 		bg:SetPoint("BOTTOMRIGHT", 0, 1)
 
-		F.ReskinTexture(result, true, bg)
+		F.ReskinTexture(result, bg, true)
 	end
 
 	for i = 1, 5 do
@@ -226,7 +226,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 			bg:SetPoint("TOPLEFT", C.mult, -C.mult)
 			bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 
-			F.ReskinTexture(bu, true, bg)
+			F.ReskinTexture(bu, bg, true)
 			F.ReskinIcon(bu.icon, true)
 			bu.icon.SetTexCoord = F.dummy
 		end

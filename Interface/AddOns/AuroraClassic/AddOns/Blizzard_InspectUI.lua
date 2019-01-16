@@ -24,10 +24,10 @@ C.themes["Blizzard_InspectUI"] = function()
 		F.StripTextures(slot)
 
 		local ic = F.ReskinIcon(slot.icon, true)
-		F.ReskinTexture(slot, false, ic)
+		F.ReskinTexture(slot, ic, false)
 
 		local border = slot.IconBorder
-		F.ReskinTexture(border, false, slot, true)
+		F.ReskinTexture(border, slot, false, true)
 	end
 
 	hooksecurefunc("InspectPaperDollItemSlotButton_Update", function(button)

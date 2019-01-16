@@ -27,7 +27,7 @@ C.themes["Blizzard_ArchaeologyUI"] = function()
 		bg:SetPoint("TOPLEFT", icon, "TOPRIGHT", 2, 0)
 		bg:SetPoint("BOTTOMRIGHT", 0, -1)
 
-		F.ReskinTexture(button, true, bg)
+		F.ReskinTexture(button, bg, true)
 
 		local name = _G[bu.."ArtifactName"]
 		name:SetTextColor(1, 1, 1)

@@ -41,13 +41,13 @@ C.themes["Blizzard_GuildBankUI"] = function()
 			F.StripTextures(bu)
 
 			local bg = F.ReskinIcon(bu.icon, true)
-			F.ReskinTexture(bu, false, bg)
+			F.ReskinTexture(bu, bg, false)
 
 			local searchOverlay = bu.searchOverlay
 			searchOverlay:SetAllPoints(bg)
 
 			local border = bu.IconBorder
-			F.ReskinTexture(border, false, bu, true)
+			F.ReskinTexture(border, bu, false, true)
 		end
 	end
 
@@ -74,7 +74,7 @@ C.themes["Blizzard_GuildBankUI"] = function()
 
 		local ic = _G["GuildBankTab"..i.."ButtonIconTexture"]
 		local bg = F.ReskinIcon(ic, true)
-		F.ReskinTexture(bu, false, bg)
+		F.ReskinTexture(bu, bg, false)
 	end
 
 	GuildBankPopupFrame:HookScript("OnShow", function()

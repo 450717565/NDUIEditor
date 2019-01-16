@@ -22,10 +22,10 @@ tinsert(C.themes["AuroraClassic"], function()
 	for i = 1, BUYBACK_ITEMS_PER_PAGE do
 		local bu = _G["MerchantItem"..i.."ItemButton"]
 		F.StripTextures(bu)
-		F.ReskinTexture(bu.IconBorder, false, bu, true)
+		F.ReskinTexture(bu.IconBorder, bu, false, true)
 
 		local ic = F.ReskinIcon(bu.icon, true)
-		F.ReskinTexture(bu, false, ic)
+		F.ReskinTexture(bu, ic, false)
 
 		local item = _G["MerchantItem"..i]
 		F.StripTextures(item, true)
@@ -47,7 +47,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	local backBU = MerchantBuyBackItemItemButton
 	F.StripTextures(backBU)
-	F.ReskinTexture(backBU, false, backIC)
+	F.ReskinTexture(backBU, backIC, false)
 	backBU.IconBorder:SetAlpha(0)
 
 	local backIT = MerchantBuyBackItem

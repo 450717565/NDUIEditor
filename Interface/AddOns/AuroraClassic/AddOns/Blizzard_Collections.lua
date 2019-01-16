@@ -54,11 +54,11 @@ C.themes["Blizzard_Collections"] = function()
 			bg:SetPoint("TOPLEFT", C.mult, -C.mult)
 			bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 
-			F.ReskinTexture(bu, true, bg)
-			F.ReskinTexture(bu.HighlightTexture, true, bg)
+			F.ReskinTexture(bu, bg, true)
+			F.ReskinTexture(bu.HighlightTexture, bg, true)
 
 			local sl = bu.SelectedTexture or bu.selectedTexture
-			F.ReskinTexture(sl, true, bg)
+			F.ReskinTexture(sl, bg, true)
 
 			local ic = bu.Icon or bu.icon
 			F.ReskinIcon(ic, true)
@@ -121,7 +121,7 @@ C.themes["Blizzard_Collections"] = function()
 		bd:Hide()
 
 		local ic = F.ReskinIcon(_G[button.."IconTexture"], true)
-		F.ReskinTexture(bu, false, ic)
+		F.ReskinTexture(bu, ic, false)
 	end
 
 	reskinButton("MountJournalSummonRandomFavoriteButton")
@@ -301,7 +301,7 @@ C.themes["Blizzard_Collections"] = function()
 		F.StripTextures(bu)
 
 		local ic = F.ReskinIcon(bu.iconTexture, true)
-		F.ReskinTexture(bu, false, ic)
+		F.ReskinTexture(bu, ic, false)
 
 		local cd = bu.cooldown
 		cd:SetAllPoints(ic)
@@ -336,7 +336,7 @@ C.themes["Blizzard_Collections"] = function()
 			button.level:SetPoint("BOTTOM", 0, 1)
 
 			local bg = F.ReskinIcon(button.iconTexture, true)
-			F.ReskinTexture(button, false, bg)
+			F.ReskinTexture(button, bg, false)
 
 			local newLevelBg = button:CreateTexture(nil, "OVERLAY")
 			newLevelBg:SetColorTexture(0, 0, 0, .5)
@@ -481,7 +481,7 @@ C.themes["Blizzard_Collections"] = function()
 			slot.Icon:SetDrawLayer("BACKGROUND", 1)
 			local bg = F.ReskinIcon(slot.Icon, true)
 
-			F.ReskinTexture(slot, false, bg)
+			F.ReskinTexture(slot, bg, false)
 		end
 	end
 

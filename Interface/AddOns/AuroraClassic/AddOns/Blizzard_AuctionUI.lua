@@ -19,7 +19,7 @@ C.themes["Blizzard_AuctionUI"] = function()
 
 	hooksecurefunc("FilterButton_SetUp", function(button)
 		button:SetNormalTexture("")
-		F.ReskinTexture(button, true, button)
+		F.ReskinTexture(button, button, true)
 	end)
 
 	do
@@ -71,12 +71,12 @@ C.themes["Blizzard_AuctionUI"] = function()
 			it.IconBorder:SetAlpha(0)
 
 			local icbg = F.ReskinIcon(ic, true)
-			F.ReskinTexture(it, false, icbg)
+			F.ReskinTexture(it, icbg, false)
 
 			local bubg = F.CreateBDFrame(bu, .25)
 			bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
 			bubg:SetPoint("BOTTOMRIGHT", 0, 3)
-			F.ReskinTexture(bu, true, bubg)
+			F.ReskinTexture(bu, bubg, true)
 		end
 	end
 

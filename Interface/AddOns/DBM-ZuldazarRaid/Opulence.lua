@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2342, "DBM-ZuldazarRaid", 2, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 18147 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 18164 $"):sub(12, -3))
 --mod:SetCreatureID(138967)--145261 or 147564
 mod:SetEncounterID(2271)
 --mod:DisableESCombatDetection()
@@ -65,12 +65,12 @@ local specWarnLiquidGold				= mod:NewSpecialWarningMoveAway(287072, nil, nil, ni
 local yellLiquidGold					= mod:NewYell(287072)
 local yellLiquidGoldFade				= mod:NewFadesYell(287072)
 local specWarnSpiritsofGold				= mod:NewSpecialWarningSwitch(285995, "Dps", nil, nil, 1, 2)
-local specWarnCoinShower				= mod:NewSpecialWarningMoveTo(285014, nil, nil, nil, 3, 2)
+local specWarnCoinShower				= mod:NewSpecialWarningMoveTo(285014, "-Tank", nil, 2, 1, 2)
 local yellCoinShower					= mod:NewYell(285014, nil, nil, nil, "YELL")
 local yellCoinShowerFade				= mod:NewFadesYell(285014, nil, nil, nil, "YELL")
 local specWarnWailofGreed				= mod:NewSpecialWarningCount(284941, nil, nil, nil, 2, 2)
 local specWarnCoinSweep					= mod:NewSpecialWarningTaunt(287037, nil, nil, nil, 1, 2)
-local specWarnSurgingGold				= mod:NewSpecialWarningDodge(289155, nil, nil, nil, 1, 2)
+local specWarnSurgingGold				= mod:NewSpecialWarningDodge(289155, nil, nil, nil, 2, 2)
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 8)
 
 --mod:AddTimerLine(DBM:EJ_GetSectionInfo(18527))

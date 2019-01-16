@@ -39,10 +39,10 @@ C.themes["Blizzard_ArtifactUI"] = function()
 			slot.UnobtainableCover:SetAllPoints()
 
 			local bg = F.CreateBDFrame(slot, .25)
-			F.ReskinTexture(slot.HighlightTexture, false, bg)
+			F.ReskinTexture(slot.HighlightTexture, bg, false)
 
 			local sl = slot.Selected
-			F.ReskinTexture(sl, true, slot, true)
+			F.ReskinTexture(sl, slot, true, true)
 			sl:SetColorTexture(r, g, b, 1)
 		end
 	end

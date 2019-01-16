@@ -24,7 +24,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			F.StripTextures(bu)
 
 			local bg = F.ReskinIcon(ic, true)
-			F.ReskinTexture(bu, false, bg)
+			F.ReskinTexture(bu, bg, false)
 		end
 	end
 

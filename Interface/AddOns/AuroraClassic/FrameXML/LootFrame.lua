@@ -23,7 +23,7 @@ tinsert(C.themes["AuroraClassic"], function()
 				bu:SetPushedTexture("")
 
 				local icbg = F.ReskinIcon(ic, true)
-				F.ReskinTexture(bu, false, icbg)
+				F.ReskinTexture(bu, icbg, false)
 
 				ic.bg = icbg
 			end

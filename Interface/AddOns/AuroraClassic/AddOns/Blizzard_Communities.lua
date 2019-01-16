@@ -60,7 +60,7 @@ C.themes["Blizzard_Communities"] = function()
 		tab:SetCheckedTexture(C.media.checked)
 
 		local bg = F.ReskinIcon(tab.Icon, true)
-		F.ReskinTexture(tab, false, bg)
+		F.ReskinTexture(tab, bg, false)
 	end
 	local p1, p2, p3, x, y = CommunitiesFrame.ChatTab:GetPoint()
 	CommunitiesFrame.ChatTab:ClearAllPoints()
@@ -288,7 +288,7 @@ C.themes["Blizzard_Communities"] = function()
 						select(i, header:GetRegions()):Hide()
 					end
 					local bg = F.CreateBDFrame(header, .45)
-					F.ReskinTexture(header, true, bg)
+					F.ReskinTexture(header, bg, true)
 					F.CreateBDFrame(header.Icon, .25)
 				end
 
@@ -325,7 +325,7 @@ C.themes["Blizzard_Communities"] = function()
 				button.bg = F.CreateBDFrame(button, .25)
 				button.bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
 				button.bg:SetPoint("BOTTOMRIGHT", 0, 1)
-				F.ReskinTexture(button, true, button.bg)
+				F.ReskinTexture(button, button.bg, true)
 			end
 		end
 	end)
@@ -340,7 +340,7 @@ C.themes["Blizzard_Communities"] = function()
 					button.bg:SetPoint("TOPLEFT", C.mult, -C.mult)
 					button.bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 
-					F.ReskinTexture(button, true, button.bg)
+					F.ReskinTexture(button, button.bg, true)
 					F.ReskinIcon(button.Icon, true)
 				end
 				button:SetNormalTexture("")

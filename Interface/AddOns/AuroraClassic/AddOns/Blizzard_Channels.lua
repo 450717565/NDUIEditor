@@ -20,7 +20,7 @@ tinsert(C.themes["AuroraClassic"], function()
 				tab.bg = F.CreateBDFrame(tab, .25)
 				tab.bg:SetAllPoints()
 
-				F.ReskinTexture(tab, true, tab.bg)
+				F.ReskinTexture(tab, tab.bg, true)
 
 				tab.styled = true
 			end

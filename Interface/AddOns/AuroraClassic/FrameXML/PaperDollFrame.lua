@@ -52,11 +52,11 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.StripTextures(slot)
 
 		local bg = F.ReskinIcon(slot.icon, true)
-		F.ReskinTexture(slot, false, bg)
+		F.ReskinTexture(slot, bg, false)
 		slot.SetHighlightTexture = F.dummy
 
 		local border = slot.IconBorder
-		F.ReskinTexture(border, false, slot, true)
+		F.ReskinTexture(border, slot, false, true)
 
 		local popout = slot.popoutButton
 		popout:SetNormalTexture("")
@@ -120,8 +120,8 @@ tinsert(C.themes["AuroraClassic"], function()
 			end
 		end
 
-		F.ReskinTexture(tab.Hider, false, bg)
-		F.ReskinTexture(tab.Highlight, false, bg)
+		F.ReskinTexture(tab.Hider, bg, false)
+		F.ReskinTexture(tab.Highlight, bg, false)
 	end
 
 	-- [[ Equipment manager ]]
@@ -153,7 +153,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		select(2, bu:GetRegions()):Hide()
 
 		local ic = F.ReskinIcon(_G["GearManagerDialogPopupButton"..i.."Icon"], true)
-		F.ReskinTexture(bu, false, ic)
+		F.ReskinTexture(bu, ic, false)
 	end
 
 	local sets = false

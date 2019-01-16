@@ -37,8 +37,8 @@ C.themes["Blizzard_LookingForGuildUI"] = function()
 			bg:SetPoint("TOPLEFT", C.mult, -C.mult)
 			bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 
-			F.ReskinTexture(bu.selectedTex, true, bg)
-			F.ReskinTexture(_G[button..i.."Highlight"], true, bg)
+			F.ReskinTexture(bu.selectedTex, bg, true)
+			F.ReskinTexture(_G[button..i.."Highlight"], bg, true)
 
 			local rm = _G[button..i.."RemoveButton"]
 			if rm then rm:SetPoint("RIGHT", -10, 1) end

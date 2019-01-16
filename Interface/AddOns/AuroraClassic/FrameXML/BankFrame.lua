@@ -24,10 +24,10 @@ tinsert(C.themes["AuroraClassic"], function()
 		if questTexture then questTexture:SetAlpha(0) end
 
 		local ic = F.ReskinIcon(bu.icon, true)
-		F.ReskinTexture(bu, false, ic)
+		F.ReskinTexture(bu, ic, false)
 
 		local border = bu.IconBorder
-		F.ReskinTexture(border, false, bu, true)
+		F.ReskinTexture(border, bu, false, true)
 
 		local searchOverlay = bu.searchOverlay
 		searchOverlay:SetPoint("TOPLEFT", -C.mult, C.mult)

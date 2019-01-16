@@ -117,7 +117,7 @@ local function Reskins()
 
 			for i = 1, 16 do
 				local btn = _G["SellButton" .. i]
-				F.ReskinTexture(btn, true, btn)
+				F.ReskinTexture(btn, btn, true)
 			end
 
 			local Inputlist = {BuyName, BuyQuantity, SellStacks, SellSize, SellBidPriceGold, SellBidPriceSilver, SellBidPriceCopper, SellBuyoutPriceGold, SellBuyoutPriceSilver, SellBuyoutPriceCopper}
@@ -153,13 +153,13 @@ local function Reskins()
 			F.ReskinStatusBar(BaudAuctionProgressBar, true, true)
 
 			local boxHL = BaudAuctionBrowseScrollBoxHighlight
-			boxHL:SetTexture(C.media.backdrop)
+			boxHL:SetTexture(C.media.bdTex)
 			boxHL:SetPoint("LEFT", 4, 0)
 			boxHL:SetPoint("RIGHT", 10, 0)
 
 			for i = 1, 7 do
 				local col = _G["BaudAuctionFrameCol"..i]
-				F.ReskinTexture(col, true, col)
+				F.ReskinTexture(col, col, true)
 			end
 
 			for k = 1, 19 do
@@ -196,16 +196,16 @@ local function Reskins()
 			F.Reskin(MerchantFrameFilterButton)
 
 			local ic = F.ReskinIcon(MerchantFrameSellJunkButtonIcon, true)
-			F.ReskinTexture(MerchantFrameSellJunkButton, false, ic)
+			F.ReskinTexture(MerchantFrameSellJunkButton, ic, false)
 			MerchantFrameSellJunkButton:SetPushedTexture(C.media.pushed)
 
 			for i = 13, 20 do
 				local bu = _G["MerchantItem"..i.."ItemButton"]
 				F.StripTextures(bu)
-				F.ReskinTexture(bu.IconBorder, false, bu, true)
+				F.ReskinTexture(bu.IconBorder, bu, false, true)
 
 				local ic = F.ReskinIcon(bu.icon, true)
-				F.ReskinTexture(bu, false, ic)
+				F.ReskinTexture(bu, ic, false)
 
 				local item = _G["MerchantItem"..i]
 				F.StripTextures(item, true)
@@ -404,7 +404,7 @@ local function Reskins()
 			F.ReskinScroll(WhisperPopFrameListScrollBar)
 
 			local listHL = WhisperPopFrameListHighlightTexture
-			listHL:SetTexture(C.media.backdrop)
+			listHL:SetTexture(C.media.bdTex)
 			listHL:SetVertexColor(cr, cg, cb, .25)
 
 			local lists = {WhisperPopFrameListDelete, WhisperPopFrameTopCloseButton, WhisperPopMessageFrameTopCloseButton}
@@ -422,7 +422,7 @@ local function Reskins()
 				ic:SetDrawLayer("ARTWORK")
 
 				local bg = F.ReskinIcon(ic, true)
-				F.ReskinTexture(bu, false, bg)
+				F.ReskinTexture(bu, bg, false)
 
 				if bu.SetCheckedTexture then
 					bu:SetCheckedTexture(C.media.checked)

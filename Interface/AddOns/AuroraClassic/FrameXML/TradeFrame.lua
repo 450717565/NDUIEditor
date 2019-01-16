@@ -25,8 +25,8 @@ tinsert(C.themes["AuroraClassic"], function()
 		bu:SetPushedTexture("")
 
 		local ic = F.ReskinIcon(bu.icon, true)
-		F.ReskinTexture(bu, false, ic)
-		F.ReskinTexture(bu.IconBorder, false, bu, true)
+		F.ReskinTexture(bu, ic, false)
+		F.ReskinTexture(bu.IconBorder, bu, false, true)
 	end
 
 	for i = 1, MAX_TRADE_ITEMS do
