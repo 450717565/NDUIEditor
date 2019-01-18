@@ -5,6 +5,6 @@ tinsert(C.themes["AuroraClassic"], function()
 		for _, button in pairs(microButtons) do
 		button.Arrow:Hide()
 
-		F.ReskinPortraitFrame(button, true)
+		F.ReskinFrame(button)
 	end
 end)

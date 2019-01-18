@@ -242,7 +242,7 @@ function module:Mailbox()
 	if IsAddOnLoaded("AuroraClassic") then
 		local F = unpack(AuroraClassic)
 		for i = 1, 4 do
-			F.Reskin(_G["MailButton"..i])
+			F.ReskinButton(_G["MailButton"..i])
 		end
 	end
 

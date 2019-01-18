@@ -3,10 +3,10 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_GuildRecruitmentUI"] = function()
 	local r, g, b = C.r, C.g, C.b
 
-	F.ReskinPortraitFrame(CommunitiesGuildRecruitmentFrame, true)
+	F.ReskinFrame(CommunitiesGuildRecruitmentFrame)
 	F.StripTextures(CommunitiesGuildRecruitmentFrameTab1, true)
 	F.StripTextures(CommunitiesGuildRecruitmentFrameTab2, true)
-	F.Reskin(CommunitiesGuildRecruitmentFrameRecruitment.ListGuildButton)
+	F.ReskinButton(CommunitiesGuildRecruitmentFrameRecruitment.ListGuildButton)
 
 	for _, name in next, {"InterestFrame", "AvailabilityFrame", "RolesFrame", "LevelFrame"} do
 		local frame = CommunitiesGuildRecruitmentFrameRecruitment[name]
@@ -42,9 +42,9 @@ C.themes["Blizzard_GuildRecruitmentUI"] = function()
 	F.ReskinRadio(CommunitiesGuildRecruitmentFrameRecruitment.LevelFrame.LevelMaxButton)
 	F.ReskinScroll(CommunitiesGuildRecruitmentFrameRecruitmentScrollFrameScrollBar)
 	F.ReskinScroll(CommunitiesGuildRecruitmentFrameApplicantsContainer.scrollBar)
-	F.Reskin(CommunitiesGuildRecruitmentFrameApplicants.InviteButton)
-	F.Reskin(CommunitiesGuildRecruitmentFrameApplicants.MessageButton)
-	F.Reskin(CommunitiesGuildRecruitmentFrameApplicants.DeclineButton)
+	F.ReskinButton(CommunitiesGuildRecruitmentFrameApplicants.InviteButton)
+	F.ReskinButton(CommunitiesGuildRecruitmentFrameApplicants.MessageButton)
+	F.ReskinButton(CommunitiesGuildRecruitmentFrameApplicants.DeclineButton)
 
 	hooksecurefunc("CommunitiesGuildRecruitmentFrameApplicants_Update", function(self)
 		local buttons = self.Container.buttons

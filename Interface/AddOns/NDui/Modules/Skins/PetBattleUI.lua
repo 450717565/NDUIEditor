@@ -259,9 +259,9 @@ function module:PetBattleUI()
 	for i = 1, 5 do
 		select(i, skipButton:GetRegions()):Hide()
 	end
-	B.CreateIF(skipButton, true)
+	B.PixelIcon(skipButton, "Interface\\Icons\\Ability_Foundryraid_Dormant", true)
+	skipButton.Icon:SetAllPoints()
 	skipButton:SetPushedTexture(DB.textures.pushed)
-	skipButton.Icon:SetTexture("Interface\\Icons\\Ability_Foundryraid_Dormant")
 	B.CreateFS(skipButton, 14, PET_BATTLE_PASS, false, "BOTTOM", 1, 2)
 
 	local xpbar = PetBattleFrameXPBar

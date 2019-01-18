@@ -127,7 +127,7 @@ local function Reskins()
 
 			local Buttonlist = {BuySearchButton, BuyScanButton, BuyBidButton, BuyBuyoutButton, BuyCancelAuctionButton, BuyCancelSearchButton, SellCreateAuctionButton, SellStacksMaxButton, SellSizeMaxButton}
 			for _, button in next, Buttonlist do
-				F.Reskin(button)
+				F.ReskinButton(button)
 			end
 
 			local Radiolist = {SellShortAuctionButton, SellMediumAuctionButton, SellLongAuctionButton, SellPerItemButton, SellPerStackButton}
@@ -145,8 +145,7 @@ local function Reskins()
 
 		if IsAddOnLoaded("BaudAuction") then
 			F.StripTextures(BaudAuctionBrowseScrollBoxScrollBar, true)
-			F.CreateBD(BaudAuctionProgress)
-			F.CreateSD(BaudAuctionProgress)
+			F.ReskinFrame(BaudAuctionProgress)
 			F.ReskinScroll(BaudAuctionBrowseScrollBoxScrollBarScrollBar)
 
 			BaudAuctionProgressBar:SetPoint("CENTER", 0, -5)
@@ -168,9 +167,7 @@ local function Reskins()
 		end
 
 		if IsAddOnLoaded("BuyEmAll") then
-			F.StripTextures(BuyEmAllFrame, true)
-			F.CreateBD(BuyEmAllFrame)
-			F.CreateSD(BuyEmAllFrame)
+			F.ReskinFrame(BuyEmAllFrame)
 			F.ReskinArrow(BuyEmAllLeftButton, "left")
 			F.ReskinArrow(BuyEmAllRightButton, "right")
 			BuyEmAllCurrencyFrame:ClearAllPoints()
@@ -178,7 +175,7 @@ local function Reskins()
 
 			local lists = {BuyEmAllOkayButton, BuyEmAllCancelButton, BuyEmAllStackButton, BuyEmAllMaxButton}
 			for _, list in next, lists do
-				F.Reskin(list)
+				F.ReskinButton(list)
 			end
 		end
 
@@ -189,11 +186,11 @@ local function Reskins()
 
 		if IsAddOnLoaded("ExtVendor") then
 			F.ReskinPortraitFrame(ExtVendor_SellJunkPopup, true)
-			F.Reskin(ExtVendor_SellJunkPopupYesButton)
-			F.Reskin(ExtVendor_SellJunkPopupNoButton)
+			F.ReskinButton(ExtVendor_SellJunkPopupYesButton)
+			F.ReskinButton(ExtVendor_SellJunkPopupNoButton)
 
 			F.ReskinInput(MerchantFrameSearchBox, 22)
-			F.Reskin(MerchantFrameFilterButton)
+			F.ReskinButton(MerchantFrameFilterButton)
 
 			local ic = F.ReskinIcon(MerchantFrameSellJunkButtonIcon, true)
 			F.ReskinTexture(MerchantFrameSellJunkButton, ic, false)
@@ -347,22 +344,18 @@ local function Reskins()
 		end
 
 		if IsAddOnLoaded("Simulationcraft") then
-			F.CreateBD(SimcCopyFrame)
-			F.CreateSD(SimcCopyFrame)
-			F.Reskin(SimcCopyFrameButton)
+			F.ReskinFrame(SimcCopyFrame)
+			F.ReskinButton(SimcCopyFrameButton)
 			F.ReskinScroll(SimcCopyFrameScrollScrollBar)
 		end
 
 		if IsAddOnLoaded("PremadeGroupsFilter") then
 			local dialog = PremadeGroupsFilterDialog
-			F.StripTextures(dialog, true)
 			F.StripTextures(dialog.Advanced, true)
 			F.StripTextures(dialog.Expression, true)
-			F.CreateBD(dialog)
-			F.CreateSD(dialog)
-			F.ReskinClose(dialog.CloseButton)
-			F.Reskin(dialog.ResetButton)
-			F.Reskin(dialog.RefreshButton)
+			F.ReskinFrame(dialog)
+			F.ReskinButton(dialog.ResetButton)
+			F.ReskinButton(dialog.RefreshButton)
 			F.ReskinDropDown(dialog.Difficulty.DropDown)
 			F.ReskinCheck(UsePFGButton)
 
@@ -393,10 +386,8 @@ local function Reskins()
 		end
 
 		if IsAddOnLoaded("WhisperPop") then
-			F.CreateBD(WhisperPopFrame)
-			F.CreateSD(WhisperPopFrame)
-			F.CreateBD(WhisperPopMessageFrame)
-			F.CreateSD(WhisperPopMessageFrame)
+			F.ReskinFrame(WhisperPopFrame, true)
+			F.ReskinFrame(WhisperPopMessageFrame, true)
 			F.ReskinArrow(WhisperPopScrollingMessageFrameButtonDown, "down")
 			F.ReskinArrow(WhisperPopScrollingMessageFrameButtonEnd, "down")
 			F.ReskinArrow(WhisperPopScrollingMessageFrameButtonUp, "up")
@@ -445,8 +436,8 @@ local function Reskins()
 
 			F.StripTextures(WQT_WorldQuestFrame, true)
 			F.StripTextures(WQT_QuestScrollFrame.DetailFrame, true)
-			F.Reskin(WQT_TabNormal)
-			F.Reskin(WQT_TabWorld)
+			F.ReskinButton(WQT_TabNormal)
+			F.ReskinButton(WQT_TabWorld)
 			F.ReskinDropDown(WQT_WorldQuestFrameSortButton)
 			F.ReskinFilterButton(WQT_WorldQuestFrameFilterButton)
 			F.ReskinScroll(WQT_QuestScrollFrameScrollBar)

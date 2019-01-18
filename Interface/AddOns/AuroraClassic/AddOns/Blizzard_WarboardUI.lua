@@ -3,8 +3,7 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_WarboardUI"] = function()
 	local function reskin(self)
 		if not self.styled then
-			F.ReskinPortraitFrame(WarboardQuestChoiceFrame, true)
-			F.StripTextures(WarboardQuestChoiceFrame.BorderFrame, true)
+			F.ReskinFrame(WarboardQuestChoiceFrame)
 			F.StripTextures(WarboardQuestChoiceFrame.Title, true)
 		end
 
@@ -18,8 +17,8 @@ C.themes["Blizzard_WarboardUI"] = function()
 			if not option.styled then
 				option.Background:Hide()
 				option.Header.Ribbon:Hide()
-				F.Reskin(option.OptionButtonsContainer.OptionButton1)
-				F.Reskin(option.OptionButtonsContainer.OptionButton2)
+				F.ReskinButton(option.OptionButtonsContainer.OptionButton1)
+				F.ReskinButton(option.OptionButtonsContainer.OptionButton2)
 
 				option.styled = true
 			end

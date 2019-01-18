@@ -15,7 +15,7 @@ local function CreateButton(name, frame, label, width, height, point, relativeTo
 	-- Aurora Reskin
 	if IsAddOnLoaded("AuroraClassic") then
 		local F = unpack(AuroraClassic)
-		F.Reskin(name)
+		F.ReskinButton(name)
 	end
 	return name
 end

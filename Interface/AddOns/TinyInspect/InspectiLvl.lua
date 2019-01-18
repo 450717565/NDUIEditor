@@ -73,7 +73,7 @@ local function SendInspect(unit)
 		return
 	end
 	for guid, v in pairs(members) do
-		if ((not v.done or v.ilevel <= 0) and UnitIsVisible(v.unit) and CanInspect(v.unit)) then
+		if ((not v.done or v.ilevel <= 0) and (UnitIsVisible(v.unit) or UnitIsConnected(v.unit)) and CanInspect(v.unit)) then
 			ClearInspectPlayer()
 			NotifyInspect(v.unit)
 			LibEvent:trigger("INSPECT_STARTED", v)
@@ -81,6 +81,41 @@ local function SendInspect(unit)
 		end
 	end
 end
+
+local function SelectGroup()
+	if IsInGroup() then
+		if not IsInRaid() then
+			return "PARTY"
+		else
+			return "RAID"
+		end
+	end
+end
+
+local SendAddonMessage = C_ChatInfo and C_ChatInfo.SendAddonMessage or function() end
+
+--发送自己的信息
+local function SendPlayerInfo()
+	local ilvl = select(2, GetAverageItemLevel()) or -1
+	local spec = select(2, GetSpecializationInfo(GetSpecialization())) or NONE
+	SendAddonMessage("TinyInspect", format("%s|%s|%s", "LV", ilvl, spec), SelectGroup())
+end
+
+--解析发送的信息
+LibEvent:attachEvent("CHAT_MSG_ADDON", function(self, prefix, text, channel, sender)
+	if (prefix == "TinyInspect" and channel == SelectGroup()) then
+		local flag, ilvl, spec = strsplit("|", text)
+		if (flag ~= "LV") then return end
+		local name, realm = strsplit("-", sender)
+		for guid, v in pairs(members) do
+			if (v.name == name and v.realm == realm) then
+				v.ilevel = tonumber(ilvl) or -1
+				v.done = true
+				LibEvent:trigger("INSPECT_READY", v)
+			end
+		end
+	end
+end)
 
 --@see InspectCore.lua @trigger INSPECT_READY
 LibEvent:attachTrigger("UNIT_INSPECT_READY", function(self, data)
@@ -100,15 +135,10 @@ end)
 --人員增加時觸發 @trigger INSPECT_TIMEOUT @trigger INSPECT_DONE
 LibEvent:attachEvent("GROUP_ROSTER_UPDATE", function(self)
 	if not EnableItemLevel then return end
-	if IsInGroup() then
-		if not IsInRaid() then
-			numCurrent = GetNumSubgroupMembers()
-		else
-			numCurrent = GetNumGroupMembers()
-		end
-	end
+	numCurrent = GetNumGroupMembers()
 	if (numCurrent > numMembers) then
 		GetMembers(numCurrent)
+		SendPlayerInfo()
 		if IsInGroup() and not IsInRaid() then
 			members[UnitGUID("player")] = {
 				name   = UnitName("player"),
@@ -147,6 +177,10 @@ LibEvent:attachEvent("GROUP_ROSTER_UPDATE", function(self)
 			TinyInspectiLvlFrame:Hide()
 		end
 	end
+end)
+
+LibEvent:attachEvent("VARIABLES_LOADED", function()
+	LibEvent:event("GROUP_ROSTER_UPDATE")
 end)
 
 ----------------

@@ -8,12 +8,11 @@ tinsert(C.themes["AuroraClassic"], function()
 	VideoOptionsFrameHeader:ClearAllPoints()
 	VideoOptionsFrameHeader:SetPoint("TOP", VideoOptionsFrame, 0, 0)
 
-	F.CreateBD(VideoOptionsFrame)
-	F.CreateSD(VideoOptionsFrame)
-	F.Reskin(VideoOptionsFrameOkay)
-	F.Reskin(VideoOptionsFrameCancel)
-	F.Reskin(VideoOptionsFrameDefaults)
-	F.Reskin(VideoOptionsFrameApply)
+	F.ReskinFrame(VideoOptionsFrame)
+	F.ReskinButton(VideoOptionsFrameOkay)
+	F.ReskinButton(VideoOptionsFrameCancel)
+	F.ReskinButton(VideoOptionsFrameDefaults)
+	F.ReskinButton(VideoOptionsFrameApply)
 
 	VideoOptionsFrameOkay:SetPoint("BOTTOMRIGHT", VideoOptionsFrameCancel, "BOTTOMLEFT", -1, 0)
 
@@ -40,8 +39,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		local frames = {AudioOptionsSoundPanelPlayback, AudioOptionsSoundPanelHardware, AudioOptionsSoundPanelVolume}
 		for _, frame in next, frames do
-			F.CreateBD(frame, .25)
-			F.CreateSD(frame)
+			F.CreateBDFrame(frame, .25)
 		end
 
 		AudioOptionsSoundPanelPlaybackTitle:SetPoint("BOTTOMLEFT", AudioOptionsSoundPanelPlayback, "TOPLEFT", 5, 2)
@@ -169,7 +167,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 
 		local testInputDevie = AudioOptionsVoicePanelTestInputDevice
-		F.Reskin(testInputDevie.ToggleTest)
+		F.ReskinButton(testInputDevie.ToggleTest)
 		F.StripTextures(testInputDevie.VUMeter)
 		testInputDevie.VUMeter.Status:SetStatusBarTexture(C.media.bdTex)
 		local bg = F.CreateBDFrame(testInputDevie.VUMeter, .25)
@@ -181,7 +179,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	hooksecurefunc("AudioOptionsVoicePanel_InitializeCommunicationModeUI", function(self)
 		if not self.styled then
-			F.Reskin(self.PushToTalkKeybindButton)
+			F.ReskinButton(self.PushToTalkKeybindButton)
 			self.styled = true
 		end
 	end)

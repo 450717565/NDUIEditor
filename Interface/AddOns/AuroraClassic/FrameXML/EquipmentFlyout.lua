@@ -5,8 +5,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	EquipmentFlyoutFrameButtons.bg1:SetAlpha(0)
 	EquipmentFlyoutFrameButtons:DisableDrawLayer("ARTWORK")
 
-	F.CreateBD(EquipmentFlyoutFrame.NavigationFrame)
-	F.CreateSD(EquipmentFlyoutFrame.NavigationFrame)
+	F.ReskinFrame(EquipmentFlyoutFrame.NavigationFrame)
 	F.ReskinArrow(EquipmentFlyoutFrame.NavigationFrame.PrevButton, "left")
 	F.ReskinArrow(EquipmentFlyoutFrame.NavigationFrame.NextButton, "right")
 

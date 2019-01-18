@@ -495,7 +495,7 @@ local function injectDruidButtons()
 		macro:SetText(text)
 
 		if (skinUI == "AuroraClassic") then
-			loadedUI.Reskin(macro)
+			loadedUI.ReskinButton(macro)
 		elseif (skinUI == "ElvUI") then
 			loadedUI:HandleButton(macro, true)
 		end
@@ -520,7 +520,7 @@ end
 local function injectVellumButton()
 	local vellum = CreateFrame("Button", nil, TradeSkillFrame, "MagicButtonTemplate")
 	if (skinUI == "AuroraClassic") then
-		loadedUI.Reskin(vellum)
+		loadedUI.ReskinButton(vellum)
 	elseif (skinUI == "ElvUI") then
 		loadedUI:HandleButton(vellum, true)
 	end

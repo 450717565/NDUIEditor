@@ -10,7 +10,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.StripTextures(WhoFrameEditBoxInset, true)
 	F.StripTextures(WhoFrameDropDown, true)
 
-	F.ReskinPortraitFrame(FriendsFrame, true)
+	F.ReskinFrame(FriendsFrame)
 	F.ReskinDropDown(FriendsFrameStatusDropDown)
 	F.ReskinDropDown(FriendsFriendsFrameDropDown)
 	F.ReskinDropDown(WhoFrameDropDown)
@@ -21,8 +21,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinScroll(FriendsFriendsScrollFrameScrollBar)
 	F.ReskinScroll(WhoListScrollFrameScrollBar)
 
-	F.CreateBD(AddFriendFrame)
-	F.CreateSD(AddFriendFrame)
+	F.ReskinFrame(AddFriendFrame)
 
 	local whoBg = F.CreateBDFrame(WhoFrameEditBoxInset, .25)
 	whoBg:SetPoint("TOPLEFT")
@@ -39,7 +38,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	local buttons = {AddFriendEntryFrameAcceptButton, AddFriendEntryFrameCancelButton, AddFriendInfoFrameContinueButton, FriendsFrameAddFriendButton, FriendsFrameIgnorePlayerButton, FriendsFrameSendMessageButton, FriendsFrameUnsquelchButton, FriendsFriendsCloseButton, FriendsFriendsSendRequestButton, FriendsListFrameContinueButton, WhoFrameAddFriendButton, WhoFrameGroupInviteButton, WhoFrameWhoButton}
 	for _, button in next, buttons do
-		F.Reskin(button)
+		F.ReskinButton(button)
 	end
 
 	for i = 1, 3 do
@@ -55,15 +54,16 @@ tinsert(C.themes["AuroraClassic"], function()
 		local bu = _G["FriendsFrameFriendsScrollFrameButton"..i]
 		bu.background:Hide()
 
-		bu:SetHighlightTexture(C.media.bdTex)
-		bu:GetHighlightTexture():SetVertexColor(.24, .56, 1, .25)
+		local hl = bu.highlight
+		hl:SetTexture(C.media.bdTex)
+		hl:SetVertexColor(.24, .56, 1, .25)
 
 		local tp = bu.travelPassButton
 		tp:EnableMouse(true)
 		tp:SetSize(22, 22)
 		tp:ClearAllPoints()
 		tp:SetPoint("RIGHT", -2, 0)
-		F.Reskin(tp)
+		F.ReskinButton(tp)
 
 		bu.inv = tp:CreateTexture(nil, "OVERLAY", nil, 7)
 		bu.inv:SetTexture([[Interface\FriendsFrame\PlusManz-PlusManz]])
@@ -105,11 +105,11 @@ tinsert(C.themes["AuroraClassic"], function()
 
 					local child = FriendsFrameFriendsScrollFrameScrollChild:GetChildren()
 					F.StripTextures(child, true)
-					F.Reskin(child)
+					F.ReskinButton(child)
 
 					invite.DeclineButton:SetSize(22, 22)
 					F.ReskinDecline(invite.DeclineButton)
-					F.Reskin(invite.AcceptButton)
+					F.ReskinButton(invite.AcceptButton)
 
 					invite.styled = true
 				end
@@ -125,7 +125,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			if not invite.styled then
 				invite.DeclineButton:SetSize(22, 22)
 				F.ReskinDecline(invite.DeclineButton)
-				F.Reskin(invite.AcceptButton)
+				F.ReskinButton(invite.AcceptButton)
 
 				invite.styled = true
 			end

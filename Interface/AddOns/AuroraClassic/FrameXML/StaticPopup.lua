@@ -5,11 +5,11 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	for i = 1, 4 do
 		local frame = _G["StaticPopup"..i]
-		F.ReskinPortraitFrame(frame, true)
-		F.Reskin(frame["extraButton"])
+		F.ReskinFrame(frame)
+		F.ReskinButton(frame["extraButton"])
 
 		for j = 1, 4 do
-			F.Reskin(frame["button"..j])
+			F.ReskinButton(frame["button"..j])
 		end
 
 		local edit = _G["StaticPopup"..i.."EditBox"]
@@ -92,22 +92,18 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	-- Pet battle queue popup
 
-	F.CreateBD(PetBattleQueueReadyFrame)
-	F.CreateSD(PetBattleQueueReadyFrame)
+	F.ReskinFrame(PetBattleQueueReadyFrame)
 	F.CreateBDFrame(PetBattleQueueReadyFrame.Art)
-	F.Reskin(PetBattleQueueReadyFrame.AcceptButton)
-	F.Reskin(PetBattleQueueReadyFrame.DeclineButton)
+	F.ReskinButton(PetBattleQueueReadyFrame.AcceptButton)
+	F.ReskinButton(PetBattleQueueReadyFrame.DeclineButton)
 
 	-- PlayerReportFrame
 	PlayerReportFrame:HookScript("OnShow", function(self)
 		if not self.styled then
-			F.StripTextures(self)
-			F.CreateBD(self)
-			F.CreateSD(self)
-			F.StripTextures(self.Comment)
+			F.ReskinFrame(self)
 			F.ReskinInput(self.Comment)
-			F.Reskin(self.ReportButton)
-			F.Reskin(self.CancelButton)
+			F.ReskinButton(self.ReportButton)
+			F.ReskinButton(self.CancelButton)
 
 			self.styled = true
 		end

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2335, "DBM-ZuldazarRaid", 2, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 18160 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 18166 $"):sub(12, -3))
 mod:SetCreatureID(145616)--145644 Bwonsamdi
 mod:SetEncounterID(2272)
 --mod:DisableESCombatDetection()
@@ -54,7 +54,7 @@ local warnGrieviousAxe					= mod:NewTargetNoFilterAnnounce(284781, 2, nil, "Heal
 local warnVoodooDoll					= mod:NewSpellAnnounce(285402, 3)
 local warnScorchingDetonation			= mod:NewCastAnnounce(284831, 2, nil, false)
 ----Bwonsamdi
-local warnDeathsDoor					= mod:NewTargetAnnounce(288449, 2)
+local warnDeathsDoor					= mod:NewTargetNoFilterAnnounce(288449, 2)
 --Stage Three: Enter the Death Realm
 local warnDreadreaping					= mod:NewSpellAnnounce(287116, 3)
 local warnInevitableEnd					= mod:NewSpellAnnounce(287333, 3)
@@ -69,8 +69,8 @@ local yellScorchingDetonation			= mod:NewYell(284831)
 local yellScorchingDetonationFades		= mod:NewFadesYell(284831)
 local specWarnScorchingDetonationOther	= mod:NewSpecialWarningTaunt(284831, nil, nil, nil, 1, 2)
 local specWarnPlagueofToads				= mod:NewSpecialWarningDodge(284933, nil, nil, nil, 2, 2)
-local specWarnSerpTotem					= mod:NewSpecialWarningSwitch(285172, false, nil, nil, 1, 2)
-local specWarnSerpTotemDodge			= mod:NewSpecialWarningRun(285172, nil, nil, nil, 4, 2)
+local specWarnSerpTotem					= mod:NewSpecialWarningSwitch(285172, "Ranged", nil, 2, 1, 2)
+local specWarnSerpTotemDodge			= mod:NewSpecialWarningRun(285172, "Melee", nil, 2, 4, 2)
 ----Prelate Za'lan
 local specWarnSealofPurification		= mod:NewSpecialWarningRun(284662, nil, nil, nil, 4, 2)
 local yellSealofPurification			= mod:NewYell(284662)
@@ -120,7 +120,7 @@ local timerDeathsDoorCD					= mod:NewCDTimer(27.9, 288449, nil, nil, nil, 3)
 --Stage Three: Enter the Death Realm
 local timerSpiritVortex					= mod:NewCastTimer(5, 284478, nil, nil, nil, 6)
 local timerDreadReapingCD				= mod:NewCDTimer(14.1, 287116, nil, nil, nil, 3)
-local timerInevitableEndCD				= mod:NewAITimer(14.1, 287333, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON)
+local timerInevitableEndCD				= mod:NewCDTimer(14.1, 287333, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON)
 ----Spirits
 local timerSealofBwonCD					= mod:NewCDTimer(25.5, 286695, nil, nil, nil, 5)
 
@@ -203,7 +203,6 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 284831 then
-		timerScorchingDetonationCD:Start()
 		if self.vb.phase >= 3 then
 			timerScorchingDetonationCD:Start(32.8)
 			if self:LatencyCheck() then
@@ -239,7 +238,7 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 287333 then
 		specWarnInevitableEnd:Show()
 		specWarnInevitableEnd:Play("justrun")
-		timerInevitableEndCD:Start()
+		--timerInevitableEndCD:Start()
 		if self:LatencyCheck() then
 			self:SendSync("InevitableEnd")
 		end
@@ -540,13 +539,13 @@ function mod:OnSync(msg, target)
 			if self.Options.AnnounceAlternatePhase then
 				warnInevitableEnd:Show()
 			end
-			timerInevitableEndCD:Start()
+			--timerInevitableEndCD:Start()
 		end
-	elseif msg == "DeathsDoor" then--Rastakhan (in p3, in P2 where we don't sync, bwonsamdi)
+	elseif msg == "DeathsDoor" then--Rastakhan (in p3+, in P2 where we don't sync, bwonsamdi)
 		if playerDeathPhase then
 			timerDeathsDoorCD:Start()
 		end
-	elseif msg == "DeathsDoorTarget" then--Rastakhan (in p3, in P2 where we don't sync, bwonsamdi)
+	elseif msg == "DeathsDoorTarget" then--Rastakhan (in p3+, in P2 where we don't sync, bwonsamdi)
 		if playerDeathPhase and self.Options.AnnounceAlternatePhase then
 			warnDeathsDoor:Show(target)
 		end

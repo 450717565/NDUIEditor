@@ -1,7 +1,7 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_QuestChoice"] = function()
-	F.ReskinPortraitFrame(QuestChoiceFrame, true)
+	F.ReskinFrame(QuestChoiceFrame)
 
 	local numOptions = #QuestChoiceFrame.Options
 	for i = 1, numOptions do
@@ -30,7 +30,7 @@ C.themes["Blizzard_QuestChoice"] = function()
 			F.ReskinIcon(cu.Icon, true)
 		end
 
-		F.Reskin(option.OptionButtonsContainer.OptionButton1)
-		F.Reskin(option.OptionButtonsContainer.OptionButton2)
+		F.ReskinButton(option.OptionButtonsContainer.OptionButton1)
+		F.ReskinButton(option.OptionButtonsContainer.OptionButton2)
 	end
 end

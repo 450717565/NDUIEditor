@@ -2,7 +2,7 @@ local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_DebugTools"] = function()
 	-- EventTraceFrame
-	F.ReskinPortraitFrame(EventTraceFrame, true)
+	F.ReskinFrame(EventTraceFrame)
 
 	select(1, EventTraceFrameScroll:GetRegions()):Hide()
 	local bu = select(2, EventTraceFrameScroll:GetRegions())
@@ -23,7 +23,7 @@ C.themes["Blizzard_DebugTools"] = function()
 
 	-- Table Attribute Display
 	local function reskinTableAttribute(frame)
-		F.ReskinPortraitFrame(frame, true)
+		F.ReskinFrame(frame)
 		F.StripTextures(frame.ScrollFrameArt, true)
 		F.CreateBDFrame(frame.ScrollFrameArt, .25)
 		F.ReskinCheck(frame.VisibilityButton)

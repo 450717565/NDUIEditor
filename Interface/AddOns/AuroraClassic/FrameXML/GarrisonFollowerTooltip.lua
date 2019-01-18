@@ -9,6 +9,10 @@ tinsert(C.themes["AuroraClassic"], function()
 		if AuroraConfig.tooltips then
 			F.ReskinTooltip(frame)
 		end
+
+		if frame.CloseButton then
+			F.ReskinClose(frame.CloseButton)
+		end
 	end
 
 	local function restyleGarrisonFollowerAbilityTooltipTemplate(frame)
@@ -23,20 +27,12 @@ tinsert(C.themes["AuroraClassic"], function()
 	end
 
 	restyleGarrisonFollowerTooltipTemplate(FloatingGarrisonMissionTooltip)
-	F.ReskinClose(FloatingGarrisonMissionTooltip.CloseButton)
-
 	restyleGarrisonFollowerTooltipTemplate(GarrisonFollowerTooltip)
 	restyleGarrisonFollowerAbilityTooltipTemplate(GarrisonFollowerAbilityTooltip)
-
 	restyleGarrisonFollowerTooltipTemplate(FloatingGarrisonFollowerTooltip)
-	F.ReskinClose(FloatingGarrisonFollowerTooltip.CloseButton)
-
 	restyleGarrisonFollowerAbilityTooltipTemplate(FloatingGarrisonFollowerAbilityTooltip)
-	F.ReskinClose(FloatingGarrisonFollowerAbilityTooltip.CloseButton)
-
 	restyleGarrisonFollowerTooltipTemplate(GarrisonShipyardFollowerTooltip)
 	restyleGarrisonFollowerTooltipTemplate(FloatingGarrisonShipyardFollowerTooltip)
-	F.ReskinClose(FloatingGarrisonShipyardFollowerTooltip.CloseButton)
 
 	hooksecurefunc("GarrisonFollowerTooltipTemplate_SetGarrisonFollower", function(tooltipFrame)
 		-- Abilities

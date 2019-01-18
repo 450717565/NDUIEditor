@@ -3,8 +3,7 @@ local F, C = unpack(select(2, ...))
 tinsert(C.themes["AuroraClassic"], function()
 	local r, g, b = C.r, C.g, C.b
 
-	F.ReskinPortraitFrame(PVEFrame, true)
-	F.StripTextures(PVEFrameLeftInset, true)
+	F.ReskinFrame(PVEFrame)
 	F.StripTextures(PVEFrame.shadows, true)
 
 	GroupFinderFrameGroupButton1.icon:SetTexture("Interface\\Icons\\INV_Helmet_08")
@@ -23,7 +22,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	for i = 1, 4 do
 		local bu = GroupFinderFrame["groupButton"..i]
 		bu.ring:Hide()
-		F.Reskin(bu)
+		F.ReskinButton(bu)
 		F.ReskinTexture(bu.bg, bu, true)
 
 		local icon = bu.icon

@@ -38,7 +38,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		for i = 1, 9 do
 			select(i, button:GetRegions()):Hide()
 		end
-		F.Reskin(button)
+		F.ReskinButton(button)
 	end
 	--CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:SetNormalTexture("Interface\\RaidFrame\\Raid-WorldPing")
 

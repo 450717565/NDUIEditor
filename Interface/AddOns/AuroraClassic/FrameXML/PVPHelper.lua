@@ -5,9 +5,9 @@ tinsert(C.themes["AuroraClassic"], function()
 	PVPReadyDialogBottomArt:Hide()
 	PVPReadyDialogFiligree:Hide()
 
-	F.ReskinPortraitFrame(PVPReadyDialog, true)
+	F.ReskinFrame(PVPReadyDialog)
 	PVPReadyDialog.SetBackdrop = F.dummy
 
-	F.Reskin(PVPReadyDialog.enterButton)
-	F.Reskin(PVPReadyDialog.leaveButton)
+	F.ReskinButton(PVPReadyDialog.enterButton)
+	F.ReskinButton(PVPReadyDialog.leaveButton)
 end)

@@ -6,7 +6,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.StripTextures(MerchantExtraCurrencyBg, true)
 	F.StripTextures(MerchantExtraCurrencyInset, true)
 
-	F.ReskinPortraitFrame(MerchantFrame, true)
+	F.ReskinFrame(MerchantFrame)
 	F.ReskinDropDown(MerchantFrameLootFilter)
 	F.ReskinArrow(MerchantPrevPageButton, "left")
 	F.ReskinArrow(MerchantNextPageButton, "right")

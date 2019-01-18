@@ -37,8 +37,7 @@ C.themes["Blizzard_AuctionUI"] = function()
 
 	local buttons = {BrowseBidButton, BrowseBuyoutButton, BrowseCloseButton, BrowseSearchButton, BrowseResetButton, BidBidButton, BidBuyoutButton, BidCloseButton, AuctionsCloseButton, AuctionsCancelAuctionButton, AuctionsCreateAuctionButton, AuctionsNumStacksMaxButton, AuctionsStackSizeMaxButton}
 	for _, button in next, buttons do
-		F.StripTextures(button, true)
-		F.Reskin(button)
+		F.ReskinButton(button)
 	end
 	AuctionsStackSizeMaxButton:SetSize(100, 20)
 	AuctionsStackSizeMaxButton:SetPoint("LEFT", AuctionsStackSizeEntry, "RIGHT", 2, 0)
@@ -122,7 +121,7 @@ C.themes["Blizzard_AuctionUI"] = function()
 	BrowseNextPageButton:SetPoint("TOPRIGHT", BrowseResetButton, "BOTTOMRIGHT", 0, -5)
 
 	F.StripTextures(BrowseDropDown, true)
-	F.Reskin(BrowseDropDownButton, true)
+	F.ReskinButton(BrowseDropDownButton, true)
 
 	local a1, p, a2, x, y = BrowseDropDownButton:GetPoint()
 	BrowseDropDownButton:SetPoint(a1, p, a2, x, y-4)
@@ -155,8 +154,8 @@ C.themes["Blizzard_AuctionUI"] = function()
 	BrowseMinLevel:SetPoint(p1, p2, p3, x, y+2)
 
 	-- Tutorial
-	F.ReskinPortraitFrame(WowTokenGameTimeTutorial, true)
-	F.Reskin(StoreButton)
+	F.ReskinFrame(WowTokenGameTimeTutorial)
+	F.ReskinButton(StoreButton)
 
 	local left = WowTokenGameTimeTutorial.LeftDisplay
 	left.Label:SetTextColor(1, .8, 0)
@@ -173,7 +172,7 @@ C.themes["Blizzard_AuctionUI"] = function()
 		local icon = Token.Icon
 
 		F.StripTextures(Token)
-		F.Reskin(Buyout)
+		F.ReskinButton(Buyout)
 
 		local bg = F.ReskinIcon(icon, true)
 		bg:SetBackdropBorderColor(0, .8, 1)

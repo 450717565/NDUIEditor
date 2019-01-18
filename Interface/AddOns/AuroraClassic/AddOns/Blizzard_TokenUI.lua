@@ -3,7 +3,7 @@ local F, C = unpack(select(2, ...))
 tinsert(C.themes["AuroraClassic"], function()
 	local r, g, b = C.r, C.g, C.b
 
-	F.ReskinPortraitFrame(TokenFramePopup, true)
+	F.ReskinFrame(TokenFramePopup)
 	F.ReskinCheck(TokenFramePopupInactiveCheckBox)
 	F.ReskinCheck(TokenFramePopupBackpackCheckBox)
 

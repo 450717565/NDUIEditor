@@ -1,14 +1,12 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	F.ReskinPortraitFrame(ChannelFrame, true)
-	F.Reskin(ChannelFrame.NewButton)
-	F.Reskin(ChannelFrame.SettingsButton)
+	F.ReskinFrame(ChannelFrame)
+	F.ReskinButton(ChannelFrame.NewButton)
+	F.ReskinButton(ChannelFrame.SettingsButton)
 	F.ReskinScroll(ChannelFrame.ChannelList.ScrollBar)
 	F.ReskinScroll(ChannelFrame.ChannelRoster.ScrollFrame.scrollBar)
 
-	ChannelFrame.LeftInset:Hide()
-	ChannelFrame.RightInset:Hide()
 	ChannelFrame.NewButton:ClearAllPoints()
 	ChannelFrame.NewButton:SetPoint("BOTTOMLEFT", 5, 4)
 
@@ -27,15 +25,15 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 	end)
 
-	F.ReskinPortraitFrame(CreateChannelPopup, true)
-	F.Reskin(CreateChannelPopup.OKButton)
-	F.Reskin(CreateChannelPopup.CancelButton)
+	F.ReskinFrame(CreateChannelPopup)
+	F.ReskinButton(CreateChannelPopup.OKButton)
+	F.ReskinButton(CreateChannelPopup.CancelButton)
 	F.ReskinInput(CreateChannelPopup.Name)
 	F.ReskinInput(CreateChannelPopup.Password)
 
-	F.ReskinPortraitFrame(VoiceChatChannelActivatedNotification, true)
-	F.ReskinPortraitFrame(VoiceChatPromptActivateChannel, true)
-	F.Reskin(VoiceChatPromptActivateChannel.AcceptButton)
+	F.ReskinFrame(VoiceChatChannelActivatedNotification)
+	F.ReskinFrame(VoiceChatPromptActivateChannel)
+	F.ReskinButton(VoiceChatPromptActivateChannel.AcceptButton)
 
 	F.ReskinSlider(UnitPopupVoiceMicrophoneVolume.Slider)
 	F.ReskinSlider(UnitPopupVoiceSpeakerVolume.Slider)

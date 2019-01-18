@@ -4,5 +4,5 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.StripTextures(QuickJoinScrollFrame, true)
 
 	F.ReskinScroll(QuickJoinScrollFrameScrollBar)
-	F.Reskin(QuickJoinFrame.JoinQueueButton)
+	F.ReskinButton(QuickJoinFrame.JoinQueueButton)
 end)

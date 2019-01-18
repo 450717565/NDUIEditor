@@ -4,7 +4,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	local r, g, b = C.r, C.g, C.b
 
 	-- Spell
-	F.ReskinPortraitFrame(SpellBookFrame, true)
+	F.ReskinFrame(SpellBookFrame)
 	F.ReskinArrow(SpellBookPrevPageButton, "left")
 	F.ReskinArrow(SpellBookNextPageButton, "right")
 

@@ -271,22 +271,29 @@ function B:RestoreMF()
 end
 
 -- Icon Style
-function B:CreateIF(mouse, cd)
-	B.CreateSD(self, 3, 3)
+function B:PixelIcon(texture, highlight)
+	B.CreateBD(self)
+	B.CreateSD(self)
 	self.Icon = self:CreateTexture(nil, "ARTWORK")
-	self.Icon:SetAllPoints()
+	self.Icon:SetPoint("TOPLEFT", C.mult, -C.mult)
+	self.Icon:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 	self.Icon:SetTexCoord(unpack(DB.TexCoord))
-	if mouse then
+	if texture then
+		self.Icon:SetTexture(texture)
+	end
+	if highlight and type(highlight) == "boolean" then
 		self:EnableMouse(true)
 		self.HL = self:CreateTexture(nil, "HIGHLIGHT")
 		self.HL:SetColorTexture(1, 1, 1, .25)
 		self.HL:SetAllPoints(self.Icon)
 	end
-	if cd then
-		self.CD = CreateFrame("Cooldown", nil, self, "CooldownFrameTemplate")
-		self.CD:SetAllPoints()
-		self.CD:SetReverse(true)
-	end
+end
+
+function B:AuraIcon(highlight)
+	self.CD = CreateFrame("Cooldown", nil, self, "CooldownFrameTemplate")
+	self.CD:SetAllPoints()
+	self.CD:SetReverse(true)
+	B.PixelIcon(self, nil, highlight)
 end
 
 function B:CreateGear(name)
@@ -415,13 +422,11 @@ end
 function B:StripTextures(kill)
 	for i = 1, self:GetNumRegions() do
 		local region = select(i, self:GetRegions())
-		if region and region:GetObjectType() == "Texture" then
+		if region and region.IsObjectType and region:IsObjectType("Texture") then
 			if kill and type(kill) == "boolean" then
 				B.HideObject(region)
-			elseif region:GetDrawLayer() == kill then
-				region:SetTexture(nil)
-			elseif kill and type(kill) == "string" and region:GetTexture() ~= kill then
-				region:SetTexture("")
+			elseif kill == 0 then
+				region:Hide()
 			else
 				region:SetTexture("")
 			end
@@ -588,9 +593,7 @@ function B:CreateButton(width, height, text, fontSize)
 	local bu = CreateFrame("Button", nil, self)
 	bu:SetSize(width, height)
 	if type(text) == "boolean" then
-		B.CreateBD(bu, .3)
-		B.CreateIF(bu, true)
-		bu.Icon:SetTexture(fontSize)
+		B.PixelIcon(bu, fontSize, true)
 	else
 		B.CreateBC(bu, .3)
 		bu.text = B.CreateFS(bu, fontSize or 14, text, true)

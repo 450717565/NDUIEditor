@@ -33,9 +33,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.ReskinExpandOrCollapse(bu)
 	end
 
-	F.StripTextures(ReputationDetailFrame, true)
-	F.CreateBD(ReputationDetailFrame)
-	F.CreateSD(ReputationDetailFrame)
+	F.ReskinFrame(ReputationDetailFrame)
 	F.ReskinClose(ReputationDetailCloseButton)
 	F.ReskinCheck(ReputationDetailAtWarCheckBox)
 	F.ReskinCheck(ReputationDetailInactiveCheckBox)

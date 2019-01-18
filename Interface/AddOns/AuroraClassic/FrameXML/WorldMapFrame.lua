@@ -1,13 +1,15 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	local WorldMapFrame = WorldMapFrame
 	local BorderFrame = WorldMapFrame.BorderFrame
+	WorldMapFramePortrait:SetAlpha(0)
 
-	F.ReskinPortraitFrame(BorderFrame)
+	F.StripTextures(WorldMapFrame, true)
+	F.StripTextures(BorderFrame, true)
+	F.ReskinClose(BorderFrame.CloseButton)
 	F.SetBD(WorldMapFrame, C.mult, 0, -(C.mult*2), C.mult)
+
 	F.ReskinMinMax(BorderFrame.MaximizeMinimizeFrame)
-	BorderFrame.Tutorial.Ring:Hide()
 
 	local overlayFrames = WorldMapFrame.overlayFrames
 	F.ReskinDropDown(overlayFrames[1])

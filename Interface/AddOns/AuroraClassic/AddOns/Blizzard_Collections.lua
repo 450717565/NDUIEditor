@@ -4,7 +4,7 @@ C.themes["Blizzard_Collections"] = function()
 	local r, g, b = C.r, C.g, C.b
 
 	-- [[ General ]]
-	F.ReskinPortraitFrame(CollectionsJournal, true)
+	F.ReskinFrame(CollectionsJournal)
 
 	for i = 1, 5 do
 		local tab = _G["CollectionsJournalTab"..i]
@@ -95,7 +95,7 @@ C.themes["Blizzard_Collections"] = function()
 		F.ReskinTooltip(PetJournalSecondaryAbilityTooltip)
 	end
 
-	local lists = {PetJournal, PetJournal.PetCount, PetJournal.LeftInset, PetJournal.RightInset, PetJournal.PetCardInset, PetJournal.loadoutBorder, MountJournal, MountJournal.MountCount, MountJournal.LeftInset, MountJournal.RightInset, MountJournal.MountDisplay, MountJournal.MountDisplay.ShadowOverlay}
+	local lists = {PetJournal, PetJournal.PetCount, PetJournal.PetCardInset, PetJournal.loadoutBorder, MountJournal, MountJournal.MountCount, MountJournal.MountDisplay, MountJournal.MountDisplay.ShadowOverlay}
 	for _, list in next, lists do
 		F.StripTextures(list, true)
 	end
@@ -104,9 +104,9 @@ C.themes["Blizzard_Collections"] = function()
 	F.CreateBDFrame(PetJournal.PetCount, .25)
 	F.CreateBDFrame(MountJournal.MountDisplay.ModelScene, .25)
 
-	F.Reskin(MountJournalMountButton)
-	F.Reskin(PetJournalSummonButton)
-	F.Reskin(PetJournalFindBattle)
+	F.ReskinButton(MountJournalMountButton)
+	F.ReskinButton(PetJournalSummonButton)
+	F.ReskinButton(PetJournalFindBattle)
 
 	F.ReskinArrow(MountJournal.MountDisplay.ModelScene.RotateLeftButton, "left")
 	F.ReskinArrow(MountJournal.MountDisplay.ModelScene.RotateRightButton, "right")
@@ -429,8 +429,6 @@ C.themes["Blizzard_Collections"] = function()
 	local SetsCollectionFrame = WardrobeCollectionFrame.SetsCollectionFrame
 	F.StripTextures(SetsCollectionFrame, true)
 	F.CreateBDFrame(SetsCollectionFrame.Model, .25)
-	SetsCollectionFrame.LeftInset:Hide()
-	SetsCollectionFrame.RightInset:Hide()
 
 	local DetailsFrame = SetsCollectionFrame.DetailsFrame
 	F.StripTextures(DetailsFrame, true)
@@ -458,14 +456,13 @@ C.themes["Blizzard_Collections"] = function()
 	F.ReskinArrow(SetsTransmogFrame.PagingFrame.NextPageButton, "right")
 
 	-- [[ Wardrobe ]]
-	F.ReskinPortraitFrame(WardrobeFrame, true)
+	F.ReskinFrame(WardrobeFrame)
 	F.StripTextures(WardrobeTransmogFrame, true)
-	F.StripTextures(WardrobeTransmogFrame.Inset, true)
 	F.StripTextures(WardrobeOutfitFrame, true)
 	F.CreateBDFrame(WardrobeOutfitFrame, .25)
-	F.Reskin(WardrobeTransmogFrame.ApplyButton)
-	F.Reskin(WardrobeTransmogFrame.Model.ClearAllPendingButton)
-	F.Reskin(WardrobeOutfitDropDown.SaveButton)
+	F.ReskinButton(WardrobeTransmogFrame.ApplyButton)
+	F.ReskinButton(WardrobeTransmogFrame.Model.ClearAllPendingButton)
+	F.ReskinButton(WardrobeOutfitDropDown.SaveButton)
 	F.ReskinArrow(WardrobeTransmogFrame.SpecButton, "down")
 	F.ReskinDropDown(WardrobeOutfitDropDown)
 
@@ -486,20 +483,20 @@ C.themes["Blizzard_Collections"] = function()
 	end
 
 	-- Edit Frame
-	F.ReskinPortraitFrame(WardrobeOutfitEditFrame, true)
+	F.ReskinFrame(WardrobeOutfitEditFrame)
 	F.StripTextures(WardrobeOutfitEditFrame.EditBox, true)
 	F.CreateBDFrame(WardrobeOutfitEditFrame.EditBox,.25)
-	F.Reskin(WardrobeOutfitEditFrame.AcceptButton)
-	F.Reskin(WardrobeOutfitEditFrame.CancelButton)
-	F.Reskin(WardrobeOutfitEditFrame.DeleteButton)
+	F.ReskinButton(WardrobeOutfitEditFrame.AcceptButton)
+	F.ReskinButton(WardrobeOutfitEditFrame.CancelButton)
+	F.ReskinButton(WardrobeOutfitEditFrame.DeleteButton)
 
 	-- HPetBattleAny
 	local reskinHPet
 	CollectionsJournal:HookScript("OnShow", function()
 		if not IsAddOnLoaded("HPetBattleAny") then return end
 		if not reskinHPet then
-			F.Reskin(HPetInitOpenButton)
-			F.Reskin(HPetAllInfoButton)
+			F.ReskinButton(HPetInitOpenButton)
+			F.ReskinButton(HPetAllInfoButton)
 			for i = 1, 9 do
 				select(i, HPetAllInfoButton:GetRegions()):Hide()
 			end
@@ -529,7 +526,7 @@ do
 				if not self.reskin then
 					local bu = {"Reset", "Help", "UpdateStone"}
 					for _, v in pairs(bu) do
-						F.Reskin(_G["HPetOption"..v])
+						F.ReskinButton(_G["HPetOption"..v])
 					end
 
 					local box = {"Message", "OnlyInPetInfo", "MiniTip", "Sound", "FastForfeit", "OtherTooltip", "HighGlow", "AutoSaveAbility", "ShowBandageButton", "ShowHideID", "PetGrowInfo", "BreedIDStyle", "PetGreedInfo", "PetBreedInfo", "ShowBreedID", "EnemyAbility", "LockAbilitys", "ShowAbilitysName", "OtherAbility", "AllyAbility"}

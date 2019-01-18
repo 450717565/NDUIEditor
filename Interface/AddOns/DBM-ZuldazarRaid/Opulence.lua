@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2342, "DBM-ZuldazarRaid", 2, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 18164 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 18165 $"):sub(12, -3))
 --mod:SetCreatureID(138967)--145261 or 147564
 mod:SetEncounterID(2271)
 --mod:DisableESCombatDetection()
@@ -30,6 +30,7 @@ mod:RegisterEventsInCombat(
 --]]
 --Figure out right crush idea, too many to guess right, also need to see how it's done by source
 --TODO, more trap work, especially ruby beam targetting
+--TODO, auto correction code (for tank ability at least)
 --The Zandalari Crown Jewels
 local warnGrosslyIncandescent			= mod:NewTargetNoFilterAnnounce(284798, 1)
 --Stage One: Raiding The Vault

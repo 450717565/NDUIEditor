@@ -4,9 +4,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	local class = select(2, UnitClass("player"))
 	if class ~= "HUNTER" then return end
 
-	F.ReskinPortraitFrame(PetStableFrame, true)
-	F.StripTextures(PetStableLeftInset, true)
-	F.StripTextures(PetStableBottomInset, true)
+	F.ReskinFrame(PetStableFrame)
 	F.ReskinArrow(PetStablePrevPageButton, "left")
 	F.ReskinArrow(PetStableNextPageButton, "right")
 	F.ReskinArrow(PetStableModelRotateLeftButton, "left")

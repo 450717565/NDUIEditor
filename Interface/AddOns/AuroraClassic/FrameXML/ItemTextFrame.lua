@@ -1,7 +1,7 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	F.ReskinPortraitFrame(ItemTextFrame, true)
+	F.ReskinFrame(ItemTextFrame)
 	F.StripTextures(ItemTextScrollFrame, true)
 	F.StripTextures(ItemTextPrevPageButton, true)
 	F.StripTextures(ItemTextNextPageButton, true)

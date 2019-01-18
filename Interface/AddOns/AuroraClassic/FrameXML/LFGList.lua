@@ -25,9 +25,9 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	-- [[ Category selection ]]
 	local CategorySelection = LFGListFrame.CategorySelection
-	F.StripTextures(CategorySelection.Inset, true)
-	F.Reskin(CategorySelection.FindGroupButton)
-	F.Reskin(CategorySelection.StartGroupButton)
+	F.StripTextures(CategorySelection, true)
+	F.ReskinButton(CategorySelection.FindGroupButton)
+	F.ReskinButton(CategorySelection.StartGroupButton)
 
 	hooksecurefunc("LFGListCategorySelection_AddButton", function(self, btnIndex)
 		local bu = self.CategoryButtons[btnIndex]
@@ -43,16 +43,16 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	-- [[ Nothing available ]]
 	local NothingAvailable = LFGListFrame.NothingAvailable
-	F.StripTextures(NothingAvailable.Inset, true)
+	F.StripTextures(NothingAvailable, true)
 
 	-- [[ Search panel ]]
 	local SearchPanel = LFGListFrame.SearchPanel
 	F.StripTextures(SearchPanel.ResultsInset, true)
 	F.StripTextures(SearchPanel.AutoCompleteFrame, true)
-	F.Reskin(SearchPanel.RefreshButton)
-	F.Reskin(SearchPanel.BackButton)
-	F.Reskin(SearchPanel.SignUpButton)
-	F.Reskin(SearchPanel.ScrollFrame.StartGroupButton)
+	F.ReskinButton(SearchPanel.RefreshButton)
+	F.ReskinButton(SearchPanel.BackButton)
+	F.ReskinButton(SearchPanel.SignUpButton)
+	F.ReskinButton(SearchPanel.ScrollFrame.StartGroupButton)
 	F.ReskinInput(SearchPanel.SearchBox)
 	F.ReskinScroll(SearchPanel.ScrollFrame.scrollBar)
 
@@ -90,7 +90,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	-- [[ Application viewer ]]
 	local ApplicationViewer = LFGListFrame.ApplicationViewer
 	F.StripTextures(ApplicationViewer, true)
-	F.StripTextures(ApplicationViewer.Inset, true)
+	F.StripTextures(ApplicationViewer, true)
 
 	for _, headerName in next, {"NameColumnHeader", "RoleColumnHeader", "ItemLevelColumnHeader"} do
 		local header = ApplicationViewer[headerName]
@@ -106,7 +106,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	hooksecurefunc("LFGListApplicationViewer_UpdateApplicant", function(button)
 		if not button.styled then
 			F.ReskinDecline(button.DeclineButton)
-			F.Reskin(button.InviteButton)
+			F.ReskinButton(button.InviteButton)
 
 			button.styled = true
 		end
@@ -119,9 +119,9 @@ tinsert(C.themes["AuroraClassic"], function()
 	ApplicationViewer.RoleColumnHeader:SetPoint("LEFT", ApplicationViewer.NameColumnHeader, "RIGHT", 1, 0)
 	ApplicationViewer.ItemLevelColumnHeader:SetPoint("LEFT", ApplicationViewer.RoleColumnHeader, "RIGHT", 1, 0)
 
-	F.Reskin(ApplicationViewer.RefreshButton)
-	F.Reskin(ApplicationViewer.RemoveEntryButton)
-	F.Reskin(ApplicationViewer.EditButton)
+	F.ReskinButton(ApplicationViewer.RefreshButton)
+	F.ReskinButton(ApplicationViewer.RemoveEntryButton)
+	F.ReskinButton(ApplicationViewer.EditButton)
 	F.ReskinScroll(LFGListApplicationViewerScrollFrameScrollBar)
 
 	ApplicationViewer.RefreshButton:SetSize(24, 24)
@@ -129,14 +129,14 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	-- [[ Entry creation ]]
 	local EntryCreation = LFGListFrame.EntryCreation
-	F.StripTextures(EntryCreation.Inset, true)
+	F.StripTextures(EntryCreation, true)
 	F.StripTextures(LFGListCreationDescription, true)
 
 	local bg = F.CreateBDFrame(EntryCreation.Description, .25)
 	F.CreateGradient(bg)
 
-	F.Reskin(EntryCreation.ListGroupButton)
-	F.Reskin(EntryCreation.CancelButton)
+	F.ReskinButton(EntryCreation.ListGroupButton)
+	F.ReskinButton(EntryCreation.CancelButton)
 	F.ReskinInput(EntryCreation.Name)
 	F.ReskinInput(EntryCreation.ItemLevel.EditBox)
 	F.ReskinInput(EntryCreation.VoiceChat.EditBox)
@@ -149,17 +149,16 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinCheck(LFGListFrame.ApplicationViewer.AutoAcceptButton)
 
 	-- [[ Application dialog ]]
+
+	F.ReskinFrame(LFGListApplicationDialog, true)
 	F.StripTextures(LFGListApplicationDialog.Description, true)
-	F.CreateBD(LFGListApplicationDialog)
-	F.CreateSD(LFGListApplicationDialog)
 	F.CreateBDFrame(LFGListApplicationDialog.Description, .25)
-	F.Reskin(LFGListApplicationDialog.SignUpButton)
-	F.Reskin(LFGListApplicationDialog.CancelButton)
+	F.ReskinButton(LFGListApplicationDialog.SignUpButton)
+	F.ReskinButton(LFGListApplicationDialog.CancelButton)
 
 	-- [[ Invite dialog ]]
-	F.CreateBD(LFGListInviteDialog)
-	F.CreateSD(LFGListInviteDialog)
-	F.Reskin(LFGListInviteDialog.AcceptButton)
-	F.Reskin(LFGListInviteDialog.DeclineButton)
-	F.Reskin(LFGListInviteDialog.AcknowledgeButton)
+	F.ReskinFrame(LFGListInviteDialog, true)
+	F.ReskinButton(LFGListInviteDialog.AcceptButton)
+	F.ReskinButton(LFGListInviteDialog.DeclineButton)
+	F.ReskinButton(LFGListInviteDialog.AcknowledgeButton)
 end)

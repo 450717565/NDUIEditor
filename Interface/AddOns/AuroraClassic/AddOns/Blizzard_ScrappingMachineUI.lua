@@ -1,8 +1,8 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_ScrappingMachineUI"] = function()
-	F.ReskinPortraitFrame(ScrappingMachineFrame, true)
-	F.Reskin(ScrappingMachineFrame.ScrapButton)
+	F.ReskinFrame(ScrappingMachineFrame)
+	F.ReskinButton(ScrappingMachineFrame.ScrapButton)
 
 	local function refreshIcon(self)
 		if self.itemLocation and not self.item:IsItemEmpty() and self.item:GetItemName() then

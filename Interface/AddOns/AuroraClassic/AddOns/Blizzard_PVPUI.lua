@@ -5,8 +5,8 @@ C.themes["Blizzard_PVPUI"] = function()
 
 	-- Main style
 	F.StripTextures(PVPQueueFrame.HonorInset, true)
-	F.Reskin(HonorFrame.QueueButton)
-	F.Reskin(ConquestFrame.JoinButton)
+	F.ReskinButton(HonorFrame.QueueButton)
+	F.ReskinButton(ConquestFrame.JoinButton)
 	F.ReskinDropDown(HonorFrameTypeDropDown)
 	F.ReskinScroll(HonorFrameSpecificFrameScrollBar)
 
@@ -14,7 +14,7 @@ C.themes["Blizzard_PVPUI"] = function()
 	for i = 1, 3 do
 		local bu = PVPQueueFrame["CategoryButton"..i]
 		bu.Ring:Hide()
-		F.Reskin(bu)
+		F.ReskinButton(bu)
 		F.ReskinTexture(bu.Background, bu, true)
 
 		local icon = bu.Icon
@@ -56,21 +56,18 @@ C.themes["Blizzard_PVPUI"] = function()
 	styleBar(ConquestFrame)
 
 	-- Honor frame
-	local Inset = HonorFrame.Inset
 	local BonusFrame = HonorFrame.BonusFrame
-	F.StripTextures(Inset, true)
+	F.StripTextures(HonorFrame, true)
 	F.StripTextures(BonusFrame, true)
-	BonusFrame.ShadowOverlay:Hide()
 
 	for _, bonusButton in next, {"RandomBGButton", "RandomEpicBGButton", "Arena1Button", "BrawlButton"} do
 		local bu = BonusFrame[bonusButton]
-		F.Reskin(bu)
+		F.ReskinButton(bu)
 		F.ReskinTexture(bu.SelectedTexture, bu, true)
 	end
 
 	-- Conquest Frame
-	F.StripTextures(ConquestFrame.Inset, true)
-	ConquestFrame.ShadowOverlay:Hide()
+	F.StripTextures(ConquestFrame, true)
 
 	if AuroraConfig.tooltips then
 		F.ReskinTooltip(ConquestTooltip)
@@ -78,7 +75,7 @@ C.themes["Blizzard_PVPUI"] = function()
 
 	for _, conquestButton in next, {"Arena2v2", "Arena3v3", "RatedBG"} do
 		local bu = ConquestFrame[conquestButton]
-		F.Reskin(bu)
+		F.ReskinButton(bu)
 		F.ReskinTexture(bu.SelectedTexture, bu, true)
 	end
 end

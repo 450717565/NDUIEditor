@@ -86,7 +86,7 @@ local function SetItemLevelScheduled(button, ItemLevelFrame, link)
 	if (not string.match(link, "item:(%d+):")) then return end
 	LibSchedule:AddTask({
 		identity  = link,
-		elasped   = 0.5,
+		elasped   = 1,
 		expired   = GetTime() + 3,
 		frame     = ItemLevelFrame,
 		button    = button,
@@ -107,39 +107,48 @@ end
 
 --設置物品等級
 local function SetItemLevel(self, link, category, BagID, SlotID)
-	if (not self) then return end
-	local frame = GetItemLevelFrame(self, category)
-	if (self.OrigItemLink == link) then
-		SetItemLevelString(frame.levelString, self.OrigItemLevel, self.OrigItemQuality)
-		SetItemSlotString(frame.slotString, self.OrigItemClass, self.OrigItemEquipSlot, self.OrigItemLink)
-	else
-		local level = ""
-		local _, count, quality, class, equipSlot
-		if (link and string.match(link, "item:(%d+):")) then
-			_, _, quality, _, _, class, _, _, equipSlot = GetItemInfo(link)
-			if (BagID and SlotID and (category == "Bag" or category == "AltEquipment") and (quality == 7 or quality == 6)) then
-				count, level = LibItemInfo:GetContainerItemLevel(BagID, SlotID)
-			else
-				count, level = LibItemInfo:GetItemInfo(link)
-			end
-			if (count > 0) then
-				SetItemLevelString(frame.levelString, "...")
-				return SetItemLevelScheduled(self, frame, link)
-			else
-				if (tonumber(level) == 0) then level = "" end
-				SetItemLevelString(frame.levelString, level, quality)
-				SetItemSlotString(frame.slotString, class, equipSlot, link)
-			end
-		else
-			SetItemLevelString(frame.levelString, "")
-			SetItemSlotString(frame.slotString)
-		end
-		self.OrigItemLink = link
-		self.OrigItemLevel = level
-		self.OrigItemQuality = quality
-		self.OrigItemClass = class
-		self.OrigItemEquipSlot = equipSlot
-	end
+    if (not self) then return end
+    local frame = GetItemLevelFrame(self, category)
+    if (self.OrigItemLink == link) then
+        SetItemLevelString(frame.levelString, self.OrigItemLevel, self.OrigItemQuality)
+        SetItemSlotString(frame.slotString, self.OrigItemClass, self.OrigItemEquipSlot, self.OrigItemLink)
+    else
+        local level = ""
+        local _, count, quality, class, subclass, equipSlot
+        if (link and string.match(link, "item:(%d+):")) then
+            if (BagID and SlotID and (category == "Bag" or category == "AltEquipment")) then
+                count, level = LibItemInfo:GetContainerItemLevel(BagID, SlotID)
+                _, _, quality, _, _, class, subclass, _, equipSlot = GetItemInfo(link)
+            else
+                count, level, _, _, quality, _, _, class, subclass, _, equipSlot = LibItemInfo:GetItemInfo(link)
+            end
+            --除了装备和圣物外,其它不显示装等
+            if ((equipSlot and string.find(equipSlot, "INVTYPE_"))
+                or (subclass and string.find(subclass, RELICSLOT))) then else
+                level = ""
+            end
+            --坐骑还是要显示的
+            if (subclass and subclass == MOUNTS) then
+                class = subclass
+            end
+            if (count > 0) then
+                SetItemLevelString(frame.levelString, "...")
+                return SetItemLevelScheduled(self, frame, link)
+            else
+                if (tonumber(level) == 0) then level = "" end
+                SetItemLevelString(frame.levelString, level, quality)
+                SetItemSlotString(frame.slotString, class, equipSlot, link)
+            end
+        else
+            SetItemLevelString(frame.levelString, "")
+            SetItemSlotString(frame.slotString)
+        end
+        self.OrigItemLink = link
+        self.OrigItemLevel = level
+        self.OrigItemQuality = quality
+        self.OrigItemClass = class
+        self.OrigItemEquipSlot = equipSlot
+    end
 end
 
 --[[ All ]]

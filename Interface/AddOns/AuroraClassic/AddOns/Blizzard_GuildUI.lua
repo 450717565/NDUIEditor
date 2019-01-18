@@ -3,20 +3,14 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_GuildUI"] = function()
 	local r, g, b = C.r, C.g, C.b
 
-	local bdsds = {GuildFrame, GuildNewsFiltersFrame, GuildTextEditFrame, GuildLogFrame}
+	local bdsds = {GuildFrame, GuildNewsFiltersFrame, GuildTextEditFrame, GuildLogFrame, GuildMemberDetailFrame}
 	for _, bdsd in next, bdsds do
-		F.StripTextures(bdsd, true)
-		F.CreateBD(bdsd)
-		F.CreateSD(bdsd)
+		F.ReskinFrame(bdsd)
 	end
 
-	local closes = {GuildFrameCloseButton, GuildNewsFiltersFrameCloseButton, GuildLogFrameCloseButton, GuildMemberDetailCloseButton, GuildTextEditFrameCloseButton}
-	for _, close in next, closes do
-		F.StripTextures(close, true)
-		F.ReskinClose(close)
-	end
+	F.ReskinClose(GuildMemberDetailCloseButton)
 
-	local frames = {GuildMemberDetailFrame, GuildMemberNoteBackground, GuildMemberOfficerNoteBackground, GuildLogContainer, GuildTextEditContainer, GuildRecruitmentInterestFrame, GuildRecruitmentAvailabilityFrame, GuildRecruitmentRolesFrame, GuildRecruitmentLevelFrame, GuildInfoFrameInfoMOTDScrollFrame, GuildInfoDetailsFrame, GuildRecruitmentCommentInputFrame}
+	local frames = {GuildMemberNoteBackground, GuildMemberOfficerNoteBackground, GuildLogContainer, GuildTextEditContainer, GuildRecruitmentInterestFrame, GuildRecruitmentAvailabilityFrame, GuildRecruitmentRolesFrame, GuildRecruitmentLevelFrame, GuildInfoFrameInfoMOTDScrollFrame, GuildInfoDetailsFrame, GuildRecruitmentCommentInputFrame}
 	for _, frame in next, frames do
 		F.StripTextures(frame, true)
 		F.CreateBDFrame(frame, .25)
@@ -33,7 +27,6 @@ C.themes["Blizzard_GuildUI"] = function()
 	GuildFrameTabardEmblem:Hide()
 	GuildFrameTabardBorder:Hide()
 
-	F.StripTextures(GuildFrameInset, true)
 	F.StripTextures(GuildNewsFrame, true)
 	F.StripTextures(GuildAllPerksFrame, true)
 	F.StripTextures(GuildRewardsFrame, true)
@@ -187,7 +180,7 @@ C.themes["Blizzard_GuildUI"] = function()
 
 	local gbuttons = {GuildAddMemberButton, GuildViewLogButton, GuildControlButton, GuildTextEditFrameAcceptButton, GuildMemberGroupInviteButton, GuildMemberRemoveButton, GuildRecruitmentInviteButton, GuildRecruitmentMessageButton, GuildRecruitmentDeclineButton, GuildRecruitmentListGuildButton, select(4, GuildTextEditFrame:GetChildren()), select(3, GuildLogFrame:GetChildren())}
 	for _, button in next, gbuttons do
-		F.Reskin(button)
+		F.ReskinButton(button)
 	end
 
 	local checkboxes = {GuildRecruitmentQuestButton, GuildRecruitmentDungeonButton, GuildRecruitmentRaidButton, GuildRecruitmentPvPButton, GuildRecruitmentRPButton, GuildRecruitmentWeekdaysButton, GuildRecruitmentWeekendsButton, GuildRecruitmentTankButton:GetChildren(), GuildRecruitmentHealerButton:GetChildren(), GuildRecruitmentDamagerButton:GetChildren()}

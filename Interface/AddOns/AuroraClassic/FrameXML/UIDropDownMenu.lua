@@ -15,22 +15,13 @@ tinsert(C.themes["AuroraClassic"], function()
 				end
 				local backdrop = _G[name..i.."Backdrop"]
 				if backdrop and not backdrop.styled then
-					F.CreateBD(backdrop)
-					F.CreateSD(backdrop)
+					F.ReskinFrame(backdrop)
 					backdrop.styled = true
 				end
 			end
 		end
 	end
 	hooksecurefunc("UIDropDownMenu_CreateFrames", reskinDropdown)
-
-	local function toggleBackdrop(bu, show)
-		if show then
-			bu.bg:Show()
-		else
-			bu.bg:Hide()
-		end
-	end
 
 	local function isCheckTexture(check)
 		if check:GetTexture() == "Interface\\Common\\UI-DropDownRadioChecks" then

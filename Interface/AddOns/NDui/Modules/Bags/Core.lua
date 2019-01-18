@@ -263,7 +263,7 @@ function module:OnLogin()
 
 		self.Icon:SetAllPoints()
 		self.Icon:SetTexCoord(unpack(DB.TexCoord))
-		self.Count:SetPoint("BOTTOMRIGHT", 0, C.mult)
+		self.Count:SetPoint("BOTTOMRIGHT", 0, 1)
 		self.Count:SetFont(unpack(DB.Font))
 
 		self.BG = B.CreateBG(self)
@@ -289,7 +289,7 @@ function module:OnLogin()
 		end
 
 		if NDuiDB["Bags"]["BagsiLvl"] then
-			self.iLvl = B.CreateFS(self, 12, "", false, "BOTTOMRIGHT", 0, C.mult)
+			self.iLvl = B.CreateFS(self, 12, "", false, "BOTTOMRIGHT", 0, 1)
 		end
 
 		if NDuiDB["Extras"]["SlotInfo"] then

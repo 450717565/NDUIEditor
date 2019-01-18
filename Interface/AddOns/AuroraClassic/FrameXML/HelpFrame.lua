@@ -3,13 +3,8 @@ local F, C = unpack(select(2, ...))
 tinsert(C.themes["AuroraClassic"], function()
 	local r, g, b = C.r, C.g, C.b
 
-	F.StripTextures(HelpFrame)
-	F.CreateBD(HelpFrame)
-	F.CreateSD(HelpFrame)
-	F.ReskinClose(HelpFrameCloseButton)
-
+	F.ReskinFrame(HelpFrame)
 	F.StripTextures(HelpFrameMainInset)
-	F.StripTextures(HelpFrameLeftInset)
 	F.StripTextures(HelpBrowser.BrowserInset)
 
 	HelpFrameHeader:Hide()
@@ -43,7 +38,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		HelpFrameSubmitSuggestionSubmit
 	}
 	for _, button in next, buttons do
-		F.Reskin(button)
+		F.ReskinButton(button)
 	end
 
 	F.StripTextures(HelpFrameKnowledgebase)
@@ -68,10 +63,8 @@ tinsert(C.themes["AuroraClassic"], function()
 	end
 
 	local function styleTab(bu)
-		bu.selected:SetColorTexture(r, g, b, .25)
-		bu.selected:SetDrawLayer("BACKGROUND")
-		bu.text:SetFont(C.media.font, 14, "OUTLINE")
-		F.Reskin(bu)
+		F.ReskinTexture(bu.selected, bu, true)
+		F.ReskinButton(bu)
 	end
 
 	for i = 1, 6 do
@@ -79,41 +72,35 @@ tinsert(C.themes["AuroraClassic"], function()
 	end
 	styleTab(HelpFrameButton16)
 
-	HelpFrameAccountSecurityOpenTicket.text:SetFont(C.media.font, 14, "OUTLINE")
-	HelpFrameOpenTicketHelpOpenTicket.text:SetFont(C.media.font, 14, "OUTLINE")
-
 	HelpFrameCharacterStuckHearthstone:SetSize(56, 56)
 	F.CreateBDFrame(HelpFrameCharacterStuckHearthstone)
 	HelpFrameCharacterStuckHearthstoneIconTexture:SetTexCoord(.08, .92, .08, .92)
 
-	F.Reskin(HelpBrowserNavHome)
-	F.Reskin(HelpBrowserNavReload)
-	F.Reskin(HelpBrowserNavStop)
-	F.Reskin(HelpBrowserBrowserSettings)
+	local btns = {
+		HelpBrowserNavHome,
+		HelpBrowserNavReload,
+		HelpBrowserNavStop,
+		HelpBrowserBrowserSettings,
+	}
+	for _, btn in next, btns do
+		btn:SetSize(18, 18)
+		F.ReskinButton(btn)
+	end
+
 	F.ReskinArrow(HelpBrowserNavBack, "left")
 	F.ReskinArrow(HelpBrowserNavForward, "right")
-
-	HelpBrowserNavHome:SetSize(18, 18)
-	HelpBrowserNavReload:SetSize(18, 18)
-	HelpBrowserNavStop:SetSize(18, 18)
-	HelpBrowserBrowserSettings:SetSize(18, 18)
 
 	HelpBrowserNavHome:SetPoint("BOTTOMLEFT", HelpBrowser, "TOPLEFT", 2, 4)
 	HelpBrowserBrowserSettings:SetPoint("TOPRIGHT", HelpFrameCloseButton, "BOTTOMLEFT", -4, -1)
 	LoadingIcon:ClearAllPoints()
 	LoadingIcon:SetPoint("LEFT", HelpBrowserNavStop, "RIGHT")
 
-	F.StripTextures(BrowserSettingsTooltip)
+	F.ReskinFrame(BrowserSettingsTooltip)
+	F.ReskinButton(BrowserSettingsTooltip.CacheButton)
+	F.ReskinButton(BrowserSettingsTooltip.CookiesButton)
+	F.ReskinButton(ReportCheatingDialogReportButton)
+	F.ReskinButton(ReportCheatingDialogCancelButton)
 
-	F.CreateBD(BrowserSettingsTooltip)
-	F.CreateSD(BrowserSettingsTooltip)
-	F.Reskin(BrowserSettingsTooltip.CacheButton)
-	F.Reskin(BrowserSettingsTooltip.CookiesButton)
-	F.Reskin(ReportCheatingDialogReportButton)
-	F.Reskin(ReportCheatingDialogCancelButton)
-
-	F.CreateBD(TicketStatusFrameButton)
-	F.CreateSD(TicketStatusFrameButton)
-	F.CreateBD(ReportCheatingDialog)
-	F.CreateSD(ReportCheatingDialog)
+	F.ReskinFrame(TicketStatusFrameButton)
+	F.ReskinFrame(ReportCheatingDialog)
 end)

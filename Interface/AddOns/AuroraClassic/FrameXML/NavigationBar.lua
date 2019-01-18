@@ -50,7 +50,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		local navButton = self.navList[#self.navList]
 		if not navButton.restyled then
-			F.Reskin(navButton)
+			F.ReskinButton(navButton)
 			navButton.arrowUp:SetAlpha(0)
 			navButton.arrowDown:SetAlpha(0)
 			navButton.selected:SetDrawLayer("BACKGROUND", 1)

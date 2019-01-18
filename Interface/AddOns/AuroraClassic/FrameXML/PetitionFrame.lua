@@ -1,11 +1,11 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	F.ReskinPortraitFrame(PetitionFrame, true)
-	F.Reskin(PetitionFrameSignButton)
-	F.Reskin(PetitionFrameRequestButton)
-	F.Reskin(PetitionFrameRenameButton)
-	F.Reskin(PetitionFrameCancelButton)
+	F.ReskinFrame(PetitionFrame)
+	F.ReskinButton(PetitionFrameSignButton)
+	F.ReskinButton(PetitionFrameRequestButton)
+	F.ReskinButton(PetitionFrameRenameButton)
+	F.ReskinButton(PetitionFrameCancelButton)
 
 	PetitionFrameCharterTitle:SetTextColor(1, 1, 1)
 	PetitionFrameCharterTitle:SetShadowColor(0, 0, 0)

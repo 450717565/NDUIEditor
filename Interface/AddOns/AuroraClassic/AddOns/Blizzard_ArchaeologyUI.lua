@@ -1,9 +1,9 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_ArchaeologyUI"] = function()
-	F.ReskinPortraitFrame(ArchaeologyFrame, true)
-	F.Reskin(ArchaeologyFrameArtifactPageSolveFrameSolveButton)
-	F.Reskin(ArchaeologyFrameArtifactPageBackButton)
+	F.ReskinFrame(ArchaeologyFrame)
+	F.ReskinButton(ArchaeologyFrameArtifactPageSolveFrameSolveButton)
+	F.ReskinButton(ArchaeologyFrameArtifactPageBackButton)
 
 	local texets = {ArchaeologyFrameSummaryPageTitle, ArchaeologyFrameArtifactPageHistoryTitle, ArchaeologyFrameArtifactPageHistoryScrollChildText, ArchaeologyFrameHelpPageTitle, ArchaeologyFrameHelpPageDigTitle, ArchaeologyFrameHelpPageHelpScrollHelpText, ArchaeologyFrameCompletedPageTitle, ArchaeologyFrameCompletedPageTitleTop, ArchaeologyFrameCompletedPageTitleMid, ArchaeologyFrameCompletedPagePageText, ArchaeologyFrameSummaryPagePageText}
 	for _, texet in next, texets do

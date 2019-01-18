@@ -1,14 +1,14 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_InspectUI"] = function()
-	F.ReskinPortraitFrame(InspectFrame, true)
+	F.ReskinFrame(InspectFrame)
 
 	F.StripTextures(InspectModelFrame, true)
 	F.StripTextures(InspectPVPFrame, true)
 	F.StripTextures(InspectTalentFrame, true)
 	InspectGuildFrameBG:Hide()
 
-	F.Reskin(InspectPaperDollFrame.ViewButton)
+	F.ReskinButton(InspectPaperDollFrame.ViewButton)
 	InspectPaperDollFrame.ViewButton:ClearAllPoints()
 	InspectPaperDollFrame.ViewButton:SetPoint("TOP", InspectFrame, 0, -44)
 

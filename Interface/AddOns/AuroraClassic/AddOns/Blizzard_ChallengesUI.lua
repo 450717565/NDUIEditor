@@ -2,7 +2,6 @@ local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_ChallengesUI"] = function()
 	F.StripTextures(ChallengesFrame, true)
-	F.StripTextures(ChallengesFrameInset, true)
 
 	local angryStyle
 	local function UpdateIcons(self)
@@ -43,8 +42,8 @@ C.themes["Blizzard_ChallengesUI"] = function()
 		end
 	end)
 
-	F.ReskinPortraitFrame(ChallengesKeystoneFrame, true)
-	F.Reskin(ChallengesKeystoneFrame.StartButton)
+	F.ReskinFrame(ChallengesKeystoneFrame)
+	F.ReskinButton(ChallengesKeystoneFrame.StartButton)
 
 	hooksecurefunc(ChallengesKeystoneFrame, "Reset", function(self)
 		self:GetRegions():SetAlpha(0)

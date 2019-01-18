@@ -1,11 +1,11 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	F.ReskinPortraitFrame(TabardFrame, true)
+	F.ReskinFrame(TabardFrame)
 	F.StripTextures(TabardFrameCostFrame, true)
 	F.CreateBDFrame(TabardFrameCostFrame, .25)
-	F.Reskin(TabardFrameAcceptButton)
-	F.Reskin(TabardFrameCancelButton)
+	F.ReskinButton(TabardFrameAcceptButton)
+	F.ReskinButton(TabardFrameCancelButton)
 	F.ReskinArrow(TabardCharacterModelRotateLeftButton, "left")
 	F.ReskinArrow(TabardCharacterModelRotateRightButton, "right")
 

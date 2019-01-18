@@ -160,6 +160,7 @@ local defaultSettings = {
 		InsecureColor = {r=1, g=0, b=0},
 		DPSRevertThreat = false,
 		ExplosivesScale = false,
+		PPIconSize = 32,
 	},
 	Skins = {
 		DBM = true,
@@ -447,6 +448,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Nameplate", "PPPowerText", L["PlayerPlate PowerText"], true},
 		{3, "Nameplate", "PPHeight", L["PlayerPlate Height"], false, {5, 10, 0}},
 		{3, "Extras", "CPHeight", L["PlayerPlate CPHeight"], true, {10, 20, 0}},
+		{3, "Nameplate", "PPIconSize", L["PlayerPlate IconSize"], false, {30, 40, 0}},
 	},
 	[7] = {
 		{1, "Skins", "RM", DB.MyColor..L["Raid Manger"]},
@@ -1580,6 +1582,6 @@ function module:OnLogin()
 	-- Aurora Reskin
 	if IsAddOnLoaded("AuroraClassic") then
 		local F = unpack(AuroraClassic)
-		F.Reskin(gui)
+		F.ReskinButton(gui)
 	end
 end

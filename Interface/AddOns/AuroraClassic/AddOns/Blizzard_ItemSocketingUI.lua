@@ -1,10 +1,10 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_ItemSocketingUI"] = function()
-	F.ReskinPortraitFrame(ItemSocketingFrame, true)
+	F.ReskinFrame(ItemSocketingFrame)
 
 	F.StripTextures(ItemSocketingScrollFrame, true)
-	F.Reskin(ItemSocketingSocketButton)
+	F.ReskinButton(ItemSocketingSocketButton)
 	F.ReskinScroll(ItemSocketingScrollFrameScrollBar)
 
 	local title = select(18, ItemSocketingFrame:GetRegions())

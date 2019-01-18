@@ -22,8 +22,7 @@ C.themes["Blizzard_Calendar"] = function()
 
 	local frames = {CalendarViewEventFrame, CalendarViewHolidayFrame, CalendarViewRaidFrame, CalendarCreateEventFrame, CalendarTexturePickerFrame, CalendarMassInviteFrame, CalendarClassTotalsButton, CalendarViewEventInviteList, CalendarViewEventDescriptionContainer, CalendarCreateEventInviteList, CalendarCreateEventDescriptionContainer, CalendarEventPickerFrame}
 	for _, frame in next, frames do
-		F.StripTextures(frame, true)
-		F.CreateBDFrame(frame)
+		F.ReskinFrame(frame)
 	end
 
 	CalendarViewEventDivider:Hide()
@@ -102,7 +101,7 @@ C.themes["Blizzard_Calendar"] = function()
 	local cbuttons = {CalendarViewEventAcceptButton, CalendarViewEventTentativeButton, CalendarViewEventDeclineButton, CalendarViewEventRemoveButton, CalendarCreateEventMassInviteButton, CalendarCreateEventCreateButton, CalendarCreateEventInviteButton, CalendarEventPickerCloseButton, CalendarCreateEventRaidInviteButton, CalendarTexturePickerAcceptButton, CalendarTexturePickerCancelButton, CalendarFilterButton, CalendarMassInviteAcceptButton}
 	for _, button in next, cbuttons do
 		F.StripTextures(button, true)
-		F.Reskin(button)
+		F.ReskinButton(button)
 	end
 
 	local downtex = CalendarFilterButton:CreateTexture(nil, "ARTWORK")

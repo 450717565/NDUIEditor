@@ -97,16 +97,15 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 	end)
 
-	F.CreateBD(LFGInvitePopup)
-	F.CreateSD(LFGInvitePopup)
-	F.ReskinPortraitFrame(LFGDungeonReadyStatus, true)
-	F.ReskinPortraitFrame(LFGDungeonReadyDialog, true)
+	F.ReskinFrame(LFGInvitePopup, true)
+	F.ReskinFrame(LFGDungeonReadyStatus, true)
+	F.ReskinFrame(LFGDungeonReadyDialog, true)
 	LFGDungeonReadyDialog.SetBackdrop = F.dummy
 
-	F.Reskin(LFGDungeonReadyDialogEnterDungeonButton)
-	F.Reskin(LFGDungeonReadyDialogLeaveQueueButton)
-	F.Reskin(LFGInvitePopupAcceptButton)
-	F.Reskin(LFGInvitePopupDeclineButton)
+	F.ReskinButton(LFGDungeonReadyDialogEnterDungeonButton)
+	F.ReskinButton(LFGDungeonReadyDialogLeaveQueueButton)
+	F.ReskinButton(LFGInvitePopupAcceptButton)
+	F.ReskinButton(LFGInvitePopupDeclineButton)
 
 	for _, roleButton in next, {LFDQueueFrameRoleButtonTank, LFDQueueFrameRoleButtonHealer, LFDQueueFrameRoleButtonDPS, LFDQueueFrameRoleButtonLeader, LFRQueueFrameRoleButtonTank, LFRQueueFrameRoleButtonHealer, LFRQueueFrameRoleButtonDPS, RaidFinderQueueFrameRoleButtonTank, RaidFinderQueueFrameRoleButtonHealer, RaidFinderQueueFrameRoleButtonDPS, RaidFinderQueueFrameRoleButtonLeader} do
 		if roleButton.background then
@@ -130,7 +129,6 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	for _, roleButton in next, {LFDRoleCheckPopupRoleButtonTank, LFDRoleCheckPopupRoleButtonHealer, LFDRoleCheckPopupRoleButtonDPS, LFGInvitePopupRoleButtonTank, LFGInvitePopupRoleButtonHealer, LFGInvitePopupRoleButtonDPS, LFGListApplicationDialog.DamagerButton, LFGListApplicationDialog.TankButton, LFGListApplicationDialog.HealerButton} do
 		local checkButton = roleButton.checkButton or roleButton.CheckButton
-		F.StripTextures(checkButton, true)
 		F.ReskinCheck(checkButton)
 	end
 

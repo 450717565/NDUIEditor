@@ -3,7 +3,7 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_EncounterJournal"] = function()
 	local r, g, b = C.r, C.g, C.b
 
-	F.ReskinPortraitFrame(EncounterJournal, true)
+	F.ReskinFrame(EncounterJournal)
 	F.StripTextures(EncounterJournalEncounterFrameInfo, true)
 	EncounterJournalInstanceSelectBG:Hide()
 	EncounterJournalEncounterFrameInfoInstanceButton:Hide()
@@ -36,7 +36,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		text:SetPoint("CENTER")
 		text:SetTextColor(1, 1, 1)
 
-		F.Reskin(tab)
+		F.ReskinButton(tab)
 	end
 
 	-- [[ Side tabs ]]
@@ -98,7 +98,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		hooksecurefunc("EncounterJournal_DisplayInstance", function()
 			bossButton = _G["EncounterJournalBossButton"..numBossButtons]
 			while bossButton do
-				F.Reskin(bossButton, true)
+				F.ReskinButton(bossButton, true)
 				F.ReskinTexture(bossButton, bossButton, true)
 
 				bossButton.text:SetTextColor(1, 1, 1)
@@ -120,7 +120,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		while header do
 			if not header.styled then
 				F.StripTextures(header.button)
-				F.Reskin(header.button)
+				F.ReskinButton(header.button)
 
 				header.description:SetTextColor(1, 1, 1)
 				header.button.bg = F.ReskinIcon(header.button.abilityIcon)
@@ -143,7 +143,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		local header = self.overviews[index]
 		if not header.styled then
 			F.StripTextures(header.button)
-			F.Reskin(header.button)
+			F.ReskinButton(header.button)
 
 			header.styled = true
 		end
@@ -233,8 +233,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 	end
 
 	-- [[ Various controls ]]
-	F.Reskin(EncounterJournalEncounterFrameInfoResetButton)
-	F.ReskinClose(EncounterJournalCloseButton)
+	F.ReskinButton(EncounterJournalEncounterFrameInfoResetButton)
 	F.ReskinInput(EncounterJournalSearchBox)
 	F.ReskinScroll(EncounterJournalInstanceSelectScrollFrameScrollBar)
 	F.ReskinScroll(EncounterJournalEncounterFrameInstanceFrameLoreScrollFrameScrollBar)
@@ -268,7 +267,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 	local centerDisplay = suggestion.centerDisplay
 	centerDisplay.title.text:SetTextColor(1, 1, 1)
 	centerDisplay.description.text:SetTextColor(.9, .9, .9)
-	F.Reskin(suggestion.button)
+	F.ReskinButton(suggestion.button)
 
 	local reward = suggestion.reward
 	F.StripTextures(reward)
@@ -291,7 +290,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		centerDisplay:SetPoint("BOTTOMLEFT", suggestion.icon, "BOTTOMRIGHT", 15, 0)
 		centerDisplay.title.text:SetTextColor(1, 1, 1)
 		centerDisplay.description.text:SetTextColor(.9, .9, .9)
-		F.Reskin(centerDisplay.button)
+		F.ReskinButton(centerDisplay.button)
 
 		local reward = suggestion.reward
 		F.StripTextures(reward)
@@ -350,7 +349,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 	}
 	for _, btn in pairs(buttons) do
 		F.StripTextures(btn, true)
-		F.Reskin(btn)
+		F.ReskinButton(btn)
 	end
 
 	-- ItemSetsFrame

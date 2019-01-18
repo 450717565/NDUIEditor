@@ -13,7 +13,7 @@ C.themes["Blizzard_TimeManager"] = function()
 	TimeManagerAlarmMinuteDropDown:SetWidth(80)
 	TimeManagerAlarmAMPMDropDown:SetWidth(90)
 
-	F.ReskinPortraitFrame(TimeManagerFrame, true)
+	F.ReskinFrame(TimeManagerFrame)
 	F.ReskinDropDown(TimeManagerAlarmHourDropDown)
 	F.ReskinDropDown(TimeManagerAlarmMinuteDropDown)
 	F.ReskinDropDown(TimeManagerAlarmAMPMDropDown)
@@ -25,10 +25,8 @@ C.themes["Blizzard_TimeManager"] = function()
 	TimeManagerFrameTicker:ClearAllPoints()
 	TimeManagerFrameTicker:SetPoint("TOPLEFT", 10, -10)
 
-	F.StripTextures(StopwatchFrame, true)
 	F.StripTextures(StopwatchTabFrame, true)
-	F.CreateBD(StopwatchFrame)
-	F.CreateSD(StopwatchFrame)
+	F.ReskinFrame(StopwatchFrame)
 	F.ReskinClose(StopwatchCloseButton, "TOPRIGHT", StopwatchFrame, "TOPRIGHT", -2, -2)
 
 	local reset = StopwatchResetButton

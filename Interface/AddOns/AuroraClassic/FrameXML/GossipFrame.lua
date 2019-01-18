@@ -1,10 +1,10 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	F.ReskinPortraitFrame(GossipFrame, true)
+	F.ReskinFrame(GossipFrame)
 	F.StripTextures(GossipGreetingScrollFrame, true)
 
-	F.Reskin(GossipFrameGreetingGoodbyeButton)
+	F.ReskinButton(GossipFrameGreetingGoodbyeButton)
 	F.ReskinScroll(GossipGreetingScrollFrameScrollBar)
 	F.ReskinStatusBar(NPCFriendshipStatusBar, false, true)
 

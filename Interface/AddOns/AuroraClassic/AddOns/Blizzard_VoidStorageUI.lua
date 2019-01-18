@@ -1,14 +1,12 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_VoidStorageUI"] = function()
-	F.ReskinPortraitFrame(VoidStorageBorderFrame, true)
+	F.ReskinFrame(VoidStorageBorderFrame)
+	F.ReskinFrame(VoidStoragePurchaseFrame)
 
-	F.CreateBD(VoidStoragePurchaseFrame)
-	F.CreateSD(VoidStoragePurchaseFrame)
-
-	F.Reskin(VoidStoragePurchaseButton)
-	F.Reskin(VoidStorageHelpBoxButton)
-	F.Reskin(VoidStorageTransferButton)
+	F.ReskinButton(VoidStoragePurchaseButton)
+	F.ReskinButton(VoidStorageHelpBoxButton)
+	F.ReskinButton(VoidStorageTransferButton)
 	F.ReskinInput(VoidItemSearchBox)
 
 	local frames = {VoidStorageFrame, VoidStorageCostFrame, VoidStorageDepositFrame, VoidStoragePurchaseFrame, VoidStorageWithdrawFrame, VoidStorageStorageFrame}

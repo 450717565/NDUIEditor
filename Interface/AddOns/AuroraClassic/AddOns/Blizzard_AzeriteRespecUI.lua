@@ -5,7 +5,7 @@ C.themes["Blizzard_AzeriteRespecUI"] = function()
 		select(i, AzeriteRespecFrame:GetRegions()):Hide()
 	end
 
-	F.CleanInset(AzeriteRespecFrame)
+	AzeriteRespecFrame.NineSlice:Hide()
 	F.CreateBD(AzeriteRespecFrame)
 	F.CreateSD(AzeriteRespecFrame)
 	F.ReskinClose(AzeriteRespecFrameCloseButton)
@@ -17,7 +17,7 @@ C.themes["Blizzard_AzeriteRespecUI"] = function()
 	local ButtonFrame = AzeriteRespecFrame.ButtonFrame
 	ButtonFrame.MoneyFrameEdge:Hide()
 	F.StripTextures(ButtonFrame, true)
-	F.Reskin(ButtonFrame.AzeriteRespecButton)
+	F.ReskinButton(ButtonFrame.AzeriteRespecButton)
 
 	local bg = F.CreateBDFrame(ButtonFrame, .25)
 	bg:SetPoint("TOPLEFT", ButtonFrame.MoneyFrameEdge, 3, 0)

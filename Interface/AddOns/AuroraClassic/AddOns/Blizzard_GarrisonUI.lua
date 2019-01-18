@@ -21,7 +21,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	function F:ReskinMissionPage()
 		F.StripTextures(self)
 		self.StartMissionButton.Flash:SetTexture("")
-		F.Reskin(self.StartMissionButton)
+		F.ReskinButton(self.StartMissionButton)
 		F.ReskinClose(self.CloseButton)
 
 		self.CloseButton:ClearAllPoints()
@@ -74,8 +74,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		for i = 1, 2 do
 			local tab = _G[self:GetName().."Tab"..i]
 			F.StripTextures(tab)
-			F.CreateBD(tab, .25)
-			F.CreateSD(tab)
+			F.CreateBDFrame(tab, .25)
 			if i == 1 then
 				tab:SetBackdropColor(r, g, b, .25)
 			end
@@ -151,7 +150,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		for i = 1, 9 do
 			select(i, bonusRewards:GetRegions()):SetAlpha(0)
 		end
-		F.Reskin(missionComplete.NextMissionButton)
+		F.ReskinButton(missionComplete.NextMissionButton)
 	end
 
 	function F:ReskinFollowerTab()
@@ -263,7 +262,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	end
 
 	function F:ReskinMissionFrame()
-		F.ReskinPortraitFrame(self, true)
+		F.ReskinFrame(self)
 		self.GarrCorners:Hide()
 		if self.ClassHallIcon then self.ClassHallIcon:Hide() end
 		if self.TitleScroll then
@@ -298,7 +297,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		F.ReskinScroll(missionList.listScroll.scrollBar)
 		F.ReskinGarrMaterial(missionList)
 		F.ReskinMissionTabs(missionList)
-		F.Reskin(missionList.CompleteDialog.BorderFrame.ViewButton)
+		F.ReskinButton(missionList.CompleteDialog.BorderFrame.ViewButton)
 		hooksecurefunc(missionList, "Update", F.ReskinMissionList)
 
 		local FollowerList = self.FollowerList
@@ -314,10 +313,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	-- Building frame
 	local GarrisonBuildingFrame = GarrisonBuildingFrame
-	F.StripTextures(GarrisonBuildingFrame)
-	F.CreateBD(GarrisonBuildingFrame)
-	F.CreateSD(GarrisonBuildingFrame)
-	F.ReskinClose(GarrisonBuildingFrame.CloseButton)
+	F.ReskinFrame(GarrisonBuildingFrame)
 	GarrisonBuildingFrame.GarrCorners:Hide()
 
 	-- Tutorial button
@@ -399,12 +395,10 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		select(i, TownHallBox:GetRegions()):Hide()
 	end
 
-	F.CreateBD(InfoBox, .25)
-	F.CreateSD(InfoBox)
-	F.CreateBD(TownHallBox, .25)
-	F.CreateSD(TownHallBox)
-	F.Reskin(InfoBox.UpgradeButton)
-	F.Reskin(TownHallBox.UpgradeButton)
+	F.CreateBDFrame(InfoBox, .25)
+	F.CreateBDFrame(TownHallBox, .25)
+	F.ReskinButton(InfoBox.UpgradeButton)
+	F.ReskinButton(TownHallBox.UpgradeButton)
 	GarrisonBuildingFrame.MapFrame.TownHall.TownHallName:SetTextColor(1, .8, 0)
 
 	do
@@ -428,16 +422,13 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	-- Confirmation popup
 
 	local Confirmation = GarrisonBuildingFrame.Confirmation
-
-	Confirmation:GetRegions():Hide()
-	F.CreateBD(Confirmation)
-	F.CreateSD(Confirmation)
-	F.Reskin(Confirmation.CancelButton)
-	F.Reskin(Confirmation.BuildButton)
-	F.Reskin(Confirmation.UpgradeButton)
-	F.Reskin(Confirmation.UpgradeGarrisonButton)
-	F.Reskin(Confirmation.ReplaceButton)
-	F.Reskin(Confirmation.SwitchButton)
+	F.ReskinFrame(Confirmation)
+	F.ReskinButton(Confirmation.CancelButton)
+	F.ReskinButton(Confirmation.BuildButton)
+	F.ReskinButton(Confirmation.UpgradeButton)
+	F.ReskinButton(Confirmation.UpgradeGarrisonButton)
+	F.ReskinButton(Confirmation.ReplaceButton)
+	F.ReskinButton(Confirmation.SwitchButton)
 
 	-- [[ Capacitive display frame ]]
 
@@ -448,9 +439,9 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	GarrisonCapacitiveDisplayFrame.Count:SetWidth(38)
 	GarrisonCapacitiveDisplayFrame.Count:SetTextInsets(3, 0, 0, 0)
 
-	F.ReskinPortraitFrame(GarrisonCapacitiveDisplayFrame, true)
-	F.Reskin(GarrisonCapacitiveDisplayFrame.StartWorkOrderButton)
-	F.Reskin(GarrisonCapacitiveDisplayFrame.CreateAllWorkOrdersButton)
+	F.ReskinFrame(GarrisonCapacitiveDisplayFrame)
+	F.ReskinButton(GarrisonCapacitiveDisplayFrame.StartWorkOrderButton)
+	F.ReskinButton(GarrisonCapacitiveDisplayFrame.CreateAllWorkOrdersButton)
 	F.ReskinArrow(GarrisonCapacitiveDisplayFrame.DecrementButton, "left")
 	F.ReskinArrow(GarrisonCapacitiveDisplayFrame.IncrementButton, "right")
 	F.CreateBDFrame(GarrisonCapacitiveDisplayFrame.Count, .25)
@@ -484,17 +475,11 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	-- [[ Landing page ]]
 
 	local GarrisonLandingPage = GarrisonLandingPage
+	F.ReskinFrame(GarrisonLandingPage)
 
-	for i = 1, 10 do
-		select(i, GarrisonLandingPage:GetRegions()):Hide()
+	for i = 1, 3 do
+		F.ReskinTab(_G["GarrisonLandingPageTab"..i])
 	end
-
-	F.CreateBD(GarrisonLandingPage)
-	F.CreateSD(GarrisonLandingPage)
-	F.ReskinClose(GarrisonLandingPage.CloseButton)
-	F.ReskinTab(GarrisonLandingPageTab1)
-	F.ReskinTab(GarrisonLandingPageTab2)
-	F.ReskinTab(GarrisonLandingPageTab3)
 
 	GarrisonLandingPageTab1:ClearAllPoints()
 	GarrisonLandingPageTab1:SetPoint("TOPLEFT", GarrisonLandingPage, "BOTTOMLEFT", 70, 2)
@@ -761,13 +746,13 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	-- [[ Recruiter frame ]]
 
 	local GarrisonRecruiterFrame = GarrisonRecruiterFrame
-	F.ReskinPortraitFrame(GarrisonRecruiterFrame, true)
+	F.ReskinFrame(GarrisonRecruiterFrame)
 
 	-- Pick
 
 	local Pick = GarrisonRecruiterFrame.Pick
 
-	F.Reskin(Pick.ChooseRecruits)
+	F.ReskinButton(Pick.ChooseRecruits)
 	F.ReskinDropDown(Pick.ThreatDropDown)
 	F.ReskinRadio(Pick.Radio1)
 	F.ReskinRadio(Pick.Radio2)
@@ -776,20 +761,15 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	local UnavailableFrame = GarrisonRecruiterFrame.UnavailableFrame
 
-	F.Reskin(UnavailableFrame:GetChildren())
+	F.ReskinButton(UnavailableFrame:GetChildren())
 
 	-- [[ Recruiter select frame ]]
 
 	local GarrisonRecruitSelectFrame = GarrisonRecruitSelectFrame
+	F.ReskinFrame(GarrisonRecruitSelectFrame)
 
-	for i = 1, 14 do
-		select(i, GarrisonRecruitSelectFrame:GetRegions()):Hide()
-	end
 	GarrisonRecruitSelectFrame.TitleText:Show()
 	GarrisonRecruitSelectFrame.GarrCorners:Hide()
-	F.CreateBD(GarrisonRecruitSelectFrame)
-	F.CreateSD(GarrisonRecruitSelectFrame)
-	F.ReskinClose(GarrisonRecruitSelectFrame.CloseButton)
 
 	-- Follower list
 
@@ -810,7 +790,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	for i = 1, 3 do
 		local recruit = FollowerSelection["Recruit"..i]
 		F.ReskinGarrisonPortrait(recruit.PortraitFrame)
-		F.Reskin(recruit.HireRecruits)
+		F.ReskinButton(recruit.HireRecruits)
 	end
 
 	hooksecurefunc("GarrisonRecruitSelectFrame_UpdateRecruits", function(waiting)
@@ -847,16 +827,13 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	-- [[ Shipyard ]]
 
 	local GarrisonShipyardFrame = GarrisonShipyardFrame
-
-	for i = 1, 14 do
-		select(i, GarrisonShipyardFrame.BorderFrame:GetRegions()):Hide()
-	end
+	F.StripTextures(GarrisonShipyardFrame.BorderFrame)
+	F.ReskinFrame(GarrisonShipyardFrame)
 
 	GarrisonShipyardFrame.BorderFrame.TitleText:Show()
 	GarrisonShipyardFrame.BorderFrame.GarrCorners:Hide()
 	GarrisonShipyardFrame.BackgroundTile:Hide()
-	F.CreateBD(GarrisonShipyardFrame)
-	F.CreateSD(GarrisonShipyardFrame)
+
 	F.ReskinInput(GarrisonShipyardFrameFollowers.SearchBox)
 	F.ReskinScroll(GarrisonShipyardFrameFollowersListScrollFrameScrollBar)
 	GarrisonShipyardFrameFollowers:GetRegions():Hide()
@@ -876,7 +853,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	local shipyardMission = GarrisonShipyardFrame.MissionTab.MissionPage
 	F.StripTextures(shipyardMission)
 	F.ReskinClose(shipyardMission.CloseButton)
-	F.Reskin(shipyardMission.StartMissionButton)
+	F.ReskinButton(shipyardMission.StartMissionButton)
 	local smbg = F.CreateBDFrame(shipyardMission.Stage, .25)
 	smbg:SetPoint("TOPLEFT", 4, 1)
 	smbg:SetPoint("BOTTOMRIGHT", -4, -1)
@@ -888,9 +865,9 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	GarrisonShipyardFrame.MissionCompleteBackground:GetRegions():Hide()
 	GarrisonShipyardFrame.MissionTab.MissionList.CompleteDialog:GetRegions():Hide()
-	F.Reskin(GarrisonShipyardFrame.MissionTab.MissionList.CompleteDialog.BorderFrame.ViewButton)
+	F.ReskinButton(GarrisonShipyardFrame.MissionTab.MissionList.CompleteDialog.BorderFrame.ViewButton)
 	select(11, GarrisonShipyardFrame.MissionComplete.BonusRewards:GetRegions()):SetTextColor(1, .8, 0)
-	F.Reskin(GarrisonShipyardFrame.MissionComplete.NextMissionButton)
+	F.ReskinButton(GarrisonShipyardFrame.MissionComplete.NextMissionButton)
 
 	-- [[ Orderhall UI]]
 
@@ -900,7 +877,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	-- Ally
 	local combatAlly = OrderHallMissionFrameMissions.CombatAllyUI
-	F.Reskin(combatAlly.InProgress.Unassign)
+	F.ReskinButton(combatAlly.InProgress.Unassign)
 	combatAlly:GetRegions():Hide()
 	F.CreateBDFrame(combatAlly, .25)
 
@@ -925,11 +902,8 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	-- Zone support
 	local ZoneSupportMissionPage = OrderHallMissionFrame.MissionTab.ZoneSupportMissionPage
-	F.StripTextures(ZoneSupportMissionPage)
-	F.CreateBD(ZoneSupportMissionPage, .25)
-	F.CreateSD(ZoneSupportMissionPage)
-	F.ReskinClose(ZoneSupportMissionPage.CloseButton)
-	F.Reskin(ZoneSupportMissionPage.StartMissionButton)
+	F.ReskinFrame(ZoneSupportMissionPage)
+	F.ReskinButton(ZoneSupportMissionPage.StartMissionButton)
 	ZoneSupportMissionPage.Follower1:GetRegions():Hide()
 	F.CreateBDFrame(ZoneSupportMissionPage.Follower1, .25)
 	F.ReskinGarrisonPortrait(ZoneSupportMissionPage.Follower1.PortraitFrame)
@@ -954,7 +928,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		for i = 1, #buttons do
 			local bu = select(3, buttons[i]:GetChildren())
 			if bu and bu:GetObjectType() == "Button" and not bu.styled then
-				F.Reskin(bu)
+				F.ReskinButton(bu)
 				bu:SetSize(60, 45)
 				bu.styled = true
 			end
@@ -965,7 +939,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		for i = 18, 26 do
 			local bu = select(i, MissionPage:GetChildren())
 			if bu and bu:GetObjectType() == "Button" and not bu.styled then
-				F.Reskin(bu)
+				F.ReskinButton(bu)
 				bu:SetSize(50, 45)
 				bu.styled = true
 			end

@@ -3,11 +3,11 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_GuildControlUI"] = function()
 	local r, g, b = C.r, C.g, C.b
 
-	F.ReskinPortraitFrame(GuildControlUI, true)
+	F.ReskinFrame(GuildControlUI)
 
 	F.StripTextures(GuildControlUIRankBankFrameInset, true)
 	F.StripTextures(GuildControlUIRankBankFrameInsetScrollFrame, true)
-	F.Reskin(GuildControlUIRankOrderFrameNewButton)
+	F.ReskinButton(GuildControlUIRankOrderFrameNewButton)
 	F.ReskinScroll(GuildControlUIRankBankFrameInsetScrollFrameScrollBar)
 	F.ReskinDropDown(GuildControlUINavigationDropDown)
 	F.ReskinDropDown(GuildControlUIRankSettingsFrameRankDropDown)
@@ -56,7 +56,7 @@ C.themes["Blizzard_GuildControlUI"] = function()
 			local bu = _G["GuildControlBankTab"..i]
 			if bu and not bu.styled then
 				F.StripTextures(bu, true)
-				F.Reskin(bu.buy.button)
+				F.ReskinButton(bu.buy.button)
 
 				local bg = F.CreateBDFrame(bu, .25)
 				bg:SetPoint("TOPLEFT", C.mult, -C.mult)

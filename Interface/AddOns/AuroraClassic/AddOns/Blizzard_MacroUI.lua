@@ -1,7 +1,7 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_MacroUI"] = function()
-	F.ReskinPortraitFrame(MacroFrame, true)
+	F.ReskinFrame(MacroFrame)
 
 	F.StripTextures(MacroButtonScrollFrame, true)
 	F.StripTextures(MacroPopupScrollFrame, true)
@@ -14,10 +14,8 @@ C.themes["Blizzard_MacroUI"] = function()
 	F.StripTextures(MacroFrameTextBackground, true)
 
 	MacroPopupFrame:SetHeight(525)
-	F.StripTextures(MacroPopupFrame, true)
 	F.StripTextures(MacroPopupFrame.BorderBox, true)
-	F.CreateBD(MacroPopupFrame)
-	F.CreateSD(MacroPopupFrame)
+	F.ReskinFrame(MacroPopupFrame)
 
 	local function reskinButton(button, i)
 		local bu = _G[button..i]
@@ -59,7 +57,7 @@ C.themes["Blizzard_MacroUI"] = function()
 
 	local buttons = {MacroDeleteButton, MacroNewButton, MacroExitButton, MacroEditButton, MacroPopupFrame.BorderBox.OkayButton, MacroPopupFrame.BorderBox.CancelButton, MacroSaveButton, MacroCancelButton}
 	for _, button in next, buttons do
-		F.Reskin(button)
+		F.ReskinButton(button)
 	end
 
 	local selectedbt = MacroFrameSelectedMacroButton

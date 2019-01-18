@@ -8,10 +8,10 @@ C.themes["Blizzard_GuildBankUI"] = function()
 
 	local buttons = {GuildBankFrameWithdrawButton, GuildBankFrameDepositButton, GuildBankFramePurchaseButton, GuildBankPopupOkayButton, GuildBankPopupCancelButton, GuildBankInfoSaveButton}
 	for _, button in next, buttons do
-		F.Reskin(button)
+		F.ReskinButton(button)
 	end
 
-	F.ReskinPortraitFrame(GuildBankFrame, true)
+	F.ReskinFrame(GuildBankFrame)
 	F.ReskinScroll(GuildBankTransactionsScrollFrameScrollBar)
 	F.ReskinScroll(GuildBankInfoScrollFrameScrollBar)
 	F.ReskinScroll(GuildBankPopupScrollFrameScrollBar)
@@ -26,8 +26,7 @@ C.themes["Blizzard_GuildBankUI"] = function()
 		end
 	end
 
-	F.CreateBD(GuildBankPopupFrame)
-	F.CreateSD(GuildBankPopupFrame)
+	F.ReskinFrame(GuildBankPopupFrame)
 	F.CreateBDFrame(GuildBankPopupEditBox, .25)
 	GuildBankPopupFrame:SetPoint("TOPLEFT", GuildBankFrame, "TOPRIGHT", 2, -30)
 	GuildBankPopupFrame:SetHeight(525)

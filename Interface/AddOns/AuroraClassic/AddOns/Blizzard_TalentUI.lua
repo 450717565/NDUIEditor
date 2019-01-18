@@ -3,12 +3,12 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_TalentUI"] = function()
 	local r, g, b = C.r, C.g, C.b
 
-	F.ReskinPortraitFrame(PlayerTalentFrame, true)
+	F.ReskinFrame(PlayerTalentFrame)
 	F.StripTextures(PlayerTalentFrameTalents, true)
 	F.StripTextures(PlayerTalentFrameLockInfo)
-	F.Reskin(PlayerTalentFrameSpecializationLearnButton)
-	F.Reskin(PlayerTalentFrameActivateButton)
-	F.Reskin(PlayerTalentFramePetSpecializationLearnButton)
+	F.ReskinButton(PlayerTalentFrameSpecializationLearnButton)
+	F.ReskinButton(PlayerTalentFrameActivateButton)
+	F.ReskinButton(PlayerTalentFramePetSpecializationLearnButton)
 
 	hooksecurefunc("PlayerTalentFrame_UpdateTabs", function()
 		for i = 1, NUM_TALENT_FRAME_TABS do
@@ -104,7 +104,7 @@ C.themes["Blizzard_TalentUI"] = function()
 			bu.ring:Hide()
 			bu.learnedTex:SetTexture("")
 			_G[name..i.."Glow"]:SetTexture("")
-			F.Reskin(bu)
+			F.ReskinButton(bu)
 			F.ReskinTexture(bu.selectedTex, bu, true)
 
 			local ic = bu.specIcon
@@ -169,13 +169,13 @@ C.themes["Blizzard_TalentUI"] = function()
 
 	-- PVP Talents
 
-	F.Reskin(PlayerTalentFrameTalentsPvpTalentButton)
+	F.ReskinButton(PlayerTalentFrameTalentsPvpTalentButton)
 	PlayerTalentFrameTalentsPvpTalentButton:SetSize(20, 20)
 
 	local talentList = PlayerTalentFrameTalentsPvpTalentFrameTalentList
 	talentList:ClearAllPoints()
 	talentList:SetPoint("LEFT", PlayerTalentFrame, "RIGHT", 2, 0)
-	F.ReskinPortraitFrame(talentList, true)
+	F.ReskinFrame(talentList)
 
 	F.StripTextures(PlayerTalentFrameTalentsPvpTalentFrame)
 	F.StripTextures(PlayerTalentFrameTalentsPvpTalentFrameTalentListScrollFrameScrollChild)
@@ -207,5 +207,5 @@ C.themes["Blizzard_TalentUI"] = function()
 	end
 
 	local bu = select(4, PlayerTalentFrameTalentsPvpTalentFrameTalentList:GetChildren())
-	F.Reskin(bu)
+	F.ReskinButton(bu)
 end

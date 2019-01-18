@@ -1,7 +1,7 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	F.ReskinPortraitFrame(QuestFrame, true)
+	F.ReskinFrame(QuestFrame)
 
 	local frames = {QuestFrameDetailPanel, QuestDetailScrollFrame, QuestFrameProgressPanel, QuestProgressScrollFrame, QuestFrameRewardPanel, QuestRewardScrollFrame, QuestGreetingScrollFrame, QuestFrameGreetingPanel}
 	for _, frame in next, frames do
@@ -48,7 +48,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	end)
 
 	for _, questButton in next, {"QuestFrameAcceptButton", "QuestFrameDeclineButton", "QuestFrameCompleteQuestButton", "QuestFrameCompleteButton", "QuestFrameGoodbyeButton", "QuestFrameGreetingGoodbyeButton"} do
-		F.Reskin(_G[questButton])
+		F.ReskinButton(_G[questButton])
 	end
 	F.ReskinScroll(QuestProgressScrollFrameScrollBar)
 	F.ReskinScroll(QuestRewardScrollFrameScrollBar)

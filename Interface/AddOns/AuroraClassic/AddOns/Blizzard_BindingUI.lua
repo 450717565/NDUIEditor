@@ -3,16 +3,16 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_BindingUI"] = function()
 	local r, g, b = C.r, C.g, C.b
 
-	F.ReskinPortraitFrame(KeyBindingFrame, true)
+	F.ReskinFrame(KeyBindingFrame)
 	F.StripTextures(KeyBindingFrame.header, true)
 	F.StripTextures(KeyBindingFrame.scrollFrame, true)
 	F.StripTextures(KeyBindingFrame.categoryList, true)
 	F.StripTextures(KeyBindingFrame.bindingsContainer, true)
 
-	F.Reskin(KeyBindingFrame.defaultsButton)
-	F.Reskin(KeyBindingFrame.unbindButton)
-	F.Reskin(KeyBindingFrame.okayButton)
-	F.Reskin(KeyBindingFrame.cancelButton)
+	F.ReskinButton(KeyBindingFrame.defaultsButton)
+	F.ReskinButton(KeyBindingFrame.unbindButton)
+	F.ReskinButton(KeyBindingFrame.okayButton)
+	F.ReskinButton(KeyBindingFrame.cancelButton)
 	F.ReskinCheck(KeyBindingFrame.characterSpecificButton)
 	F.ReskinScroll(KeyBindingFrameScrollFrameScrollBar)
 
@@ -24,7 +24,7 @@ C.themes["Blizzard_BindingUI"] = function()
 
 	hooksecurefunc("BindingButtonTemplate_SetupBindingButton", function(_, button)
 		if not button.styled then
-			F.Reskin(button)
+			F.ReskinButton(button)
 			F.ReskinTexture(button.selectedHighlight, button, true)
 
 			button.styled = true

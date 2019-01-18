@@ -3,9 +3,9 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_AdventureMap"] = function()
 	local dialog = AdventureMapQuestChoiceDialog
 
-	F.ReskinPortraitFrame(dialog, true)
-	F.Reskin(dialog.AcceptButton)
-	F.Reskin(dialog.DeclineButton)
+	F.ReskinFrame(dialog)
+	F.ReskinButton(dialog.AcceptButton)
+	F.ReskinButton(dialog.DeclineButton)
 	F.ReskinScroll(dialog.Details.ScrollBar)
 
 	dialog:HookScript("OnShow", function(self)

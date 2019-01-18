@@ -1,8 +1,7 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	F.CreateBD(ReadyCheckFrame)
-	F.CreateSD(ReadyCheckFrame)
+	F.ReskinFrame(ReadyCheckFrame)
 	ReadyCheckPortrait:SetAlpha(0)
 	select(2, ReadyCheckListenerFrame:GetRegions()):Hide()
 
@@ -12,6 +11,6 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 	end)
 
-	F.Reskin(ReadyCheckFrameYesButton)
-	F.Reskin(ReadyCheckFrameNoButton)
+	F.ReskinButton(ReadyCheckFrameYesButton)
+	F.ReskinButton(ReadyCheckFrameNoButton)
 end)

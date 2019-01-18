@@ -7,12 +7,12 @@ C.themes["Blizzard_LookingForGuildUI"] = function()
 	hooksecurefunc("LookingForGuildFrame_CreateUIElements", function()
 		if styled then return end
 
-		F.ReskinPortraitFrame(LookingForGuildFrame, true)
-		F.ReskinPortraitFrame(GuildFinderRequestMembershipFrame, true)
+		F.ReskinFrame(LookingForGuildFrame)
+		F.ReskinFrame(GuildFinderRequestMembershipFrame)
 
-		F.Reskin(LookingForGuildBrowseButton)
-		F.Reskin(GuildFinderRequestMembershipFrameAcceptButton)
-		F.Reskin(GuildFinderRequestMembershipFrameCancelButton)
+		F.ReskinButton(LookingForGuildBrowseButton)
+		F.ReskinButton(GuildFinderRequestMembershipFrameAcceptButton)
+		F.ReskinButton(GuildFinderRequestMembershipFrameCancelButton)
 
 		for i = 1, 3 do
 			F.StripTextures(_G["LookingForGuildFrameTab"..i], true)
@@ -51,7 +51,7 @@ C.themes["Blizzard_LookingForGuildUI"] = function()
 		end
 
 		-- [[ Browse frame ]]
-		F.Reskin(LookingForGuildRequestButton)
+		F.ReskinButton(LookingForGuildRequestButton)
 		F.ReskinScroll(LookingForGuildBrowseFrameContainerScrollBar)
 
 		for i = 1, 5 do

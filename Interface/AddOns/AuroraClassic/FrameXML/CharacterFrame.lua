@@ -1,7 +1,7 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	F.ReskinPortraitFrame(CharacterFrame, true)
+	F.ReskinFrame(CharacterFrame)
 	F.StripTextures(CharacterModelFrame, true)
 	F.StripTextures(CharacterFrameInsetRight, true)
 

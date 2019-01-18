@@ -40,7 +40,7 @@ local function createit()
 	-- Aurora Reskin
 	if IsAddOnLoaded("AuroraClassic") then
 		local F = unpack(AuroraClassic)
-		F.Reskin(Button)
+		F.ReskinButton(Button)
 	end
 	Button:SetScript("OnEnter", function()
 		GameTooltip:SetOwner(Button,"ANCHOR_RIGHT")

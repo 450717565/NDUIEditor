@@ -6,8 +6,8 @@ tinsert(C.themes["AuroraClassic"], function()
 	local r, g, b = C.r, C.g, C.b
 
 	-- [[ Bank ]]
-	F.ReskinPortraitFrame(BankFrame, true)
-	F.Reskin(BankFramePurchaseButton)
+	F.ReskinFrame(BankFrame)
+	F.ReskinButton(BankFramePurchaseButton)
 	F.ReskinTab(BankFrameTab1)
 	F.ReskinTab(BankFrameTab2)
 	F.ReskinInput(BankItemSearchBox)
@@ -65,8 +65,8 @@ tinsert(C.themes["AuroraClassic"], function()
 	ReagentBankFrame:DisableDrawLayer("BORDER")
 	ReagentBankFrame:DisableDrawLayer("ARTWORK")
 
-	F.Reskin(ReagentBankFrame.DespositButton)
-	F.Reskin(ReagentBankFrameUnlockInfoPurchaseButton)
+	F.ReskinButton(ReagentBankFrame.DespositButton)
+	F.ReskinButton(ReagentBankFrameUnlockInfoPurchaseButton)
 
 	-- make button more visible
 	ReagentBankFrameUnlockInfoBlackBG:SetColorTexture(.1, .1, .1)

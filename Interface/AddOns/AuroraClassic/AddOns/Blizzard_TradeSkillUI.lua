@@ -3,7 +3,7 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_TradeSkillUI"] = function()
 	local r, g, b = C.r, C.g, C.b
 
-	F.ReskinPortraitFrame(TradeSkillFrame, true)
+	F.ReskinFrame(TradeSkillFrame)
 
 	F.ReskinStatusBar(TradeSkillFrame.RankFrame, true, true)
 	F.ReskinInput(TradeSkillFrame.SearchBox)
@@ -59,9 +59,9 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 	F.StripTextures(details, true)
 	F.StripTextures(details.CreateMultipleInputBox, true)
 	F.ReskinScroll(details.ScrollBar)
-	F.Reskin(details.CreateAllButton)
-	F.Reskin(details.CreateButton)
-	F.Reskin(details.ExitButton)
+	F.ReskinButton(details.CreateAllButton)
+	F.ReskinButton(details.CreateButton)
+	F.ReskinButton(details.ExitButton)
 	F.ReskinInput(details.CreateMultipleInputBox)
 	F.ReskinArrow(details.CreateMultipleInputBox.DecrementButton, "left")
 	F.ReskinArrow(details.CreateMultipleInputBox.IncrementButton, "right")
@@ -91,12 +91,12 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 		bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
 		bg:SetPoint("BOTTOMRIGHT", -5, 1)
 	end
-	F.Reskin(details.ViewGuildCraftersButton)
+	F.ReskinButton(details.ViewGuildCraftersButton)
 
 	-- Guild Recipe
 
 	local guildFrame = details.GuildFrame
-	F.ReskinPortraitFrame(guildFrame, true)
+	F.ReskinFrame(guildFrame)
 	F.ReskinScroll(guildFrame.Container.ScrollFrame.scrollBar)
 	guildFrame:ClearAllPoints()
 	guildFrame:SetPoint("BOTTOMLEFT", TradeSkillFrame, "BOTTOMRIGHT", 2, 0)

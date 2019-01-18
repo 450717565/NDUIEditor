@@ -8,7 +8,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 		F.StripTextures(frame, true)
 	end
 
-	F.ReskinPortraitFrame(AchievementFrame, true)
+	F.ReskinFrame(AchievementFrame)
 	AchievementFrameHeaderTitle:Hide()
 	AchievementFrameSummary:GetChildren():Hide()
 	select(2, AchievementFrameAchievements:GetChildren()):Hide()

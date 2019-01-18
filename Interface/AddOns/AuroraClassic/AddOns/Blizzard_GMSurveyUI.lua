@@ -8,15 +8,14 @@ C.themes["Blizzard_GMSurveyUI"] = function()
 	F.CreateBDFrame(GMSurveyCommentFrame, .25)
 
 	for i = 1, 11 do
-		F.CreateBD(_G["GMSurveyQuestion"..i], .25)
-		F.CreateSD(_G["GMSurveyQuestion"..i])
+		F.CreateBDFrame(_G["GMSurveyQuestion"..i], .25)
 		for j = 0, 5 do
 			F.ReskinRadio(_G["GMSurveyQuestion"..i.."RadioButton"..j])
 		end
 	end
 
-	F.Reskin(GMSurveySubmitButton)
-	F.Reskin(GMSurveyCancelButton)
+	F.ReskinButton(GMSurveySubmitButton)
+	F.ReskinButton(GMSurveyCancelButton)
 	F.ReskinClose(GMSurveyCloseButton, "TOPRIGHT", GMSurveyFrame, "TOPRIGHT", -36, -4)
 	F.ReskinScroll(GMSurveyScrollFrameScrollBar)
 end

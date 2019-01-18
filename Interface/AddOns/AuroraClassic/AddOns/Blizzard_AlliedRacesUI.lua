@@ -1,7 +1,7 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_AlliedRacesUI"] = function()
-	F.ReskinPortraitFrame(AlliedRacesFrame, true)
+	F.ReskinFrame(AlliedRacesFrame)
 	F.StripTextures(AlliedRacesFrame.ModelFrame, true)
 	AlliedRacesFrame.RaceInfoFrame.AlliedRacesRaceName:SetTextColor(1, .8, 0)
 

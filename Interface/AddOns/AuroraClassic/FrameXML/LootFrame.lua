@@ -4,7 +4,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	local r, g, b = C.r, C.g, C.b
 
 	if AuroraConfig.loot then
-		F.ReskinPortraitFrame(LootFrame, true)
+		F.ReskinFrame(LootFrame)
 		F.ReskinArrow(LootFrameUpButton, "up")
 		F.ReskinArrow(LootFrameDownButton, "down")
 
@@ -39,8 +39,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	-- Bonus roll
 	F.StripTextures(BonusRollFrame)
-	F.CreateBD(BonusRollFrame)
-	F.CreateSD(BonusRollFrame)
+	F.ReskinFrame(BonusRollFrame, true)
 
 	BonusRollFrame.BlackBackgroundHoist:Hide()
 

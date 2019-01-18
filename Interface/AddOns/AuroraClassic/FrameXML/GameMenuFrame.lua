@@ -4,8 +4,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	GameMenuFrameHeader:SetAlpha(0)
 	GameMenuFrameHeader:ClearAllPoints()
 	GameMenuFrameHeader:SetPoint("TOP", 0, 7)
-	F.CreateBD(GameMenuFrame)
-	F.CreateSD(GameMenuFrame)
+	F.ReskinFrame(GameMenuFrame)
 
 	local buttons = {
 		GameMenuButtonHelp,
@@ -22,6 +21,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	}
 
 	for _, button in next, buttons do
-		F.Reskin(button)
+		F.ReskinButton(button)
 	end
 end)

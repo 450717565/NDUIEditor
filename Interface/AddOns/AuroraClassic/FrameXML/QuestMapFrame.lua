@@ -71,10 +71,10 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.StripTextures(DetailsFrame, true)
 	F.StripTextures(DetailsFrame.ShareButton, true)
 
-	F.Reskin(DetailsFrame.BackButton)
-	F.Reskin(DetailsFrame.AbandonButton)
-	F.Reskin(DetailsFrame.ShareButton)
-	F.Reskin(DetailsFrame.TrackButton)
+	F.ReskinButton(DetailsFrame.BackButton)
+	F.ReskinButton(DetailsFrame.AbandonButton)
+	F.ReskinButton(DetailsFrame.ShareButton)
+	F.ReskinButton(DetailsFrame.TrackButton)
 	F.ReskinScroll(QuestMapDetailsScrollFrameScrollBar)
 
 	DetailsFrame.AbandonButton:ClearAllPoints()
@@ -114,16 +114,16 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	-- Complete quest frame
 	F.StripTextures(CompleteQuestFrame, true)
-	F.Reskin(CompleteQuestFrame.CompleteButton)
+	F.ReskinButton(CompleteQuestFrame.CompleteButton)
 
 	-- [[ Quest log popup detail frame ]]
 
-	F.ReskinPortraitFrame(QuestLogPopupDetailFrame, true)
+	F.ReskinFrame(QuestLogPopupDetailFrame)
 	F.StripTextures(QuestLogPopupDetailFrameScrollFrame, true)
 	F.ReskinScroll(QuestLogPopupDetailFrameScrollFrameScrollBar)
-	F.Reskin(QuestLogPopupDetailFrame.AbandonButton)
-	F.Reskin(QuestLogPopupDetailFrame.TrackButton)
-	F.Reskin(QuestLogPopupDetailFrame.ShareButton)
+	F.ReskinButton(QuestLogPopupDetailFrame.AbandonButton)
+	F.ReskinButton(QuestLogPopupDetailFrame.TrackButton)
+	F.ReskinButton(QuestLogPopupDetailFrame.ShareButton)
 
 	-- Show map button
 
@@ -137,7 +137,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	ShowMapButton:ClearAllPoints()
 	ShowMapButton:SetPoint("TOPRIGHT", QuestLogPopupDetailFrame, -30, -25)
 
-	F.Reskin(ShowMapButton)
+	F.ReskinButton(ShowMapButton)
 
 	ShowMapButton:HookScript("OnEnter", function(self)
 		self.Text:SetTextColor(GameFontHighlight:GetTextColor())

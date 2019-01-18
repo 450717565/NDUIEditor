@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2334, "DBM-ZuldazarRaid", 3, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 18145 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 18167 $"):sub(12, -3))
 mod:SetCreatureID(144796)
 mod:SetEncounterID(2276)
 --mod:DisableESCombatDetection()
@@ -17,8 +17,8 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 282205 287952 287929 282153 288410 287751 287797 287757",
 	"SPELL_CAST_SUCCESS 287757 286693 288041 288049",
-	"SPELL_AURA_APPLIED 287757 287167 284168 289023 286051",
---	"SPELL_AURA_APPLIED_DOSE",
+	"SPELL_AURA_APPLIED 287757 287167 284168 289023 286051 289699",
+	"SPELL_AURA_APPLIED_DOSE 289699",
 	"SPELL_AURA_REMOVED 287757 284168",
 	"UNIT_DIED"
 --	"UNIT_SPELLCAST_SUCCEEDED boss1"
@@ -32,6 +32,9 @@ mod:RegisterEventsInCombat(
 --TODO, icon marking for poly morph dispel assignments?
 --TODO, nameplate aura for tampering protocol, if it has actual debuff diration (wowhead does not)
 --TODO, if number of bots can be counted, add additional "switch to bots" warnings when shrunk is applied if any are still up
+--TODO, scrap existing timers and redo them for 3 phase fight instead of 5
+--TODO, wormhole generator target scan? hidden aura scan?
+--TODO, adjust electroshock stacks?
 local warnPhase							= mod:NewPhaseChangeAnnounce(2, nil, nil, nil, nil, nil, 2)
 --Ground Phase
 local warnShrunk						= mod:NewTargetNoFilterAnnounce(284168, 1)
@@ -44,7 +47,9 @@ local warnHyperDrive					= mod:NewTargetNoFilterAnnounce(286051, 3)
 local specWarnBusterCannon				= mod:NewSpecialWarningDodge(282153, nil, nil, nil, 2, 2)
 local specWarnBlastOff					= mod:NewSpecialWarningRun(282205, "Melee", nil, nil, 4, 2)
 --local specWarnCrashDown					= mod:NewSpecialWarningDodge(287797, nil, nil, nil, 2, 2)
-local specWarnGigaVoltCharge			= mod:NewSpecialWarningYou(286646, nil, nil, nil, 1, 2)
+local specWarnElectroshockAmp			= mod:NewSpecialWarningCount(289699, nil, DBM_CORE_AUTO_SPEC_WARN_OPTIONS.stack:format(8, 270447), nil, 1, 2)
+local specWarnElectroshockAmpOther		= mod:NewSpecialWarningTaunt(289699, nil, nil, nil, 1, 2)
+local specWarnGigaVoltCharge			= mod:NewSpecialWarningYouPos(286646, nil, nil, nil, 1, 2)
 local yellGigaVoltCharge				= mod:NewPosYell(286646)
 local yellGigaVoltChargeFades			= mod:NewIconFadesYell(286646)
 local specWarnGigaVoltChargeFading		= mod:NewSpecialWarningMoveTo(286646, nil, nil, nil, 3, 2)
@@ -52,8 +57,10 @@ local specWarnGigaVoltChargeTaunt		= mod:NewSpecialWarningTaunt(286646, nil, nil
 local specWarnWormholeGenerator 		= mod:NewSpecialWarningSpell(287952, nil, nil, nil, 2, 5)
 local specWarnDiscombobulation			= mod:NewSpecialWarningDispel(287167, "Healer", nil, nil, 1, 2)--Mythic
 local specWarnDeploySparkBot			= mod:NewSpecialWarningSwitch(288410, nil, nil, nil, 1, 2)
-local specWarnShrunk					= mod:NewSpecialWarningYou(284168, nil, nil, nil, 1, 2)
+local specWarnShrunk					= mod:NewSpecialWarningYouPos(284168, nil, nil, nil, 1, 2)
 local yellShrunk						= mod:NewYell(284168)--Shrunk will just say with white letters
+local yellShrunkRepeater				= mod:NewPosYell(284168, DBM_CORE_AUTO_YELL_CUSTOM_POSITION)
+local specWarnShrunkTaunt				= mod:NewSpecialWarningTaunt(284168, nil, nil, nil, 1, 2)
 local specWarnEnormous					= mod:NewSpecialWarningYou(289023, nil, nil, nil, 1, 2)--Mythic
 local yellEnormous						= mod:NewYell(289023, nil, nil, nil, "YELL")--Enormous will shout with red letters
 --Intermission: Evasive Maneuvers!
@@ -257,6 +264,11 @@ local explodingSheepTimers = {
 	},
 }
 
+local function shrunkYellRepeater(self, icon)
+	yellShrunkRepeater:Yell(icon, "", icon)
+	self:Schedule(2, shrunkYellRepeater, self, icon)
+end
+
 function mod:OnCombatStart(delay)
 	self.vb.phase = 1
 	self.vb.shrunkIcon = 8
@@ -291,6 +303,7 @@ function mod:OnCombatStart(delay)
 --	if self.Options.NPAuraOnPresence then
 --		DBM:FireEvent("BossMod_EnableHostileNameplates")
 --	end
+	DBM:AddMsg("This Boss was redone from 5 stage boss to 3 stage boss after most of testing, so timers need reworking and may not be correct. They will be updated as quickly as possible on live")
 end
 
 function mod:OnCombatEnd()
@@ -303,6 +316,7 @@ function mod:OnCombatEnd()
 --	if self.Options.NPAuraOnPresence then
 --		DBM.Nameplate:Hide(true, nil, nil, nil, true, true)
 --	end
+	DBM:AddMsg("This Boss was redone from 5 stage boss to 3 stage boss after most of testing, so timers need reworking and may not be correct. They will be updated as quickly as possible on live")
 end
 
 function mod:SPELL_CAST_START(args)
@@ -400,9 +414,6 @@ function mod:SPELL_CAST_START(args)
 		if self:IsHard() then
 			timerWormholeGeneratorCD:Start(48.5, 1)
 		end
-		if self.vb.phase == 3 then
-			DBM:AddMsg("This Phase does not yet have any timers, please log fight with WCL advanced combat logging or transcriptor for best results and share logs with MysticalOS")
-		end
 	elseif spellId == 287757 then
 		self.vb.gigaIcon = 1
 	end
@@ -431,10 +442,10 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 287757 then--Or 283409 or 286646
 		local icon = self.vb.gigaIcon
 		if args:IsPlayer() then
-			specWarnGigaVoltCharge:Show()
+			specWarnGigaVoltCharge:Show(self:IconNumToTexture(icon))
 			specWarnGigaVoltCharge:Play("targetyou")
 			specWarnGigaVoltChargeFading:Schedule(10, DBM_CORE_BREAK_LOS)--Or self:IconNumToTexture(icon)
-			specWarnGigaVoltChargeFading:ScheduleVoice(10, "findshelter")--TODO, more specific voice
+			specWarnGigaVoltChargeFading:ScheduleVoice(10, "mm"..icon)--TODO, more specific voice
 			yellGigaVoltCharge:Yell(icon, icon, icon)
 			yellGigaVoltChargeFades:Countdown(15, nil, icon)
 		else
@@ -453,13 +464,24 @@ function mod:SPELL_AURA_APPLIED(args)
 		specWarnDiscombobulation:ScheduleVoice(0.3, "helpdispel")
 	elseif spellId == 284168 then
 		warnShrunk:CombinedShow(0.5, args.destName)
+		local icon = self.vb.shrunkIcon
 		if args:IsPlayer() then
-			specWarnShrunk:Show()
+			specWarnShrunk:Show(self:IconNumToTexture(icon))
 			specWarnShrunk:Play("targetyou")
-			yellShrunk:Yell()
+			yellShrunk:Yell(icon, args.spellName, icon)
+			if not self:IsLFR() then
+				self:Unschedule(shrunkYellRepeater)
+				self:Schedule(2, shrunkYellRepeater, self, icon)
+			end
+		else
+			local uId = DBM:GetRaidUnitId(args.destName)
+			if self:IsTanking(uId) then
+				specWarnShrunkTaunt:Show(args.destName)
+				specWarnShrunkTaunt:Play("tauntboss")
+			end
 		end
 		if self.Options.SetIconShrunk then
-			self:SetIcon(args.destName, self.vb.shrunkIcon)
+			self:SetIcon(args.destName, icon)
 		end
 		self.vb.shrunkIcon = self.vb.shrunkIcon - 1
 	elseif spellId == 289023 then
@@ -470,6 +492,17 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 286051 then
 		warnHyperDrive:Show(args.destName)
+	elseif spellId == 270447 then
+		local amount = args.amount or 1
+		if amount >= 8 and self:AntiSpam(5, 4) then
+			if self:IsTanking("player", "boss1", nil, true) then
+				specWarnElectroshockAmp:Show(amount)
+				specWarnElectroshockAmp:Play("changemt")
+			elseif not DBM:UnitDebuff("player", 284168, 287757) then--Don't have shrunk or giga
+				specWarnElectroshockAmpOther:Show(args.destName)
+				specWarnElectroshockAmpOther:Play("tauntboss")
+			end
+		end
 	end
 end
 --mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -488,6 +521,9 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif spellId == 284168 then
 		if self.Options.SetIconShrunk then
 			self:SetIcon(args.destName, 0)
+		end
+		if args:IsPlayer() then
+			self:Unschedule(shrunkYellRepeater)
 		end
 	end
 end

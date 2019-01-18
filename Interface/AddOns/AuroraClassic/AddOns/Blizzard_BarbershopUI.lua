@@ -9,12 +9,11 @@ C.themes["Blizzard_BarbershopUI"] = function()
 	BarberShopAltFormFrame:SetPoint("BOTTOM", BarberShopFrame, "TOP", 0, -74)
 
 	F.SetBD(BarberShopFrame, 45, -75, -45, 45)
-	F.CreateBD(BarberShopAltFormFrame)
-	F.CreateSD(BarberShopAltFormFrame)
+	F.ReskinFrame(BarberShopAltFormFrame)
 
-	F.Reskin(BarberShopFrameOkayButton)
-	F.Reskin(BarberShopFrameCancelButton)
-	F.Reskin(BarberShopFrameResetButton)
+	F.ReskinButton(BarberShopFrameOkayButton)
+	F.ReskinButton(BarberShopFrameCancelButton)
+	F.ReskinButton(BarberShopFrameResetButton)
 
 	for i = 1, #BarberShopFrame.Selector do
 		local prevBtn, nextBtn = BarberShopFrame.Selector[i]:GetChildren()
