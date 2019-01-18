@@ -17,7 +17,6 @@ tinsert(C.themes["AuroraClassic"], function()
 				tab:SetNormalTexture("")
 				tab.bg = F.CreateBDFrame(tab, .25)
 				tab.bg:SetAllPoints()
-
 				F.ReskinTexture(tab, tab.bg, true)
 
 				tab.styled = true
@@ -42,7 +41,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	hooksecurefunc(VoiceActivityManager, "LinkFrameNotificationAndGuid", function(_, _, notification, guid)
 		local class = select(2, GetPlayerInfoByGUID(guid))
 		if class then
-			local color = C.classcolours[class]
+			local color = C.ClassColors[class]
 			if notification.Name then
 				notification.Name:SetTextColor(color.r, color.g, color.b)
 			end

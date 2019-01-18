@@ -136,25 +136,25 @@ function F:CreateGradient()
 	return tex
 end
 
-local function reskinOnEnter(self)
+local function buttonOnEnter(self)
 	if self:IsEnabled() then
 		self:SetBackdropBorderColor(cr, cg, cb, 1)
 	end
 end
 
-local function reskinOnLeave(self)
+local function buttonOnLeave(self)
 	if self:IsEnabled() then
 		self:SetBackdropBorderColor(0, 0, 0, 1)
 	end
 end
 
-local function reskinOnMouseDown(self)
+local function buttonOnMouseDown(self)
 	if self:IsEnabled() then
 		self:SetBackdropColor(cr, cg, cb, .25)
 	end
 end
 
-local function reskinOnMouseUp(self)
+local function buttonOnMouseUp(self)
 	if self:IsEnabled() then
 		self:SetBackdropColor(0, 0, 0, 0)
 	end
@@ -168,10 +168,10 @@ function F:ReskinButton(noHighlight)
 	F.CreateGradient(self)
 
 	if not noHighlight then
-		self:HookScript("OnEnter", reskinOnEnter)
-		self:HookScript("OnLeave", reskinOnLeave)
-		self:HookScript("OnMouseDown", reskinOnMouseDown)
-		self:HookScript("OnMouseUp", reskinOnMouseUp)
+		self:HookScript("OnEnter", buttonOnEnter)
+		self:HookScript("OnLeave", buttonOnLeave)
+		self:HookScript("OnMouseDown", buttonOnMouseDown)
+		self:HookScript("OnMouseUp", buttonOnMouseUp)
 	end
 end
 
@@ -565,9 +565,7 @@ function F:StripTextures(kill)
 	local frameName = self.GetName and self:GetName()
 	for _, texture in pairs(BlizzTextures) do
 		local blizzFrame = self[texture] or (frameName and _G[frameName..texture])
-		if blizzFrame then
-			F.StripTextures(blizzFrame, kill)
-		end
+		if blizzFrame then F.StripTextures(blizzFrame, kill) end
 	end
 
 	if self.GetNumRegions then

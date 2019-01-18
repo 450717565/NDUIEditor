@@ -52,5 +52,5 @@ C.themes["Blizzard_VoidStorageUI"] = function()
 		F.ReskinTexture(tab, ic, false)
 	end
 	VoidStorageFrame.Page1:ClearAllPoints()
-	VoidStorageFrame.Page1:SetPoint("TOPLEFT", VoidStorageFrame, "TOPRIGHT", 4, -50)
+	VoidStorageFrame.Page1:SetPoint("TOPLEFT", VoidStorageFrame, "TOPRIGHT", 4, -25)
 end

@@ -59,6 +59,8 @@ C.themes["Blizzard_GuildBankUI"] = function()
 		end
 	end)
 
+	GuildBankTab1:ClearAllPoints()
+	GuildBankTab1:SetPoint("TOPLEFT", GuildBankFrame, "TOPRIGHT", 2, -25)
 	for i = 1, 8 do
 		local tb = _G["GuildBankTab"..i]
 		F.StripTextures(tb)
