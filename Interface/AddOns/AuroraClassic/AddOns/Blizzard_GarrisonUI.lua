@@ -18,34 +18,6 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	GARRISON_FOLLOWER_ITEM_LEVEL = "iLvl %d"
 
-	function F:ReskinGarrisonPortrait()
-		self.Portrait:ClearAllPoints()
-		self.Portrait:SetPoint("TOPLEFT", 4, -4)
-		self.PortraitRing:Hide()
-		self.PortraitRingQuality:SetTexture("")
-		if self.Highlight then self.Highlight:Hide() end
-
-		self.LevelBorder:SetScale(.0001)
-		self.Level:ClearAllPoints()
-		self.Level:SetPoint("BOTTOM", self, 0, 12)
-
-		local lvl = self:GetFrameLevel()
-		self.squareBG = F.CreateBDFrame(self, 1)
-		self.squareBG:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
-		self.squareBG:SetPoint("TOPLEFT", 3, -3)
-		self.squareBG:SetPoint("BOTTOMRIGHT", -3, 11)
-
-		if self.PortraitRingCover then
-			self.PortraitRingCover:SetColorTexture(0, 0, 0)
-			self.PortraitRingCover:SetAllPoints(self.squareBG)
-		end
-
-		if self.Empty then
-			self.Empty:SetColorTexture(0, 0, 0)
-			self.Empty:SetAllPoints(self.Portrait)
-		end
-	end
-
 	function F:ReskinMissionPage()
 		F.StripTextures(self)
 		self.StartMissionButton.Flash:SetTexture("")

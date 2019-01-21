@@ -1,5 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
+local module = B:GetModule("Misc")
 -------------------------------------
 -- Pet Quick Filter, by Windrunner
 -- NDui MOD
@@ -16,7 +17,7 @@ local function loadPetFilter()
 
 	local function QuickFilter_Function(self, button)
 		local activeCount = 0
-		for petType, _ in ipairs(PET_TYPE_SUFFIX) do
+		for petType in ipairs(PET_TYPE_SUFFIX) do
 			local btn = _G["PetJournalQuickFilterButton"..petType]
 			if button == "LeftButton" then
 				if self == btn then
@@ -37,7 +38,7 @@ local function loadPetFilter()
 			C_PetJournal.SetPetTypeFilter(btn.petType, btn.isActive)
 		end
 
-		if 0 == activeCount then
+		if activeCount == 0 then
 			C_PetJournal.SetAllPetTypesChecked(true)
 		end
 
@@ -73,19 +74,27 @@ local function loadPetFilter()
 	end
 
 	if #PET_TYPE_SUFFIX == activeCount then
-		for petIndex, _ in ipairs(PET_TYPE_SUFFIX) do
+		for petIndex in ipairs(PET_TYPE_SUFFIX) do
 			local btn = _G["PetJournalQuickFilterButton"..petIndex]
 			btn.isActive = false
 			btn:SetBackdropBorderColor(0, 0, 0)
 		end
 	end
 end
-local function setupPetFilter(event, addon)
-	if not NDuiDB["Misc"]["PetFilter"] then
-		B:UnregisterEvent(event, setupPetFilter)
-	elseif addon == "Blizzard_Collections" then
+
+function module:PetFilterTab()
+	if not NDuiDB["Misc"]["PetFilter"] then return end
+
+	local function onLoad(event, addon)
+		if addon == "Blizzard_Collections" then
+			loadPetFilter()
+			B:UnregisterEvent(event, onLoad)
+		end
+	end
+
+	if IsAddOnLoaded("Blizzard_Collections") then
 		loadPetFilter()
-		B:UnregisterEvent(event, setupPetFilter)
+	else
+		B:RegisterEvent("ADDON_LOADED", onLoad)
 	end
 end
-B:RegisterEvent("ADDON_LOADED", setupPetFilter)

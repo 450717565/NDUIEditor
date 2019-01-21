@@ -92,92 +92,86 @@ C.themes["Blizzard_Communities"] = function()
 	F.StripTextures(CommunitiesFrame.MemberList, true)
 	F.CreateBDFrame(CommunitiesFrame.MemberList, .25)
 
-	do
-		local EditStream = CommunitiesFrame.EditStreamDialog
-		F.ReskinFrame(EditStream)
-		F.ReskinCheck(EditStream.TypeCheckBox)
-		F.ReskinButton(EditStream.Accept)
-		F.ReskinButton(EditStream.Delete)
-		F.ReskinButton(EditStream.Cancel)
-		F.ReskinInput(EditStream.NameEdit, 22)
-		F.StripTextures(EditStream.Description, true)
-		local bg = F.CreateBDFrame(EditStream.Description, .25)
-		F.CreateGradient(bg)
-	end
+	local EditStream = CommunitiesFrame.EditStreamDialog
+	F.ReskinFrame(EditStream)
+	F.ReskinCheck(EditStream.TypeCheckBox)
+	F.ReskinButton(EditStream.Accept)
+	F.ReskinButton(EditStream.Delete)
+	F.ReskinButton(EditStream.Cancel)
+	F.ReskinInput(EditStream.NameEdit, 22)
+	F.StripTextures(EditStream.Description, true)
+	local bg = F.CreateBDFrame(EditStream.Description, .25)
+	F.CreateGradient(bg)
 
-	do
-		local NotificationSettings = CommunitiesFrame.NotificationSettingsDialog
-		NotificationSettings.ScrollFrame.Child.QuickJoinButton:SetSize(25, 25)
+	local NotificationSettings = CommunitiesFrame.NotificationSettingsDialog
+	NotificationSettings.ScrollFrame.Child.QuickJoinButton:SetSize(25, 25)
 
-		F.ReskinFrame(NotificationSettings)
-		F.ReskinDropDown(NotificationSettings.CommunitiesListDropDownMenu)
-		F.ReskinButton(NotificationSettings.OkayButton)
-		F.ReskinButton(NotificationSettings.CancelButton)
-		F.ReskinCheck(NotificationSettings.ScrollFrame.Child.QuickJoinButton)
+	F.ReskinFrame(NotificationSettings)
+	F.ReskinDropDown(NotificationSettings.CommunitiesListDropDownMenu)
+	F.ReskinButton(NotificationSettings.OkayButton)
+	F.ReskinButton(NotificationSettings.CancelButton)
+	F.ReskinCheck(NotificationSettings.ScrollFrame.Child.QuickJoinButton)
 
-		F.ReskinButton(NotificationSettings.ScrollFrame.Child.AllButton)
-		F.ReskinButton(NotificationSettings.ScrollFrame.Child.NoneButton)
-		F.ReskinScroll(NotificationSettings.ScrollFrame.ScrollBar)
+	F.ReskinButton(NotificationSettings.ScrollFrame.Child.AllButton)
+	F.ReskinButton(NotificationSettings.ScrollFrame.Child.NoneButton)
+	F.ReskinScroll(NotificationSettings.ScrollFrame.ScrollBar)
 
-		hooksecurefunc(NotificationSettings, "Refresh", function(self)
-			local frame = self.ScrollFrame.Child
-			for i = 1, frame:GetNumChildren() do
-				local child = select(i, frame:GetChildren())
-				if child.StreamName and not child.styled then
-					F.ReskinRadio(child.ShowNotificationsButton)
-					F.ReskinRadio(child.HideNotificationsButton)
-					child.Separator:Hide()
+	hooksecurefunc(NotificationSettings, "Refresh", function(self)
+		local frame = self.ScrollFrame.Child
+		for i = 1, frame:GetNumChildren() do
+			local child = select(i, frame:GetChildren())
+			if child.StreamName and not child.styled then
+				F.ReskinRadio(child.ShowNotificationsButton)
+				F.ReskinRadio(child.HideNotificationsButton)
+				child.Separator:Hide()
 
-					child.styled = true
-				end
+				child.styled = true
 			end
-		end)
-	end
+		end
+	end)
 
-	do
-		local TicketManager = CommunitiesTicketManagerDialog
-		F.ReskinFrame(TicketManager)
-		F.ReskinButton(TicketManager.LinkToChat)
-		F.ReskinButton(TicketManager.Copy)
-		F.ReskinButton(TicketManager.Close)
-		F.ReskinArrow(TicketManager.MaximizeButton, "down")
-		F.ReskinDropDown(TicketManager.ExpiresDropDownMenu)
-		F.ReskinDropDown(TicketManager.UsesDropDownMenu)
-		F.ReskinButton(TicketManager.GenerateLinkButton)
+	local TicketManager = CommunitiesTicketManagerDialog
+	F.ReskinFrame(TicketManager)
+	F.ReskinButton(TicketManager.LinkToChat)
+	F.ReskinButton(TicketManager.Copy)
+	F.ReskinButton(TicketManager.Close)
+	F.ReskinArrow(TicketManager.MaximizeButton, "down")
+	F.ReskinDropDown(TicketManager.ExpiresDropDownMenu)
+	F.ReskinDropDown(TicketManager.UsesDropDownMenu)
+	F.ReskinButton(TicketManager.GenerateLinkButton)
 
-		TicketManager.InviteManager.ArtOverlay:Hide()
-		F.StripTextures(TicketManager.InviteManager.ColumnDisplay)
-		TicketManager.InviteManager.ListScrollFrame.Background:Hide()
-		F.ReskinScroll(TicketManager.InviteManager.ListScrollFrame.scrollBar)
-		TicketManager.InviteManager.ListScrollFrame.scrollBar.Background:Hide()
+	TicketManager.InviteManager.ArtOverlay:Hide()
+	F.StripTextures(TicketManager.InviteManager.ColumnDisplay)
+	TicketManager.InviteManager.ListScrollFrame.Background:Hide()
+	F.ReskinScroll(TicketManager.InviteManager.ListScrollFrame.scrollBar)
+	TicketManager.InviteManager.ListScrollFrame.scrollBar.Background:Hide()
 
-		hooksecurefunc(TicketManager, "Update", function(self)
-			local column = self.InviteManager.ColumnDisplay
-			for i = 1, column:GetNumChildren() do
-				local child = select(i, column:GetChildren())
-				if not child.styled then
-					local bg = F.CreateBDFrame(child, .25)
-					bg:SetPoint("TOPLEFT", 4, -2)
-					bg:SetPoint("BOTTOMRIGHT", 0, 2)
-					F.ReskinTexture(child, bg, true)
+	hooksecurefunc(TicketManager, "Update", function(self)
+		local column = self.InviteManager.ColumnDisplay
+		for i = 1, column:GetNumChildren() do
+			local child = select(i, column:GetChildren())
+			if not child.styled then
+				local bg = F.CreateBDFrame(child, .25)
+				bg:SetPoint("TOPLEFT", 4, -2)
+				bg:SetPoint("BOTTOMRIGHT", 0, 2)
+				F.ReskinTexture(child, bg, true)
 
-					child.styled = true
-				end
+				child.styled = true
 			end
+		end
 
-			local buttons = self.InviteManager.ListScrollFrame.buttons
-			for i = 1, #buttons do
-				local button = buttons[i]
-				if not button.styled then
-					F.ReskinButton(button.CopyLinkButton)
-					F.ReskinButton(button.RevokeButton)
-					button.RevokeButton:SetSize(18, 18)
+		local buttons = self.InviteManager.ListScrollFrame.buttons
+		for i = 1, #buttons do
+			local button = buttons[i]
+			if not button.styled then
+				F.ReskinButton(button.CopyLinkButton)
+				F.ReskinButton(button.RevokeButton)
+				button.RevokeButton:SetSize(18, 18)
 
-					button.styled = true
-				end
+				button.styled = true
 			end
-		end)
-	end
+		end
+	end)
 
 	-- RosterTab
 	CommunitiesFrame.MemberList.ShowOfflineButton:SetSize(25, 25)
@@ -185,47 +179,37 @@ C.themes["Blizzard_Communities"] = function()
 	F.ReskinCheck(CommunitiesFrame.MemberList.ShowOfflineButton)
 	F.ReskinDropDown(CommunitiesFrame.GuildMemberListDropDownMenu)
 
-	do
-		local Settings = CommunitiesSettingsDialog
-		F.ReskinFrame(Settings)
-		F.ReskinButton(Settings.ChangeAvatarButton)
-		F.ReskinButton(Settings.Accept)
-		F.ReskinButton(Settings.Delete)
-		F.ReskinButton(Settings.Cancel)
-		F.ReskinInput(Settings.NameEdit)
-		F.ReskinInput(Settings.ShortNameEdit)
-		F.StripTextures(Settings.Description)
-		F.CreateBDFrame(Settings.Description, .25)
-		F.StripTextures(Settings.MessageOfTheDay)
-		F.CreateBDFrame(Settings.MessageOfTheDay, .25)
-	end
+	local Settings = CommunitiesSettingsDialog
+	F.ReskinFrame(Settings)
+	F.ReskinButton(Settings.ChangeAvatarButton)
+	F.ReskinButton(Settings.Accept)
+	F.ReskinButton(Settings.Delete)
+	F.ReskinButton(Settings.Cancel)
+	F.ReskinInput(Settings.NameEdit)
+	F.ReskinInput(Settings.ShortNameEdit)
+	F.StripTextures(Settings.Description)
+	F.CreateBDFrame(Settings.Description, .25)
+	F.StripTextures(Settings.MessageOfTheDay)
+	F.CreateBDFrame(Settings.MessageOfTheDay, .25)
 
-	do
-		local AvatarPicker = CommunitiesAvatarPickerDialog
-		F.ReskinFrame(AvatarPicker)
-		F.ReskinScroll(CommunitiesAvatarPickerDialogScrollBar)
-		F.ReskinButton(AvatarPicker.OkayButton)
-		F.ReskinButton(AvatarPicker.CancelButton)
+	local AvatarPicker = CommunitiesAvatarPickerDialog
+	F.ReskinFrame(AvatarPicker)
+	F.ReskinScroll(CommunitiesAvatarPickerDialogScrollBar)
+	F.ReskinButton(AvatarPicker.OkayButton)
+	F.ReskinButton(AvatarPicker.CancelButton)
 
-		hooksecurefunc(CommunitiesAvatarPickerDialog.ScrollFrame, "Refresh", function(self)
-			for i = 1, 5 do
-				for j = 1, 6 do
-					local avatarButton = self.avatarButtons[i][j]
-					if avatarButton:IsShown() and not avatarButton.bg then
-						avatarButton.bg = F.ReskinIcon(avatarButton.Icon)
-						avatarButton.Selected:SetTexture("")
-						avatarButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-					end
-
-					if avatarButton.Selected:IsShown() then
-						avatarButton.bg:SetVertexColor(r, g, b)
-					else
-						avatarButton.bg:SetVertexColor(0, 0, 0)
-					end
+	hooksecurefunc(CommunitiesAvatarPickerDialog.ScrollFrame, "Refresh", function(self)
+		for i = 1, 5 do
+			for j = 1, 6 do
+				local avatarButton = self.avatarButtons[i][j]
+				if avatarButton:IsShown() and not avatarButton.bg then
+					avatarButton.bg = F.ReskinIcon(avatarButton.Icon, true)
+					F.ReskinTexture(avatarButton, avatarButton.bg, false)
+					F.ReskinTexture(avatarButton.Selected, avatarButton.bg, false)
 				end
 			end
-		end)
-	end
+		end
+	end)
 
 	local function updateNameFrame(self)
 		if not self.expanded then return end
@@ -333,6 +317,7 @@ C.themes["Blizzard_Communities"] = function()
 	end)
 
 	-- GuildInfoTab
+	CommunitiesFrameGuildDetailsFrameInfoMOTDScrollFrameScrollBar:SetAlpha(0)
 	F.StripTextures(CommunitiesFrameGuildDetailsFrame, true)
 	F.StripTextures(CommunitiesFrameGuildDetailsFrameInfo, true)
 	F.StripTextures(CommunitiesFrameGuildDetailsFrameNews, true)

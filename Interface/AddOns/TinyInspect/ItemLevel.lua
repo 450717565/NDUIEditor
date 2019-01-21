@@ -65,17 +65,33 @@ local function SetItemLevelString(self, text, quality)
 end
 
 --設置部位文字
-local function SetItemSlotString(self, class, equipSlot, link)
+local function SetItemSlotString(self, class, subclass, equipSlot, link)
 	local slotText = ""
 	if ShowItemSlotString then
-		if (equipSlot and string.find(equipSlot, "INVTYPE_")) then
+		if equipSlot and equipSlot ~= "" then
 			slotText = _G[equipSlot] or ""
-		elseif (class == ARMOR) then
-			slotText = class
-		elseif (link and IsArtifactPowerItem(link)) then
+
+			if equipSlot == "INVTYPE_FEET" then
+				slotText = L["Feet"]
+			elseif equipSlot == "INVTYPE_HAND" then
+				slotText = L["Hands"]
+			elseif equipSlot == "INVTYPE_HOLDABLE" then
+				slotText = SECONDARYHANDSLOT
+			elseif equipSlot == "INVTYPE_SHIELD" then
+				slotText = SHIELDSLOT
+			end
+		end
+
+		if subclass and subclass ~= "" then
+			if subclass == MOUNTS then
+				slotText = MOUNTS
+			elseif subclass == PETS..COMPANIONS then
+				slotText = PETS
+			end
+		end
+
+		if link and IsArtifactPowerItem(link) then
 			slotText = ARTIFACT_POWER
-		elseif (link and IsArtifactRelicItem(link)) then
-			slotText = RELICSLOT
 		end
 	end
 	self:SetText(slotText)
@@ -91,13 +107,14 @@ local function SetItemLevelScheduled(button, ItemLevelFrame, link)
 		frame     = ItemLevelFrame,
 		button    = button,
 		onExecute = function(self)
-			local count, level, _, _, quality, _, _, class, _, _, equipSlot = LibItemInfo:GetItemInfo(self.identity)
+			local count, level, _, _, quality, _, _, class, subclass, _, equipSlot = LibItemInfo:GetItemInfo(self.identity)
 			if (count == 0) then
 				SetItemLevelString(self.frame.levelString, level > 0 and level or "", quality)
-				SetItemSlotString(self.frame.slotString, class, equipSlot, link)
+				SetItemSlotString(self.frame.slotString, class, subclass, equipSlot, link)
 				self.button.OrigItemLevel = (level and level > 0) and level or ""
 				self.button.OrigItemQuality = quality
 				self.button.OrigItemClass = class
+				self.button.OrigItemSubClass = subclass
 				self.button.OrigItemEquipSlot = equipSlot
 				return true
 			end
@@ -107,48 +124,45 @@ end
 
 --設置物品等級
 local function SetItemLevel(self, link, category, BagID, SlotID)
-    if (not self) then return end
-    local frame = GetItemLevelFrame(self, category)
-    if (self.OrigItemLink == link) then
-        SetItemLevelString(frame.levelString, self.OrigItemLevel, self.OrigItemQuality)
-        SetItemSlotString(frame.slotString, self.OrigItemClass, self.OrigItemEquipSlot, self.OrigItemLink)
-    else
-        local level = ""
-        local _, count, quality, class, subclass, equipSlot
-        if (link and string.match(link, "item:(%d+):")) then
-            if (BagID and SlotID and (category == "Bag" or category == "AltEquipment")) then
-                count, level = LibItemInfo:GetContainerItemLevel(BagID, SlotID)
-                _, _, quality, _, _, class, subclass, _, equipSlot = GetItemInfo(link)
-            else
-                count, level, _, _, quality, _, _, class, subclass, _, equipSlot = LibItemInfo:GetItemInfo(link)
-            end
-            --除了装备和圣物外,其它不显示装等
-            if ((equipSlot and string.find(equipSlot, "INVTYPE_"))
-                or (subclass and string.find(subclass, RELICSLOT))) then else
-                level = ""
-            end
-            --坐骑还是要显示的
-            if (subclass and subclass == MOUNTS) then
-                class = subclass
-            end
-            if (count > 0) then
-                SetItemLevelString(frame.levelString, "...")
-                return SetItemLevelScheduled(self, frame, link)
-            else
-                if (tonumber(level) == 0) then level = "" end
-                SetItemLevelString(frame.levelString, level, quality)
-                SetItemSlotString(frame.slotString, class, equipSlot, link)
-            end
-        else
-            SetItemLevelString(frame.levelString, "")
-            SetItemSlotString(frame.slotString)
-        end
-        self.OrigItemLink = link
-        self.OrigItemLevel = level
-        self.OrigItemQuality = quality
-        self.OrigItemClass = class
-        self.OrigItemEquipSlot = equipSlot
-    end
+	if (not self) then return end
+	local frame = GetItemLevelFrame(self, category)
+	if (self.OrigItemLink == link) then
+		SetItemLevelString(frame.levelString, self.OrigItemLevel, self.OrigItemQuality)
+		SetItemSlotString(frame.slotString, self.OrigItemClass, self.OrigItemSubClass, self.OrigItemEquipSlot, self.OrigItemLink)
+	else
+		local level = ""
+		local _, count, quality, class, subclass, equipSlot
+		if (link and string.match(link, "item:(%d+):")) then
+			if (BagID and SlotID and (category == "Bag" or category == "AltEquipment")) then
+				count, level = LibItemInfo:GetContainerItemLevel(BagID, SlotID)
+				_, _, quality, _, _, class, subclass, _, equipSlot = GetItemInfo(link)
+			else
+				count, level, _, _, quality, _, _, class, subclass, _, equipSlot = LibItemInfo:GetItemInfo(link)
+			end
+			--除了装备和圣物外,其它不显示装等
+			if ((equipSlot and string.find(equipSlot, "INVTYPE_"))
+				or (subclass and string.find(subclass, RELICSLOT))) then else
+				level = ""
+			end
+			if (count > 0) then
+				SetItemLevelString(frame.levelString, "...")
+				return SetItemLevelScheduled(self, frame, link)
+			else
+				if (tonumber(level) == 0) then level = "" end
+				SetItemLevelString(frame.levelString, level, quality)
+				SetItemSlotString(frame.slotString, class, subclass, equipSlot, link)
+			end
+		else
+			SetItemLevelString(frame.levelString, "")
+			SetItemSlotString(frame.slotString)
+		end
+		self.OrigItemLink = link
+		self.OrigItemLevel = level
+		self.OrigItemQuality = quality
+		self.OrigItemClass = class
+		self.OrigItemSubClass = subclass
+		self.OrigItemEquipSlot = equipSlot
+	end
 end
 
 --[[ All ]]
@@ -458,9 +472,9 @@ local function ChatItemLevel(Hyperlink)
 
 	local totalText = ""
 	local itemLink = string.match(Hyperlink, "|H(.-)|h")
-	local _, _, _, _, _, _, itemSubType, _, itemEquipLoc, _, _, itemClassID, itemSubClassID = GetItemInfo(itemLink)
+	local _, _, _, _, _, _, itemSubType, _, equipSlot, _, _, itemClassID, itemSubClassID = GetItemInfo(itemLink)
 
-	if ((itemSubType and itemSubType == EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC) or (itemEquipLoc and itemEquipLoc ~= "")) or ((itemClassID and itemClassID == 15) and (itemSubClassID and (itemSubClassID == 2 or itemSubClassID == 5))) then
+	if ((itemSubType and itemSubType == EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC) or (equipSlot and equipSlot ~= "")) or ((itemClassID and itemClassID == 15) and (itemSubClassID and (itemSubClassID == 2 or itemSubClassID == 5))) then
 		local level = B.GetItemLevel(itemLink)
 		local slotText = B.ItemSlotInfo(itemLink)
 

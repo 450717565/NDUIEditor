@@ -465,6 +465,34 @@ function F:ReskinFrame(noKill)
 	if closeButton then F.ReskinClose(closeButton) end
 end
 
+function F:ReskinGarrisonPortrait()
+	self.Portrait:ClearAllPoints()
+	self.Portrait:SetPoint("TOPLEFT", 4, -4)
+	self.PortraitRing:Hide()
+	self.PortraitRingQuality:SetTexture("")
+	if self.Highlight then self.Highlight:Hide() end
+
+	self.LevelBorder:SetScale(.0001)
+	self.Level:ClearAllPoints()
+	self.Level:SetPoint("BOTTOM", self, 0, 12)
+
+	local lvl = self:GetFrameLevel()
+	self.squareBG = F.CreateBDFrame(self, 1)
+	self.squareBG:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
+	self.squareBG:SetPoint("TOPLEFT", 3, -3)
+	self.squareBG:SetPoint("BOTTOMRIGHT", -3, 11)
+
+	if self.PortraitRingCover then
+		self.PortraitRingCover:SetColorTexture(0, 0, 0)
+		self.PortraitRingCover:SetAllPoints(self.squareBG)
+	end
+
+	if self.Empty then
+		self.Empty:SetColorTexture(0, 0, 0)
+		self.Empty:SetAllPoints(self.Portrait)
+	end
+end
+
 function F:ReskinIcon(setBS)
 	self:SetTexCoord(.08, .92, .08, .92)
 
@@ -667,6 +695,16 @@ function F:ReskinScroll()
 	down:HookScript("OnLeave", textureOnLeave)
 	self:HookScript("OnEnter", scrollOnEnter)
 	self:HookScript("OnLeave", scrollOnLeave)
+end
+
+function F:ReskinSearchBox()
+	F.StripTextures(self)
+	F.CreateBD(self, .25)
+	F.CreateSD(self)
+	F.ReskinTexture(self, self, true)
+
+	local icon = self.icon or self.Icon
+	if icon then F.ReskinIcon(icon) end
 end
 
 function F:ReskinSlider(verticle)

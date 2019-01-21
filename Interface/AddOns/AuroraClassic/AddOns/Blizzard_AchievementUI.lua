@@ -234,30 +234,16 @@ C.themes["Blizzard_AchievementUI"] = function()
 	sbox:ClearAllPoints()
 	sbox:SetPoint("RIGHT", AchievementFrameCloseButton, "LEFT", -5, 0)
 	F.ReskinInput(AchievementFrame.searchBox, 17, 100)
-
 	F.StripTextures(AchievementFrame.searchPreviewContainer, true)
-	local function styleSearchButton(result)
-		F.StripTextures(result)
-
-		if result.icon then
-			F.ReskinIcon(result.icon)
-		end
-
-		local bg = F.CreateBDFrame(result, .25)
-		bg:SetPoint("TOPLEFT")
-		bg:SetPoint("BOTTOMRIGHT", 0, 1)
-
-		F.ReskinTexture(result, bg, true)
-	end
 
 	for i = 1, 5 do
-		styleSearchButton(AchievementFrame.searchPreview[i])
+		F.ReskinSearchBox(AchievementFrame.searchPreview[i])
 	end
-	styleSearchButton(AchievementFrame.showAllSearchResults)
+	F.ReskinSearchBox(AchievementFrame.showAllSearchResults)
 
 	do
 		local result = AchievementFrame.searchResults
-		result:SetPoint("BOTTOMLEFT", AchievementFrame, "BOTTOMRIGHT", 10, 0)
+		result:SetPoint("BOTTOMLEFT", AchievementFrame, "BOTTOMRIGHT", 20, 0)
 		F.StripTextures(result, true)
 
 		local bg = F.CreateBDFrame(result)

@@ -187,33 +187,19 @@ C.themes["Blizzard_EncounterJournal"] = function()
 
 	-- [[ Search results ]]
 	F.StripTextures(EncounterJournalSearchBox.searchPreviewContainer, true)
-	local function styleSearchButton(result)
-		F.StripTextures(result)
-
-		if result.icon then
-			F.ReskinIcon(result.icon)
-		end
-
-		local bg = F.CreateBDFrame(result, .25)
-		bg:SetPoint("TOPLEFT")
-		bg:SetPoint("BOTTOMRIGHT", 0, 1)
-
-		F.ReskinTexture(result, bg, true)
-	end
-
 	for i = 1, 5 do
-		styleSearchButton(EncounterJournalSearchBox["sbutton"..i])
+		F.ReskinSearchBox(EncounterJournalSearchBox["sbutton"..i])
 	end
-	styleSearchButton(EncounterJournalSearchBox.showAllResults)
+	F.ReskinSearchBox(EncounterJournalSearchBox.showAllResults)
 
 	do
 		local result = EncounterJournalSearchResults
-		result:SetPoint("BOTTOMLEFT", EncounterJournal, "BOTTOMRIGHT", 30, 0)
+		result:SetPoint("BOTTOMLEFT", EncounterJournal, "BOTTOMRIGHT", 20, 0)
 		F.StripTextures(result, true)
 
 		local bg = F.CreateBDFrame(result)
 		bg:SetPoint("TOPLEFT", -10, 0)
-		bg:SetPoint("BOTTOMRIGHT")
+		bg:SetPoint("BOTTOMRIGHT", 0, -10)
 
 		F.ReskinClose(EncounterJournalSearchResultsCloseButton)
 		F.ReskinScroll(EncounterJournalSearchResultsScrollFrameScrollBar)
