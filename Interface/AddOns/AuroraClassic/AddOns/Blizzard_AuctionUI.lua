@@ -37,6 +37,7 @@ C.themes["Blizzard_AuctionUI"] = function()
 
 	local buttons = {BrowseBidButton, BrowseBuyoutButton, BrowseCloseButton, BrowseSearchButton, BrowseResetButton, BidBidButton, BidBuyoutButton, BidCloseButton, AuctionsCloseButton, AuctionsCancelAuctionButton, AuctionsCreateAuctionButton, AuctionsNumStacksMaxButton, AuctionsStackSizeMaxButton}
 	for _, button in next, buttons do
+		F.StripTextures(button, true)
 		F.ReskinButton(button)
 	end
 	AuctionsStackSizeMaxButton:SetSize(100, 20)

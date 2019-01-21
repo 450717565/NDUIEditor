@@ -15,11 +15,11 @@ C.themes["Blizzard_Collections"] = function()
 		end
 	end
 
-	F.ReskinFilterButton(HeirloomsJournalFilterButton)
-	F.ReskinFilterButton(MountJournalFilterButton)
-	F.ReskinFilterButton(PetJournalFilterButton)
-	F.ReskinFilterButton(ToyBoxFilterButton)
-	F.ReskinFilterButton(WardrobeCollectionFrame.FilterButton)
+	F.ReskinFilter(HeirloomsJournalFilterButton)
+	F.ReskinFilter(MountJournalFilterButton)
+	F.ReskinFilter(PetJournalFilterButton)
+	F.ReskinFilter(ToyBoxFilterButton)
+	F.ReskinFilter(WardrobeCollectionFrame.FilterButton)
 
 	F.ReskinInput(HeirloomsJournalSearchBox)
 	F.ReskinInput(MountJournalSearchBox)
@@ -432,7 +432,7 @@ C.themes["Blizzard_Collections"] = function()
 
 	local DetailsFrame = SetsCollectionFrame.DetailsFrame
 	F.StripTextures(DetailsFrame, true)
-	F.ReskinFilterButton(DetailsFrame.VariantSetsButton, "Down")
+	F.ReskinFilter(DetailsFrame.VariantSetsButton, "Down")
 
 	hooksecurefunc(SetsCollectionFrame, "SetItemFrameQuality", function(_, itemFrame)
 		local ic = itemFrame.Icon

@@ -14,7 +14,7 @@ local function loadPetFilter()
 		PetJournalEnhancedListScrollFrame:SetPoint("TOPLEFT", PetJournalLeftInset, 3, -60)
 	end
 
-	local QuickFilter_Function = function(self, button)
+	local function QuickFilter_Function(self, button)
 		local activeCount = 0
 		for petType, _ in ipairs(PET_TYPE_SUFFIX) do
 			local btn = _G["PetJournalQuickFilterButton"..petType]
@@ -29,10 +29,10 @@ local function loadPetFilter()
 			end
 
 			if btn.isActive then
-				btn.Shadow:SetBackdropBorderColor(cr, cg, cb)
+				btn:SetBackdropBorderColor(cr, cg, cb)
 				activeCount = activeCount + 1
 			else
-				btn.Shadow:SetBackdropBorderColor(0, 0, 0)
+				btn:SetBackdropBorderColor(0, 0, 0)
 			end
 			C_PetJournal.SetPetTypeFilter(btn.petType, btn.isActive)
 		end
@@ -59,28 +59,16 @@ local function loadPetFilter()
 		local btn = CreateFrame("Button", "PetJournalQuickFilterButton"..petIndex, PetJournal)
 		btn:SetSize(24, 24)
 		btn:SetPoint("TOPLEFT", PetJournalLeftInset, 6 + 25 * (petIndex-1), -33)
+		B.PixelIcon(btn, "Interface\\Icons\\Icon_PetFamily_"..PET_TYPE_SUFFIX[petType], true)
 
-		local icon = btn:CreateTexture(nil, "ARTWORK")
-		icon:SetTexture("Interface\\PetBattles\\PetIcon-"..PET_TYPE_SUFFIX[petType])
-		icon:SetTexCoord(.56, .73, .54, .62)
-		icon:SetPoint("TOPLEFT", 2, -2)
-		icon:SetPoint("BOTTOMRIGHT", -2, 2)
-		B.CreateSD(btn, 1, 3)
 		if C_PetJournal.IsPetTypeChecked(petType) then
 			btn.isActive = true
-			btn.Shadow:SetBackdropBorderColor(cr, cg, cb)
+			btn:SetBackdropBorderColor(cr, cg, cb)
 			activeCount = activeCount + 1
 		else
 			btn.isActive = false
 		end
 		btn.petType = petType
-
-		btn:SetHighlightTexture(DB.bdTex)
-		local hl = btn:GetHighlightTexture()
-		hl:SetVertexColor(1, 1, 1, .25)
-		hl:SetPoint("TOPLEFT", 2, -2)
-		hl:SetPoint("BOTTOMRIGHT", -2, 2)
-
 		btn:SetScript("OnMouseUp", QuickFilter_Function)
 	end
 
@@ -88,7 +76,7 @@ local function loadPetFilter()
 		for petIndex, _ in ipairs(PET_TYPE_SUFFIX) do
 			local btn = _G["PetJournalQuickFilterButton"..petIndex]
 			btn.isActive = false
-			btn.Shadow:SetBackdropBorderColor(0, 0, 0)
+			btn:SetBackdropBorderColor(0, 0, 0)
 		end
 	end
 end

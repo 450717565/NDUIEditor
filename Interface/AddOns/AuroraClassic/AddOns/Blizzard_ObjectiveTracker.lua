@@ -157,7 +157,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 	end)
 
-	hooksecurefunc("Scenario_ChallengeMode_SetUpAffixes", F.AffixesSetup)
+	hooksecurefunc("Scenario_ChallengeMode_SetUpAffixes", F.ReskinAffixes)
 
 	-- Minimize Button
 	local minimize = ObjectiveTrackerFrame.HeaderMenu.MinimizeButton

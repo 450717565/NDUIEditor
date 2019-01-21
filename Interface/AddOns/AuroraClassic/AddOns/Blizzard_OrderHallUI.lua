@@ -7,11 +7,11 @@ C.themes["Blizzard_OrderHallUI"] = function()
 	F.ReskinIcon(OrderHallTalentFrame.Currency.Icon, true)
 	F.ReskinButton(OrderHallTalentFrame.BackButton)
 
-	hooksecurefunc(OrderHallTalentFrame, "RefreshAllData", function()
+	hooksecurefunc(OrderHallTalentFrame, "RefreshAllData", function(self)
 		F.ReskinFrame(OrderHallTalentFrame)
 
-		for i = 1, OrderHallTalentFrame:GetNumChildren() do
-			local bu = select(i, OrderHallTalentFrame:GetChildren())
+		for i = 1, self:GetNumChildren() do
+			local bu = select(i, self:GetChildren())
 			if bu and bu.talent then
 				F.ReskinTexture(bu.Border, bu, false, true)
 				bu.Border:SetColorTexture(r, g, b)

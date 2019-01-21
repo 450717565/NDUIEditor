@@ -177,8 +177,10 @@ C.themes["Blizzard_GuildUI"] = function()
 
 	hooksecurefunc("GuildRoster_Update", UpdateIcons)
 	hooksecurefunc(GuildRosterContainer, "update", UpdateIcons)
+	local TextEditFrameCB = select(4, GuildTextEditFrame:GetChildren())
+	local LogFrameCB = select(3, GuildLogFrame:GetChildren())
 
-	local gbuttons = {GuildAddMemberButton, GuildViewLogButton, GuildControlButton, GuildTextEditFrameAcceptButton, GuildMemberGroupInviteButton, GuildMemberRemoveButton, GuildRecruitmentInviteButton, GuildRecruitmentMessageButton, GuildRecruitmentDeclineButton, GuildRecruitmentListGuildButton, select(4, GuildTextEditFrame:GetChildren()), select(3, GuildLogFrame:GetChildren())}
+	local gbuttons = {GuildAddMemberButton, GuildViewLogButton, GuildControlButton, GuildTextEditFrameAcceptButton, GuildMemberGroupInviteButton, GuildMemberRemoveButton, GuildRecruitmentInviteButton, GuildRecruitmentMessageButton, GuildRecruitmentDeclineButton, GuildRecruitmentListGuildButton, TextEditFrameCB, LogFrameCB}
 	for _, button in next, gbuttons do
 		F.ReskinButton(button)
 	end

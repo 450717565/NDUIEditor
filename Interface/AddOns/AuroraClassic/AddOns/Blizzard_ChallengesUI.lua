@@ -23,7 +23,7 @@ C.themes["Blizzard_ChallengesUI"] = function()
 			F.CreateBDFrame(scheduel, .25)
 			if scheduel.Entries then
 				for i = 1, 3 do
-					F.AffixesSetup(scheduel.Entries[i])
+					F.ReskinAffixes(scheduel.Entries[i])
 				end
 			end
 
@@ -38,7 +38,7 @@ C.themes["Blizzard_ChallengesUI"] = function()
 	hooksecurefunc(ChallengesFrame.WeeklyInfo, "SetUp", function(self)
 		local affixes = C_MythicPlus.GetCurrentAffixes()
 		if affixes then
-			F.AffixesSetup(self.Child)
+			F.ReskinAffixes(self.Child)
 		end
 	end)
 
@@ -50,5 +50,5 @@ C.themes["Blizzard_ChallengesUI"] = function()
 		self.InstructionBackground:SetAlpha(0)
 	end)
 
-	hooksecurefunc(ChallengesKeystoneFrame, "OnKeystoneSlotted", F.AffixesSetup)
+	hooksecurefunc(ChallengesKeystoneFrame, "OnKeystoneSlotted", F.ReskinAffixes)
 end

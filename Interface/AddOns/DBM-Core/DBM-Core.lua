@@ -41,7 +41,7 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 18167 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 18170 $"):sub(12, -3)),
 	DisplayVersion = "8.1.3 alpha", -- the string that is shown as version
 	ReleaseRevision = 18157 -- the revision of the latest stable version that is available
 }
@@ -2218,6 +2218,12 @@ do
 				DBM.InfoFrame:Hide()
 			else
 				DBM.InfoFrame:Show(5, "test")
+			end
+		elseif cmd:sub(1, 10) == "aggroframe" then
+			if DBM.InfoFrame:IsShown() then
+				DBM.InfoFrame:Hide()
+			else
+				DBM.InfoFrame:Show(7, "playeraggro", 1)
 			end
 		else
 			DBM:LoadGUI()

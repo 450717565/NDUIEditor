@@ -439,7 +439,7 @@ local function Reskins()
 			F.ReskinButton(WQT_TabNormal)
 			F.ReskinButton(WQT_TabWorld)
 			F.ReskinDropDown(WQT_WorldQuestFrameSortButton)
-			F.ReskinFilterButton(WQT_WorldQuestFrameFilterButton)
+			F.ReskinFilter(WQT_WorldQuestFrameFilterButton)
 			F.ReskinScroll(WQT_QuestScrollFrameScrollBar)
 
 			WQT_WorldQuestFrame.FilterBar:GetRegions():Hide()

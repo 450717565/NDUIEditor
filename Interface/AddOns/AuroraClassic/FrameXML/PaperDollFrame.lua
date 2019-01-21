@@ -50,6 +50,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	for i = 1, #slots do
 		local slot = _G["Character"..slots[i].."Slot"]
 		F.StripTextures(slot)
+		slot.ignoreTexture:SetTexture("Interface\\PaperDollInfoFrame\\UI-GearManager-LeaveItem-Transparent")
 
 		local bg = F.ReskinIcon(slot.icon, true)
 		F.ReskinTexture(slot, bg, false)
@@ -85,7 +86,11 @@ tinsert(C.themes["AuroraClassic"], function()
 		-- also fires for bag slots, we don't want that
 		if button.popoutButton then
 			button.IconBorder:SetTexture(C.media.bdTex)
-			button.icon:SetShown(button.hasItem)
+			if C.isNewPatch then
+				button.icon:SetShown(GetInventoryItemTexture("player", button:GetID()) ~= nil)
+			else
+				button.icon:SetShown(button.hasItem)
+			end
 			colourPopout(button.popoutButton)
 		end
 	end)

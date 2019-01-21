@@ -5,24 +5,6 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	if not AuroraConfig.tooltips then return end
 
-	local function getBackdrop(self) return self.bg:GetBackdrop() end
-	local function getBackdropColor() return 0, 0, 0, .5 end
-	local function getBackdropBorderColor() return 0, 0, 0 end
-
-	function F:ReskinTooltip()
-		if not self.auroraTip then
-			self:SetBackdrop(nil)
-			self:DisableDrawLayer("BACKGROUND")
-			local bg = F.CreateBDFrame(self)
-			self.bg = bg
-
-			self.GetBackdrop = getBackdrop
-			self.GetBackdropColor = getBackdropColor
-			self.GetBackdropBorderColor = getBackdropBorderColor
-			self.auroraTip = true
-		end
-	end
-
 	hooksecurefunc("GameTooltip_SetBackdropStyle", function(self)
 		if not self.auroraTip then return end
 		self:SetBackdrop(nil)
@@ -42,9 +24,6 @@ tinsert(C.themes["AuroraClassic"], function()
 		ShoppingTooltip2,
 		AutoCompleteBox,
 		FriendsTooltip,
-		WorldMapTooltip,
-		WorldMapCompareTooltip1,
-		WorldMapCompareTooltip2,
 		GeneralDockManagerOverflowButtonList,
 		ReputationParagonTooltip,
 		NamePlateTooltip,
@@ -56,6 +35,11 @@ tinsert(C.themes["AuroraClassic"], function()
 		FloatingPetBattleAbilityTooltip,
 		IMECandidatesFrame,
 	}
+	if not C.isNewPatch then
+		tinsert(tooltips, WorldMapTooltip)
+		tinsert(tooltips, WorldMapCompareTooltip1)
+		tinsert(tooltips, WorldMapCompareTooltip2)
+	end
 	for _, tooltip in pairs(tooltips) do
 		F.ReskinTooltip(tooltip)
 	end

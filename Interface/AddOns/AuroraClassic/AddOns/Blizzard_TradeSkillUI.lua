@@ -7,7 +7,7 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 
 	F.ReskinStatusBar(TradeSkillFrame.RankFrame, true, true)
 	F.ReskinInput(TradeSkillFrame.SearchBox)
-	F.ReskinFilterButton(TradeSkillFrame.FilterButton)
+	F.ReskinFilter(TradeSkillFrame.FilterButton)
 	F.ReskinArrow(TradeSkillFrame.LinkToButton, "right")
 
 	-- Recipe List

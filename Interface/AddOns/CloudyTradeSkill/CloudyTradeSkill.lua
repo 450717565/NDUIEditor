@@ -691,7 +691,7 @@ local function createOptions()
 	button.Icon:Hide()
 
 	if (skinUI == "AuroraClassic") then
-		loadedUI.ReskinFilterButton(button)
+		loadedUI.ReskinFilter(button)
 	elseif (skinUI == "ElvUI") then
 		button:StripTextures(true)
 		button:CreateBackdrop("Default", true)
