@@ -1,9 +1,7 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_LookingForGuildUI"] = function()
-	local r, g, b = C.r, C.g, C.b
-
-	local styled
+	local styled = false
 	hooksecurefunc("LookingForGuildFrame_CreateUIElements", function()
 		if styled then return end
 

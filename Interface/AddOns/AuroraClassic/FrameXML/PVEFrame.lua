@@ -1,8 +1,6 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	local r, g, b = C.r, C.g, C.b
-
 	F.ReskinFrame(PVEFrame)
 	F.StripTextures(PVEFrame.shadows, true)
 
@@ -29,7 +27,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		icon:SetPoint("LEFT", bu, "LEFT")
 		icon:SetDrawLayer("OVERLAY")
 		F.ReskinIcon(icon, true)
-		
+
 		local bg = F.CreateBG(bu.icon)
 		bg:SetDrawLayer("ARTWORK")
 	end

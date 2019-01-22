@@ -1,8 +1,6 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_Calendar"] = function()
-	local r, g, b = C.r, C.g, C.b
-
 	local lists = {CalendarFrame, CalendarFilterFrame, CalendarCreateEventTitleFrame, CalendarViewEventTitleFrame, CalendarViewHolidayTitleFrame, CalendarViewRaidTitleFrame, CalendarEventPickerTitleFrame, CalendarMassInviteTitleFrame, CalendarCreateEventCloseButton, CalendarViewEventCloseButton, CalendarViewHolidayCloseButton, CalendarViewRaidCloseButton, CalendarMassInviteCloseButton, CalendarTexturePickerTitleFrame}
 	for _, list in next, lists do
 		F.StripTextures(list, true)

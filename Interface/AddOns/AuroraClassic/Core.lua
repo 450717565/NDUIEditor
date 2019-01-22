@@ -699,9 +699,11 @@ end
 
 function F:ReskinSearchBox()
 	F.StripTextures(self)
-	F.CreateBD(self, .25)
-	F.CreateSD(self)
-	F.ReskinTexture(self, self, true)
+
+	local bg = F.CreateBDFrame(self, .25)
+	bg:SetPoint("TOPLEFT", 0, 0)
+	bg:SetPoint("BOTTOMRIGHT", 0, 1)
+	F.ReskinTexture(self, bg, true)
 
 	local icon = self.icon or self.Icon
 	if icon then F.ReskinIcon(icon) end
@@ -782,8 +784,10 @@ function F:ReskinTexture(relativeTo, classColor, isBorder)
 		tex:SetColorTexture(r, g, b, .25)
 	end
 
-	tex:SetPoint("TOPLEFT", relativeTo, mult, -mult)
-	tex:SetPoint("BOTTOMRIGHT", relativeTo, -mult, mult)
+	if self ~= relativeTo then
+		tex:SetPoint("TOPLEFT", relativeTo, mult, -mult)
+		tex:SetPoint("BOTTOMRIGHT", relativeTo, -mult, mult)
+	end
 end
 
 local function getBackdrop(self) return self.bg:GetBackdrop() end

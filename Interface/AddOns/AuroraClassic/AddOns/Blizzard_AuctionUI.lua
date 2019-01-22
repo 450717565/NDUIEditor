@@ -1,8 +1,6 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_AuctionUI"] = function()
-	local r, g, b = C.r, C.g, C.b
-
 	local frames = {AuctionFrame, BrowseScrollFrame, BrowseFilterScrollFrame, BidScrollFrame, AuctionsScrollFrame, AuctionProgressFrame}
 	for _, frame in next, frames do
 		F.StripTextures(frame, true)

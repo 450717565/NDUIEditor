@@ -1,8 +1,6 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_BlackMarketUI"] = function()
-	local r, g, b = C.r, C.g, C.b
-
 	F.ReskinFrame(BlackMarketFrame)
 	F.StripTextures(BlackMarketFrame.MoneyFrameBorder, true)
 

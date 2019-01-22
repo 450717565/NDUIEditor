@@ -1,8 +1,6 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_GuildRecruitmentUI"] = function()
-	local r, g, b = C.r, C.g, C.b
-
 	F.ReskinFrame(CommunitiesGuildRecruitmentFrame)
 	F.StripTextures(CommunitiesGuildRecruitmentFrameTab1, true)
 	F.StripTextures(CommunitiesGuildRecruitmentFrameTab2, true)

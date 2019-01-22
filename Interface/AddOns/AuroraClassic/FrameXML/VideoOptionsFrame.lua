@@ -1,180 +1,195 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	F.StripTextures(VideoOptionsFrameCategoryFrame)
-	F.StripTextures(VideoOptionsFramePanelContainer)
+	local function CreateUnderLine(frame)
+		local frameName = frame:GetName()
+		local DisplayHeader = _G[frameName.."DisplayHeader"]
+		local Underline = _G[frameName.."DisplayHeaderUnderline"]
 
-	VideoOptionsFrameHeader:SetTexture("")
-	VideoOptionsFrameHeader:ClearAllPoints()
-	VideoOptionsFrameHeader:SetPoint("TOP", VideoOptionsFrame, 0, 0)
+		if Underline then Underline:Hide() end
 
-	F.ReskinFrame(VideoOptionsFrame)
-	F.ReskinButton(VideoOptionsFrameOkay)
-	F.ReskinButton(VideoOptionsFrameCancel)
-	F.ReskinButton(VideoOptionsFrameDefaults)
-	F.ReskinButton(VideoOptionsFrameApply)
+		local line = frame:CreateTexture(nil, "ARTWORK")
+		line:SetSize(580, C.mult)
+		line:SetPoint("TOPLEFT", DisplayHeader, "BOTTOMLEFT", 0, -4)
+		line:SetColorTexture(1, 1, 1, .25)
+	end
 
-	VideoOptionsFrameOkay:SetPoint("BOTTOMRIGHT", VideoOptionsFrameCancel, "BOTTOMLEFT", -1, 0)
-
-	local styledOptions = false
+	local styled = false
 	VideoOptionsFrame:HookScript("OnShow", function()
-		if styledOptions then return end
+		if styled then return end
+
+		F.ReskinFrame(VideoOptionsFrame)
+
+		local textures = {
+			AudioOptionsSoundPanelHardware,
+			AudioOptionsSoundPanelPlayback,
+			AudioOptionsSoundPanelVolume,
+			Display_,
+			Graphics_,
+			GraphicsButton,
+			RaidButton,
+			RaidGraphics_,
+			VideoOptionsFrameCategoryFrame,
+			VideoOptionsFramePanelContainer,
+		}
+		for _, texture in next, textures do
+			F.StripTextures(texture, true)
+		end
+
+		local headers = {
+			Advanced_,
+			AudioOptionsSoundPanel,
+			AudioOptionsVoicePanel,
+			Display_,
+			InterfaceOptionsLanguagesPanel,
+			NetworkOptionsPanel,
+		}
+		for _, header in next, headers do
+			CreateUnderLine(header)
+		end
 
 		local line = VideoOptionsFrame:CreateTexture(nil, "ARTWORK")
 		line:SetSize(C.mult, 512)
 		line:SetPoint("LEFT", 205, 30)
 		line:SetColorTexture(1, 1, 1, .25)
 
-		Display_:SetBackdrop(nil)
-		Graphics_:SetBackdrop(nil)
-		RaidGraphics_:SetBackdrop(nil)
-
-		GraphicsButton:DisableDrawLayer("BACKGROUND")
-		RaidButton:DisableDrawLayer("BACKGROUND")
-
-		local hline = Display_:CreateTexture(nil, "ARTWORK")
-		hline:SetSize(580, C.mult)
-		hline:SetPoint("TOPLEFT", GraphicsButton, "BOTTOMLEFT", 14, -4)
-		hline:SetColorTexture(1, 1, 1, .25)
-
-		local frames = {AudioOptionsSoundPanelPlayback, AudioOptionsSoundPanelHardware, AudioOptionsSoundPanelVolume}
-		for _, frame in next, frames do
-			F.CreateBDFrame(frame, .25)
-		end
-
+		VideoOptionsFrameHeader:Hide()
+		VideoOptionsFrameHeader:ClearAllPoints()
+		VideoOptionsFrameHeader:SetPoint("TOP", VideoOptionsFrame, 0, 0)
+		VideoOptionsFrameOkay:SetPoint("BOTTOMRIGHT", VideoOptionsFrameCancel, "BOTTOMLEFT", -1, 0)
 		AudioOptionsSoundPanelPlaybackTitle:SetPoint("BOTTOMLEFT", AudioOptionsSoundPanelPlayback, "TOPLEFT", 5, 2)
 		AudioOptionsSoundPanelHardwareTitle:SetPoint("BOTTOMLEFT", AudioOptionsSoundPanelHardware, "TOPLEFT", 5, 2)
 		AudioOptionsSoundPanelVolumeTitle:SetPoint("BOTTOMLEFT", AudioOptionsSoundPanelVolume, "TOPLEFT", 5, 2)
 
-		local dropdowns = {
-			"Display_DisplayModeDropDown",
-			"Display_ResolutionDropDown",
-			"Display_PrimaryMonitorDropDown",
-			"Display_AntiAliasingDropDown",
-			"Display_VerticalSyncDropDown",
-			"Graphics_TextureResolutionDropDown",
-			"Graphics_FilteringDropDown",
-			"Graphics_ProjectedTexturesDropDown",
-			"Graphics_ShadowsDropDown",
-			"Graphics_LiquidDetailDropDown",
-			"Graphics_SunshaftsDropDown",
-			"Graphics_ParticleDensityDropDown",
-			"Graphics_SSAODropDown",
-			"Graphics_DepthEffectsDropDown",
-			"Graphics_LightingQualityDropDown",
-			"Graphics_OutlineModeDropDown",
-			"RaidGraphics_TextureResolutionDropDown",
-			"RaidGraphics_FilteringDropDown",
-			"RaidGraphics_ProjectedTexturesDropDown",
-			"RaidGraphics_ShadowsDropDown",
-			"RaidGraphics_LiquidDetailDropDown",
-			"RaidGraphics_SunshaftsDropDown",
-			"RaidGraphics_ParticleDensityDropDown",
-			"RaidGraphics_SSAODropDown",
-			"RaidGraphics_DepthEffectsDropDown",
-			"RaidGraphics_LightingQualityDropDown",
-			"RaidGraphics_OutlineModeDropDown",
-			"Advanced_BufferingDropDown",
-			"Advanced_LagDropDown",
-			"Advanced_MultisampleAntiAliasingDropDown",
-			"Advanced_MultisampleAlphaTest",
-			"Advanced_PostProcessAntiAliasingDropDown",
-			"Advanced_ResampleQualityDropDown",
-			"Advanced_PhysicsInteractionDropDown",
-			"Advanced_AdapterDropDown",
-			"Advanced_GraphicsAPIDropDown",
-			"AudioOptionsSoundPanelHardwareDropDown",
-			"AudioOptionsSoundPanelSoundChannelsDropDown",
-			"AudioOptionsSoundPanelSoundCacheSizeDropDown",
-			"AudioOptionsVoicePanelOutputDeviceDropdown",
-			"AudioOptionsVoicePanelMicDeviceDropdown",
-			"AudioOptionsVoicePanelChatModeDropdown",
-			"InterfaceOptionsLanguagesPanelLocaleDropDown",
-			"InterfaceOptionsLanguagesPanelAudioLocaleDropDown"
+		for i = 1, 6 do
+			local button = _G["VideoOptionsFrameCategoryFrameButton"..i]
+			button.highlight:SetTexture(C.media.bdTex)
+			button.highlight:SetAlpha(.25)
+		end
+
+		local buttons = {
+			VideoOptionsFrameOkay,
+			VideoOptionsFrameCancel,
+			VideoOptionsFrameDefaults,
+			VideoOptionsFrameApply,
+			GraphicsButton,
+			RaidButton,
 		}
-		for i = 1, #dropdowns do
-			local dropdown = _G[dropdowns[i]]
-			if not dropdown then
-				print(dropdowns[i], "not found.")
-			else
-				F.ReskinDropDown(dropdown)
-			end
+		for _, button in next, buttons do
+			F.ReskinButton(button)
+		end
+
+		local dropdowns = {
+			Advanced_AdapterDropDown,
+			Advanced_BufferingDropDown,
+			Advanced_GraphicsAPIDropDown,
+			Advanced_LagDropDown,
+			Advanced_MultisampleAlphaTest,
+			Advanced_MultisampleAntiAliasingDropDown,
+			Advanced_PhysicsInteractionDropDown,
+			Advanced_PostProcessAntiAliasingDropDown,
+			Advanced_ResampleQualityDropDown,
+			AudioOptionsSoundPanelHardwareDropDown,
+			AudioOptionsSoundPanelSoundCacheSizeDropDown,
+			AudioOptionsSoundPanelSoundChannelsDropDown,
+			AudioOptionsVoicePanelChatModeDropdown,
+			AudioOptionsVoicePanelMicDeviceDropdown,
+			AudioOptionsVoicePanelOutputDeviceDropdown,
+			Display_AntiAliasingDropDown,
+			Display_DisplayModeDropDown,
+			Display_PrimaryMonitorDropDown,
+			Display_ResolutionDropDown,
+			Display_VerticalSyncDropDown,
+			Graphics_DepthEffectsDropDown,
+			Graphics_FilteringDropDown,
+			Graphics_LightingQualityDropDown,
+			Graphics_LiquidDetailDropDown,
+			Graphics_OutlineModeDropDown,
+			Graphics_ParticleDensityDropDown,
+			Graphics_ProjectedTexturesDropDown,
+			Graphics_ShadowsDropDown,
+			Graphics_SSAODropDown,
+			Graphics_SunshaftsDropDown,
+			Graphics_TextureResolutionDropDown,
+			InterfaceOptionsLanguagesPanelAudioLocaleDropDown,
+			InterfaceOptionsLanguagesPanelLocaleDropDown,
+			RaidGraphics_DepthEffectsDropDown,
+			RaidGraphics_FilteringDropDown,
+			RaidGraphics_LightingQualityDropDown,
+			RaidGraphics_LiquidDetailDropDown,
+			RaidGraphics_OutlineModeDropDown,
+			RaidGraphics_ParticleDensityDropDown,
+			RaidGraphics_ProjectedTexturesDropDown,
+			RaidGraphics_ShadowsDropDown,
+			RaidGraphics_SSAODropDown,
+			RaidGraphics_SunshaftsDropDown,
+			RaidGraphics_TextureResolutionDropDown,
+		}
+		for _, dropdown in next, dropdowns do
+			F.ReskinDropDown(dropdown)
 		end
 
 		local sliders = {
-			"Display_RenderScaleSlider",
-			"Graphics_Quality",
-			"Graphics_ViewDistanceSlider",
-			"Graphics_EnvironmentalDetailSlider",
-			"Graphics_GroundClutterSlider",
-			"RaidGraphics_Quality",
-			"RaidGraphics_ViewDistanceSlider",
-			"RaidGraphics_EnvironmentalDetailSlider",
-			"RaidGraphics_GroundClutterSlider",
-			"Advanced_UIScaleSlider",
-			"Advanced_MaxFPSSlider",
-			"Advanced_MaxFPSBKSlider",
-			"Advanced_GammaSlider",
-			"Advanced_ContrastSlider",
-			"Advanced_BrightnessSlider",
-			"AudioOptionsSoundPanelMasterVolume",
-			"AudioOptionsSoundPanelSoundVolume",
-			"AudioOptionsSoundPanelMusicVolume",
-			"AudioOptionsSoundPanelAmbienceVolume",
-			"AudioOptionsSoundPanelDialogVolume",
-			"AudioOptionsVoicePanelVoiceChatVolume",
-			"AudioOptionsVoicePanelVoiceChatMicVolume",
-			"AudioOptionsVoicePanelVoiceChatMicSensitivity",
+			Advanced_BrightnessSlider,
+			Advanced_ContrastSlider,
+			Advanced_GammaSlider,
+			Advanced_MaxFPSBKSlider,
+			Advanced_MaxFPSSlider,
+			Advanced_UIScaleSlider,
+			AudioOptionsSoundPanelAmbienceVolume,
+			AudioOptionsSoundPanelDialogVolume,
+			AudioOptionsSoundPanelMasterVolume,
+			AudioOptionsSoundPanelMusicVolume,
+			AudioOptionsSoundPanelSoundVolume,
+			AudioOptionsVoicePanelVoiceChatMicSensitivity,
+			AudioOptionsVoicePanelVoiceChatMicVolume,
+			AudioOptionsVoicePanelVoiceChatVolume,
+			Display_RenderScaleSlider,
+			Graphics_EnvironmentalDetailSlider,
+			Graphics_GroundClutterSlider,
+			Graphics_Quality,
+			Graphics_ViewDistanceSlider,
+			RaidGraphics_EnvironmentalDetailSlider,
+			RaidGraphics_GroundClutterSlider,
+			RaidGraphics_Quality,
+			RaidGraphics_ViewDistanceSlider,
 		}
-		for i = 1, #sliders do
-			local slider = _G[sliders[i]]
-			if not slider then
-				print(sliders[i], "not found.")
-			else
-				F.ReskinSlider(slider)
-			end
+		for _, slider in next, sliders do
+			F.ReskinSlider(slider)
 		end
 
 		local checkboxes = {
-			"Display_RaidSettingsEnabledCheckBox",
-			"Advanced_UseUIScale",
-			"Advanced_MaxFPSCheckBox",
-			"Advanced_MaxFPSBKCheckBox",
-			"NetworkOptionsPanelOptimizeSpeed",
-			"NetworkOptionsPanelUseIPv6",
-			"NetworkOptionsPanelAdvancedCombatLogging",
-			"AudioOptionsSoundPanelEnableSound",
-			"AudioOptionsSoundPanelSoundEffects",
-			"AudioOptionsSoundPanelErrorSpeech",
-			"AudioOptionsSoundPanelEmoteSounds",
-			"AudioOptionsSoundPanelPetSounds",
-			"AudioOptionsSoundPanelMusic",
-			"AudioOptionsSoundPanelLoopMusic",
-			"AudioOptionsSoundPanelPetBattleMusic",
-			"AudioOptionsSoundPanelAmbientSounds",
-			"AudioOptionsSoundPanelDialogSounds",
-			"AudioOptionsSoundPanelSoundInBG",
-			"AudioOptionsSoundPanelReverb",
-			"AudioOptionsSoundPanelHRTF",
+			Advanced_MaxFPSBKCheckBox,
+			Advanced_MaxFPSCheckBox,
+			Advanced_UseUIScale,
+			AudioOptionsSoundPanelAmbientSounds,
+			AudioOptionsSoundPanelDialogSounds,
+			AudioOptionsSoundPanelEmoteSounds,
+			AudioOptionsSoundPanelEnableSound,
+			AudioOptionsSoundPanelErrorSpeech,
+			AudioOptionsSoundPanelHRTF,
+			AudioOptionsSoundPanelLoopMusic,
+			AudioOptionsSoundPanelMusic,
+			AudioOptionsSoundPanelPetBattleMusic,
+			AudioOptionsSoundPanelPetSounds,
+			AudioOptionsSoundPanelReverb,
+			AudioOptionsSoundPanelSoundEffects,
+			AudioOptionsSoundPanelSoundInBG,
+			Display_RaidSettingsEnabledCheckBox,
+			NetworkOptionsPanelAdvancedCombatLogging,
+			NetworkOptionsPanelOptimizeSpeed,
+			NetworkOptionsPanelUseIPv6,
 		}
-		for i = 1, #checkboxes do
-			local checkbox = _G[checkboxes[i]]
-			if not checkbox then
-				print(checkboxes[i], "not found.")
-			else
-				F.ReskinCheck(checkbox)
-			end
+		for _, checkboxe in next, checkboxes do
+			F.ReskinCheck(checkboxe)
 		end
 
 		local testInputDevie = AudioOptionsVoicePanelTestInputDevice
 		F.ReskinButton(testInputDevie.ToggleTest)
 		F.StripTextures(testInputDevie.VUMeter)
-		testInputDevie.VUMeter.Status:SetStatusBarTexture(C.media.bdTex)
-		local bg = F.CreateBDFrame(testInputDevie.VUMeter, .25)
-		bg:SetPoint("TOPLEFT", 4, -4)
-		bg:SetPoint("BOTTOMRIGHT", -4, 4)
+		F.ReskinStatusBar(testInputDevie.VUMeter.Status, false, true)
 
-		styledOptions = true
+		styled = true
 	end)
 
 	hooksecurefunc("AudioOptionsVoicePanel_InitializeCommunicationModeUI", function(self)

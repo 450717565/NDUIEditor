@@ -1,7 +1,5 @@
 <Ui>
-	<Script file="HereBeDragons-1.0.lua" />
-	<Script file="HereBeDragons-Pins-1.0.lua" />
-	<Script file="HereBeDragons-Migrate.lua" />
 	<Script file="HereBeDragons-2.0.lua" />
 	<Script file="HereBeDragons-Pins-2.0.lua" />
+	<Script file="HereBeDragons-Migrate.lua" />
 </Ui>

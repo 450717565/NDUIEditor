@@ -1,28 +1,39 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	local restyled = false
+	local styled = false
 
 	InterfaceOptionsFrame:HookScript("OnShow", function()
-		if restyled then return end
+		if styled then return end
 
-		F.StripTextures(InterfaceOptionsFrameAddOns, true)
-		F.StripTextures(InterfaceOptionsFrameCategories, true)
-		F.StripTextures(InterfaceOptionsFramePanelContainer, true)
-		F.StripTextures(InterfaceOptionsFrameTab1, true)
-		F.StripTextures(InterfaceOptionsFrameTab2, true)
 		F.ReskinFrame(InterfaceOptionsFrame)
 
-		InterfaceOptionsFrameHeader:Hide()
-		InterfaceOptionsFrameOkay:SetPoint("RIGHT", InterfaceOptionsFrameCancel, "LEFT", -1, 0)
-
-		InterfaceOptionsFrameHeader:ClearAllPoints()
-		InterfaceOptionsFrameHeader:SetPoint("TOP")
+		local textures = {
+			InterfaceOptionsFrameAddOns,
+			InterfaceOptionsFrameCategories,
+			InterfaceOptionsFramePanelContainer,
+			InterfaceOptionsFrameTab1,
+			InterfaceOptionsFrameTab2,
+		}
+		for _, texture in next, textures do
+			F.StripTextures(texture, true)
+		end
 
 		local line = InterfaceOptionsFrame:CreateTexture(nil, "ARTWORK")
 		line:SetSize(C.mult, 546)
 		line:SetPoint("LEFT", 205, 10)
 		line:SetColorTexture(1, 1, 1, .25)
+
+		InterfaceOptionsFrameHeader:Hide()
+		InterfaceOptionsFrameHeader:ClearAllPoints()
+		InterfaceOptionsFrameHeader:SetPoint("TOP")
+		InterfaceOptionsFrameOkay:SetPoint("RIGHT", InterfaceOptionsFrameCancel, "LEFT", -1, 0)
+
+		for i = 1, 10 do
+			local button = _G["InterfaceOptionsFrameCategoriesButton"..i]
+			button.highlight:SetTexture(C.media.bdTex)
+			button.highlight:SetAlpha(.25)
+		end
 
 		local buttons = {
 			CompactUnitFrameProfilesDeleteButton,
@@ -179,18 +190,23 @@ tinsert(C.themes["AuroraClassic"], function()
 			end
 		end
 
-		restyled = true
+		styled = true
 	end)
 
 	hooksecurefunc("InterfaceOptions_AddCategory", function()
 		local num = #INTERFACEOPTIONS_ADDONCATEGORIES
 		for i = 1, num do
-			local bu = _G["InterfaceOptionsFrameAddOnsButton"..i.."Toggle"]
-			if bu and not bu.reskinned then
-				F.ReskinExpandOrCollapse(bu)
-				bu:SetPushedTexture("")
-				bu.SetPushedTexture = F.dummy
-				bu.reskinned = true
+			local button = _G["InterfaceOptionsFrameAddOnsButton"..i]
+			local toggle = _G["InterfaceOptionsFrameAddOnsButton"..i.."Toggle"]
+			if button and not button.reskinned then
+				F.ReskinExpandOrCollapse(toggle)
+				toggle:SetPushedTexture("")
+				toggle.SetPushedTexture = F.dummy
+
+				button.highlight:SetTexture(C.media.bdTex)
+				button.highlight:SetAlpha(.25)
+
+				button.reskinned = true
 			end
 		end
 	end)

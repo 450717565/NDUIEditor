@@ -1,8 +1,6 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_BindingUI"] = function()
-	local r, g, b = C.r, C.g, C.b
-
 	F.ReskinFrame(KeyBindingFrame)
 	F.StripTextures(KeyBindingFrame.header, true)
 	F.StripTextures(KeyBindingFrame.scrollFrame, true)

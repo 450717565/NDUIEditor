@@ -322,6 +322,7 @@ function module:PlacedItemAlert()
 		[54710] = true,	-- 随身邮箱
 		[29893] = true,	-- 灵魂之井
 		[698] = true,	-- 召唤仪式
+		[8143] = true,	-- 战栗图腾
 	}
 
 	local lastTime = 0
