@@ -3,13 +3,13 @@ local B, C, L, DB = unpack(select(2, ...))
 local function Reskins()
 	B:UnregisterEvent("PLAYER_ENTERING_WORLD", Reskins)
 
+	local cr, cg, cb = DB.r, DB.g, DB.b
+
 	if IsAddOnLoaded("!BaudErrorFrame") then
 		B.StripTextures(BaudErrorFrameListScrollBox, true)
 		B.StripTextures(BaudErrorFrameDetailScrollBox, true)
 
-		B.CreateBD(BaudErrorFrame)
-		B.CreateSD(BaudErrorFrame)
-		B.CreateTex(BaudErrorFrame)
+		B.SetBackground(BaudErrorFrame)
 
 		B.CreateBD(BaudErrorFrameListScrollBox)
 		B.CreateSD(BaudErrorFrameListScrollBox)
@@ -18,7 +18,7 @@ local function Reskins()
 
 		local boxHL = BaudErrorFrameListScrollBoxHighlightTexture
 		boxHL:SetTexture(DB.bdTex)
-		boxHL:SetVertexColor(DB.r, DB.g, DB.b, .25)
+		boxHL:SetVertexColor(cr, cg, cb, .25)
 
 		for _, button in next, {BaudErrorFrameClearButton, BaudErrorFrameCloseButton, BaudErrorFrameReloadUIButton} do
 			B.CreateBC(button)
@@ -43,51 +43,13 @@ local function Reskins()
 	end
 
 	if IsAddOnLoaded("AuroraClassic") then
-		local F, C = unpack(AuroraClassic)
-		local cr, cg, cb = C.r, C.g, C.b
+		local F = unpack(AuroraClassic)
 
 		if IsAddOnLoaded("!BaudErrorFrame") then
 			F.ReskinScroll(BaudErrorFrameListScrollBoxScrollBarScrollBar)
 			F.ReskinScroll(BaudErrorFrameDetailScrollFrameScrollBar)
 		end
-	--[[
-		if IsAddOnLoaded("!Libs") then
-			-- LibUIDropDownMenu
-			local function isCheckTexture(check)
-				if check:GetTexture() == "Interface\\Common\\UI-DropDownRadioChecks" then
-					return true
-				end
-			end
 
-			local function SkinDDM(info, level)
-				for i = 1, L_UIDROPDOWNMENU_MAXLEVELS do
-					F.CreateBD(_G["L_DropDownList"..i.."MenuBackdrop"])
-					F.CreateSD(_G["L_DropDownList"..i.."MenuBackdrop"])
-					for j = 1, L_UIDROPDOWNMENU_MAXBUTTONS do
-						local arrow = _G["L_DropDownList"..i.."Button"..j.."ExpandArrow"]
-						arrow:SetNormalTexture(C.media.arrowRight)
-						arrow:SetSize(10, 10)
-
-						local hl = _G["L_DropDownList"..i.."Button"..j.."Highlight"]
-						hl:SetColorTexture(cr, cg, cb, .25)
-
-						local check = _G["L_DropDownList"..i.."Button"..j.."Check"]
-						if isCheckTexture(check) then
-							check:SetSize(20, 20)
-							check:SetTexCoord(0, 1, 0, 1)
-							check:SetTexture("Interface\\Buttons\\UI-CheckBox-Check")
-							check:SetVertexColor(cr, cg, cb, 1)
-							check:SetDesaturated(true)
-						end
-
-						local uncheck = _G["L_DropDownList"..i.."Button"..j.."UnCheck"]
-						if isCheckTexture(uncheck) then uncheck:SetTexture("") end
-					end
-				end
-			end
-			hooksecurefunc("L_UIDropDownMenu_AddButton", SkinDDM)
-		end
-	]]
 		if IsAddOnLoaded("AuctionLite") then
 			F.StripTextures(SellRememberButton, true)
 			F.ReskinArrow(BuyAdvancedButton, "down")
@@ -152,7 +114,7 @@ local function Reskins()
 			F.ReskinStatusBar(BaudAuctionProgressBar, true, true)
 
 			local boxHL = BaudAuctionBrowseScrollBoxHighlight
-			boxHL:SetTexture(C.media.bdTex)
+			boxHL:SetTexture(DB.bdTex)
 			boxHL:SetPoint("LEFT", 4, 0)
 			boxHL:SetPoint("RIGHT", 10, 0)
 
@@ -185,7 +147,7 @@ local function Reskins()
 		end
 
 		if IsAddOnLoaded("ExtVendor") then
-			F.ReskinPortraitFrame(ExtVendor_SellJunkPopup, true)
+			F.ReskinFrame(ExtVendor_SellJunkPopup)
 			F.ReskinButton(ExtVendor_SellJunkPopupYesButton)
 			F.ReskinButton(ExtVendor_SellJunkPopupNoButton)
 
@@ -194,7 +156,7 @@ local function Reskins()
 
 			local ic = F.ReskinIcon(MerchantFrameSellJunkButtonIcon, true)
 			F.ReskinTexture(MerchantFrameSellJunkButton, ic, false)
-			MerchantFrameSellJunkButton:SetPushedTexture(C.media.pushed)
+			MerchantFrameSellJunkButton:SetPushedTexture(DB.textures.pushed)
 
 			for i = 13, 20 do
 				local bu = _G["MerchantItem"..i.."ItemButton"]
@@ -395,7 +357,7 @@ local function Reskins()
 			F.ReskinScroll(WhisperPopFrameListScrollBar)
 
 			local listHL = WhisperPopFrameListHighlightTexture
-			listHL:SetTexture(C.media.bdTex)
+			listHL:SetTexture(DB.bdTex)
 			listHL:SetVertexColor(cr, cg, cb, .25)
 
 			local lists = {WhisperPopFrameListDelete, WhisperPopFrameTopCloseButton, WhisperPopMessageFrameTopCloseButton}
@@ -416,7 +378,7 @@ local function Reskins()
 				F.ReskinTexture(bu, bg, false)
 
 				if bu.SetCheckedTexture then
-					bu:SetCheckedTexture(C.media.checked)
+					bu:SetCheckedTexture(DB.textures.checked)
 				end
 			end
 		end

@@ -128,11 +128,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 				header.styled = true
 			end
 
-			if header.button.abilityIcon:GetTexture() then
-				header.button.bg:Show()
-			else
-				header.button.bg:Hide()
-			end
+			header.button.bg:SetShown(header.button.abilityIcon:IsShown())
 
 			index = index + 1
 			header = _G["EncounterJournalInfoHeader"..index]

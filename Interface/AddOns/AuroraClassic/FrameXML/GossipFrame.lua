@@ -15,11 +15,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	for i = 1, NUMGOSSIPBUTTONS do
 		local button = _G["GossipTitleButton"..i]
 		if button then
-			button:SetHighlightTexture(C.media.bdTex)
-			local hl = button:GetHighlightTexture()
-			hl:SetColorTexture(r, g, b, .25)
-			hl:SetPoint("TOPLEFT", 0, 2)
-			hl:SetPoint("BOTTOMRIGHT", 0, -2)
+			F.ReskinTexture(button, button, true)
 		end
 	end
 end)

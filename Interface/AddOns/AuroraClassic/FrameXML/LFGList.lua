@@ -69,7 +69,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			if not result.styled then
 				local bg = F.CreateBDFrame(result, .25)
 				bg:SetPoint("TOPLEFT", 0, -1)
-				bg:SetPoint("BOTTOMRIGHT", -1, 0)
+				bg:SetPoint("BOTTOMRIGHT", 0, 1)
 
 				reskinHL(result, bg)
 

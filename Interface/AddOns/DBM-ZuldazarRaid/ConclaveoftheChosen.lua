@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2330, "DBM-ZuldazarRaid", 2, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 18166 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 18178 $"):sub(12, -3))
 mod:SetCreatureID(144747, 144767, 144963, 144941)--Mythic need other 2 IDs?
 mod:SetEncounterID(2268)
 --mod:DisableESCombatDetection()
@@ -31,6 +31,8 @@ mod:RegisterEventsInCombat(
 --TODO, fix timer updating on "death" for wraths
 --General
 local warnActivated						= mod:NewTargetAnnounce(118212, 3, 78740, nil, nil, nil, nil, nil, true)
+--Paku's Aspect
+local warnGiftofWind					= mod:NewSpellAnnounce(282098, 3)
 --Gonk's Aspect
 local warnCrawlingHex					= mod:NewTargetAnnounce(282135, 2)
 --Kimbul's Aspect
@@ -45,14 +47,15 @@ local warnBwonsamdisWrath				= mod:NewTargetNoFilterAnnounce(284663, 4, nil, fal
 local specWarnActivated					= mod:NewSpecialWarningSwitchCount(118212, "Tank", DBM_CORE_AUTO_SPEC_WARN_OPTIONS.switch:format(118212), nil, 3, 2)
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 8)
 --Pa'ku's Aspect
-local specWarnGiftofWind				= mod:NewSpecialWarningSpell(282098, nil, nil, nil, 2, 2)
-local specWarnHasteningWinds			= mod:NewSpecialWarningCount(270447, nil, DBM_CORE_AUTO_SPEC_WARN_OPTIONS.stack:format(8, 270447), nil, 1, 2)
+local specWarnHasteningWinds			= mod:NewSpecialWarningCount(270447, nil, DBM_CORE_AUTO_SPEC_WARN_OPTIONS.stack:format(12, 270447), nil, 1, 2)
 local specWarnHasteningWindsOther		= mod:NewSpecialWarningTaunt(270447, nil, nil, nil, 1, 2)--Should be dispelled vs tank swapped, but in super low case a 10 man group has no dispeller, we need tank warning
 local specWarnPakusWrath				= mod:NewSpecialWarningMoveTo(282107, nil, nil, nil, 3, 2)
 --Gonk's Aspect
 local specWarnCrawlingHex				= mod:NewSpecialWarningYou(282135, nil, nil, nil, 1, 2)
 local yellCrawlingHex					= mod:NewPosYell(282135)
 local yellCrawlingHexFades				= mod:NewIconFadesYell(282135)
+local yellCrawlingHexAlt				= mod:NewYell(282135)
+local yellCrawlingHexFadesAlt			= mod:NewShortYell(282135)
 local specWarnCrawlingHexNear			= mod:NewSpecialWarningClose(282135, nil, nil, nil, 1, 2)
 local specWarnRaptorForm				= mod:NewSpecialWarningDefensive(285889, nil, nil, nil, 3, 2)
 local specWarnGonksWrath				= mod:NewSpecialWarningSwitch(282155, "Dps", nil, nil, 1, 2)
@@ -162,7 +165,7 @@ end
 function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 282098 then
-		specWarnGiftofWind:Show()
+		warnGiftofWind:Show()
 		timerGiftofWindCD:Start()
 	elseif spellId == 282107 then
 		DBM:Debug("blizz added Paku's Wrath to CLEU, improve code!")
@@ -234,7 +237,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 285945 then
 		local amount = args.amount or 1
-		if (amount >= 8) and self:AntiSpam(3, 1) then--Fine Tune
+		if (amount >= 12) and self:AntiSpam(5, 1) then--Fine Tune
 			if self:IsTanking("player", "boss1", nil, true) then
 				specWarnHasteningWinds:Show(amount)
 				specWarnHasteningWinds:Play("changemt")
@@ -256,8 +259,13 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnCrawlingHex:Show()
 			specWarnCrawlingHex:Play("targetyou")
-			yellCrawlingHex:Yell(icon, icon, icon)
-			yellCrawlingHexFades:Countdown(5, nil, icon)
+			if self.vb.hexIgnore then
+				yellCrawlingHexAlt:Yell()
+				yellCrawlingHexFadesAlt:Countdown(5)
+			else
+				yellCrawlingHex:Yell(icon, icon, icon)
+				yellCrawlingHexFades:Countdown(5, nil, icon)
+			end
 		elseif self:CheckNearby(8, args.destName) and not DBM:UnitDebuff("player", spellId) then
 			specWarnCrawlingHexNear:CombinedShow(0.3, args.destName)
 			specWarnCrawlingHexNear:CancelVoice()--Avoid spam
@@ -265,7 +273,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			warnCrawlingHex:CombinedShow(0.3, args.destName)
 		end
-		if self.Options.SetIconHex then
+		if self.Options.SetIconHex and not self.vb.hexIgnore then
 			self:SetIcon(args.destName, icon)
 		end
 		self.vb.hexIcon = self.vb.hexIcon + 1

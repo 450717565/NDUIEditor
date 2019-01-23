@@ -784,10 +784,8 @@ function F:ReskinTexture(relativeTo, classColor, isBorder)
 		tex:SetColorTexture(r, g, b, .25)
 	end
 
-	if self ~= relativeTo then
-		tex:SetPoint("TOPLEFT", relativeTo, mult, -mult)
-		tex:SetPoint("BOTTOMRIGHT", relativeTo, -mult, mult)
-	end
+	tex:SetPoint("TOPLEFT", relativeTo, mult, -mult)
+	tex:SetPoint("BOTTOMRIGHT", relativeTo, -mult, mult)
 end
 
 local function getBackdrop(self) return self.bg:GetBackdrop() end

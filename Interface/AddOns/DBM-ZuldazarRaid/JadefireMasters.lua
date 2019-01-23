@@ -7,7 +7,7 @@ end
 local mod	= DBM:NewMod(dungeonID, "DBM-ZuldazarRaid", 1, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 18083 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 18178 $"):sub(12, -3))
 mod:SetCreatureID(creatureID, creatureID2)
 mod:SetEncounterID(2266, 2285)--2266 horde, 2285 Alliance
 --mod:DisableESCombatDetection()
@@ -21,11 +21,12 @@ mod:SetUsedIcons(1, 2, 3)
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 284399 285428",
+	"SPELL_CAST_START 284399 285428 282040",
 	"SPELL_CAST_SUCCESS 282030",
-	"SPELL_AURA_APPLIED 282037 285632 286425 286988",
+	"SPELL_AURA_APPLIED 282037 285632 286425 286988 284656",
 	"SPELL_AURA_APPLIED_DOSE 282037",
-	"SPELL_AURA_REMOVED 282037 285632 286425 286988",
+	"SPELL_AURA_REMOVED 282037 285632 286425 286988 284656",
+	"CHAT_MSG_MONSTER_EMOTE",
 --	"UNIT_DIED",
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2"
 )
@@ -38,14 +39,22 @@ mod:RegisterEventsInCombat(
 --TODO, obviously boss swaps and stuff
 --TODO, bomb spawn count and bombs remaining warning
 --TODO, remaining transformations, kind of hard to drycode those as the triggers for those phases aren't same as abilities they spam during those phases.
+--[[
+(ability.id = 285428 or ability.id = 282040) and type = "begincast"
+or ability.id = 282030 and type = "cast"
+or ability.id = 286425 and type = "applybuff"
+or ability.id = 284656
+or (ability.id = 286988 or ability.id = 285632) and type = "applydebuff"
+--]]
 --local warnXorothPortal				= mod:NewSpellAnnounce(244318, 2, nil, nil, nil, nil, nil, 7)
 --Monk
 local warnSpiritsofXuen					= mod:NewSpellAnnounce(285647, 2)
 --Mage
 local warnRisingFlames					= mod:NewStackAnnounce(282037, 2, nil, "Tank")
 local warnShield						= mod:NewTargetNoFilterAnnounce(286425, 4)
---local warnMagmaTrap						= mod:NewCountAnnounce(284374, 4)
+local warnMagmaTrap						= mod:NewCountAnnounce(284374, 4)
 --Team Attacks
+local warnTransforms					= mod:NewSpellAnnounce(282040, 2)
 
 local specWarnMultiSidedStrike			= mod:NewSpecialWarningYou(282030, nil, nil, nil, 3, 2)
 local specWarnStalking					= mod:NewSpecialWarningYou(285632, nil, nil, nil, 1, 2)
@@ -64,18 +73,21 @@ local yellSearingEmbersFades			= mod:NewShortFadesYell(286988)
 --local specWarnGTFO					= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 8)
 --Team Attacks
 local specWarnFirefromMist				= mod:NewSpecialWarningSwitch(285428, nil, nil, nil, 2, 2)
+local specWarnFlashofPhoenixes			= mod:NewSpecialWarningSpell(284388, nil, nil, nil, 2, 2)
 
 --mod:AddTimerLine(DBM:EJ_GetSectionInfo(18527))
 --local timerDarkRevolationCD			= mod:NewCDCountTimer(55, 273365, nil, nil, nil, 3)
-local timerMultiSidedStrikeCD			= mod:NewCDTimer(35.2, 282030, nil, nil, nil, 5, 2, DBM_CORE_TANK_ICON)--35-60, cause variation is awesome
-local timerSpiritsofXuenCD				= mod:NewCDTimer(40.1, 285645, nil, nil, nil, 1, nil, DBM_CORE_HEROIC_ICON)
+local timerMultiSidedStrikeCD			= mod:NewCDTimer(55.5, 282030, nil, nil, 2, 5, nil, DBM_CORE_TANK_ICON)--35-60, cause variation is awesome
+local timerSpiritsofXuenCD				= mod:NewCDTimer(61.7, 285645, nil, nil, nil, 1, nil, DBM_CORE_HEROIC_ICON)
 local timerRollCD						= mod:NewCDTimer(40.1, 286427, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
 --Mage
-local timerShieldCD						= mod:NewCDTimer(13.4, 286425, nil, nil, nil, 4, nil, DBM_CORE_DAMAGE_ICON..DBM_CORE_INTERRUPT_ICON)
-local timerSearingEmbersCD				= mod:NewCDTimer(15.8, 286988, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON..DBM_CORE_HEALER_ICON)--15.8-29.2?
+local timerShieldCD						= mod:NewCDTimer(50.6, 286425, nil, nil, nil, 4, nil, DBM_CORE_DAMAGE_ICON..DBM_CORE_INTERRUPT_ICON)
+local timerSearingEmbersCD				= mod:NewCDTimer(51.0, 286988, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON..DBM_CORE_HEALER_ICON)--15.8-29.2?
 --Combos
-local timerFirefromMistCD				= mod:NewCDTimer(40.1, 285428, nil, nil, nil, 6)
---local timerMagmaTrapCD					= mod:NewAITimer(55, 284374, nil, nil, nil, 5)
+local timerFirefromMistCD				= mod:NewCDTimer(51, 285428, nil, nil, nil, 6)
+local timerFlashofPhoenixesCD			= mod:NewCDTimer(133, 284388, nil, nil, nil, 6)
+local timerBlazingPhoenixCD				= mod:NewCDTimer(270, 282040, nil, nil, nil, 6)
+--local timerMagmaTrapCD				= mod:NewAITimer(55, 284374, nil, nil, nil, 5)--Timer all over the place
 --Team Attacks
 
 --local berserkTimer					= mod:NewBerserkTimer(600)
@@ -101,18 +113,30 @@ function mod:OnCombatStart(delay)
 	self.vb.shieldsActive = false
 	self.vb.embersIcon = 0
 	--self.vb.magmaTrapCount = 0
-	timerSearingEmbersCD:Start(9.5)
+	timerSearingEmbersCD:Start(12-delay)
 	if self:IsMythic() then
 		timerRollCD:Start(8.6)
 		timerShieldCD:Start(15.8-delay)
 		timerSpiritsofXuenCD:Start(15.8-delay)
 		timerMultiSidedStrikeCD:Start(30-delay)
-		timerFirefromMistCD:Start(100-delay)
+		timerFirefromMistCD:Start(51-delay)
+		timerFlashofPhoenixesCD:Start(133-delay)
+		timerBlazingPhoenixCD:Start(262-delay)
+	elseif self:IsHeroic() then
+		--timerRollCD:Start(20-delay)
+		timerShieldCD:Start(20-delay)
+		timerMultiSidedStrikeCD:Start(30-delay)
+		timerSpiritsofXuenCD:Start(45-delay)
+		timerFirefromMistCD:Start(51-delay)
+		timerFlashofPhoenixesCD:Start(133-delay)
+		timerBlazingPhoenixCD:Start(262-delay)
 	else
-		timerShieldCD:Start(10.5-delay)
-		timerMultiSidedStrikeCD:Start(15.6-delay)
-		timerSpiritsofXuenCD:Start(25.5-delay)
-		timerFirefromMistCD:Start(130-delay)
+		timerRollCD:Start(20-delay)
+		timerShieldCD:Start(20-delay)
+		timerMultiSidedStrikeCD:Start(36-delay)
+		timerFirefromMistCD:Start(51-delay)
+		timerFlashofPhoenixesCD:Start(133-delay)
+		timerBlazingPhoenixCD:Start(271-delay)
 	end
 	if self.Options.NPAuraOnFixate or self.Options.NPAuraOnExplosion then
 		DBM:FireEvent("BossMod_EnableHostileNameplates")
@@ -144,9 +168,19 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 285428 then
 		specWarnFirefromMist:Show()
 		specWarnFirefromMist:Play("attbomb")
+		--timerShieldCD:Stop()
+		--timerMultiSidedStrikeCD:Stop()
+		--timerRollCD:Stop()
+		--timerSearingEmbersCD:Stop()
+		--timerRollCD:Start()
+		--timerSearingEmbersCD:Start(12)
+		--timerShieldCD:Start(20)
+		--timerMultiSidedStrikeCD:Start(39)--New evidience suggests it doesn't reset here
 --	elseif spellId == 273350 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 --		specWarnBloodshard:Show(args.sourceName)
 --		specWarnBloodshard:Play("kickcast")
+	elseif spellId == 282040 then
+		warnTransforms:Show()
 	end
 end
 
@@ -202,11 +236,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			warnShield:Show(args.destName)
 		end
-		if self:IsMythic() then
-			timerShieldCD:Start(30)--Less often on mythic, likely related to multi strike lasting longer and affecting most of raid
-		else
-			timerShieldCD:Start(13.4)
-		end
+		timerShieldCD:Start()
 		if self.Options.InfoFrame then
 			for i = 1, 2 do
 				local bossUnitID = "boss"..i
@@ -228,6 +258,14 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.SetIconEmbers then
 			self:SetIcon(args.destName, self.vb.embersIcon)
 		end
+	elseif spellId == 284656 then--Long intermission with traps
+		timerSearingEmbersCD:Stop()
+		timerMultiSidedStrikeCD:Stop()
+		timerShieldCD:Stop()
+		timerSpiritsofXuenCD:Stop()
+		timerRollCD:Stop()
+		specWarnFlashofPhoenixes:Show()
+		specWarnFlashofPhoenixes:Play("phasechange")
 	end
 end
 --mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -257,6 +295,14 @@ function mod:SPELL_AURA_REMOVED(args)
 		if self.Options.SetIconEmbers then
 			self:SetIcon(args.destName, 0)
 		end
+	elseif spellId == 284656 then--Ring ending
+		--timerSearingEmbersCD:Start(7)--7-15 (wishy washy)
+		timerMultiSidedStrikeCD:Start(8.5)
+		timerShieldCD:Start(8.5)
+		--timerRollCD:Start()
+		if self:IsHard() then
+			timerSpiritsofXuenCD:Start(25)
+		end
 	end
 end
 
@@ -281,17 +327,25 @@ function mod:UNIT_DIED(args)
 	end
 end
 
-function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
-	if spellId == 284373 then--Magma Trap
-		--self.vb.magmaTrapCount = self.vb.magmaTrapCount + 1
-		--warnMagmaTrap:Show(self.vb.magmaTrapCount)
+function mod:CHAT_MSG_MONSTER_EMOTE(msg)
+	if msg:find("spell:spell:") then -- Bombard seems to be not related with wave status.
+		self.vb.magmaTrapCount = self.vb.magmaTrapCount + 1
+		warnMagmaTrap:Show(self.vb.magmaTrapCount)
 		--timerMagmaTrapCD:Start()
-	elseif spellId == 285645 then
+	end
+end
+
+function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
+	if spellId == 285645 and not self:IsEasy() then--User reported event still fires on normal/LFR even though it doesn't spawn
 		warnSpiritsofXuen:Show()
 		timerSpiritsofXuenCD:Start()
 	elseif spellId == 286987 then--Searing Embers
 		self.vb.embersIcon = 0
-		timerSearingEmbersCD:Start()
+		if self:IsHard() then
+			timerSearingEmbersCD:Start(37.4)
+		else
+			timerSearingEmbersCD:Start()--51
+		end
 	elseif spellId == 286427 then--Roll
 		if self:IsMythic() then
 			timerRollCD:start(31)

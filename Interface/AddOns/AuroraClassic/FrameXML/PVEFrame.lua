@@ -33,14 +33,9 @@ tinsert(C.themes["AuroraClassic"], function()
 	end
 
 	hooksecurefunc("GroupFinderFrame_SelectGroupButton", function(index)
-		local self = GroupFinderFrame
 		for i = 1, 4 do
-			local button = self["groupButton"..i]
-			if i == index then
-				button.bg:Show()
-			else
-				button.bg:Hide()
-			end
+			local button = GroupFinderFrame["groupButton"..i]
+			button.bg:SetShown(i == index)
 		end
 	end)
 end)

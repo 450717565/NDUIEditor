@@ -1,18 +1,19 @@
 local mod	= DBM:NewMod(2342, "DBM-ZuldazarRaid", 2, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 18165 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 18175 $"):sub(12, -3))
 --mod:SetCreatureID(138967)--145261 or 147564
 mod:SetEncounterID(2271)
 --mod:DisableESCombatDetection()
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
 --mod:SetUsedIcons(1, 2, 8)
---mod:SetHotfixNoticeRev(17775)
---mod:SetMinSyncRevision(16950)
+mod:SetHotfixNoticeRev(18175)
+mod:SetMinSyncRevision(18175)
 --mod.respawnTime = 35
 
 mod:RegisterCombat("combat")
+mod:SetWipeTime(30)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 282939 287659 287070 285995 284941 283947 283606 289906 289155",
