@@ -129,9 +129,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	local EntryCreation = LFGListFrame.EntryCreation
 	F.StripTextures(EntryCreation, true)
 	F.StripTextures(LFGListCreationDescription, true)
-
-	local bg = F.CreateBDFrame(EntryCreation.Description, .25)
-	F.CreateGradient(bg)
+	F.CreateBDFrame(EntryCreation.Description, .25)
 
 	F.ReskinButton(EntryCreation.ListGroupButton)
 	F.ReskinButton(EntryCreation.CancelButton)

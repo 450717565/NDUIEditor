@@ -56,6 +56,7 @@ C.themes["Blizzard_PVPUI"] = function()
 	F.StripTextures(BonusFrame, true)
 	F.ReskinButton(HonorFrame.QueueButton)
 	F.ReskinDropDown(HonorFrameTypeDropDown)
+	F.ReskinScroll(HonorFrameSpecificFrameScrollBar)
 
 	styleBar(HonorFrame)
 	styleRole(HonorFrame)
@@ -66,40 +67,31 @@ C.themes["Blizzard_PVPUI"] = function()
 		F.ReskinTexture(bu.SelectedTexture, bu, true)
 	end
 
-	local styled = false
-	HonorFrameSpecificFrame:HookScript("OnShow", function()
-		if not styled then
-			F.ReskinScroll(HonorFrameSpecificFrameScrollBar)
+	for i = 1, 8 do
+		local bu = _G["HonorFrameSpecificFrameButton"..i]
+		bu.Bg:Hide()
+		bu.Border:Hide()
 
-			for i = 1, 8 do
-				local bu = _G["HonorFrameSpecificFrameButton"..i]
-				bu.Bg:Hide()
-				bu.Border:Hide()
+		local ic = F.ReskinIcon(bu.Icon, true)
 
-				local ic = F.ReskinIcon(bu.Icon, true)
+		local bg = F.CreateBDFrame(bu, .25)
+		bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
+		bg:SetPoint("BOTTOMRIGHT", -2, 3.5)
+		F.ReskinTexture(bu.HighlightTexture, bg, true)
+		F.ReskinTexture(bu.SelectedTexture, bg, true)
 
-				local bg = F.CreateBDFrame(bu, .25)
-				bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
-				bg:SetPoint("BOTTOMRIGHT", -2, 3.5)
-				F.ReskinTexture(bu.HighlightTexture, bg, true)
-				F.ReskinTexture(bu.SelectedTexture, bg, true)
+		local nt = bu.NameText
+		nt:ClearAllPoints()
+		nt:SetPoint("LEFT", bg, 2, 0)
 
-				local nt = bu.NameText
-				nt:ClearAllPoints()
-				nt:SetPoint("LEFT", bg, 2, 0)
+		local st = bu.SizeText
+		st:ClearAllPoints()
+		st:SetPoint("TOPRIGHT", bg, -1, -2)
 
-				local st = bu.SizeText
-				st:ClearAllPoints()
-				st:SetPoint("TOPRIGHT", bg, -1, -2)
-
-				local it = bu.InfoText
-				it:ClearAllPoints()
-				it:SetPoint("BOTTOMRIGHT", bg, -1, 3)
-			end
-
-			styled = true
-		end
-	end)
+		local it = bu.InfoText
+		it:ClearAllPoints()
+		it:SetPoint("BOTTOMRIGHT", bg, -1, 3)
+	end
 
 	-- ConquestFrame
 	F.StripTextures(ConquestFrame, true)

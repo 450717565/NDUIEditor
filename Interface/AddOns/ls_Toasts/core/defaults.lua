@@ -6,7 +6,7 @@ addonTable.C, addonTable.D = C, D
 
 D.profile = {
 	strata = "DIALOG",
-	skin = "default",
+	skin = "ndui",
 	font = {
 		-- name = nil,
 		size = 16,

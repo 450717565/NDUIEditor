@@ -184,8 +184,8 @@ local function Reskins()
 		end
 
 		if IsAddOnLoaded("ls_Toasts") then
-			local LST = unpack(ls_Toasts)
-			LST:RegisterSkin("ndui", {
+			local E = unpack(ls_Toasts)
+			E:RegisterSkin("ndui", {
 				name = "NDui",
 				border = {
 					offset = 0,
@@ -237,7 +237,6 @@ local function Reskins()
 					texture = {1, 1, 1, 1},
 				},
 			})
-			LST:SetSkin("ndui")
 		end
 
 		if IsAddOnLoaded("Overachiever") then
@@ -320,9 +319,7 @@ local function Reskins()
 			F.ReskinButton(dialog.RefreshButton)
 			F.ReskinDropDown(dialog.Difficulty.DropDown)
 			F.ReskinCheck(UsePFGButton)
-
-			local bg = F.CreateBDFrame(dialog.Expression, .25)
-			F.CreateGradient(bg)
+			F.CreateBDFrame(dialog.Expression, .25)
 
 			dialog.Defeated.Title:ClearAllPoints()
 			dialog.Defeated.Title:SetPoint("LEFT", dialog.Defeated.Act, "RIGHT", 10, 0)

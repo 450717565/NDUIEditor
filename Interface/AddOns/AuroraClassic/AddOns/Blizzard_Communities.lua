@@ -67,7 +67,6 @@ C.themes["Blizzard_Communities"] = function()
 				button.bg = F.CreateBDFrame(button, 0)
 				button.bg:SetPoint("TOPLEFT", 5, -5)
 				button.bg:SetPoint("BOTTOMRIGHT", -10, 5)
-				F.CreateGradient(button.bg)
 			end
 
 			if button.Selection:IsShown() then
@@ -100,8 +99,7 @@ C.themes["Blizzard_Communities"] = function()
 	F.ReskinButton(EditStream.Cancel)
 	F.ReskinInput(EditStream.NameEdit, 22)
 	F.StripTextures(EditStream.Description, true)
-	local bg = F.CreateBDFrame(EditStream.Description, .25)
-	F.CreateGradient(bg)
+	F.CreateBDFrame(EditStream.Description, .25)
 
 	local NotificationSettings = CommunitiesFrame.NotificationSettingsDialog
 	NotificationSettings.ScrollFrame.Child.QuickJoinButton:SetSize(25, 25)

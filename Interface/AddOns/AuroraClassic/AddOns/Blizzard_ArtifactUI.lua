@@ -26,7 +26,6 @@ C.themes["Blizzard_ArtifactUI"] = function()
 		local bg = F.CreateBDFrame(set, .25)
 		bg:SetPoint("TOPLEFT", 10, -5)
 		bg:SetPoint("BOTTOMRIGHT", -10, 5)
-		F.CreateGradient(bg)
 
 		for j = 1, 4 do
 			local slot = ArtifactFrame.AppearancesTab.appearanceSlotPool:Acquire()

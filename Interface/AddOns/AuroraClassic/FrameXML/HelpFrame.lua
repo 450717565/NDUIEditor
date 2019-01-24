@@ -55,9 +55,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	for i = 1, 15 do
 		local bu = _G["HelpFrameKnowledgebaseScrollFrameButton"..i]
 		bu:DisableDrawLayer("ARTWORK")
-
-		local bg = F.CreateBDFrame(bu, .25)
-		F.CreateGradient(bg)
+		F.CreateBDFrame(bu, .25)
 	end
 
 	local function styleTab(bu)

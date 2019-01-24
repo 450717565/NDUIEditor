@@ -26,7 +26,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	local whoBg = F.CreateBDFrame(WhoFrameEditBoxInset, .25)
 	whoBg:SetPoint("TOPLEFT")
 	whoBg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
-	F.CreateGradient(whoBg)
 
 	local header = FriendsFrameFriendsScrollFrame.PendingInvitesHeaderButton
 	F.StripTextures(header, true)
@@ -34,7 +33,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	local headerBg = F.CreateBDFrame(header, .25)
 	headerBg:SetPoint("TOPLEFT", 2, -2)
 	headerBg:SetPoint("BOTTOMRIGHT", -2, 2)
-	F.CreateGradient(headerBg)
 
 	local buttons = {AddFriendEntryFrameAcceptButton, AddFriendEntryFrameCancelButton, AddFriendInfoFrameContinueButton, FriendsFrameAddFriendButton, FriendsFrameIgnorePlayerButton, FriendsFrameSendMessageButton, FriendsFrameUnsquelchButton, FriendsFriendsCloseButton, FriendsFriendsSendRequestButton, FriendsListFrameContinueButton, WhoFrameAddFriendButton, WhoFrameGroupInviteButton, WhoFrameWhoButton}
 	for _, button in next, buttons do

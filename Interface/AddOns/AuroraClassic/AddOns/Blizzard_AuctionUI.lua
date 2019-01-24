@@ -136,7 +136,6 @@ C.themes["Blizzard_AuctionUI"] = function()
 	local bg = F.CreateBDFrame(BrowseDropDown, 0)
 	bg:SetPoint("TOPLEFT", 16, -5)
 	bg:SetPoint("BOTTOMRIGHT", 109, 11)
-	F.CreateGradient(bg)
 
 	local colourArrow = F.colourArrow
 	local clearArrow = F.clearArrow

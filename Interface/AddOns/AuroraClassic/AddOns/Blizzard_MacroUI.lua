@@ -51,8 +51,7 @@ C.themes["Blizzard_MacroUI"] = function()
 	local frames = {MacroFrameScrollFrame, MacroPopupEditBox}
 	for _, frame in next, frames do
 		F.StripTextures(frame)
-		local bg = F.CreateBDFrame(frame, .25)
-		F.CreateGradient(bg)
+		F.CreateBDFrame(frame, .25)
 	end
 
 	local buttons = {MacroDeleteButton, MacroNewButton, MacroExitButton, MacroEditButton, MacroPopupFrame.BorderBox.OkayButton, MacroPopupFrame.BorderBox.CancelButton, MacroSaveButton, MacroCancelButton}

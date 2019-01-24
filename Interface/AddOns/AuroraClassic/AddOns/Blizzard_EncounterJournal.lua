@@ -41,16 +41,18 @@ C.themes["Blizzard_EncounterJournal"] = function()
 
 	-- [[ Side tabs ]]
 	EncounterJournalEncounterFrameInfoOverviewTab:ClearAllPoints()
-	EncounterJournalEncounterFrameInfoOverviewTab:SetPoint("TOPLEFT", EncounterJournalEncounterFrameInfo, "TOPRIGHT", 6, -35)
+	EncounterJournalEncounterFrameInfoOverviewTab:SetPoint("TOPLEFT", EncounterJournalEncounterFrameInfo, "TOPRIGHT", 8, -35)
 	EncounterJournalEncounterFrameInfoLootTab:ClearAllPoints()
-	EncounterJournalEncounterFrameInfoLootTab:SetPoint("TOP", EncounterJournalEncounterFrameInfoOverviewTab, "BOTTOM", 0, 0)
+	EncounterJournalEncounterFrameInfoLootTab:SetPoint("TOP", EncounterJournalEncounterFrameInfoOverviewTab, "BOTTOM", 0, 8)
 	EncounterJournalEncounterFrameInfoBossTab:ClearAllPoints()
-	EncounterJournalEncounterFrameInfoBossTab:SetPoint("TOP", EncounterJournalEncounterFrameInfoLootTab, "BOTTOM", 0, 0)
+	EncounterJournalEncounterFrameInfoBossTab:SetPoint("TOP", EncounterJournalEncounterFrameInfoLootTab, "BOTTOM", 0, 8)
 
 	local sidetabs = {EncounterJournalEncounterFrameInfoOverviewTab, EncounterJournalEncounterFrameInfoLootTab, EncounterJournalEncounterFrameInfoBossTab, EncounterJournalEncounterFrameInfoModelTab}
 	for _, tab in pairs(sidetabs) do
 		tab:SetScale(.75)
-		F.ReskinTab(tab)
+		local bg = F.CreateBDFrame(tab, nil, true)
+		bg:SetPoint("TOPLEFT", 5, -5)
+		bg:SetPoint("BOTTOMRIGHT", -5, 5)
 	end
 
 	-- [[ Instance select ]]
@@ -110,7 +112,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 
 			-- move last tab
 			local _, point = EncounterJournalEncounterFrameInfoModelTab:GetPoint()
-			EncounterJournalEncounterFrameInfoModelTab:SetPoint("TOP", point, "BOTTOM", 0, 0)
+			EncounterJournalEncounterFrameInfoModelTab:SetPoint("TOP", point, "BOTTOM", 0, 8)
 		end)
 	end
 

@@ -102,9 +102,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	for _, v in pairs(category) do
 		v:SetSize(190, 25)
 		F.StripTextures(v)
-
-		local bg = F.CreateBDFrame(v, .25)
-		F.CreateGradient(bg)
+		F.CreateBDFrame(v, .25)
 	end
 
 	-- [[ Sidebar tabs ]]

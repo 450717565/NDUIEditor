@@ -11,7 +11,6 @@ C.themes["Blizzard_DebugTools"] = function()
 	bu.bg = F.CreateBDFrame(EventTraceFrame, 0)
 	bu.bg:SetPoint("TOPLEFT", bu, 0, 0)
 	bu.bg:SetPoint("BOTTOMRIGHT", bu, 0, 0)
-	F.CreateGradient(bu.bg)
 
 	if AuroraConfig.tooltips then
 		F.ReskinTooltip(FrameStackTooltip)
