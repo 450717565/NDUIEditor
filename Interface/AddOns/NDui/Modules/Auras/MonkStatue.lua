@@ -41,14 +41,14 @@ local function updateStatue()
 		bu:SetAlpha(1)
 	else
 		bu.CD:Hide()
-		bu:SetAlpha(.3)
+		bu:SetAlpha(.25)
 	end
 end
 
 local function checkSpec(event)
 	if (GetSpecialization() == 2 and IsPlayerSpell(115313)) or (GetSpecialization() == 1 and IsPlayerSpell(115315)) then
 		StatueGo()
-		bu:SetAlpha(.3)
+		bu:SetAlpha(.25)
 		bu.CD:Hide()
 		local statue
 		if IsPlayerSpell(115313) then

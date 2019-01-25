@@ -5,20 +5,20 @@ local rowCount = 3
 
 local requestPartyKeystones
 
--- 1: 溢出, 2: 无常, 3: 火山, 4: 死疽, 5: 繁盛, 6: 暴怒, 7: 激励, 8: 血池, 9: 残暴, 10: 强韧, 11: 崩裂, 12: 重伤, 13: 易爆, 14: 震荡, 15: 冷酷, 16: 共生
+-- 1: 溢出, 2: 无常, 3: 火山, 4: 死疽, 5: 繁盛, 6: 暴怒, 7: 激励, 8: 血池, 9: 残暴, 10: 强韧, 11: 崩裂, 12: 重伤, 13: 易爆, 14: 震荡, 15: 冷酷, 16: 共生, 117: 收割
 local affixSchedule = {
-	{ 10,  8,  4, 16 },
-	{  9, 11,  2, 16 },
-	{ 10,  5, 14, 16 },
-	{  9,  6,  4, 16 },
-	{ 10,  7,  2, 16 },
-	{  9,  5,  3, 16 },
-	{ 10,  8, 12, 16 },
-	{  9,  7, 13, 16 },
-	{ 10, 11, 14, 16 },
-	{  9,  6,  3, 16 },
-	{ 10,  5, 13, 16 },
-	{  9,  7, 12, 16 },
+	{ 10,  8,  4, 117 },
+	{  9, 11,  2, 117 },
+	{ 10,  5, 14, 117 },
+	{  9,  6,  4, 117 },
+	{ 10,  7,  2, 117 },
+	{  9,  5,  3, 117 },
+	{ 10,  8, 12, 117 },
+	{  9,  7, 13, 117 },
+	{ 10, 11, 14, 117 },
+	{  9,  6,  3, 117 },
+	{ 10,  5, 13, 117 },
+	{  9,  7, 12, 117 },
 }
 local currentWeek
 local currentKeystoneMapID
@@ -374,7 +374,7 @@ end
 function Mod:SendCurrentKeystone()
 	local keystoneMapID = C_MythicPlus.GetOwnedKeystoneChallengeMapID()
 	local keystoneLevel = C_MythicPlus.GetOwnedKeystoneLevel()
-	
+
 	local message = "0"
 	if keystoneLevel and keystoneMapID then
 		message = string.format("%d:%d", keystoneMapID, keystoneLevel)
@@ -439,6 +439,6 @@ function Mod:Startup()
 	end)
 
 	C_Timer.NewTicker(60, function() self:CheckCurrentKeystone() end)
-	
+
 	requestPartyKeystones = true
 end

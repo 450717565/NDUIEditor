@@ -584,11 +584,11 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 local function SelectTab(i)
 	for num = 1, #tabList do
 		if num == i then
-			guiTab[num]:SetBackdropColor(cr, cg, cb, .3)
+			guiTab[num]:SetBackdropColor(cr, cg, cb, .25)
 			guiTab[num].checked = true
 			guiPage[num]:Show()
 		else
-			guiTab[num]:SetBackdropColor(0, 0, 0, .3)
+			guiTab[num]:SetBackdropColor(0, 0, 0, .25)
 			guiTab[num].checked = false
 			guiPage[num]:Hide()
 		end
@@ -601,18 +601,18 @@ local function tabOnClick(self)
 end
 local function tabOnEnter(self)
 	if self.checked then return end
-	self:SetBackdropColor(cr, cg, cb, .3)
+	self:SetBackdropColor(cr, cg, cb, .25)
 end
 local function tabOnLeave(self)
 	if self.checked then return end
-	self:SetBackdropColor(0, 0, 0, .3)
+	self:SetBackdropColor(0, 0, 0, .25)
 end
 
 local function CreateTab(parent, i, name)
 	local tab = CreateFrame("Button", nil, parent)
 	tab:SetPoint("TOPLEFT", 20, -30*i - 20)
 	tab:SetSize(130, 28)
-	B.CreateBD(tab, .3)
+	B.CreateBD(tab, .25)
 	B.CreateSD(tab)
 	local label = B.CreateFS(tab, 15, name, "system", "LEFT", 10, 0)
 	if i > 13 then
@@ -730,7 +730,7 @@ local function CreateOption(i)
 			bd:SetPoint("TOPLEFT", 14, -2)
 			bd:SetPoint("BOTTOMRIGHT", -15, 3)
 			bd:SetFrameStrata("BACKGROUND")
-			B.CreateBD(bd, .3)
+			B.CreateBD(bd, .25)
 			B.CreateSD(bd)
 			local thumb = _G[s:GetName().."Thumb"]
 			thumb:SetTexture(DB.sparkTex)
@@ -750,10 +750,10 @@ local function CreateOption(i)
 			dd.button:HookScript("OnClick", function()
 				for num = 1, #data do
 					if num == NDUI_VARIABLE(key, value) then
-						opt[num]:SetBackdropColor(1, .8, 0, .3)
+						opt[num]:SetBackdropColor(1, .8, 0, .25)
 						opt[num].selected = true
 					else
-						opt[num]:SetBackdropColor(0, 0, 0, .3)
+						opt[num]:SetBackdropColor(0, 0, 0, .25)
 						opt[num].selected = false
 					end
 				end
@@ -840,7 +840,7 @@ local function createExtraGUI(parent, title, bgFrame)
 		frame.bg = CreateFrame("Frame", nil, frame)
 		frame.bg:SetSize(280, 540)
 		frame.bg:SetPoint("TOPLEFT", 10, -50)
-		B.CreateBD(frame.bg, .3)
+		B.CreateBD(frame.bg, .25)
 		B.CreateSD(frame.bg)
 	end
 
@@ -982,7 +982,7 @@ function setupRaidDebuffs()
 	local function createBar(index)
 		local bar = CreateFrame("Frame", nil, scroll.child)
 		bar:SetSize(220, 30)
-		B.CreateBD(bar, .3)
+		B.CreateBD(bar, .25)
 		B.CreateSD(bar)
 		bar.index = index
 
@@ -1128,7 +1128,7 @@ function setupClickCast()
 
 		local bar = CreateFrame("Frame", nil, parent)
 		bar:SetSize(220, 30)
-		B.CreateBD(bar, .3)
+		B.CreateBD(bar, .25)
 		B.CreateSD(bar)
 		barTable[clickSet] = bar
 
@@ -1227,7 +1227,7 @@ function setupPlateAura()
 		local name, _, texture = GetSpellInfo(spellID)
 		local bar = CreateFrame("Frame", nil, parent)
 		bar:SetSize(220, 30)
-		B.CreateBD(bar, .3)
+		B.CreateBD(bar, .25)
 		B.CreateSD(bar)
 		frameData[index].barList[spellID] = bar
 
@@ -1263,7 +1263,7 @@ function setupPlateAura()
 		local frame = CreateFrame("Frame", nil, plateGUI)
 		frame:SetSize(280, 250)
 		frame:SetPoint("TOPLEFT", 10, value.offset - 25)
-		B.CreateBD(frame, .3)
+		B.CreateBD(frame, .25)
 		B.CreateSD(frame)
 
 		local scroll = module:CreateScroll(frame, 240, 200)
@@ -1308,7 +1308,7 @@ function setupBuffIndicator()
 		local name, _, texture = GetSpellInfo(spellID)
 		local bar = CreateFrame("Frame", nil, parent)
 		bar:SetSize(220, 30)
-		B.CreateBD(bar, .3)
+		B.CreateBD(bar, .25)
 		B.CreateSD(bar)
 		frameData[index].barList[spellID] = bar
 
@@ -1372,7 +1372,7 @@ function setupBuffIndicator()
 		local frame = CreateFrame("Frame", nil, buffIndicatorGUI)
 		frame:SetSize(280, 250)
 		frame:SetPoint("TOPLEFT", 10, value.offset - 25)
-		B.CreateBD(frame, .3)
+		B.CreateBD(frame, .25)
 		B.CreateSD(frame)
 
 		local scroll = module:CreateScroll(frame, 240, 200)
@@ -1489,7 +1489,7 @@ local function OpenGUI()
 		guiPage[i]:SetPoint("TOPLEFT", 160, -50)
 		guiPage[i]:SetSize(610, 500)
 		local bg = B.CreateBG(guiPage[i])
-		B.CreateBD(bg, .3)
+		B.CreateBD(bg, .25)
 		B.CreateSD(bg)
 		guiPage[i]:Hide()
 		guiPage[i].child = CreateFrame("Frame", nil, guiPage[i])

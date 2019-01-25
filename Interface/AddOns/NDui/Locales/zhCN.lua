@@ -58,7 +58,6 @@ L["Slot Info"] = "显示背包装备部位信息"
 L["Train All Need"] = "学习全部技能需要："
 L["Train All"] = "训练全部"
 L["UFs PartyFrame"] = "启用小队框体"
-L["Weekly Azerite Item Level"] = "低保特质等级：%s"
 L["Weekly Loot Item Level"] = "低保箱子等级：%s+"
 
 L["From"] = "来自"

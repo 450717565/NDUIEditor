@@ -41,9 +41,9 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 18187 $"):sub(12, -3)),
-	DisplayVersion = "8.1.3 alpha", -- the string that is shown as version
-	ReleaseRevision = 18157 -- the revision of the latest stable version that is available
+	Revision = tonumber(("$Revision: 18201 $"):sub(12, -3)),
+	DisplayVersion = "8.1.6 alpha", -- the string that is shown as version
+	ReleaseRevision = 18196 -- the revision of the latest stable version that is available
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -412,7 +412,7 @@ local delayedFunction
 local dataBroker
 local voiceSessionDisabled = false
 
-local fakeBWVersion, fakeBWHash = 125, "4a2a88a"
+local fakeBWVersion, fakeBWHash = 126, "6b74e6b"
 local versionQueryString, versionResponseString = "Q^%d^%s", "V^%d^%s"
 
 local enableIcons = true -- set to false when a raid leader or a promoted player has a newer version of DBM

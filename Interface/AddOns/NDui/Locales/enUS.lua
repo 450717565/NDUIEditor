@@ -58,7 +58,6 @@ L["Slot Info"] = "Bags ItemSlot"
 L["Train All Need"] = "Train All Need: "
 L["Train All"] = "Train All"
 L["UFs PartyFrame"] = "Enable PartyFrame"
-L["Weekly Azerite Item Level"] = "Weekly Azerite Item Level: %s"
 L["Weekly Loot Item Level"] = "Weekly Loot Item Level: %s+"
 
 L["From"] = "From"

@@ -90,7 +90,7 @@ local function UpdateVisibility(self)
 		self.bu[i].Count:SetTextColor(1, 1, 1)
 		self.bu[i].Count:SetText("")
 		self.bu[i].CD:Hide()
-		self.bu[i]:SetAlpha(.3)
+		self.bu[i]:SetAlpha(.25)
 	end
 	if module.PostUpdateVisibility then module:PostUpdateVisibility(self) end
 end

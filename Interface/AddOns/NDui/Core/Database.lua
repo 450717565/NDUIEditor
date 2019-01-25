@@ -39,6 +39,7 @@ local Media = "Interface\\Addons\\NDui\\Media\\"
 DB.arrowTex = Media.."arrowTex_"
 DB.bgTex = Media.."bgTex"
 DB.glowTex = Media.."glowTex"
+DB.gradientTex = Media.."gradientTex"
 DB.MicroTex = Media.."MicroMenu\\micro_"
 
 DB.bdTex = "Interface\\ChatFrame\\ChatFrameBackground"

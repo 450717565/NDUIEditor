@@ -6,14 +6,14 @@ local function Reskins()
 	local cr, cg, cb = DB.r, DB.g, DB.b
 
 	if IsAddOnLoaded("!BaudErrorFrame") then
-		B.StripTextures(BaudErrorFrameListScrollBox, true)
-		B.StripTextures(BaudErrorFrameDetailScrollBox, true)
+		B.StripTextures(BaudErrorFrameListScrollBox)
+		B.StripTextures(BaudErrorFrameDetailScrollBox)
 
 		B.SetBackground(BaudErrorFrame)
 
-		B.CreateBD(BaudErrorFrameListScrollBox)
+		B.CreateBD(BaudErrorFrameListScrollBox, .25)
 		B.CreateSD(BaudErrorFrameListScrollBox)
-		B.CreateBD(BaudErrorFrameDetailScrollBox)
+		B.CreateBD(BaudErrorFrameDetailScrollBox, .25)
 		B.CreateSD(BaudErrorFrameDetailScrollBox)
 
 		local boxHL = BaudErrorFrameListScrollBoxHighlightTexture
@@ -21,7 +21,7 @@ local function Reskins()
 		boxHL:SetVertexColor(cr, cg, cb, .25)
 
 		for _, button in next, {BaudErrorFrameClearButton, BaudErrorFrameCloseButton, BaudErrorFrameReloadUIButton} do
-			B.CreateBC(button)
+			B.CreateBC(button, .25)
 		end
 	end
 
@@ -98,10 +98,9 @@ local function Reskins()
 				F.ReskinRadio(radio)
 			end
 
-			local Scrolllist = {"BuyScrollFrame", "SellScrollFrame"}
-			for k, v in pairs(Scrolllist) do
-				F.StripTextures(_G[v])
-				F.ReskinScroll(_G[v.."ScrollBar"])
+			local Scrolllist = {BuyScrollFrameScrollBar, SellScrollFrameScrollBar}
+			for _, scroll in next, Scrolllist do
+				F.ReskinScroll(scroll)
 			end
 		end
 

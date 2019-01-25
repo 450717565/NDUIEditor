@@ -70,7 +70,7 @@ local function createPage(name)
 	local p = CreateFrame("Frame", nil, f)
 	p:SetPoint("TOPLEFT", 160, -70)
 	p:SetSize(620, 380)
-	B.CreateBD(p, .3)
+	B.CreateBD(p, .25)
 	B.CreateSD(p)
 	B.CreateFS(p, 15, name, false, "TOPLEFT", 5, 20)
 	p:Hide()
@@ -82,7 +82,7 @@ function module:CreateScroll(parent, width, height, text)
 	scroll:SetSize(width, height)
 	scroll:SetPoint("BOTTOMLEFT", 10, 10)
 	local bg = B.CreateBG(scroll)
-	B.CreateBD(bg, .3)
+	B.CreateBD(bg, .25)
 	B.CreateSD(bg)
 	if text then
 		B.CreateFS(scroll, 15, text, false, "TOPLEFT", 5, 20)
@@ -227,7 +227,7 @@ local function CreatePanel()
 
 		local bar = CreateFrame("Frame", nil, parent)
 		bar:SetSize(270, 30)
-		B.CreateBD(bar, .3)
+		B.CreateBD(bar, .25)
 		B.CreateSD(bar)
 		barTable[index][spellID] = bar
 
@@ -280,7 +280,7 @@ local function CreatePanel()
 
 		local bar = CreateFrame("Frame", nil, parent)
 		bar:SetSize(270, 30)
-		B.CreateBD(bar, .3)
+		B.CreateBD(bar, .25)
 		B.CreateSD(bar)
 		barTable[index][intID] = bar
 
@@ -345,22 +345,22 @@ local function CreatePanel()
 		for i = 1, #tabs do
 			if self == tabs[i] then
 				tabs[i].Page:Show()
-				tabs[i]:SetBackdropColor(cr, cg, cb, .3)
+				tabs[i]:SetBackdropColor(cr, cg, cb, .25)
 				tabs[i].selected = true
 			else
 				tabs[i].Page:Hide()
-				tabs[i]:SetBackdropColor(0, 0, 0, .3)
+				tabs[i]:SetBackdropColor(0, 0, 0, .25)
 				tabs[i].selected = false
 			end
 		end
 	end
 	local function tabOnEnter(self)
 		if self.selected then return end
-		self:SetBackdropColor(cr, cg, cb, .3)
+		self:SetBackdropColor(cr, cg, cb, .25)
 	end
 	local function tabOnLeave(self)
 		if self.selected then return end
-		self:SetBackdropColor(0, 0, 0, .3)
+		self:SetBackdropColor(0, 0, 0, .25)
 	end
 
 	for i, group in pairs(groups) do
@@ -370,7 +370,7 @@ local function CreatePanel()
 		tabs[i] = CreateFrame("Button", "$parentTab"..i, f)
 		tabs[i]:SetPoint("TOPLEFT", 20, -40 - i*30)
 		tabs[i]:SetSize(130, 28)
-		B.CreateBD(tabs[i], .3)
+		B.CreateBD(tabs[i], .25)
 		B.CreateSD(tabs[i])
 		local label = B.CreateFS(tabs[i], 15, group, "system", "LEFT", 10, 0)
 		if i == 11 then

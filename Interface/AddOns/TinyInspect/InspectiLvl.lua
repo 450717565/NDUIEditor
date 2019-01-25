@@ -412,13 +412,8 @@ end
 
 --初始化美化API
 LibEvent:attachEvent("PLAYER_LOGIN", function()
-	B.CreateBD(frame)
-	B.CreateSD(frame)
-	B.CreateTex(frame)
-
-	B.CreateBD(frame.panel)
-	B.CreateSD(frame.panel)
-	B.CreateTex(frame.panel)
+	B.SetBackground(frame)
+	B.SetBackground(frame.panel)
 
 	frame.panel.sortButton = B.CreateButton(frame.panel, 34, 16, L["Ascending"], 12)
 	frame.panel.sortButton:SetPoint("TOPRIGHT", -10, -4)

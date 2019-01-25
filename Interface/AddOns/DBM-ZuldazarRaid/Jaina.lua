@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2343, "DBM-ZuldazarRaid", 3, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 18186 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 18199 $"):sub(12, -3))
 --mod:SetCreatureID(138967)--146409 or 146416 probably
 mod:SetEncounterID(2281)
 --mod:DisableESCombatDetection()
@@ -150,8 +150,10 @@ local updateInfoFrame
 do
 	local floor, tsort = math.floor, table.sort
 	local lines = {}
+	local tempLines = {}
+	local tempLinesSorted = {}
 	local sortedLines = {}
-	local function sortFuncDesc(a, b) return ChillingTouchStacks[a] > ChillingTouchStacks[b] end
+	local function sortFuncDesc(a, b) return tempLines[a] > tempLines[b] end
 	local function addLine(key, value)
 		-- sort by insertion order
 		lines[key] = value
@@ -159,6 +161,8 @@ do
 	end
 	updateInfoFrame = function()
 		table.wipe(lines)
+		table.wipe(tempLines)
+		table.wipe(tempLinesSorted)
 		table.wipe(sortedLines)
 		--Boss Powers first
 		for i = 1, 5 do
@@ -176,10 +180,18 @@ do
 		--Chilling Touch Stacks
 		--Sort debuffs by highest then inject into regular table
 		if #ChillingTouchStacks > 0 then
-			tsort(ChillingTouchStacks, sortFuncDesc)
-			for _, name in ipairs(ChillingTouchStacks) do
-				addLine(name, ChillingTouchStacks[name])
+			for uId in DBM:GetGroupMembers() do
+				local unitName = DBM:GetUnitFullName(uId)
+				local count = ChillingTouchStacks[unitName] or 0
+				tempLines[unitName] = count
+				tempLinesSorted[#tempLinesSorted + 1] = unitName
 			end
+			--Sort lingering according to options
+			tsort(tempLinesSorted, sortFuncDesc)
+			for _, name in ipairs(tempLinesSorted) do
+				addLine(name, tempLines[name])
+			end
+
 		end
 		return lines, sortedLines
 	end
@@ -351,8 +363,8 @@ function mod:SPELL_AURA_APPLIED(args)
 			DBM.Nameplate:Show(true, args.sourceGUID, spellId, nil, 40)
 		end
 	elseif spellId == 287626 then
-		specWarGraspofFrost:CombinedShow(0.5, args.destName)
-		specWarGraspofFrost:ScheduleVoice(0.5, "helpdispel")
+		specWarGraspofFrost:CombinedShow(1, args.destName)
+		specWarGraspofFrost:ScheduleVoice(1, "helpdispel")
 		if self.Options.SetIconGraspofFrost2 then
 			self:SetIcon(args.destName, self.vb.GraspofFrostIcon)
 		end

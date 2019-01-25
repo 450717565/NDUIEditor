@@ -82,7 +82,7 @@ function module:InsertFactionFrame(self, faction)
 		local f = self:CreateTexture(nil, "OVERLAY")
 		f:SetPoint("TOPRIGHT", 0, -5)
 		f:SetBlendMode("ADD")
-		f:SetScale(.3)
+		f:SetScale(.25)
 		self.factionFrame = f
 	end
 	self.factionFrame:SetTexture("Interface\\Timer\\"..faction.."-Logo")

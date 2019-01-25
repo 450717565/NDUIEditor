@@ -42,7 +42,7 @@ function module:DisableAuroraClassic()
 end
 
 local function highlightFunction(button, match)
-	button:SetAlpha(match and 1 or .3)
+	button:SetAlpha(match and 1 or .25)
 end
 
 function module:CreateInfoFrame()
@@ -59,7 +59,7 @@ function module:CreateInfoFrame()
 	local bg = B.CreateBG(search)
 	bg:SetPoint("TOPLEFT", -5, -5)
 	bg:SetPoint("BOTTOMRIGHT", 5, 5)
-	B.CreateBD(bg, .3)
+	B.CreateBD(bg, .25)
 	B.CreateSD(bg)
 
 	local tag = self:SpawnPlugin("TagDisplay", "[money]", infoFrame)
@@ -267,7 +267,7 @@ function module:OnLogin()
 		self.Count:SetFont(unpack(DB.Font))
 
 		self.BG = B.CreateBG(self)
-		B.CreateBD(self.BG, .3)
+		B.CreateBD(self.BG, .25)
 		B.CreateSD(self.BG)
 
 		self.junkIcon = self:CreateTexture(nil, "ARTWORK")

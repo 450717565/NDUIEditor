@@ -515,7 +515,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		tab:SetHighlightTexture("")
 		tab.Text:ClearAllPoints()
 		tab.Text:SetPoint("CENTER")
-		F.CreateBDFrame(tab, .25)
+		local bg = F.CreateBDFrame(tab, .25)
 
 		local selectedTex = bg:CreateTexture(nil, "BACKGROUND")
 		selectedTex:SetAllPoints()

@@ -29,6 +29,7 @@ function module:GuildBest()
 		frame:SetPoint("BOTTOMRIGHT", -6, 80)
 		frame:SetSize(170, 105)
 		B.SetBackground(frame, .25)
+		B.CreateGradient(frame)
 		B.CreateFS(frame, 16, CHALLENGE_MODE_THIS_WEEK , "system", "TOPLEFT", 16, -6)
 
 		frame.entries = {}
@@ -38,12 +39,10 @@ function module:GuildBest()
 			entry:SetPoint("RIGHT", -10, 0)
 			entry:SetHeight(18)
 			entry.Name = B.CreateFS(entry, 14, "", false, "LEFT", 6, 0)
-			entry.Name:SetPoint("RIGHT", -30, 0)
 			entry.Name:SetJustifyH("LEFT")
-			entry.Level = B.CreateFS(entry, 14, "", "system")
-			entry.Level:SetJustifyH("LEFT")
-			entry.Level:ClearAllPoints()
-			entry.Level:SetPoint("LEFT", entry, "RIGHT", -22, 0)
+			entry.Name:SetPoint("RIGHT", -30, 0)
+			entry.Level = B.CreateFS(entry, 14, "", "system", "RIGHT", 0, 0)
+			entry.Level:SetJustifyH("RIGHT")
 			entry:SetScript("OnEnter", UpdateTooltip)
 			entry:SetScript("OnLeave", B.HideTooltip)
 
@@ -60,12 +59,13 @@ function module:GuildBest()
 	local function SetUpRecord(self, leaderInfo)
 		self.leaderInfo = leaderInfo
 
-		local str = "|c%s%s|r<%s>"
+		local nameStr = "|c%s%s|r"
+		local levelStr = "|cffFFFFFF%s|r (%s)"
 		local mapName = C_ChallengeMode.GetMapUIInfo(leaderInfo.mapChallengeModeID)
 		local classColorStr = DB.ClassColors[leaderInfo.classFileName].colorStr
 
-		self.Name:SetText(format(str, classColorStr, leaderInfo.name, mapName))
-		self.Level:SetText(leaderInfo.keystoneLevel)
+		self.Name:SetText(format(nameStr, classColorStr, leaderInfo.name))
+		self.Level:SetText(format(levelStr, mapName, leaderInfo.keystoneLevel))
 	end
 
 	local resize

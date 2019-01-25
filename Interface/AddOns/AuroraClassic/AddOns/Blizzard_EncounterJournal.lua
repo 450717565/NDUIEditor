@@ -280,7 +280,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		F.StripTextures(reward)
 
 		local bg = F.CreateBDFrame(reward.icon, .25)
-		bg:SetFrameLevel(reward:GetFrameLevel()+1)
+		--bg:SetFrameLevel(reward:GetFrameLevel()+1)
 	end
 
 	-- Hook functions

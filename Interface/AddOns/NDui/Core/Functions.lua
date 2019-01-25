@@ -67,6 +67,20 @@ function B.ItemSlotInfo(item)
 	return slotText
 end
 
+-- Gradient skin
+function B:CreateGradient()
+	if self.Gradient then return end
+
+	local Gradient = self:CreateTexture(nil, "BORDER")
+	Gradient:SetPoint("TOPLEFT", self, C.mult, -C.mult)
+	Gradient:SetPoint("BOTTOMRIGHT", self, -C.mult, C.mult)
+	Gradient:SetTexture(DB.gradientTex)
+	Gradient:SetVertexColor(.3, .3, .3, .3)
+	self.Gradient = Gradient
+
+	return Gradient
+end
+
 -- Gradient Frame
 function B:CreateGF(w, h, o, r, g, b, a1, a2)
 	self:SetSize(w, h)
@@ -98,7 +112,7 @@ function B:CreateSD(m, s)
 	self.Shadow:SetPoint("BOTTOMRIGHT", self, m, -m)
 	self.Shadow:SetBackdrop({edgeFile = DB.glowTex, edgeSize = s})
 	self.Shadow:SetBackdropBorderColor(0, 0, 0, 1)
-	self.Shadow:SetFrameLevel(lvl == 0 and 0 or lvl - 1)
+	self.Shadow:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
 
 	return self.Shadow
 end
@@ -113,7 +127,8 @@ function B:CreateBG(offset)
 	local bg = CreateFrame("Frame", nil, frame)
 	bg:SetPoint("TOPLEFT", self, -offset, offset)
 	bg:SetPoint("BOTTOMRIGHT", self, offset, -offset)
-	bg:SetFrameLevel(lvl == 0 and 0 or lvl - 1)
+	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
+
 	return bg
 end
 
@@ -217,10 +232,10 @@ function B:CreateBC(a)
 		self:SetBackdropBorderColor(0, 0, 0, 1)
 	end)
 	self:SetScript("OnMouseDown", function()
-		self:SetBackdropColor(cr, cg, cb, a or .3)
+		self:SetBackdropColor(cr, cg, cb, a or .5)
 	end)
 	self:SetScript("OnMouseUp", function()
-		self:SetBackdropColor(0, 0, 0, a or .3)
+		self:SetBackdropColor(0, 0, 0, a or .5)
 	end)
 end
 
@@ -596,7 +611,7 @@ function B:CreateButton(width, height, text, fontSize)
 	if type(text) == "boolean" then
 		B.PixelIcon(bu, fontSize, true)
 	else
-		B.CreateBC(bu, .3)
+		B.CreateBC(bu, .25)
 		bu.text = B.CreateFS(bu, fontSize or 14, text, true)
 	end
 
@@ -605,7 +620,7 @@ end
 
 function B:CreateCheckBox()
 	local cb = CreateFrame("CheckButton", nil, self, "InterfaceOptionsCheckButtonTemplate")
-	B.CreateCB(cb, .3)
+	B.CreateCB(cb, .25)
 
 	cb.Type = "CheckBox"
 	return cb
@@ -617,7 +632,7 @@ function B:CreateEditBox(width, height)
 	eb:SetAutoFocus(false)
 	eb:SetTextInsets(5, 5, 0, 0)
 	eb:SetFontObject(GameFontHighlight)
-	B.CreateBD(eb, .3)
+	B.CreateBD(eb, .25)
 	B.CreateSD(eb)
 	eb:SetScript("OnEscapePressed", function()
 		eb:ClearFocus()
@@ -634,7 +649,8 @@ function B:CreateDropDown(width, height, data)
 	local dd = CreateFrame("Frame", nil, self)
 	dd:SetSize(width, height)
 	B.CreateBD(dd)
-	dd:SetBackdropBorderColor(1, 1, 1, .3)
+	B.CreateSD(dd)
+	dd:SetBackdropBorderColor(1, 1, 1, .25)
 	dd.Text = B.CreateFS(dd, 14, "", false, "LEFT", 5, 0)
 	dd.Text:SetPoint("RIGHT", -5, 0)
 	dd.options = {}
@@ -658,10 +674,10 @@ function B:CreateDropDown(width, height, data)
 		PlaySound(SOUNDKIT.GS_TITLE_OPTION_OK)
 		for i = 1, #opt do
 			if self == opt[i] then
-				opt[i]:SetBackdropColor(1, .8, 0, .3)
+				opt[i]:SetBackdropColor(1, .8, 0, .25)
 				opt[i].selected = true
 			else
-				opt[i]:SetBackdropColor(0, 0, 0, .3)
+				opt[i]:SetBackdropColor(0, 0, 0, .25)
 				opt[i].selected = false
 			end
 		end
@@ -674,14 +690,14 @@ function B:CreateDropDown(width, height, data)
 	end
 	local function optOnLeave(self)
 		if self.selected then return end
-		self:SetBackdropColor(0, 0, 0, .3)
+		self:SetBackdropColor(0, 0, 0, .25)
 	end
 
 	for i, j in pairs(data) do
 		opt[i] = CreateFrame("Button", nil, list)
 		opt[i]:SetPoint("TOPLEFT", 4, -4 - (i-1)*(height+2))
 		opt[i]:SetSize(width - 8, height)
-		B.CreateBD(opt[i], .3)
+		B.CreateBD(opt[i], .25)
 		B.CreateSD(opt[i])
 		opt[i]:SetBackdropBorderColor(1, 1, 1, .2)
 		local text = B.CreateFS(opt[i], 14, j, false, "LEFT", 5, 0)
@@ -704,6 +720,7 @@ function B:CreateColorSwatch()
 	local swatch = CreateFrame("Button", nil, self)
 	swatch:SetSize(18, 18)
 	B.CreateBD(swatch, 1)
+	B.CreateSD(swatch)
 	local tex = swatch:CreateTexture()
 	tex:SetPoint("TOPLEFT", C.mult, -C.mult)
 	tex:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)

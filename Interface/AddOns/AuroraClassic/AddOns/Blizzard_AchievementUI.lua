@@ -52,9 +52,6 @@ C.themes["Blizzard_AchievementUI"] = function()
 	F.ReskinDropDown(dropDown)
 	dropDown:ClearAllPoints()
 	dropDown:SetPoint("RIGHT", searchBox, "LEFT", 0, 0)
-	local dropText = AchievementFrameFilterDropDownText
-	dropText:ClearAllPoints()
-	dropText:SetPoint("RIGHT", AchievementFrameFilterDropDownButton, "LEFT", -3, 0)
 
 	local searchResults = AchievementFrame.searchResults
 	searchResults:SetPoint("BOTTOMLEFT", AchievementFrame, "BOTTOMRIGHT", 20, 0)
