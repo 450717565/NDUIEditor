@@ -126,7 +126,7 @@ local function BuildUnitIDTable()
 end
 
 local function MakeMoveHandle(frame, text, value, anchor)
-	local mover = B.Mover(frame, text, value, anchor, nil, nil, true)
+	local mover = B.Mover(frame, DB.InfoColor..text, value, anchor, nil, nil, true)
 	frame:ClearAllPoints()
 	frame:SetPoint("CENTER", mover)
 
@@ -134,6 +134,11 @@ local function MakeMoveHandle(frame, text, value, anchor)
 end
 
 -----> STYLED CODE START
+local PetBattleFrameHider = CreateFrame("Frame", nil, UIParent, "SecureHandlerStateTemplate")
+PetBattleFrameHider:SetAllPoints()
+PetBattleFrameHider:SetFrameStrata("LOW")
+RegisterStateDriver(PetBattleFrameHider, "visibility", "[petbattle] hide; show")
+
 -- BuildICON
 local function tooltipOnEnter(self)
 	GameTooltip:ClearLines()
@@ -162,7 +167,7 @@ end
 local function BuildICON(iconSize)
 	iconSize = iconSize * NDuiDB["AuraWatch"]["IconScale"]
 
-	local frame = CreateFrame("Frame", nil, UIParent)
+	local frame = CreateFrame("Frame", nil, PetBattleFrameHider)
 	frame:SetSize(iconSize, iconSize)
 	B.CreateSD(frame, 3, 3)
 
@@ -190,7 +195,7 @@ end
 
 -- BuildBAR
 local function BuildBAR(barWidth, iconSize)
-	local frame = CreateFrame("Frame", nil, UIParent)
+	local frame = CreateFrame("Frame", nil, PetBattleFrameHider)
 	frame:SetSize(iconSize, iconSize)
 	B.CreateSD(frame, 2, 2)
 
@@ -502,7 +507,7 @@ local function updateIntTimer(self, elapsed)
 end
 
 local function UpdateIntFrame(intID, itemID, duration, unitID, guid, sourceName)
-	if not UIParent:IsShown() then return end
+	if not PetBattleFrameHider:IsShown() then return end
 
 	local frame = BuildBAR(IntCD.BarWidth, IntCD.IconSize)
 	if frame then
@@ -648,7 +653,6 @@ StaticPopupDialogs["RESET_AURAWATCH_MOVER"] = {
 	end,
 }
 
-local texture = GetSpellTexture(102364)
 SlashCmdList.AuraWatch = function(msg)
 	if msg:lower() == "move" then
 		f:SetScript("OnUpdate", nil)
@@ -658,7 +662,7 @@ SlashCmdList.AuraWatch = function(msg)
 					value[i]:SetScript("OnUpdate", nil)
 					value[i]:Show()
 				end
-				if value[i].Icon then value[i].Icon:SetTexture(texture) end
+				if value[i].Icon then value[i].Icon:SetColorTexture(0, 0, 0, .25) end
 				if value[i].Count then value[i].Count:SetText("") end
 				if value[i].Time then value[i].Time:SetText("59") end
 				if value[i].Statusbar then value[i].Statusbar:SetValue(1) end
@@ -686,6 +690,7 @@ SlashCmdList.AuraWatch = function(msg)
 				IntTable[i].Time:SetText("59")
 				IntTable[i].Statusbar:SetMinMaxValues(0, 1)
 				IntTable[i].Statusbar:SetValue(1)
+				IntTable[i].Icon:SetColorTexture(0, 0, 0, .25)
 			end
 		end
 	elseif msg:lower() == "lock" then

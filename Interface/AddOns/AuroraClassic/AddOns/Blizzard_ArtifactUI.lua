@@ -4,9 +4,8 @@ C.themes["Blizzard_ArtifactUI"] = function()
 	local r, g, b = C.r, C.g, C.b
 
 	F.ReskinFrame(ArtifactFrame)
-	F.StripTextures(ArtifactFrame.PerksTab, true)
-	F.StripTextures(ArtifactFrame.PerksTab.DisabledFrame, true)
-	F.StripTextures(ArtifactFrame.ForgeBadgeFrame, true)
+	F.StripTextures(ArtifactFrame.PerksTab)
+	F.StripTextures(ArtifactFrame.ForgeBadgeFrame)
 
 	F.ReskinTab(ArtifactFrameTab1)
 	F.ReskinTab(ArtifactFrameTab2)
@@ -15,33 +14,35 @@ C.themes["Blizzard_ArtifactUI"] = function()
 	ArtifactFrameTab1:ClearAllPoints()
 	ArtifactFrameTab1:SetPoint("TOPLEFT", ArtifactFrame, "BOTTOMLEFT", 10, 2)
 
-	-- Appearance
+	-- AppearancesTab
+	local AppearancesTab = ArtifactFrame.AppearancesTab
+	F.StripTextures(AppearancesTab)
 
-	F.StripTextures(ArtifactFrame.AppearancesTab, true)
 	for i = 1, 6 do
-		local set = ArtifactFrame.AppearancesTab.appearanceSetPool:Acquire()
-		set.Name:SetTextColor(.9, .8, .5)
-		F.StripTextures(set, true)
+		local SetPool = AppearancesTab.appearanceSetPool:Acquire()
+		SetPool.Name:SetTextColor(.9, .8, .5)
+		F.StripTextures(SetPool)
 
-		local bg = F.CreateBDFrame(set, .25)
-		bg:SetPoint("TOPLEFT", 10, -5)
-		bg:SetPoint("BOTTOMRIGHT", -10, 5)
+		local setbg = F.CreateBDFrame(SetPool, .25)
+		setbg:SetPoint("TOPLEFT", 10, -5)
+		setbg:SetPoint("BOTTOMRIGHT", -10, 5)
 
 		for j = 1, 4 do
-			local slot = ArtifactFrame.AppearancesTab.appearanceSlotPool:Acquire()
-			slot.Border:SetAlpha(0)
-			slot.Background:Hide()
-			slot.SwatchTexture:SetTexCoord(.2, .8, .2, .8)
-			slot.SwatchTexture:SetAllPoints()
-			slot.UnobtainableCover:SetTexCoord(.20, .80, .15, .75)
-			slot.UnobtainableCover:SetAllPoints()
+			local SlotPool = AppearancesTab.appearanceSlotPool:Acquire()
+			SlotPool.Border:SetAlpha(0)
+			SlotPool.Background:Hide()
+			SlotPool.SwatchTexture:SetTexCoord(.2, .8, .2, .8)
+			SlotPool.SwatchTexture:SetAllPoints()
+			SlotPool.UnobtainableCover:SetTexCoord(.20, .80, .15, .75)
+			SlotPool.UnobtainableCover:SetAllPoints()
 
-			local bg = F.CreateBDFrame(slot, .25)
-			F.ReskinTexture(slot.HighlightTexture, bg, false)
+			local slotbg = F.CreateBDFrame(SlotPool, .25)
+			F.ReskinTexture(SlotPool.HighlightTexture, slotbg, false)
 
-			local sl = slot.Selected
-			F.ReskinTexture(sl, slot, true, true)
+			local sl = SlotPool.Selected
+			F.ReskinTexture(sl, SlotPool, true, true)
 			sl:SetColorTexture(r, g, b, 1)
 		end
 	end
+
 end

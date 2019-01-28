@@ -27,28 +27,33 @@ function module:SoloInfo()
 		[575] = 2,		-- 乌特加德之巅，蓝龙
 		[585] = 2,		-- 魔导师平台，白鸡
 		[631] = 6,		-- 冰冠堡垒，无敌
+		[1651] = 23,	-- 新午夜，卡拉赞
 	}
 
-	local f = CreateFrame("Frame", nil, UIParent)
-	f:SetPoint("TOP", UIParent, "TOP", 0, -85)
-	f:SetSize(200, 70)
-	f:Hide()
-	B.SetBackground(f)
-	f.Text = B.CreateFS(f, 12, "")
-	f.Text:SetWordWrap(true)
-	f:SetScript("OnMouseUp", function() f:Hide() end)
+	local f
+	local function setupAlertFrame()
+		if f then f:Show() return end
+
+		f = CreateFrame("Frame", nil, UIParent)
+		f:SetPoint("TOP", UIParent, "TOP", 0, -85)
+		f:SetSize(200, 70)
+		B.SetBackground(f)
+		f.Text = B.CreateFS(f, 12, "")
+		f.Text:SetWordWrap(true)
+		f:SetScript("OnMouseUp", function() f:Hide() end)
+	end
 
 	local function updateAlert()
 		if IsInInstance() then
-			local name, _, difficultyID, difficultyName, _, _, _, instanceMapID = GetInstanceInfo()
-			if difficultyID ~= 24 and instList[instanceMapID] and instList[instanceMapID] ~= difficultyID then
-				f:Show()
+			local name, instType, diffID, diffName, _, _, _, instID = GetInstanceInfo()
+			if instType ~= "none" and diffID ~= 24 and instList[instID] and instList[instID] ~= diffID then
+				setupAlertFrame()
 				f.Text:SetText(DB.InfoColor..name.."\n<"..difficultyName..">\n\n"..DB.MyColor..L["Wrong Difficulty"])
 			else
-				f:Hide()
+				if f then f:Hide() end
 			end
 		else
-			f:Hide()
+			if f then f:Hide() end
 		end
 	end
 
@@ -57,14 +62,14 @@ function module:SoloInfo()
 			local isWarned = false
 			local numCurrent = GetNumGroupMembers()
 			if (numCurrent < 10) and (not isWarned) then
-				f:Show()
+				setupAlertFrame()
 				f.Text:SetText(DB.MyColor..L["In Raid"])
 				isWarned = true
 			else
-				f:Hide()
+				if f then f:Hide() end
 			end
 		else
-			f:Hide()
+			if f then f:Hide() end
 		end
 	end
 
@@ -142,6 +147,7 @@ function module:InterruptAlert()
 	local blackList = {
 		[99] = true,		-- 夺魂咆哮
 		[122] = true,		-- 冰霜新星
+		[1776] = true,		-- 凿击
 		[1784] = true,		-- 潜行
 		[115191] = true,
 		[5246] = true,		-- 破胆怒吼
@@ -309,13 +315,6 @@ end
 function module:PlacedItemAlert()
 	local GetTime = GetTime
 	local itemList = {
-		[226241] = true,	-- 宁神圣典
-		[256230] = true,	-- 静心圣典
-		[185709] = true,	-- 焦糖鱼宴
-		[259409] = true,	-- 海帆盛宴
-		[259410] = true,	-- 船长盛宴
-		[276972] = true,	-- 秘法药锅
-		[286050] = true,	-- 鲜血大餐
 		[190336] = true,	-- 造餐术
 		[199109] = true,	-- 自动铁锤
 		[67826] = true,	-- 基维斯
@@ -323,6 +322,14 @@ function module:PlacedItemAlert()
 		[29893] = true,	-- 灵魂之井
 		[698] = true,	-- 召唤仪式
 		[8143] = true,	-- 战栗图腾
+		-- 默认
+		[226241] = true,	-- 宁神圣典
+		[256230] = true,	-- 静心圣典
+		[185709] = true,	-- 焦糖鱼宴
+		[259409] = true,	-- 海帆盛宴
+		[259410] = true,	-- 船长盛宴
+		[276972] = true,	-- 秘法药锅
+		[286050] = true,	-- 鲜血大餐
 	}
 
 	local lastTime = 0

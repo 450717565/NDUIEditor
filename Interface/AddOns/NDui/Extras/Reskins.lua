@@ -51,35 +51,49 @@ local function Reskins()
 		end
 
 		if IsAddOnLoaded("AuctionLite") then
-			F.StripTextures(SellRememberButton, true)
 			F.ReskinArrow(BuyAdvancedButton, "down")
 			F.ReskinArrow(SellRememberButton, "down")
 			F.ReskinArrow(BuySummaryButton, "left")
+
 			SellSize:SetWidth(40)
 			SellSize:ClearAllPoints()
 			SellSize:SetPoint("LEFT", SellStacks, "RIGHT", 66, 0)
+
+			SellBidPriceSilver:ClearAllPoints()
 			SellBidPriceSilver:SetPoint("LEFT", SellBidPriceGold, "RIGHT", 1, 0)
+			SellBidPriceCopper:ClearAllPoints()
 			SellBidPriceCopper:SetPoint("LEFT", SellBidPriceSilver, "RIGHT", 1, 0)
+			SellBuyoutPriceSilver:ClearAllPoints()
 			SellBuyoutPriceSilver:SetPoint("LEFT", SellBuyoutPriceGold, "RIGHT", 1, 0)
+			SellBuyoutPriceCopper:ClearAllPoints()
 			SellBuyoutPriceCopper:SetPoint("LEFT", SellBuyoutPriceSilver, "RIGHT", 1, 0)
-			BuyBuyoutButton:SetPoint("RIGHT", BuyCancelAuctionButton, "LEFT", -2, 0)
-			BuyBidButton:SetPoint("RIGHT", BuyBuyoutButton, "LEFT", -2, 0)
+			BuyBuyoutButton:ClearAllPoints()
+			BuyBuyoutButton:SetPoint("RIGHT", BuyCancelAuctionButton, "LEFT", -1, 0)
+			BuyBidButton:ClearAllPoints()
+			BuyBidButton:SetPoint("RIGHT", BuyBuyoutButton, "LEFT", -1, 0)
 
-			F.StripTextures(SellItemButton, true)
-			F.CreateBDFrame(SellItemButton, .25)
-
-			local sellitemhandler = CreateFrame("Frame")
-			sellitemhandler:RegisterEvent("NEW_AUCTION_UPDATE")
-			sellitemhandler:SetScript("OnEvent", function()
-				local SellItemButtonIconTexture = SellItemButton:GetNormalTexture()
-				if SellItemButtonIconTexture then
-					SellItemButtonIconTexture:SetTexCoord(.08, .92, .08, .92)
-				end
-			end)
+			do
+				F.StripTextures(SellItemButton)
+				F.CreateBDFrame(SellItemButton, .25)
+				local frame = CreateFrame("Frame")
+				frame:RegisterEvent("NEW_AUCTION_UPDATE")
+				frame:SetScript("OnEvent", function()
+					local icon = SellItemButton:GetNormalTexture()
+					if icon then icon:SetTexCoord(.08, .92, .08, .92) end
+				end)
+			end
 
 			for i = 1, 16 do
-				local btn = _G["SellButton" .. i]
-				F.ReskinTexture(btn, btn, true)
+				local sell = _G["SellButton"..i]
+				F.ReskinTexture(sell, sell, true)
+
+				local buy = _G["BuyButton"..i]
+				F.ReskinTexture(buy, buy, true)
+			end
+
+			local Framelist = {SellRememberButton, BuyScrollFrame, SellScrollFrame}
+			for _, frame in next, Framelist do
+				F.StripTextures(frame)
 			end
 
 			local Inputlist = {BuyName, BuyQuantity, SellStacks, SellSize, SellBidPriceGold, SellBidPriceSilver, SellBidPriceCopper, SellBuyoutPriceGold, SellBuyoutPriceSilver, SellBuyoutPriceCopper}
@@ -98,6 +112,11 @@ local function Reskins()
 				F.ReskinRadio(radio)
 			end
 
+			local Buttonlist = {SellItemNameButton, SellBuyoutEachButton, SellBuyoutAllButton}
+			for _, button in next, Buttonlist do
+				F.ReskinTexture(button, button, true)
+			end
+
 			local Scrolllist = {BuyScrollFrameScrollBar, SellScrollFrameScrollBar}
 			for _, scroll in next, Scrolllist do
 				F.ReskinScroll(scroll)
@@ -105,12 +124,12 @@ local function Reskins()
 		end
 
 		if IsAddOnLoaded("BaudAuction") then
-			F.StripTextures(BaudAuctionBrowseScrollBoxScrollBar, true)
+			F.StripTextures(BaudAuctionBrowseScrollBoxScrollBar)
 			F.ReskinFrame(BaudAuctionProgress)
 			F.ReskinScroll(BaudAuctionBrowseScrollBoxScrollBarScrollBar)
 
 			BaudAuctionProgressBar:SetPoint("CENTER", 0, -5)
-			F.ReskinStatusBar(BaudAuctionProgressBar, true, true)
+			F.ReskinStatusBar(BaudAuctionProgressBar, true)
 
 			local boxHL = BaudAuctionBrowseScrollBoxHighlight
 			boxHL:SetTexture(DB.bdTex)
@@ -166,7 +185,7 @@ local function Reskins()
 				F.ReskinTexture(bu, ic, false)
 
 				local item = _G["MerchantItem"..i]
-				F.StripTextures(item, true)
+				F.StripTextures(item)
 
 				local name = _G["MerchantItem"..i.."Name"]
 				name:ClearAllPoints()
@@ -249,7 +268,7 @@ local function Reskins()
 
 			local Framelist = {"SearchFrame", "SuggestionsFrame", "WatchFrame"}
 			for k, v in pairs(Framelist) do
-				F.StripTextures(_G["Overachiever_"..v], true)
+				F.StripTextures(_G["Overachiever_"..v])
 				_G["Overachiever_"..v]:GetChildren():Hide()
 			end
 
@@ -280,7 +299,7 @@ local function Reskins()
 					local bu = _G["Overachiever_"..v..i]
 					local buic = _G["Overachiever_"..v..i.."Icon"]
 
-					F.StripTextures(bu, true)
+					F.StripTextures(bu)
 					F.ReskinIcon(bu.icon.texture, true)
 					_G["Overachiever_"..v..i.."Highlight"]:SetAlpha(0)
 					_G["Overachiever_"..v..i.."IconOverlay"]:Hide()
@@ -311,8 +330,8 @@ local function Reskins()
 
 		if IsAddOnLoaded("PremadeGroupsFilter") then
 			local dialog = PremadeGroupsFilterDialog
-			F.StripTextures(dialog.Advanced, true)
-			F.StripTextures(dialog.Expression, true)
+			F.StripTextures(dialog.Advanced)
+			F.StripTextures(dialog.Expression)
 			F.ReskinFrame(dialog)
 			F.ReskinButton(dialog.ResetButton)
 			F.ReskinButton(dialog.RefreshButton)
@@ -392,8 +411,8 @@ local function Reskins()
 			WQT_TabWorld.Highlight:SetTexture("")
 			WQT_TabWorld.Icon:SetPoint("CENTER")
 
-			F.StripTextures(WQT_WorldQuestFrame, true)
-			F.StripTextures(WQT_QuestScrollFrame.DetailFrame, true)
+			F.StripTextures(WQT_WorldQuestFrame)
+			F.StripTextures(WQT_QuestScrollFrame.DetailFrame)
 			F.ReskinButton(WQT_TabNormal)
 			F.ReskinButton(WQT_TabWorld)
 			F.ReskinDropDown(WQT_WorldQuestFrameSortButton)

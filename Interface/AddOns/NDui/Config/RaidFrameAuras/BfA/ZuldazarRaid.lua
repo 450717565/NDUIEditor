@@ -17,8 +17,10 @@ BOSS = 2325 -- 丛林之王格洛恩
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 285671) -- 碾碎
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 285998) -- 凶狠咆哮
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 285875) -- 撕裂噬咬
-module:RegisterDebuff(TIER, INSTANCE, BOSS, 285659) -- 猿猴折磨者核心
+module:RegisterDebuff(TIER, INSTANCE, BOSS, 285659, 6) -- 猿猴折磨者核心
+module:RegisterDebuff(TIER, INSTANCE, BOSS, 286373, 6) -- 死亡战栗
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 283069) -- 原子烈焰
+module:RegisterDebuff(TIER, INSTANCE, BOSS, 286434) -- 死疽之核
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 289406) -- 蛮兽压掷
 
 BOSS = 2341 -- 玉火大师
@@ -48,14 +50,15 @@ module:RegisterDebuff(TIER, INSTANCE, BOSS, 284814) -- 地之根系绿宝石
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 284881) -- 怒意释放猫眼石
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 283610) -- 碾压
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 283609) -- 碾压
-module:RegisterDebuff(TIER, INSTANCE, BOSS, 283507, 6) -- 爆裂充能
-module:RegisterDebuff(TIER, INSTANCE, BOSS, 287648, 6) -- 爆裂充能
+module:RegisterDebuff(TIER, INSTANCE, BOSS, 283507) -- 爆裂充能
+module:RegisterDebuff(TIER, INSTANCE, BOSS, 287648) -- 爆裂充能
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 283063) -- 惩罚烈焰
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 287513) -- 惩罚烈焰
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 285479) -- 烈焰喷射
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 283947) -- 烈焰喷射
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 285014, 6) -- 金币雨
-module:RegisterDebuff(TIER, INSTANCE, BOSS, 284470) -- 昏睡妖术
+module:RegisterDebuff(TIER, INSTANCE, BOSS, 284470, 6) -- 昏睡妖术
+module:RegisterDebuff(TIER, INSTANCE, BOSS, 287072) -- 液态黄金
 
 BOSS = 2330 -- 神选者教团
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 282135, 6) -- 恶意妖术
@@ -74,17 +77,17 @@ module:RegisterDebuff(TIER, INSTANCE, BOSS, 285178) -- 蛇焰吐息
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 289858) -- 碾压
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 284740, 6) -- 重斧掷击
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 284781, 6) -- 重斧掷击
-module:RegisterDebuff(TIER, INSTANCE, BOSS, 285349) -- 赤焰分散
+module:RegisterDebuff(TIER, INSTANCE, BOSS, 285349) -- 赤焰瘟疫
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 284995) -- 僵尸尘
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 285195) -- 寂灭凋零
-module:RegisterDebuff(TIER, INSTANCE, BOSS, 288449) -- 死亡之门
+module:RegisterDebuff(TIER, INSTANCE, BOSS, 288449, 6) -- 死亡之门
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 286742) -- 死疽碎击
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 286779) -- 死亡聚焦
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 288415) -- 死亡之抚
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 285213) -- 死亡之抚
 
 BOSS = 2334 -- 大工匠梅卡托克
-module:RegisterDebuff(TIER, INSTANCE, BOSS, 286646) -- 千兆伏特充能
+module:RegisterDebuff(TIER, INSTANCE, BOSS, 286646, 6) -- 千兆伏特充能
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 288806) -- 千兆伏特轰炸
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 284168) -- 缩小
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 282182) -- 毁灭加农炮
@@ -93,6 +96,7 @@ module:RegisterDebuff(TIER, INSTANCE, BOSS, 286516) -- 反干涉震击
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 286480) -- 反干涉震击
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 284214) -- 践踏
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 287167) -- 基因解组
+module:RegisterDebuff(TIER, INSTANCE, BOSS, 286105) -- 干涉
 
 BOSS = 2337 -- 风暴之墙阻击战
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 284405) -- 诱惑之歌
@@ -100,6 +104,8 @@ module:RegisterDebuff(TIER, INSTANCE, BOSS, 284369) -- 海洋暴风
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 284121) -- 雷霆轰鸣
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 285350) -- 风暴哀嚎
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 285000) -- 海藻缠裹
+module:RegisterDebuff(TIER, INSTANCE, BOSS, 285350, 6) -- 风暴哀嚎
+module:RegisterDebuff(TIER, INSTANCE, BOSS, 285426, 6) -- 风暴哀嚎
 
 BOSS = 2343 -- 吉安娜·普罗德摩尔
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 287490) -- 冻结

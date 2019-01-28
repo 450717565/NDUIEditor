@@ -135,6 +135,8 @@ local function CreateTex(f)
 	Tex:SetVertTile(true)
 	Tex:SetBlendMode("ADD")
 	f.Tex = Tex
+
+	return Tex
 end
 
 function F:CreateSD()
@@ -357,38 +359,38 @@ function F:ReskinDropDown()
 	F.CleanTextures(self)
 
 	local frameName = self.GetName and self:GetName()
-	local down = self.Button or (frameName and _G[frameName.."Button"])
-	down:SetSize(20, 20)
-	down:ClearAllPoints()
-	down:SetPoint("RIGHT", -18, 2)
-	F.ReskinButton(down, true)
+	local button = self.Button or (frameName and _G[frameName.."Button"])
+	button:SetSize(20, 20)
+	button:ClearAllPoints()
+	button:SetPoint("RIGHT", -18, 2)
+	F.ReskinButton(button, true)
 
-	local text = self.Text or (frameName and _G[frameName.."Text"])
-	if text then
-		text:SetJustifyH("RIGHT")
-		text:ClearAllPoints()
-		text:SetPoint("RIGHT", down, "LEFT", -3, 0)
-	end
-
-	down:SetDisabledTexture(C.media.bdTex)
-	local dis = down:GetDisabledTexture()
+	button:SetDisabledTexture(C.media.bdTex)
+	local dis = button:GetDisabledTexture()
 	dis:SetVertexColor(0, 0, 0, .5)
 	dis:SetDrawLayer("OVERLAY")
 	dis:SetAllPoints()
 
-	local bgTex = down:CreateTexture(nil, "ARTWORK")
+	local bgTex = button:CreateTexture(nil, "ARTWORK")
 	bgTex:SetTexture(C.media.arrowDown)
 	bgTex:SetSize(8, 8)
 	bgTex:SetPoint("CENTER")
 	bgTex:SetVertexColor(1, 1, 1)
-	down.bgTex = bgTex
+	button.bgTex = bgTex
 
-	down:HookScript("OnEnter", textureOnEnter)
-	down:HookScript("OnLeave", textureOnLeave)
+	button:HookScript("OnEnter", textureOnEnter)
+	button:HookScript("OnLeave", textureOnLeave)
 
 	local bg = F.CreateBDFrame(self, 0)
-	bg:SetPoint("TOPLEFT", 16, -4)
-	bg:SetPoint("BOTTOMRIGHT", -18, 8)
+	bg:SetPoint("TOPLEFT", self, "TOPLEFT", 16, -4)
+	bg:SetPoint("BOTTOMRIGHT", button, "BOTTOMLEFT", -1, 0)
+
+	local text = self.Text or (frameName and _G[frameName.."Text"])
+	if text then
+		text:SetJustifyH("CENTER")
+		text:ClearAllPoints()
+		text:SetPoint("CENTER", bg, 1, 0)
+	end
 end
 
 local function SetupTexture(self, texture)
@@ -496,7 +498,6 @@ function F:ReskinIcon(setBS)
 end
 
 function F:ReskinInput(height, width)
-	F.StripTextures(self)
 	F.CleanTextures(self)
 
 	local bg = F.CreateBDFrame(self, 0)
@@ -598,10 +599,17 @@ function F:ReskinRadio()
 	F.ReskinTexture(self, bg, true)
 end
 
+local function scrollThumb(self)
+	local frameName = self.GetName and self:GetName()
+	local bu = self.ThumbTexture or self.thumbTexture or (frameName and _G[frameName.."ThumbTexture"])
+
+	return bu
+end
+
 local function scrollOnEnter(self)
 	if self:IsEnabled() then
-		local frameName = self.GetName and self:GetName()
-		local bu = self.ThumbTexture or self.thumbTexture or (frameName and _G[frameName.."ThumbTexture"])
+		local bu = scrollThumb(self)
+
 		if not bu then return end
 		bu.bg:SetBackdropBorderColor(cr, cg, cb, 1)
 	end
@@ -609,8 +617,8 @@ end
 
 local function scrollOnLeave(self)
 	if self:IsEnabled() then
-		local frameName = self.GetName and self:GetName()
-		local bu = self.ThumbTexture or self.thumbTexture or (frameName and _G[frameName.."ThumbTexture"])
+		local bu = scrollThumb(self)
+
 		if not bu then return end
 		bu.bg:SetBackdropBorderColor(0, 0, 0, 1)
 	end
@@ -620,8 +628,7 @@ function F:ReskinScroll()
 	F.StripTextures(self)
 	F.CleanTextures(self)
 
-	local frameName = self.GetName and self:GetName()
-	local bu = self.ThumbTexture or self.thumbTexture or (frameName and _G[frameName.."ThumbTexture"])
+	local bu = scrollThumb(self)
 	bu:SetAlpha(0)
 	bu:SetWidth(17)
 

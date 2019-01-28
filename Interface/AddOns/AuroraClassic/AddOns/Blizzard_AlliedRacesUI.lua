@@ -3,18 +3,21 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_AlliedRacesUI"] = function()
 	F.ReskinFrame(AlliedRacesFrame)
 	F.StripTextures(AlliedRacesFrame.ModelFrame, true)
-	AlliedRacesFrame.RaceInfoFrame.AlliedRacesRaceName:SetTextColor(1, .8, 0)
 
-	local scrollFrame = AlliedRacesFrame.RaceInfoFrame.ScrollFrame
-	F.ReskinScroll(scrollFrame.ScrollBar)
-	scrollFrame.Child.RaceDescriptionText:SetTextColor(1, 1, 1)
-	scrollFrame.Child.RacialTraitsLabel:SetTextColor(1, .8, 0)
+	local RaceInfoFrame = AlliedRacesFrame.RaceInfoFrame
+	RaceInfoFrame.AlliedRacesRaceName:SetTextColor(1, .8, 0)
+
+	local ScrollFrame = RaceInfoFrame.ScrollFrame
+	F.ReskinScroll(ScrollFrame.ScrollBar)
+	ScrollFrame.Child.RaceDescriptionText:SetTextColor(1, 1, 1)
+	ScrollFrame.Child.RacialTraitsLabel:SetTextColor(1, .8, 0)
 
 	AlliedRacesFrame:HookScript("OnShow", function(self)
-		local parent = scrollFrame.Child
-		F.StripTextures(parent.ObjectivesFrame, true)
-		for i = 1, parent:GetNumChildren() do
-			local bu = select(i, parent:GetChildren())
+		local Child = ScrollFrame.Child
+		F.StripTextures(Child.ObjectivesFrame)
+
+		for i = 1, Child:GetNumChildren() do
+			local bu = select(i, Child:GetChildren())
 
 			if not bu.styled then
 				if bu.Icon then

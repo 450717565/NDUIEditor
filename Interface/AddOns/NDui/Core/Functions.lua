@@ -107,14 +107,15 @@ function B:CreateSD(m, s)
 	local lvl = frame:GetFrameLevel()
 	if not m then m, s = C.mult*1.5, C.mult*2 end
 
-	self.Shadow = CreateFrame("Frame", nil, frame)
-	self.Shadow:SetPoint("TOPLEFT", self, -m, m)
-	self.Shadow:SetPoint("BOTTOMRIGHT", self, m, -m)
-	self.Shadow:SetBackdrop({edgeFile = DB.glowTex, edgeSize = s})
-	self.Shadow:SetBackdropBorderColor(0, 0, 0, 1)
-	self.Shadow:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
+	local Shadow = CreateFrame("Frame", nil, frame)
+	Shadow:SetPoint("TOPLEFT", self, -m, m)
+	Shadow:SetPoint("BOTTOMRIGHT", self, m, -m)
+	Shadow:SetBackdrop({edgeFile = DB.glowTex, edgeSize = s})
+	Shadow:SetBackdropBorderColor(0, 0, 0, 1)
+	Shadow:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
+	self.Shadow = Shadow
 
-	return self.Shadow
+	return Shadow
 end
 
 -- Create Background
@@ -139,12 +140,15 @@ function B:CreateTex()
 	local frame = self
 	if self:GetObjectType() == "Texture" then frame = self:GetParent() end
 
-	self.Tex = frame:CreateTexture(nil, "BACKGROUND", nil, 1)
-	self.Tex:SetAllPoints(self)
-	self.Tex:SetTexture(DB.bgTex, true, true)
-	self.Tex:SetHorizTile(true)
-	self.Tex:SetVertTile(true)
-	self.Tex:SetBlendMode("ADD")
+	local Tex = frame:CreateTexture(nil, "BACKGROUND", nil, 1)
+	Tex:SetAllPoints(self)
+	Tex:SetTexture(DB.bgTex, true, true)
+	Tex:SetHorizTile(true)
+	Tex:SetVertTile(true)
+	Tex:SetBlendMode("ADD")
+	self.Tex = Tex
+
+	return Tex
 end
 
 function B:SetBackground(a)

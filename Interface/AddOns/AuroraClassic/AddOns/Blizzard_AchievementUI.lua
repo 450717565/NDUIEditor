@@ -162,18 +162,18 @@ C.themes["Blizzard_AchievementUI"] = function()
 		local completed = select(4, GetAchievementInfo(category, achievement))
 		if completed then
 			if button.accountWide then
-				button.label:SetTextColor(.1, .5, .9)
+				button.label:SetTextColor(0, .6, 1)
 			else
-				button.label:SetTextColor(.9, .8, .1)
+				button.label:SetTextColor(1, .8, 0)
 			end
-			button.description:SetTextColor(.9, .9, .9)
+			button.description:SetTextColor(1, 1, 1)
 		else
 			if button.accountWide then
-				button.label:SetTextColor(.1, .5, .9, .5)
+				button.label:SetTextColor(0, .6, 1, .5)
 			else
-				button.label:SetTextColor(.9, .8, .1, .5)
+				button.label:SetTextColor(1, .8, 0, .5)
 			end
-			button.description:SetTextColor(.9, .9, .9, .5)
+			button.description:SetTextColor(1, 1, 1, .5)
 		end
 	end)
 
@@ -196,12 +196,12 @@ C.themes["Blizzard_AchievementUI"] = function()
 	hooksecurefunc("AchievementFrameSummary_UpdateAchievements", function()
 		for i = 1, 4 do
 			local bu = _G["AchievementFrameSummaryAchievement"..i]
-			bu.description:SetTextColor(.9, .9, .9)
+			bu.description:SetTextColor(1, 1, 1)
 
 			if bu.accountWide then
-				bu.label:SetTextColor(.1, .5, .9)
+				bu.label:SetTextColor(0, .6, 1)
 			else
-				bu.label:SetTextColor(.9, .8, .1)
+				bu.label:SetTextColor(1, .8, 0)
 			end
 
 			if not bu.styled then
@@ -275,18 +275,18 @@ C.themes["Blizzard_AchievementUI"] = function()
 
 		if completed then
 			if player.accountWide then
-				player.label:SetTextColor(.1, .5, .9)
+				player.label:SetTextColor(0, .6, 1)
 			else
-				player.label:SetTextColor(.9, .8, .1)
+				player.label:SetTextColor(1, .8, 0)
 			end
-			player.description:SetTextColor(.9, .9, .9)
+			player.description:SetTextColor(1, 1, 1)
 		else
 			if player.accountWide then
-				player.label:SetTextColor(.1, .5, .9, .5)
+				player.label:SetTextColor(0, .6, 1, .5)
 			else
-				player.label:SetTextColor(.9, .8, .1, .5)
+				player.label:SetTextColor(1, .8, 0, .5)
 			end
-			player.description:SetTextColor(.9, .9, .9, .5)
+			player.description:SetTextColor(1, 1, 1, .5)
 		end
 	end)
 
