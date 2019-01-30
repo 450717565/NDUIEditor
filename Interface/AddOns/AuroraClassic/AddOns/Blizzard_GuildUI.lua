@@ -131,7 +131,7 @@ C.themes["Blizzard_GuildUI"] = function()
 			if not bu.bg then
 				bu:SetNormalTexture("")
 				bu.disabledBG:Hide()
-				--bu.disabledBG.Show = F.dummy
+				--bu.disabledBG.Show = F.Dummy
 
 				bu.bg = F.CreateBDFrame(bu, 0)
 				bu.bg:SetPoint("TOPLEFT", C.mult, -C.mult)

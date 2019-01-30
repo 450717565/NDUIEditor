@@ -196,49 +196,49 @@ tinsert(C.themes["AuroraClassic"], function()
 	QuestFont:SetTextColor(1, 1, 1)
 
 	QuestInfoDescriptionHeader:SetTextColor(1, 1, 1)
-	QuestInfoDescriptionHeader.SetTextColor = F.dummy
+	QuestInfoDescriptionHeader.SetTextColor = F.Dummy
 	QuestInfoDescriptionHeader:SetShadowColor(0, 0, 0)
 
 	QuestInfoDescriptionText:SetTextColor(1, 1, 1)
-	QuestInfoDescriptionText.SetTextColor = F.dummy
+	QuestInfoDescriptionText.SetTextColor = F.Dummy
 
 	QuestInfoGroupSize:SetTextColor(1, 1, 1)
-	QuestInfoGroupSize.SetTextColor = F.dummy
+	QuestInfoGroupSize.SetTextColor = F.Dummy
 
 	QuestInfoObjectivesHeader:SetTextColor(1, 1, 1)
-	QuestInfoObjectivesHeader.SetTextColor = F.dummy
+	QuestInfoObjectivesHeader.SetTextColor = F.Dummy
 	QuestInfoObjectivesHeader:SetShadowColor(0, 0, 0)
 
 	QuestInfoObjectivesText:SetTextColor(1, 1, 1)
-	QuestInfoObjectivesText.SetTextColor = F.dummy
+	QuestInfoObjectivesText.SetTextColor = F.Dummy
 
 	QuestInfoRewardsFrame.Header:SetTextColor(1, 1, 1)
-	QuestInfoRewardsFrame.Header.SetTextColor = F.dummy
+	QuestInfoRewardsFrame.Header.SetTextColor = F.Dummy
 	QuestInfoRewardsFrame.Header:SetShadowColor(0, 0, 0)
 
 	QuestInfoRewardsFrame.ItemChooseText:SetTextColor(1, 1, 1)
-	QuestInfoRewardsFrame.ItemChooseText.SetTextColor = F.dummy
+	QuestInfoRewardsFrame.ItemChooseText.SetTextColor = F.Dummy
 
 	QuestInfoRewardsFrame.ItemReceiveText:SetTextColor(1, 1, 1)
-	QuestInfoRewardsFrame.ItemReceiveText.SetTextColor = F.dummy
+	QuestInfoRewardsFrame.ItemReceiveText.SetTextColor = F.Dummy
 
 	QuestInfoRewardsFrame.PlayerTitleText:SetTextColor(1, 1, 1)
-	QuestInfoRewardsFrame.PlayerTitleText.SetTextColor = F.dummy
+	QuestInfoRewardsFrame.PlayerTitleText.SetTextColor = F.Dummy
 
 	QuestInfoRewardsFrame.spellHeaderPool:Acquire():SetVertexColor(1, 1, 1)
-	QuestInfoRewardsFrame.spellHeaderPool:Acquire().SetVertexColor = F.dummy
+	QuestInfoRewardsFrame.spellHeaderPool:Acquire().SetVertexColor = F.Dummy
 
 	QuestInfoRewardsFrame.XPFrame.ReceiveText:SetTextColor(1, 1, 1)
-	QuestInfoRewardsFrame.XPFrame.ReceiveText.SetTextColor = F.dummy
+	QuestInfoRewardsFrame.XPFrame.ReceiveText.SetTextColor = F.Dummy
 
 	QuestInfoRewardText:SetTextColor(1, 1, 1)
-	QuestInfoRewardText.SetTextColor = F.dummy
+	QuestInfoRewardText.SetTextColor = F.Dummy
 
 	QuestInfoSpellObjectiveLearnLabel:SetTextColor(1, 1, 1)
-	QuestInfoSpellObjectiveLearnLabel.SetTextColor = F.dummy
+	QuestInfoSpellObjectiveLearnLabel.SetTextColor = F.Dummy
 
 	QuestInfoTitleHeader:SetTextColor(1, 1, 1)
-	QuestInfoTitleHeader.SetTextColor = F.dummy
+	QuestInfoTitleHeader.SetTextColor = F.Dummy
 	QuestInfoTitleHeader:SetShadowColor(0, 0, 0)
 
 end)

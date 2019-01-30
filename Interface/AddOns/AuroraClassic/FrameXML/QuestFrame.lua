@@ -61,16 +61,16 @@ tinsert(C.themes["AuroraClassic"], function()
 	QuestProgressRequiredItemsText:SetShadowColor(0, 0, 0)
 	QuestProgressTitleText:SetTextColor(1, 1, 1)
 	QuestProgressTitleText:SetShadowColor(0, 0, 0)
-	QuestProgressTitleText.SetTextColor = F.dummy
+	QuestProgressTitleText.SetTextColor = F.Dummy
 	QuestProgressText:SetTextColor(1, 1, 1)
-	QuestProgressText.SetTextColor = F.dummy
+	QuestProgressText.SetTextColor = F.Dummy
 	GreetingText:SetTextColor(1, 1, 1)
-	GreetingText.SetTextColor = F.dummy
+	GreetingText.SetTextColor = F.Dummy
 	AvailableQuestsText:SetTextColor(1, 1, 1)
-	AvailableQuestsText.SetTextColor = F.dummy
+	AvailableQuestsText.SetTextColor = F.Dummy
 	AvailableQuestsText:SetShadowColor(0, 0, 0)
 	CurrentQuestsText:SetTextColor(1, 1, 1)
-	CurrentQuestsText.SetTextColor = F.dummy
+	CurrentQuestsText.SetTextColor = F.Dummy
 	CurrentQuestsText:SetShadowColor(0, 0, 0)
 
 	-- [[ Quest NPC model ]]

@@ -10,5 +10,5 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinArrow(ItemTextNextPageButton, "right")
 
 	ItemTextPageText:SetTextColor(1, 1, 1)
-	ItemTextPageText.SetTextColor = F.dummy
+	ItemTextPageText.SetTextColor = F.Dummy
 end)

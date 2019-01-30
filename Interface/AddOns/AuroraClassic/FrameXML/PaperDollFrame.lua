@@ -54,7 +54,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		local bg = F.ReskinIcon(slot.icon)
 		F.ReskinTexture(slot, bg, false)
-		slot.SetHighlightTexture = F.dummy
+		slot.SetHighlightTexture = F.Dummy
 
 		local border = slot.IconBorder
 		F.ReskinBorder(border, slot)
@@ -119,7 +119,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			for i = 1, 4 do
 				local region = select(i, tab:GetRegions())
 				region:SetTexCoord(0.16, 0.86, 0.16, 0.86)
-				region.SetTexCoord = F.dummy
+				region.SetTexCoord = F.Dummy
 			end
 		end
 
@@ -171,7 +171,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 				local sp = _G["PaperDollEquipmentManagerPaneButton"..i.."Stripe"]
 				sp:Hide()
-				sp.Show = F.dummy
+				sp.Show = F.Dummy
 
 				local ic = _G["PaperDollEquipmentManagerPaneButton"..i.."Icon"]
 				F.ReskinIcon(ic)

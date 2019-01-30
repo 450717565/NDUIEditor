@@ -16,7 +16,7 @@ C.themes["Blizzard_Calendar"] = function()
 		F.ReskinTexture(bu, bu, true)
 
 		local hl = bu:GetHighlightTexture()
-		hl.SetAlpha = F.dummy
+		hl.SetAlpha = F.Dummy
 	end
 
 	local frames = {CalendarViewEventFrame, CalendarViewHolidayFrame, CalendarViewRaidFrame, CalendarCreateEventFrame, CalendarTexturePickerFrame, CalendarMassInviteFrame, CalendarClassTotalsButton, CalendarViewEventInviteList, CalendarViewEventDescriptionContainer, CalendarCreateEventInviteList, CalendarCreateEventDescriptionContainer, CalendarEventPickerFrame}

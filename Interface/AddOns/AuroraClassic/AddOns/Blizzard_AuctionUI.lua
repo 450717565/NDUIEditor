@@ -4,6 +4,7 @@ C.themes["Blizzard_AuctionUI"] = function()
 	F.ReskinFrame(AuctionFrame)
 
 	F.ReskinFrame(AuctionProgressFrame)
+	F.ReskinStatusBar(AuctionProgressBar)
 	F.ReskinClose(AuctionProgressFrameCancelButton, "LEFT", AuctionProgressBar, "RIGHT", 4, 0)
 	F.ReskinDropDown(PriceDropDown)
 	F.ReskinDropDown(DurationDropDown)

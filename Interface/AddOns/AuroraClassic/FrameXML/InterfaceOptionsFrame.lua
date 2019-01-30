@@ -201,7 +201,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			if button and not button.reskinned then
 				F.ReskinExpandOrCollapse(toggle)
 				toggle:SetPushedTexture("")
-				toggle.SetPushedTexture = F.dummy
+				toggle.SetPushedTexture = F.Dummy
 
 				button.highlight:SetTexture(C.media.bdTex)
 				button.highlight:SetAlpha(.25)

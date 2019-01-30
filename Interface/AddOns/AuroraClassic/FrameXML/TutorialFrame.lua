@@ -4,7 +4,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinFrame(TutorialFrame)
 
 	TutorialFrameBackground:Hide()
-	TutorialFrameBackground.Show = F.dummy
+	TutorialFrameBackground.Show = F.Dummy
 	TutorialFrame:DisableDrawLayer("BORDER")
 
 	F.ReskinButton(TutorialFrameOkayButton)

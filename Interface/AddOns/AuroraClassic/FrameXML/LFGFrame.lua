@@ -100,7 +100,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinFrame(LFGInvitePopup, true)
 	F.ReskinFrame(LFGDungeonReadyStatus, true)
 	F.ReskinFrame(LFGDungeonReadyDialog, true)
-	LFGDungeonReadyDialog.SetBackdrop = F.dummy
+	LFGDungeonReadyDialog.SetBackdrop = F.Dummy
 
 	F.ReskinButton(LFGDungeonReadyDialogEnterDungeonButton)
 	F.ReskinButton(LFGDungeonReadyDialogLeaveQueueButton)

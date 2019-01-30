@@ -18,9 +18,9 @@ tinsert(C.themes["AuroraClassic"], function()
 			if not bu.styled then
 				bu.highlight:SetPoint("TOPLEFT", 1, 0)
 				bu.highlight:SetPoint("BOTTOMRIGHT", -1, 0)
-				bu.highlight.SetPoint = F.dummy
+				bu.highlight.SetPoint = F.Dummy
 				bu.highlight:SetColorTexture(r, g, b, .25)
-				bu.highlight.SetTexture = F.dummy
+				bu.highlight.SetTexture = F.Dummy
 
 				bu.categoryMiddle:SetAlpha(0)
 				bu.categoryLeft:SetAlpha(0)

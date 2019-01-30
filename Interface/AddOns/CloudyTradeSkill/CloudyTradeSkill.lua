@@ -100,7 +100,7 @@ local function addTab(id, index, isSub)
 	if skinUI and not tab.skinned then
 		local checkedTexture
 		if (skinUI == "AuroraClassic") then
-			local bg = loadedUI.CreateBDFrame(tab, nil, true)
+			local bg = loadedUI.CreateBDFrame(tab)
 			checkedTexture = mediaUI.media.checked
 
 			loadedUI.ReskinTexture(tab, bg, false)
@@ -278,7 +278,7 @@ end
 
 --- Create Resize Bar ---
 local resizeBar = CreateFrame("Button", nil, TradeSkillFrame)
-resizeBar:SetAllPoints(TradeSkillFrameBottomBorder)
+resizeBar:SetAllPoints(TradeSkillFrame.NineSlice.BottomEdge)
 resizeBar:SetScript("OnMouseDown", function(_, button)
 	if (button == "LeftButton") and not InCombatLockdown() then
 		TradeSkillFrame:SetResizable(true)
@@ -307,7 +307,7 @@ end)
 
 --- Create Movable Bar ---
 local movBar = CreateFrame("Button", nil, TradeSkillFrame)
-movBar:SetAllPoints(TradeSkillFrameTopBorder)
+movBar:SetAllPoints(TradeSkillFrame.TitleBg)
 movBar:SetScript("OnMouseDown", function(_, button)
 	if (button == "LeftButton") then
 		TradeSkillFrame:SetMovable(true)

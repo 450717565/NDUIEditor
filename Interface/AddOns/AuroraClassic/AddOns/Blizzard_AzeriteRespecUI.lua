@@ -20,7 +20,7 @@ C.themes["Blizzard_AzeriteRespecUI"] = function()
 	F.StripTextures(ButtonFrame, true)
 	F.ReskinButton(ButtonFrame.AzeriteRespecButton)
 
-	local bg = F.CreateBDFrame(ButtonFrame, 0)
-	bg:SetPoint("TOPLEFT", ButtonFrame.MoneyFrameEdge, 1, 0)
-	bg:SetPoint("BOTTOMRIGHT", ButtonFrame.MoneyFrameEdge, 0, 2)
+	local bubg = F.CreateBDFrame(ButtonFrame, 0)
+	bubg:SetPoint("TOPLEFT", ButtonFrame.MoneyFrameEdge, 1, 0)
+	bubg:SetPoint("BOTTOMRIGHT", ButtonFrame.MoneyFrameEdge, 0, 2)
 end

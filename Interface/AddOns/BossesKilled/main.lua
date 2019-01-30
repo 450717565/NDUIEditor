@@ -108,22 +108,20 @@ function addon:CreateButton(parent, scale)
 	-- Aurora Reskin
 	if IsAddOnLoaded("AuroraClassic") then
 		local F, C = unpack(AuroraClassic)
-		local r, g, b = C.r, C.g, C.b
+		local cr, cg, cb = C.r, C.g, C.b
 
-		button:SetSize(75, 40)
-		F.ReskinTab(button)
+		button:SetScale(.5)
+		F.StripTextures(button)
+
+		local bubg = F.CreateBDFrame(button)
+		F.ReskinTexture(button, bubg, true)
+		F.ReskinTexture(button:GetCheckedTexture(), bubg, false)
 
 		if parent.lastButton then
-			button:SetPoint("TOPLEFT", parent.lastButton, "BOTTOMLEFT", 0, -4)
+			button:SetPoint("TOPLEFT", parent.lastButton, "BOTTOMLEFT", 0, -5)
 		else
-			button:SetPoint("TOPLEFT", parent, "TOPRIGHT", 2, -50)
+			button:SetPoint("TOPLEFT", parent, "TOPRIGHT", 6, -50)
 		end
-
-		button:SetCheckedTexture(C.media.bdTex)
-		local ct = button:GetCheckedTexture()
-		ct:SetPoint("TOPLEFT", 9, -4)
-		ct:SetPoint("BOTTOMRIGHT", -9, 1)
-		ct:SetVertexColor(r, g, b, .5)
 	end
 
 	return button
@@ -141,8 +139,8 @@ function addon:CreateNumberFontstring(parentButton)
 
 	-- Aurora Reskin
 	if IsAddOnLoaded("AuroraClassic") then
-		number:SetPoint("CENTER", 2, -2)
-		number:SetFont(STANDARD_TEXT_FONT, 32, "OUTLINE")
+		number:SetPoint("CENTER", 2, 0)
+		number:SetFont(STANDARD_TEXT_FONT, 30, "OUTLINE")
 	else
 		number:SetPoint("TOPLEFT", -4, 4)
 		number:SetPoint("BOTTOMRIGHT", 5, -5)
@@ -224,7 +222,7 @@ function addon:UpdateButtonsAndTooltips(parentFrame)
 					bossName = "bossname"
 				encounterLine.text = "死亡 - "..bossName
 				else
-				    encounterLine.text = "死亡 - "..bossName
+					encounterLine.text = "死亡 - "..bossName
 					numKilled = numKilled + 1
 				end
 			else
@@ -235,7 +233,7 @@ function addon:UpdateButtonsAndTooltips(parentFrame)
 					bossName = "bossname"
 				encounterLine.text = "存活 - "..bossName
 				else
-				    encounterLine.text = "存活 - "..bossName
+					encounterLine.text = "存活 - "..bossName
 				end
 			end
 			table.insert(tooltip, encounterLine)

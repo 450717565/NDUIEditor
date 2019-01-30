@@ -305,9 +305,9 @@ local function Reskins()
 					_G["Overachiever_"..v..i.."IconOverlay"]:Hide()
 
 					bu.description:SetTextColor(.9, .9, .9)
-					bu.description.SetTextColor = F.dummy
+					bu.description.SetTextColor = F.Dummy
 					bu.description:SetShadowOffset(C.mult, -C.mult)
-					bu.description.SetShadowOffset = F.dummy
+					bu.description.SetShadowOffset = F.Dummy
 
 					local bg = F.CreateBDFrame(bu, 0)
 					bg:SetPoint("TOPLEFT", C.mult, -C.mult)

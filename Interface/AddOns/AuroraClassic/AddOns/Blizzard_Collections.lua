@@ -546,7 +546,7 @@ do
 				for i = 1, 6 do
 					local bu = HAbiFrameActiveEnemy.AbilityButtons[i]
 					bu.NormalTexture:SetTexture(nil)
-					bu.NormalTexture.SetTexture = F.dummy
+					bu.NormalTexture.SetTexture = F.Dummy
 					F.ReskinIcon(bu.Icon)
 				end
 				f.styled = true
