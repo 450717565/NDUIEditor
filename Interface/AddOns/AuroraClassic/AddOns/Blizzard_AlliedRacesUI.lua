@@ -21,7 +21,7 @@ C.themes["Blizzard_AlliedRacesUI"] = function()
 
 			if not bu.styled then
 				if bu.Icon then
-					F.ReskinIcon(bu.Icon, true)
+					F.ReskinIcon(bu.Icon)
 					select(3, bu:GetRegions()):Hide()
 				end
 

@@ -6,7 +6,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinInput(RecruitAFriendNameEditBox)
 
 	F.StripTextures(RecruitAFriendFrame.NoteFrame, true)
-	F.CreateBDFrame(RecruitAFriendFrame.NoteFrame, .25)
+	F.CreateBDFrame(RecruitAFriendFrame.NoteFrame, 0)
 
 	F.ReskinFrame(RecruitAFriendSentFrame)
 	F.ReskinButton(RecruitAFriendSentFrame.OKButton)

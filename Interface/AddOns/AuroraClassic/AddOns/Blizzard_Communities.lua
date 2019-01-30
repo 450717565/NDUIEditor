@@ -27,16 +27,16 @@ C.themes["Blizzard_Communities"] = function()
 	F.ReskinButton(GuildMemberDetailFrame.GroupInviteButton)
 	F.ReskinDropDown(GuildMemberDetailFrame.RankDropdown)
 	F.StripTextures(GuildMemberDetailFrame.NoteBackground, true)
-	F.CreateBDFrame(GuildMemberDetailFrame.NoteBackground, .25)
+	F.CreateBDFrame(GuildMemberDetailFrame.NoteBackground, 0)
 	F.StripTextures(GuildMemberDetailFrame.OfficerNoteBackground, true)
-	F.CreateBDFrame(GuildMemberDetailFrame.OfficerNoteBackground, .25)
+	F.CreateBDFrame(GuildMemberDetailFrame.OfficerNoteBackground, 0)
 	GuildMemberDetailFrame:ClearAllPoints()
 	GuildMemberDetailFrame:SetPoint("TOPLEFT", CommunitiesFrame.ChatTab, "TOPRIGHT", 2, 0)
 
 	for _, name in next, {"GuildFinderFrame", "InvitationFrame", "TicketFrame"} do
 		local frame = CommunitiesFrame[name]
 		F.StripTextures(frame.InsetFrame)
-		F.CreateBDFrame(frame, .25)
+		F.CreateBDFrame(frame, 0)
 
 		if frame.FindAGuildButton then F.ReskinButton(frame.FindAGuildButton) end
 		if frame.AcceptButton then F.ReskinButton(frame.AcceptButton) end
@@ -51,7 +51,7 @@ C.themes["Blizzard_Communities"] = function()
 		tab:GetRegions():Hide()
 		tab:SetCheckedTexture(C.media.checked)
 
-		local bg = F.ReskinIcon(tab.Icon, true)
+		local bg = F.ReskinIcon(tab.Icon)
 		F.ReskinTexture(tab, bg, false)
 	end
 
@@ -84,12 +84,12 @@ C.themes["Blizzard_Communities"] = function()
 
 	F.StripTextures(CommunitiesFrame.Chat, true)
 	F.ReskinInput(CommunitiesFrame.ChatEditBox, 22)
-	local chatbg = F.CreateBDFrame(CommunitiesFrame.Chat, .25)
+	local chatbg = F.CreateBDFrame(CommunitiesFrame.Chat, 0)
 	chatbg:SetPoint("TOPLEFT", -6, 5)
 	chatbg:SetPoint("BOTTOMRIGHT", 3, -2)
 
 	F.StripTextures(CommunitiesFrame.MemberList, true)
-	F.CreateBDFrame(CommunitiesFrame.MemberList, .25)
+	F.CreateBDFrame(CommunitiesFrame.MemberList, 0)
 
 	local EditStream = CommunitiesFrame.EditStreamDialog
 	F.ReskinFrame(EditStream)
@@ -99,7 +99,7 @@ C.themes["Blizzard_Communities"] = function()
 	F.ReskinButton(EditStream.Cancel)
 	F.ReskinInput(EditStream.NameEdit, 22)
 	F.StripTextures(EditStream.Description, true)
-	F.CreateBDFrame(EditStream.Description, .25)
+	F.CreateBDFrame(EditStream.Description, 0)
 
 	local NotificationSettings = CommunitiesFrame.NotificationSettingsDialog
 	NotificationSettings.ScrollFrame.Child.QuickJoinButton:SetSize(25, 25)
@@ -149,7 +149,7 @@ C.themes["Blizzard_Communities"] = function()
 		for i = 1, column:GetNumChildren() do
 			local child = select(i, column:GetChildren())
 			if not child.styled then
-				local bg = F.CreateBDFrame(child, .25)
+				local bg = F.CreateBDFrame(child, 0)
 				bg:SetPoint("TOPLEFT", 4, -2)
 				bg:SetPoint("BOTTOMRIGHT", 0, 2)
 				F.ReskinTexture(child, bg, true)
@@ -186,9 +186,9 @@ C.themes["Blizzard_Communities"] = function()
 	F.ReskinInput(Settings.NameEdit)
 	F.ReskinInput(Settings.ShortNameEdit)
 	F.StripTextures(Settings.Description)
-	F.CreateBDFrame(Settings.Description, .25)
+	F.CreateBDFrame(Settings.Description, 0)
 	F.StripTextures(Settings.MessageOfTheDay)
-	F.CreateBDFrame(Settings.MessageOfTheDay, .25)
+	F.CreateBDFrame(Settings.MessageOfTheDay, 0)
 
 	local AvatarPicker = CommunitiesAvatarPickerDialog
 	F.ReskinFrame(AvatarPicker)
@@ -201,7 +201,7 @@ C.themes["Blizzard_Communities"] = function()
 			for j = 1, 6 do
 				local avatarButton = self.avatarButtons[i][j]
 				if avatarButton:IsShown() and not avatarButton.bg then
-					avatarButton.bg = F.ReskinIcon(avatarButton.Icon, true)
+					avatarButton.bg = F.ReskinIcon(avatarButton.Icon)
 					F.ReskinTexture(avatarButton, avatarButton.bg, false)
 					F.ReskinTexture(avatarButton.Selected, avatarButton.bg, false)
 				end
@@ -216,7 +216,7 @@ C.themes["Blizzard_Communities"] = function()
 		self:GetHighlightTexture():SetColorTexture(r, g, b, .25)
 
 		if not self.bg then
-			self.bg = F.ReskinIcon(self.Class)
+			self.bg = F.ReskinIcon(self.Class, true)
 		end
 
 		local memberInfo = self:GetMemberInfo()
@@ -238,7 +238,7 @@ C.themes["Blizzard_Communities"] = function()
 		for i = 1, self.ColumnDisplay:GetNumChildren() do
 			local child = select(i, self.ColumnDisplay:GetChildren())
 			if not child.styled then
-				local bg = F.CreateBDFrame(child, .25)
+				local bg = F.CreateBDFrame(child, 0)
 				bg:SetPoint("TOPLEFT", 4, -2)
 				bg:SetPoint("BOTTOMRIGHT", 0, 2)
 				F.ReskinTexture(child, bg, true)
@@ -253,9 +253,9 @@ C.themes["Blizzard_Communities"] = function()
 				if button.ProfessionHeader then
 					local header = button.ProfessionHeader
 					for i = 1, 3 do select(i, header:GetRegions()):Hide() end
-					local bg = F.CreateBDFrame(header, .25)
+					local bg = F.CreateBDFrame(header, 0)
 					F.ReskinTexture(header, bg, true)
-					F.ReskinIcon(header.Icon)
+					F.ReskinIcon(header.Icon, true)
 				end
 
 				button.hooked = true
@@ -273,7 +273,7 @@ C.themes["Blizzard_Communities"] = function()
 
 	local factionFrameBar = GuildBenefitsFrame.FactionFrame.Bar
 	F.StripTextures(factionFrameBar)
-	F.CreateBDFrame(factionFrameBar.BG, .25)
+	F.CreateBDFrame(factionFrameBar.BG, 0)
 	factionFrameBar.Progress:SetTexture(C.media.normTex)
 	factionFrameBar.Progress:SetVertexColor(r*.8, g*.8, b*.8)
 	factionFrameBar.Label:ClearAllPoints()
@@ -286,8 +286,8 @@ C.themes["Blizzard_Communities"] = function()
 			if button and button:IsShown() and not button.bg then
 				F.StripTextures(button)
 
-				local ic = F.ReskinIcon(button.Icon, true)
-				button.bg = F.CreateBDFrame(button, .25)
+				local ic = F.ReskinIcon(button.Icon)
+				button.bg = F.CreateBDFrame(button, 0)
 				button.bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
 				button.bg:SetPoint("BOTTOMRIGHT", 0, 1)
 				F.ReskinTexture(button, button.bg, true)
@@ -301,12 +301,12 @@ C.themes["Blizzard_Communities"] = function()
 			local button = buttons[i]
 			if button then
 				if not button.bg then
-					button.bg = F.CreateBDFrame(button, .25)
+					button.bg = F.CreateBDFrame(button, 0)
 					button.bg:SetPoint("TOPLEFT", C.mult, -C.mult)
 					button.bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 
 					F.ReskinTexture(button, button.bg, true)
-					F.ReskinIcon(button.Icon, true)
+					F.ReskinIcon(button.Icon)
 				end
 				button:SetNormalTexture("")
 				button.DisabledBG:Hide()
@@ -324,13 +324,13 @@ C.themes["Blizzard_Communities"] = function()
 	F.ReskinFrame(CommunitiesGuildTextEditFrame)
 	F.ReskinScroll(CommunitiesGuildTextEditFrameScrollBar)
 	F.StripTextures(CommunitiesGuildTextEditFrame.Container, true)
-	F.CreateBDFrame(CommunitiesGuildTextEditFrame.Container, .25)
+	F.CreateBDFrame(CommunitiesGuildTextEditFrame.Container, 0)
 	F.ReskinButton(CommunitiesGuildTextEditFrameAcceptButton)
 	local TextEditFrameCB = select(4, CommunitiesGuildTextEditFrame:GetChildren())
 	F.ReskinButton(TextEditFrameCB)
 
-	F.CreateBDFrame(CommunitiesFrameGuildDetailsFrameInfo.DetailsFrame, .25)
-	local bg = F.CreateBDFrame(CommunitiesFrameGuildDetailsFrameInfoMOTDScrollFrame, .25)
+	F.CreateBDFrame(CommunitiesFrameGuildDetailsFrameInfo.DetailsFrame, 0)
+	local bg = F.CreateBDFrame(CommunitiesFrameGuildDetailsFrameInfoMOTDScrollFrame, 0)
 	bg:SetPoint("TOPLEFT", 0, 3)
 	bg:SetPoint("BOTTOMRIGHT", -5, -4)
 
@@ -343,7 +343,7 @@ C.themes["Blizzard_Communities"] = function()
 	F.ReskinFrame(CommunitiesGuildLogFrame)
 	F.ReskinScroll(CommunitiesGuildLogFrameScrollBar)
 	F.StripTextures(CommunitiesGuildLogFrame.Container, true)
-	F.CreateBDFrame(CommunitiesGuildLogFrame.Container, .25)
+	F.CreateBDFrame(CommunitiesGuildLogFrame.Container, 0)
 	local LogFrameCB = select(3, CommunitiesGuildLogFrame:GetChildren())
 	F.ReskinButton(LogFrameCB)
 

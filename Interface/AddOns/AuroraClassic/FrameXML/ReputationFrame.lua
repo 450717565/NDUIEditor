@@ -16,7 +16,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 			if statusbar then
 				if not statusbar.reskinned then
-					F.ReskinStatusBar(statusbar, false, true)
+					F.ReskinStatusBar(statusbar, true)
 					statusbar.reskinned = true
 				end
 

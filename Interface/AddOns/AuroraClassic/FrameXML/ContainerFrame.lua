@@ -10,7 +10,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		frame.PortraitButton.Highlight:SetTexture("")
 
 		F.StripTextures(frame, true)
-		F.SetBD(frame, 8, -4, -3, 0)
+		F.SetBDFrame(frame, 8, -4, -3, 0)
 		F.ReskinClose(_G["ContainerFrame"..i.."CloseButton"], "TOPRIGHT", frame, "TOPRIGHT", -6, -7)
 
 		local name = _G["ContainerFrame"..i.."Name"]
@@ -30,11 +30,11 @@ tinsert(C.themes["AuroraClassic"], function()
 			local newItemTexture = button.NewItemTexture
 			newItemTexture:SetAlpha(0)
 
-			local ic = F.ReskinIcon(button.icon, true)
+			local ic = F.ReskinIcon(button.icon)
 			F.ReskinTexture(button, ic, false)
 
 			local border = button.IconBorder
-			F.ReskinTexture(border, button, false, true)
+			F.ReskinBorder(border, button)
 
 			local searchOverlay = button.searchOverlay
 			searchOverlay:SetPoint("TOPLEFT", -C.mult, C.mult)
@@ -45,7 +45,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	for i = 1, 3 do
 		local ic = _G["BackpackTokenFrameToken"..i.."Icon"]
 		ic:SetDrawLayer("OVERLAY")
-		F.ReskinIcon(ic, .25)
+		F.ReskinIcon(ic)
 	end
 
 	F.ReskinInput(BagItemSearchBox)
@@ -75,5 +75,5 @@ tinsert(C.themes["AuroraClassic"], function()
 	BagItemAutoSortButton:GetPushedTexture():SetTexCoord(.17, .83, .17, .83)
 	BagItemAutoSortButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 	BagItemAutoSortButton:GetHighlightTexture():SetAllPoints()
-	F.CreateBDFrame(BagItemAutoSortButton, .25)
+	F.CreateBDFrame(BagItemAutoSortButton, 0)
 end)

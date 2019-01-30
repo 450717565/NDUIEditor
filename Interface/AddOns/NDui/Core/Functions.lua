@@ -445,6 +445,7 @@ function B:StripTextures(kill)
 			if kill and type(kill) == "boolean" then
 				B.HideObject(region)
 			elseif kill == 0 then
+				region:SetAlpha(0)
 				region:Hide()
 			else
 				region:SetTexture("")

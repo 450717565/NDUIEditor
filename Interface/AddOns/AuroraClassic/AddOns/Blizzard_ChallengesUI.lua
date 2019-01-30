@@ -10,7 +10,7 @@ C.themes["Blizzard_ChallengesUI"] = function()
 			if bu and not bu.styled then
 				bu:GetRegions():SetAlpha(0)
 				bu.Icon:SetScale(.95)
-				F.ReskinIcon(bu.Icon, true)
+				F.ReskinIcon(bu.Icon)
 
 				bu.styled = true
 			end
@@ -20,7 +20,7 @@ C.themes["Blizzard_ChallengesUI"] = function()
 			local scheduel, party = select(5, self:GetChildren())
 
 			F.StripTextures(scheduel, true)
-			F.CreateBDFrame(scheduel, .25)
+			F.CreateBDFrame(scheduel, 0)
 			if scheduel.Entries then
 				for i = 1, 3 do
 					F.ReskinAffixes(scheduel.Entries[i])
@@ -28,7 +28,7 @@ C.themes["Blizzard_ChallengesUI"] = function()
 			end
 
 			F.StripTextures(party, true)
-			F.CreateBDFrame(party, .25)
+			F.CreateBDFrame(party, 0)
 
 			angryStyle = true
 		end
@@ -62,6 +62,6 @@ C.themes["Blizzard_ChallengesUI"] = function()
 
 	local affix = noticeFrame.Affix
 	F.StripTextures(affix)
-	F.ReskinIcon(affix.Portrait, true)
+	F.ReskinIcon(affix.Portrait)
 	affix.Portrait:SetTexture(2446016)
 end

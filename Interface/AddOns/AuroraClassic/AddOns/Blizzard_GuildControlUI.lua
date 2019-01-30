@@ -56,14 +56,14 @@ C.themes["Blizzard_GuildControlUI"] = function()
 				F.StripTextures(bu, true)
 				F.ReskinButton(bu.buy.button)
 
-				local bg = F.CreateBDFrame(bu, .25)
+				local bg = F.CreateBDFrame(bu, 0)
 				bg:SetPoint("TOPLEFT", C.mult, -C.mult)
 				bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 
 				local ownedTab = bu.owned
 				ownedTab.tabIcon:ClearAllPoints()
 				ownedTab.tabIcon:SetPoint("TOPLEFT", ownedTab, "TOPLEFT", 6, -5)
-				F.ReskinIcon(ownedTab.tabIcon, true)
+				F.ReskinIcon(ownedTab.tabIcon)
 				F.ReskinInput(ownedTab.editBox)
 
 				for _, ch in next, {ownedTab.viewCB, ownedTab.depositCB, ownedTab.infoCB} do

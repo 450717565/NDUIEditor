@@ -8,7 +8,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	F.ReskinButton(GossipFrameGreetingGoodbyeButton)
 	F.ReskinScroll(GossipGreetingScrollFrameScrollBar)
-	F.ReskinStatusBar(NPCFriendshipStatusBar, false, true)
+	F.ReskinStatusBar(NPCFriendshipStatusBar, true)
 
 	GossipGreetingText:SetTextColor(1, 1, 1)
 

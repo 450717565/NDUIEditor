@@ -5,15 +5,15 @@ C.themes["Blizzard_ArchaeologyUI"] = function()
 	F.ReskinButton(ArchaeologyFrameArtifactPageBackButton)
 	F.ReskinButton(ArchaeologyFrameArtifactPageSolveFrameSolveButton)
 	F.ReskinDropDown(ArchaeologyFrameRaceFilter)
-	F.ReskinIcon(ArchaeologyFrameArtifactPageIcon, true)
-	F.ReskinStatusBar(ArchaeologyFrameArtifactPageSolveFrameStatusBar, true)
-	F.ReskinStatusBar(ArchaeologyFrameRankBar, true)
+	F.ReskinIcon(ArchaeologyFrameArtifactPageIcon)
+	F.ReskinStatusBar(ArchaeologyFrameArtifactPageSolveFrameStatusBar)
+	F.ReskinStatusBar(ArchaeologyFrameRankBar)
 
 	ArchaeologyFrameArtifactPageIconBG:Hide()
 	ArchaeologyFrameInfoButton:SetPoint("TOPLEFT", 3, -3)
 
 	ArchaeologyFrameSummarytButton:ClearAllPoints()
-	ArchaeologyFrameSummarytButton:SetPoint("TOPLEFT", ArchaeologyFrame, "TOPRIGHT", 1, -50)
+	ArchaeologyFrameSummarytButton:SetPoint("TOPLEFT", ArchaeologyFrame, "TOPRIGHT", 0, -25)
 	ArchaeologyFrameCompletedButton:ClearAllPoints()
 	ArchaeologyFrameCompletedButton:SetPoint("TOP", ArchaeologyFrameSummarytButton, "BOTTOM", 0, 0)
 
@@ -41,9 +41,9 @@ C.themes["Blizzard_ArchaeologyUI"] = function()
 		local button = _G[bu]
 		F.StripTextures(button)
 
-		local icbg = F.ReskinIcon(_G[bu.."Icon"], true)
+		local icbg = F.ReskinIcon(_G[bu.."Icon"])
 
-		local bubg = F.CreateBDFrame(button, .25)
+		local bubg = F.CreateBDFrame(button, 0)
 		bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
 		bubg:SetPoint("BOTTOMRIGHT", 0, -1)
 		F.ReskinTexture(button, bubg, true)

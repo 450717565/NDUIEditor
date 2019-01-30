@@ -65,6 +65,7 @@ local function SetupPixelFix()
 	local scale = UIParent:GetScale()
 	scale = tonumber(floor(scale*100 + .5)/100)
 	C.mult = 768/screenHeight/scale
+
 	if screenHeight > 1080 then C.mult = C.mult*2 end
 end
 
@@ -73,15 +74,15 @@ end
 
 -- [[ Functions ]]
 
-function F:CreateBD(a)
+function F:CreateBD(alpha)
 	self:SetBackdrop({bgFile = C.media.bdTex, edgeFile = C.media.bdTex, edgeSize = C.mult})
-	self:SetBackdropColor(0, 0, 0, a or AuroraConfig.alpha)
+	self:SetBackdropColor(0, 0, 0, alpha or AuroraConfig.alpha)
 	self:SetBackdropBorderColor(0, 0, 0)
 
-	if not a then tinsert(C.frames, self) end
+	if not alpha then tinsert(C.frames, self) end
 end
 
-function F:CreateBDFrame(a, noGradient)
+function F:CreateBDFrame(alpha, noGradient)
 	local frame = self
 	if self:GetObjectType() == "Texture" then frame = self:GetParent() end
 
@@ -90,8 +91,9 @@ function F:CreateBDFrame(a, noGradient)
 	bg:SetPoint("TOPLEFT", self, -C.mult, C.mult)
 	bg:SetPoint("BOTTOMRIGHT", self, C.mult, -C.mult)
 	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
-	F.CreateBD(bg, a)
+	F.CreateBD(bg, alpha)
 	F.CreateSD(bg)
+
 	if not noGradient then
 		F.CreateGradient(bg)
 	end
@@ -100,10 +102,10 @@ function F:CreateBDFrame(a, noGradient)
 end
 
 function F:CreateBG()
-	local f = self
-	if self:GetObjectType() == "Texture" then f = self:GetParent() end
+	local frame = self
+	if self:GetObjectType() == "Texture" then frame = self:GetParent() end
 
-	local bg = f:CreateTexture(nil, "BACKGROUND")
+	local bg = frame:CreateTexture(nil, "BACKGROUND")
 	bg:SetPoint("TOPLEFT", self, -C.mult, C.mult)
 	bg:SetPoint("BOTTOMRIGHT", self, C.mult, -C.mult)
 	bg:SetTexture(C.media.bdTex)
@@ -125,16 +127,16 @@ function F:CreateGradient()
 	return Gradient
 end
 
-local function CreateTex(f)
-	if f.Tex then return end
+local function CreateTex(frame)
+	if frame.Tex then return end
 
-	local Tex = f:CreateTexture(nil, "BACKGROUND", nil, 1)
+	local Tex = frame:CreateTexture(nil, "BACKGROUND", nil, 1)
 	Tex:SetAllPoints()
 	Tex:SetTexture(C.media.bgTex, true, true)
 	Tex:SetHorizTile(true)
 	Tex:SetVertTile(true)
 	Tex:SetBlendMode("ADD")
-	f.Tex = Tex
+	frame.Tex = Tex
 
 	return Tex
 end
@@ -159,7 +161,7 @@ function F:CreateSD()
 	return Shadow
 end
 
-function F:SetBD(x, y, x2, y2)
+function F:SetBDFrame(x, y, x2, y2)
 	local bg = F.CreateBDFrame(self, nil, true)
 
 	if x and y and x2 and y2 then
@@ -173,7 +175,7 @@ function F:ReskinAffixes()
 		frame.Border:SetTexture(nil)
 		frame.Portrait:SetTexture(nil)
 		if not frame.bg then
-			frame.bg = F.ReskinIcon(frame.Portrait, true)
+			frame.bg = F.ReskinIcon(frame.Portrait)
 		end
 
 		if frame.info then
@@ -198,7 +200,7 @@ local function textureOnEnter(self)
 		end
 	end
 end
-F.colourArrow = textureOnEnter
+F.texOnEnter = textureOnEnter
 
 local function textureOnLeave(self)
 	if self:IsEnabled() then
@@ -213,7 +215,7 @@ local function textureOnLeave(self)
 		end
 	end
 end
-F.clearArrow = textureOnLeave
+F.texOnLeave = textureOnLeave
 
 function F:ReskinArrow(direction)
 	self:SetSize(18, 18)
@@ -234,6 +236,21 @@ function F:ReskinArrow(direction)
 
 	self:HookScript("OnEnter", textureOnEnter)
 	self:HookScript("OnLeave", textureOnLeave)
+end
+
+function F:ReskinBorder(relativeTo, classColor)
+	if not self then return end
+
+	self:SetTexture(C.media.bdTex)
+	self.SetTexture = F.dummy
+	self:SetDrawLayer("BACKGROUND")
+
+	if classColor then
+		self:SetColorTexture(cr, cg, cb)
+	end
+
+	self:SetPoint("TOPLEFT", relativeTo, -C.mult, C.mult)
+	self:SetPoint("BOTTOMRIGHT", relativeTo, C.mult, -C.mult)
 end
 
 local function buttonOnEnter(self)
@@ -393,9 +410,9 @@ function F:ReskinDropDown()
 	end
 end
 
-local function SetupTexture(self, texture)
-	if self.settingTexture then return end
-	self.settingTexture = true
+local function setupTexture(self, texture)
+	if self.setTexture then return end
+	self.setTexture = true
 	self:SetNormalTexture("")
 
 	if texture and texture ~= "" then
@@ -408,7 +425,7 @@ local function SetupTexture(self, texture)
 	else
 		self.bg:Hide()
 	end
-	self.settingTexture = false
+	self.setTexture = false
 end
 
 function F:ReskinExpandOrCollapse()
@@ -429,7 +446,7 @@ function F:ReskinExpandOrCollapse()
 
 	self:HookScript("OnEnter", textureOnEnter)
 	self:HookScript("OnLeave", textureOnLeave)
-	hooksecurefunc(self, "SetNormalTexture", SetupTexture)
+	hooksecurefunc(self, "SetNormalTexture", setupTexture)
 end
 
 function F:ReskinFilter()
@@ -487,13 +504,13 @@ function F:ReskinGarrisonPortrait()
 	end
 end
 
-function F:ReskinIcon(setBS)
+function F:ReskinIcon(setBG, alpha)
 	self:SetTexCoord(.08, .92, .08, .92)
 
-	if setBS then
-		return F.CreateBDFrame(self, .25)
-	else
+	if setBG then
 		return F.CreateBG(self)
+	else
+		return F.CreateBDFrame(self, alpha or 0)
 	end
 end
 
@@ -553,7 +570,7 @@ function F:ReskinMinMax()
 end
 
 function F:ReskinNavBar()
-	if self.navBarStyled then return end
+	if self.styled then return end
 
 	F.StripTextures(self)
 	F.CleanTextures(self)
@@ -580,7 +597,7 @@ function F:ReskinNavBar()
 	overflowButton:HookScript("OnEnter", textureOnEnter)
 	overflowButton:HookScript("OnLeave", textureOnLeave)
 
-	self.navBarStyled = true
+	self.styled = true
 end
 
 function F:ReskinRadio()
@@ -679,12 +696,63 @@ end
 function F:ReskinSearchBox()
 	F.StripTextures(self)
 
-	local bg = F.CreateBDFrame(self, .25)
+	local bg = F.CreateBDFrame(self, 0)
 	bg:SetPoint("TOPLEFT", 0, 0)
 	bg:SetPoint("BOTTOMRIGHT", 0, 1)
+	F.ReskinTexture(self, bg, true)
 
 	local icon = self.icon or self.Icon
-	if icon then F.ReskinIcon(icon) end
+	if icon then F.ReskinIcon(icon, true) end
+end
+
+function F:ReskinSearchResult()
+	if not self then return end
+
+	local results = self.searchResults
+	results:ClearAllPoints()
+	results:SetPoint("BOTTOMLEFT", self, "BOTTOMRIGHT", 20, 0)
+	F.StripTextures(results)
+
+	local bg = F.CreateBDFrame(results, nil, true)
+	bg:SetPoint("TOPLEFT", -10, 0)
+	bg:SetPoint("BOTTOMRIGHT")
+
+	local frameName = self.GetName and self:GetName()
+	local closebu = results.closeButton or _G[frameName.."SearchResultsCloseButton"]
+	F.ReskinClose(closebu)
+
+	local bar = results.scrollFrame.scrollBar
+	if bar then F.ReskinScroll(bar) end
+
+	for i = 1, 9 do
+		local bu = results.scrollFrame.buttons[i]
+
+		if bu and not bu.styled then
+			F.StripTextures(bu)
+
+			local icbg = F.ReskinIcon(bu.icon)
+			bu.icon.SetTexCoord = F.dummy
+
+			local bubg = F.CreateBDFrame(bu, 0)
+			bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 2)
+			bubg:SetPoint("BOTTOMRIGHT", -2, 3)
+			F.ReskinTexture(bu, bubg, true)
+
+			local name = bu.name
+			name:ClearAllPoints()
+			name:SetPoint("TOPLEFT", bubg, 4, -6)
+
+			local path = bu.path
+			path:ClearAllPoints()
+			path:SetPoint("BOTTOMLEFT", bubg, 4, 4)
+
+			local type = bu.resultType
+			type:ClearAllPoints()
+			type:SetPoint("RIGHT", bubg, -2, 0)
+
+			bu.styled = true
+		end
+	end
 end
 
 function F:ReskinSlider(verticle)
@@ -707,14 +775,14 @@ function F:ReskinSlider(verticle)
 	end
 end
 
-function F:ReskinStatusBar(classColor)
+function F:ReskinStatusBar(noClassColor)
 	F.StripTextures(self, true)
 	F.CleanTextures(self)
-	F.CreateBDFrame(self, .25)
+	F.CreateBDFrame(self, 0)
 
 	self:SetStatusBarTexture(C.media.normTex)
-	if classColor then
-		self:SetStatusBarColor(cr*.8, cg*.8, cb*.8)
+	if not noClassColor then
+		self:SetStatusBarColor(cr, cg, cb, .8)
 	end
 end
 
@@ -728,14 +796,11 @@ function F:ReskinTab()
 	F.ReskinTexture(self, bg, true)
 end
 
-function F:ReskinTexture(relativeTo, classColor, isBorder)
+function F:ReskinTexture(relativeTo, classColor)
 	if not self then return end
 
 	local r, g, b = 1, 1, 1
 	if classColor then r, g, b = cr, cg, cb end
-
-	local mult = C.mult
-	if isBorder then mult = -C.mult end
 
 	local tex
 	if self.SetHighlightTexture then
@@ -744,18 +809,11 @@ function F:ReskinTexture(relativeTo, classColor, isBorder)
 	else
 		tex = self
 		tex:SetTexture(C.media.bdTex)
-		if isBorder then
-			tex.SetTexture = F.dummy
-			tex:SetDrawLayer("BACKGROUND")
-		end
 	end
 
-	if not isBorder then
-		tex:SetColorTexture(r, g, b, .25)
-	end
-
-	tex:SetPoint("TOPLEFT", relativeTo, mult, -mult)
-	tex:SetPoint("BOTTOMRIGHT", relativeTo, -mult, mult)
+	tex:SetColorTexture(r, g, b, .25)
+	tex:SetPoint("TOPLEFT", relativeTo, C.mult, -C.mult)
+	tex:SetPoint("BOTTOMRIGHT", relativeTo, -C.mult, C.mult)
 end
 
 local function getBackdrop(self) return self.bg:GetBackdrop() end
@@ -789,7 +847,7 @@ function F:HideObject()
 	self:Hide()
 end
 
-local CleanList = {
+local CleanTextures = {
 	"Background",
 	"BG",
 	"Border",
@@ -829,7 +887,7 @@ function F:CleanTextures(noIcon)
 	if self.SetPushedTexture then self:SetPushedTexture("") end
 
 	local frameName = self.GetName and self:GetName()
-	for _, texture in pairs(CleanList) do
+	for _, texture in pairs(CleanTextures) do
 		local cleanFrame = self[texture] or (frameName and _G[frameName..texture])
 		if cleanFrame then
 			cleanFrame:SetAlpha(0)
@@ -873,6 +931,7 @@ function F:StripTextures(kill)
 				if kill and type(kill) == "boolean" then
 					F.HideObject(region)
 				elseif kill == 0 then
+					region:SetAlpha(0)
 					region:Hide()
 				else
 					region:SetTexture("")

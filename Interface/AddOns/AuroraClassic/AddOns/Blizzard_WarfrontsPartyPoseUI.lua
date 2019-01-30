@@ -7,6 +7,6 @@ C.themes["Blizzard_WarfrontsPartyPoseUI"] = function()
 
 	local rewardFrame = WarfrontsPartyPoseFrame.RewardAnimations.RewardFrame
 	rewardFrame.NameFrame:SetAlpha(0)
-	F.ReskinIcon(rewardFrame.Icon, true)
-	F.ReskinTexture(rewardFrame.IconBorder, false, rewardFrame.Icon, true)
+	F.ReskinIcon(rewardFrame.Icon)
+	F.ReskinBorder(rewardFrame.IconBorder, rewardFrame.Icon)
 end

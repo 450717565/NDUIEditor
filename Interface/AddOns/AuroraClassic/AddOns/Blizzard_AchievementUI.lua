@@ -11,6 +11,9 @@ C.themes["Blizzard_AchievementUI"] = function()
 	AchievementFrameComparisonHeader:ClearAllPoints()
 	AchievementFrameComparisonHeader:SetPoint("BOTTOMRIGHT", AchievementFrame, "TOPRIGHT", -10, 8)
 
+	AchievementFrameTab1:ClearAllPoints()
+	AchievementFrameTab1:SetPoint("TOPLEFT", AchievementFrame, "BOTTOMLEFT", 10, 2)
+
 	AchievementFrameHeaderTitle:Hide()
 	AchievementFrameSummaryAchievementsEmptyText:SetText("")
 
@@ -30,7 +33,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 	end
 
 	local statusBar = AchievementFrameSummaryCategoriesStatusBar
-	F.ReskinStatusBar(statusBar, true)
+	F.ReskinStatusBar(statusBar)
 	local barTitle = AchievementFrameSummaryCategoriesStatusBarTitle
 	barTitle:SetTextColor(1, 1, 1)
 	barTitle:SetPoint("LEFT", statusBar, "LEFT", 6, 0)
@@ -43,52 +46,20 @@ C.themes["Blizzard_AchievementUI"] = function()
 	F.StripTextures(AchievementFrame.searchPreviewContainer)
 	F.ReskinInput(searchBox, 17, 100)
 
-	F.ReskinSearchBox(AchievementFrame.showAllSearchResults)
 	for i = 1, 5 do
 		F.ReskinSearchBox(AchievementFrame.searchPreview[i])
 	end
+	F.ReskinSearchBox(AchievementFrame.showAllSearchResults)
+	F.ReskinSearchResult(AchievementFrame)
 
 	local dropDown = AchievementFrameFilterDropDown
 	F.ReskinDropDown(dropDown)
 	dropDown:ClearAllPoints()
 	dropDown:SetPoint("RIGHT", searchBox, "LEFT", 0, 0)
 
-	local searchResults = AchievementFrame.searchResults
-	searchResults:SetPoint("BOTTOMLEFT", AchievementFrame, "BOTTOMRIGHT", 20, 0)
-	F.StripTextures(searchResults)
-	F.ReskinClose(searchResults.closeButton)
-
-	local bg = F.CreateBDFrame(searchResults)
-	bg:SetPoint("TOPLEFT", -10, 0)
-	bg:SetPoint("BOTTOMRIGHT")
-
-	for i = 1, 8 do
-		local bu = _G["AchievementFrameScrollFrameButton"..i]
-		F.StripTextures(bu)
-
-		local icbg = F.ReskinIcon(bu.icon, true)
-
-		local bubg = F.CreateBDFrame(bu, .25)
-		bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 2)
-		bubg:SetPoint("BOTTOMRIGHT", -2, 3)
-		F.ReskinTexture(bu, bubg, true)
-
-		local name = bu.name
-		name:ClearAllPoints()
-		name:SetPoint("TOPLEFT", bubg, 4, -6)
-
-		local path = bu.path
-		path:ClearAllPoints()
-		path:SetPoint("BOTTOMLEFT", bubg, 4, 4)
-
-		local type = bu.resultType
-		type:ClearAllPoints()
-		type:SetPoint("RIGHT", bubg, -2, 0)
-	end
-
 	for i = 1, 12 do
 		local bar = _G["AchievementFrameSummaryCategoriesCategory"..i]
-		F.ReskinStatusBar(bar, true)
+		F.ReskinStatusBar(bar)
 
 		bar.label:SetTextColor(1, 1, 1)
 		bar.label:SetPoint("LEFT", bar, "LEFT", 6, 0)
@@ -109,7 +80,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 		io:Hide()
 
 		local ic = _G["AchievementFrameAchievementsContainerButton"..i.."IconTexture"]
-		local icbg = F.ReskinIcon(ic, true)
+		local icbg = F.ReskinIcon(ic)
 
 		local ch = _G["AchievementFrameAchievementsContainerButton"..i.."Tracked"]
 		ch:SetSize(22, 22)
@@ -117,7 +88,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 		ch:SetPoint("TOPLEFT", icbg, "BOTTOMLEFT", -2, 0)
 		F.ReskinCheck(ch)
 
-		local bubg = F.CreateBDFrame(bu, .25)
+		local bubg = F.CreateBDFrame(bu, 0)
 		bubg:SetPoint("TOPLEFT", C.mult, -C.mult)
 		bubg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 	end
@@ -152,7 +123,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 	hooksecurefunc("AchievementButton_GetProgressBar", function(index)
 		local bar = _G["AchievementFrameProgressBar"..index]
 		if not bar.styled then
-			F.ReskinStatusBar(bar, true)
+			F.ReskinStatusBar(bar)
 
 			bar.styled = true
 		end
@@ -183,7 +154,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 			if not bu.styled then
 				F.StripTextures(bu)
 
-				local bubg = F.CreateBDFrame(bu, .25)
+				local bubg = F.CreateBDFrame(bu, 0)
 				bubg:SetPoint("TOPLEFT", C.mult, -C.mult)
 				bubg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 				F.ReskinTexture(bu, bubg, true)
@@ -214,9 +185,9 @@ C.themes["Blizzard_AchievementUI"] = function()
 				io:Hide()
 
 				local ic = _G["AchievementFrameSummaryAchievement"..i.."IconTexture"]
-				F.ReskinIcon(ic, true)
+				F.ReskinIcon(ic)
 
-				local bubg = F.CreateBDFrame(bu, .25)
+				local bubg = F.CreateBDFrame(bu, 0)
 				bubg:SetPoint("TOPLEFT", 2, -2)
 				bubg:SetPoint("BOTTOMRIGHT", -2, 2)
 
@@ -230,14 +201,14 @@ C.themes["Blizzard_AchievementUI"] = function()
 	for _, summary in next, summaries do
 		F.StripTextures(summary)
 
-		local bg = F.CreateBDFrame(summary, .25)
+		local bg = F.CreateBDFrame(summary, 0)
 		bg:SetPoint("TOPLEFT", C.mult, -C.mult)
 		bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 	end
 
 	local bars = {AchievementFrameComparisonSummaryPlayerStatusBar, AchievementFrameComparisonSummaryFriendStatusBar}
 	for _, bar in next, bars do
-		F.ReskinStatusBar(bar, true)
+		F.ReskinStatusBar(bar)
 
 		local name = bar:GetName()
 		_G[name.."Title"]:SetTextColor(1, 1, 1)
@@ -251,7 +222,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 		for _, bu in next, {"Player", "Friend"} do
 			F.StripTextures(_G[button..bu], true)
 
-			local bubg = F.CreateBDFrame(_G[button..bu], .25)
+			local bubg = F.CreateBDFrame(_G[button..bu], 0)
 			bubg:SetPoint("TOPLEFT", C.mult, -C.mult)
 			bubg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 		end
@@ -261,7 +232,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 		end
 
 		for _, ic in next, {"PlayerIconTexture", "FriendIconTexture"} do
-			F.ReskinIcon(_G[button..ic], true)
+			F.ReskinIcon(_G[button..ic])
 		end
 	end
 

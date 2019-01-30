@@ -52,12 +52,12 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.StripTextures(slot)
 		slot.ignoreTexture:SetTexture("Interface\\PaperDollInfoFrame\\UI-GearManager-LeaveItem-Transparent")
 
-		local bg = F.ReskinIcon(slot.icon, true)
+		local bg = F.ReskinIcon(slot.icon)
 		F.ReskinTexture(slot, bg, false)
 		slot.SetHighlightTexture = F.dummy
 
 		local border = slot.IconBorder
-		F.ReskinTexture(border, slot, false, true)
+		F.ReskinBorder(border, slot)
 
 		local popout = slot.popoutButton
 		popout:SetNormalTexture("")
@@ -102,7 +102,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	for _, v in pairs(category) do
 		v:SetSize(190, 25)
 		F.StripTextures(v)
-		F.CreateBDFrame(v, .25)
+		F.CreateBDFrame(v, 0)
 	end
 
 	-- [[ Sidebar tabs ]]
@@ -110,7 +110,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		local tab = _G["PaperDollSidebarTab"..i]
 		tab.TabBg:Hide()
 
-		local bg = F.CreateBDFrame(tab, .25)
+		local bg = F.CreateBDFrame(tab, 0)
 		bg:SetPoint("TOPLEFT", 2, -3)
 		bg:SetPoint("BOTTOMRIGHT", 0, -1)
 		bg:SetFrameLevel(0)
@@ -153,7 +153,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		bu:SetCheckedTexture(C.media.checked)
 		select(2, bu:GetRegions()):Hide()
 
-		local ic = F.ReskinIcon(_G["GearManagerDialogPopupButton"..i.."Icon"], true)
+		local ic = F.ReskinIcon(_G["GearManagerDialogPopupButton"..i.."Icon"])
 		F.ReskinTexture(bu, ic, false)
 	end
 
@@ -174,7 +174,7 @@ tinsert(C.themes["AuroraClassic"], function()
 				sp.Show = F.dummy
 
 				local ic = _G["PaperDollEquipmentManagerPaneButton"..i.."Icon"]
-				F.ReskinIcon(ic, true)
+				F.ReskinIcon(ic)
 			end
 
 			sets = true

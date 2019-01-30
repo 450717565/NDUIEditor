@@ -4,11 +4,11 @@ C.themes["Blizzard_GMSurveyUI"] = function()
 	F.StripTextures(GMSurveyFrame, true)
 	F.StripTextures(GMSurveyCommentFrame, true)
 
-	F.SetBD(GMSurveyFrame, 0, 0, -32, 4)
-	F.CreateBDFrame(GMSurveyCommentFrame, .25)
+	F.SetBDFrame(GMSurveyFrame, 0, 0, -32, 4)
+	F.CreateBDFrame(GMSurveyCommentFrame, 0)
 
 	for i = 1, 11 do
-		F.CreateBDFrame(_G["GMSurveyQuestion"..i], .25)
+		F.CreateBDFrame(_G["GMSurveyQuestion"..i], 0)
 		for j = 0, 5 do
 			F.ReskinRadio(_G["GMSurveyQuestion"..i.."RadioButton"..j])
 		end

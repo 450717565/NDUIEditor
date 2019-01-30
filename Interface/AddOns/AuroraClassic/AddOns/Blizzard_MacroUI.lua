@@ -28,7 +28,7 @@ C.themes["Blizzard_MacroUI"] = function()
 			ic:SetAllPoints()
 			ic:SetTexCoord(.08, .92, .08, .92)
 
-			local bg = F.CreateBDFrame(bu, .25)
+			local bg = F.CreateBDFrame(bu, 0)
 			F.ReskinTexture(bu, bg, false)
 		end
 	end
@@ -51,7 +51,7 @@ C.themes["Blizzard_MacroUI"] = function()
 	local frames = {MacroFrameScrollFrame, MacroPopupEditBox}
 	for _, frame in next, frames do
 		F.StripTextures(frame)
-		F.CreateBDFrame(frame, .25)
+		F.CreateBDFrame(frame, 0)
 	end
 
 	local buttons = {MacroDeleteButton, MacroNewButton, MacroExitButton, MacroEditButton, MacroPopupFrame.BorderBox.OkayButton, MacroPopupFrame.BorderBox.CancelButton, MacroSaveButton, MacroCancelButton}
@@ -68,7 +68,7 @@ C.themes["Blizzard_MacroUI"] = function()
 	selectedic:SetAllPoints()
 	selectedic:SetTexCoord(.08, .92, .08, .92)
 
-	local selectedbg = F.CreateBDFrame(selectedbt, .25)
+	local selectedbg = F.CreateBDFrame(selectedbt, 0)
 	F.ReskinTexture(selectedbt, selectedbg, false)
 
 	MacroNewButton:ClearAllPoints()

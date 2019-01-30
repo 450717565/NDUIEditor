@@ -21,7 +21,7 @@ C.themes["Blizzard_ScrappingMachineUI"] = function()
 	for button in pairs(ItemSlots.scrapButtons.activeObjects) do
 		if not button.styled then
 			button.IconBorder:SetAlpha(0)
-			button.bg = F.ReskinIcon(button.Icon, true)
+			button.bg = F.ReskinIcon(button.Icon)
 			F.ReskinTexture(button, button.bg, false)
 
 			hooksecurefunc(button, "RefreshIcon", refreshIcon)

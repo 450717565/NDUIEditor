@@ -5,7 +5,7 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 
 	F.ReskinFrame(TradeSkillFrame)
 
-	F.ReskinStatusBar(TradeSkillFrame.RankFrame, true, true)
+	F.ReskinStatusBar(TradeSkillFrame.RankFrame)
 	F.ReskinInput(TradeSkillFrame.SearchBox)
 	F.ReskinFilter(TradeSkillFrame.FilterButton)
 	F.ReskinArrow(TradeSkillFrame.LinkToButton, "right")
@@ -20,7 +20,7 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 		local tab = recipe.Tabs[i]
 
 		F.StripTextures(tab, true)
-		tab.bg = F.CreateBDFrame(tab, .25)
+		tab.bg = F.CreateBDFrame(tab, 0)
 		tab.bg:SetPoint("TOPLEFT", 3, -3)
 		tab.bg:SetPoint("BOTTOMRIGHT", -3, 0)
 	end
@@ -41,7 +41,7 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 
 				if button.SubSkillRankBar then
 					button.SubSkillRankBar:SetSize(55, 12)
-					F.ReskinStatusBar(button.SubSkillRankBar, true, true)
+					F.ReskinStatusBar(button.SubSkillRankBar)
 				end
 
 				button.styled = true
@@ -76,7 +76,7 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 		if not self.styled then
 			self.IconBorder:SetAlpha(0)
 			self.ResultBorder:SetAlpha(0)
-			F.ReskinIcon(self:GetNormalTexture(), true)
+			F.ReskinIcon(self:GetNormalTexture())
 
 			self.styled = true
 		end
@@ -85,9 +85,9 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 		local reagent = contents.Reagents[i]
 		reagent.NameFrame:Hide()
 
-		local ic = F.ReskinIcon(reagent.Icon, true)
+		local ic = F.ReskinIcon(reagent.Icon)
 
-		local bg = F.CreateBDFrame(reagent.NameFrame, .25)
+		local bg = F.CreateBDFrame(reagent.NameFrame, 0)
 		bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
 		bg:SetPoint("BOTTOMRIGHT", -5, 1)
 	end
@@ -102,5 +102,5 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 	guildFrame:SetPoint("BOTTOMLEFT", TradeSkillFrame, "BOTTOMRIGHT", 2, 0)
 
 	F.StripTextures(guildFrame.Container, true)
-	F.CreateBDFrame(guildFrame.Container, .25)
+	F.CreateBDFrame(guildFrame.Container, 0)
 end

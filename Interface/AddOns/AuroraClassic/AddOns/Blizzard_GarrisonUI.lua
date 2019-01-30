@@ -29,7 +29,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		select(4, self.Stage:GetRegions()):Hide()
 		select(5, self.Stage:GetRegions()):Hide()
 
-		local bg = F.CreateBDFrame(self.Stage, .25)
+		local bg = F.CreateBDFrame(self.Stage, 0)
 		bg:SetPoint("TOPLEFT", 4, 1)
 		bg:SetPoint("BOTTOMRIGHT", -4, -1)
 		local overlay = self.Stage:CreateTexture()
@@ -43,7 +43,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		for i = 1, 3 do
 			local follower = self.Followers[i]
 			follower:GetRegions():Hide()
-			F.CreateBDFrame(follower, .25)
+			F.CreateBDFrame(follower, 0)
 			F.ReskinGarrisonPortrait(follower.PortraitFrame)
 			follower.PortraitFrame:ClearAllPoints()
 			follower.PortraitFrame:SetPoint("TOPLEFT", 0, -3)
@@ -60,21 +60,21 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		for i = 1, 10 do
 			select(i, self.RewardsFrame:GetRegions()):Hide()
 		end
-		F.CreateBDFrame(self.RewardsFrame, .25)
+		F.CreateBDFrame(self.RewardsFrame, 0)
 
 		local env = self.Stage.MissionEnvIcon
 		env.Texture:SetDrawLayer("BORDER", 1)
-		env.bg = F.ReskinIcon(env.Texture, true)
+		env.bg = F.ReskinIcon(env.Texture)
 
 		local cost = self.CostFrame
-		F.ReskinIcon(cost.CostIcon, true)
+		F.ReskinIcon(cost.CostIcon)
 	end
 
 	function F:ReskinMissionTabs()
 		for i = 1, 2 do
 			local tab = _G[self:GetName().."Tab"..i]
 			F.StripTextures(tab)
-			F.CreateBDFrame(tab, .25)
+			F.CreateBDFrame(tab, 0)
 			if i == 1 then
 				tab:SetBackdropColor(r, g, b, .25)
 			end
@@ -83,15 +83,15 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	function F:ReskinXPBar()
 		local xpBar = self.XPBar
-		F.ReskinStatusBar(xpBar, false, true)
+		F.ReskinStatusBar(xpBar, true)
 	end
 
 	function F:ReskinGarrMaterial()
 		self.MaterialFrame:GetRegions():Hide()
-		local bg = F.CreateBDFrame(self.MaterialFrame, .25)
+		local bg = F.CreateBDFrame(self.MaterialFrame, 0)
 		bg:SetPoint("TOPLEFT", 5, -5)
 		bg:SetPoint("BOTTOMRIGHT", -5, 6)
-		F.ReskinIcon(self.MaterialFrame.Icon, true)
+		F.ReskinIcon(self.MaterialFrame.Icon)
 	end
 
 	function F:ReskinMissionList()
@@ -101,7 +101,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			if not button.styled then
 				F.StripTextures(button)
 
-				local bg = F.CreateBDFrame(button, .25)
+				local bg = F.CreateBDFrame(button, 0)
 				bg:SetPoint("TOPLEFT", 2, -2)
 				bg:SetPoint("BOTTOMRIGHT", -2, 2)
 
@@ -157,12 +157,12 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		for i = 1, 2 do
 			local trait = self.Traits[i]
 			trait.Border:Hide()
-			F.ReskinIcon(trait.Portrait, true)
+			F.ReskinIcon(trait.Portrait)
 
 			local equipment = self.EquipmentFrame.Equipment[i]
 			equipment.BG:Hide()
 			equipment.Border:Hide()
-			F.ReskinIcon(equipment.Icon, true)
+			F.ReskinIcon(equipment.Icon)
 		end
 	end
 
@@ -172,7 +172,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		class:ClearAllPoints()
 		class:SetPoint(point, x, y)
 		class:SetTexCoord(.18, .92, .08, .92)
-		F.CreateBDFrame(class, .25)
+		F.CreateBDFrame(class, 0)
 	end
 
 	local function onUpdateData(self)
@@ -190,7 +190,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				button.AbilitiesBG:SetTexture("")
 				button.BusyFrame:SetAllPoints()
 
-				local bg = F.CreateBDFrame(button, .25)
+				local bg = F.CreateBDFrame(button, 0)
 				F.ReskinTexture(button, bg, true)
 
 				if portrait then
@@ -232,7 +232,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		while ability do
 			local icon = ability.IconButton.Icon
 			icon:SetDrawLayer("BACKGROUND", 1)
-			F.ReskinIcon(icon, true)
+			F.ReskinIcon(icon)
 
 			numAbilitiesStyled = numAbilitiesStyled + 1
 			ability = abilities[numAbilitiesStyled]
@@ -245,7 +245,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				if equip and not equip.bg then
 					equip.Border:SetAlpha(0)
 					equip.BG:SetAlpha(0)
-					equip.bg = F.ReskinIcon(equip.Icon, true)
+					equip.bg = F.ReskinIcon(equip.Icon)
 					equip.bg:SetBackdropColor(1, 1, 1, .25)
 				end
 			end
@@ -255,7 +255,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		for i = 1, #allySpell do
 			if not allySpell.styled then
 				local iconTexture = allySpell[i].iconTexture
-				F.ReskinIcon(iconTexture, true)
+				F.ReskinIcon(iconTexture)
 				allySpell.styled = true
 			end
 		end
@@ -284,9 +284,9 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			if item then
 				local icon = item.Icon
 				item.Border:Hide()
-				F.ReskinIcon(icon, true)
+				F.ReskinIcon(icon)
 
-				local bg = F.CreateBDFrame(item, .25)
+				local bg = F.CreateBDFrame(item, 0)
 				bg:SetPoint("TOPLEFT", 41, -1)
 				bg:SetPoint("BOTTOMRIGHT", 0, 1)
 			end
@@ -334,7 +334,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 		tab:GetNormalTexture():SetAlpha(0)
 
-		local bg = F.CreateBDFrame(tab, .25)
+		local bg = F.CreateBDFrame(tab, 0)
 		bg:SetPoint("TOPLEFT", 6, -7)
 		bg:SetPoint("BOTTOMRIGHT", -6, 7)
 		F.ReskinTexture(tab, bg, true)
@@ -357,9 +357,9 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			if not button.styled then
 				button.BG:Hide()
 
-				F.ReskinIcon(button.Icon, true)
+				F.ReskinIcon(button.Icon)
 
-				local bg = F.CreateBDFrame(button, .25)
+				local bg = F.CreateBDFrame(button, 0)
 				bg:SetPoint("TOPLEFT", 44, -5)
 				bg:SetPoint("BOTTOMRIGHT", 0, 6)
 
@@ -395,8 +395,8 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		select(i, TownHallBox:GetRegions()):Hide()
 	end
 
-	F.CreateBDFrame(InfoBox, .25)
-	F.CreateBDFrame(TownHallBox, .25)
+	F.CreateBDFrame(InfoBox, 0)
+	F.CreateBDFrame(TownHallBox, 0)
 	F.ReskinButton(InfoBox.UpgradeButton)
 	F.ReskinButton(TownHallBox.UpgradeButton)
 	GarrisonBuildingFrame.MapFrame.TownHall.TownHallName:SetTextColor(1, .8, 0)
@@ -444,7 +444,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	F.ReskinButton(GarrisonCapacitiveDisplayFrame.CreateAllWorkOrdersButton)
 	F.ReskinArrow(GarrisonCapacitiveDisplayFrame.DecrementButton, "left")
 	F.ReskinArrow(GarrisonCapacitiveDisplayFrame.IncrementButton, "right")
-	F.CreateBDFrame(GarrisonCapacitiveDisplayFrame.Count, .25)
+	F.CreateBDFrame(GarrisonCapacitiveDisplayFrame.Count, 0)
 
 	-- Capacitive display
 
@@ -461,9 +461,9 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			reagent.NameFrame:SetAlpha(0)
 			reagent.Icon:SetDrawLayer("BORDER")
 
-			local ic = F.ReskinIcon(reagent.Icon, true)
+			local ic = F.ReskinIcon(reagent.Icon)
 
-			local bg = F.CreateBDFrame(reagent, .25)
+			local bg = F.CreateBDFrame(reagent, 0)
 			bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
 			bg:SetPoint("BOTTOMRIGHT", -5, 0)
 
@@ -498,7 +498,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	for i = 1, #buttons do
 		local button = buttons[i]
 		button.BG:Hide()
-		local bg = F.CreateBDFrame(button, .25)
+		local bg = F.CreateBDFrame(button, 0)
 		bg:SetPoint("TOPLEFT", C.mult, -C.mult)
 		bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 
@@ -507,7 +507,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			reward.IconBorder:SetAlpha(0)
 			reward:ClearAllPoints()
 			reward:SetPoint("TOPRIGHT", -4, -4)
-			F.ReskinIcon(reward.Icon, true)
+			F.ReskinIcon(reward.Icon)
 		end
 	end
 
@@ -515,7 +515,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		tab:SetHighlightTexture("")
 		tab.Text:ClearAllPoints()
 		tab.Text:SetPoint("CENTER")
-		local bg = F.CreateBDFrame(tab, .25)
+		local bg = F.CreateBDFrame(tab, 0)
 
 		local selectedTex = bg:CreateTexture(nil, "BACKGROUND")
 		selectedTex:SetAllPoints()
@@ -595,7 +595,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		if not ability.styled then
 			local icon = ability.Icon
 			icon:SetSize(19, 19)
-			F.ReskinIcon(icon, true)
+			F.ReskinIcon(icon)
 
 			ability.styled = true
 		end
@@ -604,7 +604,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	hooksecurefunc("GarrisonFollowerButton_SetCounterButton", function(button, _, index)
 		local counter = button.Counters[index]
 		if counter and not counter.styled then
-			F.ReskinIcon(counter.Icon, true)
+			F.ReskinIcon(counter.Icon)
 
 			counter.styled = true
 		end
@@ -618,7 +618,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			local reward = self.Rewards[self.numRewardsStyled]
 			reward:GetRegions():Hide()
 			reward.IconBorder:SetAlpha(0)
-			F.ReskinIcon(reward.Icon, true)
+			F.ReskinIcon(reward.Icon)
 		end
 	end)
 
@@ -637,7 +637,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		if not frame.styled then
 			frame.BG:Hide()
 			frame.IconBorder:SetAlpha(0)
-			F.ReskinIcon(frame.Icon, true)
+			F.ReskinIcon(frame.Icon)
 
 			frame.styled = true
 		end
@@ -650,7 +650,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				for i = 1, #followerFrame.Counters do
 					local counter = followerFrame.Counters[i]
 					if not counter.styled then
-						F.ReskinIcon(counter.Icon, true)
+						F.ReskinIcon(counter.Icon)
 
 						counter.styled = true
 					end
@@ -671,7 +671,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			if frame:IsShown() and not frame.styled then
 				for j = 1, #frame.Mechanics do
 					local mechanic = frame.Mechanics[j]
-					F.ReskinIcon(mechanic.Icon, true)
+					F.ReskinIcon(mechanic.Icon)
 				end
 				frame.styled = true
 			end
@@ -685,7 +685,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			for i = 1, #buffsFrame.Buffs do
 				local buff = buffsFrame.Buffs[i]
 				if not buff.styled then
-					F.ReskinIcon(buff.Icon, true)
+					F.ReskinIcon(buff.Icon)
 
 					buff.styled = true
 				end
@@ -707,7 +707,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 					local oldBg = frame:GetRegions()
 					oldBg:Hide()
-					frame.bg = F.CreateBDFrame(oldBg, .25)
+					frame.bg = F.CreateBDFrame(oldBg, 0)
 					frame.bg:SetPoint("TOPLEFT", frame.PortraitFrame, -C.mult, C.mult)
 					frame.bg:SetPoint("BOTTOMRIGHT", -10, 8)
 				end
@@ -720,7 +720,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				end
 
 				if frame.XP then
-					F.ReskinStatusBar(frame.XP, false, true)
+					F.ReskinStatusBar(frame.XP, true)
 				end
 
 				if frame.Class then
@@ -806,7 +806,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	local GarrisonMonumentFrame = GarrisonMonumentFrame
 
 	GarrisonMonumentFrame.Background:Hide()
-	F.SetBD(GarrisonMonumentFrame, 6, -10, -6, 4)
+	F.SetBDFrame(GarrisonMonumentFrame, 6, -10, -6, 4)
 
 	do
 		local left = GarrisonMonumentFrame.LeftBtn
@@ -852,14 +852,14 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	F.StripTextures(shipyardMission)
 	F.ReskinClose(shipyardMission.CloseButton)
 	F.ReskinButton(shipyardMission.StartMissionButton)
-	local smbg = F.CreateBDFrame(shipyardMission.Stage, .25)
+	local smbg = F.CreateBDFrame(shipyardMission.Stage, 0)
 	smbg:SetPoint("TOPLEFT", 4, 1)
 	smbg:SetPoint("BOTTOMRIGHT", -4, -1)
 
 	for i = 1, 10 do
 		select(i, shipyardMission.RewardsFrame:GetRegions()):Hide()
 	end
-	F.CreateBDFrame(shipyardMission.RewardsFrame, .25)
+	F.CreateBDFrame(shipyardMission.RewardsFrame, 0)
 
 	GarrisonShipyardFrame.MissionCompleteBackground:GetRegions():Hide()
 	GarrisonShipyardFrame.MissionTab.MissionList.CompleteDialog:GetRegions():Hide()
@@ -877,10 +877,10 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	local combatAlly = OrderHallMissionFrameMissions.CombatAllyUI
 	F.ReskinButton(combatAlly.InProgress.Unassign)
 	combatAlly:GetRegions():Hide()
-	F.CreateBDFrame(combatAlly, .25)
+	F.CreateBDFrame(combatAlly, 0)
 
 	local ipas = combatAlly.InProgress.CombatAllySpell.iconTexture
-	F.ReskinIcon(ipas, true)
+	F.ReskinIcon(ipas)
 
 	local allyPortrait = combatAlly.InProgress.PortraitFrame
 	F.ReskinGarrisonPortrait(allyPortrait)
@@ -903,14 +903,14 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	F.ReskinFrame(ZoneSupportMissionPage)
 	F.ReskinButton(ZoneSupportMissionPage.StartMissionButton)
 	ZoneSupportMissionPage.Follower1:GetRegions():Hide()
-	F.CreateBDFrame(ZoneSupportMissionPage.Follower1, .25)
+	F.CreateBDFrame(ZoneSupportMissionPage.Follower1, 0)
 	F.ReskinGarrisonPortrait(ZoneSupportMissionPage.Follower1.PortraitFrame)
 
 	local zsas = ZoneSupportMissionPage.CombatAllySpell.iconTexture
-	F.ReskinIcon(zsas, true)
+	F.ReskinIcon(zsas)
 
 	local cost = ZoneSupportMissionPage.CostFrame
-	F.ReskinIcon(cost.CostIcon, true)
+	F.ReskinIcon(cost.CostIcon)
 
 	-- [[ BFA Mission UI]]
 

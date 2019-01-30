@@ -12,7 +12,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinArrow(Display.ModelScene.RotateLeftButton, "left")
 	F.ReskinArrow(Display.ModelScene.RotateRightButton, "right")
 
-	local bg = F.CreateBDFrame(Display.ModelScene, .25)
+	local bg = F.CreateBDFrame(Display.ModelScene, 0)
 	bg:SetPoint("TOPLEFT", -1, 0)
 	bg:SetPoint("BOTTOMRIGHT", 2, -2)
 end)

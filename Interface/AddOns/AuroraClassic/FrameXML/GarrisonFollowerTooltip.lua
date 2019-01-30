@@ -19,7 +19,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		for i = 1, 9 do
 			select(i, frame:GetRegions()):Hide()
 		end
-		F.ReskinIcon(frame.Icon)
+		F.ReskinIcon(frame.Icon, true)
 
 		if AuroraConfig.tooltips then
 			F.ReskinTooltip(frame)

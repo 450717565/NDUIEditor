@@ -15,13 +15,13 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		local item = _G["StaticPopup"..i.."ItemFrame"]
 		F.StripTextures(item)
-		F.ReskinTexture(item.IconBorder, item, false, true)
+		F.ReskinBorder(item.IconBorder, item)
 
 		local name = _G["StaticPopup"..i.."ItemFrameNameFrame"]
 		name:Hide()
 
 		local icon = _G["StaticPopup"..i.."ItemFrameIconTexture"]
-		local ic = F.ReskinIcon(icon, true)
+		local ic = F.ReskinIcon(icon)
 		F.ReskinTexture(item, ic, false)
 
 		local gold = _G["StaticPopup"..i.."MoneyInputFrameGold"]

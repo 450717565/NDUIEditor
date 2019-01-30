@@ -23,11 +23,11 @@ C.themes["Blizzard_InspectUI"] = function()
 		local slot = _G["Inspect"..slots[i].."Slot"]
 		F.StripTextures(slot)
 
-		local ic = F.ReskinIcon(slot.icon, true)
+		local ic = F.ReskinIcon(slot.icon)
 		F.ReskinTexture(slot, ic, false)
 
 		local border = slot.IconBorder
-		F.ReskinTexture(border, slot, false, true)
+		F.ReskinBorder(border, slot)
 	end
 
 	hooksecurefunc("InspectPaperDollItemSlotButton_Update", function(button)
@@ -38,14 +38,14 @@ C.themes["Blizzard_InspectUI"] = function()
 	-- Talents
 	local inspectSpec = InspectTalentFrame.InspectSpec
 	inspectSpec.ring:Hide()
-	F.ReskinIcon(inspectSpec.specIcon, true)
+	F.ReskinIcon(inspectSpec.specIcon)
 
 	for i = 1, 7 do
 		local row = InspectTalentFrame.InspectTalents["tier"..i]
 		for j = 1, 3 do
 			local bu = row["talent"..j]
 			F.StripTextures(bu)
-			F.ReskinIcon(bu.icon, true)
+			F.ReskinIcon(bu.icon)
 			bu.icon:SetDrawLayer("ARTWORK")
 		end
 	end

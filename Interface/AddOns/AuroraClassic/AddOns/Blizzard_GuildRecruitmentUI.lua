@@ -9,7 +9,7 @@ C.themes["Blizzard_GuildRecruitmentUI"] = function()
 	for _, name in next, {"InterestFrame", "AvailabilityFrame", "RolesFrame", "LevelFrame"} do
 		local frame = CommunitiesGuildRecruitmentFrameRecruitment[name]
 		F.StripTextures(frame, true)
-		F.CreateBDFrame(frame, .25)
+		F.CreateBDFrame(frame, 0)
 	end
 
 	for _, name in next, {"QuestButton", "DungeonButton", "RaidButton", "PvPButton", "RPButton"} do
@@ -32,7 +32,7 @@ C.themes["Blizzard_GuildRecruitmentUI"] = function()
 	local input = recruitment.CommentFrame.CommentInputFrame
 	input:SetWidth(312)
 	F.StripTextures(input, true)
-	F.CreateBDFrame(input, .25)
+	F.CreateBDFrame(input, 0)
 
 	F.ReskinCheck(CommunitiesGuildRecruitmentFrameRecruitment.AvailabilityFrame.WeekdaysButton)
 	F.ReskinCheck(CommunitiesGuildRecruitmentFrameRecruitment.AvailabilityFrame.WeekendsButton)
@@ -52,7 +52,7 @@ C.themes["Blizzard_GuildRecruitmentUI"] = function()
 				for i = 1, 9 do
 					select(i, button:GetRegions()):Hide()
 				end
-				button.bg = F.CreateBDFrame(button, .25)
+				button.bg = F.CreateBDFrame(button, 0)
 				button.bg:SetPoint("TOPLEFT", 3, -3)
 				button.bg:SetPoint("BOTTOMRIGHT", -3, 3)
 

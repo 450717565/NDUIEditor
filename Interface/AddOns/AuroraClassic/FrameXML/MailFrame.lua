@@ -47,7 +47,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		btn:SetNormalTexture("")
 		btn:SetPushedTexture("")
 
-		local ic = F.ReskinIcon(_G[button.."IconTexture"], true)
+		local ic = F.ReskinIcon(_G[button.."IconTexture"])
 		F.ReskinTexture(btn, ic, false)
 	end
 
@@ -59,7 +59,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.StripTextures(bu)
 		bu:SetCheckedTexture(C.media.checked)
 
-		local ic = F.ReskinIcon(_G["MailItem"..i.."Button".."Icon"], true)
+		local ic = F.ReskinIcon(_G["MailItem"..i.."Button".."Icon"])
 		F.ReskinTexture(bu, ic, false)
 
 		local ib = _G["MailItem"..i.."Button".."IconBorder"]
@@ -70,11 +70,11 @@ tinsert(C.themes["AuroraClassic"], function()
 		local bu = _G["SendMailAttachment"..i]
 		bu:GetRegions():Hide()
 
-		local bg = F.CreateBDFrame(bu, .25)
+		local bg = F.CreateBDFrame(bu, 0)
 		F.ReskinTexture(bu, bg, false)
 
 		local border = bu.IconBorder
-		F.ReskinTexture(border, bu, false, true)
+		F.ReskinBorder(border, bu)
 	end
 
 	for i = 1, ATTACHMENTS_MAX_RECEIVE do
@@ -82,11 +82,11 @@ tinsert(C.themes["AuroraClassic"], function()
 		bu:SetNormalTexture("")
 		bu:SetPushedTexture("")
 
-		local ic = F.ReskinIcon(_G["OpenMailAttachmentButton"..i.."IconTexture"], true)
+		local ic = F.ReskinIcon(_G["OpenMailAttachmentButton"..i.."IconTexture"])
 		F.ReskinTexture(bu, ic, false)
 
 		local border = bu.IconBorder
-		F.ReskinTexture(border, bu, false, true)
+		F.ReskinBorder(border, bu)
 	end
 
 	hooksecurefunc("SendMailFrame_Update", function()

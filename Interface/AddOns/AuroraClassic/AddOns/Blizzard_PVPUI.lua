@@ -3,14 +3,14 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_PVPUI"] = function()
 	-- ConquestBar
 	local function styleBar(f)
-		F.ReskinStatusBar(f.ConquestBar, true, true)
+		F.ReskinStatusBar(f.ConquestBar)
 
 		local cbreward = f.ConquestBar.Reward
 		cbreward:ClearAllPoints()
 		cbreward:SetPoint("LEFT", f.ConquestBar, "RIGHT", 2, 0)
 		cbreward.CircleMask:Hide()
 		cbreward.Ring:Hide()
-		F.ReskinIcon(cbreward.Icon, true)
+		F.ReskinIcon(cbreward.Icon)
 	end
 
 	-- RoleButton
@@ -37,7 +37,7 @@ C.themes["Blizzard_PVPUI"] = function()
 		local icon = bu.Icon
 		icon:SetPoint("LEFT", bu, "LEFT")
 		icon:SetDrawLayer("OVERLAY")
-		F.ReskinIcon(icon, true)
+		F.ReskinIcon(icon)
 
 		local bg = F.CreateBG(bu.Icon)
 		bg:SetDrawLayer("ARTWORK")
@@ -72,9 +72,9 @@ C.themes["Blizzard_PVPUI"] = function()
 		bu.Bg:Hide()
 		bu.Border:Hide()
 
-		local ic = F.ReskinIcon(bu.Icon, true)
+		local ic = F.ReskinIcon(bu.Icon)
 
-		local bg = F.CreateBDFrame(bu, .25)
+		local bg = F.CreateBDFrame(bu, 0)
 		bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
 		bg:SetPoint("BOTTOMRIGHT", -2, 3.5)
 		F.ReskinTexture(bu.HighlightTexture, bg, true)

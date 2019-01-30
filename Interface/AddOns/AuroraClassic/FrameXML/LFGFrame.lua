@@ -13,9 +13,9 @@ tinsert(C.themes["AuroraClassic"], function()
 		local count = _G[buttonName.."Count"]
 		count:SetDrawLayer("OVERLAY")
 
-		local ic = F.ReskinIcon(icon, true)
+		local ic = F.ReskinIcon(icon)
 
-		local bg = F.CreateBDFrame(button, .25)
+		local bg = F.CreateBDFrame(button, 0)
 		bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
 		bg:SetPoint("BOTTOMRIGHT", -5, 1)
 
@@ -65,7 +65,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	LFGDungeonReadyDialogFiligree:Hide()
 
 	local function styleDungeonReady(button)
-		F.ReskinIcon(button.texture, true)
+		F.ReskinIcon(button.texture)
 
 		local border = _G[button:GetName().."Border"]
 		border:Hide()
@@ -123,7 +123,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			icon.texture:SetSize(13, 13)
 			icon.border:Hide()
 
-			icon.bg = F.ReskinIcon(icon.texture, .25)
+			icon.bg = F.ReskinIcon(icon.texture)
 		end
 	end
 

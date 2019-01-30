@@ -97,10 +97,10 @@ C.themes["Blizzard_AuctionUI"] = function()
 			F.StripTextures(it)
 			it.IconBorder:SetAlpha(0)
 
-			local icbg = F.ReskinIcon(ic, true)
+			local icbg = F.ReskinIcon(ic)
 			F.ReskinTexture(it, icbg, false)
 
-			local bubg = F.CreateBDFrame(bu, .25)
+			local bubg = F.CreateBDFrame(bu, 0)
 			bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
 			bubg:SetPoint("BOTTOMRIGHT", 0, 3)
 			F.ReskinTexture(bu, bubg, true)
@@ -128,8 +128,8 @@ C.themes["Blizzard_AuctionUI"] = function()
 		local button = AuctionsItemButton
 		button:SetSize(30, 30)
 		F.StripTextures(button)
-		F.CreateBDFrame(button, .25)
-		F.ReskinTexture(button.IconBorder, button, false, true)
+		F.CreateBDFrame(button, 0)
+		F.ReskinBorder(button.IconBorder, button)
 
 		local frame = CreateFrame("Frame")
 		frame:RegisterEvent("NEW_AUCTION_UPDATE")
@@ -163,8 +163,8 @@ C.themes["Blizzard_AuctionUI"] = function()
 		text:ClearAllPoints()
 		text:SetPoint("CENTER", bg, 1, 0)
 
-		BrowseDropDownButton:HookScript("OnEnter", F.colourArrow)
-		BrowseDropDownButton:HookScript("OnLeave", F.clearArrow)
+		BrowseDropDownButton:HookScript("OnEnter", F.texOnEnter)
+		BrowseDropDownButton:HookScript("OnLeave", F.texOnLeave)
 	end
 
 	do
@@ -203,7 +203,7 @@ C.themes["Blizzard_AuctionUI"] = function()
 		F.ReskinButton(Buyout)
 
 		local Token = BrowseWowTokenResults.Token
-		F.ReskinIcon(Token.Icon, true)
-		F.ReskinTexture(Token.IconBorder, Token.Icon, false, true)
+		F.ReskinIcon(Token.Icon)
+		F.ReskinBorder(Token.IconBorder, Token.Icon)
 	end
 end

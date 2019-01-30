@@ -35,7 +35,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		if bu and not bu.styled then
 			bu.Cover:Hide()
 			bu.Icon:SetTexCoord(.01, .99, .01, .99)
-			F.CreateBDFrame(bu.Icon, .25)
+			F.CreateBDFrame(bu.Icon, 0)
 
 			bu.styled = true
 		end
@@ -67,7 +67,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			F.StripTextures(result, true)
 
 			if not result.styled then
-				local bg = F.CreateBDFrame(result, .25)
+				local bg = F.CreateBDFrame(result, 0)
 				bg:SetPoint("TOPLEFT", 0, -1)
 				bg:SetPoint("BOTTOMRIGHT", 0, 1)
 
@@ -96,7 +96,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		local header = ApplicationViewer[headerName]
 		F.StripTextures(header)
 
-		local bg = F.CreateBDFrame(header, .25)
+		local bg = F.CreateBDFrame(header, 0)
 		bg:SetPoint("TOPLEFT", C.mult, -C.mult)
 		bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 	end
@@ -129,7 +129,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	local EntryCreation = LFGListFrame.EntryCreation
 	F.StripTextures(EntryCreation, true)
 	F.StripTextures(LFGListCreationDescription, true)
-	F.CreateBDFrame(EntryCreation.Description, .25)
+	F.CreateBDFrame(EntryCreation.Description, 0)
 
 	F.ReskinButton(EntryCreation.ListGroupButton)
 	F.ReskinButton(EntryCreation.CancelButton)
@@ -148,7 +148,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	F.ReskinFrame(LFGListApplicationDialog, true)
 	F.StripTextures(LFGListApplicationDialog.Description, true)
-	F.CreateBDFrame(LFGListApplicationDialog.Description, .25)
+	F.CreateBDFrame(LFGListApplicationDialog.Description, 0)
 	F.ReskinButton(LFGListApplicationDialog.SignUpButton)
 	F.ReskinButton(LFGListApplicationDialog.CancelButton)
 

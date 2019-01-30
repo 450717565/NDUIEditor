@@ -14,7 +14,7 @@ C.themes["Blizzard_IslandsQueueUI"] = function()
 	helpbutton:SetPoint("TOPLEFT", IslandsQueueFrame, "TOPLEFT", 0, 0)
 
 	local tutorial = IslandsQueueFrame.TutorialFrame
-	F.CreateBDFrame(tutorial, .25)
+	F.CreateBDFrame(tutorial, 0)
 	F.ReskinButton(tutorial.Leave)
 	F.ReskinClose(tutorial.CloseButton)
 

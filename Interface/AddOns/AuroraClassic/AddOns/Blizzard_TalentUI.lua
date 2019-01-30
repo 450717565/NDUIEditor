@@ -36,7 +36,7 @@ C.themes["Blizzard_TalentUI"] = function()
 			select(i, scrollChild:GetRegions()):Hide()
 		end
 
-		F.ReskinIcon(scrollChild.specIcon, true)
+		F.ReskinIcon(scrollChild.specIcon)
 	end
 
 	hooksecurefunc("PlayerTalentFrame_UpdateSpecFrame", function(self, spec)
@@ -67,7 +67,7 @@ C.themes["Blizzard_TalentUI"] = function()
 
 				if not frame.styled then
 					frame.ring:Hide()
-					F.ReskinIcon(frame.icon, true)
+					F.ReskinIcon(frame.icon)
 
 					frame.styled = true
 				end
@@ -110,7 +110,7 @@ C.themes["Blizzard_TalentUI"] = function()
 			local ic = bu.specIcon
 			ic:SetPoint("LEFT", bu, "LEFT")
 			ic:SetDrawLayer("OVERLAY")
-			F.ReskinIcon(ic, true)
+			F.ReskinIcon(ic)
 
 			local bg = F.CreateBG(bu.specIcon)
 			bg:SetDrawLayer("ARTWORK")
@@ -134,9 +134,9 @@ C.themes["Blizzard_TalentUI"] = function()
 
 			local ic = _G["PlayerTalentFrameTalentsTalentRow"..i.."Talent"..j.."IconTexture"]
 			ic:SetDrawLayer("ARTWORK")
-			F.ReskinIcon(ic, true)
+			F.ReskinIcon(ic)
 
-			bu.bg = F.CreateBDFrame(bu, .25)
+			bu.bg = F.CreateBDFrame(bu, 0)
 			bu.bg:SetPoint("TOPLEFT", 10, 0)
 			bu.bg:SetPoint("BOTTOMRIGHT")
 
@@ -188,9 +188,9 @@ C.themes["Blizzard_TalentUI"] = function()
 
 			self.Icon:SetScale(.75)
 			self.Icon:SetPoint("LEFT", 9, 1)
-			F.ReskinIcon(self.Icon, true)
+			F.ReskinIcon(self.Icon)
 
-			local bg = F.CreateBDFrame(self, .25)
+			local bg = F.CreateBDFrame(self, 0)
 			bg:SetPoint("TOPLEFT", 2, -1)
 			bg:SetPoint("BOTTOMRIGHT", 0, 3)
 

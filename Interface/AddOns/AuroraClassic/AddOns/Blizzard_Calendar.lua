@@ -1,12 +1,13 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_Calendar"] = function()
+	local cr, cg, cb = C.r, C.g, C.b
 	local lists = {CalendarFrame, CalendarFilterFrame, CalendarCreateEventTitleFrame, CalendarViewEventTitleFrame, CalendarViewHolidayTitleFrame, CalendarViewRaidTitleFrame, CalendarEventPickerTitleFrame, CalendarMassInviteTitleFrame, CalendarCreateEventCloseButton, CalendarViewEventCloseButton, CalendarViewHolidayCloseButton, CalendarViewRaidCloseButton, CalendarMassInviteCloseButton, CalendarTexturePickerTitleFrame}
 	for _, list in next, lists do
 		F.StripTextures(list, true)
 	end
 
-	F.SetBD(CalendarFrame, 11, 0, -9, 3)
+	F.SetBDFrame(CalendarFrame, 11, 0, -9, 3)
 
 	for i = 1, 42 do
 		_G["CalendarDayButton"..i.."DarkFrame"]:SetAlpha(.5)
@@ -27,7 +28,7 @@ C.themes["Blizzard_Calendar"] = function()
 	CalendarCreateEventDivider:Hide()
 	CalendarViewRaidFrameModalOverlay:SetAlpha(0)
 	CalendarWeekdaySelectedTexture:SetDesaturated(true)
-	CalendarWeekdaySelectedTexture:SetVertexColor(r, g, b)
+	CalendarWeekdaySelectedTexture:SetVertexColor(cr, cg, cb)
 
 	hooksecurefunc("CalendarFrame_SetToday", function()
 		CalendarTodayFrame:SetAllPoints()
@@ -36,7 +37,7 @@ C.themes["Blizzard_Calendar"] = function()
 	CalendarTodayFrame:SetScript("OnUpdate", nil)
 	F.StripTextures(CalendarTodayFrame, true)
 	local bg = F.CreateBDFrame(CalendarTodayFrame, 0)
-	bg:SetBackdropBorderColor(r, g, b)
+	bg:SetBackdropBorderColor(cr, cg, cb)
 
 	for i, class in ipairs(CLASS_SORT_ORDER) do
 		local bu = _G["CalendarClassButton"..i]

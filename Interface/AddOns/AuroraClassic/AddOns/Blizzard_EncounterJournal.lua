@@ -67,7 +67,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 			bu:SetNormalTexture("")
 			bu:SetPushedTexture("")
 
-			local bg = F.CreateBDFrame(bu.bgImage, .25)
+			local bg = F.CreateBDFrame(bu.bgImage, 0)
 			bg:SetPoint("TOPLEFT", 3, -3)
 			bg:SetPoint("BOTTOMRIGHT", -4, 2)
 
@@ -90,7 +90,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 	EncounterJournalEncounterFrameInfoOverviewScrollFrameScrollChildTitle:SetTextColor(1, 1, 1)
 	EncounterJournalEncounterFrameInfoOverviewScrollFrameScrollChild.overviewDescription.Text:SetTextColor(1, 1, 1)
 
-	F.CreateBDFrame(EncounterJournalEncounterFrameInfoModelFrame, .25)
+	F.CreateBDFrame(EncounterJournalEncounterFrameInfoModelFrame, 0)
 	EncounterJournalEncounterFrameInfoCreatureButton1:SetPoint("TOPLEFT", EncounterJournalEncounterFrameInfoModelFrame, 0, -35)
 
 	do
@@ -125,7 +125,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 				F.ReskinButton(header.button)
 
 				header.description:SetTextColor(1, 1, 1)
-				header.button.bg = F.ReskinIcon(header.button.abilityIcon)
+				header.button.bg = F.ReskinIcon(header.button.abilityIcon, true)
 
 				header.styled = true
 			end
@@ -176,9 +176,9 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		item.icon:SetSize(39, 39)
 
 		item.icon:SetDrawLayer("OVERLAY")
-		F.ReskinIcon(item.icon, true)
+		F.ReskinIcon(item.icon)
 
-		local bg = F.CreateBDFrame(item, .25)
+		local bg = F.CreateBDFrame(item, 0)
 		bg:SetPoint("TOPLEFT", C.mult, -C.mult)
 		bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 	end
@@ -189,32 +189,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		F.ReskinSearchBox(EncounterJournalSearchBox["sbutton"..i])
 	end
 	F.ReskinSearchBox(EncounterJournalSearchBox.showAllResults)
-
-	do
-		local result = EncounterJournalSearchResults
-		result:SetPoint("BOTTOMLEFT", EncounterJournal, "BOTTOMRIGHT", 20, 0)
-		F.StripTextures(result, true)
-
-		local bg = F.CreateBDFrame(result)
-		bg:SetPoint("TOPLEFT", -10, 0)
-		bg:SetPoint("BOTTOMRIGHT", 0, -10)
-
-		F.ReskinClose(EncounterJournalSearchResultsCloseButton)
-		F.ReskinScroll(EncounterJournalSearchResultsScrollFrameScrollBar)
-
-		for i = 1, 9 do
-			local bu = _G["EncounterJournalSearchResultsScrollFrameButton"..i]
-			F.StripTextures(bu)
-
-			local bg = F.CreateBDFrame(bu, .25)
-			bg:SetPoint("TOPLEFT", C.mult, -C.mult)
-			bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
-
-			F.ReskinTexture(bu, bg, true)
-			F.ReskinIcon(bu.icon, true)
-			bu.icon.SetTexCoord = F.dummy
-		end
-	end
+	F.ReskinSearchResult(EncounterJournal)
 
 	-- [[ Various controls ]]
 	F.ReskinButton(EncounterJournalEncounterFrameInfoResetButton)
@@ -229,8 +204,8 @@ C.themes["Blizzard_EncounterJournal"] = function()
 	-- Tooltip
 	if AuroraConfig.tooltips then
 		F.ReskinTooltip(EncounterJournalTooltip)
-		EncounterJournalTooltip.Item1.newBg = F.ReskinIcon(EncounterJournalTooltip.Item1.icon)
-		EncounterJournalTooltip.Item2.newBg = F.ReskinIcon(EncounterJournalTooltip.Item2.icon)
+		EncounterJournalTooltip.Item1.newBg = F.ReskinIcon(EncounterJournalTooltip.Item1.icon, true)
+		EncounterJournalTooltip.Item2.newBg = F.ReskinIcon(EncounterJournalTooltip.Item2.icon, true)
 	end
 
 	-- [[ Suggest frame ]]
@@ -240,13 +215,13 @@ C.themes["Blizzard_EncounterJournal"] = function()
 	local suggestion = suggestFrame.Suggestion1
 	F.StripTextures(suggestion)
 
-	local bg = F.CreateBDFrame(suggestion, .25)
+	local bg = F.CreateBDFrame(suggestion, 0)
 	bg:SetPoint("TOPLEFT", 0, 5)
 	bg:SetPoint("BOTTOMRIGHT", suggestFrame.Suggestion3, 15, 0)
 
 	suggestion.icon:ClearAllPoints()
 	suggestion.icon:SetPoint("TOP", 0, -15)
-	F.CreateBDFrame(suggestion.icon, .25)
+	F.CreateBDFrame(suggestion.icon, 0)
 
 	local centerDisplay = suggestion.centerDisplay
 	centerDisplay.title.text:SetTextColor(1, 1, 1)
@@ -256,7 +231,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 	local reward = suggestion.reward
 	F.StripTextures(reward)
 	reward.text:SetTextColor(.9, .9, .9)
-	F.CreateBDFrame(reward.icon, .25)
+	F.CreateBDFrame(reward.icon, 0)
 
 	F.ReskinArrow(suggestion.prevButton, "left")
 	F.ReskinArrow(suggestion.nextButton, "right")
@@ -267,7 +242,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		F.StripTextures(suggestion)
 
 		suggestion.icon:SetPoint("TOPLEFT", 25, -25)
-		F.CreateBDFrame(suggestion.icon, .25)
+		F.CreateBDFrame(suggestion.icon, 0)
 
 		local centerDisplay = suggestion.centerDisplay
 		centerDisplay:ClearAllPoints()
@@ -279,7 +254,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		local reward = suggestion.reward
 		F.StripTextures(reward)
 
-		local bg = F.CreateBDFrame(reward.icon, .25)
+		local bg = F.CreateBDFrame(reward.icon, 0)
 		--bg:SetFrameLevel(reward:GetFrameLevel()+1)
 	end
 
@@ -345,7 +320,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 			if not button.styled then
 				button.ItemLevel:SetTextColor(1, 1, 1)
 				button.Background:Hide()
-				F.CreateBDFrame(button, .25)
+				F.CreateBDFrame(button, 0)
 
 				button.styled = true
 			end
@@ -355,7 +330,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 	hooksecurefunc(EncounterJournal.LootJournal.ItemSetsFrame, "ConfigureItemButton", function(_, button)
 		if not button.bg then
 			button.Border:SetAlpha(0)
-			button.bg = F.ReskinIcon(button.Icon, true)
+			button.bg = F.ReskinIcon(button.Icon)
 		end
 
 		local quality = select(3, GetItemInfo(button.itemID))

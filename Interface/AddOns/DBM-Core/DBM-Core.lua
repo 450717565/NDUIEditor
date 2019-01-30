@@ -41,9 +41,9 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 18216 $"):sub(12, -3)),
-	DisplayVersion = "8.1.6 alpha", -- the string that is shown as version
-	ReleaseRevision = 18196 -- the revision of the latest stable version that is available
+	Revision = tonumber(("$Revision: 18248 $"):sub(12, -3)),
+	DisplayVersion = "8.1.8 alpha", -- the string that is shown as version
+	ReleaseRevision = 18245 -- the revision of the latest stable version that is available
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -412,7 +412,7 @@ local delayedFunction
 local dataBroker
 local voiceSessionDisabled = false
 
-local fakeBWVersion, fakeBWHash = 126, "6b74e6b"
+local fakeBWVersion, fakeBWHash = 130, "de5280d"
 local versionQueryString, versionResponseString = "Q^%d^%s", "V^%d^%s"
 
 local enableIcons = true -- set to false when a raid leader or a promoted player has a newer version of DBM
@@ -11013,7 +11013,10 @@ function bossModPrototype:AddNamePlateOption(name, spellId, default)
 end
 
 function bossModPrototype:AddInfoFrameOption(spellId, default, optionVersion)
-	local oVersion = tostring(optionVersion) or ""
+	local oVersion = ""
+	if optionVersion then
+		optionVersion = tostring(optionVersion)
+	end
 	self.DefaultOptions["InfoFrame"..oVersion] = (default == nil) or default
 	if default and type(default) == "string" then
 		default = self:GetRoleFlagValue(default)

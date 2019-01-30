@@ -12,7 +12,7 @@ C.themes["Blizzard_QuestChoice"] = function()
 		option.Artwork:SetTexCoord(0.140625, 0.84375, 0.2265625, 0.78125)
 		option.Artwork:SetSize(180, 70)
 		option.Artwork:SetPoint("TOP", 0, -20)
-		F.CreateBDFrame(option.Artwork, .25)
+		F.CreateBDFrame(option.Artwork, 0)
 
 		option.OptionText:SetTextColor(.9, .9, .9)
 		option.OptionText:SetPoint("TOP", option.Artwork, "BOTTOM", 4, -10)
@@ -21,13 +21,13 @@ C.themes["Blizzard_QuestChoice"] = function()
 		local item = rewards.Item
 		item.Name:SetTextColor(1, 1, 1)
 		item.Icon:SetDrawLayer("ARTWORK")
-		F.ReskinIcon(item.Icon, true)
-		F.ReskinTexture(item.IconBorder, item.Icon, false, true)
+		F.ReskinIcon(item.Icon)
+		F.ReskinBorder(item.IconBorder, item.Icon)
 
 		local currencies = rewards.Currencies
 		for j = 1, 3 do
 			local cu = currencies["Currency"..j]
-			F.ReskinIcon(cu.Icon, true)
+			F.ReskinIcon(cu.Icon)
 		end
 
 		F.ReskinButton(option.OptionButtonsContainer.OptionButton1)

@@ -27,7 +27,7 @@ C.themes["Blizzard_GuildBankUI"] = function()
 	end
 
 	F.ReskinFrame(GuildBankPopupFrame)
-	F.CreateBDFrame(GuildBankPopupEditBox, .25)
+	F.CreateBDFrame(GuildBankPopupEditBox, 0)
 	GuildBankPopupFrame:SetPoint("TOPLEFT", GuildBankFrame, "TOPRIGHT", 2, -30)
 	GuildBankPopupFrame:SetHeight(525)
 
@@ -39,14 +39,14 @@ C.themes["Blizzard_GuildBankUI"] = function()
 			local bu = _G["GuildBankColumn"..i.."Button"..j]
 			F.StripTextures(bu)
 
-			local bg = F.ReskinIcon(bu.icon, true)
+			local bg = F.ReskinIcon(bu.icon)
 			F.ReskinTexture(bu, bg, false)
 
 			local searchOverlay = bu.searchOverlay
 			searchOverlay:SetAllPoints(bg)
 
 			local border = bu.IconBorder
-			F.ReskinTexture(border, bu, false, true)
+			F.ReskinBorder(border, bu)
 		end
 	end
 
@@ -74,7 +74,7 @@ C.themes["Blizzard_GuildBankUI"] = function()
 		bu:SetPoint(a1, p, a2, x + 1, y)
 
 		local ic = _G["GuildBankTab"..i.."ButtonIconTexture"]
-		local bg = F.ReskinIcon(ic, true)
+		local bg = F.ReskinIcon(ic)
 		F.ReskinTexture(bu, bg, false)
 	end
 
@@ -85,7 +85,7 @@ C.themes["Blizzard_GuildBankUI"] = function()
 			if not bu.styled then
 				bu:SetCheckedTexture(C.media.checked)
 				select(2, bu:GetRegions()):Hide()
-				F.ReskinIcon(_G["GuildBankPopupButton"..i.."Icon"], true)
+				F.ReskinIcon(_G["GuildBankPopupButton"..i.."Icon"])
 
 				bu.styled = true
 			end

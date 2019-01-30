@@ -21,11 +21,11 @@ tinsert(C.themes["AuroraClassic"], function()
 		local questTexture = bu.IconQuestTexture
 		if questTexture then questTexture:SetAlpha(0) end
 
-		local ic = F.ReskinIcon(bu.icon, true)
+		local ic = F.ReskinIcon(bu.icon)
 		F.ReskinTexture(bu, ic, false)
 
 		local border = bu.IconBorder
-		F.ReskinTexture(border, bu, false, true)
+		F.ReskinBorder(border, bu)
 
 		local searchOverlay = bu.searchOverlay
 		searchOverlay:SetPoint("TOPLEFT", -C.mult, C.mult)
@@ -50,7 +50,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	BankItemAutoSortButton:GetPushedTexture():SetTexCoord(.17, .83, .17, .83)
 	BankItemAutoSortButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 	BankItemAutoSortButton:GetHighlightTexture():SetAllPoints()
-	F.CreateBDFrame(BankItemAutoSortButton, .25)
+	F.CreateBDFrame(BankItemAutoSortButton, 0)
 
 	hooksecurefunc("BankFrameItemButton_Update", function(button)
 		if not button.isBag and button.IconQuestTexture:IsShown() then

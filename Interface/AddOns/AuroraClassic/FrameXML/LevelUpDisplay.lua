@@ -6,7 +6,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			local f = _G["LevelUpDisplaySideUnlockFrame"..i]
 
 			if not f.styled then
-				F.ReskinIcon(f.icon, true)
+				F.ReskinIcon(f.icon)
 
 				f.styled = true
 			end

@@ -6,7 +6,7 @@ C.themes["Blizzard_TrainerUI"] = function()
 	F.ReskinScroll(ClassTrainerScrollFrameScrollBar)
 	F.ReskinDropDown(ClassTrainerFrameFilterDropDown)
 
-	F.ReskinStatusBar(ClassTrainerStatusBar, true, true)
+	F.ReskinStatusBar(ClassTrainerStatusBar)
 	ClassTrainerStatusBar:ClearAllPoints()
 	ClassTrainerStatusBar:SetPoint("RIGHT", ClassTrainerFrameFilterDropDown, "LEFT", 0, 2)
 	ClassTrainerStatusBarSkillRank:ClearAllPoints()
@@ -20,9 +20,9 @@ C.themes["Blizzard_TrainerUI"] = function()
 	local step = ClassTrainerFrameSkillStepButton
 	F.StripTextures(step)
 
-	local stepic = F.ReskinIcon(ClassTrainerFrameSkillStepButtonIcon, true)
+	local stepic = F.ReskinIcon(ClassTrainerFrameSkillStepButtonIcon)
 
-	local stepbg = F.CreateBDFrame(step, .25)
+	local stepbg = F.CreateBDFrame(step, 0)
 	stepbg:SetPoint("TOPLEFT", stepic, "TOPRIGHT", 2, 0)
 	stepbg:SetPoint("BOTTOMRIGHT", -18, 0)
 
@@ -41,9 +41,9 @@ C.themes["Blizzard_TrainerUI"] = function()
 			if not bu.styled then
 				bu:SetNormalTexture("")
 
-				local ic = F.ReskinIcon(bu.icon, true)
+				local ic = F.ReskinIcon(bu.icon)
 
-				local bg = F.CreateBDFrame(bu, .25)
+				local bg = F.CreateBDFrame(bu, 0)
 				bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
 				bg:SetPoint("BOTTOMRIGHT", 0, 4)
 

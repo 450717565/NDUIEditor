@@ -26,7 +26,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		local icon = bu.icon
 		icon:SetPoint("LEFT", bu, "LEFT")
 		icon:SetDrawLayer("OVERLAY")
-		F.ReskinIcon(icon, true)
+		F.ReskinIcon(icon)
 
 		local bg = F.CreateBG(bu.icon)
 		bg:SetDrawLayer("ARTWORK")

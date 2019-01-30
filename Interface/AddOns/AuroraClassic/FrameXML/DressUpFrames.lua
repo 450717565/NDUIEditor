@@ -4,7 +4,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	-- Dressup Frame
 	F.StripTextures(DressUpFrame, true)
 	F.StripTextures(MaximizeMinimizeFrame, true)
-	F.SetBD(DressUpFrame, 5, 5, -5, 0)
+	F.SetBDFrame(DressUpFrame, 5, 5, -5, 0)
 
 	F.ReskinButton(DressUpFrameOutfitDropDown.SaveButton)
 	F.ReskinButton(DressUpFrameCancelButton)

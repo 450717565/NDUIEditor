@@ -50,7 +50,7 @@ C.themes["Blizzard_Collections"] = function()
 			local bu = scrollFrame.buttons[i]
 			F.StripTextures(bu)
 
-			local bg = F.CreateBDFrame(bu, .25)
+			local bg = F.CreateBDFrame(bu, 0)
 			bg:SetPoint("TOPLEFT", C.mult, -C.mult)
 			bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 
@@ -61,7 +61,7 @@ C.themes["Blizzard_Collections"] = function()
 			F.ReskinTexture(sl, bg, true)
 
 			local ic = bu.Icon or bu.icon
-			F.ReskinIcon(ic, true)
+			F.ReskinIcon(ic)
 
 			if bu.ProgressBar then
 				local bar = bu.ProgressBar
@@ -100,9 +100,9 @@ C.themes["Blizzard_Collections"] = function()
 		F.StripTextures(list, true)
 	end
 
-	F.CreateBDFrame(MountJournal.MountCount, .25)
-	F.CreateBDFrame(PetJournal.PetCount, .25)
-	F.CreateBDFrame(MountJournal.MountDisplay.ModelScene, .25)
+	F.CreateBDFrame(MountJournal.MountCount, 0)
+	F.CreateBDFrame(PetJournal.PetCount, 0)
+	F.CreateBDFrame(MountJournal.MountDisplay.ModelScene, 0)
 
 	F.ReskinButton(MountJournalMountButton)
 	F.ReskinButton(PetJournalSummonButton)
@@ -111,7 +111,7 @@ C.themes["Blizzard_Collections"] = function()
 	F.ReskinArrow(MountJournal.MountDisplay.ModelScene.RotateLeftButton, "left")
 	F.ReskinArrow(MountJournal.MountDisplay.ModelScene.RotateRightButton, "right")
 
-	F.ReskinIcon(MountJournal.MountDisplay.InfoButton.Icon, true)
+	F.ReskinIcon(MountJournal.MountDisplay.InfoButton.Icon)
 
 	local function reskinButton(button)
 		local bu = _G[button]
@@ -120,7 +120,7 @@ C.themes["Blizzard_Collections"] = function()
 		local bd = _G[button.."Border"]
 		bd:Hide()
 
-		local ic = F.ReskinIcon(_G[button.."IconTexture"], true)
+		local ic = F.ReskinIcon(_G[button.."IconTexture"])
 		F.ReskinTexture(bu, ic, false)
 	end
 
@@ -177,7 +177,7 @@ C.themes["Blizzard_Collections"] = function()
 	-- Pet card
 	local card = PetJournalPetCard
 	F.StripTextures(card, true)
-	F.CreateBDFrame(card, .25)
+	F.CreateBDFrame(card, 0)
 	F.StripTextures(card.PetInfo)
 
 	card.AbilitiesBG1:SetAlpha(0)
@@ -186,14 +186,14 @@ C.themes["Blizzard_Collections"] = function()
 
 	card.PetInfo.level:SetTextColor(1, 1, 1)
 
-	card.PetInfo.icon.bg = F.ReskinIcon(card.PetInfo.icon, true)
+	card.PetInfo.icon.bg = F.ReskinIcon(card.PetInfo.icon)
 
-	F.ReskinStatusBar(card.xpBar, false, true)
-	F.ReskinStatusBar(card.HealthFrame.healthBar, false, true)
+	F.ReskinStatusBar(card.xpBar, true)
+	F.ReskinStatusBar(card.HealthFrame.healthBar, true)
 
 	for i = 1, 6 do
 		local bu = card["spell"..i]
-		F.ReskinIcon(bu.icon, true)
+		F.ReskinIcon(bu.icon)
 	end
 
 	hooksecurefunc("PetJournal_UpdatePetCard", function(self)
@@ -211,7 +211,7 @@ C.themes["Blizzard_Collections"] = function()
 		local bu = PetJournal.Loadout["Pet"..i]
 		F.StripTextures(bu)
 
-		local bg = F.CreateBDFrame(bu, .25)
+		local bg = F.CreateBDFrame(bu, 0)
 		bg:SetPoint("TOPLEFT", 0, -4)
 		bg:SetPoint("BOTTOMRIGHT")
 
@@ -219,10 +219,10 @@ C.themes["Blizzard_Collections"] = function()
 		bu.level:SetTextColor(1, 1, 1)
 		bu.setButton:GetRegions():SetPoint("TOPLEFT", bu.icon, -5, 5)
 		bu.setButton:GetRegions():SetPoint("BOTTOMRIGHT", bu.icon, 5, -5)
-		bu.icon.bg = F.ReskinIcon(bu.icon, true)
+		bu.icon.bg = F.ReskinIcon(bu.icon)
 
-		F.ReskinStatusBar(bu.xpBar, false, true)
-		F.ReskinStatusBar(bu.healthFrame.healthBar, false, true)
+		F.ReskinStatusBar(bu.xpBar, true)
+		F.ReskinStatusBar(bu.healthFrame.healthBar, true)
 
 		for j = 1, 3 do
 			local spell = bu["spell"..j]
@@ -235,7 +235,7 @@ C.themes["Blizzard_Collections"] = function()
 			spell.FlyoutArrow:SetSize(8, 8)
 			spell.FlyoutArrow:SetTexCoord(0, 1, 0, 1)
 
-			F.ReskinIcon(spell.icon, true)
+			F.ReskinIcon(spell.icon)
 		end
 	end
 
@@ -260,7 +260,7 @@ C.themes["Blizzard_Collections"] = function()
 		bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 
 		bu.icon:SetDrawLayer("ARTWORK")
-		F.ReskinIcon(bu.icon, true)
+		F.ReskinIcon(bu.icon)
 	end
 
 	-- [[ Toy box ]]
@@ -271,7 +271,7 @@ C.themes["Blizzard_Collections"] = function()
 	-- Progress bar
 	local progressBar = ToyBox.progressBar
 	progressBar.text:SetPoint("CENTER")
-	F.ReskinStatusBar(progressBar, true, true)
+	F.ReskinStatusBar(progressBar)
 
 	-- Toys!
 	local shouldChangeTextColor = true
@@ -300,7 +300,7 @@ C.themes["Blizzard_Collections"] = function()
 		local bu = buttons["spellButton"..i]
 		F.StripTextures(bu)
 
-		local ic = F.ReskinIcon(bu.iconTexture, true)
+		local ic = F.ReskinIcon(bu.iconTexture)
 		F.ReskinTexture(bu, ic, false)
 
 		local cd = bu.cooldown
@@ -323,7 +323,7 @@ C.themes["Blizzard_Collections"] = function()
 	-- Progress bar
 	local progressBar = HeirloomsJournal.progressBar
 	progressBar.text:SetPoint("CENTER")
-	F.ReskinStatusBar(progressBar, true, true)
+	F.ReskinStatusBar(progressBar)
 
 	-- Buttons
 	hooksecurefunc("HeirloomsJournal_UpdateButton", function(button)
@@ -335,7 +335,7 @@ C.themes["Blizzard_Collections"] = function()
 			button.level:ClearAllPoints()
 			button.level:SetPoint("BOTTOM", 0, 1)
 
-			local bg = F.ReskinIcon(button.iconTexture, true)
+			local bg = F.ReskinIcon(button.iconTexture)
 			F.ReskinTexture(button, bg, false)
 
 			local newLevelBg = button:CreateTexture(nil, "OVERLAY")
@@ -402,7 +402,7 @@ C.themes["Blizzard_Collections"] = function()
 			select(i, tab:GetRegions()):SetAlpha(0)
 		end
 		tab:SetHighlightTexture("")
-		tab.bg = F.CreateBDFrame(tab, .25)
+		tab.bg = F.CreateBDFrame(tab, 0)
 		tab.bg:SetPoint("TOPLEFT", 3, -3)
 		tab.bg:SetPoint("BOTTOMRIGHT", -3, -1)
 	end
@@ -423,12 +423,12 @@ C.themes["Blizzard_Collections"] = function()
 
 	local progressBar = WardrobeCollectionFrame.progressBar
 	progressBar.text:SetPoint("CENTER")
-	F.ReskinStatusBar(progressBar, true, true)
+	F.ReskinStatusBar(progressBar)
 
 	-- ItemSetsCollection
 	local SetsCollectionFrame = WardrobeCollectionFrame.SetsCollectionFrame
 	F.StripTextures(SetsCollectionFrame, true)
-	F.CreateBDFrame(SetsCollectionFrame.Model, .25)
+	F.CreateBDFrame(SetsCollectionFrame.Model, 0)
 
 	local DetailsFrame = SetsCollectionFrame.DetailsFrame
 	F.StripTextures(DetailsFrame, true)
@@ -438,7 +438,7 @@ C.themes["Blizzard_Collections"] = function()
 		local ic = itemFrame.Icon
 		if not ic.bg then
 			itemFrame.IconBorder:Hide()
-			ic.bg = F.ReskinIcon(ic, true)
+			ic.bg = F.ReskinIcon(ic)
 		end
 
 		if itemFrame.collected then
@@ -459,7 +459,7 @@ C.themes["Blizzard_Collections"] = function()
 	F.ReskinFrame(WardrobeFrame)
 	F.StripTextures(WardrobeTransmogFrame, true)
 	F.StripTextures(WardrobeOutfitFrame, true)
-	F.CreateBDFrame(WardrobeOutfitFrame, .25)
+	F.CreateBDFrame(WardrobeOutfitFrame, 0)
 	F.ReskinButton(WardrobeTransmogFrame.ApplyButton)
 	F.ReskinButton(WardrobeTransmogFrame.Model.ClearAllPendingButton)
 	F.ReskinButton(WardrobeOutfitDropDown.SaveButton)
@@ -476,7 +476,7 @@ C.themes["Blizzard_Collections"] = function()
 		if slot then
 			slot.Border:Hide()
 			slot.Icon:SetDrawLayer("BACKGROUND", 1)
-			local bg = F.ReskinIcon(slot.Icon, true)
+			local bg = F.ReskinIcon(slot.Icon)
 
 			F.ReskinTexture(slot, bg, false)
 		end
@@ -507,7 +507,7 @@ C.themes["Blizzard_Collections"] = function()
 				PetJournalBandageButton:SetPoint("TOPRIGHT", PetJournalHealPetButton, "TOPLEFT", -3, 0)
 				PetJournalBandageButton:SetPoint("BOTTOMLEFT", PetJournalHealPetButton, "BOTTOMLEFT", -35, 0)
 				PetJournalBandageButtonBorder:Hide()
-				F.ReskinIcon(PetJournalBandageButtonIcon, true)
+				F.ReskinIcon(PetJournalBandageButtonIcon)
 			end
 			reskinHPet = true
 		end
@@ -547,7 +547,7 @@ do
 					local bu = HAbiFrameActiveEnemy.AbilityButtons[i]
 					bu.NormalTexture:SetTexture(nil)
 					bu.NormalTexture.SetTexture = F.dummy
-					F.ReskinIcon(bu.Icon, true)
+					F.ReskinIcon(bu.Icon)
 				end
 				f.styled = true
 			end)

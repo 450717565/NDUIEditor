@@ -25,8 +25,8 @@ tinsert(C.themes["AuroraClassic"], function()
 		icon:ClearAllPoints()
 		icon:SetPoint("LEFT")
 
-		local ic = F.ReskinIcon(icon, true)
-		local bg = F.CreateBDFrame(_G["QuestProgressItem"..i], .25)
+		local ic = F.ReskinIcon(icon)
+		local bg = F.CreateBDFrame(_G["QuestProgressItem"..i], 0)
 		bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
 		bg:SetPoint("BOTTOMRIGHT", -5, 0)
 

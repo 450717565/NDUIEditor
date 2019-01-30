@@ -22,7 +22,7 @@ tinsert(C.themes["AuroraClassic"], function()
 				bu:SetNormalTexture("")
 				bu:SetPushedTexture("")
 
-				local icbg = F.ReskinIcon(ic, true)
+				local icbg = F.ReskinIcon(ic)
 				F.ReskinTexture(bu, icbg, false)
 
 				ic.bg = icbg
@@ -46,14 +46,14 @@ tinsert(C.themes["AuroraClassic"], function()
 	local PromptFrame = BonusRollFrame.PromptFrame
 	PromptFrame.Timer.Bar:SetTexture(C.media.normTex)
 	PromptFrame.Timer.Bar:SetVertexColor(r, g, b)
-	F.CreateBDFrame(PromptFrame.Timer, .25)
-	F.ReskinIcon(PromptFrame.Icon, true)
+	F.CreateBDFrame(PromptFrame.Timer, 0)
+	F.ReskinIcon(PromptFrame.Icon)
 
 	local SpecIcon = BonusRollFrame.SpecIcon
 	SpecIcon:ClearAllPoints()
 	SpecIcon:SetPoint("RIGHT", PromptFrame.InfoFrame, "RIGHT", -5, 0)
 
-	local bg = F.ReskinIcon(SpecIcon, true)
+	local bg = F.ReskinIcon(SpecIcon)
 	bg:SetFrameLevel(BonusRollFrame:GetFrameLevel() + 1)
 	hooksecurefunc("BonusRollFrame_StartBonusRoll", function()
 		bg:SetShown(SpecIcon:IsShown())

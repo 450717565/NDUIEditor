@@ -1,8 +1,6 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_ArtifactUI"] = function()
-	local r, g, b = C.r, C.g, C.b
-
 	F.ReskinFrame(ArtifactFrame)
 	F.StripTextures(ArtifactFrame.PerksTab)
 	F.StripTextures(ArtifactFrame.ForgeBadgeFrame)
@@ -23,7 +21,7 @@ C.themes["Blizzard_ArtifactUI"] = function()
 		SetPool.Name:SetTextColor(.9, .8, .5)
 		F.StripTextures(SetPool)
 
-		local setbg = F.CreateBDFrame(SetPool, .25)
+		local setbg = F.CreateBDFrame(SetPool, 0)
 		setbg:SetPoint("TOPLEFT", 10, -5)
 		setbg:SetPoint("BOTTOMRIGHT", -10, 5)
 
@@ -36,12 +34,11 @@ C.themes["Blizzard_ArtifactUI"] = function()
 			SlotPool.UnobtainableCover:SetTexCoord(.20, .80, .15, .75)
 			SlotPool.UnobtainableCover:SetAllPoints()
 
-			local slotbg = F.CreateBDFrame(SlotPool, .25)
+			local slotbg = F.CreateBDFrame(SlotPool, 0)
 			F.ReskinTexture(SlotPool.HighlightTexture, slotbg, false)
 
 			local sl = SlotPool.Selected
-			F.ReskinTexture(sl, SlotPool, true, true)
-			sl:SetColorTexture(r, g, b, 1)
+			F.ReskinBorder(sl, SlotPool, true)
 		end
 	end
 

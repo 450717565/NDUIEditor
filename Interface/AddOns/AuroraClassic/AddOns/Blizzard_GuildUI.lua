@@ -13,7 +13,7 @@ C.themes["Blizzard_GuildUI"] = function()
 	local frames = {GuildMemberNoteBackground, GuildMemberOfficerNoteBackground, GuildLogContainer, GuildTextEditContainer, GuildRecruitmentInterestFrame, GuildRecruitmentAvailabilityFrame, GuildRecruitmentRolesFrame, GuildRecruitmentLevelFrame, GuildInfoFrameInfoMOTDScrollFrame, GuildInfoDetailsFrame, GuildRecruitmentCommentInputFrame}
 	for _, frame in next, frames do
 		F.StripTextures(frame, true)
-		F.CreateBDFrame(frame, .25)
+		F.CreateBDFrame(frame, 0)
 	end
 
 	for i = 1, 5 do
@@ -93,7 +93,7 @@ C.themes["Blizzard_GuildUI"] = function()
 		bu:SetBackdrop(nil)
 		bu:SetHighlightTexture("")
 
-		local bg = F.CreateBDFrame(bu, .25)
+		local bg = F.CreateBDFrame(bu, 0)
 		bg:SetPoint("TOPLEFT")
 		bg:SetPoint("BOTTOMRIGHT")
 
@@ -102,7 +102,7 @@ C.themes["Blizzard_GuildUI"] = function()
 	end
 
 	F.StripTextures(GuildFactionBar)
-	F.CreateBDFrame(GuildFactionBar, .25)
+	F.CreateBDFrame(GuildFactionBar, 0)
 	GuildFactionBar:ClearAllPoints()
 	GuildFactionBar:SetPoint("BOTTOMLEFT", 0, -3)
 	GuildFactionBarProgress:SetTexture(C.media.normTex)
@@ -115,9 +115,9 @@ C.themes["Blizzard_GuildUI"] = function()
 			select(i, bu:GetRegions()):SetAlpha(0)
 		end
 
-		local ic = F.ReskinIcon(bu.icon, true)
+		local ic = F.ReskinIcon(bu.icon)
 
-		local bg = F.CreateBDFrame(bu, .25)
+		local bg = F.CreateBDFrame(bu, 0)
 		bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
 		bg:SetPoint("BOTTOMRIGHT", 0, 1)
 		F.ReskinTexture(bu, bg, true)
@@ -133,12 +133,12 @@ C.themes["Blizzard_GuildUI"] = function()
 				bu.disabledBG:Hide()
 				--bu.disabledBG.Show = F.dummy
 
-				bu.bg = F.CreateBDFrame(bu, .25)
+				bu.bg = F.CreateBDFrame(bu, 0)
 				bu.bg:SetPoint("TOPLEFT", C.mult, -C.mult)
 				bu.bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 
 				F.ReskinTexture(bu, bu.bg, true)
-				F.ReskinIcon(bu.icon, true)
+				F.ReskinIcon(bu.icon)
 			end
 		end
 	end)
@@ -160,7 +160,7 @@ C.themes["Blizzard_GuildUI"] = function()
 				bu:SetHighlightTexture(C.media.bdTex)
 				bu:GetHighlightTexture():SetVertexColor(r, g, b, .25)
 
-				bu.bg = F.CreateBDFrame(bu.icon, .25)
+				bu.bg = F.CreateBDFrame(bu.icon, 0)
 			end
 
 			index = offset + i
@@ -223,7 +223,7 @@ C.themes["Blizzard_GuildUI"] = function()
 				end
 
 				if not header.styled then
-					F.ReskinIcon(header.icon)
+					F.ReskinIcon(header.icon, true)
 					header.styled = true
 				end
 
@@ -232,7 +232,7 @@ C.themes["Blizzard_GuildUI"] = function()
 						select(j, header:GetRegions()):Hide()
 					end
 
-					header.bg = F.CreateBDFrame(header, .25)
+					header.bg = F.CreateBDFrame(header, 0)
 					header.bg:SetAllPoints()
 
 					F.ReskinTexture(header, header.bg, true)

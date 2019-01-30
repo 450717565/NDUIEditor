@@ -17,7 +17,7 @@ C.themes["Blizzard_Contribution"] = function()
 			self.RewardName:SetTextColor(1, 1, 1)
 			self.Border:Hide()
 			self:GetRegions():Hide()
-			F.ReskinIcon(self.Icon, true)
+			F.ReskinIcon(self.Icon)
 
 			self.styled = true
 		end

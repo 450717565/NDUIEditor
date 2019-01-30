@@ -74,7 +74,7 @@ local function Reskins()
 
 			do
 				F.StripTextures(SellItemButton)
-				F.CreateBDFrame(SellItemButton, .25)
+				F.CreateBDFrame(SellItemButton, 0)
 				local frame = CreateFrame("Frame")
 				frame:RegisterEvent("NEW_AUCTION_UPDATE")
 				frame:SetScript("OnEvent", function()
@@ -129,7 +129,7 @@ local function Reskins()
 			F.ReskinScroll(BaudAuctionBrowseScrollBoxScrollBarScrollBar)
 
 			BaudAuctionProgressBar:SetPoint("CENTER", 0, -5)
-			F.ReskinStatusBar(BaudAuctionProgressBar, true)
+			F.ReskinStatusBar(BaudAuctionProgressBar)
 
 			local boxHL = BaudAuctionBrowseScrollBoxHighlight
 			boxHL:SetTexture(DB.bdTex)
@@ -142,7 +142,7 @@ local function Reskins()
 			end
 
 			for k = 1, 19 do
-				F.ReskinIcon(_G["BaudAuctionBrowseScrollBoxEntry"..k.."Texture"])
+				F.ReskinIcon(_G["BaudAuctionBrowseScrollBoxEntry"..k.."Texture"], true)
 			end
 		end
 
@@ -172,16 +172,16 @@ local function Reskins()
 			F.ReskinInput(MerchantFrameSearchBox, 22)
 			F.ReskinButton(MerchantFrameFilterButton)
 
-			local ic = F.ReskinIcon(MerchantFrameSellJunkButtonIcon, true)
+			local ic = F.ReskinIcon(MerchantFrameSellJunkButtonIcon)
 			F.ReskinTexture(MerchantFrameSellJunkButton, ic, false)
 			MerchantFrameSellJunkButton:SetPushedTexture(DB.textures.pushed)
 
 			for i = 13, 20 do
 				local bu = _G["MerchantItem"..i.."ItemButton"]
 				F.StripTextures(bu)
-				F.ReskinTexture(bu.IconBorder, bu, false, true)
+				F.ReskinBorder(bu.IconBorder, bu)
 
-				local ic = F.ReskinIcon(bu.icon, true)
+				local ic = F.ReskinIcon(bu.icon)
 				F.ReskinTexture(bu, ic, false)
 
 				local item = _G["MerchantItem"..i]
@@ -196,7 +196,7 @@ local function Reskins()
 				money:SetPoint("LEFT", ic, "BOTTOMRIGHT", 4, 2)
 
 				for j = 1, 3 do
-					F.ReskinIcon(_G["MerchantItem"..i.."AltCurrencyFrameItem"..j.."Texture"])
+					F.ReskinIcon(_G["MerchantItem"..i.."AltCurrencyFrameItem"..j.."Texture"], true)
 				end
 			end
 		end
@@ -300,7 +300,7 @@ local function Reskins()
 					local buic = _G["Overachiever_"..v..i.."Icon"]
 
 					F.StripTextures(bu)
-					F.ReskinIcon(bu.icon.texture, true)
+					F.ReskinIcon(bu.icon.texture)
 					_G["Overachiever_"..v..i.."Highlight"]:SetAlpha(0)
 					_G["Overachiever_"..v..i.."IconOverlay"]:Hide()
 
@@ -309,7 +309,7 @@ local function Reskins()
 					bu.description:SetShadowOffset(C.mult, -C.mult)
 					bu.description.SetShadowOffset = F.dummy
 
-					local bg = F.CreateBDFrame(bu, .25)
+					local bg = F.CreateBDFrame(bu, 0)
 					bg:SetPoint("TOPLEFT", C.mult, -C.mult)
 					bg:SetPoint("BOTTOMRIGHT", 0, 2)
 
@@ -337,7 +337,7 @@ local function Reskins()
 			F.ReskinButton(dialog.RefreshButton)
 			F.ReskinDropDown(dialog.Difficulty.DropDown)
 			F.ReskinCheck(UsePFGButton)
-			F.CreateBDFrame(dialog.Expression, .25)
+			F.CreateBDFrame(dialog.Expression, 0)
 
 			dialog.Defeated.Title:ClearAllPoints()
 			dialog.Defeated.Title:SetPoint("LEFT", dialog.Defeated.Act, "RIGHT", 10, 0)
@@ -389,7 +389,7 @@ local function Reskins()
 				local ic = _G[button.."Icon"]
 				ic:SetDrawLayer("ARTWORK")
 
-				local bg = F.ReskinIcon(ic, true)
+				local bg = F.ReskinIcon(ic)
 				F.ReskinTexture(bu, bg, false)
 
 				if bu.SetCheckedTexture then
@@ -427,10 +427,10 @@ local function Reskins()
 				local rw = bu.Reward
 				rw:SetSize(26, 26)
 				rw.IconBorder:Hide()
-				F.ReskinIcon(rw.Icon, true)
+				F.ReskinIcon(rw.Icon)
 
 				local fac = bu.Faction
-				F.ReskinIcon(fac.Icon, true)
+				F.ReskinIcon(fac.Icon)
 
 				local tm = bu.Time
 				tm:ClearAllPoints()

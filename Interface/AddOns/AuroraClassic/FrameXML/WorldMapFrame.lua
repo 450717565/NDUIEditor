@@ -7,7 +7,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.StripTextures(WorldMapFrame, true)
 	F.StripTextures(BorderFrame, true)
 	F.ReskinClose(BorderFrame.CloseButton)
-	F.SetBD(WorldMapFrame, C.mult, 0, -(C.mult*2), C.mult)
+	F.SetBDFrame(WorldMapFrame, C.mult, 0, -(C.mult*2), C.mult)
 
 	F.ReskinMinMax(BorderFrame.MaximizeMinimizeFrame)
 

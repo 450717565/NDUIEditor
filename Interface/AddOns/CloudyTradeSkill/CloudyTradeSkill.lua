@@ -100,7 +100,7 @@ local function addTab(id, index, isSub)
 	if skinUI and not tab.skinned then
 		local checkedTexture
 		if (skinUI == "AuroraClassic") then
-			local bg = loadedUI.CreateBDFrame(tab)
+			local bg = loadedUI.CreateBDFrame(tab, nil, true)
 			checkedTexture = mediaUI.media.checked
 
 			loadedUI.ReskinTexture(tab, bg, false)

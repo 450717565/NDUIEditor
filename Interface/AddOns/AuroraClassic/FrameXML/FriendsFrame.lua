@@ -23,14 +23,14 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	F.ReskinFrame(AddFriendFrame)
 
-	local whoBg = F.CreateBDFrame(WhoFrameEditBoxInset, .25)
+	local whoBg = F.CreateBDFrame(WhoFrameEditBoxInset, 0)
 	whoBg:SetPoint("TOPLEFT")
 	whoBg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 
 	local header = FriendsFrameFriendsScrollFrame.PendingInvitesHeaderButton
 	F.StripTextures(header, true)
 
-	local headerBg = F.CreateBDFrame(header, .25)
+	local headerBg = F.CreateBDFrame(header, 0)
 	headerBg:SetPoint("TOPLEFT", 2, -2)
 	headerBg:SetPoint("BOTTOMRIGHT", -2, 2)
 
@@ -78,7 +78,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	for _, button in pairs({FriendsTabHeaderSoRButton, FriendsTabHeaderRecruitAFriendButton}) do
 		button:SetPushedTexture("")
-		F.ReskinIcon(button:GetRegions(), true)
+		F.ReskinIcon(button:GetRegions())
 	end
 
 	local function UpdateScroll()
@@ -168,11 +168,11 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 	end)
 
-	F.CreateBDFrame(FriendsFrameBattlenetFrame.UnavailableInfoFrame, .25)
+	F.CreateBDFrame(FriendsFrameBattlenetFrame.UnavailableInfoFrame, 0)
 	FriendsFrameBattlenetFrame.UnavailableInfoFrame:SetPoint("TOPLEFT", FriendsFrame, "TOPRIGHT", 1, -18)
 
 	FriendsFrameBattlenetFrame:GetRegions():Hide()
-	F.CreateBDFrame(FriendsFrameBattlenetFrame, .25)
+	F.CreateBDFrame(FriendsFrameBattlenetFrame, 0)
 
 	FriendsFrameBattlenetFrame.Tag:SetParent(FriendsListFrame)
 	FriendsFrameBattlenetFrame.Tag:SetPoint("TOP", FriendsFrame, "TOP", 0, -8)

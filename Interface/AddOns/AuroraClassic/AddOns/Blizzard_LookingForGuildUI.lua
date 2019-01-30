@@ -19,7 +19,7 @@ C.themes["Blizzard_LookingForGuildUI"] = function()
 		local frames = {LookingForGuildInterestFrame, LookingForGuildAvailabilityFrame, LookingForGuildRolesFrame, LookingForGuildCommentFrame, LookingForGuildCommentInputFrame, GuildFinderRequestMembershipFrameInputFrame}
 		for _, frame in next, frames do
 			F.StripTextures(frame, true)
-			F.CreateBDFrame(frame, .25)
+			F.CreateBDFrame(frame, 0)
 		end
 
 		local buttons = {LookingForGuildQuestButton, LookingForGuildDungeonButton, LookingForGuildRaidButton, LookingForGuildPvPButton, LookingForGuildRPButton, LookingForGuildWeekdaysButton, LookingForGuildWeekendsButton}
@@ -31,7 +31,7 @@ C.themes["Blizzard_LookingForGuildUI"] = function()
 			local bu = _G[button..i]
 			bu:SetBackdrop(nil)
 
-			local bg = F.CreateBDFrame(bu, .25)
+			local bg = F.CreateBDFrame(bu, 0)
 			bg:SetPoint("TOPLEFT", C.mult, -C.mult)
 			bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 

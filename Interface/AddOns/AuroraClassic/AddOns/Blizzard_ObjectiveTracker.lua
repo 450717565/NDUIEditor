@@ -3,7 +3,7 @@ local F, C = unpack(select(2, ...))
 tinsert(C.themes["AuroraClassic"], function()
 	if not AuroraConfig.objectiveTracker then return end
 
-	local r, g, b = C.r, C.g, C.b
+	local cr, cg, cb = C.r, C.g, C.b
 
 	local function reskinQuestIcon(_, block)
 		local button = block.rightButton or block.itemButton
@@ -12,7 +12,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			button:SetNormalTexture("")
 			button:SetPushedTexture("")
 
-			local bg = F.CreateBDFrame(button.icon or button.Icon, .25)
+			local bg = F.CreateBDFrame(button.icon or button.Icon, 0)
 			F.ReskinTexture(button, bg, false)
 
 			if button.icon then
@@ -34,12 +34,12 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	-- Reskin Headers
 	local function reskinHeader(header)
-		header.Text:SetTextColor(r, g, b)
+		header.Text:SetTextColor(cr, cg, cb)
 		header.Background:Hide()
 		local bg = header:CreateTexture(nil, "ARTWORK")
 		bg:SetTexture("Interface\\LFGFrame\\UI-LFG-SEPARATOR")
 		bg:SetTexCoord(0, .66, 0, .31)
-		bg:SetVertexColor(r, g, b, .8)
+		bg:SetVertexColor(cr, cg, cb, .8)
 		bg:SetPoint("BOTTOMLEFT", -30, -4)
 		bg:SetSize(250, 30)
 	end
@@ -70,14 +70,14 @@ tinsert(C.themes["AuroraClassic"], function()
 
 			bar:SetPoint("LEFT", 22, 0)
 			bar:SetStatusBarTexture(C.media.normTex)
-			bar:SetStatusBarColor(r*.8, g*.8, b*.8)
+			bar:SetStatusBarColor(cr, cg, cb, .8)
 
 			local bg = F.CreateBDFrame(progressBar)
 			bg:SetPoint("TOPLEFT", bar, -C.mult, C.mult)
 			bg:SetPoint("BOTTOMRIGHT", bar, C.mult, -C.mult)
 
 			icon:SetMask(nil)
-			icon.bg = F.ReskinIcon(icon, true)
+			icon.bg = F.ReskinIcon(icon)
 			icon:ClearAllPoints()
 			icon:SetPoint("TOPLEFT", bar, "TOPRIGHT", 5, 0)
 			icon:SetPoint("BOTTOMRIGHT", bar, "BOTTOMRIGHT", bar:GetHeight()+5, 0)
@@ -104,7 +104,7 @@ tinsert(C.themes["AuroraClassic"], function()
 				select(i, bar:GetRegions()):Hide()
 			end
 			bar:SetStatusBarTexture(C.media.normTex)
-			bar:SetStatusBarColor(r*.8, g*.8, b*.8)
+			bar:SetStatusBarColor(cr, cg, cb, .8)
 			bar.Label:Show()
 			local oldBg = select(5, bar:GetRegions())
 			F.CreateBDFrame(oldBg)
@@ -131,7 +131,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			widgetFrame.Frame:SetAlpha(0)
 			for _, bu in next, {widgetFrame.CurrencyContainer:GetChildren()} do
 				if bu and not bu.styled then
-					F.ReskinIcon(bu.Icon, true)
+					F.ReskinIcon(bu.Icon)
 
 					bu.styled = true
 				end
@@ -146,9 +146,9 @@ tinsert(C.themes["AuroraClassic"], function()
 			block.TimerBGBack:Hide()
 
 			block.StatusBar:SetStatusBarTexture(C.media.normTex)
-			block.StatusBar:SetStatusBarColor(r*.8, g*.8, b*.8)
+			block.StatusBar:SetStatusBarColor(cr, cg, cb, .8)
 			block.StatusBar:SetHeight(10)
-			F.CreateBDFrame(block.StatusBar, .25)
+			F.CreateBDFrame(block.StatusBar, 0)
 
 			select(3, block:GetRegions()):Hide()
 			block.bg = F.CreateBDFrame(block)

@@ -15,7 +15,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 				F.StripTextures(checkbox, true)
 
-				local bg = F.CreateBDFrame(checkbox, .25)
+				local bg = F.CreateBDFrame(checkbox, 0)
 				bg:SetPoint("TOPLEFT", C.mult, -C.mult)
 				bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 
@@ -57,7 +57,7 @@ tinsert(C.themes["AuroraClassic"], function()
 				local swatch = _G[swatchName]
 
 				F.StripTextures(swatch, true)
-				local bg = F.CreateBDFrame(swatch, .25)
+				local bg = F.CreateBDFrame(swatch, 0)
 				bg:SetPoint("TOPLEFT", C.mult, -C.mult)
 				bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 
@@ -120,7 +120,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.ReskinCheck(box)
 	end
 
-	local bg = F.CreateBDFrame(ChatConfigCombatSettingsFilters, .25)
+	local bg = F.CreateBDFrame(ChatConfigCombatSettingsFilters, 0)
 	bg:SetPoint("TOPLEFT", 3, 0)
 	bg:SetPoint("BOTTOMRIGHT", 0, 1)
 

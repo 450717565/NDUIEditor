@@ -10,7 +10,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	local frames = {HelpFrameGM_ResponseScrollFrame1, HelpFrameGM_ResponseScrollFrame2, HelpFrameReportBugScrollFrame, HelpFrameSubmitSuggestionScrollFrame, ReportCheatingDialogCommentFrame}
 	for _, frame in next, frames do
 		F.StripTextures(frame)
-		F.CreateBDFrame(frame, .25)
+		F.CreateBDFrame(frame, 0)
 	end
 
 	local scrolls = {
@@ -55,7 +55,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	for i = 1, 15 do
 		local bu = _G["HelpFrameKnowledgebaseScrollFrameButton"..i]
 		bu:DisableDrawLayer("ARTWORK")
-		F.CreateBDFrame(bu, .25)
+		F.CreateBDFrame(bu, 0)
 	end
 
 	local function styleTab(bu)

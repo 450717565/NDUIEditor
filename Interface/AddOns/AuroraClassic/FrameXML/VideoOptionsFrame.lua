@@ -187,7 +187,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		local testInputDevie = AudioOptionsVoicePanelTestInputDevice
 		F.ReskinButton(testInputDevie.ToggleTest)
 		F.StripTextures(testInputDevie.VUMeter)
-		F.ReskinStatusBar(testInputDevie.VUMeter.Status, false, true)
+		F.ReskinStatusBar(testInputDevie.VUMeter.Status, true)
 
 		styled = true
 	end)

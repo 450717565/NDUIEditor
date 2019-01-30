@@ -75,7 +75,12 @@ addon.raidData = {
   [1733] = { numEncounters = 2, startFrom =  1 }, -- Heart of Corruption
 	
 	-- Battle of Dazar'alor - coming soon
-	
+	[1945] = { numEncounters = 3, startFrom =  1 },
+	[1946] = { numEncounters = 3, startFrom =  1 },
+	[1947] = { numEncounters = 3, startFrom =  1 },
+	[1948] = { numEncounters = 3, startFrom =  1 },
+	[1949] = { numEncounters = 3, startFrom =  1 },
+	[1950] = { numEncounters = 3, startFrom =  1 },
 	
 	-- Crucible of Storms
 	[1951] = { numEncounters = 2, startFrom =  1 }, -- Crucible of Storms

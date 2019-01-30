@@ -9,9 +9,11 @@ tinsert(C.themes["AuroraClassic"], function()
 	SpellBookPageText:SetTextColor(.8, .8, .8)
 
 	SpellBookFrameTabButton1:ClearAllPoints()
-	SpellBookFrameTabButton1:SetPoint("TOPLEFT", SpellBookFrame, "BOTTOMLEFT", 0, 2)
+	SpellBookFrameTabButton1:SetPoint("TOPLEFT", SpellBookFrame, "BOTTOMLEFT", 10, 2)
+	SpellBookSkillLineTab1:ClearAllPoints()
 	SpellBookSkillLineTab1:SetPoint("TOPLEFT", SpellBookFrame, "TOPRIGHT", 2, -25)
 	SpellBookFrameTutorialButton.Ring:Hide()
+	SpellBookFrameTutorialButton:ClearAllPoints()
 	SpellBookFrameTutorialButton:SetPoint("TOPLEFT", SpellBookFrame, "TOPLEFT", -12, 12)
 
 	for i = 1, 3 do
@@ -23,7 +25,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.StripTextures(bu)
 
 		local ic = _G["SpellButton"..i.."IconTexture"]
-		local icbg = F.ReskinIcon(ic, true)
+		local icbg = F.ReskinIcon(ic)
 
 		ic.bg = icbg
 	end
@@ -69,8 +71,8 @@ tinsert(C.themes["AuroraClassic"], function()
 				tab:GetRegions():Hide()
 				tab:SetCheckedTexture(C.media.checked)
 
-				local ic = F.ReskinIcon(tab:GetNormalTexture(), true)
-				F.ReskinTexture(tab, ic, false)
+				local icbg = F.ReskinIcon(tab:GetNormalTexture(), false, 1)
+				F.ReskinTexture(tab, icbg, false)
 
 				tab.styled = true
 			end
@@ -85,39 +87,38 @@ tinsert(C.themes["AuroraClassic"], function()
 		bu.missingText:SetTextColor(1, 1, 1)
 		F.StripTextures(bu)
 
-		local bg = F.CreateBDFrame(bu, .25)
+		local bubg = F.CreateBDFrame(bu, 0)
 
 		local name = bu.professionName
 		name:ClearAllPoints()
-		name:SetPoint("TOPLEFT", bg, "TOPLEFT", 4, -5)
+		name:SetPoint("TOPLEFT", bubg, "TOPLEFT", 4, -5)
 
 		local rank = bu.rank
 		rank:ClearAllPoints()
-		rank:SetPoint("BOTTOMLEFT", bg, "BOTTOMLEFT", 4, 5)
+		rank:SetPoint("BOTTOMLEFT", bubg, "BOTTOMLEFT", 4, 5)
 
 		local bar = bu.statusBar
 		bar:SetSize(80, 14)
 		bar:ClearAllPoints()
 		bar:SetPoint("LEFT", name, "RIGHT", 4, -1)
 		bar.rankText:SetPoint("CENTER")
-		F.ReskinStatusBar(bar, true, true)
+		F.ReskinStatusBar(bar)
 
 		if index == 1 or index == 2 then
-			bg:SetPoint("TOPLEFT", -2, -2)
-			bg:SetPoint("BOTTOMRIGHT", 2, -2)
+			bubg:SetPoint("TOPLEFT", -2, -2)
+			bubg:SetPoint("BOTTOMRIGHT", 2, -2)
 
 			bu.icon:SetAlpha(1)
 			bu.icon:SetDesaturated(false)
 
-			local ic = F.ReskinIcon(bu.icon, true)
+			local icbg = F.ReskinIcon(bu.icon)
 
-			local ub = bu.unlearn
-			ub:ClearAllPoints()
-			ub:SetPoint("LEFT", ic, "RIGHT", 4, 0)
+			local unlearn = bu.unlearn
+			unlearn:ClearAllPoints()
+			unlearn:SetPoint("LEFT", icbg, "RIGHT", 4, 0)
 
-			bar:SetPoint("LEFT", ub, "RIGHT", 4, 0)
-			name:SetPoint("TOPLEFT", ic, "TOPRIGHT", 4, -5)
-			rank:SetPoint("BOTTOMLEFT", ic, "BOTTOMRIGHT", 4, 5)
+			name:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 4, -5)
+			rank:SetPoint("BOTTOMLEFT", icbg, "BOTTOMRIGHT", 4, 5)
 		end
 	end
 
@@ -134,12 +135,12 @@ tinsert(C.themes["AuroraClassic"], function()
 			icon:SetPoint("BOTTOMRIGHT", -4, 4)
 		end
 
-		local ic = F.ReskinIcon(icon, true)
-		F.ReskinTexture(bu.highlightTexture, ic, false)
+		local icbg = F.ReskinIcon(icon)
+		F.ReskinTexture(bu.highlightTexture, icbg, false)
 
-		local nm = _G[button.."SpellName"]
-		nm:ClearAllPoints()
-		nm:SetPoint("LEFT", ic, "RIGHT", 4, 0)
+		local name = _G[button.."SpellName"]
+		name:ClearAllPoints()
+		name:SetPoint("LEFT", icbg, "RIGHT", 4, 0)
 	end
 
 	hooksecurefunc("FormatProfession", function(frame, index)
@@ -154,7 +155,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	hooksecurefunc("UpdateProfessionButton", function(self)
 		self.highlightTexture:SetColorTexture(1, 1, 1, .25)
-		self.spellString:SetTextColor(1, 1, 1);
+		self.spellString:SetTextColor(1, 1, 1)
 		self.subSpellString:SetTextColor(1, 1, 1)
 	end)
 end)

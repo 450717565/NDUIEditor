@@ -34,9 +34,9 @@ tinsert(C.themes["AuroraClassic"], function()
 		_G[name.."SpellBorder"]:Hide()
 
 		bu.Icon:SetDrawLayer("ARTWORK", 1)
-		local ic = F.ReskinIcon(bu.Icon, true)
+		local ic = F.ReskinIcon(bu.Icon)
 
-		local bg = F.CreateBDFrame(bu, .25)
+		local bg = F.CreateBDFrame(bu, 0)
 		bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
 		bg:SetPoint("BOTTOMRIGHT", -5, 0)
 	end
@@ -75,9 +75,9 @@ tinsert(C.themes["AuroraClassic"], function()
 		bu.NameFrame:Hide()
 
 		bu.Icon:SetDrawLayer("ARTWORK", 1)
-		local ic = F.ReskinIcon(bu.Icon, true)
+		local ic = F.ReskinIcon(bu.Icon)
 
-		local bg = F.CreateBDFrame(bu, .25)
+		local bg = F.CreateBDFrame(bu, 0)
 		bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
 		bg:SetPoint("BOTTOMRIGHT", -5, 0)
 
@@ -123,9 +123,9 @@ tinsert(C.themes["AuroraClassic"], function()
 		local nameFrame = spellRewardFrame.NameFrame
 		nameFrame:Hide()
 
-		local ic = F.ReskinIcon(icon, true)
+		local ic = F.ReskinIcon(icon)
 
-		local bg = F.CreateBDFrame(nameFrame, .25)
+		local bg = F.CreateBDFrame(nameFrame, 0)
 		bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
 		bg:SetPoint("BOTTOMRIGHT", -1, -1)
 	end
@@ -137,9 +137,9 @@ tinsert(C.themes["AuroraClassic"], function()
 			select(i, frame:GetRegions()):Hide()
 		end
 
-		local ic = F.ReskinIcon(frame.Icon, true)
+		local ic = F.ReskinIcon(frame.Icon)
 
-		local bg = F.CreateBDFrame(frame, .25)
+		local bg = F.CreateBDFrame(frame, 0)
 		bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
 		bg:SetPoint("BOTTOMRIGHT", -1, -1)
 	end
@@ -160,7 +160,7 @@ tinsert(C.themes["AuroraClassic"], function()
 					F.ReskinGarrisonPortrait(portrait)
 
 					reward.BG:Hide()
-					local bg = F.CreateBDFrame(reward, .25)
+					local bg = F.CreateBDFrame(reward, 0)
 					bg:SetPoint("TOPLEFT", 0, -3)
 					bg:SetPoint("BOTTOMRIGHT", 2, 7)
 
@@ -169,7 +169,7 @@ tinsert(C.themes["AuroraClassic"], function()
 						class:ClearAllPoints()
 						class:SetPoint("RIGHT", -3, 2)
 						class:SetTexCoord(.18, .92, .08, .92)
-						F.CreateBDFrame(class, .25)
+						F.CreateBDFrame(class, 0)
 					end
 
 					reward.styled = true

@@ -15,7 +15,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			local tab = select(i, self.Child:GetChildren())
 			if not tab.styled and tab:IsHeader() then
 				tab:SetNormalTexture("")
-				tab.bg = F.CreateBDFrame(tab, .25)
+				tab.bg = F.CreateBDFrame(tab, 0)
 				tab.bg:SetAllPoints()
 				F.ReskinTexture(tab, tab.bg, true)
 

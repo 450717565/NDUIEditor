@@ -6,7 +6,7 @@ C.themes["Blizzard_TimeManager"] = function()
 	local check = TimeManagerStopwatchCheck
 	check:SetCheckedTexture(C.media.checked)
 
-	local ic = F.ReskinIcon(check:GetNormalTexture(), true)
+	local ic = F.ReskinIcon(check:GetNormalTexture())
 	F.ReskinTexture(check, ic, false)
 
 	TimeManagerAlarmHourDropDown:SetWidth(80)
@@ -34,12 +34,12 @@ C.themes["Blizzard_TimeManager"] = function()
 	reset:SetSize(18, 18)
 	reset:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 	reset:SetPoint("BOTTOMRIGHT", -5, 5)
-	F.CreateBDFrame(reset, .25)
+	F.CreateBDFrame(reset, 0)
 
 	local play = StopwatchPlayPauseButton
 	play:GetNormalTexture():SetTexCoord(.25, .75, .27, .75)
 	play:SetSize(18, 18)
 	play:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 	play:SetPoint("RIGHT", reset, "LEFT", -5, 0)
-	F.CreateBDFrame(play, .25)
+	F.CreateBDFrame(play, 0)
 end

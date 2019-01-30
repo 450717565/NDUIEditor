@@ -14,11 +14,11 @@ tinsert(C.themes["AuroraClassic"], function()
 		bu:SetNormalTexture("")
 		bu:SetPushedTexture("")
 
-		local ic = F.ReskinIcon(bu.icon, true)
+		local ic = F.ReskinIcon(bu.icon)
 		F.ReskinTexture(bu, ic, false)
 
 		local border = bu.IconBorder
-		F.ReskinTexture(border, bu, false, true)
+		F.ReskinBorder(border, bu)
 	end)
 
 	hooksecurefunc("EquipmentFlyout_DisplayButton", function(button)

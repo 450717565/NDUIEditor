@@ -22,9 +22,9 @@ tinsert(C.themes["AuroraClassic"], function()
 	for i = 1, BUYBACK_ITEMS_PER_PAGE do
 		local bu = _G["MerchantItem"..i.."ItemButton"]
 		F.StripTextures(bu)
-		F.ReskinTexture(bu.IconBorder, bu, false, true)
+		F.ReskinBorder(bu.IconBorder, bu)
 
-		local ic = F.ReskinIcon(bu.icon, true)
+		local ic = F.ReskinIcon(bu.icon)
 		F.ReskinTexture(bu, ic, false)
 
 		local item = _G["MerchantItem"..i]
@@ -39,11 +39,11 @@ tinsert(C.themes["AuroraClassic"], function()
 		money:SetPoint("LEFT", ic, "BOTTOMRIGHT", 4, 2)
 
 		for j = 1, 3 do
-			F.ReskinIcon(_G["MerchantItem"..i.."AltCurrencyFrameItem"..j.."Texture"])
+			F.ReskinIcon(_G["MerchantItem"..i.."AltCurrencyFrameItem"..j.."Texture"], true)
 		end
 	end
 
-	local backIC = F.ReskinIcon(MerchantBuyBackItemItemButtonIconTexture, true)
+	local backIC = F.ReskinIcon(MerchantBuyBackItemItemButtonIconTexture)
 
 	local backBU = MerchantBuyBackItemItemButton
 	F.StripTextures(backBU)
@@ -53,7 +53,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	local backIT = MerchantBuyBackItem
 	F.StripTextures(backIT, true)
 
-	local itemBG = F.CreateBDFrame(backIT, .25)
+	local itemBG = F.CreateBDFrame(backIT, 0)
 	itemBG:SetPoint("TOPLEFT", backIC, "TOPRIGHT", 2, 0)
 	itemBG:SetPoint("BOTTOMRIGHT", 0, -2)
 
@@ -70,7 +70,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	for _, repair in next, repairs do
 		repair:SetPushedTexture("")
 		repair:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-		F.CreateBDFrame(repair, .25)
+		F.CreateBDFrame(repair, 0)
 	end
 
 	MerchantGuildBankRepairButtonIcon:SetTexCoord(0.595, 0.8075, 0.05, 0.52)

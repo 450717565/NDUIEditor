@@ -26,7 +26,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		header.Text:SetPoint("TOPLEFT", 10, -20)
 		header.Progress:SetPoint("BOTTOMLEFT", 10, 10)
 
-		local bg = F.CreateBDFrame(header, .25)
+		local bg = F.CreateBDFrame(header, 0)
 		bg:SetPoint("TOPLEFT", 2, -15)
 		bg:SetPoint("BOTTOMRIGHT", -5, 5)
 		if header == campaignHeader then

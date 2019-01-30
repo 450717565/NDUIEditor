@@ -14,9 +14,9 @@ C.themes["Blizzard_AdventureMap"] = function()
 		for i = 6, 7 do
 			local bu = select(i, dialog:GetChildren())
 			if bu then
-				F.ReskinIcon(bu.Icon, true)
+				F.ReskinIcon(bu.Icon)
 
-				local bg = F.CreateBDFrame(bu.Icon, .25)
+				local bg = F.CreateBDFrame(bu.Icon, 0)
 				bg:SetPoint("BOTTOMRIGHT")
 				bu.ItemNameBG:Hide()
 			end

@@ -7,13 +7,13 @@ C.themes["Blizzard_ItemUpgradeUI"] = function()
 	F.StripTextures(ItemUpgradeFrame.ButtonFrame, true)
 	F.StripTextures(ItemButton, true)
 
-	F.CreateBDFrame(ItemButton, .25)
+	F.CreateBDFrame(ItemButton, 0)
 	ItemButton:SetHighlightTexture("")
 	ItemButton:SetPushedTexture("")
 	ItemButton.IconTexture:SetPoint("TOPLEFT", C.mult, -C.mult)
 	ItemButton.IconTexture:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 
-	local bg = F.CreateBDFrame(ItemButton, .25)
+	local bg = F.CreateBDFrame(ItemButton, 0)
 	bg:SetSize(341, 50)
 	bg:SetPoint("LEFT", ItemButton, "RIGHT", -1, 0)
 
@@ -25,7 +25,7 @@ C.themes["Blizzard_ItemUpgradeUI"] = function()
 	end)
 
 	ItemButton.Cost.Icon:SetTexCoord(.08, .92, .08, .92)
-	ItemButton.Cost.Icon.bg = F.CreateBDFrame(ItemButton.Cost.Icon, .25)
+	ItemButton.Cost.Icon.bg = F.CreateBDFrame(ItemButton.Cost.Icon, 0)
 
 	hooksecurefunc("ItemUpgradeFrame_Update", function()
 		if GetItemUpgradeItemInfo() then
@@ -40,7 +40,7 @@ C.themes["Blizzard_ItemUpgradeUI"] = function()
 	local currency = ItemUpgradeFrameMoneyFrame.Currency
 	currency.icon:SetPoint("LEFT", currency.count, "RIGHT", 1, 0)
 	currency.icon:SetTexCoord(.08, .92, .08, .92)
-	F.CreateBDFrame(currency.icon, .25)
+	F.CreateBDFrame(currency.icon, 0)
 
 	local bg = F.CreateBDFrame(ItemUpgradeFrame)
 	bg:SetAllPoints(ItemUpgradeFrame)

@@ -52,7 +52,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	local sb = _G["GameTooltipStatusBar"]
 	sb:SetHeight(3)
-	F.ReskinStatusBar(sb, true, true)
+	F.ReskinStatusBar(sb)
 
 	local sep = GameTooltipStatusBar:CreateTexture(nil, "ARTWORK")
 	sep:SetHeight(C.mult)

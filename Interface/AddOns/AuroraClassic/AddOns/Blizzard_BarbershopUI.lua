@@ -8,7 +8,7 @@ C.themes["Blizzard_BarbershopUI"] = function()
 	BarberShopAltFormFrame:ClearAllPoints()
 	BarberShopAltFormFrame:SetPoint("BOTTOM", BarberShopFrame, "TOP", 0, -74)
 
-	F.SetBD(BarberShopFrame, 45, -75, -45, 45)
+	F.SetBDFrame(BarberShopFrame, 45, -75, -45, 45)
 	F.ReskinFrame(BarberShopAltFormFrame)
 
 	F.ReskinButton(BarberShopFrameOkayButton)
@@ -24,5 +24,5 @@ C.themes["Blizzard_BarbershopUI"] = function()
 	-- [[ Banner frame ]]
 
 	F.StripTextures(BarberShopBannerFrame, true)
-	F.SetBD(BarberShopBannerFrame, 25, -80, -20, 75)
+	F.SetBDFrame(BarberShopBannerFrame, 25, -80, -20, 75)
 end
