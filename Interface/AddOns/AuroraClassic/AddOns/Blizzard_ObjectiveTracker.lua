@@ -39,7 +39,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		local bg = header:CreateTexture(nil, "ARTWORK")
 		bg:SetTexture("Interface\\LFGFrame\\UI-LFG-SEPARATOR")
 		bg:SetTexCoord(0, .66, 0, .31)
-		bg:SetVertexColor(cr, cg, cb, .8)
+		bg:SetVertexColor(cr, cg, cb)
 		bg:SetPoint("BOTTOMLEFT", -30, -4)
 		bg:SetSize(250, 30)
 	end

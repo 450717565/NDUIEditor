@@ -34,7 +34,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			if bu.IconBorder then bu.IconBorder:SetAlpha(0) end
 
 			if bu.Icon then
-				if isMapQuestInfo then bu.Icon:SetSize(30, 30) end
+				if isMapQuestInfo then bu.Icon:SetSize(28, 28) end
 
 				local icbg = F.ReskinIcon(bu.Icon)
 				local bubg = F.CreateBDFrame(bu, 0)
@@ -73,7 +73,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		local maps = MapQuestInfoRewardsFrame.spellRewardPool:Acquire()
 		maps.NameFrame:Hide()
-		maps.Icon:SetSize(30, 30)
+		maps.Icon:SetSize(28, 28)
 
 		local icbg = F.ReskinIcon(maps.Icon)
 		local bubg = F.CreateBDFrame(maps.NameFrame, 0)

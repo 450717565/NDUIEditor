@@ -8,7 +8,7 @@ C.themes["Blizzard_ChallengesUI"] = function()
 		for i = 1, #self.maps do
 			local bu = self.DungeonIcons[i]
 			if bu and not bu.styled then
-				bu:GetRegions():SetAlpha(0)
+				bu:GetRegions():Hide()
 				bu.Icon:SetScale(.95)
 				F.ReskinIcon(bu.Icon)
 

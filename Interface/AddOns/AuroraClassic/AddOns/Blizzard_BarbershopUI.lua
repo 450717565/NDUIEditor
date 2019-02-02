@@ -1,14 +1,14 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_BarbershopUI"] = function()
-	F.StripTextures(BarberShopFrame, true)
-	F.StripTextures(BarberShopAltFormFrame, true)
-	F.StripTextures(BarberShopFrameMoneyFrame, true)
+	F.StripTextures(BarberShopFrame)
+	F.StripTextures(BarberShopAltFormFrame)
+	F.StripTextures(BarberShopFrameMoneyFrame)
 
 	BarberShopAltFormFrame:ClearAllPoints()
-	BarberShopAltFormFrame:SetPoint("BOTTOM", BarberShopFrame, "TOP", 0, -74)
+	BarberShopAltFormFrame:SetPoint("BOTTOM", BarberShopFrame, "TOP", 0, -70)
 
-	F.SetBDFrame(BarberShopFrame, 45, -75, -45, 45)
+	F.SetBDFrame(BarberShopFrame, 45, -75, -48, 45)
 	F.ReskinFrame(BarberShopAltFormFrame)
 
 	F.ReskinButton(BarberShopFrameOkayButton)
@@ -23,6 +23,6 @@ C.themes["Blizzard_BarbershopUI"] = function()
 
 	-- [[ Banner frame ]]
 
-	F.StripTextures(BarberShopBannerFrame, true)
+	F.StripTextures(BarberShopBannerFrame)
 	F.SetBDFrame(BarberShopBannerFrame, 25, -80, -20, 75)
 end

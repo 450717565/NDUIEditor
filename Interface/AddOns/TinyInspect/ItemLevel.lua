@@ -93,7 +93,7 @@ local function SetItemSlotString(self, class, subclass, equipSlot, link)
 		if link then
 			if IsArtifactPowerItem(link) then
 				slotText = ARTIFACT_POWER
-			elseif IsArtifactRelicItem(link)) then
+			elseif IsArtifactRelicItem(link) then
 				slotText = RELICSLOT
 			end
 		end
