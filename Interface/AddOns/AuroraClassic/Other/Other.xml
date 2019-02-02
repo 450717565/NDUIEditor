@@ -1,5 +1,4 @@
 <Ui>
-	<Script file="!BaudErrorFrame.lua"/>
 	<Script file="AuctionLite.lua"/>
 	<Script file="BaudAuction.lua"/>
 	<Script file="BuyEmAll.lua"/>

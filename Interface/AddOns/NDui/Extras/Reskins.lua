@@ -23,6 +23,12 @@ local function Reskins()
 		for _, button in next, {BaudErrorFrameClearButton, BaudErrorFrameCloseButton, BaudErrorFrameReloadUIButton} do
 			B.CreateBC(button, .25)
 		end
+
+		if IsAddOnLoaded("AuroraClassic") then
+			local F, C = unpack(AuroraClassic)
+			F.ReskinScroll(BaudErrorFrameListScrollBoxScrollBarScrollBar)
+			F.ReskinScroll(BaudErrorFrameDetailScrollFrameScrollBar)
+		end
 	end
 
 	if IsAddOnLoaded("DungeonWatchDog") then
