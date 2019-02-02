@@ -1,7 +1,7 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_TradeSkillUI"] = function()
-	local r, g, b = C.r, C.g, C.b
+	local cr, cg, cb = C.r, C.g, C.b
 
 	F.ReskinFrame(TradeSkillFrame)
 
@@ -11,29 +11,29 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 	F.ReskinArrow(TradeSkillFrame.LinkToButton, "right")
 
 	-- Recipe List
-	F.StripTextures(TradeSkillFrame.RecipeInset, true)
+	F.StripTextures(TradeSkillFrame.RecipeInset)
 
-	local recipe = TradeSkillFrame.RecipeList
-	F.ReskinScroll(recipe.scrollBar)
+	local RecipeList = TradeSkillFrame.RecipeList
+	F.ReskinScroll(RecipeList.scrollBar)
 
-	for i = 1, #recipe.Tabs do
-		local tab = recipe.Tabs[i]
+	for i = 1, #RecipeList.Tabs do
+		local tab = RecipeList.Tabs[i]
 
-		F.StripTextures(tab, true)
+		F.StripTextures(tab)
 		tab.bg = F.CreateBDFrame(tab, 0)
 		tab.bg:SetPoint("TOPLEFT", 3, -3)
 		tab.bg:SetPoint("BOTTOMRIGHT", -3, 0)
 	end
-	hooksecurefunc(recipe, "OnLearnedTabClicked", function()
-		recipe.Tabs[1].bg:SetBackdropColor(r, g, b, .25)
-		recipe.Tabs[2].bg:SetBackdropColor(0, 0, 0, .25)
+	hooksecurefunc(RecipeList, "OnLearnedTabClicked", function()
+		RecipeList.Tabs[1].bg:SetBackdropColor(cr, cg, cb, .25)
+		RecipeList.Tabs[2].bg:SetBackdropColor(0, 0, 0, 0)
 	end)
-	hooksecurefunc(recipe, "OnUnlearnedTabClicked", function()
-		recipe.Tabs[1].bg:SetBackdropColor(0, 0, 0, .25)
-		recipe.Tabs[2].bg:SetBackdropColor(r, g, b, .25)
+	hooksecurefunc(RecipeList, "OnUnlearnedTabClicked", function()
+		RecipeList.Tabs[1].bg:SetBackdropColor(0, 0, 0, 0)
+		RecipeList.Tabs[2].bg:SetBackdropColor(cr, cg, cb, .25)
 	end)
 
-	hooksecurefunc(recipe, "RefreshDisplay", function(self)
+	hooksecurefunc(RecipeList, "RefreshDisplay", function(self)
 		for i = 1, #self.buttons do
 			local button = self.buttons[i]
 			if not button.styled then
@@ -46,33 +46,35 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 
 				button.styled = true
 			end
+
 			button:SetHighlightTexture("")
-			button.SelectedTexture:SetTexture(C.media.bdTex)
-			button.SelectedTexture:SetVertexColor(r, g, b, .5)
+			local sl = button.SelectedTexture
+			sl:SetTexture(C.media.bdTex)
+			sl:SetVertexColor(cr, cg, cb, .25)
 		end
 	end)
 
 	-- Recipe Details
-	F.StripTextures(TradeSkillFrame.DetailsInset, true)
+	F.StripTextures(TradeSkillFrame.DetailsInset)
 
-	local details = TradeSkillFrame.DetailsFrame
-	F.StripTextures(details, true)
-	F.StripTextures(details.CreateMultipleInputBox, true)
-	F.ReskinScroll(details.ScrollBar)
-	F.ReskinButton(details.CreateAllButton)
-	F.ReskinButton(details.CreateButton)
-	F.ReskinButton(details.ExitButton)
-	F.ReskinInput(details.CreateMultipleInputBox)
-	F.ReskinArrow(details.CreateMultipleInputBox.DecrementButton, "left")
-	F.ReskinArrow(details.CreateMultipleInputBox.IncrementButton, "right")
+	local DetailsFrame = TradeSkillFrame.DetailsFrame
+	F.StripTextures(DetailsFrame, true)
+	F.StripTextures(DetailsFrame.CreateMultipleInputBox)
+	F.ReskinScroll(DetailsFrame.ScrollBar)
+	F.ReskinButton(DetailsFrame.CreateAllButton)
+	F.ReskinButton(DetailsFrame.CreateButton)
+	F.ReskinButton(DetailsFrame.ExitButton)
+	F.ReskinInput(DetailsFrame.CreateMultipleInputBox)
+	F.ReskinArrow(DetailsFrame.CreateMultipleInputBox.DecrementButton, "left")
+	F.ReskinArrow(DetailsFrame.CreateMultipleInputBox.IncrementButton, "right")
 
-	details.CreateMultipleInputBox.DecrementButton:ClearAllPoints()
-	details.CreateMultipleInputBox.DecrementButton:SetPoint("RIGHT", details.CreateMultipleInputBox, "LEFT", -5, 0)
-	details.CreateMultipleInputBox.IncrementButton:ClearAllPoints()
-	details.CreateMultipleInputBox.IncrementButton:SetPoint("LEFT", details.CreateMultipleInputBox, "RIGHT", 3, 0)
+	DetailsFrame.CreateMultipleInputBox.DecrementButton:ClearAllPoints()
+	DetailsFrame.CreateMultipleInputBox.DecrementButton:SetPoint("RIGHT", DetailsFrame.CreateMultipleInputBox, "LEFT", -5, 0)
+	DetailsFrame.CreateMultipleInputBox.IncrementButton:ClearAllPoints()
+	DetailsFrame.CreateMultipleInputBox.IncrementButton:SetPoint("LEFT", DetailsFrame.CreateMultipleInputBox, "RIGHT", 3, 0)
 
-	local contents = details.Contents
-	hooksecurefunc(contents.ResultIcon, "SetNormalTexture", function(self)
+	local Contents = DetailsFrame.Contents
+	hooksecurefunc(Contents.ResultIcon, "SetNormalTexture", function(self)
 		if not self.styled then
 			self.IconBorder:SetAlpha(0)
 			self.ResultBorder:SetAlpha(0)
@@ -81,26 +83,25 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 			self.styled = true
 		end
 	end)
-	for i = 1, #contents.Reagents do
-		local reagent = contents.Reagents[i]
+	for i = 1, #Contents.Reagents do
+		local reagent = Contents.Reagents[i]
 		reagent.NameFrame:Hide()
 
-		local ic = F.ReskinIcon(reagent.Icon)
-
-		local bg = F.CreateBDFrame(reagent.NameFrame, 0)
-		bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
-		bg:SetPoint("BOTTOMRIGHT", -5, 1)
+		local icbg = F.ReskinIcon(reagent.Icon)
+		local bubg = F.CreateBDFrame(reagent.NameFrame, 0)
+		bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
+		bubg:SetPoint("BOTTOMRIGHT", -5, 1)
 	end
-	F.ReskinButton(details.ViewGuildCraftersButton)
+	F.ReskinButton(DetailsFrame.ViewGuildCraftersButton)
 
 	-- Guild Recipe
 
-	local guildFrame = details.GuildFrame
-	F.ReskinFrame(guildFrame)
-	F.ReskinScroll(guildFrame.Container.ScrollFrame.scrollBar)
-	guildFrame:ClearAllPoints()
-	guildFrame:SetPoint("BOTTOMLEFT", TradeSkillFrame, "BOTTOMRIGHT", 2, 0)
+	local GuildFrame = DetailsFrame.GuildFrame
+	F.ReskinFrame(GuildFrame)
+	F.ReskinScroll(GuildFrame.Container.ScrollFrame.scrollBar)
+	GuildFrame:ClearAllPoints()
+	GuildFrame:SetPoint("BOTTOMLEFT", TradeSkillFrame, "BOTTOMRIGHT", 2, 0)
 
-	F.StripTextures(guildFrame.Container, true)
-	F.CreateBDFrame(guildFrame.Container, 0)
+	F.StripTextures(GuildFrame.Container)
+	F.CreateBDFrame(GuildFrame.Container, 0)
 end
