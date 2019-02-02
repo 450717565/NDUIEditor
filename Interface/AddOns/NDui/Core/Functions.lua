@@ -85,7 +85,7 @@ end
 function B:CreateGF(w, h, o, r, g, b, a1, a2)
 	self:SetSize(w, h)
 	self:SetFrameStrata("BACKGROUND")
-	local gf = self:CreateTexture(nil, "BACKGROUND")
+	local gf = self:CreateTexture(nil, "BORDER")
 	gf:SetAllPoints()
 	gf:SetTexture(DB.normTex)
 	gf:SetGradientAlpha(o, r, g, b, a1, r, g, b, a2)

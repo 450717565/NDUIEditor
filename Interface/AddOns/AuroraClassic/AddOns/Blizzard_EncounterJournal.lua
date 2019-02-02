@@ -175,7 +175,6 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		item.icon:SetPoint("TOPLEFT", 2, -3)
 		item.icon:SetSize(39, 39)
 
-		item.icon:SetDrawLayer("OVERLAY")
 		F.ReskinIcon(item.icon)
 
 		local bg = F.CreateBDFrame(item, 0)

@@ -1,0 +1,12 @@
+<Ui>
+	<Script file="!BaudErrorFrame.lua"/>
+	<Script file="AuctionLite.lua"/>
+	<Script file="BaudAuction.lua"/>
+	<Script file="BuyEmAll.lua"/>
+	<Script file="ExtVendor.lua"/>
+	<Script file="Immersion.lua"/>
+	<Script file="PremadeGroupsFilter.lua"/>
+	<Script file="Simulationcraft.lua"/>
+	<Script file="WhisperPop.lua"/>
+	<Script file="WorldQuestTab.lua"/>
+</Ui>

@@ -28,7 +28,7 @@ function module:GuildBest()
 		frame = CreateFrame("Frame", nil, ChallengesFrame)
 		frame:SetPoint("BOTTOMRIGHT", -6, 80)
 		frame:SetSize(170, 105)
-		B.SetBackground(frame, .25)
+		B.SetBackground(frame, 0)
 		B.CreateGradient(frame)
 		B.CreateFS(frame, 16, CHALLENGE_MODE_THIS_WEEK , "system", "TOPLEFT", 16, -6)
 

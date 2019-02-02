@@ -1,6 +1,8 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_PVPUI"] = function()
+	local cr, cg, cb = C.r, C.g, C.b
+
 	-- ConquestBar
 	local function styleBar(f)
 		F.ReskinStatusBar(f.ConquestBar)
@@ -36,17 +38,18 @@ C.themes["Blizzard_PVPUI"] = function()
 
 		local icon = bu.Icon
 		icon:SetPoint("LEFT", bu, "LEFT")
-		icon:SetDrawLayer("OVERLAY")
 		F.ReskinIcon(icon)
-
-		local bg = F.CreateBG(bu.Icon)
-		bg:SetDrawLayer("ARTWORK")
 	end
 
 	hooksecurefunc("PVPQueueFrame_SelectButton", function(index)
 		for i = 1, 3 do
 			local button = PVPQueueFrame["CategoryButton"..i]
-			button.Background:SetShown(i == index)
+			--button.Background:SetShown(i == index)
+			if i == index then
+				button:SetBackdropColor(cr, cg, cb, .25)
+			else
+				button:SetBackdropColor(0, 0, 0, 0)
+			end
 		end
 	end)
 

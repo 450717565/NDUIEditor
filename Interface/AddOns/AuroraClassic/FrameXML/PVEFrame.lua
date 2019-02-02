@@ -25,11 +25,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		local icon = bu.icon
 		icon:SetPoint("LEFT", bu, "LEFT")
-		icon:SetDrawLayer("OVERLAY")
 		F.ReskinIcon(icon)
-
-		local bg = F.CreateBG(bu.icon)
-		bg:SetDrawLayer("ARTWORK")
 	end
 
 	hooksecurefunc("GroupFinderFrame_SelectGroupButton", function(index)

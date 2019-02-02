@@ -11,7 +11,7 @@ local list = {
 		{AuraID = 188290, UnitID = "player"},--枯萎凋零
 		{AuraID = 3714, UnitID = "player"},--冰霜之路
 		{AuraID = 48265, UnitID = "player"},--死亡脚步
-		{AuraID = 48707, UnitID = "player"},--反魔法护罩
+		{AuraID = 48707, UnitID = "player", Value = true},--反魔法护罩
 		{AuraID = 48792, UnitID = "player"},--冰封之韧
 		{AuraID = 53365, UnitID = "player"},--不洁之力
 	},

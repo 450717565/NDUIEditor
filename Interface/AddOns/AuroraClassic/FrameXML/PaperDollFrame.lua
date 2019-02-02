@@ -38,7 +38,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	local function UpdateAzeriteEmpoweredItem(self)
 		self.AzeriteTexture:SetAtlas("AzeriteIconFrame")
 		self.AzeriteTexture:SetAllPoints()
-		self.AzeriteTexture:SetDrawLayer("BORDER", 1)
 	end
 
 	local slots = {
@@ -98,11 +97,14 @@ tinsert(C.themes["AuroraClassic"], function()
 	-- [[ Stats pane ]]
 	local pane = CharacterStatsPane
 	pane.ClassBackground:Hide()
-	local category = {pane.ItemLevelCategory, pane.AttributesCategory, pane.EnhancementsCategory}
-	for _, v in pairs(category) do
-		v:SetSize(190, 25)
-		F.StripTextures(v)
-		F.CreateBDFrame(v, 0)
+	local categorys = {pane.ItemLevelCategory, pane.AttributesCategory, pane.EnhancementsCategory}
+	for _, category in pairs(categorys) do
+		category:SetSize(192, 27)
+		F.StripTextures(category)
+
+		local bg = F.CreateBDFrame(category, 0)
+		bg:SetPoint("TOPLEFT", 2, -2)
+		bg:SetPoint("BOTTOMRIGHT", -2, 2)
 	end
 
 	-- [[ Sidebar tabs ]]

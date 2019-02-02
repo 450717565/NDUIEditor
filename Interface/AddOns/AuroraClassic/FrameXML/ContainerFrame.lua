@@ -44,7 +44,6 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	for i = 1, 3 do
 		local ic = _G["BackpackTokenFrameToken"..i.."Icon"]
-		ic:SetDrawLayer("OVERLAY")
 		F.ReskinIcon(ic)
 	end
 

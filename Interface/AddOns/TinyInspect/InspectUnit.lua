@@ -63,7 +63,7 @@ local function GetInspectItemListFrame(parent)
 		local fontsize = GetLocale():sub(1,2) == "zh" and 12 or 9
 		local backdrop = {
 			bgFile   = "Interface\\Tooltips\\UI-Tooltip-Background",
-			edgeFile = "Interface\\ChatFrame\\ChatFrameBackground",
+			edgeFile = "Interface\\Buttons\\WHITE8X8",
 			tile     = true,
 			tileSize = 8,
 			edgeSize = C.mult,
@@ -134,8 +134,7 @@ local function GetInspectItemListFrame(parent)
 
 		if IsAddOnLoaded("AuroraClassic") then
 			local F, C = unpack(AuroraClassic)
-			F.CreateBD(frame)
-			F.CreateSD(frame)
+			F.ReskinFrame(frame)
 		end
 	end
 
@@ -245,7 +244,7 @@ end)
 LibEvent:attachTrigger("INSPECT_FRAME_SHOWN", function(self, frame, parent, ilevel)
 	if IsAddOnLoaded("AuroraClassic") then
 		frame.backdrop.edgeSize = C.mult
-		frame.backdrop.edgeFile = "Interface\\ChatFrame\\ChatFrameBackground"
+		frame.backdrop.edgeFile = "Interface\\Buttons\\WHITE8X8"
 		frame.backdrop.insets.top = C.mult
 		frame.backdrop.insets.left = C.mult
 		frame.backdrop.insets.right = C.mult

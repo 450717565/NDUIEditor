@@ -1,6 +1,31 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
+	function F.ReskinMerchantItem(x)
+		local bu = _G["MerchantItem"..x.."ItemButton"]
+		F.StripTextures(bu)
+		F.ReskinBorder(bu.IconBorder, bu)
+
+		local icbg = F.ReskinIcon(bu.icon)
+		F.ReskinTexture(bu, icbg, false)
+
+		local item = _G["MerchantItem"..x]
+		F.StripTextures(item, true)
+
+		local name = _G["MerchantItem"..x.."Name"]
+		name:SetWordWrap(false)
+		name:ClearAllPoints()
+		name:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 4, 2)
+
+		local money = _G["MerchantItem"..x.."MoneyFrame"]
+		money:ClearAllPoints()
+		money:SetPoint("BOTTOMLEFT", icbg, "BOTTOMRIGHT", 4, 2)
+
+		for y = 1, 3 do
+			F.ReskinIcon(_G["MerchantItem"..x.."AltCurrencyFrameItem"..y.."Texture"], true)
+		end
+	end
+
 	F.StripTextures(MerchantMoneyBg, true)
 	F.StripTextures(MerchantMoneyInset, true)
 	F.StripTextures(MerchantExtraCurrencyBg, true)
@@ -17,33 +42,11 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinTab(MerchantFrameTab1)
 	F.ReskinTab(MerchantFrameTab2)
 
-	MerchantNameText:SetDrawLayer("ARTWORK")
-
-	for i = 1, BUYBACK_ITEMS_PER_PAGE do
-		local bu = _G["MerchantItem"..i.."ItemButton"]
-		F.StripTextures(bu)
-		F.ReskinBorder(bu.IconBorder, bu)
-
-		local ic = F.ReskinIcon(bu.icon)
-		F.ReskinTexture(bu, ic, false)
-
-		local item = _G["MerchantItem"..i]
-		F.StripTextures(item, true)
-
-		local name = _G["MerchantItem"..i.."Name"]
-		name:ClearAllPoints()
-		name:SetPoint("TOPLEFT", ic, "TOPRIGHT", 4, 1)
-
-		local money = _G["MerchantItem"..i.."MoneyFrame"]
-		money:ClearAllPoints()
-		money:SetPoint("LEFT", ic, "BOTTOMRIGHT", 4, 2)
-
-		for j = 1, 3 do
-			F.ReskinIcon(_G["MerchantItem"..i.."AltCurrencyFrameItem"..j.."Texture"], true)
-		end
+	for x = 1, BUYBACK_ITEMS_PER_PAGE do
+		F.ReskinMerchantItem(x)
 	end
 
-	local backIC = F.ReskinIcon(MerchantBuyBackItemItemButtonIconTexture)
+	local backIC = F.ReskinIcon(MerchantBuyBackItemItemButtonIconTexture, false, 0)
 
 	local backBU = MerchantBuyBackItemItemButton
 	F.StripTextures(backBU)
@@ -78,6 +81,16 @@ tinsert(C.themes["AuroraClassic"], function()
 	local ic = MerchantRepairItemButton:GetRegions()
 	ic:SetTexture("Interface\\Icons\\INV_Hammer_20")
 	ic:SetTexCoord(.08, .92, .08, .92)
+
+	hooksecurefunc("MerchantFrame_UpdateMerchantInfo", function()
+		for i = 1, MERCHANT_ITEMS_PER_PAGE do
+			local money = _G["MerchantItem"..i.."MoneyFrame"]
+			local currency = _G["MerchantItem"..i.."AltCurrencyFrame"]
+
+			currency:ClearAllPoints()
+			currency:SetPoint("LEFT", money, "LEFT", 0, 2)
+		end
+	end)
 
 	hooksecurefunc("MerchantFrame_UpdateRepairButtons", function()
 		if CanGuildBankRepair() then

@@ -110,8 +110,9 @@ tinsert(C.themes["AuroraClassic"], function()
 
 			bu.icon:SetAlpha(1)
 			bu.icon:SetDesaturated(false)
+			bu.icon:SetDrawLayer("OVERLAY")
 
-			local icbg = F.ReskinIcon(bu.icon)
+			local icbg = F.ReskinIcon(bu.icon, false, 1)
 
 			local unlearn = bu.unlearn
 			unlearn:ClearAllPoints()

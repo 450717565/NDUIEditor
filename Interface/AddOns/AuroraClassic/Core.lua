@@ -11,13 +11,13 @@ local F, C = unpack(ns)
 
 -- [[ Constants and settings ]]
 
-local mediaPath = "Interface\\AddOns\\AuroraClassic\\media\\"
+local mediaPath = "Interface\\AddOns\\AuroraClassic\\Media\\"
 
 C.media = {
-	["arrowDown"] = mediaPath.."arrow-down-active",
-	["arrowLeft"] = mediaPath.."arrow-left-active",
-	["arrowRight"] = mediaPath.."arrow-right-active",
-	["arrowUp"] = mediaPath.."arrow-up-active",
+	["arrowDown"] = mediaPath.."arrow-down",
+	["arrowLeft"] = mediaPath.."arrow-left",
+	["arrowRight"] = mediaPath.."arrow-right",
+	["arrowUp"] = mediaPath.."arrow-up",
 	["bdTex"] = "Interface\\ChatFrame\\ChatFrameBackground",
 	["bgTex"] = mediaPath.."bgTex",
 	["checked"] = mediaPath.."checked",
@@ -166,7 +166,7 @@ function F:CreateBG()
 	local frame = self
 	if self:GetObjectType() == "Texture" then frame = self:GetParent() end
 
-	local bg = frame:CreateTexture(nil, "BACKGROUND")
+	local bg = frame:CreateTexture(nil, "BORDER")
 	bg:SetPoint("TOPLEFT", self, -C.mult, C.mult)
 	bg:SetPoint("BOTTOMRIGHT", self, C.mult, -C.mult)
 	bg:SetTexture(C.media.bdTex)
@@ -236,7 +236,7 @@ function F:ReskinAffixes()
 		frame.Border:SetTexture(nil)
 		frame.Portrait:SetTexture(nil)
 		if not frame.bg then
-			frame.bg = F.ReskinIcon(frame.Portrait)
+			frame.bg = F.ReskinIcon(frame.Portrait, false, 1)
 		end
 
 		if frame.info then
@@ -256,11 +256,11 @@ function F:ReskinArrow(direction)
 
 	self:SetDisabledTexture(C.media.bdTex)
 	local dis = self:GetDisabledTexture()
-	dis:SetVertexColor(0, 0, 0, .25)
+	dis:SetVertexColor(0, 0, 0, .5)
 	dis:SetDrawLayer("OVERLAY")
 
 	local bgTex = self:CreateTexture(nil, "ARTWORK")
-	bgTex:SetTexture(mediaPath.."arrow-"..direction.."-active")
+	bgTex:SetTexture(mediaPath.."arrow-"..direction)
 	bgTex:SetSize(8, 8)
 	bgTex:SetPoint("CENTER")
 	self.bgTex = bgTex
@@ -359,7 +359,7 @@ function F:ReskinDecline()
 	self.pixels = {}
 	for i = 1, 2 do
 		local tex = self:CreateTexture()
-		tex:SetColorTexture(1, 0, 0)
+		tex:SetColorTexture(1, 1, 1)
 		tex:SetSize(w*.75, 2)
 		tex:SetPoint("CENTER")
 		tex:SetRotation(math.rad((i-1/2)*90))
@@ -498,6 +498,7 @@ function F:ReskinGarrisonPortrait()
 end
 
 function F:ReskinIcon(setBG, alpha)
+	--self:SetDrawLayer("ARTWORK")
 	self:SetTexCoord(.08, .92, .08, .92)
 
 	if setBG then
@@ -841,6 +842,7 @@ function F:Dummy()
 end
 
 local CleanTextures = {
+	"Background",
 	"BG",
 	"Bg",
 	"Border",

@@ -63,7 +63,6 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		F.CreateBDFrame(self.RewardsFrame, 0)
 
 		local env = self.Stage.MissionEnvIcon
-		env.Texture:SetDrawLayer("BORDER", 1)
 		env.bg = F.ReskinIcon(env.Texture)
 
 		local cost = self.CostFrame
@@ -231,7 +230,6 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		local ability = abilities[numAbilitiesStyled]
 		while ability do
 			local icon = ability.IconButton.Icon
-			icon:SetDrawLayer("BACKGROUND", 1)
 			F.ReskinIcon(icon)
 
 			numAbilitiesStyled = numAbilitiesStyled + 1
@@ -459,7 +457,6 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		local reagent = reagents[reagentIndex]
 		while reagent do
 			reagent.NameFrame:SetAlpha(0)
-			reagent.Icon:SetDrawLayer("BORDER")
 
 			local ic = F.ReskinIcon(reagent.Icon)
 

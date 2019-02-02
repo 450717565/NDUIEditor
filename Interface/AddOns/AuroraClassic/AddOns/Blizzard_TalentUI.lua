@@ -109,11 +109,7 @@ C.themes["Blizzard_TalentUI"] = function()
 
 			local ic = bu.specIcon
 			ic:SetPoint("LEFT", bu, "LEFT")
-			ic:SetDrawLayer("OVERLAY")
 			F.ReskinIcon(ic)
-
-			local bg = F.CreateBG(bu.specIcon)
-			bg:SetDrawLayer("ARTWORK")
 		end
 	end
 
@@ -133,7 +129,6 @@ C.themes["Blizzard_TalentUI"] = function()
 			bu.knownSelection:SetAlpha(0)
 
 			local ic = _G["PlayerTalentFrameTalentsTalentRow"..i.."Talent"..j.."IconTexture"]
-			ic:SetDrawLayer("ARTWORK")
 			F.ReskinIcon(ic)
 
 			bu.bg = F.CreateBDFrame(bu, 0)

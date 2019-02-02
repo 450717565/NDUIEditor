@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2337, "DBM-ZuldazarRaid", 3, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 18242 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 18264 $"):sub(12, -3))
 mod:SetCreatureID(146251, 146253, 146256)--Sister Katherine 146251, Brother Joseph 146253, Laminaria 146256
 mod:SetEncounterID(2280)
 --mod:DisableESCombatDetection()
@@ -15,8 +15,8 @@ mod:SetHotfixNoticeRev(18175)
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 284262 284106 284393 284383 285118 285017 284362 288696",
-	"SPELL_CAST_SUCCESS 285350 285426",
+	"SPELL_CAST_START 284262 284106 284393 284383 285017 284362 288696",
+	"SPELL_CAST_SUCCESS 285350 285426 285118",
 	"SPELL_AURA_APPLIED 286558 284405 285000 285382 285350 285426 287995",
 	"SPELL_AURA_REFRESH 285000 285382",
 	"SPELL_AURA_APPLIED_DOSE 285000 285382",
@@ -247,14 +247,9 @@ function mod:SPELL_CAST_START(args)
 			specWarnSeasTemptation:Play("killmob")
 		end
 		timerSeasTemptationCD:Start()
-	elseif spellId == 285118 then
-		specWarnSeaSwell:Show()
-		specWarnSeaSwell:Play("watchstep")
-		timerSeaSwellCD:Start()
-		countdownSeaSwell:Start(20.6)
 	elseif spellId == 285017 then
 		specWarnIreoftheDeep:Show()
-		specWarnIreoftheDeep:Play("gathershare")
+		specWarnIreoftheDeep:Play("helpsoak")
 		timerIreoftheDeepCD:Start()
 	elseif spellId == 284362 then
 		if self:CheckTankDistance(args.sourceGUID, 43) then
@@ -272,6 +267,11 @@ function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if (spellId == 285350 or spellId == 285426) and args:GetSrcCreatureID() == 146256 then
 		timerStormsWailCD:Start()
+	elseif spellId == 285118 then
+		specWarnSeaSwell:Show()
+		specWarnSeaSwell:Play("watchstep")
+		timerSeaSwellCD:Start()
+		countdownSeaSwell:Start(20.6)
 	end
 end
 
@@ -383,8 +383,8 @@ function mod:SPELL_INTERRUPT(args)
 	if type(args.extraSpellId) == "number" and args.extraSpellId == 288696 then
 		self.vb.phase = 2
 		timerIreoftheDeepCD:Start(3.4)
-		timerSeaSwellCD:Start(5.4)
-		countdownSeaSwell:Start(5.4)
+		timerSeaSwellCD:Start(7.4)
+		countdownSeaSwell:Start(7.4)
 		timerStormsWailCD:Start(9)
 	end
 end

@@ -5,9 +5,9 @@ local oUF = ns.oUF or oUF
 local format, floor = string.format, math.floor
 local strmatch = string.match
 
-oUF.Tags.Methods["hp"] = function(unit)
+oUF.Tags.Methods["health"] = function(unit)
 	if UnitIsDeadOrGhost(unit) or not UnitIsConnected(unit) then
-		return oUF.Tags.Methods["DDG"](unit)
+		return oUF.Tags.Methods["state"](unit)
 	else
 		local cur = UnitHealth(unit)
 		local per = oUF.Tags.Methods["perhp"](unit)
@@ -27,7 +27,7 @@ oUF.Tags.Methods["hp"] = function(unit)
 		end
 	end
 end
-oUF.Tags.Events["hp"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION"
+oUF.Tags.Events["health"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION"
 
 oUF.Tags.Methods["power"] = function(unit)
 	local cur = UnitPower(unit)
@@ -65,27 +65,25 @@ oUF.Tags.Methods["color"] = function(unit)
 end
 oUF.Tags.Events["color"] = "UNIT_HEALTH UNIT_CONNECTION"
 
-oUF.Tags.Methods["afkdnd"] = function(unit)
+oUF.Tags.Methods["flag"] = function(unit)
 	if UnitIsAFK(unit) then
 		return " |cffC0C0C0<"..AFK..">|r"
 	elseif UnitIsDND(unit) then
 		return " |cffC0C0C0<"..DND..">|r"
-	else
-		return ""
 	end
 end
-oUF.Tags.Events["afkdnd"] = "PLAYER_FLAGS_CHANGED"
+oUF.Tags.Events["flag"] = "PLAYER_FLAGS_CHANGED"
 
-oUF.Tags.Methods["DDG"] = function(unit)
-	if UnitIsDead(unit) then
-		return "|cffC0C0C0"..DEAD.."|r"
+oUF.Tags.Methods["state"] = function(unit)
+	if not UnitIsConnected(unit) and GetNumArenaOpponentSpecs() <= 0 then
+		return "|cffC0C0C0"..PLAYER_OFFLINE.."|r"
 	elseif UnitIsGhost(unit) then
 		return "|cffC0C0C0"..L["Ghost"].."|r"
-	elseif not UnitIsConnected(unit) then
-		return GetNumArenaOpponentSpecs() > 0 and "" or "|cffC0C0C0"..PLAYER_OFFLINE.."|r"
+	elseif UnitIsDead(unit) then
+		return "|cffC0C0C0"..DEAD.."|r"
 	end
 end
-oUF.Tags.Events["DDG"] = "UNIT_HEALTH UNIT_CONNECTION"
+oUF.Tags.Events["state"] = "UNIT_HEALTH UNIT_CONNECTION"
 
 -- Level tags
 oUF.Tags.Methods["fulllevel"] = function(unit)
@@ -125,7 +123,7 @@ oUF.Tags.Events["fulllevel"] = "UNIT_LEVEL PLAYER_LEVEL_UP UNIT_CLASSIFICATION_C
 -- RaidFrame tags
 oUF.Tags.Methods["raidhp"] = function(unit)
 	if UnitIsDeadOrGhost(unit) or not UnitIsConnected(unit) then
-		return oUF.Tags.Methods["DDG"](unit)
+		return oUF.Tags.Methods["state"](unit)
 	else
 		return B.ColorText(oUF.Tags.Methods["perhp"](unit))
 	end

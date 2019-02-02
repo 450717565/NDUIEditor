@@ -46,7 +46,6 @@ C.themes["Blizzard_InspectUI"] = function()
 			local bu = row["talent"..j]
 			F.StripTextures(bu)
 			F.ReskinIcon(bu.icon)
-			bu.icon:SetDrawLayer("ARTWORK")
 		end
 	end
 

@@ -20,7 +20,6 @@ C.themes["Blizzard_QuestChoice"] = function()
 		local rewards = option.Rewards
 		local item = rewards.Item
 		item.Name:SetTextColor(1, 1, 1)
-		item.Icon:SetDrawLayer("ARTWORK")
 		F.ReskinIcon(item.Icon)
 		F.ReskinBorder(item.IconBorder, item.Icon)
 

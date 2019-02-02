@@ -259,7 +259,6 @@ C.themes["Blizzard_Collections"] = function()
 		bu:SetPushedTexture("")
 		bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 
-		bu.icon:SetDrawLayer("ARTWORK")
 		F.ReskinIcon(bu.icon)
 	end
 
@@ -475,7 +474,6 @@ C.themes["Blizzard_Collections"] = function()
 		local slot = WardrobeTransmogFrame.Model[slots[i].."Button"]
 		if slot then
 			slot.Border:Hide()
-			slot.Icon:SetDrawLayer("BACKGROUND", 1)
 			local bg = F.ReskinIcon(slot.Icon)
 
 			F.ReskinTexture(slot, bg, false)

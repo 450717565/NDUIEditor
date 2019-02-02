@@ -4,15 +4,10 @@ tinsert(C.themes["AuroraClassic"], function()
 	local function styleRewardButton(button)
 		local buttonName = button:GetName()
 
-		local icon = _G[buttonName.."IconTexture"]
-		icon:SetDrawLayer("OVERLAY")
-
 		local name = _G[buttonName.."NameFrame"]
 		name:Hide()
 
-		local count = _G[buttonName.."Count"]
-		count:SetDrawLayer("OVERLAY")
-
+		local icon = _G[buttonName.."IconTexture"]
 		local ic = F.ReskinIcon(icon)
 
 		local bg = F.CreateBDFrame(button, 0)

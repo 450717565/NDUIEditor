@@ -109,9 +109,9 @@ function UF:CreateHealthText(self)
 	if self.mystyle == "player" then
 		self:Tag(name, " [color][name]")
 	elseif self.mystyle == "target" or self.mystyle == "party" then
-		self:Tag(name, "[fulllevel] [color][name][afkdnd]")
+		self:Tag(name, "[fulllevel] [color][name][flag]")
 	elseif self.mystyle == "focus" then
-		self:Tag(name, "[color][name][afkdnd]")
+		self:Tag(name, "[color][name][flag]")
 	elseif self.mystyle == "nameplate" then
 		self:Tag(name, "[nplevel][name]")
 	elseif self.mystyle == "arena" then
@@ -126,13 +126,13 @@ function UF:CreateHealthText(self)
 		if NDuiDB["UFs"]["HealthPerc"] then
 			self:Tag(hpval, "[raidhp]")
 		else
-			self:Tag(hpval, "[DDG]")
+			self:Tag(hpval, "[state]")
 		end
 	elseif self.mystyle == "nameplate" then
 		hpval:SetPoint("RIGHT", self, 0, 5)
 		self:Tag(hpval, "[nphp]")
 	else
-		self:Tag(hpval, "[hp]")
+		self:Tag(hpval, "[health]")
 	end
 end
 

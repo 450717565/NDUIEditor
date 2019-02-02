@@ -1,7 +1,7 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	local r, g, b = C.r, C.g, C.b
+	local cr, cg, cb = C.r, C.g, C.b
 
 	-- [[ Quest scroll frame ]]
 
@@ -21,14 +21,15 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinScroll(QuestScrollFrame.ScrollBar)
 
 	for _, header in next, {campaignHeader, StoryHeader} do
-		header.Background:SetAlpha(0)
-		header.HighlightTexture:Hide()
+		F.StripTextures(header, true)
+
 		header.Text:SetPoint("TOPLEFT", 10, -20)
 		header.Progress:SetPoint("BOTTOMLEFT", 10, 10)
 
 		local bg = F.CreateBDFrame(header, 0)
 		bg:SetPoint("TOPLEFT", 2, -15)
 		bg:SetPoint("BOTTOMRIGHT", -5, 5)
+
 		if header == campaignHeader then
 			local newTex = bg:CreateTexture(nil, "OVERLAY")
 			newTex:SetPoint("RIGHT", 0, 0)
@@ -39,10 +40,10 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 
 		header:HookScript("OnEnter", function()
-			bg:SetBackdropColor(r, g, b, .25)
+			bg:SetBackdropColor(cr, cg, cb, .25)
 		end)
 		header:HookScript("OnLeave", function()
-			bg:SetBackdropColor(0, 0, 0, .25)
+			bg:SetBackdropColor(0, 0, 0, 0)
 		end)
 	end
 

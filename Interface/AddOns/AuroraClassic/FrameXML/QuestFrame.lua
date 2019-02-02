@@ -21,7 +21,6 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	for i = 1, MAX_REQUIRED_ITEMS do
 		local icon = _G["QuestProgressItem"..i.."IconTexture"]
-		icon:SetDrawLayer("OVERLAY")
 		icon:ClearAllPoints()
 		icon:SetPoint("LEFT")
 
@@ -32,9 +31,6 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		local name = _G["QuestProgressItem"..i.."NameFrame"]
 		name:Hide()
-
-		local count = _G["QuestProgressItem"..i.."Count"]
-		count:SetDrawLayer("OVERLAY")
 	end
 
 	QuestDetailScrollFrame:SetWidth(302) -- else these buttons get cut off

@@ -147,6 +147,8 @@ local list = {
 		{AuraID = 267331, UnitID = "player", Text = L["Crit"]},	-- 爆击
 		{AuraID = 280573, UnitID = "player", Combat = true},	-- 重组阵列
 	-->艾泽里特特质
+		{AuraID = 271550, UnitID = "player"},	-- 临危不惧
+		--默认
 		{AuraID = 280852, UnitID = "player"},	-- 解放者之力
 		{AuraID = 266047, UnitID = "player"},	-- 激励咆哮
 		{AuraID = 280409, UnitID = "player"},	-- 血祭之力
@@ -293,8 +295,9 @@ local list = {
 		{AuraID = 282135, UnitID = "player"},	-- 恶意妖术
 		{AuraID = 282209, UnitID = "player", Flash = true},	-- 掠食印记
 		{AuraID = 286821, UnitID = "player", Text = L["Get Out"], Flash = true},	-- 阿昆达的愤怒
-		{AuraID = 284831, UnitID = "player", Text = L["Get Out"]},	-- 炽焰引爆，拉斯塔哈大王
-		{AuraID = 284662, UnitID = "player", Flash = true},	-- 净化之印
+		{AuraID = 284831, UnitID = "player", Text = L["Get Out"], Flash = true},	-- 炽焰引爆，拉斯塔哈大王
+		{AuraID = 284662, UnitID = "player", Text = L["Get Out"], Flash = true},	-- 净化之印
+		{AuraID = 290450, UnitID = "player", Text = L["Get Out"], Flash = true},	-- 净化之印
 		{AuraID = 289858, UnitID = "player"},	-- 碾压
 		{AuraID = 284740, UnitID = "player"},	-- 重斧掷击
 		{AuraID = 284781, UnitID = "player"},	-- 重斧掷击

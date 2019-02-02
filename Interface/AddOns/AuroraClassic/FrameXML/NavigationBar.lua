@@ -50,11 +50,12 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		local navButton = self.navList[#self.navList]
 		if not navButton.restyled then
+			F.StripTextures(navButton)
 			F.ReskinButton(navButton)
-			navButton.arrowUp:SetAlpha(0)
-			navButton.arrowDown:SetAlpha(0)
-			navButton.selected:SetDrawLayer("BACKGROUND", 1)
-			navButton.selected:SetColorTexture(r, g, b, .25)
+
+			local selected = navButton.selected
+			selected:SetDrawLayer("BACKGROUND")
+			F.ReskinTexture(selected, navButton, true)
 
 			navButton:HookScript("OnClick", function()
 				moveNavButtons(self)
@@ -62,18 +63,16 @@ tinsert(C.themes["AuroraClassic"], function()
 
 			-- arrow button
 			local arrowButton = navButton.MenuArrowButton
-			arrowButton.Art:Hide()
-			arrowButton:SetHighlightTexture("")
+			F.StripTextures(arrowButton)
 
-			local tex = arrowButton:CreateTexture(nil, "ARTWORK")
-			tex:SetTexture(C.media.arrowDown)
-			tex:SetSize(8, 8)
-			tex:SetPoint("CENTER")
-			arrowButton.bgTex = tex
+			local bgTex = arrowButton:CreateTexture(nil, "ARTWORK")
+			bgTex:SetTexture(C.media.arrowDown)
+			bgTex:SetSize(8, 8)
+			bgTex:SetPoint("CENTER")
+			arrowButton.bgTex = bgTex
 
-			local texOnEnter, texOnLeave = F.texOnEnter, F.texOnLeave
-			arrowButton:SetScript("OnEnter", texOnEnter)
-			arrowButton:SetScript("OnLeave", texOnLeave)
+			arrowButton:SetScript("OnEnter", F.texOnEnter)
+			arrowButton:SetScript("OnLeave", F.texOnLeave)
 
 			navButton.restyled = true
 		end

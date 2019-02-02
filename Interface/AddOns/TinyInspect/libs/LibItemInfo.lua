@@ -96,35 +96,39 @@ end
 
 --獲取物品實際等級信息
 function lib:GetItemInfo(link, stats)
-    if (not link or link == "") then
-        return 0, 0
-    end
-    if (not string.match(link, "item:%d+:")) then
-        return 1, -1
-    end
-    if (not self:HasLocalCached(link)) then
-        return 1, 0
-    end
-    tooltip:SetOwner(UIParent, "ANCHOR_NONE")
-    tooltip:SetHyperlink(link)
-    local text, level
-    for i = 2, 5 do
-        text = _G[tooltip:GetName().."TextLeft" .. i]:GetText() or ""
-        level = string.match(text, ItemLevelPattern)
-        if (level) then break end
-        level = string.match(text, ItemLevelPlusPat)
-        if (level) then break end
-    end
-    self:GetStatsViaTooltip(tooltip, stats)
-    if (level and string.find(level, "+")) then
-        return 0, level, GetItemInfo(link)
-    else
-        return 0, tonumber(level) or 0, GetItemInfo(link)
-    end
+	if (not link or link == "") then
+		return 0, 0
+	end
+	if (not string.match(link, "item:%d+:")) then
+		return 1, -1
+	end
+	if (not self:HasLocalCached(link)) then
+		return 1, 0
+	end
+	tooltip:SetOwner(UIParent, "ANCHOR_NONE")
+	tooltip:SetHyperlink(link)
+	local text, level
+	for i = 2, 5 do
+		text = _G[tooltip:GetName().."TextLeft" .. i]:GetText() or ""
+		level = string.match(text, ItemLevelPattern)
+		if (level) then break end
+		level = string.match(text, ItemLevelPlusPat)
+		if (level) then break end
+	end
+	self:GetStatsViaTooltip(tooltip, stats)
+	if (level and string.find(level, "+")) then
+		return 0, level, GetItemInfo(link)
+	else
+		return 0, tonumber(level) or 0, GetItemInfo(link)
+	end
 end
 
---獲取容器裏物品裝備等級(傳家寶/神器)
+--獲取容器裏物品裝備等級
 function lib:GetContainerItemLevel(pid, id)
+	if (pid < 0) then
+		local link = GetContainerItemLink(pid, id)
+		return self:GetItemInfo(link)
+	end
 	local text, level
 	if (pid and id) then
 		tooltip:SetOwner(UIParent, "ANCHOR_NONE")
