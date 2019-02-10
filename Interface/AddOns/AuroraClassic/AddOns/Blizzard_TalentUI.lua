@@ -149,7 +149,7 @@ C.themes["Blizzard_TalentUI"] = function()
 				elseif selected then
 					bu.bg:SetBackdropColor(r, g, b, .25)
 				else
-					bu.bg:SetBackdropColor(0, 0, 0, .25)
+					bu.bg:SetBackdropColor(0, 0, 0, 0)
 				end
 			end
 		end

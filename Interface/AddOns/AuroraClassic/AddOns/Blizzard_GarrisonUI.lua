@@ -210,7 +210,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			if button.Selection:IsShown() then
 				button.bg:SetBackdropColor(r, g, b, .25)
 			else
-				button.bg:SetBackdropColor(0, 0, 0, .25)
+				button.bg:SetBackdropColor(0, 0, 0, 0)
 			end
 
 			if portrait and portrait.quality then
@@ -346,7 +346,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		for i = 1, GARRISON_NUM_BUILDING_SIZES do
 			local otherTab = list["Tab"..i]
 			if i ~= tab:GetID() then
-				otherTab.bg:SetBackdropColor(0, 0, 0, .25)
+				otherTab.bg:SetBackdropColor(0, 0, 0, 0)
 			end
 		end
 		tab.bg:SetBackdropColor(r, g, b, .25)
@@ -582,7 +582,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		if isSelected then
 			tab:SetBackdropColor(r, g, b, .25)
 		else
-			tab:SetBackdropColor(0, 0, 0, .25)
+			tab:SetBackdropColor(0, 0, 0, 0)
 		end
 	end)
 

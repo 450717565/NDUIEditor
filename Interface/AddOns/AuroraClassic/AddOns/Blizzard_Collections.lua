@@ -1,7 +1,7 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_Collections"] = function()
-	local r, g, b = C.r, C.g, C.b
+	local cr, cg, cb = C.r, C.g, C.b
 
 	-- [[ General ]]
 	F.ReskinFrame(CollectionsJournal)
@@ -11,7 +11,7 @@ C.themes["Blizzard_Collections"] = function()
 		F.ReskinTab(tab)
 
 		if i ~= 1 then
-			tab:SetPoint("LEFT", _G["CollectionsJournalTab"..i-1], "RIGHT", -15, 0)
+			tab:SetPoint("LEFT", _G["CollectionsJournalTab"..(i-1)], "RIGHT", -15, 0)
 		end
 	end
 
@@ -66,7 +66,7 @@ C.themes["Blizzard_Collections"] = function()
 			if bu.ProgressBar then
 				local bar = bu.ProgressBar
 				bar:SetTexture(C.media.bdTex)
-				bar:SetVertexColor(r, g, b, .25)
+				bar:SetVertexColor(cr, cg, cb, .25)
 				bar:SetPoint("TOPLEFT", bg, C.mult, -C.mult)
 				bar:SetPoint("BOTTOMLEFT", bg, -C.mult, C.mult)
 			end
@@ -97,7 +97,7 @@ C.themes["Blizzard_Collections"] = function()
 
 	local lists = {PetJournal, PetJournal.PetCount, PetJournal.PetCardInset, PetJournal.loadoutBorder, MountJournal, MountJournal.MountCount, MountJournal.MountDisplay, MountJournal.MountDisplay.ShadowOverlay}
 	for _, list in next, lists do
-		F.StripTextures(list, true)
+		F.StripTextures(list)
 	end
 
 	F.CreateBDFrame(MountJournal.MountCount, 0)
@@ -176,7 +176,7 @@ C.themes["Blizzard_Collections"] = function()
 
 	-- Pet card
 	local card = PetJournalPetCard
-	F.StripTextures(card, true)
+	F.StripTextures(card)
 	F.CreateBDFrame(card, 0)
 	F.StripTextures(card.PetInfo)
 
@@ -251,7 +251,7 @@ C.themes["Blizzard_Collections"] = function()
 		end
 	end)
 
-	F.StripTextures(PetJournal.SpellSelect, true)
+	F.StripTextures(PetJournal.SpellSelect)
 	for i = 1, 2 do
 		local bu = PetJournal.SpellSelect["Spell"..i]
 
@@ -263,7 +263,7 @@ C.themes["Blizzard_Collections"] = function()
 	end
 
 	-- [[ Toy box ]]
-	F.StripTextures(ToyBox.iconsFrame, true)
+	F.StripTextures(ToyBox.iconsFrame)
 	F.ReskinArrow(ToyBox.PagingFrame.PrevPageButton, "left")
 	F.ReskinArrow(ToyBox.PagingFrame.NextPageButton, "right")
 
@@ -309,7 +309,7 @@ C.themes["Blizzard_Collections"] = function()
 	end
 
 	-- [[ Heirlooms ]]
-	F.StripTextures(HeirloomsJournal.iconsFrame, true)
+	F.StripTextures(HeirloomsJournal.iconsFrame)
 	F.ReskinDropDown(HeirloomsJournalClassDropDown)
 	F.ReskinArrow(HeirloomsJournal.PagingFrame.PrevPageButton, "left")
 	F.ReskinArrow(HeirloomsJournal.PagingFrame.NextPageButton, "right")
@@ -392,7 +392,7 @@ C.themes["Blizzard_Collections"] = function()
 
 	-- [[ WardrobeCollectionFrame ]]
 	local ItemsCollectionFrame = WardrobeCollectionFrame.ItemsCollectionFrame
-	F.StripTextures(ItemsCollectionFrame, true)
+	F.StripTextures(ItemsCollectionFrame)
 	F.ReskinDropDown(WardrobeCollectionFrameWeaponDropDown)
 
 	for index = 1, 2 do
@@ -410,9 +410,9 @@ C.themes["Blizzard_Collections"] = function()
 		for index = 1, 2 do
 			local tab = _G["WardrobeCollectionFrameTab"..index]
 			if tabID == index then
-				tab.bg:SetBackdropColor(r, g, b, .25)
+				tab.bg:SetBackdropColor(cr, cg, cb, .25)
 			else
-				tab.bg:SetBackdropColor(0, 0, 0, .25)
+				tab.bg:SetBackdropColor(0, 0, 0, 0)
 			end
 		end
 	end)
@@ -426,11 +426,11 @@ C.themes["Blizzard_Collections"] = function()
 
 	-- ItemSetsCollection
 	local SetsCollectionFrame = WardrobeCollectionFrame.SetsCollectionFrame
-	F.StripTextures(SetsCollectionFrame, true)
+	F.StripTextures(SetsCollectionFrame)
 	F.CreateBDFrame(SetsCollectionFrame.Model, 0)
 
 	local DetailsFrame = SetsCollectionFrame.DetailsFrame
-	F.StripTextures(DetailsFrame, true)
+	F.StripTextures(DetailsFrame)
 	F.ReskinFilter(DetailsFrame.VariantSetsButton, "Down")
 
 	hooksecurefunc(SetsCollectionFrame, "SetItemFrameQuality", function(_, itemFrame)
@@ -450,14 +450,14 @@ C.themes["Blizzard_Collections"] = function()
 	end)
 
 	local SetsTransmogFrame = WardrobeCollectionFrame.SetsTransmogFrame
-	F.StripTextures(SetsTransmogFrame, true)
+	F.StripTextures(SetsTransmogFrame)
 	F.ReskinArrow(SetsTransmogFrame.PagingFrame.PrevPageButton, "left")
 	F.ReskinArrow(SetsTransmogFrame.PagingFrame.NextPageButton, "right")
 
 	-- [[ Wardrobe ]]
 	F.ReskinFrame(WardrobeFrame)
-	F.StripTextures(WardrobeTransmogFrame, true)
-	F.StripTextures(WardrobeOutfitFrame, true)
+	F.StripTextures(WardrobeTransmogFrame)
+	F.StripTextures(WardrobeOutfitFrame)
 	F.CreateBDFrame(WardrobeOutfitFrame, 0)
 	F.ReskinButton(WardrobeTransmogFrame.ApplyButton)
 	F.ReskinButton(WardrobeTransmogFrame.Model.ClearAllPendingButton)
@@ -480,9 +480,21 @@ C.themes["Blizzard_Collections"] = function()
 		end
 	end
 
+	hooksecurefunc(WardrobeOutfitFrame, "Update", function(self)
+		for i = 1, C_TransmogCollection.GetNumMaxOutfits() do
+			local button = self.Buttons[i]
+			if button and button:IsShown() and not button.styled then
+				button.Selection:SetColorTexture(1, 1, 1, .25)
+				button.Highlight:SetColorTexture(cr, cg, cb, .25)
+
+				button.styled = true
+			end
+		end
+	end)
+
 	-- Edit Frame
 	F.ReskinFrame(WardrobeOutfitEditFrame)
-	F.StripTextures(WardrobeOutfitEditFrame.EditBox, true)
+	F.StripTextures(WardrobeOutfitEditFrame.EditBox)
 	F.CreateBDFrame(WardrobeOutfitEditFrame.EditBox,.25)
 	F.ReskinButton(WardrobeOutfitEditFrame.AcceptButton)
 	F.ReskinButton(WardrobeOutfitEditFrame.CancelButton)

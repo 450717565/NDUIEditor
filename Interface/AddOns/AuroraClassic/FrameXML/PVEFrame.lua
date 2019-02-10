@@ -13,7 +13,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.ReskinTab(tab)
 
 		if i ~= 1 then
-			tab:SetPoint("LEFT", _G["PVEFrameTab"..i-1], "RIGHT", -15, 0)
+			tab:SetPoint("LEFT", _G["PVEFrameTab"..(i-1)], "RIGHT", -15, 0)
 		end
 	end
 

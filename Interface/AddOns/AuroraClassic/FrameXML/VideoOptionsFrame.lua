@@ -48,9 +48,9 @@ tinsert(C.themes["AuroraClassic"], function()
 			CreateUnderLine(header)
 		end
 
-		local line = VideoOptionsFrame:CreateTexture(nil, "ARTWORK")
+		local line = VideoOptionsFrameCategoryFrame:CreateTexture(nil, "ARTWORK")
 		line:SetSize(C.mult, 512)
-		line:SetPoint("LEFT", 205, 30)
+		line:SetPoint("RIGHT", 10, 0)
 		line:SetColorTexture(1, 1, 1, .25)
 
 		VideoOptionsFrameHeader:Hide()

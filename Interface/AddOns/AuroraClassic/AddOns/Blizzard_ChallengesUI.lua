@@ -19,7 +19,7 @@ C.themes["Blizzard_ChallengesUI"] = function()
 		if IsAddOnLoaded("AngryKeystones") and not angryStyle then
 			local scheduel, party = select(5, self:GetChildren())
 
-			F.StripTextures(scheduel, true)
+			F.StripTextures(scheduel)
 			F.CreateBDFrame(scheduel, 0)
 			if scheduel.Entries then
 				for i = 1, 3 do
@@ -27,7 +27,7 @@ C.themes["Blizzard_ChallengesUI"] = function()
 				end
 			end
 
-			F.StripTextures(party, true)
+			F.StripTextures(party)
 			F.CreateBDFrame(party, 0)
 
 			angryStyle = true

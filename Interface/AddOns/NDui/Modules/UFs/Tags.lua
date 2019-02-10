@@ -3,6 +3,8 @@ local B, C, L, DB = unpack(ns)
 
 local oUF = ns.oUF or oUF
 local format, floor = string.format, math.floor
+local AFK, DND, DEAD, PLAYER_OFFLINE = AFK, DND, DEAD, PLAYER_OFFLINE
+local ALTERNATE_POWER_INDEX = ALTERNATE_POWER_INDEX or 10
 local strmatch = string.match
 
 oUF.Tags.Methods["health"] = function(unit)

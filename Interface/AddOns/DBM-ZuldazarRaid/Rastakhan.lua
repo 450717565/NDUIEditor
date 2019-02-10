@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2335, "DBM-ZuldazarRaid", 2, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 18252 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 18318 $"):sub(12, -3))
 mod:SetCreatureID(145616)--145644 Bwonsamdi
 mod:SetEncounterID(2272)
 --mod:DisableESCombatDetection()
@@ -18,9 +18,9 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 284831 284933 284686 283504 287116 287333 286695 286742",
 	"SPELL_CAST_SUCCESS 284662 284781 290955 288449 285347 285172 284521",
 	"SPELL_SUMMON 285003 285402",
-	"SPELL_AURA_APPLIED 284831 285195 284662 285349 288415 288449 284446 289162 286779 284455",
+	"SPELL_AURA_APPLIED 284831 285195 284662 285349 288415 288449 284446 289162 286779 284455 284376",
 	"SPELL_AURA_APPLIED_DOSE 285195",
-	"SPELL_AURA_REMOVED 284831 285195 288449 289162 286779 284276 284455",
+	"SPELL_AURA_REMOVED 284831 285195 288449 289162 286779 284455",
 	"SPELL_AURA_REMOVED_DOSE 285195",
 	"UNIT_DIED",
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
@@ -33,6 +33,7 @@ mod:RegisterEventsInCombat(
  or (ability.id = 285003 or ability.id = 285402) and type = "summon"
  or (ability.id = 284276 or ability.id = 284446) and (type = "applybuff" or type = "removebuff")
  or ability.id = 288117 and type = "applydebuff"
+ or ability.id = 284376 and type = "applydebuff"
 --]]
 --TODO, is serpent totem a kill target or a reposition raid one in most strats?
 --TODO, dread reaping fix?
@@ -96,11 +97,12 @@ local specWarnNecroticSmashOther		= mod:NewSpecialWarningTaunt(286742, nil, nil,
 --local specWarnGTFO						= mod:NewSpecialWarningGTFO(286772, nil, nil, nil, 1, 8)
 local specWarnFocusedDimise				= mod:NewSpecialWarningInterrupt(286779, nil, nil, nil, 1, 2)
 
---mod:AddTimerLine(DBM:EJ_GetSectionInfo(18527))
 --Stage One: Zandalari Honor Guard
+mod:AddTimerLine(DBM:EJ_GetSectionInfo(19172))
 local timerScorchingDetonationCD		= mod:NewCDCountTimer(23.1, 284831, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
 local timerPlagueofToadsCD				= mod:NewCDTimer(21.1, 284933, nil, nil, nil, 1)
 local timerSerpentTotemCD				= mod:NewCDTimer(31.6, 285172, nil, nil, nil, 1)
+mod:AddTimerLine(DBM_ADDS)
 ----Prelate Za'lan
 local timerSealofPurificationCD			= mod:NewCDTimer(25.4, 284662, nil, nil, nil, 3)
 ----Siegebreaker Roka
@@ -108,16 +110,19 @@ local timerMeteorLeapCD					= mod:NewCDTimer(33.3, 284686, nil, nil, nil, 3)
 ----Headhunter Gal'wana
 local timerGrievousAxeCD				= mod:NewCDTimer(17.1, 284781, nil, nil, nil, 3, nil, DBM_CORE_HEALER_ICON)
 --Stage Two: Bwonsamdi's Pact
+mod:AddTimerLine(DBM:EJ_GetSectionInfo(19242))
 local timerPlagueofFireCD				= mod:NewCDTimer(23, 285347, nil, nil, nil, 3)
 local timerZombieDustTotemCD			= mod:NewCDTimer(44.9, 285003, nil, nil, nil, 1)
 ----Bwonsamdi
 local timerDeathsDoorCD					= mod:NewCDTimer(27.9, 288449, nil, nil, nil, 3)
 --Stage Three: Enter the Death Realm
+mod:AddTimerLine(DBM:EJ_GetSectionInfo(19243))
 local timerSpiritVortex					= mod:NewCastTimer(5, 284478, nil, nil, nil, 6)
 local timerDreadReapingCD				= mod:NewCDTimer(14.1, 287116, nil, nil, nil, 3)
 local timerInevitableEndCD				= mod:NewCDCountTimer(62.5, 287333, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON)--62-75?
-local timerAddsCD						= mod:NewAddsTimer(120, 284446, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON)--Generic Timer only used on Mythic
+local timerAddsCD						= mod:NewAddsTimer(120, 284446, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON)--Single use at start of Stage 3
 ----Spirits
+mod:AddTimerLine(DBM_ADDS)
 local timerSealofBwonCD					= mod:NewCDTimer(25.5, 286695, nil, nil, nil, 5)
 local timerNecroticSmashCD				= mod:NewCDTimer(34.6, 286742, nil, nil, nil, 2)
 
@@ -126,11 +131,11 @@ local timerNecroticSmashCD				= mod:NewCDTimer(34.6, 286742, nil, nil, nil, 2)
 local countdownScorchingDet				= mod:NewCountdown("Alt12", 284831, "Tank", nil, 4)
 local countdownInevitableEnd			= mod:NewCountdown(50, 287333, nil, nil, 5)
 
+mod:AddNamePlateOption("NPAuraOnRelentlessness", 289162)
+mod:AddNamePlateOption("NPAuraOnFocusedDemise", 286779)
 --mod:AddSetIconOption("SetIconGift", 255594, true)
 mod:AddRangeFrameOption(8, 285349)
 mod:AddInfoFrameOption(285195, true)
-mod:AddNamePlateOption("NPAuraOnRelentlessness", 289162)
-mod:AddNamePlateOption("NPAuraOnFocusedDemise", 286779)
 mod:AddBoolOption("AnnounceAlternatePhase", false, "announce")
 
 mod.vb.phase = 1
@@ -403,6 +408,33 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			warnDeathsDoor:Show(args.destName)
 		end
+	--"<66.15 22:33:35> [CLEU] SPELL_AURA_REMOVED#Vehicle-0-3019-2070-28900-145616-0000493177#King Rastakhan#Vehicle-0-3019-2070-28900-145616-0000493177#King Rastakhan#284276#Bind Souls#BUFF#nil", -- [1068]
+	--"<73.39 22:33:42> [CLEU] SPELL_AURA_APPLIED#Vehicle-0-3019-2070-28900-145644-0000493216#Unknown#Pet-0-3019-2070-28900-25867-04035496FD#Apok#284376#Death's Presence#DEBUFF#nil", -- [1197]
+	elseif spellId == 284376 and self.vb.phase < 2 then--Bind Souls (P2 Start)
+		self.vb.phase = 2
+		self.vb.scorchingDetCount = 0
+		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(2))
+		warnPhase:Play("ptwo")
+		timerPlagueofToadsCD:Stop()
+		timerSerpentTotemCD:Stop()
+		timerScorchingDetonationCD:Stop()
+		countdownScorchingDet:Cancel()
+		
+		--Rasta
+		timerZombieDustTotemCD:Start(19.2)
+		timerScorchingDetonationCD:Start(26.5, 1)
+		countdownScorchingDet:Start(26.5)
+		timerPlagueofFireCD:Start(33.7)--33-35.5
+		timerPlagueofToadsCD:Start(39.8)
+		--Bwon
+		timerDeathsDoorCD:Start(52.8)--52-56
+		if self.Options.RangeFrame then
+			DBM.RangeCheck:Show(8)
+		end
+		if self.Options.InfoFrame then
+			DBM.InfoFrame:SetHeader(DBM:GetSpellInfo(285195))
+			DBM.InfoFrame:Show(5, "table", infoframeTable, 1)
+		end
 	elseif spellId == 284446 and self.vb.phase < 3 then--Bwonsamdi's Boon (shouldn't be needed but good to have)
 		self.vb.phase = 3
 		self.vb.scorchingDetCount = 0
@@ -490,31 +522,6 @@ function mod:SPELL_AURA_REMOVED(args)
 	elseif spellId == 286779 then
 		if self.Options.NPAuraOnFocusedDemise then
 			DBM.Nameplate:Hide(true, args.sourceGUID, spellId)
-		end
-	elseif spellId == 284276 then--Bind Souls (P2 Start)
-		self.vb.phase = 2
-		self.vb.scorchingDetCount = 0
-		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(2))
-		warnPhase:Play("ptwo")
-		timerPlagueofToadsCD:Stop()
-		timerSerpentTotemCD:Stop()
-		timerScorchingDetonationCD:Stop()
-		countdownScorchingDet:Cancel()
-		
-		--Rasta
-		timerZombieDustTotemCD:Start(26.2)
-		timerScorchingDetonationCD:Start(33.5, 1)
-		countdownScorchingDet:Start(33.5)
-		timerPlagueofFireCD:Start(40.7)--40-42
-		timerPlagueofToadsCD:Start(46.8)
-		--Bwon
-		timerDeathsDoorCD:Start(59.8)
-		if self.Options.RangeFrame then
-			DBM.RangeCheck:Show(8)
-		end
-		if self.Options.InfoFrame then
-			DBM.InfoFrame:SetHeader(DBM:GetSpellInfo(285195))
-			DBM.InfoFrame:Show(5, "table", infoframeTable, 1)
 		end
 	elseif spellId == 284455 and args:IsPlayer() then
 		playerDeathPhase = false

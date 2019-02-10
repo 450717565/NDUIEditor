@@ -126,11 +126,33 @@ local function texOnMouseUp(self)
 end
 F.texOnMouseUp = texOnMouseUp
 
-local function SetupHook(frame)
-	frame:HookScript("OnEnter", texOnEnter)
-	frame:HookScript("OnLeave", texOnLeave)
-	frame:HookScript("OnMouseDown", texOnMouseDown)
-	frame:HookScript("OnMouseUp", texOnMouseUp)
+local function SetupArrowTex(self, direction)
+	if self.bgTex then return end
+
+	local bgTex = self:CreateTexture(nil, "ARTWORK")
+	bgTex:SetTexture(mediaPath.."arrow-"..direction)
+	bgTex:SetSize(8, 8)
+	bgTex:SetPoint("CENTER")
+	bgTex:SetVertexColor(1, 1, 1)
+	self.bgTex = bgTex
+
+	return bgTex
+end
+F.SetupArrowTex = SetupArrowTex
+
+local function SetupHook(self)
+	self:HookScript("OnEnter", texOnEnter)
+	self:HookScript("OnLeave", texOnLeave)
+	self:HookScript("OnMouseDown", texOnMouseDown)
+	self:HookScript("OnMouseUp", texOnMouseUp)
+end
+
+local function SetupDisTex(self)
+	self:SetDisabledTexture(C.media.bdTex)
+	local dis = self:GetDisabledTexture()
+	dis:SetVertexColor(0, 0, 0, .5)
+	dis:SetDrawLayer("OVERLAY")
+	dis:SetAllPoints()
 end
 
 -- [[ Reskin Functions ]]
@@ -188,7 +210,7 @@ function F:CreateGradient()
 	return Gradient
 end
 
-local function createTex(frame)
+local function CreateTex(frame)
 	if frame.Tex then return end
 
 	local Tex = frame:CreateTexture(nil, "BACKGROUND", nil, 1)
@@ -217,7 +239,7 @@ function F:CreateSD()
 	Shadow:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
 	self.Shadow = Shadow
 
-	createTex(self)
+	CreateTex(self)
 
 	return Shadow
 end
@@ -254,16 +276,8 @@ function F:ReskinArrow(direction)
 	F.StripTextures(self)
 	F.ReskinButton(self)
 
-	self:SetDisabledTexture(C.media.bdTex)
-	local dis = self:GetDisabledTexture()
-	dis:SetVertexColor(0, 0, 0, .5)
-	dis:SetDrawLayer("OVERLAY")
-
-	local bgTex = self:CreateTexture(nil, "ARTWORK")
-	bgTex:SetTexture(mediaPath.."arrow-"..direction)
-	bgTex:SetSize(8, 8)
-	bgTex:SetPoint("CENTER")
-	self.bgTex = bgTex
+	SetupDisTex(self)
+	SetupArrowTex(self, direction)
 end
 
 function F:ReskinBorder(relativeTo, classColor)
@@ -321,11 +335,7 @@ function F:ReskinClose(a1, p, a2, x, y)
 		self:SetPoint(a1, p, a2, x, y)
 	end
 
-	self:SetDisabledTexture(C.media.bdTex)
-	local dis = self:GetDisabledTexture()
-	dis:SetVertexColor(0, 0, 0, .5)
-	dis:SetDrawLayer("OVERLAY")
-	dis:SetAllPoints()
+	SetupDisTex(self)
 
 	self.pixels = {}
 	for i = 1, 2 do
@@ -378,18 +388,8 @@ function F:ReskinDropDown()
 	button:SetPoint("RIGHT", -18, 2)
 	F.ReskinButton(button)
 
-	button:SetDisabledTexture(C.media.bdTex)
-	local dis = button:GetDisabledTexture()
-	dis:SetVertexColor(0, 0, 0, .5)
-	dis:SetDrawLayer("OVERLAY")
-	dis:SetAllPoints()
-
-	local bgTex = button:CreateTexture(nil, "ARTWORK")
-	bgTex:SetTexture(C.media.arrowDown)
-	bgTex:SetSize(8, 8)
-	bgTex:SetPoint("CENTER")
-	bgTex:SetVertexColor(1, 1, 1)
-	button.bgTex = bgTex
+	SetupDisTex(button)
+	SetupArrowTex(button, "down")
 
 	local bg = F.CreateBDFrame(self, 0)
 	bg:SetPoint("TOPLEFT", self, "TOPLEFT", 16, -4)
@@ -580,11 +580,7 @@ function F:ReskinNavBar()
 	local overflowButton = self.overflowButton
 	F.ReskinButton(overflowButton)
 
-	local bgTex = overflowButton:CreateTexture(nil, "ARTWORK")
-	bgTex:SetTexture(C.media.arrowLeft)
-	bgTex:SetSize(8, 8)
-	bgTex:SetPoint("CENTER")
-	overflowButton.bgTex = bgTex
+	SetupArrowTex(overflowButton, "left")
 
 	self.styled = true
 end
@@ -652,29 +648,11 @@ function F:ReskinScroll()
 	F.ReskinButton(up)
 	F.ReskinButton(down)
 
-	up:SetDisabledTexture(C.media.bdTex)
-	local updis = up:GetDisabledTexture()
-	updis:SetVertexColor(0, 0, 0, .5)
-	updis:SetDrawLayer("OVERLAY")
+	SetupDisTex(up)
+	SetupDisTex(down)
 
-	down:SetDisabledTexture(C.media.bdTex)
-	local downdis = down:GetDisabledTexture()
-	downdis:SetVertexColor(0, 0, 0, .5)
-	downdis:SetDrawLayer("OVERLAY")
-
-	local uptex = up:CreateTexture(nil, "ARTWORK")
-	uptex:SetTexture(C.media.arrowUp)
-	uptex:SetSize(8, 8)
-	uptex:SetPoint("CENTER")
-	uptex:SetVertexColor(1, 1, 1)
-	up.bgTex = uptex
-
-	local downtex = down:CreateTexture(nil, "ARTWORK")
-	downtex:SetTexture(C.media.arrowDown)
-	downtex:SetSize(8, 8)
-	downtex:SetPoint("CENTER")
-	downtex:SetVertexColor(1, 1, 1)
-	down.bgTex = downtex
+	SetupArrowTex(up, "up")
+	SetupArrowTex(down, "down")
 
 	self:HookScript("OnEnter", scrollOnEnter)
 	self:HookScript("OnLeave", scrollOnLeave)

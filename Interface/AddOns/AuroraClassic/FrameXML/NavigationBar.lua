@@ -64,12 +64,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			-- arrow button
 			local arrowButton = navButton.MenuArrowButton
 			F.StripTextures(arrowButton)
-
-			local bgTex = arrowButton:CreateTexture(nil, "ARTWORK")
-			bgTex:SetTexture(C.media.arrowDown)
-			bgTex:SetSize(8, 8)
-			bgTex:SetPoint("CENTER")
-			arrowButton.bgTex = bgTex
+			F.SetupArrowTex(arrowButton, "down")
 
 			arrowButton:SetScript("OnEnter", F.texOnEnter)
 			arrowButton:SetScript("OnLeave", F.texOnLeave)

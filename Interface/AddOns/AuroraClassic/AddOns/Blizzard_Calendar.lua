@@ -1,43 +1,85 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_Calendar"] = function()
+	if AuroraConfig.tooltips then
+		F.ReskinTooltip(CalendarContextMenu)
+		F.ReskinTooltip(CalendarInviteStatusContextMenu)
+	end
+
 	local cr, cg, cb = C.r, C.g, C.b
-	local lists = {CalendarFrame, CalendarFilterFrame, CalendarCreateEventTitleFrame, CalendarViewEventTitleFrame, CalendarViewHolidayTitleFrame, CalendarViewRaidTitleFrame, CalendarEventPickerTitleFrame, CalendarMassInviteTitleFrame, CalendarCreateEventCloseButton, CalendarViewEventCloseButton, CalendarViewHolidayCloseButton, CalendarViewRaidCloseButton, CalendarMassInviteCloseButton, CalendarTexturePickerTitleFrame}
-	for _, list in next, lists do
-		F.StripTextures(list, true)
-	end
 
+	F.StripTextures(CalendarFrame)
 	F.SetBDFrame(CalendarFrame, 11, 0, -9, 3)
+	F.ReskinClose(CalendarCloseButton, "TOPRIGHT", CalendarFrame, "TOPRIGHT", -14, -4)
+	F.ReskinArrow(CalendarPrevMonthButton, "left")
+	F.ReskinArrow(CalendarNextMonthButton, "right")
+	F.ReskinArrow(CalendarFilterButton, "down")
+	F.ReskinCheck(CalendarCreateEventLockEventCheck)
 
-	for i = 1, 42 do
-		_G["CalendarDayButton"..i.."DarkFrame"]:SetAlpha(.5)
-		local bu = _G["CalendarDayButton"..i]
-		F.StripTextures(bu)
-		F.ReskinTexture(bu, bu, true)
+	CalendarViewEventDivider:Hide()
+	CalendarCreateEventDivider:Hide()
 
-		local hl = bu:GetHighlightTexture()
-		hl.SetAlpha = F.Dummy
+	CalendarViewEventFrame:ClearAllPoints()
+	CalendarViewEventFrame:SetPoint("TOPLEFT", CalendarFrame, "TOPRIGHT", 0, -25)
+	CalendarViewHolidayFrame:ClearAllPoints()
+	CalendarViewHolidayFrame:SetPoint("TOPLEFT", CalendarFrame, "TOPRIGHT", 0, -25)
+	CalendarViewRaidFrame:ClearAllPoints()
+	CalendarViewRaidFrame:SetPoint("TOPLEFT", CalendarFrame, "TOPRIGHT", 0, -25)
+	CalendarCreateEventFrame:ClearAllPoints()
+	CalendarCreateEventFrame:SetPoint("TOPLEFT", CalendarFrame, "TOPRIGHT", 0, -25)
+	CalendarClassButton1:ClearAllPoints()
+	CalendarClassButton1:SetPoint("TOPLEFT", CalendarClassButtonContainer, "TOPLEFT", 5, 0)
+	CalendarMassInviteFrame:ClearAllPoints()
+	CalendarMassInviteFrame:SetPoint("TOPLEFT", CalendarClassButton1, "TOPRIGHT", 5, 1)
+	CalendarTexturePickerFrame:ClearAllPoints()
+	CalendarTexturePickerFrame:SetPoint("TOPLEFT", CalendarClassButton1, "TOPRIGHT", 5, 1)
+
+	CalendarCreateEventHourDropDown:SetWidth(80)
+	CalendarCreateEventMinuteDropDown:SetWidth(80)
+	CalendarCreateEventAMPMDropDown:SetWidth(90)
+	CalendarCreateEventDifficultyOptionDropDown:SetWidth(150)
+
+	local lists = {CalendarFilterFrame, CalendarCreateEventTitleFrame, CalendarViewEventTitleFrame, CalendarViewHolidayTitleFrame, CalendarViewRaidTitleFrame, CalendarEventPickerTitleFrame, CalendarMassInviteTitleFrame, CalendarTexturePickerTitleFrame}
+	for _, list in next, lists do
+		F.StripTextures(list)
 	end
 
-	local frames = {CalendarViewEventFrame, CalendarViewHolidayFrame, CalendarViewRaidFrame, CalendarCreateEventFrame, CalendarTexturePickerFrame, CalendarMassInviteFrame, CalendarClassTotalsButton, CalendarViewEventInviteList, CalendarViewEventDescriptionContainer, CalendarCreateEventInviteList, CalendarCreateEventDescriptionContainer, CalendarEventPickerFrame}
+	local frames = {CalendarViewEventFrame, CalendarViewHolidayFrame, CalendarViewRaidFrame, CalendarCreateEventFrame, CalendarTexturePickerFrame, CalendarMassInviteFrame, CalendarClassTotalsButton, CalendarEventPickerFrame}
 	for _, frame in next, frames do
 		F.ReskinFrame(frame)
 	end
 
-	CalendarViewEventDivider:Hide()
-	CalendarCreateEventDivider:Hide()
-	CalendarViewRaidFrameModalOverlay:SetAlpha(0)
-	CalendarWeekdaySelectedTexture:SetDesaturated(true)
-	CalendarWeekdaySelectedTexture:SetVertexColor(cr, cg, cb)
+	local containers = {CalendarViewEventInviteList, CalendarViewEventDescriptionContainer, CalendarCreateEventInviteList, CalendarCreateEventDescriptionContainer}
+	for _, container in next, containers do
+		F.StripTextures(container)
+		F.CreateBDFrame(container, 0)
+	end
 
-	hooksecurefunc("CalendarFrame_SetToday", function()
-		CalendarTodayFrame:SetAllPoints()
-	end)
+	local buttons = {CalendarViewEventAcceptButton, CalendarViewEventTentativeButton, CalendarViewEventDeclineButton, CalendarViewEventRemoveButton, CalendarCreateEventMassInviteButton, CalendarCreateEventCreateButton, CalendarCreateEventInviteButton, CalendarEventPickerCloseButton, CalendarCreateEventRaidInviteButton, CalendarTexturePickerAcceptButton, CalendarTexturePickerCancelButton, CalendarMassInviteAcceptButton}
+	for _, button in next, buttons do
+		F.StripTextures(button)
+		F.ReskinButton(button)
+	end
 
-	CalendarTodayFrame:SetScript("OnUpdate", nil)
-	F.StripTextures(CalendarTodayFrame, true)
-	local bg = F.CreateBDFrame(CalendarTodayFrame, 0)
-	bg:SetBackdropBorderColor(cr, cg, cb)
+	local closes = {CalendarCreateEventCloseButton, CalendarViewEventCloseButton, CalendarViewHolidayCloseButton, CalendarViewRaidCloseButton, CalendarMassInviteCloseButton}
+	for _, close in next, closes do
+		F.ReskinClose(close)
+	end
+
+	local scrolls = {CalendarTexturePickerScrollBar, CalendarViewEventInviteListScrollFrameScrollBar, CalendarViewEventDescriptionScrollFrameScrollBar, CalendarCreateEventInviteListScrollFrameScrollBar, CalendarCreateEventDescriptionScrollFrameScrollBar}
+	for _, scroll in next, scrolls do
+		F.ReskinScroll(scroll)
+	end
+
+	local dropdowns = {CalendarCreateEventCommunityDropDown, CalendarCreateEventTypeDropDown, CalendarCreateEventHourDropDown, CalendarCreateEventMinuteDropDown, CalendarCreateEventAMPMDropDown, CalendarCreateEventDifficultyOptionDropDown, CalendarMassInviteCommunityDropDown, CalendarMassInviteRankMenu}
+	for _, dropdown in next, dropdowns do
+		F.ReskinDropDown(dropdown)
+	end
+
+	local inputs = {CalendarCreateEventTitleEdit, CalendarCreateEventInviteEdit, CalendarMassInviteMinLevelEdit, CalendarMassInviteMaxLevelEdit}
+	for _, input in next, inputs do
+		F.ReskinInput(input)
+	end
 
 	for i, class in ipairs(CLASS_SORT_ORDER) do
 		local bu = _G["CalendarClassButton"..i]
@@ -49,93 +91,56 @@ C.themes["Blizzard_Calendar"] = function()
 		ic:SetTexCoord(tcoords[1] + .022, tcoords[2] - .025, tcoords[3] + .022, tcoords[4] - .025)
 	end
 
+	for i = 1, 42 do
+		local bu = _G["CalendarDayButton"..i]
+		F.StripTextures(bu)
+		F.ReskinTexture(bu, bu, true)
+
+		local df = _G["CalendarDayButton"..i.."DarkFrame"]
+		df:SetAlpha(.5)
+	end
+
 	for i = 1, 6 do
-		local vline = F.CreateBDFrame(_G["CalendarDayButton"..i])
-		vline:SetFrameLevel(_G["CalendarDayButton"..i]:GetFrameLevel()+1)
-		vline:SetHeight(546)
-		vline:SetWidth(C.mult)
-		vline:ClearAllPoints()
-		vline:SetPoint("TOP", _G["CalendarDayButton"..i], "TOPRIGHT")
-		vline.Shadow:Hide()
+		local vDay = _G["CalendarDayButton"..i]
+		local vLine = F.CreateBDFrame(vDay, 1, true)
+		vLine:SetFrameLevel(vDay:GetFrameLevel()+1)
+		vLine:SetHeight(546)
+		vLine:SetWidth(C.mult)
+		vLine:ClearAllPoints()
+		vLine:SetPoint("TOP", vDay, "TOPRIGHT")
+		vLine.Shadow:Hide()
 	end
 
 	for i = 1, 36, 7 do
-		local hline = F.CreateBDFrame(_G["CalendarDayButton"..i])
-		hline:SetFrameLevel(_G["CalendarDayButton"..i]:GetFrameLevel()+1)
-		hline:SetWidth(637)
-		hline:SetHeight(C.mult)
-		hline:ClearAllPoints()
-		hline:SetPoint("LEFT", _G["CalendarDayButton"..i], "TOPLEFT")
-		hline.Shadow:Hide()
+		local hDay = _G["CalendarDayButton"..i]
+		local hLine = F.CreateBDFrame(hDay, 1, true)
+		hLine:SetFrameLevel(hDay:GetFrameLevel()+1)
+		hLine:SetWidth(637)
+		hLine:SetHeight(C.mult)
+		hLine:ClearAllPoints()
+		hLine:SetPoint("LEFT", hDay, "TOPLEFT")
+		hLine.Shadow:Hide()
 	end
 
-	if AuroraConfig.tooltips then
-		F.ReskinTooltip(CalendarContextMenu)
-		F.ReskinTooltip(CalendarInviteStatusContextMenu)
-	end
+	hooksecurefunc("CalendarFrame_SetToday", function(self)
+		CalendarTodayFrame:SetAllPoints()
 
-	CalendarViewEventFrame:SetPoint("TOPLEFT", CalendarFrame, "TOPRIGHT", -8, -24)
-	CalendarViewHolidayFrame:SetPoint("TOPLEFT", CalendarFrame, "TOPRIGHT", -8, -24)
-	CalendarViewRaidFrame:SetPoint("TOPLEFT", CalendarFrame, "TOPRIGHT", -8, -24)
-	CalendarCreateEventFrame:SetPoint("TOPLEFT", CalendarFrame, "TOPRIGHT", -8, -24)
-	CalendarCreateEventInviteButton:SetPoint("TOPLEFT", CalendarCreateEventInviteEdit, "TOPRIGHT", 1, 1)
-	CalendarClassButton1:SetPoint("TOPLEFT", CalendarClassButtonContainer, "TOPLEFT", 5, 0)
+		if not self.styled then
+			F.StripTextures(CalendarTodayFrame)
 
-	CalendarCreateEventHourDropDown:SetWidth(80)
-	CalendarCreateEventMinuteDropDown:SetWidth(80)
-	CalendarCreateEventAMPMDropDown:SetWidth(90)
+			local bg = F.CreateBDFrame(CalendarTodayFrame, 0)
+			bg:SetBackdropBorderColor(cr, cg, cb)
 
-	local line = CalendarMassInviteFrame:CreateTexture(nil, "BACKGROUND")
-	line:SetSize(240, C.mult)
-	line:SetPoint("TOP", CalendarMassInviteFrame, "TOP", 0, -150)
-	line:SetTexture(C.media.bdTex)
-	line:SetVertexColor(0, 0, 0)
+			self.styled = true
+		end
+	end)
 
-	CalendarMassInviteFrame:ClearAllPoints()
-	CalendarMassInviteFrame:SetPoint("BOTTOMLEFT", CalendarCreateEventFrame, "BOTTOMRIGHT", 28, 0)
+	hooksecurefunc("CalendarEventFrameBlocker_Update", function(self)
+		local eventFrame = CalendarFrame_GetEventFrame()
+		local eventFrameOverlay = _G[eventFrame:GetName().."ModalOverlay"]
 
-	CalendarTexturePickerFrame:ClearAllPoints()
-	CalendarTexturePickerFrame:SetPoint("TOPLEFT", CalendarCreateEventFrame, "TOPRIGHT", 28, 0)
-
-	local cbuttons = {CalendarViewEventAcceptButton, CalendarViewEventTentativeButton, CalendarViewEventDeclineButton, CalendarViewEventRemoveButton, CalendarCreateEventMassInviteButton, CalendarCreateEventCreateButton, CalendarCreateEventInviteButton, CalendarEventPickerCloseButton, CalendarCreateEventRaidInviteButton, CalendarTexturePickerAcceptButton, CalendarTexturePickerCancelButton, CalendarFilterButton, CalendarMassInviteAcceptButton}
-	for _, button in next, cbuttons do
-		F.StripTextures(button, true)
-		F.ReskinButton(button)
-	end
-
-	local downtex = CalendarFilterButton:CreateTexture(nil, "ARTWORK")
-	downtex:SetTexture(C.media.arrowDown)
-	downtex:SetSize(8, 8)
-	downtex:SetPoint("CENTER")
-	downtex:SetVertexColor(1, 1, 1)
-
-	F.ReskinCheck(CalendarCreateEventLockEventCheck)
-	F.ReskinClose(CalendarCloseButton, "TOPRIGHT", CalendarFrame, "TOPRIGHT", -14, -4)
-	F.ReskinClose(CalendarCreateEventCloseButton)
-	F.ReskinClose(CalendarViewEventCloseButton)
-	F.ReskinClose(CalendarViewHolidayCloseButton)
-	F.ReskinClose(CalendarViewRaidCloseButton)
-	F.ReskinClose(CalendarMassInviteCloseButton)
-	F.ReskinScroll(CalendarTexturePickerScrollBar)
-	F.ReskinScroll(CalendarViewEventInviteListScrollFrameScrollBar)
-	F.ReskinScroll(CalendarViewEventDescriptionScrollFrameScrollBar)
-	F.ReskinScroll(CalendarCreateEventInviteListScrollFrameScrollBar)
-	F.ReskinScroll(CalendarCreateEventDescriptionScrollFrameScrollBar)
-	F.ReskinDropDown(CalendarCreateEventCommunityDropDown)
-	F.ReskinDropDown(CalendarCreateEventTypeDropDown)
-	F.ReskinDropDown(CalendarCreateEventHourDropDown)
-	F.ReskinDropDown(CalendarCreateEventMinuteDropDown)
-	F.ReskinDropDown(CalendarCreateEventAMPMDropDown)
-	F.ReskinDropDown(CalendarCreateEventDifficultyOptionDropDown)
-	F.ReskinDropDown(CalendarMassInviteCommunityDropDown)
-	F.ReskinDropDown(CalendarMassInviteRankMenu)
-	F.ReskinInput(CalendarCreateEventTitleEdit)
-	F.ReskinInput(CalendarCreateEventInviteEdit)
-	F.ReskinInput(CalendarMassInviteMinLevelEdit)
-	F.ReskinInput(CalendarMassInviteMaxLevelEdit)
-	F.ReskinArrow(CalendarPrevMonthButton, "left")
-	F.ReskinArrow(CalendarNextMonthButton, "right")
-	CalendarPrevMonthButton:SetSize(19, 19)
-	CalendarNextMonthButton:SetSize(19, 19)
-	CalendarCreateEventDifficultyOptionDropDown:SetWidth(150)
+		if eventFrameOverlay then
+			eventFrameOverlay:SetAllPoints()
+		end
+	end)
 end

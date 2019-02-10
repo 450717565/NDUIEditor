@@ -123,12 +123,18 @@ DBM_CORE_OPTION_TIMER_COMBAT		= "Show timer for combat start"
 DBM_CORE_BAD						= "Bad"
 
 DBM_CORE_OPTION_CATEGORY_TIMERS			= "Bars"
+--Sub cats for "announce" object
 DBM_CORE_OPTION_CATEGORY_WARNINGS		= "General Announces"
 DBM_CORE_OPTION_CATEGORY_WARNINGS_YOU	= "Personal Announces"
 DBM_CORE_OPTION_CATEGORY_WARNINGS_OTHER	= "Target Announces"
 DBM_CORE_OPTION_CATEGORY_WARNINGS_ROLE	= "Role Announces"
+
 DBM_CORE_OPTION_CATEGORY_SOUNDS			= "Sounds"
-DBM_CORE_OPTION_CATEGORY_DROPDOWNS		= "Dropdowns"
+--Misc object broken down into sub cats
+DBM_CORE_OPTION_CATEGORY_DROPDOWNS		= "Dropdowns"--Still put in MISC sub grooup, just used for line separators since multiple of these on a fight (or even having on of these at all) is rare.
+DBM_CORE_OPTION_CATEGORY_YELLS			= "Yells"
+DBM_CORE_OPTION_CATEGORY_NAMEPLATES		= "Nameplates"
+DBM_CORE_OPTION_CATEGORY_ICONS			= "Icons"
 
 DBM_CORE_AUTO_RESPONDED						= "Auto-responded."
 DBM_CORE_STATUS_WHISPER						= "%s: %s, %d/%d people alive"
@@ -184,7 +190,10 @@ DBM_PIZZA_ERROR_USAGE				= "Usage: /dbm [broadcast] timer <time> <text>. <time> 
 DBM_CORE_MINIMAP_TOOLTIP_HEADER		= "Deadly Boss Mods"
 DBM_CORE_MINIMAP_TOOLTIP_FOOTER		= "Hold shift and drag to move"
 
-DBM_CORE_RANGECHECK_HEADER			= "Range Check (%dyd)"
+DBM_CORE_RANGECHECK_HEADER			= "Range Check (%dD)"
+DBM_CORE_RANGECHECK_HEADERT			= "Range Check (%dD-%dP)"
+DBM_CORE_RANGECHECK_RHEADER			= "R-Range Check (%dD)"
+DBM_CORE_RANGECHECK_RHEADERT		= "R-Range Check (%dD-%dP)"
 DBM_CORE_RANGECHECK_SETRANGE		= "Set range"
 DBM_CORE_RANGECHECK_SETTHRESHOLD	= "Set player threshold"
 DBM_CORE_RANGECHECK_SOUNDS			= "Sounds"
@@ -193,14 +202,16 @@ DBM_CORE_RANGECHECK_SOUND_OPTION_2	= "Sound when more than one player is in rang
 DBM_CORE_RANGECHECK_SOUND_0			= "No sound"
 DBM_CORE_RANGECHECK_SOUND_1			= "Default sound"
 DBM_CORE_RANGECHECK_SOUND_2			= "Annoying beep"
-DBM_CORE_RANGECHECK_SETRANGE_TO		= "%d yd"
+DBM_CORE_RANGECHECK_SETRANGE_TO		= "%d D"
 DBM_CORE_RANGECHECK_OPTION_FRAMES	= "Frames"
 DBM_CORE_RANGECHECK_OPTION_RADAR	= "Show radar frame"
 DBM_CORE_RANGECHECK_OPTION_TEXT		= "Show text frame"
 DBM_CORE_RANGECHECK_OPTION_BOTH		= "Show both frames"
 DBM_CORE_RANGERADAR_HEADER			= "Range:%d Players:%d"
-DBM_CORE_RANGERADAR_IN_RANGE_TEXT	= "%d in range (%dyd)"--Multi
-DBM_CORE_RANGERADAR_IN_RANGE_TEXTONE= "%s (%0.1fyd)"--One target
+DBM_CORE_RANGERADAR_RHEADER			= "R-Rng:%d Players:%d"
+DBM_CORE_RANGERADAR_IN_RANGE_TEXT	= "%d in range (%dD)"--Multi
+DBM_CORE_RANGECHECK_IN_RANGE_TEXT	= "%d in range"--Text based doesn't need (%dyd), especially since it's not very accurate to the specific yard anyways
+DBM_CORE_RANGERADAR_IN_RANGE_TEXTONE= "%s (%0.1fD)"--One target
 
 DBM_CORE_INFOFRAME_SHOW_SELF		= "Always show your power"		-- Always show your own power value even if you are below the threshold
 DBM_CORE_INFOFRAME_SETLINES			= "Set max lines"
@@ -304,6 +315,7 @@ DBM_CORE_ACHIEVEMENT_TIMER_SPEED_KILL = "Achievement"--BATTLE_PET_SOURCE_6
 DBM_CORE_AUTO_ANNOUNCE_TEXTS = {
 	you			= "%s on YOU",
 	target		= "%s on >%%s<",
+	targetsource= ">%%s< cast %s on >%%s<",
 	targetcount	= "%s (%%s) on >%%s<",
 	spell		= "%s",
 	ends 		= "%s ended",
@@ -324,6 +336,7 @@ local prewarnOption = "Show pre-warning for $spell:%s"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS = {
 	you			= "Announce when $spell:%s on you",
 	target		= "Announce $spell:%s targets",
+	targetsource= "Announce $spell:%s targets (with source)",
 	targetcount	= "Announce $spell:%s targets (with count)",
 	spell		= "Show warning for $spell:%s",
 	ends		= "Show warning when $spell:%s has ended",
