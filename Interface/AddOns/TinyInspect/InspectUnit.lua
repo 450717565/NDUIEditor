@@ -134,7 +134,8 @@ local function GetInspectItemListFrame(parent)
 
 		if IsAddOnLoaded("AuroraClassic") then
 			local F, C = unpack(AuroraClassic)
-			F.ReskinFrame(frame)
+			F.CreateBD(frame)
+			F.CreateSD(frame)
 		end
 	end
 

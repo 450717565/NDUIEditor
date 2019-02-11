@@ -26,9 +26,9 @@ C.themes["Blizzard_Communities"] = function()
 	F.ReskinButton(GuildMemberDetailFrame.RemoveButton)
 	F.ReskinButton(GuildMemberDetailFrame.GroupInviteButton)
 	F.ReskinDropDown(GuildMemberDetailFrame.RankDropdown)
-	F.StripTextures(GuildMemberDetailFrame.NoteBackground, true)
+	F.StripTextures(GuildMemberDetailFrame.NoteBackground)
 	F.CreateBDFrame(GuildMemberDetailFrame.NoteBackground, 0)
-	F.StripTextures(GuildMemberDetailFrame.OfficerNoteBackground, true)
+	F.StripTextures(GuildMemberDetailFrame.OfficerNoteBackground)
 	F.CreateBDFrame(GuildMemberDetailFrame.OfficerNoteBackground, 0)
 	GuildMemberDetailFrame:ClearAllPoints()
 	GuildMemberDetailFrame:SetPoint("TOPLEFT", CommunitiesFrame.ChatTab, "TOPRIGHT", 2, 0)
@@ -55,7 +55,7 @@ C.themes["Blizzard_Communities"] = function()
 		F.ReskinTexture(tab, bg, false)
 	end
 
-	F.StripTextures(CommunitiesFrameCommunitiesList, true)
+	F.StripTextures(CommunitiesFrameCommunitiesList)
 	hooksecurefunc(CommunitiesFrameCommunitiesList, "Update", function(self)
 		local buttons = self.ListScrollFrame.buttons
 		for i = 1, #buttons do
@@ -82,13 +82,13 @@ C.themes["Blizzard_Communities"] = function()
 	F.ReskinScroll(CommunitiesFrame.Chat.MessageFrame.ScrollBar)
 	F.ReskinScroll(CommunitiesFrame.MemberList.ListScrollFrame.scrollBar)
 
-	F.StripTextures(CommunitiesFrame.Chat, true)
+	F.StripTextures(CommunitiesFrame.Chat)
 	F.ReskinInput(CommunitiesFrame.ChatEditBox, 22)
 	local chatbg = F.CreateBDFrame(CommunitiesFrame.Chat, 0)
 	chatbg:SetPoint("TOPLEFT", -6, 5)
 	chatbg:SetPoint("BOTTOMRIGHT", 3, -2)
 
-	F.StripTextures(CommunitiesFrame.MemberList, true)
+	F.StripTextures(CommunitiesFrame.MemberList)
 	F.CreateBDFrame(CommunitiesFrame.MemberList, 0)
 
 	local EditStream = CommunitiesFrame.EditStreamDialog
@@ -98,7 +98,7 @@ C.themes["Blizzard_Communities"] = function()
 	F.ReskinButton(EditStream.Delete)
 	F.ReskinButton(EditStream.Cancel)
 	F.ReskinInput(EditStream.NameEdit, 22)
-	F.StripTextures(EditStream.Description, true)
+	F.StripTextures(EditStream.Description)
 	F.CreateBDFrame(EditStream.Description, 0)
 
 	local NotificationSettings = CommunitiesFrame.NotificationSettingsDialog
@@ -173,7 +173,7 @@ C.themes["Blizzard_Communities"] = function()
 
 	-- RosterTab
 	CommunitiesFrame.MemberList.ShowOfflineButton:SetSize(25, 25)
-	F.StripTextures(CommunitiesFrame.MemberList.ColumnDisplay, true)
+	F.StripTextures(CommunitiesFrame.MemberList.ColumnDisplay)
 	F.ReskinCheck(CommunitiesFrame.MemberList.ShowOfflineButton)
 	F.ReskinDropDown(CommunitiesFrame.GuildMemberListDropDownMenu)
 
@@ -268,7 +268,7 @@ C.themes["Blizzard_Communities"] = function()
 	local GuildBenefitsFrame = CommunitiesFrame.GuildBenefitsFrame
 	GuildBenefitsFrame.Perks:GetRegions():Hide()
 	GuildBenefitsFrame.Rewards.Bg:Hide()
-	F.StripTextures(GuildBenefitsFrame, true)
+	F.StripTextures(GuildBenefitsFrame)
 	F.ReskinScroll(CommunitiesFrameRewards.scrollBar)
 
 	local factionFrameBar = GuildBenefitsFrame.FactionFrame.Bar
@@ -277,7 +277,7 @@ C.themes["Blizzard_Communities"] = function()
 	factionFrameBar.Progress:SetTexture(C.media.normTex)
 	factionFrameBar.Progress:SetVertexColor(r*.8, g*.8, b*.8)
 	factionFrameBar.Label:ClearAllPoints()
-	factionFrameBar.Label:SetPoint("CENTER", factionFrameBar.BG, "CENTER", 0, 0)
+	factionFrameBar.Label:SetPoint("CENTER", factionFrameBar.BG)
 
 	hooksecurefunc("CommunitiesGuildPerks_Update", function(self)
 		local buttons = self.Container.buttons
@@ -316,14 +316,14 @@ C.themes["Blizzard_Communities"] = function()
 
 	-- GuildInfoTab
 	CommunitiesFrameGuildDetailsFrameInfoMOTDScrollFrameScrollBar:SetAlpha(0)
-	F.StripTextures(CommunitiesFrameGuildDetailsFrame, true)
-	F.StripTextures(CommunitiesFrameGuildDetailsFrameInfo, true)
-	F.StripTextures(CommunitiesFrameGuildDetailsFrameNews, true)
+	F.StripTextures(CommunitiesFrameGuildDetailsFrame)
+	F.StripTextures(CommunitiesFrameGuildDetailsFrameInfo)
+	F.StripTextures(CommunitiesFrameGuildDetailsFrameNews)
 	F.ReskinScroll(CommunitiesFrameGuildDetailsFrameNewsContainer.ScrollBar)
 
 	F.ReskinFrame(CommunitiesGuildTextEditFrame)
 	F.ReskinScroll(CommunitiesGuildTextEditFrameScrollBar)
-	F.StripTextures(CommunitiesGuildTextEditFrame.Container, true)
+	F.StripTextures(CommunitiesGuildTextEditFrame.Container)
 	F.CreateBDFrame(CommunitiesGuildTextEditFrame.Container, 0)
 	F.ReskinButton(CommunitiesGuildTextEditFrameAcceptButton)
 	local TextEditFrameCB = select(4, CommunitiesGuildTextEditFrame:GetChildren())
@@ -342,7 +342,7 @@ C.themes["Blizzard_Communities"] = function()
 
 	F.ReskinFrame(CommunitiesGuildLogFrame)
 	F.ReskinScroll(CommunitiesGuildLogFrameScrollBar)
-	F.StripTextures(CommunitiesGuildLogFrame.Container, true)
+	F.StripTextures(CommunitiesGuildLogFrame.Container)
 	F.CreateBDFrame(CommunitiesGuildLogFrame.Container, 0)
 	local LogFrameCB = select(3, CommunitiesGuildLogFrame:GetChildren())
 	F.ReskinButton(LogFrameCB)

@@ -149,6 +149,7 @@ local list = {
 		{AuraID = 289523, UnitID = "player", Combat = true},	-- 耀辉之光
 	-->艾泽里特特质
 		{AuraID = 271550, UnitID = "player"},	-- 临危不惧
+		{AuraID = 281517, UnitID = "player"},	-- 不稳定的催化剂
 		--默认
 		{AuraID = 280852, UnitID = "player"},	-- 解放者之力
 		{AuraID = 266047, UnitID = "player"},	-- 激励咆哮

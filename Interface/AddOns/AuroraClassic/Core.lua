@@ -395,7 +395,7 @@ function F:ReskinDropDown()
 	bg:SetPoint("TOPLEFT", self, "TOPLEFT", 16, -4)
 	bg:SetPoint("BOTTOMRIGHT", button, "BOTTOMLEFT", -1, 0)
 
-	local text = self.Text or (frameName and _G[frameName.."Text"])
+	local text = self.Text or self.text or (frameName and _G[frameName.."Text"])
 	if text then
 		text:SetJustifyH("CENTER")
 		text:ClearAllPoints()
@@ -750,6 +750,14 @@ function F:ReskinStatusBar(noClassColor)
 	self:SetStatusBarTexture(C.media.normTex)
 	if not noClassColor then
 		self:SetStatusBarColor(cr, cg, cb, .8)
+	end
+
+	local frameName = self.GetName and self:GetName()
+	local text = self.Text or self.text or (frameName and _G[frameName.."Text"])
+	if text then
+		text:SetJustifyH("CENTER")
+		text:ClearAllPoints()
+		text:SetPoint("CENTER")
 	end
 end
 

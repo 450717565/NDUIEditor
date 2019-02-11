@@ -138,6 +138,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 				button.label:SetTextColor(1, .8, 0)
 			end
 			button.description:SetTextColor(1, 1, 1)
+			button.hiddenDescription:SetTextColor(1, 1, 1)
 		else
 			if button.accountWide then
 				button.label:SetTextColor(0, .6, 1, .5)
@@ -145,6 +146,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 				button.label:SetTextColor(1, .8, 0, .5)
 			end
 			button.description:SetTextColor(1, 1, 1, .5)
+			button.hiddenDescription:SetTextColor(1, 1, 1, .5)
 		end
 	end)
 

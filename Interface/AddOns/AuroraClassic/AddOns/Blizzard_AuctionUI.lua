@@ -11,9 +11,6 @@ C.themes["Blizzard_AuctionUI"] = function()
 	F.ReskinArrow(BrowsePrevPageButton, "left")
 	F.ReskinArrow(BrowseNextPageButton, "right")
 
-	AuctionProgressBar.Text:ClearAllPoints()
-	AuctionProgressBar.Text:SetPoint("CENTER")
-
 	BrowsePrevPageButton:ClearAllPoints()
 	BrowsePrevPageButton:SetPoint("TOPLEFT", BrowseSearchButton, "BOTTOMLEFT", 0, -5)
 	BrowseNextPageButton:ClearAllPoints()
