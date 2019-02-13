@@ -234,8 +234,8 @@ do
 						hasItemFrame = 1,
 					}
 
-					local r, g, b = GetItemQualityColor(quality or 1)
-					StaticPopup_Show("BUY_STACK", " ", " ", {["texture"] = texture, ["name"] = name, ["color"] = {r, g, b, 1}, ["link"] = itemLink, ["index"] = id, ["count"] = maxStack})
+					local color = BAG_ITEM_QUALITY_COLORS[quality or 1]
+					StaticPopup_Show("BUY_STACK", " ", " ", {["texture"] = texture, ["name"] = name, ["color"] = {color.r, color.g, color.b, 1}, ["link"] = itemLink, ["index"] = id, ["count"] = maxStack})
 				else
 					BuyMerchantItem(id, GetMerchantItemMaxStack(id))
 				end

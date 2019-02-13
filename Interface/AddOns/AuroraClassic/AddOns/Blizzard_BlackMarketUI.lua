@@ -49,7 +49,8 @@ C.themes["Blizzard_BlackMarketUI"] = function()
 
 			if bu:IsShown() and bu.itemLink then
 				local _, _, quality = GetItemInfo(bu.itemLink)
-				bu.Name:SetTextColor(GetItemQualityColor(quality))
+				local color = BAG_ITEM_QUALITY_COLORS[quality or 1]
+				bu.Name:SetTextColor(color.r, color.g, color.b)
 			end
 		end
 	end)
@@ -58,7 +59,8 @@ C.themes["Blizzard_BlackMarketUI"] = function()
 		local hotDeal = self.HotDeal
 		if hotDeal:IsShown() and hotDeal.itemLink then
 			local _, _, quality = GetItemInfo(hotDeal.itemLink)
-			hotDeal.Name:SetTextColor(GetItemQualityColor(quality))
+			local color = BAG_ITEM_QUALITY_COLORS[quality or 1]
+			hotDeal.Name:SetTextColor(color.r, color.g, color.b)
 		end
 		F.ReskinBorder(hotDeal.Item.IconBorder, hotDeal.Item)
 	end)

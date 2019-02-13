@@ -1,7 +1,7 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_Communities"] = function()
-	local r, g, b = C.r, C.g, C.b
+	local cr, cg, cb = C.r, C.g, C.b
 
 	CommunitiesFrame.PortraitOverlay:SetAlpha(0)
 	F.ReskinFrame(CommunitiesFrame)
@@ -70,7 +70,7 @@ C.themes["Blizzard_Communities"] = function()
 			end
 
 			if button.Selection:IsShown() then
-				button.bg:SetBackdropColor(r, g, b, .25)
+				button.bg:SetBackdropColor(cr, cg, cb, .25)
 			else
 				button.bg:SetBackdropColor(0, 0, 0, 0)
 			end
@@ -213,7 +213,7 @@ C.themes["Blizzard_Communities"] = function()
 		if not self.expanded then return end
 
 		self:SetHighlightTexture(C.media.bdTex)
-		self:GetHighlightTexture():SetColorTexture(r, g, b, .25)
+		self:GetHighlightTexture():SetColorTexture(cr, cg, cb, .25)
 
 		if not self.bg then
 			self.bg = F.ReskinIcon(self.Class, true)

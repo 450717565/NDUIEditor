@@ -805,6 +805,13 @@ function F:ReskinTooltip()
 		self.GetBackdrop = getBackdrop
 		self.GetBackdropColor = getBackdropColor
 		self.GetBackdropBorderColor = getBackdropBorderColor
+
+		local icon = self.Icon or self.icon
+		if icon then icon:SetTexCoord(.08, .92, .08, .92) end
+
+		local border = self.Border or self.IconBorder
+		if border then border:SetAlpha(0) end
+
 		self.auroraTip = true
 	end
 end

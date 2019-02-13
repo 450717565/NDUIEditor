@@ -147,7 +147,7 @@ C.themes["Blizzard_Collections"] = function()
 						local _, _, _, _, rarity = C_PetJournal.GetPetStats(petID)
 
 						if rarity then
-							local color = BAG_ITEM_QUALITY_COLORS[rarity-1]
+							local color = BAG_ITEM_QUALITY_COLORS[(rarity-1) or 1]
 							bu.name:SetTextColor(color.r, color.g, color.b)
 						else
 							bu.name:SetTextColor(1, 1, 1)
@@ -244,8 +244,9 @@ C.themes["Blizzard_Collections"] = function()
 			local self = name:GetParent()
 			if PlayerHasToy(self.itemID) then
 				local _, _, quality = GetItemInfo(self.itemID)
+				local color = BAG_ITEM_QUALITY_COLORS[quality or 1]
 				if quality then
-					name:SetTextColor(GetItemQualityColor(quality))
+					name:SetTextColor(color.r, color.g, color.b)
 				else
 					name:SetTextColor(1, 1, 1)
 				end
@@ -278,10 +279,10 @@ C.themes["Blizzard_Collections"] = function()
 
 		if PlayerHasToy(self.itemID) then
 			local quality = select(3, GetItemInfo(self.itemID))
-			local r, g, b = GetItemQualityColor(quality)
+			local color = BAG_ITEM_QUALITY_COLORS[quality or 1]
 
 			if quality then
-				self.icbg:SetBackdropBorderColor(r, g, b)
+				self.icbg:SetBackdropBorderColor(color.r, color.g, color.b)
 			else
 				self.icbg:SetBackdropBorderColor(0, 0, 0)
 			end
@@ -297,13 +298,8 @@ C.themes["Blizzard_Collections"] = function()
 	F.ReskinArrow(HeirloomsJournal.PagingFrame.NextPageButton, "right")
 	F.ReskinStatusBar(HeirloomsJournal.progressBar)
 
-	hooksecurefunc(HeirloomsJournal, "UpdateButton", function(_, button)
-		button.level:SetFontObject("GameFontWhiteSmall")
-		button.special:SetTextColor(1, .8, 0)
-	end)
-
 	-- Buttons
-	hooksecurefunc("HeirloomsJournal_UpdateButton", function(button)
+	hooksecurefunc(HeirloomsJournal, "UpdateButton", function(_, button)
 		if not button.styled then
 			F.StripTextures(button)
 
@@ -326,14 +322,16 @@ C.themes["Blizzard_Collections"] = function()
 			button.styled = true
 		end
 
+		button.level:SetTextColor(1, 1, 1)
+		button.special:SetTextColor(1, .8, 0)
+		button.name:SetTextColor(.5, .5, .5)
+		button.icbg:SetBackdropBorderColor(0, 0, 0)
+		button.lvbg:Hide()
+
 		if button.iconTexture:IsShown() then
-			button.name:SetTextColor(1, 1, 1)
+			button.name:SetTextColor(0, .8, 1)
 			button.icbg:SetBackdropBorderColor(0, .8, 1)
 			button.lvbg:Show()
-		else
-			button.name:SetTextColor(.5, .5, .5)
-			button.icbg:SetBackdropBorderColor(0, 0, 0)
-			button.lvbg:Hide()
 		end
 	end)
 
@@ -345,24 +343,6 @@ C.themes["Blizzard_Collections"] = function()
 				header.text:SetFont(C.media.font, 16, "OUTLINE")
 
 				header.styled = true
-			end
-		end
-
-		for i = 1, #HeirloomsJournal.heirloomEntryFrames do
-			local button = HeirloomsJournal.heirloomEntryFrames[i]
-
-			if button.iconTexture:IsShown() then
-				button.name:SetTextColor(1, 1, 1)
-				if button.bg then
-					button.bg:SetBackdropBorderColor(0, .8, 1)
-				end
-				if button.lvbg then button.lvbg:Show() end
-			else
-				button.name:SetTextColor(.5, .5, .5)
-				if button.bg then
-					button.bg:SetBackdropBorderColor(0, 0, 0)
-				end
-				if button.lvbg then button.lvbg:Hide() end
 			end
 		end
 	end)

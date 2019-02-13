@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2334, "DBM-ZuldazarRaid", 3, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 18327 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 18342 $"):sub(12, -3))
 mod:SetCreatureID(144796)
 mod:SetEncounterID(2276)
 --mod:DisableESCombatDetection()
@@ -20,8 +20,6 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 287757 287167 284168 289023 286051 289699 286646 282406 286105 287114",
 	"SPELL_AURA_APPLIED_DOSE 289699",
 	"SPELL_AURA_REMOVED 287757 284168 286646 286105"
---	"UNIT_DIED"
---	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
 --[[
@@ -38,6 +36,7 @@ local warnPhase							= mod:NewPhaseChangeAnnounce(2, nil, nil, nil, nil, nil, 2
 --Ground Phase
 local warnShrunk						= mod:NewTargetNoFilterAnnounce(284168, 1)
 local warnMisTele						= mod:NewTargetNoFilterAnnounce(287114, 3)
+local warnDeploySparkbot				= mod:NewCountAnnounce(288410, 2)
 --Intermission: Evasive Maneuvers!
 
 --Final Push
@@ -56,7 +55,7 @@ local specWarnGigaVoltChargeFading		= mod:NewSpecialWarningMoveTo(286646, nil, n
 local specWarnGigaVoltChargeTaunt		= mod:NewSpecialWarningTaunt(286646, nil, nil, nil, 1, 2)
 local specWarnWormholeGenerator 		= mod:NewSpecialWarningCount(287952, nil, nil, nil, 2, 5)
 local specWarnDiscombobulation			= mod:NewSpecialWarningDispel(287167, "Healer", nil, nil, 1, 2)--Mythic
-local specWarnDeploySparkBot			= mod:NewSpecialWarningSwitch(288410, nil, nil, nil, 1, 2)
+local specWarnDeploySparkBot			= mod:NewSpecialWarningSwitchCount(288410, false, nil, nil, 1, 2)
 local specWarnShrunk					= mod:NewSpecialWarningYou(284168, nil, nil, nil, 1, 2)
 local yellShrunk						= mod:NewShortYell(284168)--Shrunk will just say with white letters
 local yellShrunkRepeater				= mod:NewYell(284168, UnitName("player"))
@@ -89,10 +88,8 @@ local countdownWorldEnlarger			= mod:NewCountdown(50, 288049, true, nil, 4)
 local countdownGigavoltCharge			= mod:NewCountdown("Alt12", 286646, true, nil, 4)
 local countdownWormhole					= mod:NewCountdown("AltTwo32", 287952, nil, nil, 4)
 
---mod:AddNamePlateOption("NPAuraOnPresence", 276093)
 mod:AddSetIconOption("SetIconGigaVolt", 286646, true)
 mod:AddSetIconOption("SetIconBot", 288410, true, true)
---mod:AddRangeFrameOption("8/10")
 mod:AddInfoFrameOption(286105, true)
 
 mod.vb.phase = 1
@@ -107,6 +104,7 @@ mod.vb.botIcon = 4
 mod.vb.shrinkCount = 0
 mod.vb.sheepCount = 0
 mod.vb.difficultyName = "None"
+local shrunkTargets = {}
 local playersInRobots = {}
 local robotCount = 0
 --Normal and heroic seem identical, at least so far, but blizz has been making tweeks to fight multiple times. Even this week they made additional timer alterations from last week on heroic
@@ -257,6 +255,7 @@ end
 
 local updateInfoFrame
 do
+	local shrunkName = DBM:GetSpellInfo(284168)
 	local floor = math.floor
 	local lines = {}
 	local sortedLines = {}
@@ -268,7 +267,9 @@ do
 	updateInfoFrame = function()
 		table.wipe(lines)
 		table.wipe(sortedLines)
+		--Players in Robots
 		if robotCount > 0 then
+			--Tampering First
 			for uId in DBM:GetGroupMembers() do
 				local unitName = DBM:GetUnitFullName(uId)
 				if playersInRobots[unitName] then--Matched a unitID and playername to one of them
@@ -280,6 +281,39 @@ do
 					else
 						addLine(unitName, count.."/3")
 					end
+				end
+			end
+		end
+		--Shrunk Second
+		if #shrunkTargets > 0 then
+			addLine(shrunkName)
+			local name, name2, name3, name4, name5, name6, name7, name8 = shrunkTargets[1], shrunkTargets[2], shrunkTargets[3], shrunkTargets[4], shrunkTargets[5], shrunkTargets[6], shrunkTargets[7], shrunkTargets[8]
+			if name then
+				if name2 then
+					addLine(name, name2)
+				else
+					addLine(name)
+				end
+			end
+			if name3 then
+				if name4 then
+					addLine(name3, name4)
+				else
+					addLine(name3)
+				end
+			end
+			if name5 then
+				if name6 then
+					addLine(name5, name6)
+				else
+					addLine(name5)
+				end
+			end
+			if name7 then
+				if name8 then
+					addLine(name7, name8)
+				else
+					addLine(name7)
 				end
 			end
 		end
@@ -298,6 +332,7 @@ function mod:OnCombatStart(delay)
 	self.vb.botIcon = 4
 	self.vb.shrinkCount = 0
 	table.wipe(playersInRobots)
+	table.wipe(shrunkTargets)
 	robotCount = 0
 	--Same across board (at least for now, LFR not out yet)
 	timerDeploySparkBotCD:Start(5-delay, 1)
@@ -326,21 +361,12 @@ function mod:OnCombatStart(delay)
 		DBM.InfoFrame:SetHeader(DBM:GetSpellInfo(286105))
 		DBM.InfoFrame:Show(8, "function", updateInfoFrame, false, false)
 	end
---	if self.Options.NPAuraOnPresence then
---		DBM:FireEvent("BossMod_EnableHostileNameplates")
---	end
 end
 
 function mod:OnCombatEnd()
---	if self.Options.RangeFrame then
---		DBM.RangeCheck:Hide()
---	end
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end
---	if self.Options.NPAuraOnPresence then
---		DBM.Nameplate:Hide(true, nil, nil, nil, true, true)
---	end
 end
 
 function mod:SPELL_CAST_START(args)
@@ -381,9 +407,11 @@ function mod:SPELL_CAST_START(args)
 		end
 	elseif spellId == 288410 or spellId == 287691 then
 		self.vb.botCount = self.vb.botCount + 1
-		if DBM:UnitDebuff("player", 284168) then--Shrunk
-			specWarnDeploySparkBot:Show()
+		if self.Options.SpecWarn288410switchcount then
+			specWarnDeploySparkBot:Show(self.vb.botCount)
 			specWarnDeploySparkBot:Play("targetchange")
+		else
+			warnDeploySparkbot:Show(self.vb.botCount)
 		end
 		local timer = sparkBotTimers[self.vb.difficultyName][self.vb.phase][self.vb.botCount+1]
 		if timer then
@@ -527,6 +555,9 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnShrunkTaunt:Play("tauntboss")
 			end
 		end
+		if not tContains(shrunkTargets, args.destName) then
+			table.insert(shrunkTargets, args.destName)
+		end
 	elseif spellId == 289023 then
 		if args:IsPlayer() then
 			specWarnEnormous:Show()
@@ -585,6 +616,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			self:SetIcon(args.destName, 0)
 		end
 	elseif spellId == 284168 then
+		tDeleteItem(shrunkTargets, args.destName)
 		if args:IsPlayer() then
 			self:Unschedule(shrunkYellRepeater)
 		end
@@ -608,19 +640,4 @@ function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spell
 	end
 end
 mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
-
-function mod:UNIT_DIED(args)
-	local cid = self:GetCIDFromGUID(args.destGUID)
-	if cid == 146440 then--Shield Generator
-	
-	--elseif cid == 148123 then--Evil Twin (Mythic)
-
-	end
-end
-
-function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
-	if spellId == 274315 then
-
-	end
-end
 --]]

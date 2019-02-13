@@ -61,6 +61,11 @@ tinsert(C.themes["AuroraClassic"], function()
 				shine:SetPoint("TOPLEFT", ic.bg, 0, 0)
 				shine:SetPoint("BOTTOMRIGHT", ic.bg, 0, 0)
 			end
+
+			local glyph = self.GlyphIcon
+			if glyph then
+				glyph:SetAtlas("GlyphIcon-Spellbook")
+			end
 		end
 	end)
 

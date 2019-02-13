@@ -1,185 +1,16 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_EncounterJournal"] = function()
-	local r, g, b = C.r, C.g, C.b
+	if AuroraConfig.tooltips then
+		F.ReskinTooltip(EncounterJournalTooltip)
+	end
 
 	F.ReskinFrame(EncounterJournal)
-	F.StripTextures(EncounterJournalEncounterFrameInfo, true)
-	EncounterJournalInstanceSelectBG:Hide()
-	EncounterJournalEncounterFrameInfoInstanceButton:Hide()
+	F.ReskinInput(EncounterJournal.searchBox)
 
-	-- [[ Dungeon / raid tabs ]]
-
-	local function onEnable(self)
-		self:SetHeight(self.storedHeight)
-		self:SetBackdropColor(0, 0, 0, 0)
-	end
-
-	local function onDisable(self)
-		self:SetBackdropColor(r, g, b, .25)
-	end
-
-	local function onClick(self)
-		self:GetFontString():SetTextColor(1, 1, 1)
-	end
-
-	local tabs = {EncounterJournalInstanceSelectSuggestTab, EncounterJournalInstanceSelectDungeonTab, EncounterJournalInstanceSelectRaidTab, EncounterJournalInstanceSelectLootJournalTab}
-	for _, tab in next, tabs do
-		F.StripTextures(tab, true)
-
-		tab:SetHeight(tab.storedHeight)
-		tab:HookScript("OnEnable", onEnable)
-		tab:HookScript("OnDisable", onDisable)
-		tab:HookScript("OnClick", onClick)
-
-		local text = tab:GetFontString()
-		text:SetPoint("CENTER")
-		text:SetTextColor(1, 1, 1)
-
-		F.ReskinButton(tab)
-	end
-
-	-- [[ Side tabs ]]
-	EncounterJournalEncounterFrameInfoOverviewTab:ClearAllPoints()
-	EncounterJournalEncounterFrameInfoOverviewTab:SetPoint("TOPLEFT", EncounterJournalEncounterFrameInfo, "TOPRIGHT", 8, -35)
-	EncounterJournalEncounterFrameInfoLootTab:ClearAllPoints()
-	EncounterJournalEncounterFrameInfoLootTab:SetPoint("TOP", EncounterJournalEncounterFrameInfoOverviewTab, "BOTTOM", 0, 8)
-	EncounterJournalEncounterFrameInfoBossTab:ClearAllPoints()
-	EncounterJournalEncounterFrameInfoBossTab:SetPoint("TOP", EncounterJournalEncounterFrameInfoLootTab, "BOTTOM", 0, 8)
-
-	local sidetabs = {EncounterJournalEncounterFrameInfoOverviewTab, EncounterJournalEncounterFrameInfoLootTab, EncounterJournalEncounterFrameInfoBossTab, EncounterJournalEncounterFrameInfoModelTab}
-	for _, tab in pairs(sidetabs) do
-		tab:SetScale(.75)
-		local bg = F.CreateBDFrame(tab, nil, true)
-		bg:SetPoint("TOPLEFT", 5, -5)
-		bg:SetPoint("BOTTOMRIGHT", -5, 5)
-	end
-
-	-- [[ Instance select ]]
-	F.ReskinDropDown(EncounterJournalInstanceSelectTierDropDown)
-
-	local index = 1
-	local function listInstances()
-		while true do
-			local bu = EncounterJournal.instanceSelect.scroll.child["instance"..index]
-			if not bu then return end
-
-			bu:SetNormalTexture("")
-			bu:SetPushedTexture("")
-
-			local bg = F.CreateBDFrame(bu.bgImage, 0)
-			bg:SetPoint("TOPLEFT", 3, -3)
-			bg:SetPoint("BOTTOMRIGHT", -4, 2)
-
-			F.ReskinTexture(bu, bg, false)
-
-			index = index + 1
-		end
-	end
-
-	hooksecurefunc("EncounterJournal_ListInstances", listInstances)
-
-	-- [[ Encounter frame ]]
-	F.StripTextures(EncounterJournalEncounterFrameInfoOverviewScrollFrame, true)
-	F.StripTextures(EncounterJournalEncounterFrameInfoModelFrame, true)
-
-	EncounterJournalEncounterFrameInfoEncounterTitle:SetTextColor(1, 1, 1)
-	EncounterJournalEncounterFrameInstanceFrameLoreScrollFrameScrollChildLore:SetTextColor(1, 1, 1)
-	EncounterJournalEncounterFrameInfoDetailsScrollFrameScrollChildDescription:SetTextColor(1, 1, 1)
-	EncounterJournalEncounterFrameInfoOverviewScrollFrameScrollChildLoreDescription:SetTextColor(1, 1, 1)
-	EncounterJournalEncounterFrameInfoOverviewScrollFrameScrollChildTitle:SetTextColor(1, 1, 1)
-	EncounterJournalEncounterFrameInfoOverviewScrollFrameScrollChild.overviewDescription.Text:SetTextColor(1, 1, 1)
-
-	F.CreateBDFrame(EncounterJournalEncounterFrameInfoModelFrame, 0)
-	EncounterJournalEncounterFrameInfoCreatureButton1:SetPoint("TOPLEFT", EncounterJournalEncounterFrameInfoModelFrame, 0, -35)
-
-	do
-		local numBossButtons = 1
-		local bossButton
-
-		hooksecurefunc("EncounterJournal_DisplayInstance", function()
-			bossButton = _G["EncounterJournalBossButton"..numBossButtons]
-			while bossButton do
-				F.ReskinButton(bossButton, true)
-				F.ReskinTexture(bossButton, bossButton, true)
-
-				bossButton.text:SetTextColor(1, 1, 1)
-				bossButton.creature:SetPoint("TOPLEFT", 0, -4)
-
-				numBossButtons = numBossButtons + 1
-				bossButton = _G["EncounterJournalBossButton"..numBossButtons]
-			end
-
-			-- move last tab
-			local _, point = EncounterJournalEncounterFrameInfoModelTab:GetPoint()
-			EncounterJournalEncounterFrameInfoModelTab:SetPoint("TOP", point, "BOTTOM", 0, 8)
-		end)
-	end
-
-	hooksecurefunc("EncounterJournal_ToggleHeaders", function()
-		local index = 1
-		local header = _G["EncounterJournalInfoHeader"..index]
-		while header do
-			if not header.styled then
-				F.StripTextures(header.button)
-				F.ReskinButton(header.button)
-
-				header.description:SetTextColor(1, 1, 1)
-				header.button.bg = F.ReskinIcon(header.button.abilityIcon, true)
-
-				header.styled = true
-			end
-
-			header.button.bg:SetShown(header.button.abilityIcon:IsShown())
-
-			index = index + 1
-			header = _G["EncounterJournalInfoHeader"..index]
-		end
-	end)
-
-	hooksecurefunc("EncounterJournal_SetUpOverview", function(self, _, index)
-		local header = self.overviews[index]
-		if not header.styled then
-			F.StripTextures(header.button)
-			F.ReskinButton(header.button)
-
-			header.styled = true
-		end
-	end)
-
-	hooksecurefunc("EncounterJournal_SetBullets", function(object)
-		local parent = object:GetParent()
-
-		if parent.Bullets then
-			for _, bullet in pairs(parent.Bullets) do
-				if not bullet.styled then
-					bullet.Text:SetTextColor(1, 1, 1)
-					bullet.styled = true
-				end
-			end
-		end
-	end)
-
-	local items = EncounterJournal.encounter.info.lootScroll.buttons
-
-	for i = 1, #items do
-		local item = items[i]
-		F.StripTextures(item)
-
-		item.boss:SetTextColor(1, 1, 1)
-		item.slot:SetTextColor(1, 1, 1)
-		item.armorType:SetTextColor(1, 1, 1)
-
-		item.IconBorder:SetAlpha(0)
-
-		item.icon:SetPoint("TOPLEFT", 2, -3)
-		item.icon:SetSize(39, 39)
-
-		F.ReskinIcon(item.icon)
-
-		local bg = F.CreateBDFrame(item, 0)
-		bg:SetPoint("TOPLEFT", C.mult, -C.mult)
-		bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
+	local scrolls = {EncounterJournalScrollBar, EncounterJournalInstanceSelectScrollFrameScrollBar, EncounterJournalEncounterFrameInstanceFrameLoreScrollFrameScrollBar, EncounterJournalEncounterFrameInfoOverviewScrollFrameScrollBar, EncounterJournalEncounterFrameInfoBossesScrollFrameScrollBar, EncounterJournalEncounterFrameInfoDetailsScrollFrameScrollBar, EncounterJournalEncounterFrameInfoLootScrollFrameScrollBar}
+	for _, scroll in next, scrolls do
+		F.ReskinScroll(scroll)
 	end
 
 	-- [[ Search results ]]
@@ -190,77 +21,78 @@ C.themes["Blizzard_EncounterJournal"] = function()
 	F.ReskinSearchBox(EncounterJournalSearchBox.showAllResults)
 	F.ReskinSearchResult(EncounterJournal)
 
-	-- [[ Various controls ]]
-	F.ReskinButton(EncounterJournalEncounterFrameInfoResetButton)
-	F.ReskinInput(EncounterJournalSearchBox)
-	F.ReskinScroll(EncounterJournalInstanceSelectScrollFrameScrollBar)
-	F.ReskinScroll(EncounterJournalEncounterFrameInstanceFrameLoreScrollFrameScrollBar)
-	F.ReskinScroll(EncounterJournalEncounterFrameInfoOverviewScrollFrameScrollBar)
-	F.ReskinScroll(EncounterJournalEncounterFrameInfoBossesScrollFrameScrollBar)
-	F.ReskinScroll(EncounterJournalEncounterFrameInfoDetailsScrollFrameScrollBar)
-	F.ReskinScroll(EncounterJournalEncounterFrameInfoLootScrollFrameScrollBar)
+	-- [[ Instances Select]]
+	local instanceSelect = EncounterJournal.instanceSelect
+	F.ReskinDropDown(instanceSelect.tierDropDown)
+	instanceSelect.bg:Hide()
 
-	-- Tooltip
-	if AuroraConfig.tooltips then
-		F.ReskinTooltip(EncounterJournalTooltip)
-		EncounterJournalTooltip.Item1.newBg = F.ReskinIcon(EncounterJournalTooltip.Item1.icon, true)
-		EncounterJournalTooltip.Item2.newBg = F.ReskinIcon(EncounterJournalTooltip.Item2.icon, true)
+	local selectTabs = {"suggestTab", "dungeonsTab", "raidsTab", "LootJournalTab"}
+	for _, selectTab in next, selectTabs do
+		local tab = instanceSelect[selectTab]
+		F.StripTextures(tab)
+		F.ReskinButton(tab)
+
+		local text = tab:GetFontString()
+		text:ClearAllPoints()
+		text:SetPoint("CENTER")
 	end
 
-	-- [[ Suggest frame ]]
-	local suggestFrame = EncounterJournal.suggestFrame
+	do
+		local index = 1
+		local function reksinInstances()
+			while true do
+				local instance = instanceSelect.scroll.child["instance"..index]
+				if not instance then return end
 
-	-- Suggestion 1
-	local suggestion = suggestFrame.Suggestion1
-	F.StripTextures(suggestion)
+				local bubg = F.CreateBDFrame(instance.bgImage, 1, true)
+				bubg:SetPoint("TOPLEFT", 3, -3)
+				bubg:SetPoint("BOTTOMRIGHT", -4, 2)
+				F.ReskinTexture(instance, bubg, false)
 
-	local bg = F.CreateBDFrame(suggestion, 0)
-	bg:SetPoint("TOPLEFT", 0, 5)
-	bg:SetPoint("BOTTOMRIGHT", suggestFrame.Suggestion3, 15, 0)
+				index = index + 1
+			end
+		end
+		hooksecurefunc("EncounterJournal_ListInstances", reksinInstances)
+	end
 
-	suggestion.icon:ClearAllPoints()
-	suggestion.icon:SetPoint("TOP", 0, -15)
-	F.CreateBDFrame(suggestion.icon, 0)
+	-- [[ Suggest Frame]]
+	local SuggestFrame = EncounterJournal.suggestFrame
+	local bg = F.CreateBDFrame(SuggestFrame, 0)
+	bg:SetPoint("TOPLEFT", SuggestFrame.Suggestion1, 0, 0)
+	bg:SetPoint("BOTTOMRIGHT", SuggestFrame.Suggestion3, 0, 0)
 
-	local centerDisplay = suggestion.centerDisplay
-	centerDisplay.title.text:SetTextColor(1, 1, 1)
-	centerDisplay.description.text:SetTextColor(.9, .9, .9)
-	F.ReskinButton(suggestion.button)
+	for i = 1, 3 do
+		local Suggestion = SuggestFrame["Suggestion"..i]
+		F.StripTextures(Suggestion)
 
-	local reward = suggestion.reward
-	F.StripTextures(reward)
-	reward.text:SetTextColor(.9, .9, .9)
-	F.CreateBDFrame(reward.icon, 0)
+		local icon = Suggestion.icon
+		icon:ClearAllPoints()
+		F.CreateBDFrame(icon, 0)
 
-	F.ReskinArrow(suggestion.prevButton, "left")
-	F.ReskinArrow(suggestion.nextButton, "right")
+		local centerDisplay = Suggestion.centerDisplay
+		centerDisplay.title.text:SetTextColor(1, .8, 0)
+		centerDisplay.description.text:SetTextColor(1, 1, 1)
+		if centerDisplay.button then F.ReskinButton(centerDisplay.button) end
 
-	-- Suggestion 2 and 3
-	for i = 2, 3 do
-		local suggestion = suggestFrame["Suggestion"..i]
-		F.StripTextures(suggestion)
-
-		suggestion.icon:SetPoint("TOPLEFT", 25, -25)
-		F.CreateBDFrame(suggestion.icon, 0)
-
-		local centerDisplay = suggestion.centerDisplay
-		centerDisplay:ClearAllPoints()
-		centerDisplay:SetPoint("BOTTOMLEFT", suggestion.icon, "BOTTOMRIGHT", 15, 0)
-		centerDisplay.title.text:SetTextColor(1, 1, 1)
-		centerDisplay.description.text:SetTextColor(.9, .9, .9)
-		F.ReskinButton(centerDisplay.button)
-
-		local reward = suggestion.reward
+		local reward = Suggestion.reward
 		F.StripTextures(reward)
+		F.CreateBDFrame(reward.icon, 0)
+		if reward.text then reward.text:SetTextColor(1, 1, 1) end
 
-		local bg = F.CreateBDFrame(reward.icon, 0)
-		--bg:SetFrameLevel(reward:GetFrameLevel()+1)
+		if i == 1 then
+			icon:SetPoint("BOTTOM", centerDisplay.title, "TOP", 0, 15)
+			F.ReskinButton(Suggestion.button)
+			F.ReskinArrow(Suggestion.prevButton, "left")
+			F.ReskinArrow(Suggestion.nextButton, "right")
+		else
+			icon:SetPoint("LEFT", 10, 0)
+			centerDisplay:ClearAllPoints()
+			centerDisplay:SetPoint("LEFT", Suggestion.icon, "RIGHT", 15, 0)
+		end
 	end
-
-	-- Hook functions
 
 	hooksecurefunc("EJSuggestFrame_RefreshDisplay", function()
-		local self = suggestFrame
+		local self = SuggestFrame
 
 		if #self.suggestions > 0 then
 			local suggestion = self.Suggestion1
@@ -275,10 +107,9 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		if #self.suggestions > 1 then
 			for i = 2, #self.suggestions do
 				local suggestion = self["Suggestion"..i]
-				if not suggestion then break end
+				if not suggestion then return end
 
 				local data = self.suggestions[i]
-
 				if data.iconPath then
 					suggestion.icon:SetMask(nil)
 					suggestion.icon:SetTexCoord(.08, .92, .08, .92)
@@ -296,22 +127,14 @@ C.themes["Blizzard_EncounterJournal"] = function()
 	end)
 
 	-- [[ Loot Journal ]]
-	F.StripTextures(EncounterJournal.LootJournal, true)
-	F.ReskinScroll(EncounterJournal.LootJournal.ItemSetsFrame.scrollBar)
+	local LootJournal = EncounterJournal.LootJournal
+	F.StripTextures(LootJournal)
 
-	local buttons = {
-		EncounterJournalEncounterFrameInfoDifficulty,
-		EncounterJournalEncounterFrameInfoLootScrollFrameFilterToggle,
-		EncounterJournalEncounterFrameInfoLootScrollFrameSlotFilterToggle,
-		EncounterJournal.LootJournal.ItemSetsFrame.ClassButton,
-	}
-	for _, btn in pairs(buttons) do
-		F.StripTextures(btn, true)
-		F.ReskinButton(btn)
-	end
+	local itemSetsFrame = LootJournal.ItemSetsFrame
+	F.StripTextures(itemSetsFrame.ClassButton)
+	F.ReskinButton(itemSetsFrame.ClassButton)
 
-	-- ItemSetsFrame
-	hooksecurefunc(EncounterJournal.LootJournal.ItemSetsFrame, "UpdateList", function(self)
+	hooksecurefunc(itemSetsFrame, "UpdateList", function(self)
 		local buttons = self.buttons
 		for i = 1, #buttons do
 			local button = buttons[i]
@@ -326,7 +149,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		end
 	end)
 
-	hooksecurefunc(EncounterJournal.LootJournal.ItemSetsFrame, "ConfigureItemButton", function(_, button)
+	hooksecurefunc(itemSetsFrame, "ConfigureItemButton", function(_, button)
 		if not button.bg then
 			button.Border:SetAlpha(0)
 			button.bg = F.ReskinIcon(button.Icon)
@@ -336,4 +159,131 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		local color = BAG_ITEM_QUALITY_COLORS[quality or 1]
 		button.bg:SetBackdropBorderColor(color.r, color.g, color.b)
 	end)
+
+	-- [[ Encounter Frame ]]
+	local Encounter = EncounterJournal.encounter
+	Encounter.infoFrame.description:SetTextColor(1, 1, 1)
+	Encounter.instance.loreScroll.child.lore:SetTextColor(1, 1, 1)
+	Encounter.overviewFrame.loreDescription:SetTextColor(1, 1, 1)
+	Encounter.overviewFrame.overviewDescription.Text:SetTextColor(1, 1, 1)
+
+	local infoFrame = Encounter.info
+	F.StripTextures(infoFrame)
+	F.StripTextures(infoFrame.model, true)
+	F.CreateBDFrame(infoFrame.model, 0)
+
+	F.ReskinButton(infoFrame.reset)
+	F.ReskinButton(infoFrame.difficulty)
+	F.ReskinButton(infoFrame.lootScroll.filter)
+	F.ReskinButton(infoFrame.lootScroll.slotFilter)
+
+	infoFrame.instanceButton:Hide()
+
+	infoFrame.overviewTab:ClearAllPoints()
+	infoFrame.overviewTab:SetPoint("TOPLEFT", infoFrame, "TOPRIGHT", 5, -25)
+	local sideTabs = {"overviewTab", "lootTab", "bossTab", "modelTab"}
+	for _, sideTab in next, sideTabs do
+		local tab = infoFrame[sideTab]
+		tab:SetSize(59, 59)
+
+		local bg = F.CreateBDFrame(tab, nil, true)
+		bg:SetPoint("TOPLEFT", 5, -5)
+		bg:SetPoint("BOTTOMRIGHT", -5, 5)
+		F.ReskinTexture(tab, bg, true)
+	end
+
+	local items = infoFrame.lootScroll.buttons
+	for i = 1, #items do
+		local item = items[i]
+		F.StripTextures(item)
+		item.IconBorder:SetAlpha(0)
+
+		local icon = item.icon
+		icon:ClearAllPoints()
+		icon:SetPoint("TOPLEFT", item, 3, -3)
+		icon:SetSize(39, 39)
+		icon:SetDrawLayer("ARTWORK")
+		local icbg = F.ReskinIcon(icon)
+
+		local bubg = F.CreateBDFrame(item, 0)
+		bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
+		bubg:SetPoint("BOTTOMRIGHT", 0, 1)
+		F.ReskinTexture(item, bubg, true)
+
+		local armor = item.armorType
+		armor:SetTextColor(1, 1, 1)
+		armor:ClearAllPoints()
+		armor:SetPoint("RIGHT", bubg, "RIGHT", -5, 0)
+
+		local name = item.name
+		name:ClearAllPoints()
+		name:SetPoint("TOPLEFT", bubg, "TOPLEFT", 5, -6)
+
+		local slot = item.slot
+		slot:SetTextColor(1, 1, 1)
+		slot:ClearAllPoints()
+		slot:SetPoint("TOPLEFT", name, "BOTTOMLEFT", 0, -6)
+
+		local boss = item.boss
+		boss:ClearAllPoints()
+		boss:SetPoint("TOPLEFT", slot, "BOTTOMLEFT", 0, -6)
+		boss:SetTextColor(1, .8, 0)
+	end
+
+	hooksecurefunc("EncounterJournal_SetUpOverview", function(self, _, index)
+		local header = self.overviews[index]
+		if not header.styled then
+			F.StripTextures(header.button)
+			F.ReskinButton(header.button)
+
+			header.styled = true
+		end
+	end)
+
+	hooksecurefunc("EncounterJournal_SetBullets", function(object)
+		local parent = object:GetParent()
+		if parent.Bullets then
+			for _, bullet in pairs(parent.Bullets) do
+				if not bullet.styled then
+					bullet.Text:SetTextColor(1, 1, 1)
+
+					bullet.styled = true
+				end
+			end
+		end
+	end)
+
+	do
+		local index = 1
+		local function reskinBosses()
+			while true do
+				local boss = _G["EncounterJournalBossButton"..index]
+				if not boss then return end
+
+				F.ReskinButton(boss, true)
+				F.ReskinTexture(boss, boss, true)
+				boss.creature:SetPoint("TOPLEFT", 1, -4)
+
+				index = index + 1
+			end
+		end
+		hooksecurefunc("EncounterJournal_DisplayInstance", reskinBosses)
+	end
+
+	do
+		local index = 1
+		local function reskinHeaders()
+			while true do
+				local header = _G["EncounterJournalInfoHeader"..index]
+				if not header then return end
+
+				F.StripTextures(header.button)
+				F.ReskinButton(header.button)
+				header.description:SetTextColor(1, 1, 1)
+
+				index = index + 1
+			end
+		end
+		hooksecurefunc("EncounterJournal_ToggleHeaders", reskinHeaders)
+	end
 end

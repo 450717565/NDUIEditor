@@ -8,9 +8,10 @@ C.themes["Blizzard_DebugTools"] = function()
 	local bu = select(2, EventTraceFrameScroll:GetRegions())
 	bu:SetAlpha(0)
 	bu:SetWidth(17)
-	bu.bg = F.CreateBDFrame(EventTraceFrame, 0)
-	bu.bg:SetPoint("TOPLEFT", bu, 0, 0)
-	bu.bg:SetPoint("BOTTOMRIGHT", bu, 0, 0)
+
+	local bg = F.CreateBDFrame(EventTraceFrame, 0)
+	bg:SetPoint("TOPLEFT", bu, 0, 0)
+	bg:SetPoint("BOTTOMRIGHT", bu, 0, 0)
 
 	if AuroraConfig.tooltips then
 		F.ReskinTooltip(FrameStackTooltip)
@@ -23,7 +24,7 @@ C.themes["Blizzard_DebugTools"] = function()
 	-- Table Attribute Display
 	local function reskinTableAttribute(frame)
 		F.ReskinFrame(frame)
-		F.StripTextures(frame.ScrollFrameArt, true)
+		F.StripTextures(frame.ScrollFrameArt)
 		F.CreateBDFrame(frame.ScrollFrameArt, 0)
 		F.ReskinCheck(frame.VisibilityButton)
 		F.ReskinCheck(frame.HighlightButton)

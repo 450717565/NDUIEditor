@@ -187,7 +187,7 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 			local slot = slots[i] or CreateSlot(i)
 			local lootIcon, lootName, lootQuantity, currencyID, lootQuality, locked, isQuestItem, questID, isActive = GetLootSlotInfo(i)
 			if lootIcon then
-				local color = BAG_ITEM_QUALITY_COLORS[lootQuality]
+				local color = BAG_ITEM_QUALITY_COLORS[lootQuality or 1]
 				local r, g, b = color.r, color.g, color.b
 				local slotType = GetLootSlotType(i)
 
@@ -238,7 +238,7 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 		slot:Show()
 	end
 
-	local color = BAG_ITEM_QUALITY_COLORS[maxQuality]
+	local color = BAG_ITEM_QUALITY_COLORS[maxQuality or 1]
 	local r, g, b = color.r, color.g, color.b
 	self:SetBackdropBorderColor(r, g, b)
 	self.Title:SetTextColor(r, g, b)

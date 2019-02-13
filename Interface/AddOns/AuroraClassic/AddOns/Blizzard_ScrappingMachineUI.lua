@@ -7,7 +7,7 @@ C.themes["Blizzard_ScrappingMachineUI"] = function()
 	local function refreshIcon(self)
 		if self.itemLocation and not self.item:IsItemEmpty() and self.item:GetItemName() then
 			local quality = self.item:GetItemQuality()
-			local color = BAG_ITEM_QUALITY_COLORS[quality]
+			local color = BAG_ITEM_QUALITY_COLORS[quality or 1]
 
 			self.bg:SetBackdropBorderColor(color.r, color.g, color.b)
 		else
