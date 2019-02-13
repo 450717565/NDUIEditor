@@ -1,0 +1,14 @@
+## Interface: 80100
+## Title: War Plan
+## Notes: Interface replacement for War Campaign missions.
+## Author: foxlit
+## Version: 3.08
+## X-Website: https://www.townlong-yak.com/war-plan/
+## SavedVariables: WarPlanData
+## SavedVariablesPerCharacter: WarPlanDataPC
+Libs/Evie.lua
+Locale.lua
+API.lua
+Factory.lua
+MissionTable.lua
+MissionReport.lua

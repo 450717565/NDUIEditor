@@ -29,8 +29,12 @@ function module:GuildBest()
 		frame:SetPoint("BOTTOMRIGHT", -6, 80)
 		frame:SetSize(170, 105)
 		B.SetBackground(frame, 0)
-		B.CreateGradient(frame)
 		B.CreateFS(frame, 16, CHALLENGE_MODE_THIS_WEEK , "system", "TOPLEFT", 16, -6)
+
+		if IsAddOnLoaded("AuroraClassic") then
+			local F, C = unpack(AuroraClassic)
+			F.CreateGradient(frame)
+		end
 
 		frame.entries = {}
 		for i = 1, 4 do

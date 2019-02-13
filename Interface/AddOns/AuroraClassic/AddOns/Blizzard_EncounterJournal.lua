@@ -207,7 +207,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 
 		local bubg = F.CreateBDFrame(item, 0)
 		bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
-		bubg:SetPoint("BOTTOMRIGHT", 0, 1)
+		bubg:SetPoint("BOTTOMRIGHT", 0, C.mult)
 		F.ReskinTexture(item, bubg, true)
 
 		local armor = item.armorType

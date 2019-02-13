@@ -275,7 +275,7 @@ C.themes["Blizzard_Communities"] = function()
 	F.StripTextures(factionFrameBar)
 	F.CreateBDFrame(factionFrameBar.BG, 0)
 	factionFrameBar.Progress:SetTexture(C.media.normTex)
-	factionFrameBar.Progress:SetVertexColor(r*.8, g*.8, b*.8)
+	factionFrameBar.Progress:SetVertexColor(cr, cg, cb, .8)
 	factionFrameBar.Label:ClearAllPoints()
 	factionFrameBar.Label:SetPoint("CENTER", factionFrameBar.BG)
 

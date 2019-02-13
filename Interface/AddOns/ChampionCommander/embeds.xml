@@ -1,9 +1,0 @@
-<Ui>
-	<Include file="libs\LibInit.lua"/>
-	<Include file="libs\localization.lua"/>
-	<Include file="libs\colorize.lua"/>
-	<Include file="libs\factory.lua"/>
-	<Include file="libs\MSA-DropDownMenu-1.0.lua"/>
-	<Include file="libs\LibDialog-1.0.lua"/>
-	<Include file="libs\LibItemUpgradeInfo-1.0.lua"/>
-</Ui>

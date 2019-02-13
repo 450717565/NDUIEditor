@@ -2,6 +2,7 @@
 	<Script file="AuctionLite.lua"/>
 	<Script file="BaudAuction.lua"/>
 	<Script file="BuyEmAll.lua"/>
+	<Script file="ClassicQuestLog.lua"/>
 	<Script file="ExtVendor.lua"/>
 	<Script file="Immersion.lua"/>
 	<Script file="PremadeGroupsFilter.lua"/>

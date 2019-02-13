@@ -100,6 +100,7 @@ function module:OnLogin()
 	self:DBMSkin()
 	self:SkadaSkin()
 	self:BigWigsSkin()
+	self:PGFSkin()
 end
 
 function module:CreateToggle(frame)

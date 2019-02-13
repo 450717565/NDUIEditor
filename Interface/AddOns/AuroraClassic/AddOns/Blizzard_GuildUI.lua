@@ -1,7 +1,7 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_GuildUI"] = function()
-	local r, g, b = C.r, C.g, C.b
+	local cr, cg, cb = C.r, C.g, C.b
 
 	local bdsds = {GuildFrame, GuildNewsFiltersFrame, GuildTextEditFrame, GuildLogFrame, GuildMemberDetailFrame}
 	for _, bdsd in next, bdsds do
@@ -98,7 +98,7 @@ C.themes["Blizzard_GuildUI"] = function()
 		bg:SetPoint("BOTTOMRIGHT")
 
 		bu:GetRegions():SetTexture(C.media.bdTex)
-		bu:GetRegions():SetVertexColor(r, g, b, .25)
+		bu:GetRegions():SetVertexColor(cr, cg, cb, .25)
 	end
 
 	F.StripTextures(GuildFactionBar)
@@ -106,7 +106,7 @@ C.themes["Blizzard_GuildUI"] = function()
 	GuildFactionBar:ClearAllPoints()
 	GuildFactionBar:SetPoint("BOTTOMLEFT", 0, -3)
 	GuildFactionBarProgress:SetTexture(C.media.normTex)
-	GuildFactionBarProgress:SetVertexColor(r*.8, g*.8, b*.8)
+	GuildFactionBarProgress:SetVertexColor(cr, cg, cb, .8)
 	GuildFactionBarProgress:SetPoint("TOPLEFT")
 	GuildFactionBarProgress:SetPoint("BOTTOMLEFT")
 
@@ -158,7 +158,7 @@ C.themes["Blizzard_GuildUI"] = function()
 
 			if not bu.bg then
 				bu:SetHighlightTexture(C.media.bdTex)
-				bu:GetHighlightTexture():SetVertexColor(r, g, b, .25)
+				bu:GetHighlightTexture():SetVertexColor(cr, cg, cb, .25)
 
 				bu.bg = F.CreateBDFrame(bu.icon, 0)
 			end

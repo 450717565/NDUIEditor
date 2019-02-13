@@ -108,16 +108,18 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 
 		local function colourGeneralsText()
-			local spellHeaderPool = QuestInfoRewardsFrame.spellHeaderPool:Acquire()
 			local headers = {QuestInfoDescriptionHeader, QuestInfoObjectivesHeader, QuestInfoRewardsFrame.Header, QuestInfoTitleHeader, QuestInfoSpellObjectiveLearnLabel}
 			for _, header in next, headers do
 				header:SetTextColor(1, .8, 0)
 			end
 
-			local texts = {QuestInfoDescriptionText, QuestInfoGroupSize, QuestInfoObjectivesText, QuestInfoRewardsFrame.ItemChooseText, QuestInfoRewardsFrame.ItemReceiveText, QuestInfoRewardsFrame.PlayerTitleText, spellHeaderPool, QuestInfoRewardsFrame.XPFrame.ReceiveText, QuestInfoRewardText}
+			local texts = {QuestInfoDescriptionText, QuestInfoGroupSize, QuestInfoObjectivesText, QuestInfoRewardsFrame.ItemChooseText, QuestInfoRewardsFrame.ItemReceiveText, QuestInfoRewardsFrame.PlayerTitleText, QuestInfoRewardsFrame.XPFrame.ReceiveText, QuestInfoRewardText}
 			for _, text in next, texts do
 				text:SetTextColor(1, 1, 1)
 			end
+
+			local spellHeaderPool = QuestInfoRewardsFrame.spellHeaderPool
+			spellHeaderPool.textR, spellHeaderPool.textG, spellHeaderPool.textB = 1, 1, 1
 
 			QuestInfoQuestType:SetTextColor(0, 1, 1)
 		end

@@ -67,20 +67,6 @@ function B.ItemSlotInfo(item)
 	return slotText
 end
 
--- Gradient skin
-function B:CreateGradient()
-	if self.Gradient then return end
-
-	local Gradient = self:CreateTexture(nil, "BORDER")
-	Gradient:SetPoint("TOPLEFT", self, C.mult, -C.mult)
-	Gradient:SetPoint("BOTTOMRIGHT", self, -C.mult, C.mult)
-	Gradient:SetTexture(DB.gradientTex)
-	Gradient:SetVertexColor(.3, .3, .3, .3)
-	self.Gradient = Gradient
-
-	return Gradient
-end
-
 -- Gradient Frame
 function B:CreateGF(w, h, o, r, g, b, a1, a2)
 	self:SetSize(w, h)
