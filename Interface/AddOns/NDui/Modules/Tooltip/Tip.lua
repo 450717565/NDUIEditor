@@ -1,6 +1,7 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local module = B:RegisterModule("Tooltip")
+local ACF = IsAddOnLoaded("AuroraClassic") and unpack(AuroraClassic)
 
 function module:OnLogin()
 	self:ExtraTipInfo()
@@ -395,11 +396,10 @@ end
 B:RegisterEvent("ADDON_LOADED", addonStyled)
 
 module:RegisterTooltips("NDui", function()
-	if IsAddOnLoaded("AuroraClassic") then
-		local F = unpack(AuroraClassic)
-		F.ReskinClose(FloatingBattlePetTooltip.CloseButton)
-		F.ReskinClose(FloatingPetBattleAbilityTooltip.CloseButton)
-		F.ReskinClose(FloatingGarrisonMissionTooltip.CloseButton)
+	if ACF then
+		ACF.ReskinClose(FloatingBattlePetTooltip.CloseButton)
+		ACF.ReskinClose(FloatingPetBattleAbilityTooltip.CloseButton)
+		ACF.ReskinClose(FloatingGarrisonMissionTooltip.CloseButton)
 		AuroraOptionstooltips:SetAlpha(0)
 		AuroraOptionstooltips:Disable()
 		AuroraConfig.tooltips = false

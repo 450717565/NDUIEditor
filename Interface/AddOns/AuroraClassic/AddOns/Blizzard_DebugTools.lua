@@ -48,8 +48,5 @@ C.themes["Blizzard_DebugTools"] = function()
 	end
 
 	reskinTableAttribute(TableAttributeDisplay)
-
-	hooksecurefunc(TableInspectorMixin, "InspectTable", function(self)
-		reskinTableAttribute(self)
-	end)
+	hooksecurefunc(TableInspectorMixin, "InspectTable", reskinTableAttribute)
 end

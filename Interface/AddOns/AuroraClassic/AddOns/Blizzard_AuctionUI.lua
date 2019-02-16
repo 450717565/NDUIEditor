@@ -160,16 +160,19 @@ C.themes["Blizzard_AuctionUI"] = function()
 	end
 
 	do
-		local last = 1
-		AuctionFrame:HookScript("OnShow", function()
-			local tab = _G["AuctionFrameTab"..last]
+		local index = 1
+		local function reksinTabs()
+			while true do
+				local tab = _G["AuctionFrameTab"..index]
+				if not tab then return end
 
-			while tab do
 				F.ReskinTab(tab)
-				last = last + 1
-				tab = _G["AuctionFrameTab"..last]
+
+				index = index + 1
 			end
-		end)
+		end
+		AuctionFrame:HookScript("OnShow", reksinTabs)
+
 		AuctionFrameTab1:ClearAllPoints()
 		AuctionFrameTab1:SetPoint("TOPLEFT", AuctionFrame, "BOTTOMLEFT", 10, 2)
 	end

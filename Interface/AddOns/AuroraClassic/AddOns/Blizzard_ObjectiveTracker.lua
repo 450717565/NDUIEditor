@@ -72,7 +72,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			bar:SetStatusBarTexture(C.media.normTex)
 			bar:SetStatusBarColor(cr, cg, cb, .8)
 
-			local bg = F.CreateBDFrame(progressBar)
+			local bg = F.CreateBDFrame(progressBar, .25)
 			bg:SetPoint("TOPLEFT", bar, -C.mult, C.mult)
 			bg:SetPoint("BOTTOMRIGHT", bar, C.mult, -C.mult)
 
@@ -107,7 +107,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			bar:SetStatusBarColor(cr, cg, cb, .8)
 			bar.Label:Show()
 			local oldBg = select(5, bar:GetRegions())
-			F.CreateBDFrame(oldBg)
+			F.CreateBDFrame(oldBg, .25)
 
 			bar.styled = true
 		end
@@ -117,7 +117,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	hooksecurefunc("ScenarioStage_CustomizeBlock", function(block)
 		block.NormalBG:SetTexture("")
 		if not block.bg then
-			block.bg = F.CreateBDFrame(block.GlowTexture)
+			block.bg = F.CreateBDFrame(block.GlowTexture, .25)
 			block.bg:SetPoint("TOPLEFT", block.GlowTexture, 4, -2)
 			block.bg:SetPoint("BOTTOMRIGHT", block.GlowTexture, -4, 0)
 		end
@@ -145,13 +145,11 @@ tinsert(C.themes["AuroraClassic"], function()
 			block.TimerBG:Hide()
 			block.TimerBGBack:Hide()
 
-			block.StatusBar:SetStatusBarTexture(C.media.normTex)
-			block.StatusBar:SetStatusBarColor(cr, cg, cb, .8)
 			block.StatusBar:SetHeight(10)
-			F.CreateBDFrame(block.StatusBar, 0)
+			F.ReskinStatusBar(block.StatusBar, 0)
 
 			select(3, block:GetRegions()):Hide()
-			block.bg = F.CreateBDFrame(block)
+			block.bg = F.CreateBDFrame(block, .25)
 			block.bg:SetPoint("TOPLEFT", 4, -2)
 			block.bg:SetPoint("BOTTOMRIGHT", -4, 0)
 		end

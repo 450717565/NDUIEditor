@@ -7,7 +7,7 @@ local B, C, L, DB = unpack(ns)
 local pairs, ipairs, tinsert = pairs, ipairs, table.insert
 local TradeTabs = CreateFrame("Frame")
 
-local whitelist = {
+local whiteList = {
 	[171] = true, -- Alchemy
 	[164] = true, -- Blacksmithing
 	[185] = true, -- Cooking
@@ -32,8 +32,9 @@ local onlyPrimary = {
 	[356] = true, -- Fishing
 }
 
-local RUNEFORGING = 53428 -- Runeforging spellid
-local CHEF_HAT = 134020
+local RUNEFORGING = 53428 -- 符文熔铸
+local CHEF_HAT = 134020 -- 大厨帽子
+local THERMAL_ANVIL = 87216 -- 热流铁砧
 
 function TradeTabs:OnEvent(event, addon)
 	if not NDuiDB["Misc"]["TradeTab"] then return end
@@ -58,7 +59,7 @@ local function buildSpellList()
 
 	for _, prof in pairs(profs) do
 		local _, _, _, _, abilities, offset, skillLine = GetProfessionInfo(prof)
-		if whitelist[skillLine] then
+		if whiteList[skillLine] then
 			if onlyPrimary[skillLine] then
 				abilities = 1
 			end
@@ -89,20 +90,20 @@ function TradeTabs:Initialize()
 
 	-- if player is a DK, insert runeforging at the top
 	if select(2, UnitClass("player")) == "DEATHKNIGHT" then
-		prev = self:CreateTab(i, parent, RUNEFORGING)
-		prev:SetPoint("TOPLEFT", parent, "TOPRIGHT", 2, -44)
+		prev = self:CreateTab(i, parent, RUNEFORGING, "spell")
+		prev:SetPoint("TOPLEFT", parent, "TOPRIGHT", 2, -25)
 		i = i + 1
 	end
 
 	for i, slot in ipairs(tradeSpells) do
 		local _, spellID = GetSpellBookItemInfo(slot, BOOKTYPE_PROFESSION)
-		local tab = self:CreateTab(i, parent, spellID)
+		local tab = self:CreateTab(i, parent, spellID, "spell")
 		if spellID == 818 then foundCooking = true end
 		i = i + 1
 
 		local point, relPoint, x, y = "TOPLEFT", "BOTTOMLEFT", 0, -10
 		if not prev then
-			prev, relPoint, x, y = parent, "TOPRIGHT", 2, -40
+			prev, relPoint, x, y = parent, "TOPRIGHT", 2, -25
 		end
 		tab:SetPoint(point, prev, relPoint, x, y)
 
@@ -110,7 +111,15 @@ function TradeTabs:Initialize()
 	end
 
 	if foundCooking and PlayerHasToy(CHEF_HAT) and C_ToyBox.IsToyUsable(CHEF_HAT) then
-		local tab = self:CreateTab(i, parent, CHEF_HAT, true)
+		local tab = self:CreateTab(i, parent, CHEF_HAT, "toy")
+		tab:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
+
+		prev = tab
+		i = i + 1
+	end
+
+	if GetItemCount(THERMAL_ANVIL) ~= 0 then
+		local tab = self:CreateTab(i, parent, 126462, "item")
 		tab:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
 	end
 
@@ -138,7 +147,7 @@ local function updateSelection(self)
 	end
 
 	local start, duration
-	if self.type == "toy" then
+	if self.type == "toy" or self.type == "item" then
 		start, duration = GetItemCooldown(self.spellID)
 	else
 		start, duration = GetSpellCooldown(self.spellID)
@@ -159,9 +168,17 @@ local function createClickStopper(button)
 	f:Hide()
 end
 
-function TradeTabs:CreateTab(i, parent, spellID, isToy)
+local function reskinTabs(button)
+	if not IsAddOnLoaded("AuroraClassic") then return end
+	local F, C = unpack(AuroraClassic)
+	button:SetCheckedTexture(C.media.checked)
+	button:GetRegions():Hide()
+	F.ReskinIcon(button:GetNormalTexture())
+end
+
+function TradeTabs:CreateTab(i, parent, spellID, type)
 	local name, texture, _
-	if isToy then
+	if type == "toy" then
 		_, name, texture = C_ToyBox.GetToyInfo(spellID)
 	else
 		name, _, texture = GetSpellInfo(spellID)
@@ -172,19 +189,13 @@ function TradeTabs:CreateTab(i, parent, spellID, isToy)
 	button.spellID = spellID
 	button.spell = name
 	button:Show()
-	button.type = isToy and "toy" or "spell"
+	button.type = type
 	button:SetAttribute("type", button.type)
 	button:SetAttribute(button.type, name)
 
 	button:SetNormalTexture(texture)
 	button:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-	if IsAddOnLoaded("AuroraClassic") then
-		local F, C = unpack(AuroraClassic)
-		button:SetCheckedTexture(C.media.checked)
-		button:GetRegions():Hide()
-		F.CreateBG(button)
-		button:GetNormalTexture():SetTexCoord(unpack(DB.TexCoord))
-	end
+
 	button.CD = CreateFrame("Cooldown", nil, button, "CooldownFrameTemplate")
 	button.CD:SetAllPoints()
 
@@ -195,6 +206,8 @@ function TradeTabs:CreateTab(i, parent, spellID, isToy)
 
 	createClickStopper(button)
 	updateSelection(button)
+	reskinTabs(button)
+
 	return button
 end
 

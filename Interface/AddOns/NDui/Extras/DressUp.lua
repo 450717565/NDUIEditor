@@ -1,4 +1,5 @@
 local B, C, L, DB = unpack(select(2, ...))
+local ACF = IsAddOnLoaded("AuroraClassic") and unpack(AuroraClassic)
 
 local BtnStrata = SideDressUpModelResetButton:GetFrameStrata()
 local BtnLevel = SideDressUpModelResetButton:GetFrameLevel()
@@ -12,11 +13,9 @@ local function CreateButton(name, frame, label, width, height, point, relativeTo
 	name:SetText(label)
 	name:RegisterForClicks("AnyUp")
 	name:SetHitRectInsets(0, 0, 0, 0)
-	-- Aurora Reskin
-	if IsAddOnLoaded("AuroraClassic") then
-		local F = unpack(AuroraClassic)
-		F.ReskinButton(name)
-	end
+
+	if ACF then ACF.ReskinButton(name) end
+
 	return name
 end
 

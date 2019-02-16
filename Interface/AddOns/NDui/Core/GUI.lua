@@ -7,6 +7,7 @@ local pairs, ipairs, next = pairs, ipairs, next
 local min, max, tinsert = math.min, math.max, table.insert
 local cr, cg, cb = DB.r, DB.g, DB.b
 local guiTab, guiPage, f = {}, {}
+local ACF = IsAddOnLoaded("AuroraClassic") and unpack(AuroraClassic)
 
 -- Extra setup
 local setupRaidDebuffs, setupClickCast, setupBuffIndicator, setupPlateAura
@@ -208,7 +209,7 @@ local defaultSettings = {
 		Focuser = true,
 		ExpRep = true,
 		Screenshot = true,
-		--TradeTab = true,
+		TradeTab = true,
 		Interrupt = false,
 		OwnInterrupt = false,
 		AlertInInstance = true,
@@ -540,8 +541,8 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 	[12] = {
 		{1, "Misc", "Mail", L["Mail Tool"]},
 		{1, "Misc", "Focuser", L["Easy Focus"], true},
-		--{1, "Misc", "TradeTab", L["TradeTabs"]},
-		{1, "Misc", "PetFilter", L["Show PetFilter"]},
+		{1, "Misc", "TradeTab", L["TradeTabs"]},
+		{1, "Misc", "PetFilter", L["Show PetFilter"], true},
 		{},--blank
 		{1, "Misc", "ItemLevel", L["Show ItemLevel"]},
 		{1, "Misc", "MissingStats", L["Show MissingStats"], true},
@@ -1497,10 +1498,8 @@ local function OpenGUI()
 		guiPage[i].child = CreateFrame("Frame", nil, guiPage[i])
 		guiPage[i].child:SetSize(610, 1)
 		guiPage[i]:SetScrollChild(guiPage[i].child)
-		if IsAddOnLoaded("AuroraClassic") then
-			local F = unpack(AuroraClassic)
-			F.ReskinScroll(guiPage[i].ScrollBar)
-		end
+
+		if ACF then ACF.ReskinScroll(guiPage[i].ScrollBar) end
 
 		CreateOption(i)
 	end
@@ -1580,10 +1579,5 @@ function module:OnLogin()
 		HideUIPanel(GameMenuFrame)
 		PlaySound(SOUNDKIT.IG_MAINMENU_OPTION)
 	end)
-
-	-- Aurora Reskin
-	if IsAddOnLoaded("AuroraClassic") then
-		local F = unpack(AuroraClassic)
-		F.ReskinButton(gui)
-	end
+	if ACF then ACF.ReskinButton(gui) end
 end

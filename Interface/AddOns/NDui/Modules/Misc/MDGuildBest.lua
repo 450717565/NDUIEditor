@@ -1,6 +1,7 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local module = B:GetModule("Misc")
+local ACF = IsAddOnLoaded("AuroraClassic") and unpack(AuroraClassic)
 
 function module:GuildBest()
 	local CHALLENGE_MODE_POWER_LEVEL = CHALLENGE_MODE_POWER_LEVEL
@@ -31,10 +32,7 @@ function module:GuildBest()
 		B.SetBackground(frame, 0)
 		B.CreateFS(frame, 16, CHALLENGE_MODE_THIS_WEEK , "system", "TOPLEFT", 16, -6)
 
-		if IsAddOnLoaded("AuroraClassic") then
-			local F, C = unpack(AuroraClassic)
-			F.CreateGradient(frame)
-		end
+		if ACF then ACF.CreateGradient(frame) end
 
 		frame.entries = {}
 		for i = 1, 4 do

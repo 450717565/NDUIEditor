@@ -5,6 +5,7 @@ local cr, cg, cb = DB.r, DB.g, DB.b
 local type, pairs, tonumber, wipe = type, pairs, tonumber, table.wipe
 local strmatch, gmatch, strfind, format = string.match, string.gmatch, string.find, string.format
 local min, max, abs, floor = math.min, math.max, math.abs, math.floor
+local ACF = IsAddOnLoaded("AuroraClassic") and unpack(AuroraClassic)
 
 -- Color Text
 function B.ColorText(p, reverse, val)
@@ -71,7 +72,7 @@ end
 function B:CreateGF(w, h, o, r, g, b, a1, a2)
 	self:SetSize(w, h)
 	self:SetFrameStrata("BACKGROUND")
-	local gf = self:CreateTexture(nil, "BORDER")
+	local gf = self:CreateTexture(nil, "BACKGROUND")
 	gf:SetAllPoints()
 	gf:SetTexture(DB.normTex)
 	gf:SetGradientAlpha(o, r, g, b, a1, r, g, b, a2)
@@ -138,10 +139,9 @@ function B:CreateTex()
 end
 
 function B:SetBackground(a)
-	if IsAddOnLoaded("AuroraClassic") then
-		local F = unpack(AuroraClassic)
-		F.CreateBD(self, a)
-		F.CreateSD(self)
+	if ACF then
+		ACF.CreateBD(self, a)
+		ACF.CreateSD(self)
 	else
 		B.CreateBD(self, a)
 		B.CreateSD(self)
@@ -284,7 +284,12 @@ function B:PixelIcon(texture, highlight)
 	self.Icon:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 	self.Icon:SetTexCoord(unpack(DB.TexCoord))
 	if texture then
-		self.Icon:SetTexture(texture)
+		local atlas = strmatch(texture, "Atlas:(.+)$")
+		if atlas then
+			self.Icon:SetAtlas(atlas)
+		else
+			self.Icon:SetTexture(texture)
+		end
 	end
 	if highlight and type(highlight) == "boolean" then
 		self:EnableMouse(true)

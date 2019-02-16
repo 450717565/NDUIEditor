@@ -826,6 +826,7 @@ function Factory.GroupButton(parent)
 	local t = gr:CreateFontString(nil, "OVERLAY", "GameFontBlack")
 	t:SetWidth(52)
 	t:SetPoint("BOTTOM", gr, "TOP", 0, 1)
+	t:SetTextColor(1, 1, 1)
 	gr.Features = t
 	gr:SetText("^")
 	gr:SetSize(45, 22)
@@ -976,6 +977,7 @@ function Factory.MissionButton(parent)
 	t, cf.Description = cf:CreateFontString(nil, "BACKGROUND", "GameFontNormal"), t
 	t:SetPoint("LEFT", cf, "TOPLEFT", 10, -34)
 	t:SetText(-math.random(1,45)*100 .. " XP")
+	cf.Description:SetTextColor(1, 1, 1)
 	t, cf.XPReward = cf:CreateFontString(nil, "OVERLAY", "GameFontBlack"), t
 	t:SetPoint("BOTTOM", cf, 0, 9)
 	t:SetText("Expires in: two weeks ago")
@@ -1029,9 +1031,6 @@ function Factory.MissionButton(parent)
 	t:SetText("5%")
 	t:SetTextColor(0.2,0.85,0.1)
 	cf.ProgressBar.ChanceText = t
-
-	cf.Description:SetTextColor(1, 1, 1)
-
 	return cf
 end
 function Factory.MenuButton(parent)
