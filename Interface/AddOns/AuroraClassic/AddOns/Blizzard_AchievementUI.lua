@@ -36,15 +36,17 @@ C.themes["Blizzard_AchievementUI"] = function()
 	F.ReskinStatusBar(statusBar)
 	local barTitle = AchievementFrameSummaryCategoriesStatusBarTitle
 	barTitle:SetTextColor(1, 1, 1)
+	barTitle:ClearAllPoints()
 	barTitle:SetPoint("LEFT", statusBar, "LEFT", 6, 0)
 	local barText = AchievementFrameSummaryCategoriesStatusBarText
+	barText:ClearAllPoints()
 	barText:SetPoint("RIGHT", statusBar, "RIGHT", -5, 0)
 
 	local searchBox = AchievementFrame.searchBox
 	searchBox:ClearAllPoints()
 	searchBox:SetPoint("RIGHT", AchievementFrameCloseButton, "LEFT", -5, 0)
 	F.StripTextures(AchievementFrame.searchPreviewContainer)
-	F.ReskinInput(searchBox, 17, 100)
+	F.ReskinInput(searchBox, false, 17, 100)
 
 	for i = 1, 5 do
 		F.ReskinSearchBox(AchievementFrame.searchPreview[i])
@@ -58,31 +60,37 @@ C.themes["Blizzard_AchievementUI"] = function()
 	dropDown:SetPoint("RIGHT", searchBox, "LEFT", 0, 0)
 
 	for i = 1, 12 do
-		local bar = _G["AchievementFrameSummaryCategoriesCategory"..i]
+		local bars = "AchievementFrameSummaryCategoriesCategory"..i
+
+		local bar = _G[bars]
 		F.ReskinStatusBar(bar)
 
 		bar.label:SetTextColor(1, 1, 1)
+		bar.label:ClearAllPoints()
 		bar.label:SetPoint("LEFT", bar, "LEFT", 6, 0)
+		bar.text:ClearAllPoints()
 		bar.text:SetPoint("RIGHT", bar, "RIGHT", -5, 0)
 
-		local highlight = _G["AchievementFrameSummaryCategoriesCategory"..i.."ButtonHighlight"]
+		local highlight = _G[bars.."ButtonHighlight"]
 		highlight:SetAlpha(0)
 	end
 
 	for i = 1, 7 do
-		local bu = _G["AchievementFrameAchievementsContainerButton"..i]
+		local button = "AchievementFrameAchievementsContainerButton"..i
+
+		local bu = _G[button]
 		F.StripTextures(bu, true)
 
-		local hl = _G["AchievementFrameAchievementsContainerButton"..i.."Highlight"]
+		local hl = _G[button.."Highlight"]
 		hl:SetAlpha(0)
 
-		local io = _G["AchievementFrameAchievementsContainerButton"..i.."IconOverlay"]
+		local io = _G[button.."IconOverlay"]
 		io:Hide()
 
-		local ic = _G["AchievementFrameAchievementsContainerButton"..i.."IconTexture"]
+		local ic = _G[button.."IconTexture"]
 		local icbg = F.ReskinIcon(ic)
 
-		local ch = _G["AchievementFrameAchievementsContainerButton"..i.."Tracked"]
+		local ch = _G[button.."Tracked"]
 		ch:SetSize(22, 22)
 		ch:ClearAllPoints()
 		ch:SetPoint("TOPLEFT", icbg, "BOTTOMLEFT", -2, 0)
@@ -103,7 +111,13 @@ C.themes["Blizzard_AchievementUI"] = function()
 	end
 
 	for i = 1, 3 do
-		F.ReskinTab(_G["AchievementFrameTab"..i])
+		local tab = _G["AchievementFrameTab"..i]
+		F.ReskinTab(tab)
+
+		if i == 1 then
+			tab:ClearAllPoints()
+			tab:SetPoint("TOPLEFT", AchievementFrame, "BOTTOMLEFT", 15, 2)
+		end
 	end
 
 	hooksecurefunc("AchievementObjectives_DisplayCriteria", function(_, id)
@@ -168,7 +182,9 @@ C.themes["Blizzard_AchievementUI"] = function()
 
 	hooksecurefunc("AchievementFrameSummary_UpdateAchievements", function()
 		for i = 1, 4 do
-			local bu = _G["AchievementFrameSummaryAchievement"..i]
+			local button = "AchievementFrameSummaryAchievement"..i
+
+			local bu = _G[button]
 			bu.description:SetTextColor(1, 1, 1)
 
 			if bu.accountWide then
@@ -180,13 +196,13 @@ C.themes["Blizzard_AchievementUI"] = function()
 			if not bu.styled then
 				F.StripTextures(bu, true)
 
-				local hl = _G["AchievementFrameSummaryAchievement"..i.."Highlight"]
+				local hl = _G[button.."Highlight"]
 				hl:SetAlpha(0)
 
-				local io = _G["AchievementFrameSummaryAchievement"..i.."IconOverlay"]
+				local io = _G[button.."IconOverlay"]
 				io:Hide()
 
-				local ic = _G["AchievementFrameSummaryAchievement"..i.."IconTexture"]
+				local ic = _G[button.."IconTexture"]
 				F.ReskinIcon(ic)
 
 				local bubg = F.CreateBDFrame(bu, 0)
@@ -213,9 +229,15 @@ C.themes["Blizzard_AchievementUI"] = function()
 		F.ReskinStatusBar(bar)
 
 		local name = bar:GetName()
-		_G[name.."Title"]:SetTextColor(1, 1, 1)
-		_G[name.."Title"]:SetPoint("LEFT", bar, "LEFT", 6, 0)
-		_G[name.."Text"]:SetPoint("RIGHT", bar, "RIGHT", -5, 0)
+
+		local title = _G[name.."Title"]
+		title:SetTextColor(1, 1, 1)
+		title:ClearAllPoints()
+		title:SetPoint("LEFT", bar, "LEFT", 6, 0)
+
+		local text = _G[name.."Text"]
+		text:ClearAllPoints()
+		text:SetPoint("RIGHT", bar, "RIGHT", -5, 0)
 	end
 
 	for i = 1, 9 do
@@ -266,8 +288,10 @@ C.themes["Blizzard_AchievementUI"] = function()
 	-- Font width fix
 	hooksecurefunc("AchievementObjectives_DisplayProgressiveAchievement", function()
 		local index = 1
-		local mini = _G["AchievementFrameMiniAchievement"..index]
-		while mini do
+		while true do
+			local mini = _G["AchievementFrameMiniAchievement"..index]
+			if not mini then return end
+
 			if not mini.styled then
 				mini.points:SetWidth(22)
 				mini.points:ClearAllPoints()
@@ -276,7 +300,6 @@ C.themes["Blizzard_AchievementUI"] = function()
 			end
 
 			index = index + 1
-			mini = _G["AchievementFrameMiniAchievement"..index]
 		end
 	end)
 end

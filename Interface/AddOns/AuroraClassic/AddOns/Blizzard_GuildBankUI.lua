@@ -1,7 +1,19 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_GuildBankUI"] = function()
-	local lists = {GuildBankEmblemFrame, GuildBankMoneyFrameBackground, GuildBankTransactionsScrollFrame, GuildBankInfoScrollFrame}
+	F.ReskinFrame(GuildBankFrame)
+	F.ReskinInput(GuildItemSearchBox)
+
+	F.ReskinFrame(GuildBankPopupFrame)
+	F.ReskinInput(GuildBankPopupEditBox)
+
+	GuildBankPopupFrame:SetHeight(525)
+	GuildBankPopupFrame:ClearAllPoints()
+	GuildBankPopupFrame:SetPoint("TOPLEFT", GuildBankFrame, "TOPRIGHT", 2, -30)
+	GuildBankFrameWithdrawButton:ClearAllPoints()
+	GuildBankFrameWithdrawButton:SetPoint("RIGHT", GuildBankFrameDepositButton, "LEFT", -1, 0)
+
+	local lists = {GuildBankEmblemFrame, GuildBankMoneyFrameBackground, GuildBankTransactionsScrollFrame, GuildBankInfoScrollFrame, GuildBankPopupScrollFrame}
 	for _, list in next, lists do
 		F.StripTextures(list, true)
 	end
@@ -11,81 +23,75 @@ C.themes["Blizzard_GuildBankUI"] = function()
 		F.ReskinButton(button)
 	end
 
-	F.ReskinFrame(GuildBankFrame)
-	F.ReskinScroll(GuildBankTransactionsScrollFrameScrollBar)
-	F.ReskinScroll(GuildBankInfoScrollFrameScrollBar)
-	F.ReskinScroll(GuildBankPopupScrollFrameScrollBar)
-	F.ReskinInput(GuildItemSearchBox)
+	local scrolls = {GuildBankTransactionsScrollFrameScrollBar, GuildBankInfoScrollFrameScrollBar, GuildBankPopupScrollFrameScrollBar}
+	for _, scroll in next, scrolls do
+		F.ReskinScroll(scroll)
+	end
+
+	for i = 1, 8 do
+		local tab = "GuildBankTab"..i
+
+		local tb = _G[tab]
+		F.StripTextures(tb)
+
+		local bu = _G[tab.."Button"]
+		F.StripTextures(bu)
+		bu:SetSize(34, 34)
+
+		local icon = _G[tab.."ButtonIconTexture"]
+		local icbg = F.ReskinIcon(icon)
+		F.ReskinTexture(bu, icbg, false)
+		F.ReskinTexed(bu, icbg)
+
+		if i == 1 then
+			tb:ClearAllPoints()
+			tb:SetPoint("TOPLEFT", GuildBankFrame, "TOPRIGHT", 0, -25)
+		end
+	end
 
 	for i = 1, 4 do
 		local tab = _G["GuildBankFrameTab"..i]
 		F.ReskinTab(tab)
 
+		tab:ClearAllPoints()
 		if i ~= 1 then
 			tab:SetPoint("LEFT", _G["GuildBankFrameTab"..(i-1)], "RIGHT", -15, 0)
+		else
+			tab:SetPoint("TOPLEFT", GuildBankFrame, "BOTTOMLEFT", 15, 2)
 		end
 	end
 
-	F.ReskinFrame(GuildBankPopupFrame)
-	F.CreateBDFrame(GuildBankPopupEditBox, 0)
-	GuildBankPopupFrame:SetPoint("TOPLEFT", GuildBankFrame, "TOPRIGHT", 2, -30)
-	GuildBankPopupFrame:SetHeight(525)
-
-	GuildBankFrameWithdrawButton:SetPoint("RIGHT", GuildBankFrameDepositButton, "LEFT", -2, 0)
-
 	for i = 1, NUM_GUILDBANK_COLUMNS do
 		F.StripTextures(_G["GuildBankColumn"..i])
+
 		for j = 1, NUM_SLOTS_PER_GUILDBANK_GROUP do
 			local bu = _G["GuildBankColumn"..i.."Button"..j]
 			F.StripTextures(bu)
 
-			local bg = F.ReskinIcon(bu.icon)
-			F.ReskinTexture(bu, bg, false)
-
-			local searchOverlay = bu.searchOverlay
-			searchOverlay:SetAllPoints(bg)
+			local icbg = F.ReskinIcon(bu.icon)
+			F.ReskinTexture(bu, icbg, false)
 
 			local border = bu.IconBorder
 			F.ReskinBorder(border, bu)
+
+			local searchOverlay = bu.searchOverlay
+			searchOverlay:SetAllPoints(icbg)
 		end
-	end
-
-	hooksecurefunc("GuildBankFrame_Update", function()
-		for i = 1, NUM_GUILDBANK_COLUMNS do
-			for j = 1, NUM_SLOTS_PER_GUILDBANK_GROUP do
-				local bu = _G["GuildBankColumn"..i.."Button"..j]
-				bu.IconBorder:SetTexture(C.media.bdTex)
-			end
-		end
-	end)
-
-	GuildBankTab1:ClearAllPoints()
-	GuildBankTab1:SetPoint("TOPLEFT", GuildBankFrame, "TOPRIGHT", 2, -25)
-	for i = 1, 8 do
-		local tb = _G["GuildBankTab"..i]
-		F.StripTextures(tb)
-
-		local bu = _G["GuildBankTab"..i.."Button"]
-		F.StripTextures(bu)
-		bu:SetSize(34, 34)
-		bu:SetCheckedTexture(C.media.checked)
-
-		local a1, p, a2, x, y = bu:GetPoint()
-		bu:SetPoint(a1, p, a2, x + 1, y)
-
-		local ic = _G["GuildBankTab"..i.."ButtonIconTexture"]
-		local bg = F.ReskinIcon(ic)
-		F.ReskinTexture(bu, bg, false)
 	end
 
 	GuildBankPopupFrame:HookScript("OnShow", function()
 		for i = 1, NUM_GUILDBANK_ICONS_PER_ROW * NUM_GUILDBANK_ICON_ROWS do
-			local bu = _G["GuildBankPopupButton"..i]
+			local button = "GuildBankPopupButton"..i
+
+			local bu = _G[button]
+			local ic = _G[button.."Icon"]
 
 			if not bu.styled then
-				bu:SetCheckedTexture(C.media.checked)
-				select(2, bu:GetRegions()):Hide()
-				F.ReskinIcon(_G["GuildBankPopupButton"..i.."Icon"])
+				F.StripTextures(bu)
+
+				local icbg = F.ReskinIcon(ic)
+				F.ReskinTexed(bu, icbg)
+				F.ReskinTexture(bu, icbg, false)
 
 				bu.styled = true
 			end

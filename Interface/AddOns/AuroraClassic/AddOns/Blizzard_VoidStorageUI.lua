@@ -38,18 +38,17 @@ C.themes["Blizzard_VoidStorageUI"] = function()
 		F.ReskinBorder(border, bu)
 
 		local searchOverlay = bu.searchOverlay
-		searchOverlay:SetPoint("TOPLEFT", -C.mult, C.mult)
-		searchOverlay:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
+		searchOverlay:SetAllPoints(ic)
 	end
 
 	for i = 1, 2 do
 		local tab = VoidStorageFrame["Page"..i]
 		tab:SetSize(34, 34)
 		tab:GetRegions():Hide()
-		tab:SetCheckedTexture(C.media.checked)
 
 		local ic = F.ReskinIcon(tab:GetNormalTexture())
 		F.ReskinTexture(tab, ic, false)
+		F.ReskinTexed(tab, ic)
 	end
 	VoidStorageFrame.Page1:ClearAllPoints()
 	VoidStorageFrame.Page1:SetPoint("TOPLEFT", VoidStorageFrame, "TOPRIGHT", 4, -25)

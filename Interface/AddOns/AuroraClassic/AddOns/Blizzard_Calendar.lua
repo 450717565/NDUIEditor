@@ -84,11 +84,11 @@ C.themes["Blizzard_Calendar"] = function()
 	for i, class in ipairs(CLASS_SORT_ORDER) do
 		local bu = _G["CalendarClassButton"..i]
 		bu:GetRegions():Hide()
-		F.CreateBDFrame(bu)
 
 		local tcoords = CLASS_ICON_TCOORDS[class]
 		local ic = bu:GetNormalTexture()
 		ic:SetTexCoord(tcoords[1] + .022, tcoords[2] - .025, tcoords[3] + .022, tcoords[4] - .025)
+		F.CreateBDFrame(ic)
 	end
 
 	for i = 1, 42 do
@@ -102,24 +102,22 @@ C.themes["Blizzard_Calendar"] = function()
 
 	for i = 1, 6 do
 		local vDay = _G["CalendarDayButton"..i]
-		local vLine = F.CreateBDFrame(vDay, 1, true)
+		local vLine = CreateFrame("Frame", nil, vDay)
 		vLine:SetFrameLevel(vDay:GetFrameLevel()+1)
-		vLine:SetHeight(546)
-		vLine:SetWidth(C.mult)
+		vLine:SetSize(C.mult, 546)
 		vLine:ClearAllPoints()
 		vLine:SetPoint("TOP", vDay, "TOPRIGHT")
-		vLine.Shadow:Hide()
+		F.CreateBD(vLine, 1)
 	end
 
 	for i = 1, 36, 7 do
 		local hDay = _G["CalendarDayButton"..i]
-		local hLine = F.CreateBDFrame(hDay, 1, true)
+		local hLine = CreateFrame("Frame", nil, hDay)
 		hLine:SetFrameLevel(hDay:GetFrameLevel()+1)
-		hLine:SetWidth(637)
-		hLine:SetHeight(C.mult)
+		hLine:SetSize(637, C.mult)
 		hLine:ClearAllPoints()
 		hLine:SetPoint("LEFT", hDay, "TOPLEFT")
-		hLine.Shadow:Hide()
+		F.CreateBD(hLine, 1)
 	end
 
 	hooksecurefunc("CalendarFrame_SetToday", function(self)

@@ -2,62 +2,71 @@ local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_GuildRecruitmentUI"] = function()
 	F.ReskinFrame(CommunitiesGuildRecruitmentFrame)
-	F.StripTextures(CommunitiesGuildRecruitmentFrameTab1, true)
-	F.StripTextures(CommunitiesGuildRecruitmentFrameTab2, true)
-	F.ReskinButton(CommunitiesGuildRecruitmentFrameRecruitment.ListGuildButton)
+
+	F.StripTextures(CommunitiesGuildRecruitmentFrameTab1)
+	F.StripTextures(CommunitiesGuildRecruitmentFrameTab2)
+
+	F.ReskinScroll(CommunitiesGuildRecruitmentFrameRecruitmentScrollFrameScrollBar)
+	CommunitiesGuildRecruitmentFrameRecruitmentScrollFrame.CommentEditBox:SetWidth(284)
+
+	local recruitment = CommunitiesGuildRecruitmentFrameRecruitment
+	F.ReskinButton(recruitment.ListGuildButton)
 
 	for _, name in next, {"InterestFrame", "AvailabilityFrame", "RolesFrame", "LevelFrame"} do
-		local frame = CommunitiesGuildRecruitmentFrameRecruitment[name]
+		local frame = recruitment[name]
 		F.StripTextures(frame, true)
 		F.CreateBDFrame(frame, 0)
 	end
 
 	for _, name in next, {"QuestButton", "DungeonButton", "RaidButton", "PvPButton", "RPButton"} do
-		local button = CommunitiesGuildRecruitmentFrameRecruitment.InterestFrame[name]
+		local button = recruitment.InterestFrame[name]
 		F.ReskinCheck(button)
 	end
 
-	local rolesFrame = CommunitiesGuildRecruitmentFrameRecruitment.RolesFrame
-	for _, button in next, {rolesFrame.TankButton, rolesFrame.HealerButton, rolesFrame.DamagerButton} do
+	for _, name in next, {"WeekdaysButton", "WeekendsButton"} do
+		local button = recruitment.AvailabilityFrame[name]
+		F.ReskinCheck(button)
+	end
+
+	for _, name in next, {"TankButton", "HealerButton", "DamagerButton"} do
+		local button = recruitment.RolesFrame[name]
 		F.ReskinCheck(button.checkButton)
 	end
 
-	CommunitiesGuildRecruitmentFrameRecruitmentScrollFrame.CommentEditBox:SetWidth(284)
+	for _, name in next, {"LevelAnyButton", "LevelMaxButton"} do
+		local button = recruitment.LevelFrame[name]
+		F.ReskinRadio(button)
+	end
 
-	local recruitment = CommunitiesGuildRecruitmentFrameRecruitment
-	F.StripTextures(recruitment.CommentFrame, true)
-	recruitment.CommentFrame:ClearAllPoints()
-	recruitment.CommentFrame:SetPoint("TOPLEFT", recruitment.LevelFrame, "BOTTOMLEFT", 0, 1)
+	local CommentFrame = recruitment.CommentFrame
+	F.StripTextures(CommentFrame, true)
 
-	local input = recruitment.CommentFrame.CommentInputFrame
-	input:SetWidth(312)
-	F.StripTextures(input, true)
-	F.CreateBDFrame(input, 0)
+	local CommentInputFrame = CommentFrame.CommentInputFrame
+	CommentInputFrame:SetAllPoints(CommentFrame)
+	F.StripTextures(CommentInputFrame)
+	F.CreateBDFrame(CommentInputFrame, 0)
 
-	F.ReskinCheck(CommunitiesGuildRecruitmentFrameRecruitment.AvailabilityFrame.WeekdaysButton)
-	F.ReskinCheck(CommunitiesGuildRecruitmentFrameRecruitment.AvailabilityFrame.WeekendsButton)
-	F.ReskinRadio(CommunitiesGuildRecruitmentFrameRecruitment.LevelFrame.LevelAnyButton)
-	F.ReskinRadio(CommunitiesGuildRecruitmentFrameRecruitment.LevelFrame.LevelMaxButton)
-	F.ReskinScroll(CommunitiesGuildRecruitmentFrameRecruitmentScrollFrameScrollBar)
 	F.ReskinScroll(CommunitiesGuildRecruitmentFrameApplicantsContainer.scrollBar)
-	F.ReskinButton(CommunitiesGuildRecruitmentFrameApplicants.InviteButton)
-	F.ReskinButton(CommunitiesGuildRecruitmentFrameApplicants.MessageButton)
-	F.ReskinButton(CommunitiesGuildRecruitmentFrameApplicants.DeclineButton)
+	local Applicants = CommunitiesGuildRecruitmentFrameApplicants
+	F.ReskinButton(Applicants.InviteButton)
+	F.ReskinButton(Applicants.MessageButton)
+	F.ReskinButton(Applicants.DeclineButton)
 
 	hooksecurefunc("CommunitiesGuildRecruitmentFrameApplicants_Update", function(self)
 		local buttons = self.Container.buttons
 		for i = 1, #buttons do
 			local button = buttons[i]
-			if not button.bg then
-				for i = 1, 9 do
-					select(i, button:GetRegions()):Hide()
-				end
-				button.bg = F.CreateBDFrame(button, 0)
-				button.bg:SetPoint("TOPLEFT", 3, -3)
-				button.bg:SetPoint("BOTTOMRIGHT", -3, 3)
+			if not button.styled then
+				F.StripTextures(button)
 
-				F.ReskinTexture(button, button.bg, true)
-				F.ReskinTexture(button.selectedTex, button.bg, true)
+				local bubg = F.CreateBDFrame(button, 0)
+				bubg:SetPoint("TOPLEFT", 3, -3)
+				bubg:SetPoint("BOTTOMRIGHT", -3, 3)
+
+				F.ReskinTexture(button, bubg, true)
+				F.ReskinTexture(button.selectedTex, bubg, true)
+
+				button.styled = true
 			end
 		end
 	end)

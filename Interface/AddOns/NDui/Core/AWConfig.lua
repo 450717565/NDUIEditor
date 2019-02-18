@@ -1,11 +1,10 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local module = B:GetModule("GUI")
 
 local cr, cg, cb = DB.r, DB.g, DB.b
 local pairs, floor = pairs, math.floor
 local f
-local ACF = IsAddOnLoaded("AuroraClassic") and unpack(AuroraClassic)
 
 -- Elements
 local function labelOnEnter(self)
@@ -92,7 +91,7 @@ function module:CreateScroll(parent, width, height, text)
 	scroll.child:SetSize(width, 1)
 	scroll:SetScrollChild(scroll.child)
 
-	if ACF then ACF.ReskinScroll(scroll.ScrollBar) end
+	if F then F.ReskinScroll(scroll.ScrollBar) end
 
 	return scroll
 end

@@ -10,6 +10,7 @@ C.themes["Blizzard_ArchaeologyUI"] = function()
 	F.ReskinStatusBar(ArchaeologyFrameRankBar)
 
 	ArchaeologyFrameArtifactPageIconBG:Hide()
+	ArchaeologyFrameInfoButton:ClearAllPoints()
 	ArchaeologyFrameInfoButton:SetPoint("TOPLEFT", 3, -3)
 
 	ArchaeologyFrameSummarytButton:ClearAllPoints()
@@ -17,7 +18,12 @@ C.themes["Blizzard_ArchaeologyUI"] = function()
 	ArchaeologyFrameCompletedButton:ClearAllPoints()
 	ArchaeologyFrameCompletedButton:SetPoint("TOP", ArchaeologyFrameSummarytButton, "BOTTOM", 0, 0)
 
-	local texets = {ArchaeologyFrameSummaryPageTitle, ArchaeologyFrameCompletedPageTitleTop, ArchaeologyFrameCompletedPageTitleMid, ArchaeologyFrameCompletedPagePageText, ArchaeologyFrameSummaryPagePageText, ArchaeologyFrameArtifactPageHistoryTitle, ArchaeologyFrameArtifactPageHistoryScrollChildText, ArchaeologyFrameHelpPageTitle, ArchaeologyFrameHelpPageDigTitle, ArchaeologyFrameHelpPageHelpScrollHelpText}
+	local titles = {ArchaeologyFrameSummaryPageTitle, ArchaeologyFrameCompletedPageTitleTop, ArchaeologyFrameCompletedPageTitleMid, ArchaeologyFrameArtifactPageHistoryTitle, ArchaeologyFrameHelpPageTitle, ArchaeologyFrameHelpPageDigTitle}
+	for _, title in next, titles do
+		title:SetTextColor(1, .8, 0)
+	end
+
+	local texets = {ArchaeologyFrameCompletedPagePageText, ArchaeologyFrameSummaryPagePageText, ArchaeologyFrameArtifactPageHistoryScrollChildText, ArchaeologyFrameHelpPageHelpScrollHelpText}
 	for _, texet in next, texets do
 		texet:SetTextColor(1, 1, 1)
 	end
@@ -36,25 +42,25 @@ C.themes["Blizzard_ArchaeologyUI"] = function()
 	F.ReskinArrow(ArchaeologyFrameCompletedPageNextPageButton, "right")
 
 	for i = 1, ARCHAEOLOGY_MAX_COMPLETED_SHOWN do
-		local bu = "ArchaeologyFrameCompletedPageArtifact"..i
+		local button = "ArchaeologyFrameCompletedPageArtifact"..i
 
-		local button = _G[bu]
-		F.StripTextures(button)
+		local bu = _G[button]
+		F.StripTextures(bu)
 
-		local icbg = F.ReskinIcon(_G[bu.."Icon"])
+		local icbg = F.ReskinIcon(_G[button.."Icon"])
 
-		local bubg = F.CreateBDFrame(button, 0)
+		local bubg = F.CreateBDFrame(bu, 0)
 		bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
 		bubg:SetPoint("BOTTOMRIGHT", 0, -1)
-		F.ReskinTexture(button, bubg, true)
+		F.ReskinTexture(bu, bubg, true)
 
-		local name = _G[bu.."ArtifactName"]
+		local name = _G[button.."ArtifactName"]
 		name:SetWordWrap(false)
 		name:SetTextColor(1, .8, 0)
 		name:ClearAllPoints()
 		name:SetPoint("TOPLEFT", bubg, "TOPLEFT", 4, 2)
 
-		local text = _G[bu.."ArtifactSubText"]
+		local text = _G[button.."ArtifactSubText"]
 		text:SetWordWrap(false)
 		text:SetTextColor(1, 1, 1)
 		text:ClearAllPoints()

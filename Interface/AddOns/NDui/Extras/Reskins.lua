@@ -1,4 +1,4 @@
-local B, C, L, DB = unpack(select(2, ...))
+local B, C, L, DB, F, M = unpack(select(2, ...))
 
 local function Reskins()
 	B:UnregisterEvent("PLAYER_ENTERING_WORLD", Reskins)
@@ -99,8 +99,6 @@ local function Reskins()
 	end
 
 	if IsAddOnLoaded("AuroraClassic") then
-		local F, C = unpack(AuroraClassic)
-
 		if IsAddOnLoaded("!BaudErrorFrame") then
 			F.ReskinScroll(BaudErrorFrameListScrollBoxScrollBarScrollBar)
 			F.ReskinScroll(BaudErrorFrameDetailScrollFrameScrollBar)

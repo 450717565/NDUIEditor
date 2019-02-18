@@ -5,7 +5,7 @@ C.themes["Blizzard_BlackMarketUI"] = function()
 	F.StripTextures(BlackMarketFrame.MoneyFrameBorder)
 
 	F.ReskinButton(BlackMarketFrame.BidButton)
-	F.ReskinInput(BlackMarketBidPriceGold)
+	F.ReskinInput(BlackMarketBidPriceGold, true)
 	F.ReskinScroll(BlackMarketScrollFrameScrollBar)
 
 	local HotDeal = BlackMarketFrame.HotDeal
@@ -29,9 +29,7 @@ C.themes["Blizzard_BlackMarketUI"] = function()
 			local bu = buttons[i]
 			if not bu.styled then
 				F.StripTextures(bu)
-
-				bu.Item:SetNormalTexture("")
-				bu.Item:SetPushedTexture("")
+				F.CleanTextures(bu.Item)
 				bu.Item.IconBorder:SetAlpha(0)
 
 				local icbg = F.ReskinIcon(bu.Item.IconTexture)

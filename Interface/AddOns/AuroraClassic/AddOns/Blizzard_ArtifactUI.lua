@@ -10,7 +10,7 @@ C.themes["Blizzard_ArtifactUI"] = function()
 
 	ArtifactFrame.PerksTab.Model:SetAlpha(.5)
 	ArtifactFrameTab1:ClearAllPoints()
-	ArtifactFrameTab1:SetPoint("TOPLEFT", ArtifactFrame, "BOTTOMLEFT", 10, 2)
+	ArtifactFrameTab1:SetPoint("TOPLEFT", ArtifactFrame, "BOTTOMLEFT", 15, 2)
 
 	-- AppearancesTab
 	local AppearancesTab = ArtifactFrame.AppearancesTab

@@ -18,7 +18,7 @@ C.themes["Blizzard_AdventureMap"] = function()
 					local icbg = F.ReskinIcon(bu.Icon)
 					local bubg = F.CreateBDFrame(bu.ItemNameBG, 0)
 					bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
-					bubg:SetPoint("BOTTOMRIGHT", -5, -1)
+					bubg:SetPoint("BOTTOMRIGHT", -5, -.5)
 				end
 			end
 			ChoiceDialog.Details.Child.TitleHeader:SetTextColor(1, .8, 0)

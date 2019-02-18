@@ -15,6 +15,7 @@ C.themes["BaudAuction"] = function()
 
 	for i = 1, 7 do
 		local col = _G["BaudAuctionFrameCol"..i]
+		F.StripTextures(col)
 		F.ReskinTexture(col, col, true)
 	end
 

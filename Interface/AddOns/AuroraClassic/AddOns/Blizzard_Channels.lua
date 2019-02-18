@@ -14,10 +14,11 @@ tinsert(C.themes["AuroraClassic"], function()
 		for i = 1, self.Child:GetNumChildren() do
 			local tab = select(i, self.Child:GetChildren())
 			if not tab.styled and tab:IsHeader() then
-				tab:SetNormalTexture("")
-				tab.bg = F.CreateBDFrame(tab, 0)
-				tab.bg:SetAllPoints()
-				F.ReskinTexture(tab, tab.bg, true)
+				F.CleanTextures(tab)
+
+				local bg = F.CreateBDFrame(tab, 0)
+				bg:SetAllPoints()
+				F.ReskinTexture(tab, bg, true)
 
 				tab.styled = true
 			end

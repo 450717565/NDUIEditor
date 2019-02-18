@@ -1,7 +1,6 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local module = B:GetModule("Misc")
-local ACF = IsAddOnLoaded("AuroraClassic") and unpack(AuroraClassic)
 
 --[[
 	一个简易的邮箱插件，修改自OpenAll
@@ -239,9 +238,9 @@ function module:Mailbox()
 		InboxTooMuchMail:SetPoint("BOTTOM", MailFrame, "TOP", 0, 5)
 	end
 
-	if ACF then
+	if F then
 		for i = 1, 4 do
-			ACF.ReskinButton(_G["MailButton"..i])
+			F.ReskinButton(_G["MailButton"..i])
 		end
 	end
 

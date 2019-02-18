@@ -1,6 +1,10 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_Contribution"] = function()
+	if AuroraConfig.tooltips then
+		F.ReskinTooltip(ContributionBuffTooltip)
+	end
+
 	F.ReskinFrame(ContributionCollectionFrame)
 
 	hooksecurefunc(ContributionMixin, "Update", function(self)
@@ -22,9 +26,4 @@ C.themes["Blizzard_Contribution"] = function()
 			self.styled = true
 		end
 	end)
-
-	-- Tooltips
-	if AuroraConfig.tooltips then
-		F.ReskinTooltip(ContributionBuffTooltip)
-	end
 end

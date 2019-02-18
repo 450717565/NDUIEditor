@@ -32,7 +32,7 @@ C.themes["Blizzard_DebugTools"] = function()
 		F.ReskinInput(frame.FilterBox)
 		F.ReskinScroll(frame.LinesScrollFrame.ScrollBar)
 
-		F.ReskinArrow(frame.OpenParentButton, "up")
+		F.ReskinArrow(frame.OpenParentButton, "down")
 		F.ReskinArrow(frame.NavigateBackwardButton, "left")
 		F.ReskinArrow(frame.NavigateForwardButton, "right")
 		F.ReskinArrow(frame.DuplicateButton, "up")

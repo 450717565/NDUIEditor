@@ -6,7 +6,7 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 	F.ReskinFrame(TradeSkillFrame)
 
 	F.ReskinStatusBar(TradeSkillFrame.RankFrame)
-	F.ReskinInput(TradeSkillFrame.SearchBox)
+	F.ReskinInput(TradeSkillFrame.SearchBox, false, 20, 200)
 	F.ReskinFilter(TradeSkillFrame.FilterButton)
 	F.ReskinArrow(TradeSkillFrame.LinkToButton, "right")
 

@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F, M = unpack(ns)
 ---------------------------
 -- TradeTabs, by tardmrr
 -- NDui MOD
@@ -101,7 +101,7 @@ function TradeTabs:Initialize()
 		if spellID == 818 then foundCooking = true end
 		i = i + 1
 
-		local point, relPoint, x, y = "TOPLEFT", "BOTTOMLEFT", 0, -10
+		local point, relPoint, x, y = "TOPLEFT", "BOTTOMLEFT", 0, -15
 		if not prev then
 			prev, relPoint, x, y = parent, "TOPRIGHT", 2, -25
 		end
@@ -112,7 +112,7 @@ function TradeTabs:Initialize()
 
 	if foundCooking and PlayerHasToy(CHEF_HAT) and C_ToyBox.IsToyUsable(CHEF_HAT) then
 		local tab = self:CreateTab(i, parent, CHEF_HAT, "toy")
-		tab:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
+		tab:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -15)
 
 		prev = tab
 		i = i + 1
@@ -120,7 +120,7 @@ function TradeTabs:Initialize()
 
 	if GetItemCount(THERMAL_ANVIL) ~= 0 then
 		local tab = self:CreateTab(i, parent, 126462, "item")
-		tab:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -10)
+		tab:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -15)
 	end
 
 	self.initialized = true
@@ -169,11 +169,11 @@ local function createClickStopper(button)
 end
 
 local function reskinTabs(button)
-	if not IsAddOnLoaded("AuroraClassic") then return end
-	local F, C = unpack(AuroraClassic)
-	button:SetCheckedTexture(C.media.checked)
-	button:GetRegions():Hide()
-	F.ReskinIcon(button:GetNormalTexture())
+	if F then
+		button:GetRegions():Hide()
+		local icbg = F.ReskinIcon(button:GetNormalTexture())
+		F.ReskinTexed(button, icbg)
+	end
 end
 
 function TradeTabs:CreateTab(i, parent, spellID, type)

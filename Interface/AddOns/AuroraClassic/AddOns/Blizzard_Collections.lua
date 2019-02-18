@@ -10,8 +10,11 @@ C.themes["Blizzard_Collections"] = function()
 		local tab = _G["CollectionsJournalTab"..i]
 		F.ReskinTab(tab)
 
+		tab:ClearAllPoints()
 		if i ~= 1 then
 			tab:SetPoint("LEFT", _G["CollectionsJournalTab"..(i-1)], "RIGHT", -15, 0)
+		else
+			tab:SetPoint("TOPLEFT", CollectionsJournal, "BOTTOMLEFT", 15, 2)
 		end
 	end
 
@@ -92,14 +95,11 @@ C.themes["Blizzard_Collections"] = function()
 	end
 
 	F.CreateBDFrame(MountJournal.MountDisplay.ModelScene, 0)
-
 	F.ReskinButton(MountJournalMountButton)
 	F.ReskinButton(PetJournalSummonButton)
 	F.ReskinButton(PetJournalFindBattle)
-
 	F.ReskinArrow(MountJournal.MountDisplay.ModelScene.RotateLeftButton, "left")
 	F.ReskinArrow(MountJournal.MountDisplay.ModelScene.RotateRightButton, "right")
-
 	F.ReskinIcon(MountJournal.MountDisplay.InfoButton.Icon)
 
 	local function reskinButton(button)
@@ -182,7 +182,8 @@ C.themes["Blizzard_Collections"] = function()
 
 	for i = 1, 6 do
 		local bu = PetCard["spell"..i]
-		F.ReskinIcon(bu.icon)
+		local icbg = F.ReskinIcon(bu.icon)
+		F.ReskinTexture(bu, icbg, false)
 	end
 
 	-- Pet loadout
@@ -206,27 +207,25 @@ C.themes["Blizzard_Collections"] = function()
 
 		for j = 1, 3 do
 			local spell = bu["spell"..j]
-			spell:SetPushedTexture("")
 			spell:GetRegions():Hide()
 
-			spell.selected:SetTexture(C.media.checked)
 			spell.FlyoutArrow:SetTexture(C.media.arrowDown)
 			spell.FlyoutArrow:SetSize(8, 8)
 			spell.FlyoutArrow:SetTexCoord(0, 1, 0, 1)
 
 			local icbg = F.ReskinIcon(spell.icon)
 			F.ReskinTexture(spell, icbg, false)
+			F.ReskinTexed(spell.selected, icbg)
 		end
 	end
 
 	F.StripTextures(PetJournal.SpellSelect)
 	for i = 1, 2 do
 		local bu = PetJournal.SpellSelect["Spell"..i]
-		bu:SetCheckedTexture(C.media.checked)
-		bu:SetPushedTexture("")
 
 		local icbg = F.ReskinIcon(bu.icon)
 		F.ReskinTexture(bu, icbg, false)
+		F.ReskinTexed(bu, icbg)
 	end
 
 	-- [[ Toy box ]]
@@ -354,7 +353,6 @@ C.themes["Blizzard_Collections"] = function()
 
 	for index = 1, 2 do
 		local tab = _G["WardrobeCollectionFrameTab"..index]
-		tab:SetHighlightTexture("")
 		F.StripTextures(tab)
 
 		tab.bg = F.CreateBDFrame(tab, 0)
@@ -388,6 +386,7 @@ C.themes["Blizzard_Collections"] = function()
 
 	hooksecurefunc(SetsCollectionFrame, "SetItemFrameQuality", function(_, itemFrame)
 		local ic = itemFrame.Icon
+
 		if not ic.bg then
 			itemFrame.IconBorder:Hide()
 			ic.bg = F.ReskinIcon(ic)
@@ -422,14 +421,14 @@ C.themes["Blizzard_Collections"] = function()
 	WardrobeOutfitDropDown.SaveButton:SetPoint("LEFT", WardrobeOutfitDropDown, "RIGHT", -13, 2)
 	WardrobeTransmogFrame.SpecButton:SetPoint("RIGHT", WardrobeTransmogFrame.ApplyButton, "LEFT", -3, 0)
 
-	local slots = {"Head", "Shoulder", "Chest", "Waist", "Legs", "Feet", "Wrist", "Hands", "Back", "Shirt", "Tabard", "MainHand", "SecondaryHand"}
+	local slots = {"Head", "Shoulder", "Chest", "Waist", "Legs", "Feet", "Wrist", "Hands", "Back", "Shirt", "Tabard", "MainHand", "SecondaryHand", "MainHandEnchant", "SecondaryHandEnchant"}
 	for i = 1, #slots do
 		local slot = WardrobeTransmogFrame.Model[slots[i].."Button"]
 		if slot then
 			slot.Border:Hide()
-			local bg = F.ReskinIcon(slot.Icon)
 
-			F.ReskinTexture(slot, bg, false)
+			local icbg = F.ReskinIcon(slot.Icon)
+			F.ReskinTexture(slot, icbg, false)
 		end
 	end
 

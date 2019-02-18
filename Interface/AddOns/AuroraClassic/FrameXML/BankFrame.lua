@@ -28,8 +28,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.ReskinBorder(border, bu)
 
 		local searchOverlay = bu.searchOverlay
-		searchOverlay:SetPoint("TOPLEFT", -C.mult, C.mult)
-		searchOverlay:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
+		searchOverlay:SetAllPoints(ic)
 	end
 
 	for i = 1, 28 do

@@ -75,6 +75,7 @@ C.themes["Blizzard_InspectUI"] = function()
 		local tab = _G["InspectFrameTab"..i]
 		F.ReskinTab(tab)
 		if i ~= 1 then
+			tab:ClearAllPoints()
 			tab:SetPoint("LEFT", _G["InspectFrameTab"..(i-1)], "RIGHT", -15, 0)
 		end
 	end

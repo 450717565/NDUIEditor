@@ -4,10 +4,10 @@ C.themes["Blizzard_TimeManager"] = function()
 	TimeManagerGlobe:Hide()
 
 	local check = TimeManagerStopwatchCheck
-	check:SetCheckedTexture(C.media.checked)
 
 	local ic = F.ReskinIcon(check:GetNormalTexture())
 	F.ReskinTexture(check, ic, false)
+	F.ReskinTexed(check, ic)
 
 	TimeManagerAlarmHourDropDown:SetWidth(80)
 	TimeManagerAlarmMinuteDropDown:SetWidth(80)

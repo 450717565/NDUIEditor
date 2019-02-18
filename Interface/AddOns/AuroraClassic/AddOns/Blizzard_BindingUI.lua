@@ -15,11 +15,6 @@ C.themes["Blizzard_BindingUI"] = function()
 	KeyBindingFrame.unbindButton:ClearAllPoints()
 	KeyBindingFrame.unbindButton:SetPoint("RIGHT", KeyBindingFrame.okayButton, "LEFT", -1, 0)
 
-	local line = KeyBindingFrame:CreateTexture(nil, "ARTWORK")
-	line:SetSize(C.mult, 546)
-	line:SetPoint("LEFT", 205, 10)
-	line:SetColorTexture(1, 1, 1, .25)
-
 	local frames =  {"header", "scrollFrame", "bindingsContainer", "categoryList"}
 	for _, frame in next, frames do
 		F.StripTextures(KeyBindingFrame[frame], true)
@@ -33,6 +28,8 @@ C.themes["Blizzard_BindingUI"] = function()
 	for i = 1, KEY_BINDINGS_DISPLAYED do
 		local button1 = _G["KeyBindingFrameKeyBinding"..i.."Key1Button"]
 		local button2 = _G["KeyBindingFrameKeyBinding"..i.."Key2Button"]
+
+		button2:ClearAllPoints()
 		button2:SetPoint("LEFT", button1, "RIGHT", 1, 0)
 	end
 
@@ -44,4 +41,7 @@ C.themes["Blizzard_BindingUI"] = function()
 			button.styled = true
 		end
 	end)
+
+	local line = F.CreateLine(KeyBindingFrameCategoryList)
+	line:SetPoint("RIGHT", 10, 0)
 end

@@ -143,7 +143,7 @@ end
 local function CreateRaidStyle(self)
 	self.mystyle = "raid"
 	self.Range = {
-		insideAlpha = 1, outsideAlpha = .35,
+		insideAlpha = 1, outsideAlpha = .4,
 	}
 
 	UF:CreateHeader(self)
@@ -165,7 +165,7 @@ end
 local function CreatePartyStyle(self)
 	self.mystyle = "party"
 	self.Range = {
-		insideAlpha = 1, outsideAlpha = .35,
+		insideAlpha = 1, outsideAlpha = .4,
 	}
 
 	UF:CreateHeader(self)

@@ -11,6 +11,17 @@ local CR_CRIT_SPELL, CR_CRIT_RANGED, CR_CRIT_MELEE = CR_CRIT_SPELL, CR_CRIT_RANG
 local strsplit = string.split
 
 -- Init
+function B.RemoveAuraData(spellID)
+	for _, v in pairs(C.AuraWatchList[DB.MyClass]) do
+		for _, list in pairs(v.List) do
+			if list.AuraID and list.AuraID == spellID then
+				wipe(list)
+				break
+			end
+		end
+	end
+end
+
 local function ConvertTable()
 	local function DataAnalyze(v)
 		local newTable = {}
@@ -61,6 +72,7 @@ local function ConvertTable()
 				for _, list in pairs(target) do
 					if list.AuraID and v.AuraID and list.AuraID == v.AuraID then
 						wipe(list)
+						break
 					end
 				end
 				tinsert(target, v)
@@ -677,12 +689,12 @@ SlashCmdList.AuraWatch = function(msg)
 				if IntTable[i] then IntTable[i]:Hide() end
 			end
 			wipe(IntTable)
-			UpdateIntFrame(102364, nil, 0, "player")
-			UpdateIntFrame(102364, nil, 0, "player")
-			UpdateIntFrame(102364, nil, 0, "player")
-			UpdateIntFrame(102364, nil, 0, "player")
-			UpdateIntFrame(102364, nil, 0, "player")
-			UpdateIntFrame(102364, nil, 0, "player")
+			UpdateIntFrame(2825, nil, 0, "player")
+			UpdateIntFrame(2825, nil, 0, "player")
+			UpdateIntFrame(2825, nil, 0, "player")
+			UpdateIntFrame(2825, nil, 0, "player")
+			UpdateIntFrame(2825, nil, 0, "player")
+			UpdateIntFrame(2825, nil, 0, "player")
 			for i = 1, #IntTable do
 				IntTable[i]:SetScript("OnUpdate", nil)
 				IntTable[i]:Show()

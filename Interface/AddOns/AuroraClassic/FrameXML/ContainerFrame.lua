@@ -37,8 +37,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			F.ReskinBorder(border, button)
 
 			local searchOverlay = button.searchOverlay
-			searchOverlay:SetPoint("TOPLEFT", -C.mult, C.mult)
-			searchOverlay:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
+			searchOverlay:SetAllPoints(ic)
 		end
 	end
 

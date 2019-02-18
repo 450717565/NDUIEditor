@@ -1,5 +1,5 @@
 ﻿local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local module = B:RegisterModule("Maps")
 
 local mapRects = {}
@@ -60,7 +60,7 @@ function module:OnLogin()
 	player:SetJustifyH("LEFT")
 	cursor:SetJustifyH("LEFT")
 
-	if IsAddOnLoaded("AuroraClassic") then
+	if F then
 		player:SetPoint("TOPLEFT", 40, -8)
 		cursor:SetPoint("TOPLEFT", 170, -8)
 	else

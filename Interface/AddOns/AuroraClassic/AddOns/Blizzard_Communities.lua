@@ -44,15 +44,15 @@ C.themes["Blizzard_Communities"] = function()
 	end
 
 	CommunitiesFrame.ChatTab:ClearAllPoints()
-	CommunitiesFrame.ChatTab:SetPoint("TOPLEFT", CommunitiesFrame, "TOPRIGHT", 2, -25)
+	CommunitiesFrame.ChatTab:SetPoint("TOPLEFT", CommunitiesFrame, "TOPRIGHT", 0, -25)
 	for _, name in next, {"ChatTab", "RosterTab", "GuildBenefitsTab", "GuildInfoTab"} do
 		local tab = CommunitiesFrame[name]
 		tab:SetSize(34, 34)
 		tab:GetRegions():Hide()
-		tab:SetCheckedTexture(C.media.checked)
 
 		local bg = F.ReskinIcon(tab.Icon)
 		F.ReskinTexture(tab, bg, false)
+		F.ReskinTexed(tab, bg)
 	end
 
 	F.StripTextures(CommunitiesFrameCommunitiesList)
@@ -83,7 +83,7 @@ C.themes["Blizzard_Communities"] = function()
 	F.ReskinScroll(CommunitiesFrame.MemberList.ListScrollFrame.scrollBar)
 
 	F.StripTextures(CommunitiesFrame.Chat)
-	F.ReskinInput(CommunitiesFrame.ChatEditBox, 22)
+	F.ReskinInput(CommunitiesFrame.ChatEditBox, false, 22)
 	local chatbg = F.CreateBDFrame(CommunitiesFrame.Chat, 0)
 	chatbg:SetPoint("TOPLEFT", -6, 5)
 	chatbg:SetPoint("BOTTOMRIGHT", 3, -2)
@@ -97,7 +97,7 @@ C.themes["Blizzard_Communities"] = function()
 	F.ReskinButton(EditStream.Accept)
 	F.ReskinButton(EditStream.Delete)
 	F.ReskinButton(EditStream.Cancel)
-	F.ReskinInput(EditStream.NameEdit, 22)
+	F.ReskinInput(EditStream.NameEdit, false, 22)
 	F.StripTextures(EditStream.Description)
 	F.CreateBDFrame(EditStream.Description, 0)
 
@@ -248,7 +248,7 @@ C.themes["Blizzard_Communities"] = function()
 		end
 
 		for _, button in ipairs(self.ListScrollFrame.buttons or {}) do
-			if button and not button.hooked then
+			if button and not button.styled then
 				hooksecurefunc(button, "RefreshExpandedColumns", updateNameFrame)
 				if button.ProfessionHeader then
 					local header = button.ProfessionHeader
@@ -258,7 +258,7 @@ C.themes["Blizzard_Communities"] = function()
 					F.ReskinIcon(header.Icon, true)
 				end
 
-				button.hooked = true
+				button.styled = true
 			end
 			if button and button.bg then button.bg:SetShown(button.Class:IsShown()) end
 		end

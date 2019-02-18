@@ -1,5 +1,4 @@
-local B, C, L, DB = unpack(select(2, ...))
-local ACF = IsAddOnLoaded("AuroraClassic") and unpack(AuroraClassic)
+local B, C, L, DB, F = unpack(select(2, ...))
 
 local spot = 0
 local cani, found, Numskills, Cost, TrainAll
@@ -39,7 +38,7 @@ local function createit()
 	Button:SetText(L["Train All"])
 	Button:SetPoint("RIGHT", ClassTrainerTrainButton, "LEFT", -2, 0)
 
-	if ACF then ACF.ReskinButton(Button) end
+	if F then F.ReskinButton(Button) end
 
 	Button:SetScript("OnEnter", function()
 		GameTooltip:SetOwner(Button,"ANCHOR_RIGHT")

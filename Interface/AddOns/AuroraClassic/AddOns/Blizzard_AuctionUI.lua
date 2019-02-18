@@ -56,6 +56,7 @@ C.themes["Blizzard_AuctionUI"] = function()
 
 	local sorts = {BrowseQualitySort, BrowseLevelSort, BrowseDurationSort, BrowseHighBidderSort, BrowseCurrentBidSort, BidQualitySort, BidLevelSort, BidDurationSort, BidBuyoutSort, BidStatusSort, BidBidSort, AuctionsQualitySort, AuctionsDurationSort, AuctionsHighBidderSort, AuctionsBidSort}
 	for _, sort in next, sorts do
+		F.StripTextures(sort)
 		F.ReskinTexture(sort, sort, true)
 	end
 
@@ -72,7 +73,7 @@ C.themes["Blizzard_AuctionUI"] = function()
 
 	local inputs = {BrowseName, BrowseMinLevel, BrowseMaxLevel, BrowseBidPriceGold, BrowseBidPriceSilver, BrowseBidPriceCopper, BidBidPriceGold, BidBidPriceSilver, BidBidPriceCopper, StartPriceGold, StartPriceSilver, StartPriceCopper, BuyoutPriceGold, BuyoutPriceSilver, BuyoutPriceCopper, AuctionsStackSizeEntry, AuctionsNumStacksEntry}
 	for _, input in next, inputs do
-		F.ReskinInput(input)
+		F.ReskinInput(input, true)
 	end
 
 	local checks = {ExactMatchCheckButton, IsUsableCheckButton, ShowOnPlayerCheckButton}
@@ -118,7 +119,7 @@ C.themes["Blizzard_AuctionUI"] = function()
 	end
 
 	hooksecurefunc("FilterButton_SetUp", function(button)
-		button:SetNormalTexture("")
+		F.CleanTextures(button)
 		F.ReskinTexture(button, button, true)
 	end)
 
@@ -174,7 +175,7 @@ C.themes["Blizzard_AuctionUI"] = function()
 		AuctionFrame:HookScript("OnShow", reksinTabs)
 
 		AuctionFrameTab1:ClearAllPoints()
-		AuctionFrameTab1:SetPoint("TOPLEFT", AuctionFrame, "BOTTOMLEFT", 10, 2)
+		AuctionFrameTab1:SetPoint("TOPLEFT", AuctionFrame, "BOTTOMLEFT", 15, 2)
 	end
 
 	-- Tutorial
@@ -198,6 +199,7 @@ C.themes["Blizzard_AuctionUI"] = function()
 		F.ReskinButton(Buyout)
 
 		local Token = BrowseWowTokenResults.Token
+		F.StripTextures(Token)
 		F.ReskinIcon(Token.Icon)
 		F.ReskinBorder(Token.IconBorder, Token.Icon)
 	end

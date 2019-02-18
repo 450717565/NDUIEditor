@@ -1,7 +1,6 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local module = B:GetModule("Chat")
-local ACF = IsAddOnLoaded("AuroraClassic") and unpack(AuroraClassic)
 
 function module:ChatCopy()
 	local gsub, format, tconcat = string.gsub, string.format, table.concat
@@ -113,5 +112,5 @@ function module:ChatCopy()
 		tab:SetScript("OnEnter", hintFunc)
 	end
 
-	if ACF then ACF.ReskinScroll(ChatCopyScrollFrameScrollBar) end
+	if F then F.ReskinScroll(ChatCopyScrollFrameScrollBar) end
 end

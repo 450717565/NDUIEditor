@@ -146,7 +146,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			block.TimerBGBack:Hide()
 
 			block.StatusBar:SetHeight(10)
-			F.ReskinStatusBar(block.StatusBar, 0)
+			F.ReskinStatusBar(block.StatusBar)
 
 			select(3, block:GetRegions()):Hide()
 			block.bg = F.CreateBDFrame(block, .25)

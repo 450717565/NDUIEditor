@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local ipairs = ipairs
 
 --[[
@@ -7,7 +7,6 @@ local ipairs = ipairs
 ]]
 
 if IsAddOnLoaded("AuroraClassic") then
-	local F = unpack(AuroraClassic)
 	local cr, cg, cb = DB.r, DB.g, DB.b
 
 	local OrderHall_Frame = CreateFrame("Frame")

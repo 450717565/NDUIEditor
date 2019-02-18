@@ -8,6 +8,8 @@ C.themes["Blizzard_EncounterJournal"] = function()
 	F.ReskinFrame(EncounterJournal)
 	F.ReskinInput(EncounterJournal.searchBox)
 
+	EncounterJournalEncounterFrameInstanceFrameMapButtonShadow:Hide()
+
 	local scrolls = {EncounterJournalScrollBar, EncounterJournalInstanceSelectScrollFrameScrollBar, EncounterJournalEncounterFrameInstanceFrameLoreScrollFrameScrollBar, EncounterJournalEncounterFrameInfoOverviewScrollFrameScrollBar, EncounterJournalEncounterFrameInfoBossesScrollFrameScrollBar, EncounterJournalEncounterFrameInfoDetailsScrollFrameScrollBar, EncounterJournalEncounterFrameInfoLootScrollFrameScrollBar}
 	for _, scroll in next, scrolls do
 		F.ReskinScroll(scroll)
@@ -37,23 +39,26 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		text:SetPoint("CENTER")
 	end
 
-	do
+	hooksecurefunc("EncounterJournal_ListInstances", function()
 		local index = 1
-		local function reksinInstances()
-			while true do
-				local instance = instanceSelect.scroll.child["instance"..index]
-				if not instance then return end
+		while true do
+			local instance = instanceSelect.scroll.child["instance"..index]
+			if not instance then return end
+
+			if not instance.styled then
+				F.CleanTextures(instance)
 
 				local bubg = F.CreateBDFrame(instance.bgImage, 1, true)
 				bubg:SetPoint("TOPLEFT", 3, -3)
 				bubg:SetPoint("BOTTOMRIGHT", -4, 2)
 				F.ReskinTexture(instance, bubg, false)
 
-				index = index + 1
+				instance.styled = true
 			end
+
+			index = index + 1
 		end
-		hooksecurefunc("EncounterJournal_ListInstances", reksinInstances)
-	end
+	end)
 
 	-- [[ Suggest Frame]]
 	local SuggestFrame = EncounterJournal.suggestFrame
@@ -66,8 +71,8 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		F.StripTextures(Suggestion)
 
 		local icon = Suggestion.icon
-		icon:ClearAllPoints()
 		F.CreateBDFrame(icon, 0)
+		icon:ClearAllPoints()
 
 		local centerDisplay = Suggestion.centerDisplay
 		centerDisplay.title.text:SetTextColor(1, .8, 0)
@@ -162,29 +167,35 @@ C.themes["Blizzard_EncounterJournal"] = function()
 
 	-- [[ Encounter Frame ]]
 	local Encounter = EncounterJournal.encounter
+	F.StripTextures(Encounter.overviewFrame)
 	Encounter.infoFrame.description:SetTextColor(1, 1, 1)
 	Encounter.instance.loreScroll.child.lore:SetTextColor(1, 1, 1)
 	Encounter.overviewFrame.loreDescription:SetTextColor(1, 1, 1)
 	Encounter.overviewFrame.overviewDescription.Text:SetTextColor(1, 1, 1)
+	Encounter.instance.titleBG:Hide()
 
 	local infoFrame = Encounter.info
 	F.StripTextures(infoFrame)
 	F.StripTextures(infoFrame.model, true)
 	F.CreateBDFrame(infoFrame.model, 0)
-
+	F.StripTextures(infoFrame.lootScroll.classClearFilter)
 	F.ReskinButton(infoFrame.reset)
-	F.ReskinButton(infoFrame.difficulty)
-	F.ReskinButton(infoFrame.lootScroll.filter)
-	F.ReskinButton(infoFrame.lootScroll.slotFilter)
 
 	infoFrame.instanceButton:Hide()
-
 	infoFrame.overviewTab:ClearAllPoints()
 	infoFrame.overviewTab:SetPoint("TOPLEFT", infoFrame, "TOPRIGHT", 5, -25)
+
+	local buttons = {infoFrame.difficulty, infoFrame.lootScroll.filter, infoFrame.lootScroll.slotFilter}
+	for _, button in next, buttons do
+		F.StripTextures(button)
+		F.ReskinButton(button)
+	end
+
 	local sideTabs = {"overviewTab", "lootTab", "bossTab", "modelTab"}
 	for _, sideTab in next, sideTabs do
 		local tab = infoFrame[sideTab]
 		tab:SetSize(59, 59)
+		F.CleanTextures(tab)
 
 		local bg = F.CreateBDFrame(tab, nil, true)
 		bg:SetPoint("TOPLEFT", 5, -5)
@@ -232,9 +243,16 @@ C.themes["Blizzard_EncounterJournal"] = function()
 
 	hooksecurefunc("EncounterJournal_SetUpOverview", function(self, _, index)
 		local header = self.overviews[index]
+
 		if not header.styled then
 			F.StripTextures(header.button)
-			F.ReskinButton(header.button)
+			header.descriptionBG:SetAlpha(0)
+			header.descriptionBGBottom:SetAlpha(0)
+
+			local bubg = F.CreateBDFrame(header.button, 0)
+			bubg:SetPoint("TOPLEFT", C.mult, -C.mult)
+			bubg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
+			F.ReskinTexture(header.button, bubg, true)
 
 			header.styled = true
 		end
@@ -253,37 +271,55 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		end
 	end)
 
-	do
+	hooksecurefunc("EncounterJournal_GetCreatureButton", function(index)
+		local button = infoFrame.creatureButtons[index]
+		F.CleanTextures(button)
+	end)
+
+	hooksecurefunc("EncounterJournal_DisplayInstance", function()
 		local index = 1
-		local function reskinBosses()
-			while true do
-				local boss = _G["EncounterJournalBossButton"..index]
-				if not boss then return end
+		while true do
+			local boss = _G["EncounterJournalBossButton"..index]
+			if not boss then return end
 
-				F.ReskinButton(boss, true)
-				F.ReskinTexture(boss, boss, true)
-				boss.creature:SetPoint("TOPLEFT", 1, -4)
+			if not boss.styled then
+				F.StripTextures(boss)
+				boss.creature:ClearAllPoints()
+				boss.creature:SetPoint("TOPLEFT", 2, -3)
 
-				index = index + 1
+				local bubg = F.CreateBDFrame(boss, 0)
+				bubg:SetPoint("TOPLEFT", C.mult, -C.mult)
+				bubg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
+				F.ReskinTexture(boss, bubg, true)
+
+				boss.styled = true
 			end
+
+			index = index + 1
 		end
-		hooksecurefunc("EncounterJournal_DisplayInstance", reskinBosses)
-	end
+	end)
 
-	do
+	hooksecurefunc("EncounterJournal_ToggleHeaders", function()
 		local index = 1
-		local function reskinHeaders()
-			while true do
-				local header = _G["EncounterJournalInfoHeader"..index]
-				if not header then return end
+		while true do
+			local header = _G["EncounterJournalInfoHeader"..index]
+			if not header then return end
 
+			if not header.styled then
 				F.StripTextures(header.button)
-				F.ReskinButton(header.button)
 				header.description:SetTextColor(1, 1, 1)
+				header.descriptionBG:SetAlpha(0)
+				header.descriptionBGBottom:SetAlpha(0)
 
-				index = index + 1
+				local bubg = F.CreateBDFrame(header.button, 0)
+				bubg:SetPoint("TOPLEFT", C.mult, -C.mult)
+				bubg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
+				F.ReskinTexture(header.button, bubg, true)
+
+				header.styled = true
 			end
+
+			index = index + 1
 		end
-		hooksecurefunc("EncounterJournal_ToggleHeaders", reskinHeaders)
-	end
+	end)
 end

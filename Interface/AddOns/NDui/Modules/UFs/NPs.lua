@@ -415,7 +415,7 @@ end
 function UF:CreatePlayerPlate()
 	self.mystyle = "PlayerPlate"
 	local iconSize, margin = NDuiDB["Nameplate"]["PPIconSize"], 2
-	self:SetSize(iconSize*5 + margin*4, NDuiDB["Nameplate"]["PPHeight"])
+	self:SetSize(iconSize*5 + margin*3, NDuiDB["Nameplate"]["PPHeight"])
 	self:EnableMouse(false)
 	self.iconSize = iconSize
 

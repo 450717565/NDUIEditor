@@ -23,8 +23,8 @@ C.media = {
 	["checked"] = mediaPath.."checked",
 	["font"] = STANDARD_TEXT_FONT,
 	["glowTex"] = mediaPath.."glowTex",
-	["gradientTex"] = mediaPath.."gradientTex",
-	["normTex"] = "Interface\\TARGETINGFRAME\\UI-TargetingFrame-BarFill",
+	["gradTex"] = mediaPath.."gradTex",
+	["normTex"] = "Interface\\TargetingFrame\\UI-TargetingFrame-BarFill",
 	["pushed"] = mediaPath.."pushed",
 }
 
@@ -203,22 +203,41 @@ function F:CreateGradient()
 	local Gradient = self:CreateTexture(nil, "BORDER")
 	Gradient:SetPoint("TOPLEFT", self, C.mult, -C.mult)
 	Gradient:SetPoint("BOTTOMRIGHT", self, -C.mult, C.mult)
-	Gradient:SetTexture(C.media.gradientTex)
+	Gradient:SetTexture(C.media.gradTex)
 	Gradient:SetVertexColor(.3, .3, .3, .3)
 	self.Gradient = Gradient
 
 	return Gradient
 end
 
+function F:CreateLine(isHorizontal)
+	if self.Line then return end
+
+	local w, h = self:GetSize()
+	local Line = self:CreateTexture(nil, "ARTWORK")
+	Line:SetColorTexture(1, 1, 1, .25)
+	Line:ClearAllPoints()
+
+	if isHorizontal then
+		Line:SetSize(w*.9, C.mult)
+	else
+		Line:SetSize(C.mult, h*.9)
+	end
+
+	self.Line = Line
+
+	return Line
+end
+
 local function CreateTex(frame)
 	if frame.Tex then return end
 
 	local Tex = frame:CreateTexture(nil, "BACKGROUND", nil, 1)
-	Tex:SetAllPoints()
 	Tex:SetTexture(C.media.bgTex, true, true)
 	Tex:SetHorizTile(true)
 	Tex:SetVertTile(true)
 	Tex:SetBlendMode("ADD")
+	Tex:SetAllPoints()
 	frame.Tex = Tex
 
 	return Tex
@@ -508,7 +527,10 @@ function F:ReskinIcon(setBG, alpha)
 	end
 end
 
-function F:ReskinInput(height, width)
+function F:ReskinInput(noKill, height, width)
+	if not noKill then
+		F.StripTextures(self)
+	end
 	F.CleanTextures(self)
 
 	local bg = F.CreateBDFrame(self, 0)
@@ -771,6 +793,26 @@ function F:ReskinTab()
 	F.ReskinTexture(self, bg, true)
 end
 
+function F:ReskinTexed(relativeTo)
+	if not self then return end
+
+	if self.SetPushedTexture then
+		self:SetPushedTexture("")
+	end
+
+	local tex
+	if self.SetCheckedTexture then
+		self:SetCheckedTexture(C.media.checked)
+		tex = self:GetCheckedTexture()
+	else
+		tex = self
+		tex:SetTexture(C.media.checked)
+	end
+
+	tex:SetPoint("TOPLEFT", relativeTo, C.mult, -C.mult)
+	tex:SetPoint("BOTTOMRIGHT", relativeTo, -C.mult, C.mult)
+end
+
 function F:ReskinTexture(relativeTo, classColor)
 	if not self then return end
 
@@ -934,6 +976,7 @@ local BlizzTextures = {
 	"bgRight",
 	"FilligreeOverlay",
 	"ShadowOverlay",
+	"BorderBox",
 }
 
 function F:StripTextures(kill)
