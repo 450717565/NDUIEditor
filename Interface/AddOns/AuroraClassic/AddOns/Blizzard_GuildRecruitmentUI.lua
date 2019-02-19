@@ -38,6 +38,11 @@ C.themes["Blizzard_GuildRecruitmentUI"] = function()
 		F.ReskinRadio(button)
 	end
 
+	local RolesFrame = recruitment.RolesFrame
+	F.ReskinRole(RolesFrame.TankButton, "TANK")
+	F.ReskinRole(RolesFrame.HealerButton, "HEALER")
+	F.ReskinRole(RolesFrame.DamagerButton, "DPS")
+
 	local CommentFrame = recruitment.CommentFrame
 	F.StripTextures(CommentFrame, true)
 

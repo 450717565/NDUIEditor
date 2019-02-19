@@ -4,22 +4,24 @@ C.themes["Blizzard_PVPUI"] = function()
 	local cr, cg, cb = C.r, C.g, C.b
 
 	-- ConquestBar
-	local function styleBar(f)
-		F.ReskinStatusBar(f.ConquestBar)
+	local function styleBar(self)
+		F.ReskinStatusBar(self.ConquestBar)
 
-		local cbreward = f.ConquestBar.Reward
+		local cbreward = self.ConquestBar.Reward
 		cbreward:ClearAllPoints()
-		cbreward:SetPoint("LEFT", f.ConquestBar, "RIGHT", 2, 0)
+		cbreward:SetPoint("LEFT", self.ConquestBar, "RIGHT", 2, 0)
 		cbreward.CircleMask:Hide()
 		cbreward.Ring:Hide()
 		F.ReskinIcon(cbreward.Icon)
 	end
 
 	-- RoleButton
-	local function styleRole(f)
-		for _, roleButton in next, {f.HealerIcon, f.TankIcon, f.DPSIcon} do
-			F.ReskinCheck(roleButton.checkButton)
-		end
+	local function styleRole(self)
+		self:DisableDrawLayer("BACKGROUND")
+		self:DisableDrawLayer("BORDER")
+		F.ReskinRole(self.TankIcon, "TANK")
+		F.ReskinRole(self.HealerIcon, "HEALER")
+		F.ReskinRole(self.DPSIcon, "DPS")
 	end
 
 	-- PVPQueueFrame
@@ -53,6 +55,17 @@ C.themes["Blizzard_PVPUI"] = function()
 		end
 	end)
 
+	local NewSeason = PVPQueueFrame.NewSeasonPopup
+	F.ReskinButton(NewSeason.Leave)
+	NewSeason.NewSeason:SetTextColor(1, .8, 0)
+	NewSeason.SeasonDescription:SetTextColor(1, 1, 1)
+	NewSeason.SeasonDescription2:SetTextColor(1, 1, 1)
+
+	local SeasonRewardFrame = SeasonRewardFrame
+	SeasonRewardFrame.CircleMask:Hide()
+	SeasonRewardFrame.Ring:Hide()
+	F.ReskinIcon(SeasonRewardFrame.Icon)
+	select(3, SeasonRewardFrame:GetRegions()):SetTextColor(1, .8, 0)
 	-- HonorFrame
 	local BonusFrame = HonorFrame.BonusFrame
 	F.StripTextures(HonorFrame, true)

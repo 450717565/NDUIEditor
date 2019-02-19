@@ -61,9 +61,10 @@ C.themes["Blizzard_Communities"] = function()
 		for i = 1, #buttons do
 			local button = buttons[i]
 			if not button.bg then
+				F.CleanTextures(button)
 				button:GetRegions():Hide()
 				button.Selection:SetAlpha(0)
-				button:SetHighlightTexture("")
+
 				button.bg = F.CreateBDFrame(button, 0)
 				button.bg:SetPoint("TOPLEFT", 5, -5)
 				button.bg:SetPoint("BOTTOMRIGHT", -10, 5)
@@ -149,6 +150,8 @@ C.themes["Blizzard_Communities"] = function()
 		for i = 1, column:GetNumChildren() do
 			local child = select(i, column:GetChildren())
 			if not child.styled then
+				F.StripTextures(child)
+
 				local bg = F.CreateBDFrame(child, 0)
 				bg:SetPoint("TOPLEFT", 4, -2)
 				bg:SetPoint("BOTTOMRIGHT", 0, 2)
@@ -238,6 +241,8 @@ C.themes["Blizzard_Communities"] = function()
 		for i = 1, self.ColumnDisplay:GetNumChildren() do
 			local child = select(i, self.ColumnDisplay:GetChildren())
 			if not child.styled then
+				F.StripTextures(child)
+
 				local bg = F.CreateBDFrame(child, 0)
 				bg:SetPoint("TOPLEFT", 4, -2)
 				bg:SetPoint("BOTTOMRIGHT", 0, 2)
@@ -308,7 +313,7 @@ C.themes["Blizzard_Communities"] = function()
 					F.ReskinTexture(button, button.bg, true)
 					F.ReskinIcon(button.Icon)
 				end
-				button:SetNormalTexture("")
+				F.CleanTextures(button)
 				button.DisabledBG:Hide()
 			end
 		end

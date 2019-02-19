@@ -1,6 +1,8 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_ArchaeologyUI"] = function()
+	local cr, cg, cb = C.r, C.g, C.b
+
 	F.ReskinFrame(ArchaeologyFrame)
 	F.ReskinButton(ArchaeologyFrameArtifactPageBackButton)
 	F.ReskinButton(ArchaeologyFrameArtifactPageSolveFrameSolveButton)
@@ -17,6 +19,15 @@ C.themes["Blizzard_ArchaeologyUI"] = function()
 	ArchaeologyFrameSummarytButton:SetPoint("TOPLEFT", ArchaeologyFrame, "TOPRIGHT", 0, -25)
 	ArchaeologyFrameCompletedButton:ClearAllPoints()
 	ArchaeologyFrameCompletedButton:SetPoint("TOP", ArchaeologyFrameSummarytButton, "BOTTOM", 0, 0)
+
+	local Digsite = ArcheologyDigsiteProgressBar
+	F.StripTextures(Digsite)
+	F.CreateBDFrame(Digsite.FillBar)
+	Digsite.FillBar:SetHeight(15)
+	Digsite.FillBar:SetStatusBarTexture(C.media.normTex)
+	Digsite.FillBar:SetStatusBarColor(cr, cg, cb, .8)
+	Digsite.BarTitle:ClearAllPoints()
+	Digsite.BarTitle:SetPoint("CENTER")
 
 	local titles = {ArchaeologyFrameSummaryPageTitle, ArchaeologyFrameCompletedPageTitleTop, ArchaeologyFrameCompletedPageTitleMid, ArchaeologyFrameArtifactPageHistoryTitle, ArchaeologyFrameHelpPageTitle, ArchaeologyFrameHelpPageDigTitle}
 	for _, title in next, titles do

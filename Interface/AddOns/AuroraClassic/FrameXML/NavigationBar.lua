@@ -66,8 +66,8 @@ tinsert(C.themes["AuroraClassic"], function()
 			F.StripTextures(arrowButton)
 			F.SetupArrowTex(arrowButton, "down")
 
-			arrowButton:SetScript("OnEnter", F.texOnEnter)
-			arrowButton:SetScript("OnLeave", F.texOnLeave)
+			arrowButton:SetScript("OnEnter", F.TexOnEnter)
+			arrowButton:SetScript("OnLeave", F.TexOnLeave)
 
 			navButton.restyled = true
 		end

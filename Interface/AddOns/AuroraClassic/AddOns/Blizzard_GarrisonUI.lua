@@ -531,10 +531,11 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	hooksecurefunc("GarrisonLandingPageReport_SetTab", function(self)
 		local unselectedTab = Report.unselectedTab
+		F.CleanTextures(unselectedTab)
 		unselectedTab:SetHeight(36)
-		unselectedTab:SetNormalTexture("")
 		unselectedTab.selectedTex:Hide()
-		self:SetNormalTexture("")
+
+		F.CleanTextures(self)
 		self.selectedTex:Show()
 	end)
 

@@ -62,9 +62,9 @@ C.themes["Blizzard_LookingForGuildUI"] = function()
 		end
 
 		-- [[ Role buttons ]]
-		for _, roleButton in next, {LookingForGuildTankButton, LookingForGuildHealerButton, LookingForGuildDamagerButton} do
-			F.ReskinCheck(roleButton.checkButton)
-		end
+		F.ReskinRole(LookingForGuildTankButton, "TANK")
+		F.ReskinRole(LookingForGuildHealerButton, "HEALER")
+		F.ReskinRole(LookingForGuildDamagerButton, "DPS")
 
 		styled = true
 	end)

@@ -39,6 +39,8 @@ C.themes["Blizzard_InspectUI"] = function()
 	local inspectSpec = InspectTalentFrame.InspectSpec
 	inspectSpec.ring:Hide()
 	F.ReskinIcon(inspectSpec.specIcon)
+	inspectSpec.roleIcon:SetTexture(C.media.roleTex)
+	F.CreateBDFrame(inspectSpec.roleIcon, 0)
 
 	for i = 1, 7 do
 		local row = InspectTalentFrame.InspectTalents["tier"..i]
@@ -59,6 +61,7 @@ C.themes["Blizzard_InspectUI"] = function()
 			if role1 ~= nil then
 				local _, _, _, icon = GetSpecializationInfoByID(spec)
 				self.specIcon:SetTexture(icon)
+				self.roleIcon:SetTexCoord(F.GetRoleTexCoord(role1))
 			end
 		end
 	end

@@ -104,7 +104,7 @@ C.themes["Blizzard_Collections"] = function()
 
 	local function reskinButton(button)
 		local bu = _G[button]
-		bu:SetPushedTexture("")
+		F.CleanTextures(bu)
 
 		local bd = _G[button.."Border"]
 		bd:Hide()
@@ -208,6 +208,7 @@ C.themes["Blizzard_Collections"] = function()
 		for j = 1, 3 do
 			local spell = bu["spell"..j]
 			spell:GetRegions():Hide()
+			F.CleanTextures(spell)
 
 			spell.FlyoutArrow:SetTexture(C.media.arrowDown)
 			spell.FlyoutArrow:SetSize(8, 8)
@@ -222,6 +223,7 @@ C.themes["Blizzard_Collections"] = function()
 	F.StripTextures(PetJournal.SpellSelect)
 	for i = 1, 2 do
 		local bu = PetJournal.SpellSelect["Spell"..i]
+		F.CleanTextures(bu)
 
 		local icbg = F.ReskinIcon(bu.icon)
 		F.ReskinTexture(bu, icbg, false)
@@ -464,12 +466,12 @@ C.themes["Blizzard_Collections"] = function()
 			end
 
 			if PetJournalBandageButton then
-				PetJournalBandageButton:SetPushedTexture("")
-				PetJournalBandageButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 				PetJournalBandageButton:SetPoint("TOPRIGHT", PetJournalHealPetButton, "TOPLEFT", -3, 0)
 				PetJournalBandageButton:SetPoint("BOTTOMLEFT", PetJournalHealPetButton, "BOTTOMLEFT", -35, 0)
 				PetJournalBandageButtonBorder:Hide()
-				F.ReskinIcon(PetJournalBandageButtonIcon)
+				F.CleanTextures(PetJournalBandageButton)
+				local icbg = F.ReskinIcon(PetJournalBandageButtonIcon)
+				F.ReskinTexture(PetJournalBandageButton, icbg, false)
 			end
 			reskinHPet = true
 		end

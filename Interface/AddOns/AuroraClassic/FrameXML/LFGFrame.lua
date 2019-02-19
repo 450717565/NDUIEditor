@@ -2,62 +2,61 @@ local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
 	local function styleRewardButton(button)
+		if not button or button.styled then return end
+
 		local buttonName = button:GetName()
-
-		local name = _G[buttonName.."NameFrame"]
-		name:Hide()
-
 		local icon = _G[buttonName.."IconTexture"]
-		local ic = F.ReskinIcon(icon)
+		local shortageBorder = _G[buttonName.."ShortageBorder"]
+		local count = _G[buttonName.."Count"]
+		local nameFrame = _G[buttonName.."NameFrame"]
+		local border = button.IconBorder
 
-		local bg = F.CreateBDFrame(button, 0)
-		bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
-		bg:SetPoint("BOTTOMRIGHT", -5, 1)
+		if shortageBorder then shortageBorder:SetAlpha(0) end
+		if count then count:SetDrawLayer("OVERLAY") end
+		if nameFrame then nameFrame:SetAlpha(0) end
+		if border then border:SetAlpha(0) end
 
-		local cta = _G[buttonName.."ShortageBorder"]
-		if cta then cta:SetAlpha(0) end
+		local icbg = F.ReskinIcon(icon)
+		icon:SetDrawLayer("OVERLAY")
 
-		if button.IconBorder then
-			button.IconBorder:SetAlpha(0)
-		end
+		local bubg = F.CreateBDFrame(button, 0)
+		bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
+		bubg:SetPoint("BOTTOMRIGHT", -5, 1)
+
+		button.styled = true
 	end
 
-	hooksecurefunc("LFDQueueFrameRandom_UpdateFrame", function()
-		for i = 1, 4 do
-			local button = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i]
-			if button and not button.styled then
-				styleRewardButton(button)
-				button.styled = true
-			end
-		end
-	end)
-	hooksecurefunc("ScenarioQueueFrameRandom_UpdateFrame", function()
-		for i = 1, 2 do
-			local button = _G["ScenarioQueueFrameRandomScrollFrameChildFrameItem"..i]
-			if button and not button.styled then
-				styleRewardButton(button)
-				button.styled = true
-			end
-		end
-	end)
-	hooksecurefunc("RaidFinderQueueFrameRewards_UpdateFrame", function()
-		for i = 1, 4 do
-			local button = _G["RaidFinderQueueFrameScrollFrameChildFrameItem"..i]
+	hooksecurefunc("LFGRewardsFrame_SetItemButton", function(parentFrame, _, index)
+		local parentName = parentFrame:GetName()
+		local button = _G[parentName.."Item"..index]
+		styleRewardButton(button)
 
-			if button and not button.styled then
-				styleRewardButton(button)
-				button.styled = true
-			end
-		end
+		local moneyReward = parentFrame.MoneyReward
+		styleRewardButton(moneyReward)
 	end)
 
-	styleRewardButton(LFDQueueFrameRandomScrollFrameChildFrame.MoneyReward)
-	styleRewardButton(ScenarioQueueFrameRandomScrollFrameChildFrame.MoneyReward)
-	styleRewardButton(RaidFinderQueueFrameScrollFrameChildFrame.MoneyReward)
+	local leaderIcon = LFGDungeonReadyDialogRoleIconLeaderIcon
+	F.ReskinRole(leaderIcon, "LEADER")
+	leaderIcon:ClearAllPoints()
+	leaderIcon:SetPoint("TOPLEFT", LFGDungeonReadyDialogRoleIcon, "TOPRIGHT", 3, 0)
 
-	LFGDungeonReadyDialogBackground:Hide()
-	LFGDungeonReadyDialogBottomArt:Hide()
-	LFGDungeonReadyDialogFiligree:Hide()
+	local iconTexture = LFGDungeonReadyDialogRoleIconTexture
+	iconTexture:SetTexture(C.media.roleTex)
+	local bg = F.CreateBDFrame(iconTexture, 0)
+
+	hooksecurefunc("LFGDungeonReadyPopup_Update", function()
+		--LFGDungeonReadyDialog:SetBackdrop(nil)
+		leaderIcon.bg:SetShown(leaderIcon:IsShown())
+
+		if LFGDungeonReadyDialogRoleIcon:IsShown() then
+			local role = select(7, GetLFGProposal())
+			if not role or role == "NONE" then role = "DAMAGER" end
+			iconTexture:SetTexCoord(F.GetRoleTexCoord(role))
+			bg:Show()
+		else
+			bg:Hide()
+		end
+	end)
 
 	local function styleDungeonReady(button)
 		F.ReskinIcon(button.texture)
@@ -69,6 +68,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	hooksecurefunc("LFGDungeonReadyDialogReward_SetMisc", function(button)
 		if not button.styled then
 			styleDungeonReady(button)
+
 			button.styled = true
 		end
 
@@ -78,14 +78,15 @@ tinsert(C.themes["AuroraClassic"], function()
 	hooksecurefunc("LFGDungeonReadyDialogReward_SetReward", function(button, dungeonID, rewardIndex, rewardType, rewardArg)
 		if not button.styled then
 			styleDungeonReady(button)
+
 			button.styled = true
 		end
 
-		local name, texturePath, quantity
+		local texturePath
 		if rewardType == "reward" then
-			name, texturePath, quantity = GetLFGDungeonRewardInfo(dungeonID, rewardIndex);
+			texturePath = select(2, GetLFGDungeonRewardInfo(dungeonID, rewardIndex))
 		elseif rewardType == "shortage" then
-			name, texturePath, quantity = GetLFGDungeonShortageRewardInfo(dungeonID, rewardArg, rewardIndex);
+			texturePath = select(2, GetLFGDungeonShortageRewardInfo(dungeonID, rewardArg, rewardIndex))
 		end
 		if texturePath then
 			button.texture:SetTexture(texturePath)
@@ -93,60 +94,95 @@ tinsert(C.themes["AuroraClassic"], function()
 	end)
 
 	F.ReskinFrame(LFGInvitePopup, true)
-	F.ReskinFrame(LFGDungeonReadyStatus, true)
-	F.ReskinFrame(LFGDungeonReadyDialog, true)
-	LFGDungeonReadyDialog.SetBackdrop = F.Dummy
+	F.ReskinFrame(LFGDungeonReadyDialog)
+	F.ReskinFrame(LFGDungeonReadyStatus)
 
 	F.ReskinButton(LFGDungeonReadyDialogEnterDungeonButton)
 	F.ReskinButton(LFGDungeonReadyDialogLeaveQueueButton)
 	F.ReskinButton(LFGInvitePopupAcceptButton)
 	F.ReskinButton(LFGInvitePopupDeclineButton)
+	F.ReskinClose(LFGDungeonReadyDialogCloseButton)
+	F.ReskinClose(LFGDungeonReadyStatusCloseButton)
 
-	for _, roleButton in next, {LFDQueueFrameRoleButtonTank, LFDQueueFrameRoleButtonHealer, LFDQueueFrameRoleButtonDPS, LFDQueueFrameRoleButtonLeader, LFRQueueFrameRoleButtonTank, LFRQueueFrameRoleButtonHealer, LFRQueueFrameRoleButtonDPS, RaidFinderQueueFrameRoleButtonTank, RaidFinderQueueFrameRoleButtonHealer, RaidFinderQueueFrameRoleButtonDPS, RaidFinderQueueFrameRoleButtonLeader} do
-		if roleButton.background then
-			roleButton.background:SetTexture("")
-		end
-		F.ReskinCheck(roleButton.checkButton)
-
-		local shortageBorder = roleButton.shortageBorder
-		if shortageBorder then
-			shortageBorder:SetTexture("")
-
-			local icon = roleButton.incentiveIcon
-			icon.texture:ClearAllPoints()
-			icon.texture:SetPoint("BOTTOMRIGHT", roleButton)
-			icon.texture:SetSize(13, 13)
-			icon.border:Hide()
-
-			icon.bg = F.ReskinIcon(icon.texture)
+	local function reskinRoleButton(buttons, role)
+		for _, roleButton in pairs(buttons) do
+			F.ReskinRole(roleButton, role)
 		end
 	end
 
-	for _, roleButton in next, {LFDRoleCheckPopupRoleButtonTank, LFDRoleCheckPopupRoleButtonHealer, LFDRoleCheckPopupRoleButtonDPS, LFGInvitePopupRoleButtonTank, LFGInvitePopupRoleButtonHealer, LFGInvitePopupRoleButtonDPS, LFGListApplicationDialog.DamagerButton, LFGListApplicationDialog.TankButton, LFGListApplicationDialog.HealerButton} do
-		local checkButton = roleButton.checkButton or roleButton.CheckButton
-		F.ReskinCheck(checkButton)
-	end
+	local tanks = {
+		LFDQueueFrameRoleButtonTank,
+		LFDRoleCheckPopupRoleButtonTank,
+		RaidFinderQueueFrameRoleButtonTank,
+		LFGInvitePopupRoleButtonTank,
+		LFGListApplicationDialog.TankButton,
+		LFGDungeonReadyStatusGroupedTank,
+	}
+	reskinRoleButton(tanks, "TANK")
+
+	local healers = {
+		LFDQueueFrameRoleButtonHealer,
+		LFDRoleCheckPopupRoleButtonHealer,
+		RaidFinderQueueFrameRoleButtonHealer,
+		LFGInvitePopupRoleButtonHealer,
+		LFGListApplicationDialog.HealerButton,
+		LFGDungeonReadyStatusGroupedHealer,
+	}
+	reskinRoleButton(healers, "HEALER")
+
+	local dps = {
+		LFDQueueFrameRoleButtonDPS,
+		LFDRoleCheckPopupRoleButtonDPS,
+		RaidFinderQueueFrameRoleButtonDPS,
+		LFGInvitePopupRoleButtonDPS,
+		LFGListApplicationDialog.DamagerButton,
+		LFGDungeonReadyStatusGroupedDamager,
+	}
+	reskinRoleButton(dps, "DPS")
+
+	local leaders = {
+		LFDQueueFrameRoleButtonLeader,
+		RaidFinderQueueFrameRoleButtonLeader
+	}
+	reskinRoleButton(leaders, "LEADER")
+
+	F.ReskinRole(LFGDungeonReadyStatusRolelessReady, "READY")
 
 	hooksecurefunc("LFG_SetRoleIconIncentive", function(roleButton, incentiveIndex)
-		local icon = roleButton.incentiveIcon
-
 		if incentiveIndex then
 			local tex
-
 			if incentiveIndex == LFG_ROLE_SHORTAGE_PLENTIFUL then
 				tex = "Interface\\Icons\\INV_Misc_Coin_19"
-				icon.bg:SetBackdropBorderColor(.93, .65, .37)
 			elseif incentiveIndex == LFG_ROLE_SHORTAGE_UNCOMMON then
 				tex = "Interface\\Icons\\INV_Misc_Coin_18"
-				icon.bg:SetBackdropBorderColor(.78, .78, .81)
 			elseif incentiveIndex == LFG_ROLE_SHORTAGE_RARE then
 				tex = "Interface\\Icons\\INV_Misc_Coin_17"
-				icon.bg:SetBackdropBorderColor(1, .84, 0)
 			end
-
 			roleButton.incentiveIcon.texture:SetTexture(tex)
+
+			if roleButton.cover:IsShown() then
+				roleButton.bg:SetBackdropBorderColor(.50, .45, .03)
+			else
+				roleButton.bg:SetBackdropBorderColor(1.0, .90, .06)
+			end
 		else
-			icon.bg:SetBackdropBorderColor(0, 0, 0)
+			roleButton.bg:SetBackdropBorderColor(0, 0, 0)
 		end
+	end)
+
+	for i = 1, 5 do
+		local roleButton = _G["LFGDungeonReadyStatusIndividualPlayer"..i]
+		roleButton.texture:SetTexture(C.media.roleTex)
+		F.CreateBDFrame(roleButton, 0)
+		if i == 1 then
+			roleButton:SetPoint("LEFT", 7, 0)
+		else
+			roleButton:SetPoint("LEFT", _G["LFGDungeonReadyStatusIndividualPlayer"..(i-1)], "RIGHT", 4, 0)
+		end
+	end
+
+	hooksecurefunc("LFGDungeonReadyStatusIndividual_UpdateIcon", function(button)
+		local role = select(2, GetLFGProposalMember(button:GetID()))
+		button.texture:SetTexCoord(F.GetRoleTexCoord(role))
 	end)
 end)

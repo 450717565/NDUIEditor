@@ -26,6 +26,7 @@ C.media = {
 	["gradTex"] = mediaPath.."gradTex",
 	["normTex"] = "Interface\\TargetingFrame\\UI-TargetingFrame-BarFill",
 	["pushed"] = mediaPath.."pushed",
+	["roleTex"] = mediaPath.."roleTex",
 }
 
 C.defaults = {
@@ -70,7 +71,53 @@ local function SetupPixelFix()
 	if screenHeight > 1080 then C.mult = C.mult*2 end
 end
 
-local function texOnEnter(self)
+local function SetupDisTex(self)
+	self:SetDisabledTexture(C.media.bdTex)
+	local dis = self:GetDisabledTexture()
+	dis:SetVertexColor(0, 0, 0, .5)
+	dis:SetDrawLayer("OVERLAY")
+	dis:SetAllPoints()
+end
+
+local function SetupHook(self)
+	self:HookScript("OnEnter", F.TexOnEnter)
+	self:HookScript("OnLeave", F.TexOnLeave)
+	self:HookScript("OnMouseDown", F.TexOnMouseDown)
+	self:HookScript("OnMouseUp", F.TexOnMouseUp)
+end
+
+function F:SetupArrowTex(direction)
+	if self.bgTex then return end
+
+	local bgTex = self:CreateTexture(nil, "ARTWORK")
+	bgTex:SetTexture(mediaPath.."arrow-"..direction)
+	bgTex:SetSize(8, 8)
+	bgTex:SetPoint("CENTER")
+	bgTex:SetVertexColor(1, 1, 1)
+	self.bgTex = bgTex
+
+	return bgTex
+end
+
+function F:GetRoleTexCoord()
+	if self == "TANK" then
+		return 0.32/9.03, 2.04/9.03, 2.65/9.03, 4.30/9.03
+	elseif self == "DPS" or self == "DAMAGER" then
+		return 2.68/9.03, 4.40/9.03, 2.65/9.03, 4.34/9.03
+	elseif self == "HEALER" then
+		return 2.68/9.03, 4.40/9.03, 0.28/9.03, 1.98/9.03
+	elseif self == "LEADER" then
+		return 0.32/9.03, 2.04/9.03, 0.28/9.03, 1.98/9.03
+	elseif self == "READY" then
+		return 5.10/9.03, 6.76/9.03, 0.28/9.03, 1.98/9.03
+	elseif self == "PENDING" then
+		return 5.10/9.03, 6.76/9.03, 2.65/9.03, 4.34/9.03
+	elseif self == "REFUSE" then
+		return 2.68/9.03, 4.40/9.03, 5.02/9.03, 6.70/9.03
+	end
+end
+
+function F:TexOnEnter()
 	if self:IsEnabled() then
 		if self.pixels then
 			for _, pixel in pairs(self.pixels) do
@@ -85,9 +132,8 @@ local function texOnEnter(self)
 		end
 	end
 end
-F.texOnEnter = texOnEnter
 
-local function texOnLeave(self)
+function F:TexOnLeave()
 	if self:IsEnabled() then
 		if self.pixels then
 			for _, pixel in pairs(self.pixels) do
@@ -102,9 +148,8 @@ local function texOnLeave(self)
 		end
 	end
 end
-F.texOnLeave = texOnLeave
 
-local function texOnMouseDown(self)
+function F:TexOnMouseDown()
 	if self:IsEnabled() then
 		if self.bdTex then
 			self.bdTex:SetBackdropColor(cr, cg, cb, .25)
@@ -113,9 +158,8 @@ local function texOnMouseDown(self)
 		end
 	end
 end
-F.texOnMouseDown = texOnMouseDown
 
-local function texOnMouseUp(self)
+function F:TexOnMouseUp()
 	if self:IsEnabled() then
 		if self.bdTex then
 			self.bdTex:SetBackdropColor(0, 0, 0, 0)
@@ -123,36 +167,6 @@ local function texOnMouseUp(self)
 			self:SetBackdropColor(0, 0, 0, 0)
 		end
 	end
-end
-F.texOnMouseUp = texOnMouseUp
-
-local function SetupArrowTex(self, direction)
-	if self.bgTex then return end
-
-	local bgTex = self:CreateTexture(nil, "ARTWORK")
-	bgTex:SetTexture(mediaPath.."arrow-"..direction)
-	bgTex:SetSize(8, 8)
-	bgTex:SetPoint("CENTER")
-	bgTex:SetVertexColor(1, 1, 1)
-	self.bgTex = bgTex
-
-	return bgTex
-end
-F.SetupArrowTex = SetupArrowTex
-
-local function SetupHook(self)
-	self:HookScript("OnEnter", texOnEnter)
-	self:HookScript("OnLeave", texOnLeave)
-	self:HookScript("OnMouseDown", texOnMouseDown)
-	self:HookScript("OnMouseUp", texOnMouseUp)
-end
-
-local function SetupDisTex(self)
-	self:SetDisabledTexture(C.media.bdTex)
-	local dis = self:GetDisabledTexture()
-	dis:SetVertexColor(0, 0, 0, .5)
-	dis:SetDrawLayer("OVERLAY")
-	dis:SetAllPoints()
 end
 
 -- [[ Reskin Functions ]]
@@ -296,7 +310,7 @@ function F:ReskinArrow(direction)
 	F.ReskinButton(self)
 
 	SetupDisTex(self)
-	SetupArrowTex(self, direction)
+	F.SetupArrowTex(self, direction)
 end
 
 function F:ReskinBorder(relativeTo, classColor)
@@ -315,7 +329,7 @@ function F:ReskinBorder(relativeTo, classColor)
 end
 
 function F:ReskinButton(noHighlight)
-	F.CleanTextures(self, true)
+	F.CleanTextures(self)
 
 	F.CreateBD(self, 0)
 	F.CreateSD(self)
@@ -408,7 +422,7 @@ function F:ReskinDropDown()
 	F.ReskinButton(button)
 
 	SetupDisTex(button)
-	SetupArrowTex(button, "down")
+	F.SetupArrowTex(button, "down")
 
 	local bg = F.CreateBDFrame(self, 0)
 	bg:SetPoint("TOPLEFT", self, "TOPLEFT", 16, -4)
@@ -602,7 +616,7 @@ function F:ReskinNavBar()
 	local overflowButton = self.overflowButton
 	F.ReskinButton(overflowButton)
 
-	SetupArrowTex(overflowButton, "left")
+	F.SetupArrowTex(overflowButton, "left")
 
 	self.styled = true
 end
@@ -623,6 +637,40 @@ function F:ReskinRadio()
 	ch:SetVertexColor(cr, cg, cb, .75)
 
 	SetupHook(self)
+end
+
+function F:ReskinRole(role)
+	if self.background then self.background:SetTexture("") end
+
+	local cover = self.cover or self.Cover
+	if cover then cover:SetTexture("") end
+
+	local texture = self.Texture or self.texture or (self.SetTexture and self) or (self.GetNormalTexture and self:GetNormalTexture())
+	if texture then
+		texture:SetTexture(C.media.roleTex)
+		texture:SetTexCoord(F.GetRoleTexCoord(role))
+	end
+	self.bg = F.CreateBDFrame(self, 0, true)
+
+	local checkButton = self.checkButton or self.CheckButton
+	if checkButton then
+		checkButton:SetFrameLevel(self:GetFrameLevel() + 2)
+		checkButton:ClearAllPoints()
+		checkButton:SetPoint("BOTTOMLEFT", -2, -2)
+		F.ReskinCheck(checkButton)
+	end
+
+	local shortageBorder = self.shortageBorder
+	if shortageBorder then
+		shortageBorder:SetTexture("")
+
+		local icon = self.incentiveIcon
+		icon.border:SetTexture("")
+		icon.texture:ClearAllPoints()
+		icon.texture:SetPoint("BOTTOMRIGHT", self, -3, 3)
+		icon.texture:SetSize(14, 14)
+		F.ReskinIcon(icon.texture, true)
+	end
 end
 
 local function scrollThumb(self)
@@ -673,8 +721,8 @@ function F:ReskinScroll()
 	SetupDisTex(up)
 	SetupDisTex(down)
 
-	SetupArrowTex(up, "up")
-	SetupArrowTex(down, "down")
+	F.SetupArrowTex(up, "up")
+	F.SetupArrowTex(down, "down")
 
 	self:HookScript("OnEnter", scrollOnEnter)
 	self:HookScript("OnLeave", scrollOnLeave)
@@ -682,7 +730,7 @@ end
 
 function F:ReskinSearchBox()
 	F.StripTextures(self)
-	F.CleanTextures(self, true)
+	F.CleanTextures(self)
 
 	local bg = F.CreateBDFrame(self, 0)
 	bg:SetPoint("TOPLEFT", 0, 0)
@@ -796,15 +844,14 @@ end
 function F:ReskinTexed(relativeTo)
 	if not self then return end
 
-	if self.SetPushedTexture then
-		self:SetPushedTexture("")
-	end
-
 	local tex
 	if self.SetCheckedTexture then
 		self:SetCheckedTexture(C.media.checked)
 		tex = self:GetCheckedTexture()
-	else
+	elseif self.GetNormalTexture then
+		tex = self:GetNormalTexture()
+		tex:SetTexture(C.media.checked)
+	elseif self.SetTexture then
 		tex = self
 		tex:SetTexture(C.media.checked)
 	end
@@ -823,7 +870,10 @@ function F:ReskinTexture(relativeTo, classColor)
 	if self.SetHighlightTexture then
 		self:SetHighlightTexture(C.media.bdTex)
 		tex = self:GetHighlightTexture()
-	else
+	elseif self.GetNormalTexture then
+		tex = self:GetNormalTexture()
+		tex:SetTexture(C.media.bdTex)
+	elseif self.SetTexture then
 		tex = self
 		tex:SetTexture(C.media.bdTex)
 	end
@@ -954,11 +1004,6 @@ function F:CleanTextures(noIcon)
 			cleanFrame:SetAlpha(0)
 			cleanFrame:Hide()
 		end
-	end
-
-	if not noIcon then
-		local ic = self.icon or self.Icon
-		if ic then ic:Hide() end
 	end
 end
 

@@ -52,14 +52,14 @@ C.themes["Blizzard_ChallengesUI"] = function()
 	hooksecurefunc(ChallengesKeystoneFrame, "OnKeystoneSlotted", F.ReskinAffixes)
 
 	-- New season
-	local noticeFrame = ChallengesFrame.SeasonChangeNoticeFrame
-	F.ReskinButton(noticeFrame.Leave)
-	noticeFrame.NewSeason:SetTextColor(1, .8, 0)
-	noticeFrame.SeasonDescription:SetTextColor(1, 1, 1)
-	noticeFrame.SeasonDescription2:SetTextColor(1, 1, 1)
-	noticeFrame.SeasonDescription3:SetTextColor(1, .8, 0)
+	local NewSeason = ChallengesFrame.SeasonChangeNoticeFrame
+	F.ReskinButton(NewSeason.Leave)
+	NewSeason.NewSeason:SetTextColor(1, .8, 0)
+	NewSeason.SeasonDescription:SetTextColor(1, 1, 1)
+	NewSeason.SeasonDescription2:SetTextColor(1, 1, 1)
+	NewSeason.SeasonDescription3:SetTextColor(1, .8, 0)
 
-	local affix = noticeFrame.Affix
+	local affix = NewSeason.Affix
 	F.StripTextures(affix)
 	F.ReskinIcon(affix.Portrait)
 	affix.Portrait:SetTexture(2446016)

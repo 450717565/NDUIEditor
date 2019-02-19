@@ -144,6 +144,20 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinCheck(EntryCreation.PrivateGroup.CheckButton)
 	F.ReskinCheck(LFGListFrame.ApplicationViewer.AutoAcceptButton)
 
+	-- Activity finder
+
+	local ActivityFinder = EntryCreation.ActivityFinder
+
+	ActivityFinder.Background:SetTexture("")
+	ActivityFinder.Dialog.Bg:Hide()
+	F.StripTextures(ActivityFinder.Dialog.BorderFrame)
+	F.CreateBD(ActivityFinder.Dialog)
+	ActivityFinder.Dialog:SetBackdropColor(.2, .2, .2, .9)
+	F.ReskinButton(ActivityFinder.Dialog.SelectButton)
+	F.ReskinButton(ActivityFinder.Dialog.CancelButton)
+	F.ReskinInput(ActivityFinder.Dialog.EntryBox)
+	F.ReskinScroll(LFGListEntryCreationSearchScrollFrameScrollBar)
+
 	-- [[ Application dialog ]]
 
 	F.ReskinFrame(LFGListApplicationDialog, true)
@@ -157,4 +171,12 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinButton(LFGListInviteDialog.AcceptButton)
 	F.ReskinButton(LFGListInviteDialog.DeclineButton)
 	F.ReskinButton(LFGListInviteDialog.AcknowledgeButton)
+	local roleIcon = LFGListInviteDialog.RoleIcon
+	roleIcon:SetTexture(C.media.roleTex)
+	F.CreateBDFrame(roleIcon, 0)
+
+	hooksecurefunc("LFGListInviteDialog_Show", function(self, resultID)
+		local role = select(5, C_LFGList.GetApplicationInfo(resultID))
+		self.RoleIcon:SetTexCoord(F.GetRoleTexCoord(role))
+	end)
 end)

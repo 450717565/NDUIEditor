@@ -194,8 +194,8 @@ C.themes["Blizzard_EncounterJournal"] = function()
 	local sideTabs = {"overviewTab", "lootTab", "bossTab", "modelTab"}
 	for _, sideTab in next, sideTabs do
 		local tab = infoFrame[sideTab]
-		tab:SetSize(59, 59)
 		F.CleanTextures(tab)
+		tab:SetSize(59, 59)
 
 		local bg = F.CreateBDFrame(tab, nil, true)
 		bg:SetPoint("TOPLEFT", 5, -5)
@@ -272,8 +272,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 	end)
 
 	hooksecurefunc("EncounterJournal_GetCreatureButton", function(index)
-		local button = infoFrame.creatureButtons[index]
-		F.CleanTextures(button)
+		F.CleanTextures(infoFrame.creatureButtons[index])
 	end)
 
 	hooksecurefunc("EncounterJournal_DisplayInstance", function()

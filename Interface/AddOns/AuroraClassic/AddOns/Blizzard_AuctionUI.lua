@@ -156,8 +156,8 @@ C.themes["Blizzard_AuctionUI"] = function()
 		text:ClearAllPoints()
 		text:SetPoint("CENTER", bg, 1, 0)
 
-		BrowseDropDownButton:HookScript("OnEnter", F.texOnEnter)
-		BrowseDropDownButton:HookScript("OnLeave", F.texOnLeave)
+		BrowseDropDownButton:HookScript("OnEnter", F.TexOnEnter)
+		BrowseDropDownButton:HookScript("OnLeave", F.TexOnLeave)
 	end
 
 	do

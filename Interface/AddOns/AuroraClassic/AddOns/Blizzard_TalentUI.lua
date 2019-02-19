@@ -25,18 +25,23 @@ C.themes["Blizzard_TalentUI"] = function()
 	end
 
 	for _, frame in next, {PlayerTalentFrameSpecialization, PlayerTalentFramePetSpecialization} do
-		local scrollChild = frame.spellsScroll.child
-
-		F.StripTextures(frame, true)
-
+		F.StripTextures(frame)
 		select(7, frame:GetChildren()):DisableDrawLayer("OVERLAY")
+
+		local scrollChild = frame.spellsScroll.child
+		scrollChild.gradient:Hide()
 		scrollChild.ring:Hide()
 		scrollChild.Seperator:Hide()
+
 		for i = 1, 5 do
 			select(i, scrollChild:GetRegions()):Hide()
 		end
 
 		F.ReskinIcon(scrollChild.specIcon)
+
+		local roleIcon = scrollChild.roleIcon
+		roleIcon:SetTexture(C.media.roleTex)
+		F.CreateBDFrame(roleIcon)
 	end
 
 	hooksecurefunc("PlayerTalentFrame_UpdateSpecFrame", function(self, spec)
@@ -48,6 +53,11 @@ C.themes["Blizzard_TalentUI"] = function()
 		if not id then return end
 		local scrollChild = self.spellsScroll.child
 		scrollChild.specIcon:SetTexture(icon)
+
+		local role1 = GetSpecializationRole(shownSpec, nil, self.isPet)
+		if role1 then
+			scrollChild.roleIcon:SetTexCoord(F.GetRoleTexCoord(role1))
+		end
 
 		local index = 1
 		local bonuses
@@ -111,6 +121,14 @@ C.themes["Blizzard_TalentUI"] = function()
 			local ic = bu.specIcon
 			ic:SetPoint("LEFT", bu, "LEFT")
 			F.ReskinIcon(ic)
+
+			local roleIcon = bu.roleIcon
+			roleIcon:SetTexture(C.media.roleTex)
+			F.CreateBDFrame(roleIcon, 0)
+			local role = GetSpecializationRole(i, false, bu.isPet)
+			if role then
+				roleIcon:SetTexCoord(F.GetRoleTexCoord(role))
+			end
 		end
 	end
 
