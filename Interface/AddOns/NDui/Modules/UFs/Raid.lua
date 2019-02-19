@@ -45,7 +45,8 @@ function UF:CreateTargetBorder(self)
 	local border = B.CreateBG(self, 2)
 	B.CreateBD(border, 0)
 	border:SetBackdropBorderColor(.7, .7, .7)
-	border:SetPoint("BOTTOMRIGHT", self.Power, 2, -2)
+	border:SetPoint("TOPLEFT", self, -C.mult, C.mult)
+	border:SetPoint("BOTTOMRIGHT", self.Power, C.mult, -C.mult)
 	border:Hide()
 
 	self.TargetBorder = border

@@ -81,7 +81,8 @@ C.themes["Blizzard_EncounterJournal"] = function()
 
 		local reward = Suggestion.reward
 		F.StripTextures(reward)
-		F.CreateBDFrame(reward.icon, 0)
+		local icbg = F.CreateBDFrame(reward.icon, 0)
+		icbg:SetFrameLevel(reward:GetFrameLevel() + 1)
 		if reward.text then reward.text:SetTextColor(1, 1, 1) end
 
 		if i == 1 then

@@ -40,11 +40,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		self.AzeriteTexture:SetAllPoints()
 	end
 
-	local slots = {
-		"Head", "Neck", "Shoulder", "Shirt", "Chest", "Waist", "Legs", "Feet", "Wrist",
-		"Hands", "Finger0", "Finger1", "Trinket0", "Trinket1", "Back", "MainHand",
-		"SecondaryHand", "Tabard",
-	}
+	local slots = {"Head", "Neck", "Shoulder", "Back", "Chest", "Shirt", "Tabard", "Wrist", "Hands", "Waist", "Legs", "Feet", "Finger0", "Finger1", "Trinket0", "Trinket1", "MainHand","SecondaryHand"}
 
 	for i = 1, #slots do
 		local slot = _G["Character"..slots[i].."Slot"]

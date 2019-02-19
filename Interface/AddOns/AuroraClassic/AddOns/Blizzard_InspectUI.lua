@@ -4,43 +4,48 @@ C.themes["Blizzard_InspectUI"] = function()
 	F.ReskinFrame(InspectFrame)
 
 	F.StripTextures(InspectModelFrame, true)
-	F.StripTextures(InspectPVPFrame, true)
-	F.StripTextures(InspectTalentFrame, true)
+	F.StripTextures(InspectPVPFrame)
+	F.StripTextures(InspectTalentFrame)
 	InspectGuildFrameBG:Hide()
 
+	for i = 1, 4 do
+		local tab = _G["InspectFrameTab"..i]
+		F.ReskinTab(tab)
+
+		tab:ClearAllPoints()
+		if i ~= 1 then
+			tab:SetPoint("LEFT", _G["InspectFrameTab"..(i-1)], "RIGHT", -15, 0)
+		else
+			tab:SetPoint("TOPLEFT", InspectFrame, "BOTTOMLEFT", 15, 2)
+		end
+	end
+
+	--InspectPaperDollFrame
 	F.ReskinButton(InspectPaperDollFrame.ViewButton)
 	InspectPaperDollFrame.ViewButton:ClearAllPoints()
-	InspectPaperDollFrame.ViewButton:SetPoint("TOP", InspectFrame, 0, -44)
+	InspectPaperDollFrame.ViewButton:SetPoint("BOTTOM", InspectModelFrame, "TOP", 0, 0)
 
-	-- Character
-	local slots = {
-		"Head", "Neck", "Shoulder", "Shirt", "Chest", "Waist", "Legs", "Feet", "Wrist",
-		"Hands", "Finger0", "Finger1", "Trinket0", "Trinket1", "Back", "MainHand",
-		"SecondaryHand", "Tabard",
-	}
-
+	local slots = {"Head", "Neck", "Shoulder", "Back", "Chest", "Shirt", "Tabard", "Wrist", "Hands", "Waist", "Legs", "Feet", "Finger0", "Finger1", "Trinket0", "Trinket1", "MainHand","SecondaryHand"}
 	for i = 1, #slots do
 		local slot = _G["Inspect"..slots[i].."Slot"]
 		F.StripTextures(slot)
 
-		local ic = F.ReskinIcon(slot.icon)
-		F.ReskinTexture(slot, ic, false)
+		local icbg = F.ReskinIcon(slot.icon)
+		F.ReskinTexture(slot, icbg, false)
 
 		local border = slot.IconBorder
 		F.ReskinBorder(border, slot)
 	end
 
 	hooksecurefunc("InspectPaperDollItemSlotButton_Update", function(button)
-		button.IconBorder:SetTexture(C.media.bdTex)
 		button.icon:SetShown(button.hasItem)
 	end)
 
-	-- Talents
+	--InspectTalentFrame
 	local inspectSpec = InspectTalentFrame.InspectSpec
 	inspectSpec.ring:Hide()
-	F.ReskinIcon(inspectSpec.specIcon)
-	inspectSpec.roleIcon:SetTexture(C.media.roleTex)
-	F.CreateBDFrame(inspectSpec.roleIcon, 0)
+	F.ReskinIcon(inspectSpec.specIcon, false, 1)
+	F.ReskinRoleIcon(inspectSpec.roleIcon)
 
 	for i = 1, 7 do
 		local row = InspectTalentFrame.InspectTalents["tier"..i]
@@ -73,13 +78,4 @@ C.themes["Blizzard_InspectUI"] = function()
 			updateIcon(self.InspectSpec)
 		end
 	end)
-
-	for i = 1, 4 do
-		local tab = _G["InspectFrameTab"..i]
-		F.ReskinTab(tab)
-		if i ~= 1 then
-			tab:ClearAllPoints()
-			tab:SetPoint("LEFT", _G["InspectFrameTab"..(i-1)], "RIGHT", -15, 0)
-		end
-	end
 end

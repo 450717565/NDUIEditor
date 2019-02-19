@@ -10,7 +10,8 @@ function module:ShowItemLevel()
 
 	local pairs = pairs
 	local SLOTIDS = {}
-	for _, slot in pairs({"Head", "Neck", "Shoulder", "Shirt", "Chest", "Waist", "Legs", "Feet", "Wrist", "Hands", "Finger0", "Finger1", "Trinket0", "Trinket1", "Back", "MainHand", "SecondaryHand"}) do
+	local slots = {"Head", "Neck", "Shoulder", "Back", "Chest", "Shirt", "Tabard", "Wrist", "Hands", "Waist", "Legs", "Feet", "Finger0", "Finger1", "Trinket0", "Trinket1", "MainHand","SecondaryHand"}
+	for _, slot in pairs(slots) do
 		SLOTIDS[slot] = GetInventorySlotInfo(slot.."Slot")
 	end
 

@@ -1,17 +1,15 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_DebugTools"] = function()
-	-- EventTraceFrame
 	F.ReskinFrame(EventTraceFrame)
 
-	select(1, EventTraceFrameScroll:GetRegions()):Hide()
-	local bu = select(2, EventTraceFrameScroll:GetRegions())
+	local bg, bu = EventTraceFrameScroll:GetRegions()
+	bg:Hide()
 	bu:SetAlpha(0)
 	bu:SetWidth(17)
 
 	local bg = F.CreateBDFrame(EventTraceFrame, 0)
-	bg:SetPoint("TOPLEFT", bu, 0, 0)
-	bg:SetPoint("BOTTOMRIGHT", bu, 0, 0)
+	bg:SetAllPoints(bu)
 
 	if AuroraConfig.tooltips then
 		F.ReskinTooltip(FrameStackTooltip)

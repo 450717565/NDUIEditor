@@ -35,7 +35,7 @@ C.themes["Blizzard_ArtifactUI"] = function()
 			SlotPool.UnobtainableCover:SetAllPoints()
 
 			local slotbg = F.CreateBDFrame(SlotPool, 0)
-			F.ReskinTexture(SlotPool.HighlightTexture, slotbg, false)
+			F.ReskinTexture(SlotPool, slotbg, false)
 
 			local sl = SlotPool.Selected
 			F.ReskinBorder(sl, SlotPool, true)

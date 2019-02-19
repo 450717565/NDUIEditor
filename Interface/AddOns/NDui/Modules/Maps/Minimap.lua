@@ -187,9 +187,12 @@ function module:RecycleBin()
 	B.CreateGF(rightLine, C.mult*2, 46, "Vertical", cr, cg, cb, alpha, alpha)
 	bin:SetFrameStrata("LOW")
 
+	local function hideBinButton()
+		bin:Hide()
+	end
 	local function clickFunc()
 		UIFrameFadeOut(bin, .5, 1, 0)
-		C_Timer.After(.5, function() bin:Hide() end)
+		C_Timer.After(.5, hideBinButton)
 	end
 
 	local function CollectRubbish()

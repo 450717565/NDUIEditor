@@ -673,6 +673,16 @@ function F:ReskinRole(role)
 	end
 end
 
+function F:ReskinRoleIcon(setBG)
+	self:SetTexture(C.media.roleTex)
+
+	if setBG then
+		return F.CreateBG(self)
+	else
+		return F.CreateBDFrame(self, 0)
+	end
+end
+
 local function scrollThumb(self)
 	local frameName = self.GetName and self:GetName()
 	local bu = self.ThumbTexture or self.thumbTexture or (frameName and _G[frameName.."ThumbTexture"])
@@ -990,7 +1000,7 @@ local CleanTextures = {
 	"trackBG",
 }
 
-function F:CleanTextures(noIcon)
+function F:CleanTextures()
 	--if self.SetCheckedTexture then self:SetCheckedTexture("") end
 	if self.SetDisabledTexture then self:SetDisabledTexture("") end
 	if self.SetHighlightTexture then self:SetHighlightTexture("") end

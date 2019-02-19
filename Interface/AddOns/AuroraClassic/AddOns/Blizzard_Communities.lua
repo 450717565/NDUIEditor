@@ -203,10 +203,12 @@ C.themes["Blizzard_Communities"] = function()
 		for i = 1, 5 do
 			for j = 1, 6 do
 				local avatarButton = self.avatarButtons[i][j]
-				if avatarButton:IsShown() and not avatarButton.bg then
-					avatarButton.bg = F.ReskinIcon(avatarButton.Icon)
-					F.ReskinTexture(avatarButton, avatarButton.bg, false)
-					F.ReskinTexture(avatarButton.Selected, avatarButton.bg, false)
+				if avatarButton:IsShown() and not avatarButton.styled then
+					local icbg = F.ReskinIcon(avatarButton.Icon)
+					F.ReskinTexture(avatarButton, icbg, false)
+					F.ReskinTexture(avatarButton.Selected, icbg, false)
+
+					avatarButton.styled = true
 				end
 			end
 		end
@@ -257,8 +259,12 @@ C.themes["Blizzard_Communities"] = function()
 				hooksecurefunc(button, "RefreshExpandedColumns", updateNameFrame)
 				if button.ProfessionHeader then
 					local header = button.ProfessionHeader
-					for i = 1, 3 do select(i, header:GetRegions()):Hide() end
+					F.StripTextures(header)
+
 					local bg = F.CreateBDFrame(header, 0)
+					bg:SetPoint("TOPLEFT", -C.mult, -C.mult)
+					bg:SetPoint("BOTTOMRIGHT", C.mult, C.mult)
+
 					F.ReskinTexture(header, bg, true)
 					F.ReskinIcon(header.Icon, true)
 				end
@@ -288,14 +294,16 @@ C.themes["Blizzard_Communities"] = function()
 		local buttons = self.Container.buttons
 		for i = 1, #buttons do
 			local button = buttons[i]
-			if button and button:IsShown() and not button.bg then
+			if button and not button.styled then
 				F.StripTextures(button)
 
-				local ic = F.ReskinIcon(button.Icon)
-				button.bg = F.CreateBDFrame(button, 0)
-				button.bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
-				button.bg:SetPoint("BOTTOMRIGHT", 0, 1)
-				F.ReskinTexture(button, button.bg, true)
+				local icbg = F.ReskinIcon(button.Icon)
+				local bubg = F.CreateBDFrame(button, 0)
+				bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
+				bubg:SetPoint("BOTTOMRIGHT", 0, 1)
+				F.ReskinTexture(button, bubg, true)
+
+				button.styled = true
 			end
 		end
 	end)
@@ -304,23 +312,22 @@ C.themes["Blizzard_Communities"] = function()
 		local buttons = self.RewardsContainer.buttons
 		for i = 1, #buttons do
 			local button = buttons[i]
-			if button then
-				if not button.bg then
-					button.bg = F.CreateBDFrame(button, 0)
-					button.bg:SetPoint("TOPLEFT", C.mult, -C.mult)
-					button.bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
+			if button and not button.styled then
+				F.StripTextures(button)
 
-					F.ReskinTexture(button, button.bg, true)
-					F.ReskinIcon(button.Icon)
-				end
-				F.CleanTextures(button)
-				button.DisabledBG:Hide()
+				local bubg = F.CreateBDFrame(button, 0)
+				bubg:SetPoint("TOPLEFT", C.mult, -C.mult)
+				bubg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
+
+				F.ReskinTexture(button, bubg, true)
+				F.ReskinIcon(button.Icon)
+
+				button.styled = true
 			end
 		end
 	end)
 
 	-- GuildInfoTab
-	CommunitiesFrameGuildDetailsFrameInfoMOTDScrollFrameScrollBar:SetAlpha(0)
 	F.StripTextures(CommunitiesFrameGuildDetailsFrame)
 	F.StripTextures(CommunitiesFrameGuildDetailsFrameInfo)
 	F.StripTextures(CommunitiesFrameGuildDetailsFrameNews)

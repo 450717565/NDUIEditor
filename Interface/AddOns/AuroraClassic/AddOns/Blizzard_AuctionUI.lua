@@ -160,23 +160,20 @@ C.themes["Blizzard_AuctionUI"] = function()
 		BrowseDropDownButton:HookScript("OnLeave", F.TexOnLeave)
 	end
 
-	do
+	AuctionFrame:HookScript("OnShow", function()
 		local index = 1
-		local function reksinTabs()
-			while true do
-				local tab = _G["AuctionFrameTab"..index]
-				if not tab then return end
+		while true do
+			local tab = _G["AuctionFrameTab"..index]
+			if not tab then return end
 
-				F.ReskinTab(tab)
+			F.ReskinTab(tab)
 
-				index = index + 1
-			end
+			index = index + 1
 		end
-		AuctionFrame:HookScript("OnShow", reksinTabs)
+	end)
 
-		AuctionFrameTab1:ClearAllPoints()
-		AuctionFrameTab1:SetPoint("TOPLEFT", AuctionFrame, "BOTTOMLEFT", 15, 2)
-	end
+	AuctionFrameTab1:ClearAllPoints()
+	AuctionFrameTab1:SetPoint("TOPLEFT", AuctionFrame, "BOTTOMLEFT", 15, 2)
 
 	-- Tutorial
 	do

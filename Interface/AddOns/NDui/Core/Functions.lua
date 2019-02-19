@@ -67,6 +67,15 @@ function B.ItemSlotInfo(item)
 	return slotText
 end
 
+-- Clean Textures
+function B:CleanTextures()
+	--if self.SetCheckedTexture then self:SetCheckedTexture("") end
+	if self.SetDisabledTexture then self:SetDisabledTexture("") end
+	if self.SetHighlightTexture then self:SetHighlightTexture("") end
+	if self.SetNormalTexture then self:SetNormalTexture("") end
+	if self.SetPushedTexture then self:SetPushedTexture("") end
+end
+
 -- Gradient Frame
 function B:CreateGF(w, h, o, r, g, b, a1, a2)
 	self:SetSize(w, h)

@@ -269,7 +269,8 @@ C.themes["Blizzard_Collections"] = function()
 		bu.icbg = icbg
 
 		local cd = bu.cooldown
-		cd:SetAllPoints(icbg)
+		cd:SetPoint("TOPLEFT", icbg, C.mult, -C.mult)
+		cd:SetPoint("BOTTOMRIGHT", icbg, -C.mult, C.mult)
 
 		hooksecurefunc(bu.name, "SetTextColor", nameColor)
 	end
@@ -423,7 +424,7 @@ C.themes["Blizzard_Collections"] = function()
 	WardrobeOutfitDropDown.SaveButton:SetPoint("LEFT", WardrobeOutfitDropDown, "RIGHT", -13, 2)
 	WardrobeTransmogFrame.SpecButton:SetPoint("RIGHT", WardrobeTransmogFrame.ApplyButton, "LEFT", -3, 0)
 
-	local slots = {"Head", "Shoulder", "Chest", "Waist", "Legs", "Feet", "Wrist", "Hands", "Back", "Shirt", "Tabard", "MainHand", "SecondaryHand", "MainHandEnchant", "SecondaryHandEnchant"}
+	local slots = {"Head", "Shoulder", "Back", "Chest", "Shirt", "Tabard", "Wrist", "Hands", "Waist", "Legs", "Feet", "MainHand","SecondaryHand", "MainHandEnchant", "SecondaryHandEnchant"}
 	for i = 1, #slots do
 		local slot = WardrobeTransmogFrame.Model[slots[i].."Button"]
 		if slot then

@@ -509,7 +509,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	end
 
 	for _, tab in next, {Report.InProgress, Report.Available} do
-		tab:SetHighlightTexture("")
+		F.CleanTextures(tab)
 		tab.Text:ClearAllPoints()
 		tab.Text:SetPoint("CENTER")
 		local bg = F.CreateBDFrame(tab, 0)

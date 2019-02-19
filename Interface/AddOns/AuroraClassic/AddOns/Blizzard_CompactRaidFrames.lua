@@ -35,9 +35,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		CompactRaidFrameManagerDisplayFrameConvertToRaid
 	}
 	for _, button in pairs(buttons) do
-		for i = 1, 9 do
-			select(i, button:GetRegions()):Hide()
-		end
+		F.StripTextures(button)
 		F.ReskinButton(button)
 	end
 	--CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:SetNormalTexture("Interface\\RaidFrame\\Raid-WorldPing")
