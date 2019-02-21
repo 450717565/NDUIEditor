@@ -261,35 +261,35 @@ C.themes["Blizzard_Collections"] = function()
 
 	local buttons = ToyBox.iconsFrame
 	for i = 1, 18 do
-		local bu = buttons["spellButton"..i]
-		F.StripTextures(bu)
+		local button = buttons["spellButton"..i]
+		F.StripTextures(button)
 
-		local icbg = F.ReskinIcon(bu.iconTexture)
-		F.ReskinTexture(bu, icbg, false)
-		bu.icbg = icbg
+		local icbg = F.ReskinIcon(button.iconTexture)
+		F.ReskinTexture(button, icbg, false)
+		button.icbg = icbg
 
-		local cd = bu.cooldown
-		cd:SetPoint("TOPLEFT", icbg, C.mult, -C.mult)
-		cd:SetPoint("BOTTOMRIGHT", icbg, -C.mult, C.mult)
+		local cooldown = button.cooldown
+		cooldown:SetPoint("TOPLEFT", icbg, C.mult, -C.mult)
+		cooldown:SetPoint("BOTTOMRIGHT", icbg, -C.mult, C.mult)
 
-		hooksecurefunc(bu.name, "SetTextColor", nameColor)
+		hooksecurefunc(button.name, "SetTextColor", nameColor)
 	end
 
-	hooksecurefunc("ToySpellButton_UpdateButton", function(self)
-		local itemIndex = (ToyBox.PagingFrame:GetCurrentPage() - 1) * 18 + self:GetID()
-		self.itemID = C_ToyBox.GetToyFromIndex(itemIndex)
+	hooksecurefunc("ToyBox_UpdateButtons", function(self)
+		for i = 1, 18 do
+			local button = ToyBox.iconsFrame["spellButton"..i]
+			if PlayerHasToy(button.itemID) then
+				local quality = select(3, GetItemInfo(button.itemID))
+				local color = BAG_ITEM_QUALITY_COLORS[quality or 1]
 
-		if PlayerHasToy(self.itemID) then
-			local quality = select(3, GetItemInfo(self.itemID))
-			local color = BAG_ITEM_QUALITY_COLORS[quality or 1]
-
-			if quality then
-				self.icbg:SetBackdropBorderColor(color.r, color.g, color.b)
+				if quality then
+					button.icbg:SetBackdropBorderColor(color.r, color.g, color.b)
+				else
+					button.icbg:SetBackdropBorderColor(0, 0, 0)
+				end
 			else
-				self.icbg:SetBackdropBorderColor(0, 0, 0)
+				button.icbg:SetBackdropBorderColor(0, 0, 0)
 			end
-		else
-			self.icbg:SetBackdropBorderColor(0, 0, 0)
 		end
 	end)
 
@@ -341,7 +341,7 @@ C.themes["Blizzard_Collections"] = function()
 		for i = 1, #HeirloomsJournal.heirloomHeaderFrames do
 			local header = HeirloomsJournal.heirloomHeaderFrames[i]
 			if not header.styled then
-				header.text:SetTextColor(1, 1, 1)
+				header.text:SetTextColor(1, .8, 0)
 				header.text:SetFont(C.media.font, 16, "OUTLINE")
 
 				header.styled = true
