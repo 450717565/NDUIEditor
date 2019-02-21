@@ -40,8 +40,7 @@ C.themes["Blizzard_TalentUI"] = function()
 		F.ReskinIcon(scrollChild.specIcon)
 
 		local roleIcon = scrollChild.roleIcon
-		roleIcon:SetTexture(C.media.roleTex)
-		F.CreateBDFrame(roleIcon)
+		F.ReskinRoleIcon(roleIcon)
 	end
 
 	hooksecurefunc("PlayerTalentFrame_UpdateSpecFrame", function(self, spec)
@@ -123,8 +122,7 @@ C.themes["Blizzard_TalentUI"] = function()
 			F.ReskinIcon(ic)
 
 			local roleIcon = bu.roleIcon
-			roleIcon:SetTexture(C.media.roleTex)
-			F.CreateBDFrame(roleIcon, 0)
+			F.ReskinRoleIcon(roleIcon)
 			local role = GetSpecializationRole(i, false, bu.isPet)
 			if role then
 				roleIcon:SetTexCoord(F.GetRoleTexCoord(role))

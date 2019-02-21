@@ -12,8 +12,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		for i = 1, LFD_NUM_ROLES do
 			local roleIcon = self["RoleIcon"..i]
-			roleIcon:SetTexture(C.media.roleTex)
-			roleIcon.bg = F.CreateBDFrame(roleIcon, 0)
+			roleIcon.bg = F.ReskinRoleIcon(roleIcon)
 			if i > 1 then
 				roleIcon:SetPoint("RIGHT", self["RoleIcon"..(i-1)], "LEFT", -4, 0)
 			end

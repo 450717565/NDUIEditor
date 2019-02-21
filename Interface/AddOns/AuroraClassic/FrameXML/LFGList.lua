@@ -172,8 +172,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinButton(LFGListInviteDialog.DeclineButton)
 	F.ReskinButton(LFGListInviteDialog.AcknowledgeButton)
 	local roleIcon = LFGListInviteDialog.RoleIcon
-	roleIcon:SetTexture(C.media.roleTex)
-	F.CreateBDFrame(roleIcon, 0)
+	F.ReskinRoleIcon(roleIcon)
 
 	hooksecurefunc("LFGListInviteDialog_Show", function(self, resultID)
 		local role = select(5, C_LFGList.GetApplicationInfo(resultID))

@@ -230,6 +230,7 @@ local list = {
 		{AuraID = 204018, UnitID = "player"},--破咒祝福
 		--武僧
 		{AuraID = 116849, UnitID = "player", Value = true},--作茧缚命
+		{AuraID = 116841, UnitID = "player"},--迅如猛虎
 		--战士
 		{AuraID = 97463, UnitID = "player"},--命令怒吼
 		{AuraID = 147833, UnitID = "player"},--援护

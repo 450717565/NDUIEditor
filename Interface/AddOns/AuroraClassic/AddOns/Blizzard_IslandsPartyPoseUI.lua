@@ -1,8 +1,9 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_IslandsPartyPoseUI"] = function()
-	F.StripTextures(IslandsPartyPoseFrame.ModelScene, true)
 	F.ReskinFrame(IslandsPartyPoseFrame)
+
+	F.StripTextures(IslandsPartyPoseFrame.ModelScene)
 	F.ReskinButton(IslandsPartyPoseFrame.LeaveButton)
 	IslandsPartyPoseFrame.OverlayElements.Topper:Hide()
 

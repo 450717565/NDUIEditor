@@ -5,6 +5,7 @@ local module = B:GetModule("Auras")
 function module:GetUnitAura(unit, spell, filter)
 	for index = 1, 32 do
 		local name, _, count, _, duration, expire, caster, _, _, spellID, _, _, _, _, _, value = UnitAura(unit, index, filter)
+		if not name then break end
 		if name and spellID == spell then
 			return name, count, duration, expire, caster, spellID, value
 		end
@@ -140,7 +141,7 @@ function module:CreateLumos(self)
 	end
 
 	if module.PostCreateLumos then module:PostCreateLumos(self) end
-	if module.RemoveAuraWatch then module:RemoveAuraWatch() end
+	--if module.RemoveAuraWatch then module:RemoveAuraWatch() end
 
 	UpdateIcons(self)
 	self:RegisterEvent("PLAYER_REGEN_ENABLED", TurnOff, true)

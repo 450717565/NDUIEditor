@@ -3,6 +3,10 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_EncounterJournal"] = function()
 	if AuroraConfig.tooltips then
 		F.ReskinTooltip(EncounterJournalTooltip)
+		F.ReskinIcon(EncounterJournalTooltip.Item1.icon, true)
+		F.ReskinIcon(EncounterJournalTooltip.Item2.icon, true)
+		EncounterJournalTooltip.Item1.IconBorder:SetAlpha(0)
+		EncounterJournalTooltip.Item2.IconBorder:SetAlpha(0)
 	end
 
 	F.ReskinFrame(EncounterJournal)
@@ -242,38 +246,42 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		boss:SetTextColor(1, .8, 0)
 	end
 
+	local function reskinHeader(header)
+		F.StripTextures(header.button)
+		header.descriptionBG:SetAlpha(0)
+		header.descriptionBGBottom:SetAlpha(0)
+
+		local bubg = F.CreateBDFrame(header.button, 0)
+		bubg:SetPoint("TOPLEFT", C.mult, -C.mult)
+		bubg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
+		F.ReskinTexture(header.button, bubg, true)
+	end
+
 	hooksecurefunc("EncounterJournal_SetUpOverview", function(self, _, index)
 		local header = self.overviews[index]
 
 		if not header.styled then
-			F.StripTextures(header.button)
-			header.descriptionBG:SetAlpha(0)
-			header.descriptionBGBottom:SetAlpha(0)
-
-			local bubg = F.CreateBDFrame(header.button, 0)
-			bubg:SetPoint("TOPLEFT", C.mult, -C.mult)
-			bubg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
-			F.ReskinTexture(header.button, bubg, true)
+			reskinHeader(header)
 
 			header.styled = true
 		end
 	end)
 
-	hooksecurefunc("EncounterJournal_SetBullets", function(object)
-		local parent = object:GetParent()
-		if parent.Bullets then
-			for _, bullet in pairs(parent.Bullets) do
-				if not bullet.styled then
-					bullet.Text:SetTextColor(1, 1, 1)
+	hooksecurefunc("EncounterJournal_ToggleHeaders", function()
+		local index = 1
+		while true do
+			local header = _G["EncounterJournalInfoHeader"..index]
+			if not header then return end
 
-					bullet.styled = true
-				end
+			if not header.styled then
+				reskinHeader(header)
+				header.description:SetTextColor(1, 1, 1)
+
+				header.styled = true
 			end
-		end
-	end)
 
-	hooksecurefunc("EncounterJournal_GetCreatureButton", function(index)
-		F.CleanTextures(infoFrame.creatureButtons[index])
+			index = index + 1
+		end
 	end)
 
 	hooksecurefunc("EncounterJournal_DisplayInstance", function()
@@ -299,27 +307,20 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		end
 	end)
 
-	hooksecurefunc("EncounterJournal_ToggleHeaders", function()
-		local index = 1
-		while true do
-			local header = _G["EncounterJournalInfoHeader"..index]
-			if not header then return end
+	hooksecurefunc("EncounterJournal_SetBullets", function(object)
+		local parent = object:GetParent()
+		if parent.Bullets then
+			for _, bullet in pairs(parent.Bullets) do
+				if not bullet.styled then
+					bullet.Text:SetTextColor(1, 1, 1)
 
-			if not header.styled then
-				F.StripTextures(header.button)
-				header.description:SetTextColor(1, 1, 1)
-				header.descriptionBG:SetAlpha(0)
-				header.descriptionBGBottom:SetAlpha(0)
-
-				local bubg = F.CreateBDFrame(header.button, 0)
-				bubg:SetPoint("TOPLEFT", C.mult, -C.mult)
-				bubg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
-				F.ReskinTexture(header.button, bubg, true)
-
-				header.styled = true
+					bullet.styled = true
+				end
 			end
-
-			index = index + 1
 		end
+	end)
+
+	hooksecurefunc("EncounterJournal_GetCreatureButton", function(index)
+		F.CleanTextures(infoFrame.creatureButtons[index])
 	end)
 end

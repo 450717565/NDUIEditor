@@ -1,6 +1,15 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
+	F.ReskinFrame(LFGInvitePopup, true)
+	F.ReskinFrame(LFGDungeonReadyDialog)
+	F.ReskinFrame(LFGDungeonReadyStatus, true)
+
+	F.ReskinButton(LFGDungeonReadyDialogEnterDungeonButton)
+	F.ReskinButton(LFGDungeonReadyDialogLeaveQueueButton)
+	F.ReskinButton(LFGInvitePopupAcceptButton)
+	F.ReskinButton(LFGInvitePopupDeclineButton)
+
 	local function styleRewardButton(button)
 		if not button or button.styled then return end
 
@@ -35,52 +44,61 @@ tinsert(C.themes["AuroraClassic"], function()
 		styleRewardButton(moneyReward)
 	end)
 
+	local roleDes = LFGDungeonReadyDialogYourRoleDescription
+	roleDes:ClearAllPoints()
+	roleDes:SetPoint("BOTTOMRIGHT", LFGDungeonReadyDialogRoleIcon, "LEFT", -10, 0)
+
+	local rolelabel = LFGDungeonReadyDialogRoleLabel
+	rolelabel:ClearAllPoints()
+	rolelabel:SetPoint("TOP", roleDes, "BOTTOM", 0, -3)
+
 	local leaderIcon = LFGDungeonReadyDialogRoleIconLeaderIcon
 	F.ReskinRole(leaderIcon, "LEADER")
 	leaderIcon:ClearAllPoints()
-	leaderIcon:SetPoint("TOPLEFT", LFGDungeonReadyDialogRoleIcon, "TOPRIGHT", 3, 0)
+	leaderIcon:SetPoint("BOTTOM", roleDes, "TOP", 0, 5)
 
 	local iconTexture = LFGDungeonReadyDialogRoleIconTexture
-	iconTexture:SetTexture(C.media.roleTex)
-	local bg = F.CreateBDFrame(iconTexture, 0)
+	local icbg = F.ReskinRoleIcon(LFGDungeonReadyDialogRoleIconTexture)
+
+	local rewardFrame = LFGDungeonReadyDialogRewardsFrame
+	local rewardLabel = LFGDungeonReadyDialogRewardsFrameLabel
 
 	hooksecurefunc("LFGDungeonReadyPopup_Update", function()
-		--LFGDungeonReadyDialog:SetBackdrop(nil)
+		LFGDungeonReadyDialog.SetBackdrop = F.Dummy
 		leaderIcon.bg:SetShown(leaderIcon:IsShown())
 
 		if LFGDungeonReadyDialogRoleIcon:IsShown() then
 			local role = select(7, GetLFGProposal())
 			if not role or role == "NONE" then role = "DAMAGER" end
 			iconTexture:SetTexCoord(F.GetRoleTexCoord(role))
-			bg:Show()
+			icbg:Show()
 		else
-			bg:Hide()
+			icbg:Hide()
 		end
+
+		rewardLabel:Hide()
+		rewardFrame:ClearAllPoints()
+		rewardFrame:SetPoint("BOTTOMLEFT", LFGDungeonReadyDialogRoleIcon, "BOTTOMRIGHT", 15, 0)
 	end)
 
-	local function styleDungeonReady(button)
-		F.ReskinIcon(button.texture)
+	local function reskinDialogReward(button)
+		if not button.styled then
+			F.ReskinIcon(button.texture)
 
-		local border = _G[button:GetName().."Border"]
-		border:Hide()
+			local border = _G[button:GetName().."Border"]
+			border:Hide()
+			
+			button.styled = true
+		end
 	end
 
 	hooksecurefunc("LFGDungeonReadyDialogReward_SetMisc", function(button)
-		if not button.styled then
-			styleDungeonReady(button)
-
-			button.styled = true
-		end
-
+		reskinDialogReward(button)
 		button.texture:SetTexture("Interface\\Icons\\inv_misc_coin_02")
 	end)
 
 	hooksecurefunc("LFGDungeonReadyDialogReward_SetReward", function(button, dungeonID, rewardIndex, rewardType, rewardArg)
-		if not button.styled then
-			styleDungeonReady(button)
-
-			button.styled = true
-		end
+		reskinDialogReward(button)
 
 		local texturePath
 		if rewardType == "reward" then
@@ -92,17 +110,6 @@ tinsert(C.themes["AuroraClassic"], function()
 			button.texture:SetTexture(texturePath)
 		end
 	end)
-
-	F.ReskinFrame(LFGInvitePopup, true)
-	F.ReskinFrame(LFGDungeonReadyDialog)
-	F.ReskinFrame(LFGDungeonReadyStatus)
-
-	F.ReskinButton(LFGDungeonReadyDialogEnterDungeonButton)
-	F.ReskinButton(LFGDungeonReadyDialogLeaveQueueButton)
-	F.ReskinButton(LFGInvitePopupAcceptButton)
-	F.ReskinButton(LFGInvitePopupDeclineButton)
-	F.ReskinClose(LFGDungeonReadyDialogCloseButton)
-	F.ReskinClose(LFGDungeonReadyStatusCloseButton)
 
 	local function reskinRoleButton(buttons, role)
 		for _, roleButton in pairs(buttons) do
@@ -148,6 +155,19 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	F.ReskinRole(LFGDungeonReadyStatusRolelessReady, "READY")
 
+	local function updateRoleBonus(roleButton)
+		if not roleButton.bg then return end
+		if roleButton.shortageBorder and roleButton.shortageBorder:IsShown() then
+			if roleButton.cover:IsShown() then
+				roleButton.bg:SetBackdropBorderColor(.5, .45, .03)
+			else
+				roleButton.bg:SetBackdropBorderColor(1, .9, .06)
+			end
+		else
+			roleButton.bg:SetBackdropBorderColor(0, 0, 0)
+		end
+	end
+
 	hooksecurefunc("LFG_SetRoleIconIncentive", function(roleButton, incentiveIndex)
 		if incentiveIndex then
 			local tex
@@ -159,21 +179,16 @@ tinsert(C.themes["AuroraClassic"], function()
 				tex = "Interface\\Icons\\INV_Misc_Coin_17"
 			end
 			roleButton.incentiveIcon.texture:SetTexture(tex)
-
-			if roleButton.cover:IsShown() then
-				roleButton.bg:SetBackdropBorderColor(.50, .45, .03)
-			else
-				roleButton.bg:SetBackdropBorderColor(1.0, .90, .06)
-			end
-		else
-			roleButton.bg:SetBackdropBorderColor(0, 0, 0)
 		end
+
+		updateRoleBonus(roleButton)
 	end)
+
+	hooksecurefunc("LFG_EnableRoleButton", updateRoleBonus)
 
 	for i = 1, 5 do
 		local roleButton = _G["LFGDungeonReadyStatusIndividualPlayer"..i]
-		roleButton.texture:SetTexture(C.media.roleTex)
-		F.CreateBDFrame(roleButton, 0)
+		F.ReskinRoleIcon(roleButton.texture)
 		if i == 1 then
 			roleButton:SetPoint("LEFT", 7, 0)
 		else
