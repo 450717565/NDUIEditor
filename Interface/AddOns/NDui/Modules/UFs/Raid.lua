@@ -323,7 +323,7 @@ local function updateBuffIndicator(self, event, unit)
 		local name, _, count, _, duration, expiration, caster, _, _, spellID = UnitAura(unit, i, "HELPFUL")
 		if not name then break end
 		local value = spellList[spellID]
-		if value and (value[3] or caster == "player") then
+		if value and (value[3] or caster == "player" or caster == "pet") then
 			for _, icon in pairs(icons) do
 				if icon.anchor == value[1] then
 					if icon.timer then
@@ -360,8 +360,8 @@ local function updateBuffIndicator(self, event, unit)
 end
 
 function UF:CreateBuffIndicator(self)
-	if NDuiDB["UFs"]["SimpleMode"] then return end
 	if not NDuiDB["UFs"]["RaidBuffIndicator"] then return end
+	if NDuiDB["UFs"]["SimpleMode"] and not NDuiDB["UFs"]["PartyFrame"] then return end
 
 	local anchors = {"TOPLEFT", "TOP", "TOPRIGHT", "LEFT", "RIGHT", "BOTTOMLEFT", "BOTTOM", "BOTTOMRIGHT"}
 	local icons = {}

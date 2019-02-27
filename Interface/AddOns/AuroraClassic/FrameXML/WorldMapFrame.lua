@@ -2,6 +2,7 @@ local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
 	local BorderFrame = WorldMapFrame.BorderFrame
+	BorderFrame.Tutorial.Ring:Hide()
 	WorldMapFramePortrait:SetAlpha(0)
 
 	F.StripTextures(WorldMapFrame, true)

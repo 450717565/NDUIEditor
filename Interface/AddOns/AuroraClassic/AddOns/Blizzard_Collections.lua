@@ -325,7 +325,7 @@ C.themes["Blizzard_Collections"] = function()
 		end
 
 		button.level:SetTextColor(1, 1, 1)
-		button.special:SetTextColor(1, .8, 0)
+		button.special:SetTextColor(1, 1, 1)
 		button.name:SetTextColor(.5, .5, .5)
 		button.icbg:SetBackdropBorderColor(0, 0, 0)
 		button.lvbg:Hide()

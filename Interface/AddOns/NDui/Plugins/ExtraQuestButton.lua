@@ -198,6 +198,9 @@ function ExtraQuestButton:PLAYER_LOGIN()
 	self.rangeTimer = 0
 	self:Hide()
 
+	B.CreateSD(self, 3, 3)
+	self.Shadow:SetFrameLevel(self:GetFrameLevel())
+
 	self:SetPushedTexture(DB.textures.pushed)
 	local push = self:GetPushedTexture()
 	push:SetBlendMode("ADD")
@@ -207,12 +210,12 @@ function ExtraQuestButton:PLAYER_LOGIN()
 	local Icon = self:CreateTexture("$parentIcon", "ARTWORK")
 	Icon:SetAllPoints()
 	Icon:SetTexCoord(unpack(DB.TexCoord))
-	B.CreateSD(self, 3, 3)
-	self.Shadow:SetFrameLevel(self:GetFrameLevel())
-	self.HL = self:CreateTexture(nil, "HIGHLIGHT")
-	self.HL:SetColorTexture(1, 1, 1, .25)
-	self.HL:SetAllPoints(Icon)
 	self.Icon = Icon
+
+	local Highlight = self:CreateTexture(nil, "HIGHLIGHT")
+	Highlight:SetColorTexture(1, 1, 1, .25)
+	Highlight:SetAllPoints(Icon)
+	self.Highlight = Highlight
 
 	local HotKey = self:CreateFontString("$parentHotKey", nil, "NumberFontNormal")
 	HotKey:SetPoint("TOP", 0, -5)

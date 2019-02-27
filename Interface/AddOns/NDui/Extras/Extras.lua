@@ -112,25 +112,3 @@ do
 		end
 	end)
 end
-
---- 特殊物品购买无需确认
---[[
-do
-	MerchantItemButton_OnClick = function(self, button, ...)
-		if MerchantFrame.selectedTab == 1 then
-			MerchantFrame.extendedCost = nil
-			MerchantFrame.highPrice = nil
-			if button == "LeftButton" then
-				if MerchantFrame.refundItem then
-					if ContainerFrame_GetExtendedPriceString(MerchantFrame.refundItem, MerchantFrame.refundItemEquipped) then
-						return
-					end
-				end
-				PickupMerchantItem(self:GetID())
-			else
-				BuyMerchantItem(self:GetID())
-			end
-		end
-	end
-end
-]]

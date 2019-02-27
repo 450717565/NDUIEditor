@@ -106,13 +106,15 @@ function module:RareAlert()
 			local atlasWidth = width/(txRight-txLeft)
 			local atlasHeight = height/(txBottom-txTop)
 			local tex = format("|T%s:%d:%d:0:0:%d:%d:%d:%d:%d:%d|t", filename, 0, 0, atlasWidth, atlasHeight, atlasWidth*txLeft, atlasWidth*txRight, atlasHeight*txTop, atlasHeight*txBottom)
+
 			UIErrorsFrame:AddMessage(DB.InfoColor..format(">>> %s <<<", tex..(info.name or "")))
-			if NDuiDB["Misc"]["AlertinChat"] and not UnitIsDeadOrGhost("player") then
-				SendChatMessage(format(">>> %s <<<", info.name), "SAY")
-			end
 			if not NDuiDB["Misc"]["RareAlertInWild"] or instType == "none" then
+				if NDuiDB["Misc"]["AlertinChat"] and not UnitIsDeadOrGhost("player") then
+					SendChatMessage(format(">>> %s <<<", info.name), "SAY")
+				end
 				PlaySoundFile("Sound\\Interface\\PVPFlagTakenMono.ogg", "master")
 			end
+
 			cache[id] = true
 		end
 		if #cache > 666 then wipe(cache) end

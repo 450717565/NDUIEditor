@@ -31,8 +31,6 @@ module:RegisterDebuff(TIER, INSTANCE, BOSS, 286379) -- 炎爆术
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 285632) -- 追踪
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 288151) -- 考验后遗症
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 284089) -- 成功防御
-module:RegisterDebuff(TIER, INSTANCE, BOSS, 286369) -- 赤精之歌
-module:RegisterDebuff(TIER, INSTANCE, BOSS, 284453) -- 赤精之歌
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 286503) -- 射线
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 287747) -- 超力之球
 
@@ -77,8 +75,8 @@ module:RegisterDebuff(TIER, INSTANCE, BOSS, 284676) -- 净化之印
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 290450) -- 净化之印
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 285178) -- 蛇焰吐息
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 289858) -- 碾压
-module:RegisterDebuff(TIER, INSTANCE, BOSS, 284740, 6) -- 重斧掷击
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 284781, 6) -- 重斧掷击
+module:RegisterDebuff(TIER, INSTANCE, BOSS, 290955, 6) -- 重斧掷击
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 285349) -- 赤焰瘟疫
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 284995) -- 僵尸尘
 module:RegisterDebuff(TIER, INSTANCE, BOSS, 285195) -- 寂灭凋零

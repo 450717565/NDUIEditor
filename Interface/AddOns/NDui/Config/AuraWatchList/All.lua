@@ -150,6 +150,7 @@ local list = {
 	-->艾泽里特特质
 		{AuraID = 271550, UnitID = "player"},	-- 临危不惧
 		{AuraID = 281517, UnitID = "player"},	-- 不稳定的催化剂
+		{AuraID = 271559, UnitID = "player"},	-- 闪光庇护所
 		{AuraID = 270657, UnitID = "player", Value = true},	-- 万人敌
 		--默认
 		{AuraID = 280852, UnitID = "player"},	-- 解放者之力
@@ -806,7 +807,6 @@ local list = {
 		{AuraID = 162264, UnitID = "target"},	-- 恶魔变形
 		{AuraID = 187827, UnitID = "target"},	-- 恶魔变形
 		{AuraID = 125174, UnitID = "target"},	-- 业报之触
-		{AuraID = 171607, UnitID = "target"},	-- 爱情光线
 		{AuraID = 228323, UnitID = "target", Value = true},	-- 克罗塔的护盾
 	-->职业长控
 		--变形术
@@ -895,35 +895,6 @@ local list = {
 	-->其他
 		{IntID = 240447, Duration = 20},--践踏
 		{IntID = 114018, Duration = 15, OnSuccess = true, UnitID = "all"},	-- 帷幕
-	-->种族技能
-		--奥术洪流
-		{IntID = 20546, Duration = 90, UnitID = "all", OnSuccess = true},
-		{IntID = 28730, Duration = 90, UnitID = "all", OnSuccess = true},
-		{IntID = 50613, Duration = 90, UnitID = "all", OnSuccess = true},
-		{IntID = 69179, Duration = 90, UnitID = "all", OnSuccess = true},
-		{IntID = 80483, Duration = 90, UnitID = "all", OnSuccess = true},
-		{IntID = 129597, Duration = 90, UnitID = "all", OnSuccess = true},
-		{IntID = 155145, Duration = 90, UnitID = "all", OnSuccess = true},
-		{IntID = 202719, Duration = 90, UnitID = "all", OnSuccess = true},
-		{IntID = 232633, Duration = 90, UnitID = "all", OnSuccess = true},
-	-->打断技能
-		{IntID = 106839, Duration = 15, UnitID = "all", OnSuccess = true},--迎头痛击
-		{IntID = 116705, Duration = 15, UnitID = "all", OnSuccess = true},--切喉手
-		{IntID = 132469, Duration = 30, UnitID = "all", OnSuccess = true},--台风
-		{IntID = 147362, Duration = 24, UnitID = "all", OnSuccess = true},--反制射击
-		{IntID = 15487, Duration = 45, UnitID = "all", OnSuccess = true},--沉默
-		{IntID = 1766, Duration = 15, UnitID = "all", OnSuccess = true},--脚踢
-		{IntID = 183752, Duration = 15, UnitID = "all", OnSuccess = true},--瓦解
-		{IntID = 187707, Duration = 15, UnitID = "all", OnSuccess = true},--压制
-		{IntID = 19647, Duration = 24, UnitID = "all", OnSuccess = true},--法术封锁@术士
-		{IntID = 2139, Duration = 24, UnitID = "all", OnSuccess = true},--法术反制
-		{IntID = 47528, Duration = 15, UnitID = "all", OnSuccess = true},--心灵冰冻
-		{IntID = 57994, Duration = 12, UnitID = "all", OnSuccess = true},--风剪
-		{IntID = 6552, Duration = 15, UnitID = "all", OnSuccess = true},--拳击
-		{IntID = 78675, Duration = 60, UnitID = "all", OnSuccess = true},--日光术
-		{IntID = 96231, Duration = 15, UnitID = "all", OnSuccess = true},--责难
-	-->驱散技能
-		{IntID = 278326, Duration = 10, UnitID = "all", OnSuccess = true},--吞噬魔法
 	},
 }
 

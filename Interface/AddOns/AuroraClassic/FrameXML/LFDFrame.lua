@@ -4,34 +4,28 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.StripTextures(LFDParentFrame)
 	F.StripTextures(LFDQueueFrameRandomScrollFrame)
 	F.StripTextures(LFDQueueFrameSpecificListScrollFrame)
-	LFDQueueFrameBackground:Hide()
 
-	-- this fixes right border of second reward being cut off
-	LFDQueueFrameRandomScrollFrame:SetWidth(LFDQueueFrameRandomScrollFrame:GetWidth()+1)
+	LFDQueueFrameBackground:Hide()
+	LFDQueueFrameRandomScrollFrameScrollBackground:Hide()
+
+	F.ReskinFrame(LFDRoleCheckPopup)
+	F.ReskinDropDown(LFDQueueFrameTypeDropDown)
+	F.ReskinScroll(LFDQueueFrameSpecificListScrollFrameScrollBar)
+	F.ReskinScroll(LFDQueueFrameRandomScrollFrameScrollBar)
+
+	local buttons = {LFDRoleCheckPopupAcceptButton, LFDRoleCheckPopupDeclineButton, LFDQueueFrameFindGroupButton, LFDQueueFramePartyBackfillBackfillButton, LFDQueueFramePartyBackfillNoBackfillButton, LFDQueueFrameNoLFDWhileLFRLeaveQueueButton}
+	for _, button in next, buttons do
+		F.ReskinButton(button)
+	end
 
 	hooksecurefunc("LFGDungeonListButton_SetDungeon", function(button)
-		if not button.expandOrCollapseButton.styled then
+		if not button.styled then
 			F.ReskinCheck(button.enableButton)
 			F.ReskinExpandOrCollapse(button.expandOrCollapseButton)
 
-			button.expandOrCollapseButton.styled = true
+			button.styled = true
 		end
 
 		button.enableButton:GetCheckedTexture():SetDesaturated(true)
 	end)
-
-	F.ReskinFrame(LFDRoleCheckPopup)
-	F.ReskinButton(LFDRoleCheckPopupAcceptButton)
-	F.ReskinButton(LFDRoleCheckPopupDeclineButton)
-	F.ReskinButton(LFDQueueFrameRandomScrollFrameChildFrame.bonusRepFrame.ChooseButton)
-	F.ReskinScroll(LFDQueueFrameSpecificListScrollFrameScrollBar)
-	F.ReskinScroll(LFDQueueFrameRandomScrollFrameScrollBar)
-	F.ReskinDropDown(LFDQueueFrameTypeDropDown)
-	F.ReskinButton(LFDQueueFrameFindGroupButton)
-	F.ReskinButton(LFDQueueFramePartyBackfillBackfillButton)
-	F.ReskinButton(LFDQueueFramePartyBackfillNoBackfillButton)
-	F.ReskinButton(LFDQueueFrameNoLFDWhileLFRLeaveQueueButton)
-
-	LFDQueueFrameSpecificListScrollFrameScrollBarScrollDownButton:SetPoint("TOP", LFDQueueFrameSpecificListScrollFrameScrollBar, "BOTTOM", 0, 2)
-	LFDQueueFrameRandomScrollFrameScrollBarScrollDownButton:SetPoint("TOP", LFDQueueFrameRandomScrollFrameScrollBar, "BOTTOM", 0, 2)
 end)

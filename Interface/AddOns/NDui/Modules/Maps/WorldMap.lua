@@ -24,6 +24,10 @@ function module:PlayerCoords(mapID)
 end
 
 function module:OnLogin()
+	-- Elements
+	self:SetupMinimap()
+	self:MapReveal()
+
 	-- Scaling
 	local function setupScale(self)
 		if self.isMaximized and self:GetScale() ~= 1 then
@@ -120,8 +124,4 @@ function module:OnLogin()
 
 	local CoordsUpdater = CreateFrame("Frame", nil, WorldMapFrame.BorderFrame)
 	CoordsUpdater:SetScript("OnUpdate", UpdateCoords)
-
-	-- Elements
-	self:SetupMinimap()
-	self:MapReveal()
 end

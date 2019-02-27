@@ -155,6 +155,7 @@ function BuyEmAll:MerchantItemButton_OnModifiedClick(frame, button)
     if (MerchantFrame.selectedTab == 1)
             and (IsShiftKeyDown())
             and not (IsControlKeyDown())
+            and not (button == "RightButton")
             and not (ChatFrame1EditBox:HasFocus()) then
 
         -- Set up various data before showing the BuyEmAll frame.
@@ -322,7 +323,7 @@ function BuyEmAll:Show(frame)
     end
 
     BuyEmAllFrame:ClearAllPoints();
-	BuyEmAllFrame:SetPoint("TOPLEFT", MerchantFrame, "TOPRIGHT", 4, 0);
+    BuyEmAllFrame:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 0, 0);
 
     BuyEmAllFrame:Show(frame);
     self:UpdateDisplay();

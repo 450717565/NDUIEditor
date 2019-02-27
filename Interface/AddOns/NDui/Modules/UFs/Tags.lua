@@ -124,10 +124,12 @@ oUF.Tags.Events["fulllevel"] = "UNIT_LEVEL PLAYER_LEVEL_UP UNIT_CLASSIFICATION_C
 
 -- RaidFrame tags
 oUF.Tags.Methods["raidhp"] = function(unit)
+	local per = oUF.Tags.Methods["perhp"](unit)
+
 	if UnitIsDeadOrGhost(unit) or not UnitIsConnected(unit) then
 		return oUF.Tags.Methods["state"](unit)
 	else
-		return B.ColorText(oUF.Tags.Methods["perhp"](unit))
+		return B.ColorText(per)
 	end
 end
 oUF.Tags.Events["raidhp"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION"

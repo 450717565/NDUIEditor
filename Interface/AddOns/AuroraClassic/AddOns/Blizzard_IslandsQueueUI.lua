@@ -9,7 +9,7 @@ C.themes["Blizzard_IslandsQueueUI"] = function()
 	IslandsQueueFrame.DifficultySelectorFrame.Background:Hide()
 
 	local helpbutton = IslandsQueueFrame.HelpButton
-	helpbutton.Ring:SetAlpha(0)
+	helpbutton.Ring:Hide()
 	helpbutton:ClearAllPoints()
 	helpbutton:SetPoint("TOPLEFT")
 
