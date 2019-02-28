@@ -23,54 +23,21 @@ function module:PlayerCoords(mapID)
 	return tempVec2D.y/mapRect[2].y, tempVec2D.x/mapRect[2].x
 end
 
-function module:OnLogin()
-	-- Elements
-	self:SetupMinimap()
-	self:MapReveal()
-
-	-- Scaling
-	local function setupScale(self)
-		if self.isMaximized and self:GetScale() ~= 1 then
-			self:SetScale(1)
-		elseif not self.isMaximized and self:GetScale() ~= NDuiDB["Map"]["MapScale"] then
-			self:SetScale(NDuiDB["Map"]["MapScale"])
-		end
-	end
-
-	if NDuiDB["Map"]["MapScale"] > 1 then
-		WorldMapFrame.ScrollContainer.GetCursorPosition = function(f)
-			local x, y = MapCanvasScrollControllerMixin.GetCursorPosition(f)
-			local s = WorldMapFrame:GetScale()
-			return x/s, y/s
-		end
-	end
-
-	local function updateMapAnchor(self)
-		setupScale(self)
-		if not self.isMaximized then B.RestoreMF(self) end
-	end
-	B.CreateMF(WorldMapFrame, nil, true)
-	hooksecurefunc(WorldMapFrame, "SynchronizeDisplayState", updateMapAnchor)
-
-	-- Generate Coords
+function module:UpdateCoords()
 	if not NDuiDB["Map"]["Coord"] then return end
 
-	WorldMapFrame.BorderFrame.Tutorial:SetPoint("TOPLEFT", WorldMapFrame, "TOPLEFT", -12, -12)
+	local BorderFrame = WorldMapFrame.BorderFrame
+	BorderFrame.Tutorial:ClearAllPoints()
+	BorderFrame.Tutorial:SetPoint("TOPLEFT", -10, 10)
 
 	local playerText = PLAYER..L[":"]
 	local mouseText = L["Mouse"]..L[":"]
-	local player = B.CreateFS(WorldMapFrame.BorderFrame, 14, "")
-	local cursor = B.CreateFS(WorldMapFrame.BorderFrame, 14, "")
-	player:SetJustifyH("LEFT")
-	cursor:SetJustifyH("LEFT")
 
-	if F then
-		player:SetPoint("TOPLEFT", 40, -8)
-		cursor:SetPoint("TOPLEFT", 170, -8)
-	else
-		player:SetPoint("TOPLEFT", 60, -6)
-		cursor:SetPoint("TOPLEFT", 180, -6)
-	end
+	local player = B.CreateFS(BorderFrame, 14, "", false, "TOPLEFT", 55, -6)
+	player:SetJustifyH("LEFT")
+
+	local cursor = B.CreateFS(BorderFrame, 14, "", false, "TOPLEFT", 175, -6)
+	cursor:SetJustifyH("LEFT")
 
 	local mapBody = WorldMapFrame:GetCanvasContainer()
 	local scale, width, height = mapBody:GetEffectiveScale(), mapBody:GetWidth(), mapBody:GetHeight()
@@ -122,6 +89,38 @@ function module:OnLogin()
 		end
 	end
 
-	local CoordsUpdater = CreateFrame("Frame", nil, WorldMapFrame.BorderFrame)
+	local CoordsUpdater = CreateFrame("Frame", nil, BorderFrame)
 	CoordsUpdater:SetScript("OnUpdate", UpdateCoords)
+end
+
+function module:WorldMapScale()
+	local function setupScale(self)
+		if self.isMaximized and self:GetScale() ~= 1 then
+			self:SetScale(1)
+		elseif not self.isMaximized and self:GetScale() ~= NDuiDB["Map"]["MapScale"] then
+			self:SetScale(NDuiDB["Map"]["MapScale"])
+		end
+	end
+
+	if NDuiDB["Map"]["MapScale"] > 1 then
+		WorldMapFrame.ScrollContainer.GetCursorPosition = function(f)
+			local x, y = MapCanvasScrollControllerMixin.GetCursorPosition(f)
+			local s = WorldMapFrame:GetScale()
+			return x/s, y/s
+		end
+	end
+
+	local function updateMapAnchor(self)
+		setupScale(self)
+		if not self.isMaximized then B.RestoreMF(self) end
+	end
+	B.CreateMF(WorldMapFrame, nil, true)
+	hooksecurefunc(WorldMapFrame, "SynchronizeDisplayState", updateMapAnchor)
+end
+
+function module:OnLogin()
+	self:WorldMapScale()
+	self:UpdateCoords()
+	self:SetupMinimap()
+	self:MapReveal()
 end

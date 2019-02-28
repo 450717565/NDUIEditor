@@ -895,6 +895,34 @@ local list = {
 	-->其他
 		{IntID = 240447, Duration = 20},--践踏
 		{IntID = 114018, Duration = 15, OnSuccess = true, UnitID = "all"},	-- 帷幕
+	-->奥术洪流
+		{IntID = 20546, Duration = 120, UnitID = "all", OnSuccess = true},
+		{IntID = 28730, Duration = 120, UnitID = "all", OnSuccess = true},
+		{IntID = 50613, Duration = 120, UnitID = "all", OnSuccess = true},
+		{IntID = 69179, Duration = 120, UnitID = "all", OnSuccess = true},
+		{IntID = 80483, Duration = 120, UnitID = "all", OnSuccess = true},
+		{IntID = 129597, Duration = 120, UnitID = "all", OnSuccess = true},
+		{IntID = 155145, Duration = 120, UnitID = "all", OnSuccess = true},
+		{IntID = 202719, Duration = 120, UnitID = "all", OnSuccess = true},
+		{IntID = 232633, Duration = 120, UnitID = "all", OnSuccess = true},
+	-->打断技能
+		{IntID = 106839, Duration = 15, UnitID = "all", OnSuccess = true},--迎头痛击
+		{IntID = 116705, Duration = 15, UnitID = "all", OnSuccess = true},--切喉手
+		{IntID = 132469, Duration = 30, UnitID = "all", OnSuccess = true},--台风
+		{IntID = 147362, Duration = 24, UnitID = "all", OnSuccess = true},--反制射击
+		{IntID = 15487, Duration = 45, UnitID = "all", OnSuccess = true},--沉默
+		{IntID = 1766, Duration = 15, UnitID = "all", OnSuccess = true},--脚踢
+		{IntID = 183752, Duration = 15, UnitID = "all", OnSuccess = true},--瓦解
+		{IntID = 187707, Duration = 15, UnitID = "all", OnSuccess = true},--压制
+		{IntID = 19647, Duration = 24, UnitID = "all", OnSuccess = true},--法术封锁@术士
+		{IntID = 2139, Duration = 24, UnitID = "all", OnSuccess = true},--法术反制
+		{IntID = 47528, Duration = 15, UnitID = "all", OnSuccess = true},--心灵冰冻
+		{IntID = 57994, Duration = 12, UnitID = "all", OnSuccess = true},--风剪
+		{IntID = 6552, Duration = 15, UnitID = "all", OnSuccess = true},--拳击
+		{IntID = 78675, Duration = 60, UnitID = "all", OnSuccess = true},--日光术
+		{IntID = 96231, Duration = 15, UnitID = "all", OnSuccess = true},--责难
+	-->驱散技能
+		{IntID = 278326, Duration = 10, UnitID = "all", OnSuccess = true},--吞噬魔法
 	},
 }
 

@@ -163,25 +163,29 @@ local function CreateRaidStyle(self)
 end
 
 local function CreatePartyStyle(self)
-	self.mystyle = "party"
-	self.Range = {
-		insideAlpha = 1, outsideAlpha = .4,
-	}
+	if NDuiDB["UFs"]["PartyWatcher"] then
+		CreateRaidStyle(self)
+		UF:InterruptIndicator(self)
+	else
+		self.mystyle = "party"
+		self.Range = {
+			insideAlpha = 1, outsideAlpha = .4,
+		}
 
-	UF:CreateHeader(self)
-	UF:CreateHealthBar(self)
-	UF:CreateHealthText(self)
-	UF:CreatePowerBar(self)
-	UF:CreatePortrait(self)
-	UF:CreateRaidMark(self)
-	UF:CreateIcons(self)
-	UF:CreateTargetBorder(self)
-	UF:CreateRaidIcons(self)
-	UF:CreatePrediction(self)
-	UF:CreateClickSets(self)
-	UF:CreateDebuffs(self)
-	UF:CreateThreatBorder(self)
-	UF:InterruptIndicator(self)
+		UF:CreateHeader(self)
+		UF:CreateHealthBar(self)
+		UF:CreateHealthText(self)
+		UF:CreatePowerBar(self)
+		UF:CreatePortrait(self)
+		UF:CreateRaidMark(self)
+		UF:CreateIcons(self)
+		UF:CreateTargetBorder(self)
+		UF:CreateRaidIcons(self)
+		UF:CreatePrediction(self)
+		UF:CreateClickSets(self)
+		UF:CreateDebuffs(self)
+		UF:CreateThreatBorder(self)
+	end
 end
 
 -- Spawns
@@ -192,7 +196,8 @@ function UF:OnLogin()
 	local raidWidth = NDuiDB["UFs"]["RaidWidth"]
 	local raidHeight = NDuiDB["UFs"]["RaidHeight"]
 	local reverse = NDuiDB["UFs"]["ReverseRaid"]
-	local showPartyFrame = NDuiDB["UFs"]["PartyFrame"]
+	local partyFrame = NDuiDB["UFs"]["PartyFrame"]
+	local partyWatcher = NDuiDB["UFs"]["PartyWatcher"]
 
 	if NDuiDB["Nameplate"]["Enable"] then
 		self:SetupCVars()
@@ -276,28 +281,38 @@ function UF:OnLogin()
 			oUF:RegisterStyle("Party", CreatePartyStyle)
 			oUF:SetActiveStyle("Party")
 
-			local heightScale = NDuiDB["UFs"]["HeightScale"]
+			local xOffset = partyWatcher and 5 or 0
+			local yOffset = partyWatcher and 10 or -20
+			local pointF = partyWatcher and (horizon and "LEFT" or "BOTTOM") or "TOP"
+			local pointT = partyWatcher and (horizon and "RIGHT" or "TOP") or "BOTTOM"
+			local partyPoint = partyWatcher and "BOTTOMLEFT" or "TOPLEFT"
+			local partyWidth = partyWatcher and 100 or 200
+			local partyHeight = partyWatcher and 32 or 22*NDuiDB["UFs"]["HeightScale"]
+			local moverPoint = partyWatcher and {"LEFT", UIParent, 350, 0} or {"TOPLEFT", UIParent, 35, -50}
+			local moverWidth = partyWatcher and (horizon and (partyWidth*5+xOffset*4)) or partyWidth
+			local moverHeight = partyWatcher and (horizon and partyHeight or (partyHeight*5+yOffset*4)) or (partyHeight*4-yOffset*3)
+
 			local party = oUF:SpawnHeader("oUF_Party", nil, "solo,party",
-			"showPlayer", false,
+			"showPlayer", partyWatcher,
 			"showSolo", false,
 			"showParty", true,
 			"showRaid", false,
-			"xoffset", 0,
-			"yOffset", -45,
+			"xoffset", xOffset,
+			"yOffset", yOffset,
 			"groupFilter", "1",
 			"groupingOrder", "TANK,HEALER,DAMAGER,NONE",
 			"groupBy", "ASSIGNEDROLE",
 			"sortMethod", "NAME",
-			"point", "TOP",
-			"columnAnchorPoint", "BOTTOM",
+			"point", pointF,
+			"columnAnchorPoint", pointT,
 			"oUF-initialConfigFunction", ([[
 				self:SetWidth(%d)
 				self:SetHeight(%d)
-			]]):format(200, 22*heightScale))
+			]]):format(partyWidth, partyHeight))
 
-			local partyMover = B.Mover(party, L["PartyFrame"], "PartyFrame", {"TOPLEFT", UIParent, 35, -50}, 200, (22*heightScale + 45) * 4)
+			local partyMover = B.Mover(party, L["PartyFrame"], "PartyFrame", moverPoint, moverWidth, moverHeight)
 			party:ClearAllPoints()
-			party:SetPoint("TOPLEFT", partyMover)
+			party:SetPoint(partyPoint, partyMover)
 		end
 	end
 
@@ -332,7 +347,7 @@ function UF:OnLogin()
 				local group = oUF:SpawnHeader(name, nil, "solo,party,raid",
 				"showPlayer", true,
 				"showSolo", false,
-				"showParty", not NDuiDB["UFs"]["PartyFrame"],
+				"showParty", not partyFrame,
 				"showRaid", true,
 				"xoffset", 5,
 				"yOffset", -10,
@@ -374,7 +389,7 @@ function UF:OnLogin()
 				local group = oUF:SpawnHeader(name, nil, "solo,party,raid",
 				"showPlayer", true,
 				"showSolo", false,
-				"showParty", not NDuiDB["UFs"]["PartyFrame"],
+				"showParty", not partyFrame,
 				"showRaid", true,
 				"xoffset", 5,
 				"yOffset", -10,

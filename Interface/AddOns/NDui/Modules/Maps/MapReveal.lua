@@ -332,8 +332,8 @@ function module:MapReveal()
 	bu:SetPoint("TOPRIGHT", -270, 0)
 	bu:SetSize(26, 26)
 	B.CreateCB(bu, .25)
-	bu:SetChecked(NDuiDB["Map"]["MapReveal"])
 	bu.text = B.CreateFS(bu, 14, L["Map Reveal"], false, "LEFT", 25, 0)
+	bu:SetChecked(NDuiDB["Map"]["MapReveal"])
 
 	for pin in WorldMapFrame:EnumeratePinsByTemplate("MapExplorationPinTemplate") do
 		hooksecurefunc(pin, "RefreshOverlays", MapExplorationPin_RefreshOverlays)

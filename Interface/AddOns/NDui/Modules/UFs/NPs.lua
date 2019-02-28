@@ -200,6 +200,46 @@ local function UpdateQuestUnit(self, unit)
 	end
 end
 
+local cache = {}
+local function UpdateDungeonProgress(self, unit)
+	if unit ~= self.unit then return end
+	if not self.progressText or not AngryKeystones_Data then return end
+	self.progressText:SetText("")
+
+	local name, _, _, _, _, _, _, _, _, scenarioType = C_Scenario.GetInfo()
+	if scenarioType == LE_SCENARIO_TYPE_CHALLENGE_MODE then
+		local npcID = B.GetNPCID(UnitGUID(unit))
+		local info = AngryKeystones_Data.progress[npcID]
+		if info then
+			local numCriteria = select(3, C_Scenario.GetStepInfo())
+			local total = cache[name]
+			if not total then
+				for criteriaIndex = 1, numCriteria do
+					local criteriaString, _, _, _, totalQuantity, _, _, _, _, _, _, _, isWeightedProgress = C_Scenario.GetCriteriaInfo(criteriaIndex)
+					if isWeightedProgress then
+						cache[name] = totalQuantity
+						total = cache[name]
+						break
+					end
+				end
+			end
+
+			local value, valueCount
+			for amount, count in pairs(info) do
+				if not valueCount or count > valueCount or (count == valueCount and amount < value) then
+					value = amount
+					valueCount = count
+				end
+			end
+
+			if value and total then
+				self.progressText:SetText(format("+%.2f%%", value/total*100))
+				self.progressText:SetTextColor(0, 1, 1)
+			end
+		end
+	end
+end
+
 local classify = {
 	rare = {1, 0, 1},
 	elite = {1, 1, 0},
@@ -221,7 +261,6 @@ local function UpdateUnitClassify(self, unit)
 end
 
 local explosiveCount, hasExplosives = 0
---local id = 126023 --test
 local id = 120651
 local function scalePlates()
 	for _, nameplate in next, C_NamePlate.GetNamePlates() do
@@ -384,6 +423,11 @@ function UF:CreatePlates(unit)
 			self.questIcon = qicon
 		end
 
+		if NDuiDB["Nameplate"]["AKSProgress"] then
+			self.progressText = B.CreateFS(self, 12, "", false, "LEFT", 0, 0)
+			self.progressText:SetPoint("LEFT", self, "RIGHT", 5, 0)
+		end
+
 		local threatIndicator = CreateFrame("Frame", nil, self)
 		self.ThreatIndicator = threatIndicator
 		self.ThreatIndicator.Override = UpdateThreatColor
@@ -398,6 +442,7 @@ function UF:PostUpdatePlates(event, unit)
 	UpdateQuestUnit(self, unit)
 	UpdateUnitClassify(self, unit)
 	UpdateExplosives(self, event, unit)
+	UpdateDungeonProgress(self, unit)
 end
 
 -- Player Nameplate

@@ -19,7 +19,7 @@ oUF.colors.power.ARCANE_CHARGES = {.41, .8, .94}
 local function retVal(self, val1, val2, val3, val4)
 	if self.mystyle == "player" or self.mystyle == "target" then
 		return val1
-	elseif self.mystyle == "focus" or self.mystyle == "party" then
+	elseif self.mystyle == "focus" or (self.mystyle == "party" and not NDuiDB["UFs"]["PartyWatcher"]) then
 		return val2
 	else
 		if self.mystyle == "nameplate" and val4 then
@@ -110,7 +110,7 @@ function UF:CreateHealthText(self)
 
 	if self.mystyle == "player" then
 		self:Tag(name, " [color][name]")
-	elseif self.mystyle == "target" or self.mystyle == "party" then
+	elseif self.mystyle == "target" or (self.mystyle == "party" and not NDuiDB["UFs"]["PartyWatcher"]) then
 		self:Tag(name, "[fulllevel] [color][name][flag]")
 	elseif self.mystyle == "focus" then
 		self:Tag(name, "[color][name][flag]")
@@ -643,10 +643,10 @@ function UF:CreateDebuffs(self)
 		bu.CustomFilter = customFilter
 		bu.initialAnchor = "TOPLEFT"
 		bu["growth-x"] = "RIGHT"
-	elseif self.mystyle == "party" then
-		bu:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -6)
-		bu.num = 14
-		bu.iconsPerRow = 7
+	elseif (self.mystyle == "party" and not NDuiDB["UFs"]["PartyWatcher"]) then
+		bu:SetPoint("TOPLEFT", self, "TOPRIGHT", 5, 0)
+		bu.num = 10
+		bu.size = self:GetHeight()+self.Power:GetHeight()+3.5
 		bu.initialAnchor = "TOPLEFT"
 		bu["growth-x"] = "RIGHT"
 	end
@@ -1032,15 +1032,6 @@ function UF:InterruptIndicator(self)
 	local buttons = {}
 	local maxIcons = 3
 	local iconSize = horizon and (self:GetWidth()-(maxIcons-1)*abs(margin))/maxIcons or (self:GetHeight()+self.Power:GetHeight()+3)
-
-	if self.mystyle == "party" then
-		iconSize = self:GetHeight() + self.Power:GetHeight() + 4
-		relF = "TOPLEFT"
-		relT = "TOPRIGHT"
-		xOffset = 5
-		yOffset = 0
-		margin = 2
-	end
 
 	for i = 1, maxIcons do
 		local bu = CreateFrame("Frame", nil, self)
