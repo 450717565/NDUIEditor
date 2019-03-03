@@ -89,7 +89,7 @@ function UF:CreateHealthText(self)
 
 	local name = B.CreateFS(textFrame, retVal(self, 13, 12, 11, 10), "", false, "LEFT", 3, -1)
 	name:SetJustifyH("LEFT")
-	if self.mystyle == "raid" then
+	if self.mystyle == "raid" or (self.mystyle == "party" and NDuiDB["UFs"]["PartyWatcher"]) then
 		name:SetWidth(self:GetWidth()*.95)
 		name:ClearAllPoints()
 		if NDuiDB["UFs"]["SimpleMode"] and not NDuiDB["UFs"]["PartyFrame"] then
@@ -123,7 +123,7 @@ function UF:CreateHealthText(self)
 	end
 
 	local hpval = B.CreateFS(textFrame, retVal(self, 14, 13, 12, 14), "", false, "RIGHT", -3, -1)
-	if self.mystyle == "raid" then
+	if self.mystyle == "raid" or (self.mystyle == "party" and NDuiDB["UFs"]["PartyWatcher"]) then
 		if NDuiDB["UFs"]["SimpleMode"] and not NDuiDB["UFs"]["PartyFrame"] then
 			hpval:SetPoint("RIGHT", -4, 0)
 		else
@@ -455,7 +455,7 @@ local function postUpdateIcon(element, _, button, _, _, duration, expiration, de
 		button.icon:SetDesaturated(false)
 	end
 
-	if style == "raid" and NDuiDB["UFs"]["RaidBuffIndicator"] then
+	if style == "raid" or (style == "party" and NDuiDB["UFs"]["PartyWatcher"]) and NDuiDB["UFs"]["RaidBuffIndicator"] then
 		button.Shadow:SetBackdropBorderColor(1, 0, 0)
 	elseif element.showDebuffType and button.isDebuff then
 		local color = oUF.colors.debuff[debuffType] or oUF.colors.debuff.none
@@ -505,7 +505,7 @@ local function customFilter(element, unit, button, name, _, _, _, _, _, caster, 
 			element.bolsterIndex = button
 			return true
 		end
-	elseif style == "raid" then
+	elseif style == "raid" or (style == "party" and NDuiDB["UFs"]["PartyWatcher"]) then
 		if NDuiDB["UFs"]["RaidBuffIndicator"] then
 			return C.RaidBuffs["ALL"][spellID] or NDuiADB["RaidAuraWatch"][spellID]
 		else
@@ -558,7 +558,7 @@ function UF:CreateAuras(self)
 		bu.iconsPerRow = 9
 		bu.gap = true
 		bu.initialAnchor = "TOPLEFT"
-	elseif self.mystyle == "raid" then
+	elseif self.mystyle == "raid" or (self.mystyle == "party" and NDuiDB["UFs"]["PartyWatcher"]) then
 		if NDuiDB["UFs"]["RaidBuffIndicator"] then
 			bu.initialAnchor = "LEFT"
 			bu:SetPoint("LEFT", self, 15, 0)
