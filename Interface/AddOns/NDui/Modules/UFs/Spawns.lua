@@ -163,28 +163,31 @@ local function CreateRaidStyle(self)
 end
 
 local function CreatePartyStyle(self)
+	self.mystyle = "party"
+	self.Range = {
+		insideAlpha = 1, outsideAlpha = .4,
+	}
+
+	UF:CreateHeader(self)
+	UF:CreateHealthBar(self)
+	UF:CreateHealthText(self)
+	UF:CreatePowerBar(self)
+	UF:CreateRaidMark(self)
+	UF:CreateIcons(self)
+	UF:CreateTargetBorder(self)
+	UF:CreateRaidIcons(self)
+	UF:CreatePrediction(self)
+	UF:CreateClickSets(self)
+	UF:CreateThreatBorder(self)
+
 	if NDuiDB["UFs"]["PartyWatcher"] then
-		CreateRaidStyle(self)
+		UF:CreateRaidDebuffs(self)
+		UF:CreateAuras(self)
+		UF:CreateBuffIndicator(self)
 		UF:InterruptIndicator(self)
 	else
-		self.mystyle = "party"
-		self.Range = {
-			insideAlpha = 1, outsideAlpha = .4,
-		}
-
-		UF:CreateHeader(self)
-		UF:CreateHealthBar(self)
-		UF:CreateHealthText(self)
-		UF:CreatePowerBar(self)
-		UF:CreatePortrait(self)
-		UF:CreateRaidMark(self)
-		UF:CreateIcons(self)
-		UF:CreateTargetBorder(self)
-		UF:CreateRaidIcons(self)
-		UF:CreatePrediction(self)
-		UF:CreateClickSets(self)
 		UF:CreateDebuffs(self)
-		UF:CreateThreatBorder(self)
+		UF:CreatePortrait(self)
 	end
 end
 

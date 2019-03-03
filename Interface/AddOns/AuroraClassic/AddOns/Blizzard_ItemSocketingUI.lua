@@ -3,47 +3,35 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_ItemSocketingUI"] = function()
 	F.ReskinFrame(ItemSocketingFrame)
 
-	F.StripTextures(ItemSocketingScrollFrame, true)
+	F.StripTextures(ItemSocketingScrollFrame)
+	F.StripTextures(ItemSocketingDescription)
+
 	F.ReskinButton(ItemSocketingSocketButton)
 	F.ReskinScroll(ItemSocketingScrollFrameScrollBar)
 
-	local title = select(18, ItemSocketingFrame:GetRegions())
-	title:ClearAllPoints()
-	title:SetPoint("TOP", 0, -10)
+	local bg = F.CreateBDFrame(ItemSocketingScrollFrame, 0)
+	bg:SetPoint("TOPLEFT", 0, 0)
+	bg:SetPoint("BOTTOMRIGHT", 0, -3)
 
 	for i = 1, MAX_NUM_SOCKETS do
-		_G["ItemSocketingSocket"..i.."BracketFrame"]:Hide()
-		_G["ItemSocketingSocket"..i.."Background"]:SetAlpha(0)
+		local button = "ItemSocketingSocket"..i
 
-		local bu = _G["ItemSocketingSocket"..i]
+		local bu = _G[button]
 		F.StripTextures(bu)
-		bu:SetPushedTexture("")
 
-		local ic = F.ReskinIcon(bu.icon)
-		F.ReskinTexture(bu, ic, false)
+		local bf = _G[button.."BracketFrame"]
+		bf:SetAlpha(0)
 
-		local shine = _G["ItemSocketingSocket"..i.."Shine"]
+		local bg = _G[button.."Background"]
+		bg:SetAlpha(0)
+
+		local ic = _G[button.."IconTexture"]
+		local icbg = F.ReskinIcon(ic)
+		F.ReskinTexture(bu, icbg, false)
+
+		local shine = _G[button.."Shine"]
 		shine:ClearAllPoints()
-		shine:SetPoint("TOPLEFT", ic, C.mult, -C.mult)
-		shine:SetPoint("BOTTOMRIGHT", ic, 0, 0)
-
-		bu.bg = ic
+		shine:SetPoint("TOPLEFT", icbg, C.mult, -C.mult)
+		shine:SetPoint("BOTTOMRIGHT", icbg, 0, 0)
 	end
-
-	hooksecurefunc("ItemSocketingFrame_Update", function()
-		for i = 1, MAX_NUM_SOCKETS do
-			local color = GEM_TYPE_INFO[GetSocketTypes(i)]
-			_G["ItemSocketingSocket"..i].bg:SetBackdropBorderColor(color.r, color.g, color.b)
-		end
-
-		local num = GetNumSockets()
-		if num == 3 then
-			ItemSocketingSocket1:SetPoint("BOTTOM", ItemSocketingFrame, "BOTTOM", -80, 38)
-		elseif num == 2 then
-			ItemSocketingSocket1:SetPoint("BOTTOM", ItemSocketingFrame, "BOTTOM", -40, 38)
-		else
-			ItemSocketingSocket1:SetPoint("BOTTOM", ItemSocketingFrame, "BOTTOM", 0, 38)
-		end
-		ItemSocketingDescription:SetBackdrop(nil)
-	end)
 end

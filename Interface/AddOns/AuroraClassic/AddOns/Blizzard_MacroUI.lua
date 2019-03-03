@@ -2,20 +2,36 @@ local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_MacroUI"] = function()
 	F.ReskinFrame(MacroFrame)
-
-	F.StripTextures(MacroButtonScrollFrame, true)
-	F.StripTextures(MacroPopupScrollFrame, true)
-	F.ReskinScroll(MacroButtonScrollFrameScrollBar)
-	F.ReskinScroll(MacroFrameScrollFrameScrollBar)
-	F.ReskinScroll(MacroPopupScrollFrameScrollBar)
-
-	F.StripTextures(MacroFrameTab1, true)
-	F.StripTextures(MacroFrameTab2, true)
-	F.StripTextures(MacroFrameTextBackground, true)
+	F.ReskinFrame(MacroPopupFrame)
 
 	MacroPopupFrame:SetHeight(525)
-	F.StripTextures(MacroPopupFrame.BorderBox, true)
-	F.ReskinFrame(MacroPopupFrame)
+	MacroNewButton:ClearAllPoints()
+	MacroNewButton:SetPoint("RIGHT", MacroExitButton, "LEFT", -1, 0)
+
+	local lists = {MacroButtonScrollFrame, MacroPopupScrollFrame, MacroFrameScrollFrame, MacroFrameTab1, MacroFrameTab2, MacroFrameTextBackground}
+	for _, list in next, lists do
+		F.StripTextures(list)
+	end
+
+	local scrolls = {MacroButtonScrollFrameScrollBar, MacroFrameScrollFrameScrollBar, MacroPopupScrollFrameScrollBar}
+	for _, scroll in next, scrolls do
+		F.ReskinScroll(scroll)
+	end
+
+	local buttons = {MacroDeleteButton, MacroNewButton, MacroExitButton, MacroEditButton, MacroPopupFrame.BorderBox.OkayButton, MacroPopupFrame.BorderBox.CancelButton, MacroSaveButton, MacroCancelButton}
+	for _, button in next, buttons do
+		F.ReskinButton(button)
+	end
+
+	F.CreateBDFrame(MacroFrameScrollFrame, 0)
+	F.ReskinInput(MacroPopupEditBox)
+
+	local selectedbu = MacroFrameSelectedMacroButton
+	F.StripTextures(selectedbu)
+
+	local selectedic = MacroFrameSelectedMacroButtonIcon
+	local selectedbg = F.ReskinIcon(selectedic)
+	F.ReskinTexture(selectedbu, selectedbg, false)
 
 	local function reskinButton(button, i)
 		local bu = _G[button..i]
@@ -24,12 +40,9 @@ C.themes["Blizzard_MacroUI"] = function()
 		if bu and ic then
 			F.StripTextures(bu)
 
-			bu:SetCheckedTexture(C.media.checked)
-			ic:SetAllPoints()
-			ic:SetTexCoord(.08, .92, .08, .92)
-
-			local bg = F.CreateBDFrame(bu, 0)
-			F.ReskinTexture(bu, bg, false)
+			local icbg = F.ReskinIcon(ic)
+			F.ReskinTexed(bu, icbg)
+			F.ReskinTexture(bu, icbg, false)
 		end
 	end
 
@@ -37,40 +50,13 @@ C.themes["Blizzard_MacroUI"] = function()
 		reskinButton("MacroButton", i)
 	end
 
-	local styled = false
-	MacroPopupFrame:HookScript("OnShow", function()
-		if not styled then
+	MacroPopupFrame:HookScript("OnShow", function(self)
+		if not self.styled then
 			for i = 1, NUM_MACRO_ICONS_SHOWN do
 				reskinButton("MacroPopupButton", i)
 			end
 
-			styled = true
+			self.styled = true
 		end
 	end)
-
-	local frames = {MacroFrameScrollFrame, MacroPopupEditBox}
-	for _, frame in next, frames do
-		F.StripTextures(frame)
-		F.CreateBDFrame(frame, 0)
-	end
-
-	local buttons = {MacroDeleteButton, MacroNewButton, MacroExitButton, MacroEditButton, MacroPopupFrame.BorderBox.OkayButton, MacroPopupFrame.BorderBox.CancelButton, MacroSaveButton, MacroCancelButton}
-	for _, button in next, buttons do
-		F.ReskinButton(button)
-	end
-
-	local selectedbt = MacroFrameSelectedMacroButton
-	F.StripTextures(selectedbt)
-	selectedbt:ClearAllPoints()
-	selectedbt:SetPoint("BOTTOMRIGHT", MacroEditButton, "BOTTOMLEFT", -7, C.mult)
-
-	local selectedic = MacroFrameSelectedMacroButtonIcon
-	selectedic:SetAllPoints()
-	selectedic:SetTexCoord(.08, .92, .08, .92)
-
-	local selectedbg = F.CreateBDFrame(selectedbt, 0)
-	F.ReskinTexture(selectedbt, selectedbg, false)
-
-	MacroNewButton:ClearAllPoints()
-	MacroNewButton:SetPoint("RIGHT", MacroExitButton, "LEFT", -2, 0)
 end

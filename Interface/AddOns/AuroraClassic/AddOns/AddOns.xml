@@ -32,7 +32,6 @@
 	<Script file="Blizzard_IslandsPartyPoseUI.lua"/>
 	<Script file="Blizzard_IslandsQueueUI.lua"/>
 	<Script file="Blizzard_ItemSocketingUI.lua"/>
-	<Script file="Blizzard_ItemUpgradeUI.lua"/>
 	<Script file="Blizzard_LookingForGuildUI.lua"/>
 	<Script file="Blizzard_MacroUI.lua"/>
 	<Script file="Blizzard_ObjectiveTracker.lua"/>

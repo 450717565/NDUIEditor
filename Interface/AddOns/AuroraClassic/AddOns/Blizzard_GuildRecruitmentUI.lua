@@ -7,7 +7,7 @@ C.themes["Blizzard_GuildRecruitmentUI"] = function()
 	F.StripTextures(CommunitiesGuildRecruitmentFrameTab2)
 
 	F.ReskinScroll(CommunitiesGuildRecruitmentFrameRecruitmentScrollFrameScrollBar)
-	CommunitiesGuildRecruitmentFrameRecruitmentScrollFrame.CommentEditBox:SetWidth(284)
+
 
 	local recruitment = CommunitiesGuildRecruitmentFrameRecruitment
 	F.ReskinButton(recruitment.ListGuildButton)
@@ -42,6 +42,9 @@ C.themes["Blizzard_GuildRecruitmentUI"] = function()
 	F.ReskinRole(RolesFrame.TankButton, "TANK")
 	F.ReskinRole(RolesFrame.HealerButton, "HEALER")
 	F.ReskinRole(RolesFrame.DamagerButton, "DPS")
+
+	local CommentEditBox = CommunitiesGuildRecruitmentFrameRecruitmentScrollFrame.CommentEditBox
+	CommentEditBox:SetWidth(284)
 
 	local CommentFrame = recruitment.CommentFrame
 	F.StripTextures(CommentFrame, true)

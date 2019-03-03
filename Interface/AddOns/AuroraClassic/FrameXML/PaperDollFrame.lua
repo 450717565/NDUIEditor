@@ -101,6 +101,10 @@ tinsert(C.themes["AuroraClassic"], function()
 		local bg = F.CreateBDFrame(category, 0)
 		bg:SetPoint("TOPLEFT", 2, -2)
 		bg:SetPoint("BOTTOMRIGHT", -2, 2)
+
+		local Title = category.Title
+		Title:ClearAllPoints()
+		Title:SetPoint("CENTER", bg)
 	end
 
 	-- [[ Sidebar tabs ]]
