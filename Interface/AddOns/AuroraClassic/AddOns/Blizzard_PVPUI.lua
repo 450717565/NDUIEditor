@@ -1,44 +1,20 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_PVPUI"] = function()
+	if AuroraConfig.tooltips then
+		F.ReskinTooltip(ConquestTooltip)
+	end
+
 	local cr, cg, cb = C.r, C.g, C.b
 
-	-- ConquestBar
-	local function styleBar(self)
-		F.ReskinStatusBar(self.ConquestBar)
-
-		local cbreward = self.ConquestBar.Reward
-		cbreward:ClearAllPoints()
-		cbreward:SetPoint("LEFT", self.ConquestBar, "RIGHT", 2, 0)
-		cbreward.CircleMask:Hide()
-		cbreward.Ring:Hide()
-		F.ReskinIcon(cbreward.Icon)
-	end
-
-	-- RoleButton
-	local function styleRole(self)
-		self:DisableDrawLayer("BACKGROUND")
-		self:DisableDrawLayer("BORDER")
-		F.ReskinRole(self.TankIcon, "TANK")
-		F.ReskinRole(self.HealerIcon, "HEALER")
-		F.ReskinRole(self.DPSIcon, "DPS")
-	end
-
-	-- PVPQueueFrame
-	F.StripTextures(PVPQueueFrame.HonorInset, true)
-
 	-- CategoryButton
-	PVPQueueFrame.CategoryButton1.Icon:SetTexture("Interface\\Icons\\achievement_bg_winwsg")
-	PVPQueueFrame.CategoryButton2.Icon:SetTexture("Interface\\Icons\\achievement_bg_killxenemies_generalsroom")
-	PVPQueueFrame.CategoryButton3.Icon:SetTexture("Interface\\Icons\\ability_warrior_offensivestance")
-
 	for i = 1, 3 do
 		local bu = PVPQueueFrame["CategoryButton"..i]
-		bu.Ring:Hide()
+		F.StripTextures(bu)
 		F.ReskinButton(bu)
-		F.ReskinTexture(bu.Background, bu, true)
 
 		local icon = bu.Icon
+		icon:ClearAllPoints()
 		icon:SetPoint("LEFT", bu, "LEFT")
 		F.ReskinIcon(icon)
 	end
@@ -46,7 +22,6 @@ C.themes["Blizzard_PVPUI"] = function()
 	hooksecurefunc("PVPQueueFrame_SelectButton", function(index)
 		for i = 1, 3 do
 			local button = PVPQueueFrame["CategoryButton"..i]
-			--button.Background:SetShown(i == index)
 			if i == index then
 				button:SetBackdropColor(cr, cg, cb, .25)
 			else
@@ -54,6 +29,13 @@ C.themes["Blizzard_PVPUI"] = function()
 			end
 		end
 	end)
+
+	PVPQueueFrame.CategoryButton1.Icon:SetTexture("Interface\\Icons\\achievement_bg_winwsg")
+	PVPQueueFrame.CategoryButton2.Icon:SetTexture("Interface\\Icons\\achievement_bg_killxenemies_generalsroom")
+	PVPQueueFrame.CategoryButton3.Icon:SetTexture("Interface\\Icons\\INV_Misc_GroupNeedMore")
+
+	-- PVPQueueFrame
+	F.StripTextures(PVPQueueFrame.HonorInset)
 
 	local NewSeason = PVPQueueFrame.NewSeasonPopup
 	F.ReskinButton(NewSeason.Leave)
@@ -66,16 +48,38 @@ C.themes["Blizzard_PVPUI"] = function()
 	SeasonRewardFrame.Ring:Hide()
 	F.ReskinIcon(SeasonRewardFrame.Icon)
 	select(3, SeasonRewardFrame:GetRegions()):SetTextColor(1, .8, 0)
+
+	-- ConquestBar
+	local function reskinBar(self)
+		F.ReskinStatusBar(self.ConquestBar)
+
+		local Reward = self.ConquestBar.Reward
+		Reward:ClearAllPoints()
+		Reward:SetPoint("LEFT", self.ConquestBar, "RIGHT", 2, 0)
+		Reward.CircleMask:Hide()
+		Reward.Ring:Hide()
+		F.ReskinIcon(Reward.Icon)
+	end
+
+	-- RoleButton
+	local function reskinRole(self)
+		F.StripTextures(self)
+
+		F.ReskinRole(self.TankIcon, "TANK")
+		F.ReskinRole(self.HealerIcon, "HEALER")
+		F.ReskinRole(self.DPSIcon, "DPS")
+	end
+
 	-- HonorFrame
 	local BonusFrame = HonorFrame.BonusFrame
-	F.StripTextures(HonorFrame, true)
-	F.StripTextures(BonusFrame, true)
+	F.StripTextures(HonorFrame)
+	F.StripTextures(BonusFrame)
 	F.ReskinButton(HonorFrame.QueueButton)
 	F.ReskinDropDown(HonorFrameTypeDropDown)
 	F.ReskinScroll(HonorFrameSpecificFrameScrollBar)
 
-	styleBar(HonorFrame)
-	styleRole(HonorFrame)
+	reskinBar(HonorFrame)
+	reskinRole(HonorFrame)
 
 	for _, bonusButton in next, {"RandomBGButton", "RandomEpicBGButton", "Arena1Button", "BrawlButton"} do
 		local bu = BonusFrame[bonusButton]
@@ -88,41 +92,37 @@ C.themes["Blizzard_PVPUI"] = function()
 		bu.Bg:Hide()
 		bu.Border:Hide()
 
-		local ic = F.ReskinIcon(bu.Icon)
+		local icbg = F.ReskinIcon(bu.Icon)
 
-		local bg = F.CreateBDFrame(bu, 0)
-		bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
-		bg:SetPoint("BOTTOMRIGHT", -2, 3.5)
-		F.ReskinTexture(bu.HighlightTexture, bg, true)
-		F.ReskinTexture(bu.SelectedTexture, bg, true)
+		local bubg = F.CreateBDFrame(bu, 0)
+		bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
+		bubg:SetPoint("BOTTOMRIGHT", -2, 3.5)
+		F.ReskinTexture(bu.HighlightTexture, bubg, true)
+		F.ReskinTexture(bu.SelectedTexture, bubg, true)
 
-		local nt = bu.NameText
-		nt:ClearAllPoints()
-		nt:SetPoint("LEFT", bg, 2, 0)
+		local name = bu.NameText
+		name:ClearAllPoints()
+		name:SetPoint("LEFT", bubg, 2, 0)
 
-		local st = bu.SizeText
-		st:ClearAllPoints()
-		st:SetPoint("TOPRIGHT", bg, -1, -2)
+		local size = bu.SizeText
+		size:ClearAllPoints()
+		size:SetPoint("TOPRIGHT", bubg, -1, -2)
 
-		local it = bu.InfoText
-		it:ClearAllPoints()
-		it:SetPoint("BOTTOMRIGHT", bg, -1, 3)
+		local info = bu.InfoText
+		info:ClearAllPoints()
+		info:SetPoint("BOTTOMRIGHT", bubg, -1, 3)
 	end
 
 	-- ConquestFrame
-	F.StripTextures(ConquestFrame, true)
+	F.StripTextures(ConquestFrame)
 	F.ReskinButton(ConquestFrame.JoinButton)
 
-	styleBar(ConquestFrame)
-	styleRole(ConquestFrame)
+	reskinBar(ConquestFrame)
+	reskinRole(ConquestFrame)
 
 	for _, conquestButton in next, {"Arena2v2", "Arena3v3", "RatedBG"} do
 		local bu = ConquestFrame[conquestButton]
 		F.ReskinButton(bu)
 		F.ReskinTexture(bu.SelectedTexture, bu, true)
-	end
-
-	if AuroraConfig.tooltips then
-		F.ReskinTooltip(ConquestTooltip)
 	end
 end

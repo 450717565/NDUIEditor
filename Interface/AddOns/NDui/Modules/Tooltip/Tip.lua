@@ -71,7 +71,7 @@ end
 
 function module:GetTarget(unit)
 	if UnitIsUnit(unit, "player") then
-		return format("|cffff0000%s|r", ">"..strupper(YOU).."<")
+		return format("|cffFF0000%s|r", ">"..strupper(YOU).."<")
 	else
 		return B.HexRGB(B.UnitColor(unit))..UnitName(unit).."|r"
 	end
@@ -157,7 +157,7 @@ GameTooltip:HookScript("OnTooltipSetUnit", function(self)
 
 			local status = (UnitIsAFK(unit) and AFK) or (UnitIsDND(unit) and DND) or (not UnitIsConnected(unit) and PLAYER_OFFLINE)
 			if status then
-				status = format(" |cffffcc00[%s]|r", status)
+				status = format(" |cffFFCC00[%s]|r", status)
 			end
 			GameTooltipTextLeft1:SetFormattedText("%s", name..(status or ""))
 
@@ -217,9 +217,9 @@ GameTooltip:HookScript("OnTooltipSetUnit", function(self)
 			local textLevel = format("%s%s%s|r", B.HexRGB(diff), boss or format("%d", level), classification[classify] or "")
 			local tiptextLevel = module:GetLevelLine(self)
 			if tiptextLevel then
-				local pvpFlag = isPlayer and UnitIsPVP(unit) and format(" |cffff0000%s|r", PVP) or ""
+				local pvpFlag = isPlayer and UnitIsPVP(unit) and format(" |cffFF0000%s|r", PVP) or ""
 				local unitClass = isPlayer and format("%s %s", UnitRace(unit) or "", hexColor..(UnitClass(unit) or "").."|r") or UnitCreatureType(unit) or ""
-				tiptextLevel:SetFormattedText(("%s%s %s %s"), textLevel, pvpFlag, unitClass, (not alive and "|cffCCCCCC"..DEAD.."|r" or ""))
+				tiptextLevel:SetFormattedText(("%s%s %s %s"), textLevel, pvpFlag, unitClass, (not alive and "|cffC0C0C0"..DEAD.."|r" or ""))
 			end
 		end
 

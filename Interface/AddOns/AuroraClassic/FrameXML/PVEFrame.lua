@@ -4,9 +4,10 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinFrame(PVEFrame)
 	F.StripTextures(PVEFrame.shadows, true)
 
-	GroupFinderFrameGroupButton1.icon:SetTexture("Interface\\Icons\\INV_Helmet_08")
-	GroupFinderFrameGroupButton3.icon:SetTexture("Interface\\Icons\\INV_Helmet_06")
-	GroupFinderFrameGroupButton4.icon:SetTexture("Interface\\Icons\\INV_Misc_GroupNeedMore")
+	GroupFinderFrame.groupButton1.icon:SetTexture("Interface\\Icons\\INV_Helmet_08")
+	GroupFinderFrame.groupButton2.icon:SetTexture("Interface\\Icons\\Icon_Scenarios")
+	GroupFinderFrame.groupButton3.icon:SetTexture("Interface\\Icons\\INV_Helmet_06")
+	GroupFinderFrame.groupButton4.icon:SetTexture("Interface\\Icons\\INV_Misc_GroupNeedMore")
 
 	for i = 1, 3 do
 		local tab = _G["PVEFrameTab"..i]

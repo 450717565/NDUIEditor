@@ -69,9 +69,9 @@ oUF.Tags.Events["color"] = "UNIT_HEALTH UNIT_CONNECTION"
 
 oUF.Tags.Methods["flag"] = function(unit)
 	if UnitIsAFK(unit) then
-		return " |cffC0C0C0<"..AFK..">|r"
+		return " |cffFFCC00<"..AFK..">|r"
 	elseif UnitIsDND(unit) then
-		return " |cffC0C0C0<"..DND..">|r"
+		return " |cffFFCC00<"..DND..">|r"
 	end
 end
 oUF.Tags.Events["flag"] = "PLAYER_FLAGS_CHANGED"
