@@ -10,11 +10,11 @@ C.themes["Blizzard_VoidStorageUI"] = function()
 	F.ReskinInput(VoidItemSearchBox)
 
 	local frames = {VoidStorageFrame, VoidStorageCostFrame, VoidStorageDepositFrame, VoidStoragePurchaseFrame, VoidStorageWithdrawFrame, VoidStorageStorageFrame}
-	for _, frame in next, frames do
+	for _, frame in pairs(frames) do
 		F.StripTextures(frame, true)
 	end
 
-	for _, voidButton in next, {"VoidStorageDepositButton", "VoidStorageWithdrawButton"} do
+	for _, voidButton in pairs({"VoidStorageDepositButton", "VoidStorageWithdrawButton"}) do
 		for i = 1, 9 do
 			local bu = _G[voidButton..i]
 			F.StripTextures(bu)

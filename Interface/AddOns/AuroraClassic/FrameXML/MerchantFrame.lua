@@ -70,7 +70,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	backMoney:SetPoint("BOTTOMLEFT", itemBG, "BOTTOMLEFT", 2, 2)
 
 	local repairs = {MerchantGuildBankRepairButton, MerchantRepairAllButton, MerchantRepairItemButton}
-	for _, repair in next, repairs do
+	for _, repair in pairs(repairs) do
 		repair:SetPushedTexture("")
 		repair:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 		F.CreateBDFrame(repair, 0)

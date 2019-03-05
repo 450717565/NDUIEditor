@@ -50,7 +50,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	if not AuroraConfig.bubbleColor then channels = {} end
 
 	local bubbleHook = CreateFrame("Frame")
-	for event in next, events do
+	for event in pairs(events) do
 		bubbleHook:RegisterEvent(event)
 	end
 	bubbleHook:SetScript("OnEvent", function(self, event, msg)

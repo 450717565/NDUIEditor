@@ -9,7 +9,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		if not frame.styled then
 			F.StripTextures(frame, true)
 
-			for index in ipairs(checkBoxTable) do
+			for index in pairs(checkBoxTable) do
 				local checkBoxName = frame:GetName().."CheckBox"..index
 				local checkbox = _G[checkBoxName]
 
@@ -33,12 +33,12 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	hooksecurefunc("ChatConfig_CreateTieredCheckboxes", function(frame, checkBoxTable)
 		if not frame.styled then
-			for index, value in ipairs(checkBoxTable) do
+			for index, value in pairs(checkBoxTable) do
 				local checkBoxName = frame:GetName().."CheckBox"..index
 				F.ReskinCheck(_G[checkBoxName])
 
 				if value.subTypes then
-					for k in ipairs(value.subTypes) do
+					for k in pairs(value.subTypes) do
 						F.ReskinCheck(_G[checkBoxName.."_"..k])
 					end
 				end
@@ -52,7 +52,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		if not frame.styled then
 			F.StripTextures(frame, true)
 
-			for index in ipairs(swatchTable) do
+			for index in pairs(swatchTable) do
 				local swatchName = frame:GetName().."Swatch"..index
 				local swatch = _G[swatchName]
 
@@ -88,7 +88,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	line:SetColorTexture(1, 1, 1, .25)
 
 	local frames = {ChatConfigCategoryFrame, ChatConfigBackgroundFrame, ChatConfigCombatSettingsFilters, CombatConfigColorsHighlighting, CombatConfigColorsColorizeUnitName, CombatConfigColorsColorizeSpellNames, CombatConfigColorsColorizeDamageNumber, CombatConfigColorsColorizeDamageSchool, CombatConfigColorsColorizeEntireLine}
-	for _, frame in next, frames do
+	for _, frame in pairs(frames) do
 		F.StripTextures(frame, true)
 	end
 
@@ -116,7 +116,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		CombatConfigSettingsRaid
 	}
 
-	for _, box in next, combatBoxes do
+	for _, box in pairs(combatBoxes) do
 		F.ReskinCheck(box)
 	end
 

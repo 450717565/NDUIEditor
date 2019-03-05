@@ -1,46 +1,127 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_TalentUI"] = function()
-	local r, g, b = C.r, C.g, C.b
+	local cr, cg, cb = C.r, C.g, C.b
 
 	F.ReskinFrame(PlayerTalentFrame)
-	F.StripTextures(PlayerTalentFrameTalents, true)
-	F.StripTextures(PlayerTalentFrameLockInfo)
 	F.ReskinButton(PlayerTalentFrameSpecializationLearnButton)
 	F.ReskinButton(PlayerTalentFrameActivateButton)
 	F.ReskinButton(PlayerTalentFramePetSpecializationLearnButton)
 
+	local tutorials = {"PlayerTalentFrameSpecialization", "PlayerTalentFrameTalents", "PlayerTalentFramePetSpecialization"}
+	for _, name in pairs(tutorials) do
+		local bu = _G[name.."TutorialButton"]
+		bu.Ring:Hide()
+		bu:ClearAllPoints()
+		bu:SetPoint("TOPLEFT", PlayerTalentFrame, "TOPLEFT", -12, 12)
+	end
+
 	hooksecurefunc("PlayerTalentFrame_UpdateTabs", function()
 		for i = 1, NUM_TALENT_FRAME_TABS do
 			local tab = _G["PlayerTalentFrameTab"..i]
-			local a1, p, a2, x = tab:GetPoint()
+			if not tab.styled then
+				F.ReskinTab(tab)
+
+				tab.styled = true
+			end
 
 			tab:ClearAllPoints()
-			tab:SetPoint(a1, p, a2, x, 2)
+			if i ~= 1 then
+				tab:SetPoint("LEFT", _G["PlayerTalentFrameTab"..(i-1)], "RIGHT", -15, 0)
+			else
+				tab:SetPoint("TOPLEFT", PlayerTalentFrame, "BOTTOMLEFT", 15, 2)
+			end
 		end
 	end)
 
-	for i = 1, NUM_TALENT_FRAME_TABS do
-		F.ReskinTab(_G["PlayerTalentFrameTab"..i])
+	-- Talent
+	F.StripTextures(PlayerTalentFrameTalents)
+
+	for i = 1, MAX_TALENT_TIERS do
+		local button = "PlayerTalentFrameTalentsTalentRow"..i
+
+		local row = _G[button]
+		F.StripTextures(row)
+
+		for j = 1, NUM_TALENT_COLUMNS do
+			local bu = _G[button.."Talent"..j]
+			F.StripTextures(bu)
+			bu.knownSelection:SetAlpha(0)
+
+			local bg = F.CreateBDFrame(bu, 0)
+			bg:SetPoint("TOPLEFT", 10, 0)
+			bg:SetPoint("BOTTOMRIGHT")
+			F.ReskinTexture(bu, bg, true)
+
+			local ic = _G[button.."Talent"..j.."IconTexture"]
+			F.ReskinIcon(ic)
+
+			bu.bg = bg
+		end
 	end
 
-	for _, frame in next, {PlayerTalentFrameSpecialization, PlayerTalentFramePetSpecialization} do
+	hooksecurefunc("TalentFrame_Update", function()
+		for i = 1, MAX_TALENT_TIERS do
+			for j = 1, NUM_TALENT_COLUMNS do
+				local selected = select(4, GetTalentInfo(i, j, 1))
+				local known = select(11, GetTalentInfo(i, j, 1))
+				local bu = _G["PlayerTalentFrameTalentsTalentRow"..i.."Talent"..j]
+
+				if known then
+					bu.bg:SetBackdropBorderColor(cr, cg, cb)
+				elseif selected then
+					bu.bg:SetBackdropColor(cr, cg, cb, .25)
+				else
+					bu.bg:SetBackdropColor(0, 0, 0, 0)
+				end
+			end
+		end
+	end)
+
+	-- Player and Pet
+	local buttons = {"PlayerTalentFrameSpecializationSpecButton", "PlayerTalentFramePetSpecializationSpecButton"}
+	for _, name in pairs(buttons) do
+		for i = 1, 4 do
+			local bu = _G[name..i]
+			F.StripTextures(bu)
+
+			F.ReskinButton(bu)
+			F.ReskinTexture(bu.selectedTex, bu, true)
+
+			local specIcon = bu.specIcon
+			specIcon:ClearAllPoints()
+			specIcon:SetPoint("LEFT", bu, "LEFT")
+			F.ReskinIcon(specIcon)
+
+			if name == "PlayerTalentFrameSpecializationSpecButton" then
+				local icon = select(4, GetSpecializationInfo(i, false, false))
+				if icon then specIcon:SetTexture(icon) end
+			else
+				local petic = select(4, GetSpecializationInfo(i, false, true))
+				if petic then specIcon:SetTexture(petic) end
+			end
+
+			local roleIcon = bu.roleIcon
+			F.ReskinRoleIcon(roleIcon)
+
+			local role = GetSpecializationRole(i, false, bu.isPet)
+			if role then
+				roleIcon:SetTexCoord(F.GetRoleTexCoord(role))
+			end
+		end
+	end
+
+	for _, frame in pairs({PlayerTalentFrameSpecialization, PlayerTalentFramePetSpecialization}) do
 		F.StripTextures(frame)
-		select(7, frame:GetChildren()):DisableDrawLayer("OVERLAY")
+		select(7, frame:GetChildren()):Hide()
 
 		local scrollChild = frame.spellsScroll.child
+		F.StripTextures(scrollChild)
 		scrollChild.gradient:Hide()
-		scrollChild.ring:Hide()
 		scrollChild.Seperator:Hide()
 
-		for i = 1, 5 do
-			select(i, scrollChild:GetRegions()):Hide()
-		end
-
 		F.ReskinIcon(scrollChild.specIcon)
-
-		local roleIcon = scrollChild.roleIcon
-		F.ReskinRoleIcon(roleIcon)
+		F.ReskinRoleIcon(scrollChild.roleIcon)
 	end
 
 	hooksecurefunc("PlayerTalentFrame_UpdateSpecFrame", function(self, spec)
@@ -48,8 +129,10 @@ C.themes["Blizzard_TalentUI"] = function()
 		local shownSpec = spec or playerTalentSpec or 1
 		local numSpecs = GetNumSpecializations(nil, self.isPet)
 		local sex = self.isPet and UnitSex("pet") or UnitSex("player")
-		local id, _, _, icon = GetSpecializationInfo(shownSpec, nil, self.isPet, nil, sex)
-		if not id then return end
+		local specID, _, _, icon = GetSpecializationInfo(shownSpec, nil, self.isPet, nil, sex)
+
+		if not specID then return end
+
 		local scrollChild = self.spellsScroll.child
 		scrollChild.specIcon:SetTexture(icon)
 
@@ -61,11 +144,13 @@ C.themes["Blizzard_TalentUI"] = function()
 		local index = 1
 		local bonuses
 		local bonusesIncrement = 1
+		local disable = (playerTalentSpec and shownSpec ~= playerTalentSpec) or petNotActive
+
 		if self.isPet then
 			bonuses = {GetSpecializationSpells(shownSpec, nil, self.isPet, true)}
 			bonusesIncrement = 2
 		else
-			bonuses = C_SpecializationInfo.GetSpellsDisplay(id)
+			bonuses = C_SpecializationInfo.GetSpellsDisplay(specID)
 		end
 
 		if bonuses then
@@ -73,151 +158,66 @@ C.themes["Blizzard_TalentUI"] = function()
 				local frame = scrollChild["abilityButton"..index]
 				local _, icon = GetSpellTexture(bonuses[i])
 				frame.icon:SetTexture(icon)
-				frame.subText:SetTextColor(.75, .75, .75)
 
 				if not frame.styled then
-					frame.ring:Hide()
+					F.StripTextures(frame)
 					F.ReskinIcon(frame.icon)
 
 					frame.styled = true
 				end
+
 				index = index + 1
 			end
 		end
 
-		for i = 1, numSpecs do
-			local bu = self["specButton"..i]
-
-			if bu.disabled then
-				bu.roleName:SetTextColor(.5, .5, .5)
-			else
-				bu.roleName:SetTextColor(1, 1, 1)
-			end
+		if self.disabled then
+			scrollChild.specName:SetTextColor(.5, .5, .5)
+			scrollChild.roleName:SetTextColor(.5, .5, .5)
+			scrollChild.primaryStat:SetTextColor(.5, .5, .5)
+			scrollChild.description:SetTextColor(.5, .5, .5)
+		else
+			scrollChild.specName:SetTextColor(cr, cg, cb)
+			scrollChild.roleName:SetTextColor(1, .8, 0)
+			scrollChild.primaryStat:SetTextColor(1, 1, 1)
+			scrollChild.description:SetTextColor(1, .8, 0)
 		end
 	end)
-
-	for i = 1, GetNumSpecializations(false, nil) do
-		local _, _, _, icon = GetSpecializationInfo(i, false, nil)
-		PlayerTalentFrameSpecialization["specButton"..i].specIcon:SetTexture(icon)
-	end
-
-	for i = 1, GetNumSpecializations(false, true) do
-		local icon = select(4, GetSpecializationInfo(i, false, true))
-		PlayerTalentFramePetSpecialization["specButton"..i].specIcon:SetTexture(icon)
-	end
-
-	local buttons = {"PlayerTalentFrameSpecializationSpecButton", "PlayerTalentFramePetSpecializationSpecButton"}
-	for _, name in pairs(buttons) do
-		for i = 1, 4 do
-			local bu = _G[name..i]
-			bu.bg:Hide()
-			bu.ring:Hide()
-			bu.learnedTex:SetTexture("")
-			_G[name..i.."Glow"]:SetTexture("")
-			F.ReskinButton(bu)
-			F.ReskinTexture(bu.selectedTex, bu, true)
-
-			local ic = bu.specIcon
-			ic:SetPoint("LEFT", bu, "LEFT")
-			F.ReskinIcon(ic)
-
-			local roleIcon = bu.roleIcon
-			F.ReskinRoleIcon(roleIcon)
-			local role = GetSpecializationRole(i, false, bu.isPet)
-			if role then
-				roleIcon:SetTexCoord(F.GetRoleTexCoord(role))
-			end
-		end
-	end
-
-	for i = 1, MAX_TALENT_TIERS do
-		local row = _G["PlayerTalentFrameTalentsTalentRow"..i]
-		_G["PlayerTalentFrameTalentsTalentRow"..i.."Bg"]:Hide()
-		row:DisableDrawLayer("BORDER")
-
-		row.TopLine:SetDesaturated(true)
-		row.TopLine:SetVertexColor(r, g, b)
-		row.BottomLine:SetDesaturated(true)
-		row.BottomLine:SetVertexColor(r, g, b)
-
-		for j = 1, NUM_TALENT_COLUMNS do
-			local bu = _G["PlayerTalentFrameTalentsTalentRow"..i.."Talent"..j]
-			F.StripTextures(bu)
-			bu.knownSelection:SetAlpha(0)
-
-			local ic = _G["PlayerTalentFrameTalentsTalentRow"..i.."Talent"..j.."IconTexture"]
-			F.ReskinIcon(ic)
-
-			bu.bg = F.CreateBDFrame(bu, 0)
-			bu.bg:SetPoint("TOPLEFT", 10, 0)
-			bu.bg:SetPoint("BOTTOMRIGHT")
-
-			F.ReskinTexture(bu.highlight, bu.bg, true)
-		end
-	end
-
-	hooksecurefunc("TalentFrame_Update", function()
-		for i = 1, MAX_TALENT_TIERS do
-			for j = 1, NUM_TALENT_COLUMNS do
-				local _, _, _, selected, _, _, _, _, _, _, known = GetTalentInfo(i, j, 1)
-				local bu = _G["PlayerTalentFrameTalentsTalentRow"..i.."Talent"..j]
-				if known then
-					bu.bg:SetBackdropBorderColor(r, g, b)
-				elseif selected then
-					bu.bg:SetBackdropColor(r, g, b, .25)
-				else
-					bu.bg:SetBackdropColor(0, 0, 0, 0)
-				end
-			end
-		end
-	end)
-
-	PlayerTalentFrameTalentsTutorialButton.Ring:Hide()
-	PlayerTalentFrameTalentsTutorialButton:SetPoint("TOPLEFT", PlayerTalentFrame, "TOPLEFT", -12, 12)
-	PlayerTalentFrameSpecializationTutorialButton.Ring:Hide()
-	PlayerTalentFrameSpecializationTutorialButton:SetPoint("TOPLEFT", PlayerTalentFrame, "TOPLEFT", -12, 12)
-	PlayerTalentFramePetSpecializationTutorialButton.Ring:Hide()
-	PlayerTalentFramePetSpecializationTutorialButton:SetPoint("TOPLEFT", PlayerTalentFrame, "TOPLEFT", -12, 12)
 
 	-- PVP Talents
-
-	F.ReskinButton(PlayerTalentFrameTalentsPvpTalentButton)
 	PlayerTalentFrameTalentsPvpTalentButton:SetSize(20, 20)
-
-	local talentList = PlayerTalentFrameTalentsPvpTalentFrameTalentList
-	talentList:ClearAllPoints()
-	talentList:SetPoint("LEFT", PlayerTalentFrame, "RIGHT", 2, 0)
-	F.ReskinFrame(talentList)
-
+	F.ReskinButton(PlayerTalentFrameTalentsPvpTalentButton)
 	F.StripTextures(PlayerTalentFrameTalentsPvpTalentFrame)
-	F.StripTextures(PlayerTalentFrameTalentsPvpTalentFrameTalentListScrollFrameScrollChild)
-	F.ReskinScroll(PlayerTalentFrameTalentsPvpTalentFrameTalentListScrollFrameScrollBar)
 
-	local function updatePVPTalent(self)
-		if not self.styled then
-			self:GetRegions():SetAlpha(0)
-			self.SelectedOtherOverlay:SetAlpha(0)
+	local TalentList = PlayerTalentFrameTalentsPvpTalentFrameTalentList
+	TalentList:ClearAllPoints()
+	TalentList:SetPoint("LEFT", PlayerTalentFrame, "RIGHT", 2, 0)
 
-			self.Icon:SetScale(.75)
-			self.Icon:SetPoint("LEFT", 9, 1)
-			F.ReskinIcon(self.Icon)
+	F.ReskinFrame(TalentList)
 
-			local bg = F.CreateBDFrame(self, 0)
-			bg:SetPoint("TOPLEFT", 2, -1)
-			bg:SetPoint("BOTTOMRIGHT", 0, 3)
+	local close = select(4, TalentList:GetChildren())
+	F.ReskinButton(close)
 
-			F.ReskinTexture(self, bg, true)
-			F.ReskinTexture(self.Selected, bg, true)
-
-			self.styled = true
-		end
-	end
+	local ScrollFrame = TalentList.ScrollFrame
+	F.ReskinScroll(ScrollFrame.ScrollBar)
 
 	for i = 1, 10 do
-		local bu = _G["PlayerTalentFrameTalentsPvpTalentFrameTalentListScrollFrameButton"..i]
-		hooksecurefunc(bu, "Update", updatePVPTalent)
-	end
+		local bu = ScrollFrame.buttons[i]
+		F.StripTextures(bu)
 
-	local bu = select(4, PlayerTalentFrameTalentsPvpTalentFrameTalentList:GetChildren())
-	F.ReskinButton(bu)
+		local icon = bu.Icon
+		icon:SetSize(34, 34)
+
+		local icbg = F.ReskinIcon(icon)
+		local bubg = F.CreateBDFrame(bu, 0)
+		bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
+		bubg:SetPoint("BOTTOMRIGHT", 0, 2)
+
+		F.ReskinTexture(bu, bubg, true)
+		F.ReskinTexture(bu.Selected, bubg, true)
+		F.ReskinTexture(bu.SelectedOtherOverlay, bubg, true)
+
+		local name = bu.Name
+		name:ClearAllPoints()
+		name:SetPoint("LEFT", bubg, 4, 0)
+	end
 end

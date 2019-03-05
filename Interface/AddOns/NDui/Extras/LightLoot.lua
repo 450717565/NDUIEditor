@@ -124,7 +124,7 @@ end
 
 function LightLoot:UpdateWidth()
 	local maxWidth = 0
-	for _, slot in next, slots do
+	for _, slot in pairs(slots) do
 		if slot:IsShown() then
 			local width = slot.name:GetStringWidth()
 			if width > maxWidth then

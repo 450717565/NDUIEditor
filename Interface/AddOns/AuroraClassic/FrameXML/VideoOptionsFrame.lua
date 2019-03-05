@@ -32,7 +32,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			VideoOptionsFrameCategoryFrame,
 			VideoOptionsFramePanelContainer,
 		}
-		for _, texture in next, textures do
+		for _, texture in pairs(textures) do
 			F.StripTextures(texture, true)
 		end
 
@@ -44,7 +44,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			InterfaceOptionsLanguagesPanel,
 			NetworkOptionsPanel,
 		}
-		for _, header in next, headers do
+		for _, header in pairs(headers) do
 			CreateUnderLine(header)
 		end
 
@@ -75,7 +75,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			GraphicsButton,
 			RaidButton,
 		}
-		for _, button in next, buttons do
+		for _, button in pairs(buttons) do
 			F.ReskinButton(button)
 		end
 
@@ -125,7 +125,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			RaidGraphics_SunshaftsDropDown,
 			RaidGraphics_TextureResolutionDropDown,
 		}
-		for _, dropdown in next, dropdowns do
+		for _, dropdown in pairs(dropdowns) do
 			F.ReskinDropDown(dropdown)
 		end
 
@@ -154,7 +154,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			RaidGraphics_Quality,
 			RaidGraphics_ViewDistanceSlider,
 		}
-		for _, slider in next, sliders do
+		for _, slider in pairs(sliders) do
 			F.ReskinSlider(slider)
 		end
 
@@ -180,7 +180,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			NetworkOptionsPanelOptimizeSpeed,
 			NetworkOptionsPanelUseIPv6,
 		}
-		for _, checkboxe in next, checkboxes do
+		for _, checkboxe in pairs(checkboxes) do
 			F.ReskinCheck(checkboxe)
 		end
 

@@ -556,7 +556,7 @@ function F:ReskinInput(noKill, height, width)
 end
 
 function F:ReskinMinMax()
-	for _, name in next, {"MaximizeButton", "MinimizeButton"} do
+	for _, name in pairs({"MaximizeButton", "MinimizeButton"}) do
 		local button = self[name]
 		if button then
 			F.StripTextures(self)

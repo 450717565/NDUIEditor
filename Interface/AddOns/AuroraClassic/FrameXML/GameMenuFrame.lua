@@ -20,7 +20,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		GameMenuButtonContinue
 	}
 
-	for _, button in next, buttons do
+	for _, button in pairs(buttons) do
 		F.ReskinButton(button)
 	end
 end)

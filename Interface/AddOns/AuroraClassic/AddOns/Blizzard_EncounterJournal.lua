@@ -15,7 +15,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 	EncounterJournalEncounterFrameInstanceFrameMapButtonShadow:Hide()
 
 	local scrolls = {EncounterJournalScrollBar, EncounterJournalInstanceSelectScrollFrameScrollBar, EncounterJournalEncounterFrameInstanceFrameLoreScrollFrameScrollBar, EncounterJournalEncounterFrameInfoOverviewScrollFrameScrollBar, EncounterJournalEncounterFrameInfoBossesScrollFrameScrollBar, EncounterJournalEncounterFrameInfoDetailsScrollFrameScrollBar, EncounterJournalEncounterFrameInfoLootScrollFrameScrollBar}
-	for _, scroll in next, scrolls do
+	for _, scroll in pairs(scrolls) do
 		F.ReskinScroll(scroll)
 	end
 
@@ -33,7 +33,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 	instanceSelect.bg:Hide()
 
 	local selectTabs = {"suggestTab", "dungeonsTab", "raidsTab", "LootJournalTab"}
-	for _, selectTab in next, selectTabs do
+	for _, selectTab in pairs(selectTabs) do
 		local tab = instanceSelect[selectTab]
 		F.StripTextures(tab)
 		F.ReskinButton(tab)
@@ -191,13 +191,13 @@ C.themes["Blizzard_EncounterJournal"] = function()
 	infoFrame.overviewTab:SetPoint("TOPLEFT", infoFrame, "TOPRIGHT", 5, -25)
 
 	local buttons = {infoFrame.difficulty, infoFrame.lootScroll.filter, infoFrame.lootScroll.slotFilter}
-	for _, button in next, buttons do
+	for _, button in pairs(buttons) do
 		F.StripTextures(button)
 		F.ReskinButton(button)
 	end
 
 	local sideTabs = {"overviewTab", "lootTab", "bossTab", "modelTab"}
-	for _, sideTab in next, sideTabs do
+	for _, sideTab in pairs(sideTabs) do
 		local tab = infoFrame[sideTab]
 		F.CleanTextures(tab)
 		tab:SetSize(59, 59)

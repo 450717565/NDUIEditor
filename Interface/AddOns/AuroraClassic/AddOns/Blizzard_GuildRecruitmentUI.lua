@@ -12,28 +12,28 @@ C.themes["Blizzard_GuildRecruitmentUI"] = function()
 	local recruitment = CommunitiesGuildRecruitmentFrameRecruitment
 	F.ReskinButton(recruitment.ListGuildButton)
 
-	for _, name in next, {"InterestFrame", "AvailabilityFrame", "RolesFrame", "LevelFrame"} do
+	for _, name in pairs({"InterestFrame", "AvailabilityFrame", "RolesFrame", "LevelFrame"}) do
 		local frame = recruitment[name]
 		F.StripTextures(frame, true)
 		F.CreateBDFrame(frame, 0)
 	end
 
-	for _, name in next, {"QuestButton", "DungeonButton", "RaidButton", "PvPButton", "RPButton"} do
+	for _, name in pairs({"QuestButton", "DungeonButton", "RaidButton", "PvPButton", "RPButton"}) do
 		local button = recruitment.InterestFrame[name]
 		F.ReskinCheck(button)
 	end
 
-	for _, name in next, {"WeekdaysButton", "WeekendsButton"} do
+	for _, name in pairs({"WeekdaysButton", "WeekendsButton"}) do
 		local button = recruitment.AvailabilityFrame[name]
 		F.ReskinCheck(button)
 	end
 
-	for _, name in next, {"TankButton", "HealerButton", "DamagerButton"} do
+	for _, name in pairs({"TankButton", "HealerButton", "DamagerButton"}) do
 		local button = recruitment.RolesFrame[name]
 		F.ReskinCheck(button.checkButton)
 	end
 
-	for _, name in next, {"LevelAnyButton", "LevelMaxButton"} do
+	for _, name in pairs({"LevelAnyButton", "LevelMaxButton"}) do
 		local button = recruitment.LevelFrame[name]
 		F.ReskinRadio(button)
 	end

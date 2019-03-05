@@ -18,7 +18,7 @@ C.themes["PremadeGroupsFilter"] = function()
 	dialog.Difficulty.DropDown:SetPoint("RIGHT", dialog.Difficulty, "RIGHT", 13, -3)
 
 	local names = {"Difficulty", "Ilvl", "Noilvl", "Defeated", "Members", "Tanks", "Heals", "Dps"}
-	for _, name in next, names do
+	for _, name in pairs(names) do
 		local check = dialog[name].Act
 		if check then
 			check:ClearAllPoints()

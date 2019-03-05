@@ -19,17 +19,17 @@ C.themes["Blizzard_Collections"] = function()
 	end
 
 	local filters = {HeirloomsJournalFilterButton, MountJournalFilterButton, PetJournalFilterButton, ToyBoxFilterButton, WardrobeCollectionFrame.FilterButton}
-	for _, filter in next, filters do
+	for _, filter in pairs(filters) do
 		F.ReskinFilter(filter)
 	end
 
 	local inputs = {HeirloomsJournalSearchBox, MountJournalSearchBox, PetJournalSearchBox, ToyBox.searchBox, WardrobeCollectionFrameSearchBox}
-	for _, input in next, inputs do
+	for _, input in pairs(inputs) do
 		F.ReskinInput(input)
 	end
 
 	local scrolls = {MountJournalListScrollFrameScrollBar, PetJournalListScrollFrameScrollBar, WardrobeCollectionFrameScrollFrameScrollBar}
-	for _, scroll in next, scrolls do
+	for _, scroll in pairs(scrolls) do
 		F.ReskinScroll(scroll)
 	end
 
@@ -90,7 +90,7 @@ C.themes["Blizzard_Collections"] = function()
 	end
 
 	local lists = {PetJournal, PetJournal.PetCount, PetJournal.PetCardInset, PetJournal.loadoutBorder, MountJournal, MountJournal.MountCount, MountJournal.MountDisplay, MountJournal.MountDisplay.ShadowOverlay}
-	for _, list in next, lists do
+	for _, list in pairs(lists) do
 		F.StripTextures(list)
 	end
 

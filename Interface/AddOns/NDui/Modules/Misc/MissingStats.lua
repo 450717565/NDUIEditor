@@ -9,7 +9,9 @@ function module:MissingStats()
 	if not NDuiDB["Misc"]["MissingStats"] then return end
 	if IsAddOnLoaded("DejaCharacterStats") then return end
 
-	local format = string.format
+	local format, max, floor = string.format, math.max, math.floor
+	local BreakUpLargeNumbers, GetMeleeHaste, UnitAttackSpeed = BreakUpLargeNumbers, GetMeleeHaste, UnitAttackSpeed
+	local GetAverageItemLevel, C_PaperDollInfo_GetMinItemLevel = GetAverageItemLevel, C_PaperDollInfo.GetMinItemLevel
 
 	local statPanel = CreateFrame("Frame", nil, CharacterFrameInsetRight)
 	statPanel:SetSize(200, 350)
@@ -30,24 +32,6 @@ function module:MissingStats()
 		else
 			statPanel:Show()
 		end
-	end)
-
-	hooksecurefunc("PaperDollFrame_SetItemLevel", function(self, unit)
-		if unit ~= "player" then return end
-
-		local total, equip = GetAverageItemLevel()
-		if total > 0 then total = string.format("%.1f", total) end
-		if equip > 0 then equip = string.format("%.1f", equip) end
-
-		local ilvl = equip
-		if total ~= equip then
-			ilvl = total .. " / " .. equip
-		end
-
-		CharacterStatsPane.ItemLevelFrame.Value:SetText(ilvl)
-		CharacterStatsPane.ItemLevelFrame.Value:SetFont(STANDARD_TEXT_FONT, 20, "OUTLINE")
-
-		self.tooltip = "|cffffffff".. STAT_AVERAGE_ITEM_LEVEL .. " " .. ilvl
 	end)
 
 	-- Change default data
@@ -154,4 +138,22 @@ function module:MissingStats()
 		statFrame.tooltip2 = format(STAT_ATTACK_SPEED_BASE_TOOLTIP, BreakUpLargeNumbers(meleeHaste))
 		statFrame:Show()
 	end
+
+	hooksecurefunc("PaperDollFrame_SetItemLevel", function(statFrame, unit)
+		if unit ~= "player" then return end
+
+		local total, equip = GetAverageItemLevel()
+		if total > 0 then total = string.format("%.1f", total) end
+		if equip > 0 then equip = string.format("%.1f", equip) end
+
+		local ilvl = equip
+		if total ~= equip then
+			ilvl = total.." / "..equip
+		end
+
+		CharacterStatsPane.ItemLevelFrame.Value:SetText(ilvl)
+		CharacterStatsPane.ItemLevelFrame.Value:SetFont(STANDARD_TEXT_FONT, 20, "OUTLINE")
+
+		statFrame.tooltip = "|cffffffff"..STAT_AVERAGE_ITEM_LEVEL.." "..ilvl.."|r"
+	end)
 end

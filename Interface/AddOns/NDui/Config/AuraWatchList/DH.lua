@@ -86,7 +86,6 @@ local list = {
 		{SpellID = 211881},--邪能爆发
 		{SpellID = 212084},--邪能毁灭
 		{SpellID = 217832},--禁锢
-		{SpellID = 227225},--灵魂壁障
 		{SpellID = 236189},--恶魔灌注
 		{SpellID = 247938},--混乱之刃
 		{SpellID = 258860},--黑暗鞭笞

@@ -16,12 +16,12 @@ C.themes["Blizzard_BindingUI"] = function()
 	KeyBindingFrame.unbindButton:SetPoint("RIGHT", KeyBindingFrame.okayButton, "LEFT", -1, 0)
 
 	local frames =  {"header", "scrollFrame", "bindingsContainer", "categoryList"}
-	for _, frame in next, frames do
+	for _, frame in pairs(frames) do
 		F.StripTextures(KeyBindingFrame[frame], true)
 	end
 
 	local buttons =  {"defaultsButton", "unbindButton", "okayButton", "cancelButton"}
-	for _, button in next, buttons do
+	for _, button in pairs(buttons) do
 		F.ReskinButton(KeyBindingFrame[button])
 	end
 

@@ -46,7 +46,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 
 		local frames =  {"HonorFrame", "MoneyFrame", "SkillPointFrame", "XPFrame", "ArtifactXPFrame", "TitleFrame"}
-		for _, frame in next, frames do
+		for _, frame in pairs(frames) do
 			local quests = QuestInfoRewardsFrame[frame]
 			if quests then reskinRewards(quests) end
 
@@ -109,12 +109,12 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		local function colourGeneralsText()
 			local headers = {QuestInfoDescriptionHeader, QuestInfoObjectivesHeader, QuestInfoRewardsFrame.Header, QuestInfoTitleHeader, QuestInfoSpellObjectiveLearnLabel}
-			for _, header in next, headers do
+			for _, header in pairs(headers) do
 				header:SetTextColor(1, .8, 0)
 			end
 
 			local texts = {QuestInfoDescriptionText, QuestInfoGroupSize, QuestInfoObjectivesText, QuestInfoRewardsFrame.ItemChooseText, QuestInfoRewardsFrame.ItemReceiveText, QuestInfoRewardsFrame.PlayerTitleText, QuestInfoRewardsFrame.XPFrame.ReceiveText, QuestInfoRewardText}
-			for _, text in next, texts do
+			for _, text in pairs(texts) do
 				text:SetTextColor(1, 1, 1)
 			end
 

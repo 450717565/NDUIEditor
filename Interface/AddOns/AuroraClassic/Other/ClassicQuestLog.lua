@@ -13,7 +13,7 @@ C.themes["Classic Quest Log"] = function()
 	count:SetPoint("TOP", ClassicQuestLog.title, "BOTTOM", 0, -5)
 
 	local buttons = {"abandon", "push", "track", "options", "close"}
-	for _, button in next, buttons do
+	for _, button in pairs(buttons) do
 		F.ReskinButton(ClassicQuestLog[button])
 	end
 
@@ -21,7 +21,7 @@ C.themes["Classic Quest Log"] = function()
 	F.ReskinFrame(optionsFrame)
 
 	local checks = {"UndockWindow", "LockWindow", "ShowResizeGrip", "ShowLevels", "ShowTooltips", "SolidBackground", "UseClassicSkin"}
-	for _, check in next, checks do
+	for _, check in pairs(checks) do
 		F.ReskinCheck(optionsFrame[check])
 	end
 

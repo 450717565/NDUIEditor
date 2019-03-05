@@ -81,7 +81,7 @@ C.themes["Blizzard_PVPUI"] = function()
 	reskinBar(HonorFrame)
 	reskinRole(HonorFrame)
 
-	for _, bonusButton in next, {"RandomBGButton", "RandomEpicBGButton", "Arena1Button", "BrawlButton"} do
+	for _, bonusButton in pairs({"RandomBGButton", "RandomEpicBGButton", "Arena1Button", "BrawlButton"}) do
 		local bu = BonusFrame[bonusButton]
 		F.ReskinButton(bu)
 		F.ReskinTexture(bu.SelectedTexture, bu, true)
@@ -120,7 +120,7 @@ C.themes["Blizzard_PVPUI"] = function()
 	reskinBar(ConquestFrame)
 	reskinRole(ConquestFrame)
 
-	for _, conquestButton in next, {"Arena2v2", "Arena3v3", "RatedBG"} do
+	for _, conquestButton in pairs({"Arena2v2", "Arena3v3", "RatedBG"}) do
 		local bu = ConquestFrame[conquestButton]
 		F.ReskinButton(bu)
 		F.ReskinTexture(bu.SelectedTexture, bu, true)

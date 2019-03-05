@@ -16,7 +16,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	RaidInfoFrameHeaderText:SetPoint("TOP", RaidInfoFrame, "TOP", 0, -10)
 
 	local labels =  {RaidInfoInstanceLabel, RaidInfoIDLabel}
-	for _, label in next, labels do
+	for _, label in pairs(labels) do
 		F.StripTextures(label)
 
 		local bg = F.CreateBDFrame(label, 0)

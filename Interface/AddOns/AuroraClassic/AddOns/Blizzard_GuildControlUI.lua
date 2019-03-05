@@ -24,12 +24,12 @@ C.themes["Blizzard_GuildControlUI"] = function()
 	BankBg:SetPoint("TOP", RosterBg, "BOTTOM", 0, -15)
 
 	local lists = {GuildControlUIHbar, OfficerBg, RosterBg, BankBg}
-	for _, list in next, lists do
+	for _, list in pairs(lists) do
 		list:Hide()
 	end
 
 	local dropdowns = {GuildControlUINavigationDropDown, GuildControlUIRankSettingsFrameRankDropDown, GuildControlUIRankBankFrameRankDropDown}
-	for _, dropdown in next, dropdowns do
+	for _, dropdown in pairs(dropdowns) do
 		F.ReskinDropDown(dropdown)
 	end
 
@@ -64,7 +64,7 @@ C.themes["Blizzard_GuildControlUI"] = function()
 				ownedTab.infoCB:ClearAllPoints()
 				ownedTab.infoCB:SetPoint("TOP", ownedTab.depositCB, "BOTTOM", 0, 2)
 
-				for _, checbox in next, {ownedTab.viewCB, ownedTab.depositCB, ownedTab.infoCB} do
+				for _, checbox in pairs({ownedTab.viewCB, ownedTab.depositCB, ownedTab.infoCB}) do
 					checbox:SetSize(24, 24)
 					F.ReskinCheck(checbox)
 				end

@@ -23,12 +23,12 @@ C.themes["Blizzard_AchievementUI"] = function()
 	select(5, AchievementFrameComparison:GetChildren()):Hide()
 
 	local frames = {AchievementFrameHeader, AchievementFrameCategories, AchievementFrameSummary, AchievementFrameSummaryCategoriesHeader, AchievementFrameSummaryAchievementsHeader, AchievementFrameStatsBG, AchievementFrameAchievements, AchievementFrameComparison, AchievementFrameComparisonHeader}
-	for _, frame in next, frames do
+	for _, frame in pairs(frames) do
 		F.StripTextures(frame, true)
 	end
 
 	local scrolls = {AchievementFrameAchievementsContainerScrollBar, AchievementFrameCategoriesContainerScrollBar, AchievementFrameStatsContainerScrollBar, AchievementFrameScrollFrameScrollBar, AchievementFrameComparisonContainerScrollBar, AchievementFrameComparisonStatsContainerScrollBar}
-	for _, scroll in next, scrolls do
+	for _, scroll in pairs(scrolls) do
 		F.ReskinScroll(scroll)
 	end
 
@@ -216,7 +216,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 
 	-- Comparison
 	local summaries = {AchievementFrameComparisonSummaryPlayer, AchievementFrameComparisonSummaryFriend}
-	for _, summary in next, summaries do
+	for _, summary in pairs(summaries) do
 		F.StripTextures(summary)
 
 		local bg = F.CreateBDFrame(summary, 0)
@@ -225,7 +225,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 	end
 
 	local bars = {AchievementFrameComparisonSummaryPlayerStatusBar, AchievementFrameComparisonSummaryFriendStatusBar}
-	for _, bar in next, bars do
+	for _, bar in pairs(bars) do
 		F.ReskinStatusBar(bar)
 
 		local name = bar:GetName()
@@ -243,7 +243,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 	for i = 1, 9 do
 		local button = "AchievementFrameComparisonContainerButton"..i
 
-		for _, bu in next, {"Player", "Friend"} do
+		for _, bu in pairs({"Player", "Friend"}) do
 			F.StripTextures(_G[button..bu], true)
 
 			local bubg = F.CreateBDFrame(_G[button..bu], 0)
@@ -251,11 +251,11 @@ C.themes["Blizzard_AchievementUI"] = function()
 			bubg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 		end
 
-		for _, io in next, {"PlayerIconOverlay", "FriendIconOverlay"} do
+		for _, io in pairs({"PlayerIconOverlay", "FriendIconOverlay"}) do
 			_G[button..io]:Hide()
 		end
 
-		for _, ic in next, {"PlayerIconTexture", "FriendIconTexture"} do
+		for _, ic in pairs({"PlayerIconTexture", "FriendIconTexture"}) do
 			F.ReskinIcon(_G[button..ic])
 		end
 	end

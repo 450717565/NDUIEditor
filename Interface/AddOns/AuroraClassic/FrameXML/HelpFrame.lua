@@ -8,7 +8,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	HelpFrameHeader:Hide()
 
 	local frames = {HelpFrameGM_ResponseScrollFrame1, HelpFrameGM_ResponseScrollFrame2, HelpFrameReportBugScrollFrame, HelpFrameSubmitSuggestionScrollFrame, ReportCheatingDialogCommentFrame}
-	for _, frame in next, frames do
+	for _, frame in pairs(frames) do
 		F.StripTextures(frame)
 		F.CreateBDFrame(frame, 0)
 	end
@@ -21,7 +21,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		HelpFrameGM_ResponseScrollFrame2ScrollBar,
 		HelpFrameKnowledgebaseScrollFrame2ScrollBar
 	}
-	for _, scroll in next, scrolls do
+	for _, scroll in pairs(scrolls) do
 		F.ReskinScroll(scroll)
 	end
 
@@ -35,7 +35,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		HelpFrameReportBugSubmit,
 		HelpFrameSubmitSuggestionSubmit
 	}
-	for _, button in next, buttons do
+	for _, button in pairs(buttons) do
 		F.ReskinButton(button)
 	end
 
@@ -78,7 +78,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		HelpBrowserNavStop,
 		HelpBrowserBrowserSettings,
 	}
-	for _, btn in next, btns do
+	for _, btn in pairs(btns) do
 		btn:SetSize(18, 18)
 		F.ReskinButton(btn)
 	end

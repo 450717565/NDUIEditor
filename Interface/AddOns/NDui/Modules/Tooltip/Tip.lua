@@ -325,7 +325,8 @@ local function getBackdropBorderColor() return 0, 0, 0 end
 
 function B:ReskinTooltip()
 	if not self then
-		if DB.isDeveloper then print("Unknown tooltip spotted.") end
+		--if DB.isDeveloper then print("Unknown tooltip spotted.") end
+		print(self:GetName().." tooltip spotted.")
 		return
 	end
 	if self:IsForbidden() then return end

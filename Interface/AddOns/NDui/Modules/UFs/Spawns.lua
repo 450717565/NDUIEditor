@@ -196,8 +196,7 @@ function UF:OnLogin()
 	local horizon = NDuiDB["UFs"]["HorizonRaid"]
 	local numGroups = NDuiDB["UFs"]["NumGroups"]
 	local raidScale = NDuiDB["UFs"]["RaidScale"]
-	local raidWidth = NDuiDB["UFs"]["RaidWidth"]
-	local raidHeight = NDuiDB["UFs"]["RaidHeight"]
+	local raidWidth, raidHeight = NDuiDB["UFs"]["RaidWidth"], NDuiDB["UFs"]["RaidHeight"]
 	local reverse = NDuiDB["UFs"]["ReverseRaid"]
 	local partyFrame = NDuiDB["UFs"]["PartyFrame"]
 	local partyWatcher = NDuiDB["UFs"]["PartyWatcher"]
@@ -284,15 +283,15 @@ function UF:OnLogin()
 			oUF:RegisterStyle("Party", CreatePartyStyle)
 			oUF:SetActiveStyle("Party")
 
-			local xOffset = partyWatcher and 5 or 0
-			local yOffset = partyWatcher and 10 or -20
-			local pointF = partyWatcher and (horizon and "LEFT" or "BOTTOM") or "TOP"
-			local pointT = partyWatcher and (horizon and "RIGHT" or "TOP") or "BOTTOM"
-			local partyPoint = partyWatcher and "BOTTOMLEFT" or "TOPLEFT"
-			local partyWidth = partyWatcher and 100 or 200
-			local partyHeight = partyWatcher and 32 or 22*NDuiDB["UFs"]["HeightScale"]
-			local moverPoint = partyWatcher and {"LEFT", UIParent, 350, 0} or {"TOPLEFT", UIParent, 35, -50}
-			local moverWidth = partyWatcher and (horizon and (partyWidth*5+xOffset*4)) or partyWidth
+			local xOffset = partyWatcher and -5 or 0
+			local yOffset = partyWatcher and 15 or -20
+			local pointF = partyWatcher and (horizon and "RIGHT" or "BOTTOM") or "TOP"
+			local pointT = partyWatcher and (horizon and "LEFT" or "TOP") or "BOTTOM"
+			local partyPoint = partyWatcher and "BOTTOMRIGHT" or "TOPLEFT"
+			local partyWidth = partyWatcher and NDuiDB["UFs"]["PartyWidth"] or 200
+			local partyHeight = partyWatcher and NDuiDB["UFs"]["PartyHeight"] or 22*NDuiDB["UFs"]["HeightScale"]
+			local moverPoint = partyWatcher and (horizon and {"LEFT", UIParent, 50, 0} or {"LEFT", UIParent, 350, 0}) or {"TOPLEFT", UIParent, 35, -50}
+			local moverWidth = partyWatcher and (horizon and (partyWidth*5-xOffset*4)) or partyWidth
 			local moverHeight = partyWatcher and (horizon and partyHeight or (partyHeight*5+yOffset*4)) or (partyHeight*4-yOffset*3)
 
 			local party = oUF:SpawnHeader("oUF_Party", nil, "solo,party",
@@ -335,7 +334,6 @@ function UF:OnLogin()
 		end
 		CompactRaidFrameContainer:UnregisterAllEvents()
 
-		-- Group Styles
 		oUF:RegisterStyle("Raid", CreateRaidStyle)
 		oUF:SetActiveStyle("Raid")
 

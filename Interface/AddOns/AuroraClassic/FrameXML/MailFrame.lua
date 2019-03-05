@@ -42,7 +42,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.ReskinTab(_G["MailFrameTab"..i])
 	end
 
-	for _, button in next, {"OpenMailLetterButton", "OpenMailMoneyButton"} do
+	for _, button in pairs({"OpenMailLetterButton", "OpenMailMoneyButton"}) do
 		local btn = _G[button]
 		btn:SetNormalTexture("")
 		btn:SetPushedTexture("")

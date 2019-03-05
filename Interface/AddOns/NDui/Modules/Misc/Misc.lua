@@ -551,6 +551,8 @@ end
 
 -- TradeFrame hook
 do
+	local IsGuildMember, BNGetGameAccountInfoByGUID, C_FriendList_IsFriend = IsGuildMember, BNGetGameAccountInfoByGUID, C_FriendList.IsFriend
+
 	local infoText = B.CreateFS(TradeFrame, 16, "")
 	infoText:ClearAllPoints()
 	infoText:SetPoint("TOP", TradeFrameRecipientNameText, "BOTTOM", 0, -5)
@@ -562,7 +564,7 @@ do
 		local guid = UnitGUID("NPC")
 		if not guid then return end
 		local text = "|cffff0000"..L["Stranger"]
-		if BNGetGameAccountInfoByGUID(guid) or IsCharacterFriend(guid) then
+		if BNGetGameAccountInfoByGUID(guid) or C_FriendList_IsFriend(guid) then
 			text = "|cffffff00"..FRIEND
 		elseif IsGuildMember(guid) then
 			text = "|cff00ff00"..GUILD

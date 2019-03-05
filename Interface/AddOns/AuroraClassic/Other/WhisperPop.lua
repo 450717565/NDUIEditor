@@ -16,7 +16,7 @@ C.themes["WhisperPop"] = function()
 	listHL:SetVertexColor(cr, cg, cb, .25)
 
 	local lists = {WhisperPopFrameListDelete, WhisperPopFrameTopCloseButton, WhisperPopMessageFrameTopCloseButton}
-	for _, list in next, lists do
+	for _, list in pairs(lists) do
 		F.ReskinClose(list)
 	end
 

@@ -14,7 +14,7 @@ C.themes["Blizzard_BlackMarketUI"] = function()
 	F.ReskinIcon(HotDeal.Item.IconTexture)
 
 	local headers = {"ColumnName", "ColumnLevel", "ColumnType", "ColumnDuration", "ColumnHighBidder", "ColumnCurrentBid"}
-	for _, header in next, headers do
+	for _, header in pairs(headers) do
 		local header = BlackMarketFrame[header]
 		F.StripTextures(header)
 

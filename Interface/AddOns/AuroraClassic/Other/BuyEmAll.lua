@@ -9,7 +9,7 @@ C.themes["BuyEmAll"] = function()
 	BuyEmAllCurrencyFrame:SetPoint("TOP", 0, -40)
 
 	local buttons = {BuyEmAllOkayButton, BuyEmAllCancelButton, BuyEmAllStackButton, BuyEmAllMaxButton}
-	for _, button in next, buttons do
+	for _, button in pairs(buttons) do
 		F.ReskinButton(button)
 	end
 

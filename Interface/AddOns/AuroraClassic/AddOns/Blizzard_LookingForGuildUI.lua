@@ -13,18 +13,18 @@ C.themes["Blizzard_LookingForGuildUI"] = function()
 		end
 
 		local frames = {LookingForGuildInterestFrame, LookingForGuildAvailabilityFrame, LookingForGuildRolesFrame, GuildFinderRequestMembershipFrameInputFrame}
-		for _, frame in next, frames do
+		for _, frame in pairs(frames) do
 			F.StripTextures(frame, true)
 			F.CreateBDFrame(frame, 0)
 		end
 
 		local checks = {LookingForGuildQuestButton, LookingForGuildDungeonButton, LookingForGuildRaidButton, LookingForGuildPvPButton, LookingForGuildRPButton, LookingForGuildWeekdaysButton, LookingForGuildWeekendsButton}
-		for _, check in next, checks do
+		for _, check in pairs(checks) do
 			F.ReskinCheck(check)
 		end
 
 		local buttons = {LookingForGuildBrowseButton, GuildFinderRequestMembershipFrameAcceptButton, GuildFinderRequestMembershipFrameCancelButton, LookingForGuildRequestButton}
-		for _, button in next, buttons do
+		for _, button in pairs(buttons) do
 			F.ReskinButton(button)
 		end
 

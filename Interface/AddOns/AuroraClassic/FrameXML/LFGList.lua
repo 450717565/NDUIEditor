@@ -92,7 +92,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.StripTextures(ApplicationViewer, true)
 	F.StripTextures(ApplicationViewer, true)
 
-	for _, headerName in next, {"NameColumnHeader", "RoleColumnHeader", "ItemLevelColumnHeader"} do
+	for _, headerName in pairs({"NameColumnHeader", "RoleColumnHeader", "ItemLevelColumnHeader"}) do
 		local header = ApplicationViewer[headerName]
 		F.StripTextures(header)
 

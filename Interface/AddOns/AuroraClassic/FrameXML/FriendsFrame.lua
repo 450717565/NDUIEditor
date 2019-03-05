@@ -35,7 +35,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	headerBg:SetPoint("BOTTOMRIGHT", -2, 2)
 
 	local buttons = {AddFriendEntryFrameAcceptButton, AddFriendEntryFrameCancelButton, AddFriendInfoFrameContinueButton, FriendsFrameAddFriendButton, FriendsFrameIgnorePlayerButton, FriendsFrameSendMessageButton, FriendsFrameUnsquelchButton, FriendsFriendsCloseButton, FriendsFriendsSendRequestButton, FriendsListFrameContinueButton, WhoFrameAddFriendButton, WhoFrameGroupInviteButton, WhoFrameWhoButton}
-	for _, button in next, buttons do
+	for _, button in pairs(buttons) do
 		F.ReskinButton(button)
 	end
 

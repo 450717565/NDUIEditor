@@ -20,7 +20,7 @@ local function Reskins()
 		boxHL:SetTexture(DB.bdTex)
 		boxHL:SetVertexColor(cr, cg, cb, .25)
 
-		for _, button in next, {BaudErrorFrameClearButton, BaudErrorFrameCloseButton, BaudErrorFrameReloadUIButton} do
+		for _, button in pairs({BaudErrorFrameClearButton, BaudErrorFrameCloseButton, BaudErrorFrameReloadUIButton}) do
 			B.CreateBC(button, .25)
 		end
 	end
@@ -146,33 +146,33 @@ local function Reskins()
 			end
 
 			local Framelist = {SellRememberButton, BuyScrollFrame, SellScrollFrame}
-			for _, frame in next, Framelist do
+			for _, frame in pairs(Framelist) do
 				F.StripTextures(frame)
 			end
 
 			local Inputlist = {BuyName, BuyQuantity, SellStacks, SellSize, SellBidPriceGold, SellBidPriceSilver, SellBidPriceCopper, SellBuyoutPriceGold, SellBuyoutPriceSilver, SellBuyoutPriceCopper}
-			for _, input in next, Inputlist do
+			for _, input in pairs(Inputlist) do
 				F.ReskinInput(input)
 			end
 
 			local Buttonlist = {BuySearchButton, BuyScanButton, BuyBidButton, BuyBuyoutButton, BuyCancelAuctionButton, BuyCancelSearchButton, SellCreateAuctionButton, SellStacksMaxButton, SellSizeMaxButton}
-			for _, button in next, Buttonlist do
+			for _, button in pairs(Buttonlist) do
 				F.ReskinButton(button)
 			end
 
 			local Radiolist = {SellShortAuctionButton, SellMediumAuctionButton, SellLongAuctionButton, SellPerItemButton, SellPerStackButton}
-			for _, radio in next, Radiolist do
+			for _, radio in pairs(Radiolist) do
 				radio:SetSize(20, 20)
 				F.ReskinRadio(radio)
 			end
 
 			local Buttonlist = {SellItemNameButton, SellBuyoutEachButton, SellBuyoutAllButton}
-			for _, button in next, Buttonlist do
+			for _, button in pairs(Buttonlist) do
 				F.ReskinTexture(button, button, true)
 			end
 
 			local Scrolllist = {BuyScrollFrameScrollBar, SellScrollFrameScrollBar}
-			for _, scroll in next, Scrolllist do
+			for _, scroll in pairs(Scrolllist) do
 				F.ReskinScroll(scroll)
 			end
 		end

@@ -5,30 +5,30 @@ C.themes["Blizzard_GuildUI"] = function()
 
 	F.ReskinFrame(GuildFrame)
 
-	for _, frame in next, {GuildNewsFiltersFrame, GuildTextEditFrame, GuildLogFrame, GuildMemberDetailFrame} do
+	for _, frame in pairs({GuildNewsFiltersFrame, GuildTextEditFrame, GuildLogFrame, GuildMemberDetailFrame}) do
 		F.ReskinFrame(frame)
 	end
 
 	local frames = {GuildMemberNoteBackground, GuildMemberOfficerNoteBackground, GuildLogContainer, GuildTextEditContainer, GuildRecruitmentInterestFrame, GuildRecruitmentAvailabilityFrame, GuildRecruitmentRolesFrame, GuildRecruitmentLevelFrame, GuildInfoFrameInfoMOTDScrollFrame, GuildInfoDetailsFrame}
-	for _, frame in next, frames do
+	for _, frame in pairs(frames) do
 		F.StripTextures(frame, true)
 		F.CreateBDFrame(frame, 0)
 	end
 
 	local lists = {GuildNewsFrame, GuildAllPerksFrame, GuildRewardsFrame, GuildInfoFrameInfo}
-	for _, list in next, lists do
+	for _, list in pairs(lists) do
 		F.StripTextures(list)
 	end
 
 	local scrolls = {GuildPerksContainerScrollBar, GuildRosterContainerScrollBar, GuildNewsContainerScrollBar, GuildRewardsContainerScrollBar, GuildInfoFrameInfoMOTDScrollFrameScrollBar, GuildInfoDetailsFrameScrollBar, GuildLogScrollFrameScrollBar, GuildTextEditScrollFrameScrollBar, GuildRecruitmentCommentInputFrameScrollFrameScrollBar, GuildInfoFrameApplicantsContainerScrollBar}
-	for _, scroll in next, scrolls do
+	for _, scroll in pairs(scrolls) do
 		F.ReskinScroll(scroll)
 	end
 
 	local TextEditFrameCB = select(4, GuildTextEditFrame:GetChildren())
 	local LogFrameCB = select(3, GuildLogFrame:GetChildren())
 	local buttons = {GuildAddMemberButton, GuildViewLogButton, GuildControlButton, GuildTextEditFrameAcceptButton, GuildMemberGroupInviteButton, GuildMemberRemoveButton, GuildRecruitmentInviteButton, GuildRecruitmentMessageButton, GuildRecruitmentDeclineButton, GuildRecruitmentListGuildButton, TextEditFrameCB, LogFrameCB}
-	for _, button in next, buttons do
+	for _, button in pairs(buttons) do
 		F.ReskinButton(button)
 	end
 
@@ -240,7 +240,7 @@ C.themes["Blizzard_GuildUI"] = function()
 	F.ReskinRole(GuildRecruitmentDamagerButton, "DPS")
 
 	local checks = {GuildRecruitmentQuestButton, GuildRecruitmentDungeonButton, GuildRecruitmentRaidButton, GuildRecruitmentPvPButton, GuildRecruitmentRPButton, GuildRecruitmentWeekdaysButton, GuildRecruitmentWeekendsButton}
-	for _, check in next, checks do
+	for _, check in pairs(checks) do
 		F.ReskinCheck(check)
 	end
 

@@ -33,7 +33,7 @@ C.themes["Blizzard_Communities"] = function()
 	GuildMemberDetailFrame:ClearAllPoints()
 	GuildMemberDetailFrame:SetPoint("TOPLEFT", CommunitiesFrame.ChatTab, "TOPRIGHT", 2, 0)
 
-	for _, name in next, {"GuildFinderFrame", "InvitationFrame", "TicketFrame"} do
+	for _, name in pairs({"GuildFinderFrame", "InvitationFrame", "TicketFrame"}) do
 		local frame = CommunitiesFrame[name]
 		F.StripTextures(frame.InsetFrame)
 		F.CreateBDFrame(frame, 0)
@@ -45,7 +45,7 @@ C.themes["Blizzard_Communities"] = function()
 
 	CommunitiesFrame.ChatTab:ClearAllPoints()
 	CommunitiesFrame.ChatTab:SetPoint("TOPLEFT", CommunitiesFrame, "TOPRIGHT", 0, -25)
-	for _, name in next, {"ChatTab", "RosterTab", "GuildBenefitsTab", "GuildInfoTab"} do
+	for _, name in pairs({"ChatTab", "RosterTab", "GuildBenefitsTab", "GuildInfoTab"}) do
 		local tab = CommunitiesFrame[name]
 		tab:SetSize(34, 34)
 		tab:GetRegions():Hide()
@@ -254,7 +254,7 @@ C.themes["Blizzard_Communities"] = function()
 			end
 		end
 
-		for _, button in ipairs(self.ListScrollFrame.buttons or {}) do
+		for _, button in pairs(self.ListScrollFrame.buttons or {}) do
 			if button and not button.styled then
 				hooksecurefunc(button, "RefreshExpandedColumns", updateNameFrame)
 				if button.ProfessionHeader then
@@ -347,7 +347,7 @@ C.themes["Blizzard_Communities"] = function()
 	bg:SetPoint("BOTTOMRIGHT", -5, -4)
 
 	F.ReskinFrame(CommunitiesGuildNewsFiltersFrame)
-	for _, name in next, {"GuildAchievement", "Achievement", "DungeonEncounter", "EpicItemLooted", "EpicItemPurchased", "EpicItemCrafted", "LegendaryItemLooted"} do
+	for _, name in pairs({"GuildAchievement", "Achievement", "DungeonEncounter", "EpicItemLooted", "EpicItemPurchased", "EpicItemCrafted", "LegendaryItemLooted"}) do
 		local filter = CommunitiesGuildNewsFiltersFrame[name]
 		F.ReskinCheck(filter)
 	end

@@ -15,7 +15,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			InterfaceOptionsFrameTab1,
 			InterfaceOptionsFrameTab2,
 		}
-		for _, texture in next, textures do
+		for _, texture in pairs(textures) do
 			F.StripTextures(texture, true)
 		end
 
@@ -46,7 +46,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			InterfaceOptionsSocialPanelRedockChat,
 			InterfaceOptionsSocialPanelTwitterLoginButton,
 		}
-		for _, button in next, buttons do
+		for _, button in pairs(buttons) do
 			F.ReskinButton(button)
 		end
 
@@ -112,7 +112,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			InterfaceOptionsSocialPanelShowToastWindow,
 			InterfaceOptionsSocialPanelSpamFilter,
 		}
-		for _, checkbox in next, checkboxes do
+		for _, checkbox in pairs(checkboxes) do
 			F.ReskinCheck(checkbox)
 		end
 
@@ -137,7 +137,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			InterfaceOptionsSocialPanelTimestamps,
 			InterfaceOptionsSocialPanelWhisperMode,
 		}
-		for _, dropdown in next, dropdowns do
+		for _, dropdown in pairs(dropdowns) do
 			F.ReskinDropDown(dropdown)
 		end
 
@@ -150,7 +150,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			InterfaceOptionsMousePanelMouseLookSpeedSlider,
 			InterfaceOptionsMousePanelMouseSensitivitySlider,
 		}
-		for _, slider in next, sliders do
+		for _, slider in pairs(sliders) do
 			F.ReskinSlider(slider)
 		end
 
@@ -185,7 +185,7 @@ tinsert(C.themes["AuroraClassic"], function()
 				CompactUnitFrameProfilesRaidStylePartyFrames,
 			}
 
-			for _, box in next, boxes do
+			for _, box in pairs(boxes) do
 				F.ReskinCheck(box)
 			end
 		end

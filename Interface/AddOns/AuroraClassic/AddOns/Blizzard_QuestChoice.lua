@@ -7,14 +7,16 @@ C.themes["Blizzard_QuestChoice"] = function()
 	for i = 1, numOptions do
 		local option = QuestChoiceFrame["Option"..i]
 		option.Header.Background:Hide()
-		option.Header.Text:SetTextColor(.9, .9, .9)
+		option.Header.Text:SetTextColor(1, .8, 0)
 
 		option.Artwork:SetTexCoord(0.140625, 0.84375, 0.2265625, 0.78125)
 		option.Artwork:SetSize(180, 70)
+		option.Artwork:ClearAllPoints()
 		option.Artwork:SetPoint("TOP", 0, -20)
 		F.CreateBDFrame(option.Artwork, 0)
 
-		option.OptionText:SetTextColor(.9, .9, .9)
+		option.OptionText:SetTextColor(1, 1, 1)
+		option.OptionText:ClearAllPoints()
 		option.OptionText:SetPoint("TOP", option.Artwork, "BOTTOM", 4, -10)
 
 		local rewards = option.Rewards

@@ -36,9 +36,7 @@ C.themes["Blizzard_ArtifactUI"] = function()
 
 			local slotbg = F.CreateBDFrame(SlotPool, 0)
 			F.ReskinTexture(SlotPool, slotbg, false)
-
-			local sl = SlotPool.Selected
-			F.ReskinBorder(sl, SlotPool, true)
+			F.ReskinBorder(SlotPool.Selected, SlotPool, true)
 		end
 	end
 

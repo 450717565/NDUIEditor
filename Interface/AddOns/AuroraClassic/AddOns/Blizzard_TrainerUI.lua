@@ -37,7 +37,7 @@ C.themes["Blizzard_TrainerUI"] = function()
 	step.subText:SetPoint("BOTTOMLEFT", stepic, "BOTTOMRIGHT", 5, -5)
 
 	hooksecurefunc("ClassTrainerFrame_Update", function()
-		for _, bu in next, ClassTrainerFrame.scrollFrame.buttons do
+		for _, bu in pairs(ClassTrainerFrame.scrollFrame.buttons) do
 			if not bu.styled then
 				bu:SetNormalTexture("")
 

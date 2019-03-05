@@ -55,34 +55,34 @@ C.themes["Blizzard_AuctionUI"] = function()
 	BrowseMinLevel:SetPoint(p1, p2, p3, x, y+2)
 
 	local sorts = {BrowseQualitySort, BrowseLevelSort, BrowseDurationSort, BrowseHighBidderSort, BrowseCurrentBidSort, BidQualitySort, BidLevelSort, BidDurationSort, BidBuyoutSort, BidStatusSort, BidBidSort, AuctionsQualitySort, AuctionsDurationSort, AuctionsHighBidderSort, AuctionsBidSort}
-	for _, sort in next, sorts do
+	for _, sort in pairs(sorts) do
 		F.StripTextures(sort)
 		F.ReskinTexture(sort, sort, true)
 	end
 
 	local frames = {BrowseScrollFrame, BrowseFilterScrollFrame, BidScrollFrame, AuctionsScrollFrame}
-	for _, frame in next, frames do
+	for _, frame in pairs(frames) do
 		F.StripTextures(frame)
 	end
 
 	local buttons = {BrowseBidButton, BrowseBuyoutButton, BrowseCloseButton, BrowseSearchButton, BrowseResetButton, BidBidButton, BidBuyoutButton, BidCloseButton, AuctionsCloseButton, AuctionsCancelAuctionButton, AuctionsCreateAuctionButton, AuctionsNumStacksMaxButton, AuctionsStackSizeMaxButton}
-	for _, button in next, buttons do
+	for _, button in pairs(buttons) do
 		F.StripTextures(button)
 		F.ReskinButton(button)
 	end
 
 	local inputs = {BrowseName, BrowseMinLevel, BrowseMaxLevel, BrowseBidPriceGold, BrowseBidPriceSilver, BrowseBidPriceCopper, BidBidPriceGold, BidBidPriceSilver, BidBidPriceCopper, StartPriceGold, StartPriceSilver, StartPriceCopper, BuyoutPriceGold, BuyoutPriceSilver, BuyoutPriceCopper, AuctionsStackSizeEntry, AuctionsNumStacksEntry}
-	for _, input in next, inputs do
+	for _, input in pairs(inputs) do
 		F.ReskinInput(input, true)
 	end
 
 	local checks = {ExactMatchCheckButton, IsUsableCheckButton, ShowOnPlayerCheckButton}
-	for _, check in next, checks do
+	for _, check in pairs(checks) do
 		F.ReskinCheck(check)
 	end
 
 	local scrolls = {BrowseScrollFrameScrollBar, AuctionsScrollFrameScrollBar, BrowseFilterScrollFrameScrollBar}
-	for _, scroll in next, scrolls do
+	for _, scroll in pairs(scrolls) do
 		F.ReskinScroll(scroll)
 	end
 

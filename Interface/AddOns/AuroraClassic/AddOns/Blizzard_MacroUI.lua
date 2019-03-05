@@ -9,17 +9,17 @@ C.themes["Blizzard_MacroUI"] = function()
 	MacroNewButton:SetPoint("RIGHT", MacroExitButton, "LEFT", -1, 0)
 
 	local lists = {MacroButtonScrollFrame, MacroPopupScrollFrame, MacroFrameScrollFrame, MacroFrameTab1, MacroFrameTab2, MacroFrameTextBackground}
-	for _, list in next, lists do
+	for _, list in pairs(lists) do
 		F.StripTextures(list)
 	end
 
 	local scrolls = {MacroButtonScrollFrameScrollBar, MacroFrameScrollFrameScrollBar, MacroPopupScrollFrameScrollBar}
-	for _, scroll in next, scrolls do
+	for _, scroll in pairs(scrolls) do
 		F.ReskinScroll(scroll)
 	end
 
 	local buttons = {MacroDeleteButton, MacroNewButton, MacroExitButton, MacroEditButton, MacroPopupFrame.BorderBox.OkayButton, MacroPopupFrame.BorderBox.CancelButton, MacroSaveButton, MacroCancelButton}
-	for _, button in next, buttons do
+	for _, button in pairs(buttons) do
 		F.ReskinButton(button)
 	end
 

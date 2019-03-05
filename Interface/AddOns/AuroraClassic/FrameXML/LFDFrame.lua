@@ -14,7 +14,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinScroll(LFDQueueFrameRandomScrollFrameScrollBar)
 
 	local buttons = {LFDRoleCheckPopupAcceptButton, LFDRoleCheckPopupDeclineButton, LFDQueueFrameFindGroupButton, LFDQueueFramePartyBackfillBackfillButton, LFDQueueFramePartyBackfillNoBackfillButton, LFDQueueFrameNoLFDWhileLFRLeaveQueueButton}
-	for _, button in next, buttons do
+	for _, button in pairs(buttons) do
 		F.ReskinButton(button)
 	end
 

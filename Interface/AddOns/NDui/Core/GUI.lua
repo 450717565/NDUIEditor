@@ -49,6 +49,7 @@ local defaultSettings = {
 		Bar5Fade = false,
 		Scale = 1,
 		BindType = 1,
+		OverrideWA = false,
 	},
 	Bags = {
 		Enable = true,
@@ -117,6 +118,8 @@ local defaultSettings = {
 		PartyFrame = true,
 		PartyWatcher = false,
 		PWOnRight = false,
+		PartyWidth = 100,
+		PartyHeight = 32,
 	},
 	Chat = {
 		Sticky = true,
@@ -174,6 +177,7 @@ local defaultSettings = {
 		ExplosivesScale = false,
 		PPIconSize = 32,
 		AKSProgress = true,
+		PPHideOOC = true,
 	},
 	Skins = {
 		DBM = true,
@@ -356,7 +360,8 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Actionbar", "Classcolor", L["ClassColor BG"], true},
 		{},--blank
 		{1, "Actionbar", "Cooldown", DB.MyColor..L["Show Cooldown"]},
-		{1, "Actionbar", "DecimalCD", L["Decimal Cooldown"].."*", true},
+		{1, "Actionbar", "DecimalCD", L["Decimal Cooldown"].."*"},
+		{1, "Actionbar", "OverrideWA", L["HideCooldownOnWA"], true},
 	},
 	[2] = {
 		{1, "Bags", "Enable", DB.MyColor..L["Enable Bags"]},
@@ -400,9 +405,12 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 	},
 	[4] = {
 		{1, "UFs", "RaidFrame", DB.MyColor..L["UFs RaidFrame"]},
-		{1, "UFs", "PartyFrame", DB.MyColor..L["UFs PartyFrame"], true},
+		{},--blank
+		{1, "UFs", "PartyFrame", DB.MyColor..L["UFs PartyFrame"]},
 		{1, "UFs", "PartyWatcher", L["UFs PartyWatcher"]},
 		{1, "UFs", "PWOnRight", L["PartyWatcherOnRight"], true},
+		{3, "UFs", "PartyWidth", L["PartyFrame Width"], false, {60, 150, 0}},
+		{3, "UFs", "PartyHeight", L["PartyFrame Height"], true, {25, 40, 0}},
 		{},--blank
 		{1, "UFs", "RaidBuffIndicator", DB.MyColor..L["RaidBuffIndicator"], nil, function() setupBuffIndicator() end},
 		{1, "UFs", "BuffTimerIndicator", L["BuffTimerIndicator"], true},
@@ -465,11 +473,12 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Auras", "Reminder", L["Enable Reminder"]},
 		{},--blank
 		{1, "Nameplate", "ShowPlayerPlate", DB.MyColor..L["Enable PlayerPlate"]},
-		{1, "Auras", "ClassAuras", L["Enable ClassAuras"]},
-		{1, "Nameplate", "PPPowerText", L["PlayerPlate PowerText"], true},
-		{3, "Nameplate", "PPHeight", L["PlayerPlate Height"], false, {5, 10, 0}},
-		{3, "Extras", "CPHeight", L["PlayerPlate CPHeight"], true, {10, 20, 0}},
-		{3, "Nameplate", "PPIconSize", L["PlayerPlate IconSize"], false, {30, 40, 0}},
+		{1, "Auras", "ClassAuras", L["Enable ClassAuras"], true},
+		{1, "Nameplate", "PPHideOOC", L["Fadeout OOC"]},
+		{1, "Nameplate", "PPPowerText", L["PlayerPlate PowerText"]},
+		{3, "Nameplate", "PPHeight", L["PlayerPlate Height"], true, {5, 10, 0}},
+		{3, "Extras", "CPHeight", L["PlayerPlate CPHeight"], false, {10, 20, 0}},
+		{3, "Nameplate", "PPIconSize", L["PlayerPlate IconSize"], true, {30, 40, 0}},
 	},
 	[7] = {
 		{1, "Skins", "RM", DB.MyColor..L["Raid Manger"]},
@@ -703,7 +712,7 @@ local function CreateOption(i)
 		-- Editbox
 		elseif optType == 2 then
 			local eb = B.CreateEditBox(parent, 200, 28)
-			eb:SetMaxLetters(200)
+			eb:SetMaxLetters(999)
 			if horizon then
 				eb:SetPoint("TOPLEFT", 345, -offset + 45)
 			else

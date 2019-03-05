@@ -14,17 +14,17 @@ C.themes["Blizzard_GuildBankUI"] = function()
 	GuildBankFrameWithdrawButton:SetPoint("RIGHT", GuildBankFrameDepositButton, "LEFT", -1, 0)
 
 	local lists = {GuildBankEmblemFrame, GuildBankMoneyFrameBackground, GuildBankTransactionsScrollFrame, GuildBankInfoScrollFrame, GuildBankPopupScrollFrame}
-	for _, list in next, lists do
+	for _, list in pairs(lists) do
 		F.StripTextures(list, true)
 	end
 
 	local buttons = {GuildBankFrameWithdrawButton, GuildBankFrameDepositButton, GuildBankFramePurchaseButton, GuildBankPopupOkayButton, GuildBankPopupCancelButton, GuildBankInfoSaveButton}
-	for _, button in next, buttons do
+	for _, button in pairs(buttons) do
 		F.ReskinButton(button)
 	end
 
 	local scrolls = {GuildBankTransactionsScrollFrameScrollBar, GuildBankInfoScrollFrameScrollBar, GuildBankPopupScrollFrameScrollBar}
-	for _, scroll in next, scrolls do
+	for _, scroll in pairs(scrolls) do
 		F.ReskinScroll(scroll)
 	end
 

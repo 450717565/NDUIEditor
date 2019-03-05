@@ -40,48 +40,48 @@ C.themes["Blizzard_Calendar"] = function()
 	CalendarCreateEventDifficultyOptionDropDown:SetWidth(150)
 
 	local lists = {CalendarFilterFrame, CalendarCreateEventTitleFrame, CalendarViewEventTitleFrame, CalendarViewHolidayTitleFrame, CalendarViewRaidTitleFrame, CalendarEventPickerTitleFrame, CalendarMassInviteTitleFrame, CalendarTexturePickerTitleFrame}
-	for _, list in next, lists do
+	for _, list in pairs(lists) do
 		F.StripTextures(list)
 	end
 
 	local frames = {CalendarViewEventFrame, CalendarViewHolidayFrame, CalendarViewRaidFrame, CalendarCreateEventFrame, CalendarTexturePickerFrame, CalendarMassInviteFrame, CalendarClassTotalsButton, CalendarEventPickerFrame}
-	for _, frame in next, frames do
+	for _, frame in pairs(frames) do
 		F.ReskinFrame(frame)
 	end
 
 	local containers = {CalendarViewEventInviteList, CalendarViewEventDescriptionContainer, CalendarCreateEventInviteList, CalendarCreateEventDescriptionContainer}
-	for _, container in next, containers do
+	for _, container in pairs(containers) do
 		F.StripTextures(container)
 		F.CreateBDFrame(container, 0)
 	end
 
 	local buttons = {CalendarViewEventAcceptButton, CalendarViewEventTentativeButton, CalendarViewEventDeclineButton, CalendarViewEventRemoveButton, CalendarCreateEventMassInviteButton, CalendarCreateEventCreateButton, CalendarCreateEventInviteButton, CalendarEventPickerCloseButton, CalendarCreateEventRaidInviteButton, CalendarTexturePickerAcceptButton, CalendarTexturePickerCancelButton, CalendarMassInviteAcceptButton}
-	for _, button in next, buttons do
+	for _, button in pairs(buttons) do
 		F.StripTextures(button)
 		F.ReskinButton(button)
 	end
 
 	local closes = {CalendarCreateEventCloseButton, CalendarViewEventCloseButton, CalendarViewHolidayCloseButton, CalendarViewRaidCloseButton, CalendarMassInviteCloseButton}
-	for _, close in next, closes do
+	for _, close in pairs(closes) do
 		F.ReskinClose(close)
 	end
 
 	local scrolls = {CalendarTexturePickerScrollBar, CalendarViewEventInviteListScrollFrameScrollBar, CalendarViewEventDescriptionScrollFrameScrollBar, CalendarCreateEventInviteListScrollFrameScrollBar, CalendarCreateEventDescriptionScrollFrameScrollBar}
-	for _, scroll in next, scrolls do
+	for _, scroll in pairs(scrolls) do
 		F.ReskinScroll(scroll)
 	end
 
 	local dropdowns = {CalendarCreateEventCommunityDropDown, CalendarCreateEventTypeDropDown, CalendarCreateEventHourDropDown, CalendarCreateEventMinuteDropDown, CalendarCreateEventAMPMDropDown, CalendarCreateEventDifficultyOptionDropDown, CalendarMassInviteCommunityDropDown, CalendarMassInviteRankMenu}
-	for _, dropdown in next, dropdowns do
+	for _, dropdown in pairs(dropdowns) do
 		F.ReskinDropDown(dropdown)
 	end
 
 	local inputs = {CalendarCreateEventTitleEdit, CalendarCreateEventInviteEdit, CalendarMassInviteMinLevelEdit, CalendarMassInviteMaxLevelEdit}
-	for _, input in next, inputs do
+	for _, input in pairs(inputs) do
 		F.ReskinInput(input)
 	end
 
-	for i, class in ipairs(CLASS_SORT_ORDER) do
+	for i, class in pairs(CLASS_SORT_ORDER) do
 		local bu = _G["CalendarClassButton"..i]
 		bu:GetRegions():Hide()
 

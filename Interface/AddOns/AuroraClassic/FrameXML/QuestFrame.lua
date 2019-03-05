@@ -4,7 +4,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinFrame(QuestFrame)
 
 	local frames = {QuestFrameDetailPanel, QuestDetailScrollFrame, QuestFrameProgressPanel, QuestProgressScrollFrame, QuestFrameRewardPanel, QuestRewardScrollFrame, QuestGreetingScrollFrame, QuestFrameGreetingPanel}
-	for _, frame in next, frames do
+	for _, frame in pairs(frames) do
 		F.StripTextures(frame, true)
 	end
 
@@ -43,7 +43,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 	end)
 
-	for _, questButton in next, {"QuestFrameAcceptButton", "QuestFrameDeclineButton", "QuestFrameCompleteQuestButton", "QuestFrameCompleteButton", "QuestFrameGoodbyeButton", "QuestFrameGreetingGoodbyeButton"} do
+	for _, questButton in pairs({"QuestFrameAcceptButton", "QuestFrameDeclineButton", "QuestFrameCompleteQuestButton", "QuestFrameCompleteButton", "QuestFrameGoodbyeButton", "QuestFrameGreetingGoodbyeButton"}) do
 		F.ReskinButton(_G[questButton])
 	end
 	F.ReskinScroll(QuestProgressScrollFrameScrollBar)

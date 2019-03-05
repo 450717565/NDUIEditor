@@ -20,7 +20,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	end
 	F.ReskinScroll(QuestScrollFrame.ScrollBar)
 
-	for _, header in next, {campaignHeader, StoryHeader} do
+	for _, header in pairs({campaignHeader, StoryHeader}) do
 		F.StripTextures(header, true)
 
 		header.Text:SetPoint("TOPLEFT", 10, -20)

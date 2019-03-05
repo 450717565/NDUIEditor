@@ -110,7 +110,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				locBG:SetPoint("BOTTOMRIGHT", bg, -1, -2)
 
 				local lists = {button.RareOverlay, button.Overlay.Overlay}
-				for _, list in next, lists do
+				for _, list in pairs(lists) do
 					list:SetDrawLayer("BACKGROUND")
 					list:SetTexture(C.media.bdTex)
 					list:ClearAllPoints()
@@ -278,7 +278,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		F.StripTextures(self.FollowerTab)
 		F.ReskinXPBar(self.FollowerTab)
 
-		for _, item in next, {self.FollowerTab.ItemWeapon, self.FollowerTab.ItemArmor} do
+		for _, item in pairs({self.FollowerTab.ItemWeapon, self.FollowerTab.ItemArmor}) do
 			if item then
 				local icon = item.Icon
 				item.Border:Hide()
@@ -508,7 +508,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		end
 	end
 
-	for _, tab in next, {Report.InProgress, Report.Available} do
+	for _, tab in pairs({Report.InProgress, Report.Available}) do
 		F.CleanTextures(tab)
 		tab.Text:ClearAllPoints()
 		tab.Text:SetPoint("CENTER")
@@ -946,7 +946,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	f:RegisterEvent("ADDON_LOADED")
 	f:SetScript("OnEvent", function(_, event, addon)
 		if addon == "GarrisonMissionManager" then
-			for _, frame in next, {GarrisonMissionFrame, OrderHallMissionFrame, BFAMissionFrame} do
+			for _, frame in pairs({GarrisonMissionFrame, OrderHallMissionFrame, BFAMissionFrame}) do
 				hooksecurefunc(frame.MissionTab.MissionList, "Update", buttonOnUpdate)
 				frame.MissionTab.MissionPage:HookScript("OnShow", buttonOnShow)
 			end
