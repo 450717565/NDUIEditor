@@ -104,11 +104,12 @@ function module:GuildBest()
 	end
 
 	local function AddKeystoneIcon()
-		local texture = select(10, GetItemInfo(158923))
+		local texture = select(10, GetItemInfo(158923)) or 525134
 		local button = CreateFrame("Frame", nil, ChallengesFrame.WeeklyInfo)
-		button:SetPoint("LEFT", 10, -20)
+		button:SetPoint("BOTTOMLEFT", ChallengesFrame.WeeklyInfo.Child.SeasonBest, "TOPLEFT", 10, 5)
 		button:SetSize(35, 35)
 		B.PixelIcon(button, texture, true)
+		button:SetBackdropBorderColor(0, .8, 1)
 		button:SetScript("OnEnter", function(self)
 			GameTooltip:ClearLines()
 			GameTooltip:SetOwner(self, "ANCHOR_RIGHT")

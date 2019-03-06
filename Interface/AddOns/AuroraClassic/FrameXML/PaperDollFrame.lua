@@ -1,7 +1,7 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	local r, g, b = C.r, C.g, C.b
+	local cr, cg, cb = C.r, C.g, C.b
 
 	-- [[ Item buttons ]]
 	local function colourPopout(self)
@@ -11,7 +11,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		if glow:IsShown() then
 			aR, aG, aB = glow:GetVertexColor()
 		else
-			aR, aG, aB = r, g, b
+			aR, aG, aB = cr, cg, cb
 		end
 
 		self.arrow:SetVertexColor(aR, aG, aB)
@@ -40,7 +40,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		self.AzeriteTexture:SetAllPoints()
 	end
 
-	local slots = {"Head", "Neck", "Shoulder", "Back", "Chest", "Shirt", "Tabard", "Wrist", "Hands", "Waist", "Legs", "Feet", "Finger0", "Finger1", "Trinket0", "Trinket1", "MainHand","SecondaryHand"}
+	local slots = {"Head", "Neck", "Shoulder", "Back", "Chest", "Shirt", "Tabard", "Wrist", "Hands", "Waist", "Legs", "Feet", "Finger0", "Finger1", "Trinket0", "Trinket1", "MainHand", "SecondaryHand"}
 
 	for i = 1, #slots do
 		local slot = _G["Character"..slots[i].."Slot"]
@@ -103,6 +103,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		bg:SetPoint("BOTTOMRIGHT", -2, 2)
 
 		local Title = category.Title
+		Title:SetTextColor(cr, cg, cb)
 		Title:ClearAllPoints()
 		Title:SetPoint("CENTER", bg)
 	end
@@ -168,8 +169,8 @@ tinsert(C.themes["AuroraClassic"], function()
 				_G["PaperDollEquipmentManagerPaneButton"..i.."BgBottom"]:SetAlpha(0)
 
 				local bu = _G["PaperDollEquipmentManagerPaneButton"..i]
-				bu.HighlightBar:SetColorTexture(r, g, b, .25)
-				bu.SelectedBar:SetColorTexture(r, g, b, .25)
+				bu.HighlightBar:SetColorTexture(cr, cg, cb, .25)
+				bu.SelectedBar:SetColorTexture(cr, cg, cb, .25)
 
 				local sp = _G["PaperDollEquipmentManagerPaneButton"..i.."Stripe"]
 				sp:Hide()

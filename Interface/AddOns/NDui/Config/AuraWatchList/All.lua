@@ -865,6 +865,7 @@ local list = {
 		{SpellID = 59548},
 		{SpellID = 121093},
 		--奥术洪流
+		{SpellID = 25046},
 		{SpellID = 28730},
 		{SpellID = 50613},
 		{SpellID = 69179},
@@ -896,6 +897,7 @@ local list = {
 		{IntID = 240447, Duration = 20},--践踏
 		{IntID = 114018, Duration = 15, OnSuccess = true, UnitID = "all"},	-- 帷幕
 	-->奥术洪流
+		{IntID = 25046, Duration = 120, UnitID = "all", OnSuccess = true},
 		{IntID = 28730, Duration = 120, UnitID = "all", OnSuccess = true},
 		{IntID = 50613, Duration = 120, UnitID = "all", OnSuccess = true},
 		{IntID = 69179, Duration = 120, UnitID = "all", OnSuccess = true},

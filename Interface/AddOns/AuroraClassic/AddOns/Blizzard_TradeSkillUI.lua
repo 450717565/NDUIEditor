@@ -75,14 +75,14 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 	CreateMultipleInputBox.IncrementButton:SetPoint("LEFT", CreateMultipleInputBox, "RIGHT", 3, 0)
 
 	hooksecurefunc(DetailsFrame, "RefreshDisplay", function(self)
-		local ResultIcon = self.Contents.ResultIcon
-		local Reagents = self.Contents.Reagents
-
-		if not self.styled then
+		local recipeInfo = self.selectedRecipeID and C_TradeSkillUI.GetRecipeInfo(self.selectedRecipeID)
+		if recipeInfo and not self.styled then
+			local ResultIcon = self.Contents.ResultIcon
 			ResultIcon.ResultBorder:Hide()
 			F.ReskinIcon(ResultIcon:GetNormalTexture())
 			F.ReskinBorder(ResultIcon.IconBorder, ResultIcon)
 
+			local Reagents = self.Contents.Reagents
 			for i = 1, #Reagents do
 				local reagent = Reagents[i]
 				reagent.NameFrame:Hide()
