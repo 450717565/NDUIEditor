@@ -49,37 +49,14 @@ C.themes["Blizzard_PVPUI"] = function()
 	F.ReskinIcon(SeasonRewardFrame.Icon)
 	select(3, SeasonRewardFrame:GetRegions()):SetTextColor(1, .8, 0)
 
-	-- ConquestBar
-	local function reskinBar(self)
-		F.ReskinStatusBar(self.ConquestBar)
-
-		local Reward = self.ConquestBar.Reward
-		Reward:ClearAllPoints()
-		Reward:SetPoint("LEFT", self.ConquestBar, "RIGHT", 2, 0)
-		Reward.CircleMask:Hide()
-		Reward.Ring:Hide()
-		F.ReskinIcon(Reward.Icon)
-	end
-
-	-- RoleButton
-	local function reskinRole(self)
-		F.StripTextures(self)
-
-		F.ReskinRole(self.TankIcon, "TANK")
-		F.ReskinRole(self.HealerIcon, "HEALER")
-		F.ReskinRole(self.DPSIcon, "DPS")
-	end
-
 	-- HonorFrame
-	local BonusFrame = HonorFrame.BonusFrame
 	F.StripTextures(HonorFrame)
-	F.StripTextures(BonusFrame)
 	F.ReskinButton(HonorFrame.QueueButton)
 	F.ReskinDropDown(HonorFrameTypeDropDown)
 	F.ReskinScroll(HonorFrameSpecificFrameScrollBar)
 
-	reskinBar(HonorFrame)
-	reskinRole(HonorFrame)
+	local BonusFrame = HonorFrame.BonusFrame
+	F.StripTextures(BonusFrame)
 
 	for _, bonusButton in pairs({"RandomBGButton", "RandomEpicBGButton", "Arena1Button", "BrawlButton"}) do
 		local bu = BonusFrame[bonusButton]
@@ -93,7 +70,6 @@ C.themes["Blizzard_PVPUI"] = function()
 		bu.Border:Hide()
 
 		local icbg = F.ReskinIcon(bu.Icon)
-
 		local bubg = F.CreateBDFrame(bu, 0)
 		bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
 		bubg:SetPoint("BOTTOMRIGHT", -2, 3.5)
@@ -117,12 +93,24 @@ C.themes["Blizzard_PVPUI"] = function()
 	F.StripTextures(ConquestFrame)
 	F.ReskinButton(ConquestFrame.JoinButton)
 
-	reskinBar(ConquestFrame)
-	reskinRole(ConquestFrame)
-
 	for _, conquestButton in pairs({"Arena2v2", "Arena3v3", "RatedBG"}) do
 		local bu = ConquestFrame[conquestButton]
 		F.ReskinButton(bu)
 		F.ReskinTexture(bu.SelectedTexture, bu, true)
+	end
+
+	-- reskin bar and role
+	for _, frame in pairs({HonorFrame, ConquestFrame}) do
+		F.ReskinRole(frame.TankIcon, "TANK")
+		F.ReskinRole(frame.HealerIcon, "HEALER")
+		F.ReskinRole(frame.DPSIcon, "DPS")
+		F.ReskinStatusBar(frame.ConquestBar)
+
+		local Reward = frame.ConquestBar.Reward
+		Reward:ClearAllPoints()
+		Reward:SetPoint("LEFT", frame.ConquestBar, "RIGHT", 2, 0)
+		Reward.CircleMask:Hide()
+		Reward.Ring:Hide()
+		F.ReskinIcon(Reward.Icon)
 	end
 end

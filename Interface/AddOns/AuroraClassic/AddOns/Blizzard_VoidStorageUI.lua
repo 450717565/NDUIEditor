@@ -9,9 +9,9 @@ C.themes["Blizzard_VoidStorageUI"] = function()
 	F.ReskinButton(VoidStorageTransferButton)
 	F.ReskinInput(VoidItemSearchBox)
 
-	local frames = {VoidStorageFrame, VoidStorageCostFrame, VoidStorageDepositFrame, VoidStoragePurchaseFrame, VoidStorageWithdrawFrame, VoidStorageStorageFrame}
-	for _, frame in pairs(frames) do
-		F.StripTextures(frame, true)
+	local lists = {VoidStorageFrame, VoidStorageCostFrame, VoidStorageDepositFrame, VoidStoragePurchaseFrame, VoidStorageWithdrawFrame, VoidStorageStorageFrame}
+	for _, list in pairs(lists) do
+		F.StripTextures(list, true)
 	end
 
 	for _, voidButton in pairs({"VoidStorageDepositButton", "VoidStorageWithdrawButton"}) do
@@ -19,8 +19,8 @@ C.themes["Blizzard_VoidStorageUI"] = function()
 			local bu = _G[voidButton..i]
 			F.StripTextures(bu)
 
-			local ic = F.ReskinIcon(bu.icon)
-			F.ReskinTexture(bu, ic, false)
+			local icbg = F.ReskinIcon(bu.icon)
+			F.ReskinTexture(bu, icbg, false)
 
 			local border = bu.IconBorder
 			F.ReskinBorder(border, bu)
@@ -31,14 +31,14 @@ C.themes["Blizzard_VoidStorageUI"] = function()
 		local bu = _G["VoidStorageStorageButton"..i]
 		F.StripTextures(bu)
 
-		local ic = F.ReskinIcon(_G["VoidStorageStorageButton"..i.."IconTexture"])
-		F.ReskinTexture(bu, ic, false)
+		local icbg = F.ReskinIcon(_G["VoidStorageStorageButton"..i.."IconTexture"])
+		F.ReskinTexture(bu, icbg, false)
 
 		local border = bu.IconBorder
 		F.ReskinBorder(border, bu)
 
 		local searchOverlay = bu.searchOverlay
-		searchOverlay:SetAllPoints(ic)
+		searchOverlay:SetAllPoints(icbg)
 	end
 
 	for i = 1, 2 do
@@ -46,10 +46,13 @@ C.themes["Blizzard_VoidStorageUI"] = function()
 		tab:SetSize(34, 34)
 		tab:GetRegions():Hide()
 
-		local ic = F.ReskinIcon(tab:GetNormalTexture())
-		F.ReskinTexture(tab, ic, false)
-		F.ReskinTexed(tab, ic)
+		local icbg = F.ReskinIcon(tab:GetNormalTexture())
+		F.ReskinTexed(tab, icbg)
+		F.ReskinTexture(tab, icbg, false)
+
+		if i == 1 then
+			tab:ClearAllPoints()
+			tab:SetPoint("TOPLEFT", VoidStorageFrame, "TOPRIGHT", 4, -25)
+		end
 	end
-	VoidStorageFrame.Page1:ClearAllPoints()
-	VoidStorageFrame.Page1:SetPoint("TOPLEFT", VoidStorageFrame, "TOPRIGHT", 4, -25)
 end

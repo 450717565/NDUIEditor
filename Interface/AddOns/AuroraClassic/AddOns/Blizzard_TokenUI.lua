@@ -1,27 +1,24 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	local r, g, b = C.r, C.g, C.b
+	local cr, cg, cb = C.r, C.g, C.b
 
 	F.ReskinFrame(TokenFramePopup)
 	F.ReskinCheck(TokenFramePopupInactiveCheckBox)
 	F.ReskinCheck(TokenFramePopupBackpackCheckBox)
+	F.ReskinScroll(TokenFrameContainerScrollBar)
 
-	local function updateButtons()
+	local function reskinButtons()
 		local buttons = TokenFrameContainer.buttons
-
 		if not buttons then return end
 
 		for i = 1, #buttons do
 			local bu = buttons[i]
+			bu.highlight:SetPoint("TOPLEFT", 1, 0)
+			bu.highlight:SetPoint("BOTTOMRIGHT", -1, 0)
+			bu.highlight:SetColorTexture(cr, cg, cb, .25)
 
 			if not bu.styled then
-				bu.highlight:SetPoint("TOPLEFT", 1, 0)
-				bu.highlight:SetPoint("BOTTOMRIGHT", -1, 0)
-				bu.highlight.SetPoint = F.Dummy
-				bu.highlight:SetColorTexture(r, g, b, .25)
-				bu.highlight.SetTexture = F.Dummy
-
 				bu.categoryMiddle:SetAlpha(0)
 				bu.categoryLeft:SetAlpha(0)
 				bu.categoryRight:SetAlpha(0)
@@ -40,9 +37,6 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 	end
 
-	TokenFrame:HookScript("OnShow", updateButtons)
-	hooksecurefunc("TokenFrame_Update", updateButtons)
-	hooksecurefunc(TokenFrameContainer, "update", updateButtons)
-
-	F.ReskinScroll(TokenFrameContainerScrollBar)
+	hooksecurefunc("TokenFrame_Update", reskinButtons)
+	hooksecurefunc(TokenFrameContainer, "update", reskinButtons)
 end)

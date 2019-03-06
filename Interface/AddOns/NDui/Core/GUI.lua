@@ -208,7 +208,6 @@ local defaultSettings = {
 		LFDRole = false,
 		TargetBy = true,
 		Scale = 1,
-		AzeriteArmor = true,
 		SpecLevelByShift = false,
 		HideRealm = false,
 		HideTitle = false,
@@ -290,6 +289,8 @@ local accountSettings = {
 	RaidAuraWatch = {},
 	CornerBuffs = {},
 	TexStyle = 1,
+	KeystoneInfo = {},
+	AzeriteArmor = true,
 }
 
 local function InitialSettings(source, target)
@@ -476,9 +477,9 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Auras", "ClassAuras", L["Enable ClassAuras"], true},
 		{1, "Nameplate", "PPHideOOC", L["Fadeout OOC"]},
 		{1, "Nameplate", "PPPowerText", L["PlayerPlate PowerText"]},
-		{3, "Nameplate", "PPHeight", L["PlayerPlate Height"], true, {5, 10, 0}},
-		{3, "Extras", "CPHeight", L["PlayerPlate CPHeight"], false, {10, 20, 0}},
 		{3, "Nameplate", "PPIconSize", L["PlayerPlate IconSize"], true, {30, 40, 0}},
+		{3, "Nameplate", "PPHeight", L["PlayerPlate Height"], false, {5, 10, 0}},
+		{3, "Extras", "CPHeight", L["PlayerPlate CPHeight"], true, {10, 20, 0}},
 	},
 	[7] = {
 		{1, "Skins", "RM", DB.MyColor..L["Raid Manger"]},
@@ -563,8 +564,8 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Tooltip", "HideRealm", L["Hide Realm"].."*"},
 		{1, "Tooltip", "SpecLevelByShift", L["Show SpecLevelByShift"].."*", true},
 		{1, "Tooltip", "LFDRole", L["Group Roles"].."*"},
-		{1, "Tooltip", "TargetBy", L["Show TargetedBy"], true},
-		{1, "Tooltip", "AzeriteArmor", L["Show AzeriteArmor"]},
+		{1, "Tooltip", "TargetBy", L["Show TargetedBy"].."*", true},
+		{1, "ACCOUNT", "AzeriteArmor", L["Show AzeriteArmor"]},
 	},
 	[12] = {
 		{1, "Misc", "Mail", L["Mail Tool"]},

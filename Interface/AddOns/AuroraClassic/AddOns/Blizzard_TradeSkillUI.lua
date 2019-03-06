@@ -4,13 +4,12 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 	local cr, cg, cb = C.r, C.g, C.b
 
 	F.ReskinFrame(TradeSkillFrame)
-
 	F.ReskinStatusBar(TradeSkillFrame.RankFrame)
 	F.ReskinInput(TradeSkillFrame.SearchBox, false, 20, 200)
 	F.ReskinFilter(TradeSkillFrame.FilterButton)
 	F.ReskinArrow(TradeSkillFrame.LinkToButton, "right")
 
-	-- Recipe List
+	-- RecipeList
 	F.StripTextures(TradeSkillFrame.RecipeInset)
 
 	local RecipeList = TradeSkillFrame.RecipeList
@@ -18,8 +17,8 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 
 	for i = 1, #RecipeList.Tabs do
 		local tab = RecipeList.Tabs[i]
-
 		F.StripTextures(tab)
+
 		tab.bg = F.CreateBDFrame(tab, 0)
 		tab.bg:SetPoint("TOPLEFT", 3, -3)
 		tab.bg:SetPoint("BOTTOMRIGHT", -3, 0)
@@ -54,54 +53,59 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 		end
 	end)
 
-	-- Recipe Details
+	-- DetailsFrame
 	F.StripTextures(TradeSkillFrame.DetailsInset)
 
 	local DetailsFrame = TradeSkillFrame.DetailsFrame
 	F.StripTextures(DetailsFrame, true)
-	F.StripTextures(DetailsFrame.CreateMultipleInputBox)
 	F.ReskinScroll(DetailsFrame.ScrollBar)
 	F.ReskinButton(DetailsFrame.CreateAllButton)
 	F.ReskinButton(DetailsFrame.CreateButton)
 	F.ReskinButton(DetailsFrame.ExitButton)
-	F.ReskinInput(DetailsFrame.CreateMultipleInputBox)
-	F.ReskinArrow(DetailsFrame.CreateMultipleInputBox.DecrementButton, "left")
-	F.ReskinArrow(DetailsFrame.CreateMultipleInputBox.IncrementButton, "right")
+	F.ReskinButton(DetailsFrame.ViewGuildCraftersButton)
 
-	DetailsFrame.CreateMultipleInputBox.DecrementButton:ClearAllPoints()
-	DetailsFrame.CreateMultipleInputBox.DecrementButton:SetPoint("RIGHT", DetailsFrame.CreateMultipleInputBox, "LEFT", -5, 0)
-	DetailsFrame.CreateMultipleInputBox.IncrementButton:ClearAllPoints()
-	DetailsFrame.CreateMultipleInputBox.IncrementButton:SetPoint("LEFT", DetailsFrame.CreateMultipleInputBox, "RIGHT", 3, 0)
+	local CreateMultipleInputBox = DetailsFrame.CreateMultipleInputBox
+	F.ReskinInput(CreateMultipleInputBox)
+	F.ReskinArrow(CreateMultipleInputBox.DecrementButton, "left")
+	F.ReskinArrow(CreateMultipleInputBox.IncrementButton, "right")
 
-	local Contents = DetailsFrame.Contents
-	hooksecurefunc(Contents.ResultIcon, "SetNormalTexture", function(self)
+	CreateMultipleInputBox.DecrementButton:ClearAllPoints()
+	CreateMultipleInputBox.DecrementButton:SetPoint("RIGHT", CreateMultipleInputBox, "LEFT", -5, 0)
+	CreateMultipleInputBox.IncrementButton:ClearAllPoints()
+	CreateMultipleInputBox.IncrementButton:SetPoint("LEFT", CreateMultipleInputBox, "RIGHT", 3, 0)
+
+	hooksecurefunc(DetailsFrame, "RefreshDisplay", function(self)
+		local ResultIcon = self.Contents.ResultIcon
+		local Reagents = self.Contents.Reagents
+
 		if not self.styled then
-			self.IconBorder:SetAlpha(0)
-			self.ResultBorder:SetAlpha(0)
-			F.ReskinIcon(self:GetNormalTexture())
+			ResultIcon.ResultBorder:Hide()
+			F.ReskinIcon(ResultIcon:GetNormalTexture())
+			F.ReskinBorder(ResultIcon.IconBorder, ResultIcon)
+
+			for i = 1, #Reagents do
+				local reagent = Reagents[i]
+				reagent.NameFrame:Hide()
+				reagent.Icon:SetSize(36, 36)
+
+				local icbg = F.ReskinIcon(reagent.Icon)
+				local bubg = F.CreateBDFrame(reagent.NameFrame, 0)
+				bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
+				bubg:SetPoint("BOTTOMRIGHT", -5, 3.5)
+			end
 
 			self.styled = true
 		end
 	end)
-	for i = 1, #Contents.Reagents do
-		local reagent = Contents.Reagents[i]
-		reagent.NameFrame:Hide()
 
-		local icbg = F.ReskinIcon(reagent.Icon)
-		local bubg = F.CreateBDFrame(reagent.NameFrame, 0)
-		bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
-		bubg:SetPoint("BOTTOMRIGHT", -5, 1)
-	end
-	F.ReskinButton(DetailsFrame.ViewGuildCraftersButton)
-
-	-- Guild Recipe
-
+	-- GuildFrame
 	local GuildFrame = DetailsFrame.GuildFrame
 	F.ReskinFrame(GuildFrame)
-	F.ReskinScroll(GuildFrame.Container.ScrollFrame.scrollBar)
 	GuildFrame:ClearAllPoints()
-	GuildFrame:SetPoint("BOTTOMLEFT", TradeSkillFrame, "BOTTOMRIGHT", 2, 0)
+	GuildFrame:SetPoint("BOTTOMLEFT", TradeSkillFrame, "BOTTOMRIGHT", 50, 0)
 
-	F.StripTextures(GuildFrame.Container)
-	F.CreateBDFrame(GuildFrame.Container, 0)
+	local Container = GuildFrame.Container
+	F.StripTextures(Container)
+	F.CreateBDFrame(Container.ScrollFrame, 0)
+	F.ReskinScroll(Container.ScrollFrame.scrollBar)
 end

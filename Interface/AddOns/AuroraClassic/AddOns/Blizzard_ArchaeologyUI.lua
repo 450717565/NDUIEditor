@@ -59,7 +59,6 @@ C.themes["Blizzard_ArchaeologyUI"] = function()
 		F.StripTextures(bu)
 
 		local icbg = F.ReskinIcon(_G[button.."Icon"])
-
 		local bubg = F.CreateBDFrame(bu, 0)
 		bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
 		bubg:SetPoint("BOTTOMRIGHT", 0, -1)

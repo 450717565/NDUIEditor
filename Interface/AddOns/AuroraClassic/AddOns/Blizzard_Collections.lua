@@ -471,6 +471,7 @@ C.themes["Blizzard_Collections"] = function()
 				PetJournalBandageButton:SetPoint("BOTTOMLEFT", PetJournalHealPetButton, "BOTTOMLEFT", -35, 0)
 				PetJournalBandageButtonBorder:Hide()
 				F.CleanTextures(PetJournalBandageButton)
+
 				local icbg = F.ReskinIcon(PetJournalBandageButtonIcon)
 				F.ReskinTexture(PetJournalBandageButton, icbg, false)
 			end

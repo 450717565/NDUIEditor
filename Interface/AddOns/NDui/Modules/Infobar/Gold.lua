@@ -8,7 +8,7 @@ local format = string.format
 local pairs, wipe = pairs, table.wipe
 
 local profit, spent, oldMoney = 0, 0, 0
-local myName, myRealm = DB.MyName, GetRealmName()
+local myName, myRealm = DB.MyName, DB.MyRealm
 
 local function formatTextMoney(money)
 	return B.Numb(money / 1e4).."|cffffd700"..GOLD_AMOUNT_SYMBOL.."|r"

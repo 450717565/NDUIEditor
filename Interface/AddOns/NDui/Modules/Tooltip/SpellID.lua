@@ -3,8 +3,9 @@ local B, C, L, DB = unpack(ns)
 local module = B:GetModule("Tooltip")
 
 function module:ExtraTipInfo()
-	local strmatch, strfind, format = string.match, string.find, string.format
-	local tonumber = tonumber
+	local strmatch, strfind, format, strsplit, tonumber = string.match, string.find, string.format, string.split, tonumber
+	local UnitAura, GetItemCount, GetItemInfo, GetUnitName, GetCurrencyListLink = UnitAura, GetItemCount, GetItemInfo, GetUnitName, GetCurrencyListLink
+	local C_TradeSkillUI_GetRecipeReagentItemLink = C_TradeSkillUI.GetRecipeReagentItemLink
 
 	local types = {
 		spell = SPELLS.."ID:",
@@ -81,7 +82,8 @@ function module:ExtraTipInfo()
 		local link = select(2, self:GetItem())
 		if link then
 			local id = strmatch(link, "item:(%d+):")
-			if strfind(link, "keystone") then id = 138019 end
+			local keystone = strmatch(link, "|Hkeystone:([0-9]+):")
+			if keystone then id = tonumber(keystone) end
 			if id then addLine(self, id, types.item) end
 		end
 	end
@@ -95,7 +97,7 @@ function module:ExtraTipInfo()
 		if id then addLine(self, id, types.item) end
 	end)
 	hooksecurefunc(GameTooltip, "SetRecipeReagentItem", function(self, recipeID, reagentIndex)
-		local link = C_TradeSkillUI.GetRecipeReagentItemLink(recipeID, reagentIndex)
+		local link = C_TradeSkillUI_GetRecipeReagentItemLink(recipeID, reagentIndex)
 		if link then
 			local id = strmatch(link, "item:(%d+):")
 			if id then addLine(self, id, types.item) end
