@@ -61,7 +61,7 @@ local function updateActiveUnit(self, event, unit)
 	if (not UnitExists(modUnit)) then return end
 
 	-- Change the active unit and run a full update.
-	if Private.UpdateUnits(self, modUnit, realUnit) then
+	if (Private.UpdateUnits(self, modUnit, realUnit)) then
 		self:UpdateAllElements('RefreshUnit')
 
 		return true
@@ -166,7 +166,7 @@ for k, v in next, {
 
 	* self    - unit frame
 	* asState - if true, the frame's "state-unitexists" attribute will be set to a boolean value denoting whether the
-	            unit exists; if false, the frame will be shown if its unit exists, and hidden if it does not (boolean)
+				unit exists; if false, the frame will be shown if its unit exists, and hidden if it does not (boolean)
 	--]]
 	Enable = RegisterUnitWatch,
 	--[[ frame:Disable()
@@ -248,6 +248,15 @@ local function updatePet(self, event, unit)
 	end
 end
 
+local function updateRaid(self, event)
+	local unitGUID = UnitGUID(self.unit)
+	if (unitGUID and unitGUID ~= self.unitGUID) then
+		self.unitGUID = unitGUID
+
+		self:UpdateAllElements(event)
+	end
+end
+
 local function initObject(unit, style, styleFunc, header, ...)
 	local num = select('#', ...)
 	for i = 1, num do
@@ -274,7 +283,6 @@ local function initObject(unit, style, styleFunc, header, ...)
 		if (not (suffix == 'target' or objectUnit and objectUnit:match('target'))) then
 			object:RegisterEvent('UNIT_ENTERED_VEHICLE', updateActiveUnit)
 			object:RegisterEvent('UNIT_EXITED_VEHICLE', updateActiveUnit)
-			object:RegisterEvent('UNIT_EXITING_VEHICLE', updateActiveUnit)
 
 			-- We don't need to register UNIT_PET for the player unit. We register it
 			-- mainly because UNIT_EXITED_VEHICLE and UNIT_ENTERED_VEHICLE doesn't always
@@ -301,8 +309,9 @@ local function initObject(unit, style, styleFunc, header, ...)
 				oUF:HandleUnit(object)
 			end
 		else
-			-- Used to update frames when they change position in a group.
-			object:RegisterEvent('GROUP_ROSTER_UPDATE', object.UpdateAllElements, true)
+			-- update the frame when its prev unit is replaced with a new one
+			-- updateRaid relies on UnitGUID to detect the unit change
+			object:RegisterEvent('GROUP_ROSTER_UPDATE', updateRaid, true)
 
 			if (num > 1) then
 				if (object:GetParent() == header) then
@@ -594,18 +603,18 @@ do
 
 	* self         - the global oUF object
 	* overrideName - unique global name to be used for the header. Defaults to an auto-generated name based on the name
-	                 of the active style and other arguments passed to `:SpawnHeader` (string?)
+					 of the active style and other arguments passed to `:SpawnHeader` (string?)
 	* template     - name of a template to be used for creating the header. Defaults to `'SecureGroupHeaderTemplate'`
-	                 (string?)
+					 (string?)
 	* visibility   - macro conditional(s) which define when to display the header (string).
 	* ...          - further argument pairs. Consult [Group Headers](http://wowprogramming.com/docs/secure_template/Group_Headers.html)
-	                 for possible values.
+					 for possible values.
 
 	In addition to the standard group headers, oUF implements some of its own attributes. These can be supplied by the
 	layout, but are optional.
 
 	* oUF-initialConfigFunction - can contain code that will be securely run at the end of the initial secure
-	                              configuration (string?)
+								  configuration (string?)
 	* oUF-onlyProcessChildren   - can be used to force headers to only process children (boolean?)
 	--]]
 	function oUF:SpawnHeader(overrideName, template, visibility, ...)

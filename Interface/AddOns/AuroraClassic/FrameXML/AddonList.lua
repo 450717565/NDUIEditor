@@ -1,6 +1,8 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
+	local cr, cg, cb = C.r, C.g, C.b
+
 	F.ReskinFrame(AddonList)
 	F.ReskinButton(AddonListEnableAllButton)
 	F.ReskinButton(AddonListDisableAllButton)
@@ -10,23 +12,25 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinDropDown(AddonCharacterDropDown)
 	F.ReskinScroll(AddonListScrollFrameScrollBar)
 
-	AddonListForceLoad:SetScale(.8)
 	AddonListCancelButton:SetWidth(120)
 	AddonListOkayButton:SetWidth(120)
 	AddonCharacterDropDown:SetWidth(170)
 
-	local r, g, b = C.r, C.g, C.b
 	hooksecurefunc("AddonList_Update", function()
 		for i = 1, MAX_ADDONS_DISPLAYED do
-			local checkbox = _G["AddonListEntry"..i.."Enabled"]
-			if not checkbox.styled then
-				F.ReskinCheck(checkbox)
-				checkbox.styled = true
+			local check = _G["AddonListEntry"..i.."Enabled"]
+			local button = _G["AddonListEntry"..i.."Load"]
+
+			if not check.styled then
+				F.ReskinCheck(check)
+				F.ReskinButton(button)
+
+				check.styled = true
 			end
-			local ch = checkbox:GetCheckedTexture()
+
+			local ch = check:GetCheckedTexture()
 			ch:SetDesaturated(true)
-			ch:SetVertexColor(r, g, b)
-			F.ReskinButton(_G["AddonListEntry"..i.."Load"])
+			ch:SetVertexColor(cr, cg, cb)
 		end
 	end)
 end)

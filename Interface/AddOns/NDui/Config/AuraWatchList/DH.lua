@@ -90,6 +90,7 @@ local list = {
 		{SpellID = 247938},--混乱之刃
 		{SpellID = 258860},--黑暗鞭笞
 		{SpellID = 258925},--邪能弹幕
+		{SpellID = 263648},--灵魂壁障
 		--恶魔变形
 		{SpellID = 187827},
 		{SpellID = 191427},

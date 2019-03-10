@@ -570,8 +570,8 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 	[12] = {
 		{1, "Misc", "Mail", L["Mail Tool"]},
 		{1, "Misc", "Focuser", L["Easy Focus"], true},
-		{1, "Misc", "TradeTab", L["TradeTabs"]},
-		{1, "Misc", "PetFilter", L["Show PetFilter"], true},
+		--{1, "Misc", "TradeTab", L["TradeTabs"]},
+		{1, "Misc", "PetFilter", L["Show PetFilter"]},
 		{},--blank
 		{1, "Misc", "ItemLevel", L["Show ItemLevel"]},
 		{1, "Misc", "MissingStats", L["Show MissingStats"], true},

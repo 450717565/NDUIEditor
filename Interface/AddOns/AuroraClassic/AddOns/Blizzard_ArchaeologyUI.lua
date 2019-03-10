@@ -22,7 +22,7 @@ C.themes["Blizzard_ArchaeologyUI"] = function()
 
 	local Digsite = ArcheologyDigsiteProgressBar
 	F.StripTextures(Digsite)
-	F.CreateBDFrame(Digsite.FillBar)
+	F.CreateBDFrame(Digsite.FillBar, .25)
 	Digsite.FillBar:SetHeight(15)
 	Digsite.FillBar:SetStatusBarTexture(C.media.normTex)
 	Digsite.FillBar:SetStatusBarColor(cr, cg, cb, .8)
