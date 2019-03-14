@@ -134,7 +134,7 @@ local function CreateArenaStyle(self)
 	UF:CreateRaidMark(self)
 	UF:CreateBuffs(self)
 	UF:CreateDebuffs(self)
-	UF:CreateFactionIcon(self)
+	UF:CreatePVPClassify(self)
 	UF:CreatePortrait(self)
 	UF:CreateTargetBorder(self)
 end

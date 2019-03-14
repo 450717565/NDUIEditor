@@ -31,6 +31,8 @@ L:SetMiscLocalization({
 	BizmoIgnored2	= "Do you smell smoke?",
 	BizmoIgnored3	= "I think it's about time to call this fight.",
 	BizmoIgnored4	= "Is it getting hot in here? Or is it just me?",
+	BizmoIgnored5	= "The fire's coming!",
+	BizmoIgnored6	= "I think we've seen just about enough of this. Am I right?",
 	--I wish there was a better way to do this....so much localizing. :(
 	Rank1			= "Rank 1",
 	Rank2			= "Rank 2",
@@ -42,6 +44,7 @@ L:SetMiscLocalization({
 	Rank8			= "Rank 8",
 	Rank9			= "Rank 9",
 	Rank10			= "Rank 10",
+	Rumbler			= "rumbler",
 	Proboskus		= "Oh dear... I'm sorry, but it looks like you're going to have to fight Proboskus.",--Alliance
 	Proboskus2		= "Ha ha ha! What bad luck you have! It's Proboskus! Ahhh ha ha ha! I've got twenty five gold that says you die in the fire!"--Horde
 })
@@ -64,6 +67,10 @@ L:SetGeneralLocalization({
 	name = "Brawlers: Rank 2"
 })
 
+L:SetOptionLocalization({
+	SetIconOnBlat	= "Set icon (skull) on real Blat"
+})
+
 ------------
 -- Rank 3 --
 ------------
@@ -73,10 +80,6 @@ L:SetGeneralLocalization({
 	name = "Brawlers: Rank 3"
 })
 
-L:SetOptionLocalization({
-	SetIconOnBlat	= "Set icon (skull) on real Blat"
-})
-
 ------------
 -- Rank 4 --
 ------------
@@ -84,10 +87,6 @@ L= DBM:GetModLocalization("BrawlRank4")
 
 L:SetGeneralLocalization({
 	name = "Brawlers: Rank 4"
-})
-
-L:SetOptionLocalization({
-	SetIconOnDominika	= "Set icon (skull) on real Dominika the Illusionist"
 })
 
 ------------
@@ -138,12 +137,21 @@ L:SetGeneralLocalization({
 --]]
 
 -------------
+-- Brawlers: Rumble --
+-------------
+L= DBM:GetModLocalization("BrawlRumble")
+
+L:SetGeneralLocalization({
+	name = "Brawlers: Rumble"
+})
+
+-------------
 -- Brawlers: Legacy --
 -------------
 L= DBM:GetModLocalization("BrawlLegacy")
 
 L:SetGeneralLocalization({
-	name = "Brawlers: Legacy"
+	name = "Brawlers: Random"
 })
 
 L:SetOptionLocalization({
@@ -156,7 +164,7 @@ L:SetOptionLocalization({
 L= DBM:GetModLocalization("BrawlChallenges")
 
 L:SetGeneralLocalization({
-	name = "Brawlers: Challenge"
+	name = "Brawlers: Random 2"
 })
 
 L:SetWarningLocalization({
@@ -172,13 +180,4 @@ L:SetMiscLocalization({
 	rock			= "Rock",
 	paper			= "Paper",
 	scissors		= "Scissors"
-})
-
--------------
--- Brawlers: Rumble --
--------------
-L= DBM:GetModLocalization("BrawlRumble")
-
-L:SetGeneralLocalization({
-	name = "Brawlers: Rumble"
 })

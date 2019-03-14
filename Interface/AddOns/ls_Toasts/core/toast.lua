@@ -120,9 +120,16 @@ local function createBorder(self, drawLayer, drawSubLevel)
 	end
 
 	border.TOPLEFT:SetTexCoord(0.5, 0.625, 0, 1)
+	border.TOPLEFT:SetPoint("BOTTOMRIGHT", self, "TOPLEFT", 0, 0)
+
 	border.TOPRIGHT:SetTexCoord(0.625, 0.75, 0, 1)
+	border.TOPRIGHT:SetPoint("BOTTOMLEFT", self, "TOPRIGHT", 0, 0)
+
 	border.BOTTOMLEFT:SetTexCoord(0.75, 0.875, 0, 1)
+	border.BOTTOMLEFT:SetPoint("TOPRIGHT", self, "BOTTOMLEFT", 0, 0)
+
 	border.BOTTOMRIGHT:SetTexCoord(0.875, 1, 0, 1)
+	border.BOTTOMRIGHT:SetPoint("TOPLEFT", self, "BOTTOMRIGHT", 0, 0)
 
 	border.TOP:SetPoint("TOPLEFT", border.TOPLEFT, "TOPRIGHT", 0, 0)
 	border.TOP:SetPoint("TOPRIGHT", border.TOPRIGHT, "TOPLEFT", 0, 0)
@@ -261,7 +268,8 @@ local function toast_OnEnter(self)
 	end
 
 	GameTooltip:Hide()
-	GameTooltip:SetOwner(self, "ANCHOR_NONE")
+	GameTooltip:SetOwner(self, "ANCHOR_PRESERVE")
+	GameTooltip:ClearAllPoints()
 	GameTooltip:SetPoint(p, self, rP, x, y)
 
 	self.AnimOut:Stop()

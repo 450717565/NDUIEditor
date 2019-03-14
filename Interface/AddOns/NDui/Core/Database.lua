@@ -5,7 +5,6 @@ DB.Version = GetAddOnMetadata("NDui", "Version")
 DB.Support = GetAddOnMetadata("NDui", "X-Support")
 DB.Client = GetLocale()
 DB.ScreenWidth, DB.ScreenHeight = GetPhysicalScreenSize()
-DB.isNewPatch = GetBuildInfo() == "8.1.5"
 
 -- Colors
 DB.MyName = UnitName("player")
@@ -54,7 +53,8 @@ DB.gearTex = "Interface\\WorldMap\\Gear_64"
 DB.mailTex = "Interface\\Minimap\\Tracking\\Mailbox"
 DB.newItemFlash = "Interface\\Cooldown\\star4"
 DB.normTex = "Interface\\TargetingFrame\\UI-TargetingFrame-BarFill"
-DB.questTex = "Interface\\Buttons\\AdventureGuideMicrobuttonAlert"
+DB.objectTex = "Warfronts-BaseMapIcons-Horde-Barracks-Minimap"
+DB.questTex = "adventureguide-microbutton-alert"
 DB.sparkTex = "Interface\\CastingBar\\UI-CastingBar-Spark"
 
 DB.TexCoord = {.08, .92, .08, .92}

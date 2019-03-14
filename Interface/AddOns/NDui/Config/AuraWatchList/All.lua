@@ -49,6 +49,7 @@ local list = {
 		{AuraID = 26297, UnitID = "player"},--狂暴
 		{AuraID = 58984, UnitID = "player"},--影遁
 		{AuraID = 68992, UnitID = "player"},--疾步夜行
+		{AuraID = 292463, UnitID = "player"},	-- 帕库之拥 赞达拉
 		--血性狂怒
 		{AuraID = 20572, UnitID = "player"},
 		{AuraID = 33697, UnitID = "player"},
@@ -297,7 +298,7 @@ local list = {
 		{AuraID = 285479, UnitID = "player", Flash = true},	-- 烈焰喷射
 		{AuraID = 283947, UnitID = "player", Flash = true},	-- 烈焰喷射
 		{AuraID = 289383, UnitID = "player", Flash = true},	-- 混沌位移
-		{AuraID = 291146, UnitID = "player", Flash = true},	-- 混沌位移
+		{AuraID = 291146, UnitID = "player", Text = L["No move"], Flash = true},	-- 混沌位移
 		{AuraID = 284470, UnitID = "player", Text = L["No move"], Flash = true},	-- 昏睡妖术
 		{AuraID = 282444, UnitID = "player"},	-- 裂爪猛击，神选者教团
 		{AuraID = 286838, UnitID = "player"},	-- 静电之球

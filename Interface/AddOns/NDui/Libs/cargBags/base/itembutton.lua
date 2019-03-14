@@ -26,7 +26,7 @@ local _G = _G
 	@class ItemButton
 		This class serves as the basis for all itemSlots in a container
 ]]
-local ItemButton = cargBags:NewClass("ItemButton", nil, "Button")
+local ItemButton = cargBags:NewClass("ItemButton", nil, "ItemButton")
 
 --[[!
 	Gets a template name for the bagID
@@ -67,21 +67,30 @@ end
 	@return button <ItemButton>
 	@callback button:OnCreate(tpl)
 ]]
+
+local function updateContextMatch(button)
+	button:SetAlpha(button.ItemContextOverlay:IsShown() and .3 or 1)
+end
+
 function ItemButton:Create(tpl, parent)
 	local impl = self.implementation
 	impl.numSlots = (impl.numSlots or 0) + 1
 	local name = ("%sSlot%d"):format(impl.name, impl.numSlots)
 
-	local button = setmetatable(CreateFrame("Button", name, parent, tpl), self.__index)
+	local button = setmetatable(CreateFrame("ItemButton", name, parent, tpl), self.__index)
 
 	if (button.Scaffold) then button:Scaffold(tpl) end
 	if (button.OnCreate) then button:OnCreate(tpl) end
 	local btnNT = _G[button:GetName().."NormalTexture"]
 	local btnNIT = button.NewItemTexture
 	local btnBIT = button.BattlepayItemTexture
+	local btnICO = button.ItemContextOverlay
 	if btnNT then btnNT:SetTexture("") end
 	if btnNIT then btnNIT:SetTexture("") end
 	if btnBIT then btnBIT:SetTexture("") end
+	if btnICO then btnICO:SetTexture("") end
+
+	hooksecurefunc(button, "UpdateItemContextOverlay", updateContextMatch)
 
 	return button
 end

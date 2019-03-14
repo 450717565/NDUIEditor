@@ -291,6 +291,7 @@ local accountSettings = {
 	TexStyle = 1,
 	KeystoneInfo = {},
 	AzeriteArmor = true,
+	NameplateMotion = 1,
 }
 
 local function InitialSettings(source, target)
@@ -366,11 +367,11 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 	},
 	[2] = {
 		{1, "Bags", "Enable", DB.MyColor..L["Enable Bags"]},
+		{1, "Bags", "ItemFilter", L["Bags ItemFilter"]},
+		{1, "Bags", "ItemSetFilter", L["Use ItemSetFilter"], true},
 		{},--blank
 		{1, "Bags", "BagsiLvl", L["Bags Itemlevel"]},
 		{1, "Bags", "Artifact", L["Bags Artifact"], true},
-		{1, "Bags", "ItemFilter", L["Bags ItemFilter"]},
-		{1, "Bags", "ItemSetFilter", L["Use ItemSetFilter"], true},
 		{1, "Bags", "ReverseSort", L["Bags ReverseSort"].."*", false, nil, function() SetSortBagsRightToLeft(not NDuiDB["Bags"]["ReverseSort"]) end},
 		{1, "Extras", "SlotInfo", L["Slot Info"], true},
 		{},--blank

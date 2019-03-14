@@ -83,7 +83,6 @@ tinsert(C.themes["AuroraClassic"], function()
 			Advanced_AdapterDropDown,
 			Advanced_BufferingDropDown,
 			Advanced_GraphicsAPIDropDown,
-			Advanced_LagDropDown,
 			Advanced_MultisampleAlphaTest,
 			Advanced_MultisampleAntiAliasingDropDown,
 			Advanced_PhysicsInteractionDropDown,

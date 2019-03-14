@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("Brawlers", "DBM-Brawlers")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17623 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 18448 $"):sub(12, -3))
 --mod:SetCreatureID(60491)
 --mod:SetModelID(41448)
 mod:SetZone(DBM_DISABLE_ZONE_DETECTION)
@@ -114,14 +114,9 @@ function mod:CHAT_MSG_MONSTER_YELL(msg, npc, _, _, target)
 	elseif msg:find(L.Rank8, 1, true) then
 		currentFighter = target
 		currentRank = 8
-	elseif msg:find(L.Rank9, 1, true) then
-		currentFighter = target
-		currentRank = 9
-	elseif msg:find(L.Rank10, 1, true) then
-		currentFighter = target
-		currentRank = 10
-	--He's targeting current fighter but it's not a match begin yell, the only other time this happens is on match end and 10 second pre berserk warning. This tries to filter pre berserk warnings then pass match end
-	elseif currentFighter and (target == currentFighter) and not (msg:find(L.BizmoIgnored) or msg == L.BizmoIgnored or msg:find(L.BizmoIgnored2) or msg == L.BizmoIgnored2 or msg:find(L.BizmoIgnored3) or msg == L.BizmoIgnored3 or msg:find(L.BizmoIgnored4) or msg == L.BizmoIgnored4) then
+	--He's targeting current fighter but it's not a match begin yell, the only other time this happens is on match end and 10 second pre berserk warning.
+	--This tries to filter pre berserk warnings then pass match end in a way that will definitely catch them all, but might also incorrectly cancel berserk timer at 10 second pre berserk warning if a message filter isn't localized yet
+	elseif currentFighter and (target == currentFighter) and not (msg:find(L.BizmoIgnored) or msg == L.BizmoIgnored or msg:find(L.BizmoIgnored2) or msg == L.BizmoIgnored2 or msg:find(L.BizmoIgnored3) or msg == L.BizmoIgnored3 or msg:find(L.BizmoIgnored4) or msg == L.BizmoIgnored4 or msg:find(L.BizmoIgnored5) or msg == L.BizmoIgnored5 or msg:find(L.BizmoIgnored6) or msg == L.BizmoIgnored6) then
 		self:SendSync("MatchEnd")
 		isMatchBegin = false
 	else
@@ -158,7 +153,7 @@ end
 function mod:UNIT_DIED(args)
 	if not args.destName then return end
 	--Another backup for when npc doesn't yell. This is a way to detect a wipe at least.
-	if currentFighter and args.destName == currentFighter and args:IsDestTypePlayer() then--They wiped. Fix match ends when mage's mirror image died. 
+	if currentFighter and args.destName == currentFighter and args:IsDestTypePlayer() then--They wiped.
 		self:SendSync("MatchEnd")
 	end
 end

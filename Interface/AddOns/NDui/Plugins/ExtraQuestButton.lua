@@ -201,22 +201,6 @@ function ExtraQuestButton:PLAYER_LOGIN()
 	B.CreateSD(self, 3, 3)
 	self.Shadow:SetFrameLevel(self:GetFrameLevel())
 
-	self:SetPushedTexture(DB.textures.pushed)
-	local push = self:GetPushedTexture()
-	push:SetBlendMode("ADD")
-	push:SetPoint("TOPLEFT", -C.mult, C.mult)
-	push:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
-
-	local Icon = self:CreateTexture("$parentIcon", "ARTWORK")
-	Icon:SetAllPoints()
-	Icon:SetTexCoord(unpack(DB.TexCoord))
-	self.Icon = Icon
-
-	local Highlight = self:CreateTexture(nil, "HIGHLIGHT")
-	Highlight:SetColorTexture(1, 1, 1, .25)
-	Highlight:SetAllPoints(Icon)
-	self.Highlight = Highlight
-
 	local HotKey = self:CreateFontString("$parentHotKey", nil, "NumberFontNormal")
 	HotKey:SetPoint("TOP", 0, -5)
 	self.HotKey = HotKey
@@ -225,17 +209,32 @@ function ExtraQuestButton:PLAYER_LOGIN()
 	Count:SetPoint("BOTTOMRIGHT", -3, 3)
 	self.Count = Count
 
+	local Icon = self:CreateTexture("$parentIcon", "ARTWORK")
+	Icon:SetTexCoord(unpack(DB.TexCoord))
+	Icon:SetAllPoints()
+	self.Icon = Icon
+
+	local Highlight = self:CreateTexture(nil, "HIGHLIGHT")
+	Highlight:SetColorTexture(1, 1, 1, .25)
+	Highlight:SetAllPoints(Icon)
+	self.Highlight = Highlight
+
 	local Cooldown = CreateFrame("Cooldown", "$parentCooldown", self, "CooldownFrameTemplate")
-	Cooldown:SetPoint("TOPLEFT", -C.mult, C.mult)
-	Cooldown:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
+	Cooldown:SetAllPoints(Icon)
 	Cooldown:SetReverse(false)
 	Cooldown:Hide()
 	self.Cooldown = Cooldown
 
-	local Artwork = self:CreateTexture("$parentArtwork", "ARTWORK")
-	Artwork:SetPoint("BOTTOMLEFT", -1, -3)
+	self:SetPushedTexture(DB.textures.pushed)
+	local push = self:GetPushedTexture()
+	push:SetBlendMode("ADD")
+	push:SetPoint("TOPLEFT", -C.mult, C.mult)
+	push:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
+
+	local Artwork = self:CreateTexture("$parentArtwork", "OVERLAY")
+	Artwork:SetPoint("BOTTOMLEFT", -1, -1)
 	Artwork:SetSize(20, 20)
-	Artwork:SetTexture(DB.questTex)
+	Artwork:SetAtlas(DB.questTex)
 	self.Artwork = Artwork
 
 	self:RegisterEvent("UPDATE_BINDINGS")

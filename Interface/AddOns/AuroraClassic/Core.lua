@@ -45,7 +45,6 @@ C.defaults = {
 }
 
 C.frames = {}
-C.isNewPatch = GetBuildInfo() == "8.1.5"
 
 -- [[ Database ]]
 
