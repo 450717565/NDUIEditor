@@ -1,7 +1,6 @@
 <Ui>
 	<Script file="AddonList.lua"/>
 	<Script file="AlertFrames.lua"/>
-	<Script file="AudioOptionsFrame.lua"/>
 	<Script file="BankFrame.lua"/>
 	<Script file="BNet.lua"/>
 	<Script file="CharacterFrame.lua"/>

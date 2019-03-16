@@ -24,7 +24,7 @@ C.themes["Blizzard_MacroUI"] = function()
 	end
 
 	F.CreateBDFrame(MacroFrameScrollFrame, 0)
-	F.ReskinInput(MacroPopupEditBox)
+	F.ReskinInput(MacroPopupEditBox, true)
 
 	local selectedbu = MacroFrameSelectedMacroButton
 	F.StripTextures(selectedbu)

@@ -540,8 +540,8 @@ function F:ReskinIcon(setBG, alpha)
 	end
 end
 
-function F:ReskinInput(noKill, height, width)
-	if not noKill then
+function F:ReskinInput(kill, height, width)
+	if kill then
 		F.StripTextures(self)
 	end
 	F.CleanTextures(self)
@@ -821,6 +821,20 @@ function F:ReskinSlider(verticle)
 	end
 end
 
+function F:ReskinSort()
+	local normal = self:GetNormalTexture()
+	normal:SetTexCoord(.17, .83, .17, .83)
+
+	local pushed = self:GetPushedTexture()
+	pushed:SetTexCoord(.17, .83, .17, .83)
+
+	local highlight = self:GetHighlightTexture()
+	highlight:SetColorTexture(1, 1, 1, .25)
+	highlight:SetAllPoints()
+
+	F.CreateBDFrame(self, 0)
+end
+
 function F:ReskinStatusBar(noClassColor)
 	F.StripTextures(self, true)
 	F.CleanTextures(self)
@@ -941,8 +955,6 @@ local CleanTextures = {
 	"Background",
 	"BG",
 	"Bg",
-	"Border",
-	"border",
 	"BorderBottom",
 	"BorderBottomLeft",
 	"BorderBottomRight",
@@ -1031,6 +1043,8 @@ local BlizzTextures = {
 	"FilligreeOverlay",
 	"ShadowOverlay",
 	"BorderBox",
+	"Border",
+	"border",
 }
 
 function F:StripTextures(kill)

@@ -6,29 +6,41 @@ tinsert(C.themes["AuroraClassic"], function()
 	-- [[ Bank ]]
 	F.ReskinFrame(BankFrame)
 	F.ReskinButton(BankFramePurchaseButton)
-	F.ReskinTab(BankFrameTab1)
-	F.ReskinTab(BankFrameTab2)
 	F.ReskinInput(BankItemSearchBox)
+	F.ReskinSort(BankItemAutoSortButton)
 
-	F.StripTextures(BankSlotsFrame, true)
-	BankFrameMoneyFrameInset:Hide()
-	BankFrameMoneyFrameBorder:Hide()
+	F.StripTextures(BankSlotsFrame)
+	F.StripTextures(BankFrameMoneyFrame)
+
+	for i = 1, 2 do
+		local tab = _G["BankFrameTab"..i]
+		F.ReskinTab(tab)
+
+		tab:ClearAllPoints()
+		if i ~= 1 then
+			tab:SetPoint("LEFT", _G["BankFrameTab"..(i-1)], "RIGHT", -15, 0)
+		else
+			tab:SetPoint("TOPLEFT", BankFrame, "BOTTOMLEFT", 15, 2)
+		end
+	end
 
 	local function styleBankButton(bu)
-		bu:SetNormalTexture("")
-		bu:SetPushedTexture("")
+		F.CleanTextures(bu)
 
 		local questTexture = bu.IconQuestTexture
 		if questTexture then questTexture:SetAlpha(0) end
 
-		local ic = F.ReskinIcon(bu.icon)
-		F.ReskinTexture(bu, ic, false)
+		local slotTexture = bu.SlotHighlightTexture
+		if slotTexture then F.ReskinBorder(slotTexture, bu) end
 
 		local border = bu.IconBorder
 		F.ReskinBorder(border, bu)
 
+		local icbg = F.ReskinIcon(bu.icon)
+		F.ReskinTexture(bu, icbg, false)
+
 		local searchOverlay = bu.searchOverlay
-		searchOverlay:SetAllPoints(ic)
+		searchOverlay:SetAllPoints(icbg)
 	end
 
 	for i = 1, 28 do
@@ -36,20 +48,8 @@ tinsert(C.themes["AuroraClassic"], function()
 	end
 
 	for i = 1, 7 do
-		local slots = BankSlotsFrame["Bag"..i]
-		styleBankButton(slots)
-
-		slots:SetCheckedTexture(C.media.checked)
-		local ck = slots:GetCheckedTexture()
-		ck:SetPoint("TOPLEFT", -C.mult, C.mult)
-		ck:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
+		styleBankButton(BankSlotsFrame["Bag"..i])
 	end
-
-	BankItemAutoSortButton:GetNormalTexture():SetTexCoord(.17, .83, .17, .83)
-	BankItemAutoSortButton:GetPushedTexture():SetTexCoord(.17, .83, .17, .83)
-	BankItemAutoSortButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-	BankItemAutoSortButton:GetHighlightTexture():SetAllPoints()
-	F.CreateBDFrame(BankItemAutoSortButton, 0)
 
 	hooksecurefunc("BankFrameItemButton_Update", function(button)
 		if not button.isBag and button.IconQuestTexture:IsShown() then
@@ -58,23 +58,22 @@ tinsert(C.themes["AuroraClassic"], function()
 	end)
 
 	-- [[ Reagent bank ]]
-	ReagentBankFrame:DisableDrawLayer("BACKGROUND")
-	ReagentBankFrame:DisableDrawLayer("BORDER")
-	ReagentBankFrame:DisableDrawLayer("ARTWORK")
-
+	F.StripTextures(ReagentBankFrame)
 	F.ReskinButton(ReagentBankFrame.DespositButton)
 	F.ReskinButton(ReagentBankFrameUnlockInfoPurchaseButton)
 
-	-- make button more visible
-	ReagentBankFrameUnlockInfoBlackBG:SetColorTexture(.1, .1, .1)
+	ReagentBankFrame:DisableDrawLayer("ARTWORK")
+	ReagentBankFrame:DisableDrawLayer("BACKGROUND")
+	ReagentBankFrame:DisableDrawLayer("BORDER")
 
-	local reagentButtonsStyled = false
+	local styled = false
 	ReagentBankFrame:HookScript("OnShow", function()
-		if not reagentButtonsStyled then
+		if not styled then
 			for i = 1, 98 do
 				styleBankButton(_G["ReagentBankFrameItem"..i])
 			end
-			reagentButtonsStyled = true
+
+			styled = true
 		end
 	end)
 end)

@@ -117,6 +117,7 @@ C.themes["Blizzard_Collections"] = function()
 	reskinButton("PetJournalHealPetButton")
 	reskinButton("PetJournalSummonRandomFavoritePetButton")
 
+	PetJournalTutorialButton.Ring:Hide()
 	PetJournalTutorialButton:SetPoint("TOPLEFT", -14, 14)
 	MountJournalSummonRandomFavoriteButton:SetPoint("BOTTOMRIGHT", MountJournal.MountDisplay, "TOPRIGHT", 0, 4)
 	PetJournalLoadoutBorderSlotHeaderText:SetParent(PetJournal)

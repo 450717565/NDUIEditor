@@ -12,9 +12,9 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	F.ReskinButton(TradeFrameTradeButton)
 	F.ReskinButton(TradeFrameCancelButton)
-	F.ReskinInput(TradePlayerInputMoneyFrameGold, true)
-	F.ReskinInput(TradePlayerInputMoneyFrameSilver, true)
-	F.ReskinInput(TradePlayerInputMoneyFrameCopper, true)
+	F.ReskinInput(TradePlayerInputMoneyFrameGold)
+	F.ReskinInput(TradePlayerInputMoneyFrameSilver)
+	F.ReskinInput(TradePlayerInputMoneyFrameCopper)
 
 	TradeRecipientMoneyBg:Hide()
 	TradePlayerInputMoneyFrameSilver:SetPoint("LEFT", TradePlayerInputMoneyFrameGold, "RIGHT", 1, 0)

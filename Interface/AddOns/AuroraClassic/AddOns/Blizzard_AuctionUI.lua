@@ -73,7 +73,7 @@ C.themes["Blizzard_AuctionUI"] = function()
 
 	local inputs = {BrowseName, BrowseMinLevel, BrowseMaxLevel, BrowseBidPriceGold, BrowseBidPriceSilver, BrowseBidPriceCopper, BidBidPriceGold, BidBidPriceSilver, BidBidPriceCopper, StartPriceGold, StartPriceSilver, StartPriceCopper, BuyoutPriceGold, BuyoutPriceSilver, BuyoutPriceCopper, AuctionsStackSizeEntry, AuctionsNumStacksEntry}
 	for _, input in pairs(inputs) do
-		F.ReskinInput(input, true)
+		F.ReskinInput(input)
 	end
 
 	local checks = {ExactMatchCheckButton, IsUsableCheckButton, ShowOnPlayerCheckButton}

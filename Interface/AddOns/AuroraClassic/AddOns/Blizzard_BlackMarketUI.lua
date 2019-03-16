@@ -5,7 +5,7 @@ C.themes["Blizzard_BlackMarketUI"] = function()
 	F.StripTextures(BlackMarketFrame.MoneyFrameBorder)
 
 	F.ReskinButton(BlackMarketFrame.BidButton)
-	F.ReskinInput(BlackMarketBidPriceGold, true)
+	F.ReskinInput(BlackMarketBidPriceGold)
 	F.ReskinScroll(BlackMarketScrollFrameScrollBar)
 
 	local HotDeal = BlackMarketFrame.HotDeal

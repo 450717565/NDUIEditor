@@ -66,7 +66,7 @@ C.themes["Blizzard_GuildBankUI"] = function()
 
 		for j = 1, NUM_SLOTS_PER_GUILDBANK_GROUP do
 			local bu = _G["GuildBankColumn"..i.."Button"..j]
-			F.StripTextures(bu)
+			F.CleanTextures(bu)
 
 			local icbg = F.ReskinIcon(bu.icon)
 			F.ReskinTexture(bu, icbg, false)
