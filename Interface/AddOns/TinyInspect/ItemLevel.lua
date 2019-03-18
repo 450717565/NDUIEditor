@@ -20,7 +20,7 @@ local ShowItemSlotString = true
 local EnableItemLevelGuildNews = true
 local PaperDollItemLevelOutsideString = true
 
---框架 #category Bag|Bank|Merchant|Trade|GuildBank|Auction|AltEquipment|PaperDoll
+--框架 #category Bag|Bank|Merchant|Trade|GuildBank|Auction|AltEquipment|PaperDoll|Loot
 local function GetItemLevelFrame(self, category)
 	if (not self.ItemLevelFrame) then
 		local fontAdjust = GetLocale():sub(1,2) == "zh" and 0 or -3
@@ -45,7 +45,7 @@ local function GetItemLevelFrame(self, category)
 	end
 	if EnableItemLevel then
 		self.ItemLevelFrame:Show()
-		LibEvent:trigger("ITEMLEVEL_FRAME_SHOWN", self.ItemLevelFrame, self, category)
+		LibEvent:trigger("ITEMLEVEL_FRAME_SHOWN", self.ItemLevelFrame, self, category or "")
 	else
 		self.ItemLevelFrame:Hide()
 	end
@@ -414,7 +414,7 @@ local function SetPaperDollItemLevel(self, unit)
 	if (not self) then return end
 	local id = self:GetID()
 	local frame = GetItemLevelFrame(self, "PaperDoll")
-	if (unit and GetInventoryItemTexture(unit, self:GetID())) then
+	if (unit and GetInventoryItemTexture(unit, id)) then
 		local count, level, _, link, quality, _, _, class, _, _, equipSlot = LibItemInfo:GetUnitItemInfo(unit, id)
 		SetItemLevelString(frame.levelString, level > 0 and level or "", quality)
 		if (id == 16 or id == 17) then

@@ -110,15 +110,9 @@ C.themes["Blizzard_AchievementUI"] = function()
 		hl:SetBlendMode("BLEND")
 	end
 
-	for i = 1, 3 do
-		local tab = _G["AchievementFrameTab"..i]
-		F.ReskinTab(tab)
-
-		if i == 1 then
-			tab:ClearAllPoints()
-			tab:SetPoint("TOPLEFT", AchievementFrame, "BOTTOMLEFT", 15, 2)
-		end
-	end
+	hooksecurefunc("AchievementFrame_UpdateTabs", function()
+		F.SetupTabStyle(AchievementFrame, 3)
+	end)
 
 	hooksecurefunc("AchievementObjectives_DisplayCriteria", function(_, id)
 		for i = 1, GetAchievementNumCriteria(id) do

@@ -11,20 +11,24 @@ tinsert(C.themes["AuroraClassic"], function()
 	hooksecurefunc(QuickJoinToastButton, "ToastToFriendFinished", function(self)
 		self.FriendsButton:SetShown(not self.displayedToast)
 	end)
+
 	hooksecurefunc(QuickJoinToastButton, "UpdateQueueIcon", function(self)
 		if not self.displayedToast then return end
 		self.QueueButton:SetTexture(queueTex)
 		self.FlashingLayer:SetTexture(queueTex)
 		self.FriendsButton:SetShown(false)
 	end)
+
 	QuickJoinToastButton:HookScript("OnMouseDown", function(self)
 		self.FriendsButton:SetTexture(friendTex)
 	end)
+
 	QuickJoinToastButton:HookScript("OnMouseUp", function(self)
 		self.FriendsButton:SetTexture(friendTex)
 	end)
-	QuickJoinToastButton.Toast.Background:SetTexture("")
-	local bg = F.CreateBDFrame(QuickJoinToastButton.Toast)
+
+	F.StripTextures(QuickJoinToastButton.Toast)
+	local bg = F.CreateBDFrame(QuickJoinToastButton.Toast, .25)
 	bg:SetPoint("TOPLEFT", 10, -1)
 	bg:SetPoint("BOTTOMRIGHT", 0, 3)
 	bg:Hide()
@@ -33,10 +37,13 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	F.ReskinButton(ChatFrameChannelButton)
 	ChatFrameChannelButton:SetSize(20, 20)
+
 	F.ReskinButton(ChatFrameToggleVoiceDeafenButton)
 	ChatFrameToggleVoiceDeafenButton:SetSize(20, 20)
+
 	F.ReskinButton(ChatFrameToggleVoiceMuteButton)
 	ChatFrameToggleVoiceMuteButton:SetSize(20, 20)
+
 	F.ReskinButton(ChatFrameMenuButton)
 	ChatFrameMenuButton:SetSize(20, 20)
 	ChatFrameMenuButton:SetNormalTexture(homeTex)
@@ -46,13 +53,16 @@ tinsert(C.themes["AuroraClassic"], function()
 		local bu = _G[self:GetName().."ThumbTexture"]
 		bu:SetAlpha(0)
 		bu:SetWidth(16)
-		F.CreateBDFrame(bu)
+		F.CreateBDFrame(bu, .25)
+
 		local down = self.ScrollToBottomButton
 		F.ReskinArrow(down, "down")
-		down:SetPoint("BOTTOMRIGHT", _G[self:GetName().."ResizeButton"], "TOPRIGHT", -3, -2)
+		down:ClearAllPoints()
+		down:SetPoint("BOTTOM", _G[self:GetName().."ResizeButton"], "BOTTOM", -5, 3)
 	end
 
 	for i = 1, NUM_CHAT_WINDOWS do
 		reskinScroll(_G["ChatFrame"..i])
+		F.StripTextures(_G["ChatFrame"..i.."Tab"])
 	end
 end)

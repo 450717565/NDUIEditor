@@ -12,14 +12,12 @@ tinsert(C.themes["AuroraClassic"], function()
 	WorldStateScoreFrameTab3:SetPoint("LEFT", WorldStateScoreFrameTab2, "RIGHT", -15, 0)
 	WorldStateScoreFrame.XPBar.Frame:Hide()
 
-	for i = 1, 3 do
-		F.ReskinTab(_G["WorldStateScoreFrameTab"..i])
-	end
-
 	F.ReskinFrame(WorldStateScoreFrame)
 	F.ReskinButton(WorldStateScoreFrameQueueButton)
 	F.ReskinButton(WorldStateScoreFrameLeaveButton)
 	F.ReskinScroll(WorldStateScoreScrollFrameScrollBar)
+
+	F.SetupTabStyle(WorldStateScoreFrame, 3)
 
 	-- Capture bar
 

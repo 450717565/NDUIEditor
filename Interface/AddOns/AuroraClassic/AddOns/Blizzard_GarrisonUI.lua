@@ -261,15 +261,13 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	function F:ReskinMissionFrame()
 		F.ReskinFrame(self)
+		F.SetupTabStyle(self, 3)
+
 		self.GarrCorners:Hide()
 		if self.ClassHallIcon then self.ClassHallIcon:Hide() end
 		if self.TitleScroll then
 			F.StripTextures(self.TitleScroll)
 			select(4, self.TitleScroll:GetRegions()):SetTextColor(1, .8, 0)
-		end
-		for i = 1, 3 do
-			local tab = _G[self:GetName().."Tab"..i]
-			if tab then F.ReskinTab(tab) end
 		end
 		if self.MapTab then self.MapTab.ScrollContainer.Child.TiledBackground:Hide() end
 
@@ -843,8 +841,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	F.ReskinFollowerTab(shipyardTab)
 
 	F.ReskinClose(GarrisonShipyardFrame.BorderFrame.CloseButton2)
-	F.ReskinTab(GarrisonShipyardFrameTab1)
-	F.ReskinTab(GarrisonShipyardFrameTab2)
+	F.SetupTabStyle(GarrisonShipyardFrame, 2)
 
 	local shipyardMission = GarrisonShipyardFrame.MissionTab.MissionPage
 	F.StripTextures(shipyardMission)

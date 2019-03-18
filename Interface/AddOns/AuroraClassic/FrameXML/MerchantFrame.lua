@@ -36,11 +36,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinArrow(MerchantPrevPageButton, "left")
 	F.ReskinArrow(MerchantNextPageButton, "right")
 
-	MerchantFrameTab1:ClearAllPoints()
-	MerchantFrameTab1:SetPoint("CENTER", MerchantFrame, "BOTTOMLEFT", 50, -14)
-	MerchantFrameTab2:SetPoint("LEFT", MerchantFrameTab1, "RIGHT", -15, 0)
-	F.ReskinTab(MerchantFrameTab1)
-	F.ReskinTab(MerchantFrameTab2)
+	F.SetupTabStyle(MerchantFrame, 2)
 
 	for x = 1, BUYBACK_ITEMS_PER_PAGE do
 		F.ReskinMerchantItem(x)

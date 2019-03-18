@@ -12,17 +12,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.StripTextures(BankSlotsFrame)
 	F.StripTextures(BankFrameMoneyFrame)
 
-	for i = 1, 2 do
-		local tab = _G["BankFrameTab"..i]
-		F.ReskinTab(tab)
-
-		tab:ClearAllPoints()
-		if i ~= 1 then
-			tab:SetPoint("LEFT", _G["BankFrameTab"..(i-1)], "RIGHT", -15, 0)
-		else
-			tab:SetPoint("TOPLEFT", BankFrame, "BOTTOMLEFT", 15, 2)
-		end
-	end
+	F.SetupTabStyle(BankFrame, 3)
 
 	local function styleBankButton(bu)
 		F.CleanTextures(bu)

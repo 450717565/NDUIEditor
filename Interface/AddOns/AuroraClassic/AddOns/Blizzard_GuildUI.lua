@@ -4,6 +4,7 @@ C.themes["Blizzard_GuildUI"] = function()
 	local cr, cg, cb = C.r, C.g, C.b
 
 	F.ReskinFrame(GuildFrame)
+	F.SetupTabStyle(GuildFrame, 5)
 
 	for _, frame in pairs({GuildNewsFiltersFrame, GuildTextEditFrame, GuildLogFrame, GuildMemberDetailFrame}) do
 		F.ReskinFrame(frame)
@@ -30,18 +31,6 @@ C.themes["Blizzard_GuildUI"] = function()
 	local buttons = {GuildAddMemberButton, GuildViewLogButton, GuildControlButton, GuildTextEditFrameAcceptButton, GuildMemberGroupInviteButton, GuildMemberRemoveButton, GuildRecruitmentInviteButton, GuildRecruitmentMessageButton, GuildRecruitmentDeclineButton, GuildRecruitmentListGuildButton, TextEditFrameCB, LogFrameCB}
 	for _, button in pairs(buttons) do
 		F.ReskinButton(button)
-	end
-
-	for i = 1, 5 do
-		local tab = _G["GuildFrameTab"..i]
-		F.ReskinTab(tab)
-
-		tab:ClearAllPoints()
-		if i ~= 1 then
-			tab:SetPoint("LEFT", _G["GuildFrameTab"..(i-1)], "RIGHT", -15, 0)
-		else
-			tab:SetPoint("TOPLEFT", GuildFrame, "BOTTOMLEFT", 15, 2)
-		end
 	end
 
 	--News

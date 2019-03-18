@@ -98,6 +98,33 @@ function F:SetupArrowTex(direction)
 	return bgTex
 end
 
+function F:SetupTabStyle(index, tabType)
+	local frameName = self.GetName and self:GetName()
+	local tab = frameName.."Tab"
+
+	if tabType then
+		tab = frameName..tabType
+	end
+
+	for i = 1, index do
+		local tabs = _G[tab..i]
+		if tabs then
+			if not tabs.styled then
+				F.ReskinTab(tabs)
+
+				tabs.styled = true
+			end
+
+			tabs:ClearAllPoints()
+			if i == 1 then
+				tabs:SetPoint("TOPLEFT", frameName, "BOTTOMLEFT", 15, 2)
+			else
+				tabs:SetPoint("LEFT", _G[tab..(i-1)], "RIGHT", -15, 0)
+			end
+		end
+	end
+end
+
 function F:GetRoleTexCoord()
 	if self == "TANK" then
 		return 0.32/9.03, 2.04/9.03, 2.65/9.03, 4.30/9.03
@@ -1029,22 +1056,25 @@ function F:CleanTextures()
 end
 
 local BlizzTextures = {
-	"Inset",
-	"inset",
-	"InsetFrame",
-	"LeftInset",
-	"RightInset",
-	"NineSlice",
+	"bgLeft",
+	"bgRight",
+	"Border",
+	"border",
+	"BorderBox",
 	"BorderFrame",
 	"bottomInset",
 	"BottomInset",
-	"bgLeft",
-	"bgRight",
 	"FilligreeOverlay",
+	"Inset",
+	"inset",
+	"InsetFrame",
+	"InsetLeft",
+	"InsetRight",
+	"LeftInset",
+	"NineSlice",
+	"RightInset",
+	"shadows",
 	"ShadowOverlay",
-	"BorderBox",
-	"Border",
-	"border",
 }
 
 function F:StripTextures(kill)

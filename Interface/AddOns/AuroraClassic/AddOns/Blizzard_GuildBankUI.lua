@@ -7,6 +7,8 @@ C.themes["Blizzard_GuildBankUI"] = function()
 	F.ReskinFrame(GuildBankPopupFrame)
 	F.ReskinInput(GuildBankPopupEditBox)
 
+	F.SetupTabStyle(GuildBankFrame, 4)
+
 	GuildBankPopupFrame:SetHeight(525)
 	GuildBankPopupFrame:ClearAllPoints()
 	GuildBankPopupFrame:SetPoint("TOPLEFT", GuildBankFrame, "TOPRIGHT", 2, -30)
@@ -46,18 +48,6 @@ C.themes["Blizzard_GuildBankUI"] = function()
 		if i == 1 then
 			tb:ClearAllPoints()
 			tb:SetPoint("TOPLEFT", GuildBankFrame, "TOPRIGHT", 0, -25)
-		end
-	end
-
-	for i = 1, 4 do
-		local tab = _G["GuildBankFrameTab"..i]
-		F.ReskinTab(tab)
-
-		tab:ClearAllPoints()
-		if i ~= 1 then
-			tab:SetPoint("LEFT", _G["GuildBankFrameTab"..(i-1)], "RIGHT", -15, 0)
-		else
-			tab:SetPoint("TOPLEFT", GuildBankFrame, "BOTTOMLEFT", 15, 2)
 		end
 	end
 

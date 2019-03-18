@@ -2,18 +2,47 @@ local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinFrame(ChatConfigFrame)
-	ChatConfigFrameHeader:SetAlpha(0)
+
+	F.ReskinArrow(ChatConfigMoveFilterUpButton, "up")
+	F.ReskinArrow(ChatConfigMoveFilterDownButton, "down")
+
+	ChatConfigMoveFilterUpButton:SetSize(26, 26)
+	ChatConfigMoveFilterDownButton:SetSize(26, 26)
+
+	ChatConfigFrameHeader:ClearAllPoints()
 	ChatConfigFrameHeader:SetPoint("TOP")
+	ChatConfigFrameRedockButton:ClearAllPoints()
+	ChatConfigFrameRedockButton:SetPoint("LEFT", ChatConfigFrameDefaultButton, "RIGHT", 1, 0)
+	ChatConfigCombatSettingsFiltersAddFilterButton:ClearAllPoints()
+	ChatConfigCombatSettingsFiltersAddFilterButton:SetPoint("RIGHT", ChatConfigCombatSettingsFiltersDeleteButton, "LEFT", -1, 0)
+	ChatConfigCombatSettingsFiltersCopyFilterButton:ClearAllPoints()
+	ChatConfigCombatSettingsFiltersCopyFilterButton:SetPoint("RIGHT", ChatConfigCombatSettingsFiltersAddFilterButton, "LEFT", -1, 0)
+	ChatConfigMoveFilterUpButton:ClearAllPoints()
+	ChatConfigMoveFilterUpButton:SetPoint("TOPLEFT", ChatConfigCombatSettingsFilters, "BOTTOMLEFT", 3, 0)
+	ChatConfigMoveFilterDownButton:ClearAllPoints()
+	ChatConfigMoveFilterDownButton:SetPoint("LEFT", ChatConfigMoveFilterUpButton, "RIGHT", 1, 0)
+
+	local lists = {ChatConfigCategoryFrame, ChatConfigBackgroundFrame, ChatConfigCombatSettingsFilters, CombatConfigColorsHighlighting, CombatConfigColorsColorizeUnitName, CombatConfigColorsColorizeSpellNames, CombatConfigColorsColorizeDamageNumber, CombatConfigColorsColorizeDamageSchool, CombatConfigColorsColorizeEntireLine}
+	for _, list in pairs(lists) do
+		F.StripTextures(list)
+	end
+
+	local buttons = {CombatLogDefaultButton, ChatConfigCombatSettingsFiltersCopyFilterButton, ChatConfigCombatSettingsFiltersAddFilterButton, ChatConfigCombatSettingsFiltersDeleteButton, CombatConfigSettingsSaveButton, ChatConfigFrameOkayButton, ChatConfigFrameDefaultButton, ChatConfigFrameRedockButton}
+	for _, button in pairs(buttons) do
+		F.ReskinButton(button)
+	end
+
+	local line = F.CreateLine(ChatConfigCategoryFrame)
+	line:SetPoint("RIGHT", 0, 0)
 
 	hooksecurefunc("ChatConfig_CreateCheckboxes", function(frame, checkBoxTable)
 		if not frame.styled then
-			F.StripTextures(frame, true)
+			F.StripTextures(frame)
 
 			for index in pairs(checkBoxTable) do
 				local checkBoxName = frame:GetName().."CheckBox"..index
 				local checkbox = _G[checkBoxName]
-
-				F.StripTextures(checkbox, true)
+				F.StripTextures(checkbox)
 
 				local bg = F.CreateBDFrame(checkbox, 0)
 				bg:SetPoint("TOPLEFT", C.mult, -C.mult)
@@ -50,13 +79,13 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	hooksecurefunc("ChatConfig_CreateColorSwatches", function(frame, swatchTable)
 		if not frame.styled then
-			F.StripTextures(frame, true)
+			F.StripTextures(frame)
 
 			for index in pairs(swatchTable) do
 				local swatchName = frame:GetName().."Swatch"..index
 				local swatch = _G[swatchName]
+				F.StripTextures(swatch)
 
-				F.StripTextures(swatch, true)
 				local bg = F.CreateBDFrame(swatch, 0)
 				bg:SetPoint("TOPLEFT", C.mult, -C.mult)
 				bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
@@ -71,84 +100,40 @@ tinsert(C.themes["AuroraClassic"], function()
 	hooksecurefunc(ChatConfigFrameChatTabManager, "UpdateWidth", function(self)
 		for tab in self.tabPool:EnumerateActive() do
 			if not tab.styled then
-				F.StripTextures(tab, true)
+				F.StripTextures(tab)
+
+				local bg = F.CreateBDFrame(tab, 0)
+				bg:SetPoint("TOPLEFT", C.mult, -10)
+				bg:SetPoint("BOTTOMRIGHT", -C.mult, 0)
 
 				tab.styled = true
 			end
 		end
 	end)
 
-	for i = 1, 5 do
-		F.StripTextures(_G["CombatConfigTab"..i], true)
-	end
-
-	local line = ChatConfigFrame:CreateTexture()
-	line:SetSize(C.mult, 460)
-	line:SetPoint("TOPLEFT", ChatConfigCategoryFrame, "TOPRIGHT")
-	line:SetColorTexture(1, 1, 1, .25)
-
-	local frames = {ChatConfigCategoryFrame, ChatConfigBackgroundFrame, ChatConfigCombatSettingsFilters, CombatConfigColorsHighlighting, CombatConfigColorsColorizeUnitName, CombatConfigColorsColorizeSpellNames, CombatConfigColorsColorizeDamageNumber, CombatConfigColorsColorizeDamageSchool, CombatConfigColorsColorizeEntireLine}
-	for _, frame in pairs(frames) do
-		F.StripTextures(frame, true)
-	end
-
-	local combatBoxes = {
-		CombatConfigColorsHighlightingLine,
-		CombatConfigColorsHighlightingAbility,
-		CombatConfigColorsHighlightingDamage,
-		CombatConfigColorsHighlightingSchool,
-		CombatConfigColorsColorizeUnitNameCheck,
-		CombatConfigColorsColorizeSpellNamesCheck,
-		CombatConfigColorsColorizeSpellNamesSchoolColoring,
-		CombatConfigColorsColorizeDamageNumberCheck,
-		CombatConfigColorsColorizeDamageNumberSchoolColoring,
-		CombatConfigColorsColorizeDamageSchoolCheck,
-		CombatConfigColorsColorizeEntireLineCheck,
-		CombatConfigFormattingShowTimeStamp,
-		CombatConfigFormattingShowBraces,
-		CombatConfigFormattingUnitNames,
-		CombatConfigFormattingSpellNames,
-		CombatConfigFormattingItemNames,
-		CombatConfigFormattingFullText,
-		CombatConfigSettingsShowQuickButton,
-		CombatConfigSettingsSolo,
-		CombatConfigSettingsParty,
-		CombatConfigSettingsRaid
-	}
-
-	for _, box in pairs(combatBoxes) do
-		F.ReskinCheck(box)
-	end
-
-	local bg = F.CreateBDFrame(ChatConfigCombatSettingsFilters, 0)
-	bg:SetPoint("TOPLEFT", 3, 0)
-	bg:SetPoint("BOTTOMRIGHT", 0, 1)
-
-	F.ReskinButton(CombatLogDefaultButton)
-	F.ReskinButton(ChatConfigCombatSettingsFiltersCopyFilterButton)
-	F.ReskinButton(ChatConfigCombatSettingsFiltersAddFilterButton)
-	F.ReskinButton(ChatConfigCombatSettingsFiltersDeleteButton)
-	F.ReskinButton(CombatConfigSettingsSaveButton)
-	F.ReskinButton(ChatConfigFrameOkayButton)
-	F.ReskinButton(ChatConfigFrameDefaultButton)
-	F.ReskinButton(ChatConfigFrameRedockButton)
-	F.ReskinArrow(ChatConfigMoveFilterUpButton, "up")
-	F.ReskinArrow(ChatConfigMoveFilterDownButton, "down")
+	-- CombatConfig
 	F.ReskinInput(CombatConfigSettingsNameEditBox)
 	F.ReskinRadio(CombatConfigColorsColorizeEntireLineBySource)
 	F.ReskinRadio(CombatConfigColorsColorizeEntireLineByTarget)
 	F.ReskinColourSwatch(CombatConfigColorsColorizeSpellNamesColorSwatch)
 	F.ReskinColourSwatch(CombatConfigColorsColorizeDamageNumberColorSwatch)
 	F.ReskinScroll(ChatConfigCombatSettingsFiltersScrollFrameScrollBar)
-	ChatConfigCombatSettingsFiltersScrollFrameScrollBarBorder:Hide()
 
-	ChatConfigFrameRedockButton:ClearAllPoints()
-	ChatConfigFrameRedockButton:SetPoint("LEFT", ChatConfigFrameDefaultButton, "RIGHT", 2, 0)
-	ChatConfigMoveFilterUpButton:SetSize(28, 28)
-	ChatConfigMoveFilterDownButton:SetSize(28, 28)
+	local checks = {CombatConfigColorsHighlightingLine, CombatConfigColorsHighlightingAbility, CombatConfigColorsHighlightingDamage, CombatConfigColorsHighlightingSchool, CombatConfigColorsColorizeUnitNameCheck, CombatConfigColorsColorizeSpellNamesCheck, CombatConfigColorsColorizeSpellNamesSchoolColoring, CombatConfigColorsColorizeDamageNumberCheck, CombatConfigColorsColorizeDamageNumberSchoolColoring, CombatConfigColorsColorizeDamageSchoolCheck, CombatConfigColorsColorizeEntireLineCheck, CombatConfigFormattingShowTimeStamp, CombatConfigFormattingShowBraces, CombatConfigFormattingUnitNames, CombatConfigFormattingSpellNames, CombatConfigFormattingItemNames, CombatConfigFormattingFullText, CombatConfigSettingsShowQuickButton, CombatConfigSettingsSolo, CombatConfigSettingsParty, CombatConfigSettingsRaid}
+	for _, check in pairs(checks) do
+		F.ReskinCheck(check)
+	end
 
-	ChatConfigCombatSettingsFiltersAddFilterButton:SetPoint("RIGHT", ChatConfigCombatSettingsFiltersDeleteButton, "LEFT", -1, 0)
-	ChatConfigCombatSettingsFiltersCopyFilterButton:SetPoint("RIGHT", ChatConfigCombatSettingsFiltersAddFilterButton, "LEFT", -1, 0)
-	ChatConfigMoveFilterUpButton:SetPoint("TOPLEFT", ChatConfigCombatSettingsFilters, "BOTTOMLEFT", 3, 0)
-	ChatConfigMoveFilterDownButton:SetPoint("LEFT", ChatConfigMoveFilterUpButton, "RIGHT", 1, 0)
+	local bg = F.CreateBDFrame(ChatConfigCombatSettingsFilters, 0)
+	bg:SetPoint("TOPLEFT", 3, -3)
+	bg:SetPoint("BOTTOMRIGHT", 0, 2)
+
+	for i = 1, 5 do
+		local tab = _G["CombatConfigTab"..i]
+		F.StripTextures(tab)
+
+		local bg = F.CreateBDFrame(tab, 0)
+		bg:SetPoint("TOPLEFT", C.mult, -10)
+		bg:SetPoint("BOTTOMRIGHT", -C.mult, 0)
+	end
 end)

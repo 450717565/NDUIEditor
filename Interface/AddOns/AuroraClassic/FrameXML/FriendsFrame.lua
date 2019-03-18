@@ -22,6 +22,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinScroll(WhoListScrollFrameScrollBar)
 
 	F.ReskinFrame(AddFriendFrame)
+	F.SetupTabStyle(FriendsFrame, 3)
 
 	local whoBg = F.CreateBDFrame(WhoFrameEditBoxInset, 0)
 	whoBg:SetPoint("TOPLEFT")
@@ -40,7 +41,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	end
 
 	for i = 1, 3 do
-		F.ReskinTab(_G["FriendsFrameTab"..i])
 		F.StripTextures(_G["FriendsTabHeaderTab"..i], true)
 	end
 

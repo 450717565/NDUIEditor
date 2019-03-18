@@ -5,18 +5,7 @@ C.themes["Blizzard_Collections"] = function()
 
 	-- [[ General ]]
 	F.ReskinFrame(CollectionsJournal)
-
-	for i = 1, 5 do
-		local tab = _G["CollectionsJournalTab"..i]
-		F.ReskinTab(tab)
-
-		tab:ClearAllPoints()
-		if i ~= 1 then
-			tab:SetPoint("LEFT", _G["CollectionsJournalTab"..(i-1)], "RIGHT", -15, 0)
-		else
-			tab:SetPoint("TOPLEFT", CollectionsJournal, "BOTTOMLEFT", 15, 2)
-		end
-	end
+	F.SetupTabStyle(CollectionsJournal, 5)
 
 	local filters = {HeirloomsJournalFilterButton, MountJournalFilterButton, PetJournalFilterButton, ToyBoxFilterButton, WardrobeCollectionFrame.FilterButton}
 	for _, filter in pairs(filters) do

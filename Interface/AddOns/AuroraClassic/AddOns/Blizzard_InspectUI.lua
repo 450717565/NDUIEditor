@@ -6,19 +6,10 @@ C.themes["Blizzard_InspectUI"] = function()
 	F.StripTextures(InspectModelFrame, true)
 	F.StripTextures(InspectPVPFrame)
 	F.StripTextures(InspectTalentFrame)
+
+	F.SetupTabStyle(InspectFrame, 4)
+
 	InspectGuildFrameBG:Hide()
-
-	for i = 1, 4 do
-		local tab = _G["InspectFrameTab"..i]
-		F.ReskinTab(tab)
-
-		tab:ClearAllPoints()
-		if i ~= 1 then
-			tab:SetPoint("LEFT", _G["InspectFrameTab"..(i-1)], "RIGHT", -15, 0)
-		else
-			tab:SetPoint("TOPLEFT", InspectFrame, "BOTTOMLEFT", 15, 2)
-		end
-	end
 
 	--InspectPaperDollFrame
 	F.ReskinButton(InspectPaperDollFrame.ViewButton)

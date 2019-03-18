@@ -17,21 +17,7 @@ C.themes["Blizzard_TalentUI"] = function()
 	end
 
 	hooksecurefunc("PlayerTalentFrame_UpdateTabs", function()
-		for i = 1, NUM_TALENT_FRAME_TABS do
-			local tab = _G["PlayerTalentFrameTab"..i]
-			if not tab.styled then
-				F.ReskinTab(tab)
-
-				tab.styled = true
-			end
-
-			tab:ClearAllPoints()
-			if i ~= 1 then
-				tab:SetPoint("LEFT", _G["PlayerTalentFrameTab"..(i-1)], "RIGHT", -15, 0)
-			else
-				tab:SetPoint("TOPLEFT", PlayerTalentFrame, "BOTTOMLEFT", 15, 2)
-			end
-		end
+		F.SetupTabStyle(PlayerTalentFrame, NUM_TALENT_FRAME_TABS)
 	end)
 
 	-- Talent

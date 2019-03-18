@@ -5,20 +5,14 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinFrame(SpellBookFrame)
 	F.ReskinArrow(SpellBookPrevPageButton, "left")
 	F.ReskinArrow(SpellBookNextPageButton, "right")
+	F.SetupTabStyle(SpellBookFrame, 3, "TabButton")
 
 	SpellBookPageText:SetTextColor(.8, .8, .8)
-
-	SpellBookFrameTabButton1:ClearAllPoints()
-	SpellBookFrameTabButton1:SetPoint("TOPLEFT", SpellBookFrame, "BOTTOMLEFT", 10, 2)
 	SpellBookSkillLineTab1:ClearAllPoints()
 	SpellBookSkillLineTab1:SetPoint("TOPLEFT", SpellBookFrame, "TOPRIGHT", 2, -25)
 	SpellBookFrameTutorialButton.Ring:Hide()
 	SpellBookFrameTutorialButton:ClearAllPoints()
 	SpellBookFrameTutorialButton:SetPoint("TOPLEFT", SpellBookFrame, "TOPLEFT", -12, 12)
-
-	for i = 1, 3 do
-		F.ReskinTab(_G["SpellBookFrameTabButton"..i])
-	end
 
 	for i = 1, SPELLS_PER_PAGE do
 		local bu = _G["SpellButton"..i]

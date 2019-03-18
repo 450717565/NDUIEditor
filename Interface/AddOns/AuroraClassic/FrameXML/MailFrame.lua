@@ -27,6 +27,8 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinArrow(InboxPrevPageButton, "left")
 	F.ReskinArrow(InboxNextPageButton, "right")
 
+	F.SetupTabStyle(MailFrame, 2)
+
 	InboxFrameBg:Hide()
 	SendMailMoneyBg:Hide()
 	SendMailMailButton:SetPoint("RIGHT", SendMailCancelButton, "LEFT", -1, 0)
@@ -37,10 +39,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	SendMailMoneyCopper:SetPoint("LEFT", SendMailMoneySilver, "RIGHT", 1, 0)
 
 	SendMailSubjectEditBox:SetPoint("TOPLEFT", SendMailNameEditBox, "BOTTOMLEFT", 0, -1)
-
-	for i = 1, 2 do
-		F.ReskinTab(_G["MailFrameTab"..i])
-	end
 
 	for _, button in pairs({"OpenMailLetterButton", "OpenMailMoneyButton"}) do
 		local btn = _G[button]

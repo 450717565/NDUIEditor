@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("Brawlers", "DBM-Brawlers")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 18457 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 18462 $"):sub(12, -3))
 --mod:SetCreatureID(60491)
 --mod:SetModelID(41448)
 mod:SetZone(DBM_DISABLE_ZONE_DETECTION)
@@ -94,14 +94,14 @@ function mod:CHAT_MSG_MONSTER_YELL(msg, npc, _, _, target)
 	if msg:find(L.Rank1, 1, true) or msg:find(L.Rank2, 1, true) or msg:find(L.Rank3, 1, true) or msg:find(L.Rank4, 1, true) or msg:find(L.Rank5, 1, true) or msg:find(L.Rank6, 1, true) or msg:find(L.Rank7, 1, true) or msg:find(L.Rank8, 1, true) then -- fix for ruRU clients.
 		currentFighter = target
 	elseif msg:find(L.Rumbler) then
-		self:SendSync("MatchEnd")--End any other matches in progress
-		isMatchBegin = false--And start a new match instead?
+		--self:SendSync("MatchEnd")--End any other matches in progress
+		--isMatchBegin = false--And start a new match instead?
 		specWarnRumble:Show()
 	--He's targeting current fighter but it's not a match begin yell, the only other times this happens is on match end and 10 second pre berserk warning.
 	--This tries to filter pre berserk warnings then pass match end in a way that will definitely catch them all
 	--but might also incorrectly cancel berserk timer at 10 second pre berserk warning if a message filter isn't localized yet
 	--But it's still better to cancel berserk 10 seconds early, than to fail to end a match at all.
-	elseif currentFighter and (target == currentFighter) and not (msg:find(L.BizmoIgnored) or msg == L.BizmoIgnored or msg:find(L.BizmoIgnored2) or msg == L.BizmoIgnored2 or msg:find(L.BizmoIgnored3) or msg == L.BizmoIgnored3 or msg:find(L.BizmoIgnored4) or msg == L.BizmoIgnored4 or msg:find(L.BizmoIgnored5) or msg == L.BizmoIgnored5 or msg:find(L.BizmoIgnored6) or msg == L.BizmoIgnored6 or msg:find(L.BizmoIgnored7) or msg == L.BizmoIgnored7 or msg:find(L.BazzelIgnored) or msg == L.BazzelIgnored or msg:find(L.BazzelIgnored2) or msg == L.BazzelIgnored2) then
+	elseif currentFighter and (target == currentFighter) and not (msg:find(L.BizmoIgnored) or msg == L.BizmoIgnored or msg:find(L.BizmoIgnored2) or msg == L.BizmoIgnored2 or msg:find(L.BizmoIgnored3) or msg == L.BizmoIgnored3 or msg:find(L.BizmoIgnored4) or msg == L.BizmoIgnored4 or msg:find(L.BizmoIgnored5) or msg == L.BizmoIgnored5 or msg:find(L.BizmoIgnored6) or msg == L.BizmoIgnored6 or msg:find(L.BizmoIgnored7) or msg == L.BizmoIgnored7 or msg:find(L.BazzelIgnored) or msg == L.BazzelIgnored or msg:find(L.BazzelIgnored2) or msg == L.BazzelIgnored2 or msg:find(L.BazzelIgnored3) or msg == L.BazzelIgnored3 or msg:find(L.BazzelIgnored4) or msg == L.BazzelIgnored4 or msg:find(L.BazzelIgnored5) or msg == L.BazzelIgnored5 or msg:find(L.BazzelIgnored6) or msg == L.BazzelIgnored6 or msg:find(L.BazzelIgnored7) or msg == L.BazzelIgnored7) then
 		self:SendSync("MatchEnd")
 		isMatchBegin = false
 	else
@@ -200,6 +200,7 @@ end
 --Most group up for this so they can buff eachother for matches. Syncing should greatly improve reliability, especially for match end since the person fighting definitely should detect that (probably missing yells still)
 function mod:OnSync(msg)
 	if msg == "MatchBegin" then
+		if not (currentZoneID == 369 or currentZoneID == 1043) then return end
 		if not eventsRegistered then
 			eventsRegistered = true
 			self:RegisterShortTermEvents(
@@ -209,7 +210,6 @@ function mod:OnSync(msg)
 				"UNIT_AURA player"
 			)
 		end
-		if not (currentZoneID == 369 or currentZoneID == 1043) then return end
 		self:Stop()--Sometimes NPC doesn't yell when a match ends too early, if a new match begins we stop on begin before starting new stuff
 		berserkTimer:Start()
 		for i, v in ipairs(startCallbacks) do
