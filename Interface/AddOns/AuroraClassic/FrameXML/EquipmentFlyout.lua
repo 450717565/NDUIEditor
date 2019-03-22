@@ -1,35 +1,26 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	EquipmentFlyoutFrameHighlight:Hide()
-	EquipmentFlyoutFrameButtons.bg1:SetAlpha(0)
-	EquipmentFlyoutFrameButtons:DisableDrawLayer("ARTWORK")
-
 	F.ReskinFrame(EquipmentFlyoutFrame.NavigationFrame)
 	F.ReskinArrow(EquipmentFlyoutFrame.NavigationFrame.PrevButton, "left")
 	F.ReskinArrow(EquipmentFlyoutFrame.NavigationFrame.NextButton, "right")
 
+	local Buttons = EquipmentFlyoutFrameButtons
+	Buttons.bg1:SetAlpha(0)
+	Buttons:DisableDrawLayer("ARTWORK")
+
+	local Highlight = EquipmentFlyoutFrameHighlight
+	F.ReskinTexture(Highlight, EquipmentFlyoutFrame, false)
+
 	hooksecurefunc("EquipmentFlyout_CreateButton", function()
-		local bu = EquipmentFlyoutFrame.buttons[#EquipmentFlyoutFrame.buttons]
-		bu:SetNormalTexture("")
-		bu:SetPushedTexture("")
+		local buttons = #EquipmentFlyoutFrame.buttons
+		local button = EquipmentFlyoutFrame.buttons[buttons]
+		F.StripTextures(button)
 
-		local ic = F.ReskinIcon(bu.icon)
-		F.ReskinTexture(bu, ic, false)
+		local icbg = F.ReskinIcon(button.icon)
+		F.ReskinTexture(button, icbg, false)
 
-		local border = bu.IconBorder
-		F.ReskinBorder(border, bu)
-	end)
-
-	hooksecurefunc("EquipmentFlyout_DisplayButton", function(button)
-		local location = button.location
 		local border = button.IconBorder
-		if not location or location < 0 or not border then return end
-
-		if location == EQUIPMENTFLYOUT_PLACEINBAGS_LOCATION then
-			border:Hide()
-		else
-			border:Show()
-		end
+		F.ReskinBorder(border, button)
 	end)
 end)

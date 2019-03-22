@@ -65,7 +65,7 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 	F.ReskinButton(DetailsFrame.ViewGuildCraftersButton)
 
 	local CreateMultipleInputBox = DetailsFrame.CreateMultipleInputBox
-	F.ReskinInput(CreateMultipleInputBox)
+	F.ReskinInput(CreateMultipleInputBox, true)
 	F.ReskinArrow(CreateMultipleInputBox.DecrementButton, "left")
 	F.ReskinArrow(CreateMultipleInputBox.IncrementButton, "right")
 
