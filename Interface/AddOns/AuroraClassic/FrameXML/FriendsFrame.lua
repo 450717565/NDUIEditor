@@ -1,135 +1,159 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	local icPatch = "Interface\\FriendsFrame\\"
-
-	F.StripTextures(FriendsFrameFriendsScrollFrame, true)
-	F.StripTextures(IgnoreListFrame, true)
-	F.StripTextures(WhoListScrollFrame, true)
-	F.StripTextures(WhoFrameListInset, true)
-	F.StripTextures(WhoFrameEditBoxInset, true)
-	F.StripTextures(WhoFrameDropDown, true)
-
 	F.ReskinFrame(FriendsFrame)
-	F.ReskinDropDown(FriendsFrameStatusDropDown)
-	F.ReskinDropDown(FriendsFriendsFrameDropDown)
-	F.ReskinDropDown(WhoFrameDropDown)
-	F.ReskinInput(AddFriendNameEditBox)
-	F.ReskinInput(FriendsFrameBroadcastInput)
-	F.ReskinScroll(FriendsFrameFriendsScrollFrameScrollBar)
-	F.ReskinScroll(FriendsFrameIgnoreScrollFrameScrollBar)
-	F.ReskinScroll(FriendsFriendsScrollFrameScrollBar)
-	F.ReskinScroll(WhoListScrollFrameScrollBar)
-
-	F.ReskinFrame(AddFriendFrame)
 	F.SetupTabStyle(FriendsFrame, 3)
+	F.ReskinFrame(AddFriendFrame)
 
-	local whoBg = F.CreateBDFrame(WhoFrameEditBoxInset, 0)
-	whoBg:SetPoint("TOPLEFT")
-	whoBg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
+	local lists = {FriendsFrameFriendsScrollFrame, IgnoreListFrame, WhoListScrollFrame, WhoFrameListInset, WhoFrameEditBoxInset}
+	for _, list in pairs(lists) do
+		F.StripTextures(list)
+	end
 
-	local header = FriendsFrameFriendsScrollFrame.PendingInvitesHeaderButton
-	F.StripTextures(header, true)
+	local dropdowns = {FriendsFrameStatusDropDown, FriendsFriendsFrameDropDown, WhoFrameDropDown}
+	for _, dropdown in pairs(dropdowns) do
+		F.ReskinDropDown(dropdown)
+	end
 
-	local headerBg = F.CreateBDFrame(header, 0)
-	headerBg:SetPoint("TOPLEFT", 2, -2)
-	headerBg:SetPoint("BOTTOMRIGHT", -2, 2)
+	local scrolls = {FriendsFrameFriendsScrollFrameScrollBar, FriendsFrameIgnoreScrollFrameScrollBar, FriendsFriendsScrollFrameScrollBar, WhoListScrollFrameScrollBar}
+	for _, scroll in pairs(scrolls) do
+		F.ReskinScroll(scroll)
+	end
 
 	local buttons = {AddFriendEntryFrameAcceptButton, AddFriendEntryFrameCancelButton, AddFriendInfoFrameContinueButton, FriendsFrameAddFriendButton, FriendsFrameIgnorePlayerButton, FriendsFrameSendMessageButton, FriendsFrameUnsquelchButton, FriendsFriendsCloseButton, FriendsFriendsSendRequestButton, FriendsListFrameContinueButton, WhoFrameAddFriendButton, WhoFrameGroupInviteButton, WhoFrameWhoButton}
 	for _, button in pairs(buttons) do
 		F.ReskinButton(button)
 	end
 
-	for i = 1, 3 do
-		F.StripTextures(_G["FriendsTabHeaderTab"..i], true)
+	local inputs = {AddFriendNameEditBox, FriendsFrameBroadcastInput}
+	for _, input in pairs(inputs) do
+		F.ReskinInput(input)
 	end
 
-	for i = 1, 4 do
-		F.StripTextures(_G["WhoFrameColumnHeader"..i], true)
+	-- FriendsFrame
+	FriendsFrameTitleText:ClearAllPoints()
+	FriendsFrameTitleText:SetPoint("TOP", 0, -8)
+
+	FriendsFrameStatusDropDown:ClearAllPoints()
+	FriendsFrameStatusDropDown:SetPoint("TOPLEFT", 15, -25)
+	FriendsFrameStatusDropDownStatus:ClearAllPoints()
+	FriendsFrameStatusDropDownStatus:SetPoint("RIGHT", FriendsFrameStatusDropDownButton, "LEFT", -4, -.5)
+
+	local bls = {FriendsFrameAddFriendButton, FriendsFrameIgnorePlayerButton}
+	for _, bl in pairs(bls) do
+		bl:SetSize(134, 21)
+		bl:ClearAllPoints()
+		bl:SetPoint("BOTTOMLEFT", 6, 4)
 	end
+
+	local brs = {FriendsFrameSendMessageButton, FriendsFrameUnsquelchButton}
+	for _, br in pairs(brs) do
+		br:SetSize(134, 21)
+		br:ClearAllPoints()
+		br:SetPoint("BOTTOMRIGHT", -6, 4)
+	end
+
+	for i = 1, 3 do
+		local FriendsHeader = _G["FriendsTabHeaderTab"..i]
+		F.StripTextures(FriendsHeader)
+
+		local bg = F.CreateBDFrame(FriendsHeader, 0)
+		bg:SetPoint("TOPLEFT", C.mult, -8)
+		bg:SetPoint("BOTTOMRIGHT", -C.mult, 0)
+	end
+
+	local BattlenetFrame = FriendsFrameBattlenetFrame
+	local BattlenetTag = BattlenetFrame.Tag
+	BattlenetTag:SetParent(FriendsListFrame)
+	BattlenetTag:ClearAllPoints()
+	BattlenetTag:SetPoint("TOP", 0, -8)
+
+	local UnavailableInfoFrame = BattlenetFrame.UnavailableInfoFrame
+	F.ReskinFrame(UnavailableInfoFrame)
+	UnavailableInfoFrame:ClearAllPoints()
+	UnavailableInfoFrame:SetPoint("TOPLEFT", FriendsFrame, "TOPRIGHT", 2, 0)
+
+	hooksecurefunc("FriendsFrame_CheckBattlenetStatus", function()
+		if BNFeaturesEnabled() then
+			BattlenetFrame.BroadcastButton:Hide()
+			if BNConnected() then
+				BattlenetFrame:Hide()
+				FriendsFrameBroadcastInput:Show()
+				FriendsFrameBroadcastInput_UpdateDisplay()
+			end
+		end
+	end)
+
+	hooksecurefunc("FriendsFrame_Update", function()
+		if FriendsFrame.selectedTab == 1 and FriendsTabHeader.selectedTab == 1 and BattlenetTag:IsShown() then
+			FriendsFrameTitleText:Hide()
+		else
+			FriendsFrameTitleText:Show()
+		end
+	end)
 
 	for i = 1, FRIENDS_TO_DISPLAY do
 		local bu = _G["FriendsFrameFriendsScrollFrameButton"..i]
 		bu.background:Hide()
 
-		local hl = bu.highlight
-		hl:SetTexture(C.media.bdTex)
-		hl:SetVertexColor(.24, .56, 1, .25)
-
 		local tp = bu.travelPassButton
-		tp:EnableMouse(true)
-		tp:SetSize(22, 22)
-		tp:ClearAllPoints()
-		tp:SetPoint("RIGHT", -2, 0)
 		F.ReskinButton(tp)
 
-		bu.inv = tp:CreateTexture(nil, "OVERLAY", nil, 7)
-		bu.inv:SetTexture([[Interface\FriendsFrame\PlusManz-PlusManz]])
-		bu.inv:SetPoint("CENTER", 0, 1)
-		bu.inv:SetSize(20, 20)
+		local ic = tp:CreateTexture(nil, "OVERLAY")
+		ic:SetTexture("Interface\\FriendsFrame\\PlusManz-PlusManz")
+		ic:SetPoint("CENTER", 0, 1)
+		ic:SetSize(20, 28)
 
-		local ic = bu.gameIcon
-		ic:SetSize(19, 19)
-		ic:SetTexCoord(.19, .81, .19, .81)
-		ic:ClearAllPoints()
-		ic:SetPoint("RIGHT", tp, "LEFT", -4, 0)
-		ic.bg = F.CreateBDFrame(ic)
-	end
+		local gi = bu.gameIcon
+		gi:ClearAllPoints()
+		gi:SetPoint("RIGHT", tp, "LEFT", -2, 0)
 
-	for _, button in pairs({FriendsTabHeaderSoRButton, FriendsTabHeaderRecruitAFriendButton}) do
-		button:SetPushedTexture("")
-		F.ReskinIcon(button:GetRegions())
+		local hl = bu.highlight
+		hl:SetTexture(C.media.bdTex)
+		hl:SetAlpha(.25)
+		hl:SetPoint("BOTTOMRIGHT", tp, "BOTTOMLEFT", -2, 0)
 	end
 
 	local function UpdateScroll()
 		for i = 1, FRIENDS_TO_DISPLAY do
 			local bu = _G["FriendsFrameFriendsScrollFrameButton"..i]
 
-			local ic = bu.gameIcon
-			ic.bg:SetShown(ic:IsShown())
-
 			local isEnabled = bu.travelPassButton:IsEnabled()
 			if isEnabled then
-				bu.inv:SetAlpha(1)
 				bu.travelPassButton:SetAlpha(1)
 			else
-				bu.inv:SetAlpha(0.25)
-				bu.travelPassButton:SetAlpha(0.25)
-			end
-
-			for invite in FriendsFrameFriendsScrollFrame.invitePool:EnumerateActive() do
-				if not invite.styled then
-					F.StripTextures(FriendsFrameFriendsScrollFrameScrollChild, true)
-
-					local child = FriendsFrameFriendsScrollFrameScrollChild:GetChildren()
-					F.StripTextures(child, true)
-					F.ReskinButton(child)
-
-					invite.DeclineButton:SetSize(22, 22)
-					F.ReskinDecline(invite.DeclineButton)
-					F.ReskinButton(invite.AcceptButton)
-
-					invite.styled = true
-				end
+				bu.travelPassButton:SetAlpha(.25)
 			end
 		end
 	end
-
 	hooksecurefunc("FriendsFrame_UpdateFriends", UpdateScroll)
 	hooksecurefunc(FriendsFrameFriendsScrollFrame, "update", UpdateScroll)
+
+	local icPatch = "Interface\\FriendsFrame\\"
 
 	local function reskinInvites(self)
 		for invite in self:EnumerateActive() do
 			if not invite.styled then
-				invite.DeclineButton:SetSize(22, 22)
+				F.StripTextures(invite)
 				F.ReskinDecline(invite.DeclineButton)
 				F.ReskinButton(invite.AcceptButton)
+				invite.DeclineButton:SetSize(22, 22)
+
+				local Children = FriendsFrameFriendsScrollFrameScrollChild:GetChildren()
+				F.StripTextures(Children)
+				F.CleanTextures(Children)
+
+				local bg = F.CreateBDFrame(Children, 0)
+				bg:SetPoint("TOPLEFT", C.mult, -C.mult)
+				bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
+				F.ReskinTexture(Children, bg, true)
 
 				invite.styled = true
 			end
 		end
 	end
 
+	hooksecurefunc(FriendsFrameFriendsScrollFrame.invitePool, "Acquire", reskinInvites)
 	hooksecurefunc("FriendsFrame_UpdateFriendButton", function(button)
 		if button.buttonType == FRIENDS_BUTTON_TYPE_INVITE then
 			reskinInvites(FriendsFrameFriendsScrollFrame.invitePool)
@@ -144,43 +168,35 @@ tinsert(C.themes["AuroraClassic"], function()
 			end
 		end
 	end)
-	hooksecurefunc(FriendsFrameFriendsScrollFrame.invitePool, "Acquire", reskinInvites)
 
-	hooksecurefunc("FriendsFrame_CheckBattlenetStatus", function()
-		if BNFeaturesEnabled() then
-			local frame = FriendsFrameBattlenetFrame
+	-- WhoFrame
+	local WhoAdd = WhoFrameAddFriendButton
+	WhoAdd:ClearAllPoints()
+	WhoAdd:SetPoint("BOTTOM", WhoFrame, "BOTTOM", -17.5, 4)
 
-			frame.BroadcastButton:Hide()
+	local WhoWho = WhoFrameWhoButton
+	WhoWho:ClearAllPoints()
+	WhoWho:SetPoint("RIGHT", WhoAdd, "LEFT", -1, 0)
 
-			if BNConnected() then
-				frame:Hide()
-				FriendsFrameBroadcastInput:Show()
-				FriendsFrameBroadcastInput_UpdateDisplay()
-			end
+	local WhoInvite = WhoFrameGroupInviteButton
+	WhoInvite:ClearAllPoints()
+	WhoInvite:SetPoint("LEFT", WhoAdd, "RIGHT", 1, 0)
+
+	local WhoEdit = WhoFrameEditBoxInset
+	F.ReskinInput(WhoEdit, true, 20, 325)
+	WhoEdit:ClearAllPoints()
+	WhoEdit:SetPoint("BOTTOMLEFT", WhoWho, "TOPLEFT", 2, 2)
+
+	local WhoBox = WhoFrameEditBox
+	WhoBox:ClearAllPoints()
+	WhoBox:SetAllPoints(WhoEdit)
+
+	for i = 1, 4 do
+		local WhoHeader = _G["WhoFrameColumnHeader"..i]
+		F.StripTextures(WhoHeader)
+
+		if i ~= 2 then
+			F.ReskinTexture(WhoHeader, WhoHeader, true)
 		end
-	end)
-
-	hooksecurefunc("FriendsFrame_Update", function()
-		if FriendsFrame.selectedTab == 1 and FriendsTabHeader.selectedTab == 1 and FriendsFrameBattlenetFrame.Tag:IsShown() then
-			FriendsFrameTitleText:Hide()
-		else
-			FriendsFrameTitleText:Show()
-		end
-	end)
-
-	F.CreateBDFrame(FriendsFrameBattlenetFrame.UnavailableInfoFrame, 0)
-	FriendsFrameBattlenetFrame.UnavailableInfoFrame:SetPoint("TOPLEFT", FriendsFrame, "TOPRIGHT", 1, -18)
-
-	FriendsFrameBattlenetFrame:GetRegions():Hide()
-	F.CreateBDFrame(FriendsFrameBattlenetFrame, 0)
-
-	FriendsFrameBattlenetFrame.Tag:SetParent(FriendsListFrame)
-	FriendsFrameBattlenetFrame.Tag:SetPoint("TOP", FriendsFrame, "TOP", 0, -8)
-
-	FriendsFrameStatusDropDown:ClearAllPoints()
-	FriendsFrameStatusDropDown:SetPoint("TOPLEFT", 10, -30)
-
-	WhoFrameWhoButton:SetPoint("RIGHT", WhoFrameAddFriendButton, "LEFT", -1, 0)
-	WhoFrameAddFriendButton:SetPoint("RIGHT", WhoFrameGroupInviteButton, "LEFT", -1, 0)
-	FriendsFrameTitleText:SetPoint("TOP", 0, -8)
+	end
 end)

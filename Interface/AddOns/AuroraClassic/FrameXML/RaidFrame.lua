@@ -2,7 +2,7 @@ local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinFrame(RaidInfoFrame)
-	F.ReskinButton(RaidFrameConvertToRaidButton)
+
 	F.ReskinButton(RaidFrameRaidInfoButton)
 	F.ReskinButton(RaidInfoCancelButton)
 	F.ReskinButton(RaidInfoExtendButton)
@@ -14,6 +14,12 @@ tinsert(C.themes["AuroraClassic"], function()
 	RaidInfoFrame:SetPoint("TOPLEFT", RaidFrame, "TOPRIGHT", 2, 0)
 	RaidInfoFrameHeaderText:ClearAllPoints()
 	RaidInfoFrameHeaderText:SetPoint("TOP", RaidInfoFrame, "TOP", 0, -10)
+
+	local ConvertButton = RaidFrameConvertToRaidButton
+	F.ReskinButton(RaidFrameConvertToRaidButton)
+	ConvertButton:SetSize(134, 21)
+	ConvertButton:ClearAllPoints()
+	ConvertButton:SetPoint("BOTTOMRIGHT", -6, 4)
 
 	local labels =  {RaidInfoInstanceLabel, RaidInfoIDLabel}
 	for _, label in pairs(labels) do
