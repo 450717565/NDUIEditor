@@ -567,11 +567,9 @@ function F:ReskinIcon(setBG, alpha)
 	end
 end
 
-function F:ReskinInput(kill, height, width)
-	if kill then
-		F.StripTextures(self)
-	end
+function F:ReskinInput(height, width)
 	F.CleanTextures(self)
+	self:DisableDrawLayer("BACKGROUND")
 
 	local bg = F.CreateBDFrame(self, 0)
 	bg:SetPoint("TOPLEFT", -2, 0)

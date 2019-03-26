@@ -183,7 +183,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	WhoInvite:SetPoint("LEFT", WhoAdd, "RIGHT", 1, 0)
 
 	local WhoEdit = WhoFrameEditBoxInset
-	F.ReskinInput(WhoEdit, true, 20, 325)
+	F.ReskinInput(WhoEdit, 20, 325)
 	WhoEdit:ClearAllPoints()
 	WhoEdit:SetPoint("BOTTOMLEFT", WhoWho, "TOPLEFT", 2, 2)
 

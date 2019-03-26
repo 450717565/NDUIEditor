@@ -16,9 +16,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	end
 
 	local function restyleGarrisonFollowerAbilityTooltipTemplate(frame)
-		for i = 1, 9 do
-			select(i, frame:GetRegions()):Hide()
-		end
+		F.StripTextures(frame)
 		F.ReskinIcon(frame.Icon, true)
 
 		if AuroraConfig.tooltips then
@@ -46,8 +44,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		while ability do
 			local icon = ability.Icon
 
-			icon:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(icon)
+			F.ReskinIcon(icon, true)
 
 			numAbilitiesStyled = numAbilitiesStyled + 1
 			ability = abilities[numAbilitiesStyled]
@@ -66,8 +63,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		while trait do
 			local icon = trait.Icon
 
-			icon:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBDFrame(icon)
+			F.ReskinIcon(icon, true)
 
 			numTraitsStyled = numTraitsStyled + 1
 			trait = traits[numTraitsStyled]

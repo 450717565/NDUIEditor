@@ -5,7 +5,7 @@ C.themes["ExtVendor"] = function()
 	F.ReskinButton(ExtVendor_SellJunkPopupYesButton)
 	F.ReskinButton(ExtVendor_SellJunkPopupNoButton)
 
-	F.ReskinInput(MerchantFrameSearchBox, false, 22)
+	F.ReskinInput(MerchantFrameSearchBox, 22)
 	F.ReskinButton(MerchantFrameFilterButton)
 
 	local ic = F.ReskinIcon(MerchantFrameSellJunkButtonIcon)

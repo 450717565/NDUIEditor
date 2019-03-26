@@ -46,7 +46,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 	searchBox:ClearAllPoints()
 	searchBox:SetPoint("RIGHT", AchievementFrameCloseButton, "LEFT", -5, 0)
 	F.StripTextures(AchievementFrame.searchPreviewContainer)
-	F.ReskinInput(searchBox, false, 17, 100)
+	F.ReskinInput(searchBox, 17, 100)
 
 	for i = 1, 5 do
 		F.ReskinSearchBox(AchievementFrame.searchPreview[i])

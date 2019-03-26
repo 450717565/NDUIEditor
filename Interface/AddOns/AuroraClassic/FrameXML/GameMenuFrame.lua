@@ -1,23 +1,23 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	GameMenuFrameHeader:SetAlpha(0)
-	GameMenuFrameHeader:ClearAllPoints()
-	GameMenuFrameHeader:SetPoint("TOP", 0, 7)
 	F.ReskinFrame(GameMenuFrame)
 
+	GameMenuFrameHeader:ClearAllPoints()
+	GameMenuFrameHeader:SetPoint("TOP", 0, 7)
+
 	local buttons = {
-		GameMenuButtonHelp,
-		GameMenuButtonWhatsNew,
-		GameMenuButtonStore,
-		GameMenuButtonOptions,
-		GameMenuButtonUIOptions,
-		GameMenuButtonKeybindings,
-		GameMenuButtonMacros,
 		GameMenuButtonAddons,
+		GameMenuButtonContinue,
+		GameMenuButtonHelp,
+		GameMenuButtonKeybindings,
 		GameMenuButtonLogout,
+		GameMenuButtonMacros,
+		GameMenuButtonOptions,
 		GameMenuButtonQuit,
-		GameMenuButtonContinue
+		GameMenuButtonStore,
+		GameMenuButtonUIOptions,
+		GameMenuButtonWhatsNew,
 	}
 
 	for _, button in pairs(buttons) do

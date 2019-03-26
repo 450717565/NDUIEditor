@@ -11,7 +11,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 
 		local edit = _G["StaticPopup"..i.."EditBox"]
-		F.ReskinInput(edit, false, 20)
+		F.ReskinInput(edit, 20)
 
 		local item = _G["StaticPopup"..i.."ItemFrame"]
 		F.StripTextures(item)

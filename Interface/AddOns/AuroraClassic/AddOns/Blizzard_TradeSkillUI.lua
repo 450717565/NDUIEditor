@@ -5,7 +5,7 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 
 	F.ReskinFrame(TradeSkillFrame)
 	F.ReskinStatusBar(TradeSkillFrame.RankFrame)
-	F.ReskinInput(TradeSkillFrame.SearchBox, false, 20, 200)
+	F.ReskinInput(TradeSkillFrame.SearchBox, 20, 200)
 	F.ReskinFilter(TradeSkillFrame.FilterButton)
 	F.ReskinArrow(TradeSkillFrame.LinkToButton, "right")
 
@@ -65,7 +65,7 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 	F.ReskinButton(DetailsFrame.ViewGuildCraftersButton)
 
 	local CreateMultipleInputBox = DetailsFrame.CreateMultipleInputBox
-	F.ReskinInput(CreateMultipleInputBox, true)
+	F.ReskinInput(CreateMultipleInputBox)
 	F.ReskinArrow(CreateMultipleInputBox.DecrementButton, "left")
 	F.ReskinArrow(CreateMultipleInputBox.IncrementButton, "right")
 

@@ -7,7 +7,7 @@ C.themes["Blizzard_GuildControlUI"] = function()
 	F.StripTextures(GuildControlUIRankBankFrameInsetScrollFrame)
 	F.ReskinScroll(GuildControlUIRankBankFrameInsetScrollFrameScrollBar)
 	F.ReskinButton(GuildControlUIRankOrderFrameNewButton)
-	F.ReskinInput(GuildControlUIRankSettingsFrameGoldBox, false, 20)
+	F.ReskinInput(GuildControlUIRankSettingsFrameGoldBox, 20)
 
 	local OfficerCB = GuildControlUIRankSettingsFrameOfficerCheckbox
 	F.ReskinCheck(OfficerCB)
@@ -91,7 +91,7 @@ C.themes["Blizzard_GuildControlUI"] = function()
 				F.ReskinArrow(rank.upButton, "up")
 				F.ReskinArrow(rank.downButton, "down")
 				F.ReskinClose(rank.deleteButton)
-				F.ReskinInput(rank.nameBox, false, 20)
+				F.ReskinInput(rank.nameBox, 20)
 
 				rank.styled = true
 			end
