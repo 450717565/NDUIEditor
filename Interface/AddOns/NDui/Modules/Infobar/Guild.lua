@@ -146,9 +146,12 @@ local function createRoster(parent, i)
 	return button
 end
 
+C_Timer.After(5, function()
+	if IsInGuild() then GuildRoster() end
+end)
+
 local function refreshData()
 	wipe(guildTable)
-	GuildRoster()
 	local count = 0
 	local total, _, online = GetNumGuildMembers()
 	local guildName, guildRank = GetGuildInfo("player")
@@ -250,14 +253,20 @@ info.eventList = {
 	"PLAYER_GUILD_UPDATE",
 }
 
-info.onEvent = function(self)
+info.onEvent = function(self, event, ...)
 	if not IsInGuild() then
 		self.text:SetText(GUILD..L[":"]..DB.MyColor..NONE)
 		return
 	end
 
-	GuildRoster()
-	local _, _, online = GetNumGuildMembers()
+	if event == "GUILD_ROSTER_UPDATE" then
+		local canRequestRosterUpdate = ...
+		if canRequestRosterUpdate then
+			GuildRoster()
+		end
+	end
+
+	local online = select(3, GetNumGuildMembers())
 	self.text:SetText(GUILD..L[":"]..DB.MyColor..online)
 	self.text:SetJustifyH("LEFT")
 

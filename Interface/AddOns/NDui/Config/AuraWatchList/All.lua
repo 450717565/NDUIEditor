@@ -180,6 +180,8 @@ local list = {
 		{AuraID = 274596, UnitID = "player"},	-- 冲击大师
 		{AuraID = 277969, UnitID = "player"},	-- 迅疾爪击
 		{AuraID = 273264, UnitID = "player"},	-- 怒火升腾
+		{AuraID = 280653, UnitID = "player"},	-- 工程特质，变小
+		{AuraID = 280654, UnitID = "player"},	-- 工程特质，变大
 	-->炼金石
 		{AuraID = 60233, UnitID = "player"},	-- 敏捷
 		{AuraID = 60229, UnitID = "player"},	-- 力量

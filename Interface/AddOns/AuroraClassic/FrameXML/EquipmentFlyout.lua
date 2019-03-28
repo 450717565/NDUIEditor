@@ -1,9 +1,10 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	F.ReskinFrame(EquipmentFlyoutFrame.NavigationFrame)
-	F.ReskinArrow(EquipmentFlyoutFrame.NavigationFrame.PrevButton, "left")
-	F.ReskinArrow(EquipmentFlyoutFrame.NavigationFrame.NextButton, "right")
+	local NavigationFrame = EquipmentFlyoutFrame.NavigationFrame
+	F.ReskinFrame(NavigationFrame)
+	F.ReskinArrow(NavigationFrame.PrevButton, "left")
+	F.ReskinArrow(NavigationFrame.NextButton, "right")
 
 	local Buttons = EquipmentFlyoutFrameButtons
 	Buttons.bg1:SetAlpha(0)
