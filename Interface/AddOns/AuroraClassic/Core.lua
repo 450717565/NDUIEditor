@@ -41,6 +41,7 @@ C.defaults = {
 	["reskinFont"] = true,
 	["shadow"] = true,
 	["tooltips"] = false,
+	["uiScale"] = 0,
 	["useCustomColour"] = false,
 }
 
@@ -64,6 +65,8 @@ local cr, cg, cb = C.ClassColors[class].r, C.ClassColors[class].g, C.ClassColors
 local function SetupPixelFix()
 	local screenHeight = select(2, GetPhysicalScreenSize())
 	local scale = UIParent:GetScale()
+	local uiScale = AuroraConfig.uiScale
+	if uiScale and uiScale > 0 and uiScale < .64 then scale = uiScale end
 	scale = tonumber(floor(scale*100 + .5)/100)
 	C.mult = 768/screenHeight/scale
 
@@ -218,7 +221,7 @@ function F:CreateBDFrame(alpha, noGradient)
 	F.CreateSD(bg)
 
 	if not noGradient then
-		F.CreateGradient(bg)
+		F.CreateGF(bg)
 	end
 
 	return bg
@@ -237,7 +240,17 @@ function F:CreateBG()
 	return bg
 end
 
-function F:CreateGradient()
+function F:CreateGA(width, height, direction, r, g, b, a1, a2)
+	self:SetSize(width, height)
+	self:SetFrameStrata("BACKGROUND")
+
+	local gf = self:CreateTexture(nil, "BACKGROUND")
+	gf:SetAllPoints()
+	gf:SetTexture(C.media.normTex)
+	gf:SetGradientAlpha(direction, r, g, b, a1, r, g, b, a2)
+end
+
+function F:CreateGF()
 	if self.Gradient then return end
 
 	local Gradient = self:CreateTexture(nil, "BORDER")
@@ -359,7 +372,7 @@ function F:ReskinButton(noHighlight)
 
 	F.CreateBD(self, 0)
 	F.CreateSD(self)
-	F.CreateGradient(self)
+	F.CreateGF(self)
 
 	if not noHighlight then
 		SetupHook(self)
@@ -540,9 +553,7 @@ function F:ReskinGarrisonPortrait()
 	self.Level:ClearAllPoints()
 	self.Level:SetPoint("BOTTOM", self, 0, 12)
 
-	local squareBG = F.CreateBDFrame(self, 1)
-	squareBG:SetPoint("TOPLEFT", 3, -3)
-	squareBG:SetPoint("BOTTOMRIGHT", -3, 11)
+	local squareBG = F.CreateBDFrame(self.Portrait, 1)
 	self.squareBG = squareBG
 
 	if self.PortraitRingCover then
@@ -1108,52 +1119,57 @@ C.themes["AuroraClassic"] = {}
 
 local Skin = CreateFrame("Frame")
 Skin:RegisterEvent("ADDON_LOADED")
-Skin:SetScript("OnEvent", function(_, _, addon)
-	if addon == "AuroraClassic" then
-		SetupPixelFix()
+Skin:RegisterEvent("PLAYER_LOGOUT")
+Skin:SetScript("OnEvent", function(_, event, addon)
+	if event == "ADDON_LOADED" then
+		if addon == "AuroraClassic" then
+			SetupPixelFix()
 
-		-- [[ Load Variables ]]
+			-- [[ Load Variables ]]
 
-		-- remove deprecated or corrupt variables
-		for key in pairs(AuroraConfig) do
-			if C.defaults[key] == nil then
-				AuroraConfig[key] = nil
+			-- remove deprecated or corrupt variables
+			for key in pairs(AuroraConfig) do
+				if C.defaults[key] == nil then
+					AuroraConfig[key] = nil
+				end
 			end
+
+			-- load or init variables
+			for key, value in pairs(C.defaults) do
+				if AuroraConfig[key] == nil then
+					if type(value) == "table" then
+						AuroraConfig[key] = {}
+						for k in pairs(value) do
+							AuroraConfig[key][k] = value[k]
+						end
+					else
+						AuroraConfig[key] = value
+					end
+				end
+			end
+
+			if AuroraConfig.useCustomColour then
+				cr, cg, cb = AuroraConfig.customColour.r, AuroraConfig.customColour.g, AuroraConfig.customColour.b
+			end
+
+			-- for modules
+			C.r, C.g, C.b = cr, cg, cb
 		end
 
-		-- load or init variables
-		for key, value in pairs(C.defaults) do
-			if AuroraConfig[key] == nil then
-				if type(value) == "table" then
-					AuroraConfig[key] = {}
-					for k in pairs(value) do
-						AuroraConfig[key][k] = value[k]
-					end
-				else
-					AuroraConfig[key] = value
+		-- [[ Load modules ]]
+
+		-- check if the addon loaded is supported by AuroraClassic, and if it is, execute its module
+		local addonModule = C.themes[addon]
+		if addonModule then
+			if type(addonModule) == "function" then
+				addonModule()
+			else
+				for _, moduleFunc in pairs(addonModule) do
+					moduleFunc()
 				end
 			end
 		end
-
-		if AuroraConfig.useCustomColour then
-			cr, cg, cb = AuroraConfig.customColour.r, AuroraConfig.customColour.g, AuroraConfig.customColour.b
-		end
-
-		-- for modules
-		C.r, C.g, C.b = cr, cg, cb
-	end
-
-	-- [[ Load modules ]]
-
-	-- check if the addon loaded is supported by AuroraClassic, and if it is, execute its module
-	local addonModule = C.themes[addon]
-	if addonModule then
-		if type(addonModule) == "function" then
-			addonModule()
-		else
-			for _, moduleFunc in pairs(addonModule) do
-				moduleFunc()
-			end
-		end
+	else
+		AuroraConfig.uiScale = UIParent:GetScale()
 	end
 end)

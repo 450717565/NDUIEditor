@@ -12,6 +12,7 @@ function module:MissingStats()
 	local format, max, floor = string.format, math.max, math.floor
 	local BreakUpLargeNumbers, GetMeleeHaste, UnitAttackSpeed = BreakUpLargeNumbers, GetMeleeHaste, UnitAttackSpeed
 	local GetAverageItemLevel, C_PaperDollInfo_GetMinItemLevel = GetAverageItemLevel, C_PaperDollInfo.GetMinItemLevel
+	local PaperDollFrame_SetLabelAndText = PaperDollFrame_SetLabelAndText
 
 	local statPanel = CreateFrame("Frame", nil, CharacterFrameInsetRight)
 	statPanel:SetSize(200, 350)

@@ -33,7 +33,7 @@ function module:GuildBest()
 		B.SetBackground(frame, 0)
 		B.CreateFS(frame, 16, CHALLENGE_MODE_THIS_WEEK , "system", "TOPLEFT", 16, -6)
 
-		if F then F.CreateGradient(frame) end
+		if F then F.CreateGF(frame) end
 
 		frame.entries = {}
 		for i = 1, 4 do

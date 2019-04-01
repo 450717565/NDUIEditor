@@ -123,8 +123,8 @@ function module:Chatbar()
 	for _, info in pairs(buttonInfo) do AddButton(unpack(info)) end
 
 	-- WORLD CHANNEL
-	if DB.Client == "zhCN" then
-		local channelName, channelID, channels = L["World Channel Name"]
+	if GetCVar("portal") == "CN" then
+		local channelName, channelID, channels = "大脚世界频道"
 		local wc = AddButton(1, .75, .75, L["World Channel"])
 
 		local function isInChannel(event)

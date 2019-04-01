@@ -9,8 +9,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		local button = block.rightButton or block.itemButton
 
 		if button and not button.styled then
-			button:SetNormalTexture("")
-			button:SetPushedTexture("")
+			F.CleanTextures(button)
 
 			local bg = F.CreateBDFrame(button.icon or button.Icon, 0)
 			F.ReskinTexture(button, bg, false)
@@ -34,14 +33,22 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	-- Reskin Headers
 	local function reskinHeader(header)
-		header.Text:SetTextColor(cr, cg, cb)
 		header.Background:Hide()
-		local bg = header:CreateTexture(nil, "ARTWORK")
-		bg:SetTexture("Interface\\LFGFrame\\UI-LFG-SEPARATOR")
-		bg:SetTexCoord(0, .66, 0, .31)
-		bg:SetVertexColor(cr, cg, cb)
-		bg:SetPoint("BOTTOMLEFT", -30, -4)
-		bg:SetSize(250, 30)
+
+		local width, height = header:GetWidth()/2+10, C.mult*3
+
+		local left = CreateFrame("Frame", nil, header)
+		left:SetPoint("TOPRIGHT", header, "BOTTOM", 5, 0)
+		F.CreateGA(left, width, height, "Horizontal", cr, cg, cb, 0, .8)
+
+		local right = CreateFrame("Frame", nil, header)
+		right:SetPoint("TOPLEFT", header, "BOTTOM", 5, 0)
+		F.CreateGA(right, width, height, "Horizontal", cr, cg, cb, .8, 0)
+
+		local Text = header.Text
+		Text:SetTextColor(cr, cg, cb)
+		Text:ClearAllPoints()
+		Text:SetPoint("BOTTOMLEFT", left, "TOPLEFT", 15, 6)
 	end
 
 	local headers = {

@@ -139,13 +139,16 @@ local function UpdateTooltip(bar)
 	if C_AzeriteItem.HasActiveAzeriteItem() then
 		local azeriteItemLocation = C_AzeriteItem.FindActiveAzeriteItem()
 		local azeriteItem = Item:CreateFromItemLocation(azeriteItemLocation)
-		local azeriteItemName = azeriteItem:GetItemName()
-		local xp, totalLevelXP = C_AzeriteItem.GetAzeriteItemXPInfo(C_AzeriteItem.FindActiveAzeriteItem())
+		local xp, totalLevelXP = C_AzeriteItem.GetAzeriteItemXPInfo(azeriteItemLocation)
 		local currentLevel = C_AzeriteItem.GetPowerLevel(azeriteItemLocation)
-		GameTooltip:AddLine(" ")
-		GameTooltip:AddLine(azeriteItemName.." "..format(SPELLBOOK_AVAILABLE_AT, currentLevel), 0,.6,1)
-		GameTooltip:AddDoubleLine(ARTIFACT_POWER..L[":"], B.Numb(xp).." / "..B.Numb(totalLevelXP)..format(" (%.1f%%)", xp/totalLevelXP*100), .6,.8,1, 1,1,1)
-		GameTooltip:AddDoubleLine(L["Next Need"], B.Numb(totalLevelXP-xp)..format(" (%.1f%%)", (1-xp/totalLevelXP)*100), .6,.8,1, 1,1,1)
+
+		azeriteItem:ContinueWithCancelOnItemLoad(function()
+			local azeriteItemName = azeriteItem:GetItemName()
+			GameTooltip:AddLine(" ")
+			GameTooltip:AddLine(azeriteItemName.." "..format(SPELLBOOK_AVAILABLE_AT, currentLevel), 0,.6,1)
+			GameTooltip:AddDoubleLine(ARTIFACT_POWER..L[":"], B.Numb(xp).." / "..B.Numb(totalLevelXP)..format(" (%.1f%%)", xp/totalLevelXP*100), .6,.8,1, 1,1,1)
+			GameTooltip:AddDoubleLine(L["Next Need"], B.Numb(totalLevelXP-xp)..format(" (%.1f%%)", (1-xp/totalLevelXP)*100), .6,.8,1, 1,1,1)
+		end)
 	end
 
 	if HasArtifactEquipped() then
@@ -165,7 +168,6 @@ local function UpdateTooltip(bar)
 			end
 		end
 	end
-
 	GameTooltip:Show()
 end
 

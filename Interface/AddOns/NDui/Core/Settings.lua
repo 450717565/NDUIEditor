@@ -57,7 +57,11 @@ local function ForceRaidFrame()
 	CompactUnitFrameProfiles_UpdateCurrentPanel()
 end
 
+local isScaling = false
 local function SetupUIScale()
+	if isScaling then return end
+	isScaling = true
+
 	local scale = NDuiADB["UIScale"]
 	local minScale = .64
 	local fixedHeight = 768/DB.ScreenHeight
@@ -76,6 +80,8 @@ local function SetupUIScale()
 	if DB.ScreenHeight > 1080 then C.mult = C.mult*2 end
 
 	NDuiADB["UIScale"] = scale
+
+	isScaling = false
 end
 
 local function ForceChatSettings()
@@ -373,11 +379,11 @@ local function YesTutor()
 	B.SetBackground(tutor)
 	B.CreateFS(tutor, 30, "NDui", true, "TOPLEFT", 10, 27)
 	local ll = CreateFrame("Frame", nil, tutor)
-	ll:SetPoint("TOP", -40, -32)
+	ll:SetPoint("TOPRIGHT", tutor, "TOP", 0, -35)
 	B.CreateGF(ll, 80, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
 	ll:SetFrameStrata("HIGH")
 	local lr = CreateFrame("Frame", nil, tutor)
-	lr:SetPoint("TOP", 40, -32)
+	lr:SetPoint("TOPLEFT", tutor, "TOP", 0, -35)
 	B.CreateGF(lr, 80, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
 	lr:SetFrameStrata("HIGH")
 
@@ -458,11 +464,11 @@ local function HelloWorld()
 	B.CreateFS(welcome, 14, DB.Version, true, "TOPRIGHT", -10, 14)
 	B.CreateFS(welcome, 16, L["Help Title"], true, "TOP", 0, -10)
 	local ll = CreateFrame("Frame", nil, welcome)
-	ll:SetPoint("TOP", -50, -35)
+	ll:SetPoint("TOPRIGHT", welcome, "TOP", 0, -35)
 	B.CreateGF(ll, 100, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
 	ll:SetFrameStrata("HIGH")
 	local lr = CreateFrame("Frame", nil, welcome)
-	lr:SetPoint("TOP", 50, -35)
+	lr:SetPoint("TOPLEFT", welcome, "TOP", 0, -35)
 	B.CreateGF(lr, 100, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
 	lr:SetFrameStrata("HIGH")
 	B.CreateFS(welcome, 12, L["Help Info1"], false, "TOPLEFT", 20, -50)
@@ -504,6 +510,7 @@ function module:OnLogin()
 	B.HideOption(Advanced_UseUIScale)
 	B.HideOption(Advanced_UIScaleSlider)
 	SetupUIScale()
+	B:RegisterEvent("UI_SCALE_CHANGED", SetupUIScale)
 	if not NDuiDB["Tutorial"]["Complete"] then HelloWorld() end
 	ForceAddonSkins()
 	if NDuiDB["Chat"]["Lock"] then ForceChatSettings() end

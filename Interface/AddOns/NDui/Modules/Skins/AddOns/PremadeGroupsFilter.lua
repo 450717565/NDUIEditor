@@ -42,7 +42,7 @@ function module:PGFSkin()
 		F.ReskinDropDown(self.Difficulty.DropDown)
 		F.StripTextures(self.Advanced)
 		F.StripTextures(self.Expression)
-		F.CreateGradient(F.CreateBDFrame(self.Expression, .25))
+		F.CreateGF(F.CreateBDFrame(self.Expression, .25))
 
 		local names = {"Difficulty", "Ilvl", "Noilvl", "Defeated", "Members", "Tanks", "Heals", "Dps"}
 		for _, name in pairs(names) do

@@ -30,14 +30,14 @@ function module:PetBattleUI()
 	-- Weather
 	local weather = frame.WeatherFrame
 	weather:ClearAllPoints()
-	weather:SetPoint("TOP", 0, -60)
+	weather:SetPoint("TOP", frame.TopVersusText, "BOTTOM", 0, -15)
 	weather.Label:Hide()
 	weather.Name:Hide()
 	weather.Icon:ClearAllPoints()
 	weather.Icon:SetPoint("TOP", frame.TopVersusText, "BOTTOM", 0, -15)
 	weather.Icon:SetTexCoord(unpack(DB.TexCoord))
 	B.CreateSD(weather.Icon, 3, 3)
-	weather.Icon.Shadow:SetFrameLevel(weather:GetFrameLevel())
+	weather.BackgroundArt:SetPoint("TOP", UIParent)
 	weather.Duration:ClearAllPoints()
 	weather.Duration:SetPoint("CENTER", weather.Icon, 1, 0)
 

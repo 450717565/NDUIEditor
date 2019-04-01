@@ -3,7 +3,7 @@ local B, C, L, DB, F = unpack(ns)
 local module = B:GetModule("Chat")
 
 function module:ChatCopy()
-	local gsub, format, tconcat = string.gsub, string.format, table.concat
+	local gsub, format, tconcat, tostring = string.gsub, string.format, table.concat, tostring
 
 	-- Custom ChatMenu
 	local menu = CreateFrame("Frame", nil, UIParent)
@@ -53,7 +53,7 @@ function module:ChatCopy()
 	editBox:SetScript("OnEscapePressed", function() frame:Hide() end)
 	editBox:SetScript("OnTextChanged", function(_, userInput)
 		if userInput then return end
-		local _, max = ChatCopyScrollFrameScrollBar:GetMinMaxValues()
+		local _, max = scrollArea.ScrollBar:GetMinMaxValues()
 		for i = 1, max do
 			ScrollFrameTemplate_OnMouseWheel(scrollArea, -1)
 		end
@@ -62,6 +62,14 @@ function module:ChatCopy()
 	scrollArea:HookScript("OnVerticalScroll", function(self, offset)
 		editBox:SetHitRectInsets(0, 0, offset, (editBox:GetHeight() - offset - self:GetHeight()))
 	end)
+
+	local function canChangeMessage(arg1, id)
+		if id and arg1 == "" then return id end
+	end
+
+	local function isMessageProtected(msg)
+		return msg and (msg ~= gsub(msg, "(:?|?)|K(.-)|k", canChangeMessage))
+	end
 
 	local function colorReplace(msg, r, g, b)
 		local hexRGB = B.HexRGB(r, g, b)
@@ -72,38 +80,40 @@ function module:ChatCopy()
 		return msg
 	end
 
-	local function copyFunc(_, btn)
-		if not frame:IsShown() then
-			local chatframe = SELECTED_DOCK_FRAME
-			local _, fontSize = chatframe:GetFont()
-			FCF_SetChatWindowFontSize(chatframe, chatframe, .01)
-			frame:Show()
-
-			local index = 1
-			for i = 1, chatframe:GetNumMessages() do
-				local message, r, g, b = chatframe:GetMessageInfo(i)
-				r = r or 1
-				g = g or 1
-				b = b or 1
-				message = colorReplace(message, r, g, b)
-
-				lines[index] = tostring(message)
+	local function getChatLines(frame)
+		local index = 1
+		for i = 1, frame:GetNumMessages() do
+			local msg, r, g, b = frame:GetMessageInfo(i)
+			if msg and not isMessageProtected(msg) then
+				r, g, b = r or 1, g or 1, b or 1
+				msg = colorReplace(msg, r, g, b)
+				lines[index] = tostring(msg)
 				index = index + 1
 			end
-
-			local lineCt = index - 1
-			local text = table.concat(lines, "\n", 1, lineCt)
-			FCF_SetChatWindowFontSize(chatframe, chatframe, fontSize)
-			editBox:SetText(text)
-
-			wipe(lines)
-		else
-			frame:Hide()
 		end
+
+		return index - 1
 	end
 
-	local function hintFunc(self)
-		B.AddTooltip(self, "ANCHOR_TOP", L["Chat Copy"], "class")
+	local function copyFunc(_, btn)
+		if btn == "LeftButton" then
+			if not frame:IsShown() then
+				local chatframe = SELECTED_DOCK_FRAME
+				local _, fontSize = chatframe:GetFont()
+				FCF_SetChatWindowFontSize(chatframe, chatframe, .01)
+				frame:Show()
+
+				local lineCt = getChatLines(chatframe)
+				local text = tconcat(lines, " \n", 1, lineCt)
+				FCF_SetChatWindowFontSize(chatframe, chatframe, fontSize)
+				editBox:SetText(text)
+			else
+				frame:Hide()
+			end
+		elseif btn == "RightButton" then
+			ToggleFrame(menu)
+			NDuiDB["Chat"]["ChatMenu"] = menu:IsShown()
+		end
 	end
 
 	for i = 1, NUM_CHAT_WINDOWS do
