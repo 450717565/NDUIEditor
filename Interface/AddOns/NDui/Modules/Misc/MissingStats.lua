@@ -17,22 +17,20 @@ function module:MissingStats()
 	local statPanel = CreateFrame("Frame", nil, CharacterFrameInsetRight)
 	statPanel:SetSize(200, 350)
 	statPanel:SetPoint("TOP", 0, -5)
+
 	local scrollFrame = CreateFrame("ScrollFrame", nil, statPanel, "UIPanelScrollFrameTemplate")
 	scrollFrame:SetAllPoints()
-	scrollFrame.ScrollBar:Hide()
-	scrollFrame.ScrollBar.Show = B.Dummy
+	scrollFrame.ScrollBar:SetAlpha(0)
+
 	local stat = CreateFrame("Frame", nil, scrollFrame)
 	stat:SetSize(200, 1)
 	scrollFrame:SetScrollChild(stat)
 	CharacterStatsPane:ClearAllPoints()
 	CharacterStatsPane:SetParent(stat)
 	CharacterStatsPane:SetAllPoints(stat)
+
 	hooksecurefunc("PaperDollFrame_UpdateSidebarTabs", function()
-		if (not _G[PAPERDOLL_SIDEBARS[1].frame]:IsShown()) then
-			statPanel:Hide()
-		else
-			statPanel:Show()
-		end
+		statPanel:SetShown(_G[PAPERDOLL_SIDEBARS[1].frame]:IsShown())
 	end)
 
 	-- Change default data
@@ -45,7 +43,6 @@ function module:MissingStats()
 				{stat = "INTELLECT", hideAt = 0, primary = LE_UNIT_STAT_INTELLECT},
 				{stat = "STAMINA", hideAt = 0},
 				{stat = "ARMOR", hideAt = 0},
-				{stat = "STAGGER", hideAt = 0, roles = { "TANK" }},
 				{stat = "ATTACK_DAMAGE", hideAt = 0},
 				{stat = "ATTACK_AP", hideAt = 0, primary = LE_UNIT_STAT_STRENGTH},
 				{stat = "ATTACK_ATTACKSPEED", hideAt = 0, primary = LE_UNIT_STAT_STRENGTH},
@@ -62,6 +59,7 @@ function module:MissingStats()
 		[2] = {
 			categoryFrame = "EnhancementsCategory",
 			stats = {
+				{stat = "STAGGER", hideAt = 0, roles = { "TANK" }},
 				{stat = "CRITCHANCE", hideAt = 0},
 				{stat = "HASTE", hideAt = 0},
 				{stat = "MASTERY", hideAt = 0},
@@ -76,35 +74,44 @@ function module:MissingStats()
 	}
 
 	local StatusTab = {
-		[STAT_CRITICAL_STRIKE] = true,
-		[STAT_MASTERY] = true,
-		[STAT_HASTE] = true,
-		[STAT_VERSATILITY] = true,
-
-		[STAT_LIFESTEAL] = true,
+		[STAGGER] = true,
 		[STAT_AVOIDANCE] = true,
-
-		[STAT_DODGE] = true,
 		[STAT_BLOCK] = true,
+		[STAT_CRITICAL_STRIKE] = true,
+		[STAT_DODGE] = true,
+		[STAT_HASTE] = true,
+		[STAT_LIFESTEAL] = true,
+		[STAT_MASTERY] = true,
 		[STAT_PARRY] = true,
+		[STAT_VERSATILITY] = true,
 	}
 
-	function PaperDollFrame_SetLabelAndText(statFrame, label, text, isPercentage, numericValue)
-		if statFrame.Label then
-			statFrame.Label:SetFormattedText(STAT_FORMAT, label)
-		end
-
-		if isPercentage then
-			text = format("%.1f%%", numericValue + 0.5)
-		end
-
+	hooksecurefunc("PaperDollFrame_SetLabelAndText", function(statFrame, label, text, isPercentage, numericValue)
 		if StatusTab[label] then
 			text = format("%.2f%%", numericValue)
 		end
 
 		statFrame.Value:SetText(text)
 		statFrame.numericValue = numericValue
-	end
+	end)
+
+	hooksecurefunc("PaperDollFrame_SetItemLevel", function(statFrame, unit)
+		if unit ~= "player" then return end
+
+		local total, equip = GetAverageItemLevel()
+		if total > 0 then total = string.format("%.1f", total) end
+		if equip > 0 then equip = string.format("%.1f", equip) end
+
+		local ilvl = equip
+		if total ~= equip then
+			ilvl = total.." / "..equip
+		end
+
+		statFrame.Value:SetText(ilvl)
+		statFrame.Value:SetFont(STANDARD_TEXT_FONT, 20, "OUTLINE")
+
+		statFrame.tooltip = "|cffffffff"..STAT_AVERAGE_ITEM_LEVEL.." "..ilvl.."|r"
+	end)
 
 	PAPERDOLL_STATINFO["ENERGY_REGEN"].updateFunc = function(statFrame, unit)
 		statFrame.numericValue = 0
@@ -120,41 +127,4 @@ function module:MissingStats()
 		statFrame.numericValue = 0
 		PaperDollFrame_SetFocusRegen(statFrame, unit)
 	end
-
-	function PaperDollFrame_SetAttackSpeed(statFrame, unit)
-		local meleeHaste = GetMeleeHaste()
-		local speed, offhandSpeed = UnitAttackSpeed(unit)
-		local displaySpeed = format("%.2f", speed)
-		if offhandSpeed then
-			offhandSpeed = format("%.2f", offhandSpeed)
-		end
-		if offhandSpeed then
-			displaySpeed = BreakUpLargeNumbers(displaySpeed).." / "..offhandSpeed
-		else
-			displaySpeed = BreakUpLargeNumbers(displaySpeed)
-		end
-		PaperDollFrame_SetLabelAndText(statFrame, WEAPON_SPEED, displaySpeed, false, speed)
-
-		statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..format(PAPERDOLLFRAME_TOOLTIP_FORMAT, ATTACK_SPEED).." "..displaySpeed..FONT_COLOR_CODE_CLOSE
-		statFrame.tooltip2 = format(STAT_ATTACK_SPEED_BASE_TOOLTIP, BreakUpLargeNumbers(meleeHaste))
-		statFrame:Show()
-	end
-
-	hooksecurefunc("PaperDollFrame_SetItemLevel", function(statFrame, unit)
-		if unit ~= "player" then return end
-
-		local total, equip = GetAverageItemLevel()
-		if total > 0 then total = string.format("%.1f", total) end
-		if equip > 0 then equip = string.format("%.1f", equip) end
-
-		local ilvl = equip
-		if total ~= equip then
-			ilvl = total.." / "..equip
-		end
-
-		CharacterStatsPane.ItemLevelFrame.Value:SetText(ilvl)
-		CharacterStatsPane.ItemLevelFrame.Value:SetFont(STANDARD_TEXT_FONT, 20, "OUTLINE")
-
-		statFrame.tooltip = "|cffffffff"..STAT_AVERAGE_ITEM_LEVEL.." "..ilvl.."|r"
-	end)
 end
