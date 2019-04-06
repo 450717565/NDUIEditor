@@ -124,7 +124,7 @@ function module:Chatbar()
 
 	-- WORLD CHANNEL
 	if GetCVar("portal") == "CN" then
-		local channelName, channelID, channels = "大脚世界频道"
+		local channelName, channelID, channels = "澶ц剼涓栫晫棰戦亾"
 		local wc = AddButton(1, .75, .75, L["World Channel"])
 
 		local function isInChannel(event)

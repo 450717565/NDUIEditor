@@ -323,6 +323,8 @@ function F:SetBDFrame(x, y, x2, y2)
 		bg:SetPoint("TOPLEFT", x, y)
 		bg:SetPoint("BOTTOMRIGHT", x2, y2)
 	end
+
+	return bg
 end
 
 function F:ReskinAffixes()

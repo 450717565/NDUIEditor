@@ -7,6 +7,7 @@ local pairs, ipairs, tonumber = pairs, ipairs, tonumber
 local min, max, tremove = math.min, math.max, table.remove
 local IsGuildMember, C_FriendList_IsFriend, IsGUIDInGroup, C_Timer_After = IsGuildMember, C_FriendList.IsFriend, IsGUIDInGroup, C_Timer.After
 local Ambiguate, UnitIsUnit, BNGetGameAccountInfoByGUID, GetTime, SetCVar = Ambiguate, UnitIsUnit, BNGetGameAccountInfoByGUID, GetTime, SetCVar
+local BN_TOAST_TYPE_CLUB_INVITATION = BN_TOAST_TYPE_CLUB_INVITATION or 6
 
 -- Filter Chat symbols
 local msgSymbols = {"`", "～", "＠", "＃", "^", "＊", "！", "？", "。", "|", " ", "—", "——", "￥", "’", "‘", "“", "”", "【", "】", "『", "』", "《", "》", "〈", "〉", "（", "）", "〔", "〕", "、", "，", "：", ",", "_", "/", "~", "%-", "%."}
@@ -133,6 +134,16 @@ local function genAddonBlock(_, event, msg, author)
 	end
 end
 
+-- Block trash clubs
+local function blockTrashClub(self)
+	if self.toastType == BN_TOAST_TYPE_CLUB_INVITATION then
+		local text = self.DoubleLine:GetText() or ""
+		if strfind(text, "站桩") then
+			self:Hide()
+		end
+	end
+end
+
 --[[
 	公会频道有人提到你时通知你
 ]]
@@ -173,6 +184,8 @@ hooksecurefunc(BNToastFrame, "ShowToast", function(self)
 		self.DoubleLine:SetText(format(L["Mention You"], hexColor..at.author..DB.InfoColor))
 		at.checker = false
 	end
+
+	blockTrashClub(self)
 end)
 
 -- 过滤海岛探险中艾泽里特的获取信息
@@ -197,12 +210,11 @@ local chatEvents = {
 	"CHAT_MSG_BATTLEGROUND_LEADER",
 	"CHAT_MSG_BN_CONVERSATION",
 	"CHAT_MSG_BN_WHISPER",
-	"CHAT_MSG_BN_WHISPER_INFORM",
 	"CHAT_MSG_CHANNEL",
 	"CHAT_MSG_EMOTE",
+	"CHAT_MSG_GUILD",
 	"CHAT_MSG_INSTANCE_CHAT",
 	"CHAT_MSG_INSTANCE_CHAT_LEADER",
-	"CHAT_MSG_LOOT",
 	"CHAT_MSG_OFFICER",
 	"CHAT_MSG_PARTY",
 	"CHAT_MSG_PARTY_LEADER",
@@ -210,10 +222,8 @@ local chatEvents = {
 	"CHAT_MSG_RAID_LEADER",
 	"CHAT_MSG_RAID_WARNING",
 	"CHAT_MSG_SAY",
-	"CHAT_MSG_SYSTEM",
 	"CHAT_MSG_TEXT_EMOTE",
 	"CHAT_MSG_WHISPER",
-	"CHAT_MSG_WHISPER_INFORM",
 	"CHAT_MSG_YELL",
 }
 
