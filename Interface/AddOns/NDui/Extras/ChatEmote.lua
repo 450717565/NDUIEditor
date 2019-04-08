@@ -7,10 +7,11 @@ local B, C, L, DB = unpack(select(2, ...))
 local module = B:GetModule("Extras")
 local cr, cg, cb = DB.r, DB.g, DB.b
 
-local locale = GetLocale()
+local strgmatch, strgsub, strformat, strfind, strsub = string.gmatch, string.gsub, string.format, string.find, string.sub
+local mceil, mfloor, mmax = math.ceil, math.floor, math.max
 
-local strgmatch, strgsub = string.gmatch, string.gsub
-local mceil, mfloor = math.ceil, math.floor
+local locale = GetLocale()
+local patch = "Interface\\AddOns\\NDui\\Media\\Emote\\"
 
 -- key為圖片名
 local emotes = {
@@ -127,27 +128,17 @@ local emotes = {
 	{ key = "Skull", zhCN = "骷髅", zhTW = "骷髏", texture = "Interface\\TargetingFrame\\UI-RaidTargetingIcon_8" },
 }
 
---BLIZ做了很多后戲,改變世界的任務就交給他們了
-for _, v in ipairs(emotes) do
-	ICON_TAG_LIST[v.key] = v.key
-	if v[locale] then ICON_TAG_LIST[v[locale]] = v.key end
-	--末尾可設字體大小 格式為(數字.) 如(16.)
-	if v.texture then
-		ICON_LIST[v.key] = "|T".. v.texture ..":" .. "16."
-	else
-		ICON_LIST[v.key] = "|TInterface\\AddOns\\NDui\\Media\\Emote\\".. v.key ..":" .. "16."
-	end
-end
-
-
 ------------------------
---以下是界面部分
+--界面部分
 ------------------------
 
 local function EmoteButton_OnClick(self, button)
 	local editBox = ChatEdit_ChooseBoxForSend()
-	ChatEdit_ActivateChat(editBox)
-	editBox:SetText(editBox:GetText():gsub("{$","") .. self.emote)
+
+	if not editBox:IsShown() then
+		ChatEdit_ActivateChat(editBox)
+	end
+	editBox:SetText(strgsub(editBox:GetText(), "{$", "")..self.emote)
 	if button == "LeftButton" then
 		self:GetParent():Hide()
 	end
@@ -184,12 +175,12 @@ do
 
 	for _, v in ipairs(emotes) do
 		button = CreateFrame("Button", nil, frame)
-		button.emote = "{" .. (v[locale] or v.key) .. "}"
+		button.emote = "{"..(v[locale] or v.key).."}"
 		button:SetSize(width, height)
 		if v.texture then
 			button:SetNormalTexture(v.texture)
 		else
-			button:SetNormalTexture("Interface\\AddOns\\NDui\\Media\\Emote\\" .. v.key)
+			button:SetNormalTexture(patch..v.key)
 		end
 		button:SetHighlightTexture(DB.bdTex, "ADD")
 		button:SetPoint("TOPLEFT", 16+(index%column)*(width+space), -36 - mfloor(index/column)*(height+space))
@@ -214,61 +205,51 @@ do
 end
 
 ------------------------
--- 處理聊天氣泡
+-- 处理表情
 ------------------------
-if (GetCVarBool("chatBubbles")) then
 
-	local frame = CreateFrame("Frame", nil, UIParent)
+local chatSize = mfloor(select(2, SELECTED_CHAT_FRAME:GetFont()))
+local convert = strformat("|T%%s:%d|t", mmax(chatSize, 16))
 
-	local function TextToEmote(text)
-		for tag in strgmatch(text, "%b{}") do
-			local term = strlower(strgsub(tag, "[{}]", ""))
-			if (ICON_TAG_LIST[term] and ICON_LIST[ICON_TAG_LIST[term]]) then
-				text = text:gsub(tag, ICON_LIST[ICON_TAG_LIST[term]] .. "0|t")
+local function ChatEmoteFilter(self, event, msg, ...)
+	for _, v in pairs(emotes) do
+		local findText = "{"..v[locale].."}"
+
+		if strfind(msg, findText) then
+			if v.texture then
+				msg = strgsub(msg, findText, strformat(convert, v.texture), 1)
+			else
+				msg = strgsub(msg, findText, strformat(convert, patch..v.key), 1)
 			end
-		end
-		return text
-	end
-
-	local function isBubbleFrame(frame)
-		if (frame:IsForbidden()) then return end
-		if (frame:GetName()) then return end
-		local region = frame:GetRegions()
-		if (region and region:IsObjectType("Texture")) then
-			return region:GetTexture() == "Interface\\Tooltips\\ChatBubble-Background"
+			break
 		end
 	end
 
-	local function replaceBubble(frame)
-		local f
-		for i = 1, frame:GetNumRegions() do
-			f = select(i, frame:GetRegions())
-			if (f:GetObjectType() == "FontString") then
-				local text = f:GetText() or ""
-				local after = TextToEmote(text)
-				if (after ~= text) then
-					f:SetText(after)
-				end
-			end
-		end
-	end
+	return false, msg, ...
+end
 
-	local function FindAndReplaceBubble()
-		local frame
-		for i = 2, WorldFrame:GetNumChildren() do
-			frame = select(i, WorldFrame:GetChildren())
-			if (isBubbleFrame(frame)) then
-				replaceBubble(frame)
-			end
-		end
-	end
+local chatEvents = {
+	"CHAT_MSG_BATTLEGROUND",
+	"CHAT_MSG_BATTLEGROUND_LEADER",
+	"CHAT_MSG_BN_CONVERSATION",
+	"CHAT_MSG_BN_WHISPER",
+	"CHAT_MSG_CHANNEL",
+	"CHAT_MSG_EMOTE",
+	"CHAT_MSG_GUILD",
+	"CHAT_MSG_INSTANCE_CHAT",
+	"CHAT_MSG_INSTANCE_CHAT_LEADER",
+	"CHAT_MSG_OFFICER",
+	"CHAT_MSG_PARTY",
+	"CHAT_MSG_PARTY_LEADER",
+	"CHAT_MSG_RAID",
+	"CHAT_MSG_RAID_LEADER",
+	"CHAT_MSG_RAID_WARNING",
+	"CHAT_MSG_SAY",
+	"CHAT_MSG_TEXT_EMOTE",
+	"CHAT_MSG_WHISPER",
+	"CHAT_MSG_YELL",
+}
 
-	frame:SetScript("OnUpdate", function(self, elapsed)
-		self.timer = (self.timer or 0) + elapsed
-		if (not self.paused and self.timer > 0.16) then
-			self.timer = 0
-			FindAndReplaceBubble()
-		end
-	end)
-
+for _, v in pairs(chatEvents) do
+	ChatFrame_AddMessageEventFilter(v, ChatEmoteFilter)
 end
