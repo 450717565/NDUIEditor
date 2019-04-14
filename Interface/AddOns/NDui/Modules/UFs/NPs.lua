@@ -192,24 +192,26 @@ local function UpdateQuestUnit(self, _, unit)
 			local unitName, progressText = strmatch(text, "^ ([^ ]-) ?%- (.+)$")
 			if r > .99 and g > .82 and b == 0 then
 				isLootQuest = true
-			elseif unitName and progressText and (unitName == "" or unitName == DB.MyName) then
+			elseif unitName and progressText then
 				isLootQuest = false
-				local current, goal = strmatch(progressText, "(%d+)/(%d+)")
-				local progress = strmatch(progressText, "([%d%.]+)%%")
-				if current and goal then
-					if tonumber(current) < tonumber(goal) then
-						questProgress = goal - current
+				if unitName == "" or unitName == DB.MyName then
+					local current, goal = strmatch(progressText, "(%d+)/(%d+)")
+					local progress = strmatch(progressText, "([%d%.]+)%%")
+					if current and goal then
+						if tonumber(current) < tonumber(goal) then
+							questProgress = goal - current
+							break
+						end
+					elseif progress then
+						progress = tonumber(progress)
+						if progress and progress < 100 then
+							questProgress = progress.."%"
+							break
+						end
+					else
+						isLootQuest = true
 						break
 					end
-				elseif progress then
-					progress = tonumber(progress)
-					if progress and progress < 100 then
-						questProgress = progress.."%"
-						break
-					end
-				else
-					isLootQuest = true
-					break
 				end
 			end
 		end
@@ -271,7 +273,7 @@ local function UpdateDungeonProgress(self, unit)
 end
 
 local classify = {
-	rare = {1, 0, 1},
+	rare = {1, 0, 1, true},
 	elite = {1, 1, 0},
 	rareelite = {0, 1, 1},
 	worldboss = {1, 0, 0},
@@ -281,8 +283,9 @@ local function UpdateUnitClassify(self, unit)
 	local class = UnitClassification(unit)
 	if self.creatureIcon then
 		if class and classify[class] then
-			local r, g, b = unpack(classify[class])
+			local r, g, b, desature = unpack(classify[class])
 			self.creatureIcon:SetVertexColor(r, g, b)
+			self.creatureIcon:SetDesaturated(desature)
 			self.creatureIcon:SetAlpha(1)
 		else
 			self.creatureIcon:SetAlpha(0)
@@ -441,11 +444,13 @@ function UF:CreatePlates(unit)
 		self.tarMark = mark
 		self:RegisterEvent("PLAYER_TARGET_CHANGED", UpdateTargetMark, true)
 
-		local cicon = self:CreateTexture(nil, "OVERLAY")
-		cicon:SetPoint("LEFT", self, 1, 5)
-		cicon:SetSize(12, 12)
-		cicon:SetTexture("Interface\\MINIMAP\\ObjectIcons")
-		cicon:SetTexCoord(.391, .487, .644, .74)
+		local iconFrame = CreateFrame("Frame", nil, self)
+		iconFrame:SetAllPoints()
+		iconFrame:SetFrameLevel(self:GetFrameLevel() + 2)
+		local cicon = iconFrame:CreateTexture(nil, "ARTWORK")
+		cicon:SetAtlas("VignetteKill")
+		cicon:SetPoint("BOTTOMLEFT", self, "LEFT", 0, -4)
+		cicon:SetSize(18, 18)
 		cicon:SetAlpha(0)
 		self.creatureIcon = cicon
 
@@ -456,7 +461,7 @@ function UF:CreatePlates(unit)
 			qicon:SetAtlas(DB.questTex)
 			qicon:Hide()
 			local count = B.CreateFS(self, 12, "", nil, "LEFT", 0, 0)
-			count:SetPoint("LEFT", qicon, "RIGHT", -4, 0)	
+			count:SetPoint("LEFT", qicon, "RIGHT", -4, 0)
 			count:SetTextColor(.6, .8, 1)
 
 			self.questIcon = qicon

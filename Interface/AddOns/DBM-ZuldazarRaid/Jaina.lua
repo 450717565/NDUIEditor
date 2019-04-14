@@ -1,12 +1,10 @@
 local mod	= DBM:NewMod(2343, "DBM-ZuldazarRaid", 3, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 18471 $"):sub(12, -3))
+mod:SetRevision(string.sub("2019041433621", 1, -5))
 mod:SetCreatureID(146409)
 mod:SetEncounterID(2281)
---mod:DisableESCombatDetection()
 mod:SetZone()
---mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(1, 2, 3, 4)
 mod:SetHotfixNoticeRev(18363)
 --mod:SetMinSyncRevision(16950)
@@ -17,9 +15,9 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 287565 285177 285459 290036 288221 288345 288441 288719 289219 289940 290084 288619 288747 289488 289220 287626",
 	"SPELL_CAST_SUCCESS 285725 287925 287626 289220 288374 288211 290084",
-	"SPELL_AURA_APPLIED 287993 287490 289387 287925 285253 288199 288219 288212 288374 288412 288434 289220 285254 288038 287322 288169",
+	"SPELL_AURA_APPLIED 287993 287490 289387 287925 285253 288199 288219 288212 288374 288412 288434 289220 285254 288038 287322 288169 290053",
 	"SPELL_AURA_APPLIED_DOSE 287993 285253",
-	"SPELL_AURA_REMOVED 287993 287925 288199 288219 288212 288374 288038 290001 289387 287322 285254",
+	"SPELL_AURA_REMOVED 287993 287925 288199 288219 288212 288374 288038 290001 289387 287322 285254 290053",
 	"SPELL_AURA_REMOVED_DOSE 287993",
 	"SPELL_PERIODIC_DAMAGE 288297",
 	"SPELL_PERIODIC_MISSED 288297",
@@ -53,6 +51,8 @@ local warnIceShard						= mod:NewStackAnnounce(285253, 2, nil, "Tank")
 local warnTimeWarp						= mod:NewSpellAnnounce(287925, 3)
 local warnFreezingBlast					= mod:NewSpellAnnounce(285177, 3)
 local warnFrozenSiege					= mod:NewSpellAnnounce(289488, 2)
+--Intermission 1
+local warnHowlingWindsLeft				= mod:NewCountAnnounce(290053, 2)
 --Stage Two: Frozen Wrath
 local warnBurningExplosion				= mod:NewCastAnnounce(288221, 3)
 local warnBroadside						= mod:NewTargetNoFilterAnnounce(288212, 2)
@@ -139,10 +139,11 @@ local countdownRingofIce				= mod:NewCountdown(60, 285459, true)
 local countdownGlacialray				= mod:NewCountdown("AltTwo32", 288345, true, nil, 3)
 --Stage Two: Frozen Wrath
 
-mod:AddNamePlateOption("NPAuraOnMarkedTarget", 288038)
+mod:AddNamePlateOption("NPAuraOnMarkedTarget2", 288038, false)
 mod:AddNamePlateOption("NPAuraOnTimeWarp", 287925)
 mod:AddNamePlateOption("NPAuraOnRefractiveIce", 288219)
 mod:AddNamePlateOption("NPAuraOnWaterBolt", 290084)
+mod:AddNamePlateOption("NPAuraOnHowlingWinds2", 290053, false)
 mod:AddSetIconOption("SetIconAvalanche", 287565, true)
 mod:AddSetIconOption("SetIconBroadside", 288212, true)
 mod:AddRangeFrameOption(10, 289379)
@@ -167,6 +168,7 @@ mod.vb.avalancheIcon = 0
 mod.vb.waterboltVolleyCount = 0
 mod.vb.howlingWindsCast = 0
 mod.vb.frozenSiegeCount = 0
+mod.vb.howlingRemaining = 0
 mod.vb.interruptBehavior = "Three"
 local ChillingTouchStacks = {}
 local chillingCollector = {}
@@ -177,59 +179,6 @@ local fixStupid = {}
 --1 2178508, 2 2178501, 3 2178502, 4 2178503, 2178500 (none)--Not best icons, better ones needed
 local interruptTextures = {[1] = 2178508, [2] = 2178501, [3] = 2178502, [4] = 2178503, [5] = 2178504, [6] = 2178505, [7] = 2178506, [8] = 2178507,}--Fathoms Deck
 local CVAR1, CVAR2 = nil, nil
-
---[[
-local updateInfoFrame
-do
-	local floor, tsort = math.floor, table.sort
-	local lines = {}
-	local tempLines = {}
-	local tempLinesSorted = {}
-	local sortedLines = {}
-	local function sortFuncDesc(a, b) return tempLines[a] > tempLines[b] end
-	local function addLine(key, value)
-		-- sort by insertion order
-		lines[key] = value
-		sortedLines[#sortedLines + 1] = key
-	end
-	updateInfoFrame = function()
-		table.wipe(lines)
-		table.wipe(tempLines)
-		table.wipe(tempLinesSorted)
-		table.wipe(sortedLines)
-		--Boss Powers first
-		for i = 1, 5 do
-			local uId = "boss"..i
-			--Primary Power
-			local currentPower, maxPower = UnitPower(uId), UnitPowerMax(uId)
-			if maxPower and maxPower ~= 0 then
-				local adjustedPower = currentPower / maxPower * 100
-				if adjustedPower >= 1 then
-					addLine(UnitName(uId), currentPower)
-				end
-			end
-		end
-		addLine(" ", " ")--Insert a blank entry to split the two debuffs
-		--Chilling Touch Stacks
-		--Sort debuffs by highest then inject into regular table
-		if #ChillingTouchStacks > 0 then
-			for uId in DBM:GetGroupMembers() do
-				local unitName = DBM:GetUnitFullName(uId)
-				local count = ChillingTouchStacks[unitName] or 0
-				tempLines[unitName] = count
-				tempLinesSorted[#tempLinesSorted + 1] = unitName
-			end
-			--Sort lingering according to options
-			tsort(tempLinesSorted, sortFuncDesc)
-			for _, name in ipairs(tempLinesSorted) do
-				addLine(name, tempLines[name])
-			end
-
-		end
-		return lines, sortedLines
-	end
-end
---]]
 
 --/run DBM:GetModByName("2343"):TimerTestFunction(30)
 --This will auto loop, just run it once and wait to see how keep timers behave.
@@ -297,6 +246,7 @@ function mod:OnCombatStart(delay)
 	self.vb.avalancheIcon = 0
 	self.vb.howlingWindsCast = 0
 	self.vb.frozenSiegeCount = 0
+	self.vb.howlingRemaining = 0
 	self.vb.interruptBehavior = self.Options.InterruptBehavior--Default it to whatever user has it set to, until group leader overrides it
 	table.wipe(castsPerGUID)
 	table.wipe(ChillingTouchStacks)
@@ -328,12 +278,10 @@ function mod:OnCombatStart(delay)
 		berserkTimer:Start(900)
 	end
 	if self.Options.InfoFrame then
-		--DBM.InfoFrame:SetHeader(DBM_CORE_INFOFRAME_POWER)
-		--DBM.InfoFrame:Show(8, "function", updateInfoFrame, false, false)
 		DBM.InfoFrame:SetHeader(DBM:GetSpellInfo(287993))
 		DBM.InfoFrame:Show(10, "table", ChillingTouchStacks, 1)
 	end
-	if self.Options.NPAuraOnMarkedTarget or self.Options.NPAuraOnTimeWarp or self.Options.NPAuraOnRefractiveIce or self.Options.NPAuraOnWaterBolt then
+	if self.Options.NPAuraOnMarkedTarget2 or self.Options.NPAuraOnTimeWarp or self.Options.NPAuraOnRefractiveIce or self.Options.NPAuraOnWaterBolt or self.Options.NPAuraOnHowlingWinds2 then
 		DBM:FireEvent("BossMod_EnableHostileNameplates")
 	end
 	--Group leader decides interrupt behavior
@@ -361,7 +309,7 @@ function mod:OnCombatEnd()
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end
-	if self.Options.NPAuraOnMarkedTarget or self.Options.NPAuraOnTimeWarp or self.Options.NPAuraOnRefractiveIce or self.Options.NPAuraOnWaterBolt then
+	if self.Options.NPAuraOnMarkedTarget2 or self.Options.NPAuraOnTimeWarp or self.Options.NPAuraOnRefractiveIce or self.Options.NPAuraOnWaterBolt or self.Options.NPAuraOnHowlingWinds2 then
 		DBM.Nameplate:Hide(true, nil, nil, nil, true, true)
 	end
 	if CVAR1 or CVAR2 then
@@ -575,8 +523,8 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnMarkedTarget:Play("justrun")
 				yellMarkedTarget:Yell()
 			end
-			if self.Options.NPAuraOnMarkedTarget then
-				DBM.Nameplate:Show(true, args.sourceGUID, spellId, nil, 10)
+			if self.Options.NPAuraOnMarkedTarget2 then
+				DBM.Nameplate:Show(true, args.sourceGUID, spellId, nil, 10, nil, true, {0.75, 0, 0, 0.75})
 			end
 		end
 	elseif spellId == 287925 then
@@ -676,6 +624,11 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 288169 and self:AntiSpam(10, 10) and self.vb.phase ~= 1.5 then--Howling Winds (Mythic)
 		self.vb.howlingWindsCast = self.vb.howlingWindsCast + 1
 		timerHowlingWindsCD:Start(80, self.vb.howlingWindsCast+1)
+	elseif spellId == 290053 then--Howling Winds buff Images get
+		self.vb.howlingRemaining = self.vb.howlingRemaining + 1
+		if self.Options.NPAuraOnHowlingWinds2 then
+			DBM.Nameplate:Show(true, args.sourceGUID, spellId, nil, nil, nil, true, {1, 1, 0.5, 0.75})--{1, 0.5, 0},
+		end
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -688,7 +641,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			DBM.InfoFrame:UpdateTable(ChillingTouchStacks)
 		end
 	elseif spellId == 288038 then
-		if self.Options.NPAuraOnMarkedTarget then
+		if self.Options.NPAuraOnMarkedTarget2 then
 			DBM.Nameplate:Hide(true, args.sourceGUID, spellId)
 		end
 	elseif spellId == 287925 then
@@ -720,7 +673,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	elseif spellId == 288219 then
 		if self.Options.NPAuraOnRefractiveIce then
-			DBM.Nameplate:Hide(true, args.sourceGUID, spellId)
+			DBM.Nameplate:Hide(true, args.sourceGUID)--Passed without spellId/tecture to force remove all, in event there are multiple (shouldn't be but doesn't hurt)
 		end
 	elseif spellId == 288212 then
 		if args:IsPlayer() then
@@ -770,6 +723,9 @@ function mod:SPELL_AURA_REMOVED(args)
 		if self.Options.SetIconAvalanche then
 			self:SetIcon(args.destName, 0)
 		end
+	elseif spellId == 290053 then--Howling Winds buff Images get
+		self.vb.howlingRemaining = self.vb.howlingRemaining - 1
+		warnHowlingWindsLeft:Show(self.vb.howlingRemaining)
 	end
 end
 
@@ -808,17 +764,18 @@ function mod:UNIT_DIED(args)
 		if self.Options.NPAuraOnWaterBolt then
 			DBM.Nameplate:Hide(true, args.destGUID)
 		end
-	--elseif cid == 149535 then--Icebound Image
-	
-	--elseif cid == 148965 then--Kul Tiran Marine
-
-	--elseif cid == 147531 or cid == 147180 or cid == 146811 then
-		--self.vb.corsairCount = self.vb.corsairCount - 1
-		--if self.vb.corsairCount == 0 then
-			--timerBombardCD:Stop()
-		--end
-	--elseif cid == 148631 then--Unexploded Ordinance
-	
+	elseif cid == 148965 then--Kul Tiran Marine
+		if self.Options.NPAuraOnMarkedTarget2 then
+			DBM.Nameplate:Hide(true, args.destGUID, spellId)
+		end
+	elseif cid == 149535 then--Icebound Image
+		if self.Options.NPAuraOnHowlingWinds2 then
+			DBM.Nameplate:Hide(true, args.destGUID, spellId)
+		end
+	elseif cid == 148631 then--Unexploded Ordinance
+		if self.Options.NPAuraOnRefractiveIce then
+			DBM.Nameplate:Hide(true, args.destGUID, spellId)
+		end
 	end
 end
 
@@ -886,5 +843,5 @@ function mod:OnSync(msg)
 		self.vb.interruptBehavior = "Four"
 	elseif msg == "Five" then
 		self.vb.interruptBehavior = "Five"
-	end	
+	end
 end

@@ -132,6 +132,8 @@ local function onEvent(self, event, ...)
 	local text, color, texture, critMark
 	local unit = self.unit
 	local grey = {r = .5, g = .5, b = .5}
+	local red = {r = 1, g = 0, b = 0}
+	local green = {r = 0, g = 1, b = 0}
 
 	if event == "COMBAT_LOG_EVENT_UNFILTERED" then
 		local _, eventType, _, sourceGUID, _, sourceFlags, _, destGUID, _, _, _, spellID, _, school = ...
@@ -190,13 +192,13 @@ local function onEvent(self, event, ...)
 	elseif event == "PLAYER_REGEN_DISABLED" then
 		texture = ""
 		text = ENTERING_COMBAT
-		color = {r = 1, g = 0, b = 0}
-		multiplier = 1.3
+		color = red
+		multiplier = C.mult
 	elseif event == "PLAYER_REGEN_ENABLED" then
 		texture = ""
 		text = LEAVING_COMBAT
-		color = {r = 0, g = 1, b = 0}
-		multiplier = 1.3
+		color = green
+		multiplier = C.mult
 	end
 
 	if text and texture then

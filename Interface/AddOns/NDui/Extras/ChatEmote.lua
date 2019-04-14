@@ -214,13 +214,11 @@ local convert = strformat("|T%%s:%d|t", mmax(chatSize, 16))
 local function ChatEmoteFilter(self, event, msg, ...)
 	for _, v in pairs(emotes) do
 		local findText = "{"..v[locale].."}"
+		local patchText = v.texture and v.texture or patch..v.key
 
 		if strfind(msg, findText) then
-			if v.texture then
-				msg = strgsub(msg, findText, strformat(convert, v.texture), 1)
-			else
-				msg = strgsub(msg, findText, strformat(convert, patch..v.key), 1)
-			end
+			msg = strgsub(msg, findText, strformat(convert, patchText), 1)
+
 			break
 		end
 	end
@@ -233,8 +231,8 @@ local chatEvents = {
 	"CHAT_MSG_BATTLEGROUND_LEADER",
 	"CHAT_MSG_BN_CONVERSATION",
 	"CHAT_MSG_BN_WHISPER",
+	"CHAT_MSG_BN_WHISPER_INFORM",
 	"CHAT_MSG_CHANNEL",
-	"CHAT_MSG_EMOTE",
 	"CHAT_MSG_GUILD",
 	"CHAT_MSG_INSTANCE_CHAT",
 	"CHAT_MSG_INSTANCE_CHAT_LEADER",
@@ -245,8 +243,8 @@ local chatEvents = {
 	"CHAT_MSG_RAID_LEADER",
 	"CHAT_MSG_RAID_WARNING",
 	"CHAT_MSG_SAY",
-	"CHAT_MSG_TEXT_EMOTE",
 	"CHAT_MSG_WHISPER",
+	"CHAT_MSG_WHISPER_INFORM",
 	"CHAT_MSG_YELL",
 }
 

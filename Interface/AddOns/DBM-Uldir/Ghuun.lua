@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2147, "DBM-Uldir", nil, 1031)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 18339 $"):sub(12, -3))
+mod:SetRevision(string.sub("2019041433621", 1, -5))
 mod:SetCreatureID(132998)
 mod:SetEncounterID(2122)
 mod:SetZone()
@@ -483,7 +483,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif spellId == 272505 or spellId == 275756 then
 		self.vb.explosiveIcon = 0
 		self.vb.explosiveCount = self.vb.explosiveCount + 1
-		if self.vb.phase == 1 then	
+		if self.vb.phase == 1 then
 			local timer = self:IsMythic() and 44 or 26
 			timerExplosiveCorruptionCD:Start(timer, self.vb.explosiveCount+1)
 			countdownExplosiveCorruption:Start(timer)
@@ -529,7 +529,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				yellDarkPurpose:Yell()
 			end
 			if self.Options.NPAuraOnFixate then
-				DBM.Nameplate:Show(true, args.sourceGUID, spellId)
+				DBM.Nameplate:Show(true, args.sourceGUID, spellId, nil, nil, nil, true, {0.5, 0, 0.55, 0.75})
 			end
 		end
 	elseif spellId == 275204 then

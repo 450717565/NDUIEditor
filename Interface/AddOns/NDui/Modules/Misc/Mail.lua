@@ -147,22 +147,22 @@ function module:Mailbox()
 		return button
 	end
 
-	button1 = CreatButton("MailButton1", InboxFrame, L["Collect All"], 80, 28, "TOPLEFT", InboxFrame, "TOPLEFT", 25, -35)
+	button1 = CreatButton(nil, InboxFrame, L["Collect All"], 80, 28, "TOPLEFT", InboxFrame, "TOPLEFT", 25, -35)
 	button1:RegisterEvent("MAIL_CLOSED")
 	button1:SetScript("OnClick", OpenAll)
 	button1:SetScript("OnEvent", OpenAll_OnEvent)
 
-	button2 = CreatButton("MailButton2", InboxFrame, L["Collect Gold"], 80, 28, "TOP", InboxFrame, "TOP", -23, -35)
+	button2 = CreatButton(nil, InboxFrame, L["Collect Gold"], 80, 28, "TOP", InboxFrame, "TOP", -23, -35)
 	button2:SetScript("OnClick", function() takingOnlyCash = true OpenAll() end)
 	button2:SetScript("OnEnter", TotalCash_OnEnter)
 	button2:SetScript("OnUpdate", function(self) if GameTooltip:IsOwned(self) then TotalCash_OnEnter(self) end end)
 	button2:SetScript("OnLeave", B.HideTooltip)
 
-	button3 = CreatButton("MailButton3", OpenMailFrame, L["Collect Letters"], 80, 22, "RIGHT", OpenMailReplyButton, "LEFT", -1, 0)
+	button3 = CreatButton(nil, OpenMailFrame, L["Collect Letters"], 80, 22, "RIGHT", OpenMailReplyButton, "LEFT", -1, 0)
 	button3:SetScript("OnClick", function() onlyCurrentMail = true OpenAll() end)
 	button3:SetScript("OnEvent", OpenAll_OnEvent)
 
-	button4 = CreatButton("MailButton4", InboxFrame, L["Refrsh Mail"], 80, 28, "TOPRIGHT", InboxFrame, "TOPRIGHT", -70, -35)
+	button4 = CreatButton(nil, InboxFrame, L["Refrsh Mail"], 80, 28, "TOPRIGHT", InboxFrame, "TOPRIGHT", -70, -35)
 	button4:SetScript("OnClick", function() CheckInbox() end)
 
 	local function deleteClick(self)
@@ -239,9 +239,10 @@ function module:Mailbox()
 	end
 
 	if F then
-		for i = 1, 4 do
-			F.ReskinButton(_G["MailButton"..i])
-		end
+		F.ReskinButton(button1)
+		F.ReskinButton(button2)
+		F.ReskinButton(button3)
+		F.ReskinButton(button4)
 	end
 
 	-- Hide Blizz

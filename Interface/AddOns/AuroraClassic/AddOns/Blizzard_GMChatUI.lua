@@ -7,19 +7,25 @@ C.themes["Blizzard_GMChatUI"] = function()
 	F.SetBDFrame(frame):SetPoint("BOTTOMRIGHT", C.mult, -5)
 
 	local close = GMChatFrameCloseButton
-	F.ReskinClose(close)
-	close:ClearAllPoints()
-	close:SetPoint("RIGHT", GMChatTab, -5, 0)
+	F.ReskinClose(close, "RIGHT", GMChatTab, "RIGHT", -5, 0)
 
 	local edit = GMChatFrameEditBox
 	edit:SetAltArrowKeyMode(false)
-	F.SetBDFrame(edit)
 	for i = 3, 8 do
 		select(i, edit:GetRegions()):SetAlpha(0)
 	end
 	edit:ClearAllPoints()
 	edit:SetPoint("TOPLEFT", frame, "BOTTOMLEFT", 0, -8)
-	edit:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 0, -32)
+	edit:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -28, -32)
+
+	local bg = F.SetBDFrame(edit)
+	bg:Hide()
+	hooksecurefunc("ChatEdit_DeactivateChat", function(editBox)
+		if editBox.isGM then bg:Hide() end
+	end)
+	hooksecurefunc("ChatEdit_ActivateChat", function(editBox)
+		if editBox.isGM then bg:Show() end
+	end)
 
 	local lang = GMChatFrameEditBoxLanguage
 	lang:GetRegions():SetAlpha(0)

@@ -341,7 +341,11 @@ local function updateBuffIndicator(self, event, unit)
 						else
 							icon.cd:Hide()
 						end
-						icon.icon:SetVertexColor(unpack(value[2]))
+						if icon.block then
+							icon.icon:SetVertexColor(unpack(value[2]))
+						else
+							icon.icon:SetTexture(GetSpellTexture(spellID))
+						end
 					end
 					if count > 1 then icon.count:SetText(count) end
 					icon:Show()
@@ -363,20 +367,22 @@ function UF:CreateBuffIndicator(self)
 	if not NDuiDB["UFs"]["RaidBuffIndicator"] then return end
 	if NDuiDB["UFs"]["SimpleMode"] and not NDuiDB["UFs"]["PartyFrame"] then return end
 
+	local iconSize = NDuiDB["UFs"]["BI_IconSize"]
+	local fontScale = iconSize/10
 	local anchors = {"TOPLEFT", "TOP", "TOPRIGHT", "LEFT", "RIGHT", "BOTTOMLEFT", "BOTTOM", "BOTTOMRIGHT"}
 	local icons = {}
 	for _, anchor in pairs(anchors) do
 		local icon = CreateFrame("Frame", nil, self)
 		icon:SetFrameLevel(self:GetFrameLevel()+10)
-		icon:SetSize(10, 10)
+		icon:SetSize(iconSize, iconSize)
 		icon:SetPoint(anchor)
 		icon:Hide()
 
-		icon.count = B.CreateFS(icon, 12, "")
+		icon.count = B.CreateFS(icon, 12*fontScale, "")
 		icon.count:ClearAllPoints()
-		if NDuiDB["UFs"]["BuffTimerIndicator"] then
+		if NDuiDB["UFs"]["BuffIndicatorType"] == 3 then
 			local point, anchorPoint, x, y = unpack(counterOffsets[anchor][2])
-			icon.timer = B.CreateFS(icon, 12, "", false, "CENTER", -x, 0)
+			icon.timer = B.CreateFS(icon, 12*fontScale, "", false, "CENTER", -x, 0)
 			icon.count:SetPoint(point, icon.timer, anchorPoint, x, y)
 		else
 			icon.bg = B.CreateBG(icon)
@@ -384,7 +390,10 @@ function UF:CreateBuffIndicator(self)
 
 			icon.icon = icon:CreateTexture(nil, "BORDER")
 			icon.icon:SetAllPoints()
-			icon.icon:SetTexture(DB.bdTex)
+			if NDuiDB["UFs"]["BuffIndicatorType"] == 1 then
+				icon.icon:SetTexture(DB.bdTex)
+				icon.block = true
+			end
 
 			icon.cd = CreateFrame("Cooldown", nil, icon, "CooldownFrameTemplate")
 			icon.cd:SetAllPoints()

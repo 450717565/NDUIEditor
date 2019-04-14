@@ -65,7 +65,7 @@ oUF.Tags.Methods["color"] = function(unit)
 		return B.HexRGB(1, 1, 1)
 	end
 end
-oUF.Tags.Events["color"] = "UNIT_HEALTH UNIT_CONNECTION"
+oUF.Tags.Events["color"] = "UNIT_HEALTH UNIT_CONNECTION PLAYER_FLAGS_CHANGED"
 
 oUF.Tags.Methods["flag"] = function(unit)
 	if UnitIsAFK(unit) then
@@ -85,7 +85,7 @@ oUF.Tags.Methods["state"] = function(unit)
 		return "|cffC0C0C0"..DEAD.."|r"
 	end
 end
-oUF.Tags.Events["state"] = "UNIT_HEALTH UNIT_CONNECTION"
+oUF.Tags.Events["state"] = "UNIT_HEALTH UNIT_CONNECTION PLAYER_FLAGS_CHANGED"
 
 -- Level tags
 oUF.Tags.Methods["fulllevel"] = function(unit)
@@ -139,12 +139,10 @@ oUF.Tags.Methods["nphp"] = function(unit)
 	local cur = UnitHealth(unit)
 	local per = oUF.Tags.Methods["perhp"](unit)
 
-	if per < 100 then
-		if NDuiDB["Nameplate"]["FullHealth"] then
-			return B.ColorText(per, true, B.Numb(cur))
-		else
-			return B.ColorText(per, true)
-		end
+	if NDuiDB["Nameplate"]["FullHealth"] then
+		return B.ColorText(per, true, B.Numb(cur))
+	elseif per < 100 then
+		return B.ColorText(per, true)
 	end
 end
 oUF.Tags.Events["nphp"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION"

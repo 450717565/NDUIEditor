@@ -125,7 +125,7 @@ local function UpdateTooltip(bar)
 			local currentValue, threshold = C_Reputation.GetFactionParagonInfo(factionID)
 			local paraCount = floor(currentValue/threshold)
 			currentValue = mod(currentValue, threshold)
-			GameTooltip:AddDoubleLine(L["ParagonRep"]..paraCount, currentValue.." / "..threshold..format(" (%.1f%%)", (currentValue/threshold*100)), .6,.8,1, 1,1,1)
+			GameTooltip:AddDoubleLine(L["Paragon"]..paraCount, currentValue.." / "..threshold..format(" (%.1f%%)", (currentValue/threshold*100)), .6,.8,1, 1,1,1)
 		end
 	end
 

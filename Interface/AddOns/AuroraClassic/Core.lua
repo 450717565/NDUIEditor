@@ -398,6 +398,7 @@ end
 
 function F:ReskinClose(a1, p, a2, x, y)
 	self:SetSize(17, 17)
+	self:ClearAllPoints()
 
 	F.StripTextures(self)
 	F.ReskinButton(self)
@@ -405,7 +406,6 @@ function F:ReskinClose(a1, p, a2, x, y)
 	if not a1 then
 		self:SetPoint("TOPRIGHT", -6, -6)
 	else
-		self:ClearAllPoints()
 		self:SetPoint(a1, p, a2, x, y)
 	end
 
