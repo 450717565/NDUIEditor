@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2328, "DBM-CrucibleofStorms", nil, 1177)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(string.sub("2019041433621", 1, -5))
+mod:SetRevision(string.sub("2019041620102", 1, -5))
 mod:SetCreatureID(146497, 146495)--146497 Zaxasj, 146495 Fa'thuul
 mod:SetEncounterID(2269)
 --mod:DisableESCombatDetection()
@@ -37,6 +37,7 @@ mod:RegisterEventsInCombat(
 --[[
 (ability.id = 282675 or ability.id = 282589 or ability.id = 282515 or ability.id = 282617 or ability.id = 282517 or ability.id = 283540 or ability.id = 282621 or ability.id = 282818) and type = "begincast"
  or (ability.id = 282561 or ability.id = 282384 or ability.id = 282407 or ability.id = 285416) and type = "cast"
+ or (ability.id = 282817 or ability.id = 282432) and type = "applydebuff"
 --]]
 --Relics of Power
 local warnUmbralShell					= mod:NewFadesAnnounce(282741, 1)
@@ -60,7 +61,6 @@ local specWarnAphoticBlast				= mod:NewSpecialWarningYou(282386, false, nil, 2, 
 local yellAphoticBlast					= mod:NewFadesYell(282386)
 local specWarnAgentofDemise				= mod:NewSpecialWarningTargetChange(282540, "-Healer", nil, nil, 1, 2)
 local yellAgentofDemise					= mod:NewYell(282540, nil, nil, nil, "YELL")
-local specWarnCustodyoftheDeep			= mod:NewSpecialWarningMoveTo(284772, "Tank", nil, nil, 1, 2)
 local specWarnCerebralAssault			= mod:NewSpecialWarningDodge(282589, nil, nil, nil, 3, 2)
 local specWarnDarkherald				= mod:NewSpecialWarningYou(282561, nil, nil, nil, 1, 2)
 local yellDarkherald					= mod:NewYell(282561)
@@ -68,13 +68,13 @@ local specWarnVisagefromBeyond			= mod:NewSpecialWarningSwitch(282515, "-Healer"
 --Fa'thuul the Feared
 local specWarnShearMind					= mod:NewSpecialWarningStack(282384, nil, 3, nil, nil, 1, 6)
 local specWarnShearMindTaunt			= mod:NewSpecialWarningTaunt(282384, nil, nil, nil, 1, 2)
-local yellShearMindFades				= mod:NewFadesYell(282384, nil, false)--useful but optional
-local specSeveredAnguish				= mod:NewSpecialWarningTaunt(282817, nil, nil, nil, 1, 2)
+--local yellShearMindFades				= mod:NewFadesYell(282384, nil, false)--useful but optional
+--local specSeveredAnguish				= mod:NewSpecialWarningTaunt(282817, nil, nil, nil, 1, 2)
 local specWarnCrushingDoubt				= mod:NewSpecialWarningYouPos(282432, nil, nil, nil, 1, 2)
 local yellCrushingDoubt					= mod:NewPosYell(282432)
 local yellCrushingDoubtFades			= mod:NewIconFadesYell(282432)
 local specWarnEldritchRevelation		= mod:NewSpecialWarningSwitch(282617, false, nil, 2, 1, 2)
-local specWarnWitnesstheEnd				= mod:NewSpecialWarningInterrupt(282621, false, nil, 2, 1, 2)
+local specWarnWitnesstheEnd				= mod:NewSpecialWarningInterruptCount(282621, false, nil, nil, 1, 2)
 local specWarnGTFO						= mod:NewSpecialWarningGTFO(287876, nil, nil, nil, 1, 8)
 
 --mod:AddTimerLine(DBM:EJ_GetSectionInfo(18527))
@@ -83,14 +83,14 @@ local timerStormofAnnihilation			= mod:NewCastTimer(15, 286755, nil, nil, nil, 2
 local timerPact							= mod:NewCastSourceTimer(12, 282675, nil, nil, nil, 2, nil, DBM_CORE_IMPORTANT_ICON)
 --Zaxasj the Speaker
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(18974))
-local timerCerebralAssaultCD			= mod:NewCDTimer(31.6, 282589, nil, nil, nil, 3)
+local timerCerebralAssaultCD			= mod:NewCDTimer(31.5, 282589, nil, nil, nil, 3)
 local timerDarkherald					= mod:NewTargetTimer(20, 282589, nil, nil, nil, 5)
-local timerDarkheraldCD					= mod:NewCDTimer(32.8, 282589, nil, nil, nil, 3)
+local timerDarkheraldCD					= mod:NewCDTimer(32.7, 282589, nil, nil, nil, 3)
 local timerTerrifyingEcho				= mod:NewCastTimer(15, 282517, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON)
 --Fa'thuul the Feared
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(18983))
 local timerShearMindCD					= mod:NewCDTimer(8.4, 282384, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
-local timerDevourThoughtsCD				= mod:NewCDTimer(9.8, 282818, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
+--local timerDevourThoughtsCD				= mod:NewCDTimer(9.8, 282818, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)
 local timerVoidCrashCD					= mod:NewCDTimer(13.3, 285416, nil, nil, nil, 3)
 local timerCrushingDoubtCD				= mod:NewCDTimer(40.1, 282432, nil, nil, nil, 3)
 
@@ -106,26 +106,28 @@ mod:AddSetIconOption("SetIconOnAdds", 282621, true, true)
 mod:AddRangeFrameOption(6, 283524)
 mod:AddInfoFrameOption(282741, true)
 mod:AddNamePlateOption("NPAuraOnEcho", 282517)
+mod:AddNamePlateOption("NPAuraOnWitness", 282621)
 
 --mod.vb.phase = 1
 mod.vb.CrushingDoubtIcon = 1
-mod.vb.tankAddsActive = 0
+--mod.vb.tankAddsActive = 0
 mod.vb.addIcon = 4--4-6
-local mobGUIDs = {}
+local castsPerGUID = {}
+local interruptTextures = {[1] = 2178508, [2] = 2178501, [3] = 2178502, [4] = 2178503, [5] = 2178504, [6] = 2178505, [7] = 2178506, [8] = 2178507,}--Fathoms Deck
 
 function mod:OnCombatStart(delay)
-	table.wipe(mobGUIDs)
+	table.wipe(castsPerGUID)
 	self.vb.CrushingDoubtIcon = 1
-	self.vb.tankAddsActive = 0
+	--self.vb.tankAddsActive = 0
 	self.vb.addIcon = 4
 	--Zaxasj the Speaker
-	timerCerebralAssaultCD:Start(16.8-delay)
-	timerDarkheraldCD:Start(11.5-delay)--SUCCESS
+	timerDarkheraldCD:Start(10.2-delay)--SUCCESS
+	timerCerebralAssaultCD:Start(15.5-delay)
 	--Fa'thuul the Feared
 	timerShearMindCD:Start(8.5-delay)--SUCCESS
 	timerVoidCrashCD:Start(13-delay)--SUCCESS
 	timerCrushingDoubtCD:Start(18.1-delay)
-	if self.Options.NPAuraOnPresence then
+	if self.Options.NPAuraOnPresence or self.Options.NPAuraOnWitness then
 		DBM:FireEvent("BossMod_EnableHostileNameplates")
 	end
 end
@@ -137,7 +139,7 @@ function mod:OnCombatEnd()
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end
-	if self.Options.NPAuraOnPresence then
+	if self.Options.NPAuraOnPresence or self.Options.NPAuraOnWitness then
 		DBM.Nameplate:Hide(true, nil, nil, nil, true, true)
 	end
 end
@@ -169,8 +171,8 @@ function mod:SPELL_CAST_START(args)
 			DBM.Nameplate:Show(true, args.sourceGUID, spellId, nil, 15)
 		end
 	elseif (spellId == 283540 or spellId == 282621) then
-		if not mobGUIDs[args.sourceGUID] then
-			mobGUIDs[args.sourceGUID] = true
+		if not castsPerGUID[args.sourceGUID] then
+			castsPerGUID[args.sourceGUID] = 0
 			if self.Options.SetIconOnAdds then
 				self:ScanForMobs(args.sourceGUID, 2, self.vb.addIcon, 1, 0.2, 10)
 			end
@@ -179,12 +181,29 @@ function mod:SPELL_CAST_START(args)
 				self.vb.addIcon = 4
 			end
 		end
+		castsPerGUID[args.sourceGUID] = castsPerGUID[args.sourceGUID] + 1
+		local count = castsPerGUID[args.sourceGUID]
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnWitnesstheEnd:Show(args.sourceName)
-			specWarnWitnesstheEnd:Play("kickcast")
+			specWarnWitnesstheEnd:Show(args.sourceName, count)
+			if count == 1 then
+				specWarnWitnesstheEnd:Play("kick1r")
+			elseif count == 2 then
+				specWarnWitnesstheEnd:Play("kick2r")
+			elseif count == 3 then
+				specWarnWitnesstheEnd:Play("kick3r")
+			elseif count == 4 then
+				specWarnWitnesstheEnd:Play("kick4r")
+			elseif count == 5 then
+				specWarnWitnesstheEnd:Play("kick5r")
+			else--Shouldn't happen, but fallback rules never hurt
+				specWarnWitnesstheEnd:Play("kickcast")
+			end
 		end
-	elseif spellId == 282818 then
-		timerDevourThoughtsCD:Start(9.8, args.sourceGUID)
+		if self.Options.NPAuraOnWitness then
+			DBM.Nameplate:Show(true, args.sourceGUID, spellId, interruptTextures[count])
+		end
+--	elseif spellId == 282818 then
+		--timerDevourThoughtsCD:Start(9.8, args.sourceGUID)
 	end
 end
 
@@ -277,7 +296,7 @@ function mod:SPELL_AURA_APPLIED(args)
 					specWarnShearMind:Show(amount)
 					specWarnShearMind:Play("stackhigh")
 				else
-					if not UnitIsDeadOrGhost("player") and not DBM:UnitDebuff("player", spellId) and self.vb.tankAddsActive == 0 then--Can't taunt less you've dropped yours off and aren't dealing with an add
+					if not UnitIsDeadOrGhost("player") and not DBM:UnitDebuff("player", spellId) then--Can't taunt less you've dropped yours off and aren't dealing with an add
 						specWarnShearMindTaunt:Show(args.destName)
 						specWarnShearMindTaunt:Play("tauntboss")
 					else
@@ -288,10 +307,10 @@ function mod:SPELL_AURA_APPLIED(args)
 				warnShearMind:Show(args.destName, amount)
 			end
 		end
-		if args:IsPlayer() then
-			yellShearMindFades:Cancel()
-			yellShearMindFades:Countdown(12)
-		end
+		--if args:IsPlayer() then
+			--yellShearMindFades:Cancel()
+			--yellShearMindFades:Countdown(12)
+		--end
 	elseif spellId == 282432 then
 		warnCrushingDoubt:CombinedShow(1, args.destName)
 		local icon = self.vb.CrushingDoubtIcon
@@ -308,7 +327,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 287876 and args:IsPlayer() and self:AntiSpam(3, 2) then
 		specWarnGTFO:Show(args.spellName)
 		specWarnGTFO:Play("runaway")--This particular case it's not a watch feet GTFO, it's a run away since you're too far into darkness
-	elseif spellId == 282817 then
+	--[[elseif spellId == 282817 then
 		self.vb.tankAddsActive = self.vb.tankAddsActive + 1
 		local _, _, _, _, expireTime = DBM:UnitDebuff("player", 282384)
 		local remaining
@@ -320,7 +339,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specSeveredAnguish:Show()
 			specSeveredAnguish:Play("killmob")
 		end
-		timerDevourThoughtsCD:Start(4.5, args.destGUID)--START
+		timerDevourThoughtsCD:Start(4.5, args.destGUID)--START--]]
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -352,10 +371,10 @@ function mod:SPELL_AURA_REMOVED(args)
 		if self.Options.SetIconDarkherald then
 			self:SetIcon(args.destName, 0)
 		end
-	elseif spellId == 282384 then
-		if args:IsPlayer() then
-			yellShearMindFades:Cancel()
-		end
+	--elseif spellId == 282384 then
+		--if args:IsPlayer() then
+			--yellShearMindFades:Cancel()
+		--end
 	elseif spellId == 282432 then
 		if self.Options.SetIconCrushingDoubt then
 			self:SetIcon(args.destName, 0)
@@ -380,11 +399,14 @@ function mod:UNIT_DIED(args)
 		if self.Options.NPAuraOnEcho then
 			DBM.Nameplate:Hide(true, args.destGUID)
 		end
-	elseif cid == 145275 then--Manifestation of Anguish
-		self.vb.tankAddsActive = self.vb.tankAddsActive - 1
-		timerDevourThoughtsCD:Stop(args.destGUID)
+--	elseif cid == 145275 then--Manifestation of Anguish
+--		self.vb.tankAddsActive = self.vb.tankAddsActive - 1
+		--timerDevourThoughtsCD:Stop(args.destGUID)
 	elseif cid == 145053 then--Eldritch Abomination
-		mobGUIDs[args.destGUID] = nil
+		castsPerGUID[args.destGUID] = nil
+		if self.Options.NPAuraOnWitness then
+			DBM.Nameplate:Hide(true, args.destGUID)
+		end
 	end
 end
 

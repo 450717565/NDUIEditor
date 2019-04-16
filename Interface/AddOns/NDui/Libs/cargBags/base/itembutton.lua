@@ -57,6 +57,7 @@ function ItemButton:New(bagID, slotID)
 	button:SetID(slotID)
 	button:Show()
 	button:HookScript("OnEnter", button.OnEnter)
+	button:HookScript("OnLeave", button.OnLeave)
 
 	return button
 end

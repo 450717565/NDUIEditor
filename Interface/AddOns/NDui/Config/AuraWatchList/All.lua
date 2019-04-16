@@ -156,6 +156,7 @@ local list = {
 		{AuraID = 271559, UnitID = "player"},	-- 闪光庇护所
 		{AuraID = 270657, UnitID = "player", Value = true},	-- 万人敌
 		--默认
+		{AuraID = 277960, UnitID = "player"},	-- 神经电激
 		{AuraID = 280852, UnitID = "player"},	-- 解放者之力
 		{AuraID = 266047, UnitID = "player"},	-- 激励咆哮
 		{AuraID = 280409, UnitID = "player"},	-- 血祭之力

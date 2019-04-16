@@ -234,8 +234,8 @@ end
 
 local cache = {}
 local function UpdateDungeonProgress(self, unit)
-	if unit ~= self.unit then return end
 	if not self.progressText or not AngryKeystones_Data then return end
+	if unit ~= self.unit then return end
 	self.progressText:SetText("")
 
 	local name, _, _, _, _, _, _, _, _, scenarioType = C_Scenario_GetInfo()
@@ -273,7 +273,7 @@ local function UpdateDungeonProgress(self, unit)
 end
 
 local classify = {
-	rare = {1, 0, 1, true},
+	rare = {1, 0, 1},
 	elite = {1, 1, 0},
 	rareelite = {0, 1, 1},
 	worldboss = {1, 0, 0},
@@ -283,9 +283,9 @@ local function UpdateUnitClassify(self, unit)
 	local class = UnitClassification(unit)
 	if self.creatureIcon then
 		if class and classify[class] then
-			local r, g, b, desature = unpack(classify[class])
+			local r, g, b = unpack(classify[class])
 			self.creatureIcon:SetVertexColor(r, g, b)
-			self.creatureIcon:SetDesaturated(desature)
+			self.creatureIcon:SetDesaturated(true)
 			self.creatureIcon:SetAlpha(1)
 		else
 			self.creatureIcon:SetAlpha(0)

@@ -1,6 +1,7 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
+	local cr, cg, cb = C.r, C.g, C.b
 	local friendTex = "Interface\\HELPFRAME\\ReportLagIcon-Chat"
 	local queueTex = "Interface\\HELPFRAME\\HelpIcon-ItemRestoration"
 	local homeTex = "Interface\\Buttons\\UI-HomeButton"
@@ -49,6 +50,16 @@ tinsert(C.themes["AuroraClassic"], function()
 	ChatFrameMenuButton:SetNormalTexture(homeTex)
 	ChatFrameMenuButton:SetPushedTexture(homeTex)
 
+	local function scrollOnEnter(self)
+		self.thumbBG:SetBackdropColor(cr, cg, cb, .25)
+		self.thumbBG:SetBackdropBorderColor(cr, cg, cb)
+	end
+
+	local function scrollOnLeave(self)
+		self.thumbBG:SetBackdropColor(0, 0, 0, 0)
+		self.thumbBG:SetBackdropBorderColor(0, 0, 0)
+	end
+
 	local function reskinScroll(self)
 		local bu = _G[self:GetName().."ThumbTexture"]
 		bu:SetAlpha(0)
@@ -59,6 +70,10 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.ReskinArrow(down, "down")
 		down:ClearAllPoints()
 		down:SetPoint("BOTTOM", _G[self:GetName().."ResizeButton"], "BOTTOM", -5, 3)
+
+		self.ScrollBar.thumbBG = bg
+		self.ScrollBar:HookScript("OnEnter", scrollOnEnter)
+		self.ScrollBar:HookScript("OnLeave", scrollOnLeave)
 	end
 
 	for i = 1, NUM_CHAT_WINDOWS do
