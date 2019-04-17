@@ -56,7 +56,7 @@ local defaultSettings = {
 		BagsScale = 1,
 		IconSize = 34,
 		BagsWidth = 12,
-		BankWidth = 14,
+		BankWidth = 18,
 		BagsiLvl = true,
 		Artifact = false,
 		ReverseSort = false,
@@ -78,8 +78,8 @@ local defaultSettings = {
 	UFs = {
 		Enable = true,
 		Portrait = true,
-		PlayerDebuff = false,
-		ToTAuras = false,
+		PlayerDebuff = true,
+		ToTAuras = true,
 		Arena = true,
 		Castbars = true,
 		SwingBar = false,
@@ -242,7 +242,6 @@ local defaultSettings = {
 		PlacedItemAlert = true,
 		RareAlertInWild = true,
 		ParagonRep = true,
-		AutoBubbles = false,
 	},
 	Tutorial = {
 		Complete = false,
@@ -292,6 +291,7 @@ local accountSettings = {
 	TexStyle = 1,
 	KeystoneInfo = {},
 	AzeriteArmor = true,
+	AutoBubbles = false,
 }
 
 local function InitialSettings(source, target)
@@ -585,7 +585,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Misc", "SoloInfo", L["SoloInfo"], true},
 		{},--blank
 		{1, "Misc", "ParagonRep", L["ParagonRep"]},
-		{1, "Misc", "AutoBubbles", L["AutoBubbles"], true},
+		{1, "ACCOUNT", "AutoBubbles", L["AutoBubbles"], true},
 	},
 	[13] = {
 		{1, "ACCOUNT", "VersionCheck", L["Version Check"]},

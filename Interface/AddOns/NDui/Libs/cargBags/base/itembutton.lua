@@ -84,6 +84,7 @@ function ItemButton:Create(tpl, parent)
 
 	if (button.Scaffold) then button:Scaffold(tpl) end
 	if (button.OnCreate) then button:OnCreate(tpl) end
+
 	local btnNT = _G[button:GetName().."NormalTexture"]
 	local btnNIT = button.NewItemTexture
 	local btnBIT = button.BattlepayItemTexture

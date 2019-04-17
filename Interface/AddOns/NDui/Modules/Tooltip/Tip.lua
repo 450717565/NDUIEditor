@@ -231,6 +231,8 @@ function module:OnTooltipSetUnit()
 	else
 		GameTooltipStatusBar:SetStatusBarColor(0, .9, 0)
 	end
+
+	module.InspectUnitSpecAndLevel(self)
 end
 
 function module:StatusBar_OnValueChanged(value)
@@ -375,10 +377,6 @@ function module:GameTooltip_SetBackdropStyle()
 end
 
 function module:OnLogin()
-	self:ExtraTipInfo()
-	self:TargetedInfo()
-	self:AzeriteArmor()
-
 	self:ReskinStatusBar()
 	GameTooltip:HookScript("OnTooltipCleared", self.OnTooltipCleared)
 	GameTooltip:HookScript("OnTooltipSetUnit", self.OnTooltipSetUnit)
@@ -387,6 +385,11 @@ function module:OnLogin()
 	hooksecurefunc("GameTooltip_ShowProgressBar", self.GameTooltip_ShowProgressBar)
 	hooksecurefunc("GameTooltip_SetDefaultAnchor", self.GameTooltip_SetDefaultAnchor)
 	hooksecurefunc("GameTooltip_SetBackdropStyle", self.GameTooltip_SetBackdropStyle)
+
+	-- Elements
+	self:ExtraTipInfo()
+	self:TargetedInfo()
+	self:AzeriteArmor()
 end
 
 -- Tooltip Skin Registration

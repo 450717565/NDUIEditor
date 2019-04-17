@@ -41,7 +41,7 @@ function module:OnLogin()
 	end
 
 	-- Auto chatBubbles
-	if NDuiDB["Misc"]["AutoBubbles"] then
+	if NDuiADB["AutoBubbles"] then
 		local function updateBubble()
 			if IsInInstance() then
 				SetCVar("chatBubbles", 1)

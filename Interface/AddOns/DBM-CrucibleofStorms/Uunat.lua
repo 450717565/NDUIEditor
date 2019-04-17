@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2332, "DBM-CrucibleofStorms", nil, 1177)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(string.sub("2019041630711", 1, -5))
+mod:SetRevision("2019041750524")
 mod:SetCreatureID(145371)
 mod:SetEncounterID(2273)
 --mod:DisableESCombatDetection()
@@ -16,11 +16,12 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 293653 285185 285416 285376 285345 285453 285820 285638 285427 285562 285685",
-	"SPELL_CAST_SUCCESS 284851 285652",
+	"SPELL_CAST_SUCCESS 284851 285652 285427",
 	"SPELL_SUMMON 286165",
-	"SPELL_AURA_APPLIED 286459 286457 286458 284583 293663 293662 293661 284851 285345 287693 285333 285652 286310",
+	"SPELL_AURA_APPLIED 286459 286457 286458 284583 293663 293662 293661 284851 285345 287693 285333 285652 286310 284768 284569 284684",
 --	"SPELL_AURA_APPLIED_DOSE",
-	"SPELL_AURA_REMOVED 286459 286457 286458 284583 293663 293662 293661 284851 287693 285333 285652 286310",
+	"SPELL_AURA_REMOVED 286459 286457 286458 284583 293663 293662 293661 284851 287693 285333 285652 286310 284768 284569 284684",
+	"SPELL_INTERRUPT",
 	"UNIT_DIED"
 --	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
@@ -30,16 +31,16 @@ mod:RegisterEventsInCombat(
 --TODO, special warning for storm instead of regular? I feel like since players control the cast, it just needs to be general for now
 --TODO, do more with Oblivion Tear?
 --TODO, do more with Void Crash?
---TODO, Improve eye warnings/timers with alternation in P1 and only spell name in P3
 --TODO, do more with piercing Gaze of N'Zoth?
---TODO, phase 3 trigger, not enough information to guess it right now
 --TODO, detect Primordial Mindbender spawns in a better way
 --TODO, improve icon code. need to see rate debuffs go out, how many at once, etc.
 --[[
 (ability.id = 293653 or ability.id = 285185 or ability.id = 285416 or ability.id = 285376 or ability.id = 285345 or ability.id = 285453 or ability.id = 285820 or ability.id = 285638 or ability.id = 285427 or ability.id = 285562 or ability.id = 285685) and type = "begincast"
  or (ability.id = 284851 or ability.id = 285652) and type = "cast"
  or ability.id = 286310
+ or (ability.id = 284768 or ability.id = 284569 or ability.id = 284684)
 --]]
+local warnPhase							= mod:NewPhaseChangeAnnounce(2, nil, nil, nil, nil, nil, 2)
 local warnVoidShield					= mod:NewTargetNoFilterAnnounce(286310, 2, nil, nil, nil, nil, nil, 7)
 --Relics of Power
 local warnFeedbackVoid					= mod:NewYouAnnounce(286459, 2)
@@ -63,9 +64,10 @@ local specWarnUnstableResonanceOcean	= mod:NewSpecialWarningYouPos(293662, nil, 
 local specWarnUnstableResonanceStorm	= mod:NewSpecialWarningYouPos(293661, nil, nil, nil, 1, 6)
 local yellUnstableResonanceSign			= mod:NewPosYell(293653, DBM_CORE_AUTO_YELL_CUSTOM_POSITION)
 --Stage One: His All-Seeing Eyes
-local specWarnTouchoftheEnd				= mod:NewSpecialWarningMoveAway(284851, nil, nil, nil, 1, 2)
+local specWarnTouchoftheEnd				= mod:NewSpecialWarningYou(284851, nil, nil, nil, 1, 2)
 local specWarnTouchoftheEndTaunt		= mod:NewSpecialWarningTaunt(284851, nil, nil, nil, 1, 6)
-local specWarnMaddeningEyesCast			= mod:NewSpecialWarningDodge(285345, nil, nil, nil, 2, 2)
+local specWarnPiercingGaze				= mod:NewSpecialWarningCount(285367, nil, nil, nil, 2, 2)
+local specWarnMaddeningEyesCast			= mod:NewSpecialWarningDodgeCount(285345, nil, nil, nil, 2, 2)
 local specWarnMaddeningEyes				= mod:NewSpecialWarningYou(285345, nil, nil, nil, 1, 2)
 local yellMaddeningEyes					= mod:NewYell(285345)
 local specWarnGiftofNzothObscurity		= mod:NewSpecialWarningDodge(285453, nil, nil, nil, 2, 2)
@@ -78,7 +80,7 @@ local specWarnPrimordialMindbender		= mod:NewSpecialWarningSwitch("ej19118", "Dp
 
 --Stage Three: His Unwavering Gaze
 local specWarnInsatiableTorment			= mod:NewSpecialWarningYou(285652, nil, nil, nil, 1, 2)
-local yellInsatiableTorment				= mod:NewYell(285652)
+local yellInsatiableTorment				= mod:NewPosYell(285652)
 local specWarnGiftofNzothLunacy			= mod:NewSpecialWarningCount(285685, nil, nil, nil, 2, 2)
 
 --Relics of Power
@@ -88,18 +90,20 @@ local timerUnstableResonanceCD			= mod:NewAITimer(55, 293653, nil, nil, nil, 3, 
 local timerUnstableResonance			= mod:NewBuffFadesTimer(15, 293653, nil, nil, nil, 5, nil, DBM_CORE_DEADLY_ICON)
 --Stage One: His All-Seeing Eyes
 local timerTouchoftheEndCD				= mod:NewCDTimer(25, 284851, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--25, but heavily affected by spell queueing or some kind of ability overlap protection
-local timerOblivionTearCD				= mod:NewCDCountTimer(12.1, 285185, nil, nil, nil, 3)
+local timerOblivionTearCD				= mod:NewCDCountTimer(12.1, 285185, nil, nil, nil, 3)--12.1 but often delayed by other casts
 local timerVoidCrashCD					= mod:NewCDCountTimer(31, 285416, nil, nil, nil, 3)
-local timerEyesofNzothCD				= mod:NewCDCountTimer(32.7, 285376, nil, nil, nil, 3)--32.7-36.4 (probably spell queuing)
+--local timerEyesofNzothCD				= mod:NewCDCountTimer(32.7, 285376, nil, nil, nil, 3)--32.7-36.4 (probably spell queuing)
+local timerPiercingGazeCD				= mod:NewCDCountTimer(32.7, 285367, nil, nil, nil, 3)
+local timerMaddeningEyesCD				= mod:NewCDCountTimer(32.7, 285345, nil, nil, nil, 3)
 local timerCallUndyingGuardianCD		= mod:NewCDTimer(47, 285820, nil, nil, nil, 1)
 local timerGiftofNzothObscurityCD		= mod:NewCDTimer(42.1, 285453, nil, nil, nil, 2)
 --Stage Two: His Dutiful Servants
-local timerUnknowableTerrorCD			= mod:NewCDTimer(40.5, 285562, nil, nil, nil, 2)
-local timerMindBenderCD					= mod:NewCDCountTimer(61.1, "ej19118", 284485, nil, nil, 2, 285427, DBM_CORE_DAMAGE_ICON)--Shorttext, Mindbender
+local timerUnknowableTerrorCD			= mod:NewCDTimer(40.5, 285562, nil, nil, nil, 3)
+local timerMindBenderCD					= mod:NewCDCountTimer(61.1, "ej19118", 284485, nil, nil, 1, 285427, DBM_CORE_DAMAGE_ICON)--Shorttext, Mindbender
 local timerGiftofNzothHysteriaCD		= mod:NewCDCountTimer(42.5, 285638, nil, nil, nil, 2)
 --Stage Three: His Unwavering Gaze
-local timerInsatiableTormentCD			= mod:NewAITimer(14.1, 285652, nil, nil, nil, 3)
-local timerGiftofNzothLunacyCD			= mod:NewAITimer(14.1, 285685, nil, nil, nil, 2)--Count timer when added
+local timerInsatiableTormentCD			= mod:NewCDTimer(23.1, 285652, nil, nil, nil, 3)
+local timerGiftofNzothLunacyCD			= mod:NewCDCountTimer(42.6, 285685, nil, nil, nil, 2)
 
 --local berserkTimer					= mod:NewBerserkTimer(600)
 
@@ -114,7 +118,7 @@ local countdownResonanceFades			= mod:NewCountdownFades(15, 293653, nil, nil, 5)
 
 --mod:AddSetIconOption("SetIconGift", 255594, true)
 mod:AddRangeFrameOption(10, 293653)
---mod:AddInfoFrameOption(258040, true)
+mod:AddInfoFrameOption(293653, true)
 mod:AddNamePlateOption("NPAuraOnBond", 287693)
 mod:AddNamePlateOption("NPAuraOnFeed", 285307)
 mod:AddNamePlateOption("NPAuraOnRegen", 285333)
@@ -133,6 +137,7 @@ mod.vb.LunacyCount = 0
 mod.vb.tormentIcon = 1--1 forwards
 mod.vb.addIcon = 8--8 backwards
 mod.vb.mindBenderCount = 0
+mod.vb.tridentOcean, mod.vb.tempestCaller, mod.vb.voidstone = nil, nil, nil
 local trackedFeedback1, trackedFeedback2, trackedFeedback3 = false, false, false
 local playerAffected = false
 local unitTracked = {}
@@ -159,17 +164,27 @@ do
 				local unitName = DBM:GetUnitFullName(uId)
 				addLine(unitName, math.floor(absorbAmount))
 			end
-		end--]]
+		end
 		--Bosses Power
 		local currentPower, maxPower = UnitPower("boss1"), UnitPowerMax("boss1")
 		if maxPower and maxPower ~= 0 then
 			if currentPower / maxPower * 100 >= 1 then
 				addLine(UnitName("boss1"), currentPower)
 			end
-		end
-		--Track Active Resonance Debuffs
+		end--]]
+		--Track Active Resonance Debuffs (Mythic)
 		if mod.vb.resonCount > 0 then
 			addLine(UnstableResonance, mod.vb.resonCount)
+		end
+		--Relics
+		if mod.vb.tridentOcean then
+			addLine(L.Ocean, mod.vb.tridentOcean)
+		end
+		if mod.vb.tempestCaller then
+			addLine(L.Storm, mod.vb.tempestCaller)
+		end
+		if mod.vb.voidstone then
+			addLine(L.Void, mod.vb.voidstone)
 		end
 		--Player personal checks (Checked if you have feedback)
 		if trackedFeedback1 then--Void
@@ -217,22 +232,26 @@ function mod:OnCombatStart(delay)
 	self.vb.tormentIcon = 1
 	self.vb.addIcon = 8
 	self.vb.mindBenderCount = 0
+	self.vb.tridentOcean, self.vb.tempestCaller, self.vb.voidstone = nil, nil, nil
 	trackedFeedback1, trackedFeedback2, trackedFeedback3 = false, false, false
 	playerAffected = false
 	table.wipe(unitTracked)
 	table.wipe(castsPerGUID)
-	timerVoidCrashCD:Start(6.1-delay, 1)
+	if self:IsHard() then
+		timerVoidCrashCD:Start(6.1-delay, 1)
+	end
 	timerOblivionTearCD:Start(12.1-delay, 1)
 	timerTouchoftheEndCD:Start(26.7-delay)
 	timerGiftofNzothObscurityCD:Start(20.6-delay)
 	timerCallUndyingGuardianCD:Start(30.3-delay)
-	timerEyesofNzothCD:Start(42-delay, 1)
+	--timerEyesofNzothCD:Start(42-delay, 1)
+	timerPiercingGazeCD:Start(42-delay, 1)
 	if self:IsMythic() then
 		timerUnstableResonanceCD:Start(1-delay)
 	end
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:SetHeader(OVERVIEW)
-		DBM.InfoFrame:Show(8, "function", updateInfoFrame, false, false)
+		DBM.InfoFrame:Show(10, "function", updateInfoFrame, false, false)
 	end
 	if self.Options.NPAuraOnBond or self.Options.NPAuraOnFeed or self.Options.NPAuraOnRegen or self.Options.NPAuraOnConsume then
 		DBM:FireEvent("BossMod_EnableHostileNameplates")
@@ -263,17 +282,34 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 285185 then
 		self.vb.tearCount = self.vb.tearCount + 1
 		warnOblivionTear:Show(self.vb.tearCount)
-		timerOblivionTearCD:Start(nil, self.vb.tearCount+1)
+		timerOblivionTearCD:Start(self.vb.phase == 3 and 12.1 or 16.6, self.vb.tearCount+1)
 	elseif spellId == 285416 then
 		self.vb.voidCrashCount = self.vb.voidCrashCount + 1
 		warnVoidCrash:Show(self.vb.voidCrashCount)
 		timerVoidCrashCD:Start(nil, self.vb.voidCrashCount+1)
-	elseif spellId == 285376 then
+	elseif spellId == 285376 then--Eyes of N'zoth (trigger for both spells below)
 		self.vb.nzothEyesCount = self.vb.nzothEyesCount + 1
-		timerEyesofNzothCD:Start(nil, self.vb.nzothEyesCount+1)
-	elseif spellId == 285345 and self:AntiSpam(3, 1) then
-		specWarnMaddeningEyesCast:Show()
-		specWarnMaddeningEyesCast:Play("farfromline")
+		--timerEyesofNzothCD:Start(32.7, self.vb.nzothEyesCount+1)
+		--If stage 3, or an even cast in phase 1, next is piercing
+		if self.vb.phase == 1 then
+			if self.vb.nzothEyesCount % 2 == 0 then
+				specWarnMaddeningEyesCast:Show(self.vb.nzothEyesCount)
+				specWarnMaddeningEyesCast:Play("farfromline")
+				timerPiercingGazeCD:Start(32.7, self.vb.nzothEyesCount+1)
+			else
+				specWarnPiercingGaze:Show(self.vb.nzothEyesCount)
+				specWarnPiercingGaze:Play("specialsoon")--don't have anything better really
+				timerMaddeningEyesCD:Start(32.7, self.vb.nzothEyesCount+1)
+			end
+		else--Phase 3 and all we get is piercing
+			specWarnPiercingGaze:Show()
+			specWarnPiercingGaze:Play("specialsoon")--don't have anything better really
+			--52 and 47 alternating
+			timerPiercingGazeCD:Start((self.vb.nzothEyesCount % 2 == 0) and 47.5 or 52.2, self.vb.nzothEyesCount+1)
+		end
+	--elseif spellId == 285345 and self:AntiSpam(3, 1) then
+		--specWarnMaddeningEyesCast:Show()
+		--specWarnMaddeningEyesCast:Play("farfromline")
 	elseif spellId == 285453 then
 		specWarnGiftofNzothObscurity:Show()
 		specWarnGiftofNzothObscurity:Play("watchstep")
@@ -284,7 +320,7 @@ function mod:SPELL_CAST_START(args)
 			specWarnCallUndyingGuardian:Show()
 			specWarnCallUndyingGuardian:Play("bigmob")
 		end
-		timerCallUndyingGuardianCD:Start()
+		timerCallUndyingGuardianCD:Start(self.vb.phase == 3 and 31.5 or 47)
 	elseif spellId == 285638 then
 		self.vb.HysteriaCount = self.vb.HysteriaCount + 1
 		specWarnGiftofNzothHysteria:Show(self.vb.HysteriaCount)
@@ -299,12 +335,12 @@ function mod:SPELL_CAST_START(args)
 		self.vb.LunacyCount = self.vb.LunacyCount + 1
 		specWarnGiftofNzothLunacy:Show(self.vb.LunacyCount)
 		specWarnGiftofNzothLunacy:Play("stopattack")--Right voice?
-		timerGiftofNzothLunacyCD:Start()
+		timerGiftofNzothLunacyCD:Start(nil, self.vb.LunacyCount+1)
 	elseif spellId == 285427 then
 		if not castsPerGUID[args.sourceGUID] then
 			castsPerGUID[args.sourceGUID] = 0
 			if self.Options.SetIconOnAdds then
-				self:ScanForMobs(args.sourceGUID, 2, self.vb.addIcon, 1, 0.2, 10)
+				self:ScanForMobs(args.sourceGUID, 2, self.vb.addIcon, 1, 0.2, 12)
 			end
 			self.vb.addIcon = self.vb.addIcon - 1
 			if self.vb.addIcon == 5 then--8-6
@@ -347,6 +383,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerTouchoftheEndCD:Start()
 	elseif spellId == 285652 then
 		timerInsatiableTormentCD:Start()
+	elseif spellId == 285427 then
+		if self.Options.NPAuraOnConsume then
+			DBM.Nameplate:Hide(true, args.destGUID)
+		end
 	end
 end
 
@@ -476,15 +516,16 @@ function mod:SPELL_AURA_APPLIED(args)
 			DBM.Nameplate:Show(true, args.destGUID, spellId)
 		end
 	elseif spellId == 285652 then
+		local icon = self.vb.tormentIcon
 		if args:IsPlayer() then
 			specWarnInsatiableTorment:Show()
 			specWarnInsatiableTorment:Play("targetyou")
-			yellInsatiableTorment:Yell()
+			yellInsatiableTorment:Yell(icon, icon, icon)
 		else
 			warnInsatiableTorment:CombinedShow(0.5, args.destName)
 		end
 		if self.Options.SetIconTorment then
-			self:SetIcon(args.destName, self.vb.tormentIcon)
+			self:SetIcon(args.destName, icon)
 		end
 		self.vb.tormentIcon = self.vb.tormentIcon + 1
 	elseif spellId == 286310 then--Void Shield
@@ -495,12 +536,21 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerTouchoftheEndCD:Stop()
 		timerGiftofNzothObscurityCD:Stop()
 		timerCallUndyingGuardianCD:Stop()
-		timerEyesofNzothCD:Stop()
+		--timerEyesofNzothCD:Stop()
+		timerPiercingGazeCD:Stop()
+		timerMaddeningEyesCD:Stop()
 		timerGiftofNzothHysteriaCD:Stop()
 		timerUnknowableTerrorCD:Stop()
 		timerInsatiableTormentCD:Stop()
 		timerGiftofNzothLunacyCD:Stop()
 		timerMindBenderCD:Stop()
+		timerUnstableResonanceCD:Stop()
+	elseif spellId == 284768 then--Trident
+		mod.vb.tridentOcean = args.destName
+	elseif spellId == 284569 then--Tempest
+		mod.vb.tempestCaller = args.destName
+	elseif spellId == 284684 then--Void
+		mod.vb.voidstone = args.destName
 	end
 end
 --mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
@@ -546,6 +596,8 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	elseif spellId == 286310 and self:IsInCombat() then--Void Shield
 		self.vb.phase = self.vb.phase + 1
+		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(self.vb.phase))
+		warnPhase:Play("phasechange")
 		self.vb.tearCount = 0--Maybe not reset?
 		if self.vb.phase == 2 then
 			timerVoidCrashCD:Stop()
@@ -555,11 +607,34 @@ function mod:SPELL_AURA_REMOVED(args)
 			timerCallUndyingGuardianCD:Start(32)
 			timerMindBenderCD:Start(34.4, 1)
 			timerGiftofNzothHysteriaCD:Start(40.5, 1)
+			if self:IsMythic() then
+				timerUnstableResonanceCD:Start(2)
+			end
 		elseif self.vb.phase == 3 then--Assumed, unsubstanciated
 			self.vb.nzothEyesCount = 0
 			--Timers and stuff
-			timerGiftofNzothLunacyCD:Start(3)
-			timerInsatiableTormentCD:Start(3)
+			timerInsatiableTormentCD:Start(12.1)
+			timerOblivionTearCD:Start(13.3, 1)
+			timerTouchoftheEndCD:Start(21.9)
+			timerCallUndyingGuardianCD:Start(26.7)
+			timerGiftofNzothLunacyCD:Start(40.1, 1)
+			if self:IsMythic() then
+				timerUnstableResonanceCD:Start(3)
+			end
+		end
+	elseif spellId == 284768 then--Trident
+		mod.vb.tridentOcean = nil
+	elseif spellId == 284569 then--Tempest
+		mod.vb.tempestCaller = nil
+	elseif spellId == 284684 then--Void
+		mod.vb.voidstone = nil
+	end
+end
+
+function mod:SPELL_INTERRUPT(args)
+	if type(args.extraSpellId) == "number" and args.extraSpellId == 285427 then
+		if self.Options.NPAuraOnConsume then
+			DBM.Nameplate:Hide(true, args.destGUID)
 		end
 	end
 end
