@@ -7,8 +7,8 @@ local B, C, L, DB = unpack(select(2, ...))
 local module = B:GetModule("Extras")
 local cr, cg, cb = DB.r, DB.g, DB.b
 
-local strgmatch, strgsub, strformat, strfind, strsub = string.gmatch, string.gsub, string.format, string.find, string.sub
-local mceil, mfloor, mmax = math.ceil, math.floor, math.max
+local strgsub, strformat, strfind, strsub = string.gsub, string.format, string.find, string.sub
+local mceil, mfloor = math.ceil, math.floor
 
 local locale = GetLocale()
 local patch = "Interface\\AddOns\\NDui\\Media\\Emote\\"
@@ -154,11 +154,11 @@ end
 
 do
 	local frame, button
-	local width, height, column, space = 20, 20, 10, 6
-	local index = 0
+	local size, column, space, index = 24, 10, 4, 0
+
 	frame = CreateFrame("Frame", "CustomEmoteFrame", UIParent)
 	frame.title = B.CreateFS(frame, 15, "", true, "TOPRIGHT", -35, -12)
-	frame:SetWidth(column*(width+space) + 24)
+	frame:SetWidth(column*(size+space) + 24)
 	frame:SetClampedToScreen(true)
 	frame:SetFrameStrata("DIALOG")
 	frame:SetPoint("BOTTOMLEFT", ChatFrame1Tab, "TOPRIGHT", 20, 20)  --這裡調整位置
@@ -176,24 +176,25 @@ do
 	for _, v in ipairs(emotes) do
 		button = CreateFrame("Button", nil, frame)
 		button.emote = "{"..(v[locale] or v.key).."}"
-		button:SetSize(width, height)
+		button:SetSize(size, size)
+		button:SetPoint("TOPLEFT", 14+(index%column)*(size+space), -36-mfloor(index/column)*(size+space))
+		button:SetScript("OnMouseUp", EmoteButton_OnClick)
+		button:SetScript("OnEnter", EmoteButton_OnEnter)
+		button:SetScript("OnLeave", EmoteButton_OnLeave)
+
 		if v.texture then
 			button:SetNormalTexture(v.texture)
 		else
 			button:SetNormalTexture(patch..v.key)
 		end
-		button:SetHighlightTexture(DB.bdTex, "ADD")
-		button:SetPoint("TOPLEFT", 16+(index%column)*(width+space), -36 - mfloor(index/column)*(height+space))
-		button:SetScript("OnMouseUp", EmoteButton_OnClick)
-		button:SetScript("OnEnter", EmoteButton_OnEnter)
-		button:SetScript("OnLeave", EmoteButton_OnLeave)
 
+		button:SetHighlightTexture(DB.bdTex, "ADD")
 		local hl = button:GetHighlightTexture()
 		hl:SetVertexColor(cr, cg, cb, .25)
 
 		index = index + 1
 	end
-	frame:SetHeight(mceil(index/column)*(height+space) + 46)
+	frame:SetHeight(mceil(index/column)*(size+space) + 46)
 	frame:Hide()
 	--让输入框支持当输入 { 时自动弹出聊天表情选择框
 	hooksecurefunc("ChatEdit_OnTextChanged", function(self, userInput)
@@ -209,7 +210,7 @@ end
 ------------------------
 
 local chatSize = mfloor(select(2, SELECTED_CHAT_FRAME:GetFont()))
-local convert = strformat("|T%%s:%d|t", mmax(chatSize, 16))
+local convert = strformat("|T%%s:%d|t", chatSize+3)
 
 local function ChatEmoteFilter(self, event, msg, ...)
 	for _, v in pairs(emotes) do

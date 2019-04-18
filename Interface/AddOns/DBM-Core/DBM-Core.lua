@@ -60,7 +60,7 @@ local function parseCurseDate(date)
 end
 
 DBM = {
-	Revision = parseCurseDate("2019041750524"),
+	Revision = parseCurseDate("2019041804727"),
 	DisplayVersion = "8.1.19 alpha", -- the string that is shown as version
 	ReleaseRevision = releaseDate(2019, 4, 17) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
@@ -7216,10 +7216,8 @@ function DBM:FindInstanceIDs(low, peak)
 	end
 end
 
---/run DBM:FindEncounterIDs(1028)--Azeroth (BfA)
---/run DBM:FindEncounterIDs(1177)--Crucible of Storms
---/run DBM:FindEncounterIDs(1176)--Zuldazar Raid
---/run DBM:FindEncounterIDs(1001, 23)--Dungeon Template (mythic difficulty)
+--/run DBM:FindEncounterIDs(1179)--Eternal Palace
+--/run DBM:FindEncounterIDs(1178, 23)--Dungeon Template (mythic difficulty)
 --/run DBM:FindEncounterIDs(231, 1)--Classic Dungeons need diff 1 specified
 --/run DBM:FindDungeonMapIDs(1, 500)--Find Classic Dungeon Map IDs
 --/run DBM:FindInstanceIDs(1, 300)--Find Classic Dungeon Journal IDs

@@ -1,13 +1,13 @@
 local mod	= DBM:NewMod(2332, "DBM-CrucibleofStorms", nil, 1177)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("2019041750524")
+mod:SetRevision("20190417200945")
 mod:SetCreatureID(145371)
 mod:SetEncounterID(2273)
 --mod:DisableESCombatDetection()
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
-mod:SetUsedIcons(1, 2, 3, 6, 7, 8)
+mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7, 8)--Torment reserves as many as needed, but hopefully won't use more than 5 so adds don't get messed up
 --mod:SetHotfixNoticeRev(17775)
 --mod:SetMinSyncRevision(16950)
 --mod.respawnTime = 35

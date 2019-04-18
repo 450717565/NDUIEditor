@@ -3,6 +3,7 @@ local B, C, L, DB, F = unpack(ns)
 local module = B:GetModule("Misc")
 
 function module:GuildBest()
+	local CHALLENGE_MODE_WEEKLY_BEST = CHALLENGE_MODE_WEEKLY_BEST
 	local CHALLENGE_MODE_POWER_LEVEL = CHALLENGE_MODE_POWER_LEVEL
 	local CHALLENGE_MODE_GUILD_BEST_LINE = CHALLENGE_MODE_GUILD_BEST_LINE
 	local CHALLENGE_MODE_GUILD_BEST_LINE_YOU = CHALLENGE_MODE_GUILD_BEST_LINE_YOU
@@ -31,7 +32,7 @@ function module:GuildBest()
 		frame:SetPoint("BOTTOMRIGHT", -6, 80)
 		frame:SetSize(170, 105)
 		B.SetBackground(frame, 0)
-		B.CreateFS(frame, 16, CHALLENGE_MODE_THIS_WEEK , "system", "TOPLEFT", 16, -6)
+		B.CreateFS(frame, 16, CHALLENGE_MODE_WEEKLY_BEST , "system", "TOPLEFT", 16, -6)
 
 		if F then F.CreateGF(frame) end
 
@@ -118,9 +119,9 @@ function module:GuildBest()
 				local name = Ambiguate(name, "none")
 				local mapID, level, class, faction = strsplit(":", info)
 				local color = B.HexRGB(B.ClassColor(class))
-				local infoColor = faction == "Horde" and "|cffee1919" or "|cff00adf0"
+				local factionColor = faction == "Horde" and "|cffff5040" or "|cff00adf0"
 				local dungeon = C_ChallengeMode_GetMapUIInfo(tonumber(mapID))
-				GameTooltip:AddDoubleLine(format(color.."%s|r", name), format(infoColor.."%s(%s)|r", dungeon, level))
+				GameTooltip:AddDoubleLine(format(color.."%s|r", name), format("%s%s(%s)|r", factionColor, dungeon, level))
 			end
 			GameTooltip:AddDoubleLine(" ", DB.LineString)
 			GameTooltip:AddDoubleLine(" ", DB.ScrollButton..L["Reset Gold"].." ", 1,1,1, .6,.8,1)
