@@ -65,7 +65,7 @@ oUF.Tags.Methods["color"] = function(unit)
 		return B.HexRGB(1, 1, 1)
 	end
 end
-oUF.Tags.Events["color"] = "UNIT_HEALTH_FREQUENT UNIT_CONNECTION PLAYER_FLAGS_CHANGED"
+oUF.Tags.Events["color"] = "UNIT_HEALTH UNIT_NAME_UPDATE UNIT_FACTION UNIT_CONNECTION PLAYER_FLAGS_CHANGED"
 
 oUF.Tags.Methods["flag"] = function(unit)
 	if UnitIsAFK(unit) then
@@ -74,7 +74,7 @@ oUF.Tags.Methods["flag"] = function(unit)
 		return " |cffFFCC00<"..DND..">|r"
 	end
 end
-oUF.Tags.Events["flag"] = "UNIT_HEALTH_FREQUENT PLAYER_FLAGS_CHANGED"
+oUF.Tags.Events["flag"] = "PLAYER_FLAGS_CHANGED"
 
 oUF.Tags.Methods["state"] = function(unit)
 	if not UnitIsConnected(unit) and GetNumArenaOpponentSpecs() <= 0 then
@@ -85,7 +85,7 @@ oUF.Tags.Methods["state"] = function(unit)
 		return "|cffC0C0C0"..DEAD.."|r"
 	end
 end
-oUF.Tags.Events["state"] = "UNIT_HEALTH_FREQUENT UNIT_CONNECTION PLAYER_FLAGS_CHANGED"
+oUF.Tags.Events["state"] = "UNIT_HEALTH UNIT_CONNECTION PLAYER_FLAGS_CHANGED"
 
 -- Level tags
 oUF.Tags.Methods["fulllevel"] = function(unit)
