@@ -55,16 +55,11 @@ end
 function UF:CreateHealthBar(self)
 	local health = CreateFrame("StatusBar", nil, self)
 	health:SetAllPoints()
-	health:SetStatusBarTexture(DB.normTex)
-	health:SetStatusBarColor(.1, .1, .1)
 	health:SetFrameLevel(self:GetFrameLevel() - 2)
-	B.CreateSD(health, 3, 3)
 	B.SmoothBar(health)
 
-	local bg = health:CreateTexture(nil, "BACKGROUND")
-	bg:SetAllPoints()
-	bg:SetTexture(DB.normTex)
-	bg:SetVertexColor(.6, .6, .6)
+	local bg = B.CreateSB(health, false, .1, .1, .1)
+	bg:SetVertexColor(.6, .6, .6, 1)
 	bg.multiplier = .25
 
 	local mystyle = self.mystyle
@@ -81,7 +76,6 @@ function UF:CreateHealthBar(self)
 	health.frequentUpdates = true
 
 	self.Health = health
-	self.Health.bg = bg
 end
 
 function UF:CreateHealthText(self)
@@ -155,10 +149,10 @@ end
 
 function UF:CreatePowerBar(self)
 	local power = CreateFrame("StatusBar", nil, self)
-	power:SetStatusBarTexture(DB.normTex)
 	power:SetWidth(self:GetWidth())
 	power:SetPoint("TOP", self, "BOTTOM", 0, -3)
 	power:SetFrameLevel(self:GetFrameLevel() - 2)
+	B.SmoothBar(power)
 
 	local mystyle = self.mystyle
 	if mystyle == "PlayerPlate" then
@@ -167,12 +161,8 @@ function UF:CreatePowerBar(self)
 		power:SetHeight(retVal(self, 4, 3, 2, 4))
 	end
 
-	B.CreateSD(power, 3, 3)
-	B.SmoothBar(power)
-
-	local bg = power:CreateTexture(nil, "BACKGROUND")
-	bg:SetAllPoints()
-	bg:SetTexture(DB.normTex)
+	local bg = B.CreateSB(power)
+	bg:SetAlpha(1)
 	bg.multiplier = .25
 
 	if (mystyle == "raid" and NDuiDB["UFs"]["RaidClassColor"]) or (mystyle ~= "raid" and NDuiDB["UFs"]["HealthColor"] == 2) or mystyle == "PlayerPlate" then
@@ -186,7 +176,6 @@ function UF:CreatePowerBar(self)
 	power.frequentUpdates = true
 
 	self.Power = power
-	self.Power.bg = bg
 end
 
 function UF:CreatePowerText(self)
@@ -300,7 +289,8 @@ function UF:CreateCastBar(self)
 	if mystyle ~= "nameplate" and not NDuiDB["UFs"]["Castbars"] then return end
 
 	local cb = CreateFrame("StatusBar", "oUF_Castbar"..mystyle, self)
-	B.CreateSB(cb, true, .3, .7, 1)
+	local bg = B.CreateSB(cb, true)
+	B.CreateTex(bg)
 
 	if mystyle == "player" then
 		cb:SetSize(unpack(C.UFs.PlayercbSize))
@@ -686,12 +676,12 @@ end
 
 -- Class Powers
 local margin = C.UFs.BarMargin
-local width, height = unpack(C.UFs.BarSize)
+local barWidth, barHeight = unpack(C.UFs.BarSize)
 
 local function postUpdateClassPower(element, cur, max, diff, powerType)
 	if diff then
 		for i = 1, 6 do
-			element[i]:SetWidth((width - (max-1)*margin)/max)
+			element[i]:SetWidth((barWidth - (max-1)*margin)/max)
 		end
 	end
 
@@ -746,18 +736,19 @@ end
 function UF:CreateClassPower(self)
 	local mystyle = self.mystyle
 	if mystyle == "PlayerPlate" then
-		width, height = self:GetWidth(), NDuiDB["Extras"]["CPHeight"]
+		barWidth, barHeight = self:GetWidth(), NDuiDB["Extras"]["CPHeight"]
 		C.UFs.BarPos = {"BOTTOMLEFT", self, "TOPLEFT", 0, 3}
 	end
 
 	local bars = {}
 	for i = 1, 6 do
 		bars[i] = CreateFrame("StatusBar", nil, self.Health)
-		bars[i]:SetHeight(height)
-		bars[i]:SetWidth((width - 5*margin) / 6)
-		bars[i]:SetStatusBarTexture(DB.normTex)
+		bars[i]:SetHeight(barHeight)
+		bars[i]:SetWidth((barWidth - 5*margin) / 6)
 		bars[i]:SetFrameLevel(self:GetFrameLevel() + 5)
-		B.CreateSD(bars[i], 3, 3)
+
+		local bg = B.CreateSB(bars[i])
+
 		if i == 1 then
 			bars[i]:SetPoint(unpack(C.UFs.BarPos))
 		else
@@ -765,10 +756,7 @@ function UF:CreateClassPower(self)
 		end
 
 		if DB.MyClass == "DEATHKNIGHT" then
-			bars[i].bg = bars[i]:CreateTexture(nil, "BACKGROUND")
-			bars[i].bg:SetAllPoints()
-			bars[i].bg:SetTexture(DB.normTex)
-			bars[i].bg.multiplier = .2
+			bg.multiplier = .25
 
 			if NDuiDB["UFs"]["RuneTimer"] then
 				bars[i].timer = B.CreateFS(bars[i], 13, "", false, "CENTER", .5, 0)
@@ -791,6 +779,21 @@ function UF:CreateClassPower(self)
 		bars.PostUpdate = postUpdateClassPower
 		self.ClassPower = bars
 	end
+end
+
+function UF:StaggerBar(self)
+	local stagger = CreateFrame("StatusBar", nil, self.Health)
+	stagger:SetSize(barWidth, barHeight)
+	stagger:SetPoint(unpack(C.UFs.BarPos))
+	stagger:SetFrameLevel(self:GetFrameLevel() + 5)
+	stagger:Hide()
+	B.SmoothBar(stagger)
+
+	local bg = B.CreateSB(stagger)
+	bg:SetAlpha(1)
+	bg.multiplier = .25
+
+	self.Stagger = stagger
 end
 
 local function postUpdateAltPower(element, _, cur, _, max)
@@ -909,20 +912,18 @@ end
 function UF:CreateAddPower(self)
 	local bar = CreateFrame("StatusBar", nil, self)
 	bar:SetSize(self:GetWidth()/2, self.Power:GetHeight())
-	bar:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -10)
-	bar:SetStatusBarTexture(DB.normTex)
-	B.CreateSD(bar, 3, 3)
+	bar:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -3)
+	B.SmoothBar(bar)
 	bar.colorPower = true
 
-	local b = bar:CreateTexture(nil, "BACKGROUND")
-	b:SetAllPoints()
-	b:SetTexture(DB.normTex)
-	b.multiplier = .3
-	local t = B.CreateFS(bar, 12, "")
+	local bg = B.CreateSB(bar)
+	bg:SetAlpha(1)
+	bg.multiplier = .25
+
+	local text = B.CreateFS(bar, 12, "")
 
 	self.AdditionalPower = bar
-	self.AdditionalPower.bg = b
-	self.AdditionalPower.Text = t
+	self.AdditionalPower.Text = text
 	self.AdditionalPower.PostUpdate = postUpdateAddPower
 end
 
@@ -965,8 +966,8 @@ function UF:CreateQuakeTimer(self)
 
 	local bar = CreateFrame("StatusBar", nil, self)
 	bar:SetSize(unpack(C.UFs.PlayercbSize))
-	B.CreateSB(bar, true, 0, 1, 0)
 	bar:Hide()
+	B.CreateSB(bar, true, 0, 1, 0)
 
 	bar.SpellName = B.CreateFS(bar, 12, "", false, "LEFT", 2, 0)
 	bar.Text = B.CreateFS(bar, 12, "", false, "RIGHT", -2, 0)

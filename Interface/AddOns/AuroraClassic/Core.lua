@@ -548,6 +548,7 @@ end
 function F:ReskinGarrisonPortrait()
 	self.Portrait:ClearAllPoints()
 	self.Portrait:SetPoint("TOPLEFT", 4, -4)
+	self.Portrait:SetMask(C.media.bdTex)
 	self.PortraitRing:Hide()
 	self.PortraitRingQuality:SetTexture("")
 	if self.Highlight then self.Highlight:Hide() end

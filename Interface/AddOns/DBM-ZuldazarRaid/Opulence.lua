@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2342, "DBM-ZuldazarRaid", 2, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("2019041851309")
+mod:SetRevision("20190420174733")
 mod:SetCreatureID(145261)
 mod:SetEncounterID(2271)
 --mod:DisableESCombatDetection()
@@ -108,8 +108,6 @@ local timerSurgingGoldCD				= mod:NewCDTimer(42.5, 289155, nil, nil, nil, 3)--Re
 --local countdownFelstormBarrage			= mod:NewCountdown("AltTwo32", 244000, nil, nil, 3)
 
 mod:AddNamePlateOption("NPAuraOnGoldenRadiance", 289776)
---mod:AddSetIconOption("SetIconDarkRev", 273365, true)
---mod:AddSetIconOption("SetIconGift", 255594, true)
 --mod:AddRangeFrameOption("8/10")
 mod:AddInfoFrameOption(284664, true)
 

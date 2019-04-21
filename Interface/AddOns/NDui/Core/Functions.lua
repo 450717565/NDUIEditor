@@ -324,15 +324,15 @@ function B:CreateSB(spark, r, g, b)
 	self:SetStatusBarTexture(DB.normTex)
 	if r and g and b then
 		self:SetStatusBarColor(r, g, b)
-	else
-		self:SetStatusBarColor(cr, cg, cb)
 	end
 	B.CreateSD(self, 3, 3)
-	self.BG = self:CreateTexture(nil, "BACKGROUND")
-	self.BG:SetAllPoints()
-	self.BG:SetTexture(DB.normTex)
-	self.BG:SetVertexColor(0, 0, 0, .5)
-	B.CreateTex(self.BG)
+
+	local bg = self:CreateTexture(nil, "BACKGROUND")
+	bg:SetAllPoints()
+	bg:SetTexture(DB.normTex)
+	bg:SetVertexColor(0, 0, 0, .5)
+	self.bg = bg
+
 	if spark then
 		self.Spark = self:CreateTexture(nil, "OVERLAY")
 		self.Spark:SetTexture(DB.sparkTex)
@@ -341,6 +341,8 @@ function B:CreateSB(spark, r, g, b)
 		self.Spark:SetPoint("TOPLEFT", self:GetStatusBarTexture(), "TOPRIGHT", -10, 10)
 		self.Spark:SetPoint("BOTTOMRIGHT", self:GetStatusBarTexture(), "BOTTOMRIGHT", 10, -10)
 	end
+
+	return bg
 end
 
 -- Numberize

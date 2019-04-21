@@ -9,6 +9,8 @@ local GetTime, GetSpellInfo, GetSpellCooldown, GetSpellCharges, GetTotemInfo = G
 local GetItemCooldown, GetItemInfo, GetInventoryItemLink, GetInventoryItemCooldown = GetItemCooldown, GetItemInfo, GetInventoryItemLink, GetInventoryItemCooldown
 local strsplit = string.split
 
+local cr, cg, cb = DB.r, DB.g, DB.b
+
 -- Init
 function B.RemoveAuraData(spellID)
 	for _, v in pairs(C.AuraWatchList[DB.MyClass]) do
@@ -219,7 +221,7 @@ local function BuildBAR(barWidth, iconSize)
 	frame.Statusbar:SetPoint("BOTTOMLEFT", frame, "BOTTOMRIGHT", 5, .5)
 	frame.Statusbar:SetMinMaxValues(0, 1)
 	frame.Statusbar:SetValue(0)
-	B.CreateSB(frame.Statusbar, true)
+	B.CreateSB(frame.Statusbar, true, cr, cg, cb)
 
 	frame.Count = B.CreateFS(frame, 14, "", false, "BOTTOMRIGHT", 2, -2)
 	frame.Time = B.CreateFS(frame.Statusbar, 14, "", false, "RIGHT", 2, 8)
