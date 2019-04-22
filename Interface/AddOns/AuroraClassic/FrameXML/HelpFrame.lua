@@ -2,24 +2,56 @@ local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinFrame(HelpFrame)
-	F.StripTextures(HelpFrameMainInset)
-	F.StripTextures(HelpBrowser.BrowserInset)
+	F.ReskinFrame(TicketStatusFrame)
 
-	HelpFrameHeader:Hide()
+	F.ReskinArrow(HelpBrowserNavBack, "left")
+	F.ReskinArrow(HelpBrowserNavForward, "right")
+	F.ReskinIcon(HelpFrameCharacterStuckHearthstoneIconTexture)
+	F.CreateBDFrame(HelpBrowser, 0, true)
 
-	local frames = {HelpFrameGM_ResponseScrollFrame1, HelpFrameGM_ResponseScrollFrame2, HelpFrameReportBugScrollFrame, HelpFrameSubmitSuggestionScrollFrame, ReportCheatingDialogCommentFrame}
-	for _, frame in pairs(frames) do
-		F.StripTextures(frame)
-		F.CreateBDFrame(frame, 0)
+	F.ReskinFrame(BrowserSettingsTooltip)
+	F.ReskinButton(BrowserSettingsTooltip.CacheButton)
+	F.ReskinButton(BrowserSettingsTooltip.CookiesButton)
+
+	F.ReskinFrame(ReportCheatingDialog)
+	F.ReskinButton(ReportCheatingDialogReportButton)
+	F.ReskinButton(ReportCheatingDialogCancelButton)
+
+	HelpFrameHeader:ClearAllPoints()
+	HelpFrameHeader:SetPoint("TOP", HelpFrame, "TOP", 0, 5)
+	HelpFrameButton6:ClearAllPoints()
+	HelpFrameButton6:SetPoint("TOP", HelpFrameButton16, "BOTTOM", 0, -12)
+	HelpBrowserNavHome:ClearAllPoints()
+	HelpBrowserNavHome:SetPoint("BOTTOMLEFT", HelpBrowser, "TOPLEFT", -1, 5)
+	HelpBrowserBrowserSettings:ClearAllPoints()
+	HelpBrowserBrowserSettings:SetPoint("RIGHT", HelpFrameCloseButton, "LEFT", -5, 0)
+
+	HelpFrameReportBugScrollFrameScrollBar:SetPoint("TOPLEFT", HelpFrameReportBugScrollFrame, "TOPRIGHT", 3, -16)
+	HelpFrameSubmitSuggestionScrollFrameScrollBar:SetPoint("TOPLEFT", HelpFrameSubmitSuggestionScrollFrame, "TOPRIGHT", 3, -16)
+	HelpFrameGM_ResponseScrollFrame1ScrollBar:SetPoint("TOPLEFT", HelpFrameGM_ResponseScrollFrame1, "TOPRIGHT", 3, -16)
+	HelpFrameGM_ResponseScrollFrame2ScrollBar:SetPoint("TOPLEFT", HelpFrameGM_ResponseScrollFrame2, "TOPRIGHT", 3, -16)
+
+	select(3, HelpFrameReportBug:GetChildren()):Hide()
+	select(3, HelpFrameSubmitSuggestion:GetChildren()):Hide()
+	select(5, HelpFrameGM_Response:GetChildren()):Hide()
+	select(6, HelpFrameGM_Response:GetChildren()):Hide()
+
+	local lists = {
+		HelpFrameHeader,
+		HelpFrameMainInset,
+		HelpBrowser.BrowserInset,
+	}
+	for _, list in pairs(lists) do
+		F.StripTextures(list)
 	end
 
 	local scrolls = {
+		HelpFrameGM_ResponseScrollFrame1ScrollBar,
+		HelpFrameGM_ResponseScrollFrame2ScrollBar,
+		HelpFrameKnowledgebaseScrollFrame2ScrollBar,
 		HelpFrameKnowledgebaseScrollFrameScrollBar,
 		HelpFrameReportBugScrollFrameScrollBar,
 		HelpFrameSubmitSuggestionScrollFrameScrollBar,
-		HelpFrameGM_ResponseScrollFrame1ScrollBar,
-		HelpFrameGM_ResponseScrollFrame2ScrollBar,
-		HelpFrameKnowledgebaseScrollFrame2ScrollBar
 	}
 	for _, scroll in pairs(scrolls) do
 		F.ReskinScroll(scroll)
@@ -28,75 +60,47 @@ tinsert(C.themes["AuroraClassic"], function()
 	local buttons = {
 		HelpFrameAccountSecurityOpenTicket,
 		HelpFrameCharacterStuckStuck,
-		HelpFrameOpenTicketHelpOpenTicket,
-		HelpFrameKnowledgebaseSearchButton,
-		HelpFrameGM_ResponseNeedMoreHelp,
 		HelpFrameGM_ResponseCancel,
+		HelpFrameGM_ResponseNeedMoreHelp,
+		HelpFrameKnowledgebaseSearchButton,
+		HelpFrameOpenTicketHelpOpenTicket,
 		HelpFrameReportBugSubmit,
-		HelpFrameSubmitSuggestionSubmit
+		HelpFrameSubmitSuggestionSubmit,
 	}
 	for _, button in pairs(buttons) do
 		F.ReskinButton(button)
 	end
 
-	F.StripTextures(HelpFrameKnowledgebase)
-	F.ReskinInput(HelpFrameKnowledgebaseSearchBox)
-
-	select(3, HelpFrameReportBug:GetChildren()):Hide()
-	select(3, HelpFrameSubmitSuggestion:GetChildren()):Hide()
-	select(5, HelpFrameGM_Response:GetChildren()):Hide()
-	select(6, HelpFrameGM_Response:GetChildren()):Hide()
-
-	HelpFrameReportBugScrollFrameScrollBar:SetPoint("TOPLEFT", HelpFrameReportBugScrollFrame, "TOPRIGHT", 3, -16)
-	HelpFrameSubmitSuggestionScrollFrameScrollBar:SetPoint("TOPLEFT", HelpFrameSubmitSuggestionScrollFrame, "TOPRIGHT", 3, -16)
-	HelpFrameGM_ResponseScrollFrame1ScrollBar:SetPoint("TOPLEFT", HelpFrameGM_ResponseScrollFrame1, "TOPRIGHT", 3, -16)
-	HelpFrameGM_ResponseScrollFrame2ScrollBar:SetPoint("TOPLEFT", HelpFrameGM_ResponseScrollFrame2, "TOPRIGHT", 3, -16)
-
-	for i = 1, 15 do
-		local bu = _G["HelpFrameKnowledgebaseScrollFrameButton"..i]
-		bu:DisableDrawLayer("ARTWORK")
-		F.CreateBDFrame(bu, 0)
-	end
-
-	local function styleTab(bu)
-		F.ReskinTexture(bu.selected, bu, true)
-		F.ReskinButton(bu)
-	end
-
-	for i = 1, 6 do
-		styleTab(_G["HelpFrameButton"..i])
-	end
-	styleTab(HelpFrameButton16)
-
-	HelpFrameCharacterStuckHearthstone:SetSize(56, 56)
-	F.CreateBDFrame(HelpFrameCharacterStuckHearthstone)
-	HelpFrameCharacterStuckHearthstoneIconTexture:SetTexCoord(.08, .92, .08, .92)
-
-	local btns = {
+	local navbtns = {
+		HelpBrowserBrowserSettings,
 		HelpBrowserNavHome,
 		HelpBrowserNavReload,
 		HelpBrowserNavStop,
-		HelpBrowserBrowserSettings,
 	}
-	for _, btn in pairs(btns) do
-		btn:SetSize(18, 18)
-		F.ReskinButton(btn)
+	for _, navbtn in pairs(navbtns) do
+		navbtn:SetSize(18, 18)
+		F.ReskinButton(navbtn)
 	end
 
-	F.ReskinArrow(HelpBrowserNavBack, "left")
-	F.ReskinArrow(HelpBrowserNavForward, "right")
+	local frames = {
+		HelpFrameGM_ResponseScrollFrame1,
+		HelpFrameGM_ResponseScrollFrame2,
+		HelpFrameReportBugScrollFrame,
+		HelpFrameSubmitSuggestionScrollFrame,
+		ReportCheatingDialogCommentFrame,
+	}
+	for _, frame in pairs(frames) do
+		F.StripTextures(frame)
+		F.CreateBDFrame(frame, 0)
+	end
 
-	HelpBrowserNavHome:SetPoint("BOTTOMLEFT", HelpBrowser, "TOPLEFT", 2, 4)
-	HelpBrowserBrowserSettings:SetPoint("TOPRIGHT", HelpFrameCloseButton, "BOTTOMLEFT", -4, -1)
-	LoadingIcon:ClearAllPoints()
-	LoadingIcon:SetPoint("LEFT", HelpBrowserNavStop, "RIGHT")
+	local function reskinButton(bu)
+		F.ReskinButton(bu)
+		F.ReskinTexture(bu.selected, bu, true)
+	end
 
-	F.ReskinFrame(BrowserSettingsTooltip)
-	F.ReskinButton(BrowserSettingsTooltip.CacheButton)
-	F.ReskinButton(BrowserSettingsTooltip.CookiesButton)
-	F.ReskinButton(ReportCheatingDialogReportButton)
-	F.ReskinButton(ReportCheatingDialogCancelButton)
-
-	F.ReskinFrame(TicketStatusFrameButton)
-	F.ReskinFrame(ReportCheatingDialog)
+	for i = 1, 6 do
+		reskinButton(_G["HelpFrameButton"..i])
+	end
+	reskinButton(HelpFrameButton16)
 end)

@@ -782,12 +782,17 @@ function UF:CreateClassPower(self)
 end
 
 function UF:StaggerBar(self)
+	if DB.MyClass ~= "MONK" then return end
+
 	local stagger = CreateFrame("StatusBar", nil, self.Health)
 	stagger:SetSize(barWidth, barHeight)
 	stagger:SetPoint(unpack(C.UFs.BarPos))
 	stagger:SetFrameLevel(self:GetFrameLevel() + 5)
-	stagger:Hide()
 	B.SmoothBar(stagger)
+
+	local text = B.CreateFS(stagger, 12, "")
+	text:SetJustifyH("CENTER")
+	self:Tag(text, "[monkstagger]")
 
 	local bg = B.CreateSB(stagger)
 	bg:SetAlpha(1)

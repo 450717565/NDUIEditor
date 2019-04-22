@@ -8,26 +8,24 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		F.ReskinFrame(InterfaceOptionsFrame)
 
-		local textures = {
+		InterfaceOptionsFrameHeader:ClearAllPoints()
+		InterfaceOptionsFrameHeader:SetPoint("TOP")
+		InterfaceOptionsFrameOkay:ClearAllPoints()
+		InterfaceOptionsFrameOkay:SetPoint("RIGHT", InterfaceOptionsFrameCancel, "LEFT", -1, 0)
+
+		local lists = {
 			InterfaceOptionsFrameAddOns,
 			InterfaceOptionsFrameCategories,
 			InterfaceOptionsFramePanelContainer,
 			InterfaceOptionsFrameTab1,
 			InterfaceOptionsFrameTab2,
 		}
-		for _, texture in pairs(textures) do
-			F.StripTextures(texture, true)
+		for _, list in pairs(lists) do
+			F.StripTextures(list)
 		end
 
-		local line = InterfaceOptionsFrame:CreateTexture(nil, "ARTWORK")
-		line:SetSize(C.mult, 546)
-		line:SetPoint("LEFT", 205, 10)
-		line:SetColorTexture(1, 1, 1, .25)
-
-		InterfaceOptionsFrameHeader:Hide()
-		InterfaceOptionsFrameHeader:ClearAllPoints()
-		InterfaceOptionsFrameHeader:SetPoint("TOP")
-		InterfaceOptionsFrameOkay:SetPoint("RIGHT", InterfaceOptionsFrameCancel, "LEFT", -1, 0)
+		local line = F.CreateLine(InterfaceOptionsFrameCategories)
+		line:SetPoint("RIGHT", 10, 0)
 
 		for i = 1, 10 do
 			local button = _G["InterfaceOptionsFrameCategoriesButton"..i]
@@ -193,21 +191,20 @@ tinsert(C.themes["AuroraClassic"], function()
 		styled = true
 	end)
 
-	hooksecurefunc("InterfaceOptions_AddCategory", function()
+	hooksecurefunc("InterfaceAddOnsList_Update", function()
 		local num = #INTERFACEOPTIONS_ADDONCATEGORIES
 		for i = 1, num do
 			local button = _G["InterfaceOptionsFrameAddOnsButton"..i]
+			button.highlight:SetTexture(C.media.bdTex)
+			button.highlight:SetAlpha(.25)
+
 			local toggle = _G["InterfaceOptionsFrameAddOnsButton"..i.."Toggle"]
-			if button and not button.reskinned then
+			if toggle and not toggle.styled then
 				F.ReskinExpandOrCollapse(toggle)
-				toggle:SetPushedTexture("")
-				toggle.SetPushedTexture = F.Dummy
 
-				button.highlight:SetTexture(C.media.bdTex)
-				button.highlight:SetAlpha(.25)
-
-				button.reskinned = true
+				toggle.styled = true
 			end
+			toggle:SetPushedTexture("")
 		end
 	end)
 end)

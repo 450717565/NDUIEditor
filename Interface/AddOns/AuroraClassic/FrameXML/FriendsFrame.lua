@@ -109,8 +109,8 @@ tinsert(C.themes["AuroraClassic"], function()
 		gi:SetPoint("RIGHT", tp, "LEFT", -2, 0)
 
 		local hl = bu.highlight
-		hl:SetTexture(C.media.bdTex)
 		hl:SetAlpha(.25)
+		hl:SetTexture(C.media.bdTex)
 		hl:SetPoint("BOTTOMRIGHT", tp, "BOTTOMLEFT", -2, 0)
 	end
 

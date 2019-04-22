@@ -7,12 +7,12 @@ local strmatch, gmatch, strfind, format = string.match, string.gmatch, string.fi
 local min, max, abs, floor = math.min, math.max, math.abs, math.floor
 
 -- Color Text
-function B.ColorText(p, reverse, val)
+function B.ColorText(p, GtR, val)
 	local v = p / 100
 	local r, g, b
 	local per = format("%.1f%%", p)
 
-	if reverse then
+	if GtR then
 		r, g, b = v, 1 - v, 0
 	else
 		r, g, b = 1 - v, v, 0
