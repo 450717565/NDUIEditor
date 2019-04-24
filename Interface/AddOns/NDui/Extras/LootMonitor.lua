@@ -87,7 +87,7 @@ local function CreateLMButton(index)
 	button:SetScript("OnLeave", ButtonOnLeave)
 	button.index = index
 
-	local text = B.CreateFS(button, Button_Height-2, "")
+	local text = B.CreateFS(button, Button_Height-2)
 	text:SetJustifyH("LEFT")
 	text:SetPoint("LEFT", 0, 0)
 	text:SetNonSpaceWrap(true)
@@ -118,7 +118,7 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 	elseif event == "CHAT_MSG_LOOT" then
 		local lootStr, playerStr = ...
 		local rollInfo = strmatch(lootStr, BONUS_REWARDS)
-		local itemLink = strmatch(lootStr,"|%x+|Hitem:.-|h.-|h|r")
+		local itemLink = strmatch(lootStr, "|%x+|Hitem:.-|h.-|h|r")
 		local playerInfo = strsplit("-", playerStr)
 		local _, _, itemRarity, _, _, _, itemSubType, _, itemEquipLoc, _, _, itemClassID, itemSubClassID, bindType = GetItemInfo(itemLink)
 

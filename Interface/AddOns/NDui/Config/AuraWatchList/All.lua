@@ -185,6 +185,7 @@ local list = {
 		{AuraID = 273264, UnitID = "player"},	-- 怒火升腾
 		{AuraID = 280653, UnitID = "player"},	-- 工程特质，变小
 		{AuraID = 280654, UnitID = "player"},	-- 工程特质，变大
+		{AuraID = 273525, UnitID = "player"},	-- 大难临头
 	-->炼金石
 		{AuraID = 60233, UnitID = "player"},	-- 敏捷
 		{AuraID = 60229, UnitID = "player"},	-- 力量

@@ -442,7 +442,7 @@ local function postCreateIcon(element, button)
 	button.HL:SetColorTexture(1, 1, 1, .25)
 	button.HL:SetAllPoints()
 
-	if element.disableCooldown then button.timer = B.CreateFS(button, 12, "") end
+	if element.disableCooldown then button.timer = B.CreateFS(button, 12) end
 end
 
 local filteredStyle = {
@@ -790,7 +790,7 @@ function UF:StaggerBar(self)
 	stagger:SetFrameLevel(self:GetFrameLevel() + 5)
 	B.SmoothBar(stagger)
 
-	local text = B.CreateFS(stagger, 12, "")
+	local text = B.CreateFS(stagger, 12)
 	text:SetJustifyH("CENTER")
 	self:Tag(text, "[monkstagger]")
 
@@ -816,7 +816,7 @@ function UF:CreateAltPower(self)
 	bar:SetSize(self:GetWidth(), self.Power:GetHeight())
 	B.CreateSB(bar)
 
-	local text = B.CreateFS(bar, 12, "")
+	local text = B.CreateFS(bar, 12)
 	text:SetJustifyH("CENTER")
 	self:Tag(text, "[altpower]")
 
@@ -925,7 +925,7 @@ function UF:CreateAddPower(self)
 	bg:SetAlpha(1)
 	bg.multiplier = .25
 
-	local text = B.CreateFS(bar, 12, "")
+	local text = B.CreateFS(bar, 12)
 
 	self.AdditionalPower = bar
 	self.AdditionalPower.Text = text
@@ -954,8 +954,8 @@ function UF:CreateSwing(self)
 	B.CreateSB(off, true, .8, .8, .8)
 
 	if NDuiDB["UFs"]["SwingTimer"] then
-		bar.Text = B.CreateFS(bar, 12, "")
-		bar.TextMH = B.CreateFS(main, 12, "")
+		bar.Text = B.CreateFS(bar, 12)
+		bar.TextMH = B.CreateFS(main, 12)
 		bar.TextOH = B.CreateFS(off, 12, "", false, "CENTER", 1, -3)
 	end
 

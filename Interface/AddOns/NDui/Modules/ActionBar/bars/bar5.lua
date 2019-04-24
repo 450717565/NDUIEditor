@@ -33,7 +33,7 @@ function Bar:CreateBar5()
 		button:SetSize(cfg.size, cfg.size)
 		button:ClearAllPoints()
 		if i == 1 then
-			button:SetPoint("TOPRIGHT", frame, -padding, -padding)
+			button:SetPoint("TOP", frame, 0, -padding)
 		else
 			local previous = _G["MultiBarLeftButton"..i-1]
 			button:SetPoint("TOP", previous, "BOTTOM", 0, -margin)

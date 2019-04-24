@@ -40,7 +40,7 @@ function module:SoloInfo()
 		f:SetPoint("TOP", UIParent, "TOP", 0, -85)
 		f:SetSize(200, 70)
 		B.SetBackground(f)
-		f.Text = B.CreateFS(f, 12, "")
+		f.Text = B.CreateFS(f, 12)
 		f.Text:SetWordWrap(true)
 		f:SetScript("OnMouseUp", function() f:Hide() end)
 	end

@@ -31,10 +31,10 @@ function Bar:CreatePetbar()
 		button:SetSize(cfg.size, cfg.size)
 		button:ClearAllPoints()
 		if i == 1 then
-			button:SetPoint("LEFT", frame, padding, 0)
+			button:SetPoint("RIGHT", frame, -padding, 0)
 		else
 			local previous = _G["PetActionButton"..i-1]
-			button:SetPoint("LEFT", previous, "RIGHT", margin, 0)
+			button:SetPoint("RIGHT", previous, "LEFT", -margin, 0)
 		end
 		--cooldown fix
 		local cd = _G["PetActionButton"..i.."Cooldown"]

@@ -378,7 +378,7 @@ function UF:CreateBuffIndicator(self)
 		icon:SetPoint(anchor)
 		icon:Hide()
 
-		icon.count = B.CreateFS(icon, 12*fontScale, "")
+		icon.count = B.CreateFS(icon, 12*fontScale)
 		icon.count:ClearAllPoints()
 		if NDuiDB["UFs"]["BuffIndicatorType"] == 3 then
 			local point, anchorPoint, x, y = unpack(counterOffsets[anchor][2])

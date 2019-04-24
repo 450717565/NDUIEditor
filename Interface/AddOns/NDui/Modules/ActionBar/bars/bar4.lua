@@ -66,7 +66,7 @@ function Bar:CreateBar4()
 			end
 		else
 			if i == 1 then
-				button:SetPoint("TOPRIGHT", frame, -padding, -padding)
+				button:SetPoint("TOP", frame, 0, -padding)
 			else
 				local previous = _G["MultiBarRightButton"..i-1]
 				button:SetPoint("TOP", previous, "BOTTOM", 0, -margin)

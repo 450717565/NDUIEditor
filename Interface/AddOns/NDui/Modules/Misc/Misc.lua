@@ -578,7 +578,7 @@ end
 do
 	local IsGuildMember, BNGetGameAccountInfoByGUID, C_FriendList_IsFriend = IsGuildMember, BNGetGameAccountInfoByGUID, C_FriendList.IsFriend
 
-	local infoText = B.CreateFS(TradeFrame, 16, "")
+	local infoText = B.CreateFS(TradeFrame, 16)
 	infoText:ClearAllPoints()
 	infoText:SetPoint("TOP", TradeFrameRecipientNameText, "BOTTOM", 0, -5)
 

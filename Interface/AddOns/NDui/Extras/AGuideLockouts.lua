@@ -471,7 +471,7 @@ local function CreateStatusFrame(instanceButton, difficulty)
 	completeFrame.texture:Show()
 
 	-- progress
-	local progressFrame = B.CreateFS(statusFrame, 13, "")
+	local progressFrame = B.CreateFS(statusFrame, 13)
 	progressFrame:Hide()
 	progressFrame:ClearAllPoints()
 	if difficulty == "lfr" or difficulty == "normal" then

@@ -35,7 +35,7 @@ function Bar:CreateStancebar()
 		button:SetSize(cfg.size, cfg.size)
 		button:ClearAllPoints()
 		if i == 1 then
-			button:SetPoint("BOTTOMLEFT", frame, padding, padding)
+			button:SetPoint("LEFT", frame, padding, 0)
 		else
 			local previous = _G["StanceButton"..i-1]
 			button:SetPoint("LEFT", previous, "RIGHT", margin, 0)
