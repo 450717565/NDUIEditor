@@ -1,12 +1,13 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	F.ReskinFrame(LFGInvitePopup, true)
-	F.ReskinFrame(LFGDungeonReadyDialog)
 	F.ReskinFrame(LFGDungeonReadyStatus, true)
 
+	F.ReskinFrame(LFGDungeonReadyDialog)
 	F.ReskinButton(LFGDungeonReadyDialogEnterDungeonButton)
 	F.ReskinButton(LFGDungeonReadyDialogLeaveQueueButton)
+
+	F.ReskinFrame(LFGInvitePopup, true)
 	F.ReskinButton(LFGInvitePopupAcceptButton)
 	F.ReskinButton(LFGInvitePopupDeclineButton)
 
@@ -22,7 +23,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		if shortageBorder then shortageBorder:SetAlpha(0) end
 		if count then count:SetDrawLayer("OVERLAY") end
-		if nameFrame then nameFrame:SetAlpha(0) end
+		if nameFrame then nameFrame:Hide() end
 		if border then border:SetAlpha(0) end
 
 		local icbg = F.ReskinIcon(icon)
@@ -58,7 +59,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	leaderIcon:SetPoint("BOTTOM", roleDes, "TOP", 0, 5)
 
 	local iconTexture = LFGDungeonReadyDialogRoleIconTexture
-	local icbg = F.ReskinRoleIcon(LFGDungeonReadyDialogRoleIconTexture)
+	local icbg = F.ReskinRoleIcon(iconTexture)
 
 	local rewardFrame = LFGDungeonReadyDialogRewardsFrame
 	local rewardLabel = LFGDungeonReadyDialogRewardsFrameLabel
@@ -195,6 +196,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	for i = 1, 5 do
 		local roleButton = _G["LFGDungeonReadyStatusIndividualPlayer"..i]
 		F.ReskinRoleIcon(roleButton.texture)
+		roleButton:ClearAllPoints()
 		if i == 1 then
 			roleButton:SetPoint("LEFT", 7, 0)
 		else
