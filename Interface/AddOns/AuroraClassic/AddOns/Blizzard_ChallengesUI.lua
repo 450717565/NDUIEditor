@@ -51,6 +51,7 @@ C.themes["Blizzard_ChallengesUI"] = function()
 
 	hooksecurefunc(ChallengesKeystoneFrame, "Reset", function(self)
 		self:GetRegions():Hide()
+		self.InstructionBackground:Hide()
 	end)
 
 	hooksecurefunc(ChallengesKeystoneFrame, "OnKeystoneSlotted", F.ReskinAffixes)

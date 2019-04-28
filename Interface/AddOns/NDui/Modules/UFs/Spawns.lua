@@ -239,17 +239,19 @@ function UF:OnLogin()
 		local player = oUF:Spawn("Player", "oUF_Player")
 		B.Mover(player, L["PlayerUF"], "PlayerUF", C.UFs.PlayerPos)
 
+		oUF:SetActiveStyle("Pet")
+		local pet = oUF:Spawn("Pet", "oUF_Pet")
+		if C.UFs.AutoAnchor then C.UFs.PetPos = {"BOTTOMLEFT", oUF_Player, "BOTTOMRIGHT", 5, -2} end
+		B.Mover(pet, L["PetUF"], "PetUF", C.UFs.PetPos)
+
 		oUF:SetActiveStyle("Target")
 		local target = oUF:Spawn("Target", "oUF_Target")
 		B.Mover(target, L["TargetUF"], "TargetUF", C.UFs.TargetPos)
 
 		oUF:SetActiveStyle("TargetTarget")
 		local targettarget = oUF:Spawn("TargetTarget", "oUF_ToT")
+		if C.UFs.AutoAnchor then C.UFs.ToTPos = {"BOTTOMRIGHT", oUF_Target, "BOTTOMLEFT", -5, -2} end
 		B.Mover(targettarget, L["TotUF"], "TotUF", C.UFs.ToTPos)
-
-		oUF:SetActiveStyle("Pet")
-		local pet = oUF:Spawn("Pet", "oUF_Pet")
-		B.Mover(pet, L["PetUF"], "PetUF", C.UFs.PetPos)
 
 		oUF:SetActiveStyle("Focus")
 		local focus = oUF:Spawn("Focus", "oUF_Focus")
@@ -257,6 +259,7 @@ function UF:OnLogin()
 
 		oUF:SetActiveStyle("FocusTarget")
 		local focustarget = oUF:Spawn("FocusTarget", "oUF_FoT")
+		if C.UFs.AutoAnchor then C.UFs.FoTPos = {"BOTTOMLEFT", oUF_Focus, "BOTTOMRIGHT", 5, -1} end
 		B.Mover(focustarget, L["FotUF"], "FotUF", C.UFs.FoTPos)
 
 		oUF:RegisterStyle("Boss", CreateBossStyle)

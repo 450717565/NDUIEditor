@@ -49,16 +49,6 @@ C.themes["Blizzard_Calendar"] = function()
 		F.ReskinFrame(parent)
 	end
 
-	--[[ local lists = {CalendarFilterFrame, CalendarCreateEventTitleFrame, CalendarViewEventTitleFrame, CalendarViewHolidayTitleFrame, CalendarViewRaidTitleFrame, CalendarEventPickerTitleFrame, CalendarMassInviteTitleFrame, CalendarTexturePickerTitleFrame}
-	for _, list in pairs(lists) do
-		F.StripTextures(list)
-	end
-
-	local frames = {CalendarViewEventFrame, CalendarViewHolidayFrame, CalendarViewRaidFrame, CalendarCreateEventFrame, CalendarTexturePickerFrame, CalendarMassInviteFrame, CalendarClassTotalsButton, CalendarEventPickerFrame}
-	for _, frame in pairs(frames) do
-		F.ReskinFrame(frame)
-	end ]]
-
 	local containers = {CalendarViewEventInviteList, CalendarViewEventDescriptionContainer, CalendarCreateEventInviteList, CalendarCreateEventDescriptionContainer}
 	for _, container in pairs(containers) do
 		F.StripTextures(container)

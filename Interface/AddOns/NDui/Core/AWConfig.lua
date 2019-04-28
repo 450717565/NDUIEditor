@@ -323,7 +323,7 @@ local function CreatePanel()
 		L["Raid Debuff"],			-- 8 Raid Debuff
 		L["Spell CD"],				-- 9 Spell CD
 		L["Enchant CD"],			-- 10 Enchant CD
-		L["Custom CD"],			-- 11 Custom CD
+		L["Custom CD"],				-- 11 Custom CD
 	}
 
 	local preSet = {

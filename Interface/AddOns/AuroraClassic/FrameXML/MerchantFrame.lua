@@ -2,47 +2,52 @@ local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
 	function F.ReskinMerchantItem(x)
-		local bu = _G["MerchantItem"..x.."ItemButton"]
-		F.StripTextures(bu)
-		F.ReskinBorder(bu.IconBorder, bu)
+		local frame = "MerchantItem"..x
 
-		local icbg = F.ReskinIcon(bu.icon)
-		F.ReskinTexture(bu, icbg, false)
+		local item = _G[frame]
+		F.StripTextures(item)
 
-		local item = _G["MerchantItem"..x]
-		F.StripTextures(item, true)
+		local button = _G[frame.."ItemButton"]
+		F.StripTextures(button)
+		F.ReskinBorder(button.IconBorder, button)
 
-		local name = _G["MerchantItem"..x.."Name"]
+		local icbg = F.ReskinIcon(button.icon)
+		F.ReskinTexture(button, icbg, false)
+
+		local name = _G[frame.."Name"]
 		name:SetWordWrap(false)
 		name:ClearAllPoints()
 		name:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 4, 2)
 
-		local money = _G["MerchantItem"..x.."MoneyFrame"]
+		local money = _G[frame.."MoneyFrame"]
 		money:ClearAllPoints()
 		money:SetPoint("BOTTOMLEFT", icbg, "BOTTOMRIGHT", 4, 2)
 
 		for y = 1, 3 do
-			F.ReskinIcon(_G["MerchantItem"..x.."AltCurrencyFrameItem"..y.."Texture"], true)
+			F.ReskinIcon(_G[frame.."AltCurrencyFrameItem"..y.."Texture"], true)
 		end
 	end
 
-	F.StripTextures(MerchantMoneyBg, true)
-	F.StripTextures(MerchantMoneyInset, true)
-	F.StripTextures(MerchantExtraCurrencyBg, true)
-	F.StripTextures(MerchantExtraCurrencyInset, true)
-
 	F.ReskinFrame(MerchantFrame)
+	F.SetupTabStyle(MerchantFrame, 2)
+
 	F.ReskinDropDown(MerchantFrameLootFilter)
 	F.ReskinArrow(MerchantPrevPageButton, "left")
 	F.ReskinArrow(MerchantNextPageButton, "right")
 
-	F.SetupTabStyle(MerchantFrame, 2)
+	for _, frame in pairs({"MerchantMoney", "MerchantExtraCurrency"}) do
+		local inset = _G[frame.."Inset"]
+		F.StripTextures(inset)
 
-	for x = 1, BUYBACK_ITEMS_PER_PAGE do
-		F.ReskinMerchantItem(x)
+		local bg = _G[frame.."Bg"]
+		bg:Hide()
 	end
 
-	local backIC = F.ReskinIcon(MerchantBuyBackItemItemButtonIconTexture, false, 0)
+	for i = 1, BUYBACK_ITEMS_PER_PAGE do
+		F.ReskinMerchantItem(i)
+	end
+
+	local backIC = F.ReskinIcon(MerchantBuyBackItemItemButtonIconTexture)
 
 	local backBU = MerchantBuyBackItemItemButton
 	F.StripTextures(backBU)
@@ -50,7 +55,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	backBU.IconBorder:SetAlpha(0)
 
 	local backIT = MerchantBuyBackItem
-	F.StripTextures(backIT, true)
+	F.StripTextures(backIT)
 
 	local itemBG = F.CreateBDFrame(backIT, 0)
 	itemBG:SetPoint("TOPLEFT", backIC, "TOPRIGHT", 2, 0)
@@ -65,18 +70,27 @@ tinsert(C.themes["AuroraClassic"], function()
 	backMoney:ClearAllPoints()
 	backMoney:SetPoint("BOTTOMLEFT", itemBG, "BOTTOMLEFT", 2, 2)
 
-	local repairs = {MerchantGuildBankRepairButton, MerchantRepairAllButton, MerchantRepairItemButton}
-	for _, repair in pairs(repairs) do
-		repair:SetPushedTexture("")
-		repair:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-		F.CreateBDFrame(repair, 0)
+	local RepairItem = MerchantRepairItemButton:GetRegions()
+	RepairItem:SetTexture("Interface\\Icons\\INV_Hammer_17")
+
+	local RepairAll = MerchantRepairAllButton:GetRegions()
+	RepairAll:SetTexture("Interface\\Icons\\Ability_Repair")
+
+	local RepairGuild = MerchantGuildBankRepairButton:GetRegions()
+	RepairGuild:SetTexture("Interface\\Icons\\ACHIEVEMENT_GUILDPERK_CASHFLOW_RANK2")
+
+	local buttons = {MerchantGuildBankRepairButton, MerchantRepairAllButton, MerchantRepairItemButton}
+	for _, button in pairs(buttons) do
+		F.CleanTextures(button)
 	end
 
-	MerchantGuildBankRepairButtonIcon:SetTexCoord(0.595, 0.8075, 0.05, 0.52)
-	MerchantRepairAllIcon:SetTexCoord(0.31375, 0.53, 0.06, 0.52)
-	local ic = MerchantRepairItemButton:GetRegions()
-	ic:SetTexture("Interface\\Icons\\INV_Hammer_20")
-	ic:SetTexCoord(.08, .92, .08, .92)
+	local repairs = {RepairItem, RepairAll, RepairGuild}
+	for _, repair in pairs(repairs) do
+		local parent = repair:GetParent()
+		local icbg = F.ReskinIcon(repair)
+
+		F.ReskinTexture(parent, icbg, false)
+	end
 
 	hooksecurefunc("MerchantFrame_UpdateMerchantInfo", function()
 		for i = 1, MERCHANT_ITEMS_PER_PAGE do
@@ -89,9 +103,17 @@ tinsert(C.themes["AuroraClassic"], function()
 	end)
 
 	hooksecurefunc("MerchantFrame_UpdateRepairButtons", function()
-		if CanGuildBankRepair() then
-			MerchantRepairText:ClearAllPoints()
-			MerchantRepairText:SetPoint("BOTTOMLEFT", MerchantRepairItemButton, "TOPLEFT", -2, 4)
+		if CanMerchantRepair() then
+			MerchantRepairAllButton:ClearAllPoints()
+			MerchantRepairAllButton:SetPoint("BOTTOMLEFT", MerchantFrame, "BOTTOMLEFT", 70, 30)
+
+			MerchantRepairItemButton:ClearAllPoints()
+			MerchantRepairItemButton:SetPoint("RIGHT", MerchantRepairAllButton, "LEFT", -5, 0)
+
+			MerchantGuildBankRepairButton:ClearAllPoints()
+			MerchantGuildBankRepairButton:SetPoint("LEFT", MerchantRepairAllButton, "RIGHT", 5, 0)
 		end
+
+		MerchantRepairText:Hide()
 	end)
 end)

@@ -44,12 +44,14 @@ C.UFs = {
 	ToTPos			= {"BOTTOMLEFT", UIParent, "BOTTOM", 75, 278},			-- 目标的目标框体默认位置
 
 	FocusPos		= {"LEFT", UIParent, "LEFT", 5, -150},					-- 焦点框体默认位置
-	FoTPos			= {"LEFT", UIParent, "LEFT", 215, -153},				-- 焦点目标框体默认位置
+	FoTPos			= {"LEFT", UIParent, "LEFT", 210, -153},				-- 焦点目标框体默认位置
 
 	PlayerPlate		= {"BOTTOM", UIParent, "BOTTOM", 0, 230},				-- 个人资源条默认位置
 	BarPos			= {"TOPLEFT", 12, 4},									-- 资源条位置（以自身头像为基准）
 	BarSize			= {150, 5},												-- 资源条的尺寸（宽，长）
 	BarMargin		= 2,													-- 资源条间隔
+
+	AutoAnchor		= true,													-- 自动对齐
 }
 
 -- 小地图
