@@ -4,7 +4,10 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinFrame(ScrollOfResurrectionSelectionFrame)
 	F.ReskinFrame(ScrollOfResurrectionFrame)
 
-	ScrollOfResurrectionSelectionFrameBackground:Hide()
+	if not C.isNewPatch then
+		ScrollOfResurrectionSelectionFrameBackground:Hide()
+	end
+
 	F.ReskinScroll(ScrollOfResurrectionSelectionFrameListScrollFrameScrollBar)
 	F.ReskinInput(ScrollOfResurrectionSelectionFrameTargetEditBox)
 	F.ReskinInput(ScrollOfResurrectionFrameNoteFrame)

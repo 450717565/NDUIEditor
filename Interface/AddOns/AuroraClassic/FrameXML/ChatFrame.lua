@@ -77,7 +77,9 @@ tinsert(C.themes["AuroraClassic"], function()
 	end
 
 	for i = 1, NUM_CHAT_WINDOWS do
-		reskinScroll(_G["ChatFrame"..i])
-		F.StripTextures(_G["ChatFrame"..i.."Tab"])
+		local frame = "ChatFrame"..i
+
+		reskinScroll(_G[frame])
+		F.StripTextures(_G[frame.."Tab"])
 	end
 end)

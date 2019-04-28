@@ -8,9 +8,11 @@ C.themes["Blizzard_GMSurveyUI"] = function()
 	F.CreateBDFrame(GMSurveyCommentFrame, 0)
 
 	for i = 1, 11 do
-		F.CreateBDFrame(_G["GMSurveyQuestion"..i], 0)
+		local frame = "GMSurveyQuestion"..i
+
+		F.CreateBDFrame(_G[frame], 0)
 		for j = 0, 5 do
-			F.ReskinRadio(_G["GMSurveyQuestion"..i.."RadioButton"..j])
+			F.ReskinRadio(_G[frame.."RadioButton"..j])
 		end
 	end
 

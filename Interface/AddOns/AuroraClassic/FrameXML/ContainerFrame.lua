@@ -7,19 +7,21 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinSort(BagItemAutoSortButton)
 
 	for i = 1, 12 do
-		local frame = _G["ContainerFrame"..i]
+		local container = "ContainerFrame"..i
+
+		local frame = _G[container]
 		frame.PortraitButton.Highlight:SetTexture("")
 
 		F.StripTextures(frame, true)
 		F.SetBDFrame(frame, 8, -4, -3, 0)
-		F.ReskinClose(_G["ContainerFrame"..i.."CloseButton"], "TOPRIGHT", frame, "TOPRIGHT", -6, -7)
+		F.ReskinClose(_G[container.."CloseButton"], "TOPRIGHT", frame, "TOPRIGHT", -6, -7)
 
-		local name = _G["ContainerFrame"..i.."Name"]
+		local name = _G[container.."Name"]
 		name:ClearAllPoints()
 		name:SetPoint("TOP", 0, -10)
 
 		for j = 1, MAX_CONTAINER_ITEMS do
-			local item = "ContainerFrame"..i.."Item"..j
+			local item = container.."Item"..j
 
 			local button = _G[item]
 			F.CleanTextures(button)

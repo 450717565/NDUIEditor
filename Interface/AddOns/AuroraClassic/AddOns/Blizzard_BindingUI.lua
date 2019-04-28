@@ -26,8 +26,10 @@ C.themes["Blizzard_BindingUI"] = function()
 	end
 
 	for i = 1, KEY_BINDINGS_DISPLAYED do
-		local button1 = _G["KeyBindingFrameKeyBinding"..i.."Key1Button"]
-		local button2 = _G["KeyBindingFrameKeyBinding"..i.."Key2Button"]
+		local button = "KeyBindingFrameKeyBinding"..i
+
+		local button1 = _G[button.."Key1Button"]
+		local button2 = _G[button.."Key2Button"]
 
 		button2:ClearAllPoints()
 		button2:SetPoint("LEFT", button1, "RIGHT", 1, 0)

@@ -52,10 +52,12 @@ C.themes["Blizzard_GuildBankUI"] = function()
 	end
 
 	for i = 1, NUM_GUILDBANK_COLUMNS do
-		F.StripTextures(_G["GuildBankColumn"..i])
+		local frame = "GuildBankColumn"..i
+
+		F.StripTextures(_G[frame])
 
 		for j = 1, NUM_SLOTS_PER_GUILDBANK_GROUP do
-			local bu = _G["GuildBankColumn"..i.."Button"..j]
+			local bu = _G[frame.."Button"..j]
 			F.CleanTextures(bu)
 
 			local icbg = F.ReskinIcon(bu.icon)

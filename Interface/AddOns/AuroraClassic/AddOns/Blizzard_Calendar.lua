@@ -13,8 +13,10 @@ C.themes["Blizzard_Calendar"] = function()
 	F.ReskinClose(CalendarCloseButton, "TOPRIGHT", CalendarFrame, "TOPRIGHT", -14, -4)
 	F.ReskinArrow(CalendarPrevMonthButton, "left")
 	F.ReskinArrow(CalendarNextMonthButton, "right")
-	F.ReskinArrow(CalendarFilterButton, "down")
 	F.ReskinCheck(CalendarCreateEventLockEventCheck)
+
+	F.StripTextures(CalendarFilterFrame)
+	F.ReskinArrow(CalendarFilterButton, "down")
 
 	CalendarViewEventDivider:Hide()
 	CalendarCreateEventDivider:Hide()
@@ -39,7 +41,15 @@ C.themes["Blizzard_Calendar"] = function()
 	CalendarCreateEventAMPMDropDown:SetWidth(90)
 	CalendarCreateEventDifficultyOptionDropDown:SetWidth(150)
 
-	local lists = {CalendarFilterFrame, CalendarCreateEventTitleFrame, CalendarViewEventTitleFrame, CalendarViewHolidayTitleFrame, CalendarViewRaidTitleFrame, CalendarEventPickerTitleFrame, CalendarMassInviteTitleFrame, CalendarTexturePickerTitleFrame}
+	local frames = {CalendarViewEventTitleFrame, CalendarViewHolidayTitleFrame, CalendarViewRaidTitleFrame, CalendarCreateEventTitleFrame, CalendarTexturePickerTitleFrame, CalendarMassInviteTitleFrame, CalendarEventPickerTitleFrame}
+	for _, frame in pairs(frames) do
+		F.StripTextures(frame)
+
+		local parent = frame:GetParent()
+		F.ReskinFrame(parent)
+	end
+
+	--[[ local lists = {CalendarFilterFrame, CalendarCreateEventTitleFrame, CalendarViewEventTitleFrame, CalendarViewHolidayTitleFrame, CalendarViewRaidTitleFrame, CalendarEventPickerTitleFrame, CalendarMassInviteTitleFrame, CalendarTexturePickerTitleFrame}
 	for _, list in pairs(lists) do
 		F.StripTextures(list)
 	end
@@ -47,7 +57,7 @@ C.themes["Blizzard_Calendar"] = function()
 	local frames = {CalendarViewEventFrame, CalendarViewHolidayFrame, CalendarViewRaidFrame, CalendarCreateEventFrame, CalendarTexturePickerFrame, CalendarMassInviteFrame, CalendarClassTotalsButton, CalendarEventPickerFrame}
 	for _, frame in pairs(frames) do
 		F.ReskinFrame(frame)
-	end
+	end ]]
 
 	local containers = {CalendarViewEventInviteList, CalendarViewEventDescriptionContainer, CalendarCreateEventInviteList, CalendarCreateEventDescriptionContainer}
 	for _, container in pairs(containers) do
@@ -92,11 +102,13 @@ C.themes["Blizzard_Calendar"] = function()
 	end
 
 	for i = 1, 42 do
-		local bu = _G["CalendarDayButton"..i]
+		local button = "CalendarDayButton"..i
+
+		local bu = _G[button]
 		F.StripTextures(bu)
 		F.ReskinTexture(bu, bu, true)
 
-		local df = _G["CalendarDayButton"..i.."DarkFrame"]
+		local df = _G[button.."DarkFrame"]
 		df:SetAlpha(.5)
 	end
 

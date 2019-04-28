@@ -9,23 +9,32 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.ReskinArrow(LootFrameDownButton, "down")
 
 		hooksecurefunc("LootFrame_UpdateButton", function(index)
-			local ic = _G["LootButton"..index.."IconTexture"]
+			local bu = "LootButton"..index
+			local icon = _G[bu.."IconTexture"]
 
-			if not ic.bg then
-				local quest = _G["LootButton"..index.."IconQuestTexture"]
+			if icon and not icon.bg then
+				local button = _G[bu]
+				F.CleanTextures(button)
+
+				local icbg = F.ReskinIcon(icon)
+				F.ReskinTexture(button, icbg, false)
+
+				local border = button.IconBorder
+				F.ReskinBorder(border, button)
+
+				local quest = _G[bu.."IconQuestTexture"]
 				quest:SetAlpha(0)
 
-				local name = _G["LootButton"..index.."NameFrame"]
+				local name = _G[bu.."NameFrame"]
 				name:Hide()
 
-				local bu = _G["LootButton"..index]
-				bu:SetNormalTexture("")
-				bu:SetPushedTexture("")
+				icon.bg = icbg
+			end
 
-				local icbg = F.ReskinIcon(ic)
-				F.ReskinTexture(bu, icbg, false)
-
-				ic.bg = icbg
+			if select(7, GetLootSlotInfo(index)) then
+				icon.bg:SetBackdropBorderColor(1, 1, 0)
+			else
+				icon.bg:SetBackdropBorderColor(0, 0, 0)
 			end
 		end)
 
@@ -53,10 +62,10 @@ tinsert(C.themes["AuroraClassic"], function()
 	SpecIcon:ClearAllPoints()
 	SpecIcon:SetPoint("RIGHT", PromptFrame.InfoFrame, "RIGHT", -5, 0)
 
-	local bg = F.ReskinIcon(SpecIcon)
-	bg:SetFrameLevel(BonusRollFrame:GetFrameLevel() + 1)
+	local icbg = F.ReskinIcon(SpecIcon)
+	icbg:SetFrameLevel(BonusRollFrame:GetFrameLevel() + 1)
 	hooksecurefunc("BonusRollFrame_StartBonusRoll", function()
-		bg:SetShown(SpecIcon:IsShown())
+		icbg:SetShown(SpecIcon:IsShown())
 	end)
 
 	local from, to = "|T.+|t", "|T%%s:14:14:0:0:64:64:5:59:5:59|t"

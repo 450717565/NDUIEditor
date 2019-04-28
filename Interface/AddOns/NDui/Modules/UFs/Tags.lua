@@ -29,7 +29,7 @@ oUF.Tags.Methods["health"] = function(unit)
 		end
 	end
 end
-oUF.Tags.Events["health"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION"
+oUF.Tags.Events["health"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION PLAYER_FLAGS_CHANGED"
 
 oUF.Tags.Methods["power"] = function(unit)
 	local cur = UnitPower(unit)

@@ -4,10 +4,12 @@ C.themes["Blizzard_RaidUI"] = function()
 	local cr, cg, cb = C.r, C.g, C.b
 
 	for i = 1, NUM_RAID_GROUPS do
-		local group = _G["RaidGroup"..i]
+		local frame = "RaidGroup"..i
+
+		local group = _G[frame]
 		group:GetRegions():SetAlpha(0)
 		for j = 1, MEMBERS_PER_RAID_GROUP do
-			local slot = _G["RaidGroup"..i.."Slot"..j]
+			local slot = _G[frame.."Slot"..j]
 			select(1, slot:GetRegions()):SetAlpha(0)
 			select(2, slot:GetRegions()):SetColorTexture(cr, cg, cb, .25)
 			F.CreateBDFrame(slot, 0)

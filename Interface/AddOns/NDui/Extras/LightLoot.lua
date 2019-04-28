@@ -105,7 +105,7 @@ local function CreateSlot(id)
 	glow:Hide()
 	button.glow = glow
 
-	local count = B.CreateFS(border, 14)
+	local count = B.CreateFS(border, 12)
 	count:SetJustifyH("RIGHT")
 	count:ClearAllPoints()
 	count:SetPoint("BOTTOMRIGHT", border, "BOTTOMRIGHT", -C.mult, C.mult)
@@ -186,6 +186,11 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 		for i = 1, items do
 			local slot = slots[i] or CreateSlot(i)
 			local lootIcon, lootName, lootQuantity, currencyID, lootQuality, locked, isQuestItem, questID, isActive = GetLootSlotInfo(i)
+
+			if currencyID then
+				lootName, lootIcon, lootQuantity, lootQuality = CurrencyContainerUtil.GetCurrencyContainerInfo(currencyID, lootQuantity, lootName, lootIcon, lootQuality)
+			end
+
 			if lootIcon then
 				local color = BAG_ITEM_QUALITY_COLORS[lootQuality or 1]
 				local r, g, b = color.r, color.g, color.b

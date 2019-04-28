@@ -28,10 +28,12 @@ C.themes["Blizzard_VoidStorageUI"] = function()
 	end
 
 	for i = 1, 80 do
-		local bu = _G["VoidStorageStorageButton"..i]
+		local button = "VoidStorageStorageButton"..i
+
+		local bu = _G[button]
 		F.StripTextures(bu)
 
-		local icbg = F.ReskinIcon(_G["VoidStorageStorageButton"..i.."IconTexture"])
+		local icbg = F.ReskinIcon(_G[button.."IconTexture"])
 		F.ReskinTexture(bu, icbg, false)
 
 		local border = bu.IconBorder

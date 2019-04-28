@@ -18,8 +18,10 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	hooksecurefunc("AddonList_Update", function()
 		for i = 1, MAX_ADDONS_DISPLAYED do
-			local check = _G["AddonListEntry"..i.."Enabled"]
-			local button = _G["AddonListEntry"..i.."Load"]
+			local entry = "AddonListEntry"..i
+
+			local check = _G[entry.."Enabled"]
+			local button = _G[entry.."Load"]
 
 			if not check.styled then
 				F.ReskinCheck(check)

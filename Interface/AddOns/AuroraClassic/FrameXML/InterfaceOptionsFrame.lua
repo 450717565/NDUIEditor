@@ -194,11 +194,13 @@ tinsert(C.themes["AuroraClassic"], function()
 	hooksecurefunc("InterfaceAddOnsList_Update", function()
 		local num = #INTERFACEOPTIONS_ADDONCATEGORIES
 		for i = 1, num do
-			local button = _G["InterfaceOptionsFrameAddOnsButton"..i]
+			local bu = "InterfaceOptionsFrameAddOnsButton"..i
+
+			local button = _G[bu]
 			button.highlight:SetTexture(C.media.bdTex)
 			button.highlight:SetAlpha(.25)
 
-			local toggle = _G["InterfaceOptionsFrameAddOnsButton"..i.."Toggle"]
+			local toggle = _G[bu.."Toggle"]
 			if toggle and not toggle.styled then
 				F.ReskinExpandOrCollapse(toggle)
 
