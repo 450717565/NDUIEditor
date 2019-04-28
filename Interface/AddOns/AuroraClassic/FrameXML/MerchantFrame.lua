@@ -40,7 +40,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.StripTextures(inset)
 
 		local bg = _G[frame.."Bg"]
-		bg:Hide()
+		F.StripTextures(bg)
 	end
 
 	for i = 1, BUYBACK_ITEMS_PER_PAGE do
@@ -103,16 +103,14 @@ tinsert(C.themes["AuroraClassic"], function()
 	end)
 
 	hooksecurefunc("MerchantFrame_UpdateRepairButtons", function()
-		if CanMerchantRepair() then
-			MerchantRepairAllButton:ClearAllPoints()
-			MerchantRepairAllButton:SetPoint("BOTTOMLEFT", MerchantFrame, "BOTTOMLEFT", 70, 30)
+		MerchantRepairAllButton:ClearAllPoints()
+		MerchantRepairAllButton:SetPoint("BOTTOMLEFT", MerchantFrame, "BOTTOMLEFT", 70, 30)
 
-			MerchantRepairItemButton:ClearAllPoints()
-			MerchantRepairItemButton:SetPoint("RIGHT", MerchantRepairAllButton, "LEFT", -5, 0)
+		MerchantRepairItemButton:ClearAllPoints()
+		MerchantRepairItemButton:SetPoint("RIGHT", MerchantRepairAllButton, "LEFT", -5, 0)
 
-			MerchantGuildBankRepairButton:ClearAllPoints()
-			MerchantGuildBankRepairButton:SetPoint("LEFT", MerchantRepairAllButton, "RIGHT", 5, 0)
-		end
+		MerchantGuildBankRepairButton:ClearAllPoints()
+		MerchantGuildBankRepairButton:SetPoint("LEFT", MerchantRepairAllButton, "RIGHT", 5, 0)
 
 		MerchantRepairText:Hide()
 	end)
