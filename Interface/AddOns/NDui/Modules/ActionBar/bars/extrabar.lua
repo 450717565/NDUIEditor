@@ -4,19 +4,16 @@ local Bar = B:GetModule("Actionbar")
 local cfg = C.bars.extrabar
 
 function Bar:CreateExtrabar()
-	local padding, margin = 10, 5
-	local num = 1
 	local buttonList = {}
 	local layout = NDuiDB["Actionbar"]["Style"]
 
 	--create the frame to hold the buttons
-	local frame = CreateFrame("Frame", "NDui_ExtraActionBar", UIParent, "SecureHandlerStateTemplate")
-	frame:SetWidth(num*cfg.size + (num-1)*margin + 2*padding)
-	frame:SetHeight(cfg.size + 2*padding)
+	local frame = CreateFrame("Frame", "NDui_ExtraActionButton", UIParent, "SecureHandlerStateTemplate")
+	frame:SetSize(cfg.size, cfg.size)
 	if layout ~= 4 then
-		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 211, 99}
+		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 221, 109}
 	else
-		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 211, 20}
+		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 221, 30}
 	end
 	frame:SetScale(NDuiDB["Actionbar"]["Scale"])
 
@@ -30,7 +27,7 @@ function Bar:CreateExtrabar()
 	--the extra button
 	local button = ExtraActionButton1
 	table.insert(buttonList, button) --add the button object to the list
-	button:SetSize(cfg.size,cfg.size)
+	button:SetSize(cfg.size, cfg.size)
 
 	--show/hide the frame on a given state driver
 	frame.frameVisibility = "[extrabar] show; hide"

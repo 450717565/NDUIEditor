@@ -4,18 +4,16 @@ local Bar = B:GetModule("Actionbar")
 local cfg = C.bars.leave_vehicle
 
 function Bar:CreateLeaveVehicle()
-	local padding, margin = 10, 5
-	local num = 1
 	local buttonList = {}
+	local layout = NDuiDB["Actionbar"]["Style"]
 
 	--create the frame to hold the buttons
-	local frame = CreateFrame("Frame", "NDui_LeaveVehicleBar", UIParent, "SecureHandlerStateTemplate")
-	frame:SetWidth(num*cfg.size + (num-1)*margin + 2*padding)
-	frame:SetHeight(cfg.size + 2*padding)
-	if NDuiDB["Actionbar"]["Style"] ~= 4 then
-		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 278, 99}
+	local frame = CreateFrame("Frame", "NDui_LeaveVehicleButton", UIParent, "SecureHandlerStateTemplate")
+	frame:SetSize(cfg.size, cfg.size)
+	if layout ~= 4 then
+		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 288, 109}
 	else
-		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 211, 92}
+		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 221, 102}
 	end
 	frame:SetScale(NDuiDB["Actionbar"]["Scale"])
 

@@ -256,7 +256,6 @@ local defaultSettings = {
 		LootMonitor = true,
 		LootMonitorBonusRewards = false,
 		LootMonitorInGroup = true,
-		MoveTalking = true,
 		ShowCharacterItemSheet = true,
 		ShowOwnFrameWhenInspecting = true,
 		SkinAlpha = .8,
@@ -608,9 +607,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{3, "Extras", "SkinAlpha", L["Skin Alpha"], false, {0, 1, 1}},
 		{5, "Extras", "SkinColor", L["Skin Color"], 2},
 		{},--blank
-		{1, "Extras", "MoveTalking", L["Move Talking"]},
-		{1, "Extras", "GuildWelcome", L["Guild Welcome"], true},
-		{},--blank
+		{1, "Extras", "GuildWelcome", L["Guild Welcome"]},
 		{1, "Extras", "LootMonitor", L["LootMonitor"]},
 		{1, "Extras", "iLvlTools", L["iLvlTools"], true},
 		{},--blank

@@ -325,47 +325,44 @@ do
 end
 
 -- Hide or Move TalkingFrame
-
 do
-	local function NoTalkingHeads()
-		hooksecurefunc(TalkingHeadFrame, "Show", function(self)
-			self:Hide()
-		end)
-		TalkingHeadFrame.ignoreFramePositionManager = true
+	local move, mover
+	local function SetMovePoints(frame)
+		if NDuiDB["Misc"]["HideTalking"] then
+			if frame then frame:Hide() end
+		else
+			if not move then
+				move = CreateFrame("Frame", nil, UIParent)
+			end
+
+			if not mover then
+				mover = B.Mover(move, L["TalkingHeadFrame"], "TalkingHeadFrame", {"TOP", UIParent, "TOP", 0, -50}, 560, 145)
+			end
+
+			if frame then
+				frame:ClearAllPoints()
+				frame:SetPoint("CENTER", mover)
+			end
+		end
 	end
 
-	local function MoveTalkingHeads()
+	local function SetTalkingHeads()
 		hooksecurefunc(TalkingHeadFrame, "Show", function(self)
-			self:ClearAllPoints()
-			self:SetPoint("TOP", UIParent, "TOP", 0, -50)
+			SetMovePoints(self)
 		end)
 		TalkingHeadFrame.ignoreFramePositionManager = true
 	end
 
 	local function setupMisc(event, addon)
-		if (not NDuiDB["Misc"]["HideTalking"]) and (not NDuiDB["Extras"]["MoveTalking"]) then
-			B:UnregisterEvent(event, setupMisc)
-			return
-		end
-
 		if event == "PLAYER_ENTERING_WORLD" then
+			SetMovePoints()
 			B:UnregisterEvent(event, setupMisc)
 			if IsAddOnLoaded("Blizzard_TalkingHeadUI") then
-				if NDuiDB["Extras"]["MoveTalking"] then
-					MoveTalkingHeads()
-				end
-				if NDuiDB["Misc"]["HideTalking"] then
-					NoTalkingHeads()
-				end
+				SetTalkingHeads()
 				B:UnregisterEvent("ADDON_LOADED", setupMisc)
 			end
 		elseif event == "ADDON_LOADED" and addon == "Blizzard_TalkingHeadUI" then
-			if NDuiDB["Extras"]["MoveTalking"] then
-				MoveTalkingHeads()
-			end
-			if NDuiDB["Misc"]["HideTalking"] then
-				NoTalkingHeads()
-			end
+			SetTalkingHeads()
 			B:UnregisterEvent(event, setupMisc)
 		end
 	end

@@ -8,12 +8,13 @@ function Bar:CreateStancebar()
 	local num = NUM_STANCE_SLOTS
 	local NUM_POSSESS_SLOTS = NUM_POSSESS_SLOTS
 	local buttonList = {}
+	local layout = NDuiDB["Actionbar"]["Style"]
 
 	--make a frame that fits the size of all microbuttons
 	local frame = CreateFrame("Frame", "NDui_StanceBar", UIParent, "SecureHandlerStateTemplate")
 	frame:SetWidth(num*cfg.size + (num-1)*margin + 2*padding)
 	frame:SetHeight(cfg.size + 2*padding)
-	if NDuiDB["Actionbar"]["Style"] ~= 4 then
+	if layout ~= 4 then
 		frame.Pos = {"BOTTOMLEFT", NDui_ActionBar2, "TOPLEFT", 0, 5}
 	else
 		frame.Pos = {"BOTTOMLEFT", NDui_ActionBar3, "TOPLEFT", 0, 5}
