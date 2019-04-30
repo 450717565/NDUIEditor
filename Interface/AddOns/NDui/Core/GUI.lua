@@ -62,6 +62,7 @@ local defaultSettings = {
 		ReverseSort = false,
 		ItemFilter = true,
 		ItemSetFilter = true,
+		DeleteButton = false,
 	},
 	Auras = {
 		Reminder = true,
@@ -374,7 +375,8 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Bags", "BagsiLvl", L["Bags Itemlevel"]},
 		{1, "Bags", "Artifact", L["Bags Artifact"], true},
 		{1, "Bags", "ReverseSort", L["Bags ReverseSort"].."*", false, nil, function() SetSortBagsRightToLeft(not NDuiDB["Bags"]["ReverseSort"]) end},
-		{1, "Extras", "SlotInfo", L["Slot Info"], true},
+		{1, "Bags", "DeleteButton", L["Bags DeleteButton"], true},
+		{1, "Extras", "SlotInfo", L["Slot Info"]},
 		{},--blank
 		{3, "Bags", "BagsScale", L["Bags Scale"], false, {.5, 1.5, 1}},
 		{3, "Bags", "IconSize", L["Bags IconSize"], true, {30, 42, 0}},

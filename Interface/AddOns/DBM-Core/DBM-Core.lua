@@ -68,7 +68,7 @@ local function showRealDate(curseDate)
 end
 
 DBM = {
-	Revision = parseCurseDate("20190426175831"),
+	Revision = parseCurseDate("20190430033652"),
 	DisplayVersion = "8.1.21 alpha", -- the string that is shown as version
 	ReleaseRevision = releaseDate(2019, 4, 24) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
@@ -4723,7 +4723,7 @@ do
 			inspopuptext:SetText(DBM_REQ_INSTANCE_ID_PERMISSION:format(sender, sender))
 			buttonaccept:SetScript("OnClick", function(f) savedSender = nil DBM:Unschedule(autoDecline) accessList[sender] = true syncHandlers["IR"](sender) f:GetParent():Hide() end)
 			buttondecline:SetScript("OnClick", function(f) autoDecline(sender, 1) end)
-			PlaySound(850)
+			DBM:PlaySound(850)
 			inspopup:Show()
 		end
 
@@ -6564,29 +6564,32 @@ function DBM:HasMapRestrictions()
 	return false
 end
 
-function DBM:PlaySoundFile(path, ignoreSFX)
-	if self.Options.SilentMode then return end
-	if type(path) == "number" then
-		return DBM:PlaySound(path, ignoreSFX)
+do
+	local function playSound(self, path, ignoreSFX)
+		local soundSetting = self.Options.UseSoundChannel
+		if type(path) == "number" then
+			if ignoreSFX or soundSetting == "Master" then
+				PlaySound(path, "Master")
+			else
+				PlaySound(path, soundSetting)
+			end
+		else
+			if ignoreSFX or soundSetting == "Master" then
+				PlaySoundFile(path, "Master")
+			else
+				PlaySoundFile(path, soundSetting)
+			end
+		end
 	end
-	local soundSetting = self.Options.UseSoundChannel
-	if ignoreSFX or soundSetting == "Master" then
-		PlaySoundFile(path, "Master")
-	else
-		PlaySoundFile(path, soundSetting)
-	end
-end
 
-function DBM:PlaySound(path, ignoreSFX)
-	if self.Options.SilentMode then return end
-	if type(path) == "string" then
-		return DBM:PlaySoundFile(path, ignoreSFX)
+	function DBM:PlaySoundFile(path, ignoreSFX)
+		if self.Options.SilentMode then return end
+		playSound(self, path, ignoreSFX)
 	end
-	local soundSetting = self.Options.UseSoundChannel
-	if ignoreSFX or soundSetting == "Master" then
-		PlaySound(path, "Master")
-	else
-		PlaySound(path, soundSetting)
+
+	function DBM:PlaySound(path, ignoreSFX)
+		if self.Options.SilentMode then return end
+		playSound(self, path, ignoreSFX)
 	end
 end
 
