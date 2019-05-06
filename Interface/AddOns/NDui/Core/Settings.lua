@@ -291,7 +291,7 @@ local function ForceBigwigs()
 						["BigWigsEmphasizeAnchor_x"] = 875,
 						["BigWigsEmphasizeAnchor_y"] = 350,
 						["emphasizeGrowup"] = true,
-						["emphasizeScale"] = 1,
+						["emphasizeMultiplier"] = 1,
 						["font"] = "默认",
 						["fontSize"] = 12,
 						["growup"] = false,

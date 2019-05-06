@@ -85,7 +85,7 @@ end
 local roleTex = {
 	["HEALER"] = {.066, .222, .133, .445},
 	["TANK"] = {.375, .532, .133, .445},
-	["DAMAGER"] = {.66, .813, .133, .445},
+	["DAMAGER"] = {.660, .813, .133, .445},
 }
 
 function module:InsertRoleFrame(self, role)

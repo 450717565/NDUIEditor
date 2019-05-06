@@ -11,7 +11,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	Buttons:DisableDrawLayer("ARTWORK")
 
 	local Highlight = EquipmentFlyoutFrameHighlight
-	F.ReskinTexture(Highlight, EquipmentFlyoutFrame, false)
+	Highlight:Hide()
 
 	hooksecurefunc("EquipmentFlyout_CreateButton", function()
 		local buttons = #EquipmentFlyoutFrame.buttons

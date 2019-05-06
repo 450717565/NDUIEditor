@@ -4,35 +4,21 @@ tinsert(C.themes["AuroraClassic"], function()
 	local cr, cg, cb = C.r, C.g, C.b
 
 	-- [[ Item buttons ]]
-	local function colourPopout(self)
-		local aR, aG, aB
-		local glow = self:GetParent().IconBorder
-
-		if glow:IsShown() then
-			aR, aG, aB = glow:GetVertexColor()
-		else
-			aR, aG, aB = cr, cg, cb
-		end
-
-		self.arrow:SetVertexColor(aR, aG, aB)
-	end
-
-	local function clearPopout(self)
-		self.arrow:SetVertexColor(1, 1, 1)
-	end
-
 	local function UpdateAzeriteItem(self)
 		if not self.styled then
 			self.AzeriteTexture:SetAlpha(0)
-			self.RankFrame.Texture:SetTexture("")
+			self.RankFrame.Texture:Hide()
+
 			self.RankFrame.Label:ClearAllPoints()
 			self.RankFrame.Label:SetPoint("BOTTOM", 1, 5)
 			self.RankFrame.Label:SetTextColor(0, 1, 1)
 
 			self.styled = true
 		end
-		self:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-		self:GetHighlightTexture():SetAllPoints()
+
+		local hl = self:GetHighlightTexture()
+		hl:SetColorTexture(1, 1, 1, .25)
+		hl:SetAllPoints()
 	end
 
 	local function UpdateAzeriteEmpoweredItem(self)
@@ -47,49 +33,44 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.StripTextures(slot)
 		slot.ignoreTexture:SetTexture("Interface\\PaperDollInfoFrame\\UI-GearManager-LeaveItem-Transparent")
 
-		local bg = F.ReskinIcon(slot.icon)
-		F.ReskinTexture(slot, bg, false)
+		local icbg = F.ReskinIcon(slot.icon)
+		F.ReskinTexture(slot, icbg, false)
 		slot.SetHighlightTexture = F.Dummy
 
 		local border = slot.IconBorder
 		F.ReskinBorder(border, slot)
 
 		local popout = slot.popoutButton
-		popout:SetNormalTexture("")
-		popout:SetHighlightTexture("")
+		F.StripTextures(popout)
 
-		local arrow = popout:CreateTexture(nil, "OVERLAY")
+		local bgTex = popout:CreateTexture(nil, "OVERLAY")
 		if slot.verticalFlyout then
-			arrow:SetSize(14, 8)
-			arrow:SetTexture(C.media.arrowDown)
-			arrow:SetPoint("TOP", slot, "BOTTOM", 0, 1)
+			bgTex:SetSize(14, 8)
+			bgTex:SetTexture(C.media.arrowDown)
+			bgTex:SetPoint("TOP", slot, "BOTTOM", 0, 1)
 		else
-			arrow:SetSize(8, 14)
-			arrow:SetTexture(C.media.arrowRight)
-			arrow:SetPoint("LEFT", slot, "RIGHT", -1, 0)
+			bgTex:SetSize(8, 14)
+			bgTex:SetTexture(C.media.arrowRight)
+			bgTex:SetPoint("LEFT", slot, "RIGHT", -1, 0)
 		end
-		popout.arrow = arrow
+		popout.bgTex = bgTex
 
-		popout:HookScript("OnEnter", clearPopout)
-		popout:HookScript("OnLeave", colourPopout)
+		popout:HookScript("OnEnter", F.TexOnEnter)
+		popout:HookScript("OnLeave", F.TexOnLeave)
 
 		hooksecurefunc(slot, "DisplayAsAzeriteItem", UpdateAzeriteItem)
 		hooksecurefunc(slot, "DisplayAsAzeriteEmpoweredItem", UpdateAzeriteEmpoweredItem)
 	end
 
-	hooksecurefunc("PaperDollItemSlotButton_Update", function(button)
-		-- also fires for bag slots, we don't want that
-		if button.popoutButton then
-			button.IconBorder:SetTexture(C.media.bdTex)
-			button.icon:SetShown(GetInventoryItemTexture("player", button:GetID()) ~= nil)
-			colourPopout(button.popoutButton)
-		end
+	hooksecurefunc("PaperDollItemSlotButton_Update", function(self)
+		self.icon:SetShown(GetInventoryItemTexture("player", self:GetID()) ~= nil)
 	end)
 
 	-- [[ Stats pane ]]
-	local pane = CharacterStatsPane
-	pane.ClassBackground:Hide()
-	local categorys = {pane.ItemLevelCategory, pane.AttributesCategory, pane.EnhancementsCategory}
+	local StatsPane = CharacterStatsPane
+	F.StripTextures(StatsPane)
+
+	local categorys = {StatsPane.ItemLevelCategory, StatsPane.AttributesCategory, StatsPane.EnhancementsCategory}
 	for _, category in pairs(categorys) do
 		category:SetSize(192, 27)
 		F.StripTextures(category)
@@ -105,6 +86,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	end
 
 	-- [[ Sidebar tabs ]]
+	F.StripTextures(PaperDollSidebarTabs)
 	for i = 1, #PAPERDOLL_SIDEBARS do
 		local tab = _G["PaperDollSidebarTab"..i]
 		tab.TabBg:Hide()
@@ -115,78 +97,72 @@ tinsert(C.themes["AuroraClassic"], function()
 		bg:SetFrameLevel(0)
 
 		if i == 1 then
-			for i = 1, 4 do
-				local region = select(i, tab:GetRegions())
-				region:SetTexCoord(0.16, 0.86, 0.16, 0.86)
-				region.SetTexCoord = F.Dummy
-			end
+			tab.Icon:SetTexCoord(0.16, 0.86, 0.16, 0.86)
+			tab.Icon.SetTexCoord = F.Dummy
 		end
 
+		F.ReskinTexture(tab, bg, false)
 		F.ReskinTexture(tab.Hider, bg, false)
-		F.ReskinTexture(tab.Highlight, bg, false)
 	end
 
-	-- [[ Equipment manager ]]
+	-- PaperDollTitlesPane
+	F.ReskinScroll(PaperDollTitlesPaneScrollBar)
+	for i = 1, 17 do
+		local button = _G["PaperDollTitlesPaneButton"..i]
+		button:DisableDrawLayer("BACKGROUND")
+		F.ReskinTexture(button, button, true)
+
+		local selected = button.SelectedBar
+		F.ReskinTexture(selected, button, true, .5)
+	end
+
+	-- PaperDollEquipmentManager
+	local EquipSet = PaperDollEquipmentManagerPaneEquipSet
+	F.ReskinButton(EquipSet)
+	EquipSet:SetWidth(85)
+	EquipSet:ClearAllPoints()
+	EquipSet:SetPoint("TOPLEFT", 0, -2)
+
+	local SaveSet = PaperDollEquipmentManagerPaneSaveSet
+	F.ReskinButton(SaveSet)
+	SaveSet:SetWidth(85)
+	SaveSet:ClearAllPoints()
+	SaveSet:SetPoint("LEFT", EquipSet, "RIGHT", 2, 0)
+
+	F.ReskinScroll(PaperDollEquipmentManagerPaneScrollBar)
+
+	hooksecurefunc("PaperDollEquipmentManagerPane_Update", function()
+		local buttons = PaperDollEquipmentManagerPane.buttons
+		for i = 1, #buttons do
+			local button = buttons[i]
+			button:DisableDrawLayer("BACKGROUND")
+
+			if not button.styled then
+				F.ReskinIcon(button.icon)
+				F.ReskinTexture(button.HighlightBar, button, true, .5)
+				F.ReskinTexture(button.SelectedBar, button, true, .5)
+
+				button.styled = true
+			end
+		end
+	end)
+
+	-- GearManagerDialogPopup
 	GearManagerDialogPopup:SetHeight(525)
-	F.StripTextures(GearManagerDialogPopup.BorderBox, true)
 	F.ReskinFrame(GearManagerDialogPopup)
-
-	F.StripTextures(GearManagerDialogPopupScrollFrame, true)
-	F.StripTextures(PaperDollSidebarTabs, true)
-	F.StripTextures(PaperDollEquipmentManagerPaneEquipSet, true)
-
+	F.StripTextures(GearManagerDialogPopupScrollFrame)
 	F.ReskinScroll(GearManagerDialogPopupScrollFrameScrollBar)
 	F.ReskinButton(GearManagerDialogPopupOkay)
 	F.ReskinButton(GearManagerDialogPopupCancel)
 	F.ReskinInput(GearManagerDialogPopupEditBox)
-	F.ReskinScroll(PaperDollTitlesPaneScrollBar)
-	F.ReskinScroll(PaperDollEquipmentManagerPaneScrollBar)
-	F.ReskinButton(PaperDollEquipmentManagerPaneEquipSet)
-	F.ReskinButton(PaperDollEquipmentManagerPaneSaveSet)
-	PaperDollEquipmentManagerPaneEquipSet:SetWidth(85)
-	PaperDollEquipmentManagerPaneSaveSet:SetWidth(85)
-	PaperDollEquipmentManagerPaneSaveSet:SetPoint("LEFT", PaperDollEquipmentManagerPaneEquipSet, "RIGHT", 2, 0)
 
 	for i = 1, NUM_GEARSET_ICONS_SHOWN do
-		local bu = _G["GearManagerDialogPopupButton"..i]
-		bu:SetCheckedTexture(C.media.checked)
-		select(2, bu:GetRegions()):Hide()
+		local button = "GearManagerDialogPopupButton"..i
+		local bu = _G[button]
+		F.StripTextures(bu)
 
-		local ic = F.ReskinIcon(_G["GearManagerDialogPopupButton"..i.."Icon"])
-		F.ReskinTexture(bu, ic, false)
+		local icbg = F.ReskinIcon(bu.icon)
+		F.ReskinTexture(bu, icbg, false)
+		F.ReskinTexed(bu, icbg)
 	end
-
-	local sets = false
-	PaperDollSidebarTab3:HookScript("OnClick", function()
-		if sets == false then
-			for i = 1, 9 do
-				_G["PaperDollEquipmentManagerPaneButton"..i.."BgTop"]:SetAlpha(0)
-				_G["PaperDollEquipmentManagerPaneButton"..i.."BgMiddle"]:SetAlpha(0)
-				_G["PaperDollEquipmentManagerPaneButton"..i.."BgBottom"]:SetAlpha(0)
-
-				local bu = _G["PaperDollEquipmentManagerPaneButton"..i]
-				bu.HighlightBar:SetColorTexture(cr, cg, cb, .25)
-				bu.SelectedBar:SetColorTexture(cr, cg, cb, .25)
-
-				local sp = _G["PaperDollEquipmentManagerPaneButton"..i.."Stripe"]
-				sp:Hide()
-				sp.Show = F.Dummy
-
-				local ic = _G["PaperDollEquipmentManagerPaneButton"..i.."Icon"]
-				F.ReskinIcon(ic)
-			end
-
-			sets = true
-		end
-	end)
-
-	local titles = false
-	hooksecurefunc("PaperDollTitlesPane_Update", function()
-		if titles == false then
-			for i = 1, 17 do
-				_G["PaperDollTitlesPaneButton"..i]:DisableDrawLayer("BACKGROUND")
-			end
-			titles = true
-		end
-	end)
 end)

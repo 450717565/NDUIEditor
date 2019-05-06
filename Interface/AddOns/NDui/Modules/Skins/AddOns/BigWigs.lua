@@ -4,13 +4,7 @@ local module = B:GetModule("Skins")
 
 function module:BigWigsSkin()
 	if not NDuiDB["Skins"]["Bigwigs"] or not IsAddOnLoaded("BigWigs") then return end
-
-	-- Force Settings
 	if not BigWigs3DB then return end
-	BigWigs3DB["namespaces"]["BigWigs_Plugins_Bars"]["profiles"]["Default"]["font"] = DB.Font[1]
-	BigWigs3DB["namespaces"]["BigWigs_Plugins_Bars"]["profiles"]["Default"]["fontSize"] = DB.Font[2]
-	BigWigs3DB["namespaces"]["BigWigs_Plugins_Bars"]["profiles"]["Default"]["outline"] = DB.Font[3]
-	BigWigs3DB["namespaces"]["BigWigs_Plugins_Bars"]["profiles"]["Default"]["barStyle"] = "NDui"
 
 	local function removeStyle(bar)
 		bar.candyBarBackdrop:Hide()
@@ -73,9 +67,13 @@ function module:BigWigsSkin()
 		bar.candyBarLabel:ClearAllPoints()
 		bar.candyBarLabel:SetPoint("LEFT", bar.candyBarBar, "LEFT", 2, 8)
 		bar.candyBarLabel:SetPoint("RIGHT", bar.candyBarBar, "RIGHT", -2, 8)
+		bar.candyBarLabel:SetFont(DB.Font[1], 13, "OUTLINE")
+		bar.candyBarLabel.SetFont = B.Dummy
 		bar.candyBarDuration:ClearAllPoints()
 		bar.candyBarDuration:SetPoint("RIGHT", bar.candyBarBar, "RIGHT", -2, 8)
 		bar.candyBarDuration:SetPoint("LEFT", bar.candyBarBar, "LEFT", 2, 8)
+		bar.candyBarDuration:SetFont(DB.Font[1], 13, "OUTLINE")
+		bar.candyBarDuration.SetFont = B.Dummy
 	end
 
 	local function registerStyle()

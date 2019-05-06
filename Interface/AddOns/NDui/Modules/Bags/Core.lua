@@ -165,7 +165,7 @@ function module:CreateBagToggle()
 	bu:SetScript("OnClick", function()
 		ToggleFrame(self.BagBar)
 		if self.BagBar:IsShown() then
-			bu.text:SetTextColor(1, 1, 1)
+			bu.text:SetTextColor(0, 1, 1)
 			PlaySound(SOUNDKIT.IG_BACKPACK_OPEN)
 		else
 			bu.text:SetTextColor(cr, cg, cb)
@@ -210,7 +210,7 @@ function module:CreateDeleteButton()
 	bu:SetScript("OnClick", function()
 		deleteEnable = not deleteEnable
 		if deleteEnable then
-			bu.text:SetTextColor(1, 1, 1)
+			bu.text:SetTextColor(0, 1, 1)
 			print("|cff33ff33"..L["DeleteMode Enabled"])
 		else
 			bu.text:SetTextColor(cr, cg, cb)

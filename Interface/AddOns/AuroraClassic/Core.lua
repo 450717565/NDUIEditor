@@ -923,7 +923,7 @@ function F:ReskinTexed(relativeTo)
 	tex:SetPoint("BOTTOMRIGHT", relativeTo, -C.mult, C.mult)
 end
 
-function F:ReskinTexture(relativeTo, classColor)
+function F:ReskinTexture(relativeTo, classColor, alpha)
 	if not self then return end
 
 	local r, g, b = 1, 1, 1
@@ -941,7 +941,7 @@ function F:ReskinTexture(relativeTo, classColor)
 		tex:SetTexture(C.media.bdTex)
 	end
 
-	tex:SetColorTexture(r, g, b, .25)
+	tex:SetColorTexture(r, g, b, alpha or .25)
 	tex:SetPoint("TOPLEFT", relativeTo, C.mult, -C.mult)
 	tex:SetPoint("BOTTOMRIGHT", relativeTo, -C.mult, C.mult)
 end

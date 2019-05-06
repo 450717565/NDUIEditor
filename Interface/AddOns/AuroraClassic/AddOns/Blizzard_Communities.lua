@@ -211,6 +211,17 @@ C.themes["Blizzard_Communities"] = function()
 	F.StripTextures(Settings.MessageOfTheDay)
 	F.CreateBDFrame(Settings.MessageOfTheDay, 0)
 
+	if C.isNewPatch then
+		Settings.BG:Hide()
+		F.ReskinCheck(Settings.ShouldListClub.Button)
+		F.ReskinCheck(Settings.AutoAcceptApplications.Button)
+		F.ReskinCheck(Settings.MaxLevelOnly.Button)
+		F.ReskinCheck(Settings.MinIlvlOnly.Button)
+		F.ReskinInput(Settings.MinIlvlOnly.EditBox)
+		F.ReskinDropDown(Settings.ClubFocusDropdown)
+		F.ReskinDropDown(Settings.LookingForDropdown)
+	end
+
 	local AvatarPicker = CommunitiesAvatarPickerDialog
 	F.ReskinFrame(AvatarPicker)
 	F.ReskinScroll(CommunitiesAvatarPickerDialogScrollBar)
@@ -377,9 +388,17 @@ C.themes["Blizzard_Communities"] = function()
 	local LogFrameCB = select(3, CommunitiesGuildLogFrame:GetChildren())
 	F.ReskinButton(LogFrameCB)
 
-	hooksecurefunc("CommunitiesGuildNewsButton_SetNews", function(button)
-		if button.header:IsShown() then
-			button.header:SetAlpha(0)
-		end
-	end)
+	if C.isNewPatch then
+		hooksecurefunc("GuildNewsButton_SetNews", function(button)
+			if button.header:IsShown() then
+				button.header:SetAlpha(0)
+			end
+		end)
+	else
+		hooksecurefunc("CommunitiesGuildNewsButton_SetNews", function(button)
+			if button.header:IsShown() then
+				button.header:SetAlpha(0)
+			end
+		end)
+	end
 end

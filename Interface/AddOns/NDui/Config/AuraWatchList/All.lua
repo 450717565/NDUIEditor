@@ -129,6 +129,7 @@ local list = {
 		{AuraID = 271105, UnitID = "player"},	-- 屠夫之眼
 		{AuraID = 271107, UnitID = "player"},	-- 金色光泽
 		{AuraID = 278231, UnitID = "player"},	-- 森林之王的愤怒
+		{AuraID = 278267, UnitID = "player"},	-- 森林之王的智慧
 		{AuraID = 268311, UnitID = "player", Flash = true},	-- 唤风者之赐
 		{AuraID = 285489, UnitID = "player"},	-- 黑喉之力
 		{AuraID = 278317, UnitID = "player"},	-- 末日余波
@@ -152,6 +153,7 @@ local list = {
 		{AuraID = 289523, UnitID = "player", Combat = true},	-- 耀辉之光
 		{AuraID = 295408, UnitID = "player"},	-- 险恶赐福
 		{AuraID = 295413, UnitID = "player", Stack = 20, Flash = true},	-- 苦楚
+		{AuraID = 273988, UnitID = "player"},	-- 原始本能
 	-->艾泽里特特质
 		{AuraID = 271550, UnitID = "player"},	-- 临危不惧
 		{AuraID = 281517, UnitID = "player"},	-- 不稳定的催化剂
@@ -272,6 +274,9 @@ local list = {
 		{AuraID = 273226, UnitID = "player"},	-- 腐烂孢子，孢林
 		{AuraID = 269838, UnitID = "player", Flash = true},	-- 邪恶污染，孢林
 		{AuraID = 276297, UnitID = "player"},	-- 虚空种子，风暴神殿
+		{AuraID = 274438, UnitID = "player", Flash = true},	-- 风暴
+		{AuraID = 276286, UnitID = "player"},	-- 切割旋风
+		{AuraID = 267818, UnitID = "player"},	-- 切割冲击
 		{AuraID = 268086, UnitID = "player"},	-- 恐怖光环，庄园
 	-->风暴熔炉
 		{AuraID = 282384, UnitID = "player"},	-- 精神割裂，无眠秘党
