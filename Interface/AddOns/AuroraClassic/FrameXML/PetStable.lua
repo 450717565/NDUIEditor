@@ -21,8 +21,10 @@ tinsert(C.themes["AuroraClassic"], function()
 		if bu and ic then
 			F.StripTextures(bu)
 
-			local bg = F.ReskinIcon(ic)
-			F.ReskinTexture(bu, bg, false)
+			local icbg = F.ReskinIcon(ic)
+			F.ReskinTexture(bu, icbg, false)
+
+			bu.bg = icbg
 		end
 	end
 
@@ -30,7 +32,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		reskinSlot("PetStableActivePet", i)
 
 		local bu = _G["PetStableActivePet"..i]
-		bu.Checked:SetTexture(C.media.checked)
+		F.ReskinTexed(bu.Checked, bu.bg)
 	end
 
 	for i = 1, NUM_PET_STABLE_SLOTS do

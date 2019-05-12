@@ -457,7 +457,7 @@ function F:ReskinDropDown()
 	F.CleanTextures(self)
 
 	local frameName = self.GetName and self:GetName()
-	local button = self.Button or (frameName and _G[frameName.."Button"])
+	local button = (frameName and _G[frameName.."Button"]) or self.Button
 	button:SetSize(20, 20)
 	button:ClearAllPoints()
 	button:SetPoint("RIGHT", -18, 2)
@@ -470,7 +470,7 @@ function F:ReskinDropDown()
 	bg:SetPoint("TOPLEFT", self, "TOPLEFT", 16, -4)
 	bg:SetPoint("BOTTOMRIGHT", button, "BOTTOMLEFT", -1, 0)
 
-	local text = self.Text or self.text or (frameName and _G[frameName.."Text"])
+	local text = (frameName and _G[frameName.."Text"]) or self.Text or self.text
 	if text then
 		text:SetJustifyH("CENTER")
 		text:ClearAllPoints()
@@ -538,10 +538,10 @@ function F:ReskinFrame(noKill)
 
 	local frameName = self.GetName and self:GetName()
 
-	local framePortrait = self.portrait or (frameName and _G[frameName.."Portrait"])
+	local framePortrait = (frameName and _G[frameName.."Portrait"]) or self.portrait
 	if framePortrait then framePortrait:SetAlpha(0) end
 
-	local closeButton = self.CloseButton or (frameName and _G[frameName.."CloseButton"])
+	local closeButton = (frameName and _G[frameName.."CloseButton"]) or self.CloseButton
 	if closeButton then F.ReskinClose(closeButton) end
 end
 
@@ -724,7 +724,7 @@ end
 
 local function scrollThumb(self)
 	local frameName = self.GetName and self:GetName()
-	local bu = self.ThumbTexture or self.thumbTexture or (frameName and _G[frameName.."ThumbTexture"])
+	local bu = (frameName and _G[frameName.."ThumbTexture"]) or self.ThumbTexture or self.thumbTexture
 
 	return bu
 end
@@ -804,7 +804,7 @@ function F:ReskinSearchResult()
 	bg:SetPoint("BOTTOMRIGHT")
 
 	local frameName = self.GetName and self:GetName()
-	local closebu = results.closeButton or (frameName and _G[frameName.."SearchResultsCloseButton"])
+	local closebu = (frameName and _G[frameName.."SearchResultsCloseButton"]) or results.closeButton
 	F.ReskinClose(closebu)
 
 	local bar = results.scrollFrame.scrollBar
@@ -886,7 +886,7 @@ function F:ReskinStatusBar(noClassColor)
 	end
 
 	local frameName = self.GetName and self:GetName()
-	local text = self.Text or self.text or (frameName and _G[frameName.."Text"])
+	local text = (frameName and _G[frameName.."Text"]) or self.Text or self.text
 	if text then
 		text:SetJustifyH("CENTER")
 		text:ClearAllPoints()
@@ -1060,7 +1060,7 @@ function F:CleanTextures()
 
 	local frameName = self.GetName and self:GetName()
 	for _, texture in pairs(CleanTextures) do
-		local cleanFrame = self[texture] or (frameName and _G[frameName..texture])
+		local cleanFrame = (frameName and _G[frameName..texture]) or self[texture]
 		if cleanFrame then
 			cleanFrame:SetAlpha(0)
 			cleanFrame:Hide()
@@ -1093,7 +1093,7 @@ local BlizzTextures = {
 function F:StripTextures(kill)
 	local frameName = self.GetName and self:GetName()
 	for _, texture in pairs(BlizzTextures) do
-		local blizzFrame = self[texture] or (frameName and _G[frameName..texture])
+		local blizzFrame = (frameName and _G[frameName..texture]) or self[texture]
 		if blizzFrame then F.StripTextures(blizzFrame, kill) end
 	end
 

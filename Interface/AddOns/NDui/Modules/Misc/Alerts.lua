@@ -98,7 +98,7 @@ function module:RareAlert()
 	local cache = {}
 	local function updateAlert(_, id)
 		local _, instType, _, _, _, _, _, instID = GetInstanceInfo()
-		if isIgnored[instID] then return end
+		if isIgnored[instID] or (NDuiDB["Misc"]["RareAlertInWild"] and instType ~= "none") then return end
 
 		if id and not cache[id] then
 			local info = C_VignetteInfo.GetVignetteInfo(id)
@@ -111,12 +111,10 @@ function module:RareAlert()
 			local tex = format("|T%s:%d:%d:0:0:%d:%d:%d:%d:%d:%d|t", filename, 0, 0, atlasWidth, atlasHeight, atlasWidth*txLeft, atlasWidth*txRight, atlasHeight*txTop, atlasHeight*txBottom)
 
 			UIErrorsFrame:AddMessage(DB.InfoColor..format(">>> %s <<<", tex..(info.name or "")))
-			if not NDuiDB["Misc"]["RareAlertInWild"] or instType == "none" then
-				if NDuiDB["Misc"]["AlertinChat"] and not UnitIsDeadOrGhost("player") then
-					SendChatMessage(format(">>> %s <<<", info.name), "SAY")
-				end
-				PlaySoundFile("Sound\\Interface\\PVPFlagTakenMono.ogg", "master")
+			if NDuiDB["Misc"]["AlertinChat"] and not UnitIsDeadOrGhost("player") then
+				SendChatMessage(format(">>> %s <<<", info.name), "SAY")
 			end
+			PlaySoundFile("Sound\\Interface\\PVPFlagTakenMono.ogg", "master")
 
 			cache[id] = true
 		end
@@ -155,22 +153,22 @@ function module:InterruptAlert()
 		[122] = true,		-- 冰霜新星
 		[1776] = true,		-- 凿击
 		[1784] = true,		-- 潜行
-		[115191] = true,
 		[5246] = true,		-- 破胆怒吼
 		[8122] = true,		-- 心灵尖啸
-		[33395] = true,	-- 冰冻术
-		[228600] = true,	-- 冰川尖刺
-		[197214] = true,	-- 裂地术
-		[157997] = true,	-- 寒冰新星
-		[102359] = true,	-- 群体缠绕
-		[226943] = true,	-- 心灵炸弹
-		[105421] = true,	-- 盲目之光
-		[207167] = true,	-- 致盲冰雨
 		[31661] = true,		-- 龙息术
-		[82691] = true,		-- 冰霜之环
-		[207685] = true,	-- 悲苦咒符
+		[33395] = true,		-- 冰冻术
 		[64695] = true,		-- 陷地
+		[82691] = true,		-- 冰霜之环
+		[102359] = true,	-- 群体缠绕
+		[105421] = true,	-- 盲目之光
+		[115191] = true,	-- 潜行
+		[157997] = true,	-- 寒冰新星
+		[197214] = true,	-- 裂地术
 		[198121] = true,	-- 冰霜撕咬
+		[207167] = true,	-- 致盲冰雨
+		[207685] = true,	-- 悲苦咒符
+		[226943] = true,	-- 心灵炸弹
+		[228600] = true,	-- 冰川尖刺
 	}
 
 	local function updateAlert(_, ...)
@@ -202,8 +200,6 @@ end
 	NDui版本过期提示
 ]]
 function module:VersionCheck()
-	if not NDuiADB["VersionCheck"] then return end
-
 	local f = CreateFrame("Frame", nil, nil, "MicroButtonAlertTemplate")
 	f:SetPoint("BOTTOMLEFT", ChatFrame1, "TOPLEFT", 20, 70)
 	f.Text:SetText("")
@@ -221,7 +217,7 @@ function module:VersionCheck()
 		end
 	end
 
-	local checked
+	local checked = not NDuiADB["VersionCheck"]
 	local function UpdateVersionCheck(_, ...)
 		local prefix, msg, distType, author = ...
 		if prefix ~= "NDuiVersionCheck" then return end
@@ -345,6 +341,7 @@ function module:PlacedItemAlert()
 		[259410] = true,	-- 船长盛宴
 		[276972] = true,	-- 秘法药锅
 		[286050] = true,	-- 鲜血大餐
+		[265116] = true,	-- 工程战复
 	}
 
 	local lastTime = 0

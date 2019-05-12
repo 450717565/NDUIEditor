@@ -277,12 +277,14 @@ function B:StyleExtraActionButton(cfg)
 	if NDuiDB["Actionbar"]["Hotkeys"] then
 		hotkey:SetParent(overlay)
 		B.UpdateHotKey(button)
+		cfg.hotkey.font = {DB.Font[1], 13, DB.Font[3]}
 		SetupFontString(hotkey, cfg.hotkey)
 	else
 		hotkey:Hide()
 	end
 	if NDuiDB["Actionbar"]["Count"] then
 		count:SetParent(overlay)
+		cfg.count.font = {DB.Font[1], 16, DB.Font[3]}
 		SetupFontString(count, cfg.count)
 	else
 		count:Hide()
@@ -389,7 +391,7 @@ function Bar:ReskinBars()
 				{"BOTTOMRIGHT", 0, 1},
 			},
 		},
-		buttonstyle = { file = ""},
+		buttonstyle = {file = ""},
 	}
 	B:StyleAllActionButtons(cfg)
 	hooksecurefunc("ActionButton_UpdateHotkeys", B.UpdateHotKey)
