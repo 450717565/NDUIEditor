@@ -2,8 +2,6 @@ local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinFrame(PVEFrame)
-	--F.StripTextures(PVEFrame.shadows, true)
-
 	F.SetupTabStyle(PVEFrame, 3)
 
 	GroupFinderFrame.groupButton1.icon:SetTexture("Interface\\Icons\\INV_Helmet_08")
@@ -17,9 +15,9 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.ReskinButton(bu)
 		F.ReskinTexture(bu.bg, bu, true)
 
-		local icon = bu.icon
-		icon:SetPoint("LEFT", bu, "LEFT")
-		F.ReskinIcon(icon)
+		local ic = bu.icon
+		ic:SetPoint("LEFT", bu, "LEFT")
+		F.ReskinIcon(ic)
 	end
 
 	hooksecurefunc("GroupFinderFrame_SelectGroupButton", function(index)

@@ -1,8 +1,6 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	PVPReadyDialogBackground:Hide()
-
 	F.ReskinFrame(PVPReadyDialog)
 	F.ReskinButton(PVPReadyDialog.enterButton)
 	F.ReskinButton(PVPReadyDialog.leaveButton)

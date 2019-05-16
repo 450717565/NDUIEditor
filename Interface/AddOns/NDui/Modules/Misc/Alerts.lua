@@ -92,6 +92,7 @@ function module:RareAlert()
 		[1159] = true,		-- 联盟要塞
 		[1803] = true,		-- 涌泉海滩
 		[1876] = true,		-- 部落激流堡
+		[1943] = true,		-- 联盟激流堡
 		[2111] = true,		-- 黑海岸前线
 	}
 
@@ -358,7 +359,7 @@ function module:PlacedItemAlert()
 	B:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED", checkSpell)
 end
 
--- 乌纳特踩圈通报，测试
+-- 乌纳特踩圈通报
 function module:UunatAlert()
 	local data = {}
 	local function isBuffBlock()
