@@ -39,8 +39,8 @@ function module:ChatCopy()
 	closeBotton:SetScript("OnClick", function() frame:Hide() end)
 
 	local scrollArea = CreateFrame("ScrollFrame", "ChatCopyScrollFrame", frame, "UIPanelScrollFrameTemplate")
-	scrollArea:SetPoint("TOPLEFT", frame, "TOPLEFT", 10, -30)
-	scrollArea:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -30, 10)
+	scrollArea:SetPoint("TOPLEFT", 10, -30)
+	scrollArea:SetPoint("BOTTOMRIGHT", -28, 10)
 
 	local editBox = CreateFrame("EditBox", nil, frame)
 	editBox:SetMultiLine(true)
@@ -49,7 +49,7 @@ function module:ChatCopy()
 	editBox:SetAutoFocus(false)
 	editBox:SetFont(DB.Font[1], 12)
 	editBox:SetWidth(scrollArea:GetWidth())
-	editBox:SetHeight(270)
+	editBox:SetHeight(scrollArea:GetHeight())
 	editBox:SetScript("OnEscapePressed", function() frame:Hide() end)
 	editBox:SetScript("OnTextChanged", function(_, userInput)
 		if userInput then return end
@@ -58,6 +58,7 @@ function module:ChatCopy()
 			ScrollFrameTemplate_OnMouseWheel(scrollArea, -1)
 		end
 	end)
+
 	scrollArea:SetScrollChild(editBox)
 	scrollArea:HookScript("OnVerticalScroll", function(self, offset)
 		editBox:SetHitRectInsets(0, 0, offset, (editBox:GetHeight() - offset - self:GetHeight()))

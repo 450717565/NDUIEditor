@@ -152,7 +152,6 @@ local list = {
 		{AuraID = 280573, UnitID = "player", Combat = true},	-- 重组阵列
 		{AuraID = 289523, UnitID = "player", Combat = true},	-- 耀辉之光
 		{AuraID = 295408, UnitID = "player"},	-- 险恶赐福
-		{AuraID = 295413, UnitID = "player", Stack = 20, Flash = true},	-- 苦楚
 		{AuraID = 273988, UnitID = "player"},	-- 原始本能
 	-->艾泽里特特质
 		{AuraID = 271550, UnitID = "player"},	-- 临危不惧
@@ -254,6 +253,7 @@ local list = {
 		{AuraID = 268007, UnitID = "player", Flash = true},--心脏打击
 		{AuraID = 266238, UnitID = "player", Flash = true},--粉碎防御
 		--默认
+		{AuraID = 295413, UnitID = "player", Stack = 20, Flash = true},	-- 苦楚
 		{AuraID = 209858, UnitID = "player"},	-- 死疽溃烂
 		{AuraID = 240559, UnitID = "player"},	-- 重伤
 		{AuraID = 240443, UnitID = "player", Flash = true},	-- 爆裂

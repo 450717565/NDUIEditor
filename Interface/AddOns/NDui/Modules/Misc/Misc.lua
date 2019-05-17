@@ -339,11 +339,11 @@ do
 			if frame then frame:Hide() end
 		else
 			if not move then
-				move = CreateFrame("Frame", nil, UIParent)
+				move = CreateFrame("Frame", "NDuiTalkingHeadMover", UIParent)
 			end
 
 			if not mover then
-				mover = B.Mover(move, L["TalkingHeadFrame"], "TalkingHeadFrame", {"TOP", UIParent, "TOP", 0, -50}, 560, 145)
+				mover = B.Mover(move, L["TalkingHeadFrame"], "TalkingHeadFrame", {"TOP", UIParent, "TOP", 0, -35}, 560, 145)
 			end
 
 			if frame then
