@@ -45,6 +45,10 @@ L= DBM:GetModLocalization(2351)
 ---------------------------
 L= DBM:GetModLocalization(2359)
 
+L:SetMiscLocalization({
+	Circles =	"Circles in 3s"
+})
+
 ---------------------------
 -- Herald of N'zoth --
 ---------------------------
@@ -66,4 +70,19 @@ L = DBM:GetModLocalization("EternalPalaceTrash")
 
 L:SetGeneralLocalization({
 	name =	"Eternal Palace Trash"
+})
+
+L:SetMiscLocalization({
+	SoakOrb =	"Soak Orb",
+	AvoidOrb =	"Avoid Orb",
+	GroupUp =	"Group Up",
+	Spread =	"Spread",
+	Move	 =	"Keep Moving",
+	DontMove =	"Stop Moving",
+	--For Yells, not yet used, localize anyways.
+	Soaking =	"{rt3}Soaking{rt3}",--Diamond for arcane orbs
+	Stacking =	"Stacking",
+	Solo =		"Solo",
+	Marching =	"{rt4}Marching{rt4}",--Green Triangle
+	Staying =	"{rt7}Staying{rt7}"--Red X
 })

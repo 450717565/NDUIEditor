@@ -109,12 +109,12 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 	if not NDuiDB["Extras"]["LootMonitor"] then return end
 
 	if event == "PLAYER_LOGIN" then
-		LMFrame:UnregisterEvent(event)
 		CreateLMFrame()
 		for index = 1, LMFrame_CFG["nums"] do
 			CreateLMButton(index)
 		end
 		LMFrame_Close()
+		LMFrame:UnregisterEvent(event)
 	elseif event == "CHAT_MSG_LOOT" then
 		local lootStr, playerStr = ...
 		local rollInfo = strmatch(lootStr, BONUS_REWARDS)

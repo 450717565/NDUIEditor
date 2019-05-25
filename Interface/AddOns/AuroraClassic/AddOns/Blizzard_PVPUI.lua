@@ -112,5 +112,9 @@ C.themes["Blizzard_PVPUI"] = function()
 		Reward.CircleMask:Hide()
 		Reward.Ring:Hide()
 		F.ReskinIcon(Reward.Icon)
+
+		hooksecurefunc(frame.ConquestBar, "Update", function(self)
+			self.Reward:SetShown(IsPlayerAtEffectiveMaxLevel())
+		end)
 	end
 end

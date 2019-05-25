@@ -68,9 +68,9 @@ local function showRealDate(curseDate)
 end
 
 DBM = {
-	Revision = parseCurseDate("20190516201535"),
-	DisplayVersion = "8.1.25 alpha", -- the string that is shown as version
-	ReleaseRevision = releaseDate(2019, 5, 7) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
+	Revision = parseCurseDate("20190525024536"),
+	DisplayVersion = "8.1.26", -- the string that is shown as version
+	ReleaseRevision = releaseDate(2019, 5, 23, 12) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -443,7 +443,7 @@ local delayedFunction
 local dataBroker
 local voiceSessionDisabled = false
 
-local fakeBWVersion, fakeBWHash = 147, "b9e4c1e"
+local fakeBWVersion, fakeBWHash = 148, "8b115ac"
 local versionQueryString, versionResponseString = "Q^%d^%s", "V^%d^%s"
 
 local enableIcons = true -- set to false when a raid leader or a promoted player has a newer version of DBM
@@ -497,7 +497,11 @@ local UnitAffectingCombat, InCombatLockdown, IsFalling, IsEncounterInProgress, U
 local UnitGUID, UnitHealth, UnitHealthMax, UnitBuff, UnitDebuff = UnitGUID, UnitHealth, UnitHealthMax, UnitBuff, UnitDebuff
 local UnitExists, UnitIsDead, UnitIsFriend, UnitIsUnit = UnitExists, UnitIsDead, UnitIsFriend, UnitIsUnit
 local GetSpellInfo, GetDungeonInfo, GetSpellTexture, GetSpellCooldown = GetSpellInfo, GetDungeonInfo, GetSpellTexture, GetSpellCooldown
-local EJ_GetEncounterInfo, EJ_GetCreatureInfo, EJ_GetSectionInfo, GetSectionIconFlags = EJ_GetEncounterInfo, EJ_GetCreatureInfo, C_EncounterJournal.GetSectionInfo, C_EncounterJournal.GetSectionIconFlags
+local EJ_GetEncounterInfo, EJ_GetCreatureInfo = EJ_GetEncounterInfo, EJ_GetCreatureInfo
+local EJ_GetSectionInfo, GetSectionIconFlags
+if C_EncounterJournal then
+	EJ_GetSectionInfo, GetSectionIconFlags = C_EncounterJournal.GetSectionInfo, C_EncounterJournal.GetSectionIconFlags
+end
 local GetInstanceInfo = GetInstanceInfo
 local GetSpecialization, GetSpecializationInfo, GetSpecializationInfoByID = GetSpecialization, GetSpecializationInfo, GetSpecializationInfoByID
 local UnitDetailedThreatSituation = UnitDetailedThreatSituation
@@ -1187,6 +1191,11 @@ do
 			end
 			onLoadCallbacks = nil
 			loadOptions(self)
+			if wowTOC < 80000 then
+				self:Disable(true)
+				C_TimerAfter(15, function() AddMsg(self, DBM_CORE_RETAIL_ONLY) end)
+				return
+			end
 			if GetAddOnEnableState(playerName, "VEM-Core") >= 1 then
 				self:Disable(true)
 				C_TimerAfter(15, function() AddMsg(self, DBM_CORE_VEM) end)
@@ -3790,9 +3799,9 @@ do
 				end
 			end
 			-- Check regular non-BNet friends
-			local nf = GetNumFriends()
+			local nf = C_FriendList.GetNumFriends()
 			for i = 1, nf do
-				local toonName = GetFriendInfo(i)
+				local toonName = C_FriendList.GetFriendInfo(i)
 				if toonName == sender then
 					AcceptPartyInvite()
 					return
@@ -6458,7 +6467,7 @@ do
 	local autoTLog = false
 
 	local function isCurrentContent()
-		if LastInstanceMapID == 1861 or LastInstanceMapID == 2070 or LastInstanceMapID == 2096 then--BfA
+		if LastInstanceMapID == 1861 or LastInstanceMapID == 2070 or LastInstanceMapID == 2096 or LastInstanceMapID == 2164 then--BfA
 			return true
 		end
 		return false
@@ -7379,27 +7388,29 @@ do
 	end
 	--TODO, see where timewalking ilvl fits into filters
 	--Couldn't get any of events to work so have to hook the show script directly
-	BonusRollFrame:HookScript("OnShow", function(self, event, ...)
-		if bonusRollForce then
-			bonusRollForce = false
-			return
-		end
-		DBM:Debug("BonusRollFrame OnShow fired", 2)
-		if DBM.Options.BonusFilter == "Never" then return end
-		local _, _, difficultyId, _, _, _, _, mapID = GetInstanceInfo()
-		local localMapID = C_Map.GetBestMapForUnit("player") or 0
-		local keystoneLevel = C_ChallengeMode.GetActiveKeystoneInfo() or 0
-		DBM:Unschedule(hideBonusRoll)
-		if DBM.Options.BonusFilter == "TrivialContent" and (difficultyId == 1 or difficultyId == 2) then--Basically anything below 370 ilvl (normal/heroic dungeons)
-			hideBonusRoll(DBM)
-		elseif DBM.Options.BonusFilter == "NormalRaider" and (difficultyId == 17 or difficultyId == 23 or (difficultyId == 8 and keystoneLevel < 5) or (difficultyId == 0 and localMapID == 14)) then--Basically, anything below 385 (normal/heroic/mythic dungeons lower than 5, LFR
-			hideBonusRoll(DBM)
-		elseif DBM.Options.BonusFilter == "HeroicRaider" and (difficultyId == 14 or difficultyId == 17 or difficultyId == 23 or (difficultyId == 8 and keystoneLevel < 10) or (difficultyId == 0 and localMapID == 14)) then--Basically, anything below 400 (normal/heroic/mythic dungeons lower than 10, LFR/Normal Raids
-			hideBonusRoll(DBM)
-		elseif DBM.Options.BonusFilter == "MythicRaider" and (difficultyId == 14 or difficultyId == 15 or difficultyId == 17 or difficultyId == 23 or difficultyId == 8 or difficultyId == 0) then--Basically, anything below Mythic Raid (ANY dungeon, LFR/Normal/Heroic Raids
-			hideBonusRoll(DBM)
-		end
-	end)
+	if BonusRollFrame then
+		BonusRollFrame:HookScript("OnShow", function(self, event, ...)
+			if bonusRollForce then
+				bonusRollForce = false
+				return
+			end
+			DBM:Debug("BonusRollFrame OnShow fired", 2)
+			if DBM.Options.BonusFilter == "Never" then return end
+			local _, _, difficultyId, _, _, _, _, mapID = GetInstanceInfo()
+			local localMapID = C_Map.GetBestMapForUnit("player") or 0
+			local keystoneLevel = C_ChallengeMode.GetActiveKeystoneInfo() or 0
+			DBM:Unschedule(hideBonusRoll)
+			if DBM.Options.BonusFilter == "TrivialContent" and (difficultyId == 1 or difficultyId == 2) then--Basically anything below 370 ilvl (normal/heroic dungeons)
+				hideBonusRoll(DBM)
+			elseif DBM.Options.BonusFilter == "NormalRaider" and (difficultyId == 17 or difficultyId == 23 or (difficultyId == 8 and keystoneLevel < 5) or (difficultyId == 0 and localMapID == 14)) then--Basically, anything below 385 (normal/heroic/mythic dungeons lower than 5, LFR
+				hideBonusRoll(DBM)
+			elseif DBM.Options.BonusFilter == "HeroicRaider" and (difficultyId == 14 or difficultyId == 17 or difficultyId == 23 or (difficultyId == 8 and keystoneLevel < 10) or (difficultyId == 0 and localMapID == 14)) then--Basically, anything below 400 (normal/heroic/mythic dungeons lower than 10, LFR/Normal Raids
+				hideBonusRoll(DBM)
+			elseif DBM.Options.BonusFilter == "MythicRaider" and (difficultyId == 14 or difficultyId == 15 or difficultyId == 17 or difficultyId == 23 or difficultyId == 8 or difficultyId == 0) then--Basically, anything below Mythic Raid (ANY dungeon, LFR/Normal/Heroic Raids
+				hideBonusRoll(DBM)
+			end
+		end)
+	end
 end
 
 ----------------------------
@@ -9153,6 +9164,12 @@ do
 		return schedule(t, self.Play, self.mod, self, ...)
 	end
 
+	--Object Permits scheduling voice multiple times for same object
+	function announcePrototype:ScheduleVoiceOverLap(t, ...)
+		if voiceSessionDisabled or DBM.Options.ChosenVoicePack == "None" then return end
+		return schedule(t, self.Play, self.mod, self, ...)
+	end
+
 	function announcePrototype:CancelVoice(...)
 		if voiceSessionDisabled or DBM.Options.ChosenVoicePack == "None" then return end
 		return unschedule(self.Play, self.mod, self, ...)
@@ -10435,7 +10452,7 @@ do
 			return self:Start(nil, timer, ...) -- first argument is optional!
 		end
 		if not self.option or self.mod.Options[self.option] then
-			if self.type and self.type:find("count") and not self.allowdouble then--cdcount, nextcount. remove previous timer.
+			if self.type and (self.type == "cdcount" or self.type == "nextcount") and not self.allowdouble then--remove previous timer.
 				for i = #self.startedTimers, 1, -1 do
 					if DBM.Options.AutoCorrectTimer or (DBM.Options.DebugMode and DBM.Options.DebugLevel > 1) then
 						local bar = DBM.Bars:GetBar(self.startedTimers[i])

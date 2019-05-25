@@ -46,6 +46,10 @@ L= DBM:GetModLocalization(2351)
 ---------------------------
 L= DBM:GetModLocalization(2359)
 
+L:SetMiscLocalization({
+	Circles =	"3초 후 동그라미"
+})
+
 ---------------------------
 -- Herald of N'zoth --
 ---------------------------
@@ -59,6 +63,15 @@ L:SetMiscLocalization({
 --  Queen Azshara --
 ---------------------------
 L= DBM:GetModLocalization(2361)
+
+L:SetMiscLocalization({
+	SoakOrb =	"구슬 맞기",
+	AvoidOrb =	"구슬 피하기",
+	GroupUp =	"뭉치기",
+	Spread =	"산개",
+	Move	 =	"계속 이동",
+	DontMove =	"이동 중지"
+})
 
 -------------
 --  Trash  --

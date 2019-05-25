@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2353, "DBM-EternalPalace", nil, 1179)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("2019051215229")
+mod:SetRevision("2019051765919")
 mod:SetCreatureID(152364)
 mod:SetEncounterID(2305)
 mod:SetZone()
@@ -102,7 +102,7 @@ function mod:SPELL_CAST_START(args)
 	local spellId = args.spellId
 	if spellId == 296546 then
 		self.vb.tideFistCount = self.vb.tideFistCount + 1
-		if UnitDetailedThreatSituation("player", "boss1") then
+		if self:IsTanking("player", "boss1", nil, true) then
 			specWarnTideFistCast:Show()
 			specWarnTideFistCast:Play("defensive")
 		end

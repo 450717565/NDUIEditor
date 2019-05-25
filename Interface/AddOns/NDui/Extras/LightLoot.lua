@@ -101,14 +101,14 @@ local function CreateSlot(id)
 	glow:SetPoint("TOPLEFT", icon, "TOPRIGHT", 3, 0)
 	glow:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT")
 	glow:SetTexture(DB.bdTex)
-	glow:SetVertexColor(DB.r, DB.g, DB.b, .5)
+	glow:SetColorTexture(DB.r, DB.g, DB.b, .5)
 	glow:Hide()
 	button.glow = glow
 
 	local count = B.CreateFS(border, 12)
 	count:SetJustifyH("RIGHT")
 	count:ClearAllPoints()
-	count:SetPoint("BOTTOMRIGHT", border, "BOTTOMRIGHT", -C.mult, C.mult)
+	count:SetPoint("BOTTOMRIGHT", border, "BOTTOMRIGHT", -1, 2)
 	button.count = count
 
 	local name = B.CreateFS(border, 14)
