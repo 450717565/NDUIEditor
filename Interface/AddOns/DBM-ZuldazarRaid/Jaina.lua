@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2343, "DBM-ZuldazarRaid", 3, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190523193333")
+mod:SetRevision("20190526205812")
 mod:SetCreatureID(146409)
 mod:SetEncounterID(2281)
 mod:SetZone()
@@ -524,7 +524,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				yellMarkedTarget:Yell()
 			end
 			if self.Options.NPAuraOnMarkedTarget2 then
-				DBM.Nameplate:Show(true, args.sourceGUID, spellId, nil, 10, nil, true, {0.75, 0, 0, 0.75})
+				DBM.Nameplate:Show(true, args.sourceGUID, spellId, nil, 10)
 			end
 		end
 	elseif spellId == 287925 then
@@ -627,7 +627,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 290053 then--Howling Winds buff Images get
 		self.vb.howlingRemaining = self.vb.howlingRemaining + 1
 		if self.Options.NPAuraOnHowlingWinds2 then
-			DBM.Nameplate:Show(true, args.sourceGUID, spellId, nil, nil, nil, true, {1, 1, 0.5, 0.75})--{1, 0.5, 0},
+			DBM.Nameplate:Show(true, args.sourceGUID, spellId)
 		end
 	end
 end

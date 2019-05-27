@@ -5,7 +5,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	-- [[ Item reward highlight ]]
 	do
-		QuestInfoItemHighlight:GetRegions():Hide()
+		F.StripTextures(QuestInfoItemHighlight)
 
 		local function clearHighlight()
 			for _, button in pairs(QuestInfoRewardsFrame.RewardButtons) do
@@ -16,9 +16,9 @@ tinsert(C.themes["AuroraClassic"], function()
 		local function setHighlight(self)
 			clearHighlight()
 
-			local _, point = self:GetPoint()
-			if point then
-				point.bg:SetBackdropColor(cr, cg, cb, .25)
+			local _, relativeTo = self:GetPoint()
+			if relativeTo then
+				relativeTo.bg:SetBackdropColor(cr, cg, cb, .25)
 			end
 		end
 
@@ -65,7 +65,6 @@ tinsert(C.themes["AuroraClassic"], function()
 		end)
 	end
 
-
 	-- [[ Spell rewards ]]
 	do
 		local quests = QuestInfoRewardsFrame.spellRewardPool:Acquire()
@@ -79,6 +78,48 @@ tinsert(C.themes["AuroraClassic"], function()
 		local bubg = F.CreateBDFrame(maps.NameFrame, 0)
 		bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
 		bubg:SetPoint("BOTTOMRIGHT", icbg, "BOTTOMRIGHT", 102, 0)
+	end
+
+	-- [[ Follower rewards ]]
+	do
+		local function reskinFollowerReward()
+			local rewardsFrame = QuestInfoFrame.rewardsFrame
+			local isQuestLog = QuestInfoFrame.questLog ~= nil
+			local numSpellRewards = isQuestLog and GetNumQuestLogRewardSpells() or GetNumRewardSpells()
+
+			if numSpellRewards > 0 then
+				for reward in rewardsFrame.followerRewardPool:EnumerateActive() do
+					local portrait = reward.PortraitFrame
+					if not reward.styled then
+						portrait:ClearAllPoints()
+						portrait:SetPoint("LEFT", 2, 0)
+						F.ReskinGarrisonPortrait(portrait)
+
+						reward.BG:Hide()
+						local bg = F.CreateBDFrame(reward, 0)
+						bg:SetPoint("TOPLEFT", 0, -3)
+						bg:SetPoint("BOTTOMRIGHT", 2, 7)
+
+						if reward.Class then
+							reward.Class:SetSize(36, 36)
+							reward.Class:ClearAllPoints()
+							reward.Class:SetPoint("RIGHT", -2, 2)
+							reward.Class:SetTexCoord(.18, .92, .08, .92)
+							F.CreateBDFrame(reward.Class, 0)
+						end
+
+						reward.styled = true
+					end
+
+					if portrait then
+						local color = BAG_ITEM_QUALITY_COLORS[portrait.quality or 1]
+						portrait.squareBG:SetBackdropBorderColor(color.r, color.g, color.b)
+					end
+				end
+			end
+		end
+
+		hooksecurefunc("QuestInfo_Display", reskinFollowerReward)
 	end
 
 	-- [[ Change text colours ]]
