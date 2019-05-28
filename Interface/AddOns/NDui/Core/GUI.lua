@@ -260,6 +260,7 @@ local defaultSettings = {
 		SkinAlpha = .8,
 		SkinColor = {r=.5, g=.5, b=.5},
 		SlotInfo = true,
+		ShowSelf = false,
 	},
 }
 
@@ -416,6 +417,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "UFs", "RaidFrame", DB.MyColor..L["UFs RaidFrame"]},
 		{},--blank
 		{1, "UFs", "PartyFrame", DB.MyColor..L["UFs PartyFrame"]},
+		{1, "Extras", "ShowSelf", L["PartyFrame Show Self"], true},
 		{1, "UFs", "PartyWatcher", L["UFs PartyWatcher"]},
 		{1, "UFs", "PWOnRight", L["PartyWatcherOnRight"], true},
 		{3, "UFs", "PartyWidth", L["PartyFrame Width"], false, {60, 150, 0}},
@@ -614,11 +616,12 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{5, "Extras", "SkinColor", L["Skin Color"], 2},
 		{},--blank
 		{1, "Extras", "GuildWelcome", L["Guild Welcome"]},
-		{1, "Extras", "LootMonitor", L["LootMonitor"]},
-		{1, "Extras", "iLvlTools", L["iLvlTools"], true},
 		{},--blank
+		{1, "Extras", "iLvlTools", L["iLvlTools"]},
 		{1, "Extras", "ShowCharacterItemSheet", L["Show Character Item Sheet"]},
 		{1, "Extras", "ShowOwnFrameWhenInspecting", L["Show Own Frame When Inspecting"], true},
+		{},--blank
+		{1, "Extras", "LootMonitor", L["LootMonitor"]},
 		{1, "Extras", "LootMonitorInGroup", L["LootMonitor InGroup"]},
 		{1, "Extras", "LootMonitorBonusRewards", L["LootMonitor Bonus Rewards"], true},
 	},

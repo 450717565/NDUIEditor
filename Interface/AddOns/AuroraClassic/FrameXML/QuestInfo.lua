@@ -16,7 +16,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		local function setHighlight(self)
 			clearHighlight()
 
-			local _, relativeTo = self:GetPoint()
+			local relativeTo = select(2, self:GetPoint())
 			if relativeTo then
 				relativeTo.bg:SetBackdropColor(cr, cg, cb, .25)
 			end

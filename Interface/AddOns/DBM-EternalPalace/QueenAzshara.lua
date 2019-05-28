@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2361, "DBM-EternalPalace", nil, 1179)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("2019052633704")
+mod:SetRevision("20190527213044")
 mod:SetCreatureID(152910)
 mod:SetEncounterID(2299)
 mod:SetZone()
@@ -147,9 +147,6 @@ local timerNetherPortalCD				= mod:NewAITimer(30.4, 303980, nil, nil, nil, 3)
 local timerOverloadCD					= mod:NewAITimer(30.4, 300807, nil, nil, nil, 5, nil, DBM_CORE_IMPORTANT_ICON)
 
 --local berserkTimer					= mod:NewBerserkTimer(600)
-
---local countdownCudgelofGore			= mod:NewCountdown(58, 271296)
---local countdownColdBlast				= mod:NewCountdown("Alt60", 298014, "Tank", 3)
 
 mod:AddNamePlateOption("NPAuraOnTorment", 297912)
 mod:AddNamePlateOption("NPAuraOnInfuriated", 300428)

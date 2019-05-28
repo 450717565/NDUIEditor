@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2349, "DBM-EternalPalace", nil, 1179)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190519223516")
+mod:SetRevision("20190527213044")
 mod:SetCreatureID(151586)
 mod:SetEncounterID(2293)
 mod:SetZone()
@@ -95,9 +95,6 @@ local timerDarkPassageD					= mod:NewAITimer(58.2, 299705, nil, nil, nil, 1)--Al
 local timerManicDreadCD					= mod:NewAITimer(30.4, 296018, nil, "Healer", nil, 5, nil, DBM_CORE_MAGIC_ICON)
 
 --local berserkTimer					= mod:NewBerserkTimer(600)
-
---local countdownCudgelofGore				= mod:NewCountdown(58, 271296)
---local countdownEnlargedHeart			= mod:NewCountdown("Alt60", 275205, true, 2)
 
 --mod:AddRangeFrameOption(6, 264382)
 mod:AddInfoFrameOption(292971, true)

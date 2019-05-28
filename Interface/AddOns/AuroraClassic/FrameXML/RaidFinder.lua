@@ -6,8 +6,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.StripTextures(RaidFinderQueueFrameScrollFrame, true)
 	RaidFinderQueueFrameBackground:Hide()
 
-	-- this fixes right border of second reward being cut off
-	RaidFinderQueueFrameScrollFrame:SetWidth(RaidFinderQueueFrameScrollFrame:GetWidth()+1)
+	RaidFinderQueueFrameScrollFrame:SetWidth(304)
 
 	F.ReskinScroll(RaidFinderQueueFrameScrollFrameScrollBar)
 	F.ReskinDropDown(RaidFinderQueueFrameSelectionDropDown)

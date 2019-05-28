@@ -298,9 +298,10 @@ function UF:OnLogin()
 			local moverPoint = partyWatcher and (horizon and {"LEFT", UIParent, 50, 0} or {"LEFT", UIParent, 350, 0}) or {"TOPLEFT", UIParent, 35, -50}
 			local moverWidth = partyWatcher and (horizon and (partyWidth*5-xOffset*4)) or partyWidth
 			local moverHeight = partyWatcher and (horizon and partyHeight or (partyHeight*5+yOffset*4)) or (partyHeight*4-yOffset*3)
+			local showPlayer = partyWatcher or NDuiDB["Extras"]["ShowSelf"]
 
 			local party = oUF:SpawnHeader("oUF_Party", nil, "solo,party",
-			"showPlayer", partyWatcher,
+			"showPlayer", showPlayer,
 			"showSolo", false,
 			"showParty", true,
 			"showRaid", false,

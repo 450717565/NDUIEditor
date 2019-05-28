@@ -45,21 +45,21 @@ tinsert(C.themes["AuroraClassic"], function()
 		styleRewardButton(moneyReward)
 	end)
 
-	local roleDes = LFGDungeonReadyDialogYourRoleDescription
-	roleDes:ClearAllPoints()
-	roleDes:SetPoint("BOTTOMRIGHT", LFGDungeonReadyDialogRoleIcon, "LEFT", -10, 0)
+	local roleDescription = LFGDungeonReadyDialogYourRoleDescription
+	roleDescription:ClearAllPoints()
+	roleDescription:SetPoint("BOTTOMRIGHT", LFGDungeonReadyDialogRoleIcon, "LEFT", -10, 0)
 
-	local rolelabel = LFGDungeonReadyDialogRoleLabel
-	rolelabel:ClearAllPoints()
-	rolelabel:SetPoint("TOP", roleDes, "BOTTOM", 0, -3)
+	local roleLabel = LFGDungeonReadyDialogRoleLabel
+	roleLabel:ClearAllPoints()
+	roleLabel:SetPoint("TOP", roleDescription, "BOTTOM", 0, -3)
 
 	local leaderIcon = LFGDungeonReadyDialogRoleIconLeaderIcon
 	F.ReskinRole(leaderIcon, "LEADER")
 	leaderIcon:ClearAllPoints()
-	leaderIcon:SetPoint("BOTTOM", roleDes, "TOP", 0, 5)
+	leaderIcon:SetPoint("BOTTOM", roleDescription, "TOP", 0, 5)
 
-	local iconTexture = LFGDungeonReadyDialogRoleIconTexture
-	local icbg = F.ReskinRoleIcon(iconTexture)
+	local roleIcon = LFGDungeonReadyDialogRoleIconTexture
+	local roleBG = F.ReskinRoleIcon(roleIcon)
 
 	local rewardFrame = LFGDungeonReadyDialogRewardsFrame
 	local rewardLabel = LFGDungeonReadyDialogRewardsFrameLabel
@@ -67,19 +67,20 @@ tinsert(C.themes["AuroraClassic"], function()
 	hooksecurefunc("LFGDungeonReadyPopup_Update", function()
 		LFGDungeonReadyDialog.SetBackdrop = F.Dummy
 		leaderIcon.bg:SetShown(leaderIcon:IsShown())
+		rewardLabel:Hide()
+		rewardFrame:ClearAllPoints()
 
 		if LFGDungeonReadyDialogRoleIcon:IsShown() then
 			local role = select(7, GetLFGProposal())
 			if not role or role == "NONE" then role = "DAMAGER" end
-			iconTexture:SetTexCoord(F.GetRoleTexCoord(role))
-			icbg:Show()
-		else
-			icbg:Hide()
-		end
 
-		rewardLabel:Hide()
-		rewardFrame:ClearAllPoints()
-		rewardFrame:SetPoint("BOTTOMLEFT", LFGDungeonReadyDialogRoleIcon, "BOTTOMRIGHT", 15, 0)
+			roleIcon:SetTexCoord(F.GetRoleTexCoord(role))
+			roleBG:Show()
+			rewardFrame:SetPoint("BOTTOMLEFT", LFGDungeonReadyDialogRoleIcon, "BOTTOMRIGHT", 15, 0)
+		else
+			roleBG:Hide()
+			rewardFrame:SetPoint("BOTTOM", LFGDungeonReadyDialogRoleIcon, "BOTTOM", 0, 15)
+		end
 	end)
 
 	local function reskinDialogReward(button)

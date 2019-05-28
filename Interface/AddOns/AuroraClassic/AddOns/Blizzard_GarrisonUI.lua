@@ -1,7 +1,7 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_GarrisonUI"] = function()
-	local r, g, b = C.r, C.g, C.b
+	local cr, cg, cb = C.r, C.g, C.b
 
 	-- tooltips
 	if AuroraConfig.tooltips then
@@ -75,7 +75,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			F.StripTextures(tab)
 			F.CreateBDFrame(tab, 0)
 			if i == 1 then
-				tab:SetBackdropColor(r, g, b, .25)
+				tab:SetBackdropColor(cr, cg, cb, .25)
 			end
 		end
 	end
@@ -208,7 +208,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			end
 
 			if button.Selection:IsShown() then
-				button.bg:SetBackdropColor(r, g, b, .25)
+				button.bg:SetBackdropColor(cr, cg, cb, .25)
 			else
 				button.bg:SetBackdropColor(0, 0, 0, 0)
 			end
@@ -347,7 +347,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				otherTab.bg:SetBackdropColor(0, 0, 0, 0)
 			end
 		end
-		tab.bg:SetBackdropColor(r, g, b, .25)
+		tab.bg:SetBackdropColor(cr, cg, cb, .25)
 
 		for _, button in pairs(list.Buttons) do
 			if not button.styled then
@@ -514,7 +514,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 		local selectedTex = bg:CreateTexture(nil, "BACKGROUND")
 		selectedTex:SetAllPoints()
-		selectedTex:SetColorTexture(r, g, b, .25)
+		selectedTex:SetColorTexture(cr, cg, cb, .25)
 		selectedTex:Hide()
 		tab.selectedTex = selectedTex
 
@@ -579,7 +579,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	hooksecurefunc("GarrisonMissonListTab_SetSelected", function(tab, isSelected)
 		if isSelected then
-			tab:SetBackdropColor(r, g, b, .25)
+			tab:SetBackdropColor(cr, cg, cb, .25)
 		else
 			tab:SetBackdropColor(0, 0, 0, 0)
 		end

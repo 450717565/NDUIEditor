@@ -221,9 +221,11 @@ function module:CreateRM()
 			if (IsInGroup() and not IsInRaid()) or UnitIsGroupLeader("player") or UnitIsGroupAssistant("player") then
 				marker:Enable()
 				marker:SetAlpha(1)
+				marker:EnableMouse(true)
 			else
 				marker:Disable()
 				marker:SetAlpha(.5)
+				marker:EnableMouse(false)
 			end
 		end)
 		marker:HookScript("OnEnter", function(self)
@@ -372,9 +374,11 @@ function module:CreateRM()
 		if UnitIsGroupLeader("player") or UnitIsGroupAssistant("player") then
 			checker:Enable()
 			checker:SetAlpha(1)
+			checker:EnableMouse(true)
 		else
 			checker:Disable()
 			checker:SetAlpha(.5)
+			checker:EnableMouse(false)
 		end
 	end)
 
