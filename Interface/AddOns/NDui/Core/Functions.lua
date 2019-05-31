@@ -176,8 +176,8 @@ end
 local function tooltipOnEnter(self)
 	GameTooltip:SetOwner(self, self.anchor)
 	GameTooltip:ClearLines()
-	if tonumber(self.text) then
-		GameTooltip:SetSpellByID(self.text)
+	if tonumber(self.tooltip) then
+		GameTooltip:SetSpellByID(self.tooltip)
 	else
 		local r, g, b = 1, 1, 1
 		if self.color == "class" then
@@ -185,14 +185,14 @@ local function tooltipOnEnter(self)
 		elseif self.color == "system" then
 			r, g, b = 1, .8, 0
 		end
-		GameTooltip:AddLine(self.text, r, g, b)
+		GameTooltip:AddLine(self.tooltip, r, g, b, 1)
 	end
 	GameTooltip:Show()
 end
 
-function B:AddTooltip(anchor, text, color)
+function B:AddTooltip(anchor, tooltip, color)
 	self.anchor = anchor
-	self.text = text
+	self.tooltip = tooltip
 	self.color = color
 	self:SetScript("OnEnter", tooltipOnEnter)
 	self:SetScript("OnLeave", B.HideTooltip)

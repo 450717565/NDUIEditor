@@ -29,7 +29,7 @@ oUF.Tags.Methods["health"] = function(unit)
 		end
 	end
 end
-oUF.Tags.Events["health"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_STATS UNIT_CONNECTION PLAYER_FLAGS_CHANGED"
+oUF.Tags.Events["health"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION UNIT_STATS UNIT_NAME_UPDATE PLAYER_FLAGS_CHANGED"
 
 oUF.Tags.Methods["power"] = function(unit)
 	local cur = UnitPower(unit)
@@ -47,7 +47,7 @@ oUF.Tags.Methods["power"] = function(unit)
 		return B.ColorText(per)
 	end
 end
-oUF.Tags.Events["power"] = "UNIT_POWER_UPDATE UNIT_MAXPOWER UNIT_DISPLAYPOWER"
+oUF.Tags.Events["power"] = "UNIT_POWER_FREQUENT UNIT_MAXPOWER UNIT_DISPLAYPOWER"
 
 oUF.Tags.Methods["color"] = function(unit)
 	local class = select(2, UnitClass(unit))
@@ -65,7 +65,7 @@ oUF.Tags.Methods["color"] = function(unit)
 		return B.HexRGB(1, 1, 1)
 	end
 end
-oUF.Tags.Events["color"] = "UNIT_HEALTH UNIT_NAME_UPDATE UNIT_FACTION UNIT_STATS UNIT_CONNECTION PLAYER_LEVEL_CHANGED"
+oUF.Tags.Events["color"] = "UNIT_HEALTH UNIT_FACTION UNIT_CONNECTION UNIT_STATS UNIT_NAME_UPDATE PLAYER_LEVEL_CHANGED"
 
 oUF.Tags.Methods["flag"] = function(unit)
 	if UnitIsAFK(unit) then
@@ -85,7 +85,7 @@ oUF.Tags.Methods["state"] = function(unit)
 		return "|cffC0C0C0"..DEAD.."|r"
 	end
 end
-oUF.Tags.Events["state"] = "UNIT_HEALTH UNIT_CONNECTION UNIT_STATS PLAYER_FLAGS_CHANGED"
+oUF.Tags.Events["state"] = "UNIT_HEALTH UNIT_CONNECTION UNIT_STATS UNIT_NAME_UPDATE PLAYER_FLAGS_CHANGED"
 
 -- Level tags
 oUF.Tags.Methods["fulllevel"] = function(unit)
@@ -120,7 +120,7 @@ oUF.Tags.Methods["fulllevel"] = function(unit)
 
 	return str
 end
-oUF.Tags.Events["fulllevel"] = "UNIT_LEVEL UNIT_CLASSIFICATION_CHANGED PLAYER_LEVEL_CHANGED"
+oUF.Tags.Events["fulllevel"] = "UNIT_LEVEL UNIT_NAME_UPDATE UNIT_CLASSIFICATION_CHANGED PLAYER_LEVEL_CHANGED"
 
 -- RaidFrame tags
 oUF.Tags.Methods["raidhp"] = function(unit)
@@ -132,7 +132,7 @@ oUF.Tags.Methods["raidhp"] = function(unit)
 		return B.ColorText(per)
 	end
 end
-oUF.Tags.Events["raidhp"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_CONNECTION UNIT_STATS"
+oUF.Tags.Events["raidhp"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION UNIT_STATS UNIT_NAME_UPDATE PLAYER_FLAGS_CHANGED"
 
 -- Nameplate tags
 oUF.Tags.Methods["nphp"] = function(unit)
@@ -145,7 +145,7 @@ oUF.Tags.Methods["nphp"] = function(unit)
 		return B.ColorText(per, true)
 	end
 end
-oUF.Tags.Events["nphp"] = "UNIT_HEALTH UNIT_MAXHEALTH"
+oUF.Tags.Events["nphp"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH"
 
 oUF.Tags.Methods["nppp"] = function(unit)
 	if not C.ShowPowerList[UnitName(unit)] then return end
@@ -155,7 +155,7 @@ oUF.Tags.Methods["nppp"] = function(unit)
 		return B.ColorText(per, true)
 	end
 end
-oUF.Tags.Events["nppp"] = "UNIT_POWER_UPDATE UNIT_MAXPOWER"
+oUF.Tags.Events["nppp"] = "UNIT_POWER_FREQUENT UNIT_MAXPOWER"
 
 oUF.Tags.Methods["nplv"] = function(unit)
 	local level = UnitLevel(unit)
@@ -173,7 +173,7 @@ oUF.Tags.Methods["nplv"] = function(unit)
 
 	return level
 end
-oUF.Tags.Events["nplv"] = "UNIT_LEVEL UNIT_CLASSIFICATION_CHANGED PLAYER_LEVEL_CHANGED"
+oUF.Tags.Events["nplv"] = "UNIT_LEVEL UNIT_NAME_UPDATE UNIT_CLASSIFICATION_CHANGED PLAYER_LEVEL_CHANGED"
 
 -- AltPower value tag
 oUF.Tags.Methods["altpower"] = function(unit)

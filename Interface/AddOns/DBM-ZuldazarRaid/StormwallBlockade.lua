@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2337, "DBM-ZuldazarRaid", 3, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190527213044")
+mod:SetRevision("2019053103048")
 mod:SetCreatureID(146251, 146253, 146256)--Sister Katherine 146251, Brother Joseph 146253, Laminaria 146256
 mod:SetEncounterID(2280)
 --mod:DisableESCombatDetection()
@@ -451,11 +451,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnCracklingLightning:Show()
 			specWarnCracklingLightning:Play("runout")
 			yellCracklingLightning:Yell()
-			local _, _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
-			if expireTime then
-				local remaining = expireTime-GetTime()
-				yellCracklingLightningFades:Countdown(remaining)
-			end
+			yellCracklingLightningFades:Countdown(spellId)
 		else
 			warnCracklingLightning:Show(args.destName)
 		end
@@ -465,11 +461,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnSeaStorm:Show()
 			specWarnSeaStorm:Play("runout")
 			yellSeaStorm:Yell()
-			local _, _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
-			if expireTime then
-				local remaining = expireTime-GetTime()
-				yellSeaStormFades:Countdown(remaining)
-			end
+			yellSeaStormFades:Countdown(spellId)
 		end
 	end
 end

@@ -68,7 +68,7 @@ local function showRealDate(curseDate)
 end
 
 DBM = {
-	Revision = parseCurseDate("20190528061049"),
+	Revision = parseCurseDate("20190531003048"),
 	DisplayVersion = "8.2.0 alpha", -- the string that is shown as version
 	ReleaseRevision = releaseDate(2019, 5, 23, 12) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
@@ -9673,7 +9673,15 @@ do
 	end
 
 	function yellPrototype:Countdown(time, numAnnounces, ...)
-		scheduleCountdown(time, numAnnounces, self.Yell, self.mod, self, ...)
+		if time > 60 then--It's a spellID not a time
+			local _, _, _, _, _, expireTime = DBM:UnitDebuff("player", time)
+			if expireTime then
+				local remaining = expireTime-GetTime()
+				scheduleCountdown(remaining, numAnnounces, self.Yell, self.mod, self, ...)
+			end
+		else
+			scheduleCountdown(time, numAnnounces, self.Yell, self.mod, self, ...)
+		end
 	end
 
 	function yellPrototype:Cancel(...)
@@ -10505,14 +10513,12 @@ do
 			for i = 1, timer do
 				if i < maxCount then
 					DBM:Schedule(i, playCountSound, timerId, path..i..".ogg")
-					--self.sound5:Schedule(i, path..i..".ogg")
 				end
 			end
 		else
 			for i = count, 1, -1 do
 				if i <= maxCount then
 					DBM:Schedule(timer-i, playCountSound, timerId, path..i..".ogg")
-					--self.sound5:Schedule(timer-i, path..i..".ogg")
 				end
 			end
 		end
@@ -10699,7 +10705,7 @@ do
 				bar:ApplyStyle()
 				if bar.countdown then--Unfading bar, start countdown
 					DBM:Unschedule(playCountSound, id)
-					DBM:Schedule(playCountdown, id, bar.timer, bar.countdown, bar.countdownMax)--timerId, timer, voice, count
+					playCountdown(id, bar.timer, bar.countdown, bar.countdownMax)--timerId, timer, voice, count
 					DBM:Debug("Re-enabling a countdown on bar ID: "..id.." after a SetFade disable call")
 				end
 			end
@@ -10727,7 +10733,7 @@ do
 				bar:ApplyStyle()
 				if bar.countdown then--Unfading bar, start countdown
 					DBM:Unschedule(playCountSound, id)
-					DBM:Schedule(playCountdown, id, bar.timer, bar.countdown, bar.countdownMax)--timerId, timer, voice, count
+					playCountdown(id, bar.timer, bar.countdown, bar.countdownMax)--timerId, timer, voice, count
 					DBM:Debug("Re-enabling a countdown on bar ID: "..id.." after a SetSTFade disable call")
 				end
 			end
@@ -10817,7 +10823,7 @@ do
 		if bar.countdown and bar.countdown > 0 then
 			DBM:Unschedule(playCountSound, id)
 			if not bar.fade then--Don't start countdown voice if it's faded bar
-				DBM:Schedule(playCountdown, id, totalTime-elapsed, bar.countdown, bar.countdownMax)--timerId, timer, voice, count
+				playCountdown(id, totalTime-elapsed, bar.countdown, bar.countdownMax)--timerId, timer, voice, count
 				DBM:Debug("Updating a countdown after a timer Update call for timer ID:"..id)
 			end
 		end
@@ -10837,7 +10843,7 @@ do
 					if bar.countdown then
 						DBM:Unschedule(playCountSound, id)
 						if not bar.fade then--Don't start countdown voice if it's faded bar
-							DBM:Schedule(playCountdown, id, total-elapsed, bar.countdown, bar.countdownMax)--timerId, timer, voice, count
+							playCountdown(id, total-elapsed, bar.countdown, bar.countdownMax)--timerId, timer, voice, count
 							DBM:Debug("Updating a countdown after a timer AddTime call for timer ID:"..id)
 						end
 					end

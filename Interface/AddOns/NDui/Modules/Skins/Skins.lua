@@ -103,7 +103,7 @@ function module:OnLogin()
 	self:PGFSkin()
 
 	-- Register skin
-	local media = LibStub and LibStub("LibSharedMedia-3.0")
+	local media = LibStub and LibStub("LibSharedMedia-3.0", true)
 	if media then
 		media:Register("statusbar", "Altz01", [[Interface\AddOns\NDui\Media\StatusBar\Altz01]])
 		media:Register("statusbar", "Altz02", [[Interface\AddOns\NDui\Media\StatusBar\Altz02]])

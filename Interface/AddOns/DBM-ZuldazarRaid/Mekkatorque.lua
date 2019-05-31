@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2334, "DBM-ZuldazarRaid", 3, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190527213044")
+mod:SetRevision("2019053103048")
 mod:SetCreatureID(144796)
 mod:SetEncounterID(2276)
 --mod:DisableESCombatDetection()
@@ -523,7 +523,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnGigaVoltChargeFading:Schedule(8.5, DBM_CORE_BREAK_LOS)
 			specWarnGigaVoltChargeFading:ScheduleVoice(8.5, "mm"..icon)
 			yellGigaVoltCharge:Yell(icon, icon, icon)
-			yellGigaVoltChargeFades:Countdown(15, nil, icon)
+			yellGigaVoltChargeFades:Countdown(spellId, nil, icon)
 		else
 			local uId = DBM:GetRaidUnitId(args.destName)
 			if self:IsTanking(uId) then

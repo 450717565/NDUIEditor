@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2361, "DBM-EternalPalace", nil, 1179)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190527213044")
+mod:SetRevision("2019053103048")
 mod:SetCreatureID(152910)
 mod:SetEncounterID(2299)
 mod:SetZone()
@@ -451,7 +451,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnChargedSpear:Play("behindmob")
 			end
 			yellChargedSpear:Yell()
-			yellChargedSpearFades:Countdown(5)
+			yellChargedSpearFades:Countdown(spellId)
 		else
 			warnChargedSpear:Show(args.destName)
 		end
@@ -513,7 +513,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnArcaneBurstFading:Schedule(5, DBM_CORE_BREAK_LOS)
 			specWarnArcaneBurstFading:ScheduleVoice(5, "mm"..icon)
 			yellArcaneBurst:Yell(icon, icon, icon)
-			yellArcaneBurstFades:Countdown(10, nil, icon)
+			yellArcaneBurstFades:Countdown(spellId, nil, icon)
 		--else
 			--local uId = DBM:GetRaidUnitId(args.destName)
 			--if self:IsTanking(uId) then

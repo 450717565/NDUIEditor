@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2351, "DBM-EternalPalace", nil, 1179)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190527213044")
+mod:SetRevision("2019053103048")
 mod:SetCreatureID(152128)
 mod:SetEncounterID(2303)
 mod:SetZone()
@@ -212,7 +212,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnAquaLance:Show()
 			specWarnAquaLance:Play("targetyou")
 			yellAquaLance:Yell()
-			yellAquaLanceFades:Countdown(5)
+			yellAquaLanceFades:Countdown(spellId)
 			if self.Options.NPAuraOnAquaLance then
 				DBM.Nameplate:Show(true, args.sourceGUID, spellId)
 			end

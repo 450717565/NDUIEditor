@@ -226,7 +226,8 @@ local list = {
 		{AuraID = 214121, UnitID = "player"},--提神愈心
 		--潜行者
 		{AuraID = 57934, UnitID = "player"},--嫁祸诀窍
-		{AuraID = 115834, UnitID = "player"},--潜伏帷幕
+		{AuraID = 114018, UnitID = "player", Flash = true},--潜伏帷幕
+		{AuraID = 115834, UnitID = "player", Flash = true},
 		--萨满祭司
 		{AuraID = 98007, UnitID = "player"},--灵魂链接图腾
 		{AuraID = 192082, UnitID = "player"},--狂风图腾
@@ -267,6 +268,7 @@ local list = {
 		{AuraID = 274507, UnitID = "player"},	-- 湿滑肥皂，自由镇
 		{AuraID = 266923, UnitID = "player"},	-- 充电，神庙
 		{AuraID = 273563, UnitID = "player", Text = L["No move"]},	-- 神经毒素，神庙
+		{AuraID = 269686, UnitID = "player"},	-- 瘟疫，神庙
 		{AuraID = 257407, UnitID = "player"},	-- 追踪，阿塔达萨
 		{AuraID = 250585, UnitID = "player", Flash = true},	-- 剧毒之池，阿塔达萨
 		{AuraID = 258723, UnitID = "player", Flash = true},	-- 怪诞之池，阿塔达萨
@@ -691,7 +693,7 @@ local list = {
 	-->风暴熔炉
 		{AuraID = 282741, UnitID = "target", Value = true},	-- 暗影之壳，无眠秘党
 		{AuraID = 284722, UnitID = "target", Value = true},	-- 暗影之壳，乌纳特
-		{AuraID = 287692, UnitID = "target"},	-- 隐性联结
+		{AuraID = 287693, UnitID = "target", Flash = true},	-- 隐性联结
 		{AuraID = 286310, UnitID = "target"},	-- 虚空之盾
 		{AuraID = 285333, UnitID = "target"},	-- 非自然再生
 		{AuraID = 285642, UnitID = "target"},	-- 恩佐斯之赐：癔乱

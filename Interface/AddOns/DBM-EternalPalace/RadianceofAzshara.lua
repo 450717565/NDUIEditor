@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2353, "DBM-EternalPalace", nil, 1179)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190527213044")
+mod:SetRevision("2019053103048")
 mod:SetCreatureID(152364)
 mod:SetEncounterID(2305)
 mod:SetZone()
@@ -157,7 +157,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnArcaneBomb:Show()
 			specWarnArcaneBomb:Play("runout")
 			yellArcaneBomb:Yell(icon, icon, icon)
-			yellArcaneBombFades:Countdown(10, nil, icon)
+			yellArcaneBombFades:Countdown(spellId, nil, icon)
 		end
 		if self.Options.SetIconOnArcaneBomb then
 			self:SetIcon(args.destname, self.vb.arcaneBombicon)
