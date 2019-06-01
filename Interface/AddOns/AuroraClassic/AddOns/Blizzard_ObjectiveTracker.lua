@@ -142,7 +142,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		if widgetFrame and widgetFrame.Frame then
 			widgetFrame.Frame:SetAlpha(0)
 
-			local child = widgetFrame.CurrencyContainer:GetChildren()
+			local child = {widgetFrame.CurrencyContainer:GetChildren()}
 			for _, bu in pairs(child) do
 				if bu and not bu.styled then
 					F.ReskinIcon(bu.Icon)
