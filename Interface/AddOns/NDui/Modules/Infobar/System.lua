@@ -4,8 +4,14 @@ if not C.Infobar.System then return end
 
 local module = B:GetModule("Infobar")
 local info = module:RegisterInfobar(C.Infobar.SystemPos)
-local min, max, floor = math.min, math.max, math.floor
-local format, sort = string.format, table.sort
+local min, max, floor, format, sort, select = math.min, math.max, math.floor, string.format, table.sort, select
+local GetFramerate, GetNetStats, GetTime, GetCVarBool = GetFramerate, GetNetStats, GetTime, GetCVarBool
+local GetNumAddOns, GetAddOnInfo, FRAMERATE_LABEL = GetNumAddOns, GetAddOnInfo, FRAMERATE_LABEL
+local IsShiftKeyDown, IsAddOnLoaded = IsShiftKeyDown, IsAddOnLoaded
+local UpdateAddOnCPUUsage, GetAddOnCPUUsage = UpdateAddOnCPUUsage, GetAddOnCPUUsage
+
+local usageTable, startTime, entered = {}, 0
+local usageString = "%d Ms"
 
 local function colorLatency(latency)
 	if latency < 250 then
@@ -31,75 +37,80 @@ info.onUpdate = function(self, elapsed)
 	self.timer = (self.timer or 0) + elapsed
 	if self.timer > 1 then
 		local _, _, latencyHome, latencyWorld = GetNetStats()
-		local latency = math.max(latencyHome, latencyWorld)
+		local latency = max(latencyHome, latencyWorld)
 		local fps = floor(GetFramerate())
 		self.text:SetFormattedText(L["Fps: %s"]..DB.Separator..L["Ms: %s"], colorFPS(fps), colorLatency(latency))
 		self.text:SetJustifyH("LEFT")
+
+		if entered then self:onEnter() end
 
 		self.timer = 0
 	end
 end
 
-local usageTable, startTime = {}, 0
-local function retrieveUsage()
+local function updateUsageTable()
+	local numAddons = GetNumAddOns()
+	if numAddons == #usageTable then return end
+
 	wipe(usageTable)
-	UpdateAddOnCPUUsage()
-
-	local count = 0
-	local passTime = max(GetTime() - startTime, .01)
-	for i = 1, GetNumAddOns() do
-		if IsAddOnLoaded(i) then
-			count = count + 1
-			local usage = format("%.2f", GetAddOnCPUUsage(i)/passTime)
-			usageTable[count] = {select(2, GetAddOnInfo(i)), usage}
-		end
+	for i = 1, numAddons do
+		usageTable[i] = {i, select(2, GetAddOnInfo(i)), 0}
 	end
-
-	sort(usageTable, function(a, b)
-		if a and b then
-			return a[2] > b[2]
-		end
-	end)
 end
 
-info.eventList = {
-	"PLAYER_ENTERING_WORLD"
-}
-
-info.onEvent = function(self, event, arg1)
-	if event == "PLAYER_ENTERING_WORLD" then
-		self:UnregisterEvent(event)
-		C_Timer.After(.25, function()
-			startTime = GetTime() - .01
-		end)
-	elseif event == "MODIFIER_STATE_CHANGED" and arg1 == "LSHIFT" then
-		self:GetScript("OnEnter")(self)
+local function sortUsage(a, b)
+	if a and b then
+		return a[3] > b[3]
 	end
+end
+
+local function updateUsage()
+	UpdateAddOnCPUUsage()
+
+	local total = 0
+	for i = 1, #usageTable do
+		local value = usageTable[i]
+		value[3] = GetAddOnCPUUsage(value[1])
+		total = total + value[3]
+	end
+	sort(usageTable, sortUsage)
+
+	return total
 end
 
 info.onEnter = function(self)
+	entered = true
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOM", 0, -15)
 	GameTooltip:ClearLines()
 	GameTooltip:AddLine(L["System"], 0,.6,1)
 	GameTooltip:AddLine(" ")
 
 	if GetCVarBool("scriptProfile") then
-		retrieveUsage()
+		updateUsageTable()
+		local totalCPU = updateUsage()
 
-		local maxAddOns = IsShiftKeyDown() and #usageTable or min(C.Infobar.MaxAddOns, #usageTable)
-		for i = 1, maxAddOns do
-			GameTooltip:AddDoubleLine(usageTable[i][1], usageTable[i][2].." Ms/s", 1,1,1, 0,1,0)
+		local maxAddOns = C.Infobar.MaxAddOns
+		local isShiftKeyDown = IsShiftKeyDown()
+		local maxShown = isShiftKeyDown and #usageTable or min(maxAddOns, #usageTable)
+		local numEnabled = 0
+		for i = 1, #usageTable do
+			local value = usageTable[i]
+			if value and IsAddOnLoaded(value[1]) then
+				numEnabled = numEnabled + 1
+				if numEnabled <= maxShown then
+					local r = value[3] / totalCPU
+					local g = 1.5 - r
+					GameTooltip:AddDoubleLine(value[2], format(usageString, value[3]), 1,1,1, r,g,0)
+				end
+			end
 		end
 
-		local hiddenUsage = 0
-		if not IsShiftKeyDown() then
-			for i = (C.Infobar.MaxAddOns + 1), #usageTable do
-				hiddenUsage = hiddenUsage + usageTable[i][2]
+		if not isShiftKeyDown and (numEnabled > maxAddOns) then
+			local hiddenUsage = 0
+			for i = (maxAddOns + 1), numEnabled do
+				hiddenUsage = hiddenUsage + usageTable[i][3]
 			end
-			if #usageTable > C.Infobar.MaxAddOns then
-				local numHidden = #usageTable - C.Infobar.MaxAddOns
-				GameTooltip:AddDoubleLine(format("%d %s (%s)", numHidden, L["Hidden"], L["Hold Shift"]), hiddenUsage.." Ms/s", .6,.8,1, .6,.8,1)
-			end
+			GameTooltip:AddDoubleLine(format("%d %s (%s)", numEnabled - maxAddOns, L["Hidden"], L["Hold Shift"]), format(usageString, hiddenUsage), .6,.8,1, .6,.8,1)
 		end
 		GameTooltip:AddLine(" ")
 	end
@@ -108,15 +119,13 @@ info.onEnter = function(self)
 	GameTooltip:AddDoubleLine(L["Home Latency"], colorLatency(latencyHome).."|r Ms", .6,.8,1, 1,1,1)
 	GameTooltip:AddDoubleLine(L["World Latency"], colorLatency(latencyWorld).."|r Ms", .6,.8,1, 1,1,1)
 	GameTooltip:AddDoubleLine(" ", DB.LineString)
-	GameTooltip:AddDoubleLine(" ", DB.RightButton..L["CPU Usage"]..(GetCVarBool("scriptProfile") and "|cff55ff55"..VIDEO_OPTIONS_ENABLED or "|cffff5555"..VIDEO_OPTIONS_DISABLED).." ", 1,1,1, .6,.8,1)
+	GameTooltip:AddDoubleLine(" ", DB.ScrollButton..L["CPU Usage"]..(GetCVarBool("scriptProfile") and "|cff55ff55"..VIDEO_OPTIONS_ENABLED or "|cffff5555"..VIDEO_OPTIONS_DISABLED).." ", 1,1,1, .6,.8,1)
 	GameTooltip:Show()
-
-	self:RegisterEvent("MODIFIER_STATE_CHANGED")
 end
 
 info.onLeave = function(self)
+	entered = false
 	GameTooltip:Hide()
-	self:UnregisterEvent("MODIFIER_STATE_CHANGED")
 end
 
 StaticPopupDialogs["CPUUSAGE"] = {
@@ -129,7 +138,7 @@ StaticPopupDialogs["CPUUSAGE"] = {
 
 local status = GetCVarBool("scriptProfile")
 info.onMouseUp = function(self, btn)
-	if btn ~= "RightButton" then return end
+	if btn ~= "MiddleButton" then return end
 
 	if GetCVarBool("scriptProfile") then
 		SetCVar("scriptProfile", 0)
@@ -142,5 +151,5 @@ info.onMouseUp = function(self, btn)
 	else
 		StaticPopup_Show("CPUUSAGE")
 	end
-	self:GetScript("OnEnter")(self)
+	self:onEnter()
 end

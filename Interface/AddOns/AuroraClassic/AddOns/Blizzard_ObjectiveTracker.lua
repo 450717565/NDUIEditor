@@ -5,6 +5,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	local cr, cg, cb = C.r, C.g, C.b
 
+	-- Reskin Quest Icons
 	local function reskinQuestIcon(_, block)
 		local button = block.rightButton or block.itemButton
 
@@ -52,42 +53,35 @@ tinsert(C.themes["AuroraClassic"], function()
 	end
 
 	local headers = {
-		ObjectiveTrackerBlocksFrame.QuestHeader,
 		ObjectiveTrackerBlocksFrame.AchievementHeader,
 		ObjectiveTrackerBlocksFrame.ScenarioHeader,
+		ObjectiveTrackerBlocksFrame.QuestHeader,
 		BONUS_OBJECTIVE_TRACKER_MODULE.Header,
 		WORLD_QUEST_TRACKER_MODULE.Header,
 	}
 	for _, header in pairs(headers) do reskinHeader(header) end
 
-	-- Reskin Progressbars
+	-- Reskin Bars
 	local function reskinProgressbar(_, _, line)
 		local progressBar = line.ProgressBar
 		local bar = progressBar.Bar
 		local icon = bar.Icon
 
 		if not bar.styled then
-			bar.BarFrame:Hide()
-			bar.BarFrame2:Hide()
-			bar.BarFrame3:Hide()
-			bar.BarBG:Hide()
-			bar.BarGlow:Hide()
-			bar.IconBG:SetTexture("")
-			BonusObjectiveTrackerProgressBar_PlayFlareAnim = F.Dummy
-
-			bar:SetPoint("LEFT", 22, 0)
+			F.StripTextures(bar)
+			F.CreateBDFrame(bar, .25)
 			bar:SetStatusBarTexture(C.media.normTex)
 			bar:SetStatusBarColor(cr, cg, cb, .8)
+			bar:ClearAllPoints()
+			bar:SetPoint("LEFT", 22, 0)
 
-			local bg = F.CreateBDFrame(progressBar, .25)
-			bg:SetPoint("TOPLEFT", bar, -C.mult, C.mult)
-			bg:SetPoint("BOTTOMRIGHT", bar, C.mult, -C.mult)
-
-			icon:SetMask(nil)
-			icon.bg = F.ReskinIcon(icon)
-			icon:ClearAllPoints()
-			icon:SetPoint("TOPLEFT", bar, "TOPRIGHT", 5, 0)
-			icon:SetPoint("BOTTOMRIGHT", bar, "BOTTOMRIGHT", bar:GetHeight()+5, 0)
+			if icon then
+				icon:SetMask(nil)
+				icon.bg = F.ReskinIcon(icon)
+				icon:ClearAllPoints()
+				icon:SetPoint("TOPLEFT", bar, "TOPRIGHT", 5, 0)
+				icon:SetPoint("BOTTOMRIGHT", bar, "BOTTOMRIGHT", bar:GetHeight()+5, 0)
+			end
 
 			bar.styled = true
 		end
@@ -96,47 +90,60 @@ tinsert(C.themes["AuroraClassic"], function()
 			icon.bg:SetShown(icon:IsShown() and icon:GetTexture() ~= nil)
 		end
 	end
-	hooksecurefunc(BONUS_OBJECTIVE_TRACKER_MODULE, "AddProgressBar", reskinProgressbar)
-	hooksecurefunc(WORLD_QUEST_TRACKER_MODULE, "AddProgressBar", reskinProgressbar)
-	hooksecurefunc(SCENARIO_TRACKER_MODULE, "AddProgressBar", reskinProgressbar)
 
-	hooksecurefunc(QUEST_TRACKER_MODULE, "AddProgressBar", function(_, _, line)
-		local progressBar = line.ProgressBar
-		local bar = progressBar.Bar
+	local Pmoduls = {
+		QUEST_TRACKER_MODULE,
+		SCENARIO_TRACKER_MODULE,
+		WORLD_QUEST_TRACKER_MODULE,
+		BONUS_OBJECTIVE_TRACKER_MODULE,
+	}
+	for _, Pmodul in pairs(Pmoduls) do
+		hooksecurefunc(Pmodul, "AddProgressBar", reskinProgressbar)
+	end
+
+	local function reskinTimerBar(_, _, line)
+		local timerBar = line.TimerBar
+		local bar = timerBar.Bar
 
 		if not bar.styled then
-			bar:ClearAllPoints()
-			bar:SetPoint("LEFT")
-			for i = 1, 6 do
-				select(i, bar:GetRegions()):Hide()
-			end
-			bar:SetStatusBarTexture(C.media.normTex)
-			bar:SetStatusBarColor(cr, cg, cb, .8)
-			bar.Label:Show()
-			local oldBg = select(5, bar:GetRegions())
-			F.CreateBDFrame(oldBg, .25)
+			F.ReskinStatusBar(bar)
 
 			bar.styled = true
 		end
-	end)
+	end
+
+	local Tmoduls = {
+		QUEST_TRACKER_MODULE,
+		SCENARIO_TRACKER_MODULE,
+		ACHIEVEMENT_TRACKER_MODULE,
+	}
+	for _, Tmodul in pairs(Tmoduls) do
+		hooksecurefunc(Tmodul, "AddTimerBar", reskinTimerBar)
+	end
 
 	-- Reskin Blocks
 	hooksecurefunc("ScenarioStage_CustomizeBlock", function(block)
-		block.NormalBG:SetTexture("")
-		if not block.bg then
-			block.bg = F.CreateBDFrame(block.GlowTexture, .25)
-			block.bg:SetPoint("TOPLEFT", block.GlowTexture, 4, -2)
-			block.bg:SetPoint("BOTTOMRIGHT", block.GlowTexture, -4, 0)
+		if not block.styled then
+			F.StripTextures(block)
+
+			local bg = F.CreateBDFrame(block.GlowTexture, .25)
+			bg:SetPoint("TOPLEFT", block.GlowTexture, 4, -2)
+			bg:SetPoint("BOTTOMRIGHT", block.GlowTexture, -4, 0)
+
+			block.styled = true
 		end
 	end)
 
 	hooksecurefunc(SCENARIO_CONTENT_TRACKER_MODULE, "Update", function()
 		local widgetContainer = ScenarioStageBlock.WidgetContainer
 		if not widgetContainer then return end
+
 		local widgetFrame = widgetContainer:GetChildren()
 		if widgetFrame and widgetFrame.Frame then
 			widgetFrame.Frame:SetAlpha(0)
-			for _, bu in pairs({widgetFrame.CurrencyContainer:GetChildren()}) do
+
+			local child = widgetFrame.CurrencyContainer:GetChildren()
+			for _, bu in pairs(child) do
 				if bu and not bu.styled then
 					F.ReskinIcon(bu.Icon)
 
@@ -148,17 +155,17 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	hooksecurefunc("Scenario_ChallengeMode_ShowBlock", function()
 		local block = ScenarioChallengeModeBlock
-		if not block.bg then
-			block.TimerBG:Hide()
-			block.TimerBGBack:Hide()
+		if not block.styled then
+			F.StripTextures(block)
 
 			block.StatusBar:SetHeight(10)
 			F.ReskinStatusBar(block.StatusBar)
 
-			select(3, block:GetRegions()):Hide()
-			block.bg = F.CreateBDFrame(block, .25)
-			block.bg:SetPoint("TOPLEFT", 4, -2)
-			block.bg:SetPoint("BOTTOMRIGHT", -4, 0)
+			local bg = F.CreateBDFrame(block, .25)
+			bg:SetPoint("TOPLEFT", block, 4, -2)
+			bg:SetPoint("BOTTOMRIGHT", block, -4, 0)
+
+			block.styled = true
 		end
 	end)
 
