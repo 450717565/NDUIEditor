@@ -1,7 +1,7 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local module = B:RegisterModule("Infobar")
-local tinsert, pairs = table.insert, pairs
+local tinsert, pairs, unpack = table.insert, pairs, unpack
 
 function module:RegisterInfobar(point)
 	if not self.modules then self.modules = {} end
@@ -9,7 +9,7 @@ function module:RegisterInfobar(point)
 	local info = CreateFrame("Frame", nil, UIParent)
 	info:SetHitRectInsets(0, 0, -10, -10)
 	info.text = info:CreateFontString(nil, "OVERLAY")
-	info.text:SetFont(unpack(C.Infobar.Fonts))
+	info.text:SetFont(DB.Font[1], C.Infobar.FontSize, DB.Font[3])
 	if C.Infobar.AutoAnchor then
 		info.point = point
 	else

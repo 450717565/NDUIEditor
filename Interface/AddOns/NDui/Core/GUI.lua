@@ -200,6 +200,7 @@ local defaultSettings = {
 		ClassLine = true,
 		Details = true,
 		--PGFSkin = true,
+		--Rematch = true,
 	},
 	Tooltip = {
 		CombatHide = false,
@@ -565,6 +566,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Skins", "WeakAuras", L["WeakAuras Skin"]},
 		{1, "Skins", "Details", L["Details Skin"], true},
 		--{1, "Skins", "PGFSkin", L["PGF Skin"]},
+		--{1, "Skins", "Rematch", L["Rematch Skin"], true},
 	},
 	[11] = {
 		{1, "Tooltip", "CombatHide", L["Hide Tooltip"].."*"},
@@ -580,7 +582,7 @@ local optionList = {		-- type, key, value, name, horizon, doubleline
 		{1, "Tooltip", "SpecLevelByShift", L["Show SpecLevelByShift"].."*", true},
 		{1, "Tooltip", "LFDRole", L["Group Roles"].."*"},
 		{1, "Tooltip", "TargetBy", L["Show TargetedBy"].."*", true},
-		{1, "ACCOUNT", "AzeriteArmor", L["Show AzeriteArmor"]},
+		{1, "Tooltip", "AzeriteArmor", L["Show AzeriteArmor"]},
 	},
 	[12] = {
 		{1, "Misc", "Mail", L["Mail Tool"]},

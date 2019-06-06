@@ -40,11 +40,11 @@ local function Reskins()
 				texture = {1, 1, 1, 1},
 			},
 			title = {
-				flags = "OUTLINE",
+				flags = DB.Font[3],
 				shadow = false,
 			},
 			text = {
-				flags = "OUTLINE",
+				flags = DB.Font[3],
 				shadow = false,
 			},
 			bonus = {
@@ -65,11 +65,11 @@ local function Reskins()
 				hidden = true,
 			},
 			icon_text_1 = {
-				flags = "OUTLINE",
+				flags = DB.Font[3],
 				shadow = false,
 			},
 			icon_text_2 = {
-				flags = "OUTLINE",
+				flags = DB.Font[3],
 				shadow = false,
 			},
 			skull = {

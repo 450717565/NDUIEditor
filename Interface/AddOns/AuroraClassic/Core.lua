@@ -14,9 +14,11 @@ local F, C = unpack(ns)
 local mediaPath = "Interface\\AddOns\\AuroraClassic\\Media\\"
 
 C.media = {
+	["arrowBottom"] = mediaPath.."arrow-bottom",
 	["arrowDown"] = mediaPath.."arrow-down",
 	["arrowLeft"] = mediaPath.."arrow-left",
 	["arrowRight"] = mediaPath.."arrow-right",
+	["arrowTop"] = mediaPath.."arrow-top",
 	["arrowUp"] = mediaPath.."arrow-up",
 	["bdTex"] = "Interface\\ChatFrame\\ChatFrameBackground",
 	["bgTex"] = mediaPath.."bgTex",
@@ -30,7 +32,7 @@ C.media = {
 }
 
 C.defaults = {
-	["alpha"] = 0.5,
+	["alpha"] = .5,
 	["bags"] = false,
 	["bubbleColor"] = false,
 	["chatBubbles"] = true,
@@ -485,9 +487,9 @@ local function setupTex(self, texture)
 
 	if texture and texture ~= "" then
 		if texture:find("Plus") then
-			self.expTex:SetTexCoord(0, 0.4375, 0, 0.4375)
+			self.expTex:SetTexCoord(0, .4375, 0, .4375)
 		elseif texture:find("Minus") then
-			self.expTex:SetTexCoord(0.5625, 1, 0, 0.4375)
+			self.expTex:SetTexCoord(.5625, 1, 0, .4375)
 		end
 		self.bdTex:Show()
 	else
@@ -521,20 +523,22 @@ function F:ReskinFilter()
 	F.StripTextures(self)
 	F.ReskinButton(self)
 
-	self.Text:SetPoint("CENTER")
 	self.Icon:SetTexture(C.media.arrowRight)
 	self.Icon:SetPoint("RIGHT", self, "RIGHT", -5, 0)
 	self.Icon:SetSize(8, 8)
+
+	if self.Text then self.Text:SetPoint("CENTER") end
 end
 
 function F:ReskinFrame(noKill)
 	if not noKill then
 		F.StripTextures(self, true)
+	elseif tonumber(noKill) then
+		F.StripTextures(self, noKill)
 	end
 
 	F.CleanTextures(self)
-	F.CreateBD(self)
-	F.CreateSD(self)
+	local bg = F.SetBDFrame(self)
 
 	local frameName = self.GetName and self:GetName()
 
@@ -543,6 +547,8 @@ function F:ReskinFrame(noKill)
 
 	local closeButton = (frameName and _G[frameName.."CloseButton"]) or self.CloseButton
 	if closeButton then F.ReskinClose(closeButton) end
+
+	return bg
 end
 
 function F:ReskinGarrisonPortrait()
@@ -1053,6 +1059,7 @@ local CleanTextures = {
 
 function F:CleanTextures()
 	--if self.SetCheckedTexture then self:SetCheckedTexture("") end
+	if self.SetBackdrop then self:SetBackdrop(nil) end
 	if self.SetDisabledTexture then self:SetDisabledTexture("") end
 	if self.SetHighlightTexture then self:SetHighlightTexture("") end
 	if self.SetNormalTexture then self:SetNormalTexture("") end
@@ -1103,9 +1110,12 @@ function F:StripTextures(kill)
 			if region and region.IsObjectType and region:IsObjectType("Texture") then
 				if kill and type(kill) == "boolean" then
 					F.HideObject(region)
-				elseif kill == 0 then
-					region:SetAlpha(0)
-					region:Hide()
+				elseif tonumber(kill) then
+					if kill == 0 then
+						region:SetAlpha(0)
+					elseif i ~= kill then
+						region:SetTexture("")
+					end
 				else
 					region:SetTexture("")
 				end

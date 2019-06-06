@@ -65,7 +65,7 @@ function module:GuildBest()
 
 		local nameStr = "|c%s%s|r"
 		local levelStr = "|cffFFFFFF%s|r (%s)"
-		local mapName = C_ChallengeMode.GetMapUIInfo(leaderInfo.mapChallengeModeID)
+		local mapName = C_ChallengeMode_GetMapUIInfo(leaderInfo.mapChallengeModeID)
 		local classColorStr = DB.ClassColors[leaderInfo.classFileName].colorStr
 
 		self.Name:SetText(format(nameStr, classColorStr, leaderInfo.name))

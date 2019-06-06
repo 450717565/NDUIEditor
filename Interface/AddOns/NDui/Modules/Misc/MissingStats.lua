@@ -108,7 +108,7 @@ function module:MissingStats()
 		end
 
 		statFrame.Value:SetText(ilvl)
-		statFrame.Value:SetFont(STANDARD_TEXT_FONT, 20, "OUTLINE")
+		statFrame.Value:SetFont(STANDARD_TEXT_FONT, 20, DB.Font[3])
 
 		statFrame.tooltip = "|cffffffff"..STAT_AVERAGE_ITEM_LEVEL.." "..ilvl.."|r"
 	end)

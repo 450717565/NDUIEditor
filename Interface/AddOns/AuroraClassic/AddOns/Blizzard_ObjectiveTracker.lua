@@ -33,20 +33,20 @@ tinsert(C.themes["AuroraClassic"], function()
 	hooksecurefunc(WORLD_QUEST_TRACKER_MODULE, "AddObjective", reskinQuestIcon)
 
 	-- Reskin Headers
-	local function reskinHeader(header)
-		header.Background:Hide()
+	local function reskinHeader(self)
+		self.Background:Hide()
 
-		local width, height = header:GetWidth()/2+10, C.mult*3
+		local width, height = self:GetWidth()/2+10, C.mult*3
 
-		local left = CreateFrame("Frame", nil, header)
-		left:SetPoint("TOPRIGHT", header, "BOTTOM", 5, 0)
+		local left = CreateFrame("Frame", nil, self)
+		left:SetPoint("TOPRIGHT", self, "BOTTOM", 5, 0)
 		F.CreateGA(left, width, height, "Horizontal", cr, cg, cb, 0, .8)
 
-		local right = CreateFrame("Frame", nil, header)
-		right:SetPoint("TOPLEFT", header, "BOTTOM", 5, 0)
+		local right = CreateFrame("Frame", nil, self)
+		right:SetPoint("TOPLEFT", self, "BOTTOM", 5, 0)
 		F.CreateGA(right, width, height, "Horizontal", cr, cg, cb, .8, 0)
 
-		local Text = header.Text
+		local Text = self.Text
 		Text:SetTextColor(cr, cg, cb)
 		Text:ClearAllPoints()
 		Text:SetPoint("BOTTOMLEFT", left, "TOPLEFT", 15, 6)
@@ -62,16 +62,21 @@ tinsert(C.themes["AuroraClassic"], function()
 	for _, header in pairs(headers) do reskinHeader(header) end
 
 	-- Reskin Bars
+	local function reskinBarTemplate(self)
+		F.StripTextures(self)
+		F.CreateBDFrame(self, .25)
+		self:SetStatusBarTexture(C.media.normTex)
+		self:SetStatusBarColor(cr, cg, cb, .8)
+	end
+
 	local function reskinProgressbar(_, _, line)
 		local progressBar = line.ProgressBar
 		local bar = progressBar.Bar
 		local icon = bar.Icon
 
 		if not bar.styled then
-			F.StripTextures(bar)
-			F.CreateBDFrame(bar, .25)
-			bar:SetStatusBarTexture(C.media.normTex)
-			bar:SetStatusBarColor(cr, cg, cb, .8)
+			reskinBarTemplate(bar)
+
 			bar:ClearAllPoints()
 			bar:SetPoint("LEFT", 22, 0)
 
@@ -106,7 +111,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		local bar = timerBar.Bar
 
 		if not bar.styled then
-			F.ReskinStatusBar(bar)
+			reskinBarTemplate(bar)
 
 			bar.styled = true
 		end
@@ -172,10 +177,10 @@ tinsert(C.themes["AuroraClassic"], function()
 	hooksecurefunc("Scenario_ChallengeMode_SetUpAffixes", F.ReskinAffixes)
 
 	-- Minimize Button
-	local minimize = ObjectiveTrackerFrame.HeaderMenu.MinimizeButton
-	F.ReskinExpandOrCollapse(minimize)
-	minimize:GetNormalTexture():SetAlpha(0)
-	minimize.expTex:SetTexCoord(0.5625, 1, 0, 0.4375)
-	hooksecurefunc("ObjectiveTracker_Collapse", function() minimize.expTex:SetTexCoord(0, 0.4375, 0, 0.4375) end)
-	hooksecurefunc("ObjectiveTracker_Expand", function() minimize.expTex:SetTexCoord(0.5625, 1, 0, 0.4375) end)
+	local MinimizeButton = ObjectiveTrackerFrame.HeaderMenu.MinimizeButton
+	F.ReskinExpandOrCollapse(MinimizeButton)
+	MinimizeButton:GetNormalTexture():SetAlpha(0)
+	MinimizeButton.expTex:SetTexCoord(.5625, 1, 0, .4375)
+	hooksecurefunc("ObjectiveTracker_Collapse", function() MinimizeButton.expTex:SetTexCoord(0, .4375, 0, .4375) end)
+	hooksecurefunc("ObjectiveTracker_Expand", function() MinimizeButton.expTex:SetTexCoord(.5625, 1, 0, .4375) end)
 end)

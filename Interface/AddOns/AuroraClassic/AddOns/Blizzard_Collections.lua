@@ -4,7 +4,7 @@ C.themes["Blizzard_Collections"] = function()
 	local cr, cg, cb = C.r, C.g, C.b
 
 	-- [[ General ]]
-	F.ReskinFrame(CollectionsJournal)
+	CollectionsJournal.bg = F.ReskinFrame(CollectionsJournal)
 	F.SetupTabStyle(CollectionsJournal, 5)
 
 	local filters = {HeirloomsJournalFilterButton, MountJournalFilterButton, PetJournalFilterButton, ToyBoxFilterButton, WardrobeCollectionFrame.FilterButton}

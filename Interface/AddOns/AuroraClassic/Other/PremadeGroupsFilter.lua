@@ -42,15 +42,15 @@ C.themes["PremadeGroupsFilter"] = function()
 		end
 	end)
 
-	local tipStyled
+	local styled
 	hooksecurefunc(PremadeGroupsFilter.Debug, "PopupMenu_Initialize", function()
-		if tipStyled then return end
+		if styled then return end
 		for i = 1, 15 do
 			local child = select(i, PremadeGroupsFilterDialog:GetChildren())
 			if child and child.Shadow then
 				F.ReskinTooltip(child)
 
-				tipStyled = true
+				styled = true
 				break
 			end
 		end

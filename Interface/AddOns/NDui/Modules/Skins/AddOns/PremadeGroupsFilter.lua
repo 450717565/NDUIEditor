@@ -1,65 +1,64 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB, F, T = unpack(ns)
 local module = B:GetModule("Skins")
 
 function module:PGFSkin()
-	if not NDuiDB["Skins"]["PGFSkin"] then return end
 	if not IsAddOnLoaded("PremadeGroupsFilter") then return end
+	if not NDuiDB["Skins"]["PGFSkin"] then return end
+	if not F then return end
 
-	local tipStyled
-	hooksecurefunc(PremadeGroupsFilter.Debug, "PopupMenu_Initialize", function()
-		if tipStyled then return end
-		for i = 1, 15 do
-			local child = select(i, PremadeGroupsFilterDialog:GetChildren())
-			if child and child.Shadow then
-				B.ReskinTooltip(child)
-				tipStyled = true
-				break
-			end
+	local dialog = PremadeGroupsFilterDialog
+	F.ReskinFrame(dialog)
+
+	F.StripTextures(dialog.Advanced)
+	F.StripTextures(dialog.Expression)
+	F.ReskinButton(dialog.ResetButton)
+	F.ReskinButton(dialog.RefreshButton)
+	F.ReskinCheck(UsePFGButton)
+	F.ReskinDropDown(dialog.Difficulty.DropDown)
+	F.CreateBDFrame(dialog.Expression, 0)
+
+	dialog.Defeated.Title:ClearAllPoints()
+	dialog.Defeated.Title:SetPoint("LEFT", dialog.Defeated.Act, "RIGHT", 10, 0)
+	dialog.Difficulty.DropDown:ClearAllPoints()
+	dialog.Difficulty.DropDown:SetPoint("RIGHT", dialog.Difficulty, "RIGHT", 13, -3)
+
+	local names = {"Difficulty", "Ilvl", "Noilvl", "Defeated", "Members", "Tanks", "Heals", "Dps"}
+	for _, name in pairs(names) do
+		local check = dialog[name].Act
+		if check then
+			check:ClearAllPoints()
+			check:SetPoint("TOPLEFT", 5, -2)
+			check:SetSize(26, 26)
+			F.ReskinCheck(check)
 		end
-	end)
+
+		local input = dialog[name].Min
+		if input then
+			F.ReskinInput(input)
+			F.ReskinInput(dialog[name].Max)
+		end
+	end
 
 	hooksecurefunc(PremadeGroupsFilterDialog, "SetPoint", function(self, _, parent)
 		if parent ~= LFGListFrame then
 			self:ClearAllPoints()
-			self:SetPoint("TOPLEFT", LFGListFrame, "TOPRIGHT", 5, 1)
+			self:SetPoint("TOPLEFT", LFGListFrame, "TOPRIGHT", 3, 0)
+			self:SetPoint("BOTTOMLEFT", LFGListFrame, "BOTTOMRIGHT", 3, 0)
 		end
 	end)
 
-	if not F then return end
-
-	local pairs = pairs
 	local styled
-	hooksecurefunc(PremadeGroupsFilterDialog, "Show", function(self)
+	hooksecurefunc(PremadeGroupsFilter.Debug, "PopupMenu_Initialize", function()
 		if styled then return end
+		for i = 1, 15 do
+			local child = select(i, PremadeGroupsFilterDialog:GetChildren())
+			if child and child.Shadow then
+				F.ReskinTooltip(child)
 
-		F.StripTextures(self)
-		F.CreateBD(self)
-		F.CreateSD(self)
-		F.ReskinClose(self.CloseButton)
-		F.ReskinButton(self.ResetButton)
-		F.ReskinButton(self.RefreshButton)
-		F.ReskinDropDown(self.Difficulty.DropDown)
-		F.StripTextures(self.Advanced)
-		F.StripTextures(self.Expression)
-		F.CreateGF(F.CreateBDFrame(self.Expression, .25))
-
-		local names = {"Difficulty", "Ilvl", "Noilvl", "Defeated", "Members", "Tanks", "Heals", "Dps"}
-		for _, name in pairs(names) do
-			local check = self[name].Act
-			if check then
-				check:SetSize(26, 26)
-				check:SetPoint("TOPLEFT", 5, -3)
-				F.ReskinCheck(check)
-			end
-			local input = self[name].Min
-			if input then
-				F.ReskinInput(input)
-				F.ReskinInput(self[name].Max)
+				styled = true
+				break
 			end
 		end
-
-		styled = true
 	end)
-	F.ReskinCheck(UsePFGButton)
 end

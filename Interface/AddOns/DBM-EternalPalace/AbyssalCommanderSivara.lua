@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2352, "DBM-EternalPalace", nil, 1179)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("2019060123038")
+mod:SetRevision("20190601192232")
 mod:SetCreatureID(151881)
 mod:SetEncounterID(2298)
 mod:SetZone()
@@ -234,12 +234,6 @@ function mod:SPELL_AURA_REMOVED(args)
 		if self.Options.InfoFrame then
 			DBM.InfoFrame:UpdateTable(MarksStacks)
 		end
-		--if args:IsPlayer() then
-		--	playerMark = 0--1 Toxic, 2 Frost
-		--end
-		--if self.Options.SetIconOnMarks then
-		--	self:SetIcon(args.destName, 0)
-		--end
 	elseif spellId == 295348 then
 		if args:IsPlayer() then
 			yellOverflowingChillFades:Cancel()

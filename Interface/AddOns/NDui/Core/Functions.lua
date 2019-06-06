@@ -324,6 +324,8 @@ function B:CreateSB(spark, r, g, b)
 	self:SetStatusBarTexture(DB.normTex)
 	if r and g and b then
 		self:SetStatusBarColor(r, g, b)
+	else
+		self:SetStatusBarColor(cr, cg, cb)
 	end
 	B.CreateSD(self, 3, 3)
 
@@ -437,9 +439,12 @@ function B:StripTextures(kill)
 		if region and region.IsObjectType and region:IsObjectType("Texture") then
 			if kill and type(kill) == "boolean" then
 				B.HideObject(region)
-			elseif kill == 0 then
-				region:SetAlpha(0)
-				region:Hide()
+			elseif tonumber(kill) then
+				if kill == 0 then
+					region:SetAlpha(0)
+				elseif i ~= kill then
+					region:SetTexture("")
+				end
 			else
 				region:SetTexture("")
 			end

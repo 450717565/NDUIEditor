@@ -125,13 +125,13 @@ function module:SkadaSkin()
 
 	-- Change Skada Default Settings
 	Skada.windowdefaults.barbgcolor = {r=0,g=0,b=0,a=0}
-	Skada.windowdefaults.barfontflags = "OUTLINE"
+	Skada.windowdefaults.barfontflags = DB.Font[3]
 	Skada.windowdefaults.barfontsize = 12
 	Skada.windowdefaults.bartexture = "Altz01"
 	Skada.windowdefaults.classicons = false
 	Skada.windowdefaults.smoothing = true
 	Skada.windowdefaults.title.color = {r=0,g=0,b=0,a=.3}
-	Skada.windowdefaults.title.fontflags = "OUTLINE"
+	Skada.windowdefaults.title.fontflags = DB.Font[3]
 	Skada.windowdefaults.title.fontsize = 14
 
 	-- Change Skada NumberFormat

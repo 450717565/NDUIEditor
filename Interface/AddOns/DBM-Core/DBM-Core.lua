@@ -68,7 +68,7 @@ local function showRealDate(curseDate)
 end
 
 DBM = {
-	Revision = parseCurseDate("20190601040715"),
+	Revision = parseCurseDate("20190605053527"),
 	DisplayVersion = "8.2.0 alpha", -- the string that is shown as version
 	ReleaseRevision = releaseDate(2019, 5, 23, 12) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
@@ -461,7 +461,7 @@ local bannedMods = { -- a list of "banned" (meaning they are replaced by another
 	"DBM-Suramar",--Renamed to DBM-Nighthold
 	"DBM-KulTiras",--Merged to DBM-Azeroth-BfA
 	"DBM-Zandalar",--Merged to DBM-Azeroth-BfA
-	"DBM-PvP",--Discontinued, but returning soon™
+	"DBM-PvP",--Discontinued
 }
 
 
@@ -1881,13 +1881,13 @@ do
 		local xNum, yNum = tonumber(x or ""), tonumber(y or "")
 		local success
 		if xNum and yNum then
-			DBM.Arrow:ShowRunTo(xNum, yNum, 1, nil, true, true)
+			DBM.Arrow:ShowRunTo(xNum, yNum, 1, nil, true)
 			success = true
 		else--Check if they used , instead of space.
 			x, y = string.split(",", msg:sub(1):trim())
 			xNum, yNum = tonumber(x or ""), tonumber(y or "")
 			if xNum and yNum then
-				DBM.Arrow:ShowRunTo(xNum, yNum, 1, nil, true, true)
+				DBM.Arrow:ShowRunTo(xNum, yNum, 1, nil, true)
 				success = true
 			end
 		end
@@ -3310,9 +3310,12 @@ function DBM:LoadModOptions(modId, inCombat, first)
 						end
 					--Fix options for custom special warning sounds not in addons folder that are not using soundkit IDs
 					elseif option:find("SWSound") and (testBuild or wowTOC >= 80200) then
-						if savedOptions[id][profileNum][option] and (type(savedOptions[id][profileNum][option]) == "string") and not (savedOptions[id][profileNum][option]):find("AddOns") then
-							savedOptions[id][profileNum][option] = mod.DefaultOptions[option]
-							self:Debug("Migrated "..option.." to option defaults", 2)
+						if savedOptions[id][profileNum][option] and (type(savedOptions[id][profileNum][option]) == "string") then
+							local searchMsg = (savedOptions[id][profileNum][option]):lower()
+							if not searchMsg:find("addons") then
+								savedOptions[id][profileNum][option] = mod.DefaultOptions[option]
+								self:Debug("Migrated "..option.." to option defaults", 2)
+							end
 						end
 					end
 				end
@@ -3688,29 +3691,47 @@ do
 		--This will in the short term, screw with people trying to use LibSharedMedia sound files on 8.1.5 until LSM has migrated as well.
 		if (testBuild or wowTOC >= 80200) then
 			local migrated = false
-			if type(self.Options.RaidWarningSound) == "string" and not self.Options.RaidWarningSound:find("AddOns") then
-				self.Options.RaidWarningSound = self.DefaultOptions.RaidWarningSound
-				migrated = true
+			if type(self.Options.RaidWarningSound) == "string" then
+				local searchMsg = self.Options.RaidWarningSound:lower()
+				if not searchMsg:find("addons") then
+					self.Options.RaidWarningSound = self.DefaultOptions.RaidWarningSound
+					migrated = true
+				end
 			end
-			if type(self.Options.SpecialWarningSound) == "string" and not self.Options.SpecialWarningSound:find("AddOns") then
-				self.Options.SpecialWarningSound = self.DefaultOptions.SpecialWarningSound
-				migrated = true
+			if type(self.Options.SpecialWarningSound) == "string" then
+				local searchMsg = self.Options.SpecialWarningSound:lower()
+				if not searchMsg:find("addons") then
+					self.Options.SpecialWarningSound = self.DefaultOptions.SpecialWarningSound
+					migrated = true
+				end
 			end
-			if type(self.Options.SpecialWarningSound2) == "string" and not self.Options.SpecialWarningSound2:find("AddOns") then
-				self.Options.SpecialWarningSound2 = self.DefaultOptions.SpecialWarningSound2
-				migrated = true
+			if type(self.Options.SpecialWarningSound2) == "string" then
+				local searchMsg = self.Options.SpecialWarningSound2:lower()
+				if not searchMsg:find("addons") then
+					self.Options.SpecialWarningSound2 = self.DefaultOptions.SpecialWarningSound2
+					migrated = true
+				end
 			end
-			if type(self.Options.SpecialWarningSound3) == "string" and not self.Options.SpecialWarningSound3:find("AddOns") then
-				self.Options.SpecialWarningSound3 = self.DefaultOptions.SpecialWarningSound3
-				migrated= true
+			if type(self.Options.SpecialWarningSound3) == "string" then
+				local searchMsg = self.Options.SpecialWarningSound3:lower()
+				if not searchMsg:find("addons") then
+					self.Options.SpecialWarningSound3 = self.DefaultOptions.SpecialWarningSound3
+					migrated = true
+				end
 			end
-			if type(self.Options.SpecialWarningSound4) == "string" and not self.Options.SpecialWarningSound4:find("AddOns") then
-				self.Options.SpecialWarningSound4 = self.DefaultOptions.SpecialWarningSound4
-				migrated = true
+			if type(self.Options.SpecialWarningSound4) == "string" then
+				local searchMsg = self.Options.SpecialWarningSound4:lower()
+				if not searchMsg:find("addons") then
+					self.Options.SpecialWarningSound4 = self.DefaultOptions.SpecialWarningSound4
+					migrated = true
+				end
 			end
-			if type(self.Options.SpecialWarningSound5) == "string" and not self.Options.SpecialWarningSound5:find("AddOns") then
-				self.Options.SpecialWarningSound5 = self.DefaultOptions.SpecialWarningSound5
-				migrated = true
+			if type(self.Options.SpecialWarningSound5) == "string" then
+				local searchMsg = self.Options.SpecialWarningSound5:lower()
+				if not searchMsg:find("addons") then
+					self.Options.SpecialWarningSound5 = self.DefaultOptions.SpecialWarningSound5
+					migrated = true
+				end
 			end
 			if migrated then
 				self:AddMsg(DBM_CORE_SOUNDKIT_MIGRATION)
@@ -5114,6 +5135,9 @@ do
 			DBM:Debug(sender.." attempted to request timers but isn't in your group")
 			return
 		end
+		if UnitInBattleground("player") then
+			return
+		end
 		DBM:SendTimers(sender)
 	end
 
@@ -6160,10 +6184,10 @@ do
 					self:Schedule(2, mod.UnregisterInCombatEvents, mod, true) -- 2 seconds should be enough for all auras to fade
 				end
 				self:Schedule(3, mod.Stop, mod) -- Remove accident started timers.
-				if mod.OnCombatEnd then
-					self:Schedule(3, mod.OnCombatEnd(wipe), mod) -- Remove accidentally shown frames
-				end
 				mod.inCombatOnlyEventsRegistered = nil
+				if mod.OnCombatEnd then
+					self:Schedule(3, mod.OnCombatEnd, mod, wipe) -- Remove accidentally shown frames
+				end
 			end
 			if mod.updateInterval then
 				mod:UnregisterOnUpdateHandler()
@@ -6799,10 +6823,6 @@ do
 			return
 		end
 		spamProtection[target] = GetTime()
-		if UnitInBattleground("player") then
-			self:SendBGTimers(target)
-			return
-		end
 		if #inCombat < 1 then
 			--Break timer is up, so send that
 			--But only if we are not in combat with a boss
@@ -6819,20 +6839,6 @@ do
 		mod = mod or inCombat[1]
 		self:SendCombatInfo(mod, target)
 		self:SendVariableInfo(mod, target)
-		self:SendTimerInfo(mod, target)
-	end
-end
-
-function DBM:SendBGTimers(target)
-	local mod
-	if IsActiveBattlefieldArena() then
-		mod = self:GetModByName("Arenas")
-	else
-		-- FIXME: this doesn't work for non-english clients
-		local zone = GetRealZoneText():gsub(" ", "")--Does this need updating to mapid arta?
-		mod = self:GetModByName(zone)
-	end
-	if mod and mod.timers then
 		self:SendTimerInfo(mod, target)
 	end
 end

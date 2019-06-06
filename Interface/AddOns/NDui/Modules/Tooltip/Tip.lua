@@ -257,6 +257,7 @@ function module:ReskinStatusBar()
 	GameTooltipStatusBar:SetPoint("BOTTOMRIGHT", GameTooltip, "TOPRIGHT", -C.mult, C.mult*2)
 	GameTooltipStatusBar:SetStatusBarTexture(DB.normTex)
 	GameTooltipStatusBar:SetHeight(5)
+
 	local bg = B.CreateBG(GameTooltipStatusBar)
 	B.SetBackground(bg)
 end
@@ -266,14 +267,12 @@ function module:GameTooltip_ShowStatusBar()
 		local bar = self.statusBarPool:Acquire()
 		if bar and not bar.styled then
 			B.StripTextures(bar)
+
+			bar:SetStatusBarTexture(DB.normTex)
 			bar:SetStatusBarColor(cr, cg, cb, .8)
 
-			local tex = select(3, bar:GetRegions())
-			tex:SetTexture(DB.normTex)
-
 			local bg = B.CreateBG(bar)
-			B.CreateBD(bg, .25)
-			B.CreateSD(bg)
+			B.SetBackground(bg, .25)
 
 			bar.styled = true
 		end
@@ -285,11 +284,13 @@ function module:GameTooltip_ShowProgressBar()
 		local bar = self.progressBarPool:Acquire()
 		if bar and not bar.styled then
 			B.StripTextures(bar.Bar)
+
 			bar.Bar:SetHeight(20)
 			bar.Bar:SetStatusBarTexture(DB.normTex)
 			bar.Bar:SetStatusBarColor(cr, cg, cb, .8)
-			B.CreateBD(bar.Bar, .25)
-			B.CreateSD(bar.Bar)
+
+			local bg = B.CreateBG(bar.Bar)
+			B.SetBackground(bg, .25)
 
 			bar.styled = true
 		end

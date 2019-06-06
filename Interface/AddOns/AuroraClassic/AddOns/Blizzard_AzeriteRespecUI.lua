@@ -1,22 +1,19 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_AzeriteRespecUI"] = function()
-	for i = 1, 14 do
-		select(i, AzeriteRespecFrame:GetRegions()):Hide()
-	end
-	AzeriteRespecFrame.NineSlice:Hide()
-
-	F.ReskinFrame(AzeriteRespecFrame, true)
+	F.StripTextures(AzeriteRespecFrame, 15)
+	F.ReskinClose(AzeriteRespecFrameCloseButton)
+	F.CreateBD(AzeriteRespecFrame)
+	F.CreateSD(AzeriteRespecFrame)
 
 	local Background = AzeriteRespecFrame.Background
-	Background:SetAlpha(1)
-	Background:Show()
 	F.CreateBDFrame(Background, .25, true)
 
 	local ItemSlot = AzeriteRespecFrame.ItemSlot
 	F.ReskinIcon(ItemSlot.Icon)
 
 	local ButtonFrame = AzeriteRespecFrame.ButtonFrame
+	ButtonFrame.MoneyFrameEdge:Hide()
 	F.StripTextures(ButtonFrame, true)
 	F.ReskinButton(ButtonFrame.AzeriteRespecButton)
 

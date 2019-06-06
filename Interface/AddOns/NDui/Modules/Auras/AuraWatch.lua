@@ -222,7 +222,7 @@ local function BuildBAR(barWidth, iconSize)
 	frame.Statusbar:SetPoint("BOTTOMLEFT", frame, "BOTTOMRIGHT", 5, .5)
 	frame.Statusbar:SetMinMaxValues(0, 1)
 	frame.Statusbar:SetValue(0)
-	B.CreateSB(frame.Statusbar, true, cr, cg, cb)
+	B.CreateSB(frame.Statusbar, true)
 
 	frame.Count = B.CreateFS(frame, 14, "", false, "BOTTOMRIGHT", 2, -2)
 	frame.Time = B.CreateFS(frame.Statusbar, 14, "", false, "RIGHT", 2, 8)
