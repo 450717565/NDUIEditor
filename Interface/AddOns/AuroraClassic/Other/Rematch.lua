@@ -407,13 +407,14 @@ C.themes["Rematch"] = function()
 
 		for i = 1, 3 do
 			local Loadouts = self.Loadouts[i]
+			Loadouts.HP.MiniHP:Hide()
+
 			local Pet = Loadouts.Pet.Pet
 
 			if not Loadouts.styled then
 				reskinRematchFrame(Loadouts)
 				local HP = Loadouts.HP
 				HP:SetSize(64, 8)
-				HP.MiniHP:Hide()
 				F.ReskinStatusBar(HP, true)
 
 				local XP = Loadouts.XP

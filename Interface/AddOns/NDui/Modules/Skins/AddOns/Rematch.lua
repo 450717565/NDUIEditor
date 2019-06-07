@@ -9,15 +9,6 @@ function module:ReskinRematch()
 
 	local cr, cg, cb = C.r, C.g, C.b
 
-	local settings = RematchSettings
-	settings.ColorPetNames = true
-	settings.FixedPetCard = true
-	RematchLoreFont:SetTextColor(1, 1, 1)
-
-	local function reskinRematchClose(self)
-		F.ReskinClose(self.CloseButton)
-	end
-
 	local function reskinRematchFilter(self)
 		self.Icon = self.Arrow
 
@@ -114,7 +105,7 @@ function module:ReskinRematch()
 
 		F.StripTextures(self.Title)
 		local bg = F.CreateBDFrame(self.Title, 0)
-		bg:SetBackdropColor(1, .8, .0, .25)
+		bg:SetBackdropColor(1, .8, 0, .25)
 	end
 
 	local function reskinRematchBar(self)
@@ -153,6 +144,11 @@ function module:ReskinRematch()
 		CollectionsJournal.bg:SetPoint("BOTTOMRIGHT", parent, C.mult, -C.mult)
 	end
 
+	local settings = RematchSettings
+	settings.ColorPetNames = true
+	settings.FixedPetCard = true
+	RematchLoreFont:SetTextColor(1, 1, 1)
+
 	local styled
 	hooksecurefunc(RematchJournal, "ConfigureJournal", function()
 		resizeBackground()
@@ -164,7 +160,7 @@ function module:ReskinRematch()
 		F.ReskinTooltip(RematchTableTooltip)
 
 		F.StripTextures(RematchJournal)
-		reskinRematchClose(RematchJournal)
+		F.ReskinClose(RematchJournal.CloseButton)
 
 		F.StripTextures(RematchToolbar.PetCount)
 
@@ -282,8 +278,8 @@ function module:ReskinRematch()
 
 		-- RematchBottomPanel
 		F.ReskinCheck(UseRematchButton)
-		F.ReskinButton(RematchBottomPanel.SummonButton)
 		F.ReskinCheck(RematchBottomPanel.UseDefault)
+		F.ReskinButton(RematchBottomPanel.SummonButton)
 		F.ReskinButton(RematchBottomPanel.SaveButton)
 		F.ReskinButton(RematchBottomPanel.SaveAsButton)
 		F.ReskinButton(RematchBottomPanel.FindBattleButton)
@@ -417,13 +413,19 @@ function module:ReskinRematch()
 
 		for i = 1, 3 do
 			local Loadouts = self.Loadouts[i]
+			Loadouts.HP.MiniHP:Hide()
+
 			local Pet = Loadouts.Pet.Pet
 
 			if not Loadouts.styled then
 				reskinRematchFrame(Loadouts)
+				local HP = Loadouts.HP
+				HP:SetSize(64, 8)
+				F.ReskinStatusBar(HP, true)
 
-				F.ReskinStatusBar(Loadouts.HP, true)
-				F.ReskinStatusBar(Loadouts.XP, true)
+				local XP = Loadouts.XP
+				XP:SetSize(256, 8)
+				F.ReskinStatusBar(XP, true)
 
 				for j = 1, 3 do
 					reskinRematchButton(Loadouts.Abilities[j])
@@ -467,7 +469,7 @@ function module:ReskinRematch()
 				checkButton:SetSize(8, 8)
 				checkButton:SetPoint("LEFT", 5, 0)
 				checkButton:SetTexture("")
-				checkButton.bg:SetBackdropColor(0, 0, 0, .25)
+				checkButton.bg:SetBackdropColor(0, 0, 0, 0)
 				checkButton.bg:SetPoint("TOPLEFT", 2, -2)
 				checkButton.bg:SetPoint("BOTTOMRIGHT", 0, 2)
 			elseif self.optType == "check" then
@@ -520,6 +522,10 @@ function module:ReskinRematch()
 		local buttons = RematchDialog.TeamTabIconPicker.ScrollFrame.buttons
 		for i = 1, #buttons do
 			local button = buttons[i]
+			if i == 1 then
+				button:ClearAllPoints()
+				button:SetPoint("TOPLEFT", 3, 0)
+			end
 			for j = 1, 10 do
 				local bu = button.Icons[j]
 				if not bu.styled then
@@ -543,10 +549,10 @@ function module:ReskinRematch()
 			tab.Icon:SetPoint("CENTER")
 		end
 
-		for _, direc in pairs({"UpButton", "DownButton"}) do
-			reskinRematchButton(self[direc])
-			self[direc]:SetSize(40, 40)
-			self[direc].Icon:SetPoint("CENTER")
+		for _, button in pairs({"UpButton", "DownButton"}) do
+			reskinRematchButton(self[button])
+			self[button]:SetSize(40, 40)
+			self[button].Icon:SetPoint("CENTER")
 		end
 	end)
 
