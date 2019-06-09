@@ -14,12 +14,21 @@ oUF.colors.power.HOLY_POWER = {.88, .88, .06}
 oUF.colors.power.CHI = {0, 1, .59}
 oUF.colors.power.ARCANE_CHARGES = {.41, .8, .94}
 
+-- Style select
+local function isPartyStyle(self)
+	return self.mystyle == "party" and not NDuiDB["UFs"]["PartyWatcher"]
+end
+
+local function isWatcherStyle(self)
+	return self.mystyle == "party" and NDuiDB["UFs"]["PartyWatcher"]
+end
+
 -- Various values
 local function retVal(self, val1, val2, val3, val4)
 	local mystyle = self.mystyle
 	if mystyle == "player" or mystyle == "target" then
 		return val1
-	elseif mystyle == "focus" or (mystyle == "party" and not NDuiDB["UFs"]["PartyWatcher"]) then
+	elseif mystyle == "focus" or isPartyStyle(self) then
 		return val2
 	else
 		if mystyle == "nameplate" and val4 then
@@ -86,10 +95,11 @@ function UF:CreateHealthText(self)
 	name:SetJustifyH("LEFT")
 
 	local mystyle = self.mystyle
-	if mystyle == "raid" or (mystyle == "party" and NDuiDB["UFs"]["PartyWatcher"]) then
+	if mystyle == "raid" or isWatcherStyle(self) then
 		name:SetWidth(self:GetWidth()*.95)
 		name:ClearAllPoints()
-		if NDuiDB["UFs"]["SimpleMode"] and not NDuiDB["UFs"]["PartyFrame"] then
+		if NDuiDB["UFs"]["SimpleMode"] and not isWatcherStyle(self) then
+			name:SetWidth(self:GetWidth()*.65)
 			name:SetPoint("LEFT", 4, 0)
 		elseif NDuiDB["UFs"]["RaidBuffIndicator"] then
 			name:SetJustifyH("CENTER")
@@ -111,7 +121,7 @@ function UF:CreateHealthText(self)
 
 	if mystyle == "player" then
 		self:Tag(name, " [color][name]")
-	elseif mystyle == "target" or (mystyle == "party" and not NDuiDB["UFs"]["PartyWatcher"]) then
+	elseif mystyle == "target" or isPartyStyle(self) then
 		self:Tag(name, "[fulllevel] [color][name][flag]")
 	elseif mystyle == "focus" then
 		self:Tag(name, "[color][name][flag]")
@@ -124,15 +134,16 @@ function UF:CreateHealthText(self)
 	end
 
 	local hpval = B.CreateFS(textFrame, retVal(self, 14, 13, 12, 14), "", false, "RIGHT", -3, -1)
-	if mystyle == "raid" or (mystyle == "party" and NDuiDB["UFs"]["PartyWatcher"]) then
-		if NDuiDB["UFs"]["SimpleMode"] and not NDuiDB["UFs"]["PartyFrame"] then
+	hpval:SetJustifyH("RIGHT")
+	if mystyle == "raid" or isWatcherStyle(self) then
+		hpval:ClearAllPoints()
+		if NDuiDB["UFs"]["SimpleMode"] and not isWatcherStyle(self) then
 			hpval:SetPoint("RIGHT", -4, 0)
 		elseif NDuiDB["UFs"]["RaidBuffIndicator"] then
-			hpval:ClearAllPoints()
-			hpval:SetPoint("BOTTOM", 0, 1)
 			hpval:SetJustifyH("CENTER")
+			hpval:SetPoint("BOTTOM", 0, 1)
 		else
-			hpval:SetPoint("RIGHT", -3, -7)
+			hpval:SetPoint("BOTTOMRIGHT", -2, 2)
 		end
 		if NDuiDB["UFs"]["HealthPerc"] then
 			self:Tag(hpval, "[raidhp]")
@@ -572,7 +583,7 @@ function UF:CreateAuras(self)
 		bu.iconsPerRow = 9
 		bu.gap = true
 		bu.initialAnchor = "TOPLEFT"
-	elseif mystyle == "raid" or (mystyle == "party" and NDuiDB["UFs"]["PartyWatcher"]) then
+	elseif mystyle == "raid" or isWatcherStyle(self) then
 		if NDuiDB["UFs"]["RaidBuffIndicator"] then
 			bu.initialAnchor = "LEFT"
 			bu:SetPoint("LEFT", self, 15, 0)
@@ -581,7 +592,7 @@ function UF:CreateAuras(self)
 			bu.disableCooldown = true
 		else
 			bu:SetPoint("BOTTOMLEFT", self, 0, 0)
-			bu.numTotal = (NDuiDB["UFs"]["SimpleMode"] and not NDuiDB["UFs"]["PartyFrame"]) and 0 or 6
+			bu.numTotal = (NDuiDB["UFs"]["SimpleMode"] and not isWatcherStyle(self)) and 0 or 6
 			bu.iconsPerRow = 6
 			bu.spacing = 2
 		end
@@ -658,7 +669,7 @@ function UF:CreateDebuffs(self)
 		bu.CustomFilter = customFilter
 		bu.initialAnchor = "TOPLEFT"
 		bu["growth-x"] = "RIGHT"
-	elseif (mystyle == "party" and not NDuiDB["UFs"]["PartyWatcher"]) then
+	elseif isPartyStyle(self) then
 		bu:SetPoint("TOPLEFT", self, "TOPRIGHT", 5, 0)
 		bu.num = 10
 		bu.size = self:GetHeight()+self.Power:GetHeight()+3.5

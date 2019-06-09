@@ -1,7 +1,7 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_WarboardUI"] = function()
-	local function reskin(self)
+	local function reskinFrame(self)
 		local frame = WarboardQuestChoiceFrame
 
 		if not self.styled then
@@ -9,6 +9,8 @@ C.themes["Blizzard_WarboardUI"] = function()
 			F.StripTextures(frame.Title)
 
 			frame.Title.Text:SetTextColor(1, .8, 0)
+
+			self.styled = true
 		end
 
 		for i = 1, self:GetNumOptions() do
@@ -52,5 +54,5 @@ C.themes["Blizzard_WarboardUI"] = function()
 		end
 	end
 
-	hooksecurefunc(WarboardQuestChoiceFrame, "Update", reskin)
+	hooksecurefunc(WarboardQuestChoiceFrame, "Update", reskinFrame)
 end

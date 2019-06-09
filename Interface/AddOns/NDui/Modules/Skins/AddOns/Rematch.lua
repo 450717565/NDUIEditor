@@ -26,10 +26,10 @@ function module:ReskinRematch()
 		if self.Icon then
 			self.Icon.bg = F.ReskinIcon(self.Icon)
 
-			local hl = self.GetHighlightTexture and self:GetHighlightTexture() or select(3, self:GetRegions())
-			if hl then
-				hl:SetColorTexture(1, 1, 1, .25)
-				hl:SetAllPoints(self.Icon)
+			local Highlight = self.GetHighlightTexture and self:GetHighlightTexture() or select(3, self:GetRegions())
+			if Highlight then
+				Highlight:SetColorTexture(1, 1, 1, .25)
+				Highlight:SetAllPoints(self.Icon)
 			end
 		end
 		if self.Level then

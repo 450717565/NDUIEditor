@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2351, "DBM-EternalPalace", nil, 1179)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("2019053103048")
+mod:SetRevision("2019060914902")
 mod:SetCreatureID(152128)
 mod:SetEncounterID(2303)
 mod:SetZone()
@@ -53,7 +53,7 @@ mod:AddTimerLine(BOSS)
 local timerDesensitizingStingCD				= mod:NewCDTimer(6.1, 298156, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON, nil, nil, 3)--If user does enable countdown for this, max count at 3
 local timerDribblingIchorCD					= mod:NewCDCountTimer(84, 298103, nil, nil, nil, 1, nil, nil, nil, 1, 4)--30.4-42
 local timerIncubationFluidCD				= mod:NewCDTimer(32.8, 298242, nil, nil, nil, 3, nil, nil, nil, 3, 4)
-local timerArcingCurrentCD					= mod:NewCDTimer(34.1, 295825, nil, nil, nil, 3)
+local timerArcingCurrentCD					= mod:NewCDCountTimer(34.1, 295825, nil, nil, nil, 3)
 local timerMassiveIncubator					= mod:NewCastTimer(45, 298548, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON, nil, 1, 4)
 mod:AddTimerLine(DBM_ADDS)
 local timerAmnioticEruption					= mod:NewCastTimer(5, 298465, nil, nil, nil, 2, nil, DBM_CORE_TANK_ICON)
@@ -82,10 +82,17 @@ function mod:OnCombatStart(delay)
 	self.vb.arcingCurrentCount = 0
 	playerHasIncubation = false
 	table.wipe(castsPerGUID)
-	timerDesensitizingStingCD:Start(3.4-delay)
-	timerIncubationFluidCD:Start(18.8-delay)
-	timerDribblingIchorCD:Start(23.9-delay, 1)
-	timerArcingCurrentCD:Start(35-delay, 1)
+	if self:IsMythic() then
+		timerDesensitizingStingCD:Start(3.9-delay)
+		timerIncubationFluidCD:Start(17.2-delay)
+		timerDribblingIchorCD:Start(29.4-delay, 1)
+		timerArcingCurrentCD:Start(40-delay, 1)
+	else
+		timerDesensitizingStingCD:Start(3.4-delay)
+		timerIncubationFluidCD:Start(18.8-delay)
+		timerDribblingIchorCD:Start(23.9-delay, 1)
+		timerArcingCurrentCD:Start(35-delay, 1)
+	end
 	if self.Options.NPAuraOnChaoticGrowth or self.Options.NPAuraOnAquaLance then
 		DBM:FireEvent("BossMod_EnableHostileNameplates")
 	end
@@ -256,10 +263,17 @@ mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 function mod:SPELL_INTERRUPT(args)
 	if type(args.extraSpellId) == "number" and args.extraSpellId == 298548 then
 		timerMassiveIncubator:Stop()
-		timerDesensitizingStingCD:Start(3.4)
-		timerIncubationFluidCD:Start(18.8)
-		timerDribblingIchorCD:Start(23.9, 1)
-		timerArcingCurrentCD:Start(35)
+		if self:IsMythic() then
+			timerDesensitizingStingCD:Start(3.9)
+			timerIncubationFluidCD:Start(17.2)
+			timerDribblingIchorCD:Start(29.4, 1)
+			timerArcingCurrentCD:Start(40, 1)
+		else
+			timerDesensitizingStingCD:Start(3.4)
+			timerIncubationFluidCD:Start(18.8)
+			timerDribblingIchorCD:Start(23.9, 1)
+			timerArcingCurrentCD:Start(35, 1)
+		end
 	end
 end
 

@@ -3,6 +3,11 @@ local F, C = unpack(select(2, ...))
 C.themes["Rematch"] = function()
 	local cr, cg, cb = C.r, C.g, C.b
 
+	local settings = RematchSettings
+	settings.ColorPetNames = true
+	settings.FixedPetCard = true
+	RematchLoreFont:SetTextColor(1, 1, 1)
+
 	local function reskinRematchFilter(self)
 		self.Icon = self.Arrow
 
@@ -20,10 +25,10 @@ C.themes["Rematch"] = function()
 		if self.Icon then
 			self.Icon.bg = F.ReskinIcon(self.Icon)
 
-			local hl = self.GetHighlightTexture and self:GetHighlightTexture() or select(3, self:GetRegions())
-			if hl then
-				hl:SetColorTexture(1, 1, 1, .25)
-				hl:SetAllPoints(self.Icon)
+			local Highlight = self.GetHighlightTexture and self:GetHighlightTexture() or select(3, self:GetRegions())
+			if Highlight then
+				Highlight:SetColorTexture(1, 1, 1, .25)
+				Highlight:SetAllPoints(self.Icon)
 			end
 		end
 		if self.Level then
@@ -137,11 +142,6 @@ C.themes["Rematch"] = function()
 		local parent = RematchJournal:IsShown() and RematchJournal or CollectionsJournal
 		CollectionsJournal.bg:SetPoint("BOTTOMRIGHT", parent, C.mult, -C.mult)
 	end
-
-	local settings = RematchSettings
-	settings.ColorPetNames = true
-	settings.FixedPetCard = true
-	RematchLoreFont:SetTextColor(1, 1, 1)
 
 	local styled
 	hooksecurefunc(RematchJournal, "ConfigureJournal", function()

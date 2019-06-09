@@ -578,7 +578,6 @@ function F:ReskinGarrisonPortrait()
 end
 
 function F:ReskinIcon(setBG, alpha)
-	--self:SetDrawLayer("ARTWORK")
 	self:SetTexCoord(.08, .92, .08, .92)
 
 	if setBG then

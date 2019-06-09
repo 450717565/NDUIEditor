@@ -19,7 +19,7 @@
 ## X-Website: http://www.deadlybossmods.com
 ## X-Curse-Project-ID: 3358
 ## X-WoWI-ID: 8814
-## Version: 8.1.26-48-gba8b3ba67
+## Version: 8.1.26-51-g7c133b054
 
 #@no-lib-strip@
 Libs\LibStub\LibStub.lua
