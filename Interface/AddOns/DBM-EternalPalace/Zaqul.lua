@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2349, "DBM-EternalPalace", nil, 1179)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("2019053103048")
+mod:SetRevision("2019061001341")
 mod:SetCreatureID(151586)
 mod:SetEncounterID(2293)
 mod:SetZone()
@@ -88,8 +88,8 @@ local timerMaddeningEruptionCD			= mod:NewCDTimer(30.9, 292996, nil, nil, nil, 5
 local timerOpenDelPortalCD				= mod:NewCDTimer(24.2, 302468, nil, nil, nil, 3)
 --Stage Four: All Pathways Open
 local timerDarkPulseCD					= mod:NewAITimer(58.2, 303978, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON)--Non Mythic
-local timerPsychoticSplitCD				= mod:NewAITimer(58.2, 301068, nil, nil, nil, 6, nil, DBM_CORE_DEADLY_ICON)--Mythic
-local timerDreadScreamCD				= mod:NewAITimer(58.2, 303543, nil, "Healer", nil, 5, nil, DBM_CORE_MAGIC_ICON)--Mythic
+local timerPsychoticSplitCD				= mod:NewAITimer(58.2, 301068, nil, nil, nil, 6, nil, DBM_CORE_MYTHIC_ICON..DBM_CORE_DEADLY_ICON)--Mythic
+local timerDreadScreamCD				= mod:NewAITimer(58.2, 303543, nil, "Healer", nil, 5, nil, DBM_CORE_MYTHIC_ICON..DBM_CORE_MAGIC_ICON)--Mythic
 local timerVoidSlamCD					= mod:NewAITimer(58.2, 302593, nil, nil, nil, 3)--Mythic
 local timerDarkPassageD					= mod:NewAITimer(58.2, 299705, nil, nil, nil, 1)--All
 local timerManicDreadCD					= mod:NewAITimer(30.4, 296018, nil, "Healer", nil, 5, nil, DBM_CORE_MAGIC_ICON)

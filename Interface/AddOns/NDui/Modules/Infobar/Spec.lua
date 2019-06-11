@@ -45,7 +45,6 @@ info.onEvent = function(self)
 		self.text:SetText(DB.MyColor..NONE.."|r"..SPECIALIZATION)
 	end
 
-	self.text:SetJustifyH("RIGHT")
 end
 
 local pvpTalents

@@ -189,6 +189,7 @@ local list = {
 		{AuraID = 280654, UnitID = "player"},	-- 工程特质，变大
 		{AuraID = 273525, UnitID = "player"},	-- 大难临头
 		{AuraID = 274373, UnitID = "player"},	-- 溃烂之力
+		{AuraID = 280170, UnitID = "player", Value = true},	-- 假死盾
 	-->炼金石
 		{AuraID = 60233, UnitID = "player"},	-- 敏捷
 		{AuraID = 60229, UnitID = "player"},	-- 力量

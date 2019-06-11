@@ -538,7 +538,7 @@ function F:ReskinFrame(noKill)
 	end
 
 	F.CleanTextures(self)
-	local bg = F.SetBDFrame(self)
+	local bg = F.CreateBDFrame(self, nil, true)
 
 	local frameName = self.GetName and self:GetName()
 

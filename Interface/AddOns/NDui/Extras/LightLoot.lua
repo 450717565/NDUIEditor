@@ -3,8 +3,9 @@ local B, C, L, DB = unpack(select(2, ...))
 local tbinsert = table.insert
 local mmax, mfloor = math.max, math.floor
 
-local iconSize = 33
+local cr, cg, cb = DB.r, DB.g, DB.b
 
+local iconSize = 33
 local fontSize = mfloor(select(2, GameFontWhite:GetFont()) + .5)
 
 local point = {"CENTER", 300, 0}
@@ -101,7 +102,7 @@ local function CreateSlot(id)
 	glow:SetPoint("TOPLEFT", icon, "TOPRIGHT", 3, 0)
 	glow:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT")
 	glow:SetTexture(DB.bdTex)
-	glow:SetColorTexture(DB.r, DB.g, DB.b, .5)
+	glow:SetColorTexture(cr, cg, cb, .5)
 	glow:Hide()
 	button.glow = glow
 

@@ -283,7 +283,6 @@ info.onEvent = function(self, event, ...)
 
 	local online = select(3, GetNumGuildMembers())
 	self.text:SetText(GUILD..L[":"]..DB.MyColor..online)
-	self.text:SetJustifyH("LEFT")
 
 	if infoFrame and infoFrame:IsShown() then
 		refreshData()

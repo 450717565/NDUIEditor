@@ -105,7 +105,6 @@ info.onEvent = function(self, event, arg1)
 	local onlineFriends = C_FriendList_GetNumOnlineFriends()
 	local _, onlineBNet = BNGetNumFriends()
 	self.text:SetText(FRIENDS..L[":"]..DB.MyColor..(onlineFriends + onlineBNet))
-	self.text:SetJustifyH("LEFT")
 	updateRequest = false
 end
 

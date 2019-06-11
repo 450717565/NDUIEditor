@@ -72,7 +72,6 @@ info.onUpdate = function(self, elapsed)
 		updateMemoryTable()
 		totalMemory = updateMemory()
 		self.text:SetText(B.HexRGB(memoryColor(totalMemory, 5))..formatMemory(totalMemory))
-		self.text:SetJustifyH("RIGHT")
 
 		if entered then self:onEnter() end
 

@@ -4,14 +4,23 @@ if not C.Infobar.System then return end
 
 local module = B:GetModule("Infobar")
 local info = module:RegisterInfobar(C.Infobar.SystemPos)
-local min, max, floor, format, sort, select = math.min, math.max, math.floor, string.format, table.sort, select
+local min, max, floor, mod, format, sort, select = math.min, math.max, math.floor, mod, string.format, table.sort, select
 local GetFramerate, GetNetStats, GetTime, GetCVarBool, SetCVar = GetFramerate, GetNetStats, GetTime, GetCVarBool, SetCVar
-local GetNumAddOns, GetAddOnInfo, FRAMERATE_LABEL = GetNumAddOns, GetAddOnInfo, FRAMERATE_LABEL
-local IsShiftKeyDown, IsAddOnLoaded = IsShiftKeyDown, IsAddOnLoaded
-local UpdateAddOnCPUUsage, GetAddOnCPUUsage = UpdateAddOnCPUUsage, GetAddOnCPUUsage
+local GetNumAddOns, GetAddOnInfo, IsShiftKeyDown, IsAddOnLoaded = GetNumAddOns, GetAddOnInfo, IsShiftKeyDown, IsAddOnLoaded
+local UpdateAddOnCPUUsage, GetAddOnCPUUsage, ResetCPUUsage = UpdateAddOnCPUUsage, GetAddOnCPUUsage, ResetCPUUsage
+local VIDEO_OPTIONS_ENABLED, VIDEO_OPTIONS_DISABLED, FRAMERATE_LABEL = VIDEO_OPTIONS_ENABLED, VIDEO_OPTIONS_DISABLED, FRAMERATE_LABEL
 
-local usageTable, startTime, entered = {}, 0
-local usageString = "%d Ms"
+local usageTable, startTime, showMode, entered = {}, 0, 0
+local usageString = "%.3f Ms"
+
+local framerate, latencyHome, latencyWorld, latency = 0, 0, 0, 0
+
+local function getValue()
+	framerate = floor(GetFramerate())
+	latencyHome = select(3, GetNetStats())
+	latencyWorld = select(4, GetNetStats())
+	latency = max(latencyHome, latencyWorld)
+end
 
 local function colorLatency(latency)
 	if latency < 250 then
@@ -23,25 +32,47 @@ local function colorLatency(latency)
 	end
 end
 
-local function colorFPS(fps)
-	if fps < 30 then
-		return "|cffC00000"..fps.."|r"
-	elseif fps < 60 then
-		return "|cffC0C000"..fps.."|r"
+local function colorFPS(framerate)
+	if framerate < 30 then
+		return "|cffC00000"..framerate.."|r"
+	elseif framerate < 60 then
+		return "|cffC0C000"..framerate.."|r"
 	else
-		return "|cff00C000"..fps.."|r"
+		return "|cff00C000"..framerate.."|r"
 	end
+end
+
+local function setFrameRate(self)
+	self.text:SetFormattedText(L["Fps: %s"], colorFPS(framerate))
+end
+
+local function setLatency(self)
+	self.text:SetFormattedText(L["Ms: %s"], colorLatency(latency))
+end
+
+local function setBothShow(self)
+	self.text:SetFormattedText(L["Fps: %s"]..DB.Separator..L["Ms: %s"], colorFPS(framerate), colorLatency(latency))
 end
 
 info.onUpdate = function(self, elapsed)
 	self.timer = (self.timer or 0) + elapsed
 	if self.timer > 1 then
-		local _, _, latencyHome, latencyWorld = GetNetStats()
-		local latency = max(latencyHome, latencyWorld)
-		local fps = floor(GetFramerate())
-		self.text:SetFormattedText(L["Fps: %s"]..DB.Separator..L["Ms: %s"], colorFPS(fps), colorLatency(latency))
-		self.text:SetJustifyH("LEFT")
+		getValue()
 
+		if NDuiADB["SystemInfoType"] == 1 then
+			setFrameRate(self)
+		elseif NDuiADB["SystemInfoType"] == 2 then
+			setLatency(self)
+		elseif NDuiADB["SystemInfoType"] == 3 then
+			setBothShow(self)
+		else
+			showMode = mod(showMode + 1, 10)
+			if showMode > 4 then
+				setFrameRate(self)
+			else
+				setLatency(self)
+			end
+		end
 		if entered then self:onEnter() end
 
 		self.timer = 0
@@ -78,6 +109,13 @@ local function updateUsage()
 	return total
 end
 
+local systemText = {
+	[0] = DB.MyColor..L["Rotation"],
+	[1] = DB.MyColor..L["FPS"],
+	[2] = DB.MyColor..L["Latency"],
+	[3] = DB.MyColor..L["FPS"].." | "..L["Latency"],
+}
+
 info.onEnter = function(self)
 	entered = true
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOM", 0, -15)
@@ -85,41 +123,47 @@ info.onEnter = function(self)
 	GameTooltip:AddLine(L["System"], 0,.6,1)
 	GameTooltip:AddLine(" ")
 
-	if GetCVarBool("scriptProfile") then
+	local scriptProfile = GetCVarBool("scriptProfile")
+	if scriptProfile then
 		updateUsageTable()
 		local totalCPU = updateUsage()
-
-		local maxAddOns = C.Infobar.MaxAddOns
-		local isShiftKeyDown = IsShiftKeyDown()
-		local maxShown = isShiftKeyDown and #usageTable or min(maxAddOns, #usageTable)
-		local numEnabled = 0
-		for i = 1, #usageTable do
-			local value = usageTable[i]
-			if value and IsAddOnLoaded(value[1]) then
-				numEnabled = numEnabled + 1
-				if numEnabled <= maxShown then
-					local r = value[3] / totalCPU
-					local g = 1.5 - r
-					GameTooltip:AddDoubleLine(value[2], format(usageString, value[3]), 1,1,1, r,g,0)
+		if totalCPU > 0 then
+			local maxAddOns = C.Infobar.MaxAddOns
+			local isShiftKeyDown = IsShiftKeyDown()
+			local maxShown = isShiftKeyDown and #usageTable or min(maxAddOns, #usageTable)
+			local numEnabled = 0
+			for i = 1, #usageTable do
+				local value = usageTable[i]
+				if value and IsAddOnLoaded(value[1]) then
+					numEnabled = numEnabled + 1
+					if numEnabled <= maxShown then
+						local r = value[3] / totalCPU
+						local g = 1.5 - r
+						GameTooltip:AddDoubleLine(value[2], format(usageString, value[3] / max(1, GetTime() - module.loginTime)), 1,1,1, r,g,0)
+					end
 				end
 			end
-		end
 
-		if not isShiftKeyDown and (numEnabled > maxAddOns) then
-			local hiddenUsage = 0
-			for i = (maxAddOns + 1), numEnabled do
-				hiddenUsage = hiddenUsage + usageTable[i][3]
+			if not isShiftKeyDown and (numEnabled > maxAddOns) then
+				local hiddenUsage = 0
+				for i = (maxAddOns + 1), numEnabled do
+					hiddenUsage = hiddenUsage + usageTable[i][3]
+				end
+				GameTooltip:AddDoubleLine(format("%d %s (%s)", numEnabled - maxAddOns, L["Hidden"], L["Hold Shift"]), format(usageString, hiddenUsage), .6,.8,1, .6,.8,1)
 			end
-			GameTooltip:AddDoubleLine(format("%d %s (%s)", numEnabled - maxAddOns, L["Hidden"], L["Hold Shift"]), format(usageString, hiddenUsage), .6,.8,1, .6,.8,1)
+			GameTooltip:AddLine(" ")
 		end
-		GameTooltip:AddLine(" ")
 	end
 
-	local _, _, latencyHome, latencyWorld = GetNetStats()
-	GameTooltip:AddDoubleLine(L["Home Latency"], colorLatency(latencyHome).."|r Ms", .6,.8,1, 1,1,1)
-	GameTooltip:AddDoubleLine(L["World Latency"], colorLatency(latencyWorld).."|r Ms", .6,.8,1, 1,1,1)
+	GameTooltip:AddDoubleLine(L["Home Latency"], colorLatency(latencyHome).."|r MS", .6,.8,1, 1,1,1)
+	GameTooltip:AddDoubleLine(L["World Latency"], colorLatency(latencyWorld).."|r MS", .6,.8,1, 1,1,1)
+	GameTooltip:AddDoubleLine(L["Frame Rate"], colorFPS(framerate).."|r FPS", .6,.8,1, 1,1,1)
 	GameTooltip:AddDoubleLine(" ", DB.LineString)
-	GameTooltip:AddDoubleLine(" ", DB.ScrollButton..L["CPU Usage"]..(GetCVarBool("scriptProfile") and "|cff55ff55"..VIDEO_OPTIONS_ENABLED or "|cffff5555"..VIDEO_OPTIONS_DISABLED).." ", 1,1,1, .6,.8,1)
+	if scriptProfile then
+		GameTooltip:AddDoubleLine(" ", DB.LeftButton..L["ResetCPUUsage"].." ", 1,1,1, .6,.8,1)
+	end
+	GameTooltip:AddDoubleLine(" ", DB.RightButton..L["SystemInfoType"]..systemText[NDuiADB["SystemInfoType"]].." ", 1,1,1, .6,.8,1)
+	GameTooltip:AddDoubleLine(" ", DB.ScrollButton..L["CPU Usage"]..(scriptProfile and "|cff55ff55"..VIDEO_OPTIONS_ENABLED or "|cffff5555"..VIDEO_OPTIONS_DISABLED).." ", 1,1,1, .6,.8,1)
 	GameTooltip:Show()
 end
 
@@ -138,18 +182,24 @@ StaticPopupDialogs["CPUUSAGE"] = {
 
 local status = GetCVarBool("scriptProfile")
 info.onMouseUp = function(self, btn)
-	if btn ~= "MiddleButton" then return end
+	local scriptProfile = GetCVarBool("scriptProfile")
+	if btn == "LeftButton" and scriptProfile then
+		ResetCPUUsage()
+		module.loginTime = GetTime()
+	elseif btn == "RightButton" then
+		NDuiADB["SystemInfoType"] = mod(NDuiADB["SystemInfoType"] + 1, 4)
+	elseif btn == "MiddleButton" then
+		if scriptProfile then
+			SetCVar("scriptProfile", 0)
+		else
+			SetCVar("scriptProfile", 1)
+		end
 
-	if GetCVarBool("scriptProfile") then
-		SetCVar("scriptProfile", 0)
-	else
-		SetCVar("scriptProfile", 1)
-	end
-
-	if GetCVarBool("scriptProfile") == status then
-		StaticPopup_Hide("CPUUSAGE")
-	else
-		StaticPopup_Show("CPUUSAGE")
+		if GetCVarBool("scriptProfile") == status then
+			StaticPopup_Hide("CPUUSAGE")
+		else
+			StaticPopup_Show("CPUUSAGE")
+		end
 	end
 	self:onEnter()
 end

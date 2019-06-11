@@ -88,7 +88,6 @@ info.onEvent = function(self)
 
 	self.text:SetFormattedText("%s <%s>", CurrentZone(), FormatCoords())
 	self.text:SetTextColor(r, g, b)
-	self.text:SetJustifyH("LEFT")
 end
 
 info.onEnter = function(self)

@@ -79,7 +79,7 @@ B:RegisterEvent("PLAYER_LOGIN", function()
 		end
 	end
 
-	C_Timer.After(3, collectgarbage)
+	B.Modules = modules
 end)
 
 _G[addonName] = ns

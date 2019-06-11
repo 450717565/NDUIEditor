@@ -8,13 +8,21 @@ C.themes["Rematch"] = function()
 	settings.FixedPetCard = true
 	RematchLoreFont:SetTextColor(1, 1, 1)
 
-	local function reskinRematchFilter(self)
+	local function reskinFrame(self)
+		F.StripTextures(self)
+
+		local bg = F.CreateBDFrame(self, 0)
+		bg:SetPoint("TOPLEFT", 0, -1)
+		bg:SetPoint("BOTTOMRIGHT", 0, 1)
+	end
+
+	local function reskinFilter(self)
 		self.Icon = self.Arrow
 
 		F.ReskinFilter(self)
 	end
 
-	local function reskinRematchButton(self)
+	local function reskinButton(self)
 		if self.styled then return end
 
 		F.CleanTextures(self)
@@ -35,11 +43,14 @@ C.themes["Rematch"] = function()
 			if self.Level.BG then self.Level.BG:Hide() end
 			if self.Level.Text then self.Level.Text:SetTextColor(1, 1, 1) end
 		end
+		if self.GetCheckedTexture then
+			F.ReskinTexed(self, self)
+		end
 
 		self.styled = true
 	end
 
-	local function reskinRematchInput(self)
+	local function reskinInput(self)
 		self:DisableDrawLayer("BACKGROUND")
 		self:SetBackdrop(nil)
 
@@ -48,7 +59,7 @@ C.themes["Rematch"] = function()
 		bg:SetPoint("BOTTOMRIGHT", -2, 0)
 	end
 
-	local function reskinRematchScroll(self)
+	local function reskinScroll(self)
 		self.Background:Hide()
 
 		local ScrollBar = self.ScrollFrame.ScrollBar
@@ -84,7 +95,7 @@ C.themes["Rematch"] = function()
 		end
 	end
 
-	local function reskinRematchDropdown(self)
+	local function reskinDropdown(self)
 		self:SetBackdrop(nil)
 
 		F.StripTextures(self)
@@ -99,15 +110,22 @@ C.themes["Rematch"] = function()
 		F.ReskinArrow(arrow, "down")
 	end
 
-	local function reskinRematchMenu(self)
-		F.ReskinFrame(self)
+	local function reskinPetCard(self)
+		self:SetBackdrop(nil)
 
-		F.StripTextures(self.Title)
-		local bg = F.CreateBDFrame(self.Title, 0)
-		bg:SetBackdropColor(1, .8, 0, .25)
+		if self.Source then
+			reskinFrame(self.Source)
+		end
+
+		if self.Middle.XP then
+			F.ReskinStatusBar(self.Middle.XP, true)
+		end
+
+		reskinFrame(self.Middle)
+		reskinFrame(self.Bottom)
 	end
 
-	local function reskinRematchBar(self)
+	local function reskinInset(self)
 		F.StripTextures(self)
 
 		local bg = F.CreateBDFrame(self, 0)
@@ -115,48 +133,94 @@ C.themes["Rematch"] = function()
 		bg:SetPoint("BOTTOMRIGHT", -3, 0)
 	end
 
-	local function reskinRematchFrame(self)
-		F.StripTextures(self)
-
-		local bg = F.CreateBDFrame(self, 0)
-		bg:SetPoint("TOPLEFT", 0, -1)
-		bg:SetPoint("BOTTOMRIGHT", 0, 1)
+	local function buttonOnEnter(self)
+		self.bg:SetBackdropColor(cr, cg, cb, .25)
+	end
+	local function buttonOnLeave(self)
+		self.bg:SetBackdropColor(0, 0, 0, 0)
 	end
 
-	local function reskinPetCard(self)
-		self:SetBackdrop(nil)
+	local function reskinPetList(self)
+		local buttons = self.ScrollFrame.Buttons
+		if not buttons then return end
 
-		if self.Source then
-			reskinRematchFrame(self.Source)
+		for i = 1, #buttons do
+			local button = buttons[i]
+			if not button.styled then
+				local parent
+				if button.Pet then
+					F.CreateBDFrame(button.Pet, 0)
+					if button.Rarity then button.Rarity:SetTexture(nil) end
+					if button.LevelBack then button.LevelBack:SetTexture(nil) end
+					button.LevelText:SetTextColor(1, 1, 1)
+
+					parent = button.Pet
+				end
+
+				if button.Pets then
+					for j = 1, 3 do
+						local bu = button.Pets[j]
+						bu:SetWidth(25)
+						F.CreateBDFrame(bu, 0)
+					end
+					if button.Border then button.Border:SetTexture(nil) end
+
+					parent = button.Pets[3]
+				end
+
+				if button.Back then
+					button.Back:SetTexture(nil)
+					local bg = F.CreateBDFrame(button.Back, 0)
+					bg:SetPoint("TOPLEFT", parent, "TOPRIGHT", 4, C.mult)
+					bg:SetPoint("BOTTOMRIGHT", 0, C.mult)
+					button.bg = bg
+
+					button:HookScript("OnEnter", buttonOnEnter)
+					button:HookScript("OnLeave", buttonOnLeave)
+				end
+
+				button.styled = true
+			end
 		end
-
-		if self.Middle.XP then
-			F.ReskinStatusBar(self.Middle.XP, true)
-		end
-
-		reskinRematchFrame(self.Middle)
-		reskinRematchFrame(self.Bottom)
 	end
 
-	local function resizeBackground()
+	function reskinSelectedOverlay(self)
+		F.StripTextures(self.SelectedOverlay)
+		local bg = F.CreateBDFrame(self.SelectedOverlay, 0)
+		bg:SetBackdropColor(cr, cg, cb, .5)
+	end
+
+	local function resizeJournal()
 		local parent = RematchJournal:IsShown() and RematchJournal or CollectionsJournal
 		CollectionsJournal.bg:SetPoint("BOTTOMRIGHT", parent, C.mult, -C.mult)
 	end
 
 	local styled
 	hooksecurefunc(RematchJournal, "ConfigureJournal", function()
-		resizeBackground()
+		resizeJournal()
 
 		if styled then return end
 
-		hooksecurefunc("CollectionsJournal_UpdateSelectedTab", resizeBackground)
+		-- Main Elements
+		hooksecurefunc("CollectionsJournal_UpdateSelectedTab", resizeJournal)
 		F.ReskinTooltip(RematchTooltip)
 		F.ReskinTooltip(RematchTableTooltip)
+
+		for i = 1, 3 do
+			local menu = Rematch:GetMenuFrame(i, UIParent)
+			F.ReskinFrame(menu)
+
+			F.StripTextures(menu.Title)
+			local bg = F.CreateBDFrame(menu.Title, 0)
+			bg:SetBackdropColor(1, .8, 0, .25)
+		end
 
 		F.StripTextures(RematchJournal)
 		F.ReskinClose(RematchJournal.CloseButton)
 
-		F.StripTextures(RematchToolbar.PetCount)
+		for _, tab in ipairs(RematchJournal.PanelTabs.Tabs) do
+			F.ReskinTab(tab)
+		end
 
 		local buttons = {
 			RematchHealButton,
@@ -167,16 +231,64 @@ C.themes["Rematch"] = function()
 			RematchToolbar.SummonRandom,
 		}
 		for _, button in pairs(buttons) do
-			reskinRematchButton(button)
+			reskinButton(button)
 		end
 
-		for _, tab in ipairs(RematchJournal.PanelTabs.Tabs) do
-			F.ReskinTab(tab)
-		end
+		F.StripTextures(RematchToolbar.PetCount)
 
+		-- RematchBottomPanel
+		F.ReskinCheck(UseRematchButton)
+		F.ReskinCheck(RematchBottomPanel.UseDefault)
+		F.ReskinButton(RematchBottomPanel.SummonButton)
+		F.ReskinButton(RematchBottomPanel.SaveButton)
+		F.ReskinButton(RematchBottomPanel.SaveAsButton)
+		F.ReskinButton(RematchBottomPanel.FindBattleButton)
+
+		-- RematchPetPanel
+		F.StripTextures(RematchPetPanel.Top)
+		F.ReskinButton(RematchPetPanel.Top.Toggle)
+		reskinSelectedOverlay(RematchPetPanel)
+		reskinInput(RematchPetPanel.Top.SearchBox)
+		reskinFilter(RematchPetPanel.Top.Filter)
+		reskinScroll(RematchPetPanel.List)
+		reskinInset(RematchPetPanel.Results)
+
+		-- RematchLoadoutPanel
+		F.StripTextures(RematchLoadedTeamPanel)
+		local bg = F.CreateBDFrame(RematchLoadedTeamPanel, 0)
+		bg:SetBackdropColor(cr, cg, cb, .25)
+		bg:SetPoint("TOPLEFT", 0, -1)
+		bg:SetPoint("BOTTOMRIGHT", 0, 1)
+		F.StripTextures(RematchLoadedTeamPanel.Footnotes)
+
+		-- RematchLoadoutPanel
+		local Target = RematchLoadoutPanel.Target
+		reskinFrame(Target)
+		F.StripTextures(Target.LoadSaveButton)
+		F.ReskinButton(Target.LoadSaveButton)
+		F.StripTextures(Target.ModelBorder)
+		reskinFilter(Target.TargetButton)
 		for i = 1, 3 do
-			local menu = Rematch:GetMenuFrame(i, UIParent)
-			reskinRematchMenu(menu)
+			reskinButton(Target["Pet"..i])
+		end
+
+		-- RematchTeamPanel
+		F.StripTextures(RematchTeamPanel.Top)
+		reskinSelectedOverlay(RematchTeamPanel)
+		reskinInput(RematchTeamPanel.Top.SearchBox)
+		reskinFilter(RematchTeamPanel.Top.Teams)
+		reskinScroll(RematchTeamPanel.List)
+
+		-- RematchQueuePanel
+		F.StripTextures(RematchQueuePanel.Top)
+		reskinFilter(RematchQueuePanel.Top.QueueButton)
+		reskinScroll(RematchQueuePanel.List)
+		reskinInset(RematchQueuePanel.Status)
+
+		-- RematchOptionPanel
+		reskinScroll(RematchOptionPanel.List)
+		for i = 1, 4 do
+			reskinButton(RematchOptionPanel.Growth.Corners[i])
 		end
 
 		-- RematchPetCard
@@ -198,6 +310,7 @@ C.themes["Rematch"] = function()
 
 		for i = 1, 6 do
 			local button = RematchPetCard.Front.Bottom.Abilities[i]
+			select(8, button:GetRegions()):SetTexture(nil)
 			button.IconBorder:Hide()
 			F.ReskinIcon(button.Icon)
 		end
@@ -217,7 +330,7 @@ C.themes["Rematch"] = function()
 		bg:SetPoint("BOTTOMRIGHT", -2, 2)
 
 		for _, result in pairs({"Wins", "Losses", "Draws"}) do
-			reskinRematchInput(Content[result].EditBox)
+			reskinInput(Content[result].EditBox)
 			Content[result].Add.IconBorder:Hide()
 		end
 
@@ -225,58 +338,6 @@ C.themes["Rematch"] = function()
 		F.ReskinButton(Controls.ResetButton)
 		F.ReskinButton(Controls.SaveButton)
 		F.ReskinButton(Controls.CancelButton)
-
-		-- RematchPetPanel
-		F.StripTextures(RematchPetPanel.Top)
-		F.ReskinButton(RematchPetPanel.Top.Toggle)
-		reskinRematchInput(RematchPetPanel.Top.SearchBox)
-		reskinRematchFilter(RematchPetPanel.Top.Filter)
-		reskinRematchScroll(RematchPetPanel.List)
-		reskinRematchBar(RematchPetPanel.Results)
-
-		-- RematchLoadoutPanel
-		F.StripTextures(RematchLoadedTeamPanel)
-		local bg = F.CreateBDFrame(RematchLoadedTeamPanel, 0)
-		bg:SetBackdropColor(1, .8, 0, .25)
-		bg:SetPoint("TOPLEFT", 0, -1)
-		bg:SetPoint("BOTTOMRIGHT", 0, 1)
-
-		local Target = RematchLoadoutPanel.Target
-		reskinRematchFrame(Target)
-		F.StripTextures(Target.LoadSaveButton)
-		F.ReskinButton(Target.LoadSaveButton)
-		F.StripTextures(Target.ModelBorder)
-		reskinRematchFilter(Target.TargetButton)
-		for i = 1, 3 do
-			reskinRematchButton(Target["Pet"..i])
-		end
-
-		-- RematchTeamPanel
-		F.StripTextures(RematchTeamPanel.Top)
-		reskinRematchInput(RematchTeamPanel.Top.SearchBox)
-		reskinRematchFilter(RematchTeamPanel.Top.Teams)
-		reskinRematchScroll(RematchTeamPanel.List)
-
-		-- RematchQueuePanel
-		F.StripTextures(RematchQueuePanel.Top)
-		reskinRematchFilter(RematchQueuePanel.Top.QueueButton)
-		reskinRematchScroll(RematchQueuePanel.List)
-		reskinRematchBar(RematchQueuePanel.Status)
-
-		-- RematchOptionPanel
-		reskinRematchScroll(RematchOptionPanel.List)
-		for i = 1, 4 do
-			local bu = RematchOptionPanel.Growth.Corners[i]
-			reskinRematchButton(bu)
-		end
-
-		-- RematchBottomPanel
-		F.ReskinCheck(UseRematchButton)
-		F.ReskinCheck(RematchBottomPanel.UseDefault)
-		F.ReskinButton(RematchBottomPanel.SummonButton)
-		F.ReskinButton(RematchBottomPanel.SaveButton)
-		F.ReskinButton(RematchBottomPanel.SaveAsButton)
-		F.ReskinButton(RematchBottomPanel.FindBattleButton)
 
 		-- RematchDialog
 		local dialog = RematchDialog
@@ -286,24 +347,20 @@ C.themes["Rematch"] = function()
 		F.ReskinButton(dialog.Cancel)
 		F.ReskinButton(dialog.Other)
 		F.ReskinCheck(dialog.CheckButton)
-		reskinRematchButton(dialog.Slot)
-		reskinRematchButton(dialog.Pet.Pet)
-		reskinRematchInput(dialog.EditBox)
-		reskinRematchInput(dialog.SaveAs.Name)
-		reskinRematchInput(dialog.Send.EditBox)
-		reskinRematchDropdown(dialog.SaveAs.Target)
-		reskinRematchDropdown(dialog.TabPicker)
+		reskinButton(dialog.Slot)
+		reskinButton(dialog.Pet.Pet)
+		reskinInput(dialog.EditBox)
+		reskinInput(dialog.SaveAs.Name)
+		reskinInput(dialog.Send.EditBox)
+		reskinDropdown(dialog.SaveAs.Target)
+		reskinDropdown(dialog.TabPicker)
 
 		local Preferences = dialog.Preferences
 		F.ReskinCheck(Preferences.AllowMM)
-		reskinRematchInput(Preferences.MinHP)
-		reskinRematchInput(Preferences.MaxHP)
-		reskinRematchInput(Preferences.MinXP)
-		reskinRematchInput(Preferences.MaxXP)
-
-		local ShareIncludes = dialog.ShareIncludes
-		F.ReskinCheck(ShareIncludes.IncludePreferences)
-		F.ReskinCheck(ShareIncludes.IncludeNotes)
+		reskinInput(Preferences.MinHP)
+		reskinInput(Preferences.MaxHP)
+		reskinInput(Preferences.MinXP)
+		reskinInput(Preferences.MaxXP)
 
 		local TeamTabIconPicker = dialog.TeamTabIconPicker
 		F.ReskinScroll(TeamTabIconPicker.ScrollFrame.ScrollBar)
@@ -317,8 +374,12 @@ C.themes["Rematch"] = function()
 		bg:SetPoint("TOPLEFT", -5, 5)
 		bg:SetPoint("BOTTOMRIGHT", 5, -5)
 
+		local ShareIncludes = dialog.ShareIncludes
+		F.ReskinCheck(ShareIncludes.IncludePreferences)
+		F.ReskinCheck(ShareIncludes.IncludeNotes)
+
 		local CollectionReport = dialog.CollectionReport
-		reskinRematchDropdown(CollectionReport.ChartTypeComboBox)
+		reskinDropdown(CollectionReport.ChartTypeComboBox)
 		F.StripTextures(CollectionReport.Chart)
 		F.CreateBDFrame(CollectionReport.Chart, 0)
 
@@ -359,6 +420,147 @@ C.themes["Rematch"] = function()
 		styled = true
 	end)
 
+	-- Rematch
+	hooksecurefunc(Rematch, "MenuButtonSetChecked", function(_, button, isChecked, isRadio)
+		if isChecked then
+			local x = .5
+			local y = isRadio and .5 or .25
+			button.Check:SetTexCoord(x, x+.25, y-.25, y)
+		else
+			button.Check:SetTexCoord(0, 0, 0, 0)
+		end
+
+		if not button.styled then
+			button.Check:SetVertexColor(cr, cg, cb)
+			local bg = F.CreateBDFrame(button.Check, 0)
+			bg:SetPoint("TOPLEFT", button.Check, 4, -4)
+			bg:SetPoint("BOTTOMRIGHT", button.Check, -4, 4)
+
+			button.styled = true
+		end
+	end)
+
+	hooksecurefunc(Rematch, "FillCommonPetListButton", function(self, petID)
+		local petInfo = Rematch.petInfo:Fetch(petID)
+		local parentPanel = self:GetParent():GetParent():GetParent():GetParent()
+		if petInfo.isSummoned and parentPanel == Rematch.PetPanel then
+			parentPanel.SelectedOverlay:SetPoint("TOPLEFT", self.bg, C.mult, -C.mult)
+			parentPanel.SelectedOverlay:SetPoint("BOTTOMRIGHT", self.bg, -C.mult, C.mult)
+		end
+	end)
+
+	hooksecurefunc(Rematch, "DimQueueListButton", function(_, button)
+		button.LevelText:SetTextColor(1, 1, 1)
+	end)
+
+	-- RematchDialog
+	hooksecurefunc(RematchDialog, "FillTeam", function(self, frame)
+		for i = 1, 3 do
+			local button = frame.Pets[i]
+			if not button.styled then
+				reskinButton(button)
+
+				for j = 1, 3 do
+					reskinButton(button.Abilities[j])
+				end
+
+				button.styled = true
+			end
+
+			button.Icon.bg:SetBackdropBorderColor(button.IconBorder:GetVertexColor())
+		end
+	end)
+
+	-- RematchTeamTabs
+	hooksecurefunc(RematchTeamTabs, "Update", function(self)
+		for _, tab in next, self.Tabs do
+			reskinButton(tab)
+			tab:SetSize(40, 40)
+			tab.Icon:SetPoint("CENTER")
+		end
+
+		for _, button in pairs({"UpButton", "DownButton"}) do
+			reskinButton(self[button])
+			self[button]:SetSize(40, 40)
+			self[button].Icon:SetPoint("CENTER")
+		end
+	end)
+
+	hooksecurefunc(RematchTeamTabs, "TabButtonUpdate", function(self, index)
+		local selected = self:GetSelectedTab()
+		local button = self:GetTabButton(index)
+		if not button.Icon.bg then return end
+
+		if index == selected then
+			button.Icon.bg:SetBackdropBorderColor(1, 1, 1)
+		else
+			button.Icon.bg:SetBackdropBorderColor(0, 0, 0)
+		end
+	end)
+
+	hooksecurefunc(RematchTeamTabs, "UpdateTabIconPickerList", function()
+		local buttons = RematchDialog.TeamTabIconPicker.ScrollFrame.buttons
+		for i = 1, #buttons do
+			local button = buttons[i]
+			if i == 1 then
+				button:ClearAllPoints()
+				button:SetPoint("TOPLEFT", 3, 0)
+			end
+			for j = 1, 10 do
+				local bu = button.Icons[j]
+				if not bu.styled then
+					bu:SetSize(24, 24)
+
+					bu.Icon = bu.Texture
+					reskinButton(bu)
+					F.ReskinTexed(bu.Selected, bu.Icon.bg)
+
+					bu.styled = true
+				end
+			end
+		end
+	end)
+
+	-- RematchLoadoutPanel
+	hooksecurefunc(RematchLoadoutPanel, "UpdateLoadouts", function(self)
+		if not self then return end
+
+		for i = 1, 3 do
+			local Loadouts = self.Loadouts[i]
+			Loadouts.HP.MiniHP:Hide()
+
+			local Pet = Loadouts.Pet.Pet
+
+			if not Loadouts.styled then
+				reskinFrame(Loadouts)
+				local HP = Loadouts.HP
+				HP:SetSize(64, 8)
+				F.ReskinStatusBar(HP, true)
+
+				local XP = Loadouts.XP
+				XP:SetSize(256, 8)
+				F.ReskinStatusBar(XP, true)
+
+				for j = 1, 3 do
+					reskinButton(Loadouts.Abilities[j])
+				end
+				for k = 1, 2 do
+					local Flyout = self.Flyout
+					Flyout:SetBackdrop(nil)
+					reskinButton(Flyout.Abilities[k])
+				end
+
+				reskinButton(Pet)
+
+				Loadouts.styled = true
+			end
+
+			if Pet.Icon.bg then
+				Pet.Icon.bg:SetBackdropBorderColor(Pet.IconBorder:GetVertexColor())
+			end
+		end
+	end)
+
 	-- RematchPetPanel
 	local activeTypeMode = 1
 	hooksecurefunc(RematchPetPanel, "SetTypeMode", function(_, typeMode)
@@ -390,7 +592,7 @@ C.themes["Rematch"] = function()
 			for i = 1, 10 do
 				local button = TypeBar.Buttons[i]
 				if not button.styled then
-					reskinRematchButton(button)
+					reskinButton(button)
 
 					local check = button:GetCheckedTexture()
 					F.ReskinBorder(check, button.Icon, true)
@@ -401,45 +603,20 @@ C.themes["Rematch"] = function()
 		end
 	end)
 
-	-- RematchLoadoutPanel
-	hooksecurefunc(RematchLoadoutPanel, "UpdateLoadouts", function(self)
-		if not self then return end
+	-- PetList
+	hooksecurefunc(RematchPetPanel.List, "Update", reskinPetList)
+	hooksecurefunc(RematchQueuePanel.List, "Update", reskinPetList)
+	hooksecurefunc(RematchTeamPanel.List, "Update", reskinPetList)
 
-		for i = 1, 3 do
-			local Loadouts = self.Loadouts[i]
-			Loadouts.HP.MiniHP:Hide()
+	-- RematchTeamPanel
+	hooksecurefunc(RematchTeamPanel, "FillTeamListButton", function(self, key)
+		local teamInfo = Rematch.teamInfo:Fetch(key)
+		if not teamInfo then return end
 
-			local Pet = Loadouts.Pet.Pet
-
-			if not Loadouts.styled then
-				reskinRematchFrame(Loadouts)
-				local HP = Loadouts.HP
-				HP:SetSize(64, 8)
-				F.ReskinStatusBar(HP, true)
-
-				local XP = Loadouts.XP
-				XP:SetSize(256, 8)
-				F.ReskinStatusBar(XP, true)
-
-				for j = 1, 3 do
-					reskinRematchButton(Loadouts.Abilities[j])
-					F.ReskinTexed(Loadouts.Abilities[j], Loadouts.Abilities[j])
-				end
-				for k = 1, 2 do
-					local Flyout = self.Flyout
-					Flyout:SetBackdrop(nil)
-					reskinRematchButton(Flyout.Abilities[k])
-					F.ReskinTexed(Flyout.Abilities[k], Flyout.Abilities[k])
-				end
-
-				reskinRematchButton(Pet)
-
-				Loadouts.styled = true
-			end
-
-			if Pet.Icon.bg then
-				Pet.Icon.bg:SetBackdropBorderColor(Pet.IconBorder:GetVertexColor())
-			end
+		local panel = RematchTeamPanel
+		if teamInfo.key == settings.loadedTeam then
+			panel.SelectedOverlay:SetPoint("TOPLEFT", self.bg, C.mult, -C.mult)
+			panel.SelectedOverlay:SetPoint("BOTTOMRIGHT", self.bg, -C.mult, C.mult)
 		end
 	end)
 
@@ -490,172 +667,6 @@ C.themes["Rematch"] = function()
 			else
 				checkButton.bg:Hide()
 			end
-		end
-	end)
-
-	-- RematchDialog
-	hooksecurefunc(RematchDialog, "FillTeam", function(self, frame)
-		for i = 1, 3 do
-			local button = frame.Pets[i]
-			if not button.styled then
-				reskinRematchButton(button)
-
-				for j = 1, 3 do
-					local spell = button.Abilities[j]
-					reskinRematchButton(spell)
-				end
-
-				button.styled = true
-			end
-
-			button.Icon.bg:SetBackdropBorderColor(button.IconBorder:GetVertexColor())
-		end
-	end)
-
-	hooksecurefunc(RematchTeamTabs, "UpdateTabIconPickerList", function()
-		local buttons = RematchDialog.TeamTabIconPicker.ScrollFrame.buttons
-		for i = 1, #buttons do
-			local button = buttons[i]
-			if i == 1 then
-				button:ClearAllPoints()
-				button:SetPoint("TOPLEFT", 3, 0)
-			end
-			for j = 1, 10 do
-				local bu = button.Icons[j]
-				if not bu.styled then
-					bu:SetSize(24, 24)
-
-					bu.Icon = bu.Texture
-					reskinRematchButton(bu)
-					F.ReskinTexed(bu.Selected, bu.Icon.bg)
-
-					bu.styled = true
-				end
-			end
-		end
-	end)
-
-	-- RematchTeamTabs
-	hooksecurefunc(RematchTeamTabs, "Update", function(self)
-		for _, tab in next, self.Tabs do
-			reskinRematchButton(tab)
-			tab:SetSize(40, 40)
-			tab.Icon:SetPoint("CENTER")
-		end
-
-		for _, button in pairs({"UpButton", "DownButton"}) do
-			reskinRematchButton(self[button])
-			self[button]:SetSize(40, 40)
-			self[button].Icon:SetPoint("CENTER")
-		end
-	end)
-
-	hooksecurefunc(RematchTeamTabs, "TabButtonUpdate", function(self, index)
-		local selected = self:GetSelectedTab()
-		local button = self:GetTabButton(index)
-		if not button.Icon.bg then return end
-
-		if index == selected then
-			button.Icon.bg:SetBackdropBorderColor(1, 1, 1)
-		else
-			button.Icon.bg:SetBackdropBorderColor(0, 0, 0)
-		end
-	end)
-
-	-- PetList
-	local function buttonOnEnter(self)
-		self.bg:SetBackdropColor(cr, cg, cb, .25)
-	end
-	local function buttonOnLeave(self)
-		self.bg:SetBackdropColor(0, 0, 0, 0)
-	end
-
-	local function reskinRematchPetList(self)
-		local buttons = self.ScrollFrame.Buttons
-		if not buttons then return end
-
-		for i = 1, #buttons do
-			local button = buttons[i]
-			if not button.styled then
-				local parent
-				if button.Pet then
-					F.CreateBDFrame(button.Pet, 0)
-					if button.Rarity then button.Rarity:SetTexture(nil) end
-					if button.LevelBack then button.LevelBack:SetTexture(nil) end
-					button.LevelText:SetTextColor(1, 1, 1)
-
-					parent = button.Pet
-				end
-
-				if button.Pets then
-					for j = 1, 3 do
-						local bu = button.Pets[j]
-						bu:SetWidth(25)
-						F.CreateBDFrame(bu, 0)
-					end
-					if button.Border then button.Border:SetTexture(nil) end
-
-					parent = button.Pets[3]
-				end
-
-				if button.Back then
-					button.Back:SetTexture(nil)
-					local bg = F.CreateBDFrame(button.Back, 0)
-					bg:SetPoint("TOPLEFT", parent, "TOPRIGHT", 4, C.mult)
-					bg:SetPoint("BOTTOMRIGHT", 0, C.mult)
-					button.bg = bg
-
-					button:HookScript("OnEnter", buttonOnEnter)
-					button:HookScript("OnLeave", buttonOnLeave)
-				end
-
-				button.styled = true
-			end
-		end
-	end
-
-	hooksecurefunc(RematchPetPanel.List, "Update", reskinRematchPetList)
-	hooksecurefunc(RematchQueuePanel.List, "Update", reskinRematchPetList)
-	hooksecurefunc(RematchTeamPanel.List, "Update", reskinRematchPetList)
-
-	hooksecurefunc(RematchTeamPanel, "FillTeamListButton", function(self, key)
-		local teamInfo = Rematch.teamInfo:Fetch(key)
-		if not teamInfo then return end
-
-		local panel = RematchTeamPanel
-		if teamInfo.key == settings.loadedTeam then
-			panel.SelectedOverlay:SetAllPoints(self.bg)
-		end
-	end)
-
-	hooksecurefunc(Rematch, "FillCommonPetListButton", function(self, petID)
-		local petInfo = Rematch.petInfo:Fetch(petID)
-		local parentPanel = self:GetParent():GetParent():GetParent():GetParent()
-		if petInfo.isSummoned then
-			local overlay = parentPanel.SelectedOverlay
-			if parentPanel == Rematch.PetPanel and overlay:IsShown() then
-				overlay:SetAllPoints(self.bg)
-			end
-		end
-	end)
-
-	-- RematchMenu
-	hooksecurefunc(Rematch, "MenuButtonSetChecked", function(_, button, isChecked, isRadio)
-		if isChecked then
-			local x = .5
-			local y = isRadio and .5 or .25
-			button.Check:SetTexCoord(x, x+.25, y-.25, y)
-		else
-			button.Check:SetTexCoord(0, 0, 0, 0)
-		end
-
-		if not button.styled then
-			button.Check:SetVertexColor(cr, cg, cb)
-			local bg = F.CreateBDFrame(button.Check, 0)
-			bg:SetPoint("TOPLEFT", button.Check, 4, -4)
-			bg:SetPoint("BOTTOMRIGHT", button.Check, -4, 4)
-
-			button.styled = true
 		end
 	end)
 end

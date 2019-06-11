@@ -13,7 +13,8 @@ tinsert(C.themes["AuroraClassic"], function()
 			end
 		end
 
-		F.ReskinFrame(frame)
+		F.CreateBD(frame)
+		F.CreateSD(frame)
 		frame:SetScale(UIParent:GetScale())
 	end
 

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2361, "DBM-EternalPalace", nil, 1179)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("2019053103048")
+mod:SetRevision("2019061001341")
 mod:SetCreatureID(152910)
 mod:SetEncounterID(2299)
 mod:SetZone()
@@ -128,7 +128,7 @@ local timerChargedSpearCD				= mod:NewCDTimer(32.3, 301078, nil, nil, nil, 3, ni
 ----Azshara
 local timerArcaneOrbsCD					= mod:NewCDTimer(80, 298787, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON)
 local timerBeckonCD						= mod:NewCDCountTimer(30.4, 299094, nil, nil, nil, 3)
-local timerDivideandConquerCD			= mod:NewAITimer(30.4, 300478, nil, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON)
+local timerDivideandConquerCD			= mod:NewAITimer(30.4, 300478, nil, nil, nil, 3, nil, DBM_CORE_MYTHIC_ICON..DBM_CORE_DEADLY_ICON)
 --Intermission One: Queen's Decree
 local timerQueensDecreeCD				= mod:NewAITimer(30.4, 299250, nil, nil, nil, 3, nil, DBM_CORE_IMPORTANT_ICON)
 --Stage Two: Hearts Unleashed

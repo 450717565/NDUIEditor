@@ -172,7 +172,7 @@ SLASH_NDUI_GET_ENCOUNTERS1 = "/getenc"
 local grid
 local boxSize = 32
 local function Grid_Create()
-	grid = CreateFrame('Frame', nil, UIParent)
+	grid = CreateFrame("Frame", nil, UIParent)
 	grid.boxSize = boxSize
 	grid:SetAllPoints(UIParent)
 
@@ -185,36 +185,36 @@ local function Grid_Create()
 	local hStep = height / boxSize
 
 	for i = 0, boxSize do
-		local tx = grid:CreateTexture(nil, 'BACKGROUND')
+		local tx = grid:CreateTexture(nil, "BACKGROUND")
 		if i == boxSize / 2 then
 			tx:SetColorTexture(1, 0, 0, .5)
 		else
 			tx:SetColorTexture(0, 0, 0, .5)
 		end
 		tx:SetPoint("TOPLEFT", grid, "TOPLEFT", i*wStep - (size/2), 0)
-		tx:SetPoint('BOTTOMRIGHT', grid, 'BOTTOMLEFT', i*wStep + (size/2), 0)
+		tx:SetPoint("BOTTOMRIGHT", grid, "BOTTOMLEFT", i*wStep + (size/2), 0)
 	end
 	height = GetScreenHeight()
 
 	do
-		local tx = grid:CreateTexture(nil, 'BACKGROUND')
+		local tx = grid:CreateTexture(nil, "BACKGROUND")
 		tx:SetColorTexture(1, 0, 0, .5)
 		tx:SetPoint("TOPLEFT", grid, "TOPLEFT", 0, -(height/2) + (size/2))
-		tx:SetPoint('BOTTOMRIGHT', grid, 'TOPRIGHT', 0, -(height/2 + size/2))
+		tx:SetPoint("BOTTOMRIGHT", grid, "TOPRIGHT", 0, -(height/2 + size/2))
 	end
 
 	for i = 1, floor((height/2)/hStep) do
-		local tx = grid:CreateTexture(nil, 'BACKGROUND')
+		local tx = grid:CreateTexture(nil, "BACKGROUND")
 		tx:SetColorTexture(0, 0, 0, .5)
 
 		tx:SetPoint("TOPLEFT", grid, "TOPLEFT", 0, -(height/2+i*hStep) + (size/2))
-		tx:SetPoint('BOTTOMRIGHT', grid, 'TOPRIGHT', 0, -(height/2+i*hStep + size/2))
+		tx:SetPoint("BOTTOMRIGHT", grid, "TOPRIGHT", 0, -(height/2+i*hStep + size/2))
 
-		tx = grid:CreateTexture(nil, 'BACKGROUND')
+		tx = grid:CreateTexture(nil, "BACKGROUND")
 		tx:SetColorTexture(0, 0, 0, .5)
 
 		tx:SetPoint("TOPLEFT", grid, "TOPLEFT", 0, -(height/2-i*hStep) + (size/2))
-		tx:SetPoint('BOTTOMRIGHT', grid, 'TOPRIGHT', 0, -(height/2-i*hStep + size/2))
+		tx:SetPoint("BOTTOMRIGHT", grid, "TOPRIGHT", 0, -(height/2-i*hStep + size/2))
 	end
 end
 

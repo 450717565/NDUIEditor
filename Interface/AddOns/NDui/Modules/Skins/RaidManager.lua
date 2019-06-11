@@ -8,6 +8,8 @@ function module:CreateRM()
 	local tinsert, strsplit, format = table.insert, string.split, string.format
 	local next, pairs, mod = next, pairs, mod
 
+	local cr, cg, cb = DB.r, DB.g, DB.b
+
 	local header = CreateFrame("Button", nil, UIParent)
 	header:SetSize(120, 28)
 	header:SetFrameLevel(2)
@@ -210,7 +212,7 @@ function module:CreateRM()
 		B.CreateTex(marker)
 		B.CreateBC(marker, .5)
 		marker:SetNormalTexture("Interface\\RaidFrame\\Raid-WorldPing")
-		marker:GetNormalTexture():SetVertexColor(DB.r, DB.g, DB.b)
+		marker:GetNormalTexture():SetVertexColor(cr, cg, cb)
 		marker:HookScript("OnMouseUp", function(_, btn)
 			if btn == "RightButton" then ClearRaidMarker() end
 		end)

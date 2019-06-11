@@ -1,6 +1,15 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_WarboardUI"] = function()
+	local function forceTextColor(self, r, g, b)
+		if not self.styled then
+			self:SetTextColor(r, g, b)
+			self.SetTextColor = F.dummy
+
+			self.styled = true
+		end
+	end
+
 	local function reskinFrame(self)
 		local frame = WarboardQuestChoiceFrame
 
@@ -33,21 +42,21 @@ C.themes["Blizzard_WarboardUI"] = function()
 			for i = 1, WidgetContainer:GetNumChildren() do
 				local Child_1 = select(i, WidgetContainer:GetChildren())
 				if Child_1.Text then
-					Child_1.Text:SetTextColor(1, .8, 0)
+					forceTextColor(Child_1.Text, 1, .8, 0)
 				end
 
 				if Child_1.Spell then
-					Child_1.Spell.Text:SetTextColor(1, 1, 1)
+					forceTextColor(Child_1.Spell.Text, 1, 1, 1)
 				end
 
 				for j = 1, Child_1:GetNumChildren() do
 					local Child_2 = select(j, Child_1:GetChildren())
 					if Child_2.LeadingText then
-						Child_2.LeadingText:SetTextColor(1, .8, 0)
+						forceTextColor(Child_2.LeadingText, 1, .8, 0)
 					end
 
 					if Child_2.Text then
-						Child_2.Text:SetTextColor(1, 1, 1)
+						forceTextColor(Child_2.Text, 1, 1, 1)
 					end
 				end
 			end
