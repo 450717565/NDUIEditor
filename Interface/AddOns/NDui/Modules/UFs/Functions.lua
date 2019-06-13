@@ -658,7 +658,7 @@ function UF:CreateDebuffs(self)
 		bu:SetPoint("TOPRIGHT", self, "TOPLEFT", -5, 0)
 		bu.num = 10
 		bu.size = self:GetHeight()+self.Power:GetHeight()+3.5
-		bu.CustomFilter = customFilter
+		bu.CustomFilter = UF.CustomFilter
 		bu["growth-y"] = "UP"
 	elseif mystyle == "tot" then
 		bu:SetPoint("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, -6)

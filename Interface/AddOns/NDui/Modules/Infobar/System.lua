@@ -15,7 +15,7 @@ local usageString = "%.3f Ms"
 
 local framerate, latencyHome, latencyWorld, latency = 0, 0, 0, 0
 
-local function getValue()
+local function updateValue()
 	framerate = floor(GetFramerate())
 	latencyHome = select(3, GetNetStats())
 	latencyWorld = select(4, GetNetStats())
@@ -57,7 +57,7 @@ end
 info.onUpdate = function(self, elapsed)
 	self.timer = (self.timer or 0) + elapsed
 	if self.timer > 1 then
-		getValue()
+		updateValue()
 
 		if NDuiADB["SystemInfoType"] == 1 then
 			setFrameRate(self)
@@ -120,7 +120,7 @@ info.onEnter = function(self)
 	entered = true
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOM", 0, -15)
 	GameTooltip:ClearLines()
-	GameTooltip:AddLine(L["System"], 0,.6,1)
+	GameTooltip:AddLine(SYSTEMOPTIONS_MENU, 0,.6,1)
 	GameTooltip:AddLine(" ")
 
 	local scriptProfile = GetCVarBool("scriptProfile")
@@ -155,9 +155,9 @@ info.onEnter = function(self)
 		end
 	end
 
-	GameTooltip:AddDoubleLine(L["Home Latency"], colorLatency(latencyHome).."|r MS", .6,.8,1, 1,1,1)
-	GameTooltip:AddDoubleLine(L["World Latency"], colorLatency(latencyWorld).."|r MS", .6,.8,1, 1,1,1)
-	GameTooltip:AddDoubleLine(L["Frame Rate"], colorFPS(framerate).."|r FPS", .6,.8,1, 1,1,1)
+	GameTooltip:AddDoubleLine(L["Home Latency"], colorLatency(latencyHome), .6,.8,1, 1,1,1)
+	GameTooltip:AddDoubleLine(L["World Latency"], colorLatency(latencyWorld), .6,.8,1, 1,1,1)
+	GameTooltip:AddDoubleLine(L["Frame Rate"], colorFPS(framerate), .6,.8,1, 1,1,1)
 	GameTooltip:AddDoubleLine(" ", DB.LineString)
 	if scriptProfile then
 		GameTooltip:AddDoubleLine(" ", DB.LeftButton..L["ResetCPUUsage"].." ", 1,1,1, .6,.8,1)

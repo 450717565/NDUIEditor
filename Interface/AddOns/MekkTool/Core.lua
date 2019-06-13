@@ -4,11 +4,12 @@ local unitName
 local VERSION = GetAddOnMetadata("MekkTool", "Version")
 local soundFile = "Interface\\AddOns\\MekkTool\\Media\\"
 local bgTex = "Interface\\ChatFrame\\ChatFrameBackground"
-
+--[[
 C_Timer.After(5, function()
+	if not IsInRaid() then return end
 	SetCVar("chatBubbles", 1)
 end)
-
+]]
 local iconList = {
 	[1] = 286152,	-- 红色扳手
 	[2] = 286192,	-- 紫色小鸡
@@ -116,7 +117,7 @@ local caller = CreateFrame("Frame")
 caller:Hide()
 caller:SetScript("OnUpdate", function(self, elapsed)
 	self.elapsed = (self.elapsed or 0) + elapsed
-	if self.elapsed > 2 then
+	if self.elapsed >= 3 then
 		SendChatMessage(myName, "YELL")
 		self.elapsed = 0
 	end
@@ -183,8 +184,10 @@ f:SetScript("OnEvent", function(_, event, ...)
 			end
 
 			if isOn then
-				caller.elapsed = 2
-				caller:Show()
+				if not caller:IsShown() then
+					caller.elapsed = 3
+					caller:Show()
+				end
 			else
 				caller:Hide()
 			end

@@ -135,7 +135,7 @@ local function createRoster(parent, i)
 	button.level:SetJustifyH("CENTER")
 
 	button.class = button:CreateTexture(nil, "ARTWORK")
-	button.class:SetPoint("LEFT", 35, 0)
+	button.class:SetPoint("LEFT", 39, 0)
 	button.class:SetSize(16, 16)
 	button.class:SetTexture("Interface\\GLUES\\CHARACTERCREATE\\UI-CHARACTERCREATE-CLASSES")
 	B.CreateSD(button.class, 3, 3)
