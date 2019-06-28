@@ -3,7 +3,7 @@ local B, C, L, DB = unpack(ns)
 if not C.Infobar.Guild then return end
 
 local module = B:GetModule("Infobar")
-local info = module:RegisterInfobar(C.Infobar.GuildPos)
+local info = module:RegisterInfobar("Guild", C.Infobar.GuildPos)
 
 local wipe, sort, format, select = table.wipe, table.sort, format, select
 local CLASS_ICON_TCOORDS, SELECTED_DOCK_FRAME = CLASS_ICON_TCOORDS, SELECTED_DOCK_FRAME
@@ -138,7 +138,7 @@ local function createRoster(parent, i)
 	button.class:SetPoint("LEFT", 39, 0)
 	button.class:SetSize(16, 16)
 	button.class:SetTexture("Interface\\GLUES\\CHARACTERCREATE\\UI-CHARACTERCREATE-CLASSES")
-	B.CreateSD(button.class, 3, 3)
+	B.CreateSD(B.CreateBG(button.class))
 
 	button.name = B.CreateFS(button, 13, "Name", false, "LEFT", 65, 0)
 	button.name:SetPoint("RIGHT", button, "LEFT", 185, 0)

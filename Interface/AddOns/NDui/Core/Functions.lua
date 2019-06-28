@@ -91,7 +91,7 @@ function B:CreateSD(m, s)
 	local frame = self
 	if self:GetObjectType() == "Texture" then frame = self:GetParent() end
 	local lvl = frame:GetFrameLevel()
-	if not m then m, s = C.mult*1.5, C.mult*2 end
+	if not m then m, s = C.mult*1.5, C.mult*2.5 end
 
 	local Shadow = CreateFrame("Frame", nil, frame)
 	Shadow:SetPoint("TOPLEFT", self, -m, m)
@@ -327,7 +327,9 @@ function B:CreateSB(spark, r, g, b)
 	else
 		self:SetStatusBarColor(cr, cg, cb)
 	end
-	B.CreateSD(self, 3, 3)
+
+	local BG = B.CreateBG(self)
+	self.Shadow = B.CreateSD(BG)
 
 	local bg = self:CreateTexture(nil, "BACKGROUND")
 	bg:SetAllPoints()
@@ -497,41 +499,37 @@ end
 
 -- Timer Format
 local day, hour, minute = 86400, 3600, 60
-function B.FormatTime(s)
-	if s >= day then
-		return format("%d"..DB.MyColor..L["Days"], s/day), s%day
-	elseif s >= hour then
-		return format("%d"..DB.MyColor..L["Hours"], s/hour), s%hour
-	elseif s >= minute then
-		return format("%d"..DB.MyColor..L["Minutes"], s/minute), s%minute
-	elseif s > 10 then
-		return format("|cffcccc33%d|r", s), s - floor(s)
-	elseif s > 3 then
-		return format("|cffffff00%d|r", s), s - floor(s)
+function B.FormatTime(seconds)
+	if seconds >= day then
+		return format("%d"..DB.MyColor..L["Days"], seconds/day), seconds%day
+	elseif seconds >= hour then
+		return format("%d"..DB.MyColor..L["Hours"], seconds/hour), seconds%hour
+	elseif seconds >= minute then
+		return format("%d"..DB.MyColor..L["Minutes"], seconds/minute), seconds%minute
+	elseif seconds > 10 then
+		return format("|cffcccc33%d|r", seconds), seconds - floor(seconds)
+	elseif seconds > 3 then
+		return format("|cffffff00%d|r", seconds), seconds - floor(seconds)
 	else
 		if NDuiDB["Actionbar"]["DecimalCD"] then
-			return format("|cffff0000%.1f|r", s), s - format("%.1f", s)
+			return format("|cffff0000%.1f|r", seconds), seconds - format("%.1f", seconds)
 		else
-			return format("|cffff0000%d|r", s + .5), s - floor(s)
+			return format("|cffff0000%d|r", seconds + .5), seconds - floor(seconds)
 		end
 	end
 end
 
-function B.FormatTimeRaw(s)
-	if s >= day then
-		return format("%dd", s/day)
-	elseif s >= hour then
-		return format("%dh", s/hour)
-	elseif s >= minute then
-		return format("%dm", s/minute)
-	elseif s >= 3 then
-		return floor(s)
+function B.FormatTimeRaw(seconds)
+	if seconds >= day then
+		return format("%d"..DB.MyColor..L["Days"], seconds/day)
+	elseif seconds >= hour then
+		return format("%d"..DB.MyColor..L["Hours"], seconds/hour)
+	elseif seconds >= minute then
+		return format("%d"..DB.MyColor..L["Minutes"], seconds/minute)
+	elseif seconds >= 3 then
+		return floor(seconds)
 	else
-		if NDuiDB["Actionbar"]["DecimalCD"] then
-			return format("%.1f", s)
-		else
-			return format("%d", s + .5)
-		end
+		return format("%.1f", seconds)
 	end
 end
 
@@ -653,10 +651,10 @@ local function optOnClick(self)
 	local opt = self.__owner.options
 	for i = 1, #opt do
 		if self == opt[i] then
-			opt[i]:SetBackdropColor(1, .8, 0, .3)
+			opt[i]:SetBackdropColor(1, .8, 0, .25)
 			opt[i].selected = true
 		else
-			opt[i]:SetBackdropColor(0, 0, 0, .3)
+			opt[i]:SetBackdropColor(0, 0, 0, .25)
 			opt[i].selected = false
 		end
 	end
@@ -726,7 +724,7 @@ end
 function B:CreateColorSwatch()
 	local swatch = CreateFrame("Button", nil, self)
 	swatch:SetSize(18, 18)
-	B.CreateBD(swatch, 1)
+	B.CreateBD(swatch, .25)
 	B.CreateSD(swatch)
 	local tex = swatch:CreateTexture()
 	tex:SetPoint("TOPLEFT", C.mult, -C.mult)

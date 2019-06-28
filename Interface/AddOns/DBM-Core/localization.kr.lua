@@ -248,11 +248,9 @@ DBM_CORE_TIMER_USAGE	= {
 	"DBM 타이머 명령어:",
 	"--------------",
 	"/dbm timer <초> <텍스트>: <초> 만큼 지속되는 <텍스트> 타이머가 시작됩니다.",
-	"/dbm ctimer <초> <텍스트>: 초읽기를 포함한 타이머가 시작됩니다.",
 	"/dbm ltimer <초> <텍스트>: 취소하기 전까진 자동 반복되는 타이머가 시작됩니다.",
-	"/dbm cltimer <초> <텍스트>: 취소하기 전까진 자동 반복되는 타이머가 시작되며 초읽기를 포함하고 있습니다.",
 	"(공대장이나 승급자일 경우 타이머 텍스트 앞에 'Broadcast'를 입력하면 공격대에 공유)",
-	"/dbm timer endloop: ltimer와 cltimer의 반복 작동을 멈춥니다."
+	"/dbm timer endloop: ltimer와 반복 작동을 멈춥니다."
 }
 
 DBM_ERROR_NO_PERMISSION				= "이 명령어를 실행하기 위한 권한을 가지고 있지 않습니다."
@@ -327,6 +325,7 @@ DBM_CORE_AUTO_ANNOUNCE_TEXTS.bait		= "곧 %s - 위치 유도"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage			= "%s단계"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.prestage		= "곧 %s단계"
 DBM_CORE_AUTO_ANNOUNCE_TEXTS.stack			= "%s: >%%s< (%%d)"
+DBM_CORE_AUTO_ANNOUNCE_TEXTS.moveto		= "%s - >%%s<|1으로;로; 이동"
 
 local prewarnOption = "$spell:%s 사전 경고 보기"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.you			= "당신이 $spell:%s 대상이 된 경우 알림 보기"
@@ -348,6 +347,7 @@ DBM_CORE_AUTO_ANNOUNCE_OPTIONS.stagechange	= "단계 전환 알림"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.prestage		= "%s단계로 넘어가기 전 경고 보기"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.count		= "$spell:%s 경고 보기 (횟수 포함)"
 DBM_CORE_AUTO_ANNOUNCE_OPTIONS.stack		= "$spell:%s 중첩 알림"
+DBM_CORE_AUTO_ANNOUNCE_OPTIONS.moveto		= "$spell:%s에 특정인 또는 특정 위치로 이동 경고 보기"
 
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.ends		= "%s 종료!"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.fades		= "%s 사라짐!"

@@ -2,12 +2,16 @@ local _, ns = ...
 local B, C, L, DB, F = unpack(ns)
 local ipairs = ipairs
 
+local cr, cg, cb = DB.r, DB.g, DB.b
+
 --[[
 	职业大厅图标，取代自带的信息条
 ]]
 
-if IsAddOnLoaded("AuroraClassic") then
-	local cr, cg, cb = DB.r, DB.g, DB.b
+-- Frame style
+local FrameStyle = false
+local function FrameStyle()
+	if FrameStyle then return end
 
 	local OrderHall_Frame = CreateFrame("Frame")
 	OrderHall_Frame:RegisterEvent("ADDON_LOADED")
@@ -33,6 +37,7 @@ if IsAddOnLoaded("AuroraClassic") then
 				OrderHallCommandBar.ClassIcon:SetAlpha(1)
 				if not OrderHallCommandBar.ClassIcon.styled then
 					F.CreateBDFrame(OrderHallCommandBar.ClassIcon, 1)
+
 					OrderHallCommandBar.ClassIcon.styled = true
 				end
 
@@ -61,6 +66,7 @@ if IsAddOnLoaded("AuroraClassic") then
 						child.Icon:SetSize(40, 20)
 						if not child.styled then
 							F.CreateBDFrame(child.Icon, 1)
+
 							child.styled = true
 						end
 
@@ -75,17 +81,25 @@ if IsAddOnLoaded("AuroraClassic") then
 			end)
 		end
 	end)
-else
-	local hall = CreateFrame("Frame", "NDuiOrderHallIcon", UIParent)
-	hall:SetSize(50, 50)
-	hall:SetPoint("TOPLEFT", 10, -35)
-	hall:SetFrameStrata("HIGH")
-	hall:Hide()
-	hall.Icon = hall:CreateTexture(nil, "ARTWORK")
-	hall.Icon:SetAllPoints()
-	hall.Icon:SetTexture("Interface\\TargetingFrame\\UI-Classes-Circles")
-	hall.Icon:SetTexCoord(unpack(CLASS_ICON_TCOORDS[DB.MyClass]))
-	hall.Category = {}
+
+	FrameStyle = true
+end
+
+-- Icon style
+local IconStyle = false
+local function IconStyle()
+	if IconStyle then return end
+
+	local OrderHall_Icon = CreateFrame("Frame", "NDuiOrderHallIcon", UIParent)
+	OrderHall_Icon:SetSize(50, 50)
+	OrderHall_Icon:SetPoint("TOPLEFT", 10, -35)
+	OrderHall_Icon:SetFrameStrata("HIGH")
+	OrderHall_Icon:Hide()
+	OrderHall_Icon.Icon = OrderHall_Icon:CreateTexture(nil, "ARTWORK")
+	OrderHall_Icon.Icon:SetAllPoints()
+	OrderHall_Icon.Icon:SetTexture("Interface\\TargetingFrame\\UI-Classes-Circles")
+	OrderHall_Icon.Icon:SetTexCoord(unpack(CLASS_ICON_TCOORDS[DB.MyClass]))
+	OrderHall_Icon.Category = {}
 
 	local function RetrieveData(self)
 		local currency = C_Garrison.GetCurrencyTypes(LE_GARRISON_TYPE_7_0)
@@ -98,23 +112,7 @@ else
 		end
 	end
 
-	hall:RegisterUnitEvent("UNIT_AURA", "player")
-	hall:RegisterEvent("PLAYER_ENTERING_WORLD")
-	hall:RegisterEvent("ADDON_LOADED")
-	hall:SetScript("OnEvent", function(self, event, arg1)
-		if event == "ADDON_LOADED" and arg1 == "Blizzard_OrderHallUI" then
-			B.HideObject(OrderHallCommandBar)
-			GarrisonLandingPageTutorialBox:SetClampedToScreen(true)
-			self:UnregisterEvent("ADDON_LOADED")
-		elseif event == "UNIT_AURA" or event == "PLAYER_ENTERING_WORLD" then
-			local inOrderHall = C_Garrison.IsPlayerInGarrison(LE_GARRISON_TYPE_7_0)
-			self:SetShown(inOrderHall)
-		elseif event == "MODIFIER_STATE_CHANGED" and arg1 == "LSHIFT" then
-			self:GetScript("OnEnter")(self)
-		end
-	end)
-
-	hall:SetScript("OnEnter", function(self)
+	local function hallIconOnEnter(self)
 		C_Garrison.RequestClassSpecCategoryInfo(LE_FOLLOWER_TYPE_GARRISON_7_0)
 		RetrieveData(self)
 
@@ -141,10 +139,38 @@ else
 		GameTooltip:Show()
 
 		self:RegisterEvent("MODIFIER_STATE_CHANGED")
-	end)
+	end
 
-	hall:SetScript("OnLeave", function(self)
+	local function hallIconOnLeave(self)
 		GameTooltip:Hide()
 		self:UnregisterEvent("MODIFIER_STATE_CHANGED")
-	end)
+	end
+
+	local function hallIconOnEvent(self, event, arg1)
+		if event == "ADDON_LOADED" and arg1 == "Blizzard_OrderHallUI" then
+			B.HideObject(OrderHallCommandBar)
+			GarrisonLandingPageTutorialBox:SetClampedToScreen(true)
+			self:UnregisterEvent("ADDON_LOADED")
+		elseif event == "UNIT_AURA" or event == "PLAYER_ENTERING_WORLD" then
+			local inOrderHall = C_Garrison.IsPlayerInGarrison(LE_GARRISON_TYPE_7_0)
+			self:SetShown(inOrderHall)
+		elseif event == "MODIFIER_STATE_CHANGED" and arg1 == "LSHIFT" then
+			hallIconOnEnter(self)
+		end
+	end
+
+	OrderHall_Icon:RegisterUnitEvent("UNIT_AURA", "player")
+	OrderHall_Icon:RegisterEvent("PLAYER_ENTERING_WORLD")
+	OrderHall_Icon:RegisterEvent("ADDON_LOADED")
+	OrderHall_Icon:SetScript("OnEvent", hallIconOnEvent)
+	OrderHall_Icon:SetScript("OnEnter", hallIconOnEnter)
+	OrderHall_Icon:SetScript("OnLeave", hallIconOnLeave)
+
+	IconStyle = true
+end
+
+if IsAddOnLoaded("AuroraClassic") then
+	FrameStyle()
+else
+	IconStyle()
 end

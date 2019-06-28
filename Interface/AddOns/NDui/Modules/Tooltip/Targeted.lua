@@ -1,30 +1,36 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local module = B:GetModule("Tooltip")
+local TT = B:GetModule("Tooltip")
 
-function module:TargetedInfo()
-	local targetTable = {}
-	local function ScanTargets(unit)
-		if not IsInGroup() then return end
+local wipe, tinsert, tconcat = table.wipe, table.insert, table.concat
+local IsInGroup, IsInRaid, GetNumGroupMembers = IsInGroup, IsInRaid, GetNumGroupMembers
+local UnitExists, UnitIsUnit, UnitIsDeadOrGhost, UnitName = UnitExists, UnitIsUnit, UnitIsDeadOrGhost, UnitName
 
-		wipe(targetTable)
-		for i = 1, GetNumGroupMembers() do
-			local member = (IsInRaid() and "raid"..i or "party"..i)
-			if UnitIsUnit(unit, member.."target") and not UnitIsUnit("player", member) and not UnitIsDeadOrGhost(member) then
-				local color = B.HexRGB(B.UnitColor(member))
-				local name = color..UnitName(member).."|r"
-				tinsert(targetTable, name)
-			end
-		end
+local targetTable = {}
 
-		if #targetTable > 0 then
-			GameTooltip:AddLine(L["Targeted By"]..DB.InfoColor.."<"..#targetTable..">|r "..table.concat(targetTable, L[","]), nil, nil, nil, 1)
+function TT:ScanTargets()
+	if not NDuiDB["Tooltip"]["TargetBy"] then return end
+	if not IsInGroup() then return end
+
+	local _, unit = self:GetUnit()
+	if not UnitExists(unit) then return end
+
+	wipe(targetTable)
+
+	for i = 1, GetNumGroupMembers() do
+		local member = (IsInRaid() and "raid"..i or "party"..i)
+		if UnitIsUnit(unit, member.."target") and not UnitIsUnit("player", member) and not UnitIsDeadOrGhost(member) then
+			local color = B.HexRGB(B.UnitColor(member))
+			local name = color..UnitName(member).."|r"
+			tinsert(targetTable, name)
 		end
 	end
 
-	GameTooltip:HookScript("OnTooltipSetUnit", function()
-		if not NDuiDB["Tooltip"]["TargetBy"] then return end
-		local _, unit = GameTooltip:GetUnit()
-		if UnitExists(unit) then ScanTargets(unit) end
-	end)
+	if #targetTable > 0 then
+		GameTooltip:AddLine(L["Targeted By"]..DB.InfoColor.."<"..#targetTable..">|r "..tconcat(targetTable, ", "), nil, nil, nil, 1)
+	end
+end
+
+function TT:TargetedInfo()
+	GameTooltip:HookScript("OnTooltipSetUnit", TT.ScanTargets)
 end

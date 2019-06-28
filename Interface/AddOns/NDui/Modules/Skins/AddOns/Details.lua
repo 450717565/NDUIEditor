@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local module = B:GetModule("Skins")
+local S = B:GetModule("Skins")
 
 local function ReskinDetails()
 	local function setupInstance(instance)
@@ -24,7 +24,7 @@ local function ReskinDetails()
 		instance.baseframe.bg = bg
 
 		if instance:GetId() <= 2 then
-			local open, close = module:CreateToggle(instance.baseframe)
+			local open, close = S:CreateToggle(instance.baseframe)
 			open:HookScript("OnClick", function()
 				instance:ShowWindow()
 			end)
@@ -93,4 +93,4 @@ local function ReskinDetails()
 	NDuiADB["ResetDetails"] = false
 end
 
-module:LoadWithAddOn("Details", "Details", ReskinDetails)
+S:LoadWithAddOn("Details", "Details", ReskinDetails)

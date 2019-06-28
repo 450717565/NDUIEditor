@@ -84,4 +84,9 @@ addon.raidData = {
 	
 	-- Crucible of Storms
 	[1951] = { numEncounters = 2, startFrom =  1 }, -- Crucible of Storms
+		
+	-- The Eternal Palace
+	[2009] = { numEncounters = 3, startFrom =  1 }, -- The Grand Reception
+	[2010] = { numEncounters = 3, startFrom =  1 }, -- Depths of the Devoted
+	[2011] = { numEncounters = 2, startFrom =  1 }, -- The Circle of Stars
 }

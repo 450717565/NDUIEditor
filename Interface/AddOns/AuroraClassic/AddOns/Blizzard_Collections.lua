@@ -153,12 +153,10 @@ C.themes["Blizzard_Collections"] = function()
 	hooksecurefunc("PetJournal_UpdatePetList", updatePetScroll)
 	hooksecurefunc(PetJournalListScrollFrame, "update", updatePetScroll)
 
-	if C.isNewPatch then
-		F.StripTextures(MountJournal.BottomLeftInset)
-		local bg = F.CreateBDFrame(MountJournal.BottomLeftInset, 0)
-		bg:SetPoint("TOPLEFT", 3, 0)
-		bg:SetPoint("BOTTOMRIGHT", -24, 2)
-	end
+	F.StripTextures(MountJournal.BottomLeftInset)
+	local bg = F.CreateBDFrame(MountJournal.BottomLeftInset, 0)
+	bg:SetPoint("TOPLEFT", 3, 0)
+	bg:SetPoint("BOTTOMRIGHT", -24, 2)
 
 	-- Pet PetCard
 	local PetCard = PetJournalPetCard

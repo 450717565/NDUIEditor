@@ -1,4 +1,4 @@
-## Interface: 80100
+## Interface: 80200
 ## Title: BaudAuction 拍卖增强
 ## Notes: 增强系统拍卖行，提供更直观的界面。
 ## Version: 1.111

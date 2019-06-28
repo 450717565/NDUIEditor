@@ -5,22 +5,27 @@ if DB.Client ~= "zhCN" then return end
 local strsplit, pairs = string.split, pairs
 
 local hx = {
-	"AuroraClassic更新到2.8.2；",
+	"AuroraClassic更新到2.10.2；",
+	"oUF核心更新；",
+	"降低通知模块中CLEU的调用频率；",
+	"翻新并整理所有模块；",
+	"控制台及本地文本更新；",
+	"修复最佳缩放值失效的问题；",
+	"动作条距离染色颜色调整；",
+	"版本检查修正；",
+	"BaudErrorFrame更新，音效调整；",
+	"设置导入导出更新；",
+	"移除巅峰信息的颜色；",
+	"快速加入功能修复一处潜在的错误；",
+	"任务追踪框体和载具座位控制现在由移动组件控制；",
+	"快速焦点功能更新；",
+	"小地图缩放调整；",
+	"玩家姓名板默认位置调整；",
+	"可驱散高亮的材质修正；",
+	"为艾泽利特精华的超链接添加指向显示；",
+	"Buff框体冷却计时调整；",
 	"更新部分法术监控；",
-	"添加特殊能量条移动提示；",
-	"额外动作条按键的宏及快捷键字号调整；",
-	"LibSharedMedia注册的一处错误修正；",
-	"非治疗职业也将在边角指示器显示嗜血debuff；",
-	"版本检测调整；",
-	"稀有警报忽略联盟的激流堡战役；",
-	"团队框体快速施法调整；",
-	"更新猎人的默认快速施法设置；",
-	"聊天复制窗口调整；",
-	"控制台优化，添加数据的导入和导出；",
-	"背包的摧毁模式现在也可以摧毁传家宝；",
-	"添加社区的污染修正；",
-	"更新头像等框体的标签；",
-	"部分细节调整。",
+	"优化鼠标提示中图标的裁剪。",
 }
 
 local f
@@ -58,7 +63,7 @@ local function changelog()
 end
 
 local function compareToShow(event)
-	if HelloWorld then return end
+	if NDui_Tutorial then return end
 
 	local old1, old2 = strsplit(".", NDuiADB["Changelog"].Version or "")
 	local cur1, cur2 = strsplit(".", DB.Version)

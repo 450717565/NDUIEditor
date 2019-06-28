@@ -23,14 +23,10 @@ function Bar:CreateBar5()
 	--move the buttons into position and reparent them
 	MultiBarLeft:SetParent(frame)
 	MultiBarLeft:EnableMouse(false)
-	hooksecurefunc(MultiBarLeft, "SetScale", function(self, scale)
-		if scale < 1 then self:SetScale(1) end
-	end)
 
 	for i = 1, num do
 		local button = _G["MultiBarLeftButton"..i]
 		table.insert(buttonList, button) --add the button object to the list
-		table.insert(self.activeButtons, button)
 		button:SetSize(cfg.size, cfg.size)
 		button:ClearAllPoints()
 		if i == 1 then
@@ -52,6 +48,6 @@ function Bar:CreateBar5()
 
 	--create the mouseover functionality
 	if NDuiDB["Actionbar"]["Bar5Fade"] and cfg.fader then
-		B.CreateButtonFrameFader(frame, buttonList, cfg.fader)
+		Bar.CreateButtonFrameFader(frame, buttonList, cfg.fader)
 	end
 end

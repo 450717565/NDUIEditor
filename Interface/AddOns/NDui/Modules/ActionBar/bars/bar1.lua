@@ -6,7 +6,6 @@ local cfg = C.bars.bar1
 function Bar:OnLogin()
 	if not NDuiDB["Actionbar"]["Enable"] then return end
 
-	self.activeButtons = {}
 	local padding, margin = 2, 2
 	local num = NUM_ACTIONBAR_BUTTONS
 	local buttonList = {}
@@ -26,7 +25,6 @@ function Bar:OnLogin()
 	for i = 1, num do
 		local button = _G["ActionButton"..i]
 		table.insert(buttonList, button) --add the button object to the list
-		table.insert(self.activeButtons, button)
 		button:SetParent(frame)
 		button:SetSize(cfg.size, cfg.size)
 		button:ClearAllPoints()
@@ -49,7 +47,7 @@ function Bar:OnLogin()
 
 	--create the mouseover functionality
 	if cfg.fader then
-		B.CreateButtonFrameFader(frame, buttonList, cfg.fader)
+		Bar.CreateButtonFrameFader(frame, buttonList, cfg.fader)
 	end
 
 	--_onstate-page state driver

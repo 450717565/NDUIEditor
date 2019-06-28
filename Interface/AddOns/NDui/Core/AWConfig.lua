@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB, F = unpack(ns)
-local module = B:GetModule("GUI")
+local G = B:GetModule("GUI")
 
 local cr, cg, cb = DB.r, DB.g, DB.b
 local pairs, floor = pairs, math.floor
@@ -26,7 +26,7 @@ local function createLabel(parent, text, tip)
 	frame:SetScript("OnLeave", B.HideTooltip)
 end
 
-function module:CreateEditbox(parent, text, x, y, tip, width, height)
+function G:CreateEditbox(parent, text, x, y, tip, width, height)
 	local eb = B.CreateEditBox(parent, width or 90, height or 30)
 	eb:SetPoint("TOPLEFT", x, y)
 	eb:SetMaxLetters(255)
@@ -35,7 +35,7 @@ function module:CreateEditbox(parent, text, x, y, tip, width, height)
 	return eb
 end
 
-function module:CreateCheckBox(parent, text, x, y, tip)
+function G:CreateCheckBox(parent, text, x, y, tip)
 	local cb = B.CreateCheckBox(parent)
 	cb:SetPoint("TOPLEFT", x, y)
 	cb:SetHitRectInsets(-5, -5, -5, -5)
@@ -44,7 +44,7 @@ function module:CreateCheckBox(parent, text, x, y, tip)
 	return cb
 end
 
-function module:CreateDropdown(parent, text, x, y, data, tip, width, height)
+function G:CreateDropdown(parent, text, x, y, data, tip, width, height)
 	local dd = B.CreateDropDown(parent, width or 90, height or 30, data)
 	dd:SetPoint("TOPLEFT", x, y)
 	createLabel(dd, text, tip)
@@ -52,7 +52,7 @@ function module:CreateDropdown(parent, text, x, y, data, tip, width, height)
 	return dd
 end
 
-function module:ClearEdit(element)
+function G:ClearEdit(element)
 	if element.Type == "EditBox" then
 		element:ClearFocus()
 		element:SetText("")
@@ -77,7 +77,7 @@ local function createPage(name)
 	return p
 end
 
-function module:CreateScroll(parent, width, height, text)
+function G:CreateScroll(parent, width, height, text)
 	local scroll = CreateFrame("ScrollFrame", nil, parent, "UIPanelScrollFrameTemplate")
 	scroll:SetSize(width, height)
 	scroll:SetPoint("BOTTOMLEFT", 10, 10)
@@ -96,7 +96,7 @@ function module:CreateScroll(parent, width, height, text)
 	return scroll
 end
 
-function module:CreateBarWidgets(parent, texture)
+function G:CreateBarWidgets(parent, texture)
 	local icon = CreateFrame("Frame", nil, parent)
 	icon:SetSize(22, 22)
 	icon:SetPoint("LEFT", 5, 0)
@@ -229,7 +229,7 @@ local function CreatePanel()
 		B.CreateSD(bar)
 		barTable[index][spellID] = bar
 
-		local icon, close = module:CreateBarWidgets(bar, texture)
+		local icon, close = G:CreateBarWidgets(bar, texture)
 		icon.typeID = typeID
 		icon.spellID = spellID
 		if typeID ~= "TotemID" then
@@ -282,7 +282,7 @@ local function CreatePanel()
 		B.CreateSD(bar)
 		barTable[index][intID] = bar
 
-		local icon, close = module:CreateBarWidgets(bar, texture)
+		local icon, close = G:CreateBarWidgets(bar, texture)
 		B.AddTooltip(icon, "ANCHOR_RIGHT", intID)
 		close:SetScript("OnClick", function()
 			bar:Hide()
@@ -375,25 +375,25 @@ local function CreatePanel()
 			label:SetTextColor(cr, cg, cb)
 		end
 		tabs[i].Page = createPage(group)
-		tabs[i].List = module:CreateScroll(tabs[i].Page, 575, 200, L["AuraWatch List"])
+		tabs[i].List = G:CreateScroll(tabs[i].Page, 575, 200, L["AuraWatch List"])
 
 		local Option = {}
 		if i < 11 then
 			for _, v in pairs(NDuiDB["AuraWatchList"][i]) do
 				AddAura(tabs[i].List.child, i, v)
 			end
-			Option[1] = module:CreateDropdown(tabs[i].Page, L["Type*"], 20, -30, {"AuraID", "SpellID", "SlotID", "TotemID"}, L["Type Intro"])
-			Option[2] = module:CreateEditbox(tabs[i].Page, "ID*", 140, -30, L["ID Intro"])
-			Option[3] = module:CreateDropdown(tabs[i].Page, L["Unit*"], 260, -30, {"player", "target", "focus", "pet"}, L["Unit Intro"])
-			Option[4] = module:CreateDropdown(tabs[i].Page, L["Caster"], 380, -30, {"player", "target", "pet"}, L["Caster Intro"])
-			Option[5] = module:CreateEditbox(tabs[i].Page, L["Stack"], 500, -30, L["Stack Intro"])
-			Option[6] = module:CreateCheckBox(tabs[i].Page, L["Value"], 40, -95, L["Value Intro"])
-			Option[7] = module:CreateCheckBox(tabs[i].Page, L["Timeless"], 120, -95, L["Timeless Intro"])
-			Option[8] = module:CreateCheckBox(tabs[i].Page, L["Combat"], 200, -95, L["Combat Intro"])
-			Option[9] = module:CreateEditbox(tabs[i].Page, L["Text"], 340, -90, L["Text Intro"])
-			Option[10] = module:CreateCheckBox(tabs[i].Page, L["Flash"], 280, -95, L["Flash Intro"])
-			Option[11] = module:CreateDropdown(tabs[i].Page, L["Slot*"], 140, -30, {slotIndex[6], slotIndex[11], slotIndex[12], slotIndex[13], slotIndex[14], slotIndex[15]}, L["Slot Intro"])
-			Option[12] = module:CreateDropdown(tabs[i].Page, L["Totem*"], 140, -30, {L["TotemSlot"].."1", L["TotemSlot"].."2", L["TotemSlot"].."3", L["TotemSlot"].."4"}, L["Totem Intro"])
+			Option[1] = G:CreateDropdown(tabs[i].Page, L["Type*"], 20, -30, {"AuraID", "SpellID", "SlotID", "TotemID"}, L["Type Intro"])
+			Option[2] = G:CreateEditbox(tabs[i].Page, "ID*", 140, -30, L["ID Intro"])
+			Option[3] = G:CreateDropdown(tabs[i].Page, L["Unit*"], 260, -30, {"player", "target", "focus", "pet"}, L["Unit Intro"])
+			Option[4] = G:CreateDropdown(tabs[i].Page, L["Caster"], 380, -30, {"player", "target", "pet"}, L["Caster Intro"])
+			Option[5] = G:CreateEditbox(tabs[i].Page, L["Stack"], 500, -30, L["Stack Intro"])
+			Option[6] = G:CreateCheckBox(tabs[i].Page, L["Value"], 40, -95, L["Value Intro"])
+			Option[7] = G:CreateCheckBox(tabs[i].Page, L["Timeless"], 120, -95, L["Timeless Intro"])
+			Option[8] = G:CreateCheckBox(tabs[i].Page, L["Combat"], 200, -95, L["Combat Intro"])
+			Option[9] = G:CreateEditbox(tabs[i].Page, L["Text"], 340, -90, L["Text Intro"])
+			Option[10] = G:CreateCheckBox(tabs[i].Page, L["Flash"], 280, -95, L["Flash Intro"])
+			Option[11] = G:CreateDropdown(tabs[i].Page, L["Slot*"], 140, -30, {slotIndex[6], slotIndex[11], slotIndex[12], slotIndex[13], slotIndex[14], slotIndex[15]}, L["Slot Intro"])
+			Option[12] = G:CreateDropdown(tabs[i].Page, L["Totem*"], 140, -30, {L["TotemSlot"].."1", L["TotemSlot"].."2", L["TotemSlot"].."3", L["TotemSlot"].."4"}, L["Totem Intro"])
 
 			for j = 2, 12 do Option[j]:Hide() end
 
@@ -401,7 +401,7 @@ local function CreatePanel()
 				Option[1].options[j]:HookScript("OnClick", function()
 					for k = 2, 12 do
 						Option[k]:Hide()
-						module:ClearEdit(Option[k])
+						G:ClearEdit(Option[k])
 					end
 
 					if Option[1].Text:GetText() == "AuraID" then
@@ -421,20 +421,20 @@ local function CreatePanel()
 			for _, v in pairs(NDuiDB["CustomCD"]) do
 				AddInternal(tabs[i].List.child, i, v)
 			end
-			Option[13] = module:CreateEditbox(tabs[i].Page, L["IntID*"], 20, -30, L["IntID Intro"])
-			Option[14] = module:CreateEditbox(tabs[i].Page, L["Duration*"], 140, -30, L["Duration Intro"])
-			Option[15] = module:CreateDropdown(tabs[i].Page, L["Trigger"].."*", 260, -30, {"OnAuraGain", "OnCastSuccess"}, L["Trigger Intro"], 130, 30)
-			Option[16] = module:CreateDropdown(tabs[i].Page, L["Unit*"], 420, -30, {"Player", "All"}, L["Trigger Unit Intro"])
-			Option[17] = module:CreateEditbox(tabs[i].Page, L["ItemID"], 20, -95, L["ItemID Intro"])
+			Option[13] = G:CreateEditbox(tabs[i].Page, L["IntID*"], 20, -30, L["IntID Intro"])
+			Option[14] = G:CreateEditbox(tabs[i].Page, L["Duration*"], 140, -30, L["Duration Intro"])
+			Option[15] = G:CreateDropdown(tabs[i].Page, L["Trigger"].."*", 260, -30, {"OnAuraGain", "OnCastSuccess"}, L["Trigger Intro"], 130, 30)
+			Option[16] = G:CreateDropdown(tabs[i].Page, L["Unit*"], 420, -30, {"Player", "All"}, L["Trigger Unit Intro"])
+			Option[17] = G:CreateEditbox(tabs[i].Page, L["ItemID"], 20, -95, L["ItemID Intro"])
 		end
 
 		local clear = B.CreateButton(tabs[i].Page, 60, 25, KEY_NUMLOCK_MAC)
 		clear:SetPoint("TOPRIGHT", -100, -90)
 		clear:SetScript("OnClick", function()
 			if i < 11 then
-				for j = 2, 12 do module:ClearEdit(Option[j]) end
+				for j = 2, 12 do G:ClearEdit(Option[j]) end
 			elseif i == 11 then
-				for j = 13, 17 do module:ClearEdit(Option[j]) end
+				for j = 13, 17 do G:ClearEdit(Option[j]) end
 			end
 		end)
 
@@ -458,9 +458,9 @@ local function CreatePanel()
 				local realID = spellID or slotID or totemID
 				if NDuiDB["AuraWatchList"][i][realID] then UIErrorsFrame:AddMessage(DB.InfoColor..L["Existing ID"]) return end
 
-				NDuiDB["AuraWatchList"][i][realID] = {typeID, realID, unitID, Option[4].Text:GetText(), tonumber(Option[5]:GetText()), Option[6]:GetChecked(), Option[7]:GetChecked(), Option[8]:GetChecked(), Option[9]:GetText(), Option[10]:GetChecked()}
+				NDuiDB["AuraWatchList"][i][realID] = {typeID, realID, unitID, Option[4].Text:GetText(), tonumber(Option[5]:GetText()) or false, Option[6]:GetChecked(), Option[7]:GetChecked(), Option[8]:GetChecked(), Option[9]:GetText(), Option[10]:GetChecked()}
 				AddAura(tabs[i].List.child, i, NDuiDB["AuraWatchList"][i][realID])
-				for i = 2, 12 do module:ClearEdit(Option[i]) end
+				for i = 2, 12 do G:ClearEdit(Option[i]) end
 			elseif i == 11 then
 				local intID, duration, trigger, unit, itemID = tonumber(Option[13]:GetText()), tonumber(Option[14]:GetText()), Option[15].Text:GetText(), Option[16].Text:GetText(), tonumber(Option[17]:GetText())
 				if not intID or not duration or not trigger or not unit then UIErrorsFrame:AddMessage(DB.InfoColor..L["Incomplete Input"]) return end
@@ -469,7 +469,7 @@ local function CreatePanel()
 
 				NDuiDB["CustomCD"][intID] = {intID, duration, trigger, unit, itemID}
 				AddInternal(tabs[i].List.child, i, NDuiDB["CustomCD"][intID])
-				for i = 13, 17 do module:ClearEdit(Option[i]) end
+				for i = 13, 17 do G:ClearEdit(Option[i]) end
 			end
 		end)
 

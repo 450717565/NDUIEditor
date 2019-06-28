@@ -1,10 +1,10 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local module = B:GetModule("Skins")
+local S = B:GetModule("Skins")
 
 local function ReskinTMW()
 	TMW.Classes.Icon:PostHookMethod("OnNewInstance", function(self)
-		B.CreateSD(self, 2, 2)
+		B.CreateSD(B.CreateBG(self))
 	end)
 
 	TMW.Classes.IconModule_Texture:PostHookMethod("OnNewInstance", function(self)
@@ -12,4 +12,4 @@ local function ReskinTMW()
 	end)
 end
 
-module:LoadWithAddOn("TellMeWhen", "TMW", ReskinTMW)
+S:LoadWithAddOn("TellMeWhen", "TMW", ReskinTMW)

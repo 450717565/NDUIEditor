@@ -1,8 +1,8 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local module = B:GetModule("Skins")
+local S = B:GetModule("Skins")
 
-function module:PetBattleUI()
+function S:PetBattleUI()
 	if not NDuiDB["Skins"]["PetBattle"] then return end
 	local cr, cg, cb, pairs = DB.r, DB.g, DB.b, pairs
 
@@ -36,7 +36,7 @@ function module:PetBattleUI()
 	weather.Icon:ClearAllPoints()
 	weather.Icon:SetPoint("TOP", frame.TopVersusText, "BOTTOM", 0, -15)
 	weather.Icon:SetTexCoord(unpack(DB.TexCoord))
-	B.CreateSD(weather.Icon, 3, 3)
+	B.CreateSD(B.CreateBG(weather.Icon))
 	weather.BackgroundArt:SetPoint("TOP", UIParent)
 	weather.Duration:ClearAllPoints()
 	weather.Duration:SetPoint("CENTER", weather.Icon, 1, 0)
@@ -58,7 +58,7 @@ function module:PetBattleUI()
 		unit.petIcon = unit:CreateTexture(nil, "ARTWORK")
 		unit.petIcon:SetSize(25, 25)
 		unit.petIcon:SetTexCoord(unpack(DB.TexCoord))
-		B.CreateSD(unit.petIcon, 3, 3)
+		B.CreateSD(B.CreateBG(unit.petIcon))
 		unit.PetType:SetAlpha(0)
 		unit.PetType:ClearAllPoints()
 		unit.PetType:SetAllPoints(unit.petIcon)
@@ -114,7 +114,7 @@ function module:PetBattleUI()
 		unit.BorderAlive:SetAlpha(0)
 		unit.BorderDead:SetAlpha(0)
 		unit.Icon:SetTexCoord(unpack(DB.TexCoord))
-		B.CreateSD(unit.Icon, 3, 3)
+		B.CreateSD(B.CreateBG(unit.Icon))
 
 		unit.deadIcon = unit:CreateTexture(nil, "ARTWORK")
 		unit.deadIcon:SetAllPoints(unit.Icon)
@@ -189,7 +189,7 @@ function module:PetBattleUI()
 				frame.DebuffBorder:Hide()
 				if not frame.styled then
 					frame.Icon:SetTexCoord(unpack(DB.TexCoord))
-					B.CreateSD(frame.Icon, 3, 3)
+					B.CreateSD(B.CreateBG(frame.Icon))
 					frame.styled = true
 				end
 				--[[if isBuff then
@@ -243,7 +243,7 @@ function module:PetBattleUI()
 			bu:SetNormalTexture("")
 			bu:GetPushedTexture():SetTexture(DB.textures.pushed)
 			bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-			B.CreateSD(bu, 3, 3)
+			B.CreateSD(B.CreateBG(bu))
 
 			bu.Cooldown:SetFont(DB.Font[1], 26, DB.Font[3])
 			bu.SelectedHighlight:ClearAllPoints()
@@ -274,7 +274,7 @@ function module:PetBattleUI()
 	xpbar:SetParent(bar)
 	xpbar:SetWidth(bar:GetWidth())
 	xpbar:SetStatusBarTexture(DB.normTex)
-	B.CreateSD(xpbar, 3, 3)
+	B.CreateSD(B.CreateBG(xpbar))
 	B.CreateTex(xpbar)
 
 	local turnTimer = bottomFrame.TurnTimer
@@ -282,7 +282,7 @@ function module:PetBattleUI()
 	turnTimer:SetSize(xpbar:GetWidth()+4, xpbar:GetHeight()+10)
 	turnTimer:ClearAllPoints()
 	turnTimer:SetPoint("BOTTOM", bar, "TOP", 0, 7)
-	turnTimer.bg = B.CreateBG(turnTimer, -1)
+	turnTimer.bg = B.CreateBG(turnTimer, -C.mult)
 	B.SetBackground(turnTimer.bg)
 	turnTimer.Bar:ClearAllPoints()
 	turnTimer.Bar:SetPoint("LEFT", 2, 0)
@@ -310,7 +310,7 @@ function module:PetBattleUI()
 		local icon = unit.Icon
 
 		icon:SetTexCoord(unpack(DB.TexCoord))
-		B.CreateSD(icon, 3, 3)
+		B.CreateSD(B.CreateBG(icon))
 		unit.HealthBarBG:Hide()
 		unit.Framing:Hide()
 		unit.HealthDivider:Hide()

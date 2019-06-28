@@ -1,19 +1,43 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local module = B:RegisterModule("Misc")
+local M = B:RegisterModule("Misc")
 
-local tostring, tonumber, pairs = tostring, tonumber, pairs
-local tremove, tinsert = table.remove, table.insert
-local strsplit, random = string.split, math.random
+local tostring, tonumber, pairs, select, random = tostring, tonumber, pairs, select, math.random
+local strsplit, strfind, strmatch, strupper, gsub = string.split, string.find, string.match, string.upper, gsub
+local InCombatLockdown, IsModifiedClick, IsAltKeyDown = InCombatLockdown, IsModifiedClick, IsAltKeyDown
+local GetNumArchaeologyRaces = GetNumArchaeologyRaces
+local GetNumArtifactsByRace = GetNumArtifactsByRace
+local GetArtifactInfoByRace = GetArtifactInfoByRace
+local GetArchaeologyRaceInfo = GetArchaeologyRaceInfo
+local GetNumAuctionItems, GetAuctionItemInfo = GetNumAuctionItems, GetAuctionItemInfo
+local FauxScrollFrame_GetOffset, SetMoneyFrameColor = FauxScrollFrame_GetOffset, SetMoneyFrameColor
+local EquipmentManager_UnequipItemInSlot = EquipmentManager_UnequipItemInSlot
+local EquipmentManager_RunAction = EquipmentManager_RunAction
+local GetInventoryItemTexture = GetInventoryItemTexture
+local GetItemInfo = GetItemInfo
+local BuyMerchantItem = BuyMerchantItem
+local GetMerchantItemLink = GetMerchantItemLink
+local GetMerchantItemMaxStack = GetMerchantItemMaxStack
+local GetItemQualityColor = GetItemQualityColor
+local Screenshot = Screenshot
+local GetTime, GetCVarBool, SetCVar = GetTime, GetCVarBool, SetCVar
+local GetNumLootItems, LootSlot = GetNumLootItems, LootSlot
+local GetNumSavedInstances = GetNumSavedInstances
+local GetInstanceInfo = GetInstanceInfo
+local GetSavedInstanceInfo = GetSavedInstanceInfo
+local SetSavedInstanceExtend = SetSavedInstanceExtend
+local RequestRaidInfo, RaidInfoFrame_Update = RequestRaidInfo, RaidInfoFrame_Update
+local IsGuildMember, BNGetGameAccountInfoByGUID, C_FriendList_IsFriend = IsGuildMember, BNGetGameAccountInfoByGUID, C_FriendList.IsFriend
+local EnumerateFrames = EnumerateFrames
 
 --[[
 	Miscellaneous 各种有用没用的小玩意儿
 ]]
-function module:OnLogin()
+function M:OnLogin()
 	self:AddAlerts()
 	self:Expbar()
 	self:Focuser()
-	self:Mailbox()
+	self:MailBox()
 	self:MissingStats()
 	self:ShowItemLevel()
 	self:QuickJoin()
@@ -24,7 +48,13 @@ function module:OnLogin()
 	end
 	self:NakedIcon()
 	self:ExtendInstance()
+	self:VehicleSeatMover()
 	self:PetFilterTab()
+
+	-- Max camera distancee
+	if tonumber(GetCVar("cameraDistanceMaxZoomFactor")) ~= 2.6 then
+		SetCVar("cameraDistanceMaxZoomFactor", 2.6)
+	end
 
 	-- Hide Bossbanner
 	if NDuiDB["Misc"]["HideBanner"] then
@@ -49,8 +79,7 @@ function module:OnLogin()
 				SetCVar("chatBubbles", 0)
 			end
 		end
-		updateBubble()
-		B:RegisterEvent("ZONE_CHANGED_NEW_AREA", updateBubble)
+		B:RegisterEvent("PLAYER_ENTERING_WORLD", updateBubble)
 	end
 end
 
@@ -148,8 +177,6 @@ end
 
 -- Show BID and highlight price
 do
-	local GetNumAuctionItems, GetAuctionItemInfo, SetMoneyFrameColor = GetNumAuctionItems, GetAuctionItemInfo, SetMoneyFrameColor
-
 	local function setupMisc(event, addon)
 		if addon == "Blizzard_AuctionUI" then
 			hooksecurefunc("AuctionFrameBrowse_Update", function()
@@ -220,7 +247,7 @@ do
 end
 
 -- Get Naked
-function module:NakedIcon()
+function M:NakedIcon()
 	local bu = CreateFrame("Button", nil, CharacterFrameInsetRight)
 	bu:SetSize(33, 33)
 	bu:SetPoint("RIGHT", PaperDollSidebarTab1, "LEFT", -4, -2)
@@ -244,30 +271,34 @@ end
 
 -- ALT+RightClick to buy a stack
 do
-	local old_MerchantItemButton_OnModifiedClick = MerchantItemButton_OnModifiedClick
 	local cache = {}
+	local itemLink, id
+
+	StaticPopupDialogs["BUY_STACK"] = {
+		text = L["Stack Buying Check"],
+		button1 = YES,
+		button2 = NO,
+		OnAccept = function()
+			if not itemLink then return end
+			BuyMerchantItem(id, GetMerchantItemMaxStack(id))
+			cache[itemLink] = true
+			itemLink = nil
+		end,
+		hideOnEscape = 1,
+		hasItemFrame = 1,
+	}
+
+	local old_MerchantItemButton_OnModifiedClick = MerchantItemButton_OnModifiedClick
 	function MerchantItemButton_OnModifiedClick(self, ...)
 		if IsAltKeyDown() then
-			local id = self:GetID()
-			local itemLink = GetMerchantItemLink(id)
+			id = self:GetID()
+			itemLink = GetMerchantItemLink(id)
 			if not itemLink then return end
 			local name, _, quality, _, _, _, _, maxStack, _, texture = GetItemInfo(itemLink)
 			if maxStack and maxStack > 1 then
 				if not cache[itemLink] then
-					StaticPopupDialogs["BUY_STACK"] = {
-						text = L["Stack Buying Check"],
-						button1 = YES,
-						button2 = NO,
-						OnAccept = function()
-							BuyMerchantItem(id, GetMerchantItemMaxStack(id))
-							cache[itemLink] = true
-						end,
-						hideOnEscape = 1,
-						hasItemFrame = 1,
-					}
-
-					local color = BAG_ITEM_QUALITY_COLORS[quality or 1]
-					StaticPopup_Show("BUY_STACK", " ", " ", {["texture"] = texture, ["name"] = name, ["color"] = {color.r, color.g, color.b, 1}, ["link"] = itemLink, ["index"] = id, ["count"] = maxStack})
+					local r, g, b = GetItemQualityColor(quality or 1)
+					StaticPopup_Show("BUY_STACK", " ", " ", {["texture"] = texture, ["name"] = name, ["color"] = {r, g, b, 1}, ["link"] = itemLink, ["index"] = id, ["count"] = maxStack})
 				else
 					BuyMerchantItem(id, GetMerchantItemMaxStack(id))
 				end
@@ -343,12 +374,12 @@ do
 			end
 
 			if not mover then
-				mover = B.Mover(move, L["TalkingHeadFrame"], "TalkingHeadFrame", {"TOP", UIParent, "TOP", 0, -35}, 560, 145)
+				mover = B.Mover(move, L["TalkingHeadFrame"], "TalkingHeadFrame", {"TOP", UIParent, "TOP", 0, -40}, 570, 40)
 			end
 
 			if frame then
 				frame:ClearAllPoints()
-				frame:SetPoint("CENTER", mover)
+				frame:SetPoint("TOP", mover)
 			end
 		end
 	end
@@ -379,7 +410,7 @@ do
 end
 
 -- Extend Instance
-function module:ExtendInstance()
+function M:ExtendInstance()
 	local bu = CreateFrame("Button", nil, RaidInfoFrame)
 	bu:SetPoint("TOPRIGHT", -35, -5)
 	bu:SetSize(25, 25)
@@ -407,18 +438,15 @@ function module:ExtendInstance()
 end
 
 -- Repoint Vehicle
-do
-	local mover = B.CreateGear(VehicleSeatIndicator, "NDuiVehicleSeatMover")
-	mover:SetPoint("BOTTOMRIGHT", UIParent, -360, 30)
-	mover:SetFrameStrata("HIGH")
-	B.AddTooltip(mover, "ANCHOR_TOP", L["Toggle"], "system")
-	B.CreateMF(mover)
+function M:VehicleSeatMover()
+	local frame = CreateFrame("Frame", "NDuiVehicleSeatMover", UIParent)
+	frame:SetSize(125, 125)
+	local mover = B.Mover(frame, L["VehicleSeat"], "VehicleSeat", {"BOTTOMRIGHT", UIParent, -400, 30})
 
-	hooksecurefunc(VehicleSeatIndicator, "SetPoint", function(_, _, parent)
-		if parent ~= mover then
-			VehicleSeatIndicator:ClearAllPoints()
-			VehicleSeatIndicator:SetClampedToScreen(true)
-			VehicleSeatIndicator:SetPoint("BOTTOMRIGHT", mover, "BOTTOMLEFT", -5, 0)
+	hooksecurefunc(VehicleSeatIndicator, "SetPoint", function(self, _, parent)
+		if parent == "MinimapCluster" or parent == MinimapCluster then
+			self:ClearAllPoints()
+			self:SetPoint("TOPLEFT", frame)
 		end
 	end)
 end
@@ -603,8 +631,6 @@ end
 
 -- TradeFrame hook
 do
-	local IsGuildMember, BNGetGameAccountInfoByGUID, C_FriendList_IsFriend = IsGuildMember, BNGetGameAccountInfoByGUID, C_FriendList.IsFriend
-
 	local infoText = B.CreateFS(TradeFrame, 16)
 	infoText:ClearAllPoints()
 	infoText:SetPoint("TOP", TradeFrameRecipientNameText, "BOTTOM", 0, -5)

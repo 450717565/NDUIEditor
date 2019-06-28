@@ -3,7 +3,7 @@ local B, C, L, DB = unpack(ns)
 if not C.Infobar.Time then return end
 
 local module = B:GetModule("Infobar")
-local info = module:RegisterInfobar(C.Infobar.TimePos)
+local info = module:RegisterInfobar("Time", C.Infobar.TimePos)
 local time, date = time, date
 local strfind, format, floor = string.find, string.format, math.floor
 local mod, tonumber, pairs, ipairs, select = mod, tonumber, pairs, ipairs, select

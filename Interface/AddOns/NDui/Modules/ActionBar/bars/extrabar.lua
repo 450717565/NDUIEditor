@@ -27,7 +27,6 @@ function Bar:CreateExtrabar()
 	--the extra button
 	local button = ExtraActionButton1
 	table.insert(buttonList, button) --add the button object to the list
-	table.insert(self.activeButtons, button)
 	button:SetSize(cfg.size, cfg.size)
 
 	--show/hide the frame on a given state driver
@@ -41,7 +40,7 @@ function Bar:CreateExtrabar()
 
 	--create the mouseover functionality
 	if cfg.fader then
-		B.CreateButtonFrameFader(frame, buttonList, cfg.fader)
+		Bar.CreateButtonFrameFader(frame, buttonList, cfg.fader)
 	end
 
 	--zone ability
@@ -59,5 +58,5 @@ function Bar:CreateExtrabar()
 	spellButton.Style:SetAlpha(0)
 	spellButton.Icon:SetTexCoord(unpack(DB.TexCoord))
 	spellButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-	B.CreateSD(spellButton.Icon, 3, 3)
+	B.CreateSD(B.CreateBG(spellButton.Icon))
 end

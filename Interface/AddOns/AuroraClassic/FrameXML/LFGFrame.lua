@@ -1,13 +1,13 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	F.ReskinFrame(LFGDungeonReadyStatus, true)
+	F.ReskinFrame(LFGDungeonReadyStatus)
 
 	F.ReskinFrame(LFGDungeonReadyDialog)
 	F.ReskinButton(LFGDungeonReadyDialogEnterDungeonButton)
 	F.ReskinButton(LFGDungeonReadyDialogLeaveQueueButton)
 
-	F.ReskinFrame(LFGInvitePopup, true)
+	F.ReskinFrame(LFGInvitePopup)
 	F.ReskinButton(LFGInvitePopupAcceptButton)
 	F.ReskinButton(LFGInvitePopupDeclineButton)
 

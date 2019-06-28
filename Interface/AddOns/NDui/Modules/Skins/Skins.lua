@@ -1,8 +1,8 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local module = B:RegisterModule("Skins")
+local S = B:RegisterModule("Skins")
 
-function module:OnLogin()
+function S:OnLogin()
 	local alpha = NDuiDB["Extras"]["SkinAlpha"]
 	local color = NDuiDB["Extras"]["SkinColor"]
 	local cr, cg, cb = color.r, color.g, color.b
@@ -124,7 +124,7 @@ function module:OnLogin()
 	end
 end
 
-function module:CreateToggle(frame)
+function S:CreateToggle(frame)
 	local close = B.CreateButton(frame, 20, 80, ">", 18)
 	close:SetPoint("RIGHT", frame.bg, "LEFT", -2, 0)
 	B.CreateTex(close)
@@ -144,7 +144,7 @@ function module:CreateToggle(frame)
 	return open, close
 end
 
-function module:LoadWithAddOn(addonName, value, func)
+function S:LoadWithAddOn(addonName, value, func)
 	local function loadFunc(event, addon)
 		if not NDuiDB["Skins"][value] then return end
 

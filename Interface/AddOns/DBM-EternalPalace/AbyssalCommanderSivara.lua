@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2352, "DBM-EternalPalace", nil, 1179)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("2019061001341")
+mod:SetRevision("2019062320203")
 mod:SetCreatureID(151881)
 mod:SetEncounterID(2298)
 mod:SetZone()
@@ -40,8 +40,8 @@ local warnOverflowingChill				= mod:NewTargetNoFilterAnnounce(295348, 3)
 local warnOverflowingVenom				= mod:NewTargetNoFilterAnnounce(295421, 3)
 local warnInversionSickness				= mod:NewTargetNoFilterAnnounce(300882, 4)
 
-local specWarnFrostMark					= mod:NewSpecialWarningYouPos(294711, nil, nil, nil, 1, 9)
-local specWarnToxicMark					= mod:NewSpecialWarningYouPos(294715, nil, nil, nil, 1, 9)
+local specWarnFrostMark					= mod:NewSpecialWarningYouPos(294711, nil, nil, nil, 1)--voice 9
+local specWarnToxicMark					= mod:NewSpecialWarningYouPos(294715, nil, nil, nil, 1)--voice 9
 local yellMark							= mod:NewPosYell(294726, DBM_CORE_AUTO_YELL_CUSTOM_POSITION, true, 2)
 local specWarnFrozenBlood				= mod:NewSpecialWarningKeepMove(295795, nil, nil, nil, 1, 2)
 local specWarnVenomousBlood				= mod:NewSpecialWarningStopMove(295796, nil, nil, nil, 1, 2)
@@ -65,11 +65,11 @@ local yellToxicJav						= mod:NewPosYell(295607, DBM_CORE_AUTO_YELL_CUSTOM_POSIT
 local specWarnGTFO						= mod:NewSpecialWarningGTFO(300961, nil, nil, nil, 1, 8)
 
 --mod:AddTimerLine(BOSS)
-local timerCrushingReverbCD				= mod:NewCDTimer(29.1, 295332, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON, nil, mod:IsMelee() and 2, 4)
+local timerCrushingReverbCD				= mod:NewCDTimer(22.3, 295332, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON, nil, mod:IsMelee() and 2, 4)
 local timerOverwhelmingBarrageCD		= mod:NewCDTimer(40, 296551, nil, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON, nil, 1, 4)
 local timerOverflowCD					= mod:NewCDTimer(40.1, 295346, nil, nil, nil, 3)--31.6 previously, but 40 as of mythic testing
 local timerInversionCD					= mod:NewCDTimer(72.9, 295791, nil, nil, nil, 2, nil, DBM_CORE_HEROIC_ICON, nil, 3, 4)
-local timerfrostshockboltsCD			= mod:NewCDTimer(52.2, 295601, nil, nil, nil, 3)
+local timerfrostshockboltsCD			= mod:NewCDTimer(60.8, 295601, nil, nil, nil, 3)
 local timerChimericMarksCD				= mod:NewCDTimer(22.8, 294726, nil, nil, nil, 2, nil, DBM_CORE_MYTHIC_ICON)--Mythic
 
 --local berserkTimer					= mod:NewBerserkTimer(600)
@@ -153,12 +153,12 @@ end
 local function debuffSwapAggregation(self, spellId)
 	if spellId == 294711 then--Frost
 		specWarnFrostMark:Show(self:IconNumToTexture(6))
-		specWarnFrostMark:Play("frostmark")
+		--specWarnFrostMark:Play("frostmark")
 		yellMark:Yell(6, "", 6)--Square
 		playerMark = 2--1 Toxic, 2 Frost
 	else--Toxic
 		specWarnToxicMark:Show(self:IconNumToTexture(4))
-		specWarnToxicMark:Play("toxicmark")
+		--specWarnToxicMark:Play("toxicmark")
 		yellMark:Yell(4, "", 4)--Triangle
 		playerMark = 1--1 Toxic, 2 Frost
 	end
@@ -310,7 +310,9 @@ end
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
 	if spellId == 295346 and self:AntiSpam(5, 3) then
-		timerOverflowCD:Start()
+		--"Overflow-295346-npc:151881 = pull:16.9, 34.4, 41.3, 39.7, 40.6, 47.3, 37.6", -- [3]
+		--"Overflow-295346-npc:151881 = pull:17.1, 38.9, 36.4, 40.1, 45.0, 35.3", -- [3]
+		timerOverflowCD:Start(self:IsMythic() and 40 or 34.4)
 	elseif spellId == 295601 and self:AntiSpam(5, 4) then
 		timerfrostshockboltsCD:Start()
 	end

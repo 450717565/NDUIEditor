@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local module = B:GetModule("Skins")
+local S = B:GetModule("Skins")
 local pairs = pairs
 
 local function ReskinWA()
@@ -9,7 +9,7 @@ local function ReskinWA()
 			if not f.styled then
 				f.icon:SetTexCoord(unpack(DB.TexCoord))
 				f.icon.SetTexCoord = B.Dummy
-				B.CreateSD(f, 3, 3)
+				B.CreateSD(B.CreateBG(f))
 				f.Shadow:HookScript("OnUpdate", function(self)
 					self:SetAlpha(self:GetParent().icon:GetAlpha())
 				end)
@@ -18,11 +18,11 @@ local function ReskinWA()
 			end
 		elseif fType == "aurabar" then
 			if not f.styled then
-				B.CreateSD(f.bar, 3, 3)
+				B.CreateSD(B.CreateBG(f.bar))
 				f.icon:SetTexCoord(unpack(DB.TexCoord))
 				f.icon.SetTexCoord = B.Dummy
 				f.iconFrame:SetAllPoints(f.icon)
-				B.CreateSD(f.iconFrame, 3, 3)
+				B.CreateSD(B.CreateBG(f.iconFrame))
 
 				f.styled = true
 			end
@@ -63,4 +63,4 @@ local function ReskinWA()
 	end
 end
 
-module:LoadWithAddOn("WeakAuras", "WeakAuras", ReskinWA)
+S:LoadWithAddOn("WeakAuras", "WeakAuras", ReskinWA)

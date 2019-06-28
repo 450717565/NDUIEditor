@@ -1,8 +1,8 @@
 local _, ns = ...
 local B, C, L, DB, F, T = unpack(ns)
-local module = B:GetModule("Skins")
+local S = B:GetModule("Skins")
 
-function module:PGFSkin()
+function S:PGFSkin()
 	if not IsAddOnLoaded("PremadeGroupsFilter") then return end
 	if not NDuiDB["Skins"]["PGFSkin"] then return end
 	if not F then return end

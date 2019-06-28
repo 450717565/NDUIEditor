@@ -1,4 +1,4 @@
-## Interface: 80100
+## Interface: 80200
 ## Title: DungeonWatchDog
 ## Title-zhCN: 看门狗
 ## Notes: Ignore players in dungeon finder

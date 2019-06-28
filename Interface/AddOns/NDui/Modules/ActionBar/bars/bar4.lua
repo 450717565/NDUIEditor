@@ -29,14 +29,10 @@ function Bar:CreateBar4()
 	--move the buttons into position and reparent them
 	MultiBarRight:SetParent(frame)
 	MultiBarRight:EnableMouse(false)
-	hooksecurefunc(MultiBarRight, "SetScale", function(self, scale)
-		if scale < 1 then self:SetScale(1) end
-	end)
 
 	for i = 1, num do
 		local button = _G["MultiBarRightButton"..i]
 		table.insert(buttonList, button) --add the button object to the list
-		table.insert(self.activeButtons, button)
 		button:SetSize(cfg.size, cfg.size)
 		button:ClearAllPoints()
 		if layout == 2 then
@@ -86,7 +82,7 @@ function Bar:CreateBar4()
 
 	--create the mouseover functionality
 	if NDuiDB["Actionbar"]["Bar4Fade"] and cfg.fader then
-		B.CreateButtonFrameFader(frame, buttonList, cfg.fader)
+		Bar.CreateButtonFrameFader(frame, buttonList, cfg.fader)
 	end
 
 	--fix annoying visibility

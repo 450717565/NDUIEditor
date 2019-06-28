@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2347, "DBM-EternalPalace", nil, 1179)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190608200117")
+mod:SetRevision("2019062400731")
 mod:SetCreatureID(150653)
 mod:SetEncounterID(2289)
 mod:SetZone()
@@ -17,9 +17,10 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 292307 292133 292138 289699 292167 301494 298595",
 	"SPELL_AURA_APPLIED_DOSE 289699",
 	"SPELL_AURA_REMOVED 292133 292138 298595",
-	"SPELL_INTERRUPT"
+	"SPELL_INTERRUPT",
 --	"SPELL_PERIODIC_DAMAGE",
---	"SPELL_PERIODIC_MISSED"
+--	"SPELL_PERIODIC_MISSED",
+	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
 --TODO: Can boss cast Bioelectric Feelers during Cavitation, when tank is forced away from boss?
@@ -42,10 +43,10 @@ local yellPiercingBarb					= mod:NewYell(301494)
 --local specWarnGTFO						= mod:NewSpecialWarningGTFO(270290, nil, nil, nil, 1, 8)
 
 local timerBioluminescentCloud			= mod:NewCastCountTimer(30.4, 292205, nil, nil, nil, 5)
-local timerToxicSpineCD					= mod:NewNextTimer(25.5, 292167, nil, "Healer", nil, 5, nil, DBM_CORE_HEALER_ICON)
-local timerShockPulseCD					= mod:NewNextCountTimer(34, 292270, nil, nil, nil, 2, nil, nil, nil, 1, 4)
+local timerToxicSpineCD					= mod:NewNextTimer(20, 292167, nil, "Healer", nil, 5, nil, DBM_CORE_HEALER_ICON)
+local timerShockPulseCD					= mod:NewNextCountTimer(30, 292270, nil, nil, nil, 2, nil, nil, nil, 1, 4)
 local timerPiercingBarbCD				= mod:NewNextTimer(29.9, 301494, nil, nil, nil, 3, nil, nil, nil, 3, 4)--Mythic
-local timerCavitation					= mod:NewCastTimer(40, 292083, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON)
+local timerCavitation					= mod:NewCastTimer(32, 292083, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON, nil, 1, 4)
 
 --local berserkTimer					= mod:NewBerserkTimer(600)
 
@@ -105,8 +106,8 @@ function mod:OnCombatStart(delay)
 		timerToxicSpineCD:Start(11-delay)
 		timerShockPulseCD:Start(23-delay, 1)
 	else
-		timerToxicSpineCD:Start(20.8-delay)
-		timerShockPulseCD:Start(26.5-delay, 1)
+		timerToxicSpineCD:Start(5.4-delay)
+		timerShockPulseCD:Start(19.4-delay, 1)
 	end
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:SetHeader(OVERVIEW)
@@ -146,9 +147,6 @@ function mod:SPELL_CAST_START(args)
 		specWarnCavitation:Show()
 		specWarnCavitation:Play("phasechange")
 		timerCavitation:Start()
-		timerToxicSpineCD:Stop()
-		timerShockPulseCD:Stop()
-		timerPiercingBarbCD:Stop()
 	end
 end
 
@@ -161,7 +159,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 			warnBioluminescentCloud:Show()
 		end
 	elseif spellId == 292159 then
-		timerToxicSpineCD:Start(self:IsMythic() and 20 or 25.5)
+		timerToxicSpineCD:Start(20)
 	elseif spellId == 301494 then
 		timerPiercingBarbCD:Start()
 	end
@@ -236,8 +234,8 @@ function mod:SPELL_INTERRUPT(args)
 			timerToxicSpineCD:Start(11)
 			timerShockPulseCD:Start(23, self.vb.shockPulse+1)
 		else
-			timerToxicSpineCD:Start(20.8)
-			timerShockPulseCD:Start(25.7, self.vb.shockPulse+1)
+			timerToxicSpineCD:Start(5.4)
+			timerShockPulseCD:Start(19.4, self.vb.shockPulse+1)
 		end
 	end
 end
@@ -259,10 +257,12 @@ function mod:UNIT_DIED(args)
 
 	end
 end
+--]]
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
-	if spellId == 266913 then
-
+	if spellId == 292252 and self:AntiSpam(5, 3) then--Power Drain [DNT]
+		timerToxicSpineCD:Stop()
+		timerShockPulseCD:Stop()
+		timerPiercingBarbCD:Stop()
 	end
 end
---]]

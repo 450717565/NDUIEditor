@@ -1,8 +1,11 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local module = B:GetModule("Skins")
+local S = B:GetModule("Skins")
+local TT = B:GetModule("Tooltip")
 
-function module:DBMSkin()
+local strfind, strmatch, gsub = string.find, string.match, string.gsub
+
+function S:DBMSkin()
 	-- Default notice message
 	local RaidNotice_AddMessage_ = RaidNotice_AddMessage
 	RaidNotice_AddMessage = function(noticeFrame, textString, colorInfo)
@@ -23,7 +26,6 @@ function module:DBMSkin()
 	if not IsAddOnLoaded("DBM-Core") then return end
 	if not NDuiDB["Skins"]["DBM"] then return end
 
-	local strfind, strmatch, gsub = string.find, string.match, string.gsub
 	local buttonsize = 20
 	local function SkinBars(self)
 		for bar in self:GetBarIterator() do
@@ -48,7 +50,7 @@ function module:DBMSkin()
 					backdroptex:SetPoint("TOPLEFT", icon1.overlay, "TOPLEFT", C.mult, -C.mult)
 					backdroptex:SetPoint("BOTTOMRIGHT", icon1.overlay, "BOTTOMRIGHT", -C.mult, C.mult)
 					backdroptex:SetTexCoord(unpack(DB.TexCoord))
-					B.CreateSD(icon1.overlay, C.mult, C.mult*2)
+					B.CreateSD(icon1.overlay)
 				end
 
 				if not (icon2.overlay) then
@@ -61,7 +63,7 @@ function module:DBMSkin()
 					backdroptex:SetPoint("TOPLEFT", icon2.overlay, "TOPLEFT", C.mult, -C.mult)
 					backdroptex:SetPoint("BOTTOMRIGHT", icon2.overlay, "BOTTOMRIGHT", -C.mult, C.mult)
 					backdroptex:SetTexCoord(unpack(DB.TexCoord))
-					B.CreateSD(icon2.overlay, C.mult, C.mult*2)
+					B.CreateSD(icon2.overlay)
 				end
 
 				if bar.color then
@@ -79,11 +81,10 @@ function module:DBMSkin()
 					frame:SetHeight(buttonsize/2)
 					frame.SetHeight = B.Dummy
 					if not frame.bg then
-						frame.bg = CreateFrame("Frame", nil, frame)
-						frame.bg:SetAllPoints()
+						frame.bg = B.CreateBG(frame, -C.mult)
 					end
-					B.CreateSD(frame.bg, 1, 3)
-					B.CreateTex(frame)
+					B.CreateSD(frame.bg)
+					B.CreateTex(frame.bg)
 					frame.styled = true
 				end
 
@@ -170,12 +171,12 @@ function module:DBMSkin()
 
 	local function SkinRange()
 		if DBMRangeCheckRadar and not DBMRangeCheckRadar.styled then
-			B.ReskinTooltip(DBMRangeCheckRadar)
+			TT.ReskinTooltip(DBMRangeCheckRadar)
 			DBMRangeCheckRadar.styled = true
 		end
 
 		if DBMRangeCheck and not DBMRangeCheck.styled then
-			B.ReskinTooltip(DBMRangeCheck)
+			TT.ReskinTooltip(DBMRangeCheck)
 			DBMRangeCheck.styled = true
 		end
 	end
@@ -184,7 +185,7 @@ function module:DBMSkin()
 	if DBM.InfoFrame then
 		DBM.InfoFrame:Show(5, "test")
 		DBM.InfoFrame:Hide()
-		DBMInfoFrame:HookScript("OnShow", B.ReskinTooltip)
+		DBMInfoFrame:HookScript("OnShow", TT.ReskinTooltip)
 	end
 
 	-- Force Settings

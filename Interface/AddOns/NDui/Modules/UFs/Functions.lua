@@ -142,8 +142,8 @@ function UF:CreateHealthText(self)
 		if NDuiDB["UFs"]["SimpleMode"] and not isWatcherStyle(self) then
 			hpval:SetPoint("RIGHT", -4, 0)
 		elseif NDuiDB["UFs"]["RaidBuffIndicator"] then
-			hpval:SetJustifyH("CENTER")
 			hpval:SetPoint("BOTTOM", 0, 1)
+			hpval:SetJustifyH("CENTER")
 		else
 			hpval:SetPoint("BOTTOMRIGHT", -2, 2)
 		end
@@ -339,7 +339,7 @@ function UF:CreateCastBar(self)
 		cb.Icon:SetSize(cb:GetHeight(), cb:GetHeight())
 		cb.Icon:SetPoint("BOTTOMRIGHT", cb, "BOTTOMLEFT", -5, 0)
 		cb.Icon:SetTexCoord(unpack(DB.TexCoord))
-		B.CreateSD(cb.Icon, 3, 3)
+		B.CreateSD(B.CreateBG(cb.Icon))
 	end
 
 	if mystyle == "player" then
@@ -403,8 +403,7 @@ local function reskinTimerBar(bar)
 		bar:SetStatusBarTexture(DB.normTex)
 	end
 
-	local bg = B.CreateBG(bar)
-	B.SetBackground(bg)
+	B.SetBackground(B.CreateBG(bar))
 end
 
 function UF:ReskinMirrorBars()
@@ -448,12 +447,15 @@ function UF.PostCreateIcon(element, button)
 
 	button.icon:SetTexCoord(unpack(DB.TexCoord))
 	button.icon:SetDrawLayer("ARTWORK")
-	B.CreateSD(button, 2, 2)
-	button.overlay:SetTexture(nil)
+	local bg = B.CreateBG(button)
+	button.Shadow = B.CreateSD(bg)
 
 	button.HL = button:CreateTexture(nil, "HIGHLIGHT")
 	button.HL:SetColorTexture(1, 1, 1, .25)
 	button.HL:SetAllPoints()
+
+	button.overlay:SetTexture(nil)
+	button.stealable:SetAtlas("bags-newitem")
 
 	if element.disableCooldown then button.timer = B.CreateFS(button, 12) end
 end
@@ -538,9 +540,7 @@ function UF.CustomFilter(element, unit, button, name, _, _, _, _, _, caster, isS
 			return (button.isPlayer or caster == "pet") and C.RaidBuffs[DB.MyClass][spellID] or C.RaidBuffs["ALL"][spellID] or C.RaidBuffs["WARNING"][spellID]
 		end
 	elseif style == "nameplate" or style == "boss" or style == "arena" or style == "focus" then
-		if UnitIsUnit("player", unit) then
-			return false
-		elseif NDuiADB["NameplateFilter"][2][spellID] or C.BlackList[spellID] then
+		if NDuiADB["NameplateFilter"][2][spellID] or C.BlackList[spellID] then
 			return false
 		elseif element.showStealableBuffs and isStealable and not UnitIsPlayer(unit) then
 			return true
@@ -852,8 +852,7 @@ function UF:CreateExpRepBar(self)
 	rest:SetOrientation("VERTICAL")
 	bar.restBar = rest
 
-	local module = B:GetModule("Misc")
-	module:SetupScript(bar)
+	B:GetModule("Misc"):SetupScript(bar)
 end
 
 function UF:CreatePrediction(self)
@@ -984,8 +983,8 @@ function UF:CreateQuakeTimer(self)
 
 	local bar = CreateFrame("StatusBar", nil, self)
 	bar:SetSize(unpack(C.UFs.PlayercbSize))
-	bar:Hide()
 	B.CreateSB(bar, true, 0, 1, 0)
+	bar:Hide()
 
 	bar.SpellName = B.CreateFS(bar, 12, "", false, "LEFT", 2, 0)
 	bar.Text = B.CreateFS(bar, 12, "", false, "RIGHT", -2, 0)
@@ -995,7 +994,7 @@ function UF:CreateQuakeTimer(self)
 	icon:SetSize(bar:GetHeight(), bar:GetHeight())
 	icon:SetPoint("RIGHT", bar, "LEFT", -5, 0)
 	icon:SetTexCoord(unpack(DB.TexCoord))
-	B.CreateSD(icon, 3, 3)
+	B.CreateSD(B.CreateBG(icon))
 	bar.Icon = icon
 
 	self.QuakeTimer = bar

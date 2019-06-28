@@ -198,8 +198,7 @@ function ExtraQuestButton:PLAYER_LOGIN()
 	self.rangeTimer = 0
 	self:Hide()
 
-	B.CreateBD(self, .25)
-	B.CreateSD(self)
+	B.CreateSD(B.CreateBG(self))
 
 	local HotKey = self:CreateFontString("$parentHotKey", nil, "NumberFontNormal")
 	HotKey:SetPoint("TOP", 0, -5)
@@ -372,7 +371,7 @@ function ExtraQuestButton:SetItem(itemLink, texture)
 		else
 			HotKey:Hide()
 		end
-		if NDuiDB["Actionbar"]["Enable"] then B.UpdateHotKey(self) end
+		if NDuiDB["Actionbar"]["Enable"] then B:GetModule("Actionbar").UpdateHotKey(self) end
 
 		if (InCombatLockdown()) then
 			self:RegisterEvent("PLAYER_REGEN_ENABLED")

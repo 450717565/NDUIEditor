@@ -64,6 +64,10 @@ tinsert(C.themes["AuroraClassic"], function()
 	end)
 
 	hooksecurefunc("SpellBookFrame_UpdateSkillLineTabs", function()
+		local tab1 = _G["SpellBookSkillLineTab1"]
+		tab1:ClearAllPoints()
+		tab1:SetPoint("TOPLEFT", SpellBookFrame, "TOPRIGHT", 3, -25)
+
 		for i = 1, GetNumSpellTabs() do
 			local tab = _G["SpellBookSkillLineTab"..i]
 			if not tab.styled then

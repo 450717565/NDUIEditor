@@ -1,8 +1,8 @@
 local _, ns = ...
 local B, C, L, DB, F, T = unpack(ns)
-local module = B:GetModule("Skins")
+local S = B:GetModule("Skins")
 
-function module:ReskinRematch()
+function S:ReskinRematch()
 	if not IsAddOnLoaded("Rematch") then return end
 	if not NDuiDB["Skins"]["Rematch"] then return end
 	if not F then return end

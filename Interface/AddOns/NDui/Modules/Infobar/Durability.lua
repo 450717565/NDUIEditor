@@ -3,7 +3,8 @@ local B, C, L, DB = unpack(ns)
 if not C.Infobar.Durability then return end
 
 local module = B:GetModule("Infobar")
-local info = module:RegisterInfobar(C.Infobar.DurabilityPos)
+local info = module:RegisterInfobar("Durability", C.Infobar.DurabilityPos)
+
 local format, gsub, sort, floor, modf, select = string.format, string.gsub, table.sort, math.floor, math.modf, select
 local GetInventoryItemLink, GetInventoryItemDurability, GetInventoryItemTexture = GetInventoryItemLink, GetInventoryItemDurability, GetInventoryItemTexture
 local GetMoneyString, GetMoney, GetRepairAllCost, RepairAllItems, CanMerchantRepair = GetMoneyString, GetMoney, GetRepairAllCost, RepairAllItems, CanMerchantRepair
@@ -93,7 +94,7 @@ end)
 info.onMouseUp = function(self, btn)
 	if btn == "MiddleButton" then
 		NDuiADB["RepairType"] = mod(NDuiADB["RepairType"] + 1, 3)
-		self:GetScript("OnEnter")(self)
+		self:onEnter()
 	else
 		ToggleCharacter("PaperDollFrame")
 	end

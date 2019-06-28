@@ -48,7 +48,6 @@ C.defaults = {
 }
 
 C.frames = {}
-C.isNewPatch = GetBuildInfo() == "8.2.0"
 
 -- [[ Database ]]
 
@@ -123,7 +122,7 @@ function F:SetupTabStyle(index, tabType)
 
 			tabs:ClearAllPoints()
 			if i == 1 then
-				tabs:SetPoint("TOPLEFT", frameName, "BOTTOMLEFT", 15, 2)
+				tabs:SetPoint("TOPLEFT", frameName, "BOTTOMLEFT", 15, 1)
 			else
 				tabs:SetPoint("LEFT", _G[tab..(i-1)], "RIGHT", -15, 0)
 			end
@@ -303,7 +302,7 @@ function F:CreateSD()
 	if not AuroraConfig.shadow then return end
 	if self.Shadow then return end
 
-	local Pmult, Smult = C.mult*1.5, C.mult*2
+	local Pmult, Smult = C.mult*1.5, C.mult*2.5
 
 	local lvl = self:GetFrameLevel()
 	local Shadow = CreateFrame("Frame", nil, self)
@@ -663,6 +662,28 @@ function F:ReskinNavBar()
 	F.SetupArrowTex(overflowButton, "left")
 
 	self.styled = true
+end
+
+function F:ReskinPartyPoseUI()
+	F.ReskinFrame(self)
+	F.ReskinButton(self.LeaveButton)
+	F.StripTextures(self.ModelScene)
+	F.CreateBDFrame(self.ModelScene, 0)
+
+	self.OverlayElements.Topper:Hide()
+
+	local RewardFrame = self.RewardAnimations.RewardFrame
+	RewardFrame.NameFrame:SetAlpha(0)
+	RewardFrame.IconBorder:SetAlpha(0)
+
+	local icbg = F.ReskinIcon(RewardFrame.Icon)
+	local Label = RewardFrame.Label
+	Label:ClearAllPoints()
+	Label:SetPoint("LEFT", icbg, "RIGHT", 6, 10)
+
+	local Name = RewardFrame.Name
+	Name:ClearAllPoints()
+	Name:SetPoint("LEFT", icbg, "RIGHT", 6, -10)
 end
 
 function F:ReskinRadio()

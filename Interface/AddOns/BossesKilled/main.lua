@@ -105,47 +105,20 @@ function addon:CreateButton(parent, scale)
 		end
 	end
 
-	-- Aurora Reskin
-	if IsAddOnLoaded("AuroraClassic") then
-		local F, C = unpack(AuroraClassic)
-		local cr, cg, cb = C.r, C.g, C.b
-
-		button:SetScale(.5)
-		F.StripTextures(button)
-
-		local bubg = F.CreateBDFrame(button)
-		F.ReskinTexture(button, bubg, true)
-		F.ReskinTexture(button:GetCheckedTexture(), bubg, false)
-
-		if parent.lastButton then
-			button:SetPoint("TOPLEFT", parent.lastButton, "BOTTOMLEFT", 0, -5)
-		else
-			button:SetPoint("TOPLEFT", parent, "TOPRIGHT", 6, -50)
-		end
-	end
-
 	return button
 end
 
 function addon:GetButtonScale(numDungeons)
 	-- Ok, I still don't understand anything about the positioning and sizing of stuff in WoW, but the target frame is about 280'ish tall and buttons 32 and who gives a shit about margins and aaargh I'm going crazy /headexplode
 	-- Magic numbers! There's really no method to the madness, these numbers just happen to look ok
-	return min(480 / (numDungeons * 24), 1)
+	return min(480 / (numDungeons * 17), 1) -- 24
 end
 
 -- Must return a fontstring
 function addon:CreateNumberFontstring(parentButton)
 	local number = parentButton:CreateFontString(parentButton:GetName().."Number", "OVERLAY", "SystemFont_Shadow_Huge3")
-
-	-- Aurora Reskin
-	if IsAddOnLoaded("AuroraClassic") then
-		number:SetPoint("CENTER", 2, 0)
-		number:SetFont(STANDARD_TEXT_FONT, 30, "OUTLINE")
-	else
-		number:SetPoint("TOPLEFT", -4, 4)
-		number:SetPoint("BOTTOMRIGHT", 5, -5)
-	end
-
+	number:SetPoint("TOPLEFT", -4, 4)
+	number:SetPoint("BOTTOMRIGHT", 5, -5)
 	return number
 end
 
@@ -182,59 +155,59 @@ function addon:UpdateButtonsAndTooltips(parentFrame)
 		--     }
 		local tooltip = {{text = button.dungeonName}} -- Set up tooltip data with the dungeon name
 		for i = index, numEncounters + index - 1 do
-
-			if id == 847 and i == 3 then
+      
+            if id == 847 and i == 3 then
 				i = 7
 			end
 
-			if id == 846 and i == 4 then
-				i = 3
-			end
-			if id == 846 and i == 6 then
-				i = 8
-			end
+            if id == 846 and i == 4 then
+                i = 3
+            end
+            if id == 846 and i == 6 then
+                i = 8
+            end
 
-			if id == 848 and i == 7 then
-				i = 4
-			end
-			if id == 848 and i == 8 then
-				i = 6
-			end
-
-			if id == 984 and i == 9 then
-				i = 11
-			end
-			if id == 985 and i == 10 then
-				i = 9
-			end
-			if id == 985 and i == 11 then
-				i = 10
-			end
-
+            if id == 848 and i == 7 then
+                i = 4
+            end
+            if id == 848 and i == 8 then
+                i = 6
+            end    
+      
+            if id == 984 and i == 9 then
+                i = 11
+            end
+            if id == 985 and i == 10 then
+                i = 9
+            end
+            if id == 985 and i == 11 then
+                i = 10
+            end
+      
 			local encounterLine = {}
 			local bossName, _, isDead = GetLFGDungeonEncounterInfo(id, i)
-
+            
 			if isDead then
 				if ENABLE_COLORBLIND_MODE == "0" then -- TODO: figure out if it's 0/false/null when not set
 					encounterLine.color = {RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b}
 				end
-				if bossName == nil then
-					bossName = "bossname"
-				encounterLine.text = "死亡 - "..bossName
-				else
-					encounterLine.text = "死亡 - "..bossName
-					numKilled = numKilled + 1
-				end
+                if bossName == nil then
+                    bossName = "bossname"
+                    encounterLine.text = "Dead - "..bossName
+                else 
+				    encounterLine.text = "Dead - "..bossName
+                    numKilled = numKilled + 1
+                end
 			else
 				if ENABLE_COLORBLIND_MODE == "0" then
 					encounterLine.color = {GREEN_FONT_COLOR.r, GREEN_FONT_COLOR.g, GREEN_FONT_COLOR.b}
 				end
-				if bossName == nil then
-					bossName = "bossname"
-				encounterLine.text = "存活 - "..bossName
-				else
-					encounterLine.text = "存活 - "..bossName
-				end
+                if bossName == nil then
+                    bossName = "bossname"
+                    encounterLine.text = "Alive - "..bossName
+                else 
+				    encounterLine.text = "Alive - "..bossName
+                end
 			end
 			table.insert(tooltip, encounterLine)
 		end
@@ -299,15 +272,13 @@ function addon:ShowTooltip(button)
 		end
 	end
 	GameTooltip:AddLine(" ")
-	GameTooltip:AddLine("<左键单击选择对应的副本>")
+	GameTooltip:AddLine("<Click to select this raid>")
 	GameTooltip:AddLine(" ")
-	if ENABLE_COLORBLIND_MODE == "1" then
-		GameTooltip:AddLine("|c00ffffff白色|r：正在排队的副本。")
+	if ENABLE_COLORBLIND_MODE == "1" then -- TODO: Remove duplicates. Only check for not ENABLE_COLORBLIND_MODE in which case add the first AddLine. After outside of if, add second AddLine
+		GameTooltip:AddLine("(Button lights up if you're queued for this raid)")
 	else
-		GameTooltip:AddLine("|c00ff0000红色|r：首领已经被击杀。")
-		GameTooltip:AddLine("|c00964e00褐色|r：部分首领已击杀。")
-		GameTooltip:AddLine("|c0000ff00绿色|r：首领还没有击杀。")
-		GameTooltip:AddLine("|c00ffffff白色|r：正在排队的副本。")
+		GameTooltip:AddLine("(|c00ff0000Red|r for killed bosses, |c0000ff00green|r for alive ones,")
+		GameTooltip:AddLine(" button lights up if you're queued for this raid)")
 	end
 	GameTooltip:Show()
 end
@@ -336,14 +307,17 @@ function addon:TextColorGradient(str_percent, ...)
 	if not r2 or not g2 or not b2 then
 		r, g, b = r1, g1, b1
 	else
-		r, g, b = r1 + (r2 - r1) * relperc, g1 + (g2 - g1) * relperc, b1 + (b2 - b1) * relperc
+		r, g, b = r1 + (r2 - r1) * relperc,
+		          g1 + (g2 - g1) * relperc,
+		          b1 + (b2 - b1) * relperc
 	end
 	return format("|cff%02x%02x%02x%%s|r", r * 255, g * 255, b * 255)
 end
 
 -- Use a memoization table so each x/y colorstring is only computed once and then does a simple lookup
 addon.textColorTable = setmetatable({}, {__index = function(t, k)
-	local colorStr = addon:TextColorGradient(k, GREEN_FONT_COLOR.r, GREEN_FONT_COLOR.g, GREEN_FONT_COLOR.b, RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b)
+	local colorStr = addon:TextColorGradient(k, GREEN_FONT_COLOR.r, GREEN_FONT_COLOR.g, GREEN_FONT_COLOR.b, -- "From" color
+	                                            RED_FONT_COLOR.r,   RED_FONT_COLOR.g,   RED_FONT_COLOR.b)   -- "To" color
 	rawset(t, k, colorStr)
 	return colorStr
 end})

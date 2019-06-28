@@ -5,7 +5,7 @@ local module = B:GetModule("Chat")
 function module:Chatbar()
 	local chatFrame = SELECTED_DOCK_FRAME
 	local editBox = chatFrame.editBox
-	local width, height, padding, buttonList = 40, 8, 3, {}
+	local width, height, padding, buttonList = 40, 8, 5, {}
 	local tinsert, pairs = table.insert, pairs
 
 	local Chatbar = CreateFrame("Frame", nil, UIParent)

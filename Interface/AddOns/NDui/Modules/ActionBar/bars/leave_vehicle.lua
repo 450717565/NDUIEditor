@@ -28,7 +28,7 @@ function Bar:CreateLeaveVehicle()
 	button:SetNormalTexture(nil)
 	button:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 	button:GetPushedTexture():SetTexture(DB.textures.pushed)
-	B.CreateSD(button, 3, 3)
+	B.CreateSD(B.CreateBG(button))
 
 	local function onClick(self)
 		if UnitOnTaxi("player") then TaxiRequestEarlyLanding() else VehicleExit() end
@@ -52,6 +52,6 @@ function Bar:CreateLeaveVehicle()
 
 	--create the mouseover functionality
 	if cfg.fader then
-		B.CreateButtonFrameFader(frame, buttonList, cfg.fader)
+		Bar.CreateButtonFrameFader(frame, buttonList, cfg.fader)
 	end
 end

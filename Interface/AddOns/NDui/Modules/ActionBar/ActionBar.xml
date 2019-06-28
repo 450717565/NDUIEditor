@@ -1,5 +1,4 @@
 <Ui>
-	<Script file="bars\fader.lua"/>
 	<Script file="bars\bar1.lua"/>
 	<Script file="bars\bar2.lua"/>
 	<Script file="bars\bar3.lua"/>
@@ -10,6 +9,7 @@
 	<Script file="bars\extrabar.lua"/>
 	<Script file="bars\leave_vehicle.lua"/>
 	<Script file="bars\hide_blizzart.lua"/>
+	<Script file="bars\fader.lua"/>
 
 	<Script file="ButtonRange.lua"/>
 	<Script file="Keybind.lua"/>

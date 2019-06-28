@@ -5,6 +5,7 @@
 	<Script file="Blizzard_ArchaeologyUI.lua"/>
 	<Script file="Blizzard_ArtifactUI.lua"/>
 	<Script file="Blizzard_AuctionUI.lua"/>
+	<Script file="Blizzard_AzeriteEssenceUI.lua"/>
 	<Script file="Blizzard_AzeriteRespecUI.lua"/>
 	<Script file="Blizzard_AzeriteUI.lua"/>
 	<Script file="Blizzard_BarbershopUI.lua"/>
@@ -33,6 +34,7 @@
 	<Script file="Blizzard_IslandsPartyPoseUI.lua"/>
 	<Script file="Blizzard_IslandsQueueUI.lua"/>
 	<Script file="Blizzard_ItemSocketingUI.lua"/>
+	<Script file="Blizzard_ItemUpgradeUI.lua"/>
 	<Script file="Blizzard_LookingForGuildUI.lua"/>
 	<Script file="Blizzard_MacroUI.lua"/>
 	<Script file="Blizzard_ObjectiveTracker.lua"/>

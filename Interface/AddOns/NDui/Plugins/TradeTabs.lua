@@ -7,7 +7,7 @@ local B, C, L, DB, F, M = unpack(ns)
 local pairs, ipairs, tinsert = pairs, ipairs, table.insert
 local TradeTabs = CreateFrame("Frame")
 
-local whiteList = {
+local whitelist = {
 	[171] = true, -- Alchemy
 	[164] = true, -- Blacksmithing
 	[185] = true, -- Cooking
@@ -59,7 +59,7 @@ local function buildSpellList()
 
 	for _, prof in pairs(profs) do
 		local _, _, _, _, abilities, offset, skillLine = GetProfessionInfo(prof)
-		if whiteList[skillLine] then
+		if whitelist[skillLine] then
 			if onlyPrimary[skillLine] then
 				abilities = 1
 			end
@@ -85,25 +85,22 @@ function TradeTabs:Initialize()
 
 	local parent = TradeSkillFrame
 	local tradeSpells = buildSpellList()
-	local i = 1
 	local prev, foundCooking
 
 	-- if player is a DK, insert runeforging at the top
 	if select(2, UnitClass("player")) == "DEATHKNIGHT" then
-		prev = self:CreateTab(i, parent, RUNEFORGING, "spell")
-		prev:SetPoint("TOPLEFT", parent, "TOPRIGHT", 2, -25)
-		i = i + 1
+		prev = self:CreateTab(parent, RUNEFORGING, "spell")
+		prev:SetPoint("TOPLEFT", parent, "TOPRIGHT", 3, -25)
 	end
 
-	for i, slot in ipairs(tradeSpells) do
+	for _, slot in ipairs(tradeSpells) do
 		local _, spellID = GetSpellBookItemInfo(slot, BOOKTYPE_PROFESSION)
-		local tab = self:CreateTab(i, parent, spellID, "spell")
+		local tab = self:CreateTab(parent, spellID, "spell")
 		if spellID == 818 then foundCooking = true end
-		i = i + 1
 
 		local point, relPoint, x, y = "TOPLEFT", "BOTTOMLEFT", 0, -15
 		if not prev then
-			prev, relPoint, x, y = parent, "TOPRIGHT", 2, -25
+			prev, relPoint, x, y = parent, "TOPRIGHT", 3, -25
 		end
 		tab:SetPoint(point, prev, relPoint, x, y)
 
@@ -111,15 +108,14 @@ function TradeTabs:Initialize()
 	end
 
 	if foundCooking and PlayerHasToy(CHEF_HAT) and C_ToyBox.IsToyUsable(CHEF_HAT) then
-		local tab = self:CreateTab(i, parent, CHEF_HAT, "toy")
+		local tab = self:CreateTab(parent, CHEF_HAT, "toy")
 		tab:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -15)
 
 		prev = tab
-		i = i + 1
 	end
 
 	if GetItemCount(THERMAL_ANVIL) ~= 0 then
-		local tab = self:CreateTab(i, parent, 126462, "item")
+		local tab = self:CreateTab(parent, 126462, "item")
 		tab:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -15)
 	end
 
@@ -176,7 +172,7 @@ local function reskinTabs(button)
 	end
 end
 
-function TradeTabs:CreateTab(i, parent, spellID, type)
+function TradeTabs:CreateTab(parent, spellID, type)
 	local name, texture, _
 	if type == "toy" then
 		_, name, texture = C_ToyBox.GetToyInfo(spellID)

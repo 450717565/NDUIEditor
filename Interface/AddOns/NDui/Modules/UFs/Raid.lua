@@ -4,7 +4,6 @@ local UF = B:GetModule("UnitFrames")
 
 local strmatch, format, wipe, tinsert = string.match, string.format, table.wipe, table.insert
 local pairs, ipairs, next, tonumber = pairs, ipairs, next, tonumber
-local floor, ceil = math.floor, math.ceil
 
 -- RaidFrame Elements
 function UF:CreateRaidIcons(self)
@@ -42,9 +41,9 @@ function UF:UpdateTargetBorder()
 end
 
 function UF:CreateTargetBorder(self)
-	local border = B.CreateBG(self, 2)
+	local border = B.CreateBG(self)
 	B.CreateBD(border, 0)
-	border:SetBackdropBorderColor(.7, .7, .7)
+	border:SetBackdropBorderColor(0, 1, 1)
 	border:SetPoint("TOPLEFT", self, -C.mult, C.mult)
 	border:SetPoint("BOTTOMRIGHT", self.Power, C.mult, -C.mult)
 	border:Hide()
@@ -75,7 +74,7 @@ function UF:CreateThreatBorder(self)
 end
 
 local debuffList = {}
-function B:UpdateRaidDebuffs()
+function UF:UpdateRaidDebuffs()
 	wipe(debuffList)
 	for instName, value in pairs(C.RaidDebuffs) do
 		for spell, priority in pairs(value) do
@@ -110,7 +109,7 @@ function UF:CreateRaidDebuffs(self)
 	bu:SetSize(size, size)
 	bu:SetPoint("RIGHT", -15, 0)
 	bu:SetFrameLevel(self:GetFrameLevel() + 3)
-	B.CreateSD(bu, 3, 3)
+	B.CreateSD(B.CreateBG(bu))
 	bu:Hide()
 
 	bu.icon = bu:CreateTexture(nil, "ARTWORK")
@@ -130,7 +129,7 @@ function UF:CreateRaidDebuffs(self)
 	bu.ShowDebuffBorder = true
 	bu.FilterDispellableDebuff = true
 	if NDuiDB["UFs"]["InstanceAuras"] then
-		if not next(debuffList) then B.UpdateRaidDebuffs() end
+		if not next(debuffList) then UF:UpdateRaidDebuffs() end
 		bu.Debuffs = debuffList
 	end
 	self.RaidDebuffs = bu
@@ -327,7 +326,7 @@ function UF:UpdateBuffIndicator(event, unit)
 
 	wipe(found)
 	for _, filter in next, auraFilter do
-		for i = 1, 40 do
+		for i = 1, 32 do
 			local name, _, count, _, duration, expiration, caster, _, _, spellID = UnitAura(unit, i, filter)
 			if not name then break end
 			local value = spellList[spellID]

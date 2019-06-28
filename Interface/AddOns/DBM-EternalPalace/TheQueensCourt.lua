@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2359, "DBM-EternalPalace", nil, 1179)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190609192202")
+mod:SetRevision("2019062442036")
 mod:SetCreatureID(152852, 152853)--Pashmar 152852, Silivaz 152853
 mod:SetEncounterID(2311)
 mod:SetZone()
@@ -112,25 +112,34 @@ mod.vb.sentenceActive = 0
 function mod:OnCombatStart(delay)
 	self.vb.sparkIcon = 1
 	self.vb.sentenceActive = 0
-	--Timers that differ between heroic/mythic tests
-	if self:IsMythic() then
+	--CLEAN THIS MESS UP ON LIVE WITH UPDATED HEROIC TIMERS
+	if self:IsHard() then
+		--Pashmar
+		timerFanaticalVerdictCD:Start(30-delay)
+		--On heroic, azshara casts Form Ranks immediately on pull (still true?)
+		if self:IsMythic() then
+			--ass-shara
+			timerFormRanksCD:Start(30-delay)
+			--Pashmar
+			timerPotentSparkCD:Start(20.2-delay)
+		else
+			timerPotentSparkCD:Start(15.8-delay)
+		end
+	else
+		--Timers for Normal and LFR
 		--ass-shara
 		timerFormRanksCD:Start(30-delay)
 		--Pashmar
-		timerPotentSparkCD:Start(20.4-delay)
-		timerFerventBoltCD:Start(5.1-delay)
-	else
-		--On heroic, azshara cast decree immediately on pull
-		--Pashmar
 		timerPotentSparkCD:Start(15.8-delay)
+		timerFanaticalVerdictCD:Start(37.3-delay)
 	end
-	--TImers that are same across board
+	--Timers that are same across board
 	--Silivaz
-	timerFreneticChargeCD:Start(30.3-delay)
+	timerFreneticChargeCD:Start(30-delay)
 	timerZealousEruptionCD:Start(50.7-delay)
 	--Pashmar
-	timerFanaticalVerdictCD:Start(30.4-delay)
-	timerViolentOutburstCD:Start(100.7-delay)
+	timerViolentOutburstCD:Start(100.1-delay)
+	timerFerventBoltCD:Start(5.1-delay)
 	if self.Options.NPAuraOnSoP then
 		DBM:FireEvent("BossMod_EnableHostileNameplates")
 	end
@@ -292,15 +301,12 @@ function mod:SPELL_AURA_APPLIED(args)
 			self:SetIcon(args.destName, 4)
 		end
 	elseif spellId == 296851 then
-		if args:IsPlayer() then--If you have form ranks, do NOT run out
-			--if not DBM:UnitDebuff("player", 303188) then
-				specWarnFanaticalVerdict:Show()
-				specWarnFanaticalVerdict:Play("runout")
-			--end
+		warnFanaticalVerdict:CombinedShow(0.3, args.destName)
+		if args:IsPlayer() then
+			specWarnFanaticalVerdict:Show()
+			specWarnFanaticalVerdict:Play("runout")
 			yellFanaticalVerdict:Yell()
 			yellFanaticalVerdictFades:Countdown(spellId)
-		else
-			warnFanaticalVerdict:Show(args.destName)
 		end
 	end
 end
@@ -360,15 +366,15 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
 	if msg:find("spell:298050") then--Form Ranks (Repeat Performance is next)
 		specWarnFormRanks:Show(L.Circles)
 		specWarnFormRanks:Play("gathershare")
-		timerRepeatPerformanceCD:Start(self:IsMythic() and 30 or 40)
+		timerRepeatPerformanceCD:Start(self:IsMythic() and 30 or self:IsHeroic() and 40 or 60)
 	elseif msg:find("spell:301244") then--Repeat Performance (Stand Alone is next)
-		timerStandAloneCD:Start(self:IsMythic() and 30 or 40)
+		timerStandAloneCD:Start(self:IsMythic() and 30 or self:IsHeroic() and 40 or 60)
 	elseif msg:find("spell:297656") then--Stand Alone (Sentence is next)
-		timerDeferredSentenceCD:Start(self:IsMythic() and 30 or 40)
+		timerDeferredSentenceCD:Start(self:IsMythic() and 30 or self:IsHeroic() and 40 or 60)
 	elseif msg:find("spell:297566") then--Defferred Sentence (Obey is next)
-		timerObeyorSufferCD:Start(self:IsMythic() and 30 or 40)
+		timerObeyorSufferCD:Start(self:IsMythic() and 30 or self:IsHeroic() and 40 or 60)
 	elseif msg:find("spell:297585") then--Obey or Suffer (loops back to form ranks after)
-		timerFormRanksCD:Start(self:IsMythic() and 30 or 40)
+		timerFormRanksCD:Start(self:IsMythic() and 30 or self:IsHeroic() and 40 or 60)
 	end
 end
 

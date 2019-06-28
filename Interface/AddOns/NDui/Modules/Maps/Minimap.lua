@@ -9,7 +9,7 @@ function module:CreatePulse()
 	if not NDuiDB["Map"]["CombatPulse"] then return end
 
 	local MBG = B.CreateBG(Minimap)
-	B.CreateSD(MBG, C.mult, C.mult*2)
+	B.CreateSD(MBG)
 	local anim = MBG:CreateAnimationGroup()
 	anim:SetLooping("BOUNCE")
 	anim.fader = anim:CreateAnimation("Alpha")
@@ -108,7 +108,7 @@ function module:ReskinRegions()
 	GameTimeCalendarInvitesTexture:ClearAllPoints()
 	GameTimeCalendarInvitesTexture:SetParent("Minimap")
 	GameTimeCalendarInvitesTexture:SetPoint("TOPRIGHT")
-	local Invt = CreateFrame("Button", "NDuiInvt", UIParent)
+	local Invt = CreateFrame("Button", nil, UIParent)
 	Invt:SetPoint("TOPRIGHT", Minimap, "BOTTOMLEFT", -20, -20)
 	Invt:SetSize(300, 80)
 	Invt:Hide()
@@ -229,7 +229,8 @@ function module:RecycleBin()
 						child.highlight:SetAllPoints()
 						child.highlight:SetColorTexture(1, 1, 1, .25)
 					end
-					B.CreateSD(child, 3, 3)
+
+					B.CreateSD(B.CreateBG(child))
 
 					-- Naughty Addons
 					if name == "DBMMinimapButton" then
@@ -310,7 +311,7 @@ function module:SetupMinimap()
 	local scale = NDuiDB["Map"]["MinmapScale"]
 	Minimap:SetFrameLevel(10)
 	Minimap:SetMaskTexture("Interface\\Buttons\\WHITE8X8")
-	MinimapCluster:SetScale(scale)
+	Minimap:SetScale(scale)
 	DropDownList1:SetClampedToScreen(true)
 
 	local mover = B.Mover(Minimap, L["Minimap"], "Minimap", C.Minimap.Pos, Minimap:GetWidth()*scale, Minimap:GetHeight()*scale)

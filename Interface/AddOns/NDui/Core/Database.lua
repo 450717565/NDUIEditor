@@ -5,7 +5,6 @@ DB.Version = GetAddOnMetadata("NDui", "Version")
 DB.Support = GetAddOnMetadata("NDui", "X-Support")
 DB.Client = GetLocale()
 DB.ScreenWidth, DB.ScreenHeight = GetPhysicalScreenSize()
-DB.isNewPatch = GetBuildInfo() == "8.2.0"
 
 -- Colors
 DB.MyName = UnitName("player")
@@ -101,10 +100,14 @@ B:RegisterEvent("PLAYER_TALENT_UPDATE", CheckRole)
 -- Raidbuff Checklist
 DB.BuffList = {
 	[1] = {		-- 合剂
-		251836,	-- 敏捷
-		251837,	-- 智力
-		251838,	-- 耐力
-		251839,	-- 力量
+		251836,	-- 敏捷238
+		251837,	-- 智力238
+		251838,	-- 耐力238
+		251839,	-- 力量238
+		298836,	-- 敏捷360
+		298837,	-- 智力360
+		298839,	-- 耐力360
+		298841,	-- 力量360
 	},
 	[2] = { -- 进食充分
 		104273, -- 250敏捷，BUFF名一致

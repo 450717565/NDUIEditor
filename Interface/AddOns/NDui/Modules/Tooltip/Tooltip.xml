@@ -1,7 +1,7 @@
 <Ui>
 	<Script file="Tip.lua"/>
-	<Script file="Itemicons.lua"/>
-	<Script file="SpellID.lua"/>
+	<Script file="TooltipIcons.lua"/>
+	<Script file="TooltipID.lua"/>
 	<Script file="SpecLevel.lua"/>
 	<Script file="PetInfo.lua"/>
 	<Script file="Hovertips.lua"/>

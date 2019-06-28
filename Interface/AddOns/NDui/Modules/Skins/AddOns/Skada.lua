@@ -1,8 +1,8 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local module = B:GetModule("Skins")
+local S = B:GetModule("Skins")
 
-function module:SkadaSkin()
+function S:SkadaSkin()
 	if not NDuiDB["Skins"]["Skada"] then return end
 	if not IsAddOnLoaded("Skada") then return end
 
@@ -52,7 +52,7 @@ function module:SkadaSkin()
 			B.SetBackground(bg)
 			window.bg = bg
 
-			local open, close = module:CreateToggle(window)
+			local open, close = S:CreateToggle(window)
 			open:HookScript("OnClick", function()
 				window:Show()
 			end)
