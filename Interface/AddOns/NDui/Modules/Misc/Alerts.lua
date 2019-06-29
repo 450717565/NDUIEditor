@@ -120,7 +120,8 @@ function M:RareAlert_Update(id)
 
 		UIErrorsFrame:AddMessage(DB.InfoColor..format(">>> %s <<<", tex..(info.name or "")))
 		if NDuiDB["Misc"]["AlertinChat"] and not UnitIsDeadOrGhost("player") then
-			SendChatMessage(format(">>> %s <<<", info.name), "SAY")
+			local currrentTime = date("%H:%M:%S")
+			SendChatMessage(format(">>> [%s]%s <<<", currrentTime, info.name), "SAY")
 		end
 		PlaySoundFile("Sound\\Interface\\PVPFlagTakenMono.ogg", "master")
 

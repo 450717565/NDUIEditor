@@ -53,6 +53,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	end
 
 	local headers = {
+		ObjectiveTrackerFrame.BlocksFrame.UIWidgetsHeader,
 		ObjectiveTrackerBlocksFrame.AchievementHeader,
 		ObjectiveTrackerBlocksFrame.ScenarioHeader,
 		ObjectiveTrackerBlocksFrame.QuestHeader,

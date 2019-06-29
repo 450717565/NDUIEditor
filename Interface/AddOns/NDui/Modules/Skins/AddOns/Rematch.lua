@@ -194,6 +194,7 @@ function S:ReskinRematch()
 		F.StripTextures(self.SelectedOverlay)
 		local bg = F.CreateBDFrame(self.SelectedOverlay, 0)
 		bg:SetBackdropColor(cr, cg, cb, .5)
+		self.SelectedOverlay.bg = bg
 	end
 
 	local function resizeJournal()
@@ -450,8 +451,12 @@ function S:ReskinRematch()
 		local petInfo = Rematch.petInfo:Fetch(petID)
 		local parentPanel = self:GetParent():GetParent():GetParent():GetParent()
 		if petInfo.isSummoned and parentPanel == Rematch.PetPanel then
-			parentPanel.SelectedOverlay:SetPoint("TOPLEFT", self.bg, C.mult, -C.mult)
-			parentPanel.SelectedOverlay:SetPoint("BOTTOMRIGHT", self.bg, -C.mult, C.mult)
+			local bg = parentPanel.SelectedOverlay.bg
+			if bg then
+				bg:ClearAllPoints()
+				bg:SetPoint("TOPLEFT", self.bg, C.mult, -C.mult)
+				bg:SetPoint("BOTTOMRIGHT", self.bg, -C.mult, C.mult)
+			end
 		end
 	end)
 
@@ -621,8 +626,12 @@ function S:ReskinRematch()
 
 		local panel = RematchTeamPanel
 		if teamInfo.key == settings.loadedTeam then
-			panel.SelectedOverlay:SetPoint("TOPLEFT", self.bg, C.mult, -C.mult)
-			panel.SelectedOverlay:SetPoint("BOTTOMRIGHT", self.bg, -C.mult, C.mult)
+			local bg = panel.SelectedOverlay.bg
+			if bg then
+				bg:ClearAllPoints()
+				bg:SetPoint("TOPLEFT", self.bg, C.mult, -C.mult)
+				bg:SetPoint("BOTTOMRIGHT", self.bg, -C.mult, C.mult)
+			end
 		end
 	end)
 

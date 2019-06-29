@@ -250,7 +250,8 @@ LibEvent:attachTrigger("INSPECT_FRAME_SHOWN", function(self, frame, parent, ilev
 		frame.backdrop.insets.left = C.mult
 		frame.backdrop.insets.right = C.mult
 		frame.backdrop.insets.bottom = C.mult
-		frame:SetPoint("TOPLEFT", parent, "TOPRIGHT", 2, 0)
+		frame:SetPoint("TOPLEFT", parent, "TOPRIGHT", 3, 1)
+		frame:SetPoint("BOTTOMLEFT", parent, "BOTTOMRIGHT", 3, -1)
 	else
 		frame.backdrop.edgeSize = 16
 		frame.backdrop.edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border"

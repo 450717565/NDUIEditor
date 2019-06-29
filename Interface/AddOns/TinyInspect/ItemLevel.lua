@@ -399,10 +399,8 @@ local function setupGuild(button, text_color, text, text1, text2, ...)
 end
 
 LibEvent:attachEvent("ADDON_LOADED", function(self, addonName)
-	if (addonName == "Blizzard_GuildUI") then
+	if addonName == "Blizzard_GuildUI" or addonName == "Blizzard_Communities" then
 		hooksecurefunc("GuildNewsButton_SetText", setupGuild)
-	elseif (addonName == "Blizzard_Communities") then
-		hooksecurefunc("CommunitiesGuildNewsButton_SetText", setupGuild)
 	end
 end)
 

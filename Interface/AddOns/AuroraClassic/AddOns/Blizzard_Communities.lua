@@ -60,7 +60,7 @@ C.themes["Blizzard_Communities"] = function()
 	end
 
 	CommunitiesFrame.ChatTab:ClearAllPoints()
-	CommunitiesFrame.ChatTab:SetPoint("TOPLEFT", CommunitiesFrame, "TOPRIGHT", 0, -25)
+	CommunitiesFrame.ChatTab:SetPoint("TOPLEFT", CommunitiesFrame, "TOPRIGHT", 2, -25)
 	for _, name in pairs({"ChatTab", "RosterTab", "GuildBenefitsTab", "GuildInfoTab"}) do
 		local tab = CommunitiesFrame[name]
 		tab:SetSize(34, 34)
@@ -208,15 +208,6 @@ C.themes["Blizzard_Communities"] = function()
 	F.CreateBDFrame(Settings.Description, 0)
 	F.StripTextures(Settings.MessageOfTheDay)
 	F.CreateBDFrame(Settings.MessageOfTheDay, 0)
-
-	Settings.BG:Hide()
-	F.ReskinCheck(Settings.ShouldListClub.Button)
-	F.ReskinCheck(Settings.AutoAcceptApplications.Button)
-	F.ReskinCheck(Settings.MaxLevelOnly.Button)
-	F.ReskinCheck(Settings.MinIlvlOnly.Button)
-	F.ReskinInput(Settings.MinIlvlOnly.EditBox)
-	F.ReskinDropDown(Settings.ClubFocusDropdown)
-	F.ReskinDropDown(Settings.LookingForDropdown)
 
 	local AvatarPicker = CommunitiesAvatarPickerDialog
 	F.ReskinFrame(AvatarPicker)
@@ -369,7 +360,7 @@ C.themes["Blizzard_Communities"] = function()
 	F.CreateBDFrame(CommunitiesFrameGuildDetailsFrameInfo.DetailsFrame, 0)
 	local bg = F.CreateBDFrame(CommunitiesFrameGuildDetailsFrameInfoMOTDScrollFrame, 0)
 	bg:SetPoint("TOPLEFT", 0, 3)
-	bg:SetPoint("BOTTOMRIGHT", -5, -4)
+	bg:SetPoint("BOTTOMRIGHT", 0, -4)
 
 	F.ReskinFrame(CommunitiesGuildNewsFiltersFrame)
 	for _, name in pairs({"GuildAchievement", "Achievement", "DungeonEncounter", "EpicItemLooted", "EpicItemPurchased", "EpicItemCrafted", "LegendaryItemLooted"}) do
