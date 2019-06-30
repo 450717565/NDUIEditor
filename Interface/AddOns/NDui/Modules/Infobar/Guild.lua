@@ -138,7 +138,7 @@ local function createRoster(parent, i)
 	button.class:SetPoint("LEFT", 39, 0)
 	button.class:SetSize(16, 16)
 	button.class:SetTexture("Interface\\GLUES\\CHARACTERCREATE\\UI-CHARACTERCREATE-CLASSES")
-	B.CreateSD(B.CreateBG(button.class))
+	B.CreateBGFrame(button.class)
 
 	button.name = B.CreateFS(button, 13, "Name", false, "LEFT", 65, 0)
 	button.name:SetPoint("RIGHT", button, "LEFT", 185, 0)

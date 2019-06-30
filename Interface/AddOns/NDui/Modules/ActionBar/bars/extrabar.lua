@@ -58,5 +58,5 @@ function Bar:CreateExtrabar()
 	spellButton.Style:SetAlpha(0)
 	spellButton.Icon:SetTexCoord(unpack(DB.TexCoord))
 	spellButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-	B.CreateSD(B.CreateBG(spellButton.Icon))
+	B.CreateBGFrame(spellButton.Icon)
 end

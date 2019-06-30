@@ -104,7 +104,7 @@ function TT:InsertRoleFrame(role)
 		f:SetPoint("TOPRIGHT", self, "TOPLEFT", -2, -2)
 		f:SetSize(20, 20)
 		f:SetTexture("Interface\\LFGFrame\\UI-LFG-ICONS-ROLEBACKGROUNDS")
-		B.CreateSD(B.CreateBG(f))
+		B.CreateBGFrame(f)
 		self.roleFrame = f
 	end
 	self.roleFrame:SetTexCoord(unpack(roleTex[role]))
@@ -261,12 +261,12 @@ end
 
 function TT:ReskinStatusBar()
 	GameTooltipStatusBar:ClearAllPoints()
-	GameTooltipStatusBar:SetPoint("BOTTOMLEFT", GameTooltip, "TOPLEFT", C.mult, C.mult*2)
-	GameTooltipStatusBar:SetPoint("BOTTOMRIGHT", GameTooltip, "TOPRIGHT", -C.mult, C.mult*2)
+	GameTooltipStatusBar:SetPoint("BOTTOMLEFT", GameTooltip, "TOPLEFT", C.mult*2, C.mult*2)
+	GameTooltipStatusBar:SetPoint("BOTTOMRIGHT", GameTooltip, "TOPRIGHT", -C.mult*2, C.mult*2)
 	GameTooltipStatusBar:SetStatusBarTexture(DB.normTex)
 	GameTooltipStatusBar:SetHeight(5)
 
-	B.SetBackground(B.CreateBG(GameTooltipStatusBar))
+	B.CreateBGFrame(GameTooltipStatusBar, true)
 end
 
 function TT:GameTooltip_ShowStatusBar()
@@ -333,7 +333,7 @@ function TT:ReskinTooltip()
 	if not self.tipStyled then
 		self:SetBackdrop(nil)
 		self:DisableDrawLayer("BACKGROUND")
-		local bg = B.CreateBG(self, 0)
+		local bg = B.CreateBG(self, -C.mult)
 		bg:SetFrameLevel(self:GetFrameLevel())
 		B.SetBackground(bg)
 		self.bg = bg
@@ -506,11 +506,20 @@ TT:RegisterTooltips("NDui", function()
 
 	-- Others
 	C_Timer.After(5, function()
+		-- Lib minimap icon
 		if LibDBIconTooltip then
 			TT.ReskinTooltip(LibDBIconTooltip)
 		end
+		-- TomTom
 		if TomTomTooltip then
 			TT.ReskinTooltip(TomTomTooltip)
+		end
+		-- RareScanner
+		if RSMapItemToolTip then
+			TT.ReskinTooltip(RSMapItemToolTip)
+		end
+		if LootBarToolTip then
+			TT.ReskinTooltip(LootBarToolTip)
 		end
 	end)
 

@@ -109,7 +109,7 @@ function UF:CreateRaidDebuffs(self)
 	bu:SetSize(size, size)
 	bu:SetPoint("RIGHT", -15, 0)
 	bu:SetFrameLevel(self:GetFrameLevel() + 3)
-	B.CreateSD(B.CreateBG(bu))
+	B.CreateBGFrame(bu)
 	bu:Hide()
 
 	bu.icon = bu:CreateTexture(nil, "ARTWORK")

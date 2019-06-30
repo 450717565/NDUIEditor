@@ -8,8 +8,7 @@ local pairs, ipairs = pairs, ipairs
 function module:CreatePulse()
 	if not NDuiDB["Map"]["CombatPulse"] then return end
 
-	local MBG = B.CreateBG(Minimap)
-	B.CreateSD(MBG)
+	local MBG = B.CreateBGFrame(Minimap)
 	local anim = MBG:CreateAnimationGroup()
 	anim:SetLooping("BOUNCE")
 	anim.fader = anim:CreateAnimation("Alpha")
@@ -230,7 +229,7 @@ function module:RecycleBin()
 						child.highlight:SetColorTexture(1, 1, 1, .25)
 					end
 
-					B.CreateSD(B.CreateBG(child))
+					B.CreateBGFrame(child)
 
 					-- Naughty Addons
 					if name == "DBMMinimapButton" then

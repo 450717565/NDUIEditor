@@ -339,7 +339,7 @@ function UF:CreateCastBar(self)
 		cb.Icon:SetSize(cb:GetHeight(), cb:GetHeight())
 		cb.Icon:SetPoint("BOTTOMRIGHT", cb, "BOTTOMLEFT", -5, 0)
 		cb.Icon:SetTexCoord(unpack(DB.TexCoord))
-		B.CreateSD(B.CreateBG(cb.Icon))
+		B.CreateBGFrame(cb.Icon)
 	end
 
 	if mystyle == "player" then
@@ -403,7 +403,7 @@ local function reskinTimerBar(bar)
 		bar:SetStatusBarTexture(DB.normTex)
 	end
 
-	B.SetBackground(B.CreateBG(bar))
+	B.CreateBGFrame(bar, true)
 end
 
 function UF:ReskinMirrorBars()
@@ -447,8 +447,6 @@ function UF.PostCreateIcon(element, button)
 
 	button.icon:SetTexCoord(unpack(DB.TexCoord))
 	button.icon:SetDrawLayer("ARTWORK")
-	local bg = B.CreateBG(button)
-	button.Shadow = B.CreateSD(bg)
 
 	button.HL = button:CreateTexture(nil, "HIGHLIGHT")
 	button.HL:SetColorTexture(1, 1, 1, .25)
@@ -456,6 +454,8 @@ function UF.PostCreateIcon(element, button)
 
 	button.overlay:SetTexture(nil)
 	button.stealable:SetAtlas("bags-newitem")
+
+	B.CreateBGFrame(button)
 
 	if element.disableCooldown then button.timer = B.CreateFS(button, 12) end
 end
@@ -839,8 +839,8 @@ end
 
 function UF:CreateExpRepBar(self)
 	local bar = CreateFrame("StatusBar", nil, self)
-	bar:SetPoint("TOPLEFT", self, "TOPRIGHT", 5, 0)
-	bar:SetPoint("BOTTOMRIGHT", self.Power, "BOTTOMRIGHT", 10, 0)
+	bar:SetPoint("TOPRIGHT", self, "TOPLEFT", -5, 0)
+	bar:SetPoint("BOTTOMLEFT", self.Power, "BOTTOMLEFT", -10, 0)
 	bar:SetOrientation("VERTICAL")
 	B.CreateSB(bar)
 
@@ -994,7 +994,7 @@ function UF:CreateQuakeTimer(self)
 	icon:SetSize(bar:GetHeight(), bar:GetHeight())
 	icon:SetPoint("RIGHT", bar, "LEFT", -5, 0)
 	icon:SetTexCoord(unpack(DB.TexCoord))
-	B.CreateSD(B.CreateBG(icon))
+	B.CreateBGFrame(icon)
 	bar.Icon = icon
 
 	self.QuakeTimer = bar

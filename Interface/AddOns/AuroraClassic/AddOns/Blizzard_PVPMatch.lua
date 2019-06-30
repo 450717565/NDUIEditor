@@ -1,26 +1,49 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
+	-- PVPMatchScoreboard
 	F.ReskinFrame(PVPMatchScoreboard)
+	PVPMatchScoreboard:HookScript("OnShow", F.StripTextures)
 
 	local Content = PVPMatchScoreboard.Content
 	F.StripTextures(Content)
-	F.ReskinScroll(Content.ScrollFrame.ScrollBar)
-	F.StripTextures(Content.TabContainer)
+
+	local ScrollFrame = Content.ScrollFrame
+	F.StripTextures(ScrollFrame)
+	F.ReskinScroll(ScrollFrame.ScrollBar)
+
+	local TabContainer = Content.TabContainer
+	F.StripTextures(TabContainer)
 	for i = 1, 3 do
-		F.ReskinTab(Content.TabContainer.TabGroup["Tab"..i])
+		F.ReskinTab(TabContainer.TabGroup["Tab"..i])
 	end
 
+	local bg = F.CreateBDFrame(Content, 0)
+	bg:SetPoint("BOTTOMRIGHT", TabContainer.InsetBorderTop, 4, -1)
+
+	-- PVPMatchResults
 	F.ReskinFrame(PVPMatchResults)
-	F.ReskinButton(PVPMatchResults.buttonContainer.leaveButton)
-	F.ReskinButton(PVPMatchResults.buttonContainer.requeueButton)
+	PVPMatchResults:HookScript("OnShow", F.StripTextures)
+	F.StripTextures(PVPMatchResults.overlay)
+
+	local buttonContainer = PVPMatchResults.buttonContainer
+	F.ReskinButton(buttonContainer.leaveButton)
+	F.ReskinButton(buttonContainer.requeueButton)
 
 	local content = PVPMatchResults.content
 	F.StripTextures(content)
 	F.StripTextures(content.earningsArt)
-	F.ReskinScroll(content.scrollFrame.scrollBar)
-	F.StripTextures(content.tabContainer)
+
+	local scrollFrame = content.scrollFrame
+	F.StripTextures(scrollFrame)
+	F.ReskinScroll(scrollFrame.scrollBar)
+
+	local tabContainer = content.tabContainer
+	F.StripTextures(tabContainer)
 	for i = 1, 3 do
-		F.ReskinTab(content.tabContainer.tabGroup["tab"..i])
+		F.ReskinTab(tabContainer.tabGroup["tab"..i])
 	end
+
+	local bg = F.CreateBDFrame(content, 0)
+	bg:SetPoint("BOTTOMRIGHT", tabContainer.InsetBorderTop, 4, -1)
 end)

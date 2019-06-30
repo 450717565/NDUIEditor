@@ -67,6 +67,20 @@ function B.ItemSlotInfo(item)
 	return slotText
 end
 
+-- Create BGFrame
+function B:CreateBGFrame(full, offset)
+	local bg = B.CreateBG(self, offset)
+
+	if full then
+		B.SetBackground(bg)
+	else
+		B.CreateSD(bg)
+	end
+	self.Shadow = bg.Shadow
+
+	return bg
+end
+
 -- Gradient Frame
 function B:CreateGF(w, h, o, r, g, b, a1, a2)
 	self:SetSize(w, h)
@@ -328,8 +342,7 @@ function B:CreateSB(spark, r, g, b)
 		self:SetStatusBarColor(cr, cg, cb)
 	end
 
-	local BG = B.CreateBG(self)
-	self.Shadow = B.CreateSD(BG)
+	B.CreateBGFrame(self)
 
 	local bg = self:CreateTexture(nil, "BACKGROUND")
 	bg:SetAllPoints()
@@ -677,7 +690,7 @@ function B:CreateDropDown(width, height, data)
 	dd:SetSize(width, height)
 	B.CreateBD(dd)
 	B.CreateSD(dd)
-	dd:SetBackdropBorderColor(1, 1, 1, .25)
+	dd:SetBackdropBorderColor(1, 1, 1, .5)
 	dd.Text = B.CreateFS(dd, 14, "", false, "LEFT", 5, 0)
 	dd.Text:SetPoint("RIGHT", -5, 0)
 	dd.options = {}
@@ -688,7 +701,7 @@ function B:CreateDropDown(width, height, data)
 	list:SetPoint("TOP", dd, "BOTTOM", 0, -2)
 	B.CreateBD(list, 1)
 	B.CreateSD(list)
-	list:SetBackdropBorderColor(1, 1, 1, .25)
+	list:SetBackdropBorderColor(1, 1, 1, .5)
 	list:Hide()
 	bu:SetScript("OnShow", function() list:Hide() end)
 	bu:SetScript("OnClick", function()

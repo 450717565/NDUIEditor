@@ -28,7 +28,7 @@ function Bar:CreateLeaveVehicle()
 	button:SetNormalTexture(nil)
 	button:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 	button:GetPushedTexture():SetTexture(DB.textures.pushed)
-	B.CreateSD(B.CreateBG(button))
+	B.CreateBGFrame(button)
 
 	local function onClick(self)
 		if UnitOnTaxi("player") then TaxiRequestEarlyLanding() else VehicleExit() end

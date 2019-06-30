@@ -81,9 +81,8 @@ function S:DBMSkin()
 					frame:SetHeight(buttonsize/2)
 					frame.SetHeight = B.Dummy
 					if not frame.bg then
-						frame.bg = B.CreateBG(frame, -C.mult)
+						frame.bg = B.CreateBGFrame(frame, false, -C.mult)
 					end
-					B.CreateSD(frame.bg)
 					B.CreateTex(frame.bg)
 					frame.styled = true
 				end

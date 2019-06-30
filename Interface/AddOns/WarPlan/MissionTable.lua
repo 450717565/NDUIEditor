@@ -38,8 +38,8 @@ local function manualGroupFilter(g)
 	end
 	local f1, f2, f3 = W.GetGroupMembers(g)
 	local n = (manualMemberSet[f1] and 1 or 0)
-			+ (manualMemberSet[f2] and 1 or 0)
-			+ (manualMemberSet[f3] and 1 or 0)
+	        + (manualMemberSet[f2] and 1 or 0)
+	        + (manualMemberSet[f3] and 1 or 0)
 	return n == manualMemberCount
 end
 local function GetManualGroupFilter()
@@ -140,9 +140,9 @@ local function ConfigureMission(me, mi, isAvailable)
 	if (mi.description or "") ~= "" then
 		me.Description:SetText(mi.description)
 	end
-
+	
 	local _, baseXP, envN, envD, envI, _, _, enemies = C.GetMissionInfo(mid)
-
+	
 	local timeNow = GetTime()
 	local expirePrefix, expireAt, expireRoundUp = false, nil, nil, false
 	me.completableAfter = nil
@@ -166,10 +166,10 @@ local function ConfigureMission(me, mi, isAvailable)
 		me.ProgressBar.ChanceText:SetText(sc and sc .. "%" or "")
 	end
 	me.ProgressBar:SetMouseMotionEnabled(me.completableAfter and me.completableAfter <= timeNow)
-
+	
 	me:SetCountdown(expirePrefix, expireAt, nil, nil, false, expireRoundUp)
 	me.XPReward:SetText(baseXP .. " XP")
-
+	
 	ConfigureReward(me.Rewards[1], mi.rewards and mi.rewards[1])
 	ConfigureReward(me.Rewards[2], mi.overmaxRewards and mi.overmaxRewards[1], true)
 	me.Rewards.Container:SetWidth(me.hasOvermaxRewards and 104 or 48)
@@ -190,18 +190,18 @@ local function ConfigureMission(me, mi, isAvailable)
 	me.AchievementReward.achievementID = mi.achievementID
 	me.AchievementReward:SetShown(mi.achievementID and not mi.achievementComplete)
 	me.MechanicsContainer:SetWidth(38*nm -44)
-
+	
 	for i=1,#me.Groups do
 		me.Groups[i]:Hide()
 	end
-
+	
 	local isMissionActive = not not (mi.completed or mi.timeLeftSeconds)
 	local veilShade = mi.timeLeftSeconds and 0.65 or 1
 	me.Veil:SetShown(isMissionActive)
 	me.ProgressBar:SetShown(isMissionActive and not mi.isFakeStart)
 	me.Rewards[1].RarityBorder:SetVertexColor(veilShade, veilShade, veilShade)
 	me.Rewards[2].RarityBorder:SetVertexColor(veilShade, veilShade, veilShade)
-
+	
 	me:Show()
 end
 function EV:I_UPDATE_MISSION_SUGGESTIONS()
@@ -218,7 +218,7 @@ function EV:I_UPDATE_MISSION_SUGGESTIONS()
 		end
 	end
 	local followers = W.GetFollowers(22)
-
+	
 	local Missions = TaskBoard.Missions
 	for i=1,#Missions do
 		local me = Missions[i]
@@ -251,7 +251,7 @@ function EV:I_UPDATE_MISSION_SUGGESTIONS()
 						elseif C.GetFollowerIsTroop(fid) then
 							gcomp = gcomp .. (isLethal and C.GetFollowerInfo(fid).durability > 1 and deadTroop or troop)
 						else
-							local qc = select(C.GetFollowerQuality(fid), nil, "100:180:50", "50:100:255") or "214:155:33"
+							local qc = select(C.GetFollowerQuality(fid), nil, "100:180:50", "50:100:255", "220:130:255") or "214:155:33"
 							gcomp = gcomp .. champ .. qc .. "|t"
 						end
 						f1,f2,f3 = f2,f3
@@ -296,11 +296,17 @@ function EV:I_HIGHLIGHT_GROUP(group)
 	end
 end
 
+local function filterChampionName(name, fid)
+	if GetLocale() == "enUS" and fid == 1182 then
+		name = name:match(" (.+)")
+	end
+	return name
+end
 local function syncUI()
 	local TaskBoard = WarPlanFrame.TaskBoard
 	local availableMissions, inProgressMissions, completeMissions, followers, followerMissionInfo = W.GetMissionTableInfo(22)
 	local troopArray = {}
-
+	
 	local Champions, cn = TaskBoard.Champions, 1
 	for i=1,#followers do
 		local fi = followers[i]
@@ -308,16 +314,16 @@ local function syncUI()
 		if fi.status == GARRISON_FOLLOWER_ON_MISSION and IsFollowerInFocusGroup(fid) then
 			EV("I_TOGGLE_FOLLOWER_FOCUS", fid, true)
 		end
+		local ce = Champions[cn]
 		if fi.isTroop then
 			troopArray[#troopArray+1] = fi
-		elseif fi.isCollected then
-			local ce, fi = Champions[cn], followers[i]
+		elseif fi.isCollected and ce then
 			local fid, gfid = fi.followerID, fi.garrFollowerID
 			local tmid = W.GetFollowerTentativeGroup(fid)
 			local onMission = fi.status == GARRISON_FOLLOWER_ON_MISSION or followerMissionInfo[fid] ~= nil or nil
 			ce.followerID = fid
 			cn = cn + 1
-			ce.Name:SetText(fi.name)
+			ce.Name:SetText(filterChampionName(fi.name, fi.garrFollowerID))
 			ce.Portrait:SetTexture(fi.portraitIconID)
 			ce.selectDisabled = (onMission or tmid) and true or nil
 			ce.Veil:SetShown(ce.selectDisabled)
@@ -405,7 +411,7 @@ local function syncUI()
 	for j=nh, #Troops.Headers do
 		Troops.Headers[j]:Hide()
 	end
-
+	
 	local Missions, cn = TaskBoard.Missions, 1
 	for i=1,#availableMissions do
 		ConfigureMission(Missions[cn], availableMissions[i], true)
@@ -468,7 +474,7 @@ function EV:I_LOAD_HOOKS()
 			return
 		end
 		Garrison_LoadUI()
-		ShowUIPanel(WarPlanFrame)
+		WarPlanFrame:Show()
 	end
 	function EV:GARRISON_MISSION_NPC_OPENED(followerTypeID)
 		if followerTypeID ~= 22 then
@@ -476,7 +482,7 @@ function EV:I_LOAD_HOOKS()
 			return
 		end
 		Garrison_LoadUI()
-		ShowUIPanel(WarPlanFrame)
+		WarPlanFrame:Show()
 	end
 	return "remove"
 end
@@ -614,7 +620,7 @@ function EV:I_LOAD_MAINUI()
 	end
 	function EV:GARRISON_MISSION_NPC_CLOSED()
 		if frame:IsShown() then
-			HideUIPanel(frame)
+			frame:Hide()
 		end
 	end
 
@@ -664,6 +670,6 @@ function EV:I_LOAD_MAINUI()
 	C_Timer.After(0, function()
 		GarrisonFollowerOptions[22].missionFrame = "WarPlanFrame"
 	end)
-
+	
 	return "remove"
 end

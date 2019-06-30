@@ -101,7 +101,9 @@ local itemAreas = {
 	-- Suramar
 	[133882] = 680,
 	-- Tiragarde Sound
-	[154878] = 895
+	[154878] = 895,
+	-- Mechagon
+	[168813] = 1462
 }
 
 local ExtraQuestButton = CreateFrame("Button", "ExtraQuestButton", UIParent, "SecureActionButtonTemplate, SecureHandlerStateTemplate, SecureHandlerAttributeTemplate")
@@ -198,7 +200,7 @@ function ExtraQuestButton:PLAYER_LOGIN()
 	self.rangeTimer = 0
 	self:Hide()
 
-	B.CreateSD(B.CreateBG(self))
+	B.CreateBGFrame(self)
 
 	local HotKey = self:CreateFontString("$parentHotKey", nil, "NumberFontNormal")
 	HotKey:SetPoint("TOP", 0, -5)

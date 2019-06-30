@@ -507,11 +507,47 @@ local function Mirror(tex, swapH, swapV)
 	tex:SetTexCoord(ulX, ulY, llX, llY, urX, urY, lrX, lrY)
 	return tex
 end
-local function RaiseToParentPlus10(self)
-	self:SetFrameLevel(self:GetParent():GetFrameLevel()+10)
-end
 local function HideGrandparentPanel(self)
 	HideUIPanel(self:GetParent():GetParent())
+end
+
+local function ChampionList_EnableStaticAnchors(self)
+	local cl = self:GetParent():GetParent().Champions
+	for i=1,#cl do
+		cl[i]:SetPoint("LEFT", 182*i-182, 0)
+	end
+end
+local function ChampionList_AnimateDynamicAnchors(self, elapsed)
+	local listContainer = self:GetParent()
+	local aLeft = listContainer.animLeft
+	if aLeft then
+		aLeft = aLeft > elapsed and aLeft - elapsed or nil
+		listContainer.animLeft = aLeft
+	end
+	if listContainer:IsMouseOver() or not elapsed then
+		local x, s, l, _b, w = GetCursorPosition(), listContainer:GetEffectiveScale(), listContainer:GetRect()
+		x = (x/s-l)/w
+		if (x < 0.185 or x > 0.60) and (listContainer.goalView ~= (x > 0.60)) then
+			listContainer.goalView, aLeft = x > 0.60, elapsed and 0.2 or nil
+			listContainer.animLeft = aLeft
+		end
+	end
+	local cl, view = listContainer:GetParent().Champions, listContainer.goalView
+	local left1, left2 = 0, 0
+	local p = aLeft and (1-aLeft/0.2) or 1
+	p = p*p*(3-2*p)
+	if not view then p = 1-p end
+	local q = 1-p
+	for i=1,#cl do
+		local cf = cl[i]
+		cf:SetPoint("LEFT", left1*p+left2*q, 0)
+		left1 = left1 + (i < 3 and 88 or 183)
+		left2 = left2 + (i > 3 and 88 or 183)
+	end
+end
+local function ChampionList_EnableDynamicAnchors(self)
+	self:SetScript("OnUpdate", ChampionList_AnimateDynamicAnchors)
+	ChampionList_AnimateDynamicAnchors(self, nil)
 end
 
 do -- Factory.ObjectGroup
@@ -540,10 +576,10 @@ function Factory.TexSlice(parent, layer,subLevel, tex,tW,tH, x0,x1,x2,x3, y0,y1,
 		r[i] = parent:CreateTexture(nil, layer, nil, subLevel)
 	end
 	r:SetTexture(tex)
-
+	
 	x0,x1,x2,x3=x0/tW,x1/tW,x2/tW,x3/tW
 	y0,y1,y2,y3=y0/tH,y1/tH,y2/tH,y3/tH
-
+	
 	if yS > 0 then
 		t, ni = r[ni], ni + 1
 		t:SetTexCoord(x0, x1, y0, y1)
@@ -584,7 +620,7 @@ function Factory.TexSlice(parent, layer,subLevel, tex,tW,tH, x0,x1,x2,x3, y0,y1,
 		t:SetPoint("BOTTOMRIGHT", oR, -oB)
 		t:SetSize(xS, yS)
 	end
-
+	
 	return r
 end
 function Factory.RewardFrame(parent)
@@ -726,6 +762,7 @@ function Factory.ChampionButton(parent)
 	cf:SetScript("OnEnter", Champion_OnEnter)
 	cf:SetScript("OnClick", ToggleChampionOnClick)
 	cf:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+	cf:SetClipsChildren(true)
 	CreateObject("TexSlice", cf, "BACKGROUND",2, "Interface/Store/Store-Splash",1024,1024, 1,31,257,287, 793,813,919,939, 18,13, 0,0,0,0)
 	t = CreateObject("TexSlice", cf, "BACKGROUND",3, "Interface/Store/Store-Splash",1024,1024, 1,31,257,287, 793,813,919,939, 18,13, 0,0,0,0)
 	t:SetVertexColor(0.25, 0.25, 0.45, 0.8)
@@ -996,7 +1033,7 @@ function Factory.MissionButton(parent)
 	t = CreateObject("AchievementRewardIcon", cf)
 		t:SetPoint("LEFT", cf, "TOP", 64, -24)
 		cf.AchievementReward = t
-
+	
 	t = CreateFrame("Frame", nil, cf)
 	t:SetPoint("TOP", 0, -150)
 	t:SetSize(140, 32)
@@ -1140,25 +1177,35 @@ function Factory.MissionTable(name)
 	local frame, t = CreateFrame("Frame", name, UIParent)
 	frame:Hide()
 	frame:SetSize(962, 662)
-	frame:SetPoint("CENTER")
+	frame:SetPoint("CENTER", 0, -20)
 	frame:SetFrameStrata("MEDIUM")
 	frame:SetToplevel(true)
-	frame:SetAttribute("UIPanelLayout-defined", true)
-	frame:SetAttribute("UIPanelLayout-area", "center")
-	frame:SetAttribute("UIPanelLayout-pushable", 0)
-	frame:SetAttribute("UIPanelLayout-whileDead", 1)
-	frame:SetAttribute("UIPanelLayout-checkFit", 1)
-	frame:SetAttribute("UIPanelLayout-allowOtherPanels", 1)
-	frame:SetAttribute("UIPanelLayout-extraWidth", 20)
-	frame:SetAttribute("UIPanelLayout-extraHeight", 100)
 	frame:EnableMouseWheel(true)
 	frame:EnableMouse(true)
 	frame:SetScript("OnMouseWheel", function() end)
-
+	
 	CreateObject("TableArtwork", frame)
 	frame.TitleText:SetText(GARRISON_MISSIONS)
 	frame.TitleText:SetTextColor(1, 1, 1)
-
+	frame:SetMovable(true)
+	frame:SetClampedToScreen(true)
+	frame:SetClampRectInsets(0, 0, 4, -2)
+	local mover = CreateFrame("Button", nil, frame)
+	mover:SetPoint("TOPLEFT", frame.TitleText, "TOPLEFT", -20, -20)
+	mover:SetPoint("BOTTOMRIGHT", frame.TitleText, "BOTTOMRIGHT", 20, 20)
+	mover:SetScript("OnMouseDown", function()
+		frame:StartMoving()
+	end)
+	mover:SetScript("OnMouseUp", function()
+		frame:StopMovingOrSizing()
+	end)
+	mover:SetScript("OnShow", function()
+		frame:ClearAllPoints()
+		frame:SetPoint("CENTER", 0, -20)
+	end)
+	mover:SetScript("OnHide", mover:GetScript("OnMouseUp"))
+	UISpecialFrames[#UISpecialFrames+1] = name
+	
 	frame.TaskBoard = CreateFrame("Frame", nil, frame) do
 		local mf, t = frame.TaskBoard
 		mf:SetAllPoints()
@@ -1181,10 +1228,10 @@ function Factory.MissionTable(name)
 			t:SetAtlas("Garr_Mission_MaterialFrame")
 			t:SetPoint("TOPRIGHT")
 			t:SetPoint("BOTTOMLEFT", ctlContainer, "BOTTOMRIGHT", -is, 0)
-
+			
 			local rc = CreateObject("ResourceButton", ctlContainer, 1560)
 			rc:SetPoint("LEFT", 14, 0)
-
+			
 			t = CreateFrame("Frame", nil, ctlContainer)
 			t:SetSize(338, 20)
 			t:SetPoint("RIGHT", -14, 0)
@@ -1221,7 +1268,7 @@ function Factory.MissionTable(name)
 		t.Icon:SetSize(24,24)
 		t.Icon:SetTexCoord(0.63281250, 0.72656250, 0.61816406, 0.66015625)
 		mf.HistoryButton = t
-
+		
 		local missionList = CreateFrame("ScrollFrame", nil, mf)
 		missionList:SetSize(892, 405)
 		missionList:SetPoint("BOTTOM", 0, 180)
@@ -1286,7 +1333,7 @@ function Factory.MissionTable(name)
 			mf.Missions[i] = cf
 			cf:SetPoint("TOPLEFT", 222*(((i-1)%4)+1)-220, math.floor(i/5) *- 282)
 		end
-
+		
 		local championList = CreateFrame("Frame", nil, mf)
 		championList:SetSize(908, 135)
 		championList:SetPoint("BOTTOM", 0, 30)
@@ -1295,12 +1342,17 @@ function Factory.MissionTable(name)
 		championList:SetScript("OnHide", ChampionList_UpdateEquipmentGlow)
 		championList.Update = ChampionList_UpdateEquipmentGlow
 		mf.Champions, mf.ChampionContainer = {}, championList
-		for i=1,5 do
+		local baseFrameLevel = championList:GetFrameLevel()
+		for i=1,6 do
 			local cf = CreateObject("ChampionButton", championList)
-			cf:SetPoint("LEFT", 182*i-182, 0)
+			cf:SetFrameLevel(baseFrameLevel+i)
 			mf.Champions[i] = cf
 		end
-
+		local exChampion = mf.Champions[6]
+		exChampion:SetScript("OnShow", ChampionList_EnableDynamicAnchors)
+		exChampion:SetScript("OnHide", ChampionList_EnableStaticAnchors)
+		ChampionList_EnableStaticAnchors(exChampion)
+		
 		mf.Toasts = {CreateObject("MissionToast", mf)}
 		mf.Toasts[1]:SetPoint("TOPLEFT", 20, -65)
 		mf.AcquireToast = MissionList_AcquireToast
@@ -1318,7 +1370,7 @@ function Factory.MissionTable(name)
 				f:UpdateDisplay()
 			end
 		end
-
+		
 		hb:SetScript("OnClick", function(self)
 			if GameTooltip:IsOwned(self) then
 				GameTooltip:Hide()
@@ -1326,7 +1378,7 @@ function Factory.MissionTable(name)
 			f:SetShown(not f:IsShown())
 		end)
 	end
-
+	
 	return frame
 end
 function Factory.MissionToast(parent)
@@ -1413,7 +1465,9 @@ end
 function Factory.TableArtwork(frame)
 	local baseFrame, frame, t = frame, CreateFrame("Frame", nil, frame)
 	frame:SetAllPoints()
-	frame:SetScript("OnShow", RaiseToParentPlus10)
+	frame:SetScript("OnShow", function(self)
+		self:SetFrameLevel(self:GetParent():GetFrameLevel()+10)
+	end)
 	t = frame:CreateTexture(nil, "ARTWORK", nil, 2)
 	t:SetPoint("BOTTOM", frame, "TOP", 0, 0)
 	t, frame.Topper = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal"), t

@@ -13,12 +13,12 @@ W.MECHANIC_ICONS = {
 W.CURRENCY_FACTION_ID = {
 	[1579]=2164, -- Champions of Azeroth
 	[1598]=2163, -- Tortollan Seekers
-
+	
 	[1592]=2161, -- Order of Embers
 	[1593]=2160, -- Proudmoore Admiralty
 	[1594]=2162, -- Storm's Wake
 	[1599]=2159, -- 7th Legion
-
+	
 	[1595]=2156, -- Talanji's Expedition
 	[1596]=2158, -- Voldunai
 	[1597]=2103, -- Zandalari Empire
@@ -118,8 +118,8 @@ local function startMissionWithParty(mid, g)
 		C.RemoveFollowerFromMission(mid, mi.followers[j])
 	end
 	local ok = C.AddFollowerToMission(mid, f1)
-			   and (f2 == nil or C.AddFollowerToMission(mid, f2))
-			   and (f3 == nil or C.AddFollowerToMission(mid, f3))
+	           and (f2 == nil or C.AddFollowerToMission(mid, f2))
+	           and (f3 == nil or C.AddFollowerToMission(mid, f3))
 	if not ok then
 		return false
 	end
@@ -538,10 +538,10 @@ function W.GetFollowers(mtype, followerMissionInfo)
 		else
 			fi.tag = 64*32^4 * 2^(i-1) + 1
 			fi.groupBias = fi.isCollected and (0
-						 + (ABILITY_GROUP_BIAS[C.GetFollowerTraitAtIndex(fid, 1)] or 0)
-						 + (ABILITY_GROUP_BIAS[C.GetFollowerTraitAtIndex(fid, 2)] or 0)
-						 + (fi.quality < 4 and 2 or 0)
-						 ) or 0
+			             + (ABILITY_GROUP_BIAS[C.GetFollowerTraitAtIndex(fid, 1)] or 0)
+			             + (ABILITY_GROUP_BIAS[C.GetFollowerTraitAtIndex(fid, 2)] or 0)
+			             + (fi.quality < 4 and 2 or 0)
+			             ) or 0
 		end
 		if mGroup then
 			mGroup.groupTag = (mGroup.groupTag or 0) + fi.tag
@@ -837,7 +837,7 @@ do -- PrepareAllMissionGroups/GetMissionGroups
 			mmGroups[mid] = {hasBonusEffect=mi.hasBonusEffect}
 			return mmGroups[mid]
 		end
-
+		
 		local chestXP, _, baseXP, _, _, _, _, _, enemies = 0, C.GetMissionInfo(mid)
 		for _,r in pairs(mi.rewards) do
 			if r.followerXP then
@@ -845,9 +845,9 @@ do -- PrepareAllMissionGroups/GetMissionGroups
 			end
 		end
 		local band, leMask = bit.band, W.GetMissionLethalMask(mid, enemies)
-
+		
 		suppressFollowerEvents(mt)
-
+		
 		local fn, t, fm, m, mn = #mmFollowerIDs, {}, {}, {hasBonusEffect=mi.hasBonusEffect}, 1
 		local nf = mi.numFollowers
 		local af, rf = C.AddFollowerToMission, C.RemoveFollowerFromMission
@@ -880,16 +880,16 @@ do -- PrepareAllMissionGroups/GetMissionGroups
 				local gbias = (mmFollowerBias[f1] or 0) + (mmFollowerBias[f2] or 0) + (mmFollowerBias[f3] or 0)
 				m[mn], mn = {chance, baseXP, chestXP, rtime, cost, gtag, leMask ~= 0 and band(leMask, gtag) ~= leMask, gbias, f1, f2, f3}, mn + 1
 			until t[1] == fm[1] and t[2] == fm[2] and t[3] == fm[3]
-
+		
 			for i=1,nf do
 				C.RemoveFollowerFromMission(mid, mmFollowerIDs[t[i]])
 			end
 			nf = nf - 1
 		until nf == 0
-
+		
 		mmGroups[mid], ret = m, m
 		releaseFollowerEvents(mt)
-
+			
 		return ret
 	end
 	function EV:I_RELEASE_CACHES()
@@ -1005,7 +1005,7 @@ function W.SuggestMissionGroups(mid, arr, filter, missionExpiresIn, maxCost, has
 	for i=#sr+1,#cmp do
 		sr[i] = {}
 	end
-
+	
 	local max = math.max
 	arr.baseTime = GetTime()
 	for i=1,#arr do
