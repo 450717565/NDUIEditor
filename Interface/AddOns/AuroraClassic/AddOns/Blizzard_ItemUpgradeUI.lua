@@ -2,7 +2,7 @@ local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_ItemUpgradeUI"] = function()
 	local ItemUpgradeFrame = ItemUpgradeFrame
-	F.ReskinPortraitFrame(ItemUpgradeFrame)
+	F.ReskinFrame(ItemUpgradeFrame)
 
 	local itemButton = ItemUpgradeFrame.ItemButton
 	itemButton.bg = F.CreateBDFrame(itemButton, .25)

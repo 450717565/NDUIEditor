@@ -3,7 +3,7 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_AzeriteEssenceUI"] = function()
 	local r, g, b = C.r, C.g, C.b
 
-	F.ReskinPortraitFrame(AzeriteEssenceUI)
+	F.ReskinFrame(AzeriteEssenceUI)
 	F.StripTextures(AzeriteEssenceUI.PowerLevelBadgeFrame)
 	F.ReskinScroll(AzeriteEssenceUI.EssenceList.ScrollBar)
 
