@@ -123,7 +123,7 @@ function M:RareAlert_Update(id)
 			local currrentTime = date("%H:%M:%S")
 			SendChatMessage(format(">>> [%s]%s <<<", currrentTime, info.name), "SAY")
 		end
-		PlaySoundFile("Sound\\Interface\\PVPFlagTakenMono.ogg", "master")
+		PlaySound(9431, "master")
 
 		cache[id] = true
 	end

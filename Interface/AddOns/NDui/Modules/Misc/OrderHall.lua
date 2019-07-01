@@ -9,23 +9,21 @@ local cr, cg, cb = DB.r, DB.g, DB.b
 ]]
 
 -- Frame style
-local FrameStyle = false
 local function FrameStyle()
-	if FrameStyle then return end
-
 	local OrderHall_Frame = CreateFrame("Frame")
 	OrderHall_Frame:RegisterEvent("ADDON_LOADED")
 
 	OrderHall_Frame:SetScript("OnEvent", function(self, event, arg1)
 		if event == "ADDON_LOADED" and arg1 == "Blizzard_OrderHallUI" then
-			OrderHall_Frame:RegisterEvent("DISPLAY_SIZE_CHANGED")
 			OrderHall_Frame:RegisterEvent("UI_SCALE_CHANGED")
+			OrderHall_Frame:RegisterEvent("DISPLAY_SIZE_CHANGED")
 			OrderHall_Frame:RegisterEvent("CURRENCY_DISPLAY_UPDATE")
-			OrderHall_Frame:RegisterEvent("GARRISON_FOLLOWER_CATEGORIES_UPDATED")
 			OrderHall_Frame:RegisterEvent("GARRISON_FOLLOWER_ADDED")
+			OrderHall_Frame:RegisterEvent("GARRISON_FOLLOWER_CATEGORIES_UPDATED")
+			OrderHall_Frame:RegisterEvent("GARRISON_FOLLOWER_LIST_UPDATE")
 			OrderHall_Frame:RegisterEvent("GARRISON_FOLLOWER_REMOVED")
-			OrderHall_Frame:RegisterEvent("GARRISON_TALENT_UPDATE")
 			OrderHall_Frame:RegisterEvent("GARRISON_TALENT_COMPLETE")
+			OrderHall_Frame:RegisterEvent("GARRISON_TALENT_UPDATE")
 
 			OrderHallCommandBar:HookScript("OnShow", function()
 				OrderHallCommandBar:EnableMouse(false)
@@ -81,15 +79,10 @@ local function FrameStyle()
 			end)
 		end
 	end)
-
-	FrameStyle = true
 end
 
 -- Icon style
-local IconStyle = false
 local function IconStyle()
-	if IconStyle then return end
-
 	local OrderHall_Icon = CreateFrame("Frame", "NDuiOrderHallIcon", UIParent)
 	OrderHall_Icon:SetSize(50, 50)
 	OrderHall_Icon:SetPoint("TOPLEFT", 10, -35)
@@ -121,7 +114,7 @@ local function IconStyle()
 		GameTooltip:AddLine(DB.MyColor.._G["ORDER_HALL_"..DB.MyClass])
 		GameTooltip:AddLine(" ")
 		local icon = " |T"..self.texture..":12:12:0:0:50:50:4:46:4:46|t "
-		GameTooltip:AddDoubleLine(self.name, self.amount..icon, 1,1,1, 1,1,1)
+		GameTooltip:AddDoubleLine(self.name, B.Numb(self.amount)..icon, 1,1,1, 1,1,1)
 		local blank
 		for i = 1, self.numCategory do
 			if not blank then
@@ -165,8 +158,6 @@ local function IconStyle()
 	OrderHall_Icon:SetScript("OnEvent", hallIconOnEvent)
 	OrderHall_Icon:SetScript("OnEnter", hallIconOnEnter)
 	OrderHall_Icon:SetScript("OnLeave", hallIconOnLeave)
-
-	IconStyle = true
 end
 
 if IsAddOnLoaded("AuroraClassic") then

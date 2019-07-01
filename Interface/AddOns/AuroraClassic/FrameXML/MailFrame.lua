@@ -49,6 +49,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	local buttons = {SendMailMailButton, SendMailCancelButton, OpenMailReplyButton, OpenMailDeleteButton, OpenMailCancelButton, OpenMailReportSpamButton, OpenAllMail}
 	for _, button in pairs(buttons) do
 		F.ReskinButton(button)
+		button:SetSize(80, 22)
 	end
 
 	local inputs = {SendMailNameEditBox, SendMailSubjectEditBox, SendMailMoneyGold, SendMailMoneySilver, SendMailMoneyCopper}
@@ -84,6 +85,14 @@ tinsert(C.themes["AuroraClassic"], function()
 		local icbg = F.ReskinIcon(_G[item.."Button".."Icon"])
 		F.ReskinTexture(bu, icbg, false)
 		F.ReskinTexed(bu, icbg)
+
+		local sender = _G[item.."Sender"]
+		sender:ClearAllPoints()
+		sender:SetPoint("BOTTOMLEFT", icbg, "RIGHT", 4, 1)
+
+		local Subject = _G[item.."Subject"]
+		Subject:ClearAllPoints()
+		Subject:SetPoint("TOPLEFT", icbg, "RIGHT", 4, -1)
 	end
 
 	for i = 1, ATTACHMENTS_MAX_RECEIVE do

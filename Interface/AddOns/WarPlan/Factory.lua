@@ -512,13 +512,14 @@ local function HideGrandparentPanel(self)
 end
 
 local function ChampionList_EnableStaticAnchors(self)
-	local cl = self:GetParent():GetParent().Champions
+	local listContainer = self:GetParent()
+	local cl = listContainer:GetParent().Champions
 	for i=1,#cl do
 		cl[i]:SetPoint("LEFT", 182*i-182, 0)
 	end
+	listContainer:SetScript("OnUpdate", nil)
 end
-local function ChampionList_AnimateDynamicAnchors(self, elapsed)
-	local listContainer = self:GetParent()
+local function ChampionList_AnimateDynamicAnchors(listContainer, elapsed)
 	local aLeft = listContainer.animLeft
 	if aLeft then
 		aLeft = aLeft > elapsed and aLeft - elapsed or nil
@@ -527,8 +528,8 @@ local function ChampionList_AnimateDynamicAnchors(self, elapsed)
 	if listContainer:IsMouseOver() or not elapsed then
 		local x, s, l, _b, w = GetCursorPosition(), listContainer:GetEffectiveScale(), listContainer:GetRect()
 		x = (x/s-l)/w
-		if (x < 0.185 or x > 0.60) and (listContainer.goalView ~= (x > 0.60)) then
-			listContainer.goalView, aLeft = x > 0.60, elapsed and 0.2 or nil
+		if (x < 0.188 or x > 0.62) and (listContainer.goalView ~= (x > 0.62)) then
+			listContainer.goalView, aLeft = x > 0.62, elapsed and 0.2 or nil
 			listContainer.animLeft = aLeft
 		end
 	end
@@ -546,8 +547,9 @@ local function ChampionList_AnimateDynamicAnchors(self, elapsed)
 	end
 end
 local function ChampionList_EnableDynamicAnchors(self)
-	self:SetScript("OnUpdate", ChampionList_AnimateDynamicAnchors)
-	ChampionList_AnimateDynamicAnchors(self, nil)
+	local listContainer = self:GetParent()
+	listContainer:SetScript("OnUpdate", ChampionList_AnimateDynamicAnchors)
+	ChampionList_AnimateDynamicAnchors(listContainer, nil)
 end
 
 do -- Factory.ObjectGroup
@@ -762,7 +764,7 @@ function Factory.ChampionButton(parent)
 	cf:SetScript("OnEnter", Champion_OnEnter)
 	cf:SetScript("OnClick", ToggleChampionOnClick)
 	cf:RegisterForClicks("LeftButtonUp", "RightButtonUp")
-	cf:SetClipsChildren(true)
+	cf:SetFlattensRenderLayers(true)
 	CreateObject("TexSlice", cf, "BACKGROUND",2, "Interface/Store/Store-Splash",1024,1024, 1,31,257,287, 793,813,919,939, 18,13, 0,0,0,0)
 	t = CreateObject("TexSlice", cf, "BACKGROUND",3, "Interface/Store/Store-Splash",1024,1024, 1,31,257,287, 793,813,919,939, 18,13, 0,0,0,0)
 	t:SetVertexColor(0.25, 0.25, 0.45, 0.8)

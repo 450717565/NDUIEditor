@@ -23,6 +23,7 @@ local function Reskins()
 		local buttons = {BaudErrorFrameClearButton, BaudErrorFrameCloseButton, BaudErrorFrameReloadUIButton}
 		for _, button in pairs(buttons) do
 			B.CreateBC(button, .25)
+			button.Text:SetTextColor(cr, cg, cb)
 		end
 	end
 

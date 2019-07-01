@@ -200,12 +200,12 @@ function M:MailBox()
 		M.MailItem_AddDelete(itemButton, i)
 	end
 
-	button1 = M:CreatButton(InboxFrame, L["Collect All"], 80, 28, "TOPLEFT", InboxFrame, "TOPLEFT", 25, -35)
+	button1 = M:CreatButton(InboxFrame, L["Collect All"], 80, 28, "TOPLEFT", MailFrame, "TOPLEFT", 25, -35)
 	button1:RegisterEvent("MAIL_CLOSED")
 	button1:SetScript("OnClick", M.MailBox_OpenAll)
 	button1:SetScript("OnEvent", M.MailBox_OnEvent)
 
-	button2 = M:CreatButton(InboxFrame, L["Collect Gold"], 80, 28, "TOP", InboxFrame, "TOP", -23, -35)
+	button2 = M:CreatButton(InboxFrame, L["Collect Gold"], 80, 28, "TOPRIGHT", MailFrame, "TOPRIGHT", -25, -35)
 	button2:SetScript("OnClick", function()
 		takingOnlyCash = true
 		M:MailBox_OpenAll()
