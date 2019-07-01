@@ -403,7 +403,8 @@ function UF:CreatePlates(unit)
 		local health = CreateFrame("StatusBar", nil, self)
 		health:SetAllPoints()
 		health:SetFrameLevel(self:GetFrameLevel() - 2)
-		B.CreateSB(health)
+		local bg = B.CreateSB(health)
+		B.CreateTex(bg)
 		B.SmoothBar(health)
 		self.Health = health
 		self.Health.frequentUpdates = true

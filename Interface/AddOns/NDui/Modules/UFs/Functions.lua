@@ -827,7 +827,8 @@ function UF:CreateAltPower(self)
 	local bar = CreateFrame("StatusBar", nil, self)
 	bar:SetPoint("TOP", self.Power, "BOTTOM", 0, -3)
 	bar:SetSize(self:GetWidth(), self.Power:GetHeight())
-	B.CreateSB(bar)
+	local bg = B.CreateSB(bar)
+	B.CreateTex(bg)
 
 	local text = B.CreateFS(bar, 12)
 	text:SetJustifyH("CENTER")
@@ -842,7 +843,8 @@ function UF:CreateExpRepBar(self)
 	bar:SetPoint("TOPRIGHT", self, "TOPLEFT", -5, 0)
 	bar:SetPoint("BOTTOMLEFT", self.Power, "BOTTOMLEFT", -10, 0)
 	bar:SetOrientation("VERTICAL")
-	B.CreateSB(bar)
+	local bg = B.CreateSB(bar)
+	B.CreateTex(bg)
 
 	local rest = CreateFrame("StatusBar", nil, bar)
 	rest:SetAllPoints(bar)
@@ -946,24 +948,24 @@ end
 
 function UF:CreateSwing(self)
 	local bar = CreateFrame("StatusBar", nil, self)
-	bar:SetSize(250, 3)
+	bar:SetSize(250, 5)
 	bar:SetPoint("TOP", self.Castbar, "BOTTOM", -16, -5)
 
 	local two = CreateFrame("StatusBar", nil, bar)
 	two:Hide()
 	two:SetAllPoints()
-	B.CreateSB(two, true, .8, .8, .8)
+	B.CreateSB(two, true)
 
 	local main = CreateFrame("StatusBar", nil, bar)
 	main:Hide()
 	main:SetAllPoints()
-	B.CreateSB(main, true, .8, .8, .8)
+	B.CreateSB(main, true)
 
 	local off = CreateFrame("StatusBar", nil, bar)
 	off:Hide()
 	off:SetPoint("TOPLEFT", bar, "BOTTOMLEFT", 0, -3)
 	off:SetPoint("BOTTOMRIGHT", bar, "BOTTOMRIGHT", 0, -6)
-	B.CreateSB(off, true, .8, .8, .8)
+	B.CreateSB(off, true)
 
 	if NDuiDB["UFs"]["SwingTimer"] then
 		bar.Text = B.CreateFS(bar, 12)
@@ -983,7 +985,8 @@ function UF:CreateQuakeTimer(self)
 
 	local bar = CreateFrame("StatusBar", nil, self)
 	bar:SetSize(unpack(C.UFs.PlayercbSize))
-	B.CreateSB(bar, true, 0, 1, 0)
+	local bg = B.CreateSB(bar, true, 0, 1, 0)
+	B.CreateTex(bg)
 	bar:Hide()
 
 	bar.SpellName = B.CreateFS(bar, 12, "", false, "LEFT", 2, 0)

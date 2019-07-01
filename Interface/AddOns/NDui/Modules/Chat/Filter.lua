@@ -218,7 +218,7 @@ local chatEvents = {
 function module:ChatFilter()
 	for _, v in pairs(chatEvents) do
 		if NDuiDB["Chat"]["EnableFilter"] then
-			B:GenFilterList()
+			self:UpdateFilterList()
 			ChatFrame_AddMessageEventFilter(v, self.UpdateChatFilter)
 		end
 

@@ -202,31 +202,26 @@ function ExtraQuestButton:PLAYER_LOGIN()
 
 	B.CreateBGFrame(self)
 
-	local HotKey = self:CreateFontString("$parentHotKey", nil, "NumberFontNormal")
-	HotKey:SetPoint("TOP", 0, -5)
+	local HotKey = B.CreateFS(self, 14, false, "TOP", 0, -5)
 	self.HotKey = HotKey
 
-	local Count = self:CreateFontString("$parentCount", nil, "NumberFont_Shadow_Med")
-	Count:SetPoint("BOTTOMRIGHT", -3, 3)
+	local Count = B.CreateFS(self, 12, false, "BOTTOMRIGHT", -3, 3)
 	self.Count = Count
 
 	local Icon = self:CreateTexture(nil, "ARTWORK")
 	Icon:SetTexCoord(unpack(DB.TexCoord))
-	Icon:SetPoint("TOPLEFT", C.mult, -C.mult)
-	Icon:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
+	Icon:SetAllPoints()
 	self.Icon = Icon
 
 	local Highlight = self:CreateTexture(nil, "HIGHLIGHT")
 	Highlight:SetColorTexture(1, 1, 1, .25)
-	Highlight:SetPoint("TOPLEFT", C.mult, -C.mult)
-	Highlight:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
+	Highlight:SetAllPoints()
 	self.Highlight = Highlight
 
 	local Cooldown = CreateFrame("Cooldown", nil, self, "CooldownFrameTemplate")
 	Cooldown:SetReverse(false)
+	Cooldown:SetAllPoints()
 	Cooldown:Hide()
-	Cooldown:SetPoint("TOPLEFT", C.mult, -C.mult)
-	Cooldown:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 	self.Cooldown = Cooldown
 
 	self:SetPushedTexture(DB.textures.pushed)
@@ -235,7 +230,7 @@ function ExtraQuestButton:PLAYER_LOGIN()
 	push:SetAllPoints()
 
 	local Artwork = self:CreateTexture(nil, "OVERLAY")
-	Artwork:SetPoint("BOTTOMLEFT", -1, -1)
+	Artwork:SetPoint("BOTTOMLEFT")
 	Artwork:SetSize(20, 20)
 	Artwork:SetAtlas(DB.questTex)
 	self.Artwork = Artwork
