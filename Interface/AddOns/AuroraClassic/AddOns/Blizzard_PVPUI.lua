@@ -54,6 +54,7 @@ C.themes["Blizzard_PVPUI"] = function()
 	F.ReskinButton(HonorFrame.QueueButton)
 	F.ReskinDropDown(HonorFrameTypeDropDown)
 	F.ReskinScroll(HonorFrameSpecificFrameScrollBar)
+	F.ReskinClose(PremadeGroupsPvPTutorialAlert.CloseButton)
 
 	local BonusFrame = HonorFrame.BonusFrame
 	F.StripTextures(BonusFrame)

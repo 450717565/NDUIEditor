@@ -6,6 +6,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinButton(ColorPickerOkayButton)
 	F.ReskinButton(ColorPickerCancelButton)
 
+	ColorPickerFrame.Border:Hide()
 	ColorPickerFrameHeader:SetAlpha(0)
 	ColorPickerFrameHeader:ClearAllPoints()
 	ColorPickerFrameHeader:SetPoint("TOP")

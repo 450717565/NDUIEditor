@@ -34,8 +34,8 @@ local function updateTimerFormat(color, hour, minute)
 end
 
 info.onUpdate = function(self, elapsed)
-	self.timer = (self.timer or 0) + elapsed
-	if self.timer > 1 then
+	self.timer = (self.timer or 3) + elapsed
+	if self.timer > 5 then
 		local color = C_Calendar_GetNumPendingInvites() > 0 and "|cffFF0000" or ""
 
 		local hour, minute
@@ -290,6 +290,7 @@ info.onMouseUp = function(_, btn)
 	if btn == "RightButton" then
 		ToggleTimeManager()
 	else
+		if InCombatLockdown() then UIErrorsFrame:AddMessage(DB.InfoColor..ERR_NOT_IN_COMBAT) return end
 		ToggleCalendar()
 	end
 end

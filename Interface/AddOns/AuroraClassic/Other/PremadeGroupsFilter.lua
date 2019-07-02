@@ -37,8 +37,8 @@ C.themes["PremadeGroupsFilter"] = function()
 	hooksecurefunc(PremadeGroupsFilterDialog, "SetPoint", function(self, _, parent)
 		if parent ~= LFGListFrame then
 			self:ClearAllPoints()
-			self:SetPoint("TOPLEFT", LFGListFrame, "TOPRIGHT", 3, 0)
-			self:SetPoint("BOTTOMLEFT", LFGListFrame, "BOTTOMRIGHT", 3, 0)
+			self:SetPoint("TOPLEFT", LFGListFrame, "TOPRIGHT", 5, 0)
+			self:SetPoint("BOTTOMLEFT", LFGListFrame, "BOTTOMRIGHT", 5, 0)
 		end
 	end)
 

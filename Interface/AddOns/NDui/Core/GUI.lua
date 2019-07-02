@@ -187,8 +187,6 @@ local defaultSettings = {
 		MenuLine = true,
 		ClassLine = true,
 		Details = true,
-		--PGFSkin = true,
-		--Rematch = true,
 	},
 	Tooltip = {
 		CombatHide = false,
@@ -654,8 +652,6 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Skins", "TMW", L["TMW Skin"], true},
 		{1, "Skins", "WeakAuras", L["WeakAuras Skin"]},
 		{1, "Skins", "Details", L["Details Skin"], true},
-		--{1, "Skins", "PGFSkin", L["PGF Skin"]},
-		--{1, "Skins", "Rematch", L["Rematch Skin"], true},
 	},
 	[11] = {
 		{1, "Tooltip", "CombatHide", L["Hide Tooltip"].."*"},

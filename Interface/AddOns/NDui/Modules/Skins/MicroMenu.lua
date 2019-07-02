@@ -2,23 +2,17 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local S = B:GetModule("Skins")
 
+local _G = getfenv(0)
+local tinsert, pairs, type = table.insert, pairs, type
 local buttonList = {}
-local cr, cg, cb = DB.r, DB.g, DB.b
-local tinsert, pairs, format = table.insert, pairs, string.format
-local function CreateMicroButton(parent, data)
-	local texture, texcoord, tip, func = unpack(data)
-	local alpha = NDuiDB["Extras"]["SkinAlpha"]
-	local color = NDuiDB["Extras"]["SkinColor"]
+local cr, cg, cb, alpha, color
+
+function S:MicroButton_SetupTexture(icon, texcoord, texture)
+	cr, cg, cb = DB.r, DB.g, DB.b
+	alpha = NDuiDB["Extras"]["SkinAlpha"]
+	color = NDuiDB["Extras"]["SkinColor"]
 	if not NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
 
-	local bu = CreateFrame("Button", nil, parent)
-	tinsert(buttonList, bu)
-	bu:SetSize(22, 22)
-	bu:SetFrameStrata("BACKGROUND")
-	bu:SetScript("OnClick", func)
-	B.AddTooltip(bu, "ANCHOR_TOP", tip)
-
-	local icon = bu:CreateTexture(nil, "ARTWORK")
 	if texture == "encounter" then
 		icon:SetPoint("TOPLEFT", 2, -2)
 		icon:SetPoint("BOTTOMRIGHT", -2, 3)
@@ -27,131 +21,71 @@ local function CreateMicroButton(parent, data)
 	end
 	icon:SetTexture(DB.MicroTex..texture)
 	icon:SetTexCoord(unpack(texcoord))
-	icon:SetVertexColor(cr, cg, cb, alpha)
-
-	bu:SetHighlightTexture(DB.MicroTex..texture)
-	local highlight = bu:GetHighlightTexture()
-	highlight:SetAllPoints(icon)
-	highlight:SetTexCoord(unpack(texcoord))
-	highlight:SetVertexColor(cr, cg, cb, alpha)
+	icon:SetVertexColor(cr, cg, cb)
 end
 
-local function ReanchorAlert()
-	if TalentMicroButtonAlert then
-		TalentMicroButtonAlert:ClearAllPoints()
-		TalentMicroButtonAlert:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -220, 40)
-		TalentMicroButtonAlert:SetScript("OnMouseUp", function()
-			if not PlayerTalentFrame then LoadAddOn("Blizzard_TalentUI") end
-			ToggleFrame(PlayerTalentFrame)
-		end)
-	end
+function S:MicroButton_Create(parent, data)
+	local texture, texcoord, method, tooltip = unpack(data)
 
-	if EJMicroButtonAlert then
-		EJMicroButtonAlert:ClearAllPoints()
-		EJMicroButtonAlert:SetPoint("BOTTOM", UIParent, "BOTTOM", 40, 40)
-		EJMicroButtonAlert:SetScript("OnMouseUp", function()
-			if not EncounterJournal then LoadAddOn("Blizzard_EncounterJournal") end
-			ToggleFrame(EncounterJournal)
-		end)
-	end
+	local bu = CreateFrame("Frame", nil, parent)
+	tinsert(buttonList, bu)
+	bu:SetSize(22, 22)
 
-	if CollectionsMicroButtonAlert then
-		CollectionsMicroButtonAlert:ClearAllPoints()
-		CollectionsMicroButtonAlert:SetPoint("BOTTOM", UIParent, "BOTTOM", 65, 40)
-		CollectionsMicroButtonAlert:SetScript("OnMouseUp", function()
-			if not CollectionsJournal then LoadAddOn("Blizzard_Collections") end
-			ToggleFrame(CollectionsJournal)
-			CollectionsJournal_SetTab(CollectionsJournal, 2)
-		end)
-	end
+	local icon = bu:CreateTexture(nil, "ARTWORK")
+	S:MicroButton_SetupTexture(icon, texcoord, texture)
 
-	if CharacterMicroButtonAlert then
-		hooksecurefunc(CharacterMicroButtonAlert, "SetPoint", function(self, _, parent)
-			if parent ~= UIParent then
-				self:ClearAllPoints()
-				self:SetPoint("BOTTOM", UIParent, "BOTTOM", -175, 40)
-			end
-		end)
+	if type(method) == "string" then
+		local button = _G[method]
+		button:SetHitRectInsets(0, 0, 0, 0)
+		button:SetParent(bu)
+		button:ClearAllPoints(bu)
+		button:SetAllPoints(bu)
+		button:UnregisterAllEvents()
+		button:SetNormalTexture(nil)
+		button:SetPushedTexture(nil)
+		button:SetDisabledTexture(nil)
+		if tooltip then B.AddTooltip(button, "ANCHOR_RIGHT", tooltip) end
+
+		local hl = button:GetHighlightTexture()
+		S:MicroButton_SetupTexture(hl, texcoord, texture)
+
+		local flash = button.Flash
+		S:MicroButton_SetupTexture(flash, texcoord, texture)
+	else
+		bu:SetScript("OnMouseUp", method)
+		B.AddTooltip(bu, "ANCHOR_TOP", tooltip)
+
+		local hl = bu:CreateTexture(nil, "HIGHLIGHT")
+		S:MicroButton_SetupTexture(hl, texcoord, texture)
 	end
 end
 
 function S:MicroMenu()
-	-- Taint Fix
-	ToggleFrame(SpellBookFrame)
-	ToggleFrame(SpellBookFrame)
-
-	ReanchorAlert()
-
 	if not NDuiDB["Skins"]["MicroMenu"] then return end
 
 	local faction = UnitFactionGroup("player")
 	local menubar = CreateFrame("Frame", nil, UIParent)
-	menubar:SetSize(373, 22)
+	menubar:SetSize(319, 22)
 	B.Mover(menubar, L["Menubar"], "Menubar", C.Skins.MicroMenuPos)
 
 	-- Generate Buttons
 	local buttonInfo = {
-		{"player", {51/256, 141/256, 86/256, 173/256}, MicroButtonTooltipText(CHARACTER_BUTTON, "TOGGLECHARACTER0"), function() ToggleFrame(CharacterFrame) end},
-		{"spellbook", {83/256, 173/256, 86/256, 173/256}, MicroButtonTooltipText(SPELLBOOK_ABILITIES_BUTTON, "TOGGLESPELLBOOK"), function() ToggleFrame(SpellBookFrame) end},
-		{"talents", {83/256, 173/256, 86/256, 173/256}, MicroButtonTooltipText(TALENTS_BUTTON, "TOGGLETALENTS"), function()
-			if not PlayerTalentFrame then LoadAddOn("Blizzard_TalentUI") end
-			if UnitLevel("player") < SHOW_SPEC_LEVEL then
-				UIErrorsFrame:AddMessage(DB.InfoColor..format(FEATURE_BECOMES_AVAILABLE_AT_LEVEL, SHOW_SPEC_LEVEL))
-			else
-				ToggleFrame(PlayerTalentFrame)
-			end
-		end},
-		{"achievements", {83/256, 173/256, 83/256, 173/256}, MicroButtonTooltipText(ACHIEVEMENT_BUTTON, "TOGGLEACHIEVEMENT"), function() ToggleAchievementFrame() end},
-		{"quests", {83/256, 173/256, 80/256, 167/256}, MicroButtonTooltipText(QUESTLOG_BUTTON, "TOGGLEQUESTLOG"), function() ToggleQuestLog() end},
-		{"guild", {83/256, 173/256, 80/256, 167/256}, MicroButtonTooltipText(GUILD_AND_COMMUNITIES, "TOGGLEGUILDTAB"), function()
-			if IsTrialAccount() then
-				UIErrorsFrame:AddMessage(DB.InfoColor..ERR_RESTRICTED_ACCOUNT_TRIAL)
-			elseif faction == "Neutral" then
-				UIErrorsFrame:AddMessage(DB.InfoColor..FEATURE_NOT_AVAILBLE_PANDAREN)
-			else
-				ToggleGuildFrame()
-			end
-		end},
-		{"pvp", {83/256, 173/256, 83/256, 173/256}, MicroButtonTooltipText(PLAYER_V_PLAYER, "TOGGLECHARACTER4"), function()
-			if faction == "Neutral" then
-				UIErrorsFrame:AddMessage(DB.InfoColor..FEATURE_NOT_AVAILBLE_PANDAREN)
-			elseif UnitLevel("player") < LFDMicroButton.minLevel then
-				UIErrorsFrame:AddMessage(DB.InfoColor..format(FEATURE_BECOMES_AVAILABLE_AT_LEVEL, LFDMicroButton.minLevel))
-			else
-				TogglePVPUI()
-			end
-		end},
-		{"LFD", {83/256, 173/256, 83/256, 173/256}, MicroButtonTooltipText(DUNGEONS_BUTTON, "TOGGLEGROUPFINDER"), function()
-			if faction == "Neutral" then
-				UIErrorsFrame:AddMessage(DB.InfoColor..FEATURE_NOT_AVAILBLE_PANDAREN)
-			elseif UnitLevel("player") < LFDMicroButton.minLevel then
-				UIErrorsFrame:AddMessage(DB.InfoColor..format(FEATURE_BECOMES_AVAILABLE_AT_LEVEL, LFDMicroButton.minLevel))
-			else
-				PVEFrame_ToggleFrame()
-			end
-		end},
-		{"encounter", {83/256, 173/256, 83/256, 173/256}, MicroButtonTooltipText(ADVENTURE_JOURNAL, "TOGGLEENCOUNTERJOURNAL"), function() ToggleEncounterJournal() end},
-		{"pets", {83/256, 173/256, 83/256, 173/256}, MicroButtonTooltipText(COLLECTIONS, "TOGGLECOLLECTIONS"), function()
-			if InCombatLockdown() and not IsAddOnLoaded("Blizzard_Collections") then
-				UIErrorsFrame:AddMessage(DB.InfoColor..ERR_POTION_COOLDOWN)
-			else
-				ToggleCollectionsJournal()
-			end
-		end},
-		{"store", {83/256, 173/256, 83/256, 173/256}, BLIZZARD_STORE, function()
-			if IsTrialAccount() then
-				UIErrorsFrame:AddMessage(DB.InfoColor..ERR_GUILD_TRIAL_ACCOUNT)
-			elseif C_StorePublic.IsDisabledByParentalControls() then
-				UIErrorsFrame:AddMessage(DB.InfoColor..BLIZZARD_STORE_ERROR_PARENTAL_CONTROLS)
-			else
-				ToggleStoreUI()
-			end
-		end},
-		{"gm", {83/256, 173/256, 80/256, 170/256}, HELP_BUTTON, function() ToggleFrame(HelpFrame) end},
-		{"settings", {83/256, 173/256, 83/256, 173/256}, MicroButtonTooltipText(MAINMENU_BUTTON, "TOGGLEGAMEMENU"), function() ToggleFrame(GameMenuFrame) PlaySound(SOUNDKIT.IG_MINIMAP_OPEN) end},
-		{"bags", {47/256, 137/256, 83/256, 173/256}, MicroButtonTooltipText(BAGSLOT, "OPENALLBAGS"), function() ToggleAllBags() end},
+		{"player", {51/256, 141/256, 86/256, 173/256}, "CharacterMicroButton"},
+		{"spellbook", {83/256, 173/256, 86/256, 173/256}, "SpellbookMicroButton"},
+		{"talents", {83/256, 173/256, 86/256, 173/256}, "TalentMicroButton"},
+		{"achievements", {83/256, 173/256, 83/256, 173/256}, "AchievementMicroButton"},
+		{"quests", {83/256, 173/256, 80/256, 167/256}, "QuestLogMicroButton"},
+		{"guild", {83/256, 173/256, 80/256, 167/256}, "GuildMicroButton"},
+		{"lfd", {83/256, 173/256, 83/256, 173/256}, "LFDMicroButton"},
+		{"encounter", {83/256, 173/256, 83/256, 173/256}, "EJMicroButton"},
+		{"pets", {83/256, 173/256, 83/256, 173/256}, "CollectionsMicroButton"},
+		{"store", {83/256, 173/256, 83/256, 173/256}, "StoreMicroButton"},
+		{"settings", {83/256, 173/256, 83/256, 173/256}, "MainMenuMicroButton", MicroButtonTooltipText(MAINMENU_BUTTON, "TOGGLEGAMEMENU")},
+		{"bags", {47/256, 137/256, 83/256, 173/256}, ToggleAllBags, MicroButtonTooltipText(BAGSLOT, "OPENALLBAGS")},
 	}
-	for _, info in pairs(buttonInfo) do CreateMicroButton(menubar, info) end
+	for _, info in pairs(buttonInfo) do
+		S:MicroButton_Create(menubar, info)
+	end
 
 	-- Order Positions
 	for i = 1, #buttonList do
@@ -162,12 +96,14 @@ function S:MicroMenu()
 		end
 	end
 
+	-- Default elements
+	B.HideObject(MicroButtonPortrait)
+	B.HideObject(GuildMicroButtonTabard)
+	B.HideObject(MainMenuBarDownload)
+	MainMenuMicroButton:SetScript("OnUpdate", nil)
+
 	-- Menu Line
 	if NDuiDB["Skins"]["MenuLine"] then
-		local alpha = NDuiDB["Extras"]["SkinAlpha"]
-		local color = NDuiDB["Extras"]["SkinColor"]
-		if not NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
-
 		local MenuL = CreateFrame("Frame", nil, UIParent)
 		MenuL:SetPoint("TOPRIGHT", menubar, "BOTTOM")
 		B.CreateGF(MenuL, 200, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)

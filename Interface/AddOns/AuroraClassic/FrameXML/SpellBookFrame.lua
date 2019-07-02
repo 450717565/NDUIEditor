@@ -107,7 +107,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		bar.rankText:SetPoint("CENTER")
 		F.ReskinStatusBar(bar)
 
-		if index == 1 or index == 2 then
+		if index <= 2 then
 			bubg:SetPoint("TOPLEFT", -2, -2)
 			bubg:SetPoint("BOTTOMRIGHT", 2, -2)
 
@@ -134,7 +134,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		bu:SetCheckedTexture(C.media.checked)
 
 		local icon = _G[button.."IconTexture"]
-		if index == 1 or index == 2 or index == 3 or index == 4 then
+		if index <= 4 then
 			icon:SetPoint("TOPLEFT", 4, -4)
 			icon:SetPoint("BOTTOMRIGHT", -4, 4)
 		end

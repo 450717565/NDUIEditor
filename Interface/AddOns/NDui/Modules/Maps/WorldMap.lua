@@ -56,7 +56,7 @@ function module:UpdateCoords(elapsed)
 		end
 
 		local playerX, playerY = module:GetPlayerMapPos(currentMapID)
-		if (playerX and playerX~= 0) and (playerY and playerY~= 0) then
+		if playerX and playerY then
 			playerCoords:SetFormattedText(CoordsFormat(playerText), 100 * playerX, 100 * playerY)
 		else
 			playerCoords:SetText(CoordsFormat(playerText, true))
@@ -103,6 +103,8 @@ function module:SetupCoords()
 end
 
 function module:UpdateMapScale()
+	if InCombatLockdown() then return end
+
 	if self.isMaximized and self:GetScale() ~= 1 then
 		self:SetScale(1)
 	elseif not self.isMaximized and self:GetScale() ~= NDuiDB["Map"]["MapScale"] then

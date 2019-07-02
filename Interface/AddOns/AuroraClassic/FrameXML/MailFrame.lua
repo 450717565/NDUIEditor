@@ -35,7 +35,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	SendMailSubjectEditBox:SetPoint("TOPLEFT", SendMailNameEditBox, "BOTTOMLEFT", 0, -1)
 
 	SendMailCostMoneyFrame:ClearAllPoints()
-	SendMailCostMoneyFrame:SetPoint("LEFT", SendMailNameEditBox, "RIGHT", 50, 1)
+	SendMailCostMoneyFrame:SetPoint("BOTTOMRIGHT", SendMailSubjectEditBox, "TOPRIGHT", 0, 5)
 
 	InvoiceTextFontNormal:SetTextColor(1, .8, 0)
 	InvoiceTextFontSmall:SetTextColor(1, 1, 1)

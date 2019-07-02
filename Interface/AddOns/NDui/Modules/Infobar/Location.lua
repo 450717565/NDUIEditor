@@ -54,10 +54,10 @@ local function FormatCoords()
 			coords = difficultyName
 		end
 	else
-		if (not coordX) or (not coordY) or (orcoordX == 0) or (coordY == 0) then
-			coords = "-- , --"
-		else
+		if coordX and coordY then
 			coords = format("%.1f , %.1f", coordX * 100, coordY * 100)
+		else
+			coords = "-- , --"
 		end
 	end
 end
@@ -103,6 +103,7 @@ end
 
 info.onMouseUp = function(_, btn)
 	if btn == "LeftButton" then
+		if InCombatLockdown() then UIErrorsFrame:AddMessage(DB.InfoColor..ERR_NOT_IN_COMBAT) return end
 		ToggleFrame(WorldMapFrame)
 	elseif btn == "RightButton" then
 		ChatFrame_OpenChat(format("%s%s <%s>", L["My Position"], totalZone, coords), SELECTED_DOCK_FRAME)

@@ -393,6 +393,18 @@ local function AddMouseoverIndicator(self)
 	self.HighlightIndicator = f
 end
 
+function UF:AddFollowerXP(self)
+	local bar = CreateFrame("StatusBar", nil, self)
+	bar:SetSize(NDuiDB["Nameplate"]["Width"], NDuiDB["Nameplate"]["Height"])
+	bar:SetPoint("TOP", self.Castbar, "BOTTOM", 0, -5)
+	local bg = B.CreateSB(bar, false, .3, .7, 1)
+	B.CreateTex(bg)
+
+	bar.progressText = B.CreateFS(bar, 9)
+
+	self.NazjatarFollowerXP = bar
+end
+
 -- Create Nameplates
 function UF:CreatePlates(unit)
 	self.mystyle = "nameplate"
@@ -416,6 +428,7 @@ function UF:CreatePlates(unit)
 		UF:CreatePrediction(self)
 		UF:CreateAuras(self)
 		UF:CreatePVPClassify(self)
+		UF:AddFollowerXP(self)
 
 		self.powerText = B.CreateFS(self, 15, "", false, "LEFT", 0, 0)
 		self.powerText:SetPoint("LEFT", self, "RIGHT", 2, 0)

@@ -4,6 +4,7 @@
 	<Script file="ClassicQuestLog.lua"/>
 	<Script file="ExtVendor.lua"/>
 	<Script file="Immersion.lua"/>
+	<Script file="Postal.lua"/>
 	<Script file="PremadeGroupsFilter.lua"/>
 	<Script file="Rematch.lua"/>
 	<Script file="Simulationcraft.lua"/>

@@ -202,13 +202,7 @@ function ExtraQuestButton:PLAYER_LOGIN()
 
 	B.CreateBGFrame(self)
 
-	local HotKey = B.CreateFS(self, 14, false, "TOP", 0, -5)
-	self.HotKey = HotKey
-
-	local Count = B.CreateFS(self, 12, false, "BOTTOMRIGHT", -3, 3)
-	self.Count = Count
-
-	local Icon = self:CreateTexture(nil, "ARTWORK")
+	local Icon = self:CreateTexture("$parentIcon", "ARTWORK")
 	Icon:SetTexCoord(unpack(DB.TexCoord))
 	Icon:SetAllPoints()
 	self.Icon = Icon
@@ -218,18 +212,26 @@ function ExtraQuestButton:PLAYER_LOGIN()
 	Highlight:SetAllPoints()
 	self.Highlight = Highlight
 
-	local Cooldown = CreateFrame("Cooldown", nil, self, "CooldownFrameTemplate")
-	Cooldown:SetReverse(false)
-	Cooldown:SetAllPoints()
-	Cooldown:Hide()
-	self.Cooldown = Cooldown
-
 	self:SetPushedTexture(DB.textures.pushed)
 	local push = self:GetPushedTexture()
 	push:SetBlendMode("ADD")
 	push:SetAllPoints()
 
-	local Artwork = self:CreateTexture(nil, "OVERLAY")
+	local HotKey = self:CreateFontString("$parentHotKey", nil, "NumberFontNormal")
+	HotKey:SetPoint("TOP", 0, -5)
+	self.HotKey = HotKey
+
+	local Count = self:CreateFontString("$parentCount", nil, "NumberFont_Shadow_Med")
+	Count:SetPoint("BOTTOMRIGHT", -3, 3)
+	self.Count = Count
+
+	local Cooldown = CreateFrame("Cooldown", "$parentCooldown", self, "CooldownFrameTemplate")
+	Cooldown:SetReverse(false)
+	Cooldown:SetAllPoints()
+	Cooldown:Hide()
+	self.Cooldown = Cooldown
+
+	local Artwork = self:CreateTexture("$parentArtwork", "OVERLAY")
 	Artwork:SetPoint("BOTTOMLEFT")
 	Artwork:SetSize(20, 20)
 	Artwork:SetAtlas(DB.questTex)

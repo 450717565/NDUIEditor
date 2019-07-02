@@ -399,7 +399,7 @@ function F:ReskinCheck()
 end
 
 function F:ReskinClose(a1, p, a2, x, y)
-	self:SetSize(17, 17)
+	self:SetSize(18, 18)
 	self:ClearAllPoints()
 
 	F.StripTextures(self)
@@ -606,7 +606,7 @@ function F:ReskinMinMax()
 			F.CleanTextures(self)
 			F.ReskinButton(button)
 
-			button:SetSize(17, 17)
+			button:SetSize(18, 18)
 			button:ClearAllPoints()
 			button:SetPoint("CENTER", -3, 0)
 

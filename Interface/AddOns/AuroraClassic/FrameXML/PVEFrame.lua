@@ -3,6 +3,7 @@ local F, C = unpack(select(2, ...))
 tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinFrame(PVEFrame)
 	F.SetupTabStyle(PVEFrame, 3)
+	F.ReskinClose(PremadeGroupsPvETutorialAlert.CloseButton)
 
 	GroupFinderFrame.groupButton1.icon:SetTexture("Interface\\Icons\\INV_Helmet_08")
 	GroupFinderFrame.groupButton2.icon:SetTexture("Interface\\Icons\\Icon_Scenarios")
