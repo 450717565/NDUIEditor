@@ -74,8 +74,11 @@ tinsert(C.themes["AuroraClassic"], function()
 				tab:GetRegions():Hide()
 				tab:SetCheckedTexture(C.media.checked)
 
-				local icbg = F.ReskinIcon(tab:GetNormalTexture(), false, 1)
-				F.ReskinTexture(tab, icbg, false)
+				local icon = tab:GetNormalTexture()
+				if icon then
+					local icbg = F.ReskinIcon(icon, false, 1)
+					F.ReskinTexture(tab, icbg, false)
+				end
 
 				tab.styled = true
 			end

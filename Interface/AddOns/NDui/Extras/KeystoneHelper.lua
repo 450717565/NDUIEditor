@@ -1,24 +1,25 @@
 local B, C, L, DB = unpack(select(2, ...))
+local Extras = B:GetModule("Extras")
 
 local strformat, strmatch, strsplit = string.format, string.match, string.split
 local tbinsert, tbremove = table.insert, table.remove
 
-local MythicLootItemLevel =  {  0, 375, 375, 380, 385, 385, 390, 395, 395, 400}
-local WeeklyLootItemLevel =  {  0, 380, 385, 390, 390, 395, 400, 400, 405, 410}
+local MythicLootItemLevel =  {405, 405, 410, 415, 415, 420, 425, 425, 430}
+local WeeklyLootItemLevel =  {410, 415, 420, 420, 425, 430, 430, 435, 440}
 
-local function CheckLink(link)
-	if link and type(link) == "string" and strmatch(link, "|Hkeystone:([0-9:]+)|h(%b[])|h") then
+function Extras:KH_CheckLink()
+	if self and type(self) == "string" and strmatch(self, "|Hkeystone:([0-9:]+)|h(%b[])|h") then
 		return true
 	else
 		return false
 	end
 end
 
-local function CheckKeystone(link)
+function Extras:KH_CheckKeystone()
 	local affixIDs, mapLevel = {}, 0
 
-	if CheckLink(link) then
-		local info = {strsplit(":", link)}
+	if Extras.KH_CheckLink(self) then
+		local info = {strsplit(":", self)}
 		mapLevel = tonumber(info[4])
 
 		if mapLevel > 10 then mapLevel = 10 end
@@ -40,11 +41,11 @@ local function CheckKeystone(link)
 	return affixIDs, mapLevel
 end
 
-local function OnTooltipSetItem(self)
-	local _, link = self:GetItem()
+function Extras:KH_OnTooltipSetItem()
+	local _, self = self:GetItem()
 
-	if CheckLink(link) then
-		local affixIDs, mapLevel = CheckKeystone(link)
+	if Extras.KH_CheckLink(self) then
+		local affixIDs, mapLevel = Extras.KH_CheckKeystone(self)
 		local ilvl = MythicLootItemLevel[mapLevel]
 		local wlvl = WeeklyLootItemLevel[mapLevel]
 
@@ -56,6 +57,8 @@ local function OnTooltipSetItem(self)
 	end
 end
 
-hooksecurefunc(ItemRefTooltip, "SetHyperlink", OnTooltipSetItem)
-GameTooltip:HookScript("OnTooltipSetItem", OnTooltipSetItem)
-ItemRefTooltip:HookScript("OnTooltipSetItem", OnTooltipSetItem)
+function Extras:KeystoneHelper()
+	hooksecurefunc(ItemRefTooltip, "SetHyperlink", self.KH_OnTooltipSetItem)
+	GameTooltip:HookScript("OnTooltipSetItem", self.KH_OnTooltipSetItem)
+	ItemRefTooltip:HookScript("OnTooltipSetItem", self.KH_OnTooltipSetItem)
+end

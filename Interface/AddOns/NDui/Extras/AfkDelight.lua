@@ -3,16 +3,16 @@ local B, C, L, DB = unpack(select(2, ...))
 local mrad = math.rad
 
 -- the actual frame
-local f = CreateFrame("Frame",nil,UIParent)
-f:SetFrameStrata("FULLSCREEN")
-f:SetAllPoints()
-f.h = f:GetHeight()
-f:EnableMouse(true)
-f:SetAlpha(0)
-f:Hide()
+local frame = CreateFrame("Frame",nil,UIParent)
+frame:SetFrameStrata("FULLSCREEN")
+frame:SetAllPoints()
+frame.h = frame:GetHeight()
+frame:EnableMouse(true)
+frame:SetAlpha(0)
+frame:Hide()
 
 -- frame when /afk is initiated
-function f:Enable()
+function frame:Enable()
 	if self.isActive then return end
 	self.isActive = true
 	self:Show()
@@ -20,22 +20,22 @@ function f:Enable()
 end
 
 -- frame after /afk is over
-function f:Disable()
+function frame:Disable()
 	if not self.isActive then return end
 	self.isActive = false
 	self.fadeOut:Play()
 end
 
 -- Main Handler
-function f:OnEvent(event)
+function frame:OnEvent(event)
 	if event == "PLAYER_LOGIN" then
 		self.model:SetUnit("player")
 		self.model:SetRotation(mrad(-30))
 
 		-- close button at bottom left incase /afk bugs out
-		local button = B.CreateButton(f.model, 40, 20, AFK)
-		button:SetPoint("BOTTOMLEFT", f, 20, 20)
-		button:SetScript("OnClick", function() f:Disable() end)
+		local button = B.CreateButton(frame.model, 40, 20, AFK)
+		button:SetPoint("BOTTOMLEFT", frame, 20, 20)
+		button:SetScript("OnClick", function() frame:Disable() end)
 	else
 		if UnitIsAFK("player") then
 			self:Enable()
@@ -46,75 +46,75 @@ function f:OnEvent(event)
 end
 
 -- Bassically makes it fade IN
-f.fadeIn = f:CreateAnimationGroup()
-f.fadeIn.anim = f.fadeIn:CreateAnimation("Alpha")
-f.fadeIn.anim:SetDuration(1)
-f.fadeIn.anim:SetSmoothing("OUT")
-f.fadeIn.anim:SetFromAlpha(0)
-f.fadeIn.anim:SetToAlpha(1)
-f.fadeIn:HookScript("OnFinished", function(self)
+frame.fadeIn = frame:CreateAnimationGroup()
+frame.fadeIn.anim = frame.fadeIn:CreateAnimation("Alpha")
+frame.fadeIn.anim:SetDuration(1)
+frame.fadeIn.anim:SetSmoothing("OUT")
+frame.fadeIn.anim:SetFromAlpha(0)
+frame.fadeIn.anim:SetToAlpha(1)
+frame.fadeIn:HookScript("OnFinished", function(self)
 	self:GetParent():SetAlpha(1)
 end)
 
 -- Bassically makes it fade OUT
-f.fadeOut = f:CreateAnimationGroup()
-f.fadeOut.anim = f.fadeOut:CreateAnimation("Alpha")
-f.fadeOut.anim:SetDuration(1)
-f.fadeOut.anim:SetSmoothing("OUT")
-f.fadeOut.anim:SetFromAlpha(1)
-f.fadeOut.anim:SetToAlpha(0)
-f.fadeOut:HookScript("OnFinished", function(self)
+frame.fadeOut = frame:CreateAnimationGroup()
+frame.fadeOut.anim = frame.fadeOut:CreateAnimation("Alpha")
+frame.fadeOut.anim:SetDuration(1)
+frame.fadeOut.anim:SetSmoothing("OUT")
+frame.fadeOut.anim:SetFromAlpha(1)
+frame.fadeOut.anim:SetToAlpha(0)
+frame.fadeOut:HookScript("OnFinished", function(self)
 	self:GetParent():SetAlpha(0)
 	self:GetParent():Hide()
 end)
 
 -- complete black background to make it look better
-f.bg = f:CreateTexture(nil,"BACKGROUND",nil,-8)
-f.bg:SetTexture(1,1,1)
-f.bg:SetVertexColor(0,0,0,.5)
-f.bg:SetAllPoints()
+frame.bg = frame:CreateTexture(nil,"BACKGROUND",nil,-8)
+frame.bg:SetTexture(1,1,1)
+frame.bg:SetVertexColor(0,0,0,.5)
+frame.bg:SetAllPoints()
 
 -- player model with actualy transmog enabled aswell
-f.model = CreateFrame("PlayerModel",nil,f)
-f.model:SetSize(f.h,f.h*1.5)
-f.model:SetPoint("BOTTOMRIGHT",f.h*0.2,-f.h*0.4)
+frame.model = CreateFrame("PlayerModel",nil,frame)
+frame.model:SetSize(frame.h,frame.h*1.5)
+frame.model:SetPoint("BOTTOMRIGHT",frame.h*0.2,-frame.h*0.4)
 
 -- shadow gran
-f.gradient = f.model:CreateTexture(nil,"BACKGROUND",nil,-7)
-f.gradient:SetTexture(1,1,1)
-f.gradient:SetVertexColor(0,0,0,1)
-f.gradient:SetGradientAlpha("VERTICAL", 0, 0, 0, 1, 0, 0, 0, 0)
-f.gradient:SetPoint("BOTTOMLEFT",f)
-f.gradient:SetPoint("BOTTOMRIGHT",f)
-f.gradient:SetHeight(50)
+frame.gradient = frame.model:CreateTexture(nil,"BACKGROUND",nil,-7)
+frame.gradient:SetTexture(1,1,1)
+frame.gradient:SetVertexColor(0,0,0,1)
+frame.gradient:SetGradientAlpha("VERTICAL", 0, 0, 0, 1, 0, 0, 0, 0)
+frame.gradient:SetPoint("BOTTOMLEFT",frame)
+frame.gradient:SetPoint("BOTTOMRIGHT",frame)
+frame.gradient:SetHeight(50)
 
-f.gradient2 = f.model:CreateTexture(nil,"BACKGROUND",nil,-7)
-f.gradient2:SetTexture(1,1,1)
-f.gradient2:SetVertexColor(0,0,0,1)
-f.gradient2:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0, 0, 0, 0.5)
-f.gradient2:SetPoint("TOPLEFT",f)
-f.gradient2:SetPoint("TOPRIGHT",f)
-f.gradient2:SetHeight(50)
+frame.gradient2 = frame.model:CreateTexture(nil,"BACKGROUND",nil,-7)
+frame.gradient2:SetTexture(1,1,1)
+frame.gradient2:SetVertexColor(0,0,0,1)
+frame.gradient2:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0, 0, 0, 0.5)
+frame.gradient2:SetPoint("TOPLEFT",frame)
+frame.gradient2:SetPoint("TOPRIGHT",frame)
+frame.gradient2:SetHeight(50)
 
-f.gradient3 = f.model:CreateTexture(nil,"BACKGROUND",nil,-7)
-f.gradient3:SetTexture(1,1,1)
-f.gradient3:SetVertexColor(0,0,0,1)
-f.gradient3:SetGradientAlpha("HORIZONTAL", 0, 0, 0, 0.5, 0, 0, 0, 0)
-f.gradient3:SetPoint("TOPLEFT",f)
-f.gradient3:SetPoint("BOTTOMLEFT",f)
-f.gradient3:SetWidth(50)
+frame.gradient3 = frame.model:CreateTexture(nil,"BACKGROUND",nil,-7)
+frame.gradient3:SetTexture(1,1,1)
+frame.gradient3:SetVertexColor(0,0,0,1)
+frame.gradient3:SetGradientAlpha("HORIZONTAL", 0, 0, 0, 0.5, 0, 0, 0, 0)
+frame.gradient3:SetPoint("TOPLEFT",frame)
+frame.gradient3:SetPoint("BOTTOMLEFT",frame)
+frame.gradient3:SetWidth(50)
 
-f.gradient4 = f.model:CreateTexture(nil,"BACKGROUND",nil,-7)
-f.gradient4:SetTexture(1,1,1)
-f.gradient4:SetVertexColor(0,0,0,1)
-f.gradient4:SetGradientAlpha("HORIZONTAL", 0, 0, 0, 0, 0, 0, 0, 0.5)
-f.gradient4:SetPoint("TOPRIGHT",f)
-f.gradient4:SetPoint("BOTTOMRIGHT",f)
-f.gradient4:SetWidth(50)
+frame.gradient4 = frame.model:CreateTexture(nil,"BACKGROUND",nil,-7)
+frame.gradient4:SetTexture(1,1,1)
+frame.gradient4:SetVertexColor(0,0,0,1)
+frame.gradient4:SetGradientAlpha("HORIZONTAL", 0, 0, 0, 0, 0, 0, 0, 0.5)
+frame.gradient4:SetPoint("TOPRIGHT",frame)
+frame.gradient4:SetPoint("BOTTOMRIGHT",frame)
+frame.gradient4:SetWidth(50)
 
 -- registers the /afk scene
-f:RegisterEvent("PLAYER_FLAGS_CHANGED")
-f:RegisterEvent("PLAYER_LOGIN")
+frame:RegisterEvent("PLAYER_FLAGS_CHANGED")
+frame:RegisterEvent("PLAYER_LOGIN")
 
 -- on event start
-f:SetScript("OnEvent",f.OnEvent)
+frame:SetScript("OnEvent",frame.OnEvent)

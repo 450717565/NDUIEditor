@@ -176,16 +176,16 @@ function module:RecycleBin()
 	local bin = CreateFrame("Frame", "RecycleBinFrame", UIParent)
 	bin:SetPoint("RIGHT", bu, "LEFT", -5, 0)
 	bin:Hide()
-	B.CreateGF(bin, 220, 40, "Horizontal", 0, 0, 0, 0, .5)
+	B.CreateGF(bin, 232, 39, "Horizontal", 0, 0, 0, 0, .5)
 	local topLine = CreateFrame("Frame", nil, bin)
-	topLine:SetPoint("BOTTOM", bin, "TOP", 1, 0)
-	B.CreateGF(topLine, 220, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
+	topLine:SetPoint("BOTTOM", bin, "TOP", 0, 0)
+	B.CreateGF(topLine, 232, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
 	local bottomLine = CreateFrame("Frame", nil, bin)
-	bottomLine:SetPoint("TOP", bin, "BOTTOM", 1, 0)
-	B.CreateGF(bottomLine, 220, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
+	bottomLine:SetPoint("TOP", bin, "BOTTOM", 0, 0)
+	B.CreateGF(bottomLine, 232, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
 	local rightLine = CreateFrame("Frame", nil, bin)
 	rightLine:SetPoint("LEFT", bin, "RIGHT", 0, 0)
-	B.CreateGF(rightLine, C.mult*2, 46, "Vertical", cr, cg, cb, alpha, alpha)
+	B.CreateGF(rightLine, C.mult*2, 39+C.mult*4, "Vertical", cr, cg, cb, alpha, alpha)
 	bin:SetFrameStrata("LOW")
 
 	local function hideBinButton()
@@ -256,7 +256,7 @@ function module:RecycleBin()
 				if not lastbutton then
 					button:SetPoint("RIGHT", bin, -3, 0)
 				else
-					button:SetPoint("RIGHT", lastbutton, "LEFT", -3, 0)
+					button:SetPoint("RIGHT", lastbutton, "LEFT", -5, 0)
 				end
 				lastbutton = button
 			end

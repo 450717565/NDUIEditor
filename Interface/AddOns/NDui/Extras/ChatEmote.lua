@@ -4,7 +4,7 @@
 -------------------------------------
 
 local B, C, L, DB = unpack(select(2, ...))
-local module = B:GetModule("Extras")
+local Extras = B:GetModule("Extras")
 local cr, cg, cb = DB.r, DB.g, DB.b
 
 local strgsub, strformat, strfind, strsub = string.gsub, string.format, string.find, string.sub
@@ -164,7 +164,7 @@ do
 	frame:SetPoint("BOTTOMLEFT", ChatFrame1Tab, "TOPRIGHT", 20, 20)  --這裡調整位置
 	B.CreateFS(frame, 15, L["Chat Emote"], true, "TOPLEFT", 12, -12)
 
-	function module:ChatEmote()
+	function Extras:ChatEmote()
 		B.CreateMF(frame)
 		B.SetBackground(frame)
 

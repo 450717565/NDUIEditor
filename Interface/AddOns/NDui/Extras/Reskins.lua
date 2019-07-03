@@ -1,10 +1,9 @@
 local B, C, L, DB, F, M = unpack(select(2, ...))
+local Extras = B:GetModule("Extras")
 
-local function Reskins()
-	B:UnregisterEvent("PLAYER_ENTERING_WORLD", Reskins)
+local cr, cg, cb = DB.r, DB.g, DB.b
 
-	local cr, cg, cb = DB.r, DB.g, DB.b
-
+function Extras:Reskins()
 	if IsAddOnLoaded("!BaudErrorFrame") then
 		B.StripTextures(BaudErrorFrameListScrollBox)
 		B.StripTextures(BaudErrorFrameDetailScrollBox)
@@ -180,5 +179,3 @@ local function Reskins()
 		end
 	end
 end
-
-B:RegisterEvent("PLAYER_ENTERING_WORLD", Reskins)

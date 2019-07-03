@@ -3,7 +3,7 @@
 -- Author:M
 -------------------------------------
 local B, C, L, DB = unpack(select(2, ...))
-local module = B:GetModule("Extras")
+local Extras = B:GetModule("Extras")
 local cr, cg, cb = DB.r, DB.g, DB.b
 
 local tbinsert = table.insert
@@ -79,7 +79,7 @@ do
 
 	for i = 1, numButton do createButton(frame, i) end
 
-	function module:ChatAtFriends()
+	function Extras:ChatAtFriends()
 		B.SetBackground(frame)
 	end
 end

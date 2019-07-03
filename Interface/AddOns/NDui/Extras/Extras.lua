@@ -1,11 +1,15 @@
 local B, C, L, DB = unpack(select(2, ...))
-local module = B:RegisterModule("Extras")
+local Extras = B:RegisterModule("Extras")
 
 local strformat = string.format
 
-function module:OnLogin()
+function Extras:OnLogin()
 	self:ChatAtFriends()
 	self:ChatEmote()
+	self:DressUp()
+	self:KeystoneHelper()
+	self:MountSource()
+	self:Reskins()
 end
 
 --- 新人加入公会自动欢迎

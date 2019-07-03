@@ -153,10 +153,16 @@ C.themes["Blizzard_Collections"] = function()
 	hooksecurefunc("PetJournal_UpdatePetList", updatePetScroll)
 	hooksecurefunc(PetJournalListScrollFrame, "update", updatePetScroll)
 
-	F.StripTextures(MountJournal.BottomLeftInset)
-	local bg = F.CreateBDFrame(MountJournal.BottomLeftInset, 0)
-	bg:SetPoint("TOPLEFT", 3, 0)
-	bg:SetPoint("BOTTOMRIGHT", -24, 2)
+	local BottomLeftInset = MountJournal.BottomLeftInset
+	F.StripTextures(BottomLeftInset)
+	local bg = F.CreateBDFrame(BottomLeftInset, 0)
+	bg:SetPoint("TOPLEFT", 3, -2)
+	bg:SetPoint("BOTTOMRIGHT", -25, 2)
+
+	local SlotButton = BottomLeftInset.SlotButton
+	F.StripTextures(SlotButton)
+	local icbg = F.ReskinIcon(SlotButton.ItemIcon)
+	F.ReskinTexture(SlotButton, icbg, false)
 
 	-- Pet PetCard
 	local PetCard = PetJournalPetCard

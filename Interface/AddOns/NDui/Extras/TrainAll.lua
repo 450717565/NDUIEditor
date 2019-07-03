@@ -1,37 +1,37 @@
 local B, C, L, DB, F = unpack(select(2, ...))
 
 local spot = 0
-local cani, found, Numskills, Cost, TrainAll
+local rank, found, nums, cost
 local done = false
 
-local function pauseit()
+local function PauseIt()
 	spot = 0
-	TrainAll()
+	TrainIt()
 end
 
-function TrainAll()
+local function TrainIt()
 	if done == true then
 		spot = 0
 		return
 	end
-	Numskills = GetNumTrainerServices()
+	nums = GetNumTrainerServices()
 	found = false
 	while found == false do
 		spot = spot + 1
-		_, cani = GetTrainerServiceInfo(spot)
-		if cani == "available" then
+		rank = select(2, GetTrainerServiceInfo(spot))
+		if rank == "available" then
 			BuyTrainerService(spot)
-			C_Timer.After(0.3, pauseit)
+			C_Timer.After(0.3, PauseIt)
 			found = true
 		end
-		if spot >= Numskills then
+		if spot >= nums then
 			done = true
 			break
 		end
 	end
 end
 
-local function createit()
+local function CreateIt()
 	local Button = CreateFrame("Button", "TrainAllButton",ClassTrainerFrame, "MagicButtonTemplate")
 	Button:SetWidth(80)
 	Button:SetHeight(22)
@@ -42,7 +42,7 @@ local function createit()
 
 	Button:SetScript("OnEnter", function()
 		GameTooltip:SetOwner(Button,"ANCHOR_RIGHT")
-		GameTooltip:SetText(L["Train All Need"]..GetMoneyString(Cost))
+		GameTooltip:SetText(L["Train All Need"]..GetMoneyString(cost))
 	end)
 	Button:SetScript("OnLeave", function()
 		GameTooltip:Hide()
@@ -50,16 +50,16 @@ local function createit()
 	Button:SetScript("ONClick",function()
 		spot = 0
 		done = false
-		TrainAll()
+		TrainIt()
 	end)
 
 	hooksecurefunc("ClassTrainerFrame_Update",function()
-		Cost = 0
+		cost = 0
 		local Enable = false
 		for i = 1, GetNumTrainerServices() do
-			local _, cani = GetTrainerServiceInfo(i)
-			if cani == "available" then
-				Cost = Cost + GetTrainerServiceCost(i)
+			local _, rank = GetTrainerServiceInfo(i)
+			if rank == "available" then
+				cost = cost + GetTrainerServiceCost(i)
 				TrainAllButton:Enable()
 				Enable = true
 			end
@@ -70,11 +70,11 @@ local function createit()
 	end)
 end
 
-local function Init(event, addon)
+local function BuildIt(event, addon)
 	if addon == "Blizzard_TrainerUI" then
-		createit()
-		B:UnregisterEvent(event, Init)
+		CreateIt()
+		B:UnregisterEvent(event, BuildIt)
 	end
 end
 
-B:RegisterEvent("ADDON_LOADED", Init)
+B:RegisterEvent("ADDON_LOADED", BuildIt)
