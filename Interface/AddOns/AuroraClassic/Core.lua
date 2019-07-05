@@ -1148,11 +1148,13 @@ end
 
 C.themes = {}
 C.themes["AuroraClassic"] = {}
+C.login = {}
 
 -- [[ Initialize addon ]]
 
 local Skin = CreateFrame("Frame")
 Skin:RegisterEvent("ADDON_LOADED")
+Skin:RegisterEvent("PLAYER_LOGIN")
 Skin:RegisterEvent("PLAYER_LOGOUT")
 Skin:SetScript("OnEvent", function(_, event, addon)
 	if event == "ADDON_LOADED" then
@@ -1201,6 +1203,12 @@ Skin:SetScript("OnEvent", function(_, event, addon)
 				for _, moduleFunc in pairs(addonModule) do
 					moduleFunc()
 				end
+			end
+		end
+	elseif event == "PLAYER_LOGIN" then
+		for index, func in pairs(C.login) do
+			if IsAddOnLoaded(index) then
+				func()
 			end
 		end
 	else

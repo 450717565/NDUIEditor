@@ -47,7 +47,7 @@ function M:GuildBest_Create()
 		entry.Name:SetPoint("RIGHT", -30, 0)
 		entry.Level = B.CreateFS(entry, 14, "", "system", "RIGHT", 0, 0)
 		entry.Level:SetJustifyH("RIGHT")
-		entry:SetScript("OnEnter", UpdateTooltip)
+		entry:SetScript("OnEnter", self.GuildBest_UpdateTooltip)
 		entry:SetScript("OnLeave", B.HideTooltip)
 
 		if i == 1 then

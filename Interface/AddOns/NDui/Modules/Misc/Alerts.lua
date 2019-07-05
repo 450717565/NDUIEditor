@@ -67,7 +67,7 @@ function M:RaidInfo_Update()
 		local isWarned = false
 		local numCurrent = GetNumGroupMembers()
 		if (numCurrent < 10) and (not isWarned) then
-			setupAlertFrame()
+			M:SoloInfo_Create()
 			soloInfo.Text:SetText(DB.MyColor..L["In Raid"])
 
 			isWarned = true

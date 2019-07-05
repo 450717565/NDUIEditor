@@ -92,7 +92,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			bar.styled = true
 		end
 
-		if icon.bg then
+		if icon and icon.bg then
 			icon.bg:SetShown(icon:IsShown() and icon:GetTexture() ~= nil)
 		end
 	end

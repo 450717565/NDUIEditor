@@ -1,7 +1,7 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	local r, g, b = C.r, C.g, C.b
+	local cr, cg, cb = C.r, C.g, C.b
 	local tooltipsEnabled = AuroraConfig.tooltips
 
 	local function reskinDropdown()
@@ -92,7 +92,7 @@ tinsert(C.themes["AuroraClassic"], function()
 				arrow:SetSize(8, 8)
 
 				local hl = _G["DropDownList"..level.."Button"..j.."Highlight"]
-				hl:SetColorTexture(r, g, b, .25)
+				hl:SetColorTexture(cr, cg, cb, .25)
 				hl:SetPoint("TOPLEFT", -x + C.mult, 0)
 				hl:SetPoint("BOTTOMRIGHT", listFrame:GetWidth() - bu:GetWidth() - x - C.mult, 0)
 
@@ -101,7 +101,7 @@ tinsert(C.themes["AuroraClassic"], function()
 					check:SetSize(20, 20)
 					check:SetTexCoord(0, 1, 0, 1)
 					check:SetTexture("Interface\\Buttons\\UI-CheckBox-Check")
-					check:SetVertexColor(r, g, b, 1)
+					check:SetVertexColor(cr, cg, cb, 1)
 					check:SetDesaturated(true)
 				end
 

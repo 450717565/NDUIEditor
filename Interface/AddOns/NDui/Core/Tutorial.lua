@@ -4,6 +4,7 @@ local module = B:RegisterModule("Settings")
 local pairs, tonumber, wipe = pairs, tonumber, table.wipe
 local min, max, floor = math.min, math.max, floor
 local cr, cg, cb = DB.r, DB.g, DB.b
+local alpha
 
 -- Addon Info
 print("|cff0080ff< NDui >|cff70C0F5----------------")
@@ -371,7 +372,7 @@ end
 local tutor
 local function YesTutor()
 	if tutor then tutor:Show() return end
-	local alpha = NDuiDB["Extras"]["SkinAlpha"]
+
 	tutor = CreateFrame("Frame", nil, UIParent)
 	tutor:SetPoint("CENTER")
 	tutor:SetSize(400, 250)
@@ -455,7 +456,7 @@ end
 local welcome
 local function HelloWorld()
 	if welcome then welcome:Show() return end
-	local alpha = NDuiDB["Extras"]["SkinAlpha"]
+
 	welcome = CreateFrame("Frame", "NDui_Tutorial", UIParent)
 	welcome:SetPoint("CENTER")
 	welcome:SetSize(350, 400)
@@ -510,6 +511,8 @@ SlashCmdList["NDUI"] = HelloWorld
 SLASH_NDUI1 = "/ndui"
 
 function module:OnLogin()
+	alpha = NDuiDB["Extras"]["SkinAlpha"]
+
 	-- Hide options
 	B.HideOption(Advanced_UseUIScale)
 	B.HideOption(Advanced_UIScaleSlider)

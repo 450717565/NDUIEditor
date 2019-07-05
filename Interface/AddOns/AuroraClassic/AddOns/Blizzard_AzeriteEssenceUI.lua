@@ -1,46 +1,56 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_AzeriteEssenceUI"] = function()
-	local r, g, b = C.r, C.g, C.b
+	local cr, cg, cb = C.r, C.g, C.b
 
 	F.ReskinFrame(AzeriteEssenceUI)
-	F.StripTextures(AzeriteEssenceUI.PowerLevelBadgeFrame)
-	F.ReskinScroll(AzeriteEssenceUI.EssenceList.ScrollBar)
-
-	local headerButton = AzeriteEssenceUI.EssenceList.HeaderButton
-	headerButton:DisableDrawLayer("BORDER")
-	headerButton:DisableDrawLayer("BACKGROUND")
-	local bg = F.CreateBDFrame(headerButton)
-	bg:SetPoint("TOPLEFT", headerButton.ExpandedIcon, -4, 6)
-	bg:SetPoint("BOTTOMRIGHT", headerButton.ExpandedIcon, 4, -6)
-	F.CreateGradient(bg)
-	headerButton:SetScript("OnEnter", function()
-		bg:SetBackdropColor(r, g, b, .25)
-	end)
-	headerButton:SetScript("OnLeave", function()
-		bg:SetBackdropColor(0, 0, 0, 0)
-	end)
 
 	for _, milestoneFrame in pairs(AzeriteEssenceUI.Milestones) do
 		if milestoneFrame.LockedState then
-			milestoneFrame.LockedState.UnlockLevelText:SetTextColor(.6, .8, 1)
+			milestoneFrame.LockedState.UnlockLevelText:SetTextColor(1, 0, 0)
 		end
 	end
 
-	hooksecurefunc(AzeriteEssenceUI.EssenceList, "Refresh", function(self)
+	local ItemModelScene = AzeriteEssenceUI.ItemModelScene
+	F.CreateBDFrame(ItemModelScene, 0)
+
+	local PowerLevelBadgeFrame = AzeriteEssenceUI.PowerLevelBadgeFrame
+	F.StripTextures(PowerLevelBadgeFrame)
+	PowerLevelBadgeFrame:ClearAllPoints()
+	PowerLevelBadgeFrame:SetPoint("TOPLEFT", ItemModelScene, 3, 0)
+	PowerLevelBadgeFrame.Label:SetTextColor(0, 1, 1)
+
+	local EssenceList = AzeriteEssenceUI.EssenceList
+	F.ReskinScroll(EssenceList.ScrollBar)
+
+	local HeaderButton = EssenceList.HeaderButton
+	HeaderButton:DisableDrawLayer("BORDER")
+	HeaderButton:DisableDrawLayer("BACKGROUND")
+	local bubg = F.CreateBDFrame(HeaderButton, 0)
+	bubg:SetPoint("TOPLEFT", HeaderButton.ExpandedIcon, -4, 6)
+	bubg:SetPoint("BOTTOMRIGHT", HeaderButton.ExpandedIcon, 4, -6)
+	HeaderButton:SetScript("OnEnter", function()
+		bubg:SetBackdropColor(cr, cg, cb, .25)
+	end)
+	HeaderButton:SetScript("OnLeave", function()
+		bubg:SetBackdropColor(0, 0, 0, 0)
+	end)
+
+	hooksecurefunc(EssenceList, "Refresh", function(self)
 		for i, button in ipairs(self.buttons) do
-			if not button.bg then
-				local bg = F.CreateBDFrame(button, .25)
-				bg:SetPoint("TOPLEFT", 1, 0)
-				bg:SetPoint("BOTTOMRIGHT", 0, 2)
-
-				F.ReskinIcon(button.Icon)
+			if not button.styled then
 				button.PendingGlow:SetTexture("")
-				local hl = button:GetHighlightTexture()
-				hl:SetColorTexture(r, g, b, .25)
-				hl:SetAllPoints(bg)
 
-				button.bg = bg
+				local icbg = F.ReskinIcon(button.Icon)
+
+				local bubg = F.CreateBDFrame(button, 0)
+				bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
+				bubg:SetPoint("BOTTOMRIGHT", 0, 4)
+				F.ReskinTexture(button, bubg, true)
+
+				button.bg = bubg
+
+				button.styled = true
 			end
 			button.Background:SetTexture("")
 

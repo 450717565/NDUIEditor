@@ -4,22 +4,22 @@ local Extras = B:GetModule("Extras")
 local strformat, strmatch, strsplit = string.format, string.match, string.split
 local tbinsert, tbremove = table.insert, table.remove
 
-local MythicLootItemLevel =  {405, 405, 410, 415, 415, 420, 425, 425, 430}
-local WeeklyLootItemLevel =  {410, 415, 420, 420, 425, 430, 430, 435, 440}
+local MythicLootItemLevel =  {0, 405, 405, 410, 415, 415, 420, 425, 425, 430}
+local WeeklyLootItemLevel =  {0, 410, 415, 420, 420, 425, 430, 430, 435, 440}
 
-function Extras:KH_CheckLink()
-	if self and type(self) == "string" and strmatch(self, "|Hkeystone:([0-9:]+)|h(%b[])|h") then
+function Extras:KH_CheckLink(link)
+	if link and type(link) == "string" and strmatch(link, "|Hkeystone:([0-9:]+)|h(%b[])|h") then
 		return true
 	else
 		return false
 	end
 end
 
-function Extras:KH_CheckKeystone()
+function Extras:KH_CheckKeystone(link)
 	local affixIDs, mapLevel = {}, 0
 
-	if Extras.KH_CheckLink(self) then
-		local info = {strsplit(":", self)}
+	if Extras:KH_CheckLink(link) then
+		local info = {strsplit(":", link)}
 		mapLevel = tonumber(info[4])
 
 		if mapLevel > 10 then mapLevel = 10 end
@@ -42,10 +42,10 @@ function Extras:KH_CheckKeystone()
 end
 
 function Extras:KH_OnTooltipSetItem()
-	local _, self = self:GetItem()
+	local _, link = self:GetItem()
 
-	if Extras.KH_CheckLink(self) then
-		local affixIDs, mapLevel = Extras.KH_CheckKeystone(self)
+	if Extras:KH_CheckLink(link) then
+		local affixIDs, mapLevel = Extras:KH_CheckKeystone(link)
 		local ilvl = MythicLootItemLevel[mapLevel]
 		local wlvl = WeeklyLootItemLevel[mapLevel]
 
