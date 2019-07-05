@@ -89,6 +89,9 @@ local function Enable(self)
 		element.ForceUpdate = ForceUpdate
 
 		self:RegisterEvent("UPDATE_UI_WIDGET", Path, true)
+
+		element:Hide()
+
 		return true
 	end
 end
