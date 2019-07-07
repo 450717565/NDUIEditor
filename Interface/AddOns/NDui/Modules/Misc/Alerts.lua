@@ -35,6 +35,7 @@ local instList = {
 	[585] = 2,		-- H魔导师平台，白鸡
 	[631] = 6,		-- 25H冰冠堡垒，无敌
 	[1205] = 16,	-- M黑石，裂蹄牛
+	[1448] = 16,	-- M地狱火，魔钢歼灭者
 	[1651] = 23,	-- M卡拉赞，新午夜
 }
 
@@ -56,7 +57,7 @@ function M:SoloInfo_Update()
 
 	if instType ~= "none" and diffID ~= 24 and instList[instID] and instList[instID] ~= diffID then
 		M:SoloInfo_Create()
-		soloInfo.Text:SetText(DB.InfoColor..name.."\n<"..difficultyName..">\n\n"..DB.MyColor..L["Wrong Difficulty"])
+		soloInfo.Text:SetText(DB.InfoColor..name.."\n<"..diffName..">\n\n"..DB.MyColor..L["Wrong Difficulty"])
 	else
 		if soloInfo then soloInfo:Hide() end
 	end
@@ -108,7 +109,6 @@ local isIgnored = {
 
 function M:RareAlert_Update(id)
 	if id and not cache[id] then
-		local instType = select(2, GetInstanceInfo())
 		local info = C_VignetteInfo_GetVignetteInfo(id)
 		if not info then return end
 		local filename, width, height, txLeft, txRight, txTop, txBottom = GetAtlasInfo(info.atlasName)

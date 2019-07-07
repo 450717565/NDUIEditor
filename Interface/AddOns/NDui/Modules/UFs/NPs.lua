@@ -434,11 +434,11 @@ function UF:CreatePlates(unit)
 		self.powerText:SetPoint("LEFT", self, "RIGHT", 2, 0)
 		self:Tag(self.powerText, "[nppp]")
 
-		if NDuiDB["Nameplate"]["TarArrow"] < 3 then
+		if NDuiDB["Nameplate"]["TarArrow"] > 1 then
 			local arrow = self:CreateTexture(nil, "OVERLAY", nil, 1)
 			arrow:SetSize(50, 50)
 			arrow:SetTexture(DB.arrowTex..NDuiDB["Extras"]["ArrowColor"])
-			if NDuiDB["Nameplate"]["TarArrow"] == 2 then
+			if NDuiDB["Nameplate"]["TarArrow"] == 3 then
 				arrow:SetPoint("LEFT", self, "RIGHT", 3, 0)
 				arrow:SetRotation(rad(-90))
 			else

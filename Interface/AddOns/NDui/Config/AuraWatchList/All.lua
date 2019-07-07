@@ -165,6 +165,7 @@ local list = {
 		{AuraID = 295408, UnitID = "player"},	-- 险恶赐福
 		{AuraID = 273988, UnitID = "player"},	-- 原始本能
 		{AuraID = 285475, UnitID = "player"},	-- 卡亚矿涌流
+		{AuraID = 306242, UnitID = "player"},	-- 红卡重置
 	-- 艾泽里特特质
 		{AuraID = 271550, UnitID = "player"},	-- 临危不惧
 		{AuraID = 281517, UnitID = "player"},	-- 不稳定的催化剂

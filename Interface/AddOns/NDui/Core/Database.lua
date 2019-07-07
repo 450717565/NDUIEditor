@@ -26,12 +26,12 @@ end
 DB.r, DB.g, DB.b = DB.ClassColors[DB.MyClass].r, DB.ClassColors[DB.MyClass].g, DB.ClassColors[DB.MyClass].b
 DB.MyColor = format("|cff%02x%02x%02x", DB.r*255, DB.g*255, DB.b*255)
 DB.InfoColor = "|cff99ccff" --.6,.8,1
-DB.GreyColor = "|cff808080"
+DB.GreyColor = "|cff7b8489"
 
 -- Fonts
 DB.Font = {STANDARD_TEXT_FONT, 12, "OUTLINE"}
 DB.TipFont = {GameTooltipText:GetFont(), 14, "OUTLINE"}
-DB.LineString = DB.MyColor.."---------------|r"
+DB.LineString = DB.MyColor.."————————|r"
 DB.Separator = DB.MyColor.." | |r"
 
 -- Textures

@@ -105,7 +105,7 @@ function UF:CreateHealthText(self)
 			name:SetPoint("LEFT", 4, 0)
 		elseif NDuiDB["UFs"]["RaidBuffIndicator"] then
 			name:SetJustifyH("CENTER")
-			if NDuiDB["UFs"]["HealthPerc"] then
+			if NDuiDB["UFs"]["RaidHPMode"] ~= 1 then
 				name:SetPoint("TOP", 0, -3)
 			else
 				name:SetPoint("CENTER")
@@ -135,7 +135,8 @@ function UF:CreateHealthText(self)
 		self:Tag(name, "[color][name]")
 	end
 
-	local hpval = B.CreateFS(textFrame, retVal(self, 14, 13, 12, 14), "", false, "RIGHT", -3, -1)
+	local hpMode = NDuiDB["Nameplate"]["NPsHPMode"]
+	local hpval = B.CreateFS(textFrame, retVal(self, 14, 13, 12, hpMode == 3 and 12 or 14), "", false, "RIGHT", -3, -1)
 	hpval:SetJustifyH("RIGHT")
 	if mystyle == "raid" or isWatcherStyle(self) then
 		hpval:ClearAllPoints()
@@ -147,11 +148,7 @@ function UF:CreateHealthText(self)
 		else
 			hpval:SetPoint("BOTTOMRIGHT", -2, 2)
 		end
-		if NDuiDB["UFs"]["HealthPerc"] then
-			self:Tag(hpval, "[raidhp]")
-		else
-			self:Tag(hpval, "[state]")
-		end
+		self:Tag(hpval, "[raidhp]")
 	elseif mystyle == "nameplate" then
 		hpval:SetPoint("RIGHT", self, 0, 5)
 		self:Tag(hpval, "[nphp]")

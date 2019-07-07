@@ -45,11 +45,13 @@ do
 		if event == "ENCOUNTER_START" then
 			if not collapse then
 				ObjectiveTracker_Collapse()
+
 				collapse = true
 			end
 		elseif event == "ENCOUNTER_END" then
 			if collapse then
 				ObjectiveTracker_Expand()
+
 				collapse = false
 			end
 		end

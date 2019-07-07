@@ -124,12 +124,15 @@ oUF.Tags.Events["fulllevel"] = "UNIT_LEVEL UNIT_NAME_UPDATE UNIT_CLASSIFICATION_
 
 -- RaidFrame tags
 oUF.Tags.Methods["raidhp"] = function(unit)
+	local cur = UnitHealth(unit)
 	local per = oUF.Tags.Methods["perhp"](unit)
 
 	if UnitIsDeadOrGhost(unit) or not UnitIsConnected(unit) then
 		return oUF.Tags.Methods["state"](unit)
-	else
+	elseif NDuiDB["UFs"]["RaidHPMode"] == 2 then
 		return B.ColorText(per)
+	elseif NDuiDB["UFs"]["RaidHPMode"] == 3 then
+		return B.ColorText(per, false, B.Numb(cur))
 	end
 end
 oUF.Tags.Events["raidhp"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION UNIT_STATS UNIT_NAME_UPDATE PLAYER_FLAGS_CHANGED"
@@ -139,10 +142,14 @@ oUF.Tags.Methods["nphp"] = function(unit)
 	local cur = UnitHealth(unit)
 	local per = oUF.Tags.Methods["perhp"](unit)
 
-	if NDuiDB["Nameplate"]["FullHealth"] then
-		return B.ColorText(per, true, B.Numb(cur))
-	elseif per < 100 then
-		return B.ColorText(per, true)
+	if per < 100 then
+		if NDuiDB["Nameplate"]["NPsHPMode"] == 1 then
+			return B.ColorText(per, true)
+		elseif NDuiDB["Nameplate"]["NPsHPMode"] == 2 then
+			return B.ColorText(per, true, B.Numb(cur))
+		else
+			return B.ColorText(per, true, B.Numb(cur).." | "..per.."%")
+		end
 	end
 end
 oUF.Tags.Events["nphp"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH"
