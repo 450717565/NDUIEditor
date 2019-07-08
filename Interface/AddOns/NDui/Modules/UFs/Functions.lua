@@ -74,14 +74,16 @@ function UF:CreateHealthBar(self)
 	bg.multiplier = .25
 
 	local mystyle = self.mystyle
+	local specialStyle = mystyle == "raid" or isPartyStyle(self) or isWatcherStyle(self)
+
 	if mystyle == "PlayerPlate" then
 		health.colorHealth = true
-	elseif (mystyle == "raid" and NDuiDB["UFs"]["RaidClassColor"]) or (mystyle ~= "raid" and NDuiDB["UFs"]["HealthColor"] == 2) then
+	elseif (specialStyle and NDuiDB["UFs"]["RaidHPColor"] == 2) or (not specialStyle and NDuiDB["UFs"]["UFsHPColor"] == 2) then
 		health.colorClass = true
 		health.colorTapping = true
 		health.colorReaction = true
 		health.colorDisconnected = true
-	elseif mystyle ~= "raid" and NDuiDB["UFs"]["HealthColor"] == 3 then
+	elseif (specialStyle and NDuiDB["UFs"]["RaidHPColor"] == 3) or (not specialStyle and NDuiDB["UFs"]["UFsHPColor"] == 3) then
 		health.colorSmooth = true
 	end
 	health.frequentUpdates = true
@@ -165,6 +167,8 @@ function UF:CreatePowerBar(self)
 	B.SmoothBar(power)
 
 	local mystyle = self.mystyle
+	local specialStyle = mystyle == "raid" or isPartyStyle(self) or isWatcherStyle(self)
+
 	if mystyle == "PlayerPlate" then
 		power:SetHeight(self:GetHeight())
 	else
@@ -175,7 +179,7 @@ function UF:CreatePowerBar(self)
 	bg:SetAlpha(1)
 	bg.multiplier = .25
 
-	if (mystyle == "raid" and NDuiDB["UFs"]["RaidClassColor"]) or (mystyle ~= "raid" and NDuiDB["UFs"]["HealthColor"] == 2) or mystyle == "PlayerPlate" then
+	if (specialStyle and NDuiDB["UFs"]["RaidHPColor"] == 2) or (not specialStyle and NDuiDB["UFs"]["UFsHPColor"] == 2) or mystyle == "PlayerPlate" then
 		power.colorPower = true
 	else
 		power.colorClass = true
@@ -198,6 +202,7 @@ end
 
 function UF:CreatePortrait(self)
 	if not NDuiDB["UFs"]["Portrait"] then return end
+	if (isPartyStyle(self) and NDuiDB["UFs"]["RaidHPColor"] > 1) or (not isPartyStyle(self) and NDuiDB["UFs"]["UFsHPColor"] > 1) then return end
 
 	local portrait = CreateFrame("PlayerModel", nil, self.Health)
 	portrait:SetAllPoints()
