@@ -18,7 +18,7 @@ local function ReskinDetails()
 		instance:SetBarSettings(18, NDuiADB["ResetDetails"] and "NDui" or nil)
 		instance:SetBarTextSettings(13, DB.Font[1], nil, nil, nil, true, true, nil, nil, nil, nil, nil, nil, false, nil, false, nil)
 
-		local bg = B.CreateBGFrame(instance.baseframe, true)
+		local bg = B.CreateBGFrame(instance.baseframe, "tex")
 		bg:SetPoint("TOPLEFT", -1, 18)
 		instance.baseframe.bg = bg
 

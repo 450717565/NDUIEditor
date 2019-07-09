@@ -120,8 +120,10 @@ local function ForceDBMOptions()
 	DBT_AllPersistentOptions = {
 		["Default"] = {
 			["DBM"] = {
+				["Alpha"] = 0.8,
+				["BarStyle"] = "DBM",
 				["BarXOffset"] = 0,
-				["BarYOffset"] = 16,
+				["BarYOffset"] = 5,
 				["EndColorB"] = 0,
 				["EndColorG"] = 0,
 				["EndColorR"] = 1,
@@ -131,7 +133,7 @@ local function ForceDBMOptions()
 				["Heigh"] = 20,
 				["HugeBarsEnabled"] = false,
 				["HugeBarXOffset"] = 0,
-				["HugeBarYOffset"] = 16,
+				["HugeBarYOffset"] = 5,
 				["HugeScale"] = 1,
 				["HugeTimerPoint"] = "BOTTOM",
 				["HugeTimerX"] = -50,
@@ -291,7 +293,7 @@ local function ForceBigwigs()
 						["BigWigsAnchor_x"] = 400,
 						["BigWigsAnchor_y"] = 725,
 						["BigWigsEmphasizeAnchor_width"] = 200,
-						["BigWigsEmphasizeAnchor_x"] = 875,
+						["BigWigsEmphasizeAnchor_x"] = 860,
 						["BigWigsEmphasizeAnchor_y"] = 350,
 						["emphasizeGrowup"] = true,
 						["emphasizeMultiplier"] = 1,

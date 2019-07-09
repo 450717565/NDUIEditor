@@ -68,11 +68,14 @@ function B.ItemSlotInfo(item)
 end
 
 -- Create BGFrame
-function B:CreateBGFrame(full, offset)
+function B:CreateBGFrame(type, alpha, offset)
 	local bg = B.CreateBG(self, offset)
 
-	if full then
-		B.SetBackground(bg)
+	if type == "tex" then
+		B.SetBackground(bg, alpha)
+	elseif type == "notex" then
+		B.CreateBD(bg, alpha)
+		B.CreateSD(bg)
 	else
 		B.CreateSD(bg)
 	end
@@ -243,13 +246,11 @@ function B:CreateBC(a)
 end
 
 -- Checkbox
-function B:CreateCB(a)
+function B:CreateCB()
 	self:SetNormalTexture("")
 	self:SetPushedTexture("")
 
-	local bd = B.CreateBG(self, -4)
-	B.CreateBD(bd, a)
-	B.CreateSD(bd)
+	local bd = B.CreateBGFrame(self, "notex", .25, -4)
 
 	local ch = self:GetCheckedTexture()
 	ch:SetDesaturated(true)
@@ -634,7 +635,7 @@ end
 
 function B:CreateCheckBox()
 	local cb = CreateFrame("CheckButton", nil, self, "InterfaceOptionsCheckButtonTemplate")
-	B.CreateCB(cb, .25)
+	B.CreateCB(cb)
 
 	cb.Type = "CheckBox"
 	return cb

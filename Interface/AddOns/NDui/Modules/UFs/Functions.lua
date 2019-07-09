@@ -405,7 +405,7 @@ local function reskinTimerBar(bar)
 		bar:SetStatusBarTexture(DB.normTex)
 	end
 
-	B.CreateBGFrame(bar, true)
+	B.CreateBGFrame(bar, "tex")
 end
 
 function UF:ReskinMirrorBars()
@@ -989,7 +989,6 @@ function UF:CreateQuakeTimer(self)
 	bar:SetSize(unpack(C.UFs.PlayercbSize))
 	local bg = B.CreateSB(bar, true, 0, 1, 0)
 	B.CreateTex(bg)
-	bar:Hide()
 
 	bar.SpellName = B.CreateFS(bar, 12, "", false, "LEFT", 2, 0)
 	bar.Text = B.CreateFS(bar, 12, "", false, "RIGHT", -2, 0)

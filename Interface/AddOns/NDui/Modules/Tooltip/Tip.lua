@@ -266,7 +266,7 @@ function TT:ReskinStatusBar()
 	GameTooltipStatusBar:SetStatusBarTexture(DB.normTex)
 	GameTooltipStatusBar:SetHeight(5)
 
-	B.CreateBGFrame(GameTooltipStatusBar, true)
+	B.CreateBGFrame(GameTooltipStatusBar, "tex")
 end
 
 function TT:GameTooltip_ShowStatusBar()
@@ -278,7 +278,7 @@ function TT:GameTooltip_ShowStatusBar()
 			bar:SetStatusBarTexture(DB.normTex)
 			bar:SetStatusBarColor(cr, cg, cb, .8)
 
-			B.SetBackground(B.CreateBG(bar), .25)
+			B.CreateBGFrame(bar, "tex", .25)
 
 			bar.styled = true
 		end
@@ -295,7 +295,7 @@ function TT:GameTooltip_ShowProgressBar()
 			bar.Bar:SetStatusBarTexture(DB.normTex)
 			bar.Bar:SetStatusBarColor(cr, cg, cb, .8)
 
-			B.SetBackground(B.CreateBG(bar.Bar), .25)
+			B.CreateBGFrame(bar.Bar, "tex", .25)
 
 			bar.styled = true
 		end

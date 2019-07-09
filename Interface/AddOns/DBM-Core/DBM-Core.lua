@@ -68,7 +68,7 @@ local function showRealDate(curseDate)
 end
 
 DBM = {
-	Revision = parseCurseDate("20190708041116"),
+	Revision = parseCurseDate("20190709013608"),
 	DisplayVersion = "8.2.3 alpha", -- the string that is shown as version
 	ReleaseRevision = releaseDate(2019, 7, 6) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
@@ -9478,6 +9478,14 @@ do
 		end
 	end
 	yellPrototype.Show = yellPrototype.Yell
+
+	--Force override to use say message, even when object defines "YELL"
+	function yellPrototype:Say(...)
+		if DBM.Options.DontSendYells or self.yellType and self.yellType == "position" and DBM:UnitBuff("player", voidForm) and DBM.Options.FilterVoidFormSay then return end
+		if not self.option or self.mod.Options[self.option] then
+			SendChatMessage(pformat(self.text, ...), "SAY")
+		end
+	end
 
 	function yellPrototype:Schedule(t, ...)
 		return schedule(t, self.Yell, self.mod, self, ...)
