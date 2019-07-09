@@ -61,6 +61,7 @@ function S:BigWigsSkin()
 			icon:Show()
 			icon:SetTexture(tex)
 			icon:SetSize(height, height)
+			icon:SetTexCoord(unpack(DB.TexCoord))
 
 			icon:ClearAllPoints()
 			if bar.iconPosition == "RIGHT" then

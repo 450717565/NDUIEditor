@@ -63,6 +63,8 @@ function S:DBMSkin()
 				if not icon1.styled then
 					icon1:SetSize(iconSize, iconSize)
 					icon1.SetSize = B.Dummy
+					icon1:SetTexCoord(unpack(DB.TexCoord))
+					icon1.SetTexCoord = B.Dummy
 					icon1:ClearAllPoints()
 					icon1:SetPoint("BOTTOMRIGHT", tbar, "BOTTOMLEFT", -5, 0)
 					icon1.SetPoint = B.Dummy
@@ -75,6 +77,8 @@ function S:DBMSkin()
 				if not icon2.styled then
 					icon2:SetSize(iconSize, iconSize)
 					icon2.SetSize = B.Dummy
+					icon2:SetTexCoord(unpack(DB.TexCoord))
+					icon2.SetTexCoord = B.Dummy
 					icon2:ClearAllPoints()
 					icon2:SetPoint("BOTTOMLEFT", tbar, "BOTTOMRIGHT", 5, 0)
 					icon2.SetPoint = B.Dummy
