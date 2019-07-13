@@ -5,7 +5,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.SetupTabStyle(FriendsFrame, 3)
 	F.ReskinFrame(AddFriendFrame)
 
-	local lists = {FriendsFrameFriendsScrollFrame, IgnoreListFrame, WhoListScrollFrame, WhoFrameListInset, WhoFrameEditBoxInset}
+	local lists = {IgnoreListFrame, WhoFrameListInset, WhoFrameEditBoxInset}
 	for _, list in pairs(lists) do
 		F.StripTextures(list)
 	end

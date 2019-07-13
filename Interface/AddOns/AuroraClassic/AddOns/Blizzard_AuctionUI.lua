@@ -60,11 +60,6 @@ C.themes["Blizzard_AuctionUI"] = function()
 		F.ReskinTexture(sort, sort, true)
 	end
 
-	local frames = {BrowseScrollFrame, BrowseFilterScrollFrame, BidScrollFrame, AuctionsScrollFrame}
-	for _, frame in pairs(frames) do
-		F.StripTextures(frame)
-	end
-
 	local buttons = {BrowseBidButton, BrowseBuyoutButton, BrowseCloseButton, BrowseSearchButton, BrowseResetButton, BidBidButton, BidBuyoutButton, BidCloseButton, AuctionsCloseButton, AuctionsCancelAuctionButton, AuctionsCreateAuctionButton, AuctionsNumStacksMaxButton, AuctionsStackSizeMaxButton}
 	for _, button in pairs(buttons) do
 		F.StripTextures(button)
@@ -81,7 +76,7 @@ C.themes["Blizzard_AuctionUI"] = function()
 		F.ReskinCheck(check)
 	end
 
-	local scrolls = {BrowseScrollFrameScrollBar, AuctionsScrollFrameScrollBar, BrowseFilterScrollFrameScrollBar}
+	local scrolls = {BrowseScrollFrameScrollBar, AuctionsScrollFrameScrollBar, BrowseFilterScrollFrameScrollBar, BidScrollFrameScrollBar}
 	for _, scroll in pairs(scrolls) do
 		F.ReskinScroll(scroll)
 	end

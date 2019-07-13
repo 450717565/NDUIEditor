@@ -9,16 +9,14 @@ C.themes["Blizzard_GuildBankUI"] = function()
 
 	F.SetupTabStyle(GuildBankFrame, 4)
 
+	F.StripTextures(GuildBankEmblemFrame, true)
+	F.StripTextures(GuildBankMoneyFrameBackground)
+
 	GuildBankPopupFrame:SetHeight(525)
 	GuildBankPopupFrame:ClearAllPoints()
 	GuildBankPopupFrame:SetPoint("TOPLEFT", GuildBankFrame, "TOPRIGHT", 2, -30)
 	GuildBankFrameWithdrawButton:ClearAllPoints()
 	GuildBankFrameWithdrawButton:SetPoint("RIGHT", GuildBankFrameDepositButton, "LEFT", -1, 0)
-
-	local lists = {GuildBankEmblemFrame, GuildBankMoneyFrameBackground, GuildBankTransactionsScrollFrame, GuildBankInfoScrollFrame, GuildBankPopupScrollFrame}
-	for _, list in pairs(lists) do
-		F.StripTextures(list, true)
-	end
 
 	local buttons = {GuildBankFrameWithdrawButton, GuildBankFrameDepositButton, GuildBankFramePurchaseButton, GuildBankPopupOkayButton, GuildBankPopupCancelButton, GuildBankInfoSaveButton}
 	for _, button in pairs(buttons) do
@@ -47,7 +45,7 @@ C.themes["Blizzard_GuildBankUI"] = function()
 
 		if i == 1 then
 			tb:ClearAllPoints()
-			tb:SetPoint("TOPLEFT", GuildBankFrame, "TOPRIGHT", 0, -25)
+			tb:SetPoint("TOPLEFT", GuildBankFrame, "TOPRIGHT", 2, -25)
 		end
 	end
 

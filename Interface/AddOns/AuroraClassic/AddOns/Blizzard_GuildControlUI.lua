@@ -4,7 +4,6 @@ C.themes["Blizzard_GuildControlUI"] = function()
 	F.ReskinFrame(GuildControlUI)
 
 	F.StripTextures(GuildControlUIRankBankFrameInset)
-	F.StripTextures(GuildControlUIRankBankFrameInsetScrollFrame)
 	F.ReskinScroll(GuildControlUIRankBankFrameInsetScrollFrameScrollBar)
 	F.ReskinButton(GuildControlUIRankOrderFrameNewButton)
 	F.ReskinInput(GuildControlUIRankSettingsFrameGoldBox, 20)

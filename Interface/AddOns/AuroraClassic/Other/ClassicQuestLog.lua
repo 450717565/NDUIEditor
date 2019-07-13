@@ -26,12 +26,10 @@ C.themes["Classic Quest Log"] = function()
 	end
 
 	ClassicQuestLogDetailScrollFrame.DetailBG:Hide()
-	F.StripTextures(ClassicQuestLogDetailScrollFrame)
 	F.ReskinScroll(ClassicQuestLogDetailScrollFrameScrollBar)
 	F.CreateBDFrame(ClassicQuestLogDetailScrollFrame, 0)
 
 	ClassicQuestLogScrollFrame.BG:Hide()
-	F.StripTextures(ClassicQuestLogScrollFrame)
 	F.ReskinScroll(ClassicQuestLogScrollFrameScrollBar)
 	F.CreateBDFrame(ClassicQuestLogScrollFrame, 0)
 

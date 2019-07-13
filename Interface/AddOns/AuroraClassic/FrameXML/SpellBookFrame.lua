@@ -70,6 +70,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		for i = 1, GetNumSpellTabs() do
 			local tab = _G["SpellBookSkillLineTab"..i]
+			tab:SetSize(34, 34)
 			if not tab.styled then
 				tab:GetRegions():Hide()
 				tab:SetCheckedTexture(C.media.checked)

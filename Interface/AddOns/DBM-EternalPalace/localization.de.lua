@@ -1,9 +1,5 @@
--- Mini Dragon(projecteurs@gmail.com)
--- 夏一可
--- Blizzard Entertainment
--- Last update: 2019/05/29
+if GetLocale() ~= "deDE" then return end
 
-if GetLocale() ~= "zhCN" then return end
 local L
 
 ---------------------------
@@ -26,23 +22,8 @@ L= DBM:GetModLocalization(2347)
 ---------------------------
 L= DBM:GetModLocalization(2354)
 
-L:SetWarningLocalization({
-
-})
-
-L:SetTimerLocalization({
-
-})
-
-L:SetOptionLocalization({
-
-})
-
-L:SetMiscLocalization({
-})
-
 ---------------------------
---  The Hatchery --
+--  Orgozoa --
 ---------------------------
 L= DBM:GetModLocalization(2351)
 
@@ -56,12 +37,13 @@ L:SetMiscLocalization({
 })
 
 ---------------------------
--- Herald of N'zoth --
+-- Za'qul --
 ---------------------------
 L= DBM:GetModLocalization(2349)
 
 L:SetMiscLocalization({
-	Tear =	"撕裂"
+	Phase3	= "Za'qul reißt den Weg zum Reich des Deliriums auf!",
+	Tear	= "Tear"
 })
 
 ---------------------------
@@ -70,14 +52,26 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2361)
 
 L:SetMiscLocalization({
-	SoakOrb =	"吸收球",
-	AvoidOrb =	"躲开球",
-	GroupUp =	"集合",
-	Spread =	"分散",
-	Move	 =	"保持移动",
-	DontMove =	"停止移动"
+	SoakOrb 		=	"Soak Orb",
+	AvoidOrb 		=	"Avoid Orb",
+	GroupUp 		=	"Group Up",
+	Spread 			=	"Spread",
+	Move			=	"Keep Moving",
+	DontMove 		=	"Stop Moving",
+	--For Yells
+	HelpSoakMove	= "{rt3}HELP SOAK MOVE{rt3}",--Purple Diamond
+	HelpSoakStay	= "{rt6}HELP SOAK STAY{rt6}",--Blue Square
+	HelpSoak		= "{rt3}HELP SOAK{rt3}",--Purple Diamond
+	HelpMove		= "{rt4}HELP MOVE{rt4}",--Green Triangle
+	HelpStay		= "{rt7}HELP STAY{rt7}",--Red X
+	SoloSoak 		= "SOLO SOAK",
+	Solo 			= "SOLO",
+	--Not currently used Yells
+	SoloMoving		= "SOLO MOVE",
+	SoloStay		= "SOLO STAY",
+	SoloSoakMove	= "SOLO SOAK MOVE",
+	SoloSoakStay	= "SOLO SOAK STAY"
 })
-
 
 -------------
 --  Trash  --
@@ -85,5 +79,6 @@ L:SetMiscLocalization({
 L = DBM:GetModLocalization("EternalPalaceTrash")
 
 L:SetGeneralLocalization({
-	name =	"永恒王宫小怪"
+	name =	"Eternal Palace Trash"
 })
+

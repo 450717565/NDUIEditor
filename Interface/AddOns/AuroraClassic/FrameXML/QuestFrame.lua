@@ -10,7 +10,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	BreakLine:SetColorTexture(1, 1, 1, .25)
 	BreakLine:SetHeight(C.mult)
 
-	local lists = {QuestFrameDetailPanel, QuestDetailScrollFrame, QuestFrameProgressPanel, QuestProgressScrollFrame, QuestFrameRewardPanel, QuestRewardScrollFrame, QuestGreetingScrollFrame, QuestFrameGreetingPanel}
+	local lists = {QuestFrameDetailPanel, QuestFrameProgressPanel, QuestFrameRewardPanel, QuestFrameGreetingPanel}
 	for _, list in pairs(lists) do
 		F.StripTextures(list, true)
 	end
@@ -62,21 +62,23 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinScroll(QuestNPCModelTextScrollFrameScrollBar)
 
 	local npcbd = F.CreateBDFrame(QuestNPCModel)
-	npcbd:SetPoint("TOPLEFT", -1, 0)
+	npcbd:SetPoint("TOPLEFT", -1, .5)
 	npcbd:SetPoint("BOTTOMRIGHT", 2, -20)
 	npcbd:SetFrameLevel(0)
 
 	local textbd = F.CreateBDFrame(QuestNPCModelTextFrame)
-	textbd:SetPoint("TOPLEFT", -1, -1)
+	textbd:SetPoint("TOPLEFT", -1, -.5)
 	textbd:SetPoint("BOTTOMRIGHT", 2, 5)
 	textbd:SetFrameLevel(0)
 
 	hooksecurefunc("QuestFrame_ShowQuestPortrait", function(parentFrame, _, _, _, _, x, y)
-		if parentFrame == QuestLogPopupDetailFrame or parentFrame == QuestFrame then
-			x = x + 3
+		if parentFrame == WorldMapFrame then
+			x = 2
+		else
+			x = 3
 		end
 
 		QuestNPCModel:ClearAllPoints()
-		QuestNPCModel:SetPoint("TOPLEFT", parentFrame, "TOPRIGHT", x, y)
+		QuestNPCModel:SetPoint("TOPLEFT", parentFrame, "TOPRIGHT", x, -40)
 	end)
 end)

@@ -59,7 +59,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	local itemBG = F.CreateBDFrame(backIT, 0)
 	itemBG:SetPoint("TOPLEFT", backIC, "TOPRIGHT", 2, 0)
-	itemBG:SetPoint("BOTTOMRIGHT", 0, -2)
+	itemBG:SetPoint("BOTTOMRIGHT", 0, -1.5)
 
 	local backName = MerchantBuyBackItemName
 	backName:SetWordWrap(false)

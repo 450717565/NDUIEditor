@@ -17,6 +17,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.ReskinTexture(bu.bg, bu, true)
 
 		local ic = bu.icon
+		ic:ClearAllPoints()
 		ic:SetPoint("LEFT", bu, "LEFT")
 		F.ReskinIcon(ic)
 	end

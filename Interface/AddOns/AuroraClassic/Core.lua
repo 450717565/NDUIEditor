@@ -66,11 +66,12 @@ local cr, cg, cb = C.ClassColors[class].r, C.ClassColors[class].g, C.ClassColors
 
 local function SetupPixelFix()
 	local screenHeight = select(2, GetPhysicalScreenSize())
+	local bestScale = max(.4, min(1.15, 768 / screenHeight))
+	local pixelScale = 768 / screenHeight
 	local scale = UIParent:GetScale()
 	local uiScale = AuroraConfig.uiScale
-	if uiScale and uiScale > 0 and uiScale < .64 then scale = uiScale end
-	scale = tonumber(floor(scale*100 + .5)/100)
-	C.mult = 768/screenHeight/scale
+	if uiScale and uiScale > 0 then scale = uiScale end
+	C.mult = (bestScale / scale) - ((bestScale - pixelScale) / scale)
 
 	if screenHeight > 1080 then C.mult = C.mult*2 end
 end
@@ -777,6 +778,9 @@ function F:ReskinScroll()
 	F.StripTextures(self)
 	F.CleanTextures(self)
 
+	local parent = self:GetParent()
+	if parent then F.StripTextures(parent, true) end
+
 	local bu = scrollThumb(self)
 	bu:SetAlpha(0)
 	bu:SetWidth(17)
@@ -988,7 +992,7 @@ function F:ReskinTooltip()
 		self.GetBackdropBorderColor = getBackdropBorderColor
 
 		local icon = self.Icon or self.icon
-		if icon then icon:SetTexCoord(.08, .92, .08, .92) end
+		if icon then F.ReskinIcon(icon, true) end
 
 		local border = self.Border or self.IconBorder
 		if border then border:SetAlpha(0) end

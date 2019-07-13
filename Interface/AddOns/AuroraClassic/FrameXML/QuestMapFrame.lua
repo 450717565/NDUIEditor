@@ -9,7 +9,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	end
 
 	--ScrollFrame
-	F.StripTextures(QuestScrollFrame, true)
 	F.StripTextures(QuestScrollFrame.DetailFrame)
 	F.ReskinScroll(QuestScrollFrame.ScrollBar)
 
@@ -107,7 +106,6 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	--QuestLogPopupDetailFrame
 	F.ReskinFrame(QuestLogPopupDetailFrame)
-	F.StripTextures(QuestLogPopupDetailFrame.ScrollFrame)
 	F.ReskinScroll(QuestLogPopupDetailFrame.ScrollFrame.ScrollBar)
 
 	QuestLogPopupDetailFrame.ShareButton:ClearAllPoints()

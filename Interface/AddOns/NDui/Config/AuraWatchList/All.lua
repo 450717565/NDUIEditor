@@ -300,6 +300,11 @@ local list = {
 		{AuraID = 276286, UnitID = "player"},	-- 切割旋风
 		{AuraID = 267818, UnitID = "player"},	-- 切割冲击
 		{AuraID = 268086, UnitID = "player", Text = L["Move"]},	-- 恐怖光环，庄园
+		{AuraID = 298602, UnitID = "player"},	-- 烟云，麦卡贡
+		{AuraID = 293724, UnitID = "player"},	-- 护盾发生器
+		{AuraID = 297257, UnitID = "player"},	-- 电荷充能
+		{AuraID = 303885, UnitID = "player"},	-- 爆裂喷发
+		{AuraID = 292267, UnitID = "player"},	-- 超荷电磁炮
 	-- 永恒王宫
 		-- 深渊指挥官西瓦拉
 		{AuraID = 295795, UnitID = "player", Flash = true, Text = L["Move"]},	-- 冻结之血
@@ -351,7 +356,7 @@ local list = {
 		{AuraID = 300545, UnitID = "player"}, -- 力量决裂
 		{AuraID = 304409, UnitID = "player", Flash = true}, -- 重复行动
 		{AuraID = 304410, UnitID = "player", Flash = true}, -- 重复行动
-		{AuraID = 304128, UnitID = "player"}, -- 缓刑
+		{AuraID = 304128, UnitID = "player", Text = L["Move"]}, -- 缓刑
 		{AuraID = 297586, UnitID = "player", Flash = true}, -- 承受折磨
 		-- 扎库尔，尼奥罗萨先驱
 		{AuraID = 298192, UnitID = "player", Flash = true}, -- 黑暗虚空

@@ -26,11 +26,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	HelpBrowserBrowserSettings:ClearAllPoints()
 	HelpBrowserBrowserSettings:SetPoint("RIGHT", HelpFrameCloseButton, "LEFT", -5, 0)
 
-	HelpFrameReportBugScrollFrameScrollBar:SetPoint("TOPLEFT", HelpFrameReportBugScrollFrame, "TOPRIGHT", 3, -16)
-	HelpFrameSubmitSuggestionScrollFrameScrollBar:SetPoint("TOPLEFT", HelpFrameSubmitSuggestionScrollFrame, "TOPRIGHT", 3, -16)
-	HelpFrameGM_ResponseScrollFrame1ScrollBar:SetPoint("TOPLEFT", HelpFrameGM_ResponseScrollFrame1, "TOPRIGHT", 3, -16)
-	HelpFrameGM_ResponseScrollFrame2ScrollBar:SetPoint("TOPLEFT", HelpFrameGM_ResponseScrollFrame2, "TOPRIGHT", 3, -16)
-
 	select(3, HelpFrameReportBug:GetChildren()):Hide()
 	select(3, HelpFrameSubmitSuggestion:GetChildren()):Hide()
 	select(5, HelpFrameGM_Response:GetChildren()):Hide()
@@ -55,6 +50,9 @@ tinsert(C.themes["AuroraClassic"], function()
 	}
 	for _, scroll in pairs(scrolls) do
 		F.ReskinScroll(scroll)
+
+		local parent = scroll:GetParent()
+		scroll:SetPoint("TOPLEFT", parent, "TOPRIGHT", 3, -16)
 	end
 
 	local buttons = {

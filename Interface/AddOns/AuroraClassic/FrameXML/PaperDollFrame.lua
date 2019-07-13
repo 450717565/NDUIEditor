@@ -150,7 +150,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	-- GearManagerDialogPopup
 	GearManagerDialogPopup:SetHeight(525)
 	F.ReskinFrame(GearManagerDialogPopup)
-	F.StripTextures(GearManagerDialogPopupScrollFrame)
 	F.ReskinScroll(GearManagerDialogPopupScrollFrameScrollBar)
 	F.ReskinButton(GearManagerDialogPopupOkay)
 	F.ReskinButton(GearManagerDialogPopupCancel)

@@ -63,9 +63,4 @@ C.themes["Blizzard_ChallengesUI"] = function()
 	NewSeason.SeasonDescription:SetTextColor(1, 1, 1)
 	NewSeason.SeasonDescription2:SetTextColor(1, 1, 1)
 	NewSeason.SeasonDescription3:SetTextColor(1, .8, 0)
-
-	local affix = NewSeason.Affix
-	F.StripTextures(affix)
-	F.ReskinIcon(affix.Portrait)
-	affix.Portrait:SetTexture(2446016)
 end

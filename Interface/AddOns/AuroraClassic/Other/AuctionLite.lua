@@ -4,6 +4,7 @@ C.login["AuctionLite"] = function()
 	F.ReskinArrow(BuyAdvancedButton, "down")
 	F.ReskinArrow(SellRememberButton, "down")
 	F.ReskinArrow(BuySummaryButton, "left")
+	F.StripTextures(SellRememberButton)
 
 	SellSize:SetWidth(40)
 	SellSize:ClearAllPoints()
@@ -39,11 +40,6 @@ C.login["AuctionLite"] = function()
 
 		local buy = _G["BuyButton"..i]
 		F.ReskinTexture(buy, buy, true)
-	end
-
-	local lists = {SellRememberButton, BuyScrollFrame, SellScrollFrame}
-	for _, list in pairs(lists) do
-		F.StripTextures(list)
 	end
 
 	local inputs = {BuyName, BuyQuantity, SellStacks, SellSize, SellBidPriceGold, SellBidPriceSilver, SellBidPriceCopper, SellBuyoutPriceGold, SellBuyoutPriceSilver, SellBuyoutPriceCopper}

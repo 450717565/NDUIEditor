@@ -8,7 +8,7 @@ C.themes["Blizzard_MacroUI"] = function()
 	MacroNewButton:ClearAllPoints()
 	MacroNewButton:SetPoint("RIGHT", MacroExitButton, "LEFT", -1, 0)
 
-	local lists = {MacroButtonScrollFrame, MacroPopupScrollFrame, MacroFrameScrollFrame, MacroFrameTab1, MacroFrameTab2, MacroFrameTextBackground}
+	local lists = {MacroFrameTab1, MacroFrameTab2, MacroFrameTextBackground}
 	for _, list in pairs(lists) do
 		F.StripTextures(list)
 	end

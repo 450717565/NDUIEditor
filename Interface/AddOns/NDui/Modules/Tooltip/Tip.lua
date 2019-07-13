@@ -132,9 +132,9 @@ function TT:OnTooltipSetUnit()
 	if UnitExists(unit) then
 		local hexColor = B.HexRGB(B.UnitColor(unit))
 		local ricon = GetRaidTargetIndex(unit)
+		local text = GameTooltipTextLeft1:GetText()
 		if ricon and ricon > 8 then ricon = nil end
-		if ricon then
-			local text = GameTooltipTextLeft1:GetText()
+		if ricon and text then
 			GameTooltipTextLeft1:SetFormattedText(("%s %s"), ICON_LIST[ricon].."18|t", text)
 		end
 
@@ -261,8 +261,8 @@ end
 
 function TT:ReskinStatusBar()
 	GameTooltipStatusBar:ClearAllPoints()
-	GameTooltipStatusBar:SetPoint("BOTTOMLEFT", GameTooltip, "TOPLEFT", C.mult*2, C.mult*2)
-	GameTooltipStatusBar:SetPoint("BOTTOMRIGHT", GameTooltip, "TOPRIGHT", -C.mult*2, C.mult*2)
+	GameTooltipStatusBar:SetPoint("BOTTOMLEFT", GameTooltip, "TOPLEFT", C.mult*2, C.mult)
+	GameTooltipStatusBar:SetPoint("BOTTOMRIGHT", GameTooltip, "TOPRIGHT", -C.mult*2, C.mult)
 	GameTooltipStatusBar:SetStatusBarTexture(DB.normTex)
 	GameTooltipStatusBar:SetHeight(5)
 
@@ -317,6 +317,36 @@ function TT:GameTooltip_SetDefaultAnchor(parent)
 	end
 end
 
+-- Tooltip rewards icon
+local function updateBackdropColor(self, r, g, b)
+	self:GetParent().bg:SetBackdropBorderColor(r, g, b)
+end
+
+local function resetBackdropColor(self)
+	self:GetParent().bg:SetBackdropBorderColor(0, 0, 0)
+end
+
+function TT:ReskinRewardIcon()
+	local icon = self.Icon or self.icon
+	if icon then
+		icon:SetTexCoord(unpack(DB.TexCoord))
+
+		if not self.tipStyled then
+			self.bg = B.CreateBG(icon)
+			B.CreateBD(self.bg)
+
+			self.tipStyled = true
+		end
+	end
+
+	local border = self.Border or self.IconBorder
+	if border then
+		border:SetAlpha(0)
+		hooksecurefunc(border, "SetVertexColor", updateBackdropColor)
+		hooksecurefunc(border, "Hide", resetBackdropColor)
+	end
+end
+
 -- Tooltip skin
 local function getBackdrop(self) return self.bg:GetBackdrop() end
 local function getBackdropColor() return 0, 0, 0, .5 end
@@ -343,11 +373,7 @@ function TT:ReskinTooltip()
 		self.GetBackdropColor = getBackdropColor
 		self.GetBackdropBorderColor = getBackdropBorderColor
 
-		local icon = self.Icon or self.icon
-		if icon then icon:SetTexCoord(.08, .92, .08, .92) end
-
-		local border = self.Border or self.IconBorder
-		if border then border:SetAlpha(0) end
+		TT:ReskinRewardIcon()
 
 		self.tipStyled = true
 	end
@@ -478,7 +504,8 @@ TT:RegisterTooltips("NDui", function()
 		self.Border:SetAlpha(0)
 		if not self.iconStyled then
 			if self.glow then self.glow:Hide() end
-			self.Icon:SetTexCoord(unpack(DB.TexCoord))
+			TT.ReskinRewardIcon(self)
+
 			self.iconStyled = true
 		end
 	end)
@@ -490,14 +517,14 @@ TT:RegisterTooltips("NDui", function()
 			if isBuff and self.Buffs then
 				local frame = self.Buffs.frames[nextBuff]
 				if frame and frame.Icon then
-					frame.Icon:SetTexCoord(unpack(DB.TexCoord))
+					TT.ReskinRewardIcon(frame)
 				end
 				nextBuff = nextBuff + 1
 			elseif (not isBuff) and self.Debuffs then
 				local frame = self.Debuffs.frames[nextDebuff]
 				if frame and frame.Icon then
 					frame.DebuffBorder:Hide()
-					frame.Icon:SetTexCoord(unpack(DB.TexCoord))
+					TT.ReskinRewardIcon(frame)
 				end
 				nextDebuff = nextDebuff + 1
 			end
@@ -583,16 +610,13 @@ end)
 
 TT:RegisterTooltips("Blizzard_Contribution", function()
 	ContributionBuffTooltip:HookScript("OnShow", TT.ReskinTooltip)
-	ContributionBuffTooltip.Icon:SetTexCoord(unpack(DB.TexCoord))
-	ContributionBuffTooltip.Border:SetAlpha(0)
+	TT.ReskinRewardIcon(ContributionBuffTooltip)
 end)
 
 TT:RegisterTooltips("Blizzard_EncounterJournal", function()
 	EncounterJournalTooltip:HookScript("OnShow", TT.ReskinTooltip)
-	EncounterJournalTooltip.Item1.icon:SetTexCoord(unpack(DB.TexCoord))
-	EncounterJournalTooltip.Item1.IconBorder:SetAlpha(0)
-	EncounterJournalTooltip.Item2.icon:SetTexCoord(unpack(DB.TexCoord))
-	EncounterJournalTooltip.Item2.IconBorder:SetAlpha(0)
+	TT.ReskinRewardIcon(EncounterJournalTooltip.Item1)
+	TT.ReskinRewardIcon(EncounterJournalTooltip.Item2)
 end)
 
 TT:RegisterTooltips("Blizzard_Calendar", function()
@@ -602,7 +626,6 @@ end)
 
 TT:RegisterTooltips("Blizzard_IslandsQueueUI", function()
 	local tooltip = IslandsQueueFrameTooltip:GetParent()
-	tooltip.IconBorder:SetAlpha(0)
-	tooltip.Icon:SetTexCoord(unpack(DB.TexCoord))
+	TT.ReskinRewardIcon(tooltip)
 	tooltip:GetParent():HookScript("OnShow", TT.ReskinTooltip)
 end)

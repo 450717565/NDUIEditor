@@ -184,8 +184,10 @@ function TradeTabs:CreateTab(parent, spellID, type)
 	button.tooltip = name
 	button.spellID = spellID
 	button.spell = name
-	button:Show()
 	button.type = type
+
+	button:Show()
+	button:SetSize(34, 34)
 	button:SetAttribute("type", button.type)
 	button:SetAttribute(button.type, name)
 

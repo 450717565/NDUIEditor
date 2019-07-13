@@ -3,9 +3,10 @@ local F, C = unpack(select(2, ...))
 C.themes["Rematch"] = function()
 	local cr, cg, cb = C.r, C.g, C.b
 
-	local settings = RematchSettings
-	settings.ColorPetNames = true
-	settings.FixedPetCard = true
+	if RematchSettings then
+		RematchSettings.ColorPetNames = true
+		RematchSettings.FixedPetCard = true
+	end
 	RematchLoreFont:SetTextColor(1, 1, 1)
 
 	local function reskinFrame(self)
@@ -191,6 +192,12 @@ C.themes["Rematch"] = function()
 		self.SelectedOverlay.bg = bg
 	end
 
+	function reskinTabs(self)
+		for _, tab in ipairs(self.PanelTabs.Tabs) do
+			F.ReskinTab(tab)
+		end
+	end
+
 	local function resizeJournal()
 		local parent = RematchJournal:IsShown() and RematchJournal or CollectionsJournal
 		CollectionsJournal.bg:SetPoint("BOTTOMRIGHT", parent, C.mult, -C.mult)
@@ -218,17 +225,15 @@ C.themes["Rematch"] = function()
 
 		F.StripTextures(RematchJournal)
 		F.ReskinClose(RematchJournal.CloseButton)
-
-		for _, tab in ipairs(RematchJournal.PanelTabs.Tabs) do
-			F.ReskinTab(tab)
-		end
+		reskinTabs(RematchJournal)
 
 		local buttons = {
-			RematchHealButton,
 			RematchBandageButton,
-			RematchToolbar.SafariHat,
+			RematchHealButton,
 			RematchLesserPetTreatButton,
 			RematchPetTreatButton,
+			RematchToolbar.FindBattle,
+			RematchToolbar.SafariHat,
 			RematchToolbar.SummonRandom,
 		}
 		for _, button in pairs(buttons) do
@@ -348,6 +353,7 @@ C.themes["Rematch"] = function()
 		F.ReskinButton(dialog.Cancel)
 		F.ReskinButton(dialog.Other)
 		F.ReskinCheck(dialog.CheckButton)
+		F.ReskinSlider(dialog.ScaleSlider)
 		reskinButton(dialog.Slot)
 		reskinButton(dialog.Pet.Pet)
 		reskinInput(dialog.EditBox)
@@ -619,7 +625,7 @@ C.themes["Rematch"] = function()
 		if not teamInfo then return end
 
 		local panel = RematchTeamPanel
-		if teamInfo.key == settings.loadedTeam then
+		if teamInfo.key == RematchSettings.loadedTeam then
 			local bg = panel.SelectedOverlay.bg
 			if bg then
 				bg:ClearAllPoints()
@@ -646,6 +652,9 @@ C.themes["Rematch"] = function()
 
 			if self.optType == "header" then
 				self.headerIndex = opt[3]
+				self.Text:ClearAllPoints()
+				self.Text:SetPoint("LEFT", checkButton.bg, "LEFT", 2, 0)
+
 				checkButton:SetSize(8, 8)
 				checkButton:SetPoint("LEFT", 5, 0)
 				checkButton:SetTexture("")
@@ -664,7 +673,7 @@ C.themes["Rematch"] = function()
 					checkButton:SetTexCoord(0, 0, 0, 0)
 				end
 			elseif self.optType == "radio" then
-				local isChecked = settings[opt[2]] == opt[5]
+				local isChecked = RematchSettings[opt[2]] == opt[5]
 				checkButton:SetSize(22, 22)
 				checkButton.bg:SetPoint("TOPLEFT", checkButton, 2, -2)
 				checkButton.bg:SetPoint("BOTTOMRIGHT", checkButton, -2, 2)
@@ -677,5 +686,44 @@ C.themes["Rematch"] = function()
 				checkButton.bg:Hide()
 			end
 		end
+	end)
+
+	-- RematchFrame
+	local styled
+	hooksecurefunc(RematchFrame, "ConfigureFrame", function()
+		if styled then return end
+
+		F.ReskinFrame(RematchFrame)
+		reskinTabs(RematchFrame)
+
+		RematchMiniPanel.Background:Hide()
+		RematchFrame.BottomTileStreaks:SetAlpha(0)
+		RematchFrame.ShadowCornerBottomLeft:SetAlpha(0)
+		RematchFrame.ShadowCornerBottomRight:SetAlpha(0)
+
+		RematchFrame.PanelTabs:ClearAllPoints()
+		RematchFrame.PanelTabs:SetPoint("TOP", RematchFrame, "BOTTOM", 0, 2)
+
+		local TitleBar = RematchFrame.TitleBar
+		F.StripTextures(TitleBar)
+		F.ReskinClose(TitleBar.CloseButton)
+
+		local buttons = {TitleBar.LockButton, TitleBar.SinglePanelButton, TitleBar.MinimizeButton}
+		for _, button in pairs(buttons) do
+			button:SetSize(18, 18)
+			F.StripTextures(button, 2)
+			F.ReskinButton(button)
+		end
+
+		TitleBar.MinimizeButton:ClearAllPoints()
+		TitleBar.MinimizeButton:SetPoint("RIGHT", TitleBar.CloseButton, "LEFT", -2, 0)
+
+		TitleBar.LockButton:ClearAllPoints()
+		TitleBar.LockButton:SetPoint("TOPLEFT", TitleBar, "TOPLEFT", 6, -6)
+
+		TitleBar.SinglePanelButton:ClearAllPoints()
+		TitleBar.SinglePanelButton:SetPoint("LEFT", TitleBar.LockButton, "RIGHT", 2, 0)
+
+		styled = true
 	end)
 end

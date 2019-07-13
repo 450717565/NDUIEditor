@@ -57,7 +57,6 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 	F.StripTextures(TradeSkillFrame.DetailsInset)
 
 	local DetailsFrame = TradeSkillFrame.DetailsFrame
-	F.StripTextures(DetailsFrame, true)
 	F.ReskinScroll(DetailsFrame.ScrollBar)
 	F.ReskinButton(DetailsFrame.CreateAllButton)
 	F.ReskinButton(DetailsFrame.CreateButton)

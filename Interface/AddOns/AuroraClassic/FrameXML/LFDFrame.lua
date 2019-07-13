@@ -2,11 +2,9 @@ local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
 	F.StripTextures(LFDParentFrame)
-	F.StripTextures(LFDQueueFrameRandomScrollFrame)
-	F.StripTextures(LFDQueueFrameSpecificListScrollFrame)
 
 	LFDQueueFrameBackground:Hide()
-	LFDQueueFrameRandomScrollFrameScrollBackground:Hide()
+	--LFDQueueFrameRandomScrollFrameScrollBackground:Hide()
 
 	F.ReskinFrame(LFDRoleCheckPopup)
 	F.ReskinDropDown(LFDQueueFrameTypeDropDown)

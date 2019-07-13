@@ -1,7 +1,7 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	local r, g, b = C.r, C.g, C.b
+	local cr, cg, cb = C.r, C.g, C.b
 
 	if AuroraConfig.loot then
 		F.ReskinFrame(LootFrame)
@@ -54,7 +54,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	local PromptFrame = BonusRollFrame.PromptFrame
 	PromptFrame.Timer.Bar:SetTexture(C.media.normTex)
-	PromptFrame.Timer.Bar:SetVertexColor(r, g, b)
+	PromptFrame.Timer.Bar:SetVertexColor(cr, cg, cb)
 	F.CreateBDFrame(PromptFrame.Timer, 0)
 	F.ReskinIcon(PromptFrame.Icon)
 

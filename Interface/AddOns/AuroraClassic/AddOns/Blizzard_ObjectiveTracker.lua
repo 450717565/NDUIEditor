@@ -36,7 +36,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	local function reskinHeader(self)
 		self.Background:Hide()
 
-		local width, height = self:GetWidth()/2+10, C.mult*3
+		local width, height = self:GetWidth()/2+10, C.mult*2
 
 		local left = CreateFrame("Frame", nil, self)
 		left:SetPoint("TOPRIGHT", self, "BOTTOM", 5, 0)

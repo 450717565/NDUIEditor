@@ -144,13 +144,13 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinScroll(LFGListEntryCreationSearchScrollFrameScrollBar)
 
 	--LFGListApplicationDialog
-	F.ReskinFrame(LFGListApplicationDialog, true)
+	F.ReskinFrame(LFGListApplicationDialog)
 	F.ReskinInput(LFGListApplicationDialog.Description)
 	F.ReskinButton(LFGListApplicationDialog.SignUpButton)
 	F.ReskinButton(LFGListApplicationDialog.CancelButton)
 
 	--LFGListInviteDialog
-	F.ReskinFrame(LFGListInviteDialog, true)
+	F.ReskinFrame(LFGListInviteDialog)
 	F.ReskinButton(LFGListInviteDialog.AcceptButton)
 	F.ReskinButton(LFGListInviteDialog.DeclineButton)
 	F.ReskinButton(LFGListInviteDialog.AcknowledgeButton)

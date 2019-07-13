@@ -3,9 +3,7 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_ItemSocketingUI"] = function()
 	F.ReskinFrame(ItemSocketingFrame)
 
-	F.StripTextures(ItemSocketingScrollFrame)
 	F.StripTextures(ItemSocketingDescription)
-
 	F.ReskinButton(ItemSocketingSocketButton)
 	F.ReskinScroll(ItemSocketingScrollFrameScrollBar)
 

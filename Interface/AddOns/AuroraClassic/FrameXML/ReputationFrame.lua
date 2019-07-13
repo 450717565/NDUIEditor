@@ -3,11 +3,8 @@ local F, C = unpack(select(2, ...))
 tinsert(C.themes["AuroraClassic"], function()
 	ReputationDetailCorner:Hide()
 	ReputationDetailDivider:Hide()
-	ReputationDetailFrame:SetPoint("TOPLEFT", ReputationFrame, "TOPRIGHT", 2, -28)
-
-	for i = 1, 2 do
-		select(i, ReputationListScrollFrame:GetRegions()):Hide()
-	end
+	ReputationDetailFrame:ClearAllPoints()
+	ReputationDetailFrame:SetPoint("TOPLEFT", ReputationFrame, "TOPRIGHT", 3, -30)
 
 	local function UpdateFactionSkins()
 		for i = 1, GetNumFactions() do
@@ -15,12 +12,13 @@ tinsert(C.themes["AuroraClassic"], function()
 			local statusbar = _G["ReputationBar"..i.."ReputationBar"]
 
 			if statusbar then
-				if not statusbar.reskinned then
+				if not statusbar.styled then
 					F.ReskinStatusBar(statusbar, true)
-					statusbar.reskinned = true
+
+					statusbar.styled = true
 				end
 
-				F.StripTextures(repbar, true)
+				F.StripTextures(repbar)
 			end
 		end
 	end

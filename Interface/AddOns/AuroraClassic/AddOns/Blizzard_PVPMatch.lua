@@ -9,7 +9,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.StripTextures(Content)
 
 	local ScrollFrame = Content.ScrollFrame
-	F.StripTextures(ScrollFrame)
 	F.ReskinScroll(ScrollFrame.ScrollBar)
 
 	local TabContainer = Content.TabContainer
@@ -35,7 +34,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.StripTextures(content.earningsArt)
 
 	local scrollFrame = content.scrollFrame
-	F.StripTextures(scrollFrame)
 	F.ReskinScroll(scrollFrame.scrollBar)
 
 	local tabContainer = content.tabContainer

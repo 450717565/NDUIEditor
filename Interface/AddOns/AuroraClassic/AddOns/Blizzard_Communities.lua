@@ -157,9 +157,7 @@ C.themes["Blizzard_Communities"] = function()
 
 	TicketManager.InviteManager.ArtOverlay:Hide()
 	F.StripTextures(TicketManager.InviteManager.ColumnDisplay)
-	TicketManager.InviteManager.ListScrollFrame.Background:Hide()
 	F.ReskinScroll(TicketManager.InviteManager.ListScrollFrame.scrollBar)
-	TicketManager.InviteManager.ListScrollFrame.scrollBar.Background:Hide()
 
 	hooksecurefunc(TicketManager, "Update", function(self)
 		local column = self.InviteManager.ColumnDisplay

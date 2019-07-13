@@ -1,7 +1,6 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["BaudAuction"] = function()
-	F.StripTextures(BaudAuctionBrowseScrollBoxScrollBar)
 	F.ReskinFrame(BaudAuctionProgress)
 	F.ReskinScroll(BaudAuctionBrowseScrollBoxScrollBarScrollBar)
 

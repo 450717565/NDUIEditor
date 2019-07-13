@@ -8,6 +8,8 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	F.ReskinFrame(OpenMailFrame)
 
+	F.StripTextures(SendMailFrame)
+	F.StripTextures(SendMailMoneyInset)
 	F.ReskinScroll(SendMailScrollFrameScrollBar)
 	F.ReskinScroll(OpenMailScrollFrameScrollBar)
 	F.ReskinRadio(SendMailSendMoneyButton)
@@ -41,11 +43,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	InvoiceTextFontSmall:SetTextColor(1, 1, 1)
 	MailTextFontNormal:SetTextColor(1, 1, 1)
 
-	local lists = {SendMailFrame, SendMailMoneyInset, SendMailScrollFrame, OpenMailScrollFrame}
-	for _, list in pairs(lists) do
-		F.StripTextures(list, true)
-	end
-
 	local buttons = {SendMailMailButton, SendMailCancelButton, OpenMailReplyButton, OpenMailDeleteButton, OpenMailCancelButton, OpenMailReportSpamButton, OpenAllMail}
 	for _, button in pairs(buttons) do
 		F.ReskinButton(button)
@@ -60,7 +57,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	local line = CreateFrame("Frame", nil, OpenMailInvoiceFrame)
 	line:SetPoint("BOTTOMRIGHT", OpenMailInvoiceAmountReceived, "TOPRIGHT", 0, 5)
-	F.CreateGA(line, 250, C.mult*3, "Horizontal", cr, cg, cb, 0, .8)
+	F.CreateGA(line, 250, C.mult*2, "Horizontal", cr, cg, cb, 0, .8)
 
 	for _, button in pairs({"OpenMailLetterButton", "OpenMailMoneyButton"}) do
 		local bu = _G[button]
