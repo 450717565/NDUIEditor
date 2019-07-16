@@ -150,7 +150,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinButton(LFGListApplicationDialog.CancelButton)
 
 	--LFGListInviteDialog
-	F.ReskinFrame(LFGListInviteDialog)
+	F.ReskinFrame(LFGListInviteDialog, true)
 	F.ReskinButton(LFGListInviteDialog.AcceptButton)
 	F.ReskinButton(LFGListInviteDialog.DeclineButton)
 	F.ReskinButton(LFGListInviteDialog.AcknowledgeButton)

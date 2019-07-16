@@ -56,6 +56,9 @@ C.themes["Blizzard_MacroUI"] = function()
 				reskinButton("MacroPopupButton", i)
 			end
 
+			self:ClearAllPoints()
+			self:SetPoint("TOPLEFT", MacroFrame, "TOPRIGHT", 3, 0)
+
 			self.styled = true
 		end
 	end)

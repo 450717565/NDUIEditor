@@ -3,7 +3,6 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_ItemSocketingUI"] = function()
 	F.ReskinFrame(ItemSocketingFrame)
 
-	F.StripTextures(ItemSocketingDescription)
 	F.ReskinButton(ItemSocketingSocketButton)
 	F.ReskinScroll(ItemSocketingScrollFrameScrollBar)
 
@@ -32,4 +31,8 @@ C.themes["Blizzard_ItemSocketingUI"] = function()
 		shine:SetPoint("TOPLEFT", icbg, C.mult, -C.mult)
 		shine:SetPoint("BOTTOMRIGHT", icbg, 0, 0)
 	end
+
+	hooksecurefunc("ItemSocketingFrame_Update", function()
+		ItemSocketingDescription:SetBackdrop(nil)
+	end)
 end

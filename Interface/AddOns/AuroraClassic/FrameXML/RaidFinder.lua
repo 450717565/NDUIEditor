@@ -1,16 +1,17 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	F.StripTextures(RaidFinderFrame, true)
-	F.StripTextures(RaidFinderFrameRoleInset, true)
-	RaidFinderQueueFrameBackground:Hide()
+	F.StripTextures(RaidFinderFrame)
+	F.StripTextures(RaidFinderFrameRoleInset)
 
+	RaidFinderQueueFrameBackground:Hide()
 	RaidFinderQueueFrameScrollFrame:SetWidth(304)
 
 	F.ReskinScroll(RaidFinderQueueFrameScrollFrameScrollBar)
 	F.ReskinDropDown(RaidFinderQueueFrameSelectionDropDown)
-	F.ReskinButton(RaidFinderFrameFindRaidButton)
-	F.ReskinButton(RaidFinderQueueFrameIneligibleFrameLeaveQueueButton)
-	F.ReskinButton(RaidFinderQueueFramePartyBackfillBackfillButton)
-	F.ReskinButton(RaidFinderQueueFramePartyBackfillNoBackfillButton)
+
+	local buttons = {RaidFinderFrameFindRaidButton, RaidFinderQueueFrameIneligibleFrameLeaveQueueButton, RaidFinderQueueFramePartyBackfillBackfillButton, RaidFinderQueueFramePartyBackfillNoBackfillButton}
+	for _, button in pairs(buttons) do
+		F.ReskinButton(button)
+	end
 end)

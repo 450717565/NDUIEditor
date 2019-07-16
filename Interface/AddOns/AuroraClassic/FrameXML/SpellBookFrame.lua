@@ -64,24 +64,27 @@ tinsert(C.themes["AuroraClassic"], function()
 	end)
 
 	hooksecurefunc("SpellBookFrame_UpdateSkillLineTabs", function()
-		local tab1 = _G["SpellBookSkillLineTab1"]
-		tab1:ClearAllPoints()
-		tab1:SetPoint("TOPLEFT", SpellBookFrame, "TOPRIGHT", 3, -25)
+		if SpellBookFrame.bookType == BOOKTYPE_SPELL then
+			local tab1 = _G["SpellBookSkillLineTab1"]
+			tab1:ClearAllPoints()
+			tab1:SetPoint("TOPLEFT", SpellBookFrame, "TOPRIGHT", 3, -25)
 
-		for i = 1, GetNumSpellTabs() do
-			local tab = _G["SpellBookSkillLineTab"..i]
-			tab:SetSize(34, 34)
-			if not tab.styled then
-				tab:GetRegions():Hide()
-				tab:SetCheckedTexture(C.media.checked)
+			for i = 1, GetNumSpellTabs() do
+				local tab = _G["SpellBookSkillLineTab"..i]
+				tab:SetSize(34, 34)
 
 				local icon = tab:GetNormalTexture()
-				if icon then
-					local icbg = F.ReskinIcon(icon, false, 1)
-					F.ReskinTexture(tab, icbg, false)
-				end
+				if not tab.styled then
+					tab:GetRegions():Hide()
+					tab:SetCheckedTexture(C.media.checked)
 
-				tab.styled = true
+					if icon then
+						local icbg = F.ReskinIcon(icon, false, 1)
+						F.ReskinTexture(tab, icbg, false)
+					end
+
+					tab.styled = true
+				end
 			end
 		end
 	end)

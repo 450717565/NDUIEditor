@@ -3,8 +3,8 @@ local F, C = unpack(select(2, ...))
 C.themes["WhisperPop"] = function()
 	local cr, cg, cb = C.r, C.g, C.b
 
-	F.ReskinFrame(WhisperPopFrame, true)
-	F.ReskinFrame(WhisperPopMessageFrame, true)
+	F.ReskinFrame(WhisperPopFrame)
+	F.ReskinFrame(WhisperPopMessageFrame)
 	F.ReskinArrow(WhisperPopScrollingMessageFrameButtonDown, "down")
 	F.ReskinArrow(WhisperPopScrollingMessageFrameButtonEnd, "bottom")
 	F.ReskinArrow(WhisperPopScrollingMessageFrameButtonUp, "up")

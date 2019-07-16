@@ -4,6 +4,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.StripTextures(LFDParentFrame)
 
 	LFDQueueFrameBackground:Hide()
+	LFDQueueFrameRandomScrollFrame:SetWidth(304)
 	--LFDQueueFrameRandomScrollFrameScrollBackground:Hide()
 
 	F.ReskinFrame(LFDRoleCheckPopup)

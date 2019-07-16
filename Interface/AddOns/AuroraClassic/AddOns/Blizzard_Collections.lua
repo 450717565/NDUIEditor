@@ -382,11 +382,22 @@ C.themes["Blizzard_Collections"] = function()
 	-- ItemSetsCollection
 	local SetsCollectionFrame = WardrobeCollectionFrame.SetsCollectionFrame
 	F.StripTextures(SetsCollectionFrame)
-	F.CreateBDFrame(SetsCollectionFrame.Model, 0)
+	local bg = F.CreateBDFrame(SetsCollectionFrame.Model, 0)
+	SetsCollectionFrame.bg = bg
 
 	local DetailsFrame = SetsCollectionFrame.DetailsFrame
 	F.StripTextures(DetailsFrame)
 	F.ReskinFilter(DetailsFrame.VariantSetsButton, "Down")
+
+	hooksecurefunc(SetsCollectionFrame, "Refresh", function()
+		if SetsCollectionFrame.bg then
+			if DetailsFrame.LimitedSet:IsShown() then
+				SetsCollectionFrame.bg:SetBackdropBorderColor(1, 0, 0)
+			else
+				SetsCollectionFrame.bg:SetBackdropBorderColor(0, 0, 0)
+			end
+		end
+	end)
 
 	hooksecurefunc(SetsCollectionFrame, "SetItemFrameQuality", function(_, itemFrame)
 		local ic = itemFrame.Icon

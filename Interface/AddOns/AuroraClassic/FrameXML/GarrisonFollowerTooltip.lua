@@ -1,36 +1,24 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	local function restyleGarrisonFollowerTooltipTemplate(frame)
+	-- Tooltips
+	function F:ReskinGarrisonTooltip()
 		for i = 1, 9 do
-			select(i, frame:GetRegions()):Hide()
+			select(i, self:GetRegions()):Hide()
 		end
+		if self.Icon then F.ReskinIcon(self.Icon) end
+		if self.CloseButton then F.ReskinClose(self.CloseButton) end
 
-		if AuroraConfig.tooltips then
-			F.ReskinTooltip(frame)
-		end
-
-		if frame.CloseButton then
-			F.ReskinClose(frame.CloseButton)
-		end
+		if AuroraConfig.tooltips then F.ReskinTooltip(self) end
 	end
 
-	local function restyleGarrisonFollowerAbilityTooltipTemplate(frame)
-		F.StripTextures(frame)
-		F.ReskinIcon(frame.Icon, true)
-
-		if AuroraConfig.tooltips then
-			F.ReskinTooltip(frame)
-		end
-	end
-
-	restyleGarrisonFollowerTooltipTemplate(FloatingGarrisonMissionTooltip)
-	restyleGarrisonFollowerTooltipTemplate(GarrisonFollowerTooltip)
-	restyleGarrisonFollowerAbilityTooltipTemplate(GarrisonFollowerAbilityTooltip)
-	restyleGarrisonFollowerTooltipTemplate(FloatingGarrisonFollowerTooltip)
-	restyleGarrisonFollowerAbilityTooltipTemplate(FloatingGarrisonFollowerAbilityTooltip)
-	restyleGarrisonFollowerTooltipTemplate(GarrisonShipyardFollowerTooltip)
-	restyleGarrisonFollowerTooltipTemplate(FloatingGarrisonShipyardFollowerTooltip)
+	F.ReskinGarrisonTooltip(FloatingGarrisonMissionTooltip)
+	F.ReskinGarrisonTooltip(GarrisonFollowerTooltip)
+	F.ReskinGarrisonTooltip(FloatingGarrisonFollowerTooltip)
+	F.ReskinGarrisonTooltip(GarrisonFollowerAbilityTooltip)
+	F.ReskinGarrisonTooltip(FloatingGarrisonFollowerAbilityTooltip)
+	F.ReskinGarrisonTooltip(GarrisonShipyardFollowerTooltip)
+	F.ReskinGarrisonTooltip(FloatingGarrisonShipyardFollowerTooltip)
 
 	hooksecurefunc("GarrisonFollowerTooltipTemplate_SetGarrisonFollower", function(tooltipFrame)
 		-- Abilities

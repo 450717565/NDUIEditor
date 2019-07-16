@@ -2,7 +2,8 @@ local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
 	for i = 1, 4 do
-		local frame = _G["StaticPopup"..i]
+		local main = "StaticPopup"..i
+		local frame = _G[main]
 		F.ReskinFrame(frame)
 		F.ReskinButton(frame["extraButton"])
 
@@ -10,28 +11,30 @@ tinsert(C.themes["AuroraClassic"], function()
 			F.ReskinButton(frame["button"..j])
 		end
 
-		local edit = _G["StaticPopup"..i.."EditBox"]
+		local edit = _G[main.."EditBox"]
 		F.ReskinInput(edit, 20)
 
-		local item = _G["StaticPopup"..i.."ItemFrame"]
+		local item = _G[main.."ItemFrame"]
 		F.StripTextures(item)
 		F.ReskinBorder(item.IconBorder, item)
 
-		local name = _G["StaticPopup"..i.."ItemFrameNameFrame"]
+		local name = _G[main.."ItemFrameNameFrame"]
 		name:Hide()
 
-		local icon = _G["StaticPopup"..i.."ItemFrameIconTexture"]
+		local icon = _G[main.."ItemFrameIconTexture"]
 		local ic = F.ReskinIcon(icon)
 		F.ReskinTexture(item, ic, false)
 
-		local gold = _G["StaticPopup"..i.."MoneyInputFrameGold"]
+		local gold = _G[main.."MoneyInputFrameGold"]
 		F.ReskinInput(gold)
 
-		local silver = _G["StaticPopup"..i.."MoneyInputFrameSilver"]
+		local silver = _G[main.."MoneyInputFrameSilver"]
+		silver:ClearAllPoints()
 		silver:SetPoint("LEFT", gold, "RIGHT", 1, 0)
 		F.ReskinInput(silver)
 
-		local copper = _G["StaticPopup"..i.."MoneyInputFrameCopper"]
+		local copper = _G[main.."MoneyInputFrameCopper"]
+		copper:ClearAllPoints()
 		copper:SetPoint("LEFT", silver, "RIGHT", 1, 0)
 		F.ReskinInput(copper)
 	end
@@ -67,29 +70,9 @@ tinsert(C.themes["AuroraClassic"], function()
 				end
 			end
 		end
-
-		if not dialog then return end
-
-		if info.closeButton then
-			local closeButton = _G[dialog:GetName().."CloseButton"]
-
-			closeButton:SetNormalTexture("")
-			closeButton:SetPushedTexture("")
-
-			if info.closeButtonIsHide then
-				for _, pixel in pairs(closeButton.pixels) do
-					pixel:Hide()
-				end
-			else
-				for _, pixel in pairs(closeButton.pixels) do
-					pixel:Show()
-				end
-			end
-		end
 	end)
 
 	-- Pet battle queue popup
-
 	F.ReskinFrame(PetBattleQueueReadyFrame)
 	F.CreateBDFrame(PetBattleQueueReadyFrame.Art)
 	F.ReskinButton(PetBattleQueueReadyFrame.AcceptButton)

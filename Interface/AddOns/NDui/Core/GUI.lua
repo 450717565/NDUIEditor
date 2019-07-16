@@ -931,7 +931,7 @@ local function CreateOption(i)
 			local alpha = NDuiDB["Extras"]["SkinAlpha"]
 			local l = CreateFrame("Frame", nil, parent)
 			l:SetPoint("TOPLEFT", 25, -offset - 12)
-			B.CreateGF(l, 550, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
+			B.CreateGF(l, 560, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
 			offset = offset + 35
 		end
 	end
@@ -1221,11 +1221,7 @@ local function OpenGUI()
 	ok:SetScript("OnClick", function()
 		local scale = NDuiADB["UIScale"]
 		if scale ~= scaleOld then
-			if scale < .64 then
-				UIParent:SetScale(scale)
-			else
-				SetCVar("uiScale", scale)
-			end
+			UIParent:SetScale(scale)
 		end
 		f:Hide()
 		StaticPopup_Show("RELOAD_NDUI")

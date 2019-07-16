@@ -373,7 +373,7 @@ function TT:ReskinTooltip()
 		self.GetBackdropColor = getBackdropColor
 		self.GetBackdropBorderColor = getBackdropBorderColor
 
-		TT:ReskinRewardIcon()
+		TT.ReskinRewardIcon(self)
 
 		self.tipStyled = true
 	end

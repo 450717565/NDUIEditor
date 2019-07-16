@@ -48,7 +48,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	-- Bonus roll
 	F.StripTextures(BonusRollFrame)
-	F.ReskinFrame(BonusRollFrame, true)
+	F.ReskinFrame(BonusRollFrame)
 
 	BonusRollFrame.BlackBackgroundHoist:Hide()
 

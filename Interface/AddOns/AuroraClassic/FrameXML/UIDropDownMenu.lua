@@ -11,12 +11,14 @@ tinsert(C.themes["AuroraClassic"], function()
 				if tooltipsEnabled then
 					if menu and not menu.styled then
 						F.ReskinTooltip(menu)
+
 						menu.styled = true
 					end
 				end
 				local backdrop = _G[name..i.."Backdrop"]
 				if backdrop and not backdrop.styled then
 					F.ReskinFrame(backdrop)
+
 					backdrop.styled = true
 				end
 			end

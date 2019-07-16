@@ -47,7 +47,11 @@ tinsert(C.themes["AuroraClassic"], function()
 		if bu.IconBorder then bu.IconBorder:SetAlpha(0) end
 
 		if bu.Icon then
-			bu.Icon:SetSize(28, 28)
+			if isMapQuestInfo then
+				bu.Icon:SetSize(28, 28)
+			else
+				bu.Icon:SetSize(38, 38)
+			end
 
 			local icbg = F.ReskinIcon(bu.Icon)
 			local bubg = F.CreateBDFrame(bu, 0)

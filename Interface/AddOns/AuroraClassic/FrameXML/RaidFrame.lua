@@ -11,9 +11,15 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinScroll(RaidInfoScrollFrameScrollBar)
 
 	RaidInfoFrame:ClearAllPoints()
-	RaidInfoFrame:SetPoint("TOPLEFT", RaidFrame, "TOPRIGHT", 2, 0)
+	RaidInfoFrame:SetPoint("TOPLEFT", RaidFrame, "TOPRIGHT", 3, 0)
 	RaidInfoFrameHeaderText:ClearAllPoints()
 	RaidInfoFrameHeaderText:SetPoint("TOP", RaidInfoFrame, "TOP", 0, -10)
+	RaidFrameRaidInfoButton:ClearAllPoints()
+	RaidFrameRaidInfoButton:SetPoint("TOPRIGHT", FriendsFrame.CloseButton, "BOTTOMRIGHT", 0, -2)
+	RaidFrame.RoleCount:ClearAllPoints()
+	RaidFrame.RoleCount:SetPoint("RIGHT", RaidFrameRaidInfoButton, "LEFT", 0, 0)
+	RaidFrameAllAssistCheckButton:ClearAllPoints()
+	RaidFrameAllAssistCheckButton:SetPoint("RIGHT", RaidFrame.RoleCount, "LEFT", -60, 0)
 
 	local ConvertButton = RaidFrameConvertToRaidButton
 	F.ReskinButton(RaidFrameConvertToRaidButton)

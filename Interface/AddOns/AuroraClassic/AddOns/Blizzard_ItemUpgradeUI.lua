@@ -5,7 +5,7 @@ C.themes["Blizzard_ItemUpgradeUI"] = function()
 	F.ReskinFrame(ItemUpgradeFrame)
 
 	local itemButton = ItemUpgradeFrame.ItemButton
-	itemButton.bg = F.CreateBDFrame(itemButton, .25)
+	itemButton.bg = F.CreateBDFrame(itemButton, 0)
 	itemButton.Frame:SetTexture("")
 	itemButton:SetPushedTexture("")
 	local hl = itemButton:GetHighlightTexture()
@@ -25,7 +25,7 @@ C.themes["Blizzard_ItemUpgradeUI"] = function()
 
 	local textFrame = ItemUpgradeFrame.TextFrame
 	F.StripTextures(textFrame)
-	local bg = F.CreateBDFrame(textFrame, .25)
+	local bg = F.CreateBDFrame(textFrame, 0)
 	bg:SetPoint("TOPLEFT", itemButton.IconTexture, "TOPRIGHT", 3, C.mult)
 	bg:SetPoint("BOTTOMRIGHT", -6, 2)
 

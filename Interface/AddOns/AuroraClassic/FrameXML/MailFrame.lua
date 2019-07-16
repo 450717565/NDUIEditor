@@ -21,6 +21,13 @@ tinsert(C.themes["AuroraClassic"], function()
 	SendMailMoneyBg:Hide()
 	OpenMailArithmeticLine:Hide()
 
+	InboxTitleText:ClearAllPoints()
+	InboxTitleText:SetPoint("TOP", MailFrame, 0, -5)
+	SendMailTitleText:ClearAllPoints()
+	SendMailTitleText:SetPoint("TOP", MailFrame, 0, -5)
+	OpenMailTitleText:ClearAllPoints()
+	OpenMailTitleText:SetPoint("TOP", OpenMailFrame, 0, -5)
+
 	SendMailMailButton:ClearAllPoints()
 	SendMailMailButton:SetPoint("RIGHT", SendMailCancelButton, "LEFT", -1, 0)
 	OpenMailDeleteButton:ClearAllPoints()

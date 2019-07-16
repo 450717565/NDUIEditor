@@ -4,20 +4,21 @@ C.themes["Blizzard_WarboardUI"] = function()
 	local function forceTextColor(self, r, g, b)
 		if not self.styled then
 			self:SetTextColor(r, g, b)
-			self.SetTextColor = F.dummy
+			self.SetTextColor = F.Dummy
 
 			self.styled = true
 		end
 	end
 
 	local function reskinFrame(self)
-		local frame = WarboardQuestChoiceFrame
-
 		if not self.styled then
-			F.ReskinFrame(frame)
-			F.StripTextures(frame.Title)
+			F.ReskinFrame(self)
 
-			frame.Title.Text:SetTextColor(1, .8, 0)
+			self.BorderFrame.Header:SetAlpha(0)
+			self.CloseButton.Border:SetAlpha(0)
+			self.CloseButton.SetPoint = F.Dummy
+			self.Title:DisableDrawLayer("BACKGROUND")
+			self.Title.Text:SetTextColor(1, .8, 0)
 
 			self.styled = true
 		end
@@ -41,6 +42,10 @@ C.themes["Blizzard_WarboardUI"] = function()
 			local WidgetContainer = Options.WidgetContainer
 			for i = 1, WidgetContainer:GetNumChildren() do
 				local Child_1 = select(i, WidgetContainer:GetChildren())
+				if Child_1.LeadingText then
+					forceTextColor(Child_1.LeadingText, 1, .8, 0)
+				end
+
 				if Child_1.Text then
 					forceTextColor(Child_1.Text, 1, .8, 0)
 				end

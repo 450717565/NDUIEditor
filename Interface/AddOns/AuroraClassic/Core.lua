@@ -285,16 +285,16 @@ function F:CreateLine(isHorizontal)
 	return Line
 end
 
-local function CreateTex(frame)
-	if frame.Tex then return end
+local function CreateTex(self)
+	if self.Tex then return end
 
-	local Tex = frame:CreateTexture(nil, "BACKGROUND", nil, 1)
+	local Tex = self:CreateTexture(nil, "BACKGROUND", nil, 1)
 	Tex:SetTexture(C.media.bgTex, true, true)
 	Tex:SetHorizTile(true)
 	Tex:SetVertTile(true)
 	Tex:SetBlendMode("ADD")
 	Tex:SetAllPoints()
-	frame.Tex = Tex
+	self.Tex = Tex
 
 	return Tex
 end
@@ -351,10 +351,10 @@ function F:ReskinArrow(direction)
 	self:SetSize(18, 18)
 
 	F.StripTextures(self)
-	F.ReskinButton(self)
 
-	SetupDisTex(self)
+	F.ReskinButton(self)
 	F.SetupArrowTex(self, direction)
+	SetupDisTex(self)
 end
 
 function F:ReskinBorder(relativeTo, classColor)
@@ -401,17 +401,17 @@ end
 
 function F:ReskinClose(a1, p, a2, x, y)
 	self:SetSize(18, 18)
+
 	self:ClearAllPoints()
-
-	F.StripTextures(self)
-	F.ReskinButton(self)
-
 	if not a1 then
 		self:SetPoint("TOPRIGHT", -6, -6)
 	else
 		self:SetPoint(a1, p, a2, x, y)
 	end
 
+	F.StripTextures(self)
+
+	F.ReskinButton(self)
 	SetupDisTex(self)
 
 	self.pixels = {}
@@ -440,6 +440,7 @@ end
 
 function F:ReskinDecline()
 	F.StripTextures(self)
+
 	F.ReskinButton(self)
 
 	local w = self:GetWidth()
@@ -463,10 +464,10 @@ function F:ReskinDropDown()
 	button:SetSize(20, 20)
 	button:ClearAllPoints()
 	button:SetPoint("RIGHT", -18, 2)
-	F.ReskinButton(button)
 
-	SetupDisTex(button)
+	F.ReskinButton(button)
 	F.SetupArrowTex(button, "down")
+	SetupDisTex(button)
 
 	local bg = F.CreateBDFrame(self, 0)
 	bg:SetPoint("TOPLEFT", self, "TOPLEFT", 16, -4)
@@ -521,6 +522,7 @@ end
 
 function F:ReskinFilter()
 	F.StripTextures(self)
+
 	F.ReskinButton(self)
 
 	self.Icon:SetTexture(C.media.arrowRight)
@@ -530,18 +532,13 @@ function F:ReskinFilter()
 	if self.Text then self.Text:SetPoint("CENTER") end
 end
 
-function F:ReskinFrame(noKill)
-	if not noKill then
-		F.StripTextures(self, true)
-	elseif tonumber(noKill) then
-		F.StripTextures(self, noKill)
-	end
-
+function F:ReskinFrame(killType)
+	F.StripTextures(self, not killType)
 	F.CleanTextures(self)
+
 	local bg = F.CreateBDFrame(self, nil, true)
 
 	local frameName = self.GetName and self:GetName()
-
 	local framePortrait = (frameName and _G[frameName.."Portrait"]) or self.portrait
 	if framePortrait then framePortrait:SetAlpha(0) end
 
@@ -605,6 +602,7 @@ function F:ReskinMinMax()
 		if button then
 			F.StripTextures(self)
 			F.CleanTextures(self)
+
 			F.ReskinButton(button)
 
 			button:SetSize(18, 18)
@@ -646,20 +644,15 @@ function F:ReskinNavBar()
 
 	F.StripTextures(self)
 	F.CleanTextures(self)
-
-	self:GetRegions():Hide()
-	self:DisableDrawLayer("BORDER")
 	self.overlay:Hide()
 
 	local homeButton = self.homeButton
-	homeButton:GetRegions():Hide()
 	homeButton.text:ClearAllPoints()
 	homeButton.text:SetPoint("CENTER")
 	F.ReskinButton(homeButton)
 
 	local overflowButton = self.overflowButton
 	F.ReskinButton(overflowButton)
-
 	F.SetupArrowTex(overflowButton, "left")
 
 	self.styled = true
@@ -783,7 +776,7 @@ function F:ReskinScroll()
 
 	local bu = scrollThumb(self)
 	bu:SetAlpha(0)
-	bu:SetWidth(17)
+	bu:SetWidth(18)
 
 	local bg = F.CreateBDFrame(self, 0)
 	bg:SetPoint("TOPLEFT", bu, 0, -3)
@@ -791,17 +784,17 @@ function F:ReskinScroll()
 	bu.bg = bg
 
 	local up, down = self:GetChildren()
-	up:SetWidth(17)
-	down:SetWidth(17)
+	up:SetWidth(18)
+	down:SetWidth(18)
 
 	F.ReskinButton(up)
 	F.ReskinButton(down)
 
-	SetupDisTex(up)
-	SetupDisTex(down)
-
 	F.SetupArrowTex(up, "up")
 	F.SetupArrowTex(down, "down")
+
+	SetupDisTex(up)
+	SetupDisTex(down)
 
 	self:HookScript("OnEnter", scrollOnEnter)
 	self:HookScript("OnLeave", scrollOnLeave)
@@ -908,6 +901,7 @@ end
 function F:ReskinStatusBar(noClassColor)
 	F.StripTextures(self, true)
 	F.CleanTextures(self)
+
 	F.CreateBDFrame(self, 0)
 
 	self:SetStatusBarTexture(C.media.normTex)

@@ -21,7 +21,7 @@ local zoneInfo = {
 	neutral = {format(FACTION_CONTROLLED_TERRITORY, FACTION_NEUTRAL), {1, .93, .76}}
 }
 
-local pvpType, zone, subZone, currentZone, totalZone, coordX, coordY, coords, r, g, b
+local pvpType, faction, zone, subZone, currentZone, totalZone, coordX, coordY, coords, r, g, b
 
 local function UpdateZones()
 	if subZone and subZone ~= "" and subZone ~= zone then
@@ -72,13 +72,14 @@ info.eventList = {
 info.onEvent = function(self)
 	self:SetScript("OnUpdate", UpdateCoords)
 
-	zone, subZone, pvpType = GetZoneText(), GetSubZoneText(), {GetZonePVPInfo()}
+	zone = GetZoneText()
+	subZone = GetSubZoneText()
+	pvpType, _, faction = GetZonePVPInfo()
+	pvpType = pvpType or "neutral"
+	r, g, b = unpack(zoneInfo[pvpType][2])
 
 	UpdateZones()
 	FormatCoords()
-
-	if not pvpType[1] then pvpType[1] = "neutral" end
-	r, g, b = unpack(zoneInfo[pvpType[1]][2])
 
 	self.text:SetFormattedText("%s <%s>", currentZone, coords)
 	self.text:SetTextColor(r, g, b)
@@ -90,7 +91,7 @@ info.onEnter = function(self)
 	GameTooltip:AddLine(ZONE, 0,.6,1)
 	GameTooltip:AddLine(" ")
 
-	GameTooltip:AddDoubleLine(zone, format(zoneInfo[pvpType[1]][1], pvpType[3] or ""), r,g,b, r,g,b)
+	GameTooltip:AddDoubleLine(zone, format(zoneInfo[pvpType][1], faction or ""), r,g,b, r,g,b)
 	GameTooltip:AddDoubleLine(" ", DB.LineString)
 	GameTooltip:AddDoubleLine(" ", DB.LeftButton..L["WorldMap"].." ", 1,1,1, .6,.8,1)
 	GameTooltip:AddDoubleLine(" ", DB.RightButton..L["Send My Pos"].." ", 1,1,1, .6,.8,1)

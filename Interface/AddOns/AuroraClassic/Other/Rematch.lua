@@ -77,7 +77,7 @@ C.themes["Rematch"] = function()
 
 		local TopButton = ScrollBar.TopButton
 		if TopButton then
-			TopButton:SetWidth(17)
+			TopButton:SetWidth(18)
 			TopButton:ClearAllPoints()
 			TopButton:SetPoint("BOTTOM", UpButton, "TOP", 0, 2)
 
@@ -87,7 +87,7 @@ C.themes["Rematch"] = function()
 
 		local BottomButton = ScrollBar.BottomButton
 		if BottomButton then
-			BottomButton:SetWidth(17)
+			BottomButton:SetWidth(18)
 			BottomButton:ClearAllPoints()
 			BottomButton:SetPoint("TOP", DownButton, "BOTTOM", 0, -2)
 

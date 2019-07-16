@@ -86,7 +86,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.StripTextures(QuestMapFrame)
 
 	local DetailsFrame = QuestMapFrame.DetailsFrame
-	F.StripTextures(DetailsFrame, true)
+	F.StripTextures(DetailsFrame)
 	F.StripTextures(DetailsFrame.ShareButton)
 	F.ReskinScroll(DetailsFrame.ScrollFrame.ScrollBar)
 

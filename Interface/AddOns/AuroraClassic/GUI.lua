@@ -243,7 +243,8 @@ gui:SetScript("OnEvent", function(self, _, addon)
 	-- fill 'old' table
 	copyTable(AuroraConfig, old)
 
-	F.ReskinFrame(gui, true)
+	F.CreateBD(gui)
+	F.CreateSD(gui)
 	F.ReskinButton(bu)
 	F.ReskinButton(okay)
 	F.ReskinButton(cancel)

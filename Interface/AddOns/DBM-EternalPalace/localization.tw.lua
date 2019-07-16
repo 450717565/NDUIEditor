@@ -1,4 +1,8 @@
-if GetLocale() ~= "koKR" then return end
+-- BNS (三皈依-暗影之月)
+-- Blizzard Entertainment
+-- Last update: 2019/07/15
+
+if GetLocale() ~= "zhTW" then return end
 local L
 
 ---------------------------
@@ -47,7 +51,7 @@ L= DBM:GetModLocalization(2351)
 L= DBM:GetModLocalization(2359)
 
 L:SetMiscLocalization({
-	Circles =	"3초 후 동그라미"
+	Circles =	"3秒後出圈"
 })
 
 ---------------------------
@@ -56,8 +60,8 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2349)
 
 L:SetMiscLocalization({
-	Phase3	= "자쿨이 착란의 영역으로 통하는 길을 엽니다!",
-	Tear =	"균열"
+	Phase3	= "札奎爾撕開了一條通往狂亂領域的通道！",
+	Tear =	"撕裂"
 })
 
 ---------------------------
@@ -66,30 +70,30 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2361)
 
 L:SetOptionLocalization({
-	SortDesc 			= "정보 창에 $spell:298569 디버프 중첩을 높은 순으로 정렬합니다. (낮은순 대신)",
-	ShowTimeNotStacks	= "정보 창에 $spell:298569 디버프 중첩 대신 남은 시간을 표시합니다."
+	SortDesc 			= "$spell:298569的資訊框架用最高減益層數排序 (取代最低的)。",
+	ShowTimeNotStacks	= "$spell:298569的資訊框架顯示剩餘時間而非層數。"
 })
 
 L:SetMiscLocalization({
-	SoakOrb =	"구슬 먹기",
-	AvoidOrb =	"구슬 안먹기",
-	GroupUp =	"뭉치기",
-	Spread =	"산개",
-	Move	 =	"계속 이동",
-	DontMove =	"이동 중지",
-	--For Yells
-	HelpSoakMove	= "{rt3}같이 먹기 이동{rt3}",--Purple Diamond
-	HelpSoakStay	= "{rt6}같이 먹기 제자리{rt6}",--Blue Square
-	HelpSoak		= "{rt3}같이 먹기{rt3}",--Purple Diamond
-	HelpMove		= "{rt4}같이 이동{rt4}",--Green Triangle
-	HelpStay		= "{rt7}같이 멈춰{rt7}",--Red X
-	SoloSoak 		= "혼자 먹기",
-	Solo =			"혼자",
+	SoakOrb   =	"吸收球",
+	AvoidOrb  =	"躲開球",
+	GroupUp  =	"集合",
+	Spread     =	"分散",
+	Move	   =	"保持移動",
+	DontMove =	"停止移動",
+	--For Yells,
+	HelpSoakMove	= "{rt3}幫忙吸收移動{rt3}",--Purple Diamond
+	HelpSoakStay	= "{rt6}幫忙吸收不動{rt6}",--Blue Square
+	HelpSoak		    = "{rt3}幫忙吸收{rt3}",--Purple Diamond
+	HelpMove		= "{rt4}幫忙移動{rt4}",--Green Triangle
+	HelpStay		    = "{rt7}幫忙不動{rt7}",--Red X
+	SoloSoak 		    = "單獨吸收",
+	Solo 			    = "單獨",
 	--Not currently used Yells
-	SoloMoving		= "혼자 이동",
-	SoloStay		= "혼자 제자리",
-	SoloSoakMove	= "혼자 맞기 이동",
-	SoloSoakStay	= "혼자 맞기 제자리"
+	SoloMoving		= "單獨移動",
+	SoloStay		    = "單獨不動",
+	SoloSoakMove	= "單獨吸收移動",
+	SoloSoakStay	= "單獨吸收不動"
 })
 
 -------------
@@ -98,5 +102,5 @@ L:SetMiscLocalization({
 L = DBM:GetModLocalization("EternalPalaceTrash")
 
 L:SetGeneralLocalization({
-	name =	"영원한 궁전 일반몹"
+	name =	"永恆宮殿小怪"
 })
