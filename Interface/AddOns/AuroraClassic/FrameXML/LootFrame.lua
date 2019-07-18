@@ -17,7 +17,7 @@ tinsert(C.themes["AuroraClassic"], function()
 				F.CleanTextures(button)
 
 				local icbg = F.ReskinIcon(icon)
-				F.ReskinTexture(button, icbg, false)
+				F.ReskinTexture(button, icbg)
 
 				local border = button.IconBorder
 				F.ReskinBorder(border, button)

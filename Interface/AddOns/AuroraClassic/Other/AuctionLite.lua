@@ -5,6 +5,8 @@ C.login["AuctionLite"] = function()
 	F.ReskinArrow(SellRememberButton, "down")
 	F.ReskinArrow(BuySummaryButton, "left")
 	F.StripTextures(SellRememberButton)
+	F.StripTextures(SellItemButton)
+	F.CreateBDFrame(SellItemButton, 0)
 
 	SellSize:SetWidth(40)
 	SellSize:ClearAllPoints()
@@ -22,17 +24,6 @@ C.login["AuctionLite"] = function()
 	BuyBuyoutButton:SetPoint("RIGHT", BuyCancelAuctionButton, "LEFT", -1, 0)
 	BuyBidButton:ClearAllPoints()
 	BuyBidButton:SetPoint("RIGHT", BuyBuyoutButton, "LEFT", -1, 0)
-
-	do
-		F.StripTextures(SellItemButton)
-		F.CreateBDFrame(SellItemButton, 0)
-		local frame = CreateFrame("Frame")
-		frame:RegisterEvent("NEW_AUCTION_UPDATE")
-		frame:SetScript("OnEvent", function()
-			local icon = SellItemButton:GetNormalTexture()
-			if icon then icon:SetTexCoord(.08, .92, .08, .92) end
-		end)
-	end
 
 	for i = 1, 16 do
 		local sell = _G["SellButton"..i]

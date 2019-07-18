@@ -166,6 +166,10 @@ function UF:CreatePowerBar(self)
 	power:SetFrameLevel(self:GetFrameLevel() - 2)
 	B.SmoothBar(power)
 
+	local bg = B.CreateSB(power)
+	bg:SetAlpha(1)
+	bg.multiplier = .25
+
 	local mystyle = self.mystyle
 	local specialStyle = mystyle == "raid" or isPartyStyle(self) or isWatcherStyle(self)
 
@@ -174,10 +178,6 @@ function UF:CreatePowerBar(self)
 	else
 		power:SetHeight(retVal(self, 4, 3, 2, 4))
 	end
-
-	local bg = B.CreateSB(power)
-	bg:SetAlpha(1)
-	bg.multiplier = .25
 
 	if (specialStyle and NDuiDB["UFs"]["RaidHPColor"] == 2) or (not specialStyle and NDuiDB["UFs"]["UFsHPColor"] == 2) or mystyle == "PlayerPlate" then
 		power.colorPower = true
@@ -370,6 +370,7 @@ function UF:CreateCastBar(self)
 
 		local iconSize = self:GetHeight()*2 + 5
 		cb.Icon:SetSize(iconSize, iconSize)
+		cb.timeToHold = .5
 	end
 
 	if mystyle == "nameplate" or mystyle == "boss" or mystyle == "arena" then

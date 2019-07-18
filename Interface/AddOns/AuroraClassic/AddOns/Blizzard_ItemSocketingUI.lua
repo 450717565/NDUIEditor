@@ -24,15 +24,35 @@ C.themes["Blizzard_ItemSocketingUI"] = function()
 
 		local ic = _G[button.."IconTexture"]
 		local icbg = F.ReskinIcon(ic)
-		F.ReskinTexture(bu, icbg, false)
+		F.ReskinTexture(bu, icbg)
 
 		local shine = _G[button.."Shine"]
 		shine:ClearAllPoints()
 		shine:SetPoint("TOPLEFT", icbg, C.mult, -C.mult)
 		shine:SetPoint("BOTTOMRIGHT", icbg, 0, 0)
+
+		bu.bg = icbg
 	end
+
+	local GemTypeInfo = {
+		Blue = {r=.1, g=.1, b=1},
+		Red = {r=1, g=.1, b=.1},
+		Yellow = {r=1, g=1, b=.1},
+		Cogwheel = {r=0, g=0, b=0},
+		Hydraulic = {r=0, g=0, b=0},
+		Meta = {r=0, g=0, b=0},
+		Prismatic = {r=0, g=0, b=0},
+		PunchcardBlue = {r=.1, g=.1, b=1},
+		PunchcardRed = {r=1, g=.1, b=.1},
+		PunchcardYellow = {r=1, g=1, b=.1},
+	}
 
 	hooksecurefunc("ItemSocketingFrame_Update", function()
 		ItemSocketingDescription:SetBackdrop(nil)
+
+		for i = 1, MAX_NUM_SOCKETS do
+			local color = GemTypeInfo[GetSocketTypes(i)]
+			_G["ItemSocketingSocket"..i].bg:SetBackdropBorderColor(color.r, color.g, color.b)
+		end
 	end)
 end

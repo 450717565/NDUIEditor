@@ -31,7 +31,7 @@ C.themes["Blizzard_Collections"] = function()
 
 	local function reskinDrag(drag, point)
 		drag.ActiveTexture:SetTexture(C.media.checked)
-		F.ReskinTexture(drag, point, false)
+		F.ReskinTexture(drag, point)
 	end
 
 	local scrollFrames = {MountJournal.ListScrollFrame, PetJournal.listScroll, WardrobeCollectionFrame.SetsCollectionFrame.ScrollFrame}
@@ -40,9 +40,7 @@ C.themes["Blizzard_Collections"] = function()
 			local bu = scrollFrame.buttons[i]
 			F.StripTextures(bu)
 
-			local bubg = F.CreateBDFrame(bu, 0)
-			bubg:SetPoint("TOPLEFT", C.mult, -C.mult)
-			bubg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
+			local bubg = F.CreateBDFrame(bu, 0, -C.mult)
 			F.ReskinTexture(bu, bubg, true)
 
 			local sl = bu.SelectedTexture or bu.selectedTexture
@@ -99,7 +97,7 @@ C.themes["Blizzard_Collections"] = function()
 		bd:Hide()
 
 		local icbg = F.ReskinIcon(_G[button.."IconTexture"])
-		F.ReskinTexture(bu, icbg, false)
+		F.ReskinTexture(bu, icbg)
 	end
 
 	reskinButton("MountJournalSummonRandomFavoriteButton")
@@ -162,7 +160,7 @@ C.themes["Blizzard_Collections"] = function()
 	local SlotButton = BottomLeftInset.SlotButton
 	F.StripTextures(SlotButton)
 	local icbg = F.ReskinIcon(SlotButton.ItemIcon)
-	F.ReskinTexture(SlotButton, icbg, false)
+	F.ReskinTexture(SlotButton, icbg)
 
 	-- Pet PetCard
 	local PetCard = PetJournalPetCard
@@ -184,7 +182,7 @@ C.themes["Blizzard_Collections"] = function()
 	for i = 1, 6 do
 		local bu = PetCard["spell"..i]
 		local icbg = F.ReskinIcon(bu.icon)
-		F.ReskinTexture(bu, icbg, false)
+		F.ReskinTexture(bu, icbg)
 	end
 
 	-- Pet loadout
@@ -200,10 +198,10 @@ C.themes["Blizzard_Collections"] = function()
 		bubg:SetPoint("BOTTOMRIGHT")
 
 		local setButton = bu.setButton:GetRegions()
-		F.ReskinTexture(setButton, bu.qualityBorder, false)
+		F.ReskinTexture(setButton, bu.qualityBorder)
 
 		local icbg = F.ReskinIcon(bu.icon)
-		F.ReskinTexture(bu.dragButton, icbg, false)
+		F.ReskinTexture(bu.dragButton, icbg)
 		bu.level:SetTextColor(1, 1, 1)
 
 		for j = 1, 3 do
@@ -216,7 +214,7 @@ C.themes["Blizzard_Collections"] = function()
 			spell.FlyoutArrow:SetTexCoord(0, 1, 0, 1)
 
 			local icbg = F.ReskinIcon(spell.icon)
-			F.ReskinTexture(spell, icbg, false)
+			F.ReskinTexture(spell, icbg)
 			F.ReskinTexed(spell.selected, icbg)
 		end
 	end
@@ -227,7 +225,7 @@ C.themes["Blizzard_Collections"] = function()
 		F.CleanTextures(bu)
 
 		local icbg = F.ReskinIcon(bu.icon)
-		F.ReskinTexture(bu, icbg, false)
+		F.ReskinTexture(bu, icbg)
 		F.ReskinTexed(bu, icbg)
 	end
 
@@ -266,7 +264,7 @@ C.themes["Blizzard_Collections"] = function()
 		F.StripTextures(button)
 
 		local icbg = F.ReskinIcon(button.iconTexture)
-		F.ReskinTexture(button, icbg, false)
+		F.ReskinTexture(button, icbg)
 		button.icbg = icbg
 
 		local cooldown = button.cooldown
@@ -312,7 +310,7 @@ C.themes["Blizzard_Collections"] = function()
 			button.level:SetPoint("BOTTOM", 0, 1)
 
 			local icbg = F.ReskinIcon(button.iconTexture)
-			F.ReskinTexture(button, icbg, false)
+			F.ReskinTexture(button, icbg)
 			button.icbg = icbg
 
 			local lvbg = button:CreateTexture(nil, "OVERLAY")
@@ -390,12 +388,10 @@ C.themes["Blizzard_Collections"] = function()
 	F.ReskinFilter(DetailsFrame.VariantSetsButton, "Down")
 
 	hooksecurefunc(SetsCollectionFrame, "Refresh", function()
-		if SetsCollectionFrame.bg then
-			if DetailsFrame.LimitedSet:IsShown() then
-				SetsCollectionFrame.bg:SetBackdropBorderColor(1, 0, 0)
-			else
-				SetsCollectionFrame.bg:SetBackdropBorderColor(0, 0, 0)
-			end
+		if DetailsFrame.LimitedSet:IsShown() then
+			SetsCollectionFrame.bg:SetBackdropBorderColor(1, .5, .2)
+		else
+			SetsCollectionFrame.bg:SetBackdropBorderColor(0, 0, 0)
 		end
 	end)
 
@@ -425,7 +421,7 @@ C.themes["Blizzard_Collections"] = function()
 	F.ReskinFrame(WardrobeFrame)
 	F.StripTextures(WardrobeTransmogFrame)
 	F.StripTextures(WardrobeOutfitFrame)
-	F.CreateBDFrame(WardrobeOutfitFrame, .25, true)
+	F.CreateBDFrame(WardrobeOutfitFrame, .25, nil, true)
 	F.ReskinButton(WardrobeTransmogFrame.ApplyButton)
 	F.ReskinButton(WardrobeTransmogFrame.Model.ClearAllPendingButton)
 	F.ReskinButton(WardrobeOutfitDropDown.SaveButton)
@@ -443,7 +439,7 @@ C.themes["Blizzard_Collections"] = function()
 			slot.Border:Hide()
 
 			local icbg = F.ReskinIcon(slot.Icon)
-			F.ReskinTexture(slot, icbg, false)
+			F.ReskinTexture(slot, icbg)
 		end
 	end
 
@@ -485,7 +481,7 @@ C.themes["Blizzard_Collections"] = function()
 				F.CleanTextures(PetJournalBandageButton)
 
 				local icbg = F.ReskinIcon(PetJournalBandageButtonIcon)
-				F.ReskinTexture(PetJournalBandageButton, icbg, false)
+				F.ReskinTexture(PetJournalBandageButton, icbg)
 			end
 			reskinHPet = true
 		end

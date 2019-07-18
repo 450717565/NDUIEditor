@@ -13,11 +13,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	for i = 1, NUMGOSSIPBUTTONS do
 		local button = _G["GossipTitleButton"..i]
 		if button then
-			button:SetHighlightTexture(C.media.bdTex)
-			local hl = button:GetHighlightTexture()
-			hl:SetColorTexture(cr, cg, cb, .25)
-			hl:SetPoint("TOPLEFT", -C.mult, C.mult)
-			hl:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
+			F.ReskinTexture(button, button, true, nil, -C.mult)
 
 			if button:GetText() ~= nil then
 				button:SetText(gsub(button:GetText(), ":32:32:0:0", ":32:32:0:0:64:64:5:59:5:59"))

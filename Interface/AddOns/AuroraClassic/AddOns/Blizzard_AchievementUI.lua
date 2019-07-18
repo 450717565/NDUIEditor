@@ -80,6 +80,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 
 		local bu = _G[button]
 		F.StripTextures(bu, true)
+		F.CreateBDFrame(bu, 0, -C.mult)
 
 		local hl = _G[button.."Highlight"]
 		hl:SetAlpha(0)
@@ -95,10 +96,6 @@ C.themes["Blizzard_AchievementUI"] = function()
 		ch:ClearAllPoints()
 		ch:SetPoint("TOPLEFT", icbg, "BOTTOMLEFT", -2, 0)
 		F.ReskinCheck(ch)
-
-		local bubg = F.CreateBDFrame(bu, 0)
-		bubg:SetPoint("TOPLEFT", C.mult, -C.mult)
-		bubg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 	end
 
 	for i = 1, 20 do
@@ -164,9 +161,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 			if not bu.styled then
 				F.StripTextures(bu)
 
-				local bubg = F.CreateBDFrame(bu, 0)
-				bubg:SetPoint("TOPLEFT", C.mult, -C.mult)
-				bubg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
+				local bubg = F.CreateBDFrame(bu, 0, -C.mult)
 				F.ReskinTexture(bu, bubg, true)
 
 				bu.styled = true
@@ -189,6 +184,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 
 			if not bu.styled then
 				F.StripTextures(bu, true)
+				F.CreateBDFrame(bu, 0, -2.5)
 
 				local hl = _G[button.."Highlight"]
 				hl:SetAlpha(0)
@@ -199,10 +195,6 @@ C.themes["Blizzard_AchievementUI"] = function()
 				local ic = _G[button.."IconTexture"]
 				F.ReskinIcon(ic)
 
-				local bubg = F.CreateBDFrame(bu, 0)
-				bubg:SetPoint("TOPLEFT", 2, -2)
-				bubg:SetPoint("BOTTOMRIGHT", -2, 2)
-
 				bu.styled = true
 			end
 		end
@@ -212,10 +204,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 	local summaries = {AchievementFrameComparisonSummaryPlayer, AchievementFrameComparisonSummaryFriend}
 	for _, summary in pairs(summaries) do
 		F.StripTextures(summary)
-
-		local bg = F.CreateBDFrame(summary, 0)
-		bg:SetPoint("TOPLEFT", C.mult, -C.mult)
-		bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
+		F.CreateBDFrame(summary, 0, -C.mult)
 	end
 
 	local bars = {AchievementFrameComparisonSummaryPlayerStatusBar, AchievementFrameComparisonSummaryFriendStatusBar}
@@ -239,10 +228,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 
 		for _, bu in pairs({"Player", "Friend"}) do
 			F.StripTextures(_G[button..bu], true)
-
-			local bubg = F.CreateBDFrame(_G[button..bu], 0)
-			bubg:SetPoint("TOPLEFT", C.mult, -C.mult)
-			bubg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
+			F.CreateBDFrame(_G[button..bu], 0, -C.mult)
 		end
 
 		for _, io in pairs({"PlayerIconOverlay", "FriendIconOverlay"}) do

@@ -87,9 +87,8 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	function F:ReskinGarrMaterial()
 		self.MaterialFrame:GetRegions():Hide()
-		local bg = F.CreateBDFrame(self.MaterialFrame, 0)
-		bg:SetPoint("TOPLEFT", 5, -5)
-		bg:SetPoint("BOTTOMRIGHT", -5, 6)
+
+		F.CreateBDFrame(self.MaterialFrame, 0, -5)
 		F.ReskinIcon(self.MaterialFrame.Icon)
 	end
 
@@ -100,9 +99,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			if not button.styled then
 				F.StripTextures(button)
 
-				local bg = F.CreateBDFrame(button, 0)
-				bg:SetPoint("TOPLEFT", 2, -2)
-				bg:SetPoint("BOTTOMRIGHT", -2, 2)
+				local bg = F.CreateBDFrame(button, 0, -2)
 
 				local locBG = button.LocBG
 				locBG:ClearAllPoints()
@@ -493,9 +490,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	for i = 1, #buttons do
 		local button = buttons[i]
 		button.BG:Hide()
-		local bg = F.CreateBDFrame(button, 0)
-		bg:SetPoint("TOPLEFT", C.mult, -C.mult)
-		bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
+		F.CreateBDFrame(button, 0, -C.mult)
 
 		for _, reward in pairs(button.Rewards) do
 			reward:GetRegions():Hide()

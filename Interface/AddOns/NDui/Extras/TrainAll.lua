@@ -1,27 +1,24 @@
 local B, C, L, DB, F = unpack(select(2, ...))
 
-local spot = 0
-local rank, found, nums, cost
+local spot, cost = 0, 0
 local done = false
-
-local function PauseIt()
-	spot = 0
-	TrainIt()
-end
 
 local function TrainIt()
 	if done == true then
 		spot = 0
 		return
 	end
-	nums = GetNumTrainerServices()
-	found = false
+	local nums = GetNumTrainerServices()
+	local found = false
 	while found == false do
 		spot = spot + 1
-		rank = select(2, GetTrainerServiceInfo(spot))
+		local rank = select(2, GetTrainerServiceInfo(spot))
 		if rank == "available" then
 			BuyTrainerService(spot)
-			C_Timer.After(0.3, PauseIt)
+			C_Timer.After(0.3, function()
+				spot = 0
+				TrainIt()
+			end)
 			found = true
 		end
 		if spot >= nums then
@@ -57,7 +54,7 @@ local function CreateIt()
 		cost = 0
 		local Enable = false
 		for i = 1, GetNumTrainerServices() do
-			local _, rank = GetTrainerServiceInfo(i)
+			local rank = select(2, GetTrainerServiceInfo(i))
 			if rank == "available" then
 				cost = cost + GetTrainerServiceCost(i)
 				TrainAllButton:Enable()

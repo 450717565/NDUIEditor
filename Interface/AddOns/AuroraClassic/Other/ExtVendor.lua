@@ -9,7 +9,7 @@ C.themes["ExtVendor"] = function()
 	F.ReskinButton(MerchantFrameFilterButton)
 
 	local ic = F.ReskinIcon(MerchantFrameSellJunkButtonIcon)
-	F.ReskinTexture(MerchantFrameSellJunkButton, ic, false)
+	F.ReskinTexture(MerchantFrameSellJunkButton, ic)
 	MerchantFrameSellJunkButton:SetPushedTexture(C.mediapushed)
 
 	for x = 13, 20 do

@@ -58,18 +58,9 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	-- QuestNPCModel
 	F.StripTextures(QuestNPCModel)
+	F.StripTextures(QuestNPCModelNameTooltipFrame)
 	F.StripTextures(QuestNPCModelTextFrame)
 	F.ReskinScroll(QuestNPCModelTextScrollFrameScrollBar)
-
-	local npcbd = F.CreateBDFrame(QuestNPCModel)
-	npcbd:SetPoint("TOPLEFT", -1, .5)
-	npcbd:SetPoint("BOTTOMRIGHT", 2, -20)
-	npcbd:SetFrameLevel(0)
-
-	local textbd = F.CreateBDFrame(QuestNPCModelTextFrame)
-	textbd:SetPoint("TOPLEFT", -1, -.5)
-	textbd:SetPoint("BOTTOMRIGHT", 2, 5)
-	textbd:SetFrameLevel(0)
 
 	hooksecurefunc("QuestFrame_ShowQuestPortrait", function(parentFrame, _, _, _, _, x, y)
 		if parentFrame == WorldMapFrame then
@@ -81,4 +72,21 @@ tinsert(C.themes["AuroraClassic"], function()
 		QuestNPCModel:ClearAllPoints()
 		QuestNPCModel:SetPoint("TOPLEFT", parentFrame, "TOPRIGHT", x, -40)
 	end)
+
+	QuestNPCModelNameTooltipFrame:SetSize(198, 20)
+	QuestNPCModelNameTooltipFrame:ClearAllPoints()
+	QuestNPCModelNameTooltipFrame:SetPoint("TOP", QuestNPCModel, "BOTTOM", 0, -4)
+	QuestNPCModelNameText:ClearAllPoints()
+	QuestNPCModelNameText:SetPoint("CENTER", QuestNPCModelNameTooltipFrame, 0, 0)
+	QuestNPCModelTextFrame:ClearAllPoints()
+	QuestNPCModelTextFrame:SetPoint("TOP", QuestNPCModelNameTooltipFrame, "BOTTOM", 0, -4)
+
+	local boss = F.CreateBDFrame(QuestNPCModel)
+	boss:SetFrameLevel(0)
+
+	local name = F.CreateBDFrame(QuestNPCModelNameTooltipFrame)
+	name:SetFrameLevel(0)
+
+	local text = F.CreateBDFrame(QuestNPCModelTextFrame)
+	text:SetFrameLevel(0)
 end)

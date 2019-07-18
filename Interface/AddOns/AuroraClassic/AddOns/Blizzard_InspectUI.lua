@@ -22,7 +22,7 @@ C.themes["Blizzard_InspectUI"] = function()
 		F.StripTextures(slot)
 
 		local icbg = F.ReskinIcon(slot.icon)
-		F.ReskinTexture(slot, icbg, false)
+		F.ReskinTexture(slot, icbg)
 
 		local border = slot.IconBorder
 		F.ReskinBorder(border, slot)

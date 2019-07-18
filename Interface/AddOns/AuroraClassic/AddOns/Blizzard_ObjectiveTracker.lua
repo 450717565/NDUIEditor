@@ -12,8 +12,8 @@ tinsert(C.themes["AuroraClassic"], function()
 		if button and not button.styled then
 			F.CleanTextures(button)
 
-			local bg = F.CreateBDFrame(button.icon or button.Icon, 0)
-			F.ReskinTexture(button, bg, false)
+			local bg = F.CreateBDFrame(button.icon or button.Icon, .25)
+			F.ReskinTexture(button, bg)
 
 			if button.icon then
 				button.icon:SetTexCoord(.08, .92, .08, .92)

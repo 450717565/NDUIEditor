@@ -276,6 +276,7 @@ local list = {
 		-- 默认
 		{AuraID = 209858, UnitID = "player"},	-- 死疽溃烂
 		{AuraID = 240559, UnitID = "player"},	-- 重伤
+		{AuraID = 302420, UnitID = "player"},	-- 女王法令：隐藏
 		{AuraID = 240443, UnitID = "player", Flash = true},	-- 爆裂
 		{AuraID = 226512, UnitID = "player"},	-- 血池
 		{AuraID = 240447, UnitID = "player", Flash = true},	-- 践踏

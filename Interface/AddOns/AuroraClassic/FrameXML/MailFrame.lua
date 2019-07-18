@@ -63,15 +63,15 @@ tinsert(C.themes["AuroraClassic"], function()
 	end
 
 	local line = CreateFrame("Frame", nil, OpenMailInvoiceFrame)
-	line:SetPoint("BOTTOMRIGHT", OpenMailInvoiceAmountReceived, "TOPRIGHT", 0, 5)
-	F.CreateGA(line, 250, C.mult*2, "Horizontal", cr, cg, cb, 0, .8)
+	line:SetPoint("BOTTOMRIGHT", OpenMailInvoiceAmountReceived, "TOPRIGHT", 0, 10)
+	F.CreateGA(line, 250, C.mult, "Horizontal", 1, 1, 1, 0, .8)
 
 	for _, button in pairs({"OpenMailLetterButton", "OpenMailMoneyButton"}) do
 		local bu = _G[button]
 		F.CleanTextures(bu)
 
 		local icbg = F.ReskinIcon(_G[button.."IconTexture"])
-		F.ReskinTexture(bu, icbg, false)
+		F.ReskinTexture(bu, icbg)
 	end
 
 	for i = 1, INBOXITEMS_TO_DISPLAY do
@@ -87,7 +87,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		ib:SetAlpha(0)
 
 		local icbg = F.ReskinIcon(_G[item.."Button".."Icon"])
-		F.ReskinTexture(bu, icbg, false)
+		F.ReskinTexture(bu, icbg)
 		F.ReskinTexed(bu, icbg)
 
 		local sender = _G[item.."Sender"]
@@ -109,7 +109,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.ReskinBorder(ib, bu)
 
 		local icbg = F.ReskinIcon(_G[button.."IconTexture"])
-		F.ReskinTexture(bu, icbg, false)
+		F.ReskinTexture(bu, icbg)
 	end
 
 	for i = 1, ATTACHMENTS_MAX_SEND do
@@ -120,7 +120,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.ReskinBorder(border, button)
 
 		local bubg = F.CreateBDFrame(button, 0)
-		F.ReskinTexture(button, bubg, false)
+		F.ReskinTexture(button, bubg)
 	end
 
 	hooksecurefunc("SendMailFrame_Update", function()

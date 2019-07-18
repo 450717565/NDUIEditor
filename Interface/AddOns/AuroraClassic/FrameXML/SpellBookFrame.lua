@@ -80,7 +80,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 					if icon then
 						local icbg = F.ReskinIcon(icon, false, 1)
-						F.ReskinTexture(tab, icbg, false)
+						F.ReskinTexture(tab, icbg)
 					end
 
 					tab.styled = true
@@ -147,7 +147,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 
 		local icbg = F.ReskinIcon(icon)
-		F.ReskinTexture(bu.highlightTexture, icbg, false)
+		F.ReskinTexture(bu.highlightTexture, icbg)
 
 		local name = _G[button.."SpellName"]
 		name:ClearAllPoints()

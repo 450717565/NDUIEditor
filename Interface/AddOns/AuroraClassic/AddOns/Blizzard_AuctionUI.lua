@@ -54,6 +54,12 @@ C.themes["Blizzard_AuctionUI"] = function()
 	local p1, p2, p3, x, y = BrowseMinLevel:GetPoint()
 	BrowseMinLevel:SetPoint(p1, p2, p3, x, y+2)
 
+	local itemButton = AuctionsItemButton
+	itemButton:SetSize(30, 30)
+	F.StripTextures(itemButton)
+	F.CreateBDFrame(itemButton, 0)
+	F.ReskinBorder(itemButton.IconBorder, itemButton)
+
 	local sorts = {BrowseQualitySort, BrowseLevelSort, BrowseDurationSort, BrowseHighBidderSort, BrowseCurrentBidSort, BidQualitySort, BidLevelSort, BidDurationSort, BidBuyoutSort, BidStatusSort, BidBidSort, AuctionsQualitySort, AuctionsDurationSort, AuctionsHighBidderSort, AuctionsBidSort}
 	for _, sort in pairs(sorts) do
 		F.StripTextures(sort)
@@ -92,7 +98,7 @@ C.themes["Blizzard_AuctionUI"] = function()
 			it.IconBorder:SetAlpha(0)
 
 			local icbg = F.ReskinIcon(ic)
-			F.ReskinTexture(it, icbg, false)
+			F.ReskinTexture(it, icbg)
 
 			local bubg = F.CreateBDFrame(bu, 0)
 			bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
@@ -117,21 +123,6 @@ C.themes["Blizzard_AuctionUI"] = function()
 		F.CleanTextures(button)
 		F.ReskinTexture(button, button, true)
 	end)
-
-	do
-		local button = AuctionsItemButton
-		button:SetSize(30, 30)
-		F.StripTextures(button)
-		F.CreateBDFrame(button, 0)
-		F.ReskinBorder(button.IconBorder, button)
-
-		local frame = CreateFrame("Frame")
-		frame:RegisterEvent("NEW_AUCTION_UPDATE")
-		frame:SetScript("OnEvent", function()
-			local icon = button:GetNormalTexture()
-			if icon then icon:SetTexCoord(.08, .92, .08, .92) end
-		end)
-	end
 
 	do
 		F.StripTextures(BrowseDropDown)

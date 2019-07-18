@@ -50,12 +50,13 @@ tinsert(C.themes["AuroraClassic"], function()
 				frame.GuildName:ClearAllPoints()
 				frame.GuildName:SetPoint("TOPLEFT", 50, -14)
 				frame.GuildName:SetPoint("TOPRIGHT", -50, -14)
-				F.ReskinIcon(frame.Icon.Texture)
 
 				frame.GuildBanner:SetTexture("")
 				frame.OldAchievement:SetTexture("")
 				frame.GuildBorder:SetTexture("")
 				frame.Icon.Bling:SetTexture("")
+
+				F.ReskinIcon(frame.Icon.Texture)
 			end
 			frame.glow:SetTexture("")
 			frame.Background:SetTexture("")
@@ -70,13 +71,14 @@ tinsert(C.themes["AuroraClassic"], function()
 				frame.bg:SetPoint("BOTTOMRIGHT", frame, 18, -1)
 
 				frame.Icon:SetScale(.8)
-				frame.Unlocked:SetTextColor(1, 1, 1)
-				F.ReskinIcon(frame.Icon.Texture)
-				frame.Background:SetTexture("")
 				frame.Icon.Bling:SetTexture("")
 				frame.Icon.Overlay:SetTexture("")
+				frame.Background:SetTexture("")
 				frame.glow:SetTexture("")
 				frame.shine:SetTexture("")
+				frame.Unlocked:SetTextColor(1, 1, 1)
+
+				F.ReskinIcon(frame.Icon.Texture)
 			end
 		elseif frame.queue == LootAlertSystem then
 			local lootItem = frame.lootItem
@@ -85,11 +87,12 @@ tinsert(C.themes["AuroraClassic"], function()
 				frame.bg:SetPoint("TOPLEFT", frame, 13, -15)
 				frame.bg:SetPoint("BOTTOMRIGHT", frame, -13, 13)
 
-				F.ReskinIcon(lootItem.Icon, 0)
 				lootItem.SpecRing:SetTexture("")
 				lootItem.SpecIcon:SetPoint("TOPLEFT", lootItem.Icon, -5, 5)
 				lootItem.SpecIcon.bg = F.ReskinIcon(lootItem.SpecIcon)
 				lootItem.SpecIcon.bg:SetDrawLayer("ARTWORK", 1)
+
+				F.ReskinIcon(lootItem.Icon, 0)
 			end
 			frame.glow:SetTexture("")
 			frame.shine:SetTexture("")
@@ -104,29 +107,28 @@ tinsert(C.themes["AuroraClassic"], function()
 				frame.bg:SetPoint("TOPLEFT", 10, -13)
 				frame.bg:SetPoint("BOTTOMRIGHT", -12, 11)
 
-				F.ReskinIcon(frame.Icon)
 				frame.Icon:ClearAllPoints()
 				frame.Icon:SetPoint("CENTER", frame.BaseQualityBorder)
-
 				frame.BaseQualityBorder:SetSize(52, 52)
 				frame.BaseQualityBorder:SetTexture(C.media.bdTex)
 				frame.UpgradeQualityBorder:SetTexture(C.media.bdTex)
 				frame.UpgradeQualityBorder:SetSize(52, 52)
-				frame.Background:SetTexture("")
 				frame.Sheen:SetTexture("")
+				frame.Background:SetTexture("")
 				frame.BorderGlow:SetTexture("")
+
+				F.ReskinIcon(frame.Icon)
 			end
 			frame.BaseQualityBorder:SetTexture("")
 			frame.UpgradeQualityBorder:SetTexture("")
 		elseif frame.queue == MoneyWonAlertSystem or frame.queue == HonorAwardedAlertSystem then
 			if not frame.bg then
-				frame.bg = F.CreateBDFrame(frame, .25)
-				frame.bg:SetPoint("TOPLEFT", 7, -7)
-				frame.bg:SetPoint("BOTTOMRIGHT", -7, 7)
+				frame.bg = F.CreateBDFrame(frame, .25, -7)
 
-				F.ReskinIcon(frame.Icon)
 				frame.Background:SetTexture("")
 				frame.IconBorder:SetTexture("")
+
+				F.ReskinIcon(frame.Icon)
 			end
 		elseif frame.queue == NewRecipeLearnedAlertSystem then
 			if not frame.bg then
@@ -135,9 +137,10 @@ tinsert(C.themes["AuroraClassic"], function()
 				frame.bg:SetPoint("BOTTOMRIGHT", -10, 5)
 
 				frame:GetRegions():SetTexture("")
-				F.CreateBDFrame(frame.Icon, 0)
 				frame.glow:SetTexture("")
 				frame.shine:SetTexture("")
+
+				F.CreateBDFrame(frame.Icon, 0)
 			end
 			frame.Icon:SetMask(nil)
 			frame.Icon:SetTexCoord(.08, .92, .08, .92)
@@ -146,20 +149,24 @@ tinsert(C.themes["AuroraClassic"], function()
 				frame.bg = F.CreateBDFrame(frame, .25)
 				frame.bg:SetPoint("TOPLEFT", 3, -9)
 				frame.bg:SetPoint("BOTTOMRIGHT", -3, 6)
-				F.ReskinIcon(frame.QuestTexture)
+
 				frame.shine:SetTexture("")
 				frame:DisableDrawLayer("BORDER")
 				select(6, frame:GetRegions()):SetFontObject(NumberFont_GameNormal)
+
+				F.ReskinIcon(frame.QuestTexture)
 			end
 		elseif frame.queue == GarrisonTalentAlertSystem then
 			if not frame.bg then
 				frame.bg = F.CreateBDFrame(frame, .25)
 				frame.bg:SetPoint("TOPLEFT", 8, -8)
 				frame.bg:SetPoint("BOTTOMRIGHT", -8, 11)
-				F.ReskinIcon(frame.Icon)
+
 				frame:GetRegions():Hide()
 				frame.glow:SetTexture("")
 				frame.shine:SetTexture("")
+
+				F.ReskinIcon(frame.Icon)
 			end
 		elseif frame.queue == GarrisonFollowerAlertSystem then
 			if not frame.bg then
@@ -169,12 +176,12 @@ tinsert(C.themes["AuroraClassic"], function()
 
 				frame:GetRegions():Hide()
 				select(5, frame:GetRegions()):Hide()
-				F.ReskinGarrisonPortrait(frame.PortraitFrame)
 				frame.PortraitFrame:ClearAllPoints()
 				frame.PortraitFrame:SetPoint("TOPLEFT", 22, -8)
-
 				frame.glow:SetTexture("")
 				frame.shine:SetTexture("")
+
+				F.ReskinGarrisonPortrait(frame.PortraitFrame)
 			end
 			frame.FollowerBG:SetTexture("")
 		elseif frame.queue == GarrisonMissionAlertSystem or frame.queue == GarrisonRandomMissionAlertSystem or frame.queue == GarrisonShipMissionAlertSystem or frame.queue == GarrisonShipFollowerAlertSystem then
@@ -194,16 +201,17 @@ tinsert(C.themes["AuroraClassic"], function()
 				frame.bg = F.CreateBDFrame(frame, .25)
 				frame.bg:SetPoint("TOPLEFT", 9, -9)
 				frame.bg:SetPoint("BOTTOMRIGHT", -9, 11)
-				F.ReskinIcon(frame.Icon)
+
 				frame:GetRegions():Hide()
 				frame.glow:SetTexture("")
 				frame.shine:SetTexture("")
+
+				F.ReskinIcon(frame.Icon)
 			end
 		elseif frame.queue == DigsiteCompleteAlertSystem then
 			if not frame.bg then
-				frame.bg = F.CreateBDFrame(frame, .25)
-				frame.bg:SetPoint("TOPLEFT", 8, -8)
-				frame.bg:SetPoint("BOTTOMRIGHT", -8, 8)
+				frame.bg = F.CreateBDFrame(frame, .25, -8)
+
 				frame:GetRegions():Hide()
 				frame.glow:SetTexture("")
 				frame.shine:SetTexture("")
@@ -213,6 +221,7 @@ tinsert(C.themes["AuroraClassic"], function()
 				frame.bg = F.CreateBDFrame(frame, .25)
 				frame.bg:SetPoint("TOPLEFT", 8, -12)
 				frame.bg:SetPoint("BOTTOMRIGHT", -8, 13)
+
 				select(2, frame:GetRegions()):SetTexture("")
 				frame.glow:SetTexture("")
 				frame.shine:SetTexture("")
@@ -222,38 +231,40 @@ tinsert(C.themes["AuroraClassic"], function()
 				frame.bg = F.CreateBDFrame(frame, .25)
 				frame.bg:SetPoint("TOPLEFT", 2, -10)
 				frame.bg:SetPoint("BOTTOMRIGHT", 0, 2)
-				F.ReskinIcon(frame.dungeonTexture)
+
 				frame:DisableDrawLayer("Border")
 				frame.heroicIcon:SetTexture("")
 				frame.glowFrame.glow:SetTexture("")
 				frame.shine:SetTexture("")
+
+				F.ReskinIcon(frame.dungeonTexture)
 			end
 		elseif frame.queue == ScenarioAlertSystem then
 			if not frame.bg then
-				frame.bg = F.CreateBDFrame(frame, .25)
-				frame.bg:SetPoint("TOPLEFT", 5, -5)
-				frame.bg:SetPoint("BOTTOMRIGHT", -5, 5)
-				F.ReskinIcon(frame.dungeonTexture)
+				frame.bg = F.CreateBDFrame(frame, .25, -5)
+
 				select(1, frame:GetRegions()):Hide()
 				select(3, frame:GetRegions()):Hide()
 				frame.glowFrame.glow:SetTexture("")
 				frame.shine:SetTexture("")
+
+				F.ReskinIcon(frame.dungeonTexture)
 			end
 		elseif frame.queue == LegendaryItemAlertSystem then
 			if not frame.bg then
 				frame.bg = F.CreateBDFrame(frame, .25)
 				frame.bg:SetPoint("TOPLEFT", 25, -22)
 				frame.bg:SetPoint("BOTTOMRIGHT", -25, 22)
-				frame:HookScript("OnUpdate", fixBg)
 
-				F.ReskinIcon(frame.Icon)
+				frame:HookScript("OnUpdate", fixBg)
 				frame.Icon:ClearAllPoints()
 				frame.Icon:SetPoint("TOPLEFT", frame.bg, 12, -12)
-
 				frame.Background:SetTexture("")
 				frame.Background2:SetTexture("")
 				frame.Background3:SetTexture("")
 				frame.glow:SetTexture("")
+
+				F.ReskinIcon(frame.Icon)
 			end
 		elseif frame.queue == NewPetAlertSystem or frame.queue == NewMountAlertSystem or frame.queue == NewToyAlertSystem then
 			if not frame.bg then
@@ -261,17 +272,16 @@ tinsert(C.themes["AuroraClassic"], function()
 				frame.bg:SetPoint("TOPLEFT", 12, -13)
 				frame.bg:SetPoint("BOTTOMRIGHT", -12, 10)
 
-				F.ReskinIcon(frame.Icon)
 				frame.IconBorder:Hide()
 				frame.Background:SetTexture("")
 				frame.shine:SetTexture("")
 				frame.glow:SetTexture("")
+
+				F.ReskinIcon(frame.Icon)
 			end
 		elseif frame.queue == InvasionAlertSystem then
 			if not frame.bg then
-				frame.bg = F.CreateBDFrame(frame, .25)
-				frame.bg:SetPoint("TOPLEFT", 6, -6)
-				frame.bg:SetPoint("BOTTOMRIGHT", -6, 6)
+				frame.bg = F.CreateBDFrame(frame, .25, -6)
 
 				local bg, icon = frame:GetRegions()
 				bg:Hide()
@@ -292,6 +302,7 @@ tinsert(C.themes["AuroraClassic"], function()
 					reward.texture:ClearAllPoints()
 					reward.texture:SetPoint("TOPLEFT", 6, -6)
 					reward.texture:SetPoint("BOTTOMRIGHT", -6, 6)
+
 					reward.bg = F.ReskinIcon(reward.texture)
 				end
 			end
@@ -302,19 +313,17 @@ tinsert(C.themes["AuroraClassic"], function()
 	hooksecurefunc("LootWonAlertFrame_SetUp", function(frame)
 		local lootItem = frame.lootItem
 		if not frame.bg then
-			frame.bg = F.CreateBDFrame(frame, .25)
-			frame.bg:SetPoint("TOPLEFT", 10, -10)
-			frame.bg:SetPoint("BOTTOMRIGHT", -10, 10)
+			frame.bg = F.CreateBDFrame(frame, .25, -10)
 			fixAnim(frame)
 
 			frame.shine:SetTexture("")
-
-			F.ReskinIcon(lootItem.Icon)
 			lootItem.SpecRing:SetTexture("")
 			lootItem.SpecIcon:SetPoint("TOPLEFT", lootItem.Icon, -5, 5)
 			lootItem.SpecIcon.bg = F.ReskinIcon(lootItem.SpecIcon)
 			lootItem.SpecIcon.bg:SetDrawLayer("ARTWORK", 1)
 			lootItem.SpecIcon.bg:SetShown(lootItem.SpecIcon:IsShown() and lootItem.SpecIcon:GetTexture() ~= nil)
+
+			F.ReskinIcon(lootItem.Icon)
 		end
 
 		frame.glow:SetTexture("")
@@ -327,14 +336,13 @@ tinsert(C.themes["AuroraClassic"], function()
 	-- BonusRollMoneyWonFrame
 	hooksecurefunc("MoneyWonAlertFrame_SetUp", function(frame)
 		if not frame.bg then
-			frame.bg = F.CreateBDFrame(frame, .25)
-			frame.bg:SetPoint("TOPLEFT", 5, -5)
-			frame.bg:SetPoint("BOTTOMRIGHT", -5, 5)
+			frame.bg = F.CreateBDFrame(frame, .25, -5)
 			fixAnim(frame)
 
 			frame.Background:SetTexture("")
-			F.ReskinIcon(frame.Icon)
 			frame.IconBorder:SetTexture("")
+
+			F.ReskinIcon(frame.Icon)
 		end
 	end)
 end)

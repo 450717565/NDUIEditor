@@ -67,10 +67,7 @@ C.themes["Blizzard_GuildRecruitmentUI"] = function()
 			if not button.styled then
 				F.StripTextures(button)
 
-				local bubg = F.CreateBDFrame(button, 0)
-				bubg:SetPoint("TOPLEFT", 3, -3)
-				bubg:SetPoint("BOTTOMRIGHT", -3, 3)
-
+				local bubg = F.CreateBDFrame(button, 0, -3)
 				F.ReskinTexture(button, bubg, true)
 				F.ReskinTexture(button.selectedTex, bubg, true)
 

@@ -3,6 +3,7 @@ local F, C = unpack(select(2, ...))
 tinsert(C.themes["AuroraClassic"], function()
 	for i = 1, 4 do
 		local main = "StaticPopup"..i
+
 		local frame = _G[main]
 		F.ReskinFrame(frame)
 		F.ReskinButton(frame["extraButton"])
@@ -23,7 +24,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		local icon = _G[main.."ItemFrameIconTexture"]
 		local ic = F.ReskinIcon(icon)
-		F.ReskinTexture(item, ic, false)
+		F.ReskinTexture(item, ic)
 
 		local gold = _G[main.."MoneyInputFrameGold"]
 		F.ReskinInput(gold)

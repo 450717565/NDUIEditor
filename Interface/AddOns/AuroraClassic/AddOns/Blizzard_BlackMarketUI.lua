@@ -17,10 +17,7 @@ C.themes["Blizzard_BlackMarketUI"] = function()
 	for _, header in pairs(headers) do
 		local header = BlackMarketFrame[header]
 		F.StripTextures(header)
-
-		local bg = F.CreateBDFrame(header, 0)
-		bg:SetPoint("TOPLEFT", C.mult, -C.mult)
-		bg:SetPoint("BOTTOMRIGHT", -C.mult, -C.mult*2)
+		F.CreateBDFrame(header, 0, -C.mult)
 	end
 
 	hooksecurefunc("BlackMarketScrollFrame_Update", function()
@@ -33,13 +30,13 @@ C.themes["Blizzard_BlackMarketUI"] = function()
 				bu.Item.IconBorder:SetAlpha(0)
 
 				local icbg = F.ReskinIcon(bu.Item.IconTexture)
-				F.ReskinTexture(bu.Item, icbg, false)
+				F.ReskinTexture(bu.Item, icbg)
 
 				local bubg = F.CreateBDFrame(bu, 0)
 				bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
 				bubg:SetPoint("BOTTOMRIGHT", 0, 3)
 
-				F.ReskinTexture(bu, bubg, false)
+				F.ReskinTexture(bu, bubg)
 				F.ReskinTexture(bu.Selection, bubg, true)
 
 				bu.styled = true

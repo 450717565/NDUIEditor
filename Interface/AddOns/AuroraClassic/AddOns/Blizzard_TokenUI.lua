@@ -27,9 +27,7 @@ tinsert(C.themes["AuroraClassic"], function()
 				bu.bg = F.ReskinIcon(bu.icon, true)
 
 				if bu.expandIcon then
-					bu.expBg = F.CreateBDFrame(bu.expandIcon, 0)
-					bu.expBg:SetPoint("TOPLEFT", bu.expandIcon, -3, 3)
-					bu.expBg:SetPoint("BOTTOMRIGHT", bu.expandIcon, 3, -3)
+					bu.expBg = F.CreateBDFrame(bu.expandIcon, 0, 3)
 				end
 
 				bu.styled = true

@@ -10,7 +10,7 @@ C.themes["Blizzard_ScrappingMachineUI"] = function()
 	for button in pairs(ItemSlots.scrapButtons.activeObjects) do
 		if not button.styled then
 			local icbg = F.ReskinIcon(button.Icon)
-			F.ReskinTexture(button, icbg, false)
+			F.ReskinTexture(button, icbg)
 			F.ReskinBorder(button.IconBorder, button.Icon)
 
 			button.styled = true

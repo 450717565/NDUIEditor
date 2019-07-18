@@ -7,7 +7,7 @@ C.themes["Blizzard_AzeriteRespecUI"] = function()
 	F.CreateSD(AzeriteRespecFrame)
 
 	local Background = AzeriteRespecFrame.Background
-	F.CreateBDFrame(Background, .25, true)
+	F.CreateBDFrame(Background, .25, nil, true)
 
 	local ItemSlot = AzeriteRespecFrame.ItemSlot
 	F.ReskinIcon(ItemSlot.Icon)

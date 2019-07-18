@@ -65,9 +65,7 @@ C.themes["Blizzard_GuildUI"] = function()
 		local bu = _G["GuildRosterColumnButton"..i]
 		F.StripTextures(bu)
 
-		local bubg = F.CreateBDFrame(bu, 0)
-		bubg:SetPoint("TOPLEFT", C.mult, -C.mult)
-		bubg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
+		local bubg = F.CreateBDFrame(bu, 0, -C.mult)
 		F.ReskinTexture(bu, bubg, true)
 	end
 
@@ -88,13 +86,10 @@ C.themes["Blizzard_GuildUI"] = function()
 
 			if header and not header.styled then
 				F.StripTextures(header)
-
-				local bg = F.CreateBDFrame(header, 0)
-				bg:SetPoint("TOPLEFT", C.mult, -C.mult)
-				bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
-
-				F.ReskinTexture(header, bg, true)
 				F.ReskinIcon(header.icon, true)
+
+				local bg = F.CreateBDFrame(header, 0, -C.mult)
+				F.ReskinTexture(header, bg, true)
 
 				header.styled = true
 			end
@@ -196,13 +191,10 @@ C.themes["Blizzard_GuildUI"] = function()
 			local button = buttons[i]
 			if button and not button.styled then
 				F.StripTextures(button)
-
-				local bubg = F.CreateBDFrame(button, 0)
-				bubg:SetPoint("TOPLEFT", C.mult, -C.mult)
-				bubg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
-
-				F.ReskinTexture(button, bubg, true)
 				F.ReskinIcon(button.icon)
+
+				local bubg = F.CreateBDFrame(button, 0, -C.mult)
+				F.ReskinTexture(button, bubg, true)
 
 				button.styled = true
 			end

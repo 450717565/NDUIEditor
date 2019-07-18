@@ -20,7 +20,7 @@ C.themes["Blizzard_VoidStorageUI"] = function()
 			F.StripTextures(bu)
 
 			local icbg = F.ReskinIcon(bu.icon)
-			F.ReskinTexture(bu, icbg, false)
+			F.ReskinTexture(bu, icbg)
 
 			local border = bu.IconBorder
 			F.ReskinBorder(border, bu)
@@ -34,7 +34,7 @@ C.themes["Blizzard_VoidStorageUI"] = function()
 		F.StripTextures(bu)
 
 		local icbg = F.ReskinIcon(_G[button.."IconTexture"])
-		F.ReskinTexture(bu, icbg, false)
+		F.ReskinTexture(bu, icbg)
 
 		local border = bu.IconBorder
 		F.ReskinBorder(border, bu)
@@ -50,7 +50,7 @@ C.themes["Blizzard_VoidStorageUI"] = function()
 
 		local icbg = F.ReskinIcon(tab:GetNormalTexture())
 		F.ReskinTexed(tab, icbg)
-		F.ReskinTexture(tab, icbg, false)
+		F.ReskinTexture(tab, icbg)
 
 		if i == 1 then
 			tab:ClearAllPoints()

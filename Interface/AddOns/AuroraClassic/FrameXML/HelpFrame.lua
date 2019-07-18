@@ -7,7 +7,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinArrow(HelpBrowserNavBack, "left")
 	F.ReskinArrow(HelpBrowserNavForward, "right")
 	F.ReskinIcon(HelpFrameCharacterStuckHearthstoneIconTexture)
-	F.CreateBDFrame(HelpBrowser, 0, true)
+	F.CreateBDFrame(HelpBrowser, 0, nil, true)
 
 	F.ReskinFrame(BrowserSettingsTooltip)
 	F.ReskinButton(BrowserSettingsTooltip.CacheButton)

@@ -19,6 +19,7 @@ if locale == "zhCN" then
 	L["Reload Text"] = "不带星号(*)的设置需要重载插件后生效。"
 	L["FontScale"] = "字体缩放"
 	L["ObjectiveTracker"] = "任务追踪"
+	L["Explain"] = "说明"
 elseif locale == "zhTW" then
 	L["Features"] = "模塊"
 	L["Bags"] = "背包"
@@ -35,6 +36,7 @@ elseif locale == "zhTW" then
 	L["Reload Text"] = "不帶星標(*)的設置需要重載插件後生效。"
 	L["FontScale"] = "字體縮放"
 	L["ObjectiveTracker"] = "任務追蹤"
+	L["Explain"] = "說明"
 else
 	L["Features"] = "Features"
 	L["Bags"] = "Bags"
@@ -51,6 +53,7 @@ else
 	L["Reload Text"] = "Settings not marked with an asterisk (*) require a UI reload."
 	L["FontScale"] = "Font Scale"
 	L["ObjectiveTracker"] = "ObjectiveTracker"
+	L["Explain"] = "Explain"
 end
 
 -- [[ Options UI ]]
@@ -77,9 +80,9 @@ local function addSubCategory(parent, name)
 	header:SetText(name)
 
 	local line = parent:CreateTexture(nil, "ARTWORK")
-	line:SetSize(610, 1)
+	line:SetSize(610, 2)
 	line:SetPoint("TOPLEFT", header, "BOTTOMLEFT", 0, -4)
-	line:SetColorTexture(1, 1, 1, .25)
+	line:SetColorTexture(1, 1, 1, .5)
 
 	return header
 end
@@ -195,13 +198,11 @@ alphaSlider:SetMinMaxValues(0, 1)
 alphaSlider:SetValueStep(0.1)
 AuroraOptionsAlphaText:SetText(L["Opacity"])
 
-local line = gui:CreateTexture(nil, "ARTWORK")
-line:SetSize(610, 1)
-line:SetPoint("TOPLEFT", fontSlider, "BOTTOMLEFT", -20, -30)
-line:SetColorTexture(1, 1, 1, .25)
+local explain = addSubCategory(gui, L["Explain"])
+explain:SetPoint("TOPLEFT", fontSlider, "BOTTOMLEFT", -20, -30)
 
 local reloadText = gui:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
-reloadText:SetPoint("TOPLEFT", line, "BOTTOMLEFT", 0, -40)
+reloadText:SetPoint("TOPLEFT", explain, "BOTTOMLEFT", 0, -40)
 reloadText:SetText(L["Reload Text"])
 
 local reloadButton = CreateFrame("Button", nil, gui, "UIPanelButtonTemplate")

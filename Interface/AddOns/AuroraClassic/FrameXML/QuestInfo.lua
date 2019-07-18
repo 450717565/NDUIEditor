@@ -88,6 +88,11 @@ tinsert(C.themes["AuroraClassic"], function()
 		local numSpellRewards = isQuestLog and GetNumQuestLogRewardSpells() or GetNumRewardSpells()
 
 		if numSpellRewards > 0 then
+			-- Spell Headers
+			for spellHeader in rewardsFrame.spellHeaderPool:EnumerateActive() do
+				spellHeader:SetVertexColor(1, 1, 1)
+			end
+
 			-- Follower Rewards
 			for reward in rewardsFrame.followerRewardPool:EnumerateActive() do
 				local portrait = reward.PortraitFrame
@@ -128,13 +133,17 @@ tinsert(C.themes["AuroraClassic"], function()
 			-- Spell Rewards
 			for spellReward in rewardsFrame.spellRewardPool:EnumerateActive() do
 				if not spellReward.styled then
-					local nameFrame = spellReward.NameFrame
-					nameFrame:Hide()
+					F.StripTextures(spellReward, 1)
 
-					spellReward.Icon:SetSize(28, 28)
-					local icbg = F.ReskinIcon(spellReward.Icon)
+					local icon = spellReward.Icon
+					if isQuestLog then
+						icon:SetSize(28, 28)
+					else
+						icon:SetSize(38, 38)
+					end
 
-					local bubg = F.CreateBDFrame(nameFrame, 0)
+					local icbg = F.ReskinIcon(icon)
+					local bubg = F.CreateBDFrame(spellReward.NameFrame, 0)
 					bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
 					bubg:SetPoint("BOTTOMRIGHT", icbg, "BOTTOMRIGHT", 102, 0)
 
@@ -199,9 +208,6 @@ tinsert(C.themes["AuroraClassic"], function()
 		for _, text in pairs(texts) do
 			text:SetTextColor(1, 1, 1)
 		end
-
-		local spellHeaderPool = QuestInfoRewardsFrame.spellHeaderPool
-		spellHeaderPool.textR, spellHeaderPool.textG, spellHeaderPool.textB = 1, 1, 1
 
 		QuestInfoQuestType:SetTextColor(0, 1, 1)
 	end

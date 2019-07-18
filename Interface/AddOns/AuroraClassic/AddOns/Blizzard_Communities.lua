@@ -67,7 +67,7 @@ C.themes["Blizzard_Communities"] = function()
 		tab:GetRegions():Hide()
 
 		local bg = F.ReskinIcon(tab.Icon)
-		F.ReskinTexture(tab, bg, false)
+		F.ReskinTexture(tab, bg)
 		F.ReskinTexed(tab, bg)
 	end
 
@@ -219,8 +219,8 @@ C.themes["Blizzard_Communities"] = function()
 				local avatarButton = self.avatarButtons[i][j]
 				if avatarButton:IsShown() and not avatarButton.styled then
 					local icbg = F.ReskinIcon(avatarButton.Icon)
-					F.ReskinTexture(avatarButton, icbg, false)
-					F.ReskinTexture(avatarButton.Selected, icbg, false)
+					F.ReskinTexture(avatarButton, icbg)
+					F.ReskinTexture(avatarButton.Selected, icbg)
 
 					avatarButton.styled = true
 				end
@@ -328,13 +328,10 @@ C.themes["Blizzard_Communities"] = function()
 			local button = buttons[i]
 			if button and not button.styled then
 				F.StripTextures(button)
-
-				local bubg = F.CreateBDFrame(button, 0)
-				bubg:SetPoint("TOPLEFT", C.mult, -C.mult)
-				bubg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
-
-				F.ReskinTexture(button, bubg, true)
 				F.ReskinIcon(button.Icon)
+
+				local bubg = F.CreateBDFrame(button, 0, -C.mult)
+				F.ReskinTexture(button, bubg, true)
 
 				button.styled = true
 			end

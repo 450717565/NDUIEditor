@@ -209,6 +209,7 @@ function UF:OnLogin()
 		self:CreateUnitTable()
 		self:CreatePowerUnitTable()
 		self:CheckExplosives()
+		self:AddInterruptInfo()
 
 		oUF:RegisterStyle("Nameplates", UF.CreatePlates)
 		oUF:SetActiveStyle("Nameplates")
@@ -325,6 +326,8 @@ function UF:OnLogin()
 	end
 
 	if NDuiDB["UFs"]["RaidFrame"] then
+		UF:AddClickSetsListener()
+
 		-- Hide Default RaidFrame
 		local function HideRaid()
 			if InCombatLockdown() then return end

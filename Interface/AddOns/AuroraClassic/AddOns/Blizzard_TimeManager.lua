@@ -14,7 +14,7 @@ C.themes["Blizzard_TimeManager"] = function()
 	local check = TimeManagerStopwatchCheck
 	local icbg = F.ReskinIcon(check:GetNormalTexture())
 	F.ReskinTexed(check, icbg)
-	F.ReskinTexture(check, icbg, false)
+	F.ReskinTexture(check, icbg)
 
 	local dropdowns = {TimeManagerAlarmHourDropDown, TimeManagerAlarmMinuteDropDown, TimeManagerAlarmAMPMDropDown}
 	for _, dropdown in pairs(dropdowns) do

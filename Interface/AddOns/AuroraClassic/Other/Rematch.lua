@@ -331,9 +331,7 @@ C.themes["Rematch"] = function()
 
 		local Content = RematchWinRecordCard.Content
 		F.StripTextures(Content)
-		local bg = F.CreateBDFrame(Content, 0)
-		bg:SetPoint("TOPLEFT", 2, -2)
-		bg:SetPoint("BOTTOMRIGHT", -2, 2)
+		F.CreateBDFrame(Content, 0, -2)
 
 		for _, result in pairs({"Wins", "Losses", "Draws"}) do
 			reskinInput(Content[result].EditBox)
@@ -376,10 +374,8 @@ C.themes["Rematch"] = function()
 
 		local MultiLine = dialog.MultiLine
 		F.ReskinScroll(MultiLine.ScrollBar)
+		F.CreateBDFrame(MultiLine, 0, 5)
 		select(2, MultiLine:GetChildren()):SetBackdrop(nil)
-		local bg = F.CreateBDFrame(MultiLine, 0)
-		bg:SetPoint("TOPLEFT", -5, 5)
-		bg:SetPoint("BOTTOMRIGHT", 5, -5)
 
 		local ShareIncludes = dialog.ShareIncludes
 		F.ReskinCheck(ShareIncludes.IncludePreferences)
@@ -396,15 +392,17 @@ C.themes["Rematch"] = function()
 		bg:SetPoint("TOPLEFT", RarityBarBorder, 6, -5)
 		bg:SetPoint("BOTTOMRIGHT", RarityBarBorder, -6, 5)
 
-		-- RematchNotes
+		styled = true
+	end)
+
+	-- RematchNotes
+	do
 		F.ReskinFrame(RematchNotes)
 
 		local LockButton = RematchNotes.LockButton
 		F.StripTextures(LockButton, 2)
+		F.CreateBDFrame(LockButton, 0, -7)
 		LockButton:SetPoint("TOPLEFT")
-		local bg = F.CreateBDFrame(LockButton, 0)
-		bg:SetPoint("TOPLEFT", 7, -7)
-		bg:SetPoint("BOTTOMRIGHT", -7, 7)
 
 		local Content = RematchNotes.Content
 		F.StripTextures(Content)
@@ -423,9 +421,7 @@ C.themes["Rematch"] = function()
 		F.ReskinButton(Controls.DeleteButton)
 		F.ReskinButton(Controls.UndoButton)
 		F.ReskinButton(Controls.SaveButton)
-
-		styled = true
-	end)
+	end
 
 	-- Rematch
 	hooksecurefunc(Rematch, "MenuButtonSetChecked", function(_, button, isChecked, isRadio)
@@ -439,9 +435,7 @@ C.themes["Rematch"] = function()
 
 		if not button.styled then
 			button.Check:SetVertexColor(cr, cg, cb)
-			local bg = F.CreateBDFrame(button.Check, 0)
-			bg:SetPoint("TOPLEFT", button.Check, 4, -4)
-			bg:SetPoint("BOTTOMRIGHT", button.Check, -4, 4)
+			F.CreateBDFrame(button.Check, 0, -4)
 
 			button.styled = true
 		end

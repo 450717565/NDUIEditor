@@ -211,14 +211,16 @@ function F:CreateBD(alpha)
 	if not alpha then tinsert(C.frames, self) end
 end
 
-function F:CreateBDFrame(alpha, noGradient)
+function F:CreateBDFrame(alpha, offset, noGradient)
 	local frame = self
 	if self:GetObjectType() == "Texture" then frame = self:GetParent() end
 
+	offset = offset or C.mult
+
 	local lvl = frame:GetFrameLevel()
 	local bg = CreateFrame("Frame", nil, frame)
-	bg:SetPoint("TOPLEFT", self, -C.mult, C.mult)
-	bg:SetPoint("BOTTOMRIGHT", self, C.mult, -C.mult)
+	bg:SetPoint("TOPLEFT", self, -offset, offset)
+	bg:SetPoint("BOTTOMRIGHT", self, offset, -offset)
 	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
 	F.CreateBD(bg, alpha)
 	F.CreateSD(bg)
@@ -320,7 +322,7 @@ function F:CreateSD()
 end
 
 function F:SetBDFrame(x, y, x2, y2)
-	local bg = F.CreateBDFrame(self, nil, true)
+	local bg = F.CreateBDFrame(self, nil, nil, true)
 
 	if x and y and x2 and y2 then
 		bg:SetPoint("TOPLEFT", x, y)
@@ -391,9 +393,7 @@ function F:ReskinCheck()
 	ch:SetDesaturated(true)
 	ch:SetVertexColor(cr, cg, cb)
 
-	local bdTex = F.CreateBDFrame(self, 0)
-	bdTex:SetPoint("TOPLEFT", 4, -4)
-	bdTex:SetPoint("BOTTOMRIGHT", -4, 4)
+	local bdTex = F.CreateBDFrame(self, 0, -4)
 	self.bdTex = bdTex
 
 	SetupHook(self)
@@ -536,7 +536,7 @@ function F:ReskinFrame(killType)
 	F.StripTextures(self, not killType)
 	F.CleanTextures(self)
 
-	local bg = F.CreateBDFrame(self, nil, true)
+	local bg = F.CreateBDFrame(self, nil, nil, true)
 
 	local frameName = self.GetName and self:GetName()
 	local framePortrait = (frameName and _G[frameName.."Portrait"]) or self.portrait
@@ -684,9 +684,7 @@ function F:ReskinRadio()
 	F.StripTextures(self)
 	F.CleanTextures(self)
 
-	local bdTex = F.CreateBDFrame(self, 0)
-	bdTex:SetPoint("TOPLEFT", 2, -2)
-	bdTex:SetPoint("BOTTOMRIGHT", -2, 2)
+	local bdTex = F.CreateBDFrame(self, 0, -2)
 	self.bdTex = bdTex
 
 	self:SetCheckedTexture(C.media.bdTex)
@@ -709,7 +707,7 @@ function F:ReskinRole(role)
 		texture:SetTexture(C.media.roleTex)
 		texture:SetTexCoord(F.GetRoleTexCoord(role))
 	end
-	self.bg = F.CreateBDFrame(self, 0, true)
+	self.bg = F.CreateBDFrame(self, 0, nil, true)
 
 	local checkButton = self.checkButton or self.CheckButton or self.CheckBox
 	if checkButton then
@@ -804,9 +802,7 @@ function F:ReskinSearchBox()
 	F.StripTextures(self)
 	F.CleanTextures(self)
 
-	local bg = F.CreateBDFrame(self, 0)
-	bg:SetPoint("TOPLEFT", 0, 0)
-	bg:SetPoint("BOTTOMRIGHT", 0, 1)
+	local bg = F.CreateBDFrame(self, 0, -.5)
 	F.ReskinTexture(self, bg, true)
 
 	local icon = self.icon or self.Icon
@@ -822,7 +818,7 @@ function F:ReskinSearchResult()
 	F.StripTextures(results)
 	F.CleanTextures(results)
 
-	local bg = F.CreateBDFrame(results, nil, true)
+	local bg = F.CreateBDFrame(results, nil, nil, true)
 	bg:SetPoint("TOPLEFT", -10, 0)
 	bg:SetPoint("BOTTOMRIGHT")
 
@@ -922,7 +918,7 @@ function F:ReskinTab()
 	F.StripTextures(self)
 	F.CleanTextures(self)
 
-	local bg = F.CreateBDFrame(self, nil, true)
+	local bg = F.CreateBDFrame(self, nil, nil, true)
 	bg:SetPoint("TOPLEFT", 8, -3)
 	bg:SetPoint("BOTTOMRIGHT", -8, 0)
 	F.ReskinTexture(self, bg, true)
@@ -947,7 +943,7 @@ function F:ReskinTexed(relativeTo)
 	tex:SetPoint("BOTTOMRIGHT", relativeTo, -C.mult, C.mult)
 end
 
-function F:ReskinTexture(relativeTo, classColor, alpha)
+function F:ReskinTexture(relativeTo, classColor, alpha, offset)
 	if not self then return end
 
 	local r, g, b = 1, 1, 1
@@ -965,9 +961,11 @@ function F:ReskinTexture(relativeTo, classColor, alpha)
 		tex:SetTexture(C.media.bdTex)
 	end
 
+	offset = offset or C.mult
+
 	tex:SetColorTexture(r, g, b, alpha or .25)
-	tex:SetPoint("TOPLEFT", relativeTo, C.mult, -C.mult)
-	tex:SetPoint("BOTTOMRIGHT", relativeTo, -C.mult, C.mult)
+	tex:SetPoint("TOPLEFT", relativeTo, offset, -offset)
+	tex:SetPoint("BOTTOMRIGHT", relativeTo, -offset, offset)
 end
 
 local function getBackdrop(self) return self.bdTex:GetBackdrop() end
@@ -978,7 +976,7 @@ function F:ReskinTooltip()
 	if not self.auroraTip then
 		self:SetBackdrop(nil)
 		self:DisableDrawLayer("BACKGROUND")
-		local bdTex = F.CreateBDFrame(self, nil, true)
+		local bdTex = F.CreateBDFrame(self, nil, nil, true)
 		self.bdTex = bdTex
 
 		self.GetBackdrop = getBackdrop

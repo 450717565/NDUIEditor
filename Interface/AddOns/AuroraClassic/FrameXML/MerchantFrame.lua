@@ -12,7 +12,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.ReskinBorder(button.IconBorder, button)
 
 		local icbg = F.ReskinIcon(button.icon)
-		F.ReskinTexture(button, icbg, false)
+		F.ReskinTexture(button, icbg)
 
 		local name = _G[frame.."Name"]
 		name:SetWordWrap(false)
@@ -51,7 +51,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	local backBU = MerchantBuyBackItemItemButton
 	F.StripTextures(backBU)
-	F.ReskinTexture(backBU, backIC, false)
+	F.ReskinTexture(backBU, backIC)
 	backBU.IconBorder:SetAlpha(0)
 
 	local backIT = MerchantBuyBackItem
@@ -89,7 +89,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		local parent = repair:GetParent()
 		local icbg = F.ReskinIcon(repair)
 
-		F.ReskinTexture(parent, icbg, false)
+		F.ReskinTexture(parent, icbg)
 	end
 
 	hooksecurefunc("MerchantFrame_UpdateMerchantInfo", function()

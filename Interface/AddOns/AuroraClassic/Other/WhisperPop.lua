@@ -29,7 +29,7 @@ C.themes["WhisperPop"] = function()
 		local ic = _G[button.."Icon"]
 
 		local bg = F.ReskinIcon(ic)
-		F.ReskinTexture(bu, bg, false)
+		F.ReskinTexture(bu, bg)
 
 		if bu.SetCheckedTexture then
 			bu:SetCheckedTexture(C.media.checked)

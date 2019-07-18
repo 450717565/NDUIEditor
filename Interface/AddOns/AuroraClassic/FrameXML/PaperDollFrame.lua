@@ -34,7 +34,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		slot.ignoreTexture:SetTexture("Interface\\PaperDollInfoFrame\\UI-GearManager-LeaveItem-Transparent")
 
 		local icbg = F.ReskinIcon(slot.icon)
-		F.ReskinTexture(slot, icbg, false)
+		F.ReskinTexture(slot, icbg)
 		slot.SetHighlightTexture = F.Dummy
 
 		local border = slot.IconBorder
@@ -75,9 +75,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		category:SetSize(192, 27)
 		F.StripTextures(category)
 
-		local bg = F.CreateBDFrame(category, 0)
-		bg:SetPoint("TOPLEFT", 2, -2)
-		bg:SetPoint("BOTTOMRIGHT", -2, 2)
+		local bg = F.CreateBDFrame(category, 0, -2)
 
 		local Title = category.Title
 		Title:SetTextColor(cr, cg, cb)
@@ -101,8 +99,8 @@ tinsert(C.themes["AuroraClassic"], function()
 			tab.Icon.SetTexCoord = F.Dummy
 		end
 
-		F.ReskinTexture(tab, bg, false)
-		F.ReskinTexture(tab.Hider, bg, false)
+		F.ReskinTexture(tab, bg)
+		F.ReskinTexture(tab.Hider, bg)
 	end
 
 	-- PaperDollTitlesPane
@@ -161,7 +159,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.StripTextures(bu)
 
 		local icbg = F.ReskinIcon(bu.icon)
-		F.ReskinTexture(bu, icbg, false)
+		F.ReskinTexture(bu, icbg)
 		F.ReskinTexed(bu, icbg)
 	end
 

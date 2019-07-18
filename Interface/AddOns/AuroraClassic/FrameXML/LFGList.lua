@@ -14,7 +14,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		if bu and not bu.styled then
 			bu.Cover:Hide()
-			F.CreateBDFrame(bu.Icon, 1, true)
+			F.CreateBDFrame(bu.Icon, 1, nil, true)
 
 			bu.styled = true
 		end
@@ -102,10 +102,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	for _, headerName in pairs({"NameColumnHeader", "RoleColumnHeader", "ItemLevelColumnHeader"}) do
 		local header = ApplicationViewer[headerName]
 		F.StripTextures(header)
-
-		local bg = F.CreateBDFrame(header, 0)
-		bg:SetPoint("TOPLEFT", C.mult, -C.mult)
-		bg:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
+		F.CreateBDFrame(header, 0, -C.mult)
 	end
 
 	hooksecurefunc("LFGListApplicationViewer_UpdateApplicant", function(button)

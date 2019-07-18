@@ -90,7 +90,7 @@ function S:DBMSkin()
 
 				if not timer.styled then
 					timer:ClearAllPoints()
-					timer:SetPoint("RIGHT", tbar, "RIGHT", -2, 5)
+					timer:SetPoint("RIGHT", tbar, "RIGHT", -2, 6)
 					timer.SetPoint = B.Dummy
 					timer:SetFont(DB.Font[1], 14, DB.Font[3])
 					timer.SetFont = B.Dummy
@@ -101,8 +101,8 @@ function S:DBMSkin()
 
 				if not name.styled then
 					name:ClearAllPoints()
-					name:SetPoint("LEFT", tbar, "LEFT", 2, 5)
-					name:SetPoint("RIGHT", timer, "LEFT", -5, 5)
+					name:SetPoint("LEFT", tbar, "LEFT", 2, 6)
+					name:SetPoint("RIGHT", tbar, "RIGHT", -30, 6)
 					name.SetPoint = B.Dummy
 					name:SetFont(DB.Font[1], 14, DB.Font[3])
 					name.SetFont = B.Dummy

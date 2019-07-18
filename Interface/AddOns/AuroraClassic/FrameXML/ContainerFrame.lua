@@ -36,7 +36,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			F.ReskinBorder(border, button)
 
 			local icbg = F.ReskinIcon(button.icon)
-			F.ReskinTexture(button, icbg, false)
+			F.ReskinTexture(button, icbg)
 
 			local searchOverlay = button.searchOverlay
 			searchOverlay:SetAllPoints(icbg)
