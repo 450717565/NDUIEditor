@@ -10,11 +10,11 @@ end
 
 local function GetMapData(mapID)
 	-- the last two returns are approximated offsets for the highlight texture, from center
-	if(mapID == 882) then
+	if (mapID == 882) then
 		return 'MacAree_Highlight', 0, 120, mapID
-	elseif(mapID == 885) then
+	elseif (mapID == 885) then
 		return 'AntoranWastes_Highlight', -300, -200, mapID
-	elseif(mapID == 830) then
+	elseif (mapID == 830) then
 		return 'Krokuun_Highlight', 350, -100, mapID
 	end
 end
@@ -30,7 +30,7 @@ local zonePoints = {
 
 function ns.GetZoneInfoAtPosition(cX, cY)
 	for mapID, points in next, zonePoints do
-		if(IsPointInTriangle(cX, cY, points)) then
+		if (IsPointInTriangle(cX, cY, points)) then
 			return GetMapData(mapID)
 		end
 	end
@@ -43,15 +43,15 @@ function ns.GetZoneDescription(mapID)
 	-- Argus sub-zones doesn't have player level recommendations, so just return pet battle info
 	-- this is pretty much a copy-paste from AreaLabelFrameMixin.OnUpdate
 	local _, _, _, _, locked = C_PetJournal.GetPetLoadOutInfo(1) -- TODO: cache
-	if(not locked and GetCVarBool('showTamers')) then -- TODO: cache
+	if (not locked and GetCVarBool('showTamers')) then -- TODO: cache
 		local _, _, petMinLevel, petMaxLevel = C_Map.GetMapLevels(mapID)
-		if(petMinLevel and petMaxLevel and petMinLevel > 0 and petMaxLevel > 0) then
+		if (petMinLevel and petMaxLevel and petMinLevel > 0 and petMaxLevel > 0) then
 			local teamLevel = C_PetJournal.GetPetTeamAverageLevel() -- TODO: cache
 			local color
-			if(teamLevel) then
-				if(teamLevel < petMinLevel) then
+			if (teamLevel) then
+				if (teamLevel < petMinLevel) then
 					color = GetRelativeDifficultyColor(teamLevel, petMinLevel + 2)
-				elseif(teamLevel > petMaxLevel) then
+				elseif (teamLevel > petMaxLevel) then
 					color = GetRelativeDifficultyColor(teamLevel, petMaxLevel)
 				else
 					color = QuestDifficultyColors.difficult
@@ -60,7 +60,7 @@ function ns.GetZoneDescription(mapID)
 				color = QuestDifficultyColors.header
 			end
 
-			if(petMinLevel ~= petMaxLevel) then
+			if (petMinLevel ~= petMaxLevel) then
 				return DIFF_DESC:format(ConvertRGBtoColorString(color), petMinLevel, petMaxLevel)
 			else
 				return SAME_DESC:format(ConvertRGBtoColorString(color), petMaxLevel)

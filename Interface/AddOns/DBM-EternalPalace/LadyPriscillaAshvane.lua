@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(2354, "DBM-EternalPalace", nil, 1179)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("2019071740256")
+mod:SetRevision("20190719221715")
 mod:SetCreatureID(152236)
 mod:SetEncounterID(2304)
 mod:SetZone()
 mod:SetUsedIcons(1, 2, 3, 4, 6, 7)
-mod:SetHotfixNoticeRev(20190716000000)--2019, 7, 16
+mod:SetHotfixNoticeRev(20190717000000)--2019, 7, 17
 --mod:SetMinSyncRevision(16950)
 --mod.respawnTime = 29
 
@@ -38,7 +38,7 @@ local specWarnRipplingWave				= mod:NewSpecialWarningCount(296688, false, nil, 2
 local specWarnBrinyBubble				= mod:NewSpecialWarningMoveAway(297324, nil, nil, nil, 1, 2)
 local yellBrinyBubble					= mod:NewYell(297324)
 local yellBrinyBubbleFades				= mod:NewShortFadesYell(297324)
-local specWarnCrushingNear				= mod:NewSpecialWarningClose(297324, nil, nil, nil, 1, 2)
+local specWarnBrinyBubbleNear			= mod:NewSpecialWarningClose(297324, nil, nil, nil, 1, 2)
 local specWarnBarnacleBash				= mod:NewSpecialWarningTaunt(296725, nil, nil, nil, 1, 2)
 local specWarnArcingAzerite				= mod:NewSpecialWarningYouPos(296944, nil, nil, nil, 3, 9)
 local yellArcingAzerite					= mod:NewYell(296944)
@@ -55,7 +55,7 @@ local timerBarnacleBashCD				= mod:NewCDCountTimer(15, 296725, nil, nil, nil, 5,
 local timerArcingAzeriteCD				= mod:NewCDCountTimer(35, 296944, nil, nil, nil, 3, nil, nil, nil, 3, 4)
 local timerShieldCD						= mod:NewCDTimer(70.5, 296650, nil, nil, nil, 6, nil, nil, nil, 1, 4)
 
---local berserkTimer					= mod:NewBerserkTimer(600)
+local berserkTimer						= mod:NewBerserkTimer(600)
 
 mod:AddRangeFrameOption("4/12")
 mod:AddInfoFrameOption(296650, true)
@@ -86,13 +86,13 @@ do
 		table.wipe(lines)
 		table.wipe(sortedLines)
 		if mod.vb.blueone and mod.vb.bluetwo then
-			addLine("|TInterface\\Icons\\Ability_Bossashvane_Icon03.blp:12:12|t"..mod.vb.blueone, mod.vb.bluetwo)
+			addLine("|TInterface\\Icons\\Ability_Bossashvane_Icon03.blp:12:12|t*"..mod.vb.blueone, mod.vb.bluetwo)
 		end
 		if mod.vb.redone and mod.vb.redtwo then
-			addLine("|TInterface\\Icons\\Ability_Bossashvane_Icon02.blp:12:12|t"..mod.vb.redone, mod.vb.redtwo)
+			addLine("|TInterface\\Icons\\Ability_Bossashvane_Icon02.blp:12:12|t*"..mod.vb.redone, mod.vb.redtwo)
 		end
 		if mod.vb.greenone and mod.vb.greentwo then
-			addLine("|TInterface\\Icons\\Ability_Bossashvane_Icon01.blp:12:12|t"..mod.vb.greenone, mod.vb.greentwo)
+			addLine("|TInterface\\Icons\\Ability_Bossashvane_Icon01.blp:12:12|t*"..mod.vb.greenone, mod.vb.greentwo)
 		end
 		return lines, sortedLines
 	end
@@ -109,6 +109,7 @@ function mod:OnCombatStart(delay)
 	self.vb.blueone, self.vb.bluetwo = nil, nil
 	self.vb.redone, self.vb.redtwo = nil, nil
 	self.vb.greenone, self.vb.greentwo = nil, nil
+	berserkTimer:Start(self:IsMythic() and 505 or self:IsHeroic() and 559-delay)--Not seen normal mode berserk yet
 end
 
 function mod:OnCombatEnd()
@@ -191,7 +192,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerShieldCD:Stop()
 		local easy = self:IsEasy() or false
 		if self.vb.shieldCount == 1 then
-			self.vb.shieldCount = true
 			timerBarnacleBashCD:Start(easy and 10 or 8, 1)--SUCCESS
 			timerUpsurgeCD:Start(easy and 12 or 9, 1)
 			timerRipplingwaveCD:Start(easy and 17 or 15, 1)
@@ -297,9 +297,11 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			--Yell again, but no further special warnings
 			yellBrinyBubble:Yell()
-		elseif self:CheckNearby(12, args.destname) then--If one is near you, you need to run away from it
-			specWarnCrushingNear:Show(args.destname)
-			specWarnCrushingNear:Play("runaway")
+			specWarnBrinyBubbleNear:Cancel()
+			specWarnBrinyBubbleNear:CancelVoice()
+		elseif self:CheckNearby(12, args.destName) and not DBM:UnitDebuff("player", spellId) then--If one is near you, you need to run away from it
+			specWarnBrinyBubbleNear:CombinedShow(0.3, args.destName)
+			specWarnBrinyBubbleNear:ScheduleVoice(0.3, "runaway")
 		end
 	end
 end

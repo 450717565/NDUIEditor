@@ -2,9 +2,9 @@ local GetZoneInfoAtPosition = select(2, ...).GetZoneInfoAtPosition
 
 -- override navigation so we can use our custom sub-zone positions
 function WorldMapFrame:NavigateToCursor()
-	if(self:GetMapID() == 905) then
+	if (self:GetMapID() == 905) then
 		local _, _, _, mapID = GetZoneInfoAtPosition(self:GetNormalizedCursorPosition())
-		if(mapID) then
+		if (mapID) then
 			-- for some reason the NavigateToMap method doesn't work
 			self:SetMapID(mapID)
 			self:RefreshDetailLayers()

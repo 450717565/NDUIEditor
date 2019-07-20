@@ -5,7 +5,6 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	LFDQueueFrameBackground:Hide()
 	LFDQueueFrameRandomScrollFrame:SetWidth(304)
-	--LFDQueueFrameRandomScrollFrameScrollBackground:Hide()
 
 	F.ReskinFrame(LFDRoleCheckPopup)
 	F.ReskinDropDown(LFDQueueFrameTypeDropDown)

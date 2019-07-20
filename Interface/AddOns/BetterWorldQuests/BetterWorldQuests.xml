@@ -16,4 +16,23 @@
 
 	<Script file='Helpers/Barrels.lua'/>
 	<Script file='Helpers/Loh.lua'/>
+
+	<Frame name="BountyCounterTemplate" virtual="true" hidden="false">
+		<Size x="10" y="10"/>
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture parentKey="icon" file="Interface\COMMON\ReputationStar" setAllPoints="true">
+					<TexCoords left="0" right="0.5" top="0.5" bottom="1"/>
+				</Texture>
+			</Layer>
+		</Layers>
+	</Frame>
+
+	<Frame name="WRWorldQuestFrame" mixin="WorldQuestBountyCount" parent="QuestMapFrame" inherits="SecureFrameTemplate" enableMouse="true" hidden="false">
+		<Scripts>
+			<OnLoad>
+				self:OnLoad()
+			</OnLoad>
+		</Scripts>
+	</Frame>
 </Ui>

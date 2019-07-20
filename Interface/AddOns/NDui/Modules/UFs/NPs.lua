@@ -413,11 +413,12 @@ function UF:UpdateCastbarInterrupt(...)
 	local _, eventType, _, sourceGUID, sourceName, _, _, destGUID = ...
 	if eventType == "SPELL_INTERRUPT" and destGUID and sourceName and sourceName ~= "" then
 		local nameplate = guidToPlate[destGUID]
+		local name = strsplit("-", sourceName)
 		if nameplate and nameplate.Castbar then
 			local _, class = GetPlayerInfoByGUID(sourceGUID)
 			local r, g, b = B.ClassColor(class)
 			local color = B.HexRGB(r, g, b)
-			nameplate.Castbar.Time:SetText(color..sourceName)
+			nameplate.Castbar.Time:SetText(color..name)
 		end
 	end
 end
