@@ -3,8 +3,8 @@ local F, C = unpack(select(2, ...))
 C.themes["WhisperPop"] = function()
 	local cr, cg, cb = C.r, C.g, C.b
 
-	F.ReskinFrame(WhisperPopFrame)
-	F.ReskinFrame(WhisperPopMessageFrame)
+	F.ReskinFrame(WhisperPopFrame, true)
+	F.ReskinFrame(WhisperPopMessageFrame, true)
 	F.ReskinArrow(WhisperPopScrollingMessageFrameButtonDown, "down")
 	F.ReskinArrow(WhisperPopScrollingMessageFrameButtonEnd, "bottom")
 	F.ReskinArrow(WhisperPopScrollingMessageFrameButtonUp, "up")
@@ -28,8 +28,8 @@ C.themes["WhisperPop"] = function()
 
 		local ic = _G[button.."Icon"]
 
-		local bg = F.ReskinIcon(ic)
-		F.ReskinTexture(bu, bg)
+		local icbg = F.ReskinIcon(ic)
+		F.ReskinTexture(bu, icbg)
 
 		if bu.SetCheckedTexture then
 			bu:SetCheckedTexture(C.media.checked)

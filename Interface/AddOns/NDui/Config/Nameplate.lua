@@ -27,6 +27,7 @@ C.WhiteList = {
 	-- Dungeons
 	[283640]	= true,		-- 仁慈侏儒短路，麦卡贡
 	[293724]	= true,		-- 护盾发生器
+	[298602]	= true,		-- 烟云
 
 	[258317]	= true,		-- 防爆盾，托尔达戈
 	[257899]	= true,		-- 痛苦激励，自由镇
@@ -164,6 +165,7 @@ C.CustomUnits = {
 	-- 默认
 	[120651] = true, -- 爆炸物
 	[141851] = true, -- 戈霍恩之嗣
+	[153377] = true, -- 粘液，麦卡贡
 
 	[GetSectionInfo(14544)] = true,	-- 海拉加尔观雾者
 	[GetSectionInfo(14595)] = true,	-- 深渊追猎者

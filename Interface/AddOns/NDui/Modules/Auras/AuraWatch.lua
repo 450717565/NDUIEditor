@@ -9,7 +9,7 @@ local pairs, select, tinsert, tremove, wipe = pairs, select, table.insert, table
 local InCombatLockdown, UnitBuff, UnitDebuff, GetPlayerInfoByGUID, UnitInRaid, UnitInParty = InCombatLockdown, UnitBuff, UnitDebuff, GetPlayerInfoByGUID, UnitInRaid, UnitInParty
 local GetTime, GetSpellInfo, GetSpellCooldown, GetSpellCharges, GetTotemInfo = GetTime, GetSpellInfo, GetSpellCooldown, GetSpellCharges, GetTotemInfo
 local GetItemCooldown, GetItemInfo, GetInventoryItemLink, GetInventoryItemCooldown = GetItemCooldown, GetItemInfo, GetInventoryItemLink, GetInventoryItemCooldown
-local strsplit = string.split
+local Ambiguate = Ambiguate
 
 -- DataConvert
 local function DataAnalyze(v)
@@ -226,7 +226,7 @@ local function BuildBAR(barWidth, iconSize)
 	frame.Time = B.CreateFS(frame.Statusbar, 14, "", false, "RIGHT", 2, 8)
 	frame.Time:SetJustifyH("LEFT")
 	frame.Spellname = B.CreateFS(frame.Statusbar, 14, "", false, "LEFT", 2, 8)
-	frame.Spellname:SetWidth(frame.Statusbar:GetWidth()*.6)
+	frame.Spellname:SetPoint("RIGHT", frame.Statusbar, "RIGHT", -40, 0)
 	frame.Spellname:SetJustifyH("LEFT")
 	if not NDuiDB["AuraWatch"]["ClickThrough"] then enableTooltip(frame) end
 
@@ -530,7 +530,7 @@ function A:AuraWatch_SetupInt(intID, itemID, duration, unitID, guid, sourceName)
 	end
 	if unitID:lower() == "all" then
 		class = select(2, GetPlayerInfoByGUID(guid))
-		name = "*"..strsplit("-", sourceName)
+		name = "*"..Ambiguate(sourceName, "short")
 	else
 		class = DB.MyClass
 	end

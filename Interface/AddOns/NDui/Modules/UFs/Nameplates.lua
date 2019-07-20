@@ -7,7 +7,7 @@ local UnitThreatSituation, UnitIsTapDenied, UnitPlayerControlled, UnitIsUnit = U
 local UnitReaction, UnitIsConnected, UnitIsPlayer, UnitSelectionColor = UnitReaction, UnitIsConnected, UnitIsPlayer, UnitSelectionColor
 local GetInstanceInfo, UnitClassification, UnitExists, InCombatLockdown = GetInstanceInfo, UnitClassification, UnitExists, InCombatLockdown
 local C_Scenario_GetInfo, C_Scenario_GetStepInfo, C_NamePlate_GetNamePlates, C_MythicPlus_GetCurrentAffixes = C_Scenario.GetInfo, C_Scenario.GetStepInfo, C_NamePlate.GetNamePlates, C_MythicPlus.GetCurrentAffixes
-local UnitGUID, GetPlayerInfoByGUID = UnitGUID, GetPlayerInfoByGUID
+local UnitGUID, GetPlayerInfoByGUID, Ambiguate = UnitGUID, GetPlayerInfoByGUID, Ambiguate
 local SetCVar, UIFrameFadeIn, UIFrameFadeOut = SetCVar, UIFrameFadeIn, UIFrameFadeOut
 local UNKNOWN, INTERRUPTED = UNKNOWN, INTERRUPTED
 
@@ -413,7 +413,7 @@ function UF:UpdateCastbarInterrupt(...)
 	local _, eventType, _, sourceGUID, sourceName, _, _, destGUID = ...
 	if eventType == "SPELL_INTERRUPT" and destGUID and sourceName and sourceName ~= "" then
 		local nameplate = guidToPlate[destGUID]
-		local name = strsplit("-", sourceName)
+		local name = Ambiguate(sourceName, "short")
 		if nameplate and nameplate.Castbar then
 			local _, class = GetPlayerInfoByGUID(sourceGUID)
 			local r, g, b = B.ClassColor(class)

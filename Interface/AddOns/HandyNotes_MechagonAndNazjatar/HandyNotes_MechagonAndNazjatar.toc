@@ -1,4 +1,4 @@
-## Interface: 82000
+## Interface: 80200
 ## Title: HandyNotes_MechagonAndNazjatar
 ## Version: 4
 ## Notes: Mechagon & Nazjatar Notes
