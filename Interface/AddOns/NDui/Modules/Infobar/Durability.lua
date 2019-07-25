@@ -112,10 +112,10 @@ local repairlist = {
 }
 
 info.onEnter = function(self)
-	local total, equipped = GetAverageItemLevel()
+	local total, equip = GetAverageItemLevel()
 	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 15)
 	GameTooltip:ClearLines()
-	GameTooltip:AddLine(format("%s: %.1f / %.1f", STAT_AVERAGE_ITEM_LEVEL, total, equipped), 0,.6,1)
+	GameTooltip:AddLine(format("%s: %.1f / %.1f", STAT_AVERAGE_ITEM_LEVEL, equip, total), 0,.6,1)
 	GameTooltip:AddLine(" ")
 
 	for i = 1, 10 do

@@ -101,7 +101,7 @@ function M:MissingStats()
 
 		local ilvl = equip
 		if total ~= equip then
-			ilvl = total.." / "..equip
+			ilvl = equip.." / "..total
 		end
 
 		statFrame.Value:SetText(ilvl)

@@ -195,7 +195,8 @@ end
 
 -- Spawns
 function UF:OnLogin()
-	local horizon = NDuiDB["UFs"]["HorizonRaid"]
+	local horizonRaid = NDuiDB["UFs"]["HorizonRaid"]
+	local horizonParty = NDuiDB["UFs"]["HorizonParty"]
 	local numGroups = NDuiDB["UFs"]["NumGroups"]
 	local raidScale = NDuiDB["UFs"]["RaidScale"]
 	local raidWidth, raidHeight = NDuiDB["UFs"]["RaidWidth"], NDuiDB["UFs"]["RaidHeight"]
@@ -210,6 +211,7 @@ function UF:OnLogin()
 		self:CreatePowerUnitTable()
 		self:CheckExplosives()
 		self:AddInterruptInfo()
+		self:UpdateGroupRoles()
 
 		oUF:RegisterStyle("Nameplates", UF.CreatePlates)
 		oUF:SetActiveStyle("Nameplates")
@@ -291,14 +293,14 @@ function UF:OnLogin()
 
 			local xOffset = partyWatcher and -5 or 0
 			local yOffset = partyWatcher and 15 or -20
-			local pointF = partyWatcher and (horizon and "RIGHT" or "BOTTOM") or "TOP"
-			local pointT = partyWatcher and (horizon and "LEFT" or "TOP") or "BOTTOM"
+			local pointF = partyWatcher and (horizonParty and "RIGHT" or "BOTTOM") or "TOP"
+			local pointT = partyWatcher and (horizonParty and "LEFT" or "TOP") or "BOTTOM"
 			local partyPoint = partyWatcher and "BOTTOMRIGHT" or "TOPLEFT"
 			local partyWidth = partyWatcher and NDuiDB["UFs"]["PartyWidth"] or 200
 			local partyHeight = partyWatcher and NDuiDB["UFs"]["PartyHeight"] or 22*NDuiDB["UFs"]["HeightScale"]
-			local moverPoint = partyWatcher and (horizon and {"LEFT", UIParent, 50, 0} or {"LEFT", UIParent, 350, 0}) or {"TOPLEFT", UIParent, 35, -50}
-			local moverWidth = partyWatcher and (horizon and (partyWidth*5-xOffset*4)) or partyWidth
-			local moverHeight = partyWatcher and (horizon and partyHeight or (partyHeight*5+yOffset*4)) or (partyHeight*4-yOffset*3)
+			local moverPoint = partyWatcher and (horizonParty and {"LEFT", UIParent, 50, 0} or {"LEFT", UIParent, 350, 0}) or {"TOPLEFT", UIParent, 35, -50}
+			local moverWidth = partyWatcher and (horizonParty and (partyWidth*5-xOffset*4)) or partyWidth
+			local moverHeight = partyWatcher and (horizonParty and partyHeight or (partyHeight*5+yOffset*4)) or (partyHeight*4-yOffset*3)
 			local showPlayer = partyWatcher or NDuiDB["Extras"]["ShowYourself"]
 
 			local party = oUF:SpawnHeader("oUF_Party", nil, "solo,party",
@@ -410,7 +412,7 @@ function UF:OnLogin()
 				"maxColumns", 1,
 				"unitsPerColumn", 5,
 				"columnSpacing", 5,
-				"point", horizon and "LEFT" or "TOP",
+				"point", horizonRaid and "LEFT" or "TOP",
 				"columnAnchorPoint", "LEFT",
 				"oUF-initialConfigFunction", ([[
 					self:SetWidth(%d)
@@ -423,7 +425,7 @@ function UF:OnLogin()
 			for i = 1, numGroups do
 				groups[i] = CreateGroup("oUF_Raid"..i, i)
 				if i == 1 then
-					if horizon then
+					if horizonRaid then
 						raidMover = B.Mover(groups[i], L["RaidFrame"], "RaidFrame", {"TOPLEFT", UIParent, 35, -50}, (raidWidth+5)*5, (raidHeight+(NDuiDB["UFs"]["ShowTeamIndex"] and 25 or 15))*numGroups)
 						if reverse then
 							groups[i]:ClearAllPoints()
@@ -437,7 +439,7 @@ function UF:OnLogin()
 						end
 					end
 				else
-					if horizon then
+					if horizonRaid then
 						if reverse then
 							groups[i]:SetPoint("BOTTOMLEFT", groups[i-1], "TOPLEFT", 0, NDuiDB["UFs"]["ShowTeamIndex"] and 25 or 15)
 						else

@@ -68,9 +68,9 @@ local function showRealDate(curseDate)
 end
 
 DBM = {
-	Revision = parseCurseDate("20190720020036"),
-	DisplayVersion = "8.2.7", -- the string that is shown as version
-	ReleaseRevision = releaseDate(2019, 7, 19) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
+	Revision = parseCurseDate("20190725020807"),
+	DisplayVersion = "8.2.8", -- the string that is shown as version
+	ReleaseRevision = releaseDate(2019, 7, 24) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -452,7 +452,7 @@ local delayedFunction
 local dataBroker
 local voiceSessionDisabled = false
 
-local fakeBWVersion, fakeBWHash = 158, "3b84649"
+local fakeBWVersion, fakeBWHash = 160, "a41b098"
 local versionQueryString, versionResponseString = "Q^%d^%s", "V^%d^%s"
 
 local enableIcons = true -- set to false when a raid leader or a promoted player has a newer version of DBM
@@ -5651,9 +5651,17 @@ do
 		return onMonsterMessage(self, "emote", msg)
 	end
 
-	function DBM:CHAT_MSG_RAID_BOSS_EMOTE(msg, ...)
+	function DBM:CHAT_MSG_RAID_BOSS_EMOTE(msg, sender, ...)
 		onMonsterMessage(self, "emote", msg)
-		return self:FilterRaidBossEmote(msg, ...)
+		local id = msg:match("|Hspell:([^|]+)|h")
+		if id then
+			local spellId = tonumber(id)
+			if spellId then
+				local spellName = DBM:GetSpellInfo(spellId)
+				self:Debug("CHAT_MSG_RAID_BOSS_EMOTE fired: "..sender.."'s "..spellName.."("..spellId..")", 2)
+			end
+		end
+		return self:FilterRaidBossEmote(msg, sender, ...)
 	end
 
 	function DBM:RAID_BOSS_EMOTE(msg, ...)--This is a mirror of above prototype only it has less args, both still exist for some reason.
@@ -6552,7 +6560,7 @@ do
 			if validate then
 				if not LSMMediaCacheBuilt then buildLSMFileCache() end
 				if not sharedMediaFileCache[path] and not path:find("DBM") then
-					DBM:AddMsg("PlaySoundFile failed do to missing media at "..path..". To fix this, re-add missing sound or change setting using this sound to a different sound.")
+					DBM:Debug("PlaySoundFile failed do to missing media at "..path..". To fix this, re-add missing sound or change setting using this sound to a different sound.")
 					return
 				end
 			end
@@ -9281,105 +9289,6 @@ do
 end
 
 --------------------
---  Sound Object  --
---------------------
-do
-	--Sound Object (basically only used by legacy countdown and onxyia mod now)
-	local soundPrototype = {}
-	local mt = { __index = soundPrototype }
-	function bossModPrototype:NewSound(spellId, optionDefault, optionName)
-		if not (optionName == false) then--Basically, all mods still using NewSound.
-			-- Because there are going to be users who update core and not old mods, we need to check and alert
-			--I'll try to avoid this as much as possible by removing NewSound from all old mods in advance of dbm core update
-			print("Error, NewSound depricated. Update your old DBM mods to remove this error")
-			return
-		end
-		self.numSounds = self.numSounds and self.numSounds + 1 or 1
-		local obj = setmetatable(
-			{
-				mod = self,
-			},
-			mt
-		)
-		return obj
-	end
-
-	function soundPrototype:Play(file)
-		DBM:PlaySoundFile(file)
-	end
-
-	function soundPrototype:Schedule(t, ...)
-		return schedule(t, self.Play, self.mod, self, ...)
-	end
-
-	function soundPrototype:Cancel(...)
-		return unschedule(self.Play, self.mod, self, ...)
-	end
-
-	--Voice Object
-	--Individual options still generated in case a person likes to enable voice, but not for ALL warnings (they can pick and choose what is enabled/disabled"
-	local soundPrototype2 = {}
-	local mt2 = { __index = soundPrototype2 }
-	function bossModPrototype:NewVoice(spellId, optionDefault, optionName, optionVersion)
-		if not spellId and not optionName then
-			print("NewVoice: you must provide either spellId or optionName", 2)
-			return
-		end
-		if type(spellId) == "string" and spellId:match("OptionVersion") then
-			print("NewVoice for "..optionDefault.." is using OptionVersion hack. this is not needed, this only has 4 args, do this properly")
-			return
-		end
-		self.numSounds = self.numSounds and self.numSounds + 1 or 1
-		local obj = setmetatable(
-			{
-				mod = self,
-			},
-			mt2
-		)
-		if #DBM.Voices < 2 then optionName = false end--Hide options if no voice packs are installed
-		if optionName then
-			if spellId then--Still need to use spell ID for voice pack filter if one is provided
-				obj.option = "Voice"..spellId..(optionVersion or "")
-				self:AddBoolOption(obj.option, optionDefault, "sound")
-				self.localization.options[obj.option] = optionName
-			else
-				obj.option = optionName
-				self:AddBoolOption(obj.option, optionDefault, "sound")
-			end
-		elseif not (optionName == false) then
-			obj.option = "Voice"..spellId..(optionVersion or "")
-			self:AddBoolOption(obj.option, optionDefault, "sound")
-			self.localization.options[obj.option] = DBM_CORE_AUTO_VOICE_OPTION_TEXT:format(spellId)
-		end
-		return obj
-	end
-
-	--If no file at path, it should silenty fail. However, I want to try to only add NewVoice to mods for files that already exist.
-	function soundPrototype2:Play(name, customPath)
-		local voice = DBM.Options.ChosenVoicePack
-		if voiceSessionDisabled or voice == "None" then return end
-		local always = DBM.Options.AlwaysPlayVoice
-		if not self.option or self.mod.Options[self.option] or always then
-			--Filter tank specific voice alerts for non tanks if tank filter enabled
-			--But still allow AlwaysPlayVoice to play as well.
-			if (name == "changemt" or name == "tauntboss") and DBM.Options.FilterTankSpec and not self.mod:IsTank() and not always then return end
-			local path = customPath or "Interface\\AddOns\\DBM-VP"..voice.."\\"..name..".ogg"
-			DBM:PlaySoundFile(path)
-		end
-	end
-
-	function soundPrototype2:Schedule(t, ...)
-		if voiceSessionDisabled or DBM.Options.ChosenVoicePack == "None" then return end
-		return schedule(t, self.Play, self.mod, self, ...)
-	end
-
-	function soundPrototype2:Cancel(...)
-		if voiceSessionDisabled or DBM.Options.ChosenVoicePack == "None" then return end
-		return unschedule(self.Play, self.mod, self, ...)
-	end
-end
-
---------------------
 --  Yell Object  --
 --------------------
 do
@@ -11692,7 +11601,6 @@ do
 			end
 			scanID = scanID or 1
 			if not startIcon then startIcon = 1 end
-			startIcon = startIcon or 8
 			local uId = DBM:GetRaidUnitId(target)
 			if uId or UnitExists(target) then--target accepts uid, unitname both.
 				uId = uId or target

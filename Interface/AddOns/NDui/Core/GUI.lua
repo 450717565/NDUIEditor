@@ -83,6 +83,7 @@ local defaultSettings = {
 		SpecRaidPos = false,
 		RaidHPColor = 1,
 		HorizonRaid = true,
+		HorizonParty = false,
 		ReverseRaid = false,
 		RaidScale = 1,
 		RaidWidth = 80,
@@ -163,11 +164,14 @@ local defaultSettings = {
 		SecureColor = {r=1, g=0, b=1},
 		TransColor = {r=1, g=1, b=0},
 		InsecureColor = {r=1, g=0, b=0},
+		OffTankColor = {r=.2, g=.7, b=.5},
 		DPSRevertThreat = false,
 		ExplosivesScale = false,
 		PPIconSize = 32,
 		AKSProgress = true,
 		PPHideOOC = true,
+		NameplateClassPower = false,
+		MaxPowerGlow = true,
 	},
 	Skins = {
 		DBM = true,
@@ -413,6 +417,18 @@ local function updateQuestNotifier()
 	B:GetModule("Misc"):QuestNotifier()
 end
 
+local function updateScreenShot()
+	B:GetModule("Misc"):UpdateScreenShot()
+end
+
+local function updateFasterLoot()
+	B:GetModule("Misc"):UpdateFasterLoot()
+end
+
+local function updateErrorBlocker()
+	B:GetModule("Misc"):UpdateErrorBlocker()
+end
+
 -- Config
 local tabList = {
 	L["Actionbar"],
@@ -493,9 +509,10 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "UFs", "RaidFrame", DB.MyColor..L["UFs RaidFrame"]},
 		{},--blank
 		{1, "UFs", "PartyFrame", DB.MyColor..L["UFs PartyFrame"]},
-		{1, "Extras", "ShowYourself", L["PartyFrame Show Yourself"], true},
+		{1, "UFs", "HorizonParty", L["Horizon PartyFrame"], true},
 		{1, "UFs", "PartyWatcher", L["UFs PartyWatcher"]},
-		{1, "UFs", "PWOnRight", L["PartyWatcherOnRight"], true},
+		{1, "Extras", "ShowYourself", L["PartyFrame Show Yourself"], true},
+		{1, "UFs", "PWOnRight", L["PartyWatcherOnRight"]},
 		{3, "UFs", "PartyWidth", L["PartyFrame Width"], false, {60, 150, 0}},
 		{3, "UFs", "PartyHeight", L["PartyFrame Height"], true, {25, 60, 0}},
 		{},--blank
@@ -533,6 +550,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{5, "Nameplate", "SecureColor", L["Secure Color"].."*"},
 		{5, "Nameplate", "TransColor", L["Trans Color"].."*", 1},
 		{5, "Nameplate", "InsecureColor", L["Insecure Color"].."*", 2},
+		{5, "Nameplate", "OffTankColor", L["OffTank Color"].."*", 3},
 		{},--blank
 		{1, "Nameplate", "FriendlyCC", L["Friendly CC"].."*"},
 		{1, "Nameplate", "HostileCC", L["Hostile CC"].."*", true},
@@ -558,14 +576,12 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "AuraWatch", "ClickThrough", L["AuraWatch ClickThrough"]},
 		{3, "AuraWatch", "IconScale", L["AuraWatch IconScale"], true, {.5, 1.5, 1}},
 		{},--blank
-		{1, "Auras", "Statue", L["Enable Statue"]},
-		{1, "Auras", "Totems", L["Enable Totems"], true},
-		{1, "Auras", "Reminder", L["Enable Reminder"]},
-		{},--blank
 		{1, "Nameplate", "ShowPlayerPlate", DB.MyColor..L["Enable PlayerPlate"]},
 		{1, "Auras", "ClassAuras", L["Enable ClassAuras"], true},
-		{1, "Nameplate", "PPHideOOC", L["Fadeout OOC"]},
+		{1, "Nameplate", "MaxPowerGlow", L["MaxPowerGlow"]},
+		{1, "Nameplate", "NameplateClassPower", L["Nameplate ClassPower"], true},
 		{1, "Nameplate", "PPPowerText", L["PlayerPlate PowerText"]},
+		{1, "Nameplate", "PPHideOOC", L["Fadeout OOC"]},
 		{3, "Nameplate", "PPIconSize", L["PlayerPlate IconSize"], true, {30, 40, 0}},
 		{3, "Nameplate", "PPHeight", L["PlayerPlate Height"], false, {5, 10, 0}},
 		{3, "Extras", "CPHeight", L["PlayerPlate CPHeight"], true, {10, 20, 0}},
@@ -576,6 +592,10 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{3, "Auras", "DebuffSize", L["DebuffSize"], true, {24, 40, 0}},
 		{3, "Auras", "BuffsPerRow", L["BuffsPerRow"], false, {10, 20, 0}},
 		{3, "Auras", "DebuffsPerRow", L["DebuffsPerRow"], true, {10, 16, 0}},
+		{},--blank
+		{1, "Auras", "Statue", L["Enable Statue"]},
+		{1, "Auras", "Totems", L["Enable Totems"], true},
+		{1, "Auras", "Reminder", L["Enable Reminder"]},
 	},
 	[7] = {
 		{1, "Skins", "RM", DB.MyColor..L["Raid Manger"]},
@@ -672,12 +692,12 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{},--blank
 		{1, "Misc", "ItemLevel", L["Show ItemLevel"]},
 		{1, "Misc", "MissingStats", L["Show MissingStats"], true},
-		{1, "Misc", "Screenshot", L["Auto ScreenShot"]},
-		{1, "Misc", "FasterLoot", L["Faster Loot"], true},
-		{},--blank
 		{1, "Misc", "HideTalking", L["No Talking"]},
 		{1, "Misc", "HideBanner", L["Hide Bossbanner"], true},
-		{1, "Misc", "HideErrors", L["Hide Error"]},
+		{},--blank
+		{1, "Misc", "Screenshot", L["Auto ScreenShot"].."*", false, nil, updateScreenShot},
+		{1, "Misc", "FasterLoot", L["Faster Loot"].."*", true, nil, updateFasterLoot},
+		{1, "Misc", "HideErrors", L["Hide Error"].."*", false, nil, updateErrorBlocker},
 		{},--blank
 		{1, "Misc", "ParagonRep", L["ParagonRep"]},
 		{1, "ACCOUNT", "AutoBubbles", L["AutoBubbles"], true},

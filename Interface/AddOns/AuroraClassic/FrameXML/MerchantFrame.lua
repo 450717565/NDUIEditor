@@ -114,4 +114,20 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		MerchantRepairText:Hide()
 	end)
+
+	hooksecurefunc("MerchantFrame_UpdateCurrencies", function()
+		local currencies = {GetMerchantCurrencies()}
+
+		if #currencies ~= 0 then
+			local numCurrencies = #currencies
+			for index = 1, numCurrencies do
+				local tokenButton = _G["MerchantToken"..index]
+				if tokenButton and not tokenButton.styled then
+					F.ReskinIcon(tokenButton.icon, true)
+
+					tokenButton.styled = true
+				end
+			end
+		end
+	end)
 end)

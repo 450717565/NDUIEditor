@@ -98,3 +98,56 @@ do
 		end
 	end)
 end
+
+-- 格式化货币数值
+do
+	hooksecurefunc("AltCurrencyFrame_Update", function(frameName, texture, cost, canAfford)
+		local button = _G[frameName]
+		button:SetText(B.Numb(cost))
+	end)
+
+	hooksecurefunc("MerchantFrame_UpdateCurrencies", function()
+		local currencies = {GetMerchantCurrencies()}
+
+		if #currencies ~= 0 then
+			local numCurrencies = #currencies
+			for index = 1, numCurrencies do
+				local tokenButton = _G["MerchantToken"..index]
+				if tokenButton and currencies[index] then
+					local count = select(2, GetCurrencyInfo(currencies[index]))
+					tokenButton.count:SetText(B.Numb(count))
+				end
+			end
+		end
+	end)
+
+	hooksecurefunc("MerchantFrame_UpdateCurrencyAmounts", function()
+		for i = 1, MAX_MERCHANT_CURRENCIES do
+			local tokenButton = _G["MerchantToken"..i]
+			if tokenButton and tokenButton.currencyID then
+				local count = select(2, GetCurrencyInfo(tokenButton.currencyID))
+				tokenButton.count:SetText(B.Numb(count))
+			end
+		end
+	end)
+
+	local function formatCurrency()
+		local buttons = TokenFrameContainer.buttons
+		if not buttons then return end
+
+		local offset = HybridScrollFrame_GetOffset(TokenFrameContainer)
+		local index, count
+		for i = 1, #buttons do
+			index = offset + i
+			count = select(6, GetCurrencyListInfo(index))
+
+			local bu = buttons[i]
+			if not bu.isHeader then
+				bu.count:SetText(B.Numb(count))
+			end
+		end
+	end
+
+	hooksecurefunc("TokenFrame_Update", formatCurrency)
+	hooksecurefunc(TokenFrameContainer, "update", formatCurrency)
+end

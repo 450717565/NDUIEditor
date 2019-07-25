@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2353, "DBM-EternalPalace", nil, 1179)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190719221715")
+mod:SetRevision("20190721164525")
 mod:SetCreatureID(152364)
 mod:SetEncounterID(2305)
 mod:SetZone()
@@ -229,11 +229,11 @@ function mod:UNIT_DIED(args)
 			self.vb.tideFistCount = 0
 			self.vb.arcaneBombCount = 0
 			timerArcaneBombCD:Stop()
-			timerArcanadoBurstCD:Start(6, 1)
-			timerArcaneBombCD:Start(7, 1)
-			timerUnshacklingPowerCD:Start(10, 1)
-			timerTideFistCD:Start(15, 1)
-			timerAncientTempestCD:Start(95.8)
+			timerArcanadoBurstCD:Start(9, 1)
+			timerArcaneBombCD:Start(10, 1)
+			timerUnshacklingPowerCD:Start(13, 1)
+			timerTideFistCD:Start(18, 1)
+			timerAncientTempestCD:Start(98.8)
 		end
 	end
 end

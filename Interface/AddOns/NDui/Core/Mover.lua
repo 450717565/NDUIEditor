@@ -12,7 +12,7 @@ function B:Mover(text, value, anchor, width, height, isAuraWatch)
 	local mover = CreateFrame("Frame", nil, UIParent)
 	mover:SetWidth(width or self:GetWidth())
 	mover:SetHeight(height or self:GetHeight())
-	B.CreateFS(mover, DB.Font[2], text)
+	B.CreateFS(mover, DB.Font[2], text):SetWordWrap(true)
 
 	if not isAuraWatch then
 		B.SetBackground(mover)

@@ -222,7 +222,7 @@ function Mod:Blizzard_ChallengesUI()
 	label:SetJustifyV("MIDDLE")
 	label:SetHeight(72)
 	label:SetWordWrap(true)
-	label:SetText(Addon.Locale.scheduleMissingKeystone)
+	label:SetText(Addon.Locale.scheduleUnknown)
 	frame.Label = label
 
 	local frame2 = CreateFrame("Frame", nil, ChallengesFrame)
