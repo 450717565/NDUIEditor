@@ -75,6 +75,7 @@ L["Target Special Aura"] = "Target Special Aura"
 L["Train All Need"] = "Train All Need: "
 L["Train All"] = "Train All"
 L["Weekly Loot Item Level"] = "Weekly Loot Item Level: %s+"
+L["Auto Collapse"] = "Auto collapse OT in boss combat"
 
 -- 默认
 

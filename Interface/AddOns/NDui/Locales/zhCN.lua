@@ -75,6 +75,7 @@ L["Target Special Aura"] = "目标重要光环"
 L["Train All Need"] = "学习全部技能需要："
 L["Train All"] = "训练全部"
 L["Weekly Loot Item Level"] = "低保箱子等级：%s+"
+L["Auto Collapse"] = "首领战斗时自动隐藏任务追踪"
 
 -- 默认
 

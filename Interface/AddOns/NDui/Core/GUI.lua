@@ -255,6 +255,7 @@ local defaultSettings = {
 		SkinColor = {r=.5, g=.5, b=.5},
 		SlotInfo = true,
 		ShowYourself = false,
+		AutoCollapse = true,
 	},
 }
 
@@ -716,6 +717,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{5, "Extras", "SkinColor", L["Skin Color"], 2},
 		{},--blank
 		{1, "Extras", "GuildWelcome", L["Guild Welcome"]},
+		{1, "Extras", "AutoCollapse", L["Auto Collapse"], true},
 		{},--blank
 		{1, "Extras", "iLvlTools", L["iLvlTools"]},
 		{1, "Extras", "ShowCharacterItemSheet", L["Show Character Item Sheet"]},

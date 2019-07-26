@@ -23,11 +23,11 @@ if not HandyNotes then return end
 
 local objAtlas = "Interface\\Addons\\HandyNotes_WarfrontRares\\Artwork\\ObjectIconsAtlas.blp";
 local iconDefaults = {
-    skull_grey = "Interface\\Addons\\HandyNotes_WarfrontRares\\Artwork\\RareWhite.blp",
-    skull_purple = "Interface\\Addons\\HandyNotes_WarfrontRares\\Artwork\\RarePurple.blp",
-    skull_blue = "Interface\\Addons\\HandyNotes_WarfrontRares\\Artwork\\RareBlue.blp",
-    skull_yellow = "Interface\\Addons\\HandyNotes_WarfrontRares\\Artwork\\RareYellow.blp",
-    battle_pet = "Interface\\Addons\\HandyNotes_WarfrontRares\\Artwork\\BattlePet.blp",
+	skull_grey = "Interface\\Addons\\HandyNotes_WarfrontRares\\Artwork\\RareWhite.blp",
+	skull_purple = "Interface\\Addons\\HandyNotes_WarfrontRares\\Artwork\\RarePurple.blp",
+	skull_blue = "Interface\\Addons\\HandyNotes_WarfrontRares\\Artwork\\RareBlue.blp",
+	skull_yellow = "Interface\\Addons\\HandyNotes_WarfrontRares\\Artwork\\RareYellow.blp",
+	battle_pet = "Interface\\Addons\\HandyNotes_WarfrontRares\\Artwork\\BattlePet.blp",
 	treasure = "Interface\\Addons\\HandyNotes_WarfrontRares\\Artwork\\Treasure.blp",
 	portal = "Interface\\Addons\\HandyNotes_WarfrontRares\\Artwork\\Portal.blp",
 	default = "Interface\\Icons\\TRADE_ARCHAEOLOGY_CHESTOFTINYGLASSANIMALS",
@@ -358,16 +358,16 @@ end
 function Arathi:OnEnter( mapFile, coord )
 	local node = GetNodeByCoord( mapFile, coord );
 	local itemDataMissing = false;
-    if ( not node ) then return end
-    
-    local tooltip = self:GetParent() == WorldMapButton and WorldMapTooltip or GameTooltip
+	if ( not node ) then return end
 
-    if ( self:GetCenter() > UIParent:GetCenter() ) then
-        tooltip:SetOwner(self, "ANCHOR_LEFT")
-    else
-        tooltip:SetOwner(self, "ANCHOR_RIGHT")
-    end
-	
+	local tooltip = self:GetParent() == WorldMapButton and WorldMapTooltip or GameTooltip
+
+	if ( self:GetCenter() > UIParent:GetCenter() ) then
+		tooltip:SetOwner(self, "ANCHOR_LEFT")
+	else
+		tooltip:SetOwner(self, "ANCHOR_RIGHT")
+	end
+
 	local label = "";
 	if ( node["npcId"] ) then
 		tooltip_label = nil;
@@ -391,7 +391,7 @@ function Arathi:OnEnter( mapFile, coord )
 		-- note
 		tooltip:AddLine( node["note"], nil, nil, nil, true );
 	end
-    if (	( Arathi.db.profile.show_loot == true ) and
+	if (	( Arathi.db.profile.show_loot == true ) and
 			( node["loot"] ~= nil ) and
 			( type(node["loot"]) == "table" ) ) then
 		local ii;
@@ -447,10 +447,10 @@ function Arathi:OnEnter( mapFile, coord )
 				tooltip:AddDoubleLine( itemLink, "" );
 			end
 		end
-    end
-	
-    tooltip:Show();
-	
+	end
+
+	tooltip:Show();
+
 	if ( itemDataMissing == true ) then
 		-- try refreshing if itemlinks are missing
 		C_Timer.After( 1, function()
@@ -461,16 +461,16 @@ end
 
 local function hideNode(button, mapFile, coord)
 	local node = GetNodeByCoord( mapFile, coord );
-    if ( node and node["questId"][1] ~= nil) then
-        Arathi.db.char[mapFile .. "_" .. coord .. "_" .. node["questId"][1]] = true;
-    end
+	if ( node and node["questId"][1] ~= nil) then
+		Arathi.db.char[mapFile .. "_" .. coord .. "_" .. node["questId"][1]] = true;
+	end
 
-    Arathi:Refresh()
+	Arathi:Refresh()
 end
 
 local function ResetDB()
-    table.wipe(Arathi.db.char)
-    Arathi:Refresh()
+	table.wipe(Arathi.db.char)
+	Arathi:Refresh()
 end
 
 local function addtoTomTom(button, mapFile, coord)
@@ -509,65 +509,65 @@ end
 local function generateMenu( button, level )
 
 	local info = {}
-    if ( not level ) then return end
+	if ( not level ) then return end
 	local node = GetNodeByCoord( clickedMapFile, clickedCoord );
 	if ( not node ) then return end
 
-    for k in pairs(info) do info[k] = nil end
+	for k in pairs(info) do info[k] = nil end
 
-    if (level == 1) then
-        info.isTitle = 1
-        info.text = _L["context_menu_title"]
-        info.notCheckable = 1
-        UIDropDownMenu_AddButton(info, level)
-        
-        info.disabled = nil
-        info.isTitle = nil
-        info.notCheckable = 1
-		
+	if (level == 1) then
+		info.isTitle = 1
+		info.text = _L["context_menu_title"]
+		info.notCheckable = 1
+		UIDropDownMenu_AddButton(info, level)
+
+		info.disabled = nil
+		info.isTitle = nil
+		info.notCheckable = 1
+
 		info.disabled = 1
 		info.notClickable = 1
-        info.text = ""
-        UIDropDownMenu_AddButton(info, level)
+		info.text = ""
+		UIDropDownMenu_AddButton(info, level)
 		info.disabled = nil
 		info.notClickable = nil
 
-        if isTomTomloaded == true then
-            info.text = _L["context_menu_add_tomtom"]
-            info.func = addtoTomTom
-            info.arg1 = clickedMapFile
-            info.arg2 = clickedCoord
-            UIDropDownMenu_AddButton(info, level)
-        end
+		if isTomTomloaded == true then
+			info.text = _L["context_menu_add_tomtom"]
+			info.func = addtoTomTom
+			info.arg1 = clickedMapFile
+			info.arg2 = clickedCoord
+			UIDropDownMenu_AddButton(info, level)
+		end
 
-        info.text = _L["context_menu_hide_node"]
-        info.func = hideNode
-        info.arg1 = clickedMapFile
-        info.arg2 = clickedCoord
-        UIDropDownMenu_AddButton(info, level)
+		info.text = _L["context_menu_hide_node"]
+		info.func = hideNode
+		info.arg1 = clickedMapFile
+		info.arg2 = clickedCoord
+		UIDropDownMenu_AddButton(info, level)
 
-        info.text = _L["context_menu_restore_hidden_nodes"]
-        info.func = ResetDB
-        info.arg1 = nil
-        info.arg2 = nil
-        info.notCheckable = 1
-        UIDropDownMenu_AddButton(info, level)
-        
+		info.text = _L["context_menu_restore_hidden_nodes"]
+		info.func = ResetDB
+		info.arg1 = nil
+		info.arg2 = nil
+		info.notCheckable = 1
+		UIDropDownMenu_AddButton(info, level)
+
 		info.disabled = 1
 		info.notClickable = 1
-        info.text = ""
-        UIDropDownMenu_AddButton(info, level)
+		info.text = ""
+		UIDropDownMenu_AddButton(info, level)
 		info.disabled = nil
 		info.notClickable = nil
 
-        info.text = CLOSE
-        info.func = function() CloseDropDownMenus() end
-        info.arg1 = nil
-        info.arg2 = nil
-        info.notCheckable = 1
-        UIDropDownMenu_AddButton(info, level)
-		
-    end
+		info.text = CLOSE
+		info.func = function() CloseDropDownMenus() end
+		info.arg1 = nil
+		info.arg2 = nil
+		info.notCheckable = 1
+		UIDropDownMenu_AddButton(info, level)
+
+	end
 end
 
 local HandyNotes_ArathiDropdownMenu = CreateFrame("Frame", "HandyNotes_ArathiDropdownMenu")
@@ -577,38 +577,38 @@ HandyNotes_ArathiDropdownMenu.initialize = generateMenu
 function Arathi:OnClick(button, down, mapFile, coord)
 	local node = GetNodeByCoord( mapFile, coord );
 	if ( not node ) then return end
-    if button == "RightButton" and down then
+	if button == "RightButton" and down then
 		-- context menu
-        clickedMapFile = mapFile
-        clickedCoord = coord
-        ToggleDropDownMenu(1, nil, HandyNotes_ArathiDropdownMenu, self, 0, 0)
+		clickedMapFile = mapFile
+		clickedCoord = coord
+		ToggleDropDownMenu(1, nil, HandyNotes_ArathiDropdownMenu, self, 0, 0)
 	elseif button == "MiddleButton" and down then
 		-- create group
 	elseif button == "LeftButton" and down then
-    end
+	end
 end
 
 function Arathi:OnLeave( mapFile, coord )
-    if self:GetParent() == WorldMapButton then
-        WorldMapTooltip:Hide()
-    else
-        GameTooltip:Hide()
-    end
+	if self:GetParent() == WorldMapButton then
+		WorldMapTooltip:Hide()
+	else
+		GameTooltip:Hide()
+	end
 end
 
 local options = {
-    type = "group",
-    name = _L["Warfronts"],
-    get = function(info) return Arathi.db.profile[info.arg] end,
-    set = function(info, v) Arathi.db.profile[info.arg] = v; Arathi:Refresh() end,
-    args = {
-        IconOptions = {
-            type = "group",
-            name = _L["options_icon_settings"],
-            desc = _L["options_icon_settings_desc"],
+	type = "group",
+	name = _L["Warfronts"],
+	get = function(info) return Arathi.db.profile[info.arg] end,
+	set = function(info, v) Arathi.db.profile[info.arg] = v; Arathi:Refresh() end,
+	args = {
+		IconOptions = {
+			type = "group",
+			name = _L["options_icon_settings"],
+			desc = _L["options_icon_settings_desc"],
 			inline = true,
 			order = 0,
-            args = {
+			args = {
 				groupIconTreasures = {
 					type = "header",
 					name = _L["options_icons_treasures"],
@@ -791,7 +791,7 @@ local options = {
 					name = _L["options_general_settings"],
 					desc = _L["options_general_settings_desc"],
 					order = 30,
-				},  
+				},
 				alwaysshowrares = {
 					type = "toggle",
 					arg = "alwaysshowrares",
@@ -857,7 +857,7 @@ local options = {
 				},
 			},
 		},
-    },
+	},
 }
 
 -- iterate this until we have all items cache. max 10 iterations
@@ -878,7 +878,7 @@ local function cacheItems()
 			end
 		end
 	end
-	if ( failed > 0 and precacheIteration < 10 ) then 
+	if ( failed > 0 and precacheIteration < 10 ) then
 		debugMsg( "Failed: " .. failed .. " / " .. total );
 		C_Timer.After(3, function()
 			cacheItems();
@@ -895,34 +895,35 @@ end
 --
 
 function Arathi:OnInitialize()
-    local defaults = {
-        profile = {
-            icon_scale_treasures = 2.0,
-            icon_scale_rares = 1.875,
+	local defaults = {
+		profile = {
+			icon_scale_treasures = 2.0,
+			icon_scale_rares = 1.875,
 			icon_scale_caves = 1.5,
-            icon_scale_pets = 1.5,
-            icon_alpha_treasures = 0.5,
+			icon_scale_pets = 1.5,
+			icon_alpha_treasures = 0.5,
 			icon_alpha_rares = 0.75,
 			icon_alpha_caves = 0.75,
 			icon_alpha_pets = 1.0,
-            alwaysshowrares = false,
-            alwaysshowtreasures = false,
-            save = true,
-            treasure_arathi = true,
-            rare_arathi = true,
+			alwaysshowrares = false,
+			alwaysshowtreasures = false,
+			save = true,
+			treasure_arathi = true,
+			rare_arathi = true,
 			pet_arathi = true,
 			cave_arathi = true,
-            rare_darkshore = true,
+			rare_darkshore = true,
 			pet_darkshore = true,
 			cave_darkshore = true,
-            show_loot = true,
-            show_notes = true,
+			show_loot = true,
+			show_notes = true,
 			show_debug = false,
-        },
-    }
+			hideKnowLoot = true,
+		},
+	}
 
-    self.db = LibStub("AceDB-3.0"):New("HandyNotesArathiDB", defaults, "Default");
-    self:RegisterEvent("PLAYER_ENTERING_WORLD", "WorldEnter");
+	self.db = LibStub("AceDB-3.0"):New("HandyNotesArathiDB", defaults, "Default");
+	self:RegisterEvent("PLAYER_ENTERING_WORLD", "WorldEnter");
 	local name = UnitName("player");
 	local realm = GetRealmName();
 	MYSELF = name .. "-" .. realm;
@@ -931,7 +932,7 @@ function Arathi:OnInitialize()
 	--WorldMapTooltip:HookScript("OnShow", function()
 		-- print( "wmtt" );
 	--end );
-	
+
 	--hooksecurefunc( "TaskPOI_OnEnter", function( self )
 		--WorldMapTooltip:AddLine ("quest ID: " .. self.questID)
 		--print (self.questID)
@@ -939,14 +940,14 @@ function Arathi:OnInitialize()
 
 	--hooksecurefunc( "TaskPOI_OnLeave", function ( self )
 	--end );
-	
+
 	--TaskPOI_OnClick
 end
 
 function Arathi:WorldEnter()
 	prepareNodesData();
-    self:UnregisterEvent("PLAYER_ENTERING_WORLD");
-    self:ScheduleTimer("RegisterWithHandyNotes", 8);
+	self:UnregisterEvent("PLAYER_ENTERING_WORLD");
+	self:ScheduleTimer("RegisterWithHandyNotes", 8);
 	self:ScheduleTimer("LoadCheck", 6);
 	C_Timer.After(10, function()
 		cacheItems();
@@ -954,18 +955,18 @@ function Arathi:WorldEnter()
 end
 
 function Arathi:RegisterWithHandyNotes()
-    do
+	do
 		local currentMapFile = "";
-        local function iter( t, prestate )
+		local function iter( t, prestate )
 
 		if not t then return nil end
-			
+
 			local node;
 			if ( prestate ) then
 				node = t[1]["lookup"][prestate]["nextNode"];
 			else
 				node = t[1]
-				
+
 				local state = C_ContributionCollector.GetState(11); -- Battle for Stromgarde
 				if state == 1 or state == 2 then
 					-- zone is currently active == faction is not controlling arathi
@@ -975,7 +976,7 @@ function Arathi:RegisterWithHandyNotes()
 					-- zone is currently destroyed == faction is controlling arathi
 					arathiControllingFaction = "Horde";
 				end
-				
+
 				local state = C_ContributionCollector.GetState(118); -- Battle for Darkshore
 				if state == 1 or state == 2 then
 					-- zone is currently active == faction is not controlling arathi
@@ -988,7 +989,7 @@ function Arathi:RegisterWithHandyNotes()
 			end
 
 			while node do
-                if ( self.db.profile[node["group"]] and Arathi:ShowNode( currentMapFile, node ) ) then
+				if ( self.db.profile[node["group"]] and Arathi:ShowNode( currentMapFile, node ) ) then
 					local iconScale = 1;
 					local iconAlpha = 1;
 					local iconPath = iconDefaults[node["icon"]];
@@ -1010,33 +1011,33 @@ function Arathi:RegisterWithHandyNotes()
 						iconScale = self.db.profile.icon_scale_caves;
 						iconAlpha = self.db.profile.icon_alpha_caves;
 					end
-                    return node["coord"], nil, iconPath, iconScale, iconAlpha
-                end
+					return node["coord"], nil, iconPath, iconScale, iconAlpha
+				end
 				node = node["nextNode"];
-            end
-        end
+			end
+		end
 
-        function Arathi:GetNodes( mapFile, isMinimapUpdate, dungeonLevel )
+		function Arathi:GetNodes( mapFile, isMinimapUpdate, dungeonLevel )
 			-- print( mapFile );
 			currentMapFile = mapFile;
-            return iter, nodes[mapFile], nil
-        end
-    end
+			return iter, nodes[mapFile], nil
+		end
+	end
 
-    HandyNotes:RegisterPluginDB("HandyNotesArathi", self, options)
-    self:RegisterBucketEvent({ "LOOT_CLOSED", "PLAYER_MONEY", "SHOW_LOOT_TOAST", "SHOW_LOOT_TOAST_UPGRADE" }, 2, "Refresh")
-    self:Refresh()
+	HandyNotes:RegisterPluginDB("HandyNotesArathi", self, options)
+	self:RegisterBucketEvent({ "LOOT_CLOSED", "PLAYER_MONEY", "SHOW_LOOT_TOAST", "SHOW_LOOT_TOAST_UPGRADE" }, 2, "Refresh")
+	self:Refresh()
 end
- 
+
 function Arathi:Refresh()
-    self:SendMessage("HandyNotes_NotifyUpdate", "HandyNotesArathi")
+	self:SendMessage("HandyNotes_NotifyUpdate", "HandyNotesArathi")
 end
 
 function Arathi:ShowNode( mapFile, node )
 	if ( not self.db.profile[node["group"]] ) then return false end
-    if ( self.db.profile.alwaysshowtreasures and (string.find(node["group"], "treasure") ~= nil) ) then return true end
-    if ( self.db.profile.alwaysshowrares and ( (string.find(node["group"], "rare") ~= nil ) or (string.find(node["group"], "cave") ~= nil ) ) ) then return true end
-    if ( self.db.char[mapFile .. "_" .. node["coord"] .. "_" .. node["questId"][1]] and self.db.profile.save ) then return false end
+	if ( self.db.profile.alwaysshowtreasures and (string.find(node["group"], "treasure") ~= nil) ) then return true end
+	if ( self.db.profile.alwaysshowrares and ( (string.find(node["group"], "rare") ~= nil ) or (string.find(node["group"], "cave") ~= nil ) ) ) then return true end
+	if ( self.db.char[mapFile .. "_" .. node["coord"] .. "_" .. node["questId"][1]] and self.db.profile.save ) then return false end
 	if ( self.db.profile.hideKnowLoot and node["allLootKnown"] == true and node["loot"] ~= nil and string.find(node["group"], "rare") ~= nil ) then return false end
 	if ( mapFile == "Arathi" ) then
 		if ( arathiControllingFaction ~= nil and node["controllingFaction"] ~= nil and node["controllingFaction"] ~= arathiControllingFaction ) then return false end
@@ -1048,16 +1049,16 @@ function Arathi:ShowNode( mapFile, node )
 		-- print( node["questId"][i] );
 		if ( IsQuestFlaggedCompleted( node["questId"][i] ) ) then return false end
 	end
-    return true
+	return true
 end
 
 function Arathi:LoadCheck()
 
-	if (IsAddOnLoaded("TomTom")) then 
+	if (IsAddOnLoaded("TomTom")) then
 		isTomTomloaded = true
 	end
 
-	if (IsAddOnLoaded("CanIMogIt")) then 
+	if (IsAddOnLoaded("CanIMogIt")) then
 		isCanIMogItloaded = true
 	end
 

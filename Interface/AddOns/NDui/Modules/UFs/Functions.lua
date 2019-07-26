@@ -698,12 +698,10 @@ function UF.PostUpdateClassPower(element, cur, max, diff, powerType)
 	if not cur or cur == 0 then
 		for i = 1, 6 do
 			element[i].bg:Hide()
-			element[i].bg.Shadow:Hide()
 		end
 	else
 		for i = 1, max do
 			element[i].bg:Show()
-			element[i].bg.Shadow:Show()
 		end
 	end
 
@@ -713,7 +711,6 @@ function UF.PostUpdateClassPower(element, cur, max, diff, powerType)
 		end
 		for i = max + 1, 6 do
 			element[i].bg:Hide()
-			element[i].bg.Shadow:Hide()
 		end
 	end
 
@@ -788,6 +785,7 @@ function UF:CreateClassPower(self)
 		else
 			bars[i]:SetPoint("LEFT", bars[i-1], "RIGHT", margin, 0)
 		end
+
 		local bg = B.CreateSB(bars[i])
 		bg.multiplier = .25
 
