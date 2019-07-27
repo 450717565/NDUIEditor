@@ -6,25 +6,21 @@ local pairs = pairs
 local function ReskinWA()
 	local function Skin_WeakAuras(f, fType)
 		if fType == "icon" then
-			if not f.styled then
+			if f.icon and not f.icon.styled then
 				f.icon:SetTexCoord(unpack(DB.TexCoord))
 				f.icon.SetTexCoord = B.Dummy
-				B.CreateBGFrame(f)
-				f.Shadow:HookScript("OnUpdate", function(self)
-					self:SetAlpha(self:GetParent().icon:GetAlpha())
-				end)
+				B.CreateBGFrame(f.icon)
 
-				f.styled = true
+				f.icon.styled = true
 			end
 		elseif fType == "aurabar" then
-			if not f.styled then
+			if f.bar and not f.bar.styled then
 				B.CreateBGFrame(f.bar)
 				f.icon:SetTexCoord(unpack(DB.TexCoord))
 				f.icon.SetTexCoord = B.Dummy
-				f.iconFrame:SetAllPoints(f.icon)
-				B.CreateBGFrame(f.iconFrame)
+				B.CreateBGFrame(f.icon)
 
-				f.styled = true
+				f.bar.styled = true
 			end
 		end
 	end

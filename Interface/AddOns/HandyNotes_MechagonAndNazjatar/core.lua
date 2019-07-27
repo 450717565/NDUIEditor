@@ -63,7 +63,7 @@ local VERIFIERS = {
     [ns.types.ACHIEVE] = function (self)
         if select(4, GetAchievementInfo(self.id)) then return true end
         for i, c in ipairs(self.criteria) do
-            local _, _, completed = GetAchievementCriteriaInfoByID(self.id, c);
+            local _, _, completed = GetAchievementCriteriaInfoByID(self.id, c.id);
             if not completed then return false end
         end
         return true;
@@ -82,39 +82,37 @@ local VERIFIERS = {
         return PlayerHasToy(self.item);
     end,
     [ns.types.TRANSMOG] = function (self)
-        if self.itemIcon and select(2, IsAddOnLoaded('CanIMogIt')) then
-            local l = self.itemLink;
-            if CanIMogIt:PlayerKnowsTransmog(l) then return true end
-            if not CanIMogIt:CharacterCanLearnTransmog(l) then return true end
-            return false;
-        end
-        return true; -- CanIMogIt not available
+        if C_TransmogCollection.PlayerHasTransmog(self.item) then return true end
+        local sourceID = select(2, C_TransmogCollection.GetItemInfo(self.item))
+        if not select(2, C_TransmogCollection.PlayerCanCollectSource(sourceID)) then return true end
+        return false
     end
 };
 
-local CRITERIA_ICON = 'Interface\\AchievementFrame\\UI-Achievement-Criteria-Check';
 local LOADING_ICON = 'Interface\\Icons\\Inv_misc_questionmark';
 
 local RENDERERS = {
     [0] = function (self, tooltip)
-        tooltip:AddLine('Unknown reward type: '..self.type);
+        tooltip:AddLine('Unknown reward type: '..(self.type or 'nil'));
     end,
     [ns.types.ACHIEVE] = function (self, tooltip)
         local _,name,_,completed,_,_,_,_,_,icon = GetAchievementInfo(self.id);
         tooltip:AddLine(ACHIEVEMENT_COLOR_CODE..'['..name..']|r');
         tooltip:AddTexture(icon, {margin={right=2}});
-        for i, cid in ipairs(self.criteria) do
-            local cname,_,ccomp,qty,reqQty = GetAchievementCriteriaInfoByID(self.id, cid);
-            if (cname == '') then
-                cname = qty..'/'..reqQty;
-            end
+        for i, c in ipairs(self.criteria) do
+            local cname,_,ccomp,qty,reqQty = GetAchievementCriteriaInfoByID(self.id, c.id);
+            if (cname == '') then cname = qty..'/'..reqQty end
+
+            local r, g, b = .6, .6, .6;
+            local ctext = "   • "..cname..(c.suffix or '')
             if (completed or ccomp) then
-                tooltip:AddLine(cname..(self.suffix or ''), 0, 1, 0);
-                tooltip:AddTexture(CRITERIA_ICON, {
-                    width=20, height=16, margin={left=10, right=-7}
-                });
+                r, g, b = 0, 1, 0;
+            end
+
+            if c.note and Addon.db.profile.show_notes then
+                tooltip:AddDoubleLine(ctext, c.note, r, g, b);
             else
-                tooltip:AddLine("   - "..cname..(self.suffix or ''), .6, .6, .6);
+                tooltip:AddLine(ctext, r, g, b);
             end
         end
     end,
@@ -150,13 +148,22 @@ local RENDERERS = {
         tooltip:AddTexture(self.itemIcon or LOADING_ICON, {margin={right=2}});
     end,
     [ns.types.TRANSMOG] = function (self, tooltip)
-        -- TODO: display slot?
-        local status = '';
-        if self.itemIcon and select(2, IsAddOnLoaded('CanIMogIt')) then
-            local collected = CanIMogIt:PlayerKnowsTransmog(self.itemLink);
-            status = collected and L["(known)"] or L["(missing)"];
+        local collected = C_TransmogCollection.PlayerHasTransmog(self.item)
+        local status = collected and L["(known)"] or L["(missing)"];
+        if not collected then
+            -- check if we can't learn this item
+            local sourceID = select(2, C_TransmogCollection.GetItemInfo(self.item))
+            if not select(2, C_TransmogCollection.PlayerCanCollectSource(sourceID)) then
+                status = L["(unlearnable)"];
+            end
         end
-        tooltip:AddDoubleLine(self.itemLink..' ('..L[self.slot]..')', status);
+
+        local suffix = ' ('..L[self.slot]..')';
+        if self.note and Addon.db.profile.show_notes then
+            suffix = suffix..' ('..self.note..')'
+        end
+
+        tooltip:AddDoubleLine(self.itemLink..suffix, status);
         tooltip:AddTexture(self.itemIcon or LOADING_ICON, {margin={right=2}});
     end
 };
@@ -178,9 +185,24 @@ function normalizeNodes ()
                 reward.obtained = VERIFIERS[reward.type] or VERIFIERS[0];
                 reward.render = RENDERERS[reward.type] or RENDERERS[0];
 
-                if (type(reward.criteria) == 'number') then
-                    reward.criteria = {reward.criteria};
+                if reward.criteria ~= nil then
+                    -- we allow a single number, table of numbers or table of
+                    -- objects: {id=<number>, note=<string>}
+                    if type(reward.criteria) == 'number' then
+                        reward.criteria = {{id=reward.criteria}};
+                    else
+                        local crittab = {}
+                        for i, criteria in ipairs(reward.criteria) do
+                            if type(criteria) == 'number' then
+                                crittab[#crittab + 1] = {id=criteria}
+                            else
+                                crittab[#crittab + 1] = criteria
+                            end
+                        end
+                        reward.criteria = crittab
+                    end
                 end
+
                 if reward.item then
                     -- cache item link
                     reward.itemLink = L["retrieving"];
@@ -285,11 +307,16 @@ function Addon:OnEnter(mapID, coord)
     end
 
     if Addon.db.profile.show_loot then
+        local firstAchieve, firstOther = true, true
         for i, reward in ipairs(node.rewards or {}) do
-            if i == 1 then
-                -- add a blank line between the label/note and the rewards
-                tooltip:AddLine(" ");
+            if reward.type == ns.types.ACHIEVE and firstAchieve then
+                tooltip:AddLine(" ")
+                firstAchieve = false
+            elseif reward.type ~= ns.types.ACHIEVE and firstOther then
+                tooltip:AddLine(" ")
+                firstOther = false
             end
+
             reward:render(tooltip);
         end
     end
@@ -331,6 +358,7 @@ function Addon:RegisterWithHandyNotes()
         local mapID, minimap;
         local function iter(nodes, precoord)
             if not nodes then return nil end
+            if minimap and self.db.profile.hideMinimapIcons then return nil end
             local coord, node = next(nodes, precoord)
             while coord do -- Have we reached the end of this zone?
                 if node and self:IsNodeEnabled(node, mapID, coord, minimap) then

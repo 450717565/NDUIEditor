@@ -360,10 +360,11 @@ function TT:ReskinTooltip()
 	if self:IsForbidden() then return end
 	self:SetScale(NDuiDB["Tooltip"]["Scale"])
 
+	local offset = C.mult or 1
 	if not self.tipStyled then
 		self:SetBackdrop(nil)
 		self:DisableDrawLayer("BACKGROUND")
-		local bg = B.CreateBG(self, -C.mult)
+		local bg = B.CreateBG(self, -offset)
 		bg:SetFrameLevel(self:GetFrameLevel())
 		B.SetBackground(bg)
 		self.bg = bg
