@@ -3,12 +3,13 @@ local B, C, L, DB = unpack(ns)
 local S = B:GetModule("Skins")
 
 local function ReskinTMW()
-	TMW.Classes.Icon:PostHookMethod("OnNewInstance", function(self)
-		B.CreateBGFrame(self)
-	end)
-
 	TMW.Classes.IconModule_Texture:PostHookMethod("OnNewInstance", function(self)
-		self.texture:SetTexCoord(unpack(DB.TexCoord))
+		if not self.styled then
+			self.texture:SetTexCoord(unpack(DB.TexCoord))
+			B.CreateBGFrame(self.texture)
+
+			self.styled = true
+		end
 	end)
 end
 

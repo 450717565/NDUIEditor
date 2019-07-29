@@ -130,7 +130,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	-- Reskin Blocks
 	hooksecurefunc("ScenarioStage_CustomizeBlock", function(block)
 		if not block.styled then
-			F.StripTextures(block)
+			F.StripTextures(block, true)
 
 			local bg = F.CreateBDFrame(block.GlowTexture, .25)
 			bg:SetPoint("TOPLEFT", block.GlowTexture, 4, -2)

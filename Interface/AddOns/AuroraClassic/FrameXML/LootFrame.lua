@@ -47,9 +47,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	end
 
 	-- Bonus roll
-	F.StripTextures(BonusRollFrame)
-	F.ReskinFrame(BonusRollFrame)
-
+	F.ReskinFrame(BonusRollFrame, true)
 	BonusRollFrame.BlackBackgroundHoist:Hide()
 
 	local PromptFrame = BonusRollFrame.PromptFrame

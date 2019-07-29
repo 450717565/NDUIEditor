@@ -4,23 +4,23 @@ local S = B:GetModule("Skins")
 local pairs = pairs
 
 local function ReskinWA()
-	local function Skin_WeakAuras(f, fType)
-		if fType == "icon" then
-			if f.icon and not f.icon.styled then
-				f.icon:SetTexCoord(unpack(DB.TexCoord))
-				f.icon.SetTexCoord = B.Dummy
-				B.CreateBGFrame(f.icon)
+	local function Skin_WeakAuras(self, type)
+		if type == "icon" then
+			if self.icon and not self.icon.styled then
+				self.icon:SetTexCoord(unpack(DB.TexCoord))
+				self.icon.SetTexCoord = B.Dummy
+				B.CreateBGFrame(self.icon)
 
-				f.icon.styled = true
+				self.icon.styled = true
 			end
-		elseif fType == "aurabar" then
-			if f.bar and not f.bar.styled then
-				B.CreateBGFrame(f.bar)
-				f.icon:SetTexCoord(unpack(DB.TexCoord))
-				f.icon.SetTexCoord = B.Dummy
-				B.CreateBGFrame(f.icon)
+		elseif type == "aurabar" then
+			if self.bar and not self.bar.styled then
+				B.CreateBGFrame(self.bar)
+				self.icon:SetTexCoord(unpack(DB.TexCoord))
+				self.icon.SetTexCoord = B.Dummy
+				B.CreateBGFrame(self.icon)
 
-				f.bar.styled = true
+				self.bar.styled = true
 			end
 		end
 	end

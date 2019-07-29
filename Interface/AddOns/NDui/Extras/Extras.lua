@@ -3,6 +3,19 @@ local Extras = B:RegisterModule("Extras")
 
 local strformat = string.format
 
+-- 频道选择
+local function msgChannel()
+	if IsInGroup() then
+		if IsInRaid() then
+			return "RAID"
+		else
+			return "PARTY"
+		end
+	else
+		return "SAY"
+	end
+end
+
 function Extras:OnLogin()
 	self:ChatAtFriends()
 	self:ChatEmote()
@@ -12,6 +25,7 @@ function Extras:OnLogin()
 	self:Reskins()
 	self:GuildWelcome()
 	self:AutoCollapse()
+	self:InstanceReset()
 end
 
 --- 新人加入公会自动欢迎
@@ -22,7 +36,7 @@ local GW_Message_Info = {
 	L["GW Message 4"],
 }
 
-function Extras:UpdateGuildWelcome(event, msg)
+function Extras.UpdateGuildWelcome(_, msg)
 	local str = GUILDEVENT_TYPE_JOIN:gsub("%%s", "")
 	if msg:find(str) then
 		local name = msg:gsub(str, "")
@@ -37,15 +51,15 @@ end
 
 function Extras:GuildWelcome()
 	if NDuiDB["Extras"]["GuildWelcome"] then
-		B:RegisterEvent("CHAT_MSG_SYSTEM", Extras.UpdateGuildWelcome)
+		B:RegisterEvent("CHAT_MSG_SYSTEM", self.UpdateGuildWelcome)
 	else
-		B:UnregisterEvent("CHAT_MSG_SYSTEM", Extras.UpdateGuildWelcome)
+		B:UnregisterEvent("CHAT_MSG_SYSTEM", self.UpdateGuildWelcome)
 	end
 end
 
 --- BOSS战斗自动收起任务追踪
 local collapse = false
-function Extras:UpdateAutoCollapse(event)
+function Extras.UpdateAutoCollapse(event)
 	if event == "ENCOUNTER_START" then
 		if not collapse then
 			ObjectiveTracker_Collapse()
@@ -62,14 +76,29 @@ function Extras:UpdateAutoCollapse(event)
 end
 
 function Extras:AutoCollapse()
-	if NDuiDB["Extras"]["GuildWelcome"] then
-		B:RegisterEvent("ENCOUNTER_START", Extras.UpdateAutoCollapse)
-		B:RegisterEvent("ENCOUNTER_END", Extras.UpdateAutoCollapse)
+	if NDuiDB["Extras"]["AutoCollapse"] then
+		B:RegisterEvent("ENCOUNTER_START", self.UpdateAutoCollapse)
+		B:RegisterEvent("ENCOUNTER_END", self.UpdateAutoCollapse)
 	else
 		collapse = false
-		B:UnregisterEvent("ENCOUNTER_START", Extras.UpdateAutoCollapse)
-		B:UnregisterEvent("ENCOUNTER_END", Extras.UpdateAutoCollapse)
+		B:UnregisterEvent("ENCOUNTER_START", self.UpdateAutoCollapse)
+		B:UnregisterEvent("ENCOUNTER_END", self.UpdateAutoCollapse)
 	end
+end
+
+-- 重置副本自动喊话
+local resetList = {"无法重置", "已被重置"}
+
+function Extras.UpdateInstanceReset(_, msg)
+	for _, word in ipairs(resetList) do
+		if strfind(msg, word) then
+			SendChatMessage(msg, msgChannel())
+		end
+	end
+end
+
+function Extras:InstanceReset()
+	B:RegisterEvent("CHAT_MSG_SYSTEM", self.UpdateInstanceReset)
 end
 
 --- 自动选择节日BOSS
@@ -91,21 +120,21 @@ end
 do
 	-- [[ Player Count ]]
 	hooksecurefunc("LFGListGroupDataDisplayPlayerCount_Update", function(self)
-		if not self.revised then
+		if not self.modified then
 			self.Count:SetWidth(20)
 
-			self.revised = true
+			self.modified = true
 		end
 	end)
 
 	-- [[ Role Count ]]
 	hooksecurefunc("LFGListGroupDataDisplayRoleCount_Update", function(self)
-		if not self.revised then
+		if not self.modified then
 			self.TankCount:SetWidth(20)
 			self.HealerCount:SetWidth(20)
 			self.DamagerCount:SetWidth(20)
 
-			self.revised = true
+			self.modified = true
 		end
 	end)
 end

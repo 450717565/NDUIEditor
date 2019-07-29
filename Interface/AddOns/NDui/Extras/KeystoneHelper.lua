@@ -7,7 +7,7 @@ local tbinsert, tbremove = table.insert, table.remove
 local MythicLootItemLevel =  {0, 405, 405, 410, 415, 415, 420, 425, 425, 430}
 local WeeklyLootItemLevel =  {0, 410, 415, 420, 420, 425, 430, 430, 435, 440}
 
-function Extras:KH_CheckLink(link)
+function Extras.KH_CheckLink(link)
 	if link and type(link) == "string" and strmatch(link, "|Hkeystone:([0-9:]+)|h(%b[])|h") then
 		return true
 	else
@@ -15,10 +15,10 @@ function Extras:KH_CheckLink(link)
 	end
 end
 
-function Extras:KH_CheckKeystone(link)
+function Extras.KH_CheckKeystone(link)
 	local affixIDs, mapLevel = {}, 0
 
-	if Extras:KH_CheckLink(link) then
+	if Extras.KH_CheckLink(link) then
 		local info = {strsplit(":", link)}
 		mapLevel = tonumber(info[4])
 
@@ -44,8 +44,8 @@ end
 function Extras:KH_OnTooltipSetItem()
 	local _, link = self:GetItem()
 
-	if Extras:KH_CheckLink(link) then
-		local affixIDs, mapLevel = Extras:KH_CheckKeystone(link)
+	if Extras.KH_CheckLink(link) then
+		local affixIDs, mapLevel = Extras.KH_CheckKeystone(link)
 		local ilvl = MythicLootItemLevel[mapLevel]
 		local wlvl = WeeklyLootItemLevel[mapLevel]
 

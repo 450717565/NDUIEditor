@@ -533,7 +533,11 @@ function F:ReskinFilter()
 end
 
 function F:ReskinFrame(killType)
-	F.StripTextures(self, not killType)
+	if type(killType) == "number" then
+		F.StripTextures(self, killType)
+	else
+		F.StripTextures(self, not killType)
+	end
 	F.CleanTextures(self)
 
 	local bg = F.CreateBDFrame(self, nil, nil, true)

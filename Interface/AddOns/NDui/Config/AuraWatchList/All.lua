@@ -168,6 +168,8 @@ local list = {
 		{AuraID = 306242, UnitID = "player"},	-- 红卡重置
 		{AuraID = 285482, UnitID = "player"},	-- 海巨人的凶猛
 		{AuraID = 303570, UnitID = "player"},	-- 锋锐珊瑚
+		{AuraID = 303568, UnitID = "target", Caster = "player"},	-- 锋锐珊瑚
+		{AuraID = 301624, UnitID = "target", Caster = "player"},	-- 颤栗毒素
 	-- 艾泽里特特质
 		{AuraID = 271550, UnitID = "player"},	-- 临危不惧
 		{AuraID = 281517, UnitID = "player"},	-- 不稳定的催化剂
@@ -507,7 +509,6 @@ local list = {
 		{AuraID = 273405, UnitID = "player"},	-- 黑暗交易，戈霍恩
 	},
 	["Target Special Aura"] = { -- 目标重要光环组
-		{AuraID = 303568, UnitID = "target", Caster = "player"},	-- 锋锐珊瑚
 	-- 5人本
 		{AuraID = 226510, UnitID = "target"},	-- 血池回血
 	-- 8.0副本

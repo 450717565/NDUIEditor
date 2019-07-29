@@ -6,68 +6,68 @@ function S:BigWigsSkin()
 	if not NDuiDB["Skins"]["Bigwigs"] or not IsAddOnLoaded("BigWigs") then return end
 	if not BigWigs3DB then return end
 
-	local function removeStyle(bar)
-		B.StripTextures(bar)
+	local function removeStyle(self)
+		B.StripTextures(self)
 
-		bar:Hide()
+		self:Hide()
 
-		local height = bar:Get("bigwigs:restoreheight")
-		if height then bar:SetHeight(height) end
+		local height = self:Get("bigwigs:restoreheight")
+		if height then self:SetHeight(height) end
 
-		local tex = bar:Get("bigwigs:restoreicon")
+		local tex = self:Get("bigwigs:restoreicon")
 		if tex then
-			bar:SetIcon(tex)
-			bar:Set("bigwigs:restoreicon", nil)
-			bar.candyBarIconFrame:Hide()
+			self:SetIcon(tex)
+			self:Set("bigwigs:restoreicon", nil)
+			self.candyBarIconFrame:Hide()
 		end
 
-		local timer = bar.candyBarDuration
+		local timer = self.candyBarDuration
 		timer:SetJustifyH("RIGHT")
 		timer:ClearAllPoints()
-		timer:SetPoint("RIGHT", bar, "RIGHT", -2, 7)
+		timer:SetPoint("RIGHT", self, "RIGHT", -2, 8)
 		timer:SetFont(DB.Font[1], 13, DB.Font[3])
 		timer.SetFont = B.Dummy
 
-		local name = bar.candyBarLabel
+		local name = self.candyBarLabel
 		name:SetJustifyH("LEFT")
 		name:SetWordWrap(false)
 		name:ClearAllPoints()
-		name:SetPoint("LEFT", bar, "LEFT", 2, 7)
-		name:SetPoint("RIGHT", timer, "LEFT", -5, 0)
+		name:SetPoint("LEFT", self, "LEFT", 2, 8)
+		name:SetPoint("RIGHT", self, "RIGHT", -30, 8)
 		name:SetFont(DB.Font[1], 13, DB.Font[3])
 		name.SetFont = B.Dummy
 	end
 
-	local function styleBar(bar)
-		B.StripTextures(bar)
+	local function styleBar(self)
+		B.StripTextures(self)
 
-		local height = bar:GetHeight()
-		bar:Set("bigwigs:restoreheight", height)
-		bar:SetHeight(height/2)
-		bar:SetTexture(DB.normTex)
+		local height = self:GetHeight()
+		self:Set("bigwigs:restoreheight", height)
+		self:SetHeight(height/2)
+		self:SetTexture(DB.normTex)
 
-		if not bar.styled then
-			B.CreateTex(B.CreateBGFrame(bar))
+		if not self.styled then
+			B.CreateTex(B.CreateBGFrame(self))
 
-			bar.styled = true
+			self.styled = true
 		end
 
-		local tex = bar:GetIcon()
+		local tex = self:GetIcon()
 		if tex then
-			bar:SetIcon(nil)
-			bar:Set("bigwigs:restoreicon", tex)
+			self:SetIcon(nil)
+			self:Set("bigwigs:restoreicon", tex)
 
-			local icon = bar.candyBarIconFrame
+			local icon = self.candyBarIconFrame
 			icon:Show()
 			icon:SetTexture(tex)
 			icon:SetSize(height, height)
 			icon:SetTexCoord(unpack(DB.TexCoord))
 
 			icon:ClearAllPoints()
-			if bar.iconPosition == "RIGHT" then
-				icon:SetPoint("BOTTOMLEFT", bar, "BOTTOMRIGHT", 5, 0)
+			if self.iconPosition == "RIGHT" then
+				icon:SetPoint("BOTTOMLEFT", self, "BOTTOMRIGHT", 5, 0)
 			else
-				icon:SetPoint("BOTTOMRIGHT", bar, "BOTTOMLEFT", -5, 0)
+				icon:SetPoint("BOTTOMRIGHT", self, "BOTTOMLEFT", -5, 0)
 			end
 
 			if not icon.styled then
@@ -77,19 +77,19 @@ function S:BigWigsSkin()
 			end
 		end
 
-		local timer = bar.candyBarDuration
+		local timer = self.candyBarDuration
 		timer:SetJustifyH("RIGHT")
 		timer:ClearAllPoints()
-		timer:SetPoint("RIGHT", bar, "RIGHT", -2, 7)
+		timer:SetPoint("RIGHT", self, "RIGHT", -2, 8)
 		timer:SetFont(DB.Font[1], 13, DB.Font[3])
 		timer.SetFont = B.Dummy
 
-		local name = bar.candyBarLabel
+		local name = self.candyBarLabel
 		name:SetJustifyH("LEFT")
 		name:SetWordWrap(false)
 		name:ClearAllPoints()
-		name:SetPoint("LEFT", bar, "LEFT", 2, 7)
-		name:SetPoint("RIGHT", timer, "LEFT", -5, 0)
+		name:SetPoint("LEFT", self, "LEFT", 2, 8)
+		name:SetPoint("RIGHT", self, "RIGHT", -30, 8)
 		name:SetFont(DB.Font[1], 13, DB.Font[3])
 		name.SetFont = B.Dummy
 	end
@@ -99,7 +99,7 @@ function S:BigWigsSkin()
 		bars:RegisterBarStyle("NDui", {
 			apiVersion = 1,
 			version = 2,
-			GetSpacing = function(bar) return bar:GetHeight()+5 end,
+			GetSpacing = function(self) return self:GetHeight()+5 end,
 			ApplyStyle = styleBar,
 			BarStopped = removeStyle,
 			GetStyleName = function() return "NDui" end,

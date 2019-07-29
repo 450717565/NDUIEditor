@@ -3,36 +3,36 @@ local B, C, L, DB = unpack(ns)
 local S = B:GetModule("Skins")
 
 local function ReskinDetails()
-	local function setupInstance(instance)
-		if instance.styled then return end
-		if not instance.baseframe then return end
+	local function setupInstance(self)
+		if self.styled then return end
+		if not self.baseframe then return end
 
-		instance:ChangeSkin("Minimalistic")
-		instance:InstanceWallpaper(false)
-		instance:DesaturateMenu(true)
-		instance:HideMainIcon(false)
-		instance:SetBackdropTexture("None")
-		instance:MenuAnchor(16, 3)
-		instance:ToolbarMenuButtonsSize(1)
-		instance:AttributeMenu(true, 0, 3, DB.Font[1], 13, {1, 1, 1}, 1, true)
-		instance:SetBarSettings(18, NDuiADB["ResetDetails"] and "NDui" or nil)
-		instance:SetBarTextSettings(13, DB.Font[1], nil, nil, nil, true, true, nil, nil, nil, nil, nil, nil, false, nil, false, nil)
+		self:ChangeSkin("Minimalistic")
+		self:InstanceWallpaper(false)
+		self:DesaturateMenu(true)
+		self:HideMainIcon(false)
+		self:SetBackdropTexture("None")
+		self:MenuAnchor(16, 3)
+		self:ToolbarMenuButtonsSize(1)
+		self:AttributeMenu(true, 0, 3, DB.Font[1], 13, {1, 1, 1}, 1, true)
+		self:SetBarSettings(18, NDuiADB["ResetDetails"] and "NDui" or nil)
+		self:SetBarTextSettings(13, DB.Font[1], nil, nil, nil, true, true, nil, nil, nil, nil, nil, nil, false, nil, false, nil)
 
-		local bg = B.CreateBGFrame(instance.baseframe, "tex")
+		local bg = B.CreateBGFrame(self.baseframe, "tex")
 		bg:SetPoint("TOPLEFT", -1, 18)
-		instance.baseframe.bg = bg
+		self.baseframe.bg = bg
 
-		if instance:GetId() <= 2 then
-			local open, close = S:CreateToggle(instance.baseframe)
+		if self:GetId() <= 2 then
+			local open, close = S:CreateToggle(self.baseframe)
 			open:HookScript("OnClick", function()
-				instance:ShowWindow()
+				self:ShowWindow()
 			end)
 			close:HookScript("OnClick", function()
-				instance:HideWindow()
+				self:HideWindow()
 			end)
 		end
 
-		instance.styled = true
+		self.styled = true
 	end
 
 	local index = 1
@@ -47,14 +47,14 @@ local function ReskinDetails()
 	local instance1 = Details:GetInstance(1)
 	local instance2 = Details:GetInstance(2)
 
-	local function EmbedWindow(instance, x, y, width, height)
-		if not instance.baseframe then return end
-		instance.baseframe:ClearAllPoints()
-		instance.baseframe:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", x, y)
-		instance:SetSize(width, height)
-		instance:SaveMainWindowPosition()
-		instance:RestoreMainWindowPosition()
-		instance:LockInstance(true)
+	local function EmbedWindow(self, x, y, width, height)
+		if not self.baseframe then return end
+		self.baseframe:ClearAllPoints()
+		self.baseframe:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", x, y)
+		self:SetSize(width, height)
+		self:SaveMainWindowPosition()
+		self:RestoreMainWindowPosition()
+		self:LockInstance(true)
 	end
 
 	if NDuiADB["ResetDetails"] then

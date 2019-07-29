@@ -1,7 +1,7 @@
 local B, C, L, DB, F = unpack(select(2, ...))
 local Extras = B:GetModule("Extras")
 
-function Extras:DU_CreateButton(name, frame, label, width, height, point, relativeTo, relativePoint, xOffset, yOffset)
+function Extras.DU_CreateButton(name, frame, label, width, height, point, relativeTo, relativePoint, xOffset, yOffset)
 	local name = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
 	name:SetSize(width, height)
 	name:SetPoint(point, relativeTo, relativePoint, xOffset, yOffset)
@@ -19,7 +19,7 @@ function Extras:DressUp()
 	local ResetLevel = SideDressUpModelResetButton:GetFrameLevel()
 
 	--普通试衣间
-	local DOneNake = self:DU_CreateButton("DressUpOneNake", DressUpFrame, L["One Nake"], 75, 22, "RIGHT", DressUpFrameResetButton, "LEFT", -2, 0)
+	local DOneNake = self.DU_CreateButton("DressUpOneNake", DressUpFrame, L["One Nake"], 75, 22, "RIGHT", DressUpFrameResetButton, "LEFT", -2, 0)
 	DOneNake:SetScript("OnClick", function()
 		DressUpModel:UndressSlot(4)
 		for i = 16, 19 do
@@ -27,7 +27,7 @@ function Extras:DressUp()
 		end
 	end)
 
-	local DAllNake = self:DU_CreateButton("DressUpAllNake", DressUpFrame, L["All Nake"], 75, 22, "RIGHT", DOneNake, "LEFT", -2, 0)
+	local DAllNake = self.DU_CreateButton("DressUpAllNake", DressUpFrame, L["All Nake"], 75, 22, "RIGHT", DOneNake, "LEFT", -2, 0)
 	DAllNake:SetScript("OnClick", function()
 		for i = 1, 19 do
 			DressUpModel:UndressSlot(i)
@@ -35,7 +35,7 @@ function Extras:DressUp()
 	end)
 
 	-- 侧边试衣间
-	local SOneNake = self:DU_CreateButton("SideDressUpOneNake", SideDressUpFrame, L["One Nake"], 80, 22, "TOP", SideDressUpModelResetButton, "BOTTOMLEFT", -1, -2)
+	local SOneNake = self.DU_CreateButton("SideDressUpOneNake", SideDressUpFrame, L["One Nake"], 80, 22, "TOP", SideDressUpModelResetButton, "BOTTOMLEFT", -1, -2)
 	SOneNake:SetFrameStrata(ResetStrata)
 	SOneNake:SetFrameLevel(ResetLevel)
 	SOneNake:SetScript("OnClick", function()
@@ -45,7 +45,7 @@ function Extras:DressUp()
 		end
 	end)
 
-	local SAllNake = self:DU_CreateButton("SideDressUpOneNake", SideDressUpFrame, L["All Nake"], 80, 22, "TOP", SideDressUpModelResetButton, "BOTTOMRIGHT", 1, -2)
+	local SAllNake = self.DU_CreateButton("SideDressUpOneNake", SideDressUpFrame, L["All Nake"], 80, 22, "TOP", SideDressUpModelResetButton, "BOTTOMRIGHT", 1, -2)
 	SAllNake:SetFrameStrata(ResetStrata)
 	SAllNake:SetFrameLevel(ResetLevel)
 	SAllNake:SetScript("OnClick", function()

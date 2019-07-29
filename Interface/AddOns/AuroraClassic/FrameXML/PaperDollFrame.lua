@@ -70,17 +70,25 @@ tinsert(C.themes["AuroraClassic"], function()
 	local StatsPane = CharacterStatsPane
 	F.StripTextures(StatsPane)
 
+	local ItemLevelFrame = StatsPane.ItemLevelFrame
+	ItemLevelFrame:SetHeight(20)
+	ItemLevelFrame.Background:Hide()
+
 	local categorys = {StatsPane.ItemLevelCategory, StatsPane.AttributesCategory, StatsPane.EnhancementsCategory}
 	for _, category in pairs(categorys) do
-		category:SetSize(192, 27)
-		F.StripTextures(category)
+		category:SetHeight(30)
+		category.Background:Hide()
+		category.Title:SetTextColor(cr, cg, cb)
 
-		local bg = F.CreateBDFrame(category, 0, -2)
+		local width, height = 95, C.mult*2
 
-		local Title = category.Title
-		Title:SetTextColor(cr, cg, cb)
-		Title:ClearAllPoints()
-		Title:SetPoint("CENTER", bg)
+		local left = CreateFrame("Frame", nil, category)
+		left:SetPoint("TOPRIGHT", category, "BOTTOM", 0, 5)
+		F.CreateGA(left, width, height, "Horizontal", cr, cg, cb, 0, .8)
+
+		local right = CreateFrame("Frame", nil, category)
+		right:SetPoint("TOPLEFT", category, "BOTTOM", 0, 5)
+		F.CreateGA(right, width, height, "Horizontal", cr, cg, cb, .8, 0)
 	end
 
 	-- [[ Sidebar tabs ]]

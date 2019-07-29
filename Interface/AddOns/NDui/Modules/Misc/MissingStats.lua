@@ -96,8 +96,8 @@ function M:MissingStats()
 		if unit ~= "player" then return end
 
 		local total, equip = GetAverageItemLevel()
-		if total > 0 then total = string.format("%.1f", total) end
-		if equip > 0 then equip = string.format("%.1f", equip) end
+		if total > 0 then total = format("%.1f", total) end
+		if equip > 0 then equip = format("%.1f", equip) end
 
 		local ilvl = equip
 		if total ~= equip then
@@ -107,7 +107,7 @@ function M:MissingStats()
 		statFrame.Value:SetText(ilvl)
 		statFrame.Value:SetFont(STANDARD_TEXT_FONT, 20, DB.Font[3])
 
-		statFrame.tooltip = "|cffffffff"..STAT_AVERAGE_ITEM_LEVEL.." "..ilvl.."|r"
+		statFrame.tooltip = "|cffffffff"..STAT_AVERAGE_ITEM_LEVEL..L[":"].."|r"..ilvl
 	end)
 
 	PAPERDOLL_STATINFO["ENERGY_REGEN"].updateFunc = function(statFrame, unit)

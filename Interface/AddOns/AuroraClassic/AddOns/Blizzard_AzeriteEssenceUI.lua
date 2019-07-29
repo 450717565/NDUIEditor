@@ -39,8 +39,6 @@ C.themes["Blizzard_AzeriteEssenceUI"] = function()
 	hooksecurefunc(EssenceList, "Refresh", function(self)
 		for i, button in ipairs(self.buttons) do
 			if not button.styled then
-				button.ActivatedMarkerMain:SetAlpha(0)
-
 				local icbg = F.ReskinIcon(button.Icon)
 
 				local bubg = F.CreateBDFrame(button, 0)
@@ -49,19 +47,9 @@ C.themes["Blizzard_AzeriteEssenceUI"] = function()
 				F.ReskinTexture(button, bubg, true)
 				F.ReskinTexture(button.PendingGlow, bubg, true)
 
-				button.bg = bubg
-
 				button.styled = true
 			end
 			button.Background:SetTexture("")
-
-			if button:IsShown() then
-				if button.ActivatedMarkerMain:IsShown() then
-					button.bg:SetBackdropBorderColor(cr, cg, cb)
-				else
-					button.bg:SetBackdropBorderColor(0, 0, 0)
-				end
-			end
 		end
 	end)
 end

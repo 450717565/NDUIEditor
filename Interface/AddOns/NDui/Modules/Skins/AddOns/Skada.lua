@@ -10,16 +10,16 @@ function S:SkadaSkin()
 	local Skada = Skada
 	local barSpacing = 0
 	local barmod = Skada.displays["bar"]
-	local function StripOptions(options)
-		options.baroptions.args.barspacing = nil
-		options.titleoptions.args.texture = nil
-		options.titleoptions.args.bordertexture = nil
-		options.titleoptions.args.thickness = nil
-		options.titleoptions.args.margin = nil
-		options.titleoptions.args.color = nil
-		options.windowoptions = nil
-		options.baroptions.args.barfont = nil
-		options.titleoptions.args.font = nil
+	local function StripOptions(self)
+		self.baroptions.args.barspacing = nil
+		self.titleoptions.args.texture = nil
+		self.titleoptions.args.bordertexture = nil
+		self.titleoptions.args.thickness = nil
+		self.titleoptions.args.margin = nil
+		self.titleoptions.args.color = nil
+		self.windowoptions = nil
+		self.baroptions.args.barfont = nil
+		self.titleoptions.args.font = nil
 	end
 
 	barmod.AddDisplayOptions_ = barmod.AddDisplayOptions
