@@ -8,8 +8,8 @@ C.themes["Blizzard_DeathRecap"] = function()
 	F.ReskinClose(DeathRecapFrame.CloseXButton)
 
 	for i = 1, NUM_DEATH_RECAP_EVENTS do
-		local recap = DeathRecapFrame["Recap"..i].SpellInfo
-		recap.IconBorder:Hide()
-		F.ReskinIcon(recap.Icon)
+		local SpellInfo = DeathRecapFrame["Recap"..i].SpellInfo
+		SpellInfo.IconBorder:Hide()
+		F.ReskinIcon(SpellInfo.Icon)
 	end
 end

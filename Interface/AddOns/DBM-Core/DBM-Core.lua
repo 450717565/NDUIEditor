@@ -68,9 +68,9 @@ local function showRealDate(curseDate)
 end
 
 DBM = {
-	Revision = parseCurseDate("20190728182456"),
-	DisplayVersion = "8.2.10 alpha", -- the string that is shown as version
-	ReleaseRevision = releaseDate(2019, 7, 24) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
+	Revision = parseCurseDate("20190731030304"),
+	DisplayVersion = "8.2.10", -- the string that is shown as version
+	ReleaseRevision = releaseDate(2019, 7, 30) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -452,7 +452,7 @@ local delayedFunction
 local dataBroker
 local voiceSessionDisabled = false
 
-local fakeBWVersion, fakeBWHash = 160, "a41b098"
+local fakeBWVersion, fakeBWHash = 162, "129ec11"
 local versionQueryString, versionResponseString = "Q^%d^%s", "V^%d^%s"
 
 local enableIcons = true -- set to false when a raid leader or a promoted player has a newer version of DBM
@@ -6107,13 +6107,9 @@ do
 			if not savedDifficulty or not difficultyText or not difficultyIndex then--prevent error if savedDifficulty or difficultyText is nil
 				savedDifficulty, difficultyText, difficultyIndex, LastGroupSize, difficultyModifier = DBM:GetCurrentInstanceDifficulty()
 			end
-			if not mod.stats then--This will be nil if the mod for this intance failed to load fully because "script ran too long" (it tried to load in combat and failed)
-				self:AddMsg(DBM_CORE_BAD_LOAD)--Warn user that they should reload ui soon as they leave combat to get their mod to load correctly as soon as possible
-				return--Don't run any further, stats are nil on a bad load so rest of this code will also error out.
-			end
 			local name = mod.combatInfo.name
 			local modId = mod.id
-			if wipe then
+			if wipe and mod.stats then
 				mod.lastWipeTime = GetTime()
 				--Fix for "attempt to perform arithmetic on field 'pull' (a nil value)" (which was actually caused by stats being nil, so we never did getTime on pull, fixing one SHOULD fix the other)
 				local thisTime = GetTime() - mod.combatInfo.pull
@@ -6183,7 +6179,7 @@ do
 						self:PlaySoundFile(self.Options.EventSoundWipe)
 					end
 				end
-			else
+			elseif not wipe and mod.stats then
 				mod.lastKillTime = GetTime()
 				local thisTime = GetTime() - (mod.combatInfo.pull or 0)
 				local lastTime = mod.stats[statVarTable[savedDifficulty].."LastTime"]
@@ -6355,7 +6351,7 @@ do
 				targetMonitor = nil
 				self:CreatePizzaTimer(time, "", nil, nil, nil, true)--Auto Terminate infinite loop timers on combat end
 				self:TransitionToDungeonBGM(false, true)
-				self:Schedule(22, self.TransitionToDungeonBGM, self)--
+				self:Schedule(22, self.TransitionToDungeonBGM, self)
 			end
 		end
 	end
@@ -7644,8 +7640,8 @@ function bossModPrototype:CheckInterruptFilter(sourceGUID, force, checkCooldown,
 	if (DBM.Options.FilterInterrupt2 == "onlyTandF") or self.isTrashMod and (DBM.Options.FilterInterrupt2 == "TandFandBossCooldown") then
 		requireCooldown = false
 	end
-	if requireCooldown and ((GetSpellCooldown(6552)) ~= 0 or (GetSpellCooldown(47528)) ~= 0 or (GetSpellCooldown(282151)) ~= 0 or (GetSpellCooldown(2139)) ~= 0 or (GetSpellCooldown(1766)) ~= 0 or (GetSpellCooldown(106839)) ~= 0 or (GetSpellCooldown(96231)) ~= 0 or (GetSpellCooldown(15487)) ~= 0 or (GetSpellCooldown(57994)) ~= 0 or (GetSpellCooldown(183752)) ~= 0 or (GetSpellCooldown(78675)) ~= 0) then
-		InterruptAvailable = false--checkCooldown check requested and player has no spell that can interrupt available
+	if requireCooldown and not UnitIsDeadOrGhost("player") and ((GetSpellCooldown(6552)) ~= 0 or (GetSpellCooldown(47528)) ~= 0 or (GetSpellCooldown(282151)) ~= 0 or (GetSpellCooldown(2139)) ~= 0 or (GetSpellCooldown(1766)) ~= 0 or (GetSpellCooldown(106839)) ~= 0 or (GetSpellCooldown(96231)) ~= 0 or (GetSpellCooldown(15487)) ~= 0 or (GetSpellCooldown(57994)) ~= 0 or (GetSpellCooldown(183752)) ~= 0 or (GetSpellCooldown(78675)) ~= 0) then
+		InterruptAvailable = false--checkCooldown check requested and player has no spell that can interrupt available (or is dead)
 	end
 	if InterruptAvailable and (ignoreTandF or UnitGUID("target") == sourceGUID or UnitGUID("focus") == sourceGUID) then
 		return true
@@ -7658,6 +7654,7 @@ function bossModPrototype:CheckDispelFilter()
 	--Druid: Nature's Cure (88423), Remove Corruption (2782), Monk: Detox (115450) Monk: Detox (218164), Priest: Purify (527) Priest: Purify Disease (213634), Paladin: Cleanse (4987), Shaman: Cleanse Spirit (51886), Purify Spirit (77130), Mage: Remove Curse (475), Warlock: Singe Magic (89808)
 	--start, duration, enable = GetSpellCooldown
 	--start & duration == 0 if spell not on cd
+	if UnitIsDeadOrGhost("player") then return true end--if dead, can't dispel
 	if (GetSpellCooldown(88423)) ~= 0 or (GetSpellCooldown(2782)) ~= 0 or (GetSpellCooldown(115450)) ~= 0 or (GetSpellCooldown(218164)) ~= 0 or (GetSpellCooldown(527)) ~= 0 or (GetSpellCooldown(213634)) ~= 0 or (GetSpellCooldown(4987)) ~= 0 or (GetSpellCooldown(51886)) ~= 0 or (GetSpellCooldown(77130)) ~= 0 or (GetSpellCooldown(475)) ~= 0 or (GetSpellCooldown(89808)) ~= 0 then
 		return false
 	end

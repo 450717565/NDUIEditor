@@ -142,6 +142,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 			else
 				button.label:SetTextColor(1, .8, 0)
 			end
+			button.reward:SetTextColor(0, 1, 0)
 			button.description:SetTextColor(1, 1, 1)
 			button.hiddenDescription:SetTextColor(1, 1, 1)
 		else
@@ -150,6 +151,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 			else
 				button.label:SetTextColor(1, .8, 0, .5)
 			end
+			button.reward:SetTextColor(0, 1, 0, .5)
 			button.description:SetTextColor(1, 1, 1, .5)
 			button.hiddenDescription:SetTextColor(1, 1, 1, .5)
 		end

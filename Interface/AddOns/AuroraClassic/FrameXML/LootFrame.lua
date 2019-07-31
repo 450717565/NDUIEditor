@@ -51,10 +51,12 @@ tinsert(C.themes["AuroraClassic"], function()
 	BonusRollFrame.BlackBackgroundHoist:Hide()
 
 	local PromptFrame = BonusRollFrame.PromptFrame
-	PromptFrame.Timer.Bar:SetTexture(C.media.normTex)
-	PromptFrame.Timer.Bar:SetVertexColor(cr, cg, cb)
-	F.CreateBDFrame(PromptFrame.Timer, 0)
 	F.ReskinIcon(PromptFrame.Icon)
+
+	local Timer = PromptFrame.Timer
+	Timer.Bar:SetTexture(C.media.normTex)
+	Timer.Bar:SetVertexColor(cr, cg, cb)
+	F.CreateBDFrame(Timer, 0)
 
 	local SpecIcon = BonusRollFrame.SpecIcon
 	SpecIcon:ClearAllPoints()

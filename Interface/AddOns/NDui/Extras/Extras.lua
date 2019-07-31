@@ -139,6 +139,46 @@ do
 	end)
 end
 
+-- 格式化死亡摘要
+do
+	local function formatDeathRecap(_, addon)
+		if addon == "Blizzard_DeathRecap" then
+			hooksecurefunc("DeathRecapFrame_OpenRecap", function(recapID)
+				local self = DeathRecapFrame
+				local events = DeathRecap_GetEvents(recapID)
+
+				for i = 1, #events do
+					local entry = self.DeathRecapEntry[i]
+					local dmgInfo = entry.DamageInfo
+					local evtData = events[i]
+
+					if evtData.amount then
+						local amountStr = "-"..B.Numb(evtData.amount)
+						dmgInfo.Amount:SetText(amountStr)
+						dmgInfo.AmountLarge:SetText(amountStr)
+						dmgInfo.amount = B.Numb(evtData.amount)
+
+						if evtData.overkill and evtData.overkill > 0 then
+							dmgInfo.amount = B.Numb(evtData.amount - evtData.overkill)
+						end
+						if evtData.absorbed and evtData.absorbed > 0 then
+							dmgInfo.amount = B.Numb(evtData.amount - evtData.absorbed)
+						end
+						if evtData.resisted and evtData.resisted > 0 then
+							dmgInfo.amount = B.Numb(evtData.amount - evtData.resisted)
+						end
+						if evtData.blocked and evtData.blocked > 0 then
+							dmgInfo.amount = B.Numb(evtData.amount - evtData.blocked)
+						end
+					end
+				end
+			end)
+		end
+	end
+
+	B:RegisterEvent("ADDON_LOADED", formatDeathRecap)
+end
+
 -- 格式化货币数值
 do
 	hooksecurefunc("AltCurrencyFrame_Update", function(frameName, texture, cost, canAfford)

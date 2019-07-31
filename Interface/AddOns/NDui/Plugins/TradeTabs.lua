@@ -38,6 +38,8 @@ local THERMAL_ANVIL = 87216 -- 热流铁砧
 
 function TradeTabs:OnEvent(event, addon)
 	if not NDuiDB["Misc"]["TradeTab"] then return end
+	if IsAddOnLoaded("CloudyTradeSkill") then return end
+
 	if event == "ADDON_LOADED" and addon == "Blizzard_TradeSkillUI" then
 		self:UnregisterEvent(event)
 		if InCombatLockdown() then
