@@ -120,7 +120,7 @@ function addon:CreateButton(parent, scale)
 		if parent.lastButton then
 			button:SetPoint("TOPLEFT", parent.lastButton, "BOTTOMLEFT", 0, -5)
 		else
-			button:SetPoint("TOPLEFT", parent, "TOPRIGHT", 6, -50)
+			button:SetPoint("TOPLEFT", parent, "TOPRIGHT", 8, -50)
 		end
 	end
 

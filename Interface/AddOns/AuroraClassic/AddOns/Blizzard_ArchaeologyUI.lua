@@ -29,12 +29,12 @@ C.themes["Blizzard_ArchaeologyUI"] = function()
 	Digsite.BarTitle:ClearAllPoints()
 	Digsite.BarTitle:SetPoint("CENTER")
 
-	local titles = {ArchaeologyFrameSummaryPageTitle, ArchaeologyFrameCompletedPageTitleTop, ArchaeologyFrameCompletedPageTitleMid, ArchaeologyFrameArtifactPageHistoryTitle, ArchaeologyFrameHelpPageTitle, ArchaeologyFrameHelpPageDigTitle}
+	local titles = {ArchaeologyFrameSummaryPageTitle, ArchaeologyFrameCompletedPageTitleTop, ArchaeologyFrameCompletedPageTitleMid, ArchaeologyFrameArtifactPageHistoryTitle, ArchaeologyFrameHelpPageTitle, ArchaeologyFrameHelpPageDigTitle, ArchaeologyFrameCompletedPage.titleBig}
 	for _, title in pairs(titles) do
 		title:SetTextColor(1, .8, 0)
 	end
 
-	local texets = {ArchaeologyFrameCompletedPagePageText, ArchaeologyFrameSummaryPagePageText, ArchaeologyFrameArtifactPageHistoryScrollChildText, ArchaeologyFrameHelpPageHelpScrollHelpText}
+	local texets = {ArchaeologyFrameCompletedPagePageText, ArchaeologyFrameSummaryPagePageText, ArchaeologyFrameArtifactPageHistoryScrollChildText, ArchaeologyFrameHelpPageHelpScrollHelpText, ArchaeologyFrameCompletedPage.infoText}
 	for _, texet in pairs(texets) do
 		texet:SetTextColor(1, 1, 1)
 	end

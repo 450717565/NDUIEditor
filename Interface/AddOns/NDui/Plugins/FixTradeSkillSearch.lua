@@ -5,7 +5,6 @@ local B, C, L, DB = unpack(ns)
 -- License: Public Domain
 -- NDui MOD
 ------------------------------------
-
 local pairs, tonumber, strmatch = pairs, tonumber, string.match
 
 hooksecurefunc("ChatEdit_InsertLink", function(text) -- shift-clicked

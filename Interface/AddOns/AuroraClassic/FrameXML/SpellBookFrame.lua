@@ -89,9 +89,9 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 	end)
 
-	-- Professions
-	local professions = {"PrimaryProfession1", "PrimaryProfession2", "SecondaryProfession1", "SecondaryProfession2", "SecondaryProfession3"}
-	for index, button in pairs(professions) do
+	-- PrimaryProfession
+	local primaryProfession = {"PrimaryProfession1", "PrimaryProfession2", "SecondaryProfession1", "SecondaryProfession2", "SecondaryProfession3"}
+	for index, button in pairs(primaryProfession) do
 		local bu = _G[button]
 		bu.missingHeader:SetTextColor(1, 1, 1)
 		bu.missingText:SetTextColor(1, 1, 1)
@@ -133,28 +133,9 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 	end
 
-	local professionbuttons = {"PrimaryProfession1SpellButtonTop", "PrimaryProfession1SpellButtonBottom", "PrimaryProfession2SpellButtonTop", "PrimaryProfession2SpellButtonBottom", "SecondaryProfession1SpellButtonLeft", "SecondaryProfession1SpellButtonRight", "SecondaryProfession2SpellButtonLeft", "SecondaryProfession2SpellButtonRight", "SecondaryProfession3SpellButtonLeft", "SecondaryProfession3SpellButtonRight"}
-
-	for index, button in pairs(professionbuttons) do
-		local bu = _G[button]
-		F.StripTextures(bu)
-		bu:SetCheckedTexture(C.media.checked)
-
-		local icon = _G[button.."IconTexture"]
-		if index <= 4 then
-			icon:SetPoint("TOPLEFT", 4, -4)
-			icon:SetPoint("BOTTOMRIGHT", -4, 4)
-		end
-
-		local icbg = F.ReskinIcon(icon)
-		F.ReskinTexture(bu.highlightTexture, icbg)
-
-		local name = _G[button.."SpellName"]
-		name:ClearAllPoints()
-		name:SetPoint("LEFT", icbg, "RIGHT", 4, 0)
-	end
-
 	hooksecurefunc("FormatProfession", function(frame, index)
+		if SpellBookFrame.bookType ~= BOOKTYPE_PROFESSION then return end
+
 		if index then
 			local _, texture = GetProfessionInfo(index)
 
@@ -164,7 +145,30 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 	end)
 
+	-- SecondaryProfession
+	local secondaryProfession = {"PrimaryProfession1SpellButtonTop", "PrimaryProfession1SpellButtonBottom", "PrimaryProfession2SpellButtonTop", "PrimaryProfession2SpellButtonBottom", "SecondaryProfession1SpellButtonLeft", "SecondaryProfession1SpellButtonRight", "SecondaryProfession2SpellButtonLeft", "SecondaryProfession2SpellButtonRight", "SecondaryProfession3SpellButtonLeft", "SecondaryProfession3SpellButtonRight"}
+	for index, button in pairs(secondaryProfession) do
+		local bu = _G[button]
+		F.StripTextures(bu)
+
+		local icon = _G[button.."IconTexture"]
+		if index <= 4 then
+			icon:SetPoint("TOPLEFT", 4, -4)
+			icon:SetPoint("BOTTOMRIGHT", -4, 4)
+		end
+
+		local icbg = F.ReskinIcon(icon)
+		F.ReskinTexed(bu, icbg)
+		F.ReskinTexture(bu.highlightTexture, icbg)
+
+		local name = _G[button.."SpellName"]
+		name:ClearAllPoints()
+		name:SetPoint("LEFT", icbg, "RIGHT", 4, 0)
+	end
+
 	hooksecurefunc("UpdateProfessionButton", function(self)
+		if SpellBookFrame.bookType ~= BOOKTYPE_PROFESSION then return end
+
 		self.highlightTexture:SetColorTexture(1, 1, 1, .25)
 		self.spellString:SetTextColor(1, 1, 1)
 		self.subSpellString:SetTextColor(1, 1, 1)

@@ -31,7 +31,12 @@ L["iron_chest_note"] = "Open with an Irontide Lockbox Key dropped from mobs in t
 L["mech_chest_note"] = "Open with a Mechanized Supply Key dropped from mobs in the Western Spray.";
 L["rust_chest_note"] = "Open with an Old Rusty Key dropped from mobs in the Western Spray.";
 
+L["rec_rig"] = "Reclamation Rig"
+L["rec_rig_note"] = "To activate hard-mode, use the Supercollider weapon to convert all Irradiated Elementals into Unstable Irradiated Elementals. Pets are obtainable on both difficulties."
+
 L["options_toggle_treasures_mech"] = "Display locations of locked chests in the Wester Spray."
+L["options_toggle_recrig"] = "Reclamation Rig"
+L["options_toggle_recrig_desc"] = "Display the location of the Reclamation Rig and its rewards."
 
 -------------------------------------------------------------------------------
 ----------------------------------- NAZJATAR ----------------------------------
@@ -44,6 +49,7 @@ L["avarius_note"] = "Use Brinestone Pickaxe to collect and place the colored cry
 L["banescale_note"] = "Small chance to spawn immediately after killing Packmother.";
 L["elderunu_note"] = "Spawns anywhere in upper Kal'methir.";
 L["gakula_note"] = "Shoo away Bloodfin Tadpoles until he spawns.";
+L["glimmershell_note"] = "Small chance to spawn in place of Glimmershell Hulks.";
 L["kelpwillow_note"] = "Bring a Muck Slug using a Prismatic Crystal to activate.";
 L["lasher_note"] = "Plant a Germinating Seed in the soil and feed it flies.";
 L["matriarch_note"] = "Shares a respawn timer with the other two Scale Matriarchs.";
@@ -114,7 +120,13 @@ L["cat_figurine_09"] = "In an underwater cave. Figurine is on the rock archway b
 L["cat_figurine_10"] = "In a cave just below the path. Figurine is between three barrels."
 
 L["mardivas_lab"] = "Mardivas's Laboratory";
-L["no_reagent"] = "no reagents"
+L["no_reagent"] = "No reagents"
+L["swater"] = "Small Water"
+L["gwater"] = "Greater Water"
+L["sfire"] = "Small Fire"
+L["gfire"] = "Greater Fire"
+L["searth"] = "Small Earth"
+L["gearth"] = "Greater Earth"
 L["murloco"] = "Murloco";
 L["tentacle_taco"] = "Sells "..ITEM_QUALITY_COLORS[4].hex.."[Hungry Herald's Tentacle Taco]|r if you are wearing the Benthic Azsh'ari Stormsurger Cape.";
 
@@ -172,6 +184,9 @@ L["trinket"] = "Trinket";
 
 L["retrieving"] = "Retrieving item link ...";
 L["in_cave"] = "In a cave.";
+L["weekly"] = "Weekly";
+L["normal"] = "Normal";
+L["hard"] = "Hard";
 L["mount"] = "Mount";
 L["pet"] = "Pet";
 L["toy"] = "Toy";
@@ -187,6 +202,8 @@ L["(incomplete)"] = string.format(RED, "Incomplete");
 L["(known)"] = string.format(GREEN, "Known");
 L["(missing)"] = string.format(RED, "Missing");
 L["(unlearnable)"] = string.format(ORANGE, "Unlearnable");
+L["(gweekly)"] = string.format(GREEN, "Weekly");
+L["(rweekly)"] = string.format(RED, "Weekly");
 
 -------------------------------------------------------------------------------
 --------------------------------- CONTEXT MENU --------------------------------
@@ -202,52 +219,61 @@ L["context_menu_restore_hidden_nodes"] = "Restore all hidden nodes";
 -------------------------------------------------------------------------------
 
 L["options_title"] = "Mechagon & Nazjatar";
+
+------------------------------------ ICONS ------------------------------------
+
 L["options_icon_settings"] = "Icon Settings";
-L["options_icon_settings_desc"] = "Icon Settings";
 L["options_icons_treasures"] = "Treasure Icons";
-L["options_icons_treasures_desc"] = "Treasure Icons";
 L["options_icons_rares"] = "Rare Icons";
-L["options_icons_rares_desc"] = "Rare Icons";
 L["options_icons_caves"] = "Cave Icons";
-L["options_icons_caves_desc"] = "Cave Icons";
 L["options_icons_pet_battles"] = "Pet Battle Icons";
-L["options_icons_pet_battles_desc"] = "Pet Battle Icons";
 L["options_icons_other"] = "Other Icons";
-L["options_icons_other_desc"] = "Other Icons";
 L["options_scale"] = "Scale";
 L["options_scale_desc"] = "1 = 100%";
 L["options_opacity"] = "Opacity";
 L["options_opacity_desc"] = "0 = transparent, 1 = opaque";
+
+---------------------------------- VISIBILITY ---------------------------------
+
 L["options_visibility_settings"] = "Visibility";
-L["options_visibility_settings_desc"] = "Visibility";
-L["options_toggle_treasures"] = "Treasures";
-L["options_toggle_supplies"] = "War Supply Drops";
-L["options_toggle_supplies_desc"] = "Display all possible locations for war supply crates.";
-L["options_toggle_rares"] = "Rares";
-L["options_toggle_rares_desc"] = "Display locations of rare NPCs.";
-L["options_toggle_battle_pets"] = "Battle Pets";
-L["options_toggle_battle_pets_desc"] = "Display locations of battle pet trainers and NPCs.";
-L["options_toggle_npcs"] = "NPCs";
-L["options_toggle_misc"] = "Miscellaneous";
 L["options_general_settings"] = "General";
-L["options_general_settings_desc"] = "General";
-L["options_toggle_alreadylooted_rares"] = "Always show all rares";
-L["options_toggle_alreadylooted_rares_desc"] = "Show every rare regardless of looted status";
-L["options_toggle_alreadylooted_treasures"] = "Already looted Treasures";
-L["options_toggle_alreadylooted_treasures_desc"] = "Show every treasure regardless of looted status";
+L["options_toggle_looted_rares"] = "Always show all rares";
+L["options_toggle_looted_rares_desc"] = "Show every rare regardless of looted status";
+L["options_toggle_looted_treasures"] = "Already looted Treasures";
+L["options_toggle_looted_treasures_desc"] = "Show every treasure regardless of looted status";
+L["options_toggle_hide_done_rare"] = "Hide rare, if all loot known";
+L["options_toggle_hide_done_rare_desc"] = "Hide all rares for which all loot is known.";
+L["options_toggle_hide_minimap"] = "Hide all icons on the minimap";
+L["options_toggle_hide_minimap_desc"] = "Hides all icons from this addon on the minimap and displays them only on the main map.";
+
+L["options_toggle_battle_pets_desc"] = "Display locations of battle pet trainers and NPCs.";
+L["options_toggle_battle_pets"] = "Battle Pets";
+L["options_toggle_caves_desc"] = "Display cave entrances for other nodes.";
+L["options_toggle_caves"] = "Caves";
+L["options_toggle_misc"] = "Miscellaneous";
+L["options_toggle_npcs"] = "NPCs";
+L["options_toggle_rares_desc"] = "Display locations of rare NPCs.";
+L["options_toggle_rares"] = "Rares";
+L["options_toggle_supplies_desc"] = "Display all possible locations for war supply crates.";
+L["options_toggle_supplies"] = "War Supply Drops";
+L["options_toggle_treasures"] = "Treasures";
+
+---------------------------------- TOOLTIP ---------------------------------
+
 L["options_tooltip_settings"] = "Tooltip";
 L["options_tooltip_settings_desc"] = "Tooltip";
 L["options_toggle_show_loot"] = "Show Loot";
 L["options_toggle_show_loot_desc"] = "Add loot information to the tooltip";
 L["options_toggle_show_notes"] = "Show Notes";
 L["options_toggle_show_notes_desc"] = "Add helpful notes to the tooltip where available";
-L["options_toggle_caves"] = "Caves";
-L["options_toggle_caves_desc"] = "Display cave entrances for other nodes.";
-L["options_general_settings"] = "General";
-L["options_general_settings_desc"] = "General settings";
+
+--------------------------------- DEVELOPMENT ---------------------------------
+
+L["options_dev_settings"] = "Development";
+L["options_dev_settings_desc"] = "Development settings";
 L["options_toggle_show_debug"] = "Debug";
 L["options_toggle_show_debug_desc"] = "Show debug stuff";
-L["options_toggle_hideKnownLoot"] = "Hide rare, if all loot known";
-L["options_toggle_hideKnownLoot_desc"] = "Hide all rares for which all loot is known.";
-L["options_toggle_hideMinimapIcons"] = "Hide all icons on the minimap";
-L["options_toggle_hideMinimapIcons_desc"] = "Hides all icons from this addon on the minimap and displays them only on the main map.";
+L["options_toggle_ignore_quests"] = "Ignore Quests";
+L["options_toggle_ignore_quests_desc"] = "Ignore quest status of nodes";
+L["options_toggle_force_nodes"] = "Force Nodes";
+L["options_toggle_force_nodes_desc"] = "Force display all nodes";

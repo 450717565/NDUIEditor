@@ -377,9 +377,8 @@ end
 function F:ReskinButton(noHighlight)
 	F.CleanTextures(self)
 
-	F.CreateBD(self, 0)
-	F.CreateSD(self)
-	F.CreateGF(self)
+	local bdTex = F.CreateBDFrame(self, 0, 0)
+	self.bdTex = bdTex
 
 	if not noHighlight then
 		SetupHook(self)
@@ -774,7 +773,10 @@ function F:ReskinScroll()
 	F.CleanTextures(self)
 
 	local parent = self:GetParent()
-	if parent then F.StripTextures(parent, true) end
+	if parent then
+		F.StripTextures(parent)
+		F.CleanTextures(parent)
+	end
 
 	local bu = scrollThumb(self)
 	bu:SetAlpha(0)
@@ -899,7 +901,7 @@ function F:ReskinSort()
 end
 
 function F:ReskinStatusBar(noClassColor)
-	F.StripTextures(self, true)
+	F.StripTextures(self)
 	F.CleanTextures(self)
 
 	F.CreateBDFrame(self, 0)

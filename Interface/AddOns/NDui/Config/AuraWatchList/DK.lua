@@ -49,12 +49,12 @@ local list = {
 	["Player Special Aura"] = { -- 玩家重要光环组
 		{AuraID = 115989, UnitID = "player"},--邪恶虫群
 		{AuraID = 145629, UnitID = "player"},--反魔法领域
-		{AuraID = 152279, UnitID = "player"},--冰龙吐息
+		{AuraID = 152279, UnitID = "player", Flash = true},--冰龙吐息
 		{AuraID = 194679, UnitID = "player"},--符文分流
 		{AuraID = 194844, UnitID = "player"},--白骨风暴
 		{AuraID = 194879, UnitID = "player"},--冰冷之爪
 		{AuraID = 195181, UnitID = "player"},--白骨之盾
-		{AuraID = 196770, UnitID = "player"},--冷库严冬
+		{AuraID = 196770, UnitID = "player", Flash = true},--冷库严冬
 		{AuraID = 207203, UnitID = "player", Value = true},--寒冰之盾
 		{AuraID = 207289, UnitID = "player"},--邪恶狂乱
 		{AuraID = 211805, UnitID = "player"},--风暴汇聚
