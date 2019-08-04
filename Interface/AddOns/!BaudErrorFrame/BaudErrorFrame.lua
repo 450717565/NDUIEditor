@@ -13,10 +13,10 @@ function BaudErrorFrame_OnLoad(self)
 		self:RegisterEvent("MACRO_ACTION_FORBIDDEN")
 	end
 
-    UIParent:UnregisterEvent("MACRO_ACTION_BLOCKED")
-    UIParent:UnregisterEvent("ADDON_ACTION_BLOCKED")
-    UIParent:UnregisterEvent("MACRO_ACTION_FORBIDDEN")
-    UIParent:UnregisterEvent("ADDON_ACTION_FORBIDDEN")
+	UIParent:UnregisterEvent("MACRO_ACTION_BLOCKED")
+	UIParent:UnregisterEvent("ADDON_ACTION_BLOCKED")
+	UIParent:UnregisterEvent("MACRO_ACTION_FORBIDDEN")
+	UIParent:UnregisterEvent("ADDON_ACTION_FORBIDDEN")
 
 	tinsert(UISpecialFrames, self:GetName())
 	SlashCmdList["BaudErrorFrame"] = function()
@@ -159,6 +159,17 @@ function BaudErrorFrameScrollValue()
 	end
 end
 
+local function colorStack(ret)
+	ret = tostring(ret) or "" -- Yes, it gets called with nonstring from somewhere /mikk
+
+	ret = ret:gsub("|([^chHr])", "||%1"):gsub("|$", "||") -- Pipes
+	ret = ret:gsub("([\"`'])(.-)([\"`'])", "|cff82c5ff%1%2%3|r") -- Quotes
+	ret = ret:gsub(":(%d+)([%S\n])", ":|cff7fff7f%1|r%2") -- Line numbers
+	ret = ret:gsub("([^\\]+%.lua)", "|cffffd200%1|r") -- Lua files
+
+	return ret
+end
+
 function BaudErrorFrameScrollBar_Update()
 	if not BaudErrorFrame:IsShown() then return end
 
@@ -177,7 +188,7 @@ function BaudErrorFrameScrollBar_Update()
 		ButtonText = _G[FrameName.."Entry"..Line.."Text"]
 		if Index <= Total then
 			Button:SetID(Index)
-			ButtonText:SetText(ErrorList[Index].Error)
+			ButtonText:SetText(colorStack(ErrorList[Index].Error))
 			Button:Show()
 			if Index == SelectedError then
 				Highlight:SetPoint("TOP", Button)
@@ -192,7 +203,7 @@ end
 
 function BaudErrorFrameEditBoxUpdate()
 	if ErrorList[SelectedError] then
-		BaudErrorFrameEditBox.TextShown = ErrorList[SelectedError].Error.."\nCount: "..ErrorList[SelectedError].Count.."\n\nCall Stack:\n"..ErrorList[SelectedError].Stack
+		BaudErrorFrameEditBox.TextShown = colorStack(ErrorList[SelectedError].Error.."\nCount: "..ErrorList[SelectedError].Count.."\n\nCall Stack:\n"..ErrorList[SelectedError].Stack)
 	else
 		BaudErrorFrameEditBox.TextShown = ""
 	end

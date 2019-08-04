@@ -24,8 +24,11 @@ tinsert(C.themes["AuroraClassic"], function()
 			F.StripTextures(list)
 		end
 
-		local line = F.CreateLine(InterfaceOptionsFrameCategories)
-		line:SetPoint("RIGHT", 10, 0)
+		local aLine = F.CreateLine(InterfaceOptionsFrameAddOns)
+		aLine:SetPoint("RIGHT", 10, 0)
+
+		local cLine = F.CreateLine(InterfaceOptionsFrameCategories)
+		cLine:SetPoint("RIGHT", 10, 0)
 
 		for i = 1, 10 do
 			local button = _G["InterfaceOptionsFrameCategoriesButton"..i]

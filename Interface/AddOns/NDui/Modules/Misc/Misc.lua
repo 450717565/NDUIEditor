@@ -320,7 +320,7 @@ do
 			end
 		end
 		print("    -> |c0000ff00"..TOTAL..L[":"].."|cffff0000"..total)
-		print("|cff70C0F5------------------------")
+		print("|cff70C0F5———————————————")
 	end
 
 	local function AddCalculateIcon()

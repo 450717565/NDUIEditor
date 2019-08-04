@@ -507,7 +507,7 @@ function UF:CreatePlates(unit)
 
 		if NDuiDB["Nameplate"]["TarArrow"] > 1 then
 			local arrow = self:CreateTexture(nil, "OVERLAY", nil, 1)
-			arrow:SetSize(50, 50)
+			arrow:SetSize(40, 40)
 			arrow:SetTexture(DB.arrowTex..NDuiDB["Extras"]["ArrowColor"])
 			if NDuiDB["Nameplate"]["TarArrow"] == 3 then
 				arrow:SetPoint("LEFT", self, "RIGHT", 3, 0)
@@ -580,7 +580,7 @@ function UF:UpdateClassPowerAnchor()
 		bar:SetParent(nameplate.unitFrame)
 		bar:SetScale(.7)
 		bar:ClearAllPoints()
-		bar:SetPoint("BOTTOM", nameplate.unitFrame, "TOP", 0, 25)
+		bar:SetPoint("BOTTOM", nameplate.unitFrame, "TOP", 0, 26)
 		bar:Show()
 	else
 		bar:Hide()

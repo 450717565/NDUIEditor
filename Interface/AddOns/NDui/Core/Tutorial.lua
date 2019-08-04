@@ -7,10 +7,10 @@ local cr, cg, cb = DB.r, DB.g, DB.b
 local alpha
 
 -- Addon Info
-print("|cff0080ff< NDui >|cff70C0F5----------------")
+print("|cff0080ff< NDui >|cff70C0F5——————————————")
 print("|cff00ff00  "..DB.Support.."|c00ffff00 "..DB.Version.." |c0000ff00"..L["Version Info1"])
 print("|c0000ff00  "..L["Version Info2"].."|c00ffff00 /ndui |c0000ff00"..L["Version Info3"])
-print("|cff70C0F5------------------------")
+print("|cff70C0F5——————————————————")
 
 -- Tuitorial
 local function ForceDefaultSettings()

@@ -458,6 +458,7 @@ function B:StripTextures(kill)
 			elseif tonumber(kill) then
 				if kill == 0 then
 					region:SetAlpha(0)
+					region:Hide()
 				elseif i ~= kill then
 					region:SetTexture("")
 				end

@@ -336,8 +336,10 @@ function F:ReskinAffixes()
 	for _, frame in ipairs(self.Affixes) do
 		frame.Border:SetTexture(nil)
 		frame.Portrait:SetTexture(nil)
-		if not frame.bg then
-			frame.bg = F.ReskinIcon(frame.Portrait, false, 1)
+		if not frame.styled then
+			F.ReskinIcon(frame.Portrait, false, 1)
+
+			frame.styled = true
 		end
 
 		if frame.info then
@@ -377,8 +379,9 @@ end
 function F:ReskinButton(noHighlight)
 	F.CleanTextures(self)
 
-	local bdTex = F.CreateBDFrame(self, 0, 0)
-	self.bdTex = bdTex
+	F.CreateBD(self, 0)
+	F.CreateSD(self)
+	F.CreateGF(self)
 
 	if not noHighlight then
 		SetupHook(self)
@@ -472,7 +475,7 @@ function F:ReskinDropDown()
 	bg:SetPoint("TOPLEFT", self, "TOPLEFT", 16, -4)
 	bg:SetPoint("BOTTOMRIGHT", button, "BOTTOMLEFT", -1, 0)
 
-	local text = (frameName and _G[frameName.."Text"]) or self.Text or self.text
+	local text = (frameName and (_G[frameName.."Text"] or _G[frameName.."text"])) or self.Text or self.text
 	if text then
 		text:SetJustifyH("CENTER")
 		text:ClearAllPoints()
@@ -589,7 +592,6 @@ end
 
 function F:ReskinInput(height, width)
 	F.CleanTextures(self)
-	self:DisableDrawLayer("BACKGROUND")
 
 	local bg = F.CreateBDFrame(self, 0)
 	bg:SetPoint("TOPLEFT", -2, 0)
@@ -912,7 +914,7 @@ function F:ReskinStatusBar(noClassColor)
 	end
 
 	local frameName = self.GetName and self:GetName()
-	local text = (frameName and _G[frameName.."Text"]) or self.Text or self.text
+	local text = (frameName and (_G[frameName.."Text"] or _G[frameName.."text"])) or self.Text or self.text
 	if text then
 		text:SetJustifyH("CENTER")
 		text:ClearAllPoints()
@@ -1039,7 +1041,6 @@ local CleanTextures = {
 	"BottomRight",
 	"BottomRightTex",
 	"BottomTex",
-	"Cover",
 	"Delimiter1",
 	"Delimiter2",
 	"Left",
@@ -1082,6 +1083,7 @@ local CleanTextures = {
 function F:CleanTextures()
 	--if self.SetCheckedTexture then self:SetCheckedTexture("") end
 	if self.SetBackdrop then self:SetBackdrop(nil) end
+	if self.SetDrawLayer then self:DisableDrawLayer("BACKGROUND") end
 	if self.SetDisabledTexture then self:SetDisabledTexture("") end
 	if self.SetHighlightTexture then self:SetHighlightTexture("") end
 	if self.SetNormalTexture then self:SetNormalTexture("") end
@@ -1106,6 +1108,7 @@ local BlizzTextures = {
 	"BorderFrame",
 	"bottomInset",
 	"BottomInset",
+	"Cover",
 	"FilligreeOverlay",
 	"Inset",
 	"inset",
@@ -1135,6 +1138,7 @@ function F:StripTextures(kill)
 				elseif tonumber(kill) then
 					if kill == 0 then
 						region:SetAlpha(0)
+						region:Hide()
 					elseif i ~= kill then
 						region:SetTexture("")
 					end

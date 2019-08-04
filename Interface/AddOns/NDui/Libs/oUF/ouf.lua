@@ -631,7 +631,7 @@ do
 		local name = overrideName or generateName(nil, ...)
 		local header = CreateFrame('Frame', name, PetBattleFrameHider, template)
 
-		header:SetAttribute('template', 'SecureUnitButtonTemplate, SecureHandlerStateTemplate, SecureHandlerEnterLeaveTemplate')
+		header:SetAttribute('template', 'SecureUnitButtonTemplate, SecureHandlerStateTemplate, SecureHandlerEnterLeaveTemplate, SecureHandlerShowHideTemplate')
 		for i = 1, select('#', ...), 2 do
 			local att, val = select(i, ...)
 			if (not att) then break end
@@ -714,7 +714,7 @@ oUF implements some of its own attributes. These can be supplied by the layout, 
 
 * oUF-enableArenaPrep - can be used to toggle arena prep support. Defaults to true (boolean)
 --]]
-function oUF:Spawn(unit, overrideName)
+function oUF:Spawn(unit, overrideName, noHandle)
 	argcheck(unit, 2, 'string')
 	if (not style) then return error('Unable to create frame. No styles have been registered.') end
 
@@ -724,7 +724,7 @@ function oUF:Spawn(unit, overrideName)
 	local object = CreateFrame('Button', name, PetBattleFrameHider, 'SecureUnitButtonTemplate')
 	Private.UpdateUnits(object, unit)
 
-	self:DisableBlizzard(unit)
+	if not noHandle then self:DisableBlizzard(unit) end
 	walkObject(object, unit)
 
 	object:SetAttribute('unit', unit)
