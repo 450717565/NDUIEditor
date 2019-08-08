@@ -125,6 +125,7 @@ local defaultSettings = {
 		BlockAddonAlert = true,
 		ChatMenu = true,
 		WhisperColor = true,
+		ChatItemLevel = true,
 	},
 	Map = {
 		Coord = true,
@@ -395,6 +396,14 @@ local function updatePlateRange()
 	B:GetModule("UnitFrames"):UpdatePlateRange()
 end
 
+local function updateCustomUnitList()
+	B:GetModule("UnitFrames"):CreateUnitTable()
+end
+
+local function updatePowerUnitList()
+	B:GetModule("UnitFrames"):CreatePowerUnitTable()
+end
+
 local function updateInterruptAlert()
 	B:GetModule("Misc"):InterruptAlert()
 end
@@ -543,10 +552,10 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 	[5] = {
 		{1, "Nameplate", "Enable", DB.MyColor..L["Enable Nameplate"], false, setupNameplateFilter},
 		{},--blank
-		{1, "Nameplate", "CustomUnitColor", DB.MyColor..L["CustomUnitColor"]},
-		{5, "Nameplate", "CustomColor", L["Custom Color"], 2},
-		{2, "Nameplate", "UnitList", L["UnitColor List"]},
-		{2, "Nameplate", "ShowPowerList", L["ShowPowerList"], true},
+		{1, "Nameplate", "CustomUnitColor", DB.MyColor..L["CustomUnitColor"].."*", false, nil, updateCustomUnitList},
+		{5, "Nameplate", "CustomColor", L["Custom Color"].."*", 2},
+		{2, "Nameplate", "UnitList", L["UnitColor List"].."*", false, nil, updateCustomUnitList},
+		{2, "Nameplate", "ShowPowerList", L["ShowPowerList"].."*", true, nil, updatePowerUnitList},
 		{1, "Nameplate", "TankMode", DB.MyColor..L["Tank Mode"].."*"},
 		{1, "Nameplate", "DPSRevertThreat", L["DPS Revert Threat"].."*", true},
 		{5, "Nameplate", "SecureColor", L["Secure Color"].."*"},
@@ -625,11 +634,13 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 	},
 	[8] = {
 		{1, "Chat", "Lock", DB.MyColor..L["Lock Chat"]},
-		{1, "Chat", "Sticky", L["Chat Sticky"].."*", true, nil, updateChatSticky},
+		{},--blank
 		{1, "Chat", "Oldname", L["Default Channel"]},
+		{1, "ACCOUNT", "Timestamp", L["Timestamp"], true, nil, updateTimestamp},
+		{1, "Chat", "Sticky", L["Chat Sticky"].."*", false, nil, updateChatSticky},
 		{1, "Chat", "WhisperColor", L["Differ WhipserColor"].."*", true},
 		{1, "Chat", "Freedom", L["Language Filter"]},
-		{1, "ACCOUNT", "Timestamp", L["Timestamp"], true, nil, updateTimestamp},
+		{1, "Chat", "ChatItemLevel", DB.MyColor..L["ShowChatItemLevel"], true},
 		{},--blank
 		{1, "Chat", "EnableFilter", DB.MyColor..L["Enable Chatfilter"]},
 		{1, "Chat", "BlockAddonAlert", L["Block Addon Alert"], true},
@@ -722,11 +733,11 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Extras", "GuildWelcome", L["Guild Welcome"]},
 		{1, "Extras", "AutoCollapse", L["Auto Collapse"], true},
 		{},--blank
-		{1, "Extras", "iLvlTools", L["iLvlTools"]},
+		{1, "Extras", "iLvlTools", DB.MyColor..L["iLvlTools"]},
 		{1, "Extras", "ShowCharacterItemSheet", L["Show Character Item Sheet"]},
 		{1, "Extras", "ShowOwnFrameWhenInspecting", L["Show Own Frame When Inspecting"], true},
 		{},--blank
-		{1, "Extras", "LootMonitor", L["LootMonitor"]},
+		{1, "Extras", "LootMonitor", DB.MyColor..L["LootMonitor"]},
 		{1, "Extras", "LootMonitorInGroup", L["LootMonitor InGroup"]},
 		{1, "Extras", "LootMonitorBonusRewards", L["LootMonitor Bonus Rewards"], true},
 	},

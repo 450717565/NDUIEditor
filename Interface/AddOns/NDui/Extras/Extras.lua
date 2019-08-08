@@ -88,7 +88,6 @@ end
 
 -- 重置副本自动喊话
 local resetList = {"无法重置", "已被重置"}
-
 function Extras.UpdateInstanceReset(_, msg)
 	for _, word in ipairs(resetList) do
 		if strfind(msg, word) then

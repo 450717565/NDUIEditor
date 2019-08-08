@@ -2,11 +2,13 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local module = B:GetModule("Chat")
 
-local strfind, gsub = string.find, string.gsub
+local strfind, strmatch, gsub = string.find, string.match, string.gsub
 local pairs, ipairs, tonumber = pairs, ipairs, tonumber
 local min, max, tremove = math.min, math.max, table.remove
 local IsGuildMember, C_FriendList_IsFriend, IsGUIDInGroup, C_Timer_After = IsGuildMember, C_FriendList.IsFriend, IsGUIDInGroup, C_Timer.After
 local Ambiguate, UnitIsUnit, BNGetGameAccountInfoByGUID, GetTime, SetCVar = Ambiguate, UnitIsUnit, BNGetGameAccountInfoByGUID, GetTime, SetCVar
+local GetItemInfo, GetItemStats = GetItemInfo, GetItemStats
+local LE_ITEM_CLASS_WEAPON, LE_ITEM_CLASS_ARMOR = LE_ITEM_CLASS_WEAPON, LE_ITEM_CLASS_ARMOR
 local BN_TOAST_TYPE_CLUB_INVITATION = BN_TOAST_TYPE_CLUB_INVITATION or 6
 
 -- Filter Chat symbols
@@ -149,16 +151,75 @@ function module:BlockTrashClub()
 	end
 end
 
+-- Show itemlevel on chat hyperlinks
+local function isItemHasSlot(link)
+	local itemSolt = B.GetItemSlot(link)
+	if itemSolt then
+		return itemSolt
+	end
+end
+
+local function isItemHasLevel(link)
+	local name, _, rarity, level, _, _, _, _, _, _, _, classID = GetItemInfo(link)
+	if name and level and rarity > 1 and (classID == LE_ITEM_CLASS_WEAPON or classID == LE_ITEM_CLASS_ARMOR) then
+		local itemLevel = B.GetItemLevel(link)
+		return name, itemLevel
+	end
+end
+
+local function isItemHasGem(link)
+	local stats = GetItemStats(link)
+	for index in pairs(stats) do
+		if strfind(index, "EMPTY_SOCKET_") then
+			return "|TInterface\\ItemSocketingFrame\\UI-EmptySocket-Prismatic:0|t"
+		end
+	end
+	return ""
+end
+
+local itemCache = {}
+local function convertItemLevel(link)
+	if itemCache[link] then return itemCache[link] end
+
+	local itemLink = strmatch(link, "|Hitem:.-|h")
+	if itemLink then
+		local itemInfo = ""
+		local itemSolt = isItemHasSlot(itemLink)
+		local name, itemLevel = isItemHasLevel(itemLink)
+
+		if itemLevel and itemSolt then
+			itemInfo = itemLevel.."-"..itemSolt
+		elseif itemLevel then
+			itemInfo = itemLevel
+		elseif itemSolt then
+			itemInfo = itemSolt
+		end
+
+		if name then
+			link = gsub(link, "|h%[(.-)%]|h", "|h["..name.."<"..itemInfo..isItemHasGem(itemLink)..">]|h")
+			itemCache[link] = link
+		end
+	end
+	return link
+end
+
+function module:UpdateChatItemLevel(_, msg, ...)
+	msg = gsub(msg, "(|Hitem:%d+:.-|h.-|h)", convertItemLevel)
+	return false, msg, ...
+end
+
 local chatEvents = {
 	"CHAT_MSG_BATTLEGROUND",
 	"CHAT_MSG_BATTLEGROUND_LEADER",
 	"CHAT_MSG_BN_CONVERSATION",
 	"CHAT_MSG_BN_WHISPER",
+	"CHAT_MSG_BN_WHISPER_INFORM",
 	"CHAT_MSG_CHANNEL",
 	"CHAT_MSG_EMOTE",
 	"CHAT_MSG_GUILD",
 	"CHAT_MSG_INSTANCE_CHAT",
 	"CHAT_MSG_INSTANCE_CHAT_LEADER",
+	"CHAT_MSG_LOOT",
 	"CHAT_MSG_OFFICER",
 	"CHAT_MSG_PARTY",
 	"CHAT_MSG_PARTY_LEADER",
@@ -168,6 +229,7 @@ local chatEvents = {
 	"CHAT_MSG_SAY",
 	"CHAT_MSG_TEXT_EMOTE",
 	"CHAT_MSG_WHISPER",
+	"CHAT_MSG_WHISPER_INFORM",
 	"CHAT_MSG_YELL",
 }
 
@@ -180,6 +242,10 @@ function module:ChatFilter()
 
 		if NDuiDB["Chat"]["BlockAddonAlert"] then
 			ChatFrame_AddMessageEventFilter(v, self.UpdateAddOnBlocker)
+		end
+
+		if NDuiDB["Chat"]["ChatItemLevel"] then
+			ChatFrame_AddMessageEventFilter(v, self.UpdateChatItemLevel)
 		end
 	end
 

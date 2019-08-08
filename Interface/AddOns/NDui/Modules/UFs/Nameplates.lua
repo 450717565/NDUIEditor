@@ -74,18 +74,35 @@ function UF:BlockAddons()
 	hooksecurefunc(DBM.Nameplate, "Show", showAurasForDBM)
 end
 
-function UF:CreateUnitTable()
-	if not NDuiDB["Nameplate"]["CustomUnitColor"] then C.CustomUnits = nil return end
-	B.SplitList(C.CustomUnits, NDuiDB["Nameplate"]["UnitList"])
-end
-
-function UF:CreatePowerUnitTable()
-	B.SplitList(C.ShowPowerList, NDuiDB["Nameplate"]["ShowPowerList"])
-end
-
 -- Elements
-local groupRoles, isInGroup = {}
+local customUnits = {}
+function UF:CreateUnitTable()
+	wipe(customUnits)
+	if not NDuiDB["Nameplate"]["CustomUnitColor"] then return end
+	B.CopyTable(C.CustomUnits, customUnits)
+	B.SplitList(customUnits, NDuiDB["Nameplate"]["UnitList"])
+end
 
+local showPowerList = {}
+function UF:CreatePowerUnitTable()
+	wipe(showPowerList)
+	B.CopyTable(C.ShowPowerList, showPowerList)
+	B.SplitList(showPowerList, NDuiDB["Nameplate"]["ShowPowerList"])
+end
+
+function UF:UpdateUnitPower()
+	local unitName = self.unitName
+	local npcID = self.npcID
+	local shouldShowPower = showPowerList[unitName] or showPowerList[npcID]
+	if shouldShowPower then
+		self.powerText:Show()
+	else
+		self.powerText:Hide()
+	end
+end
+
+-- Off-tank threat color
+local groupRoles, isInGroup = {}
 local function refreshGroupRoles()
 	local isInRaid = IsInRaid()
 	isInGroup = isInRaid or IsInGroup()
@@ -126,11 +143,12 @@ function UF:CheckTankStatus(unit)
 	end
 end
 
+-- Update unit color
 function UF.UpdateColor(element, unit)
 	local self = element.__owner
-	local name = GetUnitName(unit) or UNKNOWN
+	local name = self.unitName
 	local npcID = self.npcID
-	local customUnit = C.CustomUnits and (C.CustomUnits[name] or C.CustomUnits[npcID])
+	local isCustomUnit = customUnits[name] or customUnits[npcID]
 	local status = UnitThreatSituation(self.feedbackUnit, unit) or false -- just in case
 	local reaction = UnitReaction(unit, "player")
 	local customColor = NDuiDB["Nameplate"]["CustomColor"]
@@ -144,7 +162,7 @@ function UF.UpdateColor(element, unit)
 	if not UnitIsConnected(unit) then
 		r, g, b = .7, .7, .7
 	else
-		if customUnit then
+		if isCustomUnit then
 			r, g, b = customColor.r, customColor.g, customColor.b
 		elseif UnitIsPlayer(unit) and (reaction and reaction >= 5) then
 			if NDuiDB["Nameplate"]["FriendlyCC"] then
@@ -206,6 +224,7 @@ function UF:UpdateThreatColor(_, unit)
 	UF.UpdateColor(self.Health, unit)
 end
 
+-- Target indicator
 function UF:UpdateTargetMark()
 	local arrow = self.arrowMark
 	local mark = self.tarMark
@@ -219,8 +238,8 @@ function UF:UpdateTargetMark()
 	end
 end
 
+-- Quest progress
 local unitTip = CreateFrame("GameTooltip", "NDuiQuestUnitTip", nil, "GameTooltipTemplate")
-
 function UF:UpdateQuestUnit(_, unit)
 	if not NDuiDB["Nameplate"]["QuestIcon"] then return end
 	if IsInInstance() then
@@ -282,6 +301,7 @@ function UF:UpdateQuestUnit(_, unit)
 	end
 end
 
+-- Dungeon progress, AngryKeystones required
 local cache = {}
 function UF:UpdateDungeonProgress(unit)
 	if not self.progressText or not AngryKeystones_Data then return end
@@ -322,6 +342,7 @@ function UF:UpdateDungeonProgress(unit)
 	end
 end
 
+-- Unit classification
 local classify = {
 	rare = {1, 0, 1},
 	elite = {1, 1, 0},
@@ -343,6 +364,7 @@ function UF:UpdateUnitClassify(unit)
 	end
 end
 
+-- Scale plates for explosives
 local explosiveCount, hasExplosives = 0
 local id = 120651
 function UF:ScalePlates()
@@ -396,10 +418,11 @@ function UF:CheckExplosives()
 	B:RegisterEvent("PLAYER_ENTERING_WORLD", checkAffixes)
 end
 
+-- Mouseover indicator
 function UF:IsMouseoverUnit()
 	if not self or not self.unit then return end
 
-	if self:IsVisible() and UnitExists("mouseover") and not UnitIsUnit("target", self.unit) then
+	if self:IsVisible() and UnitExists("mouseover") then
 		return UnitIsUnit("mouseover", self.unit)
 	end
 	return false
@@ -408,24 +431,23 @@ end
 function UF:UpdateMouseoverShown()
 	if not self or not self.unit then return end
 
-	if self:IsShown() and UnitIsUnit("mouseover", self.unit) and not UnitIsUnit("target", self.unit) then
-		self.glow:Show()
+	if self:IsShown() and UnitIsUnit("mouseover", self.unit) then
 		self.HighlightIndicator:Show()
+		self.HighlightUpdater:Show()
 	else
-		self.HighlightIndicator:Hide()
+		self.HighlightUpdater:Hide()
 	end
 end
 
 function UF:MouseoverIndicator(self)
-	local glow = CreateFrame("Frame", nil, UIParent)
-	glow:SetPoint("TOPLEFT", self, -6, 6)
-	glow:SetPoint("BOTTOMRIGHT", self, 6, -6)
-	glow:SetBackdrop({edgeFile = DB.glowTex, edgeSize = 4})
-	glow:SetBackdropBorderColor(1, 1, 1)
-	glow:Hide()
+	local highlight = CreateFrame("Frame", nil, self.Health)
+	highlight:SetAllPoints(self)
+	highlight:Hide()
+	local texture = highlight:CreateTexture(nil, "ARTWORK")
+	texture:SetAllPoints()
+	texture:SetColorTexture(1, 1, 1, .8)
 
 	self:RegisterEvent("UPDATE_MOUSEOVER_UNIT", UF.UpdateMouseoverShown, true)
-	self:RegisterEvent("PLAYER_TARGET_CHANGED", UF.UpdateMouseoverShown, true)
 
 	local f = CreateFrame("Frame", nil, self)
 	f:SetScript("OnUpdate", function(_, elapsed)
@@ -438,13 +460,14 @@ function UF:MouseoverIndicator(self)
 		end
 	end)
 	f:HookScript("OnHide", function()
-		glow:Hide()
+		highlight:Hide()
 	end)
 
-	self.glow = glow
-	self.HighlightIndicator = f
+	self.HighlightIndicator = highlight
+	self.HighlightUpdater = f
 end
 
+-- NazjatarFollowerXP
 function UF:AddFollowerXP(self)
 	local bar = CreateFrame("StatusBar", nil, self)
 	bar:SetSize(NDuiDB["Nameplate"]["Width"], NDuiDB["Nameplate"]["Height"])
@@ -457,6 +480,7 @@ function UF:AddFollowerXP(self)
 	self.NazjatarFollowerXP = bar
 end
 
+-- Interrupt info on castbars
 local guidToPlate = {}
 function UF:UpdateCastbarInterrupt(...)
 	local _, eventType, _, sourceGUID, sourceName, _, _, destGUID = ...
@@ -500,9 +524,11 @@ function UF:CreatePlates(unit)
 		UF:CreateAuras(self)
 		UF:CreatePVPClassify(self)
 		UF:AddFollowerXP(self)
+		UF:MouseoverIndicator(self)
 
-		self.powerText = B.CreateFS(self, 15, "", false, "LEFT", 0, 0)
-		self.powerText:SetPoint("LEFT", self, "RIGHT", 2, 0)
+		self.powerText = B.CreateFS(self, 15)
+		self.powerText:ClearAllPoints()
+		self.powerText:SetPoint("TOP", self.Castbar, "BOTTOM", 0, -4)
 		self:Tag(self.powerText, "[nppp]")
 
 		if NDuiDB["Nameplate"]["TarArrow"] > 1 then
@@ -522,14 +548,14 @@ function UF:CreatePlates(unit)
 			arrow:Hide()
 			self.arrowMark = arrow
 		end
-		local mark = self.Health:CreateTexture(nil, "BACKGROUND", nil, -1)
-		mark:SetHeight(12)
-		mark:SetPoint("BOTTOMLEFT", self.Health, "TOPLEFT", -10, -2)
-		mark:SetPoint("BOTTOMRIGHT", self.Health, "TOPRIGHT", 10, -2)
-		mark:SetTexture("Interface\\GLUES\\Models\\UI_Draenei\\GenericGlow64")
-		mark:SetVertexColor(0, 1, 1)
-		mark:Hide()
-		self.tarMark = mark
+
+		local glow = CreateFrame("Frame", nil, self)
+		glow:SetPoint("TOPLEFT", self, -6, 6)
+		glow:SetPoint("BOTTOMRIGHT", self, 6, -6)
+		glow:SetBackdrop({edgeFile = DB.glowTex, edgeSize = 4})
+		glow:SetBackdropBorderColor(1, 1, 1, .8)
+		glow:Hide()
+		self.tarMark = glow
 		self:RegisterEvent("PLAYER_TARGET_CHANGED", UF.UpdateTargetMark, true)
 
 		local iconFrame = CreateFrame("Frame", nil, self)
@@ -565,11 +591,10 @@ function UF:CreatePlates(unit)
 		local threatIndicator = CreateFrame("Frame", nil, self)
 		self.ThreatIndicator = threatIndicator
 		self.ThreatIndicator.Override = UF.UpdateThreatColor
-
-		UF:MouseoverIndicator(self)
 	end
 end
 
+-- Classpower on target nameplate
 local isTargetClassPower
 function UF:UpdateClassPowerAnchor()
 	if not isTargetClassPower then return end
@@ -609,6 +634,7 @@ function UF:PostUpdatePlates(event, unit)
 	if not self then return end
 
 	if event == "NAME_PLATE_UNIT_ADDED" then
+		self.unitName = UnitName(unit)
 		self.unitGUID = UnitGUID(unit)
 		if self.unitGUID then
 			guidToPlate[self.unitGUID] = self
@@ -620,6 +646,7 @@ function UF:PostUpdatePlates(event, unit)
 		end
 	end
 
+	UF.UpdateUnitPower(self)
 	UF.UpdateTargetMark(self)
 	UF.UpdateQuestUnit(self, event, unit)
 	UF.UpdateUnitClassify(self, unit)

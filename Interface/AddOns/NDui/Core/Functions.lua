@@ -26,45 +26,45 @@ function B.ColorText(p, GtR, val)
 end
 
 -- Item Slot Info
-function B.ItemSlotInfo(item)
+function B.GetItemSlot(item)
 	local _, _, _, _, _, _, itemSubType, _, itemEquipLoc, _, _, itemClassID, itemSubClassID, bindType = GetItemInfo(item)
-	local slotText
+	local itemSolt
 
 	if itemEquipLoc and itemEquipLoc ~= "" then
-		slotText = _G[itemEquipLoc]
+		itemSolt = _G[itemEquipLoc]
 
 		if itemEquipLoc == "INVTYPE_FEET" then
-			slotText = L["Feet"]
+			itemSolt = L["Feet"]
 		elseif itemEquipLoc == "INVTYPE_HAND" then
-			slotText = L["Hands"]
+			itemSolt = L["Hands"]
 		elseif itemEquipLoc == "INVTYPE_HOLDABLE" then
-			slotText = SECONDARYHANDSLOT
+			itemSolt = SECONDARYHANDSLOT
 		elseif itemEquipLoc == "INVTYPE_SHIELD" then
-			slotText = SHIELDSLOT
+			itemSolt = SHIELDSLOT
 		end
 	end
 
 	if itemSubType and itemSubType == EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC then
-		slotText = RELICSLOT
+		itemSolt = RELICSLOT
 	end
 
 	if itemClassID and itemClassID == LE_ITEM_CLASS_MISCELLANEOUS then
 		if itemSubClassID and itemSubClassID == LE_ITEM_MISCELLANEOUS_COMPANION_PET then
-			slotText = PETS
+			itemSolt = PETS
 		elseif itemSubClassID and itemSubClassID == LE_ITEM_MISCELLANEOUS_MOUNT then
-			slotText = MOUNTS
+			itemSolt = MOUNTS
 		end
 	end
 
 	if bindType and itemEquipLoc ~= "INVTYPE_BAG" then
 		if bindType == 2 then
-			slotText = "BoE"
+			itemSolt = "BoE"
 		elseif bindType == 3 then
-			slotText = "BoU"
+			itemSolt = "BoU"
 		end
 	end
 
-	return slotText
+	return itemSolt
 end
 
 -- Create BGFrame

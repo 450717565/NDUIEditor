@@ -201,6 +201,16 @@ function F:TexOnMouseUp()
 	end
 end
 
+local WordLists = {
+	"Label",
+	"label",
+	"Rank",
+	"RankText",
+	"rankText",
+	"Text",
+	"text",
+}
+
 -- [[ Reskin Functions ]]
 
 function F:CreateBD(alpha)
@@ -475,11 +485,13 @@ function F:ReskinDropDown()
 	bg:SetPoint("TOPLEFT", self, "TOPLEFT", 16, -4)
 	bg:SetPoint("BOTTOMRIGHT", button, "BOTTOMLEFT", -1, 0)
 
-	local text = (frameName and (_G[frameName.."Text"] or _G[frameName.."text"])) or self.Text or self.text
-	if text then
-		text:SetJustifyH("CENTER")
-		text:ClearAllPoints()
-		text:SetPoint("CENTER", bg, 1, 0)
+	for _, word in pairs(WordLists) do
+		local text = (frameName and _G[frameName..word]) or self[word]
+		if text then
+			text:SetJustifyH("CENTER")
+			text:ClearAllPoints()
+			text:SetPoint("CENTER", bg, 1, 0)
+		end
 	end
 end
 
@@ -776,7 +788,7 @@ function F:ReskinScroll()
 
 	local parent = self:GetParent()
 	if parent then
-		F.StripTextures(parent)
+		F.StripTextures(parent, true)
 		F.CleanTextures(parent)
 	end
 
@@ -914,11 +926,13 @@ function F:ReskinStatusBar(noClassColor)
 	end
 
 	local frameName = self.GetName and self:GetName()
-	local text = (frameName and (_G[frameName.."Text"] or _G[frameName.."text"])) or self.Text or self.text
-	if text then
-		text:SetJustifyH("CENTER")
-		text:ClearAllPoints()
-		text:SetPoint("CENTER")
+	for _, word in pairs(WordLists) do
+		local text = (frameName and _G[frameName..word]) or self[word]
+		if text then
+			text:SetJustifyH("CENTER")
+			text:ClearAllPoints()
+			text:SetPoint("CENTER")
+		end
 	end
 end
 

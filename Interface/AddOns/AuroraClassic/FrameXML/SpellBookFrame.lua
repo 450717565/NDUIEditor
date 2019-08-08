@@ -111,7 +111,6 @@ tinsert(C.themes["AuroraClassic"], function()
 		bar:SetSize(80, 14)
 		bar:ClearAllPoints()
 		bar:SetPoint("LEFT", name, "RIGHT", 4, -1)
-		bar.rankText:SetPoint("CENTER")
 		F.ReskinStatusBar(bar)
 
 		if index <= 2 then

@@ -406,8 +406,8 @@ function module:OnLogin()
 				self.iLvl:SetText(level)
 			end
 			if showItemSlot then
-				local slotText = B.ItemSlotInfo(item.link)
-				self.SlotInfo:SetText(slotText)
+				local slot = B.GetItemSlot(item.link)
+				self.SlotInfo:SetText(slot)
 			end
 		else
 			if showItemLevel then

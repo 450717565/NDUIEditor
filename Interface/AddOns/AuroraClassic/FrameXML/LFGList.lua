@@ -133,11 +133,11 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinCheck(LFGListFrame.ApplicationViewer.AutoAcceptButton)
 
 	--ActivityFinder
-	local ActivityFinder = EntryCreation.ActivityFinder
-	F.ReskinFrame(ActivityFinder.Dialog)
-	F.ReskinButton(ActivityFinder.Dialog.SelectButton)
-	F.ReskinButton(ActivityFinder.Dialog.CancelButton)
-	F.ReskinInput(ActivityFinder.Dialog.EntryBox)
+	local ActivityFinder = EntryCreation.ActivityFinder.Dialog
+	F.ReskinFrame(ActivityFinder)
+	F.ReskinButton(ActivityFinder.SelectButton)
+	F.ReskinButton(ActivityFinder.CancelButton)
+	F.ReskinInput(ActivityFinder.EntryBox)
 	F.ReskinScroll(LFGListEntryCreationSearchScrollFrameScrollBar)
 
 	--LFGListApplicationDialog

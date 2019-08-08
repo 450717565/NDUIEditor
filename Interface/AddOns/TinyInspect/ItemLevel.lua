@@ -66,39 +66,39 @@ end
 
 --設置部位文字
 local function SetItemSlotString(self, class, subclass, equipSlot, link)
-	local slotText = ""
+	local itemSolt = ""
 	if ShowItemSlotString then
 		if equipSlot and equipSlot ~= "" then
-			slotText = _G[equipSlot] or ""
+			itemSolt = _G[equipSlot] or ""
 
 			if equipSlot == "INVTYPE_FEET" then
-				slotText = L["Feet"]
+				itemSolt = L["Feet"]
 			elseif equipSlot == "INVTYPE_HAND" then
-				slotText = L["Hands"]
+				itemSolt = L["Hands"]
 			elseif equipSlot == "INVTYPE_HOLDABLE" then
-				slotText = SECONDARYHANDSLOT
+				itemSolt = SECONDARYHANDSLOT
 			elseif equipSlot == "INVTYPE_SHIELD" then
-				slotText = SHIELDSLOT
+				itemSolt = SHIELDSLOT
 			end
 		end
 
 		if subclass and subclass ~= "" then
 			if subclass == MOUNTS then
-				slotText = MOUNTS
+				itemSolt = MOUNTS
 			elseif subclass == PETS..COMPANIONS then
-				slotText = PETS
+				itemSolt = PETS
 			end
 		end
 
 		if link then
 			if IsArtifactPowerItem(link) then
-				slotText = ARTIFACT_POWER
+				itemSolt = ARTIFACT_POWER
 			elseif IsArtifactRelicItem(link) then
-				slotText = RELICSLOT
+				itemSolt = RELICSLOT
 			end
 		end
 	end
-	self:SetText(slotText)
+	self:SetText(itemSolt)
 end
 
 --部分裝備無法一次讀取
@@ -465,9 +465,39 @@ LibEvent:attachEvent("ADDON_LOADED", function(self, addonName)
 	end
 end)
 
+-- OutsideString For PaperDoll ItemLevel
+LibEvent:attachTrigger("ITEMLEVEL_FRAME_CREATED", function(self, frame, parent)
+	if PaperDollItemLevelOutsideString then
+		local name = parent:GetName()
+		if (name and string.match(name, "^[IC].+Slot$")) then
+			local id = parent:GetID()
+			frame:ClearAllPoints()
+			frame.levelString:ClearAllPoints()
+			if (id <= 5 or id == 9 or id == 15 or id == 19) then
+				frame:SetPoint("LEFT", parent, "RIGHT")
+				frame.levelString:SetPoint("CENTER")
+				frame.levelString:SetJustifyH("LEFT")
+			elseif (id == 17) then
+				frame:SetPoint("LEFT", parent, "RIGHT")
+				frame.levelString:SetPoint("CENTER")
+				frame.levelString:SetJustifyH("LEFT")
+			elseif (id == 16) then
+				frame:SetPoint("RIGHT", parent, "LEFT")
+				frame.levelString:SetPoint("CENTER")
+				frame.levelString:SetJustifyH("RIGHT")
+			else
+				frame:SetPoint("RIGHT", parent, "LEFT")
+				frame.levelString:SetPoint("CENTER")
+				frame.levelString:SetJustifyH("RIGHT")
+			end
+		end
+	end
+end)
+
 ----------------------
 --  Chat ItemLevel  --
 ----------------------
+--[[
 local Caches = {}
 local function ChatItemLevel(Hyperlink)
 	if Caches[Hyperlink] then return Caches[Hyperlink] end
@@ -477,15 +507,15 @@ local function ChatItemLevel(Hyperlink)
 	local _, _, _, _, _, _, itemSubType, _, equipSlot, _, _, itemClassID, itemSubClassID = GetItemInfo(itemLink)
 
 	if ((itemSubType and itemSubType == EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC) or (equipSlot and equipSlot ~= "")) or ((itemClassID and itemClassID == 15) and (itemSubClassID and (itemSubClassID == 2 or itemSubClassID == 5))) then
-		local level = B.GetItemLevel(itemLink)
-		local slotText = B.ItemSlotInfo(itemLink)
+		local itemLvl = B.GetItemLevel(itemLink)
+		local itemSolt = B.GetItemSlot(itemLink)
 
-		if level and slotText then
-			totalText = "<"..level.."-"..slotText..">"
-		elseif level then
-			totalText = "<"..level..">"
-		elseif slotText then
-			totalText = "<"..slotText..">"
+		if itemLvl and itemSolt then
+			totalText = "<"..itemLvl.."-"..itemSolt..">"
+		elseif itemLvl then
+			totalText = "<"..itemLvl..">"
+		elseif itemSolt then
+			totalText = "<"..itemSolt..">"
 		end
 	end
 
@@ -530,32 +560,4 @@ local chatEvents = {
 for _, v in pairs(chatEvents) do
 	ChatFrame_AddMessageEventFilter(v, filter)
 end
-
--- OutsideString For PaperDoll ItemLevel
-LibEvent:attachTrigger("ITEMLEVEL_FRAME_CREATED", function(self, frame, parent)
-	if PaperDollItemLevelOutsideString then
-		local name = parent:GetName()
-		if (name and string.match(name, "^[IC].+Slot$")) then
-			local id = parent:GetID()
-			frame:ClearAllPoints()
-			frame.levelString:ClearAllPoints()
-			if (id <= 5 or id == 9 or id == 15 or id == 19) then
-				frame:SetPoint("LEFT", parent, "RIGHT")
-				frame.levelString:SetPoint("CENTER")
-				frame.levelString:SetJustifyH("LEFT")
-			elseif (id == 17) then
-				frame:SetPoint("LEFT", parent, "RIGHT")
-				frame.levelString:SetPoint("CENTER")
-				frame.levelString:SetJustifyH("LEFT")
-			elseif (id == 16) then
-				frame:SetPoint("RIGHT", parent, "LEFT")
-				frame.levelString:SetPoint("CENTER")
-				frame.levelString:SetJustifyH("RIGHT")
-			else
-				frame:SetPoint("RIGHT", parent, "LEFT")
-				frame.levelString:SetPoint("CENTER")
-				frame.levelString:SetJustifyH("RIGHT")
-			end
-		end
-	end
-end)
+]]

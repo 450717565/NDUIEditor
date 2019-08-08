@@ -63,20 +63,13 @@ tinsert(C.themes["AuroraClassic"], function()
 	for _, header in pairs(headers) do reskinHeader(header) end
 
 	-- Reskin Bars
-	local function reskinBarTemplate(self)
-		F.StripTextures(self)
-		F.CreateBDFrame(self, .25)
-		self:SetStatusBarTexture(C.media.normTex)
-		self:SetStatusBarColor(cr, cg, cb, .8)
-	end
-
 	local function reskinProgressbar(_, _, line)
 		local progressBar = line.ProgressBar
 		local bar = progressBar.Bar
 		local icon = bar.Icon
 
 		if not bar.styled then
-			reskinBarTemplate(bar)
+			F.ReskinStatusBar(bar)
 
 			bar:ClearAllPoints()
 			bar:SetPoint("LEFT", 22, 0)
@@ -112,7 +105,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		local bar = timerBar.Bar
 
 		if not bar.styled then
-			reskinBarTemplate(bar)
+			F.ReskinStatusBar(bar)
 
 			bar.styled = true
 		end

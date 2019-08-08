@@ -130,7 +130,7 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 		local filterBR = NDuiDB["Extras"]["LootMonitorBonusRewards"] and rollInfo
 
 		local itemLvl = B.GetItemLevel(itemLink)
-		local slotText = B.ItemSlotInfo(itemLink)
+		local itemSolt = B.GetItemSlot(itemLink)
 		local _, _, itemRarity, _, _, _, itemSubType, _, itemEquipLoc, _, _, itemClassID, itemSubClassID, bindType = GetItemInfo(itemLink)
 
 		if NDuiDB["Extras"]["LootMonitorInGroup"] == true and not IsInGroup() then
@@ -141,12 +141,12 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 			Enabled = true
 		end
 
-		if itemLvl and slotText then
-			totalText = "<"..itemLvl.."-"..slotText..">"
+		if itemLvl and itemSolt then
+			totalText = "<"..itemLvl.."-"..itemSolt..">"
 		elseif itemLvl then
 			totalText = "<"..itemLvl..">"
-		elseif slotText then
-			totalText = "<"..slotText..">"
+		elseif itemSolt then
+			totalText = "<"..itemSolt..">"
 		end
 
 		if playerInfo and Enabled then

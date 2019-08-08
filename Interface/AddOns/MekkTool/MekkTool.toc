@@ -1,7 +1,0 @@
-## Interface: 80200
-## Title: |cff0080ffMekkTool|r 大工匠助手
-## Author: Siweia
-## Notes: 大工匠助手
-## Version: 1.3
-
-Core.lua
