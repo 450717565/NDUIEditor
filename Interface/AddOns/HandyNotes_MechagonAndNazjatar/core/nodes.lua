@@ -46,8 +46,12 @@ function Node:init ()
     end
 end
 
-function Node:display (db)
-    local icon = ns.icons[self.icon] or ns.icons.default
+function Node:display ()
+    local db = ns.addon.db
+    local icon = self.icon
+    if type(icon) == 'string' then
+        icon = ns.icons[self.icon] or ns.icons.default
+    end
     local scale = self.scale * (db.profile['icon_scale_'..self.group] or 1)
     local alpha = self.alpha * (db.profile['icon_alpha_'..self.group] or 1)
     return icon, scale, alpha
@@ -60,9 +64,14 @@ function Node:done ()
     return true
 end
 
-function Node:enabled (db, mapID, coord, minimap)
+function Node:enabled (map, coord, minimap)
+    local db = ns.addon.db
+
     -- Minimap may be disabled for this node
     if not self.minimap and minimap then return false end
+
+    -- Node may be faction restricted
+    if self.faction and self.faction ~= ns.faction then return false end
 
     if not db.profile.ignore_quests then
         -- All attached quest ids must be false
@@ -76,12 +85,6 @@ function Node:enabled (db, mapID, coord, minimap)
         end
     end
 
-    -- Check for zone-specific exclusions
-    if not ns.included[mapID](self, db.profile) then return false end
-
-    -- Check if we've been hidden by the user
-    if db.char[mapID..'_coord_'..coord] then return false end
-
     return true
 end
 
@@ -91,8 +94,8 @@ end
 
 local Cave = Class('Cave', Node)
 
-Cave.icon = "cave"
-Cave.scale = 1.5
+Cave.icon = "door_down"
+Cave.scale = 1.2
 Cave.group = "caves"
 
 function Cave:init ()
@@ -106,12 +109,12 @@ function Cave:init ()
     end
 end
 
-function Cave:enabled (db, mapID, coord, minimap)
-    if not Node.enabled(self, db, mapID, coord, minimap) then return false end
+function Cave:enabled (map, coord, minimap)
+    if not Node.enabled(self, map, coord, minimap) then return false end
 
     local function hasEnabledParent ()
         for i, parent in ipairs(self.parent or {}) do
-            if parent:enabled(db, mapID, coord, minimap) then
+            if parent:enabled(map, coord, minimap) then
                 return true
             end
         end
@@ -173,8 +176,7 @@ end
 
 local PetBattle = Class('PetBattle', NPC)
 
-PetBattle.icon = "battle_pet"
-PetBattle.scale = 1.1
+PetBattle.icon = "paw_yellow"
 PetBattle.group = "pet_battles"
 
 -------------------------------------------------------------------------------
@@ -183,17 +185,18 @@ PetBattle.group = "pet_battles"
 
 local Rare = Class('Rare', NPC)
 
-Rare.scale = 1.8
+Rare.scale = 1.5
 Rare.group = "rares"
 
 function Rare.getters:icon ()
     return self:done() and 'skull_white' or 'skull_blue'
 end
 
-function Rare:enabled (db, mapID, coord, minimap)
+function Rare:enabled (map, coord, minimap)
+    local db = ns.addon.db
     if db.profile.hide_done_rare and self:done() then return false end
     if db.profile.always_show_rares then return true end
-    return NPC.enabled(self, db, mapID, coord, minimap)
+    return NPC.enabled(self, map, coord, minimap)
 end
 
 -------------------------------------------------------------------------------
@@ -203,7 +206,7 @@ end
 local Supply = Class('Supply', Node)
 
 Supply.icon = "star_chest"
-Supply.scale = 1.5
+Supply.scale = 2
 Supply.group = "treasures"
 
 -------------------------------------------------------------------------------
@@ -212,13 +215,14 @@ Supply.group = "treasures"
 
 local Treasure = Class('Treasure', Node)
 
-Treasure.icon = "treasure"
+Treasure.icon = "chest_gray"
 Treasure.scale = 1.3
 Treasure.group = "treasures"
 
-function Treasure:enabled (db, mapID, coord, minimap)
+function Treasure:enabled (map, coord, minimap)
+    local db = ns.addon.db
     if db.profile.always_show_treasures then return true end
-    return Node.enabled(self, db, mapID, coord, minimap)
+    return Node.enabled(self, map, coord, minimap)
 end
 
 -------------------------------------------------------------------------------

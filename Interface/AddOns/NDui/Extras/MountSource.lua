@@ -12,12 +12,16 @@ function Extras:MS_MountInfo(unit, index, filter)
 	local showIt = false
 
 	if auraID then
+		local r, g, b = 1, 1, 1
 		for _, mountID in ipairs(C_MountJournal_GetMountIDs()) do
 			local spellID = select(2, C_MountJournal_GetMountInfo(mountID))
+			local isCollected = select(11, C_MountJournal_GetMountInfo(mountID))
+
+			if isCollected then r, g, b = 0, 1, 0 end
 			if spellID == auraID then
 				local sourceText = select(3, C_MountJournal_GetMountInfoExtra(mountID))
 				self:AddLine(" ")
-				self:AddLine(sourceText, 1, 1, 1)
+				self:AddLine(sourceText, r, g, b)
 
 				break
 			end

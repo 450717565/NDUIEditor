@@ -65,7 +65,7 @@ local list = {
 		{AuraID = 273947, UnitID = "player"},--鲜血禁闭
 		{AuraID = 274009, UnitID = "player"},--饮血
 		{AuraID = 279942, UnitID = "player"},--冻土行者
-		{AuraID = 281209, UnitID = "player", Combat = true},--冷酷之心
+		{AuraID = 281209, UnitID = "player", Stack = 20, Flash = true, Combat = true},--冷酷之心
 		{AuraID = 47568, UnitID = "player"},--符文武器增效
 		{AuraID = 51124, UnitID = "player"},--杀戮机器
 		{AuraID = 51271, UnitID = "player", Value = true},--冰霜之柱

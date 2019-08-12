@@ -1,6 +1,6 @@
 ## Interface: 80200
 ## Title: HandyNotes_MechagonAndNazjatar
-## Version: 9
+## Version: 10
 ## Notes: Mechagon & Nazjatar Notes
 ## OptionalDeps: Ace3
 ## RequiredDeps: HandyNotes
@@ -12,10 +12,10 @@ embeds.xml
 #@end-no-lib-strip@
 
 localization\enUS.lua
+localization\zhTW.lua
 #localization\deDE.lua
 #localization\esES.lua
 #localization\zhCN.lua
-#localization\zhTW.lua
 #localization\koKR.lua
 #localization\ruRU.lua
 
@@ -23,6 +23,7 @@ core\class.lua
 core\core.lua
 core\icons.lua
 core\options.lua
+core\map.lua
 core\nodes.lua
 core\rewards.lua
 

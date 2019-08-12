@@ -440,12 +440,12 @@ function UF:UpdateMouseoverShown()
 end
 
 function UF:MouseoverIndicator(self)
-	local highlight = CreateFrame("Frame", nil, self.Health)
-	highlight:SetAllPoints(self)
+	local highlight = CreateFrame("Frame", nil, self)
+	highlight:SetPoint("TOPLEFT", self, -6, 6)
+	highlight:SetPoint("BOTTOMRIGHT", self, 6, -6)
+	highlight:SetBackdrop({edgeFile = DB.glowTex, edgeSize = 4})
+	highlight:SetBackdropBorderColor(1, 1, 1)
 	highlight:Hide()
-	local texture = highlight:CreateTexture(nil, "ARTWORK")
-	texture:SetAllPoints()
-	texture:SetColorTexture(1, 1, 1, .8)
 
 	self:RegisterEvent("UPDATE_MOUSEOVER_UNIT", UF.UpdateMouseoverShown, true)
 
@@ -549,13 +549,13 @@ function UF:CreatePlates(unit)
 			self.arrowMark = arrow
 		end
 
-		local glow = CreateFrame("Frame", nil, self)
-		glow:SetPoint("TOPLEFT", self, -6, 6)
-		glow:SetPoint("BOTTOMRIGHT", self, 6, -6)
-		glow:SetBackdrop({edgeFile = DB.glowTex, edgeSize = 4})
-		glow:SetBackdropBorderColor(1, 1, 1, .8)
-		glow:Hide()
-		self.tarMark = glow
+		local selected = CreateFrame("Frame", nil, self)
+		selected:SetPoint("TOPLEFT", self, -6, 6)
+		selected:SetPoint("BOTTOMRIGHT", self, 6, -6)
+		selected:SetBackdrop({edgeFile = DB.glowTex, edgeSize = 4})
+		selected:SetBackdropBorderColor(0, 1, 1)
+		selected:Hide()
+		self.tarMark = selected
 		self:RegisterEvent("PLAYER_TARGET_CHANGED", UF.UpdateTargetMark, true)
 
 		local iconFrame = CreateFrame("Frame", nil, self)

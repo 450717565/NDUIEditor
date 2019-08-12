@@ -218,19 +218,20 @@ function BetterWorldQuestPinMixin:RefreshVisuals()
 			numItems = numItems * warModeBonus
 			color = {r=0, g=1, b=0}
 		end
+
 		self.Text:SetFormattedText("%d", numItems)
 		self.Text:SetTextColor(color.r, color.g, color.b)
 	elseif (GetQuestLogRewardMoney(questID) > 0) then
 		SetPortraitToTexture(self.Texture, [[Interface\Icons\inv_misc_coin_01]])
 		self.Texture:SetSize(self:GetSize())
 
+		color = {r=1, g=1, b=1}
 		local copper = GetQuestLogRewardMoney(questID)
 		if warMode then
 			copper = copper * warModeBonus
 			color = {r=0, g=1, b=0}
-		else
-			color = {r=1, g=1, b=1}
 		end
+
 		self.Text:SetFormattedText("%d", copper / 1e4)
 		self.Text:SetTextColor(color.r, color.g, color.b)
 	end

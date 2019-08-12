@@ -4,6 +4,8 @@
 
 local ADDON_NAME, ns = ...
 local L = ns.locale
+local Class = ns.Class
+local Map = ns.Map
 local isinstance = ns.isinstance
 
 local Node = ns.node.Node
@@ -18,14 +20,49 @@ local Achievement = ns.reward.Achievement
 local Item = ns.reward.Item
 local Mount = ns.reward.Mount
 local Pet = ns.reward.Pet
+local Quest = ns.reward.Quest
 local Toy = ns.reward.Toy
 local Transmog = ns.reward.Transmog
 
-local MAPID = 1355
-
-local nodes = {}
 local options = ns.options.args.VisibilityGroup.args
 local defaults = ns.optionDefaults.profile
+
+-------------------------------------------------------------------------------
+------------------------------------- MAP -------------------------------------
+-------------------------------------------------------------------------------
+
+local map = Map({ id=1355 })
+local nodes = map.nodes
+
+function map:prepare ()
+    self.phased = self.intros[ns.faction]:done()
+end
+
+function map:enabled (node, coord, minimap)
+    if not Map.enabled(self, node, coord, minimap) then return false end
+
+    -- always show the intro helper nodes, and hide all other nodes if we're
+    -- not phased yet
+    if node.icon == 'quest_yellow' then return true end
+    if not self.phased and node.icon ~= 'quest_yellow' then return false end
+
+    local profile = ns.addon.db.profile
+    if isinstance(node, Treasure) then return profile.treasure_nazjatar end
+    if isinstance(node, Rare) then return profile.rare_nazjatar end
+    if isinstance(node, Supply) then return profile.supply_nazjatar end
+    if isinstance(node, Cave) then return profile.cave_nazjatar end
+    if isinstance(node, PetBattle) then return profile.pet_nazjatar end
+    if node.id == 151782 or node.label == L["slimy_cocoon"] then
+        return profile.slime_nazjatar
+    end
+    if node.label == L["cat_figurine"] then
+        return profile.cats_nazjatar
+    end
+    if node.label == L["mardivas_lab"] or node.label == L["murloco"] then
+        return profile.misc_nazjatar
+    end
+    return false
+end
 
 -------------------------------------------------------------------------------
 ----------------------------------- OPTIONS -----------------------------------
@@ -118,23 +155,47 @@ options.miscNazjatar = {
     width = "normal",
 };
 
-ns.included[MAPID] = function (node, profile)
-    if isinstance(node, Treasure) then return profile.treasure_nazjatar end
-    if isinstance(node, Rare) then return profile.rare_nazjatar end
-    if isinstance(node, Supply) then return profile.supply_nazjatar end
-    if isinstance(node, Cave) then return profile.cave_nazjatar end
-    if isinstance(node, PetBattle) then return profile.pet_nazjatar end
-    if node.id == 151782 or node.label == L["slimy_cocoon"] then
-        return profile.slime_nazjatar
-    end
-    if node.label == L["cat_figurine"] then
-        return profile.cats_nazjatar
-    end
-    if node.label == L["mardivas_lab"] or node.label == L["murloco"] then
-        return profile.misc_nazjatar
-    end
-    return false
+-------------------------------------------------------------------------------
+------------------------------------ INTRO ------------------------------------
+-------------------------------------------------------------------------------
+
+local Intro = Class('Intro', Node)
+
+Intro.note = L["naz_intro_note"]
+Intro.icon = 'quest_yellow'
+Intro.scale = 3
+
+function Intro.getters:label ()
+    return GetAchievementCriteriaInfo(13710, 1) -- Welcome to Nazjatar
 end
+
+nodes[11952801] = Intro({quest=56156, faction='Alliance', rewards={
+    -- The Wolf's Offensive => A Way Home
+    Quest({id={56031,56043,55095,54969,56640,56641,56642,56643,56644,55175,54972}}),
+    -- Essential Empowerment => Create Your Own Strength
+    Quest({id={55851,55533,55374,55400,55407,55425,55497,55618,57010,56162,56350,57004}}),
+    -- The Lost Shaman => A Tempered Blade
+    Quest({id={55361,55362,55363,56156}})
+}})
+
+nodes[11952802] = Intro({quest=55500, faction='Horde', rewards={
+    -- The Warchief's Order => A Way Home
+    Quest({id={56030,56044,55054,54018,54021,54012,55092,56063,54015,56429,55094,55053}}),
+    -- Essential Empowerment => Create Your Own Strength
+    Quest({id={55851,55533,55374,55400,55407,55425,55497,55618,57010,56161,55481,57003}}),
+    -- Settling In => Save A Friend
+    Quest({id={55384,55385,55500}})
+}})
+
+map.intros = { Alliance = nodes[11952801], Horde = nodes[11952802] }
+
+ns.addon:RegisterEvent('QUEST_TURNED_IN', function (_, questID)
+    if questID == 56156 or questID == 55500 then
+        C_Timer.After(1, function()
+            ns.addon:Refresh();
+        end);
+    end
+end)
 
 -------------------------------------------------------------------------------
 ------------------------------------ RARES ------------------------------------
@@ -505,7 +566,7 @@ nodes[76873699] = Supply({label=L["supply_chest"], rewards={ASSASSIN_ACHIEVE}});
 -------------------------------- MISCELLANEOUS --------------------------------
 -------------------------------------------------------------------------------
 
-nodes[60683221] = Node({quest=55121, icon="portal", scale=1.5, label=L["mardivas_lab"], rewards={
+nodes[60683221] = Node({quest=55121, icon="portal_blue", scale=1.5, label=L["mardivas_lab"], rewards={
     Achievement({id=13699, criteria={ -- Periodic Destruction
         {id=45678, note=' ('..L["no_reagent"]..')'}, -- Arcane Amalgamation
         {id=45679, note=' ('..L["swater"]..')'}, -- Watery Amalgamation
@@ -537,4 +598,6 @@ nodes[60683221] = Node({quest=55121, icon="portal", scale=1.5, label=L["mardivas
 
 nodes[45993245] = Node({icon="diablo_murloc", label=L["murloco"], note=L["tentacle_taco"]})
 
-ns.nodes[MAPID] = nodes
+-------------------------------------------------------------------------------
+
+ns.maps[map.id] = map

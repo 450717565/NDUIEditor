@@ -44,7 +44,6 @@ L["SFX"] = _G.ENABLE_SOUNDFX
 L["WORLD_QUEST_COMPLETED"] = _G.WORLD_QUEST_COMPLETE
 L["XP_FORMAT"] = _G.BONUS_OBJECTIVE_EXPERIENCE_FORMAT
 L["YOU_EARNED"] = _G.YOU_EARNED_LABEL
-L["YOU_RECEIVED"] = _G.YOU_RECEIVED_LABEL
 L["YOU_WON"] = _G.YOU_WON_LABEL
 
 -- Require translation
@@ -86,6 +85,8 @@ L["TEST_ALL"] = "Test All"
 L["TOAST_NUM"] = "Number of Toasts"
 L["TOAST_TYPES"] = "Toast Types"
 L["TOGGLE_ANCHORS"] = "Toggle Anchors"
+L["TRACK_LOSS"] = "Track Loss"
+L["TRACK_LOSS_DESC"] = "This option ignores set copper threshold."
 L["TRANSMOG_ADDED"] = "Appearance Added"
 L["TRANSMOG_REMOVED"] = "Appearance Removed"
 L["TYPE_ACHIEVEMENT"] = "Achievement"
@@ -107,3 +108,5 @@ L["TYPE_WAR_EFFORT"] = "War Effort"
 L["TYPE_WORLD_QUEST"] = "World Quest"
 L["X_OFFSET"] = "xOffset"
 L["Y_OFFSET"] = "yOffset"
+L["YOU_LOST"] = "You Lost"
+L["YOU_RECEIVED"] = "You Received"

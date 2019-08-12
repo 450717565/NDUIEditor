@@ -3,6 +3,10 @@ local ADDON_NAME, ns = ...
 local Class = ns.Class
 local L = ns.locale
 
+local Green = ns.status.Green
+local Orange = ns.status.Orange
+local Red = ns.status.Red
+
 -------------------------------------------------------------------------------
 ----------------------------------- REWARD ------------------------------------
 -------------------------------------------------------------------------------
@@ -104,10 +108,10 @@ function Item:render (tooltip)
     local status = ''
     if self.quest then
         local completed = IsQuestFlaggedCompleted(self.quest)
-        status = completed and L['(completed)'] or L['(incomplete)']
+        status = completed and Green(L['completed']) or Red(L['incomplete'])
     elseif self.weekly then
         local completed = IsQuestFlaggedCompleted(self.weekly)
-        status = completed and L['(gweekly)'] or L['(rweekly)']
+        status = completed and Green(L['weekly']) or Red(L['weekly'])
     end
 
     if self.note then
@@ -131,7 +135,7 @@ end
 
 function Mount:render (tooltip)
     local collected = select(11, C_MountJournal.GetMountInfoByID(self.id))
-    local status = collected and L["(known)"] or L["(missing)"]
+    local status = collected and Green(L["known"]) or Red(L["missing"])
     tooltip:AddDoubleLine(self.itemLink..' ('..L["mount"]..')', status)
     tooltip:AddTexture(self.itemIcon, {margin={right=2}})
 end
@@ -150,10 +154,60 @@ end
 
 function Pet:render (tooltip)
     local n, m = C_PetJournal.GetNumCollectedInfo(self.id)
-    local color = (n > 0) and L["(green)"] or L["(red)"]
-    local status = string.format(color, n..'/'..m)
+    local status = (n > 0) and Green(n..'/'..m) or Red(n..'/'..m)
     tooltip:AddDoubleLine(self.itemLink..' ('..L["pet"]..')', status)
     tooltip:AddTexture(self.itemIcon, {margin={right=2}})
+end
+
+-------------------------------------------------------------------------------
+------------------------------------ QUEST ------------------------------------
+-------------------------------------------------------------------------------
+
+local Quest = Class('Quest', Reward)
+
+function Quest:init ()
+    if type(self.id) == 'number' then
+        self.id = {self.id}
+    end
+    C_QuestLog.GetQuestInfo(self.id[1]) -- fetch info from server
+end
+
+function Quest:obtained ()
+    for i, id in ipairs(self.id) do
+        if not IsQuestFlaggedCompleted(id) then return false end
+    end
+    return true
+end
+
+function Quest:render (tooltip)
+    local name = C_QuestLog.GetQuestInfo(self.id[1])
+
+    local status = ''
+    if #self.id == 1 then
+        local completed = IsQuestFlaggedCompleted(self.id)
+        status = completed and Green(L['completed']) or Red(L['incomplete'])
+    else
+        local count = 0
+        for i, id in ipairs(self.id) do
+            if IsQuestFlaggedCompleted(id) then count = count + 1 end
+        end
+        status = count..'/'..#self.id
+        status = (count == #self.id) and Green(status) or Red(status)
+    end
+
+    local icon = ns.icons.quest_yellow
+    tooltip:AddDoubleLine((name or UNKNOWN), status)
+    tooltip:AddTexture(icon.icon, {
+        width = 12,
+        height = 12,
+        texCoords = {
+            left=icon.tCoordLeft,
+            right=icon.tCoordRight,
+            top=icon.tCoordTop,
+            bottom=icon.tCoordBottom
+        },
+        margin = { right=0 }
+    })
 end
 
 -------------------------------------------------------------------------------
@@ -168,7 +222,7 @@ end
 
 function Toy:render (tooltip)
     local collected = PlayerHasToy(self.item)
-    local status = collected and L["(known)"] or L["(missing)"]
+    local status = collected and Green(L["known"]) or Red(L["missing"])
     tooltip:AddDoubleLine(self.itemLink..' ('..L["toy"]..')', status)
     tooltip:AddTexture(self.itemIcon, {margin={right=2}})
 end
@@ -197,18 +251,18 @@ end
 
 function Transmog:render (tooltip)
     local collected = CTC.PlayerHasTransmog(self.item)
-    local status = collected and L["(known)"] or L["(missing)"]
+    local status = collected and Green(L["known"]) or Red(L["missing"])
 
     if not collected then
         -- check if we can't learn this item
         local sourceID = select(2, CTC.GetItemInfo(self.item))
         if not select(2, CTC.PlayerCanCollectSource(sourceID)) then
-            status = L["(unlearnable)"]
+            status = Orange(L["unlearnable"])
         else
             -- check if the item doesn't drop
             local specs = GetItemSpecInfo(self.item)
             if type(specs) == 'table' and #specs == 0 then
-                status = L["(unobtainable)"]
+                status = Orange(L["unobtainable"])
             end
         end
     end
@@ -230,6 +284,7 @@ ns.reward = {
     Item=Item,
     Mount=Mount,
     Pet=Pet,
+    Quest=Quest,
     Toy=Toy,
     Transmog=Transmog
 }

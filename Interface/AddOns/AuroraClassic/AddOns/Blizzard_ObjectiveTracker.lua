@@ -76,10 +76,11 @@ tinsert(C.themes["AuroraClassic"], function()
 
 			if icon then
 				icon:SetMask(nil)
-				icon.bg = F.ReskinIcon(icon)
 				icon:ClearAllPoints()
 				icon:SetPoint("TOPLEFT", bar, "TOPRIGHT", 5, 0)
 				icon:SetPoint("BOTTOMRIGHT", bar, "BOTTOMRIGHT", bar:GetHeight()+5, 0)
+
+				icon.bg = F.ReskinIcon(icon)
 			end
 
 			bar.styled = true
@@ -90,14 +91,14 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 	end
 
-	local Pmoduls = {
+	local progressbar = {
 		QUEST_TRACKER_MODULE,
 		SCENARIO_TRACKER_MODULE,
 		WORLD_QUEST_TRACKER_MODULE,
 		BONUS_OBJECTIVE_TRACKER_MODULE,
 	}
-	for _, Pmodul in pairs(Pmoduls) do
-		hooksecurefunc(Pmodul, "AddProgressBar", reskinProgressbar)
+	for _, modul in pairs(progressbar) do
+		hooksecurefunc(modul, "AddProgressBar", reskinProgressbar)
 	end
 
 	local function reskinTimerBar(_, _, line)
@@ -111,13 +112,13 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 	end
 
-	local Tmoduls = {
+	local timerBar = {
 		QUEST_TRACKER_MODULE,
 		SCENARIO_TRACKER_MODULE,
 		ACHIEVEMENT_TRACKER_MODULE,
 	}
-	for _, Tmodul in pairs(Tmoduls) do
-		hooksecurefunc(Tmodul, "AddTimerBar", reskinTimerBar)
+	for _, modul in pairs(timerBar) do
+		hooksecurefunc(modul, "AddTimerBar", reskinTimerBar)
 	end
 
 	-- Reskin Blocks
