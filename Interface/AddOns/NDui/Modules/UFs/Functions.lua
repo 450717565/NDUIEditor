@@ -95,7 +95,7 @@ function UF:CreateHealthText(self)
 	local textFrame = CreateFrame("Frame", nil, self)
 	textFrame:SetAllPoints()
 
-	local name = B.CreateFS(textFrame, retVal(self, 13, 12, 11, 10), "", false, "LEFT", 3, -1)
+	local name = B.CreateFS(textFrame, retVal(self, 13, 12, 11, NDuiDB["Nameplate"]["NameTextSize"]), "", false, "LEFT", 3, -1)
 	name:SetJustifyH("LEFT")
 
 	local mystyle = self.mystyle
@@ -137,8 +137,7 @@ function UF:CreateHealthText(self)
 		self:Tag(name, "[color][name]")
 	end
 
-	local hpMode = NDuiDB["Nameplate"]["NPsHPMode"]
-	local hpval = B.CreateFS(textFrame, retVal(self, 14, 13, 12, hpMode == 3 and 12 or 14), "", false, "RIGHT", -3, -1)
+	local hpval = B.CreateFS(textFrame, retVal(self, 14, 13, 12, NDuiDB["Nameplate"]["HealthTextSize"]), "", false, "RIGHT", -3, -1)
 	hpval:SetJustifyH("RIGHT")
 	if mystyle == "raid" or isWatcherStyle(self) then
 		hpval:ClearAllPoints()
@@ -157,6 +156,9 @@ function UF:CreateHealthText(self)
 	else
 		self:Tag(hpval, "[health]")
 	end
+
+	self.nameText = name
+	self.healthValue = hpval
 end
 
 function UF:CreatePowerBar(self)
@@ -789,10 +791,8 @@ function UF:CreateClassPower(self)
 		local bg = B.CreateSB(bars[i])
 		bg.multiplier = .25
 
-		if DB.MyClass == "DEATHKNIGHT" then
-			if NDuiDB["UFs"]["RuneTimer"] then
-				bars[i].timer = B.CreateFS(bars[i], 13, "", false, "CENTER", .5, 0)
-			end
+		if DB.MyClass == "DEATHKNIGHT" and NDuiDB["UFs"]["RuneTimer"] then
+			bars[i].timer = B.CreateFS(bars[i], 13, "", false, "CENTER", .5, 0)
 		end
 
 		if NDuiDB["Nameplate"]["ShowPlayerPlate"] then
@@ -1009,7 +1009,7 @@ function UF:CreateQuakeTimer(self)
 
 	bar.SpellName = B.CreateFS(bar, 12, "", false, "LEFT", 2, 0)
 	bar.Text = B.CreateFS(bar, 12, "", false, "RIGHT", -2, 0)
-	createBarMover(bar, L["QuakeTimer"], "QuakeTimer", {"BOTTOM", UIParent, "BOTTOM", 0, 175})
+	createBarMover(bar, L["QuakeTimer"], "QuakeTimer", {"BOTTOM", UIParent, "BOTTOM", 0, 180})
 
 	local icon = bar:CreateTexture(nil, "ARTWORK")
 	icon:SetSize(bar:GetHeight(), bar:GetHeight())

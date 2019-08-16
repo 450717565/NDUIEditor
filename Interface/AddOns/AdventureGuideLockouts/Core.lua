@@ -142,7 +142,10 @@ function AddOn:UpdateSavedInstances()
 
     if instanceIndex <= savedInstances then
       instanceName, instanceID, instanceReset, instanceDifficulty, locked, extended, instanceIDMostSig, isRaid, maxPlayers, difficultyName, numEncounters, numCompleted = GetSavedInstanceInfo(instanceIndex)
-      instanceID = self.instances[tonumber(GetSavedInstanceChatLink(instanceIndex):match(":(%d+)"))]
+      local instanceLink = GetSavedInstanceChatLink(instanceIndex)
+      local instanceLinkID = tonumber(instanceLink:match(":(%d+)"))
+      instanceID = self.instances[instanceLinkID]
+      if not instanceID then print("instanceLinkID: "..instanceLinkID) end
 
       if instanceID == 777 then
         numEncounters = 3 -- Fixes wrong encounters count for Assault on Violet Hold
@@ -198,7 +201,7 @@ function AddOn:UpdateSavedInstances()
       end
     end
 
-    if locked or extended then
+    if (locked or extended) and instanceID then
       self.instancesLockouts[instanceID] = self.instancesLockouts[instanceID] or {}
       tinsert(self.instancesLockouts[instanceID], {
         encounters = encounters,

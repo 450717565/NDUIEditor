@@ -195,7 +195,7 @@ local function convertItemLevel(link)
 			itemInfo = itemSolt
 		end
 
-		if name then
+		if name and itemInfo ~= "" then
 			link = gsub(link, "|h%[(.-)%]|h", "|h["..name.."<"..itemInfo..isItemHasGem(itemLink)..">]|h")
 			itemCache[link] = link
 		end
@@ -206,6 +206,23 @@ end
 function module:UpdateChatItemLevel(_, msg, ...)
 	msg = gsub(msg, "(|Hitem:%d+:.-|h.-|h)", convertItemLevel)
 	return false, msg, ...
+end
+
+-- Filter azerite message on island expeditions
+local azerite = ISLANDS_QUEUE_WEEKLY_QUEST_PROGRESS:gsub("%%d/%%d ", "")
+local function filterAzeriteGain(_, _, msg)
+	if strfind(msg, azerite) then
+		return true
+	end
+end
+
+local function isPlayerOnIslands()
+	local _, instanceType, _, _, maxPlayers = GetInstanceInfo()
+	if instanceType == "scenario" and (maxPlayers == 3 or maxPlayers == 6) then
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", filterAzeriteGain)
+	else
+		ChatFrame_RemoveMessageEventFilter("CHAT_MSG_SYSTEM", filterAzeriteGain)
+	end
 end
 
 local chatEvents = {
@@ -250,4 +267,5 @@ function module:ChatFilter()
 	end
 
 	hooksecurefunc(BNToastFrame, "ShowToast", self.BlockTrashClub)
+	B:RegisterEvent("PLAYER_ENTERING_WORLD", isPlayerOnIslands)
 end

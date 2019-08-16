@@ -413,7 +413,13 @@ C.themes["Rematch"] = function()
 
 		for _, icon in pairs({"Left", "Right"}) do
 			local bu = Content[icon.."Icon"]
-			bu:SetMask(nil)
+			local mask = content[icon.."CircleMask"]
+
+			if mask then
+				mask:Hide()
+			else
+				bu:SetMask(nil)
+			end
 			F.ReskinIcon(bu)
 		end
 

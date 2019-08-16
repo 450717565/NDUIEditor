@@ -102,6 +102,9 @@ function S:MicroMenu()
 	B.HideObject(MainMenuBarDownload)
 	MainMenuMicroButton:SetScript("OnUpdate", nil)
 
+	CharacterMicroButtonAlert:EnableMouse(false)
+	B.HideOption(CharacterMicroButtonAlert)
+
 	-- Menu Line
 	if NDuiDB["Skins"]["MenuLine"] then
 		local MenuL = CreateFrame("Frame", nil, UIParent)

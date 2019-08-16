@@ -125,7 +125,7 @@ end
 function M:AlertFrame_Setup()
 	parentFrame = CreateFrame("Frame", nil, UIParent)
 	parentFrame:SetSize(200, 30)
-	B.Mover(parentFrame, L["AlertFrames"], "AlertFrames", {"TOP", UIParent, 0, -40})
+	B.Mover(parentFrame, L["AlertFrames"], "AlertFrames", {"TOP", UIParent, 0, -75})
 
 	moveFrame = CreateFrame("Frame", "NDuiTalkingHeadMover", UIParent)
 	moveFrame:SetSize(200, 30)

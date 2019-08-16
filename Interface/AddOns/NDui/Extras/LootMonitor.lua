@@ -125,6 +125,7 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 
 		local Enabled = false
 		local totalText = ""
+		local itemGem = ""
 		local textWidth, maxWidth = 0, 0
 		local lootTime = GameTime_GetGameTime(true)
 		local filterBR = NDuiDB["Extras"]["LootMonitorBonusRewards"] and rollInfo
@@ -156,7 +157,7 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 
 			local numButtons = #LMFrame_Report
 			for index = 1, numButtons do
-				LMFrame[index].text:SetText(DB.InfoColor..LMFrame_Report[index]["timer"].."|r " ..UnitClassColor(LMFrame_Report[index]["player"]).." " ..LMFrame_Report[index]["link"].." "..LMFrame_Report[index]["solt"])
+				LMFrame[index].text:SetFormattedText("%s %s %s %s", DB.InfoColor..LMFrame_Report[index]["timer"], UnitClassColor(LMFrame_Report[index]["player"]), LMFrame_Report[index]["link"], LMFrame_Report[index]["solt"])
 				LMFrame[index]:Show()
 				textWidth = mfloor(LMFrame[index].text:GetStringWidth() + 20.5)
 				maxWidth = mmax(textWidth, maxWidth)

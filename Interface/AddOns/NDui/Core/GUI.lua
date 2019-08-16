@@ -129,7 +129,6 @@ local defaultSettings = {
 	},
 	Map = {
 		Coord = true,
-		Invite = true,
 		Clock = false,
 		CombatPulse = true,
 		MapScale = 1,
@@ -137,22 +136,20 @@ local defaultSettings = {
 		ShowRecycleBin = true,
 		WhoPings = true,
 		MapReveal = true,
+		Calendar = false,
 	},
 	Nameplate = {
 		Enable = true,
-		ColorBorder = true,
 		maxAuras = 12,
 		AutoPerRow = 6,
 		FriendlyCC = false,
 		HostileCC = true,
 		TankMode = false,
-		TarArrow = 1,
+		TargetIndicator = 2,
 		InsideView = true,
-		QuestIcon = true,
-		MinAlpha = .8,
-		Distance = 40,
-		Width = 100,
-		Height = 5,
+		Distance = 42,
+		PlateWidth = 135,
+		PlateHeight = 5,
 		CustomUnitColor = true,
 		CustomColor = {r=0, g=1, b=0},
 		UnitList = "",
@@ -165,7 +162,7 @@ local defaultSettings = {
 		SecureColor = {r=1, g=0, b=1},
 		TransColor = {r=1, g=1, b=0},
 		InsecureColor = {r=1, g=0, b=0},
-		OffTankColor = {r=.2, g=.7, b=.5},
+		OffTankColor = {r=0, g=1, b=1},
 		DPSRevertThreat = false,
 		ExplosivesScale = false,
 		PPIconSize = 32,
@@ -173,6 +170,12 @@ local defaultSettings = {
 		PPHideOOC = true,
 		NameplateClassPower = false,
 		MaxPowerGlow = true,
+		NameTextSize = 10,
+		HealthTextSize = 12,
+		MinScale = .8,
+		MinAlpha = .8,
+		ColorBorder = true,
+		QuestIndicator = true,
 	},
 	Skins = {
 		DBM = true,
@@ -225,7 +228,7 @@ local defaultSettings = {
 		OwnInterrupt = false,
 		AlertInInstance = true,
 		BrokenSpell = false,
-		FasterLoot = false,
+		FasterLoot = true,
 		AutoQuest = false,
 		HideTalking = false,
 		HideBanner = true,
@@ -384,10 +387,6 @@ local function updatePlateInsideView()
 	B:GetModule("UnitFrames"):PlateInsideView()
 end
 
-local function updatePlateAlpha()
-	B:GetModule("UnitFrames"):UpdatePlateAlpha()
-end
-
 local function updatePlateSpacing()
 	B:GetModule("UnitFrames"):UpdatePlateSpacing()
 end
@@ -402,6 +401,30 @@ end
 
 local function updatePowerUnitList()
 	B:GetModule("UnitFrames"):CreatePowerUnitTable()
+end
+
+local function refreshNameplates()
+	B:GetModule("UnitFrames"):RefreshAllPlates()
+end
+
+local function updatePlateScale()
+	B:GetModule("UnitFrames"):UpdatePlateScale()
+end
+
+local function updatePlateAlpha()
+	B:GetModule("UnitFrames"):UpdatePlateAlpha()
+end
+
+local function updateMinimapScale()
+	B:GetModule("Maps"):UpdateMinimapScale()
+end
+
+local function showMinimapClock()
+	B:GetModule("Maps"):ShowMinimapClock()
+end
+
+local function showCalendar()
+	B:GetModule("Maps"):ShowCalendar()
 end
 
 local function updateInterruptAlert()
@@ -511,10 +534,10 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{3, "UFs", "HeightScale", L["UFs HeightScale"], true, {.5, 1.5, 1}},
 		{},--blank
 		{1, "UFs", "CombatText", DB.MyColor..L["UFs CombatText"]},
-		{1, "UFs", "HotsDots", L["CombatText HotsDots"]},
-		{1, "UFs", "FCTOverHealing", L["CombatText OverHealing"], true},
 		{1, "UFs", "AutoAttack", L["CombatText AutoAttack"]},
 		{1, "UFs", "PetCombatText", L["CombatText ShowPets"], true},
+		{1, "UFs", "HotsDots", L["CombatText HotsDots"]},
+		{1, "UFs", "FCTOverHealing", L["CombatText OverHealing"], true},
 	},
 	[4] = {
 		{1, "UFs", "RaidFrame", DB.MyColor..L["UFs RaidFrame"]},
@@ -542,7 +565,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{3, "UFs", "NumGroups", L["Num Groups"], true, {4, 8, 0}},
 		{4, "UFs", "RaidHPMode", L["HP Val Mode"], false, {L["DisableRaidHP"], L["RaidHPPercent"], L["RaidHPCurrent"]}},
 		{4, "UFs", "RaidHPColor", L["HP Bar Color"], true, {L["Default Dark"], L["ClassColorHP"], L["GradientHP"]}},
-		{3, "UFs", "RaidWidth", L["RaidFrame Width"], false, {60, 150, 0}},
+		{3, "UFs", "RaidWidth", L["RaidFrame Width"], false, {60, 200, 0}},
 		{3, "UFs", "RaidHeight", L["RaidFrame Height"], true, {25, 60, 0}},
 		{},--blank
 		{1, "UFs", "SimpleMode", DB.MyColor..L["Simple RaidFrame"]},
@@ -565,21 +588,26 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{},--blank
 		{1, "Nameplate", "FriendlyCC", L["Friendly CC"].."*"},
 		{1, "Nameplate", "HostileCC", L["Hostile CC"].."*", true},
-		{1, "Nameplate", "QuestIcon", L["Nameplate QuestIcon"]},
-		{1, "Nameplate", "ColorBorder", L["Auras Border"], true},
-		{1, "Nameplate", "InsideView", L["Nameplate InsideView"].."*", false, nil, updatePlateInsideView},
-		{1, "Nameplate", "ExplosivesScale", L["ExplosivesScale"], true},
+		{1, "Nameplate", "ColorBorder", L["ColorBorder"].."*", false, nil, refreshNameplates},
+		{1, "Nameplate", "InsideView", L["Nameplate InsideView"].."*", true, nil, updatePlateInsideView},
+		{1, "Nameplate", "ExplosivesScale", L["ExplosivesScale"]},
+		{1, "Nameplate", "QuestIndicator", L["QuestIndicator"], true},
 		{1, "Nameplate", "AKSProgress", L["AngryKeystones Progress"]},
-		{4, "Nameplate", "NPsHPMode", L["HP Val Mode"], false, {L["Only Percent"], L["Only Number"], L["Num and Per"]}},
-		{3, "Nameplate", "MinAlpha", L["Nameplate MinAlpha"].."*", true, {0, 1, 1}, updatePlateAlpha},
-		{4, "Nameplate", "TarArrow", L["Show Arrow"], false, {DISABLE, L["TOP"], L["RIGHT"]}},
+		{},--blank
+		{4, "Nameplate", "TargetIndicator", L["TargetIndicator"], false, {DISABLE, L["TargetGlow"], L["TopArrow"], L["RightArrow"], L["TopNGlow"], L["RightNGlow"]}, refreshNameplates},
 		{4, "Extras", "ArrowColor", L["Arrow Color"], true, {L["Cyan"], L["Green"], L["Red"]}},
-		{3, "Nameplate", "maxAuras", L["Max Auras"], false, {0, 12, 0}},
-		{3, "Nameplate", "AutoPerRow", L["Auto Per Row"], true, {3, 6, 0}},
+		{4, "Nameplate", "NPsHPMode", L["HP Val Mode"], false, {L["Only Percent"], L["Only Number"], L["Num and Per"]}},
+		{},--blank
 		{3, "Nameplate", "VerticalSpacing", L["NP VerticalSpacing"].."*", false, {.5, 1.5, 1}, updatePlateSpacing},
 		{3, "Nameplate", "Distance", L["Nameplate Distance"].."*", true, {20, 100, 0}, updatePlateRange},
-		{3, "Nameplate", "Width", L["NP Width"], false, {50, 150, 0}},
-		{3, "Nameplate", "Height", L["NP Height"], true, {5, 15, 0}},
+		{3, "Nameplate", "MinScale", L["Nameplate MinScale"].."*", false, {.5, 1, 1}, updatePlateScale},
+		{3, "Nameplate", "MinAlpha", L["Nameplate MinAlpha"].."*", true, {.5, 1, 1}, updatePlateAlpha},
+		{3, "Nameplate", "PlateWidth", L["NP Width"].."*", false, {50, 200, 0}, refreshNameplates},
+		{3, "Nameplate", "PlateHeight", L["NP Height"].."*", true, {5, 20, 0}, refreshNameplates},
+		{3, "Nameplate", "NameTextSize", L["NameTextSize"].."*", false, {8, 16, 0}, refreshNameplates},
+		{3, "Nameplate", "HealthTextSize", L["HealthTextSize"].."*", true, {8, 16, 0}, refreshNameplates},
+		{3, "Nameplate", "maxAuras", L["Max Auras"], false, {0, 12, 0}},
+		{3, "Nameplate", "AutoPerRow", L["Auto Per Row"], true, {3, 6, 0}},
 	},
 	[6] = {
 		{1, "AuraWatch", "Enable", DB.MyColor..L["Enable AuraWatch"], false, setupAuraWatch},
@@ -654,11 +682,11 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 	[9] = {
 		{1, "Map", "Coord", L["Map Coords"]},
 		{},--blank
-		{1, "Map", "Invite", L["Calendar Reminder"]},
-		{1, "Map", "Clock", L["Minimap Clock"], true},
+		{1, "Map", "Calendar", L["Minimap Calendar"].."*", false, nil, showCalendar},
+		{1, "Map", "Clock", L["Minimap Clock"].."*", true, nil, showMinimapClock},
 		{1, "Map", "CombatPulse", L["Minimap Pulse"]},
-		{1, "Map", "ShowRecycleBin", L["Show RecycleBin"], true},
-		{1, "Map", "WhoPings", L["Show WhoPings"]},
+		{1, "Map", "WhoPings", L["Show WhoPings"], true},
+		{1, "Map", "ShowRecycleBin", L["Show RecycleBin"]},
 		{1, "Misc", "ExpRep", L["Show Expbar"], true},
 		{},--blank
 		{3, "Map", "MapScale", L["Map Scale"].."*", false, {.5, 1.5, 1}},
