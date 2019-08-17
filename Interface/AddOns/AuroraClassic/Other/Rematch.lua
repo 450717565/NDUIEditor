@@ -413,7 +413,7 @@ C.themes["Rematch"] = function()
 
 		for _, icon in pairs({"Left", "Right"}) do
 			local bu = Content[icon.."Icon"]
-			local mask = content[icon.."CircleMask"]
+			local mask = Content[icon.."CircleMask"]
 
 			if mask then
 				mask:Hide()

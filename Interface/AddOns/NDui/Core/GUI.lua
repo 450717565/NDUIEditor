@@ -171,7 +171,7 @@ local defaultSettings = {
 		NameplateClassPower = false,
 		MaxPowerGlow = true,
 		NameTextSize = 10,
-		HealthTextSize = 12,
+		HealthTextSize = 14,
 		MinScale = .8,
 		MinAlpha = .8,
 		ColorBorder = true,
@@ -575,6 +575,14 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 	[5] = {
 		{1, "Nameplate", "Enable", DB.MyColor..L["Enable Nameplate"], false, setupNameplateFilter},
 		{},--blank
+		{1, "Nameplate", "FriendlyCC", L["Friendly CC"].."*"},
+		{1, "Nameplate", "HostileCC", L["Hostile CC"].."*", true},
+		{1, "Nameplate", "ColorBorder", L["ColorBorder"].."*", false, nil, refreshNameplates},
+		{1, "Nameplate", "InsideView", L["Nameplate InsideView"].."*", true, nil, updatePlateInsideView},
+		{1, "Nameplate", "ExplosivesScale", L["ExplosivesScale"]},
+		{1, "Nameplate", "QuestIndicator", L["QuestIndicator"], true},
+		{1, "Nameplate", "AKSProgress", L["AngryKeystones Progress"]},
+		{},--blank
 		{1, "Nameplate", "CustomUnitColor", DB.MyColor..L["CustomUnitColor"].."*", false, nil, updateCustomUnitList},
 		{5, "Nameplate", "CustomColor", L["Custom Color"].."*", 2},
 		{2, "Nameplate", "UnitList", L["UnitColor List"].."*", false, nil, updateCustomUnitList},
@@ -585,15 +593,6 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{5, "Nameplate", "TransColor", L["Trans Color"].."*", 1},
 		{5, "Nameplate", "InsecureColor", L["Insecure Color"].."*", 2},
 		{5, "Nameplate", "OffTankColor", L["OffTank Color"].."*", 3},
-		{},--blank
-		{1, "Nameplate", "FriendlyCC", L["Friendly CC"].."*"},
-		{1, "Nameplate", "HostileCC", L["Hostile CC"].."*", true},
-		{1, "Nameplate", "ColorBorder", L["ColorBorder"].."*", false, nil, refreshNameplates},
-		{1, "Nameplate", "InsideView", L["Nameplate InsideView"].."*", true, nil, updatePlateInsideView},
-		{1, "Nameplate", "ExplosivesScale", L["ExplosivesScale"]},
-		{1, "Nameplate", "QuestIndicator", L["QuestIndicator"], true},
-		{1, "Nameplate", "AKSProgress", L["AngryKeystones Progress"]},
-		{},--blank
 		{4, "Nameplate", "TargetIndicator", L["TargetIndicator"], false, {DISABLE, L["TargetGlow"], L["TopArrow"], L["RightArrow"], L["TopNGlow"], L["RightNGlow"]}, refreshNameplates},
 		{4, "Extras", "ArrowColor", L["Arrow Color"], true, {L["Cyan"], L["Green"], L["Red"]}},
 		{4, "Nameplate", "NPsHPMode", L["HP Val Mode"], false, {L["Only Percent"], L["Only Number"], L["Num and Per"]}},
