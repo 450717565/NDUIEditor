@@ -31,7 +31,7 @@ C.themes["Blizzard_Communities"] = function()
 	F.StripTextures(GuildMemberDetailFrame.OfficerNoteBackground)
 	F.CreateBDFrame(GuildMemberDetailFrame.OfficerNoteBackground, 0)
 	GuildMemberDetailFrame:ClearAllPoints()
-	GuildMemberDetailFrame:SetPoint("TOPLEFT", CommunitiesFrame.ChatTab, "TOPRIGHT", 2, 0)
+	GuildMemberDetailFrame:SetPoint("TOPLEFT", CommunitiesFrame.ChatTab, "TOPRIGHT", 2, -2)
 
 	for _, name in pairs({"GuildFinderFrame", "InvitationFrame", "TicketFrame"}) do
 		local frame = CommunitiesFrame[name]
@@ -357,9 +357,16 @@ C.themes["Blizzard_Communities"] = function()
 	bg:SetPoint("TOPLEFT", 0, 3)
 	bg:SetPoint("BOTTOMRIGHT", 0, -4)
 
-	F.ReskinFrame(CommunitiesGuildNewsFiltersFrame)
+	local FiltersFrame = CommunitiesGuildNewsFiltersFrame
+	F.ReskinFrame(FiltersFrame)
+
+	FiltersFrame:HookScript("OnShow", function()
+		FiltersFrame:ClearAllPoints()
+		FiltersFrame:SetPoint("TOPLEFT", CommunitiesFrame.ChatTab, "TOPRIGHT", 2, -2)
+	end)
+
 	for _, name in pairs({"GuildAchievement", "Achievement", "DungeonEncounter", "EpicItemLooted", "EpicItemPurchased", "EpicItemCrafted", "LegendaryItemLooted"}) do
-		local filter = CommunitiesGuildNewsFiltersFrame[name]
+		local filter = FiltersFrame[name]
 		F.ReskinCheck(filter)
 	end
 

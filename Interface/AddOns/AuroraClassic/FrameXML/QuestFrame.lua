@@ -70,7 +70,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 
 		QuestNPCModel:ClearAllPoints()
-		QuestNPCModel:SetPoint("TOPLEFT", parentFrame, "TOPRIGHT", x, -40)
+		QuestNPCModel:SetPoint("TOPLEFT", parentFrame, "TOPRIGHT", x, -25)
 	end)
 
 	QuestNPCModelNameTooltipFrame:SetSize(198, 20)

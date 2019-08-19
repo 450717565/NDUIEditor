@@ -44,7 +44,7 @@ C.themes["Blizzard_GuildUI"] = function()
 	GuildFactionBarLabel:SetPoint("CENTER", GuildFactionBarBG)
 
 	GuildNewsFiltersFrame:ClearAllPoints()
-	GuildNewsFiltersFrame:SetPoint("TOPLEFT", GuildFrame, "TOPRIGHT", 8, 0)
+	GuildNewsFiltersFrame:SetPoint("TOPLEFT", GuildFrame, "TOPRIGHT", 3, -25)
 	for i = 1, 7 do
 		F.ReskinCheck(GuildNewsFiltersFrame.GuildNewsFilterButtons[i])
 	end

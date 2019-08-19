@@ -15,6 +15,6 @@ C.themes["BuyEmAll"] = function()
 
 	hooksecurefunc(BuyEmAllFrame, "Show", function(self)
 		self:ClearAllPoints()
-		self:SetPoint("TOPLEFT", MerchantFrame, "TOPRIGHT", 4, 0)
+		self:SetPoint("TOPLEFT", MerchantFrame, "TOPRIGHT", 3, -25)
 	end)
 end

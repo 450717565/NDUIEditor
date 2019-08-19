@@ -18,6 +18,9 @@ C.themes["Blizzard_Calendar"] = function()
 	F.StripTextures(CalendarFilterFrame)
 	F.ReskinArrow(CalendarFilterButton, "down")
 
+	F.StripTextures(CalendarClassTotalsButton)
+	F.CreateBDFrame(CalendarClassTotalsButton)
+
 	CalendarViewEventDivider:Hide()
 	CalendarCreateEventDivider:Hide()
 
@@ -30,7 +33,7 @@ C.themes["Blizzard_Calendar"] = function()
 	CalendarCreateEventFrame:ClearAllPoints()
 	CalendarCreateEventFrame:SetPoint("TOPLEFT", CalendarFrame, "TOPRIGHT", 0, -25)
 	CalendarClassButton1:ClearAllPoints()
-	CalendarClassButton1:SetPoint("TOPLEFT", CalendarClassButtonContainer, "TOPLEFT", 5, 0)
+	CalendarClassButton1:SetPoint("TOPLEFT", CalendarViewEventFrame, "TOPRIGHT", 4, -25)
 	CalendarMassInviteFrame:ClearAllPoints()
 	CalendarMassInviteFrame:SetPoint("TOPLEFT", CalendarClassButton1, "TOPRIGHT", 5, 1)
 	CalendarTexturePickerFrame:ClearAllPoints()
@@ -123,13 +126,14 @@ C.themes["Blizzard_Calendar"] = function()
 	end
 
 	hooksecurefunc("CalendarFrame_SetToday", function(self)
-		CalendarTodayFrame:SetAllPoints()
+		local today = CalendarTodayFrame
+		today:SetAllPoints()
 
 		if not self.styled then
-			F.StripTextures(CalendarTodayFrame)
+			F.StripTextures(today)
 
-			local bg = F.CreateBDFrame(CalendarTodayFrame, 0)
-			bg:SetBackdropBorderColor(cr, cg, cb)
+			F.CreateBD(today, 0)
+			today:SetBackdropBorderColor(cr, cg, cb)
 
 			self.styled = true
 		end

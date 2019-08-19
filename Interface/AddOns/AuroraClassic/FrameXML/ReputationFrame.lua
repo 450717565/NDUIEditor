@@ -1,10 +1,22 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	ReputationDetailCorner:Hide()
-	ReputationDetailDivider:Hide()
+	F.ReskinFrame(ReputationDetailFrame)
+	F.ReskinClose(ReputationDetailCloseButton)
+	F.ReskinScroll(ReputationListScrollFrameScrollBar)
+
+	local checks = {ReputationDetailAtWarCheckBox, ReputationDetailInactiveCheckBox, ReputationDetailMainScreenCheckBox, ReputationDetailLFGBonusReputationCheckBox}
+	for _, check in pairs(checks) do
+		F.ReskinCheck(check)
+	end
+
 	ReputationDetailFrame:ClearAllPoints()
-	ReputationDetailFrame:SetPoint("TOPLEFT", ReputationFrame, "TOPRIGHT", 3, -30)
+	ReputationDetailFrame:SetPoint("TOPLEFT", ReputationFrame, "TOPRIGHT", 3, -25)
+
+	for i = 1, NUM_FACTIONS_DISPLAYED do
+		local bu = _G["ReputationBar"..i.."ExpandOrCollapseButton"]
+		F.ReskinExpandOrCollapse(bu)
+	end
 
 	local function UpdateFactionSkins()
 		for i = 1, GetNumFactions() do
@@ -25,17 +37,4 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	ReputationFrame:HookScript("OnShow", UpdateFactionSkins)
 	ReputationFrame:HookScript("OnEvent", UpdateFactionSkins)
-
-	for i = 1, NUM_FACTIONS_DISPLAYED do
-		local bu = _G["ReputationBar"..i.."ExpandOrCollapseButton"]
-		F.ReskinExpandOrCollapse(bu)
-	end
-
-	F.ReskinFrame(ReputationDetailFrame)
-	F.ReskinClose(ReputationDetailCloseButton)
-	F.ReskinCheck(ReputationDetailAtWarCheckBox)
-	F.ReskinCheck(ReputationDetailInactiveCheckBox)
-	F.ReskinCheck(ReputationDetailMainScreenCheckBox)
-	F.ReskinCheck(ReputationDetailLFGBonusReputationCheckBox)
-	F.ReskinScroll(ReputationListScrollFrameScrollBar)
 end)

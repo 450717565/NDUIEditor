@@ -2,6 +2,13 @@ local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinFrame(TradeFrame)
+
+	F.ReskinButton(TradeFrameTradeButton)
+	F.ReskinButton(TradeFrameCancelButton)
+	F.ReskinInput(TradePlayerInputMoneyFrameGold)
+	F.ReskinInput(TradePlayerInputMoneyFrameSilver)
+	F.ReskinInput(TradePlayerInputMoneyFrameCopper)
+
 	TradeFrame.RecipientOverlay:Hide()
 	TradePlayerEnchantInset:Hide()
 	TradePlayerInputMoneyInset:Hide()
@@ -9,12 +16,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	TradeRecipientEnchantInset:Hide()
 	TradeRecipientItemsInset:Hide()
 	TradeRecipientMoneyInset:Hide()
-
-	F.ReskinButton(TradeFrameTradeButton)
-	F.ReskinButton(TradeFrameCancelButton)
-	F.ReskinInput(TradePlayerInputMoneyFrameGold)
-	F.ReskinInput(TradePlayerInputMoneyFrameSilver)
-	F.ReskinInput(TradePlayerInputMoneyFrameCopper)
 
 	TradeRecipientMoneyBg:Hide()
 	TradePlayerInputMoneyFrameSilver:SetPoint("LEFT", TradePlayerInputMoneyFrameGold, "RIGHT", 1, 0)

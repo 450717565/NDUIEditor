@@ -11,7 +11,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinScroll(RaidInfoScrollFrameScrollBar)
 
 	RaidInfoFrame:ClearAllPoints()
-	RaidInfoFrame:SetPoint("TOPLEFT", RaidFrame, "TOPRIGHT", 3, 0)
+	RaidInfoFrame:SetPoint("TOPLEFT", RaidFrame, "TOPRIGHT", 3, -25)
 	RaidInfoFrameHeaderText:ClearAllPoints()
 	RaidInfoFrameHeaderText:SetPoint("TOP", RaidInfoFrame, "TOP", 0, -10)
 	RaidFrameRaidInfoButton:ClearAllPoints()

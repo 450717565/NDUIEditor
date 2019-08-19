@@ -33,7 +33,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			VideoOptionsFramePanelContainer,
 		}
 		for _, texture in pairs(textures) do
-			F.StripTextures(texture, true)
+			F.StripTextures(texture)
 		end
 
 		local headers = {
@@ -48,17 +48,19 @@ tinsert(C.themes["AuroraClassic"], function()
 			CreateUnderLine(header)
 		end
 
-		local line = VideoOptionsFrameCategoryFrame:CreateTexture(nil, "ARTWORK")
-		line:SetSize(C.mult, 512)
+		local line = F.CreateLine(VideoOptionsFrameCategoryFrame)
 		line:SetPoint("RIGHT", 10, 0)
-		line:SetColorTexture(1, 1, 1, .25)
 
 		VideoOptionsFrameHeader:Hide()
 		VideoOptionsFrameHeader:ClearAllPoints()
 		VideoOptionsFrameHeader:SetPoint("TOP", VideoOptionsFrame, 0, 0)
+		VideoOptionsFrameOkay:ClearAllPoints()
 		VideoOptionsFrameOkay:SetPoint("BOTTOMRIGHT", VideoOptionsFrameCancel, "BOTTOMLEFT", -1, 0)
+		AudioOptionsSoundPanelPlaybackTitle:ClearAllPoints()
 		AudioOptionsSoundPanelPlaybackTitle:SetPoint("BOTTOMLEFT", AudioOptionsSoundPanelPlayback, "TOPLEFT", 5, 2)
+		AudioOptionsSoundPanelHardwareTitle:ClearAllPoints()
 		AudioOptionsSoundPanelHardwareTitle:SetPoint("BOTTOMLEFT", AudioOptionsSoundPanelHardware, "TOPLEFT", 5, 2)
+		AudioOptionsSoundPanelVolumeTitle:ClearAllPoints()
 		AudioOptionsSoundPanelVolumeTitle:SetPoint("BOTTOMLEFT", AudioOptionsSoundPanelVolume, "TOPLEFT", 5, 2)
 
 		for i = 1, 6 do
@@ -193,6 +195,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	hooksecurefunc("AudioOptionsVoicePanel_InitializeCommunicationModeUI", function(self)
 		if not self.styled then
 			F.ReskinButton(self.PushToTalkKeybindButton)
+
 			self.styled = true
 		end
 	end)

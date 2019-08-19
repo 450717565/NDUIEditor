@@ -71,7 +71,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	local UnavailableInfoFrame = BattlenetFrame.UnavailableInfoFrame
 	F.ReskinFrame(UnavailableInfoFrame)
 	UnavailableInfoFrame:ClearAllPoints()
-	UnavailableInfoFrame:SetPoint("TOPLEFT", FriendsFrame, "TOPRIGHT", 2, 0)
+	UnavailableInfoFrame:SetPoint("TOPLEFT", FriendsFrame, "TOPRIGHT", 3, -25)
 
 	hooksecurefunc("FriendsFrame_CheckBattlenetStatus", function()
 		if BNFeaturesEnabled() then

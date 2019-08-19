@@ -594,6 +594,7 @@ end
 
 function F:ReskinInput(height, width)
 	F.CleanTextures(self)
+	self:DisableDrawLayer("BACKGROUND")
 
 	local bg = F.CreateBDFrame(self, 0)
 	bg:SetPoint("TOPLEFT", -2, 0)
@@ -1095,9 +1096,7 @@ local CleanTextures = {
 }
 
 function F:CleanTextures()
-	--if self.SetCheckedTexture then self:SetCheckedTexture("") end
 	if self.SetBackdrop then self:SetBackdrop(nil) end
-	if self.SetDrawLayer then self:DisableDrawLayer("BACKGROUND") end
 	if self.SetDisabledTexture then self:SetDisabledTexture("") end
 	if self.SetHighlightTexture then self:SetHighlightTexture("") end
 	if self.SetNormalTexture then self:SetNormalTexture("") end

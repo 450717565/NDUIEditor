@@ -9,7 +9,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	SpellBookPageText:SetTextColor(.8, .8, .8)
 	SpellBookSkillLineTab1:ClearAllPoints()
-	SpellBookSkillLineTab1:SetPoint("TOPLEFT", SpellBookFrame, "TOPRIGHT", 2, -25)
+	SpellBookSkillLineTab1:SetPoint("TOPLEFT", SpellBookFrame, "TOPRIGHT", 4, -25)
 	SpellBookFrameTutorialButton.Ring:Hide()
 	SpellBookFrameTutorialButton:ClearAllPoints()
 	SpellBookFrameTutorialButton:SetPoint("TOPLEFT", SpellBookFrame, "TOPLEFT", -12, 12)
@@ -65,23 +65,16 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	hooksecurefunc("SpellBookFrame_UpdateSkillLineTabs", function()
 		if SpellBookFrame.bookType == BOOKTYPE_SPELL then
-			local tab1 = _G["SpellBookSkillLineTab1"]
-			tab1:ClearAllPoints()
-			tab1:SetPoint("TOPLEFT", SpellBookFrame, "TOPRIGHT", 3, -25)
-
 			for i = 1, GetNumSpellTabs() do
 				local tab = _G["SpellBookSkillLineTab"..i]
-				tab:SetSize(34, 34)
 
-				local icon = tab:GetNormalTexture()
 				if not tab.styled then
+					tab:SetSize(34, 34)
 					tab:GetRegions():Hide()
 					tab:SetCheckedTexture(C.media.checked)
 
-					if icon then
-						local icbg = F.ReskinIcon(icon, false, 1)
-						F.ReskinTexture(tab, icbg)
-					end
+					local icbg = F.ReskinIcon(tab:GetNormalTexture(), false, 1)
+					F.ReskinTexture(tab, icbg)
 
 					tab.styled = true
 				end

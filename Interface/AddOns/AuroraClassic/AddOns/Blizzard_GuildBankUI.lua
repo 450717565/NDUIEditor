@@ -13,8 +13,6 @@ C.themes["Blizzard_GuildBankUI"] = function()
 	F.StripTextures(GuildBankMoneyFrameBackground)
 
 	GuildBankPopupFrame:SetHeight(525)
-	GuildBankPopupFrame:ClearAllPoints()
-	GuildBankPopupFrame:SetPoint("TOPLEFT", GuildBankFrame, "TOPRIGHT", 2, -30)
 	GuildBankFrameWithdrawButton:ClearAllPoints()
 	GuildBankFrameWithdrawButton:SetPoint("RIGHT", GuildBankFrameDepositButton, "LEFT", -1, 0)
 
@@ -70,6 +68,9 @@ C.themes["Blizzard_GuildBankUI"] = function()
 	end
 
 	GuildBankPopupFrame:HookScript("OnShow", function()
+		GuildBankPopupFrame:ClearAllPoints()
+		GuildBankPopupFrame:SetPoint("TOPLEFT", GuildBankFrame, "TOPRIGHT", 42, 0)
+
 		for i = 1, NUM_GUILDBANK_ICONS_PER_ROW * NUM_GUILDBANK_ICON_ROWS do
 			local button = "GuildBankPopupButton"..i
 

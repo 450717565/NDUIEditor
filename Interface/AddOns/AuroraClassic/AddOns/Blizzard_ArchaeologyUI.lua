@@ -16,7 +16,7 @@ C.themes["Blizzard_ArchaeologyUI"] = function()
 	ArchaeologyFrameInfoButton:SetPoint("TOPLEFT", 3, -3)
 
 	ArchaeologyFrameSummarytButton:ClearAllPoints()
-	ArchaeologyFrameSummarytButton:SetPoint("TOPLEFT", ArchaeologyFrame, "TOPRIGHT", 0, -25)
+	ArchaeologyFrameSummarytButton:SetPoint("TOPLEFT", ArchaeologyFrame, "TOPRIGHT", 2, -25)
 	ArchaeologyFrameCompletedButton:ClearAllPoints()
 	ArchaeologyFrameCompletedButton:SetPoint("TOP", ArchaeologyFrameSummarytButton, "BOTTOM", 0, 0)
 
