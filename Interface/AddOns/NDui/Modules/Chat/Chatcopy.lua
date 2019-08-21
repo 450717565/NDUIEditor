@@ -79,9 +79,7 @@ function module:ChatCopy_CreateMenu()
 	_G.ChatFrameToggleVoiceMuteButton:SetParent(menu)
 	_G.QuickJoinToastButton:SetParent(menu)
 	_G.ChatAlertFrame:ClearAllPoints()
-	_G.ChatAlertFrame:SetPoint("BOTTOMLEFT", _G.ChatFrame1Tab, "TOPLEFT", 5, 25)
-
-	_G.QuickJoinToastButton:Hide()
+	_G.ChatAlertFrame:SetPoint("BOTTOMLEFT", _G.ChatFrame1Tab, "TOPLEFT", 0, 20)
 end
 
 function module:ChatCopy_Create()

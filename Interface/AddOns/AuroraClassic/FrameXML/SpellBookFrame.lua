@@ -67,14 +67,19 @@ tinsert(C.themes["AuroraClassic"], function()
 		if SpellBookFrame.bookType == BOOKTYPE_SPELL then
 			for i = 1, GetNumSpellTabs() do
 				local tab = _G["SpellBookSkillLineTab"..i]
+				local icon = tab:GetNormalTexture()
 
-				if not tab.styled then
+				if tab and not tab.styled then
 					tab:SetSize(34, 34)
 					tab:GetRegions():Hide()
 					tab:SetCheckedTexture(C.media.checked)
 
-					local icbg = F.ReskinIcon(tab:GetNormalTexture(), false, 1)
-					F.ReskinTexture(tab, icbg)
+					if icon and not icon.styled then
+						local icbg = F.ReskinIcon(icon, false, 1)
+						F.ReskinTexture(tab, icbg)
+
+						icon.styled = true
+					end
 
 					tab.styled = true
 				end

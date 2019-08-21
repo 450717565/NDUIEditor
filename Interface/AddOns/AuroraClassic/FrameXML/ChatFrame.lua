@@ -29,7 +29,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	end)
 
 	F.StripTextures(QuickJoinToastButton.Toast)
-	local bg = F.CreateBDFrame(QuickJoinToastButton.Toast, .25)
+	local bg = F.CreateBDFrame(QuickJoinToastButton.Toast, 0)
 	bg:SetPoint("TOPLEFT", 10, -1)
 	bg:SetPoint("BOTTOMRIGHT", 0, 3)
 	bg:Hide()

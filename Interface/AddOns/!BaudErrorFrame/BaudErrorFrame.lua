@@ -4,13 +4,17 @@ local SoundTime = 0
 local enableTaint = false
 BaudErrorFrameConfig = BaudErrorFrameConfig or {}
 
+local function RegisterTaintEvents(self)
+	self:RegisterEvent("ADDON_ACTION_BLOCKED")
+	self:RegisterEvent("MACRO_ACTION_BLOCKED")
+	self:RegisterEvent("ADDON_ACTION_FORBIDDEN")
+	self:RegisterEvent("MACRO_ACTION_FORBIDDEN")
+end
+
 function BaudErrorFrame_OnLoad(self)
 	self:RegisterEvent("VARIABLES_LOADED")
 	if enableTaint then
-		self:RegisterEvent("ADDON_ACTION_BLOCKED")
-		self:RegisterEvent("MACRO_ACTION_BLOCKED")
-		self:RegisterEvent("ADDON_ACTION_FORBIDDEN")
-		self:RegisterEvent("MACRO_ACTION_FORBIDDEN")
+		RegisterTaintEvents(self)
 	end
 
 	UIParent:UnregisterEvent("MACRO_ACTION_BLOCKED")
@@ -162,6 +166,7 @@ end
 local function colorStack(ret)
 	ret = tostring(ret) or "" -- Yes, it gets called with nonstring from somewhere /mikk
 
+	ret = ret:gsub("[%.I][%.n][%.t][%.e][%.r]face\\", "")
 	ret = ret:gsub("|([^chHr])", "||%1"):gsub("|$", "||") -- Pipes
 	ret = ret:gsub("([^\\]+%.lua)", "|cffffd200%1|r") -- Lua files
 	ret = ret:gsub(":(%d+)[%S\n]", ":|cff7fff7f%1|r") -- Line numbers
