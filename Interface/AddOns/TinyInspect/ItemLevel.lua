@@ -206,24 +206,7 @@ hooksecurefunc("SetItemButtonQuality", function(self, quality, itemIDOrLink)
 		SetItemSlotString(frame.slotString)
 	end
 end)
---[[
--- Bag
-hooksecurefunc("ContainerFrame_Update", function(self)
-	local id = self:GetID()
-	local name = self:GetName()
-	local button
-	for i = 1, self.size do
-		button = _G[name.."Item"..i]
-		SetItemLevel(button, GetContainerItemLink(id, button:GetID()), "Bag", id, button:GetID())
-	end
-end)
 
--- Bank
-hooksecurefunc("BankFrameItemButton_Update", function(self)
-	if (self.isBag) then return end
-	SetItemLevel(self, GetContainerItemLink(self:GetParent():GetID(), self:GetID()), "Bank")
-end)
-]]
 -- Merchant
 hooksecurefunc("MerchantFrameItem_UpdateQuality", function(self, link)
 	SetItemLevel(self.ItemButton, link, "Merchant")
@@ -310,24 +293,6 @@ LibEvent:attachEvent("ADDON_LOADED", function(self, addonName)
 	end
 end)
 ]]
--- ALT
-if (EquipmentFlyout_DisplayButton) then
-	hooksecurefunc("EquipmentFlyout_DisplayButton", function(button, paperDollItemSlot)
-		local location = button.location
-		if (not location) then return end
-		local player, bank, bags, voidStorage, slot, bag, tab, voidSlot = EquipmentManager_UnpackLocation(location)
-		if (not player and not bank and not bags and not voidStorage) then return end
-		if (voidStorage) then
-			SetItemLevel(button, nil, "AltEquipment")
-		elseif (bags) then
-			local link = GetContainerItemLink(bag, slot)
-			SetItemLevel(button, link, "AltEquipment", bag, slot)
-		else
-			local link = GetInventoryItemLink("player", slot)
-			SetItemLevel(button, link, "AltEquipment")
-		end
-	end)
-end
 
 -- ForAddons: Bagnon Combuctor LiteBag ArkInventory
 LibEvent:attachEvent("PLAYER_LOGIN", function()
@@ -407,7 +372,7 @@ end)
 -------------------
 --   PaperDoll  --
 -------------------
-
+--[[
 local function SetPaperDollItemLevel(self, unit)
 	if (not self) then return end
 	local id = self:GetID()
@@ -493,6 +458,7 @@ LibEvent:attachTrigger("ITEMLEVEL_FRAME_CREATED", function(self, frame, parent)
 		end
 	end
 end)
+]]
 
 ----------------------
 --  Chat ItemLevel  --

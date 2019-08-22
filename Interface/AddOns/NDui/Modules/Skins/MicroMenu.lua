@@ -8,11 +8,6 @@ local buttonList = {}
 local cr, cg, cb, alpha, color
 
 function S:MicroButton_SetupTexture(icon, texcoord, texture)
-	cr, cg, cb = DB.r, DB.g, DB.b
-	alpha = NDuiDB["Extras"]["SkinAlpha"]
-	color = NDuiDB["Extras"]["SkinColor"]
-	if not NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
-
 	if texture == "encounter" then
 		icon:SetPoint("TOPLEFT", 2, -2)
 		icon:SetPoint("BOTTOMRIGHT", -2, 3)
@@ -63,6 +58,11 @@ end
 
 function S:MicroMenu()
 	if not NDuiDB["Skins"]["MicroMenu"] then return end
+
+	cr, cg, cb = DB.r, DB.g, DB.b
+	alpha = NDuiDB["Extras"]["SkinAlpha"]
+	color = NDuiDB["Extras"]["SkinColor"]
+	if not NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
 
 	local menubar = CreateFrame("Frame", nil, UIParent)
 	menubar:SetSize(319, 22)

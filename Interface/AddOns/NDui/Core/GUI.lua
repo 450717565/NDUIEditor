@@ -201,7 +201,7 @@ local defaultSettings = {
 		Cursor = true,
 		ClassColor = true,
 		HideRank = false,
-		FactionIcon = false,
+		FactionIcon = true,
 		LFDRole = false,
 		TargetBy = true,
 		Scale = 1,
@@ -214,7 +214,8 @@ local defaultSettings = {
 	},
 	Misc = {
 		Mail = true,
-		ItemLevel = false,
+		ItemLevel = true,
+		GemNEnchant = true,
 		MissingStats = true,
 		HideErrors = true,
 		SoloInfo = true,
@@ -547,7 +548,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "UFs", "PartyWatcher", L["UFs PartyWatcher"]},
 		{1, "Extras", "ShowYourself", L["PartyFrame Show Yourself"], true},
 		{1, "UFs", "PWOnRight", L["PartyWatcherOnRight"]},
-		{3, "UFs", "PartyWidth", L["PartyFrame Width"], false, {60, 150, 0}},
+		{3, "UFs", "PartyWidth", L["PartyFrame Width"], false, {60, 200, 0}},
 		{3, "UFs", "PartyHeight", L["PartyFrame Height"], true, {25, 60, 0}},
 		{},--blank
 		{1, "UFs", "RaidBuffIndicator", DB.MyColor..L["RaidBuffIndicator"], false, setupBuffIndicator},
@@ -593,7 +594,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{5, "Nameplate", "TransColor", L["Trans Color"].."*", 1},
 		{5, "Nameplate", "InsecureColor", L["Insecure Color"].."*", 2},
 		{5, "Nameplate", "OffTankColor", L["OffTank Color"].."*", 3},
-		{4, "Nameplate", "TargetIndicator", L["TargetIndicator"], false, {DISABLE, L["TargetGlow"], L["TopArrow"], L["RightArrow"], L["TopNGlow"], L["RightNGlow"]}, refreshNameplates},
+		{4, "Nameplate", "TargetIndicator", L["TargetIndicator"].."*", false, {DISABLE, L["TargetGlow"], L["TopArrow"], L["RightArrow"], L["TopNGlow"], L["RightNGlow"]}, refreshNameplates},
 		{4, "Extras", "ArrowColor", L["Arrow Color"], true, {L["Cyan"], L["Green"], L["Red"]}},
 		{4, "Nameplate", "NPsHPMode", L["HP Val Mode"], false, {L["Only Percent"], L["Only Number"], L["Num and Per"]}},
 		{},--blank
@@ -688,8 +689,8 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Map", "ShowRecycleBin", L["Show RecycleBin"]},
 		{1, "Misc", "ExpRep", L["Show Expbar"], true},
 		{},--blank
-		{3, "Map", "MapScale", L["Map Scale"].."*", false, {.5, 1.5, 1}},
-		{3, "Map", "MinmapScale", L["Minimap Scale"], true, {.5, 1.5, 1}},
+		{3, "Map", "MapScale", L["Map Scale"], false, {.5, 1.5, 1}},
+		{3, "Map", "MinmapScale", L["Minimap Scale"].."*", true, {.5, 1.5, 1}, updateMinimapScale},
 	},
 	[10] = {
 		{1, "Skins", "BarLine", L["Bar Line"]},
@@ -727,22 +728,22 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Tooltip", "OnlyArmorIcons", L["Armor icons only"].."*", true},
 	},
 	[12] = {
-		{1, "Misc", "Mail", L["Mail Tool"]},
-		{1, "Misc", "Focuser", L["Easy Focus"], true},
-		{1, "Misc", "TradeTab", L["TradeTabs"]},
-		{1, "Misc", "PetFilter", L["Show PetFilter"], true},
+		{1, "Misc", "ItemLevel", DB.MyColor..L["Show ItemLevel"]},
+		{1, "Misc", "GemNEnchant", L["Show GemNEnchant"].."*", true},
 		{},--blank
-		{1, "Misc", "ItemLevel", L["Show ItemLevel"]},
-		{1, "Misc", "MissingStats", L["Show MissingStats"], true},
+		{1, "Misc", "MissingStats", L["Show MissingStats"]},
+		{1, "Misc", "ParagonRep", L["ParagonRep"], true},
 		{1, "Misc", "HideTalking", L["No Talking"]},
 		{1, "Misc", "HideBanner", L["Hide Bossbanner"], true},
-		{},--blank
-		{1, "Misc", "Screenshot", L["Auto ScreenShot"].."*", false, nil, updateScreenShot},
-		{1, "Misc", "FasterLoot", L["Faster Loot"].."*", true, nil, updateFasterLoot},
-		{1, "Misc", "HideErrors", L["Hide Error"].."*", false, nil, updateErrorBlocker},
-		{},--blank
-		{1, "Misc", "ParagonRep", L["ParagonRep"]},
+		{1, "Misc", "Focuser", L["Easy Focus"]},
 		{1, "ACCOUNT", "AutoBubbles", L["AutoBubbles"], true},
+		{},--blank
+		{1, "Misc", "Mail", L["Mail Tool"]},
+		{1, "Misc", "TradeTab", L["TradeTabs"], true},
+		{1, "Misc", "PetFilter", L["Show PetFilter"]},
+		{1, "Misc", "Screenshot", L["Auto ScreenShot"].."*", true, nil, updateScreenShot},
+		{1, "Misc", "FasterLoot", L["Faster Loot"].."*", false, nil, updateFasterLoot},
+		{1, "Misc", "HideErrors", L["Hide Error"].."*", true, nil, updateErrorBlocker},
 	},
 	[13] = {
 		{1, "ACCOUNT", "VersionCheck", L["Version Check"]},

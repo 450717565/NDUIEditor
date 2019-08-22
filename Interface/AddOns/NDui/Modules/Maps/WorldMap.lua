@@ -113,6 +113,7 @@ end
 function module:WorldMapScale()
 	mapScale = NDuiDB["Map"]["MapScale"]
 
+	-- Fix worldmap cursor when scaling
 	if mapScale > 1 then
 		WorldMapFrame.ScrollContainer.GetCursorPosition = function(f)
 			local x, y = MapCanvasScrollControllerMixin.GetCursorPosition(f)
