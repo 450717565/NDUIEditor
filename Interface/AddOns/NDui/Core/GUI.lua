@@ -416,6 +416,10 @@ local function updatePlateAlpha()
 	B:GetModule("UnitFrames"):UpdatePlateAlpha()
 end
 
+local function updateRaidNameText()
+	B:GetModule("UnitFrames"):UpdateRaidNameText()
+end
+
 local function updateMinimapScale()
 	B:GetModule("Maps"):UpdateMinimapScale()
 end
@@ -564,7 +568,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "UFs", "HorizonRaid", L["Horizon RaidFrame"]},
 		{1, "UFs", "ReverseRaid", L["Reverse RaidFrame"]},
 		{3, "UFs", "NumGroups", L["Num Groups"], true, {4, 8, 0}},
-		{4, "UFs", "RaidHPMode", L["HP Val Mode"], false, {L["DisableRaidHP"], L["RaidHPPercent"], L["RaidHPCurrent"]}},
+		{4, "UFs", "RaidHPMode", L["HP Val Mode"].."*", false, {L["DisableRaidHP"], L["RaidHPPercent"], L["RaidHPCurrent"], L["RaidHPLost"]}, updateRaidNameText},
 		{4, "UFs", "RaidHPColor", L["HP Bar Color"], true, {L["Default Dark"], L["ClassColorHP"], L["GradientHP"]}},
 		{3, "UFs", "RaidWidth", L["RaidFrame Width"], false, {60, 200, 0}},
 		{3, "UFs", "RaidHeight", L["RaidFrame Height"], true, {25, 60, 0}},
@@ -1166,6 +1170,7 @@ local function importData()
 				g = tonumber(g)
 				b = tonumber(b)
 				filter = toBoolean(filter)
+				if not NDuiADB[value][class] then NDuiADB[value][class] = {} end
 				NDuiADB[value][class][spellID] = {anchor, {r, g, b}, filter}
 			end
 		elseif tonumber(arg1) then

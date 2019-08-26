@@ -104,13 +104,12 @@ function F:SetupArrowTex(direction)
 	return bgTex
 end
 
-function F:SetupTabStyle(index, tabType)
+function F:SetupTabStyle(index, tabName)
 	local frameName = self.GetName and self:GetName()
-	local tab = frameName.."Tab"
+	local tab = frameName and frameName.."Tab"
 
-	if tabType then
-		tab = frameName..tabType
-	end
+	if tabName then tab = frameName and frameName..tabName end
+	if not tab then return end
 
 	for i = 1, index do
 		local tabs = _G[tab..i]

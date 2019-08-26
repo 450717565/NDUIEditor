@@ -83,7 +83,7 @@ end
 function TT:InsertFactionFrame(faction)
 	if not self.factionFrame then
 		local f = self:CreateTexture(nil, "OVERLAY")
-		f:SetPoint("TOPRIGHT", 0, -5)
+		f:SetPoint("BOTTOMRIGHT", 10, 0)
 		f:SetBlendMode("ADD")
 		f:SetScale(.25)
 		self.factionFrame = f
