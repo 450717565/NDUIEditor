@@ -12,6 +12,6 @@
 Core.lua
 GUI.lua
 
-AddOns\AddOns.xml
-FrameXML\FrameXML.xml
+Addon\Addon.xml
+Frame\Frame.xml
 Other\Other.xml

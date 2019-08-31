@@ -3,6 +3,31 @@ local B, C, L, DB = unpack(ns)
 local module = B:RegisterModule("Infobar")
 local tinsert, pairs, unpack = table.insert, pairs, unpack
 
+function module:GetMoneyString(money, full)
+	if money > 0 then
+		if not full then
+			return format("%s%s", B.Numb(money / 1e4), GOLD_AMOUNT_SYMBOL)
+		else
+			local moneyString = ""
+			local gold = floor(money / 1e4)
+			if gold > 0 then
+				moneyString = gold..GOLD_AMOUNT_SYMBOL
+			end
+			local silver = floor((money - (gold * 1e4)) / 100)
+			if silver > 0 then
+				moneyString = moneyString.." "..silver..SILVER_AMOUNT_SYMBOL
+			end
+			local copper = mod(money, 100)
+			if copper > 0 then
+				moneyString = moneyString.." "..copper..COPPER_AMOUNT_SYMBOL
+			end
+			return moneyString
+		end
+	else
+		return "0"..COPPER_AMOUNT_SYMBOL
+	end
+end
+
 function module:RegisterInfobar(name, point)
 	if not self.modules then self.modules = {} end
 

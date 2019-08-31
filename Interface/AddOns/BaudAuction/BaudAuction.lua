@@ -596,6 +596,8 @@ function BaudAuctionSortBrowseList()
 			--item[9] buyoutPrice  item[15] bidPrice item[16] bid/per item[17] buyoutPer
 			--use bidPrice for buyoutPrice if not set buyout
 			local sa,sb = SearchResults[a][Sort], SearchResults[b][Sort]
+			if not sa or not sb then return end
+
 			if Sort == 9 or Sort == 17 then
 				sa = sa == 0 and MAX_INT or sa
 				sb = sb == 0 and MAX_INT or sb

@@ -265,7 +265,7 @@ end
 LightLoot:RegisterEvent("LOOT_CLOSED")
 
 function LightLoot:LOOT_SLOT_CLEARED(event, slot)
-	if not self:IsShown() then return end
+	if not self:IsShown() or not slot then return end
 
 	slots[slot]:Hide()
 	self:AnchorSlots()
