@@ -656,7 +656,7 @@ function B.GetItemLevel(link, arg1, arg2, fullScan)
 			tip:SetHyperlink(link)
 		end
 
-		for i = 2, 5 do
+		for i = 2, tip:NumLines() do
 			local text = _G[tip:GetName().."TextLeft"..i]:GetText() or ""
 			local found = strfind(text, itemLevelString)
 			if found then

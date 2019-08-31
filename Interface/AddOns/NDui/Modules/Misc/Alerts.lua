@@ -14,6 +14,9 @@ local C_ChatInfo_SendAddonMessage = C_ChatInfo.SendAddonMessage
 local C_ChatInfo_RegisterAddonMessagePrefix = C_ChatInfo.RegisterAddonMessagePrefix
 local C_MythicPlus_GetCurrentAffixes = C_MythicPlus.GetCurrentAffixes
 
+local C_Map_GetBestMapForUnit = C_Map.GetBestMapForUnit
+local C_VignetteInfo_GetVignettePosition = C_VignetteInfo.GetVignettePosition
+
 function M:AddAlerts()
 	self:SoloInfo()
 	self:RareAlert()
@@ -118,10 +121,20 @@ function M:RareAlert_Update(id)
 		local atlasHeight = height/(txBottom-txTop)
 		local tex = format("|T%s:%d:%d:0:0:%d:%d:%d:%d:%d:%d|t", filename, 0, 0, atlasWidth, atlasHeight, atlasWidth*txLeft, atlasWidth*txRight, atlasHeight*txTop, atlasHeight*txBottom)
 
+		local coordX, coordY = 0, 0
+		local mapID = C_Map_GetBestMapForUnit("player")
+		if mapID then
+			local position = C_VignetteInfo_GetVignettePosition(info.vignetteGUID, mapID)
+			if position then
+				coordX, coordY = position:GetXY()
+			end
+		end
+
+		local currrentTime = date("%H:%M")
+
 		UIErrorsFrame:AddMessage(DB.InfoColor..format(">>> %s <<<", tex..(info.name or "")))
 		if NDuiDB["Misc"]["AlertinChat"] and not UnitIsDeadOrGhost("player") then
-			local currrentTime = date("%H:%M:%S")
-			SendChatMessage(format(">>> [%s]%s <<<", currrentTime, info.name), "SAY")
+			SendChatMessage(format(">>> [%s][%.1f,%.1f]%s <<<", currrentTime, coordX*100, coordY*100, info.name), "SAY")
 		end
 		PlaySound(9431, "master")
 
