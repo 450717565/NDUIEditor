@@ -3,7 +3,7 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_AchievementUI"] = function()
 	local cr, cg, cb = C.r, C.g, C.b
 
-	F.ReskinFrame(AchievementFrame)
+	F.ReskinFrame(AchievementFrame
 
 	AchievementFrameHeaderPoints:ClearAllPoints()
 	AchievementFrameHeaderPoints:SetPoint("BOTTOM", AchievementFrameSummaryAchievementsHeaderTitle, "TOP", 0, 8)
