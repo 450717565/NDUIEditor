@@ -115,7 +115,7 @@ info.onEnter = function(self)
 	local total, equipped = GetAverageItemLevel()
 	GameTooltip:SetOwner(self, "ANCHOR_TOP", 0, 15)
 	GameTooltip:ClearLines()
-	GameTooltip:AddDoubleLine(STAT_AVERAGE_ITEM_LEVEL..L[":"], format("%.1f / %.1f", equipped, total), 0,.6,1, 0,.6,1)
+	GameTooltip:AddDoubleLine(STAT_AVERAGE_ITEM_LEVEL, format("%.1f / %.1f", equipped, total), 0,.6,1, 0,.6,1)
 	GameTooltip:AddLine(" ")
 
 	for i = 1, 10 do
@@ -142,7 +142,7 @@ local function delayFunc()
 	if isBankEmpty then
 		autoRepair(true)
 	else
-		print(format(DB.InfoColor.."%s|r%s", L["Guild repair"], module:GetMoneyString(repairAllCost, true)))
+		print(format(DB.InfoColor.."%s|r%s", L["Guild repair"], module:GetMoneyString(repairAllCost)))
 	end
 end
 
@@ -160,7 +160,7 @@ function autoRepair(override)
 		else
 			if myMoney > repairAllCost then
 				RepairAllItems()
-				print(format(DB.InfoColor.."%s|r%s", L["Repair cost"], module:GetMoneyString(repairAllCost, true)))
+				print(format(DB.InfoColor.."%s|r%s", L["Repair cost"], module:GetMoneyString(repairAllCost)))
 				return
 			else
 				print(DB.InfoColor..L["Repair error"])

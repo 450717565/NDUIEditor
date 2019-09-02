@@ -43,7 +43,7 @@ info.onEvent = function(self, event)
 	else								-- Gained Moeny
 		profit = profit + change
 	end
-	self.text:SetText(module:GetMoneyString(newMoney))
+	self.text:SetText(module:GetMoneyString(newMoney, true))
 
 	if not NDuiADB["totalGold"][myRealm] then NDuiADB["totalGold"][myRealm] = {} end
 	NDuiADB["totalGold"][myRealm][myName] = {GetMoney(), DB.MyClass}
@@ -81,12 +81,12 @@ info.onEnter = function(self)
 	GameTooltip:AddLine(" ")
 
 	GameTooltip:AddLine(L["Session"], .6,.8,1)
-	GameTooltip:AddDoubleLine(L["Earned"], module:GetMoneyString(profit, true), 1,1,1, 1,1,1)
-	GameTooltip:AddDoubleLine(L["Spent"], module:GetMoneyString(spent, true), 1,1,1, 1,1,1)
+	GameTooltip:AddDoubleLine(L["Earned"], module:GetMoneyString(profit), 1,1,1, 1,1,1)
+	GameTooltip:AddDoubleLine(L["Spent"], module:GetMoneyString(spent), 1,1,1, 1,1,1)
 	if profit < spent then
-		GameTooltip:AddDoubleLine(L["Deficit"], module:GetMoneyString(spent-profit, true), 1,0,0, 1,1,1)
+		GameTooltip:AddDoubleLine(L["Deficit"], module:GetMoneyString(spent-profit), 1,0,0, 1,1,1)
 	elseif profit > spent then
-		GameTooltip:AddDoubleLine(L["Profit"], module:GetMoneyString(profit-spent, true), 0,1,0, 1,1,1)
+		GameTooltip:AddDoubleLine(L["Profit"], module:GetMoneyString(profit-spent), 0,1,0, 1,1,1)
 	end
 	GameTooltip:AddLine(" ")
 
@@ -96,11 +96,11 @@ info.onEnter = function(self)
 	for k, v in pairs(thisRealmList) do
 		local gold, class = unpack(v)
 		local r, g, b = B.ClassColor(class)
-		GameTooltip:AddDoubleLine(getClassIcon(class)..k, module:GetMoneyString(gold), r,g,b, 1,1,1)
+		GameTooltip:AddDoubleLine(getClassIcon(class)..k, module:GetMoneyString(gold, true), r,g,b, 1,1,1)
 		totalGold = totalGold + gold
 	end
 	GameTooltip:AddLine(" ")
-	GameTooltip:AddDoubleLine(TOTAL..L[":"], module:GetMoneyString(totalGold), .6,.8,1, 1,1,1)
+	GameTooltip:AddDoubleLine(TOTAL..L[":"], module:GetMoneyString(totalGold, true), .6,.8,1, 1,1,1)
 
 	for i = 1, GetNumWatchedTokens() do
 		local name, count, icon, currencyID = GetBackpackCurrencyInfo(i)
@@ -134,7 +134,7 @@ local errorText = _G.ERR_VENDOR_DOESNT_BUY
 local function stopSelling(tell)
 	stop = true
 	if sellCount > 0 and tell then
-		print(format("|cff99CCFF%s|r%s", L["Selljunk Calculate"], module:GetMoneyString(sellCount, true)))
+		print(format("|cff99CCFF%s|r%s", L["Selljunk Calculate"], module:GetMoneyString(sellCount)))
 	end
 	sellCount = 0
 end

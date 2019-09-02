@@ -15,19 +15,19 @@ tinsert(C.themes["AuroraClassic"], function()
 		if not button or button.styled then return end
 
 		local buttonName = button:GetName()
-		local icon = _G[buttonName.."IconTexture"]
+		local iconTexture = _G[buttonName.."IconTexture"]
 		local shortageBorder = _G[buttonName.."ShortageBorder"]
 		local count = _G[buttonName.."Count"]
 		local nameFrame = _G[buttonName.."NameFrame"]
-		local border = button.IconBorder
+		local iconBorder = button.IconBorder
 
 		if shortageBorder then shortageBorder:SetAlpha(0) end
 		if count then count:SetDrawLayer("OVERLAY") end
+		if iconBorder then iconBorder:SetAlpha(0) end
 		if nameFrame then nameFrame:Hide() end
-		if border then border:SetAlpha(0) end
 
-		local icbg = F.ReskinIcon(icon)
-		icon:SetDrawLayer("OVERLAY")
+		iconTexture:SetDrawLayer("OVERLAY")
+		local icbg = F.ReskinIcon(iconTexture)
 
 		local bubg = F.CreateBDFrame(button, 0)
 		bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
@@ -36,10 +36,13 @@ tinsert(C.themes["AuroraClassic"], function()
 		button.styled = true
 	end
 
-	hooksecurefunc("LFGRewardsFrame_SetItemButton", function(parentFrame, _, index)
+	hooksecurefunc("LFGRewardsFrame_UpdateFrame", function(parentFrame)
 		local parentName = parentFrame:GetName()
-		local button = _G[parentName.."Item"..index]
-		styleRewardButton(button)
+
+		for i = 1, parentFrame.numRewardFrames do
+			local itemReward = _G[parentName.."Item"..i]
+			styleRewardButton(itemReward)
+		end
 
 		local moneyReward = parentFrame.MoneyReward
 		styleRewardButton(moneyReward)

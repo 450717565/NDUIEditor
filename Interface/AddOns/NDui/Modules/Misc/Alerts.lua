@@ -134,7 +134,7 @@ function M:RareAlert_Update(id)
 
 		UIErrorsFrame:AddMessage(DB.InfoColor..format(">>> %s <<<", tex..(info.name or "")))
 		if NDuiDB["Misc"]["AlertinChat"] and not UnitIsDeadOrGhost("player") then
-			SendChatMessage(format(">>> [%s][%.1f,%.1f]%s <<<", currrentTime, coordX*100, coordY*100, info.name), "SAY")
+			print(format(">>> |cff00ff00[%s]|r|cffffff00%s|r|cff00ffff[%.1f,%.1f]|r <<<", currrentTime, info.name, coordX*100, coordY*100))
 		end
 		PlaySound(9431, "master")
 
