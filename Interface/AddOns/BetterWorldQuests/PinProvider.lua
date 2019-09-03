@@ -177,8 +177,6 @@ function BetterWorldQuestPinMixin:OnLoad()
 
 	-- 初始化
 	color = {}
-	warMode = C_PvP.IsWarModeDesired()
-	warModeBonus = format("%.1f", 1 + (C_PvP.GetWarModeRewardBonus() / 100))
 end
 
 local function IsParentMap(mapID)
@@ -197,6 +195,10 @@ function BetterWorldQuestPinMixin:RefreshVisuals()
 
 	-- hide frames we don't want to use
 	self.BountyRing:Hide()
+
+	-- 刷新战争模式状态
+	warMode = C_PvP.IsWarModeDesired()
+	warModeBonus = format("%.1f", 1 + (C_PvP.GetWarModeRewardBonus() / 100))
 
 	-- set texture to the item/currency/value it rewards
 	local questID = self.questID

@@ -54,12 +54,12 @@ C.frames = {}
 C.ClassColors = {}
 local class = select(2, UnitClass("player"))
 local colors = CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS
-for class in pairs(colors) do
+for class, value in pairs(colors) do
 	C.ClassColors[class] = {}
-	C.ClassColors[class].r = colors[class].r
-	C.ClassColors[class].g = colors[class].g
-	C.ClassColors[class].b = colors[class].b
-	C.ClassColors[class].colorStr = colors[class].colorStr
+	C.ClassColors[class].r = value.r
+	C.ClassColors[class].g = value.g
+	C.ClassColors[class].b = value.b
+	C.ClassColors[class].colorStr = value.colorStr
 end
 
 local cr, cg, cb = C.ClassColors[class].r, C.ClassColors[class].g, C.ClassColors[class].b

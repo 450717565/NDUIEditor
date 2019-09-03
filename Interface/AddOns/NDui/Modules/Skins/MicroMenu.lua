@@ -14,7 +14,7 @@ function S:MicroButton_SetupTexture(icon, texcoord, texture)
 	else
 		icon:SetAllPoints()
 	end
-	icon:SetTexture(DB.MicroTex..texture)
+	icon:SetTexture(DB.microTex..texture)
 	icon:SetTexCoord(unpack(texcoord))
 	icon:SetVertexColor(cr, cg, cb)
 end

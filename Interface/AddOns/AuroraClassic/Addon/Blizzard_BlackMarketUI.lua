@@ -17,7 +17,10 @@ C.themes["Blizzard_BlackMarketUI"] = function()
 	for _, header in pairs(headers) do
 		local header = BlackMarketFrame[header]
 		F.StripTextures(header)
-		F.CreateBDFrame(header, 0, -C.mult)
+
+		local bg = F.CreateBDFrame(header, 0)
+		bg:SetPoint("TOPLEFT", C.mult, -1)
+		bg:SetPoint("BOTTOMRIGHT", -C.mult, -4)
 	end
 
 	hooksecurefunc("BlackMarketScrollFrame_Update", function()
