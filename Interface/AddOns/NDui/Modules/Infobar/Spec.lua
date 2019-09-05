@@ -40,9 +40,9 @@ info.onEvent = function(self)
 		else
 			icon = addIcon(select(4, GetSpecializationInfoByID(specID)))
 		end
-		self.text:SetText(DB.MyColor..name..icon)
+		self.text:SetFormattedText("%s%s", DB.MyColor..name.."|r", icon)
 	else
-		self.text:SetText(DB.MyColor..NONE.."|r"..SPECIALIZATION)
+		self.text:SetFormattedText("%s%s", DB.MyColor..NONE.."|r", SPECIALIZATION)
 	end
 end
 

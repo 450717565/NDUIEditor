@@ -169,9 +169,11 @@ local function colorStack(ret)
 	ret = ret:gsub("[%.I][%.n][%.t][%.e][%.r]face\\", "")
 	ret = ret:gsub("%.?%.?%.?\\?AddOns\\", "")
 	ret = ret:gsub("|([^chHr])", "||%1"):gsub("|$", "||") -- Pipes
-	ret = ret:gsub("([^\\]+%.lua)", "|cffffd200%1|r") -- Lua files
-	ret = ret:gsub(":(%d+)[%S\n]", ":|cff7fff7f%1|r") -- Line numbers
-	ret = ret:gsub("[\"`'](.-)[\"`']", "|cff82c5ff'%1'|r") -- Quotes
+	ret = ret:gsub("[\"`'](.-)[\"`']", "|cff99ccff'%1'|r") -- Quotes
+	ret = ret:gsub("%<(.-)%>", "|cff00ffff<%1>|r") -- Things wrapped in <>
+	ret = ret:gsub("%[(.-)%]", "|cff00ffff[%1]|r") -- Things wrapped in []
+	ret = ret:gsub("([^\\]+%.lua)", "|cffffff00%1|r") -- Lua files
+	ret = ret:gsub(":(%d+)[%S\n]", ":|cff00ff00%1|r") -- Line numbers
 
 	return ret
 end

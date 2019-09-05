@@ -199,8 +199,8 @@ local function refreshData()
 	local guildName, guildRank = GetGuildInfo("player")
 
 	gName:SetText("|cff0099FF<"..(guildName or "")..">")
-	gOnline:SetFormattedText(DB.InfoColor.."%s%s / %s", GUILD_ONLINE_LABEL..L[":"], online, total)
-	gApps:SetFormattedText(DB.InfoColor..GUILDINFOTAB_APPLICANTS, GetNumGuildApplicants())
+	gOnline:SetText(format(DB.InfoColor.."%s%s / %s", GUILD_ONLINE_LABEL..L[":"], online, total))
+	gApps:SetText(format(DB.InfoColor..GUILDINFOTAB_APPLICANTS, GetNumGuildApplicants()))
 	gRank:SetText(DB.InfoColor..RANK..L[":"]..(guildRank or ""))
 
 	for i = 1, total do
@@ -292,7 +292,7 @@ info.eventList = {
 
 info.onEvent = function(self, event, ...)
 	if not IsInGuild() then
-		self.text:SetText(GUILD..L[":"]..DB.MyColor..NONE)
+		self.text:SetFormattedText("%s%s", GUILD..L[":"], DB.MyColor..NONE)
 		return
 	end
 
@@ -304,7 +304,7 @@ info.onEvent = function(self, event, ...)
 	end
 
 	local online = select(3, GetNumGuildMembers())
-	self.text:SetText(GUILD..L[":"]..DB.MyColor..online)
+	self.text:SetFormattedText("%s%s", GUILD..L[":"], DB.MyColor..online)
 
 	if infoFrame and infoFrame:IsShown() then
 		refreshData()

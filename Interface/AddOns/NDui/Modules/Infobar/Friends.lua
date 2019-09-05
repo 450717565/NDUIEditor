@@ -391,7 +391,7 @@ info.onEvent = function(self, event, arg1)
 
 	local onlineFriends = C_FriendList_GetNumOnlineFriends()
 	local _, onlineBNet = BNGetNumFriends()
-	self.text:SetText(FRIENDS..L[":"]..DB.MyColor..(onlineFriends + onlineBNet))
+	self.text:SetFormattedText("%s%s", FRIENDS..L[":"], DB.MyColor..(onlineFriends + onlineBNet))
 	updateRequest = false
 	if friendsFrame and friendsFrame:IsShown() then info:onEnter() end
 end

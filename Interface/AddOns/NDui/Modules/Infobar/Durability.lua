@@ -79,9 +79,9 @@ info.onEvent = function(self, event)
 	else
 		local numSlots = getItemDurability()
 		if numSlots > 0 then
-			self.text:SetText(B.ColorText(localSlots[1][3])..L["D"])
+			self.text:SetFormattedText("%s%s", B.ColorText(localSlots[1][3]), L["D"])
 		else
-			self.text:SetText(DB.MyColor..NONE.."|r"..L["D"])
+			self.text:SetFormattedText("%s%s", DB.MyColor..NONE.."|r", L["D"])
 		end
 
 		if isLowDurability() then inform:Show() else inform:Hide() end

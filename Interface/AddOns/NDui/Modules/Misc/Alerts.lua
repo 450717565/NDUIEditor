@@ -121,6 +121,7 @@ function M:RareAlert_Update(id)
 		local atlasHeight = height/(txBottom-txTop)
 		local tex = format("|T%s:%d:%d:0:0:%d:%d:%d:%d:%d:%d|t", filename, 0, 0, atlasWidth, atlasHeight, atlasWidth*txLeft, atlasWidth*txRight, atlasHeight*txTop, atlasHeight*txBottom)
 
+		local currrentTime = date("%H:%M")
 		local coordX, coordY = 0, 0
 		local mapID = C_Map_GetBestMapForUnit("player")
 		if mapID then
@@ -130,13 +131,9 @@ function M:RareAlert_Update(id)
 			end
 		end
 
-		local currrentTime = date("%H:%M")
-
-		UIErrorsFrame:AddMessage(DB.InfoColor..format(">>> %s <<<", tex..(info.name or "")))
-		if NDuiDB["Misc"]["AlertinChat"] and not UnitIsDeadOrGhost("player") then
-			print(format(">>> |cff00ff00[%s]|r|cffffff00%s|r|cff00ffff[%.1f,%.1f]|r <<<", currrentTime, info.name, coordX*100, coordY*100))
-		end
 		PlaySound(9431, "master")
+		UIErrorsFrame:AddMessage(DB.InfoColor..format(">>> %s <<<", tex..(info.name or "")))
+		print(format(">>> |cff00ff00[%s]|r|cffffff00%s|r|cff00ffff[%.1f,%.1f]|r <<<", currrentTime, info.name or "", coordX*100, coordY*100))
 
 		cache[id] = true
 	end
@@ -146,7 +143,7 @@ end
 
 function M:RareAlert_CheckInstance()
 	local instID = select(8, GetInstanceInfo())
-	if instID and isIgnored[instID] or (NDuiDB["Misc"]["RareAlertInWild"] and IsInInstance()) then
+	if (instID and isIgnored[instID]) or (NDuiDB["Misc"]["RareAlertInWild"] and IsInInstance()) then
 		B:UnregisterEvent("VIGNETTE_MINIMAP_UPDATED", M.RareAlert_Update)
 	else
 		B:RegisterEvent("VIGNETTE_MINIMAP_UPDATED", M.RareAlert_Update)

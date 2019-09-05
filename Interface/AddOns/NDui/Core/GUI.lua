@@ -220,7 +220,6 @@ local defaultSettings = {
 		HideErrors = true,
 		SoloInfo = true,
 		RareAlerter = true,
-		AlertinChat = true,
 		Focuser = true,
 		ExpRep = true,
 		Screenshot = true,
@@ -661,7 +660,6 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Misc", "SoloInfo", L["SoloInfo"].."*", true, nil, updateSoloInfo},
 		{},--blank
 		{1, "Misc", "RareAlerter", DB.MyColor..L["Rare Alert"].."*", false, nil, updateRareAlert},
-		{1, "Misc", "AlertinChat", L["Alert In Chat"].."*"},
 		{1, "Misc", "RareAlertInWild", L["RareAlertInWild"].."*", true},
 	},
 	[8] = {
@@ -918,7 +916,7 @@ local function CreateOption(i)
 			_G[s:GetName().."High"]:SetText(max)
 			_G[s:GetName().."Text"]:ClearAllPoints()
 			_G[s:GetName().."Text"]:SetPoint("TOP", s, "BOTTOM", 0, 3)
-			_G[s:GetName().."Text"]:SetFormattedText("%."..step.."f", NDUI_VARIABLE(key, value))
+			_G[s:GetName().."Text"]:SetText(format("%."..step.."f", NDUI_VARIABLE(key, value)))
 			s:SetBackdrop(nil)
 			local bd = CreateFrame("Frame", nil, s)
 			bd:SetPoint("TOPLEFT", 14, -2)

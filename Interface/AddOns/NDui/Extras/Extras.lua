@@ -145,6 +145,7 @@ do
 			hooksecurefunc("DeathRecapFrame_OpenRecap", function(recapID)
 				local self = DeathRecapFrame
 				local events = DeathRecap_GetEvents(recapID)
+				local maxHp = UnitHealthMax("player")
 
 				for i = 1, #events do
 					local entry = self.DeathRecapEntry[i]
@@ -157,19 +158,26 @@ do
 						dmgInfo.AmountLarge:SetText(amountStr)
 						dmgInfo.amount = B.Numb(evtData.amount)
 
+						dmgInfo.dmgExtraStr = ""
 						if evtData.overkill and evtData.overkill > 0 then
+							dmgInfo.dmgExtraStr = format(TEXT_MODE_A_STRING_RESULT_OVERKILLING, B.Numb(evtData.overkill))
 							dmgInfo.amount = B.Numb(evtData.amount - evtData.overkill)
 						end
 						if evtData.absorbed and evtData.absorbed > 0 then
+							dmgInfo.dmgExtraStr = dmgInfo.dmgExtraStr..format(TEXT_MODE_A_STRING_RESULT_ABSORB, B.Numb(evtData.absorbed))
 							dmgInfo.amount = B.Numb(evtData.amount - evtData.absorbed)
 						end
 						if evtData.resisted and evtData.resisted > 0 then
+							dmgInfo.dmgExtraStr = dmgInfo.dmgExtraStr..format(TEXT_MODE_A_STRING_RESULT_RESIST, B.Numb(evtData.resisted))
 							dmgInfo.amount = B.Numb(evtData.amount - evtData.resisted)
 						end
 						if evtData.blocked and evtData.blocked > 0 then
+							dmgInfo.dmgExtraStr = dmgInfo.dmgExtraStr..format(TEXT_MODE_A_STRING_RESULT_BLOCK, B.Numb(evtData.blocked))
 							dmgInfo.amount = B.Numb(evtData.amount - evtData.blocked)
 						end
 					end
+
+					dmgInfo.hpPercent = format("%.1f", evtData.currentHP / maxHp * 100)
 				end
 			end)
 		end
