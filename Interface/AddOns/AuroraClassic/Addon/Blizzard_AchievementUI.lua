@@ -278,6 +278,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 				mini.points:SetWidth(22)
 				mini.points:ClearAllPoints()
 				mini.points:SetPoint("BOTTOMRIGHT", 2, 2)
+
 				mini.styled = true
 			end
 

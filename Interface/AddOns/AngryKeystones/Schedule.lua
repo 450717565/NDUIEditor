@@ -12,14 +12,15 @@ local affixSchedule = {
 	{ 9, 11, 4, 119 },
 	{ 10, 5, 14, 119 },
 	{ 9, 7, 13, 119 },
-	{ 10, 8, 4, 119 },
-	{ 9, 11, 3, 119 },
+	{ 10, 11, 3, 119 },
+	{ 9, 8, 4, 119 },
 	{ 10, 5, 13, 119 },
 	{ 9, 6, 14, 119 },
 	{ 10, 7, 12, 119 },
 	{ 9, 6, 13, 119 },
 	{ 10, 8, 12, 119 },
 }
+
 local currentWeek
 local currentKeystoneMapID
 local currentKeystoneLevel

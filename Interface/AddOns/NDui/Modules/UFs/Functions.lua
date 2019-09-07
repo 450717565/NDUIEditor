@@ -26,17 +26,19 @@ local function isWatcherStyle(self)
 end
 
 -- Various values
-local function retVal(self, val1, val2, val3, val4)
+local function retVal(self, val1, val2, val3, val4, val5)
 	local mystyle = self.mystyle
 	if mystyle == "player" or mystyle == "target" then
 		return val1
 	elseif mystyle == "focus" or isPartyStyle(self) then
 		return val2
+	elseif mystyle == "boss" or mystyle == "arena" then
+		return val3
 	else
-		if mystyle == "nameplate" and val4 then
-			return val4
+		if mystyle == "nameplate" and val5 then
+			return val5
 		else
-			return val3
+			return val4
 		end
 	end
 end
@@ -95,7 +97,7 @@ function UF:CreateHealthText(self)
 	local textFrame = CreateFrame("Frame", nil, self)
 	textFrame:SetAllPoints()
 
-	local name = B.CreateFS(textFrame, retVal(self, 13, 12, 11, NDuiDB["Nameplate"]["NameTextSize"]), "", false, "LEFT", 3, -1)
+	local name = B.CreateFS(textFrame, retVal(self, 13, 12, 11, 11, NDuiDB["Nameplate"]["NameTextSize"]), "", false, "LEFT", 3, -1)
 	name:SetJustifyH("LEFT")
 
 	local mystyle = self.mystyle
@@ -137,7 +139,7 @@ function UF:CreateHealthText(self)
 		self:Tag(name, "[color][name]")
 	end
 
-	local hpval = B.CreateFS(textFrame, retVal(self, 14, 13, 12, NDuiDB["Nameplate"]["HealthTextSize"]), "", false, "RIGHT", -3, -1)
+	local hpval = B.CreateFS(textFrame, retVal(self, 14, 13, 12, 12, NDuiDB["Nameplate"]["HealthTextSize"]), "", false, "RIGHT", -3, -1)
 	hpval:SetJustifyH("RIGHT")
 	if mystyle == "raid" or isWatcherStyle(self) then
 		hpval:ClearAllPoints()
@@ -200,7 +202,7 @@ function UF:CreatePowerBar(self)
 	if mystyle == "PlayerPlate" then
 		power:SetHeight(self:GetHeight())
 	else
-		power:SetHeight(retVal(self, 4, 3, 2, 4))
+		power:SetHeight(retVal(self, NDuiDB["UFs"]["PlayerPowerHeight"], NDuiDB["UFs"]["FocusPowerHeight"], NDuiDB["UFs"]["BossPowerHeight"], NDuiDB["UFs"]["PetPowerHeight"]))
 	end
 
 	if (specialStyle and NDuiDB["UFs"]["RaidHPColor"] == 2) or (not specialStyle and NDuiDB["UFs"]["UFsHPColor"] == 2) or mystyle == "PlayerPlate" then
@@ -220,7 +222,7 @@ function UF:CreatePowerText(self)
 	local textFrame = CreateFrame("Frame", nil, self)
 	textFrame:SetAllPoints(self.Power)
 
-	local ppval = B.CreateFS(textFrame, retVal(self, 14, 13, 12), "", false, "RIGHT", -3, 1)
+	local ppval = B.CreateFS(textFrame, retVal(self, 14, 13, 12, 12), "", false, "RIGHT", -3, 1)
 	self:Tag(ppval, "[color][power]")
 end
 
@@ -312,7 +314,7 @@ function UF:CreateRaidMark(self)
 	else
 		ri:SetPoint("TOPRIGHT", self, "TOPRIGHT", -30, 10)
 	end
-	local size = retVal(self, 14, 13, 12, 20)
+	local size = retVal(self, 14, 13, 12, 12, 20)
 	ri:SetSize(size, size)
 	self.RaidTargetIndicator = ri
 end
@@ -355,8 +357,8 @@ function UF:CreateCastBar(self)
 	cb.CompleteColor = {.1, .8, 0}
 	cb.FailColor = {1, .1, 0}
 
-	local timer = B.CreateFS(cb, retVal(self, 12, 12, 10, 10), "", false, "RIGHT", -2, 0)
-	local name = B.CreateFS(cb, retVal(self, 12, 12, 10, 10), "", false, "LEFT", 2, 0)
+	local timer = B.CreateFS(cb, retVal(self, 12, 12, 12, 10, 10), "", false, "RIGHT", -2, 0)
+	local name = B.CreateFS(cb, retVal(self, 12, 12, 12, 10, 10), "", false, "LEFT", 2, 0)
 	name:SetPoint("RIGHT", timer, "LEFT", -5, 0)
 	name:SetJustifyH("LEFT")
 
@@ -789,7 +791,7 @@ end
 function UF:CreateClassPower(self)
 	local mystyle = self.mystyle
 	if mystyle == "PlayerPlate" then
-		barWidth, barHeight = self:GetWidth(), NDuiDB["Extras"]["CPHeight"]
+		barWidth, barHeight = self:GetWidth(), NDuiDB["Extras"]["PPCBHeight"]
 		C.UFs.BarPos = {"BOTTOMLEFT", self, "TOPLEFT", 0, 3}
 	end
 

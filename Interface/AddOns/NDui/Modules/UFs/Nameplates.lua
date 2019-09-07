@@ -640,10 +640,10 @@ function UF:CreatePlates()
 	UF:CreatePVPClassify(self)
 	UF:CreateThreatColor(self)
 
-		self.powerText = B.CreateFS(self, 15)
-		self.powerText:ClearAllPoints()
-		self.powerText:SetPoint("TOP", self.Castbar, "BOTTOM", 0, -4)
-		self:Tag(self.powerText, "[nppp]")
+	self.powerText = B.CreateFS(self, 15)
+	self.powerText:ClearAllPoints()
+	self.powerText:SetPoint("TOP", self.Castbar, "BOTTOM", 0, -4)
+	self:Tag(self.powerText, "[nppp]")
 
 	UF:AddFollowerXP(self)
 	UF:MouseoverIndicator(self)
@@ -744,10 +744,24 @@ function UF:PlateVisibility(event)
 	end
 end
 
+function UF:ResizePlayerPlate()
+	local plate = _G.oUF_PlayerPlate
+	if plate then
+		plate:SetHeight(NDuiDB["Nameplate"]["PPHPHeight"])
+		plate.Power:SetHeight(NDuiDB["Nameplate"]["PPHPHeight"])
+		local plateCB = plate.ClassPower or plate.Runes
+		if plateCB then
+			for i = 1, 6 do
+				plateCB[i]:SetHeight(NDuiDB["Extras"]["PPCBHeight"])
+			end
+		end
+	end
+end
+
 function UF:CreatePlayerPlate()
 	self.mystyle = "PlayerPlate"
 	local iconSize, margin = NDuiDB["Nameplate"]["PPIconSize"], 2
-	self:SetSize(iconSize*5 + margin*3, NDuiDB["Nameplate"]["PPHeight"])
+	self:SetSize(iconSize*5 + margin*4, NDuiDB["Nameplate"]["PPHPHeight"])
 	self:EnableMouse(false)
 	self.iconSize = iconSize
 
@@ -760,7 +774,7 @@ function UF:CreatePlayerPlate()
 	if NDuiDB["Nameplate"]["PPPowerText"] then
 		local textFrame = CreateFrame("Frame", nil, self.Power)
 		textFrame:SetAllPoints()
-		local power = B.CreateFS(textFrame, 9+NDuiDB["Nameplate"]["PPHeight"], "", false, "CENTER", 0, -1)
+		local power = B.CreateFS(textFrame, 9+NDuiDB["Nameplate"]["PPHPHeight"], "", false, "CENTER", 0, -1)
 		self:Tag(power, "[power]")
 	end
 

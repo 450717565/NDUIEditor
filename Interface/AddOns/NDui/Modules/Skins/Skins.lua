@@ -22,7 +22,7 @@ function S:OnLogin()
 	end
 
 	-- BOTTOMLEFT
-	if NDuiDB["Skins"]["ChatLine"] then
+	if NDuiDB["Skins"]["ChatLine"] and NDuiDB["Chat"]["Lock"] then
 		local ChatLine = CreateFrame("Frame", nil, UIParent)
 		ChatLine:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", 0, 5)
 		B.CreateGF(ChatLine, 450, ChatFrame1:GetHeight() + 26, "Horizontal", 0, 0, 0, .5, 0)
@@ -35,11 +35,7 @@ function S:OnLogin()
 		local ChatLine3 = CreateFrame("Frame", nil, ChatLine)
 		ChatLine3:SetPoint("TOP", ChatLine, "BOTTOM")
 		B.CreateGF(ChatLine3, 450, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
-		ChatFrame1Tab:HookScript("OnMouseUp", function(_, btn)
-			if btn == "LeftButton" then
-				ChatLine:SetHeight(ChatFrame1:GetHeight() + 26)
-			end
-		end)
+		ChatFrame1.gradientBG = ChatLine
 	end
 
 	-- BOTTOMRIGHT

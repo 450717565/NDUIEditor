@@ -97,7 +97,6 @@ local defaultSettings = {
 		PetCombatText = true,
 		RaidClickSets = false,
 		ShowTeamIndex = false,
-		HeightScale = 1,
 		ClassPower = true,
 		QuakeTimer = true,
 		LagString = false,
@@ -111,10 +110,23 @@ local defaultSettings = {
 		UFsHPColor = 1,
 		BuffIndicatorType = 1,
 		BI_IconSize = 10,
+
+		PlayerWidth = 250,
+		PlayerHeight = 24,
+		PlayerPowerHeight = 4,
+		FocusWidth = 200,
+		FocusHeight = 22,
+		FocusPowerHeight = 3,
+		PetWidth = 120,
+		PetHeight = 18,
+		PetPowerHeight = 2,
+		BossWidth = 150,
+		BossHeight = 22,
+		BossPowerHeight = 3,
 	},
 	Chat = {
 		Sticky = true,
-		Lock = false,
+		Lock = true,
 		Invite = false,
 		Freedom = true,
 		Keyword = "raid",
@@ -126,6 +138,9 @@ local defaultSettings = {
 		ChatMenu = true,
 		WhisperColor = true,
 		ChatItemLevel = true,
+		Chatbar = true,
+		ChatWidth = 380,
+		ChatHeight = 190,
 	},
 	Map = {
 		Coord = true,
@@ -156,7 +171,7 @@ local defaultSettings = {
 		ShowPowerList = "",
 		VerticalSpacing = .8,
 		ShowPlayerPlate = false,
-		PPHeight = 5,
+		PPHPHeight = 5,
 		PPPowerText = false,
 		NPsHPMode = 1,
 		SecureColor = {r=1, g=0, b=1},
@@ -248,7 +263,7 @@ local defaultSettings = {
 	},
 	Extras = {
 		ArrowColor = 1,
-		CPHeight = 10,
+		PPCBHeight = 10,
 		GuildWelcome = true,
 		iLvlTools = true,
 		LootMonitor = true,
@@ -358,6 +373,18 @@ local function setupNameplateFilter()
 	G:SetupNameplateFilter(guiPage[5])
 end
 
+local function setupUnitFrame()
+	G:SetupUnitFrame(guiPage[3])
+end
+
+local function updatePartySize()
+	B:GetModule("UnitFrames"):ResizePartyFrame()
+end
+
+local function updateRaidSize()
+	B:GetModule("UnitFrames"):ResizeRaidFrame()
+end
+
 local function setupAuraWatch()
 	f:Hide()
 	SlashCmdList["NDUI_AWCONFIG"]()
@@ -381,6 +408,10 @@ end
 
 local function updateFilterList()
 	B:GetModule("Chat"):UpdateFilterList()
+end
+
+local function updateChatSize()
+	B:GetModule("Chat"):UpdateChatSize()
 end
 
 local function updatePlateInsideView()
@@ -417,6 +448,10 @@ end
 
 local function updateRaidNameText()
 	B:GetModule("UnitFrames"):UpdateRaidNameText()
+end
+
+local function updatePlayerPlate()
+	B:GetModule("UnitFrames"):ResizePlayerPlate()
 end
 
 local function updateMinimapScale()
@@ -520,7 +555,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{3, "Bags", "BankWidth", L["Bank Width"], true, {10, 20, 0}},
 	},
 	[3] = {
-		{1, "UFs", "Enable", DB.MyColor..L["Enable UFs"]},
+		{1, "UFs", "Enable", DB.MyColor..L["Enable UFs"], false, setupUnitFrame},
 		{},--blank
 		{1, "UFs", "Castbars", DB.MyColor..L["UFs Castbar"]},
 		{1, "UFs", "SwingBar", L["UFs SwingBar"]},
@@ -535,7 +570,6 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "UFs", "PlayerDebuff", L["Player Debuff"]},
 		{1, "UFs", "ToTAuras", L["ToT Debuff"], true},
 		{4, "UFs", "UFsHPColor", L["HP Bar Color"], false, {L["Default Dark"], L["ClassColorHP"], L["GradientHP"]}},
-		{3, "UFs", "HeightScale", L["UFs HeightScale"], true, {.5, 1.5, 1}},
 		{},--blank
 		{1, "UFs", "CombatText", DB.MyColor..L["UFs CombatText"]},
 		{1, "UFs", "AutoAttack", L["CombatText AutoAttack"]},
@@ -551,8 +585,8 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "UFs", "PartyWatcher", L["UFs PartyWatcher"]},
 		{1, "Extras", "ShowYourself", L["PartyFrame Show Yourself"], true},
 		{1, "UFs", "PWOnRight", L["PartyWatcherOnRight"]},
-		{3, "UFs", "PartyWidth", L["PartyFrame Width"], false, {60, 200, 0}},
-		{3, "UFs", "PartyHeight", L["PartyFrame Height"], true, {25, 60, 0}},
+		{3, "UFs", "PartyWidth", L["PartyFrame Width"].."*(100)", false, {60, 200, 0}, updatePartySize},
+		{3, "UFs", "PartyHeight", L["PartyFrame Height"].."*(32)", true, {25, 60, 0}, updatePartySize},
 		{},--blank
 		{1, "UFs", "RaidBuffIndicator", DB.MyColor..L["RaidBuffIndicator"], false, setupBuffIndicator},
 		{3, "UFs", "BI_IconSize", L["BI_IconSize"], false, {10, 18, 0}},
@@ -567,14 +601,14 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "UFs", "HorizonRaid", L["Horizon RaidFrame"]},
 		{1, "UFs", "ReverseRaid", L["Reverse RaidFrame"]},
 		{3, "UFs", "NumGroups", L["Num Groups"], true, {4, 8, 0}},
+		{3, "UFs", "RaidWidth", L["RaidFrame Width"].."*(80)", false, {60, 200, 0}, updateRaidSize},
+		{3, "UFs", "RaidHeight", L["RaidFrame Height"].."*(32)", true, {25, 60, 0}, updateRaidSize},
 		{4, "UFs", "RaidHPMode", L["HP Val Mode"].."*", false, {L["DisableRaidHP"], L["RaidHPPercent"], L["RaidHPCurrent"], L["RaidHPLost"]}, updateRaidNameText},
 		{4, "UFs", "RaidHPColor", L["HP Bar Color"], true, {L["Default Dark"], L["ClassColorHP"], L["GradientHP"]}},
-		{3, "UFs", "RaidWidth", L["RaidFrame Width"], false, {60, 200, 0}},
-		{3, "UFs", "RaidHeight", L["RaidFrame Height"], true, {25, 60, 0}},
 		{},--blank
 		{1, "UFs", "SimpleMode", DB.MyColor..L["Simple RaidFrame"]},
 		{1, "UFs", "SimpleModeSortByRole", L["SimpleMode SortByRole"]},
-		{3, "UFs", "RaidScale", L["SimpleMode Scale"], true, {.5, 1.5, 1}},
+		{3, "UFs", "RaidScale", L["SimpleMode Scale"].."*", true, {.5, 1.5, 1}, updateRaidSize},
 	},
 	[5] = {
 		{1, "Nameplate", "Enable", DB.MyColor..L["Enable Nameplate"], false, setupNameplateFilter},
@@ -605,8 +639,8 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{3, "Nameplate", "Distance", L["Nameplate Distance"].."*", true, {20, 100, 0}, updatePlateRange},
 		{3, "Nameplate", "MinScale", L["Nameplate MinScale"].."*", false, {.5, 1, 1}, updatePlateScale},
 		{3, "Nameplate", "MinAlpha", L["Nameplate MinAlpha"].."*", true, {.5, 1, 1}, updatePlateAlpha},
-		{3, "Nameplate", "PlateWidth", L["NP Width"].."*", false, {50, 200, 0}, refreshNameplates},
-		{3, "Nameplate", "PlateHeight", L["NP Height"].."*", true, {5, 20, 0}, refreshNameplates},
+		{3, "Nameplate", "PlateWidth", L["NP Width"].."*(135)", false, {50, 200, 0}, refreshNameplates},
+		{3, "Nameplate", "PlateHeight", L["NP Height"].."*(5)", true, {5, 20, 0}, refreshNameplates},
 		{3, "Nameplate", "NameTextSize", L["NameTextSize"].."*", false, {8, 16, 0}, refreshNameplates},
 		{3, "Nameplate", "HealthTextSize", L["HealthTextSize"].."*", true, {8, 16, 0}, refreshNameplates},
 		{3, "Nameplate", "maxAuras", L["Max Auras"], false, {0, 12, 0}},
@@ -625,8 +659,8 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Nameplate", "PPPowerText", L["PlayerPlate PowerText"]},
 		{1, "Nameplate", "PPHideOOC", L["Fadeout OOC"]},
 		{3, "Nameplate", "PPIconSize", L["PlayerPlate IconSize"], true, {30, 60, 0}},
-		{3, "Nameplate", "PPHeight", L["PlayerPlate Height"], false, {5, 10, 0}},
-		{3, "Extras", "CPHeight", L["PlayerPlate CPHeight"], true, {10, 20, 0}},
+		{3, "Nameplate", "PPHPHeight", L["PlayerPlate HP Height"].."*", false, {5, 10, 0}, updatePlayerPlate},
+		{3, "Extras", "PPCBHeight", L["PlayerPlate CB Height"].."*", true, {10, 20, 0}, updatePlayerPlate},
 		{},--blank
 		{1, "Auras", "ReverseBuffs", L["ReverseBuffs"]},
 		{1, "Auras", "ReverseDebuffs", L["ReverseDebuffs"], true},
@@ -664,13 +698,16 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 	},
 	[8] = {
 		{1, "Chat", "Lock", DB.MyColor..L["Lock Chat"]},
+		{3, "Chat", "ChatWidth", L["LockChatWidth"].."*", nil, {200, 600, 0}, updateChatSize},
+		{3, "Chat", "ChatHeight", L["LockChatHeight"].."*", true, {100, 500, 0}, updateChatSize},
 		{},--blank
 		{1, "Chat", "Oldname", L["Default Channel"]},
 		{1, "ACCOUNT", "Timestamp", L["Timestamp"], true, nil, updateTimestamp},
 		{1, "Chat", "Sticky", L["Chat Sticky"].."*", false, nil, updateChatSticky},
 		{1, "Chat", "WhisperColor", L["Differ WhipserColor"].."*", true},
 		{1, "Chat", "Freedom", L["Language Filter"]},
-		{1, "Chat", "ChatItemLevel", DB.MyColor..L["ShowChatItemLevel"], true},
+		{1, "Chat", "Chatbar", L["ShowChatbar"], true},
+		{1, "Chat", "ChatItemLevel", DB.MyColor..L["ShowChatItemLevel"]},
 		{},--blank
 		{1, "Chat", "EnableFilter", DB.MyColor..L["Enable Chatfilter"]},
 		{1, "Chat", "BlockAddonAlert", L["Block Addon Alert"], true},
@@ -894,46 +931,29 @@ local function CreateOption(i)
 		-- Slider
 		elseif optType == 3 then
 			local min, max, step = unpack(data)
-			local s = CreateFrame("Slider", key..value.."Slider", parent, "OptionsSliderTemplate")
+			local x, y
 			if horizon then
-				s:SetPoint("TOPLEFT", 350, -offset + 40)
+				x, y = 350, -offset + 40
 			else
-				s:SetPoint("TOPLEFT", 40, -offset - 30)
+				x, y = 40, -offset - 30
 				offset = offset + 70
 			end
-			s:SetWidth(190)
-			s:SetMinMaxValues(min, max)
+			local s = B.CreateSlider(parent, name, min, max, x, y, width)
 			s:SetValue(NDUI_VARIABLE(key, value))
 			s:SetScript("OnValueChanged", function(_, v)
 				local current = tonumber(format("%."..step.."f", v))
 				NDUI_VARIABLE(key, value, current)
-				_G[s:GetName().."Text"]:SetText(current)
+				s.value:SetText(current)
 				if callback then callback() end
 			end)
-
-			B.CreateFS(s, 14, name, "system", "CENTER", 0, 25)
-			_G[s:GetName().."Low"]:SetText(min)
-			_G[s:GetName().."High"]:SetText(max)
-			_G[s:GetName().."Text"]:ClearAllPoints()
-			_G[s:GetName().."Text"]:SetPoint("TOP", s, "BOTTOM", 0, 3)
-			_G[s:GetName().."Text"]:SetText(format("%."..step.."f", NDUI_VARIABLE(key, value)))
-			s:SetBackdrop(nil)
-			local bd = CreateFrame("Frame", nil, s)
-			bd:SetPoint("TOPLEFT", 14, -2)
-			bd:SetPoint("BOTTOMRIGHT", -15, 3)
-			bd:SetFrameStrata("BACKGROUND")
-			B.CreateBD(bd, .25)
-			B.CreateSD(bd)
-			local thumb = _G[s:GetName().."Thumb"]
-			thumb:SetTexture(DB.sparkTex)
-			thumb:SetBlendMode("ADD")
+			s.value:SetText(format("%."..step.."f", NDUI_VARIABLE(key, value)))
 		-- Dropdown
 		elseif optType == 4 then
 			local dd = B.CreateDropDown(parent, 200, 28, data)
 			if horizon then
-				dd:SetPoint("TOPLEFT", 345, -offset + 50)
+				dd:SetPoint("TOPLEFT", 345, -offset + 45)
 			else
-				dd:SetPoint("TOPLEFT", 35, -offset - 20)
+				dd:SetPoint("TOPLEFT", 35, -offset - 25)
 				offset = offset + 70
 			end
 			dd.Text:SetText(data[NDUI_VARIABLE(key, value)])
@@ -1113,7 +1133,9 @@ local function importData()
 			NDuiDB[key][value] = {}
 		elseif arg1 == "r" or arg1 == "g" or arg1 == "b" then
 			local color = select(4, strsplit(":", option))
-			NDuiDB[key][value][arg1] = tonumber(color)
+			if NDuiDB[key][value] then
+				NDuiDB[key][value][arg1] = tonumber(color)
+			end
 		elseif key == "AuraWatchList" then
 			if value == "Switcher" then
 				local index, state = select(3, strsplit(":", option))
