@@ -188,7 +188,7 @@ end
 
 -- 格式化货币数值
 do
-	hooksecurefunc("AltCurrencyFrame_Update", function(frameName, texture, cost, canAfford)
+	hooksecurefunc("AltCurrencyFrame_Update", function(frameName, texture, cost)
 		local button = _G[frameName]
 		button:SetText(B.Numb(cost))
 	end)
@@ -237,4 +237,17 @@ do
 
 	hooksecurefunc("TokenFrame_Update", formatCurrency)
 	hooksecurefunc(TokenFrameContainer, "update", formatCurrency)
+end
+
+-- 格式化经验值
+do
+	hooksecurefunc("LFGRewardsFrame_UpdateFrame", function(parentFrame, dungeonID)
+		if not dungeonID then return end
+
+		local parentName = parentFrame:GetName()
+		local experienceGained = select(4, GetLFGDungeonRewards(dungeonID))
+		if experienceGained > 0 then
+			parentFrame.xpAmount:SetText(B.Numb(experienceGained))
+		end
+	end)
 end

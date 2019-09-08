@@ -212,11 +212,6 @@ function EV:I_UPDATE_MISSION_SUGGESTIONS()
 
 	W.PrepareAllMissionGroups(22)
 	local curResources = select(2, GetCurrencyInfo(1560))
-	local FI, FIT = W.GetFollowers(22), {} do
-		for i=1,#FI do
-			FIT[FI[i].followerID] = FI[i].tag % 2^30
-		end
-	end
 	local followers = W.GetFollowers(22)
 	
 	local Missions = TaskBoard.Missions
@@ -398,12 +393,12 @@ local function syncUI()
 		e.selectDisabled = (followerMissionInfo[fid] or tmid) and true or nil
 		e:SetPoint("LEFT", x, 0)
 		local returnDurability = te.isEffectivelyDead and 0 or (te.durability - (te.missionID and 1 or 0))
-		e.Hearts[1]:SetDesaturated(returnDurability < 1)
-		e.Hearts[2]:SetDesaturated(returnDurability < 2)
+		e:SetDurability(te.maxDurability, returnDurability)
 		e:SetAlpha(followerMissionInfo[fid] and 0.40 or tmid and 0.75 or 1)
 		e:Show()
 		x = x + e:GetWidth()+4
 	end
+	Troops:SetShown(#troopArray > 0)
 	Troops:SetWidth(x-2)
 	for j=nu, #Troops.Units do
 		Troops.Units[j]:Hide()

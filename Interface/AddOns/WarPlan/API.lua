@@ -47,6 +47,14 @@ local MISSION_ACHIEVEMENTS = {
 	12896, 12898, 12899, -- Alliance
 	12869, 12870, 12867, -- Horde
 }
+local MAX_CHAMPION_QUALITY = 5
+
+-- 654321  098765  432 109  876 543  210 987  654 32 10
+-- CHAMPS  RESERV  DUR LCC  DUR LCC  DUR LCC  DUR TC HC
+local GM_DUR_SM = 2^4
+local GM_BASE_SM = 2^7
+local GM_COUNTER_WM = 2^6
+local GM_CHAMP_SM = GM_BASE_SM*GM_COUNTER_WM^4
 
 local LETHAL_MECHANIC = 1080
 local GROUP_TIME_IDX = 4
@@ -157,7 +165,7 @@ local function cmpFollower(a,b)
 	elseif a.troopAbility ~= b.troopAbility then
 		return a.troopAbility == nil or (b.troopAbility and a.troopAbility < b.troopAbility)
 	elseif a.missionTimeLeft ~= b.missionTimeLeft then
-		return a.missionTimeLeft == nil or (b.missionTimeLeft and a.missionTimeLeft < b.missionTimeLeft)
+		return b.missionTimeLeft == nil or (a.missionTimeLeft and a.missionTimeLeft > b.missionTimeLeft)
 	elseif a.isEffectivelyDead ~= b.isEffectivelyDead then
 		return b.isEffectivelyDead
 	elseif a.isTroop and a.durability ~= b.durability then
@@ -276,7 +284,7 @@ function W.GetMissionLethalMask(mid, enemies)
 			end
 		end
 	end
-	return (le1 and 64*32^(le1-1083) or 0) + (le2 and 64*32^((le2 or 0)-1083) or 0)
+	return (le1 and GM_BASE_SM*GM_COUNTER_WM^(le1-1083) or 0) + (le2 and GM_BASE_SM*GM_COUNTER_WM^((le2 or 0)-1083) or 0)
 end
 
 function W.AddMissionAchievementInfo(missions)
@@ -527,20 +535,20 @@ function W.GetFollowers(mtype, followerMissionInfo)
 			fi.missionID = fmid
 		end
 		if fi.isTroop then
-			local m, ab = 0, C.GetFollowerAbilityAtIndex(fid, 1)
+			local m, d, ab = 0, fi.durability, C.GetFollowerAbilityAtIndex(fid, 1)
 			if ab >= 1083 and ab <= 1085 then
-				m, fi.troopAbility = 32^(ab-1083), ab
+				m, fi.troopAbility = GM_COUNTER_WM^(ab-1083), ab
 			else
-				m = 32^3
+				m = GM_COUNTER_WM^3
 			end
-			fi.tag = 64*m*(fi.durability*8-8 + 3) + 16*(fi.durability == 2 and 1 or 0) + 5
-			fi.groupBias = fi.durability == 1 and (C.GetFollowerAbilityAtIndex(fid, 2) ~= 0 and -0.125 or 0.125) or 0
+			fi.tag = GM_BASE_SM*m*(d*8-8 + 3) + GM_DUR_SM*(d - 1) + 5
+			fi.groupBias = d == 1 and (C.GetFollowerAbilityAtIndex(fid, 2) ~= 0 and -0.125 or 0.125) or 0
 		else
-			fi.tag = 64*32^4 * 2^(i-1) + 1
+			fi.tag = GM_CHAMP_SM * 2^(i-1) + 1
 			fi.groupBias = fi.isCollected and (0
 			             + (ABILITY_GROUP_BIAS[C.GetFollowerTraitAtIndex(fid, 1)] or 0)
 			             + (ABILITY_GROUP_BIAS[C.GetFollowerTraitAtIndex(fid, 2)] or 0)
-			             + (fi.quality < 4 and 2 or 0)
+			             + (fi.quality < MAX_CHAMPION_QUALITY and 2 or 0)
 			             ) or 0
 		end
 		if mGroup then

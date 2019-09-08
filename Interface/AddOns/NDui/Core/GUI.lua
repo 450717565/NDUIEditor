@@ -263,7 +263,7 @@ local defaultSettings = {
 	},
 	Extras = {
 		ArrowColor = 1,
-		PPCBHeight = 10,
+		PPCPHeight = 10,
 		GuildWelcome = true,
 		iLvlTools = true,
 		LootMonitor = true,
@@ -660,7 +660,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Nameplate", "PPHideOOC", L["Fadeout OOC"]},
 		{3, "Nameplate", "PPIconSize", L["PlayerPlate IconSize"], true, {30, 60, 0}},
 		{3, "Nameplate", "PPHPHeight", L["PlayerPlate HP Height"].."*", false, {5, 10, 0}, updatePlayerPlate},
-		{3, "Extras", "PPCBHeight", L["PlayerPlate CB Height"].."*", true, {10, 20, 0}, updatePlayerPlate},
+		{3, "Extras", "PPCPHeight", L["PlayerPlate CP Height"].."*", true, {10, 20, 0}, updatePlayerPlate},
 		{},--blank
 		{1, "Auras", "ReverseBuffs", L["ReverseBuffs"]},
 		{1, "Auras", "ReverseDebuffs", L["ReverseDebuffs"], true},

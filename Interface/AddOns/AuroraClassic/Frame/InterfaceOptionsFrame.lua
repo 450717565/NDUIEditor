@@ -1,9 +1,8 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	local styled = false
-	InterfaceOptionsFrame:HookScript("OnShow", function()
-		if styled then return end
+	InterfaceOptionsFrame:HookScript("OnShow", function(self)
+		if self.styled then return end
 
 		F.ReskinFrame(InterfaceOptionsFrame)
 
@@ -190,15 +189,17 @@ tinsert(C.themes["AuroraClassic"], function()
 			end
 		end
 
-		styled = true
+		self.styled = true
 	end)
 
 	hooksecurefunc("InterfaceAddOnsList_Update", function()
 		local num = #INTERFACEOPTIONS_ADDONCATEGORIES
 		for i = 1, num do
 			local bu = "InterfaceOptionsFrameAddOnsButton"..i
-
 			local button = _G[bu]
+
+			if not button then return end
+
 			button.highlight:SetTexture(C.media.bdTex)
 			button.highlight:SetAlpha(.25)
 

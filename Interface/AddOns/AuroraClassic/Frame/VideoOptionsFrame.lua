@@ -14,9 +14,8 @@ tinsert(C.themes["AuroraClassic"], function()
 		line:SetColorTexture(1, 1, 1, .25)
 	end
 
-	local styled = false
-	VideoOptionsFrame:HookScript("OnShow", function()
-		if styled then return end
+	VideoOptionsFrame:HookScript("OnShow", function(self)
+		if self.styled then return end
 
 		F.ReskinFrame(VideoOptionsFrame)
 
@@ -189,7 +188,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.StripTextures(testInputDevie.VUMeter)
 		F.ReskinStatusBar(testInputDevie.VUMeter.Status, true)
 
-		styled = true
+		self.styled = true
 	end)
 
 	hooksecurefunc("AudioOptionsVoicePanel_InitializeCommunicationModeUI", function(self)

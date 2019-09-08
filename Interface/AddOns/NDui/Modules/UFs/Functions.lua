@@ -791,7 +791,7 @@ end
 function UF:CreateClassPower(self)
 	local mystyle = self.mystyle
 	if mystyle == "PlayerPlate" then
-		barWidth, barHeight = self:GetWidth(), NDuiDB["Extras"]["PPCBHeight"]
+		barWidth, barHeight = self:GetWidth(), NDuiDB["Extras"]["PPCPHeight"]
 		C.UFs.BarPos = {"BOTTOMLEFT", self, "TOPLEFT", 0, 3}
 	end
 

@@ -320,6 +320,7 @@ function UF:OnLogin()
 			local moverWidth = partyWatcher and (horizonParty and (partyWidth*5-xOffset*4)) or partyWidth
 			local moverHeight = partyWatcher and (horizonParty and partyHeight or (partyHeight*5+yOffset*4)) or (partyHeight*4-yOffset*3)
 			local showPlayer = partyWatcher or NDuiDB["Extras"]["ShowYourself"]
+			local groupingOrder = partyWatcher and "NONE,HEALER,DAMAGER,TANK" or "TANK,HEALER,DAMAGER,NONE"
 
 			local party = oUF:SpawnHeader("oUF_Party", nil, "solo,party",
 			"showPlayer", showPlayer,
@@ -329,7 +330,7 @@ function UF:OnLogin()
 			"xoffset", xOffset,
 			"yOffset", yOffset,
 			"groupFilter", "1",
-			"groupingOrder", "TANK,HEALER,DAMAGER,NONE",
+			"groupingOrder", groupingOrder,
 			"groupBy", "ASSIGNEDROLE",
 			"sortMethod", "NAME",
 			"point", pointF,

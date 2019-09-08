@@ -161,6 +161,7 @@ C.themes["Blizzard_Collections"] = function()
 	F.StripTextures(SlotButton)
 	local icbg = F.ReskinIcon(SlotButton.ItemIcon)
 	F.ReskinTexture(SlotButton, icbg)
+	F.ReskinTexture(SlotButton.DragTargetHighlight, icbg)
 
 	-- Pet PetCard
 	local PetCard = PetJournalPetCard
@@ -464,10 +465,9 @@ C.themes["Blizzard_Collections"] = function()
 	F.ReskinButton(WardrobeOutfitEditFrame.DeleteButton)
 
 	-- HPetBattleAny
-	local reskinHPet
-	CollectionsJournal:HookScript("OnShow", function()
+	CollectionsJournal:HookScript("OnShow", function(self)
 		if not IsAddOnLoaded("HPetBattleAny") then return end
-		if not reskinHPet then
+		if not self.styled then
 			F.ReskinButton(HPetInitOpenButton)
 			F.ReskinButton(HPetAllInfoButton)
 			for i = 1, 9 do
@@ -483,7 +483,8 @@ C.themes["Blizzard_Collections"] = function()
 				local icbg = F.ReskinIcon(PetJournalBandageButtonIcon)
 				F.ReskinTexture(PetJournalBandageButton, icbg)
 			end
-			reskinHPet = true
+
+			self.styled = true
 		end
 	end)
 end
@@ -497,7 +498,7 @@ do
 		if not IsAddOnLoaded("HPetBattleAny") then return end
 		if event == "PLAYER_ENTERING_WORLD" then
 			HPetOption:HookScript("OnShow", function(self)
-				if not self.reskin then
+				if not self.styled then
 					local bu = {"Reset", "Help", "UpdateStone"}
 					for _, v in pairs(bu) do
 						F.ReskinButton(_G["HPetOption"..v])
@@ -510,7 +511,7 @@ do
 					F.ReskinSlider(_G["HPetOptionAbilitysScale"])
 					F.ReskinInput(_G["HPetOptionScaleBox"])
 
-					self.reskin = true
+					self.styled = true
 				end
 			end)
 			f:UnregisterEvent(event)

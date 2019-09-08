@@ -5,11 +5,12 @@ tinsert(C.themes["AuroraClassic"], function()
 		local main = "StaticPopup"..i
 
 		local frame = _G[main]
-		F.ReskinFrame(frame)
+		F.ReskinFrame(frame, true)
 		F.ReskinButton(frame["extraButton"])
 
 		for j = 1, 4 do
-			F.ReskinButton(frame["button"..j])
+			local button = frame["button"..j]
+			F.ReskinButton(button)
 		end
 
 		local edit = _G[main.."EditBox"]
@@ -23,8 +24,8 @@ tinsert(C.themes["AuroraClassic"], function()
 		name:Hide()
 
 		local icon = _G[main.."ItemFrameIconTexture"]
-		local ic = F.ReskinIcon(icon)
-		F.ReskinTexture(item, ic)
+		local icbg = F.ReskinIcon(icon)
+		F.ReskinTexture(item, icbg)
 
 		local gold = _G[main.."MoneyInputFrameGold"]
 		F.ReskinInput(gold)

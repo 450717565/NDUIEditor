@@ -94,6 +94,8 @@ local function Ability_OnEnter(self)
 		GarrisonFollowerAbilityTooltip:ClearAllPoints()
 		GarrisonFollowerAbilityTooltip:SetPoint("TOPLEFT", self.Icon, "BOTTOMRIGHT")
 		GarrisonFollowerAbilityTooltip_Show(GarrisonFollowerAbilityTooltip, self.abilityID, 22)
+		GarrisonFollowerAbilityTooltip.CounterIcon:SetMask(nil)
+		GarrisonFollowerAbilityTooltip.CounterIcon:SetTexCoord(4/64, 60/64, 4/64, 60/64)
 	end
 end
 local function Ability_OnLeave(self)
@@ -187,7 +189,7 @@ local function Progress_UpdateTimer(self)
 		self.endTime, self.duration, self.endText, self.nextUp = nil
 	elseif (self.nextUp or 0) < now then
 		local w, d = self:GetWidth(), self.duration
-		self.Fill:SetWidth(w*(1-(endTime-now)/d)+0.001)
+		self.Fill:SetWidth(math.max(0.01, w*(1-(endTime-now)/d)))
 		self.nextUp = now + (PROGRESS_MIN_STEP/w * d)
 	end
 end
@@ -234,20 +236,24 @@ local function TroopButton_OnEnter(self)
 		self.Highlight1:Show()
 	end
 	if self.followerID then
-		local fid, NC = self.followerID, NORMAL_FONT_COLOR
+		local fid, gfid, NC = self.followerID, self.gfollowerID, NORMAL_FONT_COLOR
 		GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
-		GameTooltip:SetText(C.GetFollowerName(fid))
+		local rc = fid and ITEM_QUALITY_COLORS[C.GetFollowerQuality(fid)] or nil
+		GameTooltip:SetText(C.GetFollowerName(fid), rc and rc.r, rc and rc.g, rc and rc.b)
 		GameTooltipTextRight1:SetText("|T" .. C.GetFollowerPortraitIconID(fid) .. ":42:42:4:-22:1:1:1:0:0:1|t")
 		GameTooltipTextRight1:Show()
-		if self.gfollowerID then
+		if gfid then
 			GameTooltip:AddLine("|cff49C8F2" .. (C.GetFollowerClassSpecName(self.gfollowerID) or "?"))
 		end
-		for i=1,2 do
-			local aid = C.GetFollowerAbilityAtIndex(fid, i)
+		for i=1,3 do
+			local eid = C.GetFollowerAbilityAtIndex(fid, i)
+			local lid = eid == 0 and gfid and C.GetFollowerAbilityAtIndexByID(gfid, i)
+			local aid = eid ~= 0 and eid or lid
 			if aid and aid > 0 then
 				local an, ic, ad = C.GetFollowerAbilityName(aid), C.GetFollowerAbilityIcon(aid), C.GetFollowerAbilityDescription(aid)
+				ic = aid == eid and "|T" .. ic .. ":0:0:0:0:64:64:4:60:4:60|t " or [[|TInterface\PetBattles\PetBattle-LockIcon:14:12:0:1:32:32:4:28:2:30:255:155:100|t |cff909090]]
 				GameTooltip:AddLine(" ")
-				GameTooltip:AddLine("|T" .. ic .. ":0:0:0:0:64:64:4:60:4:60|t " .. an, 1,1,1,1)
+				GameTooltip:AddLine(ic .. an, 1,1,1,1)
 				GameTooltip:AddLine(ad, NC.r, NC.g, NC.b, 1)
 			end
 		end
@@ -267,12 +273,25 @@ local function TroopButton_OnLeave(self)
 	self.Highlight1:Hide()
 	return HideOwnGameTooltip(self)
 end
+local function TroopButton_SetDurability(self, maxDurability, returnDurability)
+	self.Hearts[1]:SetDesaturated(returnDurability < 1)
+	self.Hearts[2]:SetDesaturated(returnDurability < 2)
+	self.Hearts[3]:SetDesaturated(returnDurability ~= 3)
+	self.Hearts[3]:SetShown(maxDurability == 3)
+	self:SetWidth(maxDurability == 3 and 55 or 38)
+end
 local function ResourceButton_Update(self, _event, currencyID, quant)
 	if currencyID == self.currencyID then
 		quant = quant or select(2, GetCurrencyInfo(currencyID))
 		if quant then
 			self.Text:SetText(BreakUpLargeNumbers(quant))
+			self:SetWidth(self.Text:GetStringWidth()+26)
 		end
+	end
+end
+local function ResourceButton_OnClick(self)
+	if IsModifiedClick("CHATLINK") then
+		ChatEdit_InsertLink(GetCurrencyLink(self.currencyID, 24))
 	end
 end
 local function GroupButton_OnEnter(self)
@@ -521,11 +540,13 @@ local function ChampionList_EnableStaticAnchors(self)
 end
 local function ChampionList_AnimateDynamicAnchors(listContainer, elapsed)
 	local aLeft = listContainer.animLeft
-	if aLeft then
-		aLeft = aLeft > elapsed and aLeft - elapsed or nil
+	if not elapsed then
+		listContainer.goalView, aLeft, listContainer.animLeft = true, nil
+	elseif aLeft then
+		aLeft = elapsed and aLeft > elapsed and aLeft - elapsed or nil
 		listContainer.animLeft = aLeft
 	end
-	if listContainer:IsMouseOver() or not elapsed then
+	if listContainer:IsMouseOver() then
 		local x, s, l, _b, w = GetCursorPosition(), listContainer:GetEffectiveScale(), listContainer:GetRect()
 		x = (x/s-l)/w
 		if (x < 0.188 or x > 0.62) and (listContainer.goalView ~= (x > 0.62)) then
@@ -821,15 +842,15 @@ function Factory.TroopButton(parent)
 	f:SetScript("OnEnter", TroopButton_OnEnter)
 	f:SetScript("OnLeave", TroopButton_OnLeave)
 	f:SetScript("OnHide", TroopButton_OnLeave)
+	f.SetDurability = TroopButton_SetDurability
 	f:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 	f.Hearts = {}
-	t = f:CreateTexture(nil, "ARTWORK")
-	t:SetAtlas("GarrisonTroops-Health", true)
-	t:SetPoint("LEFT", 3, 0)
-	t, f.Hearts[1] = f:CreateTexture(nil, "ARTWORK"), t
-	t:SetPoint("RIGHT", -3, 0)
-	t:SetAtlas("GarrisonTroops-Health", true)
-	f.Hearts[2] = t
+	for i=1,3 do
+		t = f:CreateTexture(nil, "ARTWORK")
+		t:SetAtlas("GarrisonTroops-Health", true)
+		t:SetPoint("LEFT", 17*i-14, 0)
+		f.Hearts[i] = t
+	end
 	f.Highlight1 = CreateObject("TexSlice", f, "BACKGROUND",0, "Interface/Calendar/Highlights",256,128, 0,8,76,84, 89,94,104,109, 5,3, 1,0,1,0)
 	f.Highlight2 = CreateObject("TexSlice", f, "BACKGROUND",0, "Interface/Calendar/Highlights",256,128, 0,8,76,84, 89,94,104,109, 5,3, 1,0,0,0)
 	f.Highlight3 = CreateObject("TexSlice", f, "BACKGROUND",1, "Interface/Calendar/Highlights",256,128, 90,98,166,174, 89,94,104,109, 5,3, 1,0,0,0)
@@ -843,11 +864,12 @@ function Factory.TroopButton(parent)
 	return f
 end
 function Factory.ResourceButton(parent, currencyID)
-	local f,t = CreateObject("CommonHoverTooltip", CreateFrame("Frame", nil, parent))
+	local f,t = CreateObject("CommonHoverTooltip", CreateFrame("Button", nil, parent))
 	f.tooltipAnchor, f.currencyID = "ANCHOR_BOTTOM", currencyID
 	f:RegisterEvent("CURRENCY_DISPLAY_UPDATE")
 	f:SetScript("OnEvent", ResourceButton_Update)
-	f:SetSize(60, 22)
+	f:SetScript("OnClick", ResourceButton_OnClick)
+	f:SetSize(60, 23)
 	t = f:CreateTexture()
 	t:SetSize(18, 18)
 	t:SetTexture((select(3, GetCurrencyInfo(f.currencyID))))
@@ -1175,6 +1197,24 @@ function Factory.HistoryFrame(parent)
 	end
 	return f
 end
+function Factory.ControlContainerBorder(parent, expandX, expandY)
+	expandX, expandY = expandX or 0, expandY or 0
+	local t, is, ts = parent:CreateTexture(nil, "BACKGROUND"), 18, 1/16
+	t:SetAtlas("Garr_Mission_MaterialFrame")
+	t:SetTexCoord(0, ts, 0, 1)
+	t:SetPoint("TOPLEFT", -expandX, expandY)
+	t:SetPoint("BOTTOMRIGHT", parent, "BOTTOMLEFT", is-expandX, -expandY)
+	t = parent:CreateTexture(nil, "BACKGROUND")
+	t:SetTexCoord(ts, 1-ts, 0, 1)
+	t:SetAtlas("Garr_Mission_MaterialFrame")
+	t:SetPoint("TOPLEFT", is-expandX, expandY)
+	t:SetPoint("BOTTOMRIGHT", -is+expandX, -expandY)
+	t = parent:CreateTexture(nil, "BACKGROUND")
+	t:SetTexCoord(1-ts, 1, 0, 1)
+	t:SetAtlas("Garr_Mission_MaterialFrame")
+	t:SetPoint("TOPRIGHT", expandX, expandY)
+	t:SetPoint("BOTTOMLEFT", parent, "BOTTOMRIGHT", -is+expandX, -expandY)
+end
 function Factory.MissionTable(name)
 	local frame, t = CreateFrame("Frame", name, UIParent)
 	frame:Hide()
@@ -1193,8 +1233,8 @@ function Factory.MissionTable(name)
 	frame:SetClampedToScreen(true)
 	frame:SetClampRectInsets(0, 0, 4, -2)
 	local mover = CreateFrame("Button", nil, frame)
-	mover:SetPoint("TOPLEFT", frame.TitleText, "TOPLEFT", -20, -20)
-	mover:SetPoint("BOTTOMRIGHT", frame.TitleText, "BOTTOMRIGHT", 20, 20)
+	mover:SetPoint("TOPLEFT", frame.TitleText, "TOPLEFT", -48, -20)
+	mover:SetPoint("BOTTOMRIGHT", frame.TitleText, "BOTTOMRIGHT", 48, 20)
 	mover:SetScript("OnMouseDown", function()
 		frame:StartMoving()
 	end)
@@ -1205,39 +1245,29 @@ function Factory.MissionTable(name)
 		frame:ClearAllPoints()
 		frame:SetPoint("CENTER", 0, -20)
 	end)
+	mover:SetScript("OnEnter", function()
+		SetCursor("Interface/CURSOR/UI-Cursor-Move.crosshair")
+	end)
+	mover:SetScript("OnLeave", function()
+		SetCursor(nil)
+	end)
 	mover:SetScript("OnHide", mover:GetScript("OnMouseUp"))
 	UISpecialFrames[#UISpecialFrames+1] = name
 	
 	frame.TaskBoard = CreateFrame("Frame", nil, frame) do
 		local mf, t = frame.TaskBoard
 		mf:SetAllPoints()
-		local ctlContainer = CreateFrame("Frame", nil, mf) do
-			frame.ctlContainer = ctlContainer
-			ctlContainer:SetPoint("TOPRIGHT", -25, -23)
-			ctlContainer:SetSize(440, 43)
-			local t, is, ts = ctlContainer:CreateTexture(nil, "BACKGROUND"), 18, 1/16
-			t:SetAtlas("Garr_Mission_MaterialFrame")
-			t:SetTexCoord(0, ts, 0, 1)
-			t:SetPoint("TOPLEFT")
-			t:SetPoint("BOTTOMRIGHT", ctlContainer, "BOTTOMLEFT", is, 0)
-			t = ctlContainer:CreateTexture(nil, "BACKGROUND")
-			t:SetTexCoord(ts, 1-ts, 0, 1)
-			t:SetAtlas("Garr_Mission_MaterialFrame")
-			t:SetPoint("TOPLEFT", is, 0)
-			t:SetPoint("BOTTOMRIGHT", -is, 0)
-			t = ctlContainer:CreateTexture(nil, "BACKGROUND")
-			t:SetTexCoord(1-ts, 1, 0, 1)
-			t:SetAtlas("Garr_Mission_MaterialFrame")
-			t:SetPoint("TOPRIGHT")
-			t:SetPoint("BOTTOMLEFT", ctlContainer, "BOTTOMRIGHT", -is, 0)
-			
-			local rc = CreateObject("ResourceButton", ctlContainer, 1560)
-			rc:SetPoint("LEFT", 14, 0)
-			
-			t = CreateFrame("Frame", nil, ctlContainer)
-			t:SetSize(338, 20)
-			t:SetPoint("RIGHT", -14, 0)
-			t.Units, t.Headers, mf.Troops = {}, {}, t
+		local resButton = CreateObject("ResourceButton", mf, 1560) do
+			frame.ResourceCounter = resButton
+			resButton:SetPoint("TOPRIGHT", -25-20, -33)
+			CreateObject("ControlContainerBorder", resButton, 14, 10)
+		end
+		local troopContainer = CreateFrame("Frame", nil, mf) do
+			mf.Troops, t = troopContainer, troopContainer
+			t:SetSize(338, 21)
+			t:SetPoint("RIGHT", resButton, "LEFT", -30, 0)
+			CreateObject("ControlContainerBorder", troopContainer, 14, 11)
+			t.Units, t.Headers = {}, {}
 			for i=1,6 do
 				local x = CreateObject("TroopButton", t)
 				x:SetPoint("LEFT", 24+i*38-38 + (i >= 3 and 24 or 0) + (i >= 7 and 24 or 0), 0)
@@ -1258,7 +1288,7 @@ function Factory.MissionTable(name)
 		end
 		t = CreateFrame("Button", nil, mf, "UIPanelButtonTemplate")
 		t:SetSize(200, 26)
-		t:SetPoint("RIGHT", ctlContainer, "LEFT", -100, 0)
+		t:SetPoint("RIGHT", troopContainer, "LEFT", -130, 0)
 		t:SetText("Click Me")
 		t:EnableKeyboard(true)
 		t:SetScript("OnKeyDown", Button_ClickWithSpace)

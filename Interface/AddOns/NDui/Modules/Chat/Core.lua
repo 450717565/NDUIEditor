@@ -19,6 +19,8 @@ function module:TabSetAlpha(alpha)
 end
 
 function module:UpdateChatSize()
+	if not NDuiDB["Chat"]["Lock"] then return end
+
 	ChatFrame1:ClearAllPoints()
 	ChatFrame1:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", 0, 28)
 	ChatFrame1:SetWidth(NDuiDB["Chat"]["ChatWidth"])

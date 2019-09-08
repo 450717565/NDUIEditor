@@ -56,14 +56,13 @@ tinsert(C.themes["AuroraClassic"], function()
 	ReagentBankFrame:DisableDrawLayer("BACKGROUND")
 	ReagentBankFrame:DisableDrawLayer("BORDER")
 
-	local styled = false
-	ReagentBankFrame:HookScript("OnShow", function()
-		if not styled then
+	ReagentBankFrame:HookScript("OnShow", function(self)
+		if not self.styled then
 			for i = 1, 98 do
 				styleBankButton(_G["ReagentBankFrameItem"..i])
 			end
 
-			styled = true
+			self.styled = true
 		end
 	end)
 end)

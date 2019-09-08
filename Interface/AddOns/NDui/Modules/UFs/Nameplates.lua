@@ -749,11 +749,14 @@ function UF:ResizePlayerPlate()
 	if plate then
 		plate:SetHeight(NDuiDB["Nameplate"]["PPHPHeight"])
 		plate.Power:SetHeight(NDuiDB["Nameplate"]["PPHPHeight"])
-		local plateCB = plate.ClassPower or plate.Runes
-		if plateCB then
+		local bars = plate.ClassPower or plate.Runes
+		if bars then
 			for i = 1, 6 do
-				plateCB[i]:SetHeight(NDuiDB["Extras"]["PPCBHeight"])
+				bars[i]:SetHeight(NDuiDB["Extras"]["PPCPHeight"])
 			end
+		end
+		if plate.Stagger then
+			plate.Stagger:SetHeight(NDuiDB["Extras"]["PPCPHeight"])
 		end
 	end
 end
