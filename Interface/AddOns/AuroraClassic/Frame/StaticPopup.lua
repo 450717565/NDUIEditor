@@ -9,8 +9,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.ReskinButton(frame["extraButton"])
 
 		for j = 1, 4 do
-			local button = frame["button"..j]
-			F.ReskinButton(button)
+			F.ReskinButton(frame["button"..j])
 		end
 
 		local edit = _G[main.."EditBox"]

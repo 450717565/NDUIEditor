@@ -2,8 +2,8 @@ local B, C, L, DB = unpack(select(2, ...))
 local Extras = B:GetModule("Extras")
 
 local C_MountJournal_GetMountIDs = C_MountJournal.GetMountIDs
-local C_MountJournal_GetMountInfo = C_MountJournal.GetMountInfoByID
-local C_MountJournal_GetMountInfoExtra = C_MountJournal.GetMountInfoExtraByID
+local C_MountJournal_GetMountInfoByID = C_MountJournal.GetMountInfoByID
+local C_MountJournal_GetMountInfoExtraByID = C_MountJournal.GetMountInfoExtraByID
 
 function Extras:MS_MountInfo(unit, index, filter)
 	if self:IsForbidden() then return end
@@ -13,9 +13,9 @@ function Extras:MS_MountInfo(unit, index, filter)
 
 	if auraID then
 		for _, mountID in ipairs(C_MountJournal_GetMountIDs()) do
-			local spellID = select(2, C_MountJournal_GetMountInfo(mountID))
+			local spellID = select(2, C_MountJournal_GetMountInfoByID(mountID))
 			if spellID == auraID then
-				local sourceText = select(3, C_MountJournal_GetMountInfoExtra(mountID))
+				local sourceText = select(3, C_MountJournal_GetMountInfoExtraByID(mountID))
 				self:AddLine(" ")
 				self:AddLine(sourceText, 1, 1, 1)
 

@@ -10,16 +10,17 @@ local GetInventoryItemLink, GetInventoryItemDurability, GetInventoryItemTexture 
 local GetMoney, GetRepairAllCost, RepairAllItems, CanMerchantRepair = GetMoney, GetRepairAllCost, RepairAllItems, CanMerchantRepair
 local GetAverageItemLevel, IsInGuild, CanGuildBankRepair, GetGuildBankWithdrawMoney = GetAverageItemLevel, IsInGuild, CanGuildBankRepair, GetGuildBankWithdrawMoney
 local C_Timer_After, IsShiftKeyDown, InCombatLockdown, CanMerchantRepair = C_Timer.After, IsShiftKeyDown, InCombatLockdown, CanMerchantRepair
+local repairCostString = gsub(REPAIR_COST, HEADER_COLON, "")
 
 local localSlots = {
 	[1] = {1, INVTYPE_HEAD, 1000},
 	[2] = {3, INVTYPE_SHOULDER, 1000},
 	[3] = {5, INVTYPE_CHEST, 1000},
 	[4] = {6, INVTYPE_WAIST, 1000},
-	[5] = {9, INVTYPE_WRIST, 1000},
-	[6] = {10, L["Hands"], 1000},
-	[7] = {7, INVTYPE_LEGS, 1000},
-	[8] = {8, L["Feet"], 1000},
+	[5] = {7, INVTYPE_LEGS, 1000},
+	[6] = {8, L["Feet"], 1000},
+	[7] = {9, INVTYPE_WRIST, 1000},
+	[8] = {10, L["Hands"], 1000},
 	[9] = {16, INVTYPE_WEAPONMAINHAND, 1000},
 	[10] = {17, INVTYPE_WEAPONOFFHAND, 1000}
 }
@@ -60,6 +61,8 @@ local function isLowDurability()
 		end
 	end
 end
+local tip = CreateFrame("GameTooltip", "NDuiDurabilityTooltip")
+tip:SetOwner(UIParent, "ANCHOR_NONE")
 
 info.eventList = {
 	"UPDATE_INVENTORY_DURABILITY", "PLAYER_ENTERING_WORLD",
@@ -118,13 +121,22 @@ info.onEnter = function(self)
 	GameTooltip:AddDoubleLine(STAT_AVERAGE_ITEM_LEVEL, format("%.1f / %.1f", equipped, total), 0,.6,1, 0,.6,1)
 	GameTooltip:AddLine(" ")
 
+	local totalCost = 0
 	for i = 1, 10 do
 		if localSlots[i][3] ~= 1000 then
+			local slot = localSlots[i][1]
 			local v = localSlots[i][3] / 100
 			local r, g, b = 1 - v, v, 0
-			local slotIcon = "|T"..GetInventoryItemTexture("player", localSlots[i][1])..":13:15:0:0:50:50:4:46:4:46|t " or ""
+			local slotIcon = "|T"..GetInventoryItemTexture("player", slot)..":13:15:0:0:50:50:4:46:4:46|t " or ""
 			GameTooltip:AddDoubleLine(slotIcon..localSlots[i][2], format("%.1f%%", localSlots[i][3]), 1,1,1, r,g,b)
+
+			totalCost = totalCost + select(3, tip:SetInventoryItem("player", slot))
 		end
+	end
+
+	if totalCost > 0 then
+		GameTooltip:AddLine(" ")
+		GameTooltip:AddDoubleLine(repairCostString, module:GetMoneyString(totalCost), .6,.8,1, 1,1,1)
 	end
 
 	GameTooltip:AddDoubleLine(" ", DB.LineString)

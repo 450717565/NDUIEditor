@@ -152,7 +152,11 @@ C.themes["Blizzard_AuctionUI"] = function()
 			local tab = _G["AuctionFrameTab"..index]
 			if not tab then return end
 
-			F.ReskinTab(tab)
+			if not tab.styled then
+				F.ReskinTab(tab)
+
+				tab.styled = true
+			end
 
 			index = index + 1
 		end
