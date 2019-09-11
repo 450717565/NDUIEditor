@@ -69,6 +69,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	end)
 
 	local from, to = "|T.+|t", "|T%%s:14:14:0:0:64:64:5:59:5:59|t"
-	BONUS_ROLL_COST = BONUS_ROLL_COST:gsub(from, to)
-	BONUS_ROLL_CURRENT_COUNT = BONUS_ROLL_CURRENT_COUNT:gsub(from, to)
+	BONUS_ROLL_COST = gsub(BONUS_ROLL_COST, from, to)
+	BONUS_ROLL_CURRENT_COUNT = gsub(BONUS_ROLL_CURRENT_COUNT, from, to)
 end)

@@ -111,7 +111,7 @@ local function ListFriends(text)
 	end
 	--好友太多的話自動啓用關鍵字匹配
 	if (#friends > numButton) then
-		text = text:gsub("@", "")
+		text = gsub(text, "@", "")
 		if (text ~= "") then
 			local t = {}
 			for _, v in ipairs(friends) do

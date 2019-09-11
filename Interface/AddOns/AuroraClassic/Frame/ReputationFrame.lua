@@ -14,27 +14,42 @@ tinsert(C.themes["AuroraClassic"], function()
 	ReputationDetailFrame:SetPoint("TOPLEFT", ReputationFrame, "TOPRIGHT", 3, -25)
 
 	for i = 1, NUM_FACTIONS_DISPLAYED do
-		local bu = _G["ReputationBar"..i.."ExpandOrCollapseButton"]
-		F.ReskinExpandOrCollapse(bu)
+		F.ReskinExpandOrCollapse(_G["ReputationBar"..i.."ExpandOrCollapseButton"])
 	end
 
 	local function UpdateFactionSkins()
-		for i = 1, GetNumFactions() do
-			local repbar = _G["ReputationBar"..i]
-			local statusbar = _G["ReputationBar"..i.."ReputationBar"]
+		local numFactions = GetNumFactions()
+		local factionOffset = FauxScrollFrame_GetOffset(ReputationListScrollFrame)
 
-			if statusbar then
-				if not statusbar.styled then
-					F.ReskinStatusBar(statusbar, true)
+		for i = 1, NUM_FACTIONS_DISPLAYED do
+			local factionIndex = factionOffset + i
+			local atWarWith = select(7, GetFactionInfo(factionIndex))
+			local factionRow = _G["ReputationBar"..i]
+			local factionBar = _G["ReputationBar"..i.."ReputationBar"]
 
-					statusbar.styled = true
+			local highlight = _G["ReputationBar"..i.."ReputationBarAtWarHighlight1"]
+			highlight:SetTexture(C.media.bdTex)
+			highlight:SetColorTexture(1, 0, 0)
+
+			if factionIndex <= numFactions then
+				if factionBar then
+					F.StripTextures(factionRow)
+
+					if not factionBar.styled then
+						F.ReskinStatusBar(factionBar, true)
+
+						factionBar.styled = true
+					end
 				end
 
-				F.StripTextures(repbar)
+				if atWarWith then
+					highlight:Show()
+				else
+					highlight:Hide()
+				end
 			end
 		end
 	end
 
-	ReputationFrame:HookScript("OnShow", UpdateFactionSkins)
-	ReputationFrame:HookScript("OnEvent", UpdateFactionSkins)
+	hooksecurefunc("ReputationFrame_Update", UpdateFactionSkins)
 end)

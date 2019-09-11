@@ -198,7 +198,7 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 				local slotType = GetLootSlotType(i)
 
 				if slotType == LOOT_SLOT_MONEY then
-					lootName = lootName:gsub("\n", L[","])
+					lootName = gsub(lootName, "\n", L[","])
 				end
 
 				if lootQuantity and lootQuantity > 1 then
@@ -210,7 +210,7 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 
 				if (lootQuality and lootQuality >= 0) or questId or isQuestItem then
 					if questId or isQuestItem then
-						r, g, b = .8, .8, 0
+						r, g, b = 1, .8, 0
 					end
 					slot.name:SetTextColor(r, g, b)
 					slot.border:SetBackdropBorderColor(r, g, b)

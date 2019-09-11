@@ -159,7 +159,7 @@ oUF.Tags.Methods["nphp"] = function(unit)
 		elseif NDuiDB["Nameplate"]["NPsHPMode"] == 2 then
 			return B.ColorText(per, true, B.Numb(cur))
 		else
-			return B.ColorText(per, true, B.Numb(cur).." | "..per.."%")
+			return B.ColorText(per, true, B.Numb(cur)).." | "..B.ColorText(per, true)
 		end
 	end
 end

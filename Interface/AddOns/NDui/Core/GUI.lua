@@ -633,7 +633,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{5, "Nameplate", "OffTankColor", L["OffTank Color"].."*", 3},
 		{4, "Nameplate", "TargetIndicator", L["TargetIndicator"].."*", false, {DISABLE, L["TargetGlow"], L["TopArrow"], L["RightArrow"], L["TopNGlow"], L["RightNGlow"]}, refreshNameplates},
 		{4, "Extras", "ArrowColor", L["Arrow Color"], true, {L["Cyan"], L["Green"], L["Red"]}},
-		{4, "Nameplate", "NPsHPMode", L["HP Val Mode"], false, {L["Only Percent"], L["Only Number"], L["Num and Per"]}},
+		{4, "Nameplate", "NPsHPMode", L["HP Val Mode"].."*", false, {L["Only Percent"], L["Only Number"], L["Num and Per"]}, refreshNameplates},
 		{},--blank
 		{3, "Nameplate", "VerticalSpacing", L["NP VerticalSpacing"].."*", false, {.5, 1.5, 1}, updatePlateSpacing},
 		{3, "Nameplate", "Distance", L["Nameplate Distance"].."*", true, {20, 100, 0}, updatePlateRange},

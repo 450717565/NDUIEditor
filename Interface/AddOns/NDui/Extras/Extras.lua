@@ -37,9 +37,9 @@ local GW_Message_Info = {
 }
 
 function Extras.UpdateGuildWelcome(_, msg)
-	local str = GUILDEVENT_TYPE_JOIN:gsub("%%s", "")
+	local str = gsub(GUILDEVENT_TYPE_JOIN, "%%s", "")
 	if msg:find(str) then
-		local name = msg:gsub(str, "")
+		local name = gsub(msg, str, "")
 		name = Ambiguate(name, "guild")
 		if not UnitIsUnit(name, "player") then
 			C_Timer.After(random(1000) / 1000, function()
