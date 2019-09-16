@@ -68,9 +68,9 @@ local function showRealDate(curseDate)
 end
 
 DBM = {
-	Revision = parseCurseDate("20190911040642"),
-	DisplayVersion = "8.2.19 alpha", -- the string that is shown as version
-	ReleaseRevision = releaseDate(2019, 9, 10) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
+	Revision = parseCurseDate("20190916010747"),
+	DisplayVersion = "8.2.19", -- the string that is shown as version
+	ReleaseRevision = releaseDate(2019, 9, 15) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -4327,7 +4327,7 @@ do
 		--(Note, faker isn't to screw with bigwigs nor is theirs to screw with dbm, but rathor raid leaders who don't let people run WTF they want to run)
 		local VPVersion
 		local VoicePack = DBM.Options.ChosenVoicePack
-		if not voiceSessionDisabled and VoicePack ~= "None" then
+		if not voiceSessionDisabled and VoicePack ~= "None" and DBM.VoiceVersions[VoicePack] then
 			VPVersion = "/ VP"..VoicePack..": v"..DBM.VoiceVersions[VoicePack]
 		end
 		if VPVersion then
@@ -10092,7 +10092,7 @@ do
 							local ttext = _G[bar.frame:GetName().."BarName"]:GetText() or ""
 							ttext = ttext.."("..self.id..")"
 							if bar.timer > 0.2 then
-								if timer then
+								if timer and DBM.Options.AutoCorrectTimer then
 									self.correctedCast = timer - bar.timer--Store what lowest timer is in timer object
 									self.correctedDiff = difficultyIndex--Store index of correction to ensure the change is only used in one difficulty (so a mythic timer doesn't alter heroic for example)
 								end
@@ -10165,8 +10165,10 @@ do
 						local ttext = _G[bar.frame:GetName().."BarName"]:GetText() or ""
 						ttext = ttext.."("..self.id..")"
 						if bar.timer > 0.2 then
-							self.correctedCast = timer - bar.timer--Store what lowest timer is for advanced user feature
-							self.correctedDiff = difficultyIndex--Store index of correction to ensure the change is only used in one difficulty (so a mythic timer doesn't alter heroic for example
+							if DBM.Options.AutoCorrectTimer then
+								self.correctedCast = timer - bar.timer--Store what lowest timer is for advanced user feature
+								self.correctedDiff = difficultyIndex--Store index of correction to ensure the change is only used in one difficulty (so a mythic timer doesn't alter heroic for example
+							end
 							DBM:Debug("Timer "..ttext.. " refreshed before expired. Remaining time is : "..remaining, 2)
 						end
 					end
@@ -10328,6 +10330,7 @@ do
 		end
 		if self.type == "ai" then--A learning timer
 			if not DBM.Options.AITimer then return end
+			self.lastCast = nil
 			for i = 1, 4 do
 				--Check for any phase timers that are strings and never got a chance to become AI timers, then wipe them
 				if self["phase"..i.."CastTimer"] and type(self["phase"..i.."CastTimer"]) == "string" then
@@ -10984,7 +10987,7 @@ function bossModPrototype:AddSliderOption(name, minValue, maxValue, valueStep, d
 	end
 end
 
-function bossModPrototype:AddEditboxOption(name, default, width, height, func)
+function bossModPrototype:AddEditboxOption(name, default, cat, width, height, func)
 	cat = cat or "misc"
 	self.DefaultOptions[name] = {type = "editbox", value = default or ""}
 	self.Options[name] = default or ""

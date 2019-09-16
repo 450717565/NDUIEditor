@@ -28,7 +28,7 @@ function Extras:OnLogin()
 	self:InstanceReset()
 end
 
---- 新人加入公会自动欢迎
+-- 新人加入公会自动欢迎
 local GW_Message_Info = {
 	L["GW Message 1"],
 	L["GW Message 2"],
@@ -57,7 +57,7 @@ function Extras:GuildWelcome()
 	end
 end
 
---- BOSS战斗自动收起任务追踪
+-- BOSS战斗自动收起任务追踪
 local collapse = false
 function Extras.UpdateAutoCollapse(event)
 	if event == "ENCOUNTER_START" then
@@ -100,7 +100,7 @@ function Extras:InstanceReset()
 	B:RegisterEvent("CHAT_MSG_SYSTEM", self.UpdateInstanceReset)
 end
 
---- 自动选择节日BOSS
+-- 自动选择节日BOSS
 do
 	local function autoSelect()
 		for i = 1, GetNumRandomDungeons() do
@@ -115,7 +115,7 @@ do
 	LFDParentFrame:HookScript("OnShow", autoSelect)
 end
 
---- 修复预创建队伍人数显示问题
+-- 修复预创建队伍人数显示问题
 do
 	-- [[ Player Count ]]
 	hooksecurefunc("LFGListGroupDataDisplayPlayerCount_Update", function(self)
@@ -244,7 +244,6 @@ do
 	hooksecurefunc("LFGRewardsFrame_UpdateFrame", function(parentFrame, dungeonID)
 		if not dungeonID then return end
 
-		local parentName = parentFrame:GetName()
 		local experienceGained = select(4, GetLFGDungeonRewards(dungeonID))
 		if experienceGained > 0 then
 			parentFrame.xpAmount:SetText(B.Numb(experienceGained))

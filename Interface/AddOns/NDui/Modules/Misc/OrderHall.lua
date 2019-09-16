@@ -28,35 +28,41 @@ local function FrameStyle()
 			OrderHallCommandBar:HookScript("OnShow", function()
 				OrderHallCommandBar:EnableMouse(false)
 				OrderHallCommandBar.Background:SetAtlas(nil)
+				OrderHallCommandBar.WorldMapButton:Hide()
 
-				OrderHallCommandBar.ClassIcon:ClearAllPoints()
-				OrderHallCommandBar.ClassIcon:SetPoint("TOPLEFT", 10, -35)
-				OrderHallCommandBar.ClassIcon:SetSize(40, 20)
-				OrderHallCommandBar.ClassIcon:SetAlpha(1)
-				if not OrderHallCommandBar.ClassIcon.styled then
-					F.CreateBDFrame(OrderHallCommandBar.ClassIcon, 1)
+				local ClassIcon = OrderHallCommandBar.ClassIcon
+				ClassIcon:ClearAllPoints()
+				ClassIcon:SetPoint("TOPLEFT", 10, -35)
+				ClassIcon:SetSize(40, 20)
+				ClassIcon:SetAlpha(1)
+				if not ClassIcon.styled then
+					F.CreateBDFrame(ClassIcon, 1)
 
-					OrderHallCommandBar.ClassIcon.styled = true
+					ClassIcon.styled = true
 				end
 
-				OrderHallCommandBar.AreaName:ClearAllPoints()
-				OrderHallCommandBar.AreaName:SetPoint("LEFT", OrderHallCommandBar.ClassIcon, "RIGHT", 5, 0)
-				OrderHallCommandBar.AreaName:SetFont(unpack(DB.Font))
-				OrderHallCommandBar.AreaName:SetTextColor(cr, cg, cb)
+				local AreaName = OrderHallCommandBar.AreaName
+				AreaName:ClearAllPoints()
+				AreaName:SetPoint("LEFT", ClassIcon, "RIGHT", 5, 0)
+				AreaName:SetFont(unpack(DB.Font))
+				AreaName:SetTextColor(cr, cg, cb)
 
-				OrderHallCommandBar.CurrencyIcon:ClearAllPoints()
-				OrderHallCommandBar.CurrencyIcon:SetPoint("LEFT", OrderHallCommandBar.AreaName, "RIGHT", 5, 0)
-				OrderHallCommandBar.Currency:ClearAllPoints()
-				OrderHallCommandBar.Currency:SetPoint("LEFT", OrderHallCommandBar.CurrencyIcon, "RIGHT", 0, 0)
-				OrderHallCommandBar.Currency:SetFont(unpack(DB.Font))
-				OrderHallCommandBar.Currency:SetTextColor(cr, cg, cb)
+				local CurrencyIcon = OrderHallCommandBar.CurrencyIcon
+				CurrencyIcon:ClearAllPoints()
+				CurrencyIcon:SetPoint("LEFT", AreaName, "RIGHT", 5, 0)
 
-				OrderHallCommandBar.WorldMapButton:Hide()
+				local amount = select(2, GetCurrencyInfo(OrderHallCommandBar.currency))
+				local Currency = OrderHallCommandBar.Currency
+				Currency:ClearAllPoints()
+				Currency:SetPoint("LEFT", CurrencyIcon, "RIGHT", 0, 0)
+				Currency:SetFont(unpack(DB.Font))
+				Currency:SetTextColor(cr, cg, cb)
+				Currency:SetText(B.Numb(amount))
 			end)
 		elseif event ~= "ADDON_LOADED" then
 			local index = 1
 			C_Timer.After(0.1, function()
-				for i, child in ipairs({OrderHallCommandBar:GetChildren()}) do
+				for _, child in ipairs({OrderHallCommandBar:GetChildren()}) do
 					if child.Icon and child.Count and child.TroopPortraitCover then
 						child:SetPoint("TOPLEFT", OrderHallCommandBar.ClassIcon, "BOTTOMLEFT", -5, -index*25+15)
 						child.TroopPortraitCover:Hide()

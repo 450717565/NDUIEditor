@@ -9,7 +9,7 @@
 						<Anchor point="TOPLEFT" x="0" y="17"/>
 						<Anchor point="BOTTOMRIGHT" x="0" y="-17"/>
 					</Anchors>
-					<Color r="0" g="0" b="0" a="1"/>
+					<Color r="0" g="0" b="0" a="0.4"/>
 				</Texture>
 			</Layer>
 		</Layers>
@@ -82,7 +82,7 @@
 						self:SetBackdropBorderColor(.6, .6, .6, .6)
 						_G[self:GetName().."ScrollBarScrollUpButton"]:Disable()
 						local scrollbar = _G[self:GetName().."ScrollBar"]
-						scrollbar:SetMinMaxValues(0, 0)
+						scrollbar:SetMinMaxValues(0, 11)
 						scrollbar:SetValue(0)
 					</OnLoad>
 					<OnVerticalScroll>

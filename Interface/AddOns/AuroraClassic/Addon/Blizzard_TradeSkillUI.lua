@@ -47,9 +47,9 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 			end
 
 			button:SetHighlightTexture("")
-			local sl = button.SelectedTexture
-			sl:SetTexture(C.media.bdTex)
-			sl:SetVertexColor(cr, cg, cb, .25)
+			local selected = button.SelectedTexture
+			selected:SetTexture(C.media.bdTex)
+			selected:SetVertexColor(cr, cg, cb, .25)
 		end
 	end)
 

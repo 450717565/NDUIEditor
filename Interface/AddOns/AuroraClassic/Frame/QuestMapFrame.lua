@@ -56,11 +56,14 @@ tinsert(C.themes["AuroraClassic"], function()
 	local function UpdateCampaignHeader()
 		WarCampaignHeader.newTex:SetAlpha(0)
 		if WarCampaignHeader:IsShown() then
-			local warCampaignInfo = C_CampaignInfo.GetCampaignInfo(C_CampaignInfo.GetCurrentCampaignID())
-			local textureID = warCampaignInfo.uiTextureKitID
-			if textureID and idToTexture[textureID] then
-				WarCampaignHeader.newTex:SetTexture(idToTexture[textureID])
-				WarCampaignHeader.newTex:SetAlpha(.7)
+			local campaignID = C_CampaignInfo.GetCurrentCampaignID()
+			if campaignID then
+				local warCampaignInfo = C_CampaignInfo.GetCampaignInfo(campaignID)
+				local textureID = warCampaignInfo.uiTextureKitID
+				if textureID and idToTexture[textureID] then
+					WarCampaignHeader.newTex:SetTexture(idToTexture[textureID])
+					WarCampaignHeader.newTex:SetAlpha(.7)
+				end
 			end
 		end
 	end
