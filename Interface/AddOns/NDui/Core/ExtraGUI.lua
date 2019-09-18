@@ -118,14 +118,6 @@ function G:SetupRaidDebuffs(parent)
 		return priority
 	end
 
-	local function setupBoxTip(self)
-		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-		GameTooltip:ClearLines()
-		GameTooltip:AddLine(L["Tips"])
-		GameTooltip:AddLine(L["Prio Editbox"], .6,.8,1)
-		GameTooltip:Show()
-	end
-
 	local function isAuraExisted(instName, spellID)
 		local localPrio = C.RaidDebuffs[instName][spellID]
 		local savedPrio = NDuiADB["RaidDebuffs"][instName] and NDuiADB["RaidDebuffs"][instName][spellID]
@@ -229,8 +221,8 @@ function G:SetupRaidDebuffs(parent)
 			NDuiADB["RaidDebuffs"][bar.instName][bar.spellID] = prio
 			self:SetText(prio)
 		end)
-		prioBox:SetScript("OnEnter", setupBoxTip)
-		prioBox:SetScript("OnLeave", B.HideTooltip)
+		prioBox.title = L["Tips"]
+		B.AddTooltip(prioBox, "ANCHOR_RIGHT", L["Prio Editbox"], "info")
 		bar.prioBox = prioBox
 
 		return bar
@@ -677,7 +669,6 @@ function G:SetupUnitFrame(parent)
 		["Focus"] = {150, 250},
 		["Pet"] = {100, 200},
 		["Boss"] = {100, 200},
-		["Party"] = {150, 250},
 	}
 
 	local defaultValue = {
@@ -685,7 +676,6 @@ function G:SetupUnitFrame(parent)
 		["Focus"] = {200, 22, 3},
 		["Pet"] = {120, 18, 2},
 		["Boss"] = {150, 22, 3},
-		["Party"] = {200, 22, 3},
 	}
 
 	local function createOptionGroup(parent, title, offset, value, func, default)

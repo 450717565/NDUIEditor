@@ -2,11 +2,11 @@ local HandyNotes = LibStub("AceAddon-3.0"):GetAddon("HandyNotes", true)
 if not HandyNotes then return end
 local L = LibStub("AceLocale-3.0"):GetLocale("HandyNotes_DungeonLocations")
 
-local iconDefault = "Interface\\Icons\\TRADE_ARCHAEOLOGY_CHESTOFTINYGLASSANIMALS"
-local iconDungeon = "Interface\\MINIMAP\\Dungeon"
-local iconRaid = "Interface\\MINIMAP\\Raid"
-local iconMixed = "Interface\\Addons\\HandyNotes_DungeonLocations\\merged.tga"
-local iconGray = "Interface\\Addons\\HandyNotes_DungeonLocations\\gray.tga"
+icons = { }
+icons["Dungeon"] = "Interface\\MINIMAP\\Dungeon"
+icons["Raid"] = "Interface\\MINIMAP\\Raid"
+icons["Mixed"] = "Interface\\Addons\\HandyNotes_DungeonLocations\\merged.tga"
+icons["Locked"] = "Interface\\Addons\\HandyNotes_DungeonLocations\\gray.tga"
 
 local db
 local mapToContinent = { }
@@ -118,16 +118,7 @@ do
 		local state, value = next(data, prestate)
 
 		if value then
-			local icon, alpha
-			if (value.type == "Dungeon") then
-				icon = iconDungeon
-			elseif (value.type == "Raid") then
-				icon = iconRaid
-			elseif (value.type == "Mixed") then
-				icon = iconMixed
-			else
-				icon = iconDefault
-			end
+			local alpha
 			
 			local allLocked = true
 			local anyLocked = false
@@ -140,10 +131,10 @@ do
 					anyLocked = true
 				end
 			end
-
+			local icon = icons[value.type]
 			-- I feel like this inverted lockout thing could be done far better
 			if ((anyLocked and db.invertlockout) or (allLocked and not db.invertlockout) and db.lockoutgray) then   
-				icon = iconGray
+				icon = icons["Locked"]
 			end
 			if ((anyLocked and db.invertlockout) or (allLocked and not db.invertlockout) and db.uselockoutalpha) then
 				alpha = db.lockoutalpha
@@ -152,7 +143,7 @@ do
 			end
 			
 			--print('Minimap', t.minimapUpdate, legionInstancesDiscovered[value.id])
-			if not legionInstancesDiscovered[value.id] or t.minimapUpdate then
+			if not legionInstancesDiscovered[value.id] and db.show[value.type] or t.minimapUpdate then
 			 return state, nil, icon, db.zoneScale, alpha
 			end
 			state, value = next(data, state)
@@ -176,15 +167,7 @@ do
 				while state do -- Have we reached the end of this zone?
 					local icon, alpha
 
-					if (value.type == "Dungeon") then
-						icon = iconDungeon
-					elseif (value.type == "Raid") then
-						icon = iconRaid
-					elseif (value.type == "Mixed") then
-						icon = iconMixed
-					else
-						icon = iconDefault
-					end
+					icon = icons[value.type]
 					local allLocked = true
 					local anyLocked = false
 					local instances = { strsplit("\n", value.name) }
@@ -198,15 +181,16 @@ do
 	  
 					-- I feel like this inverted lockout thing could be done far better
 					if ((anyLocked and db.invertlockout) or (allLocked and not db.invertlockout) and db.lockoutgray) then   
-						icon = iconGray
+						icon = icons["Locked"]
 					end
 					if ((anyLocked and db.invertlockout) or (allLocked and not db.invertlockout) and db.uselockoutalpha) then
 						alpha = db.lockoutalpha
 					else
 						alpha = db.continentAlpha
 					end
-					
-					if not value.hideOnContinent or zone == t.contId then -- Show on continent?
+					--print(not value.hideOnContinent,db.continent, db.show[value.type], zone == t.contId)
+					-- or zone == t.contId
+					if not value.hideOnContinent and db.continent and db.show[value.type] then -- Show on continent?
 						return state, zone, icon, db.continentScale, alpha
 					end
 					state, value = next(data, state) -- Get next data
@@ -284,7 +268,7 @@ function pluginHandler:OnClick(button, pressed, uiMapId, coord)
   end
   local dungeonID
   if (type(nodes[uiMapId][coord].id) == "table") then
-   dungeonID = coordToDungeon[coord].id[1]
+   dungeonID = nodes[uiMapId][coord].id[1]
   else
    dungeonID = nodes[uiMapId][coord].id
   end

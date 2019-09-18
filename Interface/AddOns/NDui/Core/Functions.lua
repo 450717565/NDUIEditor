@@ -111,6 +111,7 @@ function B:CreateSD(m, s)
 	if not m then m, s = C.mult*1.5, C.mult*2.5 end
 
 	local Shadow = CreateFrame("Frame", nil, frame)
+	Shadow:ClearAllPoints()
 	Shadow:SetPoint("TOPLEFT", self, -m, m)
 	Shadow:SetPoint("BOTTOMRIGHT", self, m, -m)
 	Shadow:SetBackdrop({edgeFile = DB.glowTex, edgeSize = s})
@@ -129,6 +130,7 @@ function B:CreateBG(offset)
 	local lvl = frame:GetFrameLevel()
 
 	local bg = CreateFrame("Frame", nil, frame)
+	bg:ClearAllPoints()
 	bg:SetPoint("TOPLEFT", self, -offset, offset)
 	bg:SetPoint("BOTTOMRIGHT", self, offset, -offset)
 	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
@@ -171,6 +173,7 @@ function B:CreateFS(size, text, classcolor, anchor, x, y)
 	fs:SetFont(DB.Font[1], size, DB.Font[3])
 	fs:SetText(text)
 	fs:SetWordWrap(false)
+	fs:ClearAllPoints()
 	if classcolor and type(classcolor) == "boolean" then
 		fs:SetTextColor(cr, cg, cb)
 	elseif classcolor == "system" then
@@ -187,30 +190,42 @@ end
 
 -- GameTooltip
 function B:HideTooltip()
+	if self.isButton then
+		self:SetBackdropBorderColor(0, 0, 0, 1)
+	end
 	GameTooltip:Hide()
 end
 
 local function tooltipOnEnter(self)
+	if self.isButton then
+		self:SetBackdropBorderColor(cr, cg, cb, 1)
+	end
 	GameTooltip:SetOwner(self, self.anchor)
 	GameTooltip:ClearLines()
+	if self.title then
+		GameTooltip:AddLine(self.title)
+	end
 	if tonumber(self.tooltip) then
 		GameTooltip:SetSpellByID(self.tooltip)
-	else
+	elseif self.tooltip then
 		local r, g, b = 1, 1, 1
 		if self.color == "class" then
 			r, g, b = cr, cg, cb
 		elseif self.color == "system" then
 			r, g, b = 1, .8, 0
+		elseif self.color == "info" then
+			r, g, b = .6, .8, 1
 		end
 		GameTooltip:AddLine(self.tooltip, r, g, b, 1)
 	end
 	GameTooltip:Show()
 end
 
-function B:AddTooltip(anchor, tooltip, color)
+function B:AddTooltip(anchor, tooltip, color, isButton)
 	self.anchor = anchor
 	self.tooltip = tooltip
 	self.color = color
+	self.isButton = isButton
 	self:SetScript("OnEnter", tooltipOnEnter)
 	self:SetScript("OnLeave", B.HideTooltip)
 end
@@ -258,6 +273,7 @@ function B:CreateCB()
 
 	self:SetHighlightTexture(DB.bdTex)
 	local hl = self:GetHighlightTexture()
+	hl:ClearAllPoints()
 	hl:SetPoint("TOPLEFT", bd, C.mult, -C.mult)
 	hl:SetPoint("BOTTOMRIGHT", bd, -C.mult, C.mult)
 	hl:SetVertexColor(cr, cg, cb, .25)
@@ -294,6 +310,7 @@ function B:PixelIcon(texture, highlight)
 	B.CreateBD(self)
 	B.CreateSD(self)
 	self.Icon = self:CreateTexture(nil, "ARTWORK")
+	self.Icon:ClearAllPoints()
 	self.Icon:SetPoint("TOPLEFT", C.mult, -C.mult)
 	self.Icon:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 	self.Icon:SetTexCoord(unpack(DB.TexCoord))
@@ -309,6 +326,7 @@ function B:PixelIcon(texture, highlight)
 		self:EnableMouse(true)
 		self.HL = self:CreateTexture(nil, "HIGHLIGHT")
 		self.HL:SetColorTexture(1, 1, 1, .25)
+		self.HL:ClearAllPoints()
 		self.HL:SetPoint("TOPLEFT", C.mult, -C.mult)
 		self.HL:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 	end
@@ -356,6 +374,7 @@ function B:CreateSB(spark, r, g, b)
 		self.Spark:SetTexture(DB.sparkTex)
 		self.Spark:SetBlendMode("ADD")
 		self.Spark:SetAlpha(.8)
+		self.Spark:ClearAllPoints()
 		self.Spark:SetPoint("TOPLEFT", self:GetStatusBarTexture(), "TOPRIGHT", -10, 10)
 		self.Spark:SetPoint("BOTTOMRIGHT", self:GetStatusBarTexture(), "BOTTOMRIGHT", 10, -10)
 	end
@@ -760,8 +779,10 @@ function B:CreateDropDown(width, height, data)
 	dd.options = {}
 
 	local bu = B.CreateGear(dd)
+	bu:ClearAllPoints()
 	bu:SetPoint("LEFT", dd, "RIGHT", -2, 0)
 	local list = CreateFrame("Frame", nil, dd)
+	list:ClearAllPoints()
 	list:SetPoint("TOP", dd, "BOTTOM", 0, -2)
 	B.CreateBD(list, 1)
 	B.CreateSD(list)
@@ -777,6 +798,7 @@ function B:CreateDropDown(width, height, data)
 	local opt, index = {}, 0
 	for i, j in pairs(data) do
 		opt[i] = CreateFrame("Button", nil, list)
+		opt[i]:ClearAllPoints()
 		opt[i]:SetPoint("TOPLEFT", 4, -4 - (i-1)*(height+2))
 		opt[i]:SetSize(width - 8, height)
 		B.CreateBD(opt[i], .25)
@@ -804,6 +826,7 @@ function B:CreateColorSwatch()
 	B.CreateBD(swatch, .25)
 	B.CreateSD(swatch)
 	local tex = swatch:CreateTexture()
+	tex:ClearAllPoints()
 	tex:SetPoint("TOPLEFT", C.mult, -C.mult)
 	tex:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 	tex:SetTexture(DB.bdTex)
@@ -826,14 +849,17 @@ end
 
 function B:CreateSlider(name, minValue, maxValue, x, y, width)
 	local slider = CreateFrame("Slider", nil, self, "OptionsSliderTemplate")
+	slider:ClearAllPoints()
 	slider:SetPoint("TOPLEFT", x, y)
 	slider:SetWidth(width or 200)
 	slider:SetMinMaxValues(minValue, maxValue)
 	slider:SetHitRectInsets(0, 0, 0, 0)
 
 	slider.Low:SetText(minValue)
+	slider.Low:ClearAllPoints()
 	slider.Low:SetPoint("TOPLEFT", slider, "BOTTOMLEFT", 10, -2)
 	slider.High:SetText(maxValue)
+	slider.High:ClearAllPoints()
 	slider.High:SetPoint("TOPRIGHT", slider, "BOTTOMRIGHT", -10, -2)
 	slider.Text:ClearAllPoints()
 	slider.Text:SetPoint("CENTER", 0, 25)
@@ -843,6 +869,7 @@ function B:CreateSlider(name, minValue, maxValue, x, y, width)
 	slider.Thumb:SetTexture(DB.sparkTex)
 	slider.Thumb:SetBlendMode("ADD")
 	local bg = B.CreateBG(slider)
+	bg:ClearAllPoints()
 	bg:SetPoint("TOPLEFT", 14, -2)
 	bg:SetPoint("BOTTOMRIGHT", -15, 3)
 	B.CreateBD(bg, .25)

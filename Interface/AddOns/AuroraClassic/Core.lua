@@ -97,6 +97,7 @@ function F:SetupArrowTex(direction)
 	local bgTex = self:CreateTexture(nil, "ARTWORK")
 	bgTex:SetTexture(mediaPath.."arrow-"..direction)
 	bgTex:SetSize(8, 8)
+	bgTex:ClearAllPoints()
 	bgTex:SetPoint("CENTER")
 	bgTex:SetVertexColor(1, 1, 1)
 	self.bgTex = bgTex
@@ -218,6 +219,7 @@ function F:CreateBDFrame(alpha, offset, noGradient)
 
 	local lvl = frame:GetFrameLevel()
 	local bg = CreateFrame("Frame", nil, frame)
+	bg:ClearAllPoints()
 	bg:SetPoint("TOPLEFT", self, -offset, offset)
 	bg:SetPoint("BOTTOMRIGHT", self, offset, -offset)
 	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
@@ -236,6 +238,7 @@ function F:CreateBG()
 	if self:GetObjectType() == "Texture" then frame = self:GetParent() end
 
 	local bg = frame:CreateTexture(nil, "BORDER")
+	bg:ClearAllPoints()
 	bg:SetPoint("TOPLEFT", self, -C.mult, C.mult)
 	bg:SetPoint("BOTTOMRIGHT", self, C.mult, -C.mult)
 	bg:SetTexture(C.media.bdTex)
@@ -248,16 +251,17 @@ function F:CreateGA(width, height, direction, r, g, b, a1, a2)
 	self:SetSize(width, height)
 	self:SetFrameStrata("BACKGROUND")
 
-	local gf = self:CreateTexture(nil, "BACKGROUND")
-	gf:SetAllPoints()
-	gf:SetTexture(C.media.normTex)
-	gf:SetGradientAlpha(direction, r, g, b, a1, r, g, b, a2)
+	local ga = self:CreateTexture(nil, "BACKGROUND")
+	ga:SetAllPoints()
+	ga:SetTexture(C.media.normTex)
+	ga:SetGradientAlpha(direction, r, g, b, a1, r, g, b, a2)
 end
 
 function F:CreateGF()
 	if self.Gradient then return end
 
 	local Gradient = self:CreateTexture(nil, "BORDER")
+	Gradient:ClearAllPoints()
 	Gradient:SetPoint("TOPLEFT", self, C.mult, -C.mult)
 	Gradient:SetPoint("BOTTOMRIGHT", self, -C.mult, C.mult)
 	Gradient:SetTexture(C.media.gradTex)
@@ -308,6 +312,7 @@ function F:CreateSD()
 
 	local lvl = self:GetFrameLevel()
 	local Shadow = CreateFrame("Frame", nil, self)
+	Shadow:ClearAllPoints()
 	Shadow:SetPoint("TOPLEFT", self, -Pmult, Pmult)
 	Shadow:SetPoint("BOTTOMRIGHT", self, Pmult, -Pmult)
 	Shadow:SetBackdrop({edgeFile = C.media.glowTex, edgeSize = Smult})
@@ -324,6 +329,7 @@ function F:SetBDFrame(x, y, x2, y2)
 	local bg = F.CreateBDFrame(self, nil, nil, true)
 
 	if x and y and x2 and y2 then
+		bg:ClearAllPoints()
 		bg:SetPoint("TOPLEFT", x, y)
 		bg:SetPoint("BOTTOMRIGHT", x2, y2)
 	end
@@ -371,6 +377,7 @@ function F:ReskinBorder(relativeTo, classColor)
 		self:SetColorTexture(cr, cg, cb)
 	end
 
+	self:ClearAllPoints()
 	self:SetPoint("TOPLEFT", relativeTo, -C.mult, C.mult)
 	self:SetPoint("BOTTOMRIGHT", relativeTo, C.mult, -C.mult)
 end
@@ -420,6 +427,7 @@ function F:ReskinClose(a1, p, a2, x, y)
 		local tex = self:CreateTexture()
 		tex:SetColorTexture(1, 1, 1)
 		tex:SetSize(11, 2)
+		tex:ClearAllPoints()
 		tex:SetPoint("CENTER")
 		tex:SetRotation(math.rad((i-1/2)*90))
 		tinsert(self.pixels, tex)
@@ -429,12 +437,14 @@ end
 function F:ReskinColourSwatch()
 	self:SetNormalTexture(C.media.bdTex)
 	local nt = self:GetNormalTexture()
+	nt:ClearAllPoints()
 	nt:SetPoint("TOPLEFT", 2, -2)
 	nt:SetPoint("BOTTOMRIGHT", -2, 2)
 
 	local frameName = self.GetName and self:GetName()
 	local bg = frameName and _G[frameName.."SwatchBg"]
 	bg:SetColorTexture(0, 0, 0)
+	bg:ClearAllPoints()
 	bg:SetPoint("TOPLEFT", nt, -C.mult, C.mult)
 	bg:SetPoint("BOTTOMRIGHT", nt, C.mult, -C.mult)
 end
@@ -450,6 +460,7 @@ function F:ReskinDecline()
 		local tex = self:CreateTexture()
 		tex:SetColorTexture(1, 1, 1)
 		tex:SetSize(w*.75, 2)
+		tex:ClearAllPoints()
 		tex:SetPoint("CENTER")
 		tex:SetRotation(math.rad((i-1/2)*90))
 		tinsert(self.pixels, tex)
@@ -471,6 +482,7 @@ function F:ReskinDropDown()
 	SetupDisTex(button)
 
 	local bg = F.CreateBDFrame(self, 0)
+	bg:ClearAllPoints()
 	bg:SetPoint("TOPLEFT", self, "TOPLEFT", 16, -4)
 	bg:SetPoint("BOTTOMRIGHT", button, "BOTTOMLEFT", -1, 0)
 
@@ -507,13 +519,14 @@ function F:ReskinExpandOrCollapse()
 	F.CleanTextures(self)
 
 	local bdTex = F.CreateBDFrame(self, 0)
-	bdTex:ClearAllPoints()
 	bdTex:SetSize(13, 13)
+	bdTex:ClearAllPoints()
 	bdTex:SetPoint("TOPLEFT", self:GetNormalTexture())
 	self.bdTex = bdTex
 
 	local expTex = bdTex:CreateTexture(nil, "OVERLAY")
 	expTex:SetSize(7, 7)
+	expTex:ClearAllPoints()
 	expTex:SetPoint("CENTER")
 	expTex:SetTexture("Interface\\Buttons\\UI-PlusMinus-Buttons")
 	self.expTex = expTex
@@ -529,10 +542,14 @@ function F:ReskinFilter()
 	F.ReskinButton(self)
 
 	self.Icon:SetTexture(C.media.arrowRight)
+	self.Icon:ClearAllPoints()
 	self.Icon:SetPoint("RIGHT", self, "RIGHT", -5, 0)
 	self.Icon:SetSize(8, 8)
 
-	if self.Text then self.Text:SetPoint("CENTER") end
+	if self.Text then
+		self.Text:ClearAllPoints()
+		self.Text:SetPoint("CENTER")
+	end
 end
 
 function F:ReskinFrame(killType)
@@ -596,6 +613,7 @@ function F:ReskinInput(height, width)
 	self:DisableDrawLayer("BACKGROUND")
 
 	local bg = F.CreateBDFrame(self, 0)
+	bg:ClearAllPoints()
 	bg:SetPoint("TOPLEFT", -2, 0)
 	bg:SetPoint("BOTTOMRIGHT")
 
@@ -621,6 +639,7 @@ function F:ReskinMinMax()
 			local tex = button:CreateTexture()
 			tex:SetColorTexture(1, 1, 1)
 			tex:SetSize(11, 2)
+			tex:ClearAllPoints()
 			tex:SetPoint("CENTER")
 			tex:SetRotation(math.rad(45))
 			tinsert(button.pixels, tex)
@@ -628,11 +647,13 @@ function F:ReskinMinMax()
 			local hline = button:CreateTexture()
 			hline:SetColorTexture(1, 1, 1)
 			hline:SetSize(7, 2)
+			hline:ClearAllPoints()
 			tinsert(button.pixels, hline)
 
 			local vline = button:CreateTexture()
 			vline:SetColorTexture(1, 1, 1)
 			vline:SetSize(2, 7)
+			vline:ClearAllPoints()
 			tinsert(button.pixels, vline)
 
 			if name == "MaximizeButton" then
@@ -696,6 +717,7 @@ function F:ReskinRadio()
 
 	self:SetCheckedTexture(C.media.bdTex)
 	local ch = self:GetCheckedTexture()
+	ch:ClearAllPoints()
 	ch:SetPoint("TOPLEFT", bdTex, C.mult, -C.mult)
 	ch:SetPoint("BOTTOMRIGHT", bdTex, -C.mult, C.mult)
 	ch:SetVertexColor(cr, cg, cb, .75)
@@ -787,6 +809,7 @@ function F:ReskinScroll()
 	bu:SetWidth(18)
 
 	local bg = F.CreateBDFrame(self, 0)
+	bg:ClearAllPoints()
 	bg:SetPoint("TOPLEFT", bu, 0, -3)
 	bg:SetPoint("BOTTOMRIGHT", bu, 0, 3)
 	bu.bg = bg
@@ -829,6 +852,7 @@ function F:ReskinSearchResult()
 	F.CleanTextures(results)
 
 	local bg = F.CreateBDFrame(results, nil, nil, true)
+	bg:ClearAllPoints()
 	bg:SetPoint("TOPLEFT", -10, 0)
 	bg:SetPoint("BOTTOMRIGHT")
 
@@ -849,6 +873,7 @@ function F:ReskinSearchResult()
 			bu.icon.SetTexCoord = F.Dummy
 
 			local bubg = F.CreateBDFrame(bu, 0)
+			bubg:ClearAllPoints()
 			bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 2)
 			bubg:SetPoint("BOTTOMRIGHT", -2, 3)
 			F.ReskinTexture(bu, bubg, true)
@@ -875,6 +900,7 @@ function F:ReskinSlider(verticle)
 	self.SetBackdrop = F.Dummy
 
 	local bg = F.CreateBDFrame(self, 0)
+	bg:ClearAllPoints()
 	bg:SetPoint("TOPLEFT", 14, -2)
 	bg:SetPoint("BOTTOMRIGHT", -15, 3)
 	bg:SetFrameStrata("BACKGROUND")
@@ -941,6 +967,7 @@ function F:ReskinTab()
 	F.CleanTextures(self)
 
 	local bg = F.CreateBDFrame(self, nil, nil, true)
+	bg:ClearAllPoints()
 	bg:SetPoint("TOPLEFT", 8, -3)
 	bg:SetPoint("BOTTOMRIGHT", -8, 0)
 	F.ReskinTexture(self, bg, true)
@@ -961,6 +988,7 @@ function F:ReskinTexed(relativeTo)
 		tex:SetTexture(C.media.checked)
 	end
 
+	tex:ClearAllPoints()
 	tex:SetPoint("TOPLEFT", relativeTo, C.mult, -C.mult)
 	tex:SetPoint("BOTTOMRIGHT", relativeTo, -C.mult, C.mult)
 end
@@ -986,6 +1014,7 @@ function F:ReskinTexture(relativeTo, classColor, alpha, offset)
 	offset = offset or C.mult
 
 	tex:SetColorTexture(r, g, b, alpha or .25)
+	tex:ClearAllPoints()
 	tex:SetPoint("TOPLEFT", relativeTo, offset, -offset)
 	tex:SetPoint("BOTTOMRIGHT", relativeTo, -offset, offset)
 end

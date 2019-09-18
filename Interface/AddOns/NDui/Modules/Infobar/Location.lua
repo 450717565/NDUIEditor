@@ -45,7 +45,7 @@ end
 
 local function FormatCoords()
 	if IsInInstance() then
-		local name, instanceType, difficultyID, difficultyName = GetInstanceInfo()
+		local _, instanceType, _, difficultyName = GetInstanceInfo()
 		if instanceType == "arena" then
 			coords = ARENA
 		elseif instanceType == "pvp" then

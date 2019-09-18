@@ -83,6 +83,7 @@ end
 function TT:InsertFactionFrame(faction)
 	if not self.factionFrame then
 		local f = self:CreateTexture(nil, "OVERLAY")
+		f:ClearAllPoints()
 		f:SetPoint("BOTTOMRIGHT", 10, 0)
 		f:SetBlendMode("ADD")
 		f:SetScale(.25)
@@ -101,6 +102,7 @@ local roleTex = {
 function TT:InsertRoleFrame(role)
 	if not self.roleFrame then
 		local f = self:CreateTexture(nil, "OVERLAY")
+		f:ClearAllPoints()
 		f:SetPoint("TOPRIGHT", self, "TOPLEFT", -2, -2)
 		f:SetSize(20, 20)
 		f:SetTexture("Interface\\LFGFrame\\UI-LFG-ICONS-ROLEBACKGROUNDS")

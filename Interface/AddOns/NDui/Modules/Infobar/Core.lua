@@ -3,9 +3,9 @@ local B, C, L, DB = unpack(ns)
 local module = B:RegisterModule("Infobar")
 local tinsert, pairs, unpack = table.insert, pairs, unpack
 
-function module:GetMoneyString(money, full)
+function module:GetMoneyString(money, formatted)
 	if money > 0 then
-		if full then
+		if formatted then
 			return format("%s%s", B.Numb(money / 1e4), GOLD_AMOUNT_SYMBOL)
 		else
 			local moneyString = ""
@@ -69,6 +69,8 @@ function module:LoadInfobar(info)
 end
 
 function module:OnLogin()
+	if NDuiADB["DisableInfobars"] then return end
+
 	if not self.modules then return end
 	for _, info in pairs(self.modules) do
 		self:LoadInfobar(info)
