@@ -161,13 +161,13 @@ end
 
 function module:CreateBagToggle()
 	local bu = B.CreateButton(self, 40, 20, BACKPACK_TOOLTIP)
-	bu:SetScript("OnClick", function(self)
+	bu:SetScript("OnClick", function()
 		ToggleFrame(self.BagBar)
 		if self.BagBar:IsShown() then
-			self.text:SetTextColor(0, 1, 1)
+			bu.text:SetTextColor(0, 1, 1)
 			PlaySound(SOUNDKIT.IG_BACKPACK_OPEN)
 		else
-			self.text:SetTextColor(cr, cg, cb)
+			bu.text:SetTextColor(cr, cg, cb)
 			PlaySound(SOUNDKIT.IG_BACKPACK_CLOSE)
 		end
 	end)
@@ -204,12 +204,12 @@ end
 local deleteEnable
 function module:CreateDeleteButton()
 	local bu = B.CreateButton(self, 40, 20, ACTION_UNIT_DESTROYED)
-	bu:SetScript("OnClick", function(self)
+	bu:SetScript("OnClick", function()
 		deleteEnable = not deleteEnable
 		if deleteEnable then
-			self.text:SetTextColor(0, 1, 1)
+			bu.text:SetTextColor(0, 1, 1)
 		else
-			self.text:SetTextColor(cr, cg, cb)
+			bu.text:SetTextColor(cr, cg, cb)
 		end
 		self:GetScript("OnEnter")(self)
 	end)
@@ -232,12 +232,12 @@ end
 local favouriteEnable
 function module:CreateFavouriteButton()
 	local bu = B.CreateButton(self, 40, 20, L["Favourite"])
-	bu:SetScript("OnClick", function(self)
+	bu:SetScript("OnClick", function()
 		favouriteEnable = not favouriteEnable
 		if favouriteEnable then
-			self.text:SetTextColor(0, 1, 1)
+			bu.text:SetTextColor(0, 1, 1)
 		else
-			self.text:SetTextColor(cr, cg, cb)
+			bu.text:SetTextColor(cr, cg, cb)
 		end
 		self:GetScript("OnEnter")(self)
 	end)
@@ -397,7 +397,7 @@ function module:OnLogin()
 		end
 
 		if showItemSlot then
-			self.BagsSlot = B.CreateFS(self, 12, "", false, "TOPLEFT", 1, -2)
+			self.Slot = B.CreateFS(self, 12, "", false, "TOPLEFT", 1, -2)
 		end
 
 		self.glowFrame = B.CreateBG(self, 4)
@@ -444,14 +444,14 @@ function module:OnLogin()
 			end
 			if showItemSlot then
 				local slot = B.GetItemSlot(item.link)
-				self.BagsSlot:SetText(slot)
+				self.Slot:SetText(slot)
 			end
 		else
 			if showItemLevel then
 				self.iLvl:SetText("")
 			end
 			if showItemSlot then
-				self.BagsSlot:SetText("")
+				self.Slot:SetText("")
 			end
 		end
 
