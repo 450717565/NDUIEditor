@@ -132,8 +132,21 @@ function M:ExpBar_UpdateTooltip()
 	if IsWatchingHonorAsXP() then
 		local current, barMax, level = UnitHonor("player"), UnitHonorMax("player"), UnitHonorLevel("player")
 		GameTooltip:AddLine(" ")
-		GameTooltip:AddLine(HONOR, .0,.6,1)
+		GameTooltip:AddLine(HONOR, 0,.6,1)
 		GameTooltip:AddDoubleLine(LEVEL.." "..level, current.." / "..barMax, .6,.8,1, 1,1,1)
+
+		local locked = not IsPlayerAtEffectiveMaxLevel()
+		local currentValue, maxValue, questID = PVPGetConquestLevelInfo()
+		local questDone = questID and questID == 0
+		if not locked then
+			GameTooltip:AddLine(" ")
+			GameTooltip:AddLine(PVP_CONQUEST, 0,.6,1)
+			if questDone then
+				GameTooltip:AddLine(CONQUEST_BAR_REWARD_DONE, .6,.8,1, 1)
+			else
+				GameTooltip:AddDoubleLine(ARENA_THIS_WEEK, B.Numb(currentValue).." / "..B.Numb(maxValue), .6,.8,1, 1,1,1)
+			end
+		end
 	end
 
 	if C_AzeriteItem.HasActiveAzeriteItem() then
@@ -239,24 +252,26 @@ function M:HookParagonRep()
 			local factionID = select(14, GetFactionInfo(factionIndex))
 			if factionID and C_Reputation.IsFactionParagon(factionID) then
 				local currentValue, threshold, _, hasRewardPending = C_Reputation.GetFactionParagonInfo(factionID)
-				local barValue = mod(currentValue, threshold)
-				local factionStandingtext = L["Paragon"]..floor(currentValue/threshold)
+				if currentValue then
+					local barValue = mod(currentValue, threshold)
+					local factionStandingtext = L["Paragon"]..floor(currentValue/threshold)
 
-				if hasRewardPending then
-					local paragonFrame = ReputationFrame.paragonFramesPool:Acquire()
-					paragonFrame.factionID = factionID
-					paragonFrame.Check:SetShown(true)
-					paragonFrame.Glow:SetShown(true)
-					paragonFrame:SetPoint("RIGHT", factionRow, 11, 0)
-					paragonFrame:Show()
+					if hasRewardPending then
+						local paragonFrame = ReputationFrame.paragonFramesPool:Acquire()
+						paragonFrame.factionID = factionID
+						paragonFrame.Check:SetShown(true)
+						paragonFrame.Glow:SetShown(true)
+						paragonFrame:SetPoint("RIGHT", factionRow, 11, 0)
+						paragonFrame:Show()
+					end
+
+					factionBar:SetMinMaxValues(0, threshold)
+					factionBar:SetStatusBarColor(0, .5, .9)
+					factionBar:SetValue(barValue)
+					factionRow.rolloverText = format(REPUTATION_PROGRESS_FORMAT, BreakUpLargeNumbers(barValue), BreakUpLargeNumbers(threshold))
+					factionRow.standingText = factionStandingtext
+					factionStanding:SetText(factionStandingtext)
 				end
-
-				factionBar:SetMinMaxValues(0, threshold)
-				factionBar:SetStatusBarColor(0, .5, .9)
-				factionBar:SetValue(barValue)
-				factionRow.rolloverText = format(REPUTATION_PROGRESS_FORMAT, BreakUpLargeNumbers(barValue), BreakUpLargeNumbers(threshold))
-				factionRow.standingText = factionStandingtext
-				factionStanding:SetText(factionStandingtext)
 			end
 		end
 	end

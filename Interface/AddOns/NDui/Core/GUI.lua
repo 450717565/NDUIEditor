@@ -45,6 +45,7 @@ local defaultSettings = {
 		ItemSetFilter = true,
 		DeleteButton = false,
 		FavouriteItems = {},
+		GatherEmpty = true,
 	},
 	Auras = {
 		Reminder = true,
@@ -554,6 +555,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Bags", "DeleteButton", L["Bags DeleteButton"]},
 		{1, "Extras", "FavouriteButton", L["Bags FavouriteButton"], true},
 		{1, "Bags", "ReverseSort", L["Bags ReverseSort"].."*", false, nil, updateBagSortOrder},
+		{1, "Bags", "GatherEmpty", DB.MyColor..L["Bags GatherEmpty"], true},
 		{},--blank
 		{3, "Bags", "BagsScale", L["Bags Scale"], false, {.5, 1.5, 1}},
 		{3, "Bags", "IconSize", L["Bags IconSize"], true, {30, 42, 0}},

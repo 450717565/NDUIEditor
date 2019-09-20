@@ -114,9 +114,9 @@ local function CreateSlot(id)
 
 	local name = B.CreateFS(border, 14)
 	name:SetJustifyH("LEFT")
+	name:SetNonSpaceWrap(true)
 	name:ClearAllPoints()
 	name:SetPoint("LEFT", border, "RIGHT", 5, 0)
-	name:SetNonSpaceWrap(true)
 	button.name = name
 
 	slots[id] = button
@@ -234,14 +234,8 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 	else
 		local slot = slots[1] or CreateSlot(1)
 
-		slot.border:Hide()
-		slot.count:Hide()
-		slot.glow:Hide()
-		slot.icon:Hide()
-		slot.name:Hide()
-
 		slot:Disable()
-		slot:Show()
+		slot:Hide()
 	end
 
 	local color = BAG_ITEM_QUALITY_COLORS[maxQuality or 1]
@@ -265,7 +259,7 @@ end
 LightLoot:RegisterEvent("LOOT_CLOSED")
 
 function LightLoot:LOOT_SLOT_CLEARED(event, slot)
-	if not self:IsShown() or not slot then return end
+	if not self:IsShown() or not slots[slot] then return end
 
 	slots[slot]:Hide()
 	self:AnchorSlots()
