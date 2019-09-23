@@ -10,11 +10,11 @@ local C_AzeriteEmpoweredItem_IsAzeriteEmpoweredItemByID = C_AzeriteEmpoweredItem
 
 -- Custom filter
 local CustomFilterList = {
-	[37863] = false,	-- 酒吧传送器
 	[40772] = false,	-- 侏儒军刀
 	[49040] = false,	-- 基维斯
 	[114943] = false,	-- 终极版侏儒军刀
 	[144341] = false,	-- 可充电的里弗斯电池
+	[37863] = false,	-- 酒吧传送器
 	[141333] = true,	-- 宁神圣典
 	[141446] = true,	-- 宁神书卷
 	[153646] = true,	-- 静心圣典
@@ -79,7 +79,7 @@ end
 
 local function isEmptySlot(item)
 	if not NDuiDB["Bags"]["GatherEmpty"] then return end
-	return not item.texture
+	return not item.texture and not module.SpecialBags[item.bagID]
 end
 
 function module:GetFilters()

@@ -10,7 +10,7 @@ C.themes["Blizzard_Calendar"] = function()
 
 	F.StripTextures(CalendarFrame)
 	F.SetBDFrame(CalendarFrame, 11, 0, -9, 3)
-	F.ReskinClose(CalendarCloseButton, "TOPRIGHT", CalendarFrame, "TOPRIGHT", -14, -4)
+	F.ReskinClose(CalendarCloseButton, "TOPRIGHT", CalendarFrame, "TOPRIGHT", -14, -6)
 	F.ReskinArrow(CalendarPrevMonthButton, "left")
 	F.ReskinArrow(CalendarNextMonthButton, "right")
 	F.ReskinCheck(CalendarCreateEventLockEventCheck)

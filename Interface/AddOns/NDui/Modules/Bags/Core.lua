@@ -3,8 +3,7 @@ local B, C, L, DB, F = unpack(ns)
 
 local module = B:RegisterModule("Bags")
 local cargBags = ns.cargBags
-local ipairs, strmatch, unpack, pairs = ipairs, string.match, unpack, pairs
-local ceil = math.ceil
+local ipairs, strmatch, unpack, pairs, ceil = ipairs, string.match, unpack, pairs, math.ceil
 local BAG_ITEM_QUALITY_COLORS = BAG_ITEM_QUALITY_COLORS
 local LE_ITEM_QUALITY_POOR, LE_ITEM_QUALITY_RARE, LE_ITEM_QUALITY_HEIRLOOM = LE_ITEM_QUALITY_POOR, LE_ITEM_QUALITY_RARE, LE_ITEM_QUALITY_HEIRLOOM
 local LE_ITEM_CLASS_WEAPON, LE_ITEM_CLASS_ARMOR, EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC = LE_ITEM_CLASS_WEAPON, LE_ITEM_CLASS_ARMOR, EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC
@@ -356,6 +355,7 @@ function module:OnLogin()
 	Backpack:HookScript("OnHide", function() PlaySound(SOUNDKIT.IG_BACKPACK_CLOSE) end)
 
 	local f = {}
+	module.SpecialBags = {}
 	local onlyBags, bagAzeriteItem, bagEquipment, bagConsumble, bagsJunk, onlyBank, bankAzeriteItem, bankLegendary, bankEquipment, bankConsumble, onlyReagent, bagMountPet, bankMountPet, bagFavourite, bankFavourite = self:GetFilters()
 
 	function Backpack:OnInit()
@@ -675,6 +675,9 @@ function module:OnLogin()
 		else
 			self.BG:SetBackdropBorderColor(0, 0, 0)
 		end
+
+		local bagFamily = select(2, GetContainerNumFreeSlots(self.bagID))
+		module.SpecialBags[self.bagID] = bagFamily ~= 0
 	end
 
 	-- Fixes

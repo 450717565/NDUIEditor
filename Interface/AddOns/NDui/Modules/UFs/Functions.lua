@@ -261,16 +261,16 @@ function UF:CreateIcons(self)
 		combat:SetAtlas(DB.objectTex)
 		self.CombatIndicator = combat
 
-		local rest = self:CreateTexture(nil, "OVERLAY")
-		rest:SetPoint("CENTER", self, "LEFT", -2, 4)
-		rest:SetSize(18, 18)
-		rest:SetTexture("Interface\\PLAYERFRAME\\DruidEclipse")
-		rest:SetTexCoord(.445, .55, .648, .905)
-		rest:SetVertexColor(.6, .8, 1)
-		self.RestingIndicator = rest
+		local resting = self:CreateTexture(nil, "OVERLAY")
+		resting:SetPoint("CENTER", self, "TOPLEFT")
+		resting:SetSize(18, 18)
+		resting:SetTexture("Interface\\PLAYERFRAME\\DruidEclipse")
+		resting:SetTexCoord(.445, .55, .648, .905)
+		resting:SetVertexColor(.6, .8, 1)
+		self.RestingIndicator = resting
 	elseif mystyle == "target" then
 		local quest = self:CreateTexture(nil, "OVERLAY")
-		quest:SetPoint("TOPLEFT", self, "TOPLEFT", 0, 8)
+		quest:SetPoint("TOPLEFT", self, 0, 8)
 		quest:SetSize(16, 16)
 		self.QuestIndicator = quest
 	end
@@ -280,41 +280,41 @@ function UF:CreateIcons(self)
 	phase:SetSize(22, 22)
 	self.PhaseIndicator = phase
 
-	local ri = self:CreateTexture(nil, "OVERLAY")
+	local groupRole = self:CreateTexture(nil, "OVERLAY")
 	if mystyle == "raid" then
-		ri:SetPoint("TOPRIGHT", self, 5, 5)
+		groupRole:SetPoint("TOPRIGHT", self, 5, 5)
 	else
-		ri:SetPoint("TOPRIGHT", self, 0, 8)
+		groupRole:SetPoint("TOPRIGHT", self, 0, 8)
 	end
-	ri:SetSize(12, 12)
-	ri:SetTexture("Interface\\LFGFrame\\LFGROLE")
-	ri.PostUpdate = postUpdateRole
-	self.GroupRoleIndicator = ri
+	groupRole:SetSize(12, 12)
+	groupRole:SetTexture("Interface\\LFGFrame\\LFGROLE")
+	groupRole.PostUpdate = postUpdateRole
+	self.GroupRoleIndicator = groupRole
 
-	local li = self:CreateTexture(nil, "OVERLAY")
-	li:SetPoint("TOPLEFT", self, 0, 8)
-	li:SetSize(12, 12)
-	self.LeaderIndicator = li
+	local leader = self:CreateTexture(nil, "OVERLAY")
+	leader:SetPoint("TOPLEFT", self, 0, 8)
+	leader:SetSize(12, 12)
+	self.LeaderIndicator = leader
 
-	local ai = self:CreateTexture(nil, "OVERLAY")
-	ai:SetPoint("TOPLEFT", self, 0, 8)
-	ai:SetSize(12, 12)
-	self.AssistantIndicator = ai
+	local assistant = self:CreateTexture(nil, "OVERLAY")
+	assistant:SetPoint("TOPLEFT", self, 0, 8)
+	assistant:SetSize(12, 12)
+	self.AssistantIndicator = assistant
 end
 
 function UF:CreateRaidMark(self)
-	local ri = self:CreateTexture(nil, "OVERLAY")
+	local raidTarget = self:CreateTexture(nil, "OVERLAY")
 	local mystyle = self.mystyle
 	if mystyle == "raid" then
-		ri:SetPoint("TOP", self, 0, 10)
+		raidTarget:SetPoint("TOP", self, 0, 10)
 	elseif mystyle == "nameplate" then
-		ri:SetPoint("RIGHT", self, "LEFT", -3, 3)
+		raidTarget:SetPoint("RIGHT", self, "LEFT", -3, 3)
 	else
-		ri:SetPoint("TOPRIGHT", self, "TOPRIGHT", -30, 10)
+		raidTarget:SetPoint("TOPRIGHT", self, -30, 10)
 	end
 	local size = retVal(self, 14, 13, 12, 12, 20)
-	ri:SetSize(size, size)
-	self.RaidTargetIndicator = ri
+	raidTarget:SetSize(size, size)
+	self.RaidTargetIndicator = raidTarget
 end
 
 local function createBarMover(bar, text, value, anchor)
