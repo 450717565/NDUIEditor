@@ -723,6 +723,10 @@ function B:CreateCheckBox()
 	return cb
 end
 
+local function editBoxClearFocus(self)
+	self:ClearFocus()
+end
+
 function B:CreateEditBox(width, height)
 	local eb = CreateFrame("EditBox", nil, self)
 	eb:SetSize(width, height)
@@ -731,12 +735,8 @@ function B:CreateEditBox(width, height)
 	eb:SetFont(DB.Font[1], DB.Font[2]+2, DB.Font[3])
 	B.CreateBD(eb, .25)
 	B.CreateSD(eb)
-	eb:SetScript("OnEscapePressed", function()
-		eb:ClearFocus()
-	end)
-	eb:SetScript("OnEnterPressed", function()
-		eb:ClearFocus()
-	end)
+	eb:SetScript("OnEscapePressed", editBoxClearFocus)
+	eb:SetScript("OnEnterPressed", editBoxClearFocus)
 
 	eb.Type = "EditBox"
 	return eb
@@ -768,6 +768,15 @@ local function optOnLeave(self)
 	self:SetBackdropColor(0, 0, 0)
 end
 
+local function buttonOnShow(self)
+	self.__list:Hide()
+end
+
+local function buttonOnClick(self)
+	PlaySound(SOUNDKIT.GS_TITLE_OPTION_OK)
+	ToggleFrame(self.__list)
+end
+
 function B:CreateDropDown(width, height, data)
 	local dd = CreateFrame("Frame", nil, self)
 	dd:SetSize(width, height)
@@ -788,11 +797,9 @@ function B:CreateDropDown(width, height, data)
 	B.CreateSD(list)
 	list:SetBackdropBorderColor(1, 1, 1, .5)
 	list:Hide()
-	bu:SetScript("OnShow", function() list:Hide() end)
-	bu:SetScript("OnClick", function()
-		PlaySound(SOUNDKIT.GS_TITLE_OPTION_OK)
-		ToggleFrame(list)
-	end)
+	bu.__list = list
+	bu:SetScript("OnShow", buttonOnShow)
+	bu:SetScript("OnClick", buttonOnClick)
 	dd.button = bu
 
 	local opt, index = {}, 0
@@ -820,17 +827,46 @@ function B:CreateDropDown(width, height, data)
 	return dd
 end
 
-function B:CreateColorSwatch()
+local function updatePicker()
+	local swatch = ColorPickerFrame.__swatch
+	local r, g, b = ColorPickerFrame:GetColorRGB()
+	swatch.tex:SetVertexColor(r, g, b)
+	swatch.color.r, swatch.color.g, swatch.color.b = r, g, b
+end
+
+local function cancelPicker()
+	local swatch = ColorPickerFrame.__swatch
+	local r, g, b = ColorPicker_GetPreviousValues()
+	swatch.tex:SetVertexColor(r, g, b)
+	swatch.color.r, swatch.color.g, swatch.color.b = r, g, b
+end
+
+local function openColorPicker(self)
+	local r, g, b = self.color.r, self.color.g, self.color.b
+	ColorPickerFrame.__swatch = self
+	ColorPickerFrame.func = updatePicker
+	ColorPickerFrame.previousValues = {r = r, g = g, b = b}
+	ColorPickerFrame.cancelFunc = cancelPicker
+	ColorPickerFrame:SetColorRGB(r, g, b)
+	ColorPickerFrame:Show()
+end
+
+function B:CreateColorSwatch(name, color)
 	local swatch = CreateFrame("Button", nil, self)
 	swatch:SetSize(18, 18)
 	B.CreateBD(swatch, .25)
 	B.CreateSD(swatch)
+	swatch.text = B.CreateFS(swatch, 14, name, false, "LEFT", 26, 0)
 	local tex = swatch:CreateTexture()
 	tex:ClearAllPoints()
 	tex:SetPoint("TOPLEFT", C.mult, -C.mult)
 	tex:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 	tex:SetTexture(DB.bdTex)
+	tex:SetVertexColor(color.r, color.g, color.b)
+
 	swatch.tex = tex
+	swatch.color = color
+	swatch:SetScript("OnClick", openColorPicker)
 
 	return swatch
 end
@@ -875,6 +911,7 @@ function B:CreateSlider(name, minValue, maxValue, x, y, width)
 	B.CreateBD(bg, .25)
 	B.CreateSD(bg)
 	slider.value = B.CreateEditBox(slider, 50, 20)
+	slider.value:ClearAllPoints()
 	slider.value:SetPoint("TOP", slider, "BOTTOM")
 	slider.value:SetJustifyH("CENTER")
 	slider.value.__owner = slider

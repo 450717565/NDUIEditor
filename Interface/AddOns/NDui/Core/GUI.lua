@@ -124,6 +124,15 @@ local defaultSettings = {
 		BossWidth = 150,
 		BossHeight = 22,
 		BossPowerHeight = 3,
+
+		CastingColor = {r=.3, g=.7, b=1},
+		NotInterruptColor = {r=1, g=.5, b=.5},
+		PlayerCBWidth = 280,
+		PlayerCBHeight = 20,
+		TargetCBWidth = 300,
+		TargetCBHeight = 20,
+		FocusCBWidth = 320,
+		FocusCBHeight = 20,
 	},
 	Chat = {
 		Sticky = true,
@@ -380,6 +389,10 @@ local function setupUnitFrame()
 	G:SetupUnitFrame(guiPage[3])
 end
 
+local function setupCastbar()
+	G:SetupCastbar(guiPage[3])
+end
+
 local function setupAuraWatch()
 	f:Hide()
 	SlashCmdList["NDUI_AWCONFIG"]()
@@ -565,7 +578,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 	[3] = {
 		{1, "UFs", "Enable", DB.MyColor..L["Enable UFs"], false, setupUnitFrame},
 		{},--blank
-		{1, "UFs", "Castbars", DB.MyColor..L["UFs Castbar"]},
+		{1, "UFs", "Castbars", DB.MyColor..L["UFs Castbar"], false, setupCastbar},
 		{1, "UFs", "SwingBar", L["UFs SwingBar"]},
 		{1, "UFs", "SwingTimer", L["UFs SwingTimer"], true},
 		{1, "UFs", "LagString", L["Castbar LagString"]},
@@ -985,7 +998,7 @@ local function CreateOption(i)
 			B.CreateFS(dd, 14, name, "system", "CENTER", 0, 25)
 		-- Colorswatch
 		elseif optType == 5 then
-			local f = B.CreateColorSwatch(parent)
+			local f = B.CreateColorSwatch(parent, name, NDUI_VARIABLE(key, value))
 			local width = 25 + (horizon or 0)*155
 			if horizon then
 				f:SetPoint("TOPLEFT", width, -offset + 30)
@@ -993,30 +1006,6 @@ local function CreateOption(i)
 				f:SetPoint("TOPLEFT", width, -offset - 5)
 				offset = offset + 35
 			end
-			B.CreateFS(f, 14, name, false, "LEFT", 26, 0)
-			f.tex:SetVertexColor(NDUI_VARIABLE(key, value).r, NDUI_VARIABLE(key, value).g, NDUI_VARIABLE(key, value).b)
-
-			local function onUpdate()
-				local r, g, b = ColorPickerFrame:GetColorRGB()
-				f.tex:SetVertexColor(r, g, b)
-				NDUI_VARIABLE(key, value).r, NDUI_VARIABLE(key, value).g, NDUI_VARIABLE(key, value).b = r, g, b
-				if callback then callback() end
-			end
-
-			local function onCancel()
-				local r, g, b = ColorPicker_GetPreviousValues()
-				f.tex:SetVertexColor(r, g, b)
-				NDUI_VARIABLE(key, value).r, NDUI_VARIABLE(key, value).g, NDUI_VARIABLE(key, value).b = r, g, b
-			end
-
-			f:SetScript("OnClick", function()
-				local r, g, b = NDUI_VARIABLE(key, value).r, NDUI_VARIABLE(key, value).g, NDUI_VARIABLE(key, value).b
-				ColorPickerFrame.func = onUpdate
-				ColorPickerFrame.previousValues = {r = r, g = g, b = b}
-				ColorPickerFrame.cancelFunc = onCancel
-				ColorPickerFrame:SetColorRGB(r, g, b)
-				ColorPickerFrame:Show()
-			end)
 		-- Blank, no optType
 		else
 			local alpha = NDuiDB["Extras"]["SkinAlpha"]

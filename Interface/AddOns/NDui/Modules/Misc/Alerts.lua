@@ -266,6 +266,7 @@ function M:VersionCheck_Create(text)
 	local frame = CreateFrame("Frame", nil, nil, "MicroButtonAlertTemplate")
 	frame:SetPoint("BOTTOMLEFT", ChatFrame1, "TOPLEFT", 20, 70)
 	frame.Text:SetText(text)
+	frame:Show()
 end
 
 local hasChecked
@@ -397,7 +398,6 @@ local itemList = {
 	[67826] = true,		-- 基维斯
 	[199109] = true,	-- 自动铁锤
 	[190336] = true,	-- 造餐术
-
 	[226241] = true,	-- 宁神圣典
 	[256230] = true,	-- 静心圣典
 	[185709] = true,	-- 焦糖鱼宴

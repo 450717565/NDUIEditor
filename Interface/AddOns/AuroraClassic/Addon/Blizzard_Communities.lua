@@ -3,6 +3,15 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_Communities"] = function()
 	local cr, cg, cb = C.r, C.g, C.b
 
+	local function reskinCommunityTab(self)
+		self:SetSize(34, 34)
+		self:GetRegions():Hide()
+
+		local bg = F.ReskinIcon(self.Icon)
+		F.ReskinTexture(self, bg)
+		F.ReskinTexed(self, bg)
+	end
+
 	CommunitiesFrame.PortraitOverlay:SetAlpha(0)
 	F.ReskinFrame(CommunitiesFrame)
 
@@ -35,27 +44,33 @@ C.themes["Blizzard_Communities"] = function()
 
 	for _, name in pairs({"GuildFinderFrame", "InvitationFrame", "TicketFrame"}) do
 		local frame = CommunitiesFrame[name]
-		F.StripTextures(frame.InsetFrame)
-		F.CreateBDFrame(frame, 0)
+		if frame then
+			F.StripTextures(frame.InsetFrame)
+			F.CreateBDFrame(frame, 0)
 
-		if frame.FindAGuildButton then F.ReskinButton(frame.FindAGuildButton) end
-		if frame.AcceptButton then F.ReskinButton(frame.AcceptButton) end
-		if frame.DeclineButton then F.ReskinButton(frame.DeclineButton) end
+			if frame.FindAGuildButton then F.ReskinButton(frame.FindAGuildButton) end
+			if frame.AcceptButton then F.ReskinButton(frame.AcceptButton) end
+			if frame.DeclineButton then F.ReskinButton(frame.DeclineButton) end
+			if frame.ClubFinderSearchTab then reskinCommunityTab(frame.ClubFinderSearchTab) end
+			if frame.ClubFinderPendingTab then reskinCommunityTab(frame.ClubFinderPendingTab) end
 
-		local optionsList = frame.OptionsList
-		if optionsList then
-			F.ReskinDropDown(optionsList.ClubFocusDropdown)
-			optionsList.ClubFocusDropdown.GuildFocusDropdownLabel:SetWidth(150)
-			F.ReskinDropDown(optionsList.ClubSizeDropdown)
-			F.ReskinRole(optionsList.TankRoleFrame, "TANK")
-			F.ReskinRole(optionsList.HealerRoleFrame, "HEALER")
-			F.ReskinRole(optionsList.DpsRoleFrame, "DPS")
-			F.ReskinInput(optionsList.SearchBox)
-			optionsList.SearchBox:SetSize(118, 22)
-			F.ReskinButton(optionsList.Search)
-			optionsList.Search:ClearAllPoints()
-			optionsList.Search:SetPoint("TOPRIGHT", optionsList.SearchBox, "BOTTOMRIGHT", 0, -2)
-			F.ReskinButton(frame.PendingClubs)
+			local optionsList = frame.OptionsList
+			if optionsList then
+				optionsList.ClubFocusDropdown.GuildFocusDropdownLabel:SetWidth(150)
+				optionsList.SearchBox:SetSize(118, 22)
+				optionsList.Search:ClearAllPoints()
+				optionsList.Search:SetPoint("TOPRIGHT", optionsList.SearchBox, "BOTTOMRIGHT", 0, -2)
+
+				F.ReskinDropDown(optionsList.ClubFocusDropdown)
+				F.ReskinDropDown(optionsList.ClubSizeDropdown)
+				F.ReskinDropDown(optionsList.SortByDropdown)
+				F.ReskinRole(optionsList.TankRoleFrame, "TANK")
+				F.ReskinRole(optionsList.HealerRoleFrame, "HEALER")
+				F.ReskinRole(optionsList.DpsRoleFrame, "DPS")
+				F.ReskinInput(optionsList.SearchBox)
+				F.ReskinButton(optionsList.Search)
+				F.ReskinButton(frame.PendingClubs)
+			end
 		end
 	end
 
@@ -63,12 +78,7 @@ C.themes["Blizzard_Communities"] = function()
 	CommunitiesFrame.ChatTab:SetPoint("TOPLEFT", CommunitiesFrame, "TOPRIGHT", 2, -25)
 	for _, name in pairs({"ChatTab", "RosterTab", "GuildBenefitsTab", "GuildInfoTab"}) do
 		local tab = CommunitiesFrame[name]
-		tab:SetSize(34, 34)
-		tab:GetRegions():Hide()
-
-		local bg = F.ReskinIcon(tab.Icon)
-		F.ReskinTexture(tab, bg)
-		F.ReskinTexed(tab, bg)
+		reskinCommunityTab(tab)
 	end
 
 	F.StripTextures(CommunitiesFrameCommunitiesList)
