@@ -9,7 +9,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	end
 
 	--ScrollFrame
-	F.StripTextures(QuestScrollFrame.DetailFrame)
+	F.StripTextures(QuestScrollFrame.DetailFrame, true)
 	F.ReskinScroll(QuestScrollFrame.ScrollBar)
 
 	local Contents = QuestScrollFrame.Contents
@@ -131,6 +131,22 @@ tinsert(C.themes["AuroraClassic"], function()
 		if button2 then
 			button2:SetWidth(100)
 			F.ReskinButton(button2)
+		end
+	end
+
+	-- Sync button
+	local QuestSessionManagement = QuestMapFrame.QuestSessionManagement
+	QuestSessionManagement.BG:Hide()
+	F.CreateBDFrame(QuestSessionManagement, 0)
+
+	local names = {"StartDialog", "CheckStartDialog", "CheckStopDialog", "CheckLeavePartyDialog"}
+	for _, name in pairs(names) do
+		local dialog = QuestSessionManager[name]
+		F.ReskinFrame(dialog)
+		F.ReskinButton(dialog.ButtonContainer.Confirm)
+		F.ReskinButton(dialog.ButtonContainer.Decline)
+		if dialog.MinimizeButton then
+			F.ReskinArrow(dialog.MinimizeButton, "bottom")
 		end
 	end
 end)

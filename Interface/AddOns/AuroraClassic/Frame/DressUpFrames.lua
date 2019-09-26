@@ -33,8 +33,8 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinFrame(SideDressUpFrame)
 	F.ReskinButton(SideDressUpFrame.ResetButton)
 
-	hooksecurefunc("SetUpSideDressUpFrame", function(parentFrame, closedWidth, openWidth, point, relativePoint, offsetX, offsetY)
-		local self = SideDressUpFrame
-		self:SetPoint(point, parentFrame, relativePoint, offsetX+5, offsetY)
+	SideDressUpFrame:HookScript("OnShow", function(self)
+		SideDressUpFrame:ClearAllPoints()
+		SideDressUpFrame:SetPoint("LEFT", self:GetParent(), "RIGHT", 3, 0)
 	end)
 end)

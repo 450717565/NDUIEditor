@@ -16,7 +16,7 @@ local function ReskinDetails()
 		self:ToolbarMenuButtonsSize(1)
 		self:AttributeMenu(true, 0, 3, DB.Font[1], 13, {1, 1, 1}, 1, true)
 		self:SetBarSettings(18, NDuiADB["ResetDetails"] and "NDui" or nil)
-		self:SetBarTextSettings(13, DB.Font[1], nil, nil, nil, true, true, nil, nil, nil, nil, nil, nil, false, nil, false, nil)
+		self:SetBarTextSettings(14, DB.Font[1], nil, nil, nil, true, true, nil, nil, nil, nil, nil, nil, false, nil, false, nil)
 
 		local bg = B.CreateBGFrame(self.baseframe, "tex")
 		bg:SetPoint("TOPLEFT", -1, 18)

@@ -114,7 +114,7 @@ function M.GuildBest_OnLoad(event, addon)
 end
 
 -- Keystone Info
-local myFaction = UnitFactionGroup("player")
+local myFaction = DB.MyFaction
 local myFullName = DB.MyName.."-"..DB.MyRealm
 
 function M:KeystoneInfo_Create()

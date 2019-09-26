@@ -28,7 +28,7 @@ C.themes["Blizzard_Communities"] = function()
 
 	local AddToChatButton = CommunitiesFrame.AddToChatButton
 	AddToChatButton:ClearAllPoints()
-	AddToChatButton:SetPoint("TOPRIGHT", CommunitiesFrame.ChatEditBox, "BOTTOMRIGHT", 0, -2)
+	AddToChatButton:SetPoint("RIGHT", CommunitiesFrame.CommunitiesControlFrame.CommunitiesSettingsButton, "LEFT", -2, 0)
 	F.ReskinArrow(AddToChatButton, "down")
 
 	local GuildMemberDetailFrame = CommunitiesFrame.GuildMemberDetailFrame
@@ -57,7 +57,6 @@ C.themes["Blizzard_Communities"] = function()
 
 			local optionsList = frame.OptionsList
 			if optionsList then
-				optionsList.ClubFocusDropdown.GuildFocusDropdownLabel:SetWidth(150)
 				optionsList.SearchBox:SetSize(118, 22)
 				optionsList.Search:ClearAllPoints()
 				optionsList.Search:SetPoint("TOPRIGHT", optionsList.SearchBox, "BOTTOMRIGHT", 0, -2)
@@ -70,7 +69,6 @@ C.themes["Blizzard_Communities"] = function()
 				F.ReskinRole(optionsList.DpsRoleFrame, "DPS")
 				F.ReskinInput(optionsList.SearchBox)
 				F.ReskinButton(optionsList.Search)
-				F.ReskinButton(frame.PendingClubs)
 			end
 		end
 	end
