@@ -1,7 +1,7 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	F.ReskinScroll(QuickJoinScrollFrameScrollBar)
+	F.ReskinScroll(QuickJoinScrollFrame.scrollBar)
 
 	F.ReskinRole(QuickJoinRoleSelectionFrame.RoleButtonTank, "TANK")
 	F.ReskinRole(QuickJoinRoleSelectionFrame.RoleButtonHealer, "HEALER")

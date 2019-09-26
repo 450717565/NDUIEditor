@@ -170,15 +170,4 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.ReskinTexture(bu, icbg)
 		F.ReskinTexed(bu, icbg)
 	end
-
-	-- Item alert
-	local closeButton = PaperDollItemsFrame.HelpTipBox.CloseButton
-	F.ReskinClose(closeButton)
-	hooksecurefunc(closeButton, "SetPoint", function(self, _, _, _, x)
-		if x == 6 then
-			self:SetPoint("TOPRIGHT", -3, -3)
-		elseif x == 4 then
-			self:SetPoint("TOPRIGHT", -5, -3)
-		end
-	end)
 end)

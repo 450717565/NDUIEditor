@@ -151,6 +151,10 @@ C.themes["Blizzard_Collections"] = function()
 	hooksecurefunc("PetJournal_UpdatePetList", updatePetScroll)
 	hooksecurefunc(PetJournalListScrollFrame, "update", updatePetScroll)
 
+	local TogglePlayer = MountJournal.MountDisplay.ModelScene.TogglePlayer
+	F.ReskinCheck(TogglePlayer)
+	TogglePlayer:SetSize(28, 28)
+
 	local BottomLeftInset = MountJournal.BottomLeftInset
 	F.StripTextures(BottomLeftInset)
 	local bg = F.CreateBDFrame(BottomLeftInset, 0)

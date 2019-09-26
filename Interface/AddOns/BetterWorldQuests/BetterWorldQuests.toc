@@ -1,4 +1,4 @@
-## Interface: 80200
+## Interface: 80205
 ## Author: p3lim
 ## Version: 80100.3-Release
 ## Title: Better World Quests

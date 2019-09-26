@@ -108,9 +108,8 @@ function addon:CreateButton(parent, scale)
 	-- Aurora Reskin
 	if IsAddOnLoaded("AuroraClassic") then
 		local F, C = unpack(AuroraClassic)
-		local cr, cg, cb = C.r, C.g, C.b
 
-		button:SetScale(.5)
+		button:SetScale(.6)
 		F.StripTextures(button)
 
 		local bubg = F.CreateBDFrame(button)
@@ -139,7 +138,7 @@ function addon:CreateNumberFontstring(parentButton)
 
 	-- Aurora Reskin
 	if IsAddOnLoaded("AuroraClassic") then
-		number:SetPoint("CENTER", 2, 0)
+		number:SetPoint("CENTER", 2, -1)
 		number:SetFont(STANDARD_TEXT_FONT, 30, "OUTLINE")
 	else
 		number:SetPoint("TOPLEFT", -4, 4)

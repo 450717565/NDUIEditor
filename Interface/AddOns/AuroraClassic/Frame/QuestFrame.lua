@@ -55,38 +55,4 @@ tinsert(C.themes["AuroraClassic"], function()
 	hooksecurefunc("QuestFrame_SetTextColor", function(fontString)
 		fontString:SetTextColor(1, 1, 1)
 	end)
-
-	-- QuestNPCModel
-	F.StripTextures(QuestNPCModel)
-	F.StripTextures(QuestNPCModelNameTooltipFrame)
-	F.StripTextures(QuestNPCModelTextFrame)
-	F.ReskinScroll(QuestNPCModelTextScrollFrameScrollBar)
-
-	hooksecurefunc("QuestFrame_ShowQuestPortrait", function(parentFrame, _, _, _, _, x, y)
-		if parentFrame == WorldMapFrame then
-			x = 2
-		else
-			x = 3
-		end
-
-		QuestNPCModel:ClearAllPoints()
-		QuestNPCModel:SetPoint("TOPLEFT", parentFrame, "TOPRIGHT", x, -25)
-	end)
-
-	QuestNPCModelNameTooltipFrame:SetSize(198, 20)
-	QuestNPCModelNameTooltipFrame:ClearAllPoints()
-	QuestNPCModelNameTooltipFrame:SetPoint("TOP", QuestNPCModel, "BOTTOM", 0, -4)
-	QuestNPCModelNameText:ClearAllPoints()
-	QuestNPCModelNameText:SetPoint("CENTER", QuestNPCModelNameTooltipFrame, 0, 0)
-	QuestNPCModelTextFrame:ClearAllPoints()
-	QuestNPCModelTextFrame:SetPoint("TOP", QuestNPCModelNameTooltipFrame, "BOTTOM", 0, -4)
-
-	local boss = F.CreateBDFrame(QuestNPCModel)
-	boss:SetFrameLevel(0)
-
-	local name = F.CreateBDFrame(QuestNPCModelNameTooltipFrame)
-	name:SetFrameLevel(0)
-
-	local text = F.CreateBDFrame(QuestNPCModelTextFrame)
-	text:SetFrameLevel(0)
 end)

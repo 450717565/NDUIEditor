@@ -24,6 +24,7 @@ C.themes["Blizzard_Communities"] = function()
 	F.ReskinMinMax(CommunitiesFrame.MaximizeMinimizeFrame)
 	F.ReskinDropDown(CommunitiesFrame.CommunitiesListDropDownMenu)
 	F.ReskinScroll(CommunitiesFrameCommunitiesListListScrollFrame.ScrollBar)
+	F.ReskinScroll(ClubFinderCommunityAndGuildFinderFrame.CommunityCards.ListScrollFrame.scrollBar)
 
 	local AddToChatButton = CommunitiesFrame.AddToChatButton
 	AddToChatButton:ClearAllPoints()

@@ -2,8 +2,9 @@ local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinFrame(FriendsFrame)
-	F.SetupTabStyle(FriendsFrame, 3)
+	F.SetupTabStyle(FriendsFrame, 4)
 	F.ReskinFrame(AddFriendFrame)
+	F.ReskinInput(AddFriendNameEditBox)
 
 	local lists = {IgnoreListFrame, WhoFrameListInset, WhoFrameEditBoxInset}
 	for _, list in pairs(lists) do
@@ -15,7 +16,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.ReskinDropDown(dropdown)
 	end
 
-	local scrolls = {FriendsFrameFriendsScrollFrameScrollBar, FriendsFrameIgnoreScrollFrameScrollBar, FriendsFriendsScrollFrameScrollBar, WhoListScrollFrameScrollBar}
+	local scrolls = {FriendsListFrameScrollFrame.scrollBar, IgnoreListFrameScrollFrame.scrollBar, FriendsFriendsScrollFrame.scrollBar, WhoListScrollFrame.scrollBar}
 	for _, scroll in pairs(scrolls) do
 		F.ReskinScroll(scroll)
 	end
@@ -23,11 +24,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	local buttons = {AddFriendEntryFrameAcceptButton, AddFriendEntryFrameCancelButton, AddFriendInfoFrameContinueButton, FriendsFrameAddFriendButton, FriendsFrameIgnorePlayerButton, FriendsFrameSendMessageButton, FriendsFrameUnsquelchButton, FriendsFriendsCloseButton, FriendsFriendsSendRequestButton, FriendsListFrameContinueButton, WhoFrameAddFriendButton, WhoFrameGroupInviteButton, WhoFrameWhoButton}
 	for _, button in pairs(buttons) do
 		F.ReskinButton(button)
-	end
-
-	local inputs = {AddFriendNameEditBox, FriendsFrameBroadcastInput}
-	for _, input in pairs(inputs) do
-		F.ReskinInput(input)
 	end
 
 	-- FriendsFrame
@@ -75,11 +71,10 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	hooksecurefunc("FriendsFrame_CheckBattlenetStatus", function()
 		if BNFeaturesEnabled() then
-			BattlenetFrame.BroadcastButton:Hide()
+			local frame = FriendsFrameBattlenetFrame
+			frame.BroadcastButton:Hide()
 			if BNConnected() then
-				BattlenetFrame:Hide()
-				FriendsFrameBroadcastInput:Show()
-				FriendsFrameBroadcastInput_UpdateDisplay()
+				frame:Hide()
 			end
 		end
 	end)
@@ -93,7 +88,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	end)
 
 	for i = 1, FRIENDS_TO_DISPLAY do
-		local bu = _G["FriendsFrameFriendsScrollFrameButton"..i]
+		local bu = _G["FriendsListFrameScrollFrameButton"..i]
 		bu.background:Hide()
 
 		local tp = bu.travelPassButton
@@ -116,7 +111,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	local function UpdateScroll()
 		for i = 1, FRIENDS_TO_DISPLAY do
-			local bu = _G["FriendsFrameFriendsScrollFrameButton"..i]
+			local bu = _G["FriendsListFrameScrollFrameButton"..i]
 
 			local isEnabled = bu.travelPassButton:IsEnabled()
 			if isEnabled then
@@ -127,7 +122,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 	end
 	hooksecurefunc("FriendsFrame_UpdateFriends", UpdateScroll)
-	hooksecurefunc(FriendsFrameFriendsScrollFrame, "update", UpdateScroll)
+	hooksecurefunc(FriendsListFrameScrollFrame, "update", UpdateScroll)
 
 	local icPatch = "Interface\\FriendsFrame\\"
 
@@ -139,7 +134,7 @@ tinsert(C.themes["AuroraClassic"], function()
 				F.ReskinButton(invite.AcceptButton)
 				invite.DeclineButton:SetSize(22, 22)
 
-				local Children = FriendsFrameFriendsScrollFrameScrollChild:GetChildren()
+				local Children = FriendsListFrameScrollFrameScrollChild:GetChildren()
 				F.StripTextures(Children)
 				F.CleanTextures(Children)
 
@@ -151,10 +146,10 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 	end
 
-	hooksecurefunc(FriendsFrameFriendsScrollFrame.invitePool, "Acquire", reskinInvites)
+	hooksecurefunc(FriendsListFrameScrollFrame.invitePool, "Acquire", reskinInvites)
 	hooksecurefunc("FriendsFrame_UpdateFriendButton", function(button)
 		if button.buttonType == FRIENDS_BUTTON_TYPE_INVITE then
-			reskinInvites(FriendsFrameFriendsScrollFrame.invitePool)
+			reskinInvites(FriendsListFrameScrollFrame.invitePool)
 		elseif button.buttonType == FRIENDS_BUTTON_TYPE_BNET and BNConnected() then
 			local toonID = select(6, BNGetFriendInfo(button.id))
 			local isOnline = select(8, BNGetFriendInfo(button.id))

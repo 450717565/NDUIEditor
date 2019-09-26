@@ -54,7 +54,6 @@
 	<Script file="ReputationFrame.lua"/>
 	<Script file="RolePoll.lua"/>
 	<Script file="ScenarioFinder.lua"/>
-	<Script file="ScrollOfResurrection.lua"/>
 	<Script file="SharedBasicControls.lua"/>
 	<Script file="SharedUIPanelTemplates.lua"/>
 	<Script file="SpellBookFrame.lua"/>

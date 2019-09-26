@@ -1,4 +1,4 @@
-## Interface: 80200
+## Interface: 80205
 ## Title: War Plan
 ## Notes: Interface replacement for War Campaign missions.
 ## Author: foxlit

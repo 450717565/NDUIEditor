@@ -1,4 +1,4 @@
-## Interface: 80200
+## Interface: 80205
 ## Title: Skada 扩展组件
 ## Notes: 为 Skada 增加额外的功能。
 ## Version: 2.0

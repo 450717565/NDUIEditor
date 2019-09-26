@@ -30,7 +30,11 @@ tinsert(C.themes["AuroraClassic"], function()
 	ResetButton:SetPoint("RIGHT", CancelButton, "LEFT", -2, 0)
 
 	-- SideDressUp
-	F.StripTextures(SideDressUpFrame, true)
-	F.ReskinFrame(SideDressUpModel)
-	F.ReskinButton(SideDressUpModelResetButton)
+	F.ReskinFrame(SideDressUpFrame)
+	F.ReskinButton(SideDressUpFrame.ResetButton)
+
+	hooksecurefunc("SetUpSideDressUpFrame", function(parentFrame, closedWidth, openWidth, point, relativePoint, offsetX, offsetY)
+		local self = SideDressUpFrame
+		self:SetPoint(point, parentFrame, relativePoint, offsetX+5, offsetY)
+	end)
 end)

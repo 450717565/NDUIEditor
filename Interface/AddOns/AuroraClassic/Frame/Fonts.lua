@@ -158,7 +158,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	-- WhoFrame LevelText
 	hooksecurefunc("WhoList_Update", function()
 		for i = 1, WHOS_TO_DISPLAY, 1 do
-			local level = _G["WhoFrameButton"..i.."Level"]
+			local level = _G["WhoListScrollFrameButton"..i]["Level"]
 			if level and not level.fontStyled then
 				level:SetWidth(32)
 				level:SetJustifyH("CENTER")

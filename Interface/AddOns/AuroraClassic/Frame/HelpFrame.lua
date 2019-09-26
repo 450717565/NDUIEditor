@@ -10,7 +10,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.CreateBDFrame(HelpBrowser, 0, nil, true)
 
 	F.ReskinFrame(BrowserSettingsTooltip)
-	F.ReskinButton(BrowserSettingsTooltip.CacheButton)
 	F.ReskinButton(BrowserSettingsTooltip.CookiesButton)
 
 	F.ReskinFrame(ReportCheatingDialog)

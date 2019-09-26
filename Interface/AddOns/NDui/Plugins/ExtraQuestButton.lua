@@ -275,7 +275,7 @@ ExtraQuestButton:SetScript("OnEnter", function(self)
 end)
 
 ExtraQuestButton:SetScript("OnUpdate", function(self, elapsed)
-	if (not self:IsEnabled()) then
+	if not self:IsEnabled() or not self.rangeTimer then
 		return
 	end
 
