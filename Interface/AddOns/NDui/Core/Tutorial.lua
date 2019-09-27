@@ -2,7 +2,7 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local module = B:RegisterModule("Settings")
 local pairs, tonumber, wipe = pairs, tonumber, table.wipe
-local min, max, floor = math.min, math.max, floor
+local min, max = math.min, math.max
 local cr, cg, cb = DB.r, DB.g, DB.b
 local alpha
 
@@ -59,15 +59,11 @@ local function ForceRaidFrame()
 	CompactUnitFrameProfiles_UpdateCurrentPanel()
 end
 
-local function clipScale(scale)
-	return tonumber(format("%.5f", scale))
-end
-
 local function GetPerfectScale()
 	local scale = NDuiADB["UIScale"]
 	local bestScale = max(.4, min(1.15, 768 / DB.ScreenHeight))
 	local pixelScale = 768 / DB.ScreenHeight
-	if NDuiADB["LockUIScale"] then scale = clipScale(bestScale) end
+	if NDuiADB["LockUIScale"] then scale = bestScale end
 	C.mult = (bestScale / scale) - ((bestScale - pixelScale) / scale)
 
 	if DB.ScreenHeight > 1080 then C.mult = C.mult*2 end
@@ -86,7 +82,7 @@ local function SetupUIScale()
 		UIParent:SetScale(scale)
 	end
 
-	NDuiADB["UIScale"] = clipScale(scale)
+	NDuiADB["UIScale"] = scale
 
 	isScaling = false
 end

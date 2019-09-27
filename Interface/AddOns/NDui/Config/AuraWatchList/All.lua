@@ -171,6 +171,7 @@ local list = {
 		{AuraID = 303568, UnitID = "target", Caster = "player"},	-- 锋锐珊瑚
 		{AuraID = 301624, UnitID = "target", Caster = "player"},	-- 颤栗毒素
 		{AuraID = 302565, UnitID = "target", Caster = "player"},	-- 导电墨汁
+		{AuraID = 296962, UnitID = "player"},	-- 艾萨拉饰品
 	-- 艾泽里特特质
 		{AuraID = 271550, UnitID = "player"},	-- 临危不惧
 		{AuraID = 281517, UnitID = "player"},	-- 不稳定的催化剂

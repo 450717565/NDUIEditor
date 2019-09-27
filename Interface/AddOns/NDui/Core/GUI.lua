@@ -809,7 +809,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "ACCOUNT", "VersionCheck", L["Version Check"]},
 		{1, "ACCOUNT", "DisableInfobars", L["DisableInfobars"], true},
 		{},--blank
-		{3, "ACCOUNT", "UIScale", L["Setup UIScale"], false, {.4, 1.1, 2}},
+		{3, "ACCOUNT", "UIScale", L["Setup UIScale"], false, {.4, 1.15, 15}},
 		{1, "ACCOUNT", "LockUIScale", DB.MyColor..L["Lock UIScale"], true},
 		{},--blank
 		{4, "ACCOUNT", "TexStyle", L["Texture Style"], false, {L["Highlight"], L["Gradient"], L["Flat"]}},
@@ -949,6 +949,7 @@ local function CreateOption(i)
 		-- Slider
 		elseif optType == 3 then
 			local min, max, step = unpack(data)
+			local decimal = step > 2 and 2 or step
 			local x, y
 			if horizon then
 				x, y = 350, -offset + 40
@@ -956,12 +957,12 @@ local function CreateOption(i)
 				x, y = 40, -offset - 30
 				offset = offset + 70
 			end
-			local s = B.CreateSlider(parent, name, min, max, x, y, width)
+			local s = B.CreateSlider(parent, name, min, max, x, y)
 			s:SetValue(NDUI_VARIABLE(key, value))
 			s:SetScript("OnValueChanged", function(_, v)
 				local current = tonumber(format("%."..step.."f", v))
 				NDUI_VARIABLE(key, value, current)
-				s.value:SetText(current)
+				s.value:SetText(format("%."..decimal.."f", current))
 				if callback then callback() end
 			end)
 			s.value:SetText(format("%."..step.."f", NDUI_VARIABLE(key, value)))
@@ -1313,7 +1314,7 @@ local function OpenGUI()
 	ok:SetPoint("RIGHT", close, "LEFT", -10, 0)
 	ok:SetScript("OnClick", function()
 		local scale = NDuiADB["UIScale"]
-		if scale ~= scaleOld then
+		if not NDuiADB["LockUIScale"] and scale ~= scaleOld then
 			UIParent:SetScale(scale)
 		end
 		f:Hide()

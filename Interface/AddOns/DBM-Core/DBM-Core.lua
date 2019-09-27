@@ -68,8 +68,8 @@ local function showRealDate(curseDate)
 end
 
 DBM = {
-	Revision = parseCurseDate("20190926014617"),
-	DisplayVersion = "8.2.22 alpha", -- the string that is shown as version
+	Revision = parseCurseDate("20190925031440"),
+	DisplayVersion = "8.2.21", -- the string that is shown as version
 	ReleaseRevision = releaseDate(2019, 9, 24) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
@@ -160,6 +160,7 @@ DBM.DefaultOptions = {
 	ShowGuildMessages = true,
 	ShowGuildMessagesPlus = false,
 	AutoRespond = true,
+	StatusEnabled = true,
 	WhisperStats = false,
 	DisableStatusWhisper = false,
 	DisableGuildStatus = false,
@@ -5890,10 +5891,10 @@ do
 					local sameRealm = false
 					local accountInfo = C_BattleNet.GetFriendAccountInfo(i)
 					if accountInfo then
-						local gameAccountID, isOnline, userRealm = accountInfo.gameAccountInfo.gameAccountID, accountInfo.gameAccountInfo.isOnline, accountInfo.gameAccountInfo.realmName
-						if gameAccountID and isOnline and userRealm then
-							--local gameAccountInfo = C_BattleNet.GetGameAccountInfoByID(presenceID)--Just in case required, if it can't actually be pulled from sub table of accountInfo above
-							--local userRealm = accountInfo.gameAccountInfo.realmName or DBM_CORE_UNKNOWN
+						local presenceID, client, isOnline = accountInfo.bnetAccountID, accountInfo.gameAccountInfo.clientProgram ~= "" and accountInfo.gameAccountInfo.clientProgram or nil, accountInfo.gameAccountInfo.isOnline
+						if isOnline and client == BNET_CLIENT_WOW then
+							--local gameAccountInfo = C_BattleNet.GetGameAccountInfoByID(presenceID)--Just in case required, if it can't actually be pulled from sub table of accountInfo down below
+							local userRealm = accountInfo.gameAccountInfo.realmName or DBM_CORE_UNKNOWN
 							if connectedServers then
 								for i = 1, #connectedServers do
 									if userRealm == connectedServers[i] then
@@ -5907,7 +5908,7 @@ do
 								end
 							end
 							if sameRealm then
-								BNSendGameData(gameAccountID, "D4", "WBE\t"..modId.."\t"..userRealm.."\t"..startHp.."\t8\t"..name)--Just send users realm for pull, so we can eliminate connectedServers checks on sync handler
+								BNSendGameData(presenceID, "D4", "WBE\t"..modId.."\t"..userRealm.."\t"..startHp.."\t8\t"..name)--Just send users realm for pull, so we can eliminate connectedServers checks on sync handler
 							end
 						end
 					end
@@ -6154,10 +6155,10 @@ do
 						local sameRealm = false
 						local accountInfo = C_BattleNet.GetFriendAccountInfo(i)
 						if accountInfo then
-							local gameAccountID, isOnline, userRealm = accountInfo.gameAccountInfo.gameAccountID, accountInfo.gameAccountInfo.isOnline, accountInfo.gameAccountInfo.realmName
-							if gameAccountID and isOnline and userRealm then
-								--local gameAccountInfo = C_BattleNet.GetGameAccountInfoByID(presenceID)--Just in case required, if it can't actually be pulled from sub table of accountInfo above
-								--local userRealm = accountInfo.gameAccountInfo.realmName or DBM_CORE_UNKNOWN
+							local presenceID, client, isOnline = accountInfo.bnetAccountID, accountInfo.gameAccountInfo.clientProgram ~= "" and accountInfo.gameAccountInfo.clientProgram or nil, accountInfo.gameAccountInfo.isOnline
+							if isOnline and client == BNET_CLIENT_WOW then
+								--local gameAccountInfo = C_BattleNet.GetGameAccountInfoByID(presenceID)--Just in case required, if it can't actually be pulled from sub table of accountInfo down below
+								local userRealm = accountInfo.gameAccountInfo.realmName or DBM_CORE_UNKNOWN
 								if connectedServers then
 									for i = 1, #connectedServers do
 										if userRealm == connectedServers[i] then
@@ -6171,7 +6172,7 @@ do
 									end
 								end
 								if sameRealm then
-									BNSendGameData(gameAccountID, "D4", "WBD\t"..modId.."\t"..userRealm.."\t8\t"..name)
+									BNSendGameData(presenceID, "D4", "WBD\t"..modId.."\t"..userRealm.."\t8\t"..name)
 								end
 							end
 						end
@@ -6765,7 +6766,7 @@ do
 			--Might need more validation if people figure out they can just whisper people with chatPrefix to trigger it.
 			--However if I have to add more validation it probably won't work in most languages :\ So lets hope antispam and combat check is enough
 			DBM:PlaySound(41928)--"sound\\creature\\aggron1\\VO_60_HIGHMAUL_AGGRON_1_AGGRO_1.ogg"
-		elseif msg == "status" and #inCombat > 0 and DBM.Options.AutoRespond then
+		elseif msg == "status" and #inCombat > 0 and DBM.Options.StatusEnabled then
 			if not difficultyText then -- prevent error when timer recovery function worked and etc (StartCombat not called)
 				savedDifficulty, difficultyText, difficultyIndex, LastGroupSize, difficultyModifier = DBM:GetCurrentInstanceDifficulty()
 			end

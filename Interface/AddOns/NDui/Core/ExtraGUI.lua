@@ -701,7 +701,7 @@ function G:SetupUnitFrame(parent)
 	createOptionGroup(scroll.child, L["Pet&*Target"], -530, "Pet", updatePetSize)
 
 	local function updateBossSize()
-		for _, frame in next, oUF.objects do
+		for _, frame in next, ns.oUF.objects do
 			if frame.mystyle == "boss" or frame.mystyle == "arena" then
 				frame:SetSize(NDuiDB["UFs"]["BossWidth"], NDuiDB["UFs"]["BossHeight"])
 				frame.Power:SetHeight(NDuiDB["UFs"]["BossPowerHeight"])

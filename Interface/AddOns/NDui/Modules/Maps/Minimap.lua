@@ -355,7 +355,6 @@ function module:SetupMinimap()
 	if not NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
 
 	-- Shape and Position
-	local scale = NDuiDB["Map"]["MinmapScale"]
 	Minimap:SetFrameLevel(10)
 	Minimap:SetMaskTexture("Interface\\Buttons\\WHITE8X8")
 	DropDownList1:SetClampedToScreen(true)

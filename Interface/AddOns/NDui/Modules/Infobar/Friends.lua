@@ -11,8 +11,7 @@ local C_FriendList_GetNumFriends = C_FriendList.GetNumFriends
 local C_FriendList_GetNumOnlineFriends = C_FriendList.GetNumOnlineFriends
 local C_FriendList_GetFriendInfoByIndex = C_FriendList.GetFriendInfoByIndex
 local BNet_GetClientEmbeddedTexture, BNet_GetValidatedCharacterName, BNet_GetClientTexture = BNet_GetClientEmbeddedTexture, BNet_GetValidatedCharacterName, BNet_GetClientTexture
-local CanCooperateWithGameAccount, GetRealZoneText, GetQuestDifficultyColor = CanCooperateWithGameAccount, GetRealZoneText, GetQuestDifficultyColor
-local BNGetNumFriends = BNGetNumFriends
+local BNGetNumFriends, GetRealZoneText, GetQuestDifficultyColor = BNGetNumFriends, GetRealZoneText, GetQuestDifficultyColor
 local C_BattleNet_GetFriendAccountInfo = C_BattleNet.GetFriendAccountInfo
 local C_BattleNet_GetFriendNumGameAccounts = C_BattleNet.GetFriendNumGameAccounts
 local C_BattleNet_GetFriendGameAccountInfo = C_BattleNet.GetFriendGameAccountInfo
@@ -266,6 +265,7 @@ local function buttonOnEnter(self)
 	GameTooltip:ClearLines()
 	if self.isBNet then
 		GameTooltip:AddLine(L["BN"], 0,.6,1)
+		GameTooltip:AddLine(" ")
 
 		local index, accountName, _, _, _, _, _, _, _, note, broadcastText, broadcastTime = unpack(self.data)
 		local numGameAccounts = C_BattleNet_GetFriendNumGameAccounts(index)
@@ -291,7 +291,6 @@ local function buttonOnEnter(self)
 					elseif faction == "Alliance" then
 						clientString = "|TInterface\\FriendsFrame\\PlusManz-Alliance:16:|t"
 					end
-					GameTooltip:AddLine(" ")
 					GameTooltip:AddLine(format("%s%s %s%s%s", clientString, level, classColor, charName, realmName))
 
 					if wowProjectID ~= WOW_PROJECT_ID then zoneName = gameText end
@@ -456,6 +455,7 @@ info.onEvent = function(self, event, arg1)
 	local onlineFriends = C_FriendList_GetNumOnlineFriends()
 	local _, onlineBNet = BNGetNumFriends()
 	self.text:SetFormattedText("%s%s", FRIENDS..L[":"], DB.MyColor..(onlineFriends + onlineBNet))
+
 	updateRequest = false
 	if friendsFrame and friendsFrame:IsShown() then info:onEnter() end
 end
