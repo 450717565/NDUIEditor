@@ -6,6 +6,12 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinFrame(AddFriendFrame)
 	F.ReskinInput(AddFriendNameEditBox)
 
+	F.StripTextures(FriendsFriendsFrame, true)
+	F.CreateBD(FriendsFriendsFrame)
+	F.CreateSD(FriendsFriendsFrame)
+	F.StripTextures(FriendsFriendsFrame.ScrollFrameBorder, true)
+	F.CreateBDFrame(FriendsFriendsFrame.ScrollFrameBorder, 0)
+
 	local lists = {IgnoreListFrame, WhoFrameListInset, WhoFrameEditBoxInset}
 	for _, list in pairs(lists) do
 		F.StripTextures(list)
@@ -21,7 +27,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.ReskinScroll(scroll)
 	end
 
-	local buttons = {AddFriendEntryFrameAcceptButton, AddFriendEntryFrameCancelButton, AddFriendInfoFrameContinueButton, FriendsFrameAddFriendButton, FriendsFrameIgnorePlayerButton, FriendsFrameSendMessageButton, FriendsFrameUnsquelchButton, FriendsFriendsCloseButton, FriendsFriendsSendRequestButton, FriendsListFrameContinueButton, WhoFrameAddFriendButton, WhoFrameGroupInviteButton, WhoFrameWhoButton}
+	local buttons = {AddFriendEntryFrameAcceptButton, AddFriendEntryFrameCancelButton, AddFriendInfoFrameContinueButton, FriendsFrameAddFriendButton, FriendsFrameIgnorePlayerButton, FriendsFrameSendMessageButton, FriendsFrameUnsquelchButton, FriendsFriendsFrame.CloseButton, FriendsFriendsFrame.SendRequestButton, FriendsListFrameContinueButton, WhoFrameAddFriendButton, WhoFrameGroupInviteButton, WhoFrameWhoButton}
 	for _, button in pairs(buttons) do
 		F.ReskinButton(button)
 	end
@@ -151,10 +157,10 @@ tinsert(C.themes["AuroraClassic"], function()
 		if button.buttonType == FRIENDS_BUTTON_TYPE_INVITE then
 			reskinInvites(FriendsListFrameScrollFrame.invitePool)
 		elseif button.buttonType == FRIENDS_BUTTON_TYPE_BNET and BNConnected() then
-			local toonID = select(6, BNGetFriendInfo(button.id))
-			local isOnline = select(8, BNGetFriendInfo(button.id))
-			if isOnline then
-				local faction = select(6, BNGetGameAccountInfo(toonID))
+			local accountInfo = C_BattleNet.GetFriendAccountInfo(button.id)
+			local gameAccountInfo = accountInfo.gameAccountInfo
+			if gameAccountInfo.isOnline then
+				local faction = gameAccountInfo.factionName
 				if faction == "Alliance" or faction == "Horde" or faction == "Neutral" then
 					button.gameIcon:SetTexture(icPatch..faction)
 				end

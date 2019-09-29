@@ -4,6 +4,8 @@ local S = B:GetModule("Skins")
 
 function S:PetBattleUI()
 	if not NDuiDB["Skins"]["PetBattle"] then return end
+	if not NDuiDB["Actionbar"]["Enable"] then return end
+
 	local cr, cg, cb, pairs = DB.r, DB.g, DB.b, pairs
 
 	local alpha = NDuiDB["Extras"]["SkinAlpha"]
@@ -334,16 +336,14 @@ function S:PetBattleUI()
 		unit.HealthText:SetPoint("CENTER", healthBg)
 	end
 
-	if NDuiDB["Skins"]["BarLine"] then
-		-- Petbar Background
-		local lineLeft = CreateFrame("Frame", nil, UIParent)
-		lineLeft:SetPoint("BOTTOMRIGHT", bar, "TOP", 0, 3)
-		B.CreateGF(lineLeft, 260, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
-		RegisterStateDriver(lineLeft, "visibility", visibleState)
+	-- Petbar Background
+	local lineLeft = CreateFrame("Frame", nil, UIParent)
+	lineLeft:SetPoint("BOTTOMRIGHT", bar, "TOP", 0, 3)
+	B.CreateGF(lineLeft, 260, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
+	RegisterStateDriver(lineLeft, "visibility", visibleState)
 
-		local lineRight = CreateFrame("Frame", nil, UIParent)
-		lineRight:SetPoint("BOTTOMLEFT", bar, "TOP", 0, 3)
-		B.CreateGF(lineRight, 260, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
-		RegisterStateDriver(lineRight, "visibility", visibleState)
-	end
+	local lineRight = CreateFrame("Frame", nil, UIParent)
+	lineRight:SetPoint("BOTTOMLEFT", bar, "TOP", 0, 3)
+	B.CreateGF(lineRight, 260, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
+	RegisterStateDriver(lineRight, "visibility", visibleState)
 end

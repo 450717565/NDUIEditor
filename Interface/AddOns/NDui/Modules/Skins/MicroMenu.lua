@@ -5,6 +5,7 @@ local S = B:GetModule("Skins")
 local _G = getfenv(0)
 local tinsert, pairs, type = table.insert, pairs, type
 local buttonList = {}
+
 local cr, cg, cb, alpha, color
 
 function S:MicroButton_SetupTexture(icon, texcoord, texture)
@@ -56,8 +57,20 @@ function S:MicroButton_Create(parent, data)
 	end
 end
 
+function S:MicroMenu_Lines(menubar)
+	if not NDuiDB["Skins"]["MenuLine"] then return end
+
+	local MenuL = CreateFrame("Frame", nil, UIParent)
+	MenuL:SetPoint("TOPRIGHT", menubar, "BOTTOM")
+	B.CreateGF(MenuL, 200, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
+	local MenuR = CreateFrame("Frame", nil, UIParent)
+	MenuR:SetPoint("TOPLEFT", menubar, "BOTTOM")
+	B.CreateGF(MenuR, 200, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
+end
+
 function S:MicroMenu()
 	if not NDuiDB["Skins"]["MicroMenu"] then return end
+	if not NDuiDB["Actionbar"]["Enable"] then return end
 
 	cr, cg, cb = DB.r, DB.g, DB.b
 	alpha = NDuiDB["Extras"]["SkinAlpha"]
@@ -67,6 +80,7 @@ function S:MicroMenu()
 	local menubar = CreateFrame("Frame", nil, UIParent)
 	menubar:SetSize(319, 22)
 	B.Mover(menubar, L["Menubar"], "Menubar", C.Skins.MicroMenuPos)
+	S:MicroMenu_Lines(menubar)
 
 	-- Generate Buttons
 	local buttonInfo = {
@@ -104,14 +118,4 @@ function S:MicroMenu()
 
 	CharacterMicroButtonAlert:EnableMouse(false)
 	B.HideOption(CharacterMicroButtonAlert)
-
-	-- Menu Line
-	if NDuiDB["Skins"]["MenuLine"] then
-		local MenuL = CreateFrame("Frame", nil, UIParent)
-		MenuL:SetPoint("TOPRIGHT", menubar, "BOTTOM")
-		B.CreateGF(MenuL, 200, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
-		local MenuR = CreateFrame("Frame", nil, UIParent)
-		MenuR:SetPoint("TOPLEFT", menubar, "BOTTOM")
-		B.CreateGF(MenuR, 200, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
-	end
 end

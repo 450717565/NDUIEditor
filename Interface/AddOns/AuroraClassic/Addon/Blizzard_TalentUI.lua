@@ -200,7 +200,6 @@ C.themes["Blizzard_TalentUI"] = function()
 
 		F.ReskinTexture(bu, bubg, true)
 		F.ReskinTexture(bu.Selected, bubg, true)
-		F.ReskinTexture(bu.SelectedOtherOverlay, bubg, true)
 
 		local name = bu.Name
 		name:ClearAllPoints()

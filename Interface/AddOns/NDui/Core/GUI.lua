@@ -543,6 +543,8 @@ local tabList = {
 local optionList = { -- type, key, value, name, horizon, doubleline
 	[1] = {
 		{1, "Actionbar", "Enable", DB.MyColor..L["Enable Actionbar"]},
+		{1, "Skins", "MicroMenu", L["Micromenu"]},
+		{1, "Skins", "PetBattle", L["PetBattle Skin"], true},
 		{},--blank
 		{1, "Actionbar", "Bar4Fade", L["Bar4 Fade"]},
 		{1, "Actionbar", "Bar5Fade", L["Bar5 Fade"], true},
@@ -758,9 +760,6 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Skins", "ChatLine", L["Chat Line"]},
 		{1, "Skins", "MenuLine", L["Menu Line"], true},
 		{1, "Skins", "ClassLine", L["ClassColor Line"]},
-		{},--blank
-		{1, "Skins", "MicroMenu", L["Micromenu"]},
-		{1, "Skins", "PetBattle", L["PetBattle Skin"], true},
 		{},--blank
 		{1, "Skins", "DBM", L["DBM Skin"]},
 		{1, "Skins", "Skada", L["Skada Skin"], true},

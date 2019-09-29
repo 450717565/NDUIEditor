@@ -68,6 +68,37 @@ function module:LoadInfobar(info)
 	end
 end
 
+function module:BackgroundLines()
+	if not NDuiDB["Skins"]["InfobarLine"] then return end
+
+	local cr, cg, cb = DB.r, DB.g, DB.b
+	local alpha = NDuiDB["Extras"]["SkinAlpha"]
+	local color = NDuiDB["Extras"]["SkinColor"]
+	if not NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
+
+	-- TOPLEFT
+	local InfobarLineTL = CreateFrame("Frame", nil, UIParent)
+	InfobarLineTL:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 0, -5)
+	B.CreateGF(InfobarLineTL, 600, 18, "Horizontal", 0, 0, 0, .5, 0)
+	local InfobarLineTL1 = CreateFrame("Frame", nil, InfobarLineTL)
+	InfobarLineTL1:SetPoint("BOTTOM", InfobarLineTL, "TOP")
+	B.CreateGF(InfobarLineTL1, 600, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
+	local InfobarLineTL2 = CreateFrame("Frame", nil, InfobarLineTL)
+	InfobarLineTL2:SetPoint("TOP", InfobarLineTL, "BOTTOM")
+	B.CreateGF(InfobarLineTL2, 600, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
+
+	-- BOTTOMRIGHT
+	local InfobarLineBR = CreateFrame("Frame", nil, UIParent)
+	InfobarLineBR:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", 0, 5)
+	B.CreateGF(InfobarLineBR, 450, 18, "Horizontal", 0, 0, 0, 0, .5)
+	local InfobarLineBR1 = CreateFrame("Frame", nil, InfobarLineBR)
+	InfobarLineBR1:SetPoint("BOTTOM", InfobarLineBR, "TOP")
+	B.CreateGF(InfobarLineBR1, 450, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
+	local InfobarLineBR2 = CreateFrame("Frame", nil, InfobarLineBR)
+	InfobarLineBR2:SetPoint("TOP", InfobarLineBR, "BOTTOM")
+	B.CreateGF(InfobarLineBR2, 450, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
+end
+
 function module:OnLogin()
 	if NDuiADB["DisableInfobars"] then return end
 
@@ -90,4 +121,6 @@ function module:OnLogin()
 			info.text:SetJustifyH("RIGHT")
 		end
 	end
+
+	self:BackgroundLines()
 end

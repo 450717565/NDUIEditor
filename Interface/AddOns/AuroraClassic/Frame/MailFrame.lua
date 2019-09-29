@@ -1,8 +1,6 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	local cr, cg, cb = C.r, C.g, C.b
-
 	F.ReskinFrame(MailFrame)
 	F.SetupTabStyle(MailFrame, 2)
 

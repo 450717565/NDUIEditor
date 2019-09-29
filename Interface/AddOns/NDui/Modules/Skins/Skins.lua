@@ -8,52 +8,6 @@ function S:OnLogin()
 	local cr, cg, cb = DB.r, DB.g, DB.b
 	if not NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
 
-	-- TOPLEFT
-	if NDuiDB["Skins"]["InfobarLine"] and not NDuiADB["DisableInfobars"] then
-		local InfobarLineTL = CreateFrame("Frame", nil, UIParent)
-		InfobarLineTL:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 0, -5)
-		B.CreateGF(InfobarLineTL, 600, 18, "Horizontal", 0, 0, 0, .5, 0)
-		local InfobarLineTL1 = CreateFrame("Frame", nil, InfobarLineTL)
-		InfobarLineTL1:SetPoint("BOTTOM", InfobarLineTL, "TOP")
-		B.CreateGF(InfobarLineTL1, 600, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
-		local InfobarLineTL2 = CreateFrame("Frame", nil, InfobarLineTL)
-		InfobarLineTL2:SetPoint("TOP", InfobarLineTL, "BOTTOM")
-		B.CreateGF(InfobarLineTL2, 600, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
-	end
-
-	-- BOTTOMLEFT
-	if NDuiDB["Skins"]["ChatLine"] and NDuiDB["Chat"]["Lock"] then
-		local ChatLine = CreateFrame("Frame", nil, UIParent)
-		ChatLine:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", 0, 5)
-		B.CreateGF(ChatLine, 450, ChatFrame1:GetHeight() + 26, "Horizontal", 0, 0, 0, .5, 0)
-		local ChatLine1 = CreateFrame("Frame", nil, ChatLine)
-		ChatLine1:SetPoint("BOTTOM", ChatLine, "TOP")
-		B.CreateGF(ChatLine1, 450, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
-		if NDuiDB["Chat"]["Chatbar"] then
-			local ChatLine2 = CreateFrame("Frame", nil, ChatLine)
-			ChatLine2:SetPoint("BOTTOM", ChatLine, "BOTTOM", 0, 18)
-			B.CreateGF(ChatLine2, 450, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
-		end
-		local ChatLine3 = CreateFrame("Frame", nil, ChatLine)
-		ChatLine3:SetPoint("TOP", ChatLine, "BOTTOM")
-		B.CreateGF(ChatLine3, 450, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
-
-		ChatFrame1.gradientBG = ChatLine
-	end
-
-	-- BOTTOMRIGHT
-	if NDuiDB["Skins"]["InfobarLine"] and not NDuiADB["DisableInfobars"] then
-		local InfobarLineBR = CreateFrame("Frame", nil, UIParent)
-		InfobarLineBR:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", 0, 5)
-		B.CreateGF(InfobarLineBR, 450, 18, "Horizontal", 0, 0, 0, 0, .5)
-		local InfobarLineBR1 = CreateFrame("Frame", nil, InfobarLineBR)
-		InfobarLineBR1:SetPoint("BOTTOM", InfobarLineBR, "TOP")
-		B.CreateGF(InfobarLineBR1, 450, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
-		local InfobarLineBR2 = CreateFrame("Frame", nil, InfobarLineBR)
-		InfobarLineBR2:SetPoint("TOP", InfobarLineBR, "BOTTOM")
-		B.CreateGF(InfobarLineBR2, 450, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
-	end
-
 	-- ACTIONBAR
 	if NDuiDB["Actionbar"]["Enable"] and NDuiDB["Actionbar"]["Scale"] == 1 then
 		if NDuiDB["Skins"]["BarLine"] and NDuiDB["Actionbar"]["Style"] ~= 5 then
