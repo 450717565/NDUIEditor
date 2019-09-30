@@ -8,14 +8,13 @@ function Bar:CreateLeaveVehicle()
 	local layout = NDuiDB["Actionbar"]["Style"]
 
 	--create the frame to hold the buttons
-	local frame = CreateFrame("Frame", "NDui_LeaveVehicleButton", UIParent, "SecureHandlerStateTemplate")
+	local frame = CreateFrame("Frame", "NDui_ActionBarExit", UIParent, "SecureHandlerStateTemplate")
 	frame:SetSize(cfg.size, cfg.size)
 	if layout ~= 4 then
 		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 288, 109}
 	else
 		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 221, 102}
 	end
-	frame:SetScale(NDuiDB["Actionbar"]["Scale"])
 
 	--the button
 	local button = CreateFrame("CheckButton", "NDui_LeaveVehicleButton", frame, "ActionButtonTemplate, SecureHandlerClickTemplate")
@@ -47,8 +46,7 @@ function Bar:CreateLeaveVehicle()
 
 	--create drag frame and drag functionality
 	if C.bars.userplaced then
-		local mover = B.Mover(frame, L["LeaveVehicle"], "LeaveVehicle", frame.Pos)
-		mover:SetScale(NDuiDB["Actionbar"]["Scale"])
+		frame.mover = B.Mover(frame, L["LeaveVehicle"], "LeaveVehicle", frame.Pos)
 	end
 
 	--create the mouseover functionality
