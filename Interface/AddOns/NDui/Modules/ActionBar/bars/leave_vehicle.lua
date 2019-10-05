@@ -11,9 +11,9 @@ function Bar:CreateLeaveVehicle()
 	local frame = CreateFrame("Frame", "NDui_ActionBarExit", UIParent, "SecureHandlerStateTemplate")
 	frame:SetSize(cfg.size, cfg.size)
 	if layout ~= 4 then
-		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 288, 109}
+		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 288, 110}
 	else
-		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 221, 102}
+		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 220, 102}
 	end
 
 	--the button

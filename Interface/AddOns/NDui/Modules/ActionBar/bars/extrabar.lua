@@ -11,9 +11,9 @@ function Bar:CreateExtrabar()
 	local frame = CreateFrame("Frame", "NDui_ActionBarExtra", UIParent, "SecureHandlerStateTemplate")
 	frame:SetSize(cfg.size, cfg.size)
 	if layout ~= 4 then
-		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 221, 109}
+		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 220, 108}
 	else
-		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 221, 30}
+		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 220, 30}
 	end
 
 	--move the buttons into position and reparent them
@@ -45,10 +45,10 @@ function Bar:CreateExtrabar()
 	--zone ability
 	local zoneFrame = CreateFrame("Frame", "NDui_ActionBarZone", UIParent)
 	zoneFrame:SetSize(cfg.size, cfg.size)
-	zoneFrame.Pos = {"BOTTOMRIGHT", UIParent, "BOTTOM", -216, 102}
+	zoneFrame.Pos = {"BOTTOMRIGHT", UIParent, "BOTTOM", -220, 108}
 
 	if layout == 4 then
-		zoneFrame.Pos = {"BOTTOMRIGHT", UIParent, "BOTTOM", -216, 24}
+		zoneFrame.Pos = {"BOTTOMRIGHT", UIParent, "BOTTOM", -220, 30}
 	end
 
 	ZoneAbilityFrame:SetParent(zoneFrame)
@@ -56,11 +56,11 @@ function Bar:CreateExtrabar()
 	ZoneAbilityFrame:SetPoint("CENTER", 0, 0)
 	ZoneAbilityFrame.ignoreFramePositionManager = true
 	ZoneAbilityFrameNormalTexture:SetAlpha(0)
-	zoneFrame.mover = B.Mover(ZoneAbilityFrame, L["Zone Ability"], "ZoneAbility", zoneFrame.Pos)
+	zoneFrame.mover = B.Mover(zoneFrame, L["Zone Ability"], "ZoneAbility", zoneFrame.Pos)
 
-	local spellButton = ZoneAbilityFrame.SpellButton
-	spellButton.Style:SetAlpha(0)
-	spellButton.Icon:SetTexCoord(unpack(DB.TexCoord))
-	spellButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-	B.CreateBGFrame(spellButton.Icon)
+	local SpellButton = ZoneAbilityFrame.SpellButton
+	SpellButton.Style:SetAlpha(0)
+	SpellButton.Icon:SetTexCoord(unpack(DB.TexCoord))
+	SpellButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
+	B.CreateBGFrame(SpellButton.Icon)
 end

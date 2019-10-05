@@ -137,7 +137,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	-- Sync button
 	local QuestSessionManagement = QuestMapFrame.QuestSessionManagement
 	QuestSessionManagement.BG:Hide()
-	F.CreateBDFrame(QuestSessionManagement, 0)
+	F.CreateBDFrame(QuestSessionManagement, 0, 0)
 
 	local names = {"StartDialog", "CheckStartDialog", "CheckStopDialog", "CheckLeavePartyDialog"}
 	for _, name in pairs(names) do

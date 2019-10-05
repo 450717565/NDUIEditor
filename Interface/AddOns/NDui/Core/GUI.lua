@@ -526,6 +526,20 @@ local function updateErrorBlocker()
 	B:GetModule("Misc"):UpdateErrorBlocker()
 end
 
+StaticPopupDialogs["RESET_DETAILS"] = {
+	text = L["Reset Details check"],
+	button1 = YES,
+	button2 = NO,
+	OnAccept = function()
+		NDuiADB["ResetDetails"] = true
+		ReloadUI()
+	end,
+	whileDead = 1,
+}
+local function resetDetails()
+	StaticPopup_Show("RESET_DETAILS")
+end
+
 -- Config
 local tabList = {
 	L["Actionbar"],
@@ -770,7 +784,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Skins", "Bigwigs", L["Bigwigs Skin"]},
 		{1, "Skins", "TMW", L["TMW Skin"], true},
 		{1, "Skins", "WeakAuras", L["WeakAuras Skin"]},
-		{1, "Skins", "Details", L["Details Skin"], true},
+		{1, "Skins", "Details", L["Details Skin"], true, resetDetails},
 	},
 	[11] = {
 		{1, "Tooltip", "CombatHide", L["Hide Tooltip"].."*"},
@@ -1409,15 +1423,6 @@ local function OpenGUI()
 		end
 	end
 	B:RegisterEvent("PLAYER_REGEN_DISABLED", showLater)
-
-	-- Reset Details skin
-	local detail = B.CreateButton(guiPage[10].child, 50, 25, RESET)
-	detail:SetPoint("TOPLEFT", 480, -300)
-	detail.text:SetTextColor(.6, .8, 1)
-	detail:SetScript("OnClick", function()
-		NDuiADB["ResetDetails"] = true
-		StaticPopup_Show("RELOAD_NDUI")
-	end)
 
 	SelectTab(1)
 end
