@@ -71,7 +71,7 @@ oUF.Tags.Methods["color"] = function(unit)
 		return B.HexRGB(1, 1, 1)
 	end
 end
-oUF.Tags.Events["color"] = "UNIT_HEALTH UNIT_FACTION UNIT_CONNECTION UNIT_STATS UNIT_NAME_UPDATE PLAYER_LEVEL_CHANGED"
+oUF.Tags.Events["color"] = "UNIT_HEALTH_FREQUENT UNIT_FACTION UNIT_CONNECTION UNIT_STATS UNIT_NAME_UPDATE PLAYER_LEVEL_CHANGED"
 
 oUF.Tags.Methods["flag"] = function(unit)
 	if UnitIsAFK(unit) then
@@ -91,7 +91,7 @@ oUF.Tags.Methods["state"] = function(unit)
 		return "|cffC0C0C0"..DEAD.."|r"
 	end
 end
-oUF.Tags.Events["state"] = "UNIT_HEALTH UNIT_CONNECTION UNIT_STATS UNIT_NAME_UPDATE PLAYER_FLAGS_CHANGED"
+oUF.Tags.Events["state"] = "UNIT_HEALTH_FREQUENT UNIT_CONNECTION UNIT_STATS UNIT_NAME_UPDATE PLAYER_FLAGS_CHANGED"
 
 -- Level tags
 oUF.Tags.Methods["fulllevel"] = function(unit)

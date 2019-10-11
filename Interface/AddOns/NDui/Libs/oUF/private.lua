@@ -28,10 +28,10 @@ end
 local validator = CreateFrame('Frame')
 
 function Private.validateUnit(unit)
-	local isOK, _ = pcall(validator.RegisterUnitEvent, validator, 'UNIT_HEALTH', unit)
+	local isOK, _ = pcall(validator.RegisterUnitEvent, validator, 'UNIT_HEALTH_FREQUENT', unit)
 	if (isOK) then
-		_, unit = validator:IsEventRegistered('UNIT_HEALTH')
-		validator:UnregisterEvent('UNIT_HEALTH')
+		_, unit = validator:IsEventRegistered('UNIT_HEALTH_FREQUENT')
+		validator:UnregisterEvent('UNIT_HEALTH_FREQUENT')
 
 		return not not unit
 	end

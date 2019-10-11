@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2368, "DBM-Nyalotha", nil, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20191009002552")
+mod:SetRevision("20191011015318")
 mod:SetCreatureID(156818)
 mod:SetEncounterID(2329)
 mod:SetZone()
@@ -185,7 +185,6 @@ function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 306015 then
 		local amount = args.amount or 1
-		--if adds all dead, should be swapping at about 6-7. If they aren't all dead, it'll start throwing emergency warnings at 8+
 		if amount >= 2 then
 			if args:IsPlayer() then
 				specWarnSearingArmorStack:Show(amount)

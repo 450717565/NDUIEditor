@@ -64,34 +64,38 @@ tinsert(C.themes["AuroraClassic"], function()
 		bg:SetPoint("BOTTOMRIGHT", -C.mult, 0)
 	end
 
-	local BattlenetFrame = FriendsFrameBattlenetFrame
-	local BattlenetTag = BattlenetFrame.Tag
-	BattlenetTag:SetParent(FriendsListFrame)
-	BattlenetTag:ClearAllPoints()
-	BattlenetTag:SetPoint("TOP", 0, -8)
+	-- FriendsFrameBattlenetFrame
+	F.StripTextures(FriendsFrameBattlenetFrame)
 
-	local UnavailableInfoFrame = BattlenetFrame.UnavailableInfoFrame
+	local BroadcastButton = FriendsFrameBattlenetFrame.BroadcastButton
+	BroadcastButton:SetSize(20, 20)
+	BroadcastButton:ClearAllPoints()
+	BroadcastButton:SetPoint("LEFT", FriendsFrameStatusDropDownButton, "RIGHT", 1, 0)
+	F.ReskinButton(BroadcastButton)
+	local newIcon = BroadcastButton:CreateTexture(nil, "ARTWORK")
+	newIcon:SetAllPoints()
+	newIcon:SetTexture("Interface\\FriendsFrame\\BroadcastIcon")
+
+	local BroadcastFrame = FriendsFrameBattlenetFrame.BroadcastFrame
+	F.StripTextures(BroadcastFrame)
+	F.SetBDFrame(BroadcastFrame, 10, -10, -10, 10)
+	F.ReskinInput(BroadcastFrame.EditBox, 20)
+	F.ReskinButton(BroadcastFrame.UpdateButton)
+	F.ReskinButton(BroadcastFrame.CancelButton)
+	BroadcastFrame:ClearAllPoints()
+	BroadcastFrame:SetPoint("TOPLEFT", FriendsFrame, "TOPRIGHT", 0, 0)
+
+	local function BroadcastButton_SetTexture(self)
+		self.BroadcastButton:SetNormalTexture("")
+		self.BroadcastButton:SetPushedTexture("")
+	end
+	hooksecurefunc(BroadcastFrame, "ShowFrame", BroadcastButton_SetTexture)
+	hooksecurefunc(BroadcastFrame, "HideFrame", BroadcastButton_SetTexture)
+
+	local UnavailableInfoFrame = FriendsFrameBattlenetFrame.UnavailableInfoFrame
 	F.ReskinFrame(UnavailableInfoFrame)
 	UnavailableInfoFrame:ClearAllPoints()
 	UnavailableInfoFrame:SetPoint("TOPLEFT", FriendsFrame, "TOPRIGHT", 3, -25)
-
-	hooksecurefunc("FriendsFrame_CheckBattlenetStatus", function()
-		if BNFeaturesEnabled() then
-			local frame = FriendsFrameBattlenetFrame
-			frame.BroadcastButton:Hide()
-			if BNConnected() then
-				frame:Hide()
-			end
-		end
-	end)
-
-	hooksecurefunc("FriendsFrame_Update", function()
-		if FriendsFrame.selectedTab == 1 and FriendsTabHeader.selectedTab == 1 and BattlenetTag:IsShown() then
-			FriendsFrameTitleText:Hide()
-		else
-			FriendsFrameTitleText:Show()
-		end
-	end)
 
 	for i = 1, FRIENDS_TO_DISPLAY do
 		local bu = _G["FriendsListFrameScrollFrameButton"..i]

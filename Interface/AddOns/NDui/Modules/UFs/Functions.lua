@@ -88,7 +88,6 @@ function UF:CreateHealthBar(self)
 	elseif (specialStyle and NDuiDB["UFs"]["RaidHPColor"] == 3) or (not specialStyle and NDuiDB["UFs"]["UFsHPColor"] == 3) then
 		health.colorSmooth = true
 	end
-	health.frequentUpdates = true
 
 	self.Health = health
 end

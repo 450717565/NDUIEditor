@@ -635,7 +635,6 @@ function UF:CreatePlates()
 	local bg = B.CreateSB(health)
 	B.CreateTex(bg)
 	self.Health = health
-	self.Health.frequentUpdates = true
 	self.Health.UpdateColor = UF.UpdateColor
 
 	UF:CreateHealthText(self)
