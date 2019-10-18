@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2365, "DBM-Nyalotha", nil, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20191011020850")
+mod:SetRevision("20191015014911")
 mod:SetCreatureID(156523)
 mod:SetEncounterID(2327)--Obsidian Destroyer ID, but only one left after eliminating all others, should be correct
 mod:SetZone()
@@ -183,7 +183,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 	elseif spellId == 310235 then
 		if self.Options.NPAuraOnDevouredAegis then
-			DBM.Nameplate:Hide(true, args.destGUID, spellId)
+			DBM.Nameplate:Show(true, args.destGUID, spellId)
 		end
 	elseif spellId == 306005 then
 		if self.Options.InfoFrame then

@@ -47,7 +47,6 @@ local function ForceDefaultSettings()
 	SetCVar("ShowClassColorInFriendlyNameplate", 1)
 	SetCVar("showTutorials", 0)
 	SetCVar("useCompactPartyFrames", 1)
-	SetCVar("WorldTextScale", 1)
 end
 
 local function ForceRaidFrame()

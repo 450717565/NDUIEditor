@@ -146,11 +146,11 @@ function B:CreateTex()
 	if self:GetObjectType() == "Texture" then frame = self:GetParent() end
 
 	local Tex = frame:CreateTexture(nil, "BACKGROUND", nil, 1)
-	Tex:SetAllPoints(self)
 	Tex:SetTexture(DB.bgTex, true, true)
+	Tex:SetAllPoints(self)
+	Tex:SetBlendMode("ADD")
 	Tex:SetHorizTile(true)
 	Tex:SetVertTile(true)
-	Tex:SetBlendMode("ADD")
 	self.Tex = Tex
 
 	return Tex

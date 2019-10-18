@@ -203,10 +203,26 @@ end
 
 -- [[ Reskin Functions ]]
 
+local function CreateTex(self)
+	if self.Tex then return end
+
+	local Tex = self:CreateTexture(nil, "BACKGROUND", nil, 1)
+	Tex:SetTexture(C.media.bgTex, true, true)
+	Tex:SetAllPoints(self)
+	Tex:SetBlendMode("ADD")
+	Tex:SetHorizTile(true)
+	Tex:SetVertTile(true)
+	self.Tex = Tex
+
+	return Tex
+end
+
 function F:CreateBD(alpha)
 	self:SetBackdrop({bgFile = C.media.bdTex, edgeFile = C.media.bdTex, edgeSize = C.mult})
 	self:SetBackdropColor(0, 0, 0, alpha or AuroraConfig.alpha)
 	self:SetBackdropBorderColor(0, 0, 0)
+
+	CreateTex(self)
 
 	if not alpha then tinsert(C.frames, self) end
 end
@@ -290,26 +306,11 @@ function F:CreateLine(isHorizontal)
 	return Line
 end
 
-local function CreateTex(self)
-	if self.Tex then return end
-
-	local Tex = self:CreateTexture(nil, "BACKGROUND", nil, 1)
-	Tex:SetTexture(C.media.bgTex, true, true)
-	Tex:SetHorizTile(true)
-	Tex:SetVertTile(true)
-	Tex:SetBlendMode("ADD")
-	Tex:SetAllPoints()
-	self.Tex = Tex
-
-	return Tex
-end
-
 function F:CreateSD()
 	if not AuroraConfig.shadow then return end
 	if self.Shadow then return end
 
 	local Pmult, Smult = C.mult*1.5, C.mult*2.5
-
 	local lvl = self:GetFrameLevel()
 	local Shadow = CreateFrame("Frame", nil, self)
 	Shadow:ClearAllPoints()
@@ -319,8 +320,6 @@ function F:CreateSD()
 	Shadow:SetBackdropBorderColor(0, 0, 0)
 	Shadow:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
 	self.Shadow = Shadow
-
-	CreateTex(self)
 
 	return Shadow
 end

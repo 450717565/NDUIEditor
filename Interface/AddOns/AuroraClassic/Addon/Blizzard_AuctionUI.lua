@@ -163,7 +163,7 @@ C.themes["Blizzard_AuctionUI"] = function()
 	end)
 
 	AuctionFrameTab1:ClearAllPoints()
-	AuctionFrameTab1:SetPoint("TOPLEFT", AuctionFrame, "BOTTOMLEFT", 15, 2)
+	AuctionFrameTab1:SetPoint("TOPLEFT", AuctionFrame, "BOTTOMLEFT", 15, 1)
 
 	-- Tutorial
 	do

@@ -10,8 +10,8 @@ local GetInventoryItemTexture, GetInventoryItemLink, GetItemInfo, GetItemGem, Ge
 local GetSpecialization, GetSpecializationInfo, GetInspectSpecialization, GetSpecializationInfoByID = GetSpecialization, GetSpecializationInfo, GetInspectSpecialization, GetSpecializationInfoByID
 local HEIRLOOMS, LE_ITEM_QUALITY_ARTIFACT, LE_ITEM_QUALITY_HEIRLOOM = HEIRLOOMS, LE_ITEM_QUALITY_ARTIFACT, LE_ITEM_QUALITY_HEIRLOOM
 
-local specPrefix = SPECIALIZATION..": "..DB.InfoColor
-local levelPrefix = STAT_AVERAGE_ITEM_LEVEL..": "..DB.InfoColor
+local specPrefix = SPECIALIZATION..L[":"]..DB.InfoColor
+local levelPrefix = STAT_AVERAGE_ITEM_LEVEL..L[":"]..DB.InfoColor
 local isPending = LFG_LIST_LOADING
 local resetTime, frequency = 900, .5
 local cache, weapon, currentUNIT, currentGUID = {}, {}

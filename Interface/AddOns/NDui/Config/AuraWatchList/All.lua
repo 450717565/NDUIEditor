@@ -176,7 +176,7 @@ local list = {
 		{AuraID = 271550, UnitID = "player"},	-- 临危不惧
 		{AuraID = 281517, UnitID = "player"},	-- 不稳定的催化剂
 		{AuraID = 271559, UnitID = "player"},	-- 闪光庇护所
-		{AuraID = 270657, UnitID = "player", Value = true},	-- 万人敌
+		{AuraID = 270657, UnitID = "player", Combat = true, Value = true},	-- 万人敌
 		-- 默认
 		{AuraID = 277960, UnitID = "player"},	-- 神经电激
 		{AuraID = 280852, UnitID = "player"},	-- 解放者之力

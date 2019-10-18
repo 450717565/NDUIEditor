@@ -204,7 +204,7 @@ function module:CreateDeleteButton()
 		else
 			bu.text:SetTextColor(cr, cg, cb)
 		end
-		self:GetScript("OnEnter")(self)
+		--self:GetScript("OnEnter")(self)
 	end)
 	bu.title = ACTION_UNIT_DESTROYED
 	B.AddTooltip(bu, "ANCHOR_TOP", L["ItemDeleteMode"], "info", true)
@@ -232,7 +232,7 @@ function module:CreateFavouriteButton()
 		else
 			bu.text:SetTextColor(cr, cg, cb)
 		end
-		self:GetScript("OnEnter")(self)
+		--self:GetScript("OnEnter")(self)
 	end)
 	bu.title = L["Favourite"]
 	B.AddTooltip(bu, "ANCHOR_TOP", L["FavouriteMode"], "info", true)

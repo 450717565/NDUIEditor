@@ -38,7 +38,7 @@ C.login["AuctionLite"] = function()
 		F.ReskinInput(input)
 	end
 
-	local buttons = {BuySearchButton, BuyScanButton, BuyBidButton, BuyBuyoutButton, BuyCancelAuctionButton, BuyCancelSearchButton, SellCreateAuctionButton, SellStacksMaxButton, SellSizeMaxButton}
+	local buttons = {BuySearchButton, BuyScanButton, BuyBidButton, BuyBuyoutButton, BuyCancelAuctionButton, BuyCancelSearchButton, SellCreateAuctionButton, SellStacksMaxButton, SellSizeMaxButton, BuyApproveButton, BuyCancelPurchaseButton}
 	for _, button in pairs(buttons) do
 		F.ReskinButton(button)
 	end

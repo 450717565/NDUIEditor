@@ -56,7 +56,7 @@ f:RegisterEvent('TRADE_SKILL_DATA_SOURCE_CHANGED')
 
 	--- Check Current Tab ---
 	local function isCurrentTab(self)
-		if self.tooltip and IsCurrentSpell(self.tooltip) then
+		if self.id and IsCurrentSpell(self.id) then
 			if TradeSkillFrame:IsShown() and (self.isSub == 0) then
 				CTradeSkillDB['Panel'] = self.id
 				restoreFilters()
@@ -95,7 +95,7 @@ f:RegisterEvent('TRADE_SKILL_DATA_SOURCE_CHANGED')
 		tab.tooltip = name
 		tab:SetNormalTexture(icon)
 		tab:SetAttribute('type', tabType)
-		tab:SetAttribute(tabType, name)
+		tab:SetAttribute(tabType, id)
 
 		if skinUI and not tab.skinned then
 			local checkedTexture
