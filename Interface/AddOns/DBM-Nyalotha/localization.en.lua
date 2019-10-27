@@ -35,6 +35,10 @@ L= DBM:GetModLocalization(2369)
 ---------------------------
 L= DBM:GetModLocalization(2377)
 
+L:SetMiscLocalization({
+	ObeliskSpawn	= "Obelisks of shadow, rise!"--Only as backup, in case the NPC target check stops working
+})
+
 ---------------------------
 --  The Hivemind --
 ---------------------------
@@ -82,6 +86,15 @@ L:SetMiscLocalization({
 --  Il'gynoth, Corruption Reborn --
 ---------------------------
 L= DBM:GetModLocalization(2374)
+
+L:SetOptionLocalization({
+	SetIconOnlyOnce		= "Set icon only once, per lowest health ooze scan, then disable until at least one dies",
+	InterruptBehavior	= "Set Pumping Blood interrupt behavior (Will override everyone elses setting if you are raid leader)",
+	Two					= "2 person rotation ",--Default
+	Three				= "3 person rotation ",
+	Four				= "4 person rotation ",
+	Five				= "5 person rotation "
+})
 
 ---------------------------
 --  Carapace of N'Zoth --

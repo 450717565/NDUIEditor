@@ -2,7 +2,7 @@
 local B, C, L, DB = unpack(ns)
 local M = B:GetModule("Misc")
 
-local pairs, select, next = pairs, select, next
+local pairs, select, next, type = pairs, select, next, type
 local UnitGUID, GetItemInfo = UnitGUID, GetItemInfo
 local GetContainerItemLink, GetInventoryItemLink = GetContainerItemLink, GetInventoryItemLink
 local EquipmentManager_UnpackLocation, EquipmentManager_GetItemInfoByLocation = EquipmentManager_UnpackLocation, EquipmentManager_GetItemInfoByLocation
@@ -42,7 +42,7 @@ function M:GetSlotAnchor(index)
 end
 
 function M:CreateItemTexture(slot, relF, relT, x, y)
-	local icon = slot:CreateTexture(nil, "ARTWORK")
+	local icon = slot:CreateTexture()
 	icon:SetPoint(relF, slot, relT, x, y)
 	icon:SetSize(14, 14)
 	icon:SetTexCoord(unpack(DB.TexCoord))
@@ -101,6 +101,7 @@ function M:ItemLevel_SetupLevel(frame, strType, unit)
 				local quality = select(3, GetItemInfo(link))
 				local info = B.GetItemLevel(link, unit, index, NDuiDB["Misc"]["GemNEnchant"])
 				local infoType = type(info)
+				local level
 				if infoType == "table" then
 					level = info.iLvl
 				else
