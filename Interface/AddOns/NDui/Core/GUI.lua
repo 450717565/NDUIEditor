@@ -984,7 +984,7 @@ local function CreateOption(i)
 				s.value:SetText(format("%."..decimal.."f", current))
 				if callback then callback() end
 			end)
-			s.value:SetText(format("%."..step.."f", NDUI_VARIABLE(key, value)))
+			s.value:SetText(format("%."..decimal.."f", NDUI_VARIABLE(key, value)))
 		-- Dropdown
 		elseif optType == 4 then
 			local dd = B.CreateDropDown(parent, 200, 28, data)
@@ -1070,7 +1070,7 @@ local function exportData()
 								end
 							end
 						end
-					elseif KEY == "Mover" or KEY == "RaidClickSets" or KEY == "CustomCD" then
+					elseif KEY == "Mover" or KEY == "RaidClickSets" or KEY == "CustomCD" or KEY == "AuraWatchMover" then
 						text = text..";"..KEY..":"..key
 						for _, v in ipairs(value) do
 							text = text..":"..tostring(v)
@@ -1177,8 +1177,9 @@ local function importData()
 			for _, itemID in next, items do
 				NDuiDB[key][value][tonumber(itemID)] = true
 			end
-		elseif key == "Mover" then
+		elseif key == "Mover" or key == "AuraWatchMover" then
 			local relFrom, parent, relTo, x, y = select(3, strsplit(":", option))
+			value = tonumber(value) or value
 			x = tonumber(x)
 			y = tonumber(y)
 			NDuiDB[key][value] = {relFrom, parent, relTo, x, y}

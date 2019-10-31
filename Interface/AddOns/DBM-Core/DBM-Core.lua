@@ -68,7 +68,7 @@ local function showRealDate(curseDate)
 end
 
 DBM = {
-	Revision = parseCurseDate("20191027002200"),
+	Revision = parseCurseDate("20191028175038"),
 	DisplayVersion = "8.2.26 alpha", -- the string that is shown as version
 	ReleaseRevision = releaseDate(2019, 10, 23) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
@@ -7165,7 +7165,7 @@ function DBM:FindInstanceIDs(low, peak, contains)
 end
 
 
---/run DBM:FindEncounterIDs(1180)--Ny'alotha
+--/run DBM:FindEncounterIDs(1028)--Azeroth
 --/run DBM:FindEncounterIDs(1178, 23)--Dungeon Template (mythic difficulty)
 --/run DBM:FindEncounterIDs(237, 1)--Classic Dungeons need diff 1 specified
 --/run DBM:FindDungeonMapIDs(1, 500)--Find Classic Dungeon Map IDs
