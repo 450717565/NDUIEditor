@@ -2,6 +2,7 @@ local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinFrame(HelpFrame)
+	F.ReskinHeader(HelpFrame)
 	F.ReskinFrame(TicketStatusFrame)
 
 	F.ReskinArrow(HelpBrowserNavBack, "left")
@@ -16,8 +17,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinButton(ReportCheatingDialogReportButton)
 	F.ReskinButton(ReportCheatingDialogCancelButton)
 
-	HelpFrameHeader:ClearAllPoints()
-	HelpFrameHeader:SetPoint("TOP", HelpFrame, "TOP", 0, 5)
 	HelpFrameButton6:ClearAllPoints()
 	HelpFrameButton6:SetPoint("TOP", HelpFrameButton16, "BOTTOM", 0, -12)
 	HelpBrowserNavHome:ClearAllPoints()
@@ -31,7 +30,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	select(6, HelpFrameGM_Response:GetChildren()):Hide()
 
 	local lists = {
-		HelpFrameHeader,
 		HelpFrameMainInset,
 		HelpBrowser.BrowserInset,
 	}

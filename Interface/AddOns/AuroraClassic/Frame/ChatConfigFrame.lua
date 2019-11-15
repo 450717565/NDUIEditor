@@ -2,6 +2,7 @@ local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinFrame(ChatConfigFrame)
+	F.ReskinHeader(ChatConfigFrame)
 
 	F.ReskinArrow(ChatConfigMoveFilterUpButton, "up")
 	F.ReskinArrow(ChatConfigMoveFilterDownButton, "down")
@@ -9,8 +10,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	ChatConfigMoveFilterUpButton:SetSize(26, 26)
 	ChatConfigMoveFilterDownButton:SetSize(26, 26)
 
-	ChatConfigFrameHeader:ClearAllPoints()
-	ChatConfigFrameHeader:SetPoint("TOP")
 	ChatConfigFrameRedockButton:ClearAllPoints()
 	ChatConfigFrameRedockButton:SetPoint("LEFT", ChatConfigFrameDefaultButton, "RIGHT", 1, 0)
 	ChatConfigCombatSettingsFiltersAddFilterButton:ClearAllPoints()

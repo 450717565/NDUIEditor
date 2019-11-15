@@ -48,6 +48,7 @@ C.defaults = {
 }
 
 C.frames = {}
+C.isNewPatch = GetBuildInfo() == "8.3.0"
 
 -- [[ Database ]]
 
@@ -596,6 +597,17 @@ function F:ReskinGarrisonPortrait()
 	if self.Empty then
 		self.Empty:SetColorTexture(0, 0, 0)
 		self.Empty:SetAllPoints(self.Portrait)
+	end
+end
+
+function F:ReskinHeader()
+	local frameName = self.GetName and self:GetName()
+	local frameHeader = (frameName and (_G[frameName.."Header"] or _G[frameName.."header"])) or self.Header or self.header
+	if frameHeader then
+		F.StripTextures(frameHeader)
+
+		frameHeader:ClearAllPoints()
+		frameHeader:SetPoint("TOP", 0, 5)
 	end
 end
 

@@ -2,6 +2,7 @@ local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinFrame(RaidInfoFrame)
+	F.ReskinHeader(RaidInfoFrame)
 
 	F.ReskinButton(RaidFrameRaidInfoButton)
 	F.ReskinButton(RaidInfoCancelButton)
@@ -12,8 +13,6 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	RaidInfoFrame:ClearAllPoints()
 	RaidInfoFrame:SetPoint("TOPLEFT", RaidFrame, "TOPRIGHT", 3, -25)
-	RaidInfoFrameHeaderText:ClearAllPoints()
-	RaidInfoFrameHeaderText:SetPoint("TOP", RaidInfoFrame, "TOP", 0, -10)
 	RaidFrameRaidInfoButton:ClearAllPoints()
 	RaidFrameRaidInfoButton:SetPoint("TOPRIGHT", FriendsFrame.CloseButton, "BOTTOMRIGHT", 0, -2)
 	RaidFrame.RoleCount:ClearAllPoints()

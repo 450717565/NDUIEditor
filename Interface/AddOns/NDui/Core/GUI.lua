@@ -317,6 +317,7 @@ local accountSettings = {
 	AutoBubbles = false,
 	SystemInfoType = 3,
 	DisableInfobars = false,
+	PartyWatcherSpells = {},
 }
 
 -- Initial settings
@@ -369,6 +370,14 @@ loader:SetScript("OnEvent", function(self, _, addon)
 end)
 
 -- Callbacks
+local function setupUnitFrame()
+	G:SetupUnitFrame(guiPage[3])
+end
+
+local function setupCastbar()
+	G:SetupCastbar(guiPage[3])
+end
+
 local function setupRaidDebuffs()
 	G:SetupRaidDebuffs(guiPage[4])
 end
@@ -381,16 +390,12 @@ local function setupBuffIndicator()
 	G:SetupBuffIndicator(guiPage[4])
 end
 
+local function setupPartyWatcher()
+	G:SetupPartyWatcher(guiPage[4])
+end
+
 local function setupNameplateFilter()
 	G:SetupNameplateFilter(guiPage[5])
-end
-
-local function setupUnitFrame()
-	G:SetupUnitFrame(guiPage[3])
-end
-
-local function setupCastbar()
-	G:SetupCastbar(guiPage[3])
 end
 
 local function setupAuraWatch()
@@ -623,10 +628,10 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{},--blank
 		{1, "UFs", "PartyFrame", DB.MyColor..L["UFs PartyFrame"]},
 		{1, "UFs", "HorizonParty", L["Horizon PartyFrame"], true},
-		{1, "UFs", "PartyWatcher", L["UFs PartyWatcher"]},
+		{1, "UFs", "PartyWatcher", L["UFs PartyWatcher"], nil, setupPartyWatcher},
 		{1, "Extras", "ShowYourself", L["PartyFrame Show Yourself"], true},
 		{1, "UFs", "PWOnRight", L["PartyWatcherOnRight"]},
-		{3, "UFs", "PartyWidth", L["PartyFrame Width"].."*(100)", false, {60, 200, 0}, updatePartySize},
+		{3, "UFs", "PartyWidth", L["PartyFrame Width"].."*(100)", false, {80, 200, 0}, updatePartySize},
 		{3, "UFs", "PartyHeight", L["PartyFrame Height"].."*(32)", true, {25, 60, 0}, updatePartySize},
 		{},--blank
 		{1, "UFs", "RaidBuffIndicator", DB.MyColor..L["RaidBuffIndicator"], false, setupBuffIndicator},
@@ -727,7 +732,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Misc", "Interrupt", DB.MyColor..L["Interrupt Alert"].."*", false, nil, updateInterruptAlert},
 		{1, "Misc", "AlertInInstance", L["Alert In Instance"].."*", true},
 		{1, "Misc", "OwnInterrupt", L["Own Interrupt"].."*"},
-		{1, "Misc", "BrokenSpell", L["Broken Spell"].."*", true},
+		{1, "Misc", "BrokenSpell", L["Broken Spell"].."*", true, nil, nil, L["BrokenSpellTip"]},
 		{},--blank
 		{1, "Misc", "ExplosiveCount", L["Explosive Alert"].."*", false, nil, updateExplosiveAlert},
 		{1, "Misc", "PlacedItemAlert", L["Placed Item Alert"].."*", true},
@@ -1118,6 +1123,14 @@ local function exportData()
 					end
 				end
 			end
+		elseif KEY == "PartyWatcherSpells" then
+			text = text..";ACCOUNT:"..KEY
+			for spellID, duration in pairs(VALUE) do
+				local name = GetSpellInfo(spellID)
+				if name then
+					text = text..":"..spellID..":"..duration
+				end
+			end
 		end
 	end
 
@@ -1217,6 +1230,16 @@ local function importData()
 				filter = toBoolean(filter)
 				if not NDuiADB[value][class] then NDuiADB[value][class] = {} end
 				NDuiADB[value][class][spellID] = {anchor, {r, g, b}, filter}
+			elseif value == "PartyWatcherSpells" then
+				local options = {strsplit(":", option)}
+				local index = 3
+				local spellID = options[index]
+				while spellID do
+					local duration = options[index+1]
+					NDuiADB[value][tonumber(spellID)] = tonumber(duration) or 0
+					index = index + 2
+					spellID = options[index]
+				end
 			end
 		elseif tonumber(arg1) then
 			if value == "DBMCount" then

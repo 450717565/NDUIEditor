@@ -3,10 +3,14 @@ local F, C = unpack(select(2, ...))
 tinsert(C.themes["AuroraClassic"], function()
 	-- DressupFrame
 	F.ReskinFrame(DressUpFrame)
-	F.ReskinMinMax(MaximizeMinimizeFrame)
 
-	MaximizeMinimizeFrame:ClearAllPoints()
-	MaximizeMinimizeFrame:SetPoint("RIGHT", DressUpFrameCloseButton, "LEFT", 8, 0)
+	if C.isNewPatch then
+		F.ReskinMinMax(DressUpFrame.MaximizeMinimizeFrame)
+	else
+		F.ReskinMinMax(MaximizeMinimizeFrame)
+		MaximizeMinimizeFrame:ClearAllPoints()
+		MaximizeMinimizeFrame:SetPoint("RIGHT", DressUpFrameCloseButton, "LEFT", 8, 0)
+	end
 
 	local DropDown = DressUpFrameOutfitDropDown
 	F.ReskinDropDown(DropDown)

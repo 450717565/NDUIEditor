@@ -56,7 +56,7 @@ local function clearEdit(options)
 	end
 end
 
-local raidDebuffsGUI, clickCastGUI, buffIndicatorGUI, plateGUI, unitframeGUI, castbarGUI
+local raidDebuffsGUI, clickCastGUI, buffIndicatorGUI, plateGUI, unitframeGUI, castbarGUI, partyWatcherGUI
 
 local function updateRaidDebuffs()
 	B:GetModule("UnitFrames"):UpdateRaidDebuffs()
@@ -411,6 +411,98 @@ function G:SetupClickCast(parent)
 	end
 end
 
+function G:SetupPartyWatcher(parent)
+	toggleExtraGUI("NDuiGUI_PartyWatcher")
+	if partyWatcherGUI then return end
+
+	partyWatcherGUI = createExtraGUI(parent, "NDuiGUI_PartyWatcher", L["AddPartyWatcher"].."*", true)
+
+	local barTable = {}
+	local ARCANE_TORRENT = GetSpellInfo(25046)
+
+	local function createBar(parent, spellID, duration)
+		local spellName = GetSpellInfo(spellID)
+		if spellName == ARCANE_TORRENT then return end
+		local texture = GetSpellTexture(spellID)
+
+		local bar = CreateFrame("Frame", nil, parent)
+		bar:SetSize(220, 30)
+		B.CreateBD(bar, .25)
+		B.CreateSD(bar)
+		barTable[spellID] = bar
+
+		local icon, close = G:CreateBarWidgets(bar, texture)
+		B.AddTooltip(icon, "ANCHOR_RIGHT", spellID, "system")
+		close:SetScript("OnClick", function()
+			bar:Hide()
+			NDuiADB["PartyWatcherSpells"][spellID] = nil
+			barTable[spellID] = nil
+			sortBars(barTable)
+		end)
+
+		local name = B.CreateFS(bar, 14, spellName, false, "LEFT", 30, 0)
+		name:SetWidth(120)
+		name:SetJustifyH("LEFT")
+
+		local timer = B.CreateFS(bar, 14, duration, false, "RIGHT", -30, 0)
+		timer:SetWidth(60)
+		timer:SetJustifyH("RIGHT")
+		timer:SetTextColor(0, 1, 0)
+
+		sortBars(barTable)
+	end
+
+	local frame = partyWatcherGUI.bg
+	local options = {}
+
+	options[1] = G:CreateEditbox(frame, "ID*", 10, -30, L["ID Intro"])
+	options[2] = G:CreateEditbox(frame, L["Cooldown*"], 120, -30, L["Cooldown Intro"])
+
+	local scroll = G:CreateScroll(frame, 240, 410)
+	scroll.reset = B.CreateButton(frame, 70, 25, RESET)
+	scroll.reset:SetPoint("TOPLEFT", 10, -80)
+	StaticPopupDialogs["RESET_NDUI_PARTYWATCHER"] = {
+		text = L["Reset your raiddebuffs list?"],
+		button1 = YES,
+		button2 = NO,
+		OnAccept = function()
+			wipe(NDuiADB["PartyWatcherSpells"])
+			ReloadUI()
+		end,
+		whileDead = 1,
+	}
+	scroll.reset:SetScript("OnClick", function()
+		StaticPopup_Show("RESET_NDUI_PARTYWATCHER")
+	end)
+
+	local function addClick(scroll, options)
+		local spellID, duration = tonumber(options[1]:GetText()), tonumber(options[2]:GetText())
+		if not spellID or not duration then UIErrorsFrame:AddMessage(DB.InfoColor..L["Incomplete Input"]) return end
+		if not GetSpellInfo(spellID) then UIErrorsFrame:AddMessage(DB.InfoColor..L["Incorrect SpellID"]) return end
+		if NDuiADB["PartyWatcherSpells"][spellID] then UIErrorsFrame:AddMessage(DB.InfoColor..L["Existing ID"]) return end
+
+		NDuiADB["PartyWatcherSpells"][spellID] = duration
+		createBar(scroll.child, spellID, duration)
+		clearEdit(options)
+	end
+
+	scroll.add = B.CreateButton(frame, 70, 25, ADD)
+	scroll.add:SetPoint("TOPRIGHT", -10, -80)
+	scroll.add:SetScript("OnClick", function()
+		addClick(scroll, options)
+	end)
+
+	scroll.clear = B.CreateButton(frame, 70, 25, KEY_NUMLOCK_MAC)
+	scroll.clear:SetPoint("RIGHT", scroll.add, "LEFT", -10, 0)
+	scroll.clear:SetScript("OnClick", function()
+		clearEdit(options)
+	end)
+
+	for spellID, duration in pairs(NDuiADB["PartyWatcherSpells"]) do
+		createBar(scroll.child, spellID, duration)
+	end
+end
+
 function G:SetupNameplateFilter(parent)
 	toggleExtraGUI("NDuiGUI_NameplateFilter")
 	if plateGUI then return end
@@ -753,6 +845,9 @@ function G:SetupCastbar(parent)
 				_G.oUF_Player.QuakeTimer.Icon:SetSize(height, height)
 				_G.oUF_Player.QuakeTimer.mover:Show()
 				_G.oUF_Player.QuakeTimer.mover:SetSize(width+height+5, height+5)
+			end
+			if _G.oUF_Player.Swing then
+				_G.oUF_Player.Swing:SetWidth(width-height-5)
 			end
 		end
 	end

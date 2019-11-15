@@ -44,7 +44,7 @@ C.themes["Blizzard_Calendar"] = function()
 	CalendarCreateEventAMPMDropDown:SetWidth(90)
 	CalendarCreateEventDifficultyOptionDropDown:SetWidth(150)
 
-	local frames = {CalendarViewEventTitleFrame, CalendarViewHolidayTitleFrame, CalendarViewRaidTitleFrame, CalendarCreateEventTitleFrame, CalendarTexturePickerTitleFrame, CalendarMassInviteTitleFrame, CalendarEventPickerTitleFrame}
+	local frames = {CalendarViewEventTitleFrame, CalendarViewHolidayTitleFrame, CalendarViewRaidTitleFrame, CalendarCreateEventTitleFrame, CalendarTexturePickerTitleFrame, CalendarMassInviteTitleFrame}
 	for _, frame in pairs(frames) do
 		F.StripTextures(frame)
 
@@ -58,7 +58,7 @@ C.themes["Blizzard_Calendar"] = function()
 		F.CreateBDFrame(container, 0)
 	end
 
-	local buttons = {CalendarViewEventAcceptButton, CalendarViewEventTentativeButton, CalendarViewEventDeclineButton, CalendarViewEventRemoveButton, CalendarCreateEventMassInviteButton, CalendarCreateEventCreateButton, CalendarCreateEventInviteButton, CalendarEventPickerCloseButton, CalendarCreateEventRaidInviteButton, CalendarTexturePickerAcceptButton, CalendarTexturePickerCancelButton, CalendarMassInviteAcceptButton}
+	local buttons = {CalendarViewEventAcceptButton, CalendarViewEventTentativeButton, CalendarViewEventDeclineButton, CalendarViewEventRemoveButton, CalendarCreateEventMassInviteButton, CalendarCreateEventCreateButton, CalendarCreateEventInviteButton, CalendarCreateEventRaidInviteButton, CalendarTexturePickerAcceptButton, CalendarTexturePickerCancelButton, CalendarMassInviteAcceptButton}
 	for _, button in pairs(buttons) do
 		F.StripTextures(button)
 		F.ReskinButton(button)
@@ -84,6 +84,22 @@ C.themes["Blizzard_Calendar"] = function()
 		F.ReskinInput(input)
 	end
 
+	if C.isNewPatch then
+		local function reskinCalendarPage(self)
+			F.ReskinFrame(self)
+			F.StripTextures(self.Header)
+		end
+		reskinCalendarPage(CalendarViewHolidayFrame)
+		reskinCalendarPage(CalendarCreateEventFrame)
+		reskinCalendarPage(CalendarTexturePickerFrame)
+		reskinCalendarPage(CalendarEventPickerFrame)
+	else
+		F.ReskinFrame(CalendarEventPickerFrame)
+		F.StripTextures(CalendarEventPickerTitleFrame)
+		F.StripTextures(CalendarEventPickerCloseButton)
+		F.ReskinButton(CalendarEventPickerCloseButton)
+	end
+
 	for i, class in pairs(CLASS_SORT_ORDER) do
 		local bu = _G["CalendarClassButton"..i]
 		bu:GetRegions():Hide()
@@ -103,6 +119,16 @@ C.themes["Blizzard_Calendar"] = function()
 
 		local df = _G[button.."DarkFrame"]
 		df:SetAlpha(.5)
+
+		local index = 1
+		local eventButton = _G[button.."EventButton"..index]
+		while eventButton do
+			eventButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
+			eventButton.black:SetTexture(nil)
+
+			index = index + 1
+			eventButton = _G[button.."EventButton"..index]
+		end
 	end
 
 	for i = 1, 6 do

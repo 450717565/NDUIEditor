@@ -5,9 +5,8 @@ tinsert(C.themes["AuroraClassic"], function()
 		if self.styled then return end
 
 		F.ReskinFrame(InterfaceOptionsFrame)
+		F.ReskinHeader(InterfaceOptionsFrame)
 
-		InterfaceOptionsFrameHeader:ClearAllPoints()
-		InterfaceOptionsFrameHeader:SetPoint("TOP")
 		InterfaceOptionsFrameOkay:ClearAllPoints()
 		InterfaceOptionsFrameOkay:SetPoint("RIGHT", InterfaceOptionsFrameCancel, "LEFT", -1, 0)
 

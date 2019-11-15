@@ -3,7 +3,7 @@ local B, C, L, DB = unpack(ns)
 
 local oUF = ns.oUF or oUF
 local UF = B:RegisterModule("UnitFrames")
-local format, floor, abs, min = string.format, math.floor, math.abs, math.min
+local format, floor, abs = string.format, math.floor, math.abs
 local pairs, next = pairs, next
 
 -- Custom colors
@@ -982,9 +982,12 @@ function UF:CreateAddPower(self)
 end
 
 function UF:CreateSwing(self)
+	if not NDuiDB["UFs"]["Castbars"] then return end
+
 	local bar = CreateFrame("StatusBar", nil, self)
-	bar:SetSize(250, 5)
-	bar:SetPoint("TOP", self.Castbar, "BOTTOM", -16, -5)
+	local width = NDuiDB["UFs"]["PlayerCBWidth"] - NDuiDB["UFs"]["PlayerCBHeight"] - 5
+	bar:SetSize(width, 5)
+	bar:SetPoint("TOP", self.Castbar.mover, "BOTTOM", 0, -5)
 
 	local two = CreateFrame("StatusBar", nil, bar)
 	two:Hide()
@@ -1097,8 +1100,9 @@ function UF:InterruptIndicator(self)
 	local rel1 = not horizon and not otherSide and "RIGHT" or "LEFT"
 	local rel2 = not horizon and not otherSide and "LEFT" or "RIGHT"
 	local buttons = {}
-	local maxIcons = 3
-	local iconSize = horizon and min((self:GetWidth()-(maxIcons-1)*abs(margin))/maxIcons, 32) or (self:GetHeight()+self.Power:GetHeight()+3)
+	local maxIcons = 4
+	local iconSize = horizon and (self:GetWidth()-(maxIcons-1)*abs(margin))/maxIcons or (self:GetHeight()+self.Power:GetHeight()+3)
+	if iconSize > 32 then iconSize = 32 end
 
 	for i = 1, maxIcons do
 		local bu = CreateFrame("Frame", nil, self)
@@ -1116,7 +1120,7 @@ function UF:InterruptIndicator(self)
 	end
 
 	buttons.__max = maxIcons
-	buttons.PartySpells = C.PartySpells
+	buttons.PartySpells = NDuiADB["PartyWatcherSpells"]
 	buttons.TalentCDFix = C.TalentCDFix
 	self.PartyWatcher = buttons
 end

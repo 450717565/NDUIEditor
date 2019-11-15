@@ -60,7 +60,7 @@ C.themes["Blizzard_PVPUI"] = function()
 	local BonusFrame = HonorFrame.BonusFrame
 	F.StripTextures(BonusFrame)
 
-	for _, bonusButton in pairs({"RandomBGButton", "RandomEpicBGButton", "Arena1Button", "BrawlButton"}) do
+	for _, bonusButton in pairs({"RandomBGButton", "RandomEpicBGButton", "Arena1Button", "BrawlButton", "SpecialEventButton"}) do
 		local bu = BonusFrame[bonusButton]
 		F.ReskinButton(bu)
 		F.ReskinTexture(bu.SelectedTexture, bu, true)

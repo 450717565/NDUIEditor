@@ -15,6 +15,7 @@ local BNGetNumFriends, GetRealZoneText, GetQuestDifficultyColor = BNGetNumFriend
 local C_BattleNet_GetFriendAccountInfo = C_BattleNet.GetFriendAccountInfo
 local C_BattleNet_GetFriendNumGameAccounts = C_BattleNet.GetFriendNumGameAccounts
 local C_BattleNet_GetFriendGameAccountInfo = C_BattleNet.GetFriendGameAccountInfo
+local InviteToGroup = C_PartyInfo.InviteUnit
 
 local BNET_CLIENT_WOW, UNKNOWN, GUILD_ONLINE_LABEL = BNET_CLIENT_WOW, UNKNOWN, GUILD_ONLINE_LABEL
 local FRIENDS_TEXTURE_ONLINE, FRIENDS_TEXTURE_AFK, FRIENDS_TEXTURE_DND = FRIENDS_TEXTURE_ONLINE, FRIENDS_TEXTURE_AFK, FRIENDS_TEXTURE_DND
@@ -440,12 +441,12 @@ local function updateFriendsFrame()
 end
 
 info.eventList = {
-	"BN_FRIEND_ACCOUNT_ONLINE",
-	"BN_FRIEND_ACCOUNT_OFFLINE",
-	"BN_FRIEND_INFO_CHANGED",
-	"FRIENDLIST_UPDATE",
 	"PLAYER_ENTERING_WORLD",
+	"BN_FRIEND_ACCOUNT_OFFLINE",
+	"BN_FRIEND_ACCOUNT_ONLINE",
+	"BN_FRIEND_INFO_CHANGED",
 	"CHAT_MSG_SYSTEM",
+	"FRIENDLIST_UPDATE",
 }
 
 info.onEvent = function(self, event, arg1)

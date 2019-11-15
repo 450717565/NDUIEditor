@@ -22,12 +22,12 @@ local function getClassIcon(class)
 end
 
 info.eventList = {
-	"PLAYER_MONEY",
-	"SEND_MAIL_MONEY_CHANGED",
-	"SEND_MAIL_COD_CHANGED",
-	"PLAYER_TRADE_MONEY",
-	"TRADE_MONEY_CHANGED",
 	"PLAYER_ENTERING_WORLD",
+	"PLAYER_MONEY",
+	"PLAYER_TRADE_MONEY",
+	"SEND_MAIL_COD_CHANGED",
+	"SEND_MAIL_MONEY_CHANGED",
+	"TRADE_MONEY_CHANGED",
 }
 
 info.onEvent = function(self, event)

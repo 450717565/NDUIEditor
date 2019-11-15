@@ -130,6 +130,14 @@ tinsert(C.themes["AuroraClassic"], function()
 	ReskinFont(SystemFont_World_ThickOutline, 64)
 	ReskinFont(SystemFont_WTF2, 64)
 
+	if C.isNewPatch then
+		ReskinFont(Number13FontYellow)
+		ReskinFont(Number13FontWhite)
+		ReskinFont(Number13FontGray)
+		ReskinFont(Number14FontWhite)
+		ReskinFont(Number18FontWhite)
+	end
+
 	-- Refont RaidFrame Health
 	hooksecurefunc("CompactUnitFrame_UpdateStatusText", function(frame)
 		if frame:IsForbidden() then return end

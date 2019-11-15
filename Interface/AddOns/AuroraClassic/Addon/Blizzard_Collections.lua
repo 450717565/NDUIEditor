@@ -428,7 +428,6 @@ C.themes["Blizzard_Collections"] = function()
 	F.StripTextures(WardrobeOutfitFrame)
 	F.CreateBDFrame(WardrobeOutfitFrame, .25, nil, true)
 	F.ReskinButton(WardrobeTransmogFrame.ApplyButton)
-	F.ReskinButton(WardrobeTransmogFrame.Model.ClearAllPendingButton)
 	F.ReskinButton(WardrobeOutfitDropDown.SaveButton)
 	F.ReskinArrow(WardrobeTransmogFrame.SpecButton, "down")
 	F.ReskinDropDown(WardrobeOutfitDropDown)
@@ -437,9 +436,12 @@ C.themes["Blizzard_Collections"] = function()
 	WardrobeOutfitDropDown.SaveButton:SetPoint("LEFT", WardrobeOutfitDropDown, "RIGHT", -13, 2)
 	WardrobeTransmogFrame.SpecButton:SetPoint("RIGHT", WardrobeTransmogFrame.ApplyButton, "LEFT", -3, 0)
 
+	local ModelScene = C.isNewPatch and WardrobeTransmogFrame.ModelScene or WardrobeTransmogFrame.Model
+	F.ReskinButton(ModelScene.ClearAllPendingButton)
+
 	local slots = {"Head", "Shoulder", "Back", "Chest", "Shirt", "Tabard", "Wrist", "Hands", "Waist", "Legs", "Feet", "MainHand", "SecondaryHand", "MainHandEnchant", "SecondaryHandEnchant"}
 	for i = 1, #slots do
-		local slot = WardrobeTransmogFrame.Model[slots[i].."Button"]
+		local slot = ModelScene[slots[i].."Button"]
 		if slot then
 			slot.Border:Hide()
 

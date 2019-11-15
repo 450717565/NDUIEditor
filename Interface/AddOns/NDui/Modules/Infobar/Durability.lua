@@ -65,8 +65,8 @@ local tip = CreateFrame("GameTooltip", "NDuiDurabilityTooltip")
 tip:SetOwner(UIParent, "ANCHOR_NONE")
 
 info.eventList = {
-	"UPDATE_INVENTORY_DURABILITY",
 	"PLAYER_ENTERING_WORLD",
+	"UPDATE_INVENTORY_DURABILITY",
 }
 
 info.onEvent = function(self, event)

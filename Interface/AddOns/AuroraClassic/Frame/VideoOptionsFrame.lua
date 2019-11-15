@@ -18,6 +18,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		if self.styled then return end
 
 		F.ReskinFrame(VideoOptionsFrame)
+		F.ReskinHeader(VideoOptionsFrame)
 
 		local textures = {
 			AudioOptionsSoundPanelHardware,
@@ -50,9 +51,6 @@ tinsert(C.themes["AuroraClassic"], function()
 		local line = F.CreateLine(VideoOptionsFrameCategoryFrame)
 		line:SetPoint("RIGHT", 10, 0)
 
-		VideoOptionsFrameHeader:Hide()
-		VideoOptionsFrameHeader:ClearAllPoints()
-		VideoOptionsFrameHeader:SetPoint("TOP", VideoOptionsFrame, 0, 0)
 		VideoOptionsFrameOkay:ClearAllPoints()
 		VideoOptionsFrameOkay:SetPoint("BOTTOMRIGHT", VideoOptionsFrameCancel, "BOTTOMLEFT", -1, 0)
 		AudioOptionsSoundPanelPlaybackTitle:ClearAllPoints()

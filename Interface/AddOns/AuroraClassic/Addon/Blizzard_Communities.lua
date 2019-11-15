@@ -21,6 +21,10 @@ C.themes["Blizzard_Communities"] = function()
 	F.ReskinButton(CommunitiesFrame.CommunitiesControlFrame.GuildRecruitmentButton)
 	F.ReskinButton(CommunitiesFrame.CommunitiesControlFrame.CommunitiesSettingsButton)
 
+	if C.isNewPatch then
+		F.ReskinDropDown(CommunitiesFrame.CommunityMemberListDropDownMenu)
+	end
+
 	F.ReskinMinMax(CommunitiesFrame.MaximizeMinimizeFrame)
 	F.ReskinDropDown(CommunitiesFrame.CommunitiesListDropDownMenu)
 	F.ReskinScroll(CommunitiesFrameCommunitiesListListScrollFrame.ScrollBar)

@@ -60,6 +60,10 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		hooksecurefunc(slot, "DisplayAsAzeriteItem", UpdateAzeriteItem)
 		hooksecurefunc(slot, "DisplayAsAzeriteEmpoweredItem", UpdateAzeriteEmpoweredItem)
+
+		local cooldown = _G["Character"..slots[i].."SlotCooldown"]
+		cooldown:SetPoint("TOPLEFT", icbg, C.mult, -C.mult)
+		cooldown:SetPoint("BOTTOMRIGHT", icbg, -C.mult, C.mult)
 	end
 
 	hooksecurefunc("PaperDollItemSlotButton_Update", function(self)
