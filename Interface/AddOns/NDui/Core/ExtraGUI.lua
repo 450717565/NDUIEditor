@@ -752,10 +752,10 @@ function G:SetupUnitFrame(parent)
 	}
 
 	local defaultValue = {
-		["Player"] = {250, 24, 4},
-		["Focus"] = {200, 22, 3},
-		["Pet"] = {120, 18, 2},
-		["Boss"] = {150, 22, 3},
+		["Player"] = {250, 30, 2},
+		["Focus"] = {200, 26, 2},
+		["Pet"] = {120, 20, 2},
+		["Boss"] = {150, 28, 2},
 	}
 
 	local function createOptionGroup(parent, title, offset, value, func)

@@ -265,7 +265,7 @@ function UF:OnLogin()
 
 		oUF:SetActiveStyle("Pet")
 		local pet = oUF:Spawn("Pet", "oUF_Pet")
-		B.Mover(pet, L["PetUF"], "PetUF", {"BOTTOMLEFT", oUF_Player, "BOTTOMRIGHT", 5, -2})
+		B.Mover(pet, L["PetUF"], "PetUF", {"BOTTOMLEFT", oUF_Player, "BOTTOMRIGHT", 5, 0})
 
 		oUF:SetActiveStyle("Target")
 		local target = oUF:Spawn("Target", "oUF_Target")
@@ -273,7 +273,7 @@ function UF:OnLogin()
 
 		oUF:SetActiveStyle("TargetTarget")
 		local targettarget = oUF:Spawn("TargetTarget", "oUF_ToT")
-		B.Mover(targettarget, L["ToTUF"], "ToTUF", {"BOTTOMRIGHT", oUF_Target, "BOTTOMLEFT", -5, -2})
+		B.Mover(targettarget, L["ToTUF"], "ToTUF", {"BOTTOMRIGHT", oUF_Target, "BOTTOMLEFT", -5, 0})
 
 		oUF:SetActiveStyle("Focus")
 		local focus = oUF:Spawn("Focus", "oUF_Focus")
@@ -281,7 +281,7 @@ function UF:OnLogin()
 
 		oUF:SetActiveStyle("FocusTarget")
 		local focustarget = oUF:Spawn("FocusTarget", "oUF_FoT")
-		B.Mover(focustarget, L["FoTUF"], "FoTUF", {"BOTTOMLEFT", oUF_Focus, "BOTTOMRIGHT", 5, -1})
+		B.Mover(focustarget, L["FoTUF"], "FoTUF", {"BOTTOMLEFT", oUF_Focus, "BOTTOMRIGHT", 5, 0})
 
 		oUF:RegisterStyle("Boss", CreateBossStyle)
 		oUF:SetActiveStyle("Boss")

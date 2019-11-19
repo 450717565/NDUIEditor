@@ -139,7 +139,7 @@ local function ForceDBMOptions()
 				["StartColorR"] = 1,
 				["Texture"] = DB.normTex,
 				["TimerPoint"] = "CENTER",
-				["TimerX"] = 310,
+				["TimerX"] = 315,
 				["TimerY"] = -85,
 				["Width"] = 175,
 			},

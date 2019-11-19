@@ -65,6 +65,7 @@ local defaultSettings = {
 		ClickThrough = false,
 		IconScale = 1,
 		DeprecatedAuras = false,
+		QuakeRing = true,
 	},
 	UFs = {
 		Enable = true,
@@ -113,17 +114,17 @@ local defaultSettings = {
 		BI_IconSize = 10,
 
 		PlayerWidth = 250,
-		PlayerHeight = 24,
-		PlayerPowerHeight = 4,
+		PlayerHeight = 30,
+		PlayerPowerHeight = 2,
 		FocusWidth = 200,
-		FocusHeight = 22,
-		FocusPowerHeight = 3,
+		FocusHeight = 26,
+		FocusPowerHeight = 2,
 		PetWidth = 120,
-		PetHeight = 18,
+		PetHeight = 20,
 		PetPowerHeight = 2,
 		BossWidth = 150,
-		BossHeight = 22,
-		BossPowerHeight = 3,
+		BossHeight = 28,
+		BossPowerHeight = 2,
 
 		CastingColor = {r=.3, g=.7, b=1},
 		NotInterruptColor = {r=1, g=.5, b=.5},
@@ -150,7 +151,7 @@ local defaultSettings = {
 		ChatItemLevel = true,
 		Chatbar = true,
 		ChatWidth = 380,
-		ChatHeight = 193,
+		ChatHeight = 195,
 	},
 	Map = {
 		Coord = true,
@@ -304,7 +305,7 @@ local accountSettings = {
 	DetectVersion = DB.Version,
 	ResetDetails = true,
 	LockUIScale = false,
-	UIScale = .79,
+	UIScale = .78,
 	NumberFormat = 2,
 	VersionCheck = false,
 	DBMRequest = false,
@@ -605,7 +606,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{},--blank
 		{1, "UFs", "Castbars", DB.MyColor..L["UFs Castbar"], false, setupCastbar},
 		{1, "UFs", "SwingBar", L["UFs SwingBar"]},
-		{1, "UFs", "SwingTimer", L["UFs SwingTimer"], true},
+		{1, "UFs", "SwingTimer", L["UFs SwingTimer"], true, nil, nil, L["SwingTimer Tip"]},
 		{1, "UFs", "LagString", L["Castbar LagString"]},
 		{1, "UFs", "QuakeTimer", L["UFs QuakeTimer"], true},
 		{},--blank
@@ -694,7 +695,8 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 	},
 	[6] = {
 		{1, "AuraWatch", "Enable", DB.MyColor..L["Enable AuraWatch"], false, setupAuraWatch},
-		{1, "AuraWatch", "DeprecatedAuras", L["DeprecatedAuras"]},
+		{1, "AuraWatch", "DeprecatedAuras", L["DeprecatedAuras"], true},
+		{1, "AuraWatch", "QuakeRing", L["QuakeRing"].."*"},
 		{1, "AuraWatch", "ClickThrough", L["AuraWatch ClickThrough"]},
 		{3, "AuraWatch", "IconScale", L["AuraWatch IconScale"], true, {.5, 1.5, 1}},
 		{},--blank

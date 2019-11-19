@@ -12,22 +12,24 @@ C.Auras = {
 
 	-- 技能监控各组初始位置
 	EnchantAuraPos			= {"BOTTOMRIGHT", UIParent, "CENTER", -200, -99},	-- 附魔及饰品分组
-	PlayerAuraPos			= {"BOTTOMRIGHT", UIParent, "CENTER", -200, -165},	-- 玩家光环分组
 	PlayerSpecialAuraPos	= {"BOTTOMRIGHT", UIParent, "CENTER", -200, -136},	-- 玩家重要光环分组
-	TargetAuraPos			= {"BOTTOMLEFT", UIParent, "CENTER", 200, -165},	-- 目标光环分组
+	PlayerAuraPos			= {"BOTTOMRIGHT", UIParent, "CENTER", -200, -165},	-- 玩家光环分组
+
 	TargetSpecialAuraPos	= {"BOTTOMLEFT", UIParent, "CENTER", 200, -128},	-- 目标重要光环分组
+	TargetAuraPos			= {"BOTTOMLEFT", UIParent, "CENTER", 200, -165},	-- 目标光环分组
+
 	FocusSpecialAuraPos		= {"BOTTOMLEFT", UIParent, "LEFT", 5, -130},		-- 焦点重要光环分组
 	RaidBuffPos				= {"BOTTOMRIGHT", UIParent, "CENTER", -200, 200},	-- 团队增益分组
 	RaidDebuffPos			= {"BOTTOMLEFT", UIParent, "CENTER", 200, 200},		-- 团队减益分组
 	SpellCDPos				= {"LEFT", UIParent, "LEFT", 5, -30},				-- 技能冷却计时分组
 	EnchantCDPos			= {"LEFT", UIParent, "LEFT", 200, -30},				-- 物品冷却计时分组
-	CustomCDPos				= {"BOTTOMLEFT", UIParent, "CENTER", 505, -208},	-- 法术内置冷却分组
+	CustomCDPos				= {"BOTTOMLEFT", UIParent, "CENTER", 518, -215},	-- 法术内置冷却分组
 }
 
 -- 头像相关
 C.UFs = {
 	Playercb		= {"BOTTOM", UIParent, "BOTTOM", 0, 150},				-- 玩家施法条默认位置
-	Targetcb		= {"BOTTOM", UIParent, "BOTTOM", 0, 300},				-- 目标施法条默认位置
+	Targetcb		= {"BOTTOM", UIParent, "BOTTOM", 0, 310},				-- 目标施法条默认位置
 	Focuscb			= {"CENTER", UIParent, "CENTER", 0, 150},				-- 焦点施法条默认位置
 
 	PlayerPos		= {"BOTTOMRIGHT", UIParent, "BOTTOM", -200, 280},		-- 玩家框架默认位置
@@ -35,8 +37,7 @@ C.UFs = {
 	FocusPos		= {"LEFT", UIParent, "LEFT", 5, -150},					-- 焦点框架默认位置
 
 	PlayerPlate		= {"BOTTOM", UIParent, "BOTTOM", 0, 230},				-- 个人资源条默认位置
-	BarPos			= {"TOPLEFT", 12, 4},									-- 资源条位置（以自身头像为基准）
-	BarSize			= {150, 5},												-- 资源条的尺寸（宽，长）
+	BarSize			= {150, 2},												-- 资源条的尺寸（长，宽）
 	BarMargin		= 2,													-- 资源条间隔
 }
 

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2375, "DBM-Nyalotha", nil, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20191113211922")
+mod:SetRevision("20191116200354")
 mod:SetCreatureID(158041)--161520?
 mod:SetEncounterID(2344)
 mod:SetZone()
@@ -86,7 +86,7 @@ local specWarnReflectedSelf					= mod:NewSpecialWarningYou(309297, nil, nil, nil
 --Stage 2: Writhing Onslaught
 ----N'Zoth
 local specWarnMindgrasp						= mod:NewSpecialWarningYouCount(315772, nil, DBM_CORE_AUTO_SPEC_WARN_OPTIONS.you:format(315772), nil, 2, 2)
-local yellMindgrasp							= mod:NewShortYell(315772, "%s")
+local yellMindgrasp							= mod:NewShortYell(315772, "%s", false, 2)
 local specWarnParanoia						= mod:NewSpecialWarningYou(309980, nil, nil, nil, 1, 2)--Change to MoveTo if can get name of their linked ally
 local yellParanoia							= mod:NewYell(309980)
 ----Basher Tentacle

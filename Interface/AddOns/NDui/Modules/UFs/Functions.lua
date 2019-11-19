@@ -709,7 +709,7 @@ function UF:CreateDebuffs(self)
 end
 
 -- Class Powers
-local margin = C.UFs.BarMargin
+local barMargin = C.UFs.BarMargin
 local barWidth, barHeight = unpack(C.UFs.BarSize)
 
 function UF.PostUpdateClassPower(element, cur, max, diff, powerType)
@@ -725,7 +725,7 @@ function UF.PostUpdateClassPower(element, cur, max, diff, powerType)
 
 	if diff then
 		for i = 1, max do
-			element[i]:SetWidth((barWidth - (max-1)*margin)/max)
+			element[i]:SetWidth((barWidth - (max-1)*barMargin)/max)
 		end
 		for i = max + 1, 6 do
 			element[i].bg:Hide()
@@ -784,24 +784,23 @@ function UF:CreateClassPower(self)
 	local mystyle = self.mystyle
 	if mystyle == "PlayerPlate" then
 		barWidth, barHeight = self:GetWidth(), NDuiDB["Extras"]["PPCPHeight"]
-		C.UFs.BarPos = {"BOTTOMLEFT", self, "TOPLEFT", 0, 3}
 	end
 
 	local bar = CreateFrame("Frame", "oUF_ClassPowerBar", self.Health)
 	bar:SetSize(barWidth, barHeight)
-	bar:SetPoint(unpack(C.UFs.BarPos))
+	bar:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 3)
 
 	local bars = {}
 	for i = 1, 6 do
 		bars[i] = CreateFrame("StatusBar", nil, bar)
 		bars[i]:SetHeight(barHeight)
-		bars[i]:SetWidth((barWidth - 5*margin) / 6)
+		bars[i]:SetWidth((barWidth - 5*barMargin) / 6)
 		bars[i]:SetFrameLevel(self:GetFrameLevel() + 5)
 
 		if i == 1 then
 			bars[i]:SetPoint("LEFT")
 		else
-			bars[i]:SetPoint("LEFT", bars[i-1], "RIGHT", margin, 0)
+			bars[i]:SetPoint("LEFT", bars[i-1], "RIGHT", barMargin, 0)
 		end
 
 		local bg = B.CreateSB(bars[i])
@@ -833,8 +832,8 @@ function UF:StaggerBar(self)
 	if DB.MyClass ~= "MONK" then return end
 
 	local stagger = CreateFrame("StatusBar", nil, self.Health)
-	stagger:SetSize(barWidth, barHeight)
-	stagger:SetPoint(unpack(C.UFs.BarPos))
+	stagger:SetSize(self:GetWidth()*.6, self.Power:GetHeight())
+	stagger:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 3)
 	stagger:SetFrameLevel(self:GetFrameLevel() + 5)
 	B.SmoothBar(stagger)
 
@@ -965,7 +964,7 @@ end
 
 function UF:CreateAddPower(self)
 	local bar = CreateFrame("StatusBar", nil, self)
-	bar:SetSize(self:GetWidth()/2, self.Power:GetHeight())
+	bar:SetSize(self:GetWidth()*.6, self.Power:GetHeight())
 	bar:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -3)
 	B.SmoothBar(bar)
 	bar.colorPower = true
