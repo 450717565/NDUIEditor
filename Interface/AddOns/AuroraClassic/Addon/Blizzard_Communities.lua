@@ -28,7 +28,6 @@ C.themes["Blizzard_Communities"] = function()
 	F.ReskinMinMax(CommunitiesFrame.MaximizeMinimizeFrame)
 	F.ReskinDropDown(CommunitiesFrame.CommunitiesListDropDownMenu)
 	F.ReskinScroll(CommunitiesFrameCommunitiesListListScrollFrame.ScrollBar)
-	F.ReskinScroll(ClubFinderCommunityAndGuildFinderFrame.CommunityCards.ListScrollFrame.scrollBar)
 
 	local AddToChatButton = CommunitiesFrame.AddToChatButton
 	AddToChatButton:ClearAllPoints()
@@ -47,7 +46,7 @@ C.themes["Blizzard_Communities"] = function()
 	GuildMemberDetailFrame:ClearAllPoints()
 	GuildMemberDetailFrame:SetPoint("TOPLEFT", CommunitiesFrame.ChatTab, "TOPRIGHT", 2, -2)
 
-	for _, name in pairs({"GuildFinderFrame", "InvitationFrame", "TicketFrame"}) do
+	for _, name in pairs({"GuildFinderFrame", "InvitationFrame", "TicketFrame", "CommunityFinderFrame"}) do
 		local frame = CommunitiesFrame[name]
 		if frame then
 			F.StripTextures(frame.InsetFrame)
@@ -56,25 +55,55 @@ C.themes["Blizzard_Communities"] = function()
 			if frame.FindAGuildButton then F.ReskinButton(frame.FindAGuildButton) end
 			if frame.AcceptButton then F.ReskinButton(frame.AcceptButton) end
 			if frame.DeclineButton then F.ReskinButton(frame.DeclineButton) end
-			if frame.ClubFinderSearchTab then reskinCommunityTab(frame.ClubFinderSearchTab) end
 			if frame.ClubFinderPendingTab then reskinCommunityTab(frame.ClubFinderPendingTab) end
+			if frame.ClubFinderSearchTab then
+				reskinCommunityTab(frame.ClubFinderSearchTab)
+				frame.ClubFinderSearchTab:ClearAllPoints()
+				frame.ClubFinderSearchTab:SetPoint("TOPLEFT", CommunitiesFrame, "TOPRIGHT", 2, -25)
+			end
 
-			local optionsList = frame.OptionsList
-			if optionsList then
-				optionsList.SearchBox:SetSize(118, 22)
-				optionsList.Search:ClearAllPoints()
-				optionsList.Search:SetPoint("TOPRIGHT", optionsList.SearchBox, "BOTTOMRIGHT", 0, -2)
+			local OptionsList = frame.OptionsList
+			if OptionsList then
+				OptionsList.SearchBox:SetSize(118, 22)
+				OptionsList.Search:ClearAllPoints()
+				OptionsList.Search:SetPoint("TOPRIGHT", OptionsList.SearchBox, "BOTTOMRIGHT", 0, -2)
 
-				F.ReskinDropDown(optionsList.ClubFocusDropdown)
-				F.ReskinDropDown(optionsList.ClubSizeDropdown)
-				F.ReskinDropDown(optionsList.SortByDropdown)
-				F.ReskinRole(optionsList.TankRoleFrame, "TANK")
-				F.ReskinRole(optionsList.HealerRoleFrame, "HEALER")
-				F.ReskinRole(optionsList.DpsRoleFrame, "DPS")
-				F.ReskinInput(optionsList.SearchBox)
-				F.ReskinButton(optionsList.Search)
+				--F.ReskinDropDown(OptionsList.ClubFocusDropdown)
+				--F.ReskinDropDown(OptionsList.ClubSizeDropdown)
+				--F.ReskinDropDown(OptionsList.SortByDropdown)
+				F.ReskinRole(OptionsList.TankRoleFrame, "TANK")
+				F.ReskinRole(OptionsList.HealerRoleFrame, "HEALER")
+				F.ReskinRole(OptionsList.DpsRoleFrame, "DPS")
+				F.ReskinInput(OptionsList.SearchBox)
+				F.ReskinButton(OptionsList.Search)
 			end
 		end
+	end
+
+	for _, frame in ipairs({ClubFinderGuildFinderFrame.RequestToJoinFrame, ClubFinderCommunityAndGuildFinderFrame.RequestToJoinFrame}) do
+		F.ReskinFrame(frame)
+		F.ReskinButton(frame.Apply)
+		F.ReskinButton(frame.Cancel)
+		F.StripTextures(frame.MessageFrame)
+		F.ReskinInput(frame.MessageFrame.MessageScroll)
+
+		local parentFrame = frame:GetParent()
+		local frameName = parentFrame.GetName and parentFrame:GetName()
+		local ScrollBar = _G[frameName.."ScrollBar"]
+		F.ReskinScroll(ScrollBar)
+		local parent = ScrollBar:GetParent()
+		ScrollBar:ClearAllPoints()
+		ScrollBar:SetPoint("TOPRIGHT", parent, "TOPRIGHT", -4, -15)
+		ScrollBar:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -4, 15)
+
+		hooksecurefunc(frame, "Initialize", function(self)
+			for button in self.SpecsPool:EnumerateActive() do
+				if button.CheckBox then
+					F.ReskinCheck(button.CheckBox)
+					button.CheckBox:SetSize(26, 26)
+				end
+			end
+		end)
 	end
 
 	CommunitiesFrame.ChatTab:ClearAllPoints()
@@ -106,6 +135,21 @@ C.themes["Blizzard_Communities"] = function()
 			end
 		end
 	end)
+
+	local CommunityCards = ClubFinderCommunityAndGuildFinderFrame.CommunityCards
+	local scrollBar = CommunityCards.ListScrollFrame.scrollBar
+	F.ReskinScroll(scrollBar)
+	local parent = scrollBar:GetParent()
+	scrollBar:ClearAllPoints()
+	scrollBar:SetPoint("TOPRIGHT", parent, "TOPRIGHT", 0, -16)
+	scrollBar:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", 0, 16)
+
+	local GuildCards = ClubFinderGuildFinderFrame.GuildCards
+	F.ReskinButton(GuildCards.FirstCard.RequestJoin)
+	F.ReskinButton(GuildCards.SecondCard.RequestJoin)
+	F.ReskinButton(GuildCards.ThirdCard.RequestJoin)
+	F.ReskinArrow(GuildCards.PreviousPage, "left")
+	F.ReskinArrow(GuildCards.NextPage, "right")
 
 	-- ChatTab
 	F.ReskinDropDown(CommunitiesFrame.StreamDropDownMenu)
@@ -395,4 +439,21 @@ C.themes["Blizzard_Communities"] = function()
 			button.header:SetAlpha(0)
 		end
 	end)
+
+	-- Recruitment dialog
+	do
+		local RecruitmentDialog = CommunitiesFrame.RecruitmentDialog
+		F.ReskinFrame(RecruitmentDialog)
+		F.ReskinCheck(RecruitmentDialog.ShouldListClub.Button)
+		F.ReskinCheck(RecruitmentDialog.MaxLevelOnly.Button)
+		F.ReskinCheck(RecruitmentDialog.MinIlvlOnly.Button)
+		F.ReskinDropDown(RecruitmentDialog.ClubFocusDropdown)
+		F.ReskinDropDown(RecruitmentDialog.LookingForDropdown)
+		F.StripTextures(RecruitmentDialog.RecruitmentMessageFrame)
+		F.StripTextures(RecruitmentDialog.RecruitmentMessageFrame.RecruitmentMessageInput)
+		F.ReskinInput(RecruitmentDialog.RecruitmentMessageFrame)
+		F.ReskinInput(RecruitmentDialog.MinIlvlOnly.EditBox)
+		F.ReskinButton(RecruitmentDialog.Accept)
+		F.ReskinButton(RecruitmentDialog.Cancel)
+	end
 end

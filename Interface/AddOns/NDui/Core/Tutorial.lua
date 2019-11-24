@@ -170,11 +170,13 @@ local function ForceDBMOptions()
 		DBM_AllSavedOptions["Default"]["ChosenVoicePack"] = "VV"
 		DBM_AllSavedOptions["Default"]["CountdownVoice"] = "VP:VV"
 		DBM_AllSavedOptions["Default"]["CountdownVoice2"] = "VP:VV"
+		DBM_AllSavedOptions["Default"]["CountdownVoice3"] = "VP:VV"
 		DBM_AllSavedOptions["Default"]["CountdownVoice3v2"] = "VP:VV"
 	elseif IsAddOnLoaded("DBM-VPYike") then
 		DBM_AllSavedOptions["Default"]["ChosenVoicePack"] = "Yike"
 		DBM_AllSavedOptions["Default"]["CountdownVoice"] = "VP:Yike"
 		DBM_AllSavedOptions["Default"]["CountdownVoice2"] = "VP:Yike"
+		DBM_AllSavedOptions["Default"]["CountdownVoice3"] = "VP:Yike"
 		DBM_AllSavedOptions["Default"]["CountdownVoice3v2"] = "VP:Yike"
 	end
 

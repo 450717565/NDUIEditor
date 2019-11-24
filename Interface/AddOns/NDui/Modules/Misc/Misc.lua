@@ -96,6 +96,10 @@ function M:OnLogin()
 	hooksecurefunc(StaticPopupDialogs["DELETE_GOOD_ITEM"], "OnShow", function(self)
 		self.editBox:SetText(DELETE_ITEM_CONFIRM_STRING)
 	end)
+
+	if not CLUB_FINDER_BANNED_POSTING_WARNING then
+		CLUB_FINDER_BANNED_POSTING_WARNING = "%s"
+	end
 end
 
 -- Get Naked
@@ -550,6 +554,36 @@ do
 		hooksecurefunc("SetCVar", function(n)
 			if n == "lastSelectedClubId" then
 				CleanDropdowns()
+			end
+		end)
+	end
+
+	-- https://www.townlong-yak.com/bugs/Mx7CWN-RefreshOverread
+	if (UIDD_REFRESH_OVERREAD_PATCH_VERSION or 0) < 1 then
+		UIDD_REFRESH_OVERREAD_PATCH_VERSION = 1
+		local function drop(t, k)
+			local c = 42
+			t[k] = nil
+			while not issecurevariable(t, k) do
+				if t[c] == nil then
+					t[c] = nil
+				end
+				c = c + 1
+			end
+		end
+		hooksecurefunc("UIDropDownMenu_InitializeHelper", function()
+			if UIDD_REFRESH_OVERREAD_PATCH_VERSION ~= 1 then
+				return
+			end
+			for i = 1, UIDROPDOWNMENU_MAXLEVELS do
+				local d = _G["DropDownList"..i]
+				if d and d.numButtons then
+					for j = d.numButtons+1, UIDROPDOWNMENU_MAXBUTTONS do
+						local b, _ = _G["DropDownList"..i.."Button"..j]
+						_ = issecurevariable(b, "checked") or drop(b, "checked")
+						_ = issecurevariable(b, "notCheckable") or drop(b, "notCheckable")
+					end
+				end
 			end
 		end)
 	end

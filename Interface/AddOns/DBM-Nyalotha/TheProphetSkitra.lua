@@ -1,10 +1,11 @@
 local mod	= DBM:NewMod(2369, "DBM-Nyalotha", nil, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20191111030008")
+mod:SetRevision("20191124011030")
 mod:SetCreatureID(157620)
 mod:SetEncounterID(2334)
 mod:SetZone()
+mod:SetUsedIcons(1, 2, 3)
 mod:SetBossHPInfoToHighest()--Must set boss HP to highest, since boss health will get screwed up during images phase
 mod.noBossDeathKill = true--Killing an image in image phase fires unit Died for boss creature ID, so must filter this
 mod:SetHotfixNoticeRev(20191109000000)--2019, 11, 09
@@ -27,6 +28,7 @@ mod:RegisterEventsInCombat(
 
 --TODO, if tanks each get a diff mind debuff, mark them, and they can be designated callers
 --TODO, update timerImagesofAbsolutionCD after Projection phases
+--TODO, add warning to switch to add to prophet if it's yours
 local warnShadowShock						= mod:NewStackAnnounce(308059, 2, nil, "Tank")
 local warnImagesofAbsolution				= mod:NewCountAnnounce(313239, 3)--Spawn, not when killable
 local warnShredPsyche						= mod:NewTargetNoFilterAnnounce(307937, 2)
@@ -43,6 +45,7 @@ local specWarnShadowShockTaunt				= mod:NewSpecialWarningTaunt(308059, nil, nil,
 local specWarnShredPsyche					= mod:NewSpecialWarningMoveAway(307937, nil, nil, nil, 1, 2)
 local yellShredPsyche						= mod:NewPosYell(307937)
 local yellShredPsycheFades					= mod:NewIconFadesYell(307937)
+local specWarnShredPsycheSwitch				= mod:NewSpecialWarningSwitch(307937, "dps", nil, nil, 1, 2)
 --local specWarnGTFO						= mod:NewSpecialWarningGTFO(270290, nil, nil, nil, 1, 8)
 
 local timerImagesofAbsolutionCD				= mod:NewCDTimer(84.9, 313239, nil, nil, nil, 1, nil, DBM_CORE_HEROIC_ICON)
@@ -156,7 +159,20 @@ function mod:SPELL_AURA_APPLIED(args)
 			DBM.Nameplate:Show(true, args.destGUID, spellId, nil, 30)
 		end
 	elseif spellId == 308065 or spellId == 307950 then
-		local icon = self.vb.shredIcon
+		--Assign icon based on debuff player has, so it can be clearly seen which add they will be spawning on mythic
+		local icon
+		if self:IsMythic() then
+			local uId = DBM:GetRaidUnitId(args.destName)
+			if DBM:UnitDebuff(uId, 307784) then--Clouded Mind
+				icon = 2--Orange Circle for clouded mind
+			elseif DBM:UnitDebuff(uId, 307785) then--Twisted Mind
+				icon = 3--Purple Diamond for Twisted Mind
+			end
+		end
+		--Non mythic will assign just ordered icon, or if mythic icon debuff scan fails acts as fallback
+		if not icon then
+			icon = self.vb.shredIcon--Starting with 1 (star). if it's still 2 adds at once at 20+ players, it'll also use circle, if blizzard fixed that shit, it'll always be star
+		end
 		warnShredPsyche:CombinedShow(0.3, args.destName)
 		if args:IsPlayer() then
 			specWarnShredPsyche:Show()

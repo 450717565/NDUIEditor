@@ -242,6 +242,14 @@ C.themes["Rematch"] = function()
 
 		F.StripTextures(RematchToolbar.PetCount)
 
+		if ALPTRematchOptionButton then
+			ALPTRematchOptionButton:SetPushedTexture(nil)
+
+			local icon = ALPTRematchOptionButton:GetNormalTexture()
+			local icbg = F.ReskinIcon(icon)
+			F.ReskinTexture(ALPTRematchOptionButton, icbg)
+		end
+
 		-- RematchBottomPanel
 		F.ReskinCheck(UseRematchButton)
 		F.ReskinCheck(RematchBottomPanel.UseDefault)
