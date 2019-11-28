@@ -5,7 +5,7 @@ local module = B:GetModule("Maps")
 local strmatch, strfind, strupper = string.match, string.find, string.upper
 local select, pairs, ipairs, unpack = select, pairs, ipairs, unpack
 
-local cr, cg, cb
+local cr, cg, cb, alpha, color
 
 function module:CreatePulse()
 	if not NDuiDB["Map"]["CombatPulse"] then return end
@@ -135,9 +135,6 @@ end
 
 function module:RecycleBin()
 	if not NDuiDB["Map"]["ShowRecycleBin"] then return end
-
-	local alpha = NDuiDB["Extras"]["SkinAlpha"]
-	local color = NDuiDB["Extras"]["SkinColor"]
 
 	local buttons = {}
 	local blackList = {
@@ -373,6 +370,8 @@ end
 
 function module:SetupMinimap()
 	cr, cg, cb = DB.r, DB.g, DB.b
+	alpha = NDuiDB["Extras"]["SkinAlpha"]
+	color = NDuiDB["Extras"]["SkinColor"]
 	if not NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
 
 	-- Shape and Position
