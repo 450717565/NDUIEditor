@@ -38,14 +38,14 @@ end
 local function InsertData(index, target)
 	if NDuiDB["AuraWatchList"]["Switcher"][index] then
 		wipe(target)
-	else
-		for spellID, v in pairs(myTable[index]) do
-			local value = target[spellID]
-			if value and value.AuraID == v.AuraID then
-				value = nil
-			end
-			target[spellID] = v
+	end
+
+	for spellID, v in pairs(myTable[index]) do
+		local value = target[spellID]
+		if value and value.AuraID == v.AuraID then
+			value = nil
 		end
+		target[spellID] = v
 	end
 end
 
@@ -655,16 +655,6 @@ end
 updater:SetScript("OnUpdate", A.AuraWatch_OnUpdate)
 
 -- Mover
-StaticPopupDialogs["RESET_AURAWATCH_MOVER"] = {
-	text = L["Reset AuraWatch Mover Confirm"],
-	button1 = OKAY,
-	button2 = CANCEL,
-	OnAccept = function()
-		wipe(NDuiDB["AuraWatchMover"])
-		ReloadUI()
-	end,
-}
-
 SlashCmdList.AuraWatch = function(msg)
 	if msg:lower() == "move" then
 		updater:SetScript("OnUpdate", nil)

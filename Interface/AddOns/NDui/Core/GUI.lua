@@ -249,7 +249,7 @@ local defaultSettings = {
 		Focuser = true,
 		ExpRep = true,
 		Screenshot = true,
-		TradeTab = true,
+		TradeTabs = true,
 		Interrupt = false,
 		OwnInterrupt = false,
 		AlertInInstance = true,
@@ -823,7 +823,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "ACCOUNT", "AutoBubbles", L["AutoBubbles"], true},
 		{},--blank
 		{1, "Misc", "Mail", L["Mail Tool"]},
-		{1, "Misc", "TradeTab", L["TradeTabs"], true},
+		{1, "Misc", "TradeTabs", L["TradeTabs"], true},
 		{1, "Misc", "PetFilter", L["Show PetFilter"]},
 		{1, "Misc", "Screenshot", L["Auto ScreenShot"].."*", true, nil, updateScreenShot},
 		{1, "Misc", "FasterLoot", L["Faster Loot"].."*", false, nil, updateFasterLoot},

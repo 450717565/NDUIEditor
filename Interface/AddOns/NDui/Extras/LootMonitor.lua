@@ -10,7 +10,7 @@ local LMFrame_Width = 200
 local LMFrame_Report = {}
 local LMFrame_CFG = {
 	nums = 20,
-	rarity = 4,
+	rarity = 1,
 	equip = true,
 	other = true,
 }
@@ -125,13 +125,13 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 
 		local Enabled = false
 		local totalText = ""
-		local itemGem = ""
 		local textWidth, maxWidth = 0, 0
 		local lootTime = GameTime_GetGameTime(true)
 		local filterBR = NDuiDB["Extras"]["LootMonitorBonusRewards"] and rollInfo
 
 		local itemLvl = B.GetItemLevel(itemLink)
 		local itemSolt = B.GetItemSlot(itemLink)
+		local itemGems = B.GetItemGems(itemLink) or ""
 		local _, _, itemRarity, _, _, _, itemSubType, _, itemEquipLoc, _, _, itemClassID, itemSubClassID, bindType = GetItemInfo(itemLink)
 
 		if NDuiDB["Extras"]["LootMonitorInGroup"] == true and not IsInGroup() then
@@ -143,11 +143,11 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 		end
 
 		if itemLvl and itemSolt then
-			totalText = "<"..itemLvl.."-"..itemSolt..">"
+			totalText = "<"..itemLvl.."-"..itemSolt..itemGems..">"
 		elseif itemLvl then
-			totalText = "<"..itemLvl..">"
+			totalText = "<"..itemLvl..itemGems..">"
 		elseif itemSolt then
-			totalText = "<"..itemSolt..">"
+			totalText = "<"..itemSolt..itemGems..">"
 		end
 
 		if playerInfo and Enabled then

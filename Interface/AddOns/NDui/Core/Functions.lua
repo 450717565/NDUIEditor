@@ -67,6 +67,20 @@ function B.GetItemSlot(item)
 	return itemSolt
 end
 
+-- Item Gems Info
+function B.GetItemGems(item)
+	local itemGems
+
+	local stats = GetItemStats(item)
+	for index in pairs(stats) do
+		if strfind(index, "EMPTY_SOCKET_") then
+			itemGems = "-"..L["Socket"]
+		end
+	end
+
+	return itemGems
+end
+
 -- Create BGFrame
 function B:CreateBGFrame(type, alpha, offset)
 	local bg = B.CreateBG(self, offset)
@@ -413,6 +427,10 @@ function B.Numb(n)
 	else
 		return n
 	end
+end
+
+function B:Round(number)
+	return floor(number + .5)
 end
 
 -- Color code

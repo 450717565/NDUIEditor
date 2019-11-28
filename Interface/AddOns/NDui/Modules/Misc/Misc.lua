@@ -55,6 +55,7 @@ function M:OnLogin()
 	self:UpdateFasterLoot()
 	self:UpdateErrorBlocker()
 	self:TradeTargetInfo()
+	self:TradeTabs()
 
 	-- Max camera distancee
 	if tonumber(GetCVar("cameraDistanceMaxZoomFactor")) ~= 2.6 then
@@ -96,10 +97,6 @@ function M:OnLogin()
 	hooksecurefunc(StaticPopupDialogs["DELETE_GOOD_ITEM"], "OnShow", function(self)
 		self.editBox:SetText(DELETE_ITEM_CONFIRM_STRING)
 	end)
-
-	if not CLUB_FINDER_BANNED_POSTING_WARNING then
-		CLUB_FINDER_BANNED_POSTING_WARNING = "%s"
-	end
 end
 
 -- Get Naked
