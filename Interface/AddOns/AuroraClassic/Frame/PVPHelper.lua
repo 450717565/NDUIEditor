@@ -4,6 +4,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinFrame(PVPReadyDialog)
 	F.ReskinButton(PVPReadyDialog.enterButton)
 	F.ReskinButton(PVPReadyDialog.leaveButton)
+	F.ReskinRoleIcon(PVPReadyDialogRoleIconTexture)
 
 	hooksecurefunc("PVPReadyDialog_Display", function(self, _, _, _, _, _, role)
 		if self.roleIcon:IsShown() then

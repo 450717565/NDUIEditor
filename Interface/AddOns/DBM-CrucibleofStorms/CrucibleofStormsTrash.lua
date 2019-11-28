@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("CrucibleofStormsTrash", "DBM-CrucibleofStorms")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20190927201201")
+mod:SetRevision("20190928042112")
 --mod:SetModelID(47785)
 mod:SetZone()
 mod.isTrashMod = true
