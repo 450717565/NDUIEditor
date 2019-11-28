@@ -10,7 +10,6 @@ local LMFrame_Width = 200
 local LMFrame_Report = {}
 local LMFrame_CFG = {
 	nums = 20,
-	rarity = 1,
 	equip = true,
 	other = true,
 }
@@ -128,6 +127,7 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 		local textWidth, maxWidth = 0, 0
 		local lootTime = GameTime_GetGameTime(true)
 		local filterBR = NDuiDB["Extras"]["LootMonitorBonusRewards"] and rollInfo
+		local minQuality = NDuiDB["Extras"]["LootMonitorQuality"]
 
 		local itemLvl = B.GetItemLevel(itemLink)
 		local itemSolt = B.GetItemSlot(itemLink)
@@ -138,7 +138,7 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 			Enabled = false
 		elseif LMFrame_CFG["other"] == true and itemClassID == 15 and (itemSubClassID == 2 or itemSubClassID == 5) then
 			Enabled = true
-		elseif LMFrame_CFG["equip"] == true and (((itemRarity >= LMFrame_CFG["rarity"] and itemRarity < 7) and (itemSubType == EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC or itemEquipLoc ~= "")) or (itemRarity == 5 and itemClassID == 0)) and not filterBR then
+		elseif LMFrame_CFG["equip"] == true and (((itemRarity >= minQuality and itemRarity < 7) and (itemSubType == EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC or itemEquipLoc ~= "")) or (itemRarity == 5 and itemClassID == 0)) and not filterBR then
 			Enabled = true
 		end
 

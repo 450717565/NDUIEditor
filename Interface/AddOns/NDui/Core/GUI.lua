@@ -282,6 +282,7 @@ local defaultSettings = {
 		LootMonitor = true,
 		LootMonitorBonusRewards = false,
 		LootMonitorInGroup = true,
+		LootMonitorQuality = 4,
 		PPCPHeight = 10,
 		ShowCharacterItemSheet = true,
 		ShowOwnFrameWhenInspecting = true,
@@ -851,8 +852,9 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Extras", "ShowOwnFrameWhenInspecting", L["Show Own Frame When Inspecting"], true},
 		{},--blank
 		{1, "Extras", "LootMonitor", DB.MyColor..L["LootMonitor"]},
-		{1, "Extras", "LootMonitorInGroup", L["LootMonitor InGroup"]},
-		{1, "Extras", "LootMonitorBonusRewards", L["LootMonitor Bonus Rewards"], true},
+		{1, "Extras", "LootMonitorInGroup", L["LootMonitor InGroup"], true},
+		{1, "Extras", "LootMonitorBonusRewards", L["LootMonitor Bonus Rewards"]},
+		{4, "Extras", "LootMonitorQuality", L["LootMonitor Quality"], false, {ITEM_QUALITY1_DESC, ITEM_QUALITY2_DESC, ITEM_QUALITY3_DESC, ITEM_QUALITY4_DESC}},
 	},
 }
 
