@@ -603,7 +603,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{3, "Bags", "BankWidth", L["Bank Width"], true, {10, 20, 0}},
 	},
 	[3] = {
-		{1, "UFs", "Enable", DB.MyColor..L["Enable UFs"], false, setupUnitFrame},
+		{1, "UFs", "Enable", DB.MyColor..L["Enable UFs"], false, setupUnitFrame, nil, L["HideUFWarning"]},
 		{},--blank
 		{1, "UFs", "Castbars", DB.MyColor..L["UFs Castbar"], false, setupCastbar},
 		{1, "UFs", "SwingBar", L["UFs SwingBar"]},

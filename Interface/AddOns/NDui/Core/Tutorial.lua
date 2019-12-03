@@ -77,7 +77,7 @@ local function SetupUIScale()
 
 	local scale = GetPerfectScale()
 	local parentScale = UIParent:GetScale()
-	if scale ~= parentScale then
+	if scale ~= parentScale and not InCombatLockdown() then
 		UIParent:SetScale(scale)
 	end
 
@@ -370,7 +370,6 @@ end
 local tutor
 local function YesTutor()
 	if tutor then tutor:Show() return end
-
 	tutor = CreateFrame("Frame", nil, UIParent)
 	tutor:SetPoint("CENTER")
 	tutor:SetSize(400, 250)

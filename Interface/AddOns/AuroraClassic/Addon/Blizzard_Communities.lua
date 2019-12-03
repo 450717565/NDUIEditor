@@ -12,108 +12,52 @@ C.themes["Blizzard_Communities"] = function()
 		F.ReskinTexed(self, bg)
 	end
 
-	CommunitiesFrame.PortraitOverlay:SetAlpha(0)
-	F.ReskinFrame(CommunitiesFrame)
-
-	F.ReskinButton(CommunitiesFrame.InviteButton)
-	F.ReskinButton(CommunitiesFrame.GuildLogButton)
-	F.ReskinButton(CommunitiesFrame.CommunitiesControlFrame.GuildControlButton)
-	F.ReskinButton(CommunitiesFrame.CommunitiesControlFrame.GuildRecruitmentButton)
-	F.ReskinButton(CommunitiesFrame.CommunitiesControlFrame.CommunitiesSettingsButton)
-
-	if C.isNewPatch then
-		F.ReskinDropDown(CommunitiesFrame.CommunityMemberListDropDownMenu)
+	local function reskinGuildCards(self)
+		for _, name in pairs({"FirstCard", "SecondCard", "ThirdCard"}) do
+			local guildCard = self[name]
+			F.StripTextures(guildCard)
+			F.CreateBDFrame(guildCard, 0)
+			F.ReskinButton(guildCard.RequestJoin)
+		end
+		F.ReskinArrow(self.PreviousPage, "left")
+		F.ReskinArrow(self.NextPage, "right")
 	end
 
-	F.ReskinMinMax(CommunitiesFrame.MaximizeMinimizeFrame)
-	F.ReskinDropDown(CommunitiesFrame.CommunitiesListDropDownMenu)
-	F.ReskinScroll(CommunitiesFrameCommunitiesListListScrollFrame.ScrollBar)
+	local function reskinCommunityCards(self)
+		for _, button in next, self.ListScrollFrame.buttons do
+			button.CircleMask:Hide()
+			button.LogoBorder:Hide()
+			button.Background:Hide()
+			F.ReskinButton(button)
+			F.ReskinIcon(button.CommunityLogo)
+		end
+		F.ReskinScroll(self.ListScrollFrame.scrollBar)
+	end
 
-	local AddToChatButton = CommunitiesFrame.AddToChatButton
-	AddToChatButton:ClearAllPoints()
-	AddToChatButton:SetPoint("RIGHT", CommunitiesFrame.CommunitiesControlFrame.CommunitiesSettingsButton, "LEFT", -2, 0)
-	F.ReskinArrow(AddToChatButton, "down")
-
-	local GuildMemberDetailFrame = CommunitiesFrame.GuildMemberDetailFrame
-	F.ReskinFrame(GuildMemberDetailFrame)
-	F.ReskinButton(GuildMemberDetailFrame.RemoveButton)
-	F.ReskinButton(GuildMemberDetailFrame.GroupInviteButton)
-	F.ReskinDropDown(GuildMemberDetailFrame.RankDropdown)
-	F.StripTextures(GuildMemberDetailFrame.NoteBackground)
-	F.CreateBDFrame(GuildMemberDetailFrame.NoteBackground, 0)
-	F.StripTextures(GuildMemberDetailFrame.OfficerNoteBackground)
-	F.CreateBDFrame(GuildMemberDetailFrame.OfficerNoteBackground, 0)
-	GuildMemberDetailFrame:ClearAllPoints()
-	GuildMemberDetailFrame:SetPoint("TOPLEFT", CommunitiesFrame.ChatTab, "TOPRIGHT", 2, -2)
-
-	for _, name in pairs({"GuildFinderFrame", "InvitationFrame", "TicketFrame", "CommunityFinderFrame"}) do
-		local frame = CommunitiesFrame[name]
-		if frame then
-			F.StripTextures(frame.InsetFrame)
-			F.CreateBDFrame(frame, 0)
-
-			if frame.FindAGuildButton then F.ReskinButton(frame.FindAGuildButton) end
-			if frame.AcceptButton then F.ReskinButton(frame.AcceptButton) end
-			if frame.DeclineButton then F.ReskinButton(frame.DeclineButton) end
-			if frame.ClubFinderPendingTab then reskinCommunityTab(frame.ClubFinderPendingTab) end
-			if frame.ClubFinderSearchTab then
-				reskinCommunityTab(frame.ClubFinderSearchTab)
-				frame.ClubFinderSearchTab:ClearAllPoints()
-				frame.ClubFinderSearchTab:SetPoint("TOPLEFT", CommunitiesFrame, "TOPRIGHT", 2, -25)
-			end
-
-			local OptionsList = frame.OptionsList
-			if OptionsList then
-				OptionsList.SearchBox:SetSize(118, 22)
-				OptionsList.Search:ClearAllPoints()
-				OptionsList.Search:SetPoint("TOPRIGHT", OptionsList.SearchBox, "BOTTOMRIGHT", 0, -2)
-
-				--F.ReskinDropDown(OptionsList.ClubFocusDropdown)
-				--F.ReskinDropDown(OptionsList.ClubSizeDropdown)
-				--F.ReskinDropDown(OptionsList.SortByDropdown)
-				F.ReskinRole(OptionsList.TankRoleFrame, "TANK")
-				F.ReskinRole(OptionsList.HealerRoleFrame, "HEALER")
-				F.ReskinRole(OptionsList.DpsRoleFrame, "DPS")
-				F.ReskinInput(OptionsList.SearchBox)
-				F.ReskinButton(OptionsList.Search)
+	local function reskinRequestCheckbox(self)
+		for button in self.SpecsPool:EnumerateActive() do
+			if button.CheckBox then
+				F.ReskinCheck(button.CheckBox)
+				button.CheckBox:SetSize(26, 26)
 			end
 		end
 	end
 
-	for _, frame in ipairs({ClubFinderGuildFinderFrame.RequestToJoinFrame, ClubFinderCommunityAndGuildFinderFrame.RequestToJoinFrame}) do
-		F.ReskinFrame(frame)
-		F.ReskinButton(frame.Apply)
-		F.ReskinButton(frame.Cancel)
-		F.StripTextures(frame.MessageFrame)
-		F.ReskinInput(frame.MessageFrame.MessageScroll)
-
-		local parentFrame = frame:GetParent()
-		local frameName = parentFrame.GetName and parentFrame:GetName()
-		local ScrollBar = _G[frameName.."ScrollBar"]
-		F.ReskinScroll(ScrollBar)
-		local parent = ScrollBar:GetParent()
-		ScrollBar:ClearAllPoints()
-		ScrollBar:SetPoint("TOPRIGHT", parent, "TOPRIGHT", -4, -15)
-		ScrollBar:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -4, 15)
-
-		hooksecurefunc(frame, "Initialize", function(self)
-			for button in self.SpecsPool:EnumerateActive() do
-				if button.CheckBox then
-					F.ReskinCheck(button.CheckBox)
-					button.CheckBox:SetSize(26, 26)
-				end
-			end
-		end)
-	end
+	CommunitiesFrame.PortraitOverlay:SetAlpha(0)
+	F.ReskinFrame(CommunitiesFrame)
+	F.ReskinMinMax(CommunitiesFrame.MaximizeMinimizeFrame)
+	F.ReskinDropDown(CommunitiesFrame.CommunitiesListDropDownMenu)
 
 	CommunitiesFrame.ChatTab:ClearAllPoints()
 	CommunitiesFrame.ChatTab:SetPoint("TOPLEFT", CommunitiesFrame, "TOPRIGHT", 2, -25)
-	for _, name in pairs({"ChatTab", "RosterTab", "GuildBenefitsTab", "GuildInfoTab"}) do
+	local tabs = {"ChatTab", "RosterTab", "GuildBenefitsTab", "GuildInfoTab"}
+	for _, name in pairs(tabs) do
 		local tab = CommunitiesFrame[name]
 		reskinCommunityTab(tab)
 	end
 
 	F.StripTextures(CommunitiesFrameCommunitiesList)
+	F.ReskinScroll(CommunitiesFrameCommunitiesListListScrollFrame.ScrollBar)
 	hooksecurefunc(CommunitiesFrameCommunitiesList, "Update", function(self)
 		local buttons = self.ListScrollFrame.buttons
 		for i = 1, #buttons do
@@ -136,59 +80,112 @@ C.themes["Blizzard_Communities"] = function()
 		end
 	end)
 
-	local CommunityCards = ClubFinderCommunityAndGuildFinderFrame.CommunityCards
-	local scrollBar = CommunityCards.ListScrollFrame.scrollBar
-	F.ReskinScroll(scrollBar)
-	local parent = scrollBar:GetParent()
-	scrollBar:ClearAllPoints()
-	scrollBar:SetPoint("TOPRIGHT", parent, "TOPRIGHT", 0, -16)
-	scrollBar:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", 0, 16)
+	local frames = {"GuildFinderFrame", "InvitationFrame", "TicketFrame", "CommunityFinderFrame"}
+	for _, name in pairs(frames) do
+		local frame = CommunitiesFrame[name]
+		if frame then
+			F.StripTextures(frame)
 
-	local GuildCards = ClubFinderGuildFinderFrame.GuildCards
-	F.ReskinButton(GuildCards.FirstCard.RequestJoin)
-	F.ReskinButton(GuildCards.SecondCard.RequestJoin)
-	F.ReskinButton(GuildCards.ThirdCard.RequestJoin)
-	F.ReskinArrow(GuildCards.PreviousPage, "left")
-	F.ReskinArrow(GuildCards.NextPage, "right")
+			if frame.CircleMask then
+				frame.CircleMask:Hide()
+				frame.IconRing:Hide()
+				F.ReskinIcon(frame.Icon)
+			end
+
+			if frame.FindAGuildButton then F.ReskinButton(frame.FindAGuildButton) end
+			if frame.AcceptButton then F.ReskinButton(frame.AcceptButton) end
+			if frame.DeclineButton then F.ReskinButton(frame.DeclineButton) end
+
+			local OptionsList = frame.OptionsList
+			if OptionsList then
+				F.ReskinDropDown(OptionsList.ClubFocusDropdown)
+				F.ReskinDropDown(OptionsList.ClubSizeDropdown)
+				F.ReskinDropDown(OptionsList.SortByDropdown)
+				F.ReskinRole(OptionsList.TankRoleFrame, "TANK")
+				F.ReskinRole(OptionsList.HealerRoleFrame, "HEALER")
+				F.ReskinRole(OptionsList.DpsRoleFrame, "DPS")
+				F.ReskinInput(OptionsList.SearchBox, 20)
+				F.ReskinButton(OptionsList.Search)
+
+				OptionsList.Search:ClearAllPoints()
+				OptionsList.Search:SetPoint("TOPRIGHT", OptionsList.SearchBox, "BOTTOMRIGHT", 0, -2)
+			end
+
+			local RequestToJoinFrame = frame.RequestToJoinFrame
+			if RequestToJoinFrame then
+				F.ReskinFrame(RequestToJoinFrame)
+				F.ReskinButton(RequestToJoinFrame.Apply)
+				F.ReskinButton(RequestToJoinFrame.Cancel)
+				F.StripTextures(RequestToJoinFrame.MessageFrame)
+				F.ReskinInput(RequestToJoinFrame.MessageFrame.MessageScroll)
+				hooksecurefunc(RequestToJoinFrame, "Initialize", reskinRequestCheckbox)
+			end
+
+			if frame.ClubFinderSearchTab then
+				reskinCommunityTab(frame.ClubFinderSearchTab)
+				frame.ClubFinderSearchTab:ClearAllPoints()
+				frame.ClubFinderSearchTab:SetPoint("TOPLEFT", CommunitiesFrame, "TOPRIGHT", 2, -25)
+			end
+			if frame.ClubFinderPendingTab then reskinCommunityTab(frame.ClubFinderPendingTab) end
+			if frame.GuildCards then reskinGuildCards(frame.GuildCards) end
+			if frame.PendingGuildCards then reskinGuildCards(frame.PendingGuildCards) end
+			if frame.CommunityCards then reskinCommunityCards(frame.CommunityCards) end
+			if frame.PendingCommunityCards then reskinCommunityCards(frame.PendingCommunityCards) end
+		end
+	end
+
+	local GuildMemberDetailFrame = CommunitiesFrame.GuildMemberDetailFrame
+	F.ReskinFrame(GuildMemberDetailFrame)
+	F.ReskinButton(GuildMemberDetailFrame.RemoveButton)
+	F.ReskinButton(GuildMemberDetailFrame.GroupInviteButton)
+	F.ReskinDropDown(GuildMemberDetailFrame.RankDropdown)
+	F.ReskinInput(GuildMemberDetailFrame.NoteBackground)
+	F.ReskinInput(GuildMemberDetailFrame.OfficerNoteBackground)
+	GuildMemberDetailFrame:ClearAllPoints()
+	GuildMemberDetailFrame:SetPoint("TOPLEFT", CommunitiesFrame.ChatTab, "TOPRIGHT", 2, -2)
+
+	local MemberList = CommunitiesFrame.MemberList
+	F.StripTextures(MemberList)
+	F.CreateBDFrame(MemberList, 0)
+	F.ReskinScroll(MemberList.ListScrollFrame.scrollBar)
 
 	-- ChatTab
 	F.ReskinDropDown(CommunitiesFrame.StreamDropDownMenu)
-	F.ReskinScroll(CommunitiesFrame.Chat.MessageFrame.ScrollBar)
-	F.ReskinScroll(CommunitiesFrame.MemberList.ListScrollFrame.scrollBar)
-
-	F.StripTextures(CommunitiesFrame.Chat)
+	F.ReskinArrow(CommunitiesFrame.AddToChatButton, "down")
+	F.ReskinButton(CommunitiesFrame.InviteButton)
+	F.ReskinButton(CommunitiesFrame.CommunitiesControlFrame.GuildRecruitmentButton)
+	F.ReskinButton(CommunitiesFrame.CommunitiesControlFrame.CommunitiesSettingsButton)
 	F.ReskinInput(CommunitiesFrame.ChatEditBox, 22)
-	local chatbg = F.CreateBDFrame(CommunitiesFrame.Chat, 0)
+
+	local Chat = CommunitiesFrame.Chat
+	F.StripTextures(Chat)
+	F.ReskinScroll(Chat.MessageFrame.ScrollBar)
+	local chatbg = F.CreateBDFrame(Chat, 0)
 	chatbg:SetPoint("TOPLEFT", -6, 5)
 	chatbg:SetPoint("BOTTOMRIGHT", 3, -2)
 
-	F.StripTextures(CommunitiesFrame.MemberList)
-	F.CreateBDFrame(CommunitiesFrame.MemberList, 0)
+	local EditStreamDialog = CommunitiesFrame.EditStreamDialog
+	F.ReskinFrame(EditStreamDialog)
+	F.ReskinCheck(EditStreamDialog.TypeCheckBox)
+	F.ReskinButton(EditStreamDialog.Accept)
+	F.ReskinButton(EditStreamDialog.Delete)
+	F.ReskinButton(EditStreamDialog.Cancel)
+	F.ReskinInput(EditStreamDialog.NameEdit, 22)
+	F.ReskinInput(EditStreamDialog.Description)
 
-	local EditStream = CommunitiesFrame.EditStreamDialog
-	F.ReskinFrame(EditStream)
-	F.ReskinCheck(EditStream.TypeCheckBox)
-	F.ReskinButton(EditStream.Accept)
-	F.ReskinButton(EditStream.Delete)
-	F.ReskinButton(EditStream.Cancel)
-	F.ReskinInput(EditStream.NameEdit, 22)
-	F.StripTextures(EditStream.Description)
-	F.CreateBDFrame(EditStream.Description, 0)
+	local NotificationSettingsDialog = CommunitiesFrame.NotificationSettingsDialog
+	NotificationSettingsDialog.ScrollFrame.Child.QuickJoinButton:SetSize(25, 25)
 
-	local NotificationSettings = CommunitiesFrame.NotificationSettingsDialog
-	NotificationSettings.ScrollFrame.Child.QuickJoinButton:SetSize(25, 25)
+	F.ReskinFrame(NotificationSettingsDialog)
+	F.ReskinDropDown(NotificationSettingsDialog.CommunitiesListDropDownMenu)
+	F.ReskinButton(NotificationSettingsDialog.OkayButton)
+	F.ReskinButton(NotificationSettingsDialog.CancelButton)
+	F.ReskinCheck(NotificationSettingsDialog.ScrollFrame.Child.QuickJoinButton)
+	F.ReskinButton(NotificationSettingsDialog.ScrollFrame.Child.AllButton)
+	F.ReskinButton(NotificationSettingsDialog.ScrollFrame.Child.NoneButton)
+	F.ReskinScroll(NotificationSettingsDialog.ScrollFrame.ScrollBar)
 
-	F.ReskinFrame(NotificationSettings)
-	F.ReskinDropDown(NotificationSettings.CommunitiesListDropDownMenu)
-	F.ReskinButton(NotificationSettings.OkayButton)
-	F.ReskinButton(NotificationSettings.CancelButton)
-	F.ReskinCheck(NotificationSettings.ScrollFrame.Child.QuickJoinButton)
-
-	F.ReskinButton(NotificationSettings.ScrollFrame.Child.AllButton)
-	F.ReskinButton(NotificationSettings.ScrollFrame.Child.NoneButton)
-	F.ReskinScroll(NotificationSettings.ScrollFrame.ScrollBar)
-
-	hooksecurefunc(NotificationSettings, "Refresh", function(self)
+	hooksecurefunc(NotificationSettingsDialog, "Refresh", function(self)
 		local frame = self.ScrollFrame.Child
 		for i = 1, frame:GetNumChildren() do
 			local child = select(i, frame:GetChildren())
@@ -202,21 +199,73 @@ C.themes["Blizzard_Communities"] = function()
 		end
 	end)
 
-	local TicketManager = CommunitiesTicketManagerDialog
-	F.ReskinFrame(TicketManager)
-	F.ReskinButton(TicketManager.LinkToChat)
-	F.ReskinButton(TicketManager.Copy)
-	F.ReskinButton(TicketManager.Close)
-	F.ReskinArrow(TicketManager.MaximizeButton, "down")
-	F.ReskinDropDown(TicketManager.ExpiresDropDownMenu)
-	F.ReskinDropDown(TicketManager.UsesDropDownMenu)
-	F.ReskinButton(TicketManager.GenerateLinkButton)
+	local RecruitmentDialog = CommunitiesFrame.RecruitmentDialog
+	F.ReskinFrame(RecruitmentDialog)
+	F.ReskinCheck(RecruitmentDialog.ShouldListClub.Button)
+	F.ReskinCheck(RecruitmentDialog.MaxLevelOnly.Button)
+	F.ReskinCheck(RecruitmentDialog.MinIlvlOnly.Button)
+	F.ReskinDropDown(RecruitmentDialog.ClubFocusDropdown)
+	F.ReskinDropDown(RecruitmentDialog.LookingForDropdown)
+	F.StripTextures(RecruitmentDialog.RecruitmentMessageFrame.RecruitmentMessageInput)
+	F.ReskinInput(RecruitmentDialog.RecruitmentMessageFrame)
+	F.ReskinInput(RecruitmentDialog.MinIlvlOnly.EditBox)
+	F.ReskinButton(RecruitmentDialog.Accept)
+	F.ReskinButton(RecruitmentDialog.Cancel)
 
-	TicketManager.InviteManager.ArtOverlay:Hide()
-	F.StripTextures(TicketManager.InviteManager.ColumnDisplay)
-	F.ReskinScroll(TicketManager.InviteManager.ListScrollFrame.scrollBar)
+	local SettingsDialog = CommunitiesSettingsDialog
+	F.ReskinFrame(SettingsDialog, true)
+	F.ReskinButton(SettingsDialog.ChangeAvatarButton)
+	F.ReskinButton(SettingsDialog.Accept)
+	F.ReskinButton(SettingsDialog.Delete)
+	F.ReskinButton(SettingsDialog.Cancel)
+	F.ReskinInput(SettingsDialog.NameEdit)
+	F.ReskinInput(SettingsDialog.ShortNameEdit)
+	F.ReskinInput(SettingsDialog.Description)
+	F.ReskinInput(SettingsDialog.MessageOfTheDay)
 
-	hooksecurefunc(TicketManager, "Update", function(self)
+	local AvatarPickerDialog = CommunitiesAvatarPickerDialog
+	F.ReskinFrame(AvatarPickerDialog)
+	F.ReskinScroll(CommunitiesAvatarPickerDialogScrollBar)
+	F.ReskinButton(AvatarPickerDialog.OkayButton)
+	F.ReskinButton(AvatarPickerDialog.CancelButton)
+
+	hooksecurefunc(AvatarPickerDialog.ScrollFrame, "Refresh", function(self)
+		for i = 1, 5 do
+			for j = 1, 6 do
+				local avatarButton = self.avatarButtons[i][j]
+				if avatarButton:IsShown() and not avatarButton.styled then
+					avatarButton.Selected:SetTexture("")
+
+					avatarButton.bg = F.ReskinIcon(avatarButton.Icon)
+					F.ReskinTexture(avatarButton, avatarButton.bg)
+
+					avatarButton.styled = true
+				end
+
+				if avatarButton.Selected:IsShown() then
+					avatarButton.bg:SetBackdropBorderColor(cr, cg, cb)
+				else
+					avatarButton.bg:SetBackdropBorderColor(0, 0, 0)
+				end
+			end
+		end
+	end)
+
+	local TicketManagerDialog = CommunitiesTicketManagerDialog
+	F.ReskinFrame(TicketManagerDialog, true)
+	F.ReskinButton(TicketManagerDialog.LinkToChat)
+	F.ReskinButton(TicketManagerDialog.Copy)
+	F.ReskinButton(TicketManagerDialog.Close)
+	F.ReskinArrow(TicketManagerDialog.MaximizeButton, "down")
+	F.ReskinDropDown(TicketManagerDialog.ExpiresDropDownMenu)
+	F.ReskinDropDown(TicketManagerDialog.UsesDropDownMenu)
+	F.ReskinButton(TicketManagerDialog.GenerateLinkButton)
+
+	TicketManagerDialog.InviteManager.ArtOverlay:Hide()
+	F.StripTextures(TicketManagerDialog.InviteManager.ColumnDisplay)
+	F.ReskinScroll(TicketManagerDialog.InviteManager.ListScrollFrame.scrollBar)
+
+	hooksecurefunc(TicketManagerDialog, "Update", function(self)
 		local column = self.InviteManager.ColumnDisplay
 		for i = 1, column:GetNumChildren() do
 			local child = select(i, column:GetChildren())
@@ -246,44 +295,14 @@ C.themes["Blizzard_Communities"] = function()
 	end)
 
 	-- RosterTab
-	CommunitiesFrame.MemberList.ShowOfflineButton:SetSize(25, 25)
 	F.StripTextures(CommunitiesFrame.MemberList.ColumnDisplay)
 	F.ReskinCheck(CommunitiesFrame.MemberList.ShowOfflineButton)
 	F.ReskinDropDown(CommunitiesFrame.GuildMemberListDropDownMenu)
+	F.ReskinButton(CommunitiesFrame.CommunitiesControlFrame.GuildControlButton)
 
-	local Settings = CommunitiesSettingsDialog
-	F.ReskinFrame(Settings)
-	F.ReskinButton(Settings.ChangeAvatarButton)
-	F.ReskinButton(Settings.Accept)
-	F.ReskinButton(Settings.Delete)
-	F.ReskinButton(Settings.Cancel)
-	F.ReskinInput(Settings.NameEdit)
-	F.ReskinInput(Settings.ShortNameEdit)
-	F.StripTextures(Settings.Description)
-	F.CreateBDFrame(Settings.Description, 0)
-	F.StripTextures(Settings.MessageOfTheDay)
-	F.CreateBDFrame(Settings.MessageOfTheDay, 0)
-
-	local AvatarPicker = CommunitiesAvatarPickerDialog
-	F.ReskinFrame(AvatarPicker)
-	F.ReskinScroll(CommunitiesAvatarPickerDialogScrollBar)
-	F.ReskinButton(AvatarPicker.OkayButton)
-	F.ReskinButton(AvatarPicker.CancelButton)
-
-	hooksecurefunc(CommunitiesAvatarPickerDialog.ScrollFrame, "Refresh", function(self)
-		for i = 1, 5 do
-			for j = 1, 6 do
-				local avatarButton = self.avatarButtons[i][j]
-				if avatarButton:IsShown() and not avatarButton.styled then
-					local icbg = F.ReskinIcon(avatarButton.Icon)
-					F.ReskinTexture(avatarButton, icbg)
-					F.ReskinTexture(avatarButton.Selected, icbg)
-
-					avatarButton.styled = true
-				end
-			end
-		end
-	end)
+	if C.isNewPatch then
+		F.ReskinDropDown(CommunitiesFrame.CommunityMemberListDropDownMenu)
+	end
 
 	local function updateNameFrame(self)
 		if not self.expanded then return end
@@ -342,15 +361,18 @@ C.themes["Blizzard_Communities"] = function()
 
 				button.styled = true
 			end
-			if button and button.bg then button.bg:SetShown(button.Class:IsShown()) end
+
+			if button and button.bg then
+				button.bg:SetShown(button.Class:IsShown())
+			end
 		end
 	end)
 
 	-- GuildBenefitsTab
 	local GuildBenefitsFrame = CommunitiesFrame.GuildBenefitsFrame
-	GuildBenefitsFrame.Perks:GetRegions():Hide()
-	GuildBenefitsFrame.Rewards.Bg:Hide()
 	F.StripTextures(GuildBenefitsFrame)
+	F.StripTextures(GuildBenefitsFrame.Perks)
+	F.StripTextures(GuildBenefitsFrame.Rewards)
 	F.ReskinScroll(CommunitiesFrameRewards.scrollBar)
 
 	local factionFrameBar = GuildBenefitsFrame.FactionFrame.Bar
@@ -396,6 +418,7 @@ C.themes["Blizzard_Communities"] = function()
 	end)
 
 	-- GuildInfoTab
+	F.ReskinButton(CommunitiesFrame.GuildLogButton)
 	F.StripTextures(CommunitiesFrameGuildDetailsFrame)
 	F.StripTextures(CommunitiesFrameGuildDetailsFrameInfo)
 	F.StripTextures(CommunitiesFrameGuildDetailsFrameNews)
@@ -403,11 +426,16 @@ C.themes["Blizzard_Communities"] = function()
 
 	F.ReskinFrame(CommunitiesGuildTextEditFrame)
 	F.ReskinScroll(CommunitiesGuildTextEditFrameScrollBar)
-	F.StripTextures(CommunitiesGuildTextEditFrame.Container)
-	F.CreateBDFrame(CommunitiesGuildTextEditFrame.Container, 0)
+	F.ReskinInput(CommunitiesGuildTextEditFrame.Container)
 	F.ReskinButton(CommunitiesGuildTextEditFrameAcceptButton)
 	local TextEditFrameCB = select(4, CommunitiesGuildTextEditFrame:GetChildren())
 	F.ReskinButton(TextEditFrameCB)
+
+	F.ReskinFrame(CommunitiesGuildLogFrame)
+	F.ReskinScroll(CommunitiesGuildLogFrameScrollBar)
+	F.ReskinInput(CommunitiesGuildLogFrame.Container)
+	local LogFrameCB = select(3, CommunitiesGuildLogFrame:GetChildren())
+	F.ReskinButton(LogFrameCB)
 
 	F.CreateBDFrame(CommunitiesFrameGuildDetailsFrameInfo.DetailsFrame, 0)
 	local bg = F.CreateBDFrame(CommunitiesFrameGuildDetailsFrameInfoMOTDScrollFrame, 0)
@@ -422,38 +450,15 @@ C.themes["Blizzard_Communities"] = function()
 		FiltersFrame:SetPoint("TOPLEFT", CommunitiesFrame.ChatTab, "TOPRIGHT", 2, -2)
 	end)
 
-	for _, name in pairs({"GuildAchievement", "Achievement", "DungeonEncounter", "EpicItemLooted", "EpicItemPurchased", "EpicItemCrafted", "LegendaryItemLooted"}) do
+	local filters = {"GuildAchievement", "Achievement", "DungeonEncounter", "EpicItemLooted", "EpicItemPurchased", "EpicItemCrafted", "LegendaryItemLooted"}
+	for _, name in pairs(filters) do
 		local filter = FiltersFrame[name]
 		F.ReskinCheck(filter)
 	end
-
-	F.ReskinFrame(CommunitiesGuildLogFrame)
-	F.ReskinScroll(CommunitiesGuildLogFrameScrollBar)
-	F.StripTextures(CommunitiesGuildLogFrame.Container)
-	F.CreateBDFrame(CommunitiesGuildLogFrame.Container, 0)
-	local LogFrameCB = select(3, CommunitiesGuildLogFrame:GetChildren())
-	F.ReskinButton(LogFrameCB)
 
 	hooksecurefunc("GuildNewsButton_SetNews", function(button)
 		if button.header:IsShown() then
 			button.header:SetAlpha(0)
 		end
 	end)
-
-	-- Recruitment dialog
-	do
-		local RecruitmentDialog = CommunitiesFrame.RecruitmentDialog
-		F.ReskinFrame(RecruitmentDialog)
-		F.ReskinCheck(RecruitmentDialog.ShouldListClub.Button)
-		F.ReskinCheck(RecruitmentDialog.MaxLevelOnly.Button)
-		F.ReskinCheck(RecruitmentDialog.MinIlvlOnly.Button)
-		F.ReskinDropDown(RecruitmentDialog.ClubFocusDropdown)
-		F.ReskinDropDown(RecruitmentDialog.LookingForDropdown)
-		F.StripTextures(RecruitmentDialog.RecruitmentMessageFrame)
-		F.StripTextures(RecruitmentDialog.RecruitmentMessageFrame.RecruitmentMessageInput)
-		F.ReskinInput(RecruitmentDialog.RecruitmentMessageFrame)
-		F.ReskinInput(RecruitmentDialog.MinIlvlOnly.EditBox)
-		F.ReskinButton(RecruitmentDialog.Accept)
-		F.ReskinButton(RecruitmentDialog.Cancel)
-	end
 end
