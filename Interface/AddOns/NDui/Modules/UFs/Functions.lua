@@ -223,6 +223,31 @@ function UF:CreatePowerText(self)
 
 	local ppval = B.CreateFS(textFrame, retVal(self, 14, 13, 12, 12), "", false, "RIGHT", -3, 1)
 	self:Tag(ppval, "[color][power]")
+
+	self.powerText = ppval
+end
+
+local textScaleFrames = {
+	["player"] = true,
+	["target"] = true,
+	["focus"] = true,
+	["pet"] = true,
+	["tot"] = true,
+	["fot"] = true,
+	["boss"] = true,
+	["arena"] = true,
+	["party"] = true,
+}
+function UF:UpdateTextScale()
+	local scale = NDuiDB["UFs"]["UFTextScale"]
+	for _, frame in pairs(oUF.objects) do
+		local style = frame.mystyle
+		if style and textScaleFrames[style] then
+			frame.nameText:SetScale(scale)
+			frame.healthValue:SetScale(scale)
+			if frame.powerText then frame.powerText:SetScale(scale) end
+		end
+	end
 end
 
 function UF:CreatePortrait(self)
@@ -280,23 +305,19 @@ function UF:CreateIcons(self)
 	self.PhaseIndicator = phase
 
 	local groupRole = self:CreateTexture(nil, "OVERLAY")
-	if mystyle == "raid" then
-		groupRole:SetPoint("TOPRIGHT", self, 5, 5)
-	else
-		groupRole:SetPoint("TOPRIGHT", self, 0, 8)
-	end
+	groupRole:SetPoint("TOPRIGHT", self, 0, 8)
 	groupRole:SetSize(12, 12)
 	groupRole:SetTexture("Interface\\LFGFrame\\LFGROLE")
 	groupRole.PostUpdate = postUpdateRole
 	self.GroupRoleIndicator = groupRole
 
 	local leader = self:CreateTexture(nil, "OVERLAY")
-	leader:SetPoint("TOPLEFT", self, 0, 8)
+	leader:SetPoint("RIGHT", self.GroupRoleIndicator, "LEFT")
 	leader:SetSize(12, 12)
 	self.LeaderIndicator = leader
 
 	local assistant = self:CreateTexture(nil, "OVERLAY")
-	assistant:SetPoint("TOPLEFT", self, 0, 8)
+	assistant:SetPoint("RIGHT", self.GroupRoleIndicator, "LEFT")
 	assistant:SetSize(12, 12)
 	self.AssistantIndicator = assistant
 end
@@ -304,13 +325,15 @@ end
 function UF:CreateRaidMark(self)
 	local raidTarget = self:CreateTexture(nil, "OVERLAY")
 	local mystyle = self.mystyle
-	if mystyle == "raid" then
-		raidTarget:SetPoint("TOP", self, 0, 10)
+
+	if self.LeaderIndicator and mystyle ~= "raid" then
+		raidTarget:SetPoint("RIGHT", self.LeaderIndicator, "LEFT", -2, 0)
 	elseif mystyle == "nameplate" then
-		raidTarget:SetPoint("RIGHT", self, "LEFT", -3, 3)
+		raidTarget:SetPoint("RIGHT", self, "TOPLEFT", -5, 0)
 	else
-		raidTarget:SetPoint("TOPRIGHT", self, -30, 10)
+		raidTarget:SetPoint("BOTTOM", self, "TOP", 0, -2)
 	end
+
 	local size = retVal(self, 14, 13, 12, 12, 20)
 	raidTarget:SetSize(size, size)
 	self.RaidTargetIndicator = raidTarget

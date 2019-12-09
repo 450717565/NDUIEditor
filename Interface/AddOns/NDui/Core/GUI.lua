@@ -46,6 +46,7 @@ local defaultSettings = {
 		DeleteButton = false,
 		FavouriteItems = {},
 		GatherEmpty = true,
+		ShowNewItem = true,
 	},
 	Auras = {
 		Reminder = true,
@@ -112,6 +113,7 @@ local defaultSettings = {
 		UFsHPColor = 1,
 		BuffIndicatorType = 1,
 		BI_IconSize = 10,
+		UFTextScale = 1,
 
 		PlayerWidth = 250,
 		PlayerHeight = 30,
@@ -485,6 +487,10 @@ local function updatePlayerPlate()
 	B:GetModule("UnitFrames"):ResizePlayerPlate()
 end
 
+local function updateUFTextScale()
+	B:GetModule("UnitFrames"):UpdateTextScale()
+end
+
 local function updateMinimapScale()
 	B:GetModule("Maps"):UpdateMinimapScale()
 end
@@ -596,6 +602,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Extras", "BagsSlot", L["Bags ItemSlot"], true},
 		{1, "Bags", "DeleteButton", L["Bags DeleteButton"]},
 		{1, "Extras", "FavouriteButton", L["Bags FavouriteButton"], true},
+		{1, "Bags", "ShowNewItem", L["Bags ShowNewItem"]},
 		{},--blank
 		{3, "Bags", "BagsScale", L["Bags Scale"], false, {.5, 1.5, 1}},
 		{3, "Bags", "IconSize", L["Bags IconSize"], true, {30, 42, 0}},
@@ -618,6 +625,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "UFs", "PlayerDebuff", L["Player Debuff"]},
 		{1, "UFs", "ToTAuras", L["ToT Debuff"], true},
 		{4, "UFs", "UFsHPColor", L["HP Bar Color"], false, {L["Default Dark"], L["ClassColorHP"], L["GradientHP"]}},
+		{3, "UFs", "UFTextScale", L["UFTextScale"], true, {.5, 1.5, 1}, updateUFTextScale},
 		{},--blank
 		{1, "UFs", "CombatText", DB.MyColor..L["UFs CombatText"]},
 		{1, "UFs", "AutoAttack", L["CombatText AutoAttack"]},
@@ -851,7 +859,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Extras", "ShowCharacterItemSheet", L["Show Character Item Sheet"]},
 		{1, "Extras", "ShowOwnFrameWhenInspecting", L["Show Own Frame When Inspecting"], true},
 		{},--blank
-		{1, "Extras", "LootMonitor", DB.MyColor..L["LootMonitor"]},
+		{1, "Extras", "LootMonitor", DB.MyColor..L["LootMonitor Title"]},
 		{1, "Extras", "LootMonitorInGroup", L["LootMonitor InGroup"], true},
 		{1, "Extras", "LootMonitorBonusRewards", L["LootMonitor Bonus Rewards"]},
 		{4, "Extras", "LootMonitorQuality", L["LootMonitor Quality"], false, {ITEM_QUALITY1_DESC, ITEM_QUALITY2_DESC, ITEM_QUALITY3_DESC, ITEM_QUALITY4_DESC}},
