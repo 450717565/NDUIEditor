@@ -307,10 +307,7 @@ info.onEvent = function(self, event, ...)
 	local online = select(3, GetNumGuildMembers())
 	self.text:SetFormattedText("%s%s", GUILD..L[":"], DB.MyColor..online)
 
-	if infoFrame and infoFrame:IsShown() then
-		refreshData()
-		applyData()
-	end
+	if infoFrame and infoFrame:IsShown() then info:onEnter() end
 end
 
 info.onEnter = function()
