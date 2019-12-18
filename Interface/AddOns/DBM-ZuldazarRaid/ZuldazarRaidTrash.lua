@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("ZuldazarRaidTrash", "DBM-ZuldazarRaid", 1)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20191009002552")
+mod:SetRevision("20191009133033")
 --mod:SetModelID(47785)
 mod:SetZone()
 mod.isTrashMod = true

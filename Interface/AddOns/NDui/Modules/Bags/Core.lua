@@ -508,14 +508,21 @@ function module:OnLogin()
 			self.Favourite:SetAlpha(0)
 		end
 
-		if item.link and (item.rarity and item.rarity > 0) and (item.level and item.level > 0) and (((item.subType and item.subType == EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC) or (item.equipLoc and item.equipLoc ~= "")) or ((item.classID and item.classID == LE_ITEM_CLASS_MISCELLANEOUS) and (item.subClassID and (item.subClassID == LE_ITEM_MISCELLANEOUS_COMPANION_PET or item.subClassID == LE_ITEM_MISCELLANEOUS_MOUNT)))) then
-			if showItemLevel then
-				local level = B.GetItemLevel(item.link, item.bagID, item.slotID) or item.level
-				self.iLvl:SetText(level)
-			end
-			if showItemSlot then
-				local slot = B.GetItemSlot(item.link)
-				self.Slot:SetText(slot)
+		if item.link and (item.rarity and item.rarity > 0) and (item.level and item.level > 0) then
+			local slot = B.GetItemSlot(item.link)
+			local level = B.GetItemLevel(item.link, item.bagID, item.slotID) or item.level
+
+			if (item.subType and item.subType == EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC) or (item.equipLoc and item.equipLoc ~= "") then
+				if showItemLevel then
+					self.iLvl:SetText(level)
+				end
+				if showItemSlot then
+					self.Slot:SetText(slot)
+				end
+			elseif (item.classID and item.classID == LE_ITEM_CLASS_MISCELLANEOUS) and (item.subClassID and (item.subClassID == LE_ITEM_MISCELLANEOUS_COMPANION_PET or item.subClassID == LE_ITEM_MISCELLANEOUS_MOUNT)) then
+				if showItemSlot then
+					self.Slot:SetText(slot)
+				end
 			end
 		else
 			if showItemLevel then

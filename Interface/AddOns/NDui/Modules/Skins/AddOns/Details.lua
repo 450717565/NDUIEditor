@@ -16,7 +16,7 @@ local function ReskinDetails()
 		self:ToolbarMenuButtonsSize(1)
 		self:AttributeMenu(true, 0, 3, DB.Font[1], 13, {1, 1, 1}, 1, true)
 		self:SetBarSettings(18, NDuiADB["ResetDetails"] and "NDui" or nil)
-		self:SetBarTextSettings(14, DB.Font[1], nil, nil, nil, true, true, nil, nil, nil, nil, nil, nil, false, nil, false, nil)
+		self:SetBarTextSettings(NDuiADB["ResetDetails"] and 14 or nil, DB.Font[1], nil, nil, nil, true, true, nil, nil, nil, nil, nil, nil, false, nil, false, nil)
 
 		local bg = B.CreateBGFrame(self.baseframe, "tex")
 		bg:SetPoint("TOPLEFT", -1, 18)
@@ -72,12 +72,11 @@ local function ReskinDetails()
 	listener:RegisterEvent("DETAILS_INSTANCE_OPEN")
 	function listener:OnDetailsEvent(event, instance)
 		if event == "DETAILS_INSTANCE_OPEN" then
-			setupInstance(instance)
-
-			if instance:GetId() == 2 then
+			if not instance.styled and instance:GetId() == 2 then
 				instance1:SetSize(320, 95)
 				EmbedWindow(instance, -6, 148, 320, 95)
 			end
+			setupInstance(instance)
 		end
 	end
 
@@ -87,6 +86,13 @@ local function ReskinDetails()
 	if current < 3 then
 		_detalhes.numerical_system = current
 		_detalhes:SelectNumericalSystem()
+	end
+	_detalhes.OpenWelcomeWindow = function()
+		if instance1 then
+			EmbedWindow(instance1, -6, 32, 320, 190)
+			instance1:SetBarSettings(18, "normTex")
+			instance1:SetBarTextSettings(14, DB.Font[1], nil, nil, nil, true, true, nil, nil, nil, nil, nil, nil, false, nil, false, nil)
+		end
 	end
 
 	NDuiADB["ResetDetails"] = false
