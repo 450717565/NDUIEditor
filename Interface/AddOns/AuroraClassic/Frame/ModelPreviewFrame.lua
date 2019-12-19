@@ -1,7 +1,11 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	F.ReskinFrame(ModelPreviewFrame)
+	F.StripTextures(ModelPreviewFrame)
+	F.CreateBD(ModelPreviewFrame)
+	F.CreateSD(ModelPreviewFrame)
+
+	F.ReskinClose(ModelPreviewFrameCloseButton)
 	F.ReskinButton(ModelPreviewFrame.CloseButton)
 	F.StripTextures(ModelPreviewFrame.Display)
 	F.CreateBDFrame(ModelPreviewFrame.Display, 0)

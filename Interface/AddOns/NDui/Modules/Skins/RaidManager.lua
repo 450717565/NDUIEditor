@@ -523,8 +523,12 @@ function S:CreateRM()
 	end)
 
 	-- UIWidget reanchor
-	UIWidgetTopCenterContainerFrame:ClearAllPoints()
-	UIWidgetTopCenterContainerFrame:SetPoint("TOP", 0, -40)
-	UIWidgetBelowMinimapContainerFrame:ClearAllPoints()
-	UIWidgetBelowMinimapContainerFrame:SetPoint("TOP", 0, -50)
+	if not UIWidgetTopCenterContainerFrame:IsMovable() then
+		UIWidgetTopCenterContainerFrame:ClearAllPoints()
+		UIWidgetTopCenterContainerFrame:SetPoint("TOP", 0, -40)
+	end
+	if not UIWidgetBelowMinimapContainerFrame:IsMovable() then
+		UIWidgetBelowMinimapContainerFrame:ClearAllPoints()
+		UIWidgetBelowMinimapContainerFrame:SetPoint("TOP", 0, -50)
+	end
 end

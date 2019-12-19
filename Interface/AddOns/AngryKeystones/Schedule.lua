@@ -8,18 +8,18 @@ local requestPartyKeystones
 -- 1: 溢出, 2: 无常, 3: 火山, 4: 死疽, 5: 繁盛, 6: 暴怒, 7: 激励, 8: 血池, 9: 残暴, 10: 强韧, 11: 崩裂, 12: 重伤, 13: 易爆, 14: 震荡, 15: 冷酷, 16: 共生, 117: 收割, 119: 迷醉
 -- 1: Overflowing, 2: Skittish, 3: Volcanic, 4: Necrotic, 5: Teeming, 6: Raging, 7: Bolstering, 8: Sanguine, 9: Tyrannical, 10: Fortified, 11: Bursting, 12: Grievous, 13: Explosive, 14: Quaking
 local affixScheduleText = {
-	{"Fortified", "Bolstering", "Grievous"},
-	{"Tyrannical", "Raging", "Explosive"},
-	{"Fortified", "Sanguine", "Grievous"},
-	{"Tyrannical", "Teeming", "Volcanic"},
-	{"Fortified", "Bolstering", "Skittish"},
-	{"Tyrannical", "Bursting", "Necrotic"},
-	{"Fortified", "Sanguine", "Quaking"},
-	{"Tyrannical", "Bolstering", "Explosive"},
-	{"Fortified", "Bursting", "Volcanic"},
-	{"Tyrannical", "Raging", "Volcanic"},
-	{"Fortified", "Teeming", "Quaking"},
-	{"Tyrannical", "Raging", "Necrotic"},
+	{"Fortified",	"Bolstering",	"Grievous"},
+	{"Tyrannical",	"Raging",	"Explosive"},
+	{"Fortified",	"Sanguine",	"Grievous"},
+	{"Tyrannical",	"Teeming",	"Volcanic"},
+	{"Fortified",	"Bolstering",	"Skittish"},
+	{"Tyrannical",	"Bursting",	"Necrotic"},
+	{"Fortified",	"Sanguine",	"Quaking"},
+	{"Tyrannical",	"Bolstering",	"Explosive"},
+	{"Fortified",	"Bursting",	"Volcanic"},
+	{"Tyrannical",	"Raging",	"Necrotic"},
+	{"Fortified",	"Teeming",	"Quaking"},
+	{"Tyrannical",	"Bursting",	"Skittish"}
 }
 local affixScheduleKeys = {["Overflowing"]=1, ["Skittish"]=2, ["Volcanic"]=3, ["Necrotic"]=4, ["Teeming"]=5, ["Raging"]=6, ["Bolstering"]=7, ["Sanguine"]=8, ["Tyrannical"]=9, ["Fortified"]=10, ["Bursting"]=11, ["Grievous"]=12, ["Explosive"]=13, ["Quaking"]=14 }
 local affixSchedule = {}

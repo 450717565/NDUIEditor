@@ -43,7 +43,7 @@ C.themes["Blizzard_PVPUI"] = function()
 	NewSeason.SeasonDescription:SetTextColor(1, 1, 1)
 	NewSeason.SeasonDescription2:SetTextColor(1, 1, 1)
 
-	select(3, SeasonRewardFrame:GetRegions()):SetTextColor(1, .8, 0)
+	local SeasonRewardFrame = C.isNewPatch and NewSeason.SeasonRewardFrame or SeasonRewardFrame
 	for _, frame in pairs({SeasonRewardFrame, PVPQueueFrame.HonorInset.RatedPanel.SeasonRewardFrame}) do
 		frame.Ring:Hide()
 		frame.CircleMask:Hide()

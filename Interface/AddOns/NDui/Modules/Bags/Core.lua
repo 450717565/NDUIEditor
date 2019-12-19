@@ -58,7 +58,7 @@ function module:CreateInfoFrame()
 	local infoFrame = CreateFrame("Button", nil, self)
 	infoFrame:SetPoint("TOPLEFT", 10, 0)
 	infoFrame:SetSize(200, 30)
-	B.CreateFS(infoFrame, 14, SEARCH, true, "LEFT", -5, 0)
+	local text = B.CreateFS(infoFrame, 14, SEARCH, true, "LEFT", -5, 0)
 
 	local search = self:SpawnPlugin("SearchBar", infoFrame)
 	search.highlightFunction = highlightFunction
@@ -71,7 +71,7 @@ function module:CreateInfoFrame()
 
 	local tag = self:SpawnPlugin("TagDisplay", "[money]", infoFrame)
 	tag:SetFont(unpack(DB.Font))
-	tag:SetPoint("RIGHT", -5, 0)
+	tag:SetPoint("LEFT", text, "RIGHT", 5, 0)
 	tag:SetJustifyH("RIGHT")
 end
 

@@ -118,7 +118,7 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 		F.ReskinIcon(ItemButton.Icon)
 	end
 
-	F.ReskinPortraitFrame(AuctionHouseFrame)
+	F.ReskinFrame(AuctionHouseFrame)
 	F.StripTextures(AuctionHouseFrame.MoneyFrameBorder)
 	F.CreateBDFrame(AuctionHouseFrame.MoneyFrameBorder, .25)
 	F.StripTextures(AuctionHouseFrame.MoneyFrameInset)
@@ -126,11 +126,16 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 	F.ReskinTab(AuctionHouseFrameSellTab)
 	F.ReskinTab(AuctionHouseFrameAuctionsTab)
 
+	--AuctionHouseFrameBuyTab:ClearAllPoints()
+	--AuctionHouseFrameBuyTab:SetPoint("TOPLEFT", AuctionHouseFrame, "BOTTOMLEFT", 15, 1)
+
 	local SearchBar = AuctionHouseFrame.SearchBar
 	reskinAuctionButton(SearchBar.FavoritesSearchButton)
 	F.ReskinInput(SearchBar.SearchBox)
 	F.ReskinFilterButton(SearchBar.FilterButton)
 	F.ReskinButton(SearchBar.SearchButton)
+	F.ReskinInput(SearchBar.FilterButton.LevelRangeFrame.MinLevel)
+	F.ReskinInput(SearchBar.FilterButton.LevelRangeFrame.MaxLevel)
 
 	F.StripTextures(AuctionHouseFrame.CategoriesList)
 	F.ReskinScroll(AuctionHouseFrame.CategoriesList.ScrollFrame.ScrollBar)

@@ -221,13 +221,13 @@ local function ProgressBar_SetValue(self, percent)
 		if isReapingActive and currentQuantity < totalQuantity then
 			if not self.ReapingFrame then
 				local reapingFrame = CreateFrame("Frame", nil, self)
-				reapingFrame:SetSize(56, 18)
+				reapingFrame:SetSize(56, 16)
 				reapingFrame:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 0, 0)
-
-				reapingFrame.Icon = CreateFrame("Frame", nil, self, "ScenarioChallengeModeAffixTemplate")
+		
+				reapingFrame.Icon = CreateFrame("Frame", nil, reapingFrame, "ScenarioChallengeModeAffixTemplate")
 				reapingFrame.Icon:SetPoint("LEFT", reapingFrame, "LEFT", 0, 0)
-				reapingFrame.Icon:SetSize(18, 18)
-				reapingFrame.Icon.Portrait:SetSize(16, 16)
+				reapingFrame.Icon:SetSize(14, 14)
+				reapingFrame.Icon.Portrait:SetSize(12, 12)
 				reapingFrame.Icon:SetUp(REAPING_AFFIX_ID)
 
 				reapingFrame.Text = reapingFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
