@@ -485,7 +485,7 @@ info.onEnter = function(self)
 		updateRequest = true
 	end
 
-	if NDuiGuildInfobar and NDuiGuildInfobar:IsShown() then NDuiGuildInfobar:Hide() end
+	if NDuiGuildsFrame and NDuiGuildsFrame:IsShown() then NDuiGuildsFrame:Hide() end
 	setupFriendsFrame()
 	friendsFrame.numFriends:SetText(format("%s%s / %s", FRIENDS_LIST_ONLINE..L[":"], totalOnline, totalFriends))
 	updateFriendsFrame()

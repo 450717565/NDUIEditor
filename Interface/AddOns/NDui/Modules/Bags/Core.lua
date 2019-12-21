@@ -523,13 +523,13 @@ function module:OnLogin()
 				if showItemSlot then
 					self.Slot:SetText(slot)
 				end
-			end
-		else
-			if showItemLevel then
-				self.iLvl:SetText("")
-			end
-			if showItemSlot then
-				self.Slot:SetText("")
+			else
+				if showItemLevel then
+					self.iLvl:SetText("")
+				end
+				if showItemSlot then
+					self.Slot:SetText("")
+				end
 			end
 		end
 

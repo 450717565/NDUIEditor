@@ -37,7 +37,7 @@ end
 local function setupInfoFrame()
 	if infoFrame then infoFrame:Show() return end
 
-	infoFrame = CreateFrame("Frame", "NDuiGuildInfobar", info)
+	infoFrame = CreateFrame("Frame", "NDuiGuildsFrame", info)
 	infoFrame:SetSize(335, 495)
 	infoFrame:SetPoint("TOPLEFT", UIParent, 15, -35)
 	infoFrame:SetClampedToScreen(true)
