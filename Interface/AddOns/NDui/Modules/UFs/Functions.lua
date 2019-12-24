@@ -497,7 +497,10 @@ function UF.PostCreateIcon(element, button)
 	button.HL:SetAllPoints()
 
 	button.overlay:SetTexture(nil)
-	button.stealable:SetAtlas("bags-newitem")
+	button.stealable:SetTexture(nil)
+
+	button.glowFrame = B.CreateBG(button, 4)
+	button.glowFrame:SetSize(element.size+8, element.size+8)
 
 	B.CreateBGFrame(button)
 
@@ -545,6 +548,12 @@ function UF.PostUpdateIcon(element, _, button, _, _, duration, expiration, debuf
 			button:SetScript("OnUpdate", nil)
 			button.timer:Hide()
 		end
+	end
+
+	if button.glowFrame and button.stealable and button.stealable:IsShown() then
+		B.ShowOverlayGlow(button.glowFrame)
+	else
+		B.HideOverlayGlow(button.glowFrame)
 	end
 end
 

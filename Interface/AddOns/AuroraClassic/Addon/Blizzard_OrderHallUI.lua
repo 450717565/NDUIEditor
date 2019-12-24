@@ -2,11 +2,16 @@ local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_OrderHallUI"] = function()
 	OrderHallTalentFrame.OverlayElements:Hide()
+
+	F.ReskinFrame(OrderHallTalentFrame)
 	F.ReskinIcon(OrderHallTalentFrame.Currency.Icon)
 	F.ReskinButton(OrderHallTalentFrame.BackButton)
 
 	hooksecurefunc(OrderHallTalentFrame, "RefreshAllData", function(self)
-		F.ReskinFrame(OrderHallTalentFrame)
+		F.StripTextures(self)
+
+		if self.CloseButton.Border then self.CloseButton.Border:SetAlpha(0) end
+		if self.CurrencyBG then self.CurrencyBG:SetAlpha(0) end
 
 		for i = 1, self:GetNumChildren() do
 			local bu = select(i, self:GetChildren())

@@ -531,6 +531,13 @@ function module:OnLogin()
 					self.Slot:SetText("")
 				end
 			end
+		else
+			if showItemLevel then
+				self.iLvl:SetText("")
+			end
+			if showItemSlot then
+				self.Slot:SetText("")
+			end
 		end
 
 		if self.glowFrame then

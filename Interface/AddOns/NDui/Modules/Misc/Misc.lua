@@ -364,14 +364,24 @@ do
 			AddCalculateIcon()
 			-- Repoint Bar
 			ArcheologyDigsiteProgressBar.ignoreFramePositionManager = true
-			ArcheologyDigsiteProgressBar:SetPoint("BOTTOM", 0, 150)
+			ArcheologyDigsiteProgressBar:ClearAllPoints()
+			ArcheologyDigsiteProgressBar:SetPoint("BOTTOM", 0, 175)
 			B.CreateMF(ArcheologyDigsiteProgressBar)
 
 			B:UnregisterEvent(event, setupMisc)
 		end
 	end
-
 	B:RegisterEvent("ADDON_LOADED", setupMisc)
+
+	local newTitleString = ARCHAEOLOGY_DIGSITE_PROGRESS_BAR_TITLE..L[":"].."%s / %s"
+	local function updateArcTitle(_, ...)
+		local numFindsCompleted, totalFinds = ...
+		if ArcheologyDigsiteProgressBar then
+			ArcheologyDigsiteProgressBar.BarTitle:SetFormattedText(newTitleString, numFindsCompleted, totalFinds)
+		end
+	end
+	B:RegisterEvent("ARCHAEOLOGY_SURVEY_CAST", updateArcTitle)
+	B:RegisterEvent("ARCHAEOLOGY_FIND_COMPLETE", updateArcTitle)
 end
 
 -- Show BID and highlight price

@@ -20,14 +20,12 @@ C.themes["Blizzard_ArchaeologyUI"] = function()
 	ArchaeologyFrameCompletedButton:ClearAllPoints()
 	ArchaeologyFrameCompletedButton:SetPoint("TOP", ArchaeologyFrameSummarytButton, "BOTTOM", 0, 0)
 
-	local Digsite = ArcheologyDigsiteProgressBar
-	F.StripTextures(Digsite)
-	F.CreateBDFrame(Digsite.FillBar, .25)
-	Digsite.FillBar:SetHeight(15)
-	Digsite.FillBar:SetStatusBarTexture(C.media.normTex)
-	Digsite.FillBar:SetStatusBarColor(cr, cg, cb, .8)
-	Digsite.BarTitle:ClearAllPoints()
-	Digsite.BarTitle:SetPoint("CENTER")
+	local DigsiteBar = ArcheologyDigsiteProgressBar
+	F.StripTextures(DigsiteBar)
+	F.ReskinStatusBar(DigsiteBar.FillBar)
+	DigsiteBar.FillBar:SetHeight(15)
+	DigsiteBar.BarTitle:ClearAllPoints()
+	DigsiteBar.BarTitle:SetPoint("CENTER")
 
 	local titles = {ArchaeologyFrameSummaryPageTitle, ArchaeologyFrameCompletedPageTitleTop, ArchaeologyFrameCompletedPageTitleMid, ArchaeologyFrameArtifactPageHistoryTitle, ArchaeologyFrameHelpPageTitle, ArchaeologyFrameHelpPageDigTitle, ArchaeologyFrameCompletedPage.titleBig}
 	for _, title in pairs(titles) do
