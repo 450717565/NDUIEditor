@@ -576,6 +576,10 @@ function UF.PostUpdateGapIcon(_, _, icon)
 	if icon.Shadow and icon.Shadow:IsShown() then
 		icon.Shadow:Hide()
 	end
+
+	if icon.glowFrame then
+		B.HideOverlayGlow(icon.glowFrame)
+	end
 end
 
 function UF.CustomFilter(element, unit, button, name, _, _, _, _, _, caster, isStealable, _, spellID, _, _, _, nameplateShowAll)
