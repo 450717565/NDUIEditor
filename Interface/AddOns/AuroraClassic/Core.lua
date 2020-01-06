@@ -63,6 +63,7 @@ for class, value in pairs(colors) do
 	C.ClassColors[class].colorStr = value.colorStr
 end
 
+local pixel
 local cr, cg, cb = C.ClassColors[class].r, C.ClassColors[class].g, C.ClassColors[class].b
 
 local function SetupPixelFix()
@@ -72,9 +73,8 @@ local function SetupPixelFix()
 	local scale = UIParent:GetScale()
 	local uiScale = AuroraConfig.uiScale
 	if uiScale and uiScale > 0 then scale = uiScale end
-	C.mult = (bestScale / scale) - ((bestScale - pixelScale) / scale)
 
-	if screenHeight > 1080 then C.mult = C.mult*2 end
+	C.mult = (bestScale / scale) - ((bestScale - pixelScale) / scale)
 end
 
 local function SetupDisTex(self)
@@ -126,7 +126,7 @@ function F:SetupTabStyle(index, tabName)
 			if i == 1 then
 				tabs:SetPoint("TOPLEFT", frameName, "BOTTOMLEFT", 15, 1)
 			else
-				tabs:SetPoint("LEFT", _G[tab..(i-1)], "RIGHT", -15, 0)
+				tabs:SetPoint("LEFT", _G[tab..(i-1)], "RIGHT", -(14+C.mult), 0)
 			end
 		end
 	end
@@ -311,7 +311,7 @@ function F:CreateSD()
 	if not AuroraConfig.shadow then return end
 	if self.Shadow then return end
 
-	local Pmult, Smult = C.mult*1.5, C.mult*2.5
+	local Pmult, Smult = C.mult*3, C.mult*4
 	local lvl = self:GetFrameLevel()
 	local Shadow = CreateFrame("Frame", nil, self)
 	Shadow:ClearAllPoints()
@@ -851,7 +851,7 @@ function F:ReskinSearchBox()
 	F.StripTextures(self)
 	F.CleanTextures(self)
 
-	local bg = F.CreateBDFrame(self, 0, -.5)
+	local bg = F.CreateBDFrame(self, 0, -C.mult)
 	F.ReskinTexture(self, bg, true)
 
 	local icon = self.icon or self.Icon
@@ -1252,6 +1252,7 @@ Skin:SetScript("OnEvent", function(_, event, addon)
 			end
 
 			-- for modules
+			C.pixel = C.mult*2
 			C.r, C.g, C.b = cr, cg, cb
 		end
 

@@ -43,6 +43,8 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	-- Reskin rewards
 	local function restyleRewardButton(bu, isMapQuestInfo)
+		if not bu then return end
+
 		if bu.NameFrame then bu.NameFrame:Hide() end
 		if bu.IconBorder then bu.IconBorder:SetAlpha(0) end
 
@@ -62,7 +64,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 	end
 
-	local frames =  {"HonorFrame", "MoneyFrame", "SkillPointFrame", "XPFrame", "ArtifactXPFrame", "TitleFrame"}
+	local frames =  {"HonorFrame", "MoneyFrame", "SkillPointFrame", "XPFrame", "ArtifactXPFrame", "TitleFrame", "WarModeBonusFrame"}
 	for _, frame in pairs(frames) do
 		local quests = QuestInfoRewardsFrame[frame]
 		if quests then restyleRewardButton(quests) end

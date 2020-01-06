@@ -34,7 +34,7 @@ C.themes["Blizzard_LookingForGuildUI"] = function()
 			local bu = _G[button..i]
 			bu:SetBackdrop(nil)
 
-			local bg = F.CreateBDFrame(bu, 0, -C.mult)
+			local bg = F.CreateBDFrame(bu, 0, -C.pixel)
 			F.ReskinTexture(bu, bg, true)
 			F.ReskinTexture(bu.selectedTex, bg, true)
 

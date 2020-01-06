@@ -88,7 +88,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 
 		local bu = _G[button]
 		F.StripTextures(bu, true)
-		F.CreateBDFrame(bu, 0, -C.mult)
+		F.CreateBDFrame(bu, 0, -C.pixel)
 
 		local hl = _G[button.."Highlight"]
 		hl:SetAlpha(0)
@@ -171,7 +171,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 			if not bu.styled then
 				F.StripTextures(bu)
 
-				local bubg = F.CreateBDFrame(bu, 0, -C.mult)
+				local bubg = F.CreateBDFrame(bu, 0, -C.pixel)
 				F.ReskinTexture(bu, bubg, true)
 
 				bu.styled = true
@@ -214,7 +214,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 	local summaries = {AchievementFrameComparisonSummaryPlayer, AchievementFrameComparisonSummaryFriend}
 	for _, summary in pairs(summaries) do
 		F.StripTextures(summary)
-		F.CreateBDFrame(summary, 0, -C.mult)
+		F.CreateBDFrame(summary, 0, -C.pixel)
 	end
 
 	local bars = {AchievementFrameComparisonSummaryPlayerStatusBar, AchievementFrameComparisonSummaryFriendStatusBar}
@@ -238,7 +238,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 
 		for _, bu in pairs({"Player", "Friend"}) do
 			F.StripTextures(_G[button..bu], true)
-			F.CreateBDFrame(_G[button..bu], 0, -C.mult)
+			F.CreateBDFrame(_G[button..bu], 0, -C.pixel)
 		end
 
 		for _, io in pairs({"PlayerIconOverlay", "FriendIconOverlay"}) do

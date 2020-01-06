@@ -36,7 +36,7 @@ function Extras:Reskins()
 			name = "NDui",
 			border = {
 				offset = 0,
-				size = C.mult,
+				size = C.pixel,
 				texture = {1, 1, 1, 1},
 			},
 			title = {
@@ -58,7 +58,7 @@ function Extras:Reskins()
 			},
 			icon_border = {
 				offset = 0,
-				size = C.mult,
+				size = C.pixel,
 				texture = {1, 1, 1, 1},
 			},
 			icon_highlight = {
@@ -80,7 +80,7 @@ function Extras:Reskins()
 			},
 			slot_border = {
 				offset = 0,
-				size = C.mult,
+				size = C.pixel,
 				texture = {1, 1, 1, 1},
 			},
 		})

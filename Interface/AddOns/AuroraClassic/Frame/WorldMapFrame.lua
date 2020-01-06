@@ -18,6 +18,6 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	local bg = F.ReskinFrame(BorderFrame)
 	bg:SetParent(WorldMapFrame)
-	bg:SetPoint("TOPLEFT", C.mult/2, 0)
-	bg:SetPoint("BOTTOMRIGHT", 0, C.mult/2)
+	bg:SetPoint("TOPLEFT", C.pixel, 0)
+	bg:SetPoint("BOTTOMRIGHT", 0, C.pixel)
 end)

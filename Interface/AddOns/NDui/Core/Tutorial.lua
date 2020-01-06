@@ -63,9 +63,9 @@ local function GetPerfectScale()
 	local bestScale = max(.4, min(1.15, 768 / DB.ScreenHeight))
 	local pixelScale = 768 / DB.ScreenHeight
 	if NDuiADB["LockUIScale"] then scale = bestScale end
-	C.mult = (bestScale / scale) - ((bestScale - pixelScale) / scale)
 
-	if DB.ScreenHeight > 1080 then C.mult = C.mult*2 end
+	C.mult = (bestScale / scale) - ((bestScale - pixelScale) / scale)
+	C.pixel = C.mult*2
 
 	return scale
 end
@@ -380,11 +380,11 @@ local function YesTutor()
 	B.CreateFS(tutor, 30, "NDui", true, "TOPLEFT", 10, 27)
 	local ll = CreateFrame("Frame", nil, tutor)
 	ll:SetPoint("TOPRIGHT", tutor, "TOP", 0, -35)
-	B.CreateGF(ll, 80, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
+	B.CreateGF(ll, 80, C.pixel, "Horizontal", cr, cg, cb, 0, alpha)
 	ll:SetFrameStrata("HIGH")
 	local lr = CreateFrame("Frame", nil, tutor)
 	lr:SetPoint("TOPLEFT", tutor, "TOP", 0, -35)
-	B.CreateGF(lr, 80, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
+	B.CreateGF(lr, 80, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
 	lr:SetFrameStrata("HIGH")
 
 	local title = B.CreateFS(tutor, 12, "", true, "TOP", 0, -10)
@@ -465,11 +465,11 @@ local function HelloWorld()
 	B.CreateFS(welcome, 16, L["Help Title"], true, "TOP", 0, -10)
 	local ll = CreateFrame("Frame", nil, welcome)
 	ll:SetPoint("TOPRIGHT", welcome, "TOP", 0, -35)
-	B.CreateGF(ll, 100, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
+	B.CreateGF(ll, 100, C.pixel, "Horizontal", cr, cg, cb, 0, alpha)
 	ll:SetFrameStrata("HIGH")
 	local lr = CreateFrame("Frame", nil, welcome)
 	lr:SetPoint("TOPLEFT", welcome, "TOP", 0, -35)
-	B.CreateGF(lr, 100, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
+	B.CreateGF(lr, 100, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
 	lr:SetFrameStrata("HIGH")
 	B.CreateFS(welcome, 12, L["Help Info1"], false, "TOPLEFT", 20, -50)
 	B.CreateFS(welcome, 12, L["Help Info2"], false, "TOPLEFT", 20, -70)

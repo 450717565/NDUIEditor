@@ -65,7 +65,7 @@ C.CornerBuffs = {
 	["DEATHKNIGHT"] = {},
 }
 
--- 小队框架的技能监控CD [spellID] = duration in seconds
+-- 小队框体的技能监控CD [spellID] = duration in seconds
 C.PartySpells = {
 	[19647]  = 24,	-- 法术封锁@术士
 	[278326]  = 10,	-- 吞噬魔法
@@ -119,7 +119,7 @@ C.TalentCDFix = {
 	[179057] = 40,	-- 混乱新星
 }
 
--- 团队框架职业相关Buffs
+-- 团队框体职业相关Buffs
 local list = {
 	["ALL"] = { -- 全职业
 		[642] = true,		-- 圣盾术

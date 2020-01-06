@@ -32,9 +32,9 @@ C.UFs = {
 	Targetcb		= {"BOTTOM", UIParent, "BOTTOM", 0, 310},				-- 目标施法条默认位置
 	Focuscb			= {"CENTER", UIParent, "CENTER", 0, 150},				-- 焦点施法条默认位置
 
-	PlayerPos		= {"BOTTOMRIGHT", UIParent, "BOTTOM", -200, 280},		-- 玩家框架默认位置
-	TargetPos		= {"BOTTOMLEFT", UIParent, "BOTTOM", 200, 280},			-- 目标框架默认位置
-	FocusPos		= {"LEFT", UIParent, "LEFT", 5, -150},					-- 焦点框架默认位置
+	PlayerPos		= {"BOTTOMRIGHT", UIParent, "BOTTOM", -200, 280},		-- 玩家框体默认位置
+	TargetPos		= {"BOTTOMLEFT", UIParent, "BOTTOM", 200, 280},			-- 目标框体默认位置
+	FocusPos		= {"LEFT", UIParent, "LEFT", 5, -150},					-- 焦点框体默认位置
 
 	PlayerPlate		= {"BOTTOM", UIParent, "BOTTOM", 0, 230},				-- 个人资源条默认位置
 	BarSize			= {150, 2},												-- 资源条的尺寸（长，宽）

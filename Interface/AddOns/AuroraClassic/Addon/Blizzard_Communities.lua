@@ -80,17 +80,11 @@ C.themes["Blizzard_Communities"] = function()
 		end
 	end)
 
-	local frames = {"GuildFinderFrame", "InvitationFrame", "TicketFrame", "CommunityFinderFrame"}
+	local frames = {"ClubFinderInvitationFrame", "CommunityFinderFrame", "GuildFinderFrame", "InvitationFrame", "TicketFrame"}
 	for _, name in pairs(frames) do
 		local frame = CommunitiesFrame[name]
 		if frame then
 			F.StripTextures(frame)
-
-			if frame.CircleMask then
-				frame.CircleMask:Hide()
-				frame.IconRing:Hide()
-				F.ReskinIcon(frame.Icon)
-			end
 
 			if frame.FindAGuildButton then F.ReskinButton(frame.FindAGuildButton) end
 			if frame.AcceptButton then F.ReskinButton(frame.AcceptButton) end
@@ -222,6 +216,13 @@ C.themes["Blizzard_Communities"] = function()
 	F.ReskinInput(SettingsDialog.ShortNameEdit)
 	F.ReskinInput(SettingsDialog.Description)
 	F.ReskinInput(SettingsDialog.MessageOfTheDay)
+	F.ReskinCheck(SettingsDialog.ShouldListClub.Button)
+	F.ReskinCheck(SettingsDialog.AutoAcceptApplications.Button)
+	F.ReskinCheck(SettingsDialog.MaxLevelOnly.Button)
+	F.ReskinCheck(SettingsDialog.MinIlvlOnly.Button)
+	F.ReskinInput(SettingsDialog.MinIlvlOnly.EditBox)
+	F.ReskinDropDown(ClubFinderFocusDropdown)
+	F.ReskinDropDown(ClubFinderLookingForDropdown)
 
 	local AvatarPickerDialog = CommunitiesAvatarPickerDialog
 	F.ReskinFrame(AvatarPickerDialog)
@@ -409,7 +410,7 @@ C.themes["Blizzard_Communities"] = function()
 				F.StripTextures(button)
 				F.ReskinIcon(button.Icon)
 
-				local bubg = F.CreateBDFrame(button, 0, -C.mult)
+				local bubg = F.CreateBDFrame(button, 0, -C.pixel)
 				F.ReskinTexture(button, bubg, true)
 
 				button.styled = true

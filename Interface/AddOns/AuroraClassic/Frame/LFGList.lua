@@ -102,7 +102,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	for _, headerName in pairs({"NameColumnHeader", "RoleColumnHeader", "ItemLevelColumnHeader"}) do
 		local header = ApplicationViewer[headerName]
 		F.StripTextures(header)
-		F.CreateBDFrame(header, 0, -C.mult)
+		F.CreateBDFrame(header, 0, -C.pixel)
 	end
 
 	hooksecurefunc("LFGListApplicationViewer_UpdateApplicant", function(button)

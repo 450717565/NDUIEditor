@@ -59,8 +59,8 @@ local function loadPetFilter()
 	local activeCount = 0
 	for petIndex, petType in ipairs({1, 2, 6, 3, 9, 7, 10, 8, 5, 4}) do
 		local btn = CreateFrame("Button", "PetJournalQuickFilterButton"..petIndex, PetJournal)
-		btn:SetSize(24, 24)
-		btn:SetPoint("TOPLEFT", PetJournalLeftInset, 6 + 25 * (petIndex-1), -33)
+		btn:SetSize(22, 22)
+		btn:SetPoint("TOPLEFT", PetJournalLeftInset, 6 + 25 * (petIndex-1), -35)
 		B.PixelIcon(btn, "Interface\\Icons\\Icon_PetFamily_"..PET_TYPE_SUFFIX[petType], true)
 
 		if C_PetJournal.IsPetTypeChecked(petType) then

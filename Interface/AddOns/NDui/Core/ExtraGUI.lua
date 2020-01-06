@@ -781,7 +781,7 @@ function G:SetupUnitFrame(parent)
 			frame.Power:SetHeight(NDuiDB["UFs"]["FocusPowerHeight"])
 		end
 	end
-	createOptionGroup(scroll.child, L["Focus&Party"], -270, "Focus", updateFocusSize)
+	createOptionGroup(scroll.child, L["FocusUF"], -270, "Focus", updateFocusSize)
 
 	local subFrames = {_G.oUF_Pet, _G.oUF_ToT, _G.oUF_FoT}
 	local function updatePetSize()

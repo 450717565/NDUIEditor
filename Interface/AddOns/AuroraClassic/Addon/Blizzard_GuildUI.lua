@@ -65,7 +65,7 @@ C.themes["Blizzard_GuildUI"] = function()
 		local bu = _G["GuildRosterColumnButton"..i]
 		F.StripTextures(bu)
 
-		local bubg = F.CreateBDFrame(bu, 0, -C.mult)
+		local bubg = F.CreateBDFrame(bu, 0, -C.pixel)
 		F.ReskinTexture(bu, bubg, true)
 	end
 
@@ -88,7 +88,7 @@ C.themes["Blizzard_GuildUI"] = function()
 				F.StripTextures(header)
 				F.ReskinIcon(header.icon, true)
 
-				local bg = F.CreateBDFrame(header, 0, -C.mult)
+				local bg = F.CreateBDFrame(header, 0, -C.pixel)
 				F.ReskinTexture(header, bg, true)
 
 				header.styled = true
@@ -193,7 +193,7 @@ C.themes["Blizzard_GuildUI"] = function()
 				F.StripTextures(button)
 				F.ReskinIcon(button.icon)
 
-				local bubg = F.CreateBDFrame(button, 0, -C.mult)
+				local bubg = F.CreateBDFrame(button, 0, -C.pixel)
 				F.ReskinTexture(button, bubg, true)
 
 				button.styled = true

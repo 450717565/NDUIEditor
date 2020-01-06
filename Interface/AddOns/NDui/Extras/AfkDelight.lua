@@ -28,6 +28,8 @@ end
 
 -- Main Handler
 function frame:OnEvent(event)
+	if not NDuiDB["Extras"]["AfkDelight"] then return end
+
 	if event == "PLAYER_LOGIN" then
 		self.model:SetUnit("player")
 		self.model:SetRotation(mrad(-30))

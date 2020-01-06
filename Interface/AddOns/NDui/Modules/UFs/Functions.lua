@@ -14,23 +14,12 @@ oUF.colors.power.HOLY_POWER = {.88, .88, .06}
 oUF.colors.power.CHI = {0, 1, .59}
 oUF.colors.power.ARCANE_CHARGES = {.41, .8, .94}
 
--- Style select
-local function isPartyStyle(self)
-	local mystyle = self.mystyle or self.__owner.mystyle
-	return mystyle == "party" and not NDuiDB["UFs"]["PartyWatcher"]
-end
-
-local function isWatcherStyle(self)
-	local mystyle = self.mystyle or self.__owner.mystyle
-	return mystyle == "party" and NDuiDB["UFs"]["PartyWatcher"]
-end
-
 -- Various values
 local function retVal(self, val1, val2, val3, val4, val5)
 	local mystyle = self.mystyle
 	if mystyle == "player" or mystyle == "target" then
 		return val1
-	elseif mystyle == "focus" or isPartyStyle(self) then
+	elseif mystyle == "focus" or mystyle == "party" then
 		return val2
 	elseif mystyle == "boss" or mystyle == "arena" then
 		return val3
@@ -76,7 +65,7 @@ function UF:CreateHealthBar(self)
 	bg.multiplier = .25
 
 	local mystyle = self.mystyle
-	local specialStyle = mystyle == "raid" or isPartyStyle(self) or isWatcherStyle(self)
+	local specialStyle = mystyle == "raid" or mystyle == "party"
 
 	if mystyle == "PlayerPlate" then
 		health.colorHealth = true
@@ -100,10 +89,10 @@ function UF:CreateHealthText(self)
 	name:SetJustifyH("LEFT")
 
 	local mystyle = self.mystyle
-	if mystyle == "raid" or isWatcherStyle(self) then
+	if mystyle == "raid" then
 		name:SetWidth(self:GetWidth()*.95)
 		name:ClearAllPoints()
-		if NDuiDB["UFs"]["SimpleMode"] and not isWatcherStyle(self) then
+		if NDuiDB["UFs"]["SimpleMode"] then
 			name:SetWidth(self:GetWidth()*.65)
 			name:SetPoint("LEFT", 4, 0)
 		elseif NDuiDB["UFs"]["RaidBuffIndicator"] then
@@ -126,7 +115,7 @@ function UF:CreateHealthText(self)
 
 	if mystyle == "player" then
 		self:Tag(name, " [color][name]")
-	elseif mystyle == "target" or isPartyStyle(self) then
+	elseif mystyle == "target" or mystyle == "party" then
 		self:Tag(name, "[fulllevel] [color][name][flag]")
 	elseif mystyle == "focus" then
 		self:Tag(name, "[color][name][flag]")
@@ -140,9 +129,9 @@ function UF:CreateHealthText(self)
 
 	local hpval = B.CreateFS(textFrame, retVal(self, 14, 13, 12, 12, NDuiDB["Nameplate"]["HealthTextSize"]), "", false, "RIGHT", -3, -1)
 	hpval:SetJustifyH("RIGHT")
-	if mystyle == "raid" or isWatcherStyle(self) then
+	if mystyle == "raid" then
 		hpval:ClearAllPoints()
-		if NDuiDB["UFs"]["SimpleMode"] and not isWatcherStyle(self) then
+		if NDuiDB["UFs"]["SimpleMode"] then
 			hpval:SetPoint("RIGHT", -4, 0)
 		elseif NDuiDB["UFs"]["RaidBuffIndicator"] then
 			hpval:SetPoint("BOTTOM", 0, 1)
@@ -167,7 +156,7 @@ function UF:UpdateRaidNameText()
 		if frame.mystyle == "raid" then
 			local name = frame.nameText
 			name:ClearAllPoints()
-			if NDuiDB["UFs"]["SimpleMode"] and not isWatcherStyle(frame) then
+			if NDuiDB["UFs"]["SimpleMode"] then
 				name:SetPoint("LEFT", 4, 0)
 			elseif NDuiDB["UFs"]["RaidBuffIndicator"] then
 				name:SetJustifyH("CENTER")
@@ -187,7 +176,8 @@ end
 function UF:CreatePowerBar(self)
 	local power = CreateFrame("StatusBar", nil, self)
 	power:SetWidth(self:GetWidth())
-	power:SetPoint("TOP", self, "BOTTOM", 0, -3)
+	power:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -3)
+	power:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, -3)
 	power:SetFrameLevel(self:GetFrameLevel() - 2)
 	B.SmoothBar(power)
 
@@ -196,7 +186,7 @@ function UF:CreatePowerBar(self)
 	bg.multiplier = .25
 
 	local mystyle = self.mystyle
-	local specialStyle = mystyle == "raid" or isPartyStyle(self) or isWatcherStyle(self)
+	local specialStyle = mystyle == "raid" or mystyle == "party"
 
 	if mystyle == "PlayerPlate" then
 		power:SetHeight(self:GetHeight())
@@ -252,7 +242,7 @@ end
 
 function UF:CreatePortrait(self)
 	if not NDuiDB["UFs"]["Portrait"] then return end
-	if (isPartyStyle(self) and NDuiDB["UFs"]["RaidHPColor"] > 1) or (not isPartyStyle(self) and NDuiDB["UFs"]["UFsHPColor"] > 1) then return end
+	if (self.mystyle == "party" and NDuiDB["UFs"]["RaidHPColor"] > 1) or (self.mystyle ~= "party" and NDuiDB["UFs"]["UFsHPColor"] > 1) then return end
 
 	local portrait = CreateFrame("PlayerModel", nil, self.Health)
 	portrait:SetAllPoints()
@@ -530,7 +520,7 @@ function UF.PostUpdateIcon(element, _, button, _, _, duration, expiration, debuf
 		button.icon:SetDesaturated(false)
 	end
 
-	if (style == "raid" or isWatcherStyle(element)) and NDuiDB["UFs"]["RaidBuffIndicator"] then
+	if style == "raid" and NDuiDB["UFs"]["RaidBuffIndicator"] then
 		button.Shadow:SetBackdropBorderColor(1, 0, 0)
 	elseif element.showDebuffType and button.isDebuff then
 		local color = oUF.colors.debuff[debuffType] or oUF.colors.debuff.none
@@ -590,7 +580,7 @@ function UF.CustomFilter(element, unit, button, name, _, _, _, _, _, caster, isS
 			element.bolsterIndex = button
 			return true
 		end
-	elseif style == "raid" or isWatcherStyle(element) then
+	elseif style == "raid" or style == "party" then
 		if NDuiDB["UFs"]["RaidBuffIndicator"] then
 			return C.RaidBuffs["ALL"][spellID] or NDuiADB["RaidAuraWatch"][spellID]
 		else
@@ -642,7 +632,7 @@ function UF:CreateAuras(self)
 		bu.iconsPerRow = 9
 		bu.gap = true
 		bu.initialAnchor = "TOPLEFT"
-	elseif mystyle == "raid" or isWatcherStyle(self) then
+	elseif mystyle == "raid" then
 		if NDuiDB["UFs"]["RaidBuffIndicator"] then
 			bu.initialAnchor = "LEFT"
 			bu:SetPoint("LEFT", self, 15, 0)
@@ -651,7 +641,7 @@ function UF:CreateAuras(self)
 			bu.disableCooldown = true
 		else
 			bu:SetPoint("BOTTOMLEFT", self, 0, 0)
-			bu.numTotal = (NDuiDB["UFs"]["SimpleMode"] and not isWatcherStyle(self)) and 0 or 6
+			bu.numTotal = 0
 			bu.iconsPerRow = 6
 			bu.spacing = 2
 		end
@@ -681,14 +671,27 @@ end
 
 function UF:CreateBuffs(self)
 	local bu = CreateFrame("Frame", nil, self)
-	bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 5)
-	bu.num = 12
-	bu.spacing = 5
-	bu.iconsPerRow = 6
-	bu.onlyShowPlayer = false
-	bu.initialAnchor = "BOTTOMLEFT"
 	bu["growth-x"] = "RIGHT"
 	bu["growth-y"] = "UP"
+	bu.onlyShowPlayer = false
+
+	local size = self:GetHeight()/2
+	if size > 24 then size = 24 end
+
+	if self.mystyle == "party" then
+		bu:SetPoint("LEFT", self, "TOPLEFT", 5, 0)
+		bu.num = 6
+		bu.spacing = 5
+		bu.size = size
+		bu.initialAnchor = "LEFT"
+		bu.CustomFilter = UF.CustomFilter
+	else
+		bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 5)
+		bu.num = 12
+		bu.spacing = 5
+		bu.iconsPerRow = 6
+		bu.initialAnchor = "BOTTOMLEFT"
+	end
 
 	auraSetSize(self, bu)
 
@@ -728,7 +731,7 @@ function UF:CreateDebuffs(self)
 		bu.CustomFilter = UF.CustomFilter
 		bu.initialAnchor = "TOPLEFT"
 		bu["growth-x"] = "RIGHT"
-	elseif isPartyStyle(self) then
+	elseif mystyle == "party" then
 		bu:SetPoint("TOPLEFT", self, "TOPRIGHT", 5, 0)
 		bu.num = 10
 		bu.size = self:GetHeight()+self.Power:GetHeight()+3.5
@@ -745,10 +748,11 @@ function UF:CreateDebuffs(self)
 end
 
 -- Class Powers
-local barMargin = C.UFs.BarMargin
 local barWidth, barHeight = unpack(C.UFs.BarSize)
 
 function UF.PostUpdateClassPower(element, cur, max, diff, powerType)
+	local barMargin = C.UFs.BarMargin+C.mult
+
 	if not cur or cur == 0 then
 		for i = 1, 6 do
 			element[i].bg:Hide()
@@ -817,6 +821,8 @@ function UF.PostUpdateRunes(element, runemap)
 end
 
 function UF:CreateClassPower(self)
+	local barMargin = C.UFs.BarMargin+C.mult
+
 	local mystyle = self.mystyle
 	if mystyle == "PlayerPlate" then
 		barWidth, barHeight = self:GetWidth(), NDuiDB["Extras"]["PPCPHeight"]
@@ -1043,7 +1049,7 @@ function UF:CreateSwing(self)
 	if NDuiDB["UFs"]["SwingTimer"] then
 		bar.Text = B.CreateFS(bar, 12)
 		bar.TextMH = B.CreateFS(main, 12)
-		bar.TextOH = B.CreateFS(off, 12, "", false, "CENTER", 1, -3)
+		bar.TextOH = B.CreateFS(off, 12, "", false, "CENTER", 1, -5)
 	end
 
 	self.Swing = bar
@@ -1118,25 +1124,10 @@ end
 function UF:InterruptIndicator(self)
 	if not NDuiDB["UFs"]["PartyWatcher"] then return end
 
-	local horizon = NDuiDB["UFs"]["HorizonParty"]
-	local otherSide = NDuiDB["UFs"]["PWOnRight"]
-	local relF = horizon and "BOTTOMLEFT" or "TOPRIGHT"
-	local relT = "TOPLEFT"
-	local xOffset = horizon and 0 or -5
-	local yOffset = horizon and 5 or 0
-	local margin = horizon and 2 or -2
-	if otherSide then
-		relF = "TOPLEFT"
-		relT = horizon and "BOTTOMLEFT" or "TOPRIGHT"
-		xOffset = horizon and 0 or 5
-		yOffset = horizon and -(self.Power:GetHeight()+8) or 0
-		margin = 2
-	end
-	local rel1 = not horizon and not otherSide and "RIGHT" or "LEFT"
-	local rel2 = not horizon and not otherSide and "LEFT" or "RIGHT"
 	local buttons = {}
-	local maxIcons = 4
-	local iconSize = horizon and (self:GetWidth()-(maxIcons-1)*abs(margin))/maxIcons or (self:GetHeight()+self.Power:GetHeight()+3)
+	local maxIcons = 6
+	local margin = 5
+	local iconSize = self:GetWidth()-(maxIcons-1)*abs(margin)/maxIcons
 	if iconSize > 32 then iconSize = 32 end
 
 	for i = 1, maxIcons do
@@ -1145,9 +1136,9 @@ function UF:InterruptIndicator(self)
 		B.AuraIcon(bu)
 		bu.CD:SetReverse(false)
 		if i == 1 then
-			bu:SetPoint(relF, self, relT, xOffset, yOffset)
+			bu:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -3)
 		else
-			bu:SetPoint(rel1, buttons[i-1], rel2, margin, 0)
+			bu:SetPoint("LEFT", buttons[i-1], "RIGHT", 5, 0)
 		end
 		bu:Hide()
 

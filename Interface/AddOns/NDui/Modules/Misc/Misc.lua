@@ -94,9 +94,11 @@ function M:OnLogin()
 	end)
 
 	-- Instant delete
-	hooksecurefunc(StaticPopupDialogs["DELETE_GOOD_ITEM"], "OnShow", function(self)
-		self.editBox:SetText(DELETE_ITEM_CONFIRM_STRING)
-	end)
+	if NDuiDB["Misc"]["InstantDelete"] then
+		hooksecurefunc(StaticPopupDialogs["DELETE_GOOD_ITEM"], "OnShow", function(self)
+			self.editBox:SetText(DELETE_ITEM_CONFIRM_STRING)
+		end)
+	end
 end
 
 -- Get Naked

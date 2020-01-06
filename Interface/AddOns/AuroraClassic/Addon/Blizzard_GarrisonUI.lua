@@ -490,7 +490,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	for i = 1, #buttons do
 		local button = buttons[i]
 		button.BG:Hide()
-		F.CreateBDFrame(button, 0, -C.mult)
+		F.CreateBDFrame(button, 0, -C.pixel)
 
 		for _, reward in pairs(button.Rewards) do
 			reward:GetRegions():Hide()

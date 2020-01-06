@@ -255,15 +255,15 @@ function module:ChatFrameBackground()
 	B.CreateGF(ChatLine, 450, ChatFrame1:GetHeight() + 26, "Horizontal", 0, 0, 0, .5, 0)
 	local ChatLine1 = CreateFrame("Frame", nil, ChatLine)
 	ChatLine1:SetPoint("BOTTOM", ChatLine, "TOP")
-	B.CreateGF(ChatLine1, 450, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
+	B.CreateGF(ChatLine1, 450, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
 	if NDuiDB["Chat"]["Chatbar"] then
 		local ChatLine2 = CreateFrame("Frame", nil, ChatLine)
 		ChatLine2:SetPoint("BOTTOM", ChatLine, "BOTTOM", 0, 18)
-		B.CreateGF(ChatLine2, 450, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
+		B.CreateGF(ChatLine2, 450, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
 	end
 	local ChatLine3 = CreateFrame("Frame", nil, ChatLine)
 	ChatLine3:SetPoint("TOP", ChatLine, "BOTTOM")
-	B.CreateGF(ChatLine3, 450, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
+	B.CreateGF(ChatLine3, 450, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
 
 	ChatFrame1.gradientBG = ChatLine
 end

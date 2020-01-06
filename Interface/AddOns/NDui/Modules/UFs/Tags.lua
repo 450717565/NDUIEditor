@@ -28,7 +28,7 @@ oUF.Tags.Methods["health"] = function(unit)
 			end
 		elseif strmatch(unit, "arena") or strmatch(unit, "boss") then
 			return B.ColorText(per, true)
-		elseif UnitInParty(unit) and strmatch(unit, "party") and not NDuiDB["UFs"]["PartyWatcher"] then
+		elseif UnitInParty(unit) and strmatch(unit, "party") then
 			return B.Numb(cur)
 		else
 			return B.ColorText(per)

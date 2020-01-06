@@ -119,10 +119,10 @@ local list = {
 		{AuraID = 273992, UnitID = "player"},	-- 灵魂之速
 		{AuraID = 273955, UnitID = "player"},	-- 望远镜视野
 		{AuraID = 267612, UnitID = "player"},	-- 迅击风暴
-		{AuraID = 268887, UnitID = "player"},	-- 迅捷远航
-		{AuraID = 268854, UnitID = "player"},	-- 全能远航
-		{AuraID = 268905, UnitID = "player"},	-- 致命远航
-		{AuraID = 268899, UnitID = "player"},	-- 精湛远航
+		{AuraID = 268893, UnitID = "player"},	-- 迅捷远航
+		{AuraID = 268856, UnitID = "player"},	-- 全能远航
+		{AuraID = 268904, UnitID = "player"},	-- 致命远航
+		{AuraID = 268898, UnitID = "player"},	-- 精湛远航
 		{AuraID = 264957, UnitID = "player"},	-- 急速瞄准镜
 		{AuraID = 264878, UnitID = "player"},	-- 爆击瞄准镜
 		{AuraID = 267685, UnitID = "player"},	-- 元素洪流
@@ -176,7 +176,6 @@ local list = {
 		{AuraID = 271550, UnitID = "player"},	-- 临危不惧
 		{AuraID = 281517, UnitID = "player"},	-- 不稳定的催化剂
 		{AuraID = 271559, UnitID = "player"},	-- 闪光庇护所
-		{AuraID = 270657, UnitID = "player", Combat = true, Value = true},	-- 万人敌
 		-- 默认
 		{AuraID = 277960, UnitID = "player"},	-- 神经电激
 		{AuraID = 280852, UnitID = "player"},	-- 解放者之力

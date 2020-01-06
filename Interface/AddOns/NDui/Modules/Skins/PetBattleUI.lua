@@ -338,11 +338,11 @@ function S:PetBattleUI()
 	-- Petbar Background
 	local lineLeft = CreateFrame("Frame", nil, UIParent)
 	lineLeft:SetPoint("BOTTOMRIGHT", bar, "TOP", 0, 3)
-	B.CreateGF(lineLeft, 260, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
+	B.CreateGF(lineLeft, 260, C.pixel, "Horizontal", cr, cg, cb, 0, alpha)
 	RegisterStateDriver(lineLeft, "visibility", visibleState)
 
 	local lineRight = CreateFrame("Frame", nil, UIParent)
 	lineRight:SetPoint("BOTTOMLEFT", bar, "TOP", 0, 3)
-	B.CreateGF(lineRight, 260, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
+	B.CreateGF(lineRight, 260, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
 	RegisterStateDriver(lineRight, "visibility", visibleState)
 end

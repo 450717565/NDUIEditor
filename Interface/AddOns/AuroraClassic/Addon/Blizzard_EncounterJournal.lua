@@ -249,7 +249,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		header.descriptionBG:SetAlpha(0)
 		header.descriptionBGBottom:SetAlpha(0)
 
-		local bubg = F.CreateBDFrame(header.button, 0, -C.mult)
+		local bubg = F.CreateBDFrame(header.button, 0, -C.pixel)
 		F.ReskinTexture(header.button, bubg, true)
 	end
 
@@ -291,7 +291,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 				boss.creature:ClearAllPoints()
 				boss.creature:SetPoint("TOPLEFT", 2, -3)
 
-				local bubg = F.CreateBDFrame(boss, 0, -C.mult)
+				local bubg = F.CreateBDFrame(boss, 0, -C.pixel)
 				F.ReskinTexture(boss, bubg, true)
 
 				boss.styled = true

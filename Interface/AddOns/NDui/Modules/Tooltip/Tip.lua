@@ -263,8 +263,8 @@ end
 
 function TT:ReskinStatusBar()
 	GameTooltipStatusBar:ClearAllPoints()
-	GameTooltipStatusBar:SetPoint("BOTTOMLEFT", GameTooltip, "TOPLEFT", C.mult*2, C.mult)
-	GameTooltipStatusBar:SetPoint("BOTTOMRIGHT", GameTooltip, "TOPRIGHT", -C.mult*2, C.mult)
+	GameTooltipStatusBar:SetPoint("BOTTOMLEFT", GameTooltip, "TOPLEFT", C.pixel, C.pixel)
+	GameTooltipStatusBar:SetPoint("BOTTOMRIGHT", GameTooltip, "TOPRIGHT", -C.pixel, C.pixel)
 	GameTooltipStatusBar:SetStatusBarTexture(DB.normTex)
 	GameTooltipStatusBar:SetHeight(5)
 

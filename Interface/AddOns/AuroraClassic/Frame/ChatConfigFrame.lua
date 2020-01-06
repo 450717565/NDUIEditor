@@ -42,7 +42,7 @@ tinsert(C.themes["AuroraClassic"], function()
 				local checkBoxName = frame:GetName().."CheckBox"..index
 				local checkbox = _G[checkBoxName]
 				F.StripTextures(checkbox)
-				F.CreateBDFrame(checkbox, 0, -C.mult)
+				F.CreateBDFrame(checkbox, 0, -C.pixel)
 
 				local swatch = _G[checkBoxName.."ColorSwatch"]
 				if swatch then
@@ -81,7 +81,7 @@ tinsert(C.themes["AuroraClassic"], function()
 				local swatchName = frame:GetName().."Swatch"..index
 				local swatch = _G[swatchName]
 				F.StripTextures(swatch)
-				F.CreateBDFrame(swatch, 0, -C.mult)
+				F.CreateBDFrame(swatch, 0, -C.pixel)
 				F.ReskinColourSwatch(_G[swatchName.."ColorSwatch"])
 			end
 

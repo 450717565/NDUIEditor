@@ -1,6 +1,8 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
+	local cr, cg, cb = C.r, C.g, C.b
+
 	-- Spell
 	F.ReskinFrame(SpellBookFrame)
 	F.ReskinArrow(SpellBookPrevPageButton, "left")
@@ -59,6 +61,13 @@ tinsert(C.themes["AuroraClassic"], function()
 			local glyph = self.GlyphIcon
 			if glyph then
 				glyph:SetAtlas("GlyphIcon-Spellbook")
+			end
+
+			local highlight = self.SpellHighlightTexture
+			if highlight and highlight:IsShown() then
+				ic.bg:SetBackdropBorderColor(cr, cg, cb)
+			else
+				ic.bg:SetBackdropBorderColor(0, 0, 0)
 			end
 		end
 	end)

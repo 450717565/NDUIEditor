@@ -122,7 +122,7 @@ function B:CreateSD(m, s)
 	local frame = self
 	if self:GetObjectType() == "Texture" then frame = self:GetParent() end
 	local lvl = frame:GetFrameLevel()
-	if not m then m, s = C.mult*1.5, C.mult*2.5 end
+	if not m then m, s = C.mult*3, C.mult*4 end
 
 	local Shadow = CreateFrame("Frame", nil, frame)
 	Shadow:ClearAllPoints()
@@ -703,6 +703,33 @@ function B:CollectEssenceInfo(index, lineText, slotInfo)
 	end
 end
 
+-- 显示特质，by 雨夜独行客
+function B:InspectAzeriteTextures(slotID)
+	if slotID ~= 1 and slotID ~= 3 and slotID ~= 5 then return end
+
+	local azerite = {}
+	local itemLocation = ItemLocation:CreateFromEquipmentSlot(slotID)
+	if not C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItem(itemLocation) then return end
+
+	local step = 1
+	local maxTiers = NDuiDB["Extras"]["MaxTiers"]
+	local tierInfo = C_AzeriteEmpoweredItem.GetAllTierInfo(itemLocation)
+	for tier, info in pairs(tierInfo) do
+		if tier <= maxTiers then
+			for _, powerID in pairs(info.azeritePowerIDs) do
+				if C_AzeriteEmpoweredItem.IsPowerSelected(itemLocation, powerID) then
+					local powerInfo = C_AzeriteEmpoweredItem.GetPowerInfo(powerID)
+					local _, _, icon = GetSpellInfo(powerInfo.spellID)
+					azerite[step] = icon
+					step = step + 1
+				end
+			end
+		end
+	end
+
+	return azerite
+end
+
 function B.GetItemLevel(link, arg1, arg2, fullScan)
 	if fullScan then
 		tip:SetOwner(UIParent, "ANCHOR_NONE")
@@ -712,6 +739,7 @@ function B.GetItemLevel(link, arg1, arg2, fullScan)
 
 		local slotInfo = tip.slotInfo
 		slotInfo.gems, slotInfo.essences = B:InspectItemTextures()
+		slotInfo.azerite = B:InspectAzeriteTextures(arg2)
 
 		for i = 1, tip:NumLines() do
 			local line = _G[tip:GetName().."TextLeft"..i]

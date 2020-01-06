@@ -84,7 +84,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		category.Background:Hide()
 		category.Title:SetTextColor(cr, cg, cb)
 
-		local width, height = 95, C.mult*2
+		local width, height = 95, C.pixel
 
 		local left = CreateFrame("Frame", nil, category)
 		left:SetPoint("TOPRIGHT", category, "BOTTOM", 0, 5)

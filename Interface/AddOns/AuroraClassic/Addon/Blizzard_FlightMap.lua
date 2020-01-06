@@ -5,8 +5,8 @@ C.themes["Blizzard_FlightMap"] = function()
 
 	local bg = F.ReskinFrame(BorderFrame)
 	bg:SetParent(FlightMapFrame)
-	bg:SetPoint("TOPLEFT", 0, -18)
-	bg:SetPoint("BOTTOMRIGHT", 0, -C.mult/2)
+	bg:SetPoint("TOPLEFT", 0, -19)
+	bg:SetPoint("BOTTOMRIGHT", 0, C.mult)
 
 	local CloseButton = BorderFrame.CloseButton
 	CloseButton:ClearAllPoints()

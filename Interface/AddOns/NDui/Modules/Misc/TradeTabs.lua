@@ -11,7 +11,6 @@ local PlayerHasToy, C_ToyBox_IsToyUsable, C_ToyBox_GetToyInfo = PlayerHasToy, C_
 local BOOKTYPE_PROFESSION = BOOKTYPE_PROFESSION
 local RUNEFORGING_ID = 53428
 local CHEF_HAT = 134020
-local THERMAL_ANVIL = 87216
 local tabList = {}
 
 local onlyPrimary = {

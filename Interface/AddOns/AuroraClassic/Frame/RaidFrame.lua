@@ -29,6 +29,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	local labels =  {RaidInfoInstanceLabel, RaidInfoIDLabel}
 	for _, label in pairs(labels) do
 		F.StripTextures(label)
-		F.CreateBDFrame(label, 0, -C.mult)
+		F.CreateBDFrame(label, 0, -C.pixel)
 	end
 end)

@@ -118,12 +118,13 @@ function M:ItemLevel_SetupLevel(frame, strType, unit)
 						slotFrame.enchantText:SetText(enchant)
 					end
 
-					local gemStep, essenceStep = 1, 1
+					local gemStep, essenceStep, azeriteStep = 1, 1, 1
 					for i = 1, 10 do
 						local texture = slotFrame["textureIcon"..i]
 						local bg = texture.bg
 						local gem = info.gems and info.gems[gemStep]
 						local essence = not gem and (info.essences and info.essences[essenceStep])
+						local azerite = strType == "Character" and info.azerite and info.azerite[azeriteStep]
 						if gem then
 							texture:SetTexture(gem)
 							bg:SetBackdropBorderColor(0, 0, 0)
@@ -145,6 +146,12 @@ function M:ItemLevel_SetupLevel(frame, strType, unit)
 							bg:Show()
 
 							essenceStep = essenceStep + 1
+						elseif azerite then
+							texture:SetTexture(azerite)
+							bg:SetBackdropBorderColor(0, 0, 0)
+							bg:Show()
+
+							azeriteStep = azeriteStep + 1
 						end
 					end
 				end

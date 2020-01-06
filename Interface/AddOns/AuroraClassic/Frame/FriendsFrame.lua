@@ -148,7 +148,7 @@ tinsert(C.themes["AuroraClassic"], function()
 				F.StripTextures(Children)
 				F.CleanTextures(Children)
 
-				local bg = F.CreateBDFrame(Children, 0, -C.mult)
+				local bg = F.CreateBDFrame(Children, 0, -C.pixel)
 				F.ReskinTexture(Children, bg, true)
 
 				invite.styled = true

@@ -40,7 +40,7 @@ C.themes["Blizzard_Collections"] = function()
 			local bu = scrollFrame.buttons[i]
 			F.StripTextures(bu)
 
-			local bubg = F.CreateBDFrame(bu, 0, -C.mult)
+			local bubg = F.CreateBDFrame(bu, 0, -C.pixel)
 			F.ReskinTexture(bu, bubg, true)
 
 			local sl = bu.SelectedTexture or bu.selectedTexture

@@ -86,7 +86,6 @@ local defaultSettings = {
 		SpecRaidPos = false,
 		RaidHPColor = 1,
 		HorizonRaid = true,
-		HorizonParty = false,
 		ReverseRaid = false,
 		RaidScale = 1,
 		RaidWidth = 80,
@@ -107,9 +106,11 @@ local defaultSettings = {
 		RaidBuffIndicator = false,
 		PartyFrame = true,
 		PartyWatcher = false,
-		PWOnRight = false,
-		PartyWidth = 100,
-		PartyHeight = 32,
+		PartyWidth = 200,
+		PartyHeight = 26,
+		PartyPetFrame = false,
+		PartyPetWidth = 120,
+		PartyPetHeight = 20,
 		UFsHPColor = 1,
 		BuffIndicatorType = 1,
 		BI_IconSize = 10,
@@ -270,6 +271,7 @@ local defaultSettings = {
 		RareAlertInWild = true,
 		ParagonRep = true,
 		UunatAlert = false,
+		InstantDelete = true,
 	},
 	Tutorial = {
 		Complete = false,
@@ -291,6 +293,8 @@ local defaultSettings = {
 		ShowYourself = false,
 		SkinAlpha = .8,
 		SkinColor = {r=.5, g=.5, b=.5},
+		MaxTiers = 4,
+		AfkDelight = true,
 	},
 }
 
@@ -479,6 +483,10 @@ local function updatePartySize()
 	B:GetModule("UnitFrames"):ResizePartyFrame()
 end
 
+local function updatePartyPetSize()
+	B:GetModule("UnitFrames"):ResizePartyPetFrame()
+end
+
 local function updateRaidSize()
 	B:GetModule("UnitFrames"):ResizeRaidFrame()
 end
@@ -637,12 +645,13 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "UFs", "RaidFrame", DB.MyColor..L["UFs RaidFrame"]},
 		{},--blank
 		{1, "UFs", "PartyFrame", DB.MyColor..L["UFs PartyFrame"]},
-		{1, "UFs", "HorizonParty", L["Horizon PartyFrame"], true},
-		{1, "UFs", "PartyWatcher", L["UFs PartyWatcher"], nil, setupPartyWatcher},
-		{1, "Extras", "ShowYourself", L["PartyFrame Show Yourself"], true},
-		{1, "UFs", "PWOnRight", L["PartyWatcherOnRight"]},
-		{3, "UFs", "PartyWidth", L["PartyFrame Width"].."*(100)", false, {80, 200, 0}, updatePartySize},
-		{3, "UFs", "PartyHeight", L["PartyFrame Height"].."*(32)", true, {25, 60, 0}, updatePartySize},
+		{1, "UFs", "PartyWatcher", L["UFs PartyWatcher"], true, setupPartyWatcher},
+		{1, "Extras", "ShowYourself", L["PartyFrame Show Yourself"]},
+		{3, "UFs", "PartyWidth", L["PartyFrame Width"].."*(200)", false, {150, 250, 0}, updatePartySize},
+		{3, "UFs", "PartyHeight", L["PartyFrame Height"].."*(26)", true, {15, 50, 0}, updatePartySize},
+		{1, "UFs", "PartyPetFrame", DB.MyColor..L["UFs PartyPetFrame"]},
+		{3, "UFs", "PartyPetWidth", L["PartyPetFrame Width"].."*(120)", false, {80, 200, 0}, updatePartyPetSize},
+		{3, "UFs", "PartyPetHeight", L["PartyPetFrame Height"].."*(20)", true, {20, 60, 0}, updatePartyPetSize},
 		{},--blank
 		{1, "UFs", "RaidBuffIndicator", DB.MyColor..L["RaidBuffIndicator"], false, setupBuffIndicator},
 		{3, "UFs", "BI_IconSize", L["BI_IconSize"], false, {10, 18, 0}},
@@ -837,6 +846,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Misc", "Screenshot", L["Auto ScreenShot"].."*", true, nil, updateScreenShot},
 		{1, "Misc", "FasterLoot", L["Faster Loot"].."*", false, nil, updateFasterLoot},
 		{1, "Misc", "HideErrors", L["Hide Error"].."*", true, nil, updateErrorBlocker},
+		{1, "Misc", "InstantDelete", L["InstantDelete"].."*"},
 	},
 	[13] = {
 		{1, "ACCOUNT", "VersionCheck", L["Version Check"]},
@@ -852,8 +862,10 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{3, "Extras", "SkinAlpha", L["Skin Alpha"], false, {0, 1, 1}},
 		{5, "Extras", "SkinColor", L["Skin Color"], 2},
 		{},--blank
+		{1, "Extras", "AutoCollapse", L["Auto Collapse"]},
 		{1, "Extras", "GuildWelcome", L["Guild Welcome"]},
-		{1, "Extras", "AutoCollapse", L["Auto Collapse"], true},
+		{1, "Extras", "AfkDelight", L["Afk Delight"]},
+		{3, "Extras", "MaxTiers", L["Max Tiers"], true, {2, 4, 0}},
 		{},--blank
 		{1, "Extras", "iLvlTools", DB.MyColor..L["iLvlTools"]},
 		{1, "Extras", "ShowCharacterItemSheet", L["Show Character Item Sheet"]},
@@ -1048,7 +1060,7 @@ local function CreateOption(i)
 			local alpha = NDuiDB["Extras"]["SkinAlpha"]
 			local l = CreateFrame("Frame", nil, parent)
 			l:SetPoint("TOPLEFT", 25, -offset - 12)
-			B.CreateGF(l, 560, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
+			B.CreateGF(l, 560, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
 			offset = offset + 35
 		end
 	end
