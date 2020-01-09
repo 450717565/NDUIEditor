@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 if DB.Client ~= "zhCN" then return end
 
 local strsplit, pairs = string.split, pairs
@@ -42,17 +42,17 @@ local function changelog()
 	f:SetScale(1.2)
 	f:SetFrameStrata("HIGH")
 	B.CreateMF(f)
-	B.SetBackground(f)
+	F.CreateBD(f)
 	B.CreateFS(f, 30, "NDui", true, "TOPLEFT", 10, 27)
 	B.CreateFS(f, 14, DB.Version, true, "TOPRIGHT", -10, 14)
 	B.CreateFS(f, 16, L["Changelog"], true, "TOP", 0, -10)
 	local ll = CreateFrame("Frame", nil, f)
 	ll:SetPoint("TOPRIGHT", f, "TOP", 0, -35)
-	B.CreateGF(ll, 100, C.pixel, "Horizontal", cr, cg, cb, 0, alpha)
+	F.CreateGA(ll, 100, C.pixel, "Horizontal", cr, cg, cb, 0, alpha)
 	ll:SetFrameStrata("HIGH")
 	local lr = CreateFrame("Frame", nil, f)
 	lr:SetPoint("TOPLEFT", f, "TOP", 0, -35)
-	B.CreateGF(lr, 100, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
+	F.CreateGA(lr, 100, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
 	lr:SetFrameStrata("HIGH")
 	local offset = 0
 	for n, t in pairs(hx) do

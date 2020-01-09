@@ -1,19 +1,16 @@
-local B, C, L, DB = unpack(select(2, ...))
+local B, C, L, DB, F = unpack(select(2, ...))
 local Extras = B:GetModule("Extras")
 
 local cr, cg, cb = DB.r, DB.g, DB.b
 
 function Extras:Reskins()
 	if IsAddOnLoaded("!BaudErrorFrame") then
+		F.CreateBD(BaudErrorFrame)
+
 		B.StripTextures(BaudErrorFrameListScrollBox)
 		B.StripTextures(BaudErrorFrameDetailScrollBox)
-
-		B.SetBackground(BaudErrorFrame)
-
-		B.CreateBD(BaudErrorFrameListScrollBox, .25)
-		B.CreateSD(BaudErrorFrameListScrollBox)
-		B.CreateBD(BaudErrorFrameDetailScrollBox, .25)
-		B.CreateSD(BaudErrorFrameDetailScrollBox)
+		F.CreateBDFrame(BaudErrorFrameListScrollBox, 0)
+		F.CreateBDFrame(BaudErrorFrameDetailScrollBox, 0)
 
 		local boxHL = BaudErrorFrameListScrollBoxHighlightTexture
 		boxHL:SetTexture(DB.bdTex)
@@ -21,7 +18,7 @@ function Extras:Reskins()
 
 		local buttons = {BaudErrorFrameClearButton, BaudErrorFrameCloseButton, BaudErrorFrameReloadUIButton}
 		for _, button in pairs(buttons) do
-			B.CreateBC(button, .25)
+			F.ReskinButton(button)
 			button.Text:SetTextColor(cr, cg, cb)
 		end
 	end

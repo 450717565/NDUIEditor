@@ -86,7 +86,7 @@ C.themes["Blizzard_GuildUI"] = function()
 
 			if header and not header.styled then
 				F.StripTextures(header)
-				F.ReskinIcon(header.icon, true)
+				F.ReskinIcon(header.icon)
 
 				local bg = F.CreateBDFrame(header, 0, -C.pixel)
 				F.ReskinTexture(header, bg, true)
@@ -113,7 +113,7 @@ C.themes["Blizzard_GuildUI"] = function()
 				button:SetHighlightTexture(C.media.bdTex)
 				button:GetHighlightTexture():SetVertexColor(cr, cg, cb, .25)
 
-				button.bg = F.ReskinIcon(button.icon, true)
+				button.bg = F.ReskinIcon(button.icon)
 			end
 
 			index = offset + i

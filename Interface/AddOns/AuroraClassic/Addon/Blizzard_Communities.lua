@@ -312,7 +312,7 @@ C.themes["Blizzard_Communities"] = function()
 		self:GetHighlightTexture():SetColorTexture(cr, cg, cb, .25)
 
 		if not self.bg then
-			self.bg = F.ReskinIcon(self.Class, true)
+			self.bg = F.ReskinIcon(self.Class)
 		end
 
 		local memberInfo = self:GetMemberInfo()
@@ -357,7 +357,7 @@ C.themes["Blizzard_Communities"] = function()
 					bg:SetPoint("BOTTOMRIGHT", C.mult, C.mult)
 
 					F.ReskinTexture(header, bg, true)
-					F.ReskinIcon(header.Icon, true)
+					F.ReskinIcon(header.Icon)
 				end
 
 				button.styled = true

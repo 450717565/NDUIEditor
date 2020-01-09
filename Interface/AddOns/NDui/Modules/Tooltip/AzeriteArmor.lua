@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local TT = B:GetModule("Tooltip")
 
 local _G = getfenv(0)

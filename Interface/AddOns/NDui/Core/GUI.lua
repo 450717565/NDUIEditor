@@ -865,7 +865,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Extras", "AutoCollapse", L["Auto Collapse"]},
 		{1, "Extras", "GuildWelcome", L["Guild Welcome"]},
 		{1, "Extras", "AfkDelight", L["Afk Delight"]},
-		{3, "Extras", "MaxTiers", L["Max Tiers"], true, {2, 4, 0}},
+		{3, "Extras", "MaxTiers", L["Max Tiers"], true, {1, 4, 0}},
 		{},--blank
 		{1, "Extras", "iLvlTools", DB.MyColor..L["iLvlTools"]},
 		{1, "Extras", "ShowCharacterItemSheet", L["Show Character Item Sheet"]},
@@ -881,11 +881,11 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 local function SelectTab(i)
 	for num = 1, #tabList do
 		if num == i then
-			guiTab[num]:SetBackdropColor(cr, cg, cb, .25)
+			guiTab[num].bg:SetBackdropColor(cr, cg, cb, .25)
 			guiTab[num].checked = true
 			guiPage[num]:Show()
 		else
-			guiTab[num]:SetBackdropColor(0, 0, 0, .25)
+			guiTab[num].bg:SetBackdropColor(0, 0, 0, 0)
 			guiTab[num].checked = false
 			guiPage[num]:Hide()
 		end
@@ -898,19 +898,18 @@ local function tabOnClick(self)
 end
 local function tabOnEnter(self)
 	if self.checked then return end
-	self:SetBackdropColor(cr, cg, cb, .25)
+	self.bg:SetBackdropColor(cr, cg, cb, .25)
 end
 local function tabOnLeave(self)
 	if self.checked then return end
-	self:SetBackdropColor(0, 0, 0, .25)
+	self.bg:SetBackdropColor(0, 0, 0, 0)
 end
 
 local function CreateTab(parent, i, name)
 	local tab = CreateFrame("Button", nil, parent)
 	tab:SetPoint("TOPLEFT", 20, -30*i - 20 + C.mult)
 	tab:SetSize(130, 28)
-	B.CreateBD(tab, .25)
-	B.CreateSD(tab)
+	tab.bg = F.CreateBDFrame(tab, 0)
 	local label = B.CreateFS(tab, 15, name, "system", "LEFT", 10, 0)
 	if i > 13 then
 		label:SetTextColor(cr, cg, cb)
@@ -1029,10 +1028,10 @@ local function CreateOption(i)
 			dd.button:HookScript("OnClick", function()
 				for num = 1, #data do
 					if num == NDUI_VARIABLE(key, value) then
-						opt[num]:SetBackdropColor(1, .8, 0, .25)
+						opt[num].bg:SetBackdropColor(1, .8, 0, .25)
 						opt[num].selected = true
 					else
-						opt[num]:SetBackdropColor(0, 0, 0, .25)
+						opt[num].bg:SetBackdropColor(0, 0, 0, 0)
 						opt[num].selected = false
 					end
 				end
@@ -1060,7 +1059,7 @@ local function CreateOption(i)
 			local alpha = NDuiDB["Extras"]["SkinAlpha"]
 			local l = CreateFrame("Frame", nil, parent)
 			l:SetPoint("TOPLEFT", 25, -offset - 12)
-			B.CreateGF(l, 560, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
+			F.CreateGA(l, 560, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
 			offset = offset + 35
 		end
 	end
@@ -1299,14 +1298,14 @@ local function createDataFrame()
 	dataFrame:SetSize(500, 500)
 	dataFrame:SetFrameStrata("DIALOG")
 	B.CreateMF(dataFrame)
-	B.SetBackground(dataFrame)
+	F.CreateBD(dataFrame)
 	dataFrame.Header = B.CreateFS(dataFrame, 16, L["Export Header"], true, "TOP", 0, -5)
 
 	local scrollArea = CreateFrame("ScrollFrame", nil, dataFrame, "UIPanelScrollFrameTemplate")
 	scrollArea:SetPoint("TOPLEFT", 10, -30)
 	scrollArea:SetPoint("BOTTOMRIGHT", -28, 40)
-	B.CreateBGFrame(scrollArea, "notex", .25)
-	if F then F.ReskinScroll(scrollArea.ScrollBar) end
+	F.CreateBDFrame(scrollArea, 0)
+	F.ReskinScroll(scrollArea.ScrollBar)
 
 	local editBox = CreateFrame("EditBox", nil, dataFrame)
 	editBox:SetMultiLine(true)
@@ -1368,7 +1367,7 @@ local function OpenGUI()
 	f:SetFrameStrata("HIGH")
 	f:SetFrameLevel(5)
 	B.CreateMF(f)
-	B.SetBackground(f)
+	F.CreateBD(f)
 	B.CreateFS(f, 18, L["NDui Console"], true, "TOP", 0, -10)
 	B.CreateFS(f, 16, DB.Version.." ("..DB.Support..")", false, "TOP", 0, -30)
 
@@ -1394,13 +1393,12 @@ local function OpenGUI()
 		guiPage[i] = CreateFrame("ScrollFrame", nil, f, "UIPanelScrollFrameTemplate")
 		guiPage[i]:SetPoint("TOPLEFT", 160, -50)
 		guiPage[i]:SetSize(610, 500)
-		B.CreateBGFrame(guiPage[i], "notex", .25)
+		F.CreateBDFrame(guiPage[i], 0)
 		guiPage[i]:Hide()
 		guiPage[i].child = CreateFrame("Frame", nil, guiPage[i])
 		guiPage[i].child:SetSize(610, 1)
 		guiPage[i]:SetScrollChild(guiPage[i].child)
-
-		if F then F.ReskinScroll(guiPage[i].ScrollBar) end
+		F.ReskinScroll(guiPage[i].ScrollBar)
 
 		CreateOption(i)
 	end
@@ -1491,5 +1489,6 @@ function G:OnLogin()
 		HideUIPanel(GameMenuFrame)
 		PlaySound(SOUNDKIT.IG_MAINMENU_OPTION)
 	end)
-	if F then F.ReskinButton(gui) end
+
+	F.ReskinButton(gui)
 end

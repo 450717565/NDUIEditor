@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local S = B:GetModule("Skins")
 
 function S:CreateRM()
@@ -16,8 +16,7 @@ function S:CreateRM()
 	local header = CreateFrame("Button", nil, UIParent)
 	header:SetSize(120, 28)
 	header:SetFrameLevel(2)
-	B.CreateTex(header)
-	B.CreateBC(header)
+	F.ReskinButton(header)
 	B.Mover(header, L["Raid Tool"], "RaidManager", C.Skins.RMPos)
 	header:RegisterEvent("GROUP_ROSTER_UPDATE")
 	header:RegisterEvent("PLAYER_ENTERING_WORLD")
@@ -150,7 +149,7 @@ function S:CreateRM()
 	rcFrame:SetPoint("TOP", header, "BOTTOM", 0, -2)
 	rcFrame:SetSize(120, 50)
 	rcFrame:Hide()
-	B.SetBackground(rcFrame)
+	F.CreateBDFrame(rcFrame, 0)
 	B.CreateFS(rcFrame, 14, READY_CHECK, true, "TOP", 0, -8)
 	local rc = B.CreateFS(rcFrame, 14, "", false, "TOP", 0, -28)
 
@@ -212,8 +211,7 @@ function S:CreateRM()
 		for i = 1, 9 do
 			select(i, marker:GetRegions()):Hide()
 		end
-		B.CreateTex(marker)
-		B.CreateBC(marker)
+		F.ReskinButton(marker)
 		marker:SetNormalTexture("Interface\\RaidFrame\\Raid-WorldPing")
 		marker:GetNormalTexture():SetVertexColor(cr, cg, cb)
 		marker:HookScript("OnMouseUp", function(_, btn)
@@ -246,9 +244,8 @@ function S:CreateRM()
 	local checker = CreateFrame("Button", nil, header)
 	checker:SetPoint("LEFT", header, "RIGHT", 2, 0)
 	checker:SetSize(28, 28)
-	B.CreateTex(checker)
 	B.CreateFS(checker, 16, "!", true, "CENTER", 0, 0)
-	B.CreateBC(checker)
+	F.ReskinButton(checker)
 
 	local BuffName, numPlayer = {L["Flask"], L["Food"], SPELL_STAT4_NAME, RAID_BUFF_2, RAID_BUFF_3, RUNES}
 	local NoBuff, numGroups = {}, 6
@@ -391,7 +388,7 @@ function S:CreateRM()
 	local menu = CreateFrame("Frame", nil, header)
 	menu:SetPoint("TOP", header, "BOTTOM", 0, -2)
 	menu:SetSize(180, 70)
-	B.SetBackground(menu)
+	F.CreateBDFrame(menu, 0)
 	menu:Hide()
 	menu:SetScript("OnLeave", function(self)
 		self:SetScript("OnUpdate", function(self, elapsed)
@@ -485,10 +482,6 @@ function S:CreateRM()
 		if btn == "RightButton" and (IsPartyLFG() and IsLFGComplete() or not IsInInstance()) then
 			LeaveParty()
 		end
-	end)
-	header:HookScript("OnShow", function(self)
-		self:SetBackdropColor(0, 0, 0, .5)
-		self:SetBackdropBorderColor(0, 0, 0, 1)
 	end)
 
 	-- Easymarking

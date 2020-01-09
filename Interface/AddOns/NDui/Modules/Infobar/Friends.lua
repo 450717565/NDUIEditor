@@ -1,5 +1,5 @@
 ﻿local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 if not C.Infobar.Friends then return end
 
 local module = B:GetModule("Infobar")
@@ -163,7 +163,7 @@ local function setupFriendsFrame()
 	friendsFrame:SetPoint("TOPLEFT", UIParent, 15, -35)
 	friendsFrame:SetClampedToScreen(true)
 	friendsFrame:SetFrameStrata("DIALOG")
-	B.SetBackground(friendsFrame)
+	F.CreateBD(friendsFrame)
 
 	friendsFrame:SetScript("OnLeave", function(self)
 		self:SetScript("OnUpdate", onUpdate)

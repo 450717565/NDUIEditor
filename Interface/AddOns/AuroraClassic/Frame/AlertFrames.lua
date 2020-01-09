@@ -320,7 +320,7 @@ tinsert(C.themes["AuroraClassic"], function()
 					reward.texture:SetPoint("TOPLEFT", 6, -6)
 					reward.texture:SetPoint("BOTTOMRIGHT", -6, 6)
 
-					reward.bg = F.ReskinIcon(reward.texture, false, 1)
+					reward.bg = F.ReskinIcon(reward.texture)
 				end
 			end
 		end

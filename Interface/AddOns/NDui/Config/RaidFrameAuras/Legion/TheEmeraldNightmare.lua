@@ -5,7 +5,7 @@
 -- 2019/09/13
 ------------------------------------------------------------
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local module = B:GetModule("AurasTable")
 
 local TIER = 7 -- Legion

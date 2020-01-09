@@ -24,7 +24,7 @@ tinsert(C.themes["AuroraClassic"], function()
 				bu.categoryRight:SetAlpha(0)
 
 				bu.icon:SetDrawLayer("ARTWORK")
-				bu.bg = F.ReskinIcon(bu.icon, true)
+				bu.bg = F.ReskinIcon(bu.icon)
 
 				if bu.expandIcon then
 					bu.expBg = F.CreateBDFrame(bu.expandIcon, 0, 3)

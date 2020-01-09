@@ -9,7 +9,7 @@ C.themes["Blizzard_Calendar"] = function()
 	local cr, cg, cb = C.r, C.g, C.b
 
 	F.StripTextures(CalendarFrame)
-	F.SetBDFrame(CalendarFrame, 11, 0, -9, 3)
+	F.SetBDFrame(CalendarFrame, 11+C.mult, 0, -9, 3+C.mult)
 	F.ReskinClose(CalendarCloseButton, "TOPRIGHT", CalendarFrame, "TOPRIGHT", -14, -6)
 	F.ReskinArrow(CalendarPrevMonthButton, "left")
 	F.ReskinArrow(CalendarNextMonthButton, "right")

@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local module = B:GetModule("AurasTable")
 
 -- 角标的相关法术 [spellID] = {anchor, {r, g, b}}

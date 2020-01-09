@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 
 --[[
 	NDui DevTools:
@@ -147,7 +147,7 @@ SlashCmdList["NDUI_GET_ENCOUNTERS"] = function()
 	EJ_SelectInstance(instID)
 	local instName = EJ_GetInstanceInfo()
 	print("local _, ns = ...")
-	print("local B, C, L, DB = unpack(ns)")
+	print("local B, C, L, DB, F = unpack(ns)")
 	print("local module = B:GetModule(\"AurasTable\")")
 	print("local TIER = "..tierID)
 	print("local INSTANCE = "..instID.." -- "..instName)

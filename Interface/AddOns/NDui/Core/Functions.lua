@@ -81,106 +81,6 @@ function B.GetItemGems(item)
 	return itemGems
 end
 
--- Create BGFrame
-function B:CreateBGFrame(type, alpha, offset)
-	local bg = B.CreateBG(self, offset)
-
-	if type == "tex" then
-		B.SetBackground(bg, alpha)
-	elseif type == "notex" then
-		B.CreateBD(bg, alpha)
-		B.CreateSD(bg)
-	else
-		B.CreateSD(bg)
-	end
-	self.Shadow = bg.Shadow
-
-	return bg
-end
-
--- Gradient Frame
-function B:CreateGF(w, h, o, r, g, b, a1, a2)
-	self:SetSize(w, h)
-	self:SetFrameStrata("BACKGROUND")
-	local gf = self:CreateTexture(nil, "BACKGROUND")
-	gf:SetAllPoints()
-	gf:SetTexture(DB.normTex)
-	gf:SetGradientAlpha(o, r, g, b, a1, r, g, b, a2)
-end
-
--- Create Backdrop
-function B:CreateBD(a)
-	self:SetBackdrop({bgFile = DB.bdTex, edgeFile = DB.bdTex, edgeSize = C.mult})
-	self:SetBackdropColor(0, 0, 0, a or .5)
-	self:SetBackdropBorderColor(0, 0, 0, 1)
-end
-
--- Create Shadow
-function B:CreateSD(m, s)
-	if self.Shadow then return end
-
-	local frame = self
-	if self:GetObjectType() == "Texture" then frame = self:GetParent() end
-	local lvl = frame:GetFrameLevel()
-	if not m then m, s = C.mult*3, C.mult*4 end
-
-	local Shadow = CreateFrame("Frame", nil, frame)
-	Shadow:ClearAllPoints()
-	Shadow:SetPoint("TOPLEFT", self, -m, m)
-	Shadow:SetPoint("BOTTOMRIGHT", self, m, -m)
-	Shadow:SetBackdrop({edgeFile = DB.glowTex, edgeSize = s})
-	Shadow:SetBackdropBorderColor(0, 0, 0, 1)
-	Shadow:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
-	self.Shadow = Shadow
-
-	return Shadow
-end
-
--- Create Background
-function B:CreateBG(offset)
-	local frame = self
-	if self:GetObjectType() == "Texture" then frame = self:GetParent() end
-	offset = offset or C.mult
-	local lvl = frame:GetFrameLevel()
-
-	local bg = CreateFrame("Frame", nil, frame)
-	bg:ClearAllPoints()
-	bg:SetPoint("TOPLEFT", self, -offset, offset)
-	bg:SetPoint("BOTTOMRIGHT", self, offset, -offset)
-	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
-
-	return bg
-end
-
--- Create Skin
-function B:CreateTex()
-	if self.Tex then return end
-
-	local frame = self
-	if self:GetObjectType() == "Texture" then frame = self:GetParent() end
-
-	local Tex = frame:CreateTexture(nil, "BACKGROUND", nil, 1)
-	Tex:SetTexture(DB.bgTex, true, true)
-	Tex:SetAllPoints(self)
-	Tex:SetBlendMode("ADD")
-	Tex:SetHorizTile(true)
-	Tex:SetVertTile(true)
-	self.Tex = Tex
-
-	return Tex
-end
-
-function B:SetBackground(a)
-	if F then
-		F.CreateBD(self, a)
-		F.CreateSD(self)
-	else
-		B.CreateBD(self, a)
-		B.CreateSD(self)
-		B.CreateTex(self)
-	end
-end
-
 -- Frame Text
 function B:CreateFS(size, text, classcolor, anchor, x, y)
 	local fs = self:CreateFontString(nil, "OVERLAY")
@@ -244,55 +144,6 @@ function B:AddTooltip(anchor, tooltip, color, isButton)
 	self:SetScript("OnLeave", B.HideTooltip)
 end
 
--- Button Color
-function B:CreateBC(a)
-	self:SetNormalTexture("")
-	self:SetHighlightTexture("")
-	self:SetPushedTexture("")
-	self:SetDisabledTexture("")
-
-	if self.Left then self.Left:SetAlpha(0) end
-	if self.Middle then self.Middle:SetAlpha(0) end
-	if self.Right then self.Right:SetAlpha(0) end
-	if self.LeftSeparator then self.LeftSeparator:Hide() end
-	if self.RightSeparator then self.RightSeparator:Hide() end
-
-	B.CreateBD(self, a)
-	B.CreateSD(self)
-
-	self:SetScript("OnEnter", function()
-		self:SetBackdropBorderColor(cr, cg, cb, 1)
-	end)
-	self:SetScript("OnLeave", function()
-		self:SetBackdropBorderColor(0, 0, 0, 1)
-	end)
-	self:SetScript("OnMouseDown", function()
-		self:SetBackdropColor(cr, cg, cb, a or .5)
-	end)
-	self:SetScript("OnMouseUp", function()
-		self:SetBackdropColor(0, 0, 0, a or .5)
-	end)
-end
-
--- Checkbox
-function B:CreateCB()
-	self:SetNormalTexture("")
-	self:SetPushedTexture("")
-
-	local bd = B.CreateBGFrame(self, "notex", .25, -4)
-
-	local ch = self:GetCheckedTexture()
-	ch:SetDesaturated(true)
-	ch:SetVertexColor(cr, cg, cb)
-
-	self:SetHighlightTexture(DB.bdTex)
-	local hl = self:GetHighlightTexture()
-	hl:ClearAllPoints()
-	hl:SetPoint("TOPLEFT", bd, C.mult, -C.mult)
-	hl:SetPoint("BOTTOMRIGHT", bd, -C.mult, C.mult)
-	hl:SetVertexColor(cr, cg, cb, .25)
-end
-
 -- Movable Frame
 function B:CreateMF(parent, saved)
 	local frame = parent or self
@@ -321,8 +172,7 @@ end
 
 -- Icon Style
 function B:PixelIcon(texture, highlight)
-	B.CreateBD(self)
-	B.CreateSD(self)
+	F.CreateBD(self)
 	self.Icon = self:CreateTexture(nil, "ARTWORK")
 	self.Icon:ClearAllPoints()
 	self.Icon:SetPoint("TOPLEFT", C.mult, -C.mult)
@@ -375,7 +225,8 @@ function B:CreateSB(spark, r, g, b)
 		self:SetStatusBarColor(cr, cg, cb)
 	end
 
-	B.CreateBGFrame(self)
+	local bd = F.CreateBDFrame(self, 0, nil, true)
+	self.bd = bd
 
 	local bg = self:CreateTexture(nil, "BACKGROUND")
 	bg:SetAllPoints()
@@ -393,7 +244,7 @@ function B:CreateSB(spark, r, g, b)
 		self.Spark:SetPoint("BOTTOMRIGHT", self:GetStatusBarTexture(), "BOTTOMRIGHT", 10, -10)
 	end
 
-	return bg
+	return bg, bd
 end
 
 -- Numberize
@@ -793,7 +644,7 @@ function B:CreateButton(width, height, text, fontSize)
 	if type(text) == "boolean" then
 		B.PixelIcon(bu, fontSize, true)
 	else
-		B.CreateBC(bu, .25)
+		F.ReskinButton(bu)
 		bu.text = B.CreateFS(bu, fontSize or 14, text, true)
 	end
 
@@ -802,7 +653,7 @@ end
 
 function B:CreateCheckBox()
 	local cb = CreateFrame("CheckButton", nil, self, "InterfaceOptionsCheckButtonTemplate")
-	B.CreateCB(cb)
+	F.ReskinCheck(cb)
 
 	cb.Type = "CheckBox"
 	return cb
@@ -818,8 +669,7 @@ function B:CreateEditBox(width, height)
 	eb:SetAutoFocus(false)
 	eb:SetTextInsets(5, 5, 0, 0)
 	eb:SetFont(DB.Font[1], DB.Font[2]+2, DB.Font[3])
-	B.CreateBD(eb, .25)
-	B.CreateSD(eb)
+	F.CreateBDFrame(eb, 0)
 	eb:SetScript("OnEscapePressed", editBoxClearFocus)
 	eb:SetScript("OnEnterPressed", editBoxClearFocus)
 
@@ -832,10 +682,10 @@ local function optOnClick(self)
 	local opt = self.__owner.options
 	for i = 1, #opt do
 		if self == opt[i] then
-			opt[i]:SetBackdropColor(1, .8, 0, .25)
+			opt[i].bg:SetBackdropColor(1, .8, 0, .25)
 			opt[i].selected = true
 		else
-			opt[i]:SetBackdropColor(0, 0, 0, .25)
+			opt[i].bg:SetBackdropColor(0, 0, 0, 0)
 			opt[i].selected = false
 		end
 	end
@@ -845,12 +695,12 @@ end
 
 local function optOnEnter(self)
 	if self.selected then return end
-	self:SetBackdropColor(1, 1, 1, .25)
+	self.bg:SetBackdropColor(1, 1, 1, .25)
 end
 
 local function optOnLeave(self)
 	if self.selected then return end
-	self:SetBackdropColor(0, 0, 0)
+	self.bg:SetBackdropColor(0, 0, 0, 0)
 end
 
 local function buttonOnShow(self)
@@ -865,9 +715,8 @@ end
 function B:CreateDropDown(width, height, data)
 	local dd = CreateFrame("Frame", nil, self)
 	dd:SetSize(width, height)
-	B.CreateBD(dd)
-	B.CreateSD(dd)
-	dd:SetBackdropBorderColor(1, 1, 1, .5)
+	local bg = F.CreateBDFrame(dd, 0)
+	bg:SetBackdropBorderColor(1, 1, 1)
 	dd.Text = B.CreateFS(dd, 14, "", false, "LEFT", 5, 0)
 	dd.Text:SetPoint("RIGHT", -5, 0)
 	dd.options = {}
@@ -878,9 +727,8 @@ function B:CreateDropDown(width, height, data)
 	local list = CreateFrame("Frame", nil, dd)
 	list:ClearAllPoints()
 	list:SetPoint("TOP", dd, "BOTTOM", 0, -2)
-	B.CreateBD(list, 1)
-	B.CreateSD(list)
-	list:SetBackdropBorderColor(1, 1, 1, .5)
+	F.CreateBD(list, 1)
+	list:SetBackdropBorderColor(1, 1, 1)
 	list:Hide()
 	bu.__list = list
 	bu:SetScript("OnShow", buttonOnShow)
@@ -893,8 +741,7 @@ function B:CreateDropDown(width, height, data)
 		opt[i]:ClearAllPoints()
 		opt[i]:SetPoint("TOPLEFT", 4, -4 - (i-1)*(height+2))
 		opt[i]:SetSize(width - 8, height)
-		B.CreateBD(opt[i], .25)
-		B.CreateSD(opt[i])
+		opt[i].bg = F.CreateBDFrame(opt[i], 0)
 		local text = B.CreateFS(opt[i], 14, j, false, "LEFT", 5, 0)
 		text:SetPoint("RIGHT", -5, 0)
 		opt[i].text = j
@@ -939,13 +786,13 @@ end
 function B:CreateColorSwatch(name, color)
 	local swatch = CreateFrame("Button", nil, self)
 	swatch:SetSize(18, 18)
-	B.CreateBD(swatch, .25)
-	B.CreateSD(swatch)
 	swatch.text = B.CreateFS(swatch, 14, name, false, "LEFT", 26, 0)
+
+	local bg = F.CreateBDFrame(swatch, 0)
 	local tex = swatch:CreateTexture()
 	tex:ClearAllPoints()
-	tex:SetPoint("TOPLEFT", C.mult, -C.mult)
-	tex:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
+	tex:SetPoint("TOPLEFT", bg, C.mult, -C.mult)
+	tex:SetPoint("BOTTOMRIGHT", bg, -C.mult, C.mult)
 	tex:SetTexture(DB.bdTex)
 	tex:SetVertexColor(color.r, color.g, color.b)
 
@@ -989,12 +836,10 @@ function B:CreateSlider(name, minValue, maxValue, x, y, width)
 	slider:SetBackdrop(nil)
 	slider.Thumb:SetTexture(DB.sparkTex)
 	slider.Thumb:SetBlendMode("ADD")
-	local bg = B.CreateBG(slider)
+	local bg = F.CreateBDFrame(slider, 0)
 	bg:ClearAllPoints()
 	bg:SetPoint("TOPLEFT", 14, -2)
 	bg:SetPoint("BOTTOMRIGHT", -15, 3)
-	B.CreateBD(bg, .25)
-	B.CreateSD(bg)
 	slider.value = B.CreateEditBox(slider, 50, 20)
 	slider.value:ClearAllPoints()
 	slider.value:SetPoint("TOP", slider, "BOTTOM")

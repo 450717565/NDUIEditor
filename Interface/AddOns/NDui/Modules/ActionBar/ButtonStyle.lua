@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 ---------------------------
 -- rButtonTemplate, zork
 ---------------------------
@@ -120,7 +120,7 @@ local function SetupCooldown(cooldown, cfg)
 end
 
 local function SetupBackdrop(button)
-	local bg = B.CreateBGFrame(button, "tex", .25, 0)
+	local bg = F.CreateBDFrame(button, 0, 0, true)
 
 	if NDuiDB["Actionbar"]["Classcolor"] then
 		bg:SetBackdropColor(cr, cg, cb, .25)

@@ -159,7 +159,7 @@ title:SetText("|cff0080ffAuroraClassic|r "..GetAddOnMetadata("AuroraClassic", "V
 local features = addSubCategory(gui, L["Features"])
 features:SetPoint("TOPLEFT", 16, -60)
 
-local featuresList = {
+--[[ local featuresList = {
 	[1] = {"shadow", L["Shadow Border"]},
 	[2] = {"loot", L["Loot"]},
 	[3] = {"bags", L["Bags"]},
@@ -167,6 +167,14 @@ local featuresList = {
 	[5] = {"bubbleColor", L["ChatBubblesColor"]},
 	[6] = {"tooltips", L["Tooltips"]},
 	[7] = {"objectiveTracker", L["ObjectiveTracker"]},
+} ]]
+
+local featuresList = {
+	[1] = {"shadow", L["Shadow Border"]},
+	[2] = {"loot", L["Loot"]},
+	[3] = {"chatBubbles", L["ChatBubbles"]},
+	[4] = {"bubbleColor", L["ChatBubblesColor"]},
+	[5] = {"objectiveTracker", L["ObjectiveTracker"]},
 }
 for index, value in ipairs(featuresList) do
 	createToggleBox(gui, value[1], value[2], features, index)
@@ -245,7 +253,6 @@ gui:SetScript("OnEvent", function(self, _, addon)
 	copyTable(AuroraConfig, old)
 
 	F.CreateBD(gui)
-	F.CreateSD(gui)
 	F.ReskinButton(bu)
 	F.ReskinButton(okay)
 	F.ReskinButton(cancel)

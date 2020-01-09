@@ -89,11 +89,9 @@ function module:ChatCopy_Create()
 	frame:Hide()
 	frame:SetFrameStrata("DIALOG")
 	B.CreateMF(frame)
-	B.SetBackground(frame)
-
-	local closeBotton = B.CreateButton(frame, 18, 18, "X")
-	closeBotton:SetPoint("TOPRIGHT", frame, -7, -7)
-	closeBotton:SetScript("OnClick", function() frame:Hide() end)
+	F.CreateBD(frame)
+	frame.close = CreateFrame("Button", nil, frame, "UIPanelCloseButton")
+	frame.close:SetPoint("TOPRIGHT", frame)
 
 	local scrollArea = CreateFrame("ScrollFrame", "ChatCopyScrollFrame", frame, "UIPanelScrollFrameTemplate")
 	scrollArea:SetPoint("TOPLEFT", 10, -30)
@@ -127,10 +125,8 @@ function module:ChatCopy_Create()
 		tab:SetScript("OnDoubleClick", self.ChatCopy_OnClick)
 	end
 
-	-- Aurora Reskin
-	if F then
-		F.ReskinScroll(ChatCopyScrollFrameScrollBar)
-	end
+	F.ReskinClose(frame.close)
+	F.ReskinScroll(ChatCopyScrollFrameScrollBar)
 end
 
 function module:ChatCopy()

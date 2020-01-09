@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local M = B:GetModule("Misc")
 if not M then return end
 -------------------------------------
@@ -60,7 +60,7 @@ local function loadPetFilter()
 	for petIndex, petType in ipairs({1, 2, 6, 3, 9, 7, 10, 8, 5, 4}) do
 		local btn = CreateFrame("Button", "PetJournalQuickFilterButton"..petIndex, PetJournal)
 		btn:SetSize(22, 22)
-		btn:SetPoint("TOPLEFT", PetJournalLeftInset, 6 + 25 * (petIndex-1), -35)
+		btn:SetPoint("TOPLEFT", PetJournalLeftInset, 7 + 25 * (petIndex-1), -34)
 		B.PixelIcon(btn, "Interface\\Icons\\Icon_PetFamily_"..PET_TYPE_SUFFIX[petType], true)
 
 		if C_PetJournal.IsPetTypeChecked(petType) then

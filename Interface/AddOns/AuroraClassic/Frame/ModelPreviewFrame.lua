@@ -3,7 +3,6 @@ local F, C = unpack(select(2, ...))
 tinsert(C.themes["AuroraClassic"], function()
 	F.StripTextures(ModelPreviewFrame)
 	F.CreateBD(ModelPreviewFrame)
-	F.CreateSD(ModelPreviewFrame)
 
 	F.ReskinClose(ModelPreviewFrameCloseButton)
 	F.ReskinButton(ModelPreviewFrame.CloseButton)

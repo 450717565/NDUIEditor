@@ -31,10 +31,8 @@ function M:GuildBest_Create()
 	frame = CreateFrame("Frame", nil, ChallengesFrame)
 	frame:SetPoint("BOTTOMRIGHT", -6, 80)
 	frame:SetSize(170, 105)
-	B.SetBackground(frame, 0)
+	F.CreateBDFrame(frame, 0)
 	B.CreateFS(frame, 16, CHALLENGE_MODE_WEEKLY_BEST , "system", "TOPLEFT", 16, -6)
-
-	if F then F.CreateGF(frame) end
 
 	frame.entries = {}
 	for i = 1, 4 do
@@ -89,9 +87,9 @@ function M:GuildBest_Update()
 
 	if not resize and IsAddOnLoaded("AngryKeystones") then
 		local scheduel = select(5, self:GetChildren())
-		frame:SetWidth(248)
+		frame:SetWidth(246)
 		frame:ClearAllPoints()
-		frame:SetPoint("BOTTOMLEFT", scheduel, "TOPLEFT", -1, 9)
+		frame:SetPoint("BOTTOMLEFT", scheduel, "TOPLEFT", 0, 10)
 
 		self.WeeklyInfo.Child.Label:SetPoint("TOP", -135, -25)
 		local affix = self.WeeklyInfo.Child.Affixes[1]

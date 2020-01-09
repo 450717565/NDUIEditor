@@ -35,7 +35,7 @@ C.themes["Blizzard_InspectUI"] = function()
 	--InspectTalentFrame
 	local inspectSpec = InspectTalentFrame.InspectSpec
 	inspectSpec.ring:Hide()
-	F.ReskinIcon(inspectSpec.specIcon, false, 1)
+	F.ReskinIcon(inspectSpec.specIcon)
 	F.ReskinRoleIcon(inspectSpec.roleIcon)
 
 	for i = 1, 7 do

@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local S = B:RegisterModule("Skins")
 
 function S:OnLogin()
@@ -16,30 +16,30 @@ function S:OnLogin()
 		-- ACTIONBAR
 		local ActionBarL = CreateFrame("Frame", nil, UIParent)
 		ActionBarL:SetPoint("BOTTOMRIGHT", relativeTo, "TOP")
-		B.CreateGF(ActionBarL, 260, C.pixel, "Horizontal", cr, cg, cb, 0, alpha)
+		F.CreateGA(ActionBarL, 260, C.pixel, "Horizontal", cr, cg, cb, 0, alpha)
 		RegisterStateDriver(ActionBarL, "visibility", "[petbattle][overridebar][vehicleui][possessbar,@vehicle,exists] hide; show")
 		local ActionBarR = CreateFrame("Frame", nil, UIParent)
 		ActionBarR:SetPoint("BOTTOMLEFT", relativeTo, "TOP")
-		B.CreateGF(ActionBarR, 260, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
+		F.CreateGA(ActionBarR, 260, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
 		RegisterStateDriver(ActionBarR, "visibility", "[petbattle][overridebar][vehicleui][possessbar,@vehicle,exists] hide; show")
 
 		-- OVERRIDEBAR
 		local OverBarL = CreateFrame("Frame", nil, UIParent)
 		OverBarL:SetPoint("BOTTOMRIGHT", NDui_ActionBar1, "TOP")
-		B.CreateGF(OverBarL, 260, C.pixel, "Horizontal", cr, cg, cb, 0, alpha)
+		F.CreateGA(OverBarL, 260, C.pixel, "Horizontal", cr, cg, cb, 0, alpha)
 		RegisterStateDriver(OverBarL, "visibility", "[petbattle] hide; [overridebar][vehicleui][possessbar,@vehicle,exists] show; hide")
 		local OverBarR = CreateFrame("Frame", nil, UIParent)
 		OverBarR:SetPoint("BOTTOMLEFT", NDui_ActionBar1, "TOP")
-		B.CreateGF(OverBarR, 260, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
+		F.CreateGA(OverBarR, 260, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
 		RegisterStateDriver(OverBarR, "visibility", "[petbattle] hide; [overridebar][vehicleui][possessbar,@vehicle,exists] show; hide")
 
 		-- BOTTOMLINE
 		local BarLineL = CreateFrame("Frame", nil, UIParent)
 		BarLineL:SetPoint("TOPRIGHT", NDui_ActionBar1, "BOTTOM")
-		B.CreateGF(BarLineL, 260, C.pixel, "Horizontal", cr, cg, cb, 0, alpha)
+		F.CreateGA(BarLineL, 260, C.pixel, "Horizontal", cr, cg, cb, 0, alpha)
 		local BarLineR = CreateFrame("Frame", nil, UIParent)
 		BarLineR:SetPoint("TOPLEFT", NDui_ActionBar1, "BOTTOM")
-		B.CreateGF(BarLineR, 260, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
+		F.CreateGA(BarLineR, 260, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
 	end
 
 	-- Add Skins
@@ -76,11 +76,9 @@ end
 function S:CreateToggle(frame)
 	local close = B.CreateButton(frame, 20, 80, ">", 18)
 	close:SetPoint("RIGHT", frame.bg, "LEFT", -2, 0)
-	B.CreateTex(close)
 
 	local open = B.CreateButton(UIParent, 20, 80, "<", 18)
 	open:SetPoint("RIGHT", frame.bg, "RIGHT", 2, 0)
-	B.CreateTex(open)
 	open:Hide()
 
 	open:SetScript("OnClick", function()

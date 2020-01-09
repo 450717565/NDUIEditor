@@ -71,7 +71,7 @@ info.eventList = {
 
 info.onEvent = function(self, event)
 	if event == "PLAYER_ENTERING_WORLD" then
-		if F then F.ReskinClose(inform.CloseButton) end
+		F.ReskinClose(inform.CloseButton)
 		self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 	end
 

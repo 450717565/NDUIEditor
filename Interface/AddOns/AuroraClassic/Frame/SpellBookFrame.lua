@@ -84,7 +84,7 @@ tinsert(C.themes["AuroraClassic"], function()
 					tab:SetCheckedTexture(C.media.checked)
 
 					if icon and not icon.styled then
-						local icbg = F.ReskinIcon(icon, false, 1)
+						local icbg = F.ReskinIcon(icon, 1)
 						F.ReskinTexture(tab, icbg)
 
 						icon.styled = true
@@ -128,7 +128,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			bu.icon:SetDesaturated(false)
 			bu.icon:SetDrawLayer("OVERLAY")
 
-			local icbg = F.ReskinIcon(bu.icon, false, 1)
+			local icbg = F.ReskinIcon(bu.icon)
 
 			local unlearn = bu.unlearn
 			unlearn:ClearAllPoints()

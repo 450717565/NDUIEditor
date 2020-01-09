@@ -1,5 +1,5 @@
 ﻿local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local M = B:GetModule("Misc")
 
 local pairs, select, next, type = pairs, select, next, type
@@ -45,10 +45,8 @@ function M:CreateItemTexture(slot, relF, relT, x, y)
 	local icon = slot:CreateTexture()
 	icon:SetPoint(relF, slot, relT, x, y)
 	icon:SetSize(14, 14)
-	icon:SetTexCoord(unpack(DB.TexCoord))
-	icon.bg = B.CreateBG(icon)
+	icon.bg = F.ReskinIcon(icon)
 	icon.bg:SetFrameLevel(3)
-	B.CreateBD(icon.bg)
 	icon.bg:Hide()
 
 	return icon

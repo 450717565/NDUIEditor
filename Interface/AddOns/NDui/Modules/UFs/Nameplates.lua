@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local UF = B:GetModule("UnitFrames")
 
 local _G = getfenv(0)
@@ -219,14 +219,14 @@ function UF.UpdateColor(element, unit)
 
 	if isCustomUnit or (not NDuiDB["Nameplate"]["TankMode"] and DB.Role ~= "Tank") then
 		if status and status == 3 then
-			element.Shadow:SetBackdropBorderColor(1, 0, 0)
+			element.bd:SetBackdropBorderColor(1, 0, 0)
 		elseif status and (status == 2 or status == 1) then
-			element.Shadow:SetBackdropBorderColor(1, 1, 0)
+			element.bd:SetBackdropBorderColor(1, 1, 0)
 		else
-			element.Shadow:SetBackdropBorderColor(0, 0, 0)
+			element.bd:SetBackdropBorderColor(0, 0, 0)
 		end
 	else
-		element.Shadow:SetBackdropBorderColor(0, 0, 0)
+		element.bd:SetBackdropBorderColor(0, 0, 0)
 	end
 end
 
@@ -594,8 +594,7 @@ function UF:AddFollowerXP(self)
 	local bar = CreateFrame("StatusBar", nil, self)
 	bar:SetSize(NDuiDB["Nameplate"]["PlateWidth"]*.75, NDuiDB["Nameplate"]["PlateHeight"])
 	bar:SetPoint("TOP", self.Castbar, "BOTTOM", 0, -5)
-	local bg = B.CreateSB(bar, false, 0, .7, 1)
-	B.CreateTex(bg)
+	B.CreateSB(bar, false, 0, .7, 1)
 
 	bar.progressText = B.CreateFS(bar, 9)
 
@@ -632,8 +631,7 @@ function UF:CreatePlates()
 	local health = CreateFrame("StatusBar", nil, self)
 	health:SetAllPoints()
 	B.SmoothBar(health)
-	local bg = B.CreateSB(health)
-	B.CreateTex(bg)
+	B.CreateSB(health)
 	self.Health = health
 	self.Health.UpdateColor = UF.UpdateColor
 

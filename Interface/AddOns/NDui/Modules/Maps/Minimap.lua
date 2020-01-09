@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local module = B:GetModule("Maps")
 
 local strmatch, strfind, strupper = string.match, string.find, string.upper
@@ -10,7 +10,7 @@ local cr, cg, cb, alpha, color
 function module:CreatePulse()
 	if not NDuiDB["Map"]["CombatPulse"] then return end
 
-	local MBG = B.CreateBGFrame(Minimap)
+	local MBG = F.CreateBDFrame(Minimap)
 	local anim = MBG:CreateAnimationGroup()
 	anim:SetLooping("BOUNCE")
 	anim.fader = anim:CreateAnimation("Alpha")
@@ -21,15 +21,15 @@ function module:CreatePulse()
 
 	local function updateMinimapAnim(event)
 		if event == "PLAYER_REGEN_DISABLED" then
-			MBG.Shadow:SetBackdropBorderColor(1, 0, 0)
+			MBG:SetBackdropBorderColor(1, 0, 0)
 			anim:Play()
 		elseif not InCombatLockdown() then
 			if C_Calendar.GetNumPendingInvites() > 0 or MiniMapMailFrame:IsShown() then
-				MBG.Shadow:SetBackdropBorderColor(1, 1, 0)
+				MBG:SetBackdropBorderColor(1, 1, 0)
 				anim:Play()
 			else
 				anim:Stop()
-				MBG.Shadow:SetBackdropBorderColor(0, 0, 0)
+				MBG:SetBackdropBorderColor(0, 0, 0)
 			end
 		end
 	end
@@ -41,7 +41,7 @@ function module:CreatePulse()
 	MiniMapMailFrame:HookScript("OnHide", function()
 		if InCombatLockdown() then return end
 		anim:Stop()
-		MBG.Shadow:SetBackdropBorderColor(0, 0, 0)
+		MBG:SetBackdropBorderColor(0, 0, 0)
 	end)
 end
 
@@ -114,7 +114,7 @@ function module:ReskinRegions()
 	Invt:SetPoint("TOPRIGHT", Minimap, "BOTTOMLEFT", -20, -20)
 	Invt:SetSize(300, 80)
 	Invt:Hide()
-	B.SetBackground(Invt)
+	F.ReskinButton(Invt)
 	B.CreateFS(Invt, 16, DB.InfoColor..GAMETIME_TOOLTIP_CALENDAR_INVITES)
 
 	local function updateInviteVisibility()
@@ -165,16 +165,16 @@ function module:RecycleBin()
 	local bin = CreateFrame("Frame", "RecycleBinFrame", UIParent)
 	bin:SetPoint("RIGHT", bu, "LEFT", -5, 0)
 	bin:Hide()
-	B.CreateGF(bin, 232, 39, "Horizontal", 0, 0, 0, 0, .5)
+	F.CreateGA(bin, 232, 39, "Horizontal", 0, 0, 0, 0, .5)
 	local topLine = CreateFrame("Frame", nil, bin)
 	topLine:SetPoint("BOTTOM", bin, "TOP", 0, 0)
-	B.CreateGF(topLine, 232, C.pixel, "Horizontal", cr, cg, cb, 0, alpha)
+	F.CreateGA(topLine, 232, C.pixel, "Horizontal", cr, cg, cb, 0, alpha)
 	local bottomLine = CreateFrame("Frame", nil, bin)
 	bottomLine:SetPoint("TOP", bin, "BOTTOM", 0, 0)
-	B.CreateGF(bottomLine, 232, C.pixel, "Horizontal", cr, cg, cb, 0, alpha)
+	F.CreateGA(bottomLine, 232, C.pixel, "Horizontal", cr, cg, cb, 0, alpha)
 	local rightLine = CreateFrame("Frame", nil, bin)
 	rightLine:SetPoint("LEFT", bin, "RIGHT", 0, 0)
-	B.CreateGF(rightLine, C.pixel, 39+C.pixel*2, "Vertical", cr, cg, cb, alpha, alpha)
+	F.CreateGA(rightLine, C.pixel, 39+C.pixel*2, "Vertical", cr, cg, cb, alpha, alpha)
 	bin:SetFrameStrata("LOW")
 
 	local function hideBinButton()
@@ -210,7 +210,7 @@ function module:RecycleBin()
 			if name and not blackList[name] and not isButtonSecure(name) then
 				if child:GetObjectType() == "Button" or strmatch(strupper(name), "BUTTON") then
 					child:SetParent(bin)
-					child:SetSize(34, 34)
+					child:SetSize(35, 35)
 					for j = 1, child:GetNumRegions() do
 						local region = select(j, child:GetRegions())
 						if region:GetObjectType() == "Texture" then
@@ -239,7 +239,7 @@ function module:RecycleBin()
 						child.highlight:SetColorTexture(1, 1, 1, .25)
 					end
 
-					B.CreateBGFrame(child)
+					F.CreateBDFrame(child)
 
 					-- Naughty Addons
 					if name == "DBMMinimapButton" then

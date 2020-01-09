@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local M = B:GetModule("Misc")
 
 --[[
@@ -251,8 +251,7 @@ function M:Expbar()
 	bar:SetPoint("TOP", Minimap, "BOTTOM", 0, -5)
 	bar:SetSize(Minimap:GetWidth() - 10, 5)
 	bar:SetHitRectInsets(0, 0, 0, -10)
-	local bg = B.CreateSB(bar)
-	B.CreateTex(bg)
+	B.CreateSB(bar)
 
 	local rest = CreateFrame("StatusBar", nil, bar)
 	rest:SetAllPoints()

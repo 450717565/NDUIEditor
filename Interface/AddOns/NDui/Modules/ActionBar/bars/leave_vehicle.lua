@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local Bar = B:GetModule("Actionbar")
 local cfg = C.bars.leave_vehicle
 
@@ -25,9 +25,9 @@ function Bar:CreateLeaveVehicle()
 	button.icon:SetTexture("INTERFACE\\VEHICLES\\UI-Vehicles-Button-Exit-Up")
 	button.icon:SetTexCoord(.25, .80, .22, .78)
 	button:SetNormalTexture(nil)
-	button:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 	button:GetPushedTexture():SetTexture(DB.textures.pushed)
-	B.CreateBGFrame(button)
+	local icbg = F.CreateBDFrame(button.icon, 1)
+	F.ReskinTexture(button, icbg)
 
 	local function onClick(self)
 		if UnitOnTaxi("player") then TaxiRequestEarlyLanding() else VehicleExit() end

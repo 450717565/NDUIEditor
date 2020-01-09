@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 --------------------------------
 -- ExtraQuestButton, by p3lim
 -- NDui MOD
@@ -200,7 +200,7 @@ function ExtraQuestButton:PLAYER_LOGIN()
 	self.rangeTimer = 0
 	self:Hide()
 
-	B.CreateBGFrame(self)
+	F.CreateBDFrame(self)
 
 	local Icon = self:CreateTexture("$parentIcon", "ARTWORK")
 	Icon:SetTexCoord(unpack(DB.TexCoord))

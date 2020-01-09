@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local module = B:RegisterModule("Chat")
 
 local maxLines = 1024
@@ -55,7 +55,7 @@ function module:SkinChat()
 	eb:ClearAllPoints()
 	eb:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 2, 24)
 	eb:SetPoint("TOPRIGHT", self, "TOPRIGHT", -13, 52)
-	B.SetBackground(eb)
+	F.CreateBD(eb)
 	for i = 3, 8 do
 		select(i, eb:GetRegions()):SetAlpha(0)
 	end
@@ -64,7 +64,7 @@ function module:SkinChat()
 	lang:GetRegions():SetAlpha(0)
 	lang:SetPoint("TOPLEFT", eb, "TOPRIGHT", 2, 0)
 	lang:SetPoint("BOTTOMRIGHT", eb, "BOTTOMRIGHT", 30, 0)
-	B.SetBackground(lang)
+	F.CreateBD(lang)
 
 	local tab = _G[name.."Tab"]
 	tab:SetAlpha(1)
@@ -252,18 +252,18 @@ function module:ChatFrameBackground()
 
 	local ChatLine = CreateFrame("Frame", nil, UIParent)
 	ChatLine:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", 0, 5)
-	B.CreateGF(ChatLine, 450, ChatFrame1:GetHeight() + 26, "Horizontal", 0, 0, 0, .5, 0)
+	F.CreateGA(ChatLine, 450, ChatFrame1:GetHeight() + 26, "Horizontal", 0, 0, 0, .5, 0)
 	local ChatLine1 = CreateFrame("Frame", nil, ChatLine)
 	ChatLine1:SetPoint("BOTTOM", ChatLine, "TOP")
-	B.CreateGF(ChatLine1, 450, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
+	F.CreateGA(ChatLine1, 450, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
 	if NDuiDB["Chat"]["Chatbar"] then
 		local ChatLine2 = CreateFrame("Frame", nil, ChatLine)
 		ChatLine2:SetPoint("BOTTOM", ChatLine, "BOTTOM", 0, 18)
-		B.CreateGF(ChatLine2, 450, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
+		F.CreateGA(ChatLine2, 450, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
 	end
 	local ChatLine3 = CreateFrame("Frame", nil, ChatLine)
 	ChatLine3:SetPoint("TOP", ChatLine, "BOTTOM")
-	B.CreateGF(ChatLine3, 450, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
+	F.CreateGA(ChatLine3, 450, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
 
 	ChatFrame1.gradientBG = ChatLine
 end

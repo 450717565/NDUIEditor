@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local A = B:GetModule("Auras")
 
 function A:GetUnitAura(unit, spell, filter)
@@ -162,7 +162,7 @@ function A:CreateLumos(self)
 		local bu = CreateFrame("Frame", nil, self.Health)
 		bu:SetSize(iconSize, iconSize)
 		B.AuraIcon(bu)
-		bu.glowFrame = B.CreateBG(bu, 4)
+		bu.glowFrame = F.CreateBDFrame(bu, 0, 4, true, true)
 		bu.glowFrame:SetSize(iconSize+8, iconSize+8)
 
 		local fontParent = CreateFrame("Frame", nil, bu)

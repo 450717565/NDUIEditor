@@ -70,8 +70,7 @@ local function createPage(name)
 	local p = CreateFrame("Frame", nil, f)
 	p:SetPoint("TOPLEFT", 160, -70)
 	p:SetSize(620, 380)
-	B.CreateBD(p, .25)
-	B.CreateSD(p)
+	F.CreateBDFrame(p, 0)
 	B.CreateFS(p, 15, name, false, "TOPLEFT", 5, 20)
 	p:Hide()
 	return p
@@ -81,15 +80,14 @@ function G:CreateScroll(parent, width, height, text)
 	local scroll = CreateFrame("ScrollFrame", nil, parent, "UIPanelScrollFrameTemplate")
 	scroll:SetSize(width, height)
 	scroll:SetPoint("BOTTOMLEFT", 10, 10)
-	B.CreateBGFrame(scroll, "notex", .25)
+	F.CreateBDFrame(scroll, 0)
 	if text then
 		B.CreateFS(scroll, 15, text, false, "TOPLEFT", 5, 20)
 	end
 	scroll.child = CreateFrame("Frame", nil, scroll)
 	scroll.child:SetSize(width, 1)
 	scroll:SetScrollChild(scroll.child)
-
-	if F then F.ReskinScroll(scroll.ScrollBar) end
+	F.ReskinScroll(scroll.ScrollBar)
 
 	return scroll
 end
@@ -126,7 +124,7 @@ local function CreatePanel()
 	f = CreateFrame("Frame", "NDui_AWConfig", UIParent)
 	f:SetPoint("CENTER")
 	f:SetSize(800, 500)
-	B.SetBackground(f)
+	F.CreateBD(f)
 	B.CreateMF(f)
 	B.CreateFS(f, 17, L["AWConfig Title"], true, "TOP", 0, -10)
 	B.CreateFS(f, 15, L["Groups"], true, "TOPLEFT", 30, -50)
@@ -223,8 +221,7 @@ local function CreatePanel()
 
 		local bar = CreateFrame("Frame", nil, parent)
 		bar:SetSize(270, 30)
-		B.CreateBD(bar, .25)
-		B.CreateSD(bar)
+		F.CreateBDFrame(bar, 0)
 		barTable[index][spellID] = bar
 
 		local icon, close = G:CreateBarWidgets(bar, texture)
@@ -276,8 +273,7 @@ local function CreatePanel()
 
 		local bar = CreateFrame("Frame", nil, parent)
 		bar:SetSize(270, 30)
-		B.CreateBD(bar, .25)
-		B.CreateSD(bar)
+		F.CreateBDFrame(bar, 0)
 		barTable[index][intID] = bar
 
 		local icon, close = G:CreateBarWidgets(bar, texture)
@@ -341,22 +337,22 @@ local function CreatePanel()
 		for i = 1, #tabs do
 			if self == tabs[i] then
 				tabs[i].Page:Show()
-				tabs[i]:SetBackdropColor(cr, cg, cb, .25)
+				tabs[i].bg:SetBackdropColor(cr, cg, cb, .25)
 				tabs[i].selected = true
 			else
 				tabs[i].Page:Hide()
-				tabs[i]:SetBackdropColor(0, 0, 0, .25)
+				tabs[i].bg:SetBackdropColor(0, 0, 0, 0)
 				tabs[i].selected = false
 			end
 		end
 	end
 	local function tabOnEnter(self)
 		if self.selected then return end
-		self:SetBackdropColor(cr, cg, cb, .25)
+		self.bg:SetBackdropColor(cr, cg, cb, .25)
 	end
 	local function tabOnLeave(self)
 		if self.selected then return end
-		self:SetBackdropColor(0, 0, 0, .25)
+		self.bg:SetBackdropColor(0, 0, 0, 0)
 	end
 
 	for i, group in pairs(groups) do
@@ -366,8 +362,7 @@ local function CreatePanel()
 		tabs[i] = CreateFrame("Button", "$parentTab"..i, f)
 		tabs[i]:SetPoint("TOPLEFT", 20, -40 - i*30)
 		tabs[i]:SetSize(130, 28)
-		B.CreateBD(tabs[i], .25)
-		B.CreateSD(tabs[i])
+		tabs[i].bg = F.CreateBDFrame(tabs[i], 0)
 		local label = B.CreateFS(tabs[i], 15, group, "system", "LEFT", 10, 0)
 		if i == 11 then
 			label:SetTextColor(cr, cg, cb)

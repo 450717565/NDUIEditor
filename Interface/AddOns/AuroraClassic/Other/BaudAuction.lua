@@ -19,6 +19,6 @@ C.themes["BaudAuction"] = function()
 	end
 
 	for k = 1, 19 do
-		F.ReskinIcon(_G["BaudAuctionBrowseScrollBoxEntry"..k.."Texture"], true)
+		F.ReskinIcon(_G["BaudAuctionBrowseScrollBoxEntry"..k.."Texture"])
 	end
 end

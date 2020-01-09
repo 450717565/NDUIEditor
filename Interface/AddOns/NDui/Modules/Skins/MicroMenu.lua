@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local S = B:GetModule("Skins")
 
 local _G = getfenv(0)
@@ -62,10 +62,10 @@ function S:MicroMenu_Lines(menubar)
 
 	local MenuL = CreateFrame("Frame", nil, UIParent)
 	MenuL:SetPoint("TOPRIGHT", menubar, "BOTTOM")
-	B.CreateGF(MenuL, 200, C.pixel, "Horizontal", cr, cg, cb, 0, alpha)
+	F.CreateGA(MenuL, 200, C.pixel, "Horizontal", cr, cg, cb, 0, alpha)
 	local MenuR = CreateFrame("Frame", nil, UIParent)
 	MenuR:SetPoint("TOPLEFT", menubar, "BOTTOM")
-	B.CreateGF(MenuR, 200, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
+	F.CreateGA(MenuR, 200, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
 end
 
 function S:MicroMenu()

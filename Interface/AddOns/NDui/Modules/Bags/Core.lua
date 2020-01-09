@@ -65,7 +65,7 @@ function module:CreateInfoFrame()
 	search.isGlobal = true
 	search:SetPoint("LEFT", 0, 5)
 	search:DisableDrawLayer("BACKGROUND")
-	local bg = B.CreateBGFrame(search, "notex", .25)
+	local bg = F.CreateBDFrame(search, 0)
 	bg:SetPoint("TOPLEFT", -5, -5)
 	bg:SetPoint("BOTTOMRIGHT", 5, 5)
 
@@ -80,7 +80,7 @@ function module:CreateBagBar(settings, columns)
 	local width, height = bagBar:LayoutButtons("grid", columns, 5, 5, -5)
 	bagBar:SetSize(width + 10, height + 10)
 	bagBar:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, -5)
-	B.SetBackground(bagBar)
+	F.CreateBD(bagBar)
 	bagBar.highlightFunction = highlightFunction
 	bagBar.isGlobal = true
 	bagBar:Hide()
@@ -317,7 +317,7 @@ function module:CreateFreeSlots()
 	slot:SetSize(self.iconSize, self.iconSize)
 	slot:SetHighlightTexture(DB.bdTex)
 	slot:GetHighlightTexture():SetVertexColor(1, 1, 1, .25)
-	B.CreateBGFrame(slot, "notex", .25)
+	F.CreateBDFrame(slot, 0)
 	slot:SetScript("OnMouseUp", module.FreeSlotOnDrop)
 	slot:SetScript("OnReceiveDrag", module.FreeSlotOnDrop)
 	B.AddTooltip(slot, "ANCHOR_RIGHT", L["FreeSlots"])
@@ -440,7 +440,7 @@ function module:OnLogin()
 		self.Count:SetPoint("BOTTOMRIGHT", 0, 1)
 		self.Count:SetFont(unpack(DB.Font))
 
-		self.BG = B.CreateBGFrame(self, "notex", .25)
+		self.BG = F.CreateBDFrame(self, 0)
 
 		local parentFrame = CreateFrame("Frame", nil, self)
 		parentFrame:SetAllPoints()
@@ -471,7 +471,7 @@ function module:OnLogin()
 		end
 
 		if showNewItem then
-			self.glowFrame = B.CreateBG(self, 4)
+			self.glowFrame = F.CreateBDFrame(self, 0, 4, true, true)
 			self.glowFrame:SetSize(iconSize+8, iconSize+8)
 		end
 
@@ -614,7 +614,7 @@ function module:OnLogin()
 		self:SetParent(settings.Parent or Backpack)
 		self:SetFrameStrata("HIGH")
 		self:SetClampedToScreen(true)
-		B.SetBackground(self)
+		F.CreateBD(self)
 		B.CreateMF(self, settings.Parent, true)
 
 		local label
@@ -689,7 +689,7 @@ function module:OnLogin()
 		self:GetHighlightTexture():SetVertexColor(1, 1, 1, .25)
 
 		self:SetSize(iconSize, iconSize)
-		self.BG = B.CreateBGFrame(self, "notex", .25)
+		self.BG = F.CreateBDFrame(self, 0)
 		self.Icon:SetAllPoints()
 		self.Icon:SetTexCoord(unpack(DB.TexCoord))
 	end
@@ -722,11 +722,4 @@ function module:OnLogin()
 	-- Sort order
 	SetSortBagsRightToLeft(not NDuiDB["Bags"]["ReverseSort"])
 	SetInsertItemsLeftToRight(false)
-
-	-- Override AuroraClassic
-	if F then
-		AuroraOptionsbags:SetAlpha(0)
-		AuroraOptionsbags:Disable()
-		AuroraConfig.bags = false
-	end
 end

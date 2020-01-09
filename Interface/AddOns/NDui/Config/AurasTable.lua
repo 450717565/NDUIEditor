@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local module = B:RegisterModule("AurasTable")
 local pairs, next, format, wipe = pairs, next, string.format, wipe
 

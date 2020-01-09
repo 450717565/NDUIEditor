@@ -3,7 +3,7 @@
 -- Author:M
 -------------------------------------
 
-local B, C, L, DB = unpack(select(2, ...))
+local B, C, L, DB, F = unpack(select(2, ...))
 local Extras = B:GetModule("Extras")
 local cr, cg, cb = DB.r, DB.g, DB.b
 
@@ -166,7 +166,7 @@ do
 
 	function Extras:ChatEmote()
 		B.CreateMF(frame)
-		B.SetBackground(frame)
+		F.CreateBD(frame)
 
 		local closeBTN = B.CreateButton(frame, 20, 20, "X")
 		closeBTN:SetPoint("TOPRIGHT", -10, -10)

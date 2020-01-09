@@ -231,11 +231,9 @@ function M:MailBox()
 	end
 
 	-- Aurora Reskin
-	if F then
-		F.ReskinButton(button1)
-		F.ReskinButton(button2)
-		F.ReskinButton(button3)
-	end
+	F.ReskinButton(button1)
+	F.ReskinButton(button2)
+	F.ReskinButton(button3)
 
 	-- Hide Blizz
 	B.HideObject(OpenAllMail)

@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local S = B:GetModule("Skins")
 local TT = B:GetModule("Tooltip")
 
@@ -54,8 +54,7 @@ function S:DBMSkin()
 					tbar:SetHeight(iconSize/2)
 					tbar.SetHeight = B.Dummy
 
-					tbar.bg = B.CreateSB(tbar, true)
-					B.CreateTex(tbar.bg)
+					B.CreateSB(tbar, true)
 
 					tbar.styled = true
 				end
@@ -69,7 +68,7 @@ function S:DBMSkin()
 					icon1:SetPoint("BOTTOMRIGHT", tbar, "BOTTOMLEFT", -5, 0)
 					icon1.SetPoint = B.Dummy
 
-					icon1.bg = B.CreateBGFrame(icon1)
+					icon1.bd = F.CreateBDFrame(icon1, 1)
 
 					icon1.styled = true
 				end
@@ -83,7 +82,7 @@ function S:DBMSkin()
 					icon2:SetPoint("BOTTOMLEFT", tbar, "BOTTOMRIGHT", 5, 0)
 					icon2.SetPoint = B.Dummy
 
-					icon2.bg = B.CreateBGFrame(icon2)
+					icon2.bd = F.CreateBDFrame(icon2, 1)
 
 					icon2.styled = true
 				end
@@ -112,8 +111,8 @@ function S:DBMSkin()
 					name.styled = true
 				end
 
-				icon1.bg:SetShown(icon1:IsShown())
-				icon2.bg:SetShown(icon2:IsShown())
+				icon1.bd:SetShown(icon1:IsShown())
+				icon2.bd:SetShown(icon2:IsShown())
 				bar:Update(0)
 
 				bar.injected = true

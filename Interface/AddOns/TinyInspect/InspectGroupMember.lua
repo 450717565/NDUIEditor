@@ -2,7 +2,7 @@
 -------------------------------------
 -- 小队或团队 装备等级 Author: M
 -------------------------------------
-local B, C, L, DB = unpack(NDui)
+local B, C, L, DB, F = unpack(NDui)
 
 local LibEvent = LibStub:GetLibrary("LibEvent.7000")
 local LibSchedule = LibStub:GetLibrary("LibSchedule.7000")
@@ -403,8 +403,8 @@ end
 
 --初始化美化API
 LibEvent:attachEvent("PLAYER_LOGIN", function()
-	B.SetBackground(frame)
-	B.SetBackground(frame.panel)
+	F.CreateBD(frame)
+	F.CreateBD(frame.panel)
 
 	frame.panel.sortButton = B.CreateButton(frame.panel, 34, 16, L["Ascending"], 12)
 	frame.panel.sortButton:SetPoint("TOPRIGHT", -10, -4)

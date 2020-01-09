@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local UF = B:GetModule("UnitFrames")
 
 local strmatch, format, wipe, tinsert = string.match, string.format, table.wipe, table.insert
@@ -44,8 +44,7 @@ function UF:UpdateTargetBorder()
 end
 
 function UF:CreateTargetBorder(self)
-	local border = B.CreateBG(self)
-	B.CreateBD(border, 0)
+	local border = F.CreateBDFrame(self, 0)
 	border:SetBackdropBorderColor(0, 1, 1)
 	border:SetPoint("TOPLEFT", self, -C.mult, C.mult)
 	border:SetPoint("BOTTOMRIGHT", self.Power, C.mult, -C.mult)
@@ -59,7 +58,7 @@ end
 function UF:UpdateThreatBorder(_, unit)
 	if unit ~= self.unit then return end
 
-	local element = self.Health.Shadow
+	local element = self.Health.bd
 	local status = UnitThreatSituation(unit)
 
 	if status and status > 1 then
@@ -112,7 +111,6 @@ function UF:CreateRaidDebuffs(self)
 	bu:SetSize(size, size)
 	bu:SetPoint("RIGHT", -15, 0)
 	bu:SetFrameLevel(self:GetFrameLevel() + 3)
-	B.CreateBGFrame(bu)
 	bu:Hide()
 
 	bu.icon = bu:CreateTexture(nil, "ARTWORK")
@@ -120,8 +118,10 @@ function UF:CreateRaidDebuffs(self)
 	bu.icon:SetTexCoord(unpack(DB.TexCoord))
 	bu.count = B.CreateFS(bu, 12, "", false, "BOTTOMRIGHT", 6, -3)
 	bu.timer = B.CreateFS(bu, 12, "", false, "CENTER", 1, 0)
-	bu.glowFrame = B.CreateBG(bu, 4)
+	bu.glowFrame = F.CreateBDFrame(bu, 0, 4, true, true)
 	bu.glowFrame:SetSize(size+8, size+8)
+
+	bu.bd = F.CreateBDFrame(bu)
 
 	if not NDuiDB["UFs"]["AurasClickThrough"] then
 		bu:SetScript("OnEnter", buttonOnEnter)
@@ -416,8 +416,7 @@ function UF:CreateBuffIndicator(self)
 			icon.timer = B.CreateFS(icon, 12*fontScale, "", false, "CENTER", -x, 0)
 			icon.count:SetPoint(point, icon.timer, anchorPoint, x, y)
 		else
-			icon.bg = B.CreateBG(icon)
-			B.CreateBD(icon.bg)
+			icon.bg = F.CreateBDFrame(icon, 0, nil, true)
 
 			icon.icon = icon:CreateTexture(nil, "BORDER")
 			icon.icon:SetAllPoints()

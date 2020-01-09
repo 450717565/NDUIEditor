@@ -106,12 +106,13 @@ function TT:InsertRoleFrame(role)
 		f:SetPoint("TOPRIGHT", self, "TOPLEFT", -2, -2)
 		f:SetSize(20, 20)
 		f:SetTexture("Interface\\LFGFrame\\UI-LFG-ICONS-ROLEBACKGROUNDS")
-		B.CreateBGFrame(f)
+		local bg = F.CreateBDFrame(f)
 		self.roleFrame = f
+		self.roleFrame.bg = bg
 	end
 	self.roleFrame:SetTexCoord(unpack(roleTex[role]))
 	self.roleFrame:SetAlpha(1)
-	self.roleFrame.Shadow:SetAlpha(1)
+	self.roleFrame.bg:SetAlpha(1)
 end
 
 function TT:OnTooltipCleared()
@@ -120,7 +121,7 @@ function TT:OnTooltipCleared()
 	end
 	if self.roleFrame and self.roleFrame:GetAlpha() ~= 0 then
 		self.roleFrame:SetAlpha(0)
-		self.roleFrame.Shadow:SetAlpha(0)
+		self.roleFrame.bg:SetAlpha(0)
 	end
 end
 
@@ -268,19 +269,14 @@ function TT:ReskinStatusBar()
 	GameTooltipStatusBar:SetStatusBarTexture(DB.normTex)
 	GameTooltipStatusBar:SetHeight(5)
 
-	B.CreateBGFrame(GameTooltipStatusBar, "tex")
+	F.CreateBDFrame(GameTooltipStatusBar, .5)
 end
 
 function TT:GameTooltip_ShowStatusBar()
 	if self.statusBarPool then
 		local bar = self.statusBarPool:Acquire()
 		if bar and not bar.styled then
-			B.StripTextures(bar)
-
-			bar:SetStatusBarTexture(DB.normTex)
-			bar:SetStatusBarColor(cr, cg, cb, .8)
-
-			B.CreateBGFrame(bar, "tex", .25)
+			F.ReskinStatusBar(bar)
 
 			bar.styled = true
 		end
@@ -291,13 +287,8 @@ function TT:GameTooltip_ShowProgressBar()
 	if self.progressBarPool then
 		local bar = self.progressBarPool:Acquire()
 		if bar and not bar.styled then
-			B.StripTextures(bar.Bar)
-
 			bar.Bar:SetHeight(20)
-			bar.Bar:SetStatusBarTexture(DB.normTex)
-			bar.Bar:SetStatusBarColor(cr, cg, cb, .8)
-
-			B.CreateBGFrame(bar.Bar, "tex", .25)
+			F.ReskinStatusBar(bar.Bar)
 
 			bar.styled = true
 		end
@@ -334,8 +325,7 @@ function TT:ReskinRewardIcon()
 		icon:SetTexCoord(unpack(DB.TexCoord))
 
 		if not self.tipStyled then
-			self.bg = B.CreateBG(icon)
-			B.CreateBD(self.bg)
+			self.bg = F.CreateBDFrame(icon, 1)
 
 			self.tipStyled = true
 		end
@@ -366,9 +356,7 @@ function TT:ReskinTooltip()
 	if not self.tipStyled then
 		self:SetBackdrop(nil)
 		self:DisableDrawLayer("BACKGROUND")
-		local bg = B.CreateBG(self, -offset)
-		bg:SetFrameLevel(self:GetFrameLevel())
-		B.SetBackground(bg)
+		local bg = F.CreateBDFrame(self, .5, -offset, true)
 		self.bg = bg
 
 		-- other gametooltip-like support
@@ -441,12 +429,6 @@ end
 B:RegisterEvent("ADDON_LOADED", addonStyled)
 
 TT:RegisterTooltips("NDui", function()
-	if F then
-		AuroraOptionstooltips:SetAlpha(0)
-		AuroraOptionstooltips:Disable()
-		AuroraConfig.tooltips = false
-	end
-
 	local tooltips = {
 		ChatMenu,
 		EmoteMenu,

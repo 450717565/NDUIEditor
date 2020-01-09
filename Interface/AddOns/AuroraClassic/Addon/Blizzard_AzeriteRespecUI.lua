@@ -4,7 +4,6 @@ C.themes["Blizzard_AzeriteRespecUI"] = function()
 	F.StripTextures(AzeriteRespecFrame, 15)
 	F.ReskinClose(AzeriteRespecFrameCloseButton)
 	F.CreateBD(AzeriteRespecFrame)
-	F.CreateSD(AzeriteRespecFrame)
 
 	local Background = AzeriteRespecFrame.Background
 	F.CreateBDFrame(Background, .25, nil, true)

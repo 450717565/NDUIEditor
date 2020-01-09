@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local Bar = B:GetModule("Actionbar")
 local cfg = C.bars.extrabar
 
@@ -60,7 +60,6 @@ function Bar:CreateExtrabar()
 
 	local SpellButton = ZoneAbilityFrame.SpellButton
 	SpellButton.Style:SetAlpha(0)
-	SpellButton.Icon:SetTexCoord(unpack(DB.TexCoord))
-	SpellButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-	B.CreateBGFrame(SpellButton.Icon)
+	local icbg = F.ReskinIcon(SpellButton.Icon)
+	F.ReskinTexture(SpellButton, icbg)
 end

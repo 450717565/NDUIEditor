@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local S = B:GetModule("Skins")
 
 local function ReskinDetails()
@@ -18,7 +18,7 @@ local function ReskinDetails()
 		self:SetBarSettings(18, NDuiADB["ResetDetails"] and "NDui" or nil)
 		self:SetBarTextSettings(NDuiADB["ResetDetails"] and 14 or nil, DB.Font[1], nil, nil, nil, true, true, nil, nil, nil, nil, nil, nil, false, nil, false, nil)
 
-		local bg = B.CreateBGFrame(self.baseframe, "tex")
+		local bg = F.CreateBDFrame(self.baseframe, .25, nil, true)
 		bg:SetPoint("TOPLEFT", -1, 18)
 		self.baseframe.bg = bg
 

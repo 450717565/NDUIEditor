@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local S = B:GetModule("Skins")
 
 function S:SkadaSkin()
@@ -48,7 +48,7 @@ function S:SkadaSkin()
 		B.StripTextures(window.borderFrame)
 
 		if not window.bg then
-			local bg = B.CreateBGFrame(window, "tex")
+			local bg = F.CreateBDFrame(window, .5, nil, true)
 			window.bg = bg
 
 			local open, close = S:CreateToggle(window)

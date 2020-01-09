@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 
 local oUF = ns.oUF or oUF
 local UF = B:GetModule("UnitFrames")
@@ -187,6 +187,7 @@ local function CreatePartyStyle(self)
 	UF:CreateDebuffs(self)
 	UF:CreateIcons(self)
 	UF:CreateRaidMark(self)
+	UF:CreateThreatBorder(self)
 	UF:InterruptIndicator(self)
 end
 

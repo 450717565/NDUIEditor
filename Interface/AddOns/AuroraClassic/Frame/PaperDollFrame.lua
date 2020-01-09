@@ -101,17 +101,17 @@ tinsert(C.themes["AuroraClassic"], function()
 		local tab = _G["PaperDollSidebarTab"..i]
 		tab.TabBg:Hide()
 
-		local bg = F.CreateBDFrame(tab, 0)
-		bg:SetPoint("TOPLEFT", 2, -3)
-		bg:SetPoint("BOTTOMRIGHT", 0, -1)
-		bg:SetFrameLevel(0)
-
 		if i == 1 then
 			tab.Icon:SetTexCoord(0.16, 0.86, 0.16, 0.86)
 			tab.Icon.SetTexCoord = F.Dummy
 		end
 
-		F.ReskinTexture(tab, bg)
+		local bg = F.CreateBDFrame(tab.Icon, 0)
+		bg:SetPoint("TOPLEFT", 2, -3)
+		bg:SetPoint("BOTTOMRIGHT", 0, -1)
+		bg:SetFrameLevel(0)
+
+		F.ReskinTexture(tab.Highlight, bg)
 		F.ReskinTexture(tab.Hider, bg)
 	end
 

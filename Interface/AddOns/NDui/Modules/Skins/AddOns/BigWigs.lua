@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local S = B:GetModule("Skins")
 
 function S:BigWigsSkin()
@@ -47,7 +47,7 @@ function S:BigWigsSkin()
 		self:SetTexture(DB.normTex)
 
 		if not self.styled then
-			B.CreateTex(B.CreateBGFrame(self))
+			F.CreateBDFrame(self)
 
 			self.styled = true
 		end
@@ -71,7 +71,7 @@ function S:BigWigsSkin()
 			end
 
 			if not icon.styled then
-				B.CreateBGFrame(icon)
+				F.CreateBDFrame(icon, 1)
 
 				icon.styled = true
 			end

@@ -8,7 +8,6 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	F.StripTextures(FriendsFriendsFrame, true)
 	F.CreateBD(FriendsFriendsFrame)
-	F.CreateSD(FriendsFriendsFrame)
 	F.StripTextures(FriendsFriendsFrame.ScrollFrameBorder, true)
 	F.CreateBDFrame(FriendsFriendsFrame.ScrollFrameBorder, 0)
 

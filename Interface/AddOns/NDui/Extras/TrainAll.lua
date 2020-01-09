@@ -35,7 +35,7 @@ local function CreateIt()
 	Button:SetText(L["Train All"])
 	Button:SetPoint("RIGHT", ClassTrainerTrainButton, "LEFT", -2, 0)
 
-	if F then F.ReskinButton(Button) end
+	F.ReskinButton(Button)
 
 	Button:SetScript("OnEnter", function()
 		GameTooltip:SetOwner(Button,"ANCHOR_RIGHT")

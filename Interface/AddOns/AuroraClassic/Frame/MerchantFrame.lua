@@ -24,7 +24,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		money:SetPoint("BOTTOMLEFT", icbg, "BOTTOMRIGHT", 4, 2)
 
 		for y = 1, 3 do
-			F.ReskinIcon(_G[frame.."AltCurrencyFrameItem"..y.."Texture"], true)
+			F.ReskinIcon(_G[frame.."AltCurrencyFrameItem"..y.."Texture"])
 		end
 	end
 
@@ -123,7 +123,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			for index = 1, numCurrencies do
 				local tokenButton = _G["MerchantToken"..index]
 				if tokenButton and not tokenButton.styled then
-					F.ReskinIcon(tokenButton.icon, true)
+					F.ReskinIcon(tokenButton.icon)
 
 					tokenButton.styled = true
 				end

@@ -3,7 +3,7 @@
 -- NDui MOD
 -------------------------------
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local oUF = ns.oUF or oUF
 
 local debugMode = false
@@ -134,8 +134,8 @@ local function UpdateDebuffFrame(self, name, icon, count, debuffType, duration, 
 		end
 
 		local c = DispellColor[debuffType] or DispellColor.none
-		if rd.ShowDebuffBorder and rd.Shadow then
-			rd.Shadow:SetBackdropBorderColor(c[1], c[2], c[3])
+		if rd.ShowDebuffBorder and rd.bd then
+			rd.bd:SetBackdropBorderColor(c[1], c[2], c[3])
 		end
 
 		if rd.glowFrame then

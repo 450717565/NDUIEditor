@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local M = B:RegisterModule("Mover")
 
 local cr, cg, cb = DB.r, DB.g, DB.b
@@ -39,7 +39,7 @@ function B:Mover(text, value, anchor, width, height, isAuraWatch)
 	mover:SetScript("OnDragStop", M.Mover_OnDragStop)
 	mover:SetScript("OnMouseUp", M.Mover_OnClick)
 	if not isAuraWatch then
-		B.SetBackground(mover)
+		F.CreateBD(mover)
 		tinsert(MoverList, mover)
 	end
 
@@ -193,7 +193,7 @@ local function CreateConsole()
 	f = CreateFrame("Frame", nil, UIParent)
 	f:SetPoint("TOP", 0, -150)
 	f:SetSize(212, 80)
-	B.SetBackground(f)
+	F.CreateBD(f)
 	B.CreateFS(f, 15, L["Mover Console"], "system", "TOP", 0, -8)
 	local bu, text = {}, {LOCK, L["Grids"], L["AuraWatch"], RESET}
 	for i = 1, 4 do
@@ -242,7 +242,7 @@ local function CreateConsole()
 	local frame = CreateFrame("Frame", nil, f)
 	frame:SetSize(212, 73)
 	frame:SetPoint("TOP", f, "BOTTOM", 0, -2)
-	B.SetBackground(frame)
+	F.CreateBD(frame)
 	f.__trimText = B.CreateFS(frame, 12, NONE, "system", "BOTTOM", 0, 5)
 
 	local xBox = B.CreateEditBox(frame, 60, 22)

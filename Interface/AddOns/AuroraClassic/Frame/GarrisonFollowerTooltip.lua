@@ -32,7 +32,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		while ability do
 			local icon = ability.Icon
 
-			F.ReskinIcon(icon, true)
+			F.ReskinIcon(icon)
 
 			numAbilitiesStyled = numAbilitiesStyled + 1
 			ability = abilities[numAbilitiesStyled]
@@ -51,7 +51,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		while trait do
 			local icon = trait.Icon
 
-			F.ReskinIcon(icon, true)
+			F.ReskinIcon(icon)
 
 			numTraitsStyled = numTraitsStyled + 1
 			trait = traits[numTraitsStyled]

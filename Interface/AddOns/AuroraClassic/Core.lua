@@ -126,7 +126,7 @@ function F:SetupTabStyle(index, tabName)
 			if i == 1 then
 				tabs:SetPoint("TOPLEFT", frameName, "BOTTOMLEFT", 15, 1)
 			else
-				tabs:SetPoint("LEFT", _G[tab..(i-1)], "RIGHT", -(14+C.mult), 0)
+				tabs:SetPoint("LEFT", _G[tab..(i-1)], "RIGHT", -15, 0)
 			end
 		end
 	end
@@ -204,7 +204,7 @@ end
 
 -- [[ Reskin Functions ]]
 
-local function CreateTex(self)
+function F:CreateTex()
 	if self.Tex then return end
 
 	local Tex = self:CreateTexture(nil, "BACKGROUND", nil, 1)
@@ -223,12 +223,12 @@ function F:CreateBD(alpha)
 	self:SetBackdropColor(0, 0, 0, alpha or AuroraConfig.alpha)
 	self:SetBackdropBorderColor(0, 0, 0)
 
-	CreateTex(self)
+	F.CreateTex(self)
 
 	if not alpha then tinsert(C.frames, self) end
 end
 
-function F:CreateBDFrame(alpha, offset, noGradient)
+function F:CreateBDFrame(alpha, offset, noGF, noBD)
 	local frame = self
 	if self:GetObjectType() == "Texture" then frame = self:GetParent() end
 
@@ -240,26 +240,14 @@ function F:CreateBDFrame(alpha, offset, noGradient)
 	bg:SetPoint("TOPLEFT", self, -offset, offset)
 	bg:SetPoint("BOTTOMRIGHT", self, offset, -offset)
 	bg:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
-	F.CreateBD(bg, alpha)
-	F.CreateSD(bg)
 
-	if not noGradient then
-		F.CreateGF(bg)
+	if not noBD then
+		F.CreateBD(bg, alpha)
 	end
 
-	return bg
-end
-
-function F:CreateBG()
-	local frame = self
-	if self:GetObjectType() == "Texture" then frame = self:GetParent() end
-
-	local bg = frame:CreateTexture(nil, "BORDER")
-	bg:ClearAllPoints()
-	bg:SetPoint("TOPLEFT", self, -C.mult, C.mult)
-	bg:SetPoint("BOTTOMRIGHT", self, C.mult, -C.mult)
-	bg:SetTexture(C.media.bdTex)
-	bg:SetVertexColor(0, 0, 0)
+	if not noGF then
+		F.CreateGF(bg)
+	end
 
 	return bg
 end
@@ -307,24 +295,6 @@ function F:CreateLine(isHorizontal)
 	return Line
 end
 
-function F:CreateSD()
-	if not AuroraConfig.shadow then return end
-	if self.Shadow then return end
-
-	local Pmult, Smult = C.mult*3, C.mult*4
-	local lvl = self:GetFrameLevel()
-	local Shadow = CreateFrame("Frame", nil, self)
-	Shadow:ClearAllPoints()
-	Shadow:SetPoint("TOPLEFT", self, -Pmult, Pmult)
-	Shadow:SetPoint("BOTTOMRIGHT", self, Pmult, -Pmult)
-	Shadow:SetBackdrop({edgeFile = C.media.glowTex, edgeSize = Smult})
-	Shadow:SetBackdropBorderColor(0, 0, 0)
-	Shadow:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
-	self.Shadow = Shadow
-
-	return Shadow
-end
-
 function F:SetBDFrame(x, y, x2, y2)
 	local bg = F.CreateBDFrame(self, nil, nil, true)
 
@@ -342,7 +312,7 @@ function F:ReskinAffixes()
 		frame.Border:SetTexture(nil)
 		frame.Portrait:SetTexture(nil)
 		if not frame.styled then
-			F.ReskinIcon(frame.Portrait, false, 1)
+			F.ReskinIcon(frame.Portrait)
 
 			frame.styled = true
 		end
@@ -382,14 +352,13 @@ function F:ReskinBorder(relativeTo, classColor)
 	self:SetPoint("BOTTOMRIGHT", relativeTo, C.mult, -C.mult)
 end
 
-function F:ReskinButton(noHighlight)
+function F:ReskinButton(noHL)
 	F.CleanTextures(self)
 
 	F.CreateBD(self, 0)
-	F.CreateSD(self)
 	F.CreateGF(self)
 
-	if not noHighlight then
+	if not noHL then
 		SetupHook(self)
 	end
 end
@@ -613,14 +582,11 @@ function F:ReskinHeader()
 	end
 end
 
-function F:ReskinIcon(setBG, alpha)
+function F:ReskinIcon(alpha)
 	self:SetTexCoord(.08, .92, .08, .92)
+	local bg = F.CreateBDFrame(self, alpha or 0)
 
-	if setBG then
-		return F.CreateBG(self)
-	else
-		return F.CreateBDFrame(self, alpha or 0)
-	end
+	return bg
 end
 
 function F:ReskinInput(height, width)
@@ -770,18 +736,15 @@ function F:ReskinRole(role)
 		icon.texture:ClearAllPoints()
 		icon.texture:SetPoint("BOTTOMRIGHT", self, -3, 3)
 		icon.texture:SetSize(14, 14)
-		F.ReskinIcon(icon.texture, true)
+		F.ReskinIcon(icon.texture)
 	end
 end
 
-function F:ReskinRoleIcon(setBG)
+function F:ReskinRoleIcon(alpha)
 	self:SetTexture(C.media.roleTex)
+	local bg = F.CreateBDFrame(self, alpha or 0)
 
-	if setBG then
-		return F.CreateBG(self)
-	else
-		return F.CreateBDFrame(self, 0)
-	end
+	return bg
 end
 
 local function scrollThumb(self)
@@ -855,7 +818,7 @@ function F:ReskinSearchBox()
 	F.ReskinTexture(self, bg, true)
 
 	local icon = self.icon or self.Icon
-	if icon then F.ReskinIcon(icon, true) end
+	if icon then F.ReskinIcon(icon) end
 end
 
 function F:ReskinSearchResult()
@@ -1051,7 +1014,7 @@ function F:ReskinTooltip()
 		self.GetBackdropBorderColor = getBackdropBorderColor
 
 		local icon = self.Icon or self.icon
-		if icon then F.ReskinIcon(icon, true) end
+		if icon then F.ReskinIcon(icon) end
 
 		local border = self.Border or self.IconBorder
 		if border then border:SetAlpha(0) end

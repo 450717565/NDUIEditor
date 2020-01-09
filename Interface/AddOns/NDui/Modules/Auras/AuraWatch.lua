@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local A = B:GetModule("Auras")
 
 local maxFrames = 12 -- Max Tracked Auras
@@ -180,7 +180,7 @@ local function BuildICON(iconSize)
 
 	local frame = CreateFrame("Frame", nil, PetBattleFrameHider)
 	frame:SetSize(iconSize, iconSize)
-	B.CreateBGFrame(frame)
+	F.CreateBDFrame(frame, 0)
 
 	frame.Icon = frame:CreateTexture(nil, "ARTWORK")
 	frame.Icon:SetAllPoints()
@@ -196,8 +196,9 @@ local function BuildICON(iconSize)
 
 	frame.Spellname = B.CreateFS(parentFrame, 13, "", false, "TOP", 0, 5)
 	frame.Count = B.CreateFS(parentFrame, iconSize*.55, "", false, "BOTTOMRIGHT", 5, -5)
-	frame.glowFrame = B.CreateBG(frame, 4)
+	frame.glowFrame = F.CreateBDFrame(frame, 0, 4, true, true)
 	frame.glowFrame:SetSize(iconSize+8, iconSize+8)
+
 	if not NDuiDB["AuraWatch"]["ClickThrough"] then enableTooltip(frame) end
 
 	frame:Hide()
@@ -208,7 +209,7 @@ end
 local function BuildBAR(barWidth, iconSize)
 	local frame = CreateFrame("Frame", nil, PetBattleFrameHider)
 	frame:SetSize(iconSize, iconSize)
-	B.CreateBGFrame(frame)
+	F.CreateBDFrame(frame)
 
 	frame.Icon = frame:CreateTexture(nil, "ARTWORK")
 	frame.Icon:SetAllPoints()
@@ -219,8 +220,7 @@ local function BuildBAR(barWidth, iconSize)
 	frame.Statusbar:SetPoint("BOTTOMLEFT", frame, "BOTTOMRIGHT", 5, 0)
 	frame.Statusbar:SetMinMaxValues(0, 1)
 	frame.Statusbar:SetValue(0)
-	local bg = B.CreateSB(frame.Statusbar, true)
-	B.CreateTex(bg)
+	B.CreateSB(frame.Statusbar, true)
 
 	frame.Count = B.CreateFS(frame, 14, "", false, "BOTTOMRIGHT", 2, -2)
 	frame.Time = B.CreateFS(frame.Statusbar, 14, "", false, "RIGHT", 2, 8)

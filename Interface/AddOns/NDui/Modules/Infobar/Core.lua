@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local module = B:RegisterModule("Infobar")
 local tinsert, pairs, unpack = table.insert, pairs, unpack
 
@@ -79,24 +79,24 @@ function module:BackgroundLines()
 	-- TOPLEFT
 	local InfobarLineTL = CreateFrame("Frame", nil, UIParent)
 	InfobarLineTL:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 0, -5)
-	B.CreateGF(InfobarLineTL, 600, 18, "Horizontal", 0, 0, 0, .5, 0)
+	F.CreateGA(InfobarLineTL, 600, 18, "Horizontal", 0, 0, 0, .5, 0)
 	local InfobarLineTL1 = CreateFrame("Frame", nil, InfobarLineTL)
 	InfobarLineTL1:SetPoint("BOTTOM", InfobarLineTL, "TOP")
-	B.CreateGF(InfobarLineTL1, 600, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
+	F.CreateGA(InfobarLineTL1, 600, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
 	local InfobarLineTL2 = CreateFrame("Frame", nil, InfobarLineTL)
 	InfobarLineTL2:SetPoint("TOP", InfobarLineTL, "BOTTOM")
-	B.CreateGF(InfobarLineTL2, 600, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
+	F.CreateGA(InfobarLineTL2, 600, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
 
 	-- BOTTOMRIGHT
 	local InfobarLineBR = CreateFrame("Frame", nil, UIParent)
 	InfobarLineBR:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", 0, 5)
-	B.CreateGF(InfobarLineBR, 450, 18, "Horizontal", 0, 0, 0, 0, .5)
+	F.CreateGA(InfobarLineBR, 450, 18, "Horizontal", 0, 0, 0, 0, .5)
 	local InfobarLineBR1 = CreateFrame("Frame", nil, InfobarLineBR)
 	InfobarLineBR1:SetPoint("BOTTOM", InfobarLineBR, "TOP")
-	B.CreateGF(InfobarLineBR1, 450, C.pixel, "Horizontal", cr, cg, cb, 0, alpha)
+	F.CreateGA(InfobarLineBR1, 450, C.pixel, "Horizontal", cr, cg, cb, 0, alpha)
 	local InfobarLineBR2 = CreateFrame("Frame", nil, InfobarLineBR)
 	InfobarLineBR2:SetPoint("TOP", InfobarLineBR, "BOTTOM")
-	B.CreateGF(InfobarLineBR2, 450, C.pixel, "Horizontal", cr, cg, cb, 0, alpha)
+	F.CreateGA(InfobarLineBR2, 450, C.pixel, "Horizontal", cr, cg, cb, 0, alpha)
 end
 
 function module:OnLogin()

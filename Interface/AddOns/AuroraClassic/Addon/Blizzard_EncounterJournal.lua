@@ -3,8 +3,8 @@ local F, C = unpack(select(2, ...))
 C.themes["Blizzard_EncounterJournal"] = function()
 	if AuroraConfig.tooltips then
 		F.ReskinTooltip(EncounterJournalTooltip)
-		F.ReskinIcon(EncounterJournalTooltip.Item1.icon, true)
-		F.ReskinIcon(EncounterJournalTooltip.Item2.icon, true)
+		F.ReskinIcon(EncounterJournalTooltip.Item1.icon)
+		F.ReskinIcon(EncounterJournalTooltip.Item2.icon)
 		EncounterJournalTooltip.Item1.IconBorder:SetAlpha(0)
 		EncounterJournalTooltip.Item2.IconBorder:SetAlpha(0)
 	end

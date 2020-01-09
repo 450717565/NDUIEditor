@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 --------------------------
 -- QuickQuest, by p3lim
 -- NDui MOD
@@ -10,7 +10,7 @@ local function setupCheckButton()
 	local mono = CreateFrame("CheckButton", nil, WorldMapFrame.BorderFrame, "OptionsCheckButtonTemplate")
 	mono:SetPoint("TOPRIGHT", -140, 0)
 	mono:SetSize(26, 26)
-	B.CreateCB(mono)
+	F.ReskinCheck(mono)
 	mono.text = B.CreateFS(mono, 14, L["Auto Quest"], false, "LEFT", 25, 0)
 	mono:SetChecked(NDuiDB["Misc"]["AutoQuest"])
 	mono:SetScript("OnClick", function(self)

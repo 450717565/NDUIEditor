@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local M = B:GetModule("Misc")
 
 local format, gsub, strsplit = string.format, string.gsub, string.split
@@ -48,7 +48,7 @@ function M:SoloInfo_Create()
 	soloInfo = CreateFrame("Frame", nil, UIParent)
 	soloInfo:SetPoint("TOP", UIParent, "TOP", 0, -85)
 	soloInfo:SetSize(200, 70)
-	B.SetBackground(soloInfo)
+	F.CreateBD(soloInfo)
 
 	soloInfo.Text = B.CreateFS(soloInfo, 12)
 	soloInfo.Text:SetWordWrap(true)

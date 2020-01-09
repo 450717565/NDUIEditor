@@ -2,7 +2,7 @@
 -------------------------------------
 -- 查看装备等级 Author: M
 -------------------------------------
-local B, C, L, DB = unpack(NDui)
+local B, C, L, DB, F = unpack(NDui)
 
 local LibEvent = LibStub:GetLibrary("LibEvent.7000")
 local LibItemInfo = LibStub:GetLibrary("LibItemInfo.7000")
@@ -39,18 +39,9 @@ local function GetInspectItemListFrame(parent)
 		if (height < 424) then
 			height = 424
 		end
-		frame.backdrop = {
-			bgFile   = "Interface\\Tooltips\\UI-Tooltip-Background",
-			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-			tile     = true,
-			tileSize = 8,
-			edgeSize = 16,
-			insets   = {left = 4, right = 4, top = 4, bottom = 4}
-		}
 		frame:SetSize(160, height)
 		frame:SetToplevel(true)
 		frame:SetPoint("TOPLEFT", parent, "TOPRIGHT", 0, 0)
-		frame:SetBackdrop(frame.backdrop)
 		frame:SetBackdropColor(0, 0, 0, 0.8)
 		frame:SetBackdropBorderColor(0.6, 0.6, 0.6)
 		frame.portrait = CreateFrame("Frame", nil, frame, "GarrisonFollowerPortraitTemplate")
@@ -61,19 +52,10 @@ local function GetInspectItemListFrame(parent)
 
 		local itemframe
 		local fontsize = GetLocale():sub(1,2) == "zh" and 12 or 9
-		local backdrop = {
-			bgFile   = "Interface\\Tooltips\\UI-Tooltip-Background",
-			edgeFile = "Interface\\Buttons\\WHITE8X8",
-			tile     = true,
-			tileSize = 8,
-			edgeSize = C.mult,
-			insets   = {left = C.mult, right = C.mult, top = C.mult, bottom = C.mult}
-		}
 		for i, v in ipairs(slots) do
 			itemframe = CreateFrame("Button", nil, frame)
 			itemframe:SetSize(120, (height-82)/#slots)
 			itemframe.index = v.index
-			itemframe.backdrop = backdrop
 			if (i == 1) then
 				itemframe:SetPoint("TOPLEFT", frame, "TOPLEFT", 15, -70)
 			else
@@ -82,7 +64,6 @@ local function GetInspectItemListFrame(parent)
 			itemframe.label = CreateFrame("Frame", nil, itemframe)
 			itemframe.label:SetSize(38, 16)
 			itemframe.label:SetPoint("LEFT")
-			itemframe.label:SetBackdrop(backdrop)
 			itemframe.label:SetBackdropBorderColor(0, 0.9, 0.9, 0.2)
 			itemframe.label:SetBackdropColor(0, 0.9, 0.9, 0.2)
 			itemframe.label.text = B.CreateFS(itemframe.label, fontsize, v.name)
@@ -132,11 +113,7 @@ local function GetInspectItemListFrame(parent)
 		parent.inspectFrame = frame
 		LibEvent:trigger("INSPECT_FRAME_CREATED", frame, parent)
 
-		if IsAddOnLoaded("AuroraClassic") then
-			local F, C = unpack(AuroraClassic)
-			F.CreateBD(frame)
-			F.CreateSD(frame)
-		end
+		F.CreateBD(frame)
 	end
 
 	return parent.inspectFrame
@@ -218,8 +195,6 @@ function ShowInspectItemListFrame(unit, parent, ilevel, maxLevel)
 	frame:Show()
 
 	LibEvent:trigger("INSPECT_FRAME_SHOWN", frame, parent, ilevel)
-	frame:SetBackdrop(frame.backdrop)
-	frame:SetBackdropColor(0, 0, 0, 0.9)
 	frame:SetBackdropBorderColor(color.r, color.g, color.b)
 
 	return frame
@@ -243,24 +218,8 @@ end)
 
 --設置邊框
 LibEvent:attachTrigger("INSPECT_FRAME_SHOWN", function(self, frame, parent, ilevel)
-	if IsAddOnLoaded("AuroraClassic") then
-		frame.backdrop.edgeSize = C.mult
-		frame.backdrop.edgeFile = "Interface\\Buttons\\WHITE8X8"
-		frame.backdrop.insets.top = C.mult
-		frame.backdrop.insets.left = C.mult
-		frame.backdrop.insets.right = C.mult
-		frame.backdrop.insets.bottom = C.mult
-		frame:SetPoint("TOPLEFT", parent, "TOPRIGHT", 3, 1)
-		frame:SetPoint("BOTTOMLEFT", parent, "BOTTOMRIGHT", 3, -1)
-	else
-		frame.backdrop.edgeSize = 16
-		frame.backdrop.edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border"
-		frame.backdrop.insets.top = 4
-		frame.backdrop.insets.left = 4
-		frame.backdrop.insets.right = 4
-		frame.backdrop.insets.bottom = 4
-		frame:SetPoint("TOPLEFT", parent, "TOPRIGHT", 0, 0)
-	end
+	frame:SetPoint("TOPLEFT", parent, "TOPRIGHT", 3, 1)
+	frame:SetPoint("BOTTOMLEFT", parent, "BOTTOMRIGHT", 3, -1)
 end)
 
 --高亮橙裝和武器

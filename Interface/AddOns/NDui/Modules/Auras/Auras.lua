@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local A = B:RegisterModule("Auras")
 
 local _G = getfenv(0)
@@ -125,9 +125,9 @@ function A:UpdateAuras(button, index)
 
 		if filter == "HARMFUL" then
 			local color = DebuffTypeColor[debuffType or "none"]
-			button.Shadow:SetBackdropBorderColor(color.r, color.g, color.b)
+			button.bd:SetBackdropBorderColor(color.r, color.g, color.b)
 		else
-			button.Shadow:SetBackdropBorderColor(0, 0, 0)
+			button.bd:SetBackdropBorderColor(0, 0, 0)
 		end
 
 		button.icon:SetTexture(texture)
@@ -256,7 +256,7 @@ function A:CreateAuraIcon(button)
 	button.highlight:SetColorTexture(1, 1, 1, .25)
 	button.highlight:SetAllPoints(button.icon)
 
-	B.CreateBGFrame(button)
+	button.bd = F.CreateBDFrame(button)
 
 	button:SetScript("OnAttributeChanged", A.OnAttributeChanged)
 end

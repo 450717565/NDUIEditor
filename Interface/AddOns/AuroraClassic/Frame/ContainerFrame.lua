@@ -46,7 +46,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.StripTextures(BackpackTokenFrame)
 	for i = 1, 3 do
 		local ic = _G["BackpackTokenFrameToken"..i.."Icon"]
-		F.ReskinIcon(ic, true)
+		F.ReskinIcon(ic)
 	end
 
 	hooksecurefunc("ContainerFrame_Update", function(frame)

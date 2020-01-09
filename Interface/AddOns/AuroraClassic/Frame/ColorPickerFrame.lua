@@ -2,7 +2,6 @@ local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
 	F.CreateBD(ColorPickerFrame)
-	F.CreateSD(ColorPickerFrame)
 
 	if not C.isNewPatch then
 		ColorPickerFrameHeader:SetAlpha(0)

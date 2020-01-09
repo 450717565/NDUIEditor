@@ -1,5 +1,5 @@
 ﻿local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 if not C.Infobar.Gold then return end
 
 local module = B:GetModule("Infobar")

@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 
 local oUF = ns.oUF or oUF
 local UF = B:RegisterModule("UnitFrames")
@@ -341,8 +341,7 @@ function UF:CreateCastBar(self)
 	if mystyle ~= "nameplate" and not NDuiDB["UFs"]["Castbars"] then return end
 
 	local cb = CreateFrame("StatusBar", "oUF_Castbar"..mystyle, self)
-	local bg = B.CreateSB(cb, true)
-	B.CreateTex(bg)
+	B.CreateSB(cb, true)
 
 	if mystyle == "player" then
 		cb:SetSize(NDuiDB["UFs"]["PlayerCBWidth"], NDuiDB["UFs"]["PlayerCBHeight"])
@@ -371,8 +370,7 @@ function UF:CreateCastBar(self)
 		cb.Icon = cb:CreateTexture(nil, "ARTWORK")
 		cb.Icon:SetSize(cb:GetHeight(), cb:GetHeight())
 		cb.Icon:SetPoint("BOTTOMRIGHT", cb, "BOTTOMLEFT", -5, 0)
-		cb.Icon:SetTexCoord(unpack(DB.TexCoord))
-		B.CreateBGFrame(cb.Icon)
+		F.ReskinIcon(cb.Icon)
 	end
 
 	if mystyle == "player" then
@@ -437,7 +435,7 @@ local function reskinTimerBar(bar)
 		bar:SetStatusBarTexture(DB.normTex)
 	end
 
-	B.CreateBGFrame(bar, "tex")
+	F.CreateBDFrame(bar, .25)
 end
 
 function UF:ReskinMirrorBars()
@@ -489,10 +487,10 @@ function UF.PostCreateIcon(element, button)
 	button.overlay:SetTexture(nil)
 	button.stealable:SetTexture(nil)
 
-	button.glowFrame = B.CreateBG(button, 4)
+	button.glowFrame = F.CreateBDFrame(button, 0, 4, true, true)
 	button.glowFrame:SetSize(element.size+8, element.size+8)
 
-	B.CreateBGFrame(button)
+	button.bd = F.CreateBDFrame(button)
 
 	if element.disableCooldown then button.timer = B.CreateFS(button, 12) end
 end
@@ -505,7 +503,7 @@ local filteredStyle = {
 }
 
 function UF.PostUpdateIcon(element, _, button, _, _, duration, expiration, debuffType)
-	if duration then button.Shadow:Show() end
+	if duration then button.bd:Show() end
 
 	local style = element.__owner.mystyle
 	if style == "nameplate" then
@@ -521,12 +519,12 @@ function UF.PostUpdateIcon(element, _, button, _, _, duration, expiration, debuf
 	end
 
 	if style == "raid" and NDuiDB["UFs"]["RaidBuffIndicator"] then
-		button.Shadow:SetBackdropBorderColor(1, 0, 0)
+		button.bd:SetBackdropBorderColor(1, 0, 0)
 	elseif element.showDebuffType and button.isDebuff then
 		local color = oUF.colors.debuff[debuffType] or oUF.colors.debuff.none
-		button.Shadow:SetBackdropBorderColor(color[1], color[2], color[3])
+		button.bd:SetBackdropBorderColor(color[1], color[2], color[3])
 	else
-		button.Shadow:SetBackdropBorderColor(0, 0, 0)
+		button.bd:SetBackdropBorderColor(0, 0, 0)
 	end
 
 	if element.disableCooldown then
@@ -563,8 +561,8 @@ local function bolsterPostUpdate(element)
 end
 
 function UF.PostUpdateGapIcon(_, _, icon)
-	if icon.Shadow and icon.Shadow:IsShown() then
-		icon.Shadow:Hide()
+	if icon.bd and icon.bd:IsShown() then
+		icon.bd:Hide()
 	end
 
 	if icon.glowFrame then
@@ -903,8 +901,7 @@ function UF:CreateAltPower(self)
 	local bar = CreateFrame("StatusBar", nil, self)
 	bar:SetPoint("TOP", self.Power, "BOTTOM", 0, -3)
 	bar:SetSize(self:GetWidth(), self.Power:GetHeight())
-	local bg = B.CreateSB(bar)
-	B.CreateTex(bg)
+	B.CreateSB(bar)
 
 	local text = B.CreateFS(bar, 12)
 	text:SetJustifyH("CENTER")
@@ -919,8 +916,7 @@ function UF:CreateExpRepBar(self)
 	bar:SetPoint("TOPRIGHT", self, "TOPLEFT", -5, 0)
 	bar:SetPoint("BOTTOMLEFT", self.Power, "BOTTOMLEFT", -10, 0)
 	bar:SetOrientation("VERTICAL")
-	local bg = B.CreateSB(bar)
-	B.CreateTex(bg)
+	B.CreateSB(bar)
 
 	local rest = CreateFrame("StatusBar", nil, bar)
 	rest:SetAllPoints(bar)
@@ -955,12 +951,12 @@ function UF:CreatePrediction(self)
 	abbo.tileSize = 32
 
 	local oag = self:CreateTexture(nil, "ARTWORK", nil, 1)
-	oag:SetWidth(15)
-	oag:SetTexture("Interface\\RaidFrame\\Shield-Overshield")
+	oag:SetWidth(4)
+	oag:SetTexture(DB.normTex)
 	oag:SetBlendMode("ADD")
-	oag:SetAlpha(.7)
-	oag:SetPoint("TOPLEFT", self.Health, "TOPRIGHT", -5, 2)
-	oag:SetPoint("BOTTOMLEFT", self.Health, "BOTTOMRIGHT", -5, -2)
+	oag:SetVertexColor(0, 1, 1)
+	oag:SetPoint("TOPLEFT", self.Health, "TOPRIGHT", -2, C.mult)
+	oag:SetPoint("BOTTOMLEFT", self.Health, "BOTTOMRIGHT", -2, -C.mult)
 
 	local hab = CreateFrame("StatusBar", nil, self)
 	hab:SetPoint("TOP")
@@ -972,11 +968,12 @@ function UF:CreatePrediction(self)
 	hab:SetStatusBarColor(0, .5, .8, .5)
 
 	local ohg = self:CreateTexture(nil, "ARTWORK", nil, 1)
-	ohg:SetWidth(15)
-	ohg:SetTexture("Interface\\RaidFrame\\Absorb-Overabsorb")
+	ohg:SetWidth(4)
+	ohg:SetTexture(DB.normTex)
 	ohg:SetBlendMode("ADD")
-	ohg:SetPoint("TOPRIGHT", self.Health, "TOPLEFT", 5, 2)
-	ohg:SetPoint("BOTTOMRIGHT", self.Health, "BOTTOMLEFT", 5, -2)
+	ohg:SetVertexColor(0, 1, 1)
+	ohg:SetPoint("TOPRIGHT", self.Health, "TOPLEFT", 2, C.mult)
+	ohg:SetPoint("BOTTOMRIGHT", self.Health, "BOTTOMLEFT", 2, -C.mult)
 
 	self.HealPredictionAndAbsorb = {
 		myBar = mhpb,
@@ -1064,8 +1061,7 @@ function UF:CreateQuakeTimer(self)
 
 	local bar = CreateFrame("StatusBar", nil, self)
 	bar:SetSize(NDuiDB["UFs"]["PlayerCBWidth"], NDuiDB["UFs"]["PlayerCBHeight"])
-	local bg = B.CreateSB(bar, true, 0, 1, 0)
-	B.CreateTex(bg)
+	B.CreateSB(bar, true, 0, 1, 0)
 
 	bar.SpellName = B.CreateFS(bar, 12, "", false, "LEFT", 2, 0)
 	bar.Text = B.CreateFS(bar, 12, "", false, "RIGHT", -2, 0)
@@ -1074,8 +1070,7 @@ function UF:CreateQuakeTimer(self)
 	local icon = bar:CreateTexture(nil, "ARTWORK")
 	icon:SetSize(bar:GetHeight(), bar:GetHeight())
 	icon:SetPoint("RIGHT", bar, "LEFT", -5, 0)
-	icon:SetTexCoord(unpack(DB.TexCoord))
-	B.CreateBGFrame(icon)
+	F.ReskinIcon(icon)
 	bar.Icon = icon
 
 	self.QuakeTimer = bar

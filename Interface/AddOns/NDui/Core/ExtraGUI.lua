@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB, F = unpack(ns)
 local G = B:GetModule("GUI")
 
 local function sortBars(barTable)
@@ -19,7 +19,7 @@ local function createExtraGUI(parent, name, title, bgFrame)
 	local frame = CreateFrame("Frame", name, parent)
 	frame:SetSize(300, 600)
 	frame:SetPoint("TOPLEFT", parent:GetParent(), "TOPRIGHT", 2, 0)
-	B.SetBackground(frame)
+	F.CreateBD(frame)
 	parent:HookScript("OnHide", function()
 		if frame:IsShown() then frame:Hide() end
 	end)
@@ -32,8 +32,7 @@ local function createExtraGUI(parent, name, title, bgFrame)
 		frame.bg = CreateFrame("Frame", nil, frame)
 		frame.bg:SetSize(280, 540)
 		frame.bg:SetPoint("TOPLEFT", 10, -50)
-		B.CreateBD(frame.bg, .25)
-		B.CreateSD(frame.bg)
+		F.CreateBDFrame(frame.bg, 0)
 	end
 
 	tinsert(extraGUIs, frame)
@@ -181,8 +180,7 @@ function G:SetupRaidDebuffs(parent)
 	local function createBar(index, texture)
 		local bar = CreateFrame("Frame", nil, scroll.child)
 		bar:SetSize(220, 30)
-		B.CreateBD(bar, .25)
-		B.CreateSD(bar)
+		F.CreateBDFrame(bar, 0)
 		bar.index = index
 
 		local icon, close = G:CreateBarWidgets(bar, texture)
@@ -326,8 +324,7 @@ function G:SetupClickCast(parent)
 
 		local bar = CreateFrame("Frame", nil, parent)
 		bar:SetSize(220, 30)
-		B.CreateBD(bar, .25)
-		B.CreateSD(bar)
+		F.CreateBDFrame(bar, 0)
 		barTable[clickSet] = bar
 
 		local icon, close = G:CreateBarWidgets(bar, texture)
@@ -427,8 +424,7 @@ function G:SetupPartyWatcher(parent)
 
 		local bar = CreateFrame("Frame", nil, parent)
 		bar:SetSize(220, 30)
-		B.CreateBD(bar, .25)
-		B.CreateSD(bar)
+		F.CreateBDFrame(bar, 0)
 		barTable[spellID] = bar
 
 		local icon, close = G:CreateBarWidgets(bar, texture)
@@ -518,8 +514,7 @@ function G:SetupNameplateFilter(parent)
 		local name, _, texture = GetSpellInfo(spellID)
 		local bar = CreateFrame("Frame", nil, parent)
 		bar:SetSize(220, 30)
-		B.CreateBD(bar, .25)
-		B.CreateSD(bar)
+		F.CreateBDFrame(bar, 0)
 		frameData[index].barList[spellID] = bar
 
 		local icon, close = G:CreateBarWidgets(bar, texture)
@@ -554,8 +549,7 @@ function G:SetupNameplateFilter(parent)
 		local frame = CreateFrame("Frame", nil, plateGUI)
 		frame:SetSize(280, 250)
 		frame:SetPoint("TOPLEFT", 10, value.offset - 25)
-		B.CreateBD(frame, .25)
-		B.CreateSD(frame)
+		F.CreateBDFrame(frame, 0)
 
 		local scroll = G:CreateScroll(frame, 240, 200)
 		scroll.box = B.CreateEditBox(frame, 185, 25)
@@ -598,8 +592,7 @@ function G:SetupBuffIndicator(parent)
 		local name, _, texture = GetSpellInfo(spellID)
 		local bar = CreateFrame("Frame", nil, parent)
 		bar:SetSize(220, 30)
-		B.CreateBD(bar, .25)
-		B.CreateSD(bar)
+		F.CreateBDFrame(bar, 0)
 		frameData[index].barList[spellID] = bar
 
 		local icon, close = G:CreateBarWidgets(bar, texture)
@@ -662,8 +655,7 @@ function G:SetupBuffIndicator(parent)
 		local frame = CreateFrame("Frame", nil, buffIndicatorGUI)
 		frame:SetSize(280, 250)
 		frame:SetPoint("TOPLEFT", 10, value.offset - 25)
-		B.CreateBD(frame, .25)
-		B.CreateSD(frame)
+		F.CreateBDFrame(frame, 0)
 
 		local scroll = G:CreateScroll(frame, 240, 200)
 		scroll.box = B.CreateEditBox(frame, value.width, 25)
@@ -717,7 +709,7 @@ local function createOptionTitle(parent, title, offset)
 	B.CreateFS(parent, 14, title, nil, "TOP", 0, offset)
 	local l = CreateFrame("Frame", nil, parent)
 	l:SetPoint("TOPLEFT", 30, offset-20)
-	B.CreateGF(l, 200, C.mult, "Horizontal", 1, 1, 1, .25, .25)
+	F.CreateGA(l, 200, C.mult, "Horizontal", 1, 1, 1, .25, .25)
 end
 
 local function sliderValueChanged(self, v)
