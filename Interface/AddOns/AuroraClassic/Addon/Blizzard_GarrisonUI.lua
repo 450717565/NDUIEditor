@@ -490,13 +490,13 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	for i = 1, #buttons do
 		local button = buttons[i]
 		button.BG:Hide()
-		F.CreateBDFrame(button, 0, -C.pixel)
+		F.CreateBDFrame(button, 0, -2)
 
 		for _, reward in pairs(button.Rewards) do
 			reward:GetRegions():Hide()
 			reward.IconBorder:SetAlpha(0)
 			reward:ClearAllPoints()
-			reward:SetPoint("TOPRIGHT", -4, -4)
+			reward:SetPoint("TOPRIGHT", -5, -4)
 			F.ReskinIcon(reward.Icon)
 		end
 	end

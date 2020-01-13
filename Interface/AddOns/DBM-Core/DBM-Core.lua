@@ -68,8 +68,8 @@ local function showRealDate(curseDate)
 end
 
 DBM = {
-	Revision = parseCurseDate("20200104215655"),
-	DisplayVersion = "8.2.32 alpha", -- the string that is shown as version
+	Revision = parseCurseDate("20200113013939"),
+	DisplayVersion = "8.3.0 alpha", -- the string that is shown as version
 	ReleaseRevision = releaseDate(2019, 12, 19) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
@@ -3723,7 +3723,7 @@ do
 	local mopZones = {[1009]=true,[1008]=true,[1136]=true,[996]=true,[1098]=true}
 	local wodZones = {[1205]=true,[1448]=true,[1228]=true}
 	local legionZones = {[1712]=true,[1520]=true,[1530]=true,[1676]=true,[1648]=true}
-	local challengeScenarios = {[1148]=true,[1698]=true,[1710]=true,[1703]=true,[1702]=true,[1684]=true,[1673]=true,[1616]=true}
+	local challengeScenarios = {[1148]=true,[1698]=true,[1710]=true,[1703]=true,[1702]=true,[1684]=true,[1673]=true,[1616]=true,[2215]=true}
 	local pvpZones = {[30]=true,[489]=true,[529]=true,[559]=true,[562]=true,[566]=true,[572]=true,[617]=true,[618]=true,[628]=true,[726]=true,[727]=true,[761]=true,[968]=true,[980]=true,[998]=true,[1105]=true,[1134]=true,[1681]=true,[1803]=true,[2107]=true,[2118]=true,[2177]=true,[2197]=true}
 	local oldDungeons = {
 		[48]=true,[230]=true,[429]=true,[389]=true,[34]=true,--Classic
@@ -7185,6 +7185,20 @@ function DBM:FindInstanceIDs(low, peak, contains)
 	end
 end
 
+function DBM:FindScenarioIDs(low, peak, contains)
+	local start = low or 1
+	local range = peak or 3000
+	self:AddMsg("-----------------")
+	for i = start, range do
+		local instance = GetDungeonInfo(i)
+		local instance2 = GetDungeonInfo(string.sub(i, 2))
+		if instance then
+			if not contains or contains and instance:find(contains) then
+				self:AddMsg(i..": "..instance)
+			end
+		end
+	end
+end
 
 --/run DBM:FindEncounterIDs(1028)--Azeroth
 --/run DBM:FindEncounterIDs(1178, 23)--Dungeon Template (mythic difficulty)

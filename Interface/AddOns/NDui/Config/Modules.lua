@@ -23,7 +23,7 @@ C.Auras = {
 	RaidDebuffPos			= {"BOTTOMLEFT", UIParent, "CENTER", 200, 200},		-- 团队减益分组
 	SpellCDPos				= {"LEFT", UIParent, "LEFT", 5, -30},				-- 技能冷却计时分组
 	EnchantCDPos			= {"LEFT", UIParent, "LEFT", 200, -30},				-- 物品冷却计时分组
-	CustomCDPos				= {"BOTTOMLEFT", UIParent, "CENTER", 518, -212},	-- 法术内置冷却分组
+	CustomCDPos				= {"BOTTOMLEFT", UIParent, "CENTER", 519, -214},	-- 法术内置冷却分组
 }
 
 -- 头像相关

@@ -186,7 +186,9 @@ local function CreatePartyStyle(self)
 	UF:CreateClickSets(self)
 	UF:CreateDebuffs(self)
 	UF:CreateIcons(self)
+	UF:CreateRaidIcons(self)
 	UF:CreateRaidMark(self)
+	UF:CreateTargetBorder(self)
 	UF:CreateThreatBorder(self)
 	UF:InterruptIndicator(self)
 end
@@ -332,11 +334,11 @@ function UF:OnLogin()
 			oUF:RegisterStyle("Party", CreatePartyStyle)
 			oUF:SetActiveStyle("Party")
 
+			local showPlayer = partyWatcher or NDuiDB["Extras"]["ShowYourself"]
 			local partyWidth = NDuiDB["UFs"]["PartyWidth"]
 			local partyHeight = NDuiDB["UFs"]["PartyHeight"]
-			local yOffset = partyWatcher and -(partyHeight + 30) or -20
-			local showPlayer = partyWatcher or NDuiDB["Extras"]["ShowYourself"]
-			local moverPoint = {"TOPLEFT", UIParent, 35, -50}
+			local yOffset = -20
+			local moverPoint = partyWatcher and {"BOTTOMRIGHT", oUF_Player, "TOP", 30, 130} or {"TOPLEFT", UIParent, 35, -50}
 			local moverWidth = partyWidth
 			local moverHeight = partyHeight*(showPlayer and 5 or 4)-yOffset*(showPlayer and 4 or 3)
 
@@ -368,7 +370,7 @@ function UF:OnLogin()
 				local petWidth = NDuiDB["UFs"]["PartyPetWidth"]
 				local petHeight = NDuiDB["UFs"]["PartyPetHeight"]
 				local petyOffset = -20
-				local petMoverPoint = {"TOPLEFT", partyMover, "BOTTOMLEFT", 0, yOffset}
+				local petMoverPoint = partyWatcher and {"BOTTOMLEFT", partyMover, "TOPLEFT", 0, -petyOffset} or {"TOPLEFT", partyMover, "BOTTOMLEFT", 0, petyOffset}
 				local petMoverWidth = petWidth
 				local petMoverHeight = petHeight*(showPlayer and 5 or 4)-petyOffset*(showPlayer and 4 or 3)
 

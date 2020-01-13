@@ -312,7 +312,7 @@ function F:ReskinAffixes()
 		frame.Border:SetTexture(nil)
 		frame.Portrait:SetTexture(nil)
 		if not frame.styled then
-			F.ReskinIcon(frame.Portrait)
+			F.ReskinIcon(frame.Portrait, 1)
 
 			frame.styled = true
 		end

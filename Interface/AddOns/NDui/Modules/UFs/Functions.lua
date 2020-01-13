@@ -78,6 +78,7 @@ function UF:CreateHealthBar(self)
 		health.colorSmooth = true
 	end
 
+	health.bd.Tex:Hide()
 	self.Health = health
 end
 
@@ -204,6 +205,7 @@ function UF:CreatePowerBar(self)
 	end
 	power.frequentUpdates = true
 
+	power.bd.Tex:Hide()
 	self.Power = power
 end
 
@@ -673,14 +675,11 @@ function UF:CreateBuffs(self)
 	bu["growth-y"] = "UP"
 	bu.onlyShowPlayer = false
 
-	local size = self:GetHeight()/2
-	if size > 24 then size = 24 end
-
 	if self.mystyle == "party" then
 		bu:SetPoint("LEFT", self, "TOPLEFT", 5, 0)
 		bu.num = 6
 		bu.spacing = 5
-		bu.size = size
+		bu.size = self:GetHeight()/2
 		bu.initialAnchor = "LEFT"
 		bu.CustomFilter = UF.CustomFilter
 	else
@@ -715,7 +714,7 @@ function UF:CreateDebuffs(self)
 	elseif mystyle == "boss" or mystyle == "arena" then
 		bu:SetPoint("TOPRIGHT", self, "TOPLEFT", -5, 0)
 		bu.num = 10
-		bu.size = self:GetHeight()+self.Power:GetHeight()+3.5
+		bu.size = self:GetHeight()+self.Power:GetHeight()+3
 		bu.CustomFilter = UF.CustomFilter
 		bu["growth-y"] = "UP"
 	elseif mystyle == "tot" then
@@ -732,7 +731,7 @@ function UF:CreateDebuffs(self)
 	elseif mystyle == "party" then
 		bu:SetPoint("TOPLEFT", self, "TOPRIGHT", 5, 0)
 		bu.num = 10
-		bu.size = self:GetHeight()+self.Power:GetHeight()+3.5
+		bu.size = self:GetHeight()+self.Power:GetHeight()+3
 		bu.initialAnchor = "TOPLEFT"
 		bu["growth-x"] = "RIGHT"
 	end
@@ -1121,9 +1120,7 @@ function UF:InterruptIndicator(self)
 
 	local buttons = {}
 	local maxIcons = 6
-	local margin = 5
-	local iconSize = self:GetWidth()-(maxIcons-1)*abs(margin)/maxIcons
-	if iconSize > 32 then iconSize = 32 end
+	local iconSize = self:GetHeight()+self.Power:GetHeight()+4+C.mult
 
 	for i = 1, maxIcons do
 		local bu = CreateFrame("Frame", nil, self)
@@ -1131,9 +1128,9 @@ function UF:InterruptIndicator(self)
 		B.AuraIcon(bu)
 		bu.CD:SetReverse(false)
 		if i == 1 then
-			bu:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -3)
+			bu:SetPoint("TOPRIGHT", self, "TOPLEFT", -5, C.mult)
 		else
-			bu:SetPoint("LEFT", buttons[i-1], "RIGHT", 5, 0)
+			bu:SetPoint("RIGHT", buttons[i-1], "LEFT", -5, 0)
 		end
 		bu:Hide()
 
