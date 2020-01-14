@@ -68,7 +68,7 @@ function S:DBMSkin()
 					icon1:SetPoint("BOTTOMRIGHT", tbar, "BOTTOMLEFT", -5, 0)
 					icon1.SetPoint = B.Dummy
 
-					icon1.bg = F.CreateBDFrame(icon1, 1)
+					icon1.bg = F.CreateBDFrame(icon1)
 
 					icon1.styled = true
 				end
@@ -82,7 +82,7 @@ function S:DBMSkin()
 					icon2:SetPoint("BOTTOMLEFT", tbar, "BOTTOMRIGHT", 5, 0)
 					icon2.SetPoint = B.Dummy
 
-					icon2.bg = F.CreateBDFrame(icon2, 1)
+					icon2.bg = F.CreateBDFrame(icon2)
 
 					icon2.styled = true
 				end

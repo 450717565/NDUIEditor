@@ -723,7 +723,7 @@ function B:CreateDropDown(width, height, data)
 
 	local bu = B.CreateGear(dd)
 	bu:ClearAllPoints()
-	bu:SetPoint("LEFT", dd, "RIGHT", -2, 0)
+	bu:SetPoint("LEFT", dd, "RIGHT", 0, 0)
 	local list = CreateFrame("Frame", nil, dd)
 	list:ClearAllPoints()
 	list:SetPoint("TOP", dd, "BOTTOM", 0, -2)

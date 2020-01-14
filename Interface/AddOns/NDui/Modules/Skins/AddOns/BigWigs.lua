@@ -71,7 +71,7 @@ function S:BigWigsSkin()
 			end
 
 			if not icon.styled then
-				F.CreateBDFrame(icon, 1)
+				F.CreateBDFrame(icon)
 
 				icon.styled = true
 			end

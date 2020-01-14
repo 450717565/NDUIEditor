@@ -608,8 +608,8 @@ end
 local function auraSetSize(self, bu)
 	local width = self:GetWidth()
 	local maxAuras = bu.num or bu.numTotal or (bu.numBuffs + bu.numDebuffs)
-
 	local maxLines = bu.iconsPerRow and floor(maxAuras/bu.iconsPerRow + .5) or 1
+
 	bu.size = bu.iconsPerRow and auraIconSize(width, bu.iconsPerRow, bu.spacing) or bu.size
 	bu:SetWidth(width)
 	bu:SetHeight((bu.size + bu.spacing) * maxLines)
@@ -647,7 +647,11 @@ function UF:CreateAuras(self)
 		end
 		bu.disableMouse = NDuiDB["UFs"]["AurasClickThrough"]
 	elseif mystyle == "nameplate" then
-		bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 20)
+		if NDuiDB["Nameplate"]["ShowPlayerPlate"] and NDuiDB["Nameplate"]["NameplateClassPower"] then
+			bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 20 + _G.oUF_ClassPowerBar:GetHeight())
+		else
+			bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 20)
+		end
 		bu.numTotal = NDuiDB["Nameplate"]["maxAuras"]
 		bu.spacing = 3
 		bu.disableMouse = true
@@ -671,21 +675,20 @@ end
 
 function UF:CreateBuffs(self)
 	local bu = CreateFrame("Frame", nil, self)
+	bu.spacing = 5
 	bu["growth-x"] = "RIGHT"
 	bu["growth-y"] = "UP"
 	bu.onlyShowPlayer = false
 
 	if self.mystyle == "party" then
-		bu:SetPoint("LEFT", self, "TOPLEFT", 5, 0)
+		bu:SetPoint("BOTTOMLEFT", self.nameText, "TOPLEFT", 5, 2)
 		bu.num = 6
-		bu.spacing = 5
-		bu.size = self:GetHeight()/2
-		bu.initialAnchor = "LEFT"
+		bu.size = self:GetHeight()*.6
 		bu.CustomFilter = UF.CustomFilter
+		bu.initialAnchor = "BOTTOMLEFT"
 	else
 		bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 5)
 		bu.num = 12
-		bu.spacing = 5
 		bu.iconsPerRow = 6
 		bu.initialAnchor = "BOTTOMLEFT"
 	end
