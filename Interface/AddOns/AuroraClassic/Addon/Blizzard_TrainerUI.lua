@@ -26,7 +26,7 @@ C.themes["Blizzard_TrainerUI"] = function()
 
 			if skillButton == ClassTrainerFrame.skillStepButton then
 				bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
-				bubg:SetPoint("BOTTOMRIGHT", -18, .5)
+				bubg:SetPoint("BOTTOMRIGHT", -18, 1.5)
 			end
 
 			F.ReskinTexture(skillButton, bubg, true)

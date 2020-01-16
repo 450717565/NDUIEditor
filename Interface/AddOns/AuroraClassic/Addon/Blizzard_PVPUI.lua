@@ -43,8 +43,8 @@ C.themes["Blizzard_PVPUI"] = function()
 	NewSeason.SeasonDescription:SetTextColor(1, 1, 1)
 	NewSeason.SeasonDescription2:SetTextColor(1, 1, 1)
 
-	local SeasonRewardFrame = C.isNewPatch and NewSeason.SeasonRewardFrame or SeasonRewardFrame
-	for _, frame in pairs({SeasonRewardFrame, PVPQueueFrame.HonorInset.RatedPanel.SeasonRewardFrame}) do
+	local frames = {NewSeason.SeasonRewardFrame, PVPQueueFrame.HonorInset.RatedPanel.SeasonRewardFrame}
+	for _, frame in pairs(frames) do
 		frame.Ring:Hide()
 		frame.CircleMask:Hide()
 		F.ReskinIcon(frame.Icon)
@@ -74,7 +74,7 @@ C.themes["Blizzard_PVPUI"] = function()
 		local icbg = F.ReskinIcon(bu.Icon)
 		local bubg = F.CreateBDFrame(bu, 0)
 		bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
-		bubg:SetPoint("BOTTOMRIGHT", -2, 3.5)
+		bubg:SetPoint("BOTTOMRIGHT", -2, 4)
 		F.ReskinTexture(bu.HighlightTexture, bubg, true)
 		F.ReskinTexture(bu.SelectedTexture, bubg, true)
 

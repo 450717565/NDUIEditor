@@ -90,7 +90,7 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 				local icbg = F.ReskinIcon(reagent.Icon)
 				local bubg = F.CreateBDFrame(reagent.NameFrame, 0)
 				bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
-				bubg:SetPoint("BOTTOMRIGHT", -5, 3.5)
+				bubg:SetPoint("BOTTOMRIGHT", -5, 4)
 			end
 
 			self.styled = true

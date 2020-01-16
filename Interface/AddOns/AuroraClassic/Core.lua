@@ -48,9 +48,9 @@ C.defaults = {
 }
 
 C.frames = {}
-C.isNewPatch = GetBuildInfo() == "8.3.0"
+--C.isNewPatch = GetBuildInfo() == "8.3.0"
 
--- [[ Database ]]
+-- [[ Setup Functions ]]
 
 C.ClassColors = {}
 local class = select(2, UnitClass("player"))
@@ -90,6 +90,64 @@ local function SetupHook(self)
 	self:HookScript("OnLeave", F.TexOnLeave)
 	self:HookScript("OnMouseDown", F.TexOnMouseDown)
 	self:HookScript("OnMouseUp", F.TexOnMouseUp)
+end
+
+local PIXEL_BORDERS = {"TOPLEFT", "TOPRIGHT", "BOTTOMLEFT", "BOTTOMRIGHT", "TOP", "BOTTOM", "LEFT", "RIGHT"}
+
+function F:SetBackdropColor(r, g, b, a)
+	if self.pixelBorders then
+		self.pixelBorders.CENTER:SetVertexColor(r, g, b, a)
+	end
+end
+
+function F:SetBackdropBorderColor(r, g, b, a)
+	if self.pixelBorders then
+		for _, v in pairs(PIXEL_BORDERS) do
+			self.pixelBorders[v]:SetVertexColor(r, g, b, a)
+		end
+	end
+end
+
+function F:SetupPixelBorders()
+	if self and not self.pixelBorders then
+		local borders = {}
+		for _, v in pairs(PIXEL_BORDERS) do
+			borders[v] = self:CreateTexture(nil, "BORDER", nil, 1)
+			borders[v]:SetTexture(C.media.bdTex)
+		end
+
+		borders.CENTER = self:CreateTexture(nil, "BACKGROUND", nil, -1)
+		borders.CENTER:SetTexture(C.media.bdTex)
+		borders.CENTER:SetPoint("TOPLEFT", self)
+		borders.CENTER:SetPoint("BOTTOMRIGHT", self)
+
+		borders.TOPLEFT:SetSize(C.mult, C.mult)
+		borders.TOPRIGHT:SetSize(C.mult, C.mult)
+		borders.BOTTOMLEFT:SetSize(C.mult, C.mult)
+		borders.BOTTOMRIGHT:SetSize(C.mult, C.mult)
+
+		borders.TOPLEFT:SetPoint("BOTTOMRIGHT", borders.CENTER, "TOPLEFT", C.mult, -C.mult)
+		borders.TOPRIGHT:SetPoint("BOTTOMLEFT", borders.CENTER, "TOPRIGHT", -C.mult, -C.mult)
+		borders.BOTTOMLEFT:SetPoint("TOPRIGHT", borders.CENTER, "BOTTOMLEFT", C.mult, C.mult)
+		borders.BOTTOMRIGHT:SetPoint("TOPLEFT", borders.CENTER, "BOTTOMRIGHT", -C.mult, C.mult)
+
+		borders.TOP:SetPoint("TOPLEFT", borders.TOPLEFT, "TOPRIGHT", 0, 0)
+		borders.TOP:SetPoint("BOTTOMRIGHT", borders.TOPRIGHT, "BOTTOMLEFT", 0, 0)
+
+		borders.BOTTOM:SetPoint("TOPLEFT", borders.BOTTOMLEFT, "TOPRIGHT", 0, 0)
+		borders.BOTTOM:SetPoint("BOTTOMRIGHT", borders.BOTTOMRIGHT, "BOTTOMLEFT", 0, 0)
+
+		borders.LEFT:SetPoint("TOPLEFT", borders.TOPLEFT, "BOTTOMLEFT", 0, 0)
+		borders.LEFT:SetPoint("BOTTOMRIGHT", borders.BOTTOMLEFT, "TOPRIGHT", 0, 0)
+
+		borders.RIGHT:SetPoint("TOPLEFT", borders.TOPRIGHT, "BOTTOMLEFT", 0, 0)
+		borders.RIGHT:SetPoint("BOTTOMRIGHT", borders.BOTTOMRIGHT, "TOPRIGHT", 0, 0)
+
+		hooksecurefunc(self, "SetBackdropColor", F.SetBackdropColor)
+		hooksecurefunc(self, "SetBackdropBorderColor", F.SetBackdropBorderColor)
+
+		self.pixelBorders = borders
+	end
 end
 
 function F:SetupArrowTex(direction)
@@ -202,9 +260,7 @@ function F:TexOnMouseUp()
 	end
 end
 
--- [[ Reskin Functions ]]
-
-function F:CreateTex()
+function F:SetupTex()
 	if self.Tex then return end
 
 	local Tex = self:CreateTexture(nil, "BACKGROUND", nil, 1)
@@ -218,12 +274,15 @@ function F:CreateTex()
 	return Tex
 end
 
-function F:CreateBD(alpha)
-	self:SetBackdrop({bgFile = C.media.bdTex, edgeFile = C.media.bdTex, edgeSize = C.mult})
-	self:SetBackdropColor(0, 0, 0, alpha or AuroraConfig.alpha)
-	self:SetBackdropBorderColor(0, 0, 0)
+-- [[ Reskin Functions ]]
 
-	F.CreateTex(self)
+function F:CreateBD(alpha)
+	self:SetBackdrop(nil)
+
+	F.SetupPixelBorders(self)
+	F.SetBackdropColor(self, 0, 0, 0, alpha or AuroraConfig.alpha)
+	F.SetBackdropBorderColor(self, 0, 0, 0, 1)
+	F.SetupTex(self)
 
 	if not alpha then tinsert(C.frames, self) end
 end
@@ -534,6 +593,10 @@ function F:ReskinFrame(killType)
 	local bg = F.CreateBDFrame(self, nil, nil, true)
 
 	local frameName = self.GetName and self:GetName()
+
+	local frameHeader = self.Header or (frameName and _G[frameName.."Header"])
+	if frameHeader then F.StripTextures(frameHeader) end
+
 	local framePortrait = self.portrait or (frameName and _G[frameName.."Portrait"])
 	if framePortrait then framePortrait:SetAlpha(0) end
 
@@ -1242,3 +1305,58 @@ Skin:SetScript("OnEvent", function(_, event, addon)
 		AuroraConfig.uiScale = UIParent:GetScale()
 	end
 end)
+
+-- Add APIs
+local function WatchPixelSnap(self, snap)
+	if (self and not self:IsForbidden()) and self.PixelSnapDisabled and snap then
+		self.PixelSnapDisabled = nil
+	end
+end
+
+local function DisablePixelSnap(self)
+	if (self and not self:IsForbidden()) and not self.PixelSnapDisabled then
+		if self.SetSnapToPixelGrid then
+			self:SetSnapToPixelGrid(false)
+			self:SetTexelSnappingBias(0)
+		elseif self.GetStatusBarTexture then
+			local texture = self:GetStatusBarTexture()
+			if texture and texture.SetSnapToPixelGrid then
+				texture:SetSnapToPixelGrid(false)
+				texture:SetTexelSnappingBias(0)
+			end
+		end
+
+		self.PixelSnapDisabled = true
+	end
+end
+
+local function addapi(self)
+	local mt = getmetatable(self).__index
+	if not self.DisabledPixelSnap then
+		if mt.SetSnapToPixelGrid then hooksecurefunc(mt, "SetSnapToPixelGrid", WatchPixelSnap) end
+		if mt.SetStatusBarTexture then hooksecurefunc(mt, "SetStatusBarTexture", DisablePixelSnap) end
+		if mt.SetColorTexture then hooksecurefunc(mt, "SetColorTexture", DisablePixelSnap) end
+		if mt.SetVertexColor then hooksecurefunc(mt, "SetVertexColor", DisablePixelSnap) end
+		if mt.CreateTexture then hooksecurefunc(mt, "CreateTexture", DisablePixelSnap) end
+		if mt.SetTexCoord then hooksecurefunc(mt, "SetTexCoord", DisablePixelSnap) end
+		if mt.SetTexture then hooksecurefunc(mt, "SetTexture", DisablePixelSnap) end
+
+		mt.DisabledPixelSnap = true
+	end
+end
+
+local handled = {["Frame"] = true}
+local object = CreateFrame("Frame")
+addapi(object)
+addapi(object:CreateTexture())
+addapi(object:CreateMaskTexture())
+
+object = EnumerateFrames()
+while object do
+	if not object:IsForbidden() and not handled[object:GetObjectType()] then
+		addapi(object)
+		handled[object:GetObjectType()] = true
+	end
+
+	object = EnumerateFrames(object)
+end

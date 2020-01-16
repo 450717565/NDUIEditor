@@ -49,17 +49,9 @@ C.themes["Blizzard_AchievementUI"] = function()
 	F.ReskinInput(searchBox, 17, 100)
 
 	for i = 1, 5 do
-		if C.isNewPatch then
-			F.ReskinSearchBox(AchievementFrame.searchPreviewContainer["searchPreview"..i])
-		else
-			F.ReskinSearchBox(AchievementFrame.searchPreview[i])
-		end
+		F.ReskinSearchBox(AchievementFrame.searchPreviewContainer["searchPreview"..i])
 	end
-	if C.isNewPatch then
-		F.ReskinSearchBox(AchievementFrame.searchPreviewContainer.showAllSearchResults)
-	else
-		F.ReskinSearchBox(AchievementFrame.showAllSearchResults)
-	end
+	F.ReskinSearchBox(AchievementFrame.searchPreviewContainer.showAllSearchResults)
 	F.ReskinSearchResult(AchievementFrame)
 
 	local dropDown = AchievementFrameFilterDropDown

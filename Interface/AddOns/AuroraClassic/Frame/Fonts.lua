@@ -62,6 +62,12 @@ tinsert(C.themes["AuroraClassic"], function()
 		InvoiceFont_Med,
 		InvoiceFont_Small,
 		MailFont_Large,
+		Number12Font,
+		Number13FontGray,
+		Number13FontWhite,
+		Number13FontYellow,
+		Number14FontWhite,
+		Number18FontWhite,
 		NumberFont_GameNormal,
 		NumberFont_Normal_Med,
 		NumberFont_Outline_Large,
@@ -71,6 +77,8 @@ tinsert(C.themes["AuroraClassic"], function()
 		NumberFont_Shadow_Small,
 		NumberFont_Shadow_Tiny,
 		NumberFont_Small,
+		PriceFontGray,
+		PriceFontWhite,
 		QuestFont_Enormous,
 		QuestFont_Huge,
 		QuestFont_Large,
@@ -129,14 +137,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	ReskinFont(SystemFont_World, 64)
 	ReskinFont(SystemFont_World_ThickOutline, 64)
 	ReskinFont(SystemFont_WTF2, 64)
-
-	if C.isNewPatch then
-		ReskinFont(Number13FontYellow)
-		ReskinFont(Number13FontWhite)
-		ReskinFont(Number13FontGray)
-		ReskinFont(Number14FontWhite)
-		ReskinFont(Number18FontWhite)
-	end
 
 	-- Refont RaidFrame Health
 	hooksecurefunc("CompactUnitFrame_UpdateStatusText", function(frame)

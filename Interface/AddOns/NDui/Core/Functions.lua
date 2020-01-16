@@ -231,7 +231,7 @@ function B:CreateSB(spark, r, g, b)
 	local bg = self:CreateTexture(nil, "BACKGROUND")
 	bg:SetAllPoints()
 	bg:SetTexture(DB.normTex)
-	bg:SetVertexColor(0, 0, 0, .5)
+	bg:SetVertexColor(0, 0, 0, .25)
 	self.bg = bg
 
 	if spark then

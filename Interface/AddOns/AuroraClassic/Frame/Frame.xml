@@ -39,7 +39,6 @@
 	<Script file="PaperDollFrame.lua"/>
 	<Script file="PetitionFrame.lua"/>
 	<Script file="PetStable.lua"/>
-	<Script file="ProductChoiceFrame.lua"/>
 	<Script file="PVEFrame.lua"/>
 	<Script file="PVPHelper.lua"/>
 	<Script file="QuestFrame.lua"/>

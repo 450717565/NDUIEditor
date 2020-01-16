@@ -4,13 +4,10 @@ tinsert(C.themes["AuroraClassic"], function()
 	-- DressupFrame
 	F.ReskinFrame(DressUpFrame)
 
-	if C.isNewPatch then
-		F.ReskinMinMax(DressUpFrame.MaximizeMinimizeFrame)
-	else
-		F.ReskinMinMax(MaximizeMinimizeFrame)
-		MaximizeMinimizeFrame:ClearAllPoints()
-		MaximizeMinimizeFrame:SetPoint("RIGHT", DressUpFrameCloseButton, "LEFT", 8, 0)
-	end
+	local mizeFrame = DressUpFrame.MaximizeMinimizeFrame
+	F.ReskinMinMax(mizeFrame)
+	mizeFrame:ClearAllPoints()
+	mizeFrame:SetPoint("RIGHT", DressUpFrameCloseButton, "LEFT", 8, 0)
 
 	local DropDown = DressUpFrameOutfitDropDown
 	F.ReskinDropDown(DropDown)

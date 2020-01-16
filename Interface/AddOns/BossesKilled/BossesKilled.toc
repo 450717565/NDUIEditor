@@ -1,10 +1,10 @@
-## Interface: 80205
+## Interface: 80300
 ## Title: BossesKilled
 ## Notes: Shows you which bosses you've killed next to the raid finder and flex raid frames.
 ## Author: wT
-## Version: 1.5.7.1
+## Version: 1.5.8
 ## OptionalDeps: SocialTabs
-## X-Curse-Packaged-Version: v1.5.7.1
+## X-Curse-Packaged-Version: v1.5.8
 ## X-Curse-Project-Name: BossesKilled
 ## X-Curse-Project-ID: bosseskilled
 ## X-Curse-Repository-ID: wow/bosseskilled/mainline

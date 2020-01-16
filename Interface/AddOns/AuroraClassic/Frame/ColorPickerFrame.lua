@@ -3,10 +3,6 @@ local F, C = unpack(select(2, ...))
 tinsert(C.themes["AuroraClassic"], function()
 	F.CreateBD(ColorPickerFrame)
 
-	if not C.isNewPatch then
-		ColorPickerFrameHeader:SetAlpha(0)
-	end
-
 	F.ReskinSlider(OpacitySliderFrame, true)
 	F.ReskinButton(ColorPickerOkayButton)
 	F.ReskinButton(ColorPickerCancelButton)

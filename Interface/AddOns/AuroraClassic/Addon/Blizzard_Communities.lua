@@ -300,10 +300,7 @@ C.themes["Blizzard_Communities"] = function()
 	F.ReskinCheck(CommunitiesFrame.MemberList.ShowOfflineButton)
 	F.ReskinDropDown(CommunitiesFrame.GuildMemberListDropDownMenu)
 	F.ReskinButton(CommunitiesFrame.CommunitiesControlFrame.GuildControlButton)
-
-	if C.isNewPatch then
-		F.ReskinDropDown(CommunitiesFrame.CommunityMemberListDropDownMenu)
-	end
+	F.ReskinDropDown(CommunitiesFrame.CommunityMemberListDropDownMenu)
 
 	local function updateNameFrame(self)
 		if not self.expanded then return end

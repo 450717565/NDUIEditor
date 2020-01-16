@@ -1,4 +1,4 @@
-## Interface: 80205
+## Interface: 80300
 ## Title: Angry World Quests
 ## Notes: Adds World Quests to the quest list
 ## Author: Ermad

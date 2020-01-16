@@ -11,9 +11,9 @@ function Bar:CreateExtrabar()
 	local frame = CreateFrame("Frame", "NDui_ActionBarExtra", UIParent, "SecureHandlerStateTemplate")
 	frame:SetSize(cfg.size, cfg.size)
 	if layout ~= 4 then
-		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 220, 108}
+		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 221, 108}
 	else
-		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 220, 30}
+		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 221, 29}
 	end
 
 	--move the buttons into position and reparent them
@@ -45,10 +45,10 @@ function Bar:CreateExtrabar()
 	--zone ability
 	local zoneFrame = CreateFrame("Frame", "NDui_ActionBarZone", UIParent)
 	zoneFrame:SetSize(cfg.size, cfg.size)
-	zoneFrame.Pos = {"BOTTOMRIGHT", UIParent, "BOTTOM", -220, 108}
+	zoneFrame.Pos = {"BOTTOMRIGHT", UIParent, "BOTTOM", -221, 108}
 
 	if layout == 4 then
-		zoneFrame.Pos = {"BOTTOMRIGHT", UIParent, "BOTTOM", -220, 30}
+		zoneFrame.Pos = {"BOTTOMRIGHT", UIParent, "BOTTOM", -221, 29}
 	end
 
 	ZoneAbilityFrame:SetParent(zoneFrame)

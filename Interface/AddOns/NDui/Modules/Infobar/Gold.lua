@@ -17,7 +17,7 @@ local myName, myRealm = DB.MyName, DB.MyRealm
 local function getClassIcon(class)
 	local c1, c2, c3, c4 = unpack(CLASS_ICON_TCOORDS[class])
 	c1, c2, c3, c4 = (c1+.03)*50, (c2-.03)*50, (c3+.03)*50, (c4-.03)*50
-	local classStr = "|TInterface\\Glues\\CharacterCreate\\UI-CharacterCreate-Classes:13:15:0:2:50:50:"..c1..":"..c2..":"..c3..":"..c4.."|t"
+	local classStr = "|TInterface\\Glues\\CharacterCreate\\UI-CharacterCreate-Classes:13:15:0:0:50:50:"..c1..":"..c2..":"..c3..":"..c4.."|t"
 	return classStr or ""
 end
 

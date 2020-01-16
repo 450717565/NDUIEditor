@@ -212,8 +212,6 @@ end)
 frame.label.text = B.CreateFS(frame.label, 13, L["iLvlTools"], true, "TOP", 0, -5)
 frame.label.progress = CreateFrame("StatusBar", nil, frame.label)
 frame.label.progress:SetStatusBarTexture(DB.normTex)
-frame.label.progress:SetPoint("TOPLEFT", 1, -1)
-frame.label.progress:SetPoint("BOTTOMRIGHT", -1, 1)
 frame.label.progress:SetStatusBarColor(0.1, 0.9, 0.1)
 frame.label.progress:SetMinMaxValues(0, 100)
 frame.label.progress:SetValue(0)
@@ -359,7 +357,7 @@ end)
 --團友列表
 frame.panel = CreateFrame("Frame", nil, frame)
 frame.panel:SetScript("OnShow", function(self) SortAndShowMembersList() end)
-frame.panel:SetPoint("TOP", frame, "BOTTOM")
+frame.panel:SetPoint("TOP", frame, "BOTTOM", 0, -1)
 frame.panel:SetSize(230, 106)
 frame.panel:Hide()
 
@@ -405,6 +403,9 @@ end
 LibEvent:attachEvent("PLAYER_LOGIN", function()
 	F.CreateBD(frame)
 	F.CreateBD(frame.panel)
+
+	frame.label.progress:SetPoint("TOPLEFT", C.mult, -C.mult)
+	frame.label.progress:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 
 	frame.panel.sortButton = B.CreateButton(frame.panel, 34, 16, L["Ascending"], 12)
 	frame.panel.sortButton:SetPoint("TOPRIGHT", -10, -4)

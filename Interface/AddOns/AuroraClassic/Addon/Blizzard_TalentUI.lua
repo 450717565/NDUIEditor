@@ -195,7 +195,7 @@ C.themes["Blizzard_TalentUI"] = function()
 
 		local icbg = F.ReskinIcon(icon)
 		local bubg = F.CreateBDFrame(bu, 0)
-		bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 3, 0)
+		bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
 		bubg:SetPoint("BOTTOMRIGHT", 0, 2)
 
 		F.ReskinTexture(bu, bubg, true)

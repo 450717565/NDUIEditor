@@ -436,7 +436,7 @@ C.themes["Blizzard_Collections"] = function()
 	WardrobeOutfitDropDown.SaveButton:SetPoint("LEFT", WardrobeOutfitDropDown, "RIGHT", -13, 2)
 	WardrobeTransmogFrame.SpecButton:SetPoint("RIGHT", WardrobeTransmogFrame.ApplyButton, "LEFT", -3, 0)
 
-	local ModelScene = C.isNewPatch and WardrobeTransmogFrame.ModelScene or WardrobeTransmogFrame.Model
+	local ModelScene = WardrobeTransmogFrame.ModelScene
 	F.ReskinButton(ModelScene.ClearAllPendingButton)
 
 	local slots = {"Head", "Shoulder", "Back", "Chest", "Shirt", "Tabard", "Wrist", "Hands", "Waist", "Legs", "Feet", "MainHand", "SecondaryHand", "MainHandEnchant", "SecondaryHandEnchant"}

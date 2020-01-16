@@ -11,16 +11,16 @@ function Bar:CreateLeaveVehicle()
 	local frame = CreateFrame("Frame", "NDui_ActionBarExit", UIParent, "SecureHandlerStateTemplate")
 	frame:SetSize(cfg.size, cfg.size)
 	if layout ~= 4 then
-		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 288, 108}
+		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 289, 108}
 	else
-		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 220, 102}
+		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 221, 102}
 	end
 
 	--the button
 	local button = CreateFrame("CheckButton", "NDui_LeaveVehicleButton", frame, "ActionButtonTemplate, SecureHandlerClickTemplate")
 	table.insert(buttonList, button) --add the button object to the list
 	button:SetSize(cfg.size, cfg.size)
-	button:SetPoint("BOTTOMLEFT", frame, padding, padding)
+	button:SetPoint("CENTER", 0, 0)
 	button:RegisterForClicks("AnyUp")
 	button.icon:SetTexture("INTERFACE\\VEHICLES\\UI-Vehicles-Button-Exit-Up")
 	button.icon:SetTexCoord(.25, .80, .22, .78)

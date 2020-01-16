@@ -44,12 +44,17 @@ C.themes["Blizzard_Calendar"] = function()
 	CalendarCreateEventAMPMDropDown:SetWidth(90)
 	CalendarCreateEventDifficultyOptionDropDown:SetWidth(150)
 
-	local frames = {CalendarViewEventTitleFrame, CalendarViewHolidayTitleFrame, CalendarViewRaidTitleFrame, CalendarCreateEventTitleFrame, CalendarTexturePickerTitleFrame, CalendarMassInviteTitleFrame}
-	for _, frame in pairs(frames) do
-		F.StripTextures(frame)
+	local titles = {CalendarViewEventTitleFrame, CalendarViewHolidayTitleFrame, CalendarViewRaidTitleFrame, CalendarCreateEventTitleFrame, CalendarTexturePickerTitleFrame, CalendarMassInviteTitleFrame}
+	for _, title in pairs(titles) do
+		F.StripTextures(title)
 
-		local parent = frame:GetParent()
+		local parent = title:GetParent()
 		F.ReskinFrame(parent)
+	end
+
+	local frames = {CalendarViewHolidayFrame, CalendarCreateEventFrame, CalendarTexturePickerFrame, CalendarEventPickerFrame}
+	for _, frame in pairs(frames) do
+		F.ReskinFrame(frame)
 	end
 
 	local containers = {CalendarViewEventInviteList, CalendarViewEventDescriptionContainer, CalendarCreateEventInviteList, CalendarCreateEventDescriptionContainer}
@@ -82,22 +87,6 @@ C.themes["Blizzard_Calendar"] = function()
 	local inputs = {CalendarCreateEventTitleEdit, CalendarCreateEventInviteEdit, CalendarMassInviteMinLevelEdit, CalendarMassInviteMaxLevelEdit}
 	for _, input in pairs(inputs) do
 		F.ReskinInput(input)
-	end
-
-	if C.isNewPatch then
-		local function reskinCalendarPage(self)
-			F.ReskinFrame(self)
-			F.StripTextures(self.Header)
-		end
-		reskinCalendarPage(CalendarViewHolidayFrame)
-		reskinCalendarPage(CalendarCreateEventFrame)
-		reskinCalendarPage(CalendarTexturePickerFrame)
-		reskinCalendarPage(CalendarEventPickerFrame)
-	else
-		F.ReskinFrame(CalendarEventPickerFrame)
-		F.StripTextures(CalendarEventPickerTitleFrame)
-		F.StripTextures(CalendarEventPickerCloseButton)
-		F.ReskinButton(CalendarEventPickerCloseButton)
 	end
 
 	for i, class in pairs(CLASS_SORT_ORDER) do
