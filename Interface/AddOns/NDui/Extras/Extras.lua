@@ -17,8 +17,8 @@ local function msgChannel()
 end
 
 function Extras:OnLogin()
-	--self:ChatAtFriends()
 	self:ChatEmote()
+	self:DressUp()
 	self:KeystoneHelper()
 	self:MountSource()
 	self:Reskins()

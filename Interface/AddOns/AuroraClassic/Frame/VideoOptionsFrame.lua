@@ -18,7 +18,6 @@ tinsert(C.themes["AuroraClassic"], function()
 		if self.styled then return end
 
 		F.ReskinFrame(VideoOptionsFrame)
-		F.ReskinHeader(VideoOptionsFrame)
 
 		local textures = {
 			AudioOptionsSoundPanelHardware,

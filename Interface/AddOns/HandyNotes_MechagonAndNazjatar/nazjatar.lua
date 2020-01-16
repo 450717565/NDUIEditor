@@ -70,7 +70,7 @@ end
 
 defaults['treasure_nazjatar'] = true;
 defaults['rare_nazjatar'] = true;
-defaults['pet_nazjatar'] = true;
+defaults['pet_nazjatar'] = false;
 defaults['supply_nazjatar'] = true;
 defaults['slime_nazjatar'] = true;
 defaults['cats_nazjatar'] = true;

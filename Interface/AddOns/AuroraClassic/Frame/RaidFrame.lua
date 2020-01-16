@@ -2,7 +2,6 @@ local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinFrame(RaidInfoFrame)
-	F.ReskinHeader(RaidInfoFrame)
 
 	F.ReskinButton(RaidFrameRaidInfoButton)
 	F.ReskinButton(RaidInfoCancelButton)

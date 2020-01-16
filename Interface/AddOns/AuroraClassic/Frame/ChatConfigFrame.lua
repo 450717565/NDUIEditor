@@ -2,7 +2,6 @@ local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinFrame(ChatConfigFrame)
-	F.ReskinHeader(ChatConfigFrame)
 
 	F.ReskinArrow(ChatConfigMoveFilterUpButton, "up")
 	F.ReskinArrow(ChatConfigMoveFilterDownButton, "down")

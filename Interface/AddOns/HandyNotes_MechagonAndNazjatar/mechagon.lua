@@ -77,7 +77,7 @@ end)
 defaults['chest_mech'] = false;
 defaults['locked_mech'] = true;
 defaults['rare_mech'] = true;
-defaults['pet_mech'] = true;
+defaults['pet_mech'] = false;
 defaults['recrig_mech'] = true;
 
 options.groupMechagon = {

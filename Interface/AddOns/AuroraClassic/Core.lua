@@ -359,8 +359,8 @@ function F:SetBDFrame(x, y, x2, y2)
 
 	if x and y and x2 and y2 then
 		bg:ClearAllPoints()
-		bg:SetPoint("TOPLEFT", x, y)
-		bg:SetPoint("BOTTOMRIGHT", x2, y2)
+		bg:SetPoint("TOPLEFT", self, x, y)
+		bg:SetPoint("BOTTOMRIGHT", self, x2, y2)
 	end
 
 	return bg
@@ -503,13 +503,11 @@ function F:ReskinDropDown()
 
 	local frameName = self.GetName and self:GetName()
 	local button = self.Button or (frameName and _G[frameName.."Button"])
-	button:SetSize(20, 20)
 	button:ClearAllPoints()
 	button:SetPoint("RIGHT", -18, 2)
 
-	F.ReskinButton(button)
-	F.SetupArrowTex(button, "down")
-	SetupDisTex(button)
+	F.ReskinArrow(button, "down")
+	button:SetSize(20, 20)
 
 	local bg = F.CreateBDFrame(self, 0)
 	bg:ClearAllPoints()
@@ -591,14 +589,22 @@ function F:ReskinFrame(killType)
 	F.CleanTextures(self)
 
 	local bg = F.CreateBDFrame(self, nil, nil, true)
-
 	local frameName = self.GetName and self:GetName()
 
-	local frameHeader = self.Header or (frameName and _G[frameName.."Header"])
-	if frameHeader then F.StripTextures(frameHeader) end
+	for _, word in pairs({"Header", "header"}) do
+		local frameHeader = self[word] or (frameName and _G[frameName..word])
+		if frameHeader then
+			F.StripTextures(frameHeader)
 
-	local framePortrait = self.portrait or (frameName and _G[frameName.."Portrait"])
-	if framePortrait then framePortrait:SetAlpha(0) end
+			frameHeader:ClearAllPoints()
+			frameHeader:SetPoint("TOP", 0, 5)
+		end
+	end
+
+	for _, word in pairs({"Portrait", "portrait"}) do
+		local framePortrait = self[word] or (frameName and _G[frameName..word])
+		if framePortrait then framePortrait:SetAlpha(0) end
+	end
 
 	local closeButton = self.CloseButton or (frameName and _G[frameName.."CloseButton"])
 	if closeButton then F.ReskinClose(closeButton) end
@@ -629,19 +635,6 @@ function F:ReskinGarrisonPortrait()
 	if self.Empty then
 		self.Empty:SetColorTexture(0, 0, 0)
 		self.Empty:SetAllPoints(self.Portrait)
-	end
-end
-
-function F:ReskinHeader()
-	local frameName = self.GetName and self:GetName()
-	for _, word in pairs({"Header", "header"}) do
-		local frameHeader = self[word] or (frameName and _G[frameName..word])
-		if frameHeader then
-			F.StripTextures(frameHeader)
-
-			frameHeader:ClearAllPoints()
-			frameHeader:SetPoint("TOP", 0, 5)
-		end
 	end
 end
 
@@ -724,8 +717,7 @@ function F:ReskinNavBar()
 	F.ReskinButton(homeButton)
 
 	local overflowButton = self.overflowButton
-	F.ReskinButton(overflowButton)
-	F.SetupArrowTex(overflowButton, "left")
+	F.ReskinArrow(overflowButton, "left")
 
 	self.styled = true
 end
@@ -810,32 +802,6 @@ function F:ReskinRoleIcon(alpha)
 	return bg
 end
 
-local function scrollThumb(self)
-	local frameName = self.GetName and self:GetName()
-	for _, word in pairs({"ThumbTexture", "thumbTexture"}) do
-		local thumb = self[word] or (frameName and _G[frameName..word])
-		if thumb then return thumb end
-	end
-end
-
-local function scrollOnEnter(self)
-	if self:IsEnabled() then
-		local bu = scrollThumb(self)
-
-		if not bu then return end
-		bu.bg:SetBackdropBorderColor(cr, cg, cb, 1)
-	end
-end
-
-local function scrollOnLeave(self)
-	if self:IsEnabled() then
-		local bu = scrollThumb(self)
-
-		if not bu then return end
-		bu.bg:SetBackdropBorderColor(0, 0, 0, 1)
-	end
-end
-
 function F:ReskinScroll()
 	F.StripTextures(self)
 	F.CleanTextures(self)
@@ -846,31 +812,25 @@ function F:ReskinScroll()
 		F.CleanTextures(parent)
 	end
 
-	local bu = scrollThumb(self)
-	bu:SetAlpha(0)
-	bu:SetWidth(18)
+	local frameName = self.GetName and self:GetName()
+	local thumb = self.ThumbTexture or self.thumbTexture or (frameName and (_G[frameName.."ThumbTexture"] or _G[frameName.."thumbTexture"])) or (self.GetThumbTexture and self:GetThumbTexture())
 
-	local bg = F.CreateBDFrame(self, 0)
-	bg:ClearAllPoints()
-	bg:SetPoint("TOPLEFT", bu, 0, -3)
-	bg:SetPoint("BOTTOMRIGHT", bu, 0, 3)
-	bu.bg = bg
+	if thumb then
+		thumb:SetAlpha(0)
+		thumb:SetWidth(18)
+
+		local bdTex = F.CreateBDFrame(self, 0)
+		bdTex:ClearAllPoints()
+		bdTex:SetPoint("TOPLEFT", thumb, 0, -3)
+		bdTex:SetPoint("BOTTOMRIGHT", thumb, 0, 3)
+		self.bdTex = bdTex
+	end
 
 	local up, down = self:GetChildren()
-	up:SetWidth(18)
-	down:SetWidth(18)
+	F.ReskinArrow(up, "up")
+	F.ReskinArrow(down, "down")
 
-	F.ReskinButton(up)
-	F.ReskinButton(down)
-
-	F.SetupArrowTex(up, "up")
-	F.SetupArrowTex(down, "down")
-
-	SetupDisTex(up)
-	SetupDisTex(down)
-
-	self:HookScript("OnEnter", scrollOnEnter)
-	self:HookScript("OnLeave", scrollOnLeave)
+	SetupHook(self)
 end
 
 function F:ReskinSearchBox()
@@ -939,7 +899,7 @@ end
 
 function F:ReskinSlider(verticle)
 	self:SetBackdrop(nil)
-	self.SetBackdrop = F.Dummy
+	F.StripTextures(self)
 
 	local bg = F.CreateBDFrame(self, 0)
 	bg:ClearAllPoints()
@@ -947,15 +907,11 @@ function F:ReskinSlider(verticle)
 	bg:SetPoint("BOTTOMRIGHT", -15, 3)
 	bg:SetFrameStrata("BACKGROUND")
 
-	for i = 1, self:GetNumRegions() do
-		local region = select(i, self:GetRegions())
-		if region:GetObjectType() == "Texture" then
-			region:SetTexture("Interface\\CastingBar\\UI-CastingBar-Spark")
-			region:SetBlendMode("ADD")
-			if verticle then region:SetRotation(math.rad(90)) end
-			return
-		end
-	end
+	local thumb = self:GetThumbTexture()
+	thumb:SetTexture("Interface\\CastingBar\\UI-CastingBar-Spark")
+	thumb:SetBlendMode("ADD")
+
+	if verticle then thumb:SetRotation(math.rad(90)) end
 end
 
 function F:ReskinSort()

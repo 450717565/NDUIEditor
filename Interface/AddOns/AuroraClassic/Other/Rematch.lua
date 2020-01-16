@@ -81,8 +81,7 @@ C.themes["Rematch"] = function()
 			TopButton:ClearAllPoints()
 			TopButton:SetPoint("BOTTOM", UpButton, "TOP", 0, 2)
 
-			F.ReskinButton(TopButton)
-			F.SetupArrowTex(TopButton, "top")
+			F.ReskinArrow(TopButton, "top")
 		end
 
 		local BottomButton = ScrollBar.BottomButton
@@ -91,8 +90,7 @@ C.themes["Rematch"] = function()
 			BottomButton:ClearAllPoints()
 			BottomButton:SetPoint("TOP", DownButton, "BOTTOM", 0, -2)
 
-			F.ReskinButton(BottomButton)
-			F.SetupArrowTex(BottomButton, "bottom")
+			F.ReskinArrow(BottomButton, "bottom")
 		end
 	end
 

@@ -2,7 +2,6 @@ local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_BindingUI"] = function()
 	F.ReskinFrame(KeyBindingFrame)
-	F.ReskinHeader(KeyBindingFrame)
 	F.ReskinCheck(KeyBindingFrame.characterSpecificButton)
 	F.ReskinScroll(KeyBindingFrameScrollFrameScrollBar)
 
