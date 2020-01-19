@@ -24,6 +24,7 @@ L["left_eye"] = "Drops the left half of the All-Seeing Eyes toy."
 L["platform"] = "Spawns on top of the floating platform."
 L["reshef"] = "Shares a spawn with Voidwarped High Guards."
 L["spirit_cave"] = "Cave entrance for Spirit of Dark Ritualist Zakahn."
+L["tomb_widow"] = "When the white egg-sacs are present by the pillars, kill the invisible spiders to summon."
 L["uatka"] = "Along with two other players, click each Mysterious Device. Requires a Suntouched Amulet from an Amathet Reliquary."
 L["wastewander"] = "Shares a spawn with Wastewander Hosts."
 
@@ -36,6 +37,29 @@ L["amathet_reliquary"] = "Amathet Reliquary"
 
 L["cursed_relic"] = "Requires Cursed Relic"
 L["tolvir_relic"] = "Requires Tol'vir Relic"
+
+L["options_toggle_alpaca_uldum"] = "Springfur Alpaca"
+L["options_toggle_alpaca_uldum_desc"] = "Show locations for Gersahl Shrub and Friendly Alpaca spawns."
+L["options_toggle_assault_events"] = "Assault Events"
+L["options_toggle_assault_events_desc"] = "Show locations for possible assault events."
+L["options_toggle_coffers"] = "Locked Coffers"
+L["options_toggle_coffers_desc"] = "Display locations of locked coffers (lootable once per assault)."
+
+L["ambush_settlers"] = "Defeat waves of mobs until the event ends."
+L["combust_cocoon"] = "Throw the makeshift firebombs at the cocoons on the ceiling."
+L["obsidian_extract"] = "Destroy every crystal of voidformed obsidian."
+L["purging_flames"] = "Pick up the bodies and toss them into the fire."
+L["dormant_destroyer"] = "Click all the void conduit crystals."
+L["titanus_egg"] = "Destroy the Titanus Egg, then defeat the Titanus Young."
+L["hardened_hive"] = "Pick up the Wastewander Flamethrower and burn all of the egg sacs."
+L["burrowing_terrors"] = "Jump on the Burrowing Scarabs to squish them."
+
+L["beacon_of_sun_king"] = "Rotate all three statues inward."
+L["engine_of_ascen"] = "Move all four statues into the beams."
+L["lightblade_training"] = "Kill instructors and unprovens until Kames, Blade of the Dawn spawns."
+L["raiding_fleet"] = "Burn all of the boats using the quest item."
+L["slave_camp"] = "Open all of the nearby cages."
+L["unsealed_tomb"] = "Protect Heru from waves of mobs."
 
 -------------------------------------------------------------------------------
 ------------------------------------ VALE -------------------------------------
@@ -55,6 +79,23 @@ L["ambered_cache"] = "Ambered Cache"
 L["ambered_coffer"] = "Ambered Coffer"
 L["mogu_plunder"] = "Mogu Plunder"
 L["mogu_strongbox"] = "Mogu Strongbox"
+
+L["corruption_tear"] = "Grab the Titanic Beacon and close the tear without letting the whirling eyes hit you."
+L["consuming_maw"] = "Purify growths and tentacles until kicked out."
+L["infested_statue"] = "Pull all the twitching eyes off the statue."
+L["void_conduit"] = "Click the Void Conduit and squish the watching eyes."
+L["protect_stout"] = "Protect the cave from waves of mobs."
+L["bound_guardian"] = "Kill the three Depthsborn Binders to free the Pristine Droplet."
+L["abyssal_ritual"] = "Kill the Drowned Adherents and then the Depths Monstrosity."
+
+-------------------------------------------------------------------------------
+----------------------------------- VOLDUN ------------------------------------
+-------------------------------------------------------------------------------
+
+L["voldun"] = "Vol'dun"
+L["elusive_alpaca"] = "Feed the alpaca Seaside Leafy Greens Mix to learn it as a mount. Appears for 10 minutes in one location, then a long respawn."
+L["options_toggle_alpaca_voldun_desc"] = "Show locations for Elusive Quickhoof spawns."
+L["options_toggle_alpaca_voldun"] = "Elusive Quickhoof"
 
 -------------------------------------------------------------------------------
 ------------------------------------ GEAR -------------------------------------
