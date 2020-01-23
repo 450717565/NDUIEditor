@@ -1,4 +1,4 @@
-if GetLocale() ~= "koKR" then return end
+if GetLocale() ~= "esES" and GetLocale() ~= "esMX" then return end
 local L
 
 ---------------------------
@@ -37,7 +37,7 @@ L= DBM:GetModLocalization(2369)
 L= DBM:GetModLocalization(2377)
 
 L:SetMiscLocalization({
-	ObeliskSpawn	= "솟아나라, 어둠의 방첨탑이여!"--Only as backup, in case the NPC target check stops working
+	ObeliskSpawn	= "¡Obeliscos de sombras, arriba!"--Only as backup, in case the NPC target check stops working --Translator's Note: may have changed since when I tested it on the PTR
 })
 
 ---------------------------
@@ -46,8 +46,8 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2372)
 
 L:SetMiscLocalization({
-	Together	= "보스 붙이세요",
-	Apart		= "보스 떨어트리세요"
+	Together	= "Jefes juntos",
+	Apart		= "Jefes separados"
 })
 
 ---------------------------
@@ -71,8 +71,8 @@ L= DBM:GetModLocalization(2370)
 L= DBM:GetModLocalization(2364)
 
 L:SetMiscLocalization({
-	Furthest	= "제일 먼 대상",
-	Closest		= "가장 가까운 대상"
+	Furthest	= "Objetivo más lejano",
+	Closest		= "Objetivo más cercano"
 })
 
 ---------------------------
@@ -81,12 +81,12 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2374)
 
 L:SetOptionLocalization({
-	SetIconOnlyOnce		= "가장 생명력이 낮은 쫄을 탐지해서 징표를 한번만 지정하고 죽을때까지 징표 유지",
-	InterruptBehavior	= "혈류 공급 차단 방식 설정 (공대장일 경우 다른 사람의 설정보다 우선 적용)",
-	Two				= "2인 로테이션 ",--Default
-	Three				= "3인 로테이션 ",
-	Four				= "4인 로테이션 ",
-	Five				= "5인 로테이션 "
+	SetIconOnlyOnce		= "Poner icono a la Sangre de Ny'alotha con la salud más baja solo cuando una muera (de lo contrario cambia constantemente a la más baja)",
+	InterruptBehavior	= "Patrón de interrupción de Sangre bombeante (sobrescribe al resto si eres el líder)",
+	Two					= "Dos jugadores",--Default
+	Three				= "Tres jugadores",
+	Four				= "Cuatro jugadores",
+	Five				= "Cinco jugadores"
 })
 
 ---------------------------
@@ -100,9 +100,9 @@ L= DBM:GetModLocalization(2366)
 L= DBM:GetModLocalization(2375)
 
 L:SetMiscLocalization({
-	ExitMind		= "정신세계 탈출",
-	Away			= "뒤로",
-	Toward			= "앞으로"
+	ExitMind		= "Sal de la mente",
+	Away			= "hacia el borde",
+	Toward			= "hacia N'Zoth"
 })
 
 -------------
@@ -111,6 +111,6 @@ L:SetMiscLocalization({
 L = DBM:GetModLocalization("NyalothaTrash")
 
 L:SetGeneralLocalization({
-	name =	"나이알로사 일반몹"
+	name =	"Enemigos menores"
 })
 

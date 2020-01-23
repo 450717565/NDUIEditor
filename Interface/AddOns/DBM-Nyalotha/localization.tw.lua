@@ -1,4 +1,7 @@
-if GetLocale() ~= "koKR" then return end
+--2020/01/22
+--三皈依-暗影之月
+
+if GetLocale() ~= "zhTW" then return end
 local L
 
 ---------------------------
@@ -37,7 +40,7 @@ L= DBM:GetModLocalization(2369)
 L= DBM:GetModLocalization(2377)
 
 L:SetMiscLocalization({
-	ObeliskSpawn	= "솟아나라, 어둠의 방첨탑이여!"--Only as backup, in case the NPC target check stops working
+	--ObeliskSpawn	= "暗影之碑，起來吧！"--Only as backup, in case the NPC target check stops working
 })
 
 ---------------------------
@@ -46,8 +49,8 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2372)
 
 L:SetMiscLocalization({
-	Together	= "보스 붙이세요",
-	Apart		= "보스 떨어트리세요"
+	Together	= "首領靠近",
+	Apart		= "首領分開"
 })
 
 ---------------------------
@@ -71,8 +74,8 @@ L= DBM:GetModLocalization(2370)
 L= DBM:GetModLocalization(2364)
 
 L:SetMiscLocalization({
-	Furthest	= "제일 먼 대상",
-	Closest		= "가장 가까운 대상"
+	Furthest	= "最遠的目標",
+	Closest		= "最近的目標"
 })
 
 ---------------------------
@@ -81,12 +84,12 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2374)
 
 L:SetOptionLocalization({
-	SetIconOnlyOnce		= "가장 생명력이 낮은 쫄을 탐지해서 징표를 한번만 지정하고 죽을때까지 징표 유지",
-	InterruptBehavior	= "혈류 공급 차단 방식 설정 (공대장일 경우 다른 사람의 설정보다 우선 적용)",
-	Two				= "2인 로테이션 ",--Default
-	Three				= "3인 로테이션 ",
-	Four				= "4인 로테이션 ",
-	Five				= "5인 로테이션 "
+	SetIconOnlyOnce		= "僅設置一次圖示，除非一個淤泥死亡，否則不刷新標記圖示",
+	InterruptBehavior	= "設置脈動之血的打斷方式（團長的設置將覆蓋全團）",
+	Two					= "2人輪流",--Default
+	Three				= "3人輪流",
+	Four				= "4人輪流",
+	Five				= "5人輪流"
 })
 
 ---------------------------
@@ -100,9 +103,9 @@ L= DBM:GetModLocalization(2366)
 L= DBM:GetModLocalization(2375)
 
 L:SetMiscLocalization({
-	ExitMind		= "정신세계 탈출",
-	Away			= "뒤로",
-	Toward			= "앞으로"
+	ExitMind		= "離開神思",
+	Away			  = "遠離",
+	Toward			= "向前"
 })
 
 -------------
@@ -111,6 +114,5 @@ L:SetMiscLocalization({
 L = DBM:GetModLocalization("NyalothaTrash")
 
 L:SetGeneralLocalization({
-	name =	"나이알로사 일반몹"
+	name =	"奈奧羅薩小怪"
 })
-

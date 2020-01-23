@@ -181,8 +181,12 @@ hooksecurefunc("SetItemButtonQuality", function(self, quality, itemIDOrLink)
 		--Artifact
 		if (IsArtifactRelicItem(itemIDOrLink)) then
 			SetItemLevel(self)
+		else
+			SetItemLevelString(frame.levelString, "")
+			SetItemSlotString(frame.slotString)
+		end
 		--QuestInfo
-		elseif (self.type and self.objectType == "item") then
+		if (self.type and self.objectType == "item") then
 			if (QuestInfoFrame and QuestInfoFrame.questLog) then
 				link = GetQuestLogItemLink(self.type, self:GetID())
 			else
@@ -192,14 +196,25 @@ hooksecurefunc("SetItemButtonQuality", function(self, quality, itemIDOrLink)
 				link = select(2, GetItemInfo(itemIDOrLink))
 			end
 			SetItemLevel(self, link)
+		else
+			SetItemLevelString(frame.levelString, "")
+			SetItemSlotString(frame.slotString)
+		end
 		--EncounterJournal
-		elseif (self.encounterID and self.link) then
+		if (self.encounterID and self.link) then
 			link = select(7, EJ_GetLootInfoByIndex(self.index))
 			SetItemLevel(self, link or self.link)
+		else
+			SetItemLevelString(frame.levelString, "")
+			SetItemSlotString(frame.slotString)
+		end
 		--EmbeddedItemTooltip
-		elseif (self.Tooltip) then
+		if (self.Tooltip) then
 			link = select(2, self.Tooltip:GetItem())
 			SetItemLevel(self, link)
+		else
+			SetItemLevelString(frame.levelString, "")
+			SetItemSlotString(frame.slotString)
 		end
 	else
 		SetItemLevelString(frame.levelString, "")
@@ -254,45 +269,6 @@ LibEvent:attachEvent("ADDON_LOADED", function(self, addonName)
 		end)
 	end
 end)
-
--- Auction
---[[
-LibEvent:attachEvent("ADDON_LOADED", function(self, addonName)
-	if (addonName == "Blizzard_AuctionUI") then
-		hooksecurefunc("AuctionFrameBrowse_Update", function()
-			local offset = FauxScrollFrame_GetOffset(BrowseScrollFrame)
-			local itemButton
-			for i = 1, NUM_BROWSE_TO_DISPLAY do
-				itemButton = _G["BrowseButton"..i.."Item"]
-				if (itemButton) then
-					SetItemLevel(itemButton, GetAuctionItemLink("list", offset+i), "Auction")
-				end
-			end
-		end)
-		hooksecurefunc("AuctionFrameBid_Update", function()
-			local offset = FauxScrollFrame_GetOffset(BidScrollFrame)
-			local itemButton
-			for i = 1, NUM_BIDS_TO_DISPLAY do
-				itemButton = _G["BidButton"..i.."Item"]
-				if (itemButton) then
-					SetItemLevel(itemButton, GetAuctionItemLink("bidder", offset+i), "Auction")
-				end
-			end
-		end)
-		hooksecurefunc("AuctionFrameAuctions_Update", function()
-			local offset = FauxScrollFrame_GetOffset(AuctionsScrollFrame)
-			local tokenCount = C_WowTokenPublic.GetNumListedAuctionableTokens()
-			local itemButton
-			for i = 1, NUM_AUCTIONS_TO_DISPLAY do
-				itemButton = _G["AuctionsButton"..i.."Item"]
-				if (itemButton) then
-					SetItemLevel(itemButton, GetAuctionItemLink("owner", offset-tokenCount+i), "Auction")
-				end
-			end
-		end)
-	end
-end)
-]]
 
 -- ForAddons: Bagnon Combuctor LiteBag ArkInventory
 LibEvent:attachEvent("PLAYER_LOGIN", function()

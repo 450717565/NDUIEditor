@@ -18,6 +18,7 @@ local Supply = ns.node.Supply
 local TimedEvent = ns.node.TimedEvent
 local Treasure = ns.node.Treasure
 
+local Achievement = ns.reward.Achievement
 local Item = ns.reward.Item
 local Mount = ns.reward.Mount
 local Pet = ns.reward.Pet
@@ -205,9 +206,6 @@ end)
 
 nodes[64572623] = Rare({id=157170, quest=57281, assault=AMA, note=L["chamber_of_the_stars"]}) -- Acolyte Taspu
 nodes[66817436] = Rare({id=158557, quest=57669, assault=EMP}) -- Actiss the Deceiver
--- nodes[] = Rare({id=157593, quest=nil, rewards={
---     Pet({id=2851, item=174478}) -- Wicked Lurker
--- }}) -- Amalgamation of Flesh
 nodes[69714973] = Rare({id=151883, quest=55468, assault=AMA, pois={
     Path({68645049, 69714973, 70955041, 71425210, 71005388, 69855463, 68695394, 68225217, 68645049})
 }}) -- Anaua
@@ -249,8 +247,8 @@ nodes[38214521] = Rare({id=162172, quest=58694, note=L["aqir_warcaster"], pois={
 }}) -- Aqir Warcaster
 nodes[44854235] = Rare({id=162370, quest=58718, assault={AQR,AMA}}) -- Armagedillo
 nodes[65035129] = Rare({id=152757, quest=55710, assault=AMA, note=L["atekhramun"]}) -- Atekhramun
-nodes[45605777] = Rare({id=162171, quest=58699, assault=AQR, note=L["chamber_of_the_sun"]}) -- Captain Dunewalker
-nodes[75425216] = Rare({id=157167, quest=57280, assault=AMA}) -- Champion Sen-mat
+nodes[45605777] = Rare({id=162171, quest=58699, assault=AQR, note=L["chamber_of_the_sun"]..' '..L["dunewalker"]}) -- Captain Dunewalker
+nodes[75425216] = Rare({id=157167, quest=57280, assault={AQR,AMA}}) -- Champion Sen-mat
 nodes[30854971] = Rare({id=162147, quest=58696, assault=AQR, rewards={
     Mount({id=1319, item=174769}) -- Malevolent Drone
 }}) -- Corpse Eater
@@ -258,7 +256,7 @@ nodes[49363822] = Rare({id=158594, quest=57672, assault=EMP}) -- Doomsayer Vathi
 nodes[48657067] = Rare({id=158491, quest=57662, assault=EMP, pois={
     Path({53287082, 54066945, 53446815, 49866959, 48097382, 46537211, 46257561, 44217851})
 }}) -- Falconer Amenophis
-nodes[75056816] = Rare({id=157120, quest=57258, assault=AMA}) -- Fangtaker Orsa
+nodes[75056816] = Rare({id=157120, quest=57258, assault={AQR, AMA}}) -- Fangtaker Orsa
 nodes[55085317] = Rare({id=158633, quest=57680, assault=EMP, rewards={
     Toy({item=175140}) -- All-Seeing Eye
 }, note=L["left_eye"]}) -- Gaze of N'Zoth
@@ -322,7 +320,7 @@ nodes[21236105] = Rare({id=162140, quest=58697, assault=AQR, rewards={
     Path({22486168, 21316279, 19896347, 19356128, 20345804, 21435846, 24325860, 24866015, 24406194, 22486168})
 }}) -- Skikx'traz
 nodes[66676804] = Rare({id=162372, quest=58715, assault={AQR, AMA}, pois={
-    POI({58038282, 66676804, 70997407})
+    POI({58606160, 58038282, 66676804, 70997407})
 }}) -- Spirit of Cyrus the Black
 nodes[49944011] = Rare({id=162352, quest=58716, assault={AQR, AMA}, note=L["in_water_cave"]}) -- Spirit of Dark Ritualist Zakahn
 nodes[52154012] = Cave({parent=nodes[49944011], assault={AQR, AMA}, label=L["spirit_cave"]}) -- Entrance
@@ -336,6 +334,7 @@ nodes[49328235] = Rare({id=158636, quest=57688, assault=EMP, note=L["platform"],
     Toy({item=169303}) -- Hell-Bent Bracers
 }}) -- The Grand Executor
 nodes[84324729] = Rare({id=157188, quest=57285, assault=AMA, note=L["tomb_widow"]}) -- The Tomb Widow
+nodes[60014937] = Rare({id=158595, quest=57673, assault=EMP}) -- Thoughtstealer Vos
 nodes[67486382] = Rare({id=152788, quest=55716, assault=AMA, note=L["uatka"]}) -- Uat-ka the Sun's Wrath
 nodes[33592569] = Rare({id=162170, quest=58702, assault=AQR}) -- Warcaster Xeshro
 nodes[79505217] = Rare({id=151852, quest=55461, assault=AMA, pois={
@@ -362,12 +361,16 @@ local AQRTR4 = AQRChest({quest=58141, icon='chest_yellow'})
 local AQRTR5 = AQRChest({quest=58142, icon='chest_teal'})
 
 -- quest=58138
+nodes[43925868] = clone(AQRTR1, {note=L["chamber_of_the_sun"]})
 nodes[44855696] = AQRTR1
 nodes[45845698] = clone(AQRTR1, {note=L["chamber_of_the_sun"]})
+nodes[46176156] = AQRTR1
 nodes[46525801] = AQRTR1
 nodes[50555882] = AQRTR1
 nodes[51736032] = AQRTR1
 -- quest=58139
+nodes[27476410] = AQRTR2
+nodes[30526540] = AQRTR2
 nodes[31166796] = AQRTR2
 nodes[32764770] = AQRTR2
 nodes[32976010] = AQRTR2
@@ -379,18 +382,26 @@ nodes[19836512] = AQRTR3
 nodes[20585920] = AQRTR3
 nodes[23055936] = AQRTR3
 nodes[24525507] = AQRTR3
+nodes[24606387] = AQRTR3
+nodes[26066468] = AQRTR3
 -- quest=58141
 nodes[36032024] = AQRTR4
 nodes[37484577] = AQRTR4
 nodes[38774014] = AQRTR4
 nodes[39692354] = AQRTR4
 nodes[39754504] = AQRTR4
+nodes[40244251] = AQRTR4
 nodes[40454422] = AQRTR4
+nodes[40823893] = AQRTR4
 -- quest=58142
 nodes[28030834] = AQRTR5
 nodes[30671611] = AQRTR5
+nodes[30903046] = AQRTR5
+nodes[31521515] = AQRTR5
 nodes[33953036] = AQRTR5
 nodes[35413157] = AQRTR5
+nodes[41592264] = clone(AQRTR5, {note=L["chamber_of_the_moon"]})
+nodes[45561320] = AQRTR5
 
 nodes[36252324] = Supply({quest=58137, assault=AQR,
     label=L["infested_strongbox"], note=L["chamber_of_the_moon"]})
@@ -414,21 +425,26 @@ nodes[50793143] = EMPTR2
 -- quest=57626
 nodes[57817487] = EMPTR3
 nodes[59226749] = EMPTR3
+nodes[60576213] = EMPTR3
 nodes[61778172] = EMPTR3
 nodes[62588188] = EMPTR3
 nodes[62977610] = EMPTR3
 nodes[70217325] = EMPTR3
 -- quest=57627
+nodes[59867422] = EMPTR4
 nodes[60757493] = EMPTR4
 nodes[62157346] = EMPTR4
 nodes[62737184] = EMPTR4
+nodes[65357117] = EMPTR4
 nodes[67167394] = EMPTR4
 -- quest=57635
 nodes[45697961] = EMPTR5
 nodes[47507687] = EMPTR5
+nodes[49398584] = EMPTR5
 nodes[51707135] = EMPTR5
 nodes[51777298] = EMPTR5
 nodes[52197757] = EMPTR5
+nodes[55397860] = EMPTR5
 
 local EMPCOFF = Supply({quest=nil, assault=EMP, note=L["cursed_relic"],
     label=L["black_empire_coffer"]})
@@ -510,7 +526,7 @@ nodes[75914194] = AMACOFF
 nodes[34392928] = TimedEvent({quest=58679, assault=AQR, note=L["dormant_destroyer"]}) -- Dormant Destroyer
 nodes[20765913] = TimedEvent({quest=58676, assault=AQR, note=L["dormant_destroyer"]}) -- Dormant Destroyer
 nodes[31365562] = TimedEvent({quest=58667, assault=AQR, note=L["obsidian_extract"]}) -- Obsidian Extraction
-nodes[36542060] = TimedEvent({quest=59003, assault=AQR, note=L["combust_cocoon"]}) -- Combustible Cocoons
+nodes[36542060] = TimedEvent({quest=59003, assault=AQR, note=L["chamber_of_the_moon"]..' '..L["combust_cocoon"]}) -- Combustible Cocoons
 nodes[37054778] = TimedEvent({quest=58961, assault=AQR, note=L["ambush_settlers"]}) -- Ambushed Settlers
 nodes[27765714] = TimedEvent({quest=58974, assault=AQR, note=L["ambush_settlers"]}) -- Ambushed Settlers
 nodes[22496418] = TimedEvent({quest=58952, assault=AQR, note=L["purging_flames"]}) -- Purging Flames
@@ -519,6 +535,30 @@ nodes[46845804] = TimedEvent({quest=58981, assault=AQR, note=L["chamber_of_the_s
 nodes[37136702] = TimedEvent({quest=58662, assault=AQR, note=L["burrowing_terrors"]}) -- Burrowing Terrors
 nodes[45134306] = TimedEvent({quest=58661, assault=AQR, note=L["burrowing_terrors"]}) -- Burrowing Terrors
 nodes[31614380] = TimedEvent({quest=58660, assault=AQR, note=L["burrowing_terrors"]}) -- Burrowing Terrors
+
+-------------------------------------------------------------------------------
+
+-- local MAWREWARD = {Achievement({id=14161, criteria=1})}
+
+nodes[55382132] = TimedEvent({quest=58257, assault=EMP, note=L["consuming_maw"], rewards=MAWREWARD}) -- Consuming Maw
+nodes[62407931] = TimedEvent({quest=58258, assault=EMP, note=L["consuming_maw"], rewards=MAWREWARD}) -- Consuming Maw
+-- nodes[] = TimedEvent({quest=58256, assault=EMP, note=L["consuming_maw"], rewards=MAWREWARD}) -- Consuming Maw
+-- nodes[] = TimedEvent({quest=58216, assault=EMP, note=L["consuming_maw"], rewards=MAWREWARD}) -- Consuming Maw
+
+nodes[48518489] = TimedEvent({quest=57522, assault=EMP, note=L["call_of_void"]}) -- Call of the Void
+nodes[52015072] = TimedEvent({quest=57543, assault=EMP, note=L["executor_nzoth"]}) -- Executor of N'Zoth
+nodes[49443920] = TimedEvent({quest=58276, assault=EMP, note=L["in_flames"]}) -- Mar'at In Flames
+nodes[59767241] = TimedEvent({quest=57429, assault=EMP, note=L["pyre_amalgamated"], rewards={
+    Pet({id=2851, item=174478}) -- Wicked Lurker
+}}) -- Pyre of the Amalgamated One (also 58330?)
+-- nodes[60005506] = TimedEvent({quest=, assault=EMP, pois={
+--     Path({60315245, 59785364, 60005506, 60385696, 60495866})
+-- }}) -- Spirit Drinker (57456, 57590, 57591, 57586, 57587)
+nodes[59022780] = TimedEvent({quest=57588, assault=EMP, pois={
+    Path({58102290, 58422547, 59022780, 59602914, 60063133, 60753296, 60453467})
+}}) -- Spirit Drinker
+nodes[50568833] = TimedEvent({quest=57359, assault=EMP, note=L["summoning_ritual"]}) -- Summoning Ritual
+nodes[62037070] = TimedEvent({quest=58271, assault=EMP, note=L["voidflame_ritual"]}) -- Voidflame Ritual
 
 -------------------------------------------------------------------------------
 
@@ -555,8 +595,8 @@ nodes[61745440] = PetBattle({id=162461}) -- Whispers
 ------------------------------- SPRINGFUR ALPACA ------------------------------
 -------------------------------------------------------------------------------
 
-nodes[58005169] = Node({icon=134190, quest={58879, 58887}, alpaca=true,
-    label=L["gersahl"], note=L["gersahl_note"], pois={
+nodes[58005169] = Node({icon=134190, alpaca=true, label=L["gersahl"],
+    note=L["gersahl_note"], pois={
     POI({
         46922961, 49453556, 50583294, 55484468, 56265101, 56691882, 57112548,
         57235056, 57458491, 57474682, 57741910, 58005169, 58202808, 58967759,
@@ -566,9 +606,12 @@ nodes[58005169] = Node({icon=134190, quest={58879, 58887}, alpaca=true,
     })
 }, rewards={Item({item=174858})}})
 
-nodes[47004800] = NPC({id=162765, icon=2916287, quest={58879, 58887},
-    alpaca=true, note=L["friendly_alpaca"], pois={
-    POI({30002900, 39000800, 41007000, 47004800, 52001900, 55006900, 63011446, 76636813})
+nodes[47004800] = NPC({id=162765, icon=2916287, quest=58879, alpaca=true,
+    note=L["friendly_alpaca"], pois={
+    POI({
+        15006200, 24000900, 27004800, 30002900, 39000800, 41007000, 47004800,
+        52001900, 55006900, 62705340, 63011446, 69001300, 70003900, 76636813
+    })
 }, rewards={
     Mount({id=1329, item=174859}) -- Springfur Alpaca
 }})

@@ -59,6 +59,7 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 
 							cell.styled = true
 						end
+
 						cell.Icon.bg:SetShown(cell.Icon:IsShown())
 					end
 				end

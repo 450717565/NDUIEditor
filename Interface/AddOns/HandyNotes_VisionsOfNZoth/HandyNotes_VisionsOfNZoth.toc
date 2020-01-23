@@ -1,6 +1,6 @@
 ## Interface: 80300
 ## Title: HandyNotes: Visions Of N'Zoth
-## Version: 15
+## Version: 20
 ## Notes: Visions Of N'Zoth Notes
 ## OptionalDeps: Ace3
 ## RequiredDeps: HandyNotes
@@ -14,7 +14,7 @@ embeds.xml
 libs\HereBeDragons-2.0.lua
 
 localization\enUS.lua
-#localization\deDE.lua
+localization\deDE.lua
 localization\esES.lua
 localization\esMX.lua
 localization\frFR.lua

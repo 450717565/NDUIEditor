@@ -16,6 +16,7 @@ L["atekhramun"] = "Давите Ядошкурых скорпиончиков, �
 L["chamber_of_the_moon"] = "Под Залом Луны."
 L["chamber_of_the_stars"] = "Под Залом Звезд."
 L["chamber_of_the_sun"] = "Внутри Зала Солнца."
+L["dunewalker"] = "Нажмите на Сущность Солнца на платформе выше, чтобы освободить его."
 L["friendly_alpaca"] = "Скормите Альпаке побеги Герсали семь раз, чтобы получить ее как средство передвижения. Появляется в течение 10 минут в одном месте, затем долгое возрождение."
 L["gersahl"] = "Побеги Герсали"
 L["gersahl_note"] = "Кормите дружелюбную альпаку семь раз для получения средства передвижения. Не требует травничества."
@@ -31,12 +32,38 @@ L["wastewander"] = "Разделяет появление с Порабощен�
 L["amathet_cache"] = "Тайник Аматетов"
 L["black_empire_cache"] = "Тайник Темной Империи"
 L["black_empire_coffer"] = "Сундук Тайной Империи"
-L["infested_cache"] = "Infested Cache"
-L["infested_strongbox"] = "Infested Strongbox"
+L["infested_cache"] = "Зараженный Тайник"
+L["infested_strongbox"] = "Зараженный Сундук"
 L["amathet_reliquary"] = "Реликвия Аматетов"
 
 L["cursed_relic"] = "Требуется Проклятая Реликвия"
 L["tolvir_relic"] = "Требуется Реликвия Тол'виров"
+
+L["options_toggle_alpaca_uldum"] = "Курчавая Альпака"
+L["options_toggle_alpaca_uldum_desc"] = "Показать в локации места появления Побега герсали и Дружелюбной альпаки."
+L["options_toggle_assault_events"] = "События Нападения"
+L["options_toggle_assault_events_desc"] = "Показать места возможных событий нападения."
+L["options_toggle_coffers"] = "Запертые Сундуки"
+L["options_toggle_coffers_desc"] = "Отображение местоположения запертых сундуков (можно открыть один раз за нападение)."
+
+L["ambush_settlers"] = "Защищайте Дервиша до окончания атак монстров."
+L["burrowing_terrors"] = "Прыгай на Закапывающихся Скарабеев, чтобы раздавить их."
+L["call_of_void"] = "Cleanse the Ritual Pylon."
+L["combust_cocoon"] = "Бросайте самодельные зажигательные бомбы в коконы на потолке."
+L["dormant_destroyer"] = "Нажмите на Проводники Бездны."
+L["hardened_hive"] = "Возьмите Огнемет Скитальцев Пустыни и сожгите все кладки с яйцами."
+L["in_flames"] = "Grab water buckets and douse the flames."
+L["obsidian_extract"] = "Уничтож все Сформированные Бездной Обсидианы."
+L["purging_flames"] = "Подберите тела и бросьте их в огонь."
+L["titanus_egg"] = "Уничтожьте Колоссальное яйцо, затем победите Молодого акира-колосса."
+L["voidflame_ritual"] = "Extinguish all of the voidtouched candles."
+
+L["beacon_of_sun_king"] = "Rotate all three statues inward."
+L["engine_of_ascen"] = "Move all four statues into the beams."
+L["lightblade_training"] = "Kill instructors and unprovens until Kames, Blade of the Dawn spawns."
+L["raiding_fleet"] = "Burn all of the boats using the quest item."
+L["slave_camp"] = "Open all of the nearby cages."
+L["unsealed_tomb"] = "Protect Heru from waves of mobs."
 
 -------------------------------------------------------------------------------
 ------------------------------------ VALE -------------------------------------
@@ -56,6 +83,30 @@ L["ambered_cache"] = "Ambered Cache"
 L["ambered_coffer"] = "Ambered Coffer"
 L["mogu_plunder"] = "Mogu Plunder"
 L["mogu_strongbox"] = "Mogu Strongbox"
+L["mogu_relic"] = "Requires Mogu Relic"
+
+L["abyssal_ritual"] = "Kill the Drowned Adherents and then the Depths Monstrosity."
+L["bound_guardian"] = "Kill the three Depthsborn Binders to free the Pristine Droplet."
+L["colored_flames"] = "Collect the colored flames from their torches and bring them to the matching runes."
+L["construction_ritual"] = "Push the tiger statue into the beam."
+L["consuming_maw"] = "Purify growths and tentacles until kicked out."
+L["corruption_tear"] = "Grab the Titanic Beacon and close the tear without letting the whirling eyes hit you."
+L["electric_empower"] = "Kill the Zan-Tien Callers, then Menek the Infused."
+L["empowered_demo"] = "Close all of the spirit reliquaries."
+L["font_corruption"] = "Rotate the mogu statues until both beams reach the back, then click the console."
+L["infested_statue"] = "Pull all the twitching eyes off the statue."
+L["protect_stout"] = "Protect the cave from waves of mobs."
+L["pulse_mound"] = "Kill the surrounding mobs, then the Living Growth."
+L["void_conduit"] = "Click the Void Conduit and squish the watching eyes."
+
+-------------------------------------------------------------------------------
+----------------------------------- VOLDUN ------------------------------------
+-------------------------------------------------------------------------------
+
+L["voldun"] = "Вол'дун"
+L["elusive_alpaca"] = "Скормите Салат из приморской зелени, альпаке, чтобы выучить ее как маунта. Появляется в течение 10 минут в одном месте, затем долгое возрождение."
+L["options_toggle_alpaca_voldun_desc"] = "Показать места появления Неуловимого быстронога."
+L["options_toggle_alpaca_voldun"] = "Неуловимый быстроног"
 
 -------------------------------------------------------------------------------
 ------------------------------------ GEAR -------------------------------------
