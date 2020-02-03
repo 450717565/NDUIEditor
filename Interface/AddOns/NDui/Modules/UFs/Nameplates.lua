@@ -242,7 +242,7 @@ end
 
 function UF:CreateThreatColor(self)
 	local threatIndicator = B.CreateSD(self, 3, true)
-	threatIndicator:SetOutside(self.Health.bd, 3, 3)
+	threatIndicator:SetOutside(self.Health.bd, 2+C.mult, 2+C.mult)
 	threatIndicator:Hide()
 
 	self.ThreatIndicator = threatIndicator
@@ -312,7 +312,7 @@ function UF:AddTargetIndicator(self)
 	frame.RightArrow:SetRotation(rad(-90))
 
 	frame.Glow = B.CreateSD(frame, 4, true)
-	frame.Glow:SetOutside(self.Health.bd, 5, 5)
+	frame.Glow:SetOutside(self.Health.bd, 4+C.mult, 4+C.mult)
 	frame.Glow:SetBackdropBorderColor(0, 1, 1)
 	frame.Glow:SetFrameLevel(0)
 
@@ -566,7 +566,7 @@ end
 
 function UF:MouseoverIndicator(self)
 	local highlight = B.CreateSD(self.Health, 4, true)
-	highlight:SetOutside(self.Health.bd, 5, 5)
+	highlight:SetOutside(self.Health.bd, 4+C.mult, 4+C.mult)
 	highlight:SetBackdropBorderColor(1, 1, 1)
 	highlight:Hide()
 

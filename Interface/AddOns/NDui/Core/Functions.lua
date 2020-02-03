@@ -79,7 +79,7 @@ function B:PixelIcon(texture, highlight)
 	B.SetBDFrame(self)
 
 	self.Icon = self:CreateTexture(nil, "ARTWORK")
-	self.Icon:SetInside(self.bd)
+	self.Icon:SetInside()
 	self.Icon:SetTexCoord(unpack(DB.TexCoord))
 	if texture then
 		local atlas = strmatch(texture, "Atlas:(.+)$")
@@ -93,7 +93,7 @@ function B:PixelIcon(texture, highlight)
 		self:EnableMouse(true)
 		self.HL = self:CreateTexture(nil, "HIGHLIGHT")
 		self.HL:SetColorTexture(1, 1, 1, .25)
-		self.HL:SetInside(self.bd)
+		self.HL:SetInside()
 	end
 end
 

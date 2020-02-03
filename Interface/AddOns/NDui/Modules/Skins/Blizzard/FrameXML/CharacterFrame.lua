@@ -28,8 +28,8 @@ tinsert(C.defaultThemes, function()
 
 	local function UpdateAzeriteEmpoweredItem(self)
 		self.AzeriteTexture:SetAtlas("AzeriteIconFrame")
-		self.AzeriteTexture:SetInside(self.bg)
 		self.AzeriteTexture:SetDrawLayer("BORDER", 1)
+		self.AzeriteTexture:SetInside(self.bg)
 	end
 
 	local function UpdateCorruption(self)

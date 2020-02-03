@@ -46,7 +46,7 @@ end
 function UF:CreateTargetBorder(self)
 	local border = B.CreateBDFrame(self, 0)
 	border:SetBackdropBorderColor(0, 1, 1)
-	border:SetOutside(self.Health.bd, C.mult, C.mult, self.Power.bd)
+	border:SetOutside(self.Health.bd, C.mult*2, C.mult*2, self.Power.bd)
 	border:Hide()
 
 	self.TargetBorder = border
@@ -71,7 +71,7 @@ end
 
 function UF:CreateThreatBorder(self)
 	local threatIndicator = B.CreateSD(self, 3, true)
-	threatIndicator:SetOutside(self.Health.bd, C.mult*2, C.mult*2, self.Power.bd)
+	threatIndicator:SetOutside(self.Health.bd, 2+C.mult, 2+C.mult, self.Power.bd)
 	threatIndicator:Hide()
 
 	self.ThreatIndicator = threatIndicator
