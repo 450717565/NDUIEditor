@@ -37,7 +37,7 @@ C.UFs = {
 	FocusPos		= {"LEFT", UIParent, "LEFT", 5, -150},					-- 焦点框体默认位置
 
 	PlayerPlate		= {"BOTTOM", UIParent, "BOTTOM", 0, 230},				-- 个人资源条默认位置
-	BarSize			= {150, 2},												-- 资源条的尺寸（长，宽）
+	BarWidth		= 150,													-- 资源条长度
 	BarMargin		= 2,													-- 资源条间隔
 }
 

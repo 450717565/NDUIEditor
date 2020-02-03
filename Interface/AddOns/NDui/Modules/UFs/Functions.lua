@@ -784,8 +784,7 @@ function UF:CreateDebuffs(self)
 end
 
 -- Class Powers
-local barMargin = C.UFs.BarMargin
-local barWidth, barHeight = unpack(C.UFs.BarSize)
+local barWidth, barMargin = C.UFs.BarWidth, C.UFs.BarMargin
 
 function UF.PostUpdateClassPower(element, cur, max, diff, powerType)
 	if not cur or cur == 0 then
@@ -856,8 +855,8 @@ function UF.PostUpdateRunes(element, runemap)
 end
 
 function UF:CreateClassPower(self)
-	local mystyle = self.mystyle
-	if mystyle == "PlayerPlate" then
+	local barHeight = self.Power:GetHeight()
+	if self.mystyle == "PlayerPlate" then
 		barWidth, barHeight = self:GetWidth(), NDuiDB["Extras"]["PPCPHeight"]
 	end
 
@@ -906,8 +905,13 @@ end
 function UF:StaggerBar(self)
 	if DB.MyClass ~= "MONK" then return end
 
+	local width, height = self:GetWidth()*.6, self.Power:GetHeight()
+	if self.mystyle == "PlayerPlate" then
+		width, height = self:GetWidth(), NDuiDB["Extras"]["PPCPHeight"]
+	end
+
 	local stagger = CreateFrame("StatusBar", nil, self.Health)
-	stagger:SetSize(self:GetWidth()*.6, self.Power:GetHeight())
+	stagger:SetSize(width, height)
 	stagger:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 3)
 	stagger:SetFrameLevel(self:GetFrameLevel() + 5)
 	B.SmoothBar(stagger)
@@ -1135,8 +1139,7 @@ function UF:CreateFCT(self)
 	local fcf = CreateFrame("Frame", "oUF_CombatTextFrame", parentFrame)
 	fcf:SetSize(32, 32)
 
-	local mystyle = self.mystyle
-	if mystyle == "player" then
+	if self.mystyle == "player" then
 		B.Mover(fcf, L["CombatText"], "PlayerCombatText", {"BOTTOM", self, "TOPLEFT", 0, 120})
 	else
 		B.Mover(fcf, L["CombatText"], "TargetCombatText", {"BOTTOM", self, "TOPRIGHT", 0, 120})
