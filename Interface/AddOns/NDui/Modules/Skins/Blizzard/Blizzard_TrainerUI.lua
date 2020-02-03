@@ -32,8 +32,7 @@ C.themes["Blizzard_TrainerUI"] = function()
 			B.ReskinTexture(skillButton, bubg, true)
 			B.ReskinTexture(skillButton.selectedTex, bubg, true)
 
-			skillButton.disabledBG:SetPoint("TOPLEFT", bubg, C.mult, -C.mult)
-			skillButton.disabledBG:SetPoint("BOTTOMRIGHT", bubg, -C.mult, C.mult)
+			skillButton.disabledBG:SetInside(bubg)
 
 			skillButton.name:ClearAllPoints()
 			skillButton.name:SetPoint("TOPLEFT", bubg, "TOPLEFT", 3, -5)

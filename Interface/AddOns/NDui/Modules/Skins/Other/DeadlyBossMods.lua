@@ -24,7 +24,7 @@ function S:DeadlyBossMods()
 	end
 
 	if not NDuiDB["Skins"]["DeadlyBossMods"] then return end
-	if not IsAddOnLoaded("DeadlyBossMods-Core") then return end
+	if not IsAddOnLoaded("DBM-Core") then return end
 
 	local iconSize = 20
 	local function SkinBars(self)
@@ -134,11 +134,11 @@ function S:DeadlyBossMods()
 			DBMRangeCheck.styled = true
 		end
 	end
-	hooksecurefunc(DeadlyBossMods.RangeCheck, "Show", SkinRange)
+	hooksecurefunc(DBM.RangeCheck, "Show", SkinRange)
 
-	if DeadlyBossMods.InfoFrame then
-		DeadlyBossMods.InfoFrame:Show(5, "test")
-		DeadlyBossMods.InfoFrame:Hide()
+	if DBM.InfoFrame then
+		DBM.InfoFrame:Show(5, "test")
+		DBM.InfoFrame:Hide()
 		DBMInfoFrame:HookScript("OnShow", TT.ReskinTooltip)
 	end
 
@@ -146,6 +146,6 @@ function S:DeadlyBossMods()
 	if not DBM_AllSavedOptions["Default"] then DBM_AllSavedOptions["Default"] = {} end
 	DBM_AllSavedOptions["Default"]["BlockVersionUpdateNotice"] = true
 	DBM_AllSavedOptions["Default"]["EventSoundVictory"] = "None"
-	DBT_AllPersistentOptions["Default"]["DeadlyBossMods"].BarYOffset = 5
-	DBT_AllPersistentOptions["Default"]["DeadlyBossMods"].HugeBarYOffset = 5
+	DBT_AllPersistentOptions["Default"]["DBM"].BarYOffset = 5
+	DBT_AllPersistentOptions["Default"]["DBM"].HugeBarYOffset = 5
 end

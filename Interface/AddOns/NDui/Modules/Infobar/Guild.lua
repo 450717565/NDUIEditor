@@ -42,8 +42,7 @@ local function setupInfoFrame()
 	infoFrame:SetPoint("TOPLEFT", UIParent, 15, -35)
 	infoFrame:SetClampedToScreen(true)
 	infoFrame:SetFrameStrata("TOOLTIP")
-	B.CreateBD(infoFrame)
-	B.CreateSD(infoFrame)
+	B.SetBDFrame(infoFrame)
 
 	local function onUpdate(self, elapsed)
 		self.timer = (self.timer or 0) + elapsed

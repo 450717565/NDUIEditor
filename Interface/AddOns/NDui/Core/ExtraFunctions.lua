@@ -144,10 +144,10 @@ function B:SetupPixelBorders()
 		borders.BOTTOMLEFT:SetSize(C.mult, C.mult)
 		borders.BOTTOMRIGHT:SetSize(C.mult, C.mult)
 
-		borders.TOPLEFT:Point("BOTTOMRIGHT", borders.CENTER, "TOPLEFT", 1, -1)
-		borders.TOPRIGHT:Point("BOTTOMLEFT", borders.CENTER, "TOPRIGHT", -1, -1)
-		borders.BOTTOMLEFT:Point("TOPRIGHT", borders.CENTER, "BOTTOMLEFT", 1, 1)
-		borders.BOTTOMRIGHT:Point("TOPLEFT", borders.CENTER, "BOTTOMRIGHT", -1, 1)
+		borders.TOPLEFT:Point("BOTTOMRIGHT", borders.CENTER, "TOPLEFT", C.mult, -C.mult)
+		borders.TOPRIGHT:Point("BOTTOMLEFT", borders.CENTER, "TOPRIGHT", -C.mult, -C.mult)
+		borders.BOTTOMLEFT:Point("TOPRIGHT", borders.CENTER, "BOTTOMLEFT", C.mult, C.mult)
+		borders.BOTTOMRIGHT:Point("TOPLEFT", borders.CENTER, "BOTTOMRIGHT", -C.mult, C.mult)
 
 		borders.TOP:Point("TOPLEFT", borders.TOPLEFT, "TOPRIGHT", 0, 0)
 		borders.TOP:Point("BOTTOMRIGHT", borders.TOPRIGHT, "BOTTOMLEFT", 0, 0)
@@ -403,15 +403,17 @@ function B:CreateSD(size, override)
 end
 
 function B:SetBDFrame(x, y, x2, y2)
-	local bg = B.CreateBDFrame(self, nil, nil, true)
-
 	if x and y and x2 and y2 then
+		local bg = B.CreateBDFrame(self, nil, 0, true)
 		bg:ClearAllPoints()
 		bg:SetPoint("TOPLEFT", self, x, y)
 		bg:SetPoint("BOTTOMRIGHT", self, x2, y2)
-	end
 
-	return bg
+		return bg
+	else
+		B.CreateBD(self)
+		B.CreateSD(self)
+	end
 end
 
 function B:ReskinAffixes()
@@ -834,7 +836,7 @@ function B:ReskinRole(role)
 		B.ReskinIcon(icon.texture)
 	end
 
-	self.bg = B.CreateBDFrame(self, 0, nil, true)
+	self.bg = B.CreateBDFrame(self, 0)
 end
 
 function B:ReskinRoleIcon()
@@ -850,7 +852,7 @@ function B:ReskinScroll()
 
 	local parent = self:GetParent()
 	if parent then
-		B.StripTextures(parent)
+		B.StripTextures(parent, true)
 		B.CleanTextures(parent)
 	end
 
@@ -938,10 +940,7 @@ function B:ReskinTab()
 	B.StripTextures(self)
 	B.CleanTextures(self)
 
-	local bg = B.CreateBDFrame(self, nil, nil, true)
-	bg:ClearAllPoints()
-	bg:SetPoint("TOPLEFT", 8, -3)
-	bg:SetPoint("BOTTOMRIGHT", -8, 0)
+	local bg = B.SetBDFrame(self, 8, -3, -8, 0)
 	B.ReskinTexture(self, bg, true)
 end
 
@@ -1092,8 +1091,7 @@ end
 function B:ReskinReforgeUI(index)
 	B.StripTextures(self, index)
 	B.ReskinClose(self.CloseButton)
-	B.CreateBD(self)
-	B.CreateSD(self)
+	B.SetBDFrame(self)
 
 	local Background = self.Background
 	B.CreateBDFrame(Background, 0, nil, true)
@@ -1122,11 +1120,7 @@ function B:ReskinSearchResult()
 	results:SetPoint("BOTTOMLEFT", self, "BOTTOMRIGHT", 20, 0)
 	B.StripTextures(results)
 	B.CleanTextures(results)
-
-	local bg = B.CreateBDFrame(results, nil, nil, true)
-	bg:ClearAllPoints()
-	bg:SetPoint("TOPLEFT", -10, 0)
-	bg:SetPoint("BOTTOMRIGHT")
+	B.SetBDFrame(results, -10, 0, 0, 0)
 
 	local frameName = self.GetName and self:GetName()
 	local closebu = results.closeButton or (frameName and _G[frameName.."SearchResultsCloseButton"])

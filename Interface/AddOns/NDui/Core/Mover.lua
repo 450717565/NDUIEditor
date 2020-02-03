@@ -41,6 +41,7 @@ function B:Mover(text, value, anchor, width, height, isAuraWatch)
 	local mover = CreateFrame("Frame", nil, UIParent)
 	mover:SetWidth(width or self:GetWidth())
 	mover:SetHeight(height or self:GetHeight())
+	mover.bg = B.SetBDFrame(mover, 0, 0, 0, 0)
 	mover:Hide()
 	mover.text = B.CreateFS(mover, DB.Font[2], text)
 	mover.text:SetWordWrap(true)
@@ -65,7 +66,6 @@ function B:Mover(text, value, anchor, width, height, isAuraWatch)
 	mover:SetScript("OnDragStop", M.Mover_OnDragStop)
 	mover:SetScript("OnMouseUp", M.Mover_OnClick)
 	if not isAuraWatch then
-		B.CreateBDFrame(mover)
 		tinsert(MoverList, mover)
 	end
 
@@ -152,12 +152,12 @@ function M:Mover_OnClick(btn)
 end
 
 function M:Mover_OnEnter()
-	self:SetBackdropBorderColor(cr, cg, cb)
+	self.bg:SetBackdropBorderColor(cr, cg, cb)
 	self.text:SetTextColor(1, .8, 0)
 end
 
 function M:Mover_OnLeave()
-	self:SetBackdropBorderColor(0, 0, 0)
+	self.bg:SetBackdropBorderColor(0, 0, 0)
 	self.text:SetTextColor(1, 1, 1)
 end
 
@@ -219,8 +219,7 @@ local function CreateConsole()
 	f = CreateFrame("Frame", nil, UIParent)
 	f:SetPoint("TOP", 0, -150)
 	f:SetSize(212, 80)
-	B.CreateBD(f)
-	B.CreateSD(f)
+	B.SetBDFrame(f)
 	B.CreateFS(f, 15, L["Mover Console"], "system", "TOP", 0, -8)
 	local bu, text = {}, {LOCK, L["Grids"], L["AuraWatch"], RESET}
 	for i = 1, 4 do
@@ -269,8 +268,7 @@ local function CreateConsole()
 	local frame = CreateFrame("Frame", nil, f)
 	frame:SetSize(212, 73)
 	frame:SetPoint("TOP", f, "BOTTOM", 0, -2)
-	B.CreateBD(frame)
-	B.CreateSD(frame)
+	B.SetBDFrame(frame)
 	f.__trimText = B.CreateFS(frame, 12, NONE, "system", "BOTTOM", 0, 5)
 
 	local xBox = B.CreateEditBox(frame, 60, 22)

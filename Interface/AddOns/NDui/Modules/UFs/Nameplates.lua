@@ -596,9 +596,9 @@ function UF:AddFollowerXP(self)
 	bar:SetSize(NDuiDB["Nameplate"]["PlateWidth"]*.75, NDuiDB["Nameplate"]["PlateHeight"])
 	bar:SetPoint("TOP", self.Castbar, "BOTTOM", 0, -5)
 	B.CreateSB(bar, false, 0, .7, 1)
-	bar.progressText = B.CreateFS(bar, 12)
+	bar.ProgressText = B.CreateFS(bar, 12)
 
-	self.NazjatarFollowerXP = bar
+	self.WidgetXPBar = bar
 end
 
 -- Interrupt info on castbars
@@ -754,7 +754,7 @@ function UF:ResizePlayerPlate()
 	local plate = _G.oUF_PlayerPlate
 	if plate then
 		local iconSize, margin = NDuiDB["Nameplate"]["PPIconSize"], 2
-		local height = NDuiDB["Nameplate"]["PPHPHeight"]
+		local height = NDuiDB["Nameplate"]["PPHeight"]
 		plate:SetSize(iconSize*5 + margin*4, height + height + C.mult)
 		plate.Health:SetHeight(height)
 		plate.Power:SetHeight(height)
@@ -782,7 +782,7 @@ function UF:CreatePlayerPlate()
 	self.mystyle = "PlayerPlate"
 	self:EnableMouse(false)
 	local iconSize, margin = NDuiDB["Nameplate"]["PPIconSize"], 2
-	local height = NDuiDB["Nameplate"]["PPHPHeight"]
+	local height = NDuiDB["Nameplate"]["PPHeight"]
 	self:SetSize(iconSize*5 + margin*4, height + height + C.mult)
 
 	UF:CreateHealthBar(self)
@@ -794,7 +794,7 @@ function UF:CreatePlayerPlate()
 	if NDuiDB["Nameplate"]["PPPowerText"] then
 		local textFrame = CreateFrame("Frame", nil, self.Power)
 		textFrame:SetAllPoints()
-		local power = B.CreateFS(textFrame, 9+NDuiDB["Nameplate"]["PPHPHeight"], "", false, "CENTER", 0, -1)
+		local power = B.CreateFS(textFrame, 9+NDuiDB["Nameplate"]["PPHeight"], "", false, "CENTER", 0, -1)
 		self:Tag(power, "[power]")
 	end
 

@@ -221,15 +221,10 @@ function M:CreateRM()
 		marker:SetPoint("RIGHT", header, "LEFT", -2, 0)
 		marker:SetParent(header)
 		marker:SetSize(28, 28)
-		for i = 1, 9 do
-			select(i, marker:GetRegions()):Hide()
-		end
+		B.StripTextures(marker)
 		B.ReskinButton(marker)
 		marker:SetNormalTexture("Interface\\RaidFrame\\Raid-WorldPing")
 		marker:GetNormalTexture():SetVertexColor(cr, cg, cb)
-		marker:HookScript("OnMouseUp", function(_, btn)
-			if btn == "RightButton" then ClearRaidMarker() end
-		end)
 		marker:RegisterEvent("GROUP_ROSTER_UPDATE")
 		marker:RegisterEvent("PLAYER_ENTERING_WORLD")
 		marker:SetScript("OnEvent", function()
@@ -244,13 +239,6 @@ function M:CreateRM()
 				marker:EnableMouse(false)
 			end
 		end)
-		marker:HookScript("OnEnter", function(self)
-			GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT", 0, -5)
-			GameTooltip:ClearLines()
-			GameTooltip:AddLine(DB.RightButton..DB.InfoColor..REMOVE_WORLD_MARKERS)
-			GameTooltip:Show()
-		end)
-		marker:HookScript("OnLeave", B.HideTooltip)
 	end
 
 	-- Buff checker
@@ -370,7 +358,7 @@ function M:CreateRM()
 		elseif btn == "LeftButton" then
 			DoReadyCheck()
 		else
-			if IsAddOnLoaded("DeadlyBossMods-Core") then
+			if IsAddOnLoaded("DBM-Core") then
 				Pull("DEADLYBOSSMODSPULL")
 			elseif IsAddOnLoaded("BigWigs") then
 				if not SlashCmdList["BIGWIGSPULL"] then LoadAddOn("BigWigs_Plugins") end

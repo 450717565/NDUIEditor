@@ -13,6 +13,7 @@ local C_AzeriteEmpoweredItem_IsAzeriteEmpoweredItemByID, C_NewItems_IsNewItem, C
 local IsControlKeyDown, IsAltKeyDown, DeleteCursorItem = IsControlKeyDown, IsAltKeyDown, DeleteCursorItem
 local GetItemInfo, GetContainerItemID, SplitContainerItem = GetItemInfo, GetContainerItemID, SplitContainerItem
 local IsCorruptedItem = IsCorruptedItem
+local cr, cg, cb = DB.r, DB.g, DB.b
 
 local sortCache = {}
 function module:ReverseSort()
@@ -80,8 +81,7 @@ function module:CreateBagBar(settings, columns)
 	local width, height = bagBar:LayoutButtons("grid", columns, 5, 5, -5)
 	bagBar:SetSize(width + 10, height + 10)
 	bagBar:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, -5)
-	B.CreateBD(bagBar)
-	B.CreateSD(bagBar)
+	B.SetBDFrame(bagBar)
 	bagBar.highlightFunction = highlightFunction
 	bagBar.isGlobal = true
 	bagBar:Hide()
@@ -170,7 +170,7 @@ function module:CreateBagToggle()
 	bu:SetScript("OnClick", function()
 		ToggleFrame(self.BagBar)
 		if self.BagBar:IsShown() then
-			bu:SetBackdropBorderColor(1, .8, 0)
+			bu:SetBackdropBorderColor(cr, cg, cb)
 			PlaySound(SOUNDKIT.IG_BACKPACK_OPEN)
 		else
 			bu:SetBackdropBorderColor(0, 0, 0)
@@ -221,11 +221,11 @@ function module:CreateDeleteButton()
 	bu:SetScript("OnClick", function(self)
 		deleteEnable = not deleteEnable
 		if deleteEnable then
-			self:SetBackdropBorderColor(1, .8, 0)
-			self.text = enabledText
+			self:SetBackdropBorderColor(cr, cg, cb)
+			self.tooltip = enabledText
 		else
 			self:SetBackdropBorderColor(0, 0, 0)
-			self.text = nil
+			self.tooltip = nil
 		end
 		self:GetScript("OnEnter")(self)
 	end)
@@ -255,11 +255,11 @@ function module:CreateFavouriteButton()
 	bu:SetScript("OnClick", function(self)
 		favouriteEnable = not favouriteEnable
 		if favouriteEnable then
-			self:SetBackdropBorderColor(1, .8, 0)
-			self.text = enabledText
+			self:SetBackdropBorderColor(cr, cg, cb)
+			self.tooltip = enabledText
 		else
 			self:SetBackdropBorderColor(0, 0, 0)
-			self.text = nil
+			self.tooltip = nil
 		end
 		self:GetScript("OnEnter")(self)
 	end)
@@ -338,7 +338,7 @@ function module:CreateFreeSlots()
 
 	local slot = CreateFrame("Button", name.."FreeSlot", self)
 	local bg = B.CreateBDFrame(slot, 0)
-	B.ReskinTexture(slot, bg, false)
+	B.ReskinTexture(slot, bg)
 
 	slot:SetSize(self.iconSize, self.iconSize)
 	slot:SetScript("OnMouseUp", module.FreeSlotOnDrop)
@@ -368,8 +368,7 @@ function module:CreateSplitButton()
 	splitFrame:SetSize(100, 50)
 	splitFrame:SetPoint("TOPRIGHT", self, "TOPLEFT", -5, 0)
 	B.CreateFS(splitFrame, 14, L["SplitCount"], "system", "TOP", 1, -5)
-	B.CreateBD(splitFrame)
-	B.CreateSD(splitFrame)
+	B.SetBDFrame(splitFrame)
 	splitFrame:Hide()
 	local editbox = B.CreateEditBox(splitFrame, 90, 20)
 	editbox:SetPoint("BOTTOMLEFT", 5, 5)
@@ -382,13 +381,13 @@ function module:CreateSplitButton()
 	bu:SetScript("OnClick", function(self)
 		splitEnable = not splitEnable
 		if splitEnable then
-			self:SetBackdropBorderColor(1, .8, 0)
-			self.text = enabledText
+			self:SetBackdropBorderColor(cr, cg, cb)
+			self.tooltip = enabledText
 			splitFrame:Show()
 			editbox:SetText(NDuiDB["Bags"]["SplitCount"])
 		else
 			self:SetBackdropBorderColor(0, 0, 0)
-			self.text = nil
+			self.tooltip = nil
 			splitFrame:Hide()
 		end
 		self:GetScript("OnEnter")(self)
@@ -538,7 +537,7 @@ function module:OnLogin()
 		B.CleanTextures(self)
 
 		self.bg = B.CreateBDFrame(self, 0)
-		B.ReskinTexture(self, self.bg, false)
+		B.ReskinTexture(self, self.bg)
 
 		self:SetSize(iconSize, iconSize)
 		self.Cooldown:SetInside(self.bg)
@@ -747,8 +746,7 @@ function module:OnLogin()
 		self:SetParent(settings.Parent or Backpack)
 		self:SetFrameStrata("HIGH")
 		self:SetClampedToScreen(true)
-		B.CreateBD(self)
-		B.CreateSD(self)
+		B.SetBDFrame(self)
 		B.CreateMF(self, settings.Parent, true)
 
 		local label
@@ -818,7 +816,7 @@ function module:OnLogin()
 		B.CleanTextures(self)
 
 		self.bg = B.CreateBDFrame(self, 0)
-		B.ReskinTexture(self, self.bg, false)
+		B.ReskinTexture(self, self.bg)
 
 		self:SetSize(iconSize, iconSize)
 		self.Icon:SetInside(self.bg)
@@ -854,4 +852,17 @@ function module:OnLogin()
 	-- Sort order
 	SetSortBagsRightToLeft(not NDuiDB["Bags"]["ReverseSort"])
 	SetInsertItemsLeftToRight(false)
+
+	-- Shift key alert
+	local function onUpdate(self, elapsed)
+		if IsShiftKeyDown() then
+			self.elapsed = (self.elapsed or 0) + elapsed
+			if self.elapsed > 5 then
+				UIErrorsFrame:AddMessage(DB.InfoColor..L["StupidShiftKey"])
+				self.elapsed = 0
+			end
+		end
+	end
+	local shiftUpdater = CreateFrame("Frame", nil, f.main)
+	shiftUpdater:SetScript("OnUpdate", onUpdate)
 end

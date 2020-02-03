@@ -63,7 +63,7 @@ function M:CreateItemString(frame, strType)
 			local slotFrame = _G[strType..slot.."Slot"]
 			slotFrame.iLvlText = B.CreateFS(slotFrame, DB.Font[2]+1)
 			slotFrame.iLvlText:ClearAllPoints()
-			slotFrame.iLvlText:SetPoint("TOP", slotFrame, 1, -1)
+			slotFrame.iLvlText:SetPoint("BOTTOM", slotFrame, 1, 1)
 			local relF, relT, x, y = M:GetSlotAnchor(index)
 			slotFrame.enchantText = B.CreateFS(slotFrame, DB.Font[2]+1)
 			slotFrame.enchantText:ClearAllPoints()
@@ -218,7 +218,7 @@ end
 
 function M:ItemLevel_FlyoutUpdate(bag, slot, quality)
 	if not self.iLvl then
-		self.iLvl = B.CreateFS(self, DB.Font[2]+1, "", false, "TOP", 1, -1)
+		self.iLvl = B.CreateFS(self, DB.Font[2]+1)
 	end
 
 	local link, level

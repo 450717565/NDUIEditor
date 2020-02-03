@@ -401,8 +401,8 @@ end
 
 --初始化美化API
 LibEvent:attachEvent("PLAYER_LOGIN", function()
-	B.CreateBD(frame)
-	B.CreateBD(frame.panel)
+	B.SetBDFrame(frame)
+	B.SetBDFrame(frame.panel)
 
 	frame.label.progress:SetPoint("TOPLEFT", C.mult, -C.mult)
 	frame.label.progress:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)

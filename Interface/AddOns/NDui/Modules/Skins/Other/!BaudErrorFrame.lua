@@ -7,8 +7,7 @@ function S:BaudErrorFrame()
 
 	local cr, cg, cb = DB.r, DB.g, DB.b
 
-	B.CreateBD(BaudErrorFrame)
-	B.CreateSD(BaudErrorFrame)
+	B.SetBDFrame(BaudErrorFrame)
 
 	B.StripTextures(BaudErrorFrameListScrollBox)
 	B.StripTextures(BaudErrorFrameDetailScrollBox)

@@ -42,8 +42,6 @@ local function GetInspectItemListFrame(parent)
 		frame:SetSize(160, height)
 		frame:SetToplevel(true)
 		frame:SetPoint("TOPLEFT", parent, "TOPRIGHT", 0, 0)
-		frame:SetBackdropColor(0, 0, 0, 0.8)
-		frame:SetBackdropBorderColor(0.6, 0.6, 0.6)
 		frame.portrait = CreateFrame("Frame", nil, frame, "GarrisonFollowerPortraitTemplate")
 		frame.portrait:SetPoint("TOPLEFT", frame, "TOPLEFT", 18, -16)
 		frame.portrait:SetScale(0.8)
@@ -113,7 +111,7 @@ local function GetInspectItemListFrame(parent)
 		parent.inspectFrame = frame
 		LibEvent:trigger("INSPECT_FRAME_CREATED", frame, parent)
 
-		B.CreateBD(frame)
+		B.SetBDFrame(frame)
 	end
 
 	return parent.inspectFrame

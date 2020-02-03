@@ -46,8 +46,7 @@ C.themes["Blizzard_LookingForGuildUI"] = function()
 
 			local pd = _G[button..i.."Pending"]
 			if pd then
-				pd.pendingTex:SetPoint("TOPLEFT", bg, C.mult, -C.mult)
-				pd.pendingTex:SetPoint("BOTTOMRIGHT", bg, -C.mult, C.mult)
+				pd.pendingTex:SetInside(bg)
 			end
 		end
 

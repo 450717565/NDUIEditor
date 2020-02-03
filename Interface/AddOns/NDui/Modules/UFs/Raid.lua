@@ -495,9 +495,9 @@ function UF:InterruptIndicator(self)
 		B.AuraIcon(bu)
 		bu.CD:SetReverse(false)
 		if i == 1 then
-			bu:SetPoint("TOPRIGHT", self, "TOPLEFT", -3, C.mult)
+			bu:SetPoint("TOPRIGHT", self, "TOPLEFT", -5, C.mult)
 		else
-			bu:SetPoint("RIGHT", buttons[i-1], "LEFT", -3, 0)
+			bu:SetPoint("RIGHT", buttons[i-1], "LEFT", -5, 0)
 		end
 		bu:Hide()
 

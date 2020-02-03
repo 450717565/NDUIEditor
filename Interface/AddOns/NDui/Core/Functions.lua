@@ -76,10 +76,10 @@ end
 
 -- Icon Style
 function B:PixelIcon(texture, highlight)
-	B.CreateBD(self)
-	B.CreateSD(self)
+	B.SetBDFrame(self)
+
 	self.Icon = self:CreateTexture(nil, "ARTWORK")
-	self.Icon:SetInside()
+	self.Icon:SetInside(self.bd)
 	self.Icon:SetTexCoord(unpack(DB.TexCoord))
 	if texture then
 		local atlas = strmatch(texture, "Atlas:(.+)$")
@@ -93,8 +93,7 @@ function B:PixelIcon(texture, highlight)
 		self:EnableMouse(true)
 		self.HL = self:CreateTexture(nil, "HIGHLIGHT")
 		self.HL:SetColorTexture(1, 1, 1, .25)
-		self.HL:ClearAllPoints()
-		self.HL:SetInside()
+		self.HL:SetInside(self.bd)
 	end
 end
 
@@ -727,7 +726,8 @@ function B:CreateDropDown(width, height, data)
 	local list = CreateFrame("Frame", nil, dd)
 	list:ClearAllPoints()
 	list:SetPoint("TOP", dd, "BOTTOM", 0, -2)
-	B.CreateBDFrame(list, 1, nil, true)
+	B.CreateBD(list, 1)
+	B.CreateSD(list)
 	list:SetBackdropBorderColor(1, 1, 1)
 	list:Hide()
 	bu.__list = list

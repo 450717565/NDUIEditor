@@ -2,8 +2,7 @@ local B, C, L, DB = unpack(select(2, ...))
 
 C.themes["Blizzard_DeathRecap"] = function()
 	B.StripTextures(DeathRecapFrame)
-	B.CreateBD(DeathRecapFrame)
-	B.CreateSD(DeathRecapFrame)
+	B.SetBDFrame(DeathRecapFrame)
 	B.ReskinButton(DeathRecapFrame.CloseButton)
 	B.ReskinClose(DeathRecapFrame.CloseXButton)
 

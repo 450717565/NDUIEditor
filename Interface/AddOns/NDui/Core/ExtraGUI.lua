@@ -19,8 +19,7 @@ local function createExtraGUI(parent, name, title, bgFrame)
 	local frame = CreateFrame("Frame", name, parent)
 	frame:SetSize(300, 600)
 	frame:SetPoint("TOPLEFT", parent:GetParent(), "TOPRIGHT", 2, 0)
-	B.CreateBD(frame)
-	B.CreateSD(frame)
+	B.SetBDFrame(frame)
 	parent:HookScript("OnHide", function()
 		if frame:IsShown() then frame:Hide() end
 	end)
@@ -812,22 +811,22 @@ function G:SetupRaidFrame(parent)
 
 	local scroll = G:CreateScroll(raidframeGUI, 260, 540)
 
-	local minRange = {
-		["Party"] = {80, 25},
-		["PartyPet"] = {80, 20},
-		["Raid"] = {60, 25},
+	local sliderRange = {
+		["Party"] = {150, 300},
+		["PartyPet"] = {100, 200},
+		["Raid"] = {50, 150},
 	}
 
 	local defaultValue = {
-		["Party"] = {100, 32, 2},
-		["PartyPet"] = {100, 22, 2},
+		["Party"] = {200, 26, 2},
+		["PartyPet"] = {120, 20, 2},
 		["Raid"] = {80, 32, 2},
 	}
 
 	local function createOptionGroup(parent, title, offset, value, func)
 		createOptionTitle(parent, title, offset)
-		createOptionSlider(parent, L["Health Width"].."("..defaultValue[value][1]..")", minRange[value][1], 200, 30, offset-60, value.."Width", func)
-		createOptionSlider(parent, L["Health Height"].."("..defaultValue[value][2]..")", minRange[value][2], 60, 30, offset-130, value.."Height", func)
+		createOptionSlider(parent, L["Health Width"].."("..defaultValue[value][1]..")", sliderRange[value][1], sliderRange[value][2], 30, offset-60, value.."Width", func)
+		createOptionSlider(parent, L["Health Height"].."("..defaultValue[value][2]..")", 20, 60, 30, offset-130, value.."Height", func)
 		createOptionSlider(parent, L["Power Height"].."("..defaultValue[value][3]..")", 2, 30, 30, offset-200, value.."PowerHeight", func)
 	end
 
@@ -850,7 +849,7 @@ function G:SetupRaidFrame(parent)
 		end
 	end
 	createOptionGroup(scroll.child, L["RaidFrame"], -10, "Raid", resizeRaidFrame)
-	createOptionSlider(scroll.child, "|cff00cc4c"..L["SimpleMode Scale"], 8, 15, 30, -280, "SimpleRaidScale", resizeRaidFrame)
+	createOptionSlider(scroll.child, DB.MyColor..L["SimpleMode Scale"], 5, 15, 30, -280, "SimpleRaidScale", resizeRaidFrame)
 
 	local function resizePartyFrame()
 		for _, frame in pairs(ns.oUF.objects) do

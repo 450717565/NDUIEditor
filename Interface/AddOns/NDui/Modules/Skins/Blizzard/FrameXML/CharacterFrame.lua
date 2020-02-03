@@ -15,7 +15,7 @@ tinsert(C.defaultThemes, function()
 			self.RankFrame.Texture:Hide()
 
 			self.RankFrame.Label:ClearAllPoints()
-			self.RankFrame.Label:SetPoint("BOTTOM", 1, 5)
+			self.RankFrame.Label:SetPoint("TOP", self, 1, 0)
 			self.RankFrame.Label:SetTextColor(0, 1, 1)
 
 			self.styled = true
@@ -23,12 +23,19 @@ tinsert(C.defaultThemes, function()
 
 		local hl = self:GetHighlightTexture()
 		hl:SetColorTexture(1, 1, 1, .25)
-		hl:SetAllPoints()
+		hl:SetInside(self.bg)
 	end
 
 	local function UpdateAzeriteEmpoweredItem(self)
 		self.AzeriteTexture:SetAtlas("AzeriteIconFrame")
-		self.AzeriteTexture:SetAllPoints()
+		self.AzeriteTexture:SetInside(self.bg)
+		self.AzeriteTexture:SetDrawLayer("BORDER", 1)
+	end
+
+	local function UpdateCorruption(self)
+		local itemLink = GetInventoryItemLink("player", self:GetID())
+		self.IconOverlay:SetShown(itemLink and IsCorruptedItem(itemLink))
+		self.IconOverlay:SetInside(self.bg)
 	end
 
 	local slots = {"Head", "Neck", "Shoulder", "Back", "Chest", "Shirt", "Tabard", "Wrist", "Hands", "Waist", "Legs", "Feet", "Finger0", "Finger1", "Trinket0", "Trinket1", "MainHand", "SecondaryHand"}
@@ -37,6 +44,8 @@ tinsert(C.defaultThemes, function()
 		local slot = _G["Character"..slots[i].."Slot"]
 		B.StripTextures(slot)
 		slot.ignoreTexture:SetTexture("Interface\\PaperDollInfoFrame\\UI-GearManager-LeaveItem-Transparent")
+		slot.CorruptedHighlightTexture:SetAtlas("Nzoth-charactersheet-item-glow")
+		slot.IconOverlay:SetAtlas("Nzoth-inventory-icon")
 
 		local icbg = B.ReskinIcon(slot.icon)
 		B.ReskinTexture(slot, icbg)
@@ -48,6 +57,9 @@ tinsert(C.defaultThemes, function()
 		local popout = slot.popoutButton
 		B.StripTextures(popout)
 
+		local cooldown = _G["Character"..slots[i].."SlotCooldown"]
+		cooldown:SetInside(icbg)
+
 		local bgTex = popout:CreateTexture(nil, "OVERLAY")
 		if slot.verticalFlyout then
 			bgTex:SetSize(14, 8)
@@ -58,17 +70,17 @@ tinsert(C.defaultThemes, function()
 			bgTex:SetTexture(DB.arrowRight)
 			bgTex:SetPoint("LEFT", slot, "RIGHT", -1, 0)
 		end
+
+		slot.bg = icbg
 		popout.bgTex = bgTex
 
+		slot:HookScript("OnShow", UpdateCorruption)
+		slot:HookScript("OnEvent", UpdateCorruption)
 		popout:HookScript("OnEnter", B.TexOnEnter)
 		popout:HookScript("OnLeave", B.TexOnLeave)
 
 		hooksecurefunc(slot, "DisplayAsAzeriteItem", UpdateAzeriteItem)
 		hooksecurefunc(slot, "DisplayAsAzeriteEmpoweredItem", UpdateAzeriteEmpoweredItem)
-
-		local cooldown = _G["Character"..slots[i].."SlotCooldown"]
-		cooldown:SetPoint("TOPLEFT", icbg, C.mult, -C.mult)
-		cooldown:SetPoint("BOTTOMRIGHT", icbg, -C.mult, C.mult)
 	end
 
 	hooksecurefunc("PaperDollItemSlotButton_Update", function(self)

@@ -79,15 +79,15 @@ StaticPopupDialogs["RELOAD_NDUI"] = {
 	end,
 }
 
--- DeadlyBossMods bars
+-- DeadlyBossMods
 local function ForceDBMOptions()
-	if not IsAddOnLoaded("DeadlyBossMods-Core") then return end
+	if not IsAddOnLoaded("DBM-Core") then return end
 	if DBT_AllPersistentOptions then wipe(DBT_AllPersistentOptions) end
 	DBT_AllPersistentOptions = {
 		["Default"] = {
-			["DeadlyBossMods"] = {
+			["DBM"] = {
 				["Alpha"] = 0.8,
-				["BarStyle"] = "DeadlyBossMods",
+				["BarStyle"] = "DBM",
 				["BarXOffset"] = 0,
 				["BarYOffset"] = 5,
 				["EndColorB"] = 0,
@@ -138,13 +138,13 @@ local function ForceDBMOptions()
 		},
 	}
 
-	if IsAddOnLoaded("DeadlyBossMods-VPVV") then
+	if IsAddOnLoaded("DBM-VPVV") then
 		DBM_AllSavedOptions["Default"]["ChosenVoicePack"] = "VV"
 		DBM_AllSavedOptions["Default"]["CountdownVoice"] = "VP:VV"
 		DBM_AllSavedOptions["Default"]["CountdownVoice2"] = "VP:VV"
 		DBM_AllSavedOptions["Default"]["CountdownVoice3"] = "VP:VV"
 		DBM_AllSavedOptions["Default"]["CountdownVoice3v2"] = "VP:VV"
-	elseif IsAddOnLoaded("DeadlyBossMods-VPYike") then
+	elseif IsAddOnLoaded("DBM-VPYike") then
 		DBM_AllSavedOptions["Default"]["ChosenVoicePack"] = "Yike"
 		DBM_AllSavedOptions["Default"]["CountdownVoice"] = "VP:Yike"
 		DBM_AllSavedOptions["Default"]["CountdownVoice2"] = "VP:Yike"
@@ -348,8 +348,7 @@ local function YesTutor()
 	tutor:SetFrameStrata("HIGH")
 	tutor:SetScale(1.2)
 	B.CreateMF(tutor)
-	B.CreateBD(tutor)
-	B.CreateSD(tutor)
+	B.SetBDFrame(tutor)
 	B.CreateFS(tutor, 30, "NDui", true, "TOPLEFT", 10, 27)
 	local ll = CreateFrame("Frame", nil, tutor)
 	ll:SetPoint("TOPRIGHT", tutor, "TOP", 0, -35)
@@ -432,8 +431,7 @@ local function HelloWorld()
 	welcome:SetScale(1.2)
 	welcome:SetFrameStrata("HIGH")
 	B.CreateMF(welcome)
-	B.CreateBD(welcome)
-	B.CreateSD(welcome)
+	B.SetBDFrame(welcome)
 	B.CreateFS(welcome, 30, "NDui", true, "TOPLEFT", 10, 27)
 	B.CreateFS(welcome, 14, DB.Version, true, "TOPRIGHT", -10, 14)
 	B.CreateFS(welcome, 16, L["Help Title"], true, "TOP", 0, -10)

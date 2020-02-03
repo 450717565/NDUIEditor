@@ -195,15 +195,15 @@ local defaultSettings = {
 		TargetIndicator = 2,
 		InsideView = true,
 		Distance = 42,
-		PlateWidth = 135,
-		PlateHeight = 5,
+		PlateWidth = 140,
+		PlateHeight = 6,
 		CustomUnitColor = true,
 		CustomColor = {r=0, g=1, b=0},
 		UnitList = "",
 		ShowPowerList = "",
 		VerticalSpacing = .8,
 		ShowPlayerPlate = false,
-		PPHPHeight = 5,
+		PPHeight = 5,
 		PPPowerText = false,
 		NPsHPMode = 1,
 		SecureColor = {r=1, g=0, b=1},
@@ -349,20 +349,12 @@ local accountSettings = {
 	BWRequest = false,
 	RaidAuraWatch = {},
 	CornerBuffs = {},
-	TexStyle = 1,
 	KeystoneInfo = {},
 	AutoBubbles = false,
 	SystemInfoType = 3,
 	DisableInfobars = false,
 	PartyWatcherSpells = {},
 	ContactList = {},
-}
-
--- Initial settings
-local textureList = {
-	[1] = DB.normTex,
-	[2] = DB.gradTex,
-	[3] = DB.flatTex,
 }
 
 local function InitialSettings(source, target, fullClean)
@@ -403,7 +395,6 @@ loader:SetScript("OnEvent", function(self, _, addon)
 	InitialSettings(defaultSettings, NDuiDB, true)
 	InitialSettings(accountSettings, NDuiADB)
 	B:SetupUIScale(true)
-	DB.normTex = textureList[NDuiADB["TexStyle"]]
 
 	self:UnregisterAllEvents()
 end)
@@ -658,11 +649,11 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Bags", "GatherEmpty", L["Bags GatherEmpty"].."*", nil, nil, updateBagStatus},
 		{1, "Bags", "ReverseSort", L["Bags ReverseSort"].."*", true, nil, updateBagSortOrder},
 		{1, "Bags", "SpecialBagsColor", L["SpecialBagsColor"].."*", nil, nil, updateBagStatus, L["SpecialBagsColorTip"]},
-		{1, "Bags", "BagsiLvl", L["Bags Itemlevel"].."*", true, nil, updateBagStatus},
+		{1, "Bags", "BagsiLvl", L["Bags Itemlevel"], true, nil, updateBagStatus},
 		{1, "Bags", "ShowNewItem", L["Bags ShowNewItem"]},
 		{1, "Bags", "DeleteButton", L["Bags DeleteButton"]},
 		{3, "Bags", "iLvlToShow", L["iLvlToShow"].."*", true, {1, 500, 0}, updateBagStatus, L["iLvlToShowTip"]},
-		{1, "Extras", "BagsSlot", L["Bags ItemSlot"].."*", false, nil, updateBagStatus},
+		{1, "Extras", "BagsSlot", L["Bags ItemSlot"], false, nil, updateBagStatus},
 		{},--blank
 		{3, "Bags", "BagsScale", L["Bags Scale"], false, {.5, 1.5, 1}},
 		{3, "Bags", "IconSize", L["Bags IconSize"], true, {30, 42, 0}},
@@ -751,12 +742,12 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{3, "Nameplate", "Distance", L["Nameplate Distance"].."*", true, {20, 100, 0}, updatePlateRange},
 		{3, "Nameplate", "MinScale", L["Nameplate MinScale"].."*", false, {.5, 1, 1}, updatePlateScale},
 		{3, "Nameplate", "MinAlpha", L["Nameplate MinAlpha"].."*", true, {.5, 1, 1}, updatePlateAlpha},
-		{3, "Nameplate", "PlateWidth", L["NP Width"].."*(190)", false, {50, 250, 0}, refreshNameplates},
-		{3, "Nameplate", "PlateHeight", L["NP Height"].."*(8)", true, {5, 30, 0}, refreshNameplates},
-		{3, "Nameplate", "NameTextSize", L["NameTextSize"].."*(14)", false, {10, 30, 0}, refreshNameplates},
-		{3, "Nameplate", "HealthTextSize", L["HealthTextSize"].."*(16)", true, {10, 30, 0}, refreshNameplates},
-		{3, "Nameplate", "maxAuras", L["Max Auras"], false, {0, 12, 0}},
-		{3, "Nameplate", "AutoPerRow", L["Auto Per Row"], true, {3, 6, 0}},
+		{3, "Nameplate", "PlateWidth", L["NP Width"].."*(140)", false, {50, 250, 0}, refreshNameplates},
+		{3, "Nameplate", "PlateHeight", L["NP Height"].."*(6)", true, {5, 30, 0}, refreshNameplates},
+		{3, "Nameplate", "NameTextSize", L["NameTextSize"].."*(10)", false, {10, 30, 0}, refreshNameplates},
+		{3, "Nameplate", "HealthTextSize", L["HealthTextSize"].."*(14)", true, {10, 30, 0}, refreshNameplates},
+		{3, "Nameplate", "maxAuras", L["Max Auras"].."(12)", false, {0, 12, 0}},
+		{3, "Nameplate", "AutoPerRow", L["Auto Per Row"].."(6)", true, {3, 6, 0}},
 	},
 	[6] = {
 		{1, "AuraWatch", "Enable", DB.MyColor..L["Enable AuraWatch"], nil, setupAuraWatch},
@@ -772,7 +763,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Nameplate", "PPPowerText", L["PlayerPlate PowerText"]},
 		{1, "Nameplate", "PPHideOOC", L["Fadeout OOC"]},
 		{3, "Nameplate", "PPIconSize", L["PlayerPlate IconSize"], true, {30, 60, 0}, updatePlayerPlate},
-		{3, "Nameplate", "PPHPHeight", L["PlayerPlate HP Height"].."*", false, {5, 10, 0}, updatePlayerPlate},
+		{3, "Nameplate", "PPHeight", L["PlayerPlate Height"].."*", false, {5, 10, 0}, updatePlayerPlate},
 		{3, "Extras", "PPCPHeight", L["PlayerPlate CP Height"].."*", true, {10, 20, 0}, updatePlayerPlate},
 		{},--blank
 		{1, "Auras", "ReverseBuffs", L["ReverseBuffs"]},
@@ -918,8 +909,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{3, "ACCOUNT", "UIScale", L["Setup UIScale"], false, {.4, 1.15, 15}},
 		{1, "ACCOUNT", "LockUIScale", DB.MyColor..L["Lock UIScale"], true},
 		{},--blank
-		{4, "ACCOUNT", "TexStyle", L["Texture Style"], false, {L["Highlight"], L["Gradient"], L["Flat"]}},
-		{4, "ACCOUNT", "NumberFormat", L["Numberize"], true, {L["Number Type1"], L["Number Type2"], L["Number Type3"]}},
+		{4, "ACCOUNT", "NumberFormat", L["Numberize"], false, {L["Number Type1"], L["Number Type2"], L["Number Type3"]}},
 	},
 	[14] = {
 		{3, "Extras", "SkinAlpha", L["Skin Alpha"], false, {0, 1, 1}},
@@ -1375,8 +1365,7 @@ local function createDataFrame()
 	dataFrame:SetSize(500, 500)
 	dataFrame:SetFrameStrata("DIALOG")
 	B.CreateMF(dataFrame)
-	B.CreateBD(dataFrame)
-	B.CreateSD(dataFrame)
+	B.SetBDFrame(dataFrame)
 	dataFrame.Header = B.CreateFS(dataFrame, 16, L["Export Header"], true, "TOP", 0, -5)
 
 	local scrollArea = CreateFrame("ScrollFrame", nil, dataFrame, "UIPanelScrollFrameTemplate")
@@ -1445,8 +1434,7 @@ local function OpenGUI()
 	f:SetFrameStrata("HIGH")
 	f:SetFrameLevel(5)
 	B.CreateMF(f)
-	B.CreateBD(f)
-	B.CreateSD(f)
+	B.SetBDFrame(f)
 	B.CreateFS(f, 18, L["NDui Console"], true, "TOP", 0, -10)
 	B.CreateFS(f, 16, DB.Version.." ("..DB.Support..")", false, "TOP", 0, -30)
 

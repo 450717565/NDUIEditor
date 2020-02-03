@@ -32,7 +32,7 @@ tinsert(C.defaultThemes, function()
 				button.IconBorder:Hide()
 
 				local icbg = B.ReskinIcon(button.Icon)
-				B.ReskinTexture(button, icbg, false)
+				B.ReskinTexture(button, icbg)
 
 				button.styled = true
 			end

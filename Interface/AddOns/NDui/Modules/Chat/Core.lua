@@ -59,8 +59,7 @@ function module:SkinChat()
 	eb:ClearAllPoints()
 	eb:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 4, 26)
 	eb:SetPoint("TOPRIGHT", self, "TOPRIGHT", -17, 50)
-	B.CreateBD(eb)
-	B.CreateSD(eb)
+	B.SetBDFrame(eb)
 	for i = 3, 8 do
 		select(i, eb:GetRegions()):SetAlpha(0)
 	end
@@ -69,8 +68,7 @@ function module:SkinChat()
 	lang:GetRegions():SetAlpha(0)
 	lang:SetPoint("TOPLEFT", eb, "TOPRIGHT", 5, 0)
 	lang:SetPoint("BOTTOMRIGHT", eb, "BOTTOMRIGHT", 29, 0)
-	B.CreateBD(lang)
-	B.CreateSD(lang)
+	B.SetBDFrame(lang)
 
 	local tab = _G[name.."Tab"]
 	tab:SetAlpha(1)

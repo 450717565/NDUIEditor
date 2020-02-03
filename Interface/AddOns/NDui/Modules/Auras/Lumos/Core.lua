@@ -169,7 +169,7 @@ function A:CreateLumos(self)
 		fontParent:SetFrameLevel(bu:GetFrameLevel() + 5)
 		bu.Count = B.CreateFS(fontParent, 16, "", false, "BOTTOM", 0, -10)
 		if i == 1 then
-			bu:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -5)
+			bu:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -3)
 		else
 			bu:SetPoint("LEFT", self.bu[i-1], "RIGHT", 2, 0)
 		end

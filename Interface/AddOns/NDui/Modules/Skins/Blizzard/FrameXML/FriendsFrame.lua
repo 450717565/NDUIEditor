@@ -7,8 +7,7 @@ tinsert(C.defaultThemes, function()
 	B.ReskinInput(AddFriendNameEditBox)
 
 	B.StripTextures(FriendsFriendsFrame)
-	B.CreateBD(FriendsFriendsFrame)
-	B.CreateSD(FriendsFriendsFrame)
+	B.SetBDFrame(FriendsFriendsFrame)
 	B.StripTextures(FriendsFriendsFrame.ScrollFrameBorder)
 	B.CreateBDFrame(FriendsFriendsFrame.ScrollFrameBorder, 0)
 

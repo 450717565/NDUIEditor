@@ -464,9 +464,7 @@ function S:Rematch()
 		if petInfo.isSummoned and parentPanel == Rematch.PetPanel then
 			local bg = parentPanel.SelectedOverlay.bg
 			if bg then
-				bg:ClearAllPoints()
-				bg:SetPoint("TOPLEFT", self.bg, C.mult, -C.mult)
-				bg:SetPoint("BOTTOMRIGHT", self.bg, -C.mult, C.mult)
+				bg:SetInside(self.bg)
 			end
 		end
 	end)
@@ -639,9 +637,7 @@ function S:Rematch()
 		if teamInfo.key == RematchSettings.loadedTeam then
 			local bg = panel.SelectedOverlay.bg
 			if bg then
-				bg:ClearAllPoints()
-				bg:SetPoint("TOPLEFT", self.bg, C.mult, -C.mult)
-				bg:SetPoint("BOTTOMRIGHT", self.bg, -C.mult, C.mult)
+				bg:SetInside(self.bg)
 			end
 		end
 	end)

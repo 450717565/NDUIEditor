@@ -210,7 +210,7 @@ function UF:CreatePowerBar(self)
 
 	local powerHeight
 	if mystyle == "PlayerPlate" then
-		powerHeight = NDuiDB["Nameplate"]["PPPHeight"]
+		powerHeight = NDuiDB["Nameplate"]["PPHeight"]
 	elseif mystyle == "raid" then
 		if NDuiDB["UFs"]["SimpleMode"] then
 			powerHeight = 2*NDuiDB["UFs"]["SimpleRaidScale"]/10
@@ -654,7 +654,7 @@ function UF:CreateAuras(self)
 		bu:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -6)
 		bu.numBuffs = 22
 		bu.numDebuffs = 22
-		bu.spacing = 3
+		bu.spacing = 5
 		bu.iconsPerRow = 9
 		bu.gap = true
 		bu.initialAnchor = "TOPLEFT"
@@ -669,7 +669,7 @@ function UF:CreateAuras(self)
 			bu:SetPoint("BOTTOMLEFT", self.Health)
 			bu.numTotal = NDuiDB["UFs"]["SimpleMode"] and 0 or 6
 			bu.iconsPerRow = 6
-			bu.spacing = 2
+			bu.spacing = 3
 		end
 		bu.disableMouse = NDuiDB["UFs"]["AurasClickThrough"]
 	elseif mystyle == "nameplate" then
@@ -701,7 +701,7 @@ end
 
 function UF:CreateBuffs(self)
 	local bu = CreateFrame("Frame", nil, self)
-	bu.spacing = 3
+	bu.spacing = 5
 	bu["growth-x"] = "RIGHT"
 	bu["growth-y"] = "UP"
 	bu.onlyShowPlayer = false
@@ -731,7 +731,7 @@ end
 function UF:CreateDebuffs(self)
 	local mystyle = self.mystyle
 	local bu = CreateFrame("Frame", nil, self)
-	bu.spacing = 3
+	bu.spacing = 5
 	bu.showDebuffType = true
 	bu.initialAnchor = "TOPRIGHT"
 	bu["growth-x"] = "LEFT"

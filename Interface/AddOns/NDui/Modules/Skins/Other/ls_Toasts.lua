@@ -7,7 +7,7 @@ function S:ls_Toasts()
 		name = "NDui",
 		border = {
 			offset = 0,
-			size = B.Scale(1+C.mult),
+			size = B.Scale(1.5),
 			texture = {1, 1, 1, 1},
 		},
 		title = {
@@ -29,7 +29,7 @@ function S:ls_Toasts()
 		},
 		icon_border = {
 			offset = 0,
-			size = B.Scale(1+C.mult),
+			size = B.Scale(1.5),
 			texture = {1, 1, 1, 1},
 		},
 		icon_highlight = {
@@ -51,7 +51,7 @@ function S:ls_Toasts()
 		},
 		slot_border = {
 			offset = 0,
-			size = B.Scale(1+C.mult),
+			size = B.Scale(1.5),
 			texture = {1, 1, 1, 1},
 		},
 	})

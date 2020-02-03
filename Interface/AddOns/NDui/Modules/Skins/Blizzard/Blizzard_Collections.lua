@@ -53,8 +53,7 @@ C.themes["Blizzard_Collections"] = function()
 				local bar = bu.ProgressBar
 				bar:SetTexture(DB.bdTex)
 				bar:SetVertexColor(cr, cg, cb, .25)
-				bar:SetPoint("TOPLEFT", bubg, C.mult, -C.mult)
-				bar:SetPoint("BOTTOMLEFT", bubg, -C.mult, C.mult)
+				bar:SetInside(bubg)
 			end
 
 			if bu.DragButton then
@@ -268,8 +267,7 @@ C.themes["Blizzard_Collections"] = function()
 		button.icbg = icbg
 
 		local cooldown = button.cooldown
-		cooldown:SetPoint("TOPLEFT", icbg, C.mult, -C.mult)
-		cooldown:SetPoint("BOTTOMRIGHT", icbg, -C.mult, C.mult)
+		cooldown:SetInside(icbg)
 
 		hooksecurefunc(button.name, "SetTextColor", nameColor)
 	end

@@ -18,7 +18,7 @@ C.themes["Blizzard_GMChatUI"] = function()
 	edit:SetPoint("TOPLEFT", frame, "BOTTOMLEFT", 0, -8)
 	edit:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -28, -32)
 
-	local bg = B.SetBDFrame(edit)
+	local bg = B.SetBDFrame(edit, 0, 0, 0, 0)
 	bg:Hide()
 	hooksecurefunc("ChatEdit_DeactivateChat", function(editBox)
 		if editBox.isGM then bg:Hide() end
