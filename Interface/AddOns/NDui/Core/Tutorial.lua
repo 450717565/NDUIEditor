@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 local module = B:RegisterModule("Settings")
 local pairs, wipe = pairs, table.wipe
 local min, max = math.min, math.max
@@ -58,34 +58,6 @@ local function ForceRaidFrame()
 	CompactUnitFrameProfiles_UpdateCurrentPanel()
 end
 
-local function GetPerfectScale()
-	local scale = NDuiADB["UIScale"]
-	local bestScale = max(.4, min(1.15, 768 / DB.ScreenHeight))
-	local pixelScale = 768 / DB.ScreenHeight
-	if NDuiADB["LockUIScale"] then scale = bestScale end
-
-	C.mult = (bestScale / scale) - ((bestScale - pixelScale) / scale)
-	C.pixel = C.mult*2
-
-	return scale
-end
-
-local isScaling = false
-local function SetupUIScale()
-	if isScaling then return end
-	isScaling = true
-
-	local scale = GetPerfectScale()
-	local parentScale = UIParent:GetScale()
-	if scale ~= parentScale and not InCombatLockdown() then
-		UIParent:SetScale(scale)
-	end
-
-	NDuiADB["UIScale"] = scale
-
-	isScaling = false
-end
-
 local function ForceChatSettings()
 	B:GetModule("Chat"):UpdateChatSize()
 
@@ -107,15 +79,15 @@ StaticPopupDialogs["RELOAD_NDUI"] = {
 	end,
 }
 
--- DBM bars
+-- DeadlyBossMods bars
 local function ForceDBMOptions()
-	if not IsAddOnLoaded("DBM-Core") then return end
+	if not IsAddOnLoaded("DeadlyBossMods-Core") then return end
 	if DBT_AllPersistentOptions then wipe(DBT_AllPersistentOptions) end
 	DBT_AllPersistentOptions = {
 		["Default"] = {
-			["DBM"] = {
+			["DeadlyBossMods"] = {
 				["Alpha"] = 0.8,
-				["BarStyle"] = "DBM",
+				["BarStyle"] = "DeadlyBossMods",
 				["BarXOffset"] = 0,
 				["BarYOffset"] = 5,
 				["EndColorB"] = 0,
@@ -166,13 +138,13 @@ local function ForceDBMOptions()
 		},
 	}
 
-	if IsAddOnLoaded("DBM-VPVV") then
+	if IsAddOnLoaded("DeadlyBossMods-VPVV") then
 		DBM_AllSavedOptions["Default"]["ChosenVoicePack"] = "VV"
 		DBM_AllSavedOptions["Default"]["CountdownVoice"] = "VP:VV"
 		DBM_AllSavedOptions["Default"]["CountdownVoice2"] = "VP:VV"
 		DBM_AllSavedOptions["Default"]["CountdownVoice3"] = "VP:VV"
 		DBM_AllSavedOptions["Default"]["CountdownVoice3v2"] = "VP:VV"
-	elseif IsAddOnLoaded("DBM-VPYike") then
+	elseif IsAddOnLoaded("DeadlyBossMods-VPYike") then
 		DBM_AllSavedOptions["Default"]["ChosenVoicePack"] = "Yike"
 		DBM_AllSavedOptions["Default"]["CountdownVoice"] = "VP:Yike"
 		DBM_AllSavedOptions["Default"]["CountdownVoice2"] = "VP:Yike"
@@ -376,15 +348,16 @@ local function YesTutor()
 	tutor:SetFrameStrata("HIGH")
 	tutor:SetScale(1.2)
 	B.CreateMF(tutor)
-	F.CreateBD(tutor)
+	B.CreateBD(tutor)
+	B.CreateSD(tutor)
 	B.CreateFS(tutor, 30, "NDui", true, "TOPLEFT", 10, 27)
 	local ll = CreateFrame("Frame", nil, tutor)
 	ll:SetPoint("TOPRIGHT", tutor, "TOP", 0, -35)
-	F.CreateGA(ll, 80, C.pixel, "Horizontal", cr, cg, cb, 0, alpha)
+	B.CreateGA(ll, 80, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
 	ll:SetFrameStrata("HIGH")
 	local lr = CreateFrame("Frame", nil, tutor)
 	lr:SetPoint("TOPLEFT", tutor, "TOP", 0, -35)
-	F.CreateGA(lr, 80, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
+	B.CreateGA(lr, 80, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
 	lr:SetFrameStrata("HIGH")
 
 	local title = B.CreateFS(tutor, 12, "", true, "TOP", 0, -10)
@@ -426,7 +399,7 @@ local function YesTutor()
 			UIErrorsFrame:AddMessage(DB.InfoColor..L["Chat Settings Check"])
 		elseif currentPage == 3 then
 			NDuiADB["LockUIScale"] = true
-			SetupUIScale()
+			B:SetupUIScale()
 			UIErrorsFrame:AddMessage(DB.InfoColor..L["UIScale Check"])
 		elseif currentPage == 4 then
 			NDuiADB["DBMRequest"] = true
@@ -459,17 +432,18 @@ local function HelloWorld()
 	welcome:SetScale(1.2)
 	welcome:SetFrameStrata("HIGH")
 	B.CreateMF(welcome)
-	F.CreateBD(welcome)
+	B.CreateBD(welcome)
+	B.CreateSD(welcome)
 	B.CreateFS(welcome, 30, "NDui", true, "TOPLEFT", 10, 27)
 	B.CreateFS(welcome, 14, DB.Version, true, "TOPRIGHT", -10, 14)
 	B.CreateFS(welcome, 16, L["Help Title"], true, "TOP", 0, -10)
 	local ll = CreateFrame("Frame", nil, welcome)
 	ll:SetPoint("TOPRIGHT", welcome, "TOP", 0, -35)
-	F.CreateGA(ll, 100, C.pixel, "Horizontal", cr, cg, cb, 0, alpha)
+	B.CreateGA(ll, 100, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
 	ll:SetFrameStrata("HIGH")
 	local lr = CreateFrame("Frame", nil, welcome)
 	lr:SetPoint("TOPLEFT", welcome, "TOP", 0, -35)
-	F.CreateGA(lr, 100, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
+	B.CreateGA(lr, 100, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
 	lr:SetFrameStrata("HIGH")
 	B.CreateFS(welcome, 12, L["Help Info1"], false, "TOPLEFT", 20, -50)
 	B.CreateFS(welcome, 12, L["Help Info2"], false, "TOPLEFT", 20, -70)
@@ -512,10 +486,6 @@ function module:OnLogin()
 	-- Hide options
 	B.HideOption(Advanced_UseUIScale)
 	B.HideOption(Advanced_UIScaleSlider)
-
-	-- Update UIScale
-	SetupUIScale()
-	B:RegisterEvent("UI_SCALE_CHANGED", SetupUIScale)
 
 	-- Tutorial and settings
 	ForceAddonSkins()

@@ -1,14 +1,18 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 
 local oUF = ns.oUF or oUF
 local UF = B:GetModule("UnitFrames")
 local format, tostring = string.format, tostring
 
 -- Units
+local function SetUnitFrameSize(self, unit)
+	self:SetSize(NDuiDB["UFs"][unit.."Width"], NDuiDB["UFs"][unit.."Height"])
+end
+
 local function CreatePlayerStyle(self)
 	self.mystyle = "player"
-	self:SetSize(NDuiDB["UFs"]["PlayerWidth"], NDuiDB["UFs"]["PlayerHeight"])
+	SetUnitFrameSize(self, "Player")
 
 	UF:CreateHeader(self)
 	UF:CreateHealthBar(self)
@@ -39,7 +43,7 @@ end
 
 local function CreatePetStyle(self)
 	self.mystyle = "pet"
-	self:SetSize(NDuiDB["UFs"]["PetWidth"], NDuiDB["UFs"]["PetHeight"])
+	SetUnitFrameSize(self, "Pet")
 
 	UF:CreateHeader(self)
 	UF:CreateHealthBar(self)
@@ -51,7 +55,7 @@ end
 
 local function CreateTargetStyle(self)
 	self.mystyle = "target"
-	self:SetSize(NDuiDB["UFs"]["PlayerWidth"], NDuiDB["UFs"]["PlayerHeight"])
+	SetUnitFrameSize(self, "Player")
 
 	UF:CreateHeader(self)
 	UF:CreateHealthBar(self)
@@ -69,7 +73,7 @@ end
 
 local function CreateToTStyle(self)
 	self.mystyle = "tot"
-	self:SetSize(NDuiDB["UFs"]["PetWidth"], NDuiDB["UFs"]["PetHeight"])
+	SetUnitFrameSize(self, "Pet")
 
 	UF:CreateHeader(self)
 	UF:CreateHealthBar(self)
@@ -83,7 +87,7 @@ end
 
 local function CreateFocusStyle(self)
 	self.mystyle = "focus"
-	self:SetSize(NDuiDB["UFs"]["FocusWidth"], NDuiDB["UFs"]["FocusHeight"])
+	SetUnitFrameSize(self, "Focus")
 
 	UF:CreateHeader(self)
 	UF:CreateHealthBar(self)
@@ -101,7 +105,7 @@ end
 
 local function CreateFoTStyle(self)
 	self.mystyle = "fot"
-	self:SetSize(NDuiDB["UFs"]["PetWidth"], NDuiDB["UFs"]["PetHeight"])
+	SetUnitFrameSize(self, "Pet")
 
 	UF:CreateHeader(self)
 	UF:CreateHealthBar(self)
@@ -113,7 +117,7 @@ end
 
 local function CreateBossStyle(self)
 	self.mystyle = "boss"
-	self:SetSize(NDuiDB["UFs"]["BossWidth"], NDuiDB["UFs"]["BossHeight"])
+	SetUnitFrameSize(self, "Boss")
 
 	UF:CreateHeader(self)
 	UF:CreateHealthBar(self)
@@ -132,7 +136,7 @@ end
 
 local function CreateArenaStyle(self)
 	self.mystyle = "arena"
-	self:SetSize(NDuiDB["UFs"]["BossWidth"], NDuiDB["UFs"]["BossHeight"])
+	SetUnitFrameSize(self, "Boss")
 
 	UF:CreateHeader(self)
 	UF:CreateHealthBar(self)
@@ -190,6 +194,7 @@ local function CreatePartyStyle(self)
 	UF:CreateRaidMark(self)
 	UF:CreateTargetBorder(self)
 	UF:CreateThreatBorder(self)
+	UF:CreatePartyAltPower(self)
 	UF:InterruptIndicator(self)
 end
 
@@ -209,39 +214,11 @@ local function CreatePartyPetStyle(self)
 	UF:CreateThreatBorder(self)
 end
 
-function UF:ResizeRaidFrame()
-	for _, frame in pairs(oUF.objects) do
-		if frame.mystyle == "raid" then
-			if NDuiDB["UFs"]["SimpleMode"] then
-				frame:SetSize(100*NDuiDB["UFs"]["RaidScale"], 20*NDuiDB["UFs"]["RaidScale"])
-			else
-				frame:SetSize(NDuiDB["UFs"]["RaidWidth"], NDuiDB["UFs"]["RaidHeight"])
-			end
-		end
-	end
-end
-
-function UF:ResizePartyFrame()
-	for _, frame in pairs(oUF.objects) do
-		if frame.mystyle == "party" then
-			frame:SetSize(NDuiDB["UFs"]["PartyWidth"], NDuiDB["UFs"]["PartyHeight"])
-		end
-	end
-end
-
-function UF:ResizePartyPetFrame()
-	for _, frame in pairs(oUF.objects) do
-		if frame.mystyle == "partypet" then
-			frame:SetSize(NDuiDB["UFs"]["PartyPetWidth"], NDuiDB["UFs"]["PartyPetHeight"])
-		end
-	end
-end
-
 -- Spawns
 function UF:OnLogin()
 	local horizonRaid = NDuiDB["UFs"]["HorizonRaid"]
 	local numGroups = NDuiDB["UFs"]["NumGroups"]
-	local raidScale = NDuiDB["UFs"]["RaidScale"]
+	local raidScale = NDuiDB["UFs"]["SimpleRaidScale"]/10
 	local raidWidth = NDuiDB["UFs"]["RaidWidth"]
 	local raidHeight = NDuiDB["UFs"]["RaidHeight"]
 	local reverseRaid = NDuiDB["UFs"]["ReverseRaid"]
@@ -268,7 +245,7 @@ function UF:OnLogin()
 		oUF:SetActiveStyle("PlayerPlate")
 
 		local plate = oUF:Spawn("player", "oUF_PlayerPlate", true)
-		B.Mover(plate, L["PlayerNP"], "PlayerPlate", C.UFs.PlayerPlate, plate:GetWidth(), 20)
+		B.Mover(plate, L["PlayerNP"], "PlayerPlate", C.UFs.PlayerPlate, plate:GetWidth(), plate:GetHeight())
 	end
 
 	-- Default Clicksets for RaidFrame
@@ -330,6 +307,21 @@ function UF:OnLogin()
 			end
 		end
 
+		UF:UpdateTextScale()
+	end
+
+	if NDuiDB["UFs"]["RaidFrame"] then
+		UF:AddClickSetsListener()
+
+		-- Hide Default RaidFrame
+		if CompactRaidFrameManager_SetSetting then
+			CompactRaidFrameManager_SetSetting("IsShown", "0")
+			UIParent:UnregisterEvent("GROUP_ROSTER_UPDATE")
+			CompactRaidFrameManager:UnregisterAllEvents()
+			CompactRaidFrameManager:SetParent(B.HiddenFrame)
+		end
+
+		-- Group Styles
 		if NDuiDB["UFs"]["PartyFrame"] then
 			oUF:RegisterStyle("Party", CreatePartyStyle)
 			oUF:SetActiveStyle("Party")
@@ -393,28 +385,6 @@ function UF:OnLogin()
 				partyPet:ClearAllPoints()
 				partyPet:SetPoint("TOPLEFT", petMover)
 			end
-		end
-
-		UF:UpdateTextScale()
-	end
-
-	if NDuiDB["UFs"]["RaidFrame"] then
-		UF:AddClickSetsListener()
-
-		-- Hide Default RaidFrame
-		if CompactRaidFrameManager_UpdateShown then
-			local function HideRaid()
-				if InCombatLockdown() then return end
-				B.HideObject(CompactRaidFrameManager)
-				local compact_raid = CompactRaidFrameManager_GetSetting("IsShown")
-				if compact_raid and compact_raid ~= "0" then
-					CompactRaidFrameManager_SetSetting("IsShown", "0")
-				end
-			end
-			CompactRaidFrameManager:HookScript("OnShow", HideRaid)
-			hooksecurefunc("CompactRaidFrameManager_UpdateShown", HideRaid)
-			CompactRaidFrameContainer:UnregisterAllEvents()
-			HideRaid()
 		end
 
 		oUF:RegisterStyle("Raid", CreateRaidStyle)

@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 local M = B:RegisterModule("Misc")
 
 local _G = getfenv(0)
@@ -56,6 +56,9 @@ function M:OnLogin()
 	self:UpdateErrorBlocker()
 	self:TradeTargetInfo()
 	self:TradeTabs()
+	self:MoverQuestTracker()
+	self:CreateRM()
+	self:BlockWQTInvite()
 
 	-- Max camera distancee
 	if tonumber(GetCVar("cameraDistanceMaxZoomFactor")) ~= 2.6 then
@@ -94,10 +97,18 @@ function M:OnLogin()
 	end)
 
 	-- Instant delete
-	if NDuiDB["Misc"]["InstantDelete"] then
-		hooksecurefunc(StaticPopupDialogs["DELETE_GOOD_ITEM"], "OnShow", function(self)
+	hooksecurefunc(StaticPopupDialogs["DELETE_GOOD_ITEM"], "OnShow", function(self)
+		if NDuiDB["Misc"]["InstantDelete"] then
 			self.editBox:SetText(DELETE_ITEM_CONFIRM_STRING)
-		end)
+		end
+	end)
+
+	-- Fix blizz bug in addon list
+	local _AddonTooltip_Update = AddonTooltip_Update
+	function AddonTooltip_Update(owner)
+		if not owner then return end
+		if owner:GetID() < 1 then return end
+		_AddonTooltip_Update(owner)
 	end
 end
 
@@ -130,7 +141,9 @@ function M:ExtendInstance()
 	bu:SetPoint("TOPRIGHT", -35, -5)
 	bu:SetSize(25, 25)
 	B.PixelIcon(bu, GetSpellTexture(80353), true)
-	B.AddTooltip(bu, "ANCHOR_RIGHT", L["Extend Instance"], "system")
+	bu.title = L["Extend Instance"]
+	local tipStr = format(L["Extend Instance Tip"], DB.LeftButton, DB.RightButton)
+	B.AddTooltip(bu, "ANCHOR_RIGHT", tipStr, "system")
 
 	bu:SetScript("OnMouseUp", function(_, btn)
 		for i = 1, GetNumSavedInstances() do
@@ -198,6 +211,21 @@ function M:MoveTicketStatusFrame()
 			self:SetPoint("TOP", UIParent, "TOP", -400, -20)
 		end
 	end)
+end
+
+-- Reanchor ObjectiveTracker
+function M:MoverQuestTracker()
+	local frame = CreateFrame("Frame", "NDuiQuestMover", UIParent)
+	frame:SetSize(240, 50)
+	B.Mover(frame, L["QuestTracker"], "QuestTracker", {"TOPRIGHT", Minimap, "BOTTOM", 0, -30})
+
+	local tracker = ObjectiveTrackerFrame
+	tracker:ClearAllPoints()
+	tracker:SetPoint("TOPRIGHT", frame)
+	tracker:SetHeight(GetScreenHeight()*.65)
+	tracker:SetClampedToScreen(false)
+	tracker:SetMovable(true)
+	if tracker:IsMovable() then tracker:SetUserPlaced(true) end
 end
 
 -- Achievement screenshot
@@ -373,6 +401,7 @@ do
 			B:UnregisterEvent(event, setupMisc)
 		end
 	end
+
 	B:RegisterEvent("ADDON_LOADED", setupMisc)
 
 	local newTitleString = ARCHAEOLOGY_DIGSITE_PROGRESS_BAR_TITLE..L[":"].."%s / %s"
@@ -384,47 +413,6 @@ do
 	end
 	B:RegisterEvent("ARCHAEOLOGY_SURVEY_CAST", updateArcTitle)
 	B:RegisterEvent("ARCHAEOLOGY_FIND_COMPLETE", updateArcTitle)
-end
-
--- Show BID and highlight price
-do
-	local function setupMisc(event, addon)
-		if addon == "Blizzard_AuctionUI" then
-			hooksecurefunc("AuctionFrameBrowse_Update", function()
-				local numBatchAuctions = GetNumAuctionItems("list")
-				local offset = FauxScrollFrame_GetOffset(BrowseScrollFrame)
-				local name, buyoutPrice, bidAmount, hasAllInfo
-				for i = 1, NUM_BROWSE_TO_DISPLAY do
-					local index = offset + i + (NUM_AUCTION_ITEMS_PER_PAGE * AuctionFrameBrowse.page)
-					local shouldHide = index > (numBatchAuctions + (NUM_AUCTION_ITEMS_PER_PAGE * AuctionFrameBrowse.page))
-					if not shouldHide then
-						name, _, _, _, _, _, _, _, _, buyoutPrice, bidAmount, _, _, _, _, _, _, hasAllInfo = GetAuctionItemInfo("list", offset + i)
-						if not hasAllInfo then shouldHide = true end
-					end
-					if not shouldHide then
-						local alpha = .5
-						local color = "yellow"
-						local buttonName = "BrowseButton"..i
-						local itemName = _G[buttonName.."Name"]
-						local moneyFrame = _G[buttonName.."MoneyFrame"]
-						local buyoutMoney = _G[buttonName.."BuyoutFrameMoney"]
-						if buyoutPrice >= 5*1e7 then color = "red" end
-						if bidAmount > 0 then
-							name = name.." |cffffff00"..BID.."|r"
-							alpha = 1.0
-						end
-						itemName:SetText(name)
-						moneyFrame:SetAlpha(alpha)
-						SetMoneyFrameColor(buyoutMoney:GetName(), color)
-					end
-				end
-			end)
-
-			B:UnregisterEvent(event, setupMisc)
-		end
-	end
-
-	B:RegisterEvent("ADDON_LOADED", setupMisc)
 end
 
 -- Drag AltPowerbar
@@ -691,4 +679,45 @@ do
 		end
 	end
 	B:RegisterEvent("MODIFIER_STATE_CHANGED", ShiftKeyOnEvent)
+end
+
+function M:BlockWQTInvite()
+	if not NDuiDB["Misc"]["BlockWQT"] then return end
+
+	local frame = CreateFrame("Frame", nil, StaticPopup1)
+	frame:SetPoint("TOP", StaticPopup1, "BOTTOM", 0, -3)
+	frame:SetSize(200, 34)
+	B.CreateBD(frame)
+	B.CreateSD(frame)
+	frame:Hide()
+
+	local WQTUsers = {}
+	local currentName
+
+	local bu = CreateFrame("Button", nil, frame)
+	bu:SetInside(frame, 5, 5)
+	B.CreateFS(bu, 15, L["DeclineNBlock"], "system")
+	bu.title = L["Tips"]
+	B.AddTooltip(bu, "ANCHOR_TOP", L["DeclineNBlockTips"], "info")
+	B.ReskinButton(bu)
+	bu:SetScript("OnClick", function()
+		if currentName then
+			WQTUsers[currentName] = true
+		end
+		StaticPopup_Hide("PARTY_INVITE")
+	end)
+
+	B:RegisterEvent("PARTY_INVITE_REQUEST", function(_, name)
+		if WQTUsers[name] then
+			StaticPopup_Hide("PARTY_INVITE")
+			return
+		end
+		frame:Show()
+		currentName = name
+	end)
+
+	hooksecurefunc(StaticPopup1, "Hide", function()
+		frame:Hide()
+		currentName = nil
+	end)
 end

@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 local ipairs = ipairs
 
 local cr, cg, cb = DB.r, DB.g, DB.b
@@ -7,21 +7,27 @@ local cr, cg, cb = DB.r, DB.g, DB.b
 --[[
 	职业大厅图标，取代自带的信息条
 ]]
+local eventList = {
+	"ADDON_LOADED",
+	"CURRENCY_DISPLAY_UPDATE",
+	"DISPLAY_SIZE_CHANGED",
+	"GARRISON_FOLLOWER_ADDED",
+	"GARRISON_FOLLOWER_CATEGORIES_UPDATED",
+	"GARRISON_FOLLOWER_LIST_UPDATE",
+	"GARRISON_FOLLOWER_REMOVED",
+	"GARRISON_TALENT_COMPLETE",
+	"GARRISON_TALENT_UPDATE",
+	"PLAYER_ENTERING_WORLD",
+	"UI_SCALE_CHANGED",
+}
 
 local OrderHall_Frame = CreateFrame("Frame")
 OrderHall_Frame:RegisterEvent("ADDON_LOADED")
-
 OrderHall_Frame:SetScript("OnEvent", function(self, event, arg1)
 	if event == "ADDON_LOADED" and arg1 == "Blizzard_OrderHallUI" then
-		OrderHall_Frame:RegisterEvent("UI_SCALE_CHANGED")
-		OrderHall_Frame:RegisterEvent("DISPLAY_SIZE_CHANGED")
-		OrderHall_Frame:RegisterEvent("CURRENCY_DISPLAY_UPDATE")
-		OrderHall_Frame:RegisterEvent("GARRISON_FOLLOWER_ADDED")
-		OrderHall_Frame:RegisterEvent("GARRISON_FOLLOWER_CATEGORIES_UPDATED")
-		OrderHall_Frame:RegisterEvent("GARRISON_FOLLOWER_LIST_UPDATE")
-		OrderHall_Frame:RegisterEvent("GARRISON_FOLLOWER_REMOVED")
-		OrderHall_Frame:RegisterEvent("GARRISON_TALENT_COMPLETE")
-		OrderHall_Frame:RegisterEvent("GARRISON_TALENT_UPDATE")
+		for _, event in pairs(eventList) do
+			OrderHall_Frame:RegisterEvent(event)
+		end
 
 		OrderHallCommandBar:HookScript("OnShow", function()
 			OrderHallCommandBar:EnableMouse(false)
@@ -34,7 +40,7 @@ OrderHall_Frame:SetScript("OnEvent", function(self, event, arg1)
 			ClassIcon:SetSize(40, 20)
 			ClassIcon:SetAlpha(1)
 			if not ClassIcon.styled then
-				F.CreateBDFrame(ClassIcon, 1)
+				B.CreateBDFrame(ClassIcon, 1)
 
 				ClassIcon.styled = true
 			end
@@ -67,7 +73,7 @@ OrderHall_Frame:SetScript("OnEvent", function(self, event, arg1)
 
 					child.Icon:SetSize(40, 20)
 					if not child.styled then
-						F.CreateBDFrame(child.Icon, 1)
+						B.CreateBDFrame(child.Icon, 1)
 
 						child.styled = true
 					end

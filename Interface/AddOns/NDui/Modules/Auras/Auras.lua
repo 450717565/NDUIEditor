@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 local A = B:RegisterModule("Auras")
 
 local _G = getfenv(0)
@@ -7,7 +7,7 @@ local format, floor, strmatch, select, unpack = format, floor, strmatch, select,
 local DebuffTypeColor = _G.DebuffTypeColor
 local UnitAura, GetTime = UnitAura, GetTime
 local GetInventoryItemQuality, GetInventoryItemTexture, GetItemQualityColor, GetWeaponEnchantInfo = GetInventoryItemQuality, GetInventoryItemTexture, GetItemQualityColor, GetWeaponEnchantInfo
-local margin, offset, settings = 6, 12
+local margin, offset, settings = 3, 12
 
 function A:OnLogin()
 	-- Config
@@ -55,7 +55,7 @@ function A:FormatAuraTime(s)
 	if s >= day then
 		return format("%d"..DB.MyColor..L["Days"], s/day), s%day
 	elseif s >= hour then
-		return format("%d"..DB.MyColor..L["Hours"], s/hour), s%hour
+		return format("%s"..DB.MyColor..L["Hours"], B:Round(s/hour, 1)), s%hour
 	elseif s >= 10*minute then
 		return format("%d"..DB.MyColor..L["Minutes"], s/minute), s%minute
 	elseif s >= minute then
@@ -254,9 +254,9 @@ function A:CreateAuraIcon(button)
 
 	button.highlight = button:CreateTexture(nil, "HIGHLIGHT")
 	button.highlight:SetColorTexture(1, 1, 1, .25)
-	button.highlight:SetAllPoints(button.icon)
+	button.highlight:SetAllPoints()
 
-	button.bd = F.CreateBDFrame(button)
+	button.bd = B.CreateBDFrame(button)
 
 	button:SetScript("OnAttributeChanged", A.OnAttributeChanged)
 end

@@ -1,5 +1,5 @@
 ﻿local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 if not C.Infobar.Friends then return end
 
 local module = B:GetModule("Infobar")
@@ -23,7 +23,7 @@ local RAF_RECRUIT_FRIEND, RAF_RECRUITER_FRIEND = RAF_RECRUIT_FRIEND, RAF_RECRUIT
 local WOW_PROJECT_ID = WOW_PROJECT_ID or 1
 local CLIENT_WOW_CLASSIC = "WoV" -- for sorting
 
-local r, g, b = DB.r, DB.g, DB.b
+local cr, cg, cb = DB.r, DB.g, DB.b
 local friendsFrame, menuFrame, updateRequest
 local menuList, buttons, friendTable, bnetTable = {}, {}, {}, {}
 local activeZone, inactiveZone = "|cff4cff4c", DB.GreyColor
@@ -163,7 +163,8 @@ local function setupFriendsFrame()
 	friendsFrame:SetPoint("TOPLEFT", UIParent, 15, -35)
 	friendsFrame:SetClampedToScreen(true)
 	friendsFrame:SetFrameStrata("DIALOG")
-	F.CreateBD(friendsFrame)
+	B.CreateBD(friendsFrame)
+	B.CreateSD(friendsFrame)
 
 	friendsFrame:SetScript("OnLeave", function(self)
 		self:SetScript("OnUpdate", onUpdate)
@@ -332,7 +333,7 @@ local function createRoster(parent, i)
 	button:SetSize(380, 20)
 	button.HL = button:CreateTexture(nil, "HIGHLIGHT")
 	button.HL:SetAllPoints()
-	button.HL:SetColorTexture(r, g, b, .25)
+	button.HL:SetColorTexture(cr, cg, cb, .25)
 	button.index = i
 
 	button.status = button:CreateTexture(nil, "ARTWORK")

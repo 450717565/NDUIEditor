@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 if not C.Infobar.Time then return end
 
 local module = B:GetModule("Infobar")
@@ -97,6 +97,8 @@ local questlist = {
 	{name = L["Timewarped"], id = 45563, texture = 1530590},	-- MoP
 	{name = L["Timewarped"], id = 55499, texture = 1129683},	-- WoD
 }
+
+local visionList = { 58151, 58155, 58156, 58167, 58168 }
 
 -- Check Invasion Status
 local region = GetCVar("portal")
@@ -256,6 +258,14 @@ info.onEnter = function(self)
 			local stautsText = B.Numb(cur).." / "..B.Numb(max)
 			if not cur or not max then stautsText = LFG_LIST_LOADING end
 			GameTooltip:AddDoubleLine(ISLANDS_HEADER, stautsText, 1,1,1, 0,1,0)
+		end
+	end
+
+	for _, id in pairs(visionList) do
+		if IsQuestFlaggedCompleted(id) then
+			addTitle(QUESTS_LABEL)
+			GameTooltip:AddDoubleLine(L["LesserVision"], QUEST_COMPLETE, 1,1,1, 1,0,0)
+			break
 		end
 	end
 

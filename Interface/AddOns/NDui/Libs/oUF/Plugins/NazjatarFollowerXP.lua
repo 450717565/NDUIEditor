@@ -2,7 +2,7 @@
 -- NazjatarFollowerXP, ElvUI
 -------------------------------
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 local oUF = ns.oUF or oUF
 
 local strmatch = string.match

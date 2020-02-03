@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 local module = B:GetModule("Chat")
 
 local gsub, strfind = string.gsub, string.find
@@ -36,33 +36,33 @@ function module:ChannelRename()
 	ERR_FRIEND_OFFLINE_S = gsub(ERR_FRIEND_OFFLINE_S, "%%s", "%%s|cffff7f50")
 
 	--whisper
-	CHAT_WHISPER_INFORM_GET = L["Tell"].." %s"..L[":"]
-	CHAT_WHISPER_GET = L["From"].." %s"..L[":"]
-	CHAT_BN_WHISPER_INFORM_GET = L["Tell"].." %s"..L[":"]
-	CHAT_BN_WHISPER_GET = L["From"].." %s"..L[":"]
+	CHAT_WHISPER_INFORM_GET = L["Tell"].." %s "
+	CHAT_WHISPER_GET = L["From"].." %s "
+	CHAT_BN_WHISPER_INFORM_GET = L["Tell"].." %s "
+	CHAT_BN_WHISPER_GET = L["From"].." %s "
 
 	--say / yell
-	CHAT_SAY_GET = "%s"..L[":"]
-	CHAT_YELL_GET = "%s"..L[":"]
+	CHAT_SAY_GET = "%s "
+	CHAT_YELL_GET = "%s "
 
 	if NDuiDB["Chat"]["Oldname"] then return end
 	--guild
-	CHAT_GUILD_GET = "|Hchannel:GUILD|h[G]|h %s"..L[":"]
-	CHAT_OFFICER_GET = "|Hchannel:OFFICER|h[O]|h %s"..L[":"]
+	CHAT_GUILD_GET = "|Hchannel:GUILD|h[G]|h %s "
+	CHAT_OFFICER_GET = "|Hchannel:OFFICER|h[O]|h %s "
 
 	--raid
-	CHAT_RAID_GET = "|Hchannel:RAID|h[R]|h %s"..L[":"]
-	CHAT_RAID_WARNING_GET = "[RW] %s"..L[":"]
-	CHAT_RAID_LEADER_GET = "|Hchannel:RAID|h[RL]|h %s"..L[":"]
+	CHAT_RAID_GET = "|Hchannel:RAID|h[R]|h %s "
+	CHAT_RAID_WARNING_GET = "[RW] %s "
+	CHAT_RAID_LEADER_GET = "|Hchannel:RAID|h[RL]|h %s "
 
 	--party
-	CHAT_PARTY_GET = "|Hchannel:PARTY|h[P]|h %s"..L[":"]
-	CHAT_PARTY_LEADER_GET = "|Hchannel:PARTY|h[PL]|h %s"..L[":"]
-	CHAT_PARTY_GUIDE_GET = "|Hchannel:PARTY|h[PG]|h %s"..L[":"]
+	CHAT_PARTY_GET = "|Hchannel:PARTY|h[P]|h %s "
+	CHAT_PARTY_LEADER_GET =  "|Hchannel:PARTY|h[PL]|h %s "
+	CHAT_PARTY_GUIDE_GET =  "|Hchannel:PARTY|h[PG]|h %s "
 
 	--instance
-	CHAT_INSTANCE_CHAT_GET = "|Hchannel:INSTANCE|h[I]|h %s"..L[":"]
-	CHAT_INSTANCE_CHAT_LEADER_GET = "|Hchannel:INSTANCE|h[IL]|h %s"..L[":"]
+	CHAT_INSTANCE_CHAT_GET = "|Hchannel:INSTANCE|h[I]|h %s "
+	CHAT_INSTANCE_CHAT_LEADER_GET = "|Hchannel:INSTANCE|h[IL]|h %s "
 
 	--flags
 	CHAT_FLAG_AFK = "[AFK] "

@@ -1,4 +1,4 @@
-local B, C, L, DB, F = unpack(select(2, ...))
+local B, C, L, DB = unpack(select(2, ...))
 
 local strmatch, strformat, strsplit = string.match, string.format, string.split
 local tbwipe, tbinsert, tbremove = table.wipe, table.insert, table.remove
@@ -64,7 +64,7 @@ end
 
 local function CreateLMFrame()
 	B.CreateMF(LMFrame)
-	F.CreateBD(LMFrame)
+	B.CreateBD(LMFrame)
 
 	local LMFrame_CloseBtn = B.CreateButton(LMFrame, 18, 18, "X")
 	LMFrame_CloseBtn:SetPoint("TOPRIGHT", -10, -7)

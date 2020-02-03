@@ -60,6 +60,8 @@ L["lightblade_training"] = "杀死所有场上小怪直到精英出现"
 L["raiding_fleet"] = "使用任务物品烧掉所有船只"
 L["slave_camp"] = "打开所有奴隶笼子"
 L["unsealed_tomb"] = "保护NPC"
+L["voidflame_ritual"] = "扑灭所有虚触蜡烛"
+L["call_of_void"] = "清除仪式晶塔周围所有的怪物"
 
 -------------------------------------------------------------------------------
 ------------------------------------ VALE -------------------------------------
@@ -75,8 +77,9 @@ L["pools_of_power"] = "在能量池中，入口在鎏金亭（地图中间雕像
 L["right_eye"] = "掉落全视双眼玩具的右半部分"
 L["tisiphon"] = "点击丹妮尔的好运鱼竿"
 
-L["ambered_cache"] = "Ambered Cache"
-L["ambered_coffer"] = "Ambered Coffer"
+L["ambered_cache"] = "琥珀宝箱"
+L["ambered_coffer"] = "琥珀制成的箱子"
+L["mantid_relic"] = "需要螳螂妖圣物"
 L["mogu_plunder"] = "Mogu Plunder"
 L["mogu_strongbox"] = "Mogu Strongbox"
 
@@ -88,6 +91,28 @@ L["protect_stout"] = "保护NPC"
 L["bound_guardian"] = "杀怪救NPC"
 L["abyssal_ritual"] = "杀完小怪杀大怪"
 L["pulse_mound"] = "杀怪"
+L["kunchong_incubator"] = "摧毁所有力场生成器"
+L["mending_monstro"] = "摧毁所有愈疗琥珀"
+L["war_banner"] = "燃烧战旗然后杀怪"
+L["feeding_grounds"] = "销毁静滞容器"
+L["swarm_caller"] = "销毁虫群召唤器"
+L["empowered_wagon"] = "捡起影踪派军需品然后放在强化的战车下面"
+L["mantid_hatch"] = "拾取影踪派喷火器烧毁所有螳螂妖虫卵"
+L["ritual_wakening"] = "杀死卡拉克西唤醒者"
+L["font_corruption"] = "旋转魔古雕像将光束连接到泰坦控制台左右两边的小圆柱上，然后点击泰坦控制台"
+
+-------------------------------------------------------------------------------
+----------------------------------- VISIONS -----------------------------------
+-------------------------------------------------------------------------------
+
+L["horrific_visions"] = "惊魂幻象"
+L["mailbox"] = "邮箱"
+L["mail_muncher"] = "打开邮箱会随机刷新邮件吞噬者"
+L["options_toggle_visions_desc"] = "显示惊魂幻象内的奖励位置"
+L["shave_kit"] = "Coifcurl's Close Shave Kit"
+L["shave_kit_note"] = "Inside the barber shop."
+L["void_skull"] = "Void-Touched Skull"
+L["void_skull_note"] = "Click the skull on the ground to loot the toy."
 
 -------------------------------------------------------------------------------
 ----------------------------------- VOLDUN ------------------------------------

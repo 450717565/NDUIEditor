@@ -1,0 +1,133 @@
+local B, C, L, DB = unpack(select(2, ...))
+
+tinsert(C.defaultThemes, function()
+	function B.ReskinMerchantItem(x)
+		local frame = "MerchantItem"..x
+
+		local item = _G[frame]
+		B.StripTextures(item)
+
+		local button = _G[frame.."ItemButton"]
+		B.StripTextures(button)
+		B.ReskinBorder(button.IconBorder, button)
+
+		local icbg = B.ReskinIcon(button.icon)
+		B.ReskinTexture(button, icbg)
+
+		local name = _G[frame.."Name"]
+		name:SetWordWrap(false)
+		name:ClearAllPoints()
+		name:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 4, 2)
+
+		local money = _G[frame.."MoneyFrame"]
+		money:ClearAllPoints()
+		money:SetPoint("BOTTOMLEFT", icbg, "BOTTOMRIGHT", 4, 2)
+
+		for y = 1, 3 do
+			B.ReskinIcon(_G[frame.."AltCurrencyFrameItem"..y.."Texture"])
+		end
+	end
+
+	B.ReskinFrame(MerchantFrame)
+	B.SetupTabStyle(MerchantFrame, 2)
+
+	B.ReskinDropDown(MerchantFrameLootFilter)
+	B.ReskinArrow(MerchantPrevPageButton, "left")
+	B.ReskinArrow(MerchantNextPageButton, "right")
+
+	for _, frame in pairs({"MerchantMoney", "MerchantExtraCurrency"}) do
+		local inset = _G[frame.."Inset"]
+		B.StripTextures(inset)
+
+		local bg = _G[frame.."Bg"]
+		B.StripTextures(bg)
+	end
+
+	for i = 1, BUYBACK_ITEMS_PER_PAGE do
+		B.ReskinMerchantItem(i)
+	end
+
+	local backIC = B.ReskinIcon(MerchantBuyBackItemItemButtonIconTexture)
+
+	local backBU = MerchantBuyBackItemItemButton
+	B.StripTextures(backBU)
+	B.ReskinTexture(backBU, backIC)
+	backBU.IconBorder:SetAlpha(0)
+
+	local backIT = MerchantBuyBackItem
+	B.StripTextures(backIT)
+
+	local itemBG = B.CreateBDFrame(backIT, 0)
+	itemBG:SetPoint("TOPLEFT", backIC, "TOPRIGHT", 2, 0)
+	itemBG:SetPoint("BOTTOMRIGHT", 0, -1)
+
+	local backName = MerchantBuyBackItemName
+	backName:SetWordWrap(false)
+	backName:ClearAllPoints()
+	backName:SetPoint("TOPLEFT", itemBG, "TOPLEFT", 2, 4)
+
+	local backMoney = MerchantBuyBackItemMoneyFrame
+	backMoney:ClearAllPoints()
+	backMoney:SetPoint("BOTTOMLEFT", itemBG, "BOTTOMLEFT", 2, 2)
+
+	local RepairItem = MerchantRepairItemButton:GetRegions()
+	RepairItem:SetTexture("Interface\\Icons\\INV_Hammer_17")
+
+	local RepairAll = MerchantRepairAllButton:GetRegions()
+	RepairAll:SetTexture("Interface\\Icons\\Ability_Repair")
+
+	local RepairGuild = MerchantGuildBankRepairButton:GetRegions()
+	RepairGuild:SetTexture("Interface\\Icons\\ACHIEVEMENT_GUILDPERK_CASHFLOW_RANK2")
+
+	local buttons = {MerchantGuildBankRepairButton, MerchantRepairAllButton, MerchantRepairItemButton}
+	for _, button in pairs(buttons) do
+		B.CleanTextures(button)
+	end
+
+	local repairs = {RepairItem, RepairAll, RepairGuild}
+	for _, repair in pairs(repairs) do
+		local parent = repair:GetParent()
+		local icbg = B.ReskinIcon(repair)
+
+		B.ReskinTexture(parent, icbg)
+	end
+
+	hooksecurefunc("MerchantFrame_UpdateMerchantInfo", function()
+		for i = 1, MERCHANT_ITEMS_PER_PAGE do
+			local money = _G["MerchantItem"..i.."MoneyFrame"]
+			local currency = _G["MerchantItem"..i.."AltCurrencyFrame"]
+
+			currency:ClearAllPoints()
+			currency:SetPoint("LEFT", money, "LEFT", 0, 2)
+		end
+	end)
+
+	hooksecurefunc("MerchantFrame_UpdateRepairButtons", function()
+		MerchantRepairAllButton:ClearAllPoints()
+		MerchantRepairAllButton:SetPoint("BOTTOMLEFT", MerchantFrame, "BOTTOMLEFT", 70, 30)
+
+		MerchantRepairItemButton:ClearAllPoints()
+		MerchantRepairItemButton:SetPoint("RIGHT", MerchantRepairAllButton, "LEFT", -5, 0)
+
+		MerchantGuildBankRepairButton:ClearAllPoints()
+		MerchantGuildBankRepairButton:SetPoint("LEFT", MerchantRepairAllButton, "RIGHT", 5, 0)
+
+		MerchantRepairText:Hide()
+	end)
+
+	hooksecurefunc("MerchantFrame_UpdateCurrencies", function()
+		local currencies = {GetMerchantCurrencies()}
+
+		if #currencies ~= 0 then
+			local numCurrencies = #currencies
+			for index = 1, numCurrencies do
+				local tokenButton = _G["MerchantToken"..index]
+				if tokenButton and not tokenButton.styled then
+					B.ReskinIcon(tokenButton.icon)
+
+					tokenButton.styled = true
+				end
+			end
+		end
+	end)
+end)

@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 local G = B:GetModule("GUI")
 
 local cr, cg, cb = DB.r, DB.g, DB.b
@@ -70,7 +70,7 @@ local function createPage(name)
 	local p = CreateFrame("Frame", nil, f)
 	p:SetPoint("TOPLEFT", 160, -70)
 	p:SetSize(620, 380)
-	F.CreateBDFrame(p, 0)
+	B.CreateBDFrame(p, 0)
 	B.CreateFS(p, 15, name, false, "TOPLEFT", 5, 20)
 	p:Hide()
 	return p
@@ -80,14 +80,14 @@ function G:CreateScroll(parent, width, height, text)
 	local scroll = CreateFrame("ScrollFrame", nil, parent, "UIPanelScrollFrameTemplate")
 	scroll:SetSize(width, height)
 	scroll:SetPoint("BOTTOMLEFT", 10, 10)
-	F.CreateBDFrame(scroll, 0)
+	B.CreateBDFrame(scroll, 0)
 	if text then
 		B.CreateFS(scroll, 15, text, false, "TOPLEFT", 5, 20)
 	end
 	scroll.child = CreateFrame("Frame", nil, scroll)
 	scroll.child:SetSize(width, 1)
 	scroll:SetScrollChild(scroll.child)
-	F.ReskinScroll(scroll.ScrollBar)
+	B.ReskinScroll(scroll.ScrollBar)
 
 	return scroll
 end
@@ -124,7 +124,8 @@ local function CreatePanel()
 	f = CreateFrame("Frame", "NDui_AWConfig", UIParent)
 	f:SetPoint("CENTER")
 	f:SetSize(800, 500)
-	F.CreateBD(f)
+	B.CreateBD(f)
+	B.CreateSD(f)
 	B.CreateMF(f)
 	B.CreateFS(f, 17, L["AWConfig Title"], true, "TOP", 0, -10)
 	B.CreateFS(f, 15, L["Groups"], true, "TOPLEFT", 30, -50)
@@ -221,7 +222,7 @@ local function CreatePanel()
 
 		local bar = CreateFrame("Frame", nil, parent)
 		bar:SetSize(270, 30)
-		F.CreateBDFrame(bar, 0)
+		B.CreateBDFrame(bar, 0)
 		barTable[index][spellID] = bar
 
 		local icon, close = G:CreateBarWidgets(bar, texture)
@@ -273,7 +274,7 @@ local function CreatePanel()
 
 		local bar = CreateFrame("Frame", nil, parent)
 		bar:SetSize(270, 30)
-		F.CreateBDFrame(bar, 0)
+		B.CreateBDFrame(bar, 0)
 		barTable[index][intID] = bar
 
 		local icon, close = G:CreateBarWidgets(bar, texture)
@@ -362,7 +363,7 @@ local function CreatePanel()
 		tabs[i] = CreateFrame("Button", "$parentTab"..i, f)
 		tabs[i]:SetPoint("TOPLEFT", 20, -40 - i*30)
 		tabs[i]:SetSize(130, 28)
-		tabs[i].bg = F.CreateBDFrame(tabs[i], 0)
+		tabs[i].bg = B.CreateBDFrame(tabs[i], 0)
 		local label = B.CreateFS(tabs[i], 15, group, "system", "LEFT", 10, 0)
 		if i == 11 then
 			label:SetTextColor(cr, cg, cb)

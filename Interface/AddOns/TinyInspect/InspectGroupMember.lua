@@ -2,7 +2,7 @@
 -------------------------------------
 -- 小队或团队 装备等级 Author: M
 -------------------------------------
-local B, C, L, DB, F = unpack(NDui)
+local B, C, L, DB = unpack(NDui)
 
 local LibEvent = LibStub:GetLibrary("LibEvent.7000")
 local LibSchedule = LibStub:GetLibrary("LibSchedule.7000")
@@ -401,8 +401,8 @@ end
 
 --初始化美化API
 LibEvent:attachEvent("PLAYER_LOGIN", function()
-	F.CreateBD(frame)
-	F.CreateBD(frame.panel)
+	B.CreateBD(frame)
+	B.CreateBD(frame.panel)
 
 	frame.label.progress:SetPoint("TOPLEFT", C.mult, -C.mult)
 	frame.label.progress:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)

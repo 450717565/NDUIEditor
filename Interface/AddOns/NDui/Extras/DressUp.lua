@@ -1,4 +1,4 @@
-local B, C, L, DB, F = unpack(select(2, ...))
+local B, C, L, DB = unpack(select(2, ...))
 local Extras = B:GetModule("Extras")
 
 function Extras.DU_CreateButton(name, frame, label, width, height, point, relativeTo, relativePoint, xOffset, yOffset)
@@ -9,7 +9,7 @@ function Extras.DU_CreateButton(name, frame, label, width, height, point, relati
 	name:RegisterForClicks("AnyUp")
 	name:SetHitRectInsets(0, 0, 0, 0)
 
-	F.ReskinButton(name)
+	B.ReskinButton(name)
 
 	return name
 end

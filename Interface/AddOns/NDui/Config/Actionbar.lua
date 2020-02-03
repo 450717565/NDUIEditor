@@ -1,5 +1,5 @@
 local _, ns = ...
-local _, C = unpack(ns)
+local B, C, L, DB = unpack(ns)
 
 --[[
 	说明：

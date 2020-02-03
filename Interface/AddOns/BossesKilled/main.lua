@@ -106,15 +106,15 @@ function addon:CreateButton(parent, scale)
 	end
 
 	-- Aurora Reskin
-	if IsAddOnLoaded("AuroraClassic") then
-		local F, C = unpack(AuroraClassic)
+	if IsAddOnLoaded("NDui") then
+		local B = unpack(NDui)
 
 		button:SetScale(.6)
-		F.StripTextures(button)
+		B.StripTextures(button)
 
-		local bubg = F.CreateBDFrame(button)
-		F.ReskinTexture(button, bubg, true)
-		F.ReskinTexture(button:GetCheckedTexture(), bubg, false)
+		local bubg = B.CreateBDFrame(button)
+		B.ReskinTexture(button, bubg, true)
+		B.ReskinTexture(button:GetCheckedTexture(), bubg, false)
 
 		if parent.lastButton then
 			button:SetPoint("TOPLEFT", parent.lastButton, "BOTTOMLEFT", 0, -5)
@@ -137,7 +137,7 @@ function addon:CreateNumberFontstring(parentButton)
 	local number = parentButton:CreateFontString(parentButton:GetName().."Number", "OVERLAY", "SystemFont_Shadow_Huge3")
 
 	-- Aurora Reskin
-	if IsAddOnLoaded("AuroraClassic") then
+	if IsAddOnLoaded("NDui") then
 		number:SetPoint("CENTER", 2, -1)
 		number:SetFont(STANDARD_TEXT_FONT, 30, "OUTLINE")
 	else

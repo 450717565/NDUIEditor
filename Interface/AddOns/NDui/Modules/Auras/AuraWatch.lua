@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 local A = B:GetModule("Auras")
 
 local maxFrames = 12 -- Max Tracked Auras
@@ -169,7 +169,7 @@ local function enableTooltip(self)
 	self:EnableMouse(true)
 	self.HL = self:CreateTexture(nil, "HIGHLIGHT")
 	self.HL:SetColorTexture(1, 1, 1, .25)
-	self.HL:SetAllPoints(self.Icon)
+	self.HL:SetAllPoints()
 	self:SetScript("OnEnter", tooltipOnEnter)
 	self:SetScript("OnLeave", B.HideTooltip)
 end
@@ -180,7 +180,7 @@ local function BuildICON(iconSize)
 
 	local frame = CreateFrame("Frame", nil, PetBattleFrameHider)
 	frame:SetSize(iconSize, iconSize)
-	F.CreateBDFrame(frame, .25, nil, true)
+	B.CreateBDFrame(frame, .25, nil, true)
 
 	frame.Icon = frame:CreateTexture(nil, "ARTWORK")
 	frame.Icon:SetAllPoints()
@@ -192,12 +192,11 @@ local function BuildICON(iconSize)
 
 	local parentFrame = CreateFrame("Frame", nil, frame)
 	parentFrame:SetAllPoints()
-	parentFrame:SetFrameLevel(frame:GetFrameLevel() + 5)
+	parentFrame:SetFrameLevel(frame:GetFrameLevel() + 6)
 
 	frame.Spellname = B.CreateFS(parentFrame, 13, "", false, "TOP", 0, 5)
 	frame.Count = B.CreateFS(parentFrame, iconSize*.55, "", false, "BOTTOMRIGHT", 5, -5)
-	frame.glowFrame = F.CreateBDFrame(frame, 0, 4, true, true)
-	frame.glowFrame:SetSize(iconSize+8, iconSize+8)
+	frame.glowFrame = B.CreateGlowFrame(frame, iconSize)
 
 	if not NDuiDB["AuraWatch"]["ClickThrough"] then enableTooltip(frame) end
 
@@ -209,7 +208,7 @@ end
 local function BuildBAR(barWidth, iconSize)
 	local frame = CreateFrame("Frame", nil, PetBattleFrameHider)
 	frame:SetSize(iconSize, iconSize)
-	F.CreateBDFrame(frame, .25, nil, true)
+	B.CreateBDFrame(frame, .25, nil, true)
 
 	frame.Icon = frame:CreateTexture(nil, "ARTWORK")
 	frame.Icon:SetAllPoints()

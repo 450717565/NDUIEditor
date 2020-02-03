@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 local module = B:GetModule("Chat")
 
 local strfind, strmatch, gsub = string.find, string.match, string.gsub
@@ -49,6 +49,8 @@ function module:GetFilterResult(event, msg, name, flag, guid)
 	elseif guid and (IsGuildMember(guid) or C_BattleNet_GetGameAccountInfoByGUID(guid) or C_FriendList_IsFriend(guid) or IsGUIDInGroup(guid)) then
 		return
 	end
+
+	if NDuiDB["Chat"]["BlockStranger"] and event == "CHAT_MSG_WHISPER" then return true end -- Block strangers
 
 	if C.BadBoys[name] and C.BadBoys[name] >= 5 then return true end
 
@@ -254,18 +256,18 @@ local chatEvents = {
 }
 
 function module:ChatFilter()
-	for _, v in pairs(chatEvents) do
+	for _, event in pairs(chatEvents) do
 		if NDuiDB["Chat"]["EnableFilter"] then
 			self:UpdateFilterList()
-			ChatFrame_AddMessageEventFilter(v, self.UpdateChatFilter)
+			ChatFrame_AddMessageEventFilter(event, self.UpdateChatFilter)
 		end
 
 		if NDuiDB["Chat"]["BlockAddonAlert"] then
-			ChatFrame_AddMessageEventFilter(v, self.UpdateAddOnBlocker)
+			ChatFrame_AddMessageEventFilter(event, self.UpdateAddOnBlocker)
 		end
 
 		if NDuiDB["Chat"]["ChatItemLevel"] then
-			ChatFrame_AddMessageEventFilter(v, self.UpdateChatItemLevel)
+			ChatFrame_AddMessageEventFilter(event, self.UpdateChatItemLevel)
 		end
 	end
 

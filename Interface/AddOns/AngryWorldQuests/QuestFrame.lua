@@ -647,9 +647,9 @@ local function QuestFrame_AddQuestButton(questInfo, prevButton)
 		end
 	end
 
-	if IsAddOnLoaded("AuroraClassic") then
-		local F = unpack(AuroraClassic)
-		F.CreateBDFrame(button.TagTexture, 1)
+	if IsAddOnLoaded("NDui") then
+		local B = unpack(NDui)
+		B.CreateBDFrame(button.TagTexture, 1)
 	end
 
 	button:SetHeight(totalHeight)

@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 if not C.Infobar.Guild then return end
 
 local module = B:GetModule("Infobar")
@@ -42,7 +42,8 @@ local function setupInfoFrame()
 	infoFrame:SetPoint("TOPLEFT", UIParent, 15, -35)
 	infoFrame:SetClampedToScreen(true)
 	infoFrame:SetFrameStrata("TOOLTIP")
-	F.CreateBD(infoFrame)
+	B.CreateBD(infoFrame)
+	B.CreateSD(infoFrame)
 
 	local function onUpdate(self, elapsed)
 		self.timer = (self.timer or 0) + elapsed
@@ -153,7 +154,7 @@ local function createRoster(parent, i)
 	button.class:SetPoint("LEFT", button, 39, 0)
 	button.class:SetSize(16, 16)
 	button.class:SetTexture("Interface\\GLUES\\CHARACTERCREATE\\UI-CHARACTERCREATE-CLASSES")
-	F.CreateBDFrame(button.class, 0)
+	B.CreateBDFrame(button.class, 0)
 
 	button.name = B.CreateFS(button, 13, "Name")
 	button.name:ClearAllPoints()

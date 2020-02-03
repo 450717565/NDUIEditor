@@ -1,11 +1,14 @@
 ﻿local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 local M = B:GetModule("Misc")
+local TT = B:GetModule("Tooltip")
 
 local pairs, select, next, type = pairs, select, next, type
-local UnitGUID, GetItemInfo = UnitGUID, GetItemInfo
+local UnitGUID, GetItemInfo, GetSpellInfo = UnitGUID, GetItemInfo, GetSpellInfo
 local GetContainerItemLink, GetInventoryItemLink = GetContainerItemLink, GetInventoryItemLink
 local EquipmentManager_UnpackLocation, EquipmentManager_GetItemInfoByLocation = EquipmentManager_UnpackLocation, EquipmentManager_GetItemInfoByLocation
+local C_AzeriteEmpoweredItem_IsPowerSelected = C_AzeriteEmpoweredItem.IsPowerSelected
+local BAG_ITEM_QUALITY_COLORS = BAG_ITEM_QUALITY_COLORS
 
 local inspectSlots = {
 	"Head",
@@ -45,7 +48,7 @@ function M:CreateItemTexture(slot, relF, relT, x, y)
 	local icon = slot:CreateTexture()
 	icon:SetPoint(relF, slot, relT, x, y)
 	icon:SetSize(14, 14)
-	icon.bg = F.ReskinIcon(icon)
+	icon.bg = B.ReskinIcon(icon)
 	icon.bg:SetFrameLevel(3)
 	icon.bg:Hide()
 
@@ -76,6 +79,53 @@ function M:CreateItemString(frame, strType)
 	end
 
 	frame.fontCreated = true
+end
+
+local azeriteSlots = {
+	[1] = true,
+	[3] = true,
+	[5] = true,
+}
+
+local locationCache = {}
+local function GetSlotItemLocation(id)
+	if not azeriteSlots[id] then return end
+
+	local itemLocation = locationCache[id]
+	if not itemLocation then
+		itemLocation = ItemLocation:CreateFromEquipmentSlot(id)
+		locationCache[id] = itemLocation
+	end
+	return itemLocation
+end
+
+function M:ItemLevel_UpdateTraits(button, id, link)
+	if not NDuiDB["Misc"]["AzeriteTraits"] then return end
+
+	local empoweredItemLocation = GetSlotItemLocation(id)
+	if not empoweredItemLocation then return end
+
+	local allTierInfo = TT:Azerite_UpdateTier(link)
+	if not allTierInfo then return end
+
+	local maxTiers = NDuiDB["Extras"]["MaxTiers"]
+	for i = 1, maxTiers do
+		local powerIDs = allTierInfo[i].azeritePowerIDs
+		if not powerIDs or powerIDs[1] == 13 then break end
+
+		for _, powerID in pairs(powerIDs) do
+			local selected = C_AzeriteEmpoweredItem_IsPowerSelected(empoweredItemLocation, powerID)
+			if selected then
+				local spellID = TT:Azerite_PowerToSpell(powerID)
+				local name, _, icon = GetSpellInfo(spellID)
+				local texture = button["textureIcon"..i]
+				if name and texture then
+					texture:SetTexture(icon)
+					texture.bg:Show()
+				end
+			end
+		end
+	end
 end
 
 function M:ItemLevel_SetupLevel(frame, strType, unit)
@@ -116,13 +166,12 @@ function M:ItemLevel_SetupLevel(frame, strType, unit)
 						slotFrame.enchantText:SetText(enchant)
 					end
 
-					local gemStep, essenceStep, azeriteStep = 1, 1, 1
+					local gemStep, essenceStep = 1, 1
 					for i = 1, 10 do
 						local texture = slotFrame["textureIcon"..i]
 						local bg = texture.bg
 						local gem = info.gems and info.gems[gemStep]
 						local essence = not gem and (info.essences and info.essences[essenceStep])
-						local azerite = strType == "Character" and info.azerite and info.azerite[azeriteStep]
 						if gem then
 							texture:SetTexture(gem)
 							bg:SetBackdropBorderColor(0, 0, 0)
@@ -144,14 +193,12 @@ function M:ItemLevel_SetupLevel(frame, strType, unit)
 							bg:Show()
 
 							essenceStep = essenceStep + 1
-						elseif azerite then
-							texture:SetTexture(azerite)
-							bg:SetBackdropBorderColor(0, 0, 0)
-							bg:Show()
-
-							azeriteStep = azeriteStep + 1
 						end
 					end
+				end
+
+				if strType == "Character" then
+					M:ItemLevel_UpdateTraits(slotFrame, index, link)
 				end
 			end
 		end

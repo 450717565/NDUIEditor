@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 local M = B:GetModule("Misc")
 
 local CHALLENGE_MODE_WEEKLY_BEST = CHALLENGE_MODE_WEEKLY_BEST
@@ -31,7 +31,7 @@ function M:GuildBest_Create()
 	frame = CreateFrame("Frame", nil, ChallengesFrame)
 	frame:SetPoint("BOTTOMRIGHT", -6, 80)
 	frame:SetSize(170, 105)
-	F.CreateBDFrame(frame, 0)
+	B.CreateBDFrame(frame, 0)
 	B.CreateFS(frame, 16, CHALLENGE_MODE_WEEKLY_BEST , "system", "TOPLEFT", 16, -6)
 
 	frame.entries = {}

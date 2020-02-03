@@ -41,13 +41,13 @@ local nodes = map.nodes
 local function GetAssault()
     local textures = C_MapExplorationInfo.GetExploredMapTextures(map.id)
     if textures and textures[1].fileDataIDs[1] == 3155826 then
-        ns.debug('Vale assault: MAN')
+        ns.debugMap('Vale assault: MAN')
         return MAN -- left
     elseif textures and textures[1].fileDataIDs[1] == 3155832 then
-        ns.debug('Vale assault: MOG')
+        ns.debugMap('Vale assault: MOG')
         return MOG -- middle
     elseif textures and textures[1].fileDataIDs[1] == 3155841 then
-        ns.debug('Vale assault: EMP')
+        ns.debugMap('Vale assault: EMP')
         return EMP -- right
     end
 end
@@ -197,7 +197,7 @@ nodes[34156805] = Rare({id=157466, quest=57363, assault=MOG, rewards={
     Mount({id=1328, item=174840}) -- Xinlao
 }}) -- Anh-De the Loyal
 nodes[57084098] = Rare({id=154447, quest=56237, assault=EMP}) -- Brother Meller
-nodes[06487070] = Rare({id=160878, quest=58307, assault=MAN}) -- Buh'gzaki the Blasphemous
+nodes[06487204] = Rare({id=160878, quest=58307, assault=MAN}) -- Buh'gzaki the Blasphemous
 nodes[06406433] = Rare({id=160893, quest=58308, assault=MAN, pois={
     Path({06476733, 06416420, 04016423, 04025675, 03985061, 06484877, 06484597})
 }}) -- Captain Vor'lek
@@ -210,8 +210,8 @@ nodes[26506657] = Rare({id=160872, quest=58304, assault=MAN}) -- Destroyer Krox'
 nodes[41505721] = Rare({id=157287, quest=57349, assault=MOG, pois={
     Path({41745982, 40446144, 38995953, 39805740, 41505721, 45405297})
 }}) -- Dokani Obliterator
-nodes[11854081] = Rare({id=160874, quest=58305, assault=MAN}) -- Drone Keeper Ak'thet
-nodes[10474089] = Rare({id=160876, quest=58306, assault=MAN}) -- Enraged Amber Elemental
+nodes[13004085] = Rare({id=160874, quest=58305, assault=MAN}) -- Drone Keeper Ak'thet
+nodes[10004085] = Rare({id=160876, quest=58306, assault=MAN}) -- Enraged Amber Elemental
 nodes[45244524] = Rare({id=157267, quest=57343, assault=EMP, pois={
     Path({44174609, 45244524, 45324176, 44783891})
 }}) -- Escaped Mutation
@@ -229,7 +229,7 @@ nodes[12183091] = Rare({id=157160, quest=57345, assault=MOG, rewards={
 }, pois={
     Path({13132578, 11833049, 08953570})
 }}) -- Houndlord Ren
-nodes[18426557] = Rare({id=160930, quest=58312, assault=MAN}) -- Infused Amber Ooze
+nodes[19976576] = Rare({id=160930, quest=58312, assault=MAN}) -- Infused Amber Ooze
 nodes[17201162] = Rare({id=160968, quest=58295, assault=MOG, note=L["guolai_left"]}) -- Jade Colossus
 nodes[26691061] = Rare({id=157290, quest=57350, assault=MOG, note=L["in_small_cave"]}) -- Jade Watcher
 nodes[17850918] = Rare({id=160920, quest=58310, assault=MAN}) -- Kal'tik the Blight
@@ -244,7 +244,10 @@ nodes[21901232] = Rare({id=157162, quest=57346, assault=MOG, note=L["guolai_cent
     Mount({id=1313, item=174649}) -- Rajani Warserpent
 }}) -- Rei Lun
 nodes[64175175] = Rare({id=154490, quest=56302, assault=EMP}) -- Rijz'x the Devourer
-nodes[46425710] = Rare({id=156083, quest=56954, assault=MOG}) -- Sanguifang
+nodes[46425710] = Rare({id=156083, quest=56954, assault=MOG, rewards={
+    Item({item=174071}) -- Sanguifang's Pulsating Canine
+}}) -- Sanguifang
+nodes[25074411] = Rare({id=160906, quest=58309, assault=MAN}) -- Skiver
 nodes[17873752] = Rare({id=157291, quest=57351, assault=MOG}) -- Spymaster Hul'ach
 nodes[26057505] = Rare({id=157279, quest=57348, assault=MOG, pois={
     Path({23467717, 25247587, 26837367, 27117143})
@@ -260,9 +263,10 @@ nodes[09586736] = Rare({id=157468, quest=57364, note=L["tisiphon"]}) -- Tisiphon
 nodes[86664165] = Rare({id=154394, quest=56213, assault=EMP}) -- Veskan the Fallen
 nodes[66732812] = Rare({id=154332, quest=56183, assault=EMP, note=L["pools_of_power"]}) -- Voidtender Malketh
 nodes[52956225] = Rare({id=154495, quest=56303, assault=EMP, rewards={
+    Item({item=175141}), -- All-Seeing Left Eye
     Toy({item=175140}), -- All-Seeing Eye
     Pet({id=2846, item=174474}) -- Corrupted Tentacle
-}, note=L["right_eye"]}) -- Will of N'Zoth
+}, note=L["left_eye"]}) -- Will of N'Zoth
 nodes[53794889] = Rare({id=157443, quest=57358, assault=MOG}) -- Xiln the Mountain
 nodes[70954053] = Rare({id=154087, quest=56084, assault=EMP}) -- Zror'um the Infinite
 
@@ -281,33 +285,46 @@ local MANTR4 = MANChest({quest=58227, icon='chest_yellow'})
 local MANTR5 = MANChest({quest=58228, icon='chest_teal'})
 
 -- quest=58224
+nodes[04066172] = MANTR1
+nodes[05165140] = MANTR1
 nodes[07223945] = MANTR1
 nodes[10662334] = MANTR1
 nodes[11552553] = MANTR1
 nodes[15797164] = MANTR1
+nodes[15887672] = MANTR1
 -- quest=58225
 nodes[16021946] = MANTR2
 nodes[17432634] = MANTR2
+nodes[19001350] = clone(MANTR2, {note=L["guolai"]})
 nodes[21051415] = MANTR2
 -- quest=58226
 nodes[07693682] = MANTR3
 nodes[09302831] = MANTR3
+nodes[10174243] = MANTR3
 nodes[15083162] = MANTR3
 nodes[15324320] = MANTR3
 nodes[16343312] = MANTR3
+nodes[17714771] = MANTR3
+nodes[18253632] = MANTR3
 -- quest=58227
+nodes[18063844] = MANTR4
 nodes[22903439] = MANTR4
+nodes[24153524] = MANTR4
 nodes[24994118] = MANTR4
+nodes[25843841] = MANTR4
 nodes[26704680] = MANTR4
 nodes[31724184] = MANTR4
 -- quest=58228
 nodes[07356617] = MANTR5
+nodes[10746891] = MANTR5
 nodes[15406394] = MANTR5
 nodes[16096581] = MANTR5
 nodes[19897504] = MANTR5
+nodes[19975976] = MANTR5
 nodes[21506269] = MANTR5
+nodes[21636992] = MANTR5
 
-nodes[21586246] = Supply({quest=58770, assault=MAN, label=L["ambered_coffer"]})
+nodes[21586246] = Supply({quest=58770, assault=MAN, label=L["ambered_coffer"], sublabel=L["mantid_relic"]})
 
 -------------------------------------------------------------------------------
 
@@ -324,16 +341,19 @@ local MOGTR6 = MOGChest({quest=57213, icon='chest_lime'})
 
 -- quest=57206
 nodes[13500720] = MOGTR1
+nodes[17741256] = MOGTR1
 nodes[20221140] = MOGTR1
 nodes[20441477] = MOGTR1
 nodes[23850753] = MOGTR1
 nodes[26001261] = MOGTR1
+nodes[26130403] = MOGTR1
 nodes[27061822] = MOGTR1
 -- quest=57208
 nodes[18292766] = MOGTR2
 nodes[20462833] = MOGTR2
 nodes[21982793] = MOGTR2
 nodes[24773504] = MOGTR2
+nodes[25114049] = MOGTR2
 nodes[30283762] = MOGTR2
 nodes[30983065] = MOGTR2
 nodes[33503481] = MOGTR2
@@ -357,6 +377,7 @@ nodes[44186853] = MOGTR5
 nodes[47937093] = MOGTR5
 nodes[48466580] = MOGTR5
 nodes[51146319] = MOGTR5
+nodes[52276731] = MOGTR5
 -- quest=57213
 nodes[32097104] = MOGTR6
 nodes[33346985] = MOGTR6
@@ -418,6 +439,7 @@ nodes[65855969] = EMPTR3
 nodes[67565584] = EMPTR3
 -- quest=57201
 nodes[70215370] = EMPTR4
+nodes[76594867] = EMPTR4
 nodes[77076363] = EMPTR4
 nodes[77413129] = EMPTR4
 nodes[78305251] = EMPTR4
@@ -431,6 +453,7 @@ nodes[60806337] = EMPTR5
 nodes[63107059] = EMPTR5
 nodes[64297053] = EMPTR5
 nodes[68306247] = EMPTR5
+nodes[68705880] = EMPTR5
 nodes[70686357] = EMPTR5
 nodes[71516854] = EMPTR5
 -- quest=57203
@@ -477,15 +500,35 @@ pnodes[42104690] = clone(EMPCOFF, {note=L["pools_of_power"]})
 -------------------------------- ASSAULT EVENTS -------------------------------
 -------------------------------------------------------------------------------
 
+nodes[29266081] = TimedEvent({quest=57445, assault=MAN, note=L["noodle_cart"]}) -- Chin's Noodle Cart
+nodes[08852675] = TimedEvent({quest=57521, assault=MAN, note=L["empowered_wagon"]}) -- Empowered War Wagon
+nodes[11006443] = TimedEvent({quest=57085, assault=MAN, note=L["empowered_wagon"]}) -- Empowered War Wagon
+nodes[18556572] = TimedEvent({quest=57540, assault=MAN, note=L["kunchong_incubator"]}) -- Kunchong Incubator
+nodes[06484227] = TimedEvent({quest=57558, assault=MAN, note=L["mantid_hatch"]}) -- Mantid Hatchery
+nodes[06487067] = TimedEvent({quest=57089, assault=MAN, note=L["mantid_hatch"]}) -- Mantid Hatchery
+nodes[19287227] = TimedEvent({quest=57384, assault=MAN, note=L["mending_monstro"]}) -- Mending Monstrosity
+nodes[26644650] = TimedEvent({quest=57404, assault=MAN, note=L["ravager_hive"]}) -- Ravager Hive
+nodes[16964567] = TimedEvent({quest=57484, assault=MAN, note=L["ritual_wakening"]}) -- Ritual of Wakening
+nodes[14073421] = TimedEvent({quest=57453, assault=MAN, note=L["swarm_caller"]}) -- Swarm Caller
+nodes[25663647] = TimedEvent({quest=57517, assault=MAN, note=L["swarm_caller"]}) -- Swarm Caller
+nodes[27011715] = TimedEvent({quest=57519, assault=MAN, note=L["swarm_caller"]}) -- Swarm Caller
+nodes[31146095] = TimedEvent({quest=57542, assault=MAN, note=L["swarm_caller"]}) -- Swarm Caller
+nodes[11384092] = TimedEvent({quest=57476, assault=MAN, note=L["feeding_grounds"]}) -- Vil'thik Feeding Grounds
+nodes[11034854] = TimedEvent({quest=57508, assault=MAN, note=L["war_banner"]}) -- Zara'thik War Banner
+
+-------------------------------------------------------------------------------
+
 nodes[31332897] = TimedEvent({quest=57087, assault=MOG, note=L["colored_flames"]}) -- Baruk Obliterator
 nodes[19167199] = TimedEvent({quest=57272, assault=MOG, note=L["colored_flames"]}) -- Bloodbound Effigy
 nodes[25791737] = TimedEvent({quest=57339, assault=MOG, note=L["guolai_right"]..' '..L["construction_ritual"]}) -- Construction Ritual
 nodes[14582315] = TimedEvent({quest=57158, assault=MOG, note=L["electric_empower"]}) -- Electric Empowerment
 nodes[22423650] = TimedEvent({quest=58367, assault=MOG, note=L["empowered_demo"]}) -- Empowered Demolisher
 nodes[26661700] = TimedEvent({quest=58370, assault=MOG, note=L["empowered_demo"]}) -- Empowered Demolisher
+nodes[20421247] = TimedEvent({quest=57171, assault=MOG, note=L["goldbough_guardian"]}) -- Goldbough Guardian
 nodes[33477097] = TimedEvent({quest=58334, assault=MOG, note=L["in_flames"]}) -- Mistfall In Flames
 nodes[50236341] = TimedEvent({quest=57299, assault=MOG, note=L["mystery_sacro"]}) -- Mysterious Sarcophagus
 nodes[24824769] = TimedEvent({quest=57323, assault=MOG, note=L["serpent_binding"]}) -- Serpent Binding
+nodes[17054571] = TimedEvent({quest=57256, assault=MOG, note=L["stormchosen_arena"]}) -- Stormchosen Arena
 nodes[19870750] = TimedEvent({quest=57049, assault=MOG, note=L["guolai_left"]..' '..L["vault_of_souls"]}) -- Vault of Souls
 nodes[21411413] = TimedEvent({quest=57023, assault=MOG, note=L["guolai_center"]..' '..L["weighted_artifact"]}) -- Weighted Mogu Artifact
 nodes[47662165] = TimedEvent({quest=57101, assault=MOG, note=L["colored_flames"]}) -- Zan-Tien Serpent Cage
@@ -503,14 +546,12 @@ nodes[43624146] = TimedEvent({quest=57146, assault=EMP, note=L["corruption_tear"
 nodes[49356668] = TimedEvent({quest=56074, assault=EMP, note=L["void_conduit"]}) -- Void Conduit
 nodes[56685933] = TimedEvent({quest=56178, assault=EMP, note=L["void_conduit"]}) -- Void Conduit
 nodes[60614333] = TimedEvent({quest=56163, assault=EMP, note=L["bound_guardian"]}) -- Bound Guardian
-nodes[60706594] = TimedEvent({quest=56099, assault=EMP, note=L["big_blossom_mine"]..' '..L["font_corruption"]}) -- Font of Corruption
+nodes[60416780] = TimedEvent({quest=56099, assault=EMP, note=L["big_blossom_mine"]..' '..L["font_corruption"]}) -- Font of Corruption
 nodes[69502214] = TimedEvent({quest=57375, assault=EMP, note=L["pulse_mound"]}) -- Pulsating Mound
 nodes[74164004] = TimedEvent({quest=56076, assault=EMP, note=L["abyssal_ritual"]}) -- Abyssal Ritual
 nodes[76365163] = TimedEvent({quest=57379, assault=EMP, note=L["infested_statue"]}) -- Infested Jade Statue
 nodes[79233315] = TimedEvent({quest=56177, assault=EMP, note=L["void_conduit"]}) -- Void Conduit
 nodes[79525433] = TimedEvent({quest=56180, assault=EMP, note=L["bound_guardian"]}) -- Bound Guardian
-
--- nodes[69002100] = TimedEvent({quest=nil, assault=EMP}) -- Reach of N'Zoth
 
 -------------------------------------------------------------------------------
 --------------------------------- BATTLE PETS ---------------------------------

@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 ------------------------------------
 -- Author: Ketho (EU-Boulderfist)
 -- License: Public Domain

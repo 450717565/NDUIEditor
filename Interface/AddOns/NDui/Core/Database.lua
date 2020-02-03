@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 
 local bit_band, bit_bor = bit.band, bit.bor
 local COMBATLOG_OBJECT_AFFILIATION_MINE = COMBATLOG_OBJECT_AFFILIATION_MINE or 0x00000001
@@ -9,6 +9,7 @@ DB.Version = GetAddOnMetadata("NDui", "Version")
 DB.Support = GetAddOnMetadata("NDui", "X-Support")
 DB.Client = GetLocale()
 DB.ScreenWidth, DB.ScreenHeight = GetPhysicalScreenSize()
+DB.isNewPatch = GetBuildInfo() == "8.3.0" -- keep it for future purpose
 
 -- Colors
 DB.MyName = UnitName("player")
@@ -46,7 +47,19 @@ DB.bgTex = Media.."bgTex"
 DB.flatTex = Media.."flatTex"
 DB.glowTex = Media.."glowTex"
 DB.gradTex = Media.."gradTex"
-DB.microTex = Media.."MicroMenu\\micro_"
+DB.rolesTex = Media.."roleTex"
+
+DB.microTex = Media.."Hutu\\"
+DB.arrowBottom = Media.."Arrow\\arrow-bottom"
+DB.arrowDown = Media.."Arrow\\arrow-down"
+DB.arrowLeft = Media.."Arrow\\arrow-left"
+DB.arrowRight = Media.."Arrow\\arrow-right"
+DB.arrowTop = Media.."Arrow\\arrow-top"
+DB.arrowUp = Media.."Arrow\\arrow-up"
+DB.checked = Media.."Button\\checked"
+DB.flash = Media.."Button\\flash"
+DB.normal = Media.."Button\\normal"
+DB.pushed = Media.."Button\\pushed"
 
 DB.bdTex = "Interface\\ChatFrame\\ChatFrameBackground"
 DB.binTex = "Interface\\HelpFrame\\ReportLagIcon-Loot"
@@ -63,12 +76,6 @@ DB.questTex = "adventureguide-microbutton-alert"
 DB.sparkTex = "Interface\\CastingBar\\UI-CastingBar-Spark"
 
 DB.TexCoord = {.08, .92, .08, .92}
-DB.textures = {
-	normal		= Media.."ActionBar\\gloss",
-	flash		= Media.."ActionBar\\flash",
-	pushed		= Media.."ActionBar\\pushed",
-	checked		= Media.."ActionBar\\checked",
-}
 DB.LeftButton = " |TInterface\\TUTORIALFRAME\\UI-TUTORIAL-FRAME:13:11:0:-1:512:512:12:66:230:307|t "
 DB.RightButton = " |TInterface\\TUTORIALFRAME\\UI-TUTORIAL-FRAME:13:11:0:-1:512:512:12:66:333:411|t "
 DB.ScrollButton = " |TInterface\\TUTORIALFRAME\\UI-TUTORIAL-FRAME:13:11:0:-1:512:512:12:66:127:204|t "
@@ -105,10 +112,10 @@ B:RegisterEvent("PLAYER_TALENT_UPDATE", CheckRole)
 -- Raidbuff Checklist
 DB.BuffList = {
 	[1] = {		-- 合剂
-		251836,	-- 敏捷238
-		251837,	-- 智力238
-		251838,	-- 耐力238
-		251839,	-- 力量238
+		--251836,	-- 敏捷238
+		--251837,	-- 智力238
+		--251838,	-- 耐力238
+		--251839,	-- 力量238
 		298836,	-- 敏捷360
 		298837,	-- 智力360
 		298839,	-- 耐力360

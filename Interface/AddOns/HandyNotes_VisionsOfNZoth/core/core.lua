@@ -25,14 +25,6 @@ ns.status = {
 ----------------------------------- HELPERS -----------------------------------
 -------------------------------------------------------------------------------
 
-local function debug(...)
-    if (Addon.db.profile.show_debug) then
-        print(...)
-    end
-end
-
-ns.debug = debug
-
 local DropdownMenu = CreateFrame("Frame", ADDON_NAME.."DropdownMenu");
 DropdownMenu.displayMode = "MENU";
 local function initializeDropdownMenu (button, level, mapID, coord)
@@ -168,8 +160,6 @@ function Addon:OnClick(button, down, mapID, coord)
     elseif button == "LeftButton" and down then
         if node.pois then
             node._focus = not node._focus
-            ns.MinimapDataProvider:RefreshAllData()
-            ns.WorldMapDataProvider:RefreshAllData()
             Addon:Refresh()
         end
     end
@@ -206,7 +196,7 @@ function Addon:RegisterWithHandyNotes()
             return nil, nil, nil, nil
         end
         function Addon:GetNodes2(mapID, _minimap)
-            debug('Loading nodes for map: '..mapID..' (minimap='..tostring(_minimap)..')')
+            ns.debugMap('Loading nodes for map: '..mapID..' (minimap='..tostring(_minimap)..')')
             map = ns.maps[mapID]
             minimap = _minimap
 
@@ -226,10 +216,16 @@ function Addon:RegisterWithHandyNotes()
 
     HandyNotes:RegisterPluginDB(ADDON_NAME, self, ns.options)
 
-    self:RegisterBucketEvent({ "LOOT_CLOSED", "PLAYER_MONEY", "SHOW_LOOT_TOAST", "SHOW_LOOT_TOAST_UPGRADE" }, 2, "Refresh")
+    self:RegisterBucketEvent({
+        "LOOT_CLOSED", "PLAYER_MONEY", "SHOW_LOOT_TOAST",
+        "SHOW_LOOT_TOAST_UPGRADE"
+    }, 2, "Refresh")
+
     self:Refresh()
 end
 
 function Addon:Refresh()
     self:SendMessage("HandyNotes_NotifyUpdate", ADDON_NAME)
+    ns.MinimapDataProvider:RefreshAllData()
+    ns.WorldMapDataProvider:RefreshAllData()
 end

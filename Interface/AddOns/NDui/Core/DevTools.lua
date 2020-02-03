@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 
 --[[
 	NDui DevTools:
@@ -18,15 +18,7 @@ local pairs, tonumber, tostring = pairs, tonumber, tostring
 local floor, ceil = math.floor, math.ceil
 local IsQuestFlaggedCompleted = C_QuestLog.IsQuestFlaggedCompleted
 
-local dev = {"寧德"}
-local function isDeveloper()
-	for _, name in pairs(dev) do
-		if DB.MyName == name then
-			return true
-		end
-	end
-end
-DB.isDeveloper = isDeveloper()
+DB.isDeveloper = true
 
 -- Commands
 SlashCmdList["RELOADUI"] = ReloadUI
@@ -147,7 +139,7 @@ SlashCmdList["NDUI_GET_ENCOUNTERS"] = function()
 	EJ_SelectInstance(instID)
 	local instName = EJ_GetInstanceInfo()
 	print("local _, ns = ...")
-	print("local B, C, L, DB, F = unpack(ns)")
+	print("local B, C, L, DB = unpack(ns)")
 	print("local module = B:GetModule(\"AurasTable\")")
 	print("local TIER = "..tierID)
 	print("local INSTANCE = "..instID.." -- "..instName)
@@ -161,6 +153,16 @@ SlashCmdList["NDUI_GET_ENCOUNTERS"] = function()
 	end
 end
 SLASH_NDUI_GET_ENCOUNTERS1 = "/getenc"
+
+SlashCmdList["NDUI_DUMPSPELLS"] = function(arg)
+	for spell in gmatch(arg, "%d+") do
+		local name = GetSpellInfo(spell)
+		if name then
+			print("module:RegisterDebuff(TIER, INSTANCE, BOSS, "..spell..") -- "..name)
+		end
+	end
+end
+SLASH_NDUI_DUMPSPELLS1 = "/getss"
 
 -- Grids
 local grid

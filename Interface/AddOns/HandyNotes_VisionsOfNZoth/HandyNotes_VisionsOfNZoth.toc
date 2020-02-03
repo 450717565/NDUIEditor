@@ -1,6 +1,6 @@
 ## Interface: 80300
 ## Title: HandyNotes: Visions Of N'Zoth
-## Version: 20
+## Version: 31
 ## Notes: Visions Of N'Zoth Notes
 ## OptionalDeps: Ace3
 ## RequiredDeps: HandyNotes
@@ -36,4 +36,5 @@ core\util.lua
 pins.xml
 uldum.lua
 vale.lua
+visions.lua
 voldun.lua

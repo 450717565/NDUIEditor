@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 if not C.Infobar.Location then return end
 
 local module = B:GetModule("Infobar")
@@ -108,8 +108,8 @@ info.onMouseUp = function(_, btn)
 		ToggleFrame(WorldMapFrame)
 	elseif btn == "RightButton" then
 		local hasUnit = UnitExists("target") and not UnitIsPlayer("target")
-		local unitName = hasUnit and "<"..UnitName("target")..">"
+		local unitName = hasUnit and "<"..UnitName("target")..">" or ""
 
-		ChatFrame_OpenChat(format("%s%s <%s>%s", L["My Position"], totalZone, coords, unitName or ""), SELECTED_DOCK_FRAME)
+		ChatFrame_OpenChat(format("%s%s <%s>%s", L["My Position"], totalZone, coords, unitName), SELECTED_DOCK_FRAME)
 	end
 end

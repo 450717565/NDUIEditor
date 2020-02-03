@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 local A = B:GetModule("Auras")
 
 function A:GetUnitAura(unit, spell, filter)
@@ -157,20 +157,19 @@ function A:CreateLumos(self)
 	if not A.ChantLumos then return end
 
 	self.bu = {}
-	local iconSize = self.iconSize
+	local iconSize = NDuiDB["Nameplate"]["PPIconSize"]
 	for i = 1, 5 do
 		local bu = CreateFrame("Frame", nil, self.Health)
 		bu:SetSize(iconSize, iconSize)
 		B.AuraIcon(bu)
-		bu.glowFrame = F.CreateBDFrame(bu, 0, 4, true, true)
-		bu.glowFrame:SetSize(iconSize+8, iconSize+8)
+		bu.glowFrame = B.CreateGlowFrame(bu, iconSize)
 
 		local fontParent = CreateFrame("Frame", nil, bu)
 		fontParent:SetAllPoints()
 		fontParent:SetFrameLevel(bu:GetFrameLevel() + 5)
 		bu.Count = B.CreateFS(fontParent, 16, "", false, "BOTTOM", 0, -10)
 		if i == 1 then
-			bu:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -3)
+			bu:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -5)
 		else
 			bu:SetPoint("LEFT", self.bu[i-1], "RIGHT", 2, 0)
 		end

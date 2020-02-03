@@ -38,7 +38,7 @@ defaults['alpaca_voldun'] = true
 options.groupVoldun = {
     type = "header",
     name = L["voldun"],
-    order = 20,
+    order = 30,
 }
 
 options.alpacaVoldun = {
@@ -46,7 +46,7 @@ options.alpacaVoldun = {
     arg = "alpaca_voldun",
     name = L["options_toggle_alpaca_voldun"],
     desc = L["options_toggle_alpaca_voldun_desc"],
-    order = 21,
+    order = 31,
     width = "normal",
 }
 

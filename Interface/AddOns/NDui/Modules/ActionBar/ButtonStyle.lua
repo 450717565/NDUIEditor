@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 ---------------------------
 -- rButtonTemplate, zork
 ---------------------------
@@ -120,7 +120,7 @@ local function SetupCooldown(cooldown, cfg)
 end
 
 local function SetupBackdrop(button)
-	local bg = F.CreateBDFrame(button, 0, 0, true)
+	local bg = B.CreateBDFrame(button, 0, 0, true)
 
 	if NDuiDB["Actionbar"]["Classcolor"] then
 		bg:SetBackdropColor(cr, cg, cb, .25)
@@ -366,7 +366,7 @@ function Bar:ReskinBars()
 		flyoutBorderShadow = {file = ""},
 		border = {file = ""},
 		normalTexture = {
-			file = DB.textures.normal,
+			file = DB.normal,
 			texCoord = DB.TexCoord,
 			color = {.3, .3, .3},
 			points = {
@@ -374,9 +374,9 @@ function Bar:ReskinBars()
 				{"BOTTOMRIGHT", 0, 0},
 			},
 		},
-		flash = {file = DB.textures.flash},
-		pushedTexture = {file = DB.textures.pushed},
-		checkedTexture = {file = DB.textures.checked},
+		flash = {file = DB.flash},
+		pushedTexture = {file = DB.pushed},
+		checkedTexture = {file = DB.checked},
 		highlightTexture = {
 			file = "",
 			points = {

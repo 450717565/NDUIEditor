@@ -1,56 +1,81 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 local S = B:RegisterModule("Skins")
 
-function S:OnLogin()
-	local alpha = NDuiDB["Extras"]["SkinAlpha"]
-	local color = NDuiDB["Extras"]["SkinColor"]
-	local cr, cg, cb = DB.r, DB.g, DB.b
-	if not NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
+local pairs, wipe = pairs, wipe
+local IsAddOnLoaded = IsAddOnLoaded
 
-	-- ACTIONBAR
-	if NDuiDB["Actionbar"]["Enable"] and  NDuiDB["Skins"]["BarLine"] and NDuiDB["Actionbar"]["Style"] ~= 5 then
-		local relativeTo = NDui_ActionBar2
-		if NDuiDB["Actionbar"]["Style"] == 4 then relativeTo = NDui_ActionBar3 end
+C.defaultThemes = {}
+C.themes = {}
 
-		-- ACTIONBAR
-		local ActionBarL = CreateFrame("Frame", nil, UIParent)
-		ActionBarL:SetPoint("BOTTOMRIGHT", relativeTo, "TOP")
-		F.CreateGA(ActionBarL, 260, C.pixel, "Horizontal", cr, cg, cb, 0, alpha)
-		RegisterStateDriver(ActionBarL, "visibility", "[petbattle][overridebar][vehicleui][possessbar,@vehicle,exists] hide; show")
-		local ActionBarR = CreateFrame("Frame", nil, UIParent)
-		ActionBarR:SetPoint("BOTTOMLEFT", relativeTo, "TOP")
-		F.CreateGA(ActionBarR, 260, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
-		RegisterStateDriver(ActionBarR, "visibility", "[petbattle][overridebar][vehicleui][possessbar,@vehicle,exists] hide; show")
+StaticPopupDialogs["AURORA_CLASSIC_WARNING"] = {
+	text = L["AuroraClassic warning"],
+	button1 = DISABLE,
+	hideOnEscape = false,
+	whileDead = 1,
+	OnAccept = function()
+		DisableAddOn("Aurora")
+		DisableAddOn("AuroraClassic")
+		ReloadUI()
+	end,
+}
+function S:DetectAurora()
+	if DB.isDeveloper then return end
 
-		-- OVERRIDEBAR
-		local OverBarL = CreateFrame("Frame", nil, UIParent)
-		OverBarL:SetPoint("BOTTOMRIGHT", NDui_ActionBar1, "TOP")
-		F.CreateGA(OverBarL, 260, C.pixel, "Horizontal", cr, cg, cb, 0, alpha)
-		RegisterStateDriver(OverBarL, "visibility", "[petbattle] hide; [overridebar][vehicleui][possessbar,@vehicle,exists] show; hide")
-		local OverBarR = CreateFrame("Frame", nil, UIParent)
-		OverBarR:SetPoint("BOTTOMLEFT", NDui_ActionBar1, "TOP")
-		F.CreateGA(OverBarR, 260, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
-		RegisterStateDriver(OverBarR, "visibility", "[petbattle] hide; [overridebar][vehicleui][possessbar,@vehicle,exists] show; hide")
+	if IsAddOnLoaded("AuroraClassic") or IsAddOnLoaded("Aurora") then
+		StaticPopup_Show("AURORA_CLASSIC_WARNING")
+	end
+end
 
-		-- BOTTOMLINE
-		local BarLineL = CreateFrame("Frame", nil, UIParent)
-		BarLineL:SetPoint("TOPRIGHT", NDui_ActionBar1, "BOTTOM")
-		F.CreateGA(BarLineL, 260, C.pixel, "Horizontal", cr, cg, cb, 0, alpha)
-		local BarLineR = CreateFrame("Frame", nil, UIParent)
-		BarLineR:SetPoint("TOPLEFT", NDui_ActionBar1, "BOTTOM")
-		F.CreateGA(BarLineR, 260, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
+function S:LoadDefaultSkins()
+	if IsAddOnLoaded("AuroraClassic") or IsAddOnLoaded("Aurora") then return end
+	if not NDuiDB["Skins"]["BlizzardSkins"] then return end
+
+	-- Reskin Blizzard UIs
+	for _, func in pairs(C.defaultThemes) do
+		func()
+	end
+	wipe(C.defaultThemes)
+
+	for addonName, func in pairs(C.themes) do
+		local isLoaded, isFinished = IsAddOnLoaded(addonName)
+		if isLoaded and isFinished then
+			func()
+			C.themes[addonName] = nil
+		end
 	end
 
-	-- Add Skins
-	self:MicroMenu()
-	self:CreateRM()
-	self:QuestTracker()
-	self:PetBattleUI()
+	B:RegisterEvent("ADDON_LOADED", function(_, addonName)
+		local func = C.themes[addonName]
+		if func then
+			func()
+			C.themes[addonName] = nil
+		end
+	end)
+end
 
-	self:DBMSkin()
-	self:SkadaSkin()
-	self:BigWigsSkin()
+function S:OnLogin()
+	self:DetectAurora()
+	self:LoadDefaultSkins()
+
+	-- Add Skins
+	self:BaudErrorFrame()
+	self:BigWigs()
+	self:BuyEmAll()
+	self:ClassicQuestLog()
+	self:DeadlyBossMods()
+	self:ExtVendor()
+	self:Immersion()
+	self:ls_Toasts()
+	self:Postal()
+	self:PremadeGroupsFilter()
+	self:Rematch()
+	self:Simulationcraft()
+	self:Skada()
+	self:WhisperPop()
+	self:WorldQuestTab()
+
+	self:Other()
 
 	-- Register skin
 	local media = LibStub and LibStub("LibSharedMedia-3.0", true)
@@ -73,13 +98,37 @@ function S:OnLogin()
 	end
 end
 
-function S:CreateToggle(frame)
-	local close = B.CreateButton(frame, 20, 80, ">", 18)
-	close:SetPoint("RIGHT", frame.bg, "LEFT", -2, 0)
+function S:GetToggleDirection()
+	local direc = NDuiDB["Skins"]["ToggleDirection"]
+	if direc == 1 then
+		return ">", "<", "RIGHT", "LEFT", -2, 0, 20, 80
+	elseif direc == 2 then
+		return "<", ">", "LEFT", "RIGHT", 2, 0, 20, 80
+	elseif direc == 3 then
+		return "∨", "∧", "BOTTOM", "TOP", 0, 2, 80, 20
+	else
+		return "∧", "∨", "TOP", "BOTTOM", 0, -2, 80, 20
+	end
+end
 
-	local open = B.CreateButton(UIParent, 20, 80, "<", 18)
-	open:SetPoint("RIGHT", frame.bg, "RIGHT", 2, 0)
+local toggleFrames = {}
+
+local function CreateToggleButton(parent)
+	local bu = CreateFrame("Button", nil, parent)
+	bu:SetSize(20, 80)
+	bu.text = B.CreateFS(bu, 18, nil, true)
+	B.ReskinButton(bu)
+
+	return bu
+end
+
+function S:CreateToggle(frame)
+	local close = CreateToggleButton(frame)
+	frame.closeButton = close
+
+	local open = CreateToggleButton(UIParent)
 	open:Hide()
+	frame.openButton = open
 
 	open:SetScript("OnClick", function()
 		open:Hide()
@@ -88,7 +137,31 @@ function S:CreateToggle(frame)
 		open:Show()
 	end)
 
+	S:SetToggleDirection(frame)
+	tinsert(toggleFrames, frame)
+
 	return open, close
+end
+
+function S:SetToggleDirection(frame)
+	local str1, str2, rel1, rel2, x, y, width, height = S:GetToggleDirection()
+	local parent = frame.bg
+	local close = frame.closeButton
+	local open = frame.openButton
+	close:ClearAllPoints()
+	close:SetPoint(rel1, parent, rel2, x, y)
+	close:SetSize(width, height)
+	close.text:SetText(str1)
+	open:ClearAllPoints()
+	open:SetPoint(rel1, parent, rel1, -x, -y)
+	open:SetSize(width, height)
+	open.text:SetText(str2)
+end
+
+function S:RefreshToggleDirection()
+	for _, frame in pairs(toggleFrames) do
+		S:SetToggleDirection(frame)
+	end
 end
 
 function S:LoadWithAddOn(addonName, value, func)

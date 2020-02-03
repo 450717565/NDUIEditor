@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 local TT = B:RegisterModule("Tooltip")
 
 local strfind, format, strupper, strlen, pairs, unpack = string.find, string.format, string.upper, string.len, pairs, unpack
@@ -106,7 +106,7 @@ function TT:InsertRoleFrame(role)
 		f:SetPoint("TOPRIGHT", self, "TOPLEFT", -2, -2)
 		f:SetSize(20, 20)
 		f:SetTexture("Interface\\LFGFrame\\UI-LFG-ICONS-ROLEBACKGROUNDS")
-		local bg = F.CreateBDFrame(f)
+		local bg = B.CreateBDFrame(f)
 		self.roleFrame = f
 		self.roleFrame.bg = bg
 	end
@@ -235,12 +235,12 @@ function TT:OnTooltipSetUnit()
 		end
 
 		if alive then
-			GameTooltipStatusBar:SetStatusBarColor(B.UnitColor(unit))
+			self.StatusBar:SetStatusBarColor(B.UnitColor(unit))
 		else
-			GameTooltipStatusBar:Hide()
+			self.StatusBar:Hide()
 		end
 	else
-		GameTooltipStatusBar:SetStatusBarColor(0, .9, 0)
+		self.StatusBar:SetStatusBarColor(0, .9, 0)
 	end
 
 	TT.InspectUnitSpecAndLevel(self)
@@ -263,41 +263,45 @@ function TT:StatusBar_OnValueChanged(value)
 end
 
 function TT:ReskinStatusBar()
-	GameTooltipStatusBar:ClearAllPoints()
-	GameTooltipStatusBar:SetPoint("BOTTOMLEFT", GameTooltip, "TOPLEFT", C.pixel, C.pixel)
-	GameTooltipStatusBar:SetPoint("BOTTOMRIGHT", GameTooltip, "TOPRIGHT", -C.pixel, C.pixel)
-	GameTooltipStatusBar:SetStatusBarTexture(DB.normTex)
-	GameTooltipStatusBar:SetHeight(5)
-
-	F.CreateBDFrame(GameTooltipStatusBar, .5)
+	self.StatusBar:ClearAllPoints()
+	self.StatusBar:SetPoint("BOTTOMLEFT", self.bg, "TOPLEFT", C.mult, 3)
+	self.StatusBar:SetPoint("BOTTOMRIGHT", self.bg, "TOPRIGHT", -C.mult, 3)
+	self.StatusBar:SetStatusBarTexture(DB.normTex)
+	self.StatusBar:SetHeight(5)
+	B.CreateBDFrame(self.StatusBar, .5)
 end
 
 function TT:GameTooltip_ShowStatusBar()
-	if self.statusBarPool then
-		local bar = self.statusBarPool:Acquire()
-		if bar and not bar.styled then
-			F.ReskinStatusBar(bar)
+	if not self or self:IsForbidden() then return end
+	if not self.statusBarPool then return end
 
-			bar.styled = true
-		end
+	local bar = self.statusBarPool:GetNextActive()
+	if bar and not bar.styled then
+		B.ReskinStatusBar(bar)
+
+		bar.styled = true
 	end
 end
 
 function TT:GameTooltip_ShowProgressBar()
-	if self.progressBarPool then
-		local bar = self.progressBarPool:Acquire()
-		if bar and not bar.styled then
-			bar.Bar:SetHeight(20)
-			F.ReskinStatusBar(bar.Bar)
+	if not self or self:IsForbidden() then return end
+	if not self.progressBarPool then return end
 
-			bar.styled = true
-		end
+	local bar = self.progressBarPool:GetNextActive()
+	if bar and not bar.styled then
+		bar.Bar:SetHeight(20)
+		B.ReskinStatusBar(bar.Bar)
+
+		bar.styled = true
 	end
 end
 
 -- Anchor and mover
 local mover
 function TT:GameTooltip_SetDefaultAnchor(parent)
+	if self:IsForbidden() then return end
+	if not parent then return end
+
 	if NDuiDB["Tooltip"]["Cursor"] then
 		self:SetOwner(parent, "ANCHOR_CURSOR_RIGHT")
 	else
@@ -307,6 +311,32 @@ function TT:GameTooltip_SetDefaultAnchor(parent)
 		self:SetOwner(parent, "ANCHOR_NONE")
 		self:ClearAllPoints()
 		self:SetPoint("BOTTOMRIGHT", mover)
+	end
+end
+
+-- Fix comparison error on cursor
+function TT:GameTooltip_ComparisonFix(anchorFrame, shoppingTooltip1, shoppingTooltip2, _, secondaryItemShown)
+	local point = shoppingTooltip1:GetPoint(2)
+	if secondaryItemShown then
+		if point == "TOP" then
+			shoppingTooltip1:ClearAllPoints()
+			shoppingTooltip1:SetPoint("TOPLEFT", anchorFrame, "TOPRIGHT", 3, 0)
+			shoppingTooltip2:ClearAllPoints()
+			shoppingTooltip2:SetPoint("TOPLEFT", shoppingTooltip1, "TOPRIGHT", 3, 0)
+		elseif point == "RIGHT" then
+			shoppingTooltip1:ClearAllPoints()
+			shoppingTooltip1:SetPoint("TOPRIGHT", anchorFrame, "TOPLEFT", -3, 0)
+			shoppingTooltip2:ClearAllPoints()
+			shoppingTooltip2:SetPoint("TOPRIGHT", shoppingTooltip1, "TOPLEFT", -3, 0)
+		end
+	else
+		if point == "LEFT" then
+			shoppingTooltip1:ClearAllPoints()
+			shoppingTooltip1:SetPoint("TOPLEFT", anchorFrame, "TOPRIGHT", 3, 0)
+		elseif point == "RIGHT" then
+			shoppingTooltip1:ClearAllPoints()
+			shoppingTooltip1:SetPoint("TOPRIGHT", anchorFrame, "TOPLEFT", -3, 0)
+		end
 	end
 end
 
@@ -325,7 +355,7 @@ function TT:ReskinRewardIcon()
 		icon:SetTexCoord(unpack(DB.TexCoord))
 
 		if not self.tipStyled then
-			self.bg = F.CreateBDFrame(icon, 1)
+			self.bg = B.CreateBDFrame(icon, 1)
 
 			self.tipStyled = true
 		end
@@ -340,7 +370,10 @@ function TT:ReskinRewardIcon()
 end
 
 -- Tooltip skin
-local function getBackdrop(self) return self.bg:GetBackdrop() end
+local fakeBg = CreateFrame("Frame", nil, UIParent)
+fakeBg:SetBackdrop({ bgFile = DB.bdTex, edgeFile = DB.bdTex, edgeSize = 1 })
+
+local function getBackdrop() return fakeBg:GetBackdrop() end
 local function getBackdropColor() return 0, 0, 0, .5 end
 local function getBackdropBorderColor() return 0, 0, 0 end
 
@@ -352,11 +385,10 @@ function TT:ReskinTooltip()
 	if self:IsForbidden() then return end
 	self:SetScale(NDuiDB["Tooltip"]["Scale"])
 
-	local offset = C.mult or 1
 	if not self.tipStyled then
 		self:SetBackdrop(nil)
 		self:DisableDrawLayer("BACKGROUND")
-		local bg = F.CreateBDFrame(self, .5, -offset, true)
+		local bg = B.CreateBDFrame(self, .5, nil, true)
 		self.bg = bg
 
 		-- other gametooltip-like support
@@ -365,6 +397,10 @@ function TT:ReskinTooltip()
 		self.GetBackdropBorderColor = getBackdropBorderColor
 
 		TT.ReskinRewardIcon(self)
+
+		if self.StatusBar then
+			TT.ReskinStatusBar(self)
+		end
 
 		self.tipStyled = true
 	end
@@ -399,14 +435,15 @@ function TT:GameTooltip_SetBackdropStyle()
 end
 
 function TT:OnLogin()
-	self:ReskinStatusBar()
+	GameTooltip.StatusBar = GameTooltipStatusBar
 	GameTooltip:HookScript("OnTooltipCleared", self.OnTooltipCleared)
 	GameTooltip:HookScript("OnTooltipSetUnit", self.OnTooltipSetUnit)
-	GameTooltipStatusBar:SetScript("OnValueChanged", self.StatusBar_OnValueChanged)
+	GameTooltip.StatusBar:SetScript("OnValueChanged", self.StatusBar_OnValueChanged)
 	hooksecurefunc("GameTooltip_ShowStatusBar", self.GameTooltip_ShowStatusBar)
 	hooksecurefunc("GameTooltip_ShowProgressBar", self.GameTooltip_ShowProgressBar)
 	hooksecurefunc("GameTooltip_SetDefaultAnchor", self.GameTooltip_SetDefaultAnchor)
 	hooksecurefunc("GameTooltip_SetBackdropStyle", self.GameTooltip_SetBackdropStyle)
+	hooksecurefunc("GameTooltip_AnchorComparisonTooltips", self.GameTooltip_ComparisonFix)
 
 	-- Elements
 	self:ReskinTooltipIcons()

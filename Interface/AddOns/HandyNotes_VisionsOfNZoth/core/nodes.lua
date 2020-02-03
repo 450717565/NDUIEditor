@@ -178,9 +178,7 @@ end
 -- When a quest node is turned in, force a refresh. Not all quests give loot.
 ns.addon:RegisterEvent('QUEST_TURNED_IN', function (_, id)
     if QUEST_IDS[id] then
-        C_Timer.After(1, function()
-            ns.addon:Refresh()
-        end)
+        C_Timer.After(1, function() ns.addon:Refresh() end)
     end
 end)
 
@@ -189,6 +187,8 @@ end)
 -------------------------------------------------------------------------------
 
 local TimedEvent = Class('TimedEvent', Quest, {scale=2, note=''})
+
+TimedEvent.group = "assaultevents"
 
 function TimedEvent.getters:icon ()
     -- Override icon getter to be a simple yellow peg
@@ -238,30 +238,29 @@ function Rare:enabled (map, coord, minimap)
 end
 
 -------------------------------------------------------------------------------
------------------------------------ SUPPLY ------------------------------------
--------------------------------------------------------------------------------
-
-local Supply = Class('Supply', Node)
-
-Supply.icon = "star_chest"
-Supply.scale = 2
-Supply.group = "treasures"
-
--------------------------------------------------------------------------------
 ---------------------------------- TREASURE -----------------------------------
 -------------------------------------------------------------------------------
 
-local Treasure = Class('Treasure', Node)
-
-Treasure.icon = "chest_gray"
-Treasure.scale = 1.3
-Treasure.group = "treasures"
+local Treasure = Class('Treasure', Node, {
+    icon = 'chest_gray',
+    scale = 1.3,
+    group = 'treasures'
+})
 
 function Treasure:enabled (map, coord, minimap)
     local db = ns.addon.db
     if db.profile.always_show_treasures then return true end
     return Node.enabled(self, map, coord, minimap)
 end
+
+-------------------------------------------------------------------------------
+----------------------------------- SUPPLY ------------------------------------
+-------------------------------------------------------------------------------
+
+local Supply = Class('Supply', Treasure, {
+    icon = 'star_chest',
+    scale = 2
+})
 
 -------------------------------------------------------------------------------
 

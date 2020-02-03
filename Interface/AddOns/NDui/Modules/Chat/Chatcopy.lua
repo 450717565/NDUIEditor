@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 local module = B:GetModule("Chat")
 
 local _G = getfenv(0)
@@ -58,6 +58,7 @@ function module:ChatCopy_OnClick(btn)
 			frame:Hide()
 		end
 	elseif btn == "RightButton" then
+		if InCombatLockdown() then UIErrorsFrame:AddMessage(DB.InfoColor..ERR_NOT_IN_COMBAT) return end
 		ToggleFrame(menu)
 		NDuiDB["Chat"]["ChatMenu"] = menu:IsShown()
 	end
@@ -89,7 +90,8 @@ function module:ChatCopy_Create()
 	frame:Hide()
 	frame:SetFrameStrata("DIALOG")
 	B.CreateMF(frame)
-	F.CreateBD(frame)
+	B.CreateBD(frame)
+	B.CreateSD(frame)
 	frame.close = CreateFrame("Button", nil, frame, "UIPanelCloseButton")
 	frame.close:SetPoint("TOPRIGHT", frame)
 
@@ -119,14 +121,22 @@ function module:ChatCopy_Create()
 		editBox:SetHitRectInsets(0, 0, offset, (editBox:GetHeight() - offset - self:GetHeight()))
 	end)
 
-	for i = 1, NUM_CHAT_WINDOWS do
-		local tab = _G["ChatFrame"..i.."Tab"]
-		B.AddTooltip(tab, "ANCHOR_TOP", L["Chat Copy"], "class")
-		tab:SetScript("OnDoubleClick", self.ChatCopy_OnClick)
-	end
+	local copy = CreateFrame("Button", nil, UIParent)
+	copy:SetPoint("BOTTOMLEFT", _G.ChatFrame1, "BOTTOMRIGHT")
+	copy:SetSize(20, 20)
+	copy:SetAlpha(.5)
+	copy.Icon = copy:CreateTexture(nil, "ARTWORK")
+	copy.Icon:SetAllPoints()
+	copy.Icon:SetTexture(DB.copyTex)
+	copy:RegisterForClicks("AnyUp")
+	copy:SetScript("OnClick", self.ChatCopy_OnClick)
+	local copyStr = format(L["Chat Copy"], DB.LeftButton, DB.RightButton)
+	B.AddTooltip(copy, "ANCHOR_RIGHT", copyStr)
+	copy:HookScript("OnEnter", function() copy:SetAlpha(1) end)
+	copy:HookScript("OnLeave", function() copy:SetAlpha(.5) end)
 
-	F.ReskinClose(frame.close)
-	F.ReskinScroll(ChatCopyScrollFrameScrollBar)
+	B.ReskinClose(frame.close)
+	B.ReskinScroll(ChatCopyScrollFrameScrollBar)
 end
 
 function module:ChatCopy()

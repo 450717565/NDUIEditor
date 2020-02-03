@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 local module = B:RegisterModule("Chat")
 
 local maxLines = 1024
@@ -21,8 +21,11 @@ function module:TabSetAlpha(alpha)
 	end
 end
 
+local isScaling = false
 function module:UpdateChatSize()
 	if not NDuiDB["Chat"]["Lock"] then return end
+	if isScaling then return end
+	isScaling = true
 
 	ChatFrame1:ClearAllPoints()
 	ChatFrame1:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", 0, 28)
@@ -32,6 +35,7 @@ function module:UpdateChatSize()
 	if bg then
 		bg:SetHeight(NDuiDB["Chat"]["ChatHeight"] + 26)
 	end
+	isScaling = false
 end
 
 function module:SkinChat()
@@ -53,18 +57,20 @@ function module:SkinChat()
 	local eb = _G[name.."EditBox"]
 	eb:SetAltArrowKeyMode(false)
 	eb:ClearAllPoints()
-	eb:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 2, 24)
-	eb:SetPoint("TOPRIGHT", self, "TOPRIGHT", -13, 52)
-	F.CreateBD(eb)
+	eb:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 4, 26)
+	eb:SetPoint("TOPRIGHT", self, "TOPRIGHT", -17, 50)
+	B.CreateBD(eb)
+	B.CreateSD(eb)
 	for i = 3, 8 do
 		select(i, eb:GetRegions()):SetAlpha(0)
 	end
 
 	local lang = _G[name.."EditBoxLanguage"]
 	lang:GetRegions():SetAlpha(0)
-	lang:SetPoint("TOPLEFT", eb, "TOPRIGHT", 2, 0)
-	lang:SetPoint("BOTTOMRIGHT", eb, "BOTTOMRIGHT", 30, 0)
-	F.CreateBD(lang)
+	lang:SetPoint("TOPLEFT", eb, "TOPRIGHT", 5, 0)
+	lang:SetPoint("BOTTOMRIGHT", eb, "BOTTOMRIGHT", 29, 0)
+	B.CreateBD(lang)
+	B.CreateSD(lang)
 
 	local tab = _G[name.."Tab"]
 	tab:SetAlpha(1)
@@ -79,6 +85,8 @@ function module:SkinChat()
 	B.HideObject(self.buttonFrame)
 	B.HideObject(self.ScrollBar)
 	B.HideObject(self.ScrollToBottomButton)
+
+	self.oldAlpha = self.oldAlpha or 0 -- fix blizz error, need reviewed
 
 	self.styled = true
 end
@@ -221,18 +229,6 @@ function module:ChatWhisperSticky()
 	end
 end
 
-local isScaling = false
-function module:FixChatFrameAnchor()
-	if isScaling then return end
-	isScaling = true
-
-	local x, y = select(4, ChatFrame1:GetPoint())
-	if x ~= 0 or y ~= 28 then
-		ChatFrame1:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", 0, 28)
-	end
-	isScaling = false
-end
-
 function module:UpdateTabColors(selected)
 	if selected then
 		self:GetFontString():SetTextColor(1, .8, 0)
@@ -252,28 +248,24 @@ function module:ChatFrameBackground()
 
 	local ChatLine = CreateFrame("Frame", nil, UIParent)
 	ChatLine:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", 0, 5)
-	F.CreateGA(ChatLine, 450, ChatFrame1:GetHeight() + 26, "Horizontal", 0, 0, 0, .5, 0)
+	B.CreateGA(ChatLine, 450, ChatFrame1:GetHeight() + 26, "Horizontal", 0, 0, 0, .5, 0)
 	local ChatLine1 = CreateFrame("Frame", nil, ChatLine)
 	ChatLine1:SetPoint("BOTTOM", ChatLine, "TOP")
-	F.CreateGA(ChatLine1, 450, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
+	B.CreateGA(ChatLine1, 450, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
 	if NDuiDB["Chat"]["Chatbar"] then
 		local ChatLine2 = CreateFrame("Frame", nil, ChatLine)
 		ChatLine2:SetPoint("BOTTOM", ChatLine, "BOTTOM", 0, 18)
-		F.CreateGA(ChatLine2, 450, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
+		B.CreateGA(ChatLine2, 450, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
 	end
 	local ChatLine3 = CreateFrame("Frame", nil, ChatLine)
 	ChatLine3:SetPoint("TOP", ChatLine, "BOTTOM")
-	F.CreateGA(ChatLine3, 450, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
+	B.CreateGA(ChatLine3, 450, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
 
 	ChatFrame1.gradientBG = ChatLine
 end
 
 function module:OnLogin()
-	if AuroraConfig and not AuroraConfig.reskinFont then
-		fontOutline = ""
-	else
-		fontOutline = "OUTLINE"
-	end
+	fontOutline = NDuiDB["Skins"]["FontOutline"] and "OUTLINE" or ""
 
 	for i = 1, NUM_CHAT_WINDOWS do
 		self.SkinChat(_G["ChatFrame"..i])
@@ -300,11 +292,6 @@ function module:OnLogin()
 	B.HideOption(InterfaceOptionsSocialPanelChatStyle)
 	CombatLogQuickButtonFrame_CustomTexture:SetTexture(nil)
 
-	-- Fix chatframe anchor after scaling
-	if NDuiDB["Chat"]["Lock"] then
-		B:RegisterEvent("UI_SCALE_CHANGED", self.FixChatFrameAnchor)
-	end
-
 	-- Add Elements
 	self:UpdateTimestamp()
 	self:ChatWhisperSticky()
@@ -320,6 +307,7 @@ function module:OnLogin()
 	if NDuiDB["Chat"]["Lock"] then
 		self:UpdateChatSize()
 		hooksecurefunc("FCF_SavePositionAndDimensions", self.UpdateChatSize)
+		B:RegisterEvent("UI_SCALE_CHANGED", self.UpdateChatSize)
 	end
 
 	-- ProfanityFilter

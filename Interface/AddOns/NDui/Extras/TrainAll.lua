@@ -1,4 +1,4 @@
-local B, C, L, DB, F = unpack(select(2, ...))
+local B, C, L, DB = unpack(select(2, ...))
 
 local spot, cost = 0, 0
 local done = false
@@ -35,7 +35,7 @@ local function CreateIt()
 	Button:SetText(L["Train All"])
 	Button:SetPoint("RIGHT", ClassTrainerTrainButton, "LEFT", -2, 0)
 
-	F.ReskinButton(Button)
+	B.ReskinButton(Button)
 
 	Button:SetScript("OnEnter", function()
 		GameTooltip:SetOwner(Button,"ANCHOR_RIGHT")

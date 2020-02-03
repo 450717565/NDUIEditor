@@ -1,8 +1,34 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 local M = B:RegisterModule("Mover")
 
 local cr, cg, cb = DB.r, DB.g, DB.b
+
+-- Movable Frame
+function B:CreateMF(parent, saved)
+	local frame = parent or self
+	frame:SetMovable(true)
+	frame:SetUserPlaced(true)
+	frame:SetClampedToScreen(true)
+
+	self:EnableMouse(true)
+	self:RegisterForDrag("LeftButton")
+	self:SetScript("OnDragStart", function() frame:StartMoving() end)
+	self:SetScript("OnDragStop", function()
+		frame:StopMovingOrSizing()
+		if not saved then return end
+		local orig, _, tar, x, y = frame:GetPoint()
+		NDuiDB["TempAnchor"][frame:GetName()] = {orig, "UIParent", tar, x, y}
+	end)
+end
+
+function B:RestoreMF()
+	local name = self:GetName()
+	if name and NDuiDB["TempAnchor"][name] then
+		self:ClearAllPoints()
+		self:SetPoint(unpack(NDuiDB["TempAnchor"][name]))
+	end
+end
 
 -- Frame Mover
 local MoverList, f = {}
@@ -39,7 +65,7 @@ function B:Mover(text, value, anchor, width, height, isAuraWatch)
 	mover:SetScript("OnDragStop", M.Mover_OnDragStop)
 	mover:SetScript("OnMouseUp", M.Mover_OnClick)
 	if not isAuraWatch then
-		F.CreateBD(mover)
+		B.CreateBDFrame(mover)
 		tinsert(MoverList, mover)
 	end
 
@@ -52,7 +78,7 @@ end
 function M:CalculateMoverPoints(mover, trimX, trimY)
 	local screenWidth = B:Round(UIParent:GetRight())
 	local screenHeight = B:Round(UIParent:GetTop())
-	local screenCenter = B:Round(UIParent:GetCenter())
+	local screenCenter = B:Round(UIParent:GetCenter(), nil)
 	local x, y = mover:GetCenter()
 
 	local LEFT = screenWidth / 3
@@ -193,7 +219,8 @@ local function CreateConsole()
 	f = CreateFrame("Frame", nil, UIParent)
 	f:SetPoint("TOP", 0, -150)
 	f:SetSize(212, 80)
-	F.CreateBD(f)
+	B.CreateBD(f)
+	B.CreateSD(f)
 	B.CreateFS(f, 15, L["Mover Console"], "system", "TOP", 0, -8)
 	local bu, text = {}, {LOCK, L["Grids"], L["AuraWatch"], RESET}
 	for i = 1, 4 do
@@ -242,7 +269,8 @@ local function CreateConsole()
 	local frame = CreateFrame("Frame", nil, f)
 	frame:SetSize(212, 73)
 	frame:SetPoint("TOP", f, "BOTTOM", 0, -2)
-	F.CreateBD(frame)
+	B.CreateBD(frame)
+	B.CreateSD(frame)
 	f.__trimText = B.CreateFS(frame, 12, NONE, "system", "BOTTOM", 0, 5)
 
 	local xBox = B.CreateEditBox(frame, 60, 22)

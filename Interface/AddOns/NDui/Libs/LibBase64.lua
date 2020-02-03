@@ -7,7 +7,7 @@ License: MIT
 ]]
 
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 
 local wipe, type, error, format, strsub, strchar, strbyte, tconcat = wipe, type, error, format, strsub, strchar, strbyte, table.concat
 local _chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'

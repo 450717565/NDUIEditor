@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 local TT = B:GetModule("Tooltip")
 
 local _G = getfenv(0)
@@ -47,16 +47,22 @@ function TT:Azerite_PowerToSpell(id)
 	return spellID
 end
 
-function TT:Azerite_UpdateItem()
-	local link = select(2, self:GetItem())
-	if not link then return end
+function TT:Azerite_UpdateTier(link)
 	if not C_AzeriteEmpoweredItem_IsAzeriteEmpoweredItemByID(link) then return end
-
 	local allTierInfo = tierCache[link]
 	if not allTierInfo then
 		allTierInfo = C_AzeriteEmpoweredItem_GetAllTierInfoByItemID(link)
 		tierCache[link] = allTierInfo
 	end
+
+	return allTierInfo
+end
+
+function TT:Azerite_UpdateItem()
+	local link = select(2, self:GetItem())
+	if not link then return end
+
+	local allTierInfo = TT:Azerite_UpdateTier(link)
 	if not allTierInfo then return end
 
 	TT.Azerite_ScanTooltip(self)

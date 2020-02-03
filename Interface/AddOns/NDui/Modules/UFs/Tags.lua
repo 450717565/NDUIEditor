@@ -1,10 +1,11 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 
 local oUF = ns.oUF or oUF
 local format, floor = string.format, math.floor
 local AFK, DND, DEAD, PLAYER_OFFLINE = AFK, DND, DEAD, PLAYER_OFFLINE
-local ALTERNATE_POWER_INDEX = ALTERNATE_POWER_INDEX or 10
+local ALTERNATE_POWER_INDEX = Enum.PowerType.Alternate or 10
+local UnitAlternatePowerTextureInfo = UnitAlternatePowerTextureInfo
 local UnitIsDeadOrGhost, UnitIsConnected, UnitHasVehicleUI, UnitIsTapDenied, UnitIsPlayer = UnitIsDeadOrGhost, UnitIsConnected, UnitHasVehicleUI, UnitIsTapDenied, UnitIsPlayer
 local UnitHealth, UnitHealthMax, UnitPower, UnitPowerType, UnitStagger = UnitHealth, UnitHealthMax, UnitPower, UnitPowerType, UnitStagger
 local UnitClass, UnitReaction, UnitLevel, UnitClassification = UnitClass, UnitReaction, UnitLevel, UnitClassification
@@ -35,7 +36,7 @@ oUF.Tags.Methods["health"] = function(unit)
 		end
 	end
 end
-oUF.Tags.Events["health"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION UNIT_STATS UNIT_NAME_UPDATE PLAYER_FLAGS_CHANGED"
+oUF.Tags.Events["health"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_NAME_UPDATE UNIT_CONNECTION PLAYER_FLAGS_CHANGED UNIT_STATS"
 
 oUF.Tags.Methods["power"] = function(unit)
 	local cur = UnitPower(unit)
@@ -71,7 +72,7 @@ oUF.Tags.Methods["color"] = function(unit)
 		return B.HexRGB(1, 1, 1)
 	end
 end
-oUF.Tags.Events["color"] = "UNIT_HEALTH_FREQUENT UNIT_FACTION UNIT_CONNECTION UNIT_STATS UNIT_NAME_UPDATE PLAYER_LEVEL_CHANGED"
+oUF.Tags.Events["color"] = "UNIT_HEALTH UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_NAME_UPDATE UNIT_FACTION UNIT_CONNECTION PLAYER_FLAGS_CHANGED UNIT_STATS PLAYER_LEVEL_CHANGED UNIT_LEVEL"
 
 oUF.Tags.Methods["flag"] = function(unit)
 	if UnitIsAFK(unit) then
@@ -80,7 +81,7 @@ oUF.Tags.Methods["flag"] = function(unit)
 		return " |cffFFCC00<"..DND..">|r"
 	end
 end
-oUF.Tags.Events["flag"] = "UNIT_STATS PLAYER_FLAGS_CHANGED"
+oUF.Tags.Events["flag"] = "PLAYER_FLAGS_CHANGED UNIT_STATS"
 
 oUF.Tags.Methods["state"] = function(unit)
 	if not UnitIsConnected(unit) and GetNumArenaOpponentSpecs() <= 0 then
@@ -91,7 +92,7 @@ oUF.Tags.Methods["state"] = function(unit)
 		return "|cffC0C0C0"..DEAD.."|r"
 	end
 end
-oUF.Tags.Events["state"] = "UNIT_HEALTH_FREQUENT UNIT_CONNECTION UNIT_STATS UNIT_NAME_UPDATE PLAYER_FLAGS_CHANGED"
+oUF.Tags.Events["state"] = "UNIT_HEALTH UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_NAME_UPDATE UNIT_CONNECTION PLAYER_FLAGS_CHANGED UNIT_STATS"
 
 -- Level tags
 oUF.Tags.Methods["fulllevel"] = function(unit)
@@ -126,7 +127,7 @@ oUF.Tags.Methods["fulllevel"] = function(unit)
 
 	return str
 end
-oUF.Tags.Events["fulllevel"] = "UNIT_LEVEL UNIT_NAME_UPDATE UNIT_CLASSIFICATION_CHANGED PLAYER_LEVEL_CHANGED"
+oUF.Tags.Events["fulllevel"] = "UNIT_LEVEL PLAYER_LEVEL_UP UNIT_CLASSIFICATION_CHANGED UNIT_NAME_UPDATE PLAYER_LEVEL_CHANGED"
 
 -- RaidFrame tags
 oUF.Tags.Methods["raidhp"] = function(unit)
@@ -146,7 +147,7 @@ oUF.Tags.Methods["raidhp"] = function(unit)
 		end
 	end
 end
-oUF.Tags.Events["raidhp"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION UNIT_STATS UNIT_NAME_UPDATE PLAYER_FLAGS_CHANGED"
+oUF.Tags.Events["raidhp"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_NAME_UPDATE UNIT_CONNECTION PLAYER_FLAGS_CHANGED UNIT_STATS"
 
 -- Nameplate tags
 oUF.Tags.Methods["nphp"] = function(unit)
@@ -163,7 +164,7 @@ oUF.Tags.Methods["nphp"] = function(unit)
 		end
 	end
 end
-oUF.Tags.Events["nphp"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH"
+oUF.Tags.Events["nphp"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION"
 
 oUF.Tags.Methods["nppp"] = function(unit)
 	local per = oUF.Tags.Methods["perpp"](unit)
@@ -190,19 +191,18 @@ oUF.Tags.Methods["nplv"] = function(unit)
 
 	return level
 end
-oUF.Tags.Events["nplv"] = "UNIT_LEVEL UNIT_NAME_UPDATE UNIT_CLASSIFICATION_CHANGED PLAYER_LEVEL_CHANGED"
+oUF.Tags.Events["nplv"] = "UNIT_LEVEL PLAYER_LEVEL_UP UNIT_CLASSIFICATION_CHANGED UNIT_NAME_UPDATE PLAYER_LEVEL_CHANGED"
 
 -- AltPower value tag
 oUF.Tags.Methods["altpower"] = function(unit)
 	local cur = UnitPower(unit, ALTERNATE_POWER_INDEX)
-	local max = UnitPowerMax(unit, ALTERNATE_POWER_INDEX)
-	local per = format("%.1f%%", cur / max * 100)
-
-	if max > 0 and not UnitIsDeadOrGhost(unit) then
-		return per
+	if cur > 0 then
+		local _, r, g, b = UnitAlternatePowerTextureInfo(unit, 2)
+		if not r then r, g, b = 1, 1, 1 end
+		return B.HexRGB(r, g, b)..cur
 	end
 end
-oUF.Tags.Events["altpower"] = "UNIT_POWER_UPDATE"
+oUF.Tags.Events["altpower"] = "UNIT_POWER_UPDATE UNIT_MAXPOWER"
 
 -- Monk stagger
 oUF.Tags.Methods["monkstagger"] = function(unit)

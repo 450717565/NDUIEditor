@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 ---------------------------
 -- ncHoverBind, by coote
 -- NDui MOD
@@ -221,7 +221,8 @@ SlashCmdList.MOUSEOVERBIND = function()
 			frame = CreateFrame("Frame", nil, UIParent)
 			frame:SetSize(320, 100)
 			frame:SetPoint("TOP", 0, -135)
-			F.CreateBD(frame)
+			B.CreateBD(frame)
+			B.CreateSD(frame)
 			B.CreateFS(frame, 14, KEY_BINDING, false, "TOP", 0, -15)
 
 			local text = B.CreateFS(frame, 14, CHARACTER_SPECIFIC_KEYBINDINGS, "system", "TOP", 0, -40)

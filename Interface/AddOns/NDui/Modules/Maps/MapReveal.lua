@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 local module = B:GetModule("Maps")
 -----------------------------
 -- Leatrix Maps, by Leatix
@@ -234,7 +234,7 @@ function module:MapReveal()
 	local bu = CreateFrame("CheckButton", nil, WorldMapFrame.BorderFrame, "OptionsCheckButtonTemplate")
 	bu:SetPoint("TOPRIGHT", -270, 0)
 	bu:SetSize(26, 26)
-	F.ReskinCheck(bu)
+	B.ReskinCheck(bu)
 	bu:SetChecked(NDuiDB["Map"]["MapReveal"])
 	bu.text = B.CreateFS(bu, 14, L["Map Reveal"], false, "LEFT", 25, 0)
 

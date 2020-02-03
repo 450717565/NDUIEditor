@@ -1,5 +1,5 @@
 ﻿local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 local module = B:GetModule("Chat")
 
 local strfind, strmatch, strsub, gsub = string.find, string.match, string.sub, string.gsub

@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 local TT = B:GetModule("Tooltip")
 
 local wipe, tinsert, tconcat = table.wipe, table.insert, table.concat

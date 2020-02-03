@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 local module = B:GetModule("Maps")
 
 local strmatch, strfind, strupper = string.match, string.find, string.upper
@@ -10,7 +10,7 @@ local cr, cg, cb, alpha, color
 function module:CreatePulse()
 	if not NDuiDB["Map"]["CombatPulse"] then return end
 
-	local MBG = F.CreateBDFrame(Minimap)
+	local MBG = B.CreateBDFrame(Minimap)
 	local anim = MBG:CreateAnimationGroup()
 	anim:SetLooping("BOUNCE")
 	anim.fader = anim:CreateAnimation("Alpha")
@@ -114,7 +114,7 @@ function module:ReskinRegions()
 	Invt:SetPoint("TOPRIGHT", Minimap, "BOTTOMLEFT", -20, -20)
 	Invt:SetSize(300, 80)
 	Invt:Hide()
-	F.ReskinButton(Invt)
+	B.ReskinButton(Invt)
 	B.CreateFS(Invt, 16, DB.InfoColor..GAMETIME_TOOLTIP_CALENDAR_INVITES)
 
 	local function updateInviteVisibility()
@@ -165,16 +165,16 @@ function module:RecycleBin()
 	local bin = CreateFrame("Frame", "RecycleBinFrame", UIParent)
 	bin:SetPoint("RIGHT", bu, "LEFT", -5, 0)
 	bin:Hide()
-	F.CreateGA(bin, 232, 39, "Horizontal", 0, 0, 0, 0, .5)
+	B.CreateGA(bin, 232, 39, "Horizontal", 0, 0, 0, 0, .5)
 	local topLine = CreateFrame("Frame", nil, bin)
 	topLine:SetPoint("BOTTOM", bin, "TOP", 0, 0)
-	F.CreateGA(topLine, 232, C.pixel, "Horizontal", cr, cg, cb, 0, alpha)
+	B.CreateGA(topLine, 232, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
 	local bottomLine = CreateFrame("Frame", nil, bin)
 	bottomLine:SetPoint("TOP", bin, "BOTTOM", 0, 0)
-	F.CreateGA(bottomLine, 232, C.pixel, "Horizontal", cr, cg, cb, 0, alpha)
+	B.CreateGA(bottomLine, 232, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
 	local rightLine = CreateFrame("Frame", nil, bin)
 	rightLine:SetPoint("LEFT", bin, "RIGHT", 0, 0)
-	F.CreateGA(rightLine, C.pixel, 39+C.pixel*2, "Vertical", cr, cg, cb, alpha, alpha)
+	B.CreateGA(rightLine, C.mult*2, 39+C.mult*2*2, "Vertical", cr, cg, cb, alpha, alpha)
 	bin:SetFrameStrata("LOW")
 
 	local function hideBinButton()
@@ -239,7 +239,7 @@ function module:RecycleBin()
 						child.highlight:SetColorTexture(1, 1, 1, .25)
 					end
 
-					F.CreateBDFrame(child)
+					B.CreateBDFrame(child)
 
 					-- Naughty Addons
 					if name == "DBMMinimapButton" then

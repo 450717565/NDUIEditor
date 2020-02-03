@@ -1,34 +1,35 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 if DB.Client ~= "zhCN" then return end
 
 local strsplit, pairs = string.split, pairs
 
 local hx = {
-	"AuroraClassic更新到3.2.9；",
-	"添加选项以关闭背包物品高亮；",
-	"添加选项以调整头像相关文本字号缩放；",
-	"防止某些插件强制禁用暴雪框体后引起的报错；",
-	"背包栏位按钮仅在右键点击时过滤；",
-	"修复初始背包为空时的异常显示问题；",
-	"修复合并剩余背包时的一处污染；",
-	"背包边框调整；",
-	"更新姓名板的法术过滤；",
-	"背包信息框体尺寸微调；",
-	"Details的皮肤更新，不再锁定字号；",
-	"更新插件扰屏过滤；",
-	"修正好友信息条的邀请功能；",
-	"小地图图标回收站更新；",
-	"考古信息统计更新；",
-	"考古进度条显示当前进度；",
-	"战场的顶部信息调整；",
-	"垃圾社区邀请屏蔽列表更新；",
-	"添加选项以关闭自动填写DELETE；",
-	"添加小队的宠物框体，默认关闭；",
-	"自动攻击计时条调整；",
-	"微型菜单更新；",
-	"控制台及本地文本更新；",
-	"为8.3进行部分预更新。",
+	"修正初始化失败的问题；",
+	"背包过滤更新，添加选项以开关各项过滤；",
+	"副本难度提示修正；",
+	"界面美化更新；",
+	"关闭美化暴雪自带插件的选项调整；",
+	"团队工具的标记按钮修正；",
+	"更新大量技能监控；",
+	"信息条时间模块添加小幻象日常；",
+	"背包及角色面板添加腐化装备显示；",
+	"小队框体添加特殊能量数值显示；",
+	"头像各框架调整；",
+	"个人资源条调整；",
+	"姓名板的法术图标位置微调；",
+	"更新姓名板特殊单位染色列表；",
+	"姓名板的任务标记调整，降低百分比进度的优先级；",
+	"登录时先尝试重新打开Details窗口；",
+	"启用bigwigs皮肤时强制启用NDui风格；",
+	"边角指示器调整，队伍调整时刷新状态；",
+	"修复DH的特质只显示第一层的问题；",
+	"修复鼠标提示开启指向时的一处错误；",
+	"调整大于小时的buff显示；",
+	"德鲁伊在猫和熊形态下也将显示未满的额外能量条；",
+	"合剂检查移除低级合剂；",
+	"添加按钮以屏蔽WorldQuestTracker等垃圾插件的自动邀请；",
+	"控制台及本地文本更新。",
 }
 
 local f
@@ -42,17 +43,18 @@ local function changelog()
 	f:SetScale(1.2)
 	f:SetFrameStrata("HIGH")
 	B.CreateMF(f)
-	F.CreateBD(f)
+	B.CreateBD(f)
+	B.CreateSD(f)
 	B.CreateFS(f, 30, "NDui", true, "TOPLEFT", 10, 27)
 	B.CreateFS(f, 14, DB.Version, true, "TOPRIGHT", -10, 14)
 	B.CreateFS(f, 16, L["Changelog"], true, "TOP", 0, -10)
 	local ll = CreateFrame("Frame", nil, f)
 	ll:SetPoint("TOPRIGHT", f, "TOP", 0, -35)
-	F.CreateGA(ll, 100, C.pixel, "Horizontal", cr, cg, cb, 0, alpha)
+	B.CreateGA(ll, 100, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
 	ll:SetFrameStrata("HIGH")
 	local lr = CreateFrame("Frame", nil, f)
 	lr:SetPoint("TOPLEFT", f, "TOP", 0, -35)
-	F.CreateGA(lr, 100, C.pixel, "Horizontal", cr, cg, cb, alpha, 0)
+	B.CreateGA(lr, 100, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
 	lr:SetFrameStrata("HIGH")
 	local offset = 0
 	for n, t in pairs(hx) do

@@ -2,7 +2,7 @@
 -------------------------------------
 -- 查看装备等级 Author: M
 -------------------------------------
-local B, C, L, DB, F = unpack(NDui)
+local B, C, L, DB = unpack(NDui)
 
 local LibEvent = LibStub:GetLibrary("LibEvent.7000")
 local LibItemInfo = LibStub:GetLibrary("LibItemInfo.7000")
@@ -113,7 +113,7 @@ local function GetInspectItemListFrame(parent)
 		parent.inspectFrame = frame
 		LibEvent:trigger("INSPECT_FRAME_CREATED", frame, parent)
 
-		F.CreateBD(frame)
+		B.CreateBD(frame)
 	end
 
 	return parent.inspectFrame

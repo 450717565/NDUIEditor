@@ -1,84 +1,14 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 local cr, cg, cb = DB.r, DB.g, DB.b
 
 local type, pairs, tonumber, wipe, next = type, pairs, tonumber, table.wipe, next
 local strmatch, gmatch, strfind, format, gsub = string.match, string.gmatch, string.find, string.format, string.gsub
 local min, max, abs, floor = math.min, math.max, math.abs, math.floor
 
--- Color Text
-function B.ColorText(p, GtR, val)
-	local v = p / 100
-	local r, g, b
-	local per = format("%.1f%%", p)
-
-	if GtR then
-		r, g, b = v, 1 - v, 0
-	else
-		r, g, b = 1 - v, v, 0
-	end
-
-	if val then
-		return B.HexRGB(r, g, b, val)
-	else
-		return B.HexRGB(r, g, b, per)
-	end
-end
-
--- Item Slot Info
-function B.GetItemSlot(item)
-	local _, _, _, _, _, _, itemSubType, _, itemEquipLoc, _, _, itemClassID, itemSubClassID, bindType = GetItemInfo(item)
-	local itemSolt
-
-	if itemEquipLoc and itemEquipLoc ~= "" then
-		itemSolt = _G[itemEquipLoc]
-
-		if itemEquipLoc == "INVTYPE_FEET" then
-			itemSolt = L["Feet"]
-		elseif itemEquipLoc == "INVTYPE_HAND" then
-			itemSolt = L["Hands"]
-		elseif itemEquipLoc == "INVTYPE_HOLDABLE" then
-			itemSolt = SECONDARYHANDSLOT
-		elseif itemEquipLoc == "INVTYPE_SHIELD" then
-			itemSolt = SHIELDSLOT
-		end
-	end
-
-	if itemSubType and itemSubType == EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC then
-		itemSolt = RELICSLOT
-	end
-
-	if itemClassID and itemClassID == LE_ITEM_CLASS_MISCELLANEOUS then
-		if itemSubClassID and itemSubClassID == LE_ITEM_MISCELLANEOUS_COMPANION_PET then
-			itemSolt = PETS
-		elseif itemSubClassID and itemSubClassID == LE_ITEM_MISCELLANEOUS_MOUNT then
-			itemSolt = MOUNTS
-		end
-	end
-
-	if bindType and itemEquipLoc ~= "INVTYPE_BAG" then
-		if bindType == 2 then
-			itemSolt = "BoE"
-		elseif bindType == 3 then
-			itemSolt = "BoU"
-		end
-	end
-
-	return itemSolt
-end
-
--- Item Gems Info
-function B.GetItemGems(item)
-	local itemGems
-
-	local stats = GetItemStats(item)
-	for index in pairs(stats) do
-		if strfind(index, "EMPTY_SOCKET_") then
-			itemGems = "-"..L["Socket"]
-		end
-	end
-
-	return itemGems
+function B.Scale(x)
+	local mult = C.mult
+	return mult * floor(x / mult + .5)
 end
 
 -- Frame Text
@@ -144,39 +74,12 @@ function B:AddTooltip(anchor, tooltip, color, isButton)
 	self:SetScript("OnLeave", B.HideTooltip)
 end
 
--- Movable Frame
-function B:CreateMF(parent, saved)
-	local frame = parent or self
-	frame:SetMovable(true)
-	frame:SetUserPlaced(true)
-	frame:SetClampedToScreen(true)
-
-	self:EnableMouse(true)
-	self:RegisterForDrag("LeftButton")
-	self:SetScript("OnDragStart", function() frame:StartMoving() end)
-	self:SetScript("OnDragStop", function()
-		frame:StopMovingOrSizing()
-		if not saved then return end
-		local orig, _, tar, x, y = frame:GetPoint()
-		NDuiDB["TempAnchor"][frame:GetName()] = {orig, "UIParent", tar, x, y}
-	end)
-end
-
-function B:RestoreMF()
-	local name = self:GetName()
-	if name and NDuiDB["TempAnchor"][name] then
-		self:ClearAllPoints()
-		self:SetPoint(unpack(NDuiDB["TempAnchor"][name]))
-	end
-end
-
 -- Icon Style
 function B:PixelIcon(texture, highlight)
-	F.CreateBD(self)
+	B.CreateBD(self)
+	B.CreateSD(self)
 	self.Icon = self:CreateTexture(nil, "ARTWORK")
-	self.Icon:ClearAllPoints()
-	self.Icon:SetPoint("TOPLEFT", C.mult, -C.mult)
-	self.Icon:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
+	self.Icon:SetInside()
 	self.Icon:SetTexCoord(unpack(DB.TexCoord))
 	if texture then
 		local atlas = strmatch(texture, "Atlas:(.+)$")
@@ -191,8 +94,7 @@ function B:PixelIcon(texture, highlight)
 		self.HL = self:CreateTexture(nil, "HIGHLIGHT")
 		self.HL:SetColorTexture(1, 1, 1, .25)
 		self.HL:ClearAllPoints()
-		self.HL:SetPoint("TOPLEFT", C.mult, -C.mult)
-		self.HL:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
+		self.HL:SetInside()
 	end
 end
 
@@ -225,7 +127,7 @@ function B:CreateSB(spark, r, g, b)
 		self:SetStatusBarColor(cr, cg, cb)
 	end
 
-	local bd = F.CreateBDFrame(self, 0, nil, true)
+	local bd = B.CreateBDFrame(self, 0, nil, true)
 	self.bd = bd
 
 	local bg = self:CreateTexture(nil, "BACKGROUND")
@@ -249,39 +151,37 @@ end
 
 -- Numberize
 function B.Numb(n)
-	if type(n) == "number" then
-		if NDuiADB["NumberFormat"] == 1 then
-			if n >= 1e12 then
-				return format("%.4ft", n / 1e12)
-			elseif n >= 1e9 then
-				return format("%.3fb", n / 1e9)
-			elseif n >= 1e6 then
-				return format("%.2fm", n / 1e6)
-			elseif n >= 1e3 then
-				return format("%.1fk", n / 1e3)
-			else
-				return format("%.0f", n)
-			end
-		elseif NDuiADB["NumberFormat"] == 2 then
-			if n >= 1e12 then
-				return format("%.3f"..L["NumberCap3"], n / 1e12)
-			elseif n >= 1e8 then
-				return format("%.2f"..L["NumberCap2"], n / 1e8)
-			elseif n >= 1e4 then
-				return format("%.1f"..L["NumberCap1"], n / 1e4)
-			else
-				return format("%.0f", n)
-			end
+	if NDuiADB["NumberFormat"] == 1 then
+		if n >= 1e12 then
+			return format("%.4ft", n / 1e12)
+		elseif n >= 1e9 then
+			return format("%.3fb", n / 1e9)
+		elseif n >= 1e6 then
+			return format("%.2fm", n / 1e6)
+		elseif n >= 1e3 then
+			return format("%.1fk", n / 1e3)
+		else
+			return format("%.0f", n)
+		end
+	elseif NDuiADB["NumberFormat"] == 2 then
+		if n >= 1e12 then
+			return format("%.3f"..L["NumberCap3"], n / 1e12)
+		elseif n >= 1e8 then
+			return format("%.2f"..L["NumberCap2"], n / 1e8)
+		elseif n >= 1e4 then
+			return format("%.1f"..L["NumberCap1"], n / 1e4)
 		else
 			return format("%.0f", n)
 		end
 	else
-		return n
+		return format("%.0f", n)
 	end
 end
 
-function B:Round(number)
-	return floor(number + .5)
+function B:Round(number, idp)
+	idp = idp or 0
+	local mult = 10 ^ idp
+	return floor(number * mult + .5) / mult
 end
 
 -- Color code
@@ -337,21 +237,59 @@ function B:HideObject()
 	self:Hide()
 end
 
+local blizzTextures = {
+	"ArtOverlayFrame",
+	"BG",
+	"bgLeft",
+	"bgRight",
+	"border",
+	"Border",
+	"BorderBox",
+	"BorderFrame",
+	"bottomInset",
+	"BottomInset",
+	"Cover",
+	"FilligreeOverlay",
+	"Inset",
+	"inset",
+	"InsetFrame",
+	"InsetLeft",
+	"InsetRight",
+	"LeftInset",
+	"NineSlice",
+	"Portrait",
+	"portrait",
+	"PortraitOverlay",
+	"RightInset",
+	"ScrollFrameBorder",
+	"ShadowOverlay",
+	"shadows",
+}
 function B:StripTextures(kill)
-	for i = 1, self:GetNumRegions() do
-		local region = select(i, self:GetRegions())
-		if region and region.IsObjectType and region:IsObjectType("Texture") then
-			if kill and type(kill) == "boolean" then
-				B.HideObject(region)
-			elseif tonumber(kill) then
-				if kill == 0 then
-					region:SetAlpha(0)
-					region:Hide()
-				elseif i ~= kill then
+	local frameName = self.GetName and self:GetName()
+	for _, texture in pairs(blizzTextures) do
+		local blizzFrame = self[texture] or (frameName and _G[frameName..texture])
+		if blizzFrame then
+			B.StripTextures(blizzFrame, kill)
+		end
+	end
+
+	if self.GetNumRegions then
+		for i = 1, self:GetNumRegions() do
+			local region = select(i, self:GetRegions())
+			if region and region.IsObjectType and region:IsObjectType("Texture") then
+				if kill and type(kill) == "boolean" then
+					B.HideObject(region)
+				elseif tonumber(kill) then
+					if kill == 0 then
+						region:SetAlpha(0)
+						region:Hide()
+					elseif i ~= kill then
+						region:SetTexture("")
+					end
+				else
 					region:SetTexture("")
 				end
-			else
-				region:SetTexture("")
 			end
 		end
 	end
@@ -537,7 +475,7 @@ function B:CollectEssenceInfo(index, lineText, slotInfo)
 	local step = 1
 	local essence = slotInfo.essences[step]
 	if essence and next(essence) and (strfind(lineText, ITEM_SPELL_TRIGGER_ONEQUIP, nil, true) and strfind(lineText, essenceDescription, nil, true)) then
-		for i = 4, 2, -1 do
+		for i = 5, 2, -1 do
 			local line = _G[tip:GetName().."TextLeft"..index-i]
 			local text = line and line:GetText()
 
@@ -554,33 +492,6 @@ function B:CollectEssenceInfo(index, lineText, slotInfo)
 	end
 end
 
--- 显示特质，by 雨夜独行客
-function B:InspectAzeriteTextures(slotID)
-	if slotID ~= 1 and slotID ~= 3 and slotID ~= 5 then return end
-
-	local azerite = {}
-	local itemLocation = ItemLocation:CreateFromEquipmentSlot(slotID)
-	if not C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItem(itemLocation) then return end
-
-	local step = 1
-	local maxTiers = NDuiDB["Extras"]["MaxTiers"]
-	local tierInfo = C_AzeriteEmpoweredItem.GetAllTierInfo(itemLocation)
-	for tier, info in pairs(tierInfo) do
-		if tier <= maxTiers then
-			for _, powerID in pairs(info.azeritePowerIDs) do
-				if C_AzeriteEmpoweredItem.IsPowerSelected(itemLocation, powerID) then
-					local powerInfo = C_AzeriteEmpoweredItem.GetPowerInfo(powerID)
-					local _, _, icon = GetSpellInfo(powerInfo.spellID)
-					azerite[step] = icon
-					step = step + 1
-				end
-			end
-		end
-	end
-
-	return azerite
-end
-
 function B.GetItemLevel(link, arg1, arg2, fullScan)
 	if fullScan then
 		tip:SetOwner(UIParent, "ANCHOR_NONE")
@@ -590,7 +501,6 @@ function B.GetItemLevel(link, arg1, arg2, fullScan)
 
 		local slotInfo = tip.slotInfo
 		slotInfo.gems, slotInfo.essences = B:InspectItemTextures()
-		slotInfo.azerite = B:InspectAzeriteTextures(arg2)
 
 		for i = 1, tip:NumLines() do
 			local line = _G[tip:GetName().."TextLeft"..i]
@@ -637,6 +547,96 @@ function B.GetNPCID(guid)
 	return id
 end
 
+-- Add APIs
+local function WatchPixelSnap(frame, snap)
+	if (frame and not frame:IsForbidden()) and frame.PixelSnapDisabled and snap then
+		frame.PixelSnapDisabled = nil
+	end
+end
+
+local function DisablePixelSnap(frame)
+	if (frame and not frame:IsForbidden()) and not frame.PixelSnapDisabled then
+		if frame.SetSnapToPixelGrid then
+			frame:SetSnapToPixelGrid(false)
+			frame:SetTexelSnappingBias(0)
+		elseif frame.GetStatusBarTexture then
+			local texture = frame:GetStatusBarTexture()
+			if texture and texture.SetSnapToPixelGrid then
+				texture:SetSnapToPixelGrid(false)
+				texture:SetTexelSnappingBias(0)
+			end
+		end
+
+		frame.PixelSnapDisabled = true
+	end
+end
+
+local function Point(frame, arg1, arg2, arg3, arg4, arg5, ...)
+	if arg2 == nil then arg2 = frame:GetParent() end
+
+	if type(arg2) == "number" then arg2 = B.Scale(arg2) end
+	if type(arg3) == "number" then arg3 = B.Scale(arg3) end
+	if type(arg4) == "number" then arg4 = B.Scale(arg4) end
+	if type(arg5) == "number" then arg5 = B.Scale(arg5) end
+
+	frame:SetPoint(arg1, arg2, arg3, arg4, arg5, ...)
+end
+
+local function SetInside(frame, anchor, xOffset, yOffset, anchor2)
+	xOffset = xOffset or C.mult
+	yOffset = yOffset or C.mult
+	anchor = anchor or frame:GetParent()
+
+	DisablePixelSnap(frame)
+	frame:ClearAllPoints()
+	frame:Point("TOPLEFT", anchor, "TOPLEFT", xOffset, -yOffset)
+	frame:Point("BOTTOMRIGHT", anchor2 or anchor, "BOTTOMRIGHT", -xOffset, yOffset)
+end
+
+local function SetOutside(frame, anchor, xOffset, yOffset, anchor2)
+	xOffset = xOffset or C.mult
+	yOffset = yOffset or C.mult
+	anchor = anchor or frame:GetParent()
+
+	DisablePixelSnap(frame)
+	frame:ClearAllPoints()
+	frame:Point("TOPLEFT", anchor, "TOPLEFT", -xOffset, yOffset)
+	frame:Point("BOTTOMRIGHT", anchor2 or anchor, "BOTTOMRIGHT", xOffset, -yOffset)
+end
+
+local function addapi(object)
+	local mt = getmetatable(object).__index
+	if not object.Point then mt.Point = Point end
+	if not object.SetInside then mt.SetInside = SetInside end
+	if not object.SetOutside then mt.SetOutside = SetOutside end
+	if not object.DisabledPixelSnap then
+		if mt.SetTexture then hooksecurefunc(mt, "SetTexture", DisablePixelSnap) end
+		if mt.SetTexCoord then hooksecurefunc(mt, "SetTexCoord", DisablePixelSnap) end
+		if mt.CreateTexture then hooksecurefunc(mt, "CreateTexture", DisablePixelSnap) end
+		if mt.SetVertexColor then hooksecurefunc(mt, "SetVertexColor", DisablePixelSnap) end
+		if mt.SetColorTexture then hooksecurefunc(mt, "SetColorTexture", DisablePixelSnap) end
+		if mt.SetSnapToPixelGrid then hooksecurefunc(mt, "SetSnapToPixelGrid", WatchPixelSnap) end
+		if mt.SetStatusBarTexture then hooksecurefunc(mt, "SetStatusBarTexture", DisablePixelSnap) end
+		mt.DisabledPixelSnap = true
+	end
+end
+
+local handled = {["Frame"] = true}
+local object = CreateFrame("Frame")
+addapi(object)
+addapi(object:CreateTexture())
+addapi(object:CreateMaskTexture())
+
+object = EnumerateFrames()
+while object do
+	if not object:IsForbidden() and not handled[object:GetObjectType()] then
+		addapi(object)
+		handled[object:GetObjectType()] = true
+	end
+
+	object = EnumerateFrames(object)
+end
+
 -- GUI APIs
 function B:CreateButton(width, height, text, fontSize)
 	local bu = CreateFrame("Button", nil, self)
@@ -644,7 +644,7 @@ function B:CreateButton(width, height, text, fontSize)
 	if type(text) == "boolean" then
 		B.PixelIcon(bu, fontSize, true)
 	else
-		F.ReskinButton(bu)
+		B.ReskinButton(bu)
 		bu.text = B.CreateFS(bu, fontSize or 14, text, true)
 	end
 
@@ -653,7 +653,7 @@ end
 
 function B:CreateCheckBox()
 	local cb = CreateFrame("CheckButton", nil, self, "InterfaceOptionsCheckButtonTemplate")
-	F.ReskinCheck(cb)
+	B.ReskinCheck(cb)
 
 	cb.Type = "CheckBox"
 	return cb
@@ -669,7 +669,7 @@ function B:CreateEditBox(width, height)
 	eb:SetAutoFocus(false)
 	eb:SetTextInsets(5, 5, 0, 0)
 	eb:SetFont(DB.Font[1], DB.Font[2]+2, DB.Font[3])
-	F.CreateBDFrame(eb, 0)
+	B.CreateBDFrame(eb, 0)
 	eb:SetScript("OnEscapePressed", editBoxClearFocus)
 	eb:SetScript("OnEnterPressed", editBoxClearFocus)
 
@@ -715,7 +715,7 @@ end
 function B:CreateDropDown(width, height, data)
 	local dd = CreateFrame("Frame", nil, self)
 	dd:SetSize(width, height)
-	local bg = F.CreateBDFrame(dd, 0)
+	local bg = B.CreateBDFrame(dd, 0)
 	bg:SetBackdropBorderColor(1, 1, 1)
 	dd.Text = B.CreateFS(dd, 14, "", false, "LEFT", 5, 0)
 	dd.Text:SetPoint("RIGHT", -5, 0)
@@ -727,7 +727,7 @@ function B:CreateDropDown(width, height, data)
 	local list = CreateFrame("Frame", nil, dd)
 	list:ClearAllPoints()
 	list:SetPoint("TOP", dd, "BOTTOM", 0, -2)
-	F.CreateBD(list, 1)
+	B.CreateBDFrame(list, 1, nil, true)
 	list:SetBackdropBorderColor(1, 1, 1)
 	list:Hide()
 	bu.__list = list
@@ -741,7 +741,7 @@ function B:CreateDropDown(width, height, data)
 		opt[i]:ClearAllPoints()
 		opt[i]:SetPoint("TOPLEFT", 4, -4 - (i-1)*(height+2))
 		opt[i]:SetSize(width - 8, height)
-		opt[i].bg = F.CreateBDFrame(opt[i], 0)
+		opt[i].bg = B.CreateBDFrame(opt[i], 0)
 		local text = B.CreateFS(opt[i], 14, j, false, "LEFT", 5, 0)
 		text:SetPoint("RIGHT", -5, 0)
 		opt[i].text = j
@@ -784,15 +784,15 @@ local function openColorPicker(self)
 end
 
 function B:CreateColorSwatch(name, color)
+	color = color or {r=1, g=1, b=1}
+
 	local swatch = CreateFrame("Button", nil, self)
 	swatch:SetSize(18, 18)
 	swatch.text = B.CreateFS(swatch, 14, name, false, "LEFT", 26, 0)
 
-	local bg = F.CreateBDFrame(swatch, 0)
+	local bg = B.CreateBDFrame(swatch, 0)
 	local tex = swatch:CreateTexture()
-	tex:ClearAllPoints()
-	tex:SetPoint("TOPLEFT", bg, C.mult, -C.mult)
-	tex:SetPoint("BOTTOMRIGHT", bg, -C.mult, C.mult)
+	tex:SetInside(bg)
 	tex:SetTexture(DB.bdTex)
 	tex:SetVertexColor(color.r, color.g, color.b)
 
@@ -822,6 +822,7 @@ function B:CreateSlider(name, minValue, maxValue, x, y, width)
 	slider:SetWidth(width or 200)
 	slider:SetMinMaxValues(minValue, maxValue)
 	slider:SetHitRectInsets(0, 0, 0, 0)
+	B.ReskinSlider(slider)
 
 	slider.Low:SetText(minValue)
 	slider.Low:ClearAllPoints()
@@ -833,13 +834,6 @@ function B:CreateSlider(name, minValue, maxValue, x, y, width)
 	slider.Text:SetPoint("CENTER", 0, 25)
 	slider.Text:SetText(name)
 	slider.Text:SetTextColor(1, .8, 0)
-	slider:SetBackdrop(nil)
-	slider.Thumb:SetTexture(DB.sparkTex)
-	slider.Thumb:SetBlendMode("ADD")
-	local bg = F.CreateBDFrame(slider, 0)
-	bg:ClearAllPoints()
-	bg:SetPoint("TOPLEFT", 14, -2)
-	bg:SetPoint("BOTTOMRIGHT", -15, 3)
 	slider.value = B.CreateEditBox(slider, 50, 20)
 	slider.value:ClearAllPoints()
 	slider.value:SetPoint("TOP", slider, "BOTTOM")

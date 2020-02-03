@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 local module = B:RegisterModule("AurasTable")
 local pairs, next, format, wipe = pairs, next, string.format, wipe
 
@@ -39,7 +39,7 @@ function module:AddNewAuraWatch(class, list)
 				local name = GetSpellInfo(spellID)
 				if not name then
 					wipe(v)
-					print(format("|cffFF0000Invalid spellID:|r '%s' %s", class, spellID))
+					if DB.isDeveloper then print(format("|cffFF0000Invalid spellID:|r '%s' %s", class, spellID)) end
 				end
 			end
 		end
@@ -83,9 +83,7 @@ end
 local RaidBuffs = {}
 function module:AddClassSpells(list)
 	for class, value in pairs(list) do
-		if class == "ALL" or class == "WARNING" or class == DB.MyClass then
-			RaidBuffs[class] = value
-		end
+		RaidBuffs[class] = value
 	end
 end
 
@@ -93,7 +91,10 @@ end
 local RaidDebuffs = {}
 function module:RegisterDebuff(_, instID, _, spellID, level)
 	local instName = EJ_GetInstanceInfo(instID)
-	if not instName then print("Invalid instance ID: "..instID) return end
+	if not instName then
+		if DB.isDeveloper then print("Invalid instance ID: "..instID) end
+		return
+	end
 
 	if not RaidDebuffs[instName] then RaidDebuffs[instName] = {} end
 	if level then

@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 local M = B:GetModule("Misc")
 
 local format, gsub, strsplit = string.format, string.gsub, string.split
@@ -48,7 +48,8 @@ function M:SoloInfo_Create()
 	soloInfo = CreateFrame("Frame", nil, UIParent)
 	soloInfo:SetPoint("TOP", UIParent, "TOP", 0, -85)
 	soloInfo:SetSize(200, 70)
-	F.CreateBD(soloInfo)
+	B.CreateBD(soloInfo)
+	B.CreateSD(soloInfo)
 
 	soloInfo.Text = B.CreateFS(soloInfo, 12)
 	soloInfo.Text:SetWordWrap(true)
@@ -86,12 +87,12 @@ end
 function M:SoloInfo()
 	if NDuiDB["Misc"]["SoloInfo"] then
 		self:SoloInfo_Update()
-		B:RegisterEvent("PLAYER_ENTERING_WORLD", self.SoloInfo_Update)
+		B:RegisterEvent("UPDATE_INSTANCE_INFO", self.SoloInfo_Update)
 		B:RegisterEvent("PLAYER_DIFFICULTY_CHANGED", self.SoloInfo_Update)
 		B:RegisterEvent("GROUP_ROSTER_UPDATE", self.RaidInfo_Update)
 	else
 		if soloInfo then soloInfo:Hide() end
-		B:UnregisterEvent("PLAYER_ENTERING_WORLD", self.SoloInfo_Update)
+		B:UnregisterEvent("UPDATE_INSTANCE_INFO", self.SoloInfo_Update)
 		B:UnregisterEvent("PLAYER_DIFFICULTY_CHANGED", self.SoloInfo_Update)
 		B:UnregisterEvent("GROUP_ROSTER_UPDATE", self.RaidInfo_Update)
 	end

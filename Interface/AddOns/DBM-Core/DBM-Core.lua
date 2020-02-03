@@ -49,6 +49,7 @@ local function releaseDate(year, month, day, hour, minute, second)
 end
 
 local function parseCurseDate(date)
+	date = tostring(date)
 	if #date == 13 then
 		-- support for broken curse timestamps: leading 0 in hours is missing...
 		date = date:sub(1, 8) .. "0" .. date:sub(9, #date)
@@ -68,9 +69,9 @@ local function showRealDate(curseDate)
 end
 
 DBM = {
-	Revision = parseCurseDate("20200123035741"),
-	DisplayVersion = "8.3.3", -- the string that is shown as version
-	ReleaseRevision = releaseDate(2020, 1, 22) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
+	Revision = parseCurseDate("20200203001119"),
+	DisplayVersion = "8.3.10 alpha", -- the string that is shown as version
+	ReleaseRevision = releaseDate(2020, 2, 1) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -451,7 +452,7 @@ local dataBroker
 local voiceSessionDisabled = false
 local handleSync
 
-local fakeBWVersion, fakeBWHash = 167, "4f92f10"
+local fakeBWVersion, fakeBWHash = 178, "4a8bec2"
 local versionQueryString, versionResponseString = "Q^%d^%s", "V^%d^%s"
 
 local enableIcons = true -- set to false when a raid leader or a promoted player has a newer version of DBM
@@ -3090,6 +3091,21 @@ function DBM:GetUnitIdFromGUID(cidOrGuid, bossOnly)
 		end
 	end
 	return returnUnitID
+end
+
+function DBM:CheckNearby(range, targetname)
+	if not targetname and DBM.RangeCheck:GetDistanceAll(range) then
+		return true--No target name means check if anyone is near self, period
+	else
+		local uId = DBM:GetRaidUnitId(targetname)
+		if uId and not UnitIsUnit("player", uId) then
+			local inRange = DBM.RangeCheck:GetDistance(uId)
+			if inRange and inRange < range+0.5 then
+				return true
+			end
+		end
+	end
+	return false
 end
 
 ---------------
@@ -7582,6 +7598,7 @@ end
 --checkCooldown should never be passed with skip or COUNT interrupt warnings. It should be passed with any other interrupt filter
 function bossModPrototype:CheckInterruptFilter(sourceGUID, force, checkCooldown, ignoreTandF)
 	if DBM.Options.FilterInterrupt2 == "None" and not force then return true end--user doesn't want to use interrupt filter, always return true
+	if DBM.Options.FilterInterrupt2 == "Always" and not force then return false end--user wants to filter ALL interrupts, always return false
 	--Pummel, Mind Freeze, Counterspell, Kick, Skull Bash, Rebuke, Silence, Wind Shear, Disrupt, Solar Beam
 	local InterruptAvailable = true
 	local requireCooldown = checkCooldown
@@ -7644,6 +7661,7 @@ bossModPrototype.GetUnitCreatureId = DBM.GetUnitCreatureId
 bossModPrototype.GetCIDFromGUID = DBM.GetCIDFromGUID
 bossModPrototype.IsCreatureGUID = DBM.IsCreatureGUID
 bossModPrototype.GetUnitIdFromGUID = DBM.GetUnitIdFromGUID
+bossModPrototype.CheckNearby = DBM.CheckNearby
 
 do
 	local bossTargetuIds = {
@@ -7854,21 +7872,6 @@ do
 	function bossModPrototype:StopRepeatedScan(returnFunc)
 		repeatedScanEnabled[returnFunc] = nil
 	end
-end
-
-function bossModPrototype:CheckNearby(range, targetname)
-	if not targetname and DBM.RangeCheck:GetDistanceAll(range) then
-		return true--No target name means check if anyone is near self, period
-	else
-		local uId = DBM:GetRaidUnitId(targetname)
-		if uId and not UnitIsUnit("player", uId) then
-			local inRange = DBM.RangeCheck:GetDistance(uId)
-			if inRange and inRange < range+0.5 then
-				return true
-			end
-		end
-	end
-	return false
 end
 
 do
@@ -9751,7 +9754,7 @@ do
 		return unschedule(self.Play, self.mod, self, ...)
 	end
 
-	function bossModPrototype:NewSpecialWarning(text, optionDefault, optionName, optionVersion, runSound, hasVoice)
+	function bossModPrototype:NewSpecialWarning(text, optionDefault, optionName, optionVersion, runSound, hasVoice, difficulty)
 		if not text then
 			error("NewSpecialWarning: you must provide special warning text", 2)
 			return
@@ -9777,6 +9780,7 @@ do
 				sound = runSound>0,
 				flash = runSound,--Set flash color to hard coded runsound (even if user sets custom sounds)
 				hasVoice = hasVoice,
+				difficulty = difficulty,
 			},
 			mt
 		)
@@ -9790,7 +9794,7 @@ do
 		return obj
 	end
 
-	local function newSpecialWarning(self, announceType, spellId, stacks, optionDefault, optionName, optionVersion, runSound, hasVoice)
+	local function newSpecialWarning(self, announceType, spellId, stacks, optionDefault, optionName, optionVersion, runSound, hasVoice, difficulty)
 		if not spellId then
 			error("newSpecialWarning: you must provide spellId", 2)
 			return
@@ -9814,6 +9818,7 @@ do
 				sound = runSound>0,
 				flash = runSound,--Set flash color to hard coded runsound (even if user sets custom sounds)
 				hasVoice = hasVoice,
+				difficulty = difficulty,
 				type = announceType,
 				spellId = spellId,
 				spellName = spellName,
@@ -9825,13 +9830,23 @@ do
 		if optionName then
 			obj.option = optionName
 		elseif not (optionName == false) then
+			local difficultyIcon = ""
+			if difficulty then
+				--1 LFR, 2 Normal, 3 Heroic, 4 Mythic
+				--Likely 1 and 2 will never be used, but being prototyped just in case
+				if difficulty == 3 then
+					difficultyIcon = "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:18:18:0:0:255:66:102:118:7:27|t"
+				elseif difficulty == 4 then
+					difficultyIcon = "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:18:18:0:0:255:66:133:153:40:58|t"
+				end
+			end
 			obj.option = "SpecWarn"..spellId..announceType..(optionVersion or "")
 			if announceType == "stack" then
-				self.localization.options[obj.option] = DBM_CORE_AUTO_SPEC_WARN_OPTIONS[announceType]:format(stacks or 3, spellId)
+				self.localization.options[obj.option] = difficultyIcon..DBM_CORE_AUTO_SPEC_WARN_OPTIONS[announceType]:format(stacks or 3, spellId)
 			elseif announceType == "prewarn" then
-				self.localization.options[obj.option] = DBM_CORE_AUTO_SPEC_WARN_OPTIONS[announceType]:format(tostring(stacks or 5), spellId)
+				self.localization.options[obj.option] = difficultyIcon..DBM_CORE_AUTO_SPEC_WARN_OPTIONS[announceType]:format(tostring(stacks or 5), spellId)
 			else
-				self.localization.options[obj.option] = DBM_CORE_AUTO_SPEC_WARN_OPTIONS[announceType]:format(spellId)
+				self.localization.options[obj.option] = difficultyIcon..DBM_CORE_AUTO_SPEC_WARN_OPTIONS[announceType]:format(spellId)
 			end
 		end
 		if obj.option then
@@ -10312,7 +10327,7 @@ do
 			msg = msg:gsub(">.-<", stripServerName)
 			bar:SetText(msg, self.inlineIcon)
 			--ID: Internal DBM timer ID
-			--msg: Timer Text
+			--msg: Timer Text (Do not use msg has an event trigger, it varies language to language or based on user timer options. Use this to DISPLAY only (such as timer replacement UI). use spellId field 99% of time
 			--timer: Raw timer value (number).
 			--Icon: Texture Path for Icon
 			--type: Timer type (Cooldowns: cd, cdcount, nextcount, nextsource, cdspecial, nextspecial, stage, ai. Durations: target, active, fades, roleplay. Casting: cast)
@@ -10845,7 +10860,11 @@ do
 				spellName = DBM:GetSpellInfo(spellId)
 			end
 		end
-		return pformat(DBM_CORE_AUTO_TIMER_TEXTS[timerType], spellName)
+		if DBM_CORE_AUTO_TIMER_TEXTS[timerType.."short"] and DBM.Bars:GetOption("StripCDText") then
+			return pformat(DBM_CORE_AUTO_TIMER_TEXTS[timerType.."short"], spellName)
+		else
+			return pformat(DBM_CORE_AUTO_TIMER_TEXTS[timerType], spellName)
+		end
 	end
 end
 
@@ -10982,7 +11001,7 @@ function bossModPrototype:AddSetIconOption(name, spellId, default, isHostile, ic
 	if iconsUsed then
 		self.localization.options[name] = self.localization.options[name].." ("
 		for i=1, #iconsUsed do
-			--8.2 TODO FIXME. Texture ID 137009
+			--Texture ID 137009 if direct calling RaidTargetingIcons stops working one day
 			if 		iconsUsed[i] == 1 then		self.localization.options[name] = self.localization.options[name].."|TInterface\\TargetingFrame\\UI-RaidTargetingIcons.blp:13:13:0:0:64:64:0:16:0:16|t"
 			elseif	iconsUsed[i] == 2 then		self.localization.options[name] = self.localization.options[name].."|TInterface\\TargetingFrame\\UI-RaidTargetingIcons.blp:13:13:0:0:64:64:16:32:0:16|t"
 			elseif	iconsUsed[i] == 3 then		self.localization.options[name] = self.localization.options[name].."|TInterface\\TargetingFrame\\UI-RaidTargetingIcons.blp:13:13:0:0:64:64:32:48:0:16|t"
@@ -11438,7 +11457,7 @@ end
 
 function bossModPrototype:SetRevision(revision)
 	revision = parseCurseDate(revision or "")
-	if not revision then
+	if not revision or revision == "20200203001119" then
 		-- bad revision: either forgot the svn keyword or using github
 		revision = DBM.Revision
 	end

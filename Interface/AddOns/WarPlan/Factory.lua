@@ -8,12 +8,14 @@ T.CreateObject = CreateObject
 
 local CONFIRM_ON_USE_BUTTON
 local PROGRESS_MIN_STEP = 0.2
+local currencyMeterFrame
 local function HideOwnGameTooltip(self)
 	if GameTooltip:IsOwned(self) then
 		GameTooltip:Hide()
 	end
 end
 local function CommonTooltip_OnEnter(self)
+	local showCurrencyBar = false
 	GameTooltip:SetOwner(self, self.tooltipAnchor or "ANCHOR_TOP")
 	if type(self.mechanicInfo) == "table" then
 		local ic, m = self.Icon and self.Icon:GetTexture(), self.mechanicInfo
@@ -37,6 +39,7 @@ local function CommonTooltip_OnEnter(self)
 	elseif self.tooltipHeader and self.tooltipText then
 		GameTooltip:AddLine(self.tooltipHeader)
 		GameTooltip:AddLine(self.tooltipText, 1,1,1, 1)
+		showCurrencyBar = not not (self.currencyID)
 	elseif self.currencyID then
 		GameTooltip:SetCurrencyByID(self.currencyID)
 	elseif self.achievementID then
@@ -69,6 +72,10 @@ local function CommonTooltip_OnEnter(self)
 		GameTooltip:AddLine(self.tooltipExtra, 1,1,1)
 	end
 	GameTooltip:Show()
+	if showCurrencyBar then
+		currencyMeterFrame = currencyMeterFrame or CreateObject("CurrencyMeter")
+		currencyMeterFrame:Activate(GameTooltip, self.currencyID, self.currencyQ)
+	end
 end
 local function CommonLinkable_OnClick(self)
 	if not IsModifiedClick("CHATLINK") then
@@ -515,6 +522,57 @@ local function Toast_OnClick(self, button)
 		self:Hide()
 	end
 end
+local function CurrencyMeter_Update(self)
+	local p = self:GetParent()
+	local pt, sb, pw = p:GetTop(), self:GetBottom(), p:GetWidth()
+	if pt and sb then
+		p:SetHeight(pt-sb+8)
+	end
+	if pw then
+		self:SetWidth(pw - 20)
+	end
+	self.Bar:SetProgress(self.pv)
+	self.Fill2:SetWidth(self.Bar:GetWidth()*self.v2)
+end
+local function CurrencyMeter_Activate(self, tip, currencyID, q1)
+	local factionID, cur, max, label = W.CURRENCY_FACTION_ID[currencyID]
+	if factionID then
+		if C_Reputation.IsFactionParagon(factionID) then
+			label, cur, max = _G["FACTION_STANDING_LABEL8" .. (UnitSex("player") ~= 2 and "_FEMALE" or "")], C_Reputation.GetFactionParagonInfo(factionID)
+			cur = cur % max
+		else
+			local _, _, stID, bMin, bMax, bVal  = GetFactionInfoByID(factionID)
+			if stID and bMin then
+				cur, max, label = bVal - bMin, bMax-bMin, _G["FACTION_STANDING_LABEL" .. stID .. (UnitSex("player") ~= 2 and "_FEMALE" or "")]
+			end
+		end
+	elseif currencyID == 1553 and not C_AzeriteItem.IsAzeriteItemAtMaxLevel() then
+		local aloc = C_AzeriteItem.FindActiveAzeriteItem()
+		local ok, level = pcall(C_AzeriteItem.GetPowerLevel, aloc)
+		if ok and level then
+			label, cur, max = "Level " .. level, C_AzeriteItem.GetAzeriteItemXPInfo(aloc)
+		end
+	end
+	if not (cur and max) then
+		return
+	end
+	label = label .. " - " .. BreakUpLargeNumbers(cur) .. " / " .. BreakUpLargeNumbers(max)
+	self.pv = cur/max
+	self.v2 = math.max(0.00001, math.min(1-self.pv, (q1 or 0)/max))
+	self.Bar.Text:SetText(label)
+	self.Fill2:SetAtlas((cur+ (q1 or 0)) > max and "UI-Frame-Bar-Fill-Green" or "UI-Frame-Bar-Fill-Yellow")
+	self:SetParent(tip)
+	local lastLine = _G[tip:GetName() .. "TextLeft" .. tip:NumLines()]
+	self:SetPoint("TOPLEFT", lastLine, "BOTTOMLEFT", 0, -2)
+	self:Show()
+	tip:Show()
+	CurrencyMeter_Update(self)
+end
+local function CurrencyMeter_OnHide(self)
+	self:Hide()
+	self:SetParent(nil)
+	self:ClearAllPoints()
+end
 local function Mirror(tex, swapH, swapV)
 	local ulX, ulY, llX, llY, urX, urY, lrX, lrY = tex:GetTexCoord()
 	if swapH then
@@ -526,8 +584,8 @@ local function Mirror(tex, swapH, swapV)
 	tex:SetTexCoord(ulX, ulY, llX, llY, urX, urY, lrX, lrY)
 	return tex
 end
-local function HideGrandparentPanel(self)
-	HideUIPanel(self:GetParent():GetParent())
+local function HideGrandparent(self)
+	self:GetParent():GetParent():Hide()
 end
 
 local function ChampionList_EnableStaticAnchors(self)
@@ -1507,7 +1565,7 @@ function Factory.TableArtwork(frame)
 	t:SetText(GARRISON_MISSIONS)
 	t, frame.TitleText = CreateFrame("Button", nil, frame, "UIPanelCloseButton"), t
 	t:SetPoint("TOPRIGHT", 4, 5)
-	t:SetScript("OnClick", HideGrandparentPanel)
+	t:SetScript("OnClick", HideGrandparent)
 	t, frame.CloseButton = t:CreateTexture(nil, "BORDER"), t
 	t:SetPoint("CENTER")
 	frame.CloseButtonBorder = t
@@ -1597,4 +1655,23 @@ function Factory.ConfirmOnUseButton()
 		_, self.soundID = PlaySound(SOUNDKIT.IG_MAINMENU_OPEN)
 	end
 	return b
+end
+function Factory.CurrencyMeter()
+	local f, t = CreateFrame("Frame")
+	f:SetSize(180, 30)
+	f:Hide()
+	t = CreateObject("ProgressBar", f)
+	t:SetPoint("LEFT", 8, 0)
+	t:SetPoint("RIGHT", -8, 0)
+	t:SetClipsChildren(true)
+	t.Fill:SetAtlas("UI-Frame-Bar-Fill-Blue")
+	t, f.Bar = t:CreateTexture(nil, "BACKGROUND", nil, 2), t
+	t:SetAtlas("UI-Frame-Bar-Fill-Yellow")
+	t:SetPoint("TOPLEFT", f.Bar.Fill, "TOPRIGHT")
+	t:SetPoint("BOTTOMLEFT", f.Bar.Fill, "BOTTOMRIGHT")
+	t:SetWidth(50)
+	f.Activate, f.Fill2 = CurrencyMeter_Activate, t
+	f:SetScript("OnHide", CurrencyMeter_OnHide)
+	f:SetScript("OnUpdate", CurrencyMeter_Update)
+	return f
 end

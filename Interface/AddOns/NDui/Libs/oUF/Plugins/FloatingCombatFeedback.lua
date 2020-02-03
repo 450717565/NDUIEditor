@@ -3,7 +3,7 @@
 -- NDui MOD
 -----------------------------------------------
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 local oUF = ns.oUF or oUF
 assert(oUF, "oUF FloatingCombatFeedback was unable to locate oUF install")
 
@@ -282,11 +282,13 @@ local function onEvent(self, event, ...)
 		text = ENTERING_COMBAT
 		color = colors.RED
 		multiplier = 1.25
+		critMark = true
 	elseif event == "PLAYER_REGEN_ENABLED" then
 		texture = ""
 		text = LEAVING_COMBAT
 		color = colors.GREEN
 		multiplier = 1.25
+		critMark = true
 	end
 
 	if text and texture then

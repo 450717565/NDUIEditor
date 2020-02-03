@@ -1,4 +1,4 @@
-local B, C, L, DB, F = unpack(select(2, ...))
+local B, C, L, DB = unpack(select(2, ...))
 
 local tbinsert = table.insert
 local mmax, mfloor = math.max, math.floor
@@ -88,14 +88,13 @@ local function CreateSlot(id)
 	local border = CreateFrame("Frame", nil, button)
 	border:SetSize(iconSize, iconSize)
 	border:SetPoint("LEFT", button)
-	F.CreateBD(border, 1)
+	B.CreateBD(border, 1)
 	button.border = border
 
 	local icon = border:CreateTexture(nil, "ARTWORK")
 	icon:SetAlpha(.8)
 	icon:SetTexCoord(unpack(DB.TexCoord))
-	icon:SetPoint("TOPLEFT", C.mult, -C.mult)
-	icon:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
+	icon:SetInside()
 	button.icon = icon
 
 	local glow = button:CreateTexture(nil, "ARTWORK")
@@ -267,7 +266,8 @@ end
 LightLoot:RegisterEvent("LOOT_SLOT_CLEARED")
 
 function LightLoot:PLAYER_LOGIN()
-	F.CreateBD(LightLoot)
+	B.CreateBD(LightLoot)
+	B.CreateSD(LightLoot)
 end
 LightLoot:RegisterEvent("PLAYER_LOGIN")
 

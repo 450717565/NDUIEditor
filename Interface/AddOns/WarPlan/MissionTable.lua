@@ -63,12 +63,12 @@ local function ConfigureAbilityButton(w, id, isSpecialization, isLocked)
 	w:Show()
 	return 1
 end
-local function ConfigureReward(w, rew, isOvermax)
+local function ConfigureReward(w, rew, isOvermax, pw)
 	w:SetShown(not not rew)
 	if not rew then
 		return
 	end
-	local q, tooltipTitle, tooltipText = rew.quantity, rew.title
+	local q, tooltipTitle, tooltipText, cq = rew.quantity, rew.title
 	if rew.icon then
 		w.Icon:SetTexture(rew.icon)
 	elseif rew.itemID then
@@ -90,6 +90,7 @@ local function ConfigureReward(w, rew, isOvermax)
 					w.RarityBorder:SetAtlas(lb)
 				end
 			end
+			cq = (isOvermax and pw and pw.currencyID == rew.currencyID and pw.currencyQ or 0) + q
 		end
 	elseif rew.itemID then
 		q = rew.quantity == 1 and "" or rew.quantity or ""
@@ -104,6 +105,7 @@ local function ConfigureReward(w, rew, isOvermax)
 	local overfullText = isOvermax and "|cffff8000" .. L"Bonus roll reward" .. "|r" or nil
 	w.OvermaxRewardIcon:SetShown(isOvermax)
 	w.currencyID, w.currencyAmount, w.itemID, w.tooltipExtra, w.tooltipHeader, w.tooltipText = rew.currencyID, rew.quantity, rew.itemID, overfullText, tooltipTitle, tooltipText
+	w.currencyQ = cq
 	w.Quantity:SetText(q or "")
 end
 local function ConfigureMechanic(w, mech, mechID, enemyName)
@@ -171,7 +173,7 @@ local function ConfigureMission(me, mi, isAvailable)
 	me.XPReward:SetText(baseXP .. " XP")
 	
 	ConfigureReward(me.Rewards[1], mi.rewards and mi.rewards[1])
-	ConfigureReward(me.Rewards[2], mi.overmaxRewards and mi.overmaxRewards[1], true)
+	ConfigureReward(me.Rewards[2], mi.overmaxRewards and mi.overmaxRewards[1], true, me.Rewards[1])
 	me.Rewards.Container:SetWidth(me.hasOvermaxRewards and 104 or 48)
 	local  nm = 1
 	for i=1,#enemies do

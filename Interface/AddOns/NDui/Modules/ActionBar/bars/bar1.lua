@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 local Bar = B:RegisterModule("Actionbar")
 local cfg = C.bars.bar1
 
@@ -104,6 +104,8 @@ function Bar:OnLogin()
 	self:HideBlizz()
 	self:ReskinBars()
 	self:UpdateAllScale()
+	self:CreateBackground()
+	self:MicroMenu()
 
 	--vehicle fix
 	local function getActionTexture(button)
@@ -122,4 +124,45 @@ function Bar:OnLogin()
 			end
 		end
 	end)
+end
+
+function Bar:CreateBackground()
+	if not NDuiDB["Skins"]["BarLine"] then return end
+	if NDuiDB["Actionbar"]["Style"] == 5 then return end
+
+	local alpha = NDuiDB["Extras"]["SkinAlpha"]
+	local color = NDuiDB["Extras"]["SkinColor"]
+	local cr, cg, cb = DB.r, DB.g, DB.b
+	if not NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
+
+	local relativeTo = NDui_ActionBar2
+	if NDuiDB["Actionbar"]["Style"] == 4 then relativeTo = NDui_ActionBar3 end
+
+	-- ACTIONBAR
+	local ActionBarL = CreateFrame("Frame", nil, UIParent)
+	ActionBarL:SetPoint("BOTTOMRIGHT", relativeTo, "TOP")
+	B.CreateGA(ActionBarL, 260, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
+	RegisterStateDriver(ActionBarL, "visibility", "[petbattle][overridebar][vehicleui][possessbar,@vehicle,exists] hide; show")
+	local ActionBarR = CreateFrame("Frame", nil, UIParent)
+	ActionBarR:SetPoint("BOTTOMLEFT", relativeTo, "TOP")
+	B.CreateGA(ActionBarR, 260, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
+	RegisterStateDriver(ActionBarR, "visibility", "[petbattle][overridebar][vehicleui][possessbar,@vehicle,exists] hide; show")
+
+	-- OVERRIDEBAR
+	local OverBarL = CreateFrame("Frame", nil, UIParent)
+	OverBarL:SetPoint("BOTTOMRIGHT", NDui_ActionBar1, "TOP")
+	B.CreateGA(OverBarL, 260, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
+	RegisterStateDriver(OverBarL, "visibility", "[petbattle] hide; [overridebar][vehicleui][possessbar,@vehicle,exists] show; hide")
+	local OverBarR = CreateFrame("Frame", nil, UIParent)
+	OverBarR:SetPoint("BOTTOMLEFT", NDui_ActionBar1, "TOP")
+	B.CreateGA(OverBarR, 260, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
+	RegisterStateDriver(OverBarR, "visibility", "[petbattle] hide; [overridebar][vehicleui][possessbar,@vehicle,exists] show; hide")
+
+	-- BOTTOMLINE
+	local BarLineL = CreateFrame("Frame", nil, UIParent)
+	BarLineL:SetPoint("TOPRIGHT", NDui_ActionBar1, "BOTTOM")
+	B.CreateGA(BarLineL, 260, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
+	local BarLineR = CreateFrame("Frame", nil, UIParent)
+	BarLineR:SetPoint("TOPLEFT", NDui_ActionBar1, "BOTTOM")
+	B.CreateGA(BarLineR, 260, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
 end

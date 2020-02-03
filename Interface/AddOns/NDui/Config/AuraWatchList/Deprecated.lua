@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB, F = unpack(ns)
+local B, C, L, DB = unpack(ns)
 
 -- 旧资料片数据 Auras for old expansions
 C.DeprecatedAuras = {
