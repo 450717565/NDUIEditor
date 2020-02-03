@@ -103,11 +103,12 @@ end
 
 function UF:CreateHealthText(self)
 	local mystyle = self.mystyle
+	local minorStyle = mystyle ~= "pet" and mystyle ~= "tot" and mystyle ~= "fot"
 
 	local textFrame = CreateFrame("Frame", nil, self)
 	textFrame:SetAllPoints(self.Health)
 
-	local name = B.CreateFS(textFrame, retVal(self, 13, 12, 12, 12, NDuiDB["Nameplate"]["NameTextSize"]), "", false, "LEFT", 3, -1)
+	local name = B.CreateFS(textFrame, retVal(self, 13, 12, 12, 12, NDuiDB["Nameplate"]["NameTextSize"]), "", false, "LEFT", 3, 0)
 	name:SetJustifyH("LEFT")
 
 	if mystyle == "raid" then
@@ -130,6 +131,10 @@ function UF:CreateHealthText(self)
 		name:SetWidth(self:GetWidth()*.85)
 		name:ClearAllPoints()
 		name:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 5)
+	elseif minorStyle then
+		name:SetWidth(self:GetWidth()*.95)
+		name:ClearAllPoints()
+		name:SetPoint("TOPLEFT", 0, -3)
 	else
 		name:SetWidth(self:GetWidth()*.55)
 	end
@@ -148,7 +153,7 @@ function UF:CreateHealthText(self)
 		self:Tag(name, "[color][name]")
 	end
 
-	local hpval = B.CreateFS(textFrame, retVal(self, 14, 13, 13, 13, NDuiDB["Nameplate"]["HealthTextSize"]), "", false, "RIGHT", -3, -1)
+	local hpval = B.CreateFS(textFrame, retVal(self, 14, 13, 13, 13, NDuiDB["Nameplate"]["HealthTextSize"]), "", false, "RIGHT", -3, 0)
 	hpval:SetJustifyH("RIGHT")
 	if mystyle == "raid" then
 		hpval:ClearAllPoints()
@@ -162,8 +167,13 @@ function UF:CreateHealthText(self)
 		end
 		self:Tag(hpval, "[raidhp]")
 	elseif mystyle == "nameplate" then
+		hpval:ClearAllPoints()
 		hpval:SetPoint("RIGHT", self, 0, 5)
 		self:Tag(hpval, "[nphp]")
+	elseif minorStyle then
+		hpval:ClearAllPoints()
+		hpval:SetPoint("BOTTOMRIGHT", 0, 3)
+		self:Tag(hpval, "[health]")
 	else
 		self:Tag(hpval, "[health]")
 	end
@@ -244,7 +254,7 @@ function UF:CreatePowerText(self)
 	local textFrame = CreateFrame("Frame", nil, self)
 	textFrame:SetAllPoints(self.Power)
 
-	local ppval = B.CreateFS(textFrame, retVal(self, 13, 12, 12, 12), "", false, "RIGHT", -3, 1)
+	local ppval = B.CreateFS(textFrame, retVal(self, 13, 12, 12, 12), "", false, "RIGHT", -3, 0)
 	self:Tag(ppval, "[color][power]")
 
 	self.powerText = ppval
