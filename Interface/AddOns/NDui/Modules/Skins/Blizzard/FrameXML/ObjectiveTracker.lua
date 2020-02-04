@@ -20,7 +20,7 @@ tinsert(C.defaultThemes, function()
 			if button.Icon then
 				button.Icon:SetPoint("CENTER")
 				button.Icon:SetSize(18, 18)
-				bg:SetInside(bg, 2, 2)
+				bg:SetInside(button.icon, 2, 2)
 			end
 
 			button.styled = true
@@ -121,7 +121,7 @@ tinsert(C.defaultThemes, function()
 	-- Reskin Blocks
 	hooksecurefunc("ScenarioStage_CustomizeBlock", function(block)
 		if not block.styled then
-			B.StripTextures(block)
+			B.StripTextures(block, true)
 			B.SetBDFrame(block.GlowTexture, 4, -2, -4, 0)
 
 			block.styled = true

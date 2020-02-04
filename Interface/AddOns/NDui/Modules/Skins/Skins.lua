@@ -59,33 +59,37 @@ function S:OnLogin()
 	self:LoadDefaultSkins()
 
 	-- Add Skins
-	self:BaudErrorFrame()
+
 	self:BigWigs()
-	self:BuyEmAll()
-	self:ClassicQuestLog()
 	self:DeadlyBossMods()
-	self:ExtVendor()
-	self:Immersion()
-	self:ls_Toasts()
-	self:Postal()
-	self:PremadeGroupsFilter()
-	self:Rematch()
-	self:Simulationcraft()
 	self:Skada()
-	self:WhisperPop()
-	self:WorldQuestTab()
 
 	self:Other()
+
+	if NDuiDB["Skins"]["BlizzardSkins"] then
+		self:BaudErrorFrame()
+		self:BuyEmAll()
+		self:ClassicQuestLog()
+		self:ExtVendor()
+		self:Immersion()
+		self:ls_Toasts()
+		self:Postal()
+		self:PremadeGroupsFilter()
+		self:Rematch()
+		self:Simulationcraft()
+		self:WhisperPop()
+		self:WorldQuestTab()
+	end
 
 	-- Register skin
 	local media = LibStub and LibStub("LibSharedMedia-3.0", true)
 	if media then
+		media:Register("statusbar", "NDui", [[Interface\TargetingFrame\UI-TargetingFrame-BarFill]])
 		media:Register("statusbar", "Altz01", [[Interface\AddOns\NDui\Media\StatusBar\Altz01]])
 		media:Register("statusbar", "Altz02", [[Interface\AddOns\NDui\Media\StatusBar\Altz02]])
 		media:Register("statusbar", "Altz03", [[Interface\AddOns\NDui\Media\StatusBar\Altz03]])
 		media:Register("statusbar", "Altz04", [[Interface\AddOns\NDui\Media\StatusBar\Altz04]])
 		media:Register("statusbar", "MaoR", [[Interface\AddOns\NDui\Media\StatusBar\MaoR]])
-		media:Register("statusbar", "NDui", [[Interface\TargetingFrame\UI-TargetingFrame-BarFill]])
 		media:Register("statusbar", "Ray01", [[Interface\AddOns\NDui\Media\StatusBar\Ray01]])
 		media:Register("statusbar", "Ray02", [[Interface\AddOns\NDui\Media\StatusBar\Ray02]])
 		media:Register("statusbar", "Ray03", [[Interface\AddOns\NDui\Media\StatusBar\Ray03]])
@@ -95,6 +99,7 @@ function S:OnLogin()
 		media:Register("statusbar", "Ya03", [[Interface\AddOns\NDui\Media\StatusBar\Ya03]])
 		media:Register("statusbar", "Ya04", [[Interface\AddOns\NDui\Media\StatusBar\Ya04]])
 		media:Register("statusbar", "Ya05", [[Interface\AddOns\NDui\Media\StatusBar\Ya05]])
+		media:Register("statusbar", "Rainbow", [[Interface\AddOns\NDui\Media\StatusBar\Rainbow]])
 	end
 end
 

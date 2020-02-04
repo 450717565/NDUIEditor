@@ -6,6 +6,11 @@ function S:Other()
 		select(11, LFGListFrame.SearchPanel:GetChildren()):Hide()
 	end
 
+	if IsAddOnLoaded("EasyScrap") then
+		EasyScrapParentFrame:ClearAllPoints()
+		EasyScrapParentFrame:SetPoint("LEFT", ScrappingMachineFrame, "RIGHT", 3, 0)
+	end
+
 	local function resetTabAnchor(self)
 		local frameName = self.GetName and self:GetName()
 		local text = self.Text or (frameName and _G[frameName.."Text"])

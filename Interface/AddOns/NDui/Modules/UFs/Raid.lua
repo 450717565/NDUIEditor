@@ -46,7 +46,7 @@ end
 function UF:CreateTargetBorder(self)
 	local targetBorder = B.CreateBDFrame(self, 0)
 	targetBorder:SetBackdropBorderColor(0, 1, 1)
-	targetBorder:SetOutside(self.Health.bd, 1+C.mult, 1+C.mult, self.Power.bd)
+	targetBorder:SetOutside(self.Health.bd, 2+C.mult, 2+C.mult, self.Power.bd)
 	targetBorder.gTex:Hide()
 	targetBorder.Tex:Hide()
 	targetBorder:Hide()

@@ -758,7 +758,7 @@ end
 function UF:ResizePlayerPlate()
 	local plate = _G.oUF_PlayerPlate
 	if plate then
-		local iconSize, iconMargin = NDuiDB["Nameplate"]["PPIconSize"], 2+C.mult
+		local iconSize, iconMargin = NDuiDB["Nameplate"]["PPIconSize"], 2
 		local height = NDuiDB["Nameplate"]["PPHeight"]
 		local cpHeight = NDuiDB["Extras"]["PPCPHeight"]
 		plate:SetSize(iconSize*5 + iconMargin*4, height)
@@ -787,9 +787,9 @@ end
 function UF:CreatePlayerPlate()
 	self.mystyle = "PlayerPlate"
 	self:EnableMouse(false)
-	local iconSize, iconMargin = NDuiDB["Nameplate"]["PPIconSize"], 2+C.mult
+	local iconSize, iconMargin = NDuiDB["Nameplate"]["PPIconSize"], 2
 	local height = NDuiDB["Nameplate"]["PPHeight"]
-	self:SetSize(iconSize*5 + iconMargin*4 - C.mult*2, height)
+	self:SetSize(iconSize*5 + iconMargin*4 + C.mult*2, height)
 
 	UF:CreateHealthBar(self)
 	UF:CreatePowerBar(self)

@@ -2,7 +2,6 @@ local B, C, L, DB = unpack(select(2, ...))
 local S = B:GetModule("Skins")
 
 function S:BaudErrorFrame()
-	if not NDuiDB["Skins"]["BlizzardSkins"] then return end
 	if not IsAddOnLoaded("!BaudErrorFrame") then return end
 
 	local cr, cg, cb = DB.r, DB.g, DB.b

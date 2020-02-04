@@ -1,33 +1,6 @@
 local B, C, L, DB = unpack(select(2, ...))
 
 tinsert(C.defaultThemes, function()
-	function B.ReskinMerchantItem(x)
-		local frame = "MerchantItem"..x
-
-		local item = _G[frame]
-		B.StripTextures(item)
-
-		local button = _G[frame.."ItemButton"]
-		B.StripTextures(button)
-		B.ReskinBorder(button.IconBorder, button)
-
-		local icbg = B.ReskinIcon(button.icon)
-		B.ReskinTexture(button, icbg)
-
-		local name = _G[frame.."Name"]
-		name:SetWordWrap(false)
-		name:ClearAllPoints()
-		name:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 4, 2)
-
-		local money = _G[frame.."MoneyFrame"]
-		money:ClearAllPoints()
-		money:SetPoint("BOTTOMLEFT", icbg, "BOTTOMRIGHT", 4, 2)
-
-		for y = 1, 3 do
-			B.ReskinIcon(_G[frame.."AltCurrencyFrameItem"..y.."Texture"])
-		end
-	end
-
 	B.ReskinFrame(MerchantFrame)
 	B.SetupTabStyle(MerchantFrame, 2)
 
@@ -116,14 +89,20 @@ tinsert(C.defaultThemes, function()
 	end)
 
 	hooksecurefunc("MerchantFrame_UpdateCurrencies", function()
+		local token = "MerchantToken"
 		local currencies = {GetMerchantCurrencies()}
 
 		if #currencies ~= 0 then
 			local numCurrencies = #currencies
 			for index = 1, numCurrencies do
-				local tokenButton = _G["MerchantToken"..index]
+				local tokenButton = _G[token..index]
 				if tokenButton and not tokenButton.styled then
 					B.ReskinIcon(tokenButton.icon)
+
+					if index > 1 then
+						tokenButton:ClearAllPoints()
+						tokenButton:SetPoint("RIGHT", _G[token..(index-1)], "LEFT", -10, 0)
+					end
 
 					tokenButton.styled = true
 				end

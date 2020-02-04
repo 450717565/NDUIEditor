@@ -47,7 +47,6 @@ tinsert(C.defaultThemes, function()
 		[261] = "Interface\\Timer\\Alliance-Logo",
 		[262] = "Interface\\Timer\\Horde-Logo",
 	}
-
 	local function UpdateCampaignHeader()
 		WarCampaignHeader.newTex:SetAlpha(0)
 		if WarCampaignHeader:IsShown() then
@@ -62,7 +61,6 @@ tinsert(C.defaultThemes, function()
 			end
 		end
 	end
-
 	hooksecurefunc("QuestLogQuests_Update", function()
 		UpdateCampaignHeader()
 
@@ -79,6 +77,30 @@ tinsert(C.defaultThemes, function()
 			end
 		end
 	end)
+
+	-- Show quest color and level
+	local function Showlevel(_, _, _, title, level, _, isHeader, _, isComplete, frequency, questID)
+		if ENABLE_COLORBLIND_MODE == "1" then return end
+
+		for button in pairs(QuestScrollFrame.titleFramePool.activeObjects) do
+			if title and not isHeader and button.questID == questID then
+				local title = "["..level.."] "..title
+				if isComplete then
+					title = "|cffff78ff"..title
+				elseif C_QuestLog.IsQuestReplayable(questID) then
+					title = "|cff00ff00"..title
+				elseif frequency == LE_QUEST_FREQUENCY_DAILY then
+					title = "|cff3399ff"..title
+				end
+				button.Text:SetText(title)
+				button.Text:SetPoint("TOPLEFT", 24, -5)
+				button.Text:SetWidth(205)
+				button.Text:SetWordWrap(false)
+				button.Check:SetPoint("LEFT", button.Text, button.Text:GetWrappedWidth(), 0)
+			end
+		end
+	end
+	hooksecurefunc("QuestLogQuests_AddQuestButton", Showlevel)
 
 	--DetailsFrame
 	B.StripTextures(QuestMapFrame)

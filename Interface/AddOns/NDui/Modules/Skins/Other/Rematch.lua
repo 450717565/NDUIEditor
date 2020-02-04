@@ -3,7 +3,6 @@ local S = B:GetModule("Skins")
 local TT = B:GetModule("Tooltip")
 
 function S:Rematch()
-	if not NDuiDB["Skins"]["BlizzardSkins"] then return end
 	if not IsAddOnLoaded("Rematch") then return end
 
 	local cr, cg, cb = DB.r, DB.g, DB.b

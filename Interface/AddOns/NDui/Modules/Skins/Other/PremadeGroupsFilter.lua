@@ -2,7 +2,6 @@ local B, C, L, DB = unpack(select(2, ...))
 local S = B:GetModule("Skins")
 
 function S:PremadeGroupsFilter()
-	if not NDuiDB["Skins"]["BlizzardSkins"] then return end
 	if not IsAddOnLoaded("PremadeGroupsFilter") then return end
 
 	local dialog = PremadeGroupsFilterDialog

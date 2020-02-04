@@ -236,6 +236,7 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 	reskinSellList(AuctionHouseFrameAuctionsFrame.AllAuctionsList, true)
 	reskinSellList(AuctionHouseFrameAuctionsFrame.BidsList, true)
 	reskinSellList(AuctionHouseFrameAuctionsFrame.CommoditiesList, true)
+	reskinSellList(AuctionHouseFrameAuctionsFrame.ItemList, true)
 	reskinItemDisplay(AuctionHouseFrameAuctionsFrame)
 
 	B.StripTextures(AuctionHouseFrameAuctionsFrameAuctionsTab)

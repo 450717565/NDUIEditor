@@ -2,7 +2,6 @@ local B, C, L, DB = unpack(select(2, ...))
 local S = B:GetModule("Skins")
 
 function S:WorldQuestTab()
-	if not NDuiDB["Skins"]["BlizzardSkins"] then return end
 	if not IsAddOnLoaded("WorldQuestTab") then return end
 
 	WQT_TabNormal.TabBg:Hide()

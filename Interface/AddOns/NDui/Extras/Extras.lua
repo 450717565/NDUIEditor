@@ -231,7 +231,7 @@ do
 			count = select(6, GetCurrencyListInfo(index))
 
 			local bu = buttons[i]
-			if not bu.isHeader then
+			if not bu.isHeader and count then
 				bu.count:SetText(B.Numb(count))
 			end
 		end

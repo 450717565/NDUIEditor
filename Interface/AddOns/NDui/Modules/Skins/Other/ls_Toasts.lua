@@ -2,6 +2,8 @@ local B, C, L, DB = unpack(select(2, ...))
 local S = B:GetModule("Skins")
 
 function S:ls_Toasts()
+	if not IsAddOnLoaded("ls_Toasts") then return end
+
 	local E = unpack(ls_Toasts)
 	E:RegisterSkin("ndui", {
 		name = "NDui",

@@ -1064,6 +1064,33 @@ end
 
 -- [[ UI Reskin Functions ]]
 
+function B.ReskinMerchantItem(index)
+	local frame = "MerchantItem"..index
+
+	local item = _G[frame]
+	B.StripTextures(item)
+
+	local button = _G[frame.."ItemButton"]
+	B.StripTextures(button)
+	B.ReskinBorder(button.IconBorder, button)
+
+	local icbg = B.ReskinIcon(button.icon)
+	B.ReskinTexture(button, icbg)
+
+	local name = _G[frame.."Name"]
+	name:SetWordWrap(false)
+	name:ClearAllPoints()
+	name:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 4, 2)
+
+	local money = _G[frame.."MoneyFrame"]
+	money:ClearAllPoints()
+	money:SetPoint("BOTTOMLEFT", icbg, "BOTTOMRIGHT", 4, 2)
+
+	for i = 1, 3 do
+		B.ReskinIcon(_G[frame.."AltCurrencyFrameItem"..i.."Texture"])
+	end
+end
+
 function B:ReskinPartyPoseUI()
 	B.ReskinFrame(self)
 	B.ReskinButton(self.LeaveButton)

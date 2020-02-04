@@ -717,7 +717,7 @@ function UF:CreateBuffs(self)
 	bu.onlyShowPlayer = false
 
 	if self.mystyle == "party" then
-		bu:SetPoint("BOTTOMLEFT", self.nameText, "TOPLEFT", 5, 2)
+		bu:SetPoint("TOPLEFT", self.nameText, "BOTTOMLEFT", 5, 2)
 		bu.num = 6
 		bu.size = self:GetHeight()*.6
 		bu.CustomFilter = UF.CustomFilter
