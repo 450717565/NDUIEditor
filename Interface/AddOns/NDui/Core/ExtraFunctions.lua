@@ -144,10 +144,10 @@ function B:SetupPixelBorders()
 		borders.BOTTOMLEFT:SetSize(C.mult, C.mult)
 		borders.BOTTOMRIGHT:SetSize(C.mult, C.mult)
 
-		borders.TOPLEFT:Point("BOTTOMRIGHT", borders.CENTER, "TOPLEFT", C.mult, -C.mult)
-		borders.TOPRIGHT:Point("BOTTOMLEFT", borders.CENTER, "TOPRIGHT", -C.mult, -C.mult)
-		borders.BOTTOMLEFT:Point("TOPRIGHT", borders.CENTER, "BOTTOMLEFT", C.mult, C.mult)
-		borders.BOTTOMRIGHT:Point("TOPLEFT", borders.CENTER, "BOTTOMRIGHT", -C.mult, C.mult)
+		borders.TOPLEFT:Point("BOTTOMRIGHT", borders.CENTER, "TOPLEFT", 1, -1)
+		borders.TOPRIGHT:Point("BOTTOMLEFT", borders.CENTER, "TOPRIGHT", -1, -1)
+		borders.BOTTOMLEFT:Point("TOPRIGHT", borders.CENTER, "BOTTOMLEFT", 1, 1)
+		borders.BOTTOMRIGHT:Point("TOPLEFT", borders.CENTER, "BOTTOMRIGHT", -1, 1)
 
 		borders.TOP:Point("TOPLEFT", borders.TOPLEFT, "TOPRIGHT", 0, 0)
 		borders.TOP:Point("BOTTOMRIGHT", borders.TOPRIGHT, "BOTTOMLEFT", 0, 0)
@@ -187,8 +187,6 @@ function B:SetupArrowTex(direction)
 	bgTex:SetPoint("CENTER")
 	bgTex:SetVertexColor(1, 1, 1)
 	self.bgTex = bgTex
-
-	return bgTex
 end
 
 function B:SetupTabStyle(index, tabName)
@@ -345,16 +343,18 @@ function B:CreateGA(w, h, d, r, g, b, a1, a2)
 end
 
 function B:CreateGF()
-	local gfTex = self:CreateTexture(nil, "BORDER")
-	gfTex:SetInside(self)
-	gfTex:SetTexture(DB.bdTex)
+	if self.gTex then return end
+
+	local gTex = self:CreateTexture(nil, "BORDER")
+	gTex:SetInside(self)
+	gTex:SetTexture(DB.bdTex)
 	if NDuiDB["Skins"]["FlatMode"] then
-		gfTex:SetVertexColor(.3, .3, .3, .3)
+		gTex:SetVertexColor(.3, .3, .3, .3)
 	else
-		gfTex:SetGradientAlpha("Vertical", 0, 0, 0, .6, .3, .3, .3, .3)
+		gTex:SetGradientAlpha("Vertical", 0, 0, 0, .6, .3, .3, .3, .3)
 	end
 
-	return gfTex
+	self.gTex = gTex
 end
 
 function B:CreateGlowFrame(size)
@@ -384,8 +384,8 @@ function B:CreateLine(isHorizontal)
 	return Line
 end
 
-function B:CreateSD(size, override)
-	if not override and not NDuiDB["Skins"]["Shadow"] then return end
+function B:CreateSD(size)
+	if not NDuiDB["Skins"]["Shadow"] then return end
 	if self.Shadow then return end
 
 	local frame = self
@@ -398,8 +398,6 @@ function B:CreateSD(size, override)
 	Shadow:SetBackdropBorderColor(0, 0, 0, size and 1 or NDuiDB["Skins"]["SkinAlpha"])
 	Shadow:SetFrameLevel(lvl == 0 and 0 or lvl - 1)
 	self.Shadow = Shadow
-
-	return Shadow
 end
 
 function B:SetBDFrame(x, y, x2, y2)
@@ -673,7 +671,7 @@ function B:ReskinFrame(killType)
 	local closeButton = self.CloseButton or (frameName and _G[frameName.."CloseButton"])
 	if closeButton then B.ReskinClose(closeButton) end
 
-	local bg = B.CreateBDFrame(self, nil, nil, true)
+	local bg = B.SetBDFrame(self, 0, 0, 0, 0)
 
 	return bg
 end

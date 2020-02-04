@@ -586,7 +586,7 @@ end
 
 local function updateSkinAlpha()
 	for _, frame in pairs(C.frames) do
-		B:SetBackdropColor(frame, 0, 0, 0, NDuiDB["Skins"]["SkinAlpha"])
+		B.SetBackdropColor(frame, 0, 0, 0, NDuiDB["Skins"]["SkinAlpha"])
 	end
 end
 
@@ -933,7 +933,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 local function SelectTab(i)
 	for num = 1, #tabList do
 		if num == i then
-			guiTab[num].bg:SetBackdropColor(cr, cg, cb, .25)
+			guiTab[num].bg:SetBackdropColor(cr, cg, cb, .5)
 			guiTab[num].checked = true
 			guiPage[num]:Show()
 		else
@@ -950,7 +950,7 @@ local function tabOnClick(self)
 end
 local function tabOnEnter(self)
 	if self.checked then return end
-	self.bg:SetBackdropColor(cr, cg, cb, .25)
+	self.bg:SetBackdropColor(cr, cg, cb, .5)
 end
 local function tabOnLeave(self)
 	if self.checked then return end

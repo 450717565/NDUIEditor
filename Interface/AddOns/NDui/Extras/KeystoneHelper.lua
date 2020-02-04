@@ -4,9 +4,6 @@ local Extras = B:GetModule("Extras")
 local strformat, strmatch, strsplit = string.format, string.match, string.split
 local tbinsert, tbremove = table.insert, table.remove
 
-local MythicLootItemLevel =  {0, 405, 405, 410, 415, 415, 420, 425, 425, 430}
-local WeeklyLootItemLevel =  {0, 410, 415, 420, 420, 425, 430, 430, 435, 440}
-
 function Extras.KH_CheckLink(link)
 	if link and type(link) == "string" and strmatch(link, "|Hkeystone:([0-9:]+)|h(%b[])|h") then
 		return true
@@ -46,13 +43,13 @@ function Extras:KH_OnTooltipSetItem()
 
 	if Extras.KH_CheckLink(link) then
 		local affixIDs, mapLevel = Extras.KH_CheckKeystone(link)
-		local ilvl = MythicLootItemLevel[mapLevel]
-		local wlvl = WeeklyLootItemLevel[mapLevel]
+		local mlvl = Extras.MythicLoot[mapLevel]
+		local wlvl = Extras.WeeklyLoot[mapLevel]
 
 		if mapLevel >= 2 then
 			self:AddLine(" ")
-			self:AddLine(strformat(L["Mythic Loot Item Level"], ilvl), 0,1,1)
-			self:AddLine(strformat(L["Weekly Loot Item Level"], wlvl), 1,1,0)
+			self:AddLine(strformat(L["Mythic Loot"], mlvl), 0,1,1)
+			self:AddLine(strformat(L["Weekly Loot"], wlvl), 1,1,0)
 		end
 	end
 end

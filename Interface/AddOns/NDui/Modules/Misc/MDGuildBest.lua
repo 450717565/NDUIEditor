@@ -1,6 +1,7 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local M = B:GetModule("Misc")
+local Extras = B:GetModule("Extras")
 
 local CHALLENGE_MODE_WEEKLY_BEST = CHALLENGE_MODE_WEEKLY_BEST
 local CHALLENGE_MODE_POWER_LEVEL = CHALLENGE_MODE_POWER_LEVEL
@@ -112,6 +113,7 @@ function M.GuildBest_OnLoad(event, addon)
 end
 
 -- Keystone Info
+local mlvl, wlvl
 local myFaction = DB.MyFaction
 local myFullName = DB.MyName.."-"..DB.MyRealm
 
@@ -136,6 +138,15 @@ function M:KeystoneInfo_Create()
 		end
 		GameTooltip:AddDoubleLine(" ", DB.LineString)
 		GameTooltip:AddDoubleLine(" ", DB.ScrollButton..L["Reset Gold"].." ", 1,1,1, .6,.8,1)
+		GameTooltip:AddDoubleLine(" ", L["Weekly Loot Info"], 1,1,1, .6,.8,1)
+		if IsShiftKeyDown() then
+			GameTooltip:AddDoubleLine(" ", DB.LineString)
+			for i = 2, 15 do
+				mlvl = Extras.MythicLoot[i]
+				wlvl = Extras.WeeklyLoot[i]
+				GameTooltip:AddDoubleLine(format(L["Mythic Level"], DB.MyColor..i.."|r"), format(L["Mythic Loot"].." "..L["Weekly Loot"], DB.MyColor..mlvl.."|r", DB.MyColor..wlvl.."|r"))
+			end
+		end
 		GameTooltip:Show()
 	end)
 	button:SetScript("OnLeave", B.HideTooltip)

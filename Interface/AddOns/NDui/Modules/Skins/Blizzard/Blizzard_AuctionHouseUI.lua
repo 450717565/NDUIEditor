@@ -33,6 +33,7 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 
 		if self.BuyoutModeCheckButton then
 			B.ReskinCheck(self.BuyoutModeCheckButton)
+			self.BuyoutModeCheckButton:SetSize(28, 28)
 		end
 
 		if self.SecondaryPriceInput then
@@ -72,9 +73,9 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 			local child = select(i, self.ScrollFrame.scrollChild:GetChildren())
 			if child and child.Icon then
 				if not child.styled then
-					child.IconBorder:SetAlpha(0)
 					child.HighlightTexture:SetColorTexture(1, 1, 1, .25)
 					child.Icon.bg = B.ReskinIcon(child.Icon)
+					if child.IconBorder then child.IconBorder:SetAlpha(0) end
 
 					child.styled = true
 				end
@@ -96,7 +97,7 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 			end
 
 			if header.bg then
-				header.bg:SetPoint("BOTTOMRIGHT", i < maxHeaders and -5 or 1, -2)
+				header.bg:SetPoint("BOTTOMRIGHT", i < maxHeaders and -5 or 0, -2)
 			end
 		end
 
@@ -211,6 +212,21 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 	B.ReskinFrame(BuyDialog)
 	B.ReskinButton(BuyDialog.BuyNowButton)
 	B.ReskinButton(BuyDialog.CancelButton)
+
+	local WoWTokenResults = AuctionHouseFrame.WoWTokenResults
+	B.StripTextures(WoWTokenResults)
+	B.StripTextures(WoWTokenResults.TokenDisplay)
+	B.CreateBDFrame(WoWTokenResults.TokenDisplay, 0)
+	B.ReskinButton(WoWTokenResults.Buyout)
+	B.ReskinScroll(WoWTokenResults.DummyScrollBar)
+
+	local GameTimeTutorial = WoWTokenResults.GameTimeTutorial
+	B.ReskinFrame(GameTimeTutorial)
+	B.ReskinButton(GameTimeTutorial.RightDisplay.StoreButton)
+	GameTimeTutorial.LeftDisplay.Label:SetTextColor(1, 1, 1)
+	GameTimeTutorial.LeftDisplay.Tutorial1:SetTextColor(1, .8, 0)
+	GameTimeTutorial.RightDisplay.Label:SetTextColor(1, 1, 1)
+	GameTimeTutorial.RightDisplay.Tutorial1:SetTextColor(1, .8, 0)
 
 	reskinSellPanel(AuctionHouseFrame.ItemSellFrame)
 	reskinSellPanel(AuctionHouseFrame.CommoditiesSellFrame)

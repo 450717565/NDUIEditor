@@ -44,12 +44,14 @@ function UF:UpdateTargetBorder()
 end
 
 function UF:CreateTargetBorder(self)
-	local border = B.CreateBDFrame(self, 0)
-	border:SetBackdropBorderColor(0, 1, 1)
-	border:SetOutside(self.Health.bd, C.mult*2, C.mult*2, self.Power.bd)
-	border:Hide()
+	local targetBorder = B.CreateBDFrame(self, 0)
+	targetBorder:SetBackdropBorderColor(0, 1, 1)
+	targetBorder:SetOutside(self.Health.bd, 1+C.mult, 1+C.mult, self.Power.bd)
+	targetBorder.gTex:Hide()
+	targetBorder.Tex:Hide()
+	targetBorder:Hide()
 
-	self.TargetBorder = border
+	self.TargetBorder = targetBorder
 	self:RegisterEvent("PLAYER_TARGET_CHANGED", UF.UpdateTargetBorder, true)
 	self:RegisterEvent("GROUP_ROSTER_UPDATE", UF.UpdateTargetBorder, true)
 end
@@ -70,8 +72,10 @@ function UF:UpdateThreatBorder(_, unit)
 end
 
 function UF:CreateThreatBorder(self)
-	local threatIndicator = B.CreateSD(self, 3, true)
-	threatIndicator:SetOutside(self.Health.bd, 2+C.mult, 2+C.mult, self.Power.bd)
+	local threatIndicator = B.CreateBDFrame(self, 0)
+	threatIndicator:SetOutside(self.Health.bd, 1+C.mult, 1+C.mult, self.Power.bd)
+	threatIndicator.gTex:Hide()
+	threatIndicator.Tex:Hide()
 	threatIndicator:Hide()
 
 	self.ThreatIndicator = threatIndicator

@@ -681,7 +681,7 @@ local function optOnClick(self)
 	local opt = self.__owner.options
 	for i = 1, #opt do
 		if self == opt[i] then
-			opt[i].bg:SetBackdropColor(1, .8, 0, .25)
+			opt[i].bg:SetBackdropColor(1, .8, 0, .5)
 			opt[i].selected = true
 		else
 			opt[i].bg:SetBackdropColor(0, 0, 0, 0)
@@ -694,7 +694,7 @@ end
 
 local function optOnEnter(self)
 	if self.selected then return end
-	self.bg:SetBackdropColor(1, 1, 1, .25)
+	self.bg:SetBackdropColor(1, 1, 1, .5)
 end
 
 local function optOnLeave(self)

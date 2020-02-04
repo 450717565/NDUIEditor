@@ -241,8 +241,10 @@ function UF:UpdateThreatColor(_, unit)
 end
 
 function UF:CreateThreatColor(self)
-	local threatIndicator = B.CreateSD(self, 3, true)
-	threatIndicator:SetOutside(self.Health.bd, 2+C.mult, 2+C.mult)
+	local threatIndicator = B.CreateBDFrame(self, 0)
+	threatIndicator:SetOutside(self.Health.bd, 1+C.mult, 1+C.mult)
+	threatIndicator.gTex:Hide()
+	threatIndicator.Tex:Hide()
 	threatIndicator:Hide()
 
 	self.ThreatIndicator = threatIndicator
@@ -311,10 +313,11 @@ function UF:AddTargetIndicator(self)
 	frame.RightArrow:SetPoint("LEFT", frame, "RIGHT", 3, 0)
 	frame.RightArrow:SetRotation(rad(-90))
 
-	frame.Glow = B.CreateSD(frame, 4, true)
-	frame.Glow:SetOutside(self.Health.bd, 4+C.mult, 4+C.mult)
+	frame.Glow = B.CreateBDFrame(frame, 0)
+	frame.Glow:SetOutside(self.Health.bd, 2+C.mult, 2+C.mult)
 	frame.Glow:SetBackdropBorderColor(0, 1, 1)
-	frame.Glow:SetFrameLevel(0)
+	frame.Glow.gTex:Hide()
+	frame.Glow.Tex:Hide()
 
 	self.TargetIndicator = frame
 	UF:UpdateTargetIndicator(self)
@@ -565,9 +568,11 @@ function UF:UpdateMouseoverShown()
 end
 
 function UF:MouseoverIndicator(self)
-	local highlight = B.CreateSD(self.Health, 4, true)
-	highlight:SetOutside(self.Health.bd, 4+C.mult, 4+C.mult)
+	local highlight = B.CreateBDFrame(self, 0)
+	highlight:SetOutside(self.Health.bd, 2+C.mult, 2+C.mult)
 	highlight:SetBackdropBorderColor(1, 1, 1)
+	highlight.gTex:Hide()
+	highlight.Tex:Hide()
 	highlight:Hide()
 
 	self:RegisterEvent("UPDATE_MOUSEOVER_UNIT", UF.UpdateMouseoverShown, true)
@@ -753,10 +758,10 @@ end
 function UF:ResizePlayerPlate()
 	local plate = _G.oUF_PlayerPlate
 	if plate then
-		local iconSize, margin = NDuiDB["Nameplate"]["PPIconSize"], 2
+		local iconSize, iconMargin = NDuiDB["Nameplate"]["PPIconSize"], 2+C.mult
 		local height = NDuiDB["Nameplate"]["PPHeight"]
 		local cpHeight = NDuiDB["Extras"]["PPCPHeight"]
-		plate:SetSize(iconSize*5 + margin*4, height)
+		plate:SetSize(iconSize*5 + iconMargin*4, height)
 		plate.Health:SetHeight(height)
 		plate.Power:SetHeight(height)
 		local bars = plate.ClassPower or plate.Runes
@@ -774,7 +779,7 @@ function UF:ResizePlayerPlate()
 			end
 		end
 		if plate.dices then
-			plate.dices[1]:SetPoint("BOTTOMLEFT", plate.Health, "TOPLEFT", 0, 8 + plate.Health:GetHeight())
+			plate.dices[1]:SetPoint("BOTTOMLEFT", plate.ClassPower, "TOPLEFT", 0, 3)
 		end
 	end
 end
@@ -782,9 +787,9 @@ end
 function UF:CreatePlayerPlate()
 	self.mystyle = "PlayerPlate"
 	self:EnableMouse(false)
-	local iconSize, margin = NDuiDB["Nameplate"]["PPIconSize"], 2
+	local iconSize, iconMargin = NDuiDB["Nameplate"]["PPIconSize"], 2+C.mult
 	local height = NDuiDB["Nameplate"]["PPHeight"]
-	self:SetSize(iconSize*5 + margin*4, height)
+	self:SetSize(iconSize*5 + iconMargin*4 - C.mult*2, height)
 
 	UF:CreateHealthBar(self)
 	UF:CreatePowerBar(self)

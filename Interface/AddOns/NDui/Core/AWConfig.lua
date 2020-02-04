@@ -337,7 +337,7 @@ local function CreatePanel()
 		for i = 1, #tabs do
 			if self == tabs[i] then
 				tabs[i].Page:Show()
-				tabs[i].bg:SetBackdropColor(cr, cg, cb, .25)
+				tabs[i].bg:SetBackdropColor(cr, cg, cb, .5)
 				tabs[i].selected = true
 			else
 				tabs[i].Page:Hide()
@@ -348,7 +348,7 @@ local function CreatePanel()
 	end
 	local function tabOnEnter(self)
 		if self.selected then return end
-		self.bg:SetBackdropColor(cr, cg, cb, .25)
+		self.bg:SetBackdropColor(cr, cg, cb, .5)
 	end
 	local function tabOnLeave(self)
 		if self.selected then return end

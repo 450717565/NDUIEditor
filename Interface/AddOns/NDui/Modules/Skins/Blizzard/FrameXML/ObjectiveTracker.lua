@@ -10,7 +10,7 @@ tinsert(C.defaultThemes, function()
 		if button and not button.styled then
 			B.CleanTextures(button)
 
-			local bg = B.CreateBDFrame(button.icon or button.Icon, .25)
+			local bg = B.CreateBDFrame(button.icon or button.Icon, 0)
 			B.ReskinTexture(button, bg)
 
 			if button.icon then
@@ -20,8 +20,7 @@ tinsert(C.defaultThemes, function()
 			if button.Icon then
 				button.Icon:SetPoint("CENTER")
 				button.Icon:SetSize(18, 18)
-				bg:SetPoint("TOPLEFT", 2, -2)
-				bg:SetPoint("BOTTOMRIGHT", -2, 2)
+				bg:SetInside(bg, 2, 2)
 			end
 
 			button.styled = true
@@ -75,8 +74,8 @@ tinsert(C.defaultThemes, function()
 			if icon then
 				icon:SetMask(nil)
 				icon:ClearAllPoints()
-				icon:SetPoint("TOPLEFT", bar, "TOPRIGHT", 5, 0)
-				icon:SetPoint("BOTTOMRIGHT", bar, "BOTTOMRIGHT", bar:GetHeight()+5, 0)
+				icon:SetPoint("TOPLEFT", bar, "TOPRIGHT", 3, 0)
+				icon:SetPoint("BOTTOMRIGHT", bar, "BOTTOMRIGHT", bar:GetHeight()+3, 0)
 
 				icon.bg = B.ReskinIcon(icon)
 			end
@@ -123,10 +122,7 @@ tinsert(C.defaultThemes, function()
 	hooksecurefunc("ScenarioStage_CustomizeBlock", function(block)
 		if not block.styled then
 			B.StripTextures(block)
-
-			local bg = B.CreateBDFrame(block.GlowTexture, .25)
-			bg:SetPoint("TOPLEFT", block.GlowTexture, 4, -2)
-			bg:SetPoint("BOTTOMRIGHT", block.GlowTexture, -4, 0)
+			B.SetBDFrame(block.GlowTexture, 4, -2, -4, 0)
 
 			block.styled = true
 		end
@@ -158,10 +154,7 @@ tinsert(C.defaultThemes, function()
 
 			block.StatusBar:SetHeight(10)
 			B.ReskinStatusBar(block.StatusBar)
-
-			local bg = B.CreateBDFrame(block, .25)
-			bg:SetPoint("TOPLEFT", block, 4, -2)
-			bg:SetPoint("BOTTOMRIGHT", block, -4, 0)
+			B.SetBDFrame(block, 4, -2, -4, 0)
 
 			block.styled = true
 		end

@@ -708,7 +708,7 @@ function module:OnLogin()
 
 		local columns = self.Settings.Columns
 		local offset = 38
-		local spacing = 3
+		local spacing = 5
 		local xOffset = 5
 		local yOffset = -offset + xOffset
 		local _, height = self:LayoutButtons("grid", columns, spacing, xOffset, yOffset)

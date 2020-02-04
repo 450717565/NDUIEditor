@@ -200,16 +200,16 @@ function ExtraQuestButton:PLAYER_LOGIN()
 	self.rangeTimer = 0
 	self:Hide()
 
-	B.CreateBDFrame(self)
+	local bg = B.CreateBDFrame(self)
 
 	local Icon = self:CreateTexture("$parentIcon", "ARTWORK")
 	Icon:SetTexCoord(unpack(DB.TexCoord))
-	Icon:SetAllPoints()
+	Icon:SetInside(bg)
 	self.Icon = Icon
 
 	local Highlight = self:CreateTexture(nil, "HIGHLIGHT")
 	Highlight:SetColorTexture(1, 1, 1, .25)
-	Highlight:SetAllPoints()
+	Highlight:SetInside(bg)
 	self.Highlight = Highlight
 
 	self:SetPushedTexture(DB.pushed)
@@ -227,7 +227,7 @@ function ExtraQuestButton:PLAYER_LOGIN()
 
 	local Cooldown = CreateFrame("Cooldown", "$parentCooldown", self, "CooldownFrameTemplate")
 	Cooldown:SetReverse(false)
-	Cooldown:SetAllPoints()
+	Cooldown:SetInside(bg)
 	Cooldown:Hide()
 	self.Cooldown = Cooldown
 
