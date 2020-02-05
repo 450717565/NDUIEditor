@@ -140,7 +140,7 @@ tinsert(C.defaultThemes, function()
 		B.ReskinTexture(button, button, true)
 
 		local selected = button.SelectedBar
-		B.ReskinTexture(selected, button, true, .5)
+		selected:SetColorTexture(cr, cg, cb, .5)
 	end
 
 	-- PaperDollEquipmentManager
@@ -166,8 +166,8 @@ tinsert(C.defaultThemes, function()
 
 			if not button.styled then
 				B.ReskinIcon(button.icon)
-				B.ReskinTexture(button.HighlightBar, button, true, .5)
-				B.ReskinTexture(button.SelectedBar, button, true, .5)
+				button.HighlightBar:SetColorTexture(cr, cg, cb, .5)
+				button.SelectedBar:SetColorTexture(cr, cg, cb, .5)
 
 				button.styled = true
 			end

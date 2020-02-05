@@ -126,7 +126,7 @@ tinsert(C.defaultThemes, function()
 			local button = _G["SendMailAttachment"..i]
 
 			if button:GetNormalTexture() then
-				button:GetNormalTexture():SetTexCoord(.08, .92, .08, .92)
+				button:GetNormalTexture():SetTexCoord(unpack(DB.TexCoord))
 			end
 		end
 	end)

@@ -19,7 +19,7 @@ C.themes["Blizzard_ItemUpgradeUI"] = function()
 		local color = BAG_ITEM_QUALITY_COLORS[quality or 1]
 
 		if icon then
-			ItemButton.IconTexture:SetTexCoord(.08, .92, .08, .92)
+			ItemButton.IconTexture:SetTexCoord(unpack(DB.TexCoord))
 			ItemButton.bg:SetBackdropBorderColor(color.r, color.g, color.b)
 		else
 			ItemButton.IconTexture:SetTexture("")

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2373, "DBM-Nyalotha", nil, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200203212050")
+mod:SetRevision("20200204203451")
 mod:SetCreatureID(157602)
 mod:SetEncounterID(2343)
 mod:SetZone()
@@ -292,7 +292,7 @@ do
 		local bossPower = UnitPower("boss1") --Get Boss Power
 		if (lastPower > bossPower) and bossPower < 85 then
 			warnedSoon = false
-		elseif bossPower >= 85 then--One 15 energy tentacle away, or 2 10 energy ones
+		elseif not warnedSoon and bossPower >= 85 then--One 15 energy tentacle away, or 2 10 energy ones
 			warnedSoon = true
 			warnThrowsSoon:Show()
 		end

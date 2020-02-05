@@ -15,8 +15,6 @@ local function msgChannel()
 		else
 			return "PARTY"
 		end
-	else
-		return "SAY"
 	end
 end
 
@@ -93,7 +91,11 @@ local resetList = {"无法重置", "已被重置"}
 function Extras.UpdateInstanceReset(_, msg)
 	for _, word in ipairs(resetList) do
 		if strfind(msg, word) then
-			SendChatMessage(msg, msgChannel())
+			if not IsInGroup() then
+				UIErrorsFrame:AddMessage(DB.InfoColor..msg)
+			else
+				SendChatMessage(msg, msgChannel())
+			end
 		end
 	end
 end

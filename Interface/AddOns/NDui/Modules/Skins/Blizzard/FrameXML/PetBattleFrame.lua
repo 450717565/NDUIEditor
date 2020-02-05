@@ -173,7 +173,7 @@ tinsert(C.defaultThemes, function()
 			if self.petOwner == LE_BATTLE_PET_ALLY then
 				self.Icon:SetTexCoord(.92, .08, .08, .92)
 			else
-				self.Icon:SetTexCoord(.08, .92, .08, .92)
+				self.Icon:SetTexCoord(unpack(DB.TexCoord))
 			end
 		end
 

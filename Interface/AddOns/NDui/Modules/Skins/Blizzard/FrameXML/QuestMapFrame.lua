@@ -106,7 +106,7 @@ tinsert(C.defaultThemes, function()
 	B.StripTextures(QuestMapFrame)
 
 	local DetailsFrame = QuestMapFrame.DetailsFrame
-	B.StripTextures(DetailsFrame)
+	B.StripTextures(DetailsFrame, true)
 	B.StripTextures(DetailsFrame.ShareButton)
 	B.ReskinScroll(DetailsFrame.ScrollFrame.ScrollBar)
 

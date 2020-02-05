@@ -138,13 +138,13 @@ function M:KeystoneInfo_Create()
 		end
 		GameTooltip:AddDoubleLine(" ", DB.LineString)
 		GameTooltip:AddDoubleLine(" ", DB.ScrollButton..L["Reset Gold"].." ", 1,1,1, .6,.8,1)
-		GameTooltip:AddDoubleLine(" ", L["Weekly Loot Info"], 1,1,1, .6,.8,1)
+		GameTooltip:AddDoubleLine(" ", L["Mythic Loot Info"], 1,1,1, .6,.8,1)
 		if IsShiftKeyDown() then
 			GameTooltip:AddDoubleLine(" ", DB.LineString)
 			for i = 2, 15 do
 				mlvl = Extras.MythicLoot[i]
 				wlvl = Extras.WeeklyLoot[i]
-				GameTooltip:AddDoubleLine(format(L["Mythic Level"], DB.MyColor..i.."|r"), format(L["Mythic Loot"].." "..L["Weekly Loot"], DB.MyColor..mlvl.."|r", DB.MyColor..wlvl.."|r"))
+				GameTooltip:AddDoubleLine(format(L["Mythic Level"], DB.MyColor..i.."|r"), format(L["Mythic & Weekly Loot"], DB.MyColor..mlvl.."|r", DB.MyColor..wlvl.."|r"))
 			end
 		end
 		GameTooltip:Show()

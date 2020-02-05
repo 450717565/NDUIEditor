@@ -48,8 +48,7 @@ function Extras:KH_OnTooltipSetItem()
 
 		if mapLevel >= 2 then
 			self:AddLine(" ")
-			self:AddLine(strformat(L["Mythic Loot"], mlvl), 0,1,1)
-			self:AddLine(strformat(L["Weekly Loot"], wlvl), 1,1,0)
+			self:AddLine(strformat(L["Mythic & Weekly Loot"], DB.MyColor..mlvl.."|r", DB.MyColor..wlvl.."|r"))
 		end
 	end
 end

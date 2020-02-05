@@ -14,13 +14,13 @@ tinsert(C.defaultThemes, function()
 			B.ReskinTexture(button, bg)
 
 			if button.icon then
-				button.icon:SetTexCoord(.08, .92, .08, .92)
+				button.icon:SetTexCoord(unpack(DB.TexCoord))
 			end
 
 			if button.Icon then
 				button.Icon:SetPoint("CENTER")
 				button.Icon:SetSize(18, 18)
-				bg:SetInside(button.icon, 2, 2)
+				bg:SetInside(nil, 2, 2)
 			end
 
 			button.styled = true

@@ -81,9 +81,8 @@ L["Train All"] = "训练全部"
 L["Max Tiers"] = "特质显示层数"
 L["Afk Delight"] = "暂离动画"
 L["Mythic Level"] = "层数：%s"
-L["Mythic Loot"] = "秘境：%s"
-L["Weekly Loot"] = "低保：%s"
-L["Weekly Loot Info"] = "按住<SHIFT>显示秘境掉落信息"
+L["Mythic & Weekly Loot"] = "秘境：%s 低保：%s"
+L["Mythic Loot Info"] = "按住<SHIFT>显示秘境掉落信息"
 
 -- 默认
 

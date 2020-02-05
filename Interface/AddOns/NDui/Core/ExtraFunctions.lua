@@ -960,7 +960,7 @@ function B:ReskinTexed(relativeTo)
 	tex:SetInside(relativeTo)
 end
 
-function B:ReskinTexture(relativeTo, classColor, alpha, offset)
+function B:ReskinTexture(relativeTo, classColor, isOutside)
 	if not self then return end
 
 	local r, g, b = 1, 1, 1
@@ -978,8 +978,12 @@ function B:ReskinTexture(relativeTo, classColor, alpha, offset)
 		tex:SetTexture(DB.bdTex)
 	end
 
-	tex:SetColorTexture(r, g, b, alpha or .25)
-	tex:SetInside(relativeTo, offset, offset)
+	tex:SetColorTexture(r, g, b, .25)
+	if isOutside then
+		tex:SetOutside(relativeTo)
+	else
+		tex:SetInside(relativeTo)
+	end
 end
 
 -- [[ Strip Functions ]]

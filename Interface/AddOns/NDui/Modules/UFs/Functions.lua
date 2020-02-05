@@ -103,7 +103,7 @@ end
 
 function UF:CreateHealthText(self)
 	local mystyle = self.mystyle
-	local minorStyle = mystyle ~= "pet" and mystyle ~= "tot" and mystyle ~= "fot"
+	local notMinorStyle = mystyle ~= "pet" and mystyle ~= "tot" and mystyle ~= "fot"
 
 	local textFrame = CreateFrame("Frame", nil, self)
 	textFrame:SetAllPoints(self.Health)
@@ -131,7 +131,7 @@ function UF:CreateHealthText(self)
 		name:SetWidth(self:GetWidth()*.85)
 		name:ClearAllPoints()
 		name:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 5)
-	elseif minorStyle then
+	elseif notMinorStyle then
 		name:SetWidth(self:GetWidth()*.95)
 		name:ClearAllPoints()
 		name:SetPoint("TOPLEFT", 0, -3)
@@ -170,7 +170,7 @@ function UF:CreateHealthText(self)
 		hpval:ClearAllPoints()
 		hpval:SetPoint("RIGHT", self, 0, 5)
 		self:Tag(hpval, "[nphp]")
-	elseif minorStyle then
+	elseif notMinorStyle then
 		hpval:ClearAllPoints()
 		hpval:SetPoint("BOTTOMRIGHT", 0, 3)
 		self:Tag(hpval, "[health]")
@@ -652,7 +652,6 @@ local function auraSetSize(self, bu)
 end
 
 function UF:CreateAuras(self)
-	local mystyle = self.mystyle
 	local bu = CreateFrame("Frame", nil, self)
 	bu:SetFrameLevel(self:GetFrameLevel() + 2)
 	bu.spacing = 0
@@ -660,6 +659,8 @@ function UF:CreateAuras(self)
 	bu.initialAnchor = "BOTTOMLEFT"
 	bu["growth-x"] = "RIGHT"
 	bu["growth-y"] = "DOWN"
+
+	local mystyle = self.mystyle
 	if mystyle == "target" then
 		bu:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -6)
 		bu.numBuffs = 22
@@ -716,7 +717,8 @@ function UF:CreateBuffs(self)
 	bu["growth-y"] = "UP"
 	bu.onlyShowPlayer = false
 
-	if self.mystyle == "party" then
+	local mystyle = self.mystyle
+	if mystyle == "party" then
 		bu:SetPoint("TOPLEFT", self.nameText, "BOTTOMLEFT", 5, 2)
 		bu.num = 6
 		bu.size = self:GetHeight()*.6
@@ -724,9 +726,12 @@ function UF:CreateBuffs(self)
 		bu.initialAnchor = "BOTTOMLEFT"
 	else
 		bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 5)
-		bu.num = 12
+		bu.num = 6
 		bu.iconsPerRow = 6
 		bu.initialAnchor = "BOTTOMLEFT"
+		if mystyle == "arena" then
+			bu.CustomFilter = UF.CustomFilter
+		end
 	end
 
 	auraSetSize(self, bu)
@@ -739,13 +744,14 @@ function UF:CreateBuffs(self)
 end
 
 function UF:CreateDebuffs(self)
-	local mystyle = self.mystyle
 	local bu = CreateFrame("Frame", nil, self)
 	bu.spacing = 5
 	bu.showDebuffType = true
 	bu.initialAnchor = "TOPRIGHT"
 	bu["growth-x"] = "LEFT"
 	bu["growth-y"] = "DOWN"
+
+	local mystyle = self.mystyle
 	if mystyle == "player" then
 		bu:SetPoint("TOPRIGHT", self.AdditionalPower, "BOTTOMRIGHT", 0, -6)
 		bu.num = 21

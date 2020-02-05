@@ -302,7 +302,7 @@ C.themes["Blizzard_Collections"] = function()
 		if not button.styled then
 			B.StripTextures(button)
 
-			button.iconTextureUncollected:SetTexCoord(.08, .92, .08, .92)
+			button.iconTextureUncollected:SetTexCoord(unpack(DB.TexCoord))
 			button.levelBackground:SetAlpha(0)
 			button.level:ClearAllPoints()
 			button.level:SetPoint("BOTTOM", 0, 1)

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2366, "DBM-Nyalotha", nil, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200204023415")
+mod:SetRevision("20200205045536")
 mod:SetCreatureID(157439)--Fury of N'Zoth
 mod:SetEncounterID(2337)
 mod:SetZone()
@@ -460,7 +460,7 @@ function mod:SPELL_AURA_REMOVED_DOSE(args)
 	local spellId = args.spellId
 	if spellId == 307079 then
 		local amount = args.amount or 0
-		if amount ~= 0 then
+		if (amount % 3 == 0) or amount < 4 then
 			warnSynthesRemaining:Show(amount)
 		end
 	end

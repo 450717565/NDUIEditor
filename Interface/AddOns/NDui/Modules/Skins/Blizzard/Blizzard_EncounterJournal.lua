@@ -102,7 +102,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 
 			if data.iconPath then
 				suggestion.icon:SetMask(nil)
-				suggestion.icon:SetTexCoord(.08, .92, .08, .92)
+				suggestion.icon:SetTexCoord(unpack(DB.TexCoord))
 			end
 		end
 
@@ -114,7 +114,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 				local data = self.suggestions[i]
 				if data.iconPath then
 					suggestion.icon:SetMask(nil)
-					suggestion.icon:SetTexCoord(.08, .92, .08, .92)
+					suggestion.icon:SetTexCoord(unpack(DB.TexCoord))
 				end
 			end
 		end
@@ -124,7 +124,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		local rewardData = suggestion.reward.data
 		if rewardData then
 			suggestion.reward.icon:SetMask(nil)
-			suggestion.reward.icon:SetTexCoord(.08, .92, .08, .92)
+			suggestion.reward.icon:SetTexCoord(unpack(DB.TexCoord))
 		end
 	end)
 

@@ -289,7 +289,7 @@ tinsert(C.defaultThemes, function()
 				local reward = frame.RewardFrames[i]
 				if not reward.bg then
 					select(2, reward:GetRegions()):SetTexture("")
-					reward.texture:SetInside(reward, 6, 6)
+					reward.texture:SetInside(nil, 6, 6)
 
 					reward.bg = B.ReskinIcon(reward.texture)
 				end

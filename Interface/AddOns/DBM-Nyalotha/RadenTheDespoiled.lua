@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2364, "DBM-Nyalotha", nil, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200204140332")
+mod:SetRevision("20200204201308")
 mod:SetCreatureID(156866)
 mod:SetEncounterID(2331)
 mod:SetZone()
@@ -592,7 +592,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerNullifyingStrikeCD:Stop()
 		timerChargedBondsCD:Start(4.7, 1)
 		timerDecayingStrikeCD:Start(7.4)--SUCCESS
-		timerVoidEruptionCD:Start(12.1)
+		timerVoidEruptionCD:Start(12.1, 1)
 		timerGorgeEssenceCD:Start(15.8, 1)
 		if self:IsMythic() then
 			timerCorruptedExistenceCD:start(1.2, 1)
@@ -754,7 +754,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
 		timerNullifyingStrikeCD:Stop()
 		timerChargedBondsCD:Start(14.7, 1)
 		timerDecayingStrikeCD:Start(17.4)--SUCCESS
-		timerVoidEruptionCD:Start(22.1)
+		timerVoidEruptionCD:Start(22.1, 1)
 		timerGorgeEssenceCD:Start(25.8, 1)
 		if self:IsMythic() then
 			timerCorruptedExistenceCD:start(11.2, 1)

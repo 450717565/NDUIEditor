@@ -69,7 +69,7 @@ local function showRealDate(curseDate)
 end
 
 DBM = {
-	Revision = parseCurseDate("20200204141411"),
+	Revision = parseCurseDate("20200205050236"),
 	DisplayVersion = "8.3.11 alpha", -- the string that is shown as version
 	ReleaseRevision = releaseDate(2020, 2, 3) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
@@ -9198,6 +9198,11 @@ do
 		return newAnnounce(self, "sooncount", spellId, color or 2, ...)
 	end
 
+	--This object disables sounds, it's almost always used in combation with a countdown timer. Even if not a countdown, its a text only spam not a sound spam
+	function bossModPrototype:NewCountdownAnnounce(spellId, color, icon, optionDefault, optionName, castTime, preWarnTime, soundOption, noFilter)
+		return newAnnounce(self, "countdown", spellId, color or 4, icon, optionDefault, optionName, castTime, preWarnTime, 0, noFilter)
+	end
+
 	function bossModPrototype:NewPreWarnAnnounce(spellId, time, color, icon, optionDefault, optionName, noArg, soundOption)
 		return newAnnounce(self, "prewarn", spellId, color or 2, icon, optionDefault, optionName, nil, time, soundOption)
 	end
@@ -11457,7 +11462,7 @@ end
 
 function bossModPrototype:SetRevision(revision)
 	revision = parseCurseDate(revision or "")
-	if not revision or revision == "20200204141411" then
+	if not revision or revision == "20200205050236" then
 		-- bad revision: either forgot the svn keyword or using github
 		revision = DBM.Revision
 	end

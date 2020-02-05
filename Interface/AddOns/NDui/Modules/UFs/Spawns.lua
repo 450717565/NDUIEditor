@@ -288,12 +288,13 @@ function UF:OnLogin()
 		oUF:RegisterStyle("Boss", CreateBossStyle)
 		oUF:SetActiveStyle("Boss")
 		local boss = {}
+		local bossYOffset = NDuiDB["UFs"]["BossHeight"] + NDuiDB["UFs"]["BossPowerHeight"] + 6
 		for i = 1, MAX_BOSS_FRAMES do
 			boss[i] = oUF:Spawn("Boss"..i, "oUF_Boss"..i)
 			if i == 1 then
 				boss[i].mover = B.Mover(boss[i], L["BossFrame"]..i, "Boss1", {"TOPRIGHT", Minimap, "BOTTOMLEFT", 75, -100})
 			else
-				boss[i].mover = B.Mover(boss[i], L["BossFrame"]..i, "Boss"..i, {"TOP", boss[i-1], "BOTTOM", 0, -55})
+				boss[i].mover = B.Mover(boss[i], L["BossFrame"]..i, "Boss"..i, {"TOP", boss[i-1], "BOTTOM", 0, -bossYOffset})
 			end
 		end
 
@@ -329,10 +330,10 @@ function UF:OnLogin()
 			local showPlayer = partyWatcher or NDuiDB["Extras"]["ShowYourself"]
 			local partyWidth = NDuiDB["UFs"]["PartyWidth"]
 			local partyHeight = NDuiDB["UFs"]["PartyHeight"]
-			local yOffset = -20
+			local partyYOffset = -20
 			local moverPoint = partyWatcher and {"BOTTOMRIGHT", oUF_Player, "TOP", 30, 130} or {"TOPLEFT", UIParent, 35, -50}
 			local moverWidth = partyWidth
-			local moverHeight = partyHeight*(showPlayer and 5 or 4)-yOffset*(showPlayer and 4 or 3)
+			local moverHeight = partyHeight*(showPlayer and 5 or 4)-partyYOffset*(showPlayer and 4 or 3)
 
 			local party = oUF:SpawnHeader("oUF_Party", nil, "solo,party",
 			"showPlayer", showPlayer,
@@ -340,7 +341,7 @@ function UF:OnLogin()
 			"showParty", true,
 			"showRaid", false,
 			"xoffset", 0,
-			"yOffset", yOffset,
+			"yOffset", partyYOffset,
 			"groupingOrder", "TANK,HEALER,DAMAGER,NONE",
 			"groupBy", "ASSIGNEDROLE",
 			"sortMethod", "NAME",
@@ -361,10 +362,10 @@ function UF:OnLogin()
 
 				local petWidth = NDuiDB["UFs"]["PartyPetWidth"]
 				local petHeight = NDuiDB["UFs"]["PartyPetHeight"]
-				local petyOffset = -20
-				local petMoverPoint = partyWatcher and {"BOTTOMLEFT", partyMover, "TOPLEFT", 0, -petyOffset} or {"TOPLEFT", partyMover, "BOTTOMLEFT", 0, petyOffset}
+				local petYoffset = -20
+				local petMoverPoint = partyWatcher and {"BOTTOMLEFT", partyMover, "TOPLEFT", 0, -petYoffset} or {"TOPLEFT", partyMover, "BOTTOMLEFT", 0, petYoffset}
 				local petMoverWidth = petWidth
-				local petMoverHeight = petHeight*(showPlayer and 5 or 4)-petyOffset*(showPlayer and 4 or 3)
+				local petMoverHeight = petHeight*(showPlayer and 5 or 4)-petYoffset*(showPlayer and 4 or 3)
 
 				local partyPet = oUF:SpawnHeader("oUF_PartyPet", nil, "solo,party",
 				"showPlayer", true,
@@ -372,7 +373,7 @@ function UF:OnLogin()
 				"showParty", true,
 				"showRaid", false,
 				"xoffset", 0,
-				"yOffset", petyOffset,
+				"yOffset", petYoffset,
 				"point", "TOP",
 				"columnAnchorPoint", "BOTTOM",
 				"oUF-initialConfigFunction", ([[
