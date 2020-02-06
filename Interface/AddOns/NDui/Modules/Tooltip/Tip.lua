@@ -268,7 +268,7 @@ function TT:ReskinStatusBar()
 	self.StatusBar:SetPoint("BOTTOMRIGHT", self.bg, "TOPRIGHT", -C.mult, 3)
 	self.StatusBar:SetStatusBarTexture(DB.normTex)
 	self.StatusBar:SetHeight(5)
-	B.CreateBDFrame(self.StatusBar, .5)
+	B.CreateBDFrame(self.StatusBar, 0)
 end
 
 function TT:GameTooltip_ShowStatusBar()
@@ -388,7 +388,7 @@ function TT:ReskinTooltip()
 	if not self.tipStyled then
 		self:SetBackdrop(nil)
 		self:DisableDrawLayer("BACKGROUND")
-		local bg = B.SetBDFrame(self, 0, 0, 0, 0)
+		local bg = B.CreateBDFrame(self, nil, nil, true)
 		self.bg = bg
 
 		-- other gametooltip-like support

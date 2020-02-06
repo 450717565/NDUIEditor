@@ -186,7 +186,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 
 			if not bu.styled then
 				B.StripTextures(bu, true)
-				B.CreateBDFrame(bu, 0, -2.5)
+				B.CreateBDFrame(bu, 0, -(2+C.mult))
 
 				local hl = _G[button.."Highlight"]
 				hl:SetAlpha(0)

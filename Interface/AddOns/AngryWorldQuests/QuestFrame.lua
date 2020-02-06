@@ -649,7 +649,11 @@ local function QuestFrame_AddQuestButton(questInfo, prevButton)
 
 	if IsAddOnLoaded("NDui") then
 		local B = unpack(NDui)
-		B.CreateBDFrame(button.TagTexture, 1)
+		if not button.styled then
+			B.CreateBDFrame(button.TagTexture, 1)
+
+			button.styled = true
+		end
 	end
 
 	button:SetHeight(totalHeight)

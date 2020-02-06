@@ -6,8 +6,8 @@ function S:WhisperPop()
 
 	local cr, cg, cb = DB.r, DB.g, DB.b
 
-	B.ReskinFrame(WhisperPopFrame)
-	B.ReskinFrame(WhisperPopMessageFrame)
+	B.ReskinFrame(WhisperPopFrame, "noKill")
+	B.ReskinFrame(WhisperPopMessageFrame, "noKill")
 	B.ReskinArrow(WhisperPopScrollingMessageFrameButtonDown, "down")
 	B.ReskinArrow(WhisperPopScrollingMessageFrameButtonEnd, "bottom")
 	B.ReskinArrow(WhisperPopScrollingMessageFrameButtonUp, "up")

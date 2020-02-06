@@ -7,9 +7,9 @@ C.themes["Blizzard_Communities"] = function()
 		self:SetSize(34, 34)
 		self:GetRegions():Hide()
 
-		local bg = B.ReskinIcon(self.Icon)
-		B.ReskinTexture(self, bg)
-		B.ReskinTexed(self, bg)
+		local icbg = B.ReskinIcon(self.Icon)
+		B.ReskinTexture(self, icbg)
+		B.ReskinTexed(self, icbg)
 	end
 
 	local function reskinGuildCards(self)

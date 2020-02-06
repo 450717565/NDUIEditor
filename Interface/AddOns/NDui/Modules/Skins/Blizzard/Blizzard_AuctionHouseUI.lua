@@ -8,21 +8,27 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 		self:SetSize(22,22)
 	end
 
+	local function reskinItemDisplay(self)
+		B.StripTextures(self)
+
+		B.CreateBDFrame(self, 0, -3)
+
+		local ItemButton = self.ItemButton
+		B.CleanTextures(ItemButton)
+
+		if ItemButton.IconMask then ItemButton.IconMask:Hide() end
+		if ItemButton.CircleMask then ItemButton.CircleMask:Hide() end
+		if ItemButton.EmptyBackground then ItemButton.EmptyBackground:Hide() end
+
+		local icbg = B.ReskinIcon(ItemButton.Icon)
+		B.ReskinBorder(ItemButton.IconBorder, icbg)
+		B.ReskinTexture(ItemButton.Highlight, icbg)
+	end
+
 	local function reskinSellPanel(self)
 		B.StripTextures(self)
 
-		local ItemDisplay = self.ItemDisplay
-		B.StripTextures(ItemDisplay)
-		B.CreateBDFrame(ItemDisplay, 0)
-
-		local ItemButton = ItemDisplay.ItemButton
-		B.CleanTextures(ItemButton)
-		ItemButton.EmptyBackground:Hide()
-		if ItemButton.IconMask then ItemButton.IconMask:Hide() end
-
-		local icbg = B.ReskinIcon(ItemButton.Icon)
-		B.ReskinBorder(ItemButton.IconBorder, ItemButton.Icon)
-		B.ReskinTexture(ItemButton.Highlight, icbg)
+		reskinItemDisplay(self.ItemDisplay)
 
 		B.ReskinButton(self.PostButton)
 		B.ReskinButton(self.QuantityInput.MaxButton)
@@ -56,7 +62,7 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 					if cell and cell.Icon then
 						if not cell.styled then
 							cell.Icon.bg = B.ReskinIcon(cell.Icon)
-							if cell.IconBorder then cell.IconBorder:Hide() end
+							if cell.IconBorder then cell.IconBorder:SetAlpha(0) end
 
 							cell.styled = true
 						end
@@ -125,20 +131,6 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 		end
 	end
 
-	local function reskinItemDisplay(self)
-		local ItemDisplay = self.ItemDisplay
-		B.StripTextures(ItemDisplay)
-
-		local bubg = B.CreateBDFrame(ItemDisplay, 0)
-		bubg:SetPoint("TOPLEFT", 3, -3)
-		bubg:SetPoint("BOTTOMRIGHT", -3, 0)
-
-		local ItemButton = ItemDisplay.ItemButton
-		ItemButton.CircleMask:Hide()
-		ItemButton.IconBorder:SetAlpha(0)
-		B.ReskinIcon(ItemButton.Icon)
-	end
-
 	local function reskinItemList(self)
 		B.StripTextures(self)
 		B.CreateBDFrame(self.ScrollFrame, 0)
@@ -193,7 +185,7 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 	B.ReskinButton(ItemBuyFrame.BuyoutFrame.BuyoutButton)
 	B.ReskinInput(AuctionHouseFrameGold)
 	B.ReskinInput(AuctionHouseFrameSilver)
-	reskinItemDisplay(ItemBuyFrame)
+	reskinItemDisplay(ItemBuyFrame.ItemDisplay)
 	local ItemList = ItemBuyFrame.ItemList
 	reskinItemList(ItemList)
 	hooksecurefunc(ItemList, "RefreshScrollFrame", reskinListHeader)
@@ -204,7 +196,7 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 	B.StripTextures(BuyDisplay)
 	B.ReskinInput(BuyDisplay.QuantityInput.InputBox)
 	B.ReskinButton(BuyDisplay.BuyButton)
-	reskinItemDisplay(BuyDisplay)
+	reskinItemDisplay(BuyDisplay.ItemDisplay)
 	local ItemList = CommoditiesBuyFrame.ItemList
 	reskinItemList(ItemList)
 
@@ -237,7 +229,7 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 	reskinSellList(AuctionHouseFrameAuctionsFrame.BidsList, true)
 	reskinSellList(AuctionHouseFrameAuctionsFrame.CommoditiesList, true)
 	reskinSellList(AuctionHouseFrameAuctionsFrame.ItemList, true)
-	reskinItemDisplay(AuctionHouseFrameAuctionsFrame)
+	reskinItemDisplay(AuctionHouseFrameAuctionsFrame.ItemDisplay)
 
 	B.StripTextures(AuctionHouseFrameAuctionsFrameAuctionsTab)
 	B.StripTextures(AuctionHouseFrameAuctionsFrameBidsTab)

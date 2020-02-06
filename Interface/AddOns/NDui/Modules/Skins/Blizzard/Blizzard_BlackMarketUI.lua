@@ -11,7 +11,8 @@ C.themes["Blizzard_BlackMarketUI"] = function()
 	local HotDeal = BlackMarketFrame.HotDeal
 	B.StripTextures(HotDeal)
 	B.CreateBDFrame(HotDeal, 0)
-	B.ReskinIcon(HotDeal.Item.IconTexture)
+	local icbg = B.ReskinIcon(HotDeal.Item.IconTexture)
+	HotDeal.bg = icbg
 
 	local headers = {"ColumnName", "ColumnLevel", "ColumnType", "ColumnDuration", "ColumnHighBidder", "ColumnCurrentBid"}
 	for _, header in pairs(headers) do
@@ -60,6 +61,6 @@ C.themes["Blizzard_BlackMarketUI"] = function()
 			local color = BAG_ITEM_QUALITY_COLORS[quality or 1]
 			hotDeal.Name:SetTextColor(color.r, color.g, color.b)
 		end
-		B.ReskinBorder(hotDeal.Item.IconBorder, hotDeal.Item)
+		B.ReskinBorder(hotDeal.Item.IconBorder, hotDeal.bg)
 	end)
 end

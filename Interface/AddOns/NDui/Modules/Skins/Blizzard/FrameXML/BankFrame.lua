@@ -21,14 +21,14 @@ tinsert(C.defaultThemes, function()
 		local questTexture = bu.IconQuestTexture
 		if questTexture then questTexture:SetAlpha(0) end
 
-		local slotTexture = bu.SlotHighlightTexture
-		if slotTexture then B.ReskinBorder(slotTexture, bu) end
-
-		local border = bu.IconBorder
-		B.ReskinBorder(border, bu)
-
 		local icbg = B.ReskinIcon(bu.icon)
 		B.ReskinTexture(bu, icbg)
+
+		local border = bu.IconBorder
+		B.ReskinBorder(border, icbg)
+
+		local slotTexture = bu.SlotHighlightTexture
+		if slotTexture then B.ReskinBorder(slotTexture, icbg) end
 
 		local searchOverlay = bu.searchOverlay
 		searchOverlay:SetAllPoints(icbg)

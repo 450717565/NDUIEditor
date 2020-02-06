@@ -36,9 +36,6 @@ local function GetInspectItemListFrame(parent)
 	if (not parent.inspectFrame) then
 		local frame = CreateFrame("Frame", nil, parent)
 		local height = parent:GetHeight()
-		if (height < 424) then
-			height = 424
-		end
 		frame:SetSize(160, height)
 		frame:SetToplevel(true)
 		frame:SetPoint("TOPLEFT", parent, "TOPRIGHT", 0, 0)

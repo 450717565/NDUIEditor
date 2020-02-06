@@ -22,6 +22,6 @@ tinsert(C.defaultThemes, function()
 		B.ReskinTexture(button, icbg)
 
 		local border = button.IconBorder
-		B.ReskinBorder(border, button)
+		B.ReskinBorder(border, icbg)
 	end)
 end)

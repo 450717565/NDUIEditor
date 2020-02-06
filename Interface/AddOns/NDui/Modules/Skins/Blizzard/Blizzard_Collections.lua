@@ -174,8 +174,8 @@ C.themes["Blizzard_Collections"] = function()
 
 	local PetInfo = PetCard.PetInfo
 	B.StripTextures(PetInfo)
-	B.ReskinIcon(PetInfo.icon)
-	B.ReskinBorder(PetInfo.qualityBorder, PetInfo.icon)
+	local icbg = B.ReskinIcon(PetInfo.icon)
+	B.ReskinBorder(PetInfo.qualityBorder, icbg)
 	PetInfo.level:SetTextColor(1, 1, 1)
 
 	for i = 1, 6 do
@@ -188,7 +188,6 @@ C.themes["Blizzard_Collections"] = function()
 	for i = 1, 3 do
 		local bu = PetJournal.Loadout["Pet"..i]
 		B.StripTextures(bu)
-		B.ReskinBorder(bu.qualityBorder, bu.icon)
 		B.ReskinStatusBar(bu.xpBar, true)
 		B.ReskinStatusBar(bu.healthFrame.healthBar, true)
 
@@ -201,6 +200,7 @@ C.themes["Blizzard_Collections"] = function()
 
 		local icbg = B.ReskinIcon(bu.icon)
 		B.ReskinTexture(bu.dragButton, icbg)
+		B.ReskinBorder(bu.qualityBorder, icbg)
 		bu.level:SetTextColor(1, 1, 1)
 
 		for j = 1, 3 do
@@ -419,7 +419,7 @@ C.themes["Blizzard_Collections"] = function()
 	B.ReskinFrame(WardrobeFrame)
 	B.StripTextures(WardrobeTransmogFrame)
 	B.StripTextures(WardrobeOutfitFrame)
-	B.CreateBDFrame(WardrobeOutfitFrame, .25, nil, true)
+	B.SetBDFrame(WardrobeOutfitFrame)
 	B.ReskinButton(WardrobeTransmogFrame.ApplyButton)
 	B.ReskinButton(WardrobeOutfitDropDown.SaveButton)
 	B.ReskinArrow(WardrobeTransmogFrame.SpecButton, "down")

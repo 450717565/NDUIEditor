@@ -54,20 +54,20 @@ function module:SkinChat()
 		self:SetMaxLines(maxLines)
 	end
 
-	local eb = _G[name.."EditBox"]
-	eb:SetAltArrowKeyMode(false)
-	eb:ClearAllPoints()
-	eb:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 4, 26)
-	eb:SetPoint("TOPRIGHT", self, "TOPRIGHT", -17, 50)
-	B.SetBDFrame(eb)
+	local edit = _G[name.."EditBox"]
+	edit:SetAltArrowKeyMode(false)
+	edit:ClearAllPoints()
+	edit:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 4, 26)
+	edit:SetPoint("TOPRIGHT", self, "TOPRIGHT", -17, 50)
+	B.SetBDFrame(edit)
 	for i = 3, 8 do
-		select(i, eb:GetRegions()):SetAlpha(0)
+		select(i, edit:GetRegions()):SetAlpha(0)
 	end
 
 	local lang = _G[name.."EditBoxLanguage"]
 	lang:GetRegions():SetAlpha(0)
-	lang:SetPoint("TOPLEFT", eb, "TOPRIGHT", 5, 0)
-	lang:SetPoint("BOTTOMRIGHT", eb, "BOTTOMRIGHT", 29, 0)
+	lang:SetPoint("TOPLEFT", edit, "TOPRIGHT", 3, 0)
+	lang:SetPoint("BOTTOMRIGHT", edit, "BOTTOMRIGHT", edit:GetHeight()+3, 0)
 	B.SetBDFrame(lang)
 
 	local tab = _G[name.."Tab"]

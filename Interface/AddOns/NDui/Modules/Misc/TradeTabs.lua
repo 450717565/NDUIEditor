@@ -9,6 +9,7 @@ local GetProfessions, GetProfessionInfo, GetSpellBookItemInfo = GetProfessions, 
 local PlayerHasToy, C_ToyBox_IsToyUsable, C_ToyBox_GetToyInfo = PlayerHasToy, C_ToyBox.IsToyUsable, C_ToyBox.GetToyInfo
 local C_TradeSkillUI_GetOnlyShowSkillUpRecipes, C_TradeSkillUI_SetOnlyShowSkillUpRecipes = C_TradeSkillUI.GetOnlyShowSkillUpRecipes, C_TradeSkillUI.SetOnlyShowSkillUpRecipes
 local C_TradeSkillUI_GetOnlyShowMakeableRecipes, C_TradeSkillUI_SetOnlyShowMakeableRecipes = C_TradeSkillUI.GetOnlyShowMakeableRecipes, C_TradeSkillUI.SetOnlyShowMakeableRecipes
+local cr, cg, cb = DB.r, DB.g, DB.b
 
 local BOOKTYPE_PROFESSION = BOOKTYPE_PROFESSION
 local RUNEFORGING_ID = 53428
@@ -155,7 +156,7 @@ function M:TradeTabs_FilterIcons()
 			self:SetBackdropBorderColor(0, 0, 0)
 		else
 			value[4](true)
-			self:SetBackdropBorderColor(1, .8, 0)
+			self:SetBackdropBorderColor(cr, cg, cb)
 		end
 	end
 
@@ -175,7 +176,7 @@ function M:TradeTabs_FilterIcons()
 	local function updateFilterStatus()
 		for index, value in pairs(buttonList) do
 			if value[3]() then
-				buttons[index]:SetBackdropBorderColor(1, .8, 0)
+				buttons[index]:SetBackdropBorderColor(cr, cg, cb)
 			else
 				buttons[index]:SetBackdropBorderColor(0, 0, 0)
 			end

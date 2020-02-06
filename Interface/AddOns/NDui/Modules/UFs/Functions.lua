@@ -62,10 +62,7 @@ function UF:CreateHealthBar(self)
 	health:SetAllPoints()
 	health:SetFrameLevel(self:GetFrameLevel() - 2)
 	B.SmoothBar(health)
-
-	local bg = B.CreateSB(health, false, .1, .1, .1)
-	bg:SetVertexColor(.6, .6, .6, 1)
-	bg.multiplier = .25
+	B.CreateSB(health, false, .1, .1, .1)
 
 	local healthHeight
 	if mystyle == "PlayerPlate" then
@@ -98,6 +95,9 @@ function UF:CreateHealthBar(self)
 
 	health:SetHeight(healthHeight)
 	health.bd.Tex:Hide()
+	health.bg:SetVertexColor(.6, .6, .6, 1)
+	health.multiplier = .25
+
 	self.Health = health
 end
 
@@ -213,10 +213,7 @@ function UF:CreatePowerBar(self)
 	power:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, -3)
 	power:SetFrameLevel(self:GetFrameLevel() - 2)
 	B.SmoothBar(power)
-
-	local bg = B.CreateSB(power)
-	bg:SetAlpha(1)
-	bg.multiplier = .25
+	B.CreateSB(power)
 
 	local powerHeight
 	if mystyle == "PlayerPlate" then
@@ -247,6 +244,9 @@ function UF:CreatePowerBar(self)
 
 	power:SetHeight(powerHeight)
 	power.bd.Tex:Hide()
+	power.bg:SetAlpha(1)
+	power.bg.multiplier = .25
+
 	self.Power = power
 end
 
@@ -478,7 +478,7 @@ local function reskinTimerBar(bar)
 		bar:SetStatusBarTexture(DB.normTex)
 	end
 
-	B.CreateBDFrame(bar, .25)
+	B.CreateBDFrame(bar, 0)
 end
 
 function UF:ReskinMirrorBars()
@@ -883,9 +883,6 @@ function UF:CreateClassPower(self)
 			bars[i]:SetPoint("LEFT", bars[i-1], "RIGHT", barMargin, 0)
 		end
 
-		local bg = B.CreateSB(bars[i])
-		bg.multiplier = .25
-
 		if DB.MyClass == "DEATHKNIGHT" and NDuiDB["UFs"]["RuneTimer"] then
 			bars[i].timer = B.CreateFS(bars[i], 13, "", false, "CENTER", .5, 0)
 		end
@@ -895,6 +892,9 @@ function UF:CreateClassPower(self)
 			bars[i].glow:SetPoint("TOPLEFT", -3, 2)
 			bars[i].glow:SetPoint("BOTTOMRIGHT", 3, -2)
 		end
+
+		B.CreateSB(bars[i])
+		bars[i].bg.multiplier = .25
 	end
 
 	if DB.MyClass == "DEATHKNIGHT" then
@@ -921,14 +921,14 @@ function UF:StaggerBar(self)
 	stagger:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 3)
 	stagger:SetFrameLevel(self:GetFrameLevel() + 5)
 	B.SmoothBar(stagger)
-
-	local bg = B.CreateSB(stagger)
-	bg:SetAlpha(1)
-	bg.multiplier = .25
+	B.CreateSB(stagger)
 
 	local text = B.CreateFS(stagger, 13)
 	text:SetJustifyH("CENTER")
 	self:Tag(text, "[monkstagger]")
+
+	stagger.bg:SetAlpha(1)
+	stagger.bg.multiplier = .25
 
 	self.Stagger = stagger
 end
@@ -1055,11 +1055,11 @@ function UF:CreateAddPower(self)
 	bar:SetPoint("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, -3)
 	bar:SetHeight(self.Power:GetHeight())
 	B.SmoothBar(bar)
-	bar.colorPower = true
+	B.CreateSB(bar)
 
-	local bg = B.CreateSB(bar)
-	bg:SetAlpha(1)
-	bg.multiplier = .25
+	bar.bg:SetAlpha(1)
+	bar.bg.multiplier = .25
+	bar.colorPower = true
 
 	local text = B.CreateFS(bar, 12)
 

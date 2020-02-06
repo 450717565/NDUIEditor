@@ -25,8 +25,7 @@ local function ReskinDetails()
 		self:SetBarSettings(18, NDuiADB["ResetDetails"] and "NDui" or nil)
 		self:SetBarTextSettings(NDuiADB["ResetDetails"] and 14 or nil, DB.Font[1], nil, nil, nil, true, true, nil, nil, nil, nil, nil, nil, false, nil, false, nil)
 
-		local bg = B.SetBDFrame(self.baseframe, 0, 0, 0, 0)
-		bg:SetPoint("TOPLEFT", -1, 18)
+		local bg = B.SetBDFrame(self.baseframe, -1, 18, 0, 0)
 		self.baseframe.bg = bg
 
 		if self:GetId() <= 2 then

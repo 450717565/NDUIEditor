@@ -49,7 +49,7 @@ function S:Rematch()
 			if self.Level.Text then self.Level.Text:SetTextColor(1, 1, 1) end
 		end
 		if self.GetCheckedTexture then
-			B.ReskinTexed(self, self)
+			B.ReskinTexed(self, self.Icon.bg)
 		end
 
 		self.styled = true
@@ -614,7 +614,7 @@ function S:Rematch()
 					reskinButton(button)
 
 					local check = button:GetCheckedTexture()
-					B.ReskinBorder(check, button.Icon, true)
+					B.ReskinBorder(check, button.Icon.bg, true)
 
 					button.styled = true
 				end

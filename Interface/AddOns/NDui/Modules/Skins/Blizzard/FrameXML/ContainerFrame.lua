@@ -33,11 +33,11 @@ tinsert(C.defaultThemes, function()
 			local newTexture = button.NewItemTexture
 			if newTexture then newTexture:SetAlpha(0) end
 
-			local border = button.IconBorder
-			B.ReskinBorder(border, button)
-
 			local icbg = B.ReskinIcon(button.icon)
 			B.ReskinTexture(button, icbg)
+
+			local border = button.IconBorder
+			B.ReskinBorder(border, icbg)
 
 			local searchOverlay = button.searchOverlay
 			searchOverlay:SetAllPoints(icbg)

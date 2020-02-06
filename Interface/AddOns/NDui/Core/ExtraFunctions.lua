@@ -384,7 +384,7 @@ function B:CreateLine(isHorizontal)
 	return Line
 end
 
-function B:CreateSD(size)
+function B:CreateSD()
 	if not NDuiDB["Skins"]["Shadow"] then return end
 	if self.Shadow then return end
 
@@ -393,9 +393,9 @@ function B:CreateSD(size)
 
 	local lvl = frame:GetFrameLevel()
 	local Shadow = CreateFrame("Frame", nil, frame)
-	Shadow:SetOutside(self, size or 4, size or 4)
-	Shadow:SetBackdrop({edgeFile = DB.glowTex, edgeSize = B.Scale(size or 5)})
-	Shadow:SetBackdropBorderColor(0, 0, 0, size and 1 or NDuiDB["Skins"]["SkinAlpha"])
+	Shadow:SetOutside(self, 2, 2)
+	Shadow:SetBackdrop({edgeFile = DB.glowTex, edgeSize = B.Scale(3)})
+	Shadow:SetBackdropBorderColor(0, 0, 0, .5)
 	Shadow:SetFrameLevel(lvl == 0 and 0 or lvl - 1)
 	self.Shadow = Shadow
 end
@@ -454,7 +454,7 @@ function B:ReskinBorder(relativeTo, classColor)
 		self:SetColorTexture(cr, cg, cb)
 	end
 
-	self:SetOutside(relativeTo)
+	self:SetAllPoints(relativeTo)
 end
 
 function B:ReskinButton(noHL)
@@ -671,7 +671,7 @@ function B:ReskinFrame(killType)
 	local closeButton = self.CloseButton or (frameName and _G[frameName.."CloseButton"])
 	if closeButton then B.ReskinClose(closeButton) end
 
-	local bg = B.SetBDFrame(self, 0, 0, 0, 0)
+	local bg = B.CreateBDFrame(self, nil, 0, true)
 
 	return bg
 end
@@ -945,19 +945,19 @@ end
 function B:ReskinTexed(relativeTo)
 	if not self then return end
 
-	local tex
+	local checked
 	if self.SetCheckedTexture then
 		self:SetCheckedTexture(DB.checked)
-		tex = self:GetCheckedTexture()
+		checked = self:GetCheckedTexture()
 	elseif self.GetNormalTexture then
-		tex = self:GetNormalTexture()
-		tex:SetTexture(DB.checked)
+		checked = self:GetNormalTexture()
+		checked:SetTexture(DB.checked)
 	elseif self.SetTexture then
-		tex = self
-		tex:SetTexture(DB.checked)
+		checked = self
+		checked:SetTexture(DB.checked)
 	end
 
-	tex:SetInside(relativeTo)
+	checked:SetAllPoints(relativeTo)
 end
 
 function B:ReskinTexture(relativeTo, classColor, isOutside)
@@ -1076,10 +1076,10 @@ function B.ReskinMerchantItem(index)
 
 	local button = _G[frame.."ItemButton"]
 	B.StripTextures(button)
-	B.ReskinBorder(button.IconBorder, button)
 
 	local icbg = B.ReskinIcon(button.icon)
 	B.ReskinTexture(button, icbg)
+	B.ReskinBorder(button.IconBorder, icbg)
 
 	local name = _G[frame.."Name"]
 	name:SetWordWrap(false)

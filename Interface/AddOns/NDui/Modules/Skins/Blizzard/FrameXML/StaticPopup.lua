@@ -17,7 +17,6 @@ tinsert(C.defaultThemes, function()
 
 		local item = _G[main.."ItemFrame"]
 		B.StripTextures(item)
-		B.ReskinBorder(item.IconBorder, item)
 
 		local name = _G[main.."ItemFrameNameFrame"]
 		name:Hide()
@@ -25,6 +24,7 @@ tinsert(C.defaultThemes, function()
 		local icon = _G[main.."ItemFrameIconTexture"]
 		local icbg = B.ReskinIcon(icon)
 		B.ReskinTexture(item, icbg)
+		B.ReskinBorder(item.IconBorder, icbg)
 
 		local gold = _G[main.."MoneyInputFrameGold"]
 		B.ReskinInput(gold)

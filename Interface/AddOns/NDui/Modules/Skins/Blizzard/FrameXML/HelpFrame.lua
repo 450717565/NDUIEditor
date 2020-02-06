@@ -7,7 +7,7 @@ tinsert(C.defaultThemes, function()
 	B.ReskinArrow(HelpBrowserNavBack, "left")
 	B.ReskinArrow(HelpBrowserNavForward, "right")
 	B.ReskinIcon(HelpFrameCharacterStuckHearthstoneIconTexture)
-	B.CreateBDFrame(HelpBrowser, 0, nil, true)
+	B.CreateBDFrame(HelpBrowser, 0)
 
 	B.ReskinFrame(BrowserSettingsTooltip)
 	B.ReskinButton(BrowserSettingsTooltip.CookiesButton)

@@ -25,9 +25,9 @@ tinsert(C.defaultThemes, function()
 		bu:SetNormalTexture("")
 		bu:SetPushedTexture("")
 
-		local ic = B.ReskinIcon(bu.icon)
-		B.ReskinTexture(bu, ic)
-		B.ReskinBorder(bu.IconBorder, bu)
+		local icbg = B.ReskinIcon(bu.icon)
+		B.ReskinTexture(bu, icbg)
+		B.ReskinBorder(bu.IconBorder, icbg)
 	end
 
 	for i = 1, MAX_TRADE_ITEMS do

@@ -60,7 +60,7 @@ tinsert(C.defaultThemes, function()
 		unit.ActualHealthBar:SetTexture(DB.normTex)
 		unit.ActualHealthBar:ClearAllPoints()
 		unit.healthBg = B.CreateBDFrame(unit.ActualHealthBar, 0)
-		unit.healthBg:SetWidth(253)
+		unit.healthBg:SetWidth(250+C.mult*2)
 		unit.healthBg:ClearAllPoints()
 
 		unit.HealthText:ClearAllPoints()
@@ -123,8 +123,7 @@ tinsert(C.defaultThemes, function()
 	for index, buddy in pairs(buddies) do
 		B.StripTextures(buddy)
 
-		local icbg = B.ReskinIcon(buddy.Icon)
-		buddy.Icon.bg = icbg
+		buddy.Icon.bg = B.ReskinIcon(buddy.Icon)
 
 		buddy.deadIcon = buddy:CreateTexture(nil, "ARTWORK")
 		buddy.deadIcon:SetAllPoints(buddy.Icon)
@@ -134,7 +133,7 @@ tinsert(C.defaultThemes, function()
 		buddy.healthBarWidth = 38
 		buddy.ActualHealthBar:SetTexture(DB.normTex)
 		buddy.ActualHealthBar:ClearAllPoints()
-		buddy.ActualHealthBar:SetPoint("TOP", icbg, "BOTTOM", 0, -4)
+		buddy.ActualHealthBar:SetPoint("TOPLEFT", buddy.Icon.bg, "BOTTOMLEFT", C.mult, -4)
 		buddy.healthBg = B.CreateBDFrame(buddy.ActualHealthBar, 0)
 		buddy.healthBg:SetPoint("TOPLEFT", buddy.ActualHealthBar, "TOPLEFT", -C.mult, C.mult)
 		buddy.healthBg:SetPoint("BOTTOMRIGHT", buddy.ActualHealthBar, "BOTTOMLEFT", 38+C.mult, -C.mult)
@@ -173,7 +172,7 @@ tinsert(C.defaultThemes, function()
 			if self.petOwner == LE_BATTLE_PET_ALLY then
 				self.Icon:SetTexCoord(.92, .08, .08, .92)
 			else
-				self.Icon:SetTexCoord(unpack(DB.TexCoord))
+				self.Icon:SetTexCoord(.08, .92, .08, .92)
 			end
 		end
 
@@ -187,6 +186,7 @@ tinsert(C.defaultThemes, function()
 	hooksecurefunc("PetBattleUnitFrame_UpdateHealthInstant", function(self)
 		if self.BorderDead and self.deadIcon then
 			self.deadIcon:SetShown(self.BorderDead:IsShown())
+			self.healthBg:SetShown(not self.BorderDead:IsShown())
 		end
 	end)
 
@@ -198,15 +198,8 @@ tinsert(C.defaultThemes, function()
 			local isBuff = select(4, C_PetBattles.GetAuraInfo(self.petOwner, self.petIndex, i))
 			if (isBuff and self.displayBuffs) or (not isBuff and self.displayDebuffs) then
 				local frame = self.frames[nextFrame]
-				frame.DebuffBorder:Hide()
-				if not frame.styled then
-					frame.Icon.bg = B.ReskinIcon(frame.Icon)
-
-					frame.styled = true
-				end
-				if not isBuff then
-					frame.Icon.bg:SetBackdropBorderColor(1, 0, 0)
-				end
+				local icbg = B.ReskinIcon(frame.Icon)
+				B.ReskinBorder(frame.DebuffBorder, icbg)
 
 				nextFrame = nextFrame + 1
 			end
@@ -235,25 +228,25 @@ tinsert(C.defaultThemes, function()
 
 		for i = 1, 6 do
 			local bu = buttonList[i]
+			B.CleanTextures(bu)
+
 			bu:SetParent(bar)
 			bu:SetSize(40, 40)
 			bu:ClearAllPoints()
+
 			if i == 1 then
 				bu:SetPoint("LEFT", bar, 0, 0)
 			else
 				bu:SetPoint("LEFT", buttonList[i-1], "RIGHT", 5, 0)
 			end
 
-			bu:SetNormalTexture("")
-			bu:GetPushedTexture():SetTexture(DB.pushed)
-			bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-			B.CreateBDFrame(bu)
+			local icbg = B.ReskinIcon(bu.Icon)
+			B.ReskinTexed(bu, icbg)
+			B.ReskinTexture(bu, icbg)
 
-			bu.Icon:SetTexCoord(unpack(DB.TexCoord))
+			bu.CooldownShadow:SetInside(icbg)
+			bu.SelectedHighlight:SetOutside(icbg, 16, 16)
 			bu.Cooldown:SetFont(DB.Font[1], 26, DB.Font[3])
-			bu.SelectedHighlight:ClearAllPoints()
-			bu.SelectedHighlight:SetPoint("TOPLEFT", bu, -12, 12)
-			bu.SelectedHighlight:SetPoint("BOTTOMRIGHT", bu, 12, -12)
 		end
 		buttonList[4]:GetCheckedTexture():SetColorTexture(cr, cg, cb, .25)
 	end)
@@ -287,11 +280,9 @@ tinsert(C.defaultThemes, function()
 	hl:SetColorTexture(1, 1, 1, .25)
 
 	local XPBar = PetBattleFrameXPBar
-	B.StripTextures(XPBar)
-	B.CreateBDFrame(XPBar, 0)
+	B.ReskinStatusBar(XPBar)
 	XPBar:SetParent(bar)
 	XPBar:SetSize(310, 10)
-	XPBar:SetStatusBarTexture(DB.normTex)
 
 	hooksecurefunc("PetBattleFrame_UpdatePassButtonAndTimer", function()
 		SkipButton:ClearAllPoints()
@@ -302,7 +293,7 @@ tinsert(C.defaultThemes, function()
 
 		XPBar:ClearAllPoints()
 		if pveBattle then
-			XPBar:SetPoint("BOTTOM", bar, "TOP", 0, 9)
+			XPBar:SetPoint("BOTTOM", bar, "TOP", 0, 10)
 		else
 			XPBar:SetPoint("BOTTOM", TurnTimer, "TOP", 0, 5)
 		end
@@ -320,8 +311,10 @@ tinsert(C.defaultThemes, function()
 		unit.Level:ClearAllPoints()
 		unit.Level:SetPoint("BOTTOMLEFT", unit.Icon, 2, 2)
 
-		unit.ActualHealthBar:SetPoint("BOTTOMLEFT", unit.Icon, "BOTTOMRIGHT", 5, 0)
+		unit.healthBarWidth = 128
 		unit.ActualHealthBar:SetTexture(DB.normTex)
+		unit.ActualHealthBar:ClearAllPoints()
+		unit.ActualHealthBar:SetPoint("BOTTOMLEFT", unit.Icon, "BOTTOMRIGHT", 5, 0)
 		local healthBg = B.CreateBDFrame(unit.ActualHealthBar, 0)
 		healthBg:SetPoint("TOPLEFT", unit.ActualHealthBar, "TOPLEFT", -C.mult, C.mult)
 		healthBg:SetPoint("BOTTOMRIGHT", unit.ActualHealthBar, "BOTTOMLEFT", 128+C.mult, -C.mult)

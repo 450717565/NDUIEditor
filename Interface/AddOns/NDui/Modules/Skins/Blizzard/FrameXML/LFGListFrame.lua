@@ -14,7 +14,7 @@ tinsert(C.defaultThemes, function()
 
 		if bu and not bu.styled then
 			bu.Cover:Hide()
-			B.CreateBDFrame(bu.Icon, 1, nil, true)
+			B.CreateBDFrame(bu.Icon, 1)
 
 			bu.styled = true
 		end

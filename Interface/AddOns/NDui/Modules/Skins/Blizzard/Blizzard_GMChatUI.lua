@@ -3,11 +3,10 @@ local B, C, L, DB = unpack(select(2, ...))
 C.themes["Blizzard_GMChatUI"] = function()
 	local frame = GMChatFrame
 	frame:SetClampRectInsets(0, 0, 0, 0)
-	B.StripTextures(frame)
-	B.SetBDFrame(frame):SetPoint("BOTTOMRIGHT", C.mult, -5)
 
-	local close = GMChatFrameCloseButton
-	B.ReskinClose(close, "RIGHT", GMChatTab, "RIGHT", -5, 0)
+	local bg = B.ReskinFrame(frame)
+	bg:SetPoint("TOPLEFT", 0, 0)
+	bg:SetPoint("BOTTOMRIGHT", C.mult, -5)
 
 	local edit = GMChatFrameEditBox
 	edit:SetAltArrowKeyMode(false)
@@ -18,19 +17,19 @@ C.themes["Blizzard_GMChatUI"] = function()
 	edit:SetPoint("TOPLEFT", frame, "BOTTOMLEFT", 0, -8)
 	edit:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -28, -32)
 
-	local bg = B.SetBDFrame(edit, 0, 0, 0, 0)
-	bg:Hide()
+	local editBG = B.SetBDFrame(edit, 0, 0, 0, 0)
+	editBG:Hide()
 	hooksecurefunc("ChatEdit_DeactivateChat", function(editBox)
-		if editBox.isGM then bg:Hide() end
+		if editBox.isGM then editBG:Hide() end
 	end)
 	hooksecurefunc("ChatEdit_ActivateChat", function(editBox)
-		if editBox.isGM then bg:Show() end
+		if editBox.isGM then editBG:Show() end
 	end)
 
 	local lang = GMChatFrameEditBoxLanguage
 	lang:GetRegions():SetAlpha(0)
-	lang:SetPoint("TOPLEFT", edit, "TOPRIGHT", 4, 0)
-	lang:SetPoint("BOTTOMRIGHT", edit, "BOTTOMRIGHT", 28, 0)
+	lang:SetPoint("TOPLEFT", edit, "TOPRIGHT", 3, 0)
+	lang:SetPoint("BOTTOMRIGHT", edit, "BOTTOMRIGHT", edit:GetHeight()+3, 0)
 	B.SetBDFrame(lang)
 
 	local tab = GMChatTab

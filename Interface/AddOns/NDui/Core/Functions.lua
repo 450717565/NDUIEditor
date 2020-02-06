@@ -77,6 +77,7 @@ end
 -- Icon Style
 function B:PixelIcon(texture, highlight)
 	B.SetBDFrame(self)
+	B.CreateGF(self)
 
 	self.Icon = self:CreateTexture(nil, "ARTWORK")
 	self.Icon:SetInside()
@@ -126,7 +127,8 @@ function B:CreateSB(spark, r, g, b)
 		self:SetStatusBarColor(cr, cg, cb)
 	end
 
-	local bd = B.CreateBDFrame(self, 0, nil, true)
+	local bd = B.CreateBDFrame(self, 0)
+	bd.gTex:Hide()
 	self.bd = bd
 
 	local bg = self:CreateTexture(nil, "BACKGROUND")
@@ -144,8 +146,6 @@ function B:CreateSB(spark, r, g, b)
 		self.Spark:SetPoint("TOPLEFT", self:GetStatusBarTexture(), "TOPRIGHT", -10, 10)
 		self.Spark:SetPoint("BOTTOMRIGHT", self:GetStatusBarTexture(), "BOTTOMRIGHT", 10, -10)
 	end
-
-	return bg, bd
 end
 
 -- Numberize
@@ -305,37 +305,37 @@ end
 
 -- Timer Format
 local day, hour, minute = 86400, 3600, 60
-function B.FormatTime(seconds)
-	if seconds >= day then
-		return format("%d"..DB.MyColor..L["Days"], seconds/day), seconds%day
-	elseif seconds >= hour then
-		return format("%d"..DB.MyColor..L["Hours"], seconds/hour), seconds%hour
-	elseif seconds >= minute then
-		return format("%d"..DB.MyColor..L["Minutes"], seconds/minute), seconds%minute
-	elseif seconds > 10 then
-		return format("|cffcccc33%d|r", seconds), seconds - floor(seconds)
-	elseif seconds > 3 then
-		return format("|cffffff00%d|r", seconds), seconds - floor(seconds)
+function B.FormatTime(s)
+	if s >= day then
+		return format("%d"..DB.MyColor..L["Days"], s/day), s%day
+	elseif s >= hour then
+		return format("%s"..DB.MyColor..L["Hours"], B:Round(s/hour, 1)), s%hour
+	elseif s >= minute then
+		return format("%d"..DB.MyColor..L["Minutes"], s/minute), s%minute
+	elseif s > 10 then
+		return format("|cffcccc33%d|r", s), s - floor(s)
+	elseif s > 3 then
+		return format("|cffffff00%d|r", s), s - floor(s)
 	else
 		if NDuiDB["Actionbar"]["DecimalCD"] then
-			return format("|cffff0000%.1f|r", seconds), seconds - format("%.1f", seconds)
+			return format("|cffff0000%.1f|r", s), s - format("%.1f", s)
 		else
-			return format("|cffff0000%d|r", seconds + .5), seconds - floor(seconds)
+			return format("|cffff0000%d|r", s + .5), s - floor(s)
 		end
 	end
 end
 
-function B.FormatTimeRaw(seconds)
-	if seconds >= day then
-		return format("%d"..DB.MyColor..L["Days"], seconds/day)
-	elseif seconds >= hour then
-		return format("%d"..DB.MyColor..L["Hours"], seconds/hour)
-	elseif seconds >= minute then
-		return format("%d"..DB.MyColor..L["Minutes"], seconds/minute)
-	elseif seconds >= 3 then
-		return floor(seconds)
+function B.FormatTimeRaw(s)
+	if s >= day then
+		return format("%d"..DB.MyColor..L["Days"], s/day)
+	elseif s >= hour then
+		return format("%s"..DB.MyColor..L["Hours"], B:Round(s/hour, 1))
+	elseif s >= minute then
+		return format("%d"..DB.MyColor..L["Minutes"], s/minute)
+	elseif s >= 3 then
+		return floor(s)
 	else
-		return format("%.1f", seconds)
+		return format("%.1f", s)
 	end
 end
 

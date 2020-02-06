@@ -52,7 +52,7 @@ tinsert(C.defaultThemes, function()
 		slot.SetHighlightTexture = B.Dummy
 
 		local border = slot.IconBorder
-		B.ReskinBorder(border, slot)
+		B.ReskinBorder(border, icbg)
 
 		local popout = slot.popoutButton
 		B.StripTextures(popout)
@@ -189,6 +189,5 @@ tinsert(C.defaultThemes, function()
 
 		local icbg = B.ReskinIcon(bu.icon)
 		B.ReskinTexture(bu, icbg)
-		B.ReskinTexed(bu, icbg)
 	end
 end)

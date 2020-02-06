@@ -24,9 +24,10 @@ function Bar:CreateLeaveVehicle()
 	button:RegisterForClicks("AnyUp")
 	button.icon:SetTexture("INTERFACE\\VEHICLES\\UI-Vehicles-Button-Exit-Up")
 	button.icon:SetTexCoord(.25, .80, .22, .78)
-	button:SetNormalTexture(nil)
-	button:GetPushedTexture():SetTexture(DB.pushed)
-	local icbg = B.CreateBDFrame(button.icon, 1)
+
+	B.CleanTextures(button)
+	local icbg = B.CreateBDFrame(button.icon, 0)
+	B.ReskinTexed(button, icbg)
 	B.ReskinTexture(button, icbg)
 
 	local function onClick(self)

@@ -48,7 +48,7 @@ function S:Skada()
 		B.StripTextures(window.borderFrame)
 
 		if not window.bg then
-			local bg = B.SetBDFrame(window, 0, 0, 0, 0)
+			local bg = B.CreateBDFrame(window, nil, nil, true)
 			window.bg = bg
 
 			local open, close = S:CreateToggle(window)

@@ -78,8 +78,8 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 		if recipeInfo and not self.styled then
 			local ResultIcon = self.Contents.ResultIcon
 			ResultIcon.ResultBorder:Hide()
-			B.ReskinIcon(ResultIcon:GetNormalTexture())
-			B.ReskinBorder(ResultIcon.IconBorder, ResultIcon)
+			local icbg = B.ReskinIcon(ResultIcon:GetNormalTexture())
+			B.ReskinBorder(ResultIcon.IconBorder, icbg)
 
 			local Reagents = self.Contents.Reagents
 			for i = 1, #Reagents do

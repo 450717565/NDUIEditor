@@ -103,22 +103,22 @@ tinsert(C.defaultThemes, function()
 		local bu = _G[button]
 		B.CleanTextures(bu)
 
-		local ib = bu.IconBorder
-		B.ReskinBorder(ib, bu)
-
 		local icbg = B.ReskinIcon(_G[button.."IconTexture"])
 		B.ReskinTexture(bu, icbg)
+
+		local ib = bu.IconBorder
+		B.ReskinBorder(ib, icbg)
 	end
 
 	for i = 1, ATTACHMENTS_MAX_SEND do
 		local button = _G["SendMailAttachment"..i]
 		B.StripTextures(button)
 
-		local border = button.IconBorder
-		B.ReskinBorder(border, button)
-
 		local bubg = B.CreateBDFrame(button, 0)
 		B.ReskinTexture(button, bubg)
+
+		local border = button.IconBorder
+		B.ReskinBorder(border, bubg)
 	end
 
 	hooksecurefunc("SendMailFrame_Update", function()
