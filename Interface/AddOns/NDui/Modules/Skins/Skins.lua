@@ -106,13 +106,13 @@ end
 function S:GetToggleDirection()
 	local direc = NDuiDB["Skins"]["ToggleDirection"]
 	if direc == 1 then
-		return ">", "<", "RIGHT", "LEFT", -2, 0, 20, 80
+		return "▶", "◀", "RIGHT", "LEFT", -2, 0, 20, 80
 	elseif direc == 2 then
-		return "<", ">", "LEFT", "RIGHT", 2, 0, 20, 80
+		return "◀", "▶", "LEFT", "RIGHT", 2, 0, 20, 80
 	elseif direc == 3 then
-		return "∨", "∧", "BOTTOM", "TOP", 0, 2, 80, 20
+		return "▼", "▲", "BOTTOM", "TOP", 0, 2, 80, 20
 	else
-		return "∧", "∨", "TOP", "BOTTOM", 0, -2, 80, 20
+		return "▲", "▼", "TOP", "BOTTOM", 0, -2, 80, 20
 	end
 end
 

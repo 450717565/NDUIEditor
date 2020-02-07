@@ -71,7 +71,7 @@ end
 
 -- Init
 local function GetBestScale()
-	local scale = B:Round(768 / DB.ScreenHeight, 5)
+	local scale = B.Round(768 / DB.ScreenHeight, 5)
 	return max(.4, min(1.15, scale))
 end
 

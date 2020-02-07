@@ -110,7 +110,7 @@ function M:ItemLevel_UpdateTraits(button, id, link)
 
 	local maxTiers = NDuiDB["Extras"]["MaxTiers"]
 	for i = 1, maxTiers do
-		local powerIDs = allTierInfo[i].azeritePowerIDs
+		local powerIDs = allTierInfo[i] and allTierInfo[i].azeritePowerIDs
 		if not powerIDs or powerIDs[1] == 13 then break end
 
 		for _, powerID in pairs(powerIDs) do

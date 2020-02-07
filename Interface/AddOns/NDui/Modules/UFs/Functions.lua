@@ -3,7 +3,7 @@ local B, C, L, DB = unpack(ns)
 
 local oUF = ns.oUF or oUF
 local UF = B:RegisterModule("UnitFrames")
-local format, floor, abs = string.format, math.floor, math.abs
+local format, floor = string.format, math.floor
 local pairs, next = pairs, next
 
 -- Custom colors
@@ -96,7 +96,7 @@ function UF:CreateHealthBar(self)
 	health:SetHeight(healthHeight)
 	health.bd.Tex:Hide()
 	health.bg:SetVertexColor(.6, .6, .6, 1)
-	health.multiplier = .25
+	health.bg.multiplier = .25
 
 	self.Health = health
 end

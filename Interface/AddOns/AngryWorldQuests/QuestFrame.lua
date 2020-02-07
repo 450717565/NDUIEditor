@@ -1005,6 +1005,10 @@ local function WorldMap_WorldQuestDataProviderMixin_ShouldShowQuest(self, info)
 	end
 	local mapID = self:GetMap():GetMapID()
 
+	if not HaveQuestData(info.questId) or not QuestUtils_IsQuestWorldQuest(info.questId) then
+		return false
+	end
+
 	if Config.showHoveredPOI and hoveredQuestID == info.questId then
 		return true
 	end

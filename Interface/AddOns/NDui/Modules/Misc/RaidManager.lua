@@ -152,7 +152,7 @@ function M:CreateRM()
 
 	-- Ready check indicator
 	local rcFrame = CreateFrame("Frame", nil, header)
-	rcFrame:SetPoint("TOP", header, "BOTTOM", 0, -2)
+	rcFrame:SetPoint("TOP", header, "BOTTOM", 0, -3)
 	rcFrame:SetSize(120, 50)
 	rcFrame:Hide()
 	B.CreateBDFrame(rcFrame, 0)

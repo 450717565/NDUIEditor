@@ -30,7 +30,7 @@ ns.optionDefaults = {
         -- visibility
         always_show_rares = false,
         always_show_treasures = false,
-        hide_done_rare = true,
+        hide_done_rare = false,
         hide_minimap = false,
 
         -- tooltip

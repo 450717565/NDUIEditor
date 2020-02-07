@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2362, "DBM-Azeroth-BfA", 5, 1028)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200125204251")
+mod:SetRevision("20200126143729")
 mod:SetCreatureID(152697)--152736/guardian-tannin, 152729/moon-priestess-liara
 mod:SetEncounterID(2317)
 mod:SetReCombatTime(20)

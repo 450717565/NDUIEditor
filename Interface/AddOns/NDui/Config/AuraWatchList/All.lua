@@ -223,6 +223,7 @@ local list = {
 		{AuraID = 316823, UnitID = "player"},	-- 虚空仪式
 		{AuraID = 318211, UnitID = "player"},	-- 活力涌动
 		{AuraID = 318219, UnitID = "player"},	-- 致命之势
+		{AuraID = 317020, UnitID = "player", Flash = true, Combat = true},	-- 虚空回响
 		{AuraID = 318378, UnitID = "player", Flash = true},	-- 坚定决心，橙披
 	-- 炼金石
 		{AuraID = 60233, UnitID = "player"},	-- 敏捷
@@ -288,6 +289,7 @@ local list = {
 	},
 	["Raid Debuff"] = { -- 团队减益组
 		{AuraID = 295413, UnitID = "player", Stack = 20, Flash = true},	-- 苦楚
+		{AuraID = 315161, UnitID = "player"},	-- 腐化之眼
 	-- 5人本
 		{AuraID = 268007, UnitID = "player", Flash = true},--心脏打击
 		{AuraID = 266238, UnitID = "player", Flash = true},--粉碎防御

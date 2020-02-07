@@ -90,7 +90,7 @@ defaults['chest_vale'] = true
 defaults['coffer_vale'] = true
 defaults['rare_vale'] = true
 defaults['event_vale'] = true
-defaults['pet_vale'] = false
+defaults['pet_vale'] = true
 
 options.groupVale = {
     type = "header",

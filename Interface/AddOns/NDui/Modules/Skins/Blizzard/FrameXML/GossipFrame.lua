@@ -1,6 +1,12 @@
 local B, C, L, DB = unpack(select(2, ...))
 
 tinsert(C.defaultThemes, function()
+	local gsub = string.gsub
+
+	NORMAL_QUEST_DISPLAY = gsub(NORMAL_QUEST_DISPLAY, "000000", "ffffff")
+	TRIVIAL_QUEST_DISPLAY = gsub(TRIVIAL_QUEST_DISPLAY, "000000", "ffffff")
+	IGNORED_QUEST_DISPLAY = gsub(IGNORED_QUEST_DISPLAY, "000000", "ffffff")
+
 	B.ReskinFrame(GossipFrame)
 	B.ReskinButton(GossipFrameGreetingGoodbyeButton)
 	B.ReskinScroll(GossipGreetingScrollFrameScrollBar)

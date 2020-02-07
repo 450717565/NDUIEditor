@@ -53,9 +53,9 @@ end
 local day, hour, minute = 86400, 3600, 60
 function A:FormatAuraTime(s)
 	if s >= day then
-		return format("%d"..DB.MyColor..L["Days"], s/day), s%day
+		return format("%s"..DB.MyColor..L["Days"], B.Round(s/day, 1)), s%day
 	elseif s >= hour then
-		return format("%s"..DB.MyColor..L["Hours"], B:Round(s/hour, 1)), s%hour
+		return format("%s"..DB.MyColor..L["Hours"], B.Round(s/hour, 1)), s%hour
 	elseif s >= 10*minute then
 		return format("%d"..DB.MyColor..L["Minutes"], s/minute), s%minute
 	elseif s >= minute then

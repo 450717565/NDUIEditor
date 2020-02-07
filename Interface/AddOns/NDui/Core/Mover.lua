@@ -76,9 +76,9 @@ function B:Mover(text, value, anchor, width, height, isAuraWatch)
 end
 
 function M:CalculateMoverPoints(mover, trimX, trimY)
-	local screenWidth = B:Round(UIParent:GetRight())
-	local screenHeight = B:Round(UIParent:GetTop())
-	local screenCenter = B:Round(UIParent:GetCenter(), nil)
+	local screenWidth = B.Round(UIParent:GetRight())
+	local screenHeight = B.Round(UIParent:GetTop())
+	local screenCenter = B.Round(UIParent:GetCenter(), nil)
 	local x, y = mover:GetCenter()
 
 	local LEFT = screenWidth / 3
@@ -112,7 +112,7 @@ end
 
 function M:UpdateTrimFrame()
 	local x, y = M:CalculateMoverPoints(self)
-	x, y = B:Round(x), B:Round(y)
+	x, y = B.Round(x), B.Round(y)
 	f.__x:SetText(x)
 	f.__y:SetText(y)
 	f.__x.__current = x
@@ -124,7 +124,7 @@ function M:DoTrim(trimX, trimY)
 	local mover = updater.__owner
 	if mover then
 		local x, y, point = M:CalculateMoverPoints(mover, trimX, trimY)
-		x, y = B:Round(x), B:Round(y)
+		x, y = B.Round(x), B.Round(y)
 		f.__x:SetText(x)
 		f.__y:SetText(y)
 		f.__x.__current = x
@@ -171,8 +171,8 @@ end
 function M:Mover_OnDragStop()
 	self:StopMovingOrSizing()
 	local orig, _, tar, x, y = self:GetPoint()
-	x = B:Round(x)
-	y = B:Round(y)
+	x = B.Round(x)
+	y = B.Round(y)
 
 	self:ClearAllPoints()
 	self:SetPoint(orig, "UIParent", tar, x, y)

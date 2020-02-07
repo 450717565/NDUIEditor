@@ -4,7 +4,7 @@ local cr, cg, cb = DB.r, DB.g, DB.b
 
 local type, pairs, tonumber, wipe, next = type, pairs, tonumber, table.wipe, next
 local strmatch, gmatch, strfind, format, gsub = string.match, string.gmatch, string.find, string.format, string.gsub
-local min, max, abs, floor = math.min, math.max, math.abs, math.floor
+local min, max, floor = math.min, math.max, math.floor
 
 function B.Scale(x)
 	local mult = C.mult
@@ -177,7 +177,7 @@ function B.Numb(n)
 	end
 end
 
-function B:Round(number, idp)
+function B.Round(number, idp)
 	idp = idp or 0
 	local mult = 10 ^ idp
 	return floor(number * mult + .5) / mult
@@ -307,9 +307,9 @@ end
 local day, hour, minute = 86400, 3600, 60
 function B.FormatTime(s)
 	if s >= day then
-		return format("%d"..DB.MyColor..L["Days"], s/day), s%day
+		return format("%s"..DB.MyColor..L["Days"], B.Round(s/day, 1)), s%day
 	elseif s >= hour then
-		return format("%s"..DB.MyColor..L["Hours"], B:Round(s/hour, 1)), s%hour
+		return format("%s"..DB.MyColor..L["Hours"], B.Round(s/hour, 1)), s%hour
 	elseif s >= minute then
 		return format("%d"..DB.MyColor..L["Minutes"], s/minute), s%minute
 	elseif s > 10 then
@@ -327,9 +327,9 @@ end
 
 function B.FormatTimeRaw(s)
 	if s >= day then
-		return format("%d"..DB.MyColor..L["Days"], s/day)
+		return format("%d"..DB.MyColor..L["Days"], B.Round(s/day, 1))
 	elseif s >= hour then
-		return format("%s"..DB.MyColor..L["Hours"], B:Round(s/hour, 1))
+		return format("%s"..DB.MyColor..L["Hours"], B.Round(s/hour, 1))
 	elseif s >= minute then
 		return format("%d"..DB.MyColor..L["Minutes"], s/minute)
 	elseif s >= 3 then

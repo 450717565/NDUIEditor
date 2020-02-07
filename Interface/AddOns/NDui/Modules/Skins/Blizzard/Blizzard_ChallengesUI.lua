@@ -46,21 +46,34 @@ C.themes["Blizzard_ChallengesUI"] = function()
 		end
 	end)
 
-	B.ReskinFrame(ChallengesKeystoneFrame)
-	B.ReskinButton(ChallengesKeystoneFrame.StartButton)
+	local keystoneFrame = ChallengesKeystoneFrame
+	B.ReskinFrame(keystoneFrame)
+	B.ReskinButton(keystoneFrame.StartButton)
 
-	hooksecurefunc(ChallengesKeystoneFrame, "Reset", function(self)
+	hooksecurefunc(keystoneFrame, "Reset", function(self)
 		self:GetRegions():Hide()
 		self.InstructionBackground:Hide()
 	end)
 
-	hooksecurefunc(ChallengesKeystoneFrame, "OnKeystoneSlotted", B.ReskinAffixes)
+	hooksecurefunc(keystoneFrame, "OnKeystoneSlotted", B.ReskinAffixes)
 
 	-- New season
-	local NewSeason = ChallengesFrame.SeasonChangeNoticeFrame
-	B.ReskinButton(NewSeason.Leave)
-	NewSeason.NewSeason:SetTextColor(1, .8, 0)
-	NewSeason.SeasonDescription:SetTextColor(1, 1, 1)
-	NewSeason.SeasonDescription2:SetTextColor(1, 1, 1)
-	NewSeason.SeasonDescription3:SetTextColor(1, .8, 0)
+	local newSeason = ChallengesFrame.SeasonChangeNoticeFrame
+	B.ReskinButton(newSeason.Leave)
+	newSeason.NewSeason:SetTextColor(1, .8, 0)
+	newSeason.SeasonDescription:SetTextColor(1, 1, 1)
+	newSeason.SeasonDescription2:SetTextColor(1, 1, 1)
+	newSeason.SeasonDescription3:SetTextColor(1, .8, 0)
+
+	local Affix = newSeason.Affix
+	B.StripTextures(Affix)
+	local bg = B.ReskinIcon(Affix.Portrait)
+	bg:SetFrameLevel(3)
+
+	hooksecurefunc(Affix, "SetUp", function(_, affixID)
+		local _, _, texture = C_ChallengeMode.GetAffixInfo(affixID)
+		if texture then
+			Affix.Portrait:SetTexture(texture)
+		end
+	end)
 end

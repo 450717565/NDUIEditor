@@ -294,7 +294,7 @@ function UF:OnLogin()
 			if i == 1 then
 				boss[i].mover = B.Mover(boss[i], L["BossFrame"]..i, "Boss1", {"TOPRIGHT", Minimap, "BOTTOMLEFT", 75, -100})
 			else
-				boss[i].mover = B.Mover(boss[i], L["BossFrame"]..i, "Boss"..i, {"TOP", boss[i-1], "BOTTOM", 0, -bossYOffset})
+				boss[i].mover = B.Mover(boss[i], L["BossFrame"]..i, "Boss"..i, {"TOP", boss[i-1].Castbar, "BOTTOM", 0, -bossYOffset})
 			end
 		end
 

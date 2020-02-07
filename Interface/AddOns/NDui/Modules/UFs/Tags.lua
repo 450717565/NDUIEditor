@@ -1,8 +1,7 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-
 local oUF = ns.oUF or oUF
-local format, floor = string.format, math.floor
+
 local AFK, DND, DEAD, PLAYER_OFFLINE = AFK, DND, DEAD, PLAYER_OFFLINE
 local ALTERNATE_POWER_INDEX = Enum.PowerType.Alternate or 10
 local UnitAlternatePowerTextureInfo = UnitAlternatePowerTextureInfo

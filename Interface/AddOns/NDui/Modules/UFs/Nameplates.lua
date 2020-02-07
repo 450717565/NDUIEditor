@@ -45,8 +45,8 @@ end
 
 function UF:UpdateClickableSize()
 	if InCombatLockdown() then return end
-	C_NamePlate.SetNamePlateEnemySize(NDuiDB["Nameplate"]["PlateWidth"]*NDuiADB["UIScale"], NDuiDB["Nameplate"]["PlateHeight"]*NDuiADB["UIScale"]+40)
-	C_NamePlate.SetNamePlateFriendlySize(NDuiDB["Nameplate"]["PlateWidth"]*NDuiADB["UIScale"], NDuiDB["Nameplate"]["PlateHeight"]*NDuiADB["UIScale"]+40)
+	C_NamePlate.SetNamePlateEnemySize(NDuiDB["Nameplate"]["PlateWidth"], NDuiDB["Nameplate"]["PlateHeight"]+40)
+	C_NamePlate.SetNamePlateFriendlySize(NDuiDB["Nameplate"]["PlateWidth"], NDuiDB["Nameplate"]["PlateHeight"]+40)
 end
 
 function UF:SetupCVars()
@@ -632,7 +632,6 @@ function UF:CreatePlates()
 	self.mystyle = "nameplate"
 	self:SetSize(NDuiDB["Nameplate"]["PlateWidth"], NDuiDB["Nameplate"]["PlateHeight"])
 	self:SetPoint("CENTER")
-	self:SetScale(NDuiADB["UIScale"])
 
 	local health = CreateFrame("StatusBar", nil, self)
 	health:SetAllPoints()

@@ -241,7 +241,6 @@ tinsert(C.defaultThemes, function()
 			end
 
 			local icbg = B.ReskinIcon(bu.Icon)
-			B.ReskinTexed(bu, icbg)
 			B.ReskinTexture(bu, icbg)
 
 			bu.CooldownShadow:SetInside(icbg)
