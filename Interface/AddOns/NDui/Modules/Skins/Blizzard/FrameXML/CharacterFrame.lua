@@ -15,7 +15,7 @@ tinsert(C.defaultThemes, function()
 			self.RankFrame.Texture:Hide()
 
 			self.RankFrame.Label:ClearAllPoints()
-			self.RankFrame.Label:SetPoint("TOP", self, 1, 0)
+			self.RankFrame.Label:SetPoint("TOP", self, 1, -2)
 			self.RankFrame.Label:SetTextColor(0, 1, 1)
 
 			self.styled = true
@@ -44,7 +44,6 @@ tinsert(C.defaultThemes, function()
 		local slot = _G["Character"..slots[i].."Slot"]
 		B.StripTextures(slot)
 		slot.ignoreTexture:SetTexture("Interface\\PaperDollInfoFrame\\UI-GearManager-LeaveItem-Transparent")
-		slot.CorruptedHighlightTexture:SetAtlas("Nzoth-charactersheet-item-glow")
 		slot.IconOverlay:SetAtlas("Nzoth-inventory-icon")
 
 		local icbg = B.ReskinIcon(slot.icon)
@@ -59,6 +58,12 @@ tinsert(C.defaultThemes, function()
 
 		local cooldown = _G["Character"..slots[i].."SlotCooldown"]
 		cooldown:SetInside(icbg)
+
+		local corrupted = slot.CorruptedHighlightTexture
+		corrupted:SetAtlas("Nzoth-charactersheet-item-glow")
+		corrupted:ClearAllPoints()
+		corrupted:Point("TOPLEFT", -15, 15)
+		corrupted:Point("BOTTOMRIGHT", 14, -14)
 
 		local bgTex = popout:CreateTexture(nil, "OVERLAY")
 		if slot.verticalFlyout then

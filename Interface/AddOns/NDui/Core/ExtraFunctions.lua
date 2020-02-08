@@ -79,6 +79,18 @@ function B.GetItemGems(item)
 	return itemGems
 end
 
+-- Item Gems Corruption
+function B.GetItemCorruption(item)
+	local itemCorrupted
+
+	local corrupted = IsCorruptedItem(item)
+	if corrupted then
+		itemCorrupted = "-"..ITEM_MOD_CORRUPTION
+	end
+
+	return itemCorrupted
+end
+
 --[[Reskin Functions]]
 
 local barWords = {

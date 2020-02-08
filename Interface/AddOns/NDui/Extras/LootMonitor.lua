@@ -125,13 +125,16 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 		local Enabled = false
 		local totalText = ""
 		local textWidth, maxWidth = 0, 0
-		local lootTime = GameTime_GetGameTime(true)
+		local lootTime = DB.InfoColor..GameTime_GetGameTime(true).."|r"
 		local filterBR = NDuiDB["Extras"]["LootMonitorBonusRewards"] and rollInfo
 		local minQuality = NDuiDB["Extras"]["LootMonitorQuality"]
 
 		local itemLvl = B.GetItemLevel(itemLink)
 		local itemSolt = B.GetItemSlot(itemLink)
-		local itemGems = B.GetItemGems(itemLink) or ""
+		local isGems = B.GetItemGems(itemLink)
+		local isCorrupted = B.GetItemCorruption(itemLink)
+		local itemGems = isGems or ""
+		local itemCorrupted = isCorrupted or ""
 		local _, _, itemRarity, _, _, _, itemSubType, _, itemEquipLoc, _, _, itemClassID, itemSubClassID, bindType = GetItemInfo(itemLink)
 
 		if NDuiDB["Extras"]["LootMonitorInGroup"] == true and not IsInGroup() then
@@ -143,11 +146,19 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 		end
 
 		if itemLvl and itemSolt then
-			totalText = "<"..itemLvl.."-"..itemSolt..itemGems..">"
+			totalText = "<"..itemLvl.."-"..itemSolt..itemGems..itemCorrupted..">"
 		elseif itemLvl then
-			totalText = "<"..itemLvl..itemGems..">"
+			totalText = "<"..itemLvl..itemGems..itemCorrupted..">"
 		elseif itemSolt then
-			totalText = "<"..itemSolt..itemGems..">"
+			totalText = "<"..itemSolt..itemGems..itemCorrupted..">"
+		end
+
+		if isGems and isCorrupted then
+			totalText = "|cff00FFFF"..totalText.."|r"
+		elseif isGems then
+			totalText = "|cff00FF00"..totalText.."|r"
+		elseif isCorrupted then
+			totalText = "|cffFFFF00"..totalText.."|r"
 		end
 
 		if playerInfo and Enabled then
@@ -157,7 +168,7 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 
 			local numButtons = #LMFrame_Report
 			for index = 1, numButtons do
-				LMFrame[index].text:SetFormattedText("%s %s %s %s", DB.InfoColor..LMFrame_Report[index]["timer"], UnitClassColor(LMFrame_Report[index]["player"]), LMFrame_Report[index]["link"], LMFrame_Report[index]["solt"])
+				LMFrame[index].text:SetFormattedText("%s %s %s %s", LMFrame_Report[index]["timer"], UnitClassColor(LMFrame_Report[index]["player"]), LMFrame_Report[index]["link"], LMFrame_Report[index]["solt"])
 				LMFrame[index]:Show()
 				textWidth = mfloor(LMFrame[index].text:GetStringWidth() + 20.5)
 				maxWidth = mmax(textWidth, maxWidth)

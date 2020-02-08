@@ -90,7 +90,7 @@ defaults['chest_vale'] = true
 defaults['coffer_vale'] = true
 defaults['rare_vale'] = true
 defaults['event_vale'] = true
-defaults['pet_vale'] = true
+defaults['pet_vale'] = false
 
 options.groupVale = {
     type = "header",
@@ -312,6 +312,7 @@ nodes[22903439] = MANTR4
 nodes[24153524] = MANTR4
 nodes[24994118] = MANTR4
 nodes[25843841] = MANTR4
+nodes[26524136] = MANTR4
 nodes[26704680] = MANTR4
 nodes[31724184] = MANTR4
 -- quest=58228
