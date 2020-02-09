@@ -10,7 +10,7 @@ local function StatueGo()
 
 	bu = CreateFrame("Button", nil, UIParent, "SecureActionButtonTemplate")
 	bu:SetSize(IconSize, IconSize)
-	B.AuraIcon(bu, true)
+	B.AuraIcon(bu)
 	bu:RegisterForClicks("AnyUp")
 	bu:SetAttribute("type1", "macro")
 	bu:SetAttribute("type2", "macro")
@@ -24,7 +24,7 @@ local function StatueGo()
 	end)
 	bu:SetScript("OnLeave", B.HideTooltip)
 
-	B.Mover(bu, L["Statue"], "Statue", C.Auras.StatuePos, IconSize, IconSize)
+	B.Mover(bu, L["Statue"], "Statue", C.Auras.StatuePos)
 end
 
 -- localizaed

@@ -3,6 +3,8 @@ local B, C, L, DB = unpack(ns)
 local A = B:GetModule("Auras")
 
 -- Style
+local IconSize = C.Auras.IconSize
+local IconMargin = 5
 local totem = {}
 local icons = {
 	[1] = GetSpellTexture(120217), -- Fire
@@ -13,18 +15,18 @@ local icons = {
 
 local function TotemsGo()
 	local Totembar = CreateFrame("Frame", nil, UIParent)
-	Totembar:SetSize(C.Auras.IconSize, C.Auras.IconSize)
+	Totembar:SetSize(IconSize*4 + IconMargin*3, IconSize)
 	for i = 1, 4 do
 		totem[i] = CreateFrame("Button", nil, Totembar)
-		totem[i]:SetSize(C.Auras.IconSize, C.Auras.IconSize)
+		totem[i]:SetSize(IconSize, IconSize)
 		if i == 1 then
-			totem[i]:SetPoint("CENTER", Totembar)
+			totem[i]:SetPoint("LEFT", Totembar, "LEFT", 0, 0)
 		else
 			totem[i]:SetPoint("LEFT", totem[i-1], "RIGHT", 5, 0)
 		end
 		B.AuraIcon(totem[i])
 		totem[i].Icon:SetTexture(icons[i])
-		totem[i]:SetAlpha(.2)
+		totem[i]:SetAlpha(.25)
 
 		local defaultTotem = _G["TotemFrameTotem"..i]
 		defaultTotem:SetParent(totem[i])
@@ -32,7 +34,8 @@ local function TotemsGo()
 		defaultTotem:SetAlpha(0)
 		totem[i].parent = defaultTotem
 	end
-	B.Mover(Totembar, L["Totembar"], "Totems", C.Auras.TotemsPos, 140, 32)
+
+	B.Mover(Totembar, L["Totembar"], "Totems", C.Auras.TotemsPos)
 end
 
 function A:UpdateTotems()
@@ -48,7 +51,7 @@ function A:UpdateTotems()
 			totem.CD:Show()
 			totem:SetAlpha(1)
 		else
-			totem:SetAlpha(.2)
+			totem:SetAlpha(.25)
 			totem.Icon:SetTexture(icons[i])
 			totem.CD:Hide()
 		end

@@ -117,10 +117,10 @@ local function SetupDisTex(self)
 end
 
 local function SetupHook(self)
-	self:HookScript("OnEnter", B.TexOnEnter)
-	self:HookScript("OnLeave", B.TexOnLeave)
-	self:HookScript("OnMouseDown", B.TexOnMouseDown)
-	self:HookScript("OnMouseUp", B.TexOnMouseUp)
+	self:HookScript("OnEnter", B.Tex_OnEnter)
+	self:HookScript("OnLeave", B.Tex_OnLeave)
+	self:HookScript("OnMouseDown", B.Tex_OnMouseDown)
+	self:HookScript("OnMouseUp", B.Tex_OnMouseUp)
 end
 
 local PIXEL_BORDERS = {"TOPLEFT", "TOPRIGHT", "BOTTOMLEFT", "BOTTOMRIGHT", "TOP", "BOTTOM", "LEFT", "RIGHT"}
@@ -245,7 +245,7 @@ function B:GetRoleTexCoord()
 	end
 end
 
-function B:TexOnEnter()
+function B:Tex_OnEnter()
 	if self:IsEnabled() then
 		if self.pixels then
 			for _, pixel in pairs(self.pixels) do
@@ -261,7 +261,7 @@ function B:TexOnEnter()
 	end
 end
 
-function B:TexOnLeave()
+function B:Tex_OnLeave()
 	if self:IsEnabled() then
 		if self.pixels then
 			for _, pixel in pairs(self.pixels) do
@@ -277,7 +277,7 @@ function B:TexOnLeave()
 	end
 end
 
-function B:TexOnMouseDown()
+function B:Tex_OnMouseDown()
 	if self:IsEnabled() then
 		if self.bdTex then
 			self.bdTex:SetBackdropColor(cr, cg, cb, .25)
@@ -287,7 +287,7 @@ function B:TexOnMouseDown()
 	end
 end
 
-function B:TexOnMouseUp()
+function B:Tex_OnMouseUp()
 	if self:IsEnabled() then
 		if self.bdTex then
 			self.bdTex:SetBackdropColor(0, 0, 0, 0)
@@ -883,6 +883,7 @@ function B:ReskinScroll()
 		bdTex:ClearAllPoints()
 		bdTex:SetPoint("TOPLEFT", thumb, 0, -3)
 		bdTex:SetPoint("BOTTOMRIGHT", thumb, 0, 3)
+
 		self.bdTex = bdTex
 	end
 

@@ -1,6 +1,8 @@
 local B, C, L, DB = unpack(select(2, ...))
 
 C.themes["Blizzard_OrderHallUI"] = function()
+	local cr, cg, cb = DB.r, DB.g, DB.b
+
 	OrderHallTalentFrame.OverlayElements:Hide()
 
 	B.ReskinFrame(OrderHallTalentFrame)
@@ -15,12 +17,20 @@ C.themes["Blizzard_OrderHallUI"] = function()
 
 		for i = 1, self:GetNumChildren() do
 			local bu = select(i, self:GetChildren())
-			if bu and bu.talent and not bu.bg then
-				bu.bg = B.ReskinIcon(bu.Icon)
-				B.ReskinTexture(bu.Highlight, bu.bg)
-			end
+			if bu and bu.talent then
+				bu.Border:SetAlpha(0)
 
-			B.ReskinBorder(bu.Border, bu.bg, true)
+				if not bu.bg then
+					bu.bg = B.ReskinIcon(bu.Icon)
+					B.ReskinTexture(bu.Highlight, bu.bg)
+				end
+
+				if bu.talent.selected then
+					bu.bg:SetBackdropBorderColor(cr, cg, cb)
+				else
+					bu.bg:SetBackdropBorderColor(0, 0, 0)
+				end
+			end
 		end
 	end)
 end

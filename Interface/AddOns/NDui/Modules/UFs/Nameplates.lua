@@ -672,9 +672,9 @@ function UF:UpdateClassPowerAnchor()
 	local nameplate = C_NamePlate.GetNamePlateForUnit("target")
 	if nameplate then
 		bar:SetParent(nameplate.unitFrame)
-		bar:SetScale(.7)
+		bar:SetScale(NDuiADB["UIScale"])
 		bar:ClearAllPoints()
-		bar:SetPoint("BOTTOM", nameplate.unitFrame, "TOP", 0, 26)
+		bar:SetPoint("BOTTOM", nameplate.unitFrame.nameText, "TOP", 14, 5)
 		bar:Show()
 	else
 		bar:Hide()

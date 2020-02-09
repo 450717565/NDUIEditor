@@ -98,11 +98,11 @@ function B:PixelIcon(texture, highlight)
 	end
 end
 
-function B:AuraIcon(highlight)
+function B:AuraIcon()
 	self.CD = CreateFrame("Cooldown", nil, self, "CooldownFrameTemplate")
 	self.CD:SetAllPoints()
 	self.CD:SetReverse(true)
-	B.PixelIcon(self, nil, highlight)
+	B.PixelIcon(self, nil, true)
 end
 
 function B:CreateGear(name)

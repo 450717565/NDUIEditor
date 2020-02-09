@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2375, "DBM-Nyalotha", nil, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200207041402")
+mod:SetRevision("20200209005304")
 mod:SetCreatureID(158041)
 mod:SetEncounterID(2344)
 mod:SetZone()
@@ -379,13 +379,13 @@ local function stupefyingGlareLoop(self)
 				direction = DBM_CORE_RIGHT--ie Clockwise
 			end
 		end
-	else--Not mythic
+	--else--Not mythic
 		--Guessed same as mythic stage 2, but if wrong I'm sure i'll get feedback quickly
-		if self.vb.stupefyingGlareCount % 2 == 0 then
-			direction = DBM_CORE_RIGHT--ie counter clockwise
-		else
-			direction = DBM_CORE_LEFT--ie Clockwise
-		end
+	--	if self.vb.stupefyingGlareCount % 2 == 0 then
+	--		direction = DBM_CORE_LEFT--ie Clockwise
+	--	else
+	--		direction = DBM_CORE_RIGHT--ie counter clockwise
+	--	end
 	end
 	specWarnStupefyingGlare:Show(self.vb.stupefyingGlareCount .. direction)
 	specWarnStupefyingGlare:Play("farfromline")

@@ -7,8 +7,8 @@ C.Auras = {
 	BuffPos			= {"TOPRIGHT", Minimap, "TOPLEFT", -15, 0},				-- BUFF默认位置
 
 	IconSize		= 32,													-- 相关职业助手图标大小
-	TotemsPos		= {"CENTER", UIParent, "CENTER", 0, -206},				-- 图腾助手默认位置
-	StatuePos		= {"CENTER", UIParent, "CENTER", 0, -240},				-- 武僧雕像默认位置
+	TotemsPos		= {"CENTER", UIParent, "CENTER", 0, -235},				-- 图腾助手默认位置
+	StatuePos		= {"CENTER", UIParent, "CENTER", 0, -235},				-- 武僧雕像默认位置
 
 	-- 技能监控各组初始位置
 	EnchantAuraPos			= {"BOTTOMRIGHT", UIParent, "CENTER", -200, -99},	-- 附魔及饰品分组

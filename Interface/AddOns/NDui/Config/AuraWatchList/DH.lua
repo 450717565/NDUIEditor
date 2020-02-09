@@ -9,41 +9,31 @@ local list = {
 		{AuraID = 188501, UnitID = "player"},--幽灵视觉
 	},
 	["Target Aura"] = { -- 目标光环组
+		{AuraID = 258883, UnitID = "target", Caster = "player"},--毁灭之痕
+		{AuraID = 258860, UnitID = "target", Caster = "player"},--黑暗鞭笞
+		{AuraID = 213405, UnitID = "target", Caster = "player"},--战刃大师
 		{AuraID = 179057, UnitID = "target", Caster = "player"},--混乱新星
-		{AuraID = 185245, UnitID = "target", Caster = "player"},--折磨
+		{AuraID = 211881, UnitID = "target", Caster = "player"},--邪能爆发
+		{AuraID = 206491, UnitID = "target", Caster = "player"},--涅墨西斯
 		{AuraID = 198813, UnitID = "target", Caster = "player"},--复仇回避
+		{AuraID = 210003, UnitID = "target", Caster = "player"},--锋锐之刺
 		{AuraID = 204490, UnitID = "target", Caster = "player"},--沉默咒符
 		{AuraID = 204598, UnitID = "target", Caster = "player"},--烈焰咒符
 		{AuraID = 204843, UnitID = "target", Caster = "player"},--锁链咒符
-		{AuraID = 206491, UnitID = "target", Caster = "player"},--涅墨西斯
-		{AuraID = 207407, UnitID = "target", Caster = "player"},--灵魂切削
-		{AuraID = 207690, UnitID = "target", Caster = "player"},--血滴子
-		{AuraID = 210003, UnitID = "target", Caster = "player"},--锋锐之刺
-		{AuraID = 211053, UnitID = "target", Caster = "player"},--邪能弹幕
-		{AuraID = 211881, UnitID = "target", Caster = "player"},--邪能爆发
-		{AuraID = 212818, UnitID = "target", Caster = "player"},--猛烈的死亡
-		{AuraID = 213405, UnitID = "target", Caster = "player"},--战刃大师
-		{AuraID = 224509, UnitID = "target", Caster = "player"},--幽魂炸弹
-		{AuraID = 247456, UnitID = "target", Caster = "player"},--脆弱
-		{AuraID = 258860, UnitID = "target", Caster = "player"},--黑暗鞭笞
-		{AuraID = 258883, UnitID = "target", Caster = "player"},--毁灭之痕
 		{AuraID = 268178, UnitID = "target", Caster = "player"},--虚空掠夺者
-		--烈火烙印
-		{AuraID = 207744, UnitID = "target", Caster = "player"},
-		{AuraID = 207771, UnitID = "target", Caster = "player"},
+		{AuraID = 247456, UnitID = "target", Caster = "player"},--脆弱
+		{AuraID = 207744, UnitID = "target", Caster = "player"},--烈火烙印
+		--折磨
+		{AuraID = 185245, UnitID = "target", Caster = "player"},
+		{AuraID = 281854, UnitID = "target", Caster = "player"},
 	},
 	["Player Special Aura"] = { -- 玩家重要光环组
 		{AuraID = 196555, UnitID = "player"},--虚空行走
-		{AuraID = 203650, UnitID = "player"},--准备就绪
+		{AuraID = 212800, UnitID = "player"},--疾影
+		{AuraID = 208628, UnitID = "player"},--势如破竹
 		{AuraID = 203819, UnitID = "player"},--恶魔尖刺
 		{AuraID = 207693, UnitID = "player"},--灵魂盛宴
-		{AuraID = 208628, UnitID = "player"},--势如破竹
-		{AuraID = 211053, UnitID = "player"},--邪能弹幕
-		{AuraID = 212800, UnitID = "player"},--疾影
-		{AuraID = 212988, UnitID = "player"},--痛苦使者
-		{AuraID = 218561, UnitID = "player", Value = true},--虹吸能量
-		{AuraID = 247253, UnitID = "player"},--剑刃扭转
-		{AuraID = 247938, UnitID = "player"},--混乱之刃
+		{AuraID = 203650, UnitID = "player"},--准备就绪
 		{AuraID = 263648, UnitID = "player", Value = true},--灵魂屏障
 		--恶魔变形
 		{AuraID = 162264, UnitID = "player"},
@@ -75,19 +65,15 @@ local list = {
 		{SpellID = 198013},--眼棱
 		{SpellID = 198589},--疾影
 		{SpellID = 198793},--复仇回避
-		{SpellID = 201467},--伊利达雷之怒
 		{SpellID = 202137},--沉默咒符
 		{SpellID = 202138},--锁链咒符
 		{SpellID = 204021},--烈火烙印
 		{SpellID = 204596},--烈焰咒符
 		{SpellID = 206491},--涅墨西斯
-		{SpellID = 207407},--灵魂切削
 		{SpellID = 207684},--悲苦咒符
 		{SpellID = 211881},--邪能爆发
 		{SpellID = 212084},--邪能毁灭
 		{SpellID = 217832},--禁锢
-		{SpellID = 236189},--恶魔灌注
-		{SpellID = 247938},--混乱之刃
 		{SpellID = 258860},--黑暗鞭笞
 		{SpellID = 258925},--邪能弹幕
 		{SpellID = 263648},--灵魂壁障

@@ -64,8 +64,8 @@ tinsert(C.defaultThemes, function()
 			B.StripTextures(arrowButton)
 			B.SetupArrowTex(arrowButton, "down")
 
-			arrowButton:SetScript("OnEnter", B.TexOnEnter)
-			arrowButton:SetScript("OnLeave", B.TexOnLeave)
+			arrowButton:SetScript("OnEnter", B.Tex_OnEnter)
+			arrowButton:SetScript("OnLeave", B.Tex_OnLeave)
 
 			navButton.restyled = true
 		end

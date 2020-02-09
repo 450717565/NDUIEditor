@@ -81,8 +81,8 @@ tinsert(C.defaultThemes, function()
 
 		slot:HookScript("OnShow", UpdateCorruption)
 		slot:HookScript("OnEvent", UpdateCorruption)
-		popout:HookScript("OnEnter", B.TexOnEnter)
-		popout:HookScript("OnLeave", B.TexOnLeave)
+		popout:HookScript("OnEnter", B.Tex_OnEnter)
+		popout:HookScript("OnLeave", B.Tex_OnLeave)
 
 		hooksecurefunc(slot, "DisplayAsAzeriteItem", UpdateAzeriteItem)
 		hooksecurefunc(slot, "DisplayAsAzeriteEmpoweredItem", UpdateAzeriteEmpoweredItem)
