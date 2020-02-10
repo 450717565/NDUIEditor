@@ -11,7 +11,7 @@ local function GetSpellName(spellID)
 	local name = GetSpellInfo(spellID)
 	if not name then
 		print("oUF-Plugins-Castbar: ".. spellID.." not found.")
-		return 0
+		return
 	end
 	return name
 end
@@ -22,7 +22,7 @@ local channelingTicks = {
 	[GetSpellName(5143)] = 5, 		-- 奥术飞弹
 	[GetSpellName(12051)] = 3, 		-- 唤醒
 	[GetSpellName(15407)] = 4,		-- 精神鞭笞
-	[GetSpellName(47540)] = 3,		-- 苦修
+	[GetSpellName(47540)] = 4,		-- 苦修
 	[GetSpellName(64843)] = 4,		-- 神圣赞美诗
 	[GetSpellName(198590)] = 5,		-- 吸取灵魂
 	[GetSpellName(205021)] = 5,		-- 冰霜射线
@@ -30,17 +30,6 @@ local channelingTicks = {
 	[GetSpellName(234153)] = 5,		-- 吸取生命
 	[GetSpellName(291944)] = 6,		-- 再生
 }
-
-if DB.MyClass == "PRIEST" then
-	local penance = GetSpellName(47540)
-	local function updateTicks()
-		local numTicks = 3
-		if IsPlayerSpell(193134) then numTicks = 4 end	-- Enhanced Mind Flay
-		channelingTicks[penance] = numTicks
-	end
-	B:RegisterEvent("PLAYER_LOGIN", updateTicks)
-	B:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED", updateTicks)
-end
 
 local ticks = {}
 local function updateCastBarTicks(bar, numTicks)
@@ -50,8 +39,8 @@ local function updateCastBarTicks(bar, numTicks)
 			if not ticks[i] then
 				ticks[i] = bar:CreateTexture(nil, "OVERLAY")
 				ticks[i]:SetTexture(DB.normTex)
-				ticks[i]:SetVertexColor(0, 0, 0, .7)
-				ticks[i]:SetWidth(C.mult)
+				ticks[i]:SetVertexColor(1, 1, 1, 1)
+				ticks[i]:SetWidth(C.mult*2)
 				ticks[i]:SetHeight(bar:GetHeight())
 			end
 			ticks[i]:ClearAllPoints()

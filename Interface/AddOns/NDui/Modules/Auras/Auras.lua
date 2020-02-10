@@ -21,7 +21,7 @@ function A:OnLogin()
 		Debuffs = {
 			size = NDuiDB["Auras"]["DebuffSize"],
 			wrapAfter = NDuiDB["Auras"]["DebuffsPerRow"],
-			maxWraps = 1,
+			maxWraps = 2,
 			reverseGrow = NDuiDB["Auras"]["ReverseDebuffs"],
 		},
 	}
@@ -37,7 +37,7 @@ function A:OnLogin()
 	self.BuffFrame:SetPoint("TOPRIGHT", buffAnchor)
 
 	self.DebuffFrame = self:CreateAuraHeader("HARMFUL")
-	local debuffAnchor = B.Mover(self.DebuffFrame, "Debuffs", "DebuffAnchor", {"TOPRIGHT", buffAnchor, "BOTTOMRIGHT", 0, -12})
+	local debuffAnchor = B.Mover(self.DebuffFrame, "Debuffs", "DebuffAnchor", {"TOPRIGHT", buffAnchor, "BOTTOMRIGHT", 0, -15})
 	self.DebuffFrame:ClearAllPoints()
 	self.DebuffFrame:SetPoint("TOPRIGHT", debuffAnchor)
 
@@ -48,25 +48,6 @@ function A:OnLogin()
 		self:Totems()
 	end
 	self:InitReminder()
-end
-
-local day, hour, minute = 86400, 3600, 60
-function A:FormatAuraTime(s)
-	if s >= day then
-		return format("%s"..DB.MyColor..L["Days"], B.Round(s/day, 1)), s%day
-	elseif s >= hour then
-		return format("%s"..DB.MyColor..L["Hours"], B.Round(s/hour, 1)), s%hour
-	elseif s >= 10*minute then
-		return format("%d"..DB.MyColor..L["Minutes"], s/minute), s%minute
-	elseif s >= minute then
-		return format("%d:%.2d", s/minute, s%minute), s - floor(s)
-	elseif s > 10 then
-		return format("%d"..DB.MyColor..L["Seconds"], s), s - floor(s)
-	elseif s > 5 then
-		return format("|cffffff00%.1f|r", s), s - format("%.1f", s)
-	else
-		return format("|cffff0000%.1f|r", s), s - format("%.1f", s)
-	end
 end
 
 function A:UpdateTimer(elapsed)
@@ -87,7 +68,7 @@ function A:UpdateTimer(elapsed)
 	end
 
 	if self.timeLeft >= 0 then
-		local timer, nextUpdate = A:FormatAuraTime(self.timeLeft)
+		local timer, nextUpdate = B.FormatTime(self.timeLeft, true)
 		self.nextUpdate = nextUpdate
 		self.timer:SetText(timer)
 	end

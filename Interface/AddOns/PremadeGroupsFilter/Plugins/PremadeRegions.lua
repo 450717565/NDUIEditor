@@ -22,14 +22,20 @@ local PGF = select(2, ...)
 local L = PGF.L
 local C = PGF.C
 
-function PGF.Macro(exp)
-    local dialog = PremadeGroupsFilterDialog
-    if dialog and dialog:IsVisible() then
-        PGF.Dialog_Reset()
-        dialog.Expression.EditBox:SetText(exp)
-        PGF.Dialog_Expression_OnTextChanged(dialog.Expression.EditBox)
-        dialog.RefreshButton:Click()
+function PGF.PutPremadeRegionInfo(env, leaderName)
+    env.region = nil
+    env.oce = false
+    env.usp = false
+    env.usm = false
+    env.usc = false
+    env.use = false
+    env.mex = false
+    env.bzl = false
+    if leaderName and PremadeRegions then
+        local region = PremadeRegions.GetRegion(leaderName)
+        if region then
+            env.region = region
+            env[region] = true
+        end
     end
 end
-
-PremadeGroupsFilter.Macro = PGF.Macro

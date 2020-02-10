@@ -87,10 +87,10 @@ function M:GuildBest_Update()
 	end
 
 	if not resize and IsAddOnLoaded("AngryKeystones") then
-		local scheduel = select(5, self:GetChildren())
+		local schedule = AngryKeystones.Modules.Schedule.AffixFrame
 		frame:SetWidth(246)
 		frame:ClearAllPoints()
-		frame:SetPoint("BOTTOMLEFT", scheduel, "TOPLEFT", 0, 10)
+		frame:SetPoint("BOTTOMLEFT", schedule, "TOPLEFT", 0, 10)
 
 		self.WeeklyInfo.Child.Label:SetPoint("TOP", -135, -25)
 		local affix = self.WeeklyInfo.Child.Affixes[1]

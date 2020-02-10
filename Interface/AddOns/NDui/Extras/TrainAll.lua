@@ -38,7 +38,7 @@ local function CreateIt()
 	B.ReskinButton(Button)
 
 	Button:SetScript("OnEnter", function()
-		GameTooltip:SetOwner(Button,"ANCHOR_RIGHT")
+		GameTooltip:SetOwner(Button, "ANCHOR_RIGHT")
 		GameTooltip:SetText(L["Train All Need"]..GetMoneyString(cost))
 	end)
 	Button:SetScript("OnLeave", function()

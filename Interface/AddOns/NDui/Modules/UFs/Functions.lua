@@ -384,6 +384,7 @@ function UF:CreateCastBar(self)
 	if mystyle ~= "nameplate" and not NDuiDB["UFs"]["Castbars"] then return end
 
 	local cb = CreateFrame("StatusBar", "oUF_Castbar"..mystyle, self)
+	cb:SetSize(20, self:GetWidth())
 	B.CreateSB(cb, true)
 
 	if mystyle == "player" then
@@ -417,7 +418,7 @@ function UF:CreateCastBar(self)
 	end
 
 	if mystyle == "player" then
-		local safe = cb:CreateTexture(nil,"OVERLAY")
+		local safe = cb:CreateTexture(nil, "OVERLAY")
 		safe:SetTexture(DB.normTex)
 		safe:SetVertexColor(1, 0, 0, .6)
 		safe:SetAllPoints()

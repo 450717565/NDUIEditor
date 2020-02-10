@@ -274,48 +274,6 @@ function M.ItemLevel_ScrappingShow(event, addon)
 	end
 end
 
-function M:CreateCorruptedTex(frame, strType)
-	if frame.texCreated then return end
-
-	for index, slot in pairs(inspectSlots) do
-		if index ~= 4 then
-			local slotFrame = _G[strType..slot.."Slot"]
-			local CorruptedTexture = slotFrame:CreateTexture(nil, "OVERLAY")
-			CorruptedTexture:ClearAllPoints()
-			CorruptedTexture:Point("TOPLEFT", -15, 15)
-			CorruptedTexture:Point("BOTTOMRIGHT", 14, -14)
-			CorruptedTexture:SetAtlas("Nzoth-charactersheet-item-glow")
-
-			slotFrame.CorruptedTexture = CorruptedTexture
-		end
-	end
-
-	frame.texCreated = true
-end
-
-function M:ItemCorruption_Setup(frame, strType, unit)
-	if not UnitExists(unit) then return end
-
-	M:CreateCorruptedTex(frame, strType)
-
-	for index, slot in pairs(inspectSlots) do
-		if index ~= 4 then
-			local slotFrame = _G[strType..slot.."Slot"]
-			slotFrame.CorruptedTexture:Hide()
-
-			local link = GetInventoryItemLink(unit, index)
-			slotFrame.CorruptedTexture:SetShown(link and IsCorruptedItem(link))
-		end
-	end
-end
-
-function M:ItemCorruption_UpdateInspect(...)
-	local guid = ...
-	if InspectFrame and InspectFrame.unit and UnitGUID(InspectFrame.unit) == guid then
-		M:ItemCorruption_Setup(InspectFrame, "Inspect", InspectFrame.unit)
-	end
-end
-
 function M:ShowItemLevel()
 	if not NDuiDB["Misc"]["ItemLevel"] then return end
 
@@ -325,9 +283,6 @@ function M:ShowItemLevel()
 
 	-- iLvl on InspectFrame
 	B:RegisterEvent("INSPECT_READY", self.ItemLevel_UpdateInspect)
-
-	-- CorruptedTex on InspectFrame
-	B:RegisterEvent("INSPECT_READY", self.ItemCorruption_UpdateInspect)
 
 	-- iLvl on FlyoutButtons
 	hooksecurefunc("EquipmentFlyout_DisplayButton", self.ItemLevel_FlyoutSetup)

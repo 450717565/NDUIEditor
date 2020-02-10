@@ -23,5 +23,32 @@ tinsert(C.defaultThemes, function()
 
 		local border = button.IconBorder
 		B.ReskinBorder(border, icbg)
+
+		if not button.Eye then
+			button.Eye = button:CreateTexture(nil, "OVERLAY")
+			button.Eye:SetAtlas("Nzoth-inventory-icon")
+			button.Eye:SetInside(icbg)
+		end
+	end)
+
+	hooksecurefunc("EquipmentFlyout_DisplayButton", function(button)
+		local location = button.location
+		local border = button.IconBorder
+		if not location or not border then return end
+
+		local _, _, bags, voidStorage, slot, bag = EquipmentManager_UnpackLocation(location)
+		if voidStorage then
+			button.Eye:Hide()
+			return
+		end
+
+		local itemLink
+		if bags then
+			itemLink = GetContainerItemLink(bag, slot)
+		else
+			itemLink = GetInventoryItemLink("player", slot)
+		end
+
+		button.Eye:SetShown(itemLink and IsCorruptedItem(itemLink))
 	end)
 end)

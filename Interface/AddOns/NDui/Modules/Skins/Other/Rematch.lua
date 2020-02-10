@@ -333,7 +333,7 @@ function S:Rematch()
 
 		-- RematchAbilityCard
 		B.StripTextures(RematchAbilityCard, 15)
-		B.CreateBDFrame(RematchAbilityCard, .25)
+		B.CreateBDFrame(RematchAbilityCard, 0)
 		RematchAbilityCard.Hints.HintsBG:Hide()
 
 		-- RematchWinRecordCard

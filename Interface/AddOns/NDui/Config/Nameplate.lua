@@ -172,6 +172,8 @@ C.CustomUnits = {
 	[130655] = true, -- 鲍比·豪里斯
 	[134284] = true, -- 堕落的亡语者
 	[131586] = true, -- 宴会招待员
+	[131492] = true, -- 虔诚鲜血祭司
+	[133870] = true, -- 染病鞭笞者
 
 	[120651] = true, -- 爆炸物
 	[141851] = true, -- 戈霍恩之嗣
@@ -210,7 +212,8 @@ C.CustomUnits = {
 -- 显示能量值的单位
 C.ShowPowerList = {
 	[155432] = true, -- 魔力使者
-	[152703] = true, -- 步行震击者X1型，困难麦卡贡
+	[152703] = true, -- 步行震击者X1型，麦卡贡
+	[163746] = true, -- 步行震击者X1型
 	[GetSectionInfo(13015)] = true,	-- 清扫器
 	[GetSectionInfo(15903)] = true,	-- 泰沙拉克的余烬
 	[GetSectionInfo(18540)] = true,	-- 纳兹曼尼鲜血妖术师

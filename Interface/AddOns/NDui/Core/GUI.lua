@@ -25,7 +25,6 @@ local defaultSettings = {
 		Count = true,
 		Classcolor = false,
 		Cooldown = true,
-		DecimalCD = true,
 		Style = 1,
 		Bar4Fade = false,
 		Bar5Fade = false,
@@ -71,7 +70,7 @@ local defaultSettings = {
 		BuffSize = 30,
 		BuffsPerRow = 16,
 		ReverseDebuffs = false,
-		DebuffSize = 34,
+		DebuffSize = 30,
 		DebuffsPerRow = 16,
 	},
 	AuraWatch = {
@@ -639,7 +638,6 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Actionbar", "Classcolor", L["ClassColor BG"], true},
 		{},--blank
 		{1, "Actionbar", "Cooldown", DB.MyColor..L["Show Cooldown"]},
-		{1, "Actionbar", "DecimalCD", L["Decimal Cooldown"].."*"},
 		{1, "Actionbar", "OverrideWA", L["HideCooldownOnWA"], true},
 	},
 	[2] = {
@@ -772,7 +770,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{3, "Auras", "BuffSize", L["BuffSize"], nil, {24, 50, 0}},
 		{3, "Auras", "DebuffSize", L["DebuffSize"], true, {24, 50, 0}},
 		{3, "Auras", "BuffsPerRow", L["BuffsPerRow"], nil, {10, 20, 0}},
-		{3, "Auras", "DebuffsPerRow", L["DebuffsPerRow"], true, {10, 16, 0}},
+		{3, "Auras", "DebuffsPerRow", L["DebuffsPerRow"], true, {10, 20, 0}},
 		{},--blank
 		{1, "Auras", "Statue", L["Enable Statue"]},
 		{1, "Auras", "Totems", L["Enable Totems"], true},

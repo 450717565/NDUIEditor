@@ -879,7 +879,7 @@ function B:ReskinScroll()
 		thumb:SetAlpha(0)
 		thumb:SetWidth(18)
 
-		local bdTex = B.CreateBDFrame(self, 0)
+		local bdTex = B.CreateBDFrame(thumb, 0)
 		bdTex:ClearAllPoints()
 		bdTex:SetPoint("TOPLEFT", thumb, 0, -3)
 		bdTex:SetPoint("BOTTOMRIGHT", thumb, 0, 3)

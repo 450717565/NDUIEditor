@@ -305,47 +305,28 @@ end
 
 -- Timer Format
 local day, hour, minute = 86400, 3600, 60
-function B.FormatTime(s)
+function B.FormatTime(s, auraTime)
 	if s >= day then
-		return format("%s"..DB.MyColor..L["Days"], B.Round(s/day, 1)), s%day
+		return format("%.1f"..DB.MyColor..L["Days"], s/day), s%day
 	elseif s >= hour then
-		return format("%s"..DB.MyColor..L["Hours"], B.Round(s/hour, 1)), s%hour
-	elseif s >= minute then
+		return format("%.1f"..DB.MyColor..L["Hours"], s/hour), s%hour
+	elseif s >= 3*minute then
 		return format("%d"..DB.MyColor..L["Minutes"], s/minute), s%minute
-	elseif s > 10 then
-		return format("|cffcccc33%d|r", s), s - floor(s)
-	elseif s > 3 then
-		return format("|cffffff00%d|r", s), s - floor(s)
-	else
-		if NDuiDB["Actionbar"]["DecimalCD"] then
-			return format("|cffff0000%.1f|r", s), s - format("%.1f", s)
-		else
-			return format("|cffff0000%d|r", s + .5), s - floor(s)
-		end
-	end
-end
-
-function B.FormatTimeRaw(s)
-	if s >= day then
-		return format("%d"..DB.MyColor..L["Days"], B.Round(s/day, 1))
-	elseif s >= hour then
-		return format("%s"..DB.MyColor..L["Hours"], B.Round(s/hour, 1))
 	elseif s >= minute then
-		return format("%d"..DB.MyColor..L["Minutes"], s/minute)
-	elseif s >= 3 then
-		return floor(s)
+		return format("%.1d:%.2d", s/minute, s%minute), s - floor(s)
+	elseif s > 3 then
+		return format("|cffffff00%d|r"..(auraTime and DB.MyColor..L["Seconds"] or ""), s), s - floor(s)
 	else
-		return format("%.1f", s)
+		return format("|cffff0000%.1f|r", s), s - format("%.1f", s)
 	end
 end
 
-function B:CooldownOnUpdate(elapsed, raw)
-	local formatTime = raw and B.FormatTimeRaw or B.FormatTime
+function B:CooldownOnUpdate(elapsed)
 	self.elapsed = (self.elapsed or 0) + elapsed
 	if self.elapsed >= .1 then
 		local timeLeft = self.expiration - GetTime()
 		if timeLeft > 0 then
-			local text = formatTime(timeLeft)
+			local text = B.FormatTime(timeLeft)
 			self.timer:SetText(text)
 		else
 			self:SetScript("OnUpdate", nil)

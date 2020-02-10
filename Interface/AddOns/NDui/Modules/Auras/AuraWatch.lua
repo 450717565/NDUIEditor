@@ -307,7 +307,7 @@ function A:AuraWatch_UpdateTimer()
 		self.Statusbar:SetValue(timer)
 		self.Statusbar.Spark:Show()
 	else
-		if self.Time then self.Time:SetFormattedText("%d:%.2d ", timer/60, timer%60) end
+		if self.Time then self.Time:SetFormattedText("%.1d:%.2d ", timer/60, timer%60) end
 		self.Statusbar:SetValue(timer)
 		self.Statusbar.Spark:Show()
 	end

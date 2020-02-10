@@ -289,6 +289,7 @@ local list = {
 	},
 	["Raid Debuff"] = { -- 团队减益组
 		{AuraID = 295413, UnitID = "player", Stack = 20, Flash = true},	-- 苦楚
+		{AuraID = 315176, UnitID = "player"},	-- 贪婪触须
 		{AuraID = 315161, UnitID = "player"},	-- 腐化之眼
 	-- 5人本
 		{AuraID = 268007, UnitID = "player", Flash = true},--心脏打击
@@ -633,6 +634,7 @@ local list = {
 		{AuraID = 273721, UnitID = "target"},
 		{AuraID = 256493, UnitID = "target"},	-- 炽燃的艾泽里特，矿区1
 		{AuraID = 271867, UnitID = "target"},	-- 氪金致胜，矿区1
+		{AuraID = 296080, UnitID = "target"},	-- 失控，垃圾场尾王
 	-- 尼奥罗萨
 		{AuraID = 313175, UnitID = "target"},	-- 硬化核心，拉希奥
 		{AuraID = 306005, UnitID = "target"},	-- 黑曜石之肤，玛乌特

@@ -214,7 +214,7 @@ function M:InterruptAlert_Update(...)
 
 	if UnitInRaid(sourceName) or UnitInParty(sourceName) or M:IsAllyPet(sourceFlags) then
 		local infoText = infoType[eventType]
-		if infoText then
+		if infoText and sourceName then
 			if infoText == L["BrokenSpell"] then
 				if not NDuiDB["Misc"]["BrokenSpell"] then return end
 				if auraType and auraType == AURA_TYPE_BUFF or blackList[spellID] then return end

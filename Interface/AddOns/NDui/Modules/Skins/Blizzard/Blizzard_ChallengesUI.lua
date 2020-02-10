@@ -21,7 +21,9 @@ C.themes["Blizzard_ChallengesUI"] = function()
 		end
 
 		if IsAddOnLoaded("AngryKeystones") and not angryStyle then
-			local scheduel, party = select(5, self:GetChildren())
+			local mod = AngryKeystones.Modules.Schedule
+			local scheduel = mod.AffixFrame
+			local party = mod.PartyFrame
 
 			B.StripTextures(scheduel)
 			B.CreateBDFrame(scheduel, 0)

@@ -349,7 +349,7 @@ local counterOffsets = {
 }
 
 function UF:BuffIndicatorOnUpdate(elapsed)
-	B.CooldownOnUpdate(self, elapsed, true)
+	B.CooldownOnUpdate(self, elapsed)
 end
 
 local found = {}

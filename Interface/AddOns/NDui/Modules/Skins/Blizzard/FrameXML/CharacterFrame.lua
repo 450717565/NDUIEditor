@@ -79,8 +79,6 @@ tinsert(C.defaultThemes, function()
 		slot.bg = icbg
 		popout.bgTex = bgTex
 
-		slot:HookScript("OnShow", UpdateCorruption)
-		slot:HookScript("OnEvent", UpdateCorruption)
 		popout:HookScript("OnEnter", B.Tex_OnEnter)
 		popout:HookScript("OnLeave", B.Tex_OnLeave)
 
@@ -88,8 +86,9 @@ tinsert(C.defaultThemes, function()
 		hooksecurefunc(slot, "DisplayAsAzeriteEmpoweredItem", UpdateAzeriteEmpoweredItem)
 	end
 
-	hooksecurefunc("PaperDollItemSlotButton_Update", function(self)
-		self.icon:SetShown(GetInventoryItemTexture("player", self:GetID()) ~= nil)
+	hooksecurefunc("PaperDollItemSlotButton_Update", function(button)
+		button.icon:SetShown(GetInventoryItemTexture("player", button:GetID()) ~= nil)
+		UpdateCorruption(button)
 	end)
 
 	-- [[ Stats pane ]]
