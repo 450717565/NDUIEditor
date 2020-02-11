@@ -10,8 +10,8 @@ local cr, cg, cb, alpha, color
 function module:CreatePulse()
 	if not NDuiDB["Map"]["CombatPulse"] then return end
 
-	local MBG = B.CreateBDFrame(Minimap)
-	local anim = MBG:CreateAnimationGroup()
+	local bg = B.CreateBDFrame(Minimap)
+	local anim = bg:CreateAnimationGroup()
 	anim:SetLooping("BOUNCE")
 	anim.fader = anim:CreateAnimation("Alpha")
 	anim.fader:SetFromAlpha(.8)
@@ -21,15 +21,15 @@ function module:CreatePulse()
 
 	local function updateMinimapAnim(event)
 		if event == "PLAYER_REGEN_DISABLED" then
-			MBG:SetBackdropBorderColor(1, 0, 0)
+			bg:SetBackdropBorderColor(1, 0, 0)
 			anim:Play()
 		elseif not InCombatLockdown() then
 			if C_Calendar.GetNumPendingInvites() > 0 or MiniMapMailFrame:IsShown() then
-				MBG:SetBackdropBorderColor(1, 1, 0)
+				bg:SetBackdropBorderColor(1, 1, 0)
 				anim:Play()
 			else
 				anim:Stop()
-				MBG:SetBackdropBorderColor(0, 0, 0)
+				bg:SetBackdropBorderColor(0, 0, 0)
 			end
 		end
 	end
@@ -41,7 +41,7 @@ function module:CreatePulse()
 	MiniMapMailFrame:HookScript("OnHide", function()
 		if InCombatLockdown() then return end
 		anim:Stop()
-		MBG:SetBackdropBorderColor(0, 0, 0)
+		bg:SetBackdropBorderColor(0, 0, 0)
 	end)
 end
 
@@ -165,16 +165,16 @@ function module:RecycleBin()
 	local bin = CreateFrame("Frame", "RecycleBinFrame", UIParent)
 	bin:SetPoint("RIGHT", bu, "LEFT", -5, 0)
 	bin:Hide()
-	B.CreateGA(bin, 232, 39, "Horizontal", 0, 0, 0, 0, .5)
+	B.CreateGA(bin, 226, 37, "Horizontal", 0, 0, 0, 0, .5)
 	local topLine = CreateFrame("Frame", nil, bin)
 	topLine:SetPoint("BOTTOM", bin, "TOP", 0, 0)
-	B.CreateGA(topLine, 232, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
+	B.CreateGA(topLine, 226, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
 	local bottomLine = CreateFrame("Frame", nil, bin)
 	bottomLine:SetPoint("TOP", bin, "BOTTOM", 0, 0)
-	B.CreateGA(bottomLine, 232, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
+	B.CreateGA(bottomLine, 226, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
 	local rightLine = CreateFrame("Frame", nil, bin)
 	rightLine:SetPoint("LEFT", bin, "RIGHT", 0, 0)
-	B.CreateGA(rightLine, C.mult*2, 39+C.mult*2*2, "Vertical", cr, cg, cb, alpha, alpha)
+	B.CreateGA(rightLine, C.mult*2, 37+C.mult*4, "Vertical", cr, cg, cb, alpha, alpha)
 	bin:SetFrameStrata("LOW")
 
 	local function hideBinButton()
@@ -239,7 +239,7 @@ function module:RecycleBin()
 						child.highlight:SetColorTexture(1, 1, 1, .25)
 					end
 
-					B.CreateBDFrame(child)
+					B.CreateBDFrame(child, 0)
 
 					-- Naughty Addons
 					if name == "DBMMinimapButton" then
@@ -264,9 +264,9 @@ function module:RecycleBin()
 			if button:IsShown() then
 				button:ClearAllPoints()
 				if not lastbutton then
-					button:SetPoint("RIGHT", bin, -3, 0)
+					button:SetPoint("RIGHT", bin, -1, 0)
 				else
-					button:SetPoint("RIGHT", lastbutton, "LEFT", -5, 0)
+					button:SetPoint("RIGHT", lastbutton, "LEFT", -3, 0)
 				end
 				lastbutton = button
 			end

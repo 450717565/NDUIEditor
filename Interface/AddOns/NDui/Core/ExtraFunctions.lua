@@ -133,8 +133,8 @@ end
 
 function B:SetBackdropBorderColor(r, g, b, a)
 	if self.pixelBorders then
-		for _, v in pairs(PIXEL_BORDERS) do
-			self.pixelBorders[v]:SetVertexColor(r, g, b, a)
+		for _, key in pairs(PIXEL_BORDERS) do
+			self.pixelBorders[key]:SetVertexColor(r, g, b, a)
 		end
 	end
 end
@@ -142,9 +142,9 @@ end
 function B:SetupPixelBorders()
 	if self and not self.pixelBorders then
 		local borders = {}
-		for _, v in pairs(PIXEL_BORDERS) do
-			borders[v] = self:CreateTexture(nil, "BORDER", nil, 1)
-			borders[v]:SetTexture(DB.bdTex)
+		for _, key in pairs(PIXEL_BORDERS) do
+			borders[key] = self:CreateTexture(nil, "BORDER", nil, 1)
+			borders[key]:SetTexture(DB.bdTex)
 		end
 
 		borders.CENTER = self:CreateTexture(nil, "BACKGROUND", nil, -1)

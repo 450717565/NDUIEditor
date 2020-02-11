@@ -2,6 +2,7 @@ local B, C, L, DB = unpack(select(2, ...))
 
 tinsert(C.defaultThemes, function()
 	local cr, cg, cb = DB.r, DB.g, DB.b
+	local LE_QUEST_FREQUENCY_DAILY = LE_QUEST_FREQUENCY_DAILY or 2
 
 	--ScrollFrame
 	B.StripTextures(QuestScrollFrame.DetailFrame, true)

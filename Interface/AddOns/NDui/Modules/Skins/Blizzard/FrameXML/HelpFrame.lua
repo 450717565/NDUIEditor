@@ -16,6 +16,9 @@ tinsert(C.defaultThemes, function()
 	B.ReskinButton(ReportCheatingDialogReportButton)
 	B.ReskinButton(ReportCheatingDialogCancelButton)
 
+	B.StripTextures(TicketStatusFrameButton)
+	B.CreateBDFrame(TicketStatusFrameButton, 0)
+
 	HelpFrameButton6:ClearAllPoints()
 	HelpFrameButton6:SetPoint("TOP", HelpFrameButton16, "BOTTOM", 0, -12)
 	HelpBrowserNavHome:ClearAllPoints()

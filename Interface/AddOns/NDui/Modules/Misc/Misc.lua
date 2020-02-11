@@ -705,7 +705,6 @@ function M:OverrideAWQ()
 		hideFilteredPOI = true,
 		showHoveredPOI = true,
 		lootUpgradesLevel = 0,
-		sortMethod = 2,
 		sortMethod = 4,
 		timeFilterDuration = 1,
 	}
@@ -716,5 +715,6 @@ function M:OverrideAWQ()
 			AngryWorldQuests_CharacterConfig[key] = value
 		end
 	end
+	hooksecurefunc(AngryWorldQuests.Modules.Config, "Get", overrideOptions)
 	hooksecurefunc(AngryWorldQuests.Modules.Config, "Set", overrideOptions)
 end
