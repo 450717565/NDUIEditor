@@ -80,8 +80,8 @@ function B:PixelIcon(texture, highlight)
 	B.CreateGF(self)
 
 	self.Icon = self:CreateTexture(nil, "ARTWORK")
-	self.Icon:SetInside()
 	self.Icon:SetTexCoord(unpack(DB.TexCoord))
+	self.Icon:SetInside()
 	if texture then
 		local atlas = strmatch(texture, "Atlas:(.+)$")
 		if atlas then
@@ -310,10 +310,8 @@ function B.FormatTime(s, auraTime)
 		return format("%.1f"..DB.MyColor..L["Days"], s/day), s%day
 	elseif s >= hour then
 		return format("%.1f"..DB.MyColor..L["Hours"], s/hour), s%hour
-	elseif s >= 3*minute then
-		return format("%d"..DB.MyColor..L["Minutes"], s/minute), s%minute
 	elseif s >= minute then
-		return format("%.1d:%.2d", s/minute, s%minute), s - floor(s)
+		return format("%d"..DB.MyColor..L["Minutes"], s/minute), s%minute
 	elseif s > 3 then
 		return format("|cffffff00%d|r"..(auraTime and DB.MyColor..L["Seconds"] or ""), s), s - floor(s)
 	else

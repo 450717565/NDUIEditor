@@ -358,8 +358,8 @@ function B:CreateGF()
 	if self.gTex then return end
 
 	local gTex = self:CreateTexture(nil, "BORDER")
-	gTex:SetInside(self)
 	gTex:SetTexture(DB.bdTex)
+	gTex:SetInside()
 	if NDuiDB["Skins"]["FlatMode"] then
 		gTex:SetVertexColor(.3, .3, .3, .3)
 	else
@@ -807,8 +807,8 @@ function B:ReskinRadio()
 
 	self:SetCheckedTexture(DB.bdTex)
 	local ch = self:GetCheckedTexture()
-	ch:SetInside(bdTex)
 	ch:SetVertexColor(cr, cg, cb, .75)
+	ch:SetInside(bdTex)
 
 	SetupHook(self)
 end

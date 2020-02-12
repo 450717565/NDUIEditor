@@ -224,8 +224,8 @@ function A:CreateAuraIcon(button)
 	button.bd = B.CreateBDFrame(button)
 
 	button.icon = button:CreateTexture(nil, "BORDER")
-	button.icon:SetInside(button.bd)
 	button.icon:SetTexCoord(unpack(DB.TexCoord))
+	button.icon:SetInside(button.bd)
 
 	button.count = button:CreateFontString(nil, "ARTWORK")
 	button.count:SetPoint("TOPRIGHT", -1, -3)

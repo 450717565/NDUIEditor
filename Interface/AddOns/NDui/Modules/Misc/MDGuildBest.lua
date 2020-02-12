@@ -87,10 +87,10 @@ function M:GuildBest_Update()
 	end
 
 	if not resize and IsAddOnLoaded("AngryKeystones") then
-		local schedule = AngryKeystones.Modules.Schedule.AffixFrame
+		local AffixFrame = AngryKeystones.Modules.Schedule.AffixFrame
 		frame:SetWidth(246)
 		frame:ClearAllPoints()
-		frame:SetPoint("BOTTOMLEFT", schedule, "TOPLEFT", 0, 10)
+		frame:SetPoint("BOTTOMLEFT", AffixFrame, "TOPLEFT", 0, 10)
 
 		self.WeeklyInfo.Child.Label:SetPoint("TOP", -135, -25)
 		local affix = self.WeeklyInfo.Child.Affixes[1]
@@ -119,9 +119,9 @@ local myFullName = DB.MyName.."-"..DB.MyRealm
 
 function M:KeystoneInfo_Create()
 	local texture = select(10, GetItemInfo(158923)) or 525134
-	local button = CreateFrame("Frame", nil, ChallengesFrame.WeeklyInfo)
-	button:SetPoint("BOTTOMLEFT", ChallengesFrame.WeeklyInfo.Child.SeasonBest, "TOPLEFT", 5, 5)
-	button:SetSize(35, 35)
+	local button = CreateFrame("Frame", nil, ChallengesFrame)
+	button:SetPoint("BOTTOMRIGHT", ChallengesFrame, "BOTTOMRIGHT", -3, 48)
+	button:SetSize(30, 30)
 	B.PixelIcon(button, texture, true)
 	button:SetBackdropBorderColor(0, .8, 1)
 	button:SetScript("OnEnter", function(self)

@@ -62,8 +62,8 @@ tinsert(C.defaultThemes, function()
 		local corrupted = slot.CorruptedHighlightTexture
 		corrupted:SetAtlas("Nzoth-charactersheet-item-glow")
 		corrupted:ClearAllPoints()
-		corrupted:Point("TOPLEFT", -15, 15)
-		corrupted:Point("BOTTOMRIGHT", 14, -14)
+		corrupted:Point("TOPLEFT", icbg, -15, 15)
+		corrupted:Point("BOTTOMRIGHT", icbg, 14, -14)
 
 		local bgTex = popout:CreateTexture(nil, "OVERLAY")
 		if slot.verticalFlyout then

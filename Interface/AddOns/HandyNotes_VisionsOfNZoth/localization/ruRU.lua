@@ -24,6 +24,7 @@ L["gersahl"] = "Побеги Герсали"
 L["hmiasma"] = "Накормите его, пока он не активируется."
 L["kanebti"] = "Collect a Jeweled Scarab Figurine from a Jeweled Tomb Scarab, which shares a spawn with regular Tomb Scarabs. Insert the figurine into the Scarab Shrine to summon the rare."
 L["left_eye"] = "Левая половина игрушки Всевидящие глаза."
+L["neferset_rare"] = "Эти шесть редких монстров имеют три одинаковые точки появления в Неферсете. После завершения Ритуала Призыва появится случайный набор из трех монстров."
 L["platform"] = "Появляется на вершине воздушной платформы."
 L["reshef"] = "Разделяет появление с Верховным Стражем Пустоты."
 L["spirit_cave"] = "Вход в пещеру для Духа Темного Ритуалиста Закана."
@@ -66,7 +67,7 @@ L["summoning_ritual"] = "Убейте послушников и закройте
 L["titanus_egg"] = "Уничтожьте Колоссальное яйцо, затем победите Молодого акира-колосса."
 L["unearthed_keeper"] = "Уничтожить Раскопанного Хранителя."
 L["virnall_front"] = "Отбивайте атаки монстров, пока не появится Менептах Вестник войны."
-L["voidflame_ritual"] = "Extinguish all of the voidtouched candles."
+L["voidflame_ritual"] = "Погасить все тронутые бездной свечи."
 
 L["beacon_of_sun_king"] = "Поверните все три статуи внутрь."
 L["engine_of_ascen"] = "Move all four statues into the beams."
@@ -100,46 +101,64 @@ L["mogu_relic"] = "Требуется Реликвия Могу"
 
 L["abyssal_ritual"] = "Убейте Утонувших приверженцев и затем Чудовище из глубин."
 L["bound_guardian"] = "Убейте трех Глубинных подчинителей, чтобы освободить Чистую Каплю."
-L["colored_flames"] = "Collect the colored flames from their torches and bring them to the matching runes."
+L["colored_flames"] = "Отнесите разноцветные факелы в соответствующие руны."
 L["construction_ritual"] = "Толкните статую тигра в луч."
 L["consuming_maw"] = "Нажимайте на наросты и щупальца, пока вас не выкинет из пасти."
 L["corruption_tear"] = "Возьмите Маяк Титанов и закройте Прорыв Порчи, не позволяя крутящимся глазам ударить вас."
-L["electric_empower"] = "Kill the Zan-Tien Callers, then Menek the Infused."
+L["electric_empower"] = "Убейте Призывателей из клана Цзань-Тень, а затем Менека Преображенного."
 L["empowered_demo"] = "Закройте все Реликварий Духов."
 L["empowered_wagon"] = "Подберите боеприпасы Шадо-Пан и поместите их под повозку."
 L["feeding_grounds"] = "Уничтожить сосуды с янтарной смолой и камеры заключения."
 L["font_corruption"] = "Вращайте статуи могу, пока оба луча не достигнут задней части, затем включите консоль."
-L["goldbough_guardian"] = "Protect Chief Goldbough from waves of mobs."
+L["goldbough_guardian"] = "Защитите Вождя Золотую Ветвь от волн монстров."
 L["infested_statue"] = "Уберите все дергающиеся глаза со статуи."
 L["kunchong_incubator"] = "Уничтожить все генераторы поля."
 L["mantid_hatch"] = "Подберите огнемет Шадо-Пан и уничтожьте инкубаторы для личинок."
 L["mending_monstro"] = "Уничтожьте все кристаллы Исцеляющего янтаря."
-L["mystery_sacro"] = "Destroy all the Suspicious Headstones, then kill the Screaming Soul."
+L["mystery_sacro"] = "Уничтожьте все Подозрительные Надгробия, затем убейте Кричащую душу."
 L["noodle_cart"] = "Защити Чинь, пока он ремонтирует свою тележку."
 L["protect_stout"] = "Защитите пещеру от волн монстров."
 L["pulse_mound"] = "Убей окружающих монстров, затем Живой Нарост."
 L["ravager_hive"] = "Уничтожьте все ульи на дереве."
-L["ritual_wakening"] = "Kill the Klaxxi Wakeners."
-L["serpent_binding"] = "Kill the Zan-Tien Subjugators, then Haofeng."
-L["stormchosen_arena"] = "Clear all mobs in the arena, then kill the Clan General."
+L["ritual_wakening"] = "Убейте Клакси-пробудителей."
+L["serpent_binding"] = "Убейте Поработителей из клана Цзань-Тень, а затем Хаофэна."
+L["stormchosen_arena"] = "Уберите всех могу на арене, затем убейте генерала клана."
 L["swarm_caller"] = "Уничтожить Призыватель Роя."
-L["vault_of_souls"] = "Open the vault and destroy all the statues."
+L["vault_of_souls"] = "Откройте хранилище и уничтожьте все статуи."
 L["void_conduit"] = "Нажмите на Проводник Бездны, а затем давите Зоркое Око."
 L["war_banner"] = "Сожгите боевое знамя и убивайте волны монстров, пока не появится командир."
-L["weighted_artifact"] = "Pick up the Oddly Heavy Vase and navigate the maze back to the pedestal. Getting stunned by a statue drops the vase."
+L["weighted_artifact"] = "Возьмите Подозрительно Тяжелую Вазу и вернитесь через лабиринт к выходу. После этого нажмите на Утяжеленную реликвию Могу."
 
 -------------------------------------------------------------------------------
 ----------------------------------- VISIONS -----------------------------------
 -------------------------------------------------------------------------------
 
+L["colored_potion"] = "Цветное зелье"
+L["colored_potion_note"] = [[
+Зелье рядом с трупом %s всегда указывает цвет зелья с отрицательным эффектом для запуска.
+
+Цвет зелья здравомыслия +100 можно определить по цвету этого зелья (|cFFFF0000bad|r => |cFF00FF00good|r):
+
+Черный => Зеленый
+Синий => Фиолетовый
+Зеленый => Красный
+Фиолетовый => Черный
+Красный => Синий
+]]
+
+L["clear_sight"] = "Requires Clear Sight rank %d."
+L["craggle"] = "Drop a toy on the ground (such as the Toy Train Set) to distract him while his bots continue to pat. Once they are separated enough, kill the bots then Craggle."
 L["horrific_visions"] = "Жуткие Видения"
+L["inside_building"] = "Внутри здания."
 L["mailbox"] = "Почтовый Ящик"
 L["mail_muncher"] = "При открытии Почтового Ящика может появится Письмоед."
-L["options_toggle_visions_desc"] = "Показать награды на карте внутри жутких видений."
 L["shave_kit"] = "Набор для бритья Кудрешлем"
 L["shave_kit_note"] = "Внутри парикмахерской."
 L["void_skull"] = "Меченный Бездной череп"
 L["void_skull_note"] = "Нажмите на череп на земле, чтобы получить игрушку."
+
+L["options_toggle_visions_chest_desc"] = "Показать возможные места сундуков внутри жутких видений."
+L["options_toggle_visions_misc_desc"] = "Показать награды на карте внутри жутких видений."
 
 -------------------------------------------------------------------------------
 ----------------------------------- VOLDUN ------------------------------------

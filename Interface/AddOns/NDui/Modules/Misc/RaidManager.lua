@@ -341,7 +341,7 @@ function M:CreateRM()
 	local reset = true
 	local function Pull(val)
 		if reset then
-			SlashCmdList[val](NDuiDB["Skins"]["DBMCount"])
+			SlashCmdList[val](NDuiDB["Misc"]["DBMCount"])
 		else
 			SlashCmdList[val]("0")
 		end

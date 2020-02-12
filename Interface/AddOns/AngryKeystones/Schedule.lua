@@ -5,7 +5,6 @@ local rowCount = 3
 
 local requestPartyKeystones
 
--- 1: 溢出, 2: 无常, 3: 火山, 4: 死疽, 5: 繁盛, 6: 暴怒, 7: 激励, 8: 血池, 9: 残暴, 10: 强韧, 11: 崩裂, 12: 重伤, 13: 易爆, 14: 震荡, 15: 冷酷, 16: 共生, 117: 收割, 119: 迷醉
 -- 1: Overflowing, 2: Skittish, 3: Volcanic, 4: Necrotic, 5: Teeming, 6: Raging, 7: Bolstering, 8: Sanguine, 9: Tyrannical, 10: Fortified, 11: Bursting, 12: Grievous, 13: Explosive, 14: Quaking
 local affixScheduleText = {
 	{"Fortified",	"Bolstering",	"Grievous"},
@@ -27,6 +26,7 @@ for i,v in ipairs(affixScheduleText) do
 	affixSchedule[i] = { affixScheduleKeys[v[1]], affixScheduleKeys[v[2]], affixScheduleKeys[v[3]] }
 end
 
+local affixScheduleUnknown = false
 local currentWeek
 local currentKeystoneMapID
 local currentKeystoneLevel
@@ -48,6 +48,7 @@ local function UpdatePartyKeystones()
 	if not IsAddOnLoaded("Blizzard_ChallengesUI") then return end
 
 	local playerRealm = select(2, UnitFullName("player"))
+	local WeeklyChest = ChallengesFrame.WeeklyInfo.Child.WeeklyChest
 
 	local e = 1
 	for i = 1, 4 do
@@ -76,6 +77,11 @@ local function UpdatePartyKeystones()
 					entry.Text:SetText(name)
 					entry.Text:SetTextColor(color:GetRGBA())
 
+					local _, suffix = strsplit("-", keystoneName)
+					if suffix then
+						keystoneName = suffix
+					end
+
 					entry.Text2:SetText(keystoneName)
 
 					e = e + 1
@@ -85,11 +91,11 @@ local function UpdatePartyKeystones()
 	end
 	if e == 1 then
 		Mod.AffixFrame:ClearAllPoints()
-		Mod.AffixFrame:SetPoint("LEFT", ChallengesFrame.WeeklyInfo.Child.WeeklyChest, "RIGHT", 30, 0)
+		Mod.AffixFrame:SetPoint("TOPLEFT", WeeklyChest, "RIGHT", 30, 10)
 		Mod.PartyFrame:Hide()
 	else
 		Mod.AffixFrame:ClearAllPoints()
-		Mod.AffixFrame:SetPoint("TOPLEFT", ChallengesFrame.WeeklyInfo.Child.WeeklyChest, "TOPRIGHT", 30, 30)
+		Mod.AffixFrame:SetPoint("BOTTOMLEFT", WeeklyChest, "RIGHT", 30, -10)
 		Mod.PartyFrame:Show()
 	end
 	while e <= 4 do
@@ -122,7 +128,7 @@ local function UpdateFrame()
 		Mod.KeystoneText:Hide()
 	end
 
-	if currentWeek then
+	if currentWeek and not affixScheduleUnknown then
 		for i = 1, rowCount do
 			local entry = Mod.AffixFrame.Entries[i]
 			entry:Show()
@@ -229,7 +235,11 @@ function Mod:Blizzard_ChallengesUI()
 	label:SetJustifyV("MIDDLE")
 	label:SetHeight(72)
 	label:SetWordWrap(true)
-	label:SetText(Addon.Locale.scheduleUnknown)
+	if affixScheduleUnknown then
+		label:SetText(Addon.Locale.scheduleUnknown)
+	else
+		label:SetText(Addon.Locale.scheduleMissingKeystone)
+	end
 	frame.Label = label
 
 	local frame2 = CreateFrame("Frame", nil, ChallengesFrame)
@@ -381,7 +391,7 @@ end
 function Mod:SendCurrentKeystone()
 	local keystoneMapID = C_MythicPlus.GetOwnedKeystoneChallengeMapID()
 	local keystoneLevel = C_MythicPlus.GetOwnedKeystoneLevel()
-	
+
 	local message = "0"
 	if keystoneLevel and keystoneMapID then
 		message = string.format("%d:%d", keystoneMapID, keystoneLevel)
@@ -446,6 +456,6 @@ function Mod:Startup()
 	end)
 
 	C_Timer.NewTicker(60, function() self:CheckCurrentKeystone() end)
-	
+
 	requestPartyKeystones = true
 end

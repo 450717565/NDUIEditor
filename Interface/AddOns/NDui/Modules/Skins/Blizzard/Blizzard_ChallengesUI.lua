@@ -3,40 +3,48 @@ local B, C, L, DB = unpack(select(2, ...))
 C.themes["Blizzard_ChallengesUI"] = function()
 	B.StripTextures(ChallengesFrame)
 
-	local angryStyle
+	ChallengesFrame.WeeklyInfo:SetInside()
+	ChallengesFrame.Background:SetInside()
+
+	local styled
 	local function UpdateIcons(self)
 		for i = 1, #self.maps do
-			local bu = self.DungeonIcons[i]
-			if bu and not bu.styled then
-				bu:GetRegions():Hide()
-				bu.Icon:SetScale(.95)
-				B.ReskinIcon(bu.Icon)
+			local DungeonIcon = self.DungeonIcons[i]
+			if DungeonIcon and not DungeonIcon.styled then
+				DungeonIcon:GetRegions():Hide()
+				DungeonIcon.Icon:SetScale(.95)
+				B.ReskinIcon(DungeonIcon.Icon)
 
-				bu.styled = true
+				DungeonIcon.styled = true
 			end
 			if i == 1 then
-				self.WeeklyInfo.Child.SeasonBest:ClearAllPoints()
-				self.WeeklyInfo.Child.SeasonBest:SetPoint("BOTTOMLEFT", self.DungeonIcons[i], "TOPLEFT", 0, 5)
+				self.DungeonIcons[i]:ClearAllPoints()
+				self.DungeonIcons[i]:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 1+C.mult, 1)
+
+				local SeasonBest = self.WeeklyInfo.Child.SeasonBest
+				SeasonBest:ClearAllPoints()
+				SeasonBest:SetPoint("BOTTOMLEFT", self.DungeonIcons[i], "TOPLEFT", 0, 3)
 			end
 		end
 
-		if IsAddOnLoaded("AngryKeystones") and not angryStyle then
-			local mod = AngryKeystones.Modules.Schedule
-			local scheduel = mod.AffixFrame
-			local party = mod.PartyFrame
+		if IsAddOnLoaded("AngryKeystones") and not styled then
+			local WeeklyChest = self.WeeklyInfo.Child.WeeklyChest
+			local Modules = AngryKeystones.Modules.Schedule
+			local AffixFrame = Modules.AffixFrame
+			local PartyFrame = Modules.PartyFrame
 
-			B.StripTextures(scheduel)
-			B.CreateBDFrame(scheduel, 0)
-			if scheduel.Entries then
+			B.StripTextures(AffixFrame)
+			B.CreateBDFrame(AffixFrame, 0)
+			if AffixFrame.Entries then
 				for i = 1, 3 do
-					B.ReskinAffixes(scheduel.Entries[i])
+					B.ReskinAffixes(AffixFrame.Entries[i])
 				end
 			end
 
-			B.StripTextures(party)
-			B.CreateBDFrame(party, 0)
+			B.StripTextures(PartyFrame)
+			B.CreateBDFrame(PartyFrame, 0)
 
-			angryStyle = true
+			styled = true
 		end
 	end
 	hooksecurefunc("ChallengesFrame_Update", UpdateIcons)

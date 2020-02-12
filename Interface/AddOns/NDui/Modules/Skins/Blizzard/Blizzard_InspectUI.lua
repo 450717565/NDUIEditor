@@ -20,6 +20,7 @@ C.themes["Blizzard_InspectUI"] = function()
 		local unit = InspectFrame.unit
 		local itemLink = unit and GetInventoryItemLink(unit, self:GetID())
 		self.Eye:SetShown(itemLink and IsCorruptedItem(itemLink))
+		self.HL:SetShown(itemLink and IsCorruptedItem(itemLink))
 	end
 
 	local slots = {"Head", "Neck", "Shoulder", "Back", "Chest", "Shirt", "Tabard", "Wrist", "Hands", "Waist", "Legs", "Feet", "Finger0", "Finger1", "Trinket0", "Trinket1", "MainHand", "SecondaryHand"}
@@ -37,6 +38,14 @@ C.themes["Blizzard_InspectUI"] = function()
 			slot.Eye = slot:CreateTexture(nil, "OVERLAY")
 			slot.Eye:SetAtlas("Nzoth-inventory-icon")
 			slot.Eye:SetInside(icbg)
+		end
+
+		if not slot.HL then
+			slot.HL = slot:CreateTexture(nil, "OVERLAY")
+			slot.HL:SetAtlas("Nzoth-charactersheet-item-glow")
+			slot.HL:ClearAllPoints()
+			slot.HL:Point("TOPLEFT", icbg, -15, 15)
+			slot.HL:Point("BOTTOMRIGHT", icbg, 14, -14)
 		end
 	end
 

@@ -469,7 +469,7 @@ function UF:CreateCastBar(self)
 end
 
 local function reskinTimerBar(bar)
-	bar:SetSize(280, 17)
+	bar:SetSize(280, 18)
 	B.StripTextures(bar)
 
 	local statusbar = _G[bar:GetName().."StatusBar"]

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("Greench", "DBM-WorldEvents", 1)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200128043945")
+mod:SetRevision("20200128134200")
 mod:SetCreatureID(54499)
 mod:SetModelID(39021)
 mod:SetReCombatTime(10, 5)

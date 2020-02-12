@@ -551,8 +551,8 @@ function module:OnLogin()
 		self:SetSize(iconSize, iconSize)
 		self.Cooldown:SetInside(self.bg)
 
-		self.Icon:SetInside(self.bg)
 		self.Icon:SetTexCoord(unpack(DB.TexCoord))
+		self.Icon:SetInside(self.bg)
 
 		self.Count:SetPoint("BOTTOMRIGHT", 0, 1)
 		self.Count:SetFont(unpack(DB.Font))
@@ -831,8 +831,8 @@ function module:OnLogin()
 		B.ReskinTexture(self, self.bg)
 
 		self:SetSize(iconSize, iconSize)
-		self.Icon:SetInside(self.bg)
 		self.Icon:SetTexCoord(unpack(DB.TexCoord))
+		self.Icon:SetInside(self.bg)
 	end
 
 	function BagButton:OnUpdate()
