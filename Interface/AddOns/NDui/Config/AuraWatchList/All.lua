@@ -291,6 +291,7 @@ local list = {
 		{AuraID = 295413, UnitID = "player", Stack = 20, Flash = true},	-- 苦楚
 		{AuraID = 315176, UnitID = "player"},	-- 贪婪触须
 		{AuraID = 315161, UnitID = "player"},	-- 腐化之眼
+		{AuraID = 319695, UnitID = "player", Flash = true},	-- 壮美幻象
 	-- 5人本
 		{AuraID = 268007, UnitID = "player", Flash = true},--心脏打击
 		{AuraID = 266238, UnitID = "player", Flash = true},--粉碎防御
@@ -622,6 +623,8 @@ local list = {
 		{AuraID = 273405, UnitID = "player"},	-- 黑暗交易，戈霍恩
 	},
 	["Target Special Aura"] = { -- 目标重要光环组
+	-- 精华
+		{AuraID = 297108, UnitID = "target", Caster = "player", Flash = true},		--仇敌之血
 	-- 幻象
 		{AuraID = 319643, UnitID = "target", Value = true},	-- 虚空哀嚎，吸收盾
 	-- 5人本

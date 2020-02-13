@@ -1,9 +1,0 @@
-## Interface: 80300
-## Title: Skada 扩展组件
-## Notes: 为 Skada 增加额外的功能。
-## Version: 2.0
-## Author: warbaby
-## X-Vendor: AbyUI
-## Dependencies: Skada
-
-ExplosiveOrbs.lua

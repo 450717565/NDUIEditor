@@ -14,16 +14,17 @@ C.Auras = {
 	EnchantAuraPos			= {"BOTTOMRIGHT", UIParent, "CENTER", -200, -99},	-- 附魔及饰品分组
 	PlayerSpecialAuraPos	= {"BOTTOMRIGHT", UIParent, "CENTER", -200, -136},	-- 玩家重要光环分组
 	PlayerAuraPos			= {"BOTTOMRIGHT", UIParent, "CENTER", -200, -165},	-- 玩家光环分组
+	RaidBuffPos				= {"BOTTOMRIGHT", UIParent, "CENTER", -200, 200},	-- 团队增益分组
 
 	TargetSpecialAuraPos	= {"BOTTOMLEFT", UIParent, "CENTER", 200, -128},	-- 目标重要光环分组
 	TargetAuraPos			= {"BOTTOMLEFT", UIParent, "CENTER", 200, -165},	-- 目标光环分组
-
 	FocusSpecialAuraPos		= {"BOTTOMLEFT", UIParent, "LEFT", 5, -130},		-- 焦点重要光环分组
-	RaidBuffPos				= {"BOTTOMRIGHT", UIParent, "CENTER", -200, 200},	-- 团队增益分组
 	RaidDebuffPos			= {"BOTTOMLEFT", UIParent, "CENTER", 200, 200},		-- 团队减益分组
+
 	SpellCDPos				= {"LEFT", UIParent, "LEFT", 5, -30},				-- 技能冷却计时分组
 	EnchantCDPos			= {"LEFT", UIParent, "LEFT", 200, -30},				-- 物品冷却计时分组
-	CustomCDPos				= {"BOTTOMLEFT", UIParent, "CENTER", 519, -214},	-- 法术内置冷却分组
+
+	CustomCDPos				= {"RIGHT", UIParent, "RIGHT", -300, -200},	-- 法术内置冷却分组
 }
 
 -- 头像相关
@@ -54,7 +55,7 @@ C.Skins = {
 
 -- 鼠标提示框
 C.Tooltips = {
-	TipPos			= {"BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -55, 230},	-- 鼠标提示框默认位置
+	TipPos			= {"BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -100, 300},	-- 鼠标提示框默认位置
 }
 
 -- 信息条

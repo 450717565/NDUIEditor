@@ -181,7 +181,7 @@ function module:Chatbar()
 
 	-- Mover
 	local width = (#buttonList-1)*(padding+width) + width
-	local mover = B.Mover(Chatbar, L["Chatbar"], "Chatbar", {"BOTTOMLEFT", UIParent, "BOTTOMLEFT", 5, 10}, width, 20)
+	local mover = B.Mover(Chatbar, L["Chatbar"], "Chatbar", {"BOTTOMLEFT", UIParent, "BOTTOMLEFT", 5, 4.5}, width, 20)
 	Chatbar:ClearAllPoints()
-	Chatbar:SetPoint("BOTTOMLEFT", mover)
+	Chatbar:SetPoint("LEFT", mover)
 end

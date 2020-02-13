@@ -187,7 +187,7 @@ local function ForceSkadaOptions()
 							["bordercolor"] = {
 								["a"] = 0,
 							},
-							["height"] = 160,
+							["height"] = 192,
 							["texture"] = "None",
 						},
 						["barbgcolor"] = {

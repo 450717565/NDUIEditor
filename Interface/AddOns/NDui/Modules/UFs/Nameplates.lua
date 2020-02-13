@@ -671,10 +671,13 @@ function UF:UpdateClassPowerAnchor()
 	local bar = _G.oUF_ClassPowerBar
 	local nameplate = C_NamePlate.GetNamePlateForUnit("target")
 	if nameplate then
+		local unitFrame = nameplate.unitFrame
+		local nameText = unitFrame.nameText
+
 		bar:SetParent(nameplate.unitFrame)
 		bar:SetScale(NDuiADB["UIScale"])
 		bar:ClearAllPoints()
-		bar:SetPoint("BOTTOM", nameplate.unitFrame.nameText, "TOP", 14, 5)
+		bar:SetPoint("BOTTOM", unitFrame, "TOP", 0, nameText:GetHeight()+15)
 		bar:Show()
 	else
 		bar:Hide()

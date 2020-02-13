@@ -89,7 +89,7 @@ function S:Skada()
 	local windows = {}
 	local function EmbedSkada()
 		if #windows == 1 then
-			EmbedWindow(windows[1], 350, 16, 161, -6, 32)
+			EmbedWindow(windows[1], 350, 16, 193, -6, 32)
 		elseif #windows == 2 then
 			EmbedWindow(windows[1], 350, 16, 113, -6, 32)
 			EmbedWindow(windows[2], 350, 16, 113, -6, 156)

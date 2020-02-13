@@ -195,10 +195,11 @@ oUF.Tags.Events["nplv"] = "UNIT_LEVEL PLAYER_LEVEL_UP UNIT_CLASSIFICATION_CHANGE
 -- AltPower value tag
 oUF.Tags.Methods["altpower"] = function(unit)
 	local cur = UnitPower(unit, ALTERNATE_POWER_INDEX)
+	local max = UnitPowerMax(unit, ALTERNATE_POWER_INDEX)
+	local per = cur / max * 100
+
 	if cur > 0 then
-		local _, r, g, b = UnitAlternatePowerTextureInfo(unit, 2)
-		if not r then r, g, b = 1, 1, 1 end
-		return B.HexRGB(r, g, b)..cur
+		return B.ColorText(per, false, cur)
 	end
 end
 oUF.Tags.Events["altpower"] = "UNIT_POWER_UPDATE UNIT_MAXPOWER"

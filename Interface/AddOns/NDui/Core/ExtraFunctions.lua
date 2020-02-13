@@ -5,12 +5,12 @@ local cr, cg, cb = DB.r, DB.g, DB.b
 --[[Other Functions]]
 
 -- Color Text
-function B.ColorText(p, GtR, val)
+function B.ColorText(p, fullRed, val)
 	local v = p / 100
 	local r, g, b
 	local per = format("%.1f%%", p)
 
-	if GtR then
+	if fullRed then
 		r, g, b = v, 1 - v, 0
 	else
 		r, g, b = 1 - v, v, 0

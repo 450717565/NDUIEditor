@@ -34,6 +34,9 @@ local unitKeystones = {}
 
 local function GetNameForKeystone(keystoneMapID, keystoneLevel)
 	local keystoneMapName = keystoneMapID and C_ChallengeMode.GetMapUIInfo(keystoneMapID)
+	local _, suffix = strsplit("-", keystoneMapName)
+	if suffix then keystoneMapName = suffix end
+
 	if keystoneMapID and keystoneMapName then
 		return string.format("%s (%d)", keystoneMapName, keystoneLevel)
 	end
@@ -76,11 +79,6 @@ local function UpdatePartyKeystones()
 					local color = RAID_CLASS_COLORS[class]
 					entry.Text:SetText(name)
 					entry.Text:SetTextColor(color:GetRGBA())
-
-					local _, suffix = strsplit("-", keystoneName)
-					if suffix then
-						keystoneName = suffix
-					end
 
 					entry.Text2:SetText(keystoneName)
 
