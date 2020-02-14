@@ -295,10 +295,14 @@ local list = {
 	-- 5人本
 		{AuraID = 268007, UnitID = "player", Flash = true},--心脏打击
 		{AuraID = 266238, UnitID = "player", Flash = true},--粉碎防御
-		{AuraID = 311390, UnitID = "player"},	-- 疯狂：昆虫恐惧症，幻象
+		{AuraID = 311390, UnitID = "player", Flash = true},	-- 疯狂：昆虫恐惧症，幻象
+		{AuraID = 313698, UnitID = "player", Flash = true},	-- 泰坦之赐
 		{AuraID = 314478, UnitID = "player"},	-- 倾泻恐惧
 		{AuraID = 314483, UnitID = "player"},	-- 倾泻恐惧
+		{AuraID = 314411, UnitID = "player"},	-- 疑云密布
+		{AuraID = 314406, UnitID = "player"},	-- 致残疾病
 		{AuraID = 314565, UnitID = "player", Flash = true},	-- 亵渎大地
+		{AuraID = 314392, UnitID = "player", Flash = true},	-- 邪恶腐化物
 		{AuraID = 314308, UnitID = "player", Flash = true},	-- 灵魂毁灭
 		{AuraID = 209858, UnitID = "player"},	-- 死疽溃烂
 		{AuraID = 240559, UnitID = "player"},	-- 重伤
@@ -630,6 +634,7 @@ local list = {
 	-- 5人本
 		{AuraID = 226510, UnitID = "target"},	-- 血池回血
 	-- 8.0副本
+		{AuraID = 296080, UnitID = "target"},	-- 失控，垃圾场尾王
 		{AuraID = 300011, UnitID = "target"},	-- 力场护盾，麦卡贡
 		{AuraID = 257458, UnitID = "target"},	-- 自由镇尾王易伤
 		{AuraID = 260512, UnitID = "target"},	-- 灵魂收割，神庙
@@ -637,7 +642,6 @@ local list = {
 		{AuraID = 273721, UnitID = "target"},
 		{AuraID = 256493, UnitID = "target"},	-- 炽燃的艾泽里特，矿区1
 		{AuraID = 271867, UnitID = "target"},	-- 氪金致胜，矿区1
-		{AuraID = 296080, UnitID = "target"},	-- 失控，垃圾场尾王
 	-- 尼奥罗萨
 		{AuraID = 313175, UnitID = "target"},	-- 硬化核心，拉希奥
 		{AuraID = 306005, UnitID = "target"},	-- 黑曜石之肤，玛乌特

@@ -257,7 +257,7 @@ info.onEnter = function(self)
 				GameTooltip:AddDoubleLine(PVP_CONQUEST, QUEST_COMPLETE, 1,1,1, 1,0,0)
 			elseif currentValue > 0 then
 				addTitle(QUESTS_LABEL)
-				GameTooltip:AddDoubleLine(PVP_CONQUEST, B.Numb(currentValue).." / "..B.Numb(maxValue), 1,1,1, 0,1,0)
+				GameTooltip:AddDoubleLine(PVP_CONQUEST, B.FormatNumb(currentValue).." / "..B.FormatNumb(maxValue), 1,1,1, 0,1,0)
 			end
 		end
 	end
@@ -271,7 +271,7 @@ info.onEnter = function(self)
 			local cur, max = select(4, GetQuestObjectiveInfo(iwqID, 1, false))
 			if not cur or not max then return end
 
-			local stautsText = B.Numb(cur).." / "..B.Numb(max)
+			local stautsText = B.FormatNumb(cur).." / "..B.FormatNumb(max)
 			if not cur or not max then stautsText = LFG_LIST_LOADING end
 			GameTooltip:AddDoubleLine(ISLANDS_HEADER, stautsText, 1,1,1, 0,1,0)
 		end

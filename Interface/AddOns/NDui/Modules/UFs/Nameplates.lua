@@ -514,7 +514,7 @@ function UF:UpdateExplosives(event, unit)
 
 	local npcID = self.npcID
 	if event == "NAME_PLATE_UNIT_ADDED" and npcID == id then
-		self:SetScale(1.25)
+		self:SetScale(1.5)
 	elseif event == "NAME_PLATE_UNIT_REMOVED" then
 		self:SetScale(1)
 	end
@@ -632,6 +632,7 @@ function UF:CreatePlates()
 	self.mystyle = "nameplate"
 	self:SetSize(NDuiDB["Nameplate"]["PlateWidth"], NDuiDB["Nameplate"]["PlateHeight"])
 	self:SetPoint("CENTER")
+	self:SetScale(1)
 
 	local health = CreateFrame("StatusBar", nil, self)
 	health:SetAllPoints()

@@ -61,7 +61,7 @@ OrderHall_Frame:SetScript("OnEvent", function(self, event, arg1)
 			Currency:SetPoint("LEFT", CurrencyIcon, "RIGHT", 0, 0)
 			Currency:SetFont(unpack(DB.Font))
 			Currency:SetTextColor(cr, cg, cb)
-			Currency:SetText(B.Numb(amount))
+			Currency:SetText(B.FormatNumb(amount))
 		end)
 	elseif event ~= "ADDON_LOADED" then
 		local index = 1

@@ -114,7 +114,7 @@ function A:ChantLumos(self)
 				button.Icon:SetTexture(GetSpellTexture(184662))
 				local name, _, duration, expire, _, _, value = GetUnitAura("player", 184662, "HELPFUL")
 				if name then
-					button.Count:SetText(B.Numb(value))
+					button.Count:SetText(B.FormatNumb(value))
 					button.CD:SetCooldown(expire-duration, duration)
 					button.CD:Show()
 					button.Icon:SetDesaturated(false)

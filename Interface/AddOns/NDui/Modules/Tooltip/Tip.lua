@@ -258,7 +258,7 @@ function TT:StatusBar_OnValueChanged(value)
 	if value > 0 and max == 1 then
 		self.text:SetFormattedText("%d%%", value*100)
 	else
-		self.text:SetText(B.Numb(value)..DB.Separator..B.Numb(max))
+		self.text:SetText(B.FormatNumb(value)..DB.Separator..B.FormatNumb(max))
 	end
 end
 

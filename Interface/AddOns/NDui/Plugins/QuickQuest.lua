@@ -177,10 +177,8 @@ local ignoreGossipNPC = {
 	[117871] = true, -- War Councilor Victoria (Class Challenges @ Broken Shore)
 	[155101] = true, -- 元素精华融合器
 	[155261] = true, -- 肖恩·维克斯，斯坦索姆
-
-	-- 诅咒之地传送
-	[150131] = true, -- 萨尔玛法师，部落
-	[150122] = true, -- 荣耀堡法师，联盟
+	[150122] = true, -- 荣耀堡法师
+	[150131] = true, -- 萨尔玛法师
 }
 
 local rogueClassHallInsignia = {

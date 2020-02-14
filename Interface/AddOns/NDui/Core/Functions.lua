@@ -149,7 +149,7 @@ function B:CreateSB(spark, r, g, b)
 end
 
 -- Numberize
-function B.Numb(n)
+function B.FormatNumb(n)
 	if NDuiADB["NumberFormat"] == 1 then
 		if n >= 1e12 then
 			return format("%.4ft", n / 1e12)
@@ -308,12 +308,22 @@ local day, hour, minute = 86400, 3600, 60
 function B.FormatTime(s, auraTime)
 	if s >= day then
 		return format("%.1f"..DB.MyColor..L["Days"], s/day), s%day
+	elseif s >= 3*hour then
+		return format("%d"..DB.MyColor..L["Hours"], s/hour), s%hour
 	elseif s >= hour then
 		return format("%.1f"..DB.MyColor..L["Hours"], s/hour), s%hour
 	elseif s >= minute then
-		return format("%d"..DB.MyColor..L["Minutes"], s/minute), s%minute
+		if auraTime and s <= 3*minute then
+			return format("%.1d:%2d", s/minute, s%minute), s%minute
+		else
+			return format("%d"..DB.MyColor..L["Minutes"], s/minute), s%minute
+		end
 	elseif s > 3 then
-		return format("|cffffff00%d|r"..(auraTime and DB.MyColor..L["Seconds"] or ""), s), s - floor(s)
+		if auraTime then
+			return format("|cffffff00%d|r"..DB.MyColor..L["Seconds"], s), s - floor(s)
+		else
+			return format("|cffffff00%d|r", s), s - floor(s)
+		end
 	else
 		return format("|cffff0000%.1f|r", s), s - format("%.1f", s)
 	end
@@ -365,7 +375,7 @@ local essenceDescription = GetSpellDescription(277253)
 local ITEM_SPELL_TRIGGER_ONEQUIP = ITEM_SPELL_TRIGGER_ONEQUIP
 local tip = CreateFrame("GameTooltip", "NDui_iLvlTooltip", nil, "GameTooltipTemplate")
 
-function B:InspectItemTextures()
+function B.InspectItemTextures()
 	if not tip.gems then
 		tip.gems = {}
 	else
@@ -403,7 +413,7 @@ function B:InspectItemTextures()
 	return tip.gems, tip.essences
 end
 
-function B:InspectItemInfo(text, slotInfo)
+function B.InspectItemInfo(text, slotInfo)
 	local itemLevel = strfind(text, itemLevelString) and strmatch(text, "(%d+)%)?$")
 	if itemLevel then
 		slotInfo.iLvl = tonumber(itemLevel)
@@ -415,7 +425,7 @@ function B:InspectItemInfo(text, slotInfo)
 	end
 end
 
-function B:CollectEssenceInfo(index, lineText, slotInfo)
+function B.CollectEssenceInfo(index, lineText, slotInfo)
 	local step = 1
 	local essence = slotInfo.essences[step]
 	if essence and next(essence) and (strfind(lineText, ITEM_SPELL_TRIGGER_ONEQUIP, nil, true) and strfind(lineText, essenceDescription, nil, true)) then
@@ -444,14 +454,14 @@ function B.GetItemLevel(link, arg1, arg2, fullScan)
 		if not tip.slotInfo then tip.slotInfo = {} else wipe(tip.slotInfo) end
 
 		local slotInfo = tip.slotInfo
-		slotInfo.gems, slotInfo.essences = B:InspectItemTextures()
+		slotInfo.gems, slotInfo.essences = B.InspectItemTextures()
 
 		for i = 1, tip:NumLines() do
 			local line = _G[tip:GetName().."TextLeft"..i]
 			if line then
 				local text = line:GetText() or ""
-				B:InspectItemInfo(text, slotInfo)
-				B:CollectEssenceInfo(i, text, slotInfo)
+				B.InspectItemInfo(text, slotInfo)
+				B.CollectEssenceInfo(i, text, slotInfo)
 			end
 		end
 
@@ -653,7 +663,7 @@ end
 
 local function buttonOnClick(self)
 	PlaySound(SOUNDKIT.GS_TITLE_OPTION_OK)
-	ToggleFrame(self.__list)
+	B.TogglePanel(self.__list)
 end
 
 function B:CreateDropDown(width, height, data)
@@ -787,4 +797,12 @@ function B:CreateSlider(name, minValue, maxValue, x, y, width)
 	slider.value:SetScript("OnEnterPressed", updateSliderEditBox)
 
 	return slider
+end
+
+function B:TogglePanel()
+	if self:IsShown() then
+		self:Hide()
+	else
+		self:Show()
+	end
 end

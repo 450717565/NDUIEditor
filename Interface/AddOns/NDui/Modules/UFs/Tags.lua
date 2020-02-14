@@ -22,14 +22,14 @@ oUF.Tags.Methods["health"] = function(unit)
 
 		if (unit == "player" and not UnitHasVehicleUI(unit)) or unit == "target" or unit == "focus" then
 			if per < 100 then
-				return B.ColorText(per, false, B.Numb(cur)).." | "..B.ColorText(per)
+				return B.ColorText(per, false, B.FormatNumb(cur)).." | "..B.ColorText(per)
 			else
-				return B.Numb(cur)
+				return B.FormatNumb(cur)
 			end
 		elseif strmatch(unit, "arena") or strmatch(unit, "boss") then
 			return B.ColorText(per, true)
 		elseif UnitInParty(unit) and strmatch(unit, "party") then
-			return B.Numb(cur)
+			return B.FormatNumb(cur)
 		else
 			return B.ColorText(per)
 		end
@@ -43,9 +43,9 @@ oUF.Tags.Methods["power"] = function(unit)
 
 	if (unit == "player" and not UnitHasVehicleUI(unit)) or unit == "target" or unit == "focus" then
 		if UnitPowerType(unit) == 0 then
-			return B.ColorText(per, false, B.Numb(cur))
+			return B.ColorText(per, false, B.FormatNumb(cur))
 		else
-			return B.Numb(cur)
+			return B.FormatNumb(cur)
 		end
 	elseif strmatch(unit, "arena") or strmatch(unit, "boss") then
 		return B.ColorText(per, true)
@@ -140,9 +140,9 @@ oUF.Tags.Methods["raidhp"] = function(unit)
 		if NDuiDB["UFs"]["RaidHPMode"] == 2 then
 			return B.ColorText(per)
 		elseif NDuiDB["UFs"]["RaidHPMode"] == 3 then
-			return B.ColorText(per, false, B.Numb(cur))
+			return B.ColorText(per, false, B.FormatNumb(cur))
 		elseif NDuiDB["UFs"]["RaidHPMode"] == 4 then
-			return B.ColorText(per, false, B.Numb(loss))
+			return B.ColorText(per, false, B.FormatNumb(loss))
 		end
 	end
 end
@@ -157,9 +157,9 @@ oUF.Tags.Methods["nphp"] = function(unit)
 		if NDuiDB["Nameplate"]["NPsHPMode"] == 1 then
 			return B.ColorText(per, true)
 		elseif NDuiDB["Nameplate"]["NPsHPMode"] == 2 then
-			return B.ColorText(per, true, B.Numb(cur))
+			return B.ColorText(per, true, B.FormatNumb(cur))
 		else
-			return B.ColorText(per, true, B.Numb(cur)).." | "..B.ColorText(per, true)
+			return B.ColorText(per, true, B.FormatNumb(cur)).." | "..B.ColorText(per, true)
 		end
 	end
 end

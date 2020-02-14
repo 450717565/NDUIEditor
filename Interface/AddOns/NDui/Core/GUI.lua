@@ -656,8 +656,8 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{},--blank
 		{3, "Bags", "BagsScale", L["Bags Scale"], false, {.5, 1.5, 1}},
 		{3, "Bags", "IconSize", L["Bags IconSize"], true, {30, 42, 0}},
-		{3, "Bags", "BagsWidth", L["Bags Width"], false, {12, 24, 0}},
-		{3, "Bags", "BankWidth", L["Bank Width"], true, {12, 24, 0}},
+		{3, "Bags", "BagsWidth", L["Bags Width"], false, {12, 40, 0}},
+		{3, "Bags", "BankWidth", L["Bank Width"], true, {12, 40, 0}},
 	},
 	[3] = {
 		{1, "UFs", "Enable", DB.MyColor..L["Enable UFs"], nil, setupUnitFrame, nil, L["HideUFWarning"]},
@@ -905,7 +905,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "ACCOUNT", "VersionCheck", L["Version Check"]},
 		{1, "ACCOUNT", "DisableInfobars", L["DisableInfobars"], true},
 		{},--blank
-		{3, "ACCOUNT", "UIScale", L["Setup UIScale"], false, {.4, 1.15, 15}},
+		{3, "ACCOUNT", "UIScale", L["Setup UIScale"], false, {.4, 1.15, 2}},
 		{1, "ACCOUNT", "LockUIScale", DB.MyColor..L["Lock UIScale"], true},
 		{},--blank
 		{4, "ACCOUNT", "NumberFormat", L["Numberize"], false, {L["Number Type1"], L["Number Type2"], L["Number Type3"]}},
@@ -1431,7 +1431,7 @@ local function OpenGUI()
 	f:SetSize(800, 600)
 	f:SetPoint("CENTER")
 	f:SetFrameStrata("HIGH")
-	f:SetFrameLevel(5)
+	f:SetFrameLevel(10)
 	B.CreateMF(f)
 	B.SetBDFrame(f)
 	B.CreateFS(f, 18, L["NDui Console"], true, "TOP", 0, -10)

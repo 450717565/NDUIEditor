@@ -137,6 +137,6 @@ function S:Skada()
 	Skada.options.args.generaloptions.args.numberformat = nil
 
 	function Skada:FormatNumber(number)
-		if number then return B.Numb(number) end
+		if number then return B.FormatNumb(number) end
 	end
 end

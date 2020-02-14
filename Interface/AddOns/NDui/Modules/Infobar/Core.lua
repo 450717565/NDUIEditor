@@ -6,7 +6,7 @@ local tinsert, pairs, unpack = table.insert, pairs, unpack
 function module:GetMoneyString(money, formatted)
 	if money > 0 then
 		if formatted then
-			return format("%s%s", B.Numb(money / 1e4), GOLD_AMOUNT_SYMBOL)
+			return format("%s%s", B.FormatNumb(money / 1e4), GOLD_AMOUNT_SYMBOL)
 		else
 			local moneyString = ""
 			local gold = floor(money / 1e4)

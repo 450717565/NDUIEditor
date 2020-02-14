@@ -38,7 +38,7 @@ function module:Chatbar()
 			{str = SPECIALIZATION..":%s ", disabel = not GetSpecialization(), spec},
 			{str = STAT_AVERAGE_ITEM_LEVEL..":%.1f(%.1f) ", GetAverageItemLevel()},
 			{str = ORDER_HALL_SHAMAN..":"..SPELLBOOK_AVAILABLE_AT.." " , disable = not C_AzeriteItem.FindActiveAzeriteItem(), currentLevel},
-			{str = HEALTH..":%s ", B.Numb(UnitHealthMax("player"))},
+			{str = HEALTH..":%s ", B.FormatNumb(UnitHealthMax("player"))},
 			{str = _G["SPEC_FRAME_PRIMARY_STAT_"..mainStat[main]]..":%s ", UnitStat("player", main)},
 			{str = STAT_CRITICAL_STRIKE..":%.2f%% ", GetCritChance()},
 			{str = STAT_HASTE..":%.2f%% ", GetHaste()},

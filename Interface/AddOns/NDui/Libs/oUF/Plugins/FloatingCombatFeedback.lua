@@ -204,7 +204,7 @@ local function formatNumber(self, amount)
 	local element = self.FloatingCombatFeedback
 
 	if element.abbreviateNumbers then
-		return B.Numb(amount)
+		return B.FormatNumb(amount)
 	else
 		return BreakUpLargeNumbers(amount)
 	end

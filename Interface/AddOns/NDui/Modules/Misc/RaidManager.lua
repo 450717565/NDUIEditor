@@ -187,6 +187,7 @@ function M:CreateRM()
 				self:SetPoint("BOTTOM", header, "TOP", 0, 3)
 			end
 			self:Show()
+
 			local maxgroup = getRaidMaxGroup()
 			for i = 1, GetNumGroupMembers() do
 				local name, _, subgroup, _, _, _, _, online = GetRaidRosterInfo(i)
@@ -475,7 +476,7 @@ function M:CreateRM()
 	header:RegisterForClicks("AnyUp")
 	header:SetScript("OnClick", function(_, btn)
 		if btn == "LeftButton" then
-			ToggleFrame(menu)
+			B.TogglePanel(menu)
 
 			if menu:IsShown() then
 				menu:ClearAllPoints()
@@ -484,9 +485,9 @@ function M:CreateRM()
 				else
 					menu:SetPoint("BOTTOM", header, "TOP", 0, 3)
 				end
-			end
 
-			updateText(bu[2].text)
+				updateText(bu[2].text)
+			end
 		end
 	end)
 	header:SetScript("OnDoubleClick", function(_, btn)

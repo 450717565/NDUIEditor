@@ -201,7 +201,7 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 				end
 
 				if lootQuantity and lootQuantity > 1 then
-					slot.count:SetText(B.Numb(lootQuantity))
+					slot.count:SetText(B.FormatNumb(lootQuantity))
 					slot.count:Show()
 				else
 					slot.count:Hide()

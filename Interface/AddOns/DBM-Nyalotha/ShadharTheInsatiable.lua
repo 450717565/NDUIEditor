@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2367, "DBM-Nyalotha", nil, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200213025239")
+mod:SetRevision("20200213133346")
 mod:SetCreatureID(157231)
 mod:SetEncounterID(2335)
 mod:SetZone()
@@ -228,7 +228,6 @@ function mod:SPELL_CAST_START(args)
 			self.vb.firstCrush = nil
 			self.vb.firstDissolve = nil
 		end
-		self.vb.comboCount = self.vb.comboCount + 1
 		--there is already a dissolve debuffed tank, and it is not us, therefor WE must taunt crush
 		--or, we are the crush debuffed tank and we need to tank this crush too
 		if not self:IsTanking("player", "boss1", nil, true) then

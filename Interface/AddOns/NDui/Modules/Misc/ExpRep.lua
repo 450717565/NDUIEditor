@@ -115,10 +115,10 @@ function M:ExpBar_UpdateTooltip()
 	if myLevel < MAX_PLAYER_LEVEL then
 		GameTooltip:AddLine(" ")
 		local xp, mxp, rxp = UnitXP("player"), UnitXPMax("player"), GetXPExhaustion()
-			GameTooltip:AddDoubleLine(EXPERIENCE_COLON, B.Numb(xp).." / "..B.Numb(mxp)..format(" (%.1f%%)", xp/mxp*100), .6,.8,1, 1,1,1)
-			GameTooltip:AddDoubleLine(L["Next Need"], B.Numb(mxp-xp)..format(" (%.1f%%)", (1-xp/mxp)*100), .6,.8,1, 1,1,1)
+			GameTooltip:AddDoubleLine(EXPERIENCE_COLON, B.FormatNumb(xp).." / "..B.FormatNumb(mxp)..format(" (%.1f%%)", xp/mxp*100), .6,.8,1, 1,1,1)
+			GameTooltip:AddDoubleLine(L["Next Need"], B.FormatNumb(mxp-xp)..format(" (%.1f%%)", (1-xp/mxp)*100), .6,.8,1, 1,1,1)
 		if rxp then
-			GameTooltip:AddDoubleLine(TUTORIAL_TITLE26..L[":"], "+ "..B.Numb(rxp)..format(" (%.1f%%)", rxp/mxp*100), .6,.8,1, 1,1,1)
+			GameTooltip:AddDoubleLine(TUTORIAL_TITLE26..L[":"], "+ "..B.FormatNumb(rxp)..format(" (%.1f%%)", rxp/mxp*100), .6,.8,1, 1,1,1)
 		end
 		if IsXPUserDisabled() then GameTooltip:AddLine("|cffff0000"..XP..LOCKED) end
 	end
@@ -173,8 +173,8 @@ function M:ExpBar_UpdateTooltip()
 				local azeriteItemName = azeriteItem:GetItemName()
 				GameTooltip:AddLine(" ")
 				GameTooltip:AddLine(azeriteItemName.." "..format(SPELLBOOK_AVAILABLE_AT, currentLevel), 0,.6,1)
-				GameTooltip:AddDoubleLine(ARTIFACT_POWER..L[":"], B.Numb(xp).." / "..B.Numb(totalLevelXP)..format(" (%.1f%%)", xp/totalLevelXP*100), .6,.8,1, 1,1,1)
-				GameTooltip:AddDoubleLine(L["Next Need"], B.Numb(totalLevelXP-xp)..format(" (%.1f%%)", (1-xp/totalLevelXP)*100), .6,.8,1, 1,1,1)
+				GameTooltip:AddDoubleLine(ARTIFACT_POWER..L[":"], B.FormatNumb(xp).." / "..B.FormatNumb(totalLevelXP)..format(" (%.1f%%)", xp/totalLevelXP*100), .6,.8,1, 1,1,1)
+				GameTooltip:AddDoubleLine(L["Next Need"], B.FormatNumb(totalLevelXP-xp)..format(" (%.1f%%)", (1-xp/totalLevelXP)*100), .6,.8,1, 1,1,1)
 			end)
 		end
 	end
@@ -189,10 +189,10 @@ function M:ExpBar_UpdateTooltip()
 		else
 			GameTooltip:AddLine(name.." "..format(SPELLBOOK_AVAILABLE_AT, pointsSpent), 0,.6,1)
 			local numText = num > 0 and " ("..num..")" or ""
-			GameTooltip:AddDoubleLine(ARTIFACT_POWER..L[":"], B.Numb(totalXP)..numText, .6,.8,1, 1,1,1)
+			GameTooltip:AddDoubleLine(ARTIFACT_POWER..L[":"], B.FormatNumb(totalXP)..numText, .6,.8,1, 1,1,1)
 			if xpForNextPoint ~= 0 then
-				GameTooltip:AddDoubleLine(L["Next Trait"], B.Numb(xp).." / "..B.Numb(xpForNextPoint)..format(" (%.1f%%)", xp/xpForNextPoint*100), .6,.8,1, 1,1,1)
-				GameTooltip:AddDoubleLine(L["Next Need"], B.Numb(xpForNextPoint-xp)..format(" (%.1f%%)", (1-xp/xpForNextPoint)*100), .6,.8,1, 1,1,1)
+				GameTooltip:AddDoubleLine(L["Next Trait"], B.FormatNumb(xp).." / "..B.FormatNumb(xpForNextPoint)..format(" (%.1f%%)", xp/xpForNextPoint*100), .6,.8,1, 1,1,1)
+				GameTooltip:AddDoubleLine(L["Next Need"], B.FormatNumb(xpForNextPoint-xp)..format(" (%.1f%%)", (1-xp/xpForNextPoint)*100), .6,.8,1, 1,1,1)
 			end
 		end
 	end
@@ -224,7 +224,7 @@ function M:SetupScript(bar)
 		if not ArtifactFrame or not ArtifactFrame:IsShown() then
 			SocketInventoryItem(16)
 		else
-			ToggleFrame(ArtifactFrame)
+			B.TogglePanel(ArtifactFrame)
 		end
 	end)
 	hooksecurefunc(StatusTrackingBarManager, "UpdateBarsShown", function()

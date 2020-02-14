@@ -112,9 +112,9 @@ info.onEnter = function(self)
 			local _, _, _, _, _, total = GetCurrencyInfo(currencyID)
 			local iconTexture = " |T"..icon..":13:15:0:0:50:50:4:46:4:46|t"
 			if total > 0 then
-				GameTooltip:AddDoubleLine(name, B.Numb(count).." / "..B.Numb(total)..iconTexture, 1,1,1, 1,1,1)
+				GameTooltip:AddDoubleLine(name, B.FormatNumb(count).." / "..B.FormatNumb(total)..iconTexture, 1,1,1, 1,1,1)
 			else
-				GameTooltip:AddDoubleLine(name, B.Numb(count)..iconTexture, 1,1,1, 1,1,1)
+				GameTooltip:AddDoubleLine(name, B.FormatNumb(count)..iconTexture, 1,1,1, 1,1,1)
 			end
 		end
 	end

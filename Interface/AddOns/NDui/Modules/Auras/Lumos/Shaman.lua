@@ -124,7 +124,7 @@ function A:ChantLumos(self)
 				local name, _, _, _, _, _, value = GetUnitAura("player", 157504, "HELPFUL")
 				if name then
 					UpdateTotemAura(button, 971076)
-					button.Count:SetText(B.Numb(value))
+					button.Count:SetText(B.FormatNumb(value))
 					button.Count:SetTextColor(1, 1, 1)
 				else
 					UpdateCooldown(button, 157153)

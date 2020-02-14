@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("Moonfang", "DBM-DMF")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200128183930")
+mod:SetRevision("20200128191913")
 mod:SetCreatureID(71992)
 --mod:SetModelID(328)
 mod:SetZone()

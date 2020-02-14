@@ -430,9 +430,9 @@ function A:AuraWatch_UpdateAura(spellID, UnitID, index, bool)
 			if value.Stack and count and value.Stack > count then return false end
 			if value.Value and number then
 				if VALUE.Mode:lower() == "icon" then
-					name = B.Numb(number)
+					name = B.FormatNumb(number)
 				elseif VALUE.Mode:lower() == "bar" then
-					name = name..":"..B.Numb(number)
+					name = name..":"..B.FormatNumb(number)
 				end
 			else
 				if VALUE.Mode:lower() == "icon" then

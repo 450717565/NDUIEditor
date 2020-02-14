@@ -157,27 +157,27 @@ do
 					local evtData = events[i]
 
 					if evtData.amount then
-						local amountStr = "-"..B.Numb(evtData.amount)
+						local amountStr = "-"..B.FormatNumb(evtData.amount)
 						dmgInfo.Amount:SetText(amountStr)
 						dmgInfo.AmountLarge:SetText(amountStr)
-						dmgInfo.amount = B.Numb(evtData.amount)
+						dmgInfo.amount = B.FormatNumb(evtData.amount)
 
 						dmgInfo.dmgExtraStr = ""
 						if evtData.overkill and evtData.overkill > 0 then
-							dmgInfo.dmgExtraStr = format(TEXT_MODE_A_STRING_RESULT_OVERKILLING, B.Numb(evtData.overkill))
-							dmgInfo.amount = B.Numb(evtData.amount - evtData.overkill)
+							dmgInfo.dmgExtraStr = format(TEXT_MODE_A_STRING_RESULT_OVERKILLING, B.FormatNumb(evtData.overkill))
+							dmgInfo.amount = B.FormatNumb(evtData.amount - evtData.overkill)
 						end
 						if evtData.absorbed and evtData.absorbed > 0 then
-							dmgInfo.dmgExtraStr = dmgInfo.dmgExtraStr..format(TEXT_MODE_A_STRING_RESULT_ABSORB, B.Numb(evtData.absorbed))
-							dmgInfo.amount = B.Numb(evtData.amount - evtData.absorbed)
+							dmgInfo.dmgExtraStr = dmgInfo.dmgExtraStr..format(TEXT_MODE_A_STRING_RESULT_ABSORB, B.FormatNumb(evtData.absorbed))
+							dmgInfo.amount = B.FormatNumb(evtData.amount - evtData.absorbed)
 						end
 						if evtData.resisted and evtData.resisted > 0 then
-							dmgInfo.dmgExtraStr = dmgInfo.dmgExtraStr..format(TEXT_MODE_A_STRING_RESULT_RESIST, B.Numb(evtData.resisted))
-							dmgInfo.amount = B.Numb(evtData.amount - evtData.resisted)
+							dmgInfo.dmgExtraStr = dmgInfo.dmgExtraStr..format(TEXT_MODE_A_STRING_RESULT_RESIST, B.FormatNumb(evtData.resisted))
+							dmgInfo.amount = B.FormatNumb(evtData.amount - evtData.resisted)
 						end
 						if evtData.blocked and evtData.blocked > 0 then
-							dmgInfo.dmgExtraStr = dmgInfo.dmgExtraStr..format(TEXT_MODE_A_STRING_RESULT_BLOCK, B.Numb(evtData.blocked))
-							dmgInfo.amount = B.Numb(evtData.amount - evtData.blocked)
+							dmgInfo.dmgExtraStr = dmgInfo.dmgExtraStr..format(TEXT_MODE_A_STRING_RESULT_BLOCK, B.FormatNumb(evtData.blocked))
+							dmgInfo.amount = B.FormatNumb(evtData.amount - evtData.blocked)
 						end
 					end
 
@@ -194,7 +194,7 @@ end
 do
 	hooksecurefunc("AltCurrencyFrame_Update", function(frameName, texture, cost)
 		local button = _G[frameName]
-		button:SetText(B.Numb(cost))
+		button:SetText(B.FormatNumb(cost))
 	end)
 
 	hooksecurefunc("MerchantFrame_UpdateCurrencies", function()
@@ -206,7 +206,7 @@ do
 				local tokenButton = _G["MerchantToken"..index]
 				if tokenButton and currencies[index] then
 					local count = select(2, GetCurrencyInfo(currencies[index]))
-					tokenButton.count:SetText(B.Numb(count))
+					tokenButton.count:SetText(B.FormatNumb(count))
 				end
 			end
 		end
@@ -217,7 +217,7 @@ do
 			local tokenButton = _G["MerchantToken"..i]
 			if tokenButton and tokenButton.currencyID then
 				local count = select(2, GetCurrencyInfo(tokenButton.currencyID))
-				tokenButton.count:SetText(B.Numb(count))
+				tokenButton.count:SetText(B.FormatNumb(count))
 			end
 		end
 	end)
@@ -234,7 +234,7 @@ do
 
 			local bu = buttons[i]
 			if not bu.isHeader and count then
-				bu.count:SetText(B.Numb(count))
+				bu.count:SetText(B.FormatNumb(count))
 			end
 		end
 	end
@@ -250,7 +250,7 @@ do
 
 		local experienceGained = select(4, GetLFGDungeonRewards(dungeonID))
 		if experienceGained > 0 then
-			parentFrame.xpAmount:SetText(B.Numb(experienceGained))
+			parentFrame.xpAmount:SetText(B.FormatNumb(experienceGained))
 		end
 	end)
 end
