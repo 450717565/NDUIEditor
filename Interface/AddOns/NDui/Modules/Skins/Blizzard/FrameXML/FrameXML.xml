@@ -3,7 +3,6 @@
 	<Script file="AlertFrames.lua"/>
 	<Script file="BankFrame.lua"/>
 	<Script file="BNToastFrame.lua"/>
-	<Script file="ButtonAlertFrame.lua"/>
 	<Script file="ChannelFrame.lua"/>
 	<Script file="CharacterFrame.lua"/>
 	<Script file="ChatBubbles.lua"/>
@@ -24,6 +23,7 @@
 	<Script file="GuildInviteFrame.lua"/>
 	<Script file="GuildRegistrarFrame.lua"/>
 	<Script file="HelpFrame.lua"/>
+	<Script file="HelpTipTemplate.lua"/>
 	<Script file="InterfaceOptionsFrame.lua"/>
 	<Script file="ItemTextFrame.lua"/>
 	<Script file="LevelUpDisplay.lua"/>

@@ -14,6 +14,7 @@ local AMOUNT = .33
 local function clamp(v, min, max)
 	min = min or 0
 	max = max or 1
+	v = tonumber(v)
 
 	if v > max then
 		return max
@@ -117,5 +118,5 @@ function B:DesmoothBar()
 end
 
 function B:SetSmoothingAmount()
-	AMOUNT = clamp(self, .3, .6)
+	AMOUNT = clamp(self, .15, .6)
 end

@@ -469,16 +469,14 @@ function B:ReskinBorder(relativeTo, classColor)
 	self:SetAllPoints(relativeTo)
 end
 
-function B:ReskinButton(noHL)
+function B:ReskinButton()
 	B.CleanTextures(self)
 
 	B.CreateBD(self, 0)
 	B.CreateSD(self)
 	B.CreateGF(self)
 
-	if not noHL then
-		SetupHook(self)
-	end
+	SetupHook(self)
 end
 
 function B:ReskinCheck(forceSaturation)

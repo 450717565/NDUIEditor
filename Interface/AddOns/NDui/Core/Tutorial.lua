@@ -398,7 +398,7 @@ local function YesTutor()
 			UIErrorsFrame:AddMessage(DB.InfoColor..L["Chat Settings Check"])
 		elseif currentPage == 3 then
 			NDuiADB["LockUIScale"] = true
-			B:SetupUIScale()
+			B.SetupUIScale()
 			UIErrorsFrame:AddMessage(DB.InfoColor..L["UIScale Check"])
 		elseif currentPage == 4 then
 			NDuiADB["DBMRequest"] = true

@@ -132,6 +132,7 @@ local defaultSettings = {
 		BuffIndicatorScale = 1,
 		UFTextScale = 1,
 		PartyAltPower = true,
+		SmoothAmount = .4,
 
 		PlayerWidth = 250,
 		PlayerHeight = 30,
@@ -394,7 +395,7 @@ loader:SetScript("OnEvent", function(self, _, addon)
 
 	InitialSettings(defaultSettings, NDuiDB, true)
 	InitialSettings(accountSettings, NDuiADB)
-	B:SetupUIScale(true)
+	B.SetupUIScale(true)
 
 	self:UnregisterAllEvents()
 end)
@@ -536,6 +537,10 @@ local function refreshRaidFrameIcons()
 	B:GetModule("UnitFrames"):RefreshRaidFrameIcons()
 end
 
+local function updateSmoothingAmount()
+	B.SetSmoothingAmount(NDuiDB["UFs"]["SmoothAmount"])
+end
+
 local function updateMinimapScale()
 	B:GetModule("Maps"):UpdateMinimapScale()
 end
@@ -673,9 +678,10 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "UFs", "ClassPower", L["UFs ClassPower"]},
 		{1, "UFs", "RuneTimer", L["UFs RuneTimer"], true},
 		{1, "UFs", "PlayerDebuff", L["Player Debuff"]},
-		{1, "UFs", "ToTAuras", L["ToT Debuff"], true},
-		{4, "UFs", "UFsHPColor", L["HP Bar Color"], nil, {L["Default Dark"], L["ClassColorHP"], L["GradientHP"]}},
-		{3, "UFs", "UFTextScale", L["UFTextScale"], true, {.5, 1.5, 1}, updateUFTextScale},
+		{1, "UFs", "ToTAuras", L["ToT Debuff"]},
+		{4, "UFs", "UFsHPColor", L["HP Bar Color"], true, {L["Default Dark"], L["ClassColorHP"], L["GradientHP"]}},
+		{3, "UFs", "UFTextScale", L["UFTextScale"], nil, {.5, 1.5, 1}, updateUFTextScale},
+		{3, "UFs", "SmoothAmount", DB.MyColor..L["SmoothAmount"], true, {.2, .8, 2}, updateSmoothingAmount, L["SmoothAmountTip"]},
 		{},--blank
 		{1, "UFs", "CombatText", DB.MyColor..L["UFs CombatText"]},
 		{1, "UFs", "AutoAttack", L["CombatText AutoAttack"]},
@@ -1444,7 +1450,7 @@ local function OpenGUI()
 	local ok = B.CreateButton(f, 80, 20, OKAY)
 	ok:SetPoint("RIGHT", close, "LEFT", -10, 0)
 	ok:SetScript("OnClick", function()
-		B:SetupUIScale()
+		B.SetupUIScale()
 		f:Hide()
 		StaticPopup_Show("RELOAD_NDUI")
 	end)

@@ -35,6 +35,7 @@ local list = {
 		{AuraID = 207693, UnitID = "player"},--灵魂盛宴
 		{AuraID = 203650, UnitID = "player"},--准备就绪
 		{AuraID = 263648, UnitID = "player", Value = true},--灵魂屏障
+		{AuraID = 272987, UnitID = "player", Value = true},--痛苦狂饮
 		--恶魔变形
 		{AuraID = 162264, UnitID = "player"},
 		{AuraID = 187827, UnitID = "player"},

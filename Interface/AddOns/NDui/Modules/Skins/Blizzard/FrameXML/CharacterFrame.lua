@@ -117,23 +117,31 @@ tinsert(C.defaultThemes, function()
 	end
 
 	-- [[ Sidebar tabs ]]
-	B.StripTextures(PaperDollSidebarTabs)
+	local SidebarTabs = PaperDollSidebarTabs
+	B.StripTextures(SidebarTabs)
+	SidebarTabs:ClearAllPoints()
+	SidebarTabs:SetPoint("BOTTOM", CharacterFrameInsetRight, "TOP", 0, 0)
+
+	local SidebarTab3 = PaperDollSidebarTab3
+	SidebarTab3:ClearAllPoints()
+	SidebarTab3:SetPoint("RIGHT", SidebarTabs, "RIGHT", -13, 0)
+
 	for i = 1, #PAPERDOLL_SIDEBARS do
 		local tab = _G["PaperDollSidebarTab"..i]
 		tab.TabBg:Hide()
+
+		local bg = B.CreateBDFrame(tab, 0)
+		bg:SetInside(nil, 1, 1)
+		bg:SetFrameLevel(0)
+
+		B.ReskinTexture(tab.Highlight, bg)
+		B.ReskinTexture(tab.Hider, bg)
 
 		if i == 1 then
 			tab.Icon:SetTexCoord(0.16, 0.86, 0.16, 0.86)
 			tab.Icon.SetTexCoord = B.Dummy
 		end
-
-		local bg = B.CreateBDFrame(tab.Icon, 0)
-		bg:SetPoint("TOPLEFT", 2, -3)
-		bg:SetPoint("BOTTOMRIGHT", 0, -1)
-		bg:SetFrameLevel(0)
-
-		B.ReskinTexture(tab.Highlight, bg)
-		B.ReskinTexture(tab.Hider, bg)
+		tab.Icon:SetInside(bg)
 	end
 
 	-- PaperDollTitlesPane
