@@ -67,6 +67,9 @@ function M:GuildBest_SetUp(leaderInfo)
 	local mapName = C_ChallengeMode_GetMapUIInfo(leaderInfo.mapChallengeModeID)
 	local classColorStr = DB.ClassColors[leaderInfo.classFileName].colorStr
 
+	local _, suffix = strsplit("-", mapName)
+	if suffix then mapName = suffix end
+
 	self.Name:SetText(format(nameStr, classColorStr, leaderInfo.name))
 	self.Level:SetText(format(levelStr, mapName, leaderInfo.keystoneLevel))
 end

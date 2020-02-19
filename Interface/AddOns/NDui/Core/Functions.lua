@@ -314,7 +314,7 @@ function B.FormatTime(s, auraTime)
 		return format("%.1f"..DB.MyColor..L["Hours"], s/hour), s%hour
 	elseif s >= minute then
 		if auraTime and s <= 3*minute then
-			return format("%.1d:%2d", s/minute, s%minute), s%minute
+			return format("%.1d:%.2d", s/minute, s%minute), s%minute
 		else
 			return format("%d"..DB.MyColor..L["Minutes"], s/minute), s%minute
 		end

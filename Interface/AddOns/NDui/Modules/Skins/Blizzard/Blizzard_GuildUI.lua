@@ -8,6 +8,11 @@ C.themes["Blizzard_GuildUI"] = function()
 
 	for _, frame in pairs({GuildNewsFiltersFrame, GuildTextEditFrame, GuildLogFrame, GuildMemberDetailFrame}) do
 		B.ReskinFrame(frame)
+
+		if frame ~= GuildLogFrame then
+			frame:ClearAllPoints()
+			frame:SetPoint("TOPLEFT", GuildFrame, "TOPRIGHT", 3, -25)
+		end
 	end
 
 	local frames = {GuildMemberNoteBackground, GuildMemberOfficerNoteBackground, GuildLogContainer, GuildTextEditContainer, GuildRecruitmentInterestFrame, GuildRecruitmentAvailabilityFrame, GuildRecruitmentRolesFrame, GuildRecruitmentLevelFrame, GuildInfoFrameInfoMOTDScrollFrame, GuildInfoDetailsFrame}
@@ -36,6 +41,7 @@ C.themes["Blizzard_GuildUI"] = function()
 	--News
 	B.StripTextures(GuildFactionBar)
 	B.CreateBDFrame(GuildFactionBarBG, 0)
+	GuildFactionBar:SetSize(180, 20)
 	GuildFactionBar:ClearAllPoints()
 	GuildFactionBar:SetPoint("BOTTOMLEFT", 0, -3)
 	GuildFactionBarProgress:SetTexture(DB.normTex)
@@ -43,8 +49,6 @@ C.themes["Blizzard_GuildUI"] = function()
 	GuildFactionBarLabel:ClearAllPoints()
 	GuildFactionBarLabel:SetPoint("CENTER", GuildFactionBarBG)
 
-	GuildNewsFiltersFrame:ClearAllPoints()
-	GuildNewsFiltersFrame:SetPoint("TOPLEFT", GuildFrame, "TOPRIGHT", 3, -25)
 	for i = 1, 7 do
 		B.ReskinCheck(GuildNewsFiltersFrame.GuildNewsFilterButtons[i])
 	end
@@ -57,6 +61,8 @@ C.themes["Blizzard_GuildUI"] = function()
 
 	--Roster
 	B.ReskinDropDown(GuildRosterViewDropdown)
+	B.ReskinDropDown(GuildMemberRankDropdown)
+	B.ReskinClose(GuildMemberDetailCloseButton)
 
 	GuildRosterShowOfflineButton:SetSize(24, 24)
 	B.ReskinCheck(GuildRosterShowOfflineButton)

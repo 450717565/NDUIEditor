@@ -408,7 +408,7 @@ function B:CreateSD()
 	Shadow:SetOutside(self, 2, 2)
 	Shadow:SetBackdrop({edgeFile = DB.glowTex, edgeSize = B.Scale(3)})
 	Shadow:SetBackdropBorderColor(0, 0, 0, .5)
-	Shadow:SetFrameLevel(lvl == 0 and 0 or lvl - 1)
+	Shadow:SetFrameLevel(lvl == 0 and 1 or lvl - 1)
 	self.Shadow = Shadow
 end
 

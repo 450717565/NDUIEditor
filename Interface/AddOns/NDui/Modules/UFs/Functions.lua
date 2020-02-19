@@ -727,7 +727,7 @@ function UF:CreateBuffs(self)
 		bu.CustomFilter = UF.CustomFilter
 		bu.initialAnchor = "BOTTOMLEFT"
 	else
-		bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 5)
+		bu:SetPoint("BOTTOMLEFT", self.AlternativePower, "TOPLEFT", 0, 5)
 		bu.num = 6
 		bu.iconsPerRow = 6
 		bu.initialAnchor = "BOTTOMLEFT"

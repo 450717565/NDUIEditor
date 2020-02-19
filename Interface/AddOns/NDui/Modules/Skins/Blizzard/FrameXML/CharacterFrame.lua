@@ -124,16 +124,14 @@ tinsert(C.defaultThemes, function()
 
 	local SidebarTab3 = PaperDollSidebarTab3
 	SidebarTab3:ClearAllPoints()
-	SidebarTab3:SetPoint("RIGHT", SidebarTabs, "RIGHT", -13, 0)
+	SidebarTab3:SetPoint("RIGHT", SidebarTabs, "RIGHT", -17, 0)
 
 	for i = 1, #PAPERDOLL_SIDEBARS do
 		local tab = _G["PaperDollSidebarTab"..i]
+		tab:SetSize(31, 33)
 		tab.TabBg:Hide()
 
 		local bg = B.CreateBDFrame(tab, 0)
-		bg:SetInside(nil, 1, 1)
-		bg:SetFrameLevel(0)
-
 		B.ReskinTexture(tab.Highlight, bg)
 		B.ReskinTexture(tab.Hider, bg)
 

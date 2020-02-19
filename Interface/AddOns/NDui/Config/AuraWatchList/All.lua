@@ -173,9 +173,11 @@ local list = {
 		{AuraID = 296962, UnitID = "player"},	-- 艾萨拉饰品
 		{AuraID = 315787, UnitID = "player", Caster = "player"},	-- 生命充能
 	-- 艾泽里特特质
+		{AuraID = 300174, UnitID = "player"},	-- 发条之心
 		{AuraID = 271550, UnitID = "player"},	-- 临危不惧
 		{AuraID = 281517, UnitID = "player"},	-- 不稳定的催化剂
 		{AuraID = 271559, UnitID = "player"},	-- 闪光庇护所
+		{AuraID = 274598, UnitID = "player"},	-- 冲击大师
 		{AuraID = 277960, UnitID = "player"},	-- 神经电激
 		{AuraID = 280852, UnitID = "player"},	-- 解放者之力
 		{AuraID = 266047, UnitID = "player"},	-- 激励咆哮
@@ -213,13 +215,13 @@ local list = {
 		{AuraID = 304056, UnitID = "player"},	-- 斗争
 		{AuraID = 298343, UnitID = "player"},	-- 清醒梦境
 		{AuraID = 295855, UnitID = "player"},	-- 艾泽拉斯守护者
-		{AuraID = 295248, UnitID = "player"},	-- 专注能量
 		{AuraID = 298357, UnitID = "player"},	-- 清醒梦境之忆
 		{AuraID = 302731, UnitID = "player", Flash = true},	-- 空间涟漪
 		{AuraID = 302952, UnitID = "player"},	-- 现实流转
 		{AuraID = 295137, UnitID = "player", Flash = true},	-- 源血
 		{AuraID = 311203, UnitID = "player"},	-- 光荣时刻
 	-- 腐蚀
+		{AuraID = 318227, UnitID = "player"},	-- 急速脉搏
 		{AuraID = 316823, UnitID = "player"},	-- 虚空仪式
 		{AuraID = 318211, UnitID = "player"},	-- 活力涌动
 		{AuraID = 318219, UnitID = "player"},	-- 致命之势
@@ -635,7 +637,6 @@ local list = {
 		{AuraID = 226510, UnitID = "target"},	-- 血池回血
 	-- 8.0副本
 		{AuraID = 296080, UnitID = "target"},	-- 失控，垃圾场尾王
-		{AuraID = 300011, UnitID = "target"},	-- 力场护盾，麦卡贡
 		{AuraID = 257458, UnitID = "target"},	-- 自由镇尾王易伤
 		{AuraID = 260512, UnitID = "target"},	-- 灵魂收割，神庙
 		{AuraID = 277965, UnitID = "target"},	-- 重型军火，围攻1

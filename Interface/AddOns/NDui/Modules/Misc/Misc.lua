@@ -113,10 +113,9 @@ end
 
 -- Get Naked
 function M:NakedIcon()
-	local size = 33 + C.mult
 	local bu = CreateFrame("Button", nil, CharacterFrameInsetRight)
-	bu:SetSize(size, size)
-	bu:SetPoint("RIGHT", PaperDollSidebarTab1, "LEFT", -5, 0)
+	bu:SetSize(32, 34)
+	bu:SetPoint("RIGHT", PaperDollSidebarTab1, "LEFT", -4, 0)
 	B.PixelIcon(bu, "Interface\\ICONS\\SPELL_SHADOW_TWISTEDFAITH", true)
 	B.AddTooltip(bu, "ANCHOR_RIGHT", L["Get Naked"])
 
@@ -689,7 +688,7 @@ function M:BlockWQTInvite()
 		currentName = name
 	end)
 
-	hooksecurefunc(StaticPopup1, "Hide", function()
+	hooksecurefunc("StaticPopup_OnHide", function()
 		frame:Hide()
 		currentName = nil
 	end)

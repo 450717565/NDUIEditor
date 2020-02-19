@@ -3,10 +3,10 @@ local B, C, L, DB = unpack(select(2, ...))
 tinsert(C.defaultThemes, function()
 	local cr, cg, cb = DB.r, DB.g, DB.b
 
-	local function reskinDropdown()
-		for _, name in pairs({"DropDownList", "L_DropDownList", "Lib_DropDownList"}) do
+	local lists = {"DropDownList", "L_DropDownList", "Lib_DropDownList"}
+	hooksecurefunc("UIDropDownMenu_CreateFrames", function()
+		for _, name in pairs(lists) do
 			for i = 1, UIDROPDOWNMENU_MAXLEVELS do
-				local menu = _G[name..i.."MenuBackdrop"]
 				local backdrop = _G[name..i.."Backdrop"]
 				if backdrop and not backdrop.styled then
 					B.ReskinFrame(backdrop)
@@ -15,8 +15,7 @@ tinsert(C.defaultThemes, function()
 				end
 			end
 		end
-	end
-	hooksecurefunc("UIDropDownMenu_CreateFrames", reskinDropdown)
+	end)
 
 	local function isCheckTexture(check)
 		if check:GetTexture() == "Interface\\Common\\UI-DropDownRadioChecks" then
