@@ -221,11 +221,12 @@ local list = {
 		{AuraID = 295137, UnitID = "player", Flash = true},	-- 源血
 		{AuraID = 311203, UnitID = "player"},	-- 光荣时刻
 	-- 腐蚀
+		{AuraID = 318216, UnitID = "player"},	-- 磨砺心灵
 		{AuraID = 318227, UnitID = "player"},	-- 急速脉搏
 		{AuraID = 316823, UnitID = "player"},	-- 虚空仪式
 		{AuraID = 318211, UnitID = "player"},	-- 活力涌动
 		{AuraID = 318219, UnitID = "player"},	-- 致命之势
-		{AuraID = 317020, UnitID = "player", Flash = true, Combat = true},	-- 虚空回响
+		{AuraID = 317020, UnitID = "player", Combat = true},	-- 虚空回响
 		{AuraID = 318378, UnitID = "player", Flash = true},	-- 坚定决心，橙披
 	-- 炼金石
 		{AuraID = 60233, UnitID = "player"},	-- 敏捷

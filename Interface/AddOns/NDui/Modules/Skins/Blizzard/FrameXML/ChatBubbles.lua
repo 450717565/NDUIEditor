@@ -58,6 +58,7 @@ tinsert(C.defaultThemes, function()
 			self:Hide()
 			if chatbubble and not chatbubble.styled then
 				styleBubble(chatbubble)
+
 				chatbubble.styled = true
 			end
 		end

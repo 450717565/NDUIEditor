@@ -34,8 +34,10 @@ local unitKeystones = {}
 
 local function GetNameForKeystone(keystoneMapID, keystoneLevel)
 	local keystoneMapName = keystoneMapID and C_ChallengeMode.GetMapUIInfo(keystoneMapID)
+
 	local _, suffix = strsplit("-", keystoneMapName)
 	if suffix then keystoneMapName = suffix end
+	keystoneMapName = gsub(keystoneMapName, "！", "")
 
 	if keystoneMapID and keystoneMapName then
 		return string.format("%s (%d)", keystoneMapName, keystoneLevel)

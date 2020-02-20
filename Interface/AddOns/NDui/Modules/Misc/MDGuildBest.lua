@@ -4,26 +4,28 @@ local M = B:GetModule("Misc")
 local Extras = B:GetModule("Extras")
 
 local CHALLENGE_MODE_WEEKLY_BEST = CHALLENGE_MODE_WEEKLY_BEST
-local CHALLENGE_MODE_POWER_LEVEL = CHALLENGE_MODE_POWER_LEVEL
-local CHALLENGE_MODE_GUILD_BEST_LINE = CHALLENGE_MODE_GUILD_BEST_LINE
-local CHALLENGE_MODE_GUILD_BEST_LINE_YOU = CHALLENGE_MODE_GUILD_BEST_LINE_YOU
 local Ambiguate, GetContainerNumSlots, GetContainerItemInfo = Ambiguate, GetContainerNumSlots, GetContainerItemInfo
 local C_ChallengeMode_GetMapUIInfo, C_ChallengeMode_GetGuildLeaders = C_ChallengeMode.GetMapUIInfo, C_ChallengeMode.GetGuildLeaders
 local format, strsplit, strmatch, tonumber, pairs, wipe, select = string.format, string.split, string.match, tonumber, pairs, wipe, select
 
 local frame
+local nameString = "|c%s%s|r"
+local mapString = "|cffFFFFFF%s|r (%s)"
 
 function M:GuildBest_UpdateTooltip()
 	local leaderInfo = self.leaderInfo
 	if not leaderInfo then return end
 
+	local mapName = C_ChallengeMode_GetMapUIInfo(leaderInfo.mapChallengeModeID)
+	local _, suffix = strsplit("-", mapName)
+	if suffix then mapName = suffix end
+	mapName = gsub(mapName, L["!"], "")
+
 	GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-	local name = C_ChallengeMode_GetMapUIInfo(leaderInfo.mapChallengeModeID)
-	GameTooltip:SetText(name, 1, 1, 1)
-	GameTooltip:AddLine(format(CHALLENGE_MODE_POWER_LEVEL, leaderInfo.keystoneLevel))
+	GameTooltip:AddLine(format(mapString, mapName, leaderInfo.keystoneLevel))
 	for i = 1, #leaderInfo.members do
 		local classColorStr = DB.ClassColors[leaderInfo.members[i].classFileName].colorStr
-		GameTooltip:AddLine(format(CHALLENGE_MODE_GUILD_BEST_LINE, classColorStr,leaderInfo.members[i].name));
+		GameTooltip:AddLine(format(nameString, classColorStr,leaderInfo.members[i].name));
 	end
 	GameTooltip:Show()
 end
@@ -62,16 +64,15 @@ end
 function M:GuildBest_SetUp(leaderInfo)
 	self.leaderInfo = leaderInfo
 
-	local nameStr = "|c%s%s|r"
-	local levelStr = "|cffFFFFFF%s|r (%s)"
 	local mapName = C_ChallengeMode_GetMapUIInfo(leaderInfo.mapChallengeModeID)
 	local classColorStr = DB.ClassColors[leaderInfo.classFileName].colorStr
 
 	local _, suffix = strsplit("-", mapName)
 	if suffix then mapName = suffix end
+	mapName = gsub(mapName, L["!"], "")
 
-	self.Name:SetText(format(nameStr, classColorStr, leaderInfo.name))
-	self.Level:SetText(format(levelStr, mapName, leaderInfo.keystoneLevel))
+	self.Name:SetText(format(nameString, classColorStr, leaderInfo.name))
+	self.Level:SetText(format(mapString, mapName, leaderInfo.keystoneLevel))
 end
 
 local resize
@@ -137,6 +138,9 @@ function M:KeystoneInfo_Create()
 			local color = B.HexRGB(B.ClassColor(class))
 			local factionColor = faction == "Horde" and "|cffff5040" or "|cff00adf0"
 			local dungeon = C_ChallengeMode_GetMapUIInfo(tonumber(mapID))
+			local _, suffix = strsplit("-", dungeon)
+			if suffix then dungeon = suffix end
+			dungeon = gsub(dungeon, L["!"], "")
 			GameTooltip:AddDoubleLine(format(color.."%s|r", name), format("%s%s(%s)|r", factionColor, dungeon, level))
 		end
 		GameTooltip:AddDoubleLine(" ", DB.LineString)

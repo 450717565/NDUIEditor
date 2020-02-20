@@ -264,6 +264,7 @@ local defaultSettings = {
 		HideJunkGuild = true,
 		AzeriteArmor = true,
 		OnlyArmorIcons = false,
+		CorruptionRank = true,
 	},
 	Misc = {
 		Mail = true,
@@ -884,6 +885,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{},--blank
 		{1, "Tooltip", "AzeriteArmor", DB.MyColor..L["Show AzeriteArmor"]},
 		{1, "Tooltip", "OnlyArmorIcons", L["Armor icons only"].."*", true},
+		{1, "Tooltip", "CorruptionRank", DB.MyColor..L["ShowCorruptionRank"]},
 	},
 	[12] = {
 		{1, "Misc", "ItemLevel", DB.MyColor..L["Show ItemLevel"]},

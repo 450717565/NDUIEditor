@@ -54,6 +54,7 @@ local list = {
 		{AuraID = 208614, UnitID = "player"},
 		--特质
 		{AuraID = 272987, UnitID = "player", Value = true},--痛苦狂饮
+		{AuraID = 288882, UnitID = "player", Stack = 35, Combat = true, Flash = true},--收割之刻
 	},
 	["Spell CD"] = { -- 技能冷却计时组
 		{SpellID = 179057},--混乱新星

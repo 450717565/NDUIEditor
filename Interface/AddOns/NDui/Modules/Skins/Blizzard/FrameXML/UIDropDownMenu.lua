@@ -7,11 +7,18 @@ tinsert(C.defaultThemes, function()
 	hooksecurefunc("UIDropDownMenu_CreateFrames", function()
 		for _, name in pairs(lists) do
 			for i = 1, UIDROPDOWNMENU_MAXLEVELS do
-				local backdrop = _G[name..i.."Backdrop"]
-				if backdrop and not backdrop.styled then
-					B.ReskinFrame(backdrop)
+				local menu = _G[name..i.."MenuBackdrop"]
+				if menu and not menu.styled then
+					B.ReskinFrame(menu)
 
-					backdrop.styled = true
+					menu.styled = true
+				end
+
+				local back = _G[name..i.."Backdrop"]
+				if back and not back.styled then
+					B.ReskinFrame(back)
+
+					back.styled = true
 				end
 			end
 		end

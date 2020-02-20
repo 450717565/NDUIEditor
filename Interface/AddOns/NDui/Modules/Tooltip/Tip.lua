@@ -101,13 +101,13 @@ local roleTex = {
 
 function TT:InsertRoleFrame(role)
 	if not self.roleFrame then
-		local f = self:CreateTexture(nil, "OVERLAY")
-		f:ClearAllPoints()
-		f:SetPoint("TOPRIGHT", self, "TOPLEFT", -2, -2)
-		f:SetSize(20, 20)
-		f:SetTexture("Interface\\LFGFrame\\UI-LFG-ICONS-ROLEBACKGROUNDS")
-		local bg = B.CreateBDFrame(f)
-		self.roleFrame = f
+		local roleFrame = self:CreateTexture(nil, "OVERLAY")
+		roleFrame:ClearAllPoints()
+		roleFrame:SetPoint("TOPRIGHT", self, "TOPLEFT", -3, -3)
+		roleFrame:SetSize(20, 20)
+		roleFrame:SetTexture("Interface\\LFGFrame\\UI-LFG-ICONS-ROLEBACKGROUNDS")
+		local bg = B.CreateBDFrame(roleFrame, 1)
+		self.roleFrame = roleFrame
 		self.roleFrame.bg = bg
 	end
 	self.roleFrame:SetTexCoord(unpack(roleTex[role]))
@@ -262,15 +262,6 @@ function TT:StatusBar_OnValueChanged(value)
 	end
 end
 
-function TT:ReskinStatusBar()
-	self.StatusBar:ClearAllPoints()
-	self.StatusBar:SetPoint("BOTTOMLEFT", self.bg, "TOPLEFT", C.mult, 3)
-	self.StatusBar:SetPoint("BOTTOMRIGHT", self.bg, "TOPRIGHT", -C.mult, 3)
-	self.StatusBar:SetStatusBarTexture(DB.normTex)
-	self.StatusBar:SetHeight(5)
-	B.CreateBDFrame(self.StatusBar, 0)
-end
-
 function TT:GameTooltip_ShowStatusBar()
 	if not self or self:IsForbidden() then return end
 	if not self.statusBarPool then return end
@@ -341,32 +332,28 @@ function TT:GameTooltip_ComparisonFix(anchorFrame, shoppingTooltip1, shoppingToo
 end
 
 -- Tooltip rewards icon
-local function updateBackdropColor(self, r, g, b)
-	self:GetParent().bg:SetBackdropBorderColor(r, g, b)
-end
-
-local function resetBackdropColor(self)
-	self:GetParent().bg:SetBackdropBorderColor(0, 0, 0)
-end
-
 function TT:ReskinRewardIcon()
 	local icon = self.Icon or self.icon
-	if icon then
-		icon:SetTexCoord(unpack(DB.TexCoord))
-
-		if not self.tipStyled then
-			self.bg = B.CreateBDFrame(icon, 1)
-
-			self.tipStyled = true
-		end
-	end
-
 	local border = self.Border or self.IconBorder
-	if border then
-		border:SetAlpha(0)
-		hooksecurefunc(border, "SetVertexColor", updateBackdropColor)
-		hooksecurefunc(border, "Hide", resetBackdropColor)
+
+	if not self.iconStyled then
+		if icon then self.icbg = B.ReskinIcon(icon, 1) end
+		if border then B.ReskinBorder(border, self.icbg) end
+
+		self.iconStyled = true
 	end
+end
+
+-- Tooltip status bar
+function TT:ReskinStatusBar()
+	if not self.StatusBar then return end
+
+	self.StatusBar:ClearAllPoints()
+	self.StatusBar:SetPoint("BOTTOMLEFT", self.bg, "TOPLEFT", C.mult, 3)
+	self.StatusBar:SetPoint("BOTTOMRIGHT", self.bg, "TOPRIGHT", -C.mult, 3)
+	self.StatusBar:SetHeight(5)
+
+	B.ReskinStatusBar(self.StatusBar, true)
 end
 
 -- Tooltip skin
@@ -397,10 +384,7 @@ function TT:ReskinTooltip()
 		self.GetBackdropBorderColor = getBackdropBorderColor
 
 		TT.ReskinRewardIcon(self)
-
-		if self.StatusBar then
-			TT.ReskinStatusBar(self)
-		end
+		TT.ReskinStatusBar(self)
 
 		self.tipStyled = true
 	end
@@ -450,6 +434,7 @@ function TT:OnLogin()
 	self:SetupTooltipID()
 	self:TargetedInfo()
 	self:AzeriteArmor()
+	self:CorruptionRank()
 end
 
 -- Tooltip Skin Registration
@@ -504,31 +489,16 @@ TT:RegisterTooltips("NDui", function()
 		f:HookScript("OnShow", TT.ReskinTooltip)
 	end
 
-	-- DropdownMenu
-	local function reskinDropdown()
-		for _, name in pairs({"DropDownList", "L_DropDownList", "Lib_DropDownList"}) do
-			for i = 1, UIDROPDOWNMENU_MAXLEVELS do
-				local menu = _G[name..i.."MenuBackdrop"]
-				if menu and not menu.styled then
-					menu:HookScript("OnShow", TT.ReskinTooltip)
-					menu.styled = true
-				end
-			end
-		end
-	end
-	hooksecurefunc("UIDropDownMenu_CreateFrames", reskinDropdown)
-
 	-- IME
 	IMECandidatesFrame.selection:SetVertexColor(cr, cg, cb)
 
 	-- Pet Tooltip
 	PetBattlePrimaryUnitTooltip:HookScript("OnShow", function(self)
-		self.Border:SetAlpha(0)
-		if not self.iconStyled then
+		if not self.styled then
 			if self.glow then self.glow:Hide() end
 			TT.ReskinRewardIcon(self)
 
-			self.iconStyled = true
+			self.styled = true
 		end
 	end)
 
@@ -539,14 +509,14 @@ TT:RegisterTooltips("NDui", function()
 			if isBuff and self.Buffs then
 				local frame = self.Buffs.frames[nextBuff]
 				if frame and frame.Icon then
-					TT.ReskinRewardIcon(frame)
+					B.ReskinIcon(frame.Icon)
 				end
 				nextBuff = nextBuff + 1
 			elseif (not isBuff) and self.Debuffs then
 				local frame = self.Debuffs.frames[nextDebuff]
 				if frame and frame.Icon then
-					frame.DebuffBorder:Hide()
-					TT.ReskinRewardIcon(frame)
+					local icbg = B.ReskinIcon(frame.Icon)
+					B.ReskinBorder(frame.DebuffBorder, icbg)
 				end
 				nextDebuff = nextDebuff + 1
 			end

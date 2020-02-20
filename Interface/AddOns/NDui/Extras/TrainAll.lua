@@ -39,7 +39,7 @@ local function CreateIt()
 
 	Button:SetScript("OnEnter", function()
 		GameTooltip:SetOwner(Button, "ANCHOR_RIGHT")
-		GameTooltip:SetText(L["Train All Need"]..GetMoneyString(cost))
+		GameTooltip:AddLine(L["Train All Need"]..GetMoneyString(cost))
 	end)
 	Button:SetScript("OnLeave", function()
 		GameTooltip:Hide()

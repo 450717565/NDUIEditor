@@ -156,6 +156,7 @@ tinsert(C.defaultThemes, function()
 			frame.statusText:SetFont(fontName, fontSize, "OUTLINE")
 			frame.statusText:SetTextColor(.7, .7, .7)
 			frame.statusText:SetShadowColor(0, 0, 0, 0)
+
 			frame.fontStyled = true
 		end
 	end)
@@ -166,6 +167,7 @@ tinsert(C.defaultThemes, function()
 		for i = 1, #bu do
 			if not bu[i].fontStyled then
 				ReskinFont(bu[i].text, 14)
+
 				bu[i].fontStyled = true
 			end
 		end
@@ -180,6 +182,7 @@ tinsert(C.defaultThemes, function()
 			if level and not level.fontStyled then
 				level:SetWidth(32)
 				level:SetJustifyH("CENTER")
+
 				level.fontStyled = true
 			end
 		end

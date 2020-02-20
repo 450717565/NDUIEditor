@@ -173,7 +173,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			local button = buttons[i].Follower
 			local portrait = button.PortraitFrame
 
-			if not button.restyled then
+			if not button.styled then
 				button.BG:Hide()
 				button.Selection:SetTexture("")
 				button.AbilitiesBG:SetTexture("")
@@ -194,7 +194,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 				button.bg = bg
 
-				button.restyled = true
+				button.styled = true
 			end
 
 			if button.Selection:IsShown() then
@@ -244,6 +244,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			if not allySpell.styled then
 				local iconTexture = allySpell[i].iconTexture
 				B.ReskinIcon(iconTexture)
+
 				allySpell.styled = true
 			end
 		end
@@ -609,6 +610,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	hooksecurefunc("GarrisonMissionPortrait_SetFollowerPortrait", function(portraitFrame, followerInfo)
 		if not portraitFrame.styled then
 			B.ReskinGarrisonPortrait(portraitFrame)
+
 			portraitFrame.styled = true
 		end
 
@@ -657,6 +659,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 					local mechanic = frame.Mechanics[j]
 					B.ReskinIcon(mechanic.Icon)
 				end
+
 				frame.styled = true
 			end
 		end
@@ -911,6 +914,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			if bu and bu:GetObjectType() == "Button" and not bu.styled then
 				B.ReskinButton(bu)
 				bu:SetSize(60, 45)
+
 				bu.styled = true
 			end
 		end
@@ -922,6 +926,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			if bu and bu:GetObjectType() == "Button" and not bu.styled then
 				B.ReskinButton(bu)
 				bu:SetSize(50, 45)
+
 				bu.styled = true
 			end
 		end
