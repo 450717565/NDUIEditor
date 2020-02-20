@@ -4,6 +4,7 @@ local Mod = Addon:NewModule('Schedule')
 local rowCount = 3
 
 local requestPartyKeystones
+local split, gsub = string.split, string.gsub
 
 -- 1: Overflowing, 2: Skittish, 3: Volcanic, 4: Necrotic, 5: Teeming, 6: Raging, 7: Bolstering, 8: Sanguine, 9: Tyrannical, 10: Fortified, 11: Bursting, 12: Grievous, 13: Explosive, 14: Quaking
 local affixScheduleText = {
@@ -35,7 +36,7 @@ local unitKeystones = {}
 local function GetNameForKeystone(keystoneMapID, keystoneLevel)
 	local keystoneMapName = keystoneMapID and C_ChallengeMode.GetMapUIInfo(keystoneMapID)
 
-	local _, suffix = strsplit("-", keystoneMapName)
+	local _, suffix = split("-", keystoneMapName)
 	if suffix then keystoneMapName = suffix end
 	keystoneMapName = gsub(keystoneMapName, "！", "")
 

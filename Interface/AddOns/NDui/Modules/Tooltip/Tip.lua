@@ -287,6 +287,11 @@ function TT:GameTooltip_ShowProgressBar()
 	end
 end
 
+function TT:GameTooltip_SetBackdropStyle()
+	if not self.tipStyled then return end
+	self:SetBackdrop(nil)
+end
+
 -- Anchor and mover
 local mover
 function TT:GameTooltip_SetDefaultAnchor(parent)
@@ -413,11 +418,6 @@ function TT:ReskinTooltip()
 	end
 end
 
-function TT:GameTooltip_SetBackdropStyle()
-	if not self.tipStyled then return end
-	self:SetBackdrop(nil)
-end
-
 function TT:OnLogin()
 	GameTooltip.StatusBar = GameTooltipStatusBar
 	GameTooltip:HookScript("OnTooltipCleared", self.OnTooltipCleared)
@@ -452,42 +452,50 @@ B:RegisterEvent("ADDON_LOADED", addonStyled)
 
 TT:RegisterTooltips("NDui", function()
 	local tooltips = {
-		ChatMenu,
-		EmoteMenu,
-		LanguageMenu,
-		VoiceMacroMenu,
-		GameTooltip,
-		EmbeddedItemTooltip,
-		ItemRefTooltip,
-		ItemRefShoppingTooltip1,
-		ItemRefShoppingTooltip2,
-		ShoppingTooltip1,
-		ShoppingTooltip2,
 		AutoCompleteBox,
-		FriendsTooltip,
-		QuestScrollFrame.StoryTooltip,
-		GeneralDockManagerOverflowButtonList,
-		ReputationParagonTooltip,
-		QuestScrollFrame.WarCampaignTooltip,
-		NamePlateTooltip,
-		QueueStatusFrame,
-		FloatingGarrisonFollowerTooltip,
+		BattlePetTooltip,
+		ChatMenu,
+		EmbeddedItemTooltip,
+		EmoteMenu,
+		FloatingBattlePetTooltip,
 		FloatingGarrisonFollowerAbilityTooltip,
+		FloatingGarrisonFollowerTooltip,
 		FloatingGarrisonMissionTooltip,
+		FloatingGarrisonShipyardFollowerTooltip,
+		FloatingPetBattleAbilityTooltip,
+		FriendsTooltip,
+		GameTooltip,
 		GarrisonFollowerAbilityTooltip,
 		GarrisonFollowerTooltip,
-		FloatingGarrisonShipyardFollowerTooltip,
 		GarrisonShipyardFollowerTooltip,
-		BattlePetTooltip,
+		GeneralDockManagerOverflowButtonList,
+		IMECandidatesFrame,
+		ItemRefShoppingTooltip1,
+		ItemRefShoppingTooltip2,
+		ItemRefTooltip,
+		LanguageMenu,
+		NamePlateTooltip,
 		PetBattlePrimaryAbilityTooltip,
 		PetBattlePrimaryUnitTooltip,
-		FloatingBattlePetTooltip,
-		FloatingPetBattleAbilityTooltip,
-		IMECandidatesFrame
+		QuestScrollFrame.StoryTooltip,
+		QuestScrollFrame.WarCampaignTooltip,
+		QueueStatusFrame,
+		ReputationParagonTooltip,
+		ShoppingTooltip1,
+		ShoppingTooltip2,
+		VoiceMacroMenu,
 	}
 	for _, f in pairs(tooltips) do
 		f:HookScript("OnShow", TT.ReskinTooltip)
 	end
+
+	ItemRefTooltip:HookScript("OnShow", function(self)
+		if not self.styled then
+			B.ReskinClose(ItemRefCloseButton)
+
+			self.styled = true
+		end
+	end)
 
 	-- IME
 	IMECandidatesFrame.selection:SetVertexColor(cr, cg, cb)
@@ -553,12 +561,13 @@ TT:RegisterTooltips("NDui", function()
 	end
 
 	if IsAddOnLoaded("MethodDungeonTools") then
-		local styledMDT
+		local styled
 		hooksecurefunc(MethodDungeonTools, "ShowInterface", function()
-			if not styledMDT then
+			if not styled then
 				TT.ReskinTooltip(MethodDungeonTools.tooltip)
 				TT.ReskinTooltip(MethodDungeonTools.pullTooltip)
-				styledMDT = true
+
+				styled = true
 			end
 		end)
 	end

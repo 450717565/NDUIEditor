@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2375, "DBM-Nyalotha", nil, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200214232418")
+mod:SetRevision("20200220033343")
 mod:SetCreatureID(158041)
 mod:SetEncounterID(2344)
 mod:SetZone()
@@ -300,7 +300,7 @@ local allTimers = {
 			--Eternal Torment (Nzoth)
 			[318449] = {20, 6.1},--6.1 repeating
 			--Cleansing Protocol (Chamber)
-			[318449] = {25, 16, 12, 27, 29.9},
+			[316970] = {25, 16, 12, 27, 29.9},
 			--Event Horizon (Chamber)
 			[318196] = {20, 30, 30, 30},
 			--Dark Matter (Chamber)
