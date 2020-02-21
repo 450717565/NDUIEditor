@@ -6,9 +6,9 @@ tinsert(C.defaultThemes, function()
 	overlayFrames[2]:DisableDrawLayer("BACKGROUND")
 	overlayFrames[2]:DisableDrawLayer("OVERLAY")
 
-	local sideToggle = WorldMapFrame.SidePanelToggle
-	B.ReskinArrow(sideToggle.OpenButton, "right")
-	B.ReskinArrow(sideToggle.CloseButton, "left")
+	local SidePanelToggle = WorldMapFrame.SidePanelToggle
+	B.ReskinArrow(SidePanelToggle.OpenButton, "right")
+	B.ReskinArrow(SidePanelToggle.CloseButton, "left")
 
 	local BorderFrame = WorldMapFrame.BorderFrame
 	B.ReskinMinMax(BorderFrame.MaximizeMinimizeFrame)

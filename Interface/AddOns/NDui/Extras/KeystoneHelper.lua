@@ -13,36 +13,23 @@ function Extras.KH_CheckLink(link)
 end
 
 function Extras.KH_CheckKeystone(link)
-	local affixIDs, mapLevel = {}, 0
+	local mapLevel = 0
 
 	if Extras.KH_CheckLink(link) then
 		local info = {strsplit(":", link)}
 		mapLevel = tonumber(info[4])
 
-		if mapLevel > 10 then mapLevel = 10 end
-		if mapLevel >= 2 then
-			for i = 5, 7 do
-				local affixID = tonumber(info[i])
-				if affixID then
-					tbinsert(affixIDs, affixID)
-				end
-			end
-		end
-
-		local affixid = #affixIDs
-		if affixIDs[affixid] and affixIDs[affixid] < 2 then
-			tbremove(affixIDs, affixid)
-		end
+		if mapLevel > 15 then mapLevel = 15 end
 	end
 
-	return affixIDs, mapLevel
+	return mapLevel
 end
 
 function Extras:KH_OnTooltipSetItem()
 	local _, link = self:GetItem()
 
 	if Extras.KH_CheckLink(link) then
-		local affixIDs, mapLevel = Extras.KH_CheckKeystone(link)
+		local mapLevel = Extras.KH_CheckKeystone(link)
 		local mlvl = Extras.MythicLoot[mapLevel]
 		local wlvl = Extras.WeeklyLoot[mapLevel]
 

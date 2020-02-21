@@ -61,6 +61,7 @@
 	<Script file="StackSplitFrame.lua"/>
 	<Script file="StaticPopup.lua"/>
 	<Script file="TabardFrame.lua"/>
+	<Script file="TaxiFrame.lua"/>
 	<Script file="TokenFrame.lua"/>
 	<Script file="TradeFrame.lua"/>
 	<Script file="TutorialFrame.lua"/>
