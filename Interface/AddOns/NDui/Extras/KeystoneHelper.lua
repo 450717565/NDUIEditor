@@ -57,6 +57,7 @@ function Extras:KeystoneHelper()
 	GameTooltip:HookScript("OnTooltipSetItem", self.KH_OnTooltipSetItem)
 	ItemRefTooltip:HookScript("OnTooltipSetItem", self.KH_OnTooltipSetItem)
 	ShoppingTooltip1:HookScript("OnTooltipSetItem", self.KH_OnTooltipSetItem)
-	EmbeddedItemTooltip:HookScript("OnTooltipSetItem", self.KH_OnTooltipSetItem)
+	ShoppingTooltip2:HookScript("OnTooltipSetItem", self.KH_OnTooltipSetItem)
 	GameTooltipTooltip:HookScript("OnTooltipSetItem", self.KH_OnTooltipSetItem)
+	EmbeddedItemTooltip:HookScript("OnTooltipSetItem", self.KH_OnTooltipSetItem)
 end

@@ -391,6 +391,10 @@ function TT:ReskinTooltip()
 		TT.ReskinRewardIcon(self)
 		TT.ReskinStatusBar(self)
 
+		local frameName = self.GetName and self:GetName()
+		local closeButton = self.CloseButton or (frameName and _G[frameName.."CloseButton"])
+		if closeButton then B.ReskinClose(closeButton) end
+
 		self.tipStyled = true
 	end
 
@@ -466,6 +470,8 @@ TT:RegisterTooltips("NDui", function()
 		FriendsTooltip,
 		GameTooltip,
 		GarrisonFollowerAbilityTooltip,
+		GarrisonFollowerAbilityWithoutCountersTooltip,
+		GarrisonFollowerMissionAbilityWithoutCountersTooltip,
 		GarrisonFollowerTooltip,
 		GarrisonShipyardFollowerTooltip,
 		GeneralDockManagerOverflowButtonList,

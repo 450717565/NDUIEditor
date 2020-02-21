@@ -3,10 +3,6 @@ local B, C, L, DB = unpack(select(2, ...))
 C.themes["Blizzard_GarrisonUI"] = function()
 	local cr, cg, cb = DB.r, DB.g, DB.b
 
-	-- tooltips
-	B.ReskinGarrisonTooltip(GarrisonFollowerAbilityWithoutCountersTooltip)
-	B.ReskinGarrisonTooltip(GarrisonFollowerMissionAbilityWithoutCountersTooltip)
-
 	-- [[ Shared codes ]]
 
 	GARRISON_FOLLOWER_ITEM_LEVEL = "iLvl %d"

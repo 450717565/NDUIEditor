@@ -1,6 +1,8 @@
 local B, C, L, DB = unpack(select(2, ...))
 
 tinsert(C.defaultThemes, function()
+	local icPatch = "Interface\\FriendsFrame\\"
+
 	B.ReskinFrame(FriendsFrame)
 	B.SetupTabStyle(FriendsFrame, 4)
 	B.ReskinFrame(AddFriendFrame)
@@ -133,8 +135,6 @@ tinsert(C.defaultThemes, function()
 	hooksecurefunc("FriendsFrame_UpdateFriends", UpdateScroll)
 	hooksecurefunc(FriendsListFrameScrollFrame, "update", UpdateScroll)
 
-	local icPatch = "Interface\\FriendsFrame\\"
-
 	local function reskinInvites(self)
 		for invite in self:EnumerateActive() do
 			if not invite.styled then
@@ -161,6 +161,8 @@ tinsert(C.defaultThemes, function()
 			reskinInvites(FriendsListFrameScrollFrame.invitePool)
 		elseif button.buttonType == FRIENDS_BUTTON_TYPE_BNET and BNConnected() then
 			local accountInfo = C_BattleNet.GetFriendAccountInfo(button.id)
+			if not accountInfo then return end
+
 			local gameAccountInfo = accountInfo.gameAccountInfo
 			if gameAccountInfo.isOnline then
 				local faction = gameAccountInfo.factionName

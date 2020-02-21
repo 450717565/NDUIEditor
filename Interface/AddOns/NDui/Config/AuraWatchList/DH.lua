@@ -21,7 +21,6 @@ local list = {
 		{AuraID = 204598, UnitID = "target", Caster = "player"},--烈焰咒符
 		{AuraID = 204843, UnitID = "target", Caster = "player"},--锁链咒符
 		{AuraID = 268178, UnitID = "target", Caster = "player"},--虚空掠夺者
-		{AuraID = 247456, UnitID = "target", Caster = "player"},--脆弱
 		{AuraID = 207744, UnitID = "target", Caster = "player"},--烈火烙印
 		--折磨
 		{AuraID = 185245, UnitID = "target", Caster = "player"},

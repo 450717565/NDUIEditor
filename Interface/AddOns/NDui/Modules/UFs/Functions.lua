@@ -168,7 +168,7 @@ function UF:CreateHealthText(self)
 		self:Tag(hpval, "[raidhp]")
 	elseif mystyle == "nameplate" then
 		hpval:ClearAllPoints()
-		hpval:SetPoint("RIGHT", self, 0, 5)
+		hpval:SetPoint("RIGHT", self, "TOPRIGHT", 0, 0)
 		self:Tag(hpval, "[nphp]")
 	elseif notMinorStyle then
 		hpval:ClearAllPoints()
@@ -385,7 +385,7 @@ function UF:CreateCastBar(self)
 	if mystyle ~= "nameplate" and not NDuiDB["UFs"]["Castbars"] then return end
 
 	local cb = CreateFrame("StatusBar", "oUF_Castbar"..mystyle, self)
-	cb:SetSize(20, self:GetWidth())
+	cb:SetSize(self:GetWidth(), self:GetHeight())
 	B.CreateSB(cb, true)
 
 	if mystyle == "player" then
@@ -406,8 +406,8 @@ function UF:CreateCastBar(self)
 		cb:SetHeight(self:GetHeight())
 	end
 
-	local timer = B.CreateFS(cb, retVal(self, 12, 12, 12, 12), "", false, "RIGHT", -2, 0)
-	local name = B.CreateFS(cb, retVal(self, 12, 12, 12, 12), "", false, "LEFT", 2, 0)
+	local timer = B.CreateFS(cb, retVal(self, 12, 12, 12, 12, NDuiDB["Nameplate"]["NameTextSize"]), "", false, "RIGHT", -2, 0)
+	local name = B.CreateFS(cb, retVal(self, 12, 12, 12, 12, NDuiDB["Nameplate"]["NameTextSize"]), "", false, "LEFT", 2, 0)
 	name:SetPoint("RIGHT", timer, "LEFT", -5, 0)
 	name:SetJustifyH("LEFT")
 
@@ -432,8 +432,8 @@ function UF:CreateCastBar(self)
 			self:RegisterEvent("CURRENT_SPELL_CAST_CHANGED", B.OnCastSent, true)
 		end
 	elseif mystyle == "nameplate" then
-		name:SetPoint("LEFT", cb, 0, -5)
-		timer:SetPoint("RIGHT", cb, 0, -5)
+		name:SetPoint("LEFT", cb, "BOTTOMLEFT", 0, 0)
+		timer:SetPoint("RIGHT", cb, "BOTTOMRIGHT", 0, 0)
 
 		local shield = cb:CreateTexture(nil, "OVERLAY")
 		shield:SetAtlas("nameplates-InterruptShield")
