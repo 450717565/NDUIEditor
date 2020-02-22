@@ -1079,6 +1079,20 @@ end
 
 -- [[ UI Reskin Functions ]]
 
+function B.UpdateMerchantInfo()
+	for i = 1, MERCHANT_ITEMS_PER_PAGE do
+		local money = _G["MerchantItem"..i.."MoneyFrame"]
+		local currency = _G["MerchantItem"..i.."AltCurrencyFrame"]
+
+		currency:ClearAllPoints()
+		if money:IsShown() then
+			currency:SetPoint("LEFT", money, "RIGHT", -10, 2)
+		else
+			currency:SetPoint("LEFT", money, "LEFT", 0, 2)
+		end
+	end
+end
+
 function B.ReskinMerchantItem(index)
 	local frame = "MerchantItem"..index
 

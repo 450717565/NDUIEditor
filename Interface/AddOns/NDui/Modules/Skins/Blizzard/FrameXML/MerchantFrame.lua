@@ -65,15 +65,7 @@ tinsert(C.defaultThemes, function()
 		B.ReskinTexture(parent, icbg)
 	end
 
-	hooksecurefunc("MerchantFrame_UpdateMerchantInfo", function()
-		for i = 1, MERCHANT_ITEMS_PER_PAGE do
-			local money = _G["MerchantItem"..i.."MoneyFrame"]
-			local currency = _G["MerchantItem"..i.."AltCurrencyFrame"]
-
-			currency:ClearAllPoints()
-			currency:SetPoint("LEFT", money, "LEFT", 0, 2)
-		end
-	end)
+	hooksecurefunc("MerchantFrame_UpdateMerchantInfo", B.UpdateMerchantInfo)
 
 	hooksecurefunc("MerchantFrame_UpdateRepairButtons", function()
 		MerchantRepairAllButton:ClearAllPoints()
