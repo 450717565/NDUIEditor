@@ -83,20 +83,24 @@ local SendAddonMessage = C_ChatInfo and C_ChatInfo.SendAddonMessage or function(
 --发送自己的信息
 local function SendPlayerInfo(channel)
 	local ilvl = select(2, GetAverageItemLevel()) or -1
-	local spec = select(2, GetSpecializationInfo(GetSpecialization())) or NONE
-	SendAddonMessage("TinyInspect", format("%s|%s|%s", "LV", ilvl, spec), channel)
+	local spec = select(2, GetSpecializationInfo(GetSpecialization())) or ""
+	local class = select(2,UnitClass("player")) or ""
+
+	SendAddonMessage("TinyInspect", format("%s|%s|%s|%s", "LV", ilvl, spec, class), channel)
 end
 
 --解析发送的信息 @trigger GROUP_MEMBER_INSPECT_READY
 LibEvent:attachEvent("CHAT_MSG_ADDON", function(self, prefix, text, channel, sender)
 	if (prefix == "TinyInspect") then
-		local flag, ilvl, spec = strsplit("|", text)
+		local flag, ilvl, spec, class = strsplit("|", text)
 		if (flag ~= "LV") then return end
 		local name, realm = strsplit("-", sender)
 		for guid, v in pairs(members) do
 			if (v.name == name and v.realm == realm) then
 				v.ilevel = tonumber(ilvl) or -1
 				v.done = true
+				if (class) then v.class = class end
+				if (spec and spec ~= "") then v.spec = spec end
 				LibEvent:trigger("GROUP_MEMBER_INSPECT_READY", v)
 			end
 		end
@@ -124,8 +128,8 @@ LibEvent:attachEvent("GROUP_ROSTER_UPDATE", function(self)
 	local unitprefix = IsInRaid() and "raid" or "party"
 	local numCurrent = GetNumGroupMembers()
 
-	if (numCurrent ~= numMembers) then GetMembers(numCurrent, unitprefix) end
-	if (numCurrent > numMembers) then
+	if (numCurrent ~= numMembers) then
+		GetMembers(numCurrent, unitprefix)
 		members[UnitGUID("player")] = {
 			name   = UnitName("player"),
 			class  = select(2, UnitClass("player")),
@@ -138,6 +142,7 @@ LibEvent:attachEvent("GROUP_ROSTER_UPDATE", function(self)
 		LibSchedule:AddTask({
 			override  = true,
 			identity  = "InspectGroupMember",
+			timer     = 1,
 			elasped   = 1,
 			begined   = GetTime() + 2,
 			expired   = GetTime() + (unitprefix == "party" and 30 or 900),
@@ -334,7 +339,7 @@ local function SortAndShowMembersList()
 end
 
 --團友變更或觀察到數據時更新顯示
-LibEvent:attachTrigger("GROUP_MEMBER_INSPECT_TIMEOUT, GROUP_MEMBER_CHANGED, GROUP_MEMBER_INSPECT_READY, GROUP_MEMBER_INSPECT_DONE", function(self)
+LibEvent:attachTrigger("GROUP_MEMBER_CHANGED, GROUP_MEMBER_INSPECT_TIMEOUT, GROUP_MEMBER_INSPECT_READY, GROUP_MEMBER_INSPECT_DONE", function(self)
 	MakeMembersList()
 	SortAndShowMembersList()
 end)

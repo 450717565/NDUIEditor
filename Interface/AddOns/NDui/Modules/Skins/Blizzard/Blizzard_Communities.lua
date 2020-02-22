@@ -87,6 +87,7 @@ C.themes["Blizzard_Communities"] = function()
 			B.StripTextures(frame)
 
 			if frame.FindAGuildButton then B.ReskinButton(frame.FindAGuildButton) end
+			if frame.ApplyButton then B.ReskinButton(frame.ApplyButton) end
 			if frame.AcceptButton then B.ReskinButton(frame.AcceptButton) end
 			if frame.DeclineButton then B.ReskinButton(frame.DeclineButton) end
 

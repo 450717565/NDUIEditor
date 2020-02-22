@@ -19,6 +19,7 @@ local ShowColoredItemLevelString = false
 local ShowItemSlotString = true
 local EnableItemLevelGuildNews = true
 local PaperDollItemLevelOutsideString = true
+local ShowCorruptedMark = true
 
 --框架 #category Bag|Bank|Merchant|Trade|GuildBank|Auction|AltEquipment|PaperDoll|Loot
 local function GetItemLevelFrame(self, category)
@@ -60,6 +61,10 @@ local function SetItemLevelString(self, text, quality)
 	if (quality and ShowColoredItemLevelString) then
 		local r, g, b, hex = GetItemQualityColor(quality)
 		text = format("|c%s%s|r", hex, text)
+	end
+	--腐蚀的物品加个标记
+	if (ShowCorruptedMark and link and IsCorruptedItem(link)) then
+		text = text .. "|cffFF3300★|r"
 	end
 	self:SetText(text)
 end
@@ -181,12 +186,8 @@ hooksecurefunc("SetItemButtonQuality", function(self, quality, itemIDOrLink)
 		--Artifact
 		if (IsArtifactRelicItem(itemIDOrLink)) then
 			SetItemLevel(self)
-		else
-			SetItemLevelString(frame.levelString, "")
-			SetItemSlotString(frame.slotString)
-		end
 		--QuestInfo
-		if (self.type and self.objectType == "item") then
+		elseif (self.type and self.objectType == "item") then
 			if (QuestInfoFrame and QuestInfoFrame.questLog) then
 				link = GetQuestLogItemLink(self.type, self:GetID())
 			else
@@ -196,20 +197,12 @@ hooksecurefunc("SetItemButtonQuality", function(self, quality, itemIDOrLink)
 				link = select(2, GetItemInfo(itemIDOrLink))
 			end
 			SetItemLevel(self, link)
-		else
-			SetItemLevelString(frame.levelString, "")
-			SetItemSlotString(frame.slotString)
-		end
 		--EncounterJournal
-		if (self.encounterID and self.link) then
+		elseif (self.encounterID and self.link) then
 			link = select(7, EJ_GetLootInfoByIndex(self.index))
 			SetItemLevel(self, link or self.link)
-		else
-			SetItemLevelString(frame.levelString, "")
-			SetItemSlotString(frame.slotString)
-		end
 		--EmbeddedItemTooltip
-		if (self.Tooltip) then
+		elseif (self.Tooltip) then
 			link = select(2, self.Tooltip:GetItem())
 			SetItemLevel(self, link)
 		else
@@ -273,19 +266,23 @@ end)
 -- ForAddons: Bagnon Combuctor LiteBag ArkInventory
 LibEvent:attachEvent("PLAYER_LOGIN", function()
 	-- For Bagnon
-	if (Bagnon and Bagnon.ItemSlot and Bagnon.ItemSlot.Update) then
+	if (Bagnon and Bagnon.Item and Bagnon.Item.Update) then
+		hooksecurefunc(Bagnon.Item, "Update", function(self)
+			SetItemLevel(self, self:GetItem(), "Bag", self:GetBag(), self:GetID())
+		end)
+	elseif (Bagnon and Bagnon.ItemSlot and Bagnon.ItemSlot.Update) then
 		hooksecurefunc(Bagnon.ItemSlot, "Update", function(self)
 			SetItemLevel(self, self:GetItem(), "Bag", self:GetBag(), self:GetID())
 		end)
 	end
 	-- For Combuctor
-	if (Combuctor and Combuctor.ItemSlot and Combuctor.ItemSlot.Update) then
+	if (Combuctor and Combuctor.Item and Combuctor.Item.Update) then
+		hooksecurefunc(Combuctor.Item, "Update", function(self)
+			SetItemLevel(self, self.GetItem and self:GetItem(), "Bag", self.GetBag and self:GetBag(), self.GetID and self:GetID())
+		end)
+	elseif (Combuctor and Combuctor.ItemSlot and Combuctor.ItemSlot.Update) then
 		hooksecurefunc(Combuctor.ItemSlot, "Update", function(self)
 			SetItemLevel(self, self:GetItem(), "Bag", self:GetBag(), self:GetID())
-		end)
-	elseif (Combuctor and Combuctor.Item and Combuctor.Item.Update) then
-		hooksecurefunc(Combuctor.Item, "Update", function(self)
-			SetItemLevel(self, self.hasItem, "Bag", self.bag, self.GetID and self:GetID())
 		end)
 	end
 	-- For LiteBag

@@ -60,15 +60,25 @@ local function GetInspectItemListFrame(parent)
 			itemframe.label:SetPoint("LEFT")
 			itemframe.label:SetBackdropBorderColor(0, 0.9, 0.9, 0.2)
 			itemframe.label:SetBackdropColor(0, 0.9, 0.9, 0.2)
+
 			itemframe.label.text = B.CreateFS(itemframe.label, fontsize, v.name)
 			itemframe.label.text:SetSize(34, 14)
 			itemframe.label.text:SetTextColor(0, 0.9, 0.9)
+
 			itemframe.levelString = B.CreateFS(itemframe, 16, "")
 			itemframe.levelString:SetJustifyH("LEFT")
 			itemframe.levelString:SetPoint("LEFT", itemframe.label, "RIGHT", 4, 0)
+
 			itemframe.itemString = B.CreateFS(itemframe, 16, "")
 			itemframe.itemString:SetJustifyH("LEFT")
 			itemframe.itemString:SetPoint("LEFT", itemframe.levelString, "RIGHT", 0, 0)
+
+			itemframe.corruptedMark = itemframe:CreateTexture(nil, "OVERLAY")
+			itemframe.corruptedMark:SetSize(14, 18)
+			itemframe.corruptedMark:SetPoint("RIGHT", itemframe.label, "RIGHT", 6, -1)
+			itemframe.corruptedMark:SetTexture("Interface\\RaidFrame\\Raid-Icon-DebuffCurse")
+			itemframe.corruptedMark:SetVertexColor(1, 0, 0)
+
 			itemframe:SetScript("OnEnter", function(self)
 				local r, g, b, a = self.label:GetBackdropColor()
 				self.label:SetBackdropColor(r, g, b, a+0.5)
@@ -146,6 +156,11 @@ function ShowInspectItemListFrame(unit, parent, ilevel, maxLevel)
 		itemframe.level = level
 		itemframe.quality = quality
 		itemframe.itemString:SetWidth(0)
+		if (link and IsCorruptedItem(link)) then
+			itemframe.corruptedMark:Show()
+		else
+			itemframe.corruptedMark:Hide()
+		end
 		if (level > 0) then
 			itemframe.levelString:SetText(format(formats, level))
 			itemframe.itemString:SetText(link or name)

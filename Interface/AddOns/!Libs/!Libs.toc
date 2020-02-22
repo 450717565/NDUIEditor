@@ -1,7 +1,7 @@
 ## Interface: 80300
 ## Title: |cff0080ff运行库|r
 ## Notes: 各插件需要的运行库，请勿禁用！
-## Author: Ace3 Development Team, Yssaril, Mayen, Nevcairiel, ckknight, Kemayo, Arith, Elsia, Funkydude, Tekkub, Elkano, Cybeloras, Zarnivoop, Torhal, Adirelle, Tristanian, mitch0, Phanx, Mikk, Pastamancer
+## Author: All Developers
 ## X-Vendor: 七曜·星の痕
 ## Version: 8.0
 

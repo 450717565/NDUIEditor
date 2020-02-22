@@ -356,9 +356,9 @@ L["STRING_MODE_SELF"] = "插件：单刷"
 L["STRING_MORE_INFO"] = "详情请见右箱。"
 L["STRING_MULTISTRIKE"] = "溅射"
 L["STRING_MULTISTRIKE_HITS"] = "溅射命中"
-L["STRING_MUSIC_DETAILS_ROBERTOCARLOS"] = [=[There's no use trying to forget
-For a long time in your life I will live
-Details as small of us]=]
+L["STRING_MUSIC_DETAILS_ROBERTOCARLOS"] = [=[尝试遗忘是徒劳的
+我会存在于你的大部分生命里
+Details是我们的一小部分]=]
 L["STRING_NEWROW"] = "等待刷新..."
 L["STRING_NEWS_REINSTALL"] = "更新后发现问题? 尝试 '/details reinstall' 命令."
 L["STRING_NEWS_TITLE"] = "最近更新"
@@ -868,7 +868,8 @@ L["STRING_OPTIONS_PS_ABBREVIATE_DESC"] = [=[选择缩写方法。
 |cFFFFFF00精确到K II|r:
 520600 = 520K
 19530000 = 19.53M
-|cFFFFFF00To精确到KM I|r:
+
+|cFFFFFF00精确到M I|r:
 520600 = 520.6K
 19530000 = 19M
 |cFFFFFF00逗点|r:
@@ -1022,7 +1023,7 @@ L["STRING_OPTIONS_SPELL_ADD"] = "添加"
 L["STRING_OPTIONS_SPELL_ADDICON"] = "新图标："
 L["STRING_OPTIONS_SPELL_ADDNAME"] = "新名字："
 L["STRING_OPTIONS_SPELL_ADDSPELL"] = "添加法术"
-L["STRING_OPTIONS_SPELL_ADDSPELLID"] = "SpellId："
+L["STRING_OPTIONS_SPELL_ADDSPELLID"] = "法术Id："
 L["STRING_OPTIONS_SPELL_CLOSE"] = "关闭"
 L["STRING_OPTIONS_SPELL_ICON"] = "图标"
 L["STRING_OPTIONS_SPELL_IDERROR"] = "法术id无效。"

@@ -30,17 +30,21 @@ local inspectSlots = {
 	"SecondaryHand",
 }
 
-function M:GetSlotAnchor(index)
+function M:GetSlotAnchor(index, isIcon)
 	if not index then return end
 
-	if index <= 5 or index == 9 or index == 15 then
-		return "TOPLEFT", "TOPRIGHT", 4, -2
-	elseif index == 16 then
-		return "BOTTOMRIGHT", "BOTTOMLEFT", -4, 2
-	elseif index == 17 then
-		return "BOTTOMLEFT", "BOTTOMRIGHT", 4, 2
+	if index <= 5 or index == 9 or index == 15  or index == 17 then
+		if isIcon then
+			return "TOPLEFT", "TOPRIGHT", 4, -2
+		else
+			return "BOTTOMLEFT", "BOTTOMRIGHT", 4, 2
+		end
 	else
-		return "TOPRIGHT", "TOPLEFT", -4, -2
+		if isIcon then
+			return "TOPRIGHT", "TOPLEFT", -4, -2
+		else
+			return "BOTTOMRIGHT", "BOTTOMLEFT", -4, 2
+		end
 	end
 end
 
@@ -64,16 +68,19 @@ function M:CreateItemString(frame, strType)
 			slotFrame.iLvlText = B.CreateFS(slotFrame, DB.Font[2]+1)
 			slotFrame.iLvlText:ClearAllPoints()
 			slotFrame.iLvlText:SetPoint("BOTTOM", slotFrame, 1, 1)
-			local relF, relT, x, y = M:GetSlotAnchor(index)
+
+			local tp1, tp2, tx, ty = M:GetSlotAnchor(index)
 			slotFrame.enchantText = B.CreateFS(slotFrame, DB.Font[2]+1)
 			slotFrame.enchantText:ClearAllPoints()
-			slotFrame.enchantText:SetPoint(relF, slotFrame, relT, x, y)
+			slotFrame.enchantText:SetPoint(tp1, slotFrame, tp2, tx, ty)
 			slotFrame.enchantText:SetTextColor(0, 1, 0)
+
+			local ip1, ip2, ix, iy = M:GetSlotAnchor(index, true)
 			for i = 1, 10 do
-				local offset = (i-1)*18 + 5
-				local iconX = x > 0 and x+offset or x-offset
-				local iconY = index > 15 and 20 or -20
-				slotFrame["textureIcon"..i] = M:CreateItemTexture(slotFrame, relF, relT, iconX, iconY)
+				local offset = (i-1)*18 + 2
+				local iconX = ix > 0 and ix+offset or ix-offset
+				local iconY = iy
+				slotFrame["textureIcon"..i] = M:CreateItemTexture(slotFrame, ip1, ip2, iconX, iconY)
 			end
 		end
 	end
