@@ -326,6 +326,7 @@ local defaultSettings = {
 		SkinColor = {r=.5, g=.5, b=.5},
 		MaxTiers = 4,
 		AfkDelight = true,
+		OnlyCombatText = false,
 	},
 }
 
@@ -685,6 +686,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{3, "UFs", "SmoothAmount", DB.MyColor..L["SmoothAmount"], true, {.2, .8, 2}, updateSmoothingAmount, L["SmoothAmountTip"]},
 		{},--blank
 		{1, "UFs", "CombatText", DB.MyColor..L["UFs CombatText"]},
+		{1, "Extras", "OnlyCombatText", L["Only Combat Text"], true},
 		{1, "UFs", "AutoAttack", L["CombatText AutoAttack"]},
 		{1, "UFs", "PetCombatText", L["CombatText ShowPets"], true},
 		{1, "UFs", "HotsDots", L["CombatText HotsDots"]},

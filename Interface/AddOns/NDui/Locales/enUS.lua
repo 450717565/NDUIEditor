@@ -83,6 +83,7 @@ L["Afk Delight"] = "AFK Animation"
 L["Mythic Level"] = "Mythic Level: %s"
 L["Mythic & Weekly Loot"] = "Mythic Loot: %s - Weekly Loot: %s"
 L["Mythic Loot Info"] = "Hold <SHIFT> to show Mythic loot info"
+L["Only Combat Text"] = "Only show Combat Status Text"
 
 L["From"] = "From"
 L["Tell"] = "Tell"

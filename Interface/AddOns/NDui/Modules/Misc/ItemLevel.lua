@@ -77,7 +77,7 @@ function M:CreateItemString(frame, strType)
 
 			local ip1, ip2, ix, iy = M:GetSlotAnchor(index, true)
 			for i = 1, 10 do
-				local offset = (i-1)*18 + 2
+				local offset = (i-1)*18 + 3
 				local iconX = ix > 0 and ix+offset or ix-offset
 				local iconY = iy
 				slotFrame["textureIcon"..i] = M:CreateItemTexture(slotFrame, ip1, ip2, iconX, iconY)

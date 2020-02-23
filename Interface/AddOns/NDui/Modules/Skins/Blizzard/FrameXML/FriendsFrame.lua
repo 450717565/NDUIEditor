@@ -59,10 +59,6 @@ tinsert(C.defaultThemes, function()
 	for i = 1, 3 do
 		local FriendsHeader = _G["FriendsTabHeaderTab"..i]
 		B.StripTextures(FriendsHeader)
-
-		local bg = B.CreateBDFrame(FriendsHeader, 0)
-		bg:SetPoint("TOPLEFT", C.mult, -8)
-		bg:SetPoint("BOTTOMRIGHT", -C.mult, 0)
 	end
 
 	-- FriendsFrameBattlenetFrame

@@ -62,7 +62,10 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 					if cell and cell.Icon then
 						if not cell.styled then
 							cell.Icon.bg = B.ReskinIcon(cell.Icon)
-							if cell.IconBorder then cell.IconBorder:SetAlpha(0) end
+							if cell.IconBorder then
+								cell.IconBorder:SetAlpha(0)
+								cell.IconBorder:Hide()
+							end
 
 							cell.styled = true
 						end
@@ -81,7 +84,10 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 				if not child.styled then
 					child.HighlightTexture:SetColorTexture(1, 1, 1, .25)
 					child.Icon.bg = B.ReskinIcon(child.Icon)
-					if child.IconBorder then child.IconBorder:SetAlpha(0) end
+					if child.IconBorder then
+						child.IconBorder:SetAlpha(0)
+						child.IconBorder:Hide()
+					end
 
 					child.styled = true
 				end

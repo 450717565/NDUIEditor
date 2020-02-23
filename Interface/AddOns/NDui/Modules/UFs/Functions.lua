@@ -679,7 +679,7 @@ function UF:CreateAuras(self)
 			bu.numTotal = 1
 			bu.disableCooldown = true
 		else
-			bu:SetPoint("BOTTOMLEFT", self.Health)
+			bu:SetPoint("BOTTOMLEFT", self.Health, "BOTTOMLEFT", 0, 0)
 			bu.numTotal = NDuiDB["UFs"]["SimpleMode"] and 0 or 6
 			bu.iconsPerRow = 6
 			bu.spacing = 3

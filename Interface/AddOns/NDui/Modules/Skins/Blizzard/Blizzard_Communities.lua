@@ -444,6 +444,16 @@ C.themes["Blizzard_Communities"] = function()
 	bg:SetPoint("TOPLEFT", 0, 3)
 	bg:SetPoint("BOTTOMRIGHT", 0, -4)
 
+	local BossModel = CommunitiesFrameGuildDetailsFrameNews.BossModel
+	BossModel:ClearAllPoints()
+	BossModel:SetPoint("LEFT", CommunitiesFrame, "RIGHT", 40, 0)
+
+	local TextFrame = BossModel.TextFrame
+	B.StripTextures(TextFrame)
+
+	local bossBG = B.ReskinFrame(BossModel)
+	bossBG:SetOutside(BossModel, C.mult, C.mult, TextFrame)
+
 	local FiltersFrame = CommunitiesGuildNewsFiltersFrame
 	B.ReskinFrame(FiltersFrame)
 

@@ -59,13 +59,22 @@ C.themes["Blizzard_GuildUI"] = function()
 		end
 	end)
 
+	B.StripTextures(GuildNewsBossModelTextFrame)
+
+	GuildNewsBossModel:ClearAllPoints()
+	GuildNewsBossModel:SetPoint("LEFT", GuildFrame, "RIGHT", 5, 0)
+
+	local bg = B.ReskinFrame(GuildNewsBossModel)
+	bg:SetOutside(GuildNewsBossModel, C.mult, C.mult, GuildNewsBossModelTextFrame)
+
 	--Roster
 	B.ReskinDropDown(GuildRosterViewDropdown)
 	B.ReskinDropDown(GuildMemberRankDropdown)
 	B.ReskinClose(GuildMemberDetailCloseButton)
-
-	GuildRosterShowOfflineButton:SetSize(24, 24)
 	B.ReskinCheck(GuildRosterShowOfflineButton)
+
+	GuildMemberRankDropdownText:Hide()
+	GuildRosterShowOfflineButton:SetSize(24, 24)
 
 	for i = 1, 5 do
 		local bu = _G["GuildRosterColumnButton"..i]
@@ -78,26 +87,27 @@ C.themes["Blizzard_GuildUI"] = function()
 	hooksecurefunc("GuildRoster_UpdateTradeSkills", function()
 		local buttons = GuildRosterContainer.buttons
 		for i = 1, #buttons do
-			local button = buttons[i]
-			local string = button.string1
-			local header = button.header
-
 			local index = HybridScrollFrame_GetOffset(GuildRosterContainer) + i
-			local headerName = select(3, GetGuildTradeSkillInfo(index))
-			if headerName then
-				string:Hide()
-			else
-				string:Show()
-			end
+			local String1 = _G["GuildRosterContainerButton"..i.."String1"]
+			local HeaderButton = _G["GuildRosterContainerButton"..i.."HeaderButton"]
 
-			if header and not header.styled then
-				B.StripTextures(header)
-				B.ReskinIcon(header.icon)
+			if HeaderButton then
+				local headerName = select(3, GetGuildTradeSkillInfo(index))
+				if headerName then
+					String1:Hide()
+				else
+					String1:Show()
+				end
 
-				local bg = B.CreateBDFrame(header, 0, -C.mult*2)
-				B.ReskinTexture(header, bg, true)
+				if not HeaderButton.styled then
+					B.StripTextures(HeaderButton)
+					B.ReskinIcon(HeaderButton.icon)
 
-				header.styled = true
+					local bg = B.CreateBDFrame(HeaderButton, 0, -C.mult*2)
+					B.ReskinTexture(HeaderButton, bg, true)
+
+					HeaderButton.styled = true
+				end
 			end
 		end
 	end)
@@ -139,25 +149,24 @@ C.themes["Blizzard_GuildUI"] = function()
 
 	-- Font width fix
 	local function updateLevelString(view)
-		local buttons = GuildRosterContainer.buttons
+		if view == "playerStatus" or view == "reputation" or view == "achievement" then
+			local buttons = GuildRosterContainer.buttons
+			for i = 1, #buttons do
+				local String1 = _G["GuildRosterContainerButton"..i.."String1"]
+				String1:SetWidth(32)
+				String1:SetJustifyH("LEFT")
+				String1:ClearAllPoints()
+				String1:SetPoint("LEFT", 3, 0)
 
-		for i = 1, #buttons do
-			local button = buttons[i]
-
-			if view == "playerStatus" or view == "reputation" or view == "achievement" then
-				local string = button.string1
-				string:SetWidth(32)
-				string:SetJustifyH("LEFT")
-
-				local icon = button.icon
-				icon:ClearAllPoints()
-				icon:SetPoint("LEFT", 43, 0)
+				local Icon = _G["GuildRosterContainerButton"..i.."Icon"]
+				Icon:ClearAllPoints()
+				Icon:SetPoint("LEFT", 43, 0)
 			end
 
 			if view == "achievement" then
-				local label = button.barLabel
-				label:SetWidth(60)
-				label:SetJustifyH("LEFT")
+				local BarLabel = _G["GuildRosterContainerButton"..i.."BarLabel"]
+				BarLabel:SetWidth(60)
+				BarLabel:SetJustifyH("LEFT")
 			end
 		end
 	end
