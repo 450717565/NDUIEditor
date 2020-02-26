@@ -44,10 +44,9 @@ function UF:UpdateTargetBorder()
 end
 
 function UF:CreateTargetBorder(self)
-	local targetBorder = B.CreateBDFrame(self, 0)
-	targetBorder:SetBackdropBorderColor(0, 1, 1)
+	local targetBorder = B.CreateBDFrame(self, 0, 0, true)
+	targetBorder:SetBackdropBorderColor(0, 1, 0)
 	targetBorder:SetOutside(self.Health.bd, 2+C.mult, 2+C.mult, self.Power.bd)
-	targetBorder.gTex:Hide()
 	targetBorder.Tex:Hide()
 	targetBorder:Hide()
 
@@ -72,9 +71,8 @@ function UF:UpdateThreatBorder(_, unit)
 end
 
 function UF:CreateThreatBorder(self)
-	local threatIndicator = B.CreateBDFrame(self, 0)
+	local threatIndicator = B.CreateBDFrame(self, 0, 0, true)
 	threatIndicator:SetOutside(self.Health.bd, 1+C.mult, 1+C.mult, self.Power.bd)
-	threatIndicator.gTex:Hide()
 	threatIndicator.Tex:Hide()
 	threatIndicator:Hide()
 

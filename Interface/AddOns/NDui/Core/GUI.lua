@@ -302,7 +302,7 @@ local defaultSettings = {
 		RMRune = false,
 		DBMCount = "5",
 		EasyMarking = true,
-		BlockWQT = true,
+		BlockWQT = false,
 	},
 	Tutorial = {
 		Complete = false,

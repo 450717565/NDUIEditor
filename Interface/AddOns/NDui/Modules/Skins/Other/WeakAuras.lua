@@ -14,9 +14,12 @@ local function ReskinWA()
 			end
 		elseif type == "aurabar" then
 			if self.bar and not self.bar.styled then
-				B.CreateBDFrame(self.bar)
 				B.ReskinIcon(self.icon)
 				self.icon.SetTexCoord = B.Dummy
+
+				local bg = B.CreateBDFrame(self.bar, 0, nil, true)
+				bg:SetFrameLevel(0)
+				bg.Tex:Hide()
 
 				self.bar.styled = true
 			end

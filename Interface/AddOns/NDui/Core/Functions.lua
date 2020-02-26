@@ -127,8 +127,7 @@ function B:CreateSB(spark, r, g, b)
 		self:SetStatusBarColor(cr, cg, cb)
 	end
 
-	local bd = B.CreateBDFrame(self, 0)
-	bd.gTex:Hide()
+	local bd = B.CreateBDFrame(self, 0, nil, true)
 	self.bd = bd
 
 	local bg = self:CreateTexture(nil, "BACKGROUND")
