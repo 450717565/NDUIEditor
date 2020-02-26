@@ -83,7 +83,8 @@ L["Afk Delight"] = "暫離動畫"
 L["Mythic Level"] = "層數：%s"
 L["Mythic & Weekly Loot"] = "秘境：%s 低保：%s"
 L["Mythic Loot Info"] = "按住<SHIFT>顯示秘境掉落信息"
-L["Only Combat Text"] = "僅顯示 進入/離開 戰鬥提示"
+L["Only Combat Text"] = "僅顯示戰鬥狀態提示"
+L["PartyFrame Show Debuff"] = "小隊框體中顯示Debuff"
 
 -- 默认
 

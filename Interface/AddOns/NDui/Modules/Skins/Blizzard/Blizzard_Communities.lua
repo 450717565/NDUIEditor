@@ -4,7 +4,7 @@ C.themes["Blizzard_Communities"] = function()
 	local cr, cg, cb = DB.r, DB.g, DB.b
 
 	local function reskinCommunityTab(self)
-		self:SetSize(34, 34)
+		self:SetSize(32, 32)
 		self:GetRegions():Hide()
 
 		local icbg = B.ReskinIcon(self.Icon)
@@ -49,7 +49,7 @@ C.themes["Blizzard_Communities"] = function()
 	B.ReskinDropDown(CommunitiesFrame.CommunitiesListDropDownMenu)
 
 	CommunitiesFrame.ChatTab:ClearAllPoints()
-	CommunitiesFrame.ChatTab:SetPoint("TOPLEFT", CommunitiesFrame, "TOPRIGHT", 2, -25)
+	CommunitiesFrame.ChatTab:SetPoint("TOPLEFT", CommunitiesFrame, "TOPRIGHT", 1, -25)
 	local tabs = {"ChatTab", "RosterTab", "GuildBenefitsTab", "GuildInfoTab"}
 	for _, name in pairs(tabs) do
 		local tab = CommunitiesFrame[name]
@@ -119,7 +119,7 @@ C.themes["Blizzard_Communities"] = function()
 			if frame.ClubFinderSearchTab then
 				reskinCommunityTab(frame.ClubFinderSearchTab)
 				frame.ClubFinderSearchTab:ClearAllPoints()
-				frame.ClubFinderSearchTab:SetPoint("TOPLEFT", CommunitiesFrame, "TOPRIGHT", 2, -25)
+				frame.ClubFinderSearchTab:SetPoint("TOPLEFT", CommunitiesFrame, "TOPRIGHT", 1, -25)
 			end
 			if frame.ClubFinderPendingTab then reskinCommunityTab(frame.ClubFinderPendingTab) end
 			if frame.GuildCards then reskinGuildCards(frame.GuildCards) end

@@ -1,7 +1,9 @@
 local B, C, L, DB = unpack(select(2, ...))
 
 C.themes["Blizzard_VoidStorageUI"] = function()
-	B.ReskinFrame(VoidStorageBorderFrame)
+	local bg = B.ReskinFrame(VoidStorageBorderFrame)
+	bg:SetFrameLevel(0)
+
 	B.ReskinFrame(VoidStoragePurchaseFrame)
 
 	B.ReskinButton(VoidStoragePurchaseButton)
@@ -45,7 +47,7 @@ C.themes["Blizzard_VoidStorageUI"] = function()
 
 	for i = 1, 2 do
 		local tab = VoidStorageFrame["Page"..i]
-		tab:SetSize(34, 34)
+		tab:SetSize(32, 32)
 		tab:GetRegions():Hide()
 
 		local icbg = B.ReskinIcon(tab:GetNormalTexture())
@@ -54,7 +56,7 @@ C.themes["Blizzard_VoidStorageUI"] = function()
 
 		if i == 1 then
 			tab:ClearAllPoints()
-			tab:SetPoint("TOPLEFT", VoidStorageFrame, "TOPRIGHT", 4, -25)
+			tab:SetPoint("TOPLEFT", VoidStorageFrame, "TOPRIGHT", 3, -25)
 		end
 	end
 end

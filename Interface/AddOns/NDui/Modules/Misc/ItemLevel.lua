@@ -33,7 +33,19 @@ local inspectSlots = {
 function M:GetSlotAnchor(index, isIcon)
 	if not index then return end
 
-	if index <= 5 or index == 9 or index == 15  or index == 17 then
+	if index <= 5 or index == 9 or index == 15 then
+		if isIcon then
+			return "BOTTOMLEFT", "BOTTOMRIGHT", 4, 2
+		else
+			return "TOPLEFT", "TOPRIGHT", 4, -2
+		end
+	elseif index == 16 then
+		if isIcon then
+			return "TOPRIGHT", "TOPLEFT", -4, -2
+		else
+			return "BOTTOMRIGHT", "BOTTOMLEFT", -4, 2
+		end
+	elseif index == 17 then
 		if isIcon then
 			return "TOPLEFT", "TOPRIGHT", 4, -2
 		else
@@ -41,9 +53,9 @@ function M:GetSlotAnchor(index, isIcon)
 		end
 	else
 		if isIcon then
-			return "TOPRIGHT", "TOPLEFT", -4, -2
-		else
 			return "BOTTOMRIGHT", "BOTTOMLEFT", -4, 2
+		else
+			return "TOPRIGHT", "TOPLEFT", -4, -2
 		end
 	end
 end

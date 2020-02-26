@@ -520,17 +520,19 @@ function UF.PostCreateIcon(element, button)
 	parentFrame:SetAllPoints()
 	parentFrame:SetFrameLevel(button:GetFrameLevel() + 3)
 	button.count = B.CreateFS(parentFrame, fontSize, "", false, "BOTTOMRIGHT", 4, -4)
-	button.cd:SetReverse(true)
-
-	button.HL = button:CreateTexture(nil, "HIGHLIGHT")
-	button.HL:SetColorTexture(1, 1, 1, .25)
-	button.HL:SetAllPoints()
-
-	button.overlay:SetTexture(nil)
-	button.stealable:SetTexture(nil)
 
 	button.glowFrame = B.CreateGlowFrame(button, element.size)
 	button.bd = B.ReskinIcon(button.icon)
+
+	button.HL = button:CreateTexture(nil, "HIGHLIGHT")
+	button.HL:SetColorTexture(1, 1, 1, .25)
+	button.HL:SetInside(button.bd)
+
+	button.cd:SetReverse(true)
+	button.cd:SetInside(button.bd)
+
+	button.overlay:SetTexture(nil)
+	button.stealable:SetTexture(nil)
 
 	if element.disableCooldown then button.timer = B.CreateFS(button, 12) end
 end

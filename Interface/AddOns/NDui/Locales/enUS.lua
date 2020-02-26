@@ -84,6 +84,7 @@ L["Mythic Level"] = "Mythic Level: %s"
 L["Mythic & Weekly Loot"] = "Mythic Loot: %s - Weekly Loot: %s"
 L["Mythic Loot Info"] = "Hold <SHIFT> to show Mythic loot info"
 L["Only Combat Text"] = "Only show Combat Status Text"
+L["PartyFrame Show Debuff"] = "Show Debuffs in PartyFrame"
 
 L["From"] = "From"
 L["Tell"] = "Tell"

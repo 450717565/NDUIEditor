@@ -141,7 +141,7 @@ function M:KeystoneInfo_Create()
 			local _, suffix = strsplit("-", dungeon)
 			if suffix then dungeon = suffix end
 			dungeon = gsub(dungeon, L["!"], "")
-			GameTooltip:AddDoubleLine(format(color.."%s|r", name), format("%s%s(%s)|r", factionColor, dungeon, level))
+			GameTooltip:AddDoubleLine(format(color.."%s|r", name), format("%s%s (%s)|r", factionColor, dungeon, level))
 		end
 		GameTooltip:AddDoubleLine(" ", DB.LineString)
 		GameTooltip:AddDoubleLine(" ", DB.ScrollButton..L["Reset Gold"].." ", 1,1,1, .6,.8,1)

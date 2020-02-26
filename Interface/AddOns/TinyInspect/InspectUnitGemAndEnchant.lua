@@ -44,6 +44,8 @@ local function CreateIconFrame(frame, index)
 			GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
 			GameTooltip:SetText(self.title)
 			GameTooltip:Show()
+		else
+			GameTooltip:Hide()
 		end
 	end)
 	icon:SetScript("OnLeave", function(self)

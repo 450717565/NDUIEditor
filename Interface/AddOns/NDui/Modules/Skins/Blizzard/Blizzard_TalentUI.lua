@@ -191,7 +191,7 @@ C.themes["Blizzard_TalentUI"] = function()
 		B.StripTextures(bu)
 
 		local icon = bu.Icon
-		icon:SetSize(34, 34)
+		icon:SetSize(32, 32)
 
 		local icbg = B.ReskinIcon(icon)
 		local bubg = B.CreateBDFrame(bu, 0)

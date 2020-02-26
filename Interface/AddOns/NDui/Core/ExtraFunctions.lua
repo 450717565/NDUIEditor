@@ -1216,6 +1216,8 @@ function B:ReskinSearchResult()
 end
 
 function B:ReskinSort()
+	local bg = B.CreateBDFrame(self, 0)
+
 	local normal = self:GetNormalTexture()
 	normal:SetTexCoord(.17, .83, .17, .83)
 
@@ -1224,7 +1226,5 @@ function B:ReskinSort()
 
 	local highlight = self:GetHighlightTexture()
 	highlight:SetColorTexture(1, 1, 1, .25)
-	highlight:SetAllPoints()
-
-	B.CreateBDFrame(self, 0)
+	highlight:SetInside(bg)
 end

@@ -94,8 +94,11 @@ function M:TradeTabs_Reskin()
 	if not NDuiDB["Skins"]["BlizzardSkins"] then return end
 
 	for _, tab in pairs(tabList) do
+		tab:SetSize(32, 32)
 		tab:GetRegions():Hide()
+
 		local icbg = B.ReskinIcon(tab:GetNormalTexture())
+		B.ReskinTexture(tab, icbg)
 		B.ReskinTexed(tab, icbg)
 	end
 end
@@ -128,7 +131,6 @@ function M:TradeTabs_Create(slotID, spellID, toyID, itemID)
 		tab:SetAttribute(tab.type, name)
 	end
 	tab:SetNormalTexture(texture)
-	tab:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 	tab:Show()
 
 	tab.CD = CreateFrame("Cooldown", nil, tab, "CooldownFrameTemplate")
@@ -138,7 +140,7 @@ function M:TradeTabs_Create(slotID, spellID, toyID, itemID)
 	tab.cover:SetAllPoints()
 	tab.cover:EnableMouse(true)
 
-	tab:SetPoint("TOPLEFT", TradeSkillFrame, "TOPRIGHT", 3, -index*42)
+	tab:SetPoint("TOPLEFT", TradeSkillFrame, "TOPRIGHT", 3, -index*40)
 	tinsert(tabList, tab)
 	index = index + 1
 end

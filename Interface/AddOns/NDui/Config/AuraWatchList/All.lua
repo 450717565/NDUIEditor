@@ -87,6 +87,7 @@ local list = {
 		{AuraID = 288156, UnitID = "player"},	-- 增幅千兆怒火引擎
 		{AuraID = 268836, UnitID = "player"},	-- 活性血瓶
 		{AuraID = 229206, UnitID = "player"},	-- 延时之力
+		{AuraID = 313571, UnitID = "player"},	-- 飞龙在天
 
 		{AuraID = 251231, UnitID = "player"},	-- 钢肤药水
 		{AuraID = 279151, UnitID = "player"},	-- 智力药水
@@ -646,13 +647,11 @@ local list = {
 		{AuraID = 271867, UnitID = "target"},	-- 氪金致胜，矿区1
 	-- 尼奥罗萨
 		{AuraID = 313175, UnitID = "target"},	-- 硬化核心，拉希奥
-		{AuraID = 306005, UnitID = "target"},	-- 黑曜石之肤，玛乌特
 		{AuraID = 313208, UnitID = "target"},	-- 无形幻象，先知斯基特拉
 		{AuraID = 312329, UnitID = "target"},	-- 狼吞虎咽，无厌者夏德哈
 		{AuraID = 312595, UnitID = "target"},	-- 易爆腐蚀，德雷阿佳丝
 		{AuraID = 312750, UnitID = "target"},	-- 召唤梦魇，虚无者莱登
 		{AuraID = 306990, UnitID = "target", Value = true},	-- 适化外膜，恩佐斯外壳
-		{AuraID = 310126, UnitID = "target"},	-- 心灵护壳，恩佐斯
 		{AuraID = 312155, UnitID = "target"},	-- 碎裂自我
 		{AuraID = 313184, UnitID = "target"},	-- 突触震击
 	-- 永恒王宫

@@ -159,7 +159,6 @@ tinsert(C.defaultThemes, function()
 	hooksecurefunc("SetCheckButtonIsRadio", function(button)
 		B.CleanTextures(button)
 
-		button:SetHighlightTexture(DB.backdrop)
 		button:SetCheckedTexture("Interface\\Buttons\\UI-CheckBox-Check")
 		button:GetCheckedTexture():SetTexCoord(0, 1, 0, 1)
 		button:SetDisabledCheckedTexture("Interface\\Buttons\\UI-CheckBox-Check-Disabled")

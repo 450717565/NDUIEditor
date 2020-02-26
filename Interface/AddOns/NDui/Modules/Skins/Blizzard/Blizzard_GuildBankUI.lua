@@ -34,7 +34,7 @@ C.themes["Blizzard_GuildBankUI"] = function()
 
 		local bu = _G[tab.."Button"]
 		B.StripTextures(bu)
-		bu:SetSize(34, 34)
+		bu:SetSize(32, 32)
 
 		local icon = _G[tab.."ButtonIconTexture"]
 		local icbg = B.ReskinIcon(icon)
@@ -43,7 +43,7 @@ C.themes["Blizzard_GuildBankUI"] = function()
 
 		if i == 1 then
 			tb:ClearAllPoints()
-			tb:SetPoint("TOPLEFT", GuildBankFrame, "TOPRIGHT", 2, -25)
+			tb:SetPoint("TOPLEFT", GuildBankFrame, "TOPRIGHT", 1, -25)
 		end
 	end
 

@@ -175,6 +175,8 @@ C.CustomUnits = {
 	[131586] = true, -- 宴会招待员
 	[131492] = true, -- 虔诚鲜血祭司
 	[127111] = true, -- 铁潮桨手
+	[157450] = true, -- 咒缚的祭师
+	[157255] = true, -- 爆裂工虫
 
 	[120651] = true, -- 爆炸物
 	[141851] = true, -- 戈霍恩之嗣
@@ -205,7 +207,6 @@ C.CustomUnits = {
 	[GetSectionInfo(19393)] = true,	-- 雪怒之魂
 	[GetSectionInfo(19279)] = true,	-- 谄媚海妖
 	[GetSectionInfo(19019)] = true,	-- 贪婪的追猎者
-	["爆裂工虫"] = true,
 	[GetSectionInfo(21209)] = true,	-- 亚基掠夺者
 	[GetSectionInfo(20561)] = true,	-- 惊魂淤血
 	[GetSectionInfo(21329)] = true,	-- 聚合增生

@@ -327,6 +327,7 @@ local defaultSettings = {
 		MaxTiers = 4,
 		AfkDelight = true,
 		OnlyCombatText = false,
+		PartyDebuff = true,
 	},
 }
 
@@ -700,6 +701,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "UFs", "PartyWatcher", L["UFs PartyWatcher"], nil, setupPartyWatcher},
 		{1, "UFs", "PartyAltPower", L["UFs PartyAltPower"], true},
 		{1, "Extras", "ShowYourself", L["PartyFrame Show Yourself"]},
+		{1, "Extras", "PartyDebuff", L["PartyFrame Show Debuff"], true},
 		{},--blank
 		{1, "UFs", "RaidBuffIndicator", DB.MyColor..L["RaidBuffIndicator"], nil, setupBuffIndicator, nil, L["RaidBuffIndicatorTip"]},
 		{4, "UFs", "BuffIndicatorType", L["BuffIndicatorType"].."*", nil, {L["BI_Blocks"], L["BI_Icons"], L["BI_Numbers"]}, refreshRaidFrameIcons},

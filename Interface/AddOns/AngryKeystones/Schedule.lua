@@ -40,7 +40,7 @@ local function GetNameForKeystone(keystoneMapID, keystoneLevel)
 		if suffix then keystoneMapName = suffix end
 		keystoneMapName = string.gsub(keystoneMapName, "！", "")
 
-		return string.format("%s (%d)", keystoneMapName, keystoneLevel)
+		return string.format("%s |cffFFCC00(%d)|r", keystoneMapName, keystoneLevel)
 	end
 end
 

@@ -11,7 +11,7 @@ tinsert(C.defaultThemes, function()
 
 	SpellBookPageText:SetTextColor(.8, .8, .8)
 	SpellBookSkillLineTab1:ClearAllPoints()
-	SpellBookSkillLineTab1:SetPoint("TOPLEFT", SpellBookFrame, "TOPRIGHT", 4, -25)
+	SpellBookSkillLineTab1:SetPoint("TOPLEFT", SpellBookFrame, "TOPRIGHT", 3, -25)
 	SpellBookFrameTutorialButton.Ring:Hide()
 	SpellBookFrameTutorialButton:ClearAllPoints()
 	SpellBookFrameTutorialButton:SetPoint("TOPLEFT", SpellBookFrame, "TOPLEFT", -12, 12)
@@ -79,18 +79,18 @@ tinsert(C.defaultThemes, function()
 				local icon = tab:GetNormalTexture()
 
 				if tab and not tab.styled then
-					tab:SetSize(34, 34)
+					tab:SetSize(32, 32)
 					tab:GetRegions():Hide()
-					tab:SetCheckedTexture(DB.checked)
-
-					if icon and not icon.styled then
-						local icbg = B.ReskinIcon(icon, 1)
-						B.ReskinTexture(tab, icbg)
-
-						icon.styled = true
-					end
 
 					tab.styled = true
+				end
+
+				if icon and not icon.styled then
+					local icbg = B.ReskinIcon(icon, 1)
+					B.ReskinTexture(tab, icbg)
+					B.ReskinTexed(tab, icbg)
+
+					icon.styled = true
 				end
 			end
 		end

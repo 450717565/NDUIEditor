@@ -16,23 +16,11 @@ tinsert(C.defaultThemes, function()
 	AddonListOkayButton:SetWidth(120)
 	AddonCharacterDropDown:SetWidth(170)
 
-	hooksecurefunc("AddonList_Update", function()
-		for i = 1, MAX_ADDONS_DISPLAYED do
-			local entry = "AddonListEntry"..i
+	for i = 1, MAX_ADDONS_DISPLAYED do
+		local Enabled = _G["AddonListEntry"..i.."Enabled"]
+		B.ReskinCheck(Enabled, true)
 
-			local check = _G[entry.."Enabled"]
-			local button = _G[entry.."Load"]
-
-			if not check.styled then
-				B.ReskinCheck(check)
-				B.ReskinButton(button)
-
-				check.styled = true
-			end
-
-			local ch = check:GetCheckedTexture()
-			ch:SetDesaturated(true)
-			ch:SetVertexColor(cr, cg, cb)
-		end
-	end)
+		local Load = _G["AddonListEntry"..i.."Load"]
+		B.ReskinButton(Load)
+	end
 end)

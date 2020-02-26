@@ -161,6 +161,8 @@ oUF.Tags.Methods["nphp"] = function(unit)
 		else
 			return B.ColorText(per, true, B.FormatNumb(cur)).." | "..B.ColorText(per, true)
 		end
+	else
+		return B.FormatNumb(cur)
 	end
 end
 oUF.Tags.Events["nphp"] = "UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION"

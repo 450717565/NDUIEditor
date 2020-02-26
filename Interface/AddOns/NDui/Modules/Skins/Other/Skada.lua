@@ -72,7 +72,7 @@ function S:Skada()
 		window:SetFrameStrata("MEDIUM")
 	end
 
-	local function EmbedWindow(window, width, barheight, height, ofsx, ofsy)
+	local function EmbedWindow(window, barheight, width, height, ofsx, ofsy)
 		window.db.barwidth = width
 		window.db.barheight = barheight
 		if window.db.enabletitle then
@@ -89,10 +89,10 @@ function S:Skada()
 	local windows = {}
 	local function EmbedSkada()
 		if #windows == 1 then
-			EmbedWindow(windows[1], 350, 16, 193, -6, 32)
+			EmbedWindow(windows[1], 16, 350, 193, -6, 32)
 		elseif #windows == 2 then
-			EmbedWindow(windows[1], 350, 16, 113, -6, 32)
-			EmbedWindow(windows[2], 350, 16, 113, -6, 156)
+			EmbedWindow(windows[1], 16, 350, 113, -6, 32)
+			EmbedWindow(windows[2], 16, 350, 113, -6, 156)
 		end
 	end
 

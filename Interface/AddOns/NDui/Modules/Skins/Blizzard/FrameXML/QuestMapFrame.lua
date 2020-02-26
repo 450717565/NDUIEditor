@@ -57,7 +57,7 @@ tinsert(C.defaultThemes, function()
 				local textureID = warCampaignInfo.uiTextureKitID
 				if textureID and idToTexture[textureID] then
 					WarCampaignHeader.newTex:SetTexture(idToTexture[textureID])
-					WarCampaignHeader.newTex:SetAlpha(.7)
+					WarCampaignHeader.newTex:SetAlpha(1)
 				end
 			end
 		end

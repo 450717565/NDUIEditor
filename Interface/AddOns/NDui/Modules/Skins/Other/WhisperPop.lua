@@ -35,7 +35,7 @@ function S:WhisperPop()
 		B.ReskinTexture(bu, icbg)
 
 		if bu.SetCheckedTexture then
-			bu:SetCheckedTexture(DB.checked)
+			B.ReskinTexed(bu, icbg)
 		end
 	end
 end

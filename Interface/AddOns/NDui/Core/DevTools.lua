@@ -172,7 +172,7 @@ local function Grid_Create()
 	grid.boxSize = boxSize
 	grid:SetAllPoints(UIParent)
 
-	local size = 2
+	local size = C.mult
 	local width = GetScreenWidth()
 	local ratio = width / GetScreenHeight()
 	local height = GetScreenHeight() * ratio

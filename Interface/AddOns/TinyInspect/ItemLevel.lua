@@ -270,8 +270,8 @@ LibEvent:attachEvent("PLAYER_LOGIN", function()
 		hooksecurefunc(Bagnon.Item, "Update", function(self)
 			SetItemLevel(self, self:GetItem(), "Bag", self:GetBag(), self:GetID())
 		end)
-	elseif (Bagnon and Bagnon.ItemSlot and Bagnon.ItemSlot.Update) then
-		hooksecurefunc(Bagnon.ItemSlot, "Update", function(self)
+	elseif (Bagnon and Bagnon.Item and Bagnon.Item.Update) then
+		hooksecurefunc(Bagnon.Item, "Update", function(self)
 			SetItemLevel(self, self:GetItem(), "Bag", self:GetBag(), self:GetID())
 		end)
 	end
@@ -280,8 +280,8 @@ LibEvent:attachEvent("PLAYER_LOGIN", function()
 		hooksecurefunc(Combuctor.Item, "Update", function(self)
 			SetItemLevel(self, self.GetItem and self:GetItem(), "Bag", self.GetBag and self:GetBag(), self.GetID and self:GetID())
 		end)
-	elseif (Combuctor and Combuctor.ItemSlot and Combuctor.ItemSlot.Update) then
-		hooksecurefunc(Combuctor.ItemSlot, "Update", function(self)
+	elseif (Combuctor and Combuctor.Item and Combuctor.Item.Update) then
+		hooksecurefunc(Combuctor.Item, "Update", function(self)
 			SetItemLevel(self, self:GetItem(), "Bag", self:GetBag(), self:GetID())
 		end)
 	end

@@ -5,6 +5,7 @@
 	<Include file="Libs\LibDeflate\LibDeflate.lua"/>
 	<Include file="Libs\LibDFramework-1.0\LibDFramework-1.0.xml"/>
 	<Include file="Libs\LibDurability\LibDurability.lua"/>
+	<Include file="Libs\LibGetFrame-1.0\LibGetFrame-1.0.lua"/>
 	<Include file="Libs\LibGraph-2.0\LibGraph-2.0.lua"/>
 	<Include file="Libs\LibItemUpgradeInfo-1.0\LibItemUpgradeInfo-1.0.lua"/>
 	<Include file="Libs\LibLatency\LibLatency.lua"/>

@@ -218,6 +218,15 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 	B.ReskinButton(WoWTokenResults.Buyout)
 	B.ReskinScroll(WoWTokenResults.DummyScrollBar)
 
+	local WoWTokenSellFrame = AuctionHouseFrame.WoWTokenSellFrame
+	B.StripTextures(WoWTokenSellFrame)
+	B.ReskinButton(WoWTokenSellFrame.PostButton)
+	B.StripTextures(WoWTokenSellFrame.DummyItemList)
+	B.CreateBDFrame(WoWTokenSellFrame.DummyItemList, 0)
+	B.ReskinScroll(WoWTokenSellFrame.DummyItemList.DummyScrollBar)
+	reskinAuctionButton(WoWTokenSellFrame.DummyRefreshButton)
+	reskinItemDisplay(WoWTokenSellFrame.ItemDisplay)
+
 	local GameTimeTutorial = WoWTokenResults.GameTimeTutorial
 	B.ReskinFrame(GameTimeTutorial)
 	B.ReskinButton(GameTimeTutorial.RightDisplay.StoreButton)
@@ -225,6 +234,11 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 	GameTimeTutorial.LeftDisplay.Tutorial1:SetTextColor(1, .8, 0)
 	GameTimeTutorial.RightDisplay.Label:SetTextColor(1, 1, 1)
 	GameTimeTutorial.RightDisplay.Tutorial1:SetTextColor(1, .8, 0)
+
+	local MultisellProgressFrame = AuctionHouseMultisellProgressFrame
+	B.ReskinFrame(MultisellProgressFrame)
+	B.ReskinStatusBar(MultisellProgressFrame.ProgressBar)
+	B.ReskinClose(MultisellProgressFrame.CancelButton, "LEFT", MultisellProgressFrame.ProgressBar, "RIGHT", 3, 0)
 
 	reskinSellPanel(AuctionHouseFrame.ItemSellFrame)
 	reskinSellPanel(AuctionHouseFrame.CommoditiesSellFrame)
