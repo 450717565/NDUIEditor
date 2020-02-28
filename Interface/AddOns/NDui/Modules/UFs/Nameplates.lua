@@ -295,6 +295,7 @@ end
 
 function UF:AddTargetIndicator(self)
 	local arrowTex = DB.arrowTex..NDuiDB["Extras"]["ArrowColor"]
+	local color = NDuiDB["Extras"]["SLColor"]
 
 	local frame = CreateFrame("Frame", nil, self)
 	frame:SetAllPoints()
@@ -314,7 +315,7 @@ function UF:AddTargetIndicator(self)
 
 	frame.Glow = B.CreateBDFrame(frame, 0, 0, true)
 	frame.Glow:SetOutside(self.Health.bd, 2+C.mult, 2+C.mult)
-	frame.Glow:SetBackdropBorderColor(0, 1, 0)
+	frame.Glow:SetBackdropBorderColor(color.r, color.g, color.b)
 	frame.Glow.Tex:Hide()
 
 	self.TargetIndicator = frame
@@ -566,9 +567,10 @@ function UF:UpdateMouseoverShown()
 end
 
 function UF:MouseoverIndicator(self)
+	local color = NDuiDB["Extras"]["HLColor"]
 	local highlight = B.CreateBDFrame(self, 0, 0, true)
 	highlight:SetOutside(self.Health.bd, 2+C.mult, 2+C.mult)
-	highlight:SetBackdropBorderColor(1, 1, 1)
+	highlight:SetBackdropBorderColor(color.r, color.g, color.b)
 	highlight.Tex:Hide()
 	highlight:Hide()
 

@@ -127,6 +127,9 @@ function UF:CreateHealthText(self)
 		else
 			name:SetPoint("TOPLEFT", 2, -2)
 		end
+	elseif mystyle == "party" and NDuiDB["UFs"]["RaidBuffIndicator"] then
+		name:ClearAllPoints()
+		name:SetPoint("LEFT", 8, 0)
 	elseif mystyle == "nameplate" then
 		name:SetWidth(self:GetWidth()*.85)
 		name:ClearAllPoints()
@@ -166,6 +169,10 @@ function UF:CreateHealthText(self)
 			hpval:SetPoint("BOTTOMRIGHT", -2, 2)
 		end
 		self:Tag(hpval, "[raidhp]")
+	elseif mystyle == "party" and NDuiDB["UFs"]["RaidBuffIndicator"] then
+		hpval:ClearAllPoints()
+		hpval:SetPoint("RIGHT", -8, 0)
+		self:Tag(hpval, "[health]")
 	elseif mystyle == "nameplate" then
 		hpval:ClearAllPoints()
 		hpval:SetPoint("RIGHT", self, "TOPRIGHT", 0, 0)
@@ -560,9 +567,7 @@ function UF.PostUpdateIcon(element, _, button, _, _, duration, expiration, debuf
 		button.icon:SetDesaturated(false)
 	end
 
-	if style == "raid" and NDuiDB["UFs"]["RaidBuffIndicator"] then
-		button.bd:SetBackdropBorderColor(1, 0, 0)
-	elseif element.showDebuffType and button.isDebuff then
+	if element.showDebuffType and button.isDebuff then
 		local color = oUF.colors.debuff[debuffType] or oUF.colors.debuff.none
 		button.bd:SetBackdropBorderColor(color[1], color[2], color[3])
 	else
@@ -665,6 +670,7 @@ function UF:CreateAuras(self)
 	bu["growth-y"] = "DOWN"
 
 	local mystyle = self.mystyle
+	local partyStyle = mystyle == "party"
 	if mystyle == "target" then
 		bu:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -6)
 		bu.numBuffs = 22
@@ -673,18 +679,22 @@ function UF:CreateAuras(self)
 		bu.iconsPerRow = 9
 		bu.gap = true
 		bu.initialAnchor = "TOPLEFT"
-	elseif mystyle == "raid" then
+	elseif mystyle == "raid" or mystyle == "party" then
 		if NDuiDB["UFs"]["RaidBuffIndicator"] then
-			bu.initialAnchor = "LEFT"
-			bu:SetPoint("LEFT", self, 15, 0)
-			bu.size = 18*NDuiDB["UFs"]["SimpleRaidScale"]/10
+			bu.initialAnchor = "RIGHT"
+			bu:SetPoint("RIGHT", self, "CENTER", -5, 0)
+			bu.size = B.Round(self:GetHeight()*(partyStyle and .9 or .6))*NDuiDB["UFs"]["RaidDebuffScale"]
 			bu.numTotal = 1
 			bu.disableCooldown = true
 		else
 			bu:SetPoint("BOTTOMLEFT", self.Health, "BOTTOMLEFT", 0, 0)
 			bu.numTotal = NDuiDB["UFs"]["SimpleMode"] and 0 or 6
-			bu.iconsPerRow = 6
 			bu.spacing = 3
+			if partyStyle then
+				bu.size = NDuiDB["Extras"]["BuffIconSize"]
+			else
+				bu.iconsPerRow = 6
+			end
 		end
 		bu.disableMouse = NDuiDB["UFs"]["AurasClickThrough"]
 	elseif mystyle == "nameplate" then
@@ -717,25 +727,17 @@ end
 function UF:CreateBuffs(self)
 	local bu = CreateFrame("Frame", nil, self)
 	bu.spacing = 5
+	bu.num = 6
+	bu.iconsPerRow = 6
 	bu["growth-x"] = "RIGHT"
 	bu["growth-y"] = "UP"
 	bu.onlyShowPlayer = false
+	bu:SetPoint("BOTTOMLEFT", self.AlternativePower, "TOPLEFT", 0, 5)
+	bu.initialAnchor = "BOTTOMLEFT"
 
-	local mystyle = self.mystyle
-	if mystyle == "party" then
-		bu:SetPoint("TOPLEFT", self.nameText, "BOTTOMLEFT", 5, 2)
-		bu.num = 6
-		bu.size = self:GetHeight()*.6
+	if self.mystyle == "arena" then
+		bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 5)
 		bu.CustomFilter = UF.CustomFilter
-		bu.initialAnchor = "BOTTOMLEFT"
-	else
-		bu:SetPoint("BOTTOMLEFT", self.AlternativePower, "TOPLEFT", 0, 5)
-		bu.num = 6
-		bu.iconsPerRow = 6
-		bu.initialAnchor = "BOTTOMLEFT"
-		if mystyle == "arena" then
-			bu.CustomFilter = UF.CustomFilter
-		end
 	end
 
 	auraSetSize(self, bu)
@@ -775,12 +777,6 @@ function UF:CreateDebuffs(self)
 		bu.num = 14
 		bu.iconsPerRow = 7
 		bu.CustomFilter = UF.CustomFilter
-		bu.initialAnchor = "TOPLEFT"
-		bu["growth-x"] = "RIGHT"
-	elseif mystyle == "party" then
-		bu:SetPoint("TOPLEFT", self, "TOPRIGHT", 5, 0)
-		bu.num = 10
-		bu.size = self:GetHeight()+self.Power:GetHeight()+3
 		bu.initialAnchor = "TOPLEFT"
 		bu["growth-x"] = "RIGHT"
 	end

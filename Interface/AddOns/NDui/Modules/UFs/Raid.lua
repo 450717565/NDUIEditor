@@ -110,28 +110,30 @@ local function buttonOnEnter(self)
 end
 
 function UF:CreateRaidDebuffs(self)
+	local partyStyle = self.mystyle == "party"
 	local scale = NDuiDB["UFs"]["RaidDebuffScale"]
-	local size = 18
+	local fontSize = partyStyle and 14 or 12
+	local iconSize = B.Round(self:GetHeight()*(partyStyle and .9 or .6))
 
 	local bu = CreateFrame("Frame", nil, self)
-	bu:SetSize(size, size)
-	bu:SetPoint("RIGHT", -15, 0)
+	bu:SetSize(iconSize, iconSize)
+	bu:SetPoint("LEFT", self, "CENTER", 5, 0)
 	bu:SetFrameLevel(self:GetFrameLevel() + 3)
 	bu:SetScale(scale)
 	bu:Hide()
 
+	bu.glowFrame = B.CreateGlowFrame(bu, iconSize)
+	bu.bd = B.CreateBDFrame(bu)
+
 	bu.icon = bu:CreateTexture(nil, "ARTWORK")
-	bu.icon:SetAllPoints()
+	bu.icon:SetInside(bu.bd)
 	bu.icon:SetTexCoord(unpack(DB.TexCoord))
 
 	local parentFrame = CreateFrame("Frame", nil, bu)
 	parentFrame:SetAllPoints()
 	parentFrame:SetFrameLevel(bu:GetFrameLevel() + 6)
-	bu.count = B.CreateFS(parentFrame, 12, "", false, "BOTTOMRIGHT", 6, -3)
-	bu.timer = B.CreateFS(parentFrame, 12, "", false, "CENTER", 1, 0)
-
-	bu.glowFrame = B.CreateGlowFrame(bu, size)
-	bu.bd = B.CreateBDFrame(bu)
+	bu.count = B.CreateFS(parentFrame, fontSize, "", false, "BOTTOMRIGHT", 6, -3)
+	bu.timer = B.CreateFS(parentFrame, fontSize, "", false, "CENTER", 1, 0)
 
 	if not NDuiDB["UFs"]["AurasClickThrough"] then
 		bu:SetScript("OnEnter", buttonOnEnter)
@@ -434,7 +436,7 @@ end
 
 function UF:CreateBuffIndicator(self)
 	if not NDuiDB["UFs"]["RaidBuffIndicator"] then return end
-	if NDuiDB["UFs"]["SimpleMode"] then return end
+	if not NDuiDB["UFs"]["PartyFrame"] and NDuiDB["UFs"]["SimpleMode"] then return end
 
 	local anchors = {"TOPLEFT", "TOP", "TOPRIGHT", "LEFT", "RIGHT", "BOTTOMLEFT", "BOTTOM", "BOTTOMRIGHT"}
 	local buttons = {}
@@ -470,7 +472,7 @@ end
 
 function UF:RefreshRaidFrameIcons()
 	for _, frame in pairs(oUF.objects) do
-		if frame.mystyle == "raid" then
+		if frame.mystyle == "raid" or frame.mystyle == "party" then
 			if frame.RaidDebuffs then
 				frame.RaidDebuffs:SetScale(NDuiDB["UFs"]["RaidDebuffScale"])
 			end

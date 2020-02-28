@@ -84,7 +84,9 @@ L["Mythic Level"] = "層數：%s"
 L["Mythic & Weekly Loot"] = "秘境：%s 低保：%s"
 L["Mythic Loot Info"] = "按住<SHIFT>顯示秘境掉落信息"
 L["Only Combat Text"] = "僅顯示戰鬥狀態提示"
-L["PartyFrame Show Debuff"] = "小隊框體中顯示Debuff"
+L["Buff Icon Size"] = "小隊框體Buff圖標大小"
+L["Highlight Color"] = "高亮邊框顏色"
+L["Selected Color"] = "選中邊框顏色"
 
 -- 默认
 

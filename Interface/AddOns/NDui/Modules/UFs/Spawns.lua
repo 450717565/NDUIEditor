@@ -186,17 +186,17 @@ local function CreatePartyStyle(self)
 	UF:CreatePowerBar(self)
 	UF:CreatePortrait(self)
 	UF:CreatePrediction(self)
-	UF:CreateBuffs(self)
+	UF:CreateAuras(self)
+	UF:CreateBuffIndicator(self)
 	UF:CreateClickSets(self)
 	UF:CreateIcons(self)
+	UF:CreateRaidDebuffs(self)
 	UF:CreateRaidIcons(self)
 	UF:CreateRaidMark(self)
 	UF:CreateTargetBorder(self)
 	UF:CreateThreatBorder(self)
 	UF:CreatePartyAltPower(self)
 	UF:InterruptIndicator(self)
-
-	if NDuiDB["Extras"]["PartyDebuff"] then UF:CreateDebuffs(self) end
 end
 
 local function CreatePartyPetStyle(self)

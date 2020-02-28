@@ -327,7 +327,9 @@ local defaultSettings = {
 		MaxTiers = 4,
 		AfkDelight = true,
 		OnlyCombatText = false,
-		PartyDebuff = true,
+		BuffIconSize = 15,
+		HLColor = {r=1, g=1, b=1},
+		SLColor = {r=0, g=1, b=0},
 	},
 }
 
@@ -699,9 +701,9 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "UFs", "PartyFrame", DB.MyColor..L["UFs PartyFrame"]},
 		{1, "UFs", "PartyPetFrame", DB.MyColor..L["UFs PartyPetFrame"], true},
 		{1, "UFs", "PartyWatcher", L["UFs PartyWatcher"], nil, setupPartyWatcher},
-		{1, "UFs", "PartyAltPower", L["UFs PartyAltPower"], true},
+		{1, "UFs", "PartyAltPower", L["UFs PartyAltPower"]},
+		{3, "Extras", "BuffIconSize", L["Buff Icon Size"], true, {15, 25, 0}},
 		{1, "Extras", "ShowYourself", L["PartyFrame Show Yourself"]},
-		{1, "Extras", "PartyDebuff", L["PartyFrame Show Debuff"], true},
 		{},--blank
 		{1, "UFs", "RaidBuffIndicator", DB.MyColor..L["RaidBuffIndicator"], nil, setupBuffIndicator, nil, L["RaidBuffIndicatorTip"]},
 		{4, "UFs", "BuffIndicatorType", L["BuffIndicatorType"].."*", nil, {L["BI_Blocks"], L["BI_Icons"], L["BI_Numbers"]}, refreshRaidFrameIcons},
@@ -745,8 +747,10 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{5, "Nameplate", "InsecureColor", L["Insecure Color"].."*", 2},
 		{5, "Nameplate", "OffTankColor", L["OffTank Color"].."*", 3},
 		{4, "Nameplate", "TargetIndicator", L["TargetIndicator"].."*", false, {DISABLE, L["TargetGlow"], L["TopArrow"], L["RightArrow"], L["TopNGlow"], L["RightNGlow"]}, refreshNameplates},
-		{4, "Extras", "ArrowColor", L["Arrow Color"], true, {L["Cyan"], L["Green"], L["Red"]}},
-		{4, "Nameplate", "NPsHPMode", L["HP Val Mode"].."*", false, {L["Only Percent"], L["Only Number"], L["Num and Per"]}, refreshNameplates},
+		{4, "Nameplate", "NPsHPMode", L["HP Val Mode"].."*", true, {L["Only Percent"], L["Only Number"], L["Num and Per"]}, refreshNameplates},
+		{4, "Extras", "ArrowColor", L["Arrow Color"], false, {L["Cyan"], L["Green"], L["Red"]}},
+		{5, "Extras", "HLColor", L["Highlight Color"], 2},
+		{5, "Extras", "SLColor", L["Selected Color"], 3},
 		{},--blank
 		{3, "Nameplate", "VerticalSpacing", L["NP VerticalSpacing"].."*", false, {.5, 1.5, 1}, updatePlateSpacing},
 		{3, "Nameplate", "Distance", L["Nameplate Distance"].."*", true, {20, 100, 0}, updatePlateRange},
@@ -935,9 +939,9 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Extras", "ShowOwnFrameWhenInspecting", L["Show Own Frame When Inspecting"], true},
 		{},--blank
 		{1, "Extras", "LootMonitor", DB.MyColor..L["LootMonitor Title"]},
-		{1, "Extras", "LootMonitorInGroup", L["LootMonitor InGroup"], true},
+		{1, "Extras", "LootMonitorInGroup", L["LootMonitor InGroup"]},
 		{1, "Extras", "LootMonitorBonusRewards", L["LootMonitor Bonus Rewards"]},
-		{4, "Extras", "LootMonitorQuality", L["LootMonitor Quality"], false, {ITEM_QUALITY1_DESC, ITEM_QUALITY2_DESC, ITEM_QUALITY3_DESC, ITEM_QUALITY4_DESC}},
+		{4, "Extras", "LootMonitorQuality", L["LootMonitor Quality"], true, {ITEM_QUALITY1_DESC, ITEM_QUALITY2_DESC, ITEM_QUALITY3_DESC, ITEM_QUALITY4_DESC}},
 	},
 }
 

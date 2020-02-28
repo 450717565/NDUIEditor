@@ -4,26 +4,45 @@ local S = B:GetModule("Skins")
 
 local function ReskinDetails()
 	local Details = _G.Details
+
 	-- instance table can be nil sometimes
 	Details.tabela_instancias = Details.tabela_instancias or {}
 	Details.instances_amount = Details.instances_amount or 5
+
 	-- toggle windows on init
 	Details:ReabrirTodasInstancias()
+
+	-- default profile
+	if NDuiADB["ResetDetails"] then
+		Details.always_use_profile = true
+		Details.death_recap.enabled = false
+		Details.instances_segments_locked = false
+		Details.minimap.hide = true
+		Details.minimap.text_format = 2
+		Details.on_death_menu = false
+		Details.ps_abbreviation = 2
+		Details.segments_amount = 25
+		Details.segments_amount_to_save = 25
+		Details.tooltip.abbreviation = 2
+		Details.tooltip.submenu_wallpaper = false
+	end
 
 	local function setupInstance(self)
 		if self.styled then return end
 		if not self.baseframe then return end
 
-		self:ChangeSkin("Minimalistic")
-		self:InstanceWallpaper(false)
-		self:DesaturateMenu(true)
-		self:HideMainIcon(false)
-		self:SetBackdropTexture("None")
-		self:MenuAnchor(16, 3)
-		self:ToolbarMenuButtonsSize(1)
 		self:AttributeMenu(true, 0, 3, DB.Font[1], 13, {1, 1, 1}, 1, true)
-		self:SetBarSettings(18, NDuiADB["ResetDetails"] and "Altz01" or nil)
+		self:ChangeSkin("Minimalistic")
+		self:DesaturateMenu(false)
+		self:HideMainIcon(false)
+		self:InstanceColor(0, 0, 0, 0)
+		self:InstanceWallpaper(false)
+		self:MenuAnchor(16, 3)
+		self:SetBackdropTexture("None")
+		self:SetBarRightTextSettings(nil, nil, true, nil, ",")
+		self:SetBarSettings(18, NDuiADB["ResetDetails"] and "Altz01" or nil, true, {0, 0, 0, 0}, NDuiADB["ResetDetails"] and "Altz01" or nil, false, {0, 0, 0, 0})
 		self:SetBarTextSettings(NDuiADB["ResetDetails"] and 14 or nil, DB.Font[1], nil, nil, nil, true, true, nil, nil, nil, nil, nil, nil, false, nil, false, nil)
+		self:ToolbarMenuButtonsSize(1)
 
 		local bg = B.SetBDFrame(self.baseframe, -1, 18, 0, 0)
 		self.baseframe.bg = bg

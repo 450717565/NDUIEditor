@@ -228,7 +228,8 @@ local list = {
 		{AuraID = 318211, UnitID = "player"},	-- 活力涌动
 		{AuraID = 318219, UnitID = "player"},	-- 致命之势
 		{AuraID = 317020, UnitID = "player", Combat = true},	-- 虚空回响
-		{AuraID = 318378, UnitID = "player", Flash = true},	-- 坚定决心，橙披
+		{AuraID = 317859, UnitID = "player", Text = STAT_CATEGORY_ATTRIBUTES, Flash = true},	-- 龙族强化，橙披
+		{AuraID = 318378, UnitID = "player", Text = COMBAT_TEXT_IMMUNE, Flash = true},	-- 坚定决心，橙披
 	-- 炼金石
 		{AuraID = 60233, UnitID = "player"},	-- 敏捷
 		{AuraID = 60229, UnitID = "player"},	-- 力量
