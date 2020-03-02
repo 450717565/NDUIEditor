@@ -23,7 +23,7 @@ function Extras:OnLogin()
 	self:DressUp()
 	self:KeystoneHelper()
 	self:MountSource()
-	self:GuildWelcome()
+	--self:GuildWelcome()
 	self:AutoCollapse()
 	self:InstanceReset()
 end

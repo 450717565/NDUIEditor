@@ -224,7 +224,6 @@ function UF:OnLogin()
 	local raidHeight = NDuiDB["UFs"]["RaidHeight"]
 	local reverseRaid = NDuiDB["UFs"]["ReverseRaid"]
 	local partyFrame = NDuiDB["UFs"]["PartyFrame"]
-	local partyWatcher = NDuiDB["UFs"]["PartyWatcher"]
 
 	if NDuiDB["Nameplate"]["Enable"] then
 		self:SetupCVars()
@@ -328,11 +327,10 @@ function UF:OnLogin()
 			oUF:RegisterStyle("Party", CreatePartyStyle)
 			oUF:SetActiveStyle("Party")
 
-			local showPlayer = partyWatcher or NDuiDB["Extras"]["ShowYourself"]
+			local showPlayer = NDuiDB["Extras"]["ShowYourself"]
 			local partyWidth = NDuiDB["UFs"]["PartyWidth"]
 			local partyHeight = NDuiDB["UFs"]["PartyHeight"]
 			local partyYOffset = -20
-			local moverPoint = partyWatcher and {"BOTTOMRIGHT", oUF_Player, "TOP", 30, 130} or {"TOPLEFT", UIParent, 35, -50}
 			local moverWidth = partyWidth
 			local moverHeight = partyHeight*(showPlayer and 5 or 4)-partyYOffset*(showPlayer and 4 or 3)
 
@@ -353,7 +351,7 @@ function UF:OnLogin()
 				self:SetHeight(%d)
 			]]):format(partyWidth, partyHeight))
 
-			local partyMover = B.Mover(party, L["PartyFrame"], "PartyFrame", moverPoint, moverWidth, moverHeight)
+			local partyMover = B.Mover(party, L["PartyFrame"], "PartyFrame", {"TOPLEFT", UIParent, 35, -50}, moverWidth, moverHeight)
 			party:ClearAllPoints()
 			party:SetPoint("TOPLEFT", partyMover)
 
@@ -364,7 +362,6 @@ function UF:OnLogin()
 				local petWidth = NDuiDB["UFs"]["PartyPetWidth"]
 				local petHeight = NDuiDB["UFs"]["PartyPetHeight"]
 				local petYoffset = -20
-				local petMoverPoint = partyWatcher and {"BOTTOMLEFT", partyMover, "TOPLEFT", 0, -petYoffset} or {"TOPLEFT", partyMover, "BOTTOMLEFT", 0, petYoffset}
 				local petMoverWidth = petWidth
 				local petMoverHeight = petHeight*(showPlayer and 5 or 4)-petYoffset*(showPlayer and 4 or 3)
 
@@ -383,7 +380,7 @@ function UF:OnLogin()
 				self:SetAttribute("unitsuffix", "pet")
 				]]):format(petWidth, petHeight))
 
-				local petMover = B.Mover(partyPet, L["PartyPetFrame"], "PartyPetFrame", petMoverPoint, petMoverWidth, petMoverHeight)
+				local petMover = B.Mover(partyPet, L["PartyPetFrame"], "PartyPetFrame", {"TOPLEFT", partyMover, "BOTTOMLEFT", 0, petYoffset}, petMoverWidth, petMoverHeight)
 				partyPet:ClearAllPoints()
 				partyPet:SetPoint("TOPLEFT", petMover)
 			end

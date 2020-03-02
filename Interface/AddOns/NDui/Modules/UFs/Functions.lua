@@ -381,7 +381,7 @@ function UF:CreateRaidMark(self)
 end
 
 local function createBarMover(bar, text, value, anchor)
-	local mover = B.Mover(bar, text, value, anchor, bar:GetHeight()+bar:GetWidth()+3, bar:GetHeight()+3)
+	local mover = B.Mover(bar, text, value, anchor, bar:GetHeight()+bar:GetWidth()+3, bar:GetHeight())
 	bar:ClearAllPoints()
 	bar:SetPoint("RIGHT", mover)
 	bar.mover = mover
@@ -671,6 +671,14 @@ function UF:CreateAuras(self)
 
 	local mystyle = self.mystyle
 	local partyStyle = mystyle == "party"
+
+	local num = 0
+	if mystyle == "raid" and not NDuiDB["UFs"]["SimpleMode"] then
+		num = 6
+	elseif mystyle == "party" then
+		num = 12
+	end
+
 	if mystyle == "target" then
 		bu:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -6)
 		bu.numBuffs = 22
@@ -688,13 +696,9 @@ function UF:CreateAuras(self)
 			bu.disableCooldown = true
 		else
 			bu:SetPoint("BOTTOMLEFT", self.Health, "BOTTOMLEFT", 0, 0)
-			bu.numTotal = NDuiDB["UFs"]["SimpleMode"] and 0 or 6
+			bu.numTotal = num
 			bu.spacing = 3
-			if partyStyle then
-				bu.size = NDuiDB["Extras"]["BuffIconSize"]
-			else
-				bu.iconsPerRow = 6
-			end
+			bu.iconsPerRow = num
 		end
 		bu.disableMouse = NDuiDB["UFs"]["AurasClickThrough"]
 	elseif mystyle == "nameplate" then

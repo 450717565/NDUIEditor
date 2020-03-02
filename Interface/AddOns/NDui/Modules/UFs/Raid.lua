@@ -493,15 +493,22 @@ function UF:InterruptIndicator(self)
 	local maxIcons = 6
 	local iconSize = self:GetHeight()+self.Power:GetHeight()+4+C.mult
 
+	local otherSide = NDuiDB["UFs"]["PWOnRight"]
+	local point1 = otherSide and "TOPLEFT" or "TOPRIGHT"
+	local point2 = otherSide and "TOPRIGHT" or "TOPLEFT"
+	local point3 = otherSide and "LEFT" or "RIGHT"
+	local point4 = otherSide and "RIGHT" or "LEFT"
+	local xOffset = otherSide and 5 or -5
+
 	for i = 1, maxIcons do
 		local bu = CreateFrame("Frame", nil, self)
 		bu:SetSize(iconSize, iconSize)
 		B.AuraIcon(bu)
 		bu.CD:SetReverse(false)
 		if i == 1 then
-			bu:SetPoint("TOPRIGHT", self, "TOPLEFT", -5, C.mult)
+			bu:SetPoint(point1, self, point2, xOffset, C.mult)
 		else
-			bu:SetPoint("RIGHT", buttons[i-1], "LEFT", -5, 0)
+			bu:SetPoint(point3, buttons[i-1], point4, xOffset, 0)
 		end
 		bu:Hide()
 

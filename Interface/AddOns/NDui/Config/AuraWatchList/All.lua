@@ -128,7 +128,6 @@ local list = {
 		{AuraID = 267685, UnitID = "player"},	-- 元素洪流
 		{AuraID = 274472, UnitID = "player"},	-- 狂战士之怒
 		{AuraID = 268769, UnitID = "player"},	-- 标记死穴
-		{AuraID = 267179, UnitID = "player"},	-- 瓶中的电荷
 		{AuraID = 278070, UnitID = "player"},	-- 泰坦过载
 		{AuraID = 271103, UnitID = "player"},	-- 莱赞的微光之眼
 		{AuraID = 273942, UnitID = "player"},	-- 提振精神

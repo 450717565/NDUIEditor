@@ -3,7 +3,7 @@ local B, C, L, DB = unpack(select(2, ...))
 tinsert(C.defaultThemes, function()
 	local cr, cg, cb = DB.r, DB.g, DB.b
 
-	local lists = {"DropDownList", "L_DropDownList", "Lib_DropDownList"}
+	local lists = {"DropDownList", "ADD_DropDownList", "L_DropDownList", "Lib_DropDownList"}
 	hooksecurefunc("UIDropDownMenu_CreateFrames", function()
 		for _, name in pairs(lists) do
 			for i = 1, UIDROPDOWNMENU_MAXLEVELS do
