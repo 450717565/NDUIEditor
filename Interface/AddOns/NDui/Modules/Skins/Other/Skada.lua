@@ -51,7 +51,7 @@ function S:Skada()
 			local bg = B.CreateBDFrame(window, nil, 0, true)
 			window.bg = bg
 
-			local open, close = S:CreateToggle(window)
+			local open, close = S.CreateToggle(window)
 			open:HookScript("OnClick", function()
 				window:Show()
 			end)

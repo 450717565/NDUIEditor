@@ -786,6 +786,7 @@ local list = {
 	["Enchant CD"] = { -- 物品冷却计时组
 	-- 物品
 		{SlotID = 6},--腰带
+		{SlotID = 9},--腕部
 		{SlotID = 11},--戒指1
 		{SlotID = 12},--戒指2
 		{SlotID = 13},--饰品1

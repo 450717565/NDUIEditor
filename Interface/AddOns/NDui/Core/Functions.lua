@@ -34,16 +34,10 @@ end
 
 -- GameTooltip
 function B:HideTooltip()
-	if self.isButton then
-		self:SetBackdropBorderColor(0, 0, 0, 1)
-	end
 	GameTooltip:Hide()
 end
 
 local function tooltipOnEnter(self)
-	if self.isButton then
-		self:SetBackdropBorderColor(cr, cg, cb, 1)
-	end
 	GameTooltip:SetOwner(self, self.anchor)
 	GameTooltip:ClearLines()
 	if self.title then
@@ -65,11 +59,10 @@ local function tooltipOnEnter(self)
 	GameTooltip:Show()
 end
 
-function B:AddTooltip(anchor, tooltip, color, isButton)
+function B:AddTooltip(anchor, tooltip, color)
 	self.anchor = anchor
 	self.tooltip = tooltip
 	self.color = color
-	self.isButton = isButton
 	self:SetScript("OnEnter", tooltipOnEnter)
 	self:SetScript("OnLeave", B.HideTooltip)
 end

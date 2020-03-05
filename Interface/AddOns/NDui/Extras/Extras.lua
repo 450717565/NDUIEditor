@@ -23,7 +23,7 @@ function Extras:OnLogin()
 	self:DressUp()
 	self:KeystoneHelper()
 	self:MountSource()
-	--self:GuildWelcome()
+	self:GuildWelcome()
 	self:AutoCollapse()
 	self:InstanceReset()
 end
@@ -124,7 +124,7 @@ do
 	-- [[ Player Count ]]
 	hooksecurefunc("LFGListGroupDataDisplayPlayerCount_Update", function(self)
 		if not self.modified then
-			self.Count:SetWidth(20)
+			self.Count:SetWidth(25)
 
 			self.modified = true
 		end
@@ -133,9 +133,9 @@ do
 	-- [[ Role Count ]]
 	hooksecurefunc("LFGListGroupDataDisplayRoleCount_Update", function(self)
 		if not self.modified then
-			self.TankCount:SetWidth(20)
-			self.HealerCount:SetWidth(20)
-			self.DamagerCount:SetWidth(20)
+			--self.TankCount:SetWidth(20)
+			--self.HealerCount:SetWidth(20)
+			self.DamagerCount:SetWidth(25)
 
 			self.modified = true
 		end

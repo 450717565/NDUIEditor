@@ -498,7 +498,7 @@ function UF:InterruptIndicator(self)
 	local point2 = otherSide and "TOPRIGHT" or "TOPLEFT"
 	local point3 = otherSide and "LEFT" or "RIGHT"
 	local point4 = otherSide and "RIGHT" or "LEFT"
-	local xOffset = otherSide and 5 or -5
+	local xOffset = otherSide and 3 or -3
 
 	for i = 1, maxIcons do
 		local bu = CreateFrame("Frame", nil, self)

@@ -79,7 +79,7 @@ frame.bg:SetAllPoints()
 -- player model with actualy transmog enabled aswell
 frame.model = CreateFrame("PlayerModel",nil,frame)
 frame.model:SetSize(frame.h,frame.h*1.5)
-frame.model:SetPoint("BOTTOMRIGHT",frame.h*0.2,-frame.h*0.6)
+frame.model:SetPoint("BOTTOMRIGHT",frame.h*0.2,-frame.h*0.5)
 
 -- shadow gran
 frame.gradient = frame.model:CreateTexture(nil, "BACKGROUND",nil,-7)

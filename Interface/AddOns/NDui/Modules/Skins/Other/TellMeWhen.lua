@@ -12,4 +12,4 @@ local function ReskinTMW()
 	end)
 end
 
-S:LoadWithAddOn("TellMeWhen", "TellMeWhen", ReskinTMW)
+S.LoadWithAddOn("TellMeWhen", "TellMeWhen", ReskinTMW)

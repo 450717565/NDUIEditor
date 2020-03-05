@@ -60,4 +60,4 @@ local function ReskinWA()
 	end
 end
 
-S:LoadWithAddOn("WeakAuras", "WeakAuras", ReskinWA)
+S.LoadWithAddOn("WeakAuras", "WeakAuras", ReskinWA)

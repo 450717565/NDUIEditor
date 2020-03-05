@@ -103,7 +103,7 @@ function S:OnLogin()
 	end
 end
 
-function S:GetToggleDirection()
+function S.GetToggleDirection()
 	local direc = NDuiDB["Skins"]["ToggleDirection"]
 	if direc == 1 then
 		return "|", "|", "RIGHT", "LEFT", -2, 0, 20, 80
@@ -127,13 +127,13 @@ local function CreateToggleButton(parent)
 	return bu
 end
 
-function S:CreateToggle(frame)
-	local close = CreateToggleButton(frame)
-	frame.closeButton = close
+function S:CreateToggle()
+	local close = CreateToggleButton(self)
+	self.closeButton = close
 
 	local open = CreateToggleButton(UIParent)
 	open:Hide()
-	frame.openButton = open
+	self.openButton = open
 
 	open:SetScript("OnClick", function()
 		open:Hide()
@@ -142,17 +142,17 @@ function S:CreateToggle(frame)
 		open:Show()
 	end)
 
-	S:SetToggleDirection(frame)
-	tinsert(toggleFrames, frame)
+	S.SetToggleDirection(self)
+	tinsert(toggleFrames, self)
 
 	return open, close
 end
 
-function S:SetToggleDirection(frame)
-	local str1, str2, rel1, rel2, x, y, width, height = S:GetToggleDirection()
-	local parent = frame.bg
-	local close = frame.closeButton
-	local open = frame.openButton
+function S:SetToggleDirection()
+	local str1, str2, rel1, rel2, x, y, width, height = S.GetToggleDirection()
+	local parent = self.bg
+	local close = self.closeButton
+	local open = self.openButton
 	close:ClearAllPoints()
 	close:SetPoint(rel1, parent, rel2, x, y)
 	close:SetSize(width, height)
@@ -163,13 +163,13 @@ function S:SetToggleDirection(frame)
 	open.text:SetText(str2)
 end
 
-function S:RefreshToggleDirection()
+function S.RefreshToggleDirection()
 	for _, frame in pairs(toggleFrames) do
-		S:SetToggleDirection(frame)
+		S.SetToggleDirection(frame)
 	end
 end
 
-function S:LoadWithAddOn(addonName, value, func)
+function S.LoadWithAddOn(addonName, value, func)
 	local function loadFunc(event, addon)
 		if not NDuiDB["Skins"][value] then return end
 
