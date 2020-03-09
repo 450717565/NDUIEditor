@@ -3,7 +3,7 @@ local B, C, L, DB = unpack(select(2, ...))
 C.themes["Blizzard_InspectUI"] = function()
 	B.ReskinFrame(InspectFrame)
 
-	B.StripTextures(InspectModelFrame, true)
+	B.StripTextures(InspectModelFrame, 0)
 	B.StripTextures(InspectPVPFrame)
 	B.StripTextures(InspectTalentFrame)
 

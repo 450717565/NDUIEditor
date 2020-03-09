@@ -24,7 +24,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 
 	local frames = {AchievementFrameHeader, AchievementFrameCategories, AchievementFrameSummary, AchievementFrameSummaryCategoriesHeader, AchievementFrameSummaryAchievementsHeader, AchievementFrameStatsBG, AchievementFrameAchievements, AchievementFrameComparison, AchievementFrameComparisonHeader}
 	for _, frame in pairs(frames) do
-		B.StripTextures(frame, true)
+		B.StripTextures(frame, 0)
 	end
 
 	local scrolls = {AchievementFrameAchievementsContainerScrollBar, AchievementFrameCategoriesContainerScrollBar, AchievementFrameStatsContainerScrollBar, AchievementFrameScrollFrameScrollBar, AchievementFrameComparisonContainerScrollBar, AchievementFrameComparisonStatsContainerScrollBar}
@@ -79,7 +79,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 		local button = "AchievementFrameAchievementsContainerButton"..i
 
 		local bu = _G[button]
-		B.StripTextures(bu, true)
+		B.StripTextures(bu, 0)
 		B.CreateBDFrame(bu, 0, -C.mult*2)
 
 		local hl = _G[button.."Highlight"]
@@ -185,7 +185,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 			end
 
 			if not bu.styled then
-				B.StripTextures(bu, true)
+				B.StripTextures(bu, 0)
 				B.CreateBDFrame(bu, 0, -(2+C.mult))
 
 				local hl = _G[button.."Highlight"]
@@ -229,7 +229,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 		local button = "AchievementFrameComparisonContainerButton"..i
 
 		for _, bu in pairs({"Player", "Friend"}) do
-			B.StripTextures(_G[button..bu], true)
+			B.StripTextures(_G[button..bu], 0)
 			B.CreateBDFrame(_G[button..bu], 0, -C.mult*2)
 		end
 

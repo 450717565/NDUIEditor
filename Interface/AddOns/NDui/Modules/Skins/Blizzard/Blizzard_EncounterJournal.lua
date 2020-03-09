@@ -173,7 +173,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 
 	local infoFrame = Encounter.info
 	B.StripTextures(infoFrame)
-	B.StripTextures(infoFrame.model, true)
+	B.StripTextures(infoFrame.model, 0)
 	B.CreateBDFrame(infoFrame.model, 0)
 	B.StripTextures(infoFrame.lootScroll.classClearFilter)
 	B.ReskinButton(infoFrame.reset)

@@ -16,7 +16,7 @@ local list = {
 	},
 	["Target Aura"] = { -- 目标光环组
 		{AuraID = 122, UnitID = "target", Caster = "player"},		-- 冰霜新星
-		{AuraID = 12654, UnitID = "target", Caster = "player"},		-- 点燃
+		{AuraID = 12654, UnitID = "target", Caster = "player", Value = true},		-- 点燃
 		{AuraID = 11366, UnitID = "target", Caster = "player"},		-- 炎爆术
 		{AuraID = 31661, UnitID = "target", Caster = "player"},		-- 龙息术
 		{AuraID = 82691, UnitID = "target", Caster = "player"},		-- 冰霜之环

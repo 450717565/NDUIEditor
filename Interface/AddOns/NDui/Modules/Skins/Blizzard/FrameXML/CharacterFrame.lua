@@ -6,7 +6,7 @@ tinsert(C.defaultThemes, function()
 	B.ReskinFrame(CharacterFrame)
 	B.SetupTabStyle(CharacterFrame, 3)
 
-	B.StripTextures(CharacterModelFrame, true)
+	B.StripTextures(CharacterModelFrame, 0)
 
 	-- [[ Item buttons ]]
 	local function UpdateAzeriteItem(self)

@@ -85,7 +85,7 @@ tinsert(C.defaultThemes, function()
 
 	--ApplicationViewer
 	local ApplicationViewer = LFGListFrame.ApplicationViewer
-	B.StripTextures(ApplicationViewer, true)
+	B.StripTextures(ApplicationViewer, 0)
 
 	B.ReskinButton(ApplicationViewer.RefreshButton)
 	B.ReskinButton(ApplicationViewer.RemoveEntryButton)

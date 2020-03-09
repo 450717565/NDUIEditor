@@ -137,13 +137,16 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 		end
 	end
 
-	local function reskinItemList(self)
+	local function reskinItemList(self, hasHeader)
 		B.StripTextures(self)
 		B.CreateBDFrame(self.ScrollFrame, 0)
 		B.ReskinScroll(self.ScrollFrame.scrollBar)
 
 		if self.RefreshFrame then
 			reskinAuctionButton(self.RefreshFrame.RefreshButton)
+		end
+		if hasHeader then
+			hooksecurefunc(self, "RefreshScrollFrame", reskinListHeader)
 		end
 	end
 
@@ -181,10 +184,6 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 		button.SelectedTexture:SetColorTexture(cr, cg, cb, .25)
 	end)
 
-	local ItemList = AuctionHouseFrame.BrowseResultsFrame.ItemList
-	reskinItemList(ItemList)
-	hooksecurefunc(ItemList, "RefreshScrollFrame", reskinListHeader)
-
 	local ItemBuyFrame = AuctionHouseFrame.ItemBuyFrame
 	B.ReskinButton(ItemBuyFrame.BackButton)
 	B.ReskinButton(ItemBuyFrame.BidFrame.BidButton)
@@ -192,9 +191,7 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 	B.ReskinInput(AuctionHouseFrameGold)
 	B.ReskinInput(AuctionHouseFrameSilver)
 	reskinItemDisplay(ItemBuyFrame.ItemDisplay)
-	local ItemList = ItemBuyFrame.ItemList
-	reskinItemList(ItemList)
-	hooksecurefunc(ItemList, "RefreshScrollFrame", reskinListHeader)
+	reskinItemList(ItemBuyFrame.ItemList, true)
 
 	local CommoditiesBuyFrame = AuctionHouseFrame.CommoditiesBuyFrame
 	B.ReskinButton(CommoditiesBuyFrame.BackButton)
@@ -203,8 +200,7 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 	B.ReskinInput(BuyDisplay.QuantityInput.InputBox)
 	B.ReskinButton(BuyDisplay.BuyButton)
 	reskinItemDisplay(BuyDisplay.ItemDisplay)
-	local ItemList = CommoditiesBuyFrame.ItemList
-	reskinItemList(ItemList)
+	reskinItemList(CommoditiesBuyFrame.ItemList)
 
 	local BuyDialog = AuctionHouseFrame.BuyDialog
 	B.ReskinFrame(BuyDialog)
@@ -240,16 +236,17 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 	B.ReskinStatusBar(MultisellProgressFrame.ProgressBar)
 	B.ReskinClose(MultisellProgressFrame.CancelButton, "LEFT", MultisellProgressFrame.ProgressBar, "RIGHT", 3, 0)
 
-	reskinSellPanel(AuctionHouseFrame.ItemSellFrame)
-	reskinSellPanel(AuctionHouseFrame.CommoditiesSellFrame)
+	reskinItemDisplay(AuctionHouseFrameAuctionsFrame.ItemDisplay)
+	reskinItemList(AuctionHouseFrame.BrowseResultsFrame.ItemList, true)
 	reskinSellList(AuctionHouseFrame.CommoditiesSellList, true)
 	reskinSellList(AuctionHouseFrame.ItemSellList, true)
-	reskinSellList(AuctionHouseFrameAuctionsFrame.SummaryList)
 	reskinSellList(AuctionHouseFrameAuctionsFrame.AllAuctionsList, true)
 	reskinSellList(AuctionHouseFrameAuctionsFrame.BidsList, true)
 	reskinSellList(AuctionHouseFrameAuctionsFrame.CommoditiesList, true)
 	reskinSellList(AuctionHouseFrameAuctionsFrame.ItemList, true)
-	reskinItemDisplay(AuctionHouseFrameAuctionsFrame.ItemDisplay)
+	reskinSellList(AuctionHouseFrameAuctionsFrame.SummaryList)
+	reskinSellPanel(AuctionHouseFrame.CommoditiesSellFrame)
+	reskinSellPanel(AuctionHouseFrame.ItemSellFrame)
 
 	B.StripTextures(AuctionHouseFrameAuctionsFrameAuctionsTab)
 	B.StripTextures(AuctionHouseFrameAuctionsFrameBidsTab)

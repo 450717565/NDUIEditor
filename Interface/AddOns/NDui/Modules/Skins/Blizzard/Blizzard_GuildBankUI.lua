@@ -9,7 +9,7 @@ C.themes["Blizzard_GuildBankUI"] = function()
 
 	B.SetupTabStyle(GuildBankFrame, 4)
 
-	B.StripTextures(GuildBankEmblemFrame, true)
+	B.StripTextures(GuildBankEmblemFrame, 0)
 	B.StripTextures(GuildBankMoneyFrameBackground)
 
 	GuildBankPopupFrame:SetHeight(525)

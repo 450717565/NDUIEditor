@@ -5,7 +5,7 @@ tinsert(C.defaultThemes, function()
 	local LE_QUEST_FREQUENCY_DAILY = LE_QUEST_FREQUENCY_DAILY or 2
 
 	--ScrollFrame
-	B.StripTextures(QuestScrollFrame.DetailFrame, true)
+	B.StripTextures(QuestScrollFrame.DetailFrame, 0)
 	B.ReskinScroll(QuestScrollFrame.ScrollBar)
 
 	local Contents = QuestScrollFrame.Contents
@@ -15,7 +15,7 @@ tinsert(C.defaultThemes, function()
 	local WarCampaignHeader = Contents.WarCampaignHeader
 	local StoryHeader = Contents.StoryHeader
 	for _, header in pairs({WarCampaignHeader, StoryHeader}) do
-		B.StripTextures(header, true)
+		B.StripTextures(header, 0)
 
 		header.Text:ClearAllPoints()
 		header.Text:SetPoint("TOPLEFT", 10, -20)
@@ -107,7 +107,7 @@ tinsert(C.defaultThemes, function()
 	B.StripTextures(QuestMapFrame)
 
 	local DetailsFrame = QuestMapFrame.DetailsFrame
-	B.StripTextures(DetailsFrame, true)
+	B.StripTextures(DetailsFrame, 0)
 	B.StripTextures(DetailsFrame.ShareButton)
 	B.ReskinScroll(DetailsFrame.ScrollFrame.ScrollBar)
 

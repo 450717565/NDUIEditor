@@ -13,7 +13,7 @@ tinsert(C.defaultThemes, function()
 		local frame = _G[container]
 		frame.PortraitButton.Highlight:SetTexture("")
 
-		B.StripTextures(frame, true)
+		B.StripTextures(frame, 0)
 		B.SetBDFrame(frame, 8, -4, -3, 0)
 		B.ReskinClose(_G[container.."CloseButton"], "TOPRIGHT", frame, "TOPRIGHT", -6, -7)
 

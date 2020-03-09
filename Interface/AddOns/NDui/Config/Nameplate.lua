@@ -214,6 +214,26 @@ C.CustomUnits = {
 	[GetSectionInfo(21209)] = true,	-- 亚基掠夺者
 	[GetSectionInfo(20561)] = true,	-- 惊魂淤血
 	[GetSectionInfo(21329)] = true,	-- 聚合增生
+
+	[156709] = true, --Corrupted Despoiler
+	[158531] = true, --Corrupted Neferset Guard
+	[158632] = true, --Corrupted Fleshbeast
+	[158706] = true, --Corrupted Putrefaction
+	[159087] = true, --Corrupted Bonestripper
+	[162241] = true, --Corrupted Thoughtstealer
+	[162243] = true, --Corrupted Mind Eater
+	[162244] = true, --Corrupted Doomsayer
+	[162245] = true, --Corrupted Tormentor
+	[162246] = true, --Corrupted Dominator
+	[162247] = true, --Corrupted Jailer
+	[162248] = true, --Corrupted Watcher
+	[162249] = true, --Corrupted Acolyte
+	[162250] = true, --Corrupted Assassin
+	[162251] = true, --Corrupted Summoner
+	[162252] = true, --Corrupted Beheader
+	[162253] = true, --Corrupted Thaumaturge
+	[162254] = true, --Corrupted Observer
+	[162290] = true, --Corrupted Bloodseeker
 }
 
 -- 显示能量值的单位

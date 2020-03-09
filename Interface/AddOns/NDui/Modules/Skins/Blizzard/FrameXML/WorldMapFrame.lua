@@ -14,7 +14,7 @@ tinsert(C.defaultThemes, function()
 	B.ReskinMinMax(BorderFrame.MaximizeMinimizeFrame)
 	BorderFrame.Tutorial.Ring:Hide()
 
-	local bg = B.ReskinFrame(BorderFrame, "noKill")
+	local bg = B.ReskinFrame(BorderFrame)
 	bg:SetParent(WorldMapFrame)
 	bg:SetPoint("TOPLEFT", C.mult*2, 0)
 	bg:SetPoint("BOTTOMRIGHT", 0, C.mult*2)

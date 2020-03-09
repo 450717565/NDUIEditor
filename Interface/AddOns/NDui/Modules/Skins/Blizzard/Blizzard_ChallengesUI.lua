@@ -19,7 +19,7 @@ C.themes["Blizzard_ChallengesUI"] = function()
 			end
 			if i == 1 then
 				self.DungeonIcons[i]:ClearAllPoints()
-				self.DungeonIcons[i]:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 1+C.mult, 1)
+				self.DungeonIcons[i]:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 1+C.mult, 1+C.mult)
 
 				local SeasonBest = self.WeeklyInfo.Child.SeasonBest
 				SeasonBest:ClearAllPoints()

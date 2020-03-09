@@ -121,7 +121,7 @@ tinsert(C.defaultThemes, function()
 	-- Reskin Blocks
 	hooksecurefunc("ScenarioStage_CustomizeBlock", function(block)
 		if not block.styled then
-			B.StripTextures(block, true)
+			B.StripTextures(block, 0)
 			B.SetBDFrame(block.GlowTexture, 4, -2, -4, 0)
 
 			block.styled = true

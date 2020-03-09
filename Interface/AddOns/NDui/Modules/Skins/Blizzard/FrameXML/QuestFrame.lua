@@ -12,7 +12,7 @@ tinsert(C.defaultThemes, function()
 
 	local lists = {QuestFrameDetailPanel, QuestFrameProgressPanel, QuestFrameRewardPanel, QuestFrameGreetingPanel}
 	for _, list in pairs(lists) do
-		B.StripTextures(list, true)
+		B.StripTextures(list, 0)
 	end
 
 	local buttons = {QuestFrameAcceptButton, QuestFrameDeclineButton, QuestFrameCompleteQuestButton, QuestFrameCompleteButton, QuestFrameGoodbyeButton, QuestFrameGreetingGoodbyeButton}

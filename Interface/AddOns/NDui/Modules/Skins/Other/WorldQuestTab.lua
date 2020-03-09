@@ -4,7 +4,7 @@ local S = B:GetModule("Skins")
 function S:WorldQuestTab()
 	if not IsAddOnLoaded("WorldQuestTab") then return end
 
-	B.StripTextures(WQT_WorldQuestFrame, true)
+	B.StripTextures(WQT_WorldQuestFrame, 0)
 	B.StripTextures(WQT_QuestScrollFrame.DetailFrame)
 	B.StripTextures(WQT_QuestLogFiller)
 

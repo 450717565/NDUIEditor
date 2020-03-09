@@ -860,7 +860,7 @@ function B:ReskinScroll()
 
 	local parent = self:GetParent()
 	if parent then
-		B.StripTextures(parent, true)
+		B.StripTextures(parent, 0)
 		B.CleanTextures(parent)
 	end
 
