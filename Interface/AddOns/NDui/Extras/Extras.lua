@@ -119,27 +119,26 @@ do
 	LFDParentFrame:HookScript("OnShow", autoSelect)
 end
 
--- 修复预创建队伍人数显示问题
+-- 修复预创建队伍人数和时间显示问题
 do
-	-- [[ Player Count ]]
-	hooksecurefunc("LFGListGroupDataDisplayPlayerCount_Update", function(self)
+	local function resizeTextWidth(self)
 		if not self.modified then
-			self.Count:SetWidth(25)
+			if self.Count then self.Count:SetWidth(25) end
+			if self.DamagerCount then self.DamagerCount:SetWidth(25) end
+			if self.ExpirationTime then self.ExpirationTime:SetWidth(40) end
 
 			self.modified = true
 		end
-	end)
+	end
+
+	-- [[ Player Count ]]
+	hooksecurefunc("LFGListGroupDataDisplayPlayerCount_Update", resizeTextWidth)
 
 	-- [[ Role Count ]]
-	hooksecurefunc("LFGListGroupDataDisplayRoleCount_Update", function(self)
-		if not self.modified then
-			--self.TankCount:SetWidth(20)
-			--self.HealerCount:SetWidth(20)
-			self.DamagerCount:SetWidth(25)
+	hooksecurefunc("LFGListGroupDataDisplayRoleCount_Update", resizeTextWidth)
 
-			self.modified = true
-		end
-	end)
+	-- [[ Expiration Time ]]
+	hooksecurefunc("LFGListSearchEntry_Update", resizeTextWidth)
 end
 
 -- 格式化死亡摘要

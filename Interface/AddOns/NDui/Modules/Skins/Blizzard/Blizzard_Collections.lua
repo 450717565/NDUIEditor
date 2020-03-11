@@ -53,7 +53,8 @@ C.themes["Blizzard_Collections"] = function()
 				local bar = bu.ProgressBar
 				bar:SetTexture(DB.bdTex)
 				bar:SetVertexColor(cr, cg, cb, .25)
-				bar:SetInside(bubg)
+				bar:SetPoint("TOPLEFT", bubg, C.mult, -C.mult)
+				bar:SetPoint("BOTTOMLEFT", bubg, -C.mult, C.mult)
 			end
 
 			if bu.DragButton then
@@ -437,7 +438,7 @@ C.themes["Blizzard_Collections"] = function()
 	local ModelScene = WardrobeTransmogFrame.ModelScene
 	B.ReskinButton(ModelScene.ClearAllPendingButton)
 
-	local slots = {"Head", "Shoulder", "Back", "Chest", "Shirt", "Tabard", "Wrist", "Hands", "Waist", "Legs", "Feet", "MainHand", "SecondaryHand", "MainHandEnchant", "SecondaryHandEnchant"}
+	local slots = {"Head", "Neck", "Shoulder", "Shirt", "Chest", "Waist", "Legs", "Feet", "Wrist", "Hands", "Finger0", "Finger1", "Trinket0", "Trinket1", "Back", "MainHand", "SecondaryHand", "Tabard", "MainHandEnchant", "SecondaryHandEnchant"}
 	for i = 1, #slots do
 		local slot = ModelScene[slots[i].."Button"]
 		if slot then

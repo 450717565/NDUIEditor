@@ -61,6 +61,8 @@ tinsert(C.defaultThemes, function()
 			local glyph = self.GlyphIcon
 			if glyph then
 				glyph:SetAtlas("GlyphIcon-Spellbook")
+				glyph:ClearAllPoints()
+				glyph:SetPoint("TOPRIGHT", ic.bg, 2, 2)
 			end
 
 			local highlight = self.SpellHighlightTexture

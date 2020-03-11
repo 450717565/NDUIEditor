@@ -490,7 +490,7 @@ function UF:InterruptIndicator(self)
 	if not NDuiDB["UFs"]["PartyWatcher"] then return end
 
 	local buttons = {}
-	local maxIcons = 6
+	local maxIcons = 10
 	local iconSize = self:GetHeight()+self.Power:GetHeight()+4+C.mult
 
 	local otherSide = NDuiDB["UFs"]["PWOnRight"]

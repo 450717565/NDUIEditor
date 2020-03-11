@@ -248,7 +248,7 @@ local defaultSettings = {
 		AlertFrames = false,
 		FontOutline = true,
 		Loot = false,
-		Shadow = false,
+		Shadow = true,
 	},
 	Tooltip = {
 		CombatHide = false,

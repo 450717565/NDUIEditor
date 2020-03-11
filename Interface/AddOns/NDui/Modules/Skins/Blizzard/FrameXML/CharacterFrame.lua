@@ -2,6 +2,7 @@ local B, C, L, DB = unpack(select(2, ...))
 
 tinsert(C.defaultThemes, function()
 	local cr, cg, cb = DB.r, DB.g, DB.b
+	local slots = DB.Slots
 
 	B.ReskinFrame(CharacterFrame)
 	B.SetupTabStyle(CharacterFrame, 3)
@@ -37,8 +38,6 @@ tinsert(C.defaultThemes, function()
 		self.IconOverlay:SetShown(itemLink and IsCorruptedItem(itemLink))
 		self.IconOverlay:SetInside(self.bg)
 	end
-
-	local slots = {"Head", "Neck", "Shoulder", "Back", "Chest", "Shirt", "Tabard", "Wrist", "Hands", "Waist", "Legs", "Feet", "Finger0", "Finger1", "Trinket0", "Trinket1", "MainHand", "SecondaryHand"}
 
 	for i = 1, #slots do
 		local slot = _G["Character"..slots[i].."Slot"]

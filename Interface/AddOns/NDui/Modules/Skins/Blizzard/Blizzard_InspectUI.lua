@@ -1,6 +1,8 @@
 local B, C, L, DB = unpack(select(2, ...))
 
 C.themes["Blizzard_InspectUI"] = function()
+	local slots = DB.Slots
+
 	B.ReskinFrame(InspectFrame)
 
 	B.StripTextures(InspectModelFrame, 0)
@@ -23,7 +25,6 @@ C.themes["Blizzard_InspectUI"] = function()
 		self.HL:SetShown(itemLink and IsCorruptedItem(itemLink))
 	end
 
-	local slots = {"Head", "Neck", "Shoulder", "Back", "Chest", "Shirt", "Tabard", "Wrist", "Hands", "Waist", "Legs", "Feet", "Finger0", "Finger1", "Trinket0", "Trinket1", "MainHand", "SecondaryHand"}
 	for i = 1, #slots do
 		local slot = _G["Inspect"..slots[i].."Slot"]
 		B.StripTextures(slot)

@@ -89,14 +89,17 @@ C.themes["Blizzard_GuildUI"] = function()
 		for i = 1, #buttons do
 			local index = HybridScrollFrame_GetOffset(GuildRosterContainer) + i
 			local String1 = _G["GuildRosterContainerButton"..i.."String1"]
+			local String3 = _G["GuildRosterContainerButton"..i.."String3"]
 			local HeaderButton = _G["GuildRosterContainerButton"..i.."HeaderButton"]
 
 			if HeaderButton then
 				local headerName = select(3, GetGuildTradeSkillInfo(index))
 				if headerName then
 					String1:Hide()
+					String3:Hide()
 				else
 					String1:Show()
+					String3:Show()
 				end
 
 				if not HeaderButton.styled then
@@ -161,12 +164,12 @@ C.themes["Blizzard_GuildUI"] = function()
 				local Icon = _G["GuildRosterContainerButton"..i.."Icon"]
 				Icon:ClearAllPoints()
 				Icon:SetPoint("LEFT", 43, 0)
-			end
 
-			if view == "achievement" then
-				local BarLabel = _G["GuildRosterContainerButton"..i.."BarLabel"]
-				BarLabel:SetWidth(60)
-				BarLabel:SetJustifyH("LEFT")
+				if view == "achievement" then
+					local BarLabel = _G["GuildRosterContainerButton"..i.."BarLabel"]
+					BarLabel:SetWidth(60)
+					BarLabel:SetJustifyH("LEFT")
+				end
 			end
 		end
 	end

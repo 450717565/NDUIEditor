@@ -88,6 +88,9 @@ local list = {
 		{AuraID = 268836, UnitID = "player"},	-- 活性血瓶
 		{AuraID = 229206, UnitID = "player"},	-- 延时之力
 		{AuraID = 313571, UnitID = "player"},	-- 飞龙在天
+		{AuraID = 315787, UnitID = "player"},	-- 生命充能
+		{AuraID = 315763, UnitID = "player", Value = true},	-- 生命充能
+		{AuraID = 315858, UnitID = "player", Flash = true},	-- 泰坦强化
 
 		{AuraID = 251231, UnitID = "player"},	-- 钢肤药水
 		{AuraID = 279151, UnitID = "player"},	-- 智力药水
@@ -171,7 +174,6 @@ local list = {
 		{AuraID = 301624, UnitID = "target", Caster = "player"},	-- 颤栗毒素
 		{AuraID = 302565, UnitID = "target", Caster = "player"},	-- 导电墨汁
 		{AuraID = 296962, UnitID = "player"},	-- 艾萨拉饰品
-		{AuraID = 315787, UnitID = "player", Caster = "player"},	-- 生命充能
 	-- 艾泽里特特质
 		{AuraID = 300174, UnitID = "player"},	-- 发条之心
 		{AuraID = 271550, UnitID = "player"},	-- 临危不惧
@@ -235,6 +237,8 @@ local list = {
 		{AuraID = 60234, UnitID = "player"},	-- 智力
 	},
 	["Raid Buff"] = { -- 团队增益组
+	-- 大幻象
+		{AuraID = 313698, UnitID = "player", Flash = true},	-- 泰坦之赐
 	-- 急速增益
 		{AuraID = 2825, UnitID = "player"},--嗜血
 		{AuraID = 32182, UnitID = "player"},--英勇
@@ -300,7 +304,6 @@ local list = {
 		{AuraID = 268007, UnitID = "player", Flash = true},--心脏打击
 		{AuraID = 266238, UnitID = "player", Flash = true},--粉碎防御
 		{AuraID = 311390, UnitID = "player", Flash = true},	-- 疯狂：昆虫恐惧症，幻象
-		{AuraID = 313698, UnitID = "player", Flash = true},	-- 泰坦之赐
 		{AuraID = 314478, UnitID = "player"},	-- 倾泻恐惧
 		{AuraID = 314483, UnitID = "player"},	-- 倾泻恐惧
 		{AuraID = 314411, UnitID = "player"},	-- 疑云密布
@@ -381,7 +384,7 @@ local list = {
 		{AuraID = 310277, UnitID = "player"},	-- 动荡之种
 		{AuraID = 310309, UnitID = "player"},	-- 动荡易伤
 		{AuraID = 310361, UnitID = "player"},	-- 不羁狂乱
-		{AuraID = 308377, UnitID = "player"},	-- 虚化脓液
+		{AuraID = 308377, UnitID = "player", Flash = true},	-- 虚化脓液
 		{AuraID = 317001, UnitID = "player"},	-- 暗影排异
 		{AuraID = 310563, UnitID = "player"},	-- 背叛低语
 		{AuraID = 310567, UnitID = "player"},	-- 背叛者
@@ -832,6 +835,7 @@ local list = {
 	},
 	["Custom CD"] = { -- 自定义内置冷却组
 	-- 其他
+		{IntID = 313698, Duration = 60},--泰坦之赐
 		{IntID = 240447, Duration = 20},--践踏
 		{IntID = 295840, Duration = 30, OnSuccess = true},	-- 艾泽拉斯守护者
 		{IntID = 114018, Duration = 15, OnSuccess = true, UnitID = "all"},	-- 帷幕

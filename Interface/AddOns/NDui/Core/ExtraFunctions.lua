@@ -325,6 +325,22 @@ function B:CreateBD(alpha)
 	if not alpha then tinsert(C.frames, self) end
 end
 
+function B:CreateSD()
+	if not NDuiDB["Skins"]["Shadow"] then return end
+	if self.Shadow then return end
+
+	local frame = self
+	if self:GetObjectType() == "Texture" then frame = self:GetParent() end
+
+	local lvl = frame:GetFrameLevel()
+	local Shadow = CreateFrame("Frame", nil, frame)
+	Shadow:SetOutside(self, 2, 2)
+	Shadow:SetBackdrop({edgeFile = DB.glowTex, edgeSize = B.Scale(3)})
+	Shadow:SetBackdropBorderColor(0, 0, 0, .5)
+	Shadow:SetFrameLevel(lvl)
+	self.Shadow = Shadow
+end
+
 function B:CreateBDFrame(alpha, offset, noGF)
 	local frame = self
 	if self:GetObjectType() == "Texture" then frame = self:GetParent() end
@@ -342,6 +358,20 @@ function B:CreateBDFrame(alpha, offset, noGF)
 	end
 
 	return bg
+end
+
+function B:SetBDFrame(x, y, x2, y2)
+	if x and y and x2 and y2 then
+		local bg = B.CreateBDFrame(self, nil, 0, true)
+		bg:ClearAllPoints()
+		bg:SetPoint("TOPLEFT", self, x, y)
+		bg:SetPoint("BOTTOMRIGHT", self, x2, y2)
+
+		return bg
+	else
+		B.CreateBD(self)
+		B.CreateSD(self)
+	end
 end
 
 function B:CreateGA(w, h, d, r, g, b, a1, a2)
@@ -394,36 +424,6 @@ function B:CreateLine(isHorizontal)
 	self.Line = Line
 
 	return Line
-end
-
-function B:CreateSD()
-	if not NDuiDB["Skins"]["Shadow"] then return end
-	if self.Shadow then return end
-
-	local frame = self
-	if self:GetObjectType() == "Texture" then frame = self:GetParent() end
-
-	local lvl = frame:GetFrameLevel()
-	local Shadow = CreateFrame("Frame", nil, frame)
-	Shadow:SetOutside(self, 2, 2)
-	Shadow:SetBackdrop({edgeFile = DB.glowTex, edgeSize = B.Scale(3)})
-	Shadow:SetBackdropBorderColor(0, 0, 0, .5)
-	Shadow:SetFrameLevel(lvl)
-	self.Shadow = Shadow
-end
-
-function B:SetBDFrame(x, y, x2, y2)
-	if x and y and x2 and y2 then
-		local bg = B.CreateBDFrame(self, nil, 0, true)
-		bg:ClearAllPoints()
-		bg:SetPoint("TOPLEFT", self, x, y)
-		bg:SetPoint("BOTTOMRIGHT", self, x2, y2)
-
-		return bg
-	else
-		B.CreateBD(self)
-		B.CreateSD(self)
-	end
 end
 
 function B:ReskinAffixes()
@@ -914,7 +914,6 @@ function B:ReskinSlider(verticle)
 	bg:ClearAllPoints()
 	bg:SetPoint("TOPLEFT", 14, -2)
 	bg:SetPoint("BOTTOMRIGHT", -15, 3)
-	bg:SetFrameStrata("BACKGROUND")
 
 	local thumb = self:GetThumbTexture()
 	thumb:SetTexture(DB.sparkTex)
