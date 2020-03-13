@@ -107,7 +107,7 @@ C.themes["Blizzard_Calendar"] = function()
 		local index = 1
 		local eventButton = _G[button.."EventButton"..index]
 		while eventButton do
-			eventButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
+			B.ReskinTexture(eventButton)
 			eventButton.black:SetTexture(nil)
 
 			index = index + 1

@@ -143,7 +143,7 @@ local list = {
 		{AuraID = 271107, UnitID = "player"},	-- 金色光泽
 		{AuraID = 278231, UnitID = "player"},	-- 森林之王的愤怒
 		{AuraID = 278267, UnitID = "player"},	-- 森林之王的智慧
-		{AuraID = 268311, UnitID = "player", Flash = true},	-- 唤风者之赐
+		{AuraID = 268311, UnitID = "player"},	-- 唤风者之赐
 		{AuraID = 285489, UnitID = "player"},	-- 黑喉之力
 		{AuraID = 278317, UnitID = "player"},	-- 末日余波
 		{AuraID = 278806, UnitID = "player"},	-- 雄狮谋略
@@ -224,7 +224,7 @@ local list = {
 		{AuraID = 311203, UnitID = "player"},	-- 光荣时刻
 	-- 腐蚀
 		{AuraID = 318216, UnitID = "player"},	-- 磨砺心灵
-		{AuraID = 318227, UnitID = "player"},	-- 急速脉搏
+		{AuraID = 318227, UnitID = "player", Flash = true},	-- 急速脉搏
 		{AuraID = 316823, UnitID = "player"},	-- 虚空仪式
 		{AuraID = 318211, UnitID = "player"},	-- 活力涌动
 		{AuraID = 318219, UnitID = "player"},	-- 致命之势
@@ -240,15 +240,15 @@ local list = {
 	-- 大幻象
 		{AuraID = 313698, UnitID = "player", Flash = true},	-- 泰坦之赐
 	-- 急速增益
-		{AuraID = 2825, UnitID = "player"},--嗜血
-		{AuraID = 32182, UnitID = "player"},--英勇
-		{AuraID = 80353, UnitID = "player"},--时间扭曲
-		{AuraID = 102364, UnitID = "player"},--青铜龙的祝福
-		{AuraID = 178207, UnitID = "player"},--狂怒战鼓
-		{AuraID = 230935, UnitID = "player"},--高山战鼓
-		{AuraID = 264667, UnitID = "player"},--原始暴怒
-		{AuraID = 256740, UnitID = "player"},--漩涡战鼓
-		{AuraID = 292686, UnitID = "player"},--雷皮之槌
+		{AuraID = 2825, UnitID = "player", Flash = true},--嗜血
+		{AuraID = 32182, UnitID = "player", Flash = true},--英勇
+		{AuraID = 80353, UnitID = "player", Flash = true},--时间扭曲
+		{AuraID = 102364, UnitID = "player", Flash = true},--青铜龙的祝福
+		{AuraID = 178207, UnitID = "player", Flash = true},--狂怒战鼓
+		{AuraID = 230935, UnitID = "player", Flash = true},--高山战鼓
+		{AuraID = 264667, UnitID = "player", Flash = true},--原始暴怒
+		{AuraID = 256740, UnitID = "player", Flash = true},--漩涡战鼓
+		{AuraID = 292686, UnitID = "player", Flash = true},--雷皮之槌
 	-- 职业增益
 		--德鲁伊
 		{AuraID = 29166, UnitID = "player"},--激活
@@ -835,7 +835,6 @@ local list = {
 	},
 	["Custom CD"] = { -- 自定义内置冷却组
 	-- 其他
-		{IntID = 313698, Duration = 60},--泰坦之赐
 		{IntID = 240447, Duration = 20},--践踏
 		{IntID = 295840, Duration = 30, OnSuccess = true},	-- 艾泽拉斯守护者
 		{IntID = 114018, Duration = 15, OnSuccess = true, UnitID = "all"},	-- 帷幕

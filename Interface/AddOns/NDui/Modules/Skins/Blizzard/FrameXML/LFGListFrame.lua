@@ -38,11 +38,11 @@ tinsert(C.defaultThemes, function()
 	SearchPanel.RefreshButton:SetSize(24, 24)
 	SearchPanel.RefreshButton.Icon:SetPoint("CENTER")
 
-	local function resultOnEnter(self)
+	local function result_OnEnter(self)
 		self.hl:Show()
 	end
 
-	local function resultOnLeave(self)
+	local function result_OnLeave(self)
 		self.hl:Hide()
 	end
 
@@ -65,8 +65,8 @@ tinsert(C.defaultThemes, function()
 				hl:Hide()
 				result.hl = hl
 
-				result:HookScript("OnEnter", resultOnEnter)
-				result:HookScript("OnLeave", resultOnLeave)
+				result:HookScript("OnEnter", result_OnEnter)
+				result:HookScript("OnLeave", result_OnLeave)
 
 				result.styled = true
 			end

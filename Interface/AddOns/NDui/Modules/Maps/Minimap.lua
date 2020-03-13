@@ -231,8 +231,7 @@ function module:RecycleBin()
 					if child:HasScript("OnClick") then child:HookScript("OnClick", clickFunc) end
 
 					if child:GetObjectType() == "Button" then
-						child:SetHighlightTexture(DB.bdTex) -- prevent nil function
-						child:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
+						B.ReskinTexture(child)
 					elseif child:GetObjectType() == "Frame" then
 						child.highlight = child:CreateTexture(nil, "HIGHLIGHT")
 						child.highlight:SetAllPoints()

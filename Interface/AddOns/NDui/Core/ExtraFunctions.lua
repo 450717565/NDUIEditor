@@ -989,6 +989,8 @@ function B:ReskinTexture(relativeTo, classColor, isOutside)
 	end
 
 	tex:SetColorTexture(r, g, b, .25)
+
+	if not relativeTo then return end
 	if isOutside then
 		tex:SetOutside(relativeTo)
 	else
@@ -1104,6 +1106,14 @@ function B.ReskinMerchantItem(index)
 	local icbg = B.ReskinIcon(button.icon)
 	B.ReskinTexture(button, icbg)
 	B.ReskinBorder(button.IconBorder, icbg)
+
+	local count = _G[frame.."ItemButtonCount"]
+	count:ClearAllPoints()
+	count:SetPoint("BOTTOMRIGHT", icbg, "BOTTOMRIGHT", 0, 1)
+
+	local stock = _G[frame.."ItemButtonStock"]
+	stock:ClearAllPoints()
+	stock:SetPoint("TOPRIGHT", icbg, "TOPRIGHT", 0, -1)
 
 	local name = _G[frame.."Name"]
 	name:SetWordWrap(false)

@@ -89,7 +89,7 @@ C.themes["Blizzard_Communities"] = function()
 			if frame.FindAGuildButton then B.ReskinButton(frame.FindAGuildButton) end
 			if frame.ApplyButton then B.ReskinButton(frame.ApplyButton) end
 			if frame.AcceptButton then B.ReskinButton(frame.AcceptButton) end
-			if frame.DeclineButton then B.ReskinButton(frame.DeclineButton) end
+			if frame.DeclineButton then B.ReskinDecline(frame.DeclineButton) end
 
 			local OptionsList = frame.OptionsList
 			if OptionsList then
@@ -155,9 +155,9 @@ C.themes["Blizzard_Communities"] = function()
 	local Chat = CommunitiesFrame.Chat
 	B.StripTextures(Chat)
 	B.ReskinScroll(Chat.MessageFrame.ScrollBar)
-	local chatbg = B.CreateBDFrame(Chat, 0)
-	chatbg:SetPoint("TOPLEFT", -6, 5)
-	chatbg:SetPoint("BOTTOMRIGHT", 3, -2)
+	local chatBG = B.CreateBDFrame(Chat, 0)
+	chatBG:SetPoint("TOPLEFT", -6, 5)
+	chatBG:SetPoint("BOTTOMRIGHT", 3, -2)
 
 	local EditStreamDialog = CommunitiesFrame.EditStreamDialog
 	B.ReskinFrame(EditStreamDialog)
@@ -269,9 +269,9 @@ C.themes["Blizzard_Communities"] = function()
 	B.ReskinScroll(TicketManagerDialog.InviteManager.ListScrollFrame.scrollBar)
 
 	hooksecurefunc(TicketManagerDialog, "Update", function(self)
-		local column = self.InviteManager.ColumnDisplay
-		for i = 1, column:GetNumChildren() do
-			local child = select(i, column:GetChildren())
+		local ColumnDisplay = self.InviteManager.ColumnDisplay
+		for i = 1, ColumnDisplay:GetNumChildren() do
+			local child = select(i, ColumnDisplay:GetChildren())
 			if not child.styled then
 				B.StripTextures(child)
 
@@ -299,39 +299,77 @@ C.themes["Blizzard_Communities"] = function()
 
 	-- RosterTab
 	B.StripTextures(CommunitiesFrame.MemberList.ColumnDisplay)
+	B.StripTextures(CommunitiesFrame.ApplicantList.ColumnDisplay)
 	B.ReskinCheck(CommunitiesFrame.MemberList.ShowOfflineButton)
 	B.ReskinDropDown(CommunitiesFrame.GuildMemberListDropDownMenu)
 	B.ReskinButton(CommunitiesFrame.CommunitiesControlFrame.GuildControlButton)
 	B.ReskinDropDown(CommunitiesFrame.CommunityMemberListDropDownMenu)
 
-	local function updateNameFrame(self)
-		if not self.expanded then return end
+	local ApplicantList = CommunitiesFrame.ApplicantList
+	B.StripTextures(ApplicantList)
+	B.ReskinScroll(ApplicantList.ListScrollFrame.scrollBar)
+	local listBG = B.CreateBDFrame(ApplicantList, 0)
+	listBG:SetPoint("TOPLEFT", 0, 0)
+	listBG:SetPoint("BOTTOMRIGHT", -15, 0)
 
-		self:SetHighlightTexture(DB.bdTex)
-		self:GetHighlightTexture():SetColorTexture(cr, cg, cb, .25)
+	hooksecurefunc(ApplicantList, "BuildList", function(self)
+		local ColumnDisplay = self.ColumnDisplay
+		for i = 1, ColumnDisplay:GetNumChildren() do
+			local child = select(i, ColumnDisplay:GetChildren())
+			if not child.styled then
+				B.StripTextures(child)
 
-		if not self.bg then
-			self.bg = B.ReskinIcon(self.Class)
-		end
+				local bg = B.CreateBDFrame(child, 0)
+				bg:SetPoint("TOPLEFT", 4, -2)
+				bg:SetPoint("BOTTOMRIGHT", 0, 2)
+				B.ReskinTexture(child, bg, true)
 
-		local memberInfo = self:GetMemberInfo()
-		if memberInfo and memberInfo.classID then
-			local classInfo = C_CreatureInfo.GetClassInfo(memberInfo.classID)
-			if classInfo then
-				local tcoords = CLASS_ICON_TCOORDS[classInfo.classFile]
-				self.Class:SetTexCoord(
-					tcoords[1] + .022,
-					tcoords[2] - .025,
-					tcoords[3] + .022,
-					tcoords[4] - .025
-				)
+				child.styled = true
 			end
 		end
-	end
+
+		local buttons = self.ListScrollFrame.buttons
+		for i = 1, #buttons do
+			local button = buttons[i]
+			if not button.styled then
+				button:SetPoint("LEFT", listBG, C.mult, 0)
+				button:SetPoint("RIGHT", listBG, -C.mult, 0)
+				button.InviteButton:SetSize(66, 18)
+				button.CancelInvitationButton:SetSize(20, 18)
+
+				B.ReskinTexture(button, nil, true)
+				B.ReskinButton(button.InviteButton)
+				B.ReskinDecline(button.CancelInvitationButton)
+
+				hooksecurefunc(button, "UpdateMemberInfo", function(self, info)
+					self.Info = info
+					if not info then return end
+
+					if not self.Class.bg then
+						self.Class.bg = B.CreateBDFrame(self.Class, 0)
+					end
+
+					local classTag = select(2, GetClassInfo(info.classID))
+					if classTag then
+						local tcoords = CLASS_ICON_TCOORDS[classTag]
+						self.Class:SetTexCoord(
+							tcoords[1] + .022,
+							tcoords[2] - .025,
+							tcoords[3] + .022,
+							tcoords[4] - .025
+						)
+					end
+				end)
+
+				button.styled = true
+			end
+		end
+	end)
 
 	hooksecurefunc(CommunitiesFrame.MemberList, "RefreshListDisplay", function(self)
-		for i = 1, self.ColumnDisplay:GetNumChildren() do
-			local child = select(i, self.ColumnDisplay:GetChildren())
+		local ColumnDisplay = self.ColumnDisplay
+		for i = 1, ColumnDisplay:GetNumChildren() do
+			local child = select(i, ColumnDisplay:GetChildren())
 			if not child.styled then
 				B.StripTextures(child)
 
@@ -346,7 +384,29 @@ C.themes["Blizzard_Communities"] = function()
 
 		for _, button in pairs(self.ListScrollFrame.buttons or {}) do
 			if button and not button.styled then
-				hooksecurefunc(button, "RefreshExpandedColumns", updateNameFrame)
+				B.ReskinTexture(button, nil, true)
+				hooksecurefunc(button, "RefreshExpandedColumns", function(self)
+					if not self.expanded then return end
+
+					if not self.Class.bg then
+						self.Class.bg = B.CreateBDFrame(self.Class, 0)
+					end
+
+					local memberInfo = self:GetMemberInfo()
+					if memberInfo and memberInfo.classID then
+						local classInfo = C_CreatureInfo.GetClassInfo(memberInfo.classID)
+						if classInfo then
+							local tcoords = CLASS_ICON_TCOORDS[classInfo.classFile]
+							self.Class:SetTexCoord(
+								tcoords[1] + .022,
+								tcoords[2] - .025,
+								tcoords[3] + .022,
+								tcoords[4] - .025
+							)
+						end
+					end
+				end)
+
 				if button.ProfessionHeader then
 					local header = button.ProfessionHeader
 					B.StripTextures(header)
@@ -362,8 +422,8 @@ C.themes["Blizzard_Communities"] = function()
 				button.styled = true
 			end
 
-			if button and button.bg then
-				button.bg:SetShown(button.Class:IsShown())
+			if button and button.Class.bg then
+				button.Class.bg:SetShown(button.Class:IsShown())
 			end
 		end
 	end)

@@ -64,7 +64,7 @@ local function SetItemLevelString(self, text, quality)
 	end
 	--腐蚀的物品加个标记
 	if (ShowCorruptedMark and link and IsCorruptedItem(link)) then
-		text = text .. "|cff8080FF★|r"
+		text = format("|cff8080FF%s|r", text)
 	end
 	self:SetText(text)
 end
