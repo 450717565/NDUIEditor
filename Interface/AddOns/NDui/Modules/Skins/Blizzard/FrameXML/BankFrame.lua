@@ -2,7 +2,6 @@ local B, C, L, DB = unpack(select(2, ...))
 
 tinsert(C.defaultThemes, function()
 	if NDuiDB["Bags"]["Enable"] then return end
-	if not NDuiDB["Skins"]["DefaultBags"] then return end
 
 	-- [[ Bank ]]
 	B.ReskinFrame(BankFrame)

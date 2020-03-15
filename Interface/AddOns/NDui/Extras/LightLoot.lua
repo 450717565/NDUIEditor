@@ -192,7 +192,7 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 			end
 
 			if lootIcon then
-				local color = BAG_ITEM_QUALITY_COLORS[lootQuality or 1]
+				local color = DB.QualityColors[lootQuality or 1]
 				local r, g, b = color.r, color.g, color.b
 				local slotType = GetLootSlotType(i)
 
@@ -237,7 +237,7 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 		slot:Hide()
 	end
 
-	local color = BAG_ITEM_QUALITY_COLORS[maxQuality or 1]
+	local color = DB.QualityColors[maxQuality or 1]
 	local r, g, b = color.r, color.g, color.b
 	self:SetBackdropBorderColor(r, g, b)
 	self.Title:SetTextColor(r, g, b)

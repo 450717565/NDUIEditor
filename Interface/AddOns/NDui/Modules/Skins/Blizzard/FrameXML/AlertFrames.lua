@@ -1,6 +1,8 @@
 local B, C, L, DB = unpack(select(2, ...))
 
 tinsert(C.defaultThemes, function()
+	if IsAddOnLoaded("ls_Toasts") then return end
+
 	-- Fix Alertframe bg
 	local function fixBg(frame)
 		if frame:GetObjectType() == "AnimationGroup" then

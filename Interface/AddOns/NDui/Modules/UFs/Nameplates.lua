@@ -243,8 +243,9 @@ end
 function UF:CreateThreatColor(self)
 	local threatIndicator = B.CreateBDFrame(self, 0, 0, true)
 	threatIndicator:SetOutside(self.Health.bd, 1+C.mult, 1+C.mult)
-	threatIndicator.Tex:Hide()
 	threatIndicator:Hide()
+
+	if threatIndicator.Tex then threatIndicator.Tex:Hide() end
 
 	self.ThreatIndicator = threatIndicator
 	self.ThreatIndicator.Override = UF.UpdateThreatColor
@@ -316,7 +317,8 @@ function UF:AddTargetIndicator(self)
 	frame.Glow = B.CreateBDFrame(frame, 0, 0, true)
 	frame.Glow:SetOutside(self.Health.bd, 2+C.mult, 2+C.mult)
 	frame.Glow:SetBackdropBorderColor(color.r, color.g, color.b)
-	frame.Glow.Tex:Hide()
+
+	if frame.Glow.Tex then frame.Glow.Tex:Hide() end
 
 	self.TargetIndicator = frame
 	UF:UpdateTargetIndicator(self)
@@ -571,8 +573,9 @@ function UF:MouseoverIndicator(self)
 	local highlight = B.CreateBDFrame(self, 0, 0, true)
 	highlight:SetOutside(self.Health.bd, 2+C.mult, 2+C.mult)
 	highlight:SetBackdropBorderColor(color.r, color.g, color.b)
-	highlight.Tex:Hide()
 	highlight:Hide()
+
+	if highlight.Tex then highlight.Tex:Hide() end
 
 	self:RegisterEvent("UPDATE_MOUSEOVER_UNIT", UF.UpdateMouseoverShown, true)
 

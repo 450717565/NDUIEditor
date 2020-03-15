@@ -94,9 +94,10 @@ function UF:CreateHealthBar(self)
 	end
 
 	health:SetHeight(healthHeight)
-	health.bd.Tex:Hide()
 	health.bg:SetVertexColor(.6, .6, .6, 1)
 	health.bg.multiplier = .25
+
+	if health.bd.Tex then health.bd.Tex:Hide() end
 
 	self.Health = health
 end
@@ -250,9 +251,10 @@ function UF:CreatePowerBar(self)
 	power.frequentUpdates = true
 
 	power:SetHeight(powerHeight)
-	power.bd.Tex:Hide()
 	power.bg:SetAlpha(1)
 	power.bg.multiplier = .25
+
+	if power.bd.Tex then power.bd.Tex:Hide() end
 
 	self.Power = power
 end

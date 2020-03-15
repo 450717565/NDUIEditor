@@ -4,7 +4,7 @@ local B, C, L, DB = unpack(ns)
 local module = B:RegisterModule("Bags")
 local cargBags = ns.cargBags
 local ipairs, strmatch, unpack, ceil = ipairs, string.match, unpack, math.ceil
-local BAG_ITEM_QUALITY_COLORS, EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC = BAG_ITEM_QUALITY_COLORS, EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC
+local EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC = EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC
 local LE_ITEM_QUALITY_POOR, LE_ITEM_QUALITY_RARE, LE_ITEM_QUALITY_HEIRLOOM = LE_ITEM_QUALITY_POOR, LE_ITEM_QUALITY_RARE, LE_ITEM_QUALITY_HEIRLOOM
 local LE_ITEM_CLASS_WEAPON, LE_ITEM_CLASS_ARMOR, LE_ITEM_CLASS_CONTAINER = LE_ITEM_CLASS_WEAPON, LE_ITEM_CLASS_ARMOR, LE_ITEM_CLASS_CONTAINER
 local SortBankBags, SortReagentBankBags, SortBags = SortBankBags, SortReagentBankBags, SortBags
@@ -704,7 +704,7 @@ function module:OnLogin()
 		if item.questID or item.isQuestItem then
 			self.bg:SetBackdropBorderColor(.8, .8, 0)
 		elseif item.rarity and item.rarity > 0 then
-			local color = BAG_ITEM_QUALITY_COLORS[item.rarity or 1]
+			local color = DB.QualityColors[item.rarity or 1]
 			self.bg:SetBackdropBorderColor(color.r, color.g, color.b)
 		else
 			self.bg:SetBackdropBorderColor(0, 0, 0)
@@ -839,7 +839,7 @@ function module:OnLogin()
 		local id = GetInventoryItemID("player", (self.GetInventorySlot and self:GetInventorySlot()) or self.invID)
 		if not id then return end
 		local _, _, quality, _, _, _, _, _, _, _, _, classID, subClassID = GetItemInfo(id)
-		local color = BAG_ITEM_QUALITY_COLORS[quality or 1]
+		local color = DB.QualityColors[quality or 1]
 		if not self.hidden and not self.notBought then
 			self.bg:SetBackdropBorderColor(color.r, color.g, color.b)
 		else

@@ -28,8 +28,6 @@ tinsert(C.defaultThemes, function()
 	BONUS_ROLL_COST = gsub(BONUS_ROLL_COST, from, to)
 	BONUS_ROLL_CURRENT_COUNT = gsub(BONUS_ROLL_CURRENT_COUNT, from, to)
 
-	if not NDuiDB["Skins"]["Loot"] then return end
-
 	B.ReskinFrame(LootFrame)
 	B.ReskinArrow(LootFrameUpButton, "up")
 	B.ReskinArrow(LootFrameDownButton, "down")

@@ -135,7 +135,7 @@ C.themes["Blizzard_Collections"] = function()
 						local _, _, _, _, rarity = C_PetJournal.GetPetStats(petID)
 
 						if rarity then
-							local color = BAG_ITEM_QUALITY_COLORS[(rarity-1) or 1]
+							local color = DB.QualityColors[(rarity-1) or 1]
 							bu.name:SetTextColor(color.r, color.g, color.b)
 						else
 							bu.name:SetTextColor(1, 1, 1)
@@ -249,7 +249,7 @@ C.themes["Blizzard_Collections"] = function()
 			local self = name:GetParent()
 			if PlayerHasToy(self.itemID) then
 				local _, _, quality = GetItemInfo(self.itemID)
-				local color = BAG_ITEM_QUALITY_COLORS[quality or 1]
+				local color = DB.QualityColors[quality or 1]
 				if quality then
 					name:SetTextColor(color.r, color.g, color.b)
 				else
@@ -283,7 +283,7 @@ C.themes["Blizzard_Collections"] = function()
 			local button = ToyBox.iconsFrame["spellButton"..i]
 			if PlayerHasToy(button.itemID) then
 				local quality = select(3, GetItemInfo(button.itemID))
-				local color = BAG_ITEM_QUALITY_COLORS[quality or 1]
+				local color = DB.QualityColors[quality or 1]
 
 				if quality then
 					button.icbg:SetBackdropBorderColor(color.r, color.g, color.b)
@@ -409,7 +409,7 @@ C.themes["Blizzard_Collections"] = function()
 
 		if itemFrame.collected then
 			local quality = C_TransmogCollection.GetSourceInfo(itemFrame.sourceID).quality
-			local color = BAG_ITEM_QUALITY_COLORS[quality or 1]
+			local color = DB.QualityColors[quality or 1]
 			ic.bg:SetBackdropBorderColor(color.r, color.g, color.b)
 		else
 			ic.bg:SetBackdropBorderColor(0, 0, 0)

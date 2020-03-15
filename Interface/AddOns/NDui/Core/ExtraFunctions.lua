@@ -229,19 +229,19 @@ end
 
 function B:GetRoleTexCoord()
 	if self == "TANK" then
-		return 0.32/9.03, 2.04/9.03, 2.65/9.03, 4.30/9.03
+		return 0.33/9.03, 2.85/9.03, 3.15/9.03, 5.67/9.03
 	elseif self == "DPS" or self == "DAMAGER" then
-		return 2.68/9.03, 4.40/9.03, 2.65/9.03, 4.34/9.03
+		return 3.26/9.03, 5.77/9.03, 3.15/9.03, 5.67/9.03
 	elseif self == "HEALER" then
-		return 2.68/9.03, 4.40/9.03, 0.28/9.03, 1.98/9.03
+		return 3.26/9.03, 5.77/9.03, 0.29/9.03, 2.77/9.03
 	elseif self == "LEADER" then
-		return 0.32/9.03, 2.04/9.03, 0.28/9.03, 1.98/9.03
+		return 0.33/9.03, 2.85/9.03, 0.29/9.03, 2.77/9.03
 	elseif self == "READY" then
-		return 5.10/9.03, 6.76/9.03, 0.28/9.03, 1.98/9.03
+		return 6.18/9.03, 8.74/9.03, 0.29/9.03, 2.77/9.03
 	elseif self == "PENDING" then
-		return 5.10/9.03, 6.76/9.03, 2.65/9.03, 4.34/9.03
+		return 6.18/9.03, 8.74/9.03, 3.15/9.03, 5.67/9.03
 	elseif self == "REFUSE" then
-		return 2.68/9.03, 4.40/9.03, 5.02/9.03, 6.70/9.03
+		return 3.26/9.03, 5.77/9.03, 6.04/9.03, 8.60/9.03
 	end
 end
 
@@ -298,6 +298,7 @@ function B:Tex_OnMouseUp()
 end
 
 function B:SetupTex()
+	if not NDuiDB["Skins"]["SkinTexture"] then return end
 	if self.Tex then return end
 
 	local frame = self
@@ -326,7 +327,7 @@ function B:CreateBD(alpha)
 end
 
 function B:CreateSD()
-	if not NDuiDB["Skins"]["Shadow"] then return end
+	if not NDuiDB["Skins"]["SkinShadow"] then return end
 	if self.Shadow then return end
 
 	local frame = self

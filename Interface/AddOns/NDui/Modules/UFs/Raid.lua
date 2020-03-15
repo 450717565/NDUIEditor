@@ -47,8 +47,9 @@ function UF:CreateTargetBorder(self)
 	local targetBorder = B.CreateBDFrame(self, 0, 0, true)
 	targetBorder:SetBackdropBorderColor(0, 1, 0)
 	targetBorder:SetOutside(self.Health.bd, 2+C.mult, 2+C.mult, self.Power.bd)
-	targetBorder.Tex:Hide()
 	targetBorder:Hide()
+
+	if targetBorder.Tex then targetBorder.Tex:Hide() end
 
 	self.TargetBorder = targetBorder
 	self:RegisterEvent("PLAYER_TARGET_CHANGED", UF.UpdateTargetBorder, true)
@@ -73,8 +74,9 @@ end
 function UF:CreateThreatBorder(self)
 	local threatIndicator = B.CreateBDFrame(self, 0, 0, true)
 	threatIndicator:SetOutside(self.Health.bd, 1+C.mult, 1+C.mult, self.Power.bd)
-	threatIndicator.Tex:Hide()
 	threatIndicator:Hide()
+
+	if threatIndicator.Tex then threatIndicator.Tex:Hide() end
 
 	self.ThreatIndicator = threatIndicator
 	self.ThreatIndicator.Override = UF.UpdateThreatBorder

@@ -5,7 +5,7 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 
 	local function reskinAuctionButton(self)
 		B.ReskinButton(self)
-		self:SetSize(22,22)
+		self:SetSize(22, 22)
 	end
 
 	local function reskinItemDisplay(self)

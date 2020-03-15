@@ -19,7 +19,8 @@ local function ReskinWA()
 
 				local bg = B.CreateBDFrame(self.bar, 0, nil, true)
 				bg:SetFrameLevel(0)
-				bg.Tex:Hide()
+
+				if bg.Tex then bg.Tex:Hide() end
 
 				self.bar.styled = true
 			end

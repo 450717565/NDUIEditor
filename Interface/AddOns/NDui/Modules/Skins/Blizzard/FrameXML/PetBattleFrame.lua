@@ -178,7 +178,7 @@ tinsert(C.defaultThemes, function()
 
 		if self.Icon.bg then
 			local quality = C_PetBattles.GetBreedQuality(self.petOwner, self.petIndex) - 1 or 1
-			local color = BAG_ITEM_QUALITY_COLORS[quality or 1]
+			local color = DB.QualityColors[quality or 1]
 			self.Icon.bg:SetBackdropBorderColor(color.r, color.g, color.b)
 		end
 	end)
