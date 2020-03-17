@@ -117,11 +117,11 @@ function UF:CreateHealthText(self)
 		name:ClearAllPoints()
 		if NDuiDB["UFs"]["SimpleMode"] then
 			name:SetWidth(self:GetWidth()*.65)
-			name:SetPoint("LEFT", 4, 0)
+			name:SetPoint("LEFT", 3, 0)
 		elseif NDuiDB["UFs"]["RaidBuffIndicator"] then
 			name:SetJustifyH("CENTER")
 			if NDuiDB["UFs"]["RaidHPMode"] ~= 1 then
-				name:SetPoint("TOP", 0, -3)
+				name:SetPoint("BOTTOM", self, "CENTER", 0, 1)
 			else
 				name:SetPoint("CENTER")
 			end
@@ -138,7 +138,7 @@ function UF:CreateHealthText(self)
 	elseif notMinorStyle then
 		name:SetWidth(self:GetWidth()*.95)
 		name:ClearAllPoints()
-		name:SetPoint("TOPLEFT", 0, -3)
+		name:SetPoint("TOPLEFT", 3, -3)
 	else
 		name:SetWidth(self:GetWidth()*.55)
 	end
@@ -159,13 +159,18 @@ function UF:CreateHealthText(self)
 
 	local hpval = B.CreateFS(textFrame, retVal(self, 14, 13, 13, 13, NDuiDB["Nameplate"]["HealthTextSize"]), "", false, "RIGHT", -3, 0)
 	hpval:SetJustifyH("RIGHT")
+
 	if mystyle == "raid" then
 		hpval:ClearAllPoints()
 		if NDuiDB["UFs"]["SimpleMode"] then
-			hpval:SetPoint("RIGHT", -4, 0)
+			hpval:SetPoint("RIGHT", -3, 0)
 		elseif NDuiDB["UFs"]["RaidBuffIndicator"] then
-			hpval:SetPoint("BOTTOM", 0, 1)
 			hpval:SetJustifyH("CENTER")
+			if NDuiDB["UFs"]["RaidHPMode"] ~= 1 then
+				hpval:SetPoint("TOP", self, "CENTER", 0, -1)
+			else
+				hpval:SetPoint("CENTER", self, "BOTTOM", 0, 1)
+			end
 		else
 			hpval:SetPoint("BOTTOMRIGHT", -2, 2)
 		end
@@ -180,7 +185,7 @@ function UF:CreateHealthText(self)
 		self:Tag(hpval, "[nphp]")
 	elseif notMinorStyle then
 		hpval:ClearAllPoints()
-		hpval:SetPoint("BOTTOMRIGHT", 0, 3)
+		hpval:SetPoint("BOTTOMRIGHT", -3, 3)
 		self:Tag(hpval, "[health]")
 	else
 		self:Tag(hpval, "[health]")
@@ -190,24 +195,34 @@ function UF:CreateHealthText(self)
 	self.healthValue = hpval
 end
 
-function UF:UpdateRaidNameText()
+function UF:UpdateRaidText()
 	for _, frame in pairs(oUF.objects) do
 		if frame.mystyle == "raid" then
 			local name = frame.nameText
+			local hpval = frame.healthValue
 			name:ClearAllPoints()
+			name:SetJustifyH("LEFT")
+			hpval:ClearAllPoints()
+			hpval:SetJustifyH("RIGHT")
+
 			if NDuiDB["UFs"]["SimpleMode"] then
-				name:SetPoint("LEFT", 4, 0)
+				name:SetPoint("LEFT", 3, 0)
+				hpval:SetPoint("RIGHT", -3, 0)
 			elseif NDuiDB["UFs"]["RaidBuffIndicator"] then
 				name:SetJustifyH("CENTER")
+				hpval:SetJustifyH("CENTER")
 				if NDuiDB["UFs"]["RaidHPMode"] ~= 1 then
-					name:SetPoint("TOP", 0, -3)
+					name:SetPoint("BOTTOM", frame, "CENTER", 0, 1)
+					hpval:SetPoint("TOP", frame, "CENTER", 0, -1)
 				else
 					name:SetPoint("CENTER")
+					hpval:SetPoint("CENTER", frame, "BOTTOM", 0, 1)
 				end
 			else
 				name:SetPoint("TOPLEFT", 2, -2)
+				hpval:SetPoint("BOTTOMRIGHT", -2, 2)
 			end
-			frame.healthValue:UpdateTag()
+			hpval:UpdateTag()
 		end
 	end
 end

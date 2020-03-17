@@ -18,7 +18,7 @@ tinsert(C.defaultThemes, function()
 
 				local bg = B.CreateBDFrame(tab, 0)
 				bg:SetAllPoints()
-				B.ReskinTexture(tab, bg, true)
+				B.ReskinHighlight(tab, bg, true)
 
 				tab.styled = true
 			end

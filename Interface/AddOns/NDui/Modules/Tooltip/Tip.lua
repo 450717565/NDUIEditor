@@ -377,6 +377,8 @@ function TT:ReskinTooltip()
 	if self:IsForbidden() then return end
 	self:SetScale(NDuiDB["Tooltip"]["Scale"])
 
+	local frameName = self.GetName and self:GetName()
+
 	if not self.tipStyled then
 		self:SetBackdrop(nil)
 		self:DisableDrawLayer("BACKGROUND")
@@ -391,7 +393,6 @@ function TT:ReskinTooltip()
 		TT.ReskinRewardIcon(self)
 		TT.ReskinStatusBar(self)
 
-		local frameName = self.GetName and self:GetName()
 		local closeButton = self.CloseButton or (frameName and _G[frameName.."CloseButton"])
 		if closeButton then B.ReskinClose(closeButton) end
 
@@ -413,11 +414,11 @@ function TT:ReskinTooltip()
 	if self.NumLines and self:NumLines() > 0 then
 		for index = 1, self:NumLines() do
 			if index == 1 then
-				_G[self:GetName().."TextLeft"..index]:SetFont(DB.TipFont[1], DB.TipFont[2] + 2, DB.TipFont[3])
+				_G[frameName.."TextLeft"..index]:SetFont(DB.TipFont[1], DB.TipFont[2] + 2, DB.TipFont[3])
 			else
-				_G[self:GetName().."TextLeft"..index]:SetFont(unpack(DB.TipFont))
+				_G[frameName.."TextLeft"..index]:SetFont(unpack(DB.TipFont))
 			end
-			_G[self:GetName().."TextRight"..index]:SetFont(unpack(DB.TipFont))
+			_G[frameName.."TextRight"..index]:SetFont(unpack(DB.TipFont))
 		end
 	end
 end

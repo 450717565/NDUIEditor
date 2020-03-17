@@ -53,7 +53,7 @@ tinsert(C.defaultThemes, function()
 
 			local selected = navButton.selected
 			selected:SetDrawLayer("BACKGROUND")
-			B.ReskinTexture(selected, navButton, true)
+			B.ReskinHighlight(selected, navButton, true)
 
 			navButton:HookScript("OnClick", function()
 				moveNavButtons(self)

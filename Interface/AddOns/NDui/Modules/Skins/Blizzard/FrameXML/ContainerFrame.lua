@@ -33,7 +33,7 @@ tinsert(C.defaultThemes, function()
 			if newTexture then newTexture:SetAlpha(0) end
 
 			local icbg = B.ReskinIcon(button.icon)
-			B.ReskinTexture(button, icbg)
+			B.ReskinHighlight(button, icbg)
 
 			local border = button.IconBorder
 			B.ReskinBorder(border, icbg)

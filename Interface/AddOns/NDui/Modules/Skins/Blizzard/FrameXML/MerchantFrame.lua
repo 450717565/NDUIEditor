@@ -24,7 +24,7 @@ tinsert(C.defaultThemes, function()
 
 	local backBU = MerchantBuyBackItemItemButton
 	B.StripTextures(backBU)
-	B.ReskinTexture(backBU, backIC)
+	B.ReskinHighlight(backBU, backIC)
 	backBU.IconBorder:SetAlpha(0)
 
 	local backIT = MerchantBuyBackItem
@@ -62,7 +62,7 @@ tinsert(C.defaultThemes, function()
 		local parent = repair:GetParent()
 		local icbg = B.ReskinIcon(repair)
 
-		B.ReskinTexture(parent, icbg)
+		B.ReskinHighlight(parent, icbg)
 	end
 
 	hooksecurefunc("MerchantFrame_UpdateMerchantInfo", B.UpdateMerchantInfo)

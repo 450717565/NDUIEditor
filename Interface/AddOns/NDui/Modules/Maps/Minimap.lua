@@ -231,7 +231,7 @@ function module:RecycleBin()
 					if child:HasScript("OnClick") then child:HookScript("OnClick", clickFunc) end
 
 					if child:GetObjectType() == "Button" then
-						B.ReskinTexture(child)
+						B.ReskinHighlight(child)
 					elseif child:GetObjectType() == "Frame" then
 						child.highlight = child:CreateTexture(nil, "HIGHLIGHT")
 						child.highlight:SetAllPoints()

@@ -27,8 +27,8 @@ function Bar:CreateLeaveVehicle()
 
 	B.CleanTextures(button)
 	local icbg = B.CreateBDFrame(button.icon, 0)
-	B.ReskinTexed(button, icbg)
-	B.ReskinTexture(button, icbg)
+	B.ReskinChecked(button, icbg)
+	B.ReskinHighlight(button, icbg)
 
 	local function onClick(self)
 		if UnitOnTaxi("player") then TaxiRequestEarlyLanding() else VehicleExit() end

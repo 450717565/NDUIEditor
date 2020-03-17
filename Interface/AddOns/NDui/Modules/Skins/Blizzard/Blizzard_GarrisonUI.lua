@@ -176,7 +176,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				button.BusyFrame:SetAllPoints()
 
 				local bg = B.CreateBDFrame(button, 0)
-				B.ReskinTexture(button, bg, true)
+				B.ReskinHighlight(button, bg, true)
 
 				if portrait then
 					B.ReskinGarrisonPortrait(portrait)
@@ -320,7 +320,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		local bg = B.CreateBDFrame(tab, 0)
 		bg:SetPoint("TOPLEFT", 6, -7)
 		bg:SetPoint("BOTTOMRIGHT", -6, 7)
-		B.ReskinTexture(tab, bg, true)
+		B.ReskinHighlight(tab, bg, true)
 
 		tab.bg = bg
 	end
@@ -346,8 +346,8 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				bg:SetPoint("TOPLEFT", 44, -5)
 				bg:SetPoint("BOTTOMRIGHT", 0, 6)
 
-				B.ReskinTexture(button, bg, true)
-				B.ReskinTexture(button.SelectedBG, bg, true)
+				B.ReskinHighlight(button, bg, true)
+				B.ReskinHighlight(button.SelectedBG, bg, true)
 
 				button.styled = true
 			end

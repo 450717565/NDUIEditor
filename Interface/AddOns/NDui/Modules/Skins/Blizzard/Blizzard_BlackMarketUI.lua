@@ -34,14 +34,14 @@ C.themes["Blizzard_BlackMarketUI"] = function()
 				bu.Item.IconBorder:SetAlpha(0)
 
 				local icbg = B.ReskinIcon(bu.Item.IconTexture)
-				B.ReskinTexture(bu.Item, icbg)
+				B.ReskinHighlight(bu.Item, icbg)
 
 				local bubg = B.CreateBDFrame(bu, 0)
 				bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
 				bubg:SetPoint("BOTTOMRIGHT", 0, 3)
 
-				B.ReskinTexture(bu, bubg)
-				B.ReskinTexture(bu.Selection, bubg, true)
+				B.ReskinHighlight(bu, bubg)
+				B.ReskinHighlight(bu.Selection, bubg, true)
 
 				bu.styled = true
 			end

@@ -21,7 +21,7 @@ tinsert(C.defaultThemes, function()
 		if questTexture then questTexture:SetAlpha(0) end
 
 		local icbg = B.ReskinIcon(bu.icon)
-		B.ReskinTexture(bu, icbg)
+		B.ReskinHighlight(bu, icbg)
 
 		local border = bu.IconBorder
 		B.ReskinBorder(border, icbg)

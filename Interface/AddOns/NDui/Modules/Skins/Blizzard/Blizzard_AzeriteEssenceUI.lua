@@ -44,8 +44,8 @@ C.themes["Blizzard_AzeriteEssenceUI"] = function()
 				local bubg = B.CreateBDFrame(button, 0)
 				bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
 				bubg:SetPoint("BOTTOMRIGHT", 0, 5)
-				B.ReskinTexture(button, bubg, true)
-				B.ReskinTexture(button.PendingGlow, bubg, true)
+				B.ReskinHighlight(button, bubg, true)
+				B.ReskinHighlight(button.PendingGlow, bubg, true)
 
 				button.styled = true
 			end

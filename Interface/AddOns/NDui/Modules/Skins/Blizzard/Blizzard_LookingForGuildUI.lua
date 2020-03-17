@@ -35,8 +35,8 @@ C.themes["Blizzard_LookingForGuildUI"] = function()
 			bu:SetBackdrop(nil)
 
 			local bg = B.CreateBDFrame(bu, 0, -C.mult*2)
-			B.ReskinTexture(bu, bg, true)
-			B.ReskinTexture(bu.selectedTex, bg, true)
+			B.ReskinHighlight(bu, bg, true)
+			B.ReskinHighlight(bu.selectedTex, bg, true)
 
 			local rm = _G[button..i.."RemoveButton"]
 			if rm then

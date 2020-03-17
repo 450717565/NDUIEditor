@@ -241,7 +241,7 @@ tinsert(C.defaultThemes, function()
 			end
 
 			local icbg = B.ReskinIcon(bu.Icon)
-			B.ReskinTexture(bu, icbg)
+			B.ReskinHighlight(bu, icbg)
 
 			bu.CooldownShadow:SetInside(icbg)
 			bu.SelectedHighlight:SetOutside(icbg, 16, 16)

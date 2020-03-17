@@ -26,7 +26,7 @@ tinsert(C.defaultThemes, function()
 		bu:SetPushedTexture("")
 
 		local icbg = B.ReskinIcon(bu.icon)
-		B.ReskinTexture(bu, icbg)
+		B.ReskinHighlight(bu, icbg)
 		B.ReskinBorder(bu.IconBorder, icbg)
 	end
 

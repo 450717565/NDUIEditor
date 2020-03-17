@@ -69,7 +69,7 @@ tinsert(C.defaultThemes, function()
 		B.CleanTextures(bu)
 
 		local icbg = B.ReskinIcon(_G[button.."IconTexture"])
-		B.ReskinTexture(bu, icbg)
+		B.ReskinHighlight(bu, icbg)
 	end
 
 	for i = 1, INBOXITEMS_TO_DISPLAY do
@@ -85,8 +85,8 @@ tinsert(C.defaultThemes, function()
 		ib:SetAlpha(0)
 
 		local icbg = B.ReskinIcon(_G[item.."Button".."Icon"])
-		B.ReskinTexture(bu, icbg)
-		B.ReskinTexed(bu, icbg)
+		B.ReskinHighlight(bu, icbg)
+		B.ReskinChecked(bu, icbg)
 
 		local sender = _G[item.."Sender"]
 		sender:ClearAllPoints()
@@ -104,7 +104,7 @@ tinsert(C.defaultThemes, function()
 		B.CleanTextures(bu)
 
 		local icbg = B.ReskinIcon(_G[button.."IconTexture"])
-		B.ReskinTexture(bu, icbg)
+		B.ReskinHighlight(bu, icbg)
 
 		local ib = bu.IconBorder
 		B.ReskinBorder(ib, icbg)
@@ -115,7 +115,7 @@ tinsert(C.defaultThemes, function()
 		B.StripTextures(button)
 
 		local bubg = B.CreateBDFrame(button, 0)
-		B.ReskinTexture(button, bubg)
+		B.ReskinHighlight(button, bubg)
 
 		local border = button.IconBorder
 		B.ReskinBorder(border, bubg)

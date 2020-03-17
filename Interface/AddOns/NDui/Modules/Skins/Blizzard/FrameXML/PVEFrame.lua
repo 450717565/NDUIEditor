@@ -14,7 +14,7 @@ tinsert(C.defaultThemes, function()
 		local bu = GroupFinderFrame["groupButton"..i]
 		bu.ring:Hide()
 		B.ReskinButton(bu)
-		B.ReskinTexture(bu.bg, bu, true)
+		B.ReskinHighlight(bu.bg, bu, true)
 
 		local ic = bu.icon
 		ic:ClearAllPoints()

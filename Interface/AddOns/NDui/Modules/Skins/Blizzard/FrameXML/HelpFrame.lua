@@ -93,7 +93,7 @@ tinsert(C.defaultThemes, function()
 
 	local function reskinButton(bu)
 		B.ReskinButton(bu)
-		B.ReskinTexture(bu.selected, bu, true)
+		B.ReskinHighlight(bu.selected, bu, true)
 	end
 
 	for i = 1, 6 do

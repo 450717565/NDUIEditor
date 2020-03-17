@@ -117,7 +117,7 @@ local defaultSettings = {
 		QuakeTimer = true,
 		LagString = false,
 		RuneTimer = true,
-		RaidBuffIndicator = false,
+		RaidBuffIndicator = true,
 		PartyFrame = true,
 		PartyWatcher = true,
 		PWOnRight = true,
@@ -129,7 +129,7 @@ local defaultSettings = {
 		PartyPetHeight = 20,
 		PartyPetPowerHeight = 2,
 		UFsHPColor = 1,
-		BuffIndicatorType = 1,
+		BuffIndicatorType = 2,
 		BuffIndicatorScale = 1,
 		UFTextScale = 1,
 		PartyAltPower = true,
@@ -242,11 +242,11 @@ local defaultSettings = {
 
 		ToggleDirection = 1,
 		BlizzardSkins = true,
-		SkinAlpha = .5,
+		BackdropAlpha = .5,
 		FlatMode = true,
 		FontOutline = true,
 		SkinShadow = true,
-		SkinTexture = true,
+		SkinTexture = false,
 	},
 	Tooltip = {
 		CombatHide = false,
@@ -525,7 +525,7 @@ local function updatePlateAlpha()
 end
 
 local function updateRaidNameText()
-	B:GetModule("UnitFrames"):UpdateRaidNameText()
+	B:GetModule("UnitFrames"):UpdateRaidText()
 end
 
 local function updatePlayerPlate()
@@ -594,7 +594,7 @@ end
 
 local function updateSkinAlpha()
 	for _, frame in pairs(C.frames) do
-		B.SetBackdropColor(frame, 0, 0, 0, NDuiDB["Skins"]["SkinAlpha"])
+		B.SetBackdropColor(frame, 0, 0, 0, NDuiDB["Skins"]["BackdropAlpha"])
 	end
 end
 
@@ -853,8 +853,8 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Skins", "BlizzardSkins", DB.MyColor..L["BlizzardSkins"], true, nil, nil, L["BlizzardSkinsTips"]},
 		{1, "Skins", "SkinShadow", L["Skin Shadow"]},
 		{1, "Skins", "SkinTexture", L["Skin Texture"]},
-		{3, "Skins", "SkinAlpha", L["SkinAlpha"].."*", true, {0, 1, 1}, updateSkinAlpha},
-		{1, "Skins", "FontOutline", L["FontOutline"]},
+		{3, "Skins", "BackdropAlpha", L["Backdrop Alpha"].."*", true, {0, 1, 1}, updateSkinAlpha},
+		{1, "Skins", "FontOutline", L["Font Outline"]},
 		{},--blank
 		{1, "Skins", "BarLine", L["Bar Line"]},
 		{1, "Skins", "InfobarLine", L["Infobar Line"], true},

@@ -31,7 +31,7 @@ C.themes["Blizzard_Collections"] = function()
 
 	local function reskinDrag(drag, point)
 		drag.ActiveTexture:SetTexture(DB.checked)
-		B.ReskinTexture(drag, point)
+		B.ReskinHighlight(drag, point)
 	end
 
 	local scrollFrames = {MountJournal.ListScrollFrame, PetJournal.listScroll, WardrobeCollectionFrame.SetsCollectionFrame.ScrollFrame}
@@ -41,10 +41,10 @@ C.themes["Blizzard_Collections"] = function()
 			B.StripTextures(bu)
 
 			local bubg = B.CreateBDFrame(bu, 0, -C.mult*2)
-			B.ReskinTexture(bu, bubg, true)
+			B.ReskinHighlight(bu, bubg, true)
 
 			local sl = bu.SelectedTexture or bu.selectedTexture
-			B.ReskinTexture(sl, bubg, true)
+			B.ReskinHighlight(sl, bubg, true)
 
 			local ic = bu.Icon or bu.icon
 			local icbg = B.ReskinIcon(ic)
@@ -92,7 +92,7 @@ C.themes["Blizzard_Collections"] = function()
 		bd:Hide()
 
 		local icbg = B.ReskinIcon(_G[button.."IconTexture"])
-		B.ReskinTexture(bu, icbg)
+		B.ReskinHighlight(bu, icbg)
 	end
 
 	reskinButton("MountJournalSummonRandomFavoriteButton")
@@ -164,8 +164,8 @@ C.themes["Blizzard_Collections"] = function()
 	local SlotButton = BottomLeftInset.SlotButton
 	B.StripTextures(SlotButton)
 	local icbg = B.ReskinIcon(SlotButton.ItemIcon)
-	B.ReskinTexture(SlotButton, icbg)
-	B.ReskinTexture(SlotButton.DragTargetHighlight, icbg)
+	B.ReskinHighlight(SlotButton, icbg)
+	B.ReskinHighlight(SlotButton.DragTargetHighlight, icbg)
 
 	-- Pet PetCard
 	local PetCard = PetJournalPetCard
@@ -187,7 +187,7 @@ C.themes["Blizzard_Collections"] = function()
 	for i = 1, 6 do
 		local bu = PetCard["spell"..i]
 		local icbg = B.ReskinIcon(bu.icon)
-		B.ReskinTexture(bu, icbg)
+		B.ReskinHighlight(bu, icbg)
 	end
 
 	-- Pet loadout
@@ -202,10 +202,10 @@ C.themes["Blizzard_Collections"] = function()
 		bubg:SetPoint("BOTTOMRIGHT")
 
 		local setButton = bu.setButton:GetRegions()
-		B.ReskinTexture(setButton, bu.qualityBorder)
+		B.ReskinHighlight(setButton, bu.qualityBorder)
 
 		local icbg = B.ReskinIcon(bu.icon)
-		B.ReskinTexture(bu.dragButton, icbg)
+		B.ReskinHighlight(bu.dragButton, icbg)
 		B.ReskinBorder(bu.qualityBorder, icbg)
 		bu.level:SetTextColor(1, 1, 1)
 
@@ -219,8 +219,8 @@ C.themes["Blizzard_Collections"] = function()
 			spell.FlyoutArrow:SetTexCoord(0, 1, 0, 1)
 
 			local icbg = B.ReskinIcon(spell.icon)
-			B.ReskinTexture(spell, icbg)
-			B.ReskinTexed(spell.selected, icbg)
+			B.ReskinHighlight(spell, icbg)
+			B.ReskinChecked(spell.selected, icbg)
 		end
 	end
 
@@ -230,8 +230,8 @@ C.themes["Blizzard_Collections"] = function()
 		B.CleanTextures(bu)
 
 		local icbg = B.ReskinIcon(bu.icon)
-		B.ReskinTexture(bu, icbg)
-		B.ReskinTexed(bu, icbg)
+		B.ReskinHighlight(bu, icbg)
+		B.ReskinChecked(bu, icbg)
 	end
 
 	-- [[ Toy box ]]
@@ -269,7 +269,7 @@ C.themes["Blizzard_Collections"] = function()
 		B.StripTextures(button)
 
 		local icbg = B.ReskinIcon(button.iconTexture)
-		B.ReskinTexture(button, icbg)
+		B.ReskinHighlight(button, icbg)
 		button.icbg = icbg
 
 		local cooldown = button.cooldown
@@ -314,7 +314,7 @@ C.themes["Blizzard_Collections"] = function()
 			button.level:SetPoint("BOTTOM", 0, 1)
 
 			local icbg = B.ReskinIcon(button.iconTexture)
-			B.ReskinTexture(button, icbg)
+			B.ReskinHighlight(button, icbg)
 			button.icbg = icbg
 
 			local lvbg = button:CreateTexture(nil, "OVERLAY")
@@ -445,7 +445,7 @@ C.themes["Blizzard_Collections"] = function()
 			slot.Border:Hide()
 
 			local icbg = B.ReskinIcon(slot.Icon)
-			B.ReskinTexture(slot, icbg)
+			B.ReskinHighlight(slot, icbg)
 		end
 	end
 
@@ -486,7 +486,7 @@ C.themes["Blizzard_Collections"] = function()
 				B.CleanTextures(PetJournalBandageButton)
 
 				local icbg = B.ReskinIcon(PetJournalBandageButtonIcon)
-				B.ReskinTexture(PetJournalBandageButton, icbg)
+				B.ReskinHighlight(PetJournalBandageButton, icbg)
 			end
 
 			self.styled = true

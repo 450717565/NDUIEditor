@@ -81,7 +81,7 @@ C.themes["Blizzard_GuildUI"] = function()
 		B.StripTextures(bu)
 
 		local bubg = B.CreateBDFrame(bu, 0, -C.mult*2)
-		B.ReskinTexture(bu, bubg, true)
+		B.ReskinHighlight(bu, bubg, true)
 	end
 
 	hooksecurefunc("GuildRoster_UpdateTradeSkills", function()
@@ -107,7 +107,7 @@ C.themes["Blizzard_GuildUI"] = function()
 					B.ReskinIcon(HeaderButton.icon)
 
 					local bg = B.CreateBDFrame(HeaderButton, 0, -C.mult*2)
-					B.ReskinTexture(HeaderButton, bg, true)
+					B.ReskinHighlight(HeaderButton, bg, true)
 
 					HeaderButton.styled = true
 				end
@@ -195,7 +195,7 @@ C.themes["Blizzard_GuildUI"] = function()
 				local bubg = B.CreateBDFrame(button, 0)
 				bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
 				bubg:SetPoint("BOTTOMRIGHT", 0, 1)
-				B.ReskinTexture(button, bubg, true)
+				B.ReskinHighlight(button, bubg, true)
 
 				button.styled = true
 			end
@@ -212,7 +212,7 @@ C.themes["Blizzard_GuildUI"] = function()
 				B.ReskinIcon(button.icon)
 
 				local bubg = B.CreateBDFrame(button, 0, -C.mult*2)
-				B.ReskinTexture(button, bubg, true)
+				B.ReskinHighlight(button, bubg, true)
 
 				button.styled = true
 			end

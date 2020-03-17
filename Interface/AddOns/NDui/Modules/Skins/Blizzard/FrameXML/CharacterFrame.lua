@@ -8,6 +8,7 @@ tinsert(C.defaultThemes, function()
 	B.SetupTabStyle(CharacterFrame, 3)
 
 	B.StripTextures(CharacterModelFrame, 0)
+	B.StripTextures(CharacterModelFrameControlFrame)
 
 	-- [[ Item buttons ]]
 	local function UpdateAzeriteItem(self)
@@ -46,8 +47,6 @@ tinsert(C.defaultThemes, function()
 		slot.IconOverlay:SetAtlas("Nzoth-inventory-icon")
 
 		local icbg = B.ReskinIcon(slot.icon)
-		B.ReskinTexture(slot, icbg)
-		slot.SetHighlightTexture = B.Dummy
 
 		local border = slot.IconBorder
 		B.ReskinBorder(border, icbg)
@@ -88,6 +87,7 @@ tinsert(C.defaultThemes, function()
 	hooksecurefunc("PaperDollItemSlotButton_Update", function(button)
 		button.icon:SetShown(GetInventoryItemTexture("player", button:GetID()) ~= nil)
 		UpdateCorruption(button)
+		B.ReskinHighlight(button, button.bg)
 	end)
 
 	-- [[ Stats pane ]]
@@ -131,8 +131,8 @@ tinsert(C.defaultThemes, function()
 		tab.TabBg:Hide()
 
 		local bg = B.CreateBDFrame(tab, 0)
-		B.ReskinTexture(tab.Highlight, bg)
-		B.ReskinTexture(tab.Hider, bg)
+		B.ReskinHighlight(tab.Highlight, bg)
+		B.ReskinHighlight(tab.Hider, bg)
 
 		if i == 1 then
 			tab.Icon:SetTexCoord(0.16, 0.86, 0.16, 0.86)
@@ -146,7 +146,7 @@ tinsert(C.defaultThemes, function()
 	for i = 1, 17 do
 		local button = _G["PaperDollTitlesPaneButton"..i]
 		button:DisableDrawLayer("BACKGROUND")
-		B.ReskinTexture(button, button, true)
+		B.ReskinHighlight(button, button, true)
 
 		local selected = button.SelectedBar
 		selected:SetColorTexture(cr, cg, cb, .5)
@@ -197,6 +197,6 @@ tinsert(C.defaultThemes, function()
 		B.StripTextures(bu)
 
 		local icbg = B.ReskinIcon(bu.icon)
-		B.ReskinTexture(bu, icbg)
+		B.ReskinHighlight(bu, icbg)
 	end
 end)

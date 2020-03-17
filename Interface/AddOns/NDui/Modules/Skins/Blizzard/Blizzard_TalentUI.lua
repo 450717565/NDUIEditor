@@ -37,7 +37,7 @@ C.themes["Blizzard_TalentUI"] = function()
 			local bg = B.CreateBDFrame(bu, 0)
 			bg:SetPoint("TOPLEFT", 10, 0)
 			bg:SetPoint("BOTTOMRIGHT")
-			B.ReskinTexture(bu, bg, true)
+			B.ReskinHighlight(bu, bg, true)
 
 			local ic = _G[button.."Talent"..j.."IconTexture"]
 			B.ReskinIcon(ic)
@@ -72,7 +72,7 @@ C.themes["Blizzard_TalentUI"] = function()
 			B.StripTextures(bu)
 
 			B.ReskinButton(bu)
-			B.ReskinTexture(bu.selectedTex, bu, true)
+			B.ReskinHighlight(bu.selectedTex, bu, true)
 
 			local specIcon = bu.specIcon
 			specIcon:ClearAllPoints()
@@ -198,8 +198,8 @@ C.themes["Blizzard_TalentUI"] = function()
 		bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
 		bubg:SetPoint("BOTTOMRIGHT", 0, 2)
 
-		B.ReskinTexture(bu, bubg, true)
-		B.ReskinTexture(bu.Selected, bubg, true)
+		B.ReskinHighlight(bu, bubg, true)
+		B.ReskinHighlight(bu.Selected, bubg, true)
 
 		local name = bu.Name
 		name:ClearAllPoints()

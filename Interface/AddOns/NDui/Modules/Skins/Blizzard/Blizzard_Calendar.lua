@@ -99,7 +99,7 @@ C.themes["Blizzard_Calendar"] = function()
 
 		local bu = _G[button]
 		B.StripTextures(bu)
-		B.ReskinTexture(bu, bu, true)
+		B.ReskinHighlight(bu, bu, true)
 
 		local df = _G[button.."DarkFrame"]
 		df:SetAlpha(.5)
@@ -107,7 +107,7 @@ C.themes["Blizzard_Calendar"] = function()
 		local index = 1
 		local eventButton = _G[button.."EventButton"..index]
 		while eventButton do
-			B.ReskinTexture(eventButton)
+			B.ReskinHighlight(eventButton)
 			eventButton.black:SetTexture(nil)
 
 			index = index + 1

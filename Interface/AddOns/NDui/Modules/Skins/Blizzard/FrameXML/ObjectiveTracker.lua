@@ -11,7 +11,7 @@ tinsert(C.defaultThemes, function()
 			B.CleanTextures(button)
 
 			local bg = B.CreateBDFrame(button.icon or button.Icon, 0)
-			B.ReskinTexture(button, bg)
+			B.ReskinHighlight(button, bg)
 
 			if button.icon then
 				button.icon:SetTexCoord(unpack(DB.TexCoord))

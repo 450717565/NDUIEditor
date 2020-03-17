@@ -24,7 +24,7 @@ C.themes["Blizzard_ItemSocketingUI"] = function()
 
 		local ic = _G[button.."IconTexture"]
 		local icbg = B.ReskinIcon(ic)
-		B.ReskinTexture(bu, icbg)
+		B.ReskinHighlight(bu, icbg)
 
 		local shine = _G[button.."Shine"]
 		shine:ClearAllPoints()

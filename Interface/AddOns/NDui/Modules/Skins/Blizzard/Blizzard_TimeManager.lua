@@ -13,8 +13,8 @@ C.themes["Blizzard_TimeManager"] = function()
 
 	local check = TimeManagerStopwatchCheck
 	local icbg = B.ReskinIcon(check:GetNormalTexture())
-	B.ReskinTexed(check, icbg)
-	B.ReskinTexture(check, icbg)
+	B.ReskinChecked(check, icbg)
+	B.ReskinHighlight(check, icbg)
 
 	local dropdowns = {TimeManagerAlarmHourDropDown, TimeManagerAlarmMinuteDropDown, TimeManagerAlarmAMPMDropDown}
 	for _, dropdown in pairs(dropdowns) do
@@ -35,13 +35,13 @@ C.themes["Blizzard_TimeManager"] = function()
 	reset:GetNormalTexture():SetTexCoord(.25, .75, .27, .75)
 	reset:SetSize(18, 18)
 	reset:SetPoint("BOTTOMRIGHT", -3, 3)
-	B.ReskinTexture(reset)
+	B.ReskinHighlight(reset)
 	B.CreateBDFrame(reset, 0)
 
 	local play = StopwatchPlayPauseButton
 	play:GetNormalTexture():SetTexCoord(.25, .75, .27, .75)
 	play:SetSize(18, 18)
 	play:SetPoint("RIGHT", reset, "LEFT", -3, 0)
-	B.ReskinTexture(play)
+	B.ReskinHighlight(play)
 	B.CreateBDFrame(play, 0)
 end

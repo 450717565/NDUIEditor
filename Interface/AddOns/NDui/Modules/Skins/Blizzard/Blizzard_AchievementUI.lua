@@ -164,7 +164,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 				B.StripTextures(bu)
 
 				local bubg = B.CreateBDFrame(bu, 0, -C.mult*2)
-				B.ReskinTexture(bu, bubg, true)
+				B.ReskinHighlight(bu, bubg, true)
 
 				bu.styled = true
 			end

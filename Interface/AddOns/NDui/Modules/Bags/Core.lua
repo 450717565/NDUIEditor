@@ -338,7 +338,7 @@ function module:CreateFreeSlots()
 
 	local slot = CreateFrame("Button", name.."FreeSlot", self)
 	local bg = B.CreateBDFrame(slot, 0)
-	B.ReskinTexture(slot, bg)
+	B.ReskinHighlight(slot, bg)
 
 	slot:SetSize(self.iconSize, self.iconSize)
 	slot:SetScript("OnMouseUp", module.FreeSlotOnDrop)
@@ -546,7 +546,7 @@ function module:OnLogin()
 		B.CleanTextures(self)
 
 		self.bg = B.CreateBDFrame(self, 0)
-		B.ReskinTexture(self, self.bg)
+		B.ReskinHighlight(self, self.bg)
 
 		self:SetSize(iconSize, iconSize)
 		self.Cooldown:SetInside(self.bg)
@@ -828,7 +828,7 @@ function module:OnLogin()
 		B.CleanTextures(self)
 
 		self.bg = B.CreateBDFrame(self, 0)
-		B.ReskinTexture(self, self.bg)
+		B.ReskinHighlight(self, self.bg)
 
 		self:SetSize(iconSize, iconSize)
 		self.Icon:SetTexCoord(unpack(DB.TexCoord))

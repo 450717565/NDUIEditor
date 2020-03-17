@@ -49,7 +49,7 @@ function S:Rematch()
 			if self.Level.Text then self.Level.Text:SetTextColor(1, 1, 1) end
 		end
 		if self.GetCheckedTexture then
-			B.ReskinTexed(self, self.Icon.bg)
+			B.ReskinChecked(self, self.Icon.bg)
 		end
 
 		self.styled = true
@@ -249,7 +249,7 @@ function S:Rematch()
 
 			local icon = ALPTRematchOptionButton:GetNormalTexture()
 			local icbg = B.ReskinIcon(icon)
-			B.ReskinTexture(ALPTRematchOptionButton, icbg)
+			B.ReskinHighlight(ALPTRematchOptionButton, icbg)
 		end
 
 		-- RematchBottomPanel
@@ -532,7 +532,7 @@ function S:Rematch()
 
 					bu.Icon = bu.Texture
 					reskinButton(bu)
-					B.ReskinTexed(bu.Selected, bu.Icon.bg)
+					B.ReskinChecked(bu.Selected, bu.Icon.bg)
 
 					bu.styled = true
 				end

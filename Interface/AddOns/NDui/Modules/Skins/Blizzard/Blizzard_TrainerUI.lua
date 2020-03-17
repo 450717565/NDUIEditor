@@ -29,8 +29,8 @@ C.themes["Blizzard_TrainerUI"] = function()
 				bubg:SetPoint("BOTTOMRIGHT", -18, 1.5)
 			end
 
-			B.ReskinTexture(skillButton, bubg, true)
-			B.ReskinTexture(skillButton.selectedTex, bubg, true)
+			B.ReskinHighlight(skillButton, bubg, true)
+			B.ReskinHighlight(skillButton.selectedTex, bubg, true)
 
 			skillButton.disabledBG:SetInside(bubg)
 

@@ -3,20 +3,22 @@ local B, C, L, DB = unpack(select(2, ...))
 tinsert(C.defaultThemes, function()
 	if IsAddOnLoaded("ls_Toasts") then return end
 
+	local alpha = NDuiDB["Skins"]["BackdropAlpha"]
+
 	-- Fix Alertframe bg
 	local function fixBg(frame)
 		if frame:GetObjectType() == "AnimationGroup" then
 			frame = frame:GetParent()
 		end
 		if frame.bg then
-			frame.bg:SetBackdropColor(0, 0, 0, NDuiDB["Skins"]["SkinAlpha"])
+			frame.bg:SetBackdropColor(0, 0, 0, alpha)
 		end
 	end
 
 	local function fixParentbg(frame)
 		frame = frame:GetParent():GetParent()
 		if frame.bg then
-			frame.bg:SetBackdropColor(0, 0, 0, NDuiDB["Skins"]["SkinAlpha"])
+			frame.bg:SetBackdropColor(0, 0, 0, alpha)
 		end
 	end
 

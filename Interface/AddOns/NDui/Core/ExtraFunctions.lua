@@ -319,7 +319,7 @@ function B:CreateBD(alpha)
 	self:SetBackdrop(nil)
 
 	B.SetupPixelBorders(self)
-	B.SetBackdropColor(self, 0, 0, 0, alpha or NDuiDB["Skins"]["SkinAlpha"])
+	B.SetBackdropColor(self, 0, 0, 0, alpha or NDuiDB["Skins"]["BackdropAlpha"])
 	B.SetBackdropBorderColor(self, 0, 0, 0, 1)
 	B.SetupTex(self)
 
@@ -507,6 +507,24 @@ hooksecurefunc("TriStateCheckbox_SetState", function(_, checkButton)
 		end
 	end
 end)
+
+function B:ReskinChecked(relativeTo)
+	if not self then return end
+
+	local checked
+	if self.SetCheckedTexture then
+		self:SetCheckedTexture(DB.checked)
+		checked = self:GetCheckedTexture()
+	elseif self.GetNormalTexture then
+		checked = self:GetNormalTexture()
+		checked:SetTexture(DB.checked)
+	elseif self.SetTexture then
+		checked = self
+		checked:SetTexture(DB.checked)
+	end
+
+	checked:SetAllPoints(relativeTo)
+end
 
 function B:ReskinClose(a1, p, a2, x, y)
 	self:SetSize(18, 18)
@@ -713,6 +731,34 @@ function B:ReskinGarrisonPortrait()
 	end
 end
 
+function B:ReskinHighlight(relativeTo, classColor, isOutside)
+	if not self then return end
+
+	local r, g, b = 1, 1, 1
+	if classColor then r, g, b = cr, cg, cb end
+
+	local tex
+	if self.SetHighlightTexture then
+		self:SetHighlightTexture(DB.bdTex)
+		tex = self:GetHighlightTexture()
+	elseif self.GetNormalTexture then
+		tex = self:GetNormalTexture()
+		tex:SetTexture(DB.bdTex)
+	elseif self.SetTexture then
+		tex = self
+		tex:SetTexture(DB.bdTex)
+	end
+
+	tex:SetColorTexture(r, g, b, .25)
+
+	if not relativeTo then return end
+	if isOutside then
+		tex:SetOutside(relativeTo)
+	else
+		tex:SetInside(relativeTo)
+	end
+end
+
 function B:ReskinIcon(alpha)
 	self:SetTexCoord(unpack(DB.TexCoord))
 	local bg = B.CreateBDFrame(self, alpha or 0)
@@ -901,7 +947,7 @@ function B:ReskinSearchBox()
 	B.CleanTextures(self)
 
 	local bg = B.CreateBDFrame(self, 0, -C.mult)
-	B.ReskinTexture(self, bg, true)
+	B.ReskinHighlight(self, bg, true)
 
 	local icon = self.icon or self.Icon
 	if icon then B.ReskinIcon(icon) end
@@ -924,6 +970,8 @@ function B:ReskinSlider(verticle)
 end
 
 function B:ReskinStatusBar(noClassColor)
+	local alpha = NDuiDB["Extras"]["SkinAlpha"]
+
 	B.StripTextures(self)
 	B.CleanTextures(self)
 
@@ -931,7 +979,7 @@ function B:ReskinStatusBar(noClassColor)
 
 	self:SetStatusBarTexture(DB.normTex)
 	if not noClassColor then
-		self:SetStatusBarColor(cr, cg, cb, .8)
+		self:SetStatusBarColor(cr, cg, cb, alpha)
 	end
 
 	local frameName = self.GetName and self:GetName()
@@ -950,53 +998,7 @@ function B:ReskinTab()
 	B.CleanTextures(self)
 
 	local bg = B.SetBDFrame(self, 8, -3, -8, 0)
-	B.ReskinTexture(self, bg, true)
-end
-
-function B:ReskinTexed(relativeTo)
-	if not self then return end
-
-	local checked
-	if self.SetCheckedTexture then
-		self:SetCheckedTexture(DB.checked)
-		checked = self:GetCheckedTexture()
-	elseif self.GetNormalTexture then
-		checked = self:GetNormalTexture()
-		checked:SetTexture(DB.checked)
-	elseif self.SetTexture then
-		checked = self
-		checked:SetTexture(DB.checked)
-	end
-
-	checked:SetAllPoints(relativeTo)
-end
-
-function B:ReskinTexture(relativeTo, classColor, isOutside)
-	if not self then return end
-
-	local r, g, b = 1, 1, 1
-	if classColor then r, g, b = cr, cg, cb end
-
-	local tex
-	if self.SetHighlightTexture then
-		self:SetHighlightTexture(DB.bdTex)
-		tex = self:GetHighlightTexture()
-	elseif self.GetNormalTexture then
-		tex = self:GetNormalTexture()
-		tex:SetTexture(DB.bdTex)
-	elseif self.SetTexture then
-		tex = self
-		tex:SetTexture(DB.bdTex)
-	end
-
-	tex:SetColorTexture(r, g, b, .25)
-
-	if not relativeTo then return end
-	if isOutside then
-		tex:SetOutside(relativeTo)
-	else
-		tex:SetInside(relativeTo)
-	end
+	B.ReskinHighlight(self, bg, true)
 end
 
 -- [[ Strip Functions ]]
@@ -1105,7 +1107,7 @@ function B.ReskinMerchantItem(index)
 	B.StripTextures(button)
 
 	local icbg = B.ReskinIcon(button.icon)
-	B.ReskinTexture(button, icbg)
+	B.ReskinHighlight(button, icbg)
 	B.ReskinBorder(button.IconBorder, icbg)
 
 	local count = _G[frame.."ItemButtonCount"]
@@ -1206,7 +1208,7 @@ function B:ReskinSearchResult()
 			bubg:ClearAllPoints()
 			bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 2)
 			bubg:SetPoint("BOTTOMRIGHT", -2, 3)
-			B.ReskinTexture(bu, bubg, true)
+			B.ReskinHighlight(bu, bubg, true)
 
 			local name = bu.name
 			name:ClearAllPoints()

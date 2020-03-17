@@ -23,7 +23,7 @@ function S:WorldQuestTab()
 		icon:ClearAllPoints()
 		icon:SetPoint("CENTER")
 
-		B.ReskinTexture(tab.Hider, tab)
+		B.ReskinHighlight(tab.Hider, tab)
 	end
 
 	for i = 1, 15 do

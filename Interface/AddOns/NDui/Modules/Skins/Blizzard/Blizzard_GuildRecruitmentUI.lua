@@ -68,8 +68,8 @@ C.themes["Blizzard_GuildRecruitmentUI"] = function()
 				B.StripTextures(button)
 
 				local bubg = B.CreateBDFrame(button, 0, -3)
-				B.ReskinTexture(button, bubg, true)
-				B.ReskinTexture(button.selectedTex, bubg, true)
+				B.ReskinHighlight(button, bubg, true)
+				B.ReskinHighlight(button.selectedTex, bubg, true)
 
 				button.styled = true
 			end

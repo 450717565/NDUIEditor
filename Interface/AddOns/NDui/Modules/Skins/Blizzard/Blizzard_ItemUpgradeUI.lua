@@ -11,7 +11,7 @@ C.themes["Blizzard_ItemUpgradeUI"] = function()
 	local ItemButton = ItemUpgradeFrame.ItemButton
 	B.StripTextures(ItemButton)
 	local icbg = B.ReskinIcon(ItemButton.IconTexture)
-	B.ReskinTexture(ItemButton, icbg)
+	B.ReskinHighlight(ItemButton, icbg)
 	ItemButton.bg = icbg
 
 	hooksecurefunc("ItemUpgradeFrame_Update", function()

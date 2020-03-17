@@ -22,7 +22,7 @@ C.themes["Blizzard_OrderHallUI"] = function()
 
 				if not bu.bg then
 					bu.bg = B.ReskinIcon(bu.Icon)
-					B.ReskinTexture(bu.Highlight, bu.bg)
+					B.ReskinHighlight(bu.Highlight, bu.bg)
 				end
 
 				if bu.talent.selected then

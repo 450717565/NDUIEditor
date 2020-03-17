@@ -61,5 +61,5 @@ function Bar:CreateExtrabar()
 	local SpellButton = ZoneAbilityFrame.SpellButton
 	SpellButton.Style:SetAlpha(0)
 	local icbg = B.ReskinIcon(SpellButton.Icon)
-	B.ReskinTexture(SpellButton, icbg)
+	B.ReskinHighlight(SpellButton, icbg)
 end

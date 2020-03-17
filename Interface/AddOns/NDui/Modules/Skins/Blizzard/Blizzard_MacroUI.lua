@@ -31,7 +31,7 @@ C.themes["Blizzard_MacroUI"] = function()
 
 	local selectedic = MacroFrameSelectedMacroButtonIcon
 	local selectedbg = B.ReskinIcon(selectedic)
-	B.ReskinTexture(selectedbu, selectedbg)
+	B.ReskinHighlight(selectedbu, selectedbg)
 
 	local function reskinButton(button, i)
 		local bu = _G[button..i]
@@ -41,8 +41,8 @@ C.themes["Blizzard_MacroUI"] = function()
 			B.StripTextures(bu)
 
 			local icbg = B.ReskinIcon(ic)
-			B.ReskinTexed(bu, icbg)
-			B.ReskinTexture(bu, icbg)
+			B.ReskinChecked(bu, icbg)
+			B.ReskinHighlight(bu, icbg)
 		end
 	end
 

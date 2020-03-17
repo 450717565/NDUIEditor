@@ -22,7 +22,7 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 
 		local icbg = B.ReskinIcon(ItemButton.Icon)
 		B.ReskinBorder(ItemButton.IconBorder, icbg)
-		B.ReskinTexture(ItemButton.Highlight, icbg)
+		B.ReskinHighlight(ItemButton.Highlight, icbg)
 	end
 
 	local function reskinSellPanel(self)
@@ -103,7 +103,7 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 			if header and not header.styled then
 				header:DisableDrawLayer("BACKGROUND")
 				header.bg = B.CreateBDFrame(header, 0)
-				B.ReskinTexture(header, header.bg, true)
+				B.ReskinHighlight(header, header.bg, true)
 
 				header.styled = true
 			end

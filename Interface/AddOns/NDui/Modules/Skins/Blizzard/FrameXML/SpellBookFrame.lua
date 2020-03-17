@@ -89,8 +89,8 @@ tinsert(C.defaultThemes, function()
 
 				if icon and not icon.styled then
 					local icbg = B.ReskinIcon(icon, 1)
-					B.ReskinTexture(tab, icbg)
-					B.ReskinTexed(tab, icbg)
+					B.ReskinHighlight(tab, icbg)
+					B.ReskinChecked(tab, icbg)
 
 					icon.styled = true
 				end
@@ -166,8 +166,8 @@ tinsert(C.defaultThemes, function()
 		end
 
 		local icbg = B.ReskinIcon(icon)
-		B.ReskinTexed(bu, icbg)
-		B.ReskinTexture(bu.highlightTexture, icbg)
+		B.ReskinChecked(bu, icbg)
+		B.ReskinHighlight(bu.highlightTexture, icbg)
 
 		local name = _G[button.."SpellName"]
 		name:ClearAllPoints()

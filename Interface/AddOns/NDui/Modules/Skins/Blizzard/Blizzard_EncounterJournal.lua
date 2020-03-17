@@ -47,7 +47,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 				local bubg = B.CreateBDFrame(instance.bgImage, 1, nil, true)
 				bubg:SetPoint("TOPLEFT", 3, -3)
 				bubg:SetPoint("BOTTOMRIGHT", -4, 2)
-				B.ReskinTexture(instance, bubg)
+				B.ReskinHighlight(instance, bubg)
 
 				instance.styled = true
 			end
@@ -195,7 +195,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		tab:SetSize(59, 59)
 
 		local bg = B.CreateBDFrame(tab, nil, -5, true)
-		B.ReskinTexture(tab, bg, true)
+		B.ReskinHighlight(tab, bg, true)
 	end
 
 	local items = infoFrame.lootScroll.buttons
@@ -214,7 +214,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		local bubg = B.CreateBDFrame(item, 0)
 		bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
 		bubg:SetPoint("BOTTOMRIGHT", 0, 2)
-		B.ReskinTexture(item, bubg, true)
+		B.ReskinHighlight(item, bubg, true)
 
 		local armor = item.armorType
 		armor:SetTextColor(1, 1, 1)
@@ -242,7 +242,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		header.descriptionBGBottom:SetAlpha(0)
 
 		local bubg = B.CreateBDFrame(header.button, 0, -C.mult*2)
-		B.ReskinTexture(header.button, bubg, true)
+		B.ReskinHighlight(header.button, bubg, true)
 	end
 
 	hooksecurefunc("EncounterJournal_SetUpOverview", function(self, _, index)
@@ -284,7 +284,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 				boss.creature:SetPoint("TOPLEFT", 2, -3)
 
 				local bubg = B.CreateBDFrame(boss, 0, -C.mult*2)
-				B.ReskinTexture(boss, bubg, true)
+				B.ReskinHighlight(boss, bubg, true)
 
 				boss.styled = true
 			end

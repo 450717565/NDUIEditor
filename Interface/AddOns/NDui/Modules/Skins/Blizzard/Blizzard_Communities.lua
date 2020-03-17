@@ -8,8 +8,8 @@ C.themes["Blizzard_Communities"] = function()
 		self:GetRegions():Hide()
 
 		local icbg = B.ReskinIcon(self.Icon)
-		B.ReskinTexture(self, icbg)
-		B.ReskinTexed(self, icbg)
+		B.ReskinHighlight(self, icbg)
+		B.ReskinChecked(self, icbg)
 	end
 
 	local function reskinGuildCards(self)
@@ -240,7 +240,7 @@ C.themes["Blizzard_Communities"] = function()
 					avatarButton.Selected:SetTexture("")
 
 					avatarButton.bg = B.ReskinIcon(avatarButton.Icon)
-					B.ReskinTexture(avatarButton, avatarButton.bg)
+					B.ReskinHighlight(avatarButton, avatarButton.bg)
 
 					avatarButton.styled = true
 				end
@@ -278,7 +278,7 @@ C.themes["Blizzard_Communities"] = function()
 				local bg = B.CreateBDFrame(child, 0)
 				bg:SetPoint("TOPLEFT", 4, -2)
 				bg:SetPoint("BOTTOMRIGHT", 0, 2)
-				B.ReskinTexture(child, bg, true)
+				B.ReskinHighlight(child, bg, true)
 
 				child.styled = true
 			end
@@ -322,7 +322,7 @@ C.themes["Blizzard_Communities"] = function()
 				local bg = B.CreateBDFrame(child, 0)
 				bg:SetPoint("TOPLEFT", 4, -2)
 				bg:SetPoint("BOTTOMRIGHT", 0, 2)
-				B.ReskinTexture(child, bg, true)
+				B.ReskinHighlight(child, bg, true)
 
 				child.styled = true
 			end
@@ -337,7 +337,7 @@ C.themes["Blizzard_Communities"] = function()
 				button.InviteButton:SetSize(66, 18)
 				button.CancelInvitationButton:SetSize(20, 18)
 
-				B.ReskinTexture(button, nil, true)
+				B.ReskinHighlight(button, nil, true)
 				B.ReskinButton(button.InviteButton)
 				B.ReskinDecline(button.CancelInvitationButton)
 
@@ -376,7 +376,7 @@ C.themes["Blizzard_Communities"] = function()
 				local bg = B.CreateBDFrame(child, 0)
 				bg:SetPoint("TOPLEFT", 4, -2)
 				bg:SetPoint("BOTTOMRIGHT", 0, 2)
-				B.ReskinTexture(child, bg, true)
+				B.ReskinHighlight(child, bg, true)
 
 				child.styled = true
 			end
@@ -384,7 +384,7 @@ C.themes["Blizzard_Communities"] = function()
 
 		for _, button in pairs(self.ListScrollFrame.buttons or {}) do
 			if button and not button.styled then
-				B.ReskinTexture(button, nil, true)
+				B.ReskinHighlight(button, nil, true)
 				hooksecurefunc(button, "RefreshExpandedColumns", function(self)
 					if not self.expanded then return end
 
@@ -415,7 +415,7 @@ C.themes["Blizzard_Communities"] = function()
 					bg:SetPoint("TOPLEFT", -C.mult, -C.mult)
 					bg:SetPoint("BOTTOMRIGHT", C.mult, C.mult)
 
-					B.ReskinTexture(header, bg, true)
+					B.ReskinHighlight(header, bg, true)
 					B.ReskinIcon(header.Icon)
 				end
 
@@ -454,7 +454,7 @@ C.themes["Blizzard_Communities"] = function()
 				local bubg = B.CreateBDFrame(button, 0)
 				bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
 				bubg:SetPoint("BOTTOMRIGHT", 0, 1)
-				B.ReskinTexture(button, bubg, true)
+				B.ReskinHighlight(button, bubg, true)
 
 				button.styled = true
 			end
@@ -470,7 +470,7 @@ C.themes["Blizzard_Communities"] = function()
 				B.ReskinIcon(button.Icon)
 
 				local bubg = B.CreateBDFrame(button, 0, -C.mult*2)
-				B.ReskinTexture(button, bubg, true)
+				B.ReskinHighlight(button, bubg, true)
 
 				button.styled = true
 			end

@@ -144,7 +144,7 @@ tinsert(C.defaultThemes, function()
 				B.CleanTextures(Children)
 
 				local bg = B.CreateBDFrame(Children, 0, -C.mult*2)
-				B.ReskinTexture(Children, bg, true)
+				B.ReskinHighlight(Children, bg, true)
 
 				invite.styled = true
 			end
@@ -196,7 +196,7 @@ tinsert(C.defaultThemes, function()
 		B.StripTextures(WhoHeader)
 
 		if i ~= 2 then
-			B.ReskinTexture(WhoHeader, WhoHeader, true)
+			B.ReskinHighlight(WhoHeader, WhoHeader, true)
 		end
 	end
 end)

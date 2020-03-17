@@ -21,7 +21,7 @@ tinsert(C.defaultThemes, function()
 		B.StripTextures(button)
 
 		local icbg = B.ReskinIcon(button.icon)
-		B.ReskinTexture(button, icbg)
+		B.ReskinHighlight(button, icbg)
 
 		local border = button.IconBorder
 		B.ReskinBorder(border, icbg)

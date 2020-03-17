@@ -38,8 +38,8 @@ C.themes["Blizzard_GuildBankUI"] = function()
 
 		local icon = _G[tab.."ButtonIconTexture"]
 		local icbg = B.ReskinIcon(icon)
-		B.ReskinTexture(bu, icbg)
-		B.ReskinTexed(bu, icbg)
+		B.ReskinHighlight(bu, icbg)
+		B.ReskinChecked(bu, icbg)
 
 		if i == 1 then
 			tb:ClearAllPoints()
@@ -57,7 +57,7 @@ C.themes["Blizzard_GuildBankUI"] = function()
 			B.CleanTextures(bu)
 
 			local icbg = B.ReskinIcon(bu.icon)
-			B.ReskinTexture(bu, icbg)
+			B.ReskinHighlight(bu, icbg)
 
 			local border = bu.IconBorder
 			B.ReskinBorder(border, icbg)
@@ -81,8 +81,8 @@ C.themes["Blizzard_GuildBankUI"] = function()
 				B.StripTextures(bu)
 
 				local icbg = B.ReskinIcon(ic)
-				B.ReskinTexed(bu, icbg)
-				B.ReskinTexture(bu, icbg)
+				B.ReskinChecked(bu, icbg)
+				B.ReskinHighlight(bu, icbg)
 
 				bu.styled = true
 			end

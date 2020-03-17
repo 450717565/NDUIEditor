@@ -22,7 +22,7 @@ tinsert(C.defaultThemes, function()
 			B.StripTextures(bu)
 
 			local icbg = B.ReskinIcon(ic)
-			B.ReskinTexture(bu, icbg)
+			B.ReskinHighlight(bu, icbg)
 
 			bu.bg = icbg
 		end
@@ -32,7 +32,7 @@ tinsert(C.defaultThemes, function()
 		reskinSlot("PetStableActivePet", i)
 
 		local bu = _G["PetStableActivePet"..i]
-		B.ReskinTexed(bu.Checked, bu.bg)
+		B.ReskinChecked(bu.Checked, bu.bg)
 	end
 
 	for i = 1, NUM_PET_STABLE_SLOTS do

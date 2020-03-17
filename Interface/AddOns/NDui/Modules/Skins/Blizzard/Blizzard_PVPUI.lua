@@ -59,7 +59,7 @@ C.themes["Blizzard_PVPUI"] = function()
 	for _, bonusButton in pairs({"RandomBGButton", "RandomEpicBGButton", "Arena1Button", "BrawlButton", "SpecialEventButton"}) do
 		local bu = BonusFrame[bonusButton]
 		B.ReskinButton(bu)
-		B.ReskinTexture(bu.SelectedTexture, bu, true)
+		B.ReskinHighlight(bu.SelectedTexture, bu, true)
 	end
 
 	for i = 1, 8 do
@@ -71,8 +71,8 @@ C.themes["Blizzard_PVPUI"] = function()
 		local bubg = B.CreateBDFrame(bu, 0)
 		bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
 		bubg:SetPoint("BOTTOMRIGHT", -2, 4)
-		B.ReskinTexture(bu.HighlightTexture, bubg, true)
-		B.ReskinTexture(bu.SelectedTexture, bubg, true)
+		B.ReskinHighlight(bu.HighlightTexture, bubg, true)
+		B.ReskinHighlight(bu.SelectedTexture, bubg, true)
 
 		local name = bu.NameText
 		name:ClearAllPoints()
@@ -94,7 +94,7 @@ C.themes["Blizzard_PVPUI"] = function()
 	for _, conquestButton in pairs({"Arena2v2", "Arena3v3", "RatedBG"}) do
 		local bu = ConquestFrame[conquestButton]
 		B.ReskinButton(bu)
-		B.ReskinTexture(bu.SelectedTexture, bu, true)
+		B.ReskinHighlight(bu.SelectedTexture, bu, true)
 	end
 
 	-- reskin bar and role

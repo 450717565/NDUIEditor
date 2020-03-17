@@ -32,10 +32,10 @@ function S:WhisperPop()
 		local ic = _G[button.."Icon"]
 
 		local icbg = B.ReskinIcon(ic)
-		B.ReskinTexture(bu, icbg)
+		B.ReskinHighlight(bu, icbg)
 
 		if bu.SetCheckedTexture then
-			B.ReskinTexed(bu, icbg)
+			B.ReskinChecked(bu, icbg)
 		end
 	end
 end
