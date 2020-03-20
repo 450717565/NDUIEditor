@@ -13,8 +13,8 @@ tinsert(C.defaultThemes, function()
 		frame.PortraitButton.Highlight:SetTexture("")
 
 		B.StripTextures(frame, 0)
-		B.SetBDFrame(frame, 8, -4, -3, 0)
-		B.ReskinClose(_G[container.."CloseButton"], "TOPRIGHT", frame, "TOPRIGHT", -6, -7)
+		local bg = B.SetBDFrame(frame, 8, -4, -3, 0)
+		B.ReskinClose(_G[container.."CloseButton"], "TOPRIGHT", bg, "TOPRIGHT", -6, -6)
 
 		local name = _G[container.."Name"]
 		name:ClearAllPoints()

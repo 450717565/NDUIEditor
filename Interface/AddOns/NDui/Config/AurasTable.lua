@@ -16,7 +16,7 @@ local groups = {
 	["Raid Buff"]			= {"LEFT", 5, "ICON", 48, C.Auras.RaidBuffPos},
 	["Raid Debuff"]			= {"RIGHT", 5, "ICON", 48, C.Auras.RaidDebuffPos},
 	["Spell CD"]			= {"UP", 5, "BAR", 20, C.Auras.SpellCDPos, 150},
-	["Enchant CD"]			= {"UP", 5, "BAR", 20, C.Auras.EnchantCDPos, 150},
+	["Enchant CD"]			= {"DOWN", 5, "BAR", 20, C.Auras.EnchantCDPos, 150},
 	["Custom CD"]			= {"UP", 5, "BAR", 20, C.Auras.CustomCDPos, 150},
 }
 

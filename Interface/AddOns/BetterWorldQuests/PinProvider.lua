@@ -50,7 +50,8 @@ local factionList = {
 	[1742] = 2391,
 }
 
-local color, warMode, warModeBonus
+local color = {r=1, g=1, b=1}
+local warMode, warModeBonus
 
 local factionAssaultAtlasName = UnitFactionGroup('player') == 'Horde' and 'worldquest-icon-horde' or 'worldquest-icon-alliance'
 
@@ -174,9 +175,6 @@ function BetterWorldQuestPinMixin:OnLoad()
 	-- 修改剩余时间提示
 	self.TimeLowFrame:ClearAllPoints()
 	self.TimeLowFrame:SetPoint("CENTER", self, "TOPRIGHT")
-
-	-- 初始化
-	color = {}
 end
 
 local function IsParentMap(mapID)

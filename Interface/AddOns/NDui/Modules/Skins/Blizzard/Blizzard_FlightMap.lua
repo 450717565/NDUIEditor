@@ -9,10 +9,6 @@ C.themes["Blizzard_FlightMap"] = function()
 	bg:SetParent(FlightMapFrame)
 	bg:SetOutside(FlightMapFrame.ScrollContainer)
 
-	local CloseButton = BorderFrame.CloseButton
-	CloseButton:ClearAllPoints()
-	CloseButton:SetPoint("TOPRIGHT", bg, -6, -6)
-
 	local TitleText = BorderFrame.TitleText
 	TitleText:ClearAllPoints()
 	TitleText:SetPoint("TOP", bg, 0, -6)

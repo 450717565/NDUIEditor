@@ -1167,9 +1167,9 @@ function UF:CreateFCT(self)
 	fcf:SetSize(32, 32)
 
 	if self.mystyle == "player" then
-		B.Mover(fcf, L["CombatText"], "PlayerCombatText", {"BOTTOM", self, "TOPLEFT", 0, 120})
+		B.Mover(fcf, L["CombatText"], "PlayerCombatText", {"BOTTOMRIGHT", self, "TOPLEFT", -50, 100})
 	else
-		B.Mover(fcf, L["CombatText"], "TargetCombatText", {"BOTTOM", self, "TOPRIGHT", 0, 120})
+		B.Mover(fcf, L["CombatText"], "TargetCombatText", {"BOTTOMLEFT", self, "TOPRIGHT", 50, 100})
 	end
 
 	for i = 1, 36 do

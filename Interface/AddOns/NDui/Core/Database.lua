@@ -21,13 +21,10 @@ for k, v in pairs(LOCALIZED_CLASS_NAMES_MALE) do
 	DB.ClassList[v] = k
 end
 DB.ClassColors = {}
-local colors = CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS
-for class, value in pairs(colors) do
+local classColors = CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS
+for class, value in pairs(classColors) do
 	DB.ClassColors[class] = {}
-	DB.ClassColors[class].r = value.r
-	DB.ClassColors[class].g = value.g
-	DB.ClassColors[class].b = value.b
-	DB.ClassColors[class].colorStr = value.colorStr
+	DB.ClassColors[class] = {r = value.r, g = value.g, b = value.b, colorStr = value.colorStr}
 end
 DB.r, DB.g, DB.b = DB.ClassColors[DB.MyClass].r, DB.ClassColors[DB.MyClass].g, DB.ClassColors[DB.MyClass].b
 DB.MyColor = format("|cff%02x%02x%02x", DB.r*255, DB.g*255, DB.b*255)
@@ -37,6 +34,7 @@ DB.GreyColor = "|cff7b8489"
 DB.QualityColors = {}
 local qualityColors = BAG_ITEM_QUALITY_COLORS
 for index, value in pairs(qualityColors) do
+	DB.QualityColors[index] = {}
 	DB.QualityColors[index] = {r = value.r, g = value.g, b = value.b}
 end
 DB.QualityColors[0] = {r = .4, g = .4, b = .4}
@@ -55,7 +53,7 @@ local Media = "Interface\\Addons\\NDui\\Media\\"
 DB.arrowTex = Media.."arrowTex_"
 DB.bgTex = Media.."bgTex"
 DB.glowTex = Media.."glowTex"
-DB.rolesTex = Media.."roleTex"
+DB.roleTex = Media.."roleTex"
 
 DB.microTex = Media.."Hutu\\"
 DB.arrowBottom = Media.."Arrow\\arrow-bottom"

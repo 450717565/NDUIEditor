@@ -2,12 +2,12 @@ local B, C, L, DB = unpack(select(2, ...))
 
 C.themes["Blizzard_GMSurveyUI"] = function()
 	B.StripTextures(GMSurveyFrame)
-	B.SetBDFrame(GMSurveyFrame, 0, 0, -32, 4)
+	local bg = B.SetBDFrame(GMSurveyFrame, 0, 0, -32, 4)
+	B.ReskinClose(GMSurveyCloseButton, "TOPRIGHT", GMSurveyFrame, "TOPRIGHT", -6, -6)
 
 	B.StripTextures(GMSurveyCommentFrame)
 	B.CreateBDFrame(GMSurveyCommentFrame, 0)
 
-	B.ReskinClose(GMSurveyCloseButton, "TOPRIGHT", GMSurveyFrame, "TOPRIGHT", -36, -4)
 	B.ReskinButton(GMSurveySubmitButton)
 	B.ReskinButton(GMSurveyCancelButton)
 	B.ReskinScroll(GMSurveyScrollFrameScrollBar)

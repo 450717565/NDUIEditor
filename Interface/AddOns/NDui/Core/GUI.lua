@@ -849,7 +849,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{3, "Map", "MinmapScale", L["Minimap Scale"].."*", true, {.5, 1.5, 1}, updateMinimapScale},
 	},
 	[10] = {
-		{1, "Skins", "FlatMode", L["FlatMode"]},
+		{1, "Skins", "FlatMode", L["Flat Mode"]},
 		{1, "Skins", "BlizzardSkins", DB.MyColor..L["BlizzardSkins"], true, nil, nil, L["BlizzardSkinsTips"]},
 		{1, "Skins", "SkinShadow", L["Skin Shadow"]},
 		{1, "Skins", "SkinTexture", L["Skin Texture"]},

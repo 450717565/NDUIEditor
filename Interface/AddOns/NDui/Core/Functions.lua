@@ -286,6 +286,84 @@ function B:StripTextures(kill)
 	end
 end
 
+local cleanTextures = {
+	"_LeftSeparator",
+	"_RightSeparator",
+	"Background",
+	"BG",
+	"Bg",
+	"BorderBottom",
+	"BorderBottomLeft",
+	"BorderBottomRight",
+	"BorderLeft",
+	"BorderRight",
+	"BorderTop",
+	"BorderTopLeft",
+	"BorderTopRight",
+	"Bottom",
+	"BottomLeft",
+	"BottomLeftTex",
+	"BottomMid",
+	"BottomMiddle",
+	"BottomRight",
+	"BottomRightTex",
+	"BottomTex",
+	"Delimiter1",
+	"Delimiter2",
+	"Left",
+	"LeftDisabled",
+	"LeftSeparator",
+	"LeftTex",
+	"Mid",
+	"Middle",
+	"MiddleDisabled",
+	"MiddleLeft",
+	"MiddleMid",
+	"MiddleMiddle",
+	"MiddleRight",
+	"MiddleTex",
+	"Right",
+	"RightDisabled",
+	"RightSeparator",
+	"RightTex",
+	"ScrollBarBottom",
+	"ScrollBarMiddle",
+	"ScrollBarTop",
+	"ScrollDownBorder",
+	"ScrollUpBorder",
+	"TabSpacer",
+	"TabSpacer1",
+	"TabSpacer2",
+	"Top",
+	"TopLeft",
+	"TopLeftTex",
+	"TopMid",
+	"TopMiddle",
+	"TopRight",
+	"TopRightTex",
+	"TopTex",
+	"Track",
+	"track",
+	"trackBG",
+}
+
+function B:CleanTextures()
+	if self.SetBackdrop then self:SetBackdrop(nil) end
+	if self.SetDisabledTexture then self:SetDisabledTexture("") end
+	if self.SetHighlightTexture then self:SetHighlightTexture("") end
+	if self.SetNormalTexture then self:SetNormalTexture("") end
+	if self.SetPushedTexture then self:SetPushedTexture("") end
+
+	local frameName = self.GetName and self:GetName()
+	for _, key in pairs(cleanTextures) do
+		local cleanFrame = self[key] or (frameName and _G[frameName..key])
+		if cleanFrame then
+			cleanFrame:SetAlpha(0)
+			cleanFrame:Hide()
+		end
+	end
+end
+
 function B:Dummy()
 	return
 end

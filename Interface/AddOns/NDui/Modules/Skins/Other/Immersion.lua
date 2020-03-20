@@ -5,5 +5,5 @@ function S:Immersion()
 	if not IsAddOnLoaded("Immersion") then return end
 
 	local talkbox = ImmersionFrame.TalkBox.MainFrame
-	B.ReskinClose(talkbox.CloseButton, "TOPRIGHT", talkbox, "TOPRIGHT", -20, -20)
+	B.ReskinClose(talkbox.CloseButton, "TOPRIGHT", talkbox, "TOPRIGHT", -25, -25)
 end

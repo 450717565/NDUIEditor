@@ -28,6 +28,7 @@ C.themes["Blizzard_Communities"] = function()
 			button.CircleMask:Hide()
 			button.LogoBorder:Hide()
 			button.Background:Hide()
+
 			B.ReskinButton(button)
 			B.ReskinIcon(button.CommunityLogo)
 		end
@@ -93,7 +94,7 @@ C.themes["Blizzard_Communities"] = function()
 
 			local OptionsList = frame.OptionsList
 			if OptionsList then
-				B.ReskinDropDown(OptionsList.ClubFocusDropdown)
+				B.ReskinDropDown(OptionsList.ClubFilterDropdown)
 				B.ReskinDropDown(OptionsList.ClubSizeDropdown)
 				B.ReskinDropDown(OptionsList.SortByDropdown)
 				B.ReskinRole(OptionsList.TankRoleFrame, "TANK")
@@ -141,8 +142,72 @@ C.themes["Blizzard_Communities"] = function()
 
 	local MemberList = CommunitiesFrame.MemberList
 	B.StripTextures(MemberList)
+	B.StripTextures(MemberList.ColumnDisplay)
 	B.CreateBDFrame(MemberList, 0)
+	B.ReskinCheck(MemberList.ShowOfflineButton)
 	B.ReskinScroll(MemberList.ListScrollFrame.scrollBar)
+
+	hooksecurefunc(MemberList, "RefreshListDisplay", function(self)
+		local ColumnDisplay = self.ColumnDisplay
+		for i = 1, ColumnDisplay:GetNumChildren() do
+			local child = select(i, ColumnDisplay:GetChildren())
+			if not child.styled then
+				B.StripTextures(child)
+
+				local bg = B.CreateBDFrame(child, 0)
+				bg:SetPoint("TOPLEFT", 4, -2)
+				bg:SetPoint("BOTTOMRIGHT", 0, 2)
+				B.ReskinHighlight(child, bg, true)
+
+				child.styled = true
+			end
+		end
+
+		for _, button in pairs(self.ListScrollFrame.buttons or {}) do
+			if button and not button.styled then
+				B.ReskinHighlight(button, nil, true)
+				hooksecurefunc(button, "RefreshExpandedColumns", function(self)
+					if not self.expanded then return end
+
+					if not self.Class.bg then
+						self.Class.bg = B.CreateBDFrame(self.Class, 0)
+					end
+
+					local memberInfo = self:GetMemberInfo()
+					if memberInfo and memberInfo.classID then
+						local classInfo = C_CreatureInfo.GetClassInfo(memberInfo.classID)
+						if classInfo then
+							local tcoords = CLASS_ICON_TCOORDS[classInfo.classFile]
+							self.Class:SetTexCoord(
+								tcoords[1] + .022,
+								tcoords[2] - .025,
+								tcoords[3] + .022,
+								tcoords[4] - .025
+							)
+						end
+					end
+				end)
+
+				if button.ProfessionHeader then
+					local header = button.ProfessionHeader
+					B.StripTextures(header)
+
+					local bg = B.CreateBDFrame(header, 0)
+					bg:SetPoint("TOPLEFT", -C.mult, -C.mult)
+					bg:SetPoint("BOTTOMRIGHT", C.mult, C.mult)
+
+					B.ReskinHighlight(header, bg, true)
+					B.ReskinIcon(header.Icon)
+				end
+
+				button.styled = true
+			end
+
+			if button and button.Class.bg then
+				button.Class.bg:SetShown(button.Class:IsShown())
+			end
+		end
+	end)
 
 	-- ChatTab
 	B.ReskinDropDown(CommunitiesFrame.StreamDropDownMenu)
@@ -201,12 +266,15 @@ C.themes["Blizzard_Communities"] = function()
 	B.ReskinCheck(RecruitmentDialog.MinIlvlOnly.Button)
 	B.ReskinDropDown(RecruitmentDialog.ClubFocusDropdown)
 	B.ReskinDropDown(RecruitmentDialog.LookingForDropdown)
-	B.StripTextures(RecruitmentDialog.RecruitmentMessageFrame.RecruitmentMessageInput)
-	B.ReskinScroll(RecruitmentDialog.RecruitmentMessageFrame.RecruitmentMessageInput.ScrollBar)
-	B.ReskinInput(RecruitmentDialog.RecruitmentMessageFrame)
+	B.ReskinDropDown(RecruitmentDialog.LanguageDropdown)
 	B.ReskinInput(RecruitmentDialog.MinIlvlOnly.EditBox)
 	B.ReskinButton(RecruitmentDialog.Accept)
 	B.ReskinButton(RecruitmentDialog.Cancel)
+
+	local RecruitmentMessageFrame = RecruitmentDialog.RecruitmentMessageFrame
+	B.StripTextures(RecruitmentMessageFrame.RecruitmentMessageInput)
+	B.ReskinScroll(RecruitmentMessageFrame.RecruitmentMessageInput.ScrollBar)
+	B.ReskinInput(RecruitmentMessageFrame)
 
 	local SettingsDialog = CommunitiesSettingsDialog
 	B.ReskinFrame(SettingsDialog)
@@ -224,6 +292,7 @@ C.themes["Blizzard_Communities"] = function()
 	B.ReskinCheck(SettingsDialog.MinIlvlOnly.Button)
 	B.ReskinInput(SettingsDialog.MinIlvlOnly.EditBox)
 	B.ReskinDropDown(ClubFinderFocusDropdown)
+	B.ReskinDropDown(ClubFinderLanguageDropdown)
 	B.ReskinDropDown(ClubFinderLookingForDropdown)
 
 	local AvatarPickerDialog = CommunitiesAvatarPickerDialog
@@ -298,15 +367,13 @@ C.themes["Blizzard_Communities"] = function()
 	end)
 
 	-- RosterTab
-	B.StripTextures(CommunitiesFrame.MemberList.ColumnDisplay)
-	B.StripTextures(CommunitiesFrame.ApplicantList.ColumnDisplay)
-	B.ReskinCheck(CommunitiesFrame.MemberList.ShowOfflineButton)
 	B.ReskinDropDown(CommunitiesFrame.GuildMemberListDropDownMenu)
 	B.ReskinButton(CommunitiesFrame.CommunitiesControlFrame.GuildControlButton)
 	B.ReskinDropDown(CommunitiesFrame.CommunityMemberListDropDownMenu)
 
 	local ApplicantList = CommunitiesFrame.ApplicantList
 	B.StripTextures(ApplicantList)
+	B.StripTextures(ApplicantList.ColumnDisplay)
 	B.ReskinScroll(ApplicantList.ListScrollFrame.scrollBar)
 	local listBG = B.CreateBDFrame(ApplicantList, 0)
 	listBG:SetPoint("TOPLEFT", 0, 0)
@@ -342,7 +409,6 @@ C.themes["Blizzard_Communities"] = function()
 				B.ReskinDecline(button.CancelInvitationButton)
 
 				hooksecurefunc(button, "UpdateMemberInfo", function(self, info)
-					self.Info = info
 					if not info then return end
 
 					if not self.Class.bg then
@@ -362,68 +428,6 @@ C.themes["Blizzard_Communities"] = function()
 				end)
 
 				button.styled = true
-			end
-		end
-	end)
-
-	hooksecurefunc(CommunitiesFrame.MemberList, "RefreshListDisplay", function(self)
-		local ColumnDisplay = self.ColumnDisplay
-		for i = 1, ColumnDisplay:GetNumChildren() do
-			local child = select(i, ColumnDisplay:GetChildren())
-			if not child.styled then
-				B.StripTextures(child)
-
-				local bg = B.CreateBDFrame(child, 0)
-				bg:SetPoint("TOPLEFT", 4, -2)
-				bg:SetPoint("BOTTOMRIGHT", 0, 2)
-				B.ReskinHighlight(child, bg, true)
-
-				child.styled = true
-			end
-		end
-
-		for _, button in pairs(self.ListScrollFrame.buttons or {}) do
-			if button and not button.styled then
-				B.ReskinHighlight(button, nil, true)
-				hooksecurefunc(button, "RefreshExpandedColumns", function(self)
-					if not self.expanded then return end
-
-					if not self.Class.bg then
-						self.Class.bg = B.CreateBDFrame(self.Class, 0)
-					end
-
-					local memberInfo = self:GetMemberInfo()
-					if memberInfo and memberInfo.classID then
-						local classInfo = C_CreatureInfo.GetClassInfo(memberInfo.classID)
-						if classInfo then
-							local tcoords = CLASS_ICON_TCOORDS[classInfo.classFile]
-							self.Class:SetTexCoord(
-								tcoords[1] + .022,
-								tcoords[2] - .025,
-								tcoords[3] + .022,
-								tcoords[4] - .025
-							)
-						end
-					end
-				end)
-
-				if button.ProfessionHeader then
-					local header = button.ProfessionHeader
-					B.StripTextures(header)
-
-					local bg = B.CreateBDFrame(header, 0)
-					bg:SetPoint("TOPLEFT", -C.mult, -C.mult)
-					bg:SetPoint("BOTTOMRIGHT", C.mult, C.mult)
-
-					B.ReskinHighlight(header, bg, true)
-					B.ReskinIcon(header.Icon)
-				end
-
-				button.styled = true
-			end
-
-			if button and button.Class.bg then
-				button.Class.bg:SetShown(button.Class:IsShown())
 			end
 		end
 	end)

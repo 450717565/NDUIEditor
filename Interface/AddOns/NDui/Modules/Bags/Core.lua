@@ -647,14 +647,20 @@ function module:OnLogin()
 		if item.link and (item.rarity and item.rarity > 0) and (item.level and item.level > 0) then
 			local slot = B.GetItemSlot(item.link)
 			local level = B.GetItemLevel(item.link, item.bagID, item.slotID) or item.level
+			local isCorrupted = B.GetItemCorruption(item.link)
+			local r, g, b = 1, 1, 1
+
 			if level < NDuiDB["Bags"]["iLvlToShow"] then level = "" end
+			if isCorrupted then r, g, b = 1, 1, 0 end
 
 			if (item.subType and item.subType == EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC) or (item.equipLoc and item.equipLoc ~= "") then
 				if showItemLevel then
 					self.iLvl:SetText(level)
+					self.iLvl:SetTextColor(r, g, b)
 				end
 				if showItemSlot then
 					self.Slot:SetText(slot)
+					self.Slot:SetTextColor(r, g, b)
 				end
 			elseif (item.classID and item.classID == LE_ITEM_CLASS_MISCELLANEOUS) and (item.subClassID and (item.subClassID == LE_ITEM_MISCELLANEOUS_COMPANION_PET or item.subClassID == LE_ITEM_MISCELLANEOUS_MOUNT)) then
 				if showItemSlot then
