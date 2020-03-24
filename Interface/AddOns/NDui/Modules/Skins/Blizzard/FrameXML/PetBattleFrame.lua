@@ -6,7 +6,7 @@ tinsert(C.defaultThemes, function()
 
 	local alpha = NDuiDB["Extras"]["SkinAlpha"]
 	local color = NDuiDB["Extras"]["SkinColor"]
-	if not NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = r, g, b end
+	if not NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
 
 	-- Top Frame
 	local frame = PetBattleFrame
