@@ -114,7 +114,7 @@ function addon:CreateButton(parent, scale)
 
 		local bubg = B.CreateBDFrame(button)
 		B.ReskinHighlight(button, bubg, true)
-		B.ReskinHighlight(button:GetCheckedTexture(), bubg, false)
+		B.ReskinHighlight(button:GetCheckedTexture(), bubg)
 
 		if parent.lastButton then
 			button:SetPoint("TOPLEFT", parent.lastButton, "BOTTOMLEFT", 0, -5)

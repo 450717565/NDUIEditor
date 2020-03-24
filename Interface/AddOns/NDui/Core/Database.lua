@@ -37,10 +37,12 @@ for index, value in pairs(qualityColors) do
 	DB.QualityColors[index] = {}
 	DB.QualityColors[index] = {r = value.r, g = value.g, b = value.b}
 end
+--[[
 DB.QualityColors[0] = {r = .4, g = .4, b = .4}
 DB.QualityColors[1] = {r = .9, g = .9, b = .9}
 DB.QualityColors[LE_ITEM_QUALITY_POOR] = {r = .4, g = .4, b = .4}
 DB.QualityColors[LE_ITEM_QUALITY_COMMON] = {r = .9, g = .9, b = .9}
+]]
 
 -- Fonts
 DB.Font = {STANDARD_TEXT_FONT, 12, "OUTLINE"}

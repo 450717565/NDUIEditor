@@ -60,6 +60,13 @@ C.themes["Blizzard_PVPUI"] = function()
 		local bu = BonusFrame[bonusButton]
 		B.ReskinButton(bu)
 		B.ReskinHighlight(bu.SelectedTexture, bu, true)
+
+		local Reward = bu.Reward
+		if Reward then
+			Reward.Border:Hide()
+			Reward.CircleMask:Hide()
+			Reward.Icon.bg = B.ReskinIcon(Reward.Icon)
+		end
 	end
 
 	for i = 1, 8 do
@@ -95,6 +102,13 @@ C.themes["Blizzard_PVPUI"] = function()
 		local bu = ConquestFrame[conquestButton]
 		B.ReskinButton(bu)
 		B.ReskinHighlight(bu.SelectedTexture, bu, true)
+
+		local Reward = bu.Reward
+		if Reward then
+			Reward.Border:Hide()
+			Reward.CircleMask:Hide()
+			Reward.Icon.bg = B.ReskinIcon(Reward.Icon)
+		end
 	end
 
 	-- reskin bar and role
@@ -115,4 +129,31 @@ C.themes["Blizzard_PVPUI"] = function()
 			self.Reward:SetShown(IsPlayerAtEffectiveMaxLevel())
 		end)
 	end
+
+	-- Item Borders for HonorFrame & ConquestFrame
+	hooksecurefunc("PVPUIFrame_ConfigureRewardFrame", function(rewardFrame, _, _, itemRewards, currencyRewards)
+		local rewardTexture, rewardQuaility, _ = nil, 1
+
+		if currencyRewards then
+			for _, reward in ipairs(currencyRewards) do
+				local name, _, texture, _, _, _, _, quality = GetCurrencyInfo(reward.id)
+				if quality == _G.LE_ITEM_QUALITY_ARTIFACT then
+					_, rewardTexture, _, rewardQuaility = CurrencyContainerUtil.GetCurrencyContainerInfo(reward.id, reward.quantity, name, texture, quality)
+				end
+			end
+		end
+
+		if not rewardTexture and itemRewards then
+			local reward = itemRewards[1]
+			if reward then
+				_, _, rewardQuaility, _, _, _, _, _, _, rewardTexture = GetItemInfo(reward.id)
+			end
+		end
+
+		if rewardTexture then
+			rewardFrame.Icon:SetTexture(rewardTexture)
+			local color = DB.QualityColors[rewardQuaility]
+			rewardFrame.Icon.bg:SetBackdropBorderColor(color.r, color.g, color.b)
+		end
+	end)
 end

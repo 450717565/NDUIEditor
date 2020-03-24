@@ -245,7 +245,7 @@ local defaultSettings = {
 		BackdropAlpha = .5,
 		FlatMode = true,
 		FontOutline = true,
-		SkinShadow = true,
+		SkinShadow = false,
 		SkinTexture = false,
 	},
 	Tooltip = {

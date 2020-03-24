@@ -39,7 +39,7 @@ local function ReskinDetails()
 		self:MenuAnchor(16, 3)
 		self:SetBackdropTexture("None")
 		self:SetBarRightTextSettings(nil, nil, true, nil, ",")
-		self:SetBarSettings(18, NDuiADB["ResetDetails"] and "Altz01" or nil, true, {0, 0, 0, 0}, NDuiADB["ResetDetails"] and "Altz01" or nil, false, {0, 0, 0, 0})
+		self:SetBarSettings(NDuiADB["ResetDetails"] and 18 or nil, NDuiADB["ResetDetails"] and "Altz01" or nil, true, {0, 0, 0, 0}, NDuiADB["ResetDetails"] and "Altz01" or nil, false, {0, 0, 0, 0})
 		self:SetBarTextSettings(NDuiADB["ResetDetails"] and 14 or nil, DB.Font[1], nil, nil, nil, true, true, nil, nil, nil, nil, nil, nil, false, nil, false, nil)
 		self:ToolbarMenuButtonsSize(1)
 

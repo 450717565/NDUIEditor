@@ -89,6 +89,7 @@ local list = {
 		{AuraID = 229206, UnitID = "player"},	-- 延时之力
 		{AuraID = 313571, UnitID = "player"},	-- 飞龙在天
 		{AuraID = 315787, UnitID = "player"},	-- 生命充能
+		{AuraID = 314585, UnitID = "player"},	-- 心灵护壳
 		{AuraID = 315763, UnitID = "player", Value = true},	-- 生命充能
 		{AuraID = 315858, UnitID = "player", Flash = true},	-- 泰坦强化
 

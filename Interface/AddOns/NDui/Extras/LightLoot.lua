@@ -191,7 +191,7 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 				lootName, lootIcon, lootQuantity, lootQuality = CurrencyContainerUtil.GetCurrencyContainerInfo(currencyID, lootQuantity, lootName, lootIcon, lootQuality)
 			end
 
-			if lootIcon then
+			if lootIcon and lootName then
 				local color = DB.QualityColors[lootQuality or 1]
 				local r, g, b = color.r, color.g, color.b
 				local slotType = GetLootSlotType(i)

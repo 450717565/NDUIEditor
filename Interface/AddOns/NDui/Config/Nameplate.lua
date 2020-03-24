@@ -10,6 +10,7 @@ C.WhiteList = {
 	[267830]	= true,		-- 风暴祝福，风暴神殿
 	[265368]	= true,		-- 灵魂防御，庄园
 	[278567]	= true,		-- 灵魂雕像，庄园
+	[313184]	= true,		-- 突触震击，赛古斯
 	-- Buffs
 	[642]		= true,		-- 圣盾术
 	[1022]		= true,		-- 保护之手
@@ -219,25 +220,26 @@ C.CustomUnits = {
 	[GetSectionInfo(20561)] = true,	-- 惊魂淤血
 	[GetSectionInfo(21329)] = true,	-- 聚合增生
 
-	[156709] = true, --Corrupted Despoiler
-	[158531] = true, --Corrupted Neferset Guard
-	[158632] = true, --Corrupted Fleshbeast
-	[158706] = true, --Corrupted Putrefaction
-	[159087] = true, --Corrupted Bonestripper
-	[162241] = true, --Corrupted Thoughtstealer
-	[162243] = true, --Corrupted Mind Eater
-	[162244] = true, --Corrupted Doomsayer
-	[162245] = true, --Corrupted Tormentor
-	[162246] = true, --Corrupted Dominator
-	[162247] = true, --Corrupted Jailer
-	[162248] = true, --Corrupted Watcher
-	[162249] = true, --Corrupted Acolyte
-	[162250] = true, --Corrupted Assassin
-	[162251] = true, --Corrupted Summoner
-	[162252] = true, --Corrupted Beheader
-	[162253] = true, --Corrupted Thaumaturge
-	[162254] = true, --Corrupted Observer
-	[162290] = true, --Corrupted Bloodseeker
+	[156709] = true, -- 腐化的掠夺者
+	[158531] = true, -- 被腐化的尼斐塞特守卫
+	[158632] = true, -- 腐化的血肉兽
+	[158706] = true, -- 腐化朽质
+	[159087] = true, -- 腐化的剔骨者
+	[162241] = true, -- 腐化的思维窃取者
+	[162243] = true, -- 腐化的食心者
+	[162244] = true, -- 腐化的末日预言者
+	[162245] = true, -- 腐化的折磨者
+	[162246] = true, -- 腐化的支配者
+	[162247] = true, -- 腐化的狱卒
+	[162248] = true, -- 腐化的守护者
+	[162249] = true, -- 腐化的助祭
+	[162250] = true, -- 腐化的刺客
+	[162251] = true, -- 腐化的召唤师
+	[162252] = true, -- 腐化的刽子手
+	[162253] = true, -- 腐化的奇术师
+	[162254] = true, -- 腐化的观察者
+	[162290] = true, -- 腐化的觅血鲨
+	[163112] = true, -- 腐化的护卵者
 }
 
 -- 显示能量值的单位
