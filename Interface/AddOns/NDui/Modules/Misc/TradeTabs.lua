@@ -97,9 +97,12 @@ function M:TradeTabs_Reskin()
 		tab:SetSize(32, 32)
 		tab:GetRegions():Hide()
 
-		local icbg = B.ReskinIcon(tab:GetNormalTexture())
-		B.ReskinHighlight(tab, icbg)
-		B.ReskinChecked(tab, icbg)
+		local icon = tab:GetNormalTexture()
+		if icon then
+			local icbg = B.ReskinIcon(icon)
+			B.ReskinHighlight(tab, icbg)
+			B.ReskinChecked(tab, icbg)
+		end
 	end
 end
 

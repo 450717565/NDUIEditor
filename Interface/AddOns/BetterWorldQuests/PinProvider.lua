@@ -50,7 +50,7 @@ local factionList = {
 	[1742] = 2391,
 }
 
-local color = {r=1, g=1, b=1}
+local r, g, b
 local warMode, warModeBonus
 
 local factionAssaultAtlasName = UnitFactionGroup('player') == 'Horde' and 'worldquest-icon-horde' or 'worldquest-icon-alliance'
@@ -205,35 +205,35 @@ function BetterWorldQuestPinMixin:RefreshVisuals()
 		SetPortraitToTexture(self.Texture, texture)
 		self.Texture:SetSize(self:GetSize())
 
-		color = BAG_ITEM_QUALITY_COLORS[quality or 1]
+		r, g, b = GetItemQualityColor(quality or 1)
 		self.Text:SetText(itemLevel)
-		self.Text:SetTextColor(color.r, color.g, color.b)
+		self.Text:SetTextColor(r, g, b)
 	elseif (GetNumQuestLogRewardCurrencies(questID) > 0) then
 		local _, texture, numItems, currencyId, quality = GetQuestLogRewardCurrencyInfo(1, questID)
 		SetPortraitToTexture(self.Texture, texture)
 		self.Texture:SetSize(self:GetSize())
 
-		color = BAG_ITEM_QUALITY_COLORS[quality or 1]
+		r, g, b = GetItemQualityColor(quality or 1)
 		if warMode and not factionList[currencyId] then
 			numItems = numItems * warModeBonus
-			color = {r=0, g=1, b=0}
+			r, g, b = 0, 1, 0
 		end
 
 		self.Text:SetFormattedText("%d", numItems)
-		self.Text:SetTextColor(color.r, color.g, color.b)
+		self.Text:SetTextColor(r, g, b)
 	elseif (GetQuestLogRewardMoney(questID) > 0) then
 		SetPortraitToTexture(self.Texture, [[Interface\Icons\inv_misc_coin_01]])
 		self.Texture:SetSize(self:GetSize())
 
-		color = {r=1, g=1, b=1}
+		r, g, b = 1, 1, 1
 		local copper = GetQuestLogRewardMoney(questID)
 		if warMode then
 			copper = copper * warModeBonus
-			color = {r=0, g=1, b=0}
+			r, g, b = 0, 1, 0
 		end
 
 		self.Text:SetFormattedText("%d", copper / 1e4)
-		self.Text:SetTextColor(color.r, color.g, color.b)
+		self.Text:SetTextColor(r, g, b)
 	end
 
 	-- update our own widgets

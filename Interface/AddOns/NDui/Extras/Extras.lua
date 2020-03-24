@@ -119,6 +119,35 @@ do
 	LFDParentFrame:HookScript("OnShow", autoSelect)
 end
 
+-- 修复金币文本显示问题
+do
+	local function resizeMoneyText(frameName, money, forceShow)
+		local frame
+		if type(frameName) == "table" then
+			frame = frameName
+			frameName = frame:GetName()
+		else
+			frame = _G[frameName]
+		end
+		if not frame.info then return end
+
+		local iconWidth = MONEY_ICON_WIDTH
+		if frame.small then
+			iconWidth = MONEY_ICON_WIDTH_SMALL
+		end
+
+		if ENABLE_COLORBLIND_MODE ~= "1" then
+			if (not frame.colorblind) or (not frame.vadjust) or (frame.vadjust ~= MONEY_TEXT_VADJUST) then
+				_G[frameName.."GoldButtonText"]:SetPoint("RIGHT", -iconWidth, 0)
+				_G[frameName.."SilverButtonText"]:SetPoint("RIGHT", -iconWidth, 0)
+				_G[frameName.."CopperButtonText"]:SetPoint("RIGHT", -iconWidth, 0)
+			end
+		end
+	end
+
+	hooksecurefunc("MoneyFrame_Update", resizeMoneyText)
+end
+
 -- 修复预创建队伍人数和时间显示问题
 do
 	local function resizeTextWidth(self)

@@ -122,10 +122,11 @@ C.themes["Blizzard_Communities"] = function()
 				frame.ClubFinderSearchTab:ClearAllPoints()
 				frame.ClubFinderSearchTab:SetPoint("TOPLEFT", CommunitiesFrame, "TOPRIGHT", 1, -25)
 			end
-			if frame.ClubFinderPendingTab then reskinCommunityTab(frame.ClubFinderPendingTab) end
+
 			if frame.GuildCards then reskinGuildCards(frame.GuildCards) end
-			if frame.PendingGuildCards then reskinGuildCards(frame.PendingGuildCards) end
 			if frame.CommunityCards then reskinCommunityCards(frame.CommunityCards) end
+			if frame.PendingGuildCards then reskinGuildCards(frame.PendingGuildCards) end
+			if frame.ClubFinderPendingTab then reskinCommunityTab(frame.ClubFinderPendingTab) end
 			if frame.PendingCommunityCards then reskinCommunityCards(frame.PendingCommunityCards) end
 		end
 	end
@@ -178,12 +179,7 @@ C.themes["Blizzard_Communities"] = function()
 						local classInfo = C_CreatureInfo.GetClassInfo(memberInfo.classID)
 						if classInfo then
 							local tcoords = CLASS_ICON_TCOORDS[classInfo.classFile]
-							self.Class:SetTexCoord(
-								tcoords[1] + .022,
-								tcoords[2] - .025,
-								tcoords[3] + .022,
-								tcoords[4] - .025
-							)
+							self.Class:SetTexCoord(tcoords[1] + .022, tcoords[2] - .025, tcoords[3] + .022, tcoords[4] - .025)
 						end
 					end
 				end)
@@ -418,12 +414,7 @@ C.themes["Blizzard_Communities"] = function()
 					local classTag = select(2, GetClassInfo(info.classID))
 					if classTag then
 						local tcoords = CLASS_ICON_TCOORDS[classTag]
-						self.Class:SetTexCoord(
-							tcoords[1] + .022,
-							tcoords[2] - .025,
-							tcoords[3] + .022,
-							tcoords[4] - .025
-						)
+						self.Class:SetTexCoord(tcoords[1] + .022, tcoords[2] - .025, tcoords[3] + .022, tcoords[4] - .025)
 					end
 				end)
 

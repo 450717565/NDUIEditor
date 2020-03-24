@@ -596,7 +596,7 @@ local function QuestFrame_AddQuestButton(questInfo, prevButton)
 				tagTexture = texture
 				tagTexCoords = nil
 				if currencyID == CURRENCYID_AZERITE then
-					tagColor = BAG_ITEM_QUALITY_COLORS[LE_ITEM_QUALITY_ARTIFACT]
+					tagColor = ITEM_QUALITY_COLORS[LE_ITEM_QUALITY_ARTIFACT]
 				end
 				button.rewardCategory = "CURRENCY"
 				button.rewardValue = currencyID
@@ -614,7 +614,7 @@ local function QuestFrame_AddQuestButton(questInfo, prevButton)
 			tagTexCoords = nil
 			if iLevel then
 				tagText = iLevel
-				tagColor = BAG_ITEM_QUALITY_COLORS[quality]
+				tagColor = ITEM_QUALITY_COLORS[quality]
 				button.rewardCategory = "LOOT"
 				button.rewardValue = iLevel
 				button.rewardValue2 = 0
