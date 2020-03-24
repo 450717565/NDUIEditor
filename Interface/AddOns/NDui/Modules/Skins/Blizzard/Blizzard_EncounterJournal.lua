@@ -158,8 +158,8 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		end
 
 		local quality = select(3, GetItemInfo(button.itemID))
-		local color = DB.QualityColors[quality or 1]
-		button.bg:SetBackdropBorderColor(color.r, color.g, color.b)
+		local r, g, b = GetItemQualityColor(quality or 1)
+		button.bg:SetBackdropBorderColor(r, g, b)
 	end)
 
 	-- [[ Encounter Frame ]]

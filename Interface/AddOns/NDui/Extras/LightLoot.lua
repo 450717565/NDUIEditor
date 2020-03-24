@@ -191,9 +191,9 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 				lootName, lootIcon, lootQuantity, lootQuality = CurrencyContainerUtil.GetCurrencyContainerInfo(currencyID, lootQuantity, lootName, lootIcon, lootQuality)
 			end
 
+			local r, g, b = GetItemQualityColor(lootQuality or 1)
+
 			if lootIcon and lootName then
-				local color = DB.QualityColors[lootQuality or 1]
-				local r, g, b = color.r, color.g, color.b
 				local slotType = GetLootSlotType(i)
 
 				if slotType == LOOT_SLOT_MONEY then
@@ -237,8 +237,7 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 		slot:Hide()
 	end
 
-	local color = DB.QualityColors[maxQuality or 1]
-	local r, g, b = color.r, color.g, color.b
+	local r, g, b = GetItemQualityColor(maxQuality or 1)
 	self:SetBackdropBorderColor(r, g, b)
 	self.Title:SetTextColor(r, g, b)
 

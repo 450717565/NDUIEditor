@@ -127,8 +127,8 @@ tinsert(C.defaultThemes, function()
 				end
 
 				if portrait then
-					local color = DB.QualityColors[portrait.quality or 1]
-					portrait.squareBG:SetBackdropBorderColor(color.r, color.g, color.b)
+					local r, g, b = GetItemQualityColor(portrait.quality or 1)
+					portrait.squareBG:SetBackdropBorderColor(r, g, b)
 				end
 			end
 

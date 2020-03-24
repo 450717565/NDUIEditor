@@ -710,8 +710,8 @@ function module:OnLogin()
 		if item.questID or item.isQuestItem then
 			self.bg:SetBackdropBorderColor(.8, .8, 0)
 		elseif item.rarity and item.rarity > 0 then
-			local color = DB.QualityColors[item.rarity or 1]
-			self.bg:SetBackdropBorderColor(color.r, color.g, color.b)
+			local r, g, b = GetItemQualityColor(item.rarity or 1)
+			self.bg:SetBackdropBorderColor(r, g, b)
 		else
 			self.bg:SetBackdropBorderColor(0, 0, 0)
 		end
@@ -845,9 +845,9 @@ function module:OnLogin()
 		local id = GetInventoryItemID("player", (self.GetInventorySlot and self:GetInventorySlot()) or self.invID)
 		if not id then return end
 		local _, _, quality, _, _, _, _, _, _, _, _, classID, subClassID = GetItemInfo(id)
-		local color = DB.QualityColors[quality or 1]
+		local r, g, b = GetItemQualityColor(quality or 1)
 		if not self.hidden and not self.notBought then
-			self.bg:SetBackdropBorderColor(color.r, color.g, color.b)
+			self.bg:SetBackdropBorderColor(r, g, b)
 		else
 			self.bg:SetBackdropBorderColor(0, 0, 0)
 		end

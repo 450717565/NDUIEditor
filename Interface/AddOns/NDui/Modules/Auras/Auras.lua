@@ -127,7 +127,8 @@ function A:UpdateTempEnchant(button, index)
 	end
 
 	if quality then
-		button:SetBackdropBorderColor(GetItemQualityColor(quality))
+		local r, g, b = GetItemQualityColor(quality or 1)
+		button:SetBackdropBorderColor(r, g, b)
 	end
 
 	local expirationTime = select(offset, GetWeaponEnchantInfo())

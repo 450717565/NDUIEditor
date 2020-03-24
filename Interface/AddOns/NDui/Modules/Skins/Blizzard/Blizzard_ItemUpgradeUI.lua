@@ -16,11 +16,11 @@ C.themes["Blizzard_ItemUpgradeUI"] = function()
 
 	hooksecurefunc("ItemUpgradeFrame_Update", function()
 		local icon, _, quality = GetItemUpgradeItemInfo()
-		local color = DB.QualityColors[quality or 1]
+		local r, g, b = GetItemQualityColor(quality or 1)
 
 		if icon then
 			ItemButton.IconTexture:SetTexCoord(unpack(DB.TexCoord))
-			ItemButton.bg:SetBackdropBorderColor(color.r, color.g, color.b)
+			ItemButton.bg:SetBackdropBorderColor(r, g, b)
 		else
 			ItemButton.IconTexture:SetTexture("")
 			ItemButton.bg:SetBackdropBorderColor(0, 0, 0)

@@ -182,7 +182,7 @@ function M:InboxItem_OnEnter()
 			for key, value in pairs(inboxItems) do
 				local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture = GetItemInfo(key)
 				if itemName then
-					local r, g, b = GetItemQualityColor(itemQuality)
+					local r, g, b = GetItemQualityColor(itemQuality or 1)
 					GameTooltip:AddDoubleLine(" |T"..itemTexture..":12:12:0:0:50:50:4:46:4:46|t "..itemName, value, r, g, b)
 				end
 			end

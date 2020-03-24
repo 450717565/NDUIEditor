@@ -31,19 +31,6 @@ DB.MyColor = format("|cff%02x%02x%02x", DB.r*255, DB.g*255, DB.b*255)
 DB.InfoColor = "|cff99ccff" --.6,.8,1
 DB.GreyColor = "|cff7b8489"
 
-DB.QualityColors = {}
-local qualityColors = BAG_ITEM_QUALITY_COLORS
-for index, value in pairs(qualityColors) do
-	DB.QualityColors[index] = {}
-	DB.QualityColors[index] = {r = value.r, g = value.g, b = value.b}
-end
---[[
-DB.QualityColors[0] = {r = .4, g = .4, b = .4}
-DB.QualityColors[1] = {r = .9, g = .9, b = .9}
-DB.QualityColors[LE_ITEM_QUALITY_POOR] = {r = .4, g = .4, b = .4}
-DB.QualityColors[LE_ITEM_QUALITY_COMMON] = {r = .9, g = .9, b = .9}
-]]
-
 -- Fonts
 DB.Font = {STANDARD_TEXT_FONT, 12, "OUTLINE"}
 DB.TipFont = {GameTooltipText:GetFont(), 14, "OUTLINE"}

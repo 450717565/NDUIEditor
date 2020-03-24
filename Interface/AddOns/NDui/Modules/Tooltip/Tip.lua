@@ -404,10 +404,8 @@ function TT:ReskinTooltip()
 		local _, item = self:GetItem()
 		if item then
 			local quality = select(3, GetItemInfo(item))
-			local color = DB.QualityColors[quality or 1]
-			if color then
-				self.bg:SetBackdropBorderColor(color.r, color.g, color.b)
-			end
+			local r, g, b = GetItemQualityColor(quality or 1)
+			self.bg:SetBackdropBorderColor(r, g, b)
 		end
 	end
 

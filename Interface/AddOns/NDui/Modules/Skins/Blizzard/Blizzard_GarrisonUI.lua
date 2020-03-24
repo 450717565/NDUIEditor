@@ -200,8 +200,8 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			end
 
 			if portrait and portrait.quality then
-				local color = DB.QualityColors[portrait.quality or 1]
-				portrait.squareBG:SetBackdropBorderColor(color.r, color.g, color.b)
+				local r, g, b = GetItemQualityColor(portrait.quality or 1)
+				portrait.squareBG:SetBackdropBorderColor(r, g, b)
 			end
 		end
 	end
@@ -610,8 +610,8 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			portraitFrame.styled = true
 		end
 
-		local color = DB.QualityColors[followerInfo.quality or 1]
-		portraitFrame.squareBG:SetBackdropBorderColor(color.r, color.g, color.b)
+		local r, g, b = GetItemQualityColor(followerInfo.quality or 1)
+		portraitFrame.squareBG:SetBackdropBorderColor(r, g, b)
 		portraitFrame.squareBG:Show()
 	end)
 
@@ -697,8 +697,8 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 				local quality = select(4, C_Garrison.GetFollowerMissionCompleteInfo(mission.followers[i]))
 				if quality then
-					local color = DB.QualityColors[quality or 1]
-					frame.PortraitFrame.squareBG:SetBackdropBorderColor(color.r, color.g, color.b)
+					local r, g, b = GetItemQualityColor(quality or 1)
+					frame.PortraitFrame.squareBG:SetBackdropBorderColor(r, g, b)
 					frame.PortraitFrame.squareBG:Show()
 				end
 
