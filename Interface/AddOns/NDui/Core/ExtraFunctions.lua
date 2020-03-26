@@ -883,11 +883,13 @@ function B:ReskinRole(role)
 		shortageBorder:SetTexture("")
 
 		local icon = self.incentiveIcon
-		icon.border:SetTexture("")
+		icon.border:Hide()
 		icon.texture:ClearAllPoints()
 		icon.texture:SetPoint("BOTTOMRIGHT", self, -3, 3)
 		icon.texture:SetSize(14, 14)
-		B.ReskinIcon(icon.texture)
+
+		local icbg = B.ReskinIcon(icon.texture)
+		icbg:SetFrameLevel(self:GetFrameLevel() + 1)
 	end
 
 	self.bg = B.CreateBDFrame(self, 0)

@@ -224,6 +224,7 @@ local list = {
 		{AuraID = 295137, UnitID = "player", Flash = true},	-- 源血
 		{AuraID = 311203, UnitID = "player"},	-- 光荣时刻
 	-- 腐蚀
+		{AuraID = 316801, UnitID = "player", Flash = true},	-- 不可言喻的真相
 		{AuraID = 318216, UnitID = "player"},	-- 磨砺心灵
 		{AuraID = 318227, UnitID = "player", Flash = true},	-- 急速脉搏
 		{AuraID = 316823, UnitID = "player"},	-- 虚空仪式
@@ -484,42 +485,42 @@ local list = {
 		{AuraID = 295779, UnitID = "player", Flash = true},	-- 水舞长枪
 		{AuraID = 300244, UnitID = "player", Flash = true},	-- 狂怒急流
 		-- 女王法庭
-		{AuraID = 297585, UnitID = "player"}, -- 服从或受苦
-		{AuraID = 301830, UnitID = "player"}, -- 帕什玛之触
-		{AuraID = 301832, UnitID = "player"}, -- 疯狂热诚
-		{AuraID = 296851, UnitID = "player", Flash = true, Text = L["Get Out"]}, -- 狂热裁决
-		{AuraID = 299914, UnitID = "player"}, -- 狂热冲锋
-		{AuraID = 300545, UnitID = "player"}, -- 力量决裂
-		{AuraID = 304409, UnitID = "player", Flash = true}, -- 重复行动
-		{AuraID = 304410, UnitID = "player", Flash = true}, -- 重复行动
-		{AuraID = 304128, UnitID = "player", Text = L["Move"]}, -- 缓刑
-		{AuraID = 297586, UnitID = "player", Flash = true}, -- 承受折磨
+		{AuraID = 297585, UnitID = "player"},	-- 服从或受苦
+		{AuraID = 301830, UnitID = "player"},	-- 帕什玛之触
+		{AuraID = 301832, UnitID = "player"},	-- 疯狂热诚
+		{AuraID = 296851, UnitID = "player", Flash = true, Text = L["Get Out"]},	-- 狂热裁决
+		{AuraID = 299914, UnitID = "player"},	-- 狂热冲锋
+		{AuraID = 300545, UnitID = "player"},	-- 力量决裂
+		{AuraID = 304409, UnitID = "player", Flash = true},	-- 重复行动
+		{AuraID = 304410, UnitID = "player", Flash = true},	-- 重复行动
+		{AuraID = 304128, UnitID = "player", Text = L["Move"]},	-- 缓刑
+		{AuraID = 297586, UnitID = "player", Flash = true},	-- 承受折磨
 		-- 扎库尔，尼奥罗萨先驱
-		{AuraID = 298192, UnitID = "player", Flash = true}, -- 黑暗虚空
-		{AuraID = 295480, UnitID = "player"}, -- 心智锁链
+		{AuraID = 298192, UnitID = "player", Flash = true},	-- 黑暗虚空
+		{AuraID = 295480, UnitID = "player"},	-- 心智锁链
 		{AuraID = 295495, UnitID = "player"},
-		{AuraID = 300133, UnitID = "player", Flash = true}, -- 折断
-		{AuraID = 292963, UnitID = "player"}, -- 惊惧
-		{AuraID = 293509, UnitID = "player", Flash = true}, -- 惊惧
-		{AuraID = 295327, UnitID = "player", Flash = true}, -- 碎裂心智
-		{AuraID = 296018, UnitID = "player", Flash = true}, -- 癫狂惊惧
-		{AuraID = 296015, UnitID = "player"}, -- 腐蚀谵妄
+		{AuraID = 300133, UnitID = "player", Flash = true},	-- 折断
+		{AuraID = 292963, UnitID = "player"},	-- 惊惧
+		{AuraID = 293509, UnitID = "player", Flash = true},	-- 惊惧
+		{AuraID = 295327, UnitID = "player", Flash = true},	-- 碎裂心智
+		{AuraID = 296018, UnitID = "player", Flash = true},	-- 癫狂惊惧
+		{AuraID = 296015, UnitID = "player"},	-- 腐蚀谵妄
 		-- 艾萨拉女王
-		{AuraID = 297907, UnitID = "player", Flash = true}, -- 诅咒之心
-		{AuraID = 299251, UnitID = "player"}, -- 服从！
-		{AuraID = 299249, UnitID = "player"}, -- 受苦！
-		{AuraID = 299255, UnitID = "player"}, -- 出列！
-		{AuraID = 299254, UnitID = "player"}, -- 集合！
-		{AuraID = 299252, UnitID = "player"}, -- 前进！
-		{AuraID = 299253, UnitID = "player"}, -- 停留！
-		{AuraID = 298569, UnitID = "player"}, -- 干涸灵魂
-		{AuraID = 298014, UnitID = "player"}, -- 冰爆
-		{AuraID = 298018, UnitID = "player", Flash = true}, -- 冻结
-		{AuraID = 298756, UnitID = "player"}, -- 锯齿之锋
-		{AuraID = 298781, UnitID = "player"}, -- 奥术宝珠
-		{AuraID = 303825, UnitID = "player", Flash = true}, -- 溺水
-		{AuraID = 302999, UnitID = "player"}, -- 奥术易伤
-		{AuraID = 303657, UnitID = "player", Flash = true}, -- 奥术震爆
+		{AuraID = 297907, UnitID = "player", Flash = true},	-- 诅咒之心
+		{AuraID = 299251, UnitID = "player"},	-- 服从！
+		{AuraID = 299249, UnitID = "player"},	-- 受苦！
+		{AuraID = 299255, UnitID = "player"},	-- 出列！
+		{AuraID = 299254, UnitID = "player"},	-- 集合！
+		{AuraID = 299252, UnitID = "player"},	-- 前进！
+		{AuraID = 299253, UnitID = "player"},	-- 停留！
+		{AuraID = 298569, UnitID = "player"},	-- 干涸灵魂
+		{AuraID = 298014, UnitID = "player"},	-- 冰爆
+		{AuraID = 298018, UnitID = "player", Flash = true},	-- 冻结
+		{AuraID = 298756, UnitID = "player"},	-- 锯齿之锋
+		{AuraID = 298781, UnitID = "player"},	-- 奥术宝珠
+		{AuraID = 303825, UnitID = "player", Flash = true},	-- 溺水
+		{AuraID = 302999, UnitID = "player"},	-- 奥术易伤
+		{AuraID = 303657, UnitID = "player", Flash = true},	-- 奥术震爆
 	-- 风暴熔炉
 		{AuraID = 282384, UnitID = "player"},	-- 精神割裂，无眠秘党
 		{AuraID = 282566, UnitID = "player"},	-- 力量应许

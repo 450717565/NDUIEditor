@@ -12,6 +12,7 @@ function M:CreateRM()
 	local ConvertToParty = C_PartyInfo.ConvertToParty
 
 	local cr, cg, cb = DB.r, DB.g, DB.b
+	local WorldMarker = gsub(WORLD_MARKER, "%%d", "")
 
 	local header = CreateFrame("Button", nil, UIParent)
 	header:SetSize(120, 28)
@@ -240,6 +241,14 @@ function M:CreateRM()
 				marker:EnableMouse(false)
 			end
 		end)
+
+		marker:HookScript("OnEnter", function(self)
+			GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT", 0, -5)
+			GameTooltip:ClearLines()
+			GameTooltip:AddLine(DB.LeftButton..DB.InfoColor..WorldMarker)
+			GameTooltip:Show()
+		end)
+		marker:HookScript("OnLeave", B.HideTooltip)
 	end
 
 	-- Buff checker

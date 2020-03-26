@@ -36,14 +36,14 @@ function module:ChannelRename()
 	ERR_FRIEND_OFFLINE_S = gsub(ERR_FRIEND_OFFLINE_S, "%%s", "%%s|cffff7f50")
 
 	--whisper
-	CHAT_WHISPER_INFORM_GET = L["Tell"].." %s "
-	CHAT_WHISPER_GET = L["From"].." %s "
-	CHAT_BN_WHISPER_INFORM_GET = L["Tell"].." %s "
-	CHAT_BN_WHISPER_GET = L["From"].." %s "
+	CHAT_WHISPER_INFORM_GET = L["Tell"].." %s "..L[":"]
+	CHAT_WHISPER_GET = L["From"].." %s "..L[":"]
+	CHAT_BN_WHISPER_INFORM_GET = L["Tell"].." %s "..L[":"]
+	CHAT_BN_WHISPER_GET = L["From"].." %s "..L[":"]
 
 	--say / yell
-	CHAT_SAY_GET = "%s "
-	CHAT_YELL_GET = "%s "
+	CHAT_SAY_GET = "%s "..L[":"]
+	CHAT_YELL_GET = "%s "..L[":"]
 
 	if NDuiDB["Chat"]["Oldname"] then return end
 	--guild

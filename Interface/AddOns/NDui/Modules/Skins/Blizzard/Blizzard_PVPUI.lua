@@ -66,6 +66,14 @@ C.themes["Blizzard_PVPUI"] = function()
 			Reward.Border:Hide()
 			Reward.CircleMask:Hide()
 			Reward.Icon.bg = B.ReskinIcon(Reward.Icon)
+
+			local Bonus = Reward.EnlistmentBonus
+			if Bonus then
+				Bonus:DisableDrawLayer("ARTWORK")
+				Bonus.Icon:SetTexture(GetSpellTexture(241260))
+				Bonus.Icon.bg = B.ReskinIcon(Bonus.Icon)
+				Bonus.Icon.bg:SetFrameLevel(Reward.Icon.bg:GetFrameLevel() + 2)
+			end
 		end
 	end
 
@@ -108,6 +116,14 @@ C.themes["Blizzard_PVPUI"] = function()
 			Reward.Border:Hide()
 			Reward.CircleMask:Hide()
 			Reward.Icon.bg = B.ReskinIcon(Reward.Icon)
+
+			local Bonus = Reward.EnlistmentBonus
+			if Bonus then
+				Bonus:DisableDrawLayer("ARTWORK")
+				Bonus.Icon:SetTexture(GetSpellTexture(241260))
+				Bonus.Icon.bg = B.ReskinIcon(Bonus.Icon)
+				Bonus.Icon.bg:SetFrameLevel(Reward.Icon.bg:GetFrameLevel() + 2)
+			end
 		end
 	end
 
