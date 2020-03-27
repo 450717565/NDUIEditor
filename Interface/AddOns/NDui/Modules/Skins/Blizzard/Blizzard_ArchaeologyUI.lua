@@ -1,8 +1,6 @@
 local B, C, L, DB = unpack(select(2, ...))
 
 C.themes["Blizzard_ArchaeologyUI"] = function()
-	local cr, cg, cb = DB.r, DB.g, DB.b
-
 	B.ReskinFrame(ArchaeologyFrame)
 	B.ReskinButton(ArchaeologyFrameArtifactPageBackButton)
 	B.ReskinButton(ArchaeologyFrameArtifactPageSolveFrameSolveButton)

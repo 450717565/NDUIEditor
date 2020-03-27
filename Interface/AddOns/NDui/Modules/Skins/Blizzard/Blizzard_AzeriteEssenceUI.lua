@@ -1,8 +1,6 @@
 local B, C, L, DB = unpack(select(2, ...))
 
 C.themes["Blizzard_AzeriteEssenceUI"] = function()
-	local cr, cg, cb = DB.r, DB.g, DB.b
-
 	B.ReskinFrame(AzeriteEssenceUI)
 
 	for _, milestoneFrame in pairs(AzeriteEssenceUI.Milestones) do
@@ -26,15 +24,15 @@ C.themes["Blizzard_AzeriteEssenceUI"] = function()
 	local HeaderButton = EssenceList.HeaderButton
 	HeaderButton:DisableDrawLayer("BORDER")
 	HeaderButton:DisableDrawLayer("BACKGROUND")
-	local bubg = B.CreateBDFrame(HeaderButton, 0)
-	bubg:SetPoint("TOPLEFT", HeaderButton.ExpandedIcon, -4, 6)
-	bubg:SetPoint("BOTTOMRIGHT", HeaderButton.ExpandedIcon, 4, -6)
-	HeaderButton:SetScript("OnEnter", function()
-		bubg:SetBackdropColor(cr, cg, cb, .25)
-	end)
-	HeaderButton:SetScript("OnLeave", function()
-		bubg:SetBackdropColor(0, 0, 0, 0)
-	end)
+	local bdTex = B.CreateBDFrame(HeaderButton, 0)
+	bdTex:SetPoint("TOPLEFT", HeaderButton.ExpandedIcon, -4, 6)
+	bdTex:SetPoint("BOTTOMRIGHT", HeaderButton.ExpandedIcon, 4, -6)
+	HeaderButton.bdTex = bdTex
+
+	B.Hook_OnEnter(HeaderButton)
+	B.Hook_OnLeave(HeaderButton)
+	B.Hook_OnMouseDown(HeaderButton)
+	B.Hook_OnMouseUp(HeaderButton)
 
 	hooksecurefunc(EssenceList, "Refresh", function(self)
 		for i, button in ipairs(self.buttons) do

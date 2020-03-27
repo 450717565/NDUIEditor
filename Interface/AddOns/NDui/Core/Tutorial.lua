@@ -200,7 +200,7 @@ local function ForceSkadaOptions()
 						["barfontsize"] = 12,
 						["barheight"] = 16,
 						["barslocked"] = true,
-						["bartexture"] = "Altz01",
+						["bartexture"] = "BarTex_1",
 						["barwidth"] = 350,
 						["classicons"] = false,
 						["point"] = "BOTTOMRIGHT",
@@ -479,7 +479,7 @@ SlashCmdList["NDUI"] = HelloWorld
 SLASH_NDUI1 = "/ndui"
 
 function module:OnLogin()
-	alpha = NDuiDB["Extras"]["SkinAlpha"]
+	alpha = NDuiDB["Extras"]["SLAlpha"]
 
 	-- Hide options
 	B.HideOption(Advanced_UseUIScale)

@@ -59,6 +59,8 @@ local defaultSettings = {
 		FilterMount = true,
 		FilterFavourite = true,
 		FilterGoods = true,
+
+		BagsSlot = true,
 	},
 	Auras = {
 		Reminder = true,
@@ -156,6 +158,9 @@ local defaultSettings = {
 		TargetCBHeight = 20,
 		FocusCBWidth = 320,
 		FocusCBHeight = 20,
+
+		OnlyCombatText = false,
+		ShowYourself = false,
 	},
 	Chat = {
 		Sticky = true,
@@ -225,6 +230,11 @@ local defaultSettings = {
 		MinAlpha = .8,
 		ColorBorder = true,
 		QuestIndicator = true,
+
+		PPCPHeight = 10,
+		ArrowColor = 1,
+		HLColor = {r=1, g=1, b=1},
+		SDColor = {r=0, g=1, b=0},
 	},
 	Skins = {
 		DeadlyBossMods = true,
@@ -243,10 +253,15 @@ local defaultSettings = {
 		ToggleDirection = 1,
 		BlizzardSkins = true,
 		BackdropAlpha = .5,
-		FlatMode = true,
+		SkinStyle = 2,
 		FontOutline = true,
 		SkinShadow = false,
 		SkinTexture = false,
+
+		BGColor = {r=0, g=0, b=0},
+		FSColor = {r=.3, g=.3, b=.3},
+		GSColor1 = {r=0, g=0, b=0},
+		GSColor2 = {r=.3, g=.3, b=.3},
 	},
 	Tooltip = {
 		CombatHide = false,
@@ -302,14 +317,15 @@ local defaultSettings = {
 		DBMCount = "5",
 		EasyMarking = true,
 		BlockWQT = false,
+
+		MaxTiers = 4,
 	},
 	Tutorial = {
 		Complete = false,
 	},
 	Extras = {
-		ArrowColor = 1,
+		AfkDelight = true,
 		AutoCollapse = true,
-		BagsSlot = true,
 		FavouriteButton = false,
 		GuildWelcome = true,
 		iLvlTools = true,
@@ -317,17 +333,10 @@ local defaultSettings = {
 		LootMonitorBonusRewards = false,
 		LootMonitorInGroup = true,
 		LootMonitorQuality = 4,
-		PPCPHeight = 10,
 		ShowCharacterItemSheet = true,
 		ShowOwnFrameWhenInspecting = true,
-		ShowYourself = false,
-		SkinAlpha = .8,
-		SkinColor = {r=.5, g=.5, b=.5},
-		MaxTiers = 4,
-		AfkDelight = true,
-		OnlyCombatText = false,
-		HLColor = {r=1, g=1, b=1},
-		SLColor = {r=0, g=1, b=0},
+		SLAlpha = .8,
+		SLColor = {r=.5, g=.5, b=.5},
 	},
 }
 
@@ -359,6 +368,7 @@ local accountSettings = {
 	DisableInfobars = false,
 	PartyWatcherSpells = {},
 	ContactList = {},
+	BarNumber = 1,
 }
 
 local function InitialSettings(source, target, fullClean)
@@ -399,6 +409,7 @@ loader:SetScript("OnEvent", function(self, _, addon)
 	InitialSettings(defaultSettings, NDuiDB, true)
 	InitialSettings(accountSettings, NDuiADB)
 	B.SetupUIScale(true)
+	DB.normTex = "Interface\\Addons\\NDui\\Media\\Texture\\texture_"..NDuiADB["BarNumber"]
 
 	self:UnregisterAllEvents()
 end)
@@ -593,8 +604,11 @@ local function updateErrorBlocker()
 end
 
 local function updateSkinAlpha()
+	local BGColor = NDuiDB["Skins"]["BGColor"]
+	local BGAlpha = NDuiDB["Skins"]["BackdropAlpha"]
+
 	for _, frame in pairs(C.frames) do
-		B.SetBackdropColor(frame, 0, 0, 0, NDuiDB["Skins"]["BackdropAlpha"])
+		B.SetBackdropColor(frame, BGColor.r, BGColor.g, BGColor.b, BGAlpha)
 	end
 end
 
@@ -660,7 +674,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Bags", "ShowNewItem", L["Bags ShowNewItem"]},
 		{1, "Bags", "DeleteButton", L["Bags DeleteButton"]},
 		{3, "Bags", "iLvlToShow", L["iLvlToShow"].."*", true, {1, 500, 0}, updateBagStatus, L["iLvlToShowTip"]},
-		{1, "Extras", "BagsSlot", L["Bags ItemSlot"], false, nil, updateBagStatus},
+		{1, "Bags", "BagsSlot", L["Bags ItemSlot"], false, nil, updateBagStatus},
 		{},--blank
 		{3, "Bags", "BagsScale", L["Bags Scale"], false, {.5, 1.5, 1}},
 		{3, "Bags", "IconSize", L["Bags IconSize"], true, {30, 42, 0}},
@@ -687,7 +701,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{3, "UFs", "SmoothAmount", DB.MyColor..L["SmoothAmount"], true, {.2, .8, 2}, updateSmoothingAmount, L["SmoothAmountTip"]},
 		{},--blank
 		{1, "UFs", "CombatText", DB.MyColor..L["UFs CombatText"]},
-		{1, "Extras", "OnlyCombatText", L["Only Combat Text"], true},
+		{1, "UFs", "OnlyCombatText", L["Only Combat Text"], true},
 		{1, "UFs", "AutoAttack", L["CombatText AutoAttack"]},
 		{1, "UFs", "PetCombatText", L["CombatText ShowPets"], true},
 		{1, "UFs", "HotsDots", L["CombatText HotsDots"]},
@@ -701,7 +715,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "UFs", "PartyWatcher", L["UFs PartyWatcher"], nil, setupPartyWatcher},
 		{1, "UFs", "PWOnRight", L["PartyWatcherOnRight"], true},
 		{1, "UFs", "PartyAltPower", L["UFs PartyAltPower"]},
-		{1, "Extras", "ShowYourself", L["PartyFrame Show Yourself"], true},
+		{1, "UFs", "ShowYourself", L["PartyFrame Show Yourself"], true},
 		{},--blank
 		{1, "UFs", "RaidBuffIndicator", DB.MyColor..L["RaidBuffIndicator"], nil, setupBuffIndicator, nil, L["RaidBuffIndicatorTip"]},
 		{4, "UFs", "BuffIndicatorType", L["BuffIndicatorType"].."*", nil, {L["BI_Blocks"], L["BI_Icons"], L["BI_Numbers"]}, refreshRaidFrameIcons},
@@ -746,9 +760,9 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{5, "Nameplate", "OffTankColor", L["OffTank Color"].."*", 3},
 		{4, "Nameplate", "TargetIndicator", L["TargetIndicator"].."*", false, {DISABLE, L["TargetGlow"], L["TopArrow"], L["RightArrow"], L["TopNGlow"], L["RightNGlow"]}, refreshNameplates},
 		{4, "Nameplate", "NPsHPMode", L["HP Val Mode"].."*", true, {L["Only Percent"], L["Only Number"], L["Num and Per"]}, refreshNameplates},
-		{4, "Extras", "ArrowColor", L["Arrow Color"], false, {L["Cyan"], L["Green"], L["Red"]}},
-		{5, "Extras", "HLColor", L["Highlight Color"], 2},
-		{5, "Extras", "SLColor", L["Selected Color"], 3},
+		{4, "Nameplate", "ArrowColor", L["Arrow Color"], false, {L["Cyan"], L["Green"], L["Red"]}},
+		{5, "Nameplate", "HLColor", L["Highlight Color"], 2},
+		{5, "Nameplate", "SDColor", L["Selected Color"], 3},
 		{},--blank
 		{3, "Nameplate", "VerticalSpacing", L["NP VerticalSpacing"].."*", false, {.5, 1.5, 1}, updatePlateSpacing},
 		{3, "Nameplate", "Distance", L["Nameplate Distance"].."*", true, {20, 100, 0}, updatePlateRange},
@@ -776,7 +790,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Nameplate", "PPHideOOC", L["Fadeout OOC"]},
 		{3, "Nameplate", "PPIconSize", L["PlayerPlate IconSize"], true, {30, 60, 0}, updatePlayerPlate},
 		{3, "Nameplate", "PPHeight", L["PlayerPlate Height"].."*", false, {5, 10, 0}, updatePlayerPlate},
-		{3, "Extras", "PPCPHeight", L["PlayerPlate CP Height"].."*", true, {10, 20, 0}, updatePlayerPlate},
+		{3, "Nameplate", "PPCPHeight", L["PlayerPlate CP Height"].."*", true, {10, 20, 0}, updatePlayerPlate},
 		{},--blank
 		{1, "Auras", "ReverseBuffs", L["ReverseBuffs"]},
 		{1, "Auras", "ReverseDebuffs", L["ReverseDebuffs"], true},
@@ -849,12 +863,16 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{3, "Map", "MinmapScale", L["Minimap Scale"].."*", true, {.5, 1.5, 1}, updateMinimapScale},
 	},
 	[10] = {
-		{1, "Skins", "FlatMode", L["Flat Mode"]},
-		{1, "Skins", "BlizzardSkins", DB.MyColor..L["BlizzardSkins"], true, nil, nil, L["BlizzardSkinsTips"]},
+		{1, "Skins", "BlizzardSkins", DB.MyColor..L["BlizzardSkins"], false, nil, nil, L["BlizzardSkinsTips"]},
+		{1, "Skins", "FontOutline", L["Font Outline"], true},
 		{1, "Skins", "SkinShadow", L["Skin Shadow"]},
-		{1, "Skins", "SkinTexture", L["Skin Texture"]},
+		{1, "Skins", "SkinTexture", L["Skin Texture"], true},
+		{4, "Skins", "SkinStyle", L["Skin Style"], false, {L["ClassColor Style"], L["Flat Style"], L["Gradient Style"]}},
 		{3, "Skins", "BackdropAlpha", L["Backdrop Alpha"].."*", true, {0, 1, 1}, updateSkinAlpha},
-		{1, "Skins", "FontOutline", L["Font Outline"]},
+		{5, "Skins", "FSColor", L["Flat Color"]},
+		{5, "Skins", "GSColor1", L["Gradient Color 1"], 1},
+		{5, "Skins", "GSColor2", L["Gradient Color 2"], 2},
+		{5, "Skins", "BGColor", L["Backdrop Color"], 3},
 		{},--blank
 		{1, "Skins", "BarLine", L["Bar Line"]},
 		{1, "Skins", "InfobarLine", L["Infobar Line"], true},
@@ -893,7 +911,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Misc", "ItemLevel", DB.MyColor..L["Show ItemLevel"]},
 		{1, "Misc", "GemNEnchant", L["Show GemNEnchant"].."*"},
 		{1, "Misc", "AzeriteTraits", L["Show AzeriteTraits"].."*"},
-		{3, "Extras", "MaxTiers", L["Max Tiers"], true, {1, 4, 0}},
+		{3, "Misc", "MaxTiers", L["Max Tiers"], true, {1, 4, 0}},
 		{},--blank
 		{1, "Misc", "MissingStats", L["Show MissingStats"]},
 		{1, "Misc", "ParagonRep", L["ParagonRep"], true},
@@ -919,10 +937,11 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "ACCOUNT", "LockUIScale", DB.MyColor..L["Lock UIScale"], true},
 		{},--blank
 		{4, "ACCOUNT", "NumberFormat", L["Numberize"], false, {L["Number Type1"], L["Number Type2"], L["Number Type3"]}},
+		{3, "ACCOUNT", "BarNumber", L["Texture Style"], true, {1, 12, 0}},
 	},
 	[14] = {
-		{3, "Extras", "SkinAlpha", L["Skin Alpha"], false, {0, 1, 1}},
-		{5, "Extras", "SkinColor", L["Skin Color"], 2},
+		{3, "Extras", "SLAlpha", L["Skin Line Alpha"], false, {0, 1, 1}},
+		{5, "Extras", "SLColor", L["Skin Line Color"], 2},
 		{},--blank
 		{1, "Extras", "AutoCollapse", L["Auto Collapse"]},
 		{1, "Extras", "GuildWelcome", L["Guild Welcome"], true},
@@ -1121,7 +1140,7 @@ local function CreateOption(i)
 			end
 		-- Blank, no optType
 		else
-			local alpha = NDuiDB["Extras"]["SkinAlpha"]
+			local alpha = NDuiDB["Extras"]["SLAlpha"]
 			local l = CreateFrame("Frame", nil, parent)
 			l:SetPoint("TOPLEFT", 25, -offset - 12)
 			B.CreateGA(l, 560, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)

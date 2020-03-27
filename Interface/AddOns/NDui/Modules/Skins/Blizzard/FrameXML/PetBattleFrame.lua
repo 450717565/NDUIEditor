@@ -4,8 +4,8 @@ local B, C, L, DB = unpack(ns)
 tinsert(C.defaultThemes, function()
 	local cr, cg, cb, pairs = DB.r, DB.g, DB.b, pairs
 
-	local alpha = NDuiDB["Extras"]["SkinAlpha"]
-	local color = NDuiDB["Extras"]["SkinColor"]
+	local alpha = NDuiDB["Extras"]["SLAlpha"]
+	local color = NDuiDB["Extras"]["SLColor"]
 	if not NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
 
 	-- Top Frame

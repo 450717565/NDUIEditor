@@ -38,7 +38,7 @@ tinsert(C.defaultThemes, function()
 		self.FriendsButton:SetTexture(friendTex)
 	end)
 
-	B.StripTextures(QuickJoinToastButton.Toast)
+	B.StripTextures(QuickJoinToastButton.Toast, 0)
 	local bg = B.CreateBDFrame(QuickJoinToastButton.Toast, 0)
 	bg:SetPoint("TOPLEFT", 10, -1)
 	bg:SetPoint("BOTTOMRIGHT", 0, 3)

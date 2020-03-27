@@ -884,7 +884,7 @@ end
 function UF:CreateClassPower(self)
 	local barHeight = self.Power:GetHeight()
 	if self.mystyle == "PlayerPlate" then
-		barWidth, barHeight = self:GetWidth(), NDuiDB["Extras"]["PPCPHeight"]
+		barWidth, barHeight = self:GetWidth(), NDuiDB["Nameplate"]["PPCPHeight"]
 	end
 
 	local bar = CreateFrame("Frame", "oUF_ClassPowerBar", self.Health)
@@ -934,7 +934,7 @@ function UF:StaggerBar(self)
 
 	local width, height = self:GetWidth()*.6, self.Power:GetHeight()
 	if self.mystyle == "PlayerPlate" then
-		width, height = self:GetWidth(), NDuiDB["Extras"]["PPCPHeight"]
+		width, height = self:GetWidth(), NDuiDB["Nameplate"]["PPCPHeight"]
 	end
 
 	local stagger = CreateFrame("StatusBar", nil, self.Health)

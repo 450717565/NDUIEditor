@@ -130,8 +130,8 @@ function Bar:CreateBackground()
 	if not NDuiDB["Skins"]["BarLine"] then return end
 	if NDuiDB["Actionbar"]["Style"] == 5 then return end
 
-	local alpha = NDuiDB["Extras"]["SkinAlpha"]
-	local color = NDuiDB["Extras"]["SkinColor"]
+	local alpha = NDuiDB["Extras"]["SLAlpha"]
+	local color = NDuiDB["Extras"]["SLColor"]
 	local cr, cg, cb = DB.r, DB.g, DB.b
 	if not NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
 

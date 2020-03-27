@@ -240,8 +240,8 @@ function module:ChatFrameBackground()
 	if not NDuiDB["Skins"]["ChatLine"] then return end
 
 	local cr, cg, cb = DB.r, DB.g, DB.b
-	local alpha = NDuiDB["Extras"]["SkinAlpha"]
-	local color = NDuiDB["Extras"]["SkinColor"]
+	local alpha = NDuiDB["Extras"]["SLAlpha"]
+	local color = NDuiDB["Extras"]["SLColor"]
 	if not NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
 
 	local ChatLine = CreateFrame("Frame", nil, UIParent)

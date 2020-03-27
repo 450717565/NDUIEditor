@@ -295,8 +295,8 @@ function UF:UpdateTargetIndicator(self)
 end
 
 function UF:AddTargetIndicator(self)
-	local arrowTex = DB.arrowTex..NDuiDB["Extras"]["ArrowColor"]
-	local color = NDuiDB["Extras"]["SLColor"]
+	local arrowTex = DB.arrowTex..NDuiDB["Nameplate"]["ArrowColor"]
+	local color = NDuiDB["Nameplate"]["SDColor"]
 
 	local frame = CreateFrame("Frame", nil, self)
 	frame:SetAllPoints()
@@ -569,7 +569,7 @@ function UF:UpdateMouseoverShown()
 end
 
 function UF:MouseoverIndicator(self)
-	local color = NDuiDB["Extras"]["HLColor"]
+	local color = NDuiDB["Nameplate"]["HLColor"]
 	local highlight = B.CreateBDFrame(self, 0, 0, true)
 	highlight:SetOutside(self.Health.bd, 2+C.mult, 2+C.mult)
 	highlight:SetBackdropBorderColor(color.r, color.g, color.b)
@@ -769,7 +769,7 @@ function UF:ResizePlayerPlate()
 	if plate then
 		local iconSize, iconMargin = NDuiDB["Nameplate"]["PPIconSize"], 2
 		local height = NDuiDB["Nameplate"]["PPHeight"]
-		local cpHeight = NDuiDB["Extras"]["PPCPHeight"]
+		local cpHeight = NDuiDB["Nameplate"]["PPCPHeight"]
 		plate:SetSize(iconSize*5 + iconMargin*4, height)
 		plate.Health:SetHeight(height)
 		plate.Power:SetHeight(height)

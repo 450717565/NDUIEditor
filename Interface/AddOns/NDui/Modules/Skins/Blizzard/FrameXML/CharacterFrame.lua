@@ -77,8 +77,8 @@ tinsert(C.defaultThemes, function()
 		slot.bg = icbg
 		popout.bgTex = bgTex
 
-		popout:HookScript("OnEnter", B.Tex_OnEnter)
-		popout:HookScript("OnLeave", B.Tex_OnLeave)
+		B.Hook_OnEnter(popout)
+		B.Hook_OnLeave(popout)
 
 		hooksecurefunc(slot, "DisplayAsAzeriteItem", UpdateAzeriteItem)
 		hooksecurefunc(slot, "DisplayAsAzeriteEmpoweredItem", UpdateAzeriteEmpoweredItem)

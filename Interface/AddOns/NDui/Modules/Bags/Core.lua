@@ -439,7 +439,7 @@ function module:OnLogin()
 	local itemSetFilter = NDuiDB["Bags"]["ItemSetFilter"]
 	local showNewItem = NDuiDB["Bags"]["ShowNewItem"]
 	local showItemLevel = NDuiDB["Bags"]["BagsiLvl"]
-	local showItemSlot = NDuiDB["Extras"]["BagsSlot"]
+	local showItemSlot = NDuiDB["Bags"]["BagsSlot"]
 
 	-- Init
 	local Backpack = cargBags:NewImplementation("NDui_Backpack")

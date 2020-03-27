@@ -370,8 +370,8 @@ end
 
 function module:SetupMinimap()
 	cr, cg, cb = DB.r, DB.g, DB.b
-	alpha = NDuiDB["Extras"]["SkinAlpha"]
-	color = NDuiDB["Extras"]["SkinColor"]
+	alpha = NDuiDB["Extras"]["SLAlpha"]
+	color = NDuiDB["Extras"]["SLColor"]
 	if not NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
 
 	-- Shape and Position

@@ -136,13 +136,6 @@ function S:Rematch()
 		bg:SetPoint("BOTTOMRIGHT", -3, 0)
 	end
 
-	local function buttonOnEnter(self)
-		self.bg:SetBackdropColor(cr, cg, cb, .25)
-	end
-	local function buttonOnLeave(self)
-		self.bg:SetBackdropColor(0, 0, 0, 0)
-	end
-
 	local function reskinPetList(self)
 		local buttons = self.ScrollFrame.Buttons
 		if not buttons then return end
@@ -173,13 +166,13 @@ function S:Rematch()
 
 				if button.Back then
 					button.Back:SetTexture(nil)
-					local bg = B.CreateBDFrame(button.Back, 0)
-					bg:SetPoint("TOPLEFT", parent, "TOPRIGHT", 4, C.mult)
-					bg:SetPoint("BOTTOMRIGHT", 0, C.mult)
-					button.bg = bg
+					local bdTex = B.CreateBDFrame(button.Back, 0)
+					bdTex:SetPoint("TOPLEFT", parent, "TOPRIGHT", 4, C.mult)
+					bdTex:SetPoint("BOTTOMRIGHT", 0, C.mult)
+					button.bdTex = bdTex
 
-					button:HookScript("OnEnter", buttonOnEnter)
-					button:HookScript("OnLeave", buttonOnLeave)
+					B.Hook_OnEnter(button, true)
+					B.Hook_OnLeave(button, true)
 				end
 
 				button.styled = true

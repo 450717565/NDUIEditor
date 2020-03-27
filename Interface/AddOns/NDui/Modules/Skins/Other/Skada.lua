@@ -126,7 +126,7 @@ function S:Skada()
 	Skada.windowdefaults.barbgcolor = {r=0,g=0,b=0,a=0}
 	Skada.windowdefaults.barfontflags = DB.Font[3]
 	Skada.windowdefaults.barfontsize = 12
-	Skada.windowdefaults.bartexture = "Altz01"
+	Skada.windowdefaults.bartexture = "BarTex_1"
 	Skada.windowdefaults.classicons = false
 	Skada.windowdefaults.smoothing = true
 	Skada.windowdefaults.title.color = {r=0,g=0,b=0,a=.3}

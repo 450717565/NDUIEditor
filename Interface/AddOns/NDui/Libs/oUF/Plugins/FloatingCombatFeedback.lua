@@ -223,7 +223,7 @@ local function onEvent(self, event, ...)
 	end
 	local multiplier = 1
 	local text, color, texture, critMark
-	local OnlyCombatText = NDuiDB["Extras"]["OnlyCombatText"]
+	local OnlyCombatText = NDuiDB["UFs"]["OnlyCombatText"]
 
 	if event == "COMBAT_LOG_EVENT_UNFILTERED" and not OnlyCombatText then
 		local _, eventType, _, sourceGUID, _, sourceFlags, _, destGUID, _, _, _, spellID, _, school = ...

@@ -117,10 +117,10 @@ local function SetupDisTex(self)
 end
 
 local function SetupHook(self)
-	self:HookScript("OnEnter", B.Tex_OnEnter)
-	self:HookScript("OnLeave", B.Tex_OnLeave)
-	self:HookScript("OnMouseDown", B.Tex_OnMouseDown)
-	self:HookScript("OnMouseUp", B.Tex_OnMouseUp)
+	B.Hook_OnEnter(self)
+	B.Hook_OnLeave(self)
+	B.Hook_OnMouseDown(self)
+	B.Hook_OnMouseUp(self)
 end
 
 local PIXEL_BORDERS = {"TOPLEFT", "TOPRIGHT", "BOTTOMLEFT", "BOTTOMRIGHT", "TOP", "BOTTOM", "LEFT", "RIGHT"}
@@ -246,55 +246,63 @@ function B:GetRoleTexCoord()
 end
 
 function B:Tex_OnEnter()
-	if self:IsEnabled() then
-		if self.pixels then
-			for _, pixel in pairs(self.pixels) do
-				pixel:SetVertexColor(cr, cg, cb, 1)
-			end
-		elseif self.bgTex then
-			self.bgTex:SetVertexColor(cr, cg, cb, 1)
-		elseif self.bdTex then
-			self.bdTex:SetBackdropBorderColor(cr, cg, cb, 1)
-		else
-			self:SetBackdropBorderColor(cr, cg, cb, 1)
+	if self.pixels then
+		for _, pixel in pairs(self.pixels) do
+			pixel:SetVertexColor(cr, cg, cb, 1)
 		end
+	elseif self.bgTex then
+		self.bgTex:SetVertexColor(cr, cg, cb, 1)
+	elseif self.bdTex then
+		self.bdTex:SetBackdropBorderColor(cr, cg, cb, 1)
+	else
+		self:SetBackdropBorderColor(cr, cg, cb, 1)
 	end
 end
 
 function B:Tex_OnLeave()
-	if self:IsEnabled() then
-		if self.pixels then
-			for _, pixel in pairs(self.pixels) do
-				pixel:SetVertexColor(1, 1, 1, 1)
-			end
-		elseif self.bgTex then
-			self.bgTex:SetVertexColor(1, 1, 1, 1)
-		elseif self.bdTex then
-			self.bdTex:SetBackdropBorderColor(0, 0, 0, 1)
-		else
-			self:SetBackdropBorderColor(0, 0, 0, 1)
+	if self.pixels then
+		for _, pixel in pairs(self.pixels) do
+			pixel:SetVertexColor(1, 1, 1, 1)
 		end
+	elseif self.bgTex then
+		self.bgTex:SetVertexColor(1, 1, 1, 1)
+	elseif self.bdTex then
+		self.bdTex:SetBackdropBorderColor(0, 0, 0, 1)
+	else
+		self:SetBackdropBorderColor(0, 0, 0, 1)
 	end
 end
 
 function B:Tex_OnMouseDown()
-	if self:IsEnabled() then
-		if self.bdTex then
-			self.bdTex:SetBackdropColor(cr, cg, cb, .25)
-		else
-			self:SetBackdropColor(cr, cg, cb, .25)
-		end
+	if self.bdTex then
+		self.bdTex:SetBackdropColor(cr, cg, cb, .25)
+	else
+		self:SetBackdropColor(cr, cg, cb, .25)
 	end
 end
 
 function B:Tex_OnMouseUp()
-	if self:IsEnabled() then
-		if self.bdTex then
-			self.bdTex:SetBackdropColor(0, 0, 0, 0)
-		else
-			self:SetBackdropColor(0, 0, 0, 0)
-		end
+	if self.bdTex then
+		self.bdTex:SetBackdropColor(0, 0, 0, 0)
+	else
+		self:SetBackdropColor(0, 0, 0, 0)
 	end
+end
+
+function B:Hook_OnEnter(isSpecial)
+	self:HookScript("OnEnter", isSpecial and B.Tex_OnMouseDown or B.Tex_OnEnter)
+end
+
+function B:Hook_OnLeave(isSpecial)
+	self:HookScript("OnLeave", isSpecial and B.Tex_OnMouseUp or B.Tex_OnLeave)
+end
+
+function B:Hook_OnMouseDown()
+	self:HookScript("OnMouseDown", B.Tex_OnMouseDown)
+end
+
+function B:Hook_OnMouseUp()
+	self:HookScript("OnMouseUp", B.Tex_OnMouseUp)
 end
 
 function B:SetupTex()
@@ -316,10 +324,13 @@ end
 C.frames = {}
 
 function B:CreateBD(alpha)
+	local BGColor = NDuiDB["Skins"]["BGColor"]
+	local BGAlpha = NDuiDB["Skins"]["BackdropAlpha"]
+
 	self:SetBackdrop(nil)
 
 	B.SetupPixelBorders(self)
-	B.SetBackdropColor(self, 0, 0, 0, alpha or NDuiDB["Skins"]["BackdropAlpha"])
+	B.SetBackdropColor(self, BGColor.r, BGColor.g, BGColor.b, alpha or BGAlpha)
 	B.SetBackdropBorderColor(self, 0, 0, 0, 1)
 	B.SetupTex(self)
 
@@ -388,13 +399,21 @@ end
 function B:CreateGF()
 	if self.gTex then return end
 
+	local FSColor = NDuiDB["Skins"]["FSColor"]
+	local GSColor1 = NDuiDB["Skins"]["GSColor1"]
+	local GSColor2 = NDuiDB["Skins"]["GSColor2"]
+	local SkinStyle = NDuiDB["Skins"]["SkinStyle"]
+
+	local r, g, b = cr, cg, cb
+	if SkinStyle == 2 then r, g, b = FSColor.r, FSColor.g, FSColor.b end
+
 	local gTex = self:CreateTexture(nil, "BORDER")
 	gTex:SetTexture(DB.bdTex)
 	gTex:SetInside()
-	if NDuiDB["Skins"]["FlatMode"] then
-		gTex:SetVertexColor(.3, .3, .3, .3)
+	if SkinStyle < 3 then
+		gTex:SetVertexColor(r, g, b, .3)
 	else
-		gTex:SetGradientAlpha("Vertical", 0, 0, 0, .6, .3, .3, .3, .3)
+		gTex:SetGradientAlpha("Vertical", GSColor1.r, GSColor1.g, GSColor1.b, .6, GSColor2.r, GSColor2.g, GSColor2.b, .3)
 	end
 
 	self.gTex = gTex
@@ -971,7 +990,7 @@ function B:ReskinSlider(verticle)
 end
 
 function B:ReskinStatusBar(noClassColor)
-	local alpha = NDuiDB["Extras"]["SkinAlpha"]
+	local alpha = NDuiDB["Extras"]["SLAlpha"]
 
 	B.StripTextures(self)
 	B.CleanTextures(self)

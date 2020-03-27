@@ -29,7 +29,7 @@ local f
 local function changelog()
 	if f then f:Show() return end
 
-	local alpha = NDuiDB["Extras"]["SkinAlpha"]
+	local alpha = NDuiDB["Extras"]["SLAlpha"]
 	local cr, cg, cb = DB.r, DB.g, DB.b
 	f = CreateFrame("Frame", "NDuiChangeLog", UIParent)
 	f:SetPoint("CENTER")

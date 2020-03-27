@@ -1,7 +1,6 @@
 local B, C, L, DB = unpack(select(2, ...))
 
 tinsert(C.defaultThemes, function()
-	local cr, cg, cb = DB.r, DB.g, DB.b
 	local LE_QUEST_FREQUENCY_DAILY = LE_QUEST_FREQUENCY_DAILY or 2
 
 	--ScrollFrame
@@ -23,25 +22,22 @@ tinsert(C.defaultThemes, function()
 		header.Progress:ClearAllPoints()
 		header.Progress:SetPoint("BOTTOMLEFT", 10, 10)
 
-		local bg = B.CreateBDFrame(header, 0)
-		bg:SetPoint("TOPLEFT", 2, -15)
-		bg:SetPoint("BOTTOMRIGHT", -5, 5)
+		local bdTex = B.CreateBDFrame(header, 0)
+		bdTex:SetPoint("TOPLEFT", 2, -15)
+		bdTex:SetPoint("BOTTOMRIGHT", -5, 5)
+		header.bdTex = bdTex
+
+		B.Hook_OnEnter(header, true)
+		B.Hook_OnLeave(header, true)
 
 		if header == WarCampaignHeader then
-			local newTex = bg:CreateTexture(nil, "OVERLAY")
+			local newTex = bdTex:CreateTexture(nil, "OVERLAY")
 			newTex:SetPoint("RIGHT", 0, 0)
 			newTex:SetSize(50, 50)
 			newTex:SetBlendMode("ADD")
 			newTex:SetAlpha(0)
 			header.newTex = newTex
 		end
-
-		header:HookScript("OnEnter", function()
-			bg:SetBackdropColor(cr, cg, cb, .25)
-		end)
-		header:HookScript("OnLeave", function()
-			bg:SetBackdropColor(0, 0, 0, 0)
-		end)
 	end
 
 	local idToTexture = {

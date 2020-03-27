@@ -1,7 +1,6 @@
 local B, C, L, DB = unpack(select(2, ...))
 
 tinsert(C.defaultThemes, function()
-	local cr, cg, cb = DB.r, DB.g, DB.b
 	local homeTex = "Interface\\Buttons\\UI-HomeButton"
 
 	B.ReskinButton(ChatFrameChannelButton)
@@ -23,8 +22,10 @@ tinsert(C.defaultThemes, function()
 		thumb:SetAlpha(0)
 		thumb:SetWidth(18)
 
-		local bg = B.CreateBDFrame(thumb, 0)
-		self.bdTex = bg
+		local bdTex = B.CreateBDFrame(thumb, 0)
+		self.bdTex = bdTex
+		B.Hook_OnEnter(self)
+		B.Hook_OnLeave(self)
 
 		local down = self.ScrollToBottomButton
 		B.ReskinArrow(down, "down")

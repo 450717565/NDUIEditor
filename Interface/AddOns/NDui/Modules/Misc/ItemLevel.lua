@@ -108,7 +108,7 @@ function M:ItemLevel_UpdateTraits(button, id, link)
 	local allTierInfo = TT:Azerite_UpdateTier(link)
 	if not allTierInfo then return end
 
-	local maxTiers = NDuiDB["Extras"]["MaxTiers"]
+	local maxTiers = NDuiDB["Misc"]["MaxTiers"]
 	for i = 1, maxTiers do
 		local powerIDs = allTierInfo[i] and allTierInfo[i].azeritePowerIDs
 		if not powerIDs or powerIDs[1] == 13 then break end

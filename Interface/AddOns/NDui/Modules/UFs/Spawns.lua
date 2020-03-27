@@ -327,7 +327,7 @@ function UF:OnLogin()
 			oUF:RegisterStyle("Party", CreatePartyStyle)
 			oUF:SetActiveStyle("Party")
 
-			local showPlayer = NDuiDB["Extras"]["ShowYourself"]
+			local showPlayer = NDuiDB["UFs"]["ShowYourself"]
 			local partyWidth = NDuiDB["UFs"]["PartyWidth"]
 			local partyHeight = NDuiDB["UFs"]["PartyHeight"]
 			local partyYOffset = -20

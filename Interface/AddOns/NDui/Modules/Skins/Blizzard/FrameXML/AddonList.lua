@@ -1,8 +1,6 @@
 local B, C, L, DB = unpack(select(2, ...))
 
 tinsert(C.defaultThemes, function()
-	local cr, cg, cb = DB.r, DB.g, DB.b
-
 	B.ReskinFrame(AddonList)
 	B.ReskinButton(AddonListEnableAllButton)
 	B.ReskinButton(AddonListDisableAllButton)
