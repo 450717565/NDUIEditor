@@ -432,11 +432,13 @@ C.themes["Blizzard_Communities"] = function()
 
 	local factionFrameBar = GuildBenefitsFrame.FactionFrame.Bar
 	B.StripTextures(factionFrameBar)
-	B.CreateBDFrame(factionFrameBar.BG, 0)
 	factionFrameBar.Progress:SetTexture(DB.normTex)
 	factionFrameBar.Progress:SetVertexColor(cr, cg, cb, .8)
 	factionFrameBar.Label:ClearAllPoints()
 	factionFrameBar.Label:SetPoint("CENTER", factionFrameBar.BG)
+	local bg = B.CreateBDFrame(factionFrameBar, 0)
+	bg:SetPoint("TOPLEFT", factionFrameBar.Left, -C.mult, -(C.mult*2))
+	bg:SetPoint("BOTTOMRIGHT", factionFrameBar.Right, -(C.mult*2), C.mult*2)
 
 	hooksecurefunc("CommunitiesGuildPerks_Update", function(self)
 		local buttons = self.Container.buttons

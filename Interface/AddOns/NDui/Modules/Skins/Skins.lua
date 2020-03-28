@@ -59,7 +59,6 @@ function S:OnLogin()
 	self:LoadDefaultSkins()
 
 	-- Add Skins
-
 	self:BigWigs()
 	self:DeadlyBossMods()
 	self:Skada()
@@ -87,7 +86,7 @@ function S:OnLogin()
 		for i = 1, 7 do
 			media:Register("statusbar", "BarTex_"..i, "Interface\\Addons\\NDui\\Media\\StatusBar\\barTex_"..i)
 		end
-		for k = 1, 12 do
+		for k = 1, 13 do
 			media:Register("statusbar", "Texture_"..k, "Interface\\Addons\\NDui\\Media\\Texture\\texture_"..k)
 		end
 	end

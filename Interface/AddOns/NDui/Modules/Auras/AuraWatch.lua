@@ -149,6 +149,7 @@ local PetBattleFrameHider = CreateFrame("Frame", nil, UIParent, "SecureHandlerSt
 PetBattleFrameHider:SetAllPoints()
 PetBattleFrameHider:SetFrameStrata("LOW")
 RegisterStateDriver(PetBattleFrameHider, "visibility", "[petbattle] hide; show")
+A.PetBattleFrameHider = PetBattleFrameHider
 
 local function tooltipOnEnter(self)
 	GameTooltip:ClearLines()

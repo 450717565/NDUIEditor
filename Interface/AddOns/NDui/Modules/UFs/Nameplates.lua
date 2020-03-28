@@ -241,11 +241,10 @@ function UF:UpdateThreatColor(_, unit)
 end
 
 function UF:CreateThreatColor(self)
-	local threatIndicator = B.CreateBDFrame(self, 0, 0, true)
-	threatIndicator:SetOutside(self.Health.bd, 1+C.mult, 1+C.mult)
+	local threatIndicator = B.CreateSD(self, true)
+	threatIndicator:SetOutside(self.Health.bd, 2+C.mult, 2+C.mult)
+	threatIndicator:SetFrameLevel(self:GetFrameLevel()+2)
 	threatIndicator:Hide()
-
-	if threatIndicator.Tex then threatIndicator.Tex:Hide() end
 
 	self.ThreatIndicator = threatIndicator
 	self.ThreatIndicator.Override = UF.UpdateThreatColor
@@ -300,8 +299,7 @@ function UF:AddTargetIndicator(self)
 
 	local frame = CreateFrame("Frame", nil, self)
 	frame:SetAllPoints()
-	frame:SetFrameLevel(0)
-	frame:SetAlpha(0)
+	frame:SetFrameLevel(self:GetFrameLevel()+1)
 
 	frame.TopArrow = frame:CreateTexture(nil, "BACKGROUND", nil, -5)
 	frame.TopArrow:SetSize(40, 40)
@@ -314,11 +312,9 @@ function UF:AddTargetIndicator(self)
 	frame.RightArrow:SetPoint("LEFT", frame, "RIGHT", 3, 0)
 	frame.RightArrow:SetRotation(rad(-90))
 
-	frame.Glow = B.CreateBDFrame(frame, 0, 0, true)
+	frame.Glow = B.CreateSD(frame, true)
 	frame.Glow:SetOutside(self.Health.bd, 2+C.mult, 2+C.mult)
 	frame.Glow:SetBackdropBorderColor(color.r, color.g, color.b)
-
-	if frame.Glow.Tex then frame.Glow.Tex:Hide() end
 
 	self.TargetIndicator = frame
 	UF:UpdateTargetIndicator(self)
@@ -562,39 +558,36 @@ function UF:UpdateMouseoverShown()
 
 	if self:IsShown() and UnitIsUnit("mouseover", self.unit) then
 		self.HighlightIndicator:Show()
-		self.HighlightUpdater:Show()
 	else
-		self.HighlightUpdater:Hide()
+		self.HighlightIndicator:Hide()
 	end
 end
 
 function UF:MouseoverIndicator(self)
 	local color = NDuiDB["Nameplate"]["HLColor"]
-	local highlight = B.CreateBDFrame(self, 0, 0, true)
-	highlight:SetOutside(self.Health.bd, 2+C.mult, 2+C.mult)
-	highlight:SetBackdropBorderColor(color.r, color.g, color.b)
-	highlight:Hide()
 
-	if highlight.Tex then highlight.Tex:Hide() end
+	local frame = CreateFrame("Frame", nil, self)
+	frame:SetAllPoints()
+	frame:SetFrameLevel(self:GetFrameLevel()+1)
 
-	self:RegisterEvent("UPDATE_MOUSEOVER_UNIT", UF.UpdateMouseoverShown, true)
+	frame.Highlight = B.CreateSD(frame, true)
+	frame.Highlight:SetOutside(self.Health.bd, 2+C.mult, 2+C.mult)
+	frame.Highlight:SetBackdropBorderColor(color.r, color.g, color.b)
+	frame.Highlight:Hide()
 
-	local f = CreateFrame("Frame", nil, self)
-	f:SetScript("OnUpdate", function(_, elapsed)
-		f.elapsed = (f.elapsed or 0) + elapsed
-		if f.elapsed > .1 then
+	frame:SetScript("OnUpdate", function(_, elapsed)
+		frame.elapsed = (frame.elapsed or 0) + elapsed
+		if frame.elapsed > .1 then
 			if not UF.IsMouseoverUnit(self) then
-				f:Hide()
+				frame.Highlight:Hide()
 			end
-			f.elapsed = 0
+			frame.elapsed = 0
 		end
 	end)
-	f:HookScript("OnHide", function()
-		highlight:Hide()
-	end)
 
-	self.HighlightIndicator = highlight
-	self.HighlightUpdater = f
+	self.HighlightIndicator = frame.Highlight
+	self.HighlightUpdater = frame
+	self:RegisterEvent("UPDATE_MOUSEOVER_UNIT", UF.UpdateMouseoverShown, true)
 end
 
 -- NazjatarFollowerXP

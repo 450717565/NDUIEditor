@@ -229,9 +229,9 @@ end
 
 function B:GetRoleTexCoord()
 	if self == "TANK" then
-		return 0.33/9.03, 2.85/9.03, 3.15/9.03, 5.67/9.03
+		return 0.33/9.03, 2.85/9.03, 3.16/9.03, 5.67/9.03
 	elseif self == "DPS" or self == "DAMAGER" then
-		return 3.26/9.03, 5.77/9.03, 3.15/9.03, 5.67/9.03
+		return 3.26/9.03, 5.77/9.03, 3.16/9.03, 5.67/9.03
 	elseif self == "HEALER" then
 		return 3.26/9.03, 5.77/9.03, 0.29/9.03, 2.77/9.03
 	elseif self == "LEADER" then
@@ -239,7 +239,7 @@ function B:GetRoleTexCoord()
 	elseif self == "READY" then
 		return 6.18/9.03, 8.74/9.03, 0.29/9.03, 2.77/9.03
 	elseif self == "PENDING" then
-		return 6.18/9.03, 8.74/9.03, 3.15/9.03, 5.67/9.03
+		return 6.18/9.03, 8.74/9.03, 3.16/9.03, 5.67/9.03
 	elseif self == "REFUSE" then
 		return 3.26/9.03, 5.77/9.03, 6.04/9.03, 8.60/9.03
 	end
@@ -337,8 +337,8 @@ function B:CreateBD(alpha)
 	if not alpha then tinsert(C.frames, self) end
 end
 
-function B:CreateSD()
-	if not NDuiDB["Skins"]["SkinShadow"] then return end
+function B:CreateSD(override)
+	if not override and not NDuiDB["Skins"]["SkinShadow"] then return end
 	if self.Shadow then return end
 
 	local frame = self
@@ -351,6 +351,8 @@ function B:CreateSD()
 	Shadow:SetBackdropBorderColor(0, 0, 0, .5)
 	Shadow:SetFrameLevel(lvl)
 	self.Shadow = Shadow
+
+	return Shadow
 end
 
 function B:CreateBDFrame(alpha, offset, noGF)

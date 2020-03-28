@@ -234,7 +234,7 @@ local defaultSettings = {
 		PPCPHeight = 10,
 		ArrowColor = 1,
 		HLColor = {r=1, g=1, b=1},
-		SDColor = {r=0, g=1, b=0},
+		SDColor = {r=0, g=1, b=1},
 	},
 	Skins = {
 		DeadlyBossMods = true,
@@ -937,7 +937,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "ACCOUNT", "LockUIScale", DB.MyColor..L["Lock UIScale"], true},
 		{},--blank
 		{4, "ACCOUNT", "NumberFormat", L["Numberize"], false, {L["Number Type1"], L["Number Type2"], L["Number Type3"]}},
-		{3, "ACCOUNT", "BarNumber", L["Texture Style"], true, {1, 12, 0}},
+		{3, "ACCOUNT", "BarNumber", L["Texture Style"], true, {1, 13, 0}},
 	},
 	[14] = {
 		{3, "Extras", "SLAlpha", L["Skin Line Alpha"], false, {0, 1, 1}},
