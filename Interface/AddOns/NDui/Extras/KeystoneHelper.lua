@@ -30,8 +30,8 @@ function Extras:KH_OnTooltipSetItem()
 
 	if Extras.KH_CheckLink(link) then
 		local mapLevel = Extras.KH_CheckKeystone(link)
-		local mlvl = Extras.MythicLoot[mapLevel]
-		local wlvl = Extras.WeeklyLoot[mapLevel]
+		local mlvl = DB.MythicLoot[mapLevel]
+		local wlvl = DB.WeeklyLoot[mapLevel]
 
 		if mapLevel >= 2 then
 			self:AddLine(" ")

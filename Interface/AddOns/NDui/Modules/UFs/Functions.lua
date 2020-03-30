@@ -295,7 +295,7 @@ end
 function UF:UpdateUFTextScale()
 	local scale = NDuiDB["UFs"]["UFTextScale"]
 	for _, frame in pairs(oUF.objects) do
-		if frame.mystyle ~= "raid" then
+		if frame.mystyle and (frame.mystyle ~= "raid" and frame.mystyle ~= "nameplate" and frame.mystyle ~= "PlayerPlate") then
 			frame.nameText:SetScale(scale)
 			frame.healthValue:SetScale(scale)
 			if frame.powerText then frame.powerText:SetScale(scale) end
@@ -306,7 +306,7 @@ end
 function UF:UpdateRaidTextScale()
 	local scale = NDuiDB["UFs"]["RaidTextScale"]
 	for _, frame in pairs(oUF.objects) do
-		if frame.mystyle == "raid" then
+		if frame.mystyle and frame.mystyle == "raid" then
 			frame.nameText:SetScale(scale)
 			frame.healthValue:SetScale(scale)
 			if frame.powerText then frame.powerText:SetScale(scale) end
@@ -372,6 +372,10 @@ function UF:CreateIcons(self)
 	groupRole:SetPoint("TOPRIGHT", self, 0, 8)
 	groupRole:SetSize(12, 12)
 	groupRole:SetTexture("Interface\\LFGFrame\\LFGROLE")
+	if mystyle == "raid" then
+		groupRole:ClearAllPoints()
+		groupRole:SetPoint("TOPRIGHT", self, 0, 0)
+	end
 	groupRole.PostUpdate = postUpdateRole
 	self.GroupRoleIndicator = groupRole
 
@@ -719,7 +723,7 @@ function UF:CreateAuras(self)
 			bu.numTotal = 1
 			bu.disableCooldown = true
 		else
-			bu:SetPoint("BOTTOMLEFT", self.Health, "BOTTOMLEFT", 0, 0)
+			bu:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 0, 0)
 			bu.numTotal = num
 			bu.spacing = 3
 			bu.iconsPerRow = num
@@ -818,7 +822,7 @@ function UF:CreateDebuffs(self)
 end
 
 -- Class Powers
-local barWidth, barMargin = C.UFs.BarWidth, C.UFs.BarMargin
+local barWidth, barHeight, barMargin
 
 function UF.PostUpdateClassPower(element, cur, max, diff, powerType)
 	if not cur or cur == 0 then
@@ -889,7 +893,8 @@ function UF.PostUpdateRunes(element, runemap)
 end
 
 function UF:CreateClassPower(self)
-	local barHeight = self.Power:GetHeight()
+	barMargin = 2 + C.mult
+	barWidth, barHeight = self:GetWidth()*.6, self.Power:GetHeight()
 	if self.mystyle == "PlayerPlate" then
 		barWidth, barHeight = self:GetWidth(), NDuiDB["Nameplate"]["PPCPHeight"]
 	end

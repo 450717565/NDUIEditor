@@ -3,10 +3,6 @@ local Extras = B:RegisterModule("Extras")
 
 local strformat = string.format
 
--- 钥石数据
-Extras.MythicLoot =  {0, 435, 435, 440, 445, 445, 450, 455, 455, 455, 460, 460, 460, 465, 465}
-Extras.WeeklyLoot =  {0, 440, 445, 450, 450, 455, 460, 460, 460, 465, 465, 470, 470, 470, 475}
-
 -- 频道选择
 local function msgChannel()
 	if IsInGroup() then

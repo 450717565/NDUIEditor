@@ -168,7 +168,7 @@ end
 
 function ExtraQuestButton:PLAYER_REGEN_ENABLED(event)
 	if (self.itemID) then
-		self:SetAttribute("item", "item:" .. self.itemID)
+		self:SetAttribute("item", "item:"..self.itemID)
 		self:UnregisterEvent(event)
 		self:BAG_UPDATE_COOLDOWN()
 	end
@@ -374,7 +374,7 @@ function ExtraQuestButton:SetItem(itemLink, texture)
 		if (InCombatLockdown()) then
 			self:RegisterEvent("PLAYER_REGEN_ENABLED")
 		else
-			self:SetAttribute("item", "item:" .. self.itemID)
+			self:SetAttribute("item", "item:"..self.itemID)
 			self:BAG_UPDATE_COOLDOWN()
 		end
 		self.updateRange = hasRange

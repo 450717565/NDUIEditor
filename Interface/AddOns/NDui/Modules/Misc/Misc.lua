@@ -526,7 +526,7 @@ do
 				UIDROPDOWNMENU_OPEN_MENU = nil
 				local t, f, prefix, i = _G, issecurevariable, " \0", 1
 				repeat
-					i, t[prefix .. i] = i+1
+					i, t[prefix..i] = i+1
 				until f("UIDROPDOWNMENU_OPEN_MENU")
 			end
 		end)

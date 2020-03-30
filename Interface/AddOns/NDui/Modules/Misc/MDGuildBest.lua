@@ -1,7 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local M = B:GetModule("Misc")
-local Extras = B:GetModule("Extras")
 
 local CHALLENGE_MODE_WEEKLY_BEST = CHALLENGE_MODE_WEEKLY_BEST
 local Ambiguate, GetContainerNumSlots, GetContainerItemInfo = Ambiguate, GetContainerNumSlots, GetContainerItemInfo
@@ -149,8 +148,8 @@ function M:KeystoneInfo_Create()
 		if IsShiftKeyDown() then
 			GameTooltip:AddDoubleLine(" ", DB.LineString)
 			for i = 2, 15 do
-				mlvl = Extras.MythicLoot[i]
-				wlvl = Extras.WeeklyLoot[i]
+				mlvl = DB.MythicLoot[i]
+				wlvl = DB.WeeklyLoot[i]
 				GameTooltip:AddDoubleLine(format(L["Mythic Level"], DB.MyColor..i.."|r"), format(L["Mythic & Weekly Loot"], DB.MyColor..mlvl.."|r", DB.MyColor..wlvl.."|r"))
 			end
 		end

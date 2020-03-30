@@ -152,7 +152,7 @@ function ShowInspectItemListFrame(unit, parent, ilevel, maxLevel)
 		itemframe.itemString:SetWidth(0)
 
 		if (link and IsCorruptedItem(link)) then
-			itemframe.levelString:SetTextColor(0.5, 0.5, 1)
+			itemframe.levelString:SetTextColor(1, 1, 0)
 		else
 			itemframe.levelString:SetTextColor(1, 1, 1)
 		end

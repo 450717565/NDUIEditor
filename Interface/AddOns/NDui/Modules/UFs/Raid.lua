@@ -45,7 +45,7 @@ end
 
 function UF:CreateTargetBorder(self)
 	local targetBorder = B.CreateSD(self, true)
-	targetBorder:SetBackdropBorderColor(0, 1, 0)
+	targetBorder:SetBackdropBorderColor(0, 1, 1)
 	targetBorder:SetOutside(self.Health.bd, 2+C.mult, 2+C.mult, self.Power.bd)
 	targetBorder:Hide()
 	self.Shadow = nil
@@ -436,12 +436,12 @@ end
 
 function UF:CreateBuffIndicator(self)
 	if not NDuiDB["UFs"]["RaidBuffIndicator"] then return end
-	if not NDuiDB["UFs"]["PartyFrame"] and NDuiDB["UFs"]["SimpleMode"] then return end
+	if NDuiDB["UFs"]["SimpleMode"] and self.mystyle ~= "party" then return end
 
 	local anchors = {"TOPLEFT", "TOP", "TOPRIGHT", "LEFT", "RIGHT", "BOTTOMLEFT", "BOTTOM", "BOTTOMRIGHT"}
 	local buttons = {}
 	for _, anchor in pairs(anchors) do
-		local bu = CreateFrame("Frame", nil, self.Health)
+		local bu = CreateFrame("Frame", nil, self)
 		bu:SetFrameLevel(self:GetFrameLevel()+10)
 		bu:SetSize(10, 10)
 		bu:SetScale(NDuiDB["UFs"]["BuffIndicatorScale"])
