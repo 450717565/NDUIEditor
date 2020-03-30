@@ -49,7 +49,7 @@ function S:Rematch()
 			if self.Level.Text then self.Level.Text:SetTextColor(1, 1, 1) end
 		end
 		if self.GetCheckedTexture then
-			B.ReskinChecked(self, self.Icon.bg)
+			B.ReskinChecked(self, self.Icon.bg, true)
 		end
 
 		self.styled = true
@@ -554,12 +554,20 @@ function S:Rematch()
 				B.ReskinStatusBar(XP, true)
 
 				for j = 1, 3 do
-					reskinButton(Loadouts.Abilities[j])
+					local abilities = Loadouts.Abilities[j]
+					reskinButton(abilities)
+
+					abilities.Cover:SetInside(abilities.Icon.bg)
+					abilities.Arrow:SetTexture(DB.arrowDown)
+					abilities.Arrow:SetSize(8, 8)
+					abilities.Arrow:SetTexCoord(0, 1, 0, 1)
 				end
 				for k = 1, 2 do
-					local Flyout = self.Flyout
-					Flyout:SetBackdrop(nil)
-					reskinButton(Flyout.Abilities[k])
+					self.Flyout:SetBackdrop(nil)
+					local abilities = self.Flyout.Abilities[k]
+					reskinButton(abilities)
+
+					abilities.Cover:SetInside(abilities.Icon.bg)
 				end
 
 				reskinButton(Pet)
@@ -583,7 +591,7 @@ function S:Rematch()
 		if TypeBar:IsShown() then
 			B.StripTextures(TypeBar)
 
-			for i = 1, 3 do
+			for i = 1, 4 do
 				local tab = TypeBar.Tabs[i]
 				if not tab.styled then
 					B.StripTextures(tab)
@@ -606,10 +614,22 @@ function S:Rematch()
 				if not button.styled then
 					reskinButton(button)
 
-					local check = button:GetCheckedTexture()
-					B.ReskinBorder(check, button.Icon.bg, true)
-
 					button.styled = true
+				end
+			end
+
+			-- quality bar in the new version
+			local QualityBar = TypeBar.QualityBar
+			if QualityBar then
+				local buttons = {"HealthButton", "PowerButton", "SpeedButton", "Level25Button", "RareButton"}
+				for _, name in pairs(buttons) do
+					local button = QualityBar[name]
+					if button and not button.styled then
+						QualityBar.Level25Button.Icon:Hide()
+						reskinButton(button)
+
+						button.styled = true
+					end
 				end
 			end
 		end

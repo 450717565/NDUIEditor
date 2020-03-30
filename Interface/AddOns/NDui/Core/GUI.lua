@@ -136,6 +136,7 @@ local defaultSettings = {
 		UFTextScale = 1,
 		PartyAltPower = true,
 		SmoothAmount = .4,
+		RaidTextScale = 1,
 
 		PlayerWidth = 250,
 		PlayerHeight = 30,
@@ -180,6 +181,7 @@ local defaultSettings = {
 		ChatWidth = 380,
 		ChatHeight = 195,
 		BlockStranger = false,
+		AllowFriends = true,
 	},
 	Map = {
 		Coord = true,
@@ -216,7 +218,7 @@ local defaultSettings = {
 		SecureColor = {r=1, g=0, b=1},
 		TransColor = {r=1, g=1, b=0},
 		InsecureColor = {r=1, g=0, b=0},
-		OffTankColor = {r=0, g=1, b=1},
+		OffTankColor = {r=0, g=0, b=1},
 		DPSRevertThreat = false,
 		ExplosivesScale = false,
 		PPIconSize = 32,
@@ -233,8 +235,8 @@ local defaultSettings = {
 
 		PPCPHeight = 10,
 		ArrowColor = 1,
-		HLColor = {r=1, g=1, b=1},
-		SDColor = {r=0, g=1, b=1},
+		HighlightColor = {r=1, g=1, b=1},
+		SelectedColor = {r=0, g=1, b=1},
 	},
 	Skins = {
 		DeadlyBossMods = true,
@@ -535,8 +537,8 @@ local function updatePlateAlpha()
 	B:GetModule("UnitFrames"):UpdatePlateAlpha()
 end
 
-local function updateRaidNameText()
-	B:GetModule("UnitFrames"):UpdateRaidText()
+local function updateRaidTextPoint()
+	B:GetModule("UnitFrames"):UpdateRaidTextPoint()
 end
 
 local function updatePlayerPlate()
@@ -544,7 +546,11 @@ local function updatePlayerPlate()
 end
 
 local function updateUFTextScale()
-	B:GetModule("UnitFrames"):UpdateTextScale()
+	B:GetModule("UnitFrames"):UpdateUFTextScale()
+end
+
+local function updateRaidTextScale()
+	B:GetModule("UnitFrames"):UpdateRaidTextScale()
 end
 
 local function refreshRaidFrameIcons()
@@ -697,7 +703,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "UFs", "PlayerDebuff", L["Player Debuff"]},
 		{1, "UFs", "ToTAuras", L["ToT Debuff"]},
 		{4, "UFs", "UFsHPColor", L["HP Bar Color"], true, {L["Default Dark"], L["ClassColorHP"], L["GradientHP"]}},
-		{3, "UFs", "UFTextScale", L["UFTextScale"], nil, {.5, 1.5, 1}, updateUFTextScale},
+		{3, "UFs", "UFTextScale", L["UFTextScale"], nil, {.5, 1.5, 2}, updateUFTextScale},
 		{3, "UFs", "SmoothAmount", DB.MyColor..L["SmoothAmount"], true, {.2, .8, 2}, updateSmoothingAmount, L["SmoothAmountTip"]},
 		{},--blank
 		{1, "UFs", "CombatText", DB.MyColor..L["UFs CombatText"]},
@@ -719,20 +725,21 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{},--blank
 		{1, "UFs", "RaidBuffIndicator", DB.MyColor..L["RaidBuffIndicator"], nil, setupBuffIndicator, nil, L["RaidBuffIndicatorTip"]},
 		{4, "UFs", "BuffIndicatorType", L["BuffIndicatorType"].."*", nil, {L["BI_Blocks"], L["BI_Icons"], L["BI_Numbers"]}, refreshRaidFrameIcons},
-		{3, "UFs", "BuffIndicatorScale", L["BuffIndicatorScale"].."*", true, {1, 2, 1}, refreshRaidFrameIcons},
+		{3, "UFs", "BuffIndicatorScale", L["BuffIndicatorScale"].."*", true, {1, 2, 2}, refreshRaidFrameIcons},
 		{1, "UFs", "RaidClickSets", DB.MyColor..L["Enable ClickSets"], nil, setupClickCast},
 		{1, "UFs", "InstanceAuras", DB.MyColor..L["Instance Auras"], nil, setupRaidDebuffs},
-		{3, "UFs", "RaidDebuffScale", L["RaidDebuffScale"].."*", true, {1, 2, 1}, refreshRaidFrameIcons},
+		{3, "UFs", "RaidDebuffScale", L["RaidDebuffScale"].."*", true, {1, 2, 2}, refreshRaidFrameIcons},
 		{1, "UFs", "AurasClickThrough", L["RaidAuras ClickThrough"]},
 		{1, "UFs", "AutoRes", L["UFs AutoRes"], true},
 		{},--blank
 		{1, "UFs", "ShowTeamIndex", L["RaidFrame TeamIndex"]},
-		{1, "UFs", "SpecRaidPos", L["Spec RaidPos"], true},
-		{1, "UFs", "HorizonRaid", L["Horizon RaidFrame"]},
-		{1, "UFs", "ReverseRaid", L["Reverse RaidFrame"]},
-		{3, "UFs", "NumGroups", L["Num Groups"], true, {4, 8, 0}},
-		{4, "UFs", "RaidHPMode", L["HP Val Mode"].."*", false, {L["DisableRaidHP"], L["RaidHPPercent"], L["RaidHPCurrent"], L["RaidHPLost"]}, updateRaidNameText},
-		{4, "UFs", "RaidHPColor", L["HP Bar Color"], true, {L["Default Dark"], L["ClassColorHP"], L["GradientHP"]}},
+		{1, "UFs", "HorizonRaid", L["Horizon RaidFrame"], true},
+		{1, "UFs", "SpecRaidPos", L["Spec RaidPos"]},
+		{1, "UFs", "ReverseRaid", L["Reverse RaidFrame"], true},
+		{4, "UFs", "RaidHPColor", L["HP Bar Color"], nil, {L["Default Dark"], L["ClassColorHP"], L["GradientHP"]}},
+		{4, "UFs", "RaidHPMode", L["HP Val Mode"].."*", true, {L["DisableRaidHP"], L["RaidHPPercent"], L["RaidHPCurrent"], L["RaidHPLost"]}, updateRaidTextPoint},
+		{3, "UFs", "NumGroups", L["Num Groups"], nil, {4, 8, 0}},
+		{3, "UFs", "RaidTextScale", L["UFTextScale"], true, {.5, 1.5, 2}, updateRaidTextScale},
 		{},--blank
 		{1, "UFs", "SimpleMode", DB.MyColor..L["Simple RaidFrame"]},
 		{1, "UFs", "SimpleModeSortByRole", L["SimpleMode SortByRole"], true},
@@ -761,8 +768,8 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{4, "Nameplate", "TargetIndicator", L["TargetIndicator"].."*", false, {DISABLE, L["TargetGlow"], L["TopArrow"], L["RightArrow"], L["TopNGlow"], L["RightNGlow"]}, refreshNameplates},
 		{4, "Nameplate", "NPsHPMode", L["HP Val Mode"].."*", true, {L["Only Percent"], L["Only Number"], L["Num and Per"]}, refreshNameplates},
 		{4, "Nameplate", "ArrowColor", L["Arrow Color"], false, {L["Cyan"], L["Green"], L["Red"]}},
-		{5, "Nameplate", "HLColor", L["Highlight Color"], 2},
-		{5, "Nameplate", "SDColor", L["Selected Color"], 3},
+		{5, "Nameplate", "HighlightColor", L["Highlight Color"], 2},
+		{5, "Nameplate", "SelectedColor", L["Selected Color"], 3},
 		{},--blank
 		{3, "Nameplate", "VerticalSpacing", L["NP VerticalSpacing"].."*", false, {.5, 1.5, 1}, updatePlateSpacing},
 		{3, "Nameplate", "Distance", L["Nameplate Distance"].."*", true, {20, 100, 0}, updatePlateRange},
@@ -780,7 +787,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "AuraWatch", "DeprecatedAuras", L["DeprecatedAuras"], true},
 		{1, "AuraWatch", "QuakeRing", L["QuakeRing"].."*"},
 		{1, "AuraWatch", "ClickThrough", L["AuraWatch ClickThrough"]},
-		{3, "AuraWatch", "IconScale", L["AuraWatch IconScale"], true, {.5, 1.5, 1}},
+		{3, "AuraWatch", "IconScale", L["AuraWatch IconScale"], true, {.5, 1.5, 2}},
 		{},--blank
 		{1, "Nameplate", "ShowPlayerPlate", DB.MyColor..L["Enable PlayerPlate"]},
 		{1, "Auras", "ClassAuras", L["Enable ClassAuras"], true},
@@ -840,8 +847,9 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Chat", "ChatItemLevel", DB.MyColor..L["ShowChatItemLevel"]},
 		{},--blank
 		{1, "Chat", "EnableFilter", DB.MyColor..L["Enable Chatfilter"]},
-		{1, "Chat", "BlockStranger", DB.MyColor..L["BlockStranger"].."*", nil, nil, nil, L["BlockStrangerTip"]},
 		{1, "Chat", "BlockAddonAlert", L["Block Addon Alert"], true},
+		{1, "Chat", "AllowFriends", L["AllowFriendsSpam"].."*", nil, nil, nil, L["AllowFriendsSpamTip"]},
+		{1, "Chat", "BlockStranger", DB.MyColor..L["BlockStranger"].."*", true, nil, nil, L["BlockStrangerTip"]},
 		{3, "Chat", "Matches", L["Keyword Match"].."*", false, {1, 3, 0}},
 		{2, "ACCOUNT", "ChatFilterList", L["Filter List"].."*", true, nil, updateFilterList, L["FilterListTip"]},
 		{},--blank
@@ -868,7 +876,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Skins", "SkinShadow", L["Skin Shadow"]},
 		{1, "Skins", "SkinTexture", L["Skin Texture"], true},
 		{4, "Skins", "SkinStyle", L["Skin Style"], false, {L["ClassColor Style"], L["Flat Style"], L["Gradient Style"]}},
-		{3, "Skins", "BackdropAlpha", L["Backdrop Alpha"].."*", true, {0, 1, 1}, updateSkinAlpha},
+		{3, "Skins", "BackdropAlpha", L["Backdrop Alpha"].."*", true, {0, 1, 2}, updateSkinAlpha},
 		{5, "Skins", "FSColor", L["Flat Color"]},
 		{5, "Skins", "GSColor1", L["Gradient Color 1"], 1},
 		{5, "Skins", "GSColor2", L["Gradient Color 2"], 2},
@@ -940,7 +948,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{3, "ACCOUNT", "BarNumber", L["Texture Style"], true, {1, 13, 0}},
 	},
 	[14] = {
-		{3, "Extras", "SLAlpha", L["Skin Line Alpha"], false, {0, 1, 1}},
+		{3, "Extras", "SLAlpha", L["Skin Line Alpha"], false, {0, 1, 2}},
 		{5, "Extras", "SLColor", L["Skin Line Color"], 2},
 		{},--blank
 		{1, "Extras", "AutoCollapse", L["Auto Collapse"]},

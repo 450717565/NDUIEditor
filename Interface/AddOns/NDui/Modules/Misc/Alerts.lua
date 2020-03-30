@@ -153,11 +153,11 @@ end
 function M:RareAlert()
 	if NDuiDB["Misc"]["RareAlerter"] then
 		self:RareAlert_CheckInstance()
-		B:RegisterEvent("PLAYER_ENTERING_WORLD", self.RareAlert_CheckInstance)
+		B:RegisterEvent("UPDATE_INSTANCE_INFO", self.RareAlert_CheckInstance)
 	else
 		wipe(cache)
 		B:UnregisterEvent("VIGNETTE_MINIMAP_UPDATED", self.RareAlert_Update)
-		B:UnregisterEvent("PLAYER_ENTERING_WORLD", self.RareAlert_CheckInstance)
+		B:UnregisterEvent("UPDATE_INSTANCE_INFO", self.RareAlert_CheckInstance)
 	end
 end
 
@@ -377,7 +377,7 @@ function M.Explosive_CheckAffixes(event)
 	if affixes[3] and affixes[3].id == 13 then
 		B:RegisterEvent("CHALLENGE_MODE_START", startCount)
 		B:RegisterEvent("CHALLENGE_MODE_COMPLETED", endCount)
-		B:RegisterEvent("PLAYER_ENTERING_WORLD", pauseCount)
+		B:RegisterEvent("UPDATE_INSTANCE_INFO", pauseCount)
 	end
 	B:UnregisterEvent("PLAYER_ENTERING_WORLD", M.Explosive_CheckAffixes)
 end
@@ -389,7 +389,7 @@ function M:ExplosiveAlert()
 	else
 		B:UnregisterEvent("CHALLENGE_MODE_START", startCount)
 		B:UnregisterEvent("CHALLENGE_MODE_COMPLETED", endCount)
-		B:UnregisterEvent("PLAYER_ENTERING_WORLD", pauseCount)
+		B:UnregisterEvent("UPDATE_INSTANCE_INFO", pauseCount)
 		B:UnregisterEvent("PLAYER_ENTERING_WORLD", self.Explosive_CheckAffixes)
 		B:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED", self.Explosive_Update)
 	end
@@ -482,10 +482,10 @@ end
 function M:UunatAlert()
 	if NDuiDB["Misc"]["UunatAlert"] then
 		self:UunatAlert_CheckInstance()
-		B:RegisterEvent("PLAYER_ENTERING_WORLD", self.UunatAlert_CheckInstance)
+		B:RegisterEvent("UPDATE_INSTANCE_INFO", self.UunatAlert_CheckInstance)
 	else
 		wipe(uunatCache)
-		B:UnregisterEvent("PLAYER_ENTERING_WORLD", self.UunatAlert_CheckInstance)
+		B:UnregisterEvent("UPDATE_INSTANCE_INFO", self.UunatAlert_CheckInstance)
 		B:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED", self.UunatAlert_Update)
 		B:UnregisterEvent("ENCOUNTER_END", resetCount)
 	end

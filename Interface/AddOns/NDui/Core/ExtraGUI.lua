@@ -750,9 +750,13 @@ local function createOptionSlider(parent, title, minV, maxV, x, y, value, func)
 end
 
 local function SetUnitFrameSize(self, unit)
-	self:SetSize(NDuiDB["UFs"][unit.."Width"], NDuiDB["UFs"][unit.."Height"])
-	self.Health:SetHeight(NDuiDB["UFs"][unit.."Height"])
-	self.Power:SetHeight(NDuiDB["UFs"][unit.."PowerHeight"])
+	local healthWidth = NDuiDB["UFs"][unit.."Width"]
+	local healthHeight = NDuiDB["UFs"][unit.."Height"]
+	local powerHeight = NDuiDB["UFs"][unit.."PowerHeight"]
+
+	self:SetSize(healthWidth, healthHeight)
+	self.Health:SetHeight(healthHeight)
+	self.Power:SetHeight(powerHeight)
 end
 
 function G:SetupUnitFrame(parent)
@@ -847,14 +851,14 @@ function G:SetupRaidFrame(parent)
 
 	local function resizeRaidFrame()
 		for _, frame in pairs(ns.oUF.objects) do
-			if frame.mystyle == "raid" and not frame.isPartyFrame then
+			if frame.mystyle == "raid" then
 				if NDuiDB["UFs"]["SimpleMode"] then
 					local scale = NDuiDB["UFs"]["SimpleRaidScale"]/10
-					local frameWidth = 100*scale
-					local frameHeight = 20*scale
+					local healthWidth = 100*scale
+					local healthHeight = 20*scale
 					local powerHeight = 2*scale
-					local healthHeight = frameHeight - powerHeight
-					frame:SetSize(frameWidth, frameHeight)
+
+					frame:SetSize(healthWidth, healthHeight)
 					frame.Health:SetHeight(healthHeight)
 					frame.Power:SetHeight(powerHeight)
 				else
@@ -868,7 +872,7 @@ function G:SetupRaidFrame(parent)
 
 	local function resizePartyFrame()
 		for _, frame in pairs(ns.oUF.objects) do
-			if frame.isPartyFrame then
+			if frame.mystyle == "party" then
 				SetUnitFrameSize(frame, "Party")
 			end
 		end

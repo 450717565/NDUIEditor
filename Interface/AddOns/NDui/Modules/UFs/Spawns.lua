@@ -217,14 +217,6 @@ end
 
 -- Spawns
 function UF:OnLogin()
-	local horizonRaid = NDuiDB["UFs"]["HorizonRaid"]
-	local numGroups = NDuiDB["UFs"]["NumGroups"]
-	local raidScale = NDuiDB["UFs"]["SimpleRaidScale"]/10
-	local raidWidth = NDuiDB["UFs"]["RaidWidth"]
-	local raidHeight = NDuiDB["UFs"]["RaidHeight"]
-	local reverseRaid = NDuiDB["UFs"]["ReverseRaid"]
-	local partyFrame = NDuiDB["UFs"]["PartyFrame"]
-
 	if NDuiDB["Nameplate"]["Enable"] then
 		self:SetupCVars()
 		self:BlockAddons()
@@ -308,10 +300,20 @@ function UF:OnLogin()
 			end
 		end
 
-		UF:UpdateTextScale()
+		UF:UpdateUFTextScale()
 	end
 
 	if NDuiDB["UFs"]["RaidFrame"] then
+		local horizonRaid = NDuiDB["UFs"]["HorizonRaid"]
+		local numGroups = NDuiDB["UFs"]["NumGroups"]
+		local raidScale = NDuiDB["UFs"]["SimpleRaidScale"]/10
+		local raidWidth = NDuiDB["UFs"]["RaidWidth"]
+		local raidHeight = NDuiDB["UFs"]["RaidHeight"]
+		local raidPowerHeight = NDuiDB["UFs"]["RaidPowerHeight"]
+		local reverseRaid = NDuiDB["UFs"]["ReverseRaid"]
+		local showTeamIndex = NDuiDB["UFs"]["ShowTeamIndex"]
+		local partyFrame = NDuiDB["UFs"]["PartyFrame"]
+
 		UF:AddClickSetsListener()
 
 		-- Hide Default RaidFrame
@@ -330,9 +332,9 @@ function UF:OnLogin()
 			local showPlayer = NDuiDB["UFs"]["ShowYourself"]
 			local partyWidth = NDuiDB["UFs"]["PartyWidth"]
 			local partyHeight = NDuiDB["UFs"]["PartyHeight"]
-			local partyYOffset = -20
+			local partyPowerHeight = NDuiDB["UFs"]["PartyPowerHeight"]
 			local moverWidth = partyWidth
-			local moverHeight = partyHeight*(showPlayer and 5 or 4)-partyYOffset*(showPlayer and 4 or 3)
+			local moverHeight = (partyHeight+partyPowerHeight+3+10)*(showPlayer and 5 or 4)-10
 
 			local party = oUF:SpawnHeader("oUF_Party", nil, "solo,party",
 			"showPlayer", showPlayer,
@@ -340,7 +342,7 @@ function UF:OnLogin()
 			"showParty", true,
 			"showRaid", false,
 			"xoffset", 0,
-			"yOffset", partyYOffset,
+			"yOffset", -15,
 			"groupingOrder", "TANK,HEALER,DAMAGER,NONE",
 			"groupBy", "ASSIGNEDROLE",
 			"sortMethod", "NAME",
@@ -361,9 +363,9 @@ function UF:OnLogin()
 
 				local petWidth = NDuiDB["UFs"]["PartyPetWidth"]
 				local petHeight = NDuiDB["UFs"]["PartyPetHeight"]
-				local petYoffset = -20
+				local petPowerHeight = NDuiDB["UFs"]["PartyPetPowerHeight"]
 				local petMoverWidth = petWidth
-				local petMoverHeight = petHeight*(showPlayer and 5 or 4)-petYoffset*(showPlayer and 4 or 3)
+				local petMoverHeight = (petHeight+petPowerHeight+3+10)*(showPlayer and 5 or 4)-10
 
 				local partyPet = oUF:SpawnHeader("oUF_PartyPet", nil, "solo,party",
 				"showPlayer", true,
@@ -371,7 +373,7 @@ function UF:OnLogin()
 				"showParty", true,
 				"showRaid", false,
 				"xoffset", 0,
-				"yOffset", petYoffset,
+				"yOffset", -15,
 				"point", "TOP",
 				"columnAnchorPoint", "BOTTOM",
 				"oUF-initialConfigFunction", ([[
@@ -403,7 +405,7 @@ function UF:OnLogin()
 				"showParty", not partyFrame,
 				"showRaid", true,
 				"xoffset", 5,
-				"yOffset", -10,
+				"yOffset", -15,
 				"groupFilter", tostring(i),
 				"groupingOrder", groupingOrder,
 				"groupBy", groupBy,
@@ -434,8 +436,8 @@ function UF:OnLogin()
 			end
 
 			local group = CreateGroup("oUF_Raid", groupFilter)
-			local moverWidth = numGroups > 4 and (100*raidScale*2 + 5) or 100
-			local moverHeight = 20*raidScale*20 + 10*19
+			local moverWidth = numGroups > 4 and (100*raidScale*2 + 5) or 100*raidScale
+			local moverHeight = (20*raidScale+2*raidScale+3+10)*20 -10
 			raidMover = B.Mover(group, L["RaidFrame"], "RaidFrame", {"TOPLEFT", UIParent, 35, -50}, moverWidth, moverHeight)
 		else
 			local function CreateGroup(name, i)
@@ -445,7 +447,7 @@ function UF:OnLogin()
 				"showParty", not partyFrame,
 				"showRaid", true,
 				"xoffset", 5,
-				"yOffset", -10,
+				"yOffset", -15,
 				"groupFilter", tostring(i),
 				"groupingOrder", "1,2,3,4,5,6,7,8",
 				"groupBy", "GROUP",
@@ -463,17 +465,18 @@ function UF:OnLogin()
 			end
 
 			local groups = {}
+			local raidMoverHeight = raidHeight + raidPowerHeight + 3
 			for i = 1, numGroups do
 				groups[i] = CreateGroup("oUF_Raid"..i, i)
 				if i == 1 then
 					if horizonRaid then
-						raidMover = B.Mover(groups[i], L["RaidFrame"], "RaidFrame", {"TOPLEFT", UIParent, 35, -50}, (raidWidth+5)*5, (raidHeight+(NDuiDB["UFs"]["ShowTeamIndex"] and 25 or 15))*numGroups)
+						raidMover = B.Mover(groups[i], L["RaidFrame"], "RaidFrame", {"TOPLEFT", UIParent, 45, -50}, (raidWidth+5)*5-5, (raidMoverHeight+10)*numGroups-10)
 						if reverseRaid then
 							groups[i]:ClearAllPoints()
 							groups[i]:SetPoint("BOTTOMLEFT", raidMover)
 						end
 					else
-						raidMover = B.Mover(groups[i], L["RaidFrame"], "RaidFrame", {"TOPLEFT", UIParent, 35, -50}, (raidWidth+5)*numGroups, (raidHeight+10)*5)
+						raidMover = B.Mover(groups[i], L["RaidFrame"], "RaidFrame", {"TOPLEFT", UIParent, 35, -50}, (raidWidth+5)*numGroups-5, (raidMoverHeight+10)*5-10)
 						if reverseRaid then
 							groups[i]:ClearAllPoints()
 							groups[i]:SetPoint("TOPRIGHT", raidMover)
@@ -482,9 +485,9 @@ function UF:OnLogin()
 				else
 					if horizonRaid then
 						if reverseRaid then
-							groups[i]:SetPoint("BOTTOMLEFT", groups[i-1], "TOPLEFT", 0, NDuiDB["UFs"]["ShowTeamIndex"] and 25 or 15)
+							groups[i]:SetPoint("BOTTOMLEFT", groups[i-1], "TOPLEFT", 0, 15)
 						else
-							groups[i]:SetPoint("TOPLEFT", groups[i-1], "BOTTOMLEFT", 0, NDuiDB["UFs"]["ShowTeamIndex"] and -25 or -15)
+							groups[i]:SetPoint("TOPLEFT", groups[i-1], "BOTTOMLEFT", 0, -15)
 						end
 					else
 						if reverseRaid then
@@ -495,11 +498,14 @@ function UF:OnLogin()
 					end
 				end
 
-				if NDuiDB["UFs"]["ShowTeamIndex"] then
+				if showTeamIndex then
 					local parent = _G["oUF_Raid"..i.."UnitButton1"]
+					local point = {"BOTTOMLEFT", parent, "TOPLEFT", 0, 5}
+					if horizonRaid then point = {"TOPRIGHT", parent, "TOPLEFT", -5, 0} end
+
 					local teamIndex = B.CreateFS(parent, 12, format(GROUP_NUMBER, i))
 					teamIndex:ClearAllPoints()
-					teamIndex:SetPoint("BOTTOMLEFT", parent, "TOPLEFT", 0, 5)
+					teamIndex:SetPoint(unpack(point))
 					teamIndex:SetTextColor(.6, .8, 1)
 				end
 			end

@@ -69,8 +69,7 @@ function UF:CreateHealthBar(self)
 		healthHeight = NDuiDB["Nameplate"]["PPHeight"]
 	elseif mystyle == "raid" then
 		if NDuiDB["UFs"]["SimpleMode"] then
-			local scale = NDuiDB["UFs"]["SimpleRaidScale"]/10
-			healthHeight = 20*scale - 2*scale - C.mult
+			healthHeight = 20*(NDuiDB["UFs"]["SimpleRaidScale"]/10)
 		else
 			healthHeight = NDuiDB["UFs"]["RaidHeight"]
 		end
@@ -104,13 +103,14 @@ end
 
 function UF:CreateHealthText(self)
 	local mystyle = self.mystyle
-	local notMinorStyle = mystyle ~= "pet" and mystyle ~= "tot" and mystyle ~= "fot"
+	local notMinorStyle = mystyle ~= "pet" and mystyle ~= "partypet" and mystyle ~= "tot" and mystyle ~= "fot"
 
 	local textFrame = CreateFrame("Frame", nil, self)
 	textFrame:SetAllPoints(self.Health)
 
 	local name = B.CreateFS(textFrame, retVal(self, 13, 12, 12, 12, NDuiDB["Nameplate"]["NameTextSize"]), "", false, "LEFT", 3, 0)
 	name:SetJustifyH("LEFT")
+	name:SetScale(NDuiDB["UFs"]["UFTextScale"])
 
 	if mystyle == "raid" then
 		name:SetWidth(self:GetWidth()*.95)
@@ -128,6 +128,7 @@ function UF:CreateHealthText(self)
 		else
 			name:SetPoint("TOPLEFT", 2, -2)
 		end
+		name:SetScale(NDuiDB["UFs"]["RaidTextScale"])
 	elseif mystyle == "party" and NDuiDB["UFs"]["RaidBuffIndicator"] then
 		name:ClearAllPoints()
 		name:SetPoint("LEFT", 8, 0)
@@ -159,6 +160,7 @@ function UF:CreateHealthText(self)
 
 	local hpval = B.CreateFS(textFrame, retVal(self, 14, 13, 13, 13, NDuiDB["Nameplate"]["HealthTextSize"]), "", false, "RIGHT", -3, 0)
 	hpval:SetJustifyH("RIGHT")
+	hpval:SetScale(NDuiDB["UFs"]["UFTextScale"])
 
 	if mystyle == "raid" then
 		hpval:ClearAllPoints()
@@ -175,6 +177,7 @@ function UF:CreateHealthText(self)
 			hpval:SetPoint("BOTTOMRIGHT", -2, 2)
 		end
 		self:Tag(hpval, "[raidhp]")
+		hpval:SetScale(NDuiDB["UFs"]["RaidTextScale"])
 	elseif mystyle == "party" and NDuiDB["UFs"]["RaidBuffIndicator"] then
 		hpval:ClearAllPoints()
 		hpval:SetPoint("RIGHT", -8, 0)
@@ -195,7 +198,7 @@ function UF:CreateHealthText(self)
 	self.healthValue = hpval
 end
 
-function UF:UpdateRaidText()
+function UF:UpdateRaidTextPoint()
 	for _, frame in pairs(oUF.objects) do
 		if frame.mystyle == "raid" then
 			local name = frame.nameText
@@ -243,7 +246,7 @@ function UF:CreatePowerBar(self)
 		powerHeight = NDuiDB["Nameplate"]["PPHeight"]
 	elseif mystyle == "raid" then
 		if NDuiDB["UFs"]["SimpleMode"] then
-			powerHeight = 2*NDuiDB["UFs"]["SimpleRaidScale"]/10
+			powerHeight = 2*(NDuiDB["UFs"]["SimpleRaidScale"]/10)
 		else
 			powerHeight = NDuiDB["UFs"]["RaidPowerHeight"]
 		end
@@ -279,27 +282,31 @@ function UF:CreatePowerText(self)
 	textFrame:SetAllPoints(self.Power)
 
 	local ppval = B.CreateFS(textFrame, retVal(self, 13, 12, 12, 12), "", false, "RIGHT", -3, 0)
+	ppval:SetScale(NDuiDB["UFs"]["UFTextScale"])
 	self:Tag(ppval, "[color][power]")
+
+	if self.mystyle == "raid" then
+		ppval:SetScale(NDuiDB["UFs"]["RaidTextScale"])
+	end
 
 	self.powerText = ppval
 end
 
-local textScaleFrames = {
-	["player"] = true,
-	["target"] = true,
-	["focus"] = true,
-	["pet"] = true,
-	["tot"] = true,
-	["fot"] = true,
-	["boss"] = true,
-	["arena"] = true,
-	["party"] = true,
-}
-function UF:UpdateTextScale()
+function UF:UpdateUFTextScale()
 	local scale = NDuiDB["UFs"]["UFTextScale"]
 	for _, frame in pairs(oUF.objects) do
-		local style = frame.mystyle
-		if style and textScaleFrames[style] then
+		if frame.mystyle ~= "raid" then
+			frame.nameText:SetScale(scale)
+			frame.healthValue:SetScale(scale)
+			if frame.powerText then frame.powerText:SetScale(scale) end
+		end
+	end
+end
+
+function UF:UpdateRaidTextScale()
+	local scale = NDuiDB["UFs"]["RaidTextScale"]
+	for _, frame in pairs(oUF.objects) do
+		if frame.mystyle == "raid" then
 			frame.nameText:SetScale(scale)
 			frame.healthValue:SetScale(scale)
 			if frame.powerText then frame.powerText:SetScale(scale) end

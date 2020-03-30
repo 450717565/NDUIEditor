@@ -221,6 +221,7 @@ C.themes["Blizzard_Collections"] = function()
 			local icbg = B.ReskinIcon(spell.icon)
 			B.ReskinHighlight(spell, icbg)
 			B.ReskinChecked(spell.selected, icbg)
+			spell.BlackCover:SetInside(icbg)
 		end
 	end
 

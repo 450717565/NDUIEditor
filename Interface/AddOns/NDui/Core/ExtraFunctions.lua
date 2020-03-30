@@ -529,7 +529,7 @@ hooksecurefunc("TriStateCheckbox_SetState", function(_, checkButton)
 	end
 end)
 
-function B:ReskinChecked(relativeTo)
+function B:ReskinChecked(relativeTo, classColor)
 	if not self then return end
 
 	local checked
@@ -542,6 +542,10 @@ function B:ReskinChecked(relativeTo)
 	elseif self.SetTexture then
 		checked = self
 		checked:SetTexture(DB.checked)
+	end
+
+	if classColor then
+		checked:SetVertexColor(cr, cg, cb)
 	end
 
 	checked:SetAllPoints(relativeTo)

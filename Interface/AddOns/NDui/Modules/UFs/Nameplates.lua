@@ -295,7 +295,7 @@ end
 
 function UF:AddTargetIndicator(self)
 	local arrowTex = DB.arrowTex..NDuiDB["Nameplate"]["ArrowColor"]
-	local color = NDuiDB["Nameplate"]["SDColor"]
+	local color = NDuiDB["Nameplate"]["SelectedColor"]
 
 	local frame = CreateFrame("Frame", nil, self)
 	frame:SetAllPoints()
@@ -564,7 +564,7 @@ function UF:UpdateMouseoverShown()
 end
 
 function UF:MouseoverIndicator(self)
-	local color = NDuiDB["Nameplate"]["HLColor"]
+	local color = NDuiDB["Nameplate"]["HighlightColor"]
 
 	local frame = CreateFrame("Frame", nil, self)
 	frame:SetAllPoints()
