@@ -264,7 +264,7 @@ end
 local function buttonOnEnter(self)
 	GameTooltip:SetOwner(self, "ANCHOR_NONE")
 	GameTooltip:ClearAllPoints()
-	GameTooltip:SetPoint("TOPLEFT", friendsFrame, "TOPRIGHT", 5, 1)
+	GameTooltip:SetPoint("TOPLEFT", friendsFrame, "TOPRIGHT", 5, 0)
 	GameTooltip:ClearLines()
 	if self.isBNet then
 		GameTooltip:AddLine(L["BN"], 0,.6,1)

@@ -358,35 +358,37 @@ function UF:CreateIcons(self)
 		self.RestingIndicator = resting
 	elseif mystyle == "target" then
 		local quest = self:CreateTexture(nil, "OVERLAY")
-		quest:SetPoint("TOPLEFT", self, 0, 8)
+		quest:SetPoint("LEFT", self, "TOPLEFT", 2, 0)
 		quest:SetSize(16, 16)
 		self.QuestIndicator = quest
 	end
 
 	local phase = self:CreateTexture(nil, "OVERLAY")
-	phase:SetPoint("TOP", self, 0, 12)
 	phase:SetSize(22, 22)
+	phase:SetPoint("CENTER", self, "TOP", 0, 0)
+	if mystyle == "raid" then
+		phase:SetPoint("CENTER", self, "CENTER", 1, 0)
+	end
 	self.PhaseIndicator = phase
 
 	local groupRole = self:CreateTexture(nil, "OVERLAY")
-	groupRole:SetPoint("TOPRIGHT", self, 0, 8)
 	groupRole:SetSize(12, 12)
 	groupRole:SetTexture("Interface\\LFGFrame\\LFGROLE")
+	groupRole:SetPoint("RIGHT", self, "TOPRIGHT", -2, 0)
 	if mystyle == "raid" then
-		groupRole:ClearAllPoints()
-		groupRole:SetPoint("TOPRIGHT", self, 0, 0)
+		groupRole:SetPoint("TOPRIGHT", self, "TOPRIGHT", 0, 0)
 	end
 	groupRole.PostUpdate = postUpdateRole
 	self.GroupRoleIndicator = groupRole
 
 	local leader = self:CreateTexture(nil, "OVERLAY")
-	leader:SetPoint("RIGHT", self.GroupRoleIndicator, "LEFT")
 	leader:SetSize(12, 12)
+	leader:SetPoint("RIGHT", self.GroupRoleIndicator, "LEFT")
 	self.LeaderIndicator = leader
 
 	local assistant = self:CreateTexture(nil, "OVERLAY")
-	assistant:SetPoint("RIGHT", self.GroupRoleIndicator, "LEFT")
 	assistant:SetSize(12, 12)
+	assistant:SetPoint("RIGHT", self.GroupRoleIndicator, "LEFT")
 	self.AssistantIndicator = assistant
 end
 
@@ -394,8 +396,10 @@ function UF:CreateRaidMark(self)
 	local mystyle = self.mystyle
 	local raidTarget = self:CreateTexture(nil, "OVERLAY")
 
-	if self.LeaderIndicator and mystyle ~= "raid" then
-		raidTarget:SetPoint("RIGHT", self.LeaderIndicator, "LEFT", -2, 0)
+	if self.LeaderIndicator then
+		raidTarget:SetPoint("RIGHT", self.LeaderIndicator, "LEFT", -2, 2)
+	elseif mystyle == "raid" then
+		raidTarget:SetPoint("CENTER", self, "CENTER", 1, 0)
 	elseif mystyle == "nameplate" then
 		raidTarget:SetPoint("RIGHT", self, "LEFT", -5, 0)
 		raidTarget:SetParent(self.Health)

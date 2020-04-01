@@ -27,7 +27,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 		B.StripTextures(frame, 0)
 	end
 
-	local scrolls = {AchievementFrameAchievementsContainerScrollBar, AchievementFrameCategoriesContainerScrollBar, AchievementFrameStatsContainerScrollBar, AchievementFrameScrollFrameScrollBar, AchievementFrameComparisonContainerScrollBar, AchievementFrameComparisonStatsContainerScrollBar}
+	local scrolls = {AchievementFrameAchievementsContainerScrollBar, AchievementFrameCategoriesContainerScrollBar, AchievementFrameStatsContainerScrollBar, AchievementFrameComparisonContainerScrollBar, AchievementFrameComparisonStatsContainerScrollBar}
 	for _, scroll in pairs(scrolls) do
 		B.ReskinScroll(scroll)
 	end

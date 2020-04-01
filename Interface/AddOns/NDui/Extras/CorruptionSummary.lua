@@ -46,6 +46,12 @@ local function Corruption_OnEnter()
 
 		GameTooltip:Show()
 	end
+
+	local inspectFrame = PaperDollFrame.inspectFrame
+	if inspectFrame and inspectFrame:IsShown() then
+		GameTooltip:ClearAllPoints()
+		GameTooltip:SetPoint("TOPLEFT", inspectFrame, "TOPRIGHT", 3, 0)
+	end
 end
 
 CharacterStatsPane.ItemLevelFrame.Corruption:HookScript("OnEnter", Corruption_OnEnter)

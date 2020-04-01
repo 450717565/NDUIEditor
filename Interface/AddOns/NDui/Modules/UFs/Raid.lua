@@ -14,25 +14,28 @@ function UF:CreateRaidIcons(self)
 	parent:SetAllPoints()
 	parent:SetFrameLevel(self:GetFrameLevel() + 2)
 
-	local check = parent:CreateTexture(nil, "OVERLAY")
-	check:SetSize(16, 16)
-	check:SetPoint("CENTER", 1, 0)
-	self.ReadyCheckIndicator = check
+	local readyCheck = parent:CreateTexture(nil, "OVERLAY")
+	readyCheck:SetSize(16, 16)
+	readyCheck:SetPoint("CENTER", 1, 0)
+	self.ReadyCheckIndicator = readyCheck
 
 	local resurrect = parent:CreateTexture(nil, "OVERLAY")
 	resurrect:SetSize(20, 20)
 	resurrect:SetPoint("CENTER", 1, 0)
 	self.ResurrectIndicator = resurrect
 
-	local role = parent:CreateTexture(nil, "OVERLAY")
-	role:SetSize(12, 12)
-	role:SetPoint("TOPLEFT", 12, 8)
-	self.RaidRoleIndicator = role
-
 	local summon = parent:CreateTexture(nil, "OVERLAY")
 	summon:SetSize(32, 32)
 	summon:SetPoint("CENTER", 1, 0)
 	self.SummonIndicator = summon
+
+	local raidRole = parent:CreateTexture(nil, "OVERLAY")
+	raidRole:SetSize(12, 12)
+	raidRole:SetPoint("LEFT", self, "TOPLEFT", 2, 0)
+	if self.mystyle == "raid" then
+		raidRole:SetPoint("TOPLEFT", self, "TOPLEFT", 0, 0)
+	end
+	self.RaidRoleIndicator = raidRole
 end
 
 function UF:UpdateTargetBorder()

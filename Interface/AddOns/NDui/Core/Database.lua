@@ -33,7 +33,7 @@ DB.GreyColor = "|cff7b8489"
 
 -- Fonts
 DB.Font = {STANDARD_TEXT_FONT, 12, "OUTLINE"}
-DB.TipFont = {GameTooltipText:GetFont(), 14, "OUTLINE"}
+DB.TipFont = {STANDARD_TEXT_FONT, 14, "OUTLINE"}
 DB.LineString = DB.MyColor.."————————|r"
 DB.Separator = DB.MyColor.." | |r"
 

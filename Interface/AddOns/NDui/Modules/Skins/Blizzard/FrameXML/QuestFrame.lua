@@ -57,10 +57,17 @@ tinsert(C.defaultThemes, function()
 	end)
 
 	-- QuestModelScene
-	B.StripTextures(QuestModelScene)
 	B.StripTextures(QuestNPCModelNameTooltipFrame)
-	B.StripTextures(QuestNPCModelTextFrame)
 	B.ReskinScroll(QuestNPCModelTextScrollFrameScrollBar)
+
+	local boss = B.ReskinFrame(QuestModelScene)
+	boss:SetPoint("TOPLEFT", QuestModelScene, "TOPLEFT", C.mult, -C.mult)
+	boss:SetPoint("BOTTOMRIGHT", QuestNPCModelTextFrame, "TOPRIGHT", -C.mult, C.mult)
+
+	local text = B.ReskinFrame(QuestNPCModelTextFrame)
+	text:SetPoint("TOPLEFT", C.mult, -C.mult)
+	text:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
+
 	hooksecurefunc("QuestFrame_ShowQuestPortrait", function(parentFrame, _, _, _, _, x, y)
 		if parentFrame == WorldMapFrame then
 			x = 2
@@ -70,17 +77,4 @@ tinsert(C.defaultThemes, function()
 		QuestModelScene:ClearAllPoints()
 		QuestModelScene:SetPoint("TOPLEFT", parentFrame, "TOPRIGHT", x, -25)
 	end)
-	QuestNPCModelNameTooltipFrame:SetSize(198, 20)
-	QuestNPCModelNameTooltipFrame:ClearAllPoints()
-	QuestNPCModelNameTooltipFrame:SetPoint("TOP", QuestModelScene, "BOTTOM", 0, -4)
-	QuestNPCModelNameText:ClearAllPoints()
-	QuestNPCModelNameText:SetPoint("CENTER", QuestNPCModelNameTooltipFrame, 0, 0)
-	QuestNPCModelTextFrame:ClearAllPoints()
-	QuestNPCModelTextFrame:SetPoint("TOP", QuestNPCModelNameTooltipFrame, "BOTTOM", 0, -4)
-	local boss = B.ReskinFrame(QuestModelScene)
-	boss:SetFrameLevel(0)
-	local name = B.ReskinFrame(QuestNPCModelNameTooltipFrame)
-	name:SetFrameLevel(0)
-	local text = B.ReskinFrame(QuestNPCModelTextFrame)
-	text:SetFrameLevel(0)
 end)
