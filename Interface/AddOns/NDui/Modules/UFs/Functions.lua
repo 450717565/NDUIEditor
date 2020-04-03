@@ -366,9 +366,6 @@ function UF:CreateIcons(self)
 	local phase = self:CreateTexture(nil, "OVERLAY")
 	phase:SetSize(22, 22)
 	phase:SetPoint("CENTER", self, "TOP", 0, 0)
-	if mystyle == "raid" then
-		phase:SetPoint("CENTER", self, "CENTER", 1, 0)
-	end
 	self.PhaseIndicator = phase
 
 	local groupRole = self:CreateTexture(nil, "OVERLAY")
@@ -396,15 +393,13 @@ function UF:CreateRaidMark(self)
 	local mystyle = self.mystyle
 	local raidTarget = self:CreateTexture(nil, "OVERLAY")
 
-	if self.LeaderIndicator then
+	if self.LeaderIndicator and mystyle ~= "raid" then
 		raidTarget:SetPoint("RIGHT", self.LeaderIndicator, "LEFT", -2, 2)
-	elseif mystyle == "raid" then
-		raidTarget:SetPoint("CENTER", self, "CENTER", 1, 0)
 	elseif mystyle == "nameplate" then
 		raidTarget:SetPoint("RIGHT", self, "LEFT", -5, 0)
 		raidTarget:SetParent(self.Health)
 	else
-		raidTarget:SetPoint("BOTTOM", self, "TOP", 0, -2)
+		raidTarget:SetPoint("CENTER", self, "TOP", 0, 0)
 	end
 
 	local size = retVal(self, 14, 13, 12, 12, 32)

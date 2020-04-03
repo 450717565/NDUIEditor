@@ -61,12 +61,11 @@ tinsert(C.defaultThemes, function()
 	B.ReskinScroll(QuestNPCModelTextScrollFrameScrollBar)
 
 	local boss = B.ReskinFrame(QuestModelScene)
-	boss:SetPoint("TOPLEFT", QuestModelScene, "TOPLEFT", C.mult, -C.mult)
-	boss:SetPoint("BOTTOMRIGHT", QuestNPCModelTextFrame, "TOPRIGHT", -C.mult, C.mult)
+	boss:SetPoint("TOPLEFT", QuestModelScene, "TOPLEFT", -C.mult, C.mult)
+	boss:SetPoint("BOTTOMRIGHT", QuestNPCModelTextFrame, "TOPRIGHT", C.mult, -C.mult)
 
 	local text = B.ReskinFrame(QuestNPCModelTextFrame)
-	text:SetPoint("TOPLEFT", C.mult, -C.mult)
-	text:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
+	text:SetOutside()
 
 	hooksecurefunc("QuestFrame_ShowQuestPortrait", function(parentFrame, _, _, _, _, x, y)
 		if parentFrame == WorldMapFrame then

@@ -1,10 +1,13 @@
 local B, C, L, DB = unpack(select(2, ...))
 
 C.themes["Blizzard_GuildUI"] = function()
-	local cr, cg, cb = DB.r, DB.g, DB.b
+	local cr, cg, cb = DB.r, DB.g, DB.boint
 
 	B.ReskinFrame(GuildFrame)
 	B.SetupTabStyle(GuildFrame, 5)
+
+	GuildPointFrame.RightCap:Hide()
+	GuildPointFrame.LeftCap:Hide()
 
 	for _, frame in pairs({GuildNewsFiltersFrame, GuildTextEditFrame, GuildLogFrame, GuildMemberDetailFrame}) do
 		B.ReskinFrame(frame)

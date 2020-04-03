@@ -311,19 +311,14 @@ C.themes["Blizzard_Collections"] = function()
 
 			button.iconTextureUncollected:SetTexCoord(unpack(DB.TexCoord))
 			button.levelBackground:SetAlpha(0)
-			button.level:ClearAllPoints()
-			button.level:SetPoint("BOTTOM", 0, 1)
 
 			local icbg = B.ReskinIcon(button.iconTexture)
 			B.ReskinHighlight(button, icbg)
 			button.icbg = icbg
 
-			local lvbg = button:CreateTexture(nil, "OVERLAY")
-			lvbg:SetColorTexture(0, 0, 0, .5)
-			lvbg:SetPoint("BOTTOMLEFT", button, "BOTTOMLEFT", 4, 5)
-			lvbg:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", -4, 5)
-			lvbg:SetHeight(11)
-			button.lvbg = lvbg
+			button.level:ClearAllPoints()
+			button.level:SetPoint("BOTTOMRIGHT", icbg, 0, -2)
+			button.level:SetJustifyH("RIGHT")
 
 			button.styled = true
 		end
@@ -332,12 +327,10 @@ C.themes["Blizzard_Collections"] = function()
 		button.special:SetTextColor(1, 1, 1)
 		button.name:SetTextColor(.5, .5, .5)
 		button.icbg:SetBackdropBorderColor(0, 0, 0)
-		button.lvbg:Hide()
 
 		if button.iconTexture:IsShown() then
 			button.name:SetTextColor(0, .8, 1)
 			button.icbg:SetBackdropBorderColor(0, .8, 1)
-			button.lvbg:Show()
 		end
 	end)
 

@@ -92,6 +92,7 @@ local list = {
 		{AuraID = 314585, UnitID = "player"},	-- 心灵护壳
 		{AuraID = 315763, UnitID = "player", Value = true},	-- 生命充能
 		{AuraID = 315858, UnitID = "player", Flash = true},	-- 泰坦强化
+		{AuraID = 313060, UnitID = "player", Value = true},	-- 石肤术
 
 		{AuraID = 251231, UnitID = "player"},	-- 钢肤药水
 		{AuraID = 279151, UnitID = "player"},	-- 智力药水
