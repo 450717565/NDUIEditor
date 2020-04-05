@@ -12,7 +12,7 @@ C.themes["Blizzard_BlackMarketUI"] = function()
 	B.StripTextures(HotDeal)
 	B.CreateBDFrame(HotDeal, 0)
 	local icbg = B.ReskinIcon(HotDeal.Item.IconTexture)
-	HotDeal.bg = icbg
+	B.ReskinBorder(HotDeal.Item.IconBorder, icbg)
 
 	local headers = {"ColumnName", "ColumnLevel", "ColumnType", "ColumnDuration", "ColumnHighBidder", "ColumnCurrentBid"}
 	for _, header in pairs(headers) do
@@ -20,8 +20,8 @@ C.themes["Blizzard_BlackMarketUI"] = function()
 		B.StripTextures(header)
 
 		local bg = B.CreateBDFrame(header, 0)
-		bg:SetPoint("TOPLEFT", C.mult, -1)
-		bg:SetPoint("BOTTOMRIGHT", -C.mult, -4)
+		bg:SetPoint("TOPLEFT", 2, -2)
+		bg:SetPoint("BOTTOMRIGHT", -2, -3)
 	end
 
 	hooksecurefunc("BlackMarketScrollFrame_Update", function()
@@ -38,9 +38,9 @@ C.themes["Blizzard_BlackMarketUI"] = function()
 
 				local bubg = B.CreateBDFrame(bu, 0)
 				bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
-				bubg:SetPoint("BOTTOMRIGHT", 0, 3)
+				bubg:SetPoint("BOTTOMRIGHT", 0, 4+C.mult)
 
-				B.ReskinHighlight(bu, bubg)
+				B.ReskinHighlight(bu, bubg, true)
 				B.ReskinHighlight(bu.Selection, bubg, true)
 
 				bu.styled = true
@@ -61,6 +61,5 @@ C.themes["Blizzard_BlackMarketUI"] = function()
 			local r, g, b = GetItemQualityColor(quality or 1)
 			hotDeal.Name:SetTextColor(r, g, b)
 		end
-		B.ReskinBorder(hotDeal.Item.IconBorder, hotDeal.bg)
 	end)
 end

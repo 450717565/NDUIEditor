@@ -643,10 +643,18 @@ local function setupTex(self, texture)
 	self:SetNormalTexture("")
 
 	if texture and texture ~= "" then
-		if texture:find("Plus") then
-			self.expTex:SetTexCoord(0, .4375, 0, .4375)
-		elseif texture:find("Minus") then
-			self.expTex:SetTexCoord(.5625, 1, 0, .4375)
+		if type(texture) == "number" then
+			if texture == 130838 then
+				self.expTex:SetTexCoord(0, .4375, 0, .4375)
+			elseif texture == 130821 then
+				self.expTex:SetTexCoord(.5625, 1, 0, .4375)
+			end
+		else
+			if texture:find("Plus") then
+				self.expTex:SetTexCoord(0, .4375, 0, .4375)
+			elseif texture:find("Minus") then
+				self.expTex:SetTexCoord(.5625, 1, 0, .4375)
+			end
 		end
 		self.bdTex:Show()
 	else
@@ -773,7 +781,11 @@ function B:ReskinHighlight(relativeTo, classColor, isOutside)
 		tex:SetTexture(DB.bdTex)
 	end
 
-	tex:SetColorTexture(r, g, b, .25)
+	if self:IsObjectType("Texture") then
+		tex:SetColorTexture(r, g, b, .25)
+	else
+		tex:SetVertexColor(r, g, b, .25)
+	end
 
 	if not relativeTo then return end
 	if isOutside then
@@ -796,11 +808,13 @@ function B:ReskinInput(height, width)
 
 	local bg = B.CreateBDFrame(self, 0)
 	bg:ClearAllPoints()
-	bg:SetPoint("TOPLEFT", -2, 0)
-	bg:SetPoint("BOTTOMRIGHT")
+	bg:SetPoint("TOPLEFT", -3, 0)
+	bg:SetPoint("BOTTOMRIGHT", -3, 0)
 
 	if height then self:SetHeight(height) end
 	if width then self:SetWidth(width) end
+
+	return bg
 end
 
 function B:ReskinMinMax()

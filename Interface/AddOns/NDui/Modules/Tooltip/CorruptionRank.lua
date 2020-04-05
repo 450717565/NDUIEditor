@@ -2,9 +2,10 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local TT = B:GetModule("Tooltip")
 
+local select, strmatch, gmatch, format, next, wipe = select, strmatch, gmatch, format, next, wipe
 local ITEM_MOD_CORRUPTION = ITEM_MOD_CORRUPTION
 local IsCorruptedItem, GetSpellInfo = IsCorruptedItem, GetSpellInfo
-local select, strmatch, gmatch, format = select, strmatch, gmatch, format
+local GetInventoryItemLink = GetInventoryItemLink
 
 local corruptionData = {
 	-- Credit: CorruptionNameTooltips
@@ -47,6 +48,8 @@ local corruptionData = {
 	["6552"] = {spellID = 318274, level = "I"},
 	["6553"] = {spellID = 318487, level = "II"},
 	["6554"] = {spellID = 318488, level = "III"},
+	["6547"] = {spellID = 318303, level = "I"},
+	["6548"] = {spellID = 318484, level = "II"},
 	["6537"] = {spellID = 318276, level = "I"},
 	["6538"] = {spellID = 318477, level = "II"},
 	["6539"] = {spellID = 318478, level = "III"},
@@ -56,18 +59,14 @@ local corruptionData = {
 	["6540"] = {spellID = 318286, level = "I"},
 	["6541"] = {spellID = 318479, level = "II"},
 	["6542"] = {spellID = 318480, level = "III"},
-
-	["6547"] = {spellID = 318303, level = "I"},
-	["6548"] = {spellID = 318484, level = "II"},
-
+	["6573"] = {spellID = 318272, level = ""},
 	["6546"] = {spellID = 318239, level = ""},
-	["6567"] = {spellID = 318294, level = ""},
-	["6568"] = {spellID = 316780, level = ""},
-	["6569"] = {spellID = 317290, level = ""},
-	["6570"] = {spellID = 318299, level = ""},
 	["6571"] = {spellID = 318293, level = ""},
 	["6572"] = {spellID = 316651, level = ""},
-	["6573"] = {spellID = 318272, level = ""},
+	["6567"] = {spellID = 318294, level = ""},
+	["6568"] = {spellID = 316780, level = ""},
+	["6570"] = {spellID = 318299, level = ""},
+	["6569"] = {spellID = 317290, level = ""},
 }
 
 local linkCache = {}
@@ -101,16 +100,49 @@ function TT:Corruption_Convert(name, icon, level)
 	end
 end
 
+function TT:Corruption_UpdateSpell(value)
+	if not value.name or not value.icon then
+		value.name, _, value.icon = GetSpellInfo(value.spellID)
+	end
+end
+
 function TT:Corruption_Update()
 	local link = select(2, self:GetItem())
 	if link and IsCorruptedItem(link) then
 		local value = TT:Corruption_Search(link)
 		if value then
-			if not value.name or not value.icon then
-				value.name, _, value.icon = GetSpellInfo(value.spellID)
-			end
+			TT:Corruption_UpdateSpell(value)
 			TT.Corruption_Convert(self, value.name, value.icon, value.level)
 		end
+	end
+end
+
+local corruptionR, corruptionG, corruptionB = .584, .428, .82
+local summaries = {}
+function TT:Corruption_Summary()
+	wipe(summaries)
+
+	for i = 1, 17 do
+		local link = GetInventoryItemLink("player", i)
+		if link and IsCorruptedItem(link) then
+			local value = TT:Corruption_Search(link)
+			if value then
+				TT:Corruption_UpdateSpell(value)
+				summaries[value] = (summaries[value] or 0) + 1
+			end
+		end
+	end
+
+	GameTooltip:AddLine(" ")
+	for value, count in next, summaries do
+		GameTooltip:AddLine(count.." x "..getIconString(value.icon)..value.name.." "..value.level, corruptionR, corruptionG, corruptionB)
+	end
+	GameTooltip:Show()
+
+	local inspectFrame = PaperDollFrame.inspectFrame
+	if inspectFrame and inspectFrame:IsShown() then
+		GameTooltip:ClearAllPoints()
+		GameTooltip:SetPoint("TOPLEFT", inspectFrame, "TOPRIGHT", 3, 0)
 	end
 end
 
@@ -125,4 +157,7 @@ function TT:CorruptionRank()
 	ShoppingTooltip2:HookScript("OnTooltipSetItem", TT.Corruption_Update)
 	GameTooltipTooltip:HookScript("OnTooltipSetItem", TT.Corruption_Update)
 	EmbeddedItemTooltip:HookScript("OnTooltipSetItem", TT.Corruption_Update)
+
+	hooksecurefunc("CharacterFrameCorruption_OnEnter", TT.Corruption_Summary)
+	CharacterStatsPane.ItemLevelFrame.Corruption:HookScript("OnEnter", TT.Corruption_Summary)
 end

@@ -4,7 +4,6 @@
 	<Include file="AuctionCorruption.lua"/>
 	<Include file="ChatAtFriends.lua"/>
 	<Include file="ChatEmote.lua"/>
-	<Include file="CorruptionSummary.lua"/>
 	<Include file="DressUp.lua"/>
 	<Include file="KeystoneHelper.lua"/>
 	<Include file="LightLoot.lua"/>

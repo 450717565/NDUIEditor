@@ -66,6 +66,7 @@ function S:OnLogin()
 	self:Other()
 
 	if NDuiDB["Skins"]["BlizzardSkins"] then
+		self:Ace3()
 		self:BaudErrorFrame()
 		self:BuyEmAll()
 		self:ClassicQuestLog()
