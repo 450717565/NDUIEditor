@@ -6,7 +6,7 @@ local Bar = B:GetModule("Actionbar")
 local _G = getfenv(0)
 local tinsert, pairs, type = table.insert, pairs, type
 local buttonList = {}
-local cr, cg, cb, alpha, color
+local cr, cg, cb, color
 
 function Bar:MicroButton_SetupTexture(icon, texture)
 	icon:SetOutside(nil, 3, 3)
@@ -57,18 +57,17 @@ function Bar:MicroMenu_Lines(menubar)
 
 	local MenuL = CreateFrame("Frame", nil, UIParent)
 	MenuL:SetPoint("TOPRIGHT", menubar, "BOTTOM")
-	B.CreateGA(MenuL, 200, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
+	B.CreateGA(MenuL, 200, C.mult*2, "Horizontal", cr, cg, cb, 0, DB.Alpha)
 	local MenuR = CreateFrame("Frame", nil, UIParent)
 	MenuR:SetPoint("TOPLEFT", menubar, "BOTTOM")
-	B.CreateGA(MenuR, 200, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
+	B.CreateGA(MenuR, 200, C.mult*2, "Horizontal", cr, cg, cb, DB.Alpha, 0)
 end
 
 function Bar:MicroMenu()
 	if not NDuiDB["Actionbar"]["MicroMenu"] then return end
 
 	cr, cg, cb = DB.r, DB.g, DB.b
-	alpha = NDuiDB["Extras"]["SLAlpha"]
-	color = NDuiDB["Extras"]["SLColor"]
+	color = NDuiDB["Skins"]["LineColor"]
 	if not NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
 
 	local menubar = CreateFrame("Frame", nil, UIParent)

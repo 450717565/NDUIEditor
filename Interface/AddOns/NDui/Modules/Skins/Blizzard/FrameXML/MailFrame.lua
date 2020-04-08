@@ -62,7 +62,7 @@ tinsert(C.defaultThemes, function()
 
 	local line = CreateFrame("Frame", nil, OpenMailInvoiceFrame)
 	line:SetPoint("BOTTOMRIGHT", OpenMailInvoiceAmountReceived, "TOPRIGHT", 0, 10)
-	B.CreateGA(line, 250, C.mult, "Horizontal", 1, 1, 1, 0, .8)
+	B.CreateGA(line, 250, C.mult, "Horizontal", 1, 1, 1, 0, DB.Alpha)
 
 	for _, button in pairs({"OpenMailLetterButton", "OpenMailMoneyButton"}) do
 		local bu = _G[button]

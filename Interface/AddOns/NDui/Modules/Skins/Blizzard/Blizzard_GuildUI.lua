@@ -48,7 +48,7 @@ C.themes["Blizzard_GuildUI"] = function()
 	GuildFactionBar:ClearAllPoints()
 	GuildFactionBar:SetPoint("BOTTOMLEFT", 0, -3)
 	GuildFactionBarProgress:SetTexture(DB.normTex)
-	GuildFactionBarProgress:SetVertexColor(cr, cg, cb, .8)
+	GuildFactionBarProgress:SetVertexColor(cr, cg, cb, DB.Alpha)
 	GuildFactionBarLabel:ClearAllPoints()
 	GuildFactionBarLabel:SetPoint("CENTER", GuildFactionBarBG)
 

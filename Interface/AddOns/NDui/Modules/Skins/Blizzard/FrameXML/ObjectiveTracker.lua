@@ -37,11 +37,11 @@ tinsert(C.defaultThemes, function()
 
 		local left = CreateFrame("Frame", nil, self)
 		left:SetPoint("TOPRIGHT", self, "BOTTOM", 5, 0)
-		B.CreateGA(left, width, height, "Horizontal", cr, cg, cb, 0, .8)
+		B.CreateGA(left, width, height, "Horizontal", cr, cg, cb, 0, DB.Alpha)
 
 		local right = CreateFrame("Frame", nil, self)
 		right:SetPoint("TOPLEFT", self, "BOTTOM", 5, 0)
-		B.CreateGA(right, width, height, "Horizontal", cr, cg, cb, .8, 0)
+		B.CreateGA(right, width, height, "Horizontal", cr, cg, cb, DB.Alpha, 0)
 
 		local Text = self.Text
 		Text:SetTextColor(cr, cg, cb)

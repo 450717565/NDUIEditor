@@ -433,7 +433,7 @@ C.themes["Blizzard_Communities"] = function()
 	local factionFrameBar = GuildBenefitsFrame.FactionFrame.Bar
 	B.StripTextures(factionFrameBar)
 	factionFrameBar.Progress:SetTexture(DB.normTex)
-	factionFrameBar.Progress:SetVertexColor(cr, cg, cb, .8)
+	factionFrameBar.Progress:SetVertexColor(cr, cg, cb, DB.Alpha)
 	factionFrameBar.Label:ClearAllPoints()
 	factionFrameBar.Label:SetPoint("CENTER", factionFrameBar.BG)
 	local bg = B.CreateBDFrame(factionFrameBar, 0)

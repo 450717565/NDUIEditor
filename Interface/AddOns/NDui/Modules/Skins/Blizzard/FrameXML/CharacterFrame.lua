@@ -108,11 +108,11 @@ tinsert(C.defaultThemes, function()
 
 		local left = CreateFrame("Frame", nil, category)
 		left:SetPoint("TOPRIGHT", category, "BOTTOM", 0, 5)
-		B.CreateGA(left, width, height, "Horizontal", cr, cg, cb, 0, .8)
+		B.CreateGA(left, width, height, "Horizontal", cr, cg, cb, 0, DB.Alpha)
 
 		local right = CreateFrame("Frame", nil, category)
 		right:SetPoint("TOPLEFT", category, "BOTTOM", 0, 5)
-		B.CreateGA(right, width, height, "Horizontal", cr, cg, cb, .8, 0)
+		B.CreateGA(right, width, height, "Horizontal", cr, cg, cb, DB.Alpha, 0)
 	end
 
 	-- [[ Sidebar tabs ]]

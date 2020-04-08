@@ -240,8 +240,7 @@ function module:ChatFrameBackground()
 	if not NDuiDB["Skins"]["ChatLine"] then return end
 
 	local cr, cg, cb = DB.r, DB.g, DB.b
-	local alpha = NDuiDB["Extras"]["SLAlpha"]
-	local color = NDuiDB["Extras"]["SLColor"]
+	local color = NDuiDB["Skins"]["LineColor"]
 	if not NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
 
 	local ChatLine = CreateFrame("Frame", nil, UIParent)
@@ -249,15 +248,15 @@ function module:ChatFrameBackground()
 	B.CreateGA(ChatLine, 450, ChatFrame1:GetHeight() + 26, "Horizontal", 0, 0, 0, .5, 0)
 	local ChatLine1 = CreateFrame("Frame", nil, ChatLine)
 	ChatLine1:SetPoint("BOTTOM", ChatLine, "TOP")
-	B.CreateGA(ChatLine1, 450, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
+	B.CreateGA(ChatLine1, 450, C.mult*2, "Horizontal", cr, cg, cb, DB.Alpha, 0)
 	if NDuiDB["Chat"]["Chatbar"] then
 		local ChatLine2 = CreateFrame("Frame", nil, ChatLine)
 		ChatLine2:SetPoint("BOTTOM", ChatLine, "BOTTOM", 0, 18)
-		B.CreateGA(ChatLine2, 450, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
+		B.CreateGA(ChatLine2, 450, C.mult*2, "Horizontal", cr, cg, cb, DB.Alpha, 0)
 	end
 	local ChatLine3 = CreateFrame("Frame", nil, ChatLine)
 	ChatLine3:SetPoint("TOP", ChatLine, "BOTTOM")
-	B.CreateGA(ChatLine3, 450, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
+	B.CreateGA(ChatLine3, 450, C.mult*2, "Horizontal", cr, cg, cb, DB.Alpha, 0)
 
 	ChatFrame1.gradientBG = ChatLine
 end
@@ -308,13 +307,14 @@ function module:OnLogin()
 		B:RegisterEvent("UI_SCALE_CHANGED", self.UpdateChatSize)
 	end
 
---[=[
 	-- ProfanityFilter
 	if not BNFeaturesEnabledAndConnected() then return end
-	if not NDuiDB["Chat"]["Freedom"] then
-		SetCVar("profanityFilter", 1)
+	if NDuiDB["Chat"]["Freedom"] then
+		if GetCVar("portal") == "CN" then
+			ConsoleExec("portal TW")
+		end
+		ConsoleExec("profanityFilter 0")
 	else
-		SetCVar("profanityFilter", 0)
+		ConsoleExec("profanityFilter 1")
 	end
-]=]
 end

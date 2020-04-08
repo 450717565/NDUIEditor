@@ -5,7 +5,7 @@ local module = B:GetModule("Maps")
 local strmatch, strfind, strupper = string.match, string.find, string.upper
 local select, pairs, ipairs, unpack = select, pairs, ipairs, unpack
 
-local cr, cg, cb, alpha, color
+local cr, cg, cb, color
 
 function module:CreatePulse()
 	if not NDuiDB["Map"]["CombatPulse"] then return end
@@ -168,13 +168,13 @@ function module:RecycleBin()
 	B.CreateGA(bin, 226, 37, "Horizontal", 0, 0, 0, 0, .5)
 	local topLine = CreateFrame("Frame", nil, bin)
 	topLine:SetPoint("BOTTOM", bin, "TOP", 0, 0)
-	B.CreateGA(topLine, 226, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
+	B.CreateGA(topLine, 226, C.mult*2, "Horizontal", cr, cg, cb, 0, DB.Alpha)
 	local bottomLine = CreateFrame("Frame", nil, bin)
 	bottomLine:SetPoint("TOP", bin, "BOTTOM", 0, 0)
-	B.CreateGA(bottomLine, 226, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
+	B.CreateGA(bottomLine, 226, C.mult*2, "Horizontal", cr, cg, cb, 0, DB.Alpha)
 	local rightLine = CreateFrame("Frame", nil, bin)
 	rightLine:SetPoint("LEFT", bin, "RIGHT", 0, 0)
-	B.CreateGA(rightLine, C.mult*2, 37+C.mult*4, "Vertical", cr, cg, cb, alpha, alpha)
+	B.CreateGA(rightLine, C.mult*2, 37+C.mult*4, "Vertical", cr, cg, cb, DB.Alpha, DB.Alpha)
 	bin:SetFrameStrata("LOW")
 
 	local function hideBinButton()
@@ -370,8 +370,7 @@ end
 
 function module:SetupMinimap()
 	cr, cg, cb = DB.r, DB.g, DB.b
-	alpha = NDuiDB["Extras"]["SLAlpha"]
-	color = NDuiDB["Extras"]["SLColor"]
+	color = NDuiDB["Skins"]["LineColor"]
 	if not NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
 
 	-- Shape and Position

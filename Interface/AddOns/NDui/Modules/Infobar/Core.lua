@@ -72,8 +72,7 @@ function module:BackgroundLines()
 	if not NDuiDB["Skins"]["InfobarLine"] then return end
 
 	local cr, cg, cb = DB.r, DB.g, DB.b
-	local alpha = NDuiDB["Extras"]["SLAlpha"]
-	local color = NDuiDB["Extras"]["SLColor"]
+	local color = NDuiDB["Skins"]["LineColor"]
 	if not NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
 
 	-- TOPLEFT
@@ -82,10 +81,10 @@ function module:BackgroundLines()
 	B.CreateGA(InfobarLineTL, 600, 18, "Horizontal", 0, 0, 0, .5, 0)
 	local InfobarLineTL1 = CreateFrame("Frame", nil, InfobarLineTL)
 	InfobarLineTL1:SetPoint("BOTTOM", InfobarLineTL, "TOP")
-	B.CreateGA(InfobarLineTL1, 600, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
+	B.CreateGA(InfobarLineTL1, 600, C.mult*2, "Horizontal", cr, cg, cb, DB.Alpha, 0)
 	local InfobarLineTL2 = CreateFrame("Frame", nil, InfobarLineTL)
 	InfobarLineTL2:SetPoint("TOP", InfobarLineTL, "BOTTOM")
-	B.CreateGA(InfobarLineTL2, 600, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
+	B.CreateGA(InfobarLineTL2, 600, C.mult*2, "Horizontal", cr, cg, cb, DB.Alpha, 0)
 
 	-- BOTTOMRIGHT
 	local InfobarLineBR = CreateFrame("Frame", nil, UIParent)
@@ -93,10 +92,10 @@ function module:BackgroundLines()
 	B.CreateGA(InfobarLineBR, 450, 18, "Horizontal", 0, 0, 0, 0, .5)
 	local InfobarLineBR1 = CreateFrame("Frame", nil, InfobarLineBR)
 	InfobarLineBR1:SetPoint("BOTTOM", InfobarLineBR, "TOP")
-	B.CreateGA(InfobarLineBR1, 450, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
+	B.CreateGA(InfobarLineBR1, 450, C.mult*2, "Horizontal", cr, cg, cb, 0, DB.Alpha)
 	local InfobarLineBR2 = CreateFrame("Frame", nil, InfobarLineBR)
 	InfobarLineBR2:SetPoint("TOP", InfobarLineBR, "BOTTOM")
-	B.CreateGA(InfobarLineBR2, 450, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
+	B.CreateGA(InfobarLineBR2, 450, C.mult*2, "Horizontal", cr, cg, cb, 0, DB.Alpha)
 end
 
 function module:OnLogin()

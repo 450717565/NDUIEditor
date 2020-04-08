@@ -40,8 +40,8 @@ C.themes["Blizzard_BlackMarketUI"] = function()
 				bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
 				bubg:SetPoint("BOTTOMRIGHT", 0, 4+C.mult)
 
-				B.ReskinHighlight(bu, bubg, true)
-				B.ReskinHighlight(bu.Selection, bubg, true)
+				B.ReskinHighlight(bu, bubg, true, true)
+				B.ReskinHighlight(bu.Selection, bubg, true, true)
 
 				bu.styled = true
 			end

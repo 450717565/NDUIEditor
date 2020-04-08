@@ -167,7 +167,7 @@ local defaultSettings = {
 		Sticky = true,
 		Lock = true,
 		Invite = false,
-		--Freedom = true,
+		Freedom = true,
 		Keyword = "raid",
 		Oldname = true,
 		GuildInvite = false,
@@ -254,16 +254,17 @@ local defaultSettings = {
 
 		ToggleDirection = 1,
 		BlizzardSkins = true,
-		BackdropAlpha = .5,
 		SkinStyle = 2,
 		FontOutline = true,
 		SkinShadow = false,
 		SkinTexture = false,
 
+		BGAlpha = .5,
 		BGColor = {r=0, g=0, b=0},
 		FSColor = {r=.3, g=.3, b=.3},
 		GSColor1 = {r=0, g=0, b=0},
 		GSColor2 = {r=.3, g=.3, b=.3},
+		LineColor = {r=.5, g=.5, b=.5},
 	},
 	Tooltip = {
 		CombatHide = false,
@@ -337,8 +338,6 @@ local defaultSettings = {
 		LootMonitorQuality = 4,
 		ShowCharacterItemSheet = true,
 		ShowOwnFrameWhenInspecting = true,
-		SLAlpha = .8,
-		SLColor = {r=.5, g=.5, b=.5},
 	},
 }
 
@@ -611,7 +610,7 @@ end
 
 local function updateSkinAlpha()
 	local BGColor = NDuiDB["Skins"]["BGColor"]
-	local BGAlpha = NDuiDB["Skins"]["BackdropAlpha"]
+	local BGAlpha = NDuiDB["Skins"]["BGAlpha"]
 
 	for _, frame in pairs(C.frames) do
 		B.SetBackdropColor(frame, BGColor.r, BGColor.g, BGColor.b, BGAlpha)
@@ -842,9 +841,9 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "ACCOUNT", "Timestamp", L["Timestamp"], true, nil, updateTimestamp},
 		{1, "Chat", "Sticky", L["Chat Sticky"].."*", nil, nil, updateChatSticky},
 		{1, "Chat", "WhisperColor", L["Differ WhipserColor"].."*", true},
-		--{1, "Chat", "Freedom", L["Language Filter"]},
 		{1, "Chat", "ChatItemLevel", L["ShowChatItemLevel"]},
 		{1, "Chat", "Chatbar", L["ShowChatbar"], true},
+		{1, "Chat", "Freedom", L["Language Filter"]},
 		{},--blank
 		{1, "Chat", "EnableFilter", DB.MyColor..L["Enable Chatfilter"]},
 		{1, "Chat", "BlockAddonAlert", L["Block Addon Alert"], true},
@@ -876,7 +875,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Skins", "SkinShadow", L["Skin Shadow"]},
 		{1, "Skins", "SkinTexture", L["Skin Texture"], true},
 		{4, "Skins", "SkinStyle", L["Skin Style"], false, {L["ClassColor Style"], L["Flat Style"], L["Gradient Style"]}},
-		{3, "Skins", "BackdropAlpha", L["Backdrop Alpha"].."*", true, {0, 1, 2}, updateSkinAlpha},
+		{3, "Skins", "BGAlpha", L["Backdrop Alpha"].."*", true, {0, 1, 2}, updateSkinAlpha},
 		{5, "Skins", "FSColor", L["Flat Color"]},
 		{5, "Skins", "GSColor1", L["Gradient Color 1"], 1},
 		{5, "Skins", "GSColor2", L["Gradient Color 2"], 2},
@@ -887,6 +886,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Skins", "ChatLine", L["Chat Line"]},
 		{1, "Skins", "MenuLine", L["Menu Line"], true},
 		{1, "Skins", "ClassLine", L["ClassColor Line"]},
+		{5, "Skins", "LineColor", L["Line Color"], 2},
 		{},--blank
 		{1, "Skins", "Skada", L["Skada Skin"]},
 		{1, "Skins", "Details", L["Details Skin"], nil, resetDetails},
@@ -948,9 +948,6 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{3, "ACCOUNT", "BarNumber", L["Texture Style"], true, {1, 13, 0}},
 	},
 	[14] = {
-		{3, "Extras", "SLAlpha", L["Skin Line Alpha"], false, {0, 1, 2}},
-		{5, "Extras", "SLColor", L["Skin Line Color"], 2},
-		{},--blank
 		{1, "Extras", "AutoCollapse", L["Auto Collapse"]},
 		{1, "Extras", "GuildWelcome", L["Guild Welcome"], true},
 		{1, "Extras", "AfkDelight", L["Afk Delight"]},
@@ -1148,10 +1145,9 @@ local function CreateOption(i)
 			end
 		-- Blank, no optType
 		else
-			local alpha = NDuiDB["Extras"]["SLAlpha"]
 			local l = CreateFrame("Frame", nil, parent)
 			l:SetPoint("TOPLEFT", 25, -offset - 12)
-			B.CreateGA(l, 560, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
+			B.CreateGA(l, 560, C.mult*2, "Horizontal", cr, cg, cb, DB.Alpha, 0)
 			offset = offset + 35
 		end
 	end

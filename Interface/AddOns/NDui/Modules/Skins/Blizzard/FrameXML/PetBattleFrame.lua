@@ -4,8 +4,7 @@ local B, C, L, DB = unpack(ns)
 tinsert(C.defaultThemes, function()
 	local cr, cg, cb, pairs = DB.r, DB.g, DB.b, pairs
 
-	local alpha = NDuiDB["Extras"]["SLAlpha"]
-	local color = NDuiDB["Extras"]["SLColor"]
+	local color = NDuiDB["Skins"]["LineColor"]
 	if not NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
 
 	-- Top Frame
@@ -88,7 +87,7 @@ tinsert(C.defaultThemes, function()
 		end
 
 		if index == 1 then
-			unit.ActualHealthBar:SetVertexColor(0, 1, 0, .8)
+			unit.ActualHealthBar:SetVertexColor(0, 1, 0, DB.Alpha)
 			unit.ActualHealthBar:SetPoint("BOTTOMLEFT", unit.Icon, "BOTTOMRIGHT", 10, 0)
 			unit.healthBg:SetPoint("TOPLEFT", unit.ActualHealthBar, -C.mult, C.mult)
 			unit.healthBg:SetPoint("BOTTOMLEFT", unit.ActualHealthBar, -C.mult, -C.mult)
@@ -102,7 +101,7 @@ tinsert(C.defaultThemes, function()
 				unit.SpeedIcon:SetTexCoord(0, .5, .5, 1)
 			end
 		else
-			unit.ActualHealthBar:SetVertexColor(1, 0, 0, .8)
+			unit.ActualHealthBar:SetVertexColor(1, 0, 0, DB.Alpha)
 			unit.ActualHealthBar:SetPoint("BOTTOMRIGHT", unit.Icon, "BOTTOMLEFT", -10, 0)
 			unit.healthBg:SetPoint("TOPRIGHT", unit.ActualHealthBar, C.mult, C.mult)
 			unit.healthBg:SetPoint("BOTTOMRIGHT", unit.ActualHealthBar, C.mult, -C.mult)
@@ -139,9 +138,9 @@ tinsert(C.defaultThemes, function()
 		buddy.healthBg:SetPoint("BOTTOMRIGHT", buddy.ActualHealthBar, "BOTTOMLEFT", 38+C.mult, -C.mult)
 
 		if index <= 2 then
-			buddy.ActualHealthBar:SetVertexColor(0, 1, 0, .8)
+			buddy.ActualHealthBar:SetVertexColor(0, 1, 0, DB.Alpha)
 		else
-			buddy.ActualHealthBar:SetVertexColor(1, 0, 0, .8)
+			buddy.ActualHealthBar:SetVertexColor(1, 0, 0, DB.Alpha)
 		end
 	end
 
@@ -325,11 +324,11 @@ tinsert(C.defaultThemes, function()
 	-- Petbar Background
 	local lineLeft = CreateFrame("Frame", nil, UIParent)
 	lineLeft:SetPoint("BOTTOMRIGHT", bar, "TOP", 0, 3)
-	B.CreateGA(lineLeft, 260, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
+	B.CreateGA(lineLeft, 260, C.mult*2, "Horizontal", cr, cg, cb, 0, DB.Alpha)
 	RegisterStateDriver(lineLeft, "visibility", visibleState)
 
 	local lineRight = CreateFrame("Frame", nil, UIParent)
 	lineRight:SetPoint("BOTTOMLEFT", bar, "TOP", 0, 3)
-	B.CreateGA(lineRight, 260, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
+	B.CreateGA(lineRight, 260, C.mult*2, "Horizontal", cr, cg, cb, DB.Alpha, 0)
 	RegisterStateDriver(lineRight, "visibility", visibleState)
 end)

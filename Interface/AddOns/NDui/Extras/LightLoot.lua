@@ -92,7 +92,6 @@ local function CreateSlot(id)
 	button.border = border
 
 	local icon = border:CreateTexture(nil, "ARTWORK")
-	icon:SetAlpha(.8)
 	icon:SetTexCoord(unpack(DB.TexCoord))
 	icon:SetInside()
 	button.icon = icon

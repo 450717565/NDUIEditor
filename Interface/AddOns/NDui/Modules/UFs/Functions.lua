@@ -107,6 +107,7 @@ function UF:CreateHealthText(self)
 
 	local textFrame = CreateFrame("Frame", nil, self)
 	textFrame:SetAllPoints(self.Health)
+	textFrame:SetFrameLevel(self:GetFrameLevel()+2)
 
 	local name = B.CreateFS(textFrame, retVal(self, 13, 12, 12, 12, NDuiDB["Nameplate"]["NameTextSize"]), "", false, "LEFT", 3, 0)
 	name:SetJustifyH("LEFT")
@@ -280,6 +281,7 @@ end
 function UF:CreatePowerText(self)
 	local textFrame = CreateFrame("Frame", nil, self)
 	textFrame:SetAllPoints(self.Power)
+	textFrame:SetFrameLevel(self:GetFrameLevel()+2)
 
 	local ppval = B.CreateFS(textFrame, retVal(self, 13, 12, 12, 12), "", false, "RIGHT", -3, 0)
 	ppval:SetScale(NDuiDB["UFs"]["UFTextScale"])

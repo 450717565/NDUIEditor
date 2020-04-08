@@ -3,7 +3,7 @@ local B, C, L, DB = unpack(select(2, ...))
 tinsert(C.defaultThemes, function()
 	if IsAddOnLoaded("ls_Toasts") then return end
 
-	local alpha = NDuiDB["Skins"]["BackdropAlpha"]
+	local alpha = NDuiDB["Skins"]["BGAlpha"]
 
 	-- Fix Alertframe bg
 	local function fixBg(frame)
@@ -70,7 +70,6 @@ tinsert(C.defaultThemes, function()
 			if not frame.bg then
 				frame.bg = B.SetBDFrame(frame, -18, 5, 18, -1)
 
-				frame.Icon:SetScale(.8)
 				frame.Icon.Bling:SetTexture("")
 				frame.Icon.Overlay:SetTexture("")
 				frame.Background:SetTexture("")

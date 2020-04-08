@@ -2,6 +2,7 @@ local B, C, L, DB = unpack(select(2, ...))
 local S = B:GetModule("Skins")
 local TT = B:GetModule("Tooltip")
 
+-- 雨夜独行客
 function S:Ace3()
 	local AceGUI = LibStub("AceGUI-3.0", true)
 	if not AceGUI then return end
@@ -18,7 +19,7 @@ function S:Ace3()
 			if selected then
 				self.bg:SetBackdropColor(cr, cg, cb, .25)
 			else
-				self.bg:SetBackdropColor(0, 0, 0, .25)
+				self.bg:SetBackdropColor(0, 0, 0, 0)
 			end
 		end)
 	end
@@ -74,7 +75,7 @@ function S:Ace3()
 			local bg = B.CreateBDFrame(dropdown, 0)
 			bg:ClearAllPoints()
 			bg:SetPoint("TOPLEFT", dropdown, "TOPLEFT", 18, -1)
-			bg:SetPoint("BOTTOMRIGHT", button, "BOTTOMLEFT", -1, 0)
+			bg:SetPoint("BOTTOMRIGHT", button, "BOTTOMLEFT", -2, 0)
 
 			local text = widget.text
 			text:SetJustifyH("CENTER")
@@ -100,7 +101,7 @@ function S:Ace3()
 			B.ReskinArrow(button, "down")
 			button:SetParent(bg)
 			button:ClearAllPoints()
-			button:SetPoint("LEFT", bg, "RIGHT", 1, 0)
+			button:SetPoint("LEFT", bg, "RIGHT", 2, 0)
 			button:SetSize(20, 20)
 
 			button:HookScript("PostClick", function(this)
@@ -149,9 +150,7 @@ function S:Ace3()
 			B.ReskinButton(widget.frame)
 		elseif TYPE == "Slider" then
 			B.ReskinSlider(widget.slider)
-			local bg = B.ReskinInput(widget.editbox)
-			bg:SetPoint("TOPLEFT", 0, -2)
-			bg:SetPoint("BOTTOMRIGHT", 0, 2)
+			B.ReskinInput(widget.editbox)
 
 			widget.editbox:ClearAllPoints()
 			widget.editbox:SetPoint("TOP", widget.slider, "BOTTOM", 0, -1)

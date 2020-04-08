@@ -317,7 +317,7 @@ C.themes["Blizzard_Collections"] = function()
 			button.icbg = icbg
 
 			button.level:ClearAllPoints()
-			button.level:SetPoint("BOTTOMRIGHT", icbg, 0, -2)
+			button.level:SetPoint("BOTTOMRIGHT", icbg, -1, -1)
 			button.level:SetJustifyH("RIGHT")
 
 			button.styled = true

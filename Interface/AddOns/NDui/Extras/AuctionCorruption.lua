@@ -38,8 +38,9 @@ local function rowUpdate(row)
 		end
 		local value = TT:Corruption_Search(data.itemLink)
 		if value then
-			local name, _, icon = GetSpellInfo(value.spellID)
-			local text = "|T"..icon..":14:14:0:0:64:64:5:59:5:59|t"..name.." "..value.level
+			TT:Corruption_UpdateSpell(value)
+
+			local text = "|T"..value.icon..":14:14:0:0:64:64:5:59:5:59|t"..value.name.." "..value.level
 			row.corruption:SetText(text)
 			row.corruption:Show()
 		end
@@ -50,7 +51,7 @@ local function processRows()
 	if AuctionHouseFrame and AuctionHouseFrame.ItemBuyFrame.ItemList.tableBuilder then
 		for rowIndex, row in pairs(AuctionHouseFrame.ItemBuyFrame.ItemList.tableBuilder.rows) do
 			if not row.corruption then
-				row.corruption = createFS(row, .6, .4, .8, 300)
+				row.corruption = createFS(row, .6, .4, .8, 275)
 			end
 			if not row.bonus then
 				row.bonus = createFS(row, 0, 1, 0, 475)

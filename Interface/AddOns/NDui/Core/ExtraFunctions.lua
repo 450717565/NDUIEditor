@@ -325,7 +325,7 @@ C.frames = {}
 
 function B:CreateBD(alpha)
 	local BGColor = NDuiDB["Skins"]["BGColor"]
-	local BGAlpha = NDuiDB["Skins"]["BackdropAlpha"]
+	local BGAlpha = NDuiDB["Skins"]["BGAlpha"]
 
 	self:SetBackdrop(nil)
 
@@ -625,7 +625,7 @@ function B:ReskinDropDown()
 	local bg = B.CreateBDFrame(self, 0)
 	bg:ClearAllPoints()
 	bg:SetPoint("TOPLEFT", self, "TOPLEFT", 16, -4)
-	bg:SetPoint("BOTTOMRIGHT", button, "BOTTOMLEFT", -1, 0)
+	bg:SetPoint("BOTTOMRIGHT", button, "BOTTOMLEFT", -2, 0)
 
 	for _, key in pairs(textWords) do
 		local text = self[key] or (frameName and _G[frameName..key])
@@ -763,7 +763,7 @@ function B:ReskinGarrisonPortrait()
 	end
 end
 
-function B:ReskinHighlight(relativeTo, classColor, isOutside)
+function B:ReskinHighlight(relativeTo, classColor, isVertex)
 	if not self then return end
 
 	local r, g, b = 1, 1, 1
@@ -781,18 +781,14 @@ function B:ReskinHighlight(relativeTo, classColor, isOutside)
 		tex:SetTexture(DB.bdTex)
 	end
 
-	if self:IsObjectType("Texture") then
-		tex:SetColorTexture(r, g, b, .25)
-	else
+	if isVertex then
 		tex:SetVertexColor(r, g, b, .25)
+	else
+		tex:SetColorTexture(r, g, b, .25)
 	end
 
 	if not relativeTo then return end
-	if isOutside then
-		tex:SetOutside(relativeTo)
-	else
-		tex:SetInside(relativeTo)
-	end
+	tex:SetInside(relativeTo)
 end
 
 function B:ReskinIcon(alpha)
@@ -1010,8 +1006,6 @@ function B:ReskinSlider(verticle)
 end
 
 function B:ReskinStatusBar(noClassColor)
-	local alpha = NDuiDB["Extras"]["SLAlpha"]
-
 	B.StripTextures(self)
 	B.CleanTextures(self)
 
@@ -1019,7 +1013,7 @@ function B:ReskinStatusBar(noClassColor)
 
 	self:SetStatusBarTexture(DB.normTex)
 	if not noClassColor then
-		self:SetStatusBarColor(cr, cg, cb, alpha)
+		self:SetStatusBarColor(cr, cg, cb, DB.Alpha)
 	end
 
 	local frameName = self.GetName and self:GetName()

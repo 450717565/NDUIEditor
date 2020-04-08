@@ -130,8 +130,7 @@ function Bar:CreateBackground()
 	if not NDuiDB["Skins"]["BarLine"] then return end
 	if NDuiDB["Actionbar"]["Style"] == 5 then return end
 
-	local alpha = NDuiDB["Extras"]["SLAlpha"]
-	local color = NDuiDB["Extras"]["SLColor"]
+	local color = NDuiDB["Skins"]["LineColor"]
 	local cr, cg, cb = DB.r, DB.g, DB.b
 	if not NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
 
@@ -141,28 +140,28 @@ function Bar:CreateBackground()
 	-- ACTIONBAR
 	local ActionBarL = CreateFrame("Frame", nil, UIParent)
 	ActionBarL:SetPoint("BOTTOMRIGHT", relativeTo, "TOP")
-	B.CreateGA(ActionBarL, 260, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
+	B.CreateGA(ActionBarL, 260, C.mult*2, "Horizontal", cr, cg, cb, 0, DB.Alpha)
 	RegisterStateDriver(ActionBarL, "visibility", "[petbattle][overridebar][vehicleui][possessbar,@vehicle,exists] hide; show")
 	local ActionBarR = CreateFrame("Frame", nil, UIParent)
 	ActionBarR:SetPoint("BOTTOMLEFT", relativeTo, "TOP")
-	B.CreateGA(ActionBarR, 260, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
+	B.CreateGA(ActionBarR, 260, C.mult*2, "Horizontal", cr, cg, cb, DB.Alpha, 0)
 	RegisterStateDriver(ActionBarR, "visibility", "[petbattle][overridebar][vehicleui][possessbar,@vehicle,exists] hide; show")
 
 	-- OVERRIDEBAR
 	local OverBarL = CreateFrame("Frame", nil, UIParent)
 	OverBarL:SetPoint("BOTTOMRIGHT", NDui_ActionBar1, "TOP")
-	B.CreateGA(OverBarL, 260, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
+	B.CreateGA(OverBarL, 260, C.mult*2, "Horizontal", cr, cg, cb, 0, DB.Alpha)
 	RegisterStateDriver(OverBarL, "visibility", "[petbattle] hide; [overridebar][vehicleui][possessbar,@vehicle,exists] show; hide")
 	local OverBarR = CreateFrame("Frame", nil, UIParent)
 	OverBarR:SetPoint("BOTTOMLEFT", NDui_ActionBar1, "TOP")
-	B.CreateGA(OverBarR, 260, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
+	B.CreateGA(OverBarR, 260, C.mult*2, "Horizontal", cr, cg, cb, DB.Alpha, 0)
 	RegisterStateDriver(OverBarR, "visibility", "[petbattle] hide; [overridebar][vehicleui][possessbar,@vehicle,exists] show; hide")
 
 	-- BOTTOMLINE
 	local BarLineL = CreateFrame("Frame", nil, UIParent)
 	BarLineL:SetPoint("TOPRIGHT", NDui_ActionBar1, "BOTTOM")
-	B.CreateGA(BarLineL, 260, C.mult*2, "Horizontal", cr, cg, cb, 0, alpha)
+	B.CreateGA(BarLineL, 260, C.mult*2, "Horizontal", cr, cg, cb, 0, DB.Alpha)
 	local BarLineR = CreateFrame("Frame", nil, UIParent)
 	BarLineR:SetPoint("TOPLEFT", NDui_ActionBar1, "BOTTOM")
-	B.CreateGA(BarLineR, 260, C.mult*2, "Horizontal", cr, cg, cb, alpha, 0)
+	B.CreateGA(BarLineR, 260, C.mult*2, "Horizontal", cr, cg, cb, DB.Alpha, 0)
 end
