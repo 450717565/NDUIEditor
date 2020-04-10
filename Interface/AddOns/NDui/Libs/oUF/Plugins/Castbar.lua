@@ -80,7 +80,7 @@ function B:OnCastbarUpdate(elapsed)
 			end
 		else
 			if duration > 1e4 then
-				self.Time:SetText("∞"..DB.Separator.."∞")
+				self.Time:SetText("X"..DB.Separator.."X")
 			else
 				self.Time:SetFormattedText(decimal..DB.Separator..decimal, duration, self.casting and self.max + self.delay or self.max - self.delay)
 			end

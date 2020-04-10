@@ -12,7 +12,7 @@ local InCombatLockdown = InCombatLockdown
 function UF:CreateRaidIcons(self)
 	local parent = CreateFrame("Frame", nil, self)
 	parent:SetAllPoints()
-	parent:SetFrameLevel(self:GetFrameLevel() + 2)
+	parent:SetFrameLevel(self:GetFrameLevel() + 3)
 
 	local readyCheck = parent:CreateTexture(nil, "OVERLAY")
 	readyCheck:SetSize(16, 16)

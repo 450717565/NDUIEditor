@@ -51,7 +51,7 @@ local function processRows()
 	if AuctionHouseFrame and AuctionHouseFrame.ItemBuyFrame.ItemList.tableBuilder then
 		for rowIndex, row in pairs(AuctionHouseFrame.ItemBuyFrame.ItemList.tableBuilder.rows) do
 			if not row.corruption then
-				row.corruption = createFS(row, .6, .4, .8, 275)
+				row.corruption = createFS(row, .584, .428, .82, 275)
 			end
 			if not row.bonus then
 				row.bonus = createFS(row, 0, 1, 0, 475)

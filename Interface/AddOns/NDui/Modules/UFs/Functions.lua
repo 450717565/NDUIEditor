@@ -434,9 +434,12 @@ function UF:CreateCastBar(self)
 		cb:SetSize(NDuiDB["UFs"]["FocusCBWidth"], NDuiDB["UFs"]["FocusCBHeight"])
 		createBarMover(cb, L["Focus Castbar"], "FocusCB", C.UFs.Focuscb)
 	elseif mystyle == "boss" or mystyle == "arena" then
+		cb:ClearAllPoints()
+		cb:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -3)
 		cb:SetPoint("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, -3)
-		cb:SetSize(self:GetWidth(), 10)
+		cb:SetHeight(10)
 	elseif mystyle == "nameplate" then
+		cb:ClearAllPoints()
 		cb:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -5)
 		cb:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, -5)
 		cb:SetHeight(self:GetHeight())
@@ -450,7 +453,7 @@ function UF:CreateCastBar(self)
 	if mystyle ~= "boss" and mystyle ~= "arena" then
 		cb.Icon = cb:CreateTexture(nil, "ARTWORK")
 		cb.Icon:SetSize(cb:GetHeight(), cb:GetHeight())
-		cb.Icon:SetPoint("BOTTOMRIGHT", cb, "BOTTOMLEFT", -3, 0)
+		cb.Icon:SetPoint("RIGHT", cb, "LEFT", -3, 0)
 		B.ReskinIcon(cb.Icon)
 	end
 
