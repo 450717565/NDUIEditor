@@ -1,0 +1,4 @@
+<Ui>
+	<Include file="Other\HereBeDragons-2.0\HereBeDragons.xml"/>
+	<Include file="Other\NickTag-1.0\NickTag-1.0.lua"/>
+</Ui>

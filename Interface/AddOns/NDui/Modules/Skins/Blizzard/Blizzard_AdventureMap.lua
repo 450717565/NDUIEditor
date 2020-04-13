@@ -16,13 +16,13 @@ C.themes["Blizzard_AdventureMap"] = function()
 					bu.ItemNameBG:Hide()
 
 					local icbg = B.ReskinIcon(bu.Icon)
-					local bubg = B.CreateBDFrame(bu.ItemNameBG, 0)
-					bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
-					bubg:SetPoint("BOTTOMRIGHT", -5, 0)
+					B.CreateBG(bu.ItemNameBG, icbg, 2, 0, -5, 0)
 				end
 			end
-			ChoiceDialog.Details.Child.TitleHeader:SetTextColor(1, .8, 0)
-			ChoiceDialog.Details.Child.ObjectivesHeader:SetTextColor(1, .8, 0)
+
+			local Child = ChoiceDialog.Details.Child
+			Child.TitleHeader:SetTextColor(1, .8, 0)
+			Child.ObjectivesHeader:SetTextColor(1, .8, 0)
 
 			self.styled = true
 		end

@@ -15,13 +15,15 @@ local function msgChannel()
 end
 
 function Extras:OnLogin()
+	self:AutoCollapse()
 	self:ChatEmote()
 	self:DressUp()
+	self:GuildWelcome()
+	self:InstanceAutoMarke()
+	self:InstanceDifficulty()
+	self:InstanceReset()
 	self:KeystoneHelper()
 	self:MountSource()
-	self:GuildWelcome()
-	self:AutoCollapse()
-	self:InstanceReset()
 end
 
 -- 新人加入公会自动欢迎
@@ -62,7 +64,7 @@ function Extras.UpdateAutoCollapse(event)
 
 			collapse = true
 		end
-	else
+	elseif event == "ENCOUNTER_END" then
 		if collapse then
 			ObjectiveTracker_Expand()
 
@@ -82,22 +84,60 @@ function Extras:AutoCollapse()
 	end
 end
 
--- 副本重置、难度更改自动喊话
-local resetList = {"重置", "难度"}
+-- 副本重置自动喊话
 function Extras.UpdateInstanceReset(_, msg)
-	for _, word in ipairs(resetList) do
-		if strfind(msg, word) then
-			if not IsInGroup() then
-				UIErrorsFrame:AddMessage(DB.InfoColor..msg)
-			else
-				SendChatMessage(msg, msgChannel())
-			end
+	if strfind(msg, "重置") then
+		if not IsInGroup() then
+			UIErrorsFrame:AddMessage(DB.InfoColor..msg)
+		else
+			SendChatMessage(msg, msgChannel())
 		end
 	end
 end
 
 function Extras:InstanceReset()
 	B:RegisterEvent("CHAT_MSG_SYSTEM", self.UpdateInstanceReset)
+end
+
+-- 副本难度自动喊话
+function Extras.UpdateInstanceDifficulty()
+	if not IsInInstance() then return end
+
+	C_Timer.After(.5, function()
+		local diffName = select(4, GetInstanceInfo())
+		if diffName and diffName ~= "" then
+			if not IsInGroup() then
+				UIErrorsFrame:AddMessage(format(DB.InfoColor..L["Instance Difficulty"], diffName))
+			else
+				SendChatMessage(format(L["Instance Difficulty"], diffName), msgChannel())
+			end
+		end
+	end)
+end
+
+function Extras:InstanceDifficulty()
+	B:RegisterEvent("PLAYER_ENTERING_WORLD", self.UpdateInstanceDifficulty)
+end
+
+-- 进本自动标记坦克和治疗
+function Extras.UpdateInstanceAutoMarke()
+	if IsInInstance() and (IsInGroup() and not IsInRaid()) then
+		for i = 1, 5 do
+			local unit = i == 5 and "player" or ("party"..i)
+			local role = UnitGroupRolesAssigned(unit)
+			if role == "TANK" then
+				SetRaidTarget(unit, 6)
+			elseif role == "HEALER" then
+				SetRaidTarget(unit, 5)
+			else
+				SetRaidTarget(unit, 0)
+			end
+		end
+	end
+end
+
+function Extras:InstanceAutoMarke()
+	B:RegisterEvent("UPDATE_INSTANCE_INFO", self.UpdateInstanceAutoMarke)
 end
 
 -- 自动选择节日BOSS

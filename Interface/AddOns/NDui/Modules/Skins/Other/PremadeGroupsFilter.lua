@@ -15,6 +15,7 @@ function S:PremadeGroupsFilter()
 	B.ReskinDropDown(dialog.Difficulty.DropDown)
 	B.CreateBDFrame(dialog.Expression, 0)
 
+	dialog.MoveableToggle:Hide()
 	dialog.Defeated.Title:ClearAllPoints()
 	dialog.Defeated.Title:SetPoint("LEFT", dialog.Defeated.Act, "RIGHT", 2, 0)
 	dialog.Difficulty.DropDown:ClearAllPoints()

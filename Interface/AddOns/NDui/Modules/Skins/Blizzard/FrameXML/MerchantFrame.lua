@@ -30,9 +30,7 @@ tinsert(C.defaultThemes, function()
 	local backIT = MerchantBuyBackItem
 	B.StripTextures(backIT)
 
-	local itemBG = B.CreateBDFrame(backIT, 0)
-	itemBG:SetPoint("TOPLEFT", backIC, "TOPRIGHT", 2, 0)
-	itemBG:SetPoint("BOTTOMRIGHT", 0, -1)
+	local itemBG = B.CreateBG(backIT, backIC, 2)
 
 	local backName = MerchantBuyBackItemName
 	backName:SetWordWrap(false)

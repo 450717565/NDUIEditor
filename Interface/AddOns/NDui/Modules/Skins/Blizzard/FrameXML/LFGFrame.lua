@@ -28,10 +28,7 @@ tinsert(C.defaultThemes, function()
 
 		iconTexture:SetDrawLayer("OVERLAY")
 		local icbg = B.ReskinIcon(iconTexture)
-
-		local bubg = B.CreateBDFrame(button, 0)
-		bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
-		bubg:SetPoint("BOTTOMRIGHT", -5, 1)
+		B.CreateBG(button, icbg, 2, 0, -5, 0)
 
 		button.styled = true
 	end

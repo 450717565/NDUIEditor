@@ -29,7 +29,5 @@ C.themes["Blizzard_ItemUpgradeUI"] = function()
 
 	local TextFrame = ItemUpgradeFrame.TextFrame
 	B.StripTextures(TextFrame)
-	local bubg = B.CreateBDFrame(TextFrame, 0)
-	bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
-	bubg:SetPoint("BOTTOMRIGHT", -5, 2.5)
+	B.CreateBG(TextFrame, icbg, 2, 0, -5, 0)
 end

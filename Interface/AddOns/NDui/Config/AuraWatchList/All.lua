@@ -232,7 +232,7 @@ local list = {
 		{AuraID = 318227, UnitID = "player", Flash = true},	-- 急速脉搏
 		{AuraID = 316823, UnitID = "player"},	-- 虚空仪式
 		{AuraID = 318211, UnitID = "player"},	-- 活力涌动
-		{AuraID = 318219, UnitID = "player"},	-- 致命之势
+		{AuraID = 318219, UnitID = "player", Combat = true},	-- 致命之势
 		{AuraID = 317020, UnitID = "player", Combat = true},	-- 虚空回响
 		{AuraID = 317859, UnitID = "player", Text = STAT_CATEGORY_ATTRIBUTES, Flash = true},	-- 龙族强化，橙披
 		{AuraID = 318378, UnitID = "player", Text = COMBAT_TEXT_IMMUNE, Flash = true},	-- 坚定决心，橙披

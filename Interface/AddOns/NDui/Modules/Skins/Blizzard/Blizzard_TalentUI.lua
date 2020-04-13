@@ -194,10 +194,7 @@ C.themes["Blizzard_TalentUI"] = function()
 		icon:SetSize(32, 32)
 
 		local icbg = B.ReskinIcon(icon)
-		local bubg = B.CreateBDFrame(bu, 0)
-		bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
-		bubg:SetPoint("BOTTOMRIGHT", 0, 2)
-
+		local bubg = B.CreateBG(bu, icbg, 2)
 		B.ReskinHighlight(bu, bubg, true)
 		B.ReskinHighlight(bu.Selected, bubg, true)
 

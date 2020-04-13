@@ -77,15 +77,13 @@ C.themes["Blizzard_PVPUI"] = function()
 		end
 	end
 
-	for i = 1, 8 do
+	for i = 1, 9 do
 		local bu = _G["HonorFrameSpecificFrameButton"..i]
 		bu.Bg:Hide()
 		bu.Border:Hide()
 
 		local icbg = B.ReskinIcon(bu.Icon)
-		local bubg = B.CreateBDFrame(bu, 0)
-		bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
-		bubg:SetPoint("BOTTOMRIGHT", -2, 4)
+		local bubg = B.CreateBG(bu, icbg, 2, 0, -2, 0)
 		B.ReskinHighlight(bu.HighlightTexture, bubg, true)
 		B.ReskinHighlight(bu.SelectedTexture, bubg, true)
 

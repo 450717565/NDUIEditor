@@ -196,7 +196,7 @@ function B:SetupArrowTex(direction)
 	bgTex:SetTexture(direcIndex[direction])
 	bgTex:SetSize(8, 8)
 	bgTex:ClearAllPoints()
-	bgTex:SetPoint("CENTER")
+	bgTex:Point("CENTER")
 	bgTex:SetVertexColor(1, 1, 1)
 	self.bgTex = bgTex
 end
@@ -219,9 +219,9 @@ function B:SetupTabStyle(index, tabName)
 
 			tabs:ClearAllPoints()
 			if i == 1 then
-				tabs:SetPoint("TOPLEFT", frameName, "BOTTOMLEFT", 15, 1)
+				tabs:Point("TOPLEFT", frameName, "BOTTOMLEFT", 15, 2)
 			else
-				tabs:SetPoint("LEFT", _G[tab..(i-1)], "RIGHT", -15, 0)
+				tabs:Point("LEFT", _G[tab..(i-1)], "RIGHT", -16, 0)
 			end
 		end
 	end
@@ -229,19 +229,19 @@ end
 
 function B:GetRoleTexCoord()
 	if self == "TANK" then
-		return 0.33/9.03, 2.85/9.03, 3.16/9.03, 5.67/9.03
+		return 0.33/9.03, 2.84/9.03, 3.16/9.03, 5.67/9.03
 	elseif self == "DPS" or self == "DAMAGER" then
-		return 3.26/9.03, 5.77/9.03, 3.16/9.03, 5.67/9.03
+		return 3.26/9.03, 5.76/9.03, 3.16/9.03, 5.67/9.03
 	elseif self == "HEALER" then
-		return 3.26/9.03, 5.77/9.03, 0.29/9.03, 2.77/9.03
+		return 3.26/9.03, 5.76/9.03, 0.29/9.03, 2.77/9.03
 	elseif self == "LEADER" then
-		return 0.33/9.03, 2.85/9.03, 0.29/9.03, 2.77/9.03
+		return 0.33/9.03, 2.84/9.03, 0.29/9.03, 2.77/9.03
 	elseif self == "READY" then
-		return 6.18/9.03, 8.74/9.03, 0.29/9.03, 2.77/9.03
+		return 6.18/9.03, 8.73/9.03, 0.29/9.03, 2.77/9.03
 	elseif self == "PENDING" then
-		return 6.18/9.03, 8.74/9.03, 3.16/9.03, 5.67/9.03
+		return 6.18/9.03, 8.73/9.03, 3.16/9.03, 5.67/9.03
 	elseif self == "REFUSE" then
-		return 3.26/9.03, 5.77/9.03, 6.04/9.03, 8.60/9.03
+		return 3.26/9.03, 5.76/9.03, 6.04/9.03, 8.60/9.03
 	end
 end
 
@@ -378,14 +378,24 @@ function B:SetBDFrame(x, y, x2, y2)
 	if x and y and x2 and y2 then
 		local bg = B.CreateBDFrame(self, nil, 0, true)
 		bg:ClearAllPoints()
-		bg:SetPoint("TOPLEFT", self, x, y)
-		bg:SetPoint("BOTTOMRIGHT", self, x2, y2)
+		bg:Point("TOPLEFT", self, x, y)
+		bg:Point("BOTTOMRIGHT", self, x2, y2)
 
 		return bg
 	else
 		B.CreateBD(self)
 		B.CreateSD(self)
 	end
+end
+
+function B:CreateBG(frame, x, y, x2, y2)
+	local bg = B.CreateBDFrame(self, 0)
+	bg:ClearAllPoints()
+	bg:Point("TOPLEFT", frame, "TOPRIGHT", x or 0, y or 0)
+	bg:Point("BOTTOM", frame, "BOTTOM", 0, y2 or 0)
+	bg:Point("RIGHT", self, "RIGHT", x2 or 0, 0)
+
+	return bg
 end
 
 function B:CreateGA(w, h, d, r, g, b, a1, a2)
@@ -423,7 +433,7 @@ end
 
 function B:CreateGlowFrame(size)
 	local frame = CreateFrame("Frame", nil, self)
-	frame:SetPoint("CENTER")
+	frame:Point("CENTER")
 	frame:SetSize(size+8, size+8)
 
 	return frame
@@ -556,9 +566,9 @@ function B:ReskinClose(a1, p, a2, x, y)
 
 	self:ClearAllPoints()
 	if not a1 then
-		self:SetPoint("TOPRIGHT", -6, -6)
+		self:Point("TOPRIGHT", -6, -6)
 	else
-		self:SetPoint(a1, p, a2, x, y)
+		self:Point(a1, p, a2, x, y)
 	end
 
 	B.StripTextures(self)
@@ -572,7 +582,7 @@ function B:ReskinClose(a1, p, a2, x, y)
 		tex:SetColorTexture(1, 1, 1)
 		tex:SetSize(12, 2)
 		tex:ClearAllPoints()
-		tex:SetPoint("CENTER")
+		tex:Point("CENTER")
 		tex:SetRotation(math.rad((i-1/2)*90))
 		tinsert(self.pixels, tex)
 	end
@@ -582,8 +592,8 @@ function B:ReskinColorSwatch()
 	self:SetNormalTexture(DB.bdTex)
 	local nt = self:GetNormalTexture()
 	nt:ClearAllPoints()
-	nt:SetPoint("TOPLEFT", 2, -2)
-	nt:SetPoint("BOTTOMRIGHT", -2, 2)
+	nt:Point("TOPLEFT", 2, -2)
+	nt:Point("BOTTOMRIGHT", -2, 2)
 
 	local frameName = self.GetName and self:GetName()
 	local bg = self.SwatchBg or (frameName and _G[frameName.."SwatchBg"])
@@ -603,7 +613,7 @@ function B:ReskinDecline()
 		tex:SetColorTexture(1, 1, 1)
 		tex:SetSize(w*.8, 2)
 		tex:ClearAllPoints()
-		tex:SetPoint("CENTER")
+		tex:Point("CENTER")
 		tex:SetRotation(math.rad((i-1/2)*90))
 		tinsert(self.pixels, tex)
 	end
@@ -617,15 +627,15 @@ function B:ReskinDropDown()
 
 	local button = self.Button or (frameName and _G[frameName.."Button"])
 	button:ClearAllPoints()
-	button:SetPoint("RIGHT", -18, 2)
+	button:Point("RIGHT", -18, 2)
 
 	B.ReskinArrow(button, "down")
 	button:SetSize(20, 20)
 
 	local bg = B.CreateBDFrame(self, 0)
 	bg:ClearAllPoints()
-	bg:SetPoint("TOPLEFT", self, "TOPLEFT", 16, -4)
-	bg:SetPoint("BOTTOMRIGHT", button, "BOTTOMLEFT", -2, 0)
+	bg:Point("TOPLEFT", self, "TOPLEFT", 16, -4)
+	bg:Point("BOTTOMRIGHT", button, "BOTTOMLEFT", -2, 0)
 
 	for _, key in pairs(textWords) do
 		local text = self[key] or (frameName and _G[frameName..key])
@@ -671,13 +681,13 @@ function B:ReskinExpandOrCollapse()
 	local bdTex = B.CreateBDFrame(self, 0)
 	bdTex:SetSize(14, 14)
 	bdTex:ClearAllPoints()
-	bdTex:SetPoint("TOPLEFT", self:GetNormalTexture())
+	bdTex:Point("TOPLEFT", self:GetNormalTexture())
 	self.bdTex = bdTex
 
 	local expTex = bdTex:CreateTexture(nil, "OVERLAY")
 	expTex:SetSize(8, 8)
 	expTex:ClearAllPoints()
-	expTex:SetPoint("CENTER")
+	expTex:Point("CENTER")
 	expTex:SetTexture("Interface\\Buttons\\UI-PlusMinus-Buttons")
 	self.expTex = expTex
 
@@ -693,7 +703,7 @@ function B:ReskinFilter()
 
 	self.Icon:SetTexture(DB.arrowRight)
 	self.Icon:ClearAllPoints()
-	self.Icon:SetPoint("RIGHT", self, "RIGHT", -5, 0)
+	self.Icon:Point("RIGHT", self, "RIGHT", -5, 0)
 	self.Icon:SetSize(8, 8)
 
 	local frameName = self.GetName and self:GetName()
@@ -804,8 +814,8 @@ function B:ReskinInput(height, width)
 
 	local bg = B.CreateBDFrame(self, 0)
 	bg:ClearAllPoints()
-	bg:SetPoint("TOPLEFT", -3, 0)
-	bg:SetPoint("BOTTOMRIGHT", -3, 0)
+	bg:Point("TOPLEFT", -3, 0)
+	bg:Point("BOTTOMRIGHT", -3, 0)
 
 	if height then self:SetHeight(height) end
 	if width then self:SetWidth(width) end
@@ -824,7 +834,7 @@ function B:ReskinMinMax()
 
 			button:SetSize(18, 18)
 			button:ClearAllPoints()
-			button:SetPoint("CENTER", -3, 0)
+			button:Point("CENTER", -3, 0)
 
 			button.pixels = {}
 
@@ -832,7 +842,7 @@ function B:ReskinMinMax()
 			tex:SetColorTexture(1, 1, 1)
 			tex:SetSize(12, 2)
 			tex:ClearAllPoints()
-			tex:SetPoint("CENTER")
+			tex:Point("CENTER")
 			tex:SetRotation(math.rad(45))
 			tinsert(button.pixels, tex)
 
@@ -849,11 +859,11 @@ function B:ReskinMinMax()
 			tinsert(button.pixels, vline)
 
 			if name == "MaximizeButton" then
-				hline:SetPoint("TOPRIGHT", -4, -4)
-				vline:SetPoint("TOPRIGHT", -4, -4)
+				hline:Point("TOPRIGHT", -4, -4)
+				vline:Point("TOPRIGHT", -4, -4)
 			else
-				hline:SetPoint("BOTTOMLEFT", 4, 4)
-				vline:SetPoint("BOTTOMLEFT", 4, 4)
+				hline:Point("BOTTOMLEFT", 4, 4)
+				vline:Point("BOTTOMLEFT", 4, 4)
 			end
 		end
 	end
@@ -909,7 +919,7 @@ function B:ReskinRole(role)
 	if checkButton then
 		checkButton:SetFrameLevel(self:GetFrameLevel() + 2)
 		checkButton:ClearAllPoints()
-		checkButton:SetPoint("BOTTOMLEFT", -2, -2)
+		checkButton:Point("BOTTOMLEFT", -2, -2)
 		B.ReskinCheck(checkButton)
 	end
 
@@ -920,7 +930,7 @@ function B:ReskinRole(role)
 		local icon = self.incentiveIcon
 		icon.border:Hide()
 		icon.texture:ClearAllPoints()
-		icon.texture:SetPoint("BOTTOMRIGHT", self, -3, 3)
+		icon.texture:Point("BOTTOMRIGHT", self, -3, 3)
 		icon.texture:SetSize(14, 14)
 
 		local icbg = B.ReskinIcon(icon.texture)
@@ -962,8 +972,8 @@ function B:ReskinScroll()
 
 		local bdTex = B.CreateBDFrame(thumb, 0)
 		bdTex:ClearAllPoints()
-		bdTex:SetPoint("TOPLEFT", thumb, 0, -3)
-		bdTex:SetPoint("BOTTOMRIGHT", thumb, 0, 3)
+		bdTex:Point("TOPLEFT", thumb, 0, -3)
+		bdTex:Point("BOTTOMRIGHT", thumb, 0, 3)
 
 		self.bdTex = bdTex
 	end
@@ -995,8 +1005,8 @@ function B:ReskinSlider(verticle)
 
 	local bg = B.CreateBDFrame(self, 0)
 	bg:ClearAllPoints()
-	bg:SetPoint("TOPLEFT", 14, -2)
-	bg:SetPoint("BOTTOMRIGHT", -15, 3)
+	bg:Point("TOPLEFT", 14, -2)
+	bg:Point("BOTTOMRIGHT", -15, 4)
 
 	local thumb = self:GetThumbTexture()
 	thumb:SetTexture(DB.sparkTex)
@@ -1044,9 +1054,9 @@ function B.UpdateMerchantInfo()
 
 		currency:ClearAllPoints()
 		if money:IsShown() then
-			currency:SetPoint("LEFT", money, "RIGHT", -10, 2)
+			currency:Point("LEFT", money, "RIGHT", -10, 2)
 		else
-			currency:SetPoint("LEFT", money, "LEFT", 0, 2)
+			currency:Point("LEFT", money, "LEFT", 0, 2)
 		end
 	end
 end
@@ -1124,8 +1134,8 @@ function B:ReskinReforgeUI(index)
 	B.StripTextures(ButtonFrame)
 
 	local bubg = B.CreateBDFrame(ButtonFrame, 0)
-	bubg:SetPoint("TOPLEFT", ButtonFrame.MoneyFrameEdge, 2, 0)
-	bubg:SetPoint("BOTTOMRIGHT", ButtonFrame.MoneyFrameEdge, 0, 2)
+	bubg:Point("TOPLEFT", ButtonFrame.MoneyFrameEdge, 2, 0)
+	bubg:Point("BOTTOMRIGHT", ButtonFrame.MoneyFrameEdge, 0, 2)
 
 	if ButtonFrame.AzeriteRespecButton then B.ReskinButton(ButtonFrame.AzeriteRespecButton) end
 	if ButtonFrame.ActionButton then B.ReskinButton(ButtonFrame.ActionButton) end
@@ -1137,7 +1147,7 @@ function B:ReskinSearchResult()
 
 	local results = self.searchResults
 	results:ClearAllPoints()
-	results:SetPoint("BOTTOMLEFT", self, "BOTTOMRIGHT", 20, 0)
+	results:Point("BOTTOMLEFT", self, "BOTTOMRIGHT", 20, 0)
 	B.StripTextures(results)
 	B.CleanTextures(results)
 	B.SetBDFrame(results, -10, 0, 0, 0)
@@ -1158,10 +1168,7 @@ function B:ReskinSearchResult()
 			local icbg = B.ReskinIcon(bu.icon)
 			bu.icon.SetTexCoord = B.Dummy
 
-			local bubg = B.CreateBDFrame(bu, 0)
-			bubg:ClearAllPoints()
-			bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 2)
-			bubg:SetPoint("BOTTOMRIGHT", -2, 3)
+			local bubg = B.CreateBG(bu, icbg, 2, 2, -2, -2)
 			B.ReskinHighlight(bu, bubg, true)
 
 			local name = bu.name

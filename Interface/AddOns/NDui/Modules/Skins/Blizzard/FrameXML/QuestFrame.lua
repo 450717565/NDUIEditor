@@ -31,10 +31,7 @@ tinsert(C.defaultThemes, function()
 
 		local icon = _G[item.."IconTexture"]
 		local icbg = B.ReskinIcon(icon)
-
-		local bubg = B.CreateBDFrame(_G[item], 0)
-		bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
-		bubg:SetPoint("BOTTOMRIGHT", -5, 0)
+		B.CreateBG(_G[item], icbg, 2, 0, -5, 0)
 	end
 
 	-- TextColor

@@ -36,10 +36,7 @@ C.themes["Blizzard_BlackMarketUI"] = function()
 				local icbg = B.ReskinIcon(bu.Item.IconTexture)
 				B.ReskinHighlight(bu.Item, icbg)
 
-				local bubg = B.CreateBDFrame(bu, 0)
-				bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
-				bubg:SetPoint("BOTTOMRIGHT", 0, 4+C.mult)
-
+				local bubg = B.CreateBG(bu, icbg, 2)
 				B.ReskinHighlight(bu, bubg, true, true)
 				B.ReskinHighlight(bu.Selection, bubg, true, true)
 

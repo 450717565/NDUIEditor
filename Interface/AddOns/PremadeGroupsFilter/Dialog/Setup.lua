@@ -31,10 +31,6 @@ local DIFFICULTY_TEXT = {
     [C.ARENA3V3] = select(2, C_LFGList.GetActivityInfo(7)), -- Arena 3v3
 }
 
--------------------------------------------------------------------------------
--- OnShow functions
--------------------------------------------------------------------------------
-
 function PGF.Dialog_LoadMinMaxFromModel(dialog, model, key)
     dialog[key].Act:SetChecked(model[key:lower()].act)
     dialog[key].Min:SetText(model[key:lower()].min)
@@ -57,22 +53,39 @@ function PGF.Dialog_LoadFromModel(dialog)
     dialog.Difficulty.DropDown.Text:SetText(DIFFICULTY_TEXT[model.difficulty.val])
 end
 
-function PGF.Dialog_UpdatePosition()
+function PGF.Dialog_OnShow(dialog)
+    RequestRaidInfo() -- need the dungeon/raid lockout information later for filtering
+    PGF.Dialog_LoadFromModel(dialog)
+    if (not PremadeGroupsFilterState.moveable) then
+        PGF.Dialog_ResetPosition()
+    end
+end
+
+function PGF.Dialog_OnMouseDown()
+    if PremadeGroupsFilterState.moveable then
+        PremadeGroupsFilterDialog:StartMoving()
+    end
+end
+
+function PGF.Dialog_OnMouseUp()
+    PremadeGroupsFilterDialog:StopMovingOrSizing()
+end
+
+function PGF.Dialog_ResetPosition()
     local dialog = PremadeGroupsFilterDialog
+    dialog:ClearAllPoints()
     dialog:SetPoint("TOPLEFT", GroupFinderFrame, "TOPRIGHT")
     dialog:SetPoint("BOTTOMLEFT", GroupFinderFrame, "BOTTOMRIGHT", 0, 2)
     dialog:SetWidth(300)
 end
 
-function PGF.Dialog_OnShow(dialog)
-    RequestRaidInfo() -- need the dungeon/raid lockout information later for filtering
-    PGF.Dialog_LoadFromModel(dialog)
-    PGF.Dialog_UpdatePosition(dialog)
+function PGF.Dialog_ToggleMoveable(checkButton)
+    local checked = checkButton:GetChecked()
+    PremadeGroupsFilterState.moveable = checked
+    if not checked then
+        PGF.Dialog_ResetPosition()
+    end
 end
-
--------------------------------------------------------------------------------
--- OnLoad functions
--------------------------------------------------------------------------------
 
 function PGF.Dialog_DifficultyDropdown_Init(dropdown)
     local entries = {}
@@ -123,6 +136,11 @@ function PGF.Dialog_SetUpUsePGFCheckbox()
     button:SetPoint("LEFT", LFGListFrame.SearchPanel.RefreshButton, "LEFT", -62, 0)
     button:SetPoint("TOP", LFGListFrame.SearchPanel.RefreshButton, "TOP", 0, -3)
     button:SetScript("OnClick", PGF.Dialog_UsePGF_OnClick)
+    button:SetScript("OnMouseUp", function (self, button)
+        if button == "RightButton" then
+            PGF.Dialog_ResetPosition()
+        end
+    end)
     button:SetScript("OnEnter", function (self)
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
         GameTooltip:SetText(L["dialog.usepgf.tooltip"])
@@ -134,6 +152,8 @@ end
 function PGF.Dialog_OnLoad()
     local dialog = PremadeGroupsFilterDialog -- keep that
     dialog:SetScript("OnShow", PGF.Dialog_OnShow)
+    dialog:SetScript("OnMouseDown", PGF.Dialog_OnMouseDown)
+    dialog:SetScript("OnMouseUp", PGF.Dialog_OnMouseUp)
 
     dialog.InsetBg:SetPoint("TOPLEFT", 4, -62)
     dialog.InsetBg:SetPoint("BOTTOMRIGHT", -6, 26)
@@ -156,6 +176,8 @@ function PGF.Dialog_OnLoad()
     dialog.Noilvl.Act:SetEnabled(false)
     dialog.Defeated.Title:SetWordWrap(true)
     dialog.Defeated.Title:SetHeight(28)
+    dialog.MoveableToggle:SetChecked(PremadeGroupsFilterState.moveable)
+    dialog.MoveableToggle:SetScript("OnClick", PGF.Dialog_ToggleMoveable)
 
     PGF.Dialog_SetUpGenericField(dialog, "Difficulty")
     PGF.Dialog_SetUpMinMaxField(dialog, "Ilvl")
@@ -173,6 +195,8 @@ function PGF.Dialog_OnLoad()
     --dialog.Expression.EditBox:SetScript("OnTextChanged", PGF.Dialog_Expression_OnTextChanged) -- overrides Blizz
 
     PGF.Dialog_DifficultyDropdown_Init(dialog.Difficulty.DropDown)
+    PGF.Dialog_ResetPosition()
 end
 
 PremadeGroupsFilter.Dialog_OnLoad = PGF.Dialog_OnLoad
+PremadeGroupsFilter.ResetPosition = PGF.Dialog_ResetPosition

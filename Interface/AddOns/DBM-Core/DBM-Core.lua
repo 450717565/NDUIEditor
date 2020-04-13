@@ -69,7 +69,7 @@ local function showRealDate(curseDate)
 end
 
 DBM = {
-	Revision = parseCurseDate("20200409121417"),
+	Revision = parseCurseDate("20200412191051"),
 	DisplayVersion = "8.3.20 alpha", -- the string that is shown as version
 	ReleaseRevision = releaseDate(2020, 3, 31) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
@@ -526,8 +526,8 @@ local IsQuestFlaggedCompleted = C_QuestLog and C_QuestLog.IsQuestFlaggedComplete
 
 local SendAddonMessage = C_ChatInfo.SendAddonMessage
 
--- for Phanx' Class Colors
-local RAID_CLASS_COLORS = CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS
+local RAID_CLASS_COLORS = CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS-- for Phanx' Class Colors
+local NORMAL_FONT_COLOR = NORMAL_FONT_COLOR or CreateColor(1.0, 0.82, 0.0)
 
 ---------------------------------
 --  General (local) functions  --
@@ -6506,6 +6506,7 @@ do
 			end
 			fireEvent("DBM_PlaySound", path)
 		else
+			if wowTOC >= 90001 then return end--PlaySoundFile Crashes alpha client at present, so this is needed to avoid DBM causing user crashes
 			if validate then
 				--Validate LibSharedMedia
 				if not LSMMediaCacheBuilt then buildLSMFileCache() end
@@ -8024,7 +8025,7 @@ do
 		["RaidCooldown"] = true,
 		["RemovePoison"] = true,--from ally
 		["RemoveDisease"] = true,--from ally
-		["RemoveEnrage"] = true,--Can remove enemy enrage. returned in 8.x!
+		["RemoveEnrage"] = true,--Can remove enemy enrage. returned in 8.x+!
 		["RemoveCurse"] = true,--from ally
 		["RemoveMagic"] = true,--from ally
 		["MagicDispeller"] = true,--from ENEMY, not debuffs on players. use "Healer" or "RemoveMagic" for ally magic dispels. ALL healers can do that on retail, and warlock Imps
@@ -8160,6 +8161,7 @@ do
 			["RangedDps"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
+			--["RemoveEnrage"] = true,--Enable in 9.0
 		},
 		[255] = {	--Survival Hunter (Legion+)
 			["Dps"] = true,
@@ -11481,7 +11483,7 @@ end
 
 function bossModPrototype:SetRevision(revision)
 	revision = parseCurseDate(revision or "")
-	if not revision or revision == "20200409121417" then
+	if not revision or revision == "20200412191051" then
 		-- bad revision: either forgot the svn keyword or using github
 		revision = DBM.Revision
 	end

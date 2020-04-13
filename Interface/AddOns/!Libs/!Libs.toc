@@ -7,6 +7,7 @@
 
 Core.xml
 Ace3.xml
-Libs.xml
+Lib.xml
+Other.xml
 
 Fixer.lua

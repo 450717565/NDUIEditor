@@ -444,10 +444,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			reagent.NameFrame:SetAlpha(0)
 
 			local ic = B.ReskinIcon(reagent.Icon)
-
-			local bg = B.CreateBDFrame(reagent, 0)
-			bg:SetPoint("TOPLEFT", ic, "TOPRIGHT", 2, 0)
-			bg:SetPoint("BOTTOMRIGHT", -5, 0)
+			B.CreateBG(reagent, ic, 2, 0, -5, 0)
 
 			reagentIndex = reagentIndex + 1
 			reagent = reagents[reagentIndex]

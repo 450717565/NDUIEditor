@@ -95,6 +95,7 @@ L["Gradient Color 1"] = "Gradient Color 1"
 L["Gradient Color 2"] = "Gradient Color 2"
 L["Backdrop Color"] = "Backdrop Color"
 L["Texture Style"] = "Texture Style"
+L["Instance Difficulty"] = "Instance Difficulty: %s"
 
 L["From"] = "From"
 L["Tell"] = "Tell"

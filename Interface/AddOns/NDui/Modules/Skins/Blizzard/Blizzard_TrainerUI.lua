@@ -20,13 +20,10 @@ C.themes["Blizzard_TrainerUI"] = function()
 			skillButton.icon:SetTexture(texture)
 
 			local icbg = B.ReskinIcon(skillButton.icon)
-			local bubg = B.CreateBDFrame(skillButton, 0)
-			bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
-			bubg:SetPoint("BOTTOMRIGHT", 0, 4)
+			local bubg = B.CreateBG(skillButton, icbg, 2)
 
 			if skillButton == ClassTrainerFrame.skillStepButton then
-				bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
-				bubg:SetPoint("BOTTOMRIGHT", -18, 1.5)
+				bubg:SetPoint("RIGHT", -18, 0)
 			end
 
 			B.ReskinHighlight(skillButton, bubg, true)

@@ -59,6 +59,30 @@ local function ReskinWA()
 			Skin_WeakAuras(regions.region, regions.regionType)
 		end
 	end
+
+	local function ReskinWAOptions()
+		local frame = _G["WeakAurasOptions"]
+		if not frame then return end
+
+		B.ReskinFrame(frame)
+		B.ReskinInput(frame.filterInput)
+		B.ReskinButton(WASettingsButton)
+
+		for i = 1, frame.texteditor.frame:GetNumChildren() do
+			local child = select(i, frame.texteditor.frame:GetChildren())
+			if child:GetObjectType() == "Button" and child:GetText() then
+				B.ReskinButton(child)
+			end
+		end
+	end
+
+	local function loadFunc(event, addon)
+		if addon == "WeakAurasOptions" then
+			hooksecurefunc(WeakAuras, "CreateFrame", ReskinWAOptions)
+			B:UnregisterEvent(event, loadFunc)
+		end
+	end
+	B:RegisterEvent("ADDON_LOADED", loadFunc)
 end
 
 S.LoadWithAddOn("WeakAuras", "WeakAuras", ReskinWA)

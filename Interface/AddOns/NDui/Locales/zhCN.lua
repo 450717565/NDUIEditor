@@ -95,6 +95,7 @@ L["Gradient Color 1"] = "渐变风格颜色 1"
 L["Gradient Color 2"] = "渐变风格颜色 2"
 L["Backdrop Color"] = "背景美化颜色"
 L["Texture Style"] = "材质风格选择"
+L["Instance Difficulty"] = "当前副本难度：%s"
 
 L["From"] = "来自"
 L["Tell"] = "告诉"

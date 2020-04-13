@@ -55,9 +55,7 @@ C.themes["Blizzard_ArchaeologyUI"] = function()
 		B.StripTextures(bu)
 
 		local icbg = B.ReskinIcon(_G[button.."Icon"])
-		local bubg = B.CreateBDFrame(bu, 0)
-		bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
-		bubg:SetPoint("BOTTOMRIGHT", 0, -1)
+		local bubg = B.CreateBG(bu, icbg, 2)
 		B.ReskinHighlight(bu, bubg, true)
 
 		local name = _G[button.."ArtifactName"]
