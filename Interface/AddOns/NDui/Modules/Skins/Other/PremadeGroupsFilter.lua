@@ -6,20 +6,26 @@ function S:PremadeGroupsFilter()
 
 	local dialog = PremadeGroupsFilterDialog
 	B.ReskinFrame(dialog)
+	B.ReskinMinMax(dialog)
 
 	B.StripTextures(dialog.Advanced)
 	B.StripTextures(dialog.Expression)
 	B.ReskinButton(dialog.ResetButton)
 	B.ReskinButton(dialog.RefreshButton)
-	B.ReskinCheck(UsePFGButton)
 	B.ReskinDropDown(dialog.Difficulty.DropDown)
 	B.CreateBDFrame(dialog.Expression, 0)
+	B.ReskinCheck(UsePFGButton)
 
 	dialog.MoveableToggle:Hide()
 	dialog.Defeated.Title:ClearAllPoints()
 	dialog.Defeated.Title:SetPoint("LEFT", dialog.Defeated.Act, "RIGHT", 2, 0)
 	dialog.Difficulty.DropDown:ClearAllPoints()
 	dialog.Difficulty.DropDown:SetPoint("RIGHT", dialog.Difficulty, "RIGHT", 13, -3)
+
+	dialog.MaximizeButton:ClearAllPoints()
+	dialog.MaximizeButton:SetPoint("RIGHT", dialog.CloseButton, "LEFT", -2, 0)
+	dialog.MinimizeButton:ClearAllPoints()
+	dialog.MinimizeButton:SetPoint("RIGHT", dialog.CloseButton, "LEFT", -2, 0)
 
 	local RefreshButton = LFGListFrame.SearchPanel.RefreshButton
 	UsePFGButton:SetSize(32, 32)

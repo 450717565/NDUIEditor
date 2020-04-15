@@ -681,13 +681,13 @@ function B:ReskinExpandOrCollapse()
 	local bdTex = B.CreateBDFrame(self, 0)
 	bdTex:SetSize(14, 14)
 	bdTex:ClearAllPoints()
-	bdTex:Point("TOPLEFT", self:GetNormalTexture())
+	bdTex:SetPoint("TOPLEFT", self:GetNormalTexture())
 	self.bdTex = bdTex
 
 	local expTex = bdTex:CreateTexture(nil, "OVERLAY")
 	expTex:SetSize(8, 8)
 	expTex:ClearAllPoints()
-	expTex:Point("CENTER")
+	expTex:SetPoint("CENTER")
 	expTex:SetTexture("Interface\\Buttons\\UI-PlusMinus-Buttons")
 	self.expTex = expTex
 
@@ -1006,7 +1006,7 @@ function B:ReskinSlider(verticle)
 	local bg = B.CreateBDFrame(self, 0)
 	bg:ClearAllPoints()
 	bg:Point("TOPLEFT", 14, -2)
-	bg:Point("BOTTOMRIGHT", -15, 4)
+	bg:Point("BOTTOMRIGHT", -15, 3)
 
 	local thumb = self:GetThumbTexture()
 	thumb:SetTexture(DB.sparkTex)

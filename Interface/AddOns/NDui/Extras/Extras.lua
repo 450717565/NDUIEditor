@@ -64,7 +64,7 @@ function Extras.UpdateAutoCollapse(event)
 
 			collapse = true
 		end
-	elseif event == "ENCOUNTER_END" then
+	elseif event == "PLAYER_REGEN_ENABLED" then
 		if collapse then
 			ObjectiveTracker_Expand()
 
@@ -76,11 +76,11 @@ end
 function Extras:AutoCollapse()
 	if NDuiDB["Extras"]["AutoCollapse"] then
 		B:RegisterEvent("ENCOUNTER_START", self.UpdateAutoCollapse)
-		B:RegisterEvent("ENCOUNTER_END", self.UpdateAutoCollapse)
+		B:RegisterEvent("PLAYER_REGEN_ENABLED", self.UpdateAutoCollapse)
 	else
 		collapse = false
 		B:UnregisterEvent("ENCOUNTER_START", self.UpdateAutoCollapse)
-		B:UnregisterEvent("ENCOUNTER_END", self.UpdateAutoCollapse)
+		B:UnregisterEvent("PLAYER_REGEN_ENABLED", self.UpdateAutoCollapse)
 	end
 end
 
@@ -101,18 +101,18 @@ end
 
 -- 副本难度自动喊话
 function Extras.UpdateInstanceDifficulty()
-	if not IsInInstance() then return end
-
-	C_Timer.After(.5, function()
-		local diffName = select(4, GetInstanceInfo())
-		if diffName and diffName ~= "" then
-			if not IsInGroup() then
-				UIErrorsFrame:AddMessage(format(DB.InfoColor..L["Instance Difficulty"], diffName))
-			else
-				SendChatMessage(format(L["Instance Difficulty"], diffName), msgChannel())
+	if IsInInstance() and (IsInGroup() and not IsInRaid()) then
+		C_Timer.After(.5, function()
+			local diffName = select(4, GetInstanceInfo())
+			if diffName and diffName ~= "" and diffName ~= DUNGEON_DIFFICULTY3 then
+				if not IsInGroup() then
+					UIErrorsFrame:AddMessage(format(DB.InfoColor..L["Instance Difficulty"], diffName))
+				else
+					SendChatMessage(format(L["Instance Difficulty"], diffName), msgChannel())
+				end
 			end
-		end
-	end)
+		end)
+	end
 end
 
 function Extras:InstanceDifficulty()

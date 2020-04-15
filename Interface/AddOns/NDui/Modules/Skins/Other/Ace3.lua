@@ -170,7 +170,7 @@ function S:Ace3()
 			widget.expand.SetPushedTexture = B.Dummy
 		elseif TYPE == "WeakAurasMultiLineEditBox" then
 			B.StripTextures(widget.scrollBG)
-			local bg = B.CreateBDFrame(widget.scrollBG, 1)
+			local bg = B.CreateBDFrame(widget.scrollBG, 0)
 			bg:SetPoint("TOPLEFT", 0, -2)
 			bg:SetPoint("BOTTOMRIGHT", -2, 1)
 			B.ReskinButton(widget.button)

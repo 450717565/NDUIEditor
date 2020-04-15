@@ -213,7 +213,15 @@ oUF.Tags.Methods["monkstagger"] = function(unit)
 	local cur = UnitStagger(unit) or 0
 	local max = UnitHealthMax(unit)
 	local per = cur / max * 100
+	local stagger = ""
+	if per < 50 then
+		stagger = format("|cff00FF00%s|r | |cff00FF00%.1f%%|r", B.FormatNumb(cur), per)
+	elseif per < 100 then
+		stagger = format("|cffFFFF00%s|r | |cffFFFF00%.1f%%|r", B.FormatNumb(cur), per)
+	else
+		stagger = format("|cffFF0000%s|r | |cffFF0000%.1f%%|r", B.FormatNumb(cur), per)
+	end
 
-	return B.ColorText(per, true, cur).." | "..B.ColorText(per, true)
+	return stagger
 end
 oUF.Tags.Events["monkstagger"] = "UNIT_MAXHEALTH UNIT_AURA"

@@ -1139,7 +1139,8 @@ function UF:CreateSwing(self)
 	local off = CreateFrame("StatusBar", nil, bar)
 	off:Hide()
 	off:SetPoint("TOPLEFT", bar, "BOTTOMLEFT", 0, -3)
-	off:SetPoint("BOTTOMRIGHT", bar, "BOTTOMRIGHT", 0, -6)
+	off:SetPoint("TOPRIGHT", bar, "BOTTOMRIGHT", 0, -3)
+	off:SetHeight(3)
 	B.CreateSB(off, true)
 
 	if NDuiDB["UFs"]["SwingTimer"] then

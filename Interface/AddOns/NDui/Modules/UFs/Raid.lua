@@ -47,8 +47,10 @@ function UF:UpdateTargetBorder()
 end
 
 function UF:CreateTargetBorder(self)
+	local color = NDuiDB["Nameplate"]["SelectedColor"]
+
 	local targetBorder = B.CreateSD(self, true)
-	targetBorder:SetBackdropBorderColor(0, 1, 1)
+	targetBorder:SetBackdropBorderColor(color.r, color.g, color.b)
 	targetBorder:SetOutside(self.Health.bd, 2+C.mult, 2+C.mult, self.Power.bd)
 	targetBorder:Hide()
 	self.Shadow = nil
