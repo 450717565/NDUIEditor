@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2399, "DBM-Party-Shadowlands", 5, 1186)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200412191051")
+mod:SetRevision("20200417005301")
 mod:SetCreatureID(162059, 163077, 163061)--162059 Kin-Tara, 163077 Azules, 163061 Janari
 mod:SetEncounterID(2357)
 mod:SetZone()
@@ -16,7 +16,7 @@ mod:RegisterEventsInCombat(
 --	"SPELL_CAST_SUCCESS",
 	"SPELL_PERIODIC_DAMAGE 317626",
 	"SPELL_PERIODIC_MISSED 317626",
---	"UNIT_DIED",
+	"UNIT_DIED",
 	"CHAT_MSG_RAID_BOSS_EMOTE",
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3"
 )
@@ -68,6 +68,7 @@ function mod:ChargeTarget(targetname, uId)
 		specWarnSavageCharge:Play("targetyou")
 		yellSavageCharge:Yell()
 	end
+	DBM:AddMsg("ChargeTarget returned: "..targetname.." Report if accurate or inaccurate to DBM Author")
 end
 
 function mod:OnCombatStart(delay)

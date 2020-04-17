@@ -29,7 +29,6 @@ function module:OnSizeChanged(width)
 		self:Hide()
 	else
 		self.text:SetFont(DB.Font[1], fontScale * FONT_SIZE, DB.Font[3])
-		self.text:SetShadowColor(0, 0, 0, 0)
 
 		if self.enabled then
 			module.ForceUpdate(self)

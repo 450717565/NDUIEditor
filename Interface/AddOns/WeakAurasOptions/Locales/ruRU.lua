@@ -32,8 +32,7 @@ local L = WeakAuras.L
 	L["|cFFffcc00Anchors:|r Anchored to frame's |cFFFF0000%s|r"] = "|cFFFFCC00Крепление.|r Элемент привязан к кадру в точке |cFFE6CC80%s|r"
 	L["|cFFffcc00Anchors:|r Anchored to frame's |cFFFF0000%s|r with offset |cFFFF0000%s/%s|r"] = "|cFFFFCC00Крепление.|r Элемент привязан к кадру в точке |cFFE6CC80%s|r со смещением (%s, %s)"
 	L["|cFFffcc00Extra Options:|r"] = "|cFFFFCC00Дополнительные параметры:|r"
-	--[[Translation missing --]]
-	L["|cFFffcc00Font Flags:|r |cFFFF0000%s|r and shadow |c%sColor|r with offset |cFFFF0000%s/%s|r%s%s%s"] = "|cFFffcc00Font Flags:|r |cFFFF0000%s|r and shadow |c%sColor|r with offset |cFFFF0000%s/%s|r%s%s%s"
+	L["|cFFffcc00Font Flags:|r |cFFFF0000%s|r and shadow |c%sColor|r with offset |cFFFF0000%s/%s|r%s%s%s"] = "|cFFFFCC00Атрибуты текста:|r |cFFE6CC80%s|r; Тень |c%sO|r цвета со смещением (%s, %s);%s%s%s"
 	L["1 Match"] = "1 cовпадение"
 	L["A 20x20 pixels icon"] = "Иконка 20х20 пикселей"
 	L["A 32x32 pixels icon"] = "Иконка 32х32 пикселей"
@@ -69,13 +68,12 @@ local L = WeakAuras.L
 	L["Anchor Point"] = "Точка крепления"
 	L["Anchored To"] = "Прикрепить к"
 	L["And "] = "И "
-	L["and aligned left"] = "Выранивание по левому краю"
-	L["and aligned right"] = "Выранивание по правому краю"
+	L["and aligned left"] = "Выранивание по левому краю;"
+	L["and aligned right"] = "Выранивание по правому краю;"
 	L["and rotated left"] = "Текст повернут вверх;"
 	L["and rotated right"] = "Текст повернут вниз;"
 	L["and Trigger %s"] = "Триггер %s"
-	--[[Translation missing --]]
-	L["and with width |cFFFF0000%s|r and %s"] = "and with width |cFFFF0000%s|r and %s"
+	L["and with width |cFFFF0000%s|r and %s"] = "Ширина поля %s; %s"
 	L["Angle"] = "Угол"
 	L["Animate"] = "Анимация"
 	L["Animated Expand and Collapse"] = "Анимированное свёртывание и развёртывание"
@@ -153,8 +151,7 @@ local L = WeakAuras.L
 	L["Choose"] = "Выбрать"
 	L["Choose Trigger"] = "Выберите триггер"
 	L["Choose whether the displayed icon is automatic or defined manually"] = "Выберите, будет ли иконка задана автоматически или вручную"
-	--[[Translation missing --]]
-	L["Class"] = "Class"
+	L["Class"] = "Класс"
 	--[[Translation missing --]]
 	L["Clip Overlays"] = "Clip Overlays"
 	--[[Translation missing --]]
@@ -271,13 +268,10 @@ UNIT_POWER  UNIT_AURA, PLAYER_TARGET_CHANGED]=]
 
 Запись формата |cFFFF0000%k.m|r выводит на экран информацию из k-го триггера, определённую посредством кода m.
 ]=]
-	--[[Translation missing --]]
-	L["Ease Strength"] = "Ease Strength"
-	--[[Translation missing --]]
-	L["Ease type"] = "Ease type"
+	L["Ease Strength"] = "Степень функции скорости"
+	L["Ease type"] = "Тип изменения скорости анимации"
 	L["Edge"] = "Кромка"
-	--[[Translation missing --]]
-	L["eliding"] = "eliding"
+	L["eliding"] = "Скрытие текста при переполнении"
 	L["Enabled"] = "Включено"
 	L["End Angle"] = "Конечный угол"
 	L["End of %s"] = "Конец группы \"%s\""
@@ -329,8 +323,7 @@ UNIT_POWER  UNIT_AURA, PLAYER_TARGET_CHANGED]=]
 	L["Frame Strata"] = "Слой кадра"
 	L["Frequency"] = "Частота"
 	L["From Template"] = "Из шаблона"
-	--[[Translation missing --]]
-	L["From version %s to version %s"] = "From version %s to version %s"
+	L["From version %s to version %s"] = "C %s до %s версии"
 	L["Global Conditions"] = "Универсальные условия"
 	L["Glow %s"] = "Свечение %s"
 	L["Glow Action"] = "Действие"
@@ -448,17 +441,13 @@ UNIT_POWER  UNIT_AURA, PLAYER_TARGET_CHANGED]=]
 	L["Model"] = "Модель"
 	L["Model %s"] = "Модель %s"
 	L["Model Settings"] = "Настройки модели"
-	--[[Translation missing --]]
-	L["Move Above Group"] = "Move Above Group"
-	--[[Translation missing --]]
-	L["Move Below Group"] = "Move Below Group"
+	L["Move Above Group"] = "Переместить выше группы"
+	L["Move Below Group"] = "Переместить ниже группы"
 	L["Move Down"] = "Переместить вниз"
 	L["Move Entry Down"] = "Переместить запись вниз"
 	L["Move Entry Up"] = "Переместить запись вверх"
-	--[[Translation missing --]]
-	L["Move Into Above Group"] = "Move Into Above Group"
-	--[[Translation missing --]]
-	L["Move Into Below Group"] = "Move Into Below Group"
+	L["Move Into Above Group"] = "Переместить в группу выше"
+	L["Move Into Below Group"] = "Переместить в группу ниже"
 	L["Move this display down in its group's order"] = "Переместить индикацию вниз в порядке элементов группы"
 	L["Move this display up in its group's order"] = "Переместить индикацию вверх в порядке элементов группы"
 	L["Move Up"] = "Переместить вверх"
@@ -719,8 +708,7 @@ UNIT_POWER  UNIT_AURA, PLAYER_TARGET_CHANGED]=]
 	L["Unit Frames"] = "Unit Frames"
 	L["Unlike the start or finish animations, the main animation will loop over and over until the display is hidden."] = "В отличие от начальной или конечной анимации, основная зациклена и будет повторяться пока индикация не пропадет."
 	L["Up"] = "Переместить вверх"
-	--[[Translation missing --]]
-	L["Update %s by %s"] = "Update %s by %s"
+	L["Update %s by %s"] = "Обновить %s (автор %s)"
 	L["Update Custom Text On..."] = "Обновление текста, заданного с помощью функции, происходит"
 	L["Update in Group"] = "Доступно обновление"
 	L["Update this Aura"] = "Применить к индикации"
@@ -743,8 +731,7 @@ UNIT_POWER  UNIT_AURA, PLAYER_TARGET_CHANGED]=]
 	L["Wago Update"] = "Обновление"
 	L["Whole Area"] = "Вся область"
 	L["Width"] = "Ширина"
-	--[[Translation missing --]]
-	L["wrapping"] = "wrapping"
+	L["wrapping"] = "Перенос слов при переполнении"
 	L["X Offset"] = "Смещение по X"
 	L["X Rotation"] = "Поворот по X"
 	L["X Scale"] = "Масштаб по X"

@@ -8,7 +8,6 @@ tinsert(C.defaultThemes, function()
 				region:SetTexture(nil)
 			elseif region:GetObjectType() == "FontString" then
 				region:SetFont(DB.Font[1], 16, DB.Font[3])
-				region:SetShadowColor(0, 0, 0, 0)
 			end
 		end
 

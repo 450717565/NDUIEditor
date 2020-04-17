@@ -775,10 +775,10 @@ function G:SetupUnitFrame(parent)
 	}
 
 	local defaultValue = {
-		["Player"] = {250, 30, 2},
-		["Focus"] = {200, 26, 2},
-		["Pet"] = {120, 20, 2},
-		["Boss"] = {150, 28, 2},
+		["Player"] = {250, 34, 2},
+		["Focus"] = {200, 30, 2},
+		["Pet"] = {120, 24, 2},
+		["Boss"] = {150, 32, 2},
 	}
 
 	local function createOptionGroup(parent, title, offset, value, func)
@@ -837,8 +837,8 @@ function G:SetupRaidFrame(parent)
 	}
 
 	local defaultValue = {
-		["Party"] = {200, 26, 2},
-		["PartyPet"] = {120, 20, 2},
+		["Party"] = {200, 30, 2},
+		["PartyPet"] = {120, 24, 2},
 		["Raid"] = {80, 32, 2},
 	}
 

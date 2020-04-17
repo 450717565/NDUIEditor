@@ -1630,6 +1630,7 @@ WeakAuras.event_prototypes = {
   },
   ["Health"] = {
     type = "status",
+    canHaveDuration = true,
     events = function(trigger)
       local unit = trigger.unit
       local result = {}
@@ -1853,6 +1854,7 @@ WeakAuras.event_prototypes = {
   },
   ["Power"] = {
     type = "status",
+    canHaveDuration = true,
     events = function(trigger)
       local unit = trigger.unit
       local result = {}
@@ -2120,6 +2122,7 @@ WeakAuras.event_prototypes = {
   },
   ["Alternate Power"] = {
     type = "status",
+    canHaveDuration = true,
     events = function(trigger)
       local unit = trigger.unit
       local result = {}
@@ -6511,7 +6514,7 @@ WeakAuras.event_prototypes = {
         tinsert(result, "PET_BAR_UPDATE");
       end
       if (trigger.use_petspec) then
-        tinsert(result, "PET_SPECIALIZATION_CHANGED ");
+        tinsert(result, "PET_SPECIALIZATION_CHANGED");
       end
       return {
         ["events"] = result,
@@ -6531,30 +6534,29 @@ WeakAuras.event_prototypes = {
         ret = [[
             local inverse = %s
             local check_behavior = %s
-            local name, i, active
-            local behavior
-            local index = 1
-            repeat
-              name,i, _,active = GetPetActionInfo(index);
-              if (active) then
-                activeIcon = _G[i];
-              end
-              index = index + 1
-              if WeakAuras.IsClassic() then
-                if name == "PET_MODE_AGGRESSIVE" and active == true then
+            local name, i, active, behavior, _
+            for index = 1, NUM_PET_ACTION_SLOTS do
+              name, i, _, active = GetPetActionInfo(index)
+              if active then
+                activeIcon = _G[i]
+                if name == "PET_MODE_AGGRESSIVE" then
                   behavior = "aggressive"
-                end
-              else
-                if name == "PET_MODE_ASSIST" and active == true then
+                  break
+                elseif name == "PET_MODE_ASSIST" then
                   behavior = "assist"
+                  break
+                elseif name == "PET_MODE_DEFENSIVEASSIST" then
+                  behavior = "defensive"
+                  break
+                elseif name == "PET_MODE_DEFENSIVE" then
+                  behavior = "defensive"
+                  break
+                elseif name == "PET_MODE_PASSIVE" then
+                  behavior = "passive"
+                  break
                 end
               end
-              if name == "PET_MODE_DEFENSIVE" and active == true then
-                behavior = "defensive"
-              elseif name == "PET_MODE_PASSIVE" and active == true then
-                behavior = "passive"
-              end
-            until index == 12
+            end
         ]]
         ret = ret:format(trigger.use_inverse and "true" or "false", trigger.use_behavior and ('"' .. (trigger.behavior or "") .. '"') or "nil");
       end

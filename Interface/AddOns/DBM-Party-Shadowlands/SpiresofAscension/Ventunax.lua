@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2416, "DBM-Party-Shadowlands", 5, 1186)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200412191051")
+mod:SetRevision("20200415165936")
 mod:SetCreatureID(162058)
 mod:SetEncounterID(2356)
 mod:SetZone()
@@ -35,6 +35,7 @@ function mod:FlashTarget(targetname, uId)
 	if targetname == UnitName("player") then
 		yellAnimaflash:Yell()
 	end
+	DBM:AddMsg("FlashTarget returned: "..targetname.." Report if accurate or inaccurate to DBM Author")
 end
 
 function mod:OnCombatStart(delay)

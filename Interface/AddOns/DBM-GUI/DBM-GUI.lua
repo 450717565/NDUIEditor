@@ -43,7 +43,7 @@
 --
 
 
-local revision =(string.sub("20200410151639", 1, -5))
+local revision =(string.sub("20200415201050", 1, -5))
 local FrameTitle = "DBM_GUI_Option_"	-- all GUI frames get automatically a name FrameTitle..ID
 
 local PanelPrototype = {}
@@ -74,7 +74,6 @@ end
 --------------------------------------------------------
 local tinsert, tremove, tsort, twipe = table.insert, table.remove, table.sort, table.wipe
 local mfloor, mmax = math.floor, math.max
-local NORMAL_FONT_COLOR = NORMAL_FONT_COLOR or CreateColor(1.0, 0.82, 0.0)
 
 function DBM_GUI:ShowHide(forceshow)
 	if forceshow == true then

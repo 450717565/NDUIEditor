@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2392, "DBM-Party-Shadowlands", 1, 1182)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200412121631")
+mod:SetRevision("20200415165936")
 mod:SetCreatureID(166882)
 mod:SetEncounterID(2389)
 mod:SetZone()
@@ -52,6 +52,7 @@ function mod:IchorTarget(targetname, uId)
 	else
 		warnEmbalmingIchor:Show(targetname)
 	end
+	DBM:AddMsg("IchorTarget returned: "..targetname.." Report if accurate or inaccurate to DBM Author")
 end
 
 function mod:OnCombatStart(delay)

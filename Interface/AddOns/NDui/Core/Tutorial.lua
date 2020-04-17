@@ -89,6 +89,12 @@ StaticPopupDialogs["RELOAD_NDUI"] = {
 -- DeadlyBossMods
 local function ForceDBMOptions()
 	if not IsAddOnLoaded("DBM-Core") then return end
+
+	if DBM_MinimapIcon then wipe(DBM_MinimapIcon) end
+	DBM_MinimapIcon = {
+		["hide"] = true,
+	}
+
 	if DBT_AllPersistentOptions then wipe(DBT_AllPersistentOptions) end
 	DBT_AllPersistentOptions = {
 		["Default"] = {
@@ -125,10 +131,11 @@ local function ForceDBMOptions()
 		},
 	}
 
-	if not DBM_AllSavedOptions["Default"] then DBM_AllSavedOptions["Default"] = {} end
+	if DBM_AllSavedOptions then wipe(DBM_AllSavedOptions) end
 	DBM_AllSavedOptions = {
 		["Default"] = {
 			["EventSoundVictory"] = "None",
+			["EventSoundVictory2"] = "None",
 			["HideObjectivesFrame"] = false,
 			["SpecialWarningFontSize2"] = 24,
 			["SpecialWarningFontStyle"] = DB.Font[3],
@@ -159,10 +166,6 @@ local function ForceDBMOptions()
 		DBM_AllSavedOptions["Default"]["CountdownVoice3v2"] = "VP:Yike"
 	end
 
-	if not DBM_MinimapIcon then DBM_MinimapIcon = {} end
-	DBM_MinimapIcon = {
-		["hide"] = true,
-	}
 	NDuiADB["DBMRequest"] = false
 end
 

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2402, "DBM-Party-Shadowlands", 3, 1184)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200412002938")
+mod:SetRevision("20200415165936")
 --mod:SetCreatureID(126983)--Maybe 164501?
 mod:SetEncounterID(2392)
 mod:SetZone()
@@ -40,6 +40,7 @@ function mod:BallTarget(targetname, uId)
 	if targetname == UnitName("player") then
 		yellDodgeBall:Yell()
 	end
+	DBM:AddMsg("BallTarget returned: "..targetname.." Report if accurate or inaccurate to DBM Author")
 end
 
 function mod:OnCombatStart(delay)

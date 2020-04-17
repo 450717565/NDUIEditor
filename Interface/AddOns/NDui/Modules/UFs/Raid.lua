@@ -117,7 +117,7 @@ end
 function UF:CreateRaidDebuffs(self)
 	local partyStyle = self.mystyle == "party"
 	local scale = NDuiDB["UFs"]["RaidDebuffScale"]
-	local fontSize = partyStyle and 14 or 12
+	local fontSize = partyStyle and 16 or 12
 	local iconSize = B.Round(self:GetHeight()*(partyStyle and .9 or .6))
 
 	local bu = CreateFrame("Frame", nil, self)

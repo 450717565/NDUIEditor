@@ -70,9 +70,11 @@ function B.GetItemGems(item)
 	local itemGems
 
 	local stats = GetItemStats(item)
-	for index in pairs(stats) do
-		if strfind(index, "EMPTY_SOCKET_") then
-			itemGems = "-"..L["Socket"]
+	if stats then
+		for index in pairs(stats) do
+			if strfind(index, "EMPTY_SOCKET_") then
+				itemGems = "-"..L["Socket"]
+			end
 		end
 	end
 

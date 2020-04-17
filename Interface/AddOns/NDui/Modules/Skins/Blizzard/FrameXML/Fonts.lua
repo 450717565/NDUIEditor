@@ -7,7 +7,6 @@ tinsert(C.defaultThemes, function()
 		local oldSize = select(2, font:GetFont())
 		size = size or oldSize
 		font:SetFont(DB.Font[1], size, DB.Font[3])
-		font:SetShadowColor(0, 0, 0, 0)
 	end
 
 	local fontList = {
@@ -155,7 +154,6 @@ tinsert(C.defaultThemes, function()
 			local fontName, fontSize = frame.statusText:GetFont()
 			frame.statusText:SetFont(fontName, fontSize, "OUTLINE")
 			frame.statusText:SetTextColor(.7, .7, .7)
-			frame.statusText:SetShadowColor(0, 0, 0, 0)
 
 			frame.fontStyled = true
 		end

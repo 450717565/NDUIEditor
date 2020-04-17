@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2366, "DBM-Nyalotha", nil, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200409014611")
+mod:SetRevision("20200415165936")
 mod:SetCreatureID(157439)--Fury of N'Zoth
 mod:SetEncounterID(2337)
 mod:SetZone()
@@ -158,7 +158,7 @@ function mod:OnCombatStart(delay)
 		self:Schedule(30, phaseOneTentacleLoop, self)--Only started on mythic for now
 		timerGazeofMadnessCD:Start(41.2-delay, 1)
 		self:RegisterShortTermEvents(
-			"UNIT_HEALTH boss1"
+			"UNIT_HEALTH_FREQUENT boss1"
 		)
 	elseif self:IsHeroic() then--Heroic confirmed, mythic assumed
 		timerMadnessBombCD:Start(5-delay, 1)--SUCCESS
@@ -678,7 +678,7 @@ function mod:UNIT_POWER_FREQUENT(uId)
 	end
 end
 
-function mod:UNIT_HEALTH(uId)
+function mod:UNIT_HEALTH_FREQUENT(uId)
 	local hp = UnitHealth(uId) / UnitHealthMax(uId)
 	if hp < 0.56 then
 		self:Unschedule(phaseOneTentacleLoop)

@@ -103,12 +103,12 @@ end
 function Extras.UpdateInstanceDifficulty()
 	if IsInInstance() and (IsInGroup() and not IsInRaid()) then
 		C_Timer.After(.5, function()
-			local diffName = select(4, GetInstanceInfo())
-			if diffName and diffName ~= "" and diffName ~= DUNGEON_DIFFICULTY3 then
+			local _, _, difficultyID, difficultyName = GetInstanceInfo()
+			if difficultyID ~= 0 and difficultyID ~= 8 and difficultyID ~= 23 then
 				if not IsInGroup() then
-					UIErrorsFrame:AddMessage(format(DB.InfoColor..L["Instance Difficulty"], diffName))
+					UIErrorsFrame:AddMessage(format(DB.InfoColor..L["Instance Difficulty"], difficultyName))
 				else
-					SendChatMessage(format(L["Instance Difficulty"], diffName), msgChannel())
+					SendChatMessage(format(L["Instance Difficulty"], difficultyName), msgChannel())
 				end
 			end
 		end)

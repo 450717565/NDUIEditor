@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2395, "DBM-Party-Shadowlands", 1, 1182)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200412002938")
+mod:SetRevision("20200415165936")
 mod:SetCreatureID(166880)
 mod:SetEncounterID(2387)
 mod:SetZone()
@@ -33,6 +33,7 @@ function mod:RetchTarget(targetname, uId)
 	if targetname == UnitName("player") then
 		yellHeavingRetch:Yell()
 	end
+	DBM:AddMsg("RetchTarget returned: "..targetname.." Report if accurate or inaccurate to DBM Author")
 end
 
 function mod:OnCombatStart(delay)

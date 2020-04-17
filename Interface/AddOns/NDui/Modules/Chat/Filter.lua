@@ -164,22 +164,30 @@ local function isItemHasSlot(link)
 	end
 end
 
+local function isItemHasGem(link)
+	local itemGems = B.GetItemGems(link)
+	if itemGems then
+		return itemGems
+	end
+
+	return ""
+end
+
+local function isItemHasCorruption(link)
+	local itemCorrupted = B.GetItemCorruption(link)
+	if itemCorrupted then
+		return itemCorrupted
+	end
+
+	return ""
+end
+
 local function isItemHasLevel(link)
 	local name, _, rarity, level, _, _, _, _, _, _, _, classID = GetItemInfo(link)
 	if name and level and rarity > 1 and (classID == LE_ITEM_CLASS_WEAPON or classID == LE_ITEM_CLASS_ARMOR) then
 		local itemLevel = B.GetItemLevel(link)
 		return name, itemLevel
 	end
-end
-
-local function isItemHasGem(link)
-	local stats = GetItemStats(link)
-	for index in pairs(stats) do
-		if strfind(index, "EMPTY_SOCKET_") then
-			return "|TInterface\\ItemSocketingFrame\\UI-EmptySocket-Prismatic:0|t"
-		end
-	end
-	return ""
 end
 
 local itemCache = {}
@@ -190,18 +198,20 @@ local function convertItemLevel(link)
 	if itemLink then
 		local itemInfo = ""
 		local itemSolt = isItemHasSlot(itemLink)
-		local name, itemLevel = isItemHasLevel(itemLink)
+		local itemGems = isItemHasGem(itemLink)
+		local itemCorrupted = isItemHasCorruption(itemLink)
+		local itemName, itemLevel = isItemHasLevel(itemLink)
 
 		if itemLevel and itemSolt then
-			itemInfo = itemLevel.."-"..itemSolt
+			itemInfo = itemLevel.."-"..itemSolt..itemGems..itemCorrupted
 		elseif itemLevel then
-			itemInfo = itemLevel
+			itemInfo = itemLevel..itemGems..itemCorrupted
 		elseif itemSolt then
-			itemInfo = itemSolt
+			itemInfo = itemSolt..itemGems..itemCorrupted
 		end
 
-		if name and itemInfo ~= "" then
-			link = gsub(link, "|h%[(.-)%]|h", "|h["..name.."<"..itemInfo..isItemHasGem(itemLink)..">]|h")
+		if itemName and itemInfo ~= "" then
+			link = gsub(link, "|h%[(.-)%]|h", "|h["..itemName.."<"..itemInfo..">]|h")
 			itemCache[link] = link
 		end
 	end
