@@ -383,7 +383,7 @@ C.themes["Blizzard_Collections"] = function()
 
 	local DetailsFrame = SetsCollectionFrame.DetailsFrame
 	B.StripTextures(DetailsFrame)
-	B.ReskinFilter(DetailsFrame.VariantSetsButton, "Down")
+	B.ReskinFilter(DetailsFrame.VariantSetsButton)
 
 	hooksecurefunc(SetsCollectionFrame, "Refresh", function()
 		if DetailsFrame.LimitedSet:IsShown() then

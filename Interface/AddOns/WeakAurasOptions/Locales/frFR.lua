@@ -506,9 +506,9 @@ Plusieurs valeurs peuvent être choisies]=]
 Seule une unique valeur peut être choisie]=]
 	L["Name Info"] = "Info du nom"
 	L["Name Pattern Match"] = "Correspondance de modèle de nom"
-	--[[Translation missing --]]
-	L["Name Plate"] = "Name Plate"
 	L["Name(s)"] = "Nom(s)"
+	--[[Translation missing --]]
+	L["Nameplate"] = "Nameplate"
 	L["Nameplates"] = "Barres de vie"
 	L["Negator"] = "Pas"
 	L["Never"] = "Jamais"

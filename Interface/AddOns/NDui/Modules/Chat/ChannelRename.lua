@@ -2,15 +2,33 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local module = B:GetModule("Chat")
 
-local gsub, strfind = string.gsub, string.find
+local gsub, strfind, strmatch = string.gsub, string.find, string.match
+local BetterDate, time = BetterDate, time
 local INTERFACE_ACTION_BLOCKED = INTERFACE_ACTION_BLOCKED
 
+local timestampFormat = {
+	[2] = "[%I:%M %p] ",
+	[3] = "[%I:%M:%S %p] ",
+	[4] = "[%H:%M] ",
+	[5] = "[%H:%M:%S] ",
+}
 function module:UpdateChannelNames(text, ...)
 	if strfind(text, INTERFACE_ACTION_BLOCKED) and not DB.isDeveloper then return end
 
 	local r, g, b = ...
 	if NDuiDB["Chat"]["WhisperColor"] and strfind(text, L["Tell"].." |H[BN]*player.+%]") then
 		r, g, b = r*.7, g*.7, b*.7
+	end
+
+	-- Timestamp
+	if NDuiADB["TimestampFormat"] > 1 then
+		local currentTime = time()
+		local oldTimeStamp = CHAT_TIMESTAMP_FORMAT and gsub(BetterDate(CHAT_TIMESTAMP_FORMAT, currentTime), "%[([^]]*)%]", "%%[%1%%]")
+		if oldTimeStamp then
+			text = gsub(text, oldTimeStamp, "")
+		end
+		local timeStamp = BetterDate(DB.GreyColor..timestampFormat[NDuiADB["TimestampFormat"]].."|r", currentTime)
+		text = timeStamp..text
 	end
 
 	if NDuiDB["Chat"]["Oldname"] then

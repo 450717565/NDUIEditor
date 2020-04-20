@@ -239,25 +239,25 @@ local defaultSettings = {
 		SelectedColor = {r=0, g=1, b=1},
 	},
 	Skins = {
-		DeadlyBossMods = true,
-		Skada = true,
 		Bigwigs = true,
+		DeadlyBossMods = true,
+		Details = true,
+		Skada = true,
 		TellMeWhen = true,
 		WeakAuras = true,
-		Details = true,
 
 		BarLine = true,
-		InfobarLine = true,
 		ChatLine = true,
-		MenuLine = true,
 		ClassLine = true,
+		InfobarLine = true,
+		MenuLine = true,
 
-		ToggleDirection = 1,
 		BlizzardSkins = true,
-		SkinStyle = 2,
 		FontOutline = true,
 		SkinShadow = false,
+		SkinStyle = 2,
 		SkinTexture = false,
+		ToggleDirection = 1,
 
 		BGAlpha = .5,
 		BGColor = {r=0, g=0, b=0},
@@ -343,7 +343,7 @@ local defaultSettings = {
 
 local accountSettings = {
 	ChatFilterList = "%*",
-	Timestamp = false,
+	TimestampFormat = 1,
 	NameplateFilter = {[1]={}, [2]={}},
 	RaidDebuffs = {},
 	Changelog = {},
@@ -482,10 +482,6 @@ end
 
 local function updateChatSticky()
 	B:GetModule("Chat"):ChatWhisperSticky()
-end
-
-local function updateTimestamp()
-	B:GetModule("Chat"):UpdateTimestamp()
 end
 
 local function updateWhisperList()
@@ -838,12 +834,12 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{3, "Chat", "ChatHeight", L["LockChatHeight"].."*", true, {100, 500, 0}, updateChatSize},
 		{},--blank
 		{1, "Chat", "Oldname", L["Default Channel"]},
-		{1, "ACCOUNT", "Timestamp", L["Timestamp"], true, nil, updateTimestamp},
-		{1, "Chat", "Sticky", L["Chat Sticky"].."*", nil, nil, updateChatSticky},
+		{1, "Chat", "Sticky", L["Chat Sticky"].."*", true, nil, updateChatSticky},
+		{1, "Chat", "Chatbar", L["ShowChatbar"]},
 		{1, "Chat", "WhisperColor", L["Differ WhipserColor"].."*", true},
 		{1, "Chat", "ChatItemLevel", L["ShowChatItemLevel"]},
-		{1, "Chat", "Chatbar", L["ShowChatbar"], true},
 		{1, "Chat", "Freedom", L["Language Filter"]},
+		{4, "ACCOUNT", "TimestampFormat", L["TimestampFormat"].."*", true, {DISABLE, "03:27 PM", "03:27:32 PM", "15:27", "15:27:32"}},
 		{},--blank
 		{1, "Chat", "EnableFilter", DB.MyColor..L["Enable Chatfilter"]},
 		{1, "Chat", "BlockAddonAlert", L["Block Addon Alert"], true},

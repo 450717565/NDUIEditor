@@ -1077,15 +1077,18 @@ function B.ReskinMerchantItem(index)
 	B.ReskinBorder(button.IconBorder, icbg)
 
 	local count = _G[frame.."ItemButtonCount"]
+	count:SetJustifyH("RIGHT")
 	count:ClearAllPoints()
-	count:SetPoint("BOTTOMRIGHT", icbg, "BOTTOMRIGHT", 0, 1)
+	count:SetPoint("BOTTOMRIGHT", icbg, "BOTTOMRIGHT", -1, 1)
 
 	local stock = _G[frame.."ItemButtonStock"]
+	stock:SetJustifyH("RIGHT")
 	stock:ClearAllPoints()
-	stock:SetPoint("TOPRIGHT", icbg, "TOPRIGHT", 0, -1)
+	stock:SetPoint("TOPRIGHT", icbg, "TOPRIGHT", -1, -1)
 
 	local name = _G[frame.."Name"]
 	name:SetWordWrap(false)
+	name:SetJustifyH("LEFT")
 	name:ClearAllPoints()
 	name:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 4, 2)
 

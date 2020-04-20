@@ -5,9 +5,11 @@
 	<Include file="ChatAtFriends.lua"/>
 	<Include file="ChatEmote.lua"/>
 	<Include file="DressUp.lua"/>
+	<Include file="FixTransmogOutfits.lua"/>
 	<Include file="KeystoneHelper.lua"/>
 	<Include file="LightLoot.lua"/>
 	<Include file="LootMonitor.lua"/>
+	<Include file="MogAssistant.lua"/>
 	<Include file="MountSource.lua"/>
 	<Include file="TrainAll.lua"/>
 </Ui>

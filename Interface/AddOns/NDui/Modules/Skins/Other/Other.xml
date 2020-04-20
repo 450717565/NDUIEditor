@@ -9,12 +9,14 @@
 	<Script file="ExtVendor.lua"/>
 	<Script file="Immersion.lua"/>
 	<Script file="ls_Toasts.lua"/>
+	<Script file="MogPartialSets.lua"/>
 	<Script file="Postal.lua"/>
 	<Script file="PremadeGroupsFilter.lua"/>
 	<Script file="Rematch.lua"/>
 	<Script file="Simulationcraft.lua"/>
 	<Script file="Skada.lua"/>
 	<Script file="TellMeWhen.lua"/>
+	<Script file="TransmogWishList.lua"/>
 	<Script file="WeakAuras.lua"/>
 	<Script file="WhisperPop.lua"/>
 	<Script file="WorldQuestTab.lua"/>
