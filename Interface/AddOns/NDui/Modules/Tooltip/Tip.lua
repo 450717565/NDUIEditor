@@ -354,8 +354,8 @@ function TT:ReskinStatusBar()
 	if not self.StatusBar then return end
 
 	self.StatusBar:ClearAllPoints()
-	self.StatusBar:SetPoint("BOTTOMLEFT", self, "TOPLEFT", C.mult, 3)
-	self.StatusBar:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", -C.mult, 3)
+	self.StatusBar:Point("BOTTOMLEFT", self, "TOPLEFT", C.mult, 3)
+	self.StatusBar:Point("BOTTOMRIGHT", self, "TOPRIGHT", -C.mult, 3)
 	self.StatusBar:SetHeight(5)
 
 	B.ReskinStatusBar(self.StatusBar, true)

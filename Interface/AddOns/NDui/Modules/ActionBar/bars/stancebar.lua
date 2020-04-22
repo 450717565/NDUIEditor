@@ -4,7 +4,7 @@ local Bar = B:GetModule("Actionbar")
 local cfg = C.bars.stancebar
 
 function Bar:CreateStancebar()
-	local padding, margin = 2, 5
+	local padding, margin = 2, 3
 	local num = NUM_STANCE_SLOTS
 	local NUM_POSSESS_SLOTS = NUM_POSSESS_SLOTS
 	local buttonList = {}
@@ -15,9 +15,9 @@ function Bar:CreateStancebar()
 	frame:SetWidth(num*cfg.size + (num-1)*margin + 2*padding)
 	frame:SetHeight(cfg.size + 2*padding)
 	if layout ~= 4 then
-		frame.Pos = {"BOTTOMLEFT", NDui_ActionBar2, "TOPLEFT", 0, 5}
+		frame.Pos = {"BOTTOMLEFT", NDui_ActionBar2, "TOPLEFT", 0, 3}
 	else
-		frame.Pos = {"BOTTOMLEFT", NDui_ActionBar3, "TOPLEFT", 0, 5}
+		frame.Pos = {"BOTTOMLEFT", NDui_ActionBar3, "TOPLEFT", 0, 3}
 	end
 
 	--STANCE BAR

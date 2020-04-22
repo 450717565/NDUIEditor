@@ -1152,7 +1152,7 @@ function B:ReskinSearchResult()
 
 	local results = self.searchResults
 	results:ClearAllPoints()
-	results:Point("BOTTOMLEFT", self, "BOTTOMRIGHT", 20, 0)
+	results:Point("BOTTOMLEFT", self, "BOTTOMRIGHT", 50, 0)
 	B.StripTextures(results)
 	B.CleanTextures(results)
 	B.SetBDFrame(results, -10, 0, 0, 0)

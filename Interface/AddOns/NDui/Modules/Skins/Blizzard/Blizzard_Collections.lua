@@ -385,11 +385,11 @@ C.themes["Blizzard_Collections"] = function()
 	B.StripTextures(DetailsFrame)
 	B.ReskinFilter(DetailsFrame.VariantSetsButton)
 
-	hooksecurefunc(SetsCollectionFrame, "Refresh", function()
+	hooksecurefunc(SetsCollectionFrame, "Refresh", function(self)
 		if DetailsFrame.LimitedSet:IsShown() then
-			SetsCollectionFrame.bg:SetBackdropBorderColor(1, .5, .2)
+			self.bg:SetBackdropBorderColor(1, .5, .2)
 		else
-			SetsCollectionFrame.bg:SetBackdropBorderColor(0, 0, 0)
+			self.bg:SetBackdropBorderColor(0, 0, 0)
 		end
 	end)
 
