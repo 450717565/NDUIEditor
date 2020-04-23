@@ -188,7 +188,7 @@ function S:Rematch()
 	end
 
 	function reskinTabs(self)
-		for _, tab in ipairs(self.PanelTabs.Tabs) do
+		for _, tab in pairs(self.PanelTabs.Tabs) do
 			B.ReskinTab(tab)
 		end
 	end

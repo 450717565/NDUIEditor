@@ -35,7 +35,7 @@ C.themes["Blizzard_AzeriteEssenceUI"] = function()
 	B.Hook_OnMouseUp(HeaderButton)
 
 	hooksecurefunc(EssenceList, "Refresh", function(self)
-		for i, button in ipairs(self.buttons) do
+		for i, button in pairs(self.buttons) do
 			if not button.styled then
 				local icbg = B.ReskinIcon(button.Icon)
 

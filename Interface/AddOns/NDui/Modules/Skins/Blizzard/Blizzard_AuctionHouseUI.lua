@@ -233,8 +233,12 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 
 	local MultisellProgressFrame = AuctionHouseMultisellProgressFrame
 	B.ReskinFrame(MultisellProgressFrame)
-	B.ReskinStatusBar(MultisellProgressFrame.ProgressBar)
-	B.ReskinClose(MultisellProgressFrame.CancelButton, "LEFT", MultisellProgressFrame.ProgressBar, "RIGHT", 3, 0)
+	local ProgressBar = MultisellProgressFrame.ProgressBar
+	B.ReskinStatusBar(ProgressBar)
+	B.ReskinIcon(ProgressBar.Icon)
+	B.ReskinClose(MultisellProgressFrame.CancelButton, "LEFT", ProgressBar, "RIGHT", 3, 0)
+	ProgressBar.Icon:ClearAllPoints()
+	ProgressBar.Icon:SetPoint("RIGHT", ProgressBar, "LEFT", -3, 0)
 
 	reskinItemDisplay(AuctionHouseFrameAuctionsFrame.ItemDisplay)
 	reskinItemList(AuctionHouseFrame.BrowseResultsFrame.ItemList, true)

@@ -16,7 +16,7 @@ function S:TransmogWishList()
 	B.ReskinButton(ModPicker.AcceptButton)
 	B.ReskinButton(ModPicker.CancelButton)
 	local ModList = ModPicker.ModList
-	for _, button in ipairs(ModList.ModButtons) do
+	for _, button in pairs(ModList.ModButtons) do
 		if not button.styled then
 			B.ReskinButton(button)
 			B.ReskinHighlight(button.SelectTexture, button)

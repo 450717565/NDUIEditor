@@ -6,7 +6,7 @@ function S:Skada()
 	if not NDuiDB["Skins"]["Skada"] then return end
 	if not IsAddOnLoaded("Skada") then return end
 
-	local pairs, ipairs, tinsert = pairs, ipairs, table.insert
+	local pairs, tinsert = pairs, table.insert
 	local Skada = Skada
 	local barSpacing = 0
 	local barmod = Skada.displays["bar"]
@@ -96,7 +96,7 @@ function S:Skada()
 		end
 	end
 
-	for _, window in ipairs(Skada:GetWindows()) do
+	for _, window in pairs(Skada:GetWindows()) do
 		window:UpdateDisplay()
 	end
 
@@ -104,7 +104,7 @@ function S:Skada()
 	function Skada:CreateWindow(name, db)
 		Skada:CreateWindow_(name, db)
 		wipe(windows)
-		for _, window in ipairs(Skada:GetWindows()) do
+		for _, window in pairs(Skada:GetWindows()) do
 			tinsert(windows, window)
 		end
 		EmbedSkada()
@@ -114,7 +114,7 @@ function S:Skada()
 	function Skada:DeleteWindow(name)
 		Skada:DeleteWindow_(name)
 		wipe(windows)
-		for _, window in ipairs(Skada:GetWindows()) do
+		for _, window in pairs(Skada:GetWindows()) do
 			tinsert(windows, window)
 		end
 		EmbedSkada()

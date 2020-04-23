@@ -173,7 +173,7 @@ do
 		closeBTN:SetScript("OnClick", function(self) frame:Hide() end)
 	end
 
-	for _, v in ipairs(emotes) do
+	for _, v in pairs(emotes) do
 		button = CreateFrame("Button", nil, frame)
 		button.emote = "{"..(v[locale] or v.key).."}"
 		button:SetSize(size, size)
