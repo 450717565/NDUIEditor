@@ -3,12 +3,14 @@ local B, C, L, DB = unpack(select(2, ...))
 C.themes["Blizzard_EncounterJournal"] = function()
 	B.ReskinFrame(EncounterJournal)
 	B.ReskinInput(EncounterJournal.searchBox)
+	B.ReskinScroll(EncounterJournalScrollBar)
+	B.ReskinScroll(EncounterJournalInstanceSelectScrollFrameScrollBar)
 
 	EncounterJournalEncounterFrameInstanceFrameMapButtonShadow:Hide()
 
-	local scrolls = {EncounterJournalScrollBar, EncounterJournalInstanceSelectScrollFrameScrollBar, EncounterJournalEncounterFrameInstanceFrameLoreScrollFrameScrollBar, EncounterJournalEncounterFrameInfoOverviewScrollFrameScrollBar, EncounterJournalEncounterFrameInfoBossesScrollFrameScrollBar, EncounterJournalEncounterFrameInfoDetailsScrollFrameScrollBar, EncounterJournalEncounterFrameInfoLootScrollFrameScrollBar}
+	local scrolls = {"InstanceFrameLoreScrollFrameScrollBar", "InfoOverviewScrollFrameScrollBar", "InfoBossesScrollFrameScrollBar", "InfoDetailsScrollFrameScrollBar", "InfoLootScrollFrameScrollBar"}
 	for _, scroll in pairs(scrolls) do
-		B.ReskinScroll(scroll)
+		B.ReskinScroll(_G["EncounterJournalEncounterFrame"..scroll])
 	end
 
 	-- [[ Search results ]]

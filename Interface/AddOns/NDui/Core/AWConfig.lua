@@ -337,22 +337,22 @@ local function CreatePanel()
 		for i = 1, #tabs do
 			if self == tabs[i] then
 				tabs[i].Page:Show()
-				tabs[i].bg:SetBackdropColor(cr, cg, cb, .5)
+				tabs[i]:SetBackdropColor(cr, cg, cb, .25)
 				tabs[i].selected = true
 			else
 				tabs[i].Page:Hide()
-				tabs[i].bg:SetBackdropColor(0, 0, 0, 0)
+				tabs[i]:SetBackdropColor(0, 0, 0, 0)
 				tabs[i].selected = false
 			end
 		end
 	end
 	local function tabOnEnter(self)
 		if self.selected then return end
-		self.bg:SetBackdropColor(cr, cg, cb, .5)
+		self:SetBackdropColor(cr, cg, cb, .25)
 	end
 	local function tabOnLeave(self)
 		if self.selected then return end
-		self.bg:SetBackdropColor(0, 0, 0, 0)
+		self:SetBackdropColor(0, 0, 0, 0)
 	end
 
 	for i, group in pairs(groups) do
@@ -362,7 +362,8 @@ local function CreatePanel()
 		tabs[i] = CreateFrame("Button", "$parentTab"..i, f)
 		tabs[i]:SetPoint("TOPLEFT", 20, -40 - i*30)
 		tabs[i]:SetSize(130, 28)
-		tabs[i].bg = B.CreateBDFrame(tabs[i], 0)
+		B.CreateBD(tabs[i], 0)
+		B.CreateSD(tabs[i])
 		local label = B.CreateFS(tabs[i], 15, group, "system", "LEFT", 10, 0)
 		if i == 11 then
 			label:SetTextColor(cr, cg, cb)

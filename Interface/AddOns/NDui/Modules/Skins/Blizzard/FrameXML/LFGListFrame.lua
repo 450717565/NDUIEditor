@@ -145,6 +145,7 @@ tinsert(C.defaultThemes, function()
 	B.ReskinInput(LFGListApplicationDialog.Description)
 	B.ReskinButton(LFGListApplicationDialog.SignUpButton)
 	B.ReskinButton(LFGListApplicationDialog.CancelButton)
+	B.ReskinScroll(LFGListApplicationDialogDescriptionScrollBar)
 
 	--LFGListInviteDialog
 	B.ReskinFrame(LFGListInviteDialog, "noKill")

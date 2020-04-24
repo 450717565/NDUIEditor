@@ -17,7 +17,7 @@ tinsert(C.defaultThemes, function()
 	VideoOptionsFrame:HookScript("OnShow", function(self)
 		if self.styled then return end
 
-		B.ReskinFrame(VideoOptionsFrame)
+		B.ReskinFrame(self)
 
 		local textures = {
 			AudioOptionsSoundPanelHardware,

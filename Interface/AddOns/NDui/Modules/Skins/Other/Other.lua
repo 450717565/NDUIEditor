@@ -2,10 +2,6 @@ local B, C, L, DB = unpack(select(2, ...))
 local S = B:GetModule("Skins")
 
 function S:Other()
-	if IsAddOnLoaded("DungeonWatchDog") then
-		select(11, LFGListFrame.SearchPanel:GetChildren()):Hide()
-	end
-
 	if IsAddOnLoaded("EasyScrap") then
 		EasyScrapParentFrame:ClearAllPoints()
 		EasyScrapParentFrame:SetPoint("LEFT", ScrappingMachineFrame, "RIGHT", 3, 0)

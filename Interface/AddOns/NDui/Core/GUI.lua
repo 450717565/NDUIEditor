@@ -962,11 +962,11 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 local function SelectTab(i)
 	for num = 1, #tabList do
 		if num == i then
-			guiTab[num].bg:SetBackdropColor(cr, cg, cb, .5)
+			guiTab[num]:SetBackdropColor(cr, cg, cb, .25)
 			guiTab[num].checked = true
 			guiPage[num]:Show()
 		else
-			guiTab[num].bg:SetBackdropColor(0, 0, 0, 0)
+			guiTab[num]:SetBackdropColor(0, 0, 0, 0)
 			guiTab[num].checked = false
 			guiPage[num]:Hide()
 		end
@@ -979,18 +979,19 @@ local function tabOnClick(self)
 end
 local function tabOnEnter(self)
 	if self.checked then return end
-	self.bg:SetBackdropColor(cr, cg, cb, .5)
+	self:SetBackdropColor(cr, cg, cb, .25)
 end
 local function tabOnLeave(self)
 	if self.checked then return end
-	self.bg:SetBackdropColor(0, 0, 0, 0)
+	self:SetBackdropColor(0, 0, 0, 0)
 end
 
 local function CreateTab(parent, i, name)
 	local tab = CreateFrame("Button", nil, parent)
 	tab:SetPoint("TOPLEFT", 20, -30*i - 20 + C.mult)
 	tab:SetSize(130, 28)
-	tab.bg = B.CreateBDFrame(tab, 0)
+	B.CreateBD(tab, 0)
+	B.CreateSD(tab)
 	local label = B.CreateFS(tab, 15, name, "system", "LEFT", 10, 0)
 	if i > 13 then
 		label:SetTextColor(cr, cg, cb)

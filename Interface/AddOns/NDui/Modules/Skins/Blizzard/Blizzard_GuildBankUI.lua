@@ -67,9 +67,9 @@ C.themes["Blizzard_GuildBankUI"] = function()
 		end
 	end
 
-	GuildBankPopupFrame:HookScript("OnShow", function()
-		GuildBankPopupFrame:ClearAllPoints()
-		GuildBankPopupFrame:SetPoint("TOPLEFT", GuildBankFrame, "TOPRIGHT", 42, 0)
+	GuildBankPopupFrame:HookScript("OnShow", function(self)
+		self:ClearAllPoints()
+		self:SetPoint("TOPLEFT", GuildBankFrame, "TOPRIGHT", 42, 0)
 
 		for i = 1, NUM_GUILDBANK_ICONS_PER_ROW * NUM_GUILDBANK_ICON_ROWS do
 			local button = "GuildBankPopupButton"..i

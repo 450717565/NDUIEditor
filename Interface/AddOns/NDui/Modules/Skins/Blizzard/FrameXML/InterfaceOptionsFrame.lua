@@ -4,7 +4,7 @@ tinsert(C.defaultThemes, function()
 	InterfaceOptionsFrame:HookScript("OnShow", function(self)
 		if self.styled then return end
 
-		B.ReskinFrame(InterfaceOptionsFrame)
+		B.ReskinFrame(self)
 
 		InterfaceOptionsFrameOkay:ClearAllPoints()
 		InterfaceOptionsFrameOkay:SetPoint("RIGHT", InterfaceOptionsFrameCancel, "LEFT", -1, 0)

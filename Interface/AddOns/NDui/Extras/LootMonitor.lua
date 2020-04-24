@@ -64,7 +64,7 @@ end
 
 local function CreateLMFrame()
 	B.CreateMF(LMFrame)
-	B.CreateBD(LMFrame)
+	B.SetBDFrame(LMFrame)
 
 	local LMFrame_CloseBtn = B.CreateButton(LMFrame, 18, 18, "X")
 	LMFrame_CloseBtn:SetPoint("TOPRIGHT", -10, -7)

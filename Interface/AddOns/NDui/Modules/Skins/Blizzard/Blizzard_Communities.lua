@@ -512,9 +512,9 @@ C.themes["Blizzard_Communities"] = function()
 	local FiltersFrame = CommunitiesGuildNewsFiltersFrame
 	B.ReskinFrame(FiltersFrame)
 
-	FiltersFrame:HookScript("OnShow", function()
-		FiltersFrame:ClearAllPoints()
-		FiltersFrame:SetPoint("TOPLEFT", CommunitiesFrame.ChatTab, "TOPRIGHT", 2, -2)
+	FiltersFrame:HookScript("OnShow", function(self)
+		self:ClearAllPoints()
+		self:SetPoint("TOPLEFT", CommunitiesFrame.ChatTab, "TOPRIGHT", 2, -2)
 	end)
 
 	local filters = {"GuildAchievement", "Achievement", "DungeonEncounter", "EpicItemLooted", "EpicItemPurchased", "EpicItemCrafted", "LegendaryItemLooted"}
