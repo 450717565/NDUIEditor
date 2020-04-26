@@ -37,7 +37,8 @@ L["%s Untrigger Function"] = "%s 取消触发函数"
 L["/wa help - Show this message"] = "/wa help - 显示此信息"
 L["/wa minimap - Toggle the minimap icon"] = "/wa minimap - 显示/隐藏小地图图标"
 L["/wa pprint - Show the results from the most recent profiling"] = "/wa pprint - 显示最近的采样结果"
-L["/wa pstart - Start profiling"] = "/wa pstart - 开始采样"
+--[[Translation missing --]]
+L["/wa pstart - Start profiling. Optionally include a duration in seconds after which profiling automatically stops. To profile the next combat/encounter, pass a \"combat\" or \"encounter\" argument."] = "/wa pstart - Start profiling. Optionally include a duration in seconds after which profiling automatically stops. To profile the next combat/encounter, pass a \"combat\" or \"encounter\" argument."
 L["/wa pstop - Finish profiling"] = "/wa pstop - 结束采样"
 L["/wa repair - Repair tool"] = "/wa repair - 修复工具"
 L["|cffeda55fLeft-Click|r to toggle showing the main window."] = "|cffeda55f左键|r显示/隐藏主窗口。"
@@ -584,6 +585,10 @@ L["Nefarian"] = "Nefarian"
 L["Neutral"] = "中立"
 L["Never"] = "从不"
 L["Next"] = "下一个"
+--[[Translation missing --]]
+L["Next Combat"] = "Next Combat"
+--[[Translation missing --]]
+L["Next Encounter"] = "Next Encounter"
 L["No Children"] = "无子物件"
 L["No Instance"] = "野外"
 L["No Profiling information saved."] = "没有保存下来的调试信息"
@@ -673,8 +678,12 @@ L["Princess Huhuran"] = "Princess Huhuran"
 --[[Translation missing --]]
 L["Print Profiling Results"] = "Print Profiling Results"
 L["Profiling already started."] = "调试已开始"
+--[[Translation missing --]]
+L["Profiling automatically started."] = "Profiling automatically started."
 L["Profiling not running."] = "调试未开始"
 L["Profiling started."] = "调试开始了"
+--[[Translation missing --]]
+L["Profiling started. It will end automatically in %d seconds"] = "Profiling started. It will end automatically in %d seconds"
 L["Profiling still running, stop before trying to print."] = "调试正在进行，打印前请停止调试。"
 L["Profiling stopped."] = "调试停止了"
 L["Progress Total"] = "总进度"
@@ -708,7 +717,7 @@ L["Remove Obsolete Auras"] = "移除废弃的光环"
 L["Repair"] = "修复"
 L["Repeat"] = "重复"
 --[[Translation missing --]]
-L["Report"] = "Report"
+L["Report Summary"] = "Report Summary"
 L["Requested display does not exist"] = "请求接收的图示不存在"
 L["Requested display not authorized"] = "请求接收的图示没有授权"
 L["Requesting display information from %s ..."] = "请求来 %s 的显示信息"
@@ -843,6 +852,8 @@ L["Stance/Form/Aura"] = "姿态/形态/光环"
 L["Star Shake"] = "Star Shake"
 --[[Translation missing --]]
 L["Start"] = "Start"
+--[[Translation missing --]]
+L["Start Now"] = "Start Now"
 L["Status"] = "状态"
 L["Stolen"] = "偷取"
 L["Stop"] = "停止"
@@ -967,7 +978,8 @@ L["Warning: Tooltip values are now available via %tooltip1, %tooltip2, %tooltip3
 L["WeakAuras has encountered an error during the login process. Please report this issue at https://github.com/WeakAuras/Weakauras2/issues/new."] = "WeakAuras 在登录过程中遇到了一个错误，请于此处报告这个错误：https://github.com/WeakAuras/Weakauras2/issues/new"
 --[[Translation missing --]]
 L["WeakAuras Profiling"] = "WeakAuras Profiling"
-L["WeakAuras Profiling Data"] = "WeakAuras 分析数据"
+--[[Translation missing --]]
+L["WeakAuras Profiling Report"] = "WeakAuras Profiling Report"
 L["Weapon"] = "武器"
 L["Weapon Enchant"] = "武器附魔"
 L["What do you want to do?"] = "想做点什么？"
@@ -980,6 +992,12 @@ L["X-Offset"] = "X 偏移"
 L["Yell"] = "大喊"
 L["Y-Offset"] = "Y 偏移"
 L["You already have this group/aura. Importing will create a duplicate."] = "此组/光环已经存在，继续导入将会复制这些数据。"
+--[[Translation missing --]]
+L["Your next encounter will automatically be profiled."] = "Your next encounter will automatically be profiled."
+--[[Translation missing --]]
+L["Your next instance of combat will automatically be profiled."] = "Your next instance of combat will automatically be profiled."
+--[[Translation missing --]]
+L["Your scheduled automatic profile has been cancelled."] = "Your scheduled automatic profile has been cancelled."
 L["Zone Group ID(s)"] = "单个/多个区域组 ID"
 L["Zone ID(s)"] = "单个/多个区域 ID"
 L["Zone Name"] = "区域名称"

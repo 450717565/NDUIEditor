@@ -717,10 +717,10 @@ local function optOnClick(self)
 	local opt = self.__owner.options
 	for i = 1, #opt do
 		if self == opt[i] then
-			opt[i].bg:SetBackdropColor(1, .8, 0, .25)
+			opt[i]:SetBackdropColor(1, .8, 0, .25)
 			opt[i].selected = true
 		else
-			opt[i].bg:SetBackdropColor(0, 0, 0, 0)
+			opt[i]:SetBackdropColor(0, 0, 0, 0)
 			opt[i].selected = false
 		end
 	end
@@ -730,12 +730,12 @@ end
 
 local function optOnEnter(self)
 	if self.selected then return end
-	self.bg:SetBackdropColor(1, 1, 1, .25)
+	self:SetBackdropColor(1, 1, 1, .25)
 end
 
 local function optOnLeave(self)
 	if self.selected then return end
-	self.bg:SetBackdropColor(0, 0, 0, 0)
+	self:SetBackdropColor(0, 0, 0, 0)
 end
 
 local function buttonOnShow(self)
@@ -750,8 +750,10 @@ end
 function B:CreateDropDown(width, height, data)
 	local dd = CreateFrame("Frame", nil, self)
 	dd:SetSize(width, height)
-	local bg = B.CreateBDFrame(dd, 0)
-	bg:SetBackdropBorderColor(1, 1, 1)
+	B.CreateBD(dd, 0)
+	B.CreateSD(dd)
+	B.CreateGF(dd)
+	dd:SetBackdropBorderColor(1, 1, 1)
 	dd.Text = B.CreateFS(dd, 14, "", false, "LEFT", 5, 0)
 	dd.Text:SetPoint("RIGHT", -5, 0)
 	dd.options = {}
@@ -777,7 +779,9 @@ function B:CreateDropDown(width, height, data)
 		opt[i]:ClearAllPoints()
 		opt[i]:SetPoint("TOPLEFT", 4, -4 - (i-1)*(height+2))
 		opt[i]:SetSize(width - 8, height)
-		opt[i].bg = B.CreateBDFrame(opt[i], 0)
+		B.CreateBD(opt[i], 0)
+		B.CreateSD(opt[i])
+		B.CreateGF(opt[i])
 		local text = B.CreateFS(opt[i], 14, j, false, "LEFT", 5, 0)
 		text:SetPoint("RIGHT", -5, 0)
 		opt[i].text = j

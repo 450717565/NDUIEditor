@@ -37,7 +37,8 @@ L["%s Untrigger Function"] = "%s - Функция детриггера"
 L["/wa help - Show this message"] = "/wa help - показать данное сообщение"
 L["/wa minimap - Toggle the minimap icon"] = "/wa minimap - отобразить или скрыть иконку на миникарте"
 L["/wa pprint - Show the results from the most recent profiling"] = "/wa pprint - показать результаты последнего профилирования"
-L["/wa pstart - Start profiling"] = "/wa pstart - запустить профилирование"
+--[[Translation missing --]]
+L["/wa pstart - Start profiling. Optionally include a duration in seconds after which profiling automatically stops. To profile the next combat/encounter, pass a \"combat\" or \"encounter\" argument."] = "/wa pstart - Start profiling. Optionally include a duration in seconds after which profiling automatically stops. To profile the next combat/encounter, pass a \"combat\" or \"encounter\" argument."
 L["/wa pstop - Finish profiling"] = "/wa pstop - завершить профилирование"
 L["/wa repair - Repair tool"] = "/wa repair - средство восстановления данных"
 L["|cffeda55fLeft-Click|r to toggle showing the main window."] = "|cFFEDA55FЛевый клик|r - показать или скрыть окно параметров."
@@ -557,6 +558,10 @@ L["Nefarian"] = "Нефариан"
 L["Neutral"] = "Нейтральный"
 L["Never"] = "Никогда"
 L["Next"] = "Далее"
+--[[Translation missing --]]
+L["Next Combat"] = "Next Combat"
+--[[Translation missing --]]
+L["Next Encounter"] = "Next Encounter"
 L["No Children"] = "Нет индикаций"
 L["No Instance"] = "Не в подземелье"
 L["No Profiling information saved."] = "Нет данных профилирования."
@@ -640,8 +645,12 @@ L["Press Ctrl+C to copy"] = "Нажмите Ctrl+C, чтобы скопиров�
 L["Princess Huhuran"] = "Принцесса Хухуран"
 L["Print Profiling Results"] = "Вывести результаты профилирования"
 L["Profiling already started."] = "Профилирование уже запущено."
+--[[Translation missing --]]
+L["Profiling automatically started."] = "Profiling automatically started."
 L["Profiling not running."] = "Профилирование не выполняется."
 L["Profiling started."] = "Профилирование начато."
+--[[Translation missing --]]
+L["Profiling started. It will end automatically in %d seconds"] = "Profiling started. It will end automatically in %d seconds"
 L["Profiling still running, stop before trying to print."] = "Профилирование все еще выполняется; остановите его перед выводом результатов."
 L["Profiling stopped."] = "Профилирование остановлено."
 L["Progress Total"] = "Общее значение"
@@ -675,7 +684,8 @@ L["Remaining Time"] = "Оставшееся время"
 L["Remove Obsolete Auras"] = "Удалить устаревшие индикации"
 L["Repair"] = "Восстановить"
 L["Repeat"] = "Повторить (замостить)"
-L["Report"] = "Отчет"
+--[[Translation missing --]]
+L["Report Summary"] = "Report Summary"
 L["Requested display does not exist"] = "Запрошенная индикация не существует"
 L["Requested display not authorized"] = "Запрошенная индикация не разрешена"
 L["Requesting display information from %s ..."] = "Запрос информации об индикации от %s ..."
@@ -811,6 +821,8 @@ L["Stance/Form/Aura"] = "Стойка / Форма / Аура"
 --[[Translation missing --]]
 L["Star Shake"] = "Star Shake"
 L["Start"] = "Начать"
+--[[Translation missing --]]
+L["Start Now"] = "Start Now"
 L["Status"] = "Статус"
 L["Stolen"] = "Кража"
 L["Stop"] = "Остановить"
@@ -935,7 +947,8 @@ L["Warning: Name info is now available via %affected, %unaffected. Number of aff
 L["Warning: Tooltip values are now available via %tooltip1, %tooltip2, %tooltip3 instead of %s. This is not automatically adjusted."] = "|cFFFFCC00Примечение.|r Теперь значения из текста подсказки доступны посредством %tooltip1, %tooltip2 и %tooltip3. Это изменение автоматически не применяется."
 L["WeakAuras has encountered an error during the login process. Please report this issue at https://github.com/WeakAuras/Weakauras2/issues/new."] = "WeakAuras обнаружил ошибку во время входа в систему. Пожалуйста, сообщите об этой проблеме https://github.com/WeakAuras/Weakauras2/issues/new ."
 L["WeakAuras Profiling"] = "Профилирование WeakAuras"
-L["WeakAuras Profiling Data"] = "Данные профилирования"
+--[[Translation missing --]]
+L["WeakAuras Profiling Report"] = "WeakAuras Profiling Report"
 L["Weapon"] = "Оружие"
 L["Weapon Enchant"] = "Чары на оружии"
 L["What do you want to do?"] = "Что вы хотите сделать?"
@@ -949,6 +962,12 @@ L["Yell"] = "Крик"
 L["Y-Offset"] = "Смещение по Y"
 L["You already have this group/aura. Importing will create a duplicate."] = [=[У вас уже есть эта индикация, поэтому при импорте
 будет создана копия.]=]
+--[[Translation missing --]]
+L["Your next encounter will automatically be profiled."] = "Your next encounter will automatically be profiled."
+--[[Translation missing --]]
+L["Your next instance of combat will automatically be profiled."] = "Your next instance of combat will automatically be profiled."
+--[[Translation missing --]]
+L["Your scheduled automatic profile has been cancelled."] = "Your scheduled automatic profile has been cancelled."
 L["Zone Group ID(s)"] = "ID группы игровых зон"
 L["Zone ID(s)"] = "ID игровой зоны"
 L["Zone Name"] = "Название игровой зоны"

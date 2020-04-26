@@ -177,6 +177,8 @@ local list = {
 		{AuraID = 302565, UnitID = "target", Caster = "player"},	-- 导电墨汁
 		{AuraID = 296962, UnitID = "player"},	-- 艾萨拉饰品
 	-- 艾泽里特特质
+		{AuraID = 274373, UnitID = "player"},	-- 溃烂之力，DK
+		{AuraID = 272723, UnitID = "player"},	-- 冰霜堡垒，DK
 		{AuraID = 300174, UnitID = "player"},	-- 发条之心
 		{AuraID = 271550, UnitID = "player"},	-- 临危不惧
 		{AuraID = 281517, UnitID = "player"},	-- 不稳定的催化剂
@@ -210,7 +212,6 @@ local list = {
 		{AuraID = 280653, UnitID = "player"},	-- 工程特质，变小
 		{AuraID = 280654, UnitID = "player"},	-- 工程特质，变大
 		{AuraID = 273525, UnitID = "player"},	-- 大难临头
-		{AuraID = 274373, UnitID = "player"},	-- 溃烂之力
 		{AuraID = 280170, UnitID = "player", Value = true},	-- 假死盾
 	-- 艾泽里特精华
 		{AuraID = 302932, UnitID = "player", Flash = true},	-- 无畏之力

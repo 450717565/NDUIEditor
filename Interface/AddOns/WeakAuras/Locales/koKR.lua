@@ -37,7 +37,8 @@ L["%s Untrigger Function"] = "%s 비활성 조건 함수"
 L["/wa help - Show this message"] = "/wa help - 이 메시지 보이기"
 L["/wa minimap - Toggle the minimap icon"] = "/wa minimap - 미니맵 아이콘 토글"
 L["/wa pprint - Show the results from the most recent profiling"] = "/wa pprint - 가장 최근의 프로필 결과 표시"
-L["/wa pstart - Start profiling"] = "/wa pstart - 프로필 시작"
+--[[Translation missing --]]
+L["/wa pstart - Start profiling. Optionally include a duration in seconds after which profiling automatically stops. To profile the next combat/encounter, pass a \"combat\" or \"encounter\" argument."] = "/wa pstart - Start profiling. Optionally include a duration in seconds after which profiling automatically stops. To profile the next combat/encounter, pass a \"combat\" or \"encounter\" argument."
 L["/wa pstop - Finish profiling"] = "/wa pstop - 프로필 종료"
 --[[Translation missing --]]
 L["/wa repair - Repair tool"] = "/wa repair - Repair tool"
@@ -642,6 +643,10 @@ L["Nefarian"] = "Nefarian"
 L["Neutral"] = "중립"
 L["Never"] = "절대 안함"
 L["Next"] = "다음"
+--[[Translation missing --]]
+L["Next Combat"] = "Next Combat"
+--[[Translation missing --]]
+L["Next Encounter"] = "Next Encounter"
 L["No Children"] = "자식 없음"
 L["No Instance"] = "인스턴스가 아닐 때"
 L["No Profiling information saved."] = "프로필 정보가 저장되지 않았습니다."
@@ -745,8 +750,12 @@ L["Princess Huhuran"] = "Princess Huhuran"
 --[[Translation missing --]]
 L["Print Profiling Results"] = "Print Profiling Results"
 L["Profiling already started."] = "프로필이 이미 시작되었습니다."
+--[[Translation missing --]]
+L["Profiling automatically started."] = "Profiling automatically started."
 L["Profiling not running."] = "프로필이 실행되지 않습니다."
 L["Profiling started."] = "프로필이 시작되었습니다."
+--[[Translation missing --]]
+L["Profiling started. It will end automatically in %d seconds"] = "Profiling started. It will end automatically in %d seconds"
 L["Profiling still running, stop before trying to print."] = "프로필이 여전히 실행 중이면 출력을 시작하기 전에 중지하십시오."
 L["Profiling stopped."] = "프로필이 중지되었습니다."
 L["Progress Total"] = "진행 현황"
@@ -784,7 +793,7 @@ L["Remove Obsolete Auras"] = "쓸모없는 효과를 제거"
 L["Repair"] = "Repair"
 L["Repeat"] = "반복"
 --[[Translation missing --]]
-L["Report"] = "Report"
+L["Report Summary"] = "Report Summary"
 L["Requested display does not exist"] = "요청한 디스플레이가 존재하지 않습니다"
 L["Requested display not authorized"] = "요청한 디스플레이가 올바르지 않습니다"
 L["Requesting display information from %s ..."] = "%s의 디스플레이 정보 요청 중 ..."
@@ -939,6 +948,8 @@ L["Stance/Form/Aura"] = "태세/형상/효과"
 L["Star Shake"] = "Star Shake"
 --[[Translation missing --]]
 L["Start"] = "Start"
+--[[Translation missing --]]
+L["Start Now"] = "Start Now"
 L["Status"] = "상태"
 L["Stolen"] = "훔침"
 L["Stop"] = "중지"
@@ -1089,7 +1100,7 @@ L["WeakAuras has encountered an error during the login process. Please report th
 --[[Translation missing --]]
 L["WeakAuras Profiling"] = "WeakAuras Profiling"
 --[[Translation missing --]]
-L["WeakAuras Profiling Data"] = "WeakAuras Profiling Data"
+L["WeakAuras Profiling Report"] = "WeakAuras Profiling Report"
 L["Weapon"] = "무기"
 L["Weapon Enchant"] = "무기 마법부여"
 L["What do you want to do?"] = "무엇을 하고 싶나요?"
@@ -1102,6 +1113,12 @@ L["X-Offset"] = "X-좌표"
 L["Yell"] = "외침"
 L["Y-Offset"] = "Y-좌표"
 L["You already have this group/aura. Importing will create a duplicate."] = "이미 이 그룹/효과가 있습니다. 가져 오기를 수행하면 복제본이 만들어집니다."
+--[[Translation missing --]]
+L["Your next encounter will automatically be profiled."] = "Your next encounter will automatically be profiled."
+--[[Translation missing --]]
+L["Your next instance of combat will automatically be profiled."] = "Your next instance of combat will automatically be profiled."
+--[[Translation missing --]]
+L["Your scheduled automatic profile has been cancelled."] = "Your scheduled automatic profile has been cancelled."
 L["Zone Group ID(s)"] = "지역 그룹 ID"
 L["Zone ID(s)"] = "지역 ID"
 L["Zone Name"] = "지역 이름"

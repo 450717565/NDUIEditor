@@ -37,7 +37,8 @@ L["%s Untrigger Function"] = "%s Fonction de Désactivation"
 L["/wa help - Show this message"] = "/wa help - Montrer ce message"
 L["/wa minimap - Toggle the minimap icon"] = "/wa minimap - Afficher l'icône sur la mini-carte"
 L["/wa pprint - Show the results from the most recent profiling"] = "/wa pprint - Affiche les résultats du profilage le plus récent"
-L["/wa pstart - Start profiling"] = "/wa pstart - Commencer le profilage"
+--[[Translation missing --]]
+L["/wa pstart - Start profiling. Optionally include a duration in seconds after which profiling automatically stops. To profile the next combat/encounter, pass a \"combat\" or \"encounter\" argument."] = "/wa pstart - Start profiling. Optionally include a duration in seconds after which profiling automatically stops. To profile the next combat/encounter, pass a \"combat\" or \"encounter\" argument."
 L["/wa pstop - Finish profiling"] = "/wa pstop - Arrêter le profilage"
 --[[Translation missing --]]
 L["/wa repair - Repair tool"] = "/wa repair - Repair tool"
@@ -623,6 +624,10 @@ L["Nefarian"] = "Nefarian"
 L["Neutral"] = "Neutre"
 L["Never"] = "Jamais"
 L["Next"] = "Suivant"
+--[[Translation missing --]]
+L["Next Combat"] = "Next Combat"
+--[[Translation missing --]]
+L["Next Encounter"] = "Next Encounter"
 L["No Children"] = "Pas d'Enfants"
 L["No Instance"] = "Pas d'instance"
 L["No Profiling information saved."] = "Aucune information de profilage enregistrée."
@@ -722,8 +727,12 @@ L["Princess Huhuran"] = "Princess Huhuran"
 --[[Translation missing --]]
 L["Print Profiling Results"] = "Print Profiling Results"
 L["Profiling already started."] = "Le profilage a déjà commencé."
+--[[Translation missing --]]
+L["Profiling automatically started."] = "Profiling automatically started."
 L["Profiling not running."] = "Le profilage ne fonctionne pas."
 L["Profiling started."] = "Le profilage a commencé."
+--[[Translation missing --]]
+L["Profiling started. It will end automatically in %d seconds"] = "Profiling started. It will end automatically in %d seconds"
 L["Profiling still running, stop before trying to print."] = "Profiler toujours en cours, arrêtez avant d'essayer d'imprimer."
 L["Profiling stopped."] = "Le profilage s'est arrêté."
 L["Progress Total"] = "Progrès Total"
@@ -761,7 +770,7 @@ L["Remove Obsolete Auras"] = "Retirer les auras obsolètes"
 L["Repair"] = "Repair"
 L["Repeat"] = "Répéter"
 --[[Translation missing --]]
-L["Report"] = "Report"
+L["Report Summary"] = "Report Summary"
 L["Requested display does not exist"] = "L'affichage demandé n'existe pas"
 L["Requested display not authorized"] = "L'affichage demandé n'est pas autorisé"
 L["Requesting display information from %s ..."] = "Demande des informations de l'affichage depuis %s ..."
@@ -909,6 +918,8 @@ L["Stance/Form/Aura"] = "Posture/Forme/Aura"
 L["Star Shake"] = "Star Shake"
 --[[Translation missing --]]
 L["Start"] = "Start"
+--[[Translation missing --]]
+L["Start Now"] = "Start Now"
 L["Status"] = "Statut"
 L["Stolen"] = "Volé"
 L["Stop"] = "Arrêter"
@@ -1050,7 +1061,7 @@ L["WeakAuras has encountered an error during the login process. Please report th
 --[[Translation missing --]]
 L["WeakAuras Profiling"] = "WeakAuras Profiling"
 --[[Translation missing --]]
-L["WeakAuras Profiling Data"] = "WeakAuras Profiling Data"
+L["WeakAuras Profiling Report"] = "WeakAuras Profiling Report"
 L["Weapon"] = "Arme"
 L["Weapon Enchant"] = "Enchantement d'arme"
 L["What do you want to do?"] = "Qu'est-ce que vous voulez faire?"
@@ -1064,6 +1075,12 @@ L["X-Offset"] = "Décalage X"
 L["Yell"] = "Crier"
 L["Y-Offset"] = "Décalage Y"
 L["You already have this group/aura. Importing will create a duplicate."] = "Vous avez déjà ce groupe/aura. L'importation créera un doublon."
+--[[Translation missing --]]
+L["Your next encounter will automatically be profiled."] = "Your next encounter will automatically be profiled."
+--[[Translation missing --]]
+L["Your next instance of combat will automatically be profiled."] = "Your next instance of combat will automatically be profiled."
+--[[Translation missing --]]
+L["Your scheduled automatic profile has been cancelled."] = "Your scheduled automatic profile has been cancelled."
 L["Zone Group ID(s)"] = "ID du Groupe de Zone"
 L["Zone ID(s)"] = "ID de la Zone"
 L["Zone Name"] = "Nom de la Zone"

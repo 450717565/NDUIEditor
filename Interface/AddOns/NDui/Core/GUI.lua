@@ -204,8 +204,8 @@ local defaultSettings = {
 		TargetIndicator = 2,
 		InsideView = true,
 		Distance = 42,
-		PlateWidth = 140,
-		PlateHeight = 8,
+		PlateWidth = 200,
+		PlateHeight = 12,
 		CustomUnitColor = true,
 		CustomColor = {r=0, g=1, b=0},
 		UnitList = "",
@@ -226,8 +226,8 @@ local defaultSettings = {
 		PPHideOOC = true,
 		NameplateClassPower = false,
 		MaxPowerGlow = true,
-		NameTextSize = 10,
-		HealthTextSize = 14,
+		NameTextSize = 12,
+		HealthTextSize = 16,
 		MinScale = .8,
 		MinAlpha = .8,
 		ColorBorder = true,
@@ -770,10 +770,10 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{3, "Nameplate", "Distance", L["Nameplate Distance"].."*", true, {20, 100, 0}, updatePlateRange},
 		{3, "Nameplate", "MinScale", L["Nameplate MinScale"].."*", false, {.5, 1, 1}, updatePlateScale},
 		{3, "Nameplate", "MinAlpha", L["Nameplate MinAlpha"].."*", true, {.5, 1, 1}, updatePlateAlpha},
-		{3, "Nameplate", "PlateWidth", L["NP Width"].."*(140)", false, {50, 250, 0}, refreshNameplates},
-		{3, "Nameplate", "PlateHeight", L["NP Height"].."*(8)", true, {5, 30, 0}, refreshNameplates},
-		{3, "Nameplate", "NameTextSize", L["NameTextSize"].."*(10)", false, {10, 30, 0}, refreshNameplates},
-		{3, "Nameplate", "HealthTextSize", L["HealthTextSize"].."*(14)", true, {10, 30, 0}, refreshNameplates},
+		{3, "Nameplate", "PlateWidth", L["NP Width"].."*(200)", false, {100, 300, 0}, refreshNameplates},
+		{3, "Nameplate", "PlateHeight", L["NP Height"].."*(12)", true, {5, 30, 0}, refreshNameplates},
+		{3, "Nameplate", "NameTextSize", L["NameTextSize"].."*(12)", false, {10, 30, 0}, refreshNameplates},
+		{3, "Nameplate", "HealthTextSize", L["HealthTextSize"].."*(16)", true, {10, 30, 0}, refreshNameplates},
 		{3, "Nameplate", "maxAuras", L["Max Auras"].."(12)", false, {0, 12, 0}},
 		{3, "Nameplate", "AutoPerRow", L["Auto Per Row"].."(6)", true, {3, 6, 0}},
 	},
@@ -836,7 +836,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Chat", "Oldname", L["Default Channel"]},
 		{1, "Chat", "Sticky", L["Chat Sticky"].."*", true, nil, updateChatSticky},
 		{1, "Chat", "Chatbar", L["ShowChatbar"]},
-		{1, "Chat", "WhisperColor", L["Differ WhipserColor"].."*", true},
+		{1, "Chat", "WhisperColor", L["Differ WhisperColor"].."*", true},
 		{1, "Chat", "ChatItemLevel", L["ShowChatItemLevel"]},
 		{1, "Chat", "Freedom", L["Language Filter"]},
 		{4, "ACCOUNT", "TimestampFormat", L["TimestampFormat"].."*", true, {DISABLE, "03:27 PM", "03:27:32 PM", "15:27", "15:27:32"}},
@@ -1114,10 +1114,10 @@ local function CreateOption(i)
 			dd.button:HookScript("OnClick", function()
 				for num = 1, #data do
 					if num == NDUI_VARIABLE(key, value) then
-						opt[num].bg:SetBackdropColor(1, .8, 0, .25)
+						opt[num]:SetBackdropColor(1, .8, 0, .25)
 						opt[num].selected = true
 					else
-						opt[num].bg:SetBackdropColor(0, 0, 0, 0)
+						opt[num]:SetBackdropColor(0, 0, 0, 0)
 						opt[num].selected = false
 					end
 				end

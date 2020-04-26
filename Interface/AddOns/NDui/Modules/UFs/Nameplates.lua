@@ -45,8 +45,11 @@ end
 
 function UF:UpdateClickableSize()
 	if InCombatLockdown() then return end
-	C_NamePlate.SetNamePlateEnemySize(NDuiDB["Nameplate"]["PlateWidth"], NDuiDB["Nameplate"]["PlateHeight"]+40)
-	C_NamePlate.SetNamePlateFriendlySize(NDuiDB["Nameplate"]["PlateWidth"], NDuiDB["Nameplate"]["PlateHeight"]+40)
+
+	local width = NDuiDB["Nameplate"]["PlateWidth"]*NDuiADB["UIScale"]
+	local height = (NDuiDB["Nameplate"]["PlateHeight"]+40)*NDuiADB["UIScale"]
+	C_NamePlate.SetNamePlateEnemySize(width, height)
+	C_NamePlate.SetNamePlateFriendlySize(width, height)
 end
 
 function UF:SetupCVars()
@@ -511,9 +514,9 @@ function UF:UpdateExplosives(event, unit)
 
 	local npcID = self.npcID
 	if event == "NAME_PLATE_UNIT_ADDED" and npcID == id then
-		self:SetScale(1.5)
+		self:SetScale(NDuiADB["UIScale"]*1.5)
 	elseif event == "NAME_PLATE_UNIT_REMOVED" then
-		self:SetScale(1)
+		self:SetScale(NDuiADB["UIScale"])
 	end
 end
 
@@ -627,7 +630,7 @@ function UF:CreatePlates()
 	self.mystyle = "nameplate"
 	self:SetSize(NDuiDB["Nameplate"]["PlateWidth"], NDuiDB["Nameplate"]["PlateHeight"])
 	self:SetPoint("CENTER")
-	self:SetScale(1)
+	self:SetScale(NDuiADB["UIScale"])
 
 	local health = CreateFrame("StatusBar", nil, self)
 	health:SetAllPoints()

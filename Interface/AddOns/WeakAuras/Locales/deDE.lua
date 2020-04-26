@@ -44,7 +44,7 @@ L["/wa minimap - Toggle the minimap icon"] = "/wa minimap - Toggle the minimap i
 --[[Translation missing --]]
 L["/wa pprint - Show the results from the most recent profiling"] = "/wa pprint - Show the results from the most recent profiling"
 --[[Translation missing --]]
-L["/wa pstart - Start profiling"] = "/wa pstart - Start profiling"
+L["/wa pstart - Start profiling. Optionally include a duration in seconds after which profiling automatically stops. To profile the next combat/encounter, pass a \"combat\" or \"encounter\" argument."] = "/wa pstart - Start profiling. Optionally include a duration in seconds after which profiling automatically stops. To profile the next combat/encounter, pass a \"combat\" or \"encounter\" argument."
 --[[Translation missing --]]
 L["/wa pstop - Finish profiling"] = "/wa pstop - Finish profiling"
 --[[Translation missing --]]
@@ -754,6 +754,10 @@ L["Neutral"] = "Neutral"
 L["Never"] = "Nie"
 L["Next"] = "Weiter"
 --[[Translation missing --]]
+L["Next Combat"] = "Next Combat"
+--[[Translation missing --]]
+L["Next Encounter"] = "Next Encounter"
+--[[Translation missing --]]
 L["No Children"] = "No Children"
 L["No Instance"] = "Keine Instanz"
 --[[Translation missing --]]
@@ -869,9 +873,13 @@ L["Print Profiling Results"] = "Print Profiling Results"
 --[[Translation missing --]]
 L["Profiling already started."] = "Profiling already started."
 --[[Translation missing --]]
+L["Profiling automatically started."] = "Profiling automatically started."
+--[[Translation missing --]]
 L["Profiling not running."] = "Profiling not running."
 --[[Translation missing --]]
 L["Profiling started."] = "Profiling started."
+--[[Translation missing --]]
+L["Profiling started. It will end automatically in %d seconds"] = "Profiling started. It will end automatically in %d seconds"
 --[[Translation missing --]]
 L["Profiling still running, stop before trying to print."] = "Profiling still running, stop before trying to print."
 --[[Translation missing --]]
@@ -914,7 +922,7 @@ L["Remove Obsolete Auras"] = "Remove Obsolete Auras"
 L["Repair"] = "Repair"
 L["Repeat"] = "Wiederhole"
 --[[Translation missing --]]
-L["Report"] = "Report"
+L["Report Summary"] = "Report Summary"
 L["Requested display does not exist"] = "Angeforderte Anzeige existiert nicht"
 L["Requested display not authorized"] = "Angeforderte Anzeige ist nicht autorisiert"
 --[[Translation missing --]]
@@ -1090,6 +1098,8 @@ L["Stance/Form/Aura"] = "Haltung/Form/Aura"
 L["Star Shake"] = "Star Shake"
 --[[Translation missing --]]
 L["Start"] = "Start"
+--[[Translation missing --]]
+L["Start Now"] = "Start Now"
 L["Status"] = "Status"
 L["Stolen"] = "Gestohlen (STOLEN)"
 L["Stop"] = "Stopp"
@@ -1275,7 +1285,7 @@ L["WeakAuras has encountered an error during the login process. Please report th
 --[[Translation missing --]]
 L["WeakAuras Profiling"] = "WeakAuras Profiling"
 --[[Translation missing --]]
-L["WeakAuras Profiling Data"] = "WeakAuras Profiling Data"
+L["WeakAuras Profiling Report"] = "WeakAuras Profiling Report"
 L["Weapon"] = "Waffen"
 L["Weapon Enchant"] = "Waffenverzauberung"
 L["What do you want to do?"] = "Was möchten Sie tun?"
@@ -1291,6 +1301,12 @@ L["Yell"] = "Schreien"
 L["Y-Offset"] = "Y-Versatz"
 --[[Translation missing --]]
 L["You already have this group/aura. Importing will create a duplicate."] = "You already have this group/aura. Importing will create a duplicate."
+--[[Translation missing --]]
+L["Your next encounter will automatically be profiled."] = "Your next encounter will automatically be profiled."
+--[[Translation missing --]]
+L["Your next instance of combat will automatically be profiled."] = "Your next instance of combat will automatically be profiled."
+--[[Translation missing --]]
+L["Your scheduled automatic profile has been cancelled."] = "Your scheduled automatic profile has been cancelled."
 --[[Translation missing --]]
 L["Zone Group ID(s)"] = "Zone Group ID(s)"
 --[[Translation missing --]]
