@@ -227,6 +227,7 @@ local list = {
 		{AuraID = 311203, UnitID = "player"},	-- 光荣时刻
 		{AuraID = 311202, UnitID = "player"},	-- 收割火焰
 		{AuraID = 312915, UnitID = "player"},	-- 共生姿态
+		{AuraID = 295354, UnitID = "player"},	-- 净化协议
 	-- 腐蚀
 		{AuraID = 316801, UnitID = "player", Flash = true},	-- 不可言喻的真相
 		{AuraID = 318216, UnitID = "player"},	-- 磨砺心灵

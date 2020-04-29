@@ -382,12 +382,12 @@ function UF:CreateIcons(self)
 
 	local leader = self:CreateTexture(nil, "OVERLAY")
 	leader:SetSize(12, 12)
-	leader:SetPoint("RIGHT", self.GroupRoleIndicator, "LEFT")
+	leader:SetPoint("RIGHT", groupRole, "LEFT")
 	self.LeaderIndicator = leader
 
 	local assistant = self:CreateTexture(nil, "OVERLAY")
 	assistant:SetSize(12, 12)
-	assistant:SetPoint("RIGHT", self.GroupRoleIndicator, "LEFT")
+	assistant:SetPoint("RIGHT", groupRole, "LEFT")
 	self.AssistantIndicator = assistant
 end
 
@@ -453,7 +453,7 @@ function UF:CreateCastBar(self)
 	if mystyle ~= "boss" and mystyle ~= "arena" then
 		cb.Icon = cb:CreateTexture(nil, "ARTWORK")
 		cb.Icon:SetSize(cb:GetHeight(), cb:GetHeight())
-		cb.Icon:SetPoint("RIGHT", cb, "LEFT", -3, 0)
+		cb.Icon:Point("RIGHT", cb, "LEFT", -3, 0)
 		B.ReskinIcon(cb.Icon)
 	end
 
@@ -466,23 +466,25 @@ function UF:CreateCastBar(self)
 		cb.SafeZone = safe
 
 		if NDuiDB["UFs"]["LagString"] then
-			local lag = B.CreateFS(cb, 10, "", false, "CENTER", -6, 17)
+			local lag = B.CreateFS(cb, 10)
+			lag:ClearAllPoints()
+			lag:SetPoint("CENTER", cb, "TOP", 0, 1)
 			cb.Lag = lag
 			self:RegisterEvent("CURRENT_SPELL_CAST_CHANGED", B.OnCastSent, true)
 		end
 	elseif mystyle == "nameplate" then
-		name:SetPoint("LEFT", cb, "BOTTOMLEFT", 0, 0)
-		timer:SetPoint("RIGHT", cb, "BOTTOMRIGHT", 0, 0)
+		name:SetPoint("LEFT", cb, "BOTTOMLEFT")
+		timer:SetPoint("RIGHT", cb, "BOTTOMRIGHT")
 
 		local shield = cb:CreateTexture(nil, "OVERLAY")
 		shield:SetAtlas("nameplates-InterruptShield")
 		shield:SetSize(18, 18)
-		shield:SetPoint("CENTER", 0, -5)
+		shield:SetPoint("CENTER", cb, "BOTTOM")
 		cb.Shield = shield
 
 		local iconSize = self:GetHeight()*2 + 5
 		cb.Icon:SetSize(iconSize, iconSize)
-		cb.Icon:SetPoint("BOTTOMRIGHT", cb, "BOTTOMLEFT", -5, 0)
+		cb.Icon:Point("BOTTOMRIGHT", cb, "BOTTOMLEFT", -5, 0)
 		cb.timeToHold = .5
 	end
 
@@ -740,7 +742,7 @@ function UF:CreateAuras(self)
 			bu:SetPoint("BOTTOMLEFT", self.nameText, "TOPLEFT", 0, 5)
 		end
 		bu.numTotal = NDuiDB["Nameplate"]["maxAuras"]
-		bu.spacing = 3
+		bu.spacing = 5
 		bu.disableMouse = true
 		bu.iconsPerRow = NDuiDB["Nameplate"]["AutoPerRow"]
 		bu.showDebuffType = NDuiDB["Nameplate"]["ColorBorder"]
@@ -1213,4 +1215,26 @@ function UF:CreatePVPClassify(self)
 	bu:SetPoint("LEFT", self, "RIGHT", 5, -2)
 
 	self.PvPClassificationIndicator = bu
+end
+
+local function updatePartySync(self)
+	local hasJoined = C_QuestSession.HasJoined()
+	if (hasJoined) then
+		self.QuestSyncIndicator:Show()
+	else
+		self.QuestSyncIndicator:Hide()
+	end
+end
+
+function UF:CreateQuestSync(self)
+	local sync = self:CreateTexture(nil, "OVERLAY")
+	sync:SetPoint("CENTER", self, "TOP")
+	sync:SetSize(28, 28)
+	sync:SetAtlas("QuestSharing-DialogIcon")
+	sync:Hide()
+
+	self.QuestSyncIndicator = sync
+	self:RegisterEvent("QUEST_SESSION_LEFT", updatePartySync, true)
+	self:RegisterEvent("QUEST_SESSION_JOINED", updatePartySync, true)
+	self:RegisterEvent("PLAYER_ENTERING_WORLD", updatePartySync, true)
 end

@@ -104,6 +104,8 @@ L["Assigned Role"] = "Assigned Role"
 L["At Least One Enemy"] = "Au moins un ennemi"
 L["Attach to End"] = "Attacher à la Fin"
 L["Attach to Start"] = "Attacher au Début"
+--[[Translation missing --]]
+L["Attack Power"] = "Attack Power"
 L["Attackable"] = "Attaquable"
 L["Attackable Target"] = "Cible attackable"
 L["Aura"] = "Aura"
@@ -469,8 +471,14 @@ L["If you require additional assistance, please open a ticket on GitHub or visit
 
 
 ]=]
+--[[Translation missing --]]
+L["Ignore Dead"] = "Ignore Dead"
+--[[Translation missing --]]
+L["Ignore Disconnected"] = "Ignore Disconnected"
 L["Ignore Rune CD"] = "Ignorer le CoolDown des runes"
 L["Ignore Rune CDs"] = "Ignorer les CoolDowns des runes"
+--[[Translation missing --]]
+L["Ignore Self"] = "Ignore Self"
 L["Ignore Unknown Spell"] = "Ignorer le Sort Inconnu"
 L["Immune"] = "Insensible"
 L["Import"] = "Importer"

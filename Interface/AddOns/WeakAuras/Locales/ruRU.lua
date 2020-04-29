@@ -98,6 +98,8 @@ L["Assigned Role"] = "Assigned Role"
 L["At Least One Enemy"] = "Хотя бы один противник"
 L["Attach to End"] = "Прикрепить к концу"
 L["Attach to Start"] = "Прикрепить к началу"
+--[[Translation missing --]]
+L["Attack Power"] = "Attack Power"
 L["Attackable"] = "Может быть атакована"
 L["Attackable Target"] = "Цель можно атаковать"
 L["Aura"] = "Аура"
@@ -414,8 +416,14 @@ L["Icon"] = "Иконка"
 L["Icon Color"] = "Цвет иконки"
 L["Icon Desaturate"] = "Обесцветить иконку"
 L["If you require additional assistance, please open a ticket on GitHub or visit our Discord at https://discord.gg/wa2!"] = "Если вам требуется дополнительная помощь, откройте запрос на GitHub или посетите наш Discord (https://discord.gg/wa2)."
+--[[Translation missing --]]
+L["Ignore Dead"] = "Ignore Dead"
+--[[Translation missing --]]
+L["Ignore Disconnected"] = "Ignore Disconnected"
 L["Ignore Rune CD"] = "Игнорировать задержку от рун"
 L["Ignore Rune CDs"] = "Игнорировать задержку от рун"
+--[[Translation missing --]]
+L["Ignore Self"] = "Ignore Self"
 L["Ignore Unknown Spell"] = "Игнорировать неизвестное заклинание"
 L["Immune"] = "Невосприимчивость"
 L["Import"] = "Импорт"

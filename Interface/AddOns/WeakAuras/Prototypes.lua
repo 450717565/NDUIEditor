@@ -802,6 +802,20 @@ function WeakAuras.CheckNumericIds(loadids, currentId)
   return false;
 end
 
+function WeakAuras.CheckString(ids, currentId)
+  if (not ids or not currentId) then
+    return false;
+  end
+
+  for id in ids:gmatch('([^,]+)') do
+    if id:trim() == currentId then
+      return true
+    end
+  end
+
+  return false;
+end
+
 function WeakAuras.ValidateNumeric(info, val)
   if val ~= nil and val ~= "" and (not tonumber(val) or tonumber(val) >= 2^31) then
     return false;
@@ -968,6 +982,11 @@ function WeakAuras.GetNumSetItemsEquipped(setID)
     end
     return equipped, 18, setName
   end
+end
+
+function WeakAuras.GetEffectiveAttackPower()
+  local base, pos, neg = UnitAttackPower("player")
+  return base + pos + neg
 end
 
 local function valuesForTalentFunction(trigger)
@@ -1326,7 +1345,9 @@ WeakAuras.load_prototype = {
       display = L["Zone Name"],
       type = "string",
       init = "arg",
-      events = {"ZONE_CHANGED", "ZONE_CHANGED_INDOORS", "ZONE_CHANGED_NEW_AREA", "VEHICLE_UPDATE"}
+      test = "WeakAuras.CheckString(%q, zone)",
+      events = {"ZONE_CHANGED", "ZONE_CHANGED_INDOORS", "ZONE_CHANGED_NEW_AREA", "VEHICLE_UPDATE"},
+      desc = L["Supports multiple entries, separated by commas"]
     },
     {
       name = "zoneId",
@@ -1500,6 +1521,9 @@ WeakAuras.event_prototypes = {
       local result = {}
       AddUnitEventForEvents(result, unit, "UNIT_LEVEL")
       AddUnitEventForEvents(result, unit, "UNIT_FACTION")
+      if trigger.use_ignoreDead or trigger.use_ignoreDisconnected then
+        AddUnitEventForEvents(result, unit, "UNIT_FLAGS")
+      end
       return result;
     end,
     internal_events = function(trigger)
@@ -1579,10 +1603,40 @@ WeakAuras.event_prototypes = {
          end
       },
       {
+        name = "ignoreSelf",
+        display = L["Ignore Self"],
+        type = "toggle",
+        width = WeakAuras.doubleWidth,
+        enable = function(trigger)
+          return trigger.unit == "nameplate"
+        end,
+        init = "not UnitIsUnit(\"player\", unit)"
+      },
+      {
+        name = "ignoreDead",
+        display = WeakAuras.newFeatureString .. L["Ignore Dead"],
+        type = "toggle",
+        width = WeakAuras.doubleWidth,
+        enable = function(trigger)
+          return trigger.unit == "group" or trigger.unit == "raid" or trigger.unit == "party"
+        end,
+        init = "not UnitIsDeadOrGhost(unit)"
+      },
+      {
+        name = "ignoreDisconnected",
+        display = WeakAuras.newFeatureString .. L["Ignore Disconnected"],
+        type = "toggle",
+        width = WeakAuras.doubleWidth,
+        enable = function(trigger)
+          return trigger.unit == "group" or trigger.unit == "raid" or trigger.unit == "party"
+        end,
+        init = "UnitIsConnected(unit)"
+      },
+      {
         name = "hostility",
         display = L["Hostility"],
         type = "select",
-        init = "WeakAuras.GetPlayerReaciton(unit)",
+        init = "WeakAuras.GetPlayerReaction(unit)",
         values = "hostility_types",
         store = true,
         conditionType = "select",
@@ -1641,6 +1695,9 @@ WeakAuras.event_prototypes = {
         if trigger.use_showIncomingHeal then
           AddUnitEventForEvents(result, unit, "UNIT_HEAL_PREDICTION")
         end
+      end
+      if trigger.use_ignoreDead or trigger.use_ignoreDisconnected then
+        AddUnitEventForEvents(result, unit, "UNIT_FLAGS")
       end
       return result
     end,
@@ -1799,10 +1856,40 @@ WeakAuras.event_prototypes = {
         end
       },
       {
+        name = "ignoreSelf",
+        display = WeakAuras.newFeatureString .. L["Ignore Self"],
+        type = "toggle",
+        width = WeakAuras.doubleWidth,
+        enable = function(trigger)
+          return trigger.unit == "nameplate"
+        end,
+        init = "not UnitIsUnit(\"player\", unit)"
+      },
+      {
+        name = "ignoreDead",
+        display = WeakAuras.newFeatureString .. L["Ignore Dead"],
+        type = "toggle",
+        width = WeakAuras.doubleWidth,
+        enable = function(trigger)
+          return trigger.unit == "group" or trigger.unit == "raid" or trigger.unit == "party"
+        end,
+        init = "not UnitIsDeadOrGhost(unit)"
+      },
+      {
+        name = "ignoreDisconnected",
+        display = WeakAuras.newFeatureString .. L["Ignore Disconnected"],
+        type = "toggle",
+        width = WeakAuras.doubleWidth,
+        enable = function(trigger)
+          return trigger.unit == "group" or trigger.unit == "raid" or trigger.unit == "party"
+        end,
+        init = "UnitIsConnected(unit)"
+      },
+      {
         name = "nameplateType",
         display = L["Nameplate Type"],
         type = "select",
-        init = "WeakAuras.GetPlayerReaciton(unit)",
+        init = "WeakAuras.GetPlayerReaction(unit)",
         values = "hostility_types",
         conditionType = "select",
         store = true,
@@ -1871,7 +1958,9 @@ WeakAuras.event_prototypes = {
       if trigger.use_powertype and trigger.powertype == 99 then
         AddUnitEventForEvents(result, unit, "UNIT_ABSORB_AMOUNT_CHANGED")
       end
-
+      if trigger.use_ignoreDead or trigger.use_ignoreDisconnected then
+        AddUnitEventForEvents(result, unit, "UNIT_FLAGS")
+      end
       return result;
     end,
     internal_events = function(trigger)
@@ -2097,10 +2186,40 @@ WeakAuras.event_prototypes = {
         end
       },
       {
+        name = "ignoreSelf",
+        display = WeakAuras.newFeatureString .. L["Ignore Self"],
+        type = "toggle",
+        width = WeakAuras.doubleWidth,
+        enable = function(trigger)
+          return trigger.unit == "nameplate"
+        end,
+        init = "not UnitIsUnit(\"player\", unit)"
+      },
+      {
+        name = "ignoreDead",
+        display = WeakAuras.newFeatureString .. L["Ignore Dead"],
+        type = "toggle",
+        width = WeakAuras.doubleWidth,
+        enable = function(trigger)
+          return trigger.unit == "group" or trigger.unit == "raid" or trigger.unit == "party"
+        end,
+        init = "not UnitIsDeadOrGhost(unit)"
+      },
+      {
+        name = "ignoreDisconnected",
+        display = WeakAuras.newFeatureString .. L["Ignore Disconnected"],
+        type = "toggle",
+        width = WeakAuras.doubleWidth,
+        enable = function(trigger)
+          return trigger.unit == "group" or trigger.unit == "raid" or trigger.unit == "party"
+        end,
+        init = "UnitIsConnected(unit)"
+      },
+      {
         name = "nameplateType",
         display = L["Nameplate Type"],
         type = "select",
-        init = "WeakAuras.GetPlayerReaciton(unit)",
+        init = "WeakAuras.GetPlayerReaction(unit)",
         values = "hostility_types",
         store = true,
         conditionType = "select",
@@ -2133,6 +2252,9 @@ WeakAuras.event_prototypes = {
       local unit = trigger.unit
       local result = {}
       AddUnitEventForEvents(result, unit, "UNIT_POWER_FREQUENT")
+      if trigger.use_ignoreDead or trigger.use_ignoreDisconnected then
+        AddUnitEventForEvents(result, unit, "UNIT_FLAGS")
+      end
       return result
     end,
     internal_events = function(trigger)
@@ -2238,10 +2360,40 @@ WeakAuras.event_prototypes = {
         end
       },
       {
+        name = "ignoreSelf",
+        display = WeakAuras.newFeatureString .. L["Ignore Self"],
+        type = "toggle",
+        width = WeakAuras.doubleWidth,
+        enable = function(trigger)
+          return trigger.unit == "nameplate"
+        end,
+        init = "not UnitIsUnit(\"player\", unit)"
+      },
+      {
+        name = "ignoreDead",
+        display = WeakAuras.newFeatureString .. L["Ignore Dead"],
+        type = "toggle",
+        width = WeakAuras.doubleWidth,
+        enable = function(trigger)
+          return trigger.unit == "group" or trigger.unit == "raid" or trigger.unit == "party"
+        end,
+        init = "not UnitIsDeadOrGhost(unit)"
+      },
+      {
+        name = "ignoreDisconnected",
+        display = WeakAuras.newFeatureString .. L["Ignore Disconnected"],
+        type = "toggle",
+        width = WeakAuras.doubleWidth,
+        enable = function(trigger)
+          return trigger.unit == "group" or trigger.unit == "raid" or trigger.unit == "party"
+        end,
+        init = "UnitIsConnected(unit)"
+      },
+      {
         name = "nameplateType",
         display = L["Nameplate Type"],
         type = "select",
-        init = "WeakAuras.GetPlayerReaciton(unit)",
+        init = "WeakAuras.GetPlayerReaction(unit)",
         values = "hostility_types",
         store = true,
         conditionType = "select",
@@ -5716,6 +5868,7 @@ WeakAuras.event_prototypes = {
         type = "string",
         enable = function(trigger) return not trigger.use_inverse end,
         conditionType = "string",
+        store = true,
       },
       {
         name = "spellId",
@@ -5724,7 +5877,8 @@ WeakAuras.event_prototypes = {
         enable = function(trigger) return not trigger.use_inverse end,
         conditionType = "number",
         forceExactOption = true,
-        test = "GetSpellInfo(%s) == spell"
+        test = "GetSpellInfo(%s) == spell",
+        store = true,
       },
       {
         name = "castType",
@@ -5836,10 +5990,20 @@ WeakAuras.event_prototypes = {
          end
       },
       {
+        name = "ignoreSelf",
+        display = L["Ignore Self"],
+        type = "toggle",
+        width = WeakAuras.doubleWidth,
+        enable = function(trigger)
+          return trigger.unit == "nameplate"
+        end,
+        init = "not UnitIsUnit(\"player\", unit)"
+      },
+      {
         name = "nameplateType",
         display = L["Nameplate Type"],
         type = "select",
-        init = "WeakAuras.GetPlayerReaciton(unit)",
+        init = "WeakAuras.GetPlayerReaction(unit)",
         values = "hostility_types",
         store = true,
         conditionType = "select",
@@ -5917,7 +6081,7 @@ WeakAuras.event_prototypes = {
         "PLAYER_TARGET_CHANGED"
       },
       ["unit_events"] = {
-        ["player"] = {"UNIT_STATS"}
+        ["player"] = {"UNIT_STATS", "UNIT_ATTACK_POWER"}
       }
     },
     internal_events = function(trigger, untrigger)
@@ -6068,6 +6232,14 @@ WeakAuras.event_prototypes = {
         enable = not WeakAuras.IsClassic(),
         conditionType = "number",
         hidden = WeakAuras.IsClassic()
+      },
+      {
+        name = "attackpower",
+        display = WeakAuras.newFeatureString .. L["Attack Power"],
+        type = "number",
+        init = "WeakAuras.GetEffectiveAttackPower()",
+        store = true,
+        conditionType = "number"
       },
       {
         name = "resistanceholy",

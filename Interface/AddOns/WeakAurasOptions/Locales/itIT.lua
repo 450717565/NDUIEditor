@@ -452,6 +452,8 @@ local L = WeakAuras.L
 	--[[Translation missing --]]
 	L["Filter by Group Role"] = "Filter by Group Role"
 	--[[Translation missing --]]
+	L["Filter by Hostility"] = "Filter by Hostility"
+	--[[Translation missing --]]
 	L["Finish"] = "Finish"
 	--[[Translation missing --]]
 	L["Fire Orb"] = "Fire Orb"
@@ -546,6 +548,8 @@ local L = WeakAuras.L
 	--[[Translation missing --]]
 	L["Horizontal Bar"] = "Horizontal Bar"
 	--[[Translation missing --]]
+	L["Hostility"] = "Hostility"
+	--[[Translation missing --]]
 	L["Huge Icon"] = "Huge Icon"
 	--[[Translation missing --]]
 	L["Hybrid Position"] = "Hybrid Position"
@@ -583,6 +587,10 @@ local L = WeakAuras.L
 	L["If unchecked, then this space will fill the entire line it is on in User Mode."] = "If unchecked, then this space will fill the entire line it is on in User Mode."
 	--[[Translation missing --]]
 	L["Ignore all Updates"] = "Ignore all Updates"
+	--[[Translation missing --]]
+	L["Ignore Dead"] = "Ignore Dead"
+	--[[Translation missing --]]
+	L["Ignore Disconnected"] = "Ignore Disconnected"
 	--[[Translation missing --]]
 	L["Ignore Self"] = "Ignore Self"
 	--[[Translation missing --]]

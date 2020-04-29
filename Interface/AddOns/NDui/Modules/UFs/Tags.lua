@@ -7,7 +7,7 @@ local ALTERNATE_POWER_INDEX = Enum.PowerType.Alternate or 10
 local UnitAlternatePowerTextureInfo = UnitAlternatePowerTextureInfo
 local UnitIsDeadOrGhost, UnitIsConnected, UnitHasVehicleUI, UnitIsTapDenied, UnitIsPlayer = UnitIsDeadOrGhost, UnitIsConnected, UnitHasVehicleUI, UnitIsTapDenied, UnitIsPlayer
 local UnitHealth, UnitHealthMax, UnitPower, UnitPowerType, UnitStagger = UnitHealth, UnitHealthMax, UnitPower, UnitPowerType, UnitStagger
-local UnitClass, UnitReaction, UnitLevel, UnitClassification = UnitClass, UnitReaction, UnitLevel, UnitClassification
+local UnitClass, UnitReaction, UnitLevel, UnitClassification, UnitEffectiveLevel = UnitClass, UnitReaction, UnitLevel, UnitClassification, UnitEffectiveLevel
 local UnitIsAFK, UnitIsDND, UnitIsDead, UnitIsGhost = UnitIsAFK, UnitIsDND, UnitIsDead, UnitIsGhost
 local UnitIsWildBattlePet, UnitIsBattlePetCompanion, UnitBattlePetLevel = UnitIsWildBattlePet, UnitIsBattlePetCompanion, UnitBattlePetLevel
 local GetNumArenaOpponentSpecs, GetCreatureDifficultyColor = GetNumArenaOpponentSpecs, GetCreatureDifficultyColor
@@ -95,36 +95,38 @@ oUF.Tags.Events["state"] = "UNIT_HEALTH UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT
 
 -- Level tags
 oUF.Tags.Methods["fulllevel"] = function(unit)
-	local level = UnitLevel(unit)
-	local class = UnitClassification(unit)
-	local color = B.HexRGB(GetCreatureDifficultyColor(level))
+	local strings
 
+	local realLevel = UnitLevel(unit)
+	local level = UnitEffectiveLevel(unit)
 	if UnitIsWildBattlePet(unit) or UnitIsBattlePetCompanion(unit) then
 		level = UnitBattlePetLevel(unit)
 	end
 
-	if level ~= UnitLevel("player") then
+	local color = B.HexRGB(GetCreatureDifficultyColor(level))
+	if realLevel ~= UnitLevel("player") then
 		if level > 0 then
-			level = color..level.."|r"
+			local realTag = level ~= realLevel and "*" or ""
+			strings = color..level..realTag.."|r"
 		else
-			level = "|cffFF0000"..BOSS.."|r"
+			strings = "|cffFF0000"..BOSS.."|r"
 		end
 	else
-		level = ""
+		strings = ""
 	end
 
-	local str = level
+	local class = UnitClassification(unit)
 	if class == "elite" then
-		str = level.." |cffFFFF00"..ELITE.."|r"
+		strings = strings.." |cffFFFF00"..ELITE.."|r"
 	elseif class == "rare" then
-		str = level.." |cffFF00FF"..L["Rare"].."|r"
+		strings = strings.." |cffFF00FF"..L["Rare"].."|r"
 	elseif class == "rareelite" then
-		str = level.." |cff00FFFF"..L["Rare"]..ELITE.."|r"
+		strings = strings.." |cff00FFFF"..L["Rare"]..ELITE.."|r"
 	elseif class == "worldboss" then
-		str = " |cffFF0000"..BOSS.."|r"
+		strings = " |cffFF0000"..BOSS.."|r"
 	end
 
-	return str
+	return strings
 end
 oUF.Tags.Events["fulllevel"] = "UNIT_LEVEL PLAYER_LEVEL_UP UNIT_CLASSIFICATION_CHANGED UNIT_NAME_UPDATE PLAYER_LEVEL_CHANGED"
 

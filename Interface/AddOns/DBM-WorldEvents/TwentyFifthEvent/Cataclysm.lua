@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("CataEvent", "DBM-WorldEvents", 3)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200213025239")
+mod:SetRevision("20200216152125")
 mod:SetCreatureID(52409, 41376, 43324)
 mod:SetEncounterID(2320)
 mod:SetZone()

@@ -10,12 +10,11 @@ local UnitInRaid, UnitInParty, SendChatMessage = UnitInRaid, UnitInParty, SendCh
 local UnitName, Ambiguate, GetTime = UnitName, Ambiguate, GetTime
 local GetSpellLink, GetSpellInfo = GetSpellLink, GetSpellInfo
 local C_VignetteInfo_GetVignetteInfo = C_VignetteInfo.GetVignetteInfo
+local C_VignetteInfo_GetVignettePosition = C_VignetteInfo.GetVignettePosition
 local C_ChatInfo_SendAddonMessage = C_ChatInfo.SendAddonMessage
 local C_ChatInfo_RegisterAddonMessagePrefix = C_ChatInfo.RegisterAddonMessagePrefix
 local C_MythicPlus_GetCurrentAffixes = C_MythicPlus.GetCurrentAffixes
-
 local C_Map_GetBestMapForUnit = C_Map.GetBestMapForUnit
-local C_VignetteInfo_GetVignettePosition = C_VignetteInfo.GetVignettePosition
 
 function M:AddAlerts()
 	self:SoloInfo()

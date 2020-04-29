@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("EternalPalaceTrash", "DBM-EternalPalace", 1)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200213025239")
+mod:SetRevision("20200216152125")
 --mod:SetModelID(47785)
 mod:SetZone()
 mod.isTrashMod = true

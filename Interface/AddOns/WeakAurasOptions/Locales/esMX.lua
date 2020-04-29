@@ -413,6 +413,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Filter by Class"] = "Filter by Class"
 	--[[Translation missing --]]
 	L["Filter by Group Role"] = "Filter by Group Role"
+	--[[Translation missing --]]
+	L["Filter by Hostility"] = "Filter by Hostility"
 	L["Finish"] = "Completar"
 	L["Fire Orb"] = "Orbe de fuego"
 	L["Font"] = "Font"
@@ -495,6 +497,8 @@ Con |cFF00CC00>= 0|r se activará siempre.]=]
 	L["Hide When Not In Group"] = "Ocultar cuando no esté en grupo"
 	L["Horizontal Align"] = "Alineación horizontal"
 	L["Horizontal Bar"] = "Barra horizontal"
+	--[[Translation missing --]]
+	L["Hostility"] = "Hostility"
 	L["Huge Icon"] = "Icono enorme"
 	L["Hybrid Position"] = "Posición híbrida"
 	L["Hybrid Sort Mode"] = "Modo de orden híbrido"
@@ -527,6 +531,10 @@ Con |cFF00CC00>= 0|r se activará siempre.]=]
 	L["If unchecked, then this space will fill the entire line it is on in User Mode."] = "If unchecked, then this space will fill the entire line it is on in User Mode."
 	--[[Translation missing --]]
 	L["Ignore all Updates"] = "Ignore all Updates"
+	--[[Translation missing --]]
+	L["Ignore Dead"] = "Ignore Dead"
+	--[[Translation missing --]]
+	L["Ignore Disconnected"] = "Ignore Disconnected"
 	--[[Translation missing --]]
 	L["Ignore Self"] = "Ignore Self"
 	--[[Translation missing --]]

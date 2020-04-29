@@ -309,6 +309,8 @@ UNIT_POWER  UNIT_AURA, PLAYER_TARGET_CHANGED]=]
 	L["Fetch Affected/Unaffected Names"] = "Извлечь имена задействованных и незадействованных игроков"
 	L["Filter by Class"] = "Фильтр по классу"
 	L["Filter by Group Role"] = "Фильтр по роли"
+	--[[Translation missing --]]
+	L["Filter by Hostility"] = "Filter by Hostility"
 	L["Finish"] = "Конечная"
 	L["Fire Orb"] = "Огненный шар"
 	L["Font"] = "Шрифт"
@@ -377,6 +379,8 @@ UNIT_POWER  UNIT_AURA, PLAYER_TARGET_CHANGED]=]
 	L["Hide When Not In Group"] = "Скрыть когда не в группе"
 	L["Horizontal Align"] = "Выравнивание по горизонтали"
 	L["Horizontal Bar"] = "Горизонтальная полоса"
+	--[[Translation missing --]]
+	L["Hostility"] = "Hostility"
 	L["Huge Icon"] = "Огромная иконка"
 	L["Hybrid Position"] = "Гибридная позиция"
 	L["Hybrid Sort Mode"] = "Режим гибридной сортировки"
@@ -397,6 +401,10 @@ UNIT_POWER  UNIT_AURA, PLAYER_TARGET_CHANGED]=]
 	L["If unchecked, then a default color will be used (usually yellow)"] = "Если флажок не установлен, то будет использоваться цвет по умолчанию (желтый)"
 	L["If unchecked, then this space will fill the entire line it is on in User Mode."] = "Если флажок не установлен, то данный элемент будет занимать всю строку, в которой он находится."
 	L["Ignore all Updates"] = "Игнорировать все обновления"
+	--[[Translation missing --]]
+	L["Ignore Dead"] = "Ignore Dead"
+	--[[Translation missing --]]
+	L["Ignore Disconnected"] = "Ignore Disconnected"
 	L["Ignore Self"] = "Не учитывать себя"
 	L["Ignore self"] = "Не учитывать себя"
 	L["Ignored"] = "Игнорируется"

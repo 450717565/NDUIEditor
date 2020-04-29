@@ -32,8 +32,7 @@ local L = WeakAuras.L
 	L["|cFFffcc00Anchors:|r Anchored to frame's |cFFFF0000%s|r"] = "|cFFffcc00锚点：|r对齐至框架的|cFFFF0000%s|r"
 	L["|cFFffcc00Anchors:|r Anchored to frame's |cFFFF0000%s|r with offset |cFFFF0000%s/%s|r"] = "|cFFffcc00锚点：|r对齐至框架的|cFFFF0000%s|r，偏移|cFFFF0000%s/%s|r"
 	L["|cFFffcc00Extra Options:|r"] = "|cFFffcc00额外选项：|r"
-	--[[Translation missing --]]
-	L["|cFFffcc00Font Flags:|r |cFFFF0000%s|r and shadow |c%sColor|r with offset |cFFFF0000%s/%s|r%s%s%s"] = "|cFFffcc00Font Flags:|r |cFFFF0000%s|r and shadow |c%sColor|r with offset |cFFFF0000%s/%s|r%s%s%s"
+	L["|cFFffcc00Font Flags:|r |cFFFF0000%s|r and shadow |c%sColor|r with offset |cFFFF0000%s/%s|r%s%s%s"] = "|cFFffcc00文字样式：|r|cFFFF0000%s|r，阴影|c%s颜色|r、偏移量|cFFFF0000%s/%s|r%s%s%s"
 	L["1 Match"] = "1个符合"
 	L["A 20x20 pixels icon"] = "20x20像素图标"
 	L["A 32x32 pixels icon"] = "32x32像素图标"
@@ -73,8 +72,7 @@ local L = WeakAuras.L
 	L["and rotated left"] = "并且向左旋转"
 	L["and rotated right"] = "并且向右旋转"
 	L["and Trigger %s"] = "和触发器 %s"
-	--[[Translation missing --]]
-	L["and with width |cFFFF0000%s|r and %s"] = "and with width |cFFFF0000%s|r and %s"
+	L["and with width |cFFFF0000%s|r and %s"] = "并且宽度|cFFFF0000%s|r 并且%s"
 	L["Angle"] = "角度"
 	L["Animate"] = "动画"
 	L["Animated Expand and Collapse"] = "展开折叠动画"
@@ -116,14 +114,10 @@ local L = WeakAuras.L
 	L["Bar Inner"] = "进度条内部"
 	L["Bar Texture"] = "进度条材质"
 	L["Big Icon"] = "大图标"
-	--[[Translation missing --]]
-	L["Blacklisted Aura Name"] = "Blacklisted Aura Name"
-	--[[Translation missing --]]
-	L["Blacklisted Exact Spell ID(s)"] = "Blacklisted Exact Spell ID(s)"
-	--[[Translation missing --]]
-	L["Blacklisted Name(s)"] = "Blacklisted Name(s)"
-	--[[Translation missing --]]
-	L["Blacklisted Spell ID"] = "Blacklisted Spell ID"
+	L["Blacklisted Aura Name"] = "忽略的光环名称"
+	L["Blacklisted Exact Spell ID(s)"] = "忽略的精确法术 ID"
+	L["Blacklisted Name(s)"] = "忽略的名称"
+	L["Blacklisted Spell ID"] = "忽略的法术ID"
 	L["Blend Mode"] = "混合模式"
 	L["Blue Rune"] = "蓝色符文"
 	L["Blue Sparkle Orb"] = "蓝色闪光球"
@@ -152,8 +146,7 @@ local L = WeakAuras.L
 	L["Choose"] = "选择"
 	L["Choose Trigger"] = "选择触发器"
 	L["Choose whether the displayed icon is automatic or defined manually"] = "选择显示的图示是自动显示还是手动定义"
-	--[[Translation missing --]]
-	L["Class"] = "Class"
+	L["Class"] = "职业"
 	L["Clip Overlays"] = "覆盖遮罩"
 	L["Clipped by Progress"] = "被进度条遮挡"
 	L["Clone option enabled dialog"] = [=[
@@ -270,8 +263,7 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	--[[Translation missing --]]
 	L["Ease type"] = "Ease type"
 	L["Edge"] = "边缘"
-	--[[Translation missing --]]
-	L["eliding"] = "eliding"
+	L["eliding"] = "省略"
 	L["Enabled"] = "启用"
 	L["End Angle"] = "结束角度"
 	L["End of %s"] = "%s 的结尾"
@@ -302,9 +294,10 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Fade Out"] = "渐出"
 	L["False"] = "假"
 	L["Fetch Affected/Unaffected Names"] = "获取受影响的/未受影响的名称"
-	--[[Translation missing --]]
-	L["Filter by Class"] = "Filter by Class"
+	L["Filter by Class"] = "根据职业过滤"
 	L["Filter by Group Role"] = "根据团队职责过滤"
+	--[[Translation missing --]]
+	L["Filter by Hostility"] = "Filter by Hostility"
 	L["Finish"] = "结束"
 	L["Fire Orb"] = "火焰宝珠"
 	L["Font"] = "字体"
@@ -312,9 +305,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Foreground"] = "前景"
 	L["Foreground Color"] = "前景色"
 	L["Foreground Texture"] = "前景材质"
-	L["Frame"] = "框架"
-	--[[Translation missing --]]
-	L["Frame Selector"] = "Frame Selector"
+	L["Frame"] = "框体"
+	L["Frame Selector"] = "选择框体"
 	L["Frame Strata"] = "框架层级"
 	L["Frequency"] = "频率"
 	L["From Template"] = "从模板"
@@ -345,7 +337,7 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 |cFF00CC00小于等于 0.8|r 会在小于80%%的人受影响时触发
 |cFF00CC00大于 1/2|r 会在超过一半以上的人受影响时触发
 |cFF00CC00大于等于 0|r 总是触发.]=]
-	L["Group by Frame"] = "根据框架分组"
+	L["Group by Frame"] = "根据框体分组"
 	L["Group contains updates from Wago"] = "包含 Wago 更新的群组"
 	L["Group Icon"] = "组图标"
 	L["Group key"] = "组键值"
@@ -367,6 +359,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Hide When Not In Group"] = "不在队伍时隐藏"
 	L["Horizontal Align"] = "水平对齐"
 	L["Horizontal Bar"] = "水平条"
+	--[[Translation missing --]]
+	L["Hostility"] = "Hostility"
 	L["Huge Icon"] = "巨型图标"
 	L["Hybrid Position"] = "混合定位"
 	L["Hybrid Sort Mode"] = "混合排序模式"
@@ -387,6 +381,10 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["If unchecked, then a default color will be used (usually yellow)"] = "如果不勾选，则使用默认颜色（通常是黄色）"
 	L["If unchecked, then this space will fill the entire line it is on in User Mode."] = "如果不勾选，则在用户模式下此空白区域将填充一整行。"
 	L["Ignore all Updates"] = "忽略所有更新"
+	--[[Translation missing --]]
+	L["Ignore Dead"] = "Ignore Dead"
+	--[[Translation missing --]]
+	L["Ignore Disconnected"] = "Ignore Disconnected"
 	L["Ignore Self"] = "忽略自身"
 	L["Ignore self"] = "忽略自己的"
 	L["Ignored"] = "被忽略"
@@ -433,8 +431,7 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Move Above Group"] = "移动上方的组"
 	L["Move Below Group"] = "移动下方的组"
 	L["Move Down"] = "向下移"
-	--[[Translation missing --]]
-	L["Move Entry Down"] = "Move Entry Down"
+	L["Move Entry Down"] = "将条目下移"
 	L["Move Entry Up"] = "将条目上移"
 	L["Move Into Above Group"] = "移动到上方的组"
 	L["Move Into Below Group"] = "移动到下方的组"
@@ -557,7 +554,7 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Set Parent to Anchor"] = "将父框架置于锚点"
 	L["Set Thumbnail Icon"] = "设置缩略图标"
 	L["Set tooltip description"] = "设置鼠标提示内容"
-	L["Sets the anchored frame as the aura's parent, causing the aura to inherit attributes such as visiblility and scale."] = "将锚点框架设置为光环的父框架，使得光环继承锚点框架的一些属性（例如：可见性和缩放）"
+	L["Sets the anchored frame as the aura's parent, causing the aura to inherit attributes such as visiblility and scale."] = "将锚点框体设置为光环的父框体，使得光环继承锚点框体的一些属性（例如：可见性和缩放）"
 	L["Settings"] = "设置"
 	L["Shadow Color"] = "阴影颜色"
 	L["Shadow X Offset"] = "阴影 X 轴偏移"
@@ -651,7 +648,7 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["This setting controls what widget is generated in user mode."] = "这些设置用来控制在用户模式下生成的控件。"
 	L["Time in"] = "时间"
 	L["Tiny Icon"] = "微型图标"
-	L["To Frame's"] = "到框架的"
+	L["To Frame's"] = "到框体的"
 	--[[Translation missing --]]
 	L["To Group's"] = "To Group's"
 	L["To Personal Ressource Display's"] = "到个人资源显示的"
@@ -681,8 +678,7 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Unit"] = "单位"
 	L["Unit %s is not a valid unit for RegisterUnitEvent"] = "单位 %s 并不是 RegisterUnitEvent 的有效单位"
 	L["Unit Count"] = "单位计数"
-	--[[Translation missing --]]
-	L["Unit Frame"] = "Unit Frame"
+	L["Unit Frame"] = "单位框体"
 	L["Unit Frames"] = "单位框架"
 	L["Unlike the start or finish animations, the main animation will loop over and over until the display is hidden."] = "不同于开始或结束动画，主动画将不停循环，直到图示被隐藏。"
 	L["Up"] = "上"
@@ -710,8 +706,7 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Wago Update"] = "Wago.io 更新"
 	L["Whole Area"] = "整个区域"
 	L["Width"] = "宽度"
-	--[[Translation missing --]]
-	L["wrapping"] = "wrapping"
+	L["wrapping"] = "折叠"
 	L["X Offset"] = "X 偏移"
 	L["X Rotation"] = "X旋转"
 	L["X Scale"] = "宽度比例"

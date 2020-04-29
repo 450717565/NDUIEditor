@@ -359,6 +359,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Filter by Class"] = "Filter by Class"
 	--[[Translation missing --]]
 	L["Filter by Group Role"] = "Filter by Group Role"
+	--[[Translation missing --]]
+	L["Filter by Hostility"] = "Filter by Hostility"
 	L["Finish"] = "종료"
 	L["Fire Orb"] = "화염 구슬"
 	L["Font"] = "글꼴"
@@ -429,6 +431,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Hide When Not In Group"] = "파티에 없을 때 숨기기"
 	L["Horizontal Align"] = "가로 정렬"
 	L["Horizontal Bar"] = "가로 바"
+	--[[Translation missing --]]
+	L["Hostility"] = "Hostility"
 	L["Huge Icon"] = "거대한 아이콘"
 	L["Hybrid Position"] = "복합 위치"
 	L["Hybrid Sort Mode"] = "복합 정렬 모드"
@@ -458,6 +462,10 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["If unchecked, then this space will fill the entire line it is on in User Mode."] = "If unchecked, then this space will fill the entire line it is on in User Mode."
 	--[[Translation missing --]]
 	L["Ignore all Updates"] = "Ignore all Updates"
+	--[[Translation missing --]]
+	L["Ignore Dead"] = "Ignore Dead"
+	--[[Translation missing --]]
+	L["Ignore Disconnected"] = "Ignore Disconnected"
 	--[[Translation missing --]]
 	L["Ignore Self"] = "Ignore Self"
 	--[[Translation missing --]]

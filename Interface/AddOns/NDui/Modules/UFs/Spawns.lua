@@ -26,6 +26,7 @@ local function CreatePlayerStyle(self)
 	UF:CreateFCT(self)
 	UF:CreateIcons(self)
 	UF:CreateRaidMark(self)
+	UF:CreateQuestSync(self)
 
 	if NDuiDB["UFs"]["Castbars"] then
 		UF:ReskinMirrorBars()

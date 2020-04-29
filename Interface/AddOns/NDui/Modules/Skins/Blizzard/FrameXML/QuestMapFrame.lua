@@ -148,19 +148,45 @@ tinsert(C.defaultThemes, function()
 		end
 	end
 
-	-- Sync button
+	-- Party Sync button
 	local QuestSessionManagement = QuestMapFrame.QuestSessionManagement
 	QuestSessionManagement.BG:Hide()
 	B.CreateBDFrame(QuestSessionManagement, 0, 0)
 
-	local names = {"StartDialog", "CheckStartDialog", "CheckStopDialog", "CheckLeavePartyDialog"}
-	for _, name in pairs(names) do
-		local dialog = QuestSessionManager[name]
-		B.ReskinFrame(dialog)
-		B.ReskinButton(dialog.ButtonContainer.Confirm)
-		B.ReskinButton(dialog.ButtonContainer.Decline)
-		if dialog.MinimizeButton then
-			B.ReskinArrow(dialog.MinimizeButton, "bottom")
+	local function reskinSessionDialog(_, dialog)
+		if not dialog.styled then
+			B.ReskinFrame(dialog)
+			B.ReskinButton(dialog.ButtonContainer.Confirm)
+			B.ReskinButton(dialog.ButtonContainer.Decline)
+			if dialog.MinimizeButton then
+				B.ReskinArrow(dialog.MinimizeButton, "down")
+			end
+
+			dialog.styled = true
 		end
 	end
+	hooksecurefunc(QuestSessionManager, "NotifyDialogShow", reskinSessionDialog)
+
+	local ExecuteSessionCommand = QuestSessionManagement.ExecuteSessionCommand
+	B.ReskinButton(ExecuteSessionCommand)
+
+	local icon = ExecuteSessionCommand:CreateTexture(nil, "ARTWORK")
+	icon:SetInside()
+	ExecuteSessionCommand.normalIcon = icon
+
+	local sessionCommandToButtonAtlas = {
+		[_G.Enum.QuestSessionCommand.Start] = "QuestSharing-DialogIcon",
+		[_G.Enum.QuestSessionCommand.Stop] = "QuestSharing-Stop-DialogIcon"
+	}
+
+	hooksecurefunc(QuestMapFrame.QuestSessionManagement, "UpdateExecuteCommandAtlases", function(self, command)
+		self.ExecuteSessionCommand:SetNormalTexture("")
+		self.ExecuteSessionCommand:SetPushedTexture("")
+		self.ExecuteSessionCommand:SetDisabledTexture("")
+
+		local atlas = sessionCommandToButtonAtlas[command]
+		if atlas then
+			self.ExecuteSessionCommand.normalIcon:SetAtlas(atlas)
+		end
+	end)
 end)

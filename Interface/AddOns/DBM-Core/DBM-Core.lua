@@ -69,7 +69,7 @@ local function showRealDate(curseDate)
 end
 
 DBM = {
-	Revision = parseCurseDate("20200425190512"),
+	Revision = parseCurseDate("20200428225848"),
 	DisplayVersion = "8.3.21 alpha", -- the string that is shown as version
 	ReleaseRevision = releaseDate(2020, 4, 19) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
@@ -1193,6 +1193,11 @@ do
 	local onLoadCallbacks = {}
 	local disabledMods = {}
 
+	local function infniteLoopNotice(self, message)
+		AddMsg(message)
+		self:Schedule(15, infniteLoopNotice, self, message)
+	end
+
 	local function runDelayedFunctions(self)
 		--Check if voice pack missing
 		local activeVP = self.Options.ChosenVoicePack
@@ -1274,7 +1279,7 @@ do
 			loadOptions(self)
 			if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
 				self:Disable(true)
-				C_TimerAfter(15, function() AddMsg(self, DBM_CORE_RETAIL_ONLY) end)
+				self:Schedule(15, infniteLoopNotice, self, DBM_CORE_RETAIL_ONLY)
 				return
 			end
 			if GetAddOnEnableState(playerName, "VEM-Core") >= 1 then
@@ -11486,7 +11491,7 @@ end
 
 function bossModPrototype:SetRevision(revision)
 	revision = parseCurseDate(revision or "")
-	if not revision or revision == "20200425190512" then
+	if not revision or revision == "20200428225848" then
 		-- bad revision: either forgot the svn keyword or using github
 		revision = DBM.Revision
 	end

@@ -6,6 +6,7 @@ function S:DungeonWatchDog()
 
 	local button = select(11, LFGListFrame.SearchPanel:GetChildren())
 	B.ReskinButton(button)
+	button:SetSize(40, 20)
 
 	button:HookScript("OnShow", function(self)
 		self:ClearAllPoints()

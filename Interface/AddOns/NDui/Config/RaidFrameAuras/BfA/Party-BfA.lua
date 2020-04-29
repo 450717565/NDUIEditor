@@ -5,6 +5,7 @@ local module = B:GetModule("AurasTable")
 local TIER = 8 -- BfA
 local INSTANCE -- 5人本
 
+-- 词缀 DEBUFF
 local instances = {968, 1001, 1002, 1012, 1021, 1022, 1023, 1030, 1036, 1041, 1178}
 for _, instance in pairs(instances) do
 	module:RegisterDebuff(TIER, instance, 0, 209858) -- 死疽

@@ -296,6 +296,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Fetch Affected/Unaffected Names"] = "取得受影響/未受影響的名字"
 	L["Filter by Class"] = "依職業過濾"
 	L["Filter by Group Role"] = "依角色職責過濾"
+	--[[Translation missing --]]
+	L["Filter by Hostility"] = "Filter by Hostility"
 	L["Finish"] = "結束"
 	L["Fire Orb"] = "火球"
 	L["Font"] = "文字"
@@ -353,6 +355,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Hide When Not In Group"] = "不在隊伍中時隱藏"
 	L["Horizontal Align"] = "水平對齊"
 	L["Horizontal Bar"] = "水平進度條"
+	--[[Translation missing --]]
+	L["Hostility"] = "Hostility"
 	L["Huge Icon"] = "超大圖示"
 	L["Hybrid Position"] = "混合位置"
 	L["Hybrid Sort Mode"] = "混合模式"
@@ -372,6 +376,10 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["If unchecked, then a default color will be used (usually yellow)"] = "不勾選時會使用預設的顏色 (通常是黃色)"
 	L["If unchecked, then this space will fill the entire line it is on in User Mode."] = "取消勾選時，會用這個空格填滿使用者模式中的整行。"
 	L["Ignore all Updates"] = "忽略所有更新"
+	--[[Translation missing --]]
+	L["Ignore Dead"] = "Ignore Dead"
+	--[[Translation missing --]]
+	L["Ignore Disconnected"] = "Ignore Disconnected"
 	L["Ignore Self"] = "忽略自己"
 	L["Ignore self"] = "忽略自己"
 	L["Ignored"] = "忽略"

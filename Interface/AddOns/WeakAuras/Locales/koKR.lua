@@ -105,6 +105,8 @@ L["Assigned Role"] = "Assigned Role"
 L["At Least One Enemy"] = "최소 1명의 적 대상"
 L["Attach to End"] = "공격 종료"
 L["Attach to Start"] = "공격 시작"
+--[[Translation missing --]]
+L["Attack Power"] = "Attack Power"
 L["Attackable"] = "공격 가능"
 L["Attackable Target"] = "공격 가능 대상"
 L["Aura"] = "효과"
@@ -469,8 +471,14 @@ L["Icon"] = "아이콘"
 L["Icon Color"] = "아이콘 색상"
 L["Icon Desaturate"] = "아이콘 채도감소(흑백)"
 L["If you require additional assistance, please open a ticket on GitHub or visit our Discord at https://discord.gg/wa2!"] = "추가 지원이 필요하면 GitHub에서 티켓을 열거나 Discord에서 https://discord.gg/wa2 를 방문하십시오!"
+--[[Translation missing --]]
+L["Ignore Dead"] = "Ignore Dead"
+--[[Translation missing --]]
+L["Ignore Disconnected"] = "Ignore Disconnected"
 L["Ignore Rune CD"] = "룬 재사용 대기시간 무시"
 L["Ignore Rune CDs"] = "룬 재사용 대기시간 무시"
+--[[Translation missing --]]
+L["Ignore Self"] = "Ignore Self"
 L["Ignore Unknown Spell"] = "알 수 없는 주문 무시"
 L["Immune"] = "면역"
 L["Import"] = "가져오기"
