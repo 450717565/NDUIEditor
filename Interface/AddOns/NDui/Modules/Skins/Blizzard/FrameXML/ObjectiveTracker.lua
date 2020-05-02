@@ -74,8 +74,8 @@ tinsert(C.defaultThemes, function()
 			if icon then
 				icon:SetMask(nil)
 				icon:ClearAllPoints()
-				icon:SetPoint("TOPLEFT", bar, "TOPRIGHT", 3, 0)
-				icon:SetPoint("BOTTOMRIGHT", bar, "BOTTOMRIGHT", bar:GetHeight()+3, 0)
+				icon:Point("TOPLEFT", bar, "TOPRIGHT", 3, 0)
+				icon:Point("BOTTOMRIGHT", bar, "BOTTOMRIGHT", bar:GetHeight()+3, 0)
 
 				icon.bg = B.ReskinIcon(icon)
 			end

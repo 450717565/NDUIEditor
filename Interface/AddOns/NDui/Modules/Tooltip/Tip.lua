@@ -408,15 +408,36 @@ function TT:ReskinTooltip()
 			self.bg:SetBackdropBorderColor(r, g, b)
 		end
 	end
+end
 
-	if self.NumLines and self:NumLines() > 0 then
-		for index = 1, self:NumLines() do
-			if index == 1 then
-				_G[frameName.."TextLeft"..index]:SetFont(DB.TipFont[1], DB.TipFont[2] + 2, DB.TipFont[3])
-			else
-				_G[frameName.."TextLeft"..index]:SetFont(unpack(DB.TipFont))
+local function TooltipSetFont(font, size)
+	font:SetFont(DB.Font[1], size, DB.Font[3])
+end
+
+function TT:SetupTooltipFonts()
+	local textSize = DB.Font[2] + 2
+	local headerSize = DB.Font[2] + 4
+
+	TooltipSetFont(GameTooltipHeaderText, headerSize)
+	TooltipSetFont(GameTooltipText, textSize)
+	TooltipSetFont(GameTooltipTextSmall, textSize)
+
+	if GameTooltip.hasMoney then
+		for i = 1, GameTooltip.numMoneyFrames do
+			TooltipSetFont(_G["GameTooltipMoneyFrame"..i.."PrefixText"], textSize)
+			TooltipSetFont(_G["GameTooltipMoneyFrame"..i.."SuffixText"], textSize)
+			TooltipSetFont(_G["GameTooltipMoneyFrame"..i.."GoldButtonText"], textSize)
+			TooltipSetFont(_G["GameTooltipMoneyFrame"..i.."SilverButtonText"], textSize)
+			TooltipSetFont(_G["GameTooltipMoneyFrame"..i.."CopperButtonText"], textSize)
+		end
+	end
+
+	for _, tt in ipairs(GameTooltip.shoppingTooltips) do
+		for i = 1, tt:GetNumRegions() do
+			local region = select(i, tt:GetRegions())
+			if region:IsObjectType("FontString") then
+				TooltipSetFont(region, textSize)
 			end
-			_G[frameName.."TextRight"..index]:SetFont(unpack(DB.TipFont))
 		end
 	end
 end
@@ -433,6 +454,7 @@ function TT:OnLogin()
 	hooksecurefunc("GameTooltip_AnchorComparisonTooltips", self.GameTooltip_ComparisonFix)
 
 	-- Elements
+	self:SetupTooltipFonts()
 	self:ReskinTooltipIcons()
 	self:SetupTooltipID()
 	self:TargetedInfo()

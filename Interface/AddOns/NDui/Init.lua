@@ -71,8 +71,7 @@ end
 
 -- Init
 local function GetBestScale()
-	local bestScale = max(.4, min(1.15, 768 / DB.ScreenHeight, 5))
-	return bestScale
+	return max(.4, min(1.15, 768 / DB.ScreenHeight))
 end
 
 function B.SetupUIScale(init)

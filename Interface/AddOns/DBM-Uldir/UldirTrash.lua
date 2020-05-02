@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("UldirTrash", "DBM-Uldir")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200216152125")
+mod:SetRevision("20200220034831")
 --mod:SetModelID(47785)
 mod:SetZone()
 mod.isTrashMod = true
