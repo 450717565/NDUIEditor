@@ -52,7 +52,7 @@ info.onEvent = function(self, event)
 end
 
 StaticPopupDialogs["RESETGOLD"] = {
-	text = L["Are you sure to reset the gold count"],
+	text = L["Are you sure to reset the gold count?"],
 	button1 = YES,
 	button2 = NO,
 	OnAccept = function()

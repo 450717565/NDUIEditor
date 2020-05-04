@@ -152,7 +152,7 @@ local function CreatePanel()
 	f.Reset = B.CreateButton(f, 120, 25, L["NDui Reset"])
 	f.Reset:SetPoint("BOTTOMLEFT", 25, 15)
 	StaticPopupDialogs["RESET_NDUI_AWLIST"] = {
-		text = L["Reset your AuraWatch List"],
+		text = L["Reset your AuraWatch List?"],
 		button1 = YES,
 		button2 = NO,
 		OnAccept = function()
