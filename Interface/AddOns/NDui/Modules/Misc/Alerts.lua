@@ -249,10 +249,9 @@ end
 --[[
 	NDui版本过期提示
 ]]
-
 function M:VersionCheck_Compare(new, old)
 	new = gsub(new, "(%.%d+)$", "")
-	new = tonumber(new)
+	new = tonumber(new) or 0
 	old = gsub(old, "(%.%d+)$", "")
 	old = tonumber(old)
 	if new > old then

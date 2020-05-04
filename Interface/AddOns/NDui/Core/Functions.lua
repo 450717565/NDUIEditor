@@ -953,7 +953,7 @@ do
 
 	function B:CreateGear(name)
 		local bu = CreateFrame("Button", name, self)
-		bu:SetSize(22, 22)
+		bu:SetSize(24, 24)
 		bu.Icon = bu:CreateTexture(nil, "ARTWORK")
 		bu.Icon:SetAllPoints()
 		bu.Icon:SetTexture(DB.gearTex)
@@ -1786,7 +1786,7 @@ do
 
 		local texture = self.Icon or self.icon or self.Texture or self.texture or (self.SetTexture and self) or (self.GetNormalTexture and self:GetNormalTexture())
 		if texture then
-			texture:SetTexture(DB.roleTex)
+			texture:SetTexture(DB.rolesTex)
 			texture:SetTexCoord(B.GetRoleTexCoord(role))
 		end
 
@@ -1816,7 +1816,7 @@ do
 	end
 
 	function B:ReskinRoleIcon()
-		self:SetTexture(DB.roleTex)
+		self:SetTexture(DB.rolesTex)
 		local bg = B.CreateBDFrame(self)
 
 		return bg

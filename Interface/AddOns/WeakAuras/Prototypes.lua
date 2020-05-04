@@ -1467,12 +1467,7 @@ local function AddUnitRoleChangeInternalEvents(triggerUnit, t)
 end
 
 local function AddUnitEventForEvents(result, unit, event)
-  if not unit or not (WeakAuras.baseUnitId[unit] or WeakAuras.multiUnitId[unit]) then
-    if not result.events then
-      result.events = {}
-    end
-    tinsert(result.events, event)
-  else
+  if unit then
     if not result.unit_events then
       result.unit_events = {}
     end
@@ -1480,6 +1475,11 @@ local function AddUnitEventForEvents(result, unit, event)
       result.unit_events[unit] = {}
     end
     tinsert(result.unit_events[unit], event)
+  else
+    if not result.events then
+      result.events = {}
+    end
+    tinsert(result.events, event)
   end
 end
 
@@ -1571,7 +1571,8 @@ WeakAuras.event_prototypes = {
         test = "unitisunit",
         store = true,
         conditionType = "bool",
-        desc = function() return L["Can be used for e.g. checking if \"boss1target\" is the same as \"player\"."] end
+        desc = function() return L["Can be used for e.g. checking if \"boss1target\" is the same as \"player\"."] end,
+        enable = function(trigger) return not WeakAuras.multiUnitUnits[trigger.unit] end
       },
       {
         name = "name",
