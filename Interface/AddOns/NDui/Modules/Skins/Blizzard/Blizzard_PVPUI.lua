@@ -83,7 +83,7 @@ C.themes["Blizzard_PVPUI"] = function()
 		bu.Border:Hide()
 
 		local icbg = B.ReskinIcon(bu.Icon)
-		local bubg = B.CreateBG(bu, icbg, 2, 0, -2, 0)
+		local bubg = B.CreateBG(bu, 2, 0, -2, 0, icbg)
 		B.ReskinHighlight(bu.HighlightTexture, bubg, true)
 		B.ReskinHighlight(bu.SelectedTexture, bubg, true)
 

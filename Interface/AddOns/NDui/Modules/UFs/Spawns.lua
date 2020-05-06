@@ -281,7 +281,7 @@ function UF:OnLogin()
 		oUF:RegisterStyle("Boss", CreateBossStyle)
 		oUF:SetActiveStyle("Boss")
 		local boss = {}
-		local bossYOffset = NDuiDB["UFs"]["BossHeight"] + NDuiDB["UFs"]["BossPowerHeight"] + 9 + 10
+		local bossYOffset = NDuiDB["UFs"]["BossHeight"] + NDuiDB["UFs"]["BossPowerHeight"] + B.Scale(9) + 10
 		for i = 1, MAX_BOSS_FRAMES do
 			boss[i] = oUF:Spawn("Boss"..i, "oUF_Boss"..i)
 			if i == 1 then
@@ -325,8 +325,8 @@ function UF:OnLogin()
 			local partyHeight = NDuiDB["UFs"]["PartyHeight"]
 			local partyPowerHeight = NDuiDB["UFs"]["PartyPowerHeight"]
 			local moverWidth = partyWidth
-			local moverHeight = (partyHeight+partyPowerHeight+3+10)*(showPlayer and 5 or 4)-10
-			local partyYOffset = partyPowerHeight+3+10
+			local moverHeight = (partyHeight+partyPowerHeight+B.Scale(3)+10)*(showPlayer and 5 or 4)-10
+			local partyYOffset = partyPowerHeight+B.Scale(3)+10
 
 			local party = oUF:SpawnHeader("oUF_Party", nil, "solo,party",
 			"showPlayer", showPlayer,
@@ -357,8 +357,8 @@ function UF:OnLogin()
 				local petHeight = NDuiDB["UFs"]["PartyPetHeight"]
 				local petPowerHeight = NDuiDB["UFs"]["PartyPetPowerHeight"]
 				local petMoverWidth = petWidth
-				local petMoverHeight = (petHeight+petPowerHeight+3+10)*(showPlayer and 5 or 4)-10
-				local petYOffset = petPowerHeight+3+10
+				local petMoverHeight = (petHeight+petPowerHeight+B.Scale(3)+10)*(showPlayer and 5 or 4)-10
+				local petYOffset = petPowerHeight+B.Scale(3)+10
 
 				local partyPet = oUF:SpawnHeader("oUF_PartyPet", nil, "solo,party",
 				"showPlayer", true,
@@ -394,7 +394,7 @@ function UF:OnLogin()
 		local raidPowerHeight = NDuiDB["UFs"]["RaidPowerHeight"]
 		local reverseRaid = NDuiDB["UFs"]["ReverseRaid"]
 		local showTeamIndex = NDuiDB["UFs"]["ShowTeamIndex"]
-		local raidYOffset = raidPowerHeight+3+5
+		local raidYOffset = raidPowerHeight+B.Scale(3)+5
 		if NDuiDB["UFs"]["SimpleMode"] then
 			local groupingOrder, groupBy, sortMethod = "1,2,3,4,5,6,7,8", "GROUP", "INDEX"
 			if NDuiDB["UFs"]["SimpleModeSortByRole"] then
@@ -440,7 +440,7 @@ function UF:OnLogin()
 
 			local group = CreateGroup("oUF_Raid", groupFilter)
 			local moverWidth = numGroups > 4 and (100*raidScale*2+5) or 100*raidScale
-			local moverHeight = (20*raidScale+2*raidScale+3+5)*20 -5
+			local moverHeight = (20*raidScale+2*raidScale+B.Scale(3)+5)*20 -5
 			raidMover = B.Mover(group, L["RaidFrame"], "RaidFrame", {"TOPLEFT", UIParent, 35, -50}, moverWidth, moverHeight)
 		else
 			local function CreateGroup(name, i)
@@ -468,7 +468,7 @@ function UF:OnLogin()
 			end
 
 			local groups = {}
-			local raidMoverHeight = raidHeight + raidPowerHeight + 3
+			local raidMoverHeight = raidHeight + raidPowerHeight + B.Scale(3)
 			for i = 1, numGroups do
 				groups[i] = CreateGroup("oUF_Raid"..i, i)
 				if i == 1 then

@@ -1,7 +1,7 @@
 local B, C, L, DB = unpack(select(2, ...))
 
 tinsert(C.defaultThemes, function()
-	B.SetBDFrame(ColorPickerFrame)
+	B.CreateBGFrame(ColorPickerFrame)
 	B.StripTextures(ColorPickerFrame.Header)
 
 	B.ReskinSlider(OpacitySliderFrame, true)

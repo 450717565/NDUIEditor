@@ -18,9 +18,8 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		select(4, self.Stage:GetRegions()):Hide()
 		select(5, self.Stage:GetRegions()):Hide()
 
-		local bg = B.CreateBDFrame(self.Stage, 0)
-		bg:SetPoint("TOPLEFT", 4, 1)
-		bg:SetPoint("BOTTOMRIGHT", -4, -1)
+		local bg = B.CreateBG(self.Stage, 4, 1, -4, -1)
+
 		local overlay = self.Stage:CreateTexture()
 		overlay:SetDrawLayer("ARTWORK", 3)
 		overlay:SetAllPoints(bg)
@@ -268,10 +267,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				local icon = item.Icon
 				item.Border:Hide()
 				B.ReskinIcon(icon)
-
-				local bg = B.CreateBDFrame(item, 0)
-				bg:SetPoint("TOPLEFT", 41, -1)
-				bg:SetPoint("BOTTOMRIGHT", 0, 1)
+				B.CreateBG(item, 41, -1, 0, 1)
 			end
 		end
 
@@ -314,12 +310,9 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	for i = 1, GARRISON_NUM_BUILDING_SIZES do
 		local tab = BuildingList["Tab"..i]
-
 		tab:GetNormalTexture():SetAlpha(0)
 
-		local bg = B.CreateBDFrame(tab, 0)
-		bg:SetPoint("TOPLEFT", 6, -7)
-		bg:SetPoint("BOTTOMRIGHT", -6, 7)
+		local bg = B.CreateBG(tab, 6, -7, -6, 7)
 		B.ReskinHighlight(tab, bg, true)
 
 		tab.bg = bg
@@ -342,10 +335,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 				B.ReskinIcon(button.Icon)
 
-				local bg = B.CreateBDFrame(button, 0)
-				bg:SetPoint("TOPLEFT", 44, -5)
-				bg:SetPoint("BOTTOMRIGHT", 0, 6)
-
+				local bg = B.CreateBG(button, 44, -5, 0, 6)
 				B.ReskinHighlight(button, bg, true)
 				B.ReskinHighlight(button.SelectedBG, bg, true)
 
@@ -444,7 +434,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			reagent.NameFrame:SetAlpha(0)
 
 			local ic = B.ReskinIcon(reagent.Icon)
-			B.CreateBG(reagent, ic, 2, 0, -5, 0)
+			B.CreateBG(reagent, 2, 0, -5, 0, ic)
 
 			reagentIndex = reagentIndex + 1
 			reagent = reagents[reagentIndex]
@@ -786,7 +776,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	local GarrisonMonumentFrame = GarrisonMonumentFrame
 
 	GarrisonMonumentFrame.Background:Hide()
-	B.SetBDFrame(GarrisonMonumentFrame, 6, -10, -6, 4)
+	B.CreateBGFrame(GarrisonMonumentFrame, 6, -10, -6, 4)
 
 	do
 		local left = GarrisonMonumentFrame.LeftBtn
@@ -831,9 +821,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	B.StripTextures(shipyardMission)
 	B.ReskinClose(shipyardMission.CloseButton)
 	B.ReskinButton(shipyardMission.StartMissionButton)
-	local smbg = B.CreateBDFrame(shipyardMission.Stage, 0)
-	smbg:SetPoint("TOPLEFT", 4, 1)
-	smbg:SetPoint("BOTTOMRIGHT", -4, -1)
+	B.CreateBG(shipyardMission.Stage, 4, 1, -4, -1)
 
 	for i = 1, 10 do
 		select(i, shipyardMission.RewardsFrame:GetRegions()):Hide()

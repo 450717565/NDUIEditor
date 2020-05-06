@@ -203,7 +203,11 @@ oUF.Tags.Methods["altpower"] = function(unit)
 	local per = cur / max * 100
 
 	if cur > 0 then
-		return B.ColorText(per, false, cur)
+		if strmatch(unit, "boss") then
+			return B.ColorText(per, true, cur)
+		else
+			return B.ColorText(per, false, cur)
+		end
 	end
 end
 oUF.Tags.Events["altpower"] = "UNIT_POWER_UPDATE UNIT_MAXPOWER"

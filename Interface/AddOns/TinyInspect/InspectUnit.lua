@@ -111,7 +111,7 @@ local function GetInspectItemListFrame(parent)
 		parent.inspectFrame = frame
 		LibEvent:trigger("INSPECT_FRAME_CREATED", frame, parent)
 
-		B.SetBDFrame(frame)
+		B.CreateBGFrame(frame)
 	end
 
 	return parent.inspectFrame

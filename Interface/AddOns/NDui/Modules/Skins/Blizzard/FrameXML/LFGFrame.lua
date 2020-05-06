@@ -28,7 +28,7 @@ tinsert(C.defaultThemes, function()
 
 		iconTexture:SetDrawLayer("OVERLAY")
 		local icbg = B.ReskinIcon(iconTexture)
-		B.CreateBG(button, icbg, 2, 0, -5, 0)
+		B.CreateBG(button, 2, 0, -5, 0, icbg)
 
 		button.styled = true
 	end

@@ -122,7 +122,7 @@ tinsert(C.defaultThemes, function()
 	hooksecurefunc("ScenarioStage_CustomizeBlock", function(block)
 		if not block.styled then
 			B.StripTextures(block, 0)
-			B.SetBDFrame(block.GlowTexture, 4, -2, -4, 0)
+			B.CreateBGFrame(block.GlowTexture, 4, -2, -4, 0)
 
 			block.styled = true
 		end
@@ -154,7 +154,7 @@ tinsert(C.defaultThemes, function()
 
 			block.StatusBar:SetHeight(10)
 			B.ReskinStatusBar(block.StatusBar)
-			B.SetBDFrame(block, 4, -2, -4, 0)
+			B.CreateBGFrame(block, 4, -2, -4, 0)
 
 			block.styled = true
 		end

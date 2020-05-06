@@ -15,16 +15,46 @@ function S:Rematch()
 
 	local function reskinFrame(self)
 		B.StripTextures(self)
+		B.CreateBG(self, 0, -1, 0, 1)
+	end
 
-		local bg = B.CreateBDFrame(self, 0)
-		bg:SetPoint("TOPLEFT", 0, -1)
-		bg:SetPoint("BOTTOMRIGHT", 0, 1)
+	local function reskinInset(self)
+		B.StripTextures(self)
+		B.CreateBG(self, 3, 0, -3, 0)
 	end
 
 	local function reskinFilter(self)
 		self.Icon = self.Arrow
 
 		B.ReskinFilter(self)
+	end
+
+	local function reskinInput(self)
+		self:DisableDrawLayer("BACKGROUND")
+		self:SetBackdrop(nil)
+
+		B.CreateBG(self, 2, 0, -2, 0)
+	end
+
+	local function reskinDropdown(self)
+		self:SetBackdrop(nil)
+
+		B.StripTextures(self)
+		B.CreateBDFrame(self, 0)
+
+		if self.Icon then
+			self.Icon:SetAlpha(1)
+			self.Icon.bg = B.ReskinIcon(self.Icon)
+		end
+
+		local arrow = self:GetChildren()
+		B.ReskinArrow(arrow, "down")
+	end
+
+	function reskinTab(self)
+		for _, tab in pairs(self.PanelTabs.Tabs) do
+			B.ReskinTab(tab)
+		end
 	end
 
 	local function reskinButton(self)
@@ -55,15 +85,6 @@ function S:Rematch()
 		self.styled = true
 	end
 
-	local function reskinInput(self)
-		self:DisableDrawLayer("BACKGROUND")
-		self:SetBackdrop(nil)
-
-		local bg = B.CreateBDFrame(self, 0)
-		bg:SetPoint("TOPLEFT", 2, 0)
-		bg:SetPoint("BOTTOMRIGHT", -2, 0)
-	end
-
 	local function reskinScroll(self)
 		self.Background:Hide()
 
@@ -81,36 +102,21 @@ function S:Rematch()
 
 		local TopButton = ScrollBar.TopButton
 		if TopButton then
-			TopButton:SetWidth(18)
+			B.ReskinArrow(TopButton, "top")
+
+			TopButton:SetHeight(16)
 			TopButton:ClearAllPoints()
 			TopButton:SetPoint("BOTTOM", UpButton, "TOP", 0, 2)
-
-			B.ReskinArrow(TopButton, "top")
 		end
 
 		local BottomButton = ScrollBar.BottomButton
 		if BottomButton then
-			BottomButton:SetWidth(18)
+			B.ReskinArrow(BottomButton, "bottom")
+
+			BottomButton:SetHeight(16)
 			BottomButton:ClearAllPoints()
 			BottomButton:SetPoint("TOP", DownButton, "BOTTOM", 0, -2)
-
-			B.ReskinArrow(BottomButton, "bottom")
 		end
-	end
-
-	local function reskinDropdown(self)
-		self:SetBackdrop(nil)
-
-		B.StripTextures(self)
-		B.CreateBDFrame(self, 0)
-
-		if self.Icon then
-			self.Icon:SetAlpha(1)
-			self.Icon.bg = B.ReskinIcon(self.Icon)
-		end
-
-		local arrow = self:GetChildren()
-		B.ReskinArrow(arrow, "down")
 	end
 
 	local function reskinPetCard(self)
@@ -126,14 +132,6 @@ function S:Rematch()
 
 		reskinFrame(self.Middle)
 		reskinFrame(self.Bottom)
-	end
-
-	local function reskinInset(self)
-		B.StripTextures(self)
-
-		local bg = B.CreateBDFrame(self, 0)
-		bg:SetPoint("TOPLEFT", 3, 0)
-		bg:SetPoint("BOTTOMRIGHT", -3, 0)
 	end
 
 	local function reskinPetList(self)
@@ -166,9 +164,7 @@ function S:Rematch()
 
 				if button.Back then
 					button.Back:SetTexture(nil)
-					local bdTex = B.CreateBDFrame(button.Back, 0)
-					bdTex:SetPoint("TOPLEFT", parent, "TOPRIGHT", 4, C.mult)
-					bdTex:SetPoint("BOTTOMRIGHT", 0, C.mult)
+					local bdTex = B.CreateBG(button.Back, 4, C.mult, 0, -C.mult, parent)
 					button.bdTex = bdTex
 
 					B.Hook_OnEnter(button, true)
@@ -182,20 +178,15 @@ function S:Rematch()
 
 	function reskinSelectedOverlay(self)
 		B.StripTextures(self.SelectedOverlay)
+
 		local bg = B.CreateBDFrame(self.SelectedOverlay, 0)
 		bg:SetBackdropColor(cr, cg, cb, .5)
 		self.SelectedOverlay.bg = bg
 	end
 
-	function reskinTabs(self)
-		for _, tab in pairs(self.PanelTabs.Tabs) do
-			B.ReskinTab(tab)
-		end
-	end
-
 	local function resizeJournal()
 		local parent = RematchJournal:IsShown() and RematchJournal or CollectionsJournal
-		CollectionsJournal.bg:SetPoint("BOTTOMRIGHT", parent, C.mult, -C.mult)
+		CollectionsJournal.bg:SetPoint("BOTTOMRIGHT", parent, 0, 0)
 	end
 
 	local styled
@@ -220,7 +211,7 @@ function S:Rematch()
 
 		B.StripTextures(RematchJournal)
 		B.ReskinClose(RematchJournal.CloseButton)
-		reskinTabs(RematchJournal)
+		reskinTab(RematchJournal)
 
 		local buttons = {
 			RematchBandageButton,
@@ -264,11 +255,9 @@ function S:Rematch()
 
 		-- RematchLoadoutPanel
 		B.StripTextures(RematchLoadedTeamPanel)
-		local bg = B.CreateBDFrame(RematchLoadedTeamPanel, 0)
-		bg:SetBackdropColor(cr, cg, cb, .25)
-		bg:SetPoint("TOPLEFT", 0, -1)
-		bg:SetPoint("BOTTOMRIGHT", 0, 1)
 		B.StripTextures(RematchLoadedTeamPanel.Footnotes)
+		local bg = B.CreateBG(RematchLoadedTeamPanel, 0, -1, 0, 1)
+		bg:SetBackdropColor(cr, cg, cb, .25)
 
 		-- RematchLoadoutPanel
 		local Target = RematchLoadoutPanel.Target
@@ -307,9 +296,7 @@ function S:Rematch()
 
 		local Title = RematchPetCard.Title
 		B.StripTextures(Title)
-		local bg = B.CreateBDFrame(Title, 0)
-		bg:SetPoint("TOPLEFT", -1, -1)
-		bg:SetPoint("BOTTOMRIGHT", -1, 1)
+		B.CreateBG(Title, -C.mult, -1, -(C.mult*2), 1)
 
 		local PinButton = RematchPetCard.PinButton
 		B.StripTextures(PinButton)
@@ -391,9 +378,7 @@ function S:Rematch()
 
 		local RarityBarBorder = CollectionReport.RarityBarBorder
 		RarityBarBorder:Hide()
-		local bg = B.CreateBDFrame(RarityBarBorder, 0)
-		bg:SetPoint("TOPLEFT", RarityBarBorder, 6, -5)
-		bg:SetPoint("BOTTOMRIGHT", RarityBarBorder, -6, 5)
+		B.CreateBG(RarityBarBorder, 6, -5, -6, 5)
 
 		styled = true
 	end)
@@ -410,9 +395,7 @@ function S:Rematch()
 		local Content = RematchNotes.Content
 		B.StripTextures(Content)
 		B.ReskinScroll(Content.ScrollFrame.ScrollBar)
-		local bg = B.CreateBDFrame(Content.ScrollFrame, 0)
-		bg:SetPoint("TOPLEFT", 0, 5)
-		bg:SetPoint("BOTTOMRIGHT", 0, -2)
+		B.CreateBG(Content.ScrollFrame, 0, 5, 0, -2)
 
 		for _, icon in pairs({"Left", "Right"}) do
 			local bu = Content[icon.."Icon"]
@@ -456,7 +439,8 @@ function S:Rematch()
 		if petInfo.isSummoned and parentPanel == Rematch.PetPanel then
 			local bg = parentPanel.SelectedOverlay.bg
 			if bg then
-				bg:SetInside(self.bg)
+				bg:ClearAllPoints()
+				bg:SetAllPoints(self.bdTex)
 			end
 		end
 	end)
@@ -595,9 +579,7 @@ function S:Rematch()
 				local tab = TypeBar.Tabs[i]
 				if not tab.styled then
 					B.StripTextures(tab)
-					tab.bg = B.CreateBDFrame(tab, 0)
-					tab.bg:SetPoint("TOPLEFT", 1, -1)
-					tab.bg:SetPoint("BOTTOMRIGHT", -3, 1)
+					tab.bg = B.CreateBG(tab, 1, -1, -3, 1)
 
 					local r, g, b = tab.Selected.MidSelected:GetVertexColor()
 					tab.bg:SetBackdropColor(r, g, b, .5)
@@ -649,7 +631,8 @@ function S:Rematch()
 		if teamInfo.key == RematchSettings.loadedTeam then
 			local bg = panel.SelectedOverlay.bg
 			if bg then
-				bg:SetInside(self.bg)
+				bg:ClearAllPoints()
+				bg:SetAllPoints(self.bdTex)
 			end
 		end
 	end)
@@ -713,7 +696,7 @@ function S:Rematch()
 		if styled then return end
 
 		B.ReskinFrame(RematchFrame)
-		reskinTabs(RematchFrame)
+		reskinTab(RematchFrame)
 
 		RematchMiniPanel.Background:Hide()
 		RematchFrame.BottomTileStreaks:SetAlpha(0)

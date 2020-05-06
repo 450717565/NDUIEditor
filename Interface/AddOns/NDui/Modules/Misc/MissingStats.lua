@@ -11,6 +11,8 @@ function M:MissingStats()
 	if not NDuiDB["Misc"]["MissingStats"] then return end
 	if IsAddOnLoaded("DejaCharacterStats") then return end
 
+	local fontOutline = NDuiDB["Skins"]["FontOutline"] and "OUTLINE" or ""
+
 	local statPanel = CreateFrame("Frame", nil, CharacterFrameInsetRight)
 	statPanel:SetSize(200, 350)
 	statPanel:SetPoint("TOP", 0, -5)
@@ -105,7 +107,7 @@ function M:MissingStats()
 		end
 
 		statFrame.Value:SetText(ilvl)
-		statFrame.Value:SetFont(STANDARD_TEXT_FONT, 20, DB.Font[3])
+		statFrame.Value:SetFont(STANDARD_TEXT_FONT, 20, fontOutline)
 
 		statFrame.tooltip = "|cffffffff"..STAT_AVERAGE_ITEM_LEVEL..L[":"].."|r"..ilvl
 	end)

@@ -20,7 +20,7 @@ C.themes["Blizzard_TrainerUI"] = function()
 			skillButton.icon:SetTexture(texture)
 
 			local icbg = B.ReskinIcon(skillButton.icon)
-			local bubg = B.CreateBG(skillButton, icbg, 2)
+			local bubg = B.CreateBG(skillButton, 2, 0, 0, 0, icbg)
 
 			if skillButton == ClassTrainerFrame.skillStepButton then
 				bubg:SetPoint("RIGHT", -18, 0)

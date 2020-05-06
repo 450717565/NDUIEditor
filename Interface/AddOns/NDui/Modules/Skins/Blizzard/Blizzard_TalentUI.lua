@@ -34,9 +34,7 @@ C.themes["Blizzard_TalentUI"] = function()
 			B.StripTextures(bu)
 			bu.knownSelection:SetAlpha(0)
 
-			local bg = B.CreateBDFrame(bu, 0)
-			bg:SetPoint("TOPLEFT", 10, 0)
-			bg:SetPoint("BOTTOMRIGHT")
+			local bg = B.CreateBG(bu, 10, 0, 0, 0)
 			B.ReskinHighlight(bu, bg, true)
 
 			local ic = _G[button.."Talent"..j.."IconTexture"]
@@ -194,7 +192,7 @@ C.themes["Blizzard_TalentUI"] = function()
 		icon:SetSize(32, 32)
 
 		local icbg = B.ReskinIcon(icon)
-		local bubg = B.CreateBG(bu, icbg, 2)
+		local bubg = B.CreateBG(bu, 2, 0, 0, 0, icbg)
 		B.ReskinHighlight(bu, bubg, true)
 		B.ReskinHighlight(bu.Selected, bubg, true)
 

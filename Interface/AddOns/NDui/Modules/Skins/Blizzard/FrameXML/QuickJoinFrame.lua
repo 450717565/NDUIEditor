@@ -38,10 +38,9 @@ tinsert(C.defaultThemes, function()
 		self.FriendsButton:SetTexture(friendTex)
 	end)
 
-	B.StripTextures(QuickJoinToastButton.Toast, 0)
-	local bg = B.CreateBDFrame(QuickJoinToastButton.Toast, 0)
-	bg:SetPoint("TOPLEFT", 10, -1)
-	bg:SetPoint("BOTTOMRIGHT", 0, 3)
+	local Toast = QuickJoinToastButton.Toast
+	B.StripTextures(Toast, 0)
+	local bg = B.CreateBG(Toast, 10, -1, 0, 3)
 	bg:Hide()
 	hooksecurefunc(QuickJoinToastButton, "ShowToast", function() bg:Show() end)
 	hooksecurefunc(QuickJoinToastButton, "HideToast", function() bg:Hide() end)

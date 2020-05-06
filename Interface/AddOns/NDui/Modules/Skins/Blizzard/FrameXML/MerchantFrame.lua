@@ -30,7 +30,7 @@ tinsert(C.defaultThemes, function()
 	local backIT = MerchantBuyBackItem
 	B.StripTextures(backIT)
 
-	local itemBG = B.CreateBG(backIT, backIC, 2)
+	local itemBG = B.CreateBG(backIT, 2, 0, 0, 0, backIC)
 
 	local backName = MerchantBuyBackItemName
 	backName:SetWordWrap(false)

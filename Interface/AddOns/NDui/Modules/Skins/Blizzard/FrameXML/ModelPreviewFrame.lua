@@ -2,7 +2,7 @@ local B, C, L, DB = unpack(select(2, ...))
 
 tinsert(C.defaultThemes, function()
 	B.StripTextures(ModelPreviewFrame)
-	B.SetBDFrame(ModelPreviewFrame)
+	B.CreateBGFrame(ModelPreviewFrame)
 
 	B.ReskinClose(ModelPreviewFrameCloseButton)
 	B.ReskinButton(ModelPreviewFrame.CloseButton)

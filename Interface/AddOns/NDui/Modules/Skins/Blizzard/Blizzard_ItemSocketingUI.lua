@@ -5,10 +5,7 @@ C.themes["Blizzard_ItemSocketingUI"] = function()
 
 	B.ReskinButton(ItemSocketingSocketButton)
 	B.ReskinScroll(ItemSocketingScrollFrameScrollBar)
-
-	local bg = B.CreateBDFrame(ItemSocketingScrollFrame, 0)
-	bg:SetPoint("TOPLEFT", 0, 0)
-	bg:SetPoint("BOTTOMRIGHT", 0, -3)
+	B.CreateBG(ItemSocketingScrollFrame, 0, 0, 0, -3)
 
 	for i = 1, MAX_NUM_SOCKETS do
 		local button = "ItemSocketingSocket"..i

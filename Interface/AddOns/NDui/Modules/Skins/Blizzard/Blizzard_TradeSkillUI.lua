@@ -19,9 +19,7 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 		local tab = RecipeList.Tabs[i]
 		B.StripTextures(tab)
 
-		tab.bg = B.CreateBDFrame(tab, 0)
-		tab.bg:SetPoint("TOPLEFT", 3, -3)
-		tab.bg:SetPoint("BOTTOMRIGHT", -3, 0)
+		tab.bg = B.CreateBDFrame(tab, 0, -3)
 	end
 	hooksecurefunc(RecipeList, "OnLearnedTabClicked", function()
 		RecipeList.Tabs[1].bg:SetBackdropColor(cr, cg, cb, .25)
@@ -88,7 +86,7 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 				reagent.Icon:SetSize(36, 36)
 
 				local icbg = B.ReskinIcon(reagent.Icon)
-				local bubg = B.CreateBG(reagent.NameFrame, icbg, 2, 0, -10, 0)
+				local bubg = B.CreateBG(reagent.NameFrame, 2, 0, -10, 0, icbg)
 			end
 
 			self.styled = true

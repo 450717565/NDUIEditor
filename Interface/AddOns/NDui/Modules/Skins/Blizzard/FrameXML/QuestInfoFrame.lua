@@ -34,7 +34,7 @@ tinsert(C.defaultThemes, function()
 		local icon = bu.Icon
 		icon:SetPoint("TOPLEFT", 3, -2)
 		local icbg = B.ReskinIcon(icon)
-		B.CreateBG(bu, icbg, 2, 0, -5, 0)
+		B.CreateBG(bu, 2, 0, -5, 0, icbg)
 	end
 	restyleSpellButton(QuestInfoSpellObjectiveFrame)
 

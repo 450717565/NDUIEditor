@@ -6,10 +6,15 @@ C.themes["Blizzard_DebugTools"] = function()
 	local bg, bu = EventTraceFrameScroll:GetRegions()
 	bg:Hide()
 	bu:SetAlpha(0)
-	bu:SetWidth(17)
+	bu:SetWidth(18)
+	B.CreateBDFrame(bu, 0)
 
-	local bg = B.CreateBDFrame(EventTraceFrame, 0)
-	bg:SetAllPoints(bu)
+	for i = 1, 29 do
+		local button = _G["EventTraceFrameButton"..i]
+		local hide = _G["EventTraceFrameButton"..i.."HideButton"]
+
+		B.ReskinClose(hide, "LEFT", button, "LEFT", 0, 0)
+	end
 
 	-- Table Attribute Display
 	local function reskinTableAttribute(frame)

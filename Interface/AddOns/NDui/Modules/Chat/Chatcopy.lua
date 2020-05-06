@@ -88,7 +88,7 @@ function module:ChatCopy_Create()
 	frame:Hide()
 	frame:SetFrameStrata("DIALOG")
 	B.CreateMF(frame)
-	B.SetBDFrame(frame)
+	B.CreateBGFrame(frame)
 	frame.close = CreateFrame("Button", nil, frame, "UIPanelCloseButton")
 	frame.close:SetPoint("TOPRIGHT", frame)
 

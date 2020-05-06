@@ -889,8 +889,8 @@ do
 		return bg
 	end
 
-	function B:SetBDFrame(x, y, x2, y2)
-		if x and y and x2 and y2 then
+	function B:CreateBGFrame(x, y, x2, y2)
+		if x or y or x2 or y2 then
 			local bg = B.CreateBDFrame(self, nil, 0, true)
 			bg:ClearAllPoints()
 			bg:Point("TOPLEFT", self, x, y)
@@ -903,12 +903,17 @@ do
 		end
 	end
 
-	function B:CreateBG(frame, x, y, x2, y2)
+	function B:CreateBG(x, y, x2, y2, frame)
 		local bg = B.CreateBDFrame(self, 0)
 		bg:ClearAllPoints()
-		bg:Point("TOPLEFT", frame, "TOPRIGHT", x or 0, y or 0)
-		bg:Point("BOTTOM", frame, "BOTTOM", 0, y2 or 0)
-		bg:Point("RIGHT", self, "RIGHT", x2 or 0, 0)
+		if frame then
+			bg:Point("TOPLEFT", frame, "TOPRIGHT", x, y)
+			bg:Point("BOTTOM", frame, "BOTTOM", 0, y2)
+			bg:Point("RIGHT", self, "RIGHT", x2, 0)
+		else
+			bg:Point("TOPLEFT", self, x, y)
+			bg:Point("BOTTOMRIGHT", self, x2, y2)
+		end
 
 		return bg
 	end
@@ -922,7 +927,7 @@ do
 	end
 
 	function B:PixelIcon(texture, highlight)
-		B.SetBDFrame(self)
+		B.CreateBGFrame(self)
 		B.CreateGF(self)
 
 		self.Icon = self:CreateTexture(nil, "ARTWORK")
@@ -1031,7 +1036,7 @@ do
 		B.StripTextures(self)
 		B.CleanTextures(self)
 
-		local bg = B.SetBDFrame(self, 8, -3, -8, 0)
+		local bg = B.CreateBGFrame(self, 8, -3, -8, 2)
 		B.ReskinHighlight(self, bg, true)
 	end
 
@@ -1085,11 +1090,7 @@ do
 			thumb:SetAlpha(0)
 			thumb:SetWidth(18)
 
-			local bdTex = B.CreateBDFrame(thumb, 0)
-			bdTex:ClearAllPoints()
-			bdTex:Point("TOPLEFT", thumb, 0, -3)
-			bdTex:Point("BOTTOMRIGHT", thumb, 0, 3)
-
+			local bdTex = B.CreateBG(thumb, 0, -3, 0, 3)
 			self.bdTex = bdTex
 		end
 
@@ -1183,13 +1184,10 @@ do
 		B.CleanTextures(self)
 		self:DisableDrawLayer("BACKGROUND")
 
-		local bg = B.CreateBDFrame(self, 0)
-		bg:ClearAllPoints()
-		bg:Point("TOPLEFT", -3, 0)
-		bg:Point("BOTTOMRIGHT", -3, 0)
-
 		if height then self:SetHeight(height) end
 		if width then self:SetWidth(width) end
+
+		local bg = B.CreateBG(self, -3, 0, -3, 0)
 
 		return bg
 	end
@@ -1321,10 +1319,7 @@ do
 		self:SetBackdrop(nil)
 		B.StripTextures(self)
 
-		local bg = B.CreateBDFrame(self, 0)
-		bg:ClearAllPoints()
-		bg:Point("TOPLEFT", 14, -2)
-		bg:Point("BOTTOMRIGHT", -15, 3)
+		B.CreateBG(self, 14, -2, -15, 3)
 
 		local thumb = self:GetThumbTexture()
 		thumb:SetTexture(DB.sparkTex)
@@ -1666,7 +1661,7 @@ do
 	function B:ReskinReforgeUI(index)
 		B.StripTextures(self, index)
 		B.ReskinClose(self.CloseButton)
-		B.SetBDFrame(self)
+		B.CreateBGFrame(self)
 
 		local Background = self.Background
 		B.CreateBDFrame(Background, 0, nil, true)
@@ -1706,7 +1701,7 @@ do
 		results:Point("BOTTOMLEFT", self, "BOTTOMRIGHT", 50, 0)
 		B.StripTextures(results)
 		B.CleanTextures(results)
-		B.SetBDFrame(results, -10, 0, 0, 0)
+		B.CreateBGFrame(results, -10, 0, 0, 0)
 
 		local frameName = self.GetName and self:GetName()
 		local closebu = results.closeButton or (frameName and _G[frameName.."SearchResultsCloseButton"])
@@ -1724,7 +1719,7 @@ do
 				local icbg = B.ReskinIcon(bu.icon)
 				bu.icon.SetTexCoord = B.Dummy
 
-				local bubg = B.CreateBG(bu, icbg, 2, 2, -2, -2)
+				local bubg = B.CreateBG(bu, 2, 2, -2, -2, icbg)
 				B.ReskinHighlight(bu, bubg, true)
 
 				local name = bu.name

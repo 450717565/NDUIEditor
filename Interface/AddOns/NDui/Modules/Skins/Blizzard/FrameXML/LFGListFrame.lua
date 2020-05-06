@@ -54,9 +54,7 @@ tinsert(C.defaultThemes, function()
 			B.StripTextures(result)
 
 			if not result.styled then
-				local bg = B.CreateBDFrame(result, 0)
-				bg:SetPoint("TOPLEFT", 0, -C.mult)
-				bg:SetPoint("BOTTOMRIGHT", 0, C.mult)
+				local bg = B.CreateBG(result, 0, -C.mult, 0, C.mult)
 
 				local hl = bg:CreateTexture(nil, "BACKGROUND")
 				hl:SetAllPoints()

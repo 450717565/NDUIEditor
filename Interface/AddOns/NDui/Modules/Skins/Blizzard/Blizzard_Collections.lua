@@ -157,9 +157,7 @@ C.themes["Blizzard_Collections"] = function()
 
 	local BottomLeftInset = MountJournal.BottomLeftInset
 	B.StripTextures(BottomLeftInset)
-	local bg = B.CreateBDFrame(BottomLeftInset, 0)
-	bg:SetPoint("TOPLEFT", 3, -2)
-	bg:SetPoint("BOTTOMRIGHT", -25, 2)
+	B.CreateBG(BottomLeftInset, 3, -2, -25, 2)
 
 	local SlotButton = BottomLeftInset.SlotButton
 	B.StripTextures(SlotButton)
@@ -194,12 +192,9 @@ C.themes["Blizzard_Collections"] = function()
 	for i = 1, 3 do
 		local bu = PetJournal.Loadout["Pet"..i]
 		B.StripTextures(bu)
+		B.CreateBG(bu, 0, -4, 0, 0)
 		B.ReskinStatusBar(bu.xpBar, true)
 		B.ReskinStatusBar(bu.healthFrame.healthBar, true)
-
-		local bubg = B.CreateBDFrame(bu, 0)
-		bubg:SetPoint("TOPLEFT", 0, -4)
-		bubg:SetPoint("BOTTOMRIGHT")
 
 		local setButton = bu.setButton:GetRegions()
 		B.ReskinHighlight(setButton, bu.qualityBorder)
@@ -351,13 +346,11 @@ C.themes["Blizzard_Collections"] = function()
 	B.StripTextures(ItemsCollectionFrame)
 	B.ReskinDropDown(WardrobeCollectionFrameWeaponDropDown)
 
-	for index = 1, 2 do
-		local tab = _G["WardrobeCollectionFrameTab"..index]
+	for i = 1, 2 do
+		local tab = _G["WardrobeCollectionFrameTab"..i]
 		B.StripTextures(tab)
 
-		tab.bg = B.CreateBDFrame(tab, 0)
-		tab.bg:SetPoint("TOPLEFT", 3, -3)
-		tab.bg:SetPoint("BOTTOMRIGHT", -3, -1)
+		tab.bg = B.CreateBDFrame(tab, 0, -3)
 	end
 
 	hooksecurefunc("WardrobeCollectionFrame_SetTab", function(tabID)
@@ -419,7 +412,7 @@ C.themes["Blizzard_Collections"] = function()
 	B.ReskinFrame(WardrobeFrame)
 	B.StripTextures(WardrobeTransmogFrame)
 	B.StripTextures(WardrobeOutfitFrame)
-	B.SetBDFrame(WardrobeOutfitFrame)
+	B.CreateBGFrame(WardrobeOutfitFrame)
 	B.ReskinButton(WardrobeTransmogFrame.ApplyButton)
 	B.ReskinButton(WardrobeOutfitDropDown.SaveButton)
 	B.ReskinArrow(WardrobeTransmogFrame.SpecButton, "down")

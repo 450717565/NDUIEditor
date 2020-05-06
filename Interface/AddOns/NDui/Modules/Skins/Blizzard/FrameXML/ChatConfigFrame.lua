@@ -92,10 +92,7 @@ tinsert(C.defaultThemes, function()
 		for tab in self.tabPool:EnumerateActive() do
 			if not tab.styled then
 				B.StripTextures(tab)
-
-				local bg = B.CreateBDFrame(tab, 0)
-				bg:SetPoint("TOPLEFT", C.mult, -10)
-				bg:SetPoint("BOTTOMRIGHT", -C.mult, 0)
+				B.CreateBG(tab, C.mult, -10, -C.mult, 0)
 
 				tab.styled = true
 			end
@@ -109,22 +106,16 @@ tinsert(C.defaultThemes, function()
 	B.ReskinColorSwatch(CombatConfigColorsColorizeSpellNamesColorSwatch)
 	B.ReskinColorSwatch(CombatConfigColorsColorizeDamageNumberColorSwatch)
 	B.ReskinScroll(ChatConfigCombatSettingsFiltersScrollFrameScrollBar)
+	B.CreateBG(ChatConfigCombatSettingsFilters, 3, -3, 0, 2)
 
 	local checks = {CombatConfigColorsHighlightingLine, CombatConfigColorsHighlightingAbility, CombatConfigColorsHighlightingDamage, CombatConfigColorsHighlightingSchool, CombatConfigColorsColorizeUnitNameCheck, CombatConfigColorsColorizeSpellNamesCheck, CombatConfigColorsColorizeSpellNamesSchoolColoring, CombatConfigColorsColorizeDamageNumberCheck, CombatConfigColorsColorizeDamageNumberSchoolColoring, CombatConfigColorsColorizeDamageSchoolCheck, CombatConfigColorsColorizeEntireLineCheck, CombatConfigFormattingShowTimeStamp, CombatConfigFormattingShowBraces, CombatConfigFormattingUnitNames, CombatConfigFormattingSpellNames, CombatConfigFormattingItemNames, CombatConfigFormattingFullText, CombatConfigSettingsShowQuickButton, CombatConfigSettingsSolo, CombatConfigSettingsParty, CombatConfigSettingsRaid}
 	for _, check in pairs(checks) do
 		B.ReskinCheck(check)
 	end
 
-	local bg = B.CreateBDFrame(ChatConfigCombatSettingsFilters, 0)
-	bg:SetPoint("TOPLEFT", 3, -3)
-	bg:SetPoint("BOTTOMRIGHT", 0, 2)
-
 	for i = 1, 5 do
 		local tab = _G["CombatConfigTab"..i]
 		B.StripTextures(tab)
-
-		local bg = B.CreateBDFrame(tab, 0)
-		bg:SetPoint("TOPLEFT", C.mult, -10)
-		bg:SetPoint("BOTTOMRIGHT", -C.mult, 0)
+		B.CreateBG(tab, C.mult, -10, -C.mult, 0)
 	end
 end)

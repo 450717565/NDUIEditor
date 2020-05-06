@@ -185,7 +185,7 @@ function UF:CreateHealthText(self)
 		self:Tag(hpval, "[health]")
 	elseif mystyle == "nameplate" then
 		hpval:ClearAllPoints()
-		hpval:SetPoint("RIGHT", self, "TOPRIGHT", 0, 0)
+		hpval:SetPoint("RIGHT", self, "TOPRIGHT", 0, 1)
 		self:Tag(hpval, "[nphp]")
 	elseif notMinorStyle then
 		hpval:ClearAllPoints()
@@ -410,7 +410,7 @@ function UF:CreateRaidMark(self)
 end
 
 local function createBarMover(bar, text, value, anchor)
-	local mover = B.Mover(bar, text, value, anchor, bar:GetHeight()+bar:GetWidth()+3, bar:GetHeight())
+	local mover = B.Mover(bar, text, value, anchor, bar:GetHeight()+bar:GetWidth()+B.Scale(3), bar:GetHeight())
 	bar:ClearAllPoints()
 	bar:SetPoint("RIGHT", mover)
 	bar.mover = mover
@@ -770,11 +770,11 @@ function UF:CreateBuffs(self)
 	bu["growth-x"] = "RIGHT"
 	bu["growth-y"] = "UP"
 	bu.onlyShowPlayer = false
-	bu:SetPoint("BOTTOMLEFT", self.AlternativePower, "TOPLEFT", 0, 5)
+	bu:SetPoint("BOTTOMLEFT", self.AlternativePower, "TOPLEFT", 0, 3)
 	bu.initialAnchor = "BOTTOMLEFT"
 
 	if self.mystyle == "arena" then
-		bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 5)
+		bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 3)
 		bu.CustomFilter = UF.CustomFilter
 	end
 
@@ -803,7 +803,7 @@ function UF:CreateDebuffs(self)
 	elseif mystyle == "boss" or mystyle == "arena" then
 		bu:SetPoint("TOPRIGHT", self, "TOPLEFT", -5, 0)
 		bu.num = 10
-		bu.size = self:GetHeight()+self.Power:GetHeight()+3
+		bu.size = self:GetHeight()+self.Power:GetHeight()+B.Scale(3)
 		bu.CustomFilter = UF.CustomFilter
 		bu["growth-y"] = "UP"
 	elseif mystyle == "tot" then
@@ -907,7 +907,7 @@ function UF:CreateClassPower(self)
 
 	local bar = CreateFrame("Frame", "oUF_ClassPowerBar", self.Health)
 	bar:SetSize(barWidth, barHeight)
-	bar:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 3)
+	bar:Point("BOTTOMLEFT", self, "TOPLEFT", 0, 3)
 
 	local bars = {}
 	for i = 1, 6 do
@@ -957,7 +957,7 @@ function UF:StaggerBar(self)
 
 	local stagger = CreateFrame("StatusBar", nil, self.Health)
 	stagger:SetSize(width, height)
-	stagger:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 3)
+	stagger:Point("BOTTOMLEFT", self, "TOPLEFT", 0, 3)
 	stagger:SetFrameLevel(self:GetFrameLevel() + 5)
 	B.SmoothBar(stagger)
 	B.CreateSB(stagger)
@@ -983,8 +983,8 @@ end
 
 function UF:CreateAltPower(self)
 	local bar = CreateFrame("StatusBar", nil, self)
-	bar:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 3)
-	bar:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 0, 3)
+	bar:Point("BOTTOMLEFT", self, "TOPLEFT", 0, 3)
+	bar:Point("BOTTOMRIGHT", self, "TOPRIGHT", 0, 3)
 	bar:SetHeight(self.Power:GetHeight())
 	B.CreateSB(bar)
 
@@ -1090,8 +1090,8 @@ end
 
 function UF:CreateAddPower(self)
 	local bar = CreateFrame("StatusBar", nil, self)
-	bar:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -3)
-	bar:SetPoint("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, -3)
+	bar:Point("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -3)
+	bar:Point("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, -3)
 	bar:SetHeight(self.Power:GetHeight())
 	B.SmoothBar(bar)
 	B.CreateSB(bar)
@@ -1140,8 +1140,8 @@ function UF:CreateSwing(self)
 
 	local off = CreateFrame("StatusBar", nil, bar)
 	off:Hide()
-	off:SetPoint("TOPLEFT", bar, "BOTTOMLEFT", 0, -3)
-	off:SetPoint("TOPRIGHT", bar, "BOTTOMRIGHT", 0, -3)
+	off:Point("TOPLEFT", bar, "BOTTOMLEFT", 0, -3)
+	off:Point("TOPRIGHT", bar, "BOTTOMRIGHT", 0, -3)
 	off:SetHeight(3)
 	B.CreateSB(off, true)
 

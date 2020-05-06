@@ -43,7 +43,7 @@ local function ReskinDetails()
 		self:SetBarTextSettings(NDuiADB["ResetDetails"] and 14 or nil, DB.Font[1], nil, nil, nil, true, true, nil, nil, nil, nil, nil, nil, false, nil, false, nil)
 		self:ToolbarMenuButtonsSize(1)
 
-		self.baseframe.bg = B.SetBDFrame(self.baseframe, -1, 18, 0, 0)
+		self.baseframe.bg = B.CreateBGFrame(self.baseframe, -1, 18, 0, 0)
 
 		if self:GetId() <= 2 then
 			local open, close = S.CreateToggle(self.baseframe)

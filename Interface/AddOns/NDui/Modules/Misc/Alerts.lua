@@ -47,7 +47,7 @@ function M:SoloInfo_Create()
 	soloInfo = CreateFrame("Frame", nil, UIParent)
 	soloInfo:SetPoint("TOP", UIParent, "TOP", 0, -85)
 	soloInfo:SetSize(200, 70)
-	B.SetBDFrame(soloInfo)
+	B.CreateBGFrame(soloInfo)
 
 	soloInfo.Text = B.CreateFS(soloInfo, 12)
 	soloInfo.Text:SetWordWrap(true)
@@ -132,7 +132,7 @@ function M:RareAlert_Update(id)
 
 		PlaySound(9431, "master")
 		UIErrorsFrame:AddMessage(DB.InfoColor..format(">>> %s <<<", tex..(info.name or "")))
-		print(format(">>> |cff00ff00[%s]|r|cffffff00%s|r|cff00ffff[%.1f,%.1f]|r <<<", currrentTime, info.name or "", coordX*100, coordY*100))
+		print(format(">>> |cff00ff00[%s]|r|cffffff00%s|r|cff00ffff[%.1f , %.1f]|r <<<", currrentTime, info.name or "", coordX*100, coordY*100))
 
 		cache[id] = true
 	end

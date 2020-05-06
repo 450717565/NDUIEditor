@@ -163,7 +163,7 @@ local function setupFriendsFrame()
 	friendsFrame:SetPoint("TOPLEFT", UIParent, 15, -35)
 	friendsFrame:SetClampedToScreen(true)
 	friendsFrame:SetFrameStrata("DIALOG")
-	B.SetBDFrame(friendsFrame)
+	B.CreateBGFrame(friendsFrame)
 
 	friendsFrame:SetScript("OnLeave", function(self)
 		self:SetScript("OnUpdate", onUpdate)

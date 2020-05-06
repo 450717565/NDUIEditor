@@ -44,6 +44,20 @@ C.themes["Blizzard_Communities"] = function()
 		end
 	end
 
+	local function reskinColumnDisplay(self)
+		for i = 1, self:GetNumChildren() do
+			local child = select(i, self:GetChildren())
+			if not child.styled then
+				B.StripTextures(child)
+
+				local bg = B.CreateBG(child, 4, -2, 0, 2)
+				B.ReskinHighlight(child, bg, true)
+
+				child.styled = true
+			end
+		end
+	end
+
 	CommunitiesFrame.PortraitOverlay:SetAlpha(0)
 	B.ReskinFrame(CommunitiesFrame)
 	B.ReskinMinMax(CommunitiesFrame.MaximizeMinimizeFrame)
@@ -68,9 +82,7 @@ C.themes["Blizzard_Communities"] = function()
 				button:GetRegions():Hide()
 				button.Selection:SetAlpha(0)
 
-				button.bg = B.CreateBDFrame(button, 0)
-				button.bg:SetPoint("TOPLEFT", 5, -5)
-				button.bg:SetPoint("BOTTOMRIGHT", -10, 5)
+				button.bg = B.CreateBG(button, 5, -5, -10, 5)
 			end
 
 			if button.Selection:IsShown() then
@@ -150,19 +162,7 @@ C.themes["Blizzard_Communities"] = function()
 
 	hooksecurefunc(MemberList, "RefreshListDisplay", function(self)
 		local ColumnDisplay = self.ColumnDisplay
-		for i = 1, ColumnDisplay:GetNumChildren() do
-			local child = select(i, ColumnDisplay:GetChildren())
-			if not child.styled then
-				B.StripTextures(child)
-
-				local bg = B.CreateBDFrame(child, 0)
-				bg:SetPoint("TOPLEFT", 4, -2)
-				bg:SetPoint("BOTTOMRIGHT", 0, 2)
-				B.ReskinHighlight(child, bg, true)
-
-				child.styled = true
-			end
-		end
+		reskinColumnDisplay(ColumnDisplay)
 
 		for _, button in pairs(self.ListScrollFrame.buttons or {}) do
 			if button and not button.styled then
@@ -188,10 +188,7 @@ C.themes["Blizzard_Communities"] = function()
 					local header = button.ProfessionHeader
 					B.StripTextures(header)
 
-					local bg = B.CreateBDFrame(header, 0)
-					bg:SetPoint("TOPLEFT", -C.mult, -C.mult)
-					bg:SetPoint("BOTTOMRIGHT", C.mult, C.mult)
-
+					local bg = B.CreateBG(header, -C.mult, -C.mult, C.mult, C.mult)
 					B.ReskinHighlight(header, bg, true)
 					B.ReskinIcon(header.Icon)
 				end
@@ -215,10 +212,8 @@ C.themes["Blizzard_Communities"] = function()
 
 	local Chat = CommunitiesFrame.Chat
 	B.StripTextures(Chat)
+	B.CreateBG(Chat, -6, 5, 3, -2)
 	B.ReskinScroll(Chat.MessageFrame.ScrollBar)
-	local chatBG = B.CreateBDFrame(Chat, 0)
-	chatBG:SetPoint("TOPLEFT", -6, 5)
-	chatBG:SetPoint("BOTTOMRIGHT", 3, -2)
 
 	local EditStreamDialog = CommunitiesFrame.EditStreamDialog
 	B.ReskinFrame(EditStreamDialog)
@@ -335,19 +330,7 @@ C.themes["Blizzard_Communities"] = function()
 
 	hooksecurefunc(TicketManagerDialog, "Update", function(self)
 		local ColumnDisplay = self.InviteManager.ColumnDisplay
-		for i = 1, ColumnDisplay:GetNumChildren() do
-			local child = select(i, ColumnDisplay:GetChildren())
-			if not child.styled then
-				B.StripTextures(child)
-
-				local bg = B.CreateBDFrame(child, 0)
-				bg:SetPoint("TOPLEFT", 4, -2)
-				bg:SetPoint("BOTTOMRIGHT", 0, 2)
-				B.ReskinHighlight(child, bg, true)
-
-				child.styled = true
-			end
-		end
+		reskinColumnDisplay(ColumnDisplay)
 
 		local buttons = self.InviteManager.ListScrollFrame.buttons
 		for i = 1, #buttons do
@@ -371,25 +354,11 @@ C.themes["Blizzard_Communities"] = function()
 	B.StripTextures(ApplicantList)
 	B.StripTextures(ApplicantList.ColumnDisplay)
 	B.ReskinScroll(ApplicantList.ListScrollFrame.scrollBar)
-	local listBG = B.CreateBDFrame(ApplicantList, 0)
-	listBG:SetPoint("TOPLEFT", 0, 0)
-	listBG:SetPoint("BOTTOMRIGHT", -15, 0)
+	local listBG = B.CreateBG(ApplicantList, 0, 0, -15, 0)
 
 	hooksecurefunc(ApplicantList, "BuildList", function(self)
 		local ColumnDisplay = self.ColumnDisplay
-		for i = 1, ColumnDisplay:GetNumChildren() do
-			local child = select(i, ColumnDisplay:GetChildren())
-			if not child.styled then
-				B.StripTextures(child)
-
-				local bg = B.CreateBDFrame(child, 0)
-				bg:SetPoint("TOPLEFT", 4, -2)
-				bg:SetPoint("BOTTOMRIGHT", 0, 2)
-				B.ReskinHighlight(child, bg, true)
-
-				child.styled = true
-			end
-		end
+		reskinColumnDisplay(ColumnDisplay)
 
 		local buttons = self.ListScrollFrame.buttons
 		for i = 1, #buttons do
@@ -448,7 +417,7 @@ C.themes["Blizzard_Communities"] = function()
 				B.StripTextures(button)
 
 				local icbg = B.ReskinIcon(button.Icon)
-				local bubg = B.CreateBG(button, icbg, 2)
+				local bubg = B.CreateBG(button, 2, 0, 0, 0, icbg)
 				B.ReskinHighlight(button, bubg, true)
 
 				button.styled = true
@@ -495,9 +464,7 @@ C.themes["Blizzard_Communities"] = function()
 	B.ReskinButton(LogFrameCB)
 
 	B.CreateBDFrame(CommunitiesFrameGuildDetailsFrameInfo.DetailsFrame, 0)
-	local bg = B.CreateBDFrame(CommunitiesFrameGuildDetailsFrameInfoMOTDScrollFrame, 0)
-	bg:SetPoint("TOPLEFT", 0, 3)
-	bg:SetPoint("BOTTOMRIGHT", 0, -4)
+	B.CreateBG(CommunitiesFrameGuildDetailsFrameInfoMOTDScrollFrame, 0, 3, 0, -4)
 
 	local BossModel = CommunitiesFrameGuildDetailsFrameNews.BossModel
 	BossModel:ClearAllPoints()

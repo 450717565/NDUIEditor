@@ -17,6 +17,7 @@ local UnitIsPlayer, UnitName, UnitPVPName, UnitClass, UnitRace, UnitLevel = Unit
 local GetRaidTargetIndex, UnitGroupRolesAssigned, GetGuildInfo, IsInGuild = GetRaidTargetIndex, UnitGroupRolesAssigned, GetGuildInfo, IsInGuild
 local C_PetBattles_GetNumAuras, C_PetBattles_GetAuraInfo = C_PetBattles.GetNumAuras, C_PetBattles.GetAuraInfo
 
+local fontOutline
 local cr, cg, cb = DB.r, DB.g, DB.b
 
 local classification = {
@@ -411,7 +412,7 @@ function TT:ReskinTooltip()
 end
 
 local function TooltipSetFont(font, size)
-	font:SetFont(DB.Font[1], size, DB.Font[3])
+	font:SetFont(DB.Font[1], size, fontOutline)
 end
 
 function TT:SetupTooltipFonts()
@@ -443,6 +444,8 @@ function TT:SetupTooltipFonts()
 end
 
 function TT:OnLogin()
+	fontOutline = NDuiDB["Skins"]["FontOutline"] and "OUTLINE" or ""
+
 	GameTooltip.StatusBar = GameTooltipStatusBar
 	GameTooltip:HookScript("OnTooltipCleared", self.OnTooltipCleared)
 	GameTooltip:HookScript("OnTooltipSetUnit", self.OnTooltipSetUnit)

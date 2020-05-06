@@ -195,7 +195,7 @@ C.themes["Blizzard_GuildUI"] = function()
 				B.StripTextures(button)
 
 				local icbg = B.ReskinIcon(button.icon)
-				local bubg = B.CreateBG(button, icbg, 2)
+				local bubg = B.CreateBG(button, 2, 0, 0, 0, icbg)
 				B.ReskinHighlight(button, bubg, true)
 
 				button.styled = true
