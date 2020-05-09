@@ -245,7 +245,7 @@ end
 
 function UF:CreateThreatColor(self)
 	local threatIndicator = B.CreateSD(self, true)
-	threatIndicator:SetOutside(self.Health.bd, 2+C.mult, 2+C.mult)
+	threatIndicator:SetOutside(self.Health.bd, B.Scale(3), B.Scale(3))
 	threatIndicator:SetFrameLevel(self:GetFrameLevel()+2)
 	threatIndicator:Hide()
 
@@ -316,7 +316,7 @@ function UF:AddTargetIndicator(self)
 	frame.RightArrow:SetRotation(rad(-90))
 
 	frame.Glow = B.CreateSD(frame, true)
-	frame.Glow:SetOutside(self.Health.bd, 2+C.mult, 2+C.mult)
+	frame.Glow:SetOutside(self.Health.bd, B.Scale(3), B.Scale(3))
 	frame.Glow:SetBackdropBorderColor(color.r, color.g, color.b)
 
 	self.TargetIndicator = frame
@@ -574,7 +574,7 @@ function UF:MouseoverIndicator(self)
 	frame:SetFrameLevel(self:GetFrameLevel()+1)
 
 	frame.Highlight = B.CreateSD(frame, true)
-	frame.Highlight:SetOutside(self.Health.bd, 2+C.mult, 2+C.mult)
+	frame.Highlight:SetOutside(self.Health.bd, B.Scale(3), B.Scale(3))
 	frame.Highlight:SetBackdropBorderColor(color.r, color.g, color.b)
 	frame.Highlight:Hide()
 
@@ -763,10 +763,10 @@ end
 function UF:ResizePlayerPlate()
 	local plate = _G.oUF_PlayerPlate
 	if plate then
-		local iconSize, iconMargin = NDuiDB["Nameplate"]["PPIconSize"], 2
+		local iconSize, iconMargin = NDuiDB["Nameplate"]["PPIconSize"], B.Scale(3)
 		local height = NDuiDB["Nameplate"]["PPHeight"]
 		local cpHeight = NDuiDB["Nameplate"]["PPCPHeight"]
-		plate:SetSize(iconSize*5 + iconMargin*4, height)
+		plate:SetSize(iconSize*5 + iconMargin*4 - C.mult*2, height)
 		plate.Health:SetHeight(height)
 		plate.Power:SetHeight(height)
 		local bars = plate.ClassPower or plate.Runes
@@ -784,7 +784,7 @@ function UF:ResizePlayerPlate()
 			end
 		end
 		if plate.dices then
-			plate.dices[1]:SetPoint("BOTTOMLEFT", plate.ClassPower, "TOPLEFT", 0, 3)
+			plate.dices[1]:Point("BOTTOMLEFT", plate.ClassPower, "TOPLEFT", 0, 3)
 		end
 	end
 end
@@ -792,9 +792,9 @@ end
 function UF:CreatePlayerPlate()
 	self.mystyle = "PlayerPlate"
 	self:EnableMouse(false)
-	local iconSize, iconMargin = NDuiDB["Nameplate"]["PPIconSize"], 2
+	local iconSize, iconMargin = NDuiDB["Nameplate"]["PPIconSize"], B.Scale(3)
 	local height = NDuiDB["Nameplate"]["PPHeight"]
-	self:SetSize(iconSize*5 + iconMargin*4 + C.mult*2, height)
+	self:SetSize(iconSize*5 + iconMargin*4 - C.mult*2, height)
 
 	UF:CreateHealthBar(self)
 	UF:CreatePowerBar(self)

@@ -21,7 +21,7 @@ function module:ForceUpdate()
 end
 
 function module:OnSizeChanged(width)
-	local fontScale = floor(width + 0.5) / ICON_SIZE
+	local fontScale = B.Round(width) / ICON_SIZE
 	if fontScale == self.fontScale then return end
 	self.fontScale = fontScale
 

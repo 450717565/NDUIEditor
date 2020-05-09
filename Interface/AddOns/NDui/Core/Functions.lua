@@ -60,9 +60,9 @@ do
 			end
 		elseif s > 3 then
 			if auraTime then
-				return format("|cffffff00%d|r"..DB.MyColor..L["Seconds"], s), s - floor(s)
+				return format("|cffffff00%d|r"..DB.MyColor..L["Seconds"], s), s - B.Round(s)
 			else
-				return format("|cffffff00%d|r", s), s - floor(s)
+				return format("|cffffff00%d|r", s), s - B.Round(s)
 			end
 		else
 			return format("|cffff0000%.1f|r", s), s - format("%.1f", s)

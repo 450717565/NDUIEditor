@@ -36,7 +36,7 @@ function A:ChantLumos(self)
 			local stagger, staggerAgainstTarget = C_PaperDollInfo.GetStaggerPercentage("player")
 			local amount = staggerAgainstTarget or stagger
 			if amount > 0 then
-				button.Count:SetText(floor(amount))
+				button.Count:SetText(B.Round(amount))
 				button.Icon:SetDesaturated(false)
 			else
 				button.Count:SetText("")

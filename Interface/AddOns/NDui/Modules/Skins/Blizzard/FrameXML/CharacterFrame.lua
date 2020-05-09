@@ -17,7 +17,7 @@ tinsert(C.defaultThemes, function()
 			self.RankFrame.Texture:Hide()
 
 			self.RankFrame.Label:ClearAllPoints()
-			self.RankFrame.Label:SetPoint("TOP", self, 1, -2)
+			self.RankFrame.Label:SetPoint("TOP", self, 1, -1)
 			self.RankFrame.Label:SetTextColor(0, 1, 1)
 
 			self.styled = true

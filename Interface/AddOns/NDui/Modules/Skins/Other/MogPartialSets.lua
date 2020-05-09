@@ -10,7 +10,7 @@ function S:MogPartialSets()
 	B.ReskinButton(MogPartialSetsFilterRefreshButton)
 
 	local EditBox = MogPartialSetsFilterMaxMissingPiecesEditBox
-	B.ReskinInput(EditBox, 15+C.mult, 15+C.mult)
+	B.ReskinInput(EditBox, B.Scale(16), B.Scale(16))
 	EditBox:ClearAllPoints()
 	EditBox:SetPoint("TOPLEFT", MogPartialSetsFilterIgnoreBracersButton, "BOTTOMLEFT", 7, -2)
 	local Text = MogPartialSetsFilterMaxMissingPiecesText

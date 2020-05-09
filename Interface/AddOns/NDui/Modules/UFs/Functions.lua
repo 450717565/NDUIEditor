@@ -687,7 +687,7 @@ end
 local function auraSetSize(self, bu)
 	local width = self:GetWidth()
 	local maxAuras = bu.num or bu.numTotal or (bu.numBuffs + bu.numDebuffs)
-	local maxLines = bu.iconsPerRow and floor(maxAuras/bu.iconsPerRow + .5) or 1
+	local maxLines = bu.iconsPerRow and B.Round(maxAuras/bu.iconsPerRow) or 1
 
 	bu.size = bu.iconsPerRow and auraIconSize(width, bu.iconsPerRow, bu.spacing) or bu.size
 	bu:SetWidth(width)
@@ -899,7 +899,7 @@ function UF.PostUpdateRunes(element, runemap)
 end
 
 function UF:CreateClassPower(self)
-	barMargin = 2 + C.mult
+	barMargin = B.Scale(3)
 	barWidth, barHeight = self:GetWidth()*.6, self.Power:GetHeight()
 	if self.mystyle == "PlayerPlate" then
 		barWidth, barHeight = self:GetWidth(), NDuiDB["Nameplate"]["PPCPHeight"]

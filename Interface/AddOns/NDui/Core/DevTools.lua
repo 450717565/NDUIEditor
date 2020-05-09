@@ -199,7 +199,7 @@ local function Grid_Create()
 		tx:SetPoint("BOTTOMRIGHT", grid, "TOPRIGHT", 0, -(height/2 + size/2))
 	end
 
-	for i = 1, floor((height/2)/hStep) do
+	for i = 1, B.Round((height/2)/hStep) do
 		local tx = grid:CreateTexture(nil, "BACKGROUND")
 		tx:SetColorTexture(0, 0, 0, .5)
 

@@ -178,7 +178,7 @@ function A:UpdateHeader(header)
 	local index = 1
 	local child = select(index, header:GetChildren())
 	while child do
-		if (floor(child:GetWidth() * 100 + .5) / 100) ~= cfg.size then
+		if (B.Round(child:GetWidth() * 100) / 100) ~= cfg.size then
 			child:SetSize(cfg.size, cfg.size)
 		end
 
@@ -220,7 +220,7 @@ function A:CreateAuraIcon(button)
 	if header:GetAttribute("filter") == "HELPFUL" then
 		cfg = settings.Buffs
 	end
-	local fontSize = floor(cfg.size/30*12 + .5)
+	local fontSize = B.Round(cfg.size/30*12)
 
 	button.bd = B.CreateBDFrame(button)
 

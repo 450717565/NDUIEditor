@@ -695,3 +695,4 @@ L["ShowAllTip"] = "|n默认不勾选，只显示玩家自己施放的Buff。|n|n
 L["AllowFriendsSpam"] = "允许来自好友的广告"
 L["AllowFriendsSpamTip"] = "|n勾选后，将允许来自队友、好友以及公会成员发布的广告。"
 L["TimestampFormat"] = "聊天时间戳格式"
+L["GlobalFontScale"] = "全局字体缩放"

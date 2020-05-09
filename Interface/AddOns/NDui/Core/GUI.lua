@@ -254,6 +254,7 @@ local defaultSettings = {
 
 		BlizzardSkins = true,
 		FontOutline = true,
+		FontScale = 1,
 		SkinShadow = false,
 		SkinStyle = 2,
 		SkinTexture = false,
@@ -653,7 +654,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Actionbar", "Bar4Fade", L["Bar4 Fade"]},
 		{1, "Actionbar", "Bar5Fade", L["Bar5 Fade"], true},
 		{4, "Actionbar", "Style", L["Actionbar Style"], false, {L["BarStyle1"], L["BarStyle2"], L["BarStyle3"], L["BarStyle4"], L["BarStyle5"]}},
-		{3, "Actionbar", "Scale", L["Actionbar Scale"].."*", true, {.5, 1.5, 1}, updateActionbarScale},
+		{3, "Actionbar", "Scale", L["Actionbar Scale"].."*", true, {.5, 1.5, 2}, updateActionbarScale},
 		{},--blank
 		{1, "Actionbar", "Hotkeys", L["Actionbar Hotkey"]},
 		{1, "Actionbar", "Macro", L["Actionbar Macro"], true},
@@ -677,7 +678,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{3, "Bags", "iLvlToShow", L["iLvlToShow"].."*", true, {1, 500, 0}, updateBagStatus, L["iLvlToShowTip"]},
 		{1, "Bags", "BagsSlot", L["Bags ItemSlot"], false, nil, updateBagStatus},
 		{},--blank
-		{3, "Bags", "BagsScale", L["Bags Scale"], false, {.5, 1.5, 1}},
+		{3, "Bags", "BagsScale", L["Bags Scale"], false, {.5, 1.5, 2}},
 		{3, "Bags", "IconSize", L["Bags IconSize"], true, {30, 42, 0}},
 		{3, "Bags", "BagsWidth", L["Bags Width"], false, {12, 40, 0}},
 		{3, "Bags", "BankWidth", L["Bank Width"], true, {12, 40, 0}},
@@ -766,10 +767,10 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{5, "Nameplate", "HighlightColor", L["Highlight Color"], 2},
 		{5, "Nameplate", "SelectedColor", L["Selected Color"], 3},
 		{},--blank
-		{3, "Nameplate", "VerticalSpacing", L["NP VerticalSpacing"].."*", false, {.5, 1.5, 1}, updatePlateSpacing},
+		{3, "Nameplate", "VerticalSpacing", L["NP VerticalSpacing"].."*", false, {.5, 1.5, 2}, updatePlateSpacing},
 		{3, "Nameplate", "Distance", L["Nameplate Distance"].."*", true, {20, 100, 0}, updatePlateRange},
-		{3, "Nameplate", "MinScale", L["Nameplate MinScale"].."*", false, {.5, 1, 1}, updatePlateScale},
-		{3, "Nameplate", "MinAlpha", L["Nameplate MinAlpha"].."*", true, {.5, 1, 1}, updatePlateAlpha},
+		{3, "Nameplate", "MinScale", L["Nameplate MinScale"].."*", false, {.5, 1, 2}, updatePlateScale},
+		{3, "Nameplate", "MinAlpha", L["Nameplate MinAlpha"].."*", true, {.5, 1, 2}, updatePlateAlpha},
 		{3, "Nameplate", "PlateWidth", L["NP Width"].."*(200)", false, {100, 300, 0}, refreshNameplates},
 		{3, "Nameplate", "PlateHeight", L["NP Height"].."*(12)", true, {5, 30, 0}, refreshNameplates},
 		{3, "Nameplate", "NameTextSize", L["NameTextSize"].."*(12)", false, {10, 30, 0}, refreshNameplates},
@@ -862,14 +863,15 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Map", "ShowRecycleBin", L["Show RecycleBin"]},
 		{1, "Misc", "ExpRep", L["Show Expbar"], true},
 		{},--blank
-		{3, "Map", "MapScale", L["Map Scale"], false, {.5, 1.5, 1}},
-		{3, "Map", "MinmapScale", L["Minimap Scale"].."*", true, {.5, 1.5, 1}, updateMinimapScale},
+		{3, "Map", "MapScale", L["Map Scale"], false, {.5, 1.5, 2}},
+		{3, "Map", "MinmapScale", L["Minimap Scale"].."*", true, {.5, 1.5, 2}, updateMinimapScale},
 	},
 	[10] = {
 		{1, "Skins", "BlizzardSkins", DB.MyColor..L["BlizzardSkins"], false, nil, nil, L["BlizzardSkinsTips"]},
 		{1, "Skins", "FontOutline", L["Font Outline"], true},
 		{1, "Skins", "SkinShadow", L["Skin Shadow"]},
-		{1, "Skins", "SkinTexture", L["Skin Texture"], true},
+		{1, "Skins", "SkinTexture", L["Skin Texture"]},
+		{3, "Skins", "FontScale", L["GlobalFontScale"], true, {.5, 1.5, 2}},
 		{4, "Skins", "SkinStyle", L["Skin Style"], false, {L["ClassColor Style"], L["Flat Style"], L["Gradient Style"]}},
 		{3, "Skins", "BGAlpha", L["Backdrop Alpha"].."*", true, {0, 1, 2}, updateSkinAlpha},
 		{5, "Skins", "FSColor", L["Flat Color"]},
@@ -896,7 +898,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Tooltip", "CombatHide", L["Hide Tooltip"].."*"},
 		{1, "Tooltip", "Cursor", L["Follow Cursor"].."*"},
 		{1, "Tooltip", "ClassColor", L["Classcolor Border"].."*"},
-		{3, "Tooltip", "Scale", L["Tooltip Scale"].."*", true, {.5, 1.5, 1}},
+		{3, "Tooltip", "Scale", L["Tooltip Scale"].."*", true, {.5, 1.5, 2}},
 		{},--blank
 		{1, "Tooltip", "HideTitle", L["Hide Title"].."*"},
 		{1, "Tooltip", "HideRank", L["Hide Rank"].."*", true},

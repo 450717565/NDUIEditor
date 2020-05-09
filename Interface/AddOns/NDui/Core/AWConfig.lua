@@ -174,12 +174,12 @@ local function CreatePanel()
 				local bar = barTable[index][k]
 				if num == 1 then
 					bar:SetPoint("TOPLEFT", 10, -10)
-				elseif num > 1 and num/2 ~= floor(num/2) then
+				elseif num > 1 and num/2 ~= B.Round(num/2) then
 					bar:SetPoint("TOPLEFT", 10, -10 - 35*onLeft)
 					onLeft = onLeft + 1
 				elseif num == 2 then
 					bar:SetPoint("TOPLEFT", 295, -10)
-				elseif num > 2 and num/2 == floor(num/2) then
+				elseif num > 2 and num/2 == B.Round(num/2) then
 					bar:SetPoint("TOPLEFT", 295, -10 - 35*onRight)
 					onRight = onRight + 1
 				end

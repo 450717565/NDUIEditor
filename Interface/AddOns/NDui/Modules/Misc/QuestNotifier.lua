@@ -62,7 +62,7 @@ function M:FindQuestProgress(_, msg)
 			local _, _, _, cur, max = strfind(msg, "(.*)[:：]%s*([-%d]+)%s*/%s*([-%d]+)%s*$")
 			cur, max = tonumber(cur), tonumber(max)
 			if cur and max and max >= 10 then
-				if mod(cur, floor(max/5)) == 0 then
+				if mod(cur, B.Round(max/5)) == 0 then
 					sendQuestMsg(msg)
 				end
 			else

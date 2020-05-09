@@ -149,7 +149,7 @@ function M:ExpBar_UpdateTooltip()
 
 		if C_Reputation_IsFactionParagon(factionID) then
 			local currentValue, threshold = C_Reputation_GetFactionParagonInfo(factionID)
-			local paraCount = floor(currentValue/threshold)
+			local paraCount = B.Round(currentValue/threshold)
 			currentValue = mod(currentValue, threshold)
 			GameTooltip:AddDoubleLine(L["Paragon"]..paraCount, currentValue.." / "..threshold..format(" (%.1f%%)", (currentValue/threshold*100)), .6,.8,1, 1,1,1)
 		end
@@ -269,7 +269,7 @@ function M:HookParagonRep()
 				local currentValue, threshold, _, hasRewardPending = C_Reputation_GetFactionParagonInfo(factionID)
 				if currentValue then
 					local barValue = mod(currentValue, threshold)
-					local factionStandingtext = L["Paragon"]..floor(currentValue/threshold)
+					local factionStandingtext = L["Paragon"]..B.Round(currentValue/threshold)
 
 					if hasRewardPending then
 						local paragonFrame = ReputationFrame.paragonFramesPool:Acquire()
