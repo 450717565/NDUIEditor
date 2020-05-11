@@ -30,6 +30,8 @@ local L = WeakAuras.L
 	L["Always shows the aura, turns red when out of range."] = "永遠顯示提醒效果，超出範圍時變成紅色。"
 	L["Back"] = "上一步"
 	L["Basic Show On Cooldown"] = "基本冷卻中顯示"
+	--[[Translation missing --]]
+	L["Basic Show On Ready"] = "Basic Show On Ready"
 	L["Bloodlust/Heroism"] = "嗜血/英勇"
 	L["buff"] = "種族特長"
 	L["Buffs"] = "增益 BUFF"
@@ -66,6 +68,8 @@ local L = WeakAuras.L
 	L["Only show the aura when the item is on cooldown."] = "只有物品在冷卻中才顯示提醒效果。"
 	L["Only shows the aura if the target has the buff."] = "只在選取目標有增益時才顯示提醒效果。"
 	L["Only shows the aura when the ability is on cooldown."] = "只有技能在冷卻中才顯示提醒效果。"
+	--[[Translation missing --]]
+	L["Only shows the aura when the ability is ready to use."] = "Only shows the aura when the ability is ready to use."
 	L["Pet alive"] = "寵物活著"
 	L["Pet Behavior"] = "寵物動作"
 	L["PvP Azerite Traits"] = "PvP 艾澤萊特長"
@@ -98,6 +102,8 @@ local L = WeakAuras.L
 	L["Show Cooldown and Duration and Check Usable"] = "顯示冷卻時間、持續時間和檢查是否可使用"
 	L["Show Cooldown and Proc Tracking"] = "顯示冷卻和機率觸發監控"
 	L["Show Cooldown and Totem Information"] = "顯示冷卻和圖騰資訊"
+	--[[Translation missing --]]
+	L["Show on Ready"] = "Show on Ready"
 	L["Show Only if Buffed"] = "只在有增益時顯示"
 	L["Show Only if Debuffed"] = "只在有減益時顯示"
 	L["Show Only if on Cooldown"] = "只有在冷卻中時顯示"

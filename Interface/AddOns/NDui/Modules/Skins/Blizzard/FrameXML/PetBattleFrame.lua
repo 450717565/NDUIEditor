@@ -1,5 +1,4 @@
-local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB = unpack(select(2, ...))
 
 tinsert(C.defaultThemes, function()
 	local cr, cg, cb, pairs = DB.r, DB.g, DB.b, pairs

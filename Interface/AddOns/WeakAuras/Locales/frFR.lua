@@ -218,6 +218,8 @@ L["Circle"] = "Cercle"
 L["Clamp"] = "Attache"
 L["Class"] = "Classe"
 L["Class and Specialization"] = "Classe et spécialisation"
+--[[Translation missing --]]
+L["Classification"] = "Classification"
 L["Clockwise"] = "Sens horaire"
 L["Clone per Event"] = "Clone pour chaque Évènement"
 L["Clone per Match"] = "Clone pour chaque Correspondance"
@@ -317,6 +319,8 @@ L["Edge"] = "Marge"
 --[[Translation missing --]]
 L["Edge of Madness"] = "Edge of Madness"
 L["Elide"] = "Elider"
+--[[Translation missing --]]
+L["Elite"] = "Elite"
 L["Emote"] = "Emote"
 --[[Translation missing --]]
 L["Emphasized"] = "Emphasized"
@@ -590,6 +594,8 @@ L["Message type:"] = "Type de message :"
 L["Meta Data"] = "Métadonnées"
 L["Minimum"] = "Minimal"
 L["Minimum Estimate"] = "Estimation minimale"
+--[[Translation missing --]]
+L["Minus (Small Nameplate)"] = "Minus (Small Nameplate)"
 L["Mirror"] = "Miroir"
 L["Miss"] = "Raté"
 L["Miss Type"] = "Type de raté"
@@ -759,6 +765,10 @@ L["Raid Warning"] = "Avertissement de Raid"
 L["Raids"] = "Raids RdR"
 L["Range"] = "Portée"
 L["Range Check"] = "Vérification de la portée"
+--[[Translation missing --]]
+L["Rare"] = "Rare"
+--[[Translation missing --]]
+L["Rare Elite"] = "Rare Elite"
 --[[Translation missing --]]
 L["Razorgore the Untamed"] = "Razorgore the Untamed"
 L["Ready Check"] = "Appel de Raid"
@@ -1023,6 +1033,8 @@ L["Trigger State Updater (Advanced)"] = [=[
 Mise à jour de l'état du déclencheur (Avancé)]=]
 L["Trigger Update"] = "Mise-à-jour du déclencheur"
 L["Trigger:"] = "Déclencheur :"
+--[[Translation missing --]]
+L["Trivial (Low Level)"] = "Trivial (Low Level)"
 L["True"] = "Vrai"
 --[[Translation missing --]]
 L["Twin Emperors"] = "Twin Emperors"
@@ -1078,6 +1090,8 @@ L["Whisper"] = "Chuchoter"
 L["Whole Area"] = "Whole Area"
 L["Width"] = "Largeur"
 L["Wobble"] = "Osciller"
+--[[Translation missing --]]
+L["World Boss"] = "World Boss"
 L["Wrap"] = "Emballage, absorbe"
 L["X-Offset"] = "Décalage X"
 L["Yell"] = "Crier"

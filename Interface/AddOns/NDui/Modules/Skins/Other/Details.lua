@@ -1,5 +1,4 @@
-local _, ns = ...
-local B, C, L, DB = unpack(ns)
+local B, C, L, DB = unpack(select(2, ...))
 local S = B:GetModule("Skins")
 
 local function ReskinDetails()

@@ -22,7 +22,11 @@ local default = {
   customTextUpdate = "event",
   automaticWidth = "Auto",
   fixedWidth = 200,
-  wordWrap = "WordWrap"
+  wordWrap = "WordWrap",
+
+  shadowColor = { 0, 0, 0, 1},
+  shadowXOffset = 1,
+  shadowYOffset = -1,
 };
 
 local properties = {
@@ -81,7 +85,7 @@ local function modify(parent, region, data)
   end
   if text:GetFont() then
     text:SetText("")
-    WeakAuras.regionPrototype.SetTextOnText(text, WeakAuras.ReplaceRaidMarkerSymbols(data.displayText));
+    text:SetText(WeakAuras.ReplaceRaidMarkerSymbols(data.displayText));
   end
   text.displayText = data.displayText;
   text:SetJustifyH(data.justify);
@@ -95,6 +99,8 @@ local function modify(parent, region, data)
   region:SetHeight(region.height);
 
   text:SetTextHeight(data.fontSize);
+  text:SetShadowColor(unpack(data.shadowColor))
+  text:SetShadowOffset(data.shadowXOffset, data.shadowYOffset)
 
   text:ClearAllPoints();
   text:SetPoint(data.justify, region, data.justify);
@@ -135,7 +141,7 @@ local function modify(parent, region, data)
     SetText = function(textStr)
       if(textStr ~= text.displayText) then
         if text:GetFont() then
-          WeakAuras.regionPrototype.SetTextOnText(text, WeakAuras.ReplaceRaidMarkerSymbols(textStr));
+          text:SetText(WeakAuras.ReplaceRaidMarkerSymbols(textStr));
         end
       end
       local width = text:GetWidth();

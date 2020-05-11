@@ -410,9 +410,8 @@ C.themes["Blizzard_Collections"] = function()
 
 	-- [[ Wardrobe ]]
 	B.ReskinFrame(WardrobeFrame)
+	B.ReskinFrame(WardrobeOutfitFrame)
 	B.StripTextures(WardrobeTransmogFrame)
-	B.StripTextures(WardrobeOutfitFrame)
-	B.CreateBGFrame(WardrobeOutfitFrame)
 	B.ReskinButton(WardrobeTransmogFrame.ApplyButton)
 	B.ReskinButton(WardrobeOutfitDropDown.SaveButton)
 	B.ReskinArrow(WardrobeTransmogFrame.SpecButton, "down")

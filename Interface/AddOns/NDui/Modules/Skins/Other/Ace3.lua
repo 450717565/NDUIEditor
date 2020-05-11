@@ -154,8 +154,7 @@ function S:Ace3()
 			B.ReskinButton(button)
 
 			local msgframe = widget.msgframe
-			B.StripTextures(msgframe)
-			B.CreateBGFrame(msgframe)
+			B.ReskinFrame(msgframe)
 			msgframe.msg:ClearAllPoints()
 			msgframe.msg:SetPoint("CENTER")
 		elseif TYPE == "Icon" then

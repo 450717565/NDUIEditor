@@ -56,20 +56,11 @@ function Extras:GuildWelcome()
 end
 
 -- BOSS战斗自动收起任务追踪
-local collapse = false
 function Extras.UpdateAutoCollapse(event)
 	if event == "ENCOUNTER_START" then
-		if not collapse then
-			ObjectiveTracker_Collapse()
-
-			collapse = true
-		end
+		ObjectiveTracker_Collapse()
 	elseif event == "PLAYER_REGEN_ENABLED" then
-		if collapse then
-			ObjectiveTracker_Expand()
-
-			collapse = false
-		end
+		ObjectiveTracker_Expand()
 	end
 end
 
@@ -78,7 +69,6 @@ function Extras:AutoCollapse()
 		B:RegisterEvent("ENCOUNTER_START", self.UpdateAutoCollapse)
 		B:RegisterEvent("PLAYER_REGEN_ENABLED", self.UpdateAutoCollapse)
 	else
-		collapse = false
 		B:UnregisterEvent("ENCOUNTER_START", self.UpdateAutoCollapse)
 		B:UnregisterEvent("PLAYER_REGEN_ENABLED", self.UpdateAutoCollapse)
 	end

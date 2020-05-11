@@ -253,6 +253,8 @@ L["Class"] = "Classe"
 --[[Translation missing --]]
 L["Class and Specialization"] = "Class and Specialization"
 --[[Translation missing --]]
+L["Classification"] = "Classification"
+--[[Translation missing --]]
 L["Clockwise"] = "Clockwise"
 --[[Translation missing --]]
 L["Clone per Event"] = "Clone per Event"
@@ -410,6 +412,8 @@ L["Edge"] = "Edge"
 L["Edge of Madness"] = "Edge of Madness"
 --[[Translation missing --]]
 L["Elide"] = "Elide"
+--[[Translation missing --]]
+L["Elite"] = "Elite"
 --[[Translation missing --]]
 L["Emote"] = "Emote"
 --[[Translation missing --]]
@@ -850,6 +854,8 @@ L["Minimum"] = "Minimum"
 --[[Translation missing --]]
 L["Minimum Estimate"] = "Minimum Estimate"
 --[[Translation missing --]]
+L["Minus (Small Nameplate)"] = "Minus (Small Nameplate)"
+--[[Translation missing --]]
 L["Mirror"] = "Mirror"
 --[[Translation missing --]]
 L["Miss"] = "Miss"
@@ -1123,6 +1129,10 @@ L["Raids"] = "Raids"
 L["Range"] = "Range"
 --[[Translation missing --]]
 L["Range Check"] = "Range Check"
+--[[Translation missing --]]
+L["Rare"] = "Rare"
+--[[Translation missing --]]
+L["Rare Elite"] = "Rare Elite"
 --[[Translation missing --]]
 L["Razorgore the Untamed"] = "Razorgore the Untamed"
 --[[Translation missing --]]
@@ -1530,6 +1540,8 @@ L["Trigger Update"] = "Trigger Update"
 --[[Translation missing --]]
 L["Trigger:"] = "Trigger:"
 --[[Translation missing --]]
+L["Trivial (Low Level)"] = "Trivial (Low Level)"
+--[[Translation missing --]]
 L["True"] = "True"
 --[[Translation missing --]]
 L["Twin Emperors"] = "Twin Emperors"
@@ -1617,6 +1629,8 @@ L["Whole Area"] = "Whole Area"
 L["Width"] = "Width"
 --[[Translation missing --]]
 L["Wobble"] = "Wobble"
+--[[Translation missing --]]
+L["World Boss"] = "World Boss"
 --[[Translation missing --]]
 L["Wrap"] = "Wrap"
 --[[Translation missing --]]

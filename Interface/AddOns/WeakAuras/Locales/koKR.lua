@@ -216,6 +216,8 @@ L["Circle"] = "동그라미"
 L["Clamp"] = "더미"
 L["Class"] = "직업"
 L["Class and Specialization"] = "직업 및 전문화"
+--[[Translation missing --]]
+L["Classification"] = "Classification"
 L["Clockwise"] = "시계 방향"
 L["Clone per Event"] = "이벤트 별 복제"
 L["Clone per Match"] = "일치 별 복제"
@@ -313,6 +315,8 @@ L["Edge"] = "Edge"
 L["Edge of Madness"] = "Edge of Madness"
 --[[Translation missing --]]
 L["Elide"] = "Elide"
+--[[Translation missing --]]
+L["Elite"] = "Elite"
 L["Emote"] = "감정표현"
 --[[Translation missing --]]
 L["Emphasized"] = "Emphasized"
@@ -606,6 +610,8 @@ L["Meta Data"] = "메타 데이터"
 L["Minimum"] = "최소"
 L["Minimum Estimate"] = "최소 예상치"
 --[[Translation missing --]]
+L["Minus (Small Nameplate)"] = "Minus (Small Nameplate)"
+--[[Translation missing --]]
 L["Mirror"] = "Mirror"
 L["Miss"] = "빗나감"
 L["Miss Type"] = "적중 실패 유형"
@@ -782,6 +788,10 @@ L["Raid Warning"] = "공격대 경보"
 L["Raids"] = "공격대"
 L["Range"] = "원거리"
 L["Range Check"] = "거리 확인"
+--[[Translation missing --]]
+L["Rare"] = "Rare"
+--[[Translation missing --]]
+L["Rare Elite"] = "Rare Elite"
 --[[Translation missing --]]
 L["Razorgore the Untamed"] = "Razorgore the Untamed"
 L["Ready Check"] = "전투 준비"
@@ -1058,6 +1068,8 @@ L["Trigger 1"] = "활성 조건 1"
 L["Trigger State Updater (Advanced)"] = "활성 조건 상태 업데이터 (고급)"
 L["Trigger Update"] = "활성 조건 업데이트"
 L["Trigger:"] = "활성 조건:"
+--[[Translation missing --]]
+L["Trivial (Low Level)"] = "Trivial (Low Level)"
 L["True"] = "참"
 --[[Translation missing --]]
 L["Twin Emperors"] = "Twin Emperors"
@@ -1116,6 +1128,8 @@ L["Whisper"] = "귓속말"
 L["Whole Area"] = "전체 영역"
 L["Width"] = "너비"
 L["Wobble"] = "흔들기"
+--[[Translation missing --]]
+L["World Boss"] = "World Boss"
 L["Wrap"] = "구속"
 L["X-Offset"] = "X-좌표"
 L["Yell"] = "외침"
