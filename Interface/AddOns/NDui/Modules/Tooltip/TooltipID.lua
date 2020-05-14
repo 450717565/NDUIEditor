@@ -30,8 +30,11 @@ function TT:AddLineForID(id, linkType, noadd)
 		local bagCount = GetItemCount(id)
 		local bankCount = GetItemCount(id, true) - bagCount
 		local itemStackCount = select(8, GetItemInfo(id))
-		if bankCount > 0 then
-			self:AddDoubleLine(BAGSLOT.." / "..BANK..L[":"], DB.InfoColor..bagCount.." / "..bankCount)
+		if bankCount > 0 and bagCount > 0 then
+			self:AddDoubleLine(BAGSLOT..L[":"], DB.InfoColor..bagCount)
+			self:AddDoubleLine(BANK..L[":"], DB.InfoColor..bankCount)
+		elseif bankCount > 0 then
+			self:AddDoubleLine(BANK..L[":"], DB.InfoColor..bankCount)
 		elseif bagCount > 0 then
 			self:AddDoubleLine(BAGSLOT..L[":"], DB.InfoColor..bagCount)
 		end

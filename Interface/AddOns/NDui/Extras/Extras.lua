@@ -119,8 +119,6 @@ function Extras.UpdateInstanceAutoMarke()
 				SetRaidTarget(unit, 6)
 			elseif role == "HEALER" then
 				SetRaidTarget(unit, 5)
-			else
-				SetRaidTarget(unit, 0)
 			end
 		end
 	end

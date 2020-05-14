@@ -16,7 +16,7 @@ local usageString = "%.3f Ms"
 local framerate, latencyHome, latencyWorld, latency = 0, 0, 0, 0
 
 local function updateValue()
-	framerate = B.Round(GetFramerate())
+	framerate = floor(GetFramerate())
 	latencyHome = select(3, GetNetStats())
 	latencyWorld = select(4, GetNetStats())
 	latency = max(latencyHome, latencyWorld)

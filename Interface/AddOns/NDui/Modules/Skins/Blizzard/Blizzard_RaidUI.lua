@@ -7,18 +7,20 @@ C.themes["Blizzard_RaidUI"] = function()
 		local frame = "RaidGroup"..i
 
 		local group = _G[frame]
-		group:GetRegions():SetAlpha(0)
+		B.StripTextures(group)
+
 		for j = 1, MEMBERS_PER_RAID_GROUP do
 			local slot = _G[frame.."Slot"..j]
-			select(1, slot:GetRegions()):SetAlpha(0)
-			select(2, slot:GetRegions()):SetColorTexture(cr, cg, cb, .25)
-			B.CreateBDFrame(slot, 0)
+			slot:GetRegions():Hide()
+
+			B.CreateBDFrame(slot, 0, 0)
+			B.ReskinHighlight(slot, slot, true)
 		end
 	end
 
 	for i = 1, MAX_RAID_MEMBERS do
-		local bu = _G["RaidGroupButton"..i]
-		select(4, bu:GetRegions()):SetAlpha(0)
-		select(5, bu:GetRegions()):SetColorTexture(cr, cg, cb, .25)
+		local button = _G["RaidGroupButton"..i]
+		select(4, button:GetRegions()):Hide()
+		B.ReskinHighlight(button, button, true)
 	end
 end

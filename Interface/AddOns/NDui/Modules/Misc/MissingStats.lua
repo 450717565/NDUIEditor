@@ -127,3 +127,4 @@ function M:MissingStats()
 		PaperDollFrame_SetFocusRegen(statFrame, unit)
 	end
 end
+M:RegisterMisc("MissingStats", M.MissingStats)

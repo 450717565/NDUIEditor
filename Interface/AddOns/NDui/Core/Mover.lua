@@ -78,7 +78,7 @@ end
 function M:CalculateMoverPoints(mover, trimX, trimY)
 	local screenWidth = B.Round(UIParent:GetRight())
 	local screenHeight = B.Round(UIParent:GetTop())
-	local screenCenter = B.Round(UIParent:GetCenter(), nil)
+	local screenCenter = B.Round(UIParent:GetCenter())
 	local x, y = mover:GetCenter()
 
 	local LEFT = screenWidth / 3

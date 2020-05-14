@@ -149,7 +149,7 @@ function M:ExpBar_UpdateTooltip()
 
 		if C_Reputation_IsFactionParagon(factionID) then
 			local currentValue, threshold = C_Reputation_GetFactionParagonInfo(factionID)
-			local paraCount = B.Round(currentValue/threshold)
+			local paraCount = floor(currentValue/threshold)
 			currentValue = mod(currentValue, threshold)
 			GameTooltip:AddDoubleLine(L["Paragon"]..paraCount, currentValue.." / "..threshold..format(" (%.1f%%)", (currentValue/threshold*100)), .6,.8,1, 1,1,1)
 		end
@@ -249,9 +249,11 @@ function M:Expbar()
 	rest:SetFrameLevel(bar:GetFrameLevel() - 1)
 	bar.restBar = rest
 
-	self:SetupScript(bar)
+	M:SetupScript(bar)
 end
+M:RegisterMisc("ExpRep", M.Expbar)
 
+-- Paragon reputation info
 function M:HookParagonRep()
 	ReputationFrame.paragonFramesPool:ReleaseAll()
 	local numFactions = GetNumFactions()
@@ -269,7 +271,7 @@ function M:HookParagonRep()
 				local currentValue, threshold, _, hasRewardPending = C_Reputation_GetFactionParagonInfo(factionID)
 				if currentValue then
 					local barValue = mod(currentValue, threshold)
-					local factionStandingtext = L["Paragon"]..B.Round(currentValue/threshold)
+					local factionStandingtext = L["Paragon"]..floor(currentValue/threshold)
 
 					if hasRewardPending then
 						local paragonFrame = ReputationFrame.paragonFramesPool:Acquire()
@@ -294,5 +296,6 @@ end
 
 function M:ParagonReputationSetup()
 	if not NDuiDB["Misc"]["ParagonRep"] then return end
-	hooksecurefunc("ReputationFrame_Update", self.HookParagonRep)
+	hooksecurefunc("ReputationFrame_Update", M.HookParagonRep)
 end
+M:RegisterMisc("ParagonRep", M.ParagonReputationSetup)

@@ -229,9 +229,10 @@ local list = {
 		{AuraID = 312915, UnitID = "player"},	-- 共生姿态
 		{AuraID = 295354, UnitID = "player"},	-- 净化协议
 	-- 腐蚀
-		{AuraID = 316801, UnitID = "player", Flash = true},	-- 不可言喻的真相
+		{AuraID = 315573, UnitID = "player"},	-- 须臾洞察
+		{AuraID = 316801, UnitID = "player"},	-- 不可言喻的真相
 		{AuraID = 318216, UnitID = "player"},	-- 磨砺心灵
-		{AuraID = 318227, UnitID = "player", Flash = true},	-- 急速脉搏
+		{AuraID = 318227, UnitID = "player"},	-- 急速脉搏
 		{AuraID = 316823, UnitID = "player"},	-- 虚空仪式
 		{AuraID = 318211, UnitID = "player"},	-- 活力涌动
 		{AuraID = 318219, UnitID = "player", Combat = true},	-- 致命之势

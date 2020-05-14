@@ -69,7 +69,7 @@ local function showRealDate(curseDate)
 end
 
 DBM = {
-	Revision = parseCurseDate("20200508152137"),
+	Revision = parseCurseDate("20200514025748"),
 	DisplayVersion = "8.3.22 alpha", -- the string that is shown as version
 	ReleaseRevision = releaseDate(2020, 5, 1) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
@@ -675,6 +675,10 @@ local function strFromTime(time)
 	else
 		return DBM_CORE_TIMER_FORMAT:format(time/60, time % 60)
 	end
+end
+
+function DBM:strFromTime(time)
+	return strFromTime(time)
 end
 
 do
@@ -3238,7 +3242,7 @@ function DBM:LoadModOptions(modId, inCombat, first)
 	--clean unused saved variables (do not work on combat load)
 	if not inCombat then
 		for id, table in pairs(savedOptions) do
-			if not existId[id] and not id:find("talent") then
+			if not existId[id] and not (id:find("talent") or id:find("FastestClear")) then
 				savedOptions[id] = nil
 			end
 		end
@@ -10136,13 +10140,13 @@ do
 		local activeVP = self.Options.ChosenVoicePack
 		--Check if voice pack out of date
 		if activeVP ~= "None" and activeVP == value then
-			if self.VoiceVersions[value] < 8 then--Version will be bumped when new voice packs released that contain new voices.
+			if self.VoiceVersions[value] < 10 then--Version will be bumped when new voice packs released that contain new voices.
 				if not self.Options.DontShowReminders then
 					self:AddMsg(DBM_CORE_VOICE_PACK_OUTDATED)
 				end
 				SWFilterDisabed = self.VoiceVersions[value]--Set disable to version on current voice pack
 			else
-				SWFilterDisabed = 8
+				SWFilterDisabed = 10
 			end
 		end
 	end
@@ -11151,6 +11155,16 @@ function bossModPrototype:AddReadyCheckOption(questId, default, maxLevel)
 	self:SetOptionCategory("ReadyCheck", "misc")
 end
 
+function bossModPrototype:AddSpeedClearOption(name, default)
+	self.DefaultOptions["SpeedClearTimer"] = (default == nil) or default
+	if default and type(default) == "string" then
+		default = self:GetRoleFlagValue(default)
+	end
+	self.Options["SpeedClearTimer"] = (default == nil) or default
+	self:SetOptionCategory("SpeedClearTimer", "timer")
+	self.localization.options["SpeedClearTimer"] = DBM_CORE_AUTO_SPEEDCLEAR_OPTION_TEXT:format(name)
+end
+
 function bossModPrototype:AddSliderOption(name, minValue, maxValue, valueStep, default, cat, func)
 	cat = cat or "misc"
 	self.DefaultOptions[name] = {type = "slider", value = default or 0}
@@ -11504,7 +11518,7 @@ end
 
 function bossModPrototype:SetRevision(revision)
 	revision = parseCurseDate(revision or "")
-	if not revision or revision == "20200508152137" then
+	if not revision or revision == "20200514025748" then
 		-- bad revision: either forgot the svn keyword or using github
 		revision = DBM.Revision
 	end

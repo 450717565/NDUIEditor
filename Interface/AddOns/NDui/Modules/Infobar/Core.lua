@@ -9,11 +9,11 @@ function module:GetMoneyString(money, formatted)
 			return format("%s%s", B.FormatNumb(money / 1e4), GOLD_AMOUNT_SYMBOL)
 		else
 			local moneyString = ""
-			local gold = B.Round(money / 1e4)
+			local gold = floor(money / 1e4)
 			if gold > 0 then
 				moneyString = gold..GOLD_AMOUNT_SYMBOL
 			end
-			local silver = B.Round((money - (gold * 1e4)) / 100)
+			local silver = floor((money - (gold * 1e4)) / 100)
 			if silver > 0 then
 				moneyString = moneyString.." "..silver..SILVER_AMOUNT_SYMBOL
 			end

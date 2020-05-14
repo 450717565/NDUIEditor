@@ -30,33 +30,33 @@ local IsGuildMember, C_BattleNet_GetGameAccountInfoByGUID, C_FriendList_IsFriend
 --[[
 	Miscellaneous 各种有用没用的小玩意儿
 ]]
+local MISC_LIST = {}
+
+function M:RegisterMisc(name, func)
+	if not MISC_LIST[name] then
+		MISC_LIST[name] = func
+	end
+end
+
 function M:OnLogin()
-	self:LoginAnimation()
-	self:AddAlerts()
-	self:Expbar()
-	self:Focuser()
-	self:MailBox()
-	self:MissingStats()
-	self:ShowItemLevel()
-	self:QuickJoin()
-	self:QuestNotifier()
-	self:GuildBest()
-	self:ParagonReputationSetup()
+	for name, func in next, MISC_LIST do
+		if name and type(func) == "function" then
+			func()
+		end
+	end
+
+	-- Init
 	self:NakedIcon()
 	self:ExtendInstance()
 	self:VehicleSeatMover()
 	self:UIWidgetFrameMover()
 	self:MoveDurabilityFrame()
 	self:MoveTicketStatusFrame()
-	self:PetFilterTab()
-	self:AlertFrame_Setup()
 	self:UpdateScreenShot()
 	self:UpdateFasterLoot()
 	self:UpdateErrorBlocker()
 	self:TradeTargetInfo()
-	self:TradeTabs()
 	self:MoverQuestTracker()
-	self:CreateRM()
 	self:BlockStrangerInvite()
 	self:OverrideAWQ()
 
@@ -353,6 +353,41 @@ function M:TradeTargetInfo()
 		infoText:SetText(text)
 	end
 	hooksecurefunc("TradeFrame_Update", updateColor)
+end
+
+-- Block invite from strangers
+function M:BlockStrangerInvite()
+	B:RegisterEvent("PARTY_INVITE_REQUEST", function(_, _, _, _, _, _, _, guid)
+		if NDuiDB["Misc"]["BlockInvite"] and not (C_BattleNet_GetGameAccountInfoByGUID(guid) or C_FriendList_IsFriend(guid) or IsGuildMember(guid)) then
+			DeclineGroup()
+			StaticPopup_Hide("PARTY_INVITE")
+		end
+	end)
+end
+
+-- Override default settings for AngryWorldQuests
+function M:OverrideAWQ()
+	if not IsAddOnLoaded("AngryWorldQuests") then return end
+
+	AngryWorldQuests_Config = AngryWorldQuests_Config or {}
+	AngryWorldQuests_CharacterConfig = AngryWorldQuests_CharacterConfig or {}
+
+	local settings = {
+		hideFilteredPOI = true,
+		showHoveredPOI = true,
+		lootUpgradesLevel = 0,
+		sortMethod = 4,
+		timeFilterDuration = 1,
+	}
+	local function overrideOptions(_, key)
+		local value = settings[key]
+		if value then
+			AngryWorldQuests_Config[key] = value
+			AngryWorldQuests_CharacterConfig[key] = value
+		end
+	end
+	hooksecurefunc(AngryWorldQuests.Modules.Config, "Get", overrideOptions)
+	hooksecurefunc(AngryWorldQuests.Modules.Config, "Set", overrideOptions)
 end
 
 -- Archaeology counts
@@ -653,39 +688,4 @@ do
 
 	B:RegisterEvent("ADDON_LOADED", fixGuildNews)
 	B:RegisterEvent("ADDON_LOADED", fixCommunitiesNews)
-end
-
--- Block invite from strangers
-function M:BlockStrangerInvite()
-	B:RegisterEvent("PARTY_INVITE_REQUEST", function(_, _, _, _, _, _, _, guid)
-		if NDuiDB["Misc"]["BlockInvite"] and not (C_BattleNet_GetGameAccountInfoByGUID(guid) or C_FriendList_IsFriend(guid) or IsGuildMember(guid)) then
-			DeclineGroup()
-			StaticPopup_Hide("PARTY_INVITE")
-		end
-	end)
-end
-
--- Override default settings for AngryWorldQuests
-function M:OverrideAWQ()
-	if not IsAddOnLoaded("AngryWorldQuests") then return end
-
-	AngryWorldQuests_Config = AngryWorldQuests_Config or {}
-	AngryWorldQuests_CharacterConfig = AngryWorldQuests_CharacterConfig or {}
-
-	local settings = {
-		hideFilteredPOI = true,
-		showHoveredPOI = true,
-		lootUpgradesLevel = 0,
-		sortMethod = 4,
-		timeFilterDuration = 1,
-	}
-	local function overrideOptions(_, key)
-		local value = settings[key]
-		if value then
-			AngryWorldQuests_Config[key] = value
-			AngryWorldQuests_CharacterConfig[key] = value
-		end
-	end
-	hooksecurefunc(AngryWorldQuests.Modules.Config, "Get", overrideOptions)
-	hooksecurefunc(AngryWorldQuests.Modules.Config, "Set", overrideOptions)
 end

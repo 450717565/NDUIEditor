@@ -70,7 +70,7 @@ tinsert(C.defaultThemes, function()
 			elseif anchorName ~= "cursor" then
 				-- this part might be a bit unreliable
 				local _, _, relPoint, xOff, yOff = listFrame:GetPoint()
-				if relPoint == "BOTTOMLEFT" and xOff == 0 and B.Round(yOff) == 5 then
+				if relPoint == "BOTTOMLEFT" and xOff == 0 and floor(yOff) == 5 then
 					listFrame:SetPoint("TOPLEFT", anchorName, "BOTTOMLEFT", 16, 9)
 				end
 			end

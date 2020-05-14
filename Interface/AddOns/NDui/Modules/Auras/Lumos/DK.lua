@@ -57,7 +57,7 @@ function A:ChantLumos(self)
 			local price = 45
 			local hasBuff = GetUnitAura("player", 219788, "HELPFUL")
 			if hasBuff then price = 40 end
-			local boneCount = B.Round(UnitPower("player")/price)
+			local boneCount = floor(UnitPower("player")/price)
 			button.Icon:SetTexture(GetSpellTexture(49998))
 			button.Count:SetText(boneCount)
 			local name, _, dur, exp, _, _, value = GetUnitAura("player", 77535, "HELPFUL")
@@ -112,7 +112,7 @@ function A:ChantLumos(self)
 				button.Count:SetText("")
 				button.Icon:SetTexture(GetSpellTexture(51460))
 			else
-				local count = B.Round(UnitPower("player")/40)
+				local count = floor(UnitPower("player")/40)
 				if count == 0 then
 					button.Icon:SetDesaturated(true)
 				else

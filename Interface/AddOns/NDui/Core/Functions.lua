@@ -60,9 +60,9 @@ do
 			end
 		elseif s > 3 then
 			if auraTime then
-				return format("|cffffff00%d|r"..DB.MyColor..L["Seconds"], s), s - B.Round(s)
+				return format("|cffffff00%d|r"..DB.MyColor..L["Seconds"], s), s - floor(s)
 			else
-				return format("|cffffff00%d|r", s), s - B.Round(s)
+				return format("|cffffff00%d|r", s), s - floor(s)
 			end
 		else
 			return format("|cffff0000%.1f|r", s), s - format("%.1f", s)
@@ -609,7 +609,7 @@ do
 	-- Frame
 	function B.Scale(x)
 		local mult = C.mult
-		return mult * floor(x / mult + .5)
+		return mult * B.Round(x / mult)
 	end
 
 	-- Glow parent

@@ -162,7 +162,7 @@ local function GetNextLocation(nextTime, index)
 	if count == 0 then return QUEUE_TIME_UNAVAILABLE end
 
 	local elapsed = nextTime - inv.baseTime
-	local round = mod(B.Round(elapsed / inv.duration) + 1, count)
+	local round = mod(floor(elapsed / inv.duration) + 1, count)
 	if round == 0 then round = count end
 	return C_Map_GetMapInfo(inv.maps[inv.timeTable[round]]).name
 end

@@ -219,7 +219,7 @@ end
 
 function M:TradeTabs()
 	if not NDuiDB["Misc"]["TradeTabs"] then return end
-	if IsAddOnLoaded("CloudyTradeSkill") then return end
 
 	B:RegisterEvent("ADDON_LOADED", M.TradeTabs_OnEvent)
 end
+M:RegisterMisc("TradeTabs", M.TradeTabs)

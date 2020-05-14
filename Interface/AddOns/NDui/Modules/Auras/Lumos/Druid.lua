@@ -33,19 +33,19 @@ function A:ChantLumos(self)
 		do
 			local button = self.bu[3]
 			UpdateSpellStatus(button, 78674)
-			button.Count:SetText(B.Round(UnitPower("player", 8)/40))
+			button.Count:SetText(floor(UnitPower("player", 8)/40))
 		end
 
 		do
 			local button = self.bu[4]
 			if IsPlayerSpell(114107) then
 				UpdateSpellStatus(button, 191034)
-				button.Count:SetText(B.Round(UnitPower("player", 8)/40))
+				button.Count:SetText(floor(UnitPower("player", 8)/40))
 			elseif IsPlayerSpell(202345) then
 				UpdateBuff(button, 279709, 279709)
 			else
 				UpdateSpellStatus(button, 191034)
-				button.Count:SetText(B.Round(UnitPower("player", 8)/50))
+				button.Count:SetText(floor(UnitPower("player", 8)/50))
 			end
 		end
 

@@ -563,6 +563,10 @@ TT:RegisterTooltips("NDui", function()
 
 	-- Others
 	C_Timer.After(5, function()
+		-- BagSync
+		if BSYC_EventAlertTooltip then
+			TT.ReskinTooltip(BSYC_EventAlertTooltip)
+		end
 		-- Lib minimap icon
 		if LibDBIconTooltip then
 			TT.ReskinTooltip(LibDBIconTooltip)
