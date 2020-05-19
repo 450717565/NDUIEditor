@@ -15,12 +15,12 @@ function S:Rematch()
 
 	local function reskinFrame(self)
 		B.StripTextures(self)
-		B.CreateBG(self, 0, -1, 0, 1)
+		B.CreateBGFrame(self, 0, -1, 0, 1)
 	end
 
 	local function reskinInset(self)
 		B.StripTextures(self)
-		B.CreateBG(self, 3, 0, -3, 0)
+		B.CreateBGFrame(self, 3, 0, -3, 0)
 	end
 
 	local function reskinFilter(self)
@@ -33,7 +33,7 @@ function S:Rematch()
 		self:DisableDrawLayer("BACKGROUND")
 		self:SetBackdrop(nil)
 
-		B.CreateBG(self, 2, 0, -2, 0)
+		B.CreateBGFrame(self, 2, 0, -2, 0)
 	end
 
 	local function reskinDropdown(self)
@@ -164,7 +164,7 @@ function S:Rematch()
 
 				if button.Back then
 					button.Back:SetTexture(nil)
-					local bdTex = B.CreateBG(button.Back, 4, C.mult, 0, -C.mult, parent)
+					local bdTex = B.CreateBGFrame(button.Back, 4, C.mult, 0, -C.mult, parent)
 					button.bdTex = bdTex
 
 					B.Hook_OnEnter(button, true)
@@ -256,7 +256,7 @@ function S:Rematch()
 		-- RematchLoadoutPanel
 		B.StripTextures(RematchLoadedTeamPanel)
 		B.StripTextures(RematchLoadedTeamPanel.Footnotes)
-		local bg = B.CreateBG(RematchLoadedTeamPanel, 0, -1, 0, 1)
+		local bg = B.CreateBGFrame(RematchLoadedTeamPanel, 0, -1, 0, 1)
 		bg:SetBackdropColor(cr, cg, cb, .25)
 
 		-- RematchLoadoutPanel
@@ -296,7 +296,7 @@ function S:Rematch()
 
 		local Title = RematchPetCard.Title
 		B.StripTextures(Title)
-		B.CreateBG(Title, -C.mult, -1, -(C.mult*2), 1)
+		B.CreateBGFrame(Title, -C.mult, -1, -(C.mult*2), 1)
 
 		local PinButton = RematchPetCard.PinButton
 		B.StripTextures(PinButton)
@@ -378,7 +378,7 @@ function S:Rematch()
 
 		local RarityBarBorder = CollectionReport.RarityBarBorder
 		RarityBarBorder:Hide()
-		B.CreateBG(RarityBarBorder, 6, -5, -6, 5)
+		B.CreateBGFrame(RarityBarBorder, 6, -5, -6, 5)
 
 		styled = true
 	end)
@@ -395,7 +395,7 @@ function S:Rematch()
 		local Content = RematchNotes.Content
 		B.StripTextures(Content)
 		B.ReskinScroll(Content.ScrollFrame.ScrollBar)
-		B.CreateBG(Content.ScrollFrame, 0, 5, 0, -2)
+		B.CreateBGFrame(Content.ScrollFrame, 0, 5, 0, -2)
 
 		for _, icon in pairs({"Left", "Right"}) do
 			local bu = Content[icon.."Icon"]
@@ -579,7 +579,7 @@ function S:Rematch()
 				local tab = TypeBar.Tabs[i]
 				if not tab.styled then
 					B.StripTextures(tab)
-					tab.bg = B.CreateBG(tab, 1, -1, -3, 1)
+					tab.bg = B.CreateBGFrame(tab, 1, -1, -3, 1)
 
 					local r, g, b = tab.Selected.MidSelected:GetVertexColor()
 					tab.bg:SetBackdropColor(r, g, b, .5)

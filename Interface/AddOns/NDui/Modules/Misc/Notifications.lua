@@ -35,9 +35,9 @@ function M:SoloInfo_Create()
 	if soloInfo then soloInfo:Show() return end
 
 	soloInfo = CreateFrame("Frame", nil, UIParent)
-	soloInfo:SetPoint("TOP", UIParent, "TOP", 0, -85)
+	soloInfo:SetPoint("TOP", 0, -85)
 	soloInfo:SetSize(200, 70)
-	B.CreateBGFrame(soloInfo)
+	B.CreateBG(soloInfo)
 
 	soloInfo.Text = B.CreateFS(soloInfo, 12)
 	soloInfo.Text:SetWordWrap(true)
@@ -435,51 +435,92 @@ function M:PlacedItemAlert()
 	B:RegisterEvent("GROUP_JOINED", self.ItemAlert_CheckGroup)
 end
 
--- 乌纳特踩圈通报
-function M:UunatAlert_CheckAura()
-	for i = 1, 16 do
-		local name, _, _, _, _, _, _, _, _, spellID = UnitDebuff("player", i)
-		if not name then break end
-		if name and spellID == 284733 then
-			return true
+-- 大幻象水晶及箱子计数
+function M:NVision_Create()
+	if M.VisionFrame then M.VisionFrame:Show() return end
+
+	local frame = CreateFrame("Frame", nil, UIParent)
+	frame:SetSize(24, 24)
+	frame:SetPoint("BOTTOM", PlayerPowerBarAlt, "TOP")
+	frame.bars = {}
+
+	local barData = {
+		[1] = {
+			anchorF = "RIGHT", anchorT = "LEFT", offset = -3,
+			texture = "Interface\\ICONS\\INV_Misc_Gem_FlameSpessarite_02",
+			color = {1, .8, 0}, reverse = false, maxValue = 10,
+		},
+		[2] = {
+			anchorF = "LEFT", anchorT = "RIGHT", offset = 3,
+			texture = "Interface\\ICONS\\INV_Box_04",
+			color = {.8, 0, 1}, reverse = true, maxValue = 12,
+		}
+	}
+
+	for i, v in ipairs(barData) do
+		local bar = CreateFrame("StatusBar", nil, frame)
+		bar:SetSize(80, 20)
+		bar:SetPoint(v.anchorF, frame, "CENTER", v.offset, 0)
+		bar:SetMinMaxValues(0, v.maxValue)
+		bar:SetValue(0)
+		bar:SetReverseFill(v.reverse)
+		B.SmoothBar(bar)
+		B.CreateSB(bar, nil, unpack(v.color))
+		bar.text = B.CreateFS(bar, 16, "0 / "..v.maxValue, nil, "CENTER", 0, 0)
+
+		local icon = CreateFrame("Frame", nil, bar)
+		icon:SetSize(22, 22)
+		icon:SetPoint(v.anchorF, bar, v.anchorT, v.offset, 0)
+		B.PixelIcon(icon, v.texture)
+
+		bar.count = 0
+		bar.__max = v.maxValue
+		frame.bars[i] = bar
+	end
+
+	M.VisionFrame = frame
+end
+
+function M:NVision_Update(index, reset)
+	local frame = M.VisionFrame
+	local bar = frame.bars[index]
+	if reset then bar.count = 0 end
+	bar:SetValue(bar.count)
+	bar.text:SetText(bar.count.." / "..bar.__max)
+end
+
+local castSpellIndex = {[143394] = 1, [306608] = 2}
+function M:NVision_OnEvent(unit, _, spellID)
+	if unit ~= "player" then return end
+
+	local index = castSpellIndex[spellID]
+	if index then
+		local frame = M.VisionFrame
+		local bar = frame.bars[index]
+		bar.count = bar.count + 1
+		M:NVision_Update(index)
+	end
+end
+
+function M:NVision_Check()
+	local diffID = select(3, GetInstanceInfo())
+	if diffID == 152 then
+		M:NVision_Create()
+		B:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED", M.NVision_OnEvent, "player")
+	else
+		if M.VisionFrame then
+			M:NVision_Update(1, true)
+			M:NVision_Update(2, true)
+			M.VisionFrame:Hide()
+			B:UnregisterEvent("UNIT_SPELLCAST_SUCCEEDED", M.NVision_OnEvent)
 		end
 	end
 end
 
-local uunatCache = {}
-function M:UunatAlert_Update(...)
-	local _, eventType, _, _, _, _, _, _, destName, _, _, spellID = ...
-	if eventType == "SPELL_DAMAGE" and spellID == 285214 and not M:UunatAlert_CheckAura() then
-		uunatCache[destName] = (uunatCache[destName] or 0) + 1
-		SendChatMessage(format(L["UunatAlertString"], destName, uunatCache[destName]), msgChannel())
-	end
-end
-
-local function resetCount()
-	wipe(uunatCache)
-end
-
-function M:UunatAlert_CheckInstance()
-	local instID = select(8, GetInstanceInfo())
-	if instID == 2096 then
-		B:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED", M.UunatAlert_Update)
-		B:RegisterEvent("ENCOUNTER_END", resetCount)
-	else
-		B:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED", M.UunatAlert_Update)
-		B:UnregisterEvent("ENCOUNTER_END", resetCount)
-	end
-end
-
-function M:UunatAlert()
-	if NDuiDB["Misc"]["UunatAlert"] then
-		self:UunatAlert_CheckInstance()
-		B:RegisterEvent("UPDATE_INSTANCE_INFO", self.UunatAlert_CheckInstance)
-	else
-		wipe(uunatCache)
-		B:UnregisterEvent("UPDATE_INSTANCE_INFO", self.UunatAlert_CheckInstance)
-		B:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED", self.UunatAlert_Update)
-		B:UnregisterEvent("ENCOUNTER_END", resetCount)
-	end
+function M:NVision_Init()
+	if not NDuiDB["Misc"]["NzothVision"] then return end
+	M:NVision_Check()
+	B:RegisterEvent("UPDATE_INSTANCE_INFO", M.NVision_Check)
 end
 
 -- Init
@@ -490,6 +531,6 @@ function M:AddAlerts()
 	--M:VersionCheck()
 	M:ExplosiveAlert()
 	M:PlacedItemAlert()
-	M:UunatAlert()
+	M:NVision_Init()
 end
-M:RegisterMisc("Alerts", M.AddAlerts)
+M:RegisterMisc("Notifications", M.AddAlerts)

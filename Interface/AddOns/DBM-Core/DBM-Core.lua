@@ -69,7 +69,7 @@ local function showRealDate(curseDate)
 end
 
 DBM = {
-	Revision = parseCurseDate("20200514025748"),
+	Revision = parseCurseDate("20200518170054"),
 	DisplayVersion = "8.3.22 alpha", -- the string that is shown as version
 	ReleaseRevision = releaseDate(2020, 5, 1) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
@@ -2655,7 +2655,12 @@ do
 
 		function dataBroker.OnClick(self, button)
 			if IsShiftKeyDown() then return end
-			DBM:LoadGUI()
+			if button == "RightButton" then
+				DBM.Options.SilentMode = DBM.Options.SilentMode == false and true or false
+				DBM:AddMsg("SilentMode is " .. (DBM.Options.SilentMode and "ON" or "OFF"))
+			else
+				DBM:LoadGUI()
+			end
 		end
 
 		function dataBroker.OnTooltipShow(GameTooltip)
@@ -2664,7 +2669,7 @@ do
 			GameTooltip:AddLine(" ")
 			GameTooltip:AddLine(DBM_CORE_MINIMAP_TOOLTIP_FOOTER, RAID_CLASS_COLORS.MAGE.r, RAID_CLASS_COLORS.MAGE.g, RAID_CLASS_COLORS.MAGE.b, 1)
 			GameTooltip:AddLine(DBM_LDB_TOOLTIP_HELP1, RAID_CLASS_COLORS.MAGE.r, RAID_CLASS_COLORS.MAGE.g, RAID_CLASS_COLORS.MAGE.b)
-		--	GameTooltip:AddLine(DBM_LDB_TOOLTIP_HELP2, RAID_CLASS_COLORS.MAGE.r, RAID_CLASS_COLORS.MAGE.g, RAID_CLASS_COLORS.MAGE.b)
+			GameTooltip:AddLine(DBM_LDB_TOOLTIP_HELP2, RAID_CLASS_COLORS.MAGE.r, RAID_CLASS_COLORS.MAGE.g, RAID_CLASS_COLORS.MAGE.b)
 		end
 	end
 
@@ -4480,8 +4485,10 @@ do
 
 	syncHandlers["GH"] = function(sender)
 		if DBM.ReleaseRevision >= DBM.HighestRelease then--Do not send version to guild if it's not up to date, since this is only used for update notifcation
+			local total, online = GetNumGuildMembers()
 			DBM:Unschedule(SendVersion, true)--Throttle so we don't needlessly send tons of comms during initial raid invites
-			DBM:Schedule(10, SendVersion, true)--Send version if 10 seconds have past since last "Hi" sync
+			local throttle = (online < 50) and 10 or (online < 100) and 15 or (online < 150) and 20 or 30
+			DBM:Schedule(throttle, SendVersion, true)--Send version if 10 seconds have past since last "Hi" sync
 		end
 	end
 
@@ -10140,13 +10147,13 @@ do
 		local activeVP = self.Options.ChosenVoicePack
 		--Check if voice pack out of date
 		if activeVP ~= "None" and activeVP == value then
-			if self.VoiceVersions[value] < 10 then--Version will be bumped when new voice packs released that contain new voices.
+			if self.VoiceVersions[value] < 11 then--Version will be bumped when new voice packs released that contain new voices.
 				if not self.Options.DontShowReminders then
 					self:AddMsg(DBM_CORE_VOICE_PACK_OUTDATED)
 				end
 				SWFilterDisabed = self.VoiceVersions[value]--Set disable to version on current voice pack
 			else
-				SWFilterDisabed = 10
+				SWFilterDisabed = 11
 			end
 		end
 	end
@@ -11518,7 +11525,7 @@ end
 
 function bossModPrototype:SetRevision(revision)
 	revision = parseCurseDate(revision or "")
-	if not revision or revision == "20200514025748" then
+	if not revision or revision == "20200518170054" then
 		-- bad revision: either forgot the svn keyword or using github
 		revision = DBM.Revision
 	end

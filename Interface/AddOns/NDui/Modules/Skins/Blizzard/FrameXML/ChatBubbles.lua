@@ -11,7 +11,7 @@ tinsert(C.defaultThemes, function()
 			end
 		end
 
-		B.CreateBGFrame(frame)
+		B.CreateBG(frame)
 		frame:SetScale(UIParent:GetScale())
 	end
 

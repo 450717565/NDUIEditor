@@ -314,13 +314,13 @@ local defaultSettings = {
 		PlacedItemAlert = true,
 		RareAlertInWild = true,
 		ParagonRep = true,
-		UunatAlert = false,
 		InstantDelete = true,
 		RaidTool = true,
 		RMRune = false,
 		DBMCount = "5",
 		EasyMarking = true,
 		BlockInvite = false,
+		NzothVision = true,
 
 		MaxTiers = 4,
 	},
@@ -370,6 +370,7 @@ local accountSettings = {
 	DisableInfobars = false,
 	PartyWatcherSpells = {},
 	ContactList = {},
+	CustomJunkList = {},
 	BarNumber = 1,
 }
 
@@ -571,10 +572,6 @@ end
 
 local function updateInterruptAlert()
 	B:GetModule("Misc"):InterruptAlert()
-end
-
-local function updateUunatAlert()
-	B:GetModule("Misc"):UunatAlert()
 end
 
 local function updateExplosiveAlert()
@@ -804,7 +801,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{},--blank
 		{1, "Auras", "Statue", L["Enable Statue"]},
 		{1, "Auras", "Totems", L["Enable Totems"], true},
-		{1, "Auras", "Reminder", L["Enable Reminder"].."*", nil, nil, updateReminder},
+		{1, "Auras", "Reminder", L["Enable Reminder"].."*", nil, nil, updateReminder, L["ReminderTip"]},
 	},
 	[7] = {
 		{1, "Misc", "RaidTool", DB.MyColor..L["Raid Manger"]},
@@ -823,8 +820,8 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{},--blank
 		{1, "Misc", "ExplosiveCount", L["Explosive Alert"].."*", nil, nil, updateExplosiveAlert},
 		{1, "Misc", "PlacedItemAlert", L["Placed Item Alert"].."*", true},
-		{1, "Misc", "UunatAlert", L["Uunat Alert"].."*", nil, nil, updateUunatAlert},
-		{1, "Misc", "SoloInfo", L["SoloInfo"].."*", true, nil, updateSoloInfo},
+		{1, "Misc", "SoloInfo", L["SoloInfo"].."*", nil, nil, updateSoloInfo},
+		{1, "Misc", "NzothVision", DB.MyColor..L["NzothVision"], true},
 		{},--blank
 		{1, "Misc", "RareAlerter", DB.MyColor..L["Rare Alert"].."*", nil, nil, updateRareAlert},
 		{1, "Misc", "RareAlertInWild", L["RareAlertInWild"].."*", true},
@@ -1210,7 +1207,7 @@ local function exportData()
 	end
 
 	for KEY, VALUE in pairs(NDuiADB) do
-		if KEY == "RaidAuraWatch" then
+		if KEY == "RaidAuraWatch" or KEY == "CustomJunkList" then
 			text = text..";ACCOUNT:"..KEY
 			for spellID in pairs(VALUE) do
 				text = text..":"..spellID
@@ -1325,7 +1322,7 @@ local function importData()
 			itemID = tonumber(itemID)
 			NDuiDB[key][spellID] = {spellID, duration, indicator, unit, itemID}
 		elseif key == "ACCOUNT" then
-			if value == "RaidAuraWatch" then
+			if value == "RaidAuraWatch" or value == "CustomJunkList" then
 				local spells = {select(3, strsplit(":", option))}
 				for _, spellID in next, spells do
 					NDuiADB[value][tonumber(spellID)] = true
@@ -1396,7 +1393,7 @@ local function createDataFrame()
 	dataFrame:SetSize(500, 500)
 	dataFrame:SetFrameStrata("DIALOG")
 	B.CreateMF(dataFrame)
-	B.CreateBGFrame(dataFrame)
+	B.CreateBG(dataFrame)
 	dataFrame.Header = B.CreateFS(dataFrame, 16, L["Export Header"], true, "TOP", 0, -5)
 
 	local scrollArea = CreateFrame("ScrollFrame", nil, dataFrame, "UIPanelScrollFrameTemplate")
@@ -1464,7 +1461,7 @@ local function OpenGUI()
 	f:SetFrameStrata("HIGH")
 	f:SetFrameLevel(10)
 	B.CreateMF(f)
-	B.CreateBGFrame(f)
+	B.CreateBG(f)
 	B.CreateFS(f, 18, L["NDui Console"], true, "TOP", 0, -10)
 	B.CreateFS(f, 16, DB.Version.." ("..DB.Support..")", false, "TOP", 0, -30)
 

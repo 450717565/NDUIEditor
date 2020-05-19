@@ -86,7 +86,7 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 				reagent.Icon:SetSize(36, 36)
 
 				local icbg = B.ReskinIcon(reagent.Icon)
-				local bubg = B.CreateBG(reagent.NameFrame, 2, 0, -10, 0, icbg)
+				local bubg = B.CreateBGFrame(reagent.NameFrame, 2, 0, -10, 0, icbg)
 			end
 
 			self.styled = true

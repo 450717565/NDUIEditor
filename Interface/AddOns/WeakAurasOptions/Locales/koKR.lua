@@ -32,6 +32,8 @@ local L = WeakAuras.L
 	L["%s, Offset: %0.2f;%0.2f"] = "%s, 좌표: %0.2f;%0.2f"
 	L["%s, offset: %0.2f;%0.2f"] = "%s, 좌표: %0.2f;%0.2f"
 	--[[Translation missing --]]
+	L["(Right click to rename)"] = "(Right click to rename)"
+	--[[Translation missing --]]
 	L["|c%02x%02x%02x%02xCustom Color|r"] = "|c%02x%02x%02x%02xCustom Color|r"
 	--[[Translation missing --]]
 	L["|cFFFF0000Note:|r The unit '%s' is not a trackable unit."] = "|cFFFF0000Note:|r The unit '%s' is not a trackable unit."
@@ -65,6 +67,8 @@ local L = WeakAuras.L
 	L["Add Option"] = "옵션 추가"
 	L["Add Overlay"] = "오버레이 추가"
 	L["Add Property Change"] = "속성 변경 추가"
+	--[[Translation missing --]]
+	L["Add Snippet"] = "Add Snippet"
 	L["Add Sub Option"] = "하위 옵션 추가"
 	L["Add to group %s"] = "그룹 %s에 추가"
 	L["Add to new Dynamic Group"] = "새 유동적 그룹에 추가"
@@ -173,7 +177,6 @@ local L = WeakAuras.L
 	L["Can be a UID (e.g., party1)."] = "Can be a UID (e.g., party1)."
 	L["Cancel"] = "취소"
 	L["Center"] = "중앙"
-	L["Channel Number"] = "채널 번호"
 	L["Chat Message"] = "대화 메시지"
 	L["Check On..."] = "확인..."
 	L["Children:"] = "자식:"
@@ -342,8 +345,7 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Event(s)"] = "이벤트"
 	L["Everything"] = "모두"
 	L["Exact Spell ID(s)"] = "정확한 주문 ID"
-	--[[Translation missing --]]
-	L["Exact Spell Match"] = "Exact Spell Match"
+	L["Exact Spell Match"] = "정확한 주문 일치"
 	L["Expand"] = "확장"
 	L["Expand all loaded displays"] = "불러온 모든 디스플레이 확장"
 	L["Expand all non-loaded displays"] = "불러오지 않은 모드 디스플레이 확장"
@@ -362,7 +364,7 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	--[[Translation missing --]]
 	L["Filter by Group Role"] = "Filter by Group Role"
 	--[[Translation missing --]]
-	L["Filter by Hostility"] = "Filter by Hostility"
+	L["Filter by Nameplate Type"] = "Filter by Nameplate Type"
 	L["Finish"] = "종료"
 	L["Fire Orb"] = "화염 구슬"
 	L["Font"] = "글꼴"
@@ -386,8 +388,7 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	--[[Translation missing --]]
 	L["Glow Anchor"] = "Glow Anchor"
 	L["Glow Color"] = "반짝임 색상"
-	--[[Translation missing --]]
-	L["Glow External Element"] = "Glow External Element"
+	L["Glow External Element"] = "외부 요소 반짝임"
 	--[[Translation missing --]]
 	L["Glow Frame Type"] = "Glow Frame Type"
 	L["Glow Type"] = "반짝임 유형"
@@ -550,8 +551,7 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Name Info"] = "이름 정보"
 	L["Name Pattern Match"] = "이름 패턴 일치"
 	L["Name(s)"] = "이름(s)"
-	--[[Translation missing --]]
-	L["Nameplate"] = "Nameplate"
+	L["Nameplate"] = "이름표"
 	L["Nameplates"] = "이름표"
 	L["Negator"] = "Not"
 	L["Never"] = "절대 안함"
@@ -613,6 +613,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Position Settings"] = "자리 설정"
 	--[[Translation missing --]]
 	L["Preferred Match"] = "Preferred Match"
+	--[[Translation missing --]]
+	L["Premade Snippets"] = "Premade Snippets"
 	L["Preset"] = "프리셋"
 	--[[Translation missing --]]
 	L["Press Ctrl+C to copy"] = "Press Ctrl+C to copy"
@@ -675,7 +677,7 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Set Thumbnail Icon"] = "Set Thumbnail Icon"
 	L["Set tooltip description"] = "툴팁 설명 설정"
 	--[[Translation missing --]]
-	L["Sets the anchored frame as the aura's parent, causing the aura to inherit attributes such as visiblility and scale."] = "Sets the anchored frame as the aura's parent, causing the aura to inherit attributes such as visiblility and scale."
+	L["Sets the anchored frame as the aura's parent, causing the aura to inherit attributes such as visibility and scale."] = "Sets the anchored frame as the aura's parent, causing the aura to inherit attributes such as visibility and scale."
 	L["Settings"] = "설정"
 	L["Shadow Color"] = "그림자 색상"
 	L["Shadow X Offset"] = "그림자 X 좌표"
@@ -724,6 +726,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Slider Step Size"] = "Slider Step Size"
 	L["Small Icon"] = "작은 아이콘"
 	L["Smooth Progress"] = "부드러운 진행"
+	--[[Translation missing --]]
+	L["Snippets"] = "Snippets"
 	--[[Translation missing --]]
 	L["Soft Max"] = "Soft Max"
 	--[[Translation missing --]]
@@ -818,10 +822,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	--[[Translation missing --]]
 	L["Unit %s is not a valid unit for RegisterUnitEvent"] = "Unit %s is not a valid unit for RegisterUnitEvent"
 	L["Unit Count"] = "유닛 수"
-	--[[Translation missing --]]
-	L["Unit Frame"] = "Unit Frame"
-	--[[Translation missing --]]
-	L["Unit Frames"] = "Unit Frames"
+	L["Unit Frame"] = "유닛 프레임"
+	L["Unit Frames"] = "유닛 프레임"
 	L["Unlike the start or finish animations, the main animation will loop over and over until the display is hidden."] = "시작 또는 종료 애니메이션과 달리 메인 애니메이션은 디스플레이가 숨겨질 때까지 계속 반복됩니다."
 	L["Up"] = "위로"
 	--[[Translation missing --]]
@@ -866,6 +868,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Yes"] = "네"
 	L["Y-Offset"] = "Y-좌표"
 	L["You are about to delete %d aura(s). |cFFFF0000This cannot be undone!|r Would you like to continue?"] = "효과 %d개를 삭제하려고 합니다. |cFFFF0000이는 취소할 수 없습니다!|r 계속할까요?"
+	--[[Translation missing --]]
+	L["Your Saved Snippets"] = "Your Saved Snippets"
 	L["Z Offset"] = "Z 좌표"
 	L["Z Rotation"] = "Z 회전"
 	L["Zoom"] = "확대"

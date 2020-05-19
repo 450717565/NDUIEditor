@@ -19,7 +19,7 @@ local function createExtraGUI(parent, name, title, bgFrame)
 	local frame = CreateFrame("Frame", name, parent)
 	frame:SetSize(300, 600)
 	frame:SetPoint("TOPLEFT", parent:GetParent(), "TOPRIGHT", 3, 0)
-	B.CreateBGFrame(frame)
+	B.CreateBG(frame)
 	parent:HookScript("OnHide", function()
 		if frame:IsShown() then frame:Hide() end
 	end)

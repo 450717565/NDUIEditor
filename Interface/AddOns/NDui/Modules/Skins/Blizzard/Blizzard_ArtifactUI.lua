@@ -17,7 +17,7 @@ C.themes["Blizzard_ArtifactUI"] = function()
 		local SetPool = AppearancesTab.appearanceSetPool:Acquire()
 		SetPool.Name:SetTextColor(.9, .8, .5)
 		B.StripTextures(SetPool)
-		B.CreateBG(SetPool, 10, -5, -10, 5)
+		B.CreateBGFrame(SetPool, 10, -5, -10, 5)
 
 		for j = 1, 4 do
 			local SlotPool = AppearancesTab.appearanceSlotPool:Acquire()

@@ -39,7 +39,7 @@ C.themes["Blizzard_AzeriteEssenceUI"] = function()
 			if not button.styled then
 				local icbg = B.ReskinIcon(button.Icon)
 
-				local bubg = B.CreateBG(button, 2, 0, 0, 0, icbg)
+				local bubg = B.CreateBGFrame(button, 2, 0, 0, 0, icbg)
 				B.ReskinHighlight(button, bubg, true)
 				B.ReskinHighlight(button.PendingGlow, bubg, true)
 

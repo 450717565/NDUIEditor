@@ -1,7 +1,7 @@
 ## Interface: 80300
 ## Title: WeakAuras Options
 ## Author: Mirrored and the WeakAuras Team
-## Version: 2.17.5-2-gf5fe8db
+## Version: 2.17.5-15-gbab5d5c
 ## Notes: Options for WeakAuras
 ## Notes-esES: Opciones para WeakAuras
 ## Notes-deDE: Optionen für WeakAuras
@@ -73,3 +73,4 @@ AceGUI-Widgets\AceGUIWidget-WeakAurasSortedDropDown.lua
 AceGUI-Widgets\AceGUIWidget-WeakAurasToolbarButton.lua
 AceGUI-Widgets\AceGUIWidget-WeakAurasTwoColumnDropDown.lua
 AceGUI-Widgets\AceGUIContainer-WeakAurasTreeGroup.lua
+AceGUI-Widgets\AceGUIWidget-WeakAurasSnippetButton.lua

@@ -30,7 +30,7 @@ C.themes["Blizzard_GMChatUI"] = function()
 	lang:GetRegions():SetAlpha(0)
 	lang:SetPoint("TOPLEFT", edit, "TOPRIGHT", 3, 0)
 	lang:SetPoint("BOTTOMRIGHT", edit, "BOTTOMRIGHT", edit:GetHeight()+3, 0)
-	B.CreateBGFrame(lang)
+	B.CreateBG(lang)
 
 	local tab = GMChatTab
 	B.StripTextures(tab)

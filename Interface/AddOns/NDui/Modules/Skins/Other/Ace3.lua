@@ -37,7 +37,7 @@ function S:Ace3()
 		local TYPE = widget.type
 		if TYPE == "MultiLineEditBox" then
 			B.StripTextures(widget.scrollBG)
-			B.CreateBG(widget.scrollBG, 0, -2, -2, 1)
+			B.CreateBGFrame(widget.scrollBG, 0, -2, -2, 1)
 			B.ReskinButton(widget.button)
 			B.ReskinScroll(widget.scrollBar)
 
@@ -91,7 +91,7 @@ function S:Ace3()
 			local frame = widget.frame
 			B.StripTextures(frame)
 
-			local bg = B.CreateBG(frame, 2, -22, -22, 2)
+			local bg = B.CreateBGFrame(frame, 2, -22, -22, 2)
 			local button = frame.dropButton
 			B.ReskinArrow(button, "down")
 			button:SetParent(bg)
@@ -164,7 +164,7 @@ function S:Ace3()
 			widget.expand.SetPushedTexture = B.Dummy
 		elseif TYPE == "WeakAurasMultiLineEditBox" then
 			B.StripTextures(widget.scrollBG)
-			B.CreateBG(widget.scrollBG, 0, -2, -2, 1)
+			B.CreateBGFrame(widget.scrollBG, 0, -2, -2, 1)
 			B.ReskinButton(widget.button)
 			B.ReskinScroll(widget.scrollBar)
 
@@ -207,7 +207,7 @@ function S:Ace3()
 						B.StripTextures(child)
 					end
 				end
-				B.CreateBGFrame(frame)
+				B.CreateBG(frame)
 			else
 				local bg = B.CreateBDFrame(frame, 0)
 				bg:SetInside(nil, 2, 2)

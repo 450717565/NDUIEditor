@@ -157,7 +157,7 @@ C.themes["Blizzard_Collections"] = function()
 
 	local BottomLeftInset = MountJournal.BottomLeftInset
 	B.StripTextures(BottomLeftInset)
-	B.CreateBG(BottomLeftInset, 3, -2, -25, 2)
+	B.CreateBGFrame(BottomLeftInset, 3, -2, -25, 2)
 
 	local SlotButton = BottomLeftInset.SlotButton
 	B.StripTextures(SlotButton)
@@ -192,7 +192,7 @@ C.themes["Blizzard_Collections"] = function()
 	for i = 1, 3 do
 		local bu = PetJournal.Loadout["Pet"..i]
 		B.StripTextures(bu)
-		B.CreateBG(bu, 0, -4, 0, 0)
+		B.CreateBGFrame(bu, 0, -4, 0, 0)
 		B.ReskinStatusBar(bu.xpBar, true)
 		B.ReskinStatusBar(bu.healthFrame.healthBar, true)
 

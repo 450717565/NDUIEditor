@@ -264,7 +264,7 @@ end
 LightLoot:RegisterEvent("LOOT_SLOT_CLEARED")
 
 function LightLoot:PLAYER_LOGIN()
-	B.CreateBGFrame(LightLoot)
+	B.CreateBG(LightLoot)
 end
 LightLoot:RegisterEvent("PLAYER_LOGIN")
 

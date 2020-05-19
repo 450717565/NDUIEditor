@@ -40,7 +40,7 @@ tinsert(C.defaultThemes, function()
 
 	local Toast = QuickJoinToastButton.Toast
 	B.StripTextures(Toast, 0)
-	local bg = B.CreateBG(Toast, 10, -1, 0, 3)
+	local bg = B.CreateBGFrame(Toast, 10, -1, 0, 3)
 	bg:Hide()
 	hooksecurefunc(QuickJoinToastButton, "ShowToast", function() bg:Show() end)
 	hooksecurefunc(QuickJoinToastButton, "HideToast", function() bg:Hide() end)

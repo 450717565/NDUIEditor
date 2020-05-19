@@ -50,7 +50,7 @@ C.themes["Blizzard_Communities"] = function()
 			if not child.styled then
 				B.StripTextures(child)
 
-				local bg = B.CreateBG(child, 4, -2, 0, 2)
+				local bg = B.CreateBGFrame(child, 4, -2, 0, 2)
 				B.ReskinHighlight(child, bg, true)
 
 				child.styled = true
@@ -82,7 +82,7 @@ C.themes["Blizzard_Communities"] = function()
 				button:GetRegions():Hide()
 				button.Selection:SetAlpha(0)
 
-				button.bg = B.CreateBG(button, 5, -5, -10, 5)
+				button.bg = B.CreateBGFrame(button, 5, -5, -10, 5)
 			end
 
 			if button.Selection:IsShown() then
@@ -188,7 +188,7 @@ C.themes["Blizzard_Communities"] = function()
 					local header = button.ProfessionHeader
 					B.StripTextures(header)
 
-					local bg = B.CreateBG(header, -C.mult, -C.mult, C.mult, C.mult)
+					local bg = B.CreateBGFrame(header, -C.mult, -C.mult, C.mult, C.mult)
 					B.ReskinHighlight(header, bg, true)
 					B.ReskinIcon(header.Icon)
 				end
@@ -212,7 +212,7 @@ C.themes["Blizzard_Communities"] = function()
 
 	local Chat = CommunitiesFrame.Chat
 	B.StripTextures(Chat)
-	B.CreateBG(Chat, -6, 5, 3, -2)
+	B.CreateBGFrame(Chat, -6, 5, 3, -2)
 	B.ReskinScroll(Chat.MessageFrame.ScrollBar)
 
 	local EditStreamDialog = CommunitiesFrame.EditStreamDialog
@@ -354,7 +354,7 @@ C.themes["Blizzard_Communities"] = function()
 	B.StripTextures(ApplicantList)
 	B.StripTextures(ApplicantList.ColumnDisplay)
 	B.ReskinScroll(ApplicantList.ListScrollFrame.scrollBar)
-	local listBG = B.CreateBG(ApplicantList, 0, 0, -15, 0)
+	local listBG = B.CreateBGFrame(ApplicantList, 0, 0, -15, 0)
 
 	hooksecurefunc(ApplicantList, "BuildList", function(self)
 		local ColumnDisplay = self.ColumnDisplay
@@ -417,7 +417,7 @@ C.themes["Blizzard_Communities"] = function()
 				B.StripTextures(button)
 
 				local icbg = B.ReskinIcon(button.Icon)
-				local bubg = B.CreateBG(button, 2, 0, 0, 0, icbg)
+				local bubg = B.CreateBGFrame(button, 2, 0, 0, 0, icbg)
 				B.ReskinHighlight(button, bubg, true)
 
 				button.styled = true
@@ -464,7 +464,7 @@ C.themes["Blizzard_Communities"] = function()
 	B.ReskinButton(LogFrameCB)
 
 	B.CreateBDFrame(CommunitiesFrameGuildDetailsFrameInfo.DetailsFrame, 0)
-	B.CreateBG(CommunitiesFrameGuildDetailsFrameInfoMOTDScrollFrame, 0, 3, 0, -4)
+	B.CreateBGFrame(CommunitiesFrameGuildDetailsFrameInfoMOTDScrollFrame, 0, 3, 0, -4)
 
 	local BossModel = CommunitiesFrameGuildDetailsFrameNews.BossModel
 	BossModel:ClearAllPoints()

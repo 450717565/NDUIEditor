@@ -166,7 +166,7 @@ do
 
 	function Extras:ChatEmote()
 		B.CreateMF(frame)
-		B.CreateBGFrame(frame)
+		B.CreateBG(frame)
 
 		local closeBTN = B.CreateButton(frame, 20, 20, "X")
 		closeBTN:SetPoint("TOPRIGHT", -10, -10)

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2099, "DBM-Party-BfA", 9, 1001)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200227040713")
+mod:SetRevision("20200517140833")
 mod:SetCreatureID(127490)
 mod:SetEncounterID(2103)
 mod:SetZone()
@@ -13,8 +13,6 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 256955 256970",
 	"SPELL_CAST_SUCCESS 257028"
 )
-
---local warnSwirlingScythe			= mod:NewTargetAnnounce(195254, 2)
 
 local specWarnCinderflame			= mod:NewSpecialWarningDodge(256955, nil, nil, nil, 2, 2)
 local specWarnFuselighter			= mod:NewSpecialWarningYou(257028, nil, nil, nil, 1, 2)

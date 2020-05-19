@@ -54,7 +54,7 @@ tinsert(C.defaultThemes, function()
 			B.StripTextures(result)
 
 			if not result.styled then
-				local bg = B.CreateBG(result, 0, -C.mult, 0, C.mult)
+				local bg = B.CreateBGFrame(result, 0, -C.mult, 0, C.mult)
 
 				local hl = bg:CreateTexture(nil, "BACKGROUND")
 				hl:SetAllPoints()
@@ -100,7 +100,7 @@ tinsert(C.defaultThemes, function()
 	for _, headerName in pairs({"NameColumnHeader", "RoleColumnHeader", "ItemLevelColumnHeader"}) do
 		local header = ApplicationViewer[headerName]
 		B.StripTextures(header)
-		B.CreateBDFrame(header, 0, -C.mult*2)
+		B.CreateBGFrame(header, 3, -1, 1, 1)
 	end
 
 	hooksecurefunc("LFGListApplicationViewer_UpdateApplicant", function(button)

@@ -2,7 +2,7 @@ local B, C, L, DB = unpack(select(2, ...))
 
 C.themes["Blizzard_BarbershopUI"] = function()
 	B.StripTextures(BarberShopFrame)
-	B.CreateBGFrame(BarberShopFrame, 45, -75, -48, 45)
+	B.CreateBG(BarberShopFrame, 45, -75, -48, 45)
 
 	B.ReskinFrame(BarberShopAltFormFrame)
 	BarberShopAltFormFrame:ClearAllPoints()
@@ -21,5 +21,5 @@ C.themes["Blizzard_BarbershopUI"] = function()
 
 	-- [[ Banner frame ]]
 	B.StripTextures(BarberShopBannerFrame)
-	B.CreateBGFrame(BarberShopBannerFrame, 25, -80, -20, 75)
+	B.CreateBG(BarberShopBannerFrame, 25, -80, -20, 75)
 end

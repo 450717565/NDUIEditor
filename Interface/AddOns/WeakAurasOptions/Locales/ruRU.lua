@@ -25,6 +25,8 @@ local L = WeakAuras.L
 	L["%s, Border"] = "%s; Граница"
 	L["%s, Offset: %0.2f;%0.2f"] = "%s; Смещение (%.4g, %.4g)"
 	L["%s, offset: %0.2f;%0.2f"] = "%s; Смещение (%.4g, %.4g)"
+	--[[Translation missing --]]
+	L["(Right click to rename)"] = "(Right click to rename)"
 	L["|c%02x%02x%02x%02xCustom Color|r"] = "Свечение |c%02x%02x%02x%02xO|r цвета"
 	L["|cFFFF0000Note:|r The unit '%s' is not a trackable unit."] = "|cFFFFCC00Предупреждение.|r Единица |cFFE6CC80%s|r не поддерживается."
 	L["|cFFffcc00Anchors:|r Anchored |cFFFF0000%s|r to frame's |cFFFF0000%s|r"] = "|cFFFFCC00Крепление.|r Элемент с точкой крепления |cFFE6CC80%s|r привязан к кадру в точке |cFFE6CC80%s|r"
@@ -53,6 +55,8 @@ local L = WeakAuras.L
 	L["Add Option"] = "Добавить параметр"
 	L["Add Overlay"] = "Добавить наложение"
 	L["Add Property Change"] = "Добавить свойство"
+	--[[Translation missing --]]
+	L["Add Snippet"] = "Add Snippet"
 	L["Add Sub Option"] = "Добавить внутр. параметр"
 	L["Add to group %s"] = "Добавить в группу %s"
 	L["Add to new Dynamic Group"] = "Добавить в новую динамическую группу"
@@ -146,7 +150,6 @@ local L = WeakAuras.L
 Например: party4, raid7, arena3, boss2, nameplate6, target, focus, pet и др.]=]
 	L["Cancel"] = "Отмена"
 	L["Center"] = "Центр"
-	L["Channel Number"] = "Номер канала"
 	L["Chat Message"] = "Сообщение в чат"
 	L["Check On..."] = "Проверять..."
 	L["Children:"] = "Индикации:"
@@ -312,7 +315,7 @@ UNIT_POWER  UNIT_AURA, PLAYER_TARGET_CHANGED]=]
 	L["Filter by Class"] = "Фильтр по классу"
 	L["Filter by Group Role"] = "Фильтр по роли"
 	--[[Translation missing --]]
-	L["Filter by Hostility"] = "Filter by Hostility"
+	L["Filter by Nameplate Type"] = "Filter by Nameplate Type"
 	L["Finish"] = "Конечная"
 	L["Fire Orb"] = "Огненный шар"
 	L["Font"] = "Шрифт"
@@ -531,6 +534,8 @@ UNIT_POWER  UNIT_AURA, PLAYER_TARGET_CHANGED]=]
 	L["Portrait Zoom"] = "Увеличить портрет"
 	L["Position Settings"] = "Настройки размера и расположения"
 	L["Preferred Match"] = "Предпочтительный результат"
+	--[[Translation missing --]]
+	L["Premade Snippets"] = "Premade Snippets"
 	L["Preset"] = "Предустановка"
 	L["Press Ctrl+C to copy"] = "Нажмите Ctrl+C, чтобы скопировать"
 	--[[Translation missing --]]
@@ -585,7 +590,8 @@ UNIT_POWER  UNIT_AURA, PLAYER_TARGET_CHANGED]=]
 	--[[Translation missing --]]
 	L["Set Thumbnail Icon"] = "Set Thumbnail Icon"
 	L["Set tooltip description"] = "Описание подсказки"
-	L["Sets the anchored frame as the aura's parent, causing the aura to inherit attributes such as visiblility and scale."] = "Устанавливает данный кадр в качестве родителя для кадра индикации. При этом индикация наследует такие атрибуты, как видимость и масштаб"
+	--[[Translation missing --]]
+	L["Sets the anchored frame as the aura's parent, causing the aura to inherit attributes such as visibility and scale."] = "Sets the anchored frame as the aura's parent, causing the aura to inherit attributes such as visibility and scale."
 	L["Settings"] = "Параметры"
 	L["Shadow Color"] = "Цвет тени"
 	L["Shadow X Offset"] = "Смещение тени по X"
@@ -630,6 +636,8 @@ UNIT_POWER  UNIT_AURA, PLAYER_TARGET_CHANGED]=]
 	L["Slider Step Size"] = "Размер шага ползунка"
 	L["Small Icon"] = "Маленькая иконка"
 	L["Smooth Progress"] = "Плавный прогресс"
+	--[[Translation missing --]]
+	L["Snippets"] = "Snippets"
 	L["Soft Max"] = "Макс. значение ползунка"
 	L["Soft Min"] = "Мин. значение ползунка"
 	L["Sort"] = "Сортировка"
@@ -754,6 +762,8 @@ UNIT_POWER  UNIT_AURA, PLAYER_TARGET_CHANGED]=]
 	L["Y-Offset"] = "Смещение по Y"
 	L["You are about to delete %d aura(s). |cFFFF0000This cannot be undone!|r Would you like to continue?"] = [=[Вы собираетесь удалить %d |4индикацию:индикации:индикаций;.
 |cFFFF0000Это действие необратимо!|r Продолжить?]=]
+	--[[Translation missing --]]
+	L["Your Saved Snippets"] = "Your Saved Snippets"
 	L["Z Offset"] = "Смещение по Z"
 	L["Z Rotation"] = "Поворот по Z"
 	L["Zoom"] = "Масштаб"

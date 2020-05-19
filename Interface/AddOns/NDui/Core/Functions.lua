@@ -60,12 +60,12 @@ do
 			end
 		elseif s > 3 then
 			if auraTime then
-				return format("|cffffff00%d|r"..DB.MyColor..L["Seconds"], s), s - floor(s)
+				return format("|cffFFFF00%d|r"..DB.MyColor..L["Seconds"], s), s-floor(s)
 			else
-				return format("|cffffff00%d|r", s), s - floor(s)
+				return format("|cffFFFF00%d|r", s), s-floor(s)
 			end
 		else
-			return format("|cffff0000%.1f|r", s), s - format("%.1f", s)
+			return format("|cffFF0000%.1f|r", s), s-format("%.1f", s)
 		end
 	end
 
@@ -582,7 +582,9 @@ do
 		if self.title then
 			GameTooltip:AddLine(self.title)
 		end
-		if tonumber(self.tooltip) then
+		if self.tooltip and strfind(self.tooltip, "|H.+|h") then
+			GameTooltip:SetHyperlink(self.tooltip)
+		elseif tonumber(self.tooltip) then
 			GameTooltip:SetSpellByID(self.tooltip)
 		elseif self.tooltip then
 			local r, g, b = 1, 1, 1
@@ -889,21 +891,7 @@ do
 		return bg
 	end
 
-	function B:CreateBGFrame(x, y, x2, y2)
-		if x or y or x2 or y2 then
-			local bg = B.CreateBDFrame(self, nil, 0, true)
-			bg:ClearAllPoints()
-			bg:Point("TOPLEFT", self, x, y)
-			bg:Point("BOTTOMRIGHT", self, x2, y2)
-
-			return bg
-		else
-			B.CreateBD(self)
-			B.CreateSD(self)
-		end
-	end
-
-	function B:CreateBG(x, y, x2, y2, frame)
+	function B:CreateBGFrame(x, y, x2, y2, frame)
 		local bg = B.CreateBDFrame(self, 0)
 		bg:ClearAllPoints()
 		if frame then
@@ -918,6 +906,20 @@ do
 		return bg
 	end
 
+	function B:CreateBG(x, y, x2, y2)
+		if x or y or x2 or y2 then
+			local bg = B.CreateBDFrame(self, nil, 0, true)
+			bg:ClearAllPoints()
+			bg:Point("TOPLEFT", self, x, y)
+			bg:Point("BOTTOMRIGHT", self, x2, y2)
+
+			return bg
+		else
+			B.CreateBD(self)
+			B.CreateSD(self)
+		end
+	end
+
 	-- Handle icons
 	function B:ReskinIcon(alpha)
 		self:SetTexCoord(unpack(DB.TexCoord))
@@ -927,7 +929,7 @@ do
 	end
 
 	function B:PixelIcon(texture, highlight)
-		B.CreateBGFrame(self)
+		B.CreateBG(self)
 		B.CreateGF(self)
 
 		self.Icon = self:CreateTexture(nil, "ARTWORK")
@@ -1036,7 +1038,7 @@ do
 		B.StripTextures(self)
 		B.CleanTextures(self)
 
-		local bg = B.CreateBGFrame(self, 8, -3, -8, 2)
+		local bg = B.CreateBG(self, 8, -3, -8, 2)
 		B.ReskinHighlight(self, bg, true)
 	end
 
@@ -1060,7 +1062,7 @@ do
 				if i == 1 then
 					tabs:Point("TOPLEFT", frameName, "BOTTOMLEFT", 15, 2)
 				else
-					tabs:Point("LEFT", _G[tab..(i-1)], "RIGHT", -16, 0)
+					tabs:Point("LEFT", _G[tab..(i-1)], "RIGHT", -B.Scale(16), 0)
 				end
 			end
 		end
@@ -1090,7 +1092,7 @@ do
 			thumb:SetAlpha(0)
 			thumb:SetWidth(18)
 
-			local bdTex = B.CreateBG(thumb, 0, -3, 0, 3)
+			local bdTex = B.CreateBGFrame(thumb, 0, -3, 0, 3)
 			self.bdTex = bdTex
 		end
 
@@ -1187,7 +1189,7 @@ do
 		if height then self:SetHeight(height) end
 		if width then self:SetWidth(width) end
 
-		local bg = B.CreateBG(self, -3, 0, -3, 0)
+		local bg = B.CreateBGFrame(self, -3, 0, -3, 0)
 
 		return bg
 	end
@@ -1319,7 +1321,7 @@ do
 		self:SetBackdrop(nil)
 		B.StripTextures(self)
 
-		B.CreateBG(self, 14, -2, -15, 3)
+		B.CreateBGFrame(self, 14, -2, -15, 3)
 
 		local thumb = self:GetThumbTexture()
 		thumb:SetTexture(DB.sparkTex)
@@ -1661,7 +1663,7 @@ do
 	function B:ReskinReforgeUI(index)
 		B.StripTextures(self, index)
 		B.ReskinClose(self.CloseButton)
-		B.CreateBGFrame(self)
+		B.CreateBG(self)
 
 		local Background = self.Background
 		B.CreateBDFrame(Background, 0, nil, true)
@@ -1701,7 +1703,7 @@ do
 		results:Point("BOTTOMLEFT", self, "BOTTOMRIGHT", 50, 0)
 		B.StripTextures(results)
 		B.CleanTextures(results)
-		B.CreateBGFrame(results, -10, 0, 0, 0)
+		B.CreateBG(results, -10, 0, 0, 0)
 
 		local frameName = self.GetName and self:GetName()
 		local closebu = results.closeButton or (frameName and _G[frameName.."SearchResultsCloseButton"])
@@ -1719,7 +1721,7 @@ do
 				local icbg = B.ReskinIcon(bu.icon)
 				bu.icon.SetTexCoord = B.Dummy
 
-				local bubg = B.CreateBG(bu, 2, 2, -2, -2, icbg)
+				local bubg = B.CreateBGFrame(bu, 2, 2, -2, -2, icbg)
 				B.ReskinHighlight(bu, bubg, true)
 
 				local name = bu.name

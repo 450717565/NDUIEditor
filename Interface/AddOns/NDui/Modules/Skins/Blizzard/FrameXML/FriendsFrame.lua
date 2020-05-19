@@ -9,7 +9,7 @@ tinsert(C.defaultThemes, function()
 	B.ReskinInput(AddFriendNameEditBox)
 
 	B.StripTextures(FriendsFriendsFrame)
-	B.CreateBGFrame(FriendsFriendsFrame)
+	B.CreateBG(FriendsFriendsFrame)
 	B.StripTextures(FriendsFriendsFrame.ScrollFrameBorder)
 	B.CreateBDFrame(FriendsFriendsFrame.ScrollFrameBorder, 0)
 
@@ -75,7 +75,7 @@ tinsert(C.defaultThemes, function()
 
 	local BroadcastFrame = FriendsFrameBattlenetFrame.BroadcastFrame
 	B.StripTextures(BroadcastFrame)
-	B.CreateBGFrame(BroadcastFrame, 10, -10, -10, 10)
+	B.CreateBG(BroadcastFrame, 10, -10, -10, 10)
 	B.ReskinInput(BroadcastFrame.EditBox, 20)
 	B.ReskinButton(BroadcastFrame.UpdateButton)
 	B.ReskinButton(BroadcastFrame.CancelButton)

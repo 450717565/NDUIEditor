@@ -18,7 +18,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		select(4, self.Stage:GetRegions()):Hide()
 		select(5, self.Stage:GetRegions()):Hide()
 
-		local bg = B.CreateBG(self.Stage, 4, 1, -4, -1)
+		local bg = B.CreateBGFrame(self.Stage, 4, 1, -4, -1)
 
 		local overlay = self.Stage:CreateTexture()
 		overlay:SetDrawLayer("ARTWORK", 3)
@@ -267,7 +267,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				local icon = item.Icon
 				item.Border:Hide()
 				B.ReskinIcon(icon)
-				B.CreateBG(item, 41, -1, 0, 1)
+				B.CreateBGFrame(item, 41, -1, 0, 1)
 			end
 		end
 
@@ -312,7 +312,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		local tab = BuildingList["Tab"..i]
 		tab:GetNormalTexture():SetAlpha(0)
 
-		local bg = B.CreateBG(tab, 6, -7, -6, 7)
+		local bg = B.CreateBGFrame(tab, 6, -7, -6, 7)
 		B.ReskinHighlight(tab, bg, true)
 
 		tab.bg = bg
@@ -335,7 +335,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 				B.ReskinIcon(button.Icon)
 
-				local bg = B.CreateBG(button, 44, -5, 0, 6)
+				local bg = B.CreateBGFrame(button, 44, -5, 0, 6)
 				B.ReskinHighlight(button, bg, true)
 				B.ReskinHighlight(button.SelectedBG, bg, true)
 
@@ -434,7 +434,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			reagent.NameFrame:SetAlpha(0)
 
 			local ic = B.ReskinIcon(reagent.Icon)
-			B.CreateBG(reagent, 2, 0, -5, 0, ic)
+			B.CreateBGFrame(reagent, 2, 0, -5, 0, ic)
 
 			reagentIndex = reagentIndex + 1
 			reagent = reagents[reagentIndex]
@@ -776,7 +776,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	local GarrisonMonumentFrame = GarrisonMonumentFrame
 
 	GarrisonMonumentFrame.Background:Hide()
-	B.CreateBGFrame(GarrisonMonumentFrame, 6, -10, -6, 4)
+	B.CreateBG(GarrisonMonumentFrame, 6, -10, -6, 4)
 
 	do
 		local left = GarrisonMonumentFrame.LeftBtn
@@ -821,7 +821,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	B.StripTextures(shipyardMission)
 	B.ReskinClose(shipyardMission.CloseButton)
 	B.ReskinButton(shipyardMission.StartMissionButton)
-	B.CreateBG(shipyardMission.Stage, 4, 1, -4, -1)
+	B.CreateBGFrame(shipyardMission.Stage, 4, 1, -4, -1)
 
 	for i = 1, 10 do
 		select(i, shipyardMission.RewardsFrame:GetRegions()):Hide()

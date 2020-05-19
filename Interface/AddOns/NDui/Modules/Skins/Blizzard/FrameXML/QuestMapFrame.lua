@@ -22,7 +22,7 @@ tinsert(C.defaultThemes, function()
 		header.Progress:ClearAllPoints()
 		header.Progress:SetPoint("BOTTOMLEFT", 10, 10)
 
-		local bdTex = B.CreateBG(header, 2, -15, -5, 5)
+		local bdTex = B.CreateBGFrame(header, 2, -15, -5, 5)
 		header.bdTex = bdTex
 
 		B.Hook_OnEnter(header, true)

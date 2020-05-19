@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2156, "DBM-Party-BfA", 4, 1001)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200227040713")
+mod:SetRevision("20200517140833")
 mod:SetCreatureID(134069)
 mod:SetEncounterID(2133)
 mod:SetZone()
@@ -9,7 +9,6 @@ mod:SetZone()
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
---	"SPELL_AURA_APPLIED",
 	"SPELL_AURA_REMOVED 267444",
 	"SPELL_CAST_START 269399 267299 267385 267360",
 	"SPELL_ENERGIZE 267310"

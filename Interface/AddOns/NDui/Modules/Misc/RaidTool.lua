@@ -11,8 +11,7 @@ local GetInstanceInfo, GetNumGroupMembers, GetRaidRosterInfo, GetRaidTargetIndex
 local GetSpellCharges, GetSpellInfo, UnitAura = GetSpellCharges, GetSpellInfo, UnitAura
 local GetTime, SendChatMessage, IsAddOnLoaded = GetTime, SendChatMessage, IsAddOnLoaded
 local IsAltKeyDown, IsControlKeyDown, InCombatLockdown = IsAltKeyDown, IsControlKeyDown, InCombatLockdown
-local UnitExists, UninviteUnit, LeaveParty = UnitExists, UninviteUnit, LeaveParty
-local ConvertToParty, ConvertToRaid = ConvertToParty, ConvertToRaid
+local UnitExists, UninviteUnit = UnitExists, UninviteUnit
 local DoReadyCheck, InitiateRolePoll, GetReadyCheckStatus = DoReadyCheck, InitiateRolePoll, GetReadyCheckStatus
 local C_Timer_After = C_Timer.After
 local LeaveParty = C_PartyInfo.LeaveParty
@@ -525,7 +524,7 @@ function M:RaidTool_CreateMenu(parent)
 			end
 		end},
 		{ROLE_POLL, function()
-			if IsInGroup() and not HasLFGRestrictions() and (UnitIsGroupLeader("player") or (UnitIsGroupAssistant("player") and IsInRaid())) then
+			if IsInGroup() and not HasLFGRestrictions() and (UnitIsGroupLeader("player") or UnitIsGroupAssistant("player")) then
 				InitiateRolePoll()
 			else
 				UIErrorsFrame:AddMessage(DB.InfoColor..ERR_NOT_LEADER)

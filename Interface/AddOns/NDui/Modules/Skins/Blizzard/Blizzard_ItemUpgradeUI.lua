@@ -29,5 +29,5 @@ C.themes["Blizzard_ItemUpgradeUI"] = function()
 
 	local TextFrame = ItemUpgradeFrame.TextFrame
 	B.StripTextures(TextFrame)
-	B.CreateBG(TextFrame, 2, 0, -5, 0, icbg)
+	B.CreateBGFrame(TextFrame, 2, 0, -5, 0, icbg)
 end

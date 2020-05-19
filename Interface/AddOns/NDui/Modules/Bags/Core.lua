@@ -67,7 +67,7 @@ function module:CreateInfoFrame()
 	search.isGlobal = true
 	search:SetPoint("LEFT", 0, 5)
 	search:DisableDrawLayer("BACKGROUND")
-	B.CreateBG(search, -5, -5, 5, 5)
+	B.CreateBGFrame(search, -5, -5, 5, 5)
 
 	local tag = self:SpawnPlugin("TagDisplay", "[money]", infoFrame)
 	tag:SetFont(unpack(DB.Font))
@@ -79,7 +79,7 @@ function module:CreateBagBar(settings, columns)
 	local width, height = bagBar:LayoutButtons("grid", columns, 5, 5, -5)
 	bagBar:SetSize(width + 10, height + 10)
 	bagBar:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, -5)
-	B.CreateBGFrame(bagBar)
+	B.CreateBG(bagBar)
 	bagBar.highlightFunction = highlightFunction
 	bagBar.isGlobal = true
 	bagBar:Hide()
@@ -247,9 +247,7 @@ local favouriteEnable
 function module:CreateFavouriteButton()
 	local enabledText = DB.InfoColor..L["FavouriteMode Enabled"]
 
-	local bu = B.CreateButton(self, 24, 24, true, "Interface\\Common\\friendship-heart")
-	bu.Icon:SetPoint("TOPLEFT", -5, 0)
-	bu.Icon:SetPoint("BOTTOMRIGHT", 5, -5)
+	local bu = B.CreateButton(self, 24, 24, true, "Interface\\Icons\\Item_Shop_GiftBox01")
 	bu:SetScript("OnClick", function(self)
 		favouriteEnable = not favouriteEnable
 		if favouriteEnable then
@@ -276,6 +274,45 @@ local function favouriteOnClick(self)
 			NDuiDB["Bags"]["FavouriteItems"][itemID] = nil
 		else
 			NDuiDB["Bags"]["FavouriteItems"][itemID] = true
+		end
+		ClearCursor()
+		module:UpdateAllBags()
+	end
+end
+
+local customJunkEnable
+function module:CreateJunkButton()
+	local enabledText = DB.InfoColor..L["JunkMode Enabled"]
+
+	local bu = B.CreateButton(self, 24, 24, true, "Interface\\Icons\\INV_Misc_Coin_13")
+	bu:SetScript("OnClick", function(self)
+		customJunkEnable = not customJunkEnable
+		if customJunkEnable then
+			self:SetBackdropBorderColor(cr, cg, cb)
+			self.tooltip = enabledText
+		else
+			self:SetBackdropBorderColor(0, 0, 0)
+			self.tooltip = nil
+		end
+		self:GetScript("OnEnter")(self)
+		module:UpdateAllBags()
+	end)
+	bu.title = L["CustomJunkMode"]
+	B.AddTooltip(bu, "ANCHOR_TOP")
+
+	return bu
+end
+
+local function customJunkOnClick(self)
+	if not customJunkEnable then return end
+
+	local texture, _, _, _, _, _, _, _, _, itemID = GetContainerItemInfo(self.bagID, self.slotID)
+	local price = select(11, GetItemInfo(itemID))
+	if texture and price > 0 then
+		if NDuiADB["CustomJunkList"][itemID] then
+			NDuiADB["CustomJunkList"][itemID] = nil
+		else
+			NDuiADB["CustomJunkList"][itemID] = true
 		end
 		ClearCursor()
 		module:UpdateAllBags()
@@ -366,16 +403,14 @@ function module:CreateSplitButton()
 	splitFrame:SetSize(100, 50)
 	splitFrame:SetPoint("TOPRIGHT", self, "TOPLEFT", -5, 0)
 	B.CreateFS(splitFrame, 14, L["SplitCount"], "system", "TOP", 1, -5)
-	B.CreateBGFrame(splitFrame)
+	B.CreateBG(splitFrame)
 	splitFrame:Hide()
 	local editbox = B.CreateEditBox(splitFrame, 90, 20)
 	editbox:SetPoint("BOTTOMLEFT", 5, 5)
 	editbox:SetJustifyH("CENTER")
 	editbox:SetScript("OnTextChanged", saveSplitCount)
 
-	local bu = B.CreateButton(self, 24, 24, true, "Interface\\HELPFRAME\\ReportLagIcon-AuctionHouse")
-	bu.Icon:SetPoint("TOPLEFT", -1, 3)
-	bu.Icon:SetPoint("BOTTOMRIGHT", 1, -3)
+	local bu = B.CreateButton(self, 24, 24, true, "Interface\\Icons\\Ability_Druid_GiftoftheEarthmother")
 	bu:SetScript("OnClick", function(self)
 		splitEnable = not splitEnable
 		if splitEnable then
@@ -415,6 +450,7 @@ end
 function module:ButtonOnClick(btn)
 	if btn ~= "LeftButton" then return end
 	deleteButtonOnClick(self)
+	customJunkOnClick(self)
 	favouriteOnClick(self)
 	splitOnClick(self)
 end
@@ -618,7 +654,7 @@ function module:OnLogin()
 			end
 		end
 
-		if item.rarity == LE_ITEM_QUALITY_POOR and item.sellPrice > 0 then
+		if (item.rarity == LE_ITEM_QUALITY_POOR or NDuiADB["CustomJunkList"][item.id]) and (item.sellPrice and item.sellPrice > 0) then
 			self.junkIcon:SetAlpha(1)
 		else
 			self.junkIcon:SetAlpha(0)
@@ -760,7 +796,7 @@ function module:OnLogin()
 		self:SetParent(settings.Parent or Backpack)
 		self:SetFrameStrata("HIGH")
 		self:SetClampedToScreen(true)
-		B.CreateBGFrame(self)
+		B.CreateBG(self)
 		B.CreateMF(self, settings.Parent, true)
 
 		local label
@@ -800,7 +836,8 @@ function module:OnLogin()
 			buttons[3] = module.CreateBagToggle(self)
 			buttons[5] = module.CreateSplitButton(self)
 			buttons[6] = module.CreateFavouriteButton(self)
-			if deleteButton then buttons[7] = module.CreateDeleteButton(self) end
+			buttons[7] = module.CreateJunkButton(self)
+			if deleteButton then buttons[8] = module.CreateDeleteButton(self) end
 		elseif name == "Bank" then
 			module.CreateBagBar(self, settings, 7)
 			buttons[2] = module.CreateReagentButton(self, f)

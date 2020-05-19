@@ -78,7 +78,7 @@ end
 function M:CalculateMoverPoints(mover, trimX, trimY)
 	local screenWidth = B.Round(UIParent:GetRight())
 	local screenHeight = B.Round(UIParent:GetTop())
-	local screenCenter = B.Round(UIParent:GetCenter())
+	local screenCenter = B.Round(UIParent:GetCenter(), nil)
 	local x, y = mover:GetCenter()
 
 	local LEFT = screenWidth / 3
@@ -219,7 +219,7 @@ local function CreateConsole()
 	f = CreateFrame("Frame", nil, UIParent)
 	f:SetPoint("TOP", 0, -150)
 	f:SetSize(212, 80)
-	B.CreateBGFrame(f)
+	B.CreateBG(f)
 	B.CreateFS(f, 15, L["Mover Console"], "system", "TOP", 0, -8)
 	local bu, text = {}, {LOCK, L["Grids"], L["AuraWatch"], RESET}
 	for i = 1, 4 do
@@ -268,7 +268,7 @@ local function CreateConsole()
 	local frame = CreateFrame("Frame", nil, f)
 	frame:SetSize(212, 73)
 	frame:SetPoint("TOP", f, "BOTTOM", 0, -2)
-	B.CreateBGFrame(frame)
+	B.CreateBG(frame)
 	f.__trimText = B.CreateFS(frame, 12, NONE, "system", "BOTTOM", 0, 5)
 
 	local xBox = B.CreateEditBox(frame, 60, 22)

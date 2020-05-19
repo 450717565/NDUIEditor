@@ -2,11 +2,14 @@ local B, C, L, DB = unpack(select(2, ...))
 
 C.themes["Blizzard_BlackMarketUI"] = function()
 	B.ReskinFrame(BlackMarketFrame)
-	B.StripTextures(BlackMarketFrame.MoneyFrameBorder)
 
 	B.ReskinButton(BlackMarketFrame.BidButton)
 	B.ReskinInput(BlackMarketBidPriceGold)
 	B.ReskinScroll(BlackMarketScrollFrameScrollBar)
+
+	local MoneyFrameBorder = BlackMarketFrame.MoneyFrameBorder
+	B.StripTextures(MoneyFrameBorder)
+	B.CreateBDFrame(MoneyFrameBorder, 0)
 
 	local HotDeal = BlackMarketFrame.HotDeal
 	B.StripTextures(HotDeal)
@@ -18,7 +21,7 @@ C.themes["Blizzard_BlackMarketUI"] = function()
 	for _, header in pairs(headers) do
 		local header = BlackMarketFrame[header]
 		B.StripTextures(header)
-		B.CreateBG(header, 2, -2, -2, -3)
+		B.CreateBGFrame(header, 2, -2, -2, -5)
 	end
 
 	hooksecurefunc("BlackMarketScrollFrame_Update", function()
@@ -33,7 +36,7 @@ C.themes["Blizzard_BlackMarketUI"] = function()
 				local icbg = B.ReskinIcon(bu.Item.IconTexture)
 				B.ReskinHighlight(bu.Item, icbg)
 
-				local bubg = B.CreateBG(bu, 2, 0, 0, 0, icbg)
+				local bubg = B.CreateBGFrame(bu, 2, 0, 0, 0, icbg)
 				B.ReskinHighlight(bu, bubg, true, true)
 				B.ReskinHighlight(bu.Selection, bubg, true, true)
 

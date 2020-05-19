@@ -46,7 +46,7 @@ tinsert(C.defaultThemes, function()
 	hooksecurefunc(AlertFrame, "AddAlertFrame", function(_, frame)
 		if frame.queue == AchievementAlertSystem then
 			if not frame.bg then
-				frame.bg = B.CreateBGFrame(frame, 0, -7, 0, 8)
+				frame.bg = B.CreateBG(frame, 0, -7, 0, 8)
 
 				frame.Unlocked:SetTextColor(1, 1, 1)
 				frame.GuildName:ClearAllPoints()
@@ -68,7 +68,7 @@ tinsert(C.defaultThemes, function()
 			frame.Shield.Icon:Show()
 		elseif frame.queue == CriteriaAlertSystem then
 			if not frame.bg then
-				frame.bg = B.CreateBGFrame(frame, -18, 5, 18, -1)
+				frame.bg = B.CreateBG(frame, -18, 5, 18, -1)
 
 				frame.Icon.Bling:SetTexture("")
 				frame.Icon.Overlay:SetTexture("")
@@ -82,7 +82,7 @@ tinsert(C.defaultThemes, function()
 		elseif frame.queue == LootAlertSystem then
 			local lootItem = frame.lootItem
 			if not frame.bg then
-				frame.bg = B.CreateBGFrame(frame, 13, -15, -13, 13)
+				frame.bg = B.CreateBG(frame, 13, -15, -13, 13)
 
 				lootItem.SpecRing:SetTexture("")
 				lootItem.SpecIcon:SetDrawLayer("ARTWORK")
@@ -100,7 +100,7 @@ tinsert(C.defaultThemes, function()
 			lootItem.SpecIcon.bg:SetShown(lootItem.SpecIcon:IsShown() and lootItem.SpecIcon:GetTexture() ~= nil)
 		elseif frame.queue == LootUpgradeAlertSystem then
 			if not frame.bg then
-				frame.bg = B.CreateBGFrame(frame, 10, -13, -12, 11)
+				frame.bg = B.CreateBG(frame, 10, -13, -12, 11)
 
 				frame.Icon:ClearAllPoints()
 				frame.Icon:SetPoint("CENTER", frame.BaseQualityBorder)
@@ -118,7 +118,7 @@ tinsert(C.defaultThemes, function()
 			frame.UpgradeQualityBorder:SetTexture("")
 		elseif frame.queue == MoneyWonAlertSystem or frame.queue == HonorAwardedAlertSystem then
 			if not frame.bg then
-				frame.bg = B.CreateBGFrame(frame, 7, -7, -7, 7)
+				frame.bg = B.CreateBG(frame, 7, -7, -7, 7)
 
 				frame.Background:SetTexture("")
 				frame.IconBorder:SetTexture("")
@@ -127,7 +127,7 @@ tinsert(C.defaultThemes, function()
 			end
 		elseif frame.queue == NewRecipeLearnedAlertSystem then
 			if not frame.bg then
-				frame.bg = B.CreateBGFrame(frame, 10, -5, -10, 5)
+				frame.bg = B.CreateBG(frame, 10, -5, -10, 5)
 
 				frame:GetRegions():SetTexture("")
 				frame.glow:SetTexture("")
@@ -139,7 +139,7 @@ tinsert(C.defaultThemes, function()
 			frame.Icon:SetTexCoord(unpack(DB.TexCoord))
 		elseif frame.queue == WorldQuestCompleteAlertSystem then
 			if not frame.bg then
-				frame.bg = B.CreateBGFrame(frame, 3, -9, -3, 6)
+				frame.bg = B.CreateBG(frame, 3, -9, -3, 6)
 
 				frame.shine:SetTexture("")
 				frame:DisableDrawLayer("BORDER")
@@ -149,7 +149,7 @@ tinsert(C.defaultThemes, function()
 			end
 		elseif frame.queue == GarrisonTalentAlertSystem then
 			if not frame.bg then
-				frame.bg = B.CreateBGFrame(frame, 8, -8, -8, 11)
+				frame.bg = B.CreateBG(frame, 8, -8, -8, 11)
 
 				frame:GetRegions():Hide()
 				frame.glow:SetTexture("")
@@ -159,7 +159,7 @@ tinsert(C.defaultThemes, function()
 			end
 		elseif frame.queue == GarrisonFollowerAlertSystem then
 			if not frame.bg then
-				frame.bg = B.CreateBGFrame(frame, 16, -3, -16, 16)
+				frame.bg = B.CreateBG(frame, 16, -3, -16, 16)
 
 				frame:GetRegions():Hide()
 				select(5, frame:GetRegions()):Hide()
@@ -173,7 +173,7 @@ tinsert(C.defaultThemes, function()
 			frame.FollowerBG:SetTexture("")
 		elseif frame.queue == GarrisonMissionAlertSystem or frame.queue == GarrisonRandomMissionAlertSystem or frame.queue == GarrisonShipMissionAlertSystem or frame.queue == GarrisonShipFollowerAlertSystem then
 			if not frame.bg then
-				frame.bg = B.CreateBGFrame(frame, 8, -8, -8, 10)
+				frame.bg = B.CreateBG(frame, 8, -8, -8, 10)
 
 				if frame.Blank then frame.Blank:Hide() end
 				if frame.IconBG then frame.IconBG:Hide() end
@@ -200,7 +200,7 @@ tinsert(C.defaultThemes, function()
 			end
 		elseif frame.queue == GarrisonBuildingAlertSystem then
 			if not frame.bg then
-				frame.bg = B.CreateBGFrame(frame, 9, -9, -9, 11)
+				frame.bg = B.CreateBG(frame, 9, -9, -9, 11)
 
 				frame:GetRegions():Hide()
 				frame.glow:SetTexture("")
@@ -210,7 +210,7 @@ tinsert(C.defaultThemes, function()
 			end
 		elseif frame.queue == DigsiteCompleteAlertSystem then
 			if not frame.bg then
-				frame.bg = B.CreateBGFrame(frame, 8, -8, -8, 8)
+				frame.bg = B.CreateBG(frame, 8, -8, -8, 8)
 
 				frame:GetRegions():Hide()
 				frame.glow:SetTexture("")
@@ -218,7 +218,7 @@ tinsert(C.defaultThemes, function()
 			end
 		elseif frame.queue == GuildChallengeAlertSystem then
 			if not frame.bg then
-				frame.bg = B.CreateBGFrame(frame, 8, -12, -8, 13)
+				frame.bg = B.CreateBG(frame, 8, -12, -8, 13)
 
 				select(2, frame:GetRegions()):SetTexture("")
 				frame.glow:SetTexture("")
@@ -226,7 +226,7 @@ tinsert(C.defaultThemes, function()
 			end
 		elseif frame.queue == DungeonCompletionAlertSystem then
 			if not frame.bg then
-				frame.bg = B.CreateBGFrame(frame, 2, -10, 0, 2)
+				frame.bg = B.CreateBG(frame, 2, -10, 0, 2)
 
 				frame:DisableDrawLayer("Border")
 				frame.heroicIcon:SetTexture("")
@@ -237,7 +237,7 @@ tinsert(C.defaultThemes, function()
 			end
 		elseif frame.queue == ScenarioAlertSystem then
 			if not frame.bg then
-				frame.bg = B.CreateBGFrame(frame, 5, -5, -5, 5)
+				frame.bg = B.CreateBG(frame, 5, -5, -5, 5)
 
 				select(1, frame:GetRegions()):Hide()
 				select(3, frame:GetRegions()):Hide()
@@ -248,7 +248,7 @@ tinsert(C.defaultThemes, function()
 			end
 		elseif frame.queue == LegendaryItemAlertSystem then
 			if not frame.bg then
-				frame.bg = B.CreateBGFrame(frame, 25, -22, -25, 22)
+				frame.bg = B.CreateBG(frame, 25, -22, -25, 22)
 
 				frame:HookScript("OnUpdate", fixBg)
 				frame.Icon:ClearAllPoints()
@@ -262,7 +262,7 @@ tinsert(C.defaultThemes, function()
 			end
 		elseif frame.queue == NewPetAlertSystem or frame.queue == NewMountAlertSystem or frame.queue == NewToyAlertSystem then
 			if not frame.bg then
-				frame.bg = B.CreateBGFrame(frame, 12, -13, -12, 10)
+				frame.bg = B.CreateBG(frame, 12, -13, -12, 10)
 
 				frame.IconBorder:Hide()
 				frame.Background:SetTexture("")
@@ -273,7 +273,7 @@ tinsert(C.defaultThemes, function()
 			end
 		elseif frame.queue == InvasionAlertSystem then
 			if not frame.bg then
-				frame.bg = B.CreateBGFrame(frame, 6, -6, -6, 6)
+				frame.bg = B.CreateBG(frame, 6, -6, -6, 6)
 
 				local bg, icon = frame:GetRegions()
 				bg:Hide()
@@ -304,7 +304,7 @@ tinsert(C.defaultThemes, function()
 	hooksecurefunc("LootWonAlertFrame_SetUp", function(frame)
 		local lootItem = frame.lootItem
 		if not frame.bg then
-			frame.bg = B.CreateBGFrame(frame, 10, -10, -10, 10)
+			frame.bg = B.CreateBG(frame, 10, -10, -10, 10)
 			fixAnim(frame)
 
 			frame.shine:SetTexture("")
@@ -327,7 +327,7 @@ tinsert(C.defaultThemes, function()
 	-- BonusRollMoneyWonFrame
 	hooksecurefunc("MoneyWonAlertFrame_SetUp", function(frame)
 		if not frame.bg then
-			frame.bg = B.CreateBGFrame(frame, 5, -5, -5, 5)
+			frame.bg = B.CreateBG(frame, 5, -5, -5, 5)
 			fixAnim(frame)
 
 			frame.Background:SetTexture("")

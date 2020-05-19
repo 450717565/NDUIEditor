@@ -7,12 +7,12 @@ WeakAuras.halfWidth = WeakAuras.normalWidth / 2
 WeakAuras.doubleWidth = WeakAuras.normalWidth * 2
 
 local versionStringFromToc = GetAddOnMetadata("WeakAuras", "Version")
-local versionString = "2.17.5-2-gf5fe8db"
-local buildTime = "20200513191314"
+local versionString = "2.17.5-15-gbab5d5c"
+local buildTime = "20200518222218"
 
 local isDevVersion = false
 --[===[@debug@
-if versionStringFromToc == "2.17.5-2-gf5fe8db" then
+if versionStringFromToc == "2.17.5-15-gbab5d5c" then
   versionStringFromToc = "Dev"
   buildTime = "Dev"
   isDevVersion = true

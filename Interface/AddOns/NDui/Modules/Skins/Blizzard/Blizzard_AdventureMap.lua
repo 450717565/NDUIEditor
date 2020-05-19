@@ -16,7 +16,7 @@ C.themes["Blizzard_AdventureMap"] = function()
 					bu.ItemNameBG:Hide()
 
 					local icbg = B.ReskinIcon(bu.Icon)
-					B.CreateBG(bu.ItemNameBG, 2, 0, -5, 0, icbg)
+					B.CreateBGFrame(bu.ItemNameBG, 2, 0, -5, 0, icbg)
 				end
 			end
 

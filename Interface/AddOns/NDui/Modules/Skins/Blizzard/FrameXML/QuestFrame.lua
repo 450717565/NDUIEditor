@@ -31,7 +31,7 @@ tinsert(C.defaultThemes, function()
 
 		local icon = _G[item.."IconTexture"]
 		local icbg = B.ReskinIcon(icon)
-		B.CreateBG(_G[item], 2, 0, -5, 0, icbg)
+		B.CreateBGFrame(_G[item], 2, 0, -5, 0, icbg)
 	end
 
 	-- TextColor
