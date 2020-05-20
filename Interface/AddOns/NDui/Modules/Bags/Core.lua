@@ -117,8 +117,7 @@ function module:CreateRestoreButton(f)
 end
 
 function module:CreateReagentButton(f)
-	local bu = B.CreateButton(self, 24, 24, true, "Atlas:Reagents")
-	bu.Icon:SetPoint("BOTTOMRIGHT", -C.mult, -C.mult)
+	local bu = B.CreateButton(self, 24, 24, true, "Interface\\Icons\\INV_MISC_RUNE_08")
 	bu:RegisterForClicks("AnyUp")
 	bu:SetScript("OnClick", function(_, btn)
 		if not IsReagentBankUnlocked() then
@@ -164,7 +163,7 @@ function module:CreateDepositButton()
 end
 
 function module:CreateBagToggle()
-	local bu = B.CreateButton(self, 24, 24, true, "Interface\\Buttons\\Button-Backpack-Up")
+	local bu = B.CreateButton(self, 24, 24, true, "Interface\\Icons\\INV_Misc_Bag_08")
 	bu:SetScript("OnClick", function()
 		B.TogglePanel(self.BagBar)
 		if self.BagBar:IsShown() then

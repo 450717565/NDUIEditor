@@ -174,6 +174,7 @@ function UF.UpdateColor(element, unit)
 	local insecureColor = NDuiDB["Nameplate"]["InsecureColor"]
 	local revertThreat = NDuiDB["Nameplate"]["DPSRevertThreat"]
 	local offTankColor = NDuiDB["Nameplate"]["OffTankColor"]
+	local tankMode = NDuiDB["Nameplate"]["TankMode"]
 	local r, g, b
 
 	if not UnitIsConnected(unit) then
@@ -193,7 +194,7 @@ function UF.UpdateColor(element, unit)
 			r, g, b = .6, .6, .6
 		else
 			r, g, b = UnitSelectionColor(unit, true)
-			if status and (NDuiDB["Nameplate"]["TankMode"] or DB.Role == "Tank") then
+			if status and (tankMode or DB.Role == "Tank") then
 				if status == 3 then
 					if DB.Role ~= "Tank" and revertThreat then
 						r, g, b = insecureColor.r, insecureColor.g, insecureColor.b
@@ -221,7 +222,7 @@ function UF.UpdateColor(element, unit)
 		element:SetStatusBarColor(r, g, b)
 	end
 
-	if isCustomUnit or (not NDuiDB["Nameplate"]["TankMode"] and DB.Role ~= "Tank") then
+	if isCustomUnit or (not tankMode and DB.Role ~= "Tank") then
 		if status and status == 3 then
 			self.ThreatIndicator:SetBackdropBorderColor(1, 0, 0)
 			self.ThreatIndicator:Show()

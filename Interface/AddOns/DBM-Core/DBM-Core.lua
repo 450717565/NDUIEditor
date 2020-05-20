@@ -69,7 +69,7 @@ local function showRealDate(curseDate)
 end
 
 DBM = {
-	Revision = parseCurseDate("20200518170054"),
+	Revision = parseCurseDate("20200520002006"),
 	DisplayVersion = "8.3.22 alpha", -- the string that is shown as version
 	ReleaseRevision = releaseDate(2020, 5, 1) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
@@ -1198,8 +1198,8 @@ do
 	local disabledMods = {}
 
 	local function infniteLoopNotice(self, message)
-		AddMsg(message)
-		self:Schedule(15, infniteLoopNotice, self, message)
+		AddMsg(self, message)
+		self:Schedule(30, infniteLoopNotice, self, message)
 	end
 
 	local function runDelayedFunctions(self)
@@ -11525,7 +11525,7 @@ end
 
 function bossModPrototype:SetRevision(revision)
 	revision = parseCurseDate(revision or "")
-	if not revision or revision == "20200518170054" then
+	if not revision or revision == "20200520002006" then
 		-- bad revision: either forgot the svn keyword or using github
 		revision = DBM.Revision
 	end

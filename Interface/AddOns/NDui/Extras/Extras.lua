@@ -59,7 +59,7 @@ end
 function Extras.UpdateAutoCollapse(event)
 	if event == "ENCOUNTER_START" then
 		ObjectiveTracker_Collapse()
-	elseif event == "PLAYER_REGEN_ENABLED" then
+	elseif event == "ENCOUNTER_END" then
 		ObjectiveTracker_Expand()
 	end
 end
@@ -67,10 +67,10 @@ end
 function Extras:AutoCollapse()
 	if NDuiDB["Extras"]["AutoCollapse"] then
 		B:RegisterEvent("ENCOUNTER_START", self.UpdateAutoCollapse)
-		B:RegisterEvent("PLAYER_REGEN_ENABLED", self.UpdateAutoCollapse)
+		B:RegisterEvent("ENCOUNTER_END", self.UpdateAutoCollapse)
 	else
 		B:UnregisterEvent("ENCOUNTER_START", self.UpdateAutoCollapse)
-		B:UnregisterEvent("PLAYER_REGEN_ENABLED", self.UpdateAutoCollapse)
+		B:UnregisterEvent("ENCOUNTER_END", self.UpdateAutoCollapse)
 	end
 end
 

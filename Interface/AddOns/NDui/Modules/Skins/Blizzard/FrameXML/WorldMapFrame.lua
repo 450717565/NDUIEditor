@@ -1,6 +1,8 @@
 local B, C, L, DB = unpack(select(2, ...))
 
 tinsert(C.defaultThemes, function()
+	B.ReskinNavBar(WorldMapFrame.NavBar)
+
 	local overlayFrames = WorldMapFrame.overlayFrames
 	B.ReskinDropDown(overlayFrames[1])
 	overlayFrames[2]:DisableDrawLayer("BACKGROUND")

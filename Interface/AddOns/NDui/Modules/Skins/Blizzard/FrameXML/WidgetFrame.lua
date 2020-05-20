@@ -17,15 +17,13 @@ tinsert(C.defaultThemes, function()
 		end
 	end
 
-	local doubleBarType = _G.Enum.UIWidgetVisualizationType.DoubleStatusBar
+	local DoubleStatusBar = _G.Enum.UIWidgetVisualizationType.DoubleStatusBar
 	local function reskinWidgetFrames()
 		for _, widgetFrame in pairs(_G.UIWidgetTopCenterContainerFrame.widgetFrames) do
-			if widgetFrame.widgetType == doubleBarType then
+			if widgetFrame.widgetType == DoubleStatusBar then
 				for _, bar in pairs({widgetFrame.LeftBar, widgetFrame.RightBar}) do
 					if not bar.styled then
-						B.StripTextures(bar, 0)
-						--B.CleanTextures(bar)
-
+						B.CleanTextures(bar)
 						B.CreateBDFrame(bar, 0)
 						hooksecurefunc(bar, "SetStatusBarAtlas", updateBarTexture)
 
@@ -41,7 +39,7 @@ tinsert(C.defaultThemes, function()
 
 	hooksecurefunc(_G.UIWidgetTemplateCaptureBarMixin, "Setup", function(widgetInfo)
 		B.StripTextures(bar, 0)
-		--B.CleanTextures(bar)
+		B.CleanTextures(bar)
 
 		widgetInfo.LeftBar:SetTexture(DB.normTex)
 		widgetInfo.NeutralBar:SetTexture(DB.normTex)
@@ -64,9 +62,7 @@ tinsert(C.defaultThemes, function()
 		updateBarTexture(bar, atlas)
 
 		if not bar.styled then
-			B.StripTextures(bar, 0)
-			--B.CleanTextures(bar)
-
+			B.CleanTextures(bar)
 			B.CreateBDFrame(bar, 0)
 
 			bar.styled = true
@@ -75,5 +71,19 @@ tinsert(C.defaultThemes, function()
 
 	hooksecurefunc(_G.UIWidgetTemplateScenarioHeaderCurrenciesAndBackgroundMixin, "Setup", function(widgetInfo)
 		widgetInfo.Frame:SetAlpha(0)
+	end)
+
+	hooksecurefunc(_G.UIWidgetTemplateDoubleStatusBarMixin, "Setup", function(self)
+		local LeftBar = self.LeftBar
+		LeftBar.Icon:ClearAllPoints()
+		LeftBar.Icon:SetPoint("RIGHT", LeftBar, "LEFT", 0, 0)
+		LeftBar.IconGlow:ClearAllPoints()
+		LeftBar.IconGlow:SetPoint("RIGHT", LeftBar, "LEFT", 0, 0)
+
+		local RightBar = self.RightBar
+		RightBar.Icon:ClearAllPoints()
+		RightBar.Icon:SetPoint("LEFT", RightBar, "RIGHT", 0, 0)
+		RightBar.IconGlow:ClearAllPoints()
+		RightBar.IconGlow:SetPoint("LEFT", RightBar, "RIGHT", 0, 0)
 	end)
 end)

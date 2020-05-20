@@ -412,7 +412,6 @@ do
 
 	local blizzTextures = {
 		"ArtOverlayFrame",
-		"BG",
 		"bgLeft",
 		"bgRight",
 		"border",
@@ -475,9 +474,14 @@ do
 		"Background",
 		"BG",
 		"Bg",
+		"BGCenter",
+		"BGLeft",
+		"BGRight",
 		"BorderBottom",
 		"BorderBottomLeft",
 		"BorderBottomRight",
+		"BorderCenter",
+		"BorderGlow",
 		"BorderLeft",
 		"BorderRight",
 		"BorderTop",

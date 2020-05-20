@@ -1,4 +1,4 @@
-﻿## Interface: 80205
+## Interface: 80300
 ## Title: TransmogWishList
 ## Notes: A lightweight wish list for transmog appearances.
 ## Author: LanceDH

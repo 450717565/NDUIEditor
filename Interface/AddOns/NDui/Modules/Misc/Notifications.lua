@@ -441,8 +441,11 @@ function M:NVision_Create()
 
 	local frame = CreateFrame("Frame", nil, UIParent)
 	frame:SetSize(24, 24)
-	frame:SetPoint("BOTTOM", PlayerPowerBarAlt, "TOP")
 	frame.bars = {}
+
+	local mover = B.Mover(frame, L["NzothVision"], "NzothVision", {"BOTTOM", PlayerPowerBarAlt, "TOP"}, 216, 24)
+	frame:ClearAllPoints()
+	frame:SetPoint("CENTER", mover)
 
 	local barData = {
 		[1] = {
