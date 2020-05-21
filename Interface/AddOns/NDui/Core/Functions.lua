@@ -151,25 +151,6 @@ do
 		end
 		return r, g, b
 	end
-
-	-- Color Text
-	function B.ColorText(p, fullRed, val)
-		local v = p / 100
-		local r, g, b
-		local per = format("%.1f%%", p)
-
-		if fullRed then
-			r, g, b = v, 1 - v, 0
-		else
-			r, g, b = 1 - v, v, 0
-		end
-
-		if val then
-			return B.HexRGB(r, g, b, val)
-		else
-			return B.HexRGB(r, g, b, per)
-		end
-	end
 end
 
 -- Itemlevel
@@ -474,9 +455,11 @@ do
 		"Background",
 		"BG",
 		"Bg",
+		"BGBottom",
 		"BGCenter",
 		"BGLeft",
 		"BGRight",
+		"BGTop",
 		"BorderBottom",
 		"BorderBottomLeft",
 		"BorderBottomRight",

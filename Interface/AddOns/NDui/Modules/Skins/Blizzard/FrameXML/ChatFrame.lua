@@ -17,6 +17,10 @@ tinsert(C.defaultThemes, function()
 	ChatFrameMenuButton:SetNormalTexture(homeTex)
 	ChatFrameMenuButton:SetPushedTexture(homeTex)
 
+	B.ReskinArrow(GeneralDockManagerOverflowButton, "down")
+	GeneralDockManagerOverflowButton:ClearAllPoints()
+	GeneralDockManagerOverflowButton:SetPoint("BOTTOM", ChatFrameMenuButton, "TOP", 0, 3)
+
 	local function reskinScroll(self)
 		local thumb = _G[self:GetName().."ThumbTexture"]
 		thumb:SetAlpha(0)

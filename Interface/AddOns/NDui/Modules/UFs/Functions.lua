@@ -14,6 +14,24 @@ oUF.colors.power.HOLY_POWER = {.88, .88, .06}
 oUF.colors.power.CHI = {0, 1, .59}
 oUF.colors.power.ARCANE_CHARGES = {.41, .8, .94}
 
+-- Color Text
+function B.ColorText(p, fullRed, val)
+	local v = p / 100
+	local per = format("%.1f%%", p)
+	local usageColor = {1, 0, 0, 1, 1, 0, 0, 1, 0}
+
+	if fullRed then
+		usageColor = {0, 1, 0, 1, 1, 0, 1, 0, 0}
+	end
+
+	local r, g, b = oUF:RGBColorGradient(v, 1, unpack(usageColor))
+	if val then
+		return B.HexRGB(r, g, b, val)
+	else
+		return B.HexRGB(r, g, b, per)
+	end
+end
+
 -- Various values
 local function retVal(self, val1, val2, val3, val4, val5)
 	local mystyle = self.mystyle
@@ -975,7 +993,7 @@ end
 function UF.PostUpdateAltPower(element, _, cur, _, max)
 	if cur and max then
 		local v = tonumber(format("%.1f", cur/max))
-		local r, g, b = v, 1 - v, 0
+		local r, g, b = oUF:RGBColorGradient(v, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0)
 
 		element:SetStatusBarColor(r, g, b)
 	end

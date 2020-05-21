@@ -1,7 +1,18 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
+local oUF = ns.oUF
 local module = B:RegisterModule("Infobar")
 local tinsert, pairs, unpack = table.insert, pairs, unpack
+
+function module:SmoothColor(cur, max, fullRed)
+	local usageColor = {1, 0, 0, 1, 1, 0, 0, 1, 0}
+	if fullRed then
+		usageColor = {0, 1, 0, 1, 1, 0, 1, 0, 0}
+	end
+
+	local r, g, b = oUF:RGBColorGradient(cur, max, unpack(usageColor))
+	return r, g, b
+end
 
 function module:GetMoneyString(money, formatted)
 	if money > 0 then
@@ -106,13 +117,14 @@ function module:OnLogin()
 		self:LoadInfobar(info)
 	end
 
+	self:BackgroundLines()
 	self.loginTime = GetTime()
 
 	if not C.Infobar.AutoAnchor then return end
 	for index, info in pairs(self.modules) do
-		if index == 1 or index == 5 then
+		if index == 1 or index == 6 then
 			info.text:SetPoint(unpack(info.point))
-		elseif index < 5 then
+		elseif index < 6 then
 			info.text:SetPoint("LEFT", self.modules[index-1], "RIGHT", 30, 0)
 			info.text:SetJustifyH("LEFT")
 		else
@@ -120,6 +132,4 @@ function module:OnLogin()
 			info.text:SetJustifyH("RIGHT")
 		end
 	end
-
-	self:BackgroundLines()
 end

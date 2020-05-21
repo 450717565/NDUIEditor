@@ -366,7 +366,6 @@ local accountSettings = {
 	CornerBuffs = {},
 	KeystoneInfo = {},
 	AutoBubbles = false,
-	SystemInfoType = 3,
 	DisableInfobars = false,
 	PartyWatcherSpells = {},
 	ContactList = {},

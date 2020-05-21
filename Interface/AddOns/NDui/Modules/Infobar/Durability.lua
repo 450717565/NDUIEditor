@@ -127,7 +127,7 @@ info.onEnter = function(self)
 		if localSlots[i][3] ~= 1000 then
 			local slot = localSlots[i][1]
 			local v = localSlots[i][3] / 100
-			local r, g, b = 1 - v, v, 0
+			local r, g, b = module:SmoothColor(v, 1)
 			local slotIcon = "|T"..GetInventoryItemTexture("player", slot)..":13:15:0:0:50:50:4:46:4:46|t " or ""
 			GameTooltip:AddDoubleLine(slotIcon..localSlots[i][2], format("%.1f%%", localSlots[i][3]), 1,1,1, r,g,b)
 

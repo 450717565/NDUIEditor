@@ -20,13 +20,6 @@ function module:UpdateChannelNames(text, ...)
 		r, g, b = r*.7, g*.7, b*.7
 	end
 
-	-- Dev logo
-	local myName = DB.MyName.."-"..DB.MyRealm
-	local unitName = strmatch(text, "|Hplayer:([^|:]+)")
-	if unitName and unitName == myName then
-		text = gsub(text, "(|Hplayer.+)", "|T"..DB.chatLogo..":12:24:0:-2|t%1")
-	end
-
 	-- Timestamp
 	if NDuiADB["TimestampFormat"] > 1 then
 		local currentTime = time()
