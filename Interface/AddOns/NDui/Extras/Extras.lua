@@ -143,36 +143,6 @@ do
 	LFDParentFrame:HookScript("OnShow", autoSelect)
 end
 
--- 修复腐蚀购买显示问题(雨夜独行客)
-do
-	local titleString = "保存完好的污染物："
-	local function replaceText(title)
-		local text = title and title:GetText()
-		if text and strmatch(text, titleString) then
-			text = gsub(text, titleString, "")
-			title:SetText(text)
-		end
-	end
-
-	local function Hook_UpdateMerchantInfo()
-		local numItems = GetMerchantNumItems()
-		for i = 1, MERCHANT_ITEMS_PER_PAGE do
-			local index = (MerchantFrame.page - 1) * MERCHANT_ITEMS_PER_PAGE + i
-			if index > numItems then return end
-
-			local name = _G["MerchantItem"..i.."Name"]
-			replaceText(name)
-		end
-	end
-	hooksecurefunc("MerchantFrame_UpdateMerchantInfo", Hook_UpdateMerchantInfo)
-
-	local function Hook_OnTooltipSetItem(self)
-		local line = _G[self:GetName().."TextLeft1"]
-		replaceText(line)
-	end
-	GameTooltip:HookScript("OnTooltipSetItem", Hook_OnTooltipSetItem)
-end
-
 -- 修复金币文本显示问题
 do
 	local function resizeMoneyText(frameName, money, forceShow)

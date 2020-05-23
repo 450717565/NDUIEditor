@@ -135,15 +135,16 @@ oUF.Tags.Methods["raidhp"] = function(unit)
 	local cur = UnitHealth(unit)
 	local loss = UnitHealthMax(unit) - UnitHealth(unit)
 	local per = oUF.Tags.Methods["perhp"](unit)
+	local raidHPMode = NDuiDB["UFs"]["RaidHPMode"]
 
 	if UnitIsDeadOrGhost(unit) or not UnitIsConnected(unit) then
 		return oUF.Tags.Methods["state"](unit)
-	elseif per < 100 then
-		if NDuiDB["UFs"]["RaidHPMode"] == 2 then
+	elseif per < 100 and raidHPMode > 1 then
+		if raidHPMode == 2 then
 			return B.ColorText(per)
-		elseif NDuiDB["UFs"]["RaidHPMode"] == 3 then
+		elseif raidHPMode == 3 then
 			return B.ColorText(per, false, B.FormatNumb(cur))
-		elseif NDuiDB["UFs"]["RaidHPMode"] == 4 then
+		elseif raidHPMode == 4 then
 			return B.ColorText(per, false, B.FormatNumb(loss))
 		end
 	end

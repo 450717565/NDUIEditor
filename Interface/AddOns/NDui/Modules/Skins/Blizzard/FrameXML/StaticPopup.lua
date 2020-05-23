@@ -42,7 +42,6 @@ tinsert(C.defaultThemes, function()
 
 	hooksecurefunc("StaticPopup_Show", function(which, _, _, data)
 		local info = StaticPopupDialogs[which]
-
 		if not info then return end
 
 		local dialog = nil
