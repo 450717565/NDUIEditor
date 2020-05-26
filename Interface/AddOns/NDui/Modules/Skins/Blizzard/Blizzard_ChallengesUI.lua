@@ -77,8 +77,8 @@ C.themes["Blizzard_ChallengesUI"] = function()
 
 	local Affix = noticeFrame.Affix
 	B.StripTextures(Affix)
-	local bg = B.ReskinIcon(Affix.Portrait)
-	bg:SetFrameLevel(3)
+	local icbg = B.ReskinIcon(Affix.Portrait)
+	icbg:SetFrameLevel(3)
 
 	hooksecurefunc(Affix, "SetUp", function(_, affixID)
 		local _, _, texture = C_ChallengeMode.GetAffixInfo(affixID)

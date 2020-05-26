@@ -1009,6 +1009,8 @@ L["STRING_MINITUTORIAL_OPTIONS_PANEL6"] = "Selezionare qui che finestra che si d
 --[[Translation missing --]]
 --[[ L["STRING_OPTIONS_COMBAT_ALPHA_7"] = ""--]] 
 --[[Translation missing --]]
+--[[ L["STRING_OPTIONS_COMBAT_ALPHA_8"] = ""--]] 
+--[[Translation missing --]]
 --[[ L["STRING_OPTIONS_COMBAT_ALPHA_DESC"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["STRING_OPTIONS_COMBATTWEEKS"] = ""--]] 

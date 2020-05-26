@@ -2,7 +2,6 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local module = B:RegisterModule("Settings")
 local pairs, wipe = pairs, table.wipe
-local min, max = math.min, math.max
 local cr, cg, cb = DB.r, DB.g, DB.b
 
 -- Addon Info
@@ -57,6 +56,7 @@ local function ForceDefaultSettings()
 end
 
 local function ForceRaidFrame()
+	if InCombatLockdown() then return end
 	if not CompactUnitFrameProfiles then return end
 	SetRaidProfileOption(CompactUnitFrameProfiles.selectedProfile, "useClassColors", true)
 	SetRaidProfileOption(CompactUnitFrameProfiles.selectedProfile, "displayPowerBar", true)
@@ -91,9 +91,7 @@ local function ForceDBMOptions()
 	if not IsAddOnLoaded("DBM-Core") then return end
 
 	if DBM_MinimapIcon then wipe(DBM_MinimapIcon) end
-	DBM_MinimapIcon = {
-		["hide"] = true,
-	}
+	DBM_MinimapIcon = {["hide"] = true}
 
 	if DBT_AllPersistentOptions then wipe(DBT_AllPersistentOptions) end
 	DBT_AllPersistentOptions = {

@@ -143,9 +143,15 @@ function M:ExpBar_UpdateTooltip()
 			end
 			standingtext = GetText("FACTION_STANDING_LABEL"..standing, UnitSex("player"))
 		end
+
+		local curValue, maxValue = value - barMin, barMax - barMin
 		GameTooltip:AddLine(" ")
-		GameTooltip:AddLine(name, 0,.6,1)
-		GameTooltip:AddDoubleLine(standingtext, value - barMin.." / "..barMax - barMin..format(" (%.1f%%)", (value - barMin)/(barMax - barMin)*100), .6,.8,1, 1,1,1)
+		if curValue < 0 then
+			GameTooltip:AddDoubleLine(name, standingtext, 0,.6,1, .6,.8,1)
+		else
+			GameTooltip:AddLine(name, 0,.6,1)
+			GameTooltip:AddDoubleLine(standingtext, curValue.." / "..maxValue..format(" (%.1f%%)", curValue/maxValue*100), .6,.8,1, 1,1,1)
+		end
 
 		if C_Reputation_IsFactionParagon(factionID) then
 			local currentValue, threshold = C_Reputation_GetFactionParagonInfo(factionID)

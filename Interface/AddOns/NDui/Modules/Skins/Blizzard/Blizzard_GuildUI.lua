@@ -131,11 +131,11 @@ C.themes["Blizzard_GuildUI"] = function()
 		for i = 1, numbuttons do
 			local button = GuildRosterContainer.buttons[i]
 
-			if not button.bg then
+			if not button.icbg then
 				button:SetHighlightTexture(DB.bdTex)
 				button:GetHighlightTexture():SetVertexColor(cr, cg, cb, .25)
 
-				button.bg = B.ReskinIcon(button.icon)
+				button.icbg = B.ReskinIcon(button.icon)
 			end
 
 			index = offset + i
@@ -143,9 +143,9 @@ C.themes["Blizzard_GuildUI"] = function()
 			if name and index <= visibleMembers and button.icon:IsShown() then
 				local tcoords = CLASS_ICON_TCOORDS[classFileName]
 				button.icon:SetTexCoord(tcoords[1] + 0.022, tcoords[2] - 0.025, tcoords[3] + 0.022, tcoords[4] - 0.025)
-				button.bg:Show()
+				button.icbg:Show()
 			else
-				button.bg:Hide()
+				button.icbg:Hide()
 			end
 		end
 	end

@@ -4,8 +4,8 @@ local S = B:GetModule("Skins")
 function S:ls_Toasts()
 	if not IsAddOnLoaded("ls_Toasts") then return end
 
-	local E = unpack(ls_Toasts)
-	E:RegisterSkin("ndui", {
+	local LE, LC, LL = unpack(ls_Toasts)
+	LE:RegisterSkin("ndui", {
 		name = "NDui",
 		border = {
 			offset = 0,
@@ -57,4 +57,7 @@ function S:ls_Toasts()
 			texture = {1, 1, 1, 1},
 		},
 	})
+
+	LC.db.profile.skin = "ndui"
+	LC.options.args.general.args.skin.disabled = true
 end

@@ -61,7 +61,7 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 					local cell = row.cells and row.cells[j]
 					if cell and cell.Icon then
 						if not cell.styled then
-							cell.Icon.bg = B.ReskinIcon(cell.Icon)
+							cell.Icon.icbg = B.ReskinIcon(cell.Icon)
 							if cell.IconBorder then
 								cell.IconBorder:SetAlpha(0)
 								cell.IconBorder:Hide()
@@ -70,7 +70,7 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 							cell.styled = true
 						end
 
-						cell.Icon.bg:SetShown(cell.Icon:IsShown())
+						cell.Icon.icbg:SetShown(cell.Icon:IsShown())
 					end
 				end
 			end
@@ -83,7 +83,7 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 			if child and child.Icon then
 				if not child.styled then
 					child.HighlightTexture:SetColorTexture(1, 1, 1, .25)
-					child.Icon.bg = B.ReskinIcon(child.Icon)
+					child.Icon.icbg = B.ReskinIcon(child.Icon)
 					if child.IconBorder then
 						child.IconBorder:SetAlpha(0)
 						child.IconBorder:Hide()
@@ -91,7 +91,7 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 
 					child.styled = true
 				end
-				child.Icon.bg:SetShown(child.Icon:IsShown())
+				child.Icon.icbg:SetShown(child.Icon:IsShown())
 			end
 		end
 	end

@@ -87,7 +87,7 @@ tinsert(C.defaultThemes, function()
 				lootItem.SpecRing:SetTexture("")
 				lootItem.SpecIcon:SetDrawLayer("ARTWORK")
 				lootItem.SpecIcon:SetPoint("TOPLEFT", lootItem.Icon, -5, 5)
-				lootItem.SpecIcon.bg = B.ReskinIcon(lootItem.SpecIcon)
+				lootItem.SpecIcon.icbg = B.ReskinIcon(lootItem.SpecIcon)
 
 				B.ReskinIcon(lootItem.Icon)
 			end
@@ -97,7 +97,7 @@ tinsert(C.defaultThemes, function()
 			frame.PvPBackground:SetTexture("")
 			frame.BGAtlas:SetTexture("")
 			lootItem.IconBorder:SetTexture("")
-			lootItem.SpecIcon.bg:SetShown(lootItem.SpecIcon:IsShown() and lootItem.SpecIcon:GetTexture() ~= nil)
+			lootItem.SpecIcon.icbg:SetShown(lootItem.SpecIcon:IsShown() and lootItem.SpecIcon:GetTexture() ~= nil)
 		elseif frame.queue == LootUpgradeAlertSystem then
 			if not frame.bg then
 				frame.bg = B.CreateBG(frame, 10, -13, -12, 11)
@@ -290,11 +290,12 @@ tinsert(C.defaultThemes, function()
 		if frame.RewardFrames then
 			for i = 1, frame.numUsedRewardFrames do
 				local reward = frame.RewardFrames[i]
-				if not reward.bg then
+				if not reward.styled then
 					select(2, reward:GetRegions()):SetTexture("")
 					reward.texture:SetInside(nil, 6, 6)
+					B.ReskinIcon(reward.texture)
 
-					reward.bg = B.ReskinIcon(reward.texture)
+					reward.styled = true
 				end
 			end
 		end
@@ -311,8 +312,8 @@ tinsert(C.defaultThemes, function()
 			lootItem.SpecRing:SetTexture("")
 			lootItem.SpecIcon:SetDrawLayer("ARTWORK")
 			lootItem.SpecIcon:SetPoint("TOPLEFT", lootItem.Icon, -5, 5)
-			lootItem.SpecIcon.bg = B.ReskinIcon(lootItem.SpecIcon)
-			lootItem.SpecIcon.bg:SetShown(lootItem.SpecIcon:IsShown() and lootItem.SpecIcon:GetTexture() ~= nil)
+			lootItem.SpecIcon.icbg = B.ReskinIcon(lootItem.SpecIcon)
+			lootItem.SpecIcon.icbg:SetShown(lootItem.SpecIcon:IsShown() and lootItem.SpecIcon:GetTexture() ~= nil)
 
 			B.ReskinIcon(lootItem.Icon)
 		end

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2156, "DBM-Party-BfA", 4, 1001)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200517140833")
+mod:SetRevision("20200524143937")
 mod:SetCreatureID(134069)
 mod:SetEncounterID(2133)
 mod:SetZone()
@@ -23,7 +23,7 @@ local specWarnGrasp					= mod:NewSpecialWarningSpell(267360, nil, nil, nil, 2, 2
 --local specWarnGTFO				= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 8)
 
 local timerYawningGateCD			= mod:NewCDTimer(21, 269399, nil, nil, nil, 3)
-local timerCalltheAbyssCD			= mod:NewNextTimer(90, 267299, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON)
+local timerCalltheAbyssCD			= mod:NewNextTimer(90, 267299, nil, nil, nil, 5, nil, DBM_CORE_L.TANK_ICON)
 local timerGraspCD					= mod:NewNextTimer(50, 267360, nil, nil, nil, 6, nil, nil, nil, 1, 4)
 
 

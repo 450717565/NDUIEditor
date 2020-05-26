@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2126, "DBM-Party-BfA", 10, 1001)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200517140833")
+mod:SetRevision("20200524143937")
 mod:SetCreatureID(260551)
 mod:SetEncounterID(2114)
 mod:SetZone()
@@ -24,8 +24,8 @@ local specWarnSoulHarvest			= mod:NewSpecialWarningMoveTo(260512, "Tank", nil, n
 --local specWarnGTFO				= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 8)
 
 --Timers subject to delays if boss gets stunned by fire
-local timerCrushCD					= mod:NewCDTimer(15, 260508, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--15 after last cast FINISHES
-local timerThornsCD					= mod:NewCDTimer(21.8, 267907, nil, nil, nil, 3, nil, DBM_CORE_DAMAGE_ICON)
+local timerCrushCD					= mod:NewCDTimer(15, 260508, nil, "Tank", nil, 5, nil, DBM_CORE_L.TANK_ICON)--15 after last cast FINISHES
+local timerThornsCD					= mod:NewCDTimer(21.8, 267907, nil, nil, nil, 3, nil, DBM_CORE_L.DAMAGE_ICON)
 
 mod.vb.crushCount = 0
 

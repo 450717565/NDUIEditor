@@ -95,7 +95,8 @@ local defaultSettings = {
 		AutoRes = true,
 		NumGroups = 8,
 		SimpleMode = false,
-		SimpleModeSortByRole = true,
+		SMSortByRole = true,
+		SMUnitsPerColumn = 20,
 		InstanceAuras = true,
 		RaidDebuffScale = 1,
 		SpecRaidPos = false,
@@ -721,7 +722,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "UFs", "RaidClickSets", DB.MyColor..L["Enable ClickSets"], nil, setupClickCast},
 		{1, "UFs", "InstanceAuras", DB.MyColor..L["Instance Auras"], nil, setupRaidDebuffs},
 		{3, "UFs", "RaidDebuffScale", L["RaidDebuffScale"].."*", true, {.5, 1.5, 2}, refreshRaidFrameIcons},
-		{1, "UFs", "AurasClickThrough", L["RaidAuras ClickThrough"]},
+		{1, "UFs", "AurasClickThrough", L["RaidAuras ClickThrough"], nil, nil, nil, L["ClickThroughTip"]},
 		{1, "UFs", "AutoRes", L["UFs AutoRes"], true},
 		{},--blank
 		{1, "UFs", "ShowTeamIndex", L["RaidFrame TeamIndex"]},
@@ -734,7 +735,8 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{3, "UFs", "RaidTextScale", L["UFTextScale"], true, {.5, 1.5, 2}, updateRaidTextScale},
 		{},--blank
 		{1, "UFs", "SimpleMode", DB.MyColor..L["Simple RaidFrame"]},
-		{1, "UFs", "SimpleModeSortByRole", L["SimpleMode SortByRole"], true},
+		{1, "UFs", "SMSortByRole", L["SimpleMode SortByRole"]},
+		{3, "UFs", "SMUnitsPerColumn", L["SimpleMode Column"], true, {5, 40, 0}},
 	},
 	[5] = {
 		{1, "Nameplate", "Enable", DB.MyColor..L["Enable Nameplate"], nil, setupNameplateFilter},
@@ -778,7 +780,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "AuraWatch", "Enable", DB.MyColor..L["Enable AuraWatch"], nil, setupAuraWatch},
 		{1, "AuraWatch", "DeprecatedAuras", L["DeprecatedAuras"], true},
 		{1, "AuraWatch", "QuakeRing", L["QuakeRing"].."*"},
-		{1, "AuraWatch", "ClickThrough", L["AuraWatch ClickThrough"]},
+		{1, "AuraWatch", "ClickThrough", L["AuraWatch ClickThrough"], nil, nil, nil, L["ClickThroughTip"]},
 		{3, "AuraWatch", "IconScale", L["AuraWatch IconScale"], true, {.5, 1.5, 2}},
 		{},--blank
 		{1, "Nameplate", "ShowPlayerPlate", DB.MyColor..L["Enable PlayerPlate"]},

@@ -45,9 +45,9 @@ function M:CreateItemTexture(slot, relF, relT, x, y)
 	local icon = slot:CreateTexture()
 	icon:SetPoint(relF, slot, relT, x, y)
 	icon:SetSize(14, 14)
-	icon.bg = B.ReskinIcon(icon)
-	icon.bg:SetFrameLevel(3)
-	icon.bg:Hide()
+	icon.icbg = B.ReskinIcon(icon)
+	icon.icbg:SetFrameLevel(3)
+	icon.icbg:Hide()
 
 	return icon
 end
@@ -121,7 +121,7 @@ function M:ItemLevel_UpdateTraits(button, id, link)
 				local texture = button["textureIcon"..i]
 				if name and texture then
 					texture:SetTexture(icon)
-					texture.bg:Show()
+					texture.icbg:Show()
 				end
 			end
 		end
@@ -150,7 +150,7 @@ function M:ItemLevel_UpdateInfo(slotFrame, info, quality)
 		local gemStep, essenceStep = 1, 1
 		for i = 1, 10 do
 			local texture = slotFrame["textureIcon"..i]
-			local bg = texture.bg
+			local bg = texture.icbg
 			local gem = info.gems and info.gems[gemStep]
 			local essence = not gem and (info.essences and info.essences[essenceStep])
 			if gem then
@@ -201,7 +201,7 @@ function M:ItemLevel_SetupLevel(frame, strType, unit)
 			for i = 1, 10 do
 				local texture = slotFrame["textureIcon"..i]
 				texture:SetTexture(nil)
-				texture.bg:Hide()
+				texture.icbg:Hide()
 			end
 
 			local link = GetInventoryItemLink(unit, index)

@@ -25,19 +25,19 @@ tinsert(C.defaultThemes, function()
 
 		local hl = self:GetHighlightTexture()
 		hl:SetColorTexture(1, 1, 1, .25)
-		hl:SetInside(self.bg)
+		hl:SetInside(self.icbg)
 	end
 
 	local function UpdateAzeriteEmpoweredItem(self)
 		self.AzeriteTexture:SetAtlas("AzeriteIconFrame")
 		self.AzeriteTexture:SetDrawLayer("BORDER", 1)
-		self.AzeriteTexture:SetInside(self.bg)
+		self.AzeriteTexture:SetInside(self.icbg)
 	end
 
 	local function UpdateCorruption(self)
 		local itemLink = GetInventoryItemLink("player", self:GetID())
 		self.IconOverlay:SetShown(itemLink and IsCorruptedItem(itemLink))
-		self.IconOverlay:SetInside(self.bg)
+		self.IconOverlay:SetInside(self.icbg)
 	end
 
 	for i = 1, #slots do
@@ -74,7 +74,7 @@ tinsert(C.defaultThemes, function()
 			bgTex:SetPoint("LEFT", slot, "RIGHT", -1, 0)
 		end
 
-		slot.bg = icbg
+		slot.icbg = icbg
 		popout.bgTex = bgTex
 
 		B.Hook_OnEnter(popout)
@@ -87,7 +87,7 @@ tinsert(C.defaultThemes, function()
 	hooksecurefunc("PaperDollItemSlotButton_Update", function(button)
 		button.icon:SetShown(GetInventoryItemTexture("player", button:GetID()) ~= nil)
 		UpdateCorruption(button)
-		B.ReskinHighlight(button, button.bg)
+		B.ReskinHighlight(button, button.icbg)
 	end)
 
 	-- [[ Stats pane ]]

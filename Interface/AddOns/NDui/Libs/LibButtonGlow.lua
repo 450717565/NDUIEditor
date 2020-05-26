@@ -117,8 +117,7 @@ local function createOverlayGlow()
 
 	-- inner glow over
 	overlay.innerGlowOver = overlay:CreateTexture(name.."InnerGlowOver", "ARTWORK")
-	overlay.innerGlowOver:SetPoint("TOPLEFT", overlay.innerGlow, "TOPLEFT")
-	overlay.innerGlowOver:SetPoint("BOTTOMRIGHT", overlay.innerGlow, "BOTTOMRIGHT")
+	overlay.innerGlowOver:SetInside(overlay.innerGlow)
 	overlay.innerGlowOver:SetAlpha(0)
 	overlay.innerGlowOver:SetTexture(iconAlertTexture)
 	overlay.innerGlowOver:SetTexCoord(.00781250, .50781250, .53515625, .78515625)
@@ -132,8 +131,7 @@ local function createOverlayGlow()
 
 	-- outer glow over
 	overlay.outerGlowOver = overlay:CreateTexture(name.."OuterGlowOver", "ARTWORK")
-	overlay.outerGlowOver:SetPoint("TOPLEFT", overlay.outerGlow, "TOPLEFT")
-	overlay.outerGlowOver:SetPoint("BOTTOMRIGHT", overlay.outerGlow, "BOTTOMRIGHT")
+	overlay.outerGlowOver:SetOutside(overlay.outerGlow)
 	overlay.outerGlowOver:SetAlpha(0)
 	overlay.outerGlowOver:SetTexture(iconAlertTexture)
 	overlay.outerGlowOver:SetTexCoord(.00781250, .50781250, .53515625, .78515625)
@@ -192,8 +190,7 @@ function B:ShowOverlayGlow()
 		overlay:ClearAllPoints()
 		--Make the height/width available before the next frame:
 		overlay:SetSize(frameWidth * 1.4, frameHeight * 1.4)
-		overlay:SetPoint("TOPLEFT", self, "TOPLEFT", -frameWidth * .2, frameHeight * .2)
-		overlay:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", frameWidth * .2, -frameHeight * .2)
+		overlay:SetOutside(nil, frameWidth * .2, frameHeight * .2)
 		overlay.animIn:Play()
 		self.__overlay = overlay
 	end

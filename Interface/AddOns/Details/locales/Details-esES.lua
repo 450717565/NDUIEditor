@@ -754,6 +754,8 @@ L["STRING_OPTIONS_COMBAT_ALPHA_4"] = "Sin grupo"
 --[[ L["STRING_OPTIONS_COMBAT_ALPHA_6"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["STRING_OPTIONS_COMBAT_ALPHA_7"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_COMBAT_ALPHA_8"] = ""--]] 
 L["STRING_OPTIONS_COMBAT_ALPHA_DESC"] = [=[Escgoer como se afecta la opacidad de la ventana por combate.
 
 |cFFFFFF00Ningún|r: La opacidad no se afecta por combate.

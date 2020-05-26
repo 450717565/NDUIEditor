@@ -23,7 +23,7 @@ tinsert(C.defaultThemes, function()
 		local ic = _G["SpellButton"..i.."IconTexture"]
 		local icbg = B.ReskinIcon(ic)
 
-		ic.bg = icbg
+		ic.icbg = icbg
 	end
 
 	hooksecurefunc("SpellButton_UpdateButton", function(self)
@@ -34,42 +34,40 @@ tinsert(C.defaultThemes, function()
 			hl:SetColorTexture(1, 1, 1, .25)
 
 			local ic = _G[frame.."IconTexture"]
-			ic.bg:SetShown(ic:IsShown())
+			ic.icbg:SetShown(ic:IsShown())
 
 			local name = _G[frame.."SpellName"]
 			name:ClearAllPoints()
-			name:SetPoint("TOPLEFT", ic.bg, "TOPRIGHT", 4, -5)
+			name:SetPoint("TOPLEFT", ic.icbg, "TOPRIGHT", 4, -5)
 
 			local subName = _G[frame.."SubSpellName"]
 			subName:SetTextColor(1, 1, 1)
 			subName:ClearAllPoints()
-			subName:SetPoint("BOTTOMLEFT", ic.bg, "BOTTOMRIGHT", 4, 5)
+			subName:SetPoint("BOTTOMLEFT", ic.icbg, "BOTTOMRIGHT", 4, 5)
 
 			local lvlName = _G[frame.."RequiredLevelString"]
 			lvlName:SetJustifyH("CENTER")
 			lvlName:SetTextColor(1, 1, 1)
 			lvlName:ClearAllPoints()
-			lvlName:SetPoint("CENTER", ic.bg, "CENTER", 1, 0)
+			lvlName:SetPoint("CENTER", ic.icbg, "CENTER", 1, 0)
 
 			local shine = self.shine
 			if shine then
-				shine:ClearAllPoints()
-				shine:SetPoint("TOPLEFT", ic.bg, 0, 0)
-				shine:SetPoint("BOTTOMRIGHT", ic.bg, 0, 0)
+				shine:SetInside(icbg)
 			end
 
 			local glyph = self.GlyphIcon
 			if glyph then
 				glyph:SetAtlas("GlyphIcon-Spellbook")
 				glyph:ClearAllPoints()
-				glyph:SetPoint("TOPRIGHT", ic.bg, 2, 2)
+				glyph:SetPoint("TOPRIGHT", ic.icbg, 2, 2)
 			end
 
 			local highlight = self.SpellHighlightTexture
 			if highlight and highlight:IsShown() then
-				ic.bg:SetBackdropBorderColor(cr, cg, cb)
+				ic.icbg:SetBackdropBorderColor(cr, cg, cb)
 			else
-				ic.bg:SetBackdropBorderColor(0, 0, 0)
+				ic.icbg:SetBackdropBorderColor(0, 0, 0)
 			end
 		end
 	end)
@@ -161,8 +159,7 @@ tinsert(C.defaultThemes, function()
 
 		local icon = _G[button.."IconTexture"]
 		if index <= 4 then
-			icon:SetPoint("TOPLEFT", 4, -4)
-			icon:SetPoint("BOTTOMRIGHT", -4, 4)
+			icon:SetInside(nil, 4, 4)
 		end
 
 		local icbg = B.ReskinIcon(icon)

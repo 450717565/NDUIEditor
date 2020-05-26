@@ -299,16 +299,16 @@ C.themes["Blizzard_Communities"] = function()
 				if avatarButton:IsShown() and not avatarButton.styled then
 					avatarButton.Selected:SetTexture("")
 
-					avatarButton.bg = B.ReskinIcon(avatarButton.Icon)
-					B.ReskinHighlight(avatarButton, avatarButton.bg)
+					avatarButton.icbg = B.ReskinIcon(avatarButton.Icon)
+					B.ReskinHighlight(avatarButton, avatarButton.icbg)
 
 					avatarButton.styled = true
 				end
 
 				if avatarButton.Selected:IsShown() then
-					avatarButton.bg:SetBackdropBorderColor(cr, cg, cb)
+					avatarButton.icbg:SetBackdropBorderColor(cr, cg, cb)
 				else
-					avatarButton.bg:SetBackdropBorderColor(0, 0, 0)
+					avatarButton.icbg:SetBackdropBorderColor(0, 0, 0)
 				end
 			end
 		end

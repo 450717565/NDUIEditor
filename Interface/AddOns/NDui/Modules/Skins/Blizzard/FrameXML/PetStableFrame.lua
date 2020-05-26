@@ -24,7 +24,7 @@ tinsert(C.defaultThemes, function()
 			local icbg = B.ReskinIcon(ic)
 			B.ReskinHighlight(bu, icbg)
 
-			bu.bg = icbg
+			bu.icbg = icbg
 		end
 	end
 
@@ -32,7 +32,7 @@ tinsert(C.defaultThemes, function()
 		reskinSlot("PetStableActivePet", i)
 
 		local bu = _G["PetStableActivePet"..i]
-		B.ReskinChecked(bu.Checked, bu.bg)
+		B.ReskinChecked(bu.Checked, bu.icbg)
 	end
 
 	for i = 1, NUM_PET_STABLE_SLOTS do

@@ -44,7 +44,7 @@ function S:Rematch()
 
 		if self.Icon then
 			self.Icon:SetAlpha(1)
-			self.Icon.bg = B.ReskinIcon(self.Icon)
+			self.Icon.icbg = B.ReskinIcon(self.Icon)
 		end
 
 		local arrow = self:GetChildren()
@@ -66,7 +66,7 @@ function S:Rematch()
 		if self.Background then self.Background:Hide() end
 
 		if self.Icon then
-			self.Icon.bg = B.ReskinIcon(self.Icon)
+			self.Icon.icbg = B.ReskinIcon(self.Icon)
 
 			local Highlight = self.GetHighlightTexture and self:GetHighlightTexture() or select(3, self:GetRegions())
 			if Highlight then
@@ -79,7 +79,7 @@ function S:Rematch()
 			if self.Level.Text then self.Level.Text:SetTextColor(1, 1, 1) end
 		end
 		if self.GetCheckedTexture then
-			B.ReskinChecked(self, self.Icon.bg, true)
+			B.ReskinChecked(self, self.Icon.icbg, true)
 		end
 
 		self.styled = true
@@ -463,7 +463,7 @@ function S:Rematch()
 				button.styled = true
 			end
 
-			button.Icon.bg:SetBackdropBorderColor(button.IconBorder:GetVertexColor())
+			button.Icon.icbg:SetBackdropBorderColor(button.IconBorder:GetVertexColor())
 		end
 	end)
 
@@ -485,12 +485,12 @@ function S:Rematch()
 	hooksecurefunc(RematchTeamTabs, "TabButtonUpdate", function(self, index)
 		local selected = self:GetSelectedTab()
 		local button = self:GetTabButton(index)
-		if not button.Icon.bg then return end
+		if not button.Icon.icbg then return end
 
 		if index == selected then
-			button.Icon.bg:SetBackdropBorderColor(1, 1, 1)
+			button.Icon.icbg:SetBackdropBorderColor(1, 1, 1)
 		else
-			button.Icon.bg:SetBackdropBorderColor(0, 0, 0)
+			button.Icon.icbg:SetBackdropBorderColor(0, 0, 0)
 		end
 	end)
 
@@ -509,7 +509,7 @@ function S:Rematch()
 
 					bu.Icon = bu.Texture
 					reskinButton(bu)
-					B.ReskinChecked(bu.Selected, bu.Icon.bg)
+					B.ReskinChecked(bu.Selected, bu.Icon.icbg)
 
 					bu.styled = true
 				end
@@ -541,7 +541,7 @@ function S:Rematch()
 					local abilities = Loadouts.Abilities[j]
 					reskinButton(abilities)
 
-					abilities.Cover:SetInside(abilities.Icon.bg)
+					abilities.Cover:SetInside(abilities.Icon.icbg)
 					abilities.Arrow:SetTexture(DB.arrowDown)
 					abilities.Arrow:SetSize(8, 8)
 					abilities.Arrow:SetTexCoord(0, 1, 0, 1)
@@ -551,7 +551,7 @@ function S:Rematch()
 					local abilities = self.Flyout.Abilities[k]
 					reskinButton(abilities)
 
-					abilities.Cover:SetInside(abilities.Icon.bg)
+					abilities.Cover:SetInside(abilities.Icon.icbg)
 				end
 
 				reskinButton(Pet)
@@ -559,8 +559,8 @@ function S:Rematch()
 				Loadouts.styled = true
 			end
 
-			if Pet.Icon.bg then
-				Pet.Icon.bg:SetBackdropBorderColor(Pet.IconBorder:GetVertexColor())
+			if Pet.Icon.icbg then
+				Pet.Icon.icbg:SetBackdropBorderColor(Pet.IconBorder:GetVertexColor())
 			end
 		end
 	end)
@@ -665,8 +665,8 @@ function S:Rematch()
 				checkButton.bg:SetPoint("BOTTOMRIGHT", 0, 2)
 			elseif self.optType == "check" then
 				checkButton:SetSize(22, 22)
-				checkButton.bg:SetPoint("TOPLEFT", checkButton, 2, -2)
-				checkButton.bg:SetPoint("BOTTOMRIGHT", checkButton, -2, 2)
+				checkButton.bg:SetInside(checkButton, 2, 2)
+
 				if self.isChecked and self.isDisabled then
 					checkButton:SetTexCoord(.25, .5, .75, 1)
 				elseif self.isChecked then
@@ -677,8 +677,8 @@ function S:Rematch()
 			elseif self.optType == "radio" then
 				local isChecked = RematchSettings[opt[2]] == opt[5]
 				checkButton:SetSize(22, 22)
-				checkButton.bg:SetPoint("TOPLEFT", checkButton, 2, -2)
-				checkButton.bg:SetPoint("BOTTOMRIGHT", checkButton, -2, 2)
+				checkButton.bg:SetInside(checkButton, 2, 2)
+
 				if isChecked then
 					checkButton:SetTexCoord(.5, .75, .25, .5)
 				else

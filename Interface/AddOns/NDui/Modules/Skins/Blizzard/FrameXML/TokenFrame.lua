@@ -14,8 +14,7 @@ tinsert(C.defaultThemes, function()
 
 		for i = 1, #buttons do
 			local bu = buttons[i]
-			bu.highlight:SetPoint("TOPLEFT", 1, 0)
-			bu.highlight:SetPoint("BOTTOMRIGHT", -1, 0)
+			bu.highlight:SetInside(nil, 1, 0)
 			bu.highlight:SetColorTexture(cr, cg, cb, .25)
 
 			if not bu.styled then
@@ -23,8 +22,7 @@ tinsert(C.defaultThemes, function()
 				bu.categoryLeft:SetAlpha(0)
 				bu.categoryRight:SetAlpha(0)
 
-				bu.icon:SetDrawLayer("ARTWORK")
-				bu.bg = B.ReskinIcon(bu.icon)
+				bu.icbg = B.ReskinIcon(bu.icon)
 
 				if bu.expandIcon then
 					bu.expBg = B.CreateBDFrame(bu.expandIcon, 0, 3)
@@ -34,10 +32,10 @@ tinsert(C.defaultThemes, function()
 			end
 
 			if bu.isHeader then
-				bu.bg:Hide()
+				bu.icbg:Hide()
 				bu.expBg:Show()
 			else
-				bu.bg:Show()
+				bu.icbg:Show()
 				bu.expBg:Hide()
 			end
 		end

@@ -36,7 +36,7 @@ tinsert(C.defaultThemes, function()
 		local bu = "LootButton"..index
 		local icon = _G[bu.."IconTexture"]
 
-		if icon and not icon.bg then
+		if icon and not icon.icbg then
 			local button = _G[bu]
 			B.CleanTextures(button)
 
@@ -52,13 +52,13 @@ tinsert(C.defaultThemes, function()
 			local name = _G[bu.."NameFrame"]
 			name:Hide()
 
-			icon.bg = icbg
+			icon.icbg = icbg
 		end
 
 		if select(7, GetLootSlotInfo(index)) then
-			icon.bg:SetBackdropBorderColor(1, 1, 0)
+			icon.icbg:SetBackdropBorderColor(1, 1, 0)
 		else
-			icon.bg:SetBackdropBorderColor(0, 0, 0)
+			icon.icbg:SetBackdropBorderColor(0, 0, 0)
 		end
 	end)
 

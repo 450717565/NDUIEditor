@@ -610,6 +610,7 @@ L["STRING_OPTIONS_COMBAT_ALPHA_4"] = "Не в группе"
 L["STRING_OPTIONS_COMBAT_ALPHA_5"] = "Не внутри подземелья"
 L["STRING_OPTIONS_COMBAT_ALPHA_6"] = "Внутри подземелья"
 L["STRING_OPTIONS_COMBAT_ALPHA_7"] = "Рейдовый отладчик"
+L["STRING_OPTIONS_COMBAT_ALPHA_8"] = "В поле боя"
 L["STRING_OPTIONS_COMBAT_ALPHA_DESC"] = [=[Выберите, как бой влияет на прозрачность окна.
 
 |cFFFFFF00Никаких изменений|r: Не изменять альфу.

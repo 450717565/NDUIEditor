@@ -78,7 +78,7 @@ tinsert(C.defaultThemes, function()
 
 		unit.Name:ClearAllPoints()
 
-		unit.Icon.bg = B.ReskinIcon(unit.Icon)
+		unit.Icon.icbg = B.ReskinIcon(unit.Icon)
 
 		if unit.SpeedIcon then
 			unit.SpeedIcon:SetSize(30, 30)
@@ -121,7 +121,7 @@ tinsert(C.defaultThemes, function()
 	for index, buddy in pairs(buddies) do
 		B.StripTextures(buddy)
 
-		buddy.Icon.bg = B.ReskinIcon(buddy.Icon)
+		buddy.Icon.icbg = B.ReskinIcon(buddy.Icon)
 
 		buddy.deadIcon = buddy:CreateTexture(nil, "ARTWORK")
 		buddy.deadIcon:SetAllPoints(buddy.Icon)
@@ -131,7 +131,7 @@ tinsert(C.defaultThemes, function()
 		buddy.healthBarWidth = 38
 		buddy.ActualHealthBar:SetTexture(DB.normTex)
 		buddy.ActualHealthBar:ClearAllPoints()
-		buddy.ActualHealthBar:SetPoint("TOPLEFT", buddy.Icon.bg, "BOTTOMLEFT", C.mult, -4)
+		buddy.ActualHealthBar:SetPoint("TOPLEFT", buddy.Icon.icbg, "BOTTOMLEFT", C.mult, -4)
 		buddy.healthBg = B.CreateBDFrame(buddy.ActualHealthBar, 0)
 		buddy.healthBg:SetPoint("TOPLEFT", buddy.ActualHealthBar, "TOPLEFT", -C.mult, C.mult)
 		buddy.healthBg:SetPoint("BOTTOMRIGHT", buddy.ActualHealthBar, "BOTTOMLEFT", 38+C.mult, -C.mult)
@@ -174,10 +174,10 @@ tinsert(C.defaultThemes, function()
 			end
 		end
 
-		if self.Icon.bg then
+		if self.Icon.icbg then
 			local quality = C_PetBattles.GetBreedQuality(self.petOwner, self.petIndex) - 1 or 1
 			local r, g, b = GetItemQualityColor(quality or 1)
-			self.Icon.bg:SetBackdropBorderColor(r, g, b)
+			self.Icon.icbg:SetBackdropBorderColor(r, g, b)
 		end
 	end)
 

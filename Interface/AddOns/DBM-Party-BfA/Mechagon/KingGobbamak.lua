@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2357, "DBM-Party-BfA", 11, 1178)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200517140833")
+mod:SetRevision("20200524143937")
 mod:SetCreatureID(150159)
 mod:SetEncounterID(2290)
 mod:SetZone()
@@ -30,9 +30,9 @@ local yellElectricalCharge			= mod:NewYell(297257, nil, false)
 local specWarnRumble				= mod:NewSpecialWarningSpell(297261, nil, nil, nil, 2, 2)
 --local specWarnGTFO				= mod:NewSpecialWarningGTFO(238028, nil, nil, nil, 1, 8)
 
---local timerHowlingFearCD			= mod:NewAITimer(13.4, 257791, nil, "HasInterrupt", nil, 4, nil, DBM_CORE_INTERRUPT_ICON)
-local timerChargedSmashCD			= mod:NewNextTimer(32.7, 297254, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON)
-local timerRumbleCD					= mod:NewCDTimer(51, 297261, nil, nil, nil, 2, nil, DBM_CORE_HEALER_ICON)--51-54 (based on one pull of one log)
+--local timerHowlingFearCD			= mod:NewAITimer(13.4, 257791, nil, "HasInterrupt", nil, 4, nil, DBM_CORE_L.INTERRUPT_ICON)
+local timerChargedSmashCD			= mod:NewNextTimer(32.7, 297254, nil, nil, nil, 5, nil, DBM_CORE_L.TANK_ICON)
+local timerRumbleCD					= mod:NewCDTimer(51, 297261, nil, nil, nil, 2, nil, DBM_CORE_L.HEALER_ICON)--51-54 (based on one pull of one log)
 --local timerGetEmCD					= mod:NewAITimer(31.6, 297465, nil, nil, nil, 1)
 
 function mod:OnCombatStart(delay)

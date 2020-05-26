@@ -3,6 +3,26 @@ local B, C, L, DB = unpack(select(2, ...))
 C.themes["Blizzard_PVPUI"] = function()
 	local cr, cg, cb = DB.r, DB.g, DB.b
 
+	local function reskinButtons(self)
+		B.ReskinButton(self)
+		B.ReskinHighlight(self.SelectedTexture, self, true)
+
+		local Reward = self.Reward
+		if Reward then
+			Reward.Border:Hide()
+			Reward.CircleMask:Hide()
+			Reward.Icon.icbg = B.ReskinIcon(Reward.Icon)
+
+			local Bonus = Reward.EnlistmentBonus
+			if Bonus then
+				Bonus:DisableDrawLayer("ARTWORK")
+				Bonus.Icon:SetTexture(GetSpellTexture(241260))
+				Bonus.Icon.icbg = B.ReskinIcon(Bonus.Icon)
+				Bonus.Icon.icbg:SetFrameLevel(Reward.Icon.icbg:GetFrameLevel() + 2)
+			end
+		end
+	end
+
 	-- CategoryButton
 	for i = 1, 3 do
 		local bu = PVPQueueFrame["CategoryButton"..i]
@@ -57,24 +77,7 @@ C.themes["Blizzard_PVPUI"] = function()
 	B.StripTextures(BonusFrame)
 
 	for _, bonusButton in pairs({"RandomBGButton", "RandomEpicBGButton", "Arena1Button", "BrawlButton", "SpecialEventButton"}) do
-		local bu = BonusFrame[bonusButton]
-		B.ReskinButton(bu)
-		B.ReskinHighlight(bu.SelectedTexture, bu, true)
-
-		local Reward = bu.Reward
-		if Reward then
-			Reward.Border:Hide()
-			Reward.CircleMask:Hide()
-			Reward.Icon.bg = B.ReskinIcon(Reward.Icon)
-
-			local Bonus = Reward.EnlistmentBonus
-			if Bonus then
-				Bonus:DisableDrawLayer("ARTWORK")
-				Bonus.Icon:SetTexture(GetSpellTexture(241260))
-				Bonus.Icon.bg = B.ReskinIcon(Bonus.Icon)
-				Bonus.Icon.bg:SetFrameLevel(Reward.Icon.bg:GetFrameLevel() + 2)
-			end
-		end
+		reskinButtons(BonusFrame[bonusButton])
 	end
 
 	for i = 1, 9 do
@@ -105,24 +108,7 @@ C.themes["Blizzard_PVPUI"] = function()
 	B.ReskinButton(ConquestFrame.JoinButton)
 
 	for _, conquestButton in pairs({"Arena2v2", "Arena3v3", "RatedBG"}) do
-		local bu = ConquestFrame[conquestButton]
-		B.ReskinButton(bu)
-		B.ReskinHighlight(bu.SelectedTexture, bu, true)
-
-		local Reward = bu.Reward
-		if Reward then
-			Reward.Border:Hide()
-			Reward.CircleMask:Hide()
-			Reward.Icon.bg = B.ReskinIcon(Reward.Icon)
-
-			local Bonus = Reward.EnlistmentBonus
-			if Bonus then
-				Bonus:DisableDrawLayer("ARTWORK")
-				Bonus.Icon:SetTexture(GetSpellTexture(241260))
-				Bonus.Icon.bg = B.ReskinIcon(Bonus.Icon)
-				Bonus.Icon.bg:SetFrameLevel(Reward.Icon.bg:GetFrameLevel() + 2)
-			end
-		end
+		reskinButtons(ConquestFrame[conquestButton])
 	end
 
 	-- reskin bar and role
@@ -167,7 +153,7 @@ C.themes["Blizzard_PVPUI"] = function()
 		if rewardTexture then
 			rewardFrame.Icon:SetTexture(rewardTexture)
 			local r, g, b = GetItemQualityColor(rewardQuaility or 1)
-			rewardFrame.Icon.bg:SetBackdropBorderColor(r, g, b)
+			rewardFrame.Icon.icbg:SetBackdropBorderColor(r, g, b)
 		end
 	end)
 end

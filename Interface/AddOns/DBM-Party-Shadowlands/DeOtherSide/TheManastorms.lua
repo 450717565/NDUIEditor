@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2409, "DBM-Party-Shadowlands", 7, 1188)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200507151505")
+mod:SetRevision("20200524143937")
 --mod:SetCreatureID(126983)
 mod:SetEncounterID(2394)
 mod:SetZone()
@@ -51,8 +51,8 @@ local specWarnShadowfury			= mod:NewSpecialWarningMoveTo(320132, nil, nil, nil, 
 
 --Stage One: Millhouse's Magics
 local timerSummonPowerCrystalCD			= mod:NewAITimer(13, 320787, nil, nil, nil, 5)
-local timerDoomCD						= mod:NewAITimer(15.8, 320142, 226243, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON)--Shortname Doom!!!
-local timerLaserCD						= mod:NewAITimer(15.8, 323877, 143444, nil, nil, 2, nil, DBM_CORE_DEADLY_ICON)--Shortname Laser
+local timerDoomCD						= mod:NewAITimer(15.8, 320142, 226243, nil, nil, 2, nil, DBM_CORE_L.DEADLY_ICON)--Shortname Doom!!!
+local timerLaserCD						= mod:NewAITimer(15.8, 323877, 143444, nil, nil, 2, nil, DBM_CORE_L.DEADLY_ICON)--Shortname Laser
 --Stage Two: Millificent's Gadgets
 local timerMechanicalBombSquirrelCD		= mod:NewAITimer(13, 320825, nil, nil, nil, 3)
 local timerExperimentalSquirrelBombCD	= mod:NewAITimer(13, 320811, nil, nil, nil, 5)

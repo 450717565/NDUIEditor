@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2405, "DBM-Party-Shadowlands", 3, 1184)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200515012126")
+mod:SetRevision("20200524143937")
 mod:SetCreatureID(164517)
 mod:SetEncounterID(2393)
 mod:SetZone()
@@ -34,7 +34,7 @@ local yellMindLink					= mod:NewYell(322648)
 local specWarnMarkthePrey			= mod:NewSpecialWarningYou(322563, nil, nil, nil, 1, 2)
 local specWarnGTFO					= mod:NewSpecialWarningGTFO(326309, nil, nil, nil, 1, 8)
 
-local timerAcceleratedIncubationCD	= mod:NewAITimer(13, 322550, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON)
+local timerAcceleratedIncubationCD	= mod:NewAITimer(13, 322550, nil, nil, nil, 1, nil, DBM_CORE_L.DAMAGE_ICON)
 local timerMindLinkCD				= mod:NewAITimer(15.8, 322614, nil, nil, nil, 3)
 local timerAcidSpittleCD			= mod:NewAITimer(15.8, 322558, nil, nil, nil, 3)
 local timerMarkthePreyCD			= mod:NewAITimer(15.8, 322563, nil, nil, nil, 3)

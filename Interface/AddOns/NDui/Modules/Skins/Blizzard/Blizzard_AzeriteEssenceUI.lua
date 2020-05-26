@@ -25,8 +25,7 @@ C.themes["Blizzard_AzeriteEssenceUI"] = function()
 	HeaderButton:DisableDrawLayer("BORDER")
 	HeaderButton:DisableDrawLayer("BACKGROUND")
 	local bdTex = B.CreateBDFrame(HeaderButton, 0)
-	bdTex:SetPoint("TOPLEFT", HeaderButton.ExpandedIcon, -4, 6)
-	bdTex:SetPoint("BOTTOMRIGHT", HeaderButton.ExpandedIcon, 4, -6)
+	bdTex:SetOutside(HeaderButton.ExpandedIcon, 4, 6)
 	HeaderButton.bdTex = bdTex
 
 	B.Hook_OnEnter(HeaderButton)

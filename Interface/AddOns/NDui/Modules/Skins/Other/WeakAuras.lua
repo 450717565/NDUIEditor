@@ -67,6 +67,20 @@ local function ReskinWA()
 		B.ReskinInput(frame.filterInput)
 		B.ReskinButton(WASettingsButton)
 
+		local closeBG = select(1, frame:GetChildren())
+		B.StripTextures(closeBG)
+
+		local close = closeBG:GetChildren()
+		close:ClearAllPoints()
+		close:SetPoint("TOPRIGHT", frame, "TOPRIGHT")
+
+		local minimizeBG = select(5, frame:GetChildren())
+		B.StripTextures(minimizeBG)
+
+		local minimize = minimizeBG:GetChildren()
+		minimize:ClearAllPoints()
+		minimize:SetPoint("RIGHT", close, "LEFT")
+
 		for i = 1, frame.texteditor.frame:GetNumChildren() do
 			local child = select(i, frame.texteditor.frame:GetChildren())
 			if child:GetObjectType() == "Button" and child:GetText() then

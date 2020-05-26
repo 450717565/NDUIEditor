@@ -397,9 +397,11 @@ function UF:OnLogin()
 		local raidYOffset = raidPowerHeight+B.Scale(3)+5
 		if NDuiDB["UFs"]["SimpleMode"] then
 			local groupingOrder, groupBy, sortMethod = "1,2,3,4,5,6,7,8", "GROUP", "INDEX"
-			if NDuiDB["UFs"]["SimpleModeSortByRole"] then
+			if NDuiDB["UFs"]["SMSortByRole"] then
 				groupingOrder, groupBy, sortMethod = "TANK,HEALER,DAMAGER,NONE", "ASSIGNEDROLE", "NAME"
 			end
+			local unitsPerColumn = NDuiDB["UFs"]["SMUnitsPerColumn"]
+			local maxColumns = B.Round(numGroups*5 / unitsPerColumn)
 
 			local function CreateGroup(name, i)
 				local group = oUF:SpawnHeader(name, nil, "solo,party,raid",
@@ -413,8 +415,8 @@ function UF:OnLogin()
 				"groupingOrder", groupingOrder,
 				"groupBy", groupBy,
 				"sortMethod", sortMethod,
-				"maxColumns", 2,
-				"unitsPerColumn", 20,
+				"maxColumns", maxColumns,
+				"unitsPerColumn", unitsPerColumn,
 				"columnSpacing", 5,
 				"point", "TOP",
 				"columnAnchorPoint", "LEFT",
@@ -439,8 +441,8 @@ function UF:OnLogin()
 			end
 
 			local group = CreateGroup("oUF_Raid", groupFilter)
-			local moverWidth = numGroups > 4 and (100*raidScale*2+5) or 100*raidScale
-			local moverHeight = (20*raidScale+2*raidScale+B.Scale(3)+5)*20 -5
+			local moverWidth = 100*raidScale*maxColumns + 5*(maxColumns-1)
+			local moverHeight = (20*raidScale+2*raidScale+B.Scale(3))*unitsPerColumn + 5*(unitsPerColumn-1)
 			raidMover = B.Mover(group, L["RaidFrame"], "RaidFrame", {"TOPLEFT", UIParent, 35, -50}, moverWidth, moverHeight)
 		else
 			local function CreateGroup(name, i)

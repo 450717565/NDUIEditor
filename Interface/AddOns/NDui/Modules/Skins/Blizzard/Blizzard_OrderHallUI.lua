@@ -20,15 +20,15 @@ C.themes["Blizzard_OrderHallUI"] = function()
 			if bu and bu.talent then
 				bu.Border:SetAlpha(0)
 
-				if not bu.bg then
-					bu.bg = B.ReskinIcon(bu.Icon)
-					B.ReskinHighlight(bu.Highlight, bu.bg)
+				if not bu.icbg then
+					bu.icbg = B.ReskinIcon(bu.Icon)
+					B.ReskinHighlight(bu.Highlight, bu.icbg)
 				end
 
 				if bu.talent.selected then
-					bu.bg:SetBackdropBorderColor(cr, cg, cb)
+					bu.icbg:SetBackdropBorderColor(cr, cg, cb)
 				else
-					bu.bg:SetBackdropBorderColor(0, 0, 0)
+					bu.icbg:SetBackdropBorderColor(0, 0, 0)
 				end
 			end
 		end

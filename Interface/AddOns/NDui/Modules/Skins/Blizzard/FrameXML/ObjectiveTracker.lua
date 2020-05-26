@@ -77,14 +77,14 @@ tinsert(C.defaultThemes, function()
 				icon:Point("TOPLEFT", bar, "TOPRIGHT", 3, 0)
 				icon:Point("BOTTOMRIGHT", bar, "BOTTOMRIGHT", bar:GetHeight()+3, 0)
 
-				icon.bg = B.ReskinIcon(icon)
+				icon.icbg = B.ReskinIcon(icon)
 			end
 
 			bar.styled = true
 		end
 
-		if icon and icon.bg then
-			icon.bg:SetShown(icon:IsShown() and icon:GetTexture() ~= nil)
+		if icon and icon.icbg then
+			icon.icbg:SetShown(icon:IsShown() and icon:GetTexture() ~= nil)
 		end
 	end
 

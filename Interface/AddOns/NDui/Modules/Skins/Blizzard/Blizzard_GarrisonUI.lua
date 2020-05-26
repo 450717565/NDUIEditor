@@ -51,7 +51,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		B.CreateBDFrame(self.RewardsFrame, 0)
 
 		local env = self.Stage.MissionEnvIcon
-		env.bg = B.ReskinIcon(env.Texture)
+		env.icbg = B.ReskinIcon(env.Texture)
 
 		local cost = self.CostFrame
 		B.ReskinIcon(cost.CostIcon)
@@ -225,11 +225,11 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		if self.AbilitiesFrame.Equipment then
 			for i = 1, 3 do
 				local equip = self.AbilitiesFrame.Equipment[i]
-				if equip and not equip.bg then
+				if equip and not equip.icbg then
 					equip.Border:SetAlpha(0)
 					equip.BG:SetAlpha(0)
-					equip.bg = B.ReskinIcon(equip.Icon)
-					equip.bg:SetBackdropColor(1, 1, 1, .25)
+					equip.icbg = B.ReskinIcon(equip.Icon)
+					equip.icbg:SetBackdropColor(1, 1, 1, .25)
 				end
 			end
 		end
@@ -706,8 +706,8 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	hooksecurefunc(GarrisonMission, "ShowMission", function(self)
 		local envIcon = self:GetMissionPage().Stage.MissionEnvIcon
-		if envIcon.bg then
-			envIcon.bg:SetShown(envIcon.Texture:GetTexture())
+		if envIcon.icbg then
+			envIcon.icbg:SetShown(envIcon.Texture:GetTexture())
 		end
 	end)
 

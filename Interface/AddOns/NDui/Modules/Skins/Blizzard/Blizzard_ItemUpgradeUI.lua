@@ -12,7 +12,7 @@ C.themes["Blizzard_ItemUpgradeUI"] = function()
 	B.StripTextures(ItemButton)
 	local icbg = B.ReskinIcon(ItemButton.IconTexture)
 	B.ReskinHighlight(ItemButton, icbg)
-	ItemButton.bg = icbg
+	ItemButton.icbg = icbg
 
 	hooksecurefunc("ItemUpgradeFrame_Update", function()
 		local icon, _, quality = GetItemUpgradeItemInfo()
@@ -20,10 +20,10 @@ C.themes["Blizzard_ItemUpgradeUI"] = function()
 
 		if icon then
 			ItemButton.IconTexture:SetTexCoord(unpack(DB.TexCoord))
-			ItemButton.bg:SetBackdropBorderColor(r, g, b)
+			ItemButton.icbg:SetBackdropBorderColor(r, g, b)
 		else
 			ItemButton.IconTexture:SetTexture("")
-			ItemButton.bg:SetBackdropBorderColor(0, 0, 0)
+			ItemButton.icbg:SetBackdropBorderColor(0, 0, 0)
 		end
 	end)
 

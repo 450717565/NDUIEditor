@@ -24,11 +24,9 @@ C.themes["Blizzard_ItemSocketingUI"] = function()
 		B.ReskinHighlight(bu, icbg)
 
 		local shine = _G[button.."Shine"]
-		shine:ClearAllPoints()
-		shine:SetPoint("TOPLEFT", icbg, C.mult, -C.mult)
-		shine:SetPoint("BOTTOMRIGHT", icbg, 0, 0)
+		shine:SetInside(icbg)
 
-		bu.bg = icbg
+		bu.icbg = icbg
 	end
 
 	local GemTypeInfo = {
@@ -49,7 +47,7 @@ C.themes["Blizzard_ItemSocketingUI"] = function()
 
 		for i = 1, MAX_NUM_SOCKETS do
 			local color = GemTypeInfo[GetSocketTypes(i)]
-			_G["ItemSocketingSocket"..i].bg:SetBackdropBorderColor(color.r, color.g, color.b)
+			_G["ItemSocketingSocket"..i].icbg:SetBackdropBorderColor(color.r, color.g, color.b)
 		end
 	end)
 end

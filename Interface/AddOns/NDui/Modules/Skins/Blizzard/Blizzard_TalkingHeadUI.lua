@@ -8,10 +8,9 @@ C.themes["Blizzard_TalkingHeadUI"] = function()
 	B.ReskinClose(CloseButton, "TOPRIGHT", MainFrame, "TOPRIGHT", -25, -25)
 
 	hooksecurefunc("TalkingHeadFrame_PlayCurrent", function()
-		local frame = TalkingHeadFrame
-		if frame:IsShown() then
-			frame.NameFrame.Name:SetTextColor(1, .8, 0)
-			frame.TextFrame.Text:SetTextColor(1, 1, 1)
+		if TalkingHeadFrame:IsShown() then
+			TalkingHeadFrame.NameFrame.Name:SetTextColor(1, .8, 0)
+			TalkingHeadFrame.TextFrame.Text:SetTextColor(1, 1, 1)
 		end
 	end)
 end

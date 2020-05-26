@@ -61,8 +61,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 	-- [[ Suggest Frame]]
 	local SuggestFrame = EncounterJournal.suggestFrame
 	local bg = B.CreateBDFrame(SuggestFrame, 0)
-	bg:SetPoint("TOPLEFT", SuggestFrame.Suggestion1, 0, 0)
-	bg:SetPoint("BOTTOMRIGHT", SuggestFrame.Suggestion3, 0, 0)
+	bg:SetOutside(SuggestFrame.Suggestion1, 0, 0, SuggestFrame.Suggestion3)
 
 	for i = 1, 3 do
 		local Suggestion = SuggestFrame["Suggestion"..i]
@@ -154,14 +153,14 @@ C.themes["Blizzard_EncounterJournal"] = function()
 	end)
 
 	hooksecurefunc(itemSetsFrame, "ConfigureItemButton", function(_, button)
-		if not button.bg then
+		if not button.icbg then
 			button.Border:SetAlpha(0)
-			button.bg = B.ReskinIcon(button.Icon)
+			button.icbg = B.ReskinIcon(button.Icon)
 		end
 
 		local quality = select(3, GetItemInfo(button.itemID))
 		local r, g, b = GetItemQualityColor(quality or 1)
-		button.bg:SetBackdropBorderColor(r, g, b)
+		button.icbg:SetBackdropBorderColor(r, g, b)
 	end)
 
 	-- [[ Encounter Frame ]]
@@ -209,14 +208,14 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		local icon = item.icon
 		icon:ClearAllPoints()
 		icon:SetPoint("TOPLEFT", item, 3, -3)
-		icon:SetSize(39, 39)
-		icon:SetDrawLayer("ARTWORK")
+		icon:SetSize(40, 40)
 
 		local icbg = B.ReskinIcon(icon)
-		local bubg = B.CreateBDFrame(item, 0)
-		bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
-		bubg:SetPoint("BOTTOMRIGHT", 0, 2)
+		item.icbg = icbg
+
+		local bubg = B.CreateBGFrame(item, 2, 0, 0, 0, icbg)
 		B.ReskinHighlight(item, bubg, true)
+		item.bubg = bubg
 
 		local armor = item.armorType
 		armor:SetTextColor(1, 1, 1)
@@ -237,6 +236,18 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		boss:SetPoint("TOPLEFT", slot, "BOTTOMLEFT", 0, -6)
 		boss:SetTextColor(1, .8, 0)
 	end
+
+	hooksecurefunc("EncounterJournal_LootUpdate", function()
+		local items = infoFrame.lootScroll.buttons
+		for i = 1,#items do
+			local item = items[i]
+			if item.bossTexture and item.bossTexture:IsShown() then
+				item.bubg:Point("BOTTOM", item.bossTexture, "BOTTOM", 0, 0)
+			else
+				item.bubg:Point("BOTTOM", item.icbg, "BOTTOM", 0, 0)
+			end
+		end
+	end)
 
 	local function reskinHeader(header)
 		B.StripTextures(header.button)

@@ -145,8 +145,11 @@ function S:DeadlyBossMods()
 	if not DBM_AllSavedOptions["Default"] then DBM_AllSavedOptions["Default"] = {} end
 	DBM_AllSavedOptions["Default"]["BlockVersionUpdateNotice"] = true
 	DBM_AllSavedOptions["Default"]["EventSoundVictory"] = "None"
-	DBT_AllPersistentOptions["Default"]["DBM"].BarYOffset = 5
-	DBT_AllPersistentOptions["Default"]["DBM"].HugeBarYOffset = 5
-	DBT_AllPersistentOptions["Default"]["DBM"].ExpandUpwards = true
-	DBT_AllPersistentOptions["Default"]["DBM"].ExpandUpwardsLarge = true
+	DBM_AllSavedOptions["Default"]["EventSoundVictory2"] = "None"
+
+	if not DBT_AllPersistentOptions["Default"] then DBT_AllPersistentOptions["Default"] = {} end
+	DBT_AllPersistentOptions["Default"]["DBM"]["BarYOffset"] = 5
+	DBT_AllPersistentOptions["Default"]["DBM"]["HugeBarYOffset"] = 5
+	DBT_AllPersistentOptions["Default"]["DBM"]["ExpandUpwards"] = true
+	DBT_AllPersistentOptions["Default"]["DBM"]["ExpandUpwardsLarge"] = true
 end
