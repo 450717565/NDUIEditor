@@ -71,7 +71,7 @@ L["Aggro"] = "어그로"
 --[[Translation missing --]]
 L["Agility"] = "Agility"
 L["Ahn'Qiraj"] = "안퀴라즈"
-L["Alert Type"] = "경고 유형"
+L["Alert Type"] = "경보 유형"
 L["Alive"] = "생존"
 L["All"] = "모두"
 L["All Triggers"] = "모든 활성 조건 만족"
@@ -142,8 +142,7 @@ L["Baron Geddon"] = "남작 게돈"
 L["Battle.net Whisper"] = "Battle.net 귓속말"
 L["Battleground"] = "전장"
 L["Battleguard Sartura"] = "전투감시병 살투라"
---[[Translation missing --]]
-L["BG>Raid>Party>Say"] = "BG>Raid>Party>Say"
+L["BG>Raid>Party>Say"] = "전장>공격대>파티>일반 대화"
 L["BG-System Alliance"] = "전장 얼라이언스"
 L["BG-System Horde"] = "전장 호드"
 L["BG-System Neutral"] = "전장 중립"
@@ -324,8 +323,7 @@ L["Enrage"] = "격노"
 L["Enter static or relative values with %"] = "Enter static or relative values with %"
 L["Entering"] = "입장"
 L["Entering/Leaving Combat"] = "전투 시작/종료"
---[[Translation missing --]]
-L["Entry Order"] = "Entry Order"
+L["Entry Order"] = "항목 순서"
 L["Environment Type"] = "환경 종류"
 L["Environmental"] = "환경"
 L["Equipment Set"] = "장비 세트"
@@ -370,8 +368,7 @@ L["Flex Raid"] = "탄력적 공격대"
 L["Flip"] = "휙 넘기기"
 L["Focus"] = "주시 대상 또는 집중(사냥꾼)"
 L["Font Size"] = "글꼴 크기"
---[[Translation missing --]]
-L["Foreground"] = "Foreground"
+L["Foreground"] = "전경"
 L["Foreground Color"] = "전경 색상"
 L["Form"] = "형상"
 --[[Translation missing --]]
@@ -384,7 +381,7 @@ L["From"] = "출처"
 --[[Translation missing --]]
 L["Frost Resistance"] = "Frost Resistance"
 L["Full"] = "가득 찼을 때"
-L["Full Scan"] = "전체 검사"
+L["Full Scan"] = "전체 스캔"
 L["Full/Empty"] = "가득 차거나 비었을 때"
 L["Gahz'ranka"] = "가즈란카"
 L["Gained"] = "획득"
@@ -427,16 +424,11 @@ L["Heigan the Unclean"] = "부정의 헤이건"
 L["Height"] = "높이"
 L["Hide"] = "숨기기"
 L["High Damage"] = "높은 피해"
---[[Translation missing --]]
-L["High Priest Thekal"] = "High Priest Thekal"
---[[Translation missing --]]
-L["High Priest Venoxis"] = "High Priest Venoxis"
---[[Translation missing --]]
-L["High Priestess Arlokk"] = "High Priestess Arlokk"
---[[Translation missing --]]
-L["High Priestess Jeklik"] = "High Priestess Jeklik"
---[[Translation missing --]]
-L["High Priestess Mar'li"] = "High Priestess Mar'li"
+L["High Priest Thekal"] = "대사제 데칼"
+L["High Priest Venoxis"] = "대사제 베녹시스"
+L["High Priestess Arlokk"] = "대여사제 알로크"
+L["High Priestess Jeklik"] = "대여사제 제클릭"
+L["High Priestess Mar'li"] = "대여사제 말리"
 L["Higher Than Tank"] = "탱커보다 높을 때"
 --[[Translation missing --]]
 L["Holy Resistance"] = "Holy Resistance"
@@ -463,7 +455,7 @@ L["Import"] = "가져오기"
 L["Import as Copy"] = "복사본 가져 오기"
 L["Import as Update"] = "업데이트 가져 오기"
 L["Import Group"] = "그룹 가져오기"
-L["Import in progress"] = "진행 중인 가져 오기"
+L["Import in progress"] = "진행 중인 가져오기"
 --[[Translation missing --]]
 L["Important"] = "Important"
 L["Importing is disabled while in combat"] = "가져오기는 전투 중에는 비활성화됩니다."
@@ -529,8 +521,7 @@ L["Legacy Aura"] = "v2.9.0 이전 방식 효과"
 L["Legacy RGB Gradient"] = "Legacy RGB Gradient"
 --[[Translation missing --]]
 L["Legacy RGB Gradient Pulse"] = "Legacy RGB Gradient Pulse"
---[[Translation missing --]]
-L["Length"] = "Length"
+L["Length"] = "길이"
 L["Level"] = "레벨"
 --[[Translation missing --]]
 L["Limited"] = "Limited"
@@ -583,8 +574,7 @@ L["Miss Type"] = "적중 실패 유형"
 L["Missed"] = "적중 실패"
 L["Missing"] = "누락"
 L["Moam"] = "모암"
---[[Translation missing --]]
-L["Model"] = "Model"
+L["Model"] = "모델"
 L["Molten Core"] = "화산 심장부"
 L["Monochrome"] = "모노크롬"
 L["Monochrome Outline"] = "모노크롬 외곽선"
@@ -617,10 +607,8 @@ L["Nefarian"] = "네파리안"
 L["Neutral"] = "중립"
 L["Never"] = "절대 안함"
 L["Next"] = "다음"
---[[Translation missing --]]
-L["Next Combat"] = "Next Combat"
---[[Translation missing --]]
-L["Next Encounter"] = "Next Encounter"
+L["Next Combat"] = "다음 전투"
+L["Next Encounter"] = "다음 교전"
 L["No Children"] = "자식 없음"
 L["No Instance"] = "인스턴스가 아닐 때"
 L["No Profiling information saved."] = "프로필 정보가 저장되지 않았습니다."
@@ -638,10 +626,8 @@ L["Note: The available text replacements for multi triggers match the normal tri
 --[[Translation missing --]]
 L["Note: This trigger type estimates the range to the hitbox of a unit. The actual range of friendly players is usually 3 yards more than the estimate. Range checking capabilities depend on your current class and known abilities as well as the type of unit being checked. Some of the ranges may also not work with certain NPCs.|n|n|cFFAAFFAAFriendly Units:|r %s|n|cFFFFAAAAHarmful Units:|r %s|n|cFFAAAAFFMiscellanous Units:|r %s"] = "Note: This trigger type estimates the range to the hitbox of a unit. The actual range of friendly players is usually 3 yards more than the estimate. Range checking capabilities depend on your current class and known abilities as well as the type of unit being checked. Some of the ranges may also not work with certain NPCs.|n|n|cFFAAFFAAFriendly Units:|r %s|n|cFFFFAAAAHarmful Units:|r %s|n|cFFAAAAFFMiscellanous Units:|r %s"
 L["Noth the Plaguebringer"] = "역병술사 노스"
---[[Translation missing --]]
 L["NPC"] = "NPC"
---[[Translation missing --]]
-L["Npc ID"] = "Npc ID"
+L["Npc ID"] = "NPC ID"
 L["Number"] = "횟수"
 L["Number Affected"] = "영향 받은 횟수"
 --[[Translation missing --]]
@@ -669,8 +655,7 @@ L["Orbit"] = "공전"
 L["Orientation"] = "방향"
 --[[Translation missing --]]
 L["Ossirian the Unscarred"] = "Ossirian the Unscarred"
---[[Translation missing --]]
-L["Ouro"] = "Ouro"
+L["Ouro"] = "아우로"
 L["Outline"] = "외곽선"
 L["Outside"] = "바깥쪽"
 L["Overhealing"] = "초과 치유"
@@ -850,8 +835,7 @@ L["Show Incoming Heal"] = "받는 치유 표시"
 --[[Translation missing --]]
 L["Show On"] = "Show On"
 L["Shrink"] = "축소"
---[[Translation missing --]]
-L["Silithid Royalty"] = "Silithid Royalty"
+L["Silithid Royalty"] = "실리시드 왕실"
 --[[Translation missing --]]
 L["Simple"] = "Simple"
 L["Size & Position"] = "크기 & 위치"
@@ -913,8 +897,7 @@ L["Stagger Scale"] = "Stagger Scale"
 --[[Translation missing --]]
 L["Stamina"] = "Stamina"
 L["Stance/Form/Aura"] = "태세/형상/효과"
---[[Translation missing --]]
-L["Star Shake"] = "Star Shake"
+L["Star Shake"] = "별모양 흔들림"
 --[[Translation missing --]]
 L["Start"] = "Start"
 --[[Translation missing --]]
@@ -999,8 +982,7 @@ L["Total Units"] = "총 유닛"
 L["Totem"] = "토템"
 L["Totem #%i"] = "토템 #%i"
 L["Totem Name"] = "토템 이름"
---[[Translation missing --]]
-L["Totem Name Pattern Match"] = "Totem Name Pattern Match"
+L["Totem Name Pattern Match"] = "토템 이름 패턴 일치"
 L["Totem Number"] = "토템 번호"
 L["Track Cooldowns"] = "재사용 대기시간 추적"
 --[[Translation missing --]]

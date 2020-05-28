@@ -1,7 +1,7 @@
 if GetLocale() ~= "koKR" then return end
 
-if not DBM_GUI_Translations then DBM_GUI_Translations = {} end
-local L = DBM_GUI_Translations
+if not DBM_GUI_L then DBM_GUI_L = {} end
+local L = DBM_GUI_L
 
 L.TranslationByPrefix		= "번역: "
 L.TranslationBy 			= "Elnarfim"
@@ -53,16 +53,19 @@ L.UseDialogChannel			= "대화"
 L.UseSFXChannel				= "소리 (효과음)"
 L.Latency_Text				= "동기화 신호를 보낼 최대 지연시간 설정: %d"
 
+L.Button_RangeFrame			= "거리 창 표시/숨기기"
+L.Button_InfoFrame			= "정보 창 표시/숨기기"
+L.Button_TestBars			= "테스트 바 시작"
+L.Button_ResetInfoRange		= "정보/거리 창 위치 초기화"
+
 L.ModelOptions				= "3D 모델 뷰어 설정"
 L.EnableModels				= "보스 설정에 3D 모델 사용"
 L.ModelSoundOptions			= "모델 뷰어에서 사용할 효과음 설정"
 L.ModelSoundShort			= "짧은 효과음"
 L.ModelSoundLong			= "긴 효과음"
 
-L.Button_RangeFrame			= "거리 창 표시/숨기기"
-L.Button_InfoFrame			= "정보 창 표시/숨기기"
-L.Button_TestBars			= "테스트 바 시작"
-L.Button_ResetInfoRange		= "정보/거리 창 위치 초기화"
+L.ResizeOptions			 	= "창 크기 설정"
+L.Button_ResetWindowSize	= "GUI 창 크기 초기화"
 
 -- Tab: Raidwarning
 L.Tab_RaidWarning 			= "공격대 경보"

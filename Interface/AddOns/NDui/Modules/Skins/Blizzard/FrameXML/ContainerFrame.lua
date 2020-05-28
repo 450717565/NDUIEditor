@@ -10,11 +10,11 @@ tinsert(C.defaultThemes, function()
 		local container = "ContainerFrame"..i
 
 		local frame = _G[container]
+		B.StripTextures(frame, 0)
 		frame.PortraitButton.Highlight:SetTexture("")
 
-		B.StripTextures(frame, 0)
 		local bg = B.CreateBG(frame, 8, -4, -3, 0)
-		B.ReskinClose(_G[container.."CloseButton"], "TOPRIGHT", bg, "TOPRIGHT", -6, -6)
+		B.ReskinClose(_G[container.."CloseButton"], "TOPRIGHT", bg, "TOPRIGHT", -2, -2)
 
 		local name = _G[container.."Name"]
 		name:ClearAllPoints()

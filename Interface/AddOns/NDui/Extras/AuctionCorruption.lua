@@ -20,12 +20,13 @@ end
 
 local function rowUpdate(row)
 	if row and row.rowData then
-		local data = row.rowData
-		local itemLink = string.match(data.itemLink, "item:%d([:%d]+)")
 		row.corruption:SetText("")
 		row.corruption:Hide()
 		row.bonus:SetText("")
 		row.bonus:Hide()
+
+		local data = row.rowData
+		local itemLink = string.match(data.itemLink, "item:%d([:%d]+)")
 		if itemLink then
 			local itemIds = {strsplit(":", itemLink)}
 			for _, id in pairs(itemIds) do
@@ -36,6 +37,7 @@ local function rowUpdate(row)
 				end
 			end
 		end
+
 		local value = TT:Corruption_Search(data.itemLink)
 		if value then
 			TT:Corruption_UpdateSpell(value)

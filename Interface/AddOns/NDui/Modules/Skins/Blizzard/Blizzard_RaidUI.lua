@@ -1,8 +1,6 @@
 local B, C, L, DB = unpack(select(2, ...))
 
 C.themes["Blizzard_RaidUI"] = function()
-	local cr, cg, cb = DB.r, DB.g, DB.b
-
 	for i = 1, NUM_RAID_GROUPS do
 		local frame = "RaidGroup"..i
 
@@ -19,8 +17,25 @@ C.themes["Blizzard_RaidUI"] = function()
 	end
 
 	for i = 1, MAX_RAID_MEMBERS do
-		local button = _G["RaidGroupButton"..i]
+		local frame = "RaidGroupButton"..i
+
+		local button = _G[frame]
 		select(4, button:GetRegions()):Hide()
 		B.ReskinHighlight(button, button, true)
+
+		local class = _G[frame.."Class"]
+		class:Hide()
+
+		local level = _G[frame.."Level"]
+		level:SetWidth(30)
+		level:SetJustifyH("RIGHT")
+		level:ClearAllPoints()
+		level:SetPoint("RIGHT", button, "RIGHT", -2, 0)
+
+		local name = _G[frame.."Name"]
+		name:SetWidth(100)
+		name:SetJustifyH("LEFT")
+		name:ClearAllPoints()
+		name:SetPoint("RIGHT", level, "LEFT", -2, 0)
 	end
 end

@@ -491,6 +491,15 @@ function UF:RefreshRaidFrameIcons()
 	end
 end
 
+local function tooltipOnEnter(self)
+	GameTooltip:ClearLines()
+	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT", 0, 0)
+	if self.spellID then
+		GameTooltip:SetSpellByID(self.spellID)
+		GameTooltip:Show()
+	end
+end
+
 function UF:InterruptIndicator(self)
 	if not NDuiDB["UFs"]["PartyWatcher"] then return end
 
@@ -516,6 +525,9 @@ function UF:InterruptIndicator(self)
 			bu:SetPoint(point3, buttons[i-1], point4, xOffset, 0)
 		end
 		bu:Hide()
+
+		bu:SetScript("OnEnter", tooltipOnEnter)
+		bu:SetScript("OnLeave", B.HideTooltip)
 
 		buttons[i] = bu
 	end

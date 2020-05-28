@@ -1729,17 +1729,12 @@ do
 	end
 
 	function B:ReskinSort()
-		local bg = B.CreateBDFrame(self, 0)
+		B.ReskinButton(self)
+		B.ReskinHighlight(self, self)
 
-		local normal = self:GetNormalTexture()
-		normal:SetTexCoord(.17, .83, .17, .83)
-
-		local pushed = self:GetPushedTexture()
-		pushed:SetTexCoord(.17, .83, .17, .83)
-
-		local highlight = self:GetHighlightTexture()
-		highlight:SetColorTexture(1, 1, 1, .25)
-		highlight:SetInside(bg)
+		self:SetSize(26, 26)
+		self:SetNormalTexture("Interface\\Icons\\INV_Pet_Broom")
+		self:SetPushedTexture("Interface\\Icons\\INV_Pet_Broom")
 	end
 
 	-- Role Icons

@@ -316,6 +316,7 @@ function UF:OnLogin()
 		end
 
 		-- Group Styles
+		local partyMover, partyMover
 		if NDuiDB["UFs"]["PartyFrame"] then
 			oUF:RegisterStyle("Party", CreatePartyStyle)
 			oUF:SetActiveStyle("Party")
@@ -345,7 +346,7 @@ function UF:OnLogin()
 				self:SetHeight(%d)
 			]]):format(partyWidth, partyHeight))
 
-			local partyMover = B.Mover(party, L["PartyFrame"], "PartyFrame", {"TOPLEFT", UIParent, 35, -50}, moverWidth, moverHeight)
+			partyMover = B.Mover(party, L["PartyFrame"], "PartyFrame", {"TOPLEFT", UIParent, 35, -50}, moverWidth, moverHeight)
 			party:ClearAllPoints()
 			party:SetPoint("TOPLEFT", partyMover)
 
@@ -375,7 +376,7 @@ function UF:OnLogin()
 				self:SetAttribute("unitsuffix", "pet")
 				]]):format(petWidth, petHeight))
 
-				local petMover = B.Mover(partyPet, L["PartyPetFrame"], "PartyPetFrame", {"TOPLEFT", partyMover, "BOTTOMLEFT", 0, petYoffset}, petMoverWidth, petMoverHeight)
+				petMover = B.Mover(partyPet, L["PartyPetFrame"], "PartyPetFrame", {"TOPLEFT", partyMover, "BOTTOMLEFT", 0, -20}, petMoverWidth, petMoverHeight)
 				partyPet:ClearAllPoints()
 				partyPet:SetPoint("TOPLEFT", petMover)
 			end
@@ -516,29 +517,61 @@ function UF:OnLogin()
 			end
 		end
 
-		if raidMover then
-			if not NDuiDB["UFs"]["SpecRaidPos"] then return end
-
+		if not NDuiDB["UFs"]["SpecRaidPos"] then return end
+		if raidMover or partyMover or petMover then
 			local function UpdateSpecPos(event, ...)
 				local unit, _, spellID = ...
 				if (event == "UNIT_SPELLCAST_SUCCEEDED" and unit == "player" and spellID == 200749) or event == "PLAYER_ENTERING_WORLD" then
 					if not GetSpecialization() then return end
 					local specIndex = GetSpecialization()
-					if not NDuiDB["Mover"]["RaidPos"..specIndex] then
-						NDuiDB["Mover"]["RaidPos"..specIndex] = {"TOPLEFT", "UIParent", "TOPLEFT", 35, -50}
+
+					if raidMover then
+						if not NDuiDB["Mover"]["RaidPos"..specIndex] then
+							NDuiDB["Mover"]["RaidPos"..specIndex] = {"TOPLEFT", "UIParent", "TOPLEFT", 35, -50}
+						end
+						raidMover:ClearAllPoints()
+						raidMover:SetPoint(unpack(NDuiDB["Mover"]["RaidPos"..specIndex]))
 					end
-					raidMover:ClearAllPoints()
-					raidMover:SetPoint(unpack(NDuiDB["Mover"]["RaidPos"..specIndex]))
+					if partyMover then
+						if not NDuiDB["Mover"]["PartyPos"..specIndex] then
+							NDuiDB["Mover"]["PartyPos"..specIndex] = {"TOPLEFT", "UIParent", "TOPLEFT", 35, -50}
+						end
+						partyMover:ClearAllPoints()
+						partyMover:SetPoint(unpack(NDuiDB["Mover"]["PartyPos"..specIndex]))
+					end
+					if petMover then
+						if not NDuiDB["Mover"]["PetPos"..specIndex] then
+							NDuiDB["Mover"]["PetPos"..specIndex] = {"TOPLEFT", partyMover, "BOTTOMLEFT", 0, -20}
+						end
+						petMover:ClearAllPoints()
+						petMover:SetPoint(unpack(NDuiDB["Mover"]["PetPos"..specIndex]))
+					end
 				end
 			end
 			B:RegisterEvent("PLAYER_ENTERING_WORLD", UpdateSpecPos)
 			B:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED", UpdateSpecPos)
 
-			raidMover:HookScript("OnDragStop", function()
-				if not GetSpecialization() then return end
-				local specIndex = GetSpecialization()
-				NDuiDB["Mover"]["RaidPos"..specIndex] = NDuiDB["Mover"]["RaidFrame"]
-			end)
+			if raidMover then
+				raidMover:HookScript("OnDragStop", function()
+					if not GetSpecialization() then return end
+					local specIndex = GetSpecialization()
+					NDuiDB["Mover"]["RaidPos"..specIndex] = NDuiDB["Mover"]["RaidFrame"]
+				end)
+			end
+			if partyMover then
+				partyMover:HookScript("OnDragStop", function()
+					if not GetSpecialization() then return end
+					local specIndex = GetSpecialization()
+					NDuiDB["Mover"]["PartyPos"..specIndex] = NDuiDB["Mover"]["PartyFrame"]
+				end)
+			end
+			if petMover then
+				petMover:HookScript("OnDragStop", function()
+					if not GetSpecialization() then return end
+					local specIndex = GetSpecialization()
+					NDuiDB["Mover"]["PetPos"..specIndex] = NDuiDB["Mover"]["PartyPetFrame"]
+				end)
+			end
 		end
 	end
 end
