@@ -286,7 +286,7 @@ local function buttonOnEnter(self)
 			local clientString = BNet_GetClientEmbeddedTexture(client, 16)
 			if client == BNET_CLIENT_WOW then
 				if charName ~= "" then -- fix for weird account
-					realmName = ((realmName == DB.MyRealm or realmName == "") and "") or "-"..realmName
+					realmName = (realmName == DB.MyRealm or realmName == "") and "" or "-"..realmName
 					class = DB.ClassList[class]
 					local classColor = B.HexRGB(B.ClassColor(class))
 					if faction == "Horde" then

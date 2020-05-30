@@ -17,10 +17,10 @@ tinsert(C.defaultThemes, function()
 		end
 	end
 
-	local DoubleStatusBar = _G.Enum.UIWidgetVisualizationType.DoubleStatusBar
+	local doubleBarType = _G.Enum.UIWidgetVisualizationType.DoubleStatusBar
 	local function reskinWidgetFrames()
 		for _, widgetFrame in pairs(_G.UIWidgetTopCenterContainerFrame.widgetFrames) do
-			if widgetFrame.widgetType == DoubleStatusBar then
+			if widgetFrame.widgetType == doubleBarType then
 				for _, bar in pairs({widgetFrame.LeftBar, widgetFrame.RightBar}) do
 					if not bar.styled then
 						B.CleanTextures(bar)
@@ -37,27 +37,27 @@ tinsert(C.defaultThemes, function()
 	B:RegisterEvent("PLAYER_ENTERING_WORLD", reskinWidgetFrames)
 	B:RegisterEvent("UPDATE_ALL_UI_WIDGETS", reskinWidgetFrames)
 
-	hooksecurefunc(_G.UIWidgetTemplateCaptureBarMixin, "Setup", function(widgetInfo)
+	hooksecurefunc(_G.UIWidgetTemplateCaptureBarMixin, "Setup", function(self)
 		B.StripTextures(bar, 0)
 		B.CleanTextures(bar)
 
-		widgetInfo.LeftBar:SetTexture(DB.normTex)
-		widgetInfo.NeutralBar:SetTexture(DB.normTex)
-		widgetInfo.RightBar:SetTexture(DB.normTex)
+		self.LeftBar:SetTexture(DB.normTex)
+		self.NeutralBar:SetTexture(DB.normTex)
+		self.RightBar:SetTexture(DB.normTex)
 
-		widgetInfo.LeftBar:SetVertexColor(.2, .6, 1)
-		widgetInfo.NeutralBar:SetVertexColor(.8, .8, .8)
-		widgetInfo.RightBar:SetVertexColor(.9, .2, .2)
+		self.LeftBar:SetVertexColor(.2, .6, 1)
+		self.NeutralBar:SetVertexColor(.8, .8, .8)
+		self.RightBar:SetVertexColor(.9, .2, .2)
 
-		if not widgetInfo.bg then
-			widgetInfo.bg = B.CreateBDFrame(widgetInfo, 0)
-			widgetInfo.bg:Point("TOPLEFT", widgetInfo.LeftBar, -2, 2)
-			widgetInfo.bg:Point("BOTTOMRIGHT", widgetInfo.RightBar, 2, -2)
+		if not self.bg then
+			self.bg = B.CreateBDFrame(self, 0)
+			self.bg:Point("TOPLEFT", self.LeftBar, -2, 2)
+			self.bg:Point("BOTTOMRIGHT", self.RightBar, 2, -2)
 		end
 	end)
 
-	hooksecurefunc(_G.UIWidgetTemplateStatusBarMixin, "Setup", function(widgetInfo)
-		local bar = widgetInfo.Bar
+	hooksecurefunc(_G.UIWidgetTemplateStatusBarMixin, "Setup", function(self)
+		local bar = self.Bar
 		local atlas = bar:GetStatusBarAtlas()
 		updateBarTexture(bar, atlas)
 
@@ -69,8 +69,19 @@ tinsert(C.defaultThemes, function()
 		end
 	end)
 
-	hooksecurefunc(_G.UIWidgetTemplateScenarioHeaderCurrenciesAndBackgroundMixin, "Setup", function(widgetInfo)
-		widgetInfo.Frame:SetAlpha(0)
+	hooksecurefunc(_G.UIWidgetTemplateScenarioHeaderCurrenciesAndBackgroundMixin, "Setup", function(self)
+		self.Frame:SetAlpha(0)
+	end)
+
+	hooksecurefunc(_G.UIWidgetTemplateSpellDisplayMixin, "Setup", function(self)
+		local spellFrame = self.Spell
+
+		if spellFrame and not spellFrame.styled then
+			local icbg = B.ReskinIcon(spellFrame.Icon)
+			B.ReskinBorder(spellFrame.DebuffBorder, icbg)
+
+			spellFrame.styled = true
+		end
 	end)
 
 	hooksecurefunc(_G.UIWidgetTemplateDoubleStatusBarMixin, "Setup", function(self)
