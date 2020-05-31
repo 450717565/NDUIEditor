@@ -17,18 +17,32 @@ tinsert(C.defaultThemes, function()
 		end
 	end
 
-	local doubleBarType = _G.Enum.UIWidgetVisualizationType.DoubleStatusBar
+	local Type_DoubleStatusBar = _G.Enum.UIWidgetVisualizationType.DoubleStatusBar
+	local Type_SpellDisplay = _G.Enum.UIWidgetVisualizationType.SpellDisplay
+
 	local function reskinWidgetFrames()
 		for _, widgetFrame in pairs(_G.UIWidgetTopCenterContainerFrame.widgetFrames) do
-			if widgetFrame.widgetType == doubleBarType then
-				for _, bar in pairs({widgetFrame.LeftBar, widgetFrame.RightBar}) do
-					if not bar.styled then
+			if widgetFrame.widgetType == Type_DoubleStatusBar then
+				if not widgetFrame.styled then
+					for _, bar in pairs({widgetFrame.LeftBar, widgetFrame.RightBar}) do
 						B.CleanTextures(bar)
 						B.CreateBDFrame(bar, 0)
-						hooksecurefunc(bar, "SetStatusBarAtlas", updateBarTexture)
 
-						bar.styled = true
+						hooksecurefunc(bar, "SetStatusBarAtlas", updateBarTexture)
 					end
+
+					widgetFrame.styled = true
+				end
+			elseif widgetFrame.widgetType == Type_SpellDisplay then
+				if not widgetFrame.styled then
+					local widgetSpell = widgetFrame.Spell
+					widgetSpell.IconMask:Hide()
+					widgetSpell.Border:SetTexture(nil)
+
+					local icbg = B.ReskinIcon(widgetSpell.Icon)
+					B.ReskinBorder(widgetSpell.DebuffBorder, icbg)
+
+					widgetFrame.styled = true
 				end
 			end
 		end
@@ -49,10 +63,12 @@ tinsert(C.defaultThemes, function()
 		self.NeutralBar:SetVertexColor(.8, .8, .8)
 		self.RightBar:SetVertexColor(.9, .2, .2)
 
-		if not self.bg then
-			self.bg = B.CreateBDFrame(self, 0)
-			self.bg:Point("TOPLEFT", self.LeftBar, -2, 2)
-			self.bg:Point("BOTTOMRIGHT", self.RightBar, 2, -2)
+		if not self.styled then
+			local bg = B.CreateBDFrame(self, 0)
+			bg:Point("TOPLEFT", self.LeftBar, -2, 2)
+			bg:Point("BOTTOMRIGHT", self.RightBar, 2, -2)
+
+			self.styled = true
 		end
 	end)
 
@@ -66,21 +82,6 @@ tinsert(C.defaultThemes, function()
 			B.CreateBDFrame(bar, 0)
 
 			bar.styled = true
-		end
-	end)
-
-	hooksecurefunc(_G.UIWidgetTemplateScenarioHeaderCurrenciesAndBackgroundMixin, "Setup", function(self)
-		self.Frame:SetAlpha(0)
-	end)
-
-	hooksecurefunc(_G.UIWidgetTemplateSpellDisplayMixin, "Setup", function(self)
-		local spellFrame = self.Spell
-
-		if spellFrame and not spellFrame.styled then
-			local icbg = B.ReskinIcon(spellFrame.Icon)
-			B.ReskinBorder(spellFrame.DebuffBorder, icbg)
-
-			spellFrame.styled = true
 		end
 	end)
 
