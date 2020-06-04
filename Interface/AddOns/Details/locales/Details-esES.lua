@@ -14,7 +14,7 @@ L["STRING_ACTORFRAME_SPELLSOF"] = "Hechizos de"
 L["STRING_ACTORFRAME_SPELLUSED"] = "Todos hechizos usados"
 L["STRING_AGAINST"] = "contra"
 L["STRING_ALIVE"] = "Vivo"
-L["STRING_ALPHA"] = "Alpha"
+L["STRING_ALPHA"] = "Alfa"
 L["STRING_ANCHOR_BOTTOM"] = "Inferior"
 L["STRING_ANCHOR_BOTTOMLEFT"] = "Inferior izquierda"
 L["STRING_ANCHOR_BOTTOMRIGHT"] = "Inferior derecha"
@@ -23,14 +23,12 @@ L["STRING_ANCHOR_RIGHT"] = "Derecha"
 L["STRING_ANCHOR_TOP"] = "Superior"
 L["STRING_ANCHOR_TOPLEFT"] = "Superior izquierda"
 L["STRING_ANCHOR_TOPRIGHT"] = "Superior derecha"
---[[Translation missing --]]
---[[ L["STRING_ASCENDING"] = ""--]] 
+L["STRING_ASCENDING"] = "Ascendiendo"
 L["STRING_ATACH_DESC"] = "Agrupar la ventana #%d con la ventana #%d."
 L["STRING_ATTRIBUTE_CUSTOM"] = "Personalizado"
 L["STRING_ATTRIBUTE_DAMAGE"] = "Daño"
 L["STRING_ATTRIBUTE_DAMAGE_BYSPELL"] = "Daño recibido por cada habilidad"
---[[Translation missing --]]
---[[ L["STRING_ATTRIBUTE_DAMAGE_DEBUFFS"] = ""--]] 
+L["STRING_ATTRIBUTE_DAMAGE_DEBUFFS"] = "Auras y Voidzones"
 L["STRING_ATTRIBUTE_DAMAGE_DEBUFFS_REPORT"] = "Daño y tiempo activo de perjuicios"
 L["STRING_ATTRIBUTE_DAMAGE_DONE"] = "Daño infligido"
 L["STRING_ATTRIBUTE_DAMAGE_DPS"] = "Daño por segundo"
@@ -51,7 +49,7 @@ L["STRING_ATTRIBUTE_HEAL_ABSORBED"] = "Sanación absorbida"
 L["STRING_ATTRIBUTE_HEAL_DONE"] = "Sanación realizada"
 L["STRING_ATTRIBUTE_HEAL_ENEMY"] = "Sanación de Enemigos"
 L["STRING_ATTRIBUTE_HEAL_HPS"] = "Sanación por segundo"
-L["STRING_ATTRIBUTE_HEAL_OVERHEAL"] = "Sobresanacion"
+L["STRING_ATTRIBUTE_HEAL_OVERHEAL"] = "Sobresanación"
 L["STRING_ATTRIBUTE_HEAL_PREVENT"] = "Daño prevenido"
 L["STRING_ATTRIBUTE_HEAL_TAKEN"] = "Sanación recibida"
 L["STRING_ATTRIBUTE_MISC"] = "Misceláneo"
@@ -70,24 +68,18 @@ L["STRING_BLOCKED"] = "Bloqueado"
 L["STRING_BOTTOM"] = "inferior"
 L["STRING_BOTTOM_TO_TOP"] = "Abajo hacia arriba"
 L["STRING_CAST"] = "lanzar"
---[[Translation missing --]]
---[[ L["STRING_CAUGHT"] = ""--]] 
+L["STRING_CAUGHT"] = "atrapado"
 L["STRING_CCBROKE"] = "CC removido"
 L["STRING_CENTER"] = "centro"
 L["STRING_CENTER_UPPER"] = "Centro"
 L["STRING_CHANGED_TO_CURRENT"] = "Segmento cambiado al actual"
---[[Translation missing --]]
---[[ L["STRING_CHANNEL_PRINT"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_CHANNEL_RAID"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_CHANNEL_SAY"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_CHANNEL_WHISPER"] = ""--]] 
+L["STRING_CHANNEL_PRINT"] = "Observador"
+L["STRING_CHANNEL_RAID"] = "Banda"
+L["STRING_CHANNEL_SAY"] = "Decir"
+L["STRING_CHANNEL_WHISPER"] = "Susurrar"
 --[[Translation missing --]]
 --[[ L["STRING_CHANNEL_WHISPER_TARGET_COOLDOWN"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_CHANNEL_YELL"] = ""--]] 
+L["STRING_CHANNEL_YELL"] = "Gritar"
 --[[Translation missing --]]
 --[[ L["STRING_CLICK_REPORT_LINE1"] = ""--]] 
 --[[Translation missing --]]

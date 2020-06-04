@@ -136,6 +136,7 @@ local defaultSettings = {
 		BuffIndicatorScale = 1,
 		UFTextScale = 1,
 		PartyAltPower = true,
+		PartyWatcherSync = true,
 		SmoothAmount = .4,
 		RaidTextScale = 1,
 
@@ -711,10 +712,11 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{},--blank
 		{1, "UFs", "PartyFrame", DB.MyColor..L["UFs PartyFrame"]},
 		{1, "UFs", "PartyPetFrame", DB.MyColor..L["UFs PartyPetFrame"], true},
-		{1, "UFs", "PartyWatcher", L["UFs PartyWatcher"], nil, setupPartyWatcher},
-		{1, "UFs", "PWOnRight", L["PartyWatcherOnRight"], true},
-		{1, "UFs", "PartyAltPower", L["UFs PartyAltPower"]},
+		{1, "UFs", "PartyAltPower", L["UFs PartyAltPower"], nil, nil, nil, L["PartyAltPowerTip"]},
 		{1, "UFs", "ShowYourself", L["PartyFrame Show Yourself"], true},
+		{1, "UFs", "PartyWatcher", L["UFs PartyWatcher"], nil, setupPartyWatcher, nil, L["PartyWatcherTip"]},
+		{1, "UFs", "PartyWatcherSync", L["PartyWatcherSync"], true, nil, nil, L["PartyWatcherSyncTip"]},
+		{1, "UFs", "PWOnRight", L["PartyWatcherOnRight"]},
 		{},--blank
 		{1, "UFs", "RaidBuffIndicator", DB.MyColor..L["RaidBuffIndicator"], nil, setupBuffIndicator, nil, L["RaidBuffIndicatorTip"]},
 		{4, "UFs", "BuffIndicatorType", L["BuffIndicatorType"].."*", nil, {L["BI_Blocks"], L["BI_Icons"], L["BI_Numbers"]}, refreshRaidFrameIcons},

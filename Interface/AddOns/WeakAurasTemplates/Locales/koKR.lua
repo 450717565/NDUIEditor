@@ -86,8 +86,7 @@ local L = WeakAuras.L
 	L["Only show the aura when the item is on cooldown."] = "아이템이 재사용 대기 중일 때 그 효과만 표시합니다."
 	L["Only shows the aura if the target has the buff."] = "대상에 강화 효과가 있는 경우 그 효과만 표시합니다."
 	L["Only shows the aura when the ability is on cooldown."] = "능력이 재사용 대기 중일 때 그 효과만 표시합니다."
-	--[[Translation missing --]]
-	L["Only shows the aura when the ability is ready to use."] = "Only shows the aura when the ability is ready to use."
+	L["Only shows the aura when the ability is ready to use."] = "능력을 사용할 준비가 되었을 때 그 효과만 표시합니다."
 	L["Pet alive"] = "소환수 생존"
 	L["Pet Behavior"] = "소환수 행동"
 	L["PvP Azerite Traits"] = "PvP 아제라이트 특성"
@@ -127,8 +126,7 @@ local L = WeakAuras.L
 	--[[Translation missing --]]
 	L["Show Cooldown and Debuff and Check for Target"] = "Show Cooldown and Debuff and Check for Target"
 	L["Show Cooldown and Duration"] = "재사용 대기시간 및 지속시간 표시"
-	--[[Translation missing --]]
-	L["Show Cooldown and Duration and Check for Target"] = "Show Cooldown and Duration and Check for Target"
+	L["Show Cooldown and Duration and Check for Target"] = "재사용 대기시간과 지속시간 표시 및 대상 확인"
 	--[[Translation missing --]]
 	L["Show Cooldown and Duration and Check Usable"] = "Show Cooldown and Duration and Check Usable"
 	--[[Translation missing --]]

@@ -1,7 +1,7 @@
 local L = LibStub("AceLocale-3.0"):NewLocale("Details", "esMX") 
 if not L then return end 
 
-L["ABILITY_ID"] = "ID de habilitad"
+L["ABILITY_ID"] = "ID de habilidad"
 L["STRING_"] = ""
 L["STRING_ABSORBED"] = "Absorbida"
 L["STRING_ACTORFRAME_NOTHING"] = "nada para informar"
@@ -14,8 +14,7 @@ L["STRING_ACTORFRAME_SPELLSOF"] = "Hechizos de"
 L["STRING_ACTORFRAME_SPELLUSED"] = "Todos hechizos usados"
 L["STRING_AGAINST"] = "contra"
 L["STRING_ALIVE"] = "Viva"
---[[Translation missing --]]
---[[ L["STRING_ALPHA"] = ""--]] 
+L["STRING_ALPHA"] = "Alfa"
 L["STRING_ANCHOR_BOTTOM"] = "Inferior"
 L["STRING_ANCHOR_BOTTOMLEFT"] = "Inferior izquierda"
 L["STRING_ANCHOR_BOTTOMRIGHT"] = "Inferior derecha"

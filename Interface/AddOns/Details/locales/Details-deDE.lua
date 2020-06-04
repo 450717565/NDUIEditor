@@ -600,8 +600,7 @@ L["STRING_OPTIONS_COMBAT_ALPHA_4"] = "Außerhalb einer Gruppe"
 L["STRING_OPTIONS_COMBAT_ALPHA_5"] = "Außerhalb einer Instanz"
 L["STRING_OPTIONS_COMBAT_ALPHA_6"] = "Innerhalb einer Instanz"
 L["STRING_OPTIONS_COMBAT_ALPHA_7"] = "Fehler beseitgen im Schlachtzug"
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_COMBAT_ALPHA_8"] = ""--]] 
+L["STRING_OPTIONS_COMBAT_ALPHA_8"] = "auf dem Schlachtfeld"
 L["STRING_OPTIONS_COMBAT_ALPHA_DESC"] = [=[Wähle, wie ein Kampf die Fenstertransparenz beeinflussen soll.
 
 |cFFFFFF00Keine Änderung|r: Transparenz unverändert.
@@ -1146,8 +1145,7 @@ L["STRING_OPTIONS_TEXT_LOUTILINE"] = "Textschatten"
 L["STRING_OPTIONS_TEXT_LOUTILINE_DESC"] = "Aktiviert oder deaktiviert den Umriss des linken Textes."
 L["STRING_OPTIONS_TEXT_LPOSITION"] = "Nummer zeigen"
 L["STRING_OPTIONS_TEXT_LPOSITION_DESC"] = "Zeigt die Positionsnummer eines Spielers links vom Namen."
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TEXT_LTRANSLIT"] = ""--]] 
+L["STRING_OPTIONS_TEXT_LTRANSLIT"] = "Transliterieren"
 L["STRING_OPTIONS_TEXT_LTRANSLIT_DESC"] = "Stellt die russischen Buchstaben, die niemand versteht, in westliche Buchstaben da."
 L["STRING_OPTIONS_TEXT_RIGHT_ANCHOR"] = "Rechter Text:"
 L["STRING_OPTIONS_TEXT_ROUTILINE_DESC"] = "Aktiviert oder deaktiviert den Umriss des rechten Textes."

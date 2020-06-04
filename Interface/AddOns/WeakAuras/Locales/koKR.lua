@@ -98,8 +98,7 @@ L["Armor Rating"] = "방어도 등급"
 --[[Translation missing --]]
 L["Array"] = "Array"
 L["Ascending"] = "오름차순"
---[[Translation missing --]]
-L["Assigned Role"] = "Assigned Role"
+L["Assigned Role"] = "할당된 역할"
 L["At Least One Enemy"] = "최소 1명의 적 대상"
 L["Attach to End"] = "공격 종료"
 L["Attach to Start"] = "공격 시작"
@@ -789,8 +788,7 @@ L["Right to Left"] = "오른쪽에서 왼쪽"
 L["Right, then Down"] = "Right, then Down"
 --[[Translation missing --]]
 L["Right, then Up"] = "Right, then Up"
---[[Translation missing --]]
-L["Role"] = "Role"
+L["Role"] = "역할"
 L["Rotate Left"] = "왼쪽으로 회전"
 L["Rotate Right"] = "오른쪽으로 회전"
 L["Ruins of Ahn'Qiraj"] = "안퀴라즈 폐허"
@@ -910,10 +908,9 @@ L["Strength"] = "Strength"
 L["String"] = "문자열"
 L["Sulfuron Harbinger"] = "설퍼론 사자"
 L["Summon"] = "소환"
---[[Translation missing --]]
-L["Supports multiple entries, separated by commas"] = "Supports multiple entries, separated by commas"
+L["Supports multiple entries, separated by commas"] = "쉼표로 구분된 여러 항목을 지원합니다"
 L[ [=[Supports multiple entries, separated by commas
-]=] ] = "여러 항목을 쉼표로 구분하여 지원합니다."
+]=] ] = "쉼표로 구분된 여러 항목을 지원합니다"
 L["Swing"] = "자동 공격"
 L["Swing Timer"] = "자동 공격 타이머"
 --[[Translation missing --]]

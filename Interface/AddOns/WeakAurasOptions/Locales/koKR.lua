@@ -56,7 +56,7 @@ local L = WeakAuras.L
 	L["A 48x48 pixels icon"] = "48x48 픽셀 아이콘"
 	L["A 64x64 pixels icon"] = "64x64 픽셀 아이콘"
 	L["A group that dynamically controls the positioning of its children"] = "포함된 개체들의 배열을 유동적으로 조절하는 그룹"
-	L["A Unit ID (e.g., party1)."] = "유닛 ID (예 : party1)."
+	L["A Unit ID (e.g., party1)."] = "유닛 ID (예, party1)."
 	L["Actions"] = "동작"
 	L["Add %s"] = "%s 추가"
 	L["Add a new display"] = "새로운 디스플레이 추가"
@@ -171,7 +171,7 @@ local L = WeakAuras.L
 	L["Bottom Left"] = "왼쪽 아래"
 	L["Bottom Right"] = "오른쪽 아래"
 	L["Bracket Matching"] = "괄호 맞춤"
-	L["Can be a Name or a Unit ID (e.g. party1). A name only works on friendly players in your group."] = "이름 또는 UID (예. party1)를 사용할 수 있습니다. 이름은 같은 파티에 속해 있는 우호적 플레이어에게만 작동합니다."
+	L["Can be a Name or a Unit ID (e.g. party1). A name only works on friendly players in your group."] = "이름 또는 유닛 ID(예. party1)일 수 있습니다. 이름은 같은 파티의 우호적 플레이어에게만 작동합니다."
 	--[[Translation missing --]]
 	L["Can be a UID (e.g., party1)."] = "Can be a UID (e.g., party1)."
 	L["Cancel"] = "취소"
@@ -218,7 +218,7 @@ local L = WeakAuras.L
 	L["Configure what options appear on this panel."] = "이 패널에 나오는 옵션을 구성합니다."
 	L["Constant Factor"] = "고정 요소"
 	L["Control-click to select multiple displays"] = "Ctrl+클릭 - 여러 디스플레이 선택"
-	L["Controls the positioning and configuration of multiple displays at the same time"] = "동시에 여러 디스플레이의 위치와 설정을 조절합니다"
+	L["Controls the positioning and configuration of multiple displays at the same time"] = "여러 디스플레이의 위치 및 구성을 동시에 조절합니다"
 	L["Convert to New Aura Trigger"] = "신규 방식 효과 활성 조건으로 변환"
 	L["Convert to..."] = "변환하기..."
 	L["Cooldown Edge"] = "재사용 대기시간 경계"
@@ -240,8 +240,7 @@ local L = WeakAuras.L
 	L["Custom Code"] = "사용자 정의 코드"
 	L["Custom Color"] = "사용자 설정 색상"
 	L["Custom Configuration"] = "사용자 설정 구성"
-	--[[Translation missing --]]
-	L["Custom Frames"] = "Custom Frames"
+	L["Custom Frames"] = "사용자 설정 프레임"
 	L["Custom Function"] = "사용자 설정 함수"
 	L["Custom Grow"] = "사용자 설정 반짝임"
 	L["Custom Options"] = "사용자 설정 옵션"
@@ -297,10 +296,9 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Duplicate All"] = "모두 복제"
 	L["Duration (s)"] = "지속시간 (초)"
 	L["Duration Info"] = "지속시간 정보"
-	--[[Translation missing --]]
-	L["Dynamic Duration"] = "Dynamic Duration"
+	L["Dynamic Duration"] = "유동적 지속시간"
 	L["Dynamic Group"] = "유동적 그룹"
-	L["Dynamic Group Settings"] = "유동적 그룹 셋팅"
+	L["Dynamic Group Settings"] = "유동적 그룹 설정"
 	L["Dynamic Information"] = "유동적 정보"
 	L["Dynamic information from first active trigger"] = "첫 번째 활성화된 활성 조건의 유동적 정보"
 	L["Dynamic information from Trigger %i"] = "활성 조건 %i의 유동적 정보"
@@ -409,8 +407,7 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	--[[Translation missing --]]
 	L["Group contains updates from Wago"] = "Group contains updates from Wago"
 	L["Group Icon"] = "그룹 아이콘"
-	--[[Translation missing --]]
-	L["Group key"] = "Group key"
+	L["Group key"] = "그룹 키"
 	L["Group Member Count"] = "그룹원 수"
 	L["Group Role"] = "그룹 역할"
 	L["Group Scale"] = "그룹 크기 비율"
@@ -555,8 +552,7 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Not Loaded"] = "불러오지 않음"
 	--[[Translation missing --]]
 	L["Note: Automated Messages to SAY and YELL are blocked outside of Instances."] = "Note: Automated Messages to SAY and YELL are blocked outside of Instances."
-	--[[Translation missing --]]
-	L["Number of Entries"] = "Number of Entries"
+	L["Number of Entries"] = "항목 수"
 	L["Offer a guided way to create auras for your character"] = "캐릭터를 위한 효과 생성 가이드를 제공합니다"
 	L["Okay"] = "확인"
 	L["On Hide"] = "숨겨질 때"
@@ -589,8 +585,7 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	--[[Translation missing --]]
 	L["Paste Author Options Settings"] = "Paste Author Options Settings"
 	L["Paste Condition Settings"] = "조건 설정 붙여넣기"
-	--[[Translation missing --]]
-	L["Paste Custom Configuration"] = "Paste Custom Configuration"
+	L["Paste Custom Configuration"] = "사용자 설정 구성 붙여넣기"
 	L["Paste Display Settings"] = "디스플레이 설정 붙여넣기"
 	L["Paste Group Settings"] = "그룹 설정 붙여넣기"
 	L["Paste Load Settings"] = "불러오기 설정 붙여넣기"
@@ -599,7 +594,7 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Paste Trigger Settings"] = "활성 조건 설정 붙여넣기"
 	L["Play Sound"] = "소리 재생"
 	L["Portrait Zoom"] = "초상화 확대"
-	L["Position Settings"] = "자리 설정"
+	L["Position Settings"] = "위치 설정"
 	--[[Translation missing --]]
 	L["Preferred Match"] = "Preferred Match"
 	--[[Translation missing --]]

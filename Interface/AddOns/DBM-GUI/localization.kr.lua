@@ -64,8 +64,10 @@ L.ModelSoundOptions			= "모델 뷰어에서 사용할 효과음 설정"
 L.ModelSoundShort			= "짧은 효과음"
 L.ModelSoundLong			= "긴 효과음"
 
-L.ResizeOptions			 	= "창 크기 설정"
-L.Button_ResetWindowSize	= "GUI 창 크기 초기화"
+L.ResizeOptions			 	= "설정 창 크기 설정"
+L.Button_ResetWindowSize	= "설정 창 크기 초기화"
+L.Editbox_WindowWidth		= "설정 창 너비"
+L.Editbox_WindowHeight		= "설정 창 높이"
 
 -- Tab: Raidwarning
 L.Tab_RaidWarning 			= "공격대 경보"
@@ -308,7 +310,6 @@ L.DisableSFX				= "보스 전투중 소리 채널 (효과음) 끄기"
 L.DisableCinematics			= "게임 내 영상 끄기"
 L.OnlyFight					= "전투중일 때 한번만 재생"
 L.AfterFirst				= "인스턴스 던전에 있을 때 한번만 재생"
-L.Always					= "항상 끄기"
 L.CombatOnly				= "전투중 차단 (모든 전투)"
 L.RaidCombat				= "전투중 차단 (보스만)"
 

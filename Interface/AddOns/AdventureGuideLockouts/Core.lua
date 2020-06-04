@@ -253,6 +253,7 @@ function AddOn:CreateStatusFrame(instanceButton, difficulty)
   statusFrame:SetScript("OnEnter", function(frame)
     _G.GameTooltip:SetOwner(frame, "ANCHOR_RIGHT")
     _G.GameTooltip:SetText(frame.instanceInfo.instanceName .. " (" .. frame.instanceInfo.difficultyName .. ")")
+    _G.GameTooltip:AddLine(" ")
     for i = 1, #frame.instanceInfo.encounters do
       local encounter = frame.instanceInfo.encounters[i]
       local r, g, b = GREEN_FONT_COLOR.r, GREEN_FONT_COLOR.g, GREEN_FONT_COLOR.b

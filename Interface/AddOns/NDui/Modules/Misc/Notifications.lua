@@ -22,13 +22,13 @@ local C_Map_GetBestMapForUnit = C_Map.GetBestMapForUnit
 ]]
 local soloInfo
 local instList = {
-	[556] = 2,		-- H塞塔克大厅，乌鸦
-	[575] = 2,		-- H乌特加德之巅，蓝龙
-	[585] = 2,		-- H魔导师平台，白鸡
-	[631] = 6,		-- 25H冰冠堡垒，无敌
-	[1205] = 16,	-- M黑石，裂蹄牛
-	[1448] = 16,	-- M地狱火，魔钢
-	[1651] = 23,	-- M卡拉赞，新午夜
+	[556] = 2, -- H塞塔克大厅，乌鸦
+	[575] = 2, -- H乌特加德之巅，蓝龙
+	[585] = 2, -- H魔导师平台，白鸡
+	[631] = 6, -- 25H冰冠堡垒，无敌
+	[1205] = 16, -- M黑石，裂蹄牛
+	[1448] = 16, -- M地狱火，魔钢
+	[1651] = 23, -- M卡拉赞，新午夜
 }
 
 function M:SoloInfo_Create()
@@ -91,12 +91,12 @@ end
 ]]
 local cache = {}
 local isIgnored = {
-	[1153] = true,	-- 部落要塞
-	[1159] = true,	-- 联盟要塞
-	[1803] = true,	-- 涌泉海滩
-	[1876] = true,	-- 部落激流堡
-	[1943] = true,	-- 联盟激流堡
-	[2111] = true,	-- 黑海岸前线
+	[1153] = true, -- 部落要塞
+	[1159] = true, -- 联盟要塞
+	[1803] = true, -- 涌泉海滩
+	[1876] = true, -- 部落激流堡
+	[1943] = true, -- 联盟激流堡
+	[2111] = true, -- 黑海岸前线
 }
 
 function M:RareAlert_Update(id)
@@ -166,27 +166,27 @@ local infoType = {
 }
 
 local blackList = {
-	[99] = true,		-- 夺魂咆哮
-	[122] = true,		-- 冰霜新星
-	[1776] = true,		-- 凿击
-	[1784] = true,		-- 潜行
-	[5246] = true,		-- 破胆怒吼
-	[8122] = true,		-- 心灵尖啸
-	[31661] = true,		-- 龙息术
-	[33395] = true,		-- 冰冻术
-	[64695] = true,		-- 陷地
-	[82691] = true,		-- 冰霜之环
-	[91807] = true,		-- 蹒跚冲锋
-	[102359] = true,	-- 群体缠绕
-	[105421] = true,	-- 盲目之光
-	[115191] = true,	-- 潜行
-	[157997] = true,	-- 寒冰新星
-	[197214] = true,	-- 裂地术
-	[198121] = true,	-- 冰霜撕咬
-	[207167] = true,	-- 致盲冰雨
-	[207685] = true,	-- 悲苦咒符
-	[226943] = true,	-- 心灵炸弹
-	[228600] = true,	-- 冰川尖刺
+	[99] = true, -- 夺魂咆哮
+	[122] = true, -- 冰霜新星
+	[1776] = true, -- 凿击
+	[1784] = true, -- 潜行
+	[5246] = true, -- 破胆怒吼
+	[8122] = true, -- 心灵尖啸
+	[31661] = true, -- 龙息术
+	[33395] = true, -- 冰冻术
+	[64695] = true, -- 陷地
+	[82691] = true, -- 冰霜之环
+	[91807] = true, -- 蹒跚冲锋
+	[102359] = true, -- 群体缠绕
+	[105421] = true, -- 盲目之光
+	[115191] = true, -- 潜行
+	[157997] = true, -- 寒冰新星
+	[197214] = true, -- 裂地术
+	[198121] = true, -- 冰霜撕咬
+	[207167] = true, -- 致盲冰雨
+	[207685] = true, -- 悲苦咒符
+	[226943] = true, -- 心灵炸弹
+	[228600] = true, -- 冰川尖刺
 }
 
 function M:IsAllyPet(sourceFlags)
@@ -239,6 +239,7 @@ end
 --[[
 	NDui版本过期提示
 ]]
+local lastVCTime, isVCInit = 0
 function M:VersionCheck_Compare(new, old)
 	local new1, new2 = strsplit(".", new)
 	new1, new2 = tonumber(new1), tonumber(new2)
@@ -254,25 +255,35 @@ function M:VersionCheck_Compare(new, old)
 end
 
 function M:VersionCheck_Create(text)
+	if not NDuiADB["VersionCheck"] then return end
+
 	local frame = CreateFrame("Frame", nil, nil, "MicroButtonAlertTemplate")
 	frame:SetPoint("BOTTOMLEFT", ChatFrame1, "TOPLEFT", 20, 70)
 	frame.Text:SetText(text)
 	frame:Show()
 end
 
-local hasChecked
-function M:VersionCheck_Initial()
-	if not hasChecked then
-		if M:VersionCheck_Compare(NDuiADB["DetectVersion"], DB.Version) == "IsNew" then
+function M:VersionCheck_Init()
+	if not isVCInit then
+		local status = M:VersionCheck_Compare(NDuiADB["DetectVersion"], DB.Version)
+		if status == "IsNew" then
 			local release = gsub(NDuiADB["DetectVersion"], "(%d+)$", "0")
 			M:VersionCheck_Create(format(L["Outdated NDui"], release))
+		elseif status == "IsOld" then
+			NDuiADB["DetectVersion"] = DB.Version
 		end
 
-		hasChecked = true
+		isVCInit = true
 	end
 end
 
-local lastTime = 0
+function M:VersionCheck_Send(channel)
+	if GetTime() - lastVCTime >= 10 then
+		C_ChatInfo_SendAddonMessage("NDuiVersionCheck", NDuiADB["DetectVersion"], channel)
+		lastVCTime = GetTime()
+	end
+end
+
 function M:VersionCheck_Update(...)
 	local prefix, msg, distType, author = ...
 	if prefix ~= "NDuiVersionCheck" then return end
@@ -282,35 +293,28 @@ function M:VersionCheck_Update(...)
 	if status == "IsNew" then
 		NDuiADB["DetectVersion"] = msg
 	elseif status == "IsOld" then
-		if GetTime() - lastTime > 10 then
-			C_ChatInfo_SendAddonMessage("NDuiVersionCheck", NDuiADB["DetectVersion"], distType)
-			lastTime = GetTime()
-		end
+		M:VersionCheck_Send(distType)
 	end
 
-	M:VersionCheck_Initial()
+	M:VersionCheck_Init()
 end
 
-local prevTime = 0
 function M:VersionCheck_UpdateGroup()
-	if not IsInGroup() or (GetTime()-prevTime < 10) then return end
-	prevTime = GetTime()
-	C_ChatInfo_SendAddonMessage("NDuiVersionCheck", DB.Version, msgChannel())
+	if not IsInGroup() then return end
+	M:VersionCheck_Send(msgChannel())
 end
 
 function M:VersionCheck()
-	hasChecked = not NDuiADB["VersionCheck"]
-
-	B:RegisterEvent("CHAT_MSG_ADDON", self.VersionCheck_Update)
-
-	M:VersionCheck_Initial()
+	M:VersionCheck_Init()
 	C_ChatInfo_RegisterAddonMessagePrefix("NDuiVersionCheck")
+	B:RegisterEvent("CHAT_MSG_ADDON", M.VersionCheck_Update)
+
 	if IsInGuild() then
 		C_ChatInfo_SendAddonMessage("NDuiVersionCheck", DB.Version, "GUILD")
+		lastVCTime = GetTime()
 	end
-
-	self:VersionCheck_UpdateGroup()
-	B:RegisterEvent("GROUP_ROSTER_UPDATE", self.VersionCheck_UpdateGroup)
+	M:VersionCheck_UpdateGroup()
+	B:RegisterEvent("GROUP_ROSTER_UPDATE", M.VersionCheck_UpdateGroup)
 end
 
 --[[
@@ -391,21 +395,22 @@ end
 ]]
 local lastTime = 0
 local itemList = {
-	[698] = true,		-- 召唤仪式
-	[8143] = true,		-- 战栗图腾
-	[29893] = true,		-- 灵魂之井
-	[54710] = true,		-- 随身邮箱
-	[67826] = true,		-- 基维斯
-	[199109] = true,	-- 自动铁锤
-	[190336] = true,	-- 造餐术
-	[226241] = true,	-- 宁神圣典
-	[256230] = true,	-- 静心圣典
-	[185709] = true,	-- 焦糖鱼宴
-	[259409] = true,	-- 海帆盛宴
-	[259410] = true,	-- 船长盛宴
-	[276972] = true,	-- 秘法药锅
-	[286050] = true,	-- 鲜血大餐
-	[265116] = true,	-- 工程战复
+	[698] = true, -- 召唤仪式
+	[8143] = true, -- 战栗图腾
+	[29893] = true, -- 灵魂之井
+	[54710] = true, -- 随身邮箱
+	[67826] = true, -- 基维斯
+	[185709] = true, -- 焦糖鱼宴
+	[190336] = true, -- 造餐术
+	[199109] = true, -- 自动铁锤
+	[200204] = true, -- 自动铁锤模式
+	[226241] = true, -- 宁神圣典
+	[256230] = true, -- 静心圣典
+	[259409] = true, -- 海帆盛宴
+	[259410] = true, -- 船长盛宴
+	[265116] = true, -- 工程战复
+	[276972] = true, -- 秘法药锅
+	[286050] = true, -- 鲜血大餐
 }
 
 function M:ItemAlert_Update(unit, _, spellID)

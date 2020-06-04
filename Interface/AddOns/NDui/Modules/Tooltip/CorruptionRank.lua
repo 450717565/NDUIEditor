@@ -179,8 +179,31 @@ function TT:Corruption_AddSummary()
 end
 
 function TT:Corruption_PlayerSummary()
+	self.tooltipShowing = true
+	self.Eye:SetAtlas("Nzoth-charactersheet-icon-glow", true)
+
+	GameTooltip_SetBackdropStyle(GameTooltip, GAME_TOOLTIP_BACKDROP_STYLE_CORRUPTED_ITEM)
+	GameTooltip:SetOwner(self, "ANCHOR_NONE")
+	GameTooltip:ClearAllPoints()
+	GameTooltip:SetPoint("TOPLEFT", CharacterFrame, "TOPRIGHT", 3, 0)
+	GameTooltip:ClearLines()
+	GameTooltip:AddLine(CORRUPTION_TOOLTIP_TITLE, 1,1,1)
+	GameTooltip:AddLine(CORRUPTION_DESCRIPTION, 1,.8,0, 1)
+
+	local total = GetCorruption()
+	local resistance = GetCorruptionResistance()
+	local current = max((total - resistance), 0)
+
+	GameTooltip:AddLine(" ")
+	GameTooltip:AddDoubleLine(CORRUPTION_TOOLTIP_LINE, total, 1,1,1, 1,1,1)
+	GameTooltip:AddDoubleLine(CORRUPTION_RESISTANCE_TOOLTIP_LINE, resistance, 1,1,1, 1,1,1)
+	GameTooltip:AddDoubleLine(TOTAL_CORRUPTION_TOOLTIP_LINE, current, corruptionR,corruptionG,corruptionB, corruptionR,corruptionG,corruptionB)
+
 	TT:Corruption_Summary("player")
 	TT:Corruption_AddSummary()
+
+	PaperDollFrame_UpdateCorruptedItemGlows(true)
+	PlaySound(SOUNDKIT.NZOTH_EYE_SQUISH)
 
 	local inspectFrame = PaperDollFrame.inspectFrame
 	if inspectFrame and inspectFrame:IsShown() then
@@ -235,6 +258,7 @@ end
 function TT:Corruption_InspectSummary()
 	if not self.guid then return end
 
+	GameTooltip_SetBackdropStyle(GameTooltip, GAME_TOOLTIP_BACKDROP_STYLE_CORRUPTED_ITEM)
 	GameTooltip:SetOwner(self, "ANCHOR_NONE")
 	GameTooltip:ClearAllPoints()
 	GameTooltip:SetPoint("TOPLEFT", InspectFrame, "TOPRIGHT", 3, 0)
@@ -242,24 +266,28 @@ function TT:Corruption_InspectSummary()
 	GameTooltip:AddLine(CORRUPTION_TOOLTIP_TITLE, 1,1,1)
 	GameTooltip:AddLine(CORRUPTION_DESCRIPTION, 1,.8,0, 1)
 
-	TT:Corruption_Summary(InspectFrame.unit)
-	TT:Corruption_AddSummary()
-
 	local total = TT:Corruption_Total()
 	local essence = TT:Corruption_SearchEssence()
 	local cloak = TT:Corruption_SearchCloak()
 	local resistance = essence + cloak
+	local current = max((total - resistance), 0)
 
 	GameTooltip:AddLine(" ")
 	GameTooltip:AddDoubleLine(CORRUPTION_TOOLTIP_LINE, total, 1,1,1, 1,1,1)
 	GameTooltip:AddDoubleLine(CORRUPTION_RESISTANCE_TOOLTIP_LINE, resistance, 1,1,1, 1,1,1)
-	GameTooltip:AddDoubleLine(TOTAL_CORRUPTION_TOOLTIP_LINE, max((total - resistance), 0), corruptionR,corruptionG,corruptionB, corruptionR,corruptionG,corruptionB)
-	GameTooltip:Show()
+	GameTooltip:AddDoubleLine(TOTAL_CORRUPTION_TOOLTIP_LINE, current, corruptionR,corruptionG,corruptionB, corruptionR,corruptionG,corruptionB)
 
-	local inspectFrame = InspectFrame.inspectFrame.inspectFrame
-	if inspectFrame and inspectFrame:IsShown() then
+	TT:Corruption_Summary(InspectFrame.unit)
+	TT:Corruption_AddSummary()
+
+	local inspectFrameT = InspectFrame.inspectFrame
+	local inspectFrameP = InspectFrame.inspectFrame.inspectFrame
+	if inspectFrameP and inspectFrameP:IsShown() then
 		GameTooltip:ClearAllPoints()
-		GameTooltip:SetPoint("TOPLEFT", inspectFrame, "TOPRIGHT", 3, 0)
+		GameTooltip:SetPoint("TOPLEFT", inspectFrameP, "TOPRIGHT", 3, 0)
+	elseif inspectFrameT and inspectFrameT:IsShown() then
+		GameTooltip:ClearAllPoints()
+		GameTooltip:SetPoint("TOPLEFT", inspectFrameT, "TOPRIGHT", 3, 0)
 	end
 end
 

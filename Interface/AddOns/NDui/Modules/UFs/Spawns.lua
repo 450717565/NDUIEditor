@@ -318,6 +318,8 @@ function UF:OnLogin()
 		-- Group Styles
 		local partyMover, partyMover
 		if NDuiDB["UFs"]["PartyFrame"] then
+			UF:SyncWithZenTracker()
+
 			oUF:RegisterStyle("Party", CreatePartyStyle)
 			oUF:SetActiveStyle("Party")
 

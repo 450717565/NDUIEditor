@@ -70,7 +70,7 @@ local function showRealDate(curseDate)
 end
 
 DBM = {
-	Revision = parseCurseDate("20200530231328"),
+	Revision = parseCurseDate("20200604014228"),
 	DisplayVersion = "8.3.25 alpha", -- the string that is shown as version
 	ReleaseRevision = releaseDate(2020, 5, 27, 12) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
@@ -419,6 +419,7 @@ local schedule
 local unschedule
 local unscheduleAll
 local scheduleCountdown
+local scheduleRepeat
 local loadOptions
 local checkWipe
 local checkBossHealth
@@ -430,7 +431,7 @@ local playerRealm = GetRealmName()
 local connectedServers = GetAutoCompleteRealms()
 local LastInstanceMapID = -1
 local LastGroupSize = 0
-local LastInstanceType = nil
+local LastInstanceType
 local queuedBattlefield = {}
 local watchFrameRestore = false
 local bossHealth = {}
@@ -1616,7 +1617,7 @@ do
 	local popCachedTable, pushCachedTable
 	local numChachedTables = 0
 	do
-		local tableCache = nil
+		local tableCache
 
 		-- gets a table from the stack, it will then be recycled.
 		function popCachedTable()
@@ -1844,6 +1845,14 @@ do
 		numAnnounces = numAnnounces or 3
 		for i = 1, numAnnounces do
 			schedule(time - i, func, mod, self, i, ...)
+		end
+	end
+
+	function scheduleRepeat(time, spellId, func, mod, self, ...)
+		--Loops until debuff is gone
+		if DBM:UnitAura("player", spellId) then
+			func(...)--Probably not going to work, this is going to need to get a lot more hacky
+			schedule(time or 2, scheduleRepeat, time, spellId, func, mod, self, ...)
 		end
 	end
 
@@ -3862,14 +3871,18 @@ do
 			local path = "MISSING"
 			if self.Options.EventSoundDungeonBGM == "Random" then
 				local usedTable = self.Options.EventSoundMusicCombined and DBM.Music or DBM.DungeonMusic
-				local random = fastrandom(3, #usedTable)
-				path = usedTable[random].value
+				if #usedTable >= 3 then
+					local random = fastrandom(3, #usedTable)
+					path = usedTable[random].value
+				end
 			else
 				path = self.Options.EventSoundDungeonBGM
 			end
-			PlayMusic(path)
-			self.Options.musicPlaying = true
-			DBM:Debug("Starting Dungeon music with file: "..path)
+			if path ~= "MISSING" then
+				PlayMusic(path)
+				self.Options.musicPlaying = true
+				DBM:Debug("Starting Dungeon music with file: "..path)
+			end
 		end
 	end
 	local function SecondaryLoadCheck(self)
@@ -6007,14 +6020,18 @@ do
 					local path = "MISSING"
 					if self.Options.EventSoundMusic == "Random" then
 						local usedTable = self.Options.EventSoundMusicCombined and DBM.Music or DBM.BattleMusic
-						local random = fastrandom(3, #usedTable)
-						path = usedTable[random].value
+						if #usedTable >= 3 then
+							local random = fastrandom(3, #usedTable)
+							path = usedTable[random].value
+						end
 					else
 						path = self.Options.EventSoundMusic
 					end
-					PlayMusic(path)
-					self.Options.musicPlaying = true
-					DBM:Debug("Starting combat music with file: "..path)
+					if path ~= "MISSING" then
+						PlayMusic(path)
+						self.Options.musicPlaying = true
+						DBM:Debug("Starting combat music with file: "..path)
+					end
 				end
 			else
 				self:AddMsg(L.COMBAT_STATE_RECOVERED:format(difficultyText..name, strFromTime(delay)))
@@ -6163,8 +6180,10 @@ do
 					end
 					if self.Options.EventSoundWipe and self.Options.EventSoundWipe ~= "None" and self.Options.EventSoundWipe ~= "" then
 						if self.Options.EventSoundWipe == "Random" then
-							local random = fastrandom(3, #DBM.Defeat)
-							self:PlaySoundFile(DBM.Defeat[random].value)--Since this one hard reads table, shouldn't need to validate path
+							if #self.Defeat >= 3 then
+								local random = fastrandom(3, #self.Defeat)
+								self:PlaySoundFile(DBM.Defeat[random].value)
+							end
 						else
 							self:PlaySoundFile(self.Options.EventSoundWipe, nil, true)
 						end
@@ -6318,8 +6337,10 @@ do
 				end
 				if self.Options.EventSoundVictory2 and self.Options.EventSoundVictory2 ~= "None" and self.Options.EventSoundVictory2 ~= "" then
 					if self.Options.EventSoundVictory2 == "Random" then
-						local random = fastrandom(3, #DBM.Victory)
-						self:PlaySoundFile(DBM.Victory[random].value)
+						if #self.Victory >= 3 then
+							local random = fastrandom(3, #self.Victory)
+							self:PlaySoundFile(self.Victory[random].value)
+						end
 					else
 						self:PlaySoundFile(self.Options.EventSoundVictory2, nil, true)
 					end
@@ -6647,6 +6668,17 @@ function DBM:GetSpellInfo(spellId)
 		return nil
 	else--Good request, return now
 		return name, rank, icon, castingTime, minRange, maxRange, returnedSpellId
+	end
+end
+
+function DBM:UnitAura(uId, spellInput, spellInput2, spellInput3, spellInput4)
+	if not uId then return end
+	for i = 1, 60 do
+		local spellName, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, nameplateShowAll, timeMod, value1, value2, value3 = UnitAura(uId, i)
+		if not spellName then return end
+		if spellInput == spellName or spellInput == spellId or spellInput2 == spellName or spellInput2 == spellId or spellInput3 == spellName or spellInput3 == spellId or spellInput4 == spellName or spellInput4 == spellId then
+			return spellName, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, nameplateShowAll, timeMod, value1, value2, value3
+		end
 	end
 end
 
@@ -7966,7 +7998,7 @@ end
 
 do
 	local bossCache = {}
-	local lastTank = nil
+	local lastTank
 
 	function bossModPrototype:GetCurrentTank(cidOrGuid)
 		if lastTank and GetTime() - (bossCache[cidOrGuid] or 0) < 2 then -- return last tank within 2 seconds of call
@@ -9370,6 +9402,7 @@ do
 		end
 		local obj = setmetatable(
 			{
+				spellId = spellId,
 				text = displayText or yellText,
 				mod = self,
 				chatType = chatType,
@@ -9395,11 +9428,7 @@ do
 		end
 		if DBM.Options.DontSendYells or self.yellType and self.yellType == "position" and DBM:UnitBuff("player", voidForm) and DBM.Options.FilterVoidFormSay then return end
 		if not self.option or self.mod.Options[self.option] then
-			if self.yellType == "combo" then
-				SendChatMessage(pformat(self.text, ...), self.chatType or "YELL")
-			else
-				SendChatMessage(pformat(self.text, ...), self.chatType or "SAY")
-			end
+			SendChatMessage(pformat(self.text, ...), self.chatType or "SAY")
 		end
 	end
 	yellPrototype.Show = yellPrototype.Yell
@@ -9430,6 +9459,10 @@ do
 		else
 			scheduleCountdown(time, numAnnounces, self.Yell, self.mod, self, ...)
 		end
+	end
+
+	function yellPrototype:Repeat(...)
+		scheduleRepeat(time, self.Yell, self.spellId, self.mod, self, ...)
 	end
 
 	function yellPrototype:Cancel(...)
@@ -9466,6 +9499,14 @@ do
 
 	function bossModPrototype:NewComboYell(...)
 		return newYell(self, "combo", ...)
+	end
+
+	function bossModPrototype:NewPlayerRepeatYell(...)
+		return newYell(self, "repeatplayer", ...)
+	end
+
+	function bossModPrototype:NewIconRepeatYell(...)
+		return newYell(self, "repeaticon", ...)
 	end
 end
 
@@ -10243,9 +10284,9 @@ end
 do
 	local timerPrototype = {}
 	local mt = {__index = timerPrototype}
-	local countvoice1, countvoice2, countvoice3 = nil, nil, nil
+	local countvoice1, countvoice2, countvoice3
 	local countvoice1max, countvoice2max, countvoice3max = 5, 5, 5
-	local countpath1, countpath2, countpath3 = nil, nil, nil
+	local countpath1, countpath2, countpath3
 
 	--Merged countdown object for timers with build-in countdown
 	function DBM:BuildVoiceCountdownCache()
@@ -11567,7 +11608,7 @@ end
 
 function bossModPrototype:SetRevision(revision)
 	revision = parseCurseDate(revision or "")
-	if not revision or revision == "20200530231328" then
+	if not revision or revision == "20200604014228" then
 		-- bad revision: either forgot the svn keyword or using github
 		revision = DBM.Revision
 	end
