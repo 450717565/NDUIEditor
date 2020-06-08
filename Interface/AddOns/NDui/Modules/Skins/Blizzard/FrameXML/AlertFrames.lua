@@ -7,7 +7,7 @@ tinsert(C.defaultThemes, function()
 
 	-- Fix Alertframe bg
 	local function fixBg(frame)
-		if frame:GetObjectType() == "AnimationGroup" then
+		if frame:IsObjectType("AnimationGroup") then
 			frame = frame:GetParent()
 		end
 		if frame.bg then

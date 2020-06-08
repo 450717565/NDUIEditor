@@ -14,11 +14,16 @@ local LE_ITEM_CLASS_WEAPON, LE_ITEM_CLASS_ARMOR = LE_ITEM_CLASS_WEAPON, LE_ITEM_
 local BN_TOAST_TYPE_CLUB_INVITATION = BN_TOAST_TYPE_CLUB_INVITATION or 6
 
 -- Filter Chat symbols
-local msgSymbols = {"`", "～", "＠", "＃", "^", "＊", "！", "？", "。", "|", " ", "—", "——", "￥", "’", "‘", "“", "”", "【", "】", "『", "』", "《", "》", "〈", "〉", "（", "）", "〔", "〕", "、", "，", "：", ",", "_", "/", "~", "%-", "%."}
+local msgSymbols = {"`", "～", "＠", "＃", "^", "＊", "！", "？", "。", "|", " ", "—", "——", "￥", "’", "‘", "“", "”", "【", "】", "『", "』", "《", "》", "〈", "〉", "（", "）", "〔", "〕", "、", "，", "：", ",", "_", "/", "~"}
 
 local FilterList = {}
 function module:UpdateFilterList()
 	B.SplitList(FilterList, NDuiADB["ChatFilterList"], true)
+end
+
+local WhiteFilterList = {}
+function module:UpdateFilterWhiteList()
+	B.SplitList(WhiteFilterList, NDuiADB["ChatFilterWhiteList"], true)
 end
 
 -- ECF strings compare
@@ -63,6 +68,23 @@ function module:GetFilterResult(event, msg, name, flag, guid)
 		filterMsg = gsub(filterMsg, symbol, "")
 	end
 
+	if event == "CHAT_MSG_CHANNEL" then
+		local matches = 0
+		local found
+		for keyword in pairs(WhiteFilterList) do
+			if keyword ~= "" then
+				found = true
+				local _, count = gsub(filterMsg, keyword, "")
+				if count > 0 then
+					matches = matches + 1
+				end
+			end
+		end
+		if matches == 0 and found then
+			return 0
+		end
+	end
+
 	local matches = 0
 	for keyword in pairs(FilterList) do
 		if keyword ~= "" then
@@ -96,7 +118,7 @@ function module:GetFilterResult(event, msg, name, flag, guid)
 end
 
 function module:UpdateChatFilter(event, msg, author, _, _, _, flag, _, _, _, _, lineID, guid)
-	if lineID == 0 or lineID ~= prevLineID then
+	if lineID ~= prevLineID then
 		prevLineID = lineID
 
 		local name = Ambiguate(author, "none")
@@ -269,6 +291,7 @@ function module:ChatFilter()
 	for _, event in pairs(chatEvents) do
 		if NDuiDB["Chat"]["EnableFilter"] then
 			self:UpdateFilterList()
+			self:UpdateFilterWhiteList()
 			ChatFrame_AddMessageEventFilter(event, self.UpdateChatFilter)
 		end
 

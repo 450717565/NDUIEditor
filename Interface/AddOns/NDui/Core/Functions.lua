@@ -627,7 +627,7 @@ do
 		if self.Tex then return end
 
 		local frame = self
-		if self:GetObjectType() == "Texture" then frame = self:GetParent() end
+		if self:IsObjectType("Texture") then frame = self:GetParent() end
 
 		local Tex = frame:CreateTexture(nil, "BACKGROUND", nil, 1)
 		Tex:SetAllPoints(self)
@@ -644,7 +644,7 @@ do
 		if self.Shadow then return end
 
 		local frame = self
-		if self:GetObjectType() == "Texture" then frame = self:GetParent() end
+		if self:IsObjectType("Texture") then frame = self:GetParent() end
 
 		local lvl = frame:GetFrameLevel()
 		local Shadow = CreateFrame("Frame", nil, frame)
@@ -861,7 +861,7 @@ do
 	-- Handle frame
 	function B:CreateBDFrame(alpha, offset, noGF)
 		local frame = self
-		if self:GetObjectType() == "Texture" then frame = self:GetParent() end
+		if self:IsObjectType("Texture") then frame = self:GetParent() end
 
 		local lvl = frame:GetFrameLevel()
 		local bg = CreateFrame("Frame", nil, frame)
@@ -1066,7 +1066,7 @@ do
 			B.CleanTextures(parent)
 		end
 
-		local frameName = self.GetName and self:GetName()
+		local frameName = self.GetDebugName and self:GetDebugName()
 		local thumb
 		if self.GetThumbTexture then
 			thumb = self:GetThumbTexture()

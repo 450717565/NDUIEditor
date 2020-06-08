@@ -9,7 +9,7 @@ local activeObjects = {}
 local handledObjects = {}
 
 local TARGET_FPS = 60
-local AMOUNT = .33
+local AMOUNT = .4
 
 local function clamp(v, min, max)
 	min = min or 0
@@ -118,5 +118,5 @@ function B:DesmoothBar()
 end
 
 function B:SetSmoothingAmount()
-	AMOUNT = clamp(self, .15, .6)
+	AMOUNT = clamp(self, .2, .8)
 end

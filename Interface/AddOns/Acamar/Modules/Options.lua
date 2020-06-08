@@ -1,11 +1,62 @@
 local addonName, addon = ...
 local Options, L, LSM, WidgetLists
 ------------------------------------------------------------------------------
+local GetNumFriends, GetFriendInfo, GetNumIgnores, GetIgnoreName
+
+local ignorelist_before_hook = {}
+
+local OP_SYNC = 0
+local OP_ADD = 1
+local OP_DEL = 2
+local OP_ADD_DEL = 3
+local OP_DEL_IDX = 4
+
 if(addonName ~= nil) then
 	Options = addon:NewModule("Options", "AceConsole-3.0")
 	L = LibStub("AceLocale-3.0"):GetLocale(addonName)
 	LSM = LibStub("LibSharedMedia-3.0")
 	WidgetLists = AceGUIWidgetLSMlists
+
+    GetNumFriends = C_FriendList.GetNumFriends
+    GetFriendInfo = C_FriendList.GetFriendInfo
+    GetNumIgnores = C_FriendList.GetNumIgnores
+    GetIgnoreName = C_FriendList.GetIgnoreName
+
+	-- hook add ignore events
+	addon.oriAddIgnore = C_FriendList.AddIgnore
+	C_FriendList.AddIgnore = function(...)
+		local arg={...}
+		Options:FetchBL()
+		addon.oriAddIgnore(arg[1])
+		Options:SyncBL(OP_ADD, arg[1])
+	end
+
+	-- hook del ignore events
+	addon.oriDelIgnore = C_FriendList.DelIgnore
+	C_FriendList.DelIgnore = function(...)
+		local arg={...}
+		Options:FetchBL()
+		addon.oriDelIgnore(arg[1])
+		Options:SyncBL(OP_DEL, arg[1])
+	end
+
+	-- hook del by index
+	addon.oriDelIgnoreByIndex = C_FriendList.DelIgnoreByIndex
+	C_FriendList.DelIgnoreByIndex = function(...)
+		local arg={...}
+		Options:FetchBL()
+		addon.oriDelIgnoreByIndex(arg[1])
+		Options:SyncBL(OP_ADD_DEL, arg[1])
+	end
+
+	-- book add or del ignore
+	addon.oriAddOrDelIgnore = C_FriendList.AddOrDelIgnore
+	C_FriendList.AddOrDelIgnore = function(...)
+		local arg={...}
+		Options:FetchBL()
+		addon.oriAddOrDelIgnore(arg[1])
+		Options:SyncBL(OP_DEL_IDX, arg[1])
+	end
 else
 	addon = {}
 	Options = {}
@@ -53,9 +104,11 @@ Options.defaults = {
 		-- filter channels settings
 		filter_channel_set = addon.MSG_FILTER_CHANNEL_SET_NORMAL,
 		-- message rewrite
-		message_rewrite = true,
+		message_rewrite = false,
 		-- bypass friends
 		bypass_friends = true,
+		-- minimap icon switch
+		minimap_icon_switch = false,
 		-- analysis run params
 		analysis = {
 			interval = 300,
@@ -86,6 +139,8 @@ Options.defaults = {
 		deviation_threshold = 0.25,
 		-- whitelist
 		wl = {},
+		-- bl
+		bl = {},
 		-- learning list
 		plist = {},
 		-- pre-learning list
@@ -109,24 +164,14 @@ Options.defaults = {
 local top500list = ""
 
 function Options:Load()
-    local keywords_enUS = {
-    };
-
-    local keywords_zhCN = {
-    };
-
-    -- loading default keywords based on locale
-	if( addon.db.global.keywords == nil ) then
-		if( GetLocale() == "zhCN" ) then
-			addon.db.global.keywords = keywords_zhCN
-		else
-			addon.db.global.keywords = keywords_enUS
-		end
-	end
-
 	addon.db.global.creator_addon_version = addon.db.global.creator_addon_version or addon.METADATA.VERSION
 
-	--addon.db.global.ui_switch_on = addon.db.global.ui_switch_on or true
+	self:SyncBL(OP_SYNC)
+end
+
+function Options:SyncBL(...)
+	local syncargs = {...}
+	C_Timer.After(1, function() sync_bl_func(syncargs) end)
 end
 
 function Options:SaveSession()
@@ -315,7 +360,7 @@ function GetBannedTable(max)
 
 		local idx = string.format("%08d", counter)
 
-		list[idx] = bannedlist[key].name .. " [" .. spamcolor .. bannedlist[key].score .. "|r]" .. "\n"
+		list[idx] = bannedlist[key].name .. " [" .. spamcolor .. bannedlist[key].score .. "|r]"
 		counter = counter + 1
 		if counter>500 then
 			break
@@ -388,6 +433,89 @@ function addon:SaveWL(str)
 	--addon:log("SaveWL" .. str)
 	local t = SplitString(str, "\n")
 	addon.db.global.wl = t
+end
+
+----------- blacklist functions
+function Options:FetchBL()
+	ignorelist_before_hook = {}
+	for i = 1, GetNumIgnores() do
+        ignorelist_before_hook[GetIgnoreName(i)] = true
+    end
+end
+
+-- Blacklist synced from ignore list
+function GetBLTable()
+	local list = {}
+	for k, v in pairs(addon.db.global.bl) do
+		list[k] = k
+	end
+	return list
+end
+
+function ToggleBLEntry(info, val)
+	--addon:log("info=" .. tostring(info) .. " val=" .. tostring(val) .. " dbval=" .. tostring(addon.db.global.bl[val]))
+	-- addon.db.global.bl[val] = not addon.db.global.bl[val]
+
+	addon.db.global.bl[val] = nil
+	C_FriendList.DelIgnore(val)
+	addon:log(val .. L[" had been removed from blacklist."])
+end
+
+-- igargs: arguments passed by C_FriendList:xxx functions
+function sync_bl_func(syncargs)
+	local op = syncargs[1]
+	--addon:log("op=" .. op)
+
+	local removed_list = {}
+
+	local current_ignorelist = {}
+	for i = 1, GetNumIgnores() do
+        current_ignorelist[GetIgnoreName(i)] = true
+    end
+
+    -- find removed players if any
+    for k,v in pairs(ignorelist_before_hook) do
+    	if( not current_ignorelist [k] ) then
+    		removed_list[k] = true
+    	end
+    end
+
+	-- sync current ignore list to blacklist
+	local count = 0
+	for i = 1, GetNumIgnores() do
+        addon.db.global.bl[GetIgnoreName(i)] = true
+        count = count + 1
+    end
+
+    -- remove players which had been removed from ignorelist from acamar's blacklist
+    for k, v in pairs(removed_list) do
+    	-- addon:log("Remove " .. k)
+    	addon.db.global.bl[k] = nil
+    end
+
+    -- if in add mode, confirm the player be added to blacklist once system limit of 50 reached
+    if op == OP_ADD then
+    	-- addon:log("pname=" .. syncargs[2])
+    	addon.db.global.bl[syncargs[2]] = true
+		count = count + 1
+    end
+
+    if count > 0 then
+		addon:log(L["Blacklist has synced."])
+	end
+end
+
+function RemovePlayerFromBL()
+	--addon:log("RemovePlayerFromBL")
+end
+
+function UpdateMinimap()
+	--addon:log("addon.db.global.minimap_icon_switch=" .. tostring(addon.db.global.minimap_icon_switch))
+	if addon.db.global.minimap_icon_switch then
+		addon.AcamarMinimap:ShowIcon()
+	else
+		addon.AcamarMinimap:HideIcon()
+	end
 end
 
 -- debug
@@ -546,6 +674,21 @@ function Options.GetOptions(uiType, uiName, appName)
 							order = 2.3,
 						},
 
+						minimap_icon_switch = {
+							type = "toggle",
+							width = "normal",
+							name = L["Show minimap icon"],
+							width = "normal",
+							set = function(info,val)
+									addon.db.global.minimap_icon_switch = val
+									UpdateMinimap()
+								end,
+		      				get = function(info)
+		      						return addon.db.global.minimap_icon_switch
+		      					end,
+							order = 2.4,
+						},
+
 						header06 = {
 							type = "header",
 							name = "",
@@ -625,16 +768,53 @@ function Options.GetOptions(uiType, uiName, appName)
 					},
 				},
 
+				blacklist_panel = {
+					type = "group",
+					childGroups = "tab",
+					name = L["Black list"],
+					order = 8.0,
+					args = {
+						blacklist_desc = {
+							type = "description",
+							name = L["BL_DESC"],
+							order = 8.01,
+						},
+						blacklist_select = {
+							type = "multiselect",
+							width = "full",
+							disabled = false,
+							name = L["Black list"],
+							values = function(info) return GetBLTable() end,
+							set = function(info, val)
+									ToggleBLEntry(info, val)
+								end,
+							get = function(info, val)  end,
+							order = 8.1,
+						},
+						--[[
+						command_removebl = {
+							type = "execute",
+							width = "normal",
+							name = L["Remove selected"],
+							confirm = false,
+							desc = L["Remove selected players from blacklist and sync with system ignore list"],
+							func = function(info) RemovePlayerFromBL() end,
+							order = 8.7,
+						},
+						]]
+					},
+				},
+
 				whitelist_panel = {
 					type = "group",
 					childGroups = "tab",
 					name = L["White list"],
-					order = 8.0,
+					order = 8.5,
 					args = {
 						whitelist_desc = {
 							type = "description",
 							name = L["Enter player's name list to bypass filtering:"],
-							order = 8.01,
+							order = 8.51,
 						},
 						whitelist_select = {
 							type = "input",
@@ -648,10 +828,11 @@ function Options.GetOptions(uiType, uiName, appName)
 		      				get = function(info)
 		      						return addon:LoadWL()
 		      					end,
-							order = 8.1,
+							order = 8.6,
 						},
 					},
 				},
+
 				about_panel = {
 					type = "group",
 					childGroups = "tab",

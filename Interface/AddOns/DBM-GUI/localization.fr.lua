@@ -104,7 +104,7 @@ L.ShowKillMessage 			= "Afficher les messages de victoire dans la fenêtre de ch
 L.ShowWipeMessage 			= "Afficher les messages de défaite dans la fenêtre de chat"
 L.ShowGuildMessages 		= "Afficher les messages engagement/victoire/défaite en guilde dans la fenêtre de chat"
 L.ShowRecoveryMessage 		= "Afficher les messages de récupération des timers dans la fenêtre de chat"
-L.WhisperMessages			= "Options des chuchotements"
+L.Area_WhisperMessages		= "Options des chuchotements"
 L.AutoRespond 				= "Répondre automatiquement aux chuchotements pendant les combats"
 L.WhisperStats 				= "Inclure les victoires/défaites dans les réponses"
 L.DisableStatusWhisper 		= "Désactiver les chuchotements de statut pour le groupe entier (requiert Chef de groupe). S'appplique seulement aux raids normaux/heroïques/mythiques et aux donjons défis/mythiques."
@@ -193,16 +193,19 @@ L.SpecWarn_AlwaysVoice		= "Toujours jouer toutes les alertes vocales (Outrepasse
 
 -- Tab: Global Filter
 L.Panel_SpamFilter			= "Filtres globaux et de spam"
-L.Area_SpamFilter_Outgoing	= "Options des filtres globaux"
+L.Area_SpamFilter_Anounces	= "Announce Global Disable & Filter Options"
 L.SpamBlockNoShowAnnounce	= "Ne pas afficher d'annonces ou jouer de sons d'alerte"
-L.SpamBlockNoSpecWarn		= "Ne pas afficher d'annonces ou jouer de sons d'alerte spéciales"
+
+L.Area_SpamFilter_Timers	= "Timer Global Disable & Filter Options"
 L.SpamBlockNoShowTimers		= "Ne pas afficher les timers de module (Boss Mod/CM/LFG/Respawn)"
 L.SpamBlockNoShowUTimers	= "Ne pas afficher au joueur les timers envoyés (Personnalisés/Pull/Pause)"
+L.SpamBlockNoCountdowns		= "Ne pas jouer le son du compte à rebours"
+
+L.Area_SpamFilter_Misc		= "Misc Global Disable & Filter Options"
 L.SpamBlockNoSetIcon		= "Ne pas placer d'icônes sur les cibles"
 L.SpamBlockNoRangeFrame		= "Ne pas afficher le cadre des portées"
 L.SpamBlockNoInfoFrame		= "Ne pas afficher le cadre d'information"
 L.SpamBlockNoHudMap			= "Do not show HudMap"
-L.SpamBlockNoCountdowns		= "Ne pas jouer le son du compte à rebours"
 L.SpamBlockNoYells			= "Ne pas envoyer de cris dans le chat"
 L.SpamBlockNoNoteSync		= "Ne pas accepter les notes partagées"
 

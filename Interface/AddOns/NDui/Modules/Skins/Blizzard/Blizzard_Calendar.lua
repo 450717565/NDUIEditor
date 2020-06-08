@@ -48,7 +48,7 @@ C.themes["Blizzard_Calendar"] = function()
 		B.ReskinFrame(parent)
 	end
 
-	local frames = {CalendarViewHolidayFrame, CalendarCreateEventFrame, CalendarTexturePickerFrame, CalendarEventPickerFrame}
+	local frames = {CalendarViewHolidayFrame, CalendarCreateEventFrame, CalendarTexturePickerFrame, CalendarEventPickerFrame, CalendarMassInviteFrame, CalendarViewEventFrame}
 	for _, frame in pairs(frames) do
 		B.ReskinFrame(frame)
 	end

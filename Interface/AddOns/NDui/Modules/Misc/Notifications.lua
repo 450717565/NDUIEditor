@@ -403,7 +403,6 @@ local itemList = {
 	[185709] = true, -- 焦糖鱼宴
 	[190336] = true, -- 造餐术
 	[199109] = true, -- 自动铁锤
-	[200204] = true, -- 自动铁锤模式
 	[226241] = true, -- 宁神圣典
 	[256230] = true, -- 静心圣典
 	[259409] = true, -- 海帆盛宴
@@ -460,7 +459,7 @@ function M:NVision_Create()
 		},
 		[2] = {
 			anchorF = "LEFT", anchorT = "RIGHT", offset = 3,
-			texture = "Interface\\ICONS\\INV_Box_04",
+			texture = 2000861,
 			color = {.8, 0, 1}, reverse = true, maxValue = 12,
 		}
 	}

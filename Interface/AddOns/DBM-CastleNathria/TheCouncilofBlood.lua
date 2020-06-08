@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2426, "DBM-CastleNathria", nil, 1190)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200603165257")
+mod:SetRevision("20200605131836")
 mod:SetCreatureID(166971, 166969, 166970)--Castellan Niklaus, Baroness Frieda, Lord Stavros
 mod:SetEncounterID(2412)
 mod:SetZone()
@@ -73,7 +73,7 @@ local specWarnEvasiveLunge						= mod:NewSpecialWarningSpell(327497, "Tank", nil
 local specWarnWaltzofBlood						= mod:NewSpecialWarningDodge(327616, nil, nil, nil, 2, 2)
 local specWarnDarkRecital						= mod:NewSpecialWarningMoveTo(331634, nil, nil, nil, 1, 2)--One boss dead
 local yellDarkRecital							= mod:NewShortYell(331634)--One boss dead
-local yellDarkRecitalRepeater					= mod:NewPosYell(331634, DBM_CORE_L.AUTO_YELL_ANNOUNCE_TEXT.repeaticon)--One boss dead (TODO, change to NewIconRepeatYell object if it's 16 or less targets)
+local yellDarkRecitalRepeater					= mod:NewIconRepeatYell(331634, DBM_CORE_L.AUTO_YELL_ANNOUNCE_TEXT.shortyell)--One boss dead (TODO, remove custom yell text if less than 16 targets)
 --Intermission
 local specWarnDanseMacabre						= mod:NewSpecialWarningSpell(331005, nil, nil, nil, 3, 2)
 

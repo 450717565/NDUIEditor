@@ -83,7 +83,7 @@ local function ReskinWA()
 
 		for i = 1, frame.texteditor.frame:GetNumChildren() do
 			local child = select(i, frame.texteditor.frame:GetChildren())
-			if child:GetObjectType() == "Button" and child:GetText() then
+			if child:IsObjectType("Button") and child:GetText() then
 				B.ReskinButton(child)
 			end
 		end

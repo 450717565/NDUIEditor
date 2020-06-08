@@ -1566,7 +1566,8 @@ L["STRING_TOTAL"] = "Всего"
 L["STRING_TRANSLATE_LANGUAGE"] = "Помогите перевести Details!"
 L["STRING_TUTORIAL_FULLY_DELETE_WINDOW"] = [=[Вы закрыли окно, и вы можете возобновить его в любое время.
 Чтобы полностью удалить окно, перейдите к параметрам -> Окно: Общее -> Удалить.]=]
-L["STRING_TUTORIAL_OVERALL1"] = "Настройка общих настроек на панели параметров > PvE/PvP."
+--[[Translation missing --]]
+--[[ L["STRING_TUTORIAL_OVERALL1"] = ""--]] 
 L["STRING_UNKNOW"] = "Неизвестно"
 L["STRING_UNKNOWSPELL"] = "Неизвестное заклинание"
 L["STRING_UNLOCK"] = [=[Разгруппировать окна

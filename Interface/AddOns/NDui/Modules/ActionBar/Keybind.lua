@@ -254,7 +254,7 @@ SlashCmdList.MOUSEOVERBIND = function()
 		local button = ActionButton1:GetScript("OnClick")
 
 		local function register(val)
-			if val.IsProtected and val.GetObjectType and val.GetScript and val:GetObjectType() == "CheckButton" and val:IsProtected() then
+			if val.IsProtected and val.IsObjectType and val.GetScript and val:IsObjectType("CheckButton") and val:IsProtected() then
 				local script = val:GetScript("OnClick")
 				if script == button then
 					val:HookScript("OnEnter", function(self) bind:Update(self) end)

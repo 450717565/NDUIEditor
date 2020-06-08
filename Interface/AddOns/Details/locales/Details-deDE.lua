@@ -1551,7 +1551,8 @@ L["STRING_TOTAL"] = "Gesamt"
 L["STRING_TRANSLATE_LANGUAGE"] = "Hilf mit bei der Details!-Übersetzung"
 L["STRING_TUTORIAL_FULLY_DELETE_WINDOW"] = [=[Du hast ein Fenster geschlossen, du kannst es jederzeit erneut öffnen.
 Um ein Fenster komplett zu löschen, gehe zu den Optionen  -> Fenster: Allgemein -> Löschen.]=]
-L["STRING_TUTORIAL_OVERALL1"] = "Anpassen der Gesamteinstellungen auf dem Optionsmenü > PvE/PvP"
+--[[Translation missing --]]
+--[[ L["STRING_TUTORIAL_OVERALL1"] = ""--]] 
 L["STRING_UNKNOW"] = "Unbekannt"
 L["STRING_UNKNOWSPELL"] = "Unbekannter Zauber"
 L["STRING_UNLOCK"] = [=[Fenstergruppe auflösen

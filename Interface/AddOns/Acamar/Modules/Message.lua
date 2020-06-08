@@ -1,7 +1,7 @@
 local addonName, addon = ...
 local AcamarMessage, L, AceGUI, private
 ------------------------------------------------------------------------------
-local GetNumFriends, GetFriendInfo
+local GetNumFriends, GetFriendInfo, GetNumIgnores, GetIgnoreName
 local chatEvents
 
 if(addonName ~= nil) then
@@ -12,6 +12,8 @@ if(addonName ~= nil) then
 
     GetNumFriends = C_FriendList.GetNumFriends
     GetFriendInfo = C_FriendList.GetFriendInfo
+    GetNumIgnores = C_FriendList.GetNumIgnores
+    GetIgnoreName = C_FriendList.GetIgnoreName
 
     chatEvents = 
     {
@@ -99,17 +101,27 @@ local function RewriteMessage(ori)
         return ori
     end
 
+    --[[
     haslink = find_link(ori)
     -- skip message with item link
     if(haslink) then
         return
     end    
+    ]]
 
     local mmsg = nil
 
+    --[[
     if((len>=4) and (len%2==0)) then
-        mmsg = find_repeat_pattern_fast(ori)
+        -- fast, the function only find dups of: ABCABCABC
+        -- output ABC
+        --mmsg = find_repeat_pattern_fast(ori)
     end
+    ]]
+
+    -- fast and tuned algorithm, the function find dups of: xxABCABCABCyy
+    -- output xxABCyy
+    mmsg = remove_dups(ori)
 
     -- second stage rewrite currently disabled because of in-consistency
     --[[
@@ -225,6 +237,12 @@ local acamarFilter = function(self, event, message, from, lang, chan_id_name, pl
     elseif (from ~= nil) and (from ~= "") then
         local shortname = RemoveServerDash(from)
 
+        -- if the player is in ignore list
+        if( addon.db.global.bl[shortname] ) then
+            -- addon:log(shortname .. " is in blacklist.")
+            return true
+        end
+
         -- bypass friends
         if addon.db.global.bypass_friends and IsFriend(shortname) then
             --addon:log("bypass friend message: [" .. shortname .. "] " .. message)
@@ -261,7 +279,7 @@ local acamarFilter = function(self, event, message, from, lang, chan_id_name, pl
 
             -- Rewrite message if set. Only apply to channel, say, yell
             if( (event == "CHAT_MSG_CHANNEL" or event == "CHAT_MSG_SAY" or event == "CHAT_MSG_YELL" ) 
-                and addon.db.global.message_rewrite ) then
+                and addon.db.global.message_rewrite and addon.db.global.message_filter_switch ) then
                 -- get rewritten message
                 remsg = RewriteMessage(message)
                 --remsg = "hello"
@@ -269,8 +287,8 @@ local acamarFilter = function(self, event, message, from, lang, chan_id_name, pl
                 --if(string.find(message, "G")) then
                     modifyMsg = REWRITE_PREFIX .. remsg
                     -- rewrite message
-                    --addon:log("rewrite from : " .. from .. ": " .. message)
-                    --addon:log("rewrite to: " .. modifyMsg)
+                    --addon:log("rewrite:" .. from .. ": " .. message)
+                    --addon:log("to:" .. modifyMsg)
                     return false, modifyMsg, from, lang, chan_id_name, player_name_only, flag, chan_id, chan_num, chan_name, u, line_id, guid, ...
                 end
             end 

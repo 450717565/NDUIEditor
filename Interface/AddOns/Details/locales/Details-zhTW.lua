@@ -1564,7 +1564,7 @@ L["STRING_TOTAL"] = "總數"
 L["STRING_TRANSLATE_LANGUAGE"] = "幫助翻譯Details!"
 L["STRING_TUTORIAL_FULLY_DELETE_WINDOW"] = [=[您關閉了一個視窗, 您可以隨時重新打開它。
 要完全刪除某個視窗, 請轉到 "Details!選項">"視窗: "一般">"刪除"。]=]
-L["STRING_TUTORIAL_OVERALL1"] = "調整整體設定於選項介面 > PvE / PvP。"
+L["STRING_TUTORIAL_OVERALL1"] = "在一般設置 > 戰斗里調整總體數據設置。總體數據在離開戰鬥後才會更新，使用自訂裡的\"動態總體傷害\"可實時更新。"
 L["STRING_UNKNOW"] = "未知"
 L["STRING_UNKNOWSPELL"] = "未知法術"
 L["STRING_UNLOCK"] = [=[在這按鈕上

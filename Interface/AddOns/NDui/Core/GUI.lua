@@ -95,8 +95,8 @@ local defaultSettings = {
 		AutoRes = true,
 		NumGroups = 8,
 		SimpleMode = false,
-		SMSortByRole = true,
 		SMUnitsPerColumn = 20,
+		SMGroupByIndex = 1,
 		InstanceAuras = true,
 		RaidDebuffScale = 1,
 		SpecRaidPos = false,
@@ -190,7 +190,7 @@ local defaultSettings = {
 		Clock = false,
 		CombatPulse = true,
 		MapScale = 1,
-		MinmapScale = 1.2,
+		MinimapScale = 1.2,
 		ShowRecycleBin = true,
 		WhoPings = true,
 		MapReveal = true,
@@ -248,7 +248,6 @@ local defaultSettings = {
 		TellMeWhen = true,
 		WeakAuras = true,
 
-		BarLine = true,
 		ChatLine = true,
 		ClassLine = true,
 		InfobarLine = true,
@@ -346,6 +345,7 @@ local defaultSettings = {
 
 local accountSettings = {
 	ChatFilterList = "%*",
+	ChatFilterWhiteList = "",
 	TimestampFormat = 1,
 	NameplateFilter = {[1]={}, [2]={}},
 	RaidDebuffs = {},
@@ -495,6 +495,10 @@ local function updateFilterList()
 	B:GetModule("Chat"):UpdateFilterList()
 end
 
+local function updateFilterWhiteList()
+	B:GetModule("Chat"):UpdateFilterWhiteList()
+end
+
 local function updateChatSize()
 	B:GetModule("Chat"):UpdateChatSize()
 end
@@ -553,6 +557,13 @@ end
 
 local function refreshRaidFrameIcons()
 	B:GetModule("UnitFrames"):RefreshRaidFrameIcons()
+end
+
+local function updateSimpleModeGroupBy()
+	local UF = B:GetModule("UnitFrames")
+	if UF.UpdateSimpleModeHeader then
+		UF:UpdateSimpleModeHeader()
+	end
 end
 
 local function updateSmoothingAmount()
@@ -736,9 +747,11 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{3, "UFs", "NumGroups", L["Num Groups"], nil, {4, 8, 0}},
 		{3, "UFs", "RaidTextScale", L["UFTextScale"], true, {.5, 1.5, 2}, updateRaidTextScale},
 		{},--blank
-		{1, "UFs", "SimpleMode", DB.MyColor..L["Simple RaidFrame"]},
-		{1, "UFs", "SMSortByRole", L["SimpleMode SortByRole"]},
-		{3, "UFs", "SMUnitsPerColumn", L["SimpleMode Column"], true, {5, 40, 0}},
+		{1, "UFs", "SimpleMode", DB.MyColor..L["SimpleRaidFrame"], nil, nil, nil, L["SimpleRaidFrameTip"]},
+		{3, "UFs", "SMUnitsPerColumn", L["SimpleMode Column"], nil, {5, 40, 0}},
+		{4, "UFs", "SMGroupByIndex", L["SimpleMode GroupBy"].."*", true, {GROUP, CLASS, ROLE}, updateSimpleModeGroupBy},
+		{nil, true},-- FIXME: dirty fix for now
+		{nil, true},
 	},
 	[5] = {
 		{1, "Nameplate", "Enable", DB.MyColor..L["Enable Nameplate"], nil, setupNameplateFilter},
@@ -845,7 +858,8 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Chat", "EnableFilter", DB.MyColor..L["Enable Chatfilter"]},
 		{1, "Chat", "BlockAddonAlert", L["Block Addon Alert"], true},
 		{1, "Chat", "AllowFriends", L["AllowFriendsSpam"].."*", nil, nil, nil, L["AllowFriendsSpamTip"]},
-		{1, "Chat", "BlockStranger", DB.MyColor..L["BlockStranger"].."*", true, nil, nil, L["BlockStrangerTip"]},
+		{1, "Chat", "BlockStranger", "|cffff0000"..L["BlockStranger"].."*", nil, nil, nil, L["BlockStrangerTip"]},
+		{2, "ACCOUNT", "ChatFilterWhiteList", DB.MyColor..L["ChatFilterWhiteList"].."*", true, nil, updateFilterWhiteList, L["ChatFilterWhiteListTip"]},
 		{3, "Chat", "Matches", L["Keyword Match"].."*", false, {1, 3, 0}},
 		{2, "ACCOUNT", "ChatFilterList", L["Filter List"].."*", true, nil, updateFilterList, L["FilterListTip"]},
 		{},--blank
@@ -864,7 +878,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Misc", "ExpRep", L["Show Expbar"], true},
 		{},--blank
 		{3, "Map", "MapScale", L["Map Scale"], false, {.5, 1.5, 2}},
-		{3, "Map", "MinmapScale", L["Minimap Scale"].."*", true, {.5, 1.5, 2}, updateMinimapScale},
+		{3, "Map", "MinimapScale", L["Minimap Scale"].."*", true, {.5, 1.5, 2}, updateMinimapScale},
 	},
 	[10] = {
 		{1, "Skins", "BlizzardSkins", DB.MyColor..L["BlizzardSkins"], false, nil, nil, L["BlizzardSkinsTips"]},
@@ -879,12 +893,11 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{5, "Skins", "GSColor2", L["Gradient Color 2"], 2},
 		{5, "Skins", "BGColor", L["Backdrop Color"], 3},
 		{},--blank
-		{1, "Skins", "BarLine", L["Bar Line"]},
-		{1, "Skins", "InfobarLine", L["Infobar Line"], true},
-		{1, "Skins", "ChatLine", L["Chat Line"]},
-		{1, "Skins", "MenuLine", L["Menu Line"], true},
-		{1, "Skins", "ClassLine", L["ClassColor Line"]},
-		{5, "Skins", "LineColor", L["Line Color"], 2},
+		{1, "Skins", "InfobarLine", L["Infobar Line"]},
+		{1, "Skins", "ChatLine", L["Chat Line"], true},
+		{1, "Skins", "MenuLine", L["Menu Line"]},
+		{1, "Skins", "ClassLine", L["ClassColor Line"], true},
+		{5, "Skins", "LineColor", L["Line Color"], 3},
 		{},--blank
 		{1, "Skins", "Skada", L["Skada Skin"]},
 		{1, "Skins", "Details", L["Details Skin"], nil, resetDetails},
@@ -1144,9 +1157,11 @@ local function CreateOption(i)
 			end
 		-- Blank, no optType
 		else
-			local l = CreateFrame("Frame", nil, parent)
-			l:SetPoint("TOPLEFT", 25, -offset - 12)
-			B.CreateGA(l, 560, C.mult*2, "Horizontal", cr, cg, cb, DB.Alpha, 0)
+			if not key then
+				local l = CreateFrame("Frame", nil, parent)
+				l:SetPoint("TOPLEFT", 25, -offset - 12)
+				B.CreateGA(l, 560, C.mult*2, "Horizontal", cr, cg, cb, DB.Alpha, 0)
+			end
 			offset = offset + 35
 		end
 	end

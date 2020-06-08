@@ -112,7 +112,7 @@ function module:ReskinRegions()
 
 	local Invt = CreateFrame("Button", nil, UIParent)
 	Invt:SetPoint("TOPRIGHT", Minimap, "BOTTOMLEFT", -20, -20)
-	Invt:SetSize(300, 80)
+	Invt:SetSize(250, 80)
 	Invt:Hide()
 	B.ReskinButton(Invt)
 	B.CreateFS(Invt, 16, DB.InfoColor..GAMETIME_TOOLTIP_CALENDAR_INVITES)
@@ -208,12 +208,12 @@ function module:RecycleBin()
 		for _, child in ipairs({Minimap:GetChildren()}) do
 			local name = child:GetName()
 			if name and not blackList[name] and not isButtonSecure(name) then
-				if child:GetObjectType() == "Button" or strmatch(strupper(name), "BUTTON") then
+				if child:IsObjectType("Button") or strmatch(strupper(name), "BUTTON") then
 					child:SetParent(bin)
 					child:SetSize(35, 35)
 					for j = 1, child:GetNumRegions() do
 						local region = select(j, child:GetRegions())
-						if region:GetObjectType() == "Texture" then
+						if region:IsObjectType("Texture") then
 							local texture = region:GetTexture() or ""
 							if strfind(texture, "Interface\\CharacterFrame") or strfind(texture, "Interface\\Minimap") then
 								region:SetTexture(nil)
@@ -230,9 +230,9 @@ function module:RecycleBin()
 					if child:HasScript("OnDragStop") then child:SetScript("OnDragStop", nil) end
 					if child:HasScript("OnClick") then child:HookScript("OnClick", clickFunc) end
 
-					if child:GetObjectType() == "Button" then
+					if child:IsObjectType("Button") then
 						B.ReskinHighlight(child)
-					elseif child:GetObjectType() == "Frame" then
+					elseif child:IsObjectType("Frame") then
 						child.highlight = child:CreateTexture(nil, "HIGHLIGHT")
 						child.highlight:SetAllPoints()
 						child.highlight:SetColorTexture(1, 1, 1, .25)
@@ -317,7 +317,7 @@ function module:WhoPingsMyMap()
 end
 
 function module:UpdateMinimapScale()
-	local scale = NDuiDB["Map"]["MinmapScale"]
+	local scale = NDuiDB["Map"]["MinimapScale"]
 	Minimap:SetScale(scale)
 	Minimap.mover:SetSize(Minimap:GetWidth()*scale, Minimap:GetHeight()*scale)
 end

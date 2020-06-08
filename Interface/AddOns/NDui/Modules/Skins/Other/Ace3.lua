@@ -216,7 +216,7 @@ function S:Ace3_RegisterAsContainer(widget)
 		if TYPE == "Frame" then
 			for i = 1, frame:GetNumChildren() do
 				local child = select(i, frame:GetChildren())
-				if child:GetObjectType() == "Button" and child:GetText() then
+				if child:IsObjectType("Button") and child:GetText() then
 					B.ReskinButton(child)
 				else
 					B.StripTextures(child)

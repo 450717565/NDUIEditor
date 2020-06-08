@@ -52,15 +52,17 @@ function Bar:MicroButton_Create(parent, data)
 	end
 end
 
-function Bar:MicroMenu_Lines(menubar)
+function Bar:MicroMenu_Lines(parent)
 	if not NDuiDB["Skins"]["MenuLine"] then return end
 
-	local MenuL = CreateFrame("Frame", nil, UIParent)
-	MenuL:SetPoint("TOPRIGHT", menubar, "BOTTOM")
-	B.CreateGA(MenuL, 200, C.mult*2, "Horizontal", cr, cg, cb, 0, DB.Alpha)
-	local MenuR = CreateFrame("Frame", nil, UIParent)
-	MenuR:SetPoint("TOPLEFT", menubar, "BOTTOM")
-	B.CreateGA(MenuR, 200, C.mult*2, "Horizontal", cr, cg, cb, DB.Alpha, 0)
+	local width, height = parent:GetWidth()*.6, C.mult*2
+
+	local MenuL = CreateFrame("Frame", nil, parent)
+	MenuL:SetPoint("TOPRIGHT", parent, "BOTTOM")
+	B.CreateGA(MenuL, width, height, "Horizontal", cr, cg, cb, 0, DB.Alpha)
+	local MenuR = CreateFrame("Frame", nil, parent)
+	MenuR:SetPoint("TOPLEFT", parent, "BOTTOM")
+	B.CreateGA(MenuR, width, height, "Horizontal", cr, cg, cb, DB.Alpha, 0)
 end
 
 function Bar:MicroMenu()

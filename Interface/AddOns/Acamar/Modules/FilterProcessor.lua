@@ -1113,7 +1113,9 @@ function timer_analysis_func()
 		end
 	end
 
-	addon:log(L["Performing analysis on user behavior ..."])
+	if (not addon.db.global.do_not_disturb) then
+		addon:log(L["Performing analysis on user behavior ..."])
+	end
 
 	-- debug
 	--[[
@@ -1412,7 +1414,9 @@ function timer_compactdb_func()
 		end
 	end
 
-	addon:log(L["Performing optimization on learning DB ..."])
+	if (not addon.db.global.do_not_disturb) then
+		addon:log(L["Performing optimization on learning DB ..."])
+	end
 
 	local aweek_ago = time() - 604800
 	local ahour_ago = time() - 3600
@@ -1692,6 +1696,114 @@ function find_repeat_pattern_fast(str)
 			end
 		end
 	end
+	return nil
+end
+
+------------- remove dups, slow, need to optimize
+function trim_compare_tables(t1, t2)
+    local ct1 = {}
+    local ct2 = {}
+
+    local c
+    c = 1
+    for i=1, #t1 do
+        if t1[i] ~= 0x20 and t1[i] ~= 0xa0 and t1[i] ~= 0x3000 then
+            ct1[c] = t1[i]
+            c = c + 1
+        end
+    end
+
+    c = 1
+    for i=1, #t2 do
+        if t2[i] ~= 0x20 and t2[i] ~= 0xa0 and t2[i] ~= 0x3000 then
+            ct2[c] = t2[i]
+            c = c + 1
+        end
+    end
+
+    if #ct1 ~= #ct2 then return false end
+    for i=1,#t1 do
+        if ct1[i] ~= ct2[i] then return false end
+    end
+    return true
+end
+
+-- fast compare table without copy table
+-- t: table
+-- p1: position 1
+-- p2: position 2
+-- size: size of elements to compare
+function compare_tables_part(t, p1, p2, size)
+ 	for i=1,size do
+    	if t[p1+i] ~= t[p2+i] then return false end
+ 	end
+ 	return true
+end
+
+-- fast remove dups without copy table
+function remove_dups(str, fast) 
+	-- utf8 to unicode table
+	local t = utf8_to_tbl(str)
+
+	local N = #t
+	-- compare offset max set to half length of string
+	local maxoff = math.floor(N/2)
+
+	-- increase offset from 0 to max offset
+	for off = 0, maxoff do
+		local g
+
+		-- calculate max window size (target repeated substring to find)
+		if (N-off)%2 == 0 then
+			g = math.floor((N-off)/2)
+		else
+			g = math.floor(((N-off)-1)/2)
+		end
+
+		-- target repeated substring set to at least 3 chars
+		for ws = 3, g do
+			local dup = 0
+
+			-- compare each window to first window begin with off
+			for n = 1, N/ws do
+				--print(n .. " ct2=" .. unicode_tbl_to_utf8(ct2))
+				-- if found repeat pattern
+				if compare_tables_part(t, off, n*ws+off, ws) then
+					-- increast repeat counter
+					dup = dup + 1
+				else
+					break
+				end
+			end
+
+			-- if found repeated pattern
+			if dup>0 then
+				local rest = N-(dup+1)*ws
+				--print("Found " .. dup .. " dups, rest chars=" .. N-(dup+1)*ws)
+				rt = {}
+
+				-- first part: from 0 to end of first window
+				for k=1, off+ws do
+					table.insert(rt, t[k])
+				end
+				-- if there are chars after repeated strings
+				if rest > 0 then
+					for k=(dup+1)*ws+1, N do
+						table.insert(rt, t[k+off])
+					end
+				end
+				--print("rt=" .. unicode_tbl_to_utf8(rt))
+				return unicode_tbl_to_utf8(rt)
+			end
+
+		end
+
+		-- If fast set, only from first byte (offset 0)
+		if fast == true then
+			break
+		end
+	end
+
 	return nil
 end
 ------------------------------------------------------------------------
