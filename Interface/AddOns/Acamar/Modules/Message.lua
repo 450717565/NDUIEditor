@@ -3,12 +3,15 @@ local AcamarMessage, L, AceGUI, private
 ------------------------------------------------------------------------------
 local GetNumFriends, GetFriendInfo, GetNumIgnores, GetIgnoreName
 local chatEvents
+local fontName, fontHeight, fontFlags
 
 if(addonName ~= nil) then
     AcamarMessage = addon:NewModule("AcamarMessage", "AceEvent-3.0", "AceHook-3.0", "AceConsole-3.0")
     L = LibStub("AceLocale-3.0"):GetLocale(addonName)
     AceGUI = LibStub("AceGUI-3.0")
     private = {}
+
+    fontName, fontHeight, fontFlags = DEFAULT_CHAT_FRAME:GetFont()
 
     GetNumFriends = C_FriendList.GetNumFriends
     GetFriendInfo = C_FriendList.GetFriendInfo
@@ -90,6 +93,64 @@ sample data
 },
 ]]
 
+-------------------------
+-- hook chat window player item link menu
+function HookPlayerGameTooltip()
+    AcamarMessage:HookKeydownHyperlink()
+end
+
+-- Shift right click hyper link menu
+function AcamarMessage:ShowAcamarPlayerEasyMenu(from_widget, name)
+
+    local function ForceAddPlayerToWL(name)
+        addon.db.global.wl[name] = true
+        addon:log(name .. L[" added to whitelist."])
+    end
+
+    local function ForceAddPlayerToBL(name)
+        addon.db.global.bl[name] = true
+        addon:log(name .. L[" added to blocklist."])
+    end
+
+    local player_menu = {
+        { text = L["Choose operation: |cff00cccc"] .. name , isTitle = true},
+        { text = L["Add to blocklist"], func = function() ForceAddPlayerToBL(name) end },
+        { text = L["Add to whitelist"], func = function() ForceAddPlayerToWL(name) end },
+        { text = L["|cffff9900Cancel"], func = function() return; end },
+    }
+    local menuFrame = CreateFrame("Frame", "TopicMenuFrame", from_widget, "UIDropDownMenuTemplate")
+
+    -- Make the menu appear at the cursor: 
+    EasyMenu(player_menu, menuFrame, "cursor", 0 , 0, "MENU");
+end
+
+-- ChatFrame_OnHyperlinkShow in Chatframe.lua
+-- The function of right click a hyper link in chat window
+-- Reason using this instead using self:RawHook("SetItemRef", true) it to
+-- avoid tainting of SetItemRef code
+function AcamarMessage:ChatFrame_OnHyperlinkShow(chat_frame, link, text, button)
+    --addon:log("ChatFrame_OnHyperlinkShow: link=" .. link .. ", button=" .. button)
+    if ( strsub(link, 1, 6) == "player" and button == "RightButton" ) then
+        local pname = string.match(link, "player:([^:]+)")
+        pname = string.match(pname, "([^-]+)")
+
+        local shiftDown = IsShiftKeyDown()
+        if shiftDown then
+            self:ShowAcamarPlayerEasyMenu(chat_frame, pname)
+        else
+            -- No need
+            --SetItemRef(link, text, button, chat_frame);
+        end
+    end
+end
+
+function AcamarMessage:HookKeydownHyperlink()
+    self:Hook("ChatFrame_OnHyperlinkShow", true)
+    --self:RawHook("SetItemRef", true)
+end
+-------------------------
+
+-- Rewrite message
 local function RewriteMessage(ori)
     if (ori == nil) then
         return nil
@@ -121,7 +182,10 @@ local function RewriteMessage(ori)
 
     -- fast and tuned algorithm, the function find dups of: xxABCABCABCyy
     -- output xxABCyy
-    mmsg = remove_dups(ori)
+    --mmsg = remove_dups(ori)
+
+    -- fastest and working better
+    mmsg = remove_dups_fast(ori)
 
     -- second stage rewrite currently disabled because of in-consistency
     --[[
@@ -238,8 +302,8 @@ local acamarFilter = function(self, event, message, from, lang, chan_id_name, pl
         local shortname = RemoveServerDash(from)
 
         -- if the player is in ignore list
-        if( addon.db.global.bl[shortname] ) then
-            -- addon:log(shortname .. " is in blacklist.")
+        if( addon.db.global.message_filter_switch and addon.db.global.bl[shortname] ) then
+            -- addon:log(shortname .. " is in blocklist.")
             return true
         end
 
@@ -260,7 +324,7 @@ local acamarFilter = function(self, event, message, from, lang, chan_id_name, pl
                 --addon:log("rewrite 1")
                 --modify = RewriteMessage(message)
                 return false, modifyMsg, from, lang, chan_id_name, player_name_only, flag, chan_id, chan_num, chan_name, u, line_id, guid, ...
-            elseif block then
+            elseif addon.db.global.message_filter_switch and block then
                 return true
             else
                 --return false, modifyMsg, from, lang, chan_id_name, player_name_only, flag, chan_id, chan_num, chan_name, u, line_id, guid, ...
@@ -299,217 +363,12 @@ local acamarFilter = function(self, event, message, from, lang, chan_id_name, pl
     return false
 end
 
---[[
-local acamarFilter_v1 = function(self, event, message, from, lang, chan_id_name, player_name_only, flag, chan_id, chan_num, chan_name, u, line_id, guid, ...)
-
-    msgdata = {
-        --self = self,
-        event = event,
-        message = message,
-        from = from,
-        lang = lang,
-        chan_id_name = chan_id_name,
-        player_name_only = player_name_only,
-        flag = flag,
-        chan_id = chan_id, -- start from 0
-        chan_num = chan_num, -- start from 1
-        chan_name = chan_name, -- channel name only
-        u = u,
-        line_id = line_id,
-        guid = guid,
-        receive_time = time(),
-    }    
-
-    --if lastMsg ~= message then    
-    --  t = string.gsub(message, "|", "!")
-    --  print ("chatMsg evt=" .. (event or "nil") .. " msg=".. (t or "nil") .. " from=" .. (from or "nil"))
-    --  lastMsg = message
-    --end
-
-    -- let some events pass
-    if event == "CHAT_MSG_SYSTEM" then  
-        if message == ERR_IGNORE_NOT_FOUND then
-            return false
-        end
-        if message == ERR_IGNORE_ALREADY_S then
-            return false
-        end
-        if message == ERR_IGNORE_FULL then
-            return false
-        end
-    end
-    
-    -- If module not fully loaded, skip filter
-    if Acamar_Loaded ~= true then
-        return false
-    end
-    
-    -- let npc messages pass    
-    if event == "CHAT_MSG_MONSTER_EMOTE" or event == "CHAT_MSG_MONSTER_PARTY" or event == "CHAT_MSG_MONSTER_SAY" or
-       event == "CHAT_MSG_MONSTER_WHISPER" or event == "CHAT_MSG_MONSTER_YELL" then
-            return false;
-    -- let system messages pass
-    elseif event == "CHAT_MSG_SYSTEM" then
-        return false
-    -- let notice and invite events pass
-    elseif event == "CHAT_MSG_CHANNEL_NOTICE_USER" and message == "INVITE" then
-        return false
-    elseif (from ~= nil) and (from ~= "") then
-        if line_id == prevLineID then
-            -- skip
-            if false and addon.db.global.message_rewrite then
-                addon:log("rewrite 1")
-                modify = RewriteMessage(message)
-                return false, modify, from, lang, chan_id_name, player_name_only, flag, chan_id, chan_num, chan_name, u, line_id, guid, ...
-            elseif block then
-                return true
-            else
-                return
-            end
-        else
-            -- addon:log(table_to_string({line_id=line_id, prevLineID=prevLineID, player=player}))
-
-            prevLineID, modifyMsg, block = line_id, nil, nil
-
-            --scan customized channels like bigfoot
-            local trimmedPlayer = Ambiguate(from, "none")
-            if event == "CHAT_MSG_CHANNEL" and (chan_id == 0 or type(chan_id) ~= "number") then 
-                -- Forward message to processor to study the behavior of sender and classfy spam level of message and sender
-                block, score = addon.FilterProcessor:OnNewMessage(msgdata)
-                -- block the message
-                if block then
-                    return true
-                end
-
-                if(false and addon.db.global.message_rewrite == true) then
-                    modify = RewriteMessage(message)
-                    --if(modify ~= nil) then
-                    if(string.find(message, "G")) then
-                        -- rewrite message
-                        addon:log("rewrite 2 from : ".. message)
-                        addon:log("rewrite 2 to: ".. modify)
-                        return false, modify, from, lang, chan_id_name, player_name_only, flag, chan_id, chan_num, chan_name, u, line_id, guid, ...
-                    end
-                end
-
-                return 
-            end 
-
-            --Don't filter ourself/friends/guild
-            if UnitIsInMyGuild(trimmedPlayer) then 
-                return 
-            end 
-            
-            -- Forward message to processor to study the behavior of sender and classfy spam level of message and sender
-            block, score = addon.FilterProcessor:OnNewMessage(msgdata)
-            -- block the message
-            if block then
-                return true
-            end
-
-            if(addon.db.global.message_rewrite == true) then
-                -- do modify message
-                modify = RewriteMessage(message)
-                if(modify == nil) then
-                    -- return without modify
-                    return false
-                else
-                    -- rewrite message
-                    addon:log("rewrite 3 from: " .. modify)
-                    addon:log("rewrite 3 to: " .. modify)
-                    return false, modify, from, lang, chan_id_name, player_name_only, flag, chan_id, chan_num, chan_name, u, line_id, guid, ...
-                end
-            end
-
-        end
-    end         
-    
-    return false
-end
-
---main filtering function
-
-local acamarFilter_v2 = function(self, event, message, from, lang, chan_id_name, player_name_only, flag, chan_id, chan_num, chan_name, u, line_id, guid, ...)
-
-    msgdata = {
-        --self = self,
-        event = event,
-        message = message,
-        from = from,
-        lang = lang,
-        chan_id_name = chan_id_name,
-        player_name_only = player_name_only,
-        flag = flag,
-        chan_id = chan_id, -- start from 0
-        chan_num = chan_num, -- start from 1
-        chan_name = chan_name, -- channel name only
-        u = u,
-        line_id = line_id,
-        guid = guid,
-        receive_time = time(),
-    }    
-
-    -- If module not fully loaded, skip filter
-    if Acamar_Loaded ~= true then
-        return false
-    end
-
-     -- let npc messages pass    
-    if event == "CHAT_MSG_MONSTER_EMOTE" or event == "CHAT_MSG_MONSTER_PARTY" or event == "CHAT_MSG_MONSTER_SAY" or
-       event == "CHAT_MSG_MONSTER_WHISPER" or event == "CHAT_MSG_MONSTER_YELL" then
-            return false;
-    -- let system messages pass
-    elseif event == "CHAT_MSG_SYSTEM" then
-        return false
-    -- let notice and invite events pass
-    elseif event == "CHAT_MSG_CHANNEL_NOTICE_USER" and message == "INVITE" then
-        return false
-    elseif lineId == prevLineID then
-        if modifyMsg then
-            return false, modifyMsg, from, lang, chan_id_name, player_name_only, flag, chan_id, chan_num, chan_name, u, line_id, guid, ...
-        elseif block then
-            return true
-        else
-            return
-        end
-    else
-        prevLineID, modifyMsg, block = line_id, nil, nil
-
-        -- customized channels like bigboot
-        if event == "CHAT_MSG_CHANNEL" and (chan_id == 0 or type(chan_id) ~= "number") then 
-            return 
-        end 
-
-        if UnitIsInMyGuild(from) then 
-            return 
-        end --Don't filter ourself/friends/guild
-
-        block, score = addon.FilterProcessor:OnNewMessage(msgdata)
-        -- block the message
-        if block then
-            return true
-        end
-
-        if(addon.db.global.message_rewrite == true) then
-            remsg = RewriteMessage(message)
-            if(remsg ~= nil) then
-            --if(string.find(message, "G")) then
-                modifyMsg = msg
-                -- rewrite message
-                addon:log("rewrite 2 from : ".. message)
-                addon:log("rewrite 2 to: ".. modifyMsg)
-                return false, modifyMsg, from, lang, chan_id_name, player_name_only, flag, chan_id, chan_num, chan_name, u, line_id, guid, ...
-            end
-        end        
-
-    end
-end
-]]
-
-
+--------------------------------------------------
 function AcamarMessage:OnInitialize()
     --addon:Printf("AcamarMessage:OnInitialize()")
     self.engine_running = false
+
+    HookPlayerGameTooltip()
 end
 --[[
         "CHAT_MSG_ACHIEVEMENT",

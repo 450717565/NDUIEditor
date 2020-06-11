@@ -261,10 +261,10 @@ tinsert(C.defaultThemes, function()
 
 	local SkipButton = TurnTimer.SkipButton
 	B.StripTextures(SkipButton)
-	B.CreateBDFrame(SkipButton)
+	local bg = B.CreateBDFrame(SkipButton)
+	B.ReskinPushed(SkipButton, bg)
 	SkipButton:SetParent(bar)
 	SkipButton:SetSize(40, 40)
-	SkipButton:SetPushedTexture(DB.pushed)
 	local text = SkipButton.Text
 	text:ClearAllPoints()
 	text:SetPoint("CENTER", 1, 0)

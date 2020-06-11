@@ -215,7 +215,7 @@ function ExtraQuestButton:PLAYER_LOGIN()
 	self:SetPushedTexture(DB.pushed)
 	local push = self:GetPushedTexture()
 	push:SetBlendMode("ADD")
-	push:SetOutside()
+	push:SetInside(bg)
 
 	local HotKey = self:CreateFontString("$parentHotKey", nil, "NumberFontNormal")
 	HotKey:SetPoint("TOP", 0, -5)

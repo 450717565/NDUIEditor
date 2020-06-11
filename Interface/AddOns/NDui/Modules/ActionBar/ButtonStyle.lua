@@ -187,6 +187,7 @@ function Bar:StyleActionButton(button, cfg)
 	local count = _G[buttonName.."Count"]
 	local name = _G[buttonName.."Name"]
 	local border = _G[buttonName.."Border"]
+	local autoCastable = _G[buttonName.."AutoCastable"]
 	local NewActionTexture = button.NewActionTexture
 	local cooldown = _G[buttonName.."Cooldown"]
 	local normalTexture = button:GetNormalTexture()
@@ -214,6 +215,8 @@ function Bar:StyleActionButton(button, cfg)
 	SetupTexture(pushedTexture, cfg.pushedTexture, "SetPushedTexture", button)
 	SetupTexture(highlightTexture, cfg.highlightTexture, "SetHighlightTexture", button)
 	SetupTexture(checkedTexture, cfg.checkedTexture, "SetCheckedTexture", button)
+
+	--checkedTexture:SetColorTexture(1, .8, 0, .25)
 	highlightTexture:SetColorTexture(1, 1, 1, .25)
 
 	--cooldown
@@ -246,6 +249,12 @@ function Bar:StyleActionButton(button, cfg)
 		else
 			name:Hide()
 		end
+	end
+	if autoCastable then
+		local size = cfg.autoCastSize
+		autoCastable:ClearAllPoints()
+		autoCastable:Point("TOPLEFT", button, "TOPLEFT", -size, size)
+		autoCastable:Point("BOTTOMRIGHT", button, "BOTTOMRIGHT", (size+C.mult), -(size+C.mult))
 	end
 
 	button.__styled = true
@@ -368,15 +377,26 @@ function Bar:ReskinBars()
 		normalTexture = {
 			file = DB.normal,
 			texCoord = DB.TexCoord,
-			color = {.3, .3, .3},
 			points = {
-				{"TOPLEFT", 0, 0},
-				{"BOTTOMRIGHT", 0, 0},
+				{"TOPLEFT", C.mult, -C.mult},
+				{"BOTTOMRIGHT", -C.mult, C.mult},
 			},
 		},
 		flash = {file = DB.flash},
-		pushedTexture = {file = DB.pushed},
-		checkedTexture = {file = DB.checked},
+		pushedTexture = {
+			file = DB.pushed,
+			points = {
+				{"TOPLEFT", C.mult, -C.mult},
+				{"BOTTOMRIGHT", -C.mult, C.mult},
+			},
+		},
+		checkedTexture = {
+			file = DB.checked,
+			points = {
+				{"TOPLEFT", C.mult, -C.mult},
+				{"BOTTOMRIGHT", -C.mult, C.mult},
+			},
+		},
 		highlightTexture = {
 			file = "",
 			points = {
@@ -386,8 +406,8 @@ function Bar:ReskinBars()
 		},
 		cooldown = {
 			points = {
-				{"TOPLEFT", 0, 0},
-				{"BOTTOMRIGHT", 0, 0},
+				{"TOPLEFT", C.mult, -C.mult},
+				{"BOTTOMRIGHT", -C.mult, C.mult},
 			},
 		},
 		name = {
@@ -411,6 +431,7 @@ function Bar:ReskinBars()
 			},
 		},
 		buttonstyle = {file = ""},
+		autoCastSize = (C.bars.petbar.size/2 - C.bars.petbar.size/8),
 	}
 
 	Bar:StyleAllActionButtons(cfg)

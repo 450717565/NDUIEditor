@@ -11,9 +11,9 @@ function S:ExtVendor()
 	B.ReskinInput(MerchantFrameSearchBox, 22)
 	B.ReskinButton(MerchantFrameFilterButton)
 
-	local ic = B.ReskinIcon(MerchantFrameSellJunkButtonIcon)
-	B.ReskinHighlight(MerchantFrameSellJunkButton, ic)
-	MerchantFrameSellJunkButton:SetPushedTexture(DB.pushed)
+	local icbg = B.ReskinIcon(MerchantFrameSellJunkButtonIcon)
+	B.ReskinHighlight(MerchantFrameSellJunkButton, icbg)
+	B.ReskinPushed(MerchantFrameSellJunkButton, icbg)
 
 	for i = 13, 20 do
 		B.ReskinMerchantItem(i)

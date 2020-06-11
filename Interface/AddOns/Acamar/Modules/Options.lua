@@ -9,7 +9,7 @@ local OP_SYNC = 0
 local OP_ADD = 1
 local OP_DEL = 2
 local OP_ADD_DEL = 3
-local OP_DEL_IDX = 4
+local OP_ADDDEL_IDX = 4
 
 if(addonName ~= nil) then
 	Options = addon:NewModule("Options", "AceConsole-3.0")
@@ -21,42 +21,6 @@ if(addonName ~= nil) then
     GetFriendInfo = C_FriendList.GetFriendInfo
     GetNumIgnores = C_FriendList.GetNumIgnores
     GetIgnoreName = C_FriendList.GetIgnoreName
-
-	-- hook add ignore events
-	addon.oriAddIgnore = C_FriendList.AddIgnore
-	C_FriendList.AddIgnore = function(...)
-		local arg={...}
-		Options:FetchBL()
-		addon.oriAddIgnore(arg[1])
-		Options:SyncBL(OP_ADD, arg[1])
-	end
-
-	-- hook del ignore events
-	addon.oriDelIgnore = C_FriendList.DelIgnore
-	C_FriendList.DelIgnore = function(...)
-		local arg={...}
-		Options:FetchBL()
-		addon.oriDelIgnore(arg[1])
-		Options:SyncBL(OP_DEL, arg[1])
-	end
-
-	-- hook del by index
-	addon.oriDelIgnoreByIndex = C_FriendList.DelIgnoreByIndex
-	C_FriendList.DelIgnoreByIndex = function(...)
-		local arg={...}
-		Options:FetchBL()
-		addon.oriDelIgnoreByIndex(arg[1])
-		Options:SyncBL(OP_ADD_DEL, arg[1])
-	end
-
-	-- book add or del ignore
-	addon.oriAddOrDelIgnore = C_FriendList.AddOrDelIgnore
-	C_FriendList.AddOrDelIgnore = function(...)
-		local arg={...}
-		Options:FetchBL()
-		addon.oriAddOrDelIgnore(arg[1])
-		Options:SyncBL(OP_DEL_IDX, arg[1])
-	end
 else
 	addon = {}
 	Options = {}
@@ -107,6 +71,10 @@ Options.defaults = {
 		message_rewrite = false,
 		-- bypass friends
 		bypass_friends = true,
+		-- same player messages min interval, 0-unlimited
+		min_interval_same_player = 0,
+		-- same player same message min interval, 0-unlimited
+		min_interval_same_message = 0,
 		-- minimap icon switch
 		minimap_icon_switch = false,
 		-- analysis run params
@@ -163,15 +131,62 @@ Options.defaults = {
 
 local top500list = ""
 
+local function HookIgnoreAPIs()
+	-- hook add ignore events
+	addon.oriAddIgnore = C_FriendList.AddIgnore
+	C_FriendList.AddIgnore = function(...)
+		local arg={...}
+		Options:FetchBL()
+		addon.oriAddIgnore(arg[1])
+		Options:SyncBL(OP_ADD, arg[1])
+	end
+
+	-- hook del ignore events
+	addon.oriDelIgnore = C_FriendList.DelIgnore
+	C_FriendList.DelIgnore = function(...)
+		local arg={...}
+		Options:FetchBL()
+		addon.oriDelIgnore(arg[1])
+		Options:SyncBL(OP_DEL, arg[1])
+	end
+
+	-- book add or del ignore
+	addon.oriAddOrDelIgnore = C_FriendList.AddOrDelIgnore
+	C_FriendList.AddOrDelIgnore = function(...)
+		local arg={...}
+		Options:FetchBL()
+		addon.oriAddOrDelIgnore(arg[1])
+		Options:SyncBL(OP_ADD_DEL, arg[1])
+	end
+
+	-- hook del by index
+	addon.oriDelIgnoreByIndex = C_FriendList.DelIgnoreByIndex
+	C_FriendList.DelIgnoreByIndex = function(...)
+		local arg={...}
+		Options:FetchBL()
+		addon.oriDelIgnoreByIndex(arg[1])
+		Options:SyncBL(OP_ADDDEL_IDX, arg[1])
+	end
+
+end
+
+-----------------------------------------
+-- Load after addon enabled
 function Options:Load()
 	addon.db.global.creator_addon_version = addon.db.global.creator_addon_version or addon.METADATA.VERSION
+
+ 	HookIgnoreAPIs()
 
 	self:SyncBL(OP_SYNC)
 end
 
 function Options:SyncBL(...)
 	local syncargs = {...}
-	C_Timer.After(1, function() sync_bl_func(syncargs) end)
+
+	--local apistack = debugstack(2,5)
+	--addon:log(apistack)
+
+	C_Timer.After(0.1, function() sync_bl_func(syncargs) end)
 end
 
 function Options:SaveSession()
@@ -218,7 +233,7 @@ function WhisperListToSelf(info)
 
 	SendChatMessage(L["Currently banned players:"], "WHISPER", nil, UnitName("player"))
     for k,v in pairs(addon.db.global.pfeatures) do
-		-- exceed blacklist threshold
+		-- exceed blocklist threshold
 		if ( v.score >= addon.FilterProcessor.filter_score ) then
 			SendChatMessage(v.name .. " [" .. v.score .. "]" , "WHISPER", nil, UnitName("player"))
 		end
@@ -362,7 +377,7 @@ function GetBannedTable(max)
 
 		list[idx] = bannedlist[key].name .. " [" .. spamcolor .. bannedlist[key].score .. "|r]"
 		counter = counter + 1
-		if counter>500 then
+		if counter>=500 then
 			break
 		end
     end
@@ -435,7 +450,7 @@ function addon:SaveWL(str)
 	addon.db.global.wl = t
 end
 
------------ blacklist functions
+----------- blocklist functions
 function Options:FetchBL()
 	ignorelist_before_hook = {}
 	for i = 1, GetNumIgnores() do
@@ -443,8 +458,9 @@ function Options:FetchBL()
     end
 end
 
--- Blacklist synced from ignore list
+-- blocklist synced from ignore list
 function GetBLTable()
+	--addon:log(time() .. " GetBLTable")
 	local list = {}
 	for k, v in pairs(addon.db.global.bl) do
 		list[k] = k
@@ -458,51 +474,43 @@ function ToggleBLEntry(info, val)
 
 	addon.db.global.bl[val] = nil
 	C_FriendList.DelIgnore(val)
-	addon:log(val .. L[" had been removed from blacklist."])
+	addon:log(val .. L[" had been removed from blocklist."])
 end
 
 -- igargs: arguments passed by C_FriendList:xxx functions
 function sync_bl_func(syncargs)
 	local op = syncargs[1]
-	--addon:log("op=" .. op)
+	local pname = syncargs[2]
 
-	local removed_list = {}
-
-	local current_ignorelist = {}
-	for i = 1, GetNumIgnores() do
-        current_ignorelist[GetIgnoreName(i)] = true
-    end
-
-    -- find removed players if any
-    for k,v in pairs(ignorelist_before_hook) do
-    	if( not current_ignorelist [k] ) then
-    		removed_list[k] = true
-    	end
-    end
-
-	-- sync current ignore list to blacklist
-	local count = 0
-	for i = 1, GetNumIgnores() do
-        addon.db.global.bl[GetIgnoreName(i)] = true
-        count = count + 1
-    end
-
-    -- remove players which had been removed from ignorelist from acamar's blacklist
-    for k, v in pairs(removed_list) do
-    	-- addon:log("Remove " .. k)
-    	addon.db.global.bl[k] = nil
-    end
-
-    -- if in add mode, confirm the player be added to blacklist once system limit of 50 reached
-    if op == OP_ADD then
-    	-- addon:log("pname=" .. syncargs[2])
-    	addon.db.global.bl[syncargs[2]] = true
-		count = count + 1
-    end
-
-    if count > 0 then
-		addon:log(L["Blacklist has synced."])
+	if pname ~= nil then
+		pname = string.match(pname, "([^-]+)")
 	end
+	--addon:log("op=" .. op .. ", arg2=" .. tostring(syncargs[2]) .. ", pname=" .. tostring(pname) )
+
+    -- if in add mode, confirm the player be added to blocklist once system limit of 50 reached
+    if op == OP_ADD then
+    	addon.db.global.bl[pname] = true
+		addon:log(pname .. L[" added to blocklist."])
+	-- toggle add/remove
+	elseif op == OP_DEL then
+		if addon.db.global.bl[pname] then
+			--addon:log("OP_DEL unblock " .. pname)
+			addon.db.global.bl[pname] = nil
+			addon:log(pname .. L[" had been removed from blocklist."])
+		end
+	elseif op == OP_ADD_DEL then
+		if addon.db.global.bl[pname] == nil then
+			--addon:log("OP_ADD_DEL block " .. pname)
+			addon.db.global.bl[pname] = true
+			addon:log(pname .. L[" added to blocklist."])
+		else
+			--addon:log("OP_ADD_DEL unblock " .. pname)
+			addon.db.global.bl[pname] = nil
+			addon:log(pname .. L[" had been removed from blocklist."])
+		end
+	-- remove by index, ignore system removed by index, due to inconsistency of system ignore list with acamar's blocklist
+	elseif op == OP_ADDDEL_IDX then
+    end
 end
 
 function RemovePlayerFromBL()
@@ -689,17 +697,44 @@ function Options.GetOptions(uiType, uiName, appName)
 							order = 2.4,
 						},
 
-						header06 = {
+						header_interval = {
 							type = "header",
 							name = "",
 							order = 3.01,
 						},
 
-						authorinfo = {
+						min_interval_desc = {
 							type = "description",
-							name = L["AUTHOR_INFO"],
-							descStyle = L["AUTHOR_INFO"],
+							name = L["MIN_INTERVAL_DESC"],
 							order = 3.1,
+						},
+
+						min_interval_same_player = {
+							type = "range",
+							width = "double",
+							min = 0,
+							max = 3600,
+							step = 1,
+							softMin = 0,
+							softMax = 3600,
+							name = L["Same player"],
+							desc = L["Allow only 1 message sent by same player during set interval (seconds)"],
+							width = "normal",
+							order = 3.2,
+						},
+
+						min_interval_same_message = {
+							type = "range",
+							width = "double",
+							min = 0,
+							max = 3600,
+							step = 1,
+							softMin = 0,
+							softMax = 3600,
+							name = L["Same message"],
+							desc = L["Allow only 1 message with same content sent by same player during set interval (seconds)"],
+							width = "normal",
+							order = 3.3,
 						},
 					},
 				},
@@ -768,22 +803,22 @@ function Options.GetOptions(uiType, uiName, appName)
 					},
 				},
 
-				blacklist_panel = {
+				blocklist_panel = {
 					type = "group",
 					childGroups = "tab",
-					name = L["Black list"],
+					name = L["Block list"],
 					order = 8.0,
 					args = {
-						blacklist_desc = {
+						blocklist_desc = {
 							type = "description",
 							name = L["BL_DESC"],
 							order = 8.01,
 						},
-						blacklist_select = {
+						blocklist_select = {
 							type = "multiselect",
 							width = "full",
 							disabled = false,
-							name = L["Black list"],
+							name = L["Block list"],
 							values = function(info) return GetBLTable() end,
 							set = function(info, val)
 									ToggleBLEntry(info, val)
@@ -797,7 +832,7 @@ function Options.GetOptions(uiType, uiName, appName)
 							width = "normal",
 							name = L["Remove selected"],
 							confirm = false,
-							desc = L["Remove selected players from blacklist and sync with system ignore list"],
+							desc = L["Remove selected players from blocklist and sync with system ignore list"],
 							func = function(info) RemovePlayerFromBL() end,
 							order = 8.7,
 						},
@@ -842,7 +877,20 @@ function Options.GetOptions(uiType, uiName, appName)
 						top500_list_desc = {
 							type = "description",
 							name = L["ABOUT_INFO"],
+							order = 8.01,
+						},
+
+						header_author = {
+							type = "header",
+							name = "",
 							order = 9.01,
+						},
+
+						authorinfo = {
+							type = "description",
+							name = L["AUTHOR_INFO"],
+							descStyle = L["AUTHOR_INFO"],
+							order = 9.1,
 						},
 					},
 				},

@@ -6,6 +6,13 @@ local type, pairs, tonumber, wipe, next, select, unpack = type, pairs, tonumber,
 local strmatch, gmatch, strfind, format, gsub = string.match, string.gmatch, string.find, string.format, string.gsub
 local min, max, floor, rad = math.min, math.max, math.floor, math.rad
 
+-- FrameName
+do
+	function B:GetFrameName()
+		return (self.GetName and self:GetName()) or (self.GetDebugName and self:GetDebugName())
+	end
+end
+
 -- Math
 do
 	-- Numberize
@@ -41,6 +48,11 @@ do
 		idp = idp or 0
 		local mult = 10 ^ idp
 		return floor(number * mult + .5) / mult
+	end
+
+	function B.Scale(x)
+		local mult = C.mult
+		return mult * B.Round(x / mult)
 	end
 
 	-- Cooldown calculation
@@ -419,7 +431,7 @@ do
 		"shadows",
 	}
 	function B:StripTextures(kill)
-		local frameName = self.GetName and self:GetName()
+		local frameName = B.GetFrameName(self)
 		for _, texture in pairs(blizzTextures) do
 			local blizzFrame = self[texture] or (frameName and _G[frameName..texture])
 			if blizzFrame then
@@ -524,7 +536,7 @@ do
 		if self.SetNormalTexture then self:SetNormalTexture("") end
 		if self.SetPushedTexture then self:SetPushedTexture("") end
 
-		local frameName = self.GetName and self:GetName()
+		local frameName = B.GetFrameName(self)
 		for _, key in pairs(cleanTextures) do
 			local cleanFrame = self[key] or (frameName and _G[frameName..key])
 			if cleanFrame then
@@ -593,12 +605,6 @@ do
 		self.color = color
 		self:SetScript("OnEnter", Tooltip_OnEnter)
 		self:SetScript("OnLeave", B.HideTooltip)
-	end
-
-	-- Frame
-	function B.Scale(x)
-		local mult = C.mult
-		return mult * B.Round(x / mult)
 	end
 
 	-- Glow parent
@@ -998,7 +1004,7 @@ do
 			self:SetStatusBarColor(cr, cg, cb, DB.Alpha)
 		end
 
-		local frameName = self.GetName and self:GetName()
+		local frameName = B.GetFrameName(self)
 		for _, key in pairs(barWords) do
 			local text = self[key] or (frameName and _G[frameName..key])
 			if text then
@@ -1030,7 +1036,7 @@ do
 	end
 
 	function B:SetupTabStyle(index, tabName)
-		local frameName = self.GetName and self:GetName()
+		local frameName = B.GetFrameName(self)
 		local tab = frameName and frameName.."Tab"
 
 		if tabName then tab = frameName and frameName..tabName end
@@ -1066,7 +1072,7 @@ do
 			B.CleanTextures(parent)
 		end
 
-		local frameName = self.GetDebugName and self:GetDebugName()
+		local frameName = B.GetFrameName(self)
 		local thumb
 		if self.GetThumbTexture then
 			thumb = self:GetThumbTexture()
@@ -1098,7 +1104,7 @@ do
 		B.StripTextures(self)
 		B.CleanTextures(self)
 
-		local frameName = self.GetName and self:GetName()
+		local frameName = B.GetFrameName(self)
 
 		local button = self.Button or (frameName and _G[frameName.."Button"])
 		button:ClearAllPoints()
@@ -1215,7 +1221,7 @@ do
 		self.Icon:Point("RIGHT", self, "RIGHT", -5, 0)
 		self.Icon:SetSize(8, 8)
 
-		local frameName = self.GetName and self:GetName()
+		local frameName = B.GetFrameName(self)
 		for _, key in pairs(textWords) do
 			local text = self[key] or (frameName and _G[frameName..key])
 			if text then
@@ -1297,7 +1303,7 @@ do
 		nt:Point("TOPLEFT", 2, -2)
 		nt:Point("BOTTOMRIGHT", -2, 2)
 
-		local frameName = self.GetName and self:GetName()
+		local frameName = B.GetFrameName(self)
 		local bg = self.SwatchBg or (frameName and _G[frameName.."SwatchBg"])
 		bg:SetColorTexture(0, 0, 0)
 		bg:SetOutside(nt)
@@ -1466,7 +1472,29 @@ do
 			checked:SetVertexColor(cr, cg, cb)
 		end
 
-		checked:SetAllPoints(relativeTo)
+		checked:SetInside(relativeTo)
+	end
+
+	function B:ReskinPushed(relativeTo, classColor)
+		if not self then return end
+
+		local pushed
+		if self.SetPushedTexture then
+			self:SetPushedTexture(DB.pushed)
+			pushed = self:GetPushedTexture()
+		elseif self.GetNormalTexture then
+			pushed = self:GetNormalTexture()
+			pushed:SetTexture(DB.pushed)
+		elseif self.SetTexture then
+			pushed = self
+			pushed:SetTexture(DB.pushed)
+		end
+
+		if classColor then
+			pushed:SetVertexColor(cr, cg, cb)
+		end
+
+		pushed:SetInside(relativeTo)
 	end
 
 	function B:ReskinHighlight(relativeTo, classColor, isVertex)
@@ -1552,7 +1580,7 @@ do
 		B.CleanTextures(self)
 
 		local bg = B.CreateBDFrame(self, nil, 0, true)
-		local frameName = self.GetName and self:GetName()
+		local frameName = B.GetFrameName(self)
 		for _, key in pairs({"Header", "header"}) do
 			local frameHeader = self[key] or (frameName and _G[frameName..key])
 			if frameHeader then
@@ -1692,7 +1720,7 @@ do
 		B.CleanTextures(results)
 		B.CreateBG(results, -10, 0, 0, 0)
 
-		local frameName = self.GetName and self:GetName()
+		local frameName = B.GetFrameName(self)
 		local closebu = results.closeButton or (frameName and _G[frameName.."SearchResultsCloseButton"])
 		B.ReskinClose(closebu)
 
@@ -1757,7 +1785,7 @@ do
 	end
 
 	function B:ReskinRole(role)
-		local frameName = self.GetName and self:GetName()
+		local frameName = B.GetFrameName(self)
 		for _, key in pairs({"background", "Cover", "cover"}) do
 			local tex = self[key] or (frameName and _G[frameName..key])
 			if tex then tex:SetTexture("") end

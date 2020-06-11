@@ -221,9 +221,10 @@ function UF:UpdateRaidTextPoint()
 	for _, frame in pairs(oUF.objects) do
 		if frame.mystyle == "raid" then
 			local name = frame.nameText
-			local hpval = frame.healthValue
 			name:ClearAllPoints()
 			name:SetJustifyH("LEFT")
+
+			local hpval = frame.healthValue
 			hpval:ClearAllPoints()
 			hpval:SetJustifyH("RIGHT")
 
@@ -728,7 +729,7 @@ function UF:CreateAuras(self)
 	if mystyle == "raid" and not NDuiDB["UFs"]["SimpleMode"] then
 		num = 6
 	elseif mystyle == "party" then
-		num = 12
+		num = 9
 	end
 
 	if mystyle == "target" then

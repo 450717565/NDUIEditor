@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2392, "DBM-Party-Shadowlands", 1, 1182)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200524143937")
+mod:SetRevision("20200610154704")
 mod:SetCreatureID(166882)
 mod:SetEncounterID(2389)
 mod:SetZone()
@@ -110,7 +110,7 @@ mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
 function mod:RAID_BOSS_WHISPER(msg)
 	if msg:find("spell:327461") then
-		specWarnMeatHook:Show(DBM_BOSS)
+		specWarnMeatHook:Show(DBM_CORE_L.BOSS)
 		specWarnMeatHook:Play("targetyou")
 		yellMeatHook:Yell()
 	end

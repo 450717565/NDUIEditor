@@ -960,8 +960,7 @@ L["STRING_OPTIONS_SCROLLBAR"] = "Barra de desplazamiento"
 --[[Translation missing --]]
 --[[ L["STRING_OPTIONS_SCROLLBAR_DESC"] = ""--]] 
 L["STRING_OPTIONS_SEGMENTSSAVE"] = "Segmentos se han guardados"
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_SEGMENTSSAVE_DESC"] = ""--]] 
+L["STRING_OPTIONS_SEGMENTSSAVE_DESC"] = "Cuántos segmentos quieres guardar entre sesiones de juego. Los valores altos pueden aumentar el tiempo que tarda tu personaje en cerrar sesión."
 L["STRING_OPTIONS_SENDFEEDBACK"] = "Comentarios"
 L["STRING_OPTIONS_SHOW_SIDEBARS"] = "Mostrar bordes"
 L["STRING_OPTIONS_SHOW_SIDEBARS_DESC"] = "Mostrar los bordes de la ventana."
@@ -979,24 +978,18 @@ L["STRING_OPTIONS_SKIN_A_DESC"] = "Estas opciones se permiten personalizar el sk
 L["STRING_OPTIONS_SKIN_ELVUI_BUTTON1"] = "Alinear dentro del chat derecho"
 --[[Translation missing --]]
 --[[ L["STRING_OPTIONS_SKIN_ELVUI_BUTTON1_DESC"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_SKIN_ELVUI_BUTTON2"] = ""--]] 
+L["STRING_OPTIONS_SKIN_ELVUI_BUTTON2"] = "Establecer borde de información sobre herramientas en negro"
 --[[Translation missing --]]
 --[[ L["STRING_OPTIONS_SKIN_ELVUI_BUTTON2_DESC"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_SKIN_ELVUI_BUTTON3"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_SKIN_ELVUI_BUTTON3_DESC"] = ""--]] 
+L["STRING_OPTIONS_SKIN_ELVUI_BUTTON3"] = "Eliminar borde de información sobre herramientas"
+L["STRING_OPTIONS_SKIN_ELVUI_BUTTON3_DESC"] = "Modificar información sobre herramientas: Color del borde a:|cFFFFFF00Transparente|r."
 L["STRING_OPTIONS_SKIN_EXTRA_OPTIONS_ANCHOR"] = "Opciones de skin:"
 L["STRING_OPTIONS_SKIN_LOADED"] = "Skin se ha cargado con éxito."
 L["STRING_OPTIONS_SKIN_PRESETS_ANCHOR"] = "Guardar skin:"
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_SKIN_PRESETSCONFIG_ANCHOR"] = ""--]] 
+L["STRING_OPTIONS_SKIN_PRESETSCONFIG_ANCHOR"] = "Administrar skins personalizadas guardadas:"
 L["STRING_OPTIONS_SKIN_REMOVED"] = "Skin se ha eliminado."
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_SKIN_RESET_TOOLTIP"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_SKIN_RESET_TOOLTIP_DESC"] = ""--]] 
+L["STRING_OPTIONS_SKIN_RESET_TOOLTIP"] = "Restablecer borde de información sobre herramientas"
+L["STRING_OPTIONS_SKIN_RESET_TOOLTIP_DESC"] = "Establece el color y la textura del borde de la información sobre herramientas de forma predeterminada."
 L["STRING_OPTIONS_SKIN_SELECT"] = "Escoger un skin"
 L["STRING_OPTIONS_SKIN_SELECT_ANCHOR"] = "Selección de skin:"
 L["STRING_OPTIONS_SOCIAL"] = "Social"
@@ -1019,8 +1012,7 @@ L["STRING_OPTIONS_SPELL_SPELLID"] = "ID de hechizo"
 L["STRING_OPTIONS_STRETCH"] = "Botón de estiramiento en el lado superior"
 L["STRING_OPTIONS_STRETCH_DESC"] = "Coloca el botón de estiramiento en la parte superior de la ventana."
 L["STRING_OPTIONS_STRETCHTOP"] = "Botón de estiramiento siempre en la parte superior"
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_STRETCHTOP_DESC"] = ""--]] 
+L["STRING_OPTIONS_STRETCHTOP_DESC"] = "El botón de estiramiento se colocará en los estratos de PANTALLA COMPLETA y siempre se mantendrá más alto que los otros cuadros.  |cFFFFFF00Importante|r: Al mover la agarradera para obtener una capa alta, puede permanecer frente a otros marcos como mochilas, úsela solo si realmente la necesita."
 L["STRING_OPTIONS_SWITCH_ANCHOR"] = "Cambios:"
 L["STRING_OPTIONS_SWITCHINFO"] = "|cFFF79F81 IZQUIERDA DESACTIVADA|r  |cFF81BEF7 DERECHA ACTIVADA|r"
 L["STRING_OPTIONS_TABEMB_ANCHOR"] = "Insertar pestaña de chat"
@@ -1052,8 +1044,7 @@ L["STRING_OPTIONS_TEXT_ROWICONS_ANCHOR"] = "Iconos:"
 L["STRING_OPTIONS_TEXT_SHOW_BRACKET"] = "Paréntesis"
 L["STRING_OPTIONS_TEXT_SHOW_BRACKET_DESC"] = "Elija qué carácter se usa para abrir y cerrar el bloque por segundo y el porcentaje."
 L["STRING_OPTIONS_TEXT_SHOW_PERCENT"] = "Mostrar porcentaje"
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TEXT_SHOW_PERCENT_DESC"] = ""--]] 
+L["STRING_OPTIONS_TEXT_SHOW_PERCENT_DESC"] = "Muestra el porcentaje. Al deshabilitar el porcentaje, es posible que desee establecer 'Separador' en 'ninguno' para evitar una coma adicional después del DPS."
 L["STRING_OPTIONS_TEXT_SHOW_PS"] = "Mostrar por segundo"
 L["STRING_OPTIONS_TEXT_SHOW_PS_DESC"] = "Mostrar daño por segundo y sanación por segundo."
 L["STRING_OPTIONS_TEXT_SHOW_SEPARATOR"] = "Separador"
@@ -1062,18 +1053,15 @@ L["STRING_OPTIONS_TEXT_SHOW_TOTAL"] = "Mostrar total"
 L["STRING_OPTIONS_TEXT_SHOW_TOTAL_DESC"] = "Mostrar el total realizado. Por ejemplo: daño total, sanación total recibida."
 L["STRING_OPTIONS_TEXT_SIZE"] = "Tamaño del texto"
 L["STRING_OPTIONS_TEXT_SIZE_DESC"] = "Cambiar el tamaño de tanto los textos izquierdo y derecho."
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TEXT_TEXTUREL_ANCHOR"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TEXT_TEXTUREU_ANCHOR"] = ""--]] 
+L["STRING_OPTIONS_TEXT_TEXTUREL_ANCHOR"] = "Fondo:"
+L["STRING_OPTIONS_TEXT_TEXTUREU_ANCHOR"] = "Apariencia:"
 L["STRING_OPTIONS_TEXTEDITOR_CANCEL"] = "Cancelar"
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TEXTEDITOR_CANCEL_TOOLTIP"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TEXTEDITOR_COLOR_TOOLTIP"] = ""--]] 
+L["STRING_OPTIONS_TEXTEDITOR_CANCEL_TOOLTIP"] = "Finaliza la edición e ignora cualquier cambio en el código."
+L["STRING_OPTIONS_TEXTEDITOR_COLOR_TOOLTIP"] = "Selecciona el texto y luego haga clic en el botón de color para cambiar el color del texto seleccionado."
 L["STRING_OPTIONS_TEXTEDITOR_COMMA"] = "Coma"
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TEXTEDITOR_COMMA_TOOLTIP"] = ""--]] 
+L["STRING_OPTIONS_TEXTEDITOR_COMMA_TOOLTIP"] = [=[Agrega una función para formatear números, separándola con comas. Ejemplo: 1000000 a 1.000.000.
+
+]=]
 L["STRING_OPTIONS_TEXTEDITOR_DATA"] = "[Datos %s]"
 --[[Translation missing --]]
 --[[ L["STRING_OPTIONS_TEXTEDITOR_DATA_TOOLTIP"] = ""--]] 
@@ -1084,58 +1072,42 @@ L["STRING_OPTIONS_TEXTEDITOR_FUNC_TOOLTIP"] = [=[Añadir una función vacía.
 Funciones deben siempre devuelven un número.]=]
 L["STRING_OPTIONS_TEXTEDITOR_RESET"] = "Restablecer"
 L["STRING_OPTIONS_TEXTEDITOR_RESET_TOOLTIP"] = "Eliminar todo el código y añadir el código defecto."
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TEXTEDITOR_TOK"] = ""--]] 
+L["STRING_OPTIONS_TEXTEDITOR_TOK"] = "ToK"
 L["STRING_OPTIONS_TEXTEDITOR_TOK_TOOLTIP"] = [=[Añadir una función para abreviar numeros.
 Por ejemplo: 1500000 a 1.5kk.]=]
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TIMEMEASURE"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TIMEMEASURE_DESC"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TOOLBAR_SETTINGS"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TOOLBAR_SETTINGS_DESC"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TOOLBARSIDE"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TOOLBARSIDE_DESC"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TOOLS_ANCHOR"] = ""--]] 
+L["STRING_OPTIONS_TIMEMEASURE"] = "Medida de tiempo"
+L["STRING_OPTIONS_TIMEMEASURE_DESC"] = "|cFFFFFF00Actividad|r: el temporizador de cada miembro de la banda se pone en espera si se detiene su actividad y vuelve a contar cuando se reanuda, forma común de medir DPS y SPS.  |cFFFFFF00Efectivo|r: utilizado en las clasificaciones, este método utiliza el tiempo de combate transcurrido para medir el DPS y el SPS de todos los miembros de la banda."
+L["STRING_OPTIONS_TOOLBAR_SETTINGS"] = "Configuración del botón de la barra de título"
+L["STRING_OPTIONS_TOOLBAR_SETTINGS_DESC"] = "Estas opciones cambian el menú principal en la parte superior de la ventana."
+L["STRING_OPTIONS_TOOLBARSIDE"] = "Barra de título en el lado superior"
+L["STRING_OPTIONS_TOOLBARSIDE_DESC"] = "Coloca la barra de título en la parte superior de la ventana. |cFFFFFF00Importante|r: Al alternar la posición, el texto del título no cambiará, consulte la sección |cFFFFFF00Barra de título: texto|r para más opciones."
+L["STRING_OPTIONS_TOOLS_ANCHOR"] = "Herramientas:"
 L["STRING_OPTIONS_TOOLTIP_ANCHOR"] = "Configuración:"
 L["STRING_OPTIONS_TOOLTIP_ANCHORTEXTS"] = "Textos:"
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TOOLTIPS_ABBREVIATION"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TOOLTIPS_ABBREVIATION_DESC"] = ""--]] 
+L["STRING_OPTIONS_TOOLTIPS_ABBREVIATION"] = "Tipo de abreviatura"
+L["STRING_OPTIONS_TOOLTIPS_ABBREVIATION_DESC"] = "Elige cómo se formatean los números que se muestran en la información sobre herramientas."
 L["STRING_OPTIONS_TOOLTIPS_ANCHOR_ATTACH"] = "Lado de descripción"
 L["STRING_OPTIONS_TOOLTIPS_ANCHOR_ATTACH_DESC"] = "De cuál lado se ancla la descripción."
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TOOLTIPS_ANCHOR_BORDER"] = ""--]] 
+L["STRING_OPTIONS_TOOLTIPS_ANCHOR_BORDER"] = "Borde:"
 L["STRING_OPTIONS_TOOLTIPS_ANCHOR_POINT"] = "Ancla:"
 L["STRING_OPTIONS_TOOLTIPS_ANCHOR_RELATIVE"] = "Lado de ancla"
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TOOLTIPS_ANCHOR_RELATIVE_DESC"] = ""--]] 
+L["STRING_OPTIONS_TOOLTIPS_ANCHOR_RELATIVE_DESC"] = "De qué lado del ancla se colocará la información sobre herramientas."
 L["STRING_OPTIONS_TOOLTIPS_ANCHOR_TEXT"] = "Ancla de descripción"
 L["STRING_OPTIONS_TOOLTIPS_ANCHOR_TEXT_DESC"] = "Hacer clic derecho para bloquear."
 L["STRING_OPTIONS_TOOLTIPS_ANCHOR_TO"] = "Ancla"
 L["STRING_OPTIONS_TOOLTIPS_ANCHOR_TO_CHOOSE"] = "Mover punto de anclage"
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TOOLTIPS_ANCHOR_TO_CHOOSE_DESC"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TOOLTIPS_ANCHOR_TO_DESC"] = ""--]] 
+L["STRING_OPTIONS_TOOLTIPS_ANCHOR_TO_CHOOSE_DESC"] = [=[Mueve la posición de la ancla cuando esté configurado en |cFFFFFF00Punto en pantalla|r.
+
+]=]
+L["STRING_OPTIONS_TOOLTIPS_ANCHOR_TO_DESC"] = "La información sobre herramientas se adjunta en la fila suspendida o en un punto elegido en la pantalla del juego."
 L["STRING_OPTIONS_TOOLTIPS_ANCHOR_TO1"] = "Fila de ventana"
 L["STRING_OPTIONS_TOOLTIPS_ANCHOR_TO2"] = "Punto en pantalla"
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TOOLTIPS_ANCHORCOLOR"] = ""--]] 
+L["STRING_OPTIONS_TOOLTIPS_ANCHORCOLOR"] = "encabezamiento"
 L["STRING_OPTIONS_TOOLTIPS_BACKGROUNDCOLOR"] = "Color del fondo"
 L["STRING_OPTIONS_TOOLTIPS_BACKGROUNDCOLOR_DESC"] = "Cambiar el color del fondo de la descripción."
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TOOLTIPS_BORDER_COLOR_DESC"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TOOLTIPS_BORDER_SIZE_DESC"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TOOLTIPS_BORDER_TEXTURE_DESC"] = ""--]] 
+L["STRING_OPTIONS_TOOLTIPS_BORDER_COLOR_DESC"] = "Cambia el color del borde."
+L["STRING_OPTIONS_TOOLTIPS_BORDER_SIZE_DESC"] = "Cambiar el tamaño del borde."
+L["STRING_OPTIONS_TOOLTIPS_BORDER_TEXTURE_DESC"] = "Modifica el archivo de textura de borde."
 L["STRING_OPTIONS_TOOLTIPS_FONTCOLOR"] = "Color del texto"
 L["STRING_OPTIONS_TOOLTIPS_FONTCOLOR_DESC"] = "Cambiar el color del texto en la descripción."
 L["STRING_OPTIONS_TOOLTIPS_FONTFACE"] = "Fuente del texto"
@@ -1143,28 +1115,18 @@ L["STRING_OPTIONS_TOOLTIPS_FONTFACE_DESC"] = "Escoger del tipo de letra del text
 L["STRING_OPTIONS_TOOLTIPS_FONTSHADOW_DESC"] = "Añadir una sombra al texto en la descripción."
 L["STRING_OPTIONS_TOOLTIPS_FONTSIZE"] = "Tamaño del texto"
 L["STRING_OPTIONS_TOOLTIPS_FONTSIZE_DESC"] = "Cambiar el tamaño del texto en la descripción."
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TOOLTIPS_IGNORESUBWALLPAPER"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TOOLTIPS_IGNORESUBWALLPAPER_DESC"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TOOLTIPS_MAXIMIZE"] = ""--]] 
+L["STRING_OPTIONS_TOOLTIPS_IGNORESUBWALLPAPER"] = "Fondo de pantalla del submenú"
+L["STRING_OPTIONS_TOOLTIPS_IGNORESUBWALLPAPER_DESC"] = "Cuando está habilitado, algunos menús pueden usar su propio fondo de pantalla en submenús."
+L["STRING_OPTIONS_TOOLTIPS_MAXIMIZE"] = "Maximizar método"
 --[[Translation missing --]]
 --[[ L["STRING_OPTIONS_TOOLTIPS_MAXIMIZE_DESC"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TOOLTIPS_MAXIMIZE1"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TOOLTIPS_MAXIMIZE2"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TOOLTIPS_MAXIMIZE3"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TOOLTIPS_MAXIMIZE4"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TOOLTIPS_MAXIMIZE5"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TOOLTIPS_MENU_WALLP"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TOOLTIPS_MENU_WALLP_DESC"] = ""--]] 
+L["STRING_OPTIONS_TOOLTIPS_MAXIMIZE1"] = "En Shift Ctrl Alt"
+L["STRING_OPTIONS_TOOLTIPS_MAXIMIZE2"] = "Siempre maximizado"
+L["STRING_OPTIONS_TOOLTIPS_MAXIMIZE3"] = "Solo Shift Block"
+L["STRING_OPTIONS_TOOLTIPS_MAXIMIZE4"] = "Solo Ctrl Block"
+L["STRING_OPTIONS_TOOLTIPS_MAXIMIZE5"] = "Solo Alt Block"
+L["STRING_OPTIONS_TOOLTIPS_MENU_WALLP"] = "Editar fondo de pantalla del menú"
+L["STRING_OPTIONS_TOOLTIPS_MENU_WALLP_DESC"] = "Cambiar los aspectos del fondo de pantalla para los menús de la barra de título."
 L["STRING_OPTIONS_TOOLTIPS_OFFSETX"] = "Distancia X"
 L["STRING_OPTIONS_TOOLTIPS_OFFSETX_DESC"] = "Cuán lejos horizontalmente se coloca la descipción de su ancla."
 L["STRING_OPTIONS_TOOLTIPS_OFFSETY"] = "Distancia Y"
@@ -1174,8 +1136,7 @@ L["STRING_OPTIONS_TOOLTIPS_SHOWAMT_DESC"] = "Mostrar la cantidad de hechizos de 
 L["STRING_OPTIONS_TOOLTIPS_TITLE"] = "Descripciónes"
 L["STRING_OPTIONS_TOOLTIPS_TITLE_DESC"] = "Estas opciones te perimte personalizar la aparencia de las descripciónes."
 L["STRING_OPTIONS_TOTALBAR_ANCHOR"] = "Barra de total:"
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_TRASH_SUPPRESSION"] = ""--]] 
+L["STRING_OPTIONS_TRASH_SUPPRESSION"] = "Supresión de bichos"
 --[[Translation missing --]]
 --[[ L["STRING_OPTIONS_TRASH_SUPPRESSION_DESC"] = ""--]] 
 L["STRING_OPTIONS_WALLPAPER_ALPHA"] = "Opacidad:"
@@ -1208,12 +1169,9 @@ L["STRING_OPTIONS_WALLPAPER_LOAD_TROUBLESHOOT_TEXT"] = [=[Si el fondo de pantall
 - Confirmar que la imagen es en el Interface folder.
   Por ejemplo: C:/Program Files/World of Warcraft/Interface/]=]
 L["STRING_OPTIONS_WALLPAPER_RED"] = "Rojo:"
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_WC_ANCHOR"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_WC_BOOKMARK"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_WC_BOOKMARK_DESC"] = ""--]] 
+L["STRING_OPTIONS_WC_ANCHOR"] = "Control rápido de ventana (#%s):"
+L["STRING_OPTIONS_WC_BOOKMARK"] = "Administrar marcadores"
+L["STRING_OPTIONS_WC_BOOKMARK_DESC"] = "Abre el panel de configuración para marcadores."
 L["STRING_OPTIONS_WC_CLOSE"] = "Cerrar"
 L["STRING_OPTIONS_WC_CLOSE_DESC"] = [=[Cerrar esta ventana.
 
@@ -1228,80 +1186,55 @@ L["STRING_OPTIONS_WC_REOPEN"] = "Mostrar de nuevo"
 L["STRING_OPTIONS_WC_UNLOCK"] = "Desbloquear"
 L["STRING_OPTIONS_WC_UNSNAP"] = "Desagrupar"
 L["STRING_OPTIONS_WC_UNSNAP_DESC"] = "Desagrupar las ventanas seleccionadas."
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_WHEEL_SPEED"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_WHEEL_SPEED_DESC"] = ""--]] 
+L["STRING_OPTIONS_WHEEL_SPEED"] = "Velocidad de la rueda"
+L["STRING_OPTIONS_WHEEL_SPEED_DESC"] = "Cambia la rapidez con la que se desplaza el desplazamiento al pasar la rueda del mouse sobre una ventana"
 L["STRING_OPTIONS_WINDOW"] = "Opciones"
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_WINDOW_ANCHOR_ANCHORS"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_WINDOW_IGNOREMASSTOGGLE"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_WINDOW_IGNOREMASSTOGGLE_DESC"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_WINDOW_SCALE"] = ""--]] 
+L["STRING_OPTIONS_WINDOW_ANCHOR_ANCHORS"] = "Anclas:"
+L["STRING_OPTIONS_WINDOW_IGNOREMASSTOGGLE"] = "Ignorar alternar masa"
+L["STRING_OPTIONS_WINDOW_IGNOREMASSTOGGLE_DESC"] = "Cuando está habilitada, esta ventana no se ve afectada al ocultar, mostrar o alternar todas las ventanas."
+L["STRING_OPTIONS_WINDOW_SCALE"] = "Escala"
 --[[Translation missing --]]
 --[[ L["STRING_OPTIONS_WINDOW_SCALE_DESC"] = ""--]] 
 L["STRING_OPTIONS_WINDOW_TITLE"] = "Configuración de ventana"
 L["STRING_OPTIONS_WINDOW_TITLE_DESC"] = "Estas opciones se permiten personalizar la aparencia de la ventana seleccionada."
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_WINDOWSPEED"] = ""--]] 
+L["STRING_OPTIONS_WINDOWSPEED"] = "Intervalo de actualización"
 --[[Translation missing --]]
 --[[ L["STRING_OPTIONS_WINDOWSPEED_DESC"] = ""--]] 
 L["STRING_OPTIONS_WP"] = "Configuración del fondo de pantalla"
 L["STRING_OPTIONS_WP_ALIGN"] = "Alineación"
 --[[Translation missing --]]
 --[[ L["STRING_OPTIONS_WP_ALIGN_DESC"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_WP_DESC"] = ""--]] 
+L["STRING_OPTIONS_WP_DESC"] = "Estas opciones controlan el fondo de pantalla de la ventana."
 L["STRING_OPTIONS_WP_EDIT"] = "Editar imagen"
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_WP_EDIT_DESC"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_WP_ENABLE_DESC"] = ""--]] 
+L["STRING_OPTIONS_WP_EDIT_DESC"] = "Abre el editor de imágenes para cambiar algunos aspectos de la imagen seleccionada."
+L["STRING_OPTIONS_WP_ENABLE_DESC"] = "Mostrar fondo de pantalla."
 L["STRING_OPTIONS_WP_GROUP"] = "Categoría"
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_WP_GROUP_DESC"] = ""--]] 
+L["STRING_OPTIONS_WP_GROUP_DESC"] = "Selecciona el grupo de imágenes."
 L["STRING_OPTIONS_WP_GROUP2"] = "Fondo de pantalla"
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_WP_GROUP2_DESC"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONSMENU_AUTOMATIC"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONSMENU_AUTOMATIC_TITLE"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONSMENU_AUTOMATIC_TITLE_DESC"] = ""--]] 
+L["STRING_OPTIONS_WP_GROUP2_DESC"] = "La imagen que se utilizará como fondo de pantalla."
+L["STRING_OPTIONSMENU_AUTOMATIC"] = "Ventana: Automatización"
+L["STRING_OPTIONSMENU_AUTOMATIC_TITLE"] = "Configuración de automatización de ventanas"
+L["STRING_OPTIONSMENU_AUTOMATIC_TITLE_DESC"] = "Esta configuración controla los comportamientos automáticos que tiene la ventana, como ocultación automática y cambio automático."
 L["STRING_OPTIONSMENU_COMBAT"] = "Combate"
---[[Translation missing --]]
---[[ L["STRING_OPTIONSMENU_DATACHART"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONSMENU_DATACOLLECT"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONSMENU_DATAFEED"] = ""--]] 
+L["STRING_OPTIONSMENU_DATACHART"] = "Datos para gráficos"
+L["STRING_OPTIONSMENU_DATACOLLECT"] = "Recopilador de datos"
+L["STRING_OPTIONSMENU_DATAFEED"] = "Datos de entrada"
 L["STRING_OPTIONSMENU_DISPLAY"] = "Visualización"
---[[Translation missing --]]
---[[ L["STRING_OPTIONSMENU_DISPLAY_DESC"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONSMENU_LEFTMENU"] = ""--]] 
+L["STRING_OPTIONSMENU_DISPLAY_DESC"] = "Ajustes básicos generales y control rápido de ventanas."
+L["STRING_OPTIONSMENU_LEFTMENU"] = [=[Barra de título: general
+]=]
 L["STRING_OPTIONSMENU_MISC"] = "Misceláneo"
---[[Translation missing --]]
---[[ L["STRING_OPTIONSMENU_PERFORMANCE"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONSMENU_PLUGINS"] = ""--]] 
+L["STRING_OPTIONSMENU_PERFORMANCE"] = "Ajustes de rendimiento"
+L["STRING_OPTIONSMENU_PLUGINS"] = "Gestión de plugins"
 L["STRING_OPTIONSMENU_PROFILES"] = "Perfiles"
---[[Translation missing --]]
---[[ L["STRING_OPTIONSMENU_RAIDTOOLS"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONSMENU_RIGHTMENU"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_OPTIONSMENU_ROWMODELS"] = ""--]] 
+L["STRING_OPTIONSMENU_RAIDTOOLS"] = "Herramientas de banda"
+L["STRING_OPTIONSMENU_RIGHTMENU"] = "-- x -- x --"
+L["STRING_OPTIONSMENU_ROWMODELS"] = "Barras: Avanzado"
 L["STRING_OPTIONSMENU_ROWSETTINGS"] = "Configuración de filas"
 L["STRING_OPTIONSMENU_ROWTEXTS"] = "Textos en filas"
 L["STRING_OPTIONSMENU_SKIN"] = "Selección de skins"
 L["STRING_OPTIONSMENU_SPELLS"] = "Personalización de hechizos"
---[[Translation missing --]]
---[[ L["STRING_OPTIONSMENU_SPELLS_CONSOLIDATE"] = ""--]] 
+L["STRING_OPTIONSMENU_SPELLS_CONSOLIDATE"] = "Consolidar hechizos comunes con el mismo nombre"
 L["STRING_OPTIONSMENU_TITLETEXT"] = "Texto de título"
 L["STRING_OPTIONSMENU_TOOLTIP"] = "Descripciones"
 L["STRING_OPTIONSMENU_WALLPAPER"] = "Fondo de pantalla"
@@ -1324,8 +1257,7 @@ L["STRING_PLUGIN_FPS"] = "Cuadros por segundo"
 L["STRING_PLUGIN_GOLD"] = "Oro"
 L["STRING_PLUGIN_LATENCY"] = "Latencia"
 L["STRING_PLUGIN_MINSEC"] = "Minutos y segundos"
---[[Translation missing --]]
---[[ L["STRING_PLUGIN_NAMEALREADYTAKEN"] = ""--]] 
+L["STRING_PLUGIN_NAMEALREADYTAKEN"] = "Details! no se puede instalar el plugin porque ya se ha tomado el nombre"
 L["STRING_PLUGIN_PATTRIBUTENAME"] = "Atributo"
 L["STRING_PLUGIN_PDPSNAME"] = "DPS de banda"
 L["STRING_PLUGIN_PSEGMENTNAME"] = "Segmento"
@@ -1353,8 +1285,7 @@ L["STRING_QUERY_INSPECT"] = "recuperar talentos y nivel de objeto."
 L["STRING_QUERY_INSPECT_FAIL1"] = "No se puede consultar en combate."
 L["STRING_QUERY_INSPECT_REFRESH"] = "necesita actualizar"
 L["STRING_RAID_WIDE"] = "[*] reutilización por toda banda"
---[[Translation missing --]]
---[[ L["STRING_RAIDCHECK_PLUGIN_DESC"] = ""--]] 
+L["STRING_RAIDCHECK_PLUGIN_DESC"] = "Mientras está dentro de una estancia de banda, muestra el ícono en Details! barra de título que muestra frasco, comida, uso de pre-pociones."
 L["STRING_RAIDCHECK_PLUGIN_NAME"] = "Comprobación de banda"
 L["STRING_REPORT"] = "para"
 L["STRING_REPORT_BUTTON_TOOLTIP"] = "Hacer clic para abrir la ventana de informar."
@@ -1445,22 +1376,19 @@ L["STRING_SLASH_RESET_ALIAS1"] = "borrar"
 L["STRING_SLASH_RESET_DESC"] = "borrar todos los segmentos."
 L["STRING_SLASH_SHOW"] = "muestra"
 L["STRING_SLASH_SHOW_ALIAS1"] = "abre"
---[[Translation missing --]]
---[[ L["STRING_SLASH_SHOWHIDETOGGLE_DESC"] = ""--]] 
+L["STRING_SLASH_SHOWHIDETOGGLE_DESC"] = "todas las ventanas si no se pasa <número de ventana>."
 L["STRING_SLASH_TOGGLE"] = "alternar"
 L["STRING_SLASH_WIPE"] = "wipe"
 L["STRING_SLASH_WIPECONFIG"] = "Reinstalar"
 L["STRING_SLASH_WIPECONFIG_CONFIRM"] = "Hacer clic para continuar la reinstalación."
---[[Translation missing --]]
---[[ L["STRING_SLASH_WIPECONFIG_DESC"] = ""--]] 
+L["STRING_SLASH_WIPECONFIG_DESC"] = "establezce todas las configuraciones por defecto, use esto si Details! no funciona correctamente"
 L["STRING_SLASH_WORLDBOSS"] = "jefe del mundo"
 L["STRING_SLASH_WORLDBOSS_DESC"] = "ejecuta una macro que muestre a qué jefe mataste esta semana."
 L["STRING_SPELL_INTERRUPTED"] = "Hechizos interrumpidos"
 L["STRING_SPELLLIST"] = "Lista de habilidades"
 L["STRING_SPELLS"] = "Hechizos"
 L["STRING_SPIRIT_LINK_TOTEM"] = "Intercambio de salud"
---[[Translation missing --]]
---[[ L["STRING_SPIRIT_LINK_TOTEM_DESC"] = ""--]] 
+L["STRING_SPIRIT_LINK_TOTEM_DESC"] = "Cantidad de salud intercambiada entre jugadores dentro del círculo del tótem. Esta sanación no se agrega al total de sanación del jugador."
 L["STRING_STATISTICS"] = "Estadísticas"
 L["STRING_STATUSBAR_NOOPTIONS"] = "Este artilugio no tiene opciones."
 L["STRING_SWITCH_CLICKME"] = "añadir marcador"
@@ -1472,16 +1400,13 @@ L["STRING_TARGETS"] = "Objetivos"
 L["STRING_TARGETS_OTHER1"] = "Mascotas y otros objetivos"
 L["STRING_TEXTURE"] = "Textura"
 L["STRING_TIME_OF_DEATH"] = "Muerte"
---[[Translation missing --]]
---[[ L["STRING_TOOOLD"] = ""--]] 
+L["STRING_TOOOLD"] = "no se pudo instalar porque la versión de Details! es demasiado antiguo."
 L["STRING_TOP"] = "superior"
 L["STRING_TOP_TO_BOTTOM"] = "De arriba hacia abajo"
 L["STRING_TOTAL"] = "Total"
 L["STRING_TRANSLATE_LANGUAGE"] = "Ayuda a traducir Details!"
---[[Translation missing --]]
---[[ L["STRING_TUTORIAL_FULLY_DELETE_WINDOW"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_TUTORIAL_OVERALL1"] = ""--]] 
+L["STRING_TUTORIAL_FULLY_DELETE_WINDOW"] = "Cerró una ventana y puede volver a abrirla en cualquier momento. Para eliminar completamente una ventana, vaya a Opciones -> Ventana: General -> Eliminar."
+L["STRING_TUTORIAL_OVERALL1"] = "Los datos generales solo se actualizan cuando finaliza el combate, si desea actualizaciones periódicas, haga clic derecho en la barra de título y selecciona 'Datos generales dinámicos'."
 L["STRING_UNKNOW"] = "Desconocido"
 L["STRING_UNKNOWSPELL"] = "Hechizo desconocido"
 L["STRING_UNLOCK"] = "Esparcir las ventanas con este botón."
@@ -1494,19 +1419,15 @@ L["STRING_WAITPLUGIN"] = "esperando para plugins"
 L["STRING_WAVE"] = "oleada"
 --[[Translation missing --]]
 --[[ L["STRING_WELCOME_1"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_WELCOME_11"] = ""--]] 
+L["STRING_WELCOME_11"] = "si cambia de opinión, siempre puede modificar nuevamente a través del panel de opciones"
 L["STRING_WELCOME_12"] = "Cambiar la velocidad de acutalizaciones y animaciones. Si su computadora tiene menos de 2GB de memoria, se recomienda para reducir la cantidad de segmentos también."
 L["STRING_WELCOME_13"] = ""
 L["STRING_WELCOME_14"] = "Velocidad de actualizaciones"
---[[Translation missing --]]
---[[ L["STRING_WELCOME_15"] = ""--]] 
+L["STRING_WELCOME_15"] = "Información sobre herramientas para la velocidad de actualización en la ventana de bienvenida."
 L["STRING_WELCOME_16"] = "-"
 L["STRING_WELCOME_17"] = "-"
---[[Translation missing --]]
---[[ L["STRING_WELCOME_2"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_WELCOME_26"] = ""--]] 
+L["STRING_WELCOME_2"] = "si cambia de opinión, siempre puede modificar nuevamente a través del panel de opciones"
+L["STRING_WELCOME_26"] = "Uso de la interfaz: estiramiento"
 --[[Translation missing --]]
 --[[ L["STRING_WELCOME_27"] = ""--]] 
 L["STRING_WELCOME_28"] = "Usar la interfaz: Botón de ventana"
@@ -1514,13 +1435,11 @@ L["STRING_WELCOME_29"] = [=[- El |cffffff00#numero|r en el botón de la ventana 
 - El botón crea una |cffffff00nueva ventana|r al hacer clic.
 - El botón muestra un menú de las |cffffff00ventanas cerradas|r, que se puedan mostrar de nuevo en cualquier momento.]=]
 L["STRING_WELCOME_3"] = "Seleconniar un método de cálculo para DPS y HPS:"
---[[Translation missing --]]
---[[ L["STRING_WELCOME_30"] = ""--]] 
+L["STRING_WELCOME_30"] = "Uso de la interfaz: marcadores"
 --[[Translation missing --]]
 --[[ L["STRING_WELCOME_31"] = ""--]] 
 L["STRING_WELCOME_32"] = "Usar la interfaz: Agrupar ventanas"
---[[Translation missing --]]
---[[ L["STRING_WELCOME_34"] = ""--]] 
+L["STRING_WELCOME_34"] = "Uso de la interfaz: Expandir información sobre herramientas"
 L["STRING_WELCOME_36"] = "Usar la interfaz: Plugins"
 L["STRING_WELCOME_38"] = "Listo para jugar!"
 L["STRING_WELCOME_39"] = [=[Muchas gracias por elegir Detalles!
@@ -1532,39 +1451,25 @@ L["STRING_WELCOME_42"] = "Configuración de aparencia rapida"
 L["STRING_WELCOME_43"] = "Escoger un skin:"
 L["STRING_WELCOME_44"] = "Fondo de pantalla"
 L["STRING_WELCOME_45"] = "Para más opciones, ver a la ventana de configuración."
---[[Translation missing --]]
---[[ L["STRING_WELCOME_46"] = ""--]] 
+L["STRING_WELCOME_46"] = "-"
 L["STRING_WELCOME_5"] = "Tiempo efectivo: "
---[[Translation missing --]]
---[[ L["STRING_WELCOME_57"] = ""--]] 
+L["STRING_WELCOME_57"] = "-"
 --[[Translation missing --]]
 --[[ L["STRING_WELCOME_58"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_WELCOME_59"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_WELCOME_6"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_WELCOME_60"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_WELCOME_61"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_WELCOME_62"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_WELCOME_63"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_WELCOME_64"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_WELCOME_65"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_WELCOME_66"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_WELCOME_67"] = ""--]] 
+L["STRING_WELCOME_59"] = "-"
+L["STRING_WELCOME_6"] = "el temporizador de cada miembro de la banda se pone en espera si su actividad se detiene y vuelve a contar cuando se reanuda."
+L["STRING_WELCOME_60"] = "-"
+L["STRING_WELCOME_61"] = "-"
+L["STRING_WELCOME_62"] = "-"
+L["STRING_WELCOME_63"] = "Actualizar DPS/SPS en tiempo real"
+L["STRING_WELCOME_64"] = "-"
+L["STRING_WELCOME_65"] = "¡Presiona el botón derecho!"
+L["STRING_WELCOME_66"] = "Arrastra una ventana cerca de otra para crear un grupo. Las ventanas agrupadas se estiran y cambian de tamaño juntas. También viven más felices como pareja."
+L["STRING_WELCOME_67"] = "Presione shift para expandir la información sobre herramientas del jugador para mostrar todos los hechizos utilizados. Ctrl para objetivos y Alt para mascotas."
 --[[Translation missing --]]
 --[[ L["STRING_WELCOME_68"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_WELCOME_69"] = ""--]] 
---[[Translation missing --]]
---[[ L["STRING_WELCOME_7"] = ""--]] 
+L["STRING_WELCOME_69"] = "Saltar"
+L["STRING_WELCOME_7"] = "utilizado para las clasificaciones, este método utiliza el tiempo de combate transcurrido para medir el DPS y el SPS de todos los miembros de la banda."
 L["STRING_WELCOME_70"] = "-"
 L["STRING_WELCOME_71"] = "-"
 L["STRING_WELCOME_72"] = "-"
@@ -1578,8 +1483,7 @@ L["STRING_WELCOME_79"] = "Crear segunda ventana"
 L["STRING_WINDOW_NOTFOUND"] = "No se encontró ninguna ventana."
 L["STRING_WINDOW_NUMBER"] = "número de ventana"
 L["STRING_WINDOW1ATACH_DESC"] = "Para crear un grupo de ventanas, arrastra la ventana #2 cerca de la ventana #1."
---[[Translation missing --]]
---[[ L["STRING_WIPE_ALERT"] = ""--]] 
+L["STRING_WIPE_ALERT"] = "Llamada de líder de banda: ¡Wipe!"
 L["STRING_WIPE_ERROR1"] = "Ya se ha realizado un wipe."
 L["STRING_WIPE_ERROR2"] = "No estamos en una banda."
 L["STRING_WIPE_ERROR3"] = "no pudo terminar el encuentro."

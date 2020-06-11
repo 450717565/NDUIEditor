@@ -11,7 +11,9 @@ if(addonName ~= nil) then
 	FilterProcessor = addon:NewModule("FilterProcessor", "AceEvent-3.0", "AceHook-3.0", "AceConsole-3.0")
 	L = LibStub("AceLocale-3.0"):GetLocale(addonName)
 	AceGUI = LibStub("AceGUI-3.0")
-	private = {}
+	private = {
+		plist = {},
+	}
 else
 	addon = {}
 
@@ -71,9 +73,11 @@ else
 						level = 1,
 						-- obtained by getuserinfobyguid
 						class = "warlock",
-						-- msgs table
 						-- bot or human, 0=human, 1=bot
 						bot = 0.9,
+						-- last accept time, if message was discard due to same player limitation
+						-- the field will not updated.
+						last_accept_time = 21311331,
 						-- messages sent by the player
 						msgs = {
 							-- message hash
@@ -93,6 +97,9 @@ else
 								first_time = 11111111,
 								-- last sent time, first read should ignored after addon reload
 								last_time = 21111111,
+								-- last accept time, if message was discard due to same player limitation
+								-- the field will not updated.
+								last_accept_time = 21311331,
 								--             消息数         周期特征消息数      频道号         偏差总平均         上次的周期                  
 								-- samplings. {msg_count (1), period_count (2), chan_num(3),  deviation_avg(4), last_period (5),}
 								samplings = {
@@ -607,6 +614,10 @@ function FilterProcessor:OnNewMessage(...)
 		return false, 0
 	end
 
+	-- reset limitation triggers
+	self.player_limitation_trigger = false
+	self.content_limitation_trigger = false
+
 	-- learning the talkative user
 	self:LearnMessage(msgdata)
 
@@ -624,9 +635,18 @@ function FilterProcessor:OnNewMessage(...)
 			if ( pfeature.score >= self.filter_score ) then
 				--addon:log("[Block] " .. pfeature.name .. ", score=" .. pfeature.score )
 				return true, pfeature.score 
+			else
+				--addon:log("[Not block] " .. pfeature.name .. ", score=" .. pfeature.score )
 			end
 		end
 
+	end
+
+	-- if limitation triggered
+	if self.player_limitation_trigger or self.content_limitation_trigger then
+		--addon:log("player:" .. tostring(self.player_limitation_trigger) .. ", content:" .. tostring(self.content_limitation_trigger))
+		--addon:log("[Block]: " .. msgdata.from .. " [" .. msgdata.message .. "]")
+		return true, 0		
 	end
 
 end
@@ -784,7 +804,148 @@ function FilterProcessor:LearnMessage(msgdata)
 	hashstr =  msgdata.chan_num .. ":" .. StringHash(msgdata.message)
 	msgdata.hash = hashstr
 
+	-- set limitation trigger flag from DB
+	--self:SetLimitationTriggerWithDB()
+
+	-- set limitation trigger flag in memory, support all players include those not under learning
+	self:CalcLimitationTriggerInMem()
+
 	self:BehaviorNewMessage(msgdata)
+
+	-- update limitation trigger with db
+	-- self:UpdateLimitationTriggerWithDB()
+
+	-- update limitation trigger in memory
+	self:UpdateLimitationTriggerInMem()
+end
+
+-- set player or messge limitation trigger
+function FilterProcessor:CalcLimitationTriggerInMem()
+	-- set discard flag if interval limitation of same player triggered
+	-- if interval set and player exists
+	if addon.db.global.min_interval_same_player>0 and private.plist[msgdata.guid] then
+		--addon:log( "[INT PLAYER] " .. msgdata.from .. " exists, limit=" .. addon.db.global.min_interval_same_player )
+		-- if last accept time exists
+		if private.plist[msgdata.guid].last_accept_time ~= nil then
+			local diff = msgdata.receive_time - private.plist[msgdata.guid].last_accept_time
+			--addon:log( "[INT PLAYER] " .. msgdata.from .. " has last_accept_time, diff=" .. diff )
+			-- if within the limited period
+			if diff <= addon.db.global.min_interval_same_player then
+				--addon:log( "[INT PLAYER Block] " .. msgdata.from .. " " .. diff .. "<=" .. addon.db.global.min_interval_same_player)
+				-- set trigger flag
+				self.player_limitation_trigger = true
+			-- if not triggered
+			end
+		end
+	end
+
+	-- set discard flag if interval limitation of same content triggered
+	-- if interval set and player exists
+	if addon.db.global.min_interval_same_message>0 and private.plist[msgdata.guid] then
+		--addon:log( "[INT MSG] " .. msgdata.from .. " exists, limit=" .. addon.db.global.min_interval_same_message )
+		-- content exists
+		if private.plist[msgdata.guid].msgs[msgdata.hash] then
+			--addon:log( "[INT MSG] " .. msgdata.from .. " same message exists" )
+			-- if last accept time exists
+			if private.plist[msgdata.guid].msgs[msgdata.hash].last_accept_time ~= nil then
+				local diff = msgdata.receive_time - private.plist[msgdata.guid].msgs[msgdata.hash].last_accept_time
+				--addon:log( "[INT MSG] " .. msgdata.from .. " same message has last_accept_time, diff=" .. diff .. " vs " .. addon.db.global.min_interval_same_message )
+				-- if within the limited period
+				if diff <= addon.db.global.min_interval_same_message then
+					--addon:log( "[INT MSG Block] " .. msgdata.from .. " " .. diff .. "<=" .. addon.db.global.min_interval_same_message)
+					-- set trigger flag
+					self.content_limitation_trigger = true
+				-- if not triggered
+				end
+			end
+		end
+	end
+
+	-- get or set plist data 
+	if private.plist[msgdata.guid] == nil then
+		private.plist[msgdata.guid] = {
+			msgs = {},
+			last_accept_time = msgdata.receive_time,
+		}
+	end
+
+	-- get or set messages node
+	if private.plist[msgdata.guid].msgs[msgdata.hash] == nil then
+		private.plist[msgdata.guid].msgs[msgdata.hash] = { last_accept_time = msgdata.receive_time }
+	end
+end
+
+-- Update accept time with db
+function FilterProcessor:UpdateLimitationTriggerInMem()
+
+	-- if same player limitation not triggered
+	if not self.player_limitation_trigger then
+		-- update player's last_accept_time
+		private.plist[msgdata.guid].last_accept_time = msgdata.receive_time
+	end
+
+	-- if same content limitation not triggered
+	if not self.content_limitation_trigger then
+		-- update content's last_accept_time
+		private.plist[msgdata.guid].msgs[msgdata.hash].last_accept_time = msgdata.receive_time
+	end
+end
+
+-- set player or messge limitation trigger
+function FilterProcessor:CalcLimitationTriggerWithDB()
+	-- set discard flag if interval limitation of same player triggered
+	-- if interval set and player exists
+	if addon.db.global.min_interval_same_player>0 and addon.db.global.plist[msgdata.guid] then
+		--addon:log( "[INT PLAYER] " .. msgdata.from .. " exists, limit=" .. addon.db.global.min_interval_same_player )
+		-- if last accept time exists
+		if addon.db.global.plist[msgdata.guid].last_accept_time ~= nil then
+			--addon:log( "[INT PLAYER] " .. msgdata.from .. " has last_accept_time, diff=" .. (msgdata.receive_time - addon.db.global.plist[msgdata.guid].last_accept_time) )
+			-- if within the limited period
+			if msgdata.receive_time - addon.db.global.plist[msgdata.guid].last_accept_time <= addon.db.global.min_interval_same_player then
+				--addon:log( "[INT PLAYER Block] " .. msgdata.from .. " " .. (msgdata.receive_time - addon.db.global.plist[msgdata.guid].last_accept_time) .. "<=" .. addon.db.global.min_interval_same_player)
+				-- set trigger flag
+				self.player_limitation_trigger = true
+			-- if not triggered
+			end
+		end
+	end
+
+	-- set discard flag if interval limitation of same content triggered
+	-- if interval set and player exists
+	if addon.db.global.min_interval_same_message>0 and addon.db.global.plist[msgdata.guid] then
+		--addon:log( "[INT MSG] " .. msgdata.from .. " exists, limit=" .. addon.db.global.min_interval_same_message )
+		-- content exists
+		if addon.db.global.plist[msgdata.guid].msgs[msgdata.hash] then
+			--addon:log( "[INT MSG] " .. msgdata.from .. " same message exists" )
+			-- if last accept time exists
+			if addon.db.global.plist[msgdata.guid].msgs[msgdata.hash].last_accept_time ~= nil then
+				--addon:log( "[INT MSG] " .. msgdata.from .. " same message has last_accept_time, diff=" .. (msgdata.receive_time - addon.db.global.plist[msgdata.guid].msgs[msgdata.hash].last_accept_time) )
+				-- if within the limited period
+				if msgdata.receive_time - addon.db.global.plist[msgdata.guid].msgs[msgdata.hash].last_accept_time <= addon.db.global.min_interval_same_message then
+					--addon:log( "[INT MSG Block] " .. msgdata.from .. " " .. (msgdata.receive_time - addon.db.global.plist[msgdata.guid].msgs[msgdata.hash].last_accept_time) .. "<=" .. addon.db.global.min_interval_same_message)
+					-- set trigger flag
+					self.content_limitation_trigger = true
+				-- if not triggered
+				end
+			end
+		end
+	end
+end
+
+-- Update accept time with db
+function FilterProcessor:UpdateLimitationTriggerWithDB()
+
+	-- if same player limitation not triggered
+	if not self.player_limitation_trigger then
+		-- update player's last_accept_time
+		addon.db.global.plist[msgdata.guid].last_accept_time = msgdata.receive_time
+	end
+
+	-- if same content limitation not triggered
+	if not self.content_limitation_trigger then
+		-- update content's last_accept_time
+		addon.db.global.plist[msgdata.guid].msgs[msgdata.hash].last_accept_time = msgdata.receive_time
+	end
 end
 
 -- learn user messaging behavior
@@ -803,6 +964,7 @@ function FilterProcessor:BehaviorNewMessage(msgdata)
 			name = msgdata.from,
 			class = string.lower(engClass),
 			msgs = {},
+			last_accept_time = msgdata.receive_time,
 		}
 
 	-- get or set messages node
@@ -815,6 +977,7 @@ function FilterProcessor:BehaviorNewMessage(msgdata)
 			-- event = msgdata.event, -- for debug purpose
 			first_time = msgdata.receive_time,
 			last_time = msgdata.receive_time,
+			last_accept_time = msgdata.receive_time,
 			lastperiod = 0,
 			samplings = {
 				all_time = {0, 0, msgdata.chan_num, 0, nil},
@@ -845,6 +1008,7 @@ function FilterProcessor:BehaviorNewMessage(msgdata)
 
 	-- update last_time to message receival time
 	addon.db.global.plist[msgdata.guid].msgs[msgdata.hash].last_time = msgdata.receive_time
+
 end
 
 -- perform all sampling
@@ -1806,6 +1970,265 @@ function remove_dups(str, fast)
 
 	return nil
 end
+
+-- utf8 to unicode table
+function utf8_to_tbl_fast(utf8str, start, stop)
+    assert(type(utf8str) == "string")
+
+    if start == nil then
+        start = 1
+    end    
+
+    if stop == nil then
+        stop = #utf8str
+    end
+
+    local res, seq, val = {}, 0, nil
+    for i = start, stop do
+        local c = string.byte(utf8str, i)
+        if seq == 0 then
+            table.insert(res, val)
+            seq = c < 0x80 and 1 or c < 0xE0 and 2 or c < 0xF0 and 3 or
+                  c < 0xF8 and 4 or --c < 0xFC and 5 or c < 0xFE and 6 or
+                  error("invalid UTF-8 character sequence")
+            val = bit.band(c, 2^(8-seq) - 1)
+        else
+            val = bit.bor(bit.lshift(val, 6), bit.band(c, 0x3F))
+        end
+        seq = seq - 1
+    end
+    table.insert(res, val)
+    return res
+end
+
+-- unicode table to utf8
+function unicode_tbl_to_utf8_fast(tbl, start, stop)
+	if tbl == nil then
+		return nil
+	end
+
+    if start == nil then
+        start = 1
+    end    
+
+    if stop == nil then
+        stop = #tbl
+    end
+
+    local rets=""
+    for i = start, stop do
+        local unicode = tbl[i]
+
+        if unicode <= 0x007f then
+            rets=rets..string.char(bit.band(unicode,0x7f))
+        elseif unicode >= 0x0080 and unicode <= 0x07ff then
+            rets=rets..string.char(bit.bor(0xc0,bit.band(bit.rshift(unicode,6),0x1f)))
+            rets=rets..string.char(bit.bor(0x80,bit.band(unicode,0x3f)))
+        elseif unicode >= 0x0800 and unicode <= 0xffff then
+            rets=rets..string.char(bit.bor(0xe0,bit.band(bit.rshift(unicode,12),0x0f)))
+            rets=rets..string.char(bit.bor(0x80,bit.band(bit.rshift(unicode,6),0x3f)))
+            rets=rets..string.char(bit.bor(0x80,bit.band(unicode,0x3f)))
+        end
+    end
+    --rets=rets..'\0'
+    return rets
+end
+
+-- if t[p1+i]==0xa0 or t[p1+i]==0x20 or t[p1+i]==0x3000
+function compare_tables_part_nospace_fast(t, p1, p2, size)
+	local ncounter = 0
+	local p1pos = 1
+	local p2pos = 1
+
+	local result = false
+
+	while(p1pos<=size) do
+		-- p1 not space
+		local c1 = t[p1+p1pos]
+		if c1~=0xa0 and c1~=0x20 and c1~=0x3000 then
+			local c2 = nil
+			local i
+
+			while(p2pos<=size) do
+				c2 = t[p2+p2pos]
+				if c2~=0xa0 and c2~=0x20 and c2~=0x3000 then
+					p2pos = p2pos + 1
+					break
+				end
+				p2pos = p2pos + 1
+			end
+
+			--print(c1, c2)
+
+			if c1 ~= c2 then 
+            	return false 
+            end
+
+        	 -- number
+	        if c1 >= 0x30 and c1 <= 0x39 then
+	        	ncounter = ncounter + 1
+	        end
+		end
+	    p1pos = p1pos + 1
+	end
+
+    -- ignore all number repeats
+    if ncounter == size then
+    	return false
+    end
+
+	for i=p2pos, size do
+		local extrac2 = t[p2+i]
+		--p2 has non-space chars
+		if extrac2~=0xa0 and extrac2~=0x20 and extrac2~=0x3000 then
+			return false
+		end
+	end
+
+	--print (size, p1pos, p2pos)
+	if p1pos  == size+1 then
+		result = true
+	end
+
+    return result
+end
+
+function estimate_dup_probability(tbl)
+	local prob = 0.0
+	if tbl == nil then
+		return prob
+	end
+
+	local uc = {}
+	for k, v in pairs(tbl) do
+		if uc[v] ~= nil then
+			uc[v] = uc[v] + 1
+		else
+			uc[v] = 1
+		end
+	end
+
+	local counter = 0
+	for k, v in pairs(uc) do
+		counter = counter + 1
+		-- print( unicode_tbl_to_utf8_fast({k}), "=", v)
+	end
+
+	--print(counter, #tbl, 1-counter/#tbl)
+	return math.floor((1-counter/#tbl)*100)/100
+end
+
+function remove_dups_fast(str, deep) 
+    local t = utf8_to_tbl_fast(str)
+    --print(table2string(t))
+    local prob = estimate_dup_probability(t)
+    --print("size=" .. #t .. ", prob=" .. prob)
+
+    local skip = false
+    if prob<0.33 then
+    	skip = true
+	elseif (#t>256 and prob<0.4) then
+		skip = true
+	elseif (#t>128 and prob<0.45) then
+		skip = true
+	elseif (#t>64 and prob<0.47) then
+		skip = true
+	elseif (#t>32 and prob<0.5) then
+		skip = true
+	end
+
+	-- skip very low probability of duplicates
+	if(skip) then
+		--print("Skip low probability")
+		return nil
+	end
+
+    local dflag = false
+    if deep ~= nil then 
+    	dflag = deep
+    else
+    	--print("deep not set, estimating...")
+		if (#t>256 and prob>0.7) then
+			dflag = true
+		elseif (#t>128 and prob>0.6) then
+			dflag = true
+		elseif (#t>64 and prob>0.55) then
+			dflag = true
+		elseif (#t>32 and prob>0.5) then
+			dflag = true
+		end
+    end
+    --print("size=" .. #t .. ", prob=" .. prob .. ", deepflag=" .. tostring(dflag))
+
+
+    local rt = remove_dups_tbl_fast(t, dflag)
+ 	return unicode_tbl_to_utf8_fast(rt)
+end
+
+function remove_dups_tbl_fast(t, deep)
+	local i, k
+    -- offset, window_size
+    local off, w
+    -- length
+    local n = #t
+    -- half of length
+    local h = math.floor(n/2)
+
+    -- offset from 0 to n
+    for off=0, n do
+        local maxwin = h
+
+        -- calc max window size
+        if h>(n-off) then
+        	maxwin = n-off
+        end
+
+        -- window size from large to small
+        for w=maxwin, 3, -1 do
+	        local dups = 0
+            -- fist element index = 0
+            for k = 1, (n-off)/w-1 do
+	            --if compare_tables_part(t, dups*w+off, (dups+1)*w+off, w) then
+	            --print(unicode_tbl_to_utf8_fast(t, off+1, off+w) .. " vs " .. unicode_tbl_to_utf8_fast(t, k*w+off+1, k*w+off+w) )
+	            --if compare_tables_part_fast(t, off, k*w+off, w) then
+	            if compare_tables_part_nospace_fast(t, off, k*w+off, w) then
+	                dups = dups + 1
+	                --print("dups=", dups, "w=", w)
+	            else
+	            	break
+	            end
+            end
+
+            if(dups>0) then
+            	local rt = {}
+            	for i = 1, off+w do
+            		table.insert(rt, t[i])
+            	end
+
+				--print(unicode_tbl_to_utf8_fast(rt))
+
+            	for i = (dups+1)*w+off+1, n do
+            		table.insert(rt, t[i])
+            	end
+				--print(unicode_tbl_to_utf8_fast(rt))
+
+            	--ft = nil
+            	-- find dups again
+            	if deep then
+	            	ft = remove_dups_tbl_fast(rt, deep)
+	            	if ft ~= nil then
+	            		return ft
+	            	else
+	            		return rt
+	            	end
+            	else
+            		return rt
+            	end
+            end
+        end
+    end
+end
+
 ------------------------------------------------------------------------
 
 ---------------------------
