@@ -164,8 +164,10 @@ function module:RecycleBin()
 
 	local bin = CreateFrame("Frame", "RecycleBinFrame", UIParent)
 	bin:SetPoint("RIGHT", bu, "LEFT", -5, 0)
+	bin:SetFrameStrata("TOOLTIP")
 	bin:Hide()
 	B.CreateGA(bin, 226, 37, "Horizontal", 0, 0, 0, 0, .5)
+
 	local topLine = CreateFrame("Frame", nil, bin)
 	topLine:SetPoint("BOTTOM", bin, "TOP", 0, 0)
 	B.CreateGA(topLine, 226, C.mult*2, "Horizontal", cr, cg, cb, 0, DB.Alpha)
@@ -175,7 +177,6 @@ function module:RecycleBin()
 	local rightLine = CreateFrame("Frame", nil, bin)
 	rightLine:SetPoint("LEFT", bin, "RIGHT", 0, 0)
 	B.CreateGA(rightLine, C.mult*2, 37+C.mult*4, "Vertical", cr, cg, cb, DB.Alpha, DB.Alpha)
-	bin:SetFrameStrata("LOW")
 
 	local function hideBinButton()
 		bin:Hide()
@@ -317,9 +318,14 @@ function module:WhoPingsMyMap()
 end
 
 function module:UpdateMinimapScale()
+	local size = Minimap:GetWidth()
 	local scale = NDuiDB["Map"]["MinimapScale"]
 	Minimap:SetScale(scale)
-	Minimap.mover:SetSize(Minimap:GetWidth()*scale, Minimap:GetHeight()*scale)
+	Minimap.mover:SetSize(size*scale, size*scale)
+	-- Other elements
+	if _G.NDuiMinimapDataBar then
+		_G.NDuiMinimapDataBar:SetWidth((size-10)*scale)
+	end
 end
 
 function module:ShowMinimapClock()

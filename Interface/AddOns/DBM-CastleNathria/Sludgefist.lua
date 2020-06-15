@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2394, "DBM-CastleNathria", nil, 1190)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200527020111")
+mod:SetRevision("20200611191231")
 mod:SetCreatureID(164407)
 mod:SetEncounterID(2399)
 mod:SetZone()
@@ -111,7 +111,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 331209 then
 		timerHatefulGazeCD:Start()
 		if args:IsPlayer() then
-			specWarnHatefulGaze:Show(L.Pillar)
+			specWarnHatefulGaze:Show(DBM_CORE_L.PILLAR)
 			specWarnHatefulGaze:Play("targetyou")
 			yellHatefulGaze:Yell()
 			yellHatefulGazeFades:Countdown(spellId)

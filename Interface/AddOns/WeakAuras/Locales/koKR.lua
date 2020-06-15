@@ -299,10 +299,8 @@ L["Ebonroc"] = "에본로크"
 L["Edge"] = "Edge"
 --[[Translation missing --]]
 L["Edge of Madness"] = "Edge of Madness"
---[[Translation missing --]]
-L["Elide"] = "Elide"
---[[Translation missing --]]
-L["Elite"] = "Elite"
+L["Elide"] = "생략"
+L["Elite"] = "정예"
 L["Emote"] = "감정표현"
 --[[Translation missing --]]
 L["Emphasized"] = "Emphasized"
@@ -728,8 +726,7 @@ L["Range"] = "원거리"
 L["Range Check"] = "거리 확인"
 --[[Translation missing --]]
 L["Rare"] = "Rare"
---[[Translation missing --]]
-L["Rare Elite"] = "Rare Elite"
+L["Rare Elite"] = "희귀 정예"
 --[[Translation missing --]]
 L["Razorgore the Untamed"] = "Razorgore the Untamed"
 L["Ready Check"] = "전투 준비"

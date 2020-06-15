@@ -216,7 +216,6 @@ function Bar:StyleActionButton(button, cfg)
 	SetupTexture(highlightTexture, cfg.highlightTexture, "SetHighlightTexture", button)
 	SetupTexture(checkedTexture, cfg.checkedTexture, "SetCheckedTexture", button)
 
-	--checkedTexture:SetColorTexture(1, .8, 0, .25)
 	highlightTexture:SetColorTexture(1, 1, 1, .25)
 
 	--cooldown
@@ -250,11 +249,10 @@ function Bar:StyleActionButton(button, cfg)
 			name:Hide()
 		end
 	end
+
 	if autoCastable then
-		local size = cfg.autoCastSize
-		autoCastable:ClearAllPoints()
-		autoCastable:Point("TOPLEFT", button, "TOPLEFT", -size, size)
-		autoCastable:Point("BOTTOMRIGHT", button, "BOTTOMRIGHT", (size+C.mult), -(size+C.mult))
+		autoCastable:SetTexCoord(.217, .765, .217, .765)
+		autoCastable:SetInside()
 	end
 
 	button.__styled = true
@@ -272,6 +270,7 @@ function Bar:StyleExtraActionButton(cfg)
 	local buttonstyle = button.style --artwork around the button
 	local cooldown = _G[buttonName.."Cooldown"]
 
+	button:SetPushedTexture(DB.pushed) --force it to gain a texture
 	local normalTexture = button:GetNormalTexture()
 	local pushedTexture = button:GetPushedTexture()
 	local highlightTexture = button:GetHighlightTexture()
@@ -431,7 +430,6 @@ function Bar:ReskinBars()
 			},
 		},
 		buttonstyle = {file = ""},
-		autoCastSize = (C.bars.petbar.size/2 - C.bars.petbar.size/8),
 	}
 
 	Bar:StyleAllActionButtons(cfg)

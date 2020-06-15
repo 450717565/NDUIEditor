@@ -44,7 +44,7 @@ function M:PetTabs_Create()
 	-- Create the pet type buttons, sorted according weakness
 	-- Humanoid > Dragonkin > Magic > Flying > Aquatic > Elemental > Mechanical > Beast > Critter > Undead
 	local activeCount = 0
-	for petIndex, petType in ipairs({1, 2, 6, 3, 9, 7, 10, 8, 5, 4}) do
+	for petIndex, petType in ipairs({1, 2, 3, 4, 5, 6, 7, 8, 9, 10}) do
 		local btn = CreateFrame("Button", "PetJournalQuickFilterButton"..petIndex, PetJournal)
 		btn:SetSize(22, 22)
 		btn:SetPoint("TOPLEFT", PetJournalLeftInset, 7 + 25 * (petIndex-1), -34)

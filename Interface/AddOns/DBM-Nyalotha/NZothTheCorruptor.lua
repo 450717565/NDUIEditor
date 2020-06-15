@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2375, "DBM-Nyalotha", nil, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200610172832")
+mod:SetRevision("20200612160310")
 mod:SetCreatureID(158041)
 mod:SetEncounterID(2344)
 mod:SetZone()
@@ -465,12 +465,6 @@ do
 	end
 end
 
---/run DBM:GetModByName("2375"):Test()
-function mod:Test()
-	specWarnStupefyingGlare:Show(1)
-	warnStupefyingGlareSoon:Countdown(10, 5)
-end
-
 function mod:OnCombatStart(delay)
 	self.vb.eternalTormentCount = 0
 	self.vb.BasherCount = 0
@@ -926,7 +920,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnEventHorizon:Show()
 			specWarnEventHorizon:Play("defensive")
 		else
-			--local uId = DBM:GetRaidUnitId(args.destName)
 			if self:IsTank() then
 				specWarnEventHorizonSwap:Show(args.destName)
 				specWarnEventHorizonSwap:Play("tauntboss")

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2337, "DBM-ZuldazarRaid", 3, 1176)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200610172832")
+mod:SetRevision("20200612160310")
 mod:SetCreatureID(146251, 146253, 146256)--Sister Katherine 146251, Brother Joseph 146253, Laminaria 146256
 mod:SetEncounterID(2280)
 --mod:DisableESCombatDetection()
@@ -121,7 +121,6 @@ local stormTargets = {}
 
 local updateInfoFrame
 do
-	--local stormsWail = DBM:GetSpellInfo(285350)
 	local lines = {}
 	local sortedLines = {}
 	local function addLine(key, value)
@@ -140,7 +139,6 @@ do
 			end
 		end
 		if #stormTargets > 0 then
-			--addLine("", "")
 			for i=1, #stormTargets do
 				local name = stormTargets[i]
 				local uId = DBM:GetRaidUnitId(name)
