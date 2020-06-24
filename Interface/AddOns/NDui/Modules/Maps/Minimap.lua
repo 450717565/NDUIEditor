@@ -324,7 +324,8 @@ function module:UpdateMinimapScale()
 	Minimap.mover:SetSize(size*scale, size*scale)
 	-- Other elements
 	if _G.NDuiMinimapDataBar then
-		_G.NDuiMinimapDataBar:SetWidth((size-10)*scale)
+		_G.NDuiMinimapDataBar:Point("TOPLEFT", Minimap, "BOTTOMLEFT", 0, -5)
+		_G.NDuiMinimapDataBar:Point("TOPRIGHT", Minimap, "BOTTOMRIGHT", 0, -5)
 	end
 end
 

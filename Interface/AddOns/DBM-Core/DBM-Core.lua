@@ -70,7 +70,7 @@ local function showRealDate(curseDate)
 end
 
 DBM = {
-	Revision = parseCurseDate("20200615011558"),
+	Revision = parseCurseDate("20200623220444"),
 	DisplayVersion = "8.3.27 alpha", -- the string that is shown as version
 	ReleaseRevision = releaseDate(2020, 6, 12) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
@@ -2376,7 +2376,7 @@ do
 			DBM:RequestTimers(3)
 		elseif cmd:sub(1, 6) == "silent" then
 			DBM.Options.SilentMode = DBM.Options.SilentMode == false and true or false
-			DBM:AddMsg("SilentMode is " .. (DBM.Options.SilentMode and "ON" or "OFF"))
+			DBM:AddMsg(L.SILENTMODE_IS .. (DBM.Options.SilentMode and "ON" or "OFF"))
 		elseif cmd:sub(1, 10) == "musicstart" then
 			DBM:TransitionToDungeonBGM(true)
 		elseif cmd:sub(1, 9) == "musicstop" then
@@ -2745,9 +2745,9 @@ do
 
 		function dataBroker.OnClick(self, button)
 			if IsShiftKeyDown() then return end
-			if button == "RightButton" then
+			if IsAltKeyDown() then
 				DBM.Options.SilentMode = DBM.Options.SilentMode == false and true or false
-				DBM:AddMsg("SilentMode is " .. (DBM.Options.SilentMode and "ON" or "OFF"))
+				DBM:AddMsg(L.SILENTMODE_IS .. (DBM.Options.SilentMode and "ON" or "OFF"))
 			else
 				DBM:LoadGUI()
 			end
@@ -3296,7 +3296,7 @@ function DBM:LoadModOptions(modId, inCombat, first)
 			--Why are saved options cleaned twice?
 			if not inCombat then
 				for option, _ in pairs(savedOptions[id][profileNum]) do
-					if (mod.DefaultOptions[option] == nil) and not (option:find("talent") or option:find("FastestClear")) then
+					if (mod.DefaultOptions[option] == nil) and not (option:find("talent") or option:find("FastestClear") or option:find("CVAR") or option:find("RestoreSetting")) then
 						savedOptions[id][profileNum][option] = nil
 					elseif mod.DefaultOptions[option] and (type(mod.DefaultOptions[option]) == "table") then--recover broken dropdown option
 						if savedOptions[id][profileNum][option] and (type(savedOptions[id][profileNum][option]) == "boolean") then
@@ -3354,7 +3354,7 @@ function DBM:LoadModOptions(modId, inCombat, first)
 	--Why are saved options cleaned twice?
 	if not inCombat then
 		for id, _ in pairs(savedOptions) do
-			if not existId[id] and not (id:find("talent") or id:find("FastestClear")) then
+			if not existId[id] and not (id:find("talent") or id:find("FastestClear") or id:find("CVAR") or id:find("RestoreSetting")) then
 				savedOptions[id] = nil
 			end
 		end
@@ -11662,7 +11662,7 @@ end
 
 function bossModPrototype:SetRevision(revision)
 	revision = parseCurseDate(revision or "")
-	if not revision or revision == "20200615011558" then
+	if not revision or revision == "20200623220444" then
 		-- bad revision: either forgot the svn keyword or using github
 		revision = DBM.Revision
 	end

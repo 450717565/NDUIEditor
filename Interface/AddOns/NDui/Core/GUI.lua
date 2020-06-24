@@ -372,7 +372,7 @@ local accountSettings = {
 	PartyWatcherSpells = {},
 	ContactList = {},
 	CustomJunkList = {},
-	BarNumber = 1,
+	TexStyle = 1,
 }
 
 local function InitialSettings(source, target, fullClean)
@@ -413,7 +413,7 @@ loader:SetScript("OnEvent", function(self, _, addon)
 	InitialSettings(defaultSettings, NDuiDB, true)
 	InitialSettings(accountSettings, NDuiADB)
 	B.SetupUIScale(true)
-	DB.normTex = "Interface\\Addons\\NDui\\Media\\Texture\\texture_"..NDuiADB["BarNumber"]
+	DB.normTex = "Interface\\Addons\\NDui\\Media\\Texture\\texture_"..NDuiADB["TexStyle"]
 
 	self:UnregisterAllEvents()
 end)
@@ -663,7 +663,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Actionbar", "Bar4Fade", L["Bar4 Fade"]},
 		{1, "Actionbar", "Bar5Fade", L["Bar5 Fade"], true},
 		{4, "Actionbar", "Style", L["Actionbar Style"], false, {L["BarStyle1"], L["BarStyle2"], L["BarStyle3"], L["BarStyle4"], L["BarStyle5"]}},
-		{3, "Actionbar", "Scale", L["Actionbar Scale"].."*", true, {.5, 1.5, 2}, updateActionbarScale},
+		{3, "Actionbar", "Scale", L["Actionbar Scale"].."*", true, {.5, 1.5, .01}, updateActionbarScale},
 		{},--blank
 		{1, "Actionbar", "Hotkeys", L["Actionbar Hotkey"]},
 		{1, "Actionbar", "Macro", L["Actionbar Macro"], true},
@@ -684,13 +684,13 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Bags", "BagsiLvl", L["Bags Itemlevel"], true, nil, updateBagStatus},
 		{1, "Bags", "ShowNewItem", L["Bags ShowNewItem"]},
 		{1, "Bags", "DeleteButton", L["Bags DeleteButton"]},
-		{3, "Bags", "iLvlToShow", L["iLvlToShow"].."*", true, {1, 500, 0}, updateBagStatus, L["iLvlToShowTip"]},
+		{3, "Bags", "iLvlToShow", L["iLvlToShow"].."*", true, {1, 500, 1}, updateBagStatus, L["iLvlToShowTip"]},
 		{1, "Bags", "BagsSlot", L["Bags ItemSlot"], false, nil, updateBagStatus},
 		{},--blank
-		{3, "Bags", "BagsScale", L["Bags Scale"], false, {.5, 1.5, 2}},
-		{3, "Bags", "IconSize", L["Bags IconSize"], true, {30, 42, 0}},
-		{3, "Bags", "BagsWidth", L["Bags Width"], false, {12, 40, 0}},
-		{3, "Bags", "BankWidth", L["Bank Width"], true, {12, 40, 0}},
+		{3, "Bags", "BagsScale", L["Bags Scale"], false, {.5, 1.5, .01}},
+		{3, "Bags", "IconSize", L["Bags IconSize"], true, {30, 42, 1}},
+		{3, "Bags", "BagsWidth", L["Bags Width"], false, {12, 40, 1}},
+		{3, "Bags", "BankWidth", L["Bank Width"], true, {12, 40, 1}},
 	},
 	[3] = {
 		{1, "UFs", "Enable", DB.MyColor..L["Enable UFs"], nil, setupUnitFrame, nil, L["HideUFWarning"]},
@@ -708,8 +708,8 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "UFs", "PlayerDebuff", L["Player Debuff"]},
 		{1, "UFs", "ToTAuras", L["ToT Debuff"]},
 		{4, "UFs", "UFsHPColor", L["HP Bar Color"], true, {L["Default Dark"], L["ClassColorHP"], L["GradientHP"]}},
-		{3, "UFs", "UFTextScale", L["UFTextScale"], nil, {.5, 1.5, 2}, updateUFTextScale},
-		{3, "UFs", "SmoothAmount", DB.MyColor..L["SmoothAmount"], true, {.2, .8, 2}, updateSmoothingAmount, L["SmoothAmountTip"]},
+		{3, "UFs", "UFTextScale", L["UFTextScale"], nil, {.5, 1.5, .01}, updateUFTextScale},
+		{3, "UFs", "SmoothAmount", DB.MyColor..L["SmoothAmount"], true, {.2, .8, .01}, updateSmoothingAmount, L["SmoothAmountTip"]},
 		{},--blank
 		{1, "UFs", "CombatText", DB.MyColor..L["UFs CombatText"]},
 		{1, "UFs", "OnlyCombatText", L["Only Combat Text"], true},
@@ -731,10 +731,10 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{},--blank
 		{1, "UFs", "RaidBuffIndicator", DB.MyColor..L["RaidBuffIndicator"], nil, setupBuffIndicator, nil, L["RaidBuffIndicatorTip"]},
 		{4, "UFs", "BuffIndicatorType", L["BuffIndicatorType"].."*", nil, {L["BI_Blocks"], L["BI_Icons"], L["BI_Numbers"]}, refreshRaidFrameIcons},
-		{3, "UFs", "BuffIndicatorScale", L["BuffIndicatorScale"].."*", true, {.5, 1.5, 2}, refreshRaidFrameIcons},
+		{3, "UFs", "BuffIndicatorScale", L["BuffIndicatorScale"].."*", true, {.5, 1.5, .01}, refreshRaidFrameIcons},
 		{1, "UFs", "RaidClickSets", DB.MyColor..L["Enable ClickSets"], nil, setupClickCast},
 		{1, "UFs", "InstanceAuras", DB.MyColor..L["Instance Auras"], nil, setupRaidDebuffs},
-		{3, "UFs", "RaidDebuffScale", L["RaidDebuffScale"].."*", true, {.5, 1.5, 2}, refreshRaidFrameIcons},
+		{3, "UFs", "RaidDebuffScale", L["RaidDebuffScale"].."*", true, {.5, 1.5, .01}, refreshRaidFrameIcons},
 		{1, "UFs", "AurasClickThrough", L["RaidAuras ClickThrough"], nil, nil, nil, L["ClickThroughTip"]},
 		{1, "UFs", "AutoRes", L["UFs AutoRes"], true},
 		{},--blank
@@ -744,11 +744,11 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "UFs", "ReverseRaid", L["Reverse RaidFrame"], true},
 		{4, "UFs", "RaidHPColor", L["HP Bar Color"], nil, {L["Default Dark"], L["ClassColorHP"], L["GradientHP"]}},
 		{4, "UFs", "RaidHPMode", L["HP Val Mode"].."*", true, {L["DisableRaidHP"], L["RaidHPPercent"], L["RaidHPCurrent"], L["RaidHPLost"]}, updateRaidTextPoint},
-		{3, "UFs", "NumGroups", L["Num Groups"], nil, {4, 8, 0}},
-		{3, "UFs", "RaidTextScale", L["UFTextScale"], true, {.5, 1.5, 2}, updateRaidTextScale},
+		{3, "UFs", "NumGroups", L["Num Groups"], nil, {4, 8, 1}},
+		{3, "UFs", "RaidTextScale", L["UFTextScale"], true, {.5, 1.5, .01}, updateRaidTextScale},
 		{},--blank
 		{1, "UFs", "SimpleMode", DB.MyColor..L["SimpleRaidFrame"], nil, nil, nil, L["SimpleRaidFrameTip"]},
-		{3, "UFs", "SMUnitsPerColumn", L["SimpleMode Column"], nil, {5, 40, 0}},
+		{3, "UFs", "SMUnitsPerColumn", L["SimpleMode Column"], nil, {5, 40, 1}},
 		{4, "UFs", "SMGroupByIndex", L["SimpleMode GroupBy"].."*", true, {GROUP, CLASS, ROLE}, updateSimpleModeGroupBy},
 		{nil, true},-- FIXME: dirty fix for now
 		{nil, true},
@@ -780,23 +780,23 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{5, "Nameplate", "HighlightColor", L["Highlight Color"], 2},
 		{5, "Nameplate", "SelectedColor", L["Selected Color"], 3},
 		{},--blank
-		{3, "Nameplate", "VerticalSpacing", L["NP VerticalSpacing"].."*", false, {.5, 1.5, 2}, updatePlateSpacing},
-		{3, "Nameplate", "Distance", L["Nameplate Distance"].."*", true, {20, 100, 0}, updatePlateRange},
-		{3, "Nameplate", "MinScale", L["Nameplate MinScale"].."*", false, {.5, 1, 2}, updatePlateScale},
-		{3, "Nameplate", "MinAlpha", L["Nameplate MinAlpha"].."*", true, {.5, 1, 2}, updatePlateAlpha},
-		{3, "Nameplate", "PlateWidth", L["NP Width"].."*(200)", false, {100, 300, 0}, refreshNameplates},
-		{3, "Nameplate", "PlateHeight", L["NP Height"].."*(12)", true, {5, 30, 0}, refreshNameplates},
-		{3, "Nameplate", "NameTextSize", L["NameTextSize"].."*(12)", false, {10, 30, 0}, refreshNameplates},
-		{3, "Nameplate", "HealthTextSize", L["HealthTextSize"].."*(16)", true, {10, 30, 0}, refreshNameplates},
-		{3, "Nameplate", "maxAuras", L["Max Auras"].."(12)", false, {0, 12, 0}},
-		{3, "Nameplate", "AutoPerRow", L["Auto Per Row"].."(6)", true, {3, 6, 0}},
+		{3, "Nameplate", "VerticalSpacing", L["NP VerticalSpacing"].."*", false, {.5, 1.5, .01}, updatePlateSpacing},
+		{3, "Nameplate", "Distance", L["Nameplate Distance"].."*", true, {20, 100, 1}, updatePlateRange},
+		{3, "Nameplate", "MinScale", L["Nameplate MinScale"].."*", false, {.5, 1, .01}, updatePlateScale},
+		{3, "Nameplate", "MinAlpha", L["Nameplate MinAlpha"].."*", true, {.5, 1, .01}, updatePlateAlpha},
+		{3, "Nameplate", "PlateWidth", L["NP Width"].."*(200)", false, {100, 300, 1}, refreshNameplates},
+		{3, "Nameplate", "PlateHeight", L["NP Height"].."*(12)", true, {5, 30, 1}, refreshNameplates},
+		{3, "Nameplate", "NameTextSize", L["NameTextSize"].."*(12)", false, {10, 30, 1}, refreshNameplates},
+		{3, "Nameplate", "HealthTextSize", L["HealthTextSize"].."*(16)", true, {10, 30, 1}, refreshNameplates},
+		{3, "Nameplate", "maxAuras", L["Max Auras"].."(12)", false, {0, 12, 1}},
+		{3, "Nameplate", "AutoPerRow", L["Auto Per Row"].."(6)", true, {3, 6, 1}},
 	},
 	[6] = {
 		{1, "AuraWatch", "Enable", DB.MyColor..L["Enable AuraWatch"], nil, setupAuraWatch},
 		{1, "AuraWatch", "DeprecatedAuras", L["DeprecatedAuras"], true},
 		{1, "AuraWatch", "QuakeRing", L["QuakeRing"].."*"},
 		{1, "AuraWatch", "ClickThrough", L["AuraWatch ClickThrough"], nil, nil, nil, L["ClickThroughTip"]},
-		{3, "AuraWatch", "IconScale", L["AuraWatch IconScale"], true, {.5, 1.5, 2}},
+		{3, "AuraWatch", "IconScale", L["AuraWatch IconScale"], true, {.5, 1.5, .01}},
 		{},--blank
 		{1, "Nameplate", "ShowPlayerPlate", DB.MyColor..L["Enable PlayerPlate"]},
 		{1, "Auras", "ClassAuras", L["Enable ClassAuras"], true},
@@ -804,16 +804,16 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Nameplate", "NameplateClassPower", L["Nameplate ClassPower"], true},
 		{1, "Nameplate", "PPPowerText", L["PlayerPlate PowerText"]},
 		{1, "Nameplate", "PPHideOOC", L["Fadeout OOC"]},
-		{3, "Nameplate", "PPIconSize", L["PlayerPlate IconSize"], true, {30, 60, 0}, updatePlayerPlate},
-		{3, "Nameplate", "PPHeight", L["PlayerPlate Height"].."*", false, {5, 10, 0}, updatePlayerPlate},
-		{3, "Nameplate", "PPCPHeight", L["PlayerPlate CP Height"].."*", true, {10, 20, 0}, updatePlayerPlate},
+		{3, "Nameplate", "PPIconSize", L["PlayerPlate IconSize"], true, {30, 60, 1}, updatePlayerPlate},
+		{3, "Nameplate", "PPHeight", L["PlayerPlate Height"].."*", false, {5, 10, 1}, updatePlayerPlate},
+		{3, "Nameplate", "PPCPHeight", L["PlayerPlate CP Height"].."*", true, {10, 20, 1}, updatePlayerPlate},
 		{},--blank
 		{1, "Auras", "ReverseBuffs", L["ReverseBuffs"]},
 		{1, "Auras", "ReverseDebuffs", L["ReverseDebuffs"], true},
-		{3, "Auras", "BuffSize", L["BuffSize"], nil, {24, 50, 0}},
-		{3, "Auras", "DebuffSize", L["DebuffSize"], true, {24, 50, 0}},
-		{3, "Auras", "BuffsPerRow", L["BuffsPerRow"], nil, {10, 20, 0}},
-		{3, "Auras", "DebuffsPerRow", L["DebuffsPerRow"], true, {10, 20, 0}},
+		{3, "Auras", "BuffSize", L["BuffSize"], nil, {24, 50, 1}},
+		{3, "Auras", "DebuffSize", L["DebuffSize"], true, {24, 50, 1}},
+		{3, "Auras", "BuffsPerRow", L["BuffsPerRow"], nil, {10, 20, 1}},
+		{3, "Auras", "DebuffsPerRow", L["DebuffsPerRow"], true, {10, 20, 1}},
 		{},--blank
 		{1, "Auras", "Statue", L["Enable Statue"]},
 		{1, "Auras", "Totems", L["Enable Totems"], true},
@@ -844,8 +844,8 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 	},
 	[8] = {
 		{1, "Chat", "Lock", DB.MyColor..L["Lock Chat"]},
-		{3, "Chat", "ChatWidth", L["LockChatWidth"].."*", nil, {200, 600, 0}, updateChatSize},
-		{3, "Chat", "ChatHeight", L["LockChatHeight"].."*", true, {100, 500, 0}, updateChatSize},
+		{3, "Chat", "ChatWidth", L["LockChatWidth"].."*", nil, {200, 600, 1}, updateChatSize},
+		{3, "Chat", "ChatHeight", L["LockChatHeight"].."*", true, {100, 500, 1}, updateChatSize},
 		{},--blank
 		{1, "Chat", "Oldname", L["Default Channel"]},
 		{1, "Chat", "Sticky", L["Chat Sticky"].."*", true, nil, updateChatSticky},
@@ -860,7 +860,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Chat", "AllowFriends", L["AllowFriendsSpam"].."*", nil, nil, nil, L["AllowFriendsSpamTip"]},
 		{1, "Chat", "BlockStranger", "|cffff0000"..L["BlockStranger"].."*", nil, nil, nil, L["BlockStrangerTip"]},
 		{2, "ACCOUNT", "ChatFilterWhiteList", DB.MyColor..L["ChatFilterWhiteList"].."*", true, nil, updateFilterWhiteList, L["ChatFilterWhiteListTip"]},
-		{3, "Chat", "Matches", L["Keyword Match"].."*", false, {1, 3, 0}},
+		{3, "Chat", "Matches", L["Keyword Match"].."*", false, {1, 3, 1}},
 		{2, "ACCOUNT", "ChatFilterList", L["Filter List"].."*", true, nil, updateFilterList, L["FilterListTip"]},
 		{},--blank
 		{1, "Chat", "Invite", DB.MyColor..L["Whisper Invite"]},
@@ -877,17 +877,17 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Map", "ShowRecycleBin", L["Show RecycleBin"]},
 		{1, "Misc", "ExpRep", L["Show Expbar"], true},
 		{},--blank
-		{3, "Map", "MapScale", L["Map Scale"], false, {.5, 1.5, 2}},
-		{3, "Map", "MinimapScale", L["Minimap Scale"].."*", true, {.5, 1.5, 2}, updateMinimapScale},
+		{3, "Map", "MapScale", L["Map Scale"], false, {.5, 1.5, .01}},
+		{3, "Map", "MinimapScale", L["Minimap Scale"].."*", true, {.5, 1.5, .01}, updateMinimapScale},
 	},
 	[10] = {
 		{1, "Skins", "BlizzardSkins", DB.MyColor..L["BlizzardSkins"], false, nil, nil, L["BlizzardSkinsTips"]},
 		{1, "Skins", "FontOutline", L["Font Outline"], true},
 		{1, "Skins", "SkinShadow", L["Skin Shadow"]},
 		{1, "Skins", "SkinTexture", L["Skin Texture"]},
-		{3, "Skins", "FontScale", L["GlobalFontScale"], true, {.5, 1.5, 2}},
+		{3, "Skins", "FontScale", L["GlobalFontScale"], true, {.5, 1.5, .01}},
 		{4, "Skins", "SkinStyle", L["Skin Style"], false, {L["ClassColor Style"], L["Flat Style"], L["Gradient Style"]}},
-		{3, "Skins", "BGAlpha", L["Backdrop Alpha"].."*", true, {0, 1, 2}, updateSkinAlpha},
+		{3, "Skins", "BGAlpha", L["Backdrop Alpha"].."*", true, {0, 1, .01}, updateSkinAlpha},
 		{5, "Skins", "FSColor", L["Flat Color"]},
 		{5, "Skins", "GSColor1", L["Gradient Color 1"], 1},
 		{5, "Skins", "GSColor2", L["Gradient Color 2"], 2},
@@ -911,7 +911,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Tooltip", "CombatHide", L["Hide Tooltip"].."*"},
 		{1, "Tooltip", "Cursor", L["Follow Cursor"].."*"},
 		{1, "Tooltip", "ClassColor", L["Classcolor Border"].."*"},
-		{3, "Tooltip", "Scale", L["Tooltip Scale"].."*", true, {.5, 1.5, 2}},
+		{3, "Tooltip", "Scale", L["Tooltip Scale"].."*", true, {.5, 1.5, .01}},
 		{},--blank
 		{1, "Tooltip", "HideTitle", L["Hide Title"].."*"},
 		{1, "Tooltip", "HideRank", L["Hide Rank"].."*", true},
@@ -930,7 +930,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Misc", "ItemLevel", DB.MyColor..L["Show ItemLevel"]},
 		{1, "Misc", "GemNEnchant", L["Show GemNEnchant"].."*"},
 		{1, "Misc", "AzeriteTraits", L["Show AzeriteTraits"].."*"},
-		{3, "Misc", "MaxTiers", L["Max Tiers"], true, {1, 4, 0}},
+		{3, "Misc", "MaxTiers", L["Max Tiers"], true, {1, 4, 1}},
 		{},--blank
 		{1, "Misc", "MissingStats", L["Show MissingStats"]},
 		{1, "Misc", "ParagonRep", L["ParagonRep"], true},
@@ -952,11 +952,11 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "ACCOUNT", "VersionCheck", L["Version Check"]},
 		{1, "ACCOUNT", "DisableInfobars", L["DisableInfobars"], true},
 		{},--blank
-		{3, "ACCOUNT", "UIScale", L["Setup UIScale"], false, {.4, 1.15, 2}},
+		{3, "ACCOUNT", "UIScale", L["Setup UIScale"], false, {.4, 1.15, .01}},
 		{1, "ACCOUNT", "LockUIScale", DB.MyColor..L["Lock UIScale"], true},
 		{},--blank
 		{4, "ACCOUNT", "NumberFormat", L["Numberize"], false, {L["Number Type1"], L["Number Type2"], L["Number Type3"]}},
-		{3, "ACCOUNT", "BarNumber", L["Texture Style"], true, {1, 13, 0}},
+		{3, "ACCOUNT", "TexStyle", L["Texture Style"], true, {1, 13, 1}},
 	},
 	[14] = {
 		{1, "Extras", "AutoCollapse", L["Auto Collapse"]},
@@ -1093,7 +1093,6 @@ local function CreateOption(i)
 		-- Slider
 		elseif optType == 3 then
 			local min, max, step = unpack(data)
-			local decimal = step > 2 and 2 or step
 			local x, y
 			if horizon then
 				x, y = 350, -offset + 40
@@ -1101,15 +1100,15 @@ local function CreateOption(i)
 				x, y = 40, -offset - 30
 				offset = offset + 70
 			end
-			local s = B.CreateSlider(parent, name, min, max, x, y)
+			local s = B.CreateSlider(parent, name, min, max, step, x, y)
 			s:SetValue(NDUI_VARIABLE(key, value))
 			s:SetScript("OnValueChanged", function(_, v)
-				local current = tonumber(format("%."..step.."f", v))
+				local current = B.Round(tonumber(v), 2)
 				NDUI_VARIABLE(key, value, current)
-				s.value:SetText(format("%."..decimal.."f", current))
+				s.value:SetText(current)
 				if callback then callback() end
 			end)
-			s.value:SetText(format("%."..decimal.."f", NDUI_VARIABLE(key, value)))
+			s.value:SetText(B.Round(NDUI_VARIABLE(key, value), 2))
 			if tooltip then
 				s.title = L["Tips"]
 				B.AddTooltip(s, "ANCHOR_RIGHT", tooltip, "info")

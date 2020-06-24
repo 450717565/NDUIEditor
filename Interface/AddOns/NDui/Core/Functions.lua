@@ -682,6 +682,15 @@ do
 		"text",
 	}
 
+	local direcIndex = {
+		["up"] = DB.arrowUp,
+		["down"] = DB.arrowDown,
+		["left"] = DB.arrowLeft,
+		["right"] = DB.arrowRight,
+		["top"] = DB.arrowTop,
+		["bottom"] = DB.arrowBottom,
+	}
+
 	local function SetupDisTex(self)
 		self:SetDisabledTexture(DB.bdTex)
 		local dis = self:GetDisabledTexture()
@@ -696,15 +705,6 @@ do
 		B.Hook_OnMouseDown(self)
 		B.Hook_OnMouseUp(self)
 	end
-
-	local direcIndex = {
-		["up"] = DB.arrowUp,
-		["down"] = DB.arrowDown,
-		["left"] = DB.arrowLeft,
-		["right"] = DB.arrowRight,
-		["top"] = DB.arrowTop,
-		["bottom"] = DB.arrowBottom,
-	}
 
 	-- Setup Function
 	function B:Tex_OnEnter()
@@ -2014,12 +2014,14 @@ do
 		self:ClearFocus()
 	end
 
-	function B:CreateSlider(name, minValue, maxValue, x, y, width)
+	function B:CreateSlider(name, minValue, maxValue, step, x, y, width)
 		local slider = CreateFrame("Slider", nil, self, "OptionsSliderTemplate")
 		slider:ClearAllPoints()
 		slider:SetPoint("TOPLEFT", x, y)
 		slider:SetWidth(width or 200)
 		slider:SetMinMaxValues(minValue, maxValue)
+		slider:SetValueStep(step)
+		slider:SetObeyStepOnDrag(true)
 		slider:SetHitRectInsets(0, 0, 0, 0)
 		B.ReskinSlider(slider)
 

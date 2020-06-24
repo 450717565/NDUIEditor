@@ -112,10 +112,28 @@ function AcamarMessage:ShowAcamarPlayerEasyMenu(from_widget, name)
         addon:log(name .. L[" added to blocklist."])
     end
 
+    local function GetSpamScoreByName(name)
+        local found = false
+        for k, v in pairs(addon.db.global.pfeatures) do
+            local pname = string.match(v.name, "([^-]+)")
+            if pname ~= nil then
+                if pname == name then
+                    addon:log(name .. L["'s spam score is "] .. tostring(v.score) .. ".")
+                    found = true
+                end
+            end
+        end
+
+        if not found then
+            addon:log(name .. L[" doesn't classfied as spammer."])
+        end
+    end
+
     local player_menu = {
         { text = L["Choose operation: |cff00cccc"] .. name , isTitle = true},
         { text = L["Add to blocklist"], func = function() ForceAddPlayerToBL(name) end },
         { text = L["Add to whitelist"], func = function() ForceAddPlayerToWL(name) end },
+        { text = L["Query spam score"], func = function() GetSpamScoreByName(name) end },
         { text = L["|cffff9900Cancel"], func = function() return; end },
     }
     local menuFrame = CreateFrame("Frame", "TopicMenuFrame", from_widget, "UIDropDownMenuTemplate")
@@ -130,22 +148,31 @@ end
 -- avoid tainting of SetItemRef code
 function AcamarMessage:ChatFrame_OnHyperlinkShow(chat_frame, link, text, button)
     --addon:log("ChatFrame_OnHyperlinkShow: link=" .. link .. ", button=" .. button)
-    if ( strsub(link, 1, 6) == "player" and button == "RightButton" ) then
-        local pname = string.match(link, "player:([^:]+)")
-        pname = string.match(pname, "([^-]+)")
 
-        local shiftDown = IsShiftKeyDown()
-        if shiftDown then
-            self:ShowAcamarPlayerEasyMenu(chat_frame, pname)
-        else
-            -- No need
-            --SetItemRef(link, text, button, chat_frame);
+    if button == "RightButton" then
+        if ( strsub(link, 1, 6) == "player" ) then
+            local pname = string.match(link, "player:([^:]+)")
+            pname = string.match(pname, "([^-]+)")
+
+            local shiftDown = IsShiftKeyDown()
+            if shiftDown then
+                self:ShowAcamarPlayerEasyMenu(chat_frame, pname)
+            end
         end
     end
+
+    -- If using self:Hook, comment following line because self:Hook don't need to execute original function
+    -- self.hooks.ChatFrame_OnHyperlinkShow(chat_frame, link, text, button)
+
 end
 
 function AcamarMessage:HookKeydownHyperlink()
-    self:Hook("ChatFrame_OnHyperlinkShow", true)
+    --self:Hook("ChatFrame_OnHyperlinkShow", true)
+
+    -- self:RawHook("ChatFrame_OnHyperlinkShow", true)
+
+    self:SecureHook("ChatFrame_OnHyperlinkShow")
+
     --self:RawHook("SetItemRef", true)
 end
 -------------------------

@@ -241,7 +241,7 @@ end
 function M:Expbar()
 	if not NDuiDB["Misc"]["ExpRep"] then return end
 
-	local bar = CreateFrame("StatusBar", nil, Minimap)
+	local bar = CreateFrame("StatusBar", "NDuiMinimapDataBar", MinimapCluster)
 	bar:Point("TOPLEFT", Minimap, "BOTTOMLEFT", 0, -5)
 	bar:Point("TOPRIGHT", Minimap, "BOTTOMRIGHT", 0, -5)
 	bar:SetHeight(6)

@@ -84,6 +84,8 @@ L["STRING_CLICK_REPORT_LINE2"] = "|cFFFFCC22Shift+클릭|r: |cFFFFEE00창 모드
 L["STRING_CLOSEALL"] = "모든 창이 닫혔습니다, 다시 열려면 '/details show'를 입력하세요."
 L["STRING_COLOR"] = "색상"
 L["STRING_COMMAND_LIST"] = "명령어 목록"
+--[[Translation missing --]]
+--[[ L["STRING_CONTEXT"] = ""--]] 
 L["STRING_COOLTIP_NOOPTIONS"] = "옵션 없음"
 L["STRING_CREATEAURA"] = "오라 만들기"
 L["STRING_CRITICAL_HITS"] = "치명타 및 극대화 적중"
@@ -288,6 +290,8 @@ L["STRING_INFO_TUTORIAL_COMPARISON1"] = "|cFFFFDD00비교|r 탭을 클릭하면 
 L["STRING_INSTANCE_CHAT"] = "인스턴스 대화"
 L["STRING_INSTANCE_LIMIT"] = "최대 창 갯수에 도달했습니다, 옵션 창에서 이 제한 갯수를 변경할 수 있습니다. 또한 창 메뉴에서 닫혀진 창(#)을 다시 열 수 있습니다."
 L["STRING_INTERFACE_OPENOPTIONS"] = "옵션 창 열기"
+--[[Translation missing --]]
+--[[ L["STRING_INVERT_RULE"] = ""--]] 
 L["STRING_ISA_PET"] = "소환수에 의한 행동"
 L["STRING_KEYBIND_BOOKMARK"] = "북마크"
 L["STRING_KEYBIND_BOOKMARK_NUMBER"] = "북마크 #%s"
@@ -595,7 +599,6 @@ L["STRING_OPTIONS_CMISC_DESC"] = [=[수집 허용:
 L["STRING_OPTIONS_COLORANDALPHA"] = "색상 & 투명도"
 L["STRING_OPTIONS_COLORFIXED"] = "색상 고정"
 L["STRING_OPTIONS_COMBAT_ALPHA"] = "시기"
-L["STRING_OPTIONS_COMBAT_ALPHA_1"] = "숨기지 않음"
 L["STRING_OPTIONS_COMBAT_ALPHA_2"] = "전투 중일 때"
 L["STRING_OPTIONS_COMBAT_ALPHA_3"] = "전투 중이 아닐 때"
 L["STRING_OPTIONS_COMBAT_ALPHA_4"] = "파티가 아닐 때"

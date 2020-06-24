@@ -7,7 +7,7 @@ _G[addon] = Engine
 
 -- Lua functions
 local _G = _G
-local format, ipairs, pairs, select, strsplit, tonumber = format, ipairs, pairs, select, strsplit, tonumber
+local format, ipairs, pairs, select, strsplit, tonumber, type = format, ipairs, pairs, select, strsplit, tonumber, type
 local bit_band = bit.band
 
 -- WoW API / Variables
@@ -35,7 +35,7 @@ EO.CustomDisplay = {
     target = false,
     author = "Rhythm",
     desc = L["Show how many explosive orbs players target and hit."],
-    script_version = 3,
+    script_version = 4,
     script = [[
         local Combat, CustomContainer, Instance = ...
         local total, top, amount = 0, 0, 0
@@ -64,6 +64,10 @@ EO.CustomDisplay = {
         local GameCooltip = GameCooltip
 
         if _G.Details_ExplosiveOrbs then
+            local actorName = Actor:name()
+            local Actor = Combat:GetContainer(DETAILS_ATTRIBUTE_DAMAGE):GetActor(actorName)
+            if not Actor then return end
+
             local sortedList = {}
             local orbName = _G.Details_ExplosiveOrbs:RequireOrbName()
             local Container = Combat:GetContainer(DETAILS_ATTRIBUTE_DAMAGE)
@@ -253,11 +257,13 @@ function EO:MergeCombat(to, from)
         self:Debug("Merging combat %s into %s", from, to)
         if not self.db[to] then self.db[to] = {} end
         for playerGUID, tbl in pairs(self.db[from]) do
-            if not self.db[to][playerGUID] then
-                self.db[to][playerGUID] = {}
+            if type(tbl) == 'table' then
+                if not self.db[to][playerGUID] then
+                    self.db[to][playerGUID] = {}
+                end
+                self.db[to][playerGUID].target = (self.db[to][playerGUID].target or 0) + (tbl.target or 0)
+                self.db[to][playerGUID].hit = (self.db[to][playerGUID].hit or 0) + (tbl.hit or 0)
             end
-            self.db[to][playerGUID].target = (self.db[to][playerGUID].target or 0) + (tbl.target or 0)
-            self.db[to][playerGUID].hit = (self.db[to][playerGUID].hit or 0) + (tbl.hit or 0)
         end
     end
 end
@@ -314,7 +320,9 @@ function EO:MergeTrashCleanup()
     if prevCombat then
         local prev = prevCombat:GetCombatNumber()
         for i = prev + 1, base - 1 do
-            self:MergeCombat(base, i)
+            if i ~= self.overall then
+                self:MergeCombat(base, i)
+            end
         end
     else
         -- fail to find other combat, merge all combat with same run id in database

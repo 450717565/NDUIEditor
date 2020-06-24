@@ -372,6 +372,13 @@ WeakAuras.spark_hide_types = {
   BOTH  = L["Full/Empty"]
 }
 
+WeakAuras.tick_placement_modes = {
+  AtValue = L["At Value"],
+  AtMissingValue = L["At missing Value"],
+  AtPercent = L["At Percent"],
+  ValueOffset = L["Offset from progress"]
+}
+
 WeakAuras.containment_types = {
   OUTSIDE = L["Outside"],
   INSIDE = L["Inside"]
@@ -422,7 +429,10 @@ WeakAuras.subevent_prefix_types = {
   DAMAGE_SHIELD_MISSED = L["Damage Shield Missed"],
   PARTY_KILL = L["Party Kill"],
   UNIT_DIED = L["Unit Died"],
-  UNIT_DESTROYED = L["Unit Destroyed"]
+  UNIT_DESTROYED = L["Unit Destroyed"],
+  UNIT_DISSIPATES = L["Unit Dissipates"],
+  ENCHANT_APPLIED = L["Enchant Applied"],
+  ENCHANT_REMOVED = L["Enchant Removed"]
 }
 
 WeakAuras.subevent_actual_prefix_types = {

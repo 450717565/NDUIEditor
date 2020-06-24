@@ -136,6 +136,12 @@ L["Ascending"] = "Ascendente"
 L["Assigned Role"] = "Assigned Role"
 L["At Least One Enemy"] = "Mínimo un enemigo"
 --[[Translation missing --]]
+L["At missing Value"] = "At missing Value"
+--[[Translation missing --]]
+L["At Percent"] = "At Percent"
+--[[Translation missing --]]
+L["At Value"] = "At Value"
+--[[Translation missing --]]
 L["Attach to End"] = "Attach to End"
 --[[Translation missing --]]
 L["Attach to Start"] = "Attach to Start"
@@ -170,6 +176,8 @@ L["Auto"] = "Auto"
 --[[Translation missing --]]
 L["Autocast Shine"] = "Autocast Shine"
 L["Automatic"] = "Automático"
+--[[Translation missing --]]
+L["Automatic Length"] = "Automatic Length"
 --[[Translation missing --]]
 L["Automatic Repair Confirmation Dialog"] = "Automatic Repair Confirmation Dialog"
 L["Automatic Rotation"] = "Rotación automática"
@@ -406,11 +414,15 @@ L["Emphasized"] = "Emphasized"
 L["Emphasized option checked in BigWigs's spell options"] = "Emphasized option checked in BigWigs's spell options"
 L["Empty"] = "Vacío"
 --[[Translation missing --]]
+L["Enchant Applied"] = "Enchant Applied"
+--[[Translation missing --]]
 L["Enchant Found"] = "Enchant Found"
 --[[Translation missing --]]
 L["Enchant Missing"] = "Enchant Missing"
 --[[Translation missing --]]
 L["Enchant Name or ID"] = "Enchant Name or ID"
+--[[Translation missing --]]
+L["Enchant Removed"] = "Enchant Removed"
 --[[Translation missing --]]
 L["Encounter ID(s)"] = "Encounter ID(s)"
 L["Energize"] = "Vigorizar"
@@ -829,6 +841,8 @@ L["Number Affected"] = "Dependiente de números"
 L["Object"] = "Object"
 L["Officer"] = "Oficial"
 --[[Translation missing --]]
+L["Offset from progress"] = "Offset from progress"
+--[[Translation missing --]]
 L["Offset Timer"] = "Offset Timer"
 --[[Translation missing --]]
 L["Older set IDs can be found on websites such as wowhead.com/item-sets"] = "Older set IDs can be found on websites such as wowhead.com/item-sets"
@@ -887,6 +901,10 @@ L["Pet Spell"] = "Hechizo de la mascota"
 L["Phase"] = "Phase"
 --[[Translation missing --]]
 L["Pixel Glow"] = "Pixel Glow"
+--[[Translation missing --]]
+L["Placement"] = "Placement"
+--[[Translation missing --]]
+L["Placement Mode"] = "Placement Mode"
 --[[Translation missing --]]
 L["Play"] = "Play"
 L["Player"] = "Jugador"
@@ -1201,6 +1219,8 @@ L["This is a modified version of your aura, |cff9900FF%s.|r"] = "This is a modif
 --[[Translation missing --]]
 L["This is a modified version of your group, |cff9900FF%s.|r"] = "This is a modified version of your group, |cff9900FF%s.|r"
 L["Threat Situation"] = "Situación de la amenaza"
+--[[Translation missing --]]
+L["Tick"] = "Tick"
 L["Tier "] = "Tier"
 L["Timed"] = "Temporizado"
 --[[Translation missing --]]
@@ -1272,6 +1292,8 @@ L["Unit"] = "Unidad"
 L["Unit Characteristics"] = "Características de la unidad"
 L["Unit Destroyed"] = "Unidad destruida "
 L["Unit Died"] = "Unidad muerta"
+--[[Translation missing --]]
+L["Unit Dissipates"] = "Unit Dissipates"
 --[[Translation missing --]]
 L["Unit Frame"] = "Unit Frame"
 --[[Translation missing --]]

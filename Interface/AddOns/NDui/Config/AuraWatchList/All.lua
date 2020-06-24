@@ -359,6 +359,7 @@ local list = {
 		{AuraID = 302274, UnitID = "player"},	-- 爆裂冲击
 		{AuraID = 298669, UnitID = "player"},	-- 跳电
 		{AuraID = 294929, UnitID = "player"},	-- 烈焰撕咬
+		{AuraID = 291937, UnitID = "player", Flash = true},	-- 垃圾掩体
 		{AuraID = 259533, UnitID = "player", Flash = true},	-- 艾泽里特催化剂，暴富
 	-- 尼奥罗萨
 		-- 黑龙帝王拉希奥
@@ -660,7 +661,6 @@ local list = {
 		{AuraID = 296080, UnitID = "target"},	-- 失控，垃圾场尾王
 		{AuraID = 257458, UnitID = "target"},	-- 自由镇尾王易伤
 		{AuraID = 260512, UnitID = "target"},	-- 灵魂收割，神庙
-		{AuraID = 277965, UnitID = "target"},	-- 重型军火，围攻1
 		{AuraID = 273721, UnitID = "target"},
 		{AuraID = 256493, UnitID = "target"},	-- 炽燃的艾泽里特，矿区1
 		{AuraID = 271867, UnitID = "target"},	-- 氪金致胜，矿区1

@@ -39,7 +39,7 @@ local channel_sets_desc = {
 	[addon.MSG_FILTER_CHANNEL_SET_PLUS_BOTH] = L["Regular, guild and party/raid"],
 }
 
---------
+-------- 
 
 local SPAM_LEVEL_1 = 0.02
 local SPAM_LEVEL_2 = 0.3
@@ -88,7 +88,7 @@ Options.defaults = {
 		-- current set threshold of spam filtering
 		-- 0: off, 1: miniman
 		filtering_level = "4",
-		-- level to score mapping: level,
+		-- level to score mapping: level, 
 		level_score_map = {
 			--["0"] = 0,				-- off
 			["1"] = SPAM_LEVEL_1,		-- Minimum
@@ -142,7 +142,7 @@ local function HookIgnoreAPIs()
 	end
 
 	-- hook del ignore events
-	addon.oriDelIgnore = C_FriendList.DelIgnore
+	addon.oriDelIgnore = C_FriendList.DelIgnore 
 	C_FriendList.DelIgnore = function(...)
 		local arg={...}
 		Options:FetchBL()
@@ -151,7 +151,7 @@ local function HookIgnoreAPIs()
 	end
 
 	-- book add or del ignore
-	addon.oriAddOrDelIgnore = C_FriendList.AddOrDelIgnore
+	addon.oriAddOrDelIgnore = C_FriendList.AddOrDelIgnore 
 	C_FriendList.AddOrDelIgnore = function(...)
 		local arg={...}
 		Options:FetchBL()
@@ -228,11 +228,11 @@ function addon:HookSwitch()
 end
 
 ----------- options functions
-function WhisperListToSelf(info)
-	addon:log("Printing banned list: Player Name [spam score]")
+function WhisperListToSelf(info) 
+	addon:log("Printing banned list: Player Name [spam score]") 
 
 	SendChatMessage(L["Currently banned players:"], "WHISPER", nil, UnitName("player"))
-    for k,v in pairs(addon.db.global.pfeatures) do
+    for k,v in pairs(addon.db.global.pfeatures) do 
 		-- exceed blocklist threshold
 		if ( v.score >= addon.FilterProcessor.filter_score ) then
 			SendChatMessage(v.name .. " [" .. v.score .. "]" , "WHISPER", nil, UnitName("player"))
@@ -271,7 +271,7 @@ function PrintBannedList(info)
 
 	local sortedKeys = keysSortedByValue(bannedlist, tcompare)
 
-	addon:log(L["Top 500 spammers with spam score greater than "] .. addon.FilterProcessor.filter_score)
+	addon:log(L["Top 500 spammers with spam score greater than "] .. addon.FilterProcessor.filter_score) 
 	local counter=0
 	for _, key in ipairs(sortedKeys) do
 		spamcolor = "|cffffffff"
@@ -288,7 +288,7 @@ function PrintBannedList(info)
 			break
 		end
     end
-	addon:log(L["Total players in banned list: "] .. counter)
+	addon:log(L["Total players in banned list: "] .. counter) 
 end
 
 function GetBannedList(max)
@@ -409,9 +409,9 @@ function SplitString(s, sep)
     local sep = sep or " "
     local pattern = string.format("([^%s]+)", sep)
     --string.gsub(s, pattern, function(c) fields[#fields + 1] = c end)
-    string.gsub(s, pattern, function(c)
+    string.gsub(s, pattern, function(c) 
     		if(c~=nil and c~= "") then
-    			fields[c] = true
+    			fields[c] = true 
     		end
     	end)
 
@@ -455,7 +455,7 @@ function Options:FetchBL()
 	ignorelist_before_hook = {}
 	for i = 1, GetNumIgnores() do
         ignorelist_before_hook[GetIgnoreName(i)] = true
-    end
+    end	 
 end
 
 -- blocklist synced from ignore list
@@ -481,7 +481,7 @@ end
 function sync_bl_func(syncargs)
 	local op = syncargs[1]
 	local pname = syncargs[2]
-
+	
 	if pname ~= nil then
 		pname = string.match(pname, "([^-]+)")
 	end
@@ -584,7 +584,7 @@ function Options.GetOptions(uiType, uiName, appName)
 							width = "full",
 							name = L["Filtering Level"],
 							desc = L["Set messages filtering level"],
-							values = {
+							values = { 	
 										--["0"] = L["Off"],
 										["1"] = L["Most strict level with minimum spam"] .. " [" .. SPAM_LEVEL_1 .. "]",
 										["2"] = L["Bots, spammers, annoying senders and talkative players away"] .. " [" .. SPAM_LEVEL_2 .. "]",
@@ -643,11 +643,11 @@ function Options.GetOptions(uiType, uiName, appName)
 							name = L["Do not disturb"],
 							desc = L["Enable to bypass printing of progress messages (like talkative player added into learning) in chat window."],
 							width = "normal",
-							set = function(info,val)
-									addon.db.global.do_not_disturb = val
+							set = function(info,val) 
+									addon.db.global.do_not_disturb = val 
 								end,
-		      				get = function(info)
-		      						return addon.db.global.do_not_disturb
+		      				get = function(info) 
+		      						return addon.db.global.do_not_disturb 
 		      					end,
 							order = 2.1,
 						},
@@ -658,11 +658,11 @@ function Options.GetOptions(uiType, uiName, appName)
 							name = L["Rewrite messages"],
 							desc = L["REWRITE_DESC"] ,
 							width = "normal",
-							set = function(info,val)
-									addon.db.global.message_rewrite = val
+							set = function(info,val) 
+									addon.db.global.message_rewrite = val 
 								end,
-		      				get = function(info)
-		      						return addon.db.global.message_rewrite
+		      				get = function(info) 
+		      						return addon.db.global.message_rewrite 
 		      					end,
 							order = 2.2,
 						},
@@ -673,11 +673,11 @@ function Options.GetOptions(uiType, uiName, appName)
 							name = L["Bypass friends"],
 							desc = L["Do not filter members of guild, party/raid, and myself."],
 							width = "normal",
-							set = function(info,val)
-									addon.db.global.bypass_friends = val
+							set = function(info,val) 
+									addon.db.global.bypass_friends = val 
 								end,
-		      				get = function(info)
-		      						return addon.db.global.bypass_friends
+		      				get = function(info) 
+		      						return addon.db.global.bypass_friends 
 		      					end,
 							order = 2.3,
 						},
@@ -687,12 +687,12 @@ function Options.GetOptions(uiType, uiName, appName)
 							width = "normal",
 							name = L["Show minimap icon"],
 							width = "normal",
-							set = function(info,val)
-									addon.db.global.minimap_icon_switch = val
+							set = function(info,val) 
+									addon.db.global.minimap_icon_switch = val 
 									UpdateMinimap()
 								end,
-		      				get = function(info)
-		      						return addon.db.global.minimap_icon_switch
+		      				get = function(info) 
+		      						return addon.db.global.minimap_icon_switch 
 		      					end,
 							order = 2.4,
 						},
@@ -751,12 +751,12 @@ function Options.GetOptions(uiType, uiName, appName)
 							name = L["Turn On Engine"],
 							desc = L["Turn on messages filtering and learning engine. If turn off, messages will not be filtered."],
 							width = "normal",
-							set = function(info,val)
-									addon.db.global.message_hook_switch = val
+							set = function(info,val) 
+									addon.db.global.message_hook_switch = val 
 									addon:HookSwitch()
 								end,
-		      				get = function(info)
-		      						return addon.db.global.message_hook_switch
+		      				get = function(info) 
+		      						return addon.db.global.message_hook_switch 
 		      					end,
 							order = 5.1,
 						},
@@ -799,7 +799,7 @@ function Options.GetOptions(uiType, uiName, appName)
 							descStyle = L["The list changes along with the learning progress."],
 							values = function(info) return GetBannedTable(500) end,
 							order = 7.1,
-						},
+						},								
 					},
 				},
 
@@ -825,8 +825,8 @@ function Options.GetOptions(uiType, uiName, appName)
 								end,
 							get = function(info, val)  end,
 							order = 8.1,
-						},
-						--[[
+						},					
+						--[[			
 						command_removebl = {
 							type = "execute",
 							width = "normal",
@@ -857,14 +857,14 @@ function Options.GetOptions(uiType, uiName, appName)
 							multiline = 16,
 							name = L["One player in one single line"],
 							usage = L["One player in one single line"],
-							set = function(info,val)
+							set = function(info,val) 
 									addon:SaveWL(val)
 								end,
-		      				get = function(info)
+		      				get = function(info) 
 		      						return addon:LoadWL()
 		      					end,
 							order = 8.6,
-						},
+						},								
 					},
 				},
 

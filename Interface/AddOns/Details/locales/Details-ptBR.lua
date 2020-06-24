@@ -84,6 +84,8 @@ L["STRING_CLICK_REPORT_LINE2"] = "|cFFFFCC22Shift+Clique|r: |cFFFFEE00modo janel
 L["STRING_CLOSEALL"] = "Todas as janelas estão fechadas, digite '/details show' para reabri-las."
 L["STRING_COLOR"] = "Cor"
 L["STRING_COMMAND_LIST"] = "lista de comandos"
+--[[Translation missing --]]
+--[[ L["STRING_CONTEXT"] = ""--]] 
 L["STRING_COOLTIP_NOOPTIONS"] = "não há opções"
 L["STRING_CREATEAURA"] = "Criar Aura"
 L["STRING_CRITICAL_HITS"] = "Golpes Críticos"
@@ -289,6 +291,8 @@ L["STRING_INFO_TUTORIAL_COMPARISON1"] = [=[Clique na aba |cFFFFDD00Comparar|r pa
 L["STRING_INSTANCE_CHAT"] = "Bate-papo da instância."
 L["STRING_INSTANCE_LIMIT"] = "o limite de janelas criadas foi atingido, você pode modificar este limite no painel de opções. Você também pode reabrir janelas fechadas anteriormente no menu da engrenagem."
 L["STRING_INTERFACE_OPENOPTIONS"] = "Abrir Painel de Opções"
+--[[Translation missing --]]
+--[[ L["STRING_INVERT_RULE"] = ""--]] 
 L["STRING_ISA_PET"] = "Este Ator é um Ajudante"
 L["STRING_KEYBIND_BOOKMARK"] = "Atalhos"
 L["STRING_KEYBIND_BOOKMARK_NUMBER"] = "Atalho #%s"
@@ -599,7 +603,6 @@ L["STRING_OPTIONS_CMISC_DESC"] = [=[Ativa a Captura de:
 L["STRING_OPTIONS_COLORANDALPHA"] = "Cor & Transparência"
 L["STRING_OPTIONS_COLORFIXED"] = "Cor Fixada"
 L["STRING_OPTIONS_COMBAT_ALPHA"] = "Quando"
-L["STRING_OPTIONS_COMBAT_ALPHA_1"] = "Sem modificações"
 L["STRING_OPTIONS_COMBAT_ALPHA_2"] = "Durante o combate"
 L["STRING_OPTIONS_COMBAT_ALPHA_3"] = "Enquanto fora de combate"
 L["STRING_OPTIONS_COMBAT_ALPHA_4"] = "Enquanto fora de um grupo"

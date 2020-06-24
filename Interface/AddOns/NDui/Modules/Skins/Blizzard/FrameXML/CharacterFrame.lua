@@ -135,7 +135,7 @@ tinsert(C.defaultThemes, function()
 		B.ReskinHighlight(tab.Hider, bg)
 
 		if i == 1 then
-			tab.Icon:SetTexCoord(0.16, 0.86, 0.16, 0.86)
+			tab.Icon:SetTexCoord(.16, .86, .16, .86)
 			tab.Icon.SetTexCoord = B.Dummy
 		end
 		tab.Icon:SetInside(bg)
