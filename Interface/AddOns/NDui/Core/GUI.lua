@@ -3,7 +3,7 @@ local B, C, L, DB = unpack(ns)
 local G = B:RegisterModule("GUI")
 
 local tonumber, tostring, pairs, ipairs, next, select, type = tonumber, tostring, pairs, ipairs, next, select, type
-local tinsert, format, strsplit, strfind = table.insert, string.format, string.split, string.find
+local tinsert, strsplit, strfind = table.insert, string.split, string.find
 local cr, cg, cb = DB.r, DB.g, DB.b
 local guiTab, guiPage, f, dataFrame = {}, {}
 
@@ -139,6 +139,8 @@ local defaultSettings = {
 		PartyWatcherSync = true,
 		SmoothAmount = .4,
 		RaidTextScale = 1,
+		FrequentHealth = false,
+		HealthFrequency = .25,
 
 		PlayerWidth = 250,
 		PlayerHeight = 34,
@@ -366,13 +368,13 @@ local accountSettings = {
 	BWRequest = false,
 	RaidAuraWatch = {},
 	CornerBuffs = {},
+	TexStyle = 1,
 	KeystoneInfo = {},
 	AutoBubbles = false,
 	DisableInfobars = false,
 	PartyWatcherSpells = {},
 	ContactList = {},
 	CustomJunkList = {},
-	TexStyle = 1,
 }
 
 local function InitialSettings(source, target, fullClean)
@@ -566,6 +568,10 @@ local function updateSimpleModeGroupBy()
 	end
 end
 
+local function updateRaidHealthMethod()
+	B:GetModule("UnitFrames"):UpdateRaidHealthMethod()
+end
+
 local function updateSmoothingAmount()
 	B.SetSmoothingAmount(NDuiDB["UFs"]["SmoothAmount"])
 end
@@ -709,7 +715,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "UFs", "ToTAuras", L["ToT Debuff"]},
 		{4, "UFs", "UFsHPColor", L["HP Bar Color"], true, {L["Default Dark"], L["ClassColorHP"], L["GradientHP"]}},
 		{3, "UFs", "UFTextScale", L["UFTextScale"], nil, {.5, 1.5, .01}, updateUFTextScale},
-		{3, "UFs", "SmoothAmount", DB.MyColor..L["SmoothAmount"], true, {.2, .8, .01}, updateSmoothingAmount, L["SmoothAmountTip"]},
+		{3, "UFs", "SmoothAmount", DB.MyColor..L["SmoothAmount"], true, {.2, .8, .05}, updateSmoothingAmount, L["SmoothAmountTip"]},
 		{},--blank
 		{1, "UFs", "CombatText", DB.MyColor..L["UFs CombatText"]},
 		{1, "UFs", "OnlyCombatText", L["Only Combat Text"], true},
@@ -745,7 +751,9 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{4, "UFs", "RaidHPColor", L["HP Bar Color"], nil, {L["Default Dark"], L["ClassColorHP"], L["GradientHP"]}},
 		{4, "UFs", "RaidHPMode", L["HP Val Mode"].."*", true, {L["DisableRaidHP"], L["RaidHPPercent"], L["RaidHPCurrent"], L["RaidHPLost"]}, updateRaidTextPoint},
 		{3, "UFs", "NumGroups", L["Num Groups"], nil, {4, 8, 1}},
-		{3, "UFs", "RaidTextScale", L["UFTextScale"], true, {.5, 1.5, .01}, updateRaidTextScale},
+		{1, "UFs", "FrequentHealth", DB.MyColor..L["FrequentHealth"].."*", true, nil, updateRaidHealthMethod, L["FrequentHealthTip"]},
+		{3, "UFs", "RaidTextScale", L["UFTextScale"], nil, {.5, 1.5, .01}, updateRaidTextScale},
+		{3, "UFs", "HealthFrequency", L["HealthFrequency"].."*", true, {.1, .5, .05}, updateRaidHealthMethod, L["HealthFrequencyTip"]},
 		{},--blank
 		{1, "UFs", "SimpleMode", DB.MyColor..L["SimpleRaidFrame"], nil, nil, nil, L["SimpleRaidFrameTip"]},
 		{3, "UFs", "SMUnitsPerColumn", L["SimpleMode Column"], nil, {5, 40, 1}},
@@ -956,7 +964,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "ACCOUNT", "LockUIScale", DB.MyColor..L["Lock UIScale"], true},
 		{},--blank
 		{4, "ACCOUNT", "NumberFormat", L["Numberize"], false, {L["Number Type1"], L["Number Type2"], L["Number Type3"]}},
-		{3, "ACCOUNT", "TexStyle", L["Texture Style"], true, {1, 13, 1}},
+		{3, "ACCOUNT", "TexStyle", L["Texture Style"], true, {1, 58, 1}},
 	},
 	[14] = {
 		{1, "Extras", "AutoCollapse", L["Auto Collapse"]},

@@ -609,7 +609,7 @@ end
 			end
 		end
 		
-		if (_detalhes.LastShowCommand and _detalhes.LastShowCommand+10 > GetTime()) then
+		if (type (self.hide_in_combat_type) == "number" and self.hide_in_combat_type > 1 and _detalhes.LastShowCommand and _detalhes.LastShowCommand+10 > GetTime()) then
 			self:ToolbarMenuButtons()
 			self:ToolbarSide()
 			self:AttributeMenu()
@@ -621,16 +621,16 @@ end
 			_detalhes.WindowAutoHideTick [self.meu_id] = C_Timer.NewTicker (10, function()
 				if (self.last_interaction) then
 					if (self.last_interaction + 10 < _detalhes._tempo) then
-						self:AdjustAlphaByContext(true)
+						self:SetCombatAlpha (nil, nil, true)
 						_detalhes.WindowAutoHideTick [self.meu_id]:Cancel()
 					end
 				else
-					self:AdjustAlphaByContext(true)
+					self:SetCombatAlpha (nil, nil, true)
 					_detalhes.WindowAutoHideTick [self.meu_id]:Cancel()
 				end
 			end)
 		else
-			self:AdjustAlphaByContext(true)
+			self:SetCombatAlpha (nil, nil, true)
 		end
 		
 		self:DesaturateMenu()

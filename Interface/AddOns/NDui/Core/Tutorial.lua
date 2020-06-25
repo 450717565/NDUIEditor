@@ -209,7 +209,7 @@ local function ForceSkadaOptions()
 						["barfontsize"] = 12,
 						["barheight"] = 16,
 						["barslocked"] = true,
-						["bartexture"] = "BarTex_1",
+						["bartexture"] = "StatusBar_1",
 						["barwidth"] = 350,
 						["classicons"] = false,
 						["point"] = "BOTTOMRIGHT",

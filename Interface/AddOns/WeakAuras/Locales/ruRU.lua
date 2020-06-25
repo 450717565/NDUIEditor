@@ -96,12 +96,6 @@ L["Ascending"] = "По возрастанию"
 --[[Translation missing --]]
 L["Assigned Role"] = "Assigned Role"
 L["At Least One Enemy"] = "Хотя бы один противник"
---[[Translation missing --]]
-L["At missing Value"] = "At missing Value"
---[[Translation missing --]]
-L["At Percent"] = "At Percent"
---[[Translation missing --]]
-L["At Value"] = "At Value"
 L["Attach to End"] = "Прикрепить к концу"
 L["Attach to Start"] = "Прикрепить к началу"
 L["Attack Power"] = "Сила атаки"
@@ -127,8 +121,6 @@ L["Author Options"] = "Параметры Автора"
 L["Auto"] = "Автоматически"
 L["Autocast Shine"] = "Свечение при автоприменении"
 L["Automatic"] = "Автоматически"
---[[Translation missing --]]
-L["Automatic Length"] = "Automatic Length"
 L["Automatic Repair Confirmation Dialog"] = [=[WeakAuras обнаружил использование более ранней версии аддона (осуществлен downgrade). Ваши индикации могут больше не работать надлежащим образом.
 
 Хотите запустить |cFFFF0000ЭКСПЕРИМЕНТАЛЬНОЕ|r средство восстановления данных? Все изменения, выполненные вами с момента последнего обновления базы данных, будут утеряны.
@@ -603,8 +595,6 @@ L["Number"] = "Число"
 L["Number Affected"] = "Количество задействованных"
 L["Object"] = "Объект"
 L["Officer"] = "Офицер"
---[[Translation missing --]]
-L["Offset from progress"] = "Offset from progress"
 L["Offset Timer"] = "Смещение таймера (с.)"
 L["Older set IDs can be found on websites such as wowhead.com/item-sets"] = "Другие ID комплектов можно найти на ru.wowhead.com/item-sets"
 L["On Cooldown"] = "Перезаряжается"
@@ -645,10 +635,6 @@ L["Pet Specialization"] = "Специализация питомца"
 L["Pet Spell"] = "Заклинание питомца"
 L["Phase"] = "Фаза"
 L["Pixel Glow"] = "Пиксельное свечение"
---[[Translation missing --]]
-L["Placement"] = "Placement"
---[[Translation missing --]]
-L["Placement Mode"] = "Placement Mode"
 L["Play"] = "Воспроизвести"
 L["Player"] = "Игрок"
 L["Player Character"] = "Персонаж игрока"
@@ -895,8 +881,6 @@ L["This is a modified version of your aura, |cff9900FF%s.|r"] = [=[Это мод
 L["This is a modified version of your group, |cff9900FF%s.|r"] = [=[Это модифицированная версия группы ваших   
 индикаций: |cff9900FF%s|r.]=]
 L["Threat Situation"] = "Положение в списке угроз"
---[[Translation missing --]]
-L["Tick"] = "Tick"
 L["Tier "] = "Тир"
 L["Timed"] = "По истечении времени"
 L["Timer Id"] = "ID таймера"

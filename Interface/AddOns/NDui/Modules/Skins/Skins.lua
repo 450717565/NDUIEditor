@@ -86,10 +86,10 @@ function S:OnLogin()
 	-- Register skin
 	local media = LibStub and LibStub("LibSharedMedia-3.0", true)
 	if media then
-		for i = 1, 7 do
-			media:Register("statusbar", "BarTex_"..i, "Interface\\Addons\\NDui\\Media\\StatusBar\\barTex_"..i)
+		for i = 1, 12 do
+			media:Register("statusbar", "StatusBar_"..i, "Interface\\Addons\\NDui\\Media\\StatusBar\\statusbar_"..i)
 		end
-		for k = 1, 13 do
+		for k = 1, 58 do
 			media:Register("statusbar", "Texture_"..k, "Interface\\Addons\\NDui\\Media\\Texture\\texture_"..k)
 		end
 	end

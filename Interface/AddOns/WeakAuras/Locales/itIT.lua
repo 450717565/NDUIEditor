@@ -112,12 +112,6 @@ L["Ascending"] = "Crescente"
 --[[Translation missing --]]
 L["Assigned Role"] = "Assigned Role"
 L["At Least One Enemy"] = "Almeno un nemico"
---[[Translation missing --]]
-L["At missing Value"] = "At missing Value"
---[[Translation missing --]]
-L["At Percent"] = "At Percent"
---[[Translation missing --]]
-L["At Value"] = "At Value"
 L["Attach to End"] = "Aggiungi alla Fine"
 L["Attach to Start"] = "Aggiungi all'inizio"
 --[[Translation missing --]]
@@ -146,8 +140,6 @@ L["Auto"] = "Auto"
 --[[Translation missing --]]
 L["Autocast Shine"] = "Autocast Shine"
 L["Automatic"] = "Automatico"
---[[Translation missing --]]
-L["Automatic Length"] = "Automatic Length"
 --[[Translation missing --]]
 L["Automatic Repair Confirmation Dialog"] = "Automatic Repair Confirmation Dialog"
 L["Automatic Rotation"] = "Rotazione Automatica"
@@ -984,8 +976,6 @@ L["Object"] = "Object"
 --[[Translation missing --]]
 L["Officer"] = "Officer"
 --[[Translation missing --]]
-L["Offset from progress"] = "Offset from progress"
---[[Translation missing --]]
 L["Offset Timer"] = "Offset Timer"
 --[[Translation missing --]]
 L["Older set IDs can be found on websites such as wowhead.com/item-sets"] = "Older set IDs can be found on websites such as wowhead.com/item-sets"
@@ -1061,10 +1051,6 @@ L["Pet Spell"] = "Pet Spell"
 L["Phase"] = "Phase"
 --[[Translation missing --]]
 L["Pixel Glow"] = "Pixel Glow"
---[[Translation missing --]]
-L["Placement"] = "Placement"
---[[Translation missing --]]
-L["Placement Mode"] = "Placement Mode"
 --[[Translation missing --]]
 L["Play"] = "Play"
 --[[Translation missing --]]
@@ -1485,8 +1471,6 @@ L["This is a modified version of your aura, |cff9900FF%s.|r"] = "This is a modif
 L["This is a modified version of your group, |cff9900FF%s.|r"] = "This is a modified version of your group, |cff9900FF%s.|r"
 --[[Translation missing --]]
 L["Threat Situation"] = "Threat Situation"
---[[Translation missing --]]
-L["Tick"] = "Tick"
 --[[Translation missing --]]
 L["Tier "] = "Tier "
 --[[Translation missing --]]

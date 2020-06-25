@@ -412,6 +412,7 @@
 			--> hide / alpha / switch in combat
 			for index, instancia in ipairs (_detalhes.tabela_instancias) do 
 				if (instancia.ativa) then
+					--instancia:SetCombatAlpha (nil, nil, true) --passado para o regen disable
 					instancia:CheckSwitchOnCombatStart (true)
 				end
 			end
@@ -883,6 +884,7 @@
 			--> hide / alpha in combat
 			for index, instancia in ipairs (_detalhes.tabela_instancias) do 
 				if (instancia.ativa) then
+					--instancia:SetCombatAlpha (nil, nil, true) --passado para o regen enabled
 					if (instancia.auto_switch_to_old) then
 						instancia:CheckSwitchOnCombatEnd()
 					end

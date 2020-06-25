@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2391, "DBM-Party-Shadowlands", 1, 1182)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200601203338")
+mod:SetRevision("20200528135243")
 mod:SetCreatureID(168543)
 mod:SetEncounterID(2388)
 mod:SetZone()

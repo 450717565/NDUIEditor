@@ -524,6 +524,7 @@ function UF:OnLogin()
 				end
 			end
 		end
+		UF:UpdateRaidHealthMethod()
 
 		if not NDuiDB["UFs"]["SpecRaidPos"] then return end
 		if raidMover or partyMover or petMover then

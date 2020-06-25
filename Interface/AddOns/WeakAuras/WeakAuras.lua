@@ -6041,7 +6041,7 @@ end
 local function ApplyStateToRegion(id, cloneId, region, parent)
   region:Update();
 
-  region.subRegionEvents:Notify("Update", region.state, region.states)
+  region.subRegionEvents:Notify("Update")
 
   WeakAuras.UpdateMouseoverTooltip(region);
   region:Expand();

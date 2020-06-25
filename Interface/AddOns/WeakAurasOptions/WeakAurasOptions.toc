@@ -1,7 +1,7 @@
 ## Interface: 80300
 ## Title: WeakAuras Options
 ## Author: Mirrored and the WeakAuras Team
-## Version: 2.17.8-2-g0922ec9
+## Version: 2.17.8
 ## Notes: Options for WeakAuras
 ## Notes-esES: Opciones para WeakAuras
 ## Notes-deDE: Optionen für WeakAuras
@@ -31,7 +31,6 @@ SubRegionOptions\SubRegionCommon.lua
 SubRegionOptions\SubText.lua
 SubRegionOptions\Border.lua
 SubRegionOptions\Glow.lua
-SubRegionOptions\Tick.lua
 SubRegionOptions\BarModel.lua
 
 Cache.lua

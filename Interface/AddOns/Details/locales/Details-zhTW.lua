@@ -84,8 +84,6 @@ L["STRING_CLICK_REPORT_LINE2"] = "|cFFFFCC22Shift+左鍵|r: |cFFFFEE00視窗模�
 L["STRING_CLOSEALL"] = "所有視窗都已關閉，可以輸入 '/details show' 重新開啟視窗。"
 L["STRING_COLOR"] = "顏色"
 L["STRING_COMMAND_LIST"] = "指令列表"
---[[Translation missing --]]
---[[ L["STRING_CONTEXT"] = ""--]] 
 L["STRING_COOLTIP_NOOPTIONS"] = "沒有選項"
 L["STRING_CREATEAURA"] = "建立提醒效果"
 L["STRING_CRITICAL_HITS"] = "致命一擊"
@@ -291,8 +289,6 @@ L["STRING_INFO_TUTORIAL_COMPARISON1"] = "點一下 |cFFFFDD00比較|r 標籤頁�
 L["STRING_INSTANCE_CHAT"] = "副本頻道"
 L["STRING_INSTANCE_LIMIT"] = "已達視窗數量的上限，可以在選項設定中更改上限，也可以從 (#) 視窗選項重新開啟已關閉的視窗。"
 L["STRING_INTERFACE_OPENOPTIONS"] = "開啟設定選項"
---[[Translation missing --]]
---[[ L["STRING_INVERT_RULE"] = ""--]] 
 L["STRING_ISA_PET"] = "這是寵物"
 L["STRING_KEYBIND_BOOKMARK"] = "書籤"
 L["STRING_KEYBIND_BOOKMARK_NUMBER"] = "書籤 #%s"
@@ -595,6 +591,7 @@ L["STRING_OPTIONS_CMISC_DESC"] = [=[啟用捕獲：
 L["STRING_OPTIONS_COLORANDALPHA"] = "顏色和透明度"
 L["STRING_OPTIONS_COLORFIXED"] = "固定顏色"
 L["STRING_OPTIONS_COMBAT_ALPHA"] = "當"
+L["STRING_OPTIONS_COMBAT_ALPHA_1"] = "None"
 L["STRING_OPTIONS_COMBAT_ALPHA_2"] = "戰鬥中"
 L["STRING_OPTIONS_COMBAT_ALPHA_3"] = "脫離戰鬥"
 L["STRING_OPTIONS_COMBAT_ALPHA_4"] = "當不在隊伍時"

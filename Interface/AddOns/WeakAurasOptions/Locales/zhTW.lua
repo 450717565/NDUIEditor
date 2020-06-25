@@ -105,8 +105,6 @@ local L = WeakAuras.L
 	L["Auto-cloning enabled"] = "自動複製已啟用"
 	L["Automatic"] = "自動"
 	L["Automatic Icon"] = "自動圖示"
-	--[[Translation missing --]]
-	L["Automatic length"] = "Automatic length"
 	L["Backdrop Color"] = "背景顏色"
 	L["Backdrop in Front"] = "背景在前面"
 	L["Backdrop Style"] = "背景類型"
@@ -275,8 +273,6 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Enter an aura name, partial aura name, or spell id"] = "輸入光環名稱、光環部分名稱，或是法術 ID"
 	L["Enter an Aura Name, partial Aura Name, or Spell ID. A Spell ID will match any spells with the same name."] = "輸入光環名稱、光環部分名稱，或是法術 ID。法術 ID 會找出名稱相同的任何法術。"
 	L["Enter Author Mode"] = "進入作者模式"
-	--[[Translation missing --]]
-	L["Enter in a value for the tick's placement."] = "Enter in a value for the tick's placement."
 	L["Enter User Mode"] = "進入使用者模式"
 	L["Enter user mode."] = "進入使用者模式。"
 	L["Entry %i"] = "項目 %i"
@@ -413,8 +409,6 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Main"] = "主要"
 	L["Manage displays defined by Addons"] = "管理插件所定義的提醒效果"
 	L["Match Count"] = "符合的數量"
-	--[[Translation missing --]]
-	L["Matches the height setting of a horizontal bar or width for a vertical bar."] = "Matches the height setting of a horizontal bar or width for a vertical bar."
 	L["Max"] = "最大"
 	L["Max Length"] = "最大長度"
 	L["Medium Icon"] = "中圖示"
@@ -497,8 +491,6 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Paste Settings"] = "貼上設定"
 	L["Paste text below"] = "在下面貼上文字"
 	L["Paste Trigger Settings"] = "貼上觸發設定"
-	--[[Translation missing --]]
-	L["Places a tick on the bar"] = "Places a tick on the bar"
 	L["Play Sound"] = "播放音效"
 	L["Portrait Zoom"] = "頭像縮放"
 	L["Position Settings"] = "位置設定"
@@ -518,10 +510,6 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Re-center X"] = "重新水平置中"
 	L["Re-center Y"] = "重新垂直置中"
 	L["Regions of type \"%s\" are not supported."] = "不支援區域類型 \"%s\"。"
-	--[[Translation missing --]]
-	L[ [=[Relative mode positions the tick at the position relative to the total width of the progress bar.
-Absolute mode positions the tick at a fixed value.]=] ] = [=[Relative mode positions the tick at the position relative to the total width of the progress bar.
-Absolute mode positions the tick at a fixed value.]=]
 	L["Remaining Time"] = "剩餘時間"
 	L["Remaining Time Precision"] = "剩餘時間精確度"
 	L["Remove"] = "移除"
@@ -578,8 +566,6 @@ Absolute mode positions the tick at a fixed value.]=]
 	L["Show Spark"] = "顯示亮點"
 	L["Show Text"] = "顯示文字"
 	L["Show this group's children"] = "顯示這個群組的子項目"
-	--[[Translation missing --]]
-	L["Show Tick"] = "Show Tick"
 	L["Shows a 3D model from the game files"] = "顯示遊戲檔案中的3D模組"
 	L["Shows a border"] = "顯示邊框"
 	L["Shows a custom texture"] = "顯示自訂材質"
@@ -652,12 +638,6 @@ Absolute mode positions the tick at a fixed value.]=]
 	L["This display is not currently loaded"] = "這個提醒效果尚未載入"
 	L["This region of type \"%s\" is not supported."] = "不支援的地區類型 \"%s\"。"
 	L["This setting controls what widget is generated in user mode."] = "這個設定控制使用者模式中會產生什麼控制項。"
-	--[[Translation missing --]]
-	L["Tick %s"] = "Tick %s"
-	--[[Translation missing --]]
-	L["Tick Mode"] = "Tick Mode"
-	--[[Translation missing --]]
-	L["Tick Placement"] = "Tick Placement"
 	L["Time in"] = "時間"
 	L["Tiny Icon"] = "小小圖示"
 	L["To Frame's"] = "對齊框架的"

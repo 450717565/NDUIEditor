@@ -81,11 +81,9 @@ L["STRING_CHANNEL_WHISPER_TARGET_COOLDOWN"] = "Susurrar objetivo de reutilizaci�
 L["STRING_CHANNEL_YELL"] = "Gritar"
 L["STRING_CLICK_REPORT_LINE1"] = "|cFFFFCC22Clic|r: |cFFFFEE00informar|r"
 L["STRING_CLICK_REPORT_LINE2"] = "|cFFFFCC22Shift+Clic|r: |cFFFFEE00modo de ventana|r"
-L["STRING_CLOSEALL"] = "Todas las ventanas se ocultan. Usar '/details new' para mostrarlos de nuevo."
+L["STRING_CLOSEALL"] = "Todos las ventanas de Detalles se ocultan. Usar '/details new' para mostrarlos de nuevo."
 L["STRING_COLOR"] = "Color"
 L["STRING_COMMAND_LIST"] = "lista de comandos"
---[[Translation missing --]]
---[[ L["STRING_CONTEXT"] = ""--]] 
 L["STRING_COOLTIP_NOOPTIONS"] = "ningún opciones"
 L["STRING_CREATEAURA"] = "Crear aura"
 L["STRING_CRITICAL_HITS"] = "Golpes críticos"
@@ -150,13 +148,20 @@ L["STRING_CUSTOM_SAVE"] = "Guardar cambios"
 L["STRING_CUSTOM_SAVED"] = "La visualización se ha guardado."
 L["STRING_CUSTOM_SHORTNAME"] = "El nombre debe tener al menos 5 caracteres."
 L["STRING_CUSTOM_SKIN_TEXTURE"] = "Archivo de skin personalizado"
-L["STRING_CUSTOM_SKIN_TEXTURE_DESC"] = "El nombre del archivo .tga. Debe colocarse dentro de la carpeta: |cFFFFFF00WoW/Interface/|r |cFFFFFF00Importante:|r antes de crear el archivo, cierre su cliente de juego. Después de eso, /reload aplicará los cambios guardados en el archivo de textura."
+L["STRING_CUSTOM_SKIN_TEXTURE_DESC"] = [=[El nombre del archivo .tga. Debe colocarse dentro de la carpeta:
+|cFFFFFF00WoW/Interface/|r |cFFFFFF00Importante:|r antes de crear el archivo, cierre su cliente de juego. Después de eso, /reload aplicará los cambios guardados en el archivo de textura.]=]
 L["STRING_CUSTOM_SOURCE"] = "Fuente:"
-L["STRING_CUSTOM_SOURCE_DESC"] = "Qué cause el efecto. El botón a la dercha muestra una lista de PNJs de los encuentros de banda."
+L["STRING_CUSTOM_SOURCE_DESC"] = [=[Qué cause el efecto.
+
+El botón a la dercha muestra una lista de PNJs de los encuentros de banda.]=]
 L["STRING_CUSTOM_SPELLID"] = "ID de hechizo:"
-L["STRING_CUSTOM_SPELLID_DESC"] = "Opcional. El hechizo que la fuente utiliza para aplicar el efecto en el objetivo. El botón a la derecha muestra una lista de PNJs de los encuentros de banda."
+L["STRING_CUSTOM_SPELLID_DESC"] = [=[Opcional. El hechizo que la fuente utiliza para aplicar el efecto en el objetivo.
+
+El botón a la derecha muestra una lista de PNJs de los encuentros de banda.]=]
 L["STRING_CUSTOM_TARGET"] = "Objetivo:"
-L["STRING_CUSTOM_TARGET_DESC"] = "Este está el objetivo del fuente. El botón a la derecha muestra una lista de PNJs de los encuentros de banda."
+L["STRING_CUSTOM_TARGET_DESC"] = [=[Este está el objetivo del fuente.
+
+El botón a la derecha muestra una lista de PNJs de los encuentros de banda.]=]
 L["STRING_CUSTOM_TEMPORARILY"] = " (|cFFFFC000temporalmente|r)"
 L["STRING_DAMAGE"] = "Daño"
 L["STRING_DAMAGE_DPS_IN"] = "DPS recibido por"
@@ -260,9 +265,9 @@ L["STRING_HEAL"] = "Sanación"
 L["STRING_HEAL_ABSORBED"] = "Sanación absorbida"
 L["STRING_HEAL_CRIT"] = "Sanación crítica"
 L["STRING_HEALING_FROM"] = "Sanación recibida por"
-L["STRING_HEALING_HPS_FROM"] = "SPS recibida por"
+L["STRING_HEALING_HPS_FROM"] = "HPS recibida por"
 L["STRING_HITS"] = "Golpes"
-L["STRING_HPS"] = "SPS"
+L["STRING_HPS"] = "HPS"
 L["STRING_IMAGEEDIT_ALPHA"] = "Transparencia"
 L["STRING_IMAGEEDIT_CROPBOTTOM"] = "Cortar la inferior"
 L["STRING_IMAGEEDIT_CROPLEFT"] = "Cortar la izquierda"
@@ -278,8 +283,6 @@ L["STRING_INFO_TUTORIAL_COMPARISON1"] = "Haga clic en la pestaña |cFFFFDD00Comp
 L["STRING_INSTANCE_CHAT"] = "Chat de estancia"
 L["STRING_INSTANCE_LIMIT"] = "se ha alcanzado la cantidad máxima de ventana, puede modificar este límite en el panel de opciones. También puede volver a abrir ventanas cerradas desde el menú de la ventana (#)."
 L["STRING_INTERFACE_OPENOPTIONS"] = "Mostrar opciones"
---[[Translation missing --]]
---[[ L["STRING_INVERT_RULE"] = ""--]] 
 L["STRING_ISA_PET"] = "Esta unidad es una mascota"
 L["STRING_KEYBIND_BOOKMARK"] = "Marcador"
 L["STRING_KEYBIND_BOOKMARK_NUMBER"] = "#%s de marcador"
@@ -334,7 +337,9 @@ L["STRING_MINITUTORIAL_CLOSECTRL1"] = "|cFFFFFF00Ctrl + Haga clic derecho |r cie
 L["STRING_MINITUTORIAL_CLOSECTRL2"] = "Si desea volver a abrirlo, vaya a Menú de modo -> Control de ventana o Panel de opciones."
 L["STRING_MINITUTORIAL_OPTIONS_PANEL1"] = "Qué ventana se está editando."
 L["STRING_MINITUTORIAL_OPTIONS_PANEL2"] = "Cuando está marcada, también se cambian todas las ventanas en el grupo."
-L["STRING_MINITUTORIAL_OPTIONS_PANEL3"] = "Para crear un grupo, arrastre la ventana #2 cerca de la ventana #1. Romper un clic en el botón de grupo desagrupar."
+L["STRING_MINITUTORIAL_OPTIONS_PANEL3"] = [=[Para crear un grupo, arrastre la ventana # 2 cerca de la ventana # 1.
+
+Romper un clic en el botón de grupo desagrupar.]=]
 L["STRING_MINITUTORIAL_OPTIONS_PANEL4"] = "Pon a prueba tu configuración creando barras de prueba."
 L["STRING_MINITUTORIAL_OPTIONS_PANEL5"] = "Cuando Edición de grupo está habilitada, se cambian todas las ventanas en un grupo."
 L["STRING_MINITUTORIAL_OPTIONS_PANEL6"] = "Seleccione aquí de qué ventana desea cambiar la apariencia."
@@ -360,7 +365,8 @@ L["STRING_NO_DATA"] = "Los datos ya se han limpiados."
 L["STRING_NO_SPELL"] = "No se ha usado ninguna habilidad"
 L["STRING_NO_TARGET"] = "No se encuentra un objetivo."
 L["STRING_NO_TARGET_BOX"] = "Ningún objetivos disponibles"
-L["STRING_NOCLOSED_INSTANCES"] = "No hay ningún ventanas cerradas. Hacer clic para crear una nueva ventana."
+L["STRING_NOCLOSED_INSTANCES"] = [=[No hay ningún ventanas cerradas.
+Hacer clic para crear una nueva ventana.]=]
 L["STRING_NOLAST_COOLDOWN"] = "sin tiempos de reuitilización utilizados"
 L["STRING_NOMORE_INSTANCES"] = "Cantidad máxima de ventanas alcanzadas. Cambia el límite en el panel de opciones."
 L["STRING_NORMAL_HITS"] = "Golpes normales"
@@ -397,7 +403,9 @@ L["STRING_OPTIONS_ATTRIBUTE_TEXT_DESC"] = "Estas opciones configurar el texto de
 L["STRING_OPTIONS_AUTO_SWITCH"] = "Todos roles |cFFFFAA00(en combate)|r"
 L["STRING_OPTIONS_AUTO_SWITCH_COMBAT"] = "|cFFFFAA00(en combate)|r"
 L["STRING_OPTIONS_AUTO_SWITCH_DAMAGER_DESC"] = "Cuando está en la especialización de daños, esta ventana muestra el atributo o plugin seleccionado."
-L["STRING_OPTIONS_AUTO_SWITCH_DESC"] = "Al entrar en combate, esta ventana muestra el atributo o plugin seleccionado. |cffffff00Importante|r El atributo específico para cada rol anula el atributo seleccionado aquí."
+L["STRING_OPTIONS_AUTO_SWITCH_DESC"] = [=[Al entrar en combate, esta ventana muestra el atributo o plugin seleccionado.
+
+|cffffff00¡Advertencia!|r El atributo específico para cada rol anula el atributo seleccionado aquí.]=]
 L["STRING_OPTIONS_AUTO_SWITCH_HEALER_DESC"] = "En la especialización de sanador, esta ventana muestra el atributo o plugin seleccionado."
 L["STRING_OPTIONS_AUTO_SWITCH_TANK_DESC"] = "En la especialización de tanque, esta ventana muestra el atributo o plugin seleccionado."
 L["STRING_OPTIONS_AUTO_SWITCH_WIPE"] = "Después de limpiar"
@@ -412,7 +420,8 @@ L["STRING_OPTIONS_BAR_BACKDROP_SIZE_DESC"] = "Cambiar el tamaño del borde."
 L["STRING_OPTIONS_BAR_BACKDROP_TEXTURE_DESC"] = "Escoger la textura del borde."
 L["STRING_OPTIONS_BAR_BCOLOR"] = "Color del fondo"
 L["STRING_OPTIONS_BAR_BTEXTURE_DESC"] = "Esta textura se encuentra debajo de la textura superior y su tamaño es siempre el mismo que el ancho de la ventana."
-L["STRING_OPTIONS_BAR_COLOR_DESC"] = "Cambiar el color de la textura. Esta opción no se aplica si está activada la opción para colorear por clase."
+L["STRING_OPTIONS_BAR_COLOR_DESC"] = [=[Cambiar el color de la textura.
+Esta opción no se aplica si está activada la opción para colorear por clase.]=]
 L["STRING_OPTIONS_BAR_COLORBYCLASS"] = "Colorear por clase"
 L["STRING_OPTIONS_BAR_COLORBYCLASS_DESC"] = "Colorear la barra por el clase de la unidad en vez del uso del color seleccionado."
 L["STRING_OPTIONS_BAR_FOLLOWING"] = "Siempre muéstrame"
@@ -423,7 +432,9 @@ L["STRING_OPTIONS_BAR_GROW_DESC"] = "Las barras crecen desde la parte superior o
 L["STRING_OPTIONS_BAR_HEIGHT"] = "Altura"
 L["STRING_OPTIONS_BAR_HEIGHT_DESC"] = "Cambiar la altura de la barra."
 L["STRING_OPTIONS_BAR_ICONFILE"] = "Archivo del icono"
-L["STRING_OPTIONS_BAR_ICONFILE_DESC"] = "Ruta del archivo para un icono personalizado. La imagen debe ser un archivo .tga con las dimensiones de 256x256 pixels y un canal de opacidad."
+L["STRING_OPTIONS_BAR_ICONFILE_DESC"] = [=[Ruta del archivo para un icono personalizado.
+
+La imagen debe ser un archivo .tga con las dimensiones de 256x256 pixels y un canal de opacidad.]=]
 L["STRING_OPTIONS_BAR_ICONFILE_DESC2"] = "Selecciona el paquete de iconos para usar."
 L["STRING_OPTIONS_BAR_ICONFILE1"] = "Ningún icono"
 L["STRING_OPTIONS_BAR_ICONFILE2"] = "Defecto"
@@ -437,14 +448,15 @@ L["STRING_OPTIONS_BAR_TEXTURE_DESC"] = "Textura utilizada en la parte superior d
 L["STRING_OPTIONS_BARLEFTTEXTCUSTOM"] = "Texto personalizado activado"
 L["STRING_OPTIONS_BARLEFTTEXTCUSTOM_DESC"] = "Si activada, se formate el texto a la izquierda por las reglas definidas en el cuadro."
 L["STRING_OPTIONS_BARLEFTTEXTCUSTOM2"] = ""
-L["STRING_OPTIONS_BARLEFTTEXTCUSTOM2_DESC"] = [=[|cFFFFFF00{data1}|r: generalmente representa el número de posición del jugador. |cFFFFFF00{data2}|r: es siempre el nombre del jugador. |cFFFFFF00{data3}|r: en algunos casos, este valor representa la facción del jugador o rol. |cFFFFFF00{func}|r: ejecuta una función Lua personalizada agregando su valor de retorno al texto. Ejemplo: {func return 'hello azeroth'}  |cFFFFFF00Secuencias de escape|r: use para cambiar el color o agregar texturas. Busque 'Secuencias de escape de IU' para obtener más información.
-]=]
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_BARLEFTTEXTCUSTOM2_DESC"] = ""--]] 
 L["STRING_OPTIONS_BARORIENTATION"] = "Orientación de barra"
 L["STRING_OPTIONS_BARORIENTATION_DESC"] = "Dirección en la que se rellenan las barras."
 L["STRING_OPTIONS_BARRIGHTTEXTCUSTOM"] = "Texto personalizado activado"
 L["STRING_OPTIONS_BARRIGHTTEXTCUSTOM_DESC"] = "Si activada, se formate el texto a la derecho por las reglas definidas en el cuadro."
 L["STRING_OPTIONS_BARRIGHTTEXTCUSTOM2"] = ""
-L["STRING_OPTIONS_BARRIGHTTEXTCUSTOM2_DESC"] = "|cFFFFFF00{data1}|r: es el primer número pasado, generalmente este número representa el total realizado.  |cFFFFFF00{data2}|r: es el segundo número aprobado, la mayoría de las veces representa el promedio por segundo.  |cFFFFFF00{data3}|r: tercer número aprobado, normalmente es el porcentaje.  |cFFFFFF00{func}|r: ejecuta una función Lua personalizada agregando su valor de retorno al texto. Ejemplo:  {func return 'hello azeroth'}  |cFFFFFF00Secuencias de escape|r: usa para cambiar el color o agregar texturas. Busque 'Secuencias de escape de IU' para obtener más información."
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_BARRIGHTTEXTCUSTOM2_DESC"] = ""--]] 
 L["STRING_OPTIONS_BARS"] = "Configuración de barras"
 L["STRING_OPTIONS_BARS_CUSTOM_TEXTURE"] = "Archivo de textura personalizado"
 L["STRING_OPTIONS_BARS_CUSTOM_TEXTURE_DESC"] = "|cFFFFFF00Importanet|r: la imagen debe ser de 256x32 píxeles."
@@ -461,11 +473,26 @@ L["STRING_OPTIONS_BG_ANCHOR"] = "Campos de batalla:"
 L["STRING_OPTIONS_BG_UNIQUE_SEGMENT"] = "Segmento único"
 L["STRING_OPTIONS_BG_UNIQUE_SEGMENT_DESC"] = "Un segmento se crea al comienzo del campo de batalla y dura hasta que termina."
 L["STRING_OPTIONS_CAURAS"] = "Recoger auras"
-L["STRING_OPTIONS_CAURAS_DESC"] = "Activar la recogida de: - |cFFFFFF00Tiempos activados de bufos|r - |cFFFFFF00Tiempos activados de debufos|r - |cFFFFFF00Void Zones|r - |cFFFFFF00Reutilizaciones|r"
+L["STRING_OPTIONS_CAURAS_DESC"] = [=[Activar la recogida de:
+
+- |cFFFFFF00Tiempos activados de bufos|r
+- |cFFFFFF00Tiempos activados de debufos|r
+- |cFFFFFF00Void Zones|r
+- |cFFFFFF00Reutiliziaciones|r]=]
 L["STRING_OPTIONS_CDAMAGE"] = "Recoger daño"
-L["STRING_OPTIONS_CDAMAGE_DESC"] = "Activar la recogida de: - |cFFFFFF00Daño infligido|r - |cFFFFFF00Daño por segundo|r - |cFFFFFF00Fuego amigo|r - |cFFFFFF00Daño recibido|r"
+L["STRING_OPTIONS_CDAMAGE_DESC"] = [=[Activar la recogida de:
+
+- |cFFFFFF00Daño infligido|r
+- |cFFFFFF00Daño por segundo|r
+- |cFFFFFF00Fuego amigo|r
+- |cFFFFFF00Daño recibido|r]=]
 L["STRING_OPTIONS_CENERGY"] = "Recoger poder"
-L["STRING_OPTIONS_CENERGY_DESC"] = "Activar la recogida de: - |cFFFFFF00Mana restaurada|r - |cFFFFFF00Ira generada|r - |cFFFFFF00Energía generada|r - |cFFFFFF00Poder rúnico generado|r"
+L["STRING_OPTIONS_CENERGY_DESC"] = [=[Activar la recogida de:
+
+- |cFFFFFF00Mana restaurada|r
+- |cFFFFFF00Ira generada|r
+- |cFFFFFF00Energía generada|r
+- |cFFFFFF00Poder runico generado|r]=]
 L["STRING_OPTIONS_CHANGE_CLASSCOLORS"] = "Modificar colores de clase"
 L["STRING_OPTIONS_CHANGE_CLASSCOLORS_DESC"] = "Selecciona nuevos colores para las clases."
 L["STRING_OPTIONS_CHANGECOLOR"] = "Cambiar el color"
@@ -496,7 +523,15 @@ L["STRING_OPTIONS_CHART_SAVE"] = "Guardar"
 L["STRING_OPTIONS_CHART_VERSION"] = "Versión"
 L["STRING_OPTIONS_CHART_VERSIONERROR"] = "La versión no es válida."
 L["STRING_OPTIONS_CHEAL"] = "Recoger sanación"
-L["STRING_OPTIONS_CHEAL_DESC"] = "Activar la recogida de: - |cFFFFFF00Sanación realizada|r - |cFFFFFF00Absorción|r - |cFFFFFF00Sanación por segundo|r - |cFFFFFF00Overhealing|r - |cFFFFFF00Sanación recibida|r - |cFFFFFF00Enemigos sanados|r - |cFFFFFF00Daño impedido|r"
+L["STRING_OPTIONS_CHEAL_DESC"] = [=[Activar la recogida de:
+
+- |cFFFFFF00Sanación realizada|r
+- |cFFFFFF00Absorción|r
+- |cFFFFFF00Sanación por segundo|r
+- |cFFFFFF00Overhealing|r
+- |cFFFFFF00Sanación recibida|r
+- |cFFFFFF00Enemigos curados|r
+- |cFFFFFF00Daño impedido|r]=]
 L["STRING_OPTIONS_CLASSCOLOR_MODIFY"] = "Modificar colores de clase"
 L["STRING_OPTIONS_CLASSCOLOR_RESET"] = "Haga clic derecho para restablecer"
 L["STRING_OPTIONS_CLEANUP"] = "Borrado automático de segmentos de basura"
@@ -506,10 +541,17 @@ L["STRING_OPTIONS_CLICK_TO_OPEN_MENUS_DESC"] = "Los botones de la barra de títu
 L["STRING_OPTIONS_CLOUD"] = "Recogida por grupo"
 L["STRING_OPTIONS_CLOUD_DESC"] = "Los datos de tipos desactivados localmente se recogerán por los otros miembres de la banda."
 L["STRING_OPTIONS_CMISC"] = "Recoger miscelánea"
-L["STRING_OPTIONS_CMISC_DESC"] = "Activar la recogida de: - |cFFFFFF00CC interrumpido|r - |cFFFFFF00Disipaciones|r - |cFFFFFF00Interrupciones|r - |cFFFFFF00Resurrecciones|r - |cFFFFFF00Muertes|r"
+L["STRING_OPTIONS_CMISC_DESC"] = [=[Activar la recogida de:
+
+- |cFFFFFF00CC interrumpido|r
+- |cFFFFFF00Disipaciones|r
+- |cFFFFFF00Interrupciones|r
+- |cFFFFFF00Resurrecciones|r
+- |cFFFFFF00Deaths|r]=]
 L["STRING_OPTIONS_COLORANDALPHA"] = "Color y opacidad"
 L["STRING_OPTIONS_COLORFIXED"] = "Color fijado"
 L["STRING_OPTIONS_COMBAT_ALPHA"] = "Cuando cambiar"
+L["STRING_OPTIONS_COMBAT_ALPHA_1"] = "Nunca"
 L["STRING_OPTIONS_COMBAT_ALPHA_2"] = "En combate"
 L["STRING_OPTIONS_COMBAT_ALPHA_3"] = "Fuera de combate"
 L["STRING_OPTIONS_COMBAT_ALPHA_4"] = "Sin grupo"
@@ -517,7 +559,17 @@ L["STRING_OPTIONS_COMBAT_ALPHA_5"] = "Mientras no dentro de la estancia"
 L["STRING_OPTIONS_COMBAT_ALPHA_6"] = "Mientras dentro de la estancia"
 L["STRING_OPTIONS_COMBAT_ALPHA_7"] = "Debug de banda"
 L["STRING_OPTIONS_COMBAT_ALPHA_8"] = "En campo de batalla"
-L["STRING_OPTIONS_COMBAT_ALPHA_DESC"] = "Escgoer como se afecta la opacidad de la ventana por combate. |cFFFFFF00Ningún|r: La opacidad no se afecta por combate. |cFFFFFF00En combate|r: La opacidad espicificada se aplica a la ventana mientras el combate. |cFFFFFF00Fuera de combate|r: La opacidad espicificada se aplica a la ventana fuera del combate. |cFFFFFF00Sin grupo|r: La opacidad espicificada se aplica a la ventana cuando no está en un grupo o banda. |cFFFFFF00Importante|r Esta opción se anula la opacidad especificada por la opción Opacidad automáticamente."
+L["STRING_OPTIONS_COMBAT_ALPHA_DESC"] = [=[Escgoer como se afecta la opacidad de la ventana por combate.
+
+|cFFFFFF00Ningún|r: La opacidad no se afecta por combate.
+
+|cFFFFFF00En combate|r: La opacidad espicificada se aplica a la ventana mientras el combate.
+
+|cFFFFFF00Fuera de combate|r: La opacidad espicificada se aplica a la ventana fuera del combate.
+
+|cFFFFFF00Sin grupo|r: La opacidad espicificada se aplica a la ventana cuando no está en un grupo o banda.
+
+|cFFFFFF00¡Advertencia!|r Esta opción se anula la opacidad especificada por la opción Opacidad automáticamente.]=]
 L["STRING_OPTIONS_COMBATTWEEKS"] = "Cambios para combate"
 L["STRING_OPTIONS_COMBATTWEEKS_DESC"] = "Cambiar como se funciona Detailles con algunos aspectos de combate."
 L["STRING_OPTIONS_CONFIRM_ERASE"] = "¿Quieres borrar datos?"
@@ -535,7 +587,8 @@ L["STRING_OPTIONS_DATABROKER_TEXT_ADD6"] = "Jugador HPS efectiva"
 L["STRING_OPTIONS_DATABROKER_TEXT_ADD7"] = "Posición de sanación"
 L["STRING_OPTIONS_DATABROKER_TEXT_ADD8"] = "Diferencia de sanación"
 L["STRING_OPTIONS_DATABROKER_TEXT_ADD9"] = "Tiempo de combate transcurrido"
-L["STRING_OPTIONS_DATABROKER_TEXT1_DESC"] = "|cFFFFFF00{dmg}|r: Daño del jugador infligido. |cFFFFFF00{dps}|r: daño efectivo del jugador por segundo.  |cFFFFFF00{rdps}|r:  daño efectivo de la banda por segundo. |cFFFFFF00{dpos}|r: Rango de posición entre los miembros de la banda o grupo.  |cFFFFFF00{ddiff}|r: diferencia de daño entre usted y la posición del primer lugar.  |cFFFFFF00{heal}|r: sanación realizada del jugador.  |cFFFFFF00{hps}|r: sanación efectiva por segundo del jugador.  |cFFFFFF00{rhps}|r: sanación efectiva de la banda por segundo.  |cFFFFFF00{hpos}|r: Rango de posición entre los miembros de la banda o grupo. |cFFFFFF00{hdiff}|r: diferencia de sanación entre usted y la posición del primer lugar. |cFFFFFF00{time}|r: tiempo transcurrido en la pelea."
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_DATABROKER_TEXT1_DESC"] = ""--]] 
 L["STRING_OPTIONS_DATACHARTTITLE"] = "Crear datos cronometrados para gráficos"
 L["STRING_OPTIONS_DATACHARTTITLE_DESC"] = "Este panel le permite crear una captura de datos personalizada para la creación de gráficos."
 L["STRING_OPTIONS_DATACOLLECT_ANCHOR"] = "Tipos de datos:"
@@ -561,7 +614,10 @@ L["STRING_OPTIONS_DISABLED_RESET"] = "Restablecer con este botón está actualme
 L["STRING_OPTIONS_DTAKEN_EVERYTHING"] = "Daño avanzado recibido"
 L["STRING_OPTIONS_DTAKEN_EVERYTHING_DESC"] = "El daño recibido siempre se muestra en modo '|cFFFFFF00Todo|r'"
 L["STRING_OPTIONS_ED"] = "Borrar datos"
-L["STRING_OPTIONS_ED_DESC"] = [=[|cFFFFFF00Manualmente|r: El usuario necesita hacer clic en el botón de reinicio. |cFFFFFF00Mensaje|r: pedir reiniciar al entrar una nueva estancia. |cFFFFFF00Auto|r: borrar datos después de entrar una nueva estancia.
+L["STRING_OPTIONS_ED_DESC"] = [=[|cFFFFFF00Manualmente|r: El usuario necesita hacer clic en el botón de reinicio.
+|cFFFFFF00Mensaje|r: pedir reiniciar al entrar una nueva estancia.
+|cFFFFFF00Auto|r: borrar datos después de entrar una nueva estancia.
+
 ]=]
 L["STRING_OPTIONS_ED1"] = "Manualmente"
 L["STRING_OPTIONS_ED2"] = "Mensaje"
@@ -575,7 +631,9 @@ L["STRING_OPTIONS_EXTERNALS_TITLE2"] = "Estas opciones controlan el comportamien
 L["STRING_OPTIONS_GENERAL"] = "Opciones generales"
 L["STRING_OPTIONS_GENERAL_ANCHOR"] = "General:"
 L["STRING_OPTIONS_HIDE_ICON"] = "Ocultar icono"
-L["STRING_OPTIONS_HIDE_ICON_DESC"] = "Ocultar el icono en la esquima superior izquierda. Esto puede verse mejor con algos skins."
+L["STRING_OPTIONS_HIDE_ICON_DESC"] = [=[Ocultar el icono en la esquima superior izquierda.
+
+Esto puede verse mejor con algos skins.]=]
 L["STRING_OPTIONS_HIDECOMBATALPHA_DESC"] = "Cambia la transparencia a este valor cuando tu personaje coincide con la regla elegida.  |cFFFFFF00Cero|r: totalmente oculto, no puede interactuar dentro de la ventana. |cFFFFFF001 - 100|r: no oculto, solo se cambia la transparencia, puede interactuar con la ventana."
 L["STRING_OPTIONS_HOTCORNER"] = "Mostrar botón"
 L["STRING_OPTIONS_HOTCORNER_ACTION"] = "al clic"
@@ -583,7 +641,9 @@ L["STRING_OPTIONS_HOTCORNER_ACTION_DESC"] = "Qué hacer al clic en la barra de l
 L["STRING_OPTIONS_HOTCORNER_ANCHOR"] = "Esquina activa:"
 L["STRING_OPTIONS_HOTCORNER_DESC"] = "Mostrar o ocultar el botón el la esquina activa."
 L["STRING_OPTIONS_HOTCORNER_QUICK_CLICK"] = "Clic rapido"
-L["STRING_OPTIONS_HOTCORNER_QUICK_CLICK_DESC"] = "Activar o desactivar la funcionalidad 'clic rapido' para las esquinas activas. Al pasar el ratón en la esquina superior izquierda se activa la esquina activa. Al clic se hacer la acción."
+L["STRING_OPTIONS_HOTCORNER_QUICK_CLICK_DESC"] = [=[Activar o desactivar la funcionalidad 'clic rapido' para las esquinas activas.
+
+Al pasar el ratón en la esquina superior izquierda se activa la esquina activa. Al clic se hacer la acción.]=]
 L["STRING_OPTIONS_HOTCORNER_QUICK_CLICK_FUNC"] = "Clic rapido al hacer clic"
 L["STRING_OPTIONS_HOTCORNER_QUICK_CLICK_FUNC_DESC"] = "Seleccionar un acción al hacer clic en el botón 'clic rapido' en la esquina activa."
 L["STRING_OPTIONS_IGNORENICKNAME"] = "Ignorar apodos y avatares"
@@ -594,9 +654,15 @@ L["STRING_OPTIONS_ILVL_TRACKER_TEXT"] = "Habilitado"
 L["STRING_OPTIONS_INSTANCE_ALPHA2"] = "Color del fondo"
 L["STRING_OPTIONS_INSTANCE_ALPHA2_DESC"] = "Cambiar el color del fondo de la ventana."
 L["STRING_OPTIONS_INSTANCE_BACKDROP"] = "Textura del fondo"
-L["STRING_OPTIONS_INSTANCE_BACKDROP_DESC"] = "Escoger la textura del fondo de la ventana. |cffffff00Defecto|r: Details Background."
+L["STRING_OPTIONS_INSTANCE_BACKDROP_DESC"] = [=[Escoger la textura del fondo de la ventana.
+
+|cffffff00Defecto|r: Details Background.]=]
 L["STRING_OPTIONS_INSTANCE_COLOR"] = "Color de ventana"
-L["STRING_OPTIONS_INSTANCE_COLOR_DESC"] = "Cambiar el color y la opacidad de esta ventana. |cFFFFFF00Importante|r La opacidad seleccionada aquí se anula por los valores de |cFFFFFF00opacidad automáticamente|r si se activa. |cFFFFFF00Importante|r La selección de una color de ventana anula la personalización del color de la barra estada."
+L["STRING_OPTIONS_INSTANCE_COLOR_DESC"] = [=[Cambiar el color y la opacidad de esta ventana.
+
+|cFFFFFF00¡Advertencia!|r La opacidad seleccionada aquí se anula por los valores de |cFFFFFF00opacidad automáticamente|r si se activa.
+
+|cFFFFFF00¡Advertencia!|r La selección de una color de ventana anula la personalización del color de la barra estada.]=]
 L["STRING_OPTIONS_INSTANCE_CURRENT"] = "Auto-cambiar al actual"
 L["STRING_OPTIONS_INSTANCE_CURRENT_DESC"] = "Cambiar automaticamente al segmento actual al entrar en combate si ninguna otra ventana ya lo muestra."
 L["STRING_OPTIONS_INSTANCE_DELETE"] = "Eliminar"
@@ -606,9 +672,15 @@ L["STRING_OPTIONS_INSTANCE_SKIN"] = "Skin"
 L["STRING_OPTIONS_INSTANCE_SKIN_DESC"] = "Cambiar la aparencia de la ventana por la aplicación de un skin."
 L["STRING_OPTIONS_INSTANCE_STATUSBAR_ANCHOR"] = "Barra:"
 L["STRING_OPTIONS_INSTANCE_STATUSBARCOLOR"] = "Color y opacidad"
-L["STRING_OPTIONS_INSTANCE_STATUSBARCOLOR_DESC"] = "Escoger el color de las barras. |cffffff00Importante|r: Esta opción anula el color y la opacidad selecconada en las opciones del color de la ventana."
+L["STRING_OPTIONS_INSTANCE_STATUSBARCOLOR_DESC"] = [=[Escoger el color de las barras.
+
+|cffffff00¡Advertencia!|r: Esta opción anula el color y la opacidad selecconada en las opciones del color de la ventana.]=]
 L["STRING_OPTIONS_INSTANCE_STRATA"] = "Estrato"
-L["STRING_OPTIONS_INSTANCE_STRATA_DESC"] = "Escoger el estrato en que colocar el objeto. El estrato 'bajo' es el valor por defecto, y hacer que la ventana aparece detrás de la mayoría de las otras ventanas en la interfaz. El estrato 'alta' hacer que la ventana parace en frente de la mayoría de las otras ventanas en la interfaz."
+L["STRING_OPTIONS_INSTANCE_STRATA_DESC"] = [=[Escoger el estrato en que colocar el objeto.
+
+El estrato 'bajo' es el valor por defecto, y hacer que la ventana aparece detrás de la mayoría de las otras ventanas en la interfaz.
+
+El estrato 'alta' hacer que la ventana parace en frente de la mayoría de las otras ventanas en la interfaz.]=]
 L["STRING_OPTIONS_INSTANCES"] = "Ventanas:"
 L["STRING_OPTIONS_INTERFACEDIT"] = "Modo de edición de interfaz"
 L["STRING_OPTIONS_LEFT_MENU_ANCHOR"] = "Configuración de menú:"
@@ -620,7 +692,9 @@ L["STRING_OPTIONS_MAXINSTANCES_DESC"] = "Limite la cantidad de ventanas que se p
 L["STRING_OPTIONS_MAXSEGMENTS"] = "Máximo de segmentos"
 L["STRING_OPTIONS_MAXSEGMENTS_DESC"] = "Controla cuántos segmentos quieres mantener."
 L["STRING_OPTIONS_MENU_ALPHA"] = "Opacidad al pasar del ratón:"
-L["STRING_OPTIONS_MENU_ALPHAENABLED_DESC"] = "Cambiar automaticamente la opacidad al pasar el ratón. |cffffff00Importante|r: Esta opción anula la opacidad de la ventana seleccionada en las opciones de la ventana."
+L["STRING_OPTIONS_MENU_ALPHAENABLED_DESC"] = [=[Cambiar automaticamente la opacidad al pasar el ratón.
+
+|cffffff00¡Advertencia!|r: Esta opción anula la opacidad de la ventana seleccionada en las opciones de la ventana.]=]
 L["STRING_OPTIONS_MENU_ALPHAENTER"] = "Al pasar del ratón"
 L["STRING_OPTIONS_MENU_ALPHAENTER_DESC"] = "Cambiar la opacidad de la ventana a este valor al pasar del ratón."
 L["STRING_OPTIONS_MENU_ALPHALEAVE"] = "Sin ratón"
@@ -667,7 +741,9 @@ L["STRING_OPTIONS_MENUS_SPACEMENT_DESC"] = "Controla la distancia que los botone
 L["STRING_OPTIONS_MICRODISPLAY_ANCHOR"] = "Micro pantallas:"
 L["STRING_OPTIONS_MICRODISPLAY_LOCK"] = "Bloquear micro pantallas"
 L["STRING_OPTIONS_MICRODISPLAY_LOCK_DESC"] = "Cuando están bloqueados, no interactuarán con el mouse y los clics."
-L["STRING_OPTIONS_MICRODISPLAYS_DROPDOWN_TOOLTIP"] = "Selecciona la micro pantalla que desea mostrar en este lado."
+L["STRING_OPTIONS_MICRODISPLAYS_DROPDOWN_TOOLTIP"] = [=[Selecciona la micro pantalla que desea mostrar en este lado.
+
+]=]
 L["STRING_OPTIONS_MICRODISPLAYS_OPTION_TOOLTIP"] = "Establece la configuración para esta micro pantalla."
 L["STRING_OPTIONS_MICRODISPLAYS_SHOWHIDE_TOOLTIP"] = "Mostrar u ocultar esta micro pantalla"
 L["STRING_OPTIONS_MICRODISPLAYS_WARNING"] = "|cFFFFFF00Nota|r: Las micro pantallas no se pueden mostrar porque están ancladas en la parte inferior y la barra de estado está deshabilitada."
@@ -685,7 +761,9 @@ L["STRING_OPTIONS_MINIMAP_DESC"] = "Mostrar el icono en el minimapa."
 L["STRING_OPTIONS_MISCTITLE"] = "Opciones misceláneas"
 L["STRING_OPTIONS_MISCTITLE2"] = "Estas opciones se permiten configurar los ajustes que no pertenecen en ninguna otra categoría."
 L["STRING_OPTIONS_NICKNAME"] = "Apodo"
-L["STRING_OPTIONS_NICKNAME_DESC"] = "Reemplazar el nombre de su personaje. El apodo se envía a los miembres de la hermandad, y se muestra en Details! en vez del nombre de su personaje."
+L["STRING_OPTIONS_NICKNAME_DESC"] = [=[Reemplazar el nombre de su personaje.
+
+El apodo se envía a los miembres de la hermandad, y se muestra en Detalles en vez del nombre de su personaje.]=]
 L["STRING_OPTIONS_OPEN_ROWTEXT_EDITOR"] = "Editor de texto de fila"
 L["STRING_OPTIONS_OPEN_TEXT_EDITOR"] = "Abrir editor de texto"
 L["STRING_OPTIONS_OVERALL_ALL"] = "Todos segmentos"
@@ -708,9 +786,12 @@ L["STRING_OPTIONS_OVERALL_RAIDCLEAN_DESC"] = "Los segmentos con limpieza de bich
 L["STRING_OPTIONS_PANIMODE"] = "Modo pánico"
 L["STRING_OPTIONS_PANIMODE_DESC"] = "Si se activa, todos los segmentos se borran al desconectar mientras un encuentro con un jefe de banda, para acelerar la desconexión."
 L["STRING_OPTIONS_PDW_ANCHOR"] = "Paneles:"
-L["STRING_OPTIONS_PDW_SKIN_DESC"] = "Skin para usar en la ventana de detalles del jugador, la ventana de informes y el panel de opciones Algunos cambios requieren /reload."
+L["STRING_OPTIONS_PDW_SKIN_DESC"] = [=[Skin para usar en la ventana de detalles del jugador, la ventana de informes y el panel de opciones Algunos cambios requieren /reload.
+
+]=]
 L["STRING_OPTIONS_PERCENT_TYPE"] = "Tipo de porcentaje"
-L["STRING_OPTIONS_PERCENT_TYPE_DESC"] = "Cambia el método de porcentaje:  |cFFFFFF00Total relativo|r: el porcentaje muestra la fracción activa de la cantidad total realizada por todos los miembros de la banda. |cFFFFFF00Jugador superior relativo|r: el porcentaje es relativo dentro del monto del puntaje del mejor jugador."
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_PERCENT_TYPE_DESC"] = ""--]] 
 L["STRING_OPTIONS_PERFORMANCE"] = "Rendimiento"
 L["STRING_OPTIONS_PERFORMANCE_ANCHOR"] = "General:"
 L["STRING_OPTIONS_PERFORMANCE_ARENA"] = "Arena"
@@ -746,7 +827,8 @@ L["STRING_OPTIONS_PRESETNONAME"] = "Dale un nombre a tu preestablecido."
 L["STRING_OPTIONS_PRESETTOOLD"] = "Este valor preestablecido es demasiado antiguo y no se puede cargar con esta versión de Details!."
 L["STRING_OPTIONS_PROFILE_COPYOKEY"] = "Perfil se ha copiado con éxito."
 L["STRING_OPTIONS_PROFILE_FIELDEMPTY"] = "El nombre no puede ser vacío."
-L["STRING_OPTIONS_PROFILE_GLOBAL"] = "Selecciona el perfil para usar en todos los personajes."
+L["STRING_OPTIONS_PROFILE_GLOBAL"] = [=[Selecciona el perfil para usar en todos los personajes.
+]=]
 L["STRING_OPTIONS_PROFILE_LOADED"] = "Perfil cargado:"
 L["STRING_OPTIONS_PROFILE_NOTCREATED"] = "Perfio no se ha creado."
 L["STRING_OPTIONS_PROFILE_OVERWRITTEN"] = "has seleccionado un perfil específico para este personaje"
@@ -773,7 +855,8 @@ L["STRING_OPTIONS_PROFILES_TITLE"] = "Perfiles"
 L["STRING_OPTIONS_PROFILES_TITLE_DESC"] = "Estas opciones se permiten usar la misma configuración para personages múltiples."
 L["STRING_OPTIONS_PS_ABBREVIATE"] = "Tipo de abreviación"
 L["STRING_OPTIONS_PS_ABBREVIATE_COMMA"] = "Coma"
-L["STRING_OPTIONS_PS_ABBREVIATE_DESC"] = "Elige el método de abreviatura.  |cFFFFFF00ToK I|r: 520600 = 520.6K 19530000 = 19.53M |cFFFFFF00ToK II|r: 520600 = 520K 19530000 = 19.53M |cFFFFFF00ToM I|r: 520600 = 520.6K 19530000 = 19M |cFFFFFF00Coma|r: 19530000 = 19.530.000 |cFFFFFF00Minúscula|r and |cFFFFFF00Mayúscula|r: son referencias a letras 'K' y 'M' si están en minúsculas o mayúsculas."
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_PS_ABBREVIATE_DESC"] = ""--]] 
 L["STRING_OPTIONS_PS_ABBREVIATE_NONE"] = "Ningún"
 L["STRING_OPTIONS_PS_ABBREVIATE_TOK"] = "ToK I Superior"
 L["STRING_OPTIONS_PS_ABBREVIATE_TOK0"] = "ToM I Superior"
@@ -784,12 +867,14 @@ L["STRING_OPTIONS_PS_ABBREVIATE_TOKMIN"] = "ToK I Inferior"
 L["STRING_OPTIONS_PVPFRAGS"] = "Sólo matanzas en JvJ"
 L["STRING_OPTIONS_PVPFRAGS_DESC"] = "La visualización |cffffff00daño > matanzas|r muestra solamente las mantanzas de jugadores enemigos."
 L["STRING_OPTIONS_REALMNAME"] = "Eliminar nombre de reino"
-L["STRING_OPTIONS_REALMNAME_DESC"] = "Eliminar los nombres de reinos de los nombres de personajes. Por ejemplo: |cffffff00Desactivado|r: Charles-Netherwing |cffffff00Activado|r: Charles"
+L["STRING_OPTIONS_REALMNAME_DESC"] = [=[Eliminar los nombres de reinos de los nombres de personajes. Por ejemplo:
+
+|cffffff00Desactivado|r: Charles-Netherwing
+|cffffff00Activado|r: Charles]=]
 L["STRING_OPTIONS_REPORT_ANCHOR"] = "Informar:"
 L["STRING_OPTIONS_REPORT_HEALLINKS"] = "Vínculos de hechizos útiles"
-L["STRING_OPTIONS_REPORT_HEALLINKS_DESC"] = [=[Al enviar un informe y esta opción está habilitada, hechizos |cFF55FF55utiles|r se informan con el enlace de hechizo en lugar de su nombre. Los hechizos |cFFFF5555perjudicial|r se informan con enlaces por defecto.
-
-]=]
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_REPORT_HEALLINKS_DESC"] = ""--]] 
 L["STRING_OPTIONS_REPORT_SCHEMA"] = "Formato"
 L["STRING_OPTIONS_REPORT_SCHEMA_DESC"] = "Selecciona el formato de texto para el texto vinculado en el canal de chat."
 L["STRING_OPTIONS_REPORT_SCHEMA1"] = "Total / Por segundo / Porcentaje"
@@ -803,9 +888,11 @@ L["STRING_OPTIONS_RT_COOLDOWN1"] = "¡%s utilizado en %s!"
 L["STRING_OPTIONS_RT_COOLDOWN2"] = "¡%s utilizado!"
 L["STRING_OPTIONS_RT_COOLDOWNS_ANCHOR"] = "Anunciar reutilizaciones"
 L["STRING_OPTIONS_RT_COOLDOWNS_CHANNEL"] = "Canal"
-L["STRING_OPTIONS_RT_COOLDOWNS_CHANNEL_DESC"] = "Qué canal de chat se usa para enviar el mensaje de alerta. Si se selecciona |cFFFFFF00Observador|r, todas las reutilizaciones se imprimen en su chat, excepto reutilizaciones individuales"
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_RT_COOLDOWNS_CHANNEL_DESC"] = ""--]] 
 L["STRING_OPTIONS_RT_COOLDOWNS_CUSTOM"] = "Texto personalizado"
-L["STRING_OPTIONS_RT_COOLDOWNS_CUSTOM_DESC"] = "Escriba su propia frase para enviar. Utiliza |cFFFFFF00{spell}|r para agregar el nombre del hechizo de la reutilización. Utiliza |cFFFFFF00{target}|r para agregar el nombre del objetivo."
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_RT_COOLDOWNS_CUSTOM_DESC"] = ""--]] 
 L["STRING_OPTIONS_RT_COOLDOWNS_ONOFF_DESC"] = "Cuando usa un tiempo de reutilización, se envía un mensaje a través del canal seleccionado."
 L["STRING_OPTIONS_RT_COOLDOWNS_SELECT"] = "Lista de tiempos de reutilización ignorados"
 L["STRING_OPTIONS_RT_COOLDOWNS_SELECT_DESC"] = "Elija qué tiempos de reutilización deben ignorarse."
@@ -833,7 +920,8 @@ L["STRING_OPTIONS_RT_INTERRUPT_NEXT"] = "Próximo: %s"
 L["STRING_OPTIONS_RT_INTERRUPTS_CHANNEL"] = "Canal"
 L["STRING_OPTIONS_RT_INTERRUPTS_CHANNEL_DESC"] = "Qué canal de chat se usa para enviar el mensaje de alerta. Si |cFFFFFF00Observador|r está seleccionado, todas las interrupciones se imprimen solo en el chat."
 L["STRING_OPTIONS_RT_INTERRUPTS_CUSTOM"] = "Texto personalizado"
-L["STRING_OPTIONS_RT_INTERRUPTS_CUSTOM_DESC"] = "Escriba su propia frase para enviar. Utiliza |cFFFFFF00{spell}|r para agregar el nombre del hechizo interrumpido. Utiliza |cFFFFFF00{next}|r para agregar el nombre del próximo jugador en el cuadro 'siguiente'."
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_RT_INTERRUPTS_CUSTOM_DESC"] = ""--]] 
 L["STRING_OPTIONS_RT_INTERRUPTS_NEXT"] = "Siguiente jugador"
 L["STRING_OPTIONS_RT_INTERRUPTS_NEXT_DESC"] = "Cuando exista una secuencia de interrupción, coloca el nombre del jugador responsable de la próxima interrupción."
 L["STRING_OPTIONS_RT_INTERRUPTS_ONOFF_DESC"] = "Cuando interrumpes con éxito un lanzamiento de hechizo, se envía un mensaje."
@@ -843,6 +931,7 @@ L["STRING_OPTIONS_RT_TITLE"] = "Herramientas para Banda"
 L["STRING_OPTIONS_RT_TITLE_DESC"] = "En este panel puedes activar varios mecanismos para ayudarte durante las bandas."
 L["STRING_OPTIONS_SAVELOAD"] = "Guardar y cargar"
 L["STRING_OPTIONS_SAVELOAD_APPLYALL"] = [=[La skin actual se ha aplicada a todas las demás ventanas.
+
 ]=]
 L["STRING_OPTIONS_SAVELOAD_APPLYALL_DESC"] = "Aplicar la skin actual en todas las ventanas creadas."
 L["STRING_OPTIONS_SAVELOAD_APPLYTOALL"] = "Aplicar a todas ventanas"
@@ -856,7 +945,8 @@ L["STRING_OPTIONS_SAVELOAD_IMPORT"] = "Importar"
 L["STRING_OPTIONS_SAVELOAD_IMPORT_DESC"] = "Importar una skin en forma de texto."
 L["STRING_OPTIONS_SAVELOAD_IMPORT_OKEY"] = "Skin se ha importado con éxito."
 L["STRING_OPTIONS_SAVELOAD_LOAD"] = "Aplicar"
-L["STRING_OPTIONS_SAVELOAD_LOAD_DESC"] = [=[Elige una de las skins guardadas anteriores para aplicar en la ventana seleccionada actual.
+L["STRING_OPTIONS_SAVELOAD_LOAD_DESC"] = [=[Elija una de las skins guardadas anteriores para aplicar en la ventana seleccionada actual.
+
 ]=]
 L["STRING_OPTIONS_SAVELOAD_MAKEDEFAULT"] = "Establecer estándar"
 L["STRING_OPTIONS_SAVELOAD_PNAME"] = "Nombre"
@@ -867,7 +957,8 @@ L["STRING_OPTIONS_SAVELOAD_SKINCREATED"] = "Skin se ha creado."
 L["STRING_OPTIONS_SAVELOAD_STD_DESC"] = "Establecer la apariencia actual como Skin estándar. Esta skin se aplica en todas las ventanas nuevas creadas."
 L["STRING_OPTIONS_SAVELOAD_STDSAVE"] = "Se ha guardado la skin estándar, las nuevas ventanas usarán esta skin de forma predeterminada."
 L["STRING_OPTIONS_SCROLLBAR"] = "Barra de desplazamiento"
-L["STRING_OPTIONS_SCROLLBAR_DESC"] = "Habilitar o deshabilitar la barra de desplazamiento. Por defecto, las barras de desplazamiento se reemplazan por un mecanismo que estira la ventana. El |cFFFFFF00mango de estiramiento|r está afuera sobre el botón/menú de la ventana (a la izquierda del botón de cierre)."
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_SCROLLBAR_DESC"] = ""--]] 
 L["STRING_OPTIONS_SEGMENTSSAVE"] = "Segmentos se han guardados"
 L["STRING_OPTIONS_SEGMENTSSAVE_DESC"] = "Cuántos segmentos quieres guardar entre sesiones de juego. Los valores altos pueden aumentar el tiempo que tarda tu personaje en cerrar sesión."
 L["STRING_OPTIONS_SENDFEEDBACK"] = "Comentarios"
@@ -885,9 +976,11 @@ L["STRING_OPTIONS_SIZE"] = "Tamaño"
 L["STRING_OPTIONS_SKIN_A"] = "Configuración de skin"
 L["STRING_OPTIONS_SKIN_A_DESC"] = "Estas opciones se permiten personalizar el skin."
 L["STRING_OPTIONS_SKIN_ELVUI_BUTTON1"] = "Alinear dentro del chat derecho"
-L["STRING_OPTIONS_SKIN_ELVUI_BUTTON1_DESC"] = "Mover y cambiar el tamaño de las ventanas|cFFFFFF00#1|r y |cFFFFFF00#2|r para colocar sobre la ventana de chat derecha."
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_SKIN_ELVUI_BUTTON1_DESC"] = ""--]] 
 L["STRING_OPTIONS_SKIN_ELVUI_BUTTON2"] = "Establecer borde de información sobre herramientas en negro"
-L["STRING_OPTIONS_SKIN_ELVUI_BUTTON2_DESC"] = "Modificar información sobre herramientas: Color del borde a:  |cFFFFFF00Negro|r. Tamaño del borde a: |cFFFFFF0016|r. Textura a: |cFFFFFF00Información sobre herramientas de Blizzard|r."
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_SKIN_ELVUI_BUTTON2_DESC"] = ""--]] 
 L["STRING_OPTIONS_SKIN_ELVUI_BUTTON3"] = "Eliminar borde de información sobre herramientas"
 L["STRING_OPTIONS_SKIN_ELVUI_BUTTON3_DESC"] = "Modificar información sobre herramientas: Color del borde a:|cFFFFFF00Transparente|r."
 L["STRING_OPTIONS_SKIN_EXTRA_OPTIONS_ANCHOR"] = "Opciones de skin:"
@@ -932,7 +1025,9 @@ L["STRING_OPTIONS_TESTBARS"] = "Crear barras de prueba"
 L["STRING_OPTIONS_TEXT"] = "Configuración de texto de barras"
 L["STRING_OPTIONS_TEXT_DESC"] = "Estas opciones se permiten personalizar la aparencia del texto en las barras."
 L["STRING_OPTIONS_TEXT_FIXEDCOLOR"] = "Color del texto"
-L["STRING_OPTIONS_TEXT_FIXEDCOLOR_DESC"] = "Cambiar el color de tanto los textos izquierdo y derecho. No se aplica si la opcióm |cFFFFFFFFColorar por clase|r está activada."
+L["STRING_OPTIONS_TEXT_FIXEDCOLOR_DESC"] = [=[Cambiar el color de tanto los textos izquierdo y derecho.
+
+No se aplica si la opcióm |cFFFFFFFFColorar por clase|r está activada.]=]
 L["STRING_OPTIONS_TEXT_FONT"] = "Fuente del texto"
 L["STRING_OPTIONS_TEXT_FONT_DESC"] = "Escoger la fuente de tanto los textos izquierdo y derecho."
 L["STRING_OPTIONS_TEXT_LCLASSCOLOR_DESC"] = "Colorar las barras por el clase de sus unidades, sin respecto al color seleccionado."
@@ -964,9 +1059,12 @@ L["STRING_OPTIONS_TEXTEDITOR_CANCEL"] = "Cancelar"
 L["STRING_OPTIONS_TEXTEDITOR_CANCEL_TOOLTIP"] = "Finaliza la edición e ignora cualquier cambio en el código."
 L["STRING_OPTIONS_TEXTEDITOR_COLOR_TOOLTIP"] = "Selecciona el texto y luego haga clic en el botón de color para cambiar el color del texto seleccionado."
 L["STRING_OPTIONS_TEXTEDITOR_COMMA"] = "Coma"
-L["STRING_OPTIONS_TEXTEDITOR_COMMA_TOOLTIP"] = "Agrega una función para formatear números, separándola con comas. Ejemplo: 1000000 a 1.000.000."
+L["STRING_OPTIONS_TEXTEDITOR_COMMA_TOOLTIP"] = [=[Agrega una función para formatear números, separándola con comas. Ejemplo: 1000000 a 1.000.000.
+
+]=]
 L["STRING_OPTIONS_TEXTEDITOR_DATA"] = "[Datos %s]"
-L["STRING_OPTIONS_TEXTEDITOR_DATA_TOOLTIP"] = "Agregar una fuente de datos:  |cFFFFFF00Dato 1|r: normalmente representa el total realizado por el actor o el número de puesto.  |cFFFFFF00Dato 2|r: en la mayoría de los casos representa el DPS, SPS o el nombre del jugador. |cFFFFFF00Dato 3|r: representa el porcentaje realizado por el actor, icono de especificación o facción."
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_TEXTEDITOR_DATA_TOOLTIP"] = ""--]] 
 L["STRING_OPTIONS_TEXTEDITOR_DONE"] = "Guardar"
 L["STRING_OPTIONS_TEXTEDITOR_DONE_TOOLTIP"] = "Terminar la edición y guardar el código."
 L["STRING_OPTIONS_TEXTEDITOR_FUNC"] = "Función"
@@ -998,7 +1096,9 @@ L["STRING_OPTIONS_TOOLTIPS_ANCHOR_TEXT"] = "Ancla de descripción"
 L["STRING_OPTIONS_TOOLTIPS_ANCHOR_TEXT_DESC"] = "Hacer clic derecho para bloquear."
 L["STRING_OPTIONS_TOOLTIPS_ANCHOR_TO"] = "Ancla"
 L["STRING_OPTIONS_TOOLTIPS_ANCHOR_TO_CHOOSE"] = "Mover punto de anclage"
-L["STRING_OPTIONS_TOOLTIPS_ANCHOR_TO_CHOOSE_DESC"] = "Mueve la posición de la ancla cuando esté configurado en |cFFFFFF00Punto en pantalla|r."
+L["STRING_OPTIONS_TOOLTIPS_ANCHOR_TO_CHOOSE_DESC"] = [=[Mueve la posición de la ancla cuando esté configurado en |cFFFFFF00Punto en pantalla|r.
+
+]=]
 L["STRING_OPTIONS_TOOLTIPS_ANCHOR_TO_DESC"] = "La información sobre herramientas se adjunta en la fila suspendida o en un punto elegido en la pantalla del juego."
 L["STRING_OPTIONS_TOOLTIPS_ANCHOR_TO1"] = "Fila de ventana"
 L["STRING_OPTIONS_TOOLTIPS_ANCHOR_TO2"] = "Punto en pantalla"
@@ -1018,7 +1118,8 @@ L["STRING_OPTIONS_TOOLTIPS_FONTSIZE_DESC"] = "Cambiar el tamaño del texto en la
 L["STRING_OPTIONS_TOOLTIPS_IGNORESUBWALLPAPER"] = "Fondo de pantalla del submenú"
 L["STRING_OPTIONS_TOOLTIPS_IGNORESUBWALLPAPER_DESC"] = "Cuando está habilitado, algunos menús pueden usar su propio fondo de pantalla en submenús."
 L["STRING_OPTIONS_TOOLTIPS_MAXIMIZE"] = "Maximizar método"
-L["STRING_OPTIONS_TOOLTIPS_MAXIMIZE_DESC"] = "Selecciona el método utilizado para expandir la información que se muestra en la información sobre herramientas. |cFFFFFF00 En teclas de control|r: el cuadro de información sobre herramientas se expande cuando se presionan las teclas Shift, Ctrl o Alt.  |cFFFFFF00 Siempre maximizado|r: la información sobre herramientas siempre muestra toda la información sin limitaciones de cantidad.  |cFFFFFF00 Solo Shift Block|r: el primer bloque en la información sobre herramientas siempre se expande por defecto.  |cFFFFFF00 Solo Ctrl Block|r: el segundo bloque siempre se expande por defecto.  |cFFFFFF00 Solo Alt Block|r: el tercer bloque siempre se expande por defecto."
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_TOOLTIPS_MAXIMIZE_DESC"] = ""--]] 
 L["STRING_OPTIONS_TOOLTIPS_MAXIMIZE1"] = "En Shift Ctrl Alt"
 L["STRING_OPTIONS_TOOLTIPS_MAXIMIZE2"] = "Siempre maximizado"
 L["STRING_OPTIONS_TOOLTIPS_MAXIMIZE3"] = "Solo Shift Block"
@@ -1036,7 +1137,8 @@ L["STRING_OPTIONS_TOOLTIPS_TITLE"] = "Descripciónes"
 L["STRING_OPTIONS_TOOLTIPS_TITLE_DESC"] = "Estas opciones te perimte personalizar la aparencia de las descripciónes."
 L["STRING_OPTIONS_TOTALBAR_ANCHOR"] = "Barra de total:"
 L["STRING_OPTIONS_TRASH_SUPPRESSION"] = "Supresión de bichos"
-L["STRING_OPTIONS_TRASH_SUPPRESSION_DESC"] = "Por |cFFFFFF00X|r segundos, suprimir el cambio automático para mostrar segmentos de bichos (|cFFFFFF00solo después de derrotar a un jefe|r)."
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_TRASH_SUPPRESSION_DESC"] = ""--]] 
 L["STRING_OPTIONS_WALLPAPER_ALPHA"] = "Opacidad:"
 L["STRING_OPTIONS_WALLPAPER_ANCHOR"] = "Fondo de pantalla:"
 L["STRING_OPTIONS_WALLPAPER_BLUE"] = "Azul:"
@@ -1071,7 +1173,11 @@ L["STRING_OPTIONS_WC_ANCHOR"] = "Control rápido de ventana (#%s):"
 L["STRING_OPTIONS_WC_BOOKMARK"] = "Administrar marcadores"
 L["STRING_OPTIONS_WC_BOOKMARK_DESC"] = "Abre el panel de configuración para marcadores."
 L["STRING_OPTIONS_WC_CLOSE"] = "Cerrar"
-L["STRING_OPTIONS_WC_CLOSE_DESC"] = "Cerrar esta ventana. Después de cerrar, la ventana convierte en inactivo y se puede mostrar de nuevo en cualquier momento por el uso del botón de ventana #. Para eliminar una ventana permanenemente, usar las opciones en la sección miscelánea."
+L["STRING_OPTIONS_WC_CLOSE_DESC"] = [=[Cerrar esta ventana.
+
+Después de cerrar, la ventana convierte en inactivo y se puede mostrar de nuevo en cualquier momento por el uso del botón de ventana #.
+
+Para eliminar una ventana permanenemente, usar las opciones en la sección miscelánea.]=]
 L["STRING_OPTIONS_WC_CREATE"] = "Crear ventana"
 L["STRING_OPTIONS_WC_CREATE_DESC"] = "Crear una nueva ventana."
 L["STRING_OPTIONS_WC_LOCK"] = "Bloquear"
@@ -1087,14 +1193,17 @@ L["STRING_OPTIONS_WINDOW_ANCHOR_ANCHORS"] = "Anclas:"
 L["STRING_OPTIONS_WINDOW_IGNOREMASSTOGGLE"] = "Ignorar alternar masa"
 L["STRING_OPTIONS_WINDOW_IGNOREMASSTOGGLE_DESC"] = "Cuando está habilitada, esta ventana no se ve afectada al ocultar, mostrar o alternar todas las ventanas."
 L["STRING_OPTIONS_WINDOW_SCALE"] = "Escala"
-L["STRING_OPTIONS_WINDOW_SCALE_DESC"] = "Ajusta la escala de la ventana. |cFFFFFF00Consejo|r: Haga clic derecho para escribir el valor. |cFFFFFF00Actual|r: %s"
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_WINDOW_SCALE_DESC"] = ""--]] 
 L["STRING_OPTIONS_WINDOW_TITLE"] = "Configuración de ventana"
 L["STRING_OPTIONS_WINDOW_TITLE_DESC"] = "Estas opciones se permiten personalizar la aparencia de la ventana seleccionada."
 L["STRING_OPTIONS_WINDOWSPEED"] = "Intervalo de actualización"
-L["STRING_OPTIONS_WINDOWSPEED_DESC"] = "Intervalo de tiempo entre cada actualización.  |cFFFFFF000.05|r: Actualización en tiempo real. |cFFFFFF000.3|r: actualizar aproximadamente 3 veces por segundo.  |cFFFFFF003.0|r: actualizar una vez cada 3 segundos."
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_WINDOWSPEED_DESC"] = ""--]] 
 L["STRING_OPTIONS_WP"] = "Configuración del fondo de pantalla"
 L["STRING_OPTIONS_WP_ALIGN"] = "Alineación"
-L["STRING_OPTIONS_WP_ALIGN_DESC"] = "Cómo se alineará el fondo de pantalla dentro de la ventana. - |cFFFFFF00Completo|r: redimensionar y alinear automáticamente con todas las esquinas.  - |cFFFFFF00Centro|r: no cambia el tamaño y se alinea con el centro de la ventana.  -|cFFFFFF00Estirar|r: cambiar el tamaño automáticamente en vertical u horizontal y alinear con los lados izquierdo-derecho o superior-inferior. -|cFFFFFF00Cuatro esquinas|r: alinearse con la esquina especificada, no se realiza el cambio de tamaño automático."
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_WP_ALIGN_DESC"] = ""--]] 
 L["STRING_OPTIONS_WP_DESC"] = "Estas opciones controlan el fondo de pantalla de la ventana."
 L["STRING_OPTIONS_WP_EDIT"] = "Editar imagen"
 L["STRING_OPTIONS_WP_EDIT_DESC"] = "Abre el editor de imágenes para cambiar algunos aspectos de la imagen seleccionada."
@@ -1112,7 +1221,8 @@ L["STRING_OPTIONSMENU_DATACOLLECT"] = "Recopilador de datos"
 L["STRING_OPTIONSMENU_DATAFEED"] = "Datos de entrada"
 L["STRING_OPTIONSMENU_DISPLAY"] = "Visualización"
 L["STRING_OPTIONSMENU_DISPLAY_DESC"] = "Ajustes básicos generales y control rápido de ventanas."
-L["STRING_OPTIONSMENU_LEFTMENU"] = "Barra de título: general"
+L["STRING_OPTIONSMENU_LEFTMENU"] = [=[Barra de título: general
+]=]
 L["STRING_OPTIONSMENU_MISC"] = "Misceláneo"
 L["STRING_OPTIONSMENU_PERFORMANCE"] = "Ajustes de rendimiento"
 L["STRING_OPTIONSMENU_PLUGINS"] = "Gestión de plugins"
@@ -1220,8 +1330,10 @@ L["STRING_RIGHTCLICK_CLOSE_LARGE"] = "Hacer clic con el botón derecho para cerr
 L["STRING_RIGHTCLICK_CLOSE_MEDIUM"] = "Hacer clic derecho para cerrar esta ventana."
 L["STRING_RIGHTCLICK_CLOSE_SHORT"] = "Clic derecho para cerrar."
 L["STRING_RIGHTCLICK_TYPEVALUE"] = "Hacer clic derecho para introducir el valor."
-L["STRING_SCORE_BEST"] = "Obtuviste |cFFFFFF00%s|r, este es su mejor puntaje, ¡felicidades!"
-L["STRING_SCORE_NOTBEST"] = "Obtuviste |cFFFFFF00%s|r, tu mejor puntaje es |cFFFFFF00%s|r en %s con nivel de objeto %d"
+--[[Translation missing --]]
+--[[ L["STRING_SCORE_BEST"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["STRING_SCORE_NOTBEST"] = ""--]] 
 L["STRING_SEE_BELOW"] = "vea abajo"
 L["STRING_SEGMENT"] = "Segmento"
 L["STRING_SEGMENT_EMPTY"] = "Este segmento está vacío."
@@ -1305,7 +1417,8 @@ L["STRING_VERSION_UPDATE"] = "Nueva versión: ¿qué se ha cambiado? Hacer clic 
 L["STRING_VOIDZONE_TOOLTIP"] = "Daño y duración:"
 L["STRING_WAITPLUGIN"] = "esperando para plugins"
 L["STRING_WAVE"] = "oleada"
-L["STRING_WELCOME_1"] = "|cFFFFFFFFBienvenido a Details! Asistente de configuración rápida|r Usa las flechas en la parte inferior derecha para navegar."
+--[[Translation missing --]]
+--[[ L["STRING_WELCOME_1"] = ""--]] 
 L["STRING_WELCOME_11"] = "si cambia de opinión, siempre puede modificar nuevamente a través del panel de opciones"
 L["STRING_WELCOME_12"] = "Cambiar la velocidad de acutalizaciones y animaciones. Si su computadora tiene menos de 2GB de memoria, se recomienda para reducir la cantidad de segmentos también."
 L["STRING_WELCOME_13"] = ""
@@ -1315,21 +1428,23 @@ L["STRING_WELCOME_16"] = "-"
 L["STRING_WELCOME_17"] = "-"
 L["STRING_WELCOME_2"] = "si cambia de opinión, siempre puede modificar nuevamente a través del panel de opciones"
 L["STRING_WELCOME_26"] = "Uso de la interfaz: estiramiento"
-L["STRING_WELCOME_27"] = "El botón resaltado es el Estiramiento. |cFFFFFF00Clic|r y d |cFFFFFF00¡arrastra hacia arriba!|r. Si la ventana está bloqueada, toda la barra de título se convierte en un botón de estiramiento."
+--[[Translation missing --]]
+--[[ L["STRING_WELCOME_27"] = ""--]] 
 L["STRING_WELCOME_28"] = "Usar la interfaz: Botón de ventana"
 L["STRING_WELCOME_29"] = [=[- El |cffffff00#numero|r en el botón de la ventana muestra |cffffff00cuál ventana|r.
 - El botón crea una |cffffff00nueva ventana|r al hacer clic.
 - El botón muestra un menú de las |cffffff00ventanas cerradas|r, que se puedan mostrar de nuevo en cualquier momento.]=]
 L["STRING_WELCOME_3"] = "Seleconniar un método de cálculo para DPS y HPS:"
 L["STRING_WELCOME_30"] = "Uso de la interfaz: marcadores"
-L["STRING_WELCOME_31"] = [=[|cFFFFFF00Clic derecho|r en cualquier lugar de la ventana muestra el panel |cFFFFAA00Marcador|r.  |cFFFFFF00Clic derecho de nuevo|r cierra el panel o elige otra pantalla si se hace clic en un icono.  |cFFFFFF00Clic derecho|r en la barra de título para abrir el panel 'Todas las pantallas'.  |TInterface\AddOns\Details\images\key_ctrl:14:30:0:0:64:64:0:64:0:40|t + haga clic derecho para cerrar la ventana.
-
-]=]
+--[[Translation missing --]]
+--[[ L["STRING_WELCOME_31"] = ""--]] 
 L["STRING_WELCOME_32"] = "Usar la interfaz: Agrupar ventanas"
 L["STRING_WELCOME_34"] = "Uso de la interfaz: Expandir información sobre herramientas"
 L["STRING_WELCOME_36"] = "Usar la interfaz: Plugins"
 L["STRING_WELCOME_38"] = "Listo para jugar!"
-L["STRING_WELCOME_39"] = "Muchas gracias por elegir Details! Comentarios e informes de errores son siempre bienvenidos.  |cFFFFAA00/details feedback|r"
+L["STRING_WELCOME_39"] = [=[Muchas gracias por elegir Detalles!
+
+Comentarios e informes de errores son siempre bienvenidos.]=]
 L["STRING_WELCOME_4"] = "Tiempo activo: "
 L["STRING_WELCOME_41"] = "Cambios de interfaz y memoria:"
 L["STRING_WELCOME_42"] = "Configuración de aparencia rapida"
@@ -1339,7 +1454,8 @@ L["STRING_WELCOME_45"] = "Para más opciones, ver a la ventana de configuración
 L["STRING_WELCOME_46"] = "-"
 L["STRING_WELCOME_5"] = "Tiempo efectivo: "
 L["STRING_WELCOME_57"] = "-"
-L["STRING_WELCOME_58"] = "Conjuntos predefinidos de configuraciones de apariencia. |cFFFFFF00Importante|r: Todos los ajustes se pueden modificar más adelante en el panel de opciones."
+--[[Translation missing --]]
+--[[ L["STRING_WELCOME_58"] = ""--]] 
 L["STRING_WELCOME_59"] = "-"
 L["STRING_WELCOME_6"] = "el temporizador de cada miembro de la banda se pone en espera si su actividad se detiene y vuelve a contar cuando se reanuda."
 L["STRING_WELCOME_60"] = "-"
@@ -1350,7 +1466,8 @@ L["STRING_WELCOME_64"] = "-"
 L["STRING_WELCOME_65"] = "¡Presiona el botón derecho!"
 L["STRING_WELCOME_66"] = "Arrastra una ventana cerca de otra para crear un grupo. Las ventanas agrupadas se estiran y cambian de tamaño juntas. También viven más felices como pareja."
 L["STRING_WELCOME_67"] = "Presione shift para expandir la información sobre herramientas del jugador para mostrar todos los hechizos utilizados. Ctrl para objetivos y Alt para mascotas."
-L["STRING_WELCOME_68"] = "Details! está infestada por una plaga llamada 'Plugins'. Están en todas partes y te ayudan con muchas tareas. Algunos ejemplos son: medidor de amenazas, análisis de dps, resumen de encuentros, creación de gráficos y más."
+--[[Translation missing --]]
+--[[ L["STRING_WELCOME_68"] = ""--]] 
 L["STRING_WELCOME_69"] = "Saltar"
 L["STRING_WELCOME_7"] = "utilizado para las clasificaciones, este método utiliza el tiempo de combate transcurrido para medir el DPS y el SPS de todos los miembros de la banda."
 L["STRING_WELCOME_70"] = "-"
