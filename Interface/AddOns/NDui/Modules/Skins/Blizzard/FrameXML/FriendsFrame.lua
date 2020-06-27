@@ -82,12 +82,8 @@ tinsert(C.defaultThemes, function()
 	BroadcastFrame:ClearAllPoints()
 	BroadcastFrame:SetPoint("TOPLEFT", FriendsFrame, "TOPRIGHT", 0, 0)
 
-	local function BroadcastButton_SetTexture(self)
-		self.BroadcastButton:SetNormalTexture("")
-		self.BroadcastButton:SetPushedTexture("")
-	end
-	hooksecurefunc(BroadcastFrame, "ShowFrame", BroadcastButton_SetTexture)
-	hooksecurefunc(BroadcastFrame, "HideFrame", BroadcastButton_SetTexture)
+	hooksecurefunc(BroadcastFrame, "ShowFrame", B.CleanTextures)
+	hooksecurefunc(BroadcastFrame, "HideFrame", B.CleanTextures)
 
 	local UnavailableInfoFrame = FriendsFrameBattlenetFrame.UnavailableInfoFrame
 	B.ReskinFrame(UnavailableInfoFrame)

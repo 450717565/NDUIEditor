@@ -1663,9 +1663,10 @@ do
 
 		local RewardFrame = self.RewardAnimations.RewardFrame
 		RewardFrame.NameFrame:SetAlpha(0)
-		RewardFrame.IconBorder:SetAlpha(0)
 
 		local icbg = B.ReskinIcon(RewardFrame.Icon)
+		B.ReskinBorder(RewardFrame.IconBorder, icbg)
+
 		local Label = RewardFrame.Label
 		Label:ClearAllPoints()
 		Label:SetPoint("LEFT", icbg, "RIGHT", 6, 10)

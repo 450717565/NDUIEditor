@@ -277,9 +277,9 @@ function applyData()
 
 		local zonecolor = DB.GreyColor
 		if UnitInRaid(name) or UnitInParty(name) then
-			zonecolor = "|cff4c4cff"
+			zonecolor = "|cff00FFFF"
 		elseif GetRealZoneText() == zone then
-			zonecolor = "|cff4cff4c"
+			zonecolor = "|cff00FF00"
 		end
 		frames[i].zone:SetText(zonecolor..zone)
 	end

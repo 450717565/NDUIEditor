@@ -10,20 +10,29 @@ tinsert(C.defaultThemes, function()
 	B.ReskinInput(TradePlayerInputMoneyFrameCopper)
 
 	TradeFrame.RecipientOverlay:Hide()
-	TradePlayerEnchantInset:Hide()
-	TradePlayerInputMoneyInset:Hide()
-	TradePlayerItemsInset:Hide()
-	TradeRecipientEnchantInset:Hide()
-	TradeRecipientItemsInset:Hide()
-	TradeRecipientMoneyInset:Hide()
-
 	TradeRecipientMoneyBg:Hide()
+
+	TradePlayerInputMoneyFrameSilver:ClearAllPoints()
 	TradePlayerInputMoneyFrameSilver:SetPoint("LEFT", TradePlayerInputMoneyFrameGold, "RIGHT", 1, 0)
+	TradePlayerInputMoneyFrameCopper:ClearAllPoints()
 	TradePlayerInputMoneyFrameCopper:SetPoint("LEFT", TradePlayerInputMoneyFrameSilver, "RIGHT", 1, 0)
 
+	local insets = {TradePlayerEnchantInset, TradePlayerInputMoneyInset ,TradePlayerItemsInset, TradeRecipientEnchantInset, TradeRecipientItemsInset, TradeRecipientMoneyInset, TradeRecipientMoneyBg}
+	for _, inset in pairs(insets) do
+		inset:Hide()
+	end
+
+	local highlights = {TradeHighlightPlayer, TradeHighlightPlayerEnchant, TradeHighlightRecipient, TradeHighlightRecipientEnchant}
+	for _, highlight in pairs(highlights) do
+		B.StripTextures(highlight)
+
+		local bg = B.CreateBDFrame(highlight, .25, nil, true)
+		bg:SetBackdropColor(0, 1, 0, .25)
+		bg:SetBackdropBorderColor(0, 1, 0, 1)
+	end
+
 	local function reskinButton(bu)
-		bu:SetNormalTexture("")
-		bu:SetPushedTexture("")
+		B.CleanTextures(bu)
 
 		local icbg = B.ReskinIcon(bu.icon)
 		B.ReskinHighlight(bu, icbg)

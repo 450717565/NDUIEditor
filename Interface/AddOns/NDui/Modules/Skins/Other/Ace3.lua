@@ -91,7 +91,7 @@ function S:Ace3_RegisterAsWidget(widget)
 		B.StripTextures(highlight)
 		B.ReskinHighlight(highlight, bdTex, true)
 		highlight.SetTexture = B.Dummy
-	elseif TYPE == "Dropdown" then
+	elseif TYPE == "Dropdown" or TYPE == "LQDropdown" then
 		local button = widget.button
 		B.ReskinArrow(button, "down")
 		button:SetSize(20, 20)
@@ -333,8 +333,10 @@ do -- Early Skin Loading
 		["AceGUI"] = true,
 	}
 
-	local LibStub = _G.LibStub
 	local numEnding = "%-[%d%.]+$"
+	local LibStub = _G.LibStub
+	if not LibStub then return end
+
 	function S:LibStub_NewLib(major, minor)
 		local earlyLoad = major == "ElvUI"
 		if earlyLoad then major = minor end

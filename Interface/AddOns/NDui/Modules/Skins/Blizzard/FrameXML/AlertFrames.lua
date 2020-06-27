@@ -264,7 +264,7 @@ tinsert(C.defaultThemes, function()
 			if not frame.bg then
 				frame.bg = B.CreateBG(frame, 12, -13, -12, 10)
 
-				frame.IconBorder:Hide()
+				frame.IconBorder:SetTexture("")
 				frame.Background:SetTexture("")
 				frame.shine:SetTexture("")
 				frame.glow:SetTexture("")

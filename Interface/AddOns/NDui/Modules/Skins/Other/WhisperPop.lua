@@ -26,8 +26,7 @@ function S:WhisperPop()
 	local buttons = {"WhisperPopFrameConfig", "WhisperPopNotifyButton"}
 	for _, button in pairs(buttons) do
 		local bu = _G[button]
-		bu:SetNormalTexture("")
-		bu:SetPushedTexture("")
+		B.CleanTextures(bu)
 
 		local ic = _G[button.."Icon"]
 
