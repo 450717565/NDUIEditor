@@ -782,7 +782,7 @@ function module:OnLogin()
 		end
 
 		if item.questID or item.isQuestItem then
-			self.bg:SetBackdropBorderColor(.8, .8, 0)
+			self.bg:SetBackdropBorderColor(1, 1, 0)
 		elseif item.rarity and item.rarity > 0 then
 			local r, g, b = GetItemQualityColor(item.rarity or 1)
 			self.bg:SetBackdropBorderColor(r, g, b)

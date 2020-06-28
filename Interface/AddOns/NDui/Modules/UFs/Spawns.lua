@@ -328,8 +328,8 @@ function UF:OnLogin()
 			local partyHeight = NDuiDB["UFs"]["PartyHeight"]
 			local partyPowerHeight = NDuiDB["UFs"]["PartyPowerHeight"]
 			local moverWidth = partyWidth
-			local moverHeight = (partyHeight+partyPowerHeight+B.Scale(3)+10)*(showPlayer and 5 or 4)-10
-			local partyYOffset = partyPowerHeight+B.Scale(3)+10
+			local moverHeight = (partyHeight+partyPowerHeight+B.Scale(DB.Space)+10)*(showPlayer and 5 or 4)-10
+			local partyYOffset = partyPowerHeight+B.Scale(DB.Space)+10
 
 			local party = oUF:SpawnHeader("oUF_Party", nil, "solo,party",
 			"showPlayer", showPlayer,
@@ -360,8 +360,8 @@ function UF:OnLogin()
 				local petHeight = NDuiDB["UFs"]["PartyPetHeight"]
 				local petPowerHeight = NDuiDB["UFs"]["PartyPetPowerHeight"]
 				local petMoverWidth = petWidth
-				local petMoverHeight = (petHeight+petPowerHeight+B.Scale(3)+10)*(showPlayer and 5 or 4)-10
-				local petYOffset = petPowerHeight+B.Scale(3)+10
+				local petMoverHeight = (petHeight+petPowerHeight+B.Scale(DB.Space)+10)*(showPlayer and 5 or 4)-10
+				local petYOffset = petPowerHeight+B.Scale(DB.Space)+10
 
 				local partyPet = oUF:SpawnHeader("oUF_PartyPet", nil, "solo,party",
 				"showPlayer", true,
@@ -397,7 +397,7 @@ function UF:OnLogin()
 		local raidPowerHeight = NDuiDB["UFs"]["RaidPowerHeight"]
 		local reverseRaid = NDuiDB["UFs"]["ReverseRaid"]
 		local showTeamIndex = NDuiDB["UFs"]["ShowTeamIndex"]
-		local raidYOffset = raidPowerHeight+B.Scale(3)+5
+		local raidYOffset = raidPowerHeight+B.Scale(DB.Space)+5
 		if NDuiDB["UFs"]["SimpleMode"] then
 			local unitsPerColumn = NDuiDB["UFs"]["SMUnitsPerColumn"]
 			local maxColumns = B.Round(numGroups*5 / unitsPerColumn)
@@ -438,7 +438,7 @@ function UF:OnLogin()
 
 			local group = CreateGroup("oUF_Raid", groupFilter)
 			local moverWidth = 100*raidScale*maxColumns + 5*(maxColumns-1)
-			local moverHeight = (20*raidScale+2*raidScale+B.Scale(3))*unitsPerColumn + 5*(unitsPerColumn-1)
+			local moverHeight = (20*raidScale+2*raidScale+B.Scale(DB.Space))*unitsPerColumn + 5*(unitsPerColumn-1)
 			raidMover = B.Mover(group, L["RaidFrame"], "RaidFrame", {"TOPLEFT", UIParent, 35, -50}, moverWidth, moverHeight)
 
 			local groupByTypes = {
@@ -479,7 +479,7 @@ function UF:OnLogin()
 			end
 
 			local groups = {}
-			local raidMoverHeight = raidHeight + raidPowerHeight + B.Scale(3)
+			local raidMoverHeight = raidHeight + raidPowerHeight + B.Scale(DB.Space)
 			for i = 1, numGroups do
 				groups[i] = CreateGroup("oUF_Raid"..i, i)
 				if i == 1 then

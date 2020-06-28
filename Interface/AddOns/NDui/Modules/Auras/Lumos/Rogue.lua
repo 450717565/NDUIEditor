@@ -14,7 +14,7 @@ local diceSpells = {
 }
 
 function A:PostCreateLumos(self)
-	local iconMargin = 2
+	local iconMargin = B.Scale(DB.Space)
 	local iconSize = (self:GetWidth() - (iconMargin*5 - C.mult*2))/6
 	local buttons = {}
 	for i = 1, 6 do
@@ -23,7 +23,7 @@ function A:PostCreateLumos(self)
 		bu.Text = B.CreateFS(bu, 14, diceSpells[i].text, false, "TOP", 1, 12)
 		B.AuraIcon(bu)
 		if i == 1 then
-			bu:SetPoint("BOTTOMLEFT", oUF_ClassPowerBar, "TOPLEFT", -C.mult, 3)
+			bu:SetPoint("BOTTOMLEFT", oUF_ClassPowerBar, "TOPLEFT", -C.mult, DB.Space)
 		else
 			bu:SetPoint("LEFT", buttons[i-1], "RIGHT", iconMargin, 0)
 		end

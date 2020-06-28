@@ -699,7 +699,7 @@ function UF:UpdateTargetClassPower()
 		bar:SetParent(playerPlate.Health)
 		bar:SetScale(1)
 		bar:ClearAllPoints()
-		bar:SetPoint("BOTTOMLEFT", playerPlate.Health, "TOPLEFT", 0, 3)
+		bar:SetPoint("BOTTOMLEFT", playerPlate.Health, "TOPLEFT", 0, DB.Space)
 		bar:Show()
 	end
 end
@@ -766,7 +766,7 @@ end
 function UF:ResizePlayerPlate()
 	local plate = _G.oUF_PlayerPlate
 	if plate then
-		local iconSize, iconMargin = NDuiDB["Nameplate"]["PPIconSize"], B.Scale(3)
+		local iconSize, iconMargin = NDuiDB["Nameplate"]["PPIconSize"], B.Scale(DB.Space)
 		local height = NDuiDB["Nameplate"]["PPHeight"]
 		local cpHeight = NDuiDB["Nameplate"]["PPCPHeight"]
 		plate:SetSize(iconSize*5 + iconMargin*4 - C.mult*2, height)
@@ -787,7 +787,7 @@ function UF:ResizePlayerPlate()
 			end
 		end
 		if plate.dices then
-			plate.dices[1]:Point("BOTTOMLEFT", plate.ClassPower, "TOPLEFT", 0, 3)
+			plate.dices[1]:Point("BOTTOMLEFT", plate.ClassPower, "TOPLEFT", 0, DB.Space)
 		end
 	end
 end
@@ -795,7 +795,7 @@ end
 function UF:CreatePlayerPlate()
 	self.mystyle = "PlayerPlate"
 	self:EnableMouse(false)
-	local iconSize, iconMargin = NDuiDB["Nameplate"]["PPIconSize"], B.Scale(3)
+	local iconSize, iconMargin = NDuiDB["Nameplate"]["PPIconSize"], B.Scale(DB.Space)
 	local height = NDuiDB["Nameplate"]["PPHeight"]
 	self:SetSize(iconSize*5 + iconMargin*4 - C.mult*2, height)
 

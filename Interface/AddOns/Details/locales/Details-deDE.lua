@@ -84,6 +84,8 @@ L["STRING_CLICK_REPORT_LINE2"] = "|cFFFFCC22Shift+Click|r: |cFFFFEE00Fenstermodu
 L["STRING_CLOSEALL"] = "Alle Details!-Fenster sind geschlossen, schreibe '/details show', um sie wieder zu öffnen."
 L["STRING_COLOR"] = "Farbe"
 L["STRING_COMMAND_LIST"] = "Befehlsliste"
+--[[Translation missing --]]
+--[[ L["STRING_CONTEXT"] = ""--]] 
 L["STRING_COOLTIP_NOOPTIONS"] = "Keine Optionen"
 L["STRING_CREATEAURA"] = "Aura erstellen"
 L["STRING_CRITICAL_HITS"] = "Kritische Treffer"
@@ -289,6 +291,8 @@ L["STRING_INFO_TUTORIAL_COMPARISON1"] = "Klicke auf den |cFFFFDD00Vergleichen|r-
 L["STRING_INSTANCE_CHAT"] = "Instanzchat"
 L["STRING_INSTANCE_LIMIT"] = "Maximale Fensteranzahl erreicht. Dieses Limit kann in den Optionen geändert werden. Geschlossene Fenster können via (#) Fenstermenü wieder angezeigt werden."
 L["STRING_INTERFACE_OPENOPTIONS"] = "Konfigurationsmenü öffnen"
+--[[Translation missing --]]
+--[[ L["STRING_INVERT_RULE"] = ""--]] 
 L["STRING_ISA_PET"] = "Dies ist ein Begleiter"
 L["STRING_KEYBIND_BOOKMARK"] = "Lesezeichen"
 L["STRING_KEYBIND_BOOKMARK_NUMBER"] = "Lesezeichen #%s"
@@ -593,7 +597,6 @@ L["STRING_OPTIONS_CMISC_DESC"] = [=[Aktiviert die Erfassung von:
 L["STRING_OPTIONS_COLORANDALPHA"] = "Farbe & Transparenz"
 L["STRING_OPTIONS_COLORFIXED"] = "Festgelegte Farbe"
 L["STRING_OPTIONS_COMBAT_ALPHA"] = "Wann?"
-L["STRING_OPTIONS_COMBAT_ALPHA_1"] = "Niemals"
 L["STRING_OPTIONS_COMBAT_ALPHA_2"] = "Innerhalb eines Kampfes"
 L["STRING_OPTIONS_COMBAT_ALPHA_3"] = "Außerhalb eines Kampfes"
 L["STRING_OPTIONS_COMBAT_ALPHA_4"] = "Außerhalb einer Gruppe"
@@ -601,6 +604,8 @@ L["STRING_OPTIONS_COMBAT_ALPHA_5"] = "Außerhalb einer Instanz"
 L["STRING_OPTIONS_COMBAT_ALPHA_6"] = "Innerhalb einer Instanz"
 L["STRING_OPTIONS_COMBAT_ALPHA_7"] = "Fehler beseitgen im Schlachtzug"
 L["STRING_OPTIONS_COMBAT_ALPHA_8"] = "auf dem Schlachtfeld"
+--[[Translation missing --]]
+--[[ L["STRING_OPTIONS_COMBAT_ALPHA_9"] = ""--]] 
 L["STRING_OPTIONS_COMBAT_ALPHA_DESC"] = [=[Wähle, wie ein Kampf die Fenstertransparenz beeinflussen soll.
 
 |cFFFFFF00Keine Änderung|r: Transparenz unverändert.

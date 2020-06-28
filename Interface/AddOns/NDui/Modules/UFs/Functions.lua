@@ -265,8 +265,8 @@ function UF:CreatePowerBar(self)
 	local specialStyle = mystyle == "raid" or mystyle == "party"
 
 	local power = CreateFrame("StatusBar", nil, self)
-	power:Point("TOPLEFT", self, "BOTTOMLEFT", 0, -3)
-	power:Point("TOPRIGHT", self, "BOTTOMRIGHT", 0, -3)
+	power:Point("TOPLEFT", self, "BOTTOMLEFT", 0, -DB.Space)
+	power:Point("TOPRIGHT", self, "BOTTOMRIGHT", 0, -DB.Space)
 	power:SetFrameLevel(self:GetFrameLevel() - 2)
 	B.SmoothBar(power)
 	B.CreateSB(power)
@@ -439,7 +439,7 @@ function UF:CreateRaidMark(self)
 end
 
 local function createBarMover(bar, text, value, anchor)
-	local mover = B.Mover(bar, text, value, anchor, bar:GetHeight()+bar:GetWidth()+B.Scale(3), bar:GetHeight())
+	local mover = B.Mover(bar, text, value, anchor, bar:GetHeight()+bar:GetWidth()+B.Scale(DB.Space), bar:GetHeight())
 	bar:ClearAllPoints()
 	bar:SetPoint("RIGHT", mover)
 	bar.mover = mover
@@ -464,8 +464,8 @@ function UF:CreateCastBar(self)
 		createBarMover(cb, L["Focus Castbar"], "FocusCB", C.UFs.Focuscb)
 	elseif mystyle == "boss" or mystyle == "arena" then
 		cb:ClearAllPoints()
-		cb:Point("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -3)
-		cb:Point("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, -3)
+		cb:Point("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -DB.Space)
+		cb:Point("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, -DB.Space)
 		cb:SetHeight(10)
 	elseif mystyle == "nameplate" then
 		cb:ClearAllPoints()
@@ -482,7 +482,7 @@ function UF:CreateCastBar(self)
 	if mystyle ~= "boss" and mystyle ~= "arena" then
 		cb.Icon = cb:CreateTexture(nil, "ARTWORK")
 		cb.Icon:SetSize(cb:GetHeight(), cb:GetHeight())
-		cb.Icon:Point("RIGHT", cb, "LEFT", -3, 0)
+		cb.Icon:Point("RIGHT", cb, "LEFT", -DB.Space, 0)
 		B.ReskinIcon(cb.Icon)
 	end
 
@@ -799,11 +799,11 @@ function UF:CreateBuffs(self)
 	bu["growth-x"] = "RIGHT"
 	bu["growth-y"] = "UP"
 	bu.onlyShowPlayer = false
-	bu:SetPoint("BOTTOMLEFT", self.AlternativePower, "TOPLEFT", 0, 3)
+	bu:SetPoint("BOTTOMLEFT", self.AlternativePower, "TOPLEFT", 0, DB.Space)
 	bu.initialAnchor = "BOTTOMLEFT"
 
 	if self.mystyle == "arena" then
-		bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 3)
+		bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, DB.Space)
 		bu.CustomFilter = UF.CustomFilter
 	end
 
@@ -832,7 +832,7 @@ function UF:CreateDebuffs(self)
 	elseif mystyle == "boss" or mystyle == "arena" then
 		bu:SetPoint("TOPRIGHT", self, "TOPLEFT", -5, 0)
 		bu.num = 10
-		bu.size = self:GetHeight()+self.Power:GetHeight()+B.Scale(3)
+		bu.size = self:GetHeight()+self.Power:GetHeight()+B.Scale(DB.Space)
 		bu.CustomFilter = UF.CustomFilter
 		bu["growth-y"] = "UP"
 	elseif mystyle == "tot" then
@@ -928,7 +928,7 @@ function UF.PostUpdateRunes(element, runemap)
 end
 
 function UF:CreateClassPower(self)
-	barMargin = B.Scale(3)
+	barMargin = B.Scale(DB.Space)
 	barWidth, barHeight = self:GetWidth()*.6, self.Power:GetHeight()
 	if self.mystyle == "PlayerPlate" then
 		barWidth, barHeight = self:GetWidth(), NDuiDB["Nameplate"]["PPCPHeight"]
@@ -936,7 +936,7 @@ function UF:CreateClassPower(self)
 
 	local bar = CreateFrame("Frame", "oUF_ClassPowerBar", self.Health)
 	bar:SetSize(barWidth, barHeight)
-	bar:Point("BOTTOMLEFT", self, "TOPLEFT", 0, 3)
+	bar:Point("BOTTOMLEFT", self, "TOPLEFT", 0, DB.Space)
 
 	local bars = {}
 	for i = 1, 6 do
@@ -944,6 +944,7 @@ function UF:CreateClassPower(self)
 		bars[i]:SetHeight(barHeight)
 		bars[i]:SetWidth((barWidth - 5*barMargin) / 6)
 		bars[i]:SetFrameLevel(self:GetFrameLevel() + 5)
+		B.CreateSB(bars[i])
 
 		if i == 1 then
 			bars[i]:SetPoint("LEFT")
@@ -957,11 +958,9 @@ function UF:CreateClassPower(self)
 
 		if NDuiDB["Nameplate"]["ShowPlayerPlate"] then
 			bars[i].glow = CreateFrame("Frame", nil, bars[i])
-			bars[i].glow:SetPoint("TOPLEFT", -3, 2)
-			bars[i].glow:SetPoint("BOTTOMRIGHT", 3, -2)
+			bars[i].glow:SetOutside(bars[i].bd, 3)
 		end
 
-		B.CreateSB(bars[i])
 		bars[i].bg.multiplier = .25
 	end
 
@@ -986,7 +985,7 @@ function UF:StaggerBar(self)
 
 	local stagger = CreateFrame("StatusBar", nil, self.Health)
 	stagger:SetSize(width, height)
-	stagger:Point("BOTTOMLEFT", self, "TOPLEFT", 0, 3)
+	stagger:Point("BOTTOMLEFT", self, "TOPLEFT", 0, DB.Space)
 	stagger:SetFrameLevel(self:GetFrameLevel() + 5)
 	B.SmoothBar(stagger)
 	B.CreateSB(stagger)
@@ -1012,8 +1011,8 @@ end
 
 function UF:CreateAltPower(self)
 	local bar = CreateFrame("StatusBar", nil, self)
-	bar:Point("BOTTOMLEFT", self, "TOPLEFT", 0, 3)
-	bar:Point("BOTTOMRIGHT", self, "TOPRIGHT", 0, 3)
+	bar:Point("BOTTOMLEFT", self, "TOPLEFT", 0, DB.Space)
+	bar:Point("BOTTOMRIGHT", self, "TOPRIGHT", 0, DB.Space)
 	bar:SetHeight(self.Power:GetHeight())
 	B.CreateSB(bar)
 
@@ -1119,8 +1118,8 @@ end
 
 function UF:CreateAddPower(self)
 	local bar = CreateFrame("StatusBar", nil, self)
-	bar:Point("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -3)
-	bar:Point("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, -3)
+	bar:Point("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -DB.Space)
+	bar:Point("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, -DB.Space)
 	bar:SetHeight(self.Power:GetHeight())
 	B.SmoothBar(bar)
 	B.CreateSB(bar)
@@ -1169,8 +1168,8 @@ function UF:CreateSwing(self)
 
 	local off = CreateFrame("StatusBar", nil, bar)
 	off:Hide()
-	off:Point("TOPLEFT", bar, "BOTTOMLEFT", 0, -3)
-	off:Point("TOPRIGHT", bar, "BOTTOMRIGHT", 0, -3)
+	off:Point("TOPLEFT", bar, "BOTTOMLEFT", 0, -DB.Space)
+	off:Point("TOPRIGHT", bar, "BOTTOMRIGHT", 0, -DB.Space)
 	off:SetHeight(3)
 	B.CreateSB(off, true)
 
