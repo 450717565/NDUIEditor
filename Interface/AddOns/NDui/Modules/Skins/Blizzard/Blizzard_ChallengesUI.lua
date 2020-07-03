@@ -17,6 +17,7 @@ C.themes["Blizzard_ChallengesUI"] = function()
 
 				DungeonIcon.styled = true
 			end
+
 			if i == 1 then
 				self.DungeonIcons[i]:ClearAllPoints()
 				self.DungeonIcons[i]:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", B.Scale(2), B.Scale(2))

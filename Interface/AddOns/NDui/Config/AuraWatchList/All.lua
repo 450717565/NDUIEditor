@@ -230,7 +230,7 @@ local list = {
 		{AuraID = 295354, UnitID = "player"},	-- 净化冲击
 	-- 腐蚀
 		{AuraID = 315573, UnitID = "player"},	-- 须臾洞察
-		{AuraID = 316801, UnitID = "player"},	-- 不可言喻的真相
+		{AuraID = 316801, UnitID = "player", Flash = true},	-- 不可言喻的真相
 		{AuraID = 318216, UnitID = "player"},	-- 磨砺心灵
 		{AuraID = 318227, UnitID = "player"},	-- 急速脉搏
 		{AuraID = 316823, UnitID = "player"},	-- 虚空仪式
@@ -309,8 +309,11 @@ local list = {
 		{AuraID = 315161, UnitID = "player"},	-- 腐化之眼
 		{AuraID = 319695, UnitID = "player", Flash = true},	-- 壮美幻象
 	-- 5人本
-		{AuraID = 268007, UnitID = "player", Flash = true},	--心脏打击
-		{AuraID = 266238, UnitID = "player", Flash = true},	--粉碎防御
+		{AuraID = 265085, UnitID = "player", Text = L["Crit"]},	-- 暴击啤酒，自由镇
+		{AuraID = 265056, UnitID = "player", Text = L["Haste"]},	-- 急速啤酒，自由镇
+		{AuraID = 278467, UnitID = "player", Text = ITEM_MOD_CORRUPTION, Flash = true},	-- 腐蚀啤酒，自由镇
+		{AuraID = 268007, UnitID = "player", Flash = true},	-- 心脏打击
+		{AuraID = 266238, UnitID = "player", Flash = true},	-- 粉碎防御
 		{AuraID = 311390, UnitID = "player", Flash = true},	-- 疯狂：昆虫恐惧症，幻象
 		{AuraID = 306583, UnitID = "player"},	-- 灌铅脚步
 		{AuraID = 314478, UnitID = "player"},	-- 倾泻恐惧

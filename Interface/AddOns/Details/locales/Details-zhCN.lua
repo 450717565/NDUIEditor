@@ -84,8 +84,7 @@ L["STRING_CLICK_REPORT_LINE2"] = "|cFFFFCC22Shift+点击|r：|cFFFFEE00窗口模
 L["STRING_CLOSEALL"] = "所有Details窗口已关闭，输入'/details show'来重新打开。"
 L["STRING_COLOR"] = "颜色"
 L["STRING_COMMAND_LIST"] = "命令列表"
---[[Translation missing --]]
---[[ L["STRING_CONTEXT"] = ""--]] 
+L["STRING_CONTEXT"] = "环境"
 L["STRING_COOLTIP_NOOPTIONS"] = "无选项"
 L["STRING_CREATEAURA"] = "创建一个wa监视"
 L["STRING_CRITICAL_HITS"] = "致命一击"
@@ -284,8 +283,7 @@ L["STRING_INFO_TUTORIAL_COMPARISON1"] = "点击 |cFFFFDD00比较|r 标签来比�
 L["STRING_INSTANCE_CHAT"] = "副本频道"
 L["STRING_INSTANCE_LIMIT"] = "最大窗口数量已经达到，你可以在选项面板修改这个限制。你也可以重新打开关闭的窗口 通过 (#) 窗口菜单。"
 L["STRING_INTERFACE_OPENOPTIONS"] = "打开选项面板"
---[[Translation missing --]]
---[[ L["STRING_INVERT_RULE"] = ""--]] 
+L["STRING_INVERT_RULE"] = "反转规则"
 L["STRING_ISA_PET"] = "这个角色是一个宠物"
 L["STRING_KEYBIND_BOOKMARK"] = "书签"
 L["STRING_KEYBIND_BOOKMARK_NUMBER"] = "书签#%s"
@@ -360,9 +358,9 @@ L["STRING_MODE_SELF"] = "插件：单刷"
 L["STRING_MORE_INFO"] = "详情请见右箱。"
 L["STRING_MULTISTRIKE"] = "溅射"
 L["STRING_MULTISTRIKE_HITS"] = "溅射命中"
-L["STRING_MUSIC_DETAILS_ROBERTOCARLOS"] = [=[尝试遗忘是徒劳的
-我会存在于你的大部分生命里
-Details是我们的一小部分]=]
+L["STRING_MUSIC_DETAILS_ROBERTOCARLOS"] = [=[There's no use trying to forget
+For a long time in your life I will live
+Details as small of us]=]
 L["STRING_NEWROW"] = "等待刷新..."
 L["STRING_NEWS_REINSTALL"] = "更新后发现问题? 尝试 '/details reinstall' 命令."
 L["STRING_NEWS_TITLE"] = "最近更新"
@@ -574,8 +572,7 @@ L["STRING_OPTIONS_COMBAT_ALPHA_5"] = "不在副本内"
 L["STRING_OPTIONS_COMBAT_ALPHA_6"] = "在副本内"
 L["STRING_OPTIONS_COMBAT_ALPHA_7"] = "团队副本测试"
 L["STRING_OPTIONS_COMBAT_ALPHA_8"] = "战场内"
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_COMBAT_ALPHA_9"] = ""--]] 
+L["STRING_OPTIONS_COMBAT_ALPHA_9"] = "在史诗钥石地下城中"
 L["STRING_OPTIONS_COMBAT_ALPHA_DESC"] = [=[选择战斗状态如何影响窗口透明度。
 |cFFFFFF00没变化|r：不修改透明度。
 |cFFFFFF00当在战斗|r：当角色进入战斗时，所选的Alpha将应用于窗口

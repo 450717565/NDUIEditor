@@ -1561,8 +1561,7 @@ L["STRING_TOTAL"] = "총량"
 L["STRING_TRANSLATE_LANGUAGE"] = "Details의 번역을 도와주세요!"
 L["STRING_TUTORIAL_FULLY_DELETE_WINDOW"] = [=[창을 닫았지만 언제든 다시 열수 있습니다.
 창을 완전히 삭제하려면 옵션 -> 창: 일반 -> 삭제 항목을 찾아보세요.]=]
---[[Translation missing --]]
---[[ L["STRING_TUTORIAL_OVERALL1"] = ""--]] 
+L["STRING_TUTORIAL_OVERALL1"] = "전체 데이터는 전투가 완료되었을 때만 업데이트되며, 정기적으로 업데이트하려면 제목 표시줄을 마우스 오른쪽 단추로 클릭하고 '전체 데이터 동적'을 선택하십시오."
 L["STRING_UNKNOW"] = "알 수 없음"
 L["STRING_UNKNOWSPELL"] = "알 수 없는 주문"
 L["STRING_UNLOCK"] = [=[이 버튼으로

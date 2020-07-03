@@ -451,8 +451,7 @@ C.themes["Blizzard_Collections"] = function()
 
 	-- Edit Frame
 	B.ReskinFrame(WardrobeOutfitEditFrame)
-	B.StripTextures(WardrobeOutfitEditFrame.EditBox)
-	B.CreateBDFrame(WardrobeOutfitEditFrame.EditBox,.25)
+	B.ReskinInput(WardrobeOutfitEditFrame.EditBox)
 	B.ReskinButton(WardrobeOutfitEditFrame.AcceptButton)
 	B.ReskinButton(WardrobeOutfitEditFrame.CancelButton)
 	B.ReskinButton(WardrobeOutfitEditFrame.DeleteButton)

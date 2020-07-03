@@ -20,6 +20,6 @@ C.themes["Blizzard_BarbershopUI"] = function()
 	end
 
 	-- [[ Banner frame ]]
-	B.StripTextures(BarberShopBannerFrame)
+	B.StripTextures(BarberShopBannerFrame, 0)
 	B.CreateBG(BarberShopBannerFrame, 25, -80, -20, 75)
 end

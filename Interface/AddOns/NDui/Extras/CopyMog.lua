@@ -58,7 +58,7 @@ local function CreateGearFrame()
 	editBox:SetHeight(scrollArea:GetHeight())
 	editBox:SetScript("OnEscapePressed", function() gearFrame:Hide() end)
 	scrollArea:SetScrollChild(editBox)
-	gearFrame.editBox = editBox
+	gearFrame.EditBox = editBox
 end
 
 local function GenerateSource(sourceID, sourceType, itemModID, itemQuality)
@@ -100,16 +100,33 @@ local function GenerateSource(sourceID, sourceType, itemModID, itemQuality)
 	return sourceTextColorized
 end
 
+local function GetIllusionSource(sourceID)
+	local _, name = C_TransmogCollection.GetIllusionSourceInfo(sourceID)
+	local sourceText = ""
+	name = format(TRANSMOGRIFIED_ENCHANT, name)
+
+	local illusionList = C_TransmogCollection.GetIllusions()
+	for i = 1, #illusionList do
+		local info = illusionList[i]
+		if info.sourceID == sourceID and info.sourceText then
+			sourceText = info.sourceText
+			break
+		end
+	end
+
+	return name, sourceText
+end
+
 local function GetSourceInfo(sourceID)
 	local sourceInfo = C_TransmogCollection.GetSourceInfo(sourceID)
-	local isHideVisual = sourceInfo.isHideVisual
 	local sourceType = sourceInfo.sourceType
 	local itemModID = sourceInfo.itemModID
 	local itemID = sourceInfo.itemID
 	local itemName = sourceInfo.name
 	local itemQuality = sourceInfo.quality
+	local isHideVisual = sourceInfo.isHideVisual
 
-	return isHideVisual, sourceType, itemModID, itemID, itemName, itemQuality
+	return sourceType, itemModID, itemID, itemName, itemQuality, isHideVisual
 end
 
 local function GetInspectSources()
@@ -121,20 +138,28 @@ local function GetInspectSources()
 	for i = 1, #appearanceSources do
 		local sourceID = appearanceSources[i]
 		if sourceID and sourceID ~= NO_TRANSMOG_SOURCE_ID then
-			local isHideVisual, sourceType, itemModID, itemID, itemName, itemQuality = GetSourceInfo(sourceID)
-			if not isHideVisual then
-				local sourceTextColorized = GenerateSource(sourceID, sourceType, itemModID, itemQuality)
-				ItemList[i] = {itemName, sourceTextColorized}
-			end
+			local sourceType, itemModID, itemID, itemName, itemQuality = GetSourceInfo(sourceID)
+			local sourceTextColorized = GenerateSource(sourceID, sourceType, itemModID, itemQuality)
+			table.insert(ItemList, {["SlotID"] = i, ["Name"] = itemName, ["Source"] = sourceTextColorized})
 		end
+	end
+
+	if mainHandEnchant > 0 then
+		local illusionName, sourceText = GetIllusionSource(mainHandEnchant)
+		table.insert(ItemList, {["SlotID"] = 16, ["Name"] = illusionName, ["Source"] = sourceText})
+	end
+
+	if offHandEnchant > 0 then
+		local illusionName, sourceText = GetIllusionSource(offHandEnchant)
+		table.insert(ItemList, {["SlotID"] = 17, ["Name"] = illusionName, ["Source"] = sourceText})
 	end
 end
 
-local function GetSlotVisualID(slotId)
+local function GetSlotVisualID(slotId, type)
 	if slotId == 2 or slotId == 18 or (slotId > 10 and slotId < 15) then
 		return -1, -1
 	end
-	local baseSourceID, baseVisualID, appliedSourceID, appliedVisualID, _, _, _, hideVisual = C_Transmog.GetSlotVisualInfo(slotId, 0)
+	local baseSourceID, baseVisualID, appliedSourceID, appliedVisualID, _, _, _, hideVisual = C_Transmog.GetSlotVisualInfo(slotId, type)
 	if ( hideVisual ) then
 		return 0, 0
 	elseif ( appliedSourceID == NO_TRANSMOG_SOURCE_ID ) then
@@ -148,46 +173,53 @@ local function GetPlayerSources()
 	wipe(ItemList)
 
 	for slotId = 1, 19 do
-		local appliedSourceID, appliedVisualID = GetSlotVisualID(slotId)
+		local appliedSourceID, appliedVisualID = GetSlotVisualID(slotId, LE_TRANSMOG_TYPE_APPEARANCE)
 		if appliedVisualID > 0 and appliedSourceID and appliedSourceID ~= NO_TRANSMOG_SOURCE_ID then
-			local isHideVisual, sourceType, itemModID, itemID, itemName, itemQuality = GetSourceInfo(appliedSourceID)
-			if not isHideVisual then
-				local sourceTextColorized = GenerateSource(appliedSourceID, sourceType, itemModID, itemQuality)
-				ItemList[slotId] = {itemName, sourceTextColorized}
-			end
+			local sourceType, itemModID, itemID, itemName, itemQuality = GetSourceInfo(appliedSourceID)
+			local sourceTextColorized = GenerateSource(appliedSourceID, sourceType, itemModID, itemQuality)
+			table.insert(ItemList, {["SlotID"] = slotId, ["Name"] = itemName, ["Source"] = sourceTextColorized})
 		end
+	end
+
+	local mainHandEnchant = GetSlotVisualID(16, LE_TRANSMOG_TYPE_ILLUSION)
+	if mainHandEnchant > 0 then
+		local illusionName, sourceText = GetIllusionSource(mainHandEnchant)
+		table.insert(ItemList, {["SlotID"] = 16, ["Name"] = illusionName, ["Source"] = sourceText})
+	end
+
+	local offHandEnchant = GetSlotVisualID(17, LE_TRANSMOG_TYPE_ILLUSION)
+	if offHandEnchant > 0 then
+		local illusionName, sourceText = GetIllusionSource(offHandEnchant)
+		table.insert(ItemList, {["SlotID"] = 17, ["Name"] = illusionName, ["Source"] = sourceText})
 	end
 end
 
 local function CopyTexts()
 	local texts = ""
 
-	for slotId = 1, 19 do
-		local info = ItemList[slotId]
-		if info then
-			if info[1] and info[1] ~= "" then
-				texts = texts.."|cffFFFF00"..SlotIDtoName[slotId][2]..":|r "..info[1]
-				if info[2] and info[2] ~= "" then
-					texts = texts.." |cffFF0000(|r|cff00FFFF"..info[2].."|r|cffFF0000)|r"
-				end
-				texts = texts.."\n"
+	for _, info in ipairs(ItemList) do
+		if info.Name and info.Name ~= "" then
+			texts = texts.."|cffFFFF00"..SlotIDtoName[info.SlotID][2]..":|r "..info.Name
+			if info.Source and info.Source ~= "" then
+				texts = texts.." |cffFF0000(|r|cff00FFFF"..info.Source.."|r|cffFF0000)|r"
 			end
+			texts = texts.."\n"
 		end
 	end
 
-	gearFrame.editBox:SetText(strtrim(texts))
-	gearFrame.editBox:HighlightText()
+	gearFrame.EditBox:SetText(strtrim(texts))
+	gearFrame.EditBox:HighlightText()
 end
 
 local function SetupPlayerButton(event)
-	local button = B.CreateButton(CharacterFrame, 50, 20, TRANSMOGRIFY)
-	button:SetPoint("BOTTOMRIGHT", -5, 5)
+	local button = B.CreateButton(PaperDollFrame, 50, 20, TRANSMOGRIFY)
+	button:SetPoint("BOTTOMRIGHT", -6, 5)
 	button:SetScript("OnClick", function()
 		CreateGearFrame()
 		GetPlayerSources()
 		CopyTexts()
 	end)
-	CharacterFrame.CopyButton = button
+	PaperDollFrame.CopyButton = button
 
 	B:UnregisterEvent(event, SetupPlayerButton)
 end
@@ -197,7 +229,7 @@ local function SetupInspectButton(event, addon)
 	if addon ~= "Blizzard_InspectUI" then return end
 
 	local button = B.CreateButton(InspectPaperDollFrame, 50, 20, TRANSMOGRIFY)
-	button:SetPoint("BOTTOMRIGHT", -5, 5)
+	button:SetPoint("BOTTOMRIGHT", -6, 5)
 	button:SetScript("OnClick", function()
 		CreateGearFrame()
 		GetInspectSources()

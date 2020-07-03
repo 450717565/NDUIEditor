@@ -4,6 +4,7 @@
 	<Include file="AuctionCorruption.lua"/>
 	<Include file="ChatAtFriends.lua"/>
 	<Include file="ChatEmote.lua"/>
+	<Include file="CopyMog.lua"/>
 	<Include file="DressUp.lua"/>
 	<Include file="FixTransmogOutfits.lua"/>
 	<Include file="KeystoneHelper.lua"/>
@@ -12,5 +13,4 @@
 	<Include file="MogAssistant.lua"/>
 	<Include file="MountSources.lua"/>
 	<Include file="TrainAll.lua"/>
-	<Include file="TransmogSources.lua"/>
 </Ui>

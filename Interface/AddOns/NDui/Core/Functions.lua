@@ -9,7 +9,10 @@ local min, max, floor, rad = math.min, math.max, math.floor, math.rad
 -- FrameName
 do
 	function B:GetFrameName()
-		return (self.GetName and self:GetName()) or (self.GetDebugName and self:GetDebugName())
+		if not self then return end
+
+		local name = (self.GetName and self:GetName()) or (self.GetDebugName and self:GetDebugName())
+		return name
 	end
 end
 

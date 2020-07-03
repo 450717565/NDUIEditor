@@ -515,8 +515,7 @@ L["STRING_OPTIONS_COMBAT_ALPHA_5"] = "Mientras no dentro de la estancia"
 L["STRING_OPTIONS_COMBAT_ALPHA_6"] = "Mientras dentro de la estancia"
 L["STRING_OPTIONS_COMBAT_ALPHA_7"] = "Debug de banda"
 L["STRING_OPTIONS_COMBAT_ALPHA_8"] = "En campo de batalla"
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_COMBAT_ALPHA_9"] = ""--]] 
+L["STRING_OPTIONS_COMBAT_ALPHA_9"] = "En mítico+"
 L["STRING_OPTIONS_COMBAT_ALPHA_DESC"] = "Escgoer como se afecta la opacidad de la ventana por combate. |cFFFFFF00Ningún|r: La opacidad no se afecta por combate. |cFFFFFF00En combate|r: La opacidad espicificada se aplica a la ventana mientras el combate. |cFFFFFF00Fuera de combate|r: La opacidad espicificada se aplica a la ventana fuera del combate. |cFFFFFF00Sin grupo|r: La opacidad espicificada se aplica a la ventana cuando no está en un grupo o banda. |cFFFFFF00Importante|r Esta opción se anula la opacidad especificada por la opción Opacidad automáticamente."
 L["STRING_OPTIONS_COMBATTWEEKS"] = "Cambios para combate"
 L["STRING_OPTIONS_COMBATTWEEKS_DESC"] = "Cambiar como se funciona Detailles con algunos aspectos de combate."

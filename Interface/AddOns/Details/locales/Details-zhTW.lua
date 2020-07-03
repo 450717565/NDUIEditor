@@ -84,8 +84,7 @@ L["STRING_CLICK_REPORT_LINE2"] = "|cFFFFCC22Shift+左鍵|r: |cFFFFEE00視窗模�
 L["STRING_CLOSEALL"] = "所有視窗都已關閉，可以輸入 '/details show' 重新開啟視窗。"
 L["STRING_COLOR"] = "顏色"
 L["STRING_COMMAND_LIST"] = "指令列表"
---[[Translation missing --]]
---[[ L["STRING_CONTEXT"] = ""--]] 
+L["STRING_CONTEXT"] = "環境"
 L["STRING_COOLTIP_NOOPTIONS"] = "沒有選項"
 L["STRING_CREATEAURA"] = "建立提醒效果"
 L["STRING_CRITICAL_HITS"] = "致命一擊"
@@ -291,8 +290,7 @@ L["STRING_INFO_TUTORIAL_COMPARISON1"] = "點一下 |cFFFFDD00比較|r 標籤頁�
 L["STRING_INSTANCE_CHAT"] = "副本頻道"
 L["STRING_INSTANCE_LIMIT"] = "已達視窗數量的上限，可以在選項設定中更改上限，也可以從 (#) 視窗選項重新開啟已關閉的視窗。"
 L["STRING_INTERFACE_OPENOPTIONS"] = "開啟設定選項"
---[[Translation missing --]]
---[[ L["STRING_INVERT_RULE"] = ""--]] 
+L["STRING_INVERT_RULE"] = "反轉規則"
 L["STRING_ISA_PET"] = "這是寵物"
 L["STRING_KEYBIND_BOOKMARK"] = "書籤"
 L["STRING_KEYBIND_BOOKMARK_NUMBER"] = "書籤 #%s"
@@ -602,8 +600,7 @@ L["STRING_OPTIONS_COMBAT_ALPHA_5"] = "當不在副本時"
 L["STRING_OPTIONS_COMBAT_ALPHA_6"] = "當在副本時"
 L["STRING_OPTIONS_COMBAT_ALPHA_7"] = "團隊除錯"
 L["STRING_OPTIONS_COMBAT_ALPHA_8"] = "戰場內"
---[[Translation missing --]]
---[[ L["STRING_OPTIONS_COMBAT_ALPHA_9"] = ""--]] 
+L["STRING_OPTIONS_COMBAT_ALPHA_9"] = "在傳奇+"
 L["STRING_OPTIONS_COMBAT_ALPHA_DESC"] = [=[選擇戰鬥時的視窗透明度
 
 |cFFFFFF00不變|r: 不修改透明度。

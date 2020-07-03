@@ -92,6 +92,7 @@ local function ReskinWA()
 	local function loadFunc(event, addon)
 		if addon == "WeakAurasOptions" then
 			hooksecurefunc(WeakAuras, "CreateFrame", ReskinWAOptions)
+
 			B:UnregisterEvent(event, loadFunc)
 		end
 	end
