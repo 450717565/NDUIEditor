@@ -26,6 +26,7 @@ function Extras.KH_CheckKeystone(link)
 end
 
 function Extras:KH_OnTooltipSetItem()
+	local showIt = false
 	local _, link = self:GetItem()
 
 	if Extras.KH_CheckLink(link) then
@@ -37,7 +38,11 @@ function Extras:KH_OnTooltipSetItem()
 			self:AddLine(" ")
 			self:AddLine(strformat(L["Mythic & Weekly Loot"], DB.MyColor..mlvl.."|r", DB.MyColor..wlvl.."|r"))
 		end
+
+		showIt = true
 	end
+
+	if showIt then self:Show() end
 end
 
 function Extras:KeystoneHelper()

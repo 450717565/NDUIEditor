@@ -164,15 +164,6 @@ do
 	frame:SetPoint("BOTTOMLEFT", ChatFrame1Tab, "TOPRIGHT", 20, 20)  --這裡調整位置
 	B.CreateFS(frame, 15, L["Chat Emote"], true, "TOPLEFT", 12, -12)
 
-	function Extras:ChatEmote()
-		B.CreateMF(frame)
-		B.CreateBG(frame)
-
-		local closeBTN = B.CreateButton(frame, 20, 20, "X")
-		closeBTN:SetPoint("TOPRIGHT", -10, -10)
-		closeBTN:SetScript("OnClick", function(self) frame:Hide() end)
-	end
-
 	for _, v in pairs(emotes) do
 		button = CreateFrame("Button", nil, frame)
 		button.emote = "{"..(v[locale] or v.key).."}"
@@ -203,6 +194,15 @@ do
 			frame:Show()
 		end
 	end)
+
+	function Extras:ChatEmote()
+		B.CreateMF(frame)
+		B.CreateBG(frame)
+
+		local closeBTN = B.CreateButton(frame, 20, 20, "X")
+		closeBTN:SetPoint("TOPRIGHT", -10, -10)
+		closeBTN:SetScript("OnClick", function(self) frame:Hide() end)
+	end
 end
 
 ------------------------

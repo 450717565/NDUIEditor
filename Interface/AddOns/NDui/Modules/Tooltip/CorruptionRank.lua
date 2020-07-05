@@ -281,7 +281,7 @@ function TT:Corruption_InspectSummary()
 	TT:Corruption_AddSummary()
 
 	local inspectFrameT = InspectFrame.inspectFrame
-	local inspectFrameP = InspectFrame.inspectFrame.inspectFrame
+	local inspectFrameP = inspectFrameT.inspectFrame
 	if inspectFrameP and inspectFrameP:IsShown() then
 		GameTooltip:ClearAllPoints()
 		GameTooltip:SetPoint("TOPLEFT", inspectFrameP, "TOPRIGHT", 3, 0)

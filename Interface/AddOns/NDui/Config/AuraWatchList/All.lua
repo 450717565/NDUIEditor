@@ -245,8 +245,9 @@ local list = {
 		{AuraID = 60234, UnitID = "player"},	-- 智力
 	},
 	["Raid Buff"] = { -- 团队增益组
-	-- 大幻象
+	-- 其他
 		{AuraID = 313698, UnitID = "player", Flash = true},	-- 泰坦之赐
+		{AuraID = 291937, UnitID = "player", Flash = true},	-- 垃圾掩体
 	-- 急速增益
 		{AuraID = 2825, UnitID = "player", Flash = true},	--嗜血
 		{AuraID = 32182, UnitID = "player", Flash = true},	--英勇
@@ -362,7 +363,6 @@ local list = {
 		{AuraID = 302274, UnitID = "player"},	-- 爆裂冲击
 		{AuraID = 298669, UnitID = "player"},	-- 跳电
 		{AuraID = 294929, UnitID = "player"},	-- 烈焰撕咬
-		{AuraID = 291937, UnitID = "player", Flash = true},	-- 垃圾掩体
 		{AuraID = 259533, UnitID = "player", Flash = true},	-- 艾泽里特催化剂，暴富
 	-- 尼奥罗萨
 		-- 黑龙帝王拉希奥

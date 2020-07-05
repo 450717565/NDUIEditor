@@ -22,6 +22,7 @@ function Extras:OnLogin()
 	self:InstanceAutoMarke()
 	self:InstanceDifficulty()
 	self:InstanceReset()
+	self:IllusionsCheck()
 	self:KeystoneHelper()
 	self:MountSource()
 end

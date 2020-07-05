@@ -4,7 +4,6 @@
 -------------------------------------
 
 local B, C, L, DB = unpack(select(2, ...))
-local Extras = B:GetModule("Extras")
 
 --職業顔色值
 local LOCAL_CLASS_INFO = {}
