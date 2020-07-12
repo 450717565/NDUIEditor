@@ -183,6 +183,8 @@ function UF:CreateHealthText(self)
 		self:Tag(name, "[nplv][name]")
 	elseif mystyle == "arena" then
 		self:Tag(name, "[arenaspec] [color][name]")
+	elseif mystyle == "raid" and NDuiDB["UFs"]["SimpleMode"] and NDuiDB["UFs"]["ShowTeamIndex"] then
+		self:Tag(name, "[group].[color][name]")
 	else
 		self:Tag(name, "[color][name]")
 	end
@@ -316,8 +318,15 @@ function UF:CreatePowerText(self)
 	ppval:SetScale(NDuiDB["UFs"]["UFTextScale"])
 	self:Tag(ppval, "[color][power]")
 
-	if self.mystyle == "raid" then
+	local mystyle = self.mystyle
+	if mystyle == "raid" then
 		ppval:SetScale(NDuiDB["UFs"]["RaidTextScale"])
+	elseif mystyle == "player" or mystyle == "target" then
+		ppval:SetPoint("RIGHT", -3, NDuiDB["UFs"]["PlayerPowerOffset"])
+	elseif mystyle == "focus" then
+		ppval:SetPoint("RIGHT", -3, NDuiDB["UFs"]["FocusPowerOffset"])
+	elseif mystyle == "boss" then
+		ppval:SetPoint("RIGHT", -3, NDuiDB["UFs"]["BossPowerOffset"])
 	end
 
 	self.powerText = ppval

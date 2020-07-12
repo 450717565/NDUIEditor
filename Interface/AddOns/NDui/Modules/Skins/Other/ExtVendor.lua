@@ -16,7 +16,13 @@ function S:ExtVendor()
 	B.ReskinPushed(MerchantFrameSellJunkButton, icbg)
 
 	for i = 13, 20 do
-		B.ReskinMerchantItem(i)
+		local item = _G["MerchantItem"..i]
+		B.ReskinMerchantItem(item)
+
+		for j = 1, 3 do
+			local texture = _G["MerchantItem"..i.."AltCurrencyFrameItem"..j.."Texture"]
+			B.ReskinIcon(texture)
+		end
 	end
 
 	hooksecurefunc("ExtVendor_UpdateMerchantInfo", B.UpdateMerchantInfo)

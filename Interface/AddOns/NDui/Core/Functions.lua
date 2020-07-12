@@ -624,7 +624,7 @@ do
 
 		local ga = self:CreateTexture(nil, "BACKGROUND")
 		ga:SetAllPoints()
-		ga:SetTexture(DB.normTex)
+		ga:SetTexture(DB.bdTex)
 		ga:SetGradientAlpha(d, r, g, b, a1, r, g, b, a2)
 	end
 
@@ -1064,7 +1064,7 @@ do
 
 	-- Handle scrollframe
 	function B:ReskinScroll()
-		B.StripTextures(self)
+		B.StripTextures(self, 0)
 		B.CleanTextures(self)
 
 		local parent = self:GetParent()
@@ -1102,7 +1102,7 @@ do
 
 	-- Handle dropdown
 	function B:ReskinDropDown()
-		B.StripTextures(self)
+		B.StripTextures(self, 0)
 		B.CleanTextures(self)
 
 		local frameName = B.GetFrameName(self)
@@ -1116,7 +1116,8 @@ do
 
 		local bg = B.CreateBDFrame(self, 0)
 		bg:ClearAllPoints()
-		bg:Point("TOPLEFT", self, "TOPLEFT", 16, -4)
+		bg:Point("LEFT", self, "LEFT", 16, 0)
+		bg:Point("TOP", button, "TOP", 0, 0)
 		bg:Point("BOTTOMRIGHT", button, "BOTTOMLEFT", -2, 0)
 
 		for _, key in pairs(textWords) do
@@ -1140,7 +1141,7 @@ do
 			self:Point(a1, p, a2, x, y)
 		end
 
-		B.StripTextures(self)
+		B.StripTextures(self, 0)
 
 		B.ReskinButton(self)
 		SetupDisTex(self)
@@ -1158,7 +1159,7 @@ do
 	end
 
 	function B:ReskinDecline()
-		B.StripTextures(self)
+		B.StripTextures(self, 0)
 
 		B.ReskinButton(self)
 
@@ -1204,7 +1205,7 @@ do
 	function B:ReskinArrow(direction)
 		self:SetSize(18, 18)
 
-		B.StripTextures(self)
+		B.StripTextures(self, 0)
 
 		B.ReskinButton(self)
 		B.SetupArrowTex(self, direction)
@@ -1213,7 +1214,7 @@ do
 
 	-- Handle filter
 	function B:ReskinFilter()
-		B.StripTextures(self)
+		B.StripTextures(self, 0)
 
 		B.ReskinButton(self)
 
@@ -1237,7 +1238,7 @@ do
 	function B:ReskinNavBar()
 		if self.styled then return end
 
-		B.StripTextures(self)
+		B.StripTextures(self, 0)
 		B.CleanTextures(self)
 		self.overlay:Hide()
 
@@ -1282,7 +1283,7 @@ do
 	end)
 
 	function B:ReskinRadio()
-		B.StripTextures(self)
+		B.StripTextures(self, 0)
 		B.CleanTextures(self)
 
 		local bdTex = B.CreateBDFrame(self, 0, -2)
@@ -1353,7 +1354,7 @@ do
 	end
 
 	function B:ReskinExpandOrCollapse()
-		B.StripTextures(self)
+		B.StripTextures(self, 0)
 		B.CleanTextures(self)
 
 		local bdTex = B.CreateBDFrame(self, 0)
@@ -1378,7 +1379,7 @@ do
 		for _, name in pairs({"MaximizeButton", "MinimizeButton"}) do
 			local button = self[name]
 			if button then
-				B.StripTextures(self)
+				B.StripTextures(self, 0)
 				B.CleanTextures(self)
 
 				B.ReskinButton(button)
@@ -1585,7 +1586,7 @@ do
 		for _, key in pairs({"Header", "header"}) do
 			local frameHeader = self[key] or (frameName and _G[frameName..key])
 			if frameHeader then
-				B.StripTextures(frameHeader)
+				B.StripTextures(frameHeader, 0)
 
 				frameHeader:ClearAllPoints()
 				frameHeader:SetPoint("TOP", bg, "TOP", 0, 5)
@@ -1616,48 +1617,45 @@ do
 		end
 	end
 
-	function B.ReskinMerchantItem(index)
-		local frame = "MerchantItem"..index
+	function B:ReskinMerchantItem()
+		B.StripTextures(self, 0)
 
-		local item = _G[frame]
-		B.StripTextures(item)
-
-		local button = _G[frame.."ItemButton"]
+		local button = self.ItemButton
 		B.StripTextures(button)
 
 		local icbg = B.ReskinIcon(button.icon)
 		B.ReskinHighlight(button, icbg)
 		B.ReskinBorder(button.IconBorder, icbg)
+		button.IconOverlay:SetInside(icbg)
 
-		local count = _G[frame.."ItemButtonCount"]
+		local frameName = B.GetFrameName(self)
+		local count = _G[frameName.."ItemButtonCount"]
 		count:SetJustifyH("RIGHT")
 		count:ClearAllPoints()
 		count:SetPoint("BOTTOMRIGHT", icbg, "BOTTOMRIGHT", -1, 1)
 
-		local stock = _G[frame.."ItemButtonStock"]
+		local stock = _G[frameName.."ItemButtonStock"]
 		stock:SetJustifyH("RIGHT")
 		stock:ClearAllPoints()
 		stock:SetPoint("TOPRIGHT", icbg, "TOPRIGHT", -1, -1)
 
-		local name = _G[frame.."Name"]
+		local name = _G[frameName.."Name"]
 		name:SetWordWrap(false)
 		name:SetJustifyH("LEFT")
 		name:ClearAllPoints()
 		name:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 4, 2)
 
-		local money = _G[frame.."MoneyFrame"]
+		local money = _G[frameName.."MoneyFrame"]
 		money:ClearAllPoints()
 		money:SetPoint("BOTTOMLEFT", icbg, "BOTTOMRIGHT", 4, 2)
 
-		for i = 1, 3 do
-			B.ReskinIcon(_G[frame.."AltCurrencyFrameItem"..i.."Texture"])
-		end
+		self.icbg = icbg
 	end
 
 	function B:ReskinPartyPoseUI()
 		B.ReskinFrame(self)
 		B.ReskinButton(self.LeaveButton)
-		B.StripTextures(self.ModelScene)
+		B.StripTextures(self.ModelScene, 0)
 		B.CreateBDFrame(self.ModelScene, 0)
 
 		self.OverlayElements.Topper:Hide()
@@ -1689,8 +1687,8 @@ do
 		B.ReskinIcon(ItemSlot.Icon)
 
 		local ButtonFrame = self.ButtonFrame
+		B.StripTextures(ButtonFrame, 0)
 		ButtonFrame.MoneyFrameEdge:SetAlpha(0)
-		B.StripTextures(ButtonFrame)
 
 		local bubg = B.CreateBDFrame(ButtonFrame, 0)
 		bubg:Point("TOPLEFT", ButtonFrame.MoneyFrameEdge, 2, 0)
@@ -1718,7 +1716,7 @@ do
 		local results = self.searchResults
 		results:ClearAllPoints()
 		results:Point("BOTTOMLEFT", self, "BOTTOMRIGHT", 50, 0)
-		B.StripTextures(results)
+		B.StripTextures(results, 0)
 		B.CleanTextures(results)
 		B.CreateBG(results, -10, 0, 0, 0)
 
@@ -2016,6 +2014,13 @@ do
 		self:ClearFocus()
 	end
 
+	local function resetSliderValue(self)
+		local slider = self.__owner
+		if slider.__default then
+			slider:SetValue(slider.__default)
+		end
+	end
+
 	function B:CreateSlider(name, minValue, maxValue, step, x, y, width)
 		local slider = CreateFrame("Slider", nil, self, "OptionsSliderTemplate")
 		slider:ClearAllPoints()
@@ -2043,6 +2048,11 @@ do
 		slider.value:SetJustifyH("CENTER")
 		slider.value.__owner = slider
 		slider.value:SetScript("OnEnterPressed", updateSliderEditBox)
+
+		slider.clicker = CreateFrame("Button", nil, slider)
+		slider.clicker:SetAllPoints(slider.Text)
+		slider.clicker.__owner = slider
+		slider.clicker:SetScript("OnDoubleClick", resetSliderValue)
 
 		return slider
 	end

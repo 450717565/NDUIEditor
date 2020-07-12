@@ -4,6 +4,8 @@
 	<Script file="BigWigs.lua"/>
 	<Script file="BuyEmAll.lua"/>
 	<Script file="ClassicQuestLog.lua"/>
+	<Script file="CompactVendor.lua"/>
+	<Script file="CompactVendorFilter.lua"/>
 	<Script file="DeadlyBossMods.lua"/>
 	<Script file="Details.lua"/>
 	<Script file="DungeonWatchDog.lua"/>

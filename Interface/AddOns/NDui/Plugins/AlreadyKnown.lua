@@ -156,9 +156,7 @@ local function Hook_GuildBankUpdate()
 end
 
 local hookCount = 0
-local f = CreateFrame("Frame")
-f:RegisterEvent("ADDON_LOADED")
-f:SetScript("OnEvent", function(_, event, addon)
+local function loadFunc(event, addon)
 	if addon == "Blizzard_AuctionHouseUI" then
 		hooksecurefunc(AuctionHouseFrame.BrowseResultsFrame.ItemList, "RefreshScrollFrame", Hook_UpdateAuctionHouse)
 		hookCount = hookCount + 1
@@ -168,6 +166,7 @@ f:SetScript("OnEvent", function(_, event, addon)
 	end
 
 	if hookCount >= 2 then
-		f:UnregisterEvent(event)
+		B:UnregisterEvent(event)
 	end
-end)
+end
+B:RegisterEvent("ADDON_LOADED", loadFunc)

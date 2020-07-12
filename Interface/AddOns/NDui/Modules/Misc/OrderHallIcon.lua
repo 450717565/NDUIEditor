@@ -23,7 +23,7 @@ local eventList = {
 
 local OrderHall_Frame = CreateFrame("Frame")
 OrderHall_Frame:RegisterEvent("ADDON_LOADED")
-OrderHall_Frame:SetScript("OnEvent", function(self, event, arg1)
+OrderHall_Frame:SetScript("OnEvent", function(_, event, arg1)
 	if event == "ADDON_LOADED" and arg1 == "Blizzard_OrderHallUI" then
 		for _, event in pairs(eventList) do
 			OrderHall_Frame:RegisterEvent(event)

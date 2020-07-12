@@ -913,16 +913,15 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		end
 	end
 
-	local f = CreateFrame("Frame")
-	f:RegisterEvent("ADDON_LOADED")
-	f:SetScript("OnEvent", function(_, event, addon)
+	local function loadFunc(event, addon)
 		if addon == "GarrisonMissionManager" then
 			for _, frame in pairs({GarrisonMissionFrame, OrderHallMissionFrame, BFAMissionFrame}) do
 				hooksecurefunc(frame.MissionTab.MissionList, "Update", buttonOnUpdate)
 				frame.MissionTab.MissionPage:HookScript("OnShow", buttonOnShow)
 			end
 
-			f:UnregisterEvent(event)
+			B:UnregisterEvent(event)
 		end
-	end)
+	end
+	B:RegisterEvent("ADDON_LOADED", loadFunc)
 end

@@ -94,13 +94,20 @@ local questlist = {
 	{name = L["Blingtron"], id = 34774},
 	{name = L["Mean One"], id = 6983},
 	{name = L["Timewarped"], id = 40168, texture = 1129674},	-- TBC
-	{name = L["Timewarped"], id = 40173, texture = 1129686},	-- WotLK
-	{name = L["Timewarped"], id = 40786, texture = 1304688},	-- Cata
-	{name = L["Timewarped"], id = 45563, texture = 1530590},	-- MoP
-	{name = L["Timewarped"], id = 55499, texture = 1129683},	-- WoD
+	{name = L["Timewarped"], id = 40173, texture = 1129686},	-- WLK
+	{name = L["Timewarped"], id = 40786, texture = 1304688},	-- CTM
+	{name = L["Timewarped"], id = 45563, texture = 1530590},	-- MOP
+	{name = L["Timewarped"], id = 55499, texture = 1129683},	-- WOD
+
+	{name = L["Assault 1"], id = 57157},	-- 突袭：黑暗帝国（奥丹姆）
+	{name = L["Assault 4"], id = 56308},	-- 突袭：亚基重现（奥丹姆）
+	{name = L["Assault 5"], id = 55350},	-- 突袭：阿玛赛特进军（奥丹姆）
+	{name = L["Assault 1"], id = 56064},	-- 突袭：黑暗帝国（锦绣谷）
+	{name = L["Assault 2"], id = 57008},	-- 突袭：战争氏族（锦绣谷）
+	{name = L["Assault 3"], id = 57728},	-- 突袭：无尽虫群（锦绣谷）
 }
 
-local visionList = { 58151, 58155, 58156, 58167, 58168 }
+local visionList = {58151, 58155, 58156, 58167, 58168}
 
 -- Check Invasion Status
 local region = GetCVar("portal")

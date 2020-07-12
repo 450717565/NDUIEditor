@@ -245,6 +245,7 @@ end
 
 -- 格式化货币数值
 do
+
 	hooksecurefunc("AltCurrencyFrame_Update", function(frameName, texture, cost)
 		local button = _G[frameName]
 		button:SetText(B.FormatNumb(cost))
@@ -285,9 +286,9 @@ do
 			index = offset + i
 			count = select(6, GetCurrencyListInfo(index))
 
-			local bu = buttons[i]
-			if not bu.isHeader and count then
-				bu.count:SetText(B.FormatNumb(count))
+			local button = buttons[i]
+			if not button.isHeader and count then
+				button.count:SetText(B.FormatNumb(count))
 			end
 		end
 	end

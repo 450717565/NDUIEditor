@@ -17,29 +17,17 @@ tinsert(C.defaultThemes, function()
 	end
 
 	for i = 1, BUYBACK_ITEMS_PER_PAGE do
-		B.ReskinMerchantItem(i)
+		local item = _G["MerchantItem"..i]
+		B.ReskinMerchantItem(item)
+
+		for j = 1, 3 do
+			local texture = _G["MerchantItem"..i.."AltCurrencyFrameItem"..j.."Texture"]
+			B.ReskinIcon(texture)
+		end
 	end
 
-	local backIC = B.ReskinIcon(MerchantBuyBackItemItemButtonIconTexture)
-
-	local backBU = MerchantBuyBackItemItemButton
-	B.StripTextures(backBU)
-	B.ReskinHighlight(backBU, backIC)
-	backBU.IconBorder:SetAlpha(0)
-
-	local backIT = MerchantBuyBackItem
-	B.StripTextures(backIT)
-
-	local itemBG = B.CreateBGFrame(backIT, 2, 0, 0, 0, backIC)
-
-	local backName = MerchantBuyBackItemName
-	backName:SetWordWrap(false)
-	backName:ClearAllPoints()
-	backName:SetPoint("TOPLEFT", itemBG, "TOPLEFT", 2, 4)
-
-	local backMoney = MerchantBuyBackItemMoneyFrame
-	backMoney:ClearAllPoints()
-	backMoney:SetPoint("BOTTOMLEFT", itemBG, "BOTTOMLEFT", 2, 2)
+	B.ReskinMerchantItem(MerchantBuyBackItem)
+	--B.CreateBGFrame(MerchantBuyBackItem, 2, 0, 0, 0, MerchantBuyBackItem.icbg)
 
 	local RepairItem = MerchantRepairItemButton:GetRegions()
 	RepairItem:SetTexture("Interface\\Icons\\INV_Hammer_17")
@@ -80,22 +68,18 @@ tinsert(C.defaultThemes, function()
 
 	hooksecurefunc("MerchantFrame_UpdateCurrencies", function()
 		local token = "MerchantToken"
-		local currencies = {GetMerchantCurrencies()}
 
-		if #currencies ~= 0 then
-			local numCurrencies = #currencies
-			for index = 1, numCurrencies do
-				local tokenButton = _G[token..index]
-				if tokenButton and not tokenButton.styled then
-					B.ReskinIcon(tokenButton.icon)
+		for index = 1, MAX_MERCHANT_CURRENCIES do
+			local tokenButton = _G[token..index]
+			if tokenButton and not tokenButton.styled then
+				B.ReskinIcon(tokenButton.icon)
 
-					if index > 1 then
-						tokenButton:ClearAllPoints()
-						tokenButton:SetPoint("RIGHT", _G[token..(index-1)], "LEFT", -10, 0)
-					end
-
-					tokenButton.styled = true
+				if index > 1 then
+					tokenButton:ClearAllPoints()
+					tokenButton:SetPoint("RIGHT", _G[token..(index-1)], "LEFT", -10, 0)
 				end
+
+				tokenButton.styled = true
 			end
 		end
 	end)

@@ -4,12 +4,12 @@ C.themes["Blizzard_InspectUI"] = function()
 	local slots = DB.Slots
 
 	B.ReskinFrame(InspectFrame)
+	B.SetupTabStyle(InspectFrame, 4)
 
 	B.StripTextures(InspectModelFrame, 0)
+	B.StripTextures(InspectModelFrameControlFrame)
 	B.StripTextures(InspectPVPFrame)
 	B.StripTextures(InspectTalentFrame)
-
-	B.SetupTabStyle(InspectFrame, 4)
 
 	InspectGuildFrameBG:Hide()
 

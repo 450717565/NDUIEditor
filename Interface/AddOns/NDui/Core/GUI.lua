@@ -145,15 +145,18 @@ local defaultSettings = {
 		PlayerWidth = 250,
 		PlayerHeight = 34,
 		PlayerPowerHeight = 2,
+		PlayerPowerOffset = 0,
 		FocusWidth = 200,
 		FocusHeight = 30,
 		FocusPowerHeight = 2,
+		FocusPowerOffset = 0,
 		PetWidth = 120,
 		PetHeight = 24,
 		PetPowerHeight = 2,
 		BossWidth = 150,
 		BossHeight = 32,
 		BossPowerHeight = 2,
+		BossPowerOffset = 0,
 
 		CastingColor = {r=.3, g=.7, b=1},
 		NotInterruptColor = {r=1, g=.5, b=.5},
@@ -772,11 +775,11 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Nameplate", "QuestIndicator", L["QuestIndicator"], true},
 		{1, "Nameplate", "AKSProgress", L["AngryKeystones Progress"]},
 		{},--blank
-		{1, "Nameplate", "CustomUnitColor", DB.MyColor..L["CustomUnitColor"].."*", nil, nil, updateCustomUnitList},
+		{1, "Nameplate", "CustomUnitColor", DB.MyColor..L["CustomUnitColor"].."*", nil, nil, updateCustomUnitList, L["CustomUnitColorTip"]},
 		{5, "Nameplate", "CustomColor", L["Custom Color"].."*", 2},
 		{2, "Nameplate", "UnitList", L["UnitColor List"].."*", nil, nil, updateCustomUnitList, L["CustomUnitTips"]},
 		{2, "Nameplate", "ShowPowerList", L["ShowPowerList"].."*", true, nil, updatePowerUnitList, L["CustomUnitTips"]},
-		{1, "Nameplate", "TankMode", DB.MyColor..L["Tank Mode"].."*"},
+		{1, "Nameplate", "TankMode", DB.MyColor..L["Tank Mode"].."*", nil, nil, nil, L["TankModeTip"]},
 		{1, "Nameplate", "DPSRevertThreat", L["DPS Revert Threat"].."*", true},
 		{5, "Nameplate", "SecureColor", L["Secure Color"].."*"},
 		{5, "Nameplate", "TransColor", L["Trans Color"].."*", 1},
@@ -792,12 +795,12 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{3, "Nameplate", "Distance", L["Nameplate Distance"].."*", true, {20, 100, 1}, updatePlateRange},
 		{3, "Nameplate", "MinScale", L["Nameplate MinScale"].."*", false, {.5, 1, .01}, updatePlateScale},
 		{3, "Nameplate", "MinAlpha", L["Nameplate MinAlpha"].."*", true, {.5, 1, .01}, updatePlateAlpha},
-		{3, "Nameplate", "PlateWidth", L["NP Width"].."*(200)", false, {100, 300, 1}, refreshNameplates},
-		{3, "Nameplate", "PlateHeight", L["NP Height"].."*(12)", true, {5, 30, 1}, refreshNameplates},
-		{3, "Nameplate", "NameTextSize", L["NameTextSize"].."*(12)", false, {10, 30, 1}, refreshNameplates},
-		{3, "Nameplate", "HealthTextSize", L["HealthTextSize"].."*(16)", true, {10, 30, 1}, refreshNameplates},
-		{3, "Nameplate", "maxAuras", L["Max Auras"].."(12)", false, {0, 12, 1}},
-		{3, "Nameplate", "AutoPerRow", L["Auto Per Row"].."(6)", true, {3, 6, 1}},
+		{3, "Nameplate", "PlateWidth", L["NP Width"].."*", false, {100, 300, 1}, refreshNameplates},
+		{3, "Nameplate", "PlateHeight", L["NP Height"].."*", true, {5, 30, 1}, refreshNameplates},
+		{3, "Nameplate", "NameTextSize", L["NameTextSize"].."*", false, {10, 30, 1}, refreshNameplates},
+		{3, "Nameplate", "HealthTextSize", L["HealthTextSize"].."*", true, {10, 30, 1}, refreshNameplates},
+		{3, "Nameplate", "maxAuras", L["Max Auras"], false, {0, 12, 1}},
+		{3, "Nameplate", "AutoPerRow", L["Auto Per Row"], true, {3, 6, 1}},
 	},
 	[6] = {
 		{1, "AuraWatch", "Enable", DB.MyColor..L["Enable AuraWatch"], nil, setupAuraWatch},
@@ -1109,6 +1112,7 @@ local function CreateOption(i)
 				offset = offset + 70
 			end
 			local s = B.CreateSlider(parent, name, min, max, step, x, y)
+			s.__default = (key == "ACCOUNT" and accountSettings[value]) or defaultSettings[key][value]
 			s:SetValue(NDUI_VARIABLE(key, value))
 			s:SetScript("OnValueChanged", function(_, v)
 				local current = B.Round(tonumber(v), 2)
@@ -1555,19 +1559,34 @@ local function OpenGUI()
 		exportData()
 	end)
 
-	local optTip = B.CreateFS(f, 14, L["Option* Tips"], "system", "LEFT", 0, 0)
-	optTip:SetPoint("LEFT", reset, "RIGHT", 15, 0)
+	local optTip = CreateFrame("Button", nil, f)
+	optTip:SetPoint("TOPLEFT", 20, -5)
+	optTip:SetSize(45, 45)
+	optTip.Icon = optTip:CreateTexture(nil, "ARTWORK")
+	optTip.Icon:SetAllPoints()
+	optTip.Icon:SetTexture(616343)
+	optTip:SetHighlightTexture(616343)
+	optTip:SetScript("OnEnter", function()
+		GameTooltip:ClearLines()
+		GameTooltip:SetOwner(f, "ANCHOR_NONE")
+		GameTooltip:SetPoint("TOPRIGHT", f, "TOPLEFT", -5, -3)
+		GameTooltip:AddLine(L["Tips"])
+		GameTooltip:AddLine(L["Option* Tips"], .6,.8,1, 1)
+		GameTooltip:Show()
+	end)
+	optTip:SetScript("OnLeave", B.HideTooltip)
 
 	local credit = CreateFrame("Button", nil, f)
-	credit:SetPoint("TOPRIGHT", -20, -15)
-	credit:SetSize(35, 35)
+	credit:SetPoint("TOPRIGHT", -20, -5)
+	credit:SetSize(45, 45)
 	credit.Icon = credit:CreateTexture(nil, "ARTWORK")
 	credit.Icon:SetAllPoints()
 	credit.Icon:SetTexture(DB.creditTex)
 	credit:SetHighlightTexture(DB.creditTex)
 	credit:SetScript("OnEnter", function()
 		GameTooltip:ClearLines()
-		GameTooltip:SetOwner(f, "ANCHOR_TOPRIGHT", 0, 3)
+		GameTooltip:SetOwner(f, "ANCHOR_NONE")
+		GameTooltip:SetPoint("TOPLEFT", f, "TOPRIGHT", 5, -3)
 		GameTooltip:AddLine("Credits:")
 		GameTooltip:AddLine(GetAddOnMetadata("NDui", "X-Credits"), .6,.8,1, 1)
 		GameTooltip:Show()
