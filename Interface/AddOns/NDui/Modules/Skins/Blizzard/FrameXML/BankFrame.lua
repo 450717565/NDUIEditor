@@ -24,7 +24,7 @@ tinsert(C.defaultThemes, function()
 		B.ReskinHighlight(bu, icbg)
 
 		local border = bu.IconBorder
-		B.ReskinBorder(border, icbg)
+		B.ReskinIconBorder(border, icbg)
 
 		local slotTexture = bu.SlotHighlightTexture
 		if slotTexture then B.ReskinBorder(slotTexture, icbg) end

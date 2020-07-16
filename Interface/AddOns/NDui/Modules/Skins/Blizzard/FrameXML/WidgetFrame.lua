@@ -37,7 +37,7 @@ tinsert(C.defaultThemes, function()
 				if not widgetFrame.styled then
 					local widgetSpell = widgetFrame.Spell
 					widgetSpell.IconMask:Hide()
-					widgetSpell.Border:SetTexture(nil)
+					widgetSpell.Border:SetTexture("")
 
 					local icbg = B.ReskinIcon(widgetSpell.Icon)
 					B.ReskinBorder(widgetSpell.DebuffBorder, icbg)

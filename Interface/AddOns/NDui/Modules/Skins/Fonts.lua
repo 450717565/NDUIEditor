@@ -1,11 +1,14 @@
 local B, C, L, DB = unpack(select(2, ...))
+local S = B:GetModule("Skins")
 
-tinsert(C.defaultThemes, function()
+function S:Fonts()
+	if not NDuiDB["Skins"]["BlizzardSkins"] then return end
 	if not NDuiDB["Skins"]["FontOutline"] then return end
 
-	local function ReskinFont(font, size)
+	function B.ReskinFont(font, size)
 		local oldSize = select(2, font:GetFont())
 		size = size or oldSize
+
 		local fontSize = size*NDuiDB["Skins"]["FontScale"]
 		font:SetFont(DB.Font[1], fontSize, DB.Font[3])
 	end
@@ -128,18 +131,18 @@ tinsert(C.defaultThemes, function()
 		Tooltip_Small,
 	}
 	for _, font in pairs(fontList) do
-		ReskinFont(font)
+		B.ReskinFont(font)
 	end
 
-	ReskinFont(ChatBubbleFont, 13)
-	ReskinFont(Number12Font, 12)
-	ReskinFont(SystemFont_LargeNamePlate, 12)
-	ReskinFont(SystemFont_LargeNamePlateFixed, 12)
-	ReskinFont(SystemFont_NamePlate, 12)
-	ReskinFont(SystemFont_NamePlateFixed, 12)
-	ReskinFont(SystemFont_World, 64)
-	ReskinFont(SystemFont_World_ThickOutline, 64)
-	ReskinFont(SystemFont_WTF2, 64)
+	B.ReskinFont(ChatBubbleFont, 13)
+	B.ReskinFont(Number12Font, 12)
+	B.ReskinFont(SystemFont_LargeNamePlate, 12)
+	B.ReskinFont(SystemFont_LargeNamePlateFixed, 12)
+	B.ReskinFont(SystemFont_NamePlate, 12)
+	B.ReskinFont(SystemFont_NamePlateFixed, 12)
+	B.ReskinFont(SystemFont_World, 64)
+	B.ReskinFont(SystemFont_World_ThickOutline, 64)
+	B.ReskinFont(SystemFont_WTF2, 64)
 
 	-- Refont RaidFrame Health
 	hooksecurefunc("CompactUnitFrame_UpdateStatusText", function(frame)
@@ -165,7 +168,7 @@ tinsert(C.defaultThemes, function()
 		local bu = PaperDollTitlesPane.buttons
 		for i = 1, #bu do
 			if not bu[i].fontStyled then
-				ReskinFont(bu[i].text, 14)
+				B.ReskinFont(bu[i].text, 14)
 
 				bu[i].fontStyled = true
 			end
@@ -190,4 +193,4 @@ tinsert(C.defaultThemes, function()
 	-- Text color
 	GameFontBlackMedium:SetTextColor(1, 1, 1)
 	CoreAbilityFont:SetTextColor(1, 1, 1)
-end)
+end

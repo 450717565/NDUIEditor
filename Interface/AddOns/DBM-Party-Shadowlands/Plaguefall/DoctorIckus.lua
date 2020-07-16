@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2403, "DBM-Party-Shadowlands", 2, 1183)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200528135243")
+mod:SetRevision("20200613225218")
 mod:SetCreatureID(164967)
 mod:SetEncounterID(2384)
 mod:SetZone()
@@ -19,6 +19,12 @@ mod:RegisterEventsInCombat(
 )
 
 --TODO, maybe warn when oozes spawn after the slams
+--TODO, probably half the boss, blizzard fucked journal up so badly for boss that it's unclear how accurate this mod even is anymore
+--TODO, fight so broken not even WCL can parse it correctly, so it literally can't be fixed right now
+--[[
+(ability.id = 321166 or ability.id = 321321 or ability.id = 321285 or ability.id = 321406) and type = "begincast"
+ or ability.id = 321384 and type = "cast"
+--]]
 local warnBurningContagion			= mod:NewTargetNoFilterAnnounce(321522, 2)
 local warnCongealedContagion		= mod:NewTargetNoFilterAnnounce(321268, 2)
 local warnFocusedGaze				= mod:NewTargetNoFilterAnnounce(321384, 4)

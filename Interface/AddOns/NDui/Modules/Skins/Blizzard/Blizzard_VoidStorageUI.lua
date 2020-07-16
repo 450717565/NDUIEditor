@@ -25,7 +25,7 @@ C.themes["Blizzard_VoidStorageUI"] = function()
 			B.ReskinHighlight(bu, icbg)
 
 			local border = bu.IconBorder
-			B.ReskinBorder(border, icbg)
+			B.ReskinIconBorder(border, icbg)
 		end
 	end
 
@@ -39,7 +39,7 @@ C.themes["Blizzard_VoidStorageUI"] = function()
 		B.ReskinHighlight(bu, icbg)
 
 		local border = bu.IconBorder
-		B.ReskinBorder(border, icbg)
+		B.ReskinIconBorder(border, icbg)
 
 		local searchOverlay = bu.searchOverlay
 		searchOverlay:SetAllPoints(icbg)

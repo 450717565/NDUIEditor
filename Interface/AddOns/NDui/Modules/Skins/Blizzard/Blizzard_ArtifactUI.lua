@@ -21,16 +21,19 @@ C.themes["Blizzard_ArtifactUI"] = function()
 
 		for j = 1, 4 do
 			local SlotPool = AppearancesTab.appearanceSlotPool:Acquire()
-			SlotPool.Border:SetAlpha(0)
-			SlotPool.Background:Hide()
-			SlotPool.SwatchTexture:SetTexCoord(.2, .8, .2, .8)
-			SlotPool.SwatchTexture:SetAllPoints()
-			SlotPool.UnobtainableCover:SetTexCoord(.20, .80, .15, .75)
-			SlotPool.UnobtainableCover:SetAllPoints()
 
 			local slotbg = B.CreateBDFrame(SlotPool, 0)
 			B.ReskinHighlight(SlotPool, slotbg)
 			B.ReskinBorder(SlotPool.Selected, slotbg, true)
+
+			SlotPool.Border:SetAlpha(0)
+			SlotPool.Background:Hide()
+
+			SlotPool.SwatchTexture:SetTexCoord(.2, .8, .2, .8)
+			SlotPool.SwatchTexture:SetInside(slotbg)
+
+			SlotPool.UnobtainableCover:SetTexCoord(.2, .8, .2, .8)
+			SlotPool.UnobtainableCover:SetInside(slotbg)
 		end
 	end
 

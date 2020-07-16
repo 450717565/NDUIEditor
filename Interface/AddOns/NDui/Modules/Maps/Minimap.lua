@@ -72,7 +72,7 @@ function module:ReskinRegions()
 	QueueStatusMinimapButton:ClearAllPoints()
 	QueueStatusMinimapButton:SetPoint("BOTTOMLEFT", Minimap, "BOTTOMLEFT", -5, -5)
 	QueueStatusMinimapButtonBorder:Hide()
-	QueueStatusMinimapButtonIconTexture:SetTexture(nil)
+	QueueStatusMinimapButtonIconTexture:SetTexture("")
 
 	local queueIcon = Minimap:CreateTexture(nil, "ARTWORK")
 	queueIcon:SetPoint("CENTER", QueueStatusMinimapButton)
@@ -217,9 +217,9 @@ function module:RecycleBin()
 						if region:IsObjectType("Texture") then
 							local texture = region:GetTexture() or ""
 							if strfind(texture, "Interface\\CharacterFrame") or strfind(texture, "Interface\\Minimap") then
-								region:SetTexture(nil)
+								region:SetTexture("")
 							elseif texture == 136430 or texture == 136467 then
-								region:SetTexture(nil)
+								region:SetTexture("")
 							end
 							region:ClearAllPoints()
 							region:SetAllPoints()

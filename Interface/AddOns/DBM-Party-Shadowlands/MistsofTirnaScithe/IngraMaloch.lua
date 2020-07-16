@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2400, "DBM-Party-Shadowlands", 3, 1184)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200528135243")
+mod:SetRevision("20200626204557")
 mod:SetCreatureID(164567)
 mod:SetEncounterID(2397)
 mod:SetZone()
@@ -22,8 +22,8 @@ mod:RegisterEventsInCombat(
 --TODO, change Embrace darkness to a reflect/stopattack warning if strat becomes to stop damage on boss during it
 --TODO, can tank dodge Enchanted Pollen?
 --Phases
-local warnSoulShackle				= mod:NewTargetNoFIlterAnnounce(321005, 3)
-local warnDromansWrath				= mod:NewTargetNoFIlterAnnounce(323059, 1)
+local warnSoulShackle				= mod:NewTargetNoFilterAnnounce(321005, 3)
+local warnDromansWrath				= mod:NewTargetNoFilterAnnounce(323059, 1)
 
 --Boss
 local specWarnSpiritBolt			= mod:NewSpecialWarningInterrupt(323057, "HasInterrupt", nil, nil, 1, 2)

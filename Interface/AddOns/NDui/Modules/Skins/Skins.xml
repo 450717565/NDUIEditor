@@ -1,5 +1,6 @@
 <Ui>
 	<Script file="Skins.lua"/>
+	<Script file="Fonts.lua"/>
 
 	<Include file="Blizzard\Blizzard.xml"/>
 	<Include file="Blizzard\FrameXML\FrameXML.xml"/>

@@ -157,7 +157,7 @@ local function CreatePanel()
 		button2 = NO,
 		OnAccept = function()
 			NDuiDB["AuraWatchList"] = {}
-			NDuiDB["CustomCD"] = {}
+			NDuiDB["InternalCD"] = {}
 			ReloadUI()
 		end,
 		whileDead = 1,
@@ -170,7 +170,7 @@ local function CreatePanel()
 	local function SortBars(index)
 		local num, onLeft, onRight = 1, 1, 1
 		for k in pairs(barTable[index]) do
-			if (index < 11 and NDuiDB["AuraWatchList"][index][k]) or (index == 11 and NDuiDB["CustomCD"][k]) then
+			if (index < 11 and NDuiDB["AuraWatchList"][index][k]) or (index == 11 and NDuiDB["InternalCD"][k]) then
 				local bar = barTable[index][k]
 				if num == 1 then
 					bar:SetPoint("TOPLEFT", 10, -10)
@@ -280,7 +280,7 @@ local function CreatePanel()
 		B.AddTooltip(icon, "ANCHOR_RIGHT", intID)
 		close:SetScript("OnClick", function()
 			bar:Hide()
-			NDuiDB["CustomCD"][intID] = nil
+			NDuiDB["InternalCD"][intID] = nil
 			barTable[index][intID] = nil
 			SortBars(index)
 		end)
@@ -317,7 +317,7 @@ local function CreatePanel()
 		L["Raid Debuff"],			-- 8 Raid Debuff
 		L["Spell CD"],				-- 9 Spell CD
 		L["Enchant CD"],			-- 10 Enchant CD
-		L["Custom CD"],				-- 11 Custom CD
+		L["Internal CD"],				-- 11 Internal CD
 	}
 
 	local preSet = {
@@ -412,7 +412,7 @@ local function CreatePanel()
 				end)
 			end
 		elseif i == 11 then
-			for _, v in pairs(NDuiDB["CustomCD"]) do
+			for _, v in pairs(NDuiDB["InternalCD"]) do
 				AddInternal(tabs[i].List.child, i, v)
 			end
 			Option[13] = G:CreateEditbox(tabs[i].Page, L["IntID*"], 20, -30, L["IntID Intro"])
@@ -459,10 +459,10 @@ local function CreatePanel()
 				local intID, duration, trigger, unit, itemID = tonumber(Option[13]:GetText()), tonumber(Option[14]:GetText()), Option[15].Text:GetText(), Option[16].Text:GetText(), tonumber(Option[17]:GetText())
 				if not intID or not duration or not trigger or not unit then UIErrorsFrame:AddMessage(DB.InfoColor..L["Incomplete Input"]) return end
 				if intID and not GetSpellInfo(intID) then UIErrorsFrame:AddMessage(DB.InfoColor..L["Incorrect SpellID"]) return end
-				if NDuiDB["CustomCD"][intID] then UIErrorsFrame:AddMessage(DB.InfoColor..L["Existing ID"]) return end
+				if NDuiDB["InternalCD"][intID] then UIErrorsFrame:AddMessage(DB.InfoColor..L["Existing ID"]) return end
 
-				NDuiDB["CustomCD"][intID] = {intID, duration, trigger, unit, itemID}
-				AddInternal(tabs[i].List.child, i, NDuiDB["CustomCD"][intID])
+				NDuiDB["InternalCD"][intID] = {intID, duration, trigger, unit, itemID}
+				AddInternal(tabs[i].List.child, i, NDuiDB["InternalCD"][intID])
 				for i = 13, 17 do G:ClearEdit(Option[i]) end
 			end
 		end)

@@ -34,16 +34,18 @@ C.themes["Blizzard_MacroUI"] = function()
 	B.ReskinHighlight(selectedbu, selectedbg)
 
 	local function reskinButton(button, i)
-		local bu = _G[button..i]
-		local ic = _G[button..i.."Icon"]
+		local button = _G[button..i]
+		local icon = _G[button..i.."Icon"]
 
-		if bu and ic then
-			B.StripTextures(bu)
+		if button.styled then return end
 
-			local icbg = B.ReskinIcon(ic)
-			B.ReskinChecked(bu, icbg)
-			B.ReskinHighlight(bu, icbg)
-		end
+		B.StripTextures(button)
+
+		local icbg = B.ReskinIcon(icon)
+		B.ReskinChecked(button, icbg)
+		B.ReskinHighlight(button, icbg)
+
+		button.styled = true
 	end
 
 	for i = 1, MAX_ACCOUNT_MACROS do
@@ -51,15 +53,11 @@ C.themes["Blizzard_MacroUI"] = function()
 	end
 
 	MacroPopupFrame:HookScript("OnShow", function(self)
-		if not self.styled then
-			for i = 1, NUM_MACRO_ICONS_SHOWN do
-				reskinButton("MacroPopupButton", i)
-			end
-
-			self:ClearAllPoints()
-			self:SetPoint("TOPLEFT", MacroFrame, "TOPRIGHT", 3, 0)
-
-			self.styled = true
+		for i = 1, NUM_MACRO_ICONS_SHOWN do
+			reskinButton("MacroPopupButton", i)
 		end
+
+		self:ClearAllPoints()
+		self:SetPoint("TOPLEFT", MacroFrame, "TOPRIGHT", 3, 0)
 	end)
 end

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2426, "DBM-CastleNathria", nil, 1190)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200605131836")
+mod:SetRevision("20200627001242")
 mod:SetCreatureID(166971, 166969, 166970)--Castellan Niklaus, Baroness Frieda, Lord Stavros
 mod:SetEncounterID(2412)
 mod:SetZone()
@@ -43,7 +43,7 @@ local warnTacticalAdvance						= mod:NewTargetNoFilterAnnounce(328334, 3)
 local warnUnyieldingGuard						= mod:NewTargetNoFilterAnnounce(327828, 2, nil, false)--I suspect boss just does this non stop
 local warnUnstoppableCharge						= mod:NewTargetNoFilterAnnounce(330963, 4)--One boss dead
 local warnCastellansCadre						= mod:NewSpellAnnounce(330965, 2)--Two bosses dead
-local warnFixate								= mod:NewAnnounce(330967, 3)--Two bosses dead
+local warnFixate								= mod:NewTargetAnnounce(330967, 3)--Two bosses dead
 --Baroness Frieda
 local warnDrainEssence							= mod:NewStackAnnounce(327773, 2, nil, "Tank|Healer")
 local warnScarletLetter							= mod:NewTargetNoFilterAnnounce(331706, 3)--One boss dead

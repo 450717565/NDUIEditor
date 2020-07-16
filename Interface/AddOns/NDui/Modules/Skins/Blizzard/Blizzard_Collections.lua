@@ -179,7 +179,7 @@ C.themes["Blizzard_Collections"] = function()
 	local PetInfo = PetCard.PetInfo
 	B.StripTextures(PetInfo)
 	local icbg = B.ReskinIcon(PetInfo.icon)
-	B.ReskinBorder(PetInfo.qualityBorder, icbg)
+	B.ReskinIconBorder(PetInfo.qualityBorder, icbg)
 	PetInfo.level:SetTextColor(1, 1, 1)
 
 	for i = 1, 6 do
@@ -201,7 +201,7 @@ C.themes["Blizzard_Collections"] = function()
 
 		local icbg = B.ReskinIcon(bu.icon)
 		B.ReskinHighlight(bu.dragButton, icbg)
-		B.ReskinBorder(bu.qualityBorder, icbg)
+		B.ReskinIconBorder(bu.qualityBorder, icbg)
 		bu.level:SetTextColor(1, 1, 1)
 
 		for j = 1, 3 do

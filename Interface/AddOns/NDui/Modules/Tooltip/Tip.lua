@@ -344,7 +344,7 @@ function TT:ReskinRewardIcon()
 
 	if not self.iconStyled then
 		if icon then self.icbg = B.ReskinIcon(icon, 1) end
-		if border then B.ReskinBorder(border, self.icbg) end
+		if border then B.ReskinIconBorder(border, self.icbg) end
 
 		self.iconStyled = true
 	end

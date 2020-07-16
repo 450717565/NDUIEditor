@@ -49,7 +49,7 @@ tinsert(C.defaultThemes, function()
 		local icbg = B.ReskinIcon(slot.icon)
 
 		local border = slot.IconBorder
-		B.ReskinBorder(border, icbg)
+		B.ReskinIconBorder(border, icbg)
 
 		local popout = slot.popoutButton
 		B.StripTextures(popout)

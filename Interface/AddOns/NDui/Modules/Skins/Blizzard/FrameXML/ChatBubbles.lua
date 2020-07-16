@@ -5,7 +5,7 @@ tinsert(C.defaultThemes, function()
 		for i = 1, frame:GetNumRegions() do
 			local region = select(i, frame:GetRegions())
 			if region:IsObjectType("Texture") then
-				region:SetTexture(nil)
+				region:SetTexture("")
 			elseif region:IsObjectType("FontString") then
 				region:SetFont(DB.Font[1], 16, DB.Font[3])
 			end

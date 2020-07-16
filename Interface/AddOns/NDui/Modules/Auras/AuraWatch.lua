@@ -60,8 +60,8 @@ local function ConvertTable()
 				end
 			end
 		else
-			if next(NDuiDB["CustomCD"]) then
-				for spellID, v in pairs(NDuiDB["CustomCD"]) do
+			if next(NDuiDB["InternalCD"]) then
+				for spellID, v in pairs(NDuiDB["InternalCD"]) do
 					myTable[i][spellID] = DataAnalyze(v)
 				end
 			end
@@ -93,7 +93,7 @@ local function ConvertTable()
 			InsertData(8, v.List)
 		elseif v.Name == "Enchant CD" then
 			InsertData(10, v.List)
-		elseif v.Name == "Custom CD" then
+		elseif v.Name == "Internal CD" then
 			InsertData(11, v.List)
 			IntCD = v
 			tremove(C.AuraWatchList["ALL"], i)
@@ -467,10 +467,10 @@ function A:UpdateAuraWatch(UnitID)
 	end
 end
 
--- Update CustomCD
+-- Update InternalCD
 function A:AuraWatch_SortBars()
 	if not IntCD.MoveHandle then
-		IntCD.MoveHandle = MakeMoveHandle(IntTable[1], L[IntCD.Name], "Custom CD", IntCD.Pos)
+		IntCD.MoveHandle = MakeMoveHandle(IntTable[1], L[IntCD.Name], "Internal CD", IntCD.Pos)
 	end
 
 	for i = 1, #IntTable do
@@ -612,7 +612,7 @@ function A:AuraWatch_Cleanup()	-- FIXME: there should be a better way to do this
 				frame:Hide()
 				frame:SetScript("OnUpdate", nil)
 			end
-			if frame.Icon then frame.Icon:SetTexture(nil) end
+			if frame.Icon then frame.Icon:SetTexture("") end
 			if frame.Count then frame.Count:SetText(nil) end
 			if frame.Spellname then frame.Spellname:SetText(nil) end
 		end

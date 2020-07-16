@@ -1422,23 +1422,44 @@ do
 	end
 
 	-- Handle others
-	function B:CreateLine(isHorizontal)
-		if self.Line then return end
+	local AtlasToQuality = {
+		["auctionhouse-itemicon-border-gray"] = LE_ITEM_QUALITY_POOR,
+		["auctionhouse-itemicon-border-white"] = LE_ITEM_QUALITY_COMMON,
+		["auctionhouse-itemicon-border-green"] = LE_ITEM_QUALITY_UNCOMMON,
+		["auctionhouse-itemicon-border-blue"] = LE_ITEM_QUALITY_RARE,
+		["auctionhouse-itemicon-border-purple"] = LE_ITEM_QUALITY_EPIC,
+		["auctionhouse-itemicon-border-orange"] = LE_ITEM_QUALITY_LEGENDARY,
+		["auctionhouse-itemicon-border-artifact"] = LE_ITEM_QUALITY_ARTIFACT,
+		["auctionhouse-itemicon-border-account"] = LE_ITEM_QUALITY_HEIRLOOM,
+	}
+	local function updateIconBorderAtlas(self, atlas)
+		local quality = AtlasToQuality[atlas]
+		local r, g, b = GetItemQualityColor(quality or 1)
+		self.__owner.icbg:SetBackdropBorderColor(r, g, b)
+	end
+	local function updateIconBorderColor(self, r, g, b)
+		if r == .65882 then r, g, b = 1, 1, 1 end
+		self.__owner.icbg:SetBackdropBorderColor(r, g, b)
+	end
+	local function resetIconBorderColor(self)
+		self.__owner.icbg:SetBackdropBorderColor(0, 0, 0)
+	end
 
-		local w, h = self:GetSize()
-		local Line = self:CreateTexture(nil, "ARTWORK")
-		Line:SetColorTexture(1, 1, 1, .25)
-		Line:ClearAllPoints()
+	function B:ReskinIconBorder(icbg)
+		if not self then return end
 
-		if isHorizontal then
-			Line:SetSize(w*.9, C.mult)
+		self:SetAlpha(0)
+		self.__owner = self:GetParent()
+
+		if not self.__owner.icbg then self.__owner.icbg = icbg end
+		if not self.__owner.icbg then return end
+
+		if self.__owner.useCircularIconBorder then
+			hooksecurefunc(self, "SetAtlas", updateIconBorderAtlas)
 		else
-			Line:SetSize(C.mult, h*.9)
+			hooksecurefunc(self, "SetVertexColor", updateIconBorderColor)
 		end
-
-		self.Line = Line
-
-		return Line
+		hooksecurefunc(self, "Hide", resetIconBorderColor)
 	end
 
 	function B:ReskinBorder(relativeTo, classColor)
@@ -1527,6 +1548,25 @@ do
 		tex:SetInside(relativeTo)
 	end
 
+	function B:CreateLine(isHorizontal)
+		if self.Line then return end
+
+		local w, h = self:GetSize()
+		local Line = self:CreateTexture(nil, "ARTWORK")
+		Line:SetColorTexture(1, 1, 1, .25)
+		Line:ClearAllPoints()
+
+		if isHorizontal then
+			Line:SetSize(w*.9, C.mult)
+		else
+			Line:SetSize(C.mult, h*.9)
+		end
+
+		self.Line = Line
+
+		return Line
+	end
+
 	-- UI templates
 	function B:ReskinGarrisonPortrait()
 		self.Portrait:ClearAllPoints()
@@ -1556,8 +1596,8 @@ do
 
 	function B:ReskinAffixes()
 		for _, frame in ipairs(self.Affixes) do
-			frame.Border:SetTexture(nil)
-			frame.Portrait:SetTexture(nil)
+			frame.Border:SetTexture("")
+			frame.Portrait:SetTexture("")
 			if not frame.styled then
 				B.ReskinIcon(frame.Portrait, 1)
 
@@ -1625,7 +1665,7 @@ do
 
 		local icbg = B.ReskinIcon(button.icon)
 		B.ReskinHighlight(button, icbg)
-		B.ReskinBorder(button.IconBorder, icbg)
+		B.ReskinIconBorder(button.IconBorder, icbg)
 		button.IconOverlay:SetInside(icbg)
 
 		local frameName = B.GetFrameName(self)
@@ -1648,8 +1688,6 @@ do
 		local money = _G[frameName.."MoneyFrame"]
 		money:ClearAllPoints()
 		money:SetPoint("BOTTOMLEFT", icbg, "BOTTOMRIGHT", 4, 2)
-
-		self.icbg = icbg
 	end
 
 	function B:ReskinPartyPoseUI()
@@ -1664,7 +1702,7 @@ do
 		RewardFrame.NameFrame:SetAlpha(0)
 
 		local icbg = B.ReskinIcon(RewardFrame.Icon)
-		B.ReskinBorder(RewardFrame.IconBorder, icbg)
+		B.ReskinIconBorder(RewardFrame.IconBorder, icbg)
 
 		local Label = RewardFrame.Label
 		Label:ClearAllPoints()

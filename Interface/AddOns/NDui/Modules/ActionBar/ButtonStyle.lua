@@ -200,7 +200,7 @@ function Bar:StyleActionButton(button, cfg)
 
 	--hide stuff
 	if floatingBG then floatingBG:Hide() end
-	if NewActionTexture then NewActionTexture:SetTexture(nil) end
+	if NewActionTexture then NewActionTexture:SetTexture("") end
 
 	--backdrop
 	SetupBackdrop(button)
@@ -346,9 +346,9 @@ function Bar:StyleAllActionButtons(cfg)
 	--extra action button
 	Bar:StyleExtraActionButton(cfg)
 	--spell flyout
-	SpellFlyoutBackgroundEnd:SetTexture(nil)
-	SpellFlyoutHorizontalBackground:SetTexture(nil)
-	SpellFlyoutVerticalBackground:SetTexture(nil)
+	SpellFlyoutBackgroundEnd:SetTexture("")
+	SpellFlyoutHorizontalBackground:SetTexture("")
+	SpellFlyoutVerticalBackground:SetTexture("")
 	local function checkForFlyoutButtons()
 		local i = 1
 		local button = _G["SpellFlyoutButton"..i]

@@ -11,7 +11,7 @@ local guiTab, guiPage, f, dataFrame = {}, {}
 local defaultSettings = {
 	BFA = false,
 	Mover = {},
-	CustomCD = {},
+	InternalCD = {},
 	AuraWatchMover = {},
 	RaidClickSets = {},
 	TempAnchor = {},
@@ -52,7 +52,7 @@ local defaultSettings = {
 		iLvlToShow = 1,
 
 		FilterJunk = true,
-		FilterConsumble = true,
+		FilterConsumable = true,
 		FilterAzerite = true,
 		FilterEquipment = true,
 		FilterLegendary = true,
@@ -1215,7 +1215,7 @@ local function exportData()
 								end
 							end
 						end
-					elseif KEY == "Mover" or KEY == "RaidClickSets" or KEY == "CustomCD" or KEY == "AuraWatchMover" then
+					elseif KEY == "Mover" or KEY == "RaidClickSets" or KEY == "InternalCD" or KEY == "AuraWatchMover" then
 						text = text..";"..KEY..":"..key
 						for _, v in ipairs(value) do
 							text = text..":"..tostring(v)
@@ -1344,7 +1344,7 @@ local function importData()
 			if DB.MyClass == class then
 				NDuiDB[key][value] = {select(3, strsplit(":", option))}
 			end
-		elseif key == "CustomCD" then
+		elseif key == "InternalCD" then
 			local spellID, duration, indicator, unit, itemID = select(3, strsplit(":", option))
 			spellID = tonumber(spellID)
 			duration = tonumber(duration)

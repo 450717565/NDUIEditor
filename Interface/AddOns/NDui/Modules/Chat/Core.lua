@@ -286,7 +286,7 @@ function module:OnLogin()
 	-- Default
 	SetCVar("chatStyle", "classic")
 	B.HideOption(InterfaceOptionsSocialPanelChatStyle)
-	CombatLogQuickButtonFrame_CustomTexture:SetTexture(nil)
+	CombatLogQuickButtonFrame_CustomTexture:SetTexture("")
 
 	-- Add Elements
 	self:ChatWhisperSticky()

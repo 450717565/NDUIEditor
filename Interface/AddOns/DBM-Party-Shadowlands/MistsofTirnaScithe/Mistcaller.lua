@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2402, "DBM-Party-Shadowlands", 3, 1184)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200528135243")
+mod:SetRevision("20200627185352")
 --mod:SetCreatureID(126983)--Maybe 164501?
 mod:SetEncounterID(2392)
 mod:SetZone()
@@ -20,9 +20,10 @@ mod:RegisterEventsInCombat(
 
 --https://shadowlands.wowhead.com/npc=165108/illusionary-clone Clones
 --TODO, improve dodgeball warnings if the target scan is successful
+--TODO, auto mark adds during guessing game (use Penalizing Burst to grab GUIDS)
 local warnGuessingGame				= mod:NewCastAnnounce(321471, 3)
 local warnFreezeTag					= mod:NewCastAnnounce(321873, 3)
-local warnFixate					= mod:NewTargetNoFIlterAnnounce(321891, 3)
+local warnFixate					= mod:NewTargetNoFilterAnnounce(321891, 3)
 
 local specWarnDodgeBall				= mod:NewSpecialWarningDodge(321834, nil, nil, nil, 2, 2)
 local yellDodgeBall					= mod:NewYell(321834)

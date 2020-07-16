@@ -77,7 +77,7 @@ C.themes["Blizzard_TradeSkillUI"] = function()
 			local ResultIcon = self.Contents.ResultIcon
 			ResultIcon.ResultBorder:Hide()
 			local icbg = B.ReskinIcon(ResultIcon:GetNormalTexture())
-			B.ReskinBorder(ResultIcon.IconBorder, icbg)
+			B.ReskinIconBorder(ResultIcon.IconBorder, icbg)
 
 			local Reagents = self.Contents.Reagents
 			for i = 1, #Reagents do

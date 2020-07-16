@@ -852,7 +852,7 @@ local list = {
 		{SpellID = 69070},	--火箭跳
 		{SpellID = 107079},	--震山掌
 	},
-	["Custom CD"] = { -- 自定义内置冷却组
+	["Internal CD"] = { -- 自定义内置冷却组
 	-- 其他
 		{IntID = 240447, Duration = 20},	--践踏
 		{IntID = 295840, Duration = 30, OnSuccess = true},	-- 艾泽拉斯守护者

@@ -144,8 +144,8 @@ function S:Rematch()
 				local parent
 				if button.Pet then
 					B.CreateBDFrame(button.Pet, 0)
-					if button.Rarity then button.Rarity:SetTexture(nil) end
-					if button.LevelBack then button.LevelBack:SetTexture(nil) end
+					if button.Rarity then button.Rarity:SetTexture("") end
+					if button.LevelBack then button.LevelBack:SetTexture("") end
 					button.LevelText:SetTextColor(1, 1, 1)
 
 					parent = button.Pet
@@ -157,13 +157,13 @@ function S:Rematch()
 						bu:SetWidth(25)
 						B.CreateBDFrame(bu, 0)
 					end
-					if button.Border then button.Border:SetTexture(nil) end
+					if button.Border then button.Border:SetTexture("") end
 
 					parent = button.Pets[3]
 				end
 
 				if button.Back then
-					button.Back:SetTexture(nil)
+					button.Back:SetTexture("")
 					local bdTex = B.CreateBGFrame(button.Back, 4, C.mult, 0, -C.mult, parent)
 					button.bdTex = bdTex
 
@@ -306,7 +306,7 @@ function S:Rematch()
 
 		for i = 1, 6 do
 			local button = RematchPetCard.Front.Bottom.Abilities[i]
-			select(8, button:GetRegions()):SetTexture(nil)
+			select(8, button:GetRegions()):SetTexture("")
 			button.IconBorder:Hide()
 			B.ReskinIcon(button.Icon)
 		end
@@ -647,7 +647,7 @@ function S:Rematch()
 			if not checkButton.bg then
 				local bg = B.CreateBDFrame(checkButton, 0)
 				checkButton.bg = bg
-				self.HeaderBack:SetTexture(nil)
+				self.HeaderBack:SetTexture("")
 			end
 			checkButton.bg:SetBackdropColor(0, 0, 0, 0)
 			checkButton.bg:Show()

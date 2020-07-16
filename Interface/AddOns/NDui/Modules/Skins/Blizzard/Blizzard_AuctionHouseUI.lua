@@ -10,7 +10,6 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 
 	local function reskinItemDisplay(self)
 		B.StripTextures(self)
-
 		B.CreateBDFrame(self, 0, -3)
 
 		local ItemButton = self.ItemButton
@@ -21,7 +20,7 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 		if ItemButton.EmptyBackground then ItemButton.EmptyBackground:Hide() end
 
 		local icbg = B.ReskinIcon(ItemButton.Icon)
-		B.ReskinBorder(ItemButton.IconBorder, icbg)
+		B.ReskinIconBorder(ItemButton.IconBorder, icbg)
 		B.ReskinHighlight(ItemButton.Highlight, icbg)
 	end
 
@@ -72,6 +71,12 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 
 						cell.Icon.icbg:SetShown(cell.Icon:IsShown())
 					end
+
+					if cell and cell.MoneyDisplay then
+						local ip1, ip2, ip3 = cell.MoneyDisplay:GetPoint()
+						cell.MoneyDisplay:ClearAllPoints()
+						cell.MoneyDisplay:SetPoint(ip1, ip2, ip3, -2, 0)
+					end
 				end
 			end
 		end
@@ -91,6 +96,7 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 
 					child.styled = true
 				end
+
 				child.Icon.icbg:SetShown(child.Icon:IsShown())
 			end
 		end
@@ -109,7 +115,7 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 			end
 
 			if header.bg then
-				header.bg:SetPoint("BOTTOMRIGHT", i < maxHeaders and -5 or 0, -2)
+				header.bg:SetPoint("BOTTOMRIGHT", i < maxHeaders and -6 or 0, -2)
 			end
 		end
 

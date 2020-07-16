@@ -23,7 +23,7 @@ C.themes["Blizzard_QuestChoice"] = function()
 		local Item = Rewards.Item
 		Item.Name:SetTextColor(1, 1, 1)
 		local icbg = B.ReskinIcon(Item.Icon)
-		B.ReskinBorder(Item.IconBorder, icbg)
+		B.ReskinIconBorder(Item.IconBorder, icbg)
 
 		local Currencies = Rewards.Currencies
 		for j = 1, 3 do

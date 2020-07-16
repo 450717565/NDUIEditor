@@ -1,8 +1,6 @@
 local B, C, L, DB = unpack(select(2, ...))
 
 tinsert(C.defaultThemes, function()
-	if not NDuiDB["Skins"]["BlizzardSkins"] then return end
-
 	local function reskinAlertFrame(self)
 		if not self.styled then
 			if self.OkayButton then B.ReskinButton(self.OkayButton) end

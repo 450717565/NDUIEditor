@@ -54,6 +54,7 @@ function S:LoadDefaultSkins()
 end
 
 function S:OnLogin()
+	self:Fonts()
 	self:DetectAurora()
 	self:LoadDefaultSkins()
 

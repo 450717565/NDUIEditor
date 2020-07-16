@@ -200,7 +200,7 @@ function M:ItemLevel_SetupLevel(frame, strType, unit)
 			slotFrame.enchantText:SetText("")
 			for i = 1, 10 do
 				local texture = slotFrame["textureIcon"..i]
-				texture:SetTexture(nil)
+				texture:SetTexture("")
 				texture.icbg:Hide()
 			end
 

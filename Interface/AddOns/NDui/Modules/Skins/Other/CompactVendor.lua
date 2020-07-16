@@ -34,28 +34,17 @@ function S:CompactVendor()
 	-- by 雨夜独行客
 
 	local function formatNumb(self, text)
-		if self.setting or not text then return end
+		if self.setting or (not text or type(text) ~= "number") then return end
 		self.setting = true
 		self:SetText(B.FormatNumb(text))
 
 		self.setting = false
 	end
 
-	local itemString
-	local function updateItemString()
-		local itemName = GetItemInfo(177981)
-		if itemName then
-			return strmatch(itemName, "(.+"..HEADER_COLON..")").."(.+)"
-		end
-	end
-
+	local itemString = HEADER_COLON.."(.+)"
 	local contaminantsLevel = DB.ContaminantsLevel
-	local function updateItemName(self)
-		if not itemString then
-			itemString = updateItemString()
-		end
-		if not itemString then return end
 
+	local function updateItemName(self)
 		local item, name = self.item, self.Name
 		local text = name and name:GetText()
 		local nameString
@@ -82,7 +71,7 @@ function S:CompactVendor()
 		end
 	end
 
-	hooksecurefunc(VladsVendorFrame.List, "RefreshLayout", function(self)
+	hooksecurefunc(List, "RefreshListDisplay", function(self)
 		local buttons = self.ListScrollFrame.buttons
 		if buttons and not self.ListScrollFrame.styled then
 			for i = 1, #buttons do
@@ -99,12 +88,17 @@ function S:CompactVendor()
 					Icon.Texture:SetMask("")
 					Icon.Texture:SetScale(.8)
 
-					local p1, p2, p3, x = Icon:GetPoint()
+					local ip1, ip2, ip3 = Icon:GetPoint()
 					Icon:ClearAllPoints()
-					Icon:SetPoint(p1, p2, p3, x, 2)
+					Icon:SetPoint(ip1, ip2, ip3, -2, 2)
 
 					local icbg2 = B.ReskinIcon(Icon.Texture)
 					hooksecurefunc(Icon.Count, "SetText", formatNumb)
+
+					local Name = Costs[j].Name
+					local np1, np2, np3 = Name:GetPoint()
+					Name:ClearAllPoints()
+					Name:SetPoint(np1, np2, np3, 1, 0)
 				end
 
 				if icbg1 then icbg1:SetFrameLevel(button:GetFrameLevel()+1) end

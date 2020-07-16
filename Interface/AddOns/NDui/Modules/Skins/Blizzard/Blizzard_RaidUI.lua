@@ -20,7 +20,7 @@ C.themes["Blizzard_RaidUI"] = function()
 		local frame = "RaidGroupButton"..i
 
 		local button = _G[frame]
-		select(4, button:GetRegions()):Hide()
+		select(4, button:GetRegions()):SetAlpha(0)
 		B.ReskinHighlight(button, button, true)
 
 		local class = _G[frame.."Class"]

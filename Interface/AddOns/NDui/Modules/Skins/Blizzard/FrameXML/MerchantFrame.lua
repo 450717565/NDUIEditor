@@ -76,8 +76,11 @@ tinsert(C.defaultThemes, function()
 
 				if index > 1 then
 					tokenButton:ClearAllPoints()
-					tokenButton:SetPoint("RIGHT", _G[token..(index-1)], "LEFT", -10, 0)
+					tokenButton:SetPoint("RIGHT", _G[token..(index-1)], "LEFT", -15, 0)
 				end
+
+				tokenButton.count:ClearAllPoints()
+				tokenButton.count:SetPoint("RIGHT", tokenButton.icon, "LEFT", 0, 0)
 
 				tokenButton.styled = true
 			end

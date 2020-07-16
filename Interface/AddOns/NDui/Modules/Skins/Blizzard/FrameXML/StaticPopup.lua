@@ -24,7 +24,7 @@ tinsert(C.defaultThemes, function()
 		local icon = _G[main.."ItemFrameIconTexture"]
 		local icbg = B.ReskinIcon(icon)
 		B.ReskinHighlight(item, icbg)
-		B.ReskinBorder(item.IconBorder, icbg)
+		B.ReskinIconBorder(item.IconBorder, icbg)
 
 		local gold = _G[main.."MoneyInputFrameGold"]
 		B.ReskinInput(gold)

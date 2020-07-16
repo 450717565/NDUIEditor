@@ -31,17 +31,20 @@ local SlotIDtoName = {
 local function CreateGearFrame()
 	if gearFrame then gearFrame:Show() return end
 
-	gearFrame = CreateFrame("Frame", "InspectGearTexts", UIParent)
+	gearFrame = CreateFrame("Frame", "CopyMogGearTexts", UIParent)
 	gearFrame:SetPoint("CENTER")
 	gearFrame:SetSize(500, 250)
 	gearFrame:SetFrameStrata("DIALOG")
 	B.CreateMF(gearFrame)
 	B.CreateBG(gearFrame)
 
-	gearFrame.Header = B.CreateFS(gearFrame, 14, TRANSMOGRIFY, true, "TOP", 0, -5)
-	gearFrame.Close = CreateFrame("Button", nil, gearFrame, "UIPanelCloseButton")
-	gearFrame.Close:SetPoint("TOPRIGHT", gearFrame)
-	B.ReskinClose(gearFrame.Close)
+	local header = B.CreateFS(gearFrame, 14, TRANSMOGRIFY, true, "TOP", 0, -5)
+	gearFrame.Header = header
+
+	local close = CreateFrame("Button", nil, gearFrame, "UIPanelCloseButton")
+	close:SetPoint("TOPRIGHT", gearFrame)
+	B.ReskinClose(close)
+	gearFrame.Close = close
 
 	local scrollArea = CreateFrame("ScrollFrame", nil, gearFrame, "UIPanelScrollFrameTemplate")
 	scrollArea:SetPoint("TOPLEFT", 10, -30)
@@ -208,18 +211,23 @@ local function CopyTexts()
 	end
 
 	gearFrame.EditBox:SetText(strtrim(texts))
-	gearFrame.EditBox:HighlightText()
+end
+
+local function CreateCopyButton(parent)
+	local button = B.CreateButton(parent, 50, 20, TRANSMOGRIFY)
+	button:Point("BOTTOMRIGHT", -5, 5)
+	parent.CopyButton = button
+
+	return button
 end
 
 local function SetupPlayerButton(event)
-	local button = B.CreateButton(PaperDollFrame, 50, 20, TRANSMOGRIFY)
-	button:SetPoint("BOTTOMRIGHT", -6, 5)
+	local button = CreateCopyButton(PaperDollFrame)
 	button:SetScript("OnClick", function()
 		CreateGearFrame()
 		GetPlayerSources()
 		CopyTexts()
 	end)
-	PaperDollFrame.CopyButton = button
 
 	B:UnregisterEvent(event, SetupPlayerButton)
 end
@@ -228,14 +236,12 @@ B:RegisterEvent("PLAYER_LOGIN", SetupPlayerButton)
 local function SetupInspectButton(event, addon)
 	if addon ~= "Blizzard_InspectUI" then return end
 
-	local button = B.CreateButton(InspectPaperDollFrame, 50, 20, TRANSMOGRIFY)
-	button:SetPoint("BOTTOMRIGHT", -6, 5)
+	local button = CreateCopyButton(InspectPaperDollFrame)
 	button:SetScript("OnClick", function()
 		CreateGearFrame()
 		GetInspectSources()
 		CopyTexts()
 	end)
-	InspectPaperDollFrame.CopyButton = button
 
 	B:UnregisterEvent(event, SetupInspectButton)
 end

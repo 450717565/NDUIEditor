@@ -610,8 +610,8 @@ function UF.PostCreateIcon(element, button)
 	button.cd:SetReverse(true)
 	button.cd:SetInside(button.bd)
 
-	button.overlay:SetTexture(nil)
-	button.stealable:SetTexture(nil)
+	button.overlay:SetTexture("")
+	button.stealable:SetTexture("")
 
 	if element.disableCooldown then button.timer = B.CreateFS(button, 12) end
 end

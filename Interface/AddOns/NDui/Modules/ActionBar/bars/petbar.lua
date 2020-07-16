@@ -22,8 +22,8 @@ function Bar:CreatePetbar()
 	--move the buttons into position and reparent them
 	PetActionBarFrame:SetParent(frame)
 	PetActionBarFrame:EnableMouse(false)
-	SlidingActionBarTexture0:SetTexture(nil)
-	SlidingActionBarTexture1:SetTexture(nil)
+	SlidingActionBarTexture0:SetTexture("")
+	SlidingActionBarTexture1:SetTexture("")
 
 	for i = 1, num do
 		local button = _G["PetActionButton"..i]

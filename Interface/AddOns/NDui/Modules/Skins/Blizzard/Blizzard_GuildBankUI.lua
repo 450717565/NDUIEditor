@@ -60,7 +60,7 @@ C.themes["Blizzard_GuildBankUI"] = function()
 			B.ReskinHighlight(bu, icbg)
 
 			local border = bu.IconBorder
-			B.ReskinBorder(border, icbg)
+			B.ReskinIconBorder(border, icbg)
 
 			local searchOverlay = bu.searchOverlay
 			searchOverlay:SetAllPoints(icbg)
