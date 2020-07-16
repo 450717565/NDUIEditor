@@ -33,13 +33,12 @@ C.themes["Blizzard_MacroUI"] = function()
 	local selectedbg = B.ReskinIcon(selectedic)
 	B.ReskinHighlight(selectedbu, selectedbg)
 
-	local function reskinButton(button, i)
-		local button = _G[button..i]
-		local icon = _G[button..i.."Icon"]
-
+	local function reskinButton(button)
 		if button.styled then return end
 
 		B.StripTextures(button)
+		local frameName = B.GetFrameName(button)
+		local icon = _G[frameName.."Icon"]
 
 		local icbg = B.ReskinIcon(icon)
 		B.ReskinChecked(button, icbg)
@@ -49,12 +48,12 @@ C.themes["Blizzard_MacroUI"] = function()
 	end
 
 	for i = 1, MAX_ACCOUNT_MACROS do
-		reskinButton("MacroButton", i)
+		reskinButton(_G["MacroButton"..i])
 	end
 
 	MacroPopupFrame:HookScript("OnShow", function(self)
 		for i = 1, NUM_MACRO_ICONS_SHOWN do
-			reskinButton("MacroPopupButton", i)
+			reskinButton(_G["MacroPopupButton"..i])
 		end
 
 		self:ClearAllPoints()
