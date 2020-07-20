@@ -205,6 +205,7 @@ local defaultSettings = {
 		Enable = true,
 		maxAuras = 12,
 		AutoPerRow = 6,
+		AuraFilter = 3,
 		FriendlyCC = false,
 		HostileCC = true,
 		TankMode = false,
@@ -219,6 +220,7 @@ local defaultSettings = {
 		ShowPowerList = "",
 		VerticalSpacing = .8,
 		ShowPlayerPlate = false,
+		PPWidth = 175,
 		PPHeight = 5,
 		PPPowerText = false,
 		NPsHPMode = 1,
@@ -228,7 +230,6 @@ local defaultSettings = {
 		OffTankColor = {r=0, g=0, b=1},
 		DPSRevertThreat = false,
 		ExplosivesScale = false,
-		PPIconSize = 32,
 		AKSProgress = true,
 		PPHideOOC = true,
 		NameplateClassPower = false,
@@ -766,6 +767,8 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 	},
 	[5] = {
 		{1, "Nameplate", "Enable", DB.MyColor..L["Enable Nameplate"], nil, setupNameplateFilter},
+		{5, "Nameplate", "HighlightColor", L["Highlight Color"], 2},
+		{5, "Nameplate", "SelectedColor", L["Selected Color"], 3},
 		{},--blank
 		{1, "Nameplate", "FriendlyCC", L["Friendly CC"].."*"},
 		{1, "Nameplate", "HostileCC", L["Hostile CC"].."*", true},
@@ -788,8 +791,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{4, "Nameplate", "TargetIndicator", L["TargetIndicator"].."*", false, {DISABLE, L["TargetGlow"], L["TopArrow"], L["RightArrow"], L["TopNGlow"], L["RightNGlow"]}, refreshNameplates},
 		{4, "Nameplate", "NPsHPMode", L["HP Val Mode"].."*", true, {L["Only Percent"], L["Only Number"], L["Num and Per"]}, refreshNameplates},
 		{4, "Nameplate", "ArrowColor", L["Arrow Color"], false, {L["Cyan"], L["Green"], L["Red"]}},
-		{5, "Nameplate", "HighlightColor", L["Highlight Color"], 2},
-		{5, "Nameplate", "SelectedColor", L["Selected Color"], 3},
+		{4, "Nameplate", "AuraFilter", L["NameplateAuraFilter"].."*", true, {L["BlackNWhite"], L["PlayerOnly"], L["IncludeCrowdControl"]}, refreshNameplates},
 		{},--blank
 		{3, "Nameplate", "VerticalSpacing", L["NP VerticalSpacing"].."*", false, {.5, 1.5, .01}, updatePlateSpacing},
 		{3, "Nameplate", "Distance", L["Nameplate Distance"].."*", true, {20, 100, 1}, updatePlateRange},
@@ -815,9 +817,9 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Nameplate", "NameplateClassPower", L["Nameplate ClassPower"], true},
 		{1, "Nameplate", "PPPowerText", L["PlayerPlate PowerText"]},
 		{1, "Nameplate", "PPHideOOC", L["Fadeout OOC"]},
-		{3, "Nameplate", "PPIconSize", L["PlayerPlate IconSize"], true, {30, 60, 1}, updatePlayerPlate},
-		{3, "Nameplate", "PPHeight", L["PlayerPlate Height"].."*", false, {5, 10, 1}, updatePlayerPlate},
-		{3, "Nameplate", "PPCPHeight", L["PlayerPlate CP Height"].."*", true, {10, 20, 1}, updatePlayerPlate},
+		{3, "Nameplate", "PPCPHeight", L["PlayerPlate CP Height"].."*", true, {10, 30, 1}, updatePlayerPlate},
+		{3, "Nameplate", "PPWidth", L["PlayerPlate Width"].."*", false, {150, 300, 1}, updatePlayerPlate}, -- FIX ME: need to refactor classpower
+		{3, "Nameplate", "PPHeight", L["PlayerPlate Height"].."*", true, {5, 20, 1}, updatePlayerPlate},
 		{},--blank
 		{1, "Auras", "ReverseBuffs", L["ReverseBuffs"]},
 		{1, "Auras", "ReverseDebuffs", L["ReverseDebuffs"], true},

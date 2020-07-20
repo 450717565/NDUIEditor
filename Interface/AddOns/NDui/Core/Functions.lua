@@ -1436,22 +1436,35 @@ do
 		local quality = AtlasToQuality[atlas]
 		local r, g, b = GetItemQualityColor(quality or 1)
 		self.__owner.icbg:SetBackdropBorderColor(r, g, b)
+
+		if self.__owner.bubg then
+			self.__owner.bubg:SetBackdropBorderColor(r, g, b)
+		end
 	end
 	local function updateIconBorderColor(self, r, g, b)
 		if r == .65882 then r, g, b = 1, 1, 1 end
 		self.__owner.icbg:SetBackdropBorderColor(r, g, b)
+
+		if self.__owner.bubg then
+			self.__owner.bubg:SetBackdropBorderColor(r, g, b)
+		end
 	end
 	local function resetIconBorderColor(self)
 		self.__owner.icbg:SetBackdropBorderColor(0, 0, 0)
+
+		if self.__owner.bubg then
+			self.__owner.bubg:SetBackdropBorderColor(0, 0, 0)
+		end
 	end
 
-	function B:ReskinIconBorder(icbg)
+	function B:ReskinIconBorder(icbg, bubg)
 		if not self then return end
 
 		self:SetAlpha(0)
 		self.__owner = self:GetParent()
 
-		if not self.__owner.icbg then self.__owner.icbg = icbg end
+		if not self.__owner.icbg and icbg then self.__owner.icbg = icbg end
+		if not self.__owner.bubg and bubg then self.__owner.bubg = bubg end
 		if not self.__owner.icbg then return end
 
 		if self.__owner.useCircularIconBorder then
@@ -1460,6 +1473,10 @@ do
 			hooksecurefunc(self, "SetVertexColor", updateIconBorderColor)
 		end
 		hooksecurefunc(self, "Hide", resetIconBorderColor)
+
+		if self.__owner.IconOverlay then
+			self.__owner.IconOverlay:SetInside(icbg)
+		end
 	end
 
 	function B:ReskinBorder(relativeTo, classColor)
@@ -1658,6 +1675,8 @@ do
 	end
 
 	function B:ReskinMerchantItem()
+		local ExtVendor = IsAddOnLoaded("ExtVendor")
+
 		B.StripTextures(self, 0)
 
 		local button = self.ItemButton
@@ -1666,7 +1685,7 @@ do
 		local icbg = B.ReskinIcon(button.icon)
 		B.ReskinHighlight(button, icbg)
 		B.ReskinIconBorder(button.IconBorder, icbg)
-		button.IconOverlay:SetInside(icbg)
+		button.icbg = icbg
 
 		local frameName = B.GetFrameName(self)
 		local count = _G[frameName.."ItemButtonCount"]
@@ -1680,14 +1699,23 @@ do
 		stock:SetPoint("TOPRIGHT", icbg, "TOPRIGHT", -1, -1)
 
 		local name = _G[frameName.."Name"]
-		name:SetWordWrap(false)
+		name:SetWordWrap(ExtVendor and true or false)
 		name:SetJustifyH("LEFT")
 		name:ClearAllPoints()
-		name:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 4, 2)
+		if ExtVendor then
+			name:SetFontObject(Game12Font)
+			name:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 4, 4)
+		else
+			name:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 4, 2)
+		end
 
 		local money = _G[frameName.."MoneyFrame"]
 		money:ClearAllPoints()
-		money:SetPoint("BOTTOMLEFT", icbg, "BOTTOMRIGHT", 4, 2)
+		if ExtVendor then
+			money:SetPoint("BOTTOMLEFT", icbg, "BOTTOMRIGHT", 4, 0)
+		else
+			money:SetPoint("BOTTOMLEFT", icbg, "BOTTOMRIGHT", 4, 2)
+		end
 	end
 
 	function B:ReskinPartyPoseUI()

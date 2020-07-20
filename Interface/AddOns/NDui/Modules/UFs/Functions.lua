@@ -711,7 +711,8 @@ function UF.CustomFilter(element, unit, button, name, _, _, _, _, _, caster, isS
 		elseif NDuiADB["NameplateFilter"][1][spellID] or C.WhiteList[spellID] then
 			return true
 		else
-			return nameplateShowAll or (caster == "player" or caster == "pet" or caster == "vehicle")
+			local auraFilter = NDuiDB["Nameplate"]["AuraFilter"]
+			return (auraFilter == 3 and nameplateShowAll) or (auraFilter ~= 1 and (caster == "player" or caster == "pet" or caster == "vehicle"))
 		end
 	elseif (element.onlyShowPlayer and button.isPlayer) or (not element.onlyShowPlayer and name) then
 		return true
@@ -967,7 +968,7 @@ function UF:CreateClassPower(self)
 
 		if NDuiDB["Nameplate"]["ShowPlayerPlate"] then
 			bars[i].glow = CreateFrame("Frame", nil, bars[i])
-			bars[i].glow:SetOutside(bars[i].bd, 3)
+			bars[i].glow:SetOutside(bars[i].bd, 4)
 		end
 
 		bars[i].bg.multiplier = .25

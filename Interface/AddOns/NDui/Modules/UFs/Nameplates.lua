@@ -766,28 +766,46 @@ end
 function UF:ResizePlayerPlate()
 	local plate = _G.oUF_PlayerPlate
 	if plate then
-		local iconSize, iconMargin = NDuiDB["Nameplate"]["PPIconSize"], B.Scale(DB.Space)
-		local height = NDuiDB["Nameplate"]["PPHeight"]
-		local cpHeight = NDuiDB["Nameplate"]["PPCPHeight"]
-		plate:SetSize(iconSize*5 + iconMargin*4 - C.mult*2, height)
-		plate.Health:SetHeight(height)
-		plate.Power:SetHeight(height)
+		local margin = B.Scale(DB.Space)
+		local pWidth, pHeight, cpHeight = NDuiDB["Nameplate"]["PPWidth"], NDuiDB["Nameplate"]["PPHeight"], NDuiDB["Nameplate"]["PPCPHeight"]
+		plate:SetSize(pWidth, pHeight)
+		plate.mover:SetSize(pWidth, pHeight)
+		plate.Health:SetHeight(pHeight)
+		plate.Power:SetHeight(pHeight)
+
+		if plate.Stagger then
+			plate.Stagger:ClearAllPoints()
+			plate.Stagger:Point("BOTTOMLEFT", plate, "TOPLEFT", 0, DB.Space)
+
+			plate.Stagger:SetSize(pWidth, cpHeight)
+		end
+
 		local bars = plate.ClassPower or plate.Runes
+		local powerWidth = (pWidth - margin*5)/6
 		if bars then
+			bars[1]:ClearAllPoints()
+			bars[1]:Point("BOTTOMLEFT", plate, "TOPLEFT", 0, DB.Space)
+
 			for i = 1, 6 do
-				bars[i]:SetHeight(cpHeight)
+				bars[i]:SetSize(powerWidth, cpHeight)
 			end
 		end
-		if plate.Stagger then
-			plate.Stagger:SetHeight(cpHeight)
-		end
+
+		local iconSize = (pWidth - margin*4 + C.mult*2)/5
 		if plate.bu then
 			for i = 1, 5 do
-				plate.bu[i]:SetSize(NDuiDB["Nameplate"]["PPIconSize"], NDuiDB["Nameplate"]["PPIconSize"])
+				plate.bu[i]:SetSize(iconSize, iconSize)
 			end
 		end
+
+		local dicesSize = (pWidth - margin*5 + C.mult*2)/6
 		if plate.dices then
-			plate.dices[1]:Point("BOTTOMLEFT", plate.ClassPower, "TOPLEFT", 0, DB.Space)
+			plate.dices[1]:ClearAllPoints()
+			plate.dices[1]:Point("BOTTOMLEFT", _G.oUF_ClassPowerBar, "TOPLEFT", 0, DB.Space)
+
+			for i = 1, 6 do
+				plate.dices[i]:SetSize(dicesSize, dicesSize)
+			end
 		end
 	end
 end
@@ -795,9 +813,7 @@ end
 function UF:CreatePlayerPlate()
 	self.mystyle = "PlayerPlate"
 	self:EnableMouse(false)
-	local iconSize, iconMargin = NDuiDB["Nameplate"]["PPIconSize"], B.Scale(DB.Space)
-	local height = NDuiDB["Nameplate"]["PPHeight"]
-	self:SetSize(iconSize*5 + iconMargin*4 - C.mult*2, height)
+	self:SetSize(NDuiDB["Nameplate"]["PPWidth"], NDuiDB["Nameplate"]["PPHeight"])
 
 	UF:CreateHealthBar(self)
 	UF:CreatePowerBar(self)

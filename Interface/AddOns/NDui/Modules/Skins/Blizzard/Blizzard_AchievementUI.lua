@@ -138,7 +138,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 		local completed = select(4, GetAchievementInfo(category, achievement))
 		if completed then
 			if button.accountWide then
-				button.label:SetTextColor(0, .6, 1)
+				button.label:SetTextColor(0, .8, 1)
 			else
 				button.label:SetTextColor(1, .8, 0)
 			end
@@ -147,7 +147,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 			button.hiddenDescription:SetTextColor(1, 1, 1)
 		else
 			if button.accountWide then
-				button.label:SetTextColor(0, .6, 1, .5)
+				button.label:SetTextColor(0, .8, 1, .5)
 			else
 				button.label:SetTextColor(1, .8, 0, .5)
 			end
@@ -179,7 +179,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 			bu.description:SetTextColor(1, 1, 1)
 
 			if bu.accountWide then
-				bu.label:SetTextColor(0, .6, 1)
+				bu.label:SetTextColor(0, .8, 1)
 			else
 				bu.label:SetTextColor(1, .8, 0)
 			end
@@ -252,14 +252,14 @@ C.themes["Blizzard_AchievementUI"] = function()
 
 		if completed then
 			if player.accountWide then
-				player.label:SetTextColor(0, .6, 1)
+				player.label:SetTextColor(0, .8, 1)
 			else
 				player.label:SetTextColor(1, .8, 0)
 			end
 			player.description:SetTextColor(1, 1, 1)
 		else
 			if player.accountWide then
-				player.label:SetTextColor(0, .6, 1, .5)
+				player.label:SetTextColor(0, .8, 1, .5)
 			else
 				player.label:SetTextColor(1, .8, 0, .5)
 			end

@@ -667,6 +667,9 @@ local list = {
 		{AuraID = 273721, UnitID = "target"},
 		{AuraID = 256493, UnitID = "target"},	-- 炽燃的艾泽里特，矿区1
 		{AuraID = 271867, UnitID = "target"},	-- 氪金致胜，矿区1
+		{AuraID = 265085, UnitID = "target", Text = L["Crit"]},	-- 暴击啤酒，自由镇
+		{AuraID = 265056, UnitID = "target", Text = L["Haste"]},	-- 急速啤酒，自由镇
+		{AuraID = 278467, UnitID = "target", Text = ITEM_MOD_CORRUPTION, Flash = true},	-- 腐蚀啤酒，自由镇
 	-- 尼奥罗萨
 		{AuraID = 313175, UnitID = "target"},	-- 硬化核心，拉希奥
 		{AuraID = 313208, UnitID = "target"},	-- 无形幻象，先知斯基特拉
