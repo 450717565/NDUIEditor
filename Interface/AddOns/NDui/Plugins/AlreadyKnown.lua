@@ -76,7 +76,12 @@ local function Hook_UpdateMerchantInfo()
 		end
 	end
 end
-hooksecurefunc("MerchantFrame_UpdateMerchantInfo", Hook_UpdateMerchantInfo)
+
+if IsAddOnLoaded("ExtVendor") then
+	hooksecurefunc("ExtVendor_UpdateMerchantInfo", Hook_UpdateMerchantInfo)
+else
+	hooksecurefunc("MerchantFrame_UpdateMerchantInfo", Hook_UpdateMerchantInfo)
+end
 
 local function Hook_UpdateBuybackInfo()
 	local numItems = GetNumBuybackItems()
@@ -92,7 +97,12 @@ local function Hook_UpdateBuybackInfo()
 		end
 	end
 end
-hooksecurefunc("MerchantFrame_UpdateBuybackInfo", Hook_UpdateBuybackInfo)
+
+if IsAddOnLoaded("ExtVendor") then
+	hooksecurefunc("ExtVendor_UpdateBuybackInfo", Hook_UpdateBuybackInfo)
+else
+	hooksecurefunc("MerchantFrame_UpdateBuybackInfo", Hook_UpdateBuybackInfo)
+end
 
 local function Hook_UpdateAuctionHouse(self)
 	local numResults = self.getNumEntries()

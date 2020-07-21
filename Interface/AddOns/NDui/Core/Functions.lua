@@ -1461,22 +1461,24 @@ do
 		if not self then return end
 
 		self:SetAlpha(0)
-		self.__owner = self:GetParent()
 
-		if not self.__owner.icbg and icbg then self.__owner.icbg = icbg end
-		if not self.__owner.bubg and bubg then self.__owner.bubg = bubg end
-		if not self.__owner.icbg then return end
+		local parent = self:GetParent()
+		if not parent.icbg and icbg then parent.icbg = icbg end
+		if not parent.bubg and bubg then parent.bubg = bubg end
+		if not parent.icbg then return end
 
-		if self.__owner.useCircularIconBorder then
+		if parent.useCircularIconBorder then
 			hooksecurefunc(self, "SetAtlas", updateIconBorderAtlas)
 		else
 			hooksecurefunc(self, "SetVertexColor", updateIconBorderColor)
 		end
 		hooksecurefunc(self, "Hide", resetIconBorderColor)
 
-		if self.__owner.IconOverlay then
-			self.__owner.IconOverlay:SetInside(icbg)
+		if parent.IconOverlay then
+			parent.IconOverlay:SetInside(icbg)
 		end
+
+		self.__owner = parent
 	end
 
 	function B:ReskinBorder(relativeTo, classColor)
@@ -1675,8 +1677,6 @@ do
 	end
 
 	function B:ReskinMerchantItem()
-		local ExtVendor = IsAddOnLoaded("ExtVendor")
-
 		B.StripTextures(self, 0)
 
 		local button = self.ItemButton
@@ -1699,22 +1699,22 @@ do
 		stock:SetPoint("TOPRIGHT", icbg, "TOPRIGHT", -1, -1)
 
 		local name = _G[frameName.."Name"]
-		name:SetWordWrap(ExtVendor and true or false)
+		name:SetWordWrap(DB.isPlayer and false or true)
 		name:SetJustifyH("LEFT")
 		name:ClearAllPoints()
-		if ExtVendor then
+		if DB.isPlayer then
+			name:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 4, 2)
+		else
 			name:SetFontObject(Game12Font)
 			name:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 4, 4)
-		else
-			name:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 4, 2)
 		end
 
 		local money = _G[frameName.."MoneyFrame"]
 		money:ClearAllPoints()
-		if ExtVendor then
-			money:SetPoint("BOTTOMLEFT", icbg, "BOTTOMRIGHT", 4, 0)
-		else
+		if DB.isPlayer then
 			money:SetPoint("BOTTOMLEFT", icbg, "BOTTOMRIGHT", 4, 2)
+		else
+			money:SetPoint("BOTTOMLEFT", icbg, "BOTTOMRIGHT", 4, 0)
 		end
 	end
 

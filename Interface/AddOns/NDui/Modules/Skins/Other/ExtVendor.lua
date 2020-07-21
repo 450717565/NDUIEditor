@@ -26,4 +26,29 @@ function S:ExtVendor()
 	end
 
 	hooksecurefunc("ExtVendor_UpdateMerchantInfo", B.UpdateMerchantInfo)
+
+	B.ReskinFrame(ExtVendor_QVConfigFrame)
+	B.ReskinButton(ExtVendor_QVConfigFrame_OptionContainer_SaveButton)
+
+	local checks = {"EnableButton", "SuboptimalArmor", "AlreadyKnown", "UnusableEquip", "WhiteGear", "OutdatedGear", "OutdatedFood"}
+	for _, check in pairs(checks) do
+		B.ReskinCheck(_G["ExtVendor_QVConfigFrame_OptionContainer_"..check])
+	end
+
+	local buttons = {"RemoveFromBlacklistButton", "ResetBlacklistButton", "RemoveFromGlobalWhitelistButton", "ClearGlobalWhitelistButton", "RemoveFromLocalWhitelistButton", "ClearLocalWhitelistButton", "ItemDropBlacklistButton", "ItemDropGlobalWhitelistButton", "ItemDropLocalWhitelistButton"}
+	for _, button in pairs(buttons) do
+		B.ReskinButton(_G["ExtVendor_QVConfigFrame_"..button])
+	end
+
+	local lists = {"Blacklist", "GlobalWhitelist", "LocalWhitelist"}
+	for _, list in pairs(lists) do
+		local frame = _G["ExtVendor_QVConfigFrame_"..list]
+		local itemList = _G["ExtVendor_QVConfigFrame_"..list.."ItemList"]
+		B.StripTextures(frame)
+		local bg = B.CreateBDFrame(frame, 0)
+		bg:SetOutside(itemList)
+
+		local scrollBar = _G["ExtVendor_QVConfigFrame_"..list.."ItemListScrollBar"]
+		B.ReskinScroll(scrollBar)
+	end
 end

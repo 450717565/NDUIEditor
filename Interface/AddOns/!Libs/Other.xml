@@ -1,6 +1,4 @@
 <Ui>
-	<Include file="Other\CustomSearch-1.0\CustomSearch-1.0.lua"/>
 	<Include file="Other\HereBeDragons-2.0\HereBeDragons.xml"/>
 	<Include file="Other\NickTag-1.0\NickTag-1.0.lua"/>
-	<Include file="Other\Unfit-1.0\Unfit-1.0.lua"/>
 </Ui>

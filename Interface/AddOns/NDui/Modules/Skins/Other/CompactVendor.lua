@@ -49,6 +49,8 @@ function S:CompactVendor()
 		local text = name and name:GetText()
 		local nameString
 		if text and item.link and item.id then
+			text = strmatch(text, itemString)
+
 			local itemLevel = B.GetItemLevel(item.link)
 			local itemSolt = B.GetItemSlot(item.link)
 			if itemLevel and itemSolt then
@@ -62,7 +64,6 @@ function S:CompactVendor()
 			local conLevel = contaminantsLevel[item.id]
 			if conLevel then
 				nameString = conLevel
-				text = strmatch(text, itemString)
 			end
 
 			if nameString then

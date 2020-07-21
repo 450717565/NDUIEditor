@@ -422,14 +422,17 @@ function M:ReplaceContaminantName()
 				end
 				button.levelString:SetText(level or "")
 
-				if level then
-					local name = item.Name
-					replaceItemTitle(name)
-				end
+				local name = item.Name
+				replaceItemTitle(name)
 			end
 		end
 	end
-	hooksecurefunc("MerchantFrame_UpdateMerchantInfo", Hook_UpdateMerchantInfo)
+
+	if IsAddOnLoaded("ExtVendor") then
+		hooksecurefunc("ExtVendor_UpdateMerchantInfo", Hook_UpdateMerchantInfo)
+	else
+		hooksecurefunc("MerchantFrame_UpdateMerchantInfo", Hook_UpdateMerchantInfo)
+	end
 
 	local function Hook_OnTooltipSetItem(self)
 		if not itemString then
