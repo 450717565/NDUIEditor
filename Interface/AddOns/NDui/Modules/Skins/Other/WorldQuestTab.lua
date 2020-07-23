@@ -34,7 +34,7 @@ function S:WorldQuestTab()
 		Reward:SetPoint("RIGHT", button, "RIGHT", -5, 0)
 		Reward.Icon:SetDrawLayer("ARTWORK")
 		local icbg = B.ReskinIcon(Reward.Icon)
-		B.ReskinIconBorder(Reward.IconBorder, icbg)
+		B.ReskinBorder(Reward.IconBorder, icbg)
 
 		local Faction = button.Faction
 		Faction.Ring:Hide()

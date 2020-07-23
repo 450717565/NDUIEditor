@@ -947,7 +947,7 @@ do
 
 	function B:AuraIcon()
 		self.CD = CreateFrame("Cooldown", nil, self, "CooldownFrameTemplate")
-		self.CD:SetAllPoints()
+		self.CD:SetInside()
 		self.CD:SetReverse(true)
 		B.PixelIcon(self, nil, true)
 	end
@@ -1432,32 +1432,31 @@ do
 		["auctionhouse-itemicon-border-artifact"] = LE_ITEM_QUALITY_ARTIFACT,
 		["auctionhouse-itemicon-border-account"] = LE_ITEM_QUALITY_HEIRLOOM,
 	}
-	local function updateIconBorderAtlas(self, atlas)
+	local function updateBorderAtlas(self, atlas)
 		local quality = AtlasToQuality[atlas]
 		local r, g, b = GetItemQualityColor(quality or 1)
-		self.__owner.icbg:SetBackdropBorderColor(r, g, b)
 
+		self.__owner.icbg:SetBackdropBorderColor(r, g, b)
 		if self.__owner.bubg then
 			self.__owner.bubg:SetBackdropBorderColor(r, g, b)
 		end
 	end
-	local function updateIconBorderColor(self, r, g, b)
+	local function updateBorderColor(self, r, g, b)
 		if r == .65882 then r, g, b = 1, 1, 1 end
-		self.__owner.icbg:SetBackdropBorderColor(r, g, b)
 
+		self.__owner.icbg:SetBackdropBorderColor(r, g, b)
 		if self.__owner.bubg then
 			self.__owner.bubg:SetBackdropBorderColor(r, g, b)
 		end
 	end
-	local function resetIconBorderColor(self)
+	local function resetBorderColor(self)
 		self.__owner.icbg:SetBackdropBorderColor(0, 0, 0)
-
 		if self.__owner.bubg then
 			self.__owner.bubg:SetBackdropBorderColor(0, 0, 0)
 		end
 	end
 
-	function B:ReskinIconBorder(icbg, bubg)
+	function B:ReskinBorder(icbg, bubg)
 		if not self then return end
 
 		self:SetAlpha(0)
@@ -1468,11 +1467,11 @@ do
 		if not parent.icbg then return end
 
 		if parent.useCircularIconBorder then
-			hooksecurefunc(self, "SetAtlas", updateIconBorderAtlas)
+			hooksecurefunc(self, "SetAtlas", updateBorderAtlas)
 		else
-			hooksecurefunc(self, "SetVertexColor", updateIconBorderColor)
+			hooksecurefunc(self, "SetVertexColor", updateBorderColor)
 		end
-		hooksecurefunc(self, "Hide", resetIconBorderColor)
+		hooksecurefunc(self, "Hide", resetBorderColor)
 
 		if parent.IconOverlay then
 			parent.IconOverlay:SetInside(icbg)
@@ -1481,7 +1480,7 @@ do
 		self.__owner = parent
 	end
 
-	function B:ReskinBorder(relativeTo, classColor)
+	function B:ReskinSpecialBorder(relativeTo, classColor)
 		if not self then return end
 
 		self:SetTexture(DB.bdTex)
@@ -1677,15 +1676,18 @@ do
 	end
 
 	function B:ReskinMerchantItem()
+		self:SetHeight(44)
 		B.StripTextures(self, 0)
+		B.CreateBDFrame(self, 0)
 
 		local button = self.ItemButton
 		B.StripTextures(button)
+		button:ClearAllPoints()
+		button:SetPoint("LEFT", self, 4, 0)
 
 		local icbg = B.ReskinIcon(button.icon)
 		B.ReskinHighlight(button, icbg)
-		B.ReskinIconBorder(button.IconBorder, icbg)
-		button.icbg = icbg
+		B.ReskinBorder(button.IconBorder, icbg)
 
 		local frameName = B.GetFrameName(self)
 		local count = _G[frameName.."ItemButtonCount"]
@@ -1699,22 +1701,21 @@ do
 		stock:SetPoint("TOPRIGHT", icbg, "TOPRIGHT", -1, -1)
 
 		local name = _G[frameName.."Name"]
+		name:SetWidth(105)
 		name:SetWordWrap(DB.isPlayer and false or true)
 		name:SetJustifyH("LEFT")
 		name:ClearAllPoints()
-		if DB.isPlayer then
-			name:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 4, 2)
-		else
+		name:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 4, 2)
+		if not DB.isPlayer then
 			name:SetFontObject(Game12Font)
-			name:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 4, 4)
 		end
 
 		local money = _G[frameName.."MoneyFrame"]
 		money:ClearAllPoints()
-		if DB.isPlayer then
-			money:SetPoint("BOTTOMLEFT", icbg, "BOTTOMRIGHT", 4, 2)
+		if not DB.isPlayer then
+			money:SetPoint("BOTTOMLEFT", icbg, "BOTTOMRIGHT", 4, -2)
 		else
-			money:SetPoint("BOTTOMLEFT", icbg, "BOTTOMRIGHT", 4, 0)
+			money:SetPoint("BOTTOMLEFT", icbg, "BOTTOMRIGHT", 4, 2)
 		end
 	end
 
@@ -1730,7 +1731,7 @@ do
 		RewardFrame.NameFrame:SetAlpha(0)
 
 		local icbg = B.ReskinIcon(RewardFrame.Icon)
-		B.ReskinIconBorder(RewardFrame.IconBorder, icbg)
+		B.ReskinBorder(RewardFrame.IconBorder, icbg)
 
 		local Label = RewardFrame.Label
 		Label:ClearAllPoints()

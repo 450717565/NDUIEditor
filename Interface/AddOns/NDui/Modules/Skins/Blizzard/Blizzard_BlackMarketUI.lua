@@ -15,7 +15,7 @@ C.themes["Blizzard_BlackMarketUI"] = function()
 	B.StripTextures(HotDeal)
 	B.CreateBDFrame(HotDeal, 0)
 	local icbg = B.ReskinIcon(HotDeal.Item.IconTexture)
-	B.ReskinIconBorder(HotDeal.Item.IconBorder, icbg)
+	B.ReskinBorder(HotDeal.Item.IconBorder, icbg)
 
 	local headers = {"ColumnName", "ColumnLevel", "ColumnType", "ColumnDuration", "ColumnHighBidder", "ColumnCurrentBid"}
 	for _, header in pairs(headers) do

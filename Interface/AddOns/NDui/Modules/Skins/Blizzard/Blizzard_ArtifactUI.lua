@@ -24,7 +24,7 @@ C.themes["Blizzard_ArtifactUI"] = function()
 
 			local slotbg = B.CreateBDFrame(SlotPool, 0)
 			B.ReskinHighlight(SlotPool, slotbg)
-			B.ReskinBorder(SlotPool.Selected, slotbg, true)
+			B.ReskinSpecialBorder(SlotPool.Selected, slotbg, true)
 
 			SlotPool.Border:SetAlpha(0)
 			SlotPool.Background:Hide()

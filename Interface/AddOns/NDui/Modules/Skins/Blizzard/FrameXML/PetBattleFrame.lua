@@ -197,7 +197,7 @@ tinsert(C.defaultThemes, function()
 			if (isBuff and self.displayBuffs) or (not isBuff and self.displayDebuffs) then
 				local frame = self.frames[nextFrame]
 				local icbg = B.ReskinIcon(frame.Icon)
-				B.ReskinBorder(frame.DebuffBorder, icbg)
+				B.ReskinSpecialBorder(frame.DebuffBorder, icbg)
 
 				nextFrame = nextFrame + 1
 			end

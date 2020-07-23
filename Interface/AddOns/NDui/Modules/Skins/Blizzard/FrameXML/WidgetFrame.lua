@@ -40,7 +40,7 @@ tinsert(C.defaultThemes, function()
 					widgetSpell.Border:SetTexture("")
 
 					local icbg = B.ReskinIcon(widgetSpell.Icon)
-					B.ReskinBorder(widgetSpell.DebuffBorder, icbg)
+					B.ReskinSpecialBorder(widgetSpell.DebuffBorder, icbg)
 
 					widgetFrame.styled = true
 				end

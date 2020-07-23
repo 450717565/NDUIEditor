@@ -33,7 +33,7 @@ C.themes["Blizzard_InspectUI"] = function()
 		B.ReskinHighlight(slot, icbg)
 
 		local border = slot.IconBorder
-		B.ReskinIconBorder(border, icbg)
+		B.ReskinBorder(border, icbg)
 
 		if not slot.Eye then
 			slot.Eye = slot:CreateTexture(nil, "OVERLAY")

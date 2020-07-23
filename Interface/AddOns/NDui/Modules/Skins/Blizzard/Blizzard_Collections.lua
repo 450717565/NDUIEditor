@@ -29,9 +29,9 @@ C.themes["Blizzard_Collections"] = function()
 	WardrobeCollectionFrame.FilterButton:ClearAllPoints()
 	WardrobeCollectionFrame.FilterButton:SetPoint("LEFT", WardrobeCollectionFrameSearchBox, "RIGHT", 2, 0)
 
-	local function reskinDrag(drag, point)
-		drag.ActiveTexture:SetTexture(DB.checked)
-		B.ReskinHighlight(drag, point)
+	local function reskinDrag(drag, icbg)
+		drag.ActiveTexture:SetTexture("")
+		B.ReskinHighlight(drag, icbg)
 	end
 
 	local scrollFrames = {MountJournal.ListScrollFrame, PetJournal.listScroll, WardrobeCollectionFrame.SetsCollectionFrame.ScrollFrame}
@@ -42,12 +42,14 @@ C.themes["Blizzard_Collections"] = function()
 
 			local bubg = B.CreateBDFrame(bu, 0, -C.mult*2)
 			B.ReskinHighlight(bu, bubg, true)
+			bu.bubg = bubg
 
 			local sl = bu.SelectedTexture or bu.selectedTexture
 			B.ReskinHighlight(sl, bubg, true)
 
 			local ic = bu.Icon or bu.icon
 			local icbg = B.ReskinIcon(ic)
+			bu.icbg = icbg
 
 			if bu.ProgressBar then
 				local bar = bu.ProgressBar
@@ -115,6 +117,16 @@ C.themes["Blizzard_Collections"] = function()
 		for i = 1, #buttons do
 			local bu = buttons[i]
 			bu.favorite:SetAtlas("collections-icon-favorites")
+
+			if bu.DragButton then
+				if bu.DragButton.ActiveTexture and bu.DragButton.ActiveTexture:IsShown() then
+					bu.icbg:SetBackdropBorderColor(cr, cg, cb)
+					bu.bubg:SetBackdropBorderColor(cr, cg, cb)
+				else
+					bu.icbg:SetBackdropBorderColor(0, 0, 0)
+					bu.bubg:SetBackdropBorderColor(0, 0, 0)
+				end
+			end
 		end
 	end
 
@@ -126,6 +138,15 @@ C.themes["Blizzard_Collections"] = function()
 		if petButtons then
 			for i = 1, #petButtons do
 				local bu = petButtons[i]
+				if bu.dragButton then
+					if bu.dragButton.ActiveTexture and bu.dragButton.ActiveTexture:IsShown() then
+						bu.icbg:SetBackdropBorderColor(cr, cg, cb)
+						bu.bubg:SetBackdropBorderColor(cr, cg, cb)
+					else
+						bu.icbg:SetBackdropBorderColor(0, 0, 0)
+						bu.bubg:SetBackdropBorderColor(0, 0, 0)
+					end
+				end
 
 				local index = bu.index
 				if index then
@@ -179,7 +200,7 @@ C.themes["Blizzard_Collections"] = function()
 	local PetInfo = PetCard.PetInfo
 	B.StripTextures(PetInfo)
 	local icbg = B.ReskinIcon(PetInfo.icon)
-	B.ReskinIconBorder(PetInfo.qualityBorder, icbg)
+	B.ReskinBorder(PetInfo.qualityBorder, icbg)
 	PetInfo.level:SetTextColor(1, 1, 1)
 
 	for i = 1, 6 do
@@ -201,7 +222,7 @@ C.themes["Blizzard_Collections"] = function()
 
 		local icbg = B.ReskinIcon(bu.icon)
 		B.ReskinHighlight(bu.dragButton, icbg)
-		B.ReskinIconBorder(bu.qualityBorder, icbg)
+		B.ReskinBorder(bu.qualityBorder, icbg)
 		bu.level:SetTextColor(1, 1, 1)
 
 		for j = 1, 3 do

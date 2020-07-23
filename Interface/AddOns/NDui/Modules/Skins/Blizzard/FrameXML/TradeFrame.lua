@@ -36,7 +36,7 @@ tinsert(C.defaultThemes, function()
 
 		local icbg = B.ReskinIcon(bu.icon)
 		B.ReskinHighlight(bu, icbg)
-		B.ReskinIconBorder(bu.IconBorder, icbg)
+		B.ReskinBorder(bu.IconBorder, icbg)
 	end
 
 	for i = 1, MAX_TRADE_ITEMS do

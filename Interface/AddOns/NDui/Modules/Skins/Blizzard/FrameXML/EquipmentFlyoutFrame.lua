@@ -24,7 +24,7 @@ tinsert(C.defaultThemes, function()
 		B.ReskinHighlight(button, icbg)
 
 		local border = button.IconBorder
-		B.ReskinIconBorder(border, icbg)
+		B.ReskinBorder(border, icbg)
 
 		if not button.Eye then
 			button.Eye = button:CreateTexture(nil, "OVERLAY")

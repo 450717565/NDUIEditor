@@ -107,7 +107,7 @@ tinsert(C.defaultThemes, function()
 		B.ReskinHighlight(bu, icbg)
 
 		local ib = bu.IconBorder
-		B.ReskinIconBorder(ib, icbg)
+		B.ReskinBorder(ib, icbg)
 	end
 
 	for i = 1, ATTACHMENTS_MAX_SEND do
@@ -118,7 +118,7 @@ tinsert(C.defaultThemes, function()
 		B.ReskinHighlight(button, bubg)
 
 		local border = button.IconBorder
-		B.ReskinIconBorder(border, bubg)
+		B.ReskinBorder(border, bubg)
 	end
 
 	hooksecurefunc("SendMailFrame_Update", function()

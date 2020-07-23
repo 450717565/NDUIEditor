@@ -24,10 +24,10 @@ tinsert(C.defaultThemes, function()
 		B.ReskinHighlight(bu, icbg)
 
 		local border = bu.IconBorder
-		B.ReskinIconBorder(border, icbg)
+		B.ReskinBorder(border, icbg)
 
 		local slotTexture = bu.SlotHighlightTexture
-		if slotTexture then B.ReskinBorder(slotTexture, icbg) end
+		if slotTexture then B.ReskinSpecialBorder(slotTexture, icbg) end
 
 		local searchOverlay = bu.searchOverlay
 		searchOverlay:SetAllPoints(icbg)

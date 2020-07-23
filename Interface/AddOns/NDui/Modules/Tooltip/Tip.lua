@@ -104,9 +104,10 @@ function TT:InsertRoleFrame(role)
 	if not self.roleFrame then
 		local roleFrame = self:CreateTexture(nil, "OVERLAY")
 		roleFrame:ClearAllPoints()
-		roleFrame:SetPoint("TOPRIGHT", self, "TOPLEFT", -3, -3)
-		roleFrame:SetSize(20, 20)
+		roleFrame:Point("TOPRIGHT", self, "TOPLEFT", -DB.Space, -1)
+		roleFrame:SetSize(25, 25)
 		roleFrame:SetTexture("Interface\\LFGFrame\\UI-LFG-ICONS-ROLEBACKGROUNDS")
+
 		local bg = B.CreateBDFrame(roleFrame, 1)
 		self.roleFrame = roleFrame
 		self.roleFrame.bg = bg
@@ -344,7 +345,7 @@ function TT:ReskinRewardIcon()
 
 	if not self.iconStyled then
 		if icon then self.icbg = B.ReskinIcon(icon, 1) end
-		if border then B.ReskinIconBorder(border, self.icbg) end
+		if border then B.ReskinBorder(border, self.icbg) end
 
 		self.iconStyled = true
 	end
@@ -554,7 +555,7 @@ TT:RegisterTooltips("NDui", function()
 				local frame = self.Debuffs.frames[nextDebuff]
 				if frame and frame.Icon then
 					local icbg = B.ReskinIcon(frame.Icon)
-					B.ReskinBorder(frame.DebuffBorder, icbg)
+					B.ReskinSpecialBorder(frame.DebuffBorder, icbg)
 				end
 				nextDebuff = nextDebuff + 1
 			end

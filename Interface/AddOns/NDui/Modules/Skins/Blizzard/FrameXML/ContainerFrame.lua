@@ -36,7 +36,7 @@ tinsert(C.defaultThemes, function()
 			B.ReskinHighlight(button, icbg)
 
 			local border = button.IconBorder
-			B.ReskinIconBorder(border, icbg)
+			B.ReskinBorder(border, icbg)
 
 			local searchOverlay = button.searchOverlay
 			searchOverlay:SetAllPoints(icbg)

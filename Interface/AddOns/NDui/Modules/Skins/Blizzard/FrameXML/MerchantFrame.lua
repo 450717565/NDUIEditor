@@ -27,7 +27,6 @@ tinsert(C.defaultThemes, function()
 	end
 
 	B.ReskinMerchantItem(MerchantBuyBackItem)
-	--B.CreateBGFrame(MerchantBuyBackItem, 2, 0, 0, 0, MerchantBuyBackItemItemButton.icbg)
 
 	local RepairItem = MerchantRepairItemButton:GetRegions()
 	RepairItem:SetTexture("Interface\\Icons\\INV_Hammer_17")

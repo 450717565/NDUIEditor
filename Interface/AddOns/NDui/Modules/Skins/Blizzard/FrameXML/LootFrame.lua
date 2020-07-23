@@ -44,7 +44,7 @@ tinsert(C.defaultThemes, function()
 			B.ReskinHighlight(button, icbg)
 
 			local border = button.IconBorder
-			B.ReskinIconBorder(border, icbg)
+			B.ReskinBorder(border, icbg)
 
 			local quest = _G[bu.."IconQuestTexture"]
 			quest:SetAlpha(0)

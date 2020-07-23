@@ -20,7 +20,7 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 		if ItemButton.EmptyBackground then ItemButton.EmptyBackground:Hide() end
 
 		local icbg = B.ReskinIcon(ItemButton.Icon)
-		B.ReskinIconBorder(ItemButton.IconBorder, icbg)
+		B.ReskinBorder(ItemButton.IconBorder, icbg)
 		B.ReskinHighlight(ItemButton.Highlight, icbg)
 	end
 
