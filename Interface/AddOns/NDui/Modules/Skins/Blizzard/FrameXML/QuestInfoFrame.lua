@@ -94,38 +94,33 @@ tinsert(C.defaultThemes, function()
 
 			-- Follower Rewards
 			for reward in rewardsFrame.followerRewardPool:EnumerateActive() do
-				local portrait = reward.PortraitFrame
+				local PortraitFrame = reward.PortraitFrame
 				if not reward.styled then
-					portrait:ClearAllPoints()
-					B.ReskinGarrisonPortrait(portrait)
+					PortraitFrame:ClearAllPoints()
+					B.ReskinPortrait(PortraitFrame)
 
 					reward.BG:Hide()
 					reward.bg = B.CreateBDFrame(reward, 0)
 
 					if reward.Class then
-						reward.Class:SetSize(36, 36)
-						reward.Class:ClearAllPoints()
-						reward.Class:SetPoint("RIGHT", -2, 2)
-						reward.Class:SetTexCoord(.18, .92, .08, .92)
-						B.CreateBDFrame(reward.Class, 0)
+						B.ReskinFollowerClass(reward.Class, 36, "RIGHT", -2, 2)
 					end
 
 					reward.styled = true
 				end
 
 				if isQuestLog then
-					portrait:SetPoint("TOPLEFT", 2, 0)
+					PortraitFrame:SetPoint("TOPLEFT", 2, 0)
 					reward.bg:SetPoint("TOPLEFT", 0, 1)
 					reward.bg:SetPoint("BOTTOMRIGHT", 2, -3)
 				else
-					portrait:SetPoint("TOPLEFT", 2, -5)
+					PortraitFrame:SetPoint("TOPLEFT", 2, -5)
 					reward.bg:SetPoint("TOPLEFT", 0, -3)
 					reward.bg:SetPoint("BOTTOMRIGHT", 2, 7)
 				end
 
-				if portrait then
-					local r, g, b = GetItemQualityColor(portrait.quality or 1)
-					portrait.squareBG:SetBackdropBorderColor(r, g, b)
+				if PortraitFrame then
+					B.UpdatePortraitColor(PortraitFrame)
 				end
 			end
 

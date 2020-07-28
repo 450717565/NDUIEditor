@@ -418,6 +418,7 @@ do
 		"BottomInset",
 		"Cover",
 		"FilligreeOverlay",
+		"GarrCorners",
 		"Inset",
 		"inset",
 		"InsetFrame",
@@ -1018,6 +1019,7 @@ do
 
 	-- Handle button
 	function B:ReskinButton()
+		if self.Flash then self.Flash:SetTexture("") end
 		B.CleanTextures(self)
 
 		B.CreateBD(self, 0)
@@ -1586,32 +1588,6 @@ do
 	end
 
 	-- UI templates
-	function B:ReskinGarrisonPortrait()
-		self.Portrait:ClearAllPoints()
-		self.Portrait:SetPoint("TOPLEFT", 4, -4)
-		self.Portrait:SetMask(DB.bdTex)
-		self.PortraitRing:Hide()
-		self.PortraitRingQuality:SetTexture("")
-		if self.Highlight then self.Highlight:Hide() end
-
-		self.LevelBorder:SetScale(.0001)
-		self.Level:ClearAllPoints()
-		self.Level:SetPoint("BOTTOM", self, 0, 12)
-
-		local squareBG = B.CreateBDFrame(self.Portrait, 1)
-		self.squareBG = squareBG
-
-		if self.PortraitRingCover then
-			self.PortraitRingCover:SetColorTexture(0, 0, 0)
-			self.PortraitRingCover:SetAllPoints(self.squareBG)
-		end
-
-		if self.Empty then
-			self.Empty:SetColorTexture(0, 0, 0)
-			self.Empty:SetAllPoints(self.Portrait)
-		end
-	end
-
 	function B:ReskinAffixes()
 		for _, frame in ipairs(self.Affixes) do
 			frame.Border:SetTexture("")
@@ -1663,8 +1639,20 @@ do
 
 	function B.UpdateMerchantInfo()
 		for i = 1, MERCHANT_ITEMS_PER_PAGE do
-			local money = _G["MerchantItem"..i.."MoneyFrame"]
-			local currency = _G["MerchantItem"..i.."AltCurrencyFrame"]
+			local item = "MerchantItem"..i
+			local name = _G[item.."Name"]
+			local button = _G[item.."ItemButton"]
+			local money = _G[item.."MoneyFrame"]
+			local currency = _G[item.."AltCurrencyFrame"]
+			local fontHeight = select(2, name:GetFont()) * 2
+			local nameHeight = B.Round(name:GetStringHeight())
+
+			money:ClearAllPoints()
+			if nameHeight >= fontHeight then
+				money:SetPoint("BOTTOMLEFT", button.icbg, "BOTTOMRIGHT", 4, -1)
+			else
+				money:SetPoint("BOTTOMLEFT", button.icbg, "BOTTOMRIGHT", 4, 3)
+			end
 
 			currency:ClearAllPoints()
 			if money:IsShown() then
@@ -1676,9 +1664,9 @@ do
 	end
 
 	function B:ReskinMerchantItem()
-		self:SetHeight(44)
 		B.StripTextures(self, 0)
 		B.CreateBDFrame(self, 0)
+		self:SetHeight(44)
 
 		local button = self.ItemButton
 		B.StripTextures(button)
@@ -1688,6 +1676,7 @@ do
 		local icbg = B.ReskinIcon(button.icon)
 		B.ReskinHighlight(button, icbg)
 		B.ReskinBorder(button.IconBorder, icbg)
+		button.icbg = icbg
 
 		local frameName = B.GetFrameName(self)
 		local count = _G[frameName.."ItemButtonCount"]
@@ -1702,21 +1691,15 @@ do
 
 		local name = _G[frameName.."Name"]
 		name:SetWidth(105)
-		name:SetWordWrap(DB.isPlayer and false or true)
+		name:SetFontObject(Game12Font)
+		name:SetWordWrap(true)
 		name:SetJustifyH("LEFT")
 		name:ClearAllPoints()
 		name:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 4, 2)
-		if not DB.isPlayer then
-			name:SetFontObject(Game12Font)
-		end
 
 		local money = _G[frameName.."MoneyFrame"]
 		money:ClearAllPoints()
-		if not DB.isPlayer then
-			money:SetPoint("BOTTOMLEFT", icbg, "BOTTOMRIGHT", 4, -2)
-		else
-			money:SetPoint("BOTTOMLEFT", icbg, "BOTTOMRIGHT", 4, 2)
-		end
+		money:SetPoint("BOTTOMLEFT", icbg, "BOTTOMRIGHT", 4, 3)
 	end
 
 	function B:ReskinPartyPoseUI()
@@ -1725,7 +1708,7 @@ do
 		B.StripTextures(self.ModelScene, 0)
 		B.CreateBDFrame(self.ModelScene, 0)
 
-		self.OverlayElements.Topper:Hide()
+		self.OverlayElements:Hide()
 
 		local RewardFrame = self.RewardAnimations.RewardFrame
 		RewardFrame.NameFrame:SetAlpha(0)

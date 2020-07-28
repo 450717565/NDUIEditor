@@ -56,7 +56,7 @@ C.themes["Blizzard_Collections"] = function()
 				bar:SetTexture(DB.bdTex)
 				bar:SetVertexColor(cr, cg, cb, .25)
 				bar:SetPoint("TOPLEFT", bubg, C.mult, -C.mult)
-				bar:SetPoint("BOTTOMLEFT", bubg, -C.mult, C.mult)
+				bar:SetPoint("BOTTOMLEFT", bubg, C.mult, C.mult)
 			end
 
 			if bu.DragButton then

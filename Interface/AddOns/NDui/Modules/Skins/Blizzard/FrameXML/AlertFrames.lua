@@ -168,7 +168,7 @@ tinsert(C.defaultThemes, function()
 				frame.glow:SetTexture("")
 				frame.shine:SetTexture("")
 
-				B.ReskinGarrisonPortrait(frame.PortraitFrame)
+				B.ReskinPortrait(frame.PortraitFrame)
 			end
 			frame.FollowerBG:SetTexture("")
 		elseif frame.queue == GarrisonMissionAlertSystem or frame.queue == GarrisonRandomMissionAlertSystem or frame.queue == GarrisonShipMissionAlertSystem or frame.queue == GarrisonShipFollowerAlertSystem then

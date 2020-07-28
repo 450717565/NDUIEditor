@@ -422,8 +422,10 @@ function M:ReplaceContaminantName()
 				end
 				button.levelString:SetText(level or "")
 
-				local name = item.Name
-				replaceItemTitle(name)
+				if level then
+					local name = item.Name
+					replaceItemTitle(name)
+				end
 			end
 		end
 	end

@@ -250,10 +250,12 @@ function G:SetupRaidDebuffs(parent)
 		local instName = self.text or self
 		local index = 0
 
-		for spellID, priority in pairs(C.RaidDebuffs[instName]) do
-			if not (NDuiADB["RaidDebuffs"][instName] and NDuiADB["RaidDebuffs"][instName][spellID]) then
-				index = index + 1
-				applyData(index, instName, spellID, priority)
+		if C.RaidDebuffs[instName] then
+			for spellID, priority in pairs(C.RaidDebuffs[instName]) do
+				if not (NDuiADB["RaidDebuffs"][instName] and NDuiADB["RaidDebuffs"][instName][spellID]) then
+					index = index + 1
+					applyData(index, instName, spellID, priority)
+				end
 			end
 		end
 
@@ -759,7 +761,25 @@ local function SetUnitFrameSize(self, unit)
 	self.Health:SetHeight(healthHeight)
 	self.Power:SetHeight(powerHeight)
 	if self.powerText then
+		self.powerText:ClearAllPoints()
 		self.powerText:SetPoint("RIGHT", -3, NDuiDB["UFs"][unit.."PowerOffset"])
+	end
+
+	if unit ~= "Pet" or unit ~= "Raid" or unit ~= "PartyPet" then
+		if unit == "Party" and NDuiDB["UFs"]["RaidBuffIndicator"] then return end
+		local name, hpval = self.nameText, self.healthValue
+		local textHeight = B.Round((select(2, name:GetFont()) + select(2, hpval:GetFont()) + 7) * NDuiDB["UFs"]["UFTextScale"])
+		name:ClearAllPoints()
+		hpval:ClearAllPoints()
+		if healthHeight < textHeight then
+			name:SetWidth(healthWidth*.55)
+			name:SetPoint("LEFT", 3, 0)
+			hpval:SetPoint("RIGHT", -3, 0)
+		else
+			name:SetWidth(healthWidth*.95)
+			name:SetPoint("TOPLEFT", 3, -3)
+			hpval:SetPoint("BOTTOMRIGHT", -3, 3)
+		end
 	end
 end
 
@@ -803,8 +823,8 @@ function G:SetupUnitFrame(parent)
 	end
 	createOptionGroup(scroll.child, L["Player&Target"], -10, "Player", updatePlayerSize)
 
+	local frame = _G.oUF_Focus
 	local function updateFocusSize()
-		local frame = _G.oUF_Focus
 		if frame then
 			SetUnitFrameSize(frame, "Focus")
 		end

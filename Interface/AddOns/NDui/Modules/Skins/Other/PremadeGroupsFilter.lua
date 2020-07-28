@@ -1,5 +1,6 @@
 local B, C, L, DB = unpack(select(2, ...))
 local S = B:GetModule("Skins")
+local TT = B:GetModule("Tooltip")
 
 function S:PremadeGroupsFilter()
 	if not IsAddOnLoaded("PremadeGroupsFilter") then return end
@@ -56,6 +57,20 @@ function S:PremadeGroupsFilter()
 			self:ClearAllPoints()
 			self:SetPoint("TOPLEFT", LFGListFrame, "TOPRIGHT", 3, 0)
 			self:SetPoint("BOTTOMLEFT", LFGListFrame, "BOTTOMRIGHT", 3, 0)
+		end
+	end)
+
+	local tipStyled
+	hooksecurefunc(PremadeGroupsFilter.Debug, "PopupMenu_Initialize", function()
+		if tipStyled then return end
+		for i = 1, PremadeGroupsFilterDialog:GetNumChildren() do
+			local child = select(i, PremadeGroupsFilterDialog:GetChildren())
+			if child and child.Shadow then
+				TT.ReskinTooltip(child)
+
+				tipStyled = true
+				break
+			end
 		end
 	end)
 end

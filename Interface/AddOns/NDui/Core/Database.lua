@@ -81,6 +81,7 @@ DB.ScrollButton = " |TInterface\\TUTORIALFRAME\\UI-TUTORIAL-FRAME:13:11:0:-1:512
 DB.AFKTex = "|T"..FRIENDS_TEXTURE_AFK..":14:14:0:0:16:16:1:15:1:15|t"
 DB.DNDTex = "|T"..FRIENDS_TEXTURE_DND..":14:14:0:0:16:16:1:15:1:15|t"
 
+--[[
 DB.Player = {
 	["青玉的烟火-罗宁"] = true,
 	["青玉的烟火-格瑞姆巴托"] = true,
@@ -89,6 +90,7 @@ local function isPlayer()
 	return DB.Player[DB.MyName.."-"..DB.MyRealm]
 end
 DB.isPlayer = isPlayer()
+]]
 
 DB.Space = 3
 DB.Alpha = .8

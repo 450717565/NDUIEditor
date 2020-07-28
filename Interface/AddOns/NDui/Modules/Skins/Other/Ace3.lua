@@ -149,6 +149,8 @@ function S:Ace3_RegisterAsWidget(widget)
 			widget.bar:ClearAllPoints()
 			widget.bar:SetPoint("TOPLEFT", bg, "TOPLEFT", 2, -2)
 			widget.bar:SetPoint("BOTTOMRIGHT", button, "BOTTOMLEFT", -1, 0)
+		elseif TYPE == "LSM30_Border" or TYPE == "LSM30_Background" then
+			bg:SetPoint("TOPLEFT", 45, -22)
 		end
 	elseif TYPE == "EditBox" then
 		B.ReskinButton(widget.button)

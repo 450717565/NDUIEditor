@@ -137,7 +137,7 @@ function UF:CreateHealthText(self)
 	textFrame:SetAllPoints(self.Health)
 	textFrame:SetFrameLevel(self:GetFrameLevel()+2)
 
-	local name = B.CreateFS(textFrame, retVal(self, 13, 12, 12, 12, NDuiDB["Nameplate"]["NameTextSize"]), "", false, "LEFT", 3, 0)
+	local name = B.CreateFS(textFrame, retVal(self, 13, 11, 12, 12, NDuiDB["Nameplate"]["NameTextSize"]), "", false, "LEFT", 3, 0)
 	name:SetJustifyH("LEFT")
 	name:SetScale(NDuiDB["UFs"]["UFTextScale"])
 
@@ -189,7 +189,7 @@ function UF:CreateHealthText(self)
 		self:Tag(name, "[color][name]")
 	end
 
-	local hpval = B.CreateFS(textFrame, retVal(self, 14, 13, 13, 13, NDuiDB["Nameplate"]["HealthTextSize"]), "", false, "RIGHT", -3, 0)
+	local hpval = B.CreateFS(textFrame, retVal(self, 14, 12, 13, 13, NDuiDB["Nameplate"]["HealthTextSize"]), "", false, "RIGHT", -3, 0)
 	hpval:SetJustifyH("RIGHT")
 	hpval:SetScale(NDuiDB["UFs"]["UFTextScale"])
 
