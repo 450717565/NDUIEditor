@@ -394,10 +394,9 @@ function M:OverrideAWQ()
 end
 
 -- Replace contaminant name
+local itemString = HEADER_COLON.."(.+)"
 local contaminantsLevel = DB.ContaminantsLevel
 function M:ReplaceContaminantName()
-	local itemString = HEADER_COLON.."(.+)"
-
 	local function replaceItemTitle(title)
 		local text = title and title:GetText()
 		local newText = text and strmatch(text, itemString)
@@ -406,43 +405,8 @@ function M:ReplaceContaminantName()
 		end
 	end
 
-	local function Hook_UpdateMerchantInfo()
-		local numItems = GetMerchantNumItems()
-		for i = 1, MERCHANT_ITEMS_PER_PAGE do
-			local index = (MerchantFrame.page - 1) * MERCHANT_ITEMS_PER_PAGE + i
-			if index > numItems then return end
-
-			local item = _G["MerchantItem"..i]
-			local button = item.ItemButton
-			if button and button:IsShown() then
-				local id = GetMerchantItemID(index)
-				local level = id and contaminantsLevel[id]
-				if not button.levelString then
-					button.levelString = B.CreateFS(button, 14, "", nil, "TOPLEFT", 3, -3)
-				end
-				button.levelString:SetText(level or "")
-
-				if level then
-					local name = item.Name
-					replaceItemTitle(name)
-				end
-			end
-		end
-	end
-
-	if IsAddOnLoaded("ExtVendor") then
-		hooksecurefunc("ExtVendor_UpdateMerchantInfo", Hook_UpdateMerchantInfo)
-	else
-		hooksecurefunc("MerchantFrame_UpdateMerchantInfo", Hook_UpdateMerchantInfo)
-	end
-
 	local function Hook_OnTooltipSetItem(self)
-		if not itemString then
-			itemString = updateItemString()
-		end
-		if not itemString then return end
-
-		local line = _G[self:GetName().."TextLeft1"]
+		local line = _G[B.GetFrameName(self).."TextLeft1"]
 		replaceItemTitle(line)
 	end
 	GameTooltip:HookScript("OnTooltipSetItem", Hook_OnTooltipSetItem)

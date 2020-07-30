@@ -115,7 +115,7 @@ end
 
 function TT:Corruption_Convert(name, icon, level)
 	for i = 5, self:NumLines() do
-		local line = _G[self:GetName().."TextLeft"..i]
+		local line = _G[B.GetFrameName(self).."TextLeft"..i]
 		local text = line:GetText()
 		if text and strmatch(text, ITEM_MOD_CORRUPTION) then
 			line:SetText(text.." - "..getIconString(icon)..name.." "..level)
@@ -230,7 +230,7 @@ function TT:Corruption_SearchEssence()
 	tip:SetOwner(UIParent, "ANCHOR_NONE")
 	tip:SetInventoryItem(InspectFrame.unit, 2)
 	for i = 1, 10 do
-		local tex = _G[tip:GetName().."Texture"..i]
+		local tex = _G[B.GetFrameName(tip).."Texture"..i]
 		local texture = tex and tex:IsShown() and tex:GetTexture()
 		if texture and essenceTextureIDs[texture] then
 			resistance = 10
@@ -245,7 +245,7 @@ function TT:Corruption_SearchCloak()
 	tip:SetOwner(UIParent, "ANCHOR_NONE")
 	tip:SetInventoryItem(InspectFrame.unit, 15)
 	for i = 1, tip:NumLines() do
-		local line = _G[tip:GetName().."TextLeft"..i]
+		local line = _G[B.GetFrameName(tip).."TextLeft"..i]
 		local text = line and line:GetText()
 		local value = text and strmatch(text, cloakResString)
 		if value then

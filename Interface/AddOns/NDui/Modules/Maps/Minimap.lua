@@ -207,7 +207,7 @@ function module:RecycleBin()
 		isCollecting = true
 
 		for _, child in ipairs({Minimap:GetChildren()}) do
-			local name = child:GetName()
+			local name = B.GetFrameName(child)
 			if name and not blackList[name] and not isButtonSecure(name) then
 				if child:IsObjectType("Button") or strmatch(strupper(name), "BUTTON") then
 					child:SetParent(bin)

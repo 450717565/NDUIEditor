@@ -14,27 +14,24 @@ tinsert(C.defaultThemes, function()
 	local function styleRewardButton(button)
 		if not button or button.styled then return end
 
-		local buttonName = button:GetName()
-		local iconTexture = _G[buttonName.."IconTexture"]
+		local buttonName = B.GetFrameName(button)
 		local shortageBorder = _G[buttonName.."ShortageBorder"]
-		local count = _G[buttonName.."Count"]
+		local iconTexture = _G[buttonName.."IconTexture"]
 		local nameFrame = _G[buttonName.."NameFrame"]
 		local iconBorder = button.IconBorder
 
-		if shortageBorder then shortageBorder:SetAlpha(0) end
-		if count then count:SetDrawLayer("OVERLAY") end
-		if iconBorder then iconBorder:SetAlpha(0) end
-		if nameFrame then nameFrame:Hide() end
-
-		iconTexture:SetDrawLayer("OVERLAY")
 		local icbg = B.ReskinIcon(iconTexture)
-		B.CreateBGFrame(button, 2, 0, -5, 0, icbg)
+		local bubg = B.CreateBGFrame(button, 2, 0, -5, 0, icbg)
+
+		if iconBorder then B.ReskinBorder(button.IconBorder, icbg, bubg) end
+		if shortageBorder then shortageBorder:SetAlpha(0) end
+		if nameFrame then nameFrame:Hide() end
 
 		button.styled = true
 	end
 
 	hooksecurefunc("LFGRewardsFrame_UpdateFrame", function(parentFrame)
-		local parentName = parentFrame:GetName()
+		local parentName = B.GetFrameName(parentFrame)
 
 		for i = 1, parentFrame.numRewardFrames do
 			local itemReward = _G[parentName.."Item"..i]
@@ -66,7 +63,7 @@ tinsert(C.defaultThemes, function()
 
 	hooksecurefunc("LFGDungeonReadyPopup_Update", function()
 		LFGDungeonReadyDialog.SetBackdrop = B.Dummy
-		leaderIcon.bg:SetShown(leaderIcon:IsShown())
+		leaderIcon.icbg:SetShown(leaderIcon:IsShown())
 		rewardLabel:Hide()
 		rewardFrame:ClearAllPoints()
 
@@ -87,7 +84,7 @@ tinsert(C.defaultThemes, function()
 		if not button.styled then
 			B.ReskinIcon(button.texture)
 
-			local border = _G[button:GetName().."Border"]
+			local border = _G[B.GetFrameName(button).."Border"]
 			border:Hide()
 
 			button.styled = true
@@ -163,15 +160,15 @@ tinsert(C.defaultThemes, function()
 	end)
 
 	local function updateRoleBonus(roleButton)
-		if not roleButton.bg then return end
+		if not roleButton.icbg then return end
 		if roleButton.shortageBorder and roleButton.shortageBorder:IsShown() then
 			if roleButton.cover:IsShown() then
-				roleButton.bg:SetBackdropBorderColor(.5, .45, .03)
+				roleButton.icbg:SetBackdropBorderColor(.5, .45, .03)
 			else
-				roleButton.bg:SetBackdropBorderColor(1, .9, .06)
+				roleButton.icbg:SetBackdropBorderColor(1, .9, .06)
 			end
 		else
-			roleButton.bg:SetBackdropBorderColor(0, 0, 0)
+			roleButton.icbg:SetBackdropBorderColor(0, 0, 0)
 		end
 	end
 

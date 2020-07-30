@@ -152,7 +152,7 @@ C.themes["Blizzard_Calendar"] = function()
 
 	hooksecurefunc("CalendarEventFrameBlocker_Update", function(self)
 		local eventFrame = CalendarFrame_GetEventFrame()
-		local eventFrameOverlay = _G[eventFrame:GetName().."ModalOverlay"]
+		local eventFrameOverlay = _G[B.GetFrameName(eventFrame).."ModalOverlay"]
 
 		if eventFrameOverlay then
 			eventFrameOverlay:SetAllPoints()

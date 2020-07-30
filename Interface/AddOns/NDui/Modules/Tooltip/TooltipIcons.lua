@@ -7,13 +7,13 @@ local GetItemIcon, GetSpellTexture = GetItemIcon, GetSpellTexture
 local newString = "0:0:64:64:5:59:5:59"
 
 function TT:SetupTooltipIcon(icon)
-	local title = icon and _G[self:GetName().."TextLeft1"]
+	local title = icon and _G[B.GetFrameName(self).."TextLeft1"]
 	if title then
 		title:SetFormattedText("|T%s:20:20:"..newString..":%d|t %s", icon, 20, title:GetText())
 	end
 
 	for i = 2, self:NumLines() do
-		local line = _G[self:GetName().."TextLeft"..i]
+		local line = _G[B.GetFrameName(self).."TextLeft"..i]
 		if not line then break end
 		local text = line:GetText() or ""
 		if strmatch(text, "|T.-:[%d+:]+|t") then

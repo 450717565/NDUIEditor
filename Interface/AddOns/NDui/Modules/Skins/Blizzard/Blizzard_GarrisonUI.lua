@@ -6,41 +6,6 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	-- [[Functions]]
 	GARRISON_FOLLOWER_ITEM_LEVEL = "iLvl %d"
 
-	function B:ReskinPortrait()
-		self.Portrait:ClearAllPoints()
-		self.Portrait:SetPoint("TOPLEFT", 4, -4)
-		self.Level:ClearAllPoints()
-		self.Level:SetPoint("BOTTOM", self, 0, 12)
-
-		self.LevelBorder:SetAlpha(0)
-		self.PortraitRing:SetAlpha(0)
-		self.PortraitRingQuality:SetAlpha(0)
-
-		local squareBG = B.CreateBDFrame(self.Portrait, 1)
-		self.squareBG = squareBG
-
-		if self.PortraitRingCover then
-			self.PortraitRingCover:SetColorTexture(0, 0, 0, 1)
-			self.PortraitRingCover:SetAllPoints(self.squareBG)
-		end
-
-		if self.Empty then
-			self.Empty:SetColorTexture(0, 0, 0, 1)
-			self.Empty:SetAllPoints(self.squareBG)
-		end
-
-		if self.Highlight then
-			self.Highlight:Hide()
-		end
-	end
-
-	function B:UpdatePortraitColor()
-		if not self.quality or not self.squareBG then return end
-
-		local r, g, b = GetItemQualityColor(self.quality or 1)
-		self.squareBG:SetBackdropBorderColor(r, g, b)
-	end
-
 	function B:ReskinMaterialFrame()
 		self:GetRegions():Hide()
 
@@ -319,7 +284,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	function B:ReskinMissionFrame()
 		B.ReskinFrame(self)
-		B.SetupTabStyle(self, 3)
+		B.ReskinFrameTab(self, 3)
 
 		self.MissionCompleteBackground:SetAlpha(0)
 		if self.ClassHallIcon then self.ClassHallIcon:Hide() end
@@ -409,22 +374,6 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		end
 	end)
 
-	hooksecurefunc(GarrisonMission, "MissionCompleteInitialize", function(self, missionList, index)
-		local mission = missionList[index]
-		if not mission then return end
-
-		local rewards = self.MissionComplete.BonusRewards.Rewards
-		for i = 1, #rewards do
-			local reward = rewards[i]
-			if reward and not reward.styled then
-				local icbg = B.ReskinIcon(reward.Icon)
-				B.ReskinBorder(reward.IconBorder, icbg)
-
-				reward.styled = true
-			end
-		end
-	end)
-
 	hooksecurefunc(GarrisonMission, "SetEnemies", function(_, missionPage, enemies)
 		for i = 1, #enemies do
 			local frame = missionPage.Enemies[i]
@@ -477,10 +426,22 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		end
 	end)
 
+	hooksecurefunc(GarrisonMissionComplete, "ShowRewards", function(self)
+		local currentMission = self.currentMission
+
+		for _, reward in pairs(currentMission.rewards) do
+			if reward and not reward.icbg then
+				reward.icbg = B.ReskinIcon(reward.Icon)
+			end
+
+			B.ReskinBorder(reward.IconBorder, reward.icbg)
+		end
+	end)
+
 	-- [[GarrisonLandingPage]]
 	local GarrisonLandingPage = GarrisonLandingPage
 	B.ReskinFrame(GarrisonLandingPage)
-	B.SetupTabStyle(GarrisonLandingPage, 3)
+	B.ReskinFrameTab(GarrisonLandingPage, 3)
 	B.ReskinFollowerList(GarrisonLandingPage.FollowerList)
 	B.ReskinFollowerTab(GarrisonLandingPage.FollowerTab)
 	B.ReskinFollowerList(GarrisonLandingPage.ShipFollowerList)
@@ -585,7 +546,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	GarrisonShipyardFrame.MissionCompleteBackground:SetAlpha(0)
 
 	local shipyardBG = B.ReskinFrame(GarrisonShipyardFrame)
-	B.SetupTabStyle(GarrisonShipyardFrame, 2)
+	B.ReskinFrameTab(GarrisonShipyardFrame, 2)
 	B.ReskinFollowerList(GarrisonShipyardFrame.FollowerList)
 	B.ReskinFollowerTab(GarrisonShipyardFrame.FollowerTab, true)
 	B.ReskinMissionPage(GarrisonShipyardFrame.MissionTab.MissionPage, true)

@@ -17,7 +17,7 @@ C.themes["Blizzard_TalentUI"] = function()
 	end
 
 	hooksecurefunc("PlayerTalentFrame_UpdateTabs", function()
-		B.SetupTabStyle(PlayerTalentFrame, NUM_TALENT_FRAME_TABS)
+		B.ReskinFrameTab(PlayerTalentFrame, NUM_TALENT_FRAME_TABS)
 	end)
 
 	-- Talent

@@ -77,18 +77,18 @@ C.themes["Blizzard_Communities"] = function()
 		local buttons = self.ListScrollFrame.buttons
 		for i = 1, #buttons do
 			local button = buttons[i]
-			if not button.bg then
+			if not button.bubg then
 				B.CleanTextures(button)
 				button:GetRegions():Hide()
 				button.Selection:SetAlpha(0)
 
-				button.bg = B.CreateBGFrame(button, 5, -5, -10, 5)
+				button.bubg = B.CreateBGFrame(button, 5, -5, -10, 5)
 			end
 
 			if button.Selection:IsShown() then
-				button.bg:SetBackdropColor(cr, cg, cb, .25)
+				button.bubg:SetBackdropColor(cr, cg, cb, .25)
 			else
-				button.bg:SetBackdropColor(0, 0, 0, 0)
+				button.bubg:SetBackdropColor(0, 0, 0, 0)
 			end
 		end
 	end)
@@ -170,8 +170,8 @@ C.themes["Blizzard_Communities"] = function()
 				hooksecurefunc(button, "RefreshExpandedColumns", function(self)
 					if not self.expanded then return end
 
-					if not self.Class.bg then
-						self.Class.bg = B.CreateBDFrame(self.Class, 0)
+					if not self.Class.icbg then
+						self.Class.icbg = B.CreateBDFrame(self.Class, 0)
 					end
 
 					local memberInfo = self:GetMemberInfo()
@@ -196,8 +196,8 @@ C.themes["Blizzard_Communities"] = function()
 				button.styled = true
 			end
 
-			if button and button.Class.bg then
-				button.Class.bg:SetShown(button.Class:IsShown())
+			if button and button.Class.icbg then
+				button.Class.icbg:SetShown(button.Class:IsShown())
 			end
 		end
 	end)
@@ -376,8 +376,8 @@ C.themes["Blizzard_Communities"] = function()
 				hooksecurefunc(button, "UpdateMemberInfo", function(self, info)
 					if not info then return end
 
-					if not self.Class.bg then
-						self.Class.bg = B.CreateBDFrame(self.Class, 0)
+					if not self.Class.icbg then
+						self.Class.icbg = B.CreateBDFrame(self.Class, 0)
 					end
 
 					local classTag = select(2, GetClassInfo(info.classID))

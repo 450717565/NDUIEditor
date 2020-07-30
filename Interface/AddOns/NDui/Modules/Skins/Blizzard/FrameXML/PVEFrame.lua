@@ -2,7 +2,7 @@ local B, C, L, DB = unpack(select(2, ...))
 
 tinsert(C.defaultThemes, function()
 	B.ReskinFrame(PVEFrame)
-	B.SetupTabStyle(PVEFrame, 3)
+	B.ReskinFrameTab(PVEFrame, 3)
 	B.ReskinClose(PremadeGroupsPvETutorialAlert.CloseButton)
 
 	GroupFinderFrame.groupButton1.icon:SetTexture("Interface\\Icons\\INV_Helmet_08")

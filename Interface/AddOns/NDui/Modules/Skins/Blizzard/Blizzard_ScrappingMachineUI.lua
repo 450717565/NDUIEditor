@@ -7,7 +7,8 @@ C.themes["Blizzard_ScrappingMachineUI"] = function()
 	local ItemSlots = ScrappingMachineFrame.ItemSlots
 	B.StripTextures(ItemSlots)
 
-	for button in pairs(ItemSlots.scrapButtons.activeObjects) do
+	local activeObjects = ItemSlots.scrapButtons.activeObjects
+	for button in pairs(activeObjects) do
 		if not button.styled then
 			local icbg = B.ReskinIcon(button.Icon)
 			B.ReskinHighlight(button, icbg)

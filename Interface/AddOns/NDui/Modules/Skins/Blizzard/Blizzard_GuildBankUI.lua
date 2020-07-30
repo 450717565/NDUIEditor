@@ -7,7 +7,7 @@ C.themes["Blizzard_GuildBankUI"] = function()
 	B.ReskinFrame(GuildBankPopupFrame)
 	B.ReskinInput(GuildBankPopupEditBox)
 
-	B.SetupTabStyle(GuildBankFrame, 4)
+	B.ReskinFrameTab(GuildBankFrame, 4)
 
 	B.StripTextures(GuildBankEmblemFrame, 0)
 	B.StripTextures(GuildBankMoneyFrameBackground)

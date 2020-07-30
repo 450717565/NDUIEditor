@@ -13,7 +13,7 @@ local pending = {}
 
 function M:Focuser_Setup()
 	if not self or self.focuser then return end
-	if self:GetName() and strmatch(self:GetName(), "oUF_NPs") then return end
+	if strmatch(B.GetFrameName(self), "oUF_NPs") then return end
 
 	if not InCombatLockdown() then
 		self:SetAttribute(modifier.."-type"..mouseButton, "focus")

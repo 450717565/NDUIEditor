@@ -5,7 +5,7 @@ tinsert(C.defaultThemes, function()
 	local slots = DB.Slots
 
 	B.ReskinFrame(CharacterFrame)
-	B.SetupTabStyle(CharacterFrame, 3)
+	B.ReskinFrameTab(CharacterFrame, 3)
 
 	B.StripTextures(CharacterModelFrame, 0)
 	B.StripTextures(CharacterModelFrameControlFrame)

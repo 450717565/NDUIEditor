@@ -8,7 +8,7 @@ tinsert(C.defaultThemes, function()
 
 	local function clearHighlight()
 		for _, button in pairs(QuestInfoRewardsFrame.RewardButtons) do
-			button.bg:SetBackdropColor(0, 0, 0, 0)
+			button.bubg:SetBackdropColor(0, 0, 0, 0)
 		end
 	end
 
@@ -17,7 +17,7 @@ tinsert(C.defaultThemes, function()
 
 		local relativeTo = select(2, self:GetPoint())
 		if relativeTo then
-			relativeTo.bg:SetBackdropColor(cr, cg, cb, .25)
+			relativeTo.bubg:SetBackdropColor(cr, cg, cb, .25)
 		end
 	end
 
@@ -27,7 +27,7 @@ tinsert(C.defaultThemes, function()
 
 	-- Reskin rewards
 	local function restyleSpellButton(bu)
-		local name = bu:GetName()
+		local name = B.GetFrameName(bu)
 		_G[name.."NameFrame"]:Hide()
 		_G[name.."SpellBorder"]:Hide()
 
@@ -39,25 +39,29 @@ tinsert(C.defaultThemes, function()
 	restyleSpellButton(QuestInfoSpellObjectiveFrame)
 
 	-- Reskin rewards
-	local function restyleRewardButton(bu, isMapQuestInfo)
-		if not bu then return end
+	local function restyleRewardButton(button, isMapQuestInfo)
+		if not button then return end
 
-		if bu.NameFrame then bu.NameFrame:Hide() end
-		if bu.IconBorder then bu.IconBorder:SetAlpha(0) end
+		if button.NameFrame then button.NameFrame:Hide() end
 
-		if bu.Icon then
+		if button.Icon then
 			if isMapQuestInfo then
-				bu.Icon:SetSize(28, 28)
+				if button.Name then button.Name:SetFontObject(Game12Font) end
+				button.Icon:SetSize(28, 28)
 			else
-				bu.Icon:SetSize(38, 38)
+				button.Icon:SetSize(38, 38)
 			end
 
-			local icbg = B.ReskinIcon(bu.Icon)
-			local bubg = B.CreateBDFrame(bu, 0)
+			local icbg = B.ReskinIcon(button.Icon)
+			local bubg = B.CreateBDFrame(button, 0)
 			bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
 			bubg:SetPoint("BOTTOMRIGHT", icbg, "BOTTOMRIGHT", 102, 0)
 
-			bu.bg = bubg
+			if button.IconBorder then
+				B.ReskinBorder(button.IconBorder, icbg, bubg)
+			end
+
+			button.bubg = bubg
 		end
 	end
 

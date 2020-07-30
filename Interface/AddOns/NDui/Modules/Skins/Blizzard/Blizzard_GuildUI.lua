@@ -4,7 +4,7 @@ C.themes["Blizzard_GuildUI"] = function()
 	local cr, cg, cb = DB.r, DB.g, DB.b
 
 	B.ReskinFrame(GuildFrame)
-	B.SetupTabStyle(GuildFrame, 5)
+	B.ReskinFrameTab(GuildFrame, 5)
 
 	GuildPointFrame.RightCap:Hide()
 	GuildPointFrame.LeftCap:Hide()

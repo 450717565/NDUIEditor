@@ -2,7 +2,7 @@ local B, C, L, DB = unpack(select(2, ...))
 
 tinsert(C.defaultThemes, function()
 	B.ReskinFrame(MailFrame)
-	B.SetupTabStyle(MailFrame, 2)
+	B.ReskinFrameTab(MailFrame, 2)
 
 	B.ReskinFrame(OpenMailFrame)
 

@@ -30,12 +30,13 @@ function S:DeadlyBossMods()
 		for bar in self:GetBarIterator() do
 			if not bar.injected then
 				local frame		= bar.frame
-				local tbar		= _G[frame:GetName().."Bar"]
-				local icon1		= _G[frame:GetName().."BarIcon1"]
-				local icon2		= _G[frame:GetName().."BarIcon2"]
-				local name		= _G[frame:GetName().."BarName"]
-				local spark		= _G[frame:GetName().."BarSpark"]
-				local timer		= _G[frame:GetName().."BarTimer"]
+				local frameName = B.GetFrameName(frame)
+				local tbar		= _G[frameName.."Bar"]
+				local icon1		= _G[frameName.."BarIcon1"]
+				local icon2		= _G[frameName.."BarIcon2"]
+				local name		= _G[frameName.."BarName"]
+				local spark		= _G[frameName.."BarSpark"]
+				local timer		= _G[frameName.."BarTimer"]
 
 				if not frame.styled then
 					B.StripTextures(frame)

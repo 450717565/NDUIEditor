@@ -12,7 +12,7 @@ tinsert(C.defaultThemes, function()
 
 		for i = 1, LFD_NUM_ROLES do
 			local roleIcon = self["RoleIcon"..i]
-			roleIcon.bg = B.ReskinRoleIcon(roleIcon)
+			roleIcon.icbg = B.ReskinRoleIcon(roleIcon)
 			if i > 1 then
 				roleIcon:SetPoint("RIGHT", self["RoleIcon"..(i-1)], "LEFT", -4, 0)
 			end
@@ -26,7 +26,7 @@ tinsert(C.defaultThemes, function()
 
 		for i = 1, LFD_NUM_ROLES do
 			local roleIcon = entry["RoleIcon"..i]
-			roleIcon.bg:Hide()
+			roleIcon.icbg:Hide()
 		end
 	end)
 
@@ -34,7 +34,7 @@ tinsert(C.defaultThemes, function()
 		local roleIcon = entry["RoleIcon"..index]
 		roleIcon:SetTexCoord(B.GetRoleTexCoord(role))
 		roleIcon:Show()
-		roleIcon.bg:Show()
+		roleIcon.icbg:Show()
 	end
 
 	hooksecurefunc("QueueStatusEntry_SetFullDisplay", function(entry, _, _, _, isTank, isHealer, isDPS)
@@ -56,7 +56,7 @@ tinsert(C.defaultThemes, function()
 
 		for i = nextRoleIcon, LFD_NUM_ROLES do
 			entry["RoleIcon"..i]:Hide()
-			entry["RoleIcon"..i].bg:Hide()
+			entry["RoleIcon"..i].icbg:Hide()
 		end
 	end)
 end)

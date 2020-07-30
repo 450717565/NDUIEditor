@@ -2,7 +2,7 @@ local B, C, L, DB = unpack(select(2, ...))
 
 tinsert(C.defaultThemes, function()
 	B.ReskinFrame(MerchantFrame)
-	B.SetupTabStyle(MerchantFrame, 2)
+	B.ReskinFrameTab(MerchantFrame, 2)
 
 	B.ReskinDropDown(MerchantFrameLootFilter)
 	B.ReskinArrow(MerchantPrevPageButton, "left")

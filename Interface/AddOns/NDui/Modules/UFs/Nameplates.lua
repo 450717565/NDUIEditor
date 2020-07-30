@@ -262,9 +262,9 @@ function UF:UpdateTargetChange()
 	if NDuiDB["Nameplate"]["TargetIndicator"] == 1 then return end
 
 	if UnitIsUnit(self.unit, "target") and not UnitIsUnit(self.unit, "player") then
-		element:SetAlpha(1)
+		element:Show()
 	else
-		element:SetAlpha(0)
+		element:Hide()
 	end
 end
 
@@ -356,7 +356,7 @@ function UF:UpdateQuestUnit(_, unit)
 	unitTip:SetUnit(unit)
 
 	for i = 2, unitTip:NumLines() do
-		local textLine = _G[unitTip:GetName().."TextLeft"..i]
+		local textLine = _G[B.GetFrameName(unitTip).."TextLeft"..i]
 		local text = textLine:GetText()
 		if textLine and text then
 			local r, g, b = textLine:GetTextColor()
@@ -364,7 +364,7 @@ function UF:UpdateQuestUnit(_, unit)
 				if isInGroup and text == DB.MyName or not isInGroup then
 					isLootQuest = true
 
-					local questLine = _G[unitTip:GetName().."TextLeft"..(i+1)]
+					local questLine = _G[B.GetFrameName(unitTip).."TextLeft"..(i+1)]
 					local questText = questLine:GetText()
 					if questLine and questText then
 						local current, goal = strmatch(questText, "(%d+)/(%d+)")
@@ -662,7 +662,7 @@ function UF:CreatePlates()
 	UF:AddQuestIcon(self)
 	UF:AddDungeonProgress(self)
 
-	platesList[self] = self:GetName()
+	platesList[self] = B.GetFrameName(self)
 end
 
 -- Classpower on target nameplate

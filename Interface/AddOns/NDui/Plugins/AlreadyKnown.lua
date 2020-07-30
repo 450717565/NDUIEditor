@@ -46,7 +46,7 @@ local function IsAlreadyKnown(link, index)
 			tooltip:SetOwner(UIParent, "ANCHOR_NONE")
 			tooltip:SetHyperlink(link)
 			for i = 1, tooltip:NumLines() do
-				local text = _G[tooltip:GetName().."TextLeft"..i]:GetText() or ""
+				local text = _G[B.GetFrameName(tooltip).."TextLeft"..i]:GetText() or ""
 				if strfind(text, COLLECTED) or text == ITEM_SPELL_KNOWN then
 					knowns[link] = true
 					return true

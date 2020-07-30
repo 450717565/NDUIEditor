@@ -7,7 +7,7 @@ tinsert(C.defaultThemes, function()
 	B.ReskinFrame(SpellBookFrame)
 	B.ReskinArrow(SpellBookPrevPageButton, "left")
 	B.ReskinArrow(SpellBookNextPageButton, "right")
-	B.SetupTabStyle(SpellBookFrame, 3, "TabButton")
+	B.ReskinFrameTab(SpellBookFrame, 3, "TabButton")
 
 	SpellBookPageText:SetTextColor(.8, .8, .8)
 	SpellBookSkillLineTab1:ClearAllPoints()
@@ -28,7 +28,7 @@ tinsert(C.defaultThemes, function()
 
 	hooksecurefunc("SpellButton_UpdateButton", function(self)
 		if SpellBookFrame.bookType ~= BOOKTYPE_PROFESSION then
-			local frame = self:GetName()
+			local frame = B.GetFrameName(self)
 
 			local hl = _G[frame.."Highlight"]
 			hl:SetColorTexture(1, 1, 1, .25)

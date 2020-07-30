@@ -108,7 +108,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 	end
 
 	hooksecurefunc("AchievementFrame_UpdateTabs", function()
-		B.SetupTabStyle(AchievementFrame, 3)
+		B.ReskinFrameTab(AchievementFrame, 3)
 	end)
 
 	hooksecurefunc("AchievementObjectives_DisplayCriteria", function(_, id)
@@ -213,7 +213,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 	for _, bar in pairs(bars) do
 		B.ReskinStatusBar(bar)
 
-		local name = bar:GetName()
+		local name = B.GetFrameName(bar)
 
 		local title = _G[name.."Title"]
 		title:SetTextColor(1, 1, 1)

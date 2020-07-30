@@ -270,7 +270,7 @@ local defaultSettings = {
 		BGAlpha = .5,
 		BGColor = {r=0, g=0, b=0},
 		FSColor = {r=.3, g=.3, b=.3},
-		GSColor1 = {r=0, g=0, b=0},
+		GSColor1 = {r=.6, g=.6, b=.6},
 		GSColor2 = {r=.3, g=.3, b=.3},
 		LineColor = {r=.5, g=.5, b=.5},
 	},
@@ -1020,6 +1020,7 @@ local function CreateTab(parent, i, name)
 	tab:SetSize(130, 28)
 	B.CreateBD(tab, 0)
 	B.CreateSD(tab)
+	B.CreateGF(tab)
 	local label = B.CreateFS(tab, 15, name, "system", "LEFT", 10, 0)
 	if i > 13 then
 		label:SetTextColor(cr, cg, cb)

@@ -38,7 +38,7 @@ tinsert(C.defaultThemes, function()
 			B.StripTextures(frame)
 
 			for index in pairs(checkBoxTable) do
-				local checkBoxName = frame:GetName().."CheckBox"..index
+				local checkBoxName = B.GetFrameName(frame).."CheckBox"..index
 				local checkbox = _G[checkBoxName]
 				B.StripTextures(checkbox)
 				B.CreateBDFrame(checkbox, 0, -C.mult*2)
@@ -58,7 +58,7 @@ tinsert(C.defaultThemes, function()
 	hooksecurefunc("ChatConfig_CreateTieredCheckboxes", function(frame, checkBoxTable)
 		if not frame.styled then
 			for index, value in pairs(checkBoxTable) do
-				local checkBoxName = frame:GetName().."CheckBox"..index
+				local checkBoxName = B.GetFrameName(frame).."CheckBox"..index
 				B.ReskinCheck(_G[checkBoxName])
 
 				if value.subTypes then
@@ -77,7 +77,7 @@ tinsert(C.defaultThemes, function()
 			B.StripTextures(frame)
 
 			for index in pairs(swatchTable) do
-				local swatchName = frame:GetName().."Swatch"..index
+				local swatchName = B.GetFrameName(frame).."Swatch"..index
 				local swatch = _G[swatchName]
 				B.StripTextures(swatch)
 				B.CreateBDFrame(swatch, 0, -C.mult*2)

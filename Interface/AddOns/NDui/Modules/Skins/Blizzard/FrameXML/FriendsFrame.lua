@@ -4,7 +4,7 @@ tinsert(C.defaultThemes, function()
 	local icPatch = "Interface\\FriendsFrame\\"
 
 	B.ReskinFrame(FriendsFrame)
-	B.SetupTabStyle(FriendsFrame, 4)
+	B.ReskinFrameTab(FriendsFrame, 4)
 	B.ReskinFrame(AddFriendFrame)
 	B.ReskinInput(AddFriendNameEditBox)
 
@@ -68,6 +68,7 @@ tinsert(C.defaultThemes, function()
 	BroadcastButton:SetSize(20, 20)
 	BroadcastButton:ClearAllPoints()
 	BroadcastButton:SetPoint("LEFT", FriendsFrameStatusDropDownButton, "RIGHT", 1, 0)
+	B.StripTextures(BroadcastButton, 0)
 	B.ReskinButton(BroadcastButton)
 	local newIcon = BroadcastButton:CreateTexture(nil, "ARTWORK")
 	newIcon:SetAllPoints()

@@ -99,9 +99,9 @@ end
 function module:CreateRestoreButton(f)
 	local bu = B.CreateButton(self, 24, 24, true, "Atlas:transmog-icon-revert")
 	bu:SetScript("OnClick", function()
-		NDuiDB["TempAnchor"][f.main:GetName()] = nil
-		NDuiDB["TempAnchor"][f.bank:GetName()] = nil
-		NDuiDB["TempAnchor"][f.reagent:GetName()] = nil
+		NDuiDB["TempAnchor"][B.GetFrameName(f.main)] = nil
+		NDuiDB["TempAnchor"][B.GetFrameName(f.bank)] = nil
+		NDuiDB["TempAnchor"][B.GetFrameName(f.reagent)] = nil
 		f.main:ClearAllPoints()
 		f.main:SetPoint("TOPRIGHT", UIParent, "RIGHT", -100, -25)
 		f.bank:ClearAllPoints()
@@ -691,7 +691,7 @@ function module:OnLogin()
 		end
 
 		if self.JunkIcon then
-			if (item.rarity == LE_ITEM_QUALITY_POOR or NDuiADB["CustomJunkList"][item.id]) and item.sellPrice > 0 then
+			if ((item.rarity and item.rarity == LE_ITEM_QUALITY_POOR) or NDuiADB["CustomJunkList"][item.id]) and (item.sellPrice and item.sellPrice > 0) then
 				self.JunkIcon:Show()
 			else
 				self.JunkIcon:Hide()

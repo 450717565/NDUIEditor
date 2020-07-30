@@ -5,7 +5,7 @@ C.themes["Blizzard_ArtifactUI"] = function()
 	B.StripTextures(ArtifactFrame.PerksTab)
 	B.StripTextures(ArtifactFrame.ForgeBadgeFrame)
 
-	B.SetupTabStyle(ArtifactFrame, 2)
+	B.ReskinFrameTab(ArtifactFrame, 2)
 
 	ArtifactFrame.PerksTab.Model:SetAlpha(.5)
 

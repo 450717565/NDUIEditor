@@ -12,7 +12,7 @@ tinsert(C.defaultThemes, function()
 	B.StripTextures(BankSlotsFrame)
 	B.StripTextures(BankFrameMoneyFrame)
 
-	B.SetupTabStyle(BankFrame, 3)
+	B.ReskinFrameTab(BankFrame, 3)
 
 	local function styleBankButton(bu)
 		B.CleanTextures(bu)

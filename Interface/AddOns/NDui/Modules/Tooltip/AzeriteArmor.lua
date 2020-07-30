@@ -25,7 +25,7 @@ function TT:Azerite_ScanTooltip()
 	wipe(powerList)
 
 	for i = 9, self:NumLines() do
-		local line = _G[self:GetName().."TextLeft"..i]
+		local line = _G[B.GetFrameName(self).."TextLeft"..i]
 		local text = line:GetText()
 		local powerName = text and strmatch(text, "%- (.+)")
 		if powerName then
@@ -91,10 +91,10 @@ function TT:Azerite_UpdateItem()
 		end
 
 		if tooltipText ~= "" then
-			local line = _G[self:GetName().."TextLeft"..lineIndex]
+			local line = _G[B.GetFrameName(self).."TextLeft"..lineIndex]
 			if NDuiDB["Tooltip"]["OnlyArmorIcons"] then
 				line:SetText(tooltipText)
-				_G[self:GetName().."TextLeft"..lineIndex+1]:SetText("")
+				_G[B.GetFrameName(self).."TextLeft"..lineIndex+1]:SetText("")
 			else
 				line:SetText(line:GetText().."\n "..tooltipText)
 			end

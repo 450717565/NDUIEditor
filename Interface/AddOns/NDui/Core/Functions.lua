@@ -196,7 +196,7 @@ do
 
 		local step = 1
 		for i = 1, 10 do
-			local tex = _G[tip:GetName().."Texture"..i]
+			local tex = _G[B.GetFrameName(tip).."Texture"..i]
 			local texture = tex and tex:IsShown() and tex:GetTexture()
 			if texture then
 				if texture == essenceTextureID then
@@ -234,7 +234,7 @@ do
 		local essence = slotInfo.essences[step]
 		if essence and next(essence) and (strfind(lineText, ITEM_SPELL_TRIGGER_ONEQUIP, nil, true) and strfind(lineText, essenceDescription, nil, true)) then
 			for i = 5, 2, -1 do
-				local line = _G[tip:GetName().."TextLeft"..index-i]
+				local line = _G[B.GetFrameName(tip).."TextLeft"..index-i]
 				local text = line and line:GetText()
 
 				if text and (not strmatch(text, "^[ +]")) and essence and next(essence) then
@@ -261,7 +261,7 @@ do
 			slotInfo.gems, slotInfo.essences = B.InspectItemTextures()
 
 			for i = 1, tip:NumLines() do
-				local line = _G[tip:GetName().."TextLeft"..i]
+				local line = _G[B.GetFrameName(tip).."TextLeft"..i]
 				if line then
 					local text = line:GetText() or ""
 					if i == 1 and text == RETRIEVING_ITEM_INFO then
@@ -292,7 +292,7 @@ do
 			end
 
 			for i = 2, 5 do
-				local line = _G[tip:GetName().."TextLeft"..i]
+				local line = _G[B.GetFrameName(tip).."TextLeft"..i]
 				if line then
 					local text = line:GetText() or ""
 					local found = strfind(text, itemLevelString)
@@ -918,9 +918,9 @@ do
 	-- Handle icons
 	function B:ReskinIcon(alpha)
 		self:SetTexCoord(unpack(DB.TexCoord))
-		local bg = B.CreateBDFrame(self, alpha or 0)
+		local icbg = B.CreateBDFrame(self, alpha or 0)
 
-		return bg
+		return icbg
 	end
 
 	function B:PixelIcon(texture, highlight)
@@ -1019,7 +1019,6 @@ do
 
 	-- Handle button
 	function B:ReskinButton()
-		if self.Flash then self.Flash:SetTexture("") end
 		B.CleanTextures(self)
 
 		B.CreateBD(self, 0)
@@ -1038,7 +1037,7 @@ do
 		B.ReskinHighlight(self, bg, true)
 	end
 
-	function B:SetupTabStyle(index, tabName)
+	function B:ReskinFrameTab(index, tabName)
 		local frameName = B.GetFrameName(self)
 		local tab = frameName and frameName.."Tab"
 
@@ -1104,7 +1103,7 @@ do
 
 	-- Handle dropdown
 	function B:ReskinDropDown()
-		B.StripTextures(self, 0)
+		B.StripTextures(self)
 		B.CleanTextures(self)
 
 		local frameName = B.GetFrameName(self)
@@ -1588,25 +1587,6 @@ do
 	end
 
 	-- UI templates
-	function B:ReskinAffixes()
-		for _, frame in ipairs(self.Affixes) do
-			frame.Border:SetTexture("")
-			frame.Portrait:SetTexture("")
-			if not frame.styled then
-				B.ReskinIcon(frame.Portrait, 1)
-
-				frame.styled = true
-			end
-
-			if frame.info then
-				frame.Portrait:SetTexture(CHALLENGE_MODE_EXTRA_AFFIX_INFO[frame.info.key].texture)
-			elseif frame.affixID then
-				local _, _, filedataid = C_ChallengeMode.GetAffixInfo(frame.affixID)
-				frame.Portrait:SetTexture(filedataid)
-			end
-		end
-	end
-
 	function B:ReskinFrame(killType)
 		if killType == "noKill" then
 			B.StripTextures(self)
@@ -1637,28 +1617,107 @@ do
 		return bg
 	end
 
+	function B:ReskinPortrait()
+		self.Portrait:ClearAllPoints()
+		self.Portrait:SetPoint("TOPLEFT", 4, -4)
+		self.Level:ClearAllPoints()
+		self.Level:SetPoint("BOTTOM", self, 0, 12)
+
+		self.LevelBorder:SetAlpha(0)
+		self.PortraitRing:SetAlpha(0)
+		self.PortraitRingQuality:SetAlpha(0)
+
+		local squareBG = B.CreateBDFrame(self.Portrait, 1)
+		self.squareBG = squareBG
+
+		if self.PortraitRingCover then
+			self.PortraitRingCover:SetColorTexture(0, 0, 0, 1)
+			self.PortraitRingCover:SetAllPoints(self.squareBG)
+		end
+
+		if self.Empty then
+			self.Empty:SetColorTexture(0, 0, 0, 1)
+			self.Empty:SetAllPoints(self.squareBG)
+		end
+
+		if self.Highlight then
+			self.Highlight:Hide()
+		end
+	end
+
+	function B:UpdatePortraitColor()
+		if not self.quality or not self.squareBG then return end
+
+		local r, g, b = GetItemQualityColor(self.quality or 1)
+		self.squareBG:SetBackdropBorderColor(r, g, b)
+	end
+
+	function B:ReskinAffixes()
+		for _, frame in ipairs(self.Affixes) do
+			frame.Border:SetTexture("")
+			frame.Portrait:SetTexture("")
+			if not frame.styled then
+				B.ReskinIcon(frame.Portrait, 1)
+
+				frame.styled = true
+			end
+
+			if frame.info then
+				frame.Portrait:SetTexture(CHALLENGE_MODE_EXTRA_AFFIX_INFO[frame.info.key].texture)
+			elseif frame.affixID then
+				local _, _, filedataid = C_ChallengeMode.GetAffixInfo(frame.affixID)
+				frame.Portrait:SetTexture(filedataid)
+			end
+		end
+	end
+
+	local itemString = HEADER_COLON.."(.+)"
+	local contaminantsLevel = DB.ContaminantsLevel
+	local function replaceItemTitle(title)
+		local text = title and title:GetText()
+		local newText = text and strmatch(text, itemString)
+		if newText then
+			title:SetText(newText)
+		end
+	end
+
 	function B.UpdateMerchantInfo()
+		local numItems = GetMerchantNumItems()
 		for i = 1, MERCHANT_ITEMS_PER_PAGE do
+			local index = (MerchantFrame.page - 1) * MERCHANT_ITEMS_PER_PAGE + i
+			if index > numItems then return end
+
 			local item = "MerchantItem"..i
 			local name = _G[item.."Name"]
 			local button = _G[item.."ItemButton"]
 			local money = _G[item.."MoneyFrame"]
 			local currency = _G[item.."AltCurrencyFrame"]
-			local fontHeight = select(2, name:GetFont()) * 2
-			local nameHeight = B.Round(name:GetStringHeight())
+			local nameLine = name:GetNumLines()
 
-			money:ClearAllPoints()
-			if nameHeight >= fontHeight then
-				money:SetPoint("BOTTOMLEFT", button.icbg, "BOTTOMRIGHT", 4, -1)
-			else
-				money:SetPoint("BOTTOMLEFT", button.icbg, "BOTTOMRIGHT", 4, 3)
-			end
+			if button and button:IsShown() then
+				local id = GetMerchantItemID(index)
+				local level = id and contaminantsLevel[id]
+				if not button.levelString then
+					button.levelString = B.CreateFS(button, 14, "", nil, "TOPLEFT", 3, -3)
+				else
+					button.levelString:SetText(level or "")
+				end
 
-			currency:ClearAllPoints()
-			if money:IsShown() then
-				currency:Point("LEFT", money, "RIGHT", -10, 2)
-			else
-				currency:Point("LEFT", money, "LEFT", 0, 2)
+				replaceItemTitle(name)
+
+				money:ClearAllPoints()
+				if name:GetNumLines() > 1 then
+					money:SetPoint("BOTTOMLEFT", button.icbg, "BOTTOMRIGHT", 4, -1)
+				else
+					money:SetPoint("BOTTOMLEFT", button.icbg, "BOTTOMRIGHT", 4, 4)
+				end
+
+				currency:ClearAllPoints()
+				if money:IsShown() then
+					currency:SetPoint("LEFT", money, "RIGHT", -10, 0)
+				else
+					currency:SetPoint("LEFT", money, "LEFT", 0, 0)
+				end
 			end
 		end
 	end
@@ -1699,7 +1758,7 @@ do
 
 		local money = _G[frameName.."MoneyFrame"]
 		money:ClearAllPoints()
-		money:SetPoint("BOTTOMLEFT", icbg, "BOTTOMRIGHT", 4, 3)
+		money:SetPoint("BOTTOMLEFT", icbg, "BOTTOMRIGHT", 4, 4)
 	end
 
 	function B:ReskinPartyPoseUI()
@@ -1869,14 +1928,14 @@ do
 			icbg:SetFrameLevel(self:GetFrameLevel() + 1)
 		end
 
-		self.bg = B.CreateBDFrame(self, 0)
+		self.icbg = B.CreateBDFrame(self, 0)
 	end
 
 	function B:ReskinRoleIcon()
 		self:SetTexture(DB.rolesTex)
-		local bg = B.CreateBDFrame(self)
+		local icbg = B.CreateBDFrame(self)
 
-		return bg
+		return icbg
 	end
 end
 

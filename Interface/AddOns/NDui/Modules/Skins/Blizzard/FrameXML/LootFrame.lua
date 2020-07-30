@@ -19,7 +19,6 @@ tinsert(C.defaultThemes, function()
 	SpecIcon:SetPoint("RIGHT", PromptFrame.InfoFrame, "RIGHT", -5, 0)
 
 	local icbg = B.ReskinIcon(SpecIcon)
-	icbg:SetFrameLevel(BonusRollFrame:GetFrameLevel() + 1)
 	hooksecurefunc("BonusRollFrame_StartBonusRoll", function()
 		icbg:SetShown(SpecIcon:IsShown())
 	end)

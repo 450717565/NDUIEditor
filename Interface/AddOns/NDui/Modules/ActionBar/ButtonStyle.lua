@@ -154,7 +154,7 @@ local replaces = {
 }
 
 function Bar:UpdateHotKey()
-	local hotkey = _G[self:GetName().."HotKey"]
+	local hotkey = _G[B.GetFrameName(self).."HotKey"]
 	if hotkey and hotkey:IsShown() and not NDuiDB["Actionbar"]["Hotkeys"] then
 		hotkey:Hide()
 		return
@@ -178,7 +178,7 @@ function Bar:StyleActionButton(button, cfg)
 	if not button then return end
 	if button.__styled then return end
 
-	local buttonName = button:GetName()
+	local buttonName = B.GetFrameName(button)
 	local icon = _G[buttonName.."Icon"]
 	local flash = _G[buttonName.."Flash"]
 	local flyoutBorder = _G[buttonName.."FlyoutBorder"]
@@ -262,7 +262,7 @@ function Bar:StyleExtraActionButton(cfg)
 	local button = ExtraActionButton1
 	if button.__styled then return end
 
-	local buttonName = button:GetName()
+	local buttonName = B.GetFrameName(button)
 	local icon = _G[buttonName.."Icon"]
 	--local flash = _G[buttonName.."Flash"] --wierd the template has two textures of the same name
 	local hotkey = _G[buttonName.."HotKey"]

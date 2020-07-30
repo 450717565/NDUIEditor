@@ -18,12 +18,12 @@ function B:CreateMF(parent, saved)
 		frame:StopMovingOrSizing()
 		if not saved then return end
 		local orig, _, tar, x, y = frame:GetPoint()
-		NDuiDB["TempAnchor"][frame:GetName()] = {orig, "UIParent", tar, x, y}
+		NDuiDB["TempAnchor"][B.GetFrameName(frame)] = {orig, "UIParent", tar, x, y}
 	end)
 end
 
 function B:RestoreMF()
-	local name = self:GetName()
+	local name = B.GetFrameName(self)
 	if name and NDuiDB["TempAnchor"][name] then
 		self:ClearAllPoints()
 		self:SetPoint(unpack(NDuiDB["TempAnchor"][name]))

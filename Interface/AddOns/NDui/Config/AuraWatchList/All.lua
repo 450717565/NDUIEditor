@@ -214,7 +214,7 @@ local list = {
 		{AuraID = 273525, UnitID = "player"},	-- 大难临头
 		{AuraID = 280170, UnitID = "player", Value = true},	-- 假死盾
 	-- 艾泽里特精华
-		{AuraID = 302932, UnitID = "player", Flash = true},	-- 无畏之力
+		{AuraID = 302932, UnitID = "player", Text = L["Crit"], Flash = true},	-- 无畏之力
 		{AuraID = 297126, UnitID = "player"},	-- 仇敌之血
 		{AuraID = 297168, UnitID = "player"},	-- 仇敌之血
 		{AuraID = 304056, UnitID = "player"},	-- 斗争

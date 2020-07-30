@@ -7,7 +7,7 @@ local deletedelay, mailItemIndex, inboxItems = .5, 0, {}
 local button1, button2, button3, lastopened, imOrig_InboxFrame_OnClick, hasNewMail, takingOnlyCash, onlyCurrentMail, needsToWait, skipMail
 
 function M:MailItem_OnClick()
-	mailItemIndex = 7 * (InboxFrame.pageNum - 1) + tonumber(sub(self:GetName(), 9, 9))
+	mailItemIndex = 7 * (InboxFrame.pageNum - 1) + tonumber(sub(B.GetFrameName(self), 9, 9))
 	local modifiedClick = IsModifiedClick("MAILAUTOLOOTTOGGLE")
 	if modifiedClick then
 		InboxFrame_OnModifiedClick(self, self.index)
