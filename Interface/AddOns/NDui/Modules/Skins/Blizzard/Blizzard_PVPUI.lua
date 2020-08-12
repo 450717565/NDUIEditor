@@ -11,14 +11,14 @@ C.themes["Blizzard_PVPUI"] = function()
 		if Reward then
 			Reward.Border:Hide()
 			Reward.CircleMask:Hide()
-			Reward.Icon.icbg = B.ReskinIcon(Reward.Icon)
+			Reward.icbg = B.ReskinIcon(Reward.Icon)
 
 			local Bonus = Reward.EnlistmentBonus
 			if Bonus then
 				Bonus:DisableDrawLayer("ARTWORK")
 				Bonus.Icon:SetTexture(GetSpellTexture(241260))
-				Bonus.Icon.icbg = B.ReskinIcon(Bonus.Icon)
-				Bonus.Icon.icbg:SetFrameLevel(Reward.Icon.icbg:GetFrameLevel() + 2)
+				Bonus.icbg = B.ReskinIcon(Bonus.Icon)
+				Bonus.icbg:SetFrameLevel(Bonus:GetFrameLevel())
 			end
 		end
 	end
@@ -153,7 +153,7 @@ C.themes["Blizzard_PVPUI"] = function()
 		if rewardTexture then
 			rewardFrame.Icon:SetTexture(rewardTexture)
 			local r, g, b = GetItemQualityColor(rewardQuaility or 1)
-			rewardFrame.Icon.icbg:SetBackdropBorderColor(r, g, b)
+			rewardFrame.icbg:SetBackdropBorderColor(r, g, b)
 		end
 	end)
 end

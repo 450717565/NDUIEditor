@@ -515,7 +515,7 @@ L["STRING_OPTIONS_BG_ALL_ALLY_DESC"] = [=[When enabled, enemy players are also s
 
 |cFFFFFF00Important|r: changes are applied after the next time entering combat.]=]
 L["STRING_OPTIONS_BG_ANCHOR"] = "Battlegrounds:"
-L["STRING_OPTIONS_BG_UNIQUE_SEGMENT"] = "Unique Segment"
+L["STRING_OPTIONS_BG_UNIQUE_SEGMENT"] = "One Segment Battleground"
 L["STRING_OPTIONS_BG_UNIQUE_SEGMENT_DESC"] = "One segment is created on the begining of the battleground and last until it ends."
 L["STRING_OPTIONS_CAURAS"] = "Collect Auras"
 L["STRING_OPTIONS_CAURAS_DESC"] = [=[Enable capture of:
@@ -1062,7 +1062,7 @@ L["STRING_OPTIONS_SAVELOAD_PNAME"] = "Name"
 L["STRING_OPTIONS_SAVELOAD_REMOVE"] = "Erase"
 L["STRING_OPTIONS_SAVELOAD_RESET"] = "Load Default Skin"
 L["STRING_OPTIONS_SAVELOAD_SAVE"] = "save"
-L["STRING_OPTIONS_SAVELOAD_SKINCREATED"] = "Skin created."
+L["STRING_OPTIONS_SAVELOAD_SKINCREATED"] = "skin saved."
 L["STRING_OPTIONS_SAVELOAD_STD_DESC"] = [=[Set the current appearance as Standard Skin.
 
 This skin is applied on all new windows created.]=]
@@ -1105,8 +1105,8 @@ L["STRING_OPTIONS_SKIN_ELVUI_BUTTON3_DESC"] = [=[Modify tooltip's:
 Border Color to: |cFFFFFF00Transparent|r.]=]
 L["STRING_OPTIONS_SKIN_EXTRA_OPTIONS_ANCHOR"] = "Skin Options:"
 L["STRING_OPTIONS_SKIN_LOADED"] = "skin successfully loaded."
-L["STRING_OPTIONS_SKIN_PRESETS_ANCHOR"] = "Save Current Settings as Custom Skin:"
-L["STRING_OPTIONS_SKIN_PRESETSCONFIG_ANCHOR"] = "Manage Saved Custom Skins:"
+L["STRING_OPTIONS_SKIN_PRESETS_ANCHOR"] = "Save Skin:"
+L["STRING_OPTIONS_SKIN_PRESETSCONFIG_ANCHOR"] = "Saved Skins:"
 L["STRING_OPTIONS_SKIN_REMOVED"] = "skin removed."
 L["STRING_OPTIONS_SKIN_RESET_TOOLTIP"] = "Reset Tooltip Border"
 L["STRING_OPTIONS_SKIN_RESET_TOOLTIP_DESC"] = "Set the tooltip's border color and texture to default."
@@ -1389,7 +1389,7 @@ L["STRING_OPTIONSMENU_RIGHTMENU"] = "-- x -- x --"
 L["STRING_OPTIONSMENU_ROWMODELS"] = "Bars: Advanced"
 L["STRING_OPTIONSMENU_ROWSETTINGS"] = "Bars: General"
 L["STRING_OPTIONSMENU_ROWTEXTS"] = "Bars: Texts"
-L["STRING_OPTIONSMENU_SKIN"] = "Skin Selection"
+L["STRING_OPTIONSMENU_SKIN"] = "Skins"
 L["STRING_OPTIONSMENU_SPELLS"] = "Spell Customization"
 L["STRING_OPTIONSMENU_SPELLS_CONSOLIDATE"] = "Consolidate common spells with the same name"
 L["STRING_OPTIONSMENU_TITLETEXT"] = "Title Bar: Text"

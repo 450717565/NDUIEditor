@@ -5,25 +5,9 @@ tinsert(C.defaultThemes, function()
 
 	-- Item reward highlight
 	B.StripTextures(QuestInfoItemHighlight)
-
-	local function clearHighlight()
-		for _, button in pairs(QuestInfoRewardsFrame.RewardButtons) do
-			button.bubg:SetBackdropColor(0, 0, 0, 0)
-		end
-	end
-
-	local function setHighlight(self)
-		clearHighlight()
-
-		local relativeTo = select(2, self:GetPoint())
-		if relativeTo then
-			relativeTo.bubg:SetBackdropColor(cr, cg, cb, .25)
-		end
-	end
-
-	hooksecurefunc(QuestInfoItemHighlight, "SetPoint", setHighlight)
-	QuestInfoItemHighlight:HookScript("OnShow", setHighlight)
-	QuestInfoItemHighlight:HookScript("OnHide", clearHighlight)
+	local highlight = B.CreateBDFrame(QuestInfoItemHighlight, 0)
+	highlight:SetBackdropColor(cr, cg, cb, .25)
+	highlight:SetBackdropBorderColor(cr, cg, cb, 1)
 
 	-- Reskin rewards
 	local function restyleSpellButton(bu)
@@ -61,7 +45,9 @@ tinsert(C.defaultThemes, function()
 				B.ReskinBorder(button.IconBorder, icbg, bubg)
 			end
 
-			button.bubg = bubg
+			if highlight then
+				highlight:SetAllPoints(bubg)
+			end
 		end
 	end
 

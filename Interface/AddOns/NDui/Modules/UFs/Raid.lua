@@ -13,26 +13,26 @@ local C_ChatInfo_RegisterAddonMessagePrefix = C_ChatInfo.RegisterAddonMessagePre
 
 -- RaidFrame Elements
 function UF:CreateRaidIcons(self)
-	local parent = CreateFrame("Frame", nil, self)
-	parent:SetAllPoints()
-	parent:SetFrameLevel(self:GetFrameLevel() + 3)
+	local parentFrame = CreateFrame("Frame", nil, self)
+	parentFrame:SetAllPoints()
+	parentFrame:SetFrameLevel(self:GetFrameLevel() + 3)
 
-	local readyCheck = parent:CreateTexture(nil, "OVERLAY")
+	local readyCheck = parentFrame:CreateTexture(nil, "OVERLAY")
 	readyCheck:SetSize(16, 16)
 	readyCheck:SetPoint("CENTER", 1, 0)
 	self.ReadyCheckIndicator = readyCheck
 
-	local resurrect = parent:CreateTexture(nil, "OVERLAY")
+	local resurrect = parentFrame:CreateTexture(nil, "OVERLAY")
 	resurrect:SetSize(20, 20)
 	resurrect:SetPoint("CENTER", 1, 0)
 	self.ResurrectIndicator = resurrect
 
-	local summon = parent:CreateTexture(nil, "OVERLAY")
+	local summon = parentFrame:CreateTexture(nil, "OVERLAY")
 	summon:SetSize(32, 32)
 	summon:SetPoint("CENTER", 1, 0)
 	self.SummonIndicator = summon
 
-	local raidRole = parent:CreateTexture(nil, "OVERLAY")
+	local raidRole = parentFrame:CreateTexture(nil, "OVERLAY")
 	raidRole:SetSize(12, 12)
 	raidRole:SetPoint("LEFT", self, "TOPLEFT", 2, 0)
 	if self.mystyle == "raid" then

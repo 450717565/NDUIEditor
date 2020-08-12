@@ -56,6 +56,7 @@ C.themes["Blizzard_TalentUI"] = function()
 				elseif selected then
 					bu.bg:SetBackdropColor(cr, cg, cb, .25)
 				else
+					bu.bg:SetBackdropBorderColor(0, 0, 0)
 					bu.bg:SetBackdropColor(0, 0, 0, 0)
 				end
 			end
@@ -86,7 +87,8 @@ C.themes["Blizzard_TalentUI"] = function()
 			end
 
 			local roleIcon = bu.roleIcon
-			B.ReskinRoleIcon(roleIcon)
+			local icbg = B.ReskinRoleIcon(roleIcon)
+			icbg:SetFrameLevel(bu:GetFrameLevel())
 
 			local role = GetSpecializationRole(i, false, bu.isPet)
 			if role then

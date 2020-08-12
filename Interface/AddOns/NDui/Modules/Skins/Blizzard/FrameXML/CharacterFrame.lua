@@ -64,13 +64,12 @@ tinsert(C.defaultThemes, function()
 		corrupted:Point("BOTTOMRIGHT", icbg, 14, -14)
 
 		local bgTex = popout:CreateTexture(nil, "OVERLAY")
+		bgTex:SetSize(14, 14)
 		if slot.verticalFlyout then
-			bgTex:SetSize(14, 8)
-			bgTex:SetTexture(DB.arrowDown)
+			bgTex:SetTexture(DB.arrowTex.."down")
 			bgTex:SetPoint("TOP", slot, "BOTTOM", 0, 1)
 		else
-			bgTex:SetSize(8, 14)
-			bgTex:SetTexture(DB.arrowRight)
+			bgTex:SetTexture(DB.arrowTex.."right")
 			bgTex:SetPoint("LEFT", slot, "RIGHT", -1, 0)
 		end
 

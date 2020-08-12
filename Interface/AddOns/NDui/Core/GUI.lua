@@ -141,6 +141,7 @@ local defaultSettings = {
 		RaidTextScale = 1,
 		FrequentHealth = false,
 		HealthFrequency = .25,
+		TargetAurasPerRow = 9,
 
 		PlayerWidth = 250,
 		PlayerHeight = 34,
@@ -204,12 +205,12 @@ local defaultSettings = {
 	Nameplate = {
 		Enable = true,
 		maxAuras = 12,
-		AutoPerRow = 6,
+		AurasPerRow = 6,
 		AuraFilter = 3,
 		FriendlyCC = false,
 		HostileCC = true,
 		TankMode = false,
-		TargetIndicator = 2,
+		TargetIndicator = 4,
 		InsideView = true,
 		Distance = 42,
 		PlateWidth = 200,
@@ -220,8 +221,8 @@ local defaultSettings = {
 		ShowPowerList = "",
 		VerticalSpacing = .8,
 		ShowPlayerPlate = false,
-		PPWidth = 175,
-		PPHeight = 5,
+		PPBarWidth = 175,
+		PPBarHeight = 5,
 		PPPowerText = false,
 		NPsHPMode = 1,
 		SecureColor = {r=1, g=0, b=1},
@@ -240,6 +241,7 @@ local defaultSettings = {
 		MinAlpha = .8,
 		ColorBorder = true,
 		QuestIndicator = true,
+		NameOnlyMode = false,
 
 		PPCPHeight = 10,
 		ArrowColor = 1,
@@ -263,7 +265,7 @@ local defaultSettings = {
 		FontOutline = true,
 		FontScale = 1,
 		SkinShadow = false,
-		SkinStyle = 2,
+		SkinStyle = 3,
 		SkinTexture = false,
 		ToggleDirection = 1,
 
@@ -549,10 +551,6 @@ local function updateRaidTextPoint()
 	B:GetModule("UnitFrames"):UpdateRaidTextPoint()
 end
 
-local function updatePlayerPlate()
-	B:GetModule("UnitFrames"):ResizePlayerPlate()
-end
-
 local function updateUFTextScale()
 	B:GetModule("UnitFrames"):UpdateUFTextScale()
 end
@@ -563,6 +561,10 @@ end
 
 local function refreshRaidFrameIcons()
 	B:GetModule("UnitFrames"):RefreshRaidFrameIcons()
+end
+
+local function updateTargetFrameAuras()
+	B:GetModule("UnitFrames"):UpdateTargetAuras()
 end
 
 local function updateSimpleModeGroupBy()
@@ -716,10 +718,11 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "UFs", "ClassPower", L["UFs ClassPower"]},
 		{1, "UFs", "RuneTimer", L["UFs RuneTimer"], true},
 		{1, "UFs", "PlayerDebuff", L["Player Debuff"]},
-		{1, "UFs", "ToTAuras", L["ToT Debuff"]},
-		{4, "UFs", "UFsHPColor", L["HP Bar Color"], true, {L["Default Dark"], L["ClassColorHP"], L["GradientHP"]}},
-		{3, "UFs", "UFTextScale", L["UFTextScale"], nil, {.5, 1.5, .01}, updateUFTextScale},
-		{3, "UFs", "SmoothAmount", DB.MyColor..L["SmoothAmount"], true, {.2, .8, .05}, updateSmoothingAmount, L["SmoothAmountTip"]},
+		{1, "UFs", "ToTAuras", L["ToT Debuff"], true},
+		{4, "UFs", "UFsHPColor", L["HP Bar Color"], nil, {L["Default Dark"], L["ClassColorHP"], L["GradientHP"]}},
+		{3, "UFs", "TargetAurasPerRow", L["TargetAurasPerRow"].."*", true, {5, 10, 1}, updateTargetFrameAuras},
+		{3, "UFs", "UFTextScale", L["UFTextScale"].."*", nil, {.5, 1.5, .01}, updateUFTextScale},
+		{3, "UFs", "SmoothAmount", DB.MyColor..L["SmoothAmount"].."*", true, {.2, .8, .05}, updateSmoothingAmount, L["SmoothAmountTip"]},
 		{},--blank
 		{1, "UFs", "CombatText", DB.MyColor..L["UFs CombatText"]},
 		{1, "UFs", "OnlyCombatText", L["Only Combat Text"], true},
@@ -756,7 +759,7 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{4, "UFs", "RaidHPMode", L["HP Val Mode"].."*", true, {L["DisableRaidHP"], L["RaidHPPercent"], L["RaidHPCurrent"], L["RaidHPLost"]}, updateRaidTextPoint},
 		{3, "UFs", "NumGroups", L["Num Groups"], nil, {4, 8, 1}},
 		{1, "UFs", "FrequentHealth", DB.MyColor..L["FrequentHealth"].."*", true, nil, updateRaidHealthMethod, L["FrequentHealthTip"]},
-		{3, "UFs", "RaidTextScale", L["UFTextScale"], nil, {.5, 1.5, .01}, updateRaidTextScale},
+		{3, "UFs", "RaidTextScale", L["UFTextScale"].."*", nil, {.5, 1.5, .01}, updateRaidTextScale},
 		{3, "UFs", "HealthFrequency", L["HealthFrequency"].."*", true, {.1, .5, .05}, updateRaidHealthMethod, L["HealthFrequencyTip"]},
 		{},--blank
 		{1, "UFs", "SimpleMode", DB.MyColor..L["SimpleRaidFrame"], nil, nil, nil, L["SimpleRaidFrameTip"]},
@@ -769,9 +772,15 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Nameplate", "Enable", DB.MyColor..L["Enable Nameplate"], nil, setupNameplateFilter},
 		{5, "Nameplate", "HighlightColor", L["Highlight Color"], 2},
 		{5, "Nameplate", "SelectedColor", L["Selected Color"], 3},
+		{1, "Nameplate", "NameOnlyMode", L["NameOnlyMode"].."*", nil, nil, nil, L["NameOnlyModeTip"]},
 		{},--blank
-		{1, "Nameplate", "FriendlyCC", L["Friendly CC"].."*"},
-		{1, "Nameplate", "HostileCC", L["Hostile CC"].."*", true},
+		{4, "Nameplate", "NPsHPMode", L["HP Val Mode"].."*", nil, {L["Only Percent"], L["Only Number"], L["Num and Per"]}, refreshNameplates},
+		{4, "Nameplate", "AuraFilter", L["NameplateAuraFilter"].."*", true, {L["BlackNWhite"], L["PlayerOnly"], L["IncludeCrowdControl"]}, refreshNameplates},
+		{4, "Nameplate", "TargetIndicator", L["TargetIndicator"].."*", nil, {DISABLE, L["TopArrow"], L["RightArrow"], L["TargetGlow"], L["TopNGlow"], L["RightNGlow"]}, refreshNameplates},
+		{4, "Nameplate", "ArrowColor", L["Arrow Color"], true, {L["Cyan"], L["Green"], L["Red"]}},
+		{},--blank
+		{1, "Nameplate", "FriendlyCC", L["Friendly CC"]},
+		{1, "Nameplate", "HostileCC", L["Hostile CC"], true},
 		{1, "Nameplate", "ColorBorder", L["ColorBorder"].."*", nil, nil, refreshNameplates},
 		{1, "Nameplate", "InsideView", L["Nameplate InsideView"].."*", true, nil, updatePlateInsideView},
 		{1, "Nameplate", "ExplosivesScale", L["ExplosivesScale"]},
@@ -788,21 +797,17 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{5, "Nameplate", "TransColor", L["Trans Color"].."*", 1},
 		{5, "Nameplate", "InsecureColor", L["Insecure Color"].."*", 2},
 		{5, "Nameplate", "OffTankColor", L["OffTank Color"].."*", 3},
-		{4, "Nameplate", "TargetIndicator", L["TargetIndicator"].."*", false, {DISABLE, L["TargetGlow"], L["TopArrow"], L["RightArrow"], L["TopNGlow"], L["RightNGlow"]}, refreshNameplates},
-		{4, "Nameplate", "NPsHPMode", L["HP Val Mode"].."*", true, {L["Only Percent"], L["Only Number"], L["Num and Per"]}, refreshNameplates},
-		{4, "Nameplate", "ArrowColor", L["Arrow Color"], false, {L["Cyan"], L["Green"], L["Red"]}},
-		{4, "Nameplate", "AuraFilter", L["NameplateAuraFilter"].."*", true, {L["BlackNWhite"], L["PlayerOnly"], L["IncludeCrowdControl"]}, refreshNameplates},
 		{},--blank
 		{3, "Nameplate", "VerticalSpacing", L["NP VerticalSpacing"].."*", false, {.5, 1.5, .01}, updatePlateSpacing},
-		{3, "Nameplate", "Distance", L["Nameplate Distance"].."*", true, {20, 100, 1}, updatePlateRange},
+		--{3, "Nameplate", "Distance", L["Nameplate Distance"].."*", true, {20, 100, 1}, updatePlateRange},
 		{3, "Nameplate", "MinScale", L["Nameplate MinScale"].."*", false, {.5, 1, .01}, updatePlateScale},
 		{3, "Nameplate", "MinAlpha", L["Nameplate MinAlpha"].."*", true, {.5, 1, .01}, updatePlateAlpha},
 		{3, "Nameplate", "PlateWidth", L["NP Width"].."*", false, {100, 300, 1}, refreshNameplates},
 		{3, "Nameplate", "PlateHeight", L["NP Height"].."*", true, {5, 30, 1}, refreshNameplates},
 		{3, "Nameplate", "NameTextSize", L["NameTextSize"].."*", false, {10, 30, 1}, refreshNameplates},
 		{3, "Nameplate", "HealthTextSize", L["HealthTextSize"].."*", true, {10, 30, 1}, refreshNameplates},
-		{3, "Nameplate", "maxAuras", L["Max Auras"], false, {0, 12, 1}},
-		{3, "Nameplate", "AutoPerRow", L["Auto Per Row"], true, {3, 6, 1}},
+		{3, "Nameplate", "maxAuras", L["Max Auras"].."*", false, {0, 12, 1}, refreshNameplates},
+		{3, "Nameplate", "AurasPerRow", L["Auto Per Row"].."*", true, {3, 6, 1}, refreshNameplates},
 	},
 	[6] = {
 		{1, "AuraWatch", "Enable", DB.MyColor..L["Enable AuraWatch"], nil, setupAuraWatch},
@@ -817,9 +822,13 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Nameplate", "NameplateClassPower", L["Nameplate ClassPower"], true},
 		{1, "Nameplate", "PPPowerText", L["PlayerPlate PowerText"]},
 		{1, "Nameplate", "PPHideOOC", L["Fadeout OOC"]},
-		{3, "Nameplate", "PPCPHeight", L["PlayerPlate CP Height"].."*", true, {10, 30, 1}, updatePlayerPlate},
-		{3, "Nameplate", "PPWidth", L["PlayerPlate Width"].."*", false, {150, 300, 1}, updatePlayerPlate}, -- FIX ME: need to refactor classpower
-		{3, "Nameplate", "PPHeight", L["PlayerPlate Height"].."*", true, {5, 20, 1}, updatePlayerPlate},
+		{3, "Nameplate", "PPCPHeight", L["PlayerPlate CP Height"].."*", true, {10, 30, 1}, refreshNameplates},
+		{3, "Nameplate", "PPBarWidth", L["PlayerPlate Bar Width"].."*", false, {150, 300, 1}, refreshNameplates},
+		{3, "Nameplate", "PPBarHeight", L["PlayerPlate Bar Height"].."*", true, {5, 20, 1}, refreshNameplates},
+		{},--blank
+		{1, "Auras", "Statue", L["Enable Statue"]},
+		{1, "Auras", "Totems", L["Enable Totems"], true},
+		{1, "Auras", "Reminder", L["Enable Reminder"].."*", nil, nil, updateReminder, L["ReminderTip"]},
 		{},--blank
 		{1, "Auras", "ReverseBuffs", L["ReverseBuffs"]},
 		{1, "Auras", "ReverseDebuffs", L["ReverseDebuffs"], true},
@@ -827,10 +836,6 @@ local optionList = { -- type, key, value, name, horizon, doubleline
 		{3, "Auras", "DebuffSize", L["DebuffSize"], true, {24, 50, 1}},
 		{3, "Auras", "BuffsPerRow", L["BuffsPerRow"], nil, {10, 20, 1}},
 		{3, "Auras", "DebuffsPerRow", L["DebuffsPerRow"], true, {10, 20, 1}},
-		{},--blank
-		{1, "Auras", "Statue", L["Enable Statue"]},
-		{1, "Auras", "Totems", L["Enable Totems"], true},
-		{1, "Auras", "Reminder", L["Enable Reminder"].."*", nil, nil, updateReminder, L["ReminderTip"]},
 	},
 	[7] = {
 		{1, "Misc", "RaidTool", DB.MyColor..L["Raid Manger"]},

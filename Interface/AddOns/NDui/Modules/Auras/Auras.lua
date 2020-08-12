@@ -7,18 +7,19 @@ local format, floor, strmatch, select, unpack = format, floor, strmatch, select,
 local DebuffTypeColor = _G.DebuffTypeColor
 local UnitAura, GetTime = UnitAura, GetTime
 local GetInventoryItemQuality, GetInventoryItemTexture, GetItemQualityColor, GetWeaponEnchantInfo = GetInventoryItemQuality, GetInventoryItemTexture, GetItemQualityColor, GetWeaponEnchantInfo
-local margin, offset, settings = 5, 12
 
 function A:OnLogin()
 	-- Config
-	settings = {
+	A.settings = {
 		Buffs = {
+			offset = 12,
 			size = NDuiDB["Auras"]["BuffSize"],
 			wrapAfter = NDuiDB["Auras"]["BuffsPerRow"],
 			maxWraps = 3,
 			reverseGrow = NDuiDB["Auras"]["ReverseBuffs"],
 		},
 		Debuffs = {
+			offset = 12,
 			size = NDuiDB["Auras"]["DebuffSize"],
 			wrapAfter = NDuiDB["Auras"]["DebuffsPerRow"],
 			maxWraps = 2,
@@ -154,9 +155,9 @@ function A:OnAttributeChanged(attribute, value)
 end
 
 function A:UpdateHeader(header)
-	local cfg = settings.Debuffs
+	local cfg = A.settings.Debuffs
 	if header:GetAttribute("filter") == "HELPFUL" then
-		cfg = settings.Buffs
+		cfg = A.settings.Buffs
 		header:SetAttribute("consolidateTo", 0)
 		header:SetAttribute("weaponTemplate", format("NDuiAuraTemplate%d", cfg.size))
 	end
@@ -167,12 +168,12 @@ function A:UpdateHeader(header)
 	header:SetAttribute("wrapAfter", cfg.wrapAfter)
 	header:SetAttribute("maxWraps", cfg.maxWraps)
 	header:SetAttribute("point", cfg.reverseGrow and "TOPLEFT" or "TOPRIGHT")
-	header:SetAttribute("minWidth", (cfg.size + margin)*cfg.wrapAfter)
-	header:SetAttribute("minHeight", (cfg.size + offset)*cfg.maxWraps)
-	header:SetAttribute("xOffset", (cfg.reverseGrow and 1 or -1) * (cfg.size + margin))
+	header:SetAttribute("minWidth", (cfg.size + C.margin)*cfg.wrapAfter)
+	header:SetAttribute("minHeight", (cfg.size + cfg.offset)*cfg.maxWraps)
+	header:SetAttribute("xOffset", (cfg.reverseGrow and 1 or -1) * (cfg.size + C.margin))
 	header:SetAttribute("yOffset", 0)
 	header:SetAttribute("wrapXOffset", 0)
-	header:SetAttribute("wrapYOffset", -(cfg.size + offset))
+	header:SetAttribute("wrapYOffset", -(cfg.size + cfg.offset))
 	header:SetAttribute("template", format("NDuiAuraTemplate%d", cfg.size))
 
 	local index = 1
@@ -216,9 +217,9 @@ end
 
 function A:CreateAuraIcon(button)
 	local header = button:GetParent()
-	local cfg = settings.Debuffs
+	local cfg = A.settings.Debuffs
 	if header:GetAttribute("filter") == "HELPFUL" then
-		cfg = settings.Buffs
+		cfg = A.settings.Buffs
 	end
 	local fontSize = B.Round(cfg.size/30*12)
 

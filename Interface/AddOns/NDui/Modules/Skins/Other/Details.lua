@@ -83,7 +83,7 @@ local function ReskinDetails()
 		local height = 190
 		if instance1 then
 			if instance2 then
-				height = 95
+				height = 96
 				EmbedWindow(instance2, -3, 143, 350, height)
 			end
 			EmbedWindow(instance1, -3, 28, 350, height)
@@ -95,8 +95,8 @@ local function ReskinDetails()
 	function listener:OnDetailsEvent(event, instance)
 		if event == "DETAILS_INSTANCE_OPEN" then
 			if not instance.styled and instance:GetId() == 2 then
-				instance1:SetSize(350, 95)
-				EmbedWindow(instance, -3, 143, 350, 95)
+				instance1:SetSize(350, 96)
+				EmbedWindow(instance, -3, 143, 350, 96)
 			end
 			setupInstance(instance)
 		end

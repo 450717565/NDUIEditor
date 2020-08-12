@@ -212,7 +212,6 @@ function TT:Corruption_PlayerSummary()
 	end
 end
 
-local tip = _G.NDui_iLvlTooltip
 local cloakResString = "(%d+)%s?"..ITEM_MOD_CORRUPTION_RESISTANCE
 
 local essenceTextureIDs = {
@@ -227,10 +226,10 @@ local essenceTextureIDs = {
 
 function TT:Corruption_SearchEssence()
 	local resistance = 0
-	tip:SetOwner(UIParent, "ANCHOR_NONE")
-	tip:SetInventoryItem(InspectFrame.unit, 2)
+	B.ScanTip:SetOwner(UIParent, "ANCHOR_NONE")
+	B.ScanTip:SetInventoryItem(InspectFrame.unit, 2)
 	for i = 1, 10 do
-		local tex = _G[B.GetFrameName(tip).."Texture"..i]
+		local tex = _G["NDui_ScanTooltipTexture"..i]
 		local texture = tex and tex:IsShown() and tex:GetTexture()
 		if texture and essenceTextureIDs[texture] then
 			resistance = 10
@@ -242,10 +241,10 @@ end
 
 function TT:Corruption_SearchCloak()
 	local resistance = 0
-	tip:SetOwner(UIParent, "ANCHOR_NONE")
-	tip:SetInventoryItem(InspectFrame.unit, 15)
-	for i = 1, tip:NumLines() do
-		local line = _G[B.GetFrameName(tip).."TextLeft"..i]
+	B.ScanTip:SetOwner(UIParent, "ANCHOR_NONE")
+	B.ScanTip:SetInventoryItem(InspectFrame.unit, 15)
+	for i = 1, B.ScanTip:NumLines() do
+		local line = _G["NDui_ScanTooltipTextLeft"..i]
 		local text = line and line:GetText()
 		local value = text and strmatch(text, cloakResString)
 		if value then

@@ -2,6 +2,9 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
+C.mult = 1
+C.margin = 3
+
 -- BUFF/DEBUFF相关
 C.Auras = {
 	BuffPos		= {"TOPRIGHT", Minimap, "TOPLEFT", -15, 0},	-- BUFF默认位置

@@ -26,7 +26,7 @@ function B:RestoreMF()
 	local name = B.GetFrameName(self)
 	if name and NDuiDB["TempAnchor"][name] then
 		self:ClearAllPoints()
-		self:SetPoint(unpack(NDuiDB["TempAnchor"][name]))
+		self:Point(unpack(NDuiDB["TempAnchor"][name]))
 	end
 end
 
@@ -47,9 +47,9 @@ function B:Mover(text, value, anchor, width, height, isAuraWatch)
 	mover.text:SetWordWrap(true)
 
 	if not NDuiDB[key][value] then
-		mover:SetPoint(unpack(anchor))
+		mover:Point(unpack(anchor))
 	else
-		mover:SetPoint(unpack(NDuiDB[key][value]))
+		mover:Point(unpack(NDuiDB[key][value]))
 	end
 	mover:EnableMouse(true)
 	mover:SetMovable(true)
@@ -70,7 +70,7 @@ function B:Mover(text, value, anchor, width, height, isAuraWatch)
 	end
 
 	self:ClearAllPoints()
-	self:SetPoint("TOPLEFT", mover)
+	self:Point("TOPLEFT", mover)
 
 	return mover
 end
@@ -130,7 +130,7 @@ function M:DoTrim(trimX, trimY)
 		f.__x.__current = x
 		f.__y.__current = y
 		mover:ClearAllPoints()
-		mover:SetPoint(point, UIParent, point, x, y)
+		mover:Point(point, UIParent, point, x, y)
 		NDuiDB[mover.__key][mover.__value] = {point, "UIParent", point, x, y}
 	end
 end
@@ -144,7 +144,7 @@ function M:Mover_OnClick(btn)
 		end
 	elseif IsControlKeyDown() and btn == "RightButton" then
 		self:ClearAllPoints()
-		self:SetPoint(unpack(self.__anchor))
+		self:Point(unpack(self.__anchor))
 		NDuiDB[self.__key][self.__value] = nil
 	end
 	updater.__owner = self
@@ -175,7 +175,7 @@ function M:Mover_OnDragStop()
 	y = B.Round(y)
 
 	self:ClearAllPoints()
-	self:SetPoint(orig, "UIParent", tar, x, y)
+	self:Point(orig, "UIParent", tar, x, y)
 	NDuiDB[self.__key][self.__value] = {orig, "UIParent", tar, x, y}
 	M.UpdateTrimFrame(self)
 	updater:Hide()

@@ -177,7 +177,8 @@ do
 	local essenceDescription = GetSpellDescription(277253)
 	local ITEM_SPELL_TRIGGER_ONEQUIP = ITEM_SPELL_TRIGGER_ONEQUIP
 	local RETRIEVING_ITEM_INFO = RETRIEVING_ITEM_INFO
-	local tip = CreateFrame("GameTooltip", "NDui_iLvlTooltip", nil, "GameTooltipTemplate")
+	local tip = CreateFrame("GameTooltip", "NDui_ScanTooltip", nil, "GameTooltipTemplate")
+	B.ScanTip = tip
 
 	function B.InspectItemTextures()
 		if not tip.gems then
@@ -286,7 +287,7 @@ do
 				tip:SetHyperlink(link)
 			end
 
-			local firstLine = _G.NDui_iLvlTooltipTextLeft1:GetText()
+			local firstLine = _G.NDui_ScanTooltipTextLeft1:GetText()
 			if firstLine == RETRIEVING_ITEM_INFO then
 				return "tooSoon"
 			end
@@ -426,6 +427,7 @@ do
 		"InsetRight",
 		"LeftInset",
 		"NineSlice",
+		"Overlay",
 		"Portrait",
 		"portrait",
 		"PortraitOverlay",
@@ -684,15 +686,6 @@ do
 		"text",
 	}
 
-	local direcIndex = {
-		["up"] = DB.arrowUp,
-		["down"] = DB.arrowDown,
-		["left"] = DB.arrowLeft,
-		["right"] = DB.arrowRight,
-		["top"] = DB.arrowTop,
-		["bottom"] = DB.arrowBottom,
-	}
-
 	local function SetupDisTex(self)
 		self:SetDisabledTexture(DB.bdTex)
 		local dis = self:GetDisabledTexture()
@@ -710,11 +703,7 @@ do
 
 	-- Setup Function
 	function B:Tex_OnEnter()
-		if self.pixels then
-			for _, pixel in pairs(self.pixels) do
-				pixel:SetVertexColor(cr, cg, cb, 1)
-			end
-		elseif self.bgTex then
+		if self.bgTex then
 			self.bgTex:SetVertexColor(cr, cg, cb, 1)
 		elseif self.bdTex then
 			self.bdTex:SetBackdropBorderColor(cr, cg, cb, 1)
@@ -724,11 +713,7 @@ do
 	end
 
 	function B:Tex_OnLeave()
-		if self.pixels then
-			for _, pixel in pairs(self.pixels) do
-				pixel:SetVertexColor(1, 1, 1, 1)
-			end
-		elseif self.bgTex then
+		if self.bgTex then
 			self.bgTex:SetVertexColor(1, 1, 1, 1)
 		elseif self.bdTex then
 			self.bdTex:SetBackdropBorderColor(0, 0, 0, 1)
@@ -1147,16 +1132,9 @@ do
 		B.ReskinButton(self)
 		SetupDisTex(self)
 
-		self.pixels = {}
-		for i = 1, 2 do
-			local tex = self:CreateTexture()
-			tex:SetColorTexture(1, 1, 1)
-			tex:SetSize(12, 2)
-			tex:ClearAllPoints()
-			tex:Point("CENTER")
-			tex:SetRotation(math.rad((i-1/2)*90))
-			tinsert(self.pixels, tex)
-		end
+		local tex = self:CreateTexture()
+		tex:SetTexture(DB.closeTex)
+		tex:SetInside(nil, 2, 2)
 	end
 
 	function B:ReskinDecline()
@@ -1164,17 +1142,9 @@ do
 
 		B.ReskinButton(self)
 
-		local w = self:GetWidth()
-		self.pixels = {}
-		for i = 1, 2 do
-			local tex = self:CreateTexture()
-			tex:SetColorTexture(1, 1, 1)
-			tex:SetSize(w*.8, 2)
-			tex:ClearAllPoints()
-			tex:Point("CENTER")
-			tex:SetRotation(math.rad((i-1/2)*90))
-			tinsert(self.pixels, tex)
-		end
+		local tex = self:CreateTexture()
+		tex:SetTexture(DB.closeTex)
+		tex:SetInside(nil, 2, 2)
 	end
 
 	-- Handle editbox
@@ -1192,15 +1162,12 @@ do
 
 	-- Handle arrows
 	function B:SetupArrowTex(direction)
-		if self.bgTex then return end
+		if self.arrowTex then return end
 
-		local bgTex = self:CreateTexture(nil, "ARTWORK")
-		bgTex:SetTexture(direcIndex[direction])
-		bgTex:SetSize(8, 8)
-		bgTex:ClearAllPoints()
-		bgTex:Point("CENTER")
-		bgTex:SetVertexColor(1, 1, 1)
-		self.bgTex = bgTex
+		local arrowTex = self:CreateTexture(nil, "ARTWORK")
+		arrowTex:SetTexture(DB.arrowTex..direction)
+		arrowTex:SetInside(nil, 2, 2)
+		self.arrowTex = arrowTex
 	end
 
 	function B:ReskinArrow(direction)
@@ -1215,14 +1182,15 @@ do
 
 	-- Handle filter
 	function B:ReskinFilter()
-		B.StripTextures(self, 0)
+		B.StripTextures(self)
 
 		B.ReskinButton(self)
 
-		self.Icon:SetTexture(DB.arrowRight)
+		local height = B.Round(self:GetHeight()*.6)
+		self.Icon:SetTexture(DB.arrowTex.."right")
 		self.Icon:ClearAllPoints()
 		self.Icon:Point("RIGHT", self, "RIGHT", -5, 0)
-		self.Icon:SetSize(8, 8)
+		self.Icon:SetSize(height, height)
 
 		local frameName = B.GetFrameName(self)
 		for _, key in pairs(textWords) do
@@ -1340,9 +1308,9 @@ do
 					self.expTex:SetTexCoord(.5625, 1, 0, .4375)
 				end
 			else
-				if texture:find("Plus") then
+				if strfind(texture, "Plus") then
 					self.expTex:SetTexCoord(0, .4375, 0, .4375)
-				elseif texture:find("Minus") then
+				elseif strfind(texture, "Minus") then
 					self.expTex:SetTexCoord(.5625, 1, 0, .4375)
 				end
 			end
@@ -1376,8 +1344,9 @@ do
 		hooksecurefunc(self, "SetNormalTexture", UpdateExpandOrCollapse)
 	end
 
+	local buttonNames = {"MaximizeButton", "MinimizeButton"}
 	function B:ReskinMinMax()
-		for _, name in pairs({"MaximizeButton", "MinimizeButton"}) do
+		for _, name in pairs(buttonNames) do
 			local button = self[name]
 			if button then
 				B.StripTextures(self, 0)
@@ -1389,34 +1358,13 @@ do
 				button:ClearAllPoints()
 				button:Point("CENTER", -3, 0)
 
-				button.pixels = {}
-
-				local tex = button:CreateTexture()
-				tex:SetColorTexture(1, 1, 1)
-				tex:SetSize(12, 2)
-				tex:ClearAllPoints()
-				tex:Point("CENTER")
-				tex:SetRotation(math.rad(45))
-				tinsert(button.pixels, tex)
-
-				local hline = button:CreateTexture()
-				hline:SetColorTexture(1, 1, 1)
-				hline:SetSize(8, 2)
-				hline:ClearAllPoints()
-				tinsert(button.pixels, hline)
-
-				local vline = button:CreateTexture()
-				vline:SetColorTexture(1, 1, 1)
-				vline:SetSize(2, 8)
-				vline:ClearAllPoints()
-				tinsert(button.pixels, vline)
+				local arrowTex = button:CreateTexture()
+				arrowTex:SetInside(nil, 2, 2)
 
 				if name == "MaximizeButton" then
-					hline:Point("TOPRIGHT", -4, -4)
-					vline:Point("TOPRIGHT", -4, -4)
+					arrowTex:SetTexture(DB.maximizeTex)
 				else
-					hline:Point("BOTTOMLEFT", 4, 4)
-					vline:Point("BOTTOMLEFT", 4, 4)
+					arrowTex:SetTexture(DB.minimizeTex)
 				end
 			end
 		end
@@ -1687,11 +1635,12 @@ do
 			local index = (MerchantFrame.page - 1) * MERCHANT_ITEMS_PER_PAGE + i
 			if index > numItems then return end
 
-			local item = "MerchantItem"..i
-			local name = _G[item.."Name"]
-			local button = _G[item.."ItemButton"]
-			local money = _G[item.."MoneyFrame"]
-			local currency = _G[item.."AltCurrencyFrame"]
+			local item = _G["MerchantItem"..i]
+			local frameName = B.GetFrameName(item)
+			local name = _G[frameName.."Name"]
+			local button = _G[frameName.."ItemButton"]
+			local money = _G[frameName.."MoneyFrame"]
+			local currency = _G[frameName.."AltCurrencyFrame"]
 			local nameLine = name:GetNumLines()
 
 			if button and button:IsShown() then
@@ -1925,7 +1874,7 @@ do
 			icon.texture:SetSize(14, 14)
 
 			local icbg = B.ReskinIcon(icon.texture)
-			icbg:SetFrameLevel(self:GetFrameLevel() + 1)
+			icbg:SetFrameLevel(icon:GetFrameLevel())
 		end
 
 		self.icbg = B.CreateBDFrame(self, 0)
@@ -2026,9 +1975,10 @@ do
 		dd.Text:SetPoint("RIGHT", -5, 0)
 		dd.options = {}
 
-		local bu = B.CreateGear(dd)
-		bu:ClearAllPoints()
-		bu:SetPoint("LEFT", dd, "RIGHT", 0, 0)
+		local bu = CreateFrame("Button", nil, dd)
+		bu:SetPoint("RIGHT", -5, 0)
+		B.ReskinArrow(bu, "down")
+
 		local list = CreateFrame("Frame", nil, dd)
 		list:ClearAllPoints()
 		list:SetPoint("TOP", dd, "BOTTOM", 0, -2)
@@ -2200,6 +2150,13 @@ do
 		end
 	end
 
+	local function Size(frame, arg1, arg2, ...)
+		if type(arg1) == "number" then arg1 = B.Scale(arg1) end
+		if type(arg2) == "number" then arg2 = B.Scale(arg2) end
+
+		frame:SetSize(arg1, arg2, ...)
+	end
+
 	local function Point(frame, arg1, arg2, arg3, arg4, arg5, ...)
 		if arg2 == nil then arg2 = frame:GetParent() end
 
@@ -2235,6 +2192,7 @@ do
 
 	local function addapi(object)
 		local mt = getmetatable(object).__index
+		if not object.Size then mt.Size = Size end
 		if not object.Point then mt.Point = Point end
 		if not object.SetInside then mt.SetInside = SetInside end
 		if not object.SetOutside then mt.SetOutside = SetOutside end

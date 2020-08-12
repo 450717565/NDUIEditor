@@ -14,7 +14,8 @@ local diceSpells = {
 }
 
 function A:PostCreateLumos(self)
-	local iconSize = (self:GetWidth() - B.Scale(DB.Space)*5 + C.mult*2)/6
+	local isNPCP = NDuiDB["Nameplate"]["NameplateClassPower"]
+	local iconSize = (self:GetWidth() - B.Scale(C.margin)*5 + C.mult*2)/6
 	local buttons = {}
 	for i = 1, 6 do
 		local bu = CreateFrame("Frame", nil, self.Health)
@@ -22,9 +23,9 @@ function A:PostCreateLumos(self)
 		bu.Text = B.CreateFS(bu, 14, diceSpells[i].text, false, "TOP", 1, 12)
 		B.AuraIcon(bu)
 		if i == 1 then
-			bu:Point("BOTTOMLEFT", oUF_ClassPowerBar, "TOPLEFT", -C.mult, DB.Space)
+			bu:Point("BOTTOMLEFT", isNPCP and self.Health or oUF_ClassPowerBar, "TOPLEFT", -C.mult, C.margin)
 		else
-			bu:Point("LEFT", buttons[i-1], "RIGHT", DB.Space, 0)
+			bu:Point("LEFT", buttons[i-1], "RIGHT", C.margin, 0)
 		end
 		buttons[i] = bu
 	end

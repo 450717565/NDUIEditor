@@ -38,23 +38,20 @@ DB.Separator = DB.MyColor.." | |r"
 
 -- Textures
 local Media = "Interface\\Addons\\NDui\\Media\\"
-DB.arrowTex = Media.."arrowTex_"
 DB.bgTex = Media.."bgTex"
+DB.closeTex = Media.."closeTex"
 DB.glowTex = Media.."glowTex"
+DB.targetTex = Media.."targetTex_"
+DB.maximizeTex = Media.."maximizeTex"
+DB.minimizeTex = Media.."minimizeTex"
 
+DB.arrowTex = Media.."Arrow\\arrow_"
 DB.normTex = Media.."Texture\\texture_1"
 
 DB.chatLogo = Media.."Hutu\\logoSmall"
 DB.logoTex = Media.."Hutu\\logo"
 DB.microTex = Media.."Hutu\\Menu\\"
 DB.rolesTex = Media.."Hutu\\RoleIcons"
-
-DB.arrowBottom = Media.."Arrow\\arrow-bottom"
-DB.arrowDown = Media.."Arrow\\arrow-down"
-DB.arrowLeft = Media.."Arrow\\arrow-left"
-DB.arrowRight = Media.."Arrow\\arrow-right"
-DB.arrowTop = Media.."Arrow\\arrow-top"
-DB.arrowUp = Media.."Arrow\\arrow-up"
 
 DB.checked = Media.."Button\\checked"
 DB.flash = Media.."Button\\flash"
@@ -92,7 +89,6 @@ end
 DB.isPlayer = isPlayer()
 ]]
 
-DB.Space = 3
 DB.Alpha = .8
 DB.Slots = {"Head", "Neck", "Shoulder", "Shirt", "Chest", "Waist", "Legs", "Feet", "Wrist", "Hands", "Finger0", "Finger1", "Trinket0", "Trinket1", "Back", "MainHand", "SecondaryHand", "Tabard"}
 DB.MythicLoot =  {0, 435, 435, 440, 445, 445, 450, 455, 455, 455, 460, 460, 460, 465, 465}

@@ -157,7 +157,7 @@ function A:CreateLumos(self)
 	if not A.ChantLumos then return end
 
 	self.bu = {}
-	local iconSize = (NDuiDB["Nameplate"]["PPWidth"] - B.Scale(DB.Space)*4 + C.mult*2)/5
+	local iconSize = (NDuiDB["Nameplate"]["PPBarWidth"] - B.Scale(C.margin)*4 + C.mult*2)/5
 	for i = 1, 5 do
 		local bu = CreateFrame("Frame", nil, self.Health)
 		bu:SetSize(iconSize, iconSize)
@@ -169,9 +169,9 @@ function A:CreateLumos(self)
 		fontParent:SetFrameLevel(bu:GetFrameLevel() + 6)
 		bu.Count = B.CreateFS(fontParent, 16, "", false, "BOTTOM", 0, -10)
 		if i == 1 then
-			bu:Point("TOPLEFT", self.Power, "BOTTOMLEFT", -C.mult, -DB.Space)
+			bu:Point("TOPLEFT", self.Power, "BOTTOMLEFT", -C.mult, -C.margin)
 		else
-			bu:Point("LEFT", self.bu[i-1], "RIGHT", DB.Space, 0)
+			bu:Point("LEFT", self.bu[i-1], "RIGHT", C.margin, 0)
 		end
 
 		self.bu[i] = bu

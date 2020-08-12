@@ -18,6 +18,8 @@ C.themes["Blizzard_DebugTools"] = function()
 
 	-- Table Attribute Display
 	local function reskinTableAttribute(frame)
+		if frame.styled then return end
+
 		B.ReskinFrame(frame)
 		B.StripTextures(frame.ScrollFrameArt)
 		B.CreateBDFrame(frame.ScrollFrameArt, 0)
@@ -40,6 +42,8 @@ C.themes["Blizzard_DebugTools"] = function()
 		frame.NavigateForwardButton:SetPoint("LEFT", frame.NavigateBackwardButton, "RIGHT", 2, 0)
 		frame.DuplicateButton:ClearAllPoints()
 		frame.DuplicateButton:SetPoint("LEFT", frame.NavigateForwardButton, "RIGHT", 2, 0)
+
+		frame.styled = true
 	end
 
 	reskinTableAttribute(TableAttributeDisplay)

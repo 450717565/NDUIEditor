@@ -88,8 +88,8 @@ tinsert(C.defaultThemes, function()
 			local x = select(4, bu:GetPoint())
 			if bu:IsShown() and x then
 				local arrow = _G["DropDownList"..level.."Button"..j.."ExpandArrow"]
-				arrow:SetNormalTexture(DB.arrowRight)
-				arrow:SetSize(8, 8)
+				arrow:SetNormalTexture(DB.arrowTex.."right")
+				arrow:SetSize(12, 12)
 
 				local hl = _G["DropDownList"..level.."Button"..j.."Highlight"]
 				hl:SetColorTexture(cr, cg, cb, .25)

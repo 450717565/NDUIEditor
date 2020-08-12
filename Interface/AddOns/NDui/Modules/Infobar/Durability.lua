@@ -61,8 +61,6 @@ local function isLowDurability()
 		end
 	end
 end
-local tip = CreateFrame("GameTooltip", "NDuiDurabilityTooltip")
-tip:SetOwner(UIParent, "ANCHOR_NONE")
 
 info.eventList = {
 	"PLAYER_ENTERING_WORLD",
@@ -131,7 +129,8 @@ info.onEnter = function(self)
 			local slotIcon = "|T"..GetInventoryItemTexture("player", slot)..":13:15:0:0:50:50:4:46:4:46|t " or ""
 			GameTooltip:AddDoubleLine(slotIcon..localSlots[i][2], format("%.1f%%", localSlots[i][3]), 1,1,1, r,g,b)
 
-			totalCost = totalCost + select(3, tip:SetInventoryItem("player", slot))
+			B.ScanTip:SetOwner(UIParent, "ANCHOR_NONE")
+			totalCost = totalCost + select(3, B.ScanTip:SetInventoryItem("player", slot))
 		end
 	end
 

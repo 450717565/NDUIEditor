@@ -154,13 +154,9 @@ C.themes["Blizzard_Collections"] = function()
 
 					if petID and isOwned then
 						local _, _, _, _, rarity = C_PetJournal.GetPetStats(petID)
+						local r, g, b = GetItemQualityColor((rarity-1) or 1)
 
-						if rarity then
-							local r, g, b = GetItemQualityColor((rarity-1) or 1)
-							bu.name:SetTextColor(r, g, b)
-						else
-							bu.name:SetTextColor(1, 1, 1)
-						end
+						bu.name:SetTextColor(r, g, b)
 					else
 						bu.name:SetTextColor(.5, .5, .5)
 					end
@@ -230,8 +226,8 @@ C.themes["Blizzard_Collections"] = function()
 			spell:GetRegions():Hide()
 			B.CleanTextures(spell)
 
-			spell.FlyoutArrow:SetTexture(DB.arrowDown)
-			spell.FlyoutArrow:SetSize(8, 8)
+			spell.FlyoutArrow:SetTexture(DB.arrowTex.."down")
+			spell.FlyoutArrow:SetSize(12, 12)
 			spell.FlyoutArrow:SetTexCoord(0, 1, 0, 1)
 
 			local icbg = B.ReskinIcon(spell.icon)
@@ -267,11 +263,8 @@ C.themes["Blizzard_Collections"] = function()
 			if PlayerHasToy(self.itemID) then
 				local _, _, quality = GetItemInfo(self.itemID)
 				local r, g, b = GetItemQualityColor(quality or 1)
-				if quality then
-					name:SetTextColor(r, g, b)
-				else
-					name:SetTextColor(1, 1, 1)
-				end
+
+				name:SetTextColor(r, g, b)
 			else
 				name:SetTextColor(.5, .5, .5)
 			end
@@ -302,11 +295,7 @@ C.themes["Blizzard_Collections"] = function()
 				local quality = select(3, GetItemInfo(button.itemID))
 				local r, g, b = GetItemQualityColor(quality or 1)
 
-				if quality then
-					button.icbg:SetBackdropBorderColor(r, g, b)
-				else
-					button.icbg:SetBackdropBorderColor(0, 0, 0)
-				end
+				button.icbg:SetBackdropBorderColor(r, g, b)
 			else
 				button.icbg:SetBackdropBorderColor(0, 0, 0)
 			end
@@ -420,6 +409,7 @@ C.themes["Blizzard_Collections"] = function()
 			local sourceInfo = C_TransmogCollection.GetSourceInfo(itemFrame.sourceID)
 			local quality = sourceInfo.quality
 			local r, g, b = GetItemQualityColor(quality or 1)
+
 			icon.icbg:SetBackdropBorderColor(r, g, b)
 		else
 			icon.icbg:SetBackdropBorderColor(0, 0, 0)

@@ -2,13 +2,14 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local module = B:GetModule("Chat")
 
-local strfind, strmatch, gsub = string.find, string.match, string.gsub
+local strfind, strmatch, gsub, strrep = string.find, string.match, string.gsub, string.rep
 local pairs, ipairs, tonumber = pairs, ipairs, tonumber
 local min, max, tremove = math.min, math.max, table.remove
 local IsGuildMember, C_FriendList_IsFriend, IsGUIDInGroup, C_Timer_After = IsGuildMember, C_FriendList.IsFriend, IsGUIDInGroup, C_Timer.After
 local Ambiguate, UnitIsUnit, GetTime, SetCVar = Ambiguate, UnitIsUnit, GetTime, SetCVar
 local GetItemInfo, GetItemStats = GetItemInfo, GetItemStats
 local C_BattleNet_GetGameAccountInfoByGUID = C_BattleNet.GetGameAccountInfoByGUID
+local IsCorruptedItem = IsCorruptedItem
 
 local LE_ITEM_CLASS_WEAPON, LE_ITEM_CLASS_ARMOR = LE_ITEM_CLASS_WEAPON, LE_ITEM_CLASS_ARMOR
 local BN_TOAST_TYPE_CLUB_INVITATION = BN_TOAST_TYPE_CLUB_INVITATION or 6
@@ -131,7 +132,7 @@ end
 
 -- Block addon msg
 local addonBlockList = {
-	"任务进度提示", "%[接受任务%]", "%(任务完成%)", "<大脚", "【爱不易】", "EUI[:_]", "打断:.+|Hspell", "PS 死亡: .+>", "%*%*.+%*%*", "<iLvl>", ("%-"):rep(20),
+	"任务进度提示", "%[接受任务%]", "%(任务完成%)", "<大脚", "【爱不易】", "EUI[:_]", "打断:.+|Hspell", "PS 死亡: .+>", "%*%*.+%*%*", "<iLvl>", strrep("%-", 20),
 	"<小队物品等级:.+>", "<LFG>", "进度:", "属性通报", "汐寒", "wow.+兑换码", "wow.+验证码", "【有爱插件】", "：.+>", "|Hspell.+=>"
 }
 
@@ -186,24 +187,6 @@ local function isItemHasSlot(link)
 	end
 end
 
-local function isItemHasGem(link)
-	local itemGems = B.GetItemGems(link)
-	if itemGems then
-		return itemGems
-	end
-
-	return ""
-end
-
-local function isItemHasCorruption(link)
-	local itemCorrupted = B.GetItemCorruption(link)
-	if itemCorrupted then
-		return itemCorrupted
-	end
-
-	return ""
-end
-
 local function isItemHasLevel(link)
 	local name, _, rarity, level, _, _, _, _, _, _, _, classID = GetItemInfo(link)
 	if name and level and rarity > 1 and (classID == LE_ITEM_CLASS_WEAPON or classID == LE_ITEM_CLASS_ARMOR) then
@@ -212,28 +195,53 @@ local function isItemHasLevel(link)
 	end
 end
 
+local function GetSocketTexture(socket, count)
+	return strrep("|TInterface\\ItemSocketingFrame\\UI-EmptySocket-"..socket..":0|t", count)
+end
+
+local function isItemHasGem(link)
+	local text = ""
+	local stats = GetItemStats(link)
+	for stat, count in pairs(stats) do
+		local socket = strmatch(stat, "EMPTY_SOCKET_(%S+)")
+		if socket then
+			text = text..GetSocketTexture(socket, count)
+		end
+	end
+
+	return text
+end
+
+local corruptedString = "|T3004126:0:0:0:0:64:64:5:59:5:59|t"
+local function isItemCorrupted(link)
+	local text = ""
+	if IsCorruptedItem(link) then
+		text = corruptedString
+	end
+
+	return text
+end
+
 local itemCache = {}
 local function convertItemLevel(link)
 	if itemCache[link] then return itemCache[link] end
 
 	local itemLink = strmatch(link, "|Hitem:.-|h")
 	if itemLink then
-		local itemInfo = ""
+		local itemInfo
 		local itemSolt = isItemHasSlot(itemLink)
-		local itemGems = isItemHasGem(itemLink)
-		local itemCorrupted = isItemHasCorruption(itemLink)
 		local itemName, itemLevel = isItemHasLevel(itemLink)
 
 		if itemLevel and itemSolt then
-			itemInfo = itemLevel.."-"..itemSolt..itemGems..itemCorrupted
+			itemInfo = itemLevel.."-"..itemSolt
 		elseif itemLevel then
-			itemInfo = itemLevel..itemGems..itemCorrupted
+			itemInfo = itemLevel
 		elseif itemSolt then
-			itemInfo = itemSolt..itemGems..itemCorrupted
+			itemInfo = itemSolt
 		end
 
-		if itemName and itemInfo ~= "" then
-			link = gsub(link, "|h%[(.-)%]|h", "|h["..itemName.."<"..itemInfo..">]|h")
+		if itemName and itemInfo then
+			link = gsub(link, "|h%[(.-)%]|h", "|h["..itemName.."<"..itemInfo..">]|h"..isItemCorrupted(itemLink)..isItemHasGem(itemLink))
 			itemCache[link] = link
 		end
 	end

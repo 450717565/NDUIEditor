@@ -2,7 +2,8 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local oUF = ns.oUF or oUF
 
-local AFK, DND, DEAD, PLAYER_OFFLINE = AFK, DND, DEAD, PLAYER_OFFLINE
+local AFK, DND, DEAD, PLAYER_OFFLINE, LEVEL = AFK, DND, DEAD, PLAYER_OFFLINE, LEVEL
+local format, strfind, GetCVarBool = format, strfind, GetCVarBool
 local ALTERNATE_POWER_INDEX = Enum.PowerType.Alternate or 10
 local UnitAlternatePowerTextureInfo = UnitAlternatePowerTextureInfo
 local UnitIsDeadOrGhost, UnitIsConnected, UnitHasVehicleUI, UnitIsTapDenied, UnitIsPlayer = UnitIsDeadOrGhost, UnitIsConnected, UnitHasVehicleUI, UnitIsTapDenied, UnitIsPlayer
@@ -101,6 +102,7 @@ oUF.Tags.Methods["fulllevel"] = function(unit)
 	local level = UnitEffectiveLevel(unit)
 	if UnitIsWildBattlePet(unit) or UnitIsBattlePetCompanion(unit) then
 		level = UnitBattlePetLevel(unit)
+		realLevel = level
 	end
 
 	local color = B.HexRGB(GetCreatureDifficultyColor(level))
@@ -196,6 +198,19 @@ oUF.Tags.Methods["nplv"] = function(unit)
 	return level
 end
 oUF.Tags.Events["nplv"] = "UNIT_LEVEL PLAYER_LEVEL_UP UNIT_CLASSIFICATION_CHANGED UNIT_NAME_UPDATE PLAYER_LEVEL_CHANGED"
+
+oUF.Tags.Methods["npctitle"] = function(unit)
+	if UnitIsPlayer(unit) then return end
+
+	B.ScanTip:SetOwner(UIParent, "ANCHOR_NONE")
+	B.ScanTip:SetUnit(unit)
+
+	local title = _G[format("NDui_ScanTooltipTextLeft%d", GetCVarBool("colorblindmode") and 3 or 2)]:GetText()
+	if title and not strfind(title, "^"..LEVEL) then
+		return title
+	end
+end
+oUF.Tags.Events["npctitle"] = "UNIT_NAME_UPDATE"
 
 -- AltPower value tag
 oUF.Tags.Methods["altpower"] = function(unit)

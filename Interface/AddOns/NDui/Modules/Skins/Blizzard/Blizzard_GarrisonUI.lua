@@ -113,8 +113,10 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		B.ReskinClose(self.CloseButton, "TOPRIGHT", bg, "TOPRIGHT", -6, -6)
 
 		local MissionEnvIcon = self.Stage.MissionEnvIcon
+		MissionEnvIcon.Texture:SetDrawLayer("ARTWORK")
+
 		local icbg = B.ReskinIcon(MissionEnvIcon.Texture)
-		icbg:SetFrameLevel(self:GetFrameLevel() + 1)
+		icbg:SetFrameLevel(MissionEnvIcon:GetFrameLevel())
 		MissionEnvIcon.icbg = icbg
 
 		local CostFrame = self.CostFrame
@@ -341,7 +343,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 			local icbg = B.ReskinIcon(reward.Icon)
 			B.ReskinBorder(reward.IconBorder, icbg)
-			icbg:SetFrameLevel(self:GetFrameLevel() + 1)
+			icbg:SetFrameLevel(reward:GetFrameLevel())
 		end
 	end)
 
@@ -524,10 +526,12 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	-- ZoneSupportMissionPage
 	local ZoneSupportMissionPage = OrderHallMissionFrame.MissionTab.ZoneSupportMissionPage
-	B.ReskinFrame(ZoneSupportMissionPage)
 	B.ReskinButton(ZoneSupportMissionPage.StartMissionButton)
 	B.ReskinIcon(ZoneSupportMissionPage.CombatAllySpell.iconTexture)
 	B.ReskinIcon(ZoneSupportMissionPage.CostFrame.CostIcon)
+
+	local bg = B.ReskinFrame(ZoneSupportMissionPage)
+	bg:SetFrameLevel(OrderHallMissionFrame.MissionTab:GetFrameLevel()+1)
 
 	local Follower1 = ZoneSupportMissionPage.Follower1
 	B.StripTextures(Follower1)
@@ -668,11 +672,11 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	local LeftBtn = GarrisonMonumentFrame.LeftBtn
 	B.ReskinArrow(LeftBtn, "left")
 	LeftBtn:SetSize(36, 36)
-	LeftBtn.bgTex:SetSize(18, 18)
+	LeftBtn.arrowTex:SetSize(18, 18)
 	local RightBtn = GarrisonMonumentFrame.RightBtn
 	B.ReskinArrow(RightBtn, "right")
 	RightBtn:SetSize(36, 36)
-	RightBtn.bgTex:SetSize(18, 18)
+	RightBtn.arrowTex:SetSize(18, 18)
 
 	-- [[GarrisonRecruiterFrame]]
 	local GarrisonRecruiterFrame = GarrisonRecruiterFrame

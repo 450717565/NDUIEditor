@@ -63,6 +63,7 @@ tinsert(C.defaultThemes, function()
 			local arrowButton = navButton.MenuArrowButton
 			B.StripTextures(arrowButton)
 			B.SetupArrowTex(arrowButton, "down")
+			arrowButton.arrowTex:SetInside(nil, 6, 6)
 
 			B.Hook_OnEnter(arrowButton)
 			B.Hook_OnLeave(arrowButton)

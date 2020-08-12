@@ -542,8 +542,8 @@ function S:Rematch()
 					reskinButton(abilities)
 
 					abilities.Cover:SetInside(abilities.icbg)
-					abilities.Arrow:SetTexture(DB.arrowDown)
-					abilities.Arrow:SetSize(8, 8)
+					abilities.Arrow:SetTexture(DB.arrowTex.."down")
+					abilities.Arrow:SetSize(12, 12)
 					abilities.Arrow:SetTexCoord(0, 1, 0, 1)
 				end
 				for k = 1, 2 do
