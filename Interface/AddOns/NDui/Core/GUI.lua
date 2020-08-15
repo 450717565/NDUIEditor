@@ -266,7 +266,7 @@ local defaultSettings = {
 		FontScale = 1,
 		SkinShadow = false,
 		SkinStyle = 3,
-		SkinTexture = false,
+		SkinTexture = true,
 		ToggleDirection = 1,
 
 		BGAlpha = .5,

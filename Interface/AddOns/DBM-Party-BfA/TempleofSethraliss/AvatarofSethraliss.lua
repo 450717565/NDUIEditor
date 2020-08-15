@@ -1,10 +1,9 @@
 local mod	= DBM:NewMod(2145, "DBM-Party-BfA", 6, 1001)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200727023025")
+mod:SetRevision("20200803045206")
 mod:SetCreatureID(133392)
 mod:SetEncounterID(2127)
-mod:SetZone()
 mod.onlyHighest = true--Instructs DBM health tracking to literally only store highest value seen during fight, even if it drops below that
 mod.noBossDeathKill = true
 

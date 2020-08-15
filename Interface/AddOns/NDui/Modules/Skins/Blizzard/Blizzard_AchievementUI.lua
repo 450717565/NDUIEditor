@@ -94,7 +94,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 		local ch = _G[button.."Tracked"]
 		ch:SetSize(22, 22)
 		ch:ClearAllPoints()
-		ch:SetPoint("TOPLEFT", icbg, "BOTTOMLEFT", -2, 0)
+		ch:SetPoint("TOPLEFT", icbg, "BOTTOMLEFT", -3.5, 0)
 		B.ReskinCheck(ch)
 	end
 

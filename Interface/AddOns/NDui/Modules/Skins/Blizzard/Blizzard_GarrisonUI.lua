@@ -672,11 +672,9 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	local LeftBtn = GarrisonMonumentFrame.LeftBtn
 	B.ReskinArrow(LeftBtn, "left")
 	LeftBtn:SetSize(36, 36)
-	LeftBtn.arrowTex:SetSize(18, 18)
 	local RightBtn = GarrisonMonumentFrame.RightBtn
 	B.ReskinArrow(RightBtn, "right")
 	RightBtn:SetSize(36, 36)
-	RightBtn.arrowTex:SetSize(18, 18)
 
 	-- [[GarrisonRecruiterFrame]]
 	local GarrisonRecruiterFrame = GarrisonRecruiterFrame

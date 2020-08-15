@@ -467,7 +467,7 @@ L["STRING_OPTIONS_BAR_SPACING"] = "Spacing"
 L["STRING_OPTIONS_BAR_SPACING_DESC"] = "Gap size between each bar."
 L["STRING_OPTIONS_BAR_TEXTURE_DESC"] = "Texture used on the top of the bar."
 L["STRING_OPTIONS_BARLEFTTEXTCUSTOM"] = "Custom Text Enabled"
-L["STRING_OPTIONS_BARLEFTTEXTCUSTOM_DESC"] = "When enabled, left text is formated following the rules in the box."
+L["STRING_OPTIONS_BARLEFTTEXTCUSTOM_DESC"] = "Use a custom  text, edit the text by clicking the the button below."
 L["STRING_OPTIONS_BARLEFTTEXTCUSTOM2"] = ""
 L["STRING_OPTIONS_BARLEFTTEXTCUSTOM2_DESC"] = [=[|cFFFFFF00{data1}|r: generally represents the player position number.
 
@@ -508,7 +508,7 @@ L["STRING_OPTIONS_BARSTART"] = "Bar Start After Icon"
 L["STRING_OPTIONS_BARSTART_DESC"] = [=[When disabled the top texture starts at the icon left side instead of the right
 
 This is useful when using an icon pack with transparent areas.]=]
-L["STRING_OPTIONS_BARUR_ANCHOR"] = "Fast Updates:"
+L["STRING_OPTIONS_BARUR_ANCHOR"] = "Fast Updates"
 L["STRING_OPTIONS_BARUR_DESC"] = "When enabled, DPS and HPS values are updated just a little bit faster than usual."
 L["STRING_OPTIONS_BG_ALL_ALLY"] = "Show All"
 L["STRING_OPTIONS_BG_ALL_ALLY_DESC"] = [=[When enabled, enemy players are also shown when the window is in Group Mode.
@@ -746,7 +746,7 @@ L["STRING_OPTIONS_INSTANCE_DELETE_DESC"] = [=[Remove a window permanently.
 Your game screen may reload during the erase process.]=]
 L["STRING_OPTIONS_INSTANCE_SKIN"] = "Skin"
 L["STRING_OPTIONS_INSTANCE_SKIN_DESC"] = "Modify window appearance based on a skin theme."
-L["STRING_OPTIONS_INSTANCE_STATUSBAR_ANCHOR"] = "Statusbar:"
+L["STRING_OPTIONS_INSTANCE_STATUSBAR_ANCHOR"] = "Statusbar"
 L["STRING_OPTIONS_INSTANCE_STATUSBARCOLOR"] = "Color and Transparency"
 L["STRING_OPTIONS_INSTANCE_STATUSBARCOLOR_DESC"] = [=[Select the color used by the statusbar.
 
@@ -1379,7 +1379,7 @@ L["STRING_OPTIONSMENU_DATACOLLECT"] = "Data Collector"
 L["STRING_OPTIONSMENU_DATAFEED"] = "Data Feed"
 L["STRING_OPTIONSMENU_DISPLAY"] = "Display"
 L["STRING_OPTIONSMENU_DISPLAY_DESC"] = "Overall basic adjustments and quick window control."
-L["STRING_OPTIONSMENU_LEFTMENU"] = "Title Bar: General"
+L["STRING_OPTIONSMENU_LEFTMENU"] = "Title Bar"
 L["STRING_OPTIONSMENU_MISC"] = "Miscellaneous"
 L["STRING_OPTIONSMENU_PERFORMANCE"] = "Performance Tweaks"
 L["STRING_OPTIONSMENU_PLUGINS"] = "Plugins Management"
@@ -1392,10 +1392,12 @@ L["STRING_OPTIONSMENU_ROWTEXTS"] = "Bars: Texts"
 L["STRING_OPTIONSMENU_SKIN"] = "Skins"
 L["STRING_OPTIONSMENU_SPELLS"] = "Spell Customization"
 L["STRING_OPTIONSMENU_SPELLS_CONSOLIDATE"] = "Consolidate common spells with the same name"
+L["STRING_OPTIONSMENU_TITLEBAR"] = "Title Bar"
 L["STRING_OPTIONSMENU_TITLETEXT"] = "Title Bar: Text"
 L["STRING_OPTIONSMENU_TOOLTIP"] = "Tooltips"
 L["STRING_OPTIONSMENU_WALLPAPER"] = "Window: Wallpaper"
 L["STRING_OPTIONSMENU_WINDOW"] = "Window: General"
+L["STRING_OPTIONSMENU_WINDOWBODY"] = "Window Body"
 L["STRING_OVERALL"] = "Overall"
 L["STRING_OVERHEAL"] = "Overheal"
 L["STRING_OVERHEALED"] = "Overhealed"

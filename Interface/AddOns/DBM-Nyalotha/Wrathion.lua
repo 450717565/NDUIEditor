@@ -1,10 +1,9 @@
 local mod	= DBM:NewMod(2368, "DBM-Nyalotha", nil, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200611161532")
+mod:SetRevision("20200803045206")
 mod:SetCreatureID(156818)
 mod:SetEncounterID(2329)
-mod:SetZone()
 mod:SetUsedIcons(1, 2, 3)--Unknown number of burning targets, guessed for now
 mod:SetHotfixNoticeRev(20191109000000)--2019, 11, 09
 --mod:SetMinSyncRevision(20190716000000)

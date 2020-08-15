@@ -403,12 +403,19 @@ function UF:CreateIcons(self)
 		self.QuestIndicator = quest
 	end
 
-	local phase = self:CreateTexture(nil, "OVERLAY")
-	phase:SetPoint("CENTER", self)
+	local parentFrame = CreateFrame("Frame", nil, self)
+	parentFrame:SetAllPoints()
+	parentFrame:SetFrameLevel(self:GetFrameLevel() + 3)
+
+	local phase = parentFrame:CreateTexture(nil, "OVERLAY")
 	phase:SetSize(24, 24)
+	phase:SetPoint("CENTER", self, "TOP", 0, 0)
+	if mystyle == "raid" then
+		phase:SetPoint("CENTER", self, "BOTTOM", 0, 0)
+	end
 	self.PhaseIndicator = phase
 
-	local groupRole = self:CreateTexture(nil, "OVERLAY")
+	local groupRole = parentFrame:CreateTexture(nil, "OVERLAY")
 	groupRole:SetSize(12, 12)
 	groupRole:SetTexture("Interface\\LFGFrame\\LFGROLE")
 	groupRole:SetPoint("RIGHT", self, "TOPRIGHT", -2, 0)
@@ -418,12 +425,12 @@ function UF:CreateIcons(self)
 	groupRole.PostUpdate = postUpdateRole
 	self.GroupRoleIndicator = groupRole
 
-	local leader = self:CreateTexture(nil, "OVERLAY")
+	local leader = parentFrame:CreateTexture(nil, "OVERLAY")
 	leader:SetSize(12, 12)
 	leader:SetPoint("RIGHT", groupRole, "LEFT")
 	self.LeaderIndicator = leader
 
-	local assistant = self:CreateTexture(nil, "OVERLAY")
+	local assistant = parentFrame:CreateTexture(nil, "OVERLAY")
 	assistant:SetSize(12, 12)
 	assistant:SetPoint("RIGHT", groupRole, "LEFT")
 	self.AssistantIndicator = assistant
