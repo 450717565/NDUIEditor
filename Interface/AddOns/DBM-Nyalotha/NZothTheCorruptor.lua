@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2375, "DBM-Nyalotha", nil, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200804032343")
+mod:SetRevision("20200815034941")
 mod:SetCreatureID(158041)
 mod:SetEncounterID(2344)
 mod:SetUsedIcons(1, 2, 3, 4)
@@ -1119,7 +1119,7 @@ function mod:INSTANCE_ENCOUNTER_ENGAGE_UNIT()
 				end
 			elseif cid == 162933 then--Thought Harvester
 				self.vb.harvestersAlive = self.vb.harvestersAlive + 1
-				if self:IsMythic() and self:AntiSpam(6, 1) or self:AntiSpam(3, 1) then
+				if self:IsMythic() and self:AntiSpam(6, 1) or not self:IsMythic() and self:AntiSpam(3, 1) then
 					self.vb.harvesterCount = self.vb.harvesterCount + 1
 					if self.Options.SpecWarnej21308switch then
 						specWarnThoughtHarvester:Show(self.vb.harvesterCount)

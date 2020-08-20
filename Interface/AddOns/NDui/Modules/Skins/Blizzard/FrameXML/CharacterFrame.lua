@@ -103,15 +103,8 @@ tinsert(C.defaultThemes, function()
 		category.Background:Hide()
 		category.Title:SetTextColor(cr, cg, cb)
 
-		local width, height = 95, C.mult*2
-
-		local left = CreateFrame("Frame", nil, category)
-		left:SetPoint("TOPRIGHT", category, "BOTTOM", 0, 5)
-		B.CreateGA(left, width, height, "Horizontal", cr, cg, cb, 0, DB.Alpha)
-
-		local right = CreateFrame("Frame", nil, category)
-		right:SetPoint("TOPLEFT", category, "BOTTOM", 0, 5)
-		B.CreateGA(right, width, height, "Horizontal", cr, cg, cb, DB.Alpha, 0)
+		local line = B.CreateLine(category, true)
+		line:SetPoint("BOTTOM", 0, 5)
 	end
 
 	-- [[ Sidebar tabs ]]

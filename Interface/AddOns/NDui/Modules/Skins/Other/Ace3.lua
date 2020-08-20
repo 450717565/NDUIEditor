@@ -226,7 +226,7 @@ function S:Ace3_RegisterAsContainer(widget)
 			end
 			B.CreateBG(frame)
 		else
-			B.CreateBGFrame(frame, 2, -2, -2, 2)
+			B.CreateBDFrame(frame, 0, -2)
 		end
 
 		if TYPE == "Window" then
@@ -234,7 +234,7 @@ function S:Ace3_RegisterAsContainer(widget)
 		end
 
 		if widget.treeframe then
-			B.CreateBGFrame(widget.treeframe, 2, -2, -2, 2)
+			B.CreateBDFrame(widget.treeframe, 0, -2)
 
 			local oldRefreshTree = widget.RefreshTree
 			widget.RefreshTree = function(self, scrollToSelection)

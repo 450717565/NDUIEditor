@@ -242,9 +242,9 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		for i = 1,#items do
 			local item = items[i]
 			if item.bossTexture and item.bossTexture:IsShown() then
-				item.bubg:Point("BOTTOM", item.bossTexture, "BOTTOM", 0, 0)
+				item.bubg:SetPoint("BOTTOM", item.bossTexture, "BOTTOM", 0, 0)
 			else
-				item.bubg:Point("BOTTOM", item.icbg, "BOTTOM", 0, 0)
+				item.bubg:SetPoint("BOTTOM", item.icbg, "BOTTOM", 0, 0)
 			end
 		end
 	end)

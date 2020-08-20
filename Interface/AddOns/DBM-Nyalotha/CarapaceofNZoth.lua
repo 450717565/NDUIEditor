@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2366, "DBM-Nyalotha", nil, 1180)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200803045206")
+mod:SetRevision("20200816003541")
 mod:SetCreatureID(157439)--Fury of N'Zoth
 mod:SetEncounterID(2337)
 mod:SetUsedIcons(1, 2, 3)
@@ -436,7 +436,12 @@ function mod:SPELL_AURA_APPLIED(args)
 				specWarnBlackScar:Show(amount)
 				specWarnBlackScar:Play("stackhigh")
 			else
-				if not UnitIsDeadOrGhost("player") and not DBM:UnitDebuff("player", spellId) then
+				local _, _, _, _, expireTime = DBM:UnitDebuff("player", spellId)
+				local remaining
+				if expireTime then
+					remaining = expireTime-GetTime()
+				end
+				if not UnitIsDeadOrGhost("player") and (not remaining or remaining and remaining < 12.7) then
 					specWarnBlackScarTaunt:Show(args.destName)
 					specWarnBlackScarTaunt:Play("tauntboss")
 				else

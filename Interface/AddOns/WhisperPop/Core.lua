@@ -182,7 +182,7 @@ function addon:HandleAction(name, action)
 
 	elseif action == "INVITE" then
 		if bnId then
-			FriendsFrame_BattlenetInvite(nil, bnId)
+			BNInviteFriend(bnId)
 		else
 			InviteUnit(name)
 		end

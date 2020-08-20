@@ -1520,7 +1520,7 @@ do
 
 		local w, h = self:GetSize()
 		local Line = self:CreateTexture(nil, "ARTWORK")
-		Line:SetColorTexture(1, 1, 1, .25)
+		Line:SetColorTexture(1, 1, 1, .5)
 		Line:ClearAllPoints()
 
 		if isHorizontal then
