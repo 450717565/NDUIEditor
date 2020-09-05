@@ -379,7 +379,7 @@ function TT:ReskinTooltip()
 	if self:IsForbidden() then return end
 	self:SetScale(NDuiDB["Tooltip"]["Scale"])
 
-	local frameName = B.GetFrameName(self)
+	local frameName = self:GetDebugName()
 
 	if not self.tipStyled then
 		self:SetBackdrop(nil)

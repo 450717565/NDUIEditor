@@ -78,7 +78,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	end
 
 	function B:ReskinMissionTab()
-		local frameName = B.GetFrameName(self)
+		local frameName = self:GetDebugName()
 		for i = 1, 2 do
 			local tab = _G[frameName.."Tab"..i]
 			B.StripTextures(tab)

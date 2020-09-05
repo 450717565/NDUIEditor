@@ -70,8 +70,8 @@ local function showRealDate(curseDate)
 end
 
 DBM = {
-	Revision = parseCurseDate("20200820020021"),
-	DisplayVersion = "8.3.32", -- the string that is shown as version
+	Revision = parseCurseDate("20200820152241"),
+	DisplayVersion = "8.3.33", -- the string that is shown as version
 	ReleaseRevision = releaseDate(2020, 8, 19) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
@@ -6697,11 +6697,15 @@ end
 
 --Future proofing EJ_GetSectionInfo compat layer to make it easier updatable.
 function DBM:EJ_GetSectionInfo(sectionID)
-	local info = EJ_GetSectionInfo(sectionID);
-	local flag1, flag2, flag3, flag4;
-	local flags = GetSectionIconFlags(sectionID);
+	local info = EJ_GetSectionInfo(sectionID)
+	if not info then
+		DBM:Debug("|cffff0000Invalid call to EJ_GetSectionInfo for sectionID: |r"..sectionID)
+		return nil
+	end
+	local flag1, flag2, flag3, flag4
+	local flags = GetSectionIconFlags(sectionID)
 	if flags then
-		flag1, flag2, flag3, flag4 = unpack(flags);
+		flag1, flag2, flag3, flag4 = unpack(flags)
 	end
 	return info.title, info.description, info.headerType, info.abilityIcon, info.creatureDisplayID, info.siblingSectionID, info.firstChildSectionID, info.filteredByDifficulty, info.link, info.startsOpen, flag1, flag2, flag3, flag4
 end
@@ -11746,7 +11750,7 @@ end
 
 function bossModPrototype:SetRevision(revision)
 	revision = parseCurseDate(revision or "")
-	if not revision or revision == "20200820020021" then
+	if not revision or revision == "20200820152241" then
 		-- bad revision: either forgot the svn keyword or using github
 		revision = DBM.Revision
 	end

@@ -50,7 +50,7 @@ tinsert(C.defaultThemes, function()
 	end
 
 	hooksecurefunc("ContainerFrame_Update", function(frame)
-		local name = B.GetFrameName(frame)
+		local name = frame:GetDebugName()
 
 		for i = 1, frame.size do
 			local itemButton = _G[name.."Item"..i]

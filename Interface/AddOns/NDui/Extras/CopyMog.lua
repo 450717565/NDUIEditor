@@ -215,7 +215,7 @@ end
 
 local function CreateCopyButton(parent)
 	local button = B.CreateButton(parent, 50, 20, TRANSMOGRIFY)
-	button:Point("BOTTOMRIGHT", -5, 5)
+	button:Point("TOPLEFT", 5, -5)
 	parent.CopyButton = button
 
 	return button

@@ -115,7 +115,7 @@ end
 
 function TT:Corruption_Convert(name, icon, level)
 	for i = 5, self:NumLines() do
-		local line = _G[B.GetFrameName(self).."TextLeft"..i]
+		local line = _G[self:GetDebugName().."TextLeft"..i]
 		local text = line:GetText()
 		if text and strmatch(text, ITEM_MOD_CORRUPTION) then
 			line:SetText(text.." - "..getIconString(icon)..name.." "..level)
@@ -280,7 +280,7 @@ function TT:Corruption_InspectSummary()
 	TT:Corruption_AddSummary()
 
 	local inspectFrameT = InspectFrame.inspectFrame
-	local inspectFrameP = inspectFrameT.inspectFrame
+	local inspectFrameP = inspectFrameT and inspectFrameT.inspectFrame
 	if inspectFrameP and inspectFrameP:IsShown() then
 		GameTooltip:ClearAllPoints()
 		GameTooltip:SetPoint("TOPLEFT", inspectFrameP, "TOPRIGHT", 3, 0)
@@ -292,7 +292,7 @@ end
 
 function TT:Corruption_CreateEye()
 	if not InspectFrame.__eye then
-		local eye = CreateFrame("Button", nil, InspectFrame)
+		local eye = CreateFrame("Button", nil, InspectPaperDollFrame)
 		eye:SetPoint("BOTTOM", InspectHandsSlot, "TOP", 0, 10)
 		eye:SetSize(50, 50)
 		eye:SetScript("OnEnter", TT.Corruption_InspectSummary)

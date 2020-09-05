@@ -11,7 +11,7 @@ tinsert(C.defaultThemes, function()
 
 	-- Reskin rewards
 	local function restyleSpellButton(bu)
-		local name = B.GetFrameName(bu)
+		local name = bu:GetDebugName()
 		_G[name.."NameFrame"]:Hide()
 		_G[name.."SpellBorder"]:Hide()
 

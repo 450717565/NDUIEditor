@@ -470,12 +470,15 @@ function UF:CreateCastBar(self)
 	B.CreateSB(cb, true)
 
 	if mystyle == "player" then
+		cb:SetFrameLevel(10)
 		cb:SetSize(NDuiDB["UFs"]["PlayerCBWidth"], NDuiDB["UFs"]["PlayerCBHeight"])
 		createBarMover(cb, L["Player Castbar"], "PlayerCB", C.UFs.Playercb)
 	elseif mystyle == "target" then
+		cb:SetFrameLevel(10)
 		cb:SetSize(NDuiDB["UFs"]["TargetCBWidth"], NDuiDB["UFs"]["TargetCBHeight"])
 		createBarMover(cb, L["Target Castbar"], "TargetCB", C.UFs.Targetcb)
 	elseif mystyle == "focus" then
+		cb:SetFrameLevel(10)
 		cb:SetSize(NDuiDB["UFs"]["FocusCBWidth"], NDuiDB["UFs"]["FocusCBHeight"])
 		createBarMover(cb, L["Focus Castbar"], "FocusCB", C.UFs.Focuscb)
 	elseif mystyle == "boss" or mystyle == "arena" then
@@ -558,7 +561,7 @@ local function reskinTimerBar(bar)
 	bar:SetSize(280, 18)
 	B.StripTextures(bar)
 
-	local statusbar = _G[B.GetFrameName(bar).."StatusBar"]
+	local statusbar = _G[bar:GetDebugName().."StatusBar"]
 	if statusbar then
 		statusbar:SetAllPoints()
 		statusbar:SetStatusBarTexture(DB.normTex)

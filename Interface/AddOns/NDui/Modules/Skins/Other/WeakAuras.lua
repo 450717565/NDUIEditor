@@ -2,18 +2,22 @@ local B, C, L, DB = unpack(select(2, ...))
 local S = B:GetModule("Skins")
 local pairs = pairs
 
-local function ReskinWA()
+local function ReskinWeakAuras()
 	local function Skin_WeakAuras(self, type)
 		if type == "icon" then
 			if self.icon and not self.icon.styled then
-				B.ReskinIcon(self.icon)
+				local icbg = B.ReskinIcon(self.icon)
+				icbg:SetFrameLevel(0)
+
 				self.icon.SetTexCoord = B.Dummy
 
 				self.icon.styled = true
 			end
 		elseif type == "aurabar" then
 			if self.bar and not self.bar.styled then
-				B.ReskinIcon(self.icon)
+				local icbg = B.ReskinIcon(self.icon)
+				icbg:SetFrameLevel(0)
+
 				self.icon.SetTexCoord = B.Dummy
 
 				local bg = B.CreateBDFrame(self.bar, 0, nil, true)
@@ -99,4 +103,4 @@ local function ReskinWA()
 	B:RegisterEvent("ADDON_LOADED", loadFunc)
 end
 
-S.LoadWithAddOn("WeakAuras", "WeakAuras", ReskinWA)
+S.LoadWithAddOn("WeakAuras", "WeakAuras", ReskinWeakAuras)

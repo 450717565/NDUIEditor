@@ -22,7 +22,7 @@ tinsert(C.defaultThemes, function()
 	GeneralDockManagerOverflowButton:SetPoint("BOTTOM", ChatFrameMenuButton, "TOP", 0, 3)
 
 	local function reskinScroll(self)
-		local thumb = _G[B.GetFrameName(self).."ThumbTexture"]
+		local thumb = _G[self:GetDebugName().."ThumbTexture"]
 		thumb:SetAlpha(0)
 		thumb:SetWidth(18)
 
@@ -34,7 +34,7 @@ tinsert(C.defaultThemes, function()
 		local down = self.ScrollToBottomButton
 		B.ReskinArrow(down, "down")
 		down:ClearAllPoints()
-		down:SetPoint("BOTTOM", _G[B.GetFrameName(self).."ResizeButton"], "BOTTOM", -5, 3)
+		down:SetPoint("BOTTOM", _G[self:GetDebugName().."ResizeButton"], "BOTTOM", -5, 3)
 	end
 
 	for i = 1, NUM_CHAT_WINDOWS do

@@ -28,7 +28,7 @@ tinsert(C.defaultThemes, function()
 
 	hooksecurefunc("SpellButton_UpdateButton", function(self)
 		if SpellBookFrame.bookType ~= BOOKTYPE_PROFESSION then
-			local frame = B.GetFrameName(self)
+			local frame = self:GetDebugName()
 
 			local hl = _G[frame.."Highlight"]
 			hl:SetColorTexture(1, 1, 1, .25)

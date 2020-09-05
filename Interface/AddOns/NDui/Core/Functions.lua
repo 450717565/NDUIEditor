@@ -6,16 +6,6 @@ local type, pairs, tonumber, wipe, next, select, unpack = type, pairs, tonumber,
 local strmatch, gmatch, strfind, format, gsub = string.match, string.gmatch, string.find, string.format, string.gsub
 local min, max, floor, rad = math.min, math.max, math.floor, math.rad
 
--- FrameName
-do
-	function B:GetFrameName()
-		if not self then return end
-
-		local name = (self.GetName and self:GetName()) or (self.GetDebugName and self:GetDebugName())
-		return name
-	end
-end
-
 -- Math
 do
 	-- Numberize
@@ -197,7 +187,7 @@ do
 
 		local step = 1
 		for i = 1, 10 do
-			local tex = _G[B.GetFrameName(tip).."Texture"..i]
+			local tex = _G[tip:GetDebugName().."Texture"..i]
 			local texture = tex and tex:IsShown() and tex:GetTexture()
 			if texture then
 				if texture == essenceTextureID then
@@ -235,7 +225,7 @@ do
 		local essence = slotInfo.essences[step]
 		if essence and next(essence) and (strfind(lineText, ITEM_SPELL_TRIGGER_ONEQUIP, nil, true) and strfind(lineText, essenceDescription, nil, true)) then
 			for i = 5, 2, -1 do
-				local line = _G[B.GetFrameName(tip).."TextLeft"..index-i]
+				local line = _G[tip:GetDebugName().."TextLeft"..index-i]
 				local text = line and line:GetText()
 
 				if text and (not strmatch(text, "^[ +]")) and essence and next(essence) then
@@ -262,7 +252,7 @@ do
 			slotInfo.gems, slotInfo.essences = B.InspectItemTextures()
 
 			for i = 1, tip:NumLines() do
-				local line = _G[B.GetFrameName(tip).."TextLeft"..i]
+				local line = _G[tip:GetDebugName().."TextLeft"..i]
 				if line then
 					local text = line:GetText() or ""
 					if i == 1 and text == RETRIEVING_ITEM_INFO then
@@ -293,7 +283,7 @@ do
 			end
 
 			for i = 2, 5 do
-				local line = _G[B.GetFrameName(tip).."TextLeft"..i]
+				local line = _G[tip:GetDebugName().."TextLeft"..i]
 				if line then
 					local text = line:GetText() or ""
 					local found = strfind(text, itemLevelString)
@@ -437,7 +427,7 @@ do
 		"shadows",
 	}
 	function B:StripTextures(kill)
-		local frameName = B.GetFrameName(self)
+		local frameName = self:GetDebugName()
 		for _, texture in pairs(blizzTextures) do
 			local blizzFrame = self[texture] or (frameName and _G[frameName..texture])
 			if blizzFrame then
@@ -542,7 +532,7 @@ do
 		if self.SetNormalTexture then self:SetNormalTexture("") end
 		if self.SetPushedTexture then self:SetPushedTexture("") end
 
-		local frameName = B.GetFrameName(self)
+		local frameName = self:GetDebugName()
 		for _, key in pairs(cleanTextures) do
 			local cleanFrame = self[key] or (frameName and _G[frameName..key])
 			if cleanFrame then
@@ -991,7 +981,7 @@ do
 			self:SetStatusBarColor(cr, cg, cb, DB.Alpha)
 		end
 
-		local frameName = B.GetFrameName(self)
+		local frameName = self:GetDebugName()
 		for _, key in pairs(barWords) do
 			local text = self[key] or (frameName and _G[frameName..key])
 			if text then
@@ -1023,7 +1013,7 @@ do
 	end
 
 	function B:ReskinFrameTab(index, tabName)
-		local frameName = B.GetFrameName(self)
+		local frameName = self:GetDebugName()
 		local tab = frameName and frameName.."Tab"
 
 		if tabName then tab = frameName and frameName..tabName end
@@ -1059,7 +1049,7 @@ do
 			B.CleanTextures(parent)
 		end
 
-		local frameName = B.GetFrameName(self)
+		local frameName = self:GetDebugName()
 		local thumb
 		if self.GetThumbTexture then
 			thumb = self:GetThumbTexture()
@@ -1091,7 +1081,7 @@ do
 		B.StripTextures(self)
 		B.CleanTextures(self)
 
-		local frameName = B.GetFrameName(self)
+		local frameName = self:GetDebugName()
 
 		local button = self.Button or (frameName and _G[frameName.."Button"])
 		button:ClearAllPoints()
@@ -1192,7 +1182,7 @@ do
 		self.Icon:Point("RIGHT", self, "RIGHT", -5, 0)
 		self.Icon:SetSize(height, height)
 
-		local frameName = B.GetFrameName(self)
+		local frameName = self:GetDebugName()
 		for _, key in pairs(textWords) do
 			local text = self[key] or (frameName and _G[frameName..key])
 			if text then
@@ -1274,7 +1264,7 @@ do
 		nt:Point("TOPLEFT", 2, -2)
 		nt:Point("BOTTOMRIGHT", -2, 2)
 
-		local frameName = B.GetFrameName(self)
+		local frameName = self:GetDebugName()
 		local bg = self.SwatchBg or (frameName and _G[frameName.."SwatchBg"])
 		bg:SetColorTexture(0, 0, 0)
 		bg:SetOutside(nt)
@@ -1544,7 +1534,7 @@ do
 		B.CleanTextures(self)
 
 		local bg = B.CreateBDFrame(self, nil, 0, true)
-		local frameName = B.GetFrameName(self)
+		local frameName = self:GetDebugName()
 		for _, key in pairs({"Header", "header"}) do
 			local frameHeader = self[key] or (frameName and _G[frameName..key])
 			if frameHeader then
@@ -1636,7 +1626,7 @@ do
 			if index > numItems then return end
 
 			local item = _G["MerchantItem"..i]
-			local frameName = B.GetFrameName(item)
+			local frameName = item:GetDebugName()
 			local name = _G[frameName.."Name"]
 			local button = _G[frameName.."ItemButton"]
 			local money = _G[frameName.."MoneyFrame"]
@@ -1686,7 +1676,7 @@ do
 		B.ReskinBorder(button.IconBorder, icbg)
 		button.icbg = icbg
 
-		local frameName = B.GetFrameName(self)
+		local frameName = self:GetDebugName()
 		local count = _G[frameName.."ItemButtonCount"]
 		count:SetJustifyH("RIGHT")
 		count:ClearAllPoints()
@@ -1778,7 +1768,7 @@ do
 		B.CleanTextures(results)
 		B.CreateBG(results, -10, 0, 0, 0)
 
-		local frameName = B.GetFrameName(self)
+		local frameName = self:GetDebugName()
 		local closebu = results.closeButton or (frameName and _G[frameName.."SearchResultsCloseButton"])
 		B.ReskinClose(closebu)
 
@@ -1843,7 +1833,7 @@ do
 	end
 
 	function B:ReskinRole(role)
-		local frameName = B.GetFrameName(self)
+		local frameName = self:GetDebugName()
 		for _, key in pairs({"background", "Cover", "cover"}) do
 			local tex = self[key] or (frameName and _G[frameName..key])
 			if tex then tex:SetTexture("") end

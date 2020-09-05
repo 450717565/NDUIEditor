@@ -406,7 +406,7 @@ function M:ReplaceContaminantName()
 	end
 
 	local function Hook_OnTooltipSetItem(self)
-		local line = _G[B.GetFrameName(self).."TextLeft1"]
+		local line = _G[self:GetDebugName().."TextLeft1"]
 		replaceItemTitle(line)
 	end
 	GameTooltip:HookScript("OnTooltipSetItem", Hook_OnTooltipSetItem)

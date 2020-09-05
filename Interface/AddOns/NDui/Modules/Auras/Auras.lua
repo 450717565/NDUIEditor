@@ -122,7 +122,7 @@ function A:UpdateTempEnchant(button, index)
 	button.icon:SetTexture(GetInventoryItemTexture("player", index))
 
 	local offset = 2
-	local weapon = B.GetFrameName(button):sub(-1)
+	local weapon = button:GetDebugName():sub(-1)
 	if strmatch(weapon, "2") then
 		offset = 6
 	end

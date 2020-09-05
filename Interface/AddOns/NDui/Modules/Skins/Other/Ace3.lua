@@ -6,6 +6,7 @@ local TT = B:GetModule("Tooltip")
 -- Credit: ElvUI
 -- 修改：雨夜独行客
 ----------------------------
+
 local _G = getfenv(0)
 local select, pairs, type = select, pairs, type
 local cr, cg, cb = DB.r, DB.g, DB.b

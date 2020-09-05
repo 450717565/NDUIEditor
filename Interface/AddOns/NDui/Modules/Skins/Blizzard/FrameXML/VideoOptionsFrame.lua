@@ -2,7 +2,7 @@ local B, C, L, DB = unpack(select(2, ...))
 
 tinsert(C.defaultThemes, function()
 	local function CreateUnderLine(frame)
-		local frameName = B.GetFrameName(frame)
+		local frameName = frame:GetDebugName()
 		local DisplayHeader = _G[frameName.."DisplayHeader"]
 		local Underline = _G[frameName.."DisplayHeaderUnderline"]
 

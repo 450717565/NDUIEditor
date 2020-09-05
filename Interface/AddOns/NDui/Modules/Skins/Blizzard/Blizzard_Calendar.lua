@@ -58,7 +58,7 @@ C.themes["Blizzard_Calendar"] = function()
 	for _, frame in pairs(frames) do
 		local bg = B.ReskinFrame(frame)
 
-		local overlay = _G[B.GetFrameName(frame).."ModalOverlay"]
+		local overlay = _G[frame:GetDebugName().."ModalOverlay"]
 		if overlay then overlay:SetInside(bg) end
 	end
 
@@ -79,7 +79,7 @@ C.themes["Blizzard_Calendar"] = function()
 		B.ReskinClose(close)
 	end
 
-	local scrolls = {CalendarTexturePickerScrollBar, CalendarViewEventInviteListScrollFrameScrollBar, CalendarViewEventDescriptionScrollFrameScrollBar, CalendarCreateEventInviteListScrollFrameScrollBar, CalendarCreateEventDescriptionScrollFrameScrollBar}
+	local scrolls = {CalendarTexturePickerScrollBar, CalendarViewEventInviteListScrollFrameScrollBar, CalendarViewEventDescriptionScrollFrameScrollBar, CalendarCreateEventInviteListScrollFrameScrollBar, CalendarCreateEventDescriptionScrollFrameScrollBar, CalendarEventPickerScrollBar}
 	for _, scroll in pairs(scrolls) do
 		B.ReskinScroll(scroll)
 	end
@@ -164,7 +164,7 @@ C.themes["Blizzard_Calendar"] = function()
 
 	hooksecurefunc("CalendarEventFrameBlocker_Update", function(self)
 		local eventFrame = CalendarFrame_GetEventFrame()
-		local eventFrameOverlay = _G[B.GetFrameName(eventFrame).."ModalOverlay"]
+		local eventFrameOverlay = _G[eventFrame:GetDebugName().."ModalOverlay"]
 
 		if eventFrameOverlay then
 			eventFrameOverlay:SetAllPoints()

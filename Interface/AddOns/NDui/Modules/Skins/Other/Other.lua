@@ -8,7 +8,7 @@ function S:Other()
 	end
 
 	local function resetTabAnchor(self)
-		local frameName = B.GetFrameName(self)
+		local frameName = self:GetDebugName()
 		local text = self.Text or (frameName and _G[frameName.."Text"])
 		if text then
 			text:SetJustifyH("CENTER")

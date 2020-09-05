@@ -37,7 +37,7 @@ C.themes["Blizzard_MacroUI"] = function()
 		if button.styled then return end
 
 		B.StripTextures(button)
-		local frameName = B.GetFrameName(button)
+		local frameName = button:GetDebugName()
 		local icon = _G[frameName.."Icon"]
 
 		local icbg = B.ReskinIcon(icon)

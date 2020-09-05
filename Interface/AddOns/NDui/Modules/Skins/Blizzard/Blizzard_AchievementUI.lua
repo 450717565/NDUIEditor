@@ -213,7 +213,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 	for _, bar in pairs(bars) do
 		B.ReskinStatusBar(bar)
 
-		local name = B.GetFrameName(bar)
+		local name = bar:GetDebugName()
 
 		local title = _G[name.."Title"]
 		title:SetTextColor(1, 1, 1)

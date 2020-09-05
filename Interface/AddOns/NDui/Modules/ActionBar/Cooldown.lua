@@ -78,7 +78,7 @@ function module:StartTimer(start, duration)
 	if self:IsForbidden() then return end
 	if self.noOCC or hideNumbers[self] then return end
 
-	local frameName = B.GetFrameName(self) or ""
+	local frameName = self:GetDebugName() or ""
 	if NDuiDB["Actionbar"]["OverrideWA"] and strfind(frameName, "WeakAuras") then
 		self.noOCC = true
 		return

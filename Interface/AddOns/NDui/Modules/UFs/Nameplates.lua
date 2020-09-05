@@ -698,7 +698,7 @@ function UF:CreatePlates()
 	UF:AddQuestIcon(self)
 	UF:AddDungeonProgress(self)
 
-	platesList[self] = B.GetFrameName(self)
+	platesList[self] = self:GetDebugName()
 end
 
 -- Classpower on target nameplate

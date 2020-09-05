@@ -41,7 +41,7 @@ end
 
 local function toggleExtraGUI(name)
 	for _, frame in next, extraGUIs do
-		if B.GetFrameName(frame) == name then
+		if frame:GetDebugName() == name then
 			B.TogglePanel(frame)
 		else
 			frame:Hide()

@@ -99,9 +99,9 @@ end
 function module:CreateRestoreButton(f)
 	local bu = B.CreateButton(self, 24, 24, true, "Atlas:transmog-icon-revert")
 	bu:SetScript("OnClick", function()
-		NDuiDB["TempAnchor"][B.GetFrameName(f.main)] = nil
-		NDuiDB["TempAnchor"][B.GetFrameName(f.bank)] = nil
-		NDuiDB["TempAnchor"][B.GetFrameName(f.reagent)] = nil
+		NDuiDB["TempAnchor"][f.main:GetDebugName()] = nil
+		NDuiDB["TempAnchor"][f.bank:GetDebugName()] = nil
+		NDuiDB["TempAnchor"][f.reagent:GetDebugName()] = nil
 		f.main:ClearAllPoints()
 		f.main:SetPoint("TOPRIGHT", UIParent, "RIGHT", -100, -25)
 		f.bank:ClearAllPoints()

@@ -19,7 +19,7 @@ local types = {
 
 function TT:AddLineForID(id, linkType, noadd)
 	for i = 1, self:NumLines() do
-		local line = _G[B.GetFrameName(self).."TextLeft"..i]
+		local line = _G[self:GetDebugName().."TextLeft"..i]
 		if not line then break end
 		local text = line:GetText()
 		if text and text == linkType then return end

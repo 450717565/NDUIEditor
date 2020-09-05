@@ -1,7 +1,7 @@
 local B, C, L, DB = unpack(select(2, ...))
 local S = B:GetModule("Skins")
 
-local function ReskinTMW()
+local function ReskinTellMeWhen()
 	TMW.Classes.IconModule_Texture:PostHookMethod("OnNewInstance", function(self)
 		if not self.styled then
 			B.ReskinIcon(self.texture)
@@ -11,4 +11,4 @@ local function ReskinTMW()
 	end)
 end
 
-S.LoadWithAddOn("TellMeWhen", "TellMeWhen", ReskinTMW)
+S.LoadWithAddOn("TellMeWhen", "TellMeWhen", ReskinTellMeWhen)

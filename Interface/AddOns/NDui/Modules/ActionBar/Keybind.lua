@@ -131,7 +131,7 @@ function Bar:Bind_Update(button, spellmacro)
 		frame.name = GetMacroInfo(frame.id)
 		frame.bindings = {GetBindingKey(spellmacro.." "..frame.name)}
 	elseif spellmacro == "STANCE" or spellmacro == "PET" then
-		frame.name = B.GetFrameName(button)
+		frame.name = button:GetDebugName()
 		if not frame.name then return end
 
 		frame.id = tonumber(button:GetID())
@@ -142,7 +142,7 @@ function Bar:Bind_Update(button, spellmacro)
 		end
 		frame.bindings = {GetBindingKey(frame.bindstring)}
 	else
-		frame.name = B.GetFrameName(button)
+		frame.name = button:GetDebugName()
 		if not frame.name then return end
 
 		frame.action = tonumber(button.action)

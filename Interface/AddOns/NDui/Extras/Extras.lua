@@ -150,7 +150,7 @@ do
 		local frame
 		if type(frameName) == "table" then
 			frame = frameName
-			frameName = B.GetFrameName(frame)
+			frameName = frame:GetDebugName()
 		else
 			frame = _G[frameName]
 		end

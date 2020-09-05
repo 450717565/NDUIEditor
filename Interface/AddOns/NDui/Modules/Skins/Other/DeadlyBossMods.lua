@@ -30,7 +30,7 @@ function S:DeadlyBossMods()
 		for bar in self:GetBarIterator() do
 			if not bar.injected then
 				local frame		= bar.frame
-				local frameName = B.GetFrameName(frame)
+				local frameName = frame:GetDebugName()
 				local tbar		= _G[frameName.."Bar"]
 				local icon1		= _G[frameName.."BarIcon1"]
 				local icon2		= _G[frameName.."BarIcon2"]

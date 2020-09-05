@@ -14,7 +14,7 @@ tinsert(C.defaultThemes, function()
 	local function styleRewardButton(button)
 		if not button or button.styled then return end
 
-		local buttonName = B.GetFrameName(button)
+		local buttonName = button:GetDebugName()
 		local shortageBorder = _G[buttonName.."ShortageBorder"]
 		local iconTexture = _G[buttonName.."IconTexture"]
 		local nameFrame = _G[buttonName.."NameFrame"]
@@ -31,7 +31,7 @@ tinsert(C.defaultThemes, function()
 	end
 
 	hooksecurefunc("LFGRewardsFrame_UpdateFrame", function(parentFrame)
-		local parentName = B.GetFrameName(parentFrame)
+		local parentName = parentFrame:GetDebugName()
 
 		for i = 1, parentFrame.numRewardFrames do
 			local itemReward = _G[parentName.."Item"..i]
@@ -84,7 +84,7 @@ tinsert(C.defaultThemes, function()
 		if not button.styled then
 			B.ReskinIcon(button.texture)
 
-			local border = _G[B.GetFrameName(button).."Border"]
+			local border = _G[button:GetDebugName().."Border"]
 			border:Hide()
 
 			button.styled = true

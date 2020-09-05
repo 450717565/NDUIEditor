@@ -52,7 +52,7 @@ end
 function module:SkinChat()
 	if not self or (self and self.styled) then return end
 
-	local name = B.GetFrameName(self)
+	local name = self:GetDebugName()
 	local fontSize = select(2, self:GetFont())
 	self:SetClampRectInsets(0, 0, 0, 0)
 	self:SetMaxResize(maxWidth, maxHeight)
