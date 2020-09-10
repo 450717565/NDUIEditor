@@ -24,19 +24,18 @@ function Bar:CreateLeaveVehicle()
 	button:RegisterForClicks("AnyUp")
 	button.icon:SetTexture("INTERFACE\\VEHICLES\\UI-Vehicles-Button-Exit-Up")
 	button.icon:SetTexCoord(.25, .80, .22, .78)
+	button.icon:SetInside()
+	button.__lockIcon = true
 
-	B.CleanTextures(button)
-	local icbg = B.CreateBDFrame(button.icon, 0)
-	B.ReskinChecked(button, icbg)
-	B.ReskinHighlight(button, icbg)
-
-	local function onClick(self)
-		if UnitOnTaxi("player") then TaxiRequestEarlyLanding() else VehicleExit() end
-		self:SetChecked(false)
-	end
-	button:SetScript("OnClick", onClick)
 	button:SetScript("OnEnter", MainMenuBarVehicleLeaveButton_OnEnter)
 	button:SetScript("OnLeave", B.HideTooltip)
+	button:SetScript("OnClick", function(self)
+		if UnitOnTaxi("player") then TaxiRequestEarlyLanding() else VehicleExit() end
+		self:SetChecked(true)
+	end)
+	button:SetScript("OnShow", function(self)
+		self:SetChecked(false)
+	end)
 
 	--frame visibility
 	frame.frameVisibility = "[canexitvehicle]c;[mounted]m;n"

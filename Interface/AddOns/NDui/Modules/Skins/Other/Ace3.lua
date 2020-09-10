@@ -287,13 +287,17 @@ end
 function S:Ace3_MetaIndex(k, v)
 	if k == "RegisterAsContainer" then
 		rawset(self, k, function(s, w, ...)
-			S.Ace3_RegisterAsContainer(s, w, ...)
+			if NDuiDB["Skins"]["BlizzardSkins"] then
+				S.Ace3_RegisterAsContainer(s, w, ...)
+			end
 
 			return v(s, w, ...)
 		end)
 	elseif k == "RegisterAsWidget" then
 		rawset(self, k, function(...)
-			S.Ace3_RegisterAsWidget(...)
+			if NDuiDB["Skins"]["BlizzardSkins"] then
+				S.Ace3_RegisterAsWidget(...)
+			end
 
 			return v(...)
 		end)

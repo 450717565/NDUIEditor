@@ -239,7 +239,7 @@ function UF:OnLogin()
 		oUF:SetActiveStyle("PlayerPlate")
 
 		local plate = oUF:Spawn("player", "oUF_PlayerPlate", true)
-		plate.mover = B.Mover(plate, L["PlayerNP"], "PlayerPlate", C.UFs.PlayerPlate)
+		plate.mover = B.Mover(plate, L["PlayerPlate"], "PlayerPlate", C.UFs.PlayerPlate)
 	end
 
 	-- Default Clicksets for RaidFrame

@@ -912,18 +912,17 @@ function UF.PostUpdateClassPower(element, cur, max, diff, powerType)
 		end
 	end
 
-	if NDuiDB["Nameplate"]["ShowPlayerPlate"] and NDuiDB["Nameplate"]["MaxPowerGlow"] then
-		if (powerType == "COMBO_POINTS" or powerType == "HOLY_POWER" or powerType == "CHI") and element.__owner.unit ~= "vehicle" and cur == max then
-			for i = 1, 6 do
-				if element[i]:IsShown() then
-					B.ShowOverlayGlow(element[i].glow)
-				end
-			end
-		else
-			for i = 1, 6 do
-				B.HideOverlayGlow(element[i].glow)
-			end
+	element.thisColor = cur == max and 1 or 2
+	if not element.prevColor or element.prevColor ~= element.thisColor then
+		local r, g, b = 1, 0, 0
+		if element.thisColor == 2 then
+			local color = element.__owner.colors.power[powerType]
+			r, g, b = color[1], color[2], color[3]
 		end
+		for i = 1, #element do
+			element[i]:SetStatusBarColor(r, g, b)
+		end
+		element.prevColor = element.thisColor
 	end
 end
 
@@ -988,11 +987,6 @@ function UF:CreateClassPower(self)
 
 		if DB.MyClass == "DEATHKNIGHT" and NDuiDB["UFs"]["RuneTimer"] then
 			bars[i].timer = B.CreateFS(bars[i], 13, "", false, "CENTER", .5, 0)
-		end
-
-		if NDuiDB["Nameplate"]["ShowPlayerPlate"] then
-			bars[i].glow = CreateFrame("Frame", nil, bars[i])
-			bars[i].glow:SetOutside(bars[i].bd, 4)
 		end
 
 		bars[i].bg.multiplier = .25

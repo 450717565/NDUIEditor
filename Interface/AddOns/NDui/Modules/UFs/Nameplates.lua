@@ -13,6 +13,7 @@ local SetCVar, UIFrameFadeIn, UIFrameFadeOut = SetCVar, UIFrameFadeIn, UIFrameFa
 local IsInRaid, IsInGroup, UnitName = IsInRaid, IsInGroup, UnitName
 local GetNumGroupMembers, GetNumSubgroupMembers, UnitGroupRolesAssigned = GetNumGroupMembers, GetNumSubgroupMembers, UnitGroupRolesAssigned
 local C_NamePlate_GetNamePlateForUnit = C_NamePlate.GetNamePlateForUnit
+local GetSpellCooldown, GetTime = GetSpellCooldown, GetTime
 local INTERRUPTED = INTERRUPTED
 
 -- Init
@@ -899,10 +900,10 @@ function UF:PlateVisibility(event)
 		UIFrameFadeIn(self.Power, .3, self.Power:GetAlpha(), 1)
 		UIFrameFadeIn(self.Power.bg, .3, self.Power.bg:GetAlpha(), 1)
 	else
-		UIFrameFadeOut(self.Health, 2, self.Health:GetAlpha(), .1)
-		UIFrameFadeOut(self.Health.bg, 2, self.Health.bg:GetAlpha(), .1)
-		UIFrameFadeOut(self.Power, 2, self.Power:GetAlpha(), .1)
-		UIFrameFadeOut(self.Power.bg, 2, self.Power.bg:GetAlpha(), .1)
+		UIFrameFadeOut(self.Health, 2, self.Health:GetAlpha(), 0)
+		UIFrameFadeOut(self.Health.bg, 2, self.Health.bg:GetAlpha(), 0)
+		UIFrameFadeOut(self.Power, 2, self.Power:GetAlpha(), 0)
+		UIFrameFadeOut(self.Power.bg, 2, self.Power.bg:GetAlpha(), 0)
 	end
 end
 
@@ -963,20 +964,84 @@ function UF:CreatePlayerPlate()
 	UF:StaggerBar(self)
 	if NDuiDB["Auras"]["ClassAuras"] then auras:CreateLumos(self) end
 
-	if NDuiDB["Nameplate"]["PPPowerText"] then
-		local textFrame = CreateFrame("Frame", nil, self.Power)
-		textFrame:SetAllPoints()
-		local power = B.CreateFS(textFrame, 9 + ppHeight, "", false, "CENTER", 0, -1)
-		self:Tag(power, "[power]")
-	end
+	local textFrame = CreateFrame("Frame", nil, self.Power)
+	textFrame:SetAllPoints()
+	textFrame:SetFrameLevel(self:GetFrameLevel() + 5)
+	self.powerText = B.CreateFS(textFrame, 9 + ppHeight, "", false, "CENTER", 0, -1)
+	self:Tag(self.powerText, "[power]")
+	UF:TogglePlatePower()
 
+	UF:CreateGCDTicker(self)
 	UF:UpdateTargetClassPower()
+	UF:TogglePlateVisibility()
+end
 
-	if NDuiDB["Nameplate"]["PPHideOOC"] then
-		self:RegisterEvent("UNIT_EXITED_VEHICLE", UF.PlateVisibility)
-		self:RegisterEvent("UNIT_ENTERED_VEHICLE", UF.PlateVisibility)
-		self:RegisterEvent("PLAYER_REGEN_ENABLED", UF.PlateVisibility, true)
-		self:RegisterEvent("PLAYER_REGEN_DISABLED", UF.PlateVisibility, true)
-		self:RegisterEvent("PLAYER_ENTERING_WORLD", UF.PlateVisibility, true)
+function UF:TogglePlatePower()
+	local plate = _G.oUF_PlayerPlate
+	if not plate then return end
+
+	plate.powerText:SetShown(NDuiDB["Nameplate"]["PPPowerText"])
+end
+
+function UF:TogglePlateVisibility()
+	local plate = _G.oUF_PlayerPlate
+	if not plate then return end
+
+	if NDuiDB["Nameplate"]["PPFadeout"] then
+		plate:RegisterEvent("UNIT_EXITED_VEHICLE", UF.PlateVisibility)
+		plate:RegisterEvent("UNIT_ENTERED_VEHICLE", UF.PlateVisibility)
+		plate:RegisterEvent("PLAYER_REGEN_ENABLED", UF.PlateVisibility, true)
+		plate:RegisterEvent("PLAYER_REGEN_DISABLED", UF.PlateVisibility, true)
+		plate:RegisterEvent("PLAYER_ENTERING_WORLD", UF.PlateVisibility, true)
+		UF.PlateVisibility(plate)
+	else
+		plate:UnregisterEvent("UNIT_EXITED_VEHICLE", UF.PlateVisibility)
+		plate:UnregisterEvent("UNIT_ENTERED_VEHICLE", UF.PlateVisibility)
+		plate:UnregisterEvent("PLAYER_REGEN_ENABLED", UF.PlateVisibility)
+		plate:UnregisterEvent("PLAYER_REGEN_DISABLED", UF.PlateVisibility)
+		plate:UnregisterEvent("PLAYER_ENTERING_WORLD", UF.PlateVisibility)
+		UF.PlateVisibility(plate, "PLAYER_REGEN_DISABLED")
 	end
+end
+
+function UF:UpdateGCDTicker(elapsed)
+	local start, duration = GetSpellCooldown(61304)
+	if start > 0 and duration > 0 then
+		if self.duration ~= duration then
+			self:SetMinMaxValues(0, duration)
+			self.duration = duration
+		end
+		self:SetValue(GetTime() - start)
+		self.spark:Show()
+	else
+		self.spark:Hide()
+	end
+end
+
+function UF:CreateGCDTicker(self)
+	local ticker = CreateFrame("StatusBar", nil, self.Power)
+	ticker:SetFrameLevel(self:GetFrameLevel() + 3)
+	ticker:SetStatusBarTexture(DB.normTex)
+	ticker:GetStatusBarTexture():SetAlpha(0)
+	ticker:SetAllPoints()
+
+	local spark = ticker:CreateTexture(nil, "OVERLAY")
+	spark:SetTexture(DB.sparkTex)
+	spark:SetBlendMode("ADD")
+	spark:SetPoint("TOPLEFT", ticker:GetStatusBarTexture(), "TOPRIGHT", -10, 10)
+	spark:SetPoint("BOTTOMRIGHT", ticker:GetStatusBarTexture(), "BOTTOMRIGHT", 10, -10)
+	ticker.spark = spark
+
+	ticker:SetScript("OnUpdate", UF.UpdateGCDTicker)
+	self.GCDTicker = ticker
+
+	UF:ToggleGCDTicker()
+end
+
+function UF:ToggleGCDTicker()
+	local plate = _G.oUF_PlayerPlate
+	local ticker = plate and plate.GCDTicker
+	if not ticker then return end
+
+	ticker:SetShown(NDuiDB["Nameplate"]["PPGCDTicker"])
 end

@@ -6,8 +6,6 @@ function S:Immersion()
 
 	local cr, cg, cb = DB.r, DB.g, DB.b
 
-	ImmersionFrame:SetScale(UIParent:GetScale())
-
 	local TalkBox = ImmersionFrame.TalkBox
 	B.StripTextures(TalkBox.PortraitFrame)
 	B.StripTextures(TalkBox.BackgroundFrame)

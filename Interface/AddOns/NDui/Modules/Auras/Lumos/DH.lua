@@ -49,7 +49,7 @@ end
 function A:ChantLumos(self)
 	if GetSpecialization() == 1 then
 		do
-			local button1 = self.bu[1]
+			local button1 = self.lumos[1]
 			if IsPlayerSpell(258920) then
 				UpdateBuff(button1, 258920, 258920, true)
 			elseif IsPlayerSpell(232893) then
@@ -60,7 +60,7 @@ function A:ChantLumos(self)
 		end
 
 		do
-			local button2 = self.bu[2]
+			local button2 = self.lumos[2]
 			if IsPlayerSpell(258920) or IsPlayerSpell(232893) then
 				UpdateSpellStatus(button2, 162794)
 			else
@@ -69,7 +69,7 @@ function A:ChantLumos(self)
 		end
 
 		do
-			local button4 = self.bu[4]
+			local button4 = self.lumos[4]
 			if IsPlayerSpell(258920) or IsPlayerSpell(232893) then
 				UpdateCooldown(button4, 188499, true)
 			else
@@ -77,11 +77,11 @@ function A:ChantLumos(self)
 			end
 		end
 
-		UpdateBuff(self.bu[3], 198013, 273232, true, true)
-		UpdateBuff(self.bu[5], 191427, 162264, true, true)
+		UpdateBuff(self.lumos[3], 198013, 273232, true, true)
+		UpdateBuff(self.lumos[5], 191427, 162264, true, true)
 	elseif GetSpecialization() == 2 then
 		do
-			local button1, spellID = self.bu[1], 228477
+			local button1, spellID = self.lumos[1], 228477
 			if IsPlayerSpell(247454) then spellID = 247454 end
 
 			UpdateSpellStatus(button1, spellID)
@@ -89,7 +89,7 @@ function A:ChantLumos(self)
 		end
 
 		do
-			local button2 = self.bu[2]
+			local button2 = self.lumos[2]
 			if IsPlayerSpell(263648) then
 				UpdateBuffValue(button2, 263648)
 			else
@@ -97,8 +97,8 @@ function A:ChantLumos(self)
 			end
 		end
 
-		UpdateDebuff(self.bu[3], 204021, 207744, true, true)
-		UpdateBuff(self.bu[4], 203720, 203819, true, "END")
-		UpdateBuff(self.bu[5], 187827, 187827, true, true)
+		UpdateDebuff(self.lumos[3], 204021, 207744, true, true)
+		UpdateBuff(self.lumos[4], 203720, 203819, true, "END")
+		UpdateBuff(self.lumos[5], 187827, 187827, true, true)
 	end
 end
