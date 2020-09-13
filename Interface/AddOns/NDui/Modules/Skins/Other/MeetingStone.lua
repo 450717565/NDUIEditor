@@ -38,16 +38,42 @@ local function stripTextures(self)
 	end
 end
 
+local function reskinMSButtons(frame)
+	for i = 1, frame:GetNumChildren() do
+		local child = select(i, frame:GetChildren())
+		if child:IsObjectType("Button") and child.Icon and child.Text then
+			B.StripTextures(child, 10)
+			B.ReskinIcon(child.Icon)
+
+			child.HL = child:CreateTexture(nil, "HIGHLIGHT")
+			child.HL:SetColorTexture(1, 1, 1, .25)
+			child.HL:SetAllPoints(child.Icon)
+		end
+	end
+end
+
+local function reskinPageButton(scroll)
+	local left = scroll.ScrollUpButton
+	local right = scroll.ScrollDownButton
+
+	B.ReskinArrow(left, "left")
+	left:SetSize(20,20)
+	B.ReskinArrow(right, "right")
+	right:SetSize(20,20)
+	right:SetPoint("LEFT", left, "RIGHT", 10, 0)
+end
+
 function S:MeetingStone()
 	if not IsAddOnLoaded("MeetingStone") then return end
 
+	local MS = LibStub("AceAddon-3.0"):GetAddon("MeetingStone")
 	local MSEnv = LibStub:GetLibrary("NetEaseEnv-1.0")._NSList.MeetingStone
 	local GUI = LibStub("NetEaseGUI-2.0")
 
-	if not MSEnv or not GUI then return end
+	if not MS or not MSEnv or not GUI then return end
 
 	-- Panel
-	local Panels = {"MainPanel", "ExchangePanel", "BrowsePanel.AdvFilterPanel"}
+	local Panels = {"MainPanel", "BrowsePanel.AdvFilterPanel"}
 	for _, v in pairs(Panels) do
 		local frame = getValue(v, MSEnv)
 		if frame then
@@ -63,8 +89,8 @@ function S:MeetingStone()
 	end
 
 	-- AdvFilterPanel
-	local Browse = MSEnv.BrowsePanel
-	for i, box in ipairs(Browse.filters) do
+	local BrowsePanel = MSEnv.BrowsePanel
+	for i, box in ipairs(BrowsePanel.filters) do
 		B.ReskinCheck(box.Check)
 		B.ReskinInput(box.MaxBox)
 		B.ReskinInput(box.MinBox)
@@ -72,7 +98,7 @@ function S:MeetingStone()
 		box.styled = true
 	end
 
-	local AdvFilterPanel = Browse.AdvFilterPanel
+	local AdvFilterPanel = BrowsePanel.AdvFilterPanel
 	AdvFilterPanel:SetPoint("TOPLEFT", MSEnv.MainPanel, "TOPRIGHT", 3, -30)
 	for i = 1, AdvFilterPanel:GetNumChildren() do
 		local child = select(i, AdvFilterPanel:GetChildren())
@@ -144,6 +170,8 @@ function S:MeetingStone()
 			local tab = self:GetButton(i)
 			if not tab.styled then
 				B.ReskinTab(tab)
+
+				if tab.bg then tab.bg:Hide() end
 
 				tab.styled = true
 			end
@@ -217,17 +245,39 @@ function S:MeetingStone()
 	TT.ReskinTooltip(Tooltip:GetGlobalTooltip())
 	TT.ReskinTooltip(MSEnv.MainPanel.GameTooltip)
 
-	-- DataBroker
-	local DataBroker = MSEnv.DataBroker.BrokerPanel
-	B.ReskinButton(DataBroker)
+	-- BrokerPanel
+	local BrokerPanel = MSEnv.DataBroker.BrokerPanel
+	B.ReskinButton(BrokerPanel)
+
+	local BrokerIcon = MSEnv.DataBroker.BrokerIcon
+	BrokerIcon:SetPoint("LEFT", 8, 0)
+
+	-- Misc
+	local MallPanel = MS:GetModule("MallPanel")
+	B.StripTextures(MallPanel.CategoryList:GetParent())
+	B.ReskinButton(MallPanel.PurchaseButton)
+	B.ReskinScroll(MSEnv.ActivitiesSummary.Summary.ScrollBar)
+	reskinMSButtons(MallPanel)
+
+	local RewardPanel = MS:GetModule("RewardPanel")
+	B.ReskinButton(RewardPanel.ConfirmButton)
+	B.ReskinInput(RewardPanel.InputBox)
+
+	local ActivitiesParent = MSEnv.ActivitiesParent
+	B.StripTextures(ActivitiesParent)
+	reskinMSButtons(ActivitiesParent)
+
+	-- App
+	B.StripTextures(MSEnv.AppParent)
+	reskinPageButton(MSEnv.AppFollowQueryPanel.QueryList.ScrollBar)
+	reskinPageButton(MSEnv.AppFollowPanel.FollowList.ScrollBar)
 
 	if not MeetingStone_QuickJoin then return end  -- version check
 
 	B.ReskinCheck(MeetingStone_QuickJoin)
 
-	local AdvFilter = MSEnv.BrowsePanel.AdvFilterPanel
-	for i = 1, AdvFilter.Inset:GetNumChildren() do
-		local child = select(i, AdvFilter.Inset:GetChildren())
+	for i = 1, AdvFilterPanel.Inset:GetNumChildren() do
+		local child = select(i, AdvFilterPanel.Inset:GetChildren())
 		if child.Check and not child.styled then
 			B.ReskinCheck(child.Check)
 		end

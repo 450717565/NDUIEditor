@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2336, "DBM-Party-BfA", 11, 1178)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200803045206")
+mod:SetRevision("20200904210712")
 mod:SetCreatureID(144244, 145185)
 mod:SetEncounterID(2257)
 mod:SetBossHPInfoToHighest()
@@ -44,7 +44,7 @@ local yellFoeFlipper				= mod:NewYell(285153)
 local timerRP						= mod:NewRPTimer(68)
 local timerLayMineCD				= mod:NewCDTimer(12.1, 285351, nil, nil, nil, 3)
 local timerWhirlingEdgeCD			= mod:NewNextTimer(32.8, 285020, nil, "Tank", nil, 5, nil, DBM_CORE_L.TANK_ICON)
---local timerFoeFlipperCD				= mod:NewAITimer(13.4, 285153, nil, nil, nil, 3)
+--local timerFoeFlipperCD				= mod:NewCDTimer(13.4, 285153, nil, nil, nil, 3)
 local timerVentJetsCD				= mod:NewCDTimer(43.8, 285388, nil, nil, nil, 2)
 local timerMaxThrustCD				= mod:NewCDTimer(45.8, 283565, nil, nil, nil, 3)
 
