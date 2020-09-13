@@ -7,7 +7,7 @@
 	<Include file="CopyMog.lua"/>
 	<Include file="DressUp.lua"/>
 	<Include file="FixTransmogOutfits.lua"/>
-	<Include file="FreeMountCd.lua"/>
+	<Include file="FreeMountCD.lua"/>
 	<Include file="IllusionsCheck.lua"/>
 	<Include file="KeystoneHelper.lua"/>
 	<Include file="LightLoot.lua"/>

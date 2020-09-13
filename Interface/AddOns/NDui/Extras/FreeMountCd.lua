@@ -94,13 +94,13 @@ local function Whisper_OnClick()
 		end
 	end)
 
-	UIErrorsFrame:AddMessage("|cff00FF00开始逐一呼叫CD君，请稍后...|r")
+	UIErrorsFrame:AddMessage("|cff00FF00开始逐一呼叫CD君，请稍候...|r")
 
 	isClicked = true
 end
 
 local function Heroic_OnClick()
-	if isClicked and IsInGroup() then
+	if IsInGroup() then
 		SendChatMessage("YX10", "PARTY")
 	end
 end
@@ -111,7 +111,7 @@ local function CDFrame_Create()
 	frame:Show()
 
 	B.CreateBG(frame)
-	B.Mover(frame, "CDFrame", "CDFrame", {"TOPLEFT", UIParent, 35, -50})
+	B.Mover(frame, "CDFrame", "CDFrame", {"BOTTOMRIGHT", UIParent, -410, 30})
 
 	local header = B.CreateFS(frame, 14, "革命者-1.421NX", true, "TOP", 0, 10)
 	frame.Header = header
@@ -129,7 +129,7 @@ end
 B:RegisterEvent("PLAYER_LOGIN", CDFrame_Create)
 
 local function Automatic()
-	if IsInInstance() or IsInGroup() then
+	if IsInInstance() then
 		if CDFrame and CDFrame:IsShown() then
 			CDFrame:Hide()
 		end
@@ -140,4 +140,3 @@ local function Automatic()
 	end
 end
 B:RegisterEvent("PLAYER_ENTERING_WORLD", Automatic)
-B:RegisterEvent("GROUP_ROSTER_UPDATE", Automatic)
