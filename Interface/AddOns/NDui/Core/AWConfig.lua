@@ -2,7 +2,7 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local G = B:GetModule("GUI")
 
-local cr, cg, cb = DB.r, DB.g, DB.b
+local r, g, b = DB.r, DB.g, DB.b
 local pairs, floor = pairs, math.floor
 local f
 
@@ -67,10 +67,10 @@ function G:ClearEdit(element)
 end
 
 local function createPage(name)
-	local p = CreateFrame("Frame", nil, f)
+	local p = CreateFrame("Frame", nil, f, "BackdropTemplate")
 	p:SetPoint("TOPLEFT", 160, -70)
 	p:SetSize(620, 380)
-	B.CreateBDFrame(p, 0)
+	B.CreateBD(p, .25)
 	B.CreateFS(p, 15, name, false, "TOPLEFT", 5, 20)
 	p:Hide()
 	return p
@@ -80,7 +80,7 @@ function G:CreateScroll(parent, width, height, text)
 	local scroll = CreateFrame("ScrollFrame", nil, parent, "UIPanelScrollFrameTemplate")
 	scroll:SetSize(width, height)
 	scroll:SetPoint("BOTTOMLEFT", 10, 10)
-	B.CreateBDFrame(scroll, 0)
+	B.CreateBDFrame(scroll, .2)
 	if text then
 		B.CreateFS(scroll, 15, text, false, "TOPLEFT", 5, 20)
 	end
@@ -124,13 +124,16 @@ local function CreatePanel()
 	f = CreateFrame("Frame", "NDui_AWConfig", UIParent)
 	f:SetPoint("CENTER")
 	f:SetSize(800, 500)
-	B.CreateBG(f)
+	B.SetBD(f)
 	B.CreateMF(f)
 	B.CreateFS(f, 17, L["AWConfig Title"], true, "TOP", 0, -10)
 	B.CreateFS(f, 15, L["Groups"], true, "TOPLEFT", 30, -50)
 	f:SetFrameStrata("HIGH")
 	f:SetFrameLevel(5)
 	tinsert(UISpecialFrames, "NDui_AWConfig")
+
+	local helpInfo = B.CreateHelpInfo(f, L["AWConfigTips"])
+	helpInfo:SetPoint("TOPLEFT", 20, -5)
 
 	auraWatchShow()
 	f:HookScript("OnShow", auraWatchShow)
@@ -156,8 +159,8 @@ local function CreatePanel()
 		button1 = YES,
 		button2 = NO,
 		OnAccept = function()
-			NDuiDB["AuraWatchList"] = {}
-			NDuiDB["InternalCD"] = {}
+			C.db["AuraWatchList"] = {}
+			C.db["InternalCD"] = {}
 			ReloadUI()
 		end,
 		whileDead = 1,
@@ -170,7 +173,7 @@ local function CreatePanel()
 	local function SortBars(index)
 		local num, onLeft, onRight = 1, 1, 1
 		for k in pairs(barTable[index]) do
-			if (index < 11 and NDuiDB["AuraWatchList"][index][k]) or (index == 11 and NDuiDB["InternalCD"][k]) then
+			if (index < 10 and C.db["AuraWatchList"][index][k]) or (index == 10 and C.db["InternalCD"][k]) then
 				local bar = barTable[index][k]
 				if num == 1 then
 					bar:SetPoint("TOPLEFT", 10, -10)
@@ -219,9 +222,9 @@ local function CreatePanel()
 			name = L["TotemSlot"]..spellID
 		end
 
-		local bar = CreateFrame("Frame", nil, parent)
+		local bar = CreateFrame("Frame", nil, parent, "BackdropTemplate")
 		bar:SetSize(270, 30)
-		B.CreateBDFrame(bar, 0)
+		B.CreateBD(bar, .25)
 		barTable[index][spellID] = bar
 
 		local icon, close = G:CreateBarWidgets(bar, texture)
@@ -233,7 +236,7 @@ local function CreatePanel()
 		end
 		close:SetScript("OnClick", function()
 			bar:Hide()
-			NDuiDB["AuraWatchList"][index][spellID] = nil
+			C.db["AuraWatchList"][index][spellID] = nil
 			barTable[index][spellID] = nil
 			SortBars(index)
 		end)
@@ -271,16 +274,16 @@ local function CreatePanel()
 			name = GetItemInfo(itemID)
 		end
 
-		local bar = CreateFrame("Frame", nil, parent)
+		local bar = CreateFrame("Frame", nil, parent, "BackdropTemplate")
 		bar:SetSize(270, 30)
-		B.CreateBDFrame(bar, 0)
+		B.CreateBD(bar, .25)
 		barTable[index][intID] = bar
 
 		local icon, close = G:CreateBarWidgets(bar, texture)
 		B.AddTooltip(icon, "ANCHOR_RIGHT", intID)
 		close:SetScript("OnClick", function()
 			bar:Hide()
-			NDuiDB["InternalCD"][intID] = nil
+			C.db["InternalCD"][intID] = nil
 			barTable[index][intID] = nil
 			SortBars(index)
 		end)
@@ -298,26 +301,25 @@ local function CreatePanel()
 		local bu = B.CreateCheckBox(parent)
 		bu:SetHitRectInsets(-100, 0, 0, 0)
 		bu:SetPoint("TOPRIGHT", -40, -145)
-		bu:SetChecked(NDuiDB["AuraWatchList"]["Switcher"][index])
+		bu:SetChecked(C.db["AuraWatchList"]["Switcher"][index])
 		bu:SetScript("OnClick", function()
-			NDuiDB["AuraWatchList"]["Switcher"][index] = bu:GetChecked()
+			C.db["AuraWatchList"]["Switcher"][index] = bu:GetChecked()
 		end)
 		B.CreateFS(bu, 15, "|cffff0000"..L["AW Switcher"], false, "RIGHT", -25, 0)
 	end
 
 	-- Main
 	local groups = {
-		L["Enchant Aura"],			-- 1 Enchant Aura
-		L["Player Aura"],			-- 2 Player Aura
-		L["Player Special Aura"],	-- 3 Player Special Aura
-		L["Target Aura"],			-- 4 Target Aura
-		L["Target Special Aura"],	-- 5 Target Special Aura
-		L["Focus Special Aura"],	-- 6 Focus Aura
-		L["Raid Buff"],				-- 7 Raid Buff
-		L["Raid Debuff"],			-- 8 Raid Debuff
-		L["Spell CD"],				-- 9 Spell CD
-		L["Enchant CD"],			-- 10 Enchant CD
-		L["Internal CD"],				-- 11 Internal CD
+		L["Player Aura"],			-- 1 PlayerBuff
+		L["Special Aura"],			-- 2 SPECIAL
+		L["Target Aura"],			-- 3 TargetDebuff
+		L["Warning"],				-- 4 Warning
+		L["Focus Aura"],			-- 5 FOCUS
+		L["Spell Cooldown"],		-- 6 CD
+		L["Enchant Aura"],			-- 7 Enchant
+		L["Raid Buff"],				-- 8 RaidBuff
+		L["Raid Debuff"],			-- 9 RaidDebuff
+		L["InternalCD"],			-- 10 InternalCD
 	}
 
 	local preSet = {
@@ -337,44 +339,42 @@ local function CreatePanel()
 		for i = 1, #tabs do
 			if self == tabs[i] then
 				tabs[i].Page:Show()
-				tabs[i]:SetBackdropColor(cr, cg, cb, .25)
+				tabs[i]:SetBackdropColor(r, g, b, .3)
 				tabs[i].selected = true
 			else
 				tabs[i].Page:Hide()
-				tabs[i]:SetBackdropColor(0, 0, 0, 0)
+				tabs[i]:SetBackdropColor(0, 0, 0, .3)
 				tabs[i].selected = false
 			end
 		end
 	end
 	local function tabOnEnter(self)
 		if self.selected then return end
-		self:SetBackdropColor(cr, cg, cb, .25)
+		self:SetBackdropColor(r, g, b, .3)
 	end
 	local function tabOnLeave(self)
 		if self.selected then return end
-		self:SetBackdropColor(0, 0, 0, 0)
+		self:SetBackdropColor(0, 0, 0, .3)
 	end
 
 	for i, group in pairs(groups) do
-		if not NDuiDB["AuraWatchList"][i] then NDuiDB["AuraWatchList"][i] = {} end
+		if not C.db["AuraWatchList"][i] then C.db["AuraWatchList"][i] = {} end
 		barTable[i] = {}
 
-		tabs[i] = CreateFrame("Button", "$parentTab"..i, f)
+		tabs[i] = CreateFrame("Button", "$parentTab"..i, f, "BackdropTemplate")
 		tabs[i]:SetPoint("TOPLEFT", 20, -40 - i*30)
 		tabs[i]:SetSize(130, 28)
-		B.CreateBD(tabs[i], 0)
-		B.CreateSD(tabs[i])
-		B.CreateGF(tabs[i])
+		B.CreateBD(tabs[i], .25)
 		local label = B.CreateFS(tabs[i], 15, group, "system", "LEFT", 10, 0)
-		if i == 11 then
-			label:SetTextColor(cr, cg, cb)
+		if i == 10 then
+			label:SetTextColor(0, .8, .3)
 		end
 		tabs[i].Page = createPage(group)
 		tabs[i].List = G:CreateScroll(tabs[i].Page, 575, 200, L["AuraWatch List"])
 
 		local Option = {}
-		if i < 11 then
-			for _, v in pairs(NDuiDB["AuraWatchList"][i]) do
+		if i < 10 then
+			for _, v in pairs(C.db["AuraWatchList"][i]) do
 				AddAura(tabs[i].List.child, i, v)
 			end
 			Option[1] = G:CreateDropdown(tabs[i].Page, L["Type*"], 20, -30, {"AuraID", "SpellID", "SlotID", "TotemID"}, L["Type Intro"])
@@ -412,8 +412,8 @@ local function CreatePanel()
 					end
 				end)
 			end
-		elseif i == 11 then
-			for _, v in pairs(NDuiDB["InternalCD"]) do
+		elseif i == 10 then
+			for _, v in pairs(C.db["InternalCD"]) do
 				AddInternal(tabs[i].List.child, i, v)
 			end
 			Option[13] = G:CreateEditbox(tabs[i].Page, L["IntID*"], 20, -30, L["IntID Intro"])
@@ -426,9 +426,9 @@ local function CreatePanel()
 		local clear = B.CreateButton(tabs[i].Page, 60, 25, KEY_NUMLOCK_MAC)
 		clear:SetPoint("TOPRIGHT", -100, -90)
 		clear:SetScript("OnClick", function()
-			if i < 11 then
+			if i < 10 then
 				for j = 2, 12 do G:ClearEdit(Option[j]) end
-			elseif i == 11 then
+			elseif i == 10 then
 				for j = 13, 17 do G:ClearEdit(Option[j]) end
 			end
 		end)
@@ -437,7 +437,7 @@ local function CreatePanel()
 		local add = B.CreateButton(tabs[i].Page, 60, 25, ADD)
 		add:SetPoint("TOPRIGHT", -30, -90)
 		add:SetScript("OnClick", function()
-			if i < 11 then
+			if i < 10 then
 				local typeID, spellID, unitID, slotID, totemID = Option[1].Text:GetText(), tonumber(Option[2]:GetText()), Option[3].Text:GetText()
 				for i = 1, #Option[11].options do
 					if Option[11].options[i].selected then slotID = slotTable[i] break end
@@ -451,19 +451,19 @@ local function CreatePanel()
 				if (typeID == "AuraID" or typeID == "SpellID") and not GetSpellInfo(spellID) then UIErrorsFrame:AddMessage(DB.InfoColor..L["Incorrect SpellID"]) return end
 
 				local realID = spellID or slotID or totemID
-				if NDuiDB["AuraWatchList"][i][realID] then UIErrorsFrame:AddMessage(DB.InfoColor..L["Existing ID"]) return end
+				if C.db["AuraWatchList"][i][realID] then UIErrorsFrame:AddMessage(DB.InfoColor..L["Existing ID"]) return end
 
-				NDuiDB["AuraWatchList"][i][realID] = {typeID, realID, unitID, Option[4].Text:GetText(), tonumber(Option[5]:GetText()) or false, Option[6]:GetChecked(), Option[7]:GetChecked(), Option[8]:GetChecked(), Option[9]:GetText(), Option[10]:GetChecked()}
-				AddAura(tabs[i].List.child, i, NDuiDB["AuraWatchList"][i][realID])
+				C.db["AuraWatchList"][i][realID] = {typeID, realID, unitID, Option[4].Text:GetText(), tonumber(Option[5]:GetText()) or false, Option[6]:GetChecked(), Option[7]:GetChecked(), Option[8]:GetChecked(), Option[9]:GetText(), Option[10]:GetChecked()}
+				AddAura(tabs[i].List.child, i, C.db["AuraWatchList"][i][realID])
 				for i = 2, 12 do G:ClearEdit(Option[i]) end
-			elseif i == 11 then
+			elseif i == 10 then
 				local intID, duration, trigger, unit, itemID = tonumber(Option[13]:GetText()), tonumber(Option[14]:GetText()), Option[15].Text:GetText(), Option[16].Text:GetText(), tonumber(Option[17]:GetText())
 				if not intID or not duration or not trigger or not unit then UIErrorsFrame:AddMessage(DB.InfoColor..L["Incomplete Input"]) return end
 				if intID and not GetSpellInfo(intID) then UIErrorsFrame:AddMessage(DB.InfoColor..L["Incorrect SpellID"]) return end
-				if NDuiDB["InternalCD"][intID] then UIErrorsFrame:AddMessage(DB.InfoColor..L["Existing ID"]) return end
+				if C.db["InternalCD"][intID] then UIErrorsFrame:AddMessage(DB.InfoColor..L["Existing ID"]) return end
 
-				NDuiDB["InternalCD"][intID] = {intID, duration, trigger, unit, itemID}
-				AddInternal(tabs[i].List.child, i, NDuiDB["InternalCD"][intID])
+				C.db["InternalCD"][intID] = {intID, duration, trigger, unit, itemID}
+				AddInternal(tabs[i].List.child, i, C.db["InternalCD"][intID])
 				for i = 13, 17 do G:ClearEdit(Option[i]) end
 			end
 		end)
@@ -473,7 +473,7 @@ local function CreatePanel()
 		tabs[i]:SetScript("OnLeave", tabOnLeave)
 	end
 
-	for i = 1, 11 do
+	for i = 1, 10 do
 		createGroupSwitcher(tabs[i].Page, i)
 	end
 

@@ -4,7 +4,7 @@ local module = B:GetModule("AurasTable")
 
 -- 武僧的法术监控
 local list = {
-	["Player Aura"] = { -- 玩家光环组
+	["Player Aura"] = {		-- 玩家光环组
 		{AuraID = 119085, UnitID = "player"},	-- 真气突
 		{AuraID = 101643, UnitID = "player"},	-- 魂体双分
 		{AuraID = 202090, UnitID = "player"},	-- 禅院教诲
@@ -13,7 +13,8 @@ local list = {
 		{AuraID = 213177, UnitID = "player"},	-- 利涉大川
 		{AuraID = 199407, UnitID = "player"},	-- 脚步轻盈
 	},
-	["Target Aura"] = { -- 目标光环组
+	["Target Aura"] = {		-- 目标光环组
+		{AuraID = 115078, UnitID = "target", Caster = "player"},	-- 分筋错骨
 		{AuraID = 116189, UnitID = "target", Caster = "player"},	-- 豪镇八方
 		{AuraID = 115804, UnitID = "target", Caster = "player"},	-- 致死之伤
 		{AuraID = 115080, UnitID = "target", Caster = "player"},	-- 轮回之触
@@ -32,7 +33,7 @@ local list = {
 		{AuraID = 198909, UnitID = "target", Caster = "player"},	-- 赤精之歌
 		{AuraID = 124682, UnitID = "target", Caster = "player"},	-- 氤氲之雾
 	},
-	["Player Special Aura"] = { -- 玩家重要光环组
+	["Special Aura"] = {	-- 玩家重要光环组
 		{AuraID = 125174, UnitID = "player"},	-- 业报之触
 		{AuraID = 116768, UnitID = "player"},	-- 幻灭踢
 		{AuraID = 137639, UnitID = "player"},	-- 风火雷电
@@ -45,7 +46,6 @@ local list = {
 		{AuraID = 215479, UnitID = "player"},	-- 铁骨酒
 		{AuraID = 214373, UnitID = "player"},	-- 酒有余香
 		{AuraID = 199888, UnitID = "player"},	-- 神龙之雾
-		{AuraID = 197206, UnitID = "player"},	-- 升腾状态
 		{AuraID = 116680, UnitID = "player"},	-- 雷光茶
 		{AuraID = 197908, UnitID = "player"},	-- 法力茶
 		{AuraID = 196741, UnitID = "player"},	-- 连击
@@ -61,8 +61,16 @@ local list = {
 		{AuraID = 195630, UnitID = "player"},	-- 醉拳大师
 		{AuraID = 115295, UnitID = "player", Value = true},			-- 金钟罩
 		{AuraID = 116847, UnitID = "player"},	-- 碧玉疾风
+		{AuraID = 322507, UnitID = "player", Value = true},	-- 天神酒
+		{AuraID = 325092, UnitID = "player"},	-- 净化真气
 	},
-	["Spell CD"] = { -- 技能冷却计时组
+	["Focus Aura"] = {		-- 焦点光环组
+		{AuraID = 115078, UnitID = "focus", Caster = "player"},		-- 分筋错骨
+		{AuraID = 119611, UnitID = "focus", Caster = "player"},	-- 复苏之雾
+	},
+	["Spell Cooldown"] = {	-- 冷却计时组
+		{SlotID = 13},		-- 饰品1
+		{SlotID = 14},		-- 饰品2
 		{SpellID = 115203},	-- 壮胆酒
 	},
 }

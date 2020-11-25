@@ -1,29 +1,49 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local Bar = B:GetModule("Actionbar")
-local cfg = C.bars.leave_vehicle
 
-function Bar:CreateLeaveVehicle()
-	local buttonList = {}
-	local layout = NDuiDB["Actionbar"]["Style"]
+local _G = _G
+local tinsert = tinsert
+local cfg = C.Bars.leave_vehicle
+local margin, padding = C.Bars.margin, C.Bars.padding
 
-	--create the frame to hold the buttons
-	local frame = CreateFrame("Frame", "NDui_ActionBarExit", UIParent, "SecureHandlerStateTemplate")
-	frame:SetSize(cfg.size, cfg.size)
-	if layout ~= 4 then
-		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 289, 108}
+local function SetFrameSize(frame, size, num)
+	size = size or frame.buttonSize
+	num = num or frame.numButtons
+
+	frame:SetWidth(num*size + (num-1)*margin + 2*padding)
+	frame:SetHeight(size + 2*padding)
+	if not frame.mover then
+		frame.mover = B.Mover(frame, L["LeaveVehicle"], "LeaveVehicle", frame.Pos)
 	else
-		frame.Pos = {"BOTTOMLEFT", UIParent, "BOTTOM", 221, 102}
+		frame.mover:SetSize(frame:GetSize())
 	end
 
-	--the button
+	if not frame.SetFrameSize then
+		frame.buttonSize = size
+		frame.numButtons = num
+		frame.SetFrameSize = SetFrameSize
+	end
+end
+
+function Bar:CreateLeaveVehicle()
+	local num = 1
+	local buttonList = {}
+
+	local frame = CreateFrame("Frame", "NDui_ActionBarExit", UIParent, "SecureHandlerStateTemplate")
+	if C.db["Actionbar"]["Style"] == 3 then
+		frame.Pos = {"BOTTOM", UIParent, "BOTTOM", 0, 130}
+	else
+		frame.Pos = {"BOTTOM", UIParent, "BOTTOM", 320, 100}
+	end
+
 	local button = CreateFrame("CheckButton", "NDui_LeaveVehicleButton", frame, "ActionButtonTemplate, SecureHandlerClickTemplate")
-	table.insert(buttonList, button) --add the button object to the list
-	button:SetSize(cfg.size, cfg.size)
-	button:SetPoint("CENTER", 0, 0)
+	tinsert(buttonList, button)
+	button:SetPoint("BOTTOMLEFT", frame, padding, padding)
 	button:RegisterForClicks("AnyUp")
 	button.icon:SetTexture("INTERFACE\\VEHICLES\\UI-Vehicles-Button-Exit-Up")
-	button.icon:SetTexCoord(.25, .80, .22, .78)
+	button.icon:SetTexCoord(.216, .784, .216, .784)
+	button.icon:SetDrawLayer("ARTWORK")
 	button.icon.__lockdown = true
 
 	button:SetScript("OnEnter", MainMenuBarVehicleLeaveButton_OnEnter)
@@ -36,19 +56,15 @@ function Bar:CreateLeaveVehicle()
 		self:SetChecked(false)
 	end)
 
-	--frame visibility
+	frame.buttonList = buttonList
+	SetFrameSize(frame, cfg.size, num)
+
 	frame.frameVisibility = "[canexitvehicle]c;[mounted]m;n"
 	RegisterStateDriver(frame, "exit", frame.frameVisibility)
 
 	frame:SetAttribute("_onstate-exit", [[ if CanExitVehicle() then self:Show() else self:Hide() end ]])
 	if not CanExitVehicle() then frame:Hide() end
 
-	--create drag frame and drag functionality
-	if C.bars.userplaced then
-		frame.mover = B.Mover(frame, L["LeaveVehicle"], "LeaveVehicle", frame.Pos)
-	end
-
-	--create the mouseover functionality
 	if cfg.fader then
 		Bar.CreateButtonFrameFader(frame, buttonList, cfg.fader)
 	end

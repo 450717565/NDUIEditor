@@ -5,19 +5,24 @@ if DB.Client ~= "zhCN" then return end
 local strsplit, pairs = string.split, pairs
 
 local hx = {
-	"界面美化及材质更新；",
-	"Details美化微调；",
-	"PremadeGroupsFilter美化更新；",
-	"添加选项以调整姓名板的法术过滤；",
-	"背包物品类别显示调整；",
-	"聊天栏装备链接的宝石信息优化；",
-	"头像的等级标签调整；",
-	"修正目标头像能量值偏移生效异常的问题；",
-	"添加选项以调整目标框体的每行buff个数；",
-	"个人资源条和姓名板部分选项优化；",
-	"姓名板部分元素的位置调整；",
-	"姓名板添加友方名字模式；",
-	"隐藏暴雪已经禁用的姓名板最大显示距离的选项；",
+	"团队框体的刷新修正；",
+	"更新默认的小队监控列表；",
+	"更新副本法术监控；",
+	"动作条更新；",
+	"背包物品分类过滤更新；",
+	"修复背包鼠标提示有时候为空的问题；",
+	"背包支持CanIMogIt以及Pawn；",
+	"额外任务按钮更新；",
+	"任务自动交接更新；",
+	"界面美化更新；",
+	"聊天密语提示音的频率调整；",
+	"更新聊天气泡的材质；",
+	"配置转移功能更新；",
+	"稀有提示更新；",
+	"不兼容插件列表更新；",
+	"小地图图标回收站更新；",
+	"移除对9.0.1的兼容；",
+	"修正Handynotes以及世界任务插件可能导致的污染；",
 	"控制台及本地文本更新。",
 }
 
@@ -25,31 +30,26 @@ local f
 local function changelog()
 	if f then f:Show() return end
 
-	local cr, cg, cb = DB.r, DB.g, DB.b
 	f = CreateFrame("Frame", "NDuiChangeLog", UIParent)
 	f:SetPoint("CENTER")
-	f:SetScale(1.2)
 	f:SetFrameStrata("HIGH")
 	B.CreateMF(f)
-	B.CreateBG(f)
-	B.CreateFS(f, 30, "NDui", true, "TOPLEFT", 10, 27)
-	B.CreateFS(f, 14, DB.Version, true, "TOPRIGHT", -10, 14)
-	B.CreateFS(f, 16, L["Changelog"], true, "TOP", 0, -10)
-	local ll = CreateFrame("Frame", nil, f)
-	ll:SetPoint("TOPRIGHT", f, "TOP", 0, -35)
-	B.CreateGA(ll, 100, C.mult*2, "Horizontal", cr, cg, cb, 0, DB.Alpha)
-	ll:SetFrameStrata("HIGH")
-	local lr = CreateFrame("Frame", nil, f)
-	lr:SetPoint("TOPLEFT", f, "TOP", 0, -35)
-	B.CreateGA(lr, 100, C.mult*2, "Horizontal", cr, cg, cb, DB.Alpha, 0)
-	lr:SetFrameStrata("HIGH")
+	B.SetBD(f)
+	B.CreateFS(f, 18, DB.Version.." "..L["Changelog"], true, "TOP", 0, -10)
+	B.CreateWatermark(f)
+
+	local ll = B.SetGradient(f, "H", .7, .7, .7, 0, .5, 100, C.mult)
+	ll:SetPoint("TOP", -50, -35)
+	local lr = B.SetGradient(f, "H", .7, .7, .7, .5, 0, 100, C.mult)
+	lr:SetPoint("TOP", 50, -35)
+
 	local offset = 0
 	for n, t in pairs(hx) do
-		B.CreateFS(f, 12, n..L[":"]..t, false, "TOPLEFT", 15, -(50 + offset))
-		offset = offset + 20
+		B.CreateFS(f, 14, n..". "..t, false, "TOPLEFT", 15, -(50 + offset))
+		offset = offset + 24
 	end
-	f:SetSize(400, 60 + offset)
-	local close = B.CreateButton(f, 16, 16, "X")
+	f:SetSize(480, 60 + offset)
+	local close = B.CreateButton(f, 16, 16, true, DB.closeTex)
 	close:SetPoint("TOPRIGHT", -10, -10)
 	close:SetScript("OnClick", function() f:Hide() end)
 end

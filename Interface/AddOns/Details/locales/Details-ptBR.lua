@@ -262,8 +262,8 @@ L["STRING_GUILDDAMAGERANK_PLAYERBASE_PLAYER"] = "Jogador"
 L["STRING_GUILDDAMAGERANK_PLAYERBASE_RAID"] = "Todos os jogadores"
 L["STRING_GUILDDAMAGERANK_RAID"] = "Raid"
 L["STRING_GUILDDAMAGERANK_ROLE"] = "Função"
-L["STRING_GUILDDAMAGERANK_SHOWHISTORY"] = "Mostrar histórico"
-L["STRING_GUILDDAMAGERANK_SHOWRANK"] = "Mostrar ranking da guilda"
+L["STRING_GUILDDAMAGERANK_SHOWHISTORY"] = "Histórico"
+L["STRING_GUILDDAMAGERANK_SHOWRANK"] = "Ranking da guilda"
 L["STRING_GUILDDAMAGERANK_SYNCBUTTONTEXT"] = "Sincronizar com a guilda"
 L["STRING_GUILDDAMAGERANK_TUTORIAL_DESC"] = "Details! salva o dano e cura causados em cada encontro que você realizou com sua guilda. \\n\\nNavegue pelo histórico marcando a caixa '|cFFFFFF00Show History|r', os resultados para todos os combates serão exibidos.\\n Ao selecionar '|cFFFFFF00Show Guild Rank|r', as melhores pontuações para o chefão selecionado são mostradas. \\n\\nSe você está usando essa ferramenta pela primeira vez ou caso tenha perdido um dia de raide, clique no botão '|cFFFFFF00Sync With Guild|r'."
 L["STRING_GUILDDAMAGERANK_WINDOWALERT"] = "Chefe derrotado! Mostrar Ranking"
@@ -512,7 +512,7 @@ L["STRING_OPTIONS_BARSTART"] = "Barra inicia depois do ícone"
 L["STRING_OPTIONS_BARSTART_DESC"] = "Quando desabilitado, a textura superior inicia no ícone do lado esquerdo ao invés do direito (útil para ícones transparentes)."
 L["STRING_OPTIONS_BARUR_ANCHOR"] = "Atualização Dinâmica:"
 L["STRING_OPTIONS_BARUR_DESC"] = "Quando ativado, o Dano e Cura por segundo são atualizados com mais frequência do que o normal."
-L["STRING_OPTIONS_BG_ALL_ALLY"] = "Mostrar Todos"
+L["STRING_OPTIONS_BG_ALL_ALLY"] = "Mostrar inimigos do campo de batalha"
 L["STRING_OPTIONS_BG_ALL_ALLY_DESC"] = [=[Quando ativado, jogadores inimigos também são mostrados na janela mesmo ela estando no modo de Grupo.
 
 |cFFFFFF00Importante|r: alterações são aplicadas nos combates seguintes.]=]
@@ -1297,11 +1297,7 @@ L["STRING_OPTIONS_WC_ANCHOR"] = "Controle Rápido da Janela (#%s):"
 L["STRING_OPTIONS_WC_BOOKMARK"] = "Configurar Atalhos"
 L["STRING_OPTIONS_WC_BOOKMARK_DESC"] = "Abre o painel de configuração de atalhos."
 L["STRING_OPTIONS_WC_CLOSE"] = "Fechar"
-L["STRING_OPTIONS_WC_CLOSE_DESC"] = [=[Fecha esta janela.
-
-Quando fechada, a janela é considerada inativa e pode ser reaberta a qualquer momento através do botão de janelas #.
-
-Para deleta-la completamente, veja a sessão Diversos -> Apagar.]=]
+L["STRING_OPTIONS_WC_CLOSE_DESC"] = "Fecha esta janela. Quando fechada, a janela é considerada inativa e pode ser reaberta a qualquer momento através do Menu de controle de janela. Para remover completamente uma janela, vá para a seção 'Janela'."
 L["STRING_OPTIONS_WC_CREATE"] = "Criar Janela"
 L["STRING_OPTIONS_WC_CREATE_DESC"] = "Cria uma nova janela."
 L["STRING_OPTIONS_WC_LOCK"] = "Travar"
@@ -1657,7 +1653,4 @@ L["STRING_WIPE_ERROR1"] = "um wipe já foi chamado."
 L["STRING_WIPE_ERROR2"] = "não estamos em um chefe de raide."
 L["STRING_WIPE_ERROR3"] = "não foi possível finalizar o encontro."
 L["STRING_YES"] = "Sim"
-
-
-
 

@@ -1,11 +1,15 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 
 tinsert(C.defaultThemes, function()
-	hooksecurefunc("LossOfControlFrame_SetUpDisplay", function(self)
-		if not self.styled then
-			B.ReskinIcon(self.Icon)
+	if not C.db["Skins"]["BlizzardSkins"] then return end
 
-			self.styled = true
+	local styled
+	hooksecurefunc("LossOfControlFrame_SetUpDisplay", function(self)
+		if not styled then
+			B.ReskinIcon(self.Icon, true)
+
+			styled = true
 		end
 	end)
 end)

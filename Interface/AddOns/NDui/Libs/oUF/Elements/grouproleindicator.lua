@@ -13,13 +13,13 @@ A default texture will be applied if the widget is a Texture and doesn't have a 
 
 ## Examples
 
-	-- Position and size
-	local GroupRoleIndicator = self:CreateTexture(nil, 'OVERLAY')
-	GroupRoleIndicator:SetSize(16, 16)
-	GroupRoleIndicator:SetPoint('LEFT', self)
+    -- Position and size
+    local GroupRoleIndicator = self:CreateTexture(nil, 'OVERLAY')
+    GroupRoleIndicator:SetSize(16, 16)
+    GroupRoleIndicator:SetPoint('LEFT', self)
 
-	-- Register it with oUF
-	self.GroupRoleIndicator = GroupRoleIndicator
+    -- Register it with oUF
+    self.GroupRoleIndicator = GroupRoleIndicator
 --]]
 
 local _, ns = ...
@@ -33,12 +33,12 @@ local function Update(self, event)
 
 	* self - the GroupRoleIndicator element
 	--]]
-	if (element.PreUpdate) then
+	if(element.PreUpdate) then
 		element:PreUpdate()
 	end
 
 	local role = UnitGroupRolesAssigned(self.unit)
-	if (role == 'TANK' or role == 'HEALER' or role == 'DAMAGER') then
+	if(role == 'TANK' or role == 'HEALER' or role == 'DAMAGER') then
 		element:SetTexCoord(GetTexCoordsForRoleSmallCircle(role))
 		element:Show()
 	else
@@ -51,7 +51,7 @@ local function Update(self, event)
 	* self - the GroupRoleIndicator element
 	* role - the role as returned by [UnitGroupRolesAssigned](http://wowprogramming.com/docs/api/UnitGroupRolesAssigned.html)
 	--]]
-	if (element.PostUpdate) then
+	if(element.PostUpdate) then
 		return element:PostUpdate(role)
 	end
 end
@@ -73,17 +73,17 @@ end
 
 local function Enable(self)
 	local element = self.GroupRoleIndicator
-	if (element) then
+	if(element) then
 		element.__owner = self
 		element.ForceUpdate = ForceUpdate
 
-		if (self.unit == 'player') then
+		if(self.unit == 'player') then
 			self:RegisterEvent('PLAYER_ROLES_ASSIGNED', Path, true)
 		else
 			self:RegisterEvent('GROUP_ROSTER_UPDATE', Path, true)
 		end
 
-		if (element:IsObjectType('Texture') and not element:GetTexture()) then
+		if(element:IsObjectType('Texture') and not element:GetTexture()) then
 			element:SetTexture([[Interface\LFGFrame\UI-LFG-ICON-PORTRAITROLES]])
 		end
 
@@ -93,11 +93,11 @@ end
 
 local function Disable(self)
 	local element = self.GroupRoleIndicator
-	if (element) then
+	if(element) then
 		element:Hide()
 
 		self:UnregisterEvent('PLAYER_ROLES_ASSIGNED', Path)
-		self:UnregisterEvent('GROUP_ROSTER_UPDATE', Path, true)
+		self:UnregisterEvent('GROUP_ROSTER_UPDATE', Path)
 	end
 end
 

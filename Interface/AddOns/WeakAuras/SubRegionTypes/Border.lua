@@ -1,4 +1,5 @@
 if not WeakAuras.IsCorrectVersion() then return end
+local AddonName, Private = ...
 
 local SharedMedia = LibStub("LibSharedMedia-3.0");
 local L = WeakAuras.L;
@@ -19,13 +20,13 @@ end
 
 local properties = {
   border_visible = {
-    display = L["Show Border"],
+    display = L["Visibility"],
     setter = "SetVisible",
     type = "bool",
     defaultProperty = true
   },
   border_color = {
-    display = L["Border Color"],
+    display = L["Color"],
     setter = "SetBorderColor",
     type = "color"
   },
@@ -33,7 +34,8 @@ local properties = {
 
 
 local function create()
-  return CreateFrame("FRAME", nil, UIParent)
+  local region = CreateFrame("FRAME", nil, UIParent, BackdropTemplateMixin and "BackdropTemplate")
+  return region
 end
 
 local function onAcquire(subRegion)

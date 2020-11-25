@@ -14,18 +14,18 @@ local entered
 
 local function colorLatency(latency)
 	if latency < 250 then
-		return "|cff00C000"..latency.."|r"
+		return "|cff0CD809"..latency
 	elseif latency < 500 then
-		return "|cffC0C000"..latency.."|r"
+		return "|cffE8DA0F"..latency
 	else
-		return "|cffC00000"..latency.."|r"
+		return "|cffD80909"..latency
 	end
 end
 
 local function setLatency(self)
 	local _, _, latencyHome, latencyWorld = GetNetStats()
 	local latency = max(latencyHome, latencyWorld)
-	self.text:SetText(L["Latency"]..L[":"]..colorLatency(latency))
+	self.text:SetText(L["Latency"]..": "..colorLatency(latency))
 end
 
 info.onUpdate = function(self, elapsed)
@@ -48,8 +48,8 @@ info.onEnter = function(self)
 	GameTooltip:AddLine(" ")
 
 	local _, _, latencyHome, latencyWorld = GetNetStats()
-	GameTooltip:AddDoubleLine(L["Home Latency"], colorLatency(latencyHome).."|r MS", .6,.8,1, 1,1,1)
-	GameTooltip:AddDoubleLine(L["World Latency"], colorLatency(latencyWorld).."|r MS", .6,.8,1, 1,1,1)
+	GameTooltip:AddDoubleLine(L["Home Latency"], colorLatency(latencyHome).."|r ms", .6,.8,1, 1,1,1)
+	GameTooltip:AddDoubleLine(L["World Latency"], colorLatency(latencyWorld).."|r ms", .6,.8,1, 1,1,1)
 
 	if GetCVarBool("useIPv6") then
 		local ipTypeHome, ipTypeWorld = GetNetIpTypes()

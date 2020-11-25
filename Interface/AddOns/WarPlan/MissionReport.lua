@@ -1,5 +1,6 @@
 local _, T = ...
-local EV, L, W, C = T.Evie, T.L, T.WrappedAPI, C_Garrison
+local Nine = T.Nine or _G
+local EV, L, W, C = T.Evie, T.L, T.WrappedAPI, Nine.C_Garrison
 
 local function ShowReportMissionExpirationTime()
 	if GarrisonLandingPage.garrTypeID ~= 9 then return end
@@ -23,13 +24,9 @@ function EV:I_LOAD_MAINUI()
 end
 
 local function Tooltip_AddGarrisonStatus(self, mt, prefixLine)
-	local am, nextExpire = C.GetAvailableMissions(mt), math.huge
-	local im, inProgressCount, inProgressNext = C.GetInProgressMissions(mt), 0, math.huge
-	local cm = C.GetCompleteMissions(mt)
-	
-	if not (im and im and cm) then
-		return
-	end
+	local am, nextExpire = C.GetAvailableMissions(mt) or {}, math.huge
+	local im, inProgressCount, inProgressNext = C.GetInProgressMissions(mt) or {}, 0, math.huge
+	local cm = C.GetCompleteMissions(mt) or {}
 	
 	if prefixLine and (#am + #im + #cm) > 0 then
 		self:AddLine(prefixLine)
@@ -82,7 +79,7 @@ function EV:I_LOAD_HOOKS()
 	if IsAddOnLoaded("MasterPlanA") then
 		return
 	end
-	local function ShowLanding(page)
+	local function ShowLanding(_, page)
 		HideUIPanel(GarrisonLandingPage)
 		ShowGarrisonLandingPage(page)
 	end
@@ -103,13 +100,13 @@ function EV:I_LOAD_HOOKS()
 	GarrisonLandingPageMinimapButton:HookScript("OnClick", function(self, b)
 		if b == "LeftButton" then
 			if GarrisonLandingPage.garrTypeID ~= C.GetLandingPageGarrisonType() then
-				ShowLanding(C.GetLandingPageGarrisonType())
+				ShowLanding(nil, C.GetLandingPageGarrisonType())
 			end
 			return
 		elseif b == "RightButton" then
 			if (C.GetLandingPageGarrisonType() or 0) > 3 then
 				if self.landingVisiblePriorToClick then
-					ShowLanding(self.landingVisiblePriorToClick)
+					ShowLanding(nil, self.landingVisiblePriorToClick)
 				else
 					HideUIPanel(GarrisonLandingPage)
 				end
@@ -117,20 +114,18 @@ function EV:I_LOAD_HOOKS()
 				MaybeStopSound(self.closeSoundID)
 				if not landingChoiceMenu then
 					landingChoiceMenu = CreateFrame("Frame", "WPLandingChoicesDrop", UIParent, "UIDropDownMenuTemplate")
-					local function ShowLanding_(_, ...)
-						return ShowLanding(...)
-					end
-					landingChoices = {
-						{text=GARRISON_LANDING_PAGE_TITLE, func=ShowLanding_, arg1=2, notCheckable=true},
-						{text=ORDER_HALL_LANDING_PAGE_TITLE, func=ShowLanding_, arg1=3, notCheckable=true},
-						{text=WAR_CAMPAIGN, func=ShowLanding_, arg1=C.GetLandingPageGarrisonType(), notCheckable=true},
-					}
 				end
+				landingChoices = wipe(landingChoices or {})
+				landingChoices[#landingChoices+1] = C.GetNumFollowers(1) > 0 and {text=GARRISON_LANDING_PAGE_TITLE, func=ShowLanding, arg1=2, notCheckable=true} or nil
+				landingChoices[#landingChoices+1] = C.GetNumFollowers(4) > 0 and {text=ORDER_HALL_LANDING_PAGE_TITLE, func=ShowLanding, arg1=3, notCheckable=true} or nil
+				landingChoices[#landingChoices+1] = C.GetNumFollowers(22) > 0 and {text=WAR_CAMPAIGN, func=ShowLanding, arg1=9, notCheckable=true} or nil
+				landingChoices[#landingChoices+1] = C.GetNumFollowers(123) > 0 and {text=COVENANT_MISSIONS_TITLE, func=ShowLanding, arg1=111, notCheckable=true} or nil
+				GameTooltip:Hide()
 				EasyMenu(landingChoices, landingChoiceMenu, "cursor", 0, 0, "MENU", 4)
 				DropDownList1:ClearAllPoints()
 				DropDownList1:SetPoint("TOPRIGHT", self, "TOPLEFT", 10, -4)
 			elseif GarrisonLandingPage.garrTypeID == 3 then
-				ShowLanding(2)
+				ShowLanding(nil, 2)
 				MaybeStopSound(self.closeSoundID)
 			end
 		end

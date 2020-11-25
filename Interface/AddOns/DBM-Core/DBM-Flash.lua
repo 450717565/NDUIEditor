@@ -12,12 +12,12 @@ local frame, duration, elapsed, totalRepeat
 --------------------
 --  Create Frame  --
 --------------------
-frame = CreateFrame("Frame", "DBMFlash", UIParent, DBM:IsAlpha() and "BackdropTemplate")
+frame = CreateFrame("Frame", "DBMFlash", UIParent, DBM:IsShadowlands() and "BackdropTemplate")
 frame:Hide()
 frame.backdropInfo = {
 	bgFile	= "Interface\\Tooltips\\UI-Tooltip-Background" -- 137056
 }
-if DBM:IsAlpha() then
+if DBM:IsShadowlands() then
 	frame:ApplyBackdrop()
 else
 	frame:SetBackdrop(frame.backdropInfo)
@@ -48,7 +48,6 @@ function flashFrame:Show(red, green, blue, dur, alpha, repeatFlash)
 	duration = dur or 0.4
 	elapsed = 0
 	totalRepeat = repeatFlash or 0
-	-- frame.Center:SetVertexColor(red or 1, green or 0, blue or 0, alpha or 0.3) -- Uncomment in 9.0
 	frame:SetBackdropColor(red or 1, green or 0, blue or 0, alpha or 0.3)
 	frame:Show()
 end

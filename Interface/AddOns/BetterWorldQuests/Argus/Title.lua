@@ -6,10 +6,10 @@ local GetZoneName = ns.GetZoneName
 local function AreaLabelOnUpdate(self)
 	local Map = self.dataProvider:GetMap()
 	local mapID = Map:GetMapID()
-	if (mapID == 905) then
+	if(mapID == 905) then
 		-- update title on Argus sub-zones
 		local _, _, _, zoneMapID = GetZoneInfoAtPosition(Map:GetNormalizedCursorPosition())
-		if (zoneMapID) then
+		if(zoneMapID) then
 			self:SetLabel(MAP_AREA_LABEL_TYPE.AREA_NAME, GetZoneName(zoneMapID), GetZoneDescription(zoneMapID))
 		else
 			self:ClearLabel(MAP_AREA_LABEL_TYPE.AREA_NAME)
@@ -23,7 +23,7 @@ local function AreaLabelOnUpdate(self)
 end
 
 for provider in next, WorldMapFrame.dataProviders do
-	if (provider.setAreaLabelCallback) then
+	if(provider.setAreaLabelCallback) then
 		provider.Label:SetScript('OnUpdate', AreaLabelOnUpdate)
 	end
 end

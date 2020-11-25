@@ -1,47 +1,71 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 
 tinsert(C.defaultThemes, function()
-	-- PVPMatchScoreboard
-	B.ReskinFrame(PVPMatchScoreboard)
-	PVPMatchScoreboard:HookScript("OnShow", B.StripTextures)
+	if not C.db["Skins"]["BlizzardSkins"] then return end
 
-	local Content = PVPMatchScoreboard.Content
-	B.StripTextures(Content)
+	-- ready dialog
+	local PVPReadyDialog = PVPReadyDialog
 
-	local ScrollFrame = Content.ScrollFrame
-	B.ReskinScroll(ScrollFrame.ScrollBar)
+	B.StripTextures(PVPReadyDialog)
+	PVPReadyDialogBackground:Hide()
+	B.SetBD(PVPReadyDialog)
+	PVPReadyDialogRoleIconTexture:SetTexture(DB.rolesTex)
+	B.CreateBDFrame(PVPReadyDialogRoleIcon)
 
-	local TabContainer = Content.TabContainer
-	B.StripTextures(TabContainer)
-	for i = 1, 3 do
-		B.ReskinTab(TabContainer.TabGroup["Tab"..i])
+	hooksecurefunc("PVPReadyDialog_Display", function(self, _, _, _, _, _, role)
+		if self.roleIcon:IsShown() then
+			self.roleIcon.texture:SetTexCoord(B.GetRoleTexCoord(role))
+		end
+	end)
+
+	B.Reskin(PVPReadyDialog.enterButton)
+	B.Reskin(PVPReadyDialog.leaveButton)
+	B.ReskinClose(PVPReadyDialogCloseButton)
+
+	local function stripBorders(self)
+		B.StripTextures(self)
 	end
 
-	local bg = B.CreateBDFrame(Content, 0)
-	bg:SetPoint("BOTTOMRIGHT", TabContainer.InsetBorderTop, 4, -1)
+	-- match score
+	B.SetBD(PVPMatchScoreboard)
+	PVPMatchScoreboard:HookScript("OnShow", stripBorders)
+	B.ReskinClose(PVPMatchScoreboard.CloseButton)
 
-	-- PVPMatchResults
-	B.ReskinFrame(PVPMatchResults)
-	PVPMatchResults:HookScript("OnShow", B.StripTextures)
+	local content = PVPMatchScoreboard.Content
+	local tabContainer = content.TabContainer
+
+	B.StripTextures(content)
+	local bg = B.CreateBDFrame(content, .25)
+	bg:SetPoint("BOTTOMRIGHT", tabContainer.InsetBorderTop, 4, -1)
+	B.ReskinScroll(content.ScrollFrame.ScrollBar)
+
+	B.StripTextures(tabContainer)
+	for i = 1, 3 do
+		B.ReskinTab(tabContainer.TabGroup["Tab"..i])
+	end
+
+	-- match results
+	B.SetBD(PVPMatchResults)
+	PVPMatchResults:HookScript("OnShow", stripBorders)
+	B.ReskinClose(PVPMatchResults.CloseButton)
 	B.StripTextures(PVPMatchResults.overlay)
 
-	local buttonContainer = PVPMatchResults.buttonContainer
-	B.ReskinButton(buttonContainer.leaveButton)
-	B.ReskinButton(buttonContainer.requeueButton)
-
 	local content = PVPMatchResults.content
-	B.StripTextures(content)
-	B.StripTextures(content.earningsArt)
-
-	local scrollFrame = content.scrollFrame
-	B.ReskinScroll(scrollFrame.scrollBar)
-
 	local tabContainer = content.tabContainer
+
+	B.StripTextures(content)
+	local bg = B.CreateBDFrame(content, .25)
+	bg:SetPoint("BOTTOMRIGHT", tabContainer.InsetBorderTop, 4, -1)
+	B.StripTextures(content.earningsArt)
+	B.ReskinScroll(content.scrollFrame.scrollBar)
+
 	B.StripTextures(tabContainer)
 	for i = 1, 3 do
 		B.ReskinTab(tabContainer.tabGroup["tab"..i])
 	end
 
-	local bg = B.CreateBDFrame(content, 0)
-	bg:SetPoint("BOTTOMRIGHT", tabContainer.InsetBorderTop, 4, -1)
+	local buttonContainer = PVPMatchResults.buttonContainer
+	B.Reskin(buttonContainer.leaveButton)
+	B.Reskin(buttonContainer.requeueButton)
 end)

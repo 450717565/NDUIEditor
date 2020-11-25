@@ -1,28 +1,21 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local oUF = ns.oUF
 local module = B:RegisterModule("Infobar")
 local tinsert, pairs, unpack = table.insert, pairs, unpack
 
-function module:SmoothColor(cur, max, fullRed)
-	local usageColor = {1, 0, 0, 1, 1, 0, 0, 1, 0}
-	if fullRed then
-		usageColor = {0, 1, 0, 1, 1, 0, 1, 0, 0}
-	end
+local GOLD_AMOUNT_SYMBOL = format("|cffffd700%s|r", GOLD_AMOUNT_SYMBOL)
+local SILVER_AMOUNT_SYMBOL = format("|cffd0d0d0%s|r", SILVER_AMOUNT_SYMBOL)
+local COPPER_AMOUNT_SYMBOL = format("|cffc77050%s|r", COPPER_AMOUNT_SYMBOL)
 
-	local r, g, b = oUF:RGBColorGradient(cur, max, unpack(usageColor))
-	return r, g, b
-end
-
-function module:GetMoneyString(money, formatted)
-	if money > 0 then
-		if formatted then
-			return format("%s%s", B.FormatNumb(money / 1e4), GOLD_AMOUNT_SYMBOL)
-		else
+function module:GetMoneyString(money, full)
+	if money >= 1e6 and not full then
+		return format(" %.0f%s", money / 1e4, GOLD_AMOUNT_SYMBOL)
+	else
+		if money > 0 then
 			local moneyString = ""
 			local gold = floor(money / 1e4)
 			if gold > 0 then
-				moneyString = gold..GOLD_AMOUNT_SYMBOL
+				moneyString = " "..gold..GOLD_AMOUNT_SYMBOL
 			end
 			local silver = floor((money - (gold * 1e4)) / 100)
 			if silver > 0 then
@@ -33,9 +26,9 @@ function module:GetMoneyString(money, formatted)
 				moneyString = moneyString.." "..copper..COPPER_AMOUNT_SYMBOL
 			end
 			return moneyString
+		else
+			return " 0"..COPPER_AMOUNT_SYMBOL
 		end
-	else
-		return "0"..COPPER_AMOUNT_SYMBOL
 	end
 end
 
@@ -44,8 +37,8 @@ function module:RegisterInfobar(name, point)
 
 	local info = CreateFrame("Frame", nil, UIParent)
 	info:SetHitRectInsets(0, 0, -10, -10)
-	info.text = info:CreateFontString(nil, "OVERLAY")
-	info.text:SetFont(DB.Font[1], C.Infobar.FontSize, DB.Font[3])
+	info.text = B.CreateFS(info, C.Infobar.FontSize)
+	info.text:ClearAllPoints()
 	if C.Infobar.AutoAnchor then
 		info.point = point
 	else
@@ -80,33 +73,30 @@ function module:LoadInfobar(info)
 end
 
 function module:BackgroundLines()
-	if not NDuiDB["Skins"]["InfobarLine"] then return end
+	if not C.db["Skins"]["InfobarLine"] then return end
 
-	local cr, cg, cb = DB.r, DB.g, DB.b
-	local color = NDuiDB["Skins"]["LineColor"]
-	if not NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
+	local cr, cg, cb = 0, 0, 0
+	if C.db["Skins"]["ClassLine"] then cr, cg, cb = DB.r, DB.g, DB.b end
 
-	-- TOPLEFT
-	local InfobarLineTL = CreateFrame("Frame", nil, UIParent)
-	InfobarLineTL:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 0, -5)
-	B.CreateGA(InfobarLineTL, 600, 18, "Horizontal", 0, 0, 0, .5, 0)
-	local InfobarLineTL1 = CreateFrame("Frame", nil, InfobarLineTL)
-	InfobarLineTL1:SetPoint("BOTTOM", InfobarLineTL, "TOP")
-	B.CreateGA(InfobarLineTL1, 600, C.mult*2, "Horizontal", cr, cg, cb, DB.Alpha, 0)
-	local InfobarLineTL2 = CreateFrame("Frame", nil, InfobarLineTL)
-	InfobarLineTL2:SetPoint("TOP", InfobarLineTL, "BOTTOM")
-	B.CreateGA(InfobarLineTL2, 600, C.mult*2, "Horizontal", cr, cg, cb, DB.Alpha, 0)
+	local parent = UIParent
+	local width, height = 450, 18
+	local anchors = {
+		[1] = {"TOPLEFT", -3, .5, 0},
+		[2] = {"BOTTOMRIGHT", 3, 0, .5},
+	}
+	for _, v in pairs(anchors) do
+		local frame = CreateFrame("Frame", nil, parent)
+		frame:SetPoint(v[1], parent, v[1], 0, v[2])
+		frame:SetSize(width, height)
+		frame:SetFrameStrata("BACKGROUND")
 
-	-- BOTTOMRIGHT
-	local InfobarLineBR = CreateFrame("Frame", nil, UIParent)
-	InfobarLineBR:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", 0, 5)
-	B.CreateGA(InfobarLineBR, 450, 18, "Horizontal", 0, 0, 0, 0, .5)
-	local InfobarLineBR1 = CreateFrame("Frame", nil, InfobarLineBR)
-	InfobarLineBR1:SetPoint("BOTTOM", InfobarLineBR, "TOP")
-	B.CreateGA(InfobarLineBR1, 450, C.mult*2, "Horizontal", cr, cg, cb, 0, DB.Alpha)
-	local InfobarLineBR2 = CreateFrame("Frame", nil, InfobarLineBR)
-	InfobarLineBR2:SetPoint("TOP", InfobarLineBR, "BOTTOM")
-	B.CreateGA(InfobarLineBR2, 450, C.mult*2, "Horizontal", cr, cg, cb, 0, DB.Alpha)
+		local tex = B.SetGradient(frame, "H", 0, 0, 0, v[3], v[4], width, height)
+		tex:SetPoint("CENTER")
+		local bottomLine = B.SetGradient(frame, "H", cr, cg, cb, v[3], v[4], width, C.mult)
+		bottomLine:SetPoint("TOP", frame, "BOTTOM")
+		local topLine = B.SetGradient(frame, "H", cr, cg, cb, v[3], v[4], width, C.mult)
+		topLine:SetPoint("BOTTOM", frame, "TOP")
+	end
 end
 
 function module:OnLogin()
@@ -125,11 +115,9 @@ function module:OnLogin()
 		if index == 1 or index == 6 then
 			info.text:SetPoint(unpack(info.point))
 		elseif index < 6 then
-			info.text:SetPoint("LEFT", self.modules[index-1], "RIGHT", 30, 0)
-			info.text:SetJustifyH("LEFT")
+			info.text:SetPoint("LEFT", self.modules[index-1], "RIGHT", 20, 0)
 		else
 			info.text:SetPoint("RIGHT", self.modules[index-1], "LEFT", -30, 0)
-			info.text:SetJustifyH("RIGHT")
 		end
 	end
 end

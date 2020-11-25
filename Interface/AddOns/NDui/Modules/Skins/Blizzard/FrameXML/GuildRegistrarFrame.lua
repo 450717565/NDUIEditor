@@ -1,13 +1,17 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 
 tinsert(C.defaultThemes, function()
-	B.ReskinFrame(GuildRegistrarFrame)
-	B.ReskinInput(GuildRegistrarFrameEditBox, 20)
+	if not C.db["Skins"]["BlizzardSkins"] then return end
 
-	AvailableServicesText:SetTextColor(1, .8, 0)
+	GuildRegistrarFrameEditBox:SetHeight(20)
+	AvailableServicesText:SetTextColor(1, 1, 1)
+	AvailableServicesText:SetShadowColor(0, 0, 0)
 
-	local buttons = {GuildRegistrarFrameGoodbyeButton, GuildRegistrarFramePurchaseButton, GuildRegistrarFrameCancelButton}
-	for _, button in pairs(buttons) do
-		B.ReskinButton(button)
-	end
+	B.ReskinPortraitFrame(GuildRegistrarFrame)
+	GuildRegistrarFrameEditBox:DisableDrawLayer("BACKGROUND")
+	B.CreateBDFrame(GuildRegistrarFrameEditBox, .25)
+	B.Reskin(GuildRegistrarFrameGoodbyeButton)
+	B.Reskin(GuildRegistrarFramePurchaseButton)
+	B.Reskin(GuildRegistrarFrameCancelButton)
 end)

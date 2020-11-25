@@ -1,6 +1,9 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 
 tinsert(C.defaultThemes, function()
+	if not C.db["Skins"]["BlizzardSkins"] then return end
+
 	if not CompactRaidFrameManagerToggleButton then return end
 
 	CompactRaidFrameManagerToggleButton:SetNormalTexture("Interface\\Buttons\\UI-ColorPicker-Buttons")
@@ -26,22 +29,31 @@ tinsert(C.defaultThemes, function()
 		CompactRaidFrameManagerDisplayFrameFilterOptionsFilterGroup7,
 		CompactRaidFrameManagerDisplayFrameFilterOptionsFilterGroup8,
 		CompactRaidFrameManagerDisplayFrameLeaderOptionsInitiateRolePoll,
+		CompactRaidFrameManagerDisplayFrameLeaderOptionsCountdown,
 		CompactRaidFrameManagerDisplayFrameLeaderOptionsInitiateReadyCheck,
-		--CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton,
+		CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton,
 		CompactRaidFrameManagerDisplayFrameLockedModeToggle,
 		CompactRaidFrameManagerDisplayFrameHiddenModeToggle,
 		CompactRaidFrameManagerDisplayFrameConvertToRaid
 	}
 	for _, button in pairs(buttons) do
-		B.StripTextures(button)
-		B.ReskinButton(button)
+		for i = 1, 9 do
+			select(i, button:GetRegions()):SetAlpha(0)
+		end
+		B.Reskin(button)
 	end
-	--CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:SetNormalTexture("Interface\\RaidFrame\\Raid-WorldPing")
+	CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:SetNormalTexture("Interface\\RaidFrame\\Raid-WorldPing")
 
-	B.ReskinFrame(CompactRaidFrameManager)
-	CompactRaidFrameManagerDisplayFrameHeaderBackground:Hide()
-	CompactRaidFrameManagerDisplayFrameHeaderDelineator:Hide()
+	for i = 1, 8 do
+		select(i, CompactRaidFrameManager:GetRegions()):SetAlpha(0)
+	end
+	select(1, CompactRaidFrameManagerDisplayFrameFilterOptions:GetRegions()):SetAlpha(0)
+	select(1, CompactRaidFrameManagerDisplayFrame:GetRegions()):SetAlpha(0)
+	select(4, CompactRaidFrameManagerDisplayFrame:GetRegions()):SetAlpha(0)
 
+	local bd = B.SetBD(CompactRaidFrameManager)
+	bd:SetPoint("TOPLEFT")
+	bd:SetPoint("BOTTOMRIGHT", -9, 9)
 	B.ReskinDropDown(CompactRaidFrameManagerDisplayFrameProfileSelector)
 	B.ReskinCheck(CompactRaidFrameManagerDisplayFrameEveryoneIsAssistButton)
 end)

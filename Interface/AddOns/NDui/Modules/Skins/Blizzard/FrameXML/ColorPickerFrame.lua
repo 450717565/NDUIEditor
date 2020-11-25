@@ -1,18 +1,16 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 
 tinsert(C.defaultThemes, function()
-	B.CreateBG(ColorPickerFrame)
+	if not C.db["Skins"]["BlizzardSkins"] then return end
+
 	B.StripTextures(ColorPickerFrame.Header)
-
-	B.ReskinSlider(OpacitySliderFrame, true)
-	B.ReskinButton(ColorPickerOkayButton)
-	B.ReskinButton(ColorPickerCancelButton)
-
-	ColorPickerFrame.Border:Hide()
 	ColorPickerFrame.Header:ClearAllPoints()
-	ColorPickerFrame.Header:SetPoint("TOP", 0, 5)
-	ColorPickerOkayButton:ClearAllPoints()
-	ColorPickerOkayButton:SetPoint("BOTTOMRIGHT", ColorPickerFrame, "BOTTOM", -1, 5)
-	ColorPickerCancelButton:ClearAllPoints()
-	ColorPickerCancelButton:SetPoint("BOTTOMLEFT", ColorPickerFrame, "BOTTOM", 1, 5)
+	ColorPickerFrame.Header:SetPoint("TOP", ColorPickerFrame, 0, 0)
+	ColorPickerFrame.Border:Hide()
+
+	B.SetBD(ColorPickerFrame)
+	B.Reskin(ColorPickerOkayButton)
+	B.Reskin(ColorPickerCancelButton)
+	B.ReskinSlider(OpacitySliderFrame, true)
 end)

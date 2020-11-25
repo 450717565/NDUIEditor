@@ -57,16 +57,16 @@ function module:ChatCopy_OnClick(btn)
 			frame:Hide()
 		end
 	elseif btn == "RightButton" then
-		B.TogglePanel(menu)
-		NDuiDB["Chat"]["ChatMenu"] = menu:IsShown()
+		B:TogglePanel(menu)
+		C.db["Chat"]["ChatMenu"] = menu:IsShown()
 	end
 end
 
 function module:ChatCopy_CreateMenu()
 	menu = CreateFrame("Frame", nil, UIParent)
 	menu:SetSize(25, 100)
-	menu:SetPoint("TOPLEFT", _G.ChatFrame1, "TOPRIGHT")
-	menu:SetShown(NDuiDB["Chat"]["ChatMenu"])
+	menu:SetPoint("TOPRIGHT", _G.ChatFrame1, 22, 0)
+	menu:SetShown(C.db["Chat"]["ChatMenu"])
 
 	_G.ChatFrameMenuButton:ClearAllPoints()
 	_G.ChatFrameMenuButton:SetPoint("TOP", menu)
@@ -78,7 +78,7 @@ function module:ChatCopy_CreateMenu()
 	_G.ChatFrameToggleVoiceMuteButton:SetParent(menu)
 	_G.QuickJoinToastButton:SetParent(menu)
 	_G.ChatAlertFrame:ClearAllPoints()
-	_G.ChatAlertFrame:SetPoint("BOTTOMLEFT", _G.ChatFrame1Tab, "TOPLEFT", 0, 20)
+	_G.ChatAlertFrame:SetPoint("BOTTOMLEFT", _G.ChatFrame1Tab, "TOPLEFT", 5, 25)
 end
 
 function module:ChatCopy_Create()
@@ -88,11 +88,11 @@ function module:ChatCopy_Create()
 	frame:Hide()
 	frame:SetFrameStrata("DIALOG")
 	B.CreateMF(frame)
-	B.CreateBG(frame)
+	B.SetBD(frame)
 	frame.close = CreateFrame("Button", nil, frame, "UIPanelCloseButton")
 	frame.close:SetPoint("TOPRIGHT", frame)
 
-	local scrollArea = CreateFrame("ScrollFrame", "ChatCopyScrollFrame", frame, "UIPanelScrollFrameTemplate")
+	local scrollArea = CreateFrame("ScrollFrame", "ChatCopyScrollFrame", frame, "UIPanelScrollFrameTemplate, BackdropTemplate")
 	scrollArea:SetPoint("TOPLEFT", 10, -30)
 	scrollArea:SetPoint("BOTTOMRIGHT", -28, 10)
 
@@ -119,7 +119,7 @@ function module:ChatCopy_Create()
 	end)
 
 	local copy = CreateFrame("Button", nil, UIParent)
-	copy:SetPoint("BOTTOMLEFT", _G.ChatFrame1, "BOTTOMRIGHT")
+	copy:SetPoint("BOTTOMRIGHT", _G.ChatFrame1, 22, 0)
 	copy:SetSize(20, 20)
 	copy:SetAlpha(.5)
 	copy.Icon = copy:CreateTexture(nil, "ARTWORK")

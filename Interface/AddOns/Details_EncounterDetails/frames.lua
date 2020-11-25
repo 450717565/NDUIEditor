@@ -76,7 +76,7 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 	
 	local build_options_panel = function()
 	
-		local options_frame = EncounterDetails:CreatePluginOptionsFrame ("EncounterDetailsOptionsWindow", "战斗细节设置", 2)
+		local options_frame = EncounterDetails:CreatePluginOptionsFrame ("EncounterDetailsOptionsWindow", "Encounter Breakdown Options", 2)
 		
 		-- 1 = only when inside a raid map
 		-- 2 = only when in raid group
@@ -111,11 +111,11 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 			end
 		end
 		local on_show_menu = {
-			{value = 1, label = "在团本中", onclick = set, desc = "仅在团本内显示图标."},
-			{value = 2, label = "在小队中", onclick = set, desc = "仅在小队内显示图标."},
-			{value = 3, label = "战斗结束", onclick = set, desc = "BOSS战斗后显示图标."},
-			{value = 4, label = "总是", onclick = set, desc = "总是显示图标."},
-			{value = 5, label = "自动", onclick = set, desc = "该插件决定何时需要显示图标."},
+			{value = 1, label = "Inside Raid", onclick = set, desc = "Only show the icon while inside a raid."},
+			{value = 2, label = "In Group", onclick = set, desc = "Only show the icon while in group."},
+			{value = 3, label = "After Encounter", onclick = set, desc = "Show the icon after a raid boss encounter."},
+			{value = 4, label = "Always", onclick = set, desc = "Always show the icon."},
+			{value = 5, label = "Auto", onclick = set, desc = "The plugin decides when the icon needs to be shown."},
 		}
 		
 --		/dump DETAILS_PLUGIN_ENCOUNTER_DETAILS.db.show_icon
@@ -125,15 +125,15 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 				type = "select",
 				get = function() return EncounterDetails.db.show_icon end,
 				values = function() return on_show_menu end,
-				desc = "图标在 Details! 提示中显示的时机.",
-				name = "显示图标"
+				desc = "When the icon is shown in the Details! tooltip.",
+				name = "Show Icon"
 			},
 			{
 				type = "toggle",
 				get = function() return EncounterDetails.db.hide_on_combat end,
 				set = function (self, fixedparam, value) EncounterDetails.db.hide_on_combat = value end,
-				desc = "进入战斗时，“战斗信息”窗口会自动关闭.",
-				name = "在战斗中隐藏"
+				desc = "Encounter Breakdown window automatically close when you enter in combat.",
+				name = "Hide on Combat"
 			},
 			{
 				type = "range",
@@ -142,8 +142,8 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 				min = 1,
 				max = 10,
 				step = 1,
-				desc = "保持多少段台词.",
-				name = "台词分段数量",
+				desc = "Keep how many segments emotes.",
+				name = "Emote Segments Amount",
 				usedecimals = true,
 			},
 			{
@@ -153,8 +153,8 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 				min = 0.65,
 				max = 1.50,
 				step = 0.1,
-				desc = "设置窗口大小",
-				name = "窗口比例",
+				desc = "Set the window size",
+				name = "Window Scale",
 				usedecimals = true,
 			},
 			
@@ -179,7 +179,7 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 	end	
 	
 	function EncounterDetails:CreateRowTexture (row)
-		row.textura = CreateFrame ("StatusBar", nil, row)
+		row.textura = CreateFrame ("StatusBar", nil, row, "BackdropTemplate")
 		row.textura:SetAllPoints (row)
 		local t = row.textura:CreateTexture (nil, "overlay")
 		t:SetTexture (EncounterDetails.Frame.DefaultBarTexture)
@@ -189,22 +189,22 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 		row.textura:SetStatusBarColor (.5, .5, .5, 0)
 		row.textura:SetMinMaxValues (0,100)
 		
-		row.texto_esquerdo = row.textura:CreateFontString (nil, "OVERLAY", "GameFontHighlightSmall")
-		row.texto_esquerdo:SetPoint ("LEFT", row.textura, "LEFT", 22, -1)
-		row.texto_esquerdo:SetJustifyH ("LEFT")
-		row.texto_esquerdo:SetTextColor (1,1,1,1)
+		row.lineText1 = row.textura:CreateFontString (nil, "OVERLAY", "GameFontHighlightSmall")
+		row.lineText1:SetPoint ("LEFT", row.textura, "LEFT", 22, -1)
+		row.lineText1:SetJustifyH ("LEFT")
+		row.lineText1:SetTextColor (1,1,1,1)
 
-		row.texto_direita = row.textura:CreateFontString (nil, "OVERLAY", "GameFontHighlightSmall")
-		row.texto_direita:SetPoint ("RIGHT", row.textura, "RIGHT", -2, 0)
-		row.texto_direita:SetJustifyH ("RIGHT")
-		row.texto_direita:SetTextColor (1,1,1,1)
+		row.lineText4 = row.textura:CreateFontString (nil, "OVERLAY", "GameFontHighlightSmall")
+		row.lineText4:SetPoint ("RIGHT", row.textura, "RIGHT", -2, 0)
+		row.lineText4:SetJustifyH ("RIGHT")
+		row.lineText4:SetTextColor (1,1,1,1)
 		
 		row.textura:Show()
 	end
 	
 	function EncounterDetails:CreateRow (index, container, x_mod, y_mod, width_mod)
 		
-		local barra = CreateFrame ("Button", "Details_"..container:GetName().."_barra_"..index, container)
+		local barra = CreateFrame ("Button", "Details_"..container:GetName().."_barra_"..index, container,"BackdropTemplate")
 		
 		x_mod = x_mod or 0
 		width_mod = width_mod or 0
@@ -297,7 +297,7 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 		local graphicData = combat:GetTimeData ("Raid Damage Done")
 		
 		if (not graphicData or not combat.start_time or not combat.end_time) then
-			EncounterDetails:Msg ("此分部没有图表数据.")
+			EncounterDetails:Msg ("This segment doesn't have chart data.")
 			return
 		--elseif (EncounterDetails.CombatsAlreadyDrew [combat:GetCombatNumber()]) then
 			--return
@@ -398,7 +398,7 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 	function EncounterDetails:DrawSegmentGraphic (g, graphicData, combat, drawDeathsCombat)
 		
 		local _data = {}
-		local dps_max = graphicData.max_value
+		local dps_max = graphicData.max_value or 0
 		local amount = #graphicData
 		
 		local scaleW = 1/670
@@ -494,7 +494,7 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 				
 				if (not vRowFrame) then
 				
-					vRowFrame = CreateFrame ("frame", "DetailsEncountersVerticalLine"..i, g)
+					vRowFrame = CreateFrame ("frame", "DetailsEncountersVerticalLine"..i, g, "BackdropTemplate")
 					vRowFrame:SetWidth (20)
 					vRowFrame:SetHeight (43)
 					vRowFrame:SetFrameLevel (g:GetFrameLevel()+2)
@@ -582,7 +582,8 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 			g:SetAxisDrawing (false,false)
 			g:SetAxisColor({1.0,1.0,1.0,1.0})
 			g:SetAutoScale (true)
-			g:SetLineTexture ("smallline")
+			--g:SetLineTexture ("smallline")
+			g:SetLineTexture([[Interface\AddOns\Details_EncounterDetails\images\line.tga]])
 			g:SetBorderSize ("right", 0.001)
 			g.VerticalLines = {}
 			g.TryIndicator = {}
@@ -594,7 +595,7 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 			}
 		
 		--> build the phase panel
-			local phase_panel = CreateFrame ("frame", "EncounterDetailsPhasePanel", g)
+			local phase_panel = CreateFrame ("frame", "EncounterDetailsPhasePanel", g, "BackdropTemplate")
 			phase_panel:SetFrameStrata ("TOOLTIP")
 			phase_panel:SetWidth (CONST_PHASE_PANEL_WIDTH)
 			phase_panel:SetBackdrop ({bgFile = "Interface\\Tooltips\\UI-Tooltip-Background", tile = true, tileSize = 16,
@@ -603,12 +604,12 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 			phase_panel:SetBackdropColor (0, 0, 0, .4)
 			
 			local damage_icon = DetailsFrameWork:CreateImage (phase_panel, [[Interface\AddOns\Details\images\skins\classic_skin_v1]], 16, 16, "overlay", {11/1024, 24/1024, 376/1024, 390/1024})
-			local damage_label = DetailsFrameWork:CreateLabel (phase_panel, "伤害:")
+			local damage_label = DetailsFrameWork:CreateLabel (phase_panel, "Damage Done:")
 			damage_icon:SetPoint ("topleft", phase_panel, "topleft", 10, -10)
 			damage_label:SetPoint ("left", damage_icon, "right", 4, 0)
 			
 			local heal_icon = DetailsFrameWork:CreateImage (phase_panel, [[Interface\AddOns\Details\images\skins\classic_skin_v1]], 16, 16, "overlay", {43/1024, 57/1024, 376/1024, 390/1024})
-			local heal_label = DetailsFrameWork:CreateLabel (phase_panel, "治疗:")
+			local heal_label = DetailsFrameWork:CreateLabel (phase_panel, "Healing Done:")
 			heal_icon:SetPoint ("topleft", phase_panel, "topleft", 250, -10)
 			heal_label:SetPoint ("left", heal_icon, "right", 4, 0)
 			
@@ -672,7 +673,7 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 			
 			phase_panel.phase_label = DetailsFrameWork:CreateLabel (phase_panel, "")
 			phase_panel.time_label = DetailsFrameWork:CreateLabel (phase_panel, "")
-			phase_panel.report_label = DetailsFrameWork:CreateLabel (phase_panel, "|cFFffb400左键|r: 报告伤害 |cFFffb400右键|r: 报告治疗")
+			phase_panel.report_label = DetailsFrameWork:CreateLabel (phase_panel, "|cFFffb400Left Click|r: Report Damage |cFFffb400Right Click|r: Report Heal")
 			
 			phase_panel.phase_label:SetPoint ("bottomleft", phase_panel, "bottomleft", 10, 5)
 			phase_panel.time_label:SetPoint ("left", phase_panel.phase_label, "right", 5, 0)
@@ -813,7 +814,7 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 					phase_panel:SetPoint ("bottom", self, "top", 0, 10)
 					phase_panel:Show()
 					
-					phase_panel.phase_label.text = "|cFFffb400片段|r: " .. self.phase
+					phase_panel.phase_label.text = "|cFFffb400Phase|r: " .. self.phase
 
 					local m, s = _math_floor (self.elapsed / 60), _math_floor (self.elapsed % 60)
 					phase_panel.time_label.text = "|cFFffb400Elapsed|r: " .. m .. "m " .. s .. "s"
@@ -849,7 +850,7 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 					end
 					
 					--need to build here because the mouse will leave the block to click in the send button
-					tinsert (result, "Details!: "..(g.combat and g.combat.is_boss and g.combat.is_boss.name or "未知").. self.phase .. "片段的伤害 ".. ":")
+					tinsert (result, "Details!: Damage for Phase " .. self.phase .. " of " .. (g.combat and g.combat.is_boss and g.combat.is_boss.name or "Unknown") .. ":")
 					for i = 1, #self.damage_actors do
 						tinsert (result, EncounterDetails:GetOnlyName (self.damage_actors[i][1]) .. ": " .. _detalhes:ToK (_math_floor (self.damage_actors [i][2])))
 					end
@@ -868,7 +869,7 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 						EncounterDetails:SendReportLines (result)
 					end
 					
-					tinsert (result, "Details!: "..(g.combat and g.combat.is_boss and g.combat.is_boss.name or "未知").. self.phase .. "片段的治疗 ".. ":")
+					tinsert (result, "Details!: Healing for Phase " .. self.phase .. " of " .. (g.combat and g.combat.is_boss and g.combat.is_boss.name or "Unknown") .. ":")
 					for i = 1, #self.heal_actors do
 						tinsert (result, EncounterDetails:GetOnlyName (self.heal_actors[i][1]) .. ": " .. _detalhes:ToK (_math_floor (self.heal_actors [i][2])))
 					end
@@ -882,7 +883,7 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 				local texture = g.PhaseTextures [index]
 				
 				if (not texture) then
-					local f = CreateFrame ("frame", "EncounterDetailsPhaseTexture" .. index, g)
+					local f = CreateFrame ("frame", "EncounterDetailsPhaseTexture" .. index, g, "BackdropTemplate")
 					f:SetHeight (CONST_PHASE_BAR_HEIGHT)
 					
 					local t = f:CreateTexture (nil, "artwork")
@@ -903,7 +904,7 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 				
 				phase = math.min (phase, 5)
 				if (not phase_colors [phase]) then
-					_detalhes:Msg ("片段超出范围:", phase)
+					_detalhes:Msg ("Phase out of range:", phase)
 					phase = math.max (phase, 1)
 				end
 
@@ -952,7 +953,7 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 				self.NeedsUpdate=true
 			end
 
-			DetailsFrameWork:NewLabel (EncounterDetails.Frame, EncounterDetails.Frame, nil, "phases_string", "片段:", "GameFontHighlightSmall")
+			DetailsFrameWork:NewLabel (EncounterDetails.Frame, EncounterDetails.Frame, nil, "phases_string", "phases:", "GameFontHighlightSmall")
 			EncounterDetails.Frame["phases_string"]:SetPoint ("TOPLEFT", EncounterDetails.Frame, "TOPLEFT", 20, CONST_CHART_TIMELINE_Y_POSITION)
 			
 			DetailsFrameWork:NewLabel (EncounterDetails.Frame, EncounterDetails.Frame, nil, "timeamt0", "00:00", "GameFontHighlightSmall")
@@ -1043,7 +1044,7 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 	BossFrame.bg1:SetAllPoints()
 	
 	--title bar
-		local titlebar = CreateFrame ("frame", nil, BossFrame)
+		local titlebar = CreateFrame ("frame", nil, BossFrame,"BackdropTemplate")
 		titlebar:SetPoint ("topleft", BossFrame, "topleft", 2, -3)
 		titlebar:SetPoint ("topright", BossFrame, "topright", -2, -3)
 		titlebar:SetHeight (20)
@@ -1061,7 +1062,7 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 		name_bg_texture:SetVertexColor (0, 0, 0, 0.2)
 	
 	--> header background
-		local headerFrame = CreateFrame ("frame", "EncounterDetailsHeaderFrame", BossFrame)
+		local headerFrame = CreateFrame ("frame", "EncounterDetailsHeaderFrame", BossFrame,"BackdropTemplate")
 		headerFrame:EnableMouse (false)
 		headerFrame:SetPoint ("topleft", titlebar, "bottomleft", 0, -1)
 		headerFrame:SetPoint ("topright", titlebar, "bottomright", 0, -1)
@@ -1076,12 +1077,12 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 		titleLabel:SetPoint ("top", BossFrame, "top", 0, -7)
 	
 	--> Nome do Encontro
-		DetailsFrameWork:NewLabel (headerFrame, headerFrame, nil, "boss_name", "未知战斗", "QuestFont_Large")
+		DetailsFrameWork:NewLabel (headerFrame, headerFrame, nil, "boss_name", "Unknown Encounter", "QuestFont_Large")
 		BossFrame.boss_name = headerFrame.boss_name
 		BossFrame.boss_name:SetPoint ("TOPLEFT", BossFrame, "TOPLEFT", 100, -46)
 		
 	--> Nome da Raid
-		DetailsFrameWork:NewLabel (headerFrame, headerFrame, nil, "raid_name", "未知团本", "GameFontHighlightSmall")
+		DetailsFrameWork:NewLabel (headerFrame, headerFrame, nil, "raid_name", "Unknown Raid", "GameFontHighlightSmall")
 		BossFrame.raid_name = headerFrame.raid_name
 		BossFrame.raid_name:SetPoint ("CENTER", BossFrame.boss_name, "CENTER", 0, 14)
 	
@@ -1187,6 +1188,14 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 		end
 	end
 	
+	local resetSelectedButtonTemplate = function()
+		BossFrame.buttonSwitchNormal:SetTemplate (DetailsFrameWork:GetTemplate ("button", "DETAILS_PLUGIN_BUTTON_TEMPLATE"))
+		BossFrame.buttonSwitchSpellsAuras:SetTemplate (DetailsFrameWork:GetTemplate ("button", "DETAILS_PLUGIN_BUTTON_TEMPLATE"))
+		BossFrame.buttonSwitchPhases:SetTemplate (DetailsFrameWork:GetTemplate ("button", "DETAILS_PLUGIN_BUTTON_TEMPLATE"))
+		BossFrame.buttonSwitchGraphic:SetTemplate (DetailsFrameWork:GetTemplate ("button", "DETAILS_PLUGIN_BUTTON_TEMPLATE"))
+		BossFrame.buttonSwitchBossEmotes:SetTemplate (DetailsFrameWork:GetTemplate ("button", "DETAILS_PLUGIN_BUTTON_TEMPLATE"))
+	end
+
 	BossFrame.switch = function (to, _, to2)
 		if (type (to) == "string") then
 			to = to
@@ -1194,25 +1203,17 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 			to = to2
 		end
 		
-		for _, button in ipairs (BossFrame.AllButtons) do
-			button:SetTemplate (DetailsFrameWork:GetTemplate ("button", "DETAILS_PLUGIN_BUTTON_TEMPLATE"))
-		end
-		
 		if (not BossFrame:IsShown()) then
 			Details:OpenPlugin ("DETAILS_PLUGIN_ENCOUNTER_DETAILS")
 		end
 		
-		BossFrame.DBMBars:Hide()
-		BossFrame.BigWigsBars:Hide()
-		BossFrame.label_dbm_bars:Hide()
-		BossFrame.label_bw_bars:Hide()
-
 		EncounterDetailsPhaseFrame:Hide()
+		resetSelectedButtonTemplate()
 		
 		if (to == "main") then 
 			BossFrame.raidbackground:Show()
 
-			for _, frame in _ipairs (BossFrame.Widgets) do 
+			for _, frame in _ipairs (BossFrame.Widgets) do
 				frame:Show()
 			end
 			
@@ -1224,8 +1225,10 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 			BossFrame.segmentosDropdown:Enable()
 			
 			BossFrame.buttonSwitchNormal:SetTemplate (DetailsFrameWork:GetTemplate ("button", "DETAILS_PLUGIN_BUTTONSELECTED_TEMPLATE"))
+
+			EncounterDetails.db.last_section_selected = BossFrame.ShowType
 		
-		elseif (to == "spellsauras") then 
+		elseif (to == "spellsauras") then
 		
 			_detalhes:SetTutorialCVar ("ENCOUNTER_BREAKDOWN_SPELLAURAS", true)
 			if (EncounterDetails.Frame.buttonSwitchSpellsAuras.AntsFrame) then
@@ -1245,28 +1248,17 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 			end
 			
 			BossFrame.ShowType = "spellsauras"
-			
-			-- show spells box
-			local actor = EncounterDetails.build_actor_menu() [1]
-			actor = actor and actor.value
-			if (actor) then
-				_G [BossFrame:GetName() .. "EnemyActorSpellsDropdown"].MyObject:Select (actor)
-				EncounterDetails.update_enemy_spells (actor)
-			end
+
+			EncounterDetails.update_enemy_spells()
+			EncounterDetails.update_bossmods()
 			
 			BossFrame.segmentosDropdown:Enable()
 			
-			BossFrame.DBMBars:Show()
-			BossFrame.BigWigsBars:Show()
-			BossFrame.label_dbm_bars:Show()
-			BossFrame.label_bw_bars:Show()
-			
-			BossFrame.DBMBars:Refresh()
-			BossFrame.BigWigsBars:Refresh()
-			
 			BossFrame.buttonSwitchSpellsAuras:SetTemplate (DetailsFrameWork:GetTemplate ("button", "DETAILS_PLUGIN_BUTTONSELECTED_TEMPLATE"))
+
+			EncounterDetails.db.last_section_selected = BossFrame.ShowType
 		
-		elseif (to == "emotes") then 
+		elseif (to == "emotes") then
 		
 			_detalhes:SetTutorialCVar ("ENCOUNTER_BREAKDOWN_EMOTES", true)
 			if (EncounterDetails.Frame.buttonSwitchBossEmotes.AntsFrame) then
@@ -1274,14 +1266,14 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 			end
 			
 			--hide boss frames
-			for _, frame in _ipairs (BossFrame.Widgets) do 
+			for _, frame in _ipairs (BossFrame.Widgets) do
 				frame:Hide()
 			end
 			
 			BossFrame.raidbackground:Show()
 			
 			--hide graph
-			if (_G.DetailsRaidDpsGraph) then 
+			if (_G.DetailsRaidDpsGraph) then
 				_G.DetailsRaidDpsGraph:Hide()
 				for i = 1, 8, 1 do
 					BossFrame["dpsamt"..i]:Hide()
@@ -1309,8 +1301,10 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 			BossFrame.segmentosDropdown:Disable()
 			
 			BossFrame.buttonSwitchBossEmotes:SetTemplate (DetailsFrameWork:GetTemplate ("button", "DETAILS_PLUGIN_BUTTONSELECTED_TEMPLATE"))
+
+			EncounterDetails.db.last_section_selected = BossFrame.ShowType
 		
-		elseif (to == "phases") then 
+		elseif (to == "phases") then
 		
 			_detalhes:SetTutorialCVar ("ENCOUNTER_BREAKDOWN_PHASES", true)
 			if (EncounterDetails.Frame.buttonSwitchPhases.AntsFrame) then
@@ -1327,8 +1321,10 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 			EncounterDetailsPhaseFrame:Show()
 			
 			BossFrame.buttonSwitchPhases:SetTemplate (DetailsFrameWork:GetTemplate ("button", "DETAILS_PLUGIN_BUTTONSELECTED_TEMPLATE"))
+
+			EncounterDetails.db.last_section_selected = BossFrame.ShowType
 		
-		elseif (to == "graph") then 
+		elseif (to == "graph") then
 			
 			_detalhes:SetTutorialCVar ("ENCOUNTER_BREAKDOWN_CHART", true)
 			if (EncounterDetails.Frame.buttonSwitchGraphic.AntsFrame) then
@@ -1370,6 +1366,8 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 			BossFrame.segmentosDropdown:Enable()
 			
 			BossFrame.buttonSwitchGraphic:SetTemplate (DetailsFrameWork:GetTemplate ("button", "DETAILS_PLUGIN_BUTTONSELECTED_TEMPLATE"))
+
+			EncounterDetails.db.last_section_selected = BossFrame.ShowType
 		end
 	end
 	
@@ -1382,78 +1380,42 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 	local HEADER_MENUBUTTONS_Y = -38
 	
 	--summary
-	BossFrame.buttonSwitchNormal = _detalhes.gump:CreateButton (BossFrame, BossFrame.switch, BUTTON_WIDTH, BUTTON_HEIGHT, "摘要", "main")
-	BossFrame.buttonSwitchNormal:SetPoint ("TOPLEFT", BossFrame, "TOPLEFT", HEADER_MENUBUTTONS_X, HEADER_MENUBUTTONS_Y)
-	BossFrame.buttonSwitchNormal:SetIcon ("Interface\\AddOns\\Details_EncounterDetails\\images\\boss_frame_buttons", 18, 18, "overlay", {0, 0.1015625, 0, 0.505625})
+	BossFrame.buttonSwitchNormal = _detalhes.gump:CreateButton (BossFrame, BossFrame.switch, BUTTON_WIDTH, BUTTON_HEIGHT, "Summary", "main")
+	BossFrame.buttonSwitchNormal:SetIcon ("Interface\\AddOns\\Details_EncounterDetails\\images\\boss_frame_buttons", 18, 18, "overlay", {0, 32/256, 0, 0.505625})
 	BossFrame.buttonSwitchNormal:SetTemplate (DetailsFrameWork:GetTemplate ("button", "DETAILS_PLUGIN_BUTTONSELECTED_TEMPLATE"))
 	BossFrame.buttonSwitchNormal:SetWidth (BUTTON_WIDTH)
 	
+	--spells e auras
+	BossFrame.buttonSwitchSpellsAuras = _detalhes.gump:CreateButton (BossFrame, BossFrame.switch, BUTTON_WIDTH, BUTTON_HEIGHT, "Timers & Spells", "spellsauras")
+	BossFrame.buttonSwitchSpellsAuras:SetIcon ("Interface\\AddOns\\Details_EncounterDetails\\images\\boss_frame_buttons", 18, 18, "overlay", {33/256, 64/256, 0, 0.505625})
+	BossFrame.buttonSwitchSpellsAuras:SetTemplate (DetailsFrameWork:GetTemplate ("button", "DETAILS_PLUGIN_BUTTON_TEMPLATE"))
+	BossFrame.buttonSwitchSpellsAuras:SetWidth (BUTTON_WIDTH)
+	BossFrame.AllButtons = {BossFrame.buttonSwitchNormal, BossFrame.buttonSwitchGraphic, BossFrame.buttonSwitchBossEmotes, BossFrame.buttonSwitchSpellsAuras, BossFrame.buttonSwitchPhases}
+
 	--phases
-	BossFrame.buttonSwitchPhases = _detalhes.gump:CreateButton (BossFrame, BossFrame.switch, BUTTON_WIDTH, BUTTON_HEIGHT, "片段", "phases")
-	BossFrame.buttonSwitchPhases:SetPoint ("left", BossFrame.buttonSwitchNormal, "right", HEADER_MENUBUTTONS_SPACEMENT, 0)
-	BossFrame.buttonSwitchPhases:SetIcon ("Interface\\AddOns\\Details_EncounterDetails\\images\\boss_frame_buttons", 18, 18, "overlay", {151/256, 176/256, 0, 0.505625})
+	BossFrame.buttonSwitchPhases = _detalhes.gump:CreateButton (BossFrame, BossFrame.switch, BUTTON_WIDTH, BUTTON_HEIGHT, "Phases", "phases")
+	BossFrame.buttonSwitchPhases:SetIcon ("Interface\\AddOns\\Details_EncounterDetails\\images\\boss_frame_buttons", 18, 18, "overlay", {65/256, 96/256, 0, 0.505625})
 	BossFrame.buttonSwitchPhases:SetTemplate (DetailsFrameWork:GetTemplate ("button", "DETAILS_PLUGIN_BUTTON_TEMPLATE"))
 	BossFrame.buttonSwitchPhases:SetWidth (BUTTON_WIDTH)
 	
 	--chart
-	BossFrame.buttonSwitchGraphic = _detalhes.gump:CreateButton (BossFrame, BossFrame.switch, BUTTON_WIDTH, BUTTON_HEIGHT, "图表", "graph")
-	BossFrame.buttonSwitchGraphic:SetPoint ("left", BossFrame.buttonSwitchPhases, "right", HEADER_MENUBUTTONS_SPACEMENT, 0)
-	BossFrame.buttonSwitchGraphic:SetIcon ("Interface\\AddOns\\Details_EncounterDetails\\images\\boss_frame_buttons", 18, 18, "overlay", {0.1271875, 0.21875, 0, 0.505625})
+	BossFrame.buttonSwitchGraphic = _detalhes.gump:CreateButton (BossFrame, BossFrame.switch, BUTTON_WIDTH, BUTTON_HEIGHT, "Damage Graphic", "graph")
+	BossFrame.buttonSwitchGraphic:SetIcon ("Interface\\AddOns\\Details_EncounterDetails\\images\\boss_frame_buttons", 18, 18, "overlay", {97/256, 128/256, 0, 0.505625})
 	BossFrame.buttonSwitchGraphic:SetTemplate (DetailsFrameWork:GetTemplate ("button", "DETAILS_PLUGIN_BUTTON_TEMPLATE"))
 	BossFrame.buttonSwitchGraphic:SetWidth (BUTTON_WIDTH)
 	
 	--emotes
-	BossFrame.buttonSwitchBossEmotes = _detalhes.gump:CreateButton (BossFrame, BossFrame.switch, BUTTON_WIDTH, BUTTON_HEIGHT, "台词", "emotes")
-	BossFrame.buttonSwitchBossEmotes:SetPoint ("left", BossFrame.buttonSwitchGraphic, "right", HEADER_MENUBUTTONS_SPACEMENT, 0)
-	BossFrame.buttonSwitchBossEmotes:SetIcon ("Interface\\AddOns\\Details_EncounterDetails\\images\\boss_frame_buttons", 18, 18, "overlay", {91/256, 116/256, 0, 0.505625})
+	BossFrame.buttonSwitchBossEmotes = _detalhes.gump:CreateButton (BossFrame, BossFrame.switch, BUTTON_WIDTH, BUTTON_HEIGHT, "Emotes", "emotes")
+	BossFrame.buttonSwitchBossEmotes:SetIcon ("Interface\\AddOns\\Details_EncounterDetails\\images\\boss_frame_buttons", 18, 18, "overlay", {129/256, 160/256, 0, 0.505625})
 	BossFrame.buttonSwitchBossEmotes:SetTemplate (DetailsFrameWork:GetTemplate ("button", "DETAILS_PLUGIN_BUTTON_TEMPLATE"))
 	BossFrame.buttonSwitchBossEmotes:SetWidth (BUTTON_WIDTH)
-	
-	--spells e auras
-	BossFrame.buttonSwitchSpellsAuras = _detalhes.gump:CreateButton (BossFrame, BossFrame.switch, BUTTON_WIDTH, BUTTON_HEIGHT, "WeakAuras", "spellsauras")
-	BossFrame.buttonSwitchSpellsAuras:SetPoint ("left", BossFrame.buttonSwitchBossEmotes, "right", HEADER_MENUBUTTONS_SPACEMENT, 0)
-	BossFrame.buttonSwitchSpellsAuras:SetIcon ("Interface\\AddOns\\Details_EncounterDetails\\images\\boss_frame_buttons", 18, 18, "overlay", {121/256, 146/256, 0, 0.505625})
-	BossFrame.buttonSwitchSpellsAuras:SetTemplate (DetailsFrameWork:GetTemplate ("button", "DETAILS_PLUGIN_BUTTON_TEMPLATE"))
-	BossFrame.buttonSwitchSpellsAuras:SetWidth (BUTTON_WIDTH)
 
-	BossFrame.AllButtons = {BossFrame.buttonSwitchNormal, BossFrame.buttonSwitchGraphic, BossFrame.buttonSwitchBossEmotes, BossFrame.buttonSwitchSpellsAuras, BossFrame.buttonSwitchPhases}
-	
-	--tooltips
-	BossFrame.buttonSwitchNormal.MouseOnEnterHook = function()  
-		GameCooltip:Reset()
-		GameCooltip:AddLine (Loc ["STRING_FIGHT_SUMMARY"], nil, nil, "orange", nil, 12)
-		GameCooltip:SetWallpaper (1, [[Interface\SPELLBOOK\Spellbook-Page-1]], {.6, 0.1, 0, 0.64453125}, {1, 1, 1, 0.1}, true)
-		GameCooltip:ShowCooltip (BossFrame.buttonSwitchNormal, "tooltip")
-	end
-	BossFrame.buttonSwitchNormal.MouseOnLeaveHook = function() _detalhes.popup:ShowMe (false); t:SetBlendMode ("BLEND") end
-	--
-	BossFrame.buttonSwitchGraphic.MouseOnEnterHook = function() 
-		GameCooltip:Reset()
-		GameCooltip:AddLine (Loc ["STRING_FIGHT_GRAPHIC"], nil, nil, "orange", nil, 12)
-		GameCooltip:SetWallpaper (1, [[Interface\SPELLBOOK\Spellbook-Page-1]], {.6, 0.1, 0, 0.64453125}, {1, 1, 1, 0.1}, true)
-		GameCooltip:ShowCooltip (BossFrame.buttonSwitchGraphic, "tooltip")
-	end
-	BossFrame.buttonSwitchGraphic.MouseOnLeaveHook = function() _detalhes.popup:ShowMe (false); g:SetBlendMode ("BLEND") end	
-	--
-	BossFrame.buttonSwitchBossEmotes:SetHook ("OnEnter", function() 
-		GameCooltip:Reset()
-		GameCooltip:AddLine (Loc ["STRING_FIGHT_EMOTES"], nil, nil, "orange", nil, 12)
-		GameCooltip:SetWallpaper (1, [[Interface\SPELLBOOK\Spellbook-Page-1]], {.6, 0.1, 0, 0.64453125}, {1, 1, 1, 0.1}, true)
-		GameCooltip:ShowCooltip (BossFrame.buttonSwitchBossEmotes, "tooltip")
-	end)
-	BossFrame.buttonSwitchBossEmotes:SetHook ("OnLeave", function() 
-		_detalhes.popup:ShowMe (false);
-	end)
-	--
-	BossFrame.buttonSwitchSpellsAuras:SetHook ("OnEnter", function() 
-		GameCooltip:Reset()
-		GameCooltip:AddLine (Loc ["STRING_FIGHT_SPELLS"], nil, nil, "orange", nil, 12)
-		GameCooltip:SetWallpaper (1, [[Interface\SPELLBOOK\Spellbook-Page-1]], {.6, 0.1, 0, 0.64453125}, {1, 1, 1, 0.1}, true)
-		GameCooltip:ShowCooltip (BossFrame.buttonSwitchSpellsAuras, "tooltip")
-	end)
-	BossFrame.buttonSwitchSpellsAuras:SetHook ("OnLeave", function() 
-		_detalhes.popup:ShowMe (false);
-	end)
+	--anchors
+	BossFrame.buttonSwitchNormal:SetPoint ("TOPLEFT", BossFrame, "TOPLEFT", HEADER_MENUBUTTONS_X, HEADER_MENUBUTTONS_Y)
+	BossFrame.buttonSwitchSpellsAuras:SetPoint ("left", BossFrame.buttonSwitchNormal, "right", HEADER_MENUBUTTONS_SPACEMENT, 0)
+	BossFrame.buttonSwitchPhases:SetPoint ("left", BossFrame.buttonSwitchSpellsAuras, "right", HEADER_MENUBUTTONS_SPACEMENT, 0)
+	BossFrame.buttonSwitchGraphic:SetPoint ("left", BossFrame.buttonSwitchPhases, "right", HEADER_MENUBUTTONS_SPACEMENT, 0)
+	BossFrame.buttonSwitchBossEmotes:SetPoint ("left", BossFrame.buttonSwitchGraphic, "right", HEADER_MENUBUTTONS_SPACEMENT, 0)
 	
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --> ~emotes
@@ -1541,7 +1503,7 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 	bar_div_emotes:Hide()
 	tinsert (BossFrame.EmoteWidgets, bar_div_emotes)
 	
-	scrollframe = CreateFrame ("ScrollFrame", "EncounterDetails_EmoteScroll", BossFrame, "FauxScrollFrameTemplate")
+	scrollframe = CreateFrame ("ScrollFrame", "EncounterDetails_EmoteScroll", BossFrame, "FauxScrollFrameTemplate, BackdropTemplate")
 	scrollframe:SetScript ("OnVerticalScroll", function (self, offset) FauxScrollFrame_OnVerticalScroll (self, offset, 14, refresh_emotes) end)
 	scrollframe:SetPoint ("topleft", BossFrame, "topleft", 249, -75)
 	scrollframe:SetPoint ("bottomright", BossFrame, "bottomright", -33, 42)
@@ -1590,14 +1552,14 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 			-- remove the left space
 			text = text:gsub ("^%s$", "")
 
-			EncounterDetails:SendReportLines ({"Details! 战斗台词在" .. time, "\"" .. text .. "\""})
+			EncounterDetails:SendReportLines ({"Details! Encounter Emote at " .. time, "\"" .. text .. "\""})
 		end
 		
 		EncounterDetails:SendReportWindow (reportFunc)
 	end
 	
 	for i = 1, CONST_EMOTES_MAX_LINES do
-		local line = CreateFrame ("frame", nil, BossFrame)
+		local line = CreateFrame ("frame", nil, BossFrame,"BackdropTemplate")
 		local y = (i-1) * 15 * -1
 		line:SetPoint ("topleft", scrollframe, "topleft", 0, y)
 		line:SetPoint ("topright", scrollframe, "topright", 0, y)
@@ -1632,7 +1594,7 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 	end
 	
 	--select emote segment
-	local emotes_segment_label = DetailsFrameWork:CreateLabel (BossFrame, "段:", 11, nil, "GameFontHighlightSmall")
+	local emotes_segment_label = DetailsFrameWork:CreateLabel (BossFrame, "Segment:", 11, nil, "GameFontHighlightSmall")
 	emotes_segment_label:SetPoint ("topleft", BossFrame, "topleft", 10, -85)
 	
 	local on_emote_Segment_select = function (_, _, segment)
@@ -1655,7 +1617,7 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 			return t
 		end
 		for index, segment in ipairs (EncounterDetails.charsaved.emotes) do
-			tinsert (t, {label = "#" .. index .. " "  .. (segment.boss or "未知"), value = index, icon = segment_icon, texcoord = segment_icon_coord, onclick = on_emote_Segment_select, iconcolor = segment_icon_color})
+			tinsert (t, {label = "#" .. index .. " "  .. (segment.boss or "unknown"), value = index, icon = segment_icon, texcoord = segment_icon_coord, onclick = on_emote_Segment_select, iconcolor = segment_icon_color})
 		end
 		return t
 	end
@@ -1667,7 +1629,7 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 	tinsert (BossFrame.EmoteWidgets, emotes_segment_label)
 	
 	--search box
-	local emotes_search_label = DetailsFrameWork:CreateLabel (BossFrame, "查找:", 11, nil, "GameFontHighlightSmall")
+	local emotes_search_label = DetailsFrameWork:CreateLabel (BossFrame, "Search:", 11, nil, "GameFontHighlightSmall")
 	emotes_search_label:SetPoint ("topleft", BossFrame, "topleft", 10, -130)
 	
 	local emotes_search_results_label = DetailsFrameWork:CreateLabel (BossFrame, "", 11, nil, "GameFontNormal", "SearchResults")
@@ -1701,7 +1663,7 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 	reset:SetHighlightTexture ([[Interface\Glues\LOGIN\Glues-CheckBox-Check]] or [[Interface\Buttons\UI-GROUPLOOT-PASS-HIGHLIGHT]])
 	reset:SetPushedTexture ([[Interface\Glues\LOGIN\Glues-CheckBox-Check]] or [[Interface\Buttons\UI-GroupLoot-Pass-Up]])
 	reset:GetNormalTexture():SetDesaturated (true)
-	reset.tooltip = "重置查找"
+	reset.tooltip = "Reset Search"
 	
 	tinsert (BossFrame.EmoteWidgets, search)
 	tinsert (BossFrame.EmoteWidgets, reset)
@@ -1713,7 +1675,7 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 			local segment = EncounterDetails.charsaved.emotes and EncounterDetails.charsaved.emotes [emote_segment]
 
 			if (segment) then
-				EncounterDetails.report_lines = {"Details!:".. segment.boss .. " 的台词 " }
+				EncounterDetails.report_lines = {"Details!: Emotes for " .. segment.boss}
 				local added = 0
 
 				for index = 1, 16 do
@@ -1751,13 +1713,13 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 				
 				EncounterDetails:SendReportLines (EncounterDetails.report_lines)
 			else
-				EncounterDetails:Msg ("没有什么要报告的.")
+				EncounterDetails:Msg ("There is nothing to report.")
 			end
 		end
 	
 		local use_slider = true
 		EncounterDetails:SendReportWindow (reportFunc, nil, nil, use_slider)
-	end, nil, nil, nil, "报告结果")
+	end, nil, nil, nil, "Report Results")
 	
 	report_emote_button:SetIcon ([[Interface\AddOns\Details\images\report_button]], 8, 14, nil, {0, 1, 0, 1}, nil, 4, 2)
 	report_emote_button:SetTemplate (DetailsFrameWork:GetTemplate ("dropdown", "OPTIONS_DROPDOWN_TEMPLATE"))
@@ -1773,7 +1735,7 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 		widget:Hide()
 	end
 	
-	local emote_report_label = DetailsFrameWork:NewLabel (search.widget, search.widget, nil, "report_click", "|cFFffb400左键点击|r: 报告行")
+	local emote_report_label = DetailsFrameWork:NewLabel (search.widget, search.widget, nil, "report_click", "|cFFffb400Left Click|r: Report Line")
 	emote_report_label:SetPoint ("topleft", search.widget, "bottomleft", 1, -61)
 
 	
@@ -1785,15 +1747,11 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 
 	--> spells and auras ~auras ~spell ~weakaura �ura
 
-	local CONST_MAX_AURA_LINES = 22
+	local CONST_MAX_AURA_LINES = 21
 	
 
-	-- actor dropdown
-
-	local EnemyActorSpells_label = DetailsFrameWork:CreateLabel (BossFrame, "敌军部队:", 11, nil, "GameFontHighlightSmall")
-	EnemyActorSpells_label:SetPoint ("topleft", BossFrame, "topleft", 10, -85)
-
 	local spell_blocks = {}
+	local bossmods_blocks = {}
 	
 	local on_focus_gain = function (self)
 		self:HighlightText()
@@ -1806,7 +1764,16 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 	local on_enter_spell = function (self)
 		if (self.MyObject._spellid) then
 			GameTooltip:SetOwner (self, "ANCHOR_TOPLEFT")
-			GameTooltip:SetSpellByID (self.MyObject._spellid)
+
+			if (type(self.MyObject._spellid) == "string") then
+				local spellId = self.MyObject._spellid:gsub("%a", "")
+				spellId = tonumber(spellId)
+				if (spellId) then
+					GameTooltip:SetSpellByID(spellId)
+				end
+			else
+				GameTooltip:SetSpellByID(self.MyObject._spellid)
+			end
 			GameTooltip:Show()
 
 			self:SetBackdropColor (1, 1, 1, .5)
@@ -1834,14 +1801,14 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 			GameCooltip:SetOption ("FixedWidth", false)
 			
 			for token, _ in pairs (info.token) do
-				GameCooltip:AddLine ("事件:", token, 1, nil, "white")
+				GameCooltip:AddLine ("event:", token, 1, nil, "white")
 			end
 			
-			GameCooltip:AddLine ("来源:", info.source, 1, nil, "white")
-			GameCooltip:AddLine ("类型:", EncounterDetails:GetSpellSchoolFormatedName (info.school), 1, nil, "white")
+			GameCooltip:AddLine ("source:", info.source, 1, nil, "white")
+			GameCooltip:AddLine ("school:", EncounterDetails:GetSpellSchoolFormatedName (info.school), 1, nil, "white")
 			
 			if (info.type) then
-				GameCooltip:AddLine ("光环类型:", info.type, 1, nil, "white")
+				GameCooltip:AddLine ("aura type:", info.type, 1, nil, "white")
 			end
 			GameCooltip:ShowCooltip (self, "tooltip")
 		end
@@ -1852,17 +1819,67 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 		GameCooltip:Hide()
 		self:SetBackdropColor (.3, .3, .3, .5)
 	end
-	
+
+	local bossModsTitle = DetailsFrameWork:CreateLabel (BossFrame, "Boss Mods Time Bars:", 12, "orange")
+	bossModsTitle:SetPoint(10, -85)
+	tinsert (BossFrame.EnemySpellsWidgets, bossModsTitle)
+	bossModsTitle:Hide()
+
+	local bossSpellsTitle = DetailsFrameWork:CreateLabel (BossFrame, "Boss Spells and Auras:", 12, "orange")
+	bossSpellsTitle:SetPoint(444, -85)
+	tinsert (BossFrame.EnemySpellsWidgets, bossSpellsTitle)
+	bossSpellsTitle:Hide()
+
+	--create boss mods list
 	for i = 1, CONST_MAX_AURA_LINES do
-		local anchor_frame = CreateFrame ("frame", "BossFrameSpellAnchor" .. i, BossFrame)
+		local anchor_frame = CreateFrame ("frame", "BossFrameBossModsAnchor" .. i, BossFrame, "BackdropTemplate")
+
+		local spellicon = DetailsFrameWork:NewImage (anchor_frame, [[Interface\ICONS\TEMP]], 19, 19, "background", nil, "icon", "$parentIcon")
+
+		--timerId
+		local spellid = DetailsFrameWork:CreateTextEntry (anchor_frame, EncounterDetails.empty_function, 80, 20, nil, "$parentSpellId")
+		spellid:SetTemplate (AurasButtonTemplate)
+		spellid:SetHook ("OnEditFocusGained", on_focus_gain)
+		spellid:SetHook ("OnEditFocusLost", on_focus_lost)
+		spellid:SetHook ("OnEnter", on_enter_spell)
+		spellid:SetHook ("OnLeave", on_leave_spell)
+
+		--ability name
+		local spellname = DetailsFrameWork:CreateTextEntry (anchor_frame, EncounterDetails.empty_function, 180, 20, nil, "$parentSpellName")
+		spellname:SetTemplate (AurasButtonTemplate)
+		spellname:SetHook ("OnEditFocusGained", on_focus_gain)
+		spellname:SetHook ("OnEditFocusLost", on_focus_lost)
+		spellname:SetHook ("OnEnter", on_enter_spell)
+		spellname:SetHook ("OnLeave", on_leave_spell)
+
+		local create_aura = DetailsFrameWork:NewButton (anchor_frame, nil, "$parentCreateAuraButton", "AuraButton", 90, 18, create_aura_func, nil, nil, nil, "Make Aura")
+		create_aura:SetTemplate (AurasButtonTemplate)
+
+		spellicon:SetPoint ("topleft", BossFrame, "topleft", 10, -85 + (i * 21 * -1))
+		spellid:SetPoint ("left", spellicon, "right", 4, 0)
+		spellname:SetPoint ("left", spellid, "right", 4, 0)
+		create_aura:SetPoint ("left", spellname, "right", 4, 0)
+
+		spellid:SetBackdropBorderColor(0, 0, 0)
+		spellname:SetBackdropBorderColor(0, 0, 0)
+
+		anchor_frame.icon = spellicon
+		anchor_frame.spellid = spellid
+		anchor_frame.spellname = spellname
+		anchor_frame.aurabutton = create_aura
+		anchor_frame.aurabutton._icon = spellicon
+
+		tinsert (bossmods_blocks, anchor_frame)
+		tinsert (BossFrame.EnemySpellsWidgets, anchor_frame)
+		
+		anchor_frame:Hide()
+	end
 	
-		local icon_button_func = function (texture)
-			anchor_frame.icon.texture = texture
-		end
-	
-		local spellicon_button = DetailsFrameWork:NewButton (anchor_frame, nil, "$parentIconButton", "IconButton", 20, 20, function() DetailsFrameWork:IconPick (icon_button_func, true) end)
-		local spellicon = DetailsFrameWork:NewImage (spellicon_button, [[Interface\ICONS\TEMP]], 19, 19, "background", nil, "icon", "$parentIcon")
-		spellicon_button:InstallCustomTexture()
+	--create buff list
+	for i = 1, CONST_MAX_AURA_LINES do
+		local anchor_frame = CreateFrame ("frame", "BossFrameSpellAnchor" .. i, BossFrame, "BackdropTemplate")
+
+		local spellicon = DetailsFrameWork:NewImage (anchor_frame, [[Interface\ICONS\TEMP]], 19, 19, "background", nil, "icon", "$parentIcon")
 		
 		local spellid = DetailsFrameWork:CreateTextEntry (anchor_frame, EncounterDetails.empty_function, 80, 20)
 		spellid:SetTemplate (AurasButtonTemplate)
@@ -1871,19 +1888,19 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 		spellid:SetHook ("OnEnter", on_enter_spell)
 		spellid:SetHook ("OnLeave", on_leave_spell)
 		
-		local spellname = DetailsFrameWork:CreateTextEntry (anchor_frame, EncounterDetails.empty_function, 180, 20)
+		local spellname = DetailsFrameWork:CreateTextEntry (anchor_frame, EncounterDetails.empty_function, 160, 20)
 		spellname:SetTemplate (AurasButtonTemplate)
 		spellname:SetHook ("OnEditFocusGained", on_focus_gain)
 		spellname:SetHook ("OnEditFocusLost", on_focus_lost)
 		spellname:SetHook ("OnEnter", on_enter_spell)
 		spellname:SetHook ("OnLeave", on_leave_spell)
 		
-		spellicon_button:SetPoint ("topleft", BossFrame, "topleft", 255, -65 + (i * 21 * -1))
-		spellicon:SetAllPoints()
-		spellid:SetPoint ("left", spellicon_button, "right", 4, 0)
+		--spellicon_button:SetPoint ("topleft", BossFrame, "topleft", 255, -65 + (i * 21 * -1))
+		spellicon:SetPoint ("topleft", BossFrame, "topleft", 443, -85 + (i * 21 * -1))
+		spellid:SetPoint ("left", spellicon, "right", 4, 0)
 		spellname:SetPoint ("left", spellid, "right", 4, 0)
 		
-		local spellinfo = CreateFrame ("frame", nil, anchor_frame)
+		local spellinfo = CreateFrame ("frame", nil, anchor_frame,"BackdropTemplate")
 		spellinfo:SetBackdrop ({edgeFile = [[Interface\Buttons\WHITE8X8]], edgeSize = 1, bgFile = [[Interface\Tooltips\UI-Tooltip-Background]], tileSize = 64, tile = true})
 		spellinfo:SetBackdropColor (.3, .3, .3, .5)
 		spellinfo:SetBackdropBorderColor (0, 0, 0, 1)
@@ -1893,10 +1910,10 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 		
 		local spellinfotext = spellinfo:CreateFontString (nil, "overlay", "GameFontNormal")
 		spellinfotext:SetPoint ("center", spellinfo, "center")
-		spellinfotext:SetText ("信息")
+		spellinfotext:SetText ("info")
 		spellinfo:SetPoint ("left", spellname.widget, "right", 4, 0)
 		
-		local create_aura = DetailsFrameWork:NewButton (anchor_frame, nil, "$parentCreateAuraButton", "AuraButton", 135, 18, create_aura_func, nil, nil, nil, "创建光环")
+		local create_aura = DetailsFrameWork:NewButton (anchor_frame, nil, "$parentCreateAuraButton", "AuraButton", 90, 18, create_aura_func, nil, nil, nil, "Make Aura")
 		create_aura:SetPoint ("left", spellinfo, "right", 4, 0)
 		create_aura:SetTemplate (AurasButtonTemplate)
 		
@@ -1913,50 +1930,123 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 		anchor_frame:Hide()
 	end
 	
-	local last_npc_name
-	
-	local update_enemy_spells = function (npc_name)
-		npc_name = npc_name or last_npc_name
-		last_npc_name = npc_name
-	
+	local update_enemy_spells = function()
 		local combat = EncounterDetails:GetCombat (EncounterDetails._segment)
-		
-		if (combat and npc_name) then
-		
-			local spell_list = {}
-			
-			--damage
-			local npc = combat (1, npc_name)
-			if (npc) then
-				for spellid, spell in pairs (npc.spells._ActorTable) do
-					if (spellid > 10) then
-						local name, _, icon = EncounterDetails.getspellinfo (spellid)
-						tinsert (spell_list, {spellid, name, icon, nil, npc.serial})
+		local spell_list = {}
+
+		if (combat) then
+			for i, npc in combat[1]:ListActors() do
+				--damage
+				if (npc:IsNeutralOrEnemy()) then
+					for spellid, spell in pairs (npc.spells._ActorTable) do
+						if (spellid > 10) then
+							local name, _, icon = EncounterDetails.getspellinfo (spellid)
+							tinsert (spell_list, {spellid, name, icon, nil, npc.serial})
+						end
 					end
 				end
-				
-				BossFrame.aura_npc_id2.text = EncounterDetails:GetNpcIdFromGuid (npc.serial)
 			end
-			
-			--heal
-			local npc = combat (2, npc_name)
-			if (npc) then
-				for spellid, spell in pairs (npc.spells._ActorTable) do
-					if (spellid > 10) then
-						local name, _, icon = EncounterDetails.getspellinfo (spellid)
-						tinsert (spell_list, {spellid, name, icon, true, npc.serial})
+
+			for i, npc in combat[2]:ListActors() do
+				--heal
+				if (npc:IsNeutralOrEnemy()) then
+					for spellid, spell in pairs (npc.spells._ActorTable) do
+						if (spellid > 10) then
+							local name, _, icon = EncounterDetails.getspellinfo (spellid)
+							tinsert (spell_list, {spellid, name, icon, true, npc.serial})
+						end
 					end
 				end
-				
-				BossFrame.aura_npc_id2.text = EncounterDetails:GetNpcIdFromGuid (npc.serial)
 			end
-			
+
+			table.sort(spell_list, function(t1, t2)
+				return t1[2] < t2[2]
+			end)
+
 			EncounterDetails_SpellAurasScroll.spell_pool = spell_list
 			EncounterDetails_SpellAurasScroll.encounter_id = combat.is_boss and combat.is_boss.id
 			EncounterDetails_SpellAurasScroll:Update()
 		end
 	end
 	
+	local refresh_bossmods_timers = function(self)
+		local combat = EncounterDetails:GetCombat(EncounterDetails._segment)
+		local offset = FauxScrollFrame_GetOffset(self)
+		local already_added = {}
+		local db = _detalhes.boss_mods_timers
+		local encounter_id = combat.is_boss and combat.is_boss.id
+
+		if (db) then
+			wipe(already_added)
+			local timersToAdd = {}
+
+			for timerId, timerTable in pairs (db.encounter_timers_dbm) do
+				if (timerTable.id == encounter_id) then
+					local spellId = timerTable [7]
+					local spellIcon = timerTable [5]
+					local spellName
+				
+					local spell = timerId
+					spell = spell:gsub("ej", "")
+					spell = tonumber(spell)
+					
+					if (spell and not already_added[spell]) then
+						if (spell > 40000) then
+							local spellname, _, spellicon = _GetSpellInfo(spell)
+							tinsert (timersToAdd, {label = spellname, value = {timerTable[2], spellname, spellIcon or spellicon, timerTable.id, timerTable[7]}, icon = spellIcon or spellicon})
+
+						else
+							--local title, description, depth, abilityIcon, displayInfo, siblingID, nextSectionID, filteredByDifficulty, link, startsOpen, flag1, flag2, flag3, flag4 = C_EncounterJournal.GetSectionInfo(spell)
+							local sectionInfo = C_EncounterJournal.GetSectionInfo(spell)
+							tinsert (timersToAdd, {label = sectionInfo.title, value = {timerTable[2], sectionInfo.title, spellIcon or sectionInfo.abilityIcon, timerTable.id, timerTable[7]}, icon = spellIcon or sectionInfo.abilityIcon})
+						end
+
+						already_added[spell] = true
+					end
+				end
+			end
+
+			table.sort(timersToAdd, function(t1, t2)
+				return t1.label < t2.label
+			end)
+
+			local offset = FauxScrollFrame_GetOffset(self)
+			
+			for barIndex = 1, CONST_MAX_AURA_LINES do 
+
+				local data = timersToAdd[barIndex + offset]
+				local bar = bossmods_blocks[barIndex]
+
+				if (data) then
+					bar:Show()
+			
+					bar.icon.texture = data.icon
+					bar.icon:SetTexCoord(.1, .9, .1, .9)
+					bar.spellid.text = data.value[1] or "--x--x--"
+					bar.spellname.text = data.label or "--x--x--"
+
+					bar.spellid._spellid = data.value[1]
+					bar.spellname._spellid = data.value[1]
+
+					local func = function()
+						local timerId, spellname, spellicon, encounterid, spellid = unpack(data.value)
+						EncounterDetails:OpenAuraPanel (timerId, spellname, spellicon, encounterid, DETAILS_WA_TRIGGER_DBM_TIMER, DETAILS_WA_AURATYPE_TEXT, {dbm_timer_id = timerId, spellid = spellid, text = "Next " .. spellname .. " In", text_size = 72, icon = spellicon})
+					end
+
+					bar.aurabutton:SetClickFunction(func)
+				else
+					bar:Hide()
+				end
+			end
+
+			FauxScrollFrame_Update(self, #timersToAdd, CONST_MAX_AURA_LINES, 20)
+
+			if (#timersToAdd > 0) then
+				self:Show()
+			end
+		end
+	end
+
 	local refresh_spellauras = function (self)
 		
 		local pool = EncounterDetails_SpellAurasScroll.spell_pool
@@ -1971,6 +2061,7 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 				bar:Show()
 				
 				bar.icon.texture = data [3]
+				bar.icon:SetTexCoord(.1, .9, .1, .9)
 				bar.spellid.text = data [1]
 				bar.spellname.text = data [2]
 				
@@ -1998,112 +2089,30 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 		
 	end
 	
-	local spell_scrollframe = CreateFrame ("ScrollFrame", "EncounterDetails_SpellAurasScroll", BossFrame, "FauxScrollFrameTemplate")
+	local spell_scrollframe = CreateFrame ("ScrollFrame", "EncounterDetails_SpellAurasScroll", BossFrame, "FauxScrollFrameTemplate, BackdropTemplate")
 	spell_scrollframe:SetScript ("OnVerticalScroll", function (self, offset) FauxScrollFrame_OnVerticalScroll (self, offset, 14, refresh_spellauras) end)
 	spell_scrollframe:SetPoint ("topleft", BossFrame, "topleft", 200, -75)
 	spell_scrollframe:SetPoint ("bottomright", BossFrame, "bottomright", -33, 42)
 	spell_scrollframe.Update = refresh_spellauras
 	spell_scrollframe:Hide()
+	EncounterDetails.SpellScrollframe = spell_scrollframe
+	_G.DetailsFramework:ReskinSlider(spell_scrollframe)
 	
 	tinsert (BossFrame.EnemySpellsWidgets, spell_scrollframe)
-	
 	EncounterDetails.update_enemy_spells = update_enemy_spells
-	
-	local on_select_actor_spell = function (self, fixedparam, option)
-		last_npc_name = option
-		update_enemy_spells (option)
-	end
-	
-	local build_actor_menu = function()
-		local t = {}
-		local combat = EncounterDetails:GetCombat (EncounterDetails._segment)
-		
-		if (combat) then
-			local AllDamageCharacters = combat:GetActorList (DETAILS_ATTRIBUTE_DAMAGE)
-			for index, character in ipairs (AllDamageCharacters) do
-				if (character:IsEnemy()) then
-					tinsert (t, {label = character:name(), value = character:name(), icon = "Interface\\AddOns\\Details_EncounterDetails\\images\\icon", onclick = on_select_actor_spell, iconcolor = "silver"})
-				end
-			end
-			return t
-		else
-			return t
-		end
-	end
-	EncounterDetails.build_actor_menu = build_actor_menu
 
-	local EnemyActorSpells = DetailsFrameWork:NewDropDown (BossFrame, _, "$parentEnemyActorSpellsDropdown", "EnemyActorSpells", 160, 20, build_actor_menu, 1)
-	EnemyActorSpells:SetPoint ("topleft", EnemyActorSpells_label, "bottomleft", -1, -2)
-	
-	EnemyActorSpells:Hide()
-	EnemyActorSpells_label:Hide()
 
-	local bar_div = DetailsFrameWork:CreateImage (BossFrame, "Interface\\AddOns\\Details_EncounterDetails\\images\\boss_bg", 4, 480, "artwork", {724/1024, 728/1024, 0, 245/512})
-	bar_div:SetPoint ("TOPLEFT", BossFrame, "TOPLEFT", 244, -74)
-	bar_div:Hide()
-	
-	local npc_id = DetailsFrameWork:CreateLabel (BossFrame, "NpcID:", 11, nil, "GameFontHighlightSmall")
-	BossFrame.aura_npc_id = npc_id
-	npc_id:SetPoint ("topleft", BossFrame, "topleft", 10, -130)
-	npc_id:Hide()
-	local npc_id2 = DetailsFrameWork:CreateLabel (BossFrame, "", 11, nil, "GameFontHighlightSmall")
-	BossFrame.aura_npc_id2 = npc_id2
-	npc_id2:SetPoint ("left", npc_id, "right", 2, 0)
-	npc_id2:Hide()
-	
-	--
-	local label_dbm_bars = DetailsFrameWork:CreateLabel (BossFrame, "创建大计时器警告 (DBM):", 11, nil, "GameFontHighlightSmall")
-	label_dbm_bars:SetPoint ("topleft", BossFrame, "topleft", 10, -200)
-	
-	local label_bw_bars = DetailsFrameWork:CreateLabel (BossFrame, "创建大计时器警告 (BW):", 11, nil, "GameFontHighlightSmall")
-	label_bw_bars:SetPoint ("topleft", BossFrame, "topleft", 10, -250)
-	
-	BossFrame.label_dbm_bars = label_dbm_bars
-	BossFrame.label_bw_bars = label_bw_bars
-	
-	local on_select_dbm_bar = function (_, _, value)
-		local timer_id, spellname, spellicon, encounterid, spellid = unpack (value)
-		EncounterDetails:OpenAuraPanel (timer_id, spellname, spellicon, encounterid, DETAILS_WA_TRIGGER_DBM_TIMER, DETAILS_WA_AURATYPE_TEXT, {dbm_timer_id = timer_id, spellid = spellid, text = "下一个 " .. spellname .. " 在", text_size = 72, icon = spellicon})
-	end
-	
-	local on_select_bw_bar = function (_, _, value)
-		local timer_id, spellname, spellicon, encounterid = unpack (value)
-		EncounterDetails:OpenAuraPanel (timer_id, spellname, spellicon, encounterid, DETAILS_WA_TRIGGER_BW_TIMER, DETAILS_WA_AURATYPE_TEXT, {bw_timer_id = timer_id, text = "下一个 " .. spellname .. " 在", text_size = 72, icon = spellicon})
-	end
-	
-	local already_added = {}
-	local build_dbm_bars = function()
-		local t = {}
-		local db = _detalhes.boss_mods_timers
-		if (db) then
-			wipe (already_added)
-			local encounter_id = EncounterDetails_SpellAurasScroll.encounter_id
-			
-			for timer_id, timer_table in pairs (db.encounter_timers_dbm) do
-				if (timer_table.id == encounter_id) then
-					local spellId = timer_table [7]
-					local spellIcon = timer_table [5]
-					local spellName
-				
-					local spell = timer_id
-					spell = spell:gsub ("ej", "")
-					spell = tonumber (spell)
-					
-					if (spell and not already_added [spell]) then
-						if (spell > 30000) then
-							local spellname, _, spellicon = _GetSpellInfo (spell)
-							tinsert (t, {label = spellname, value = {timer_table [2], spellname, spellIcon or spellicon, timer_table.id, timer_table [7]}, icon = spellIcon or spellicon, onclick = on_select_dbm_bar})
-						else
-							local title, description, depth, abilityIcon, displayInfo, siblingID, nextSectionID, filteredByDifficulty, link, startsOpen, flag1, flag2, flag3, flag4 = C_EncounterJournal.GetSectionInfo (spell)
-							tinsert (t, {label = title, value = {timer_table [2], title, spellIcon or abilityIcon, timer_table.id, timer_table [7]}, icon = spellIcon or abilityIcon, onclick = on_select_dbm_bar})
-						end
-						already_added [spell] = true
-					end
-				end
-			end
-		end
-		return t
-	end
+	local bossmods_scrollframe = CreateFrame ("ScrollFrame", "EncounterDetails_BossModsScroll", BossFrame, "FauxScrollFrameTemplate, BackdropTemplate")
+	bossmods_scrollframe:SetScript ("OnVerticalScroll", function (self, offset) FauxScrollFrame_OnVerticalScroll(self, offset, 14, refresh_bossmods_timers) end)
+	bossmods_scrollframe:SetPoint ("topleft", BossFrame, "topleft", 10, -75)
+	bossmods_scrollframe:SetPoint ("bottomleft", BossFrame, "bottomleft", 250, 42)
+	bossmods_scrollframe.Update = refresh_bossmods_timers
+	bossmods_scrollframe:Hide()
+	EncounterDetails.BossModsScrollframe = bossmods_scrollframe
+
+	tinsert (BossFrame.EnemySpellsWidgets, bossmods_scrollframe)
+	EncounterDetails.update_bossmods = function() bossmods_scrollframe:Update() end
+
 	
 	local build_bigwigs_bars = function()
 		local t = {}
@@ -2135,36 +2144,11 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 		end
 		return t
 	end
-
-	local dropdown_dbm_bars = DetailsFrameWork:NewDropDown (BossFrame, _, "$parentDBMBarsDropdown", "DBMBars", 160, 20, build_dbm_bars, 1)
-	dropdown_dbm_bars:SetPoint ("topleft", label_dbm_bars, "bottomleft", -1, -2)
-	dropdown_dbm_bars:SetTemplate (DetailsFrameWork:GetTemplate ("dropdown", "OPTIONS_DROPDOWN_TEMPLATE"))
-	dropdown_dbm_bars:SetWidth (200)
-	dropdown_dbm_bars.tooltip = "创建一个weakaura来显示一个BOSS即将释放技能的CD"
-	
-	local dropdown_bw_bars = DetailsFrameWork:NewDropDown (BossFrame, _, "$parentBigWigsBarsDropdown", "BigWigsBars", 160, 20, build_bigwigs_bars, 1)
-	dropdown_bw_bars:SetPoint ("topleft", label_bw_bars, "bottomleft", -1, -2)
-	dropdown_bw_bars:SetTemplate (DetailsFrameWork:GetTemplate ("dropdown", "OPTIONS_DROPDOWN_TEMPLATE"))
-	dropdown_bw_bars:SetWidth (200)
-	dropdown_bw_bars.tooltip = "创建一个weakaura来显示一个BOSS即将释放技能的CD"
-	
-	dropdown_dbm_bars:Hide()
-	dropdown_bw_bars:Hide()
-	label_dbm_bars:Hide()
-	label_bw_bars:Hide()
-	
-	--
-	
-	tinsert (BossFrame.EnemySpellsWidgets, EnemyActorSpells_label)
-	tinsert (BossFrame.EnemySpellsWidgets, EnemyActorSpells)
-	tinsert (BossFrame.EnemySpellsWidgets, bar_div)
-	tinsert (BossFrame.EnemySpellsWidgets, npc_id)
-	tinsert (BossFrame.EnemySpellsWidgets, npc_id2)
 	
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- ~phases
 
-local PhaseFrame = CreateFrame ("frame", "EncounterDetailsPhaseFrame", BossFrame)
+local PhaseFrame = CreateFrame ("frame", "EncounterDetailsPhaseFrame", BossFrame, "BackdropTemplate")
 PhaseFrame:SetAllPoints()
 PhaseFrame:SetFrameLevel (BossFrame:GetFrameLevel()+1)
 PhaseFrame.DamageTable = {}
@@ -2266,10 +2250,10 @@ function PhaseFrame.OnSelectPhase (phaseSelected)
 	PhaseFrame:UpdatePhaseBars()
 end
 
-local PhaseSelectLabel = _detalhes.gump:CreateLabel (PhaseFrame, "选择片段:", 12, "orange")
-local DamageLabel = _detalhes.gump:CreateLabel (PhaseFrame, "伤害")
-local HealLabel = _detalhes.gump:CreateLabel (PhaseFrame, "治疗")
-local PhaseTimersLabel = _detalhes.gump:CreateLabel (PhaseFrame, "每个片段花费时间")
+local PhaseSelectLabel = _detalhes.gump:CreateLabel (PhaseFrame, "Select Phase:", 12, "orange")
+local DamageLabel = _detalhes.gump:CreateLabel (PhaseFrame, "Damage Done")
+local HealLabel = _detalhes.gump:CreateLabel (PhaseFrame, "Healing Done")
+local PhaseTimersLabel = _detalhes.gump:CreateLabel (PhaseFrame, "Time Spent on Each Phase")
 
 local report_damage = function (IsCurrent, IsReverse, AmtLines)
 	local result = {}
@@ -2283,7 +2267,7 @@ local report_damage = function (IsCurrent, IsReverse, AmtLines)
 		EncounterDetails:SendReportLines (result)
 	end
 
-	tinsert (result, "Details!: " .. (PhaseFrame.CurrentSegment and PhaseFrame.CurrentSegment.is_boss and PhaseFrame.CurrentSegment.is_boss.name or "未知") .. PhaseFrame.LastPhaseSelected .. " 片段的伤害 " ..  ":")
+	tinsert (result, "Details!: Damage for Phase " .. PhaseFrame.LastPhaseSelected .. " of " .. (PhaseFrame.CurrentSegment and PhaseFrame.CurrentSegment.is_boss and PhaseFrame.CurrentSegment.is_boss.name or "Unknown") .. ":")
 	for i = 1, #PhaseFrame.DamageTable do
 		tinsert (result, EncounterDetails:GetOnlyName (PhaseFrame.DamageTable[i][1]) .. ": " .. _detalhes:ToK (_math_floor (PhaseFrame.DamageTable [i][2])))
 	end
@@ -2291,7 +2275,7 @@ local report_damage = function (IsCurrent, IsReverse, AmtLines)
 	EncounterDetails:SendReportWindow (reportFunc, nil, nil, true)
 end
 
-local Report_DamageButton = _detalhes.gump:CreateButton (PhaseFrame, report_damage, 16, 16, "报告")
+local Report_DamageButton = _detalhes.gump:CreateButton (PhaseFrame, report_damage, 16, 16, "report")
 Report_DamageButton:SetPoint ("left", DamageLabel, "left", ScrollWidth-44, 0)
 Report_DamageButton.textcolor = "gray"
 Report_DamageButton.textsize = 9
@@ -2308,14 +2292,14 @@ local report_healing = function()
 		EncounterDetails:SendReportLines (result)
 	end
 
-	tinsert (result, "Details!: " .. (PhaseFrame.CurrentSegment and PhaseFrame.CurrentSegment.is_boss and PhaseFrame.CurrentSegment.is_boss.name or "未知") .. PhaseFrame.LastPhaseSelected .. " 片段的治疗 " ..  ":")
+	tinsert (result, "Details!: Healing for Phase " .. PhaseFrame.LastPhaseSelected .. " of " .. (PhaseFrame.CurrentSegment and PhaseFrame.CurrentSegment.is_boss and PhaseFrame.CurrentSegment.is_boss.name or "Unknown") .. ":")
 	for i = 1, #PhaseFrame.HealingTable do
 		tinsert (result, EncounterDetails:GetOnlyName (PhaseFrame.HealingTable[i][1]) .. ": " .. _detalhes:ToK (_math_floor (PhaseFrame.HealingTable [i][2])))
 	end
 	
 	EncounterDetails:SendReportWindow (reportFunc, nil, nil, true)
 end
-local Report_HealingButton = _detalhes.gump:CreateButton (PhaseFrame, report_healing, 16, 16, "报告")
+local Report_HealingButton = _detalhes.gump:CreateButton (PhaseFrame, report_healing, 16, 16, "report")
 Report_HealingButton:SetPoint ("left", HealLabel, "left", ScrollWidth-44, 0)
 Report_HealingButton.textcolor = "gray"
 Report_HealingButton.textsize = 9
@@ -2370,7 +2354,7 @@ local line_onleave = function (self)
 end
 
 local ScrollCreateLine = function (self, index)
-	local line = CreateFrame ("button", "$parentLine" .. index, self)
+	local line = CreateFrame ("button", "$parentLine" .. index, self,"BackdropTemplate")
 	line:SetPoint ("topleft", self, "topleft", 0, -((index-1)*(ScrollLineHeight+1)))
 	line:SetSize (ScrollWidth, ScrollLineHeight)
 	line:SetScript ("OnEnter", line_onenter)
@@ -2451,7 +2435,7 @@ end
 
 --cria as linhas mostrando o tempo decorride de cada phase
 for i = 1, 10 do
-	local line = CreateFrame ("button", "$parentPhaseBar" .. i, PhaseFrame)
+	local line = CreateFrame ("button", "$parentPhaseBar" .. i, PhaseFrame,"BackdropTemplate")
 	line:SetPoint ("topleft", PhaseTimersLabel.widget, "bottomleft", 0, -((i-1)*(31)) - 4)
 	line:SetSize (175, 30)
 	line:SetScript ("OnEnter", PhaseBarOnEnter)
@@ -2485,7 +2469,7 @@ end
 --cria a linha do segmento para a compara��o, � o que fica na parte direita da tela
 --ele � acessado para mostrar quando passar o mouse sobre uma das barras de phase
 for i = 1, 20 do
-	local line = CreateFrame ("button", "$parentSegmentCompareBar" .. i, PhaseFrame)
+	local line = CreateFrame ("button", "$parentSegmentCompareBar" .. i, PhaseFrame,"BackdropTemplate")
 	line:SetPoint ("topleft", PhaseTimersLabel.widget, "bottomleft", 175+10, -((i-1)*(ScrollLineHeight+1)) - 4)
 	line:SetSize (150, ScrollLineHeight)
 	
@@ -2553,7 +2537,7 @@ function PhaseFrame:UpdatePhaseBars()
 	local i = 1
 	for index, phase in ipairs (timers) do
 		local timer = hash [phase]
-		PhaseFrame.PhasesBars [i].name:SetText ("|cFFC0C0C0片段:|r |cFFFFFFFF" .. phase)
+		PhaseFrame.PhasesBars [i].name:SetText ("|cFFC0C0C0Phase:|r |cFFFFFFFF" .. phase)
 		PhaseFrame.PhasesBars [i].done:SetText (_detalhes.gump:IntegerToTimer (timer))
 		PhaseFrame.PhasesBars [i].phase = phase
 		PhaseFrame.PhasesBars [i]:Show()
@@ -2577,18 +2561,18 @@ function PhaseFrame:UpdateSegmentCompareBars (phase)
 			
 			if (timers [phase]) then
 				if (segment ~= segmentTable) then
-					bar.name:SetText ("段 " .. i .. ":")
+					bar.name:SetText ("Segment " .. i .. ":")
 					_detalhes.gump:SetFontColor (bar.name, "orange")
 					bar.done:SetText (_detalhes.gump:IntegerToTimer (timers [phase]))
 					_detalhes.gump:SetFontColor (bar.done, "orange")
 				else
-					bar.name:SetText ("段 " .. i .. ":")
+					bar.name:SetText ("Segment " .. i .. ":")
 					_detalhes.gump:SetFontColor (bar.name, "white")
 					bar.done:SetText (_detalhes.gump:IntegerToTimer (timers [phase]))
 					_detalhes.gump:SetFontColor (bar.done, "white")
 				end
 			else
-				bar.name:SetText ("段 " .. i .. ":")
+				bar.name:SetText ("Segment " .. i .. ":")
 				_detalhes.gump:SetFontColor (bar.name, "red")
 				bar.done:SetText ("--x--x--")
 			end
@@ -2635,7 +2619,7 @@ end
 			return return_table
 		end
 		
-		local segmentos_string = DetailsFrameWork:NewLabel (frame, nil, nil, "segmentosString", "段:", "GameFontNormal", 12)
+		local segmentos_string = DetailsFrameWork:NewLabel (frame, nil, nil, "segmentosString", "Segment:", "GameFontNormal", 12)
 		segmentos_string:SetPoint ("bottomleft", frame, "bottomleft", 20, 16)
 		
 		-- ~dropdown
@@ -2644,7 +2628,7 @@ end
 		segmentos:SetTemplate (DetailsFrameWork:GetTemplate ("dropdown", "OPTIONS_DROPDOWN_TEMPLATE"))
 		
 		--> options button
-		local options = DetailsFrameWork:NewButton (frame, nil, "$parentOptionsButton", "OptionsButton", 120, 20, EncounterDetails.OpenOptionsPanel, nil, nil, nil, "设置")
+		local options = DetailsFrameWork:NewButton (frame, nil, "$parentOptionsButton", "OptionsButton", 120, 20, EncounterDetails.OpenOptionsPanel, nil, nil, nil, "Options")
 		options:SetPoint ("left", segmentos, "right", 10, 0)
 		options:SetTemplate (DetailsFrameWork:GetTemplate ("button", "DETAILS_PLUGIN_BUTTON_TEMPLATE"))
 		options:SetIcon ([[Interface\Buttons\UI-OptionsButton]], 14, 14, nil, {0, 1, 0, 1}, nil, 3)
@@ -2678,10 +2662,10 @@ end
 		local BOX_HEIGHT_UPPER = CONST_BOX_HEIGHT --175
 		
 	
-		local container_damagetaken_window = CreateFrame ("ScrollFrame", "Details_Boss_ContainerDamageTaken", frame)
+		local container_damagetaken_window = CreateFrame ("ScrollFrame", "Details_Boss_ContainerDamageTaken", frame,"BackdropTemplate")
 		set_backdrop (container_damagetaken_window)
 		
-		local container_damagetaken_frame = CreateFrame ("Frame", "Details_Boss_FrameDamageTaken", container_damagetaken_window)
+		local container_damagetaken_frame = CreateFrame ("Frame", "Details_Boss_FrameDamageTaken", container_damagetaken_window,"BackdropTemplate")
 		
 		frame.Widgets [#frame.Widgets+1] = container_damagetaken_window
 		
@@ -2690,7 +2674,7 @@ end
 		container_damagetaken_frame.barras = {}
 
 		--label titulo & background		
-		local dano_recebido_bg = CreateFrame ("Frame", nil, frame)
+		local dano_recebido_bg = CreateFrame ("Frame", nil, frame, "BackdropTemplate")
 		dano_recebido_bg:SetWidth (BOX_WIDTH)
 		dano_recebido_bg:SetHeight (16)
 		dano_recebido_bg:EnableMouse (true)
@@ -2699,7 +2683,7 @@ end
 		
 		frame.Widgets [#frame.Widgets+1] = dano_recebido_bg
 		
-		DetailsFrameWork:NewLabel (dano_recebido_bg, dano_recebido_bg, nil, "damagetaken_title", "每个玩家承受伤害", "GameFontHighlight") --localize-me
+		DetailsFrameWork:NewLabel (dano_recebido_bg, dano_recebido_bg, nil, "damagetaken_title", "Damage Taken per Player", "GameFontHighlight") --localize-me
 		dano_recebido_bg.damagetaken_title:SetPoint ("BOTTOMLEFT", container_damagetaken_window, "TOPLEFT", 5, 1)
 		
 		container_damagetaken_frame:SetBackdrop (backdrop)
@@ -2732,16 +2716,16 @@ end
 		
 	--> Caixa das Habilidades do boss
 	--~ability ~damage taken by spell
-		local container_habilidades_window = CreateFrame ("ScrollFrame", "Details_Boss_ContainerHabilidades", frame)
+		local container_habilidades_window = CreateFrame ("ScrollFrame", "Details_Boss_ContainerHabilidades", frame,"BackdropTemplate")
 		set_backdrop (container_habilidades_window)
 		
-		local container_habilidades_frame = CreateFrame ("Frame", "Details_Boss_FrameHabilidades", container_habilidades_window)
+		local container_habilidades_frame = CreateFrame ("Frame", "Details_Boss_FrameHabilidades", container_habilidades_window,"BackdropTemplate")
 		container_habilidades_frame:SetScript ("OnMouseDown",  mouse_down)
 		container_habilidades_frame:SetScript ("OnMouseUp", mouse_up)
 		container_habilidades_frame.barras = {}
 
 		--label titulo % background
-		local habilidades_inimigas_bg = CreateFrame ("Frame", nil, frame)
+		local habilidades_inimigas_bg = CreateFrame ("Frame", nil, frame, "BackdropTemplate")
 		habilidades_inimigas_bg:SetWidth (BOX_WIDTH)
 		habilidades_inimigas_bg:SetHeight (16)
 		habilidades_inimigas_bg:EnableMouse (true)
@@ -2752,7 +2736,7 @@ end
 		frame.Widgets [#frame.Widgets+1] = container_habilidades_window
 		frame.Widgets [#frame.Widgets+1] = container_habilidades_frame
 		
-		DetailsFrameWork:NewLabel (habilidades_inimigas_bg, habilidades_inimigas_bg, nil, "habilidades_title", "承受伤害的法术", "GameFontHighlight") --localize-me
+		DetailsFrameWork:NewLabel (habilidades_inimigas_bg, habilidades_inimigas_bg, nil, "habilidades_title", "Damage Taken by Spell", "GameFontHighlight") --localize-me
 		habilidades_inimigas_bg.habilidades_title:SetPoint ("BOTTOMLEFT", container_habilidades_window, "TOPLEFT", 5, 1)
 		
 		container_habilidades_frame:SetBackdrop (backdrop)
@@ -2789,15 +2773,15 @@ end
 		local BOX_WIDTH = 270
 		local BOX_HEIGHT = CONST_BOX_HEIGHT --173
 	
-		local container_adds_window = CreateFrame ("ScrollFrame", "Details_Boss_ContainerAdds", frame)
+		local container_adds_window = CreateFrame ("ScrollFrame", "Details_Boss_ContainerAdds", frame,"BackdropTemplate")
 		set_backdrop (container_adds_window)
 		
-		local container_adds_frame = CreateFrame ("Frame", "Details_Boss_FrameAdds", container_adds_window)
+		local container_adds_frame = CreateFrame ("Frame", "Details_Boss_FrameAdds", container_adds_window, "BackdropTemplate")
 		frame.Widgets [#frame.Widgets+1] = container_adds_frame 
 		frame.Widgets [#frame.Widgets+1] = container_adds_window
 		container_adds_frame.barras = {}
 		
-		local adds_total_string = DetailsFrameWork:CreateLabel (container_adds_window, "承受伤害")
+		local adds_total_string = DetailsFrameWork:CreateLabel (container_adds_window, "damage taken")
 		adds_total_string.textcolor = "gray"
 		adds_total_string.textsize = 9
 		adds_total_string:SetPoint ("bottomright",  container_adds_window, "topright", 0, 3)
@@ -2814,7 +2798,7 @@ end
 		container_adds_window:SetScrollChild (container_adds_frame)
 		container_adds_window:SetPoint ("TOPLEFT", container_damagetaken_window, "topright", CONST_BOX_HORIZONTAL_SPACING, 0)
 
-		DetailsFrameWork:NewLabel (container_adds_window, container_adds_window, nil, "titulo", "受到的敌人伤害", "GameFontHighlight")
+		DetailsFrameWork:NewLabel (container_adds_window, container_adds_window, nil, "titulo", "Enemy Damage Taken", "GameFontHighlight")
 		container_adds_window.titulo:SetPoint ("bottomleft", container_adds_window, "topleft", 0, 1)
 		
 		DetailsFrameWork:NewScrollBar (container_adds_window, container_adds_frame, 4, -16)
@@ -2831,12 +2815,12 @@ end
 		
 	--> Caixa dos interrupts (kicks)
 	-- ~interrupt
-		local container_interrupt_window = CreateFrame ("ScrollFrame", "Details_Boss_Containerinterrupt", frame)
+		local container_interrupt_window = CreateFrame ("ScrollFrame", "Details_Boss_Containerinterrupt", frame,"BackdropTemplate")
 		set_backdrop (container_interrupt_window)
 		
-		local container_interrupt_frame = CreateFrame ("Frame", "Details_Boss_Frameinterrupt", container_interrupt_window)
+		local container_interrupt_frame = CreateFrame ("Frame", "Details_Boss_Frameinterrupt", container_interrupt_window, "BackdropTemplate")
 		
-		local interrupt_total_string = DetailsFrameWork:CreateLabel (container_interrupt_window, "打断 / 施法")
+		local interrupt_total_string = DetailsFrameWork:CreateLabel (container_interrupt_window, "interrupts / casts")
 		interrupt_total_string.textcolor = "gray"
 		interrupt_total_string.textsize = 9		
 		interrupt_total_string:SetPoint ("bottomright", container_interrupt_window, "topright", 0, 3)		
@@ -2877,12 +2861,12 @@ end
 		
 	--> Caixa dos Dispells
 	-- ~dispel
-		local container_dispell_window = CreateFrame ("ScrollFrame", "Details_Boss_Containerdispell", frame)
+		local container_dispell_window = CreateFrame ("ScrollFrame", "Details_Boss_Containerdispell", frame,"BackdropTemplate")
 		set_backdrop (container_dispell_window)
 		
-		local container_dispell_frame = CreateFrame ("Frame", "Details_Boss_Framedispell", container_dispell_window)
+		local container_dispell_frame = CreateFrame ("Frame", "Details_Boss_Framedispell", container_dispell_window, "BackdropTemplate")
 		
-		local dispell_total_string = DetailsFrameWork:CreateLabel (container_dispell_window, "总计驱散")
+		local dispell_total_string = DetailsFrameWork:CreateLabel (container_dispell_window, "total dispels")
 		dispell_total_string.textcolor = "gray"
 		dispell_total_string.textsize = 9		
 		dispell_total_string:SetPoint ("bottomright", container_dispell_window, "topright", 0, 3)
@@ -2922,12 +2906,12 @@ end
 		
 	--> Caixa das mortes
 	-- ~mortes ~deaths ~dead
-		local container_dead_window = CreateFrame ("ScrollFrame", "Details_Boss_ContainerDead", frame)
+		local container_dead_window = CreateFrame ("ScrollFrame", "Details_Boss_ContainerDead", frame,"BackdropTemplate")
 		set_backdrop (container_dead_window)
 		
-		local container_dead_frame = CreateFrame ("Frame", "Details_Boss_FrameDead", container_dead_window)
+		local container_dead_frame = CreateFrame ("Frame", "Details_Boss_FrameDead", container_dead_window, "BackdropTemplate")
 		
-		local dead_total_string = DetailsFrameWork:CreateLabel (container_dead_window, "死亡时间")
+		local dead_total_string = DetailsFrameWork:CreateLabel (container_dead_window, "time of death")
 		dead_total_string.textcolor = "gray"
 		dead_total_string.textsize = 9		
 		dead_total_string:SetPoint ("bottomright", container_dead_window, "topright", 0, 3)
@@ -2972,7 +2956,7 @@ end
 		
 		
 	--emotes frame
-	local emote_frame = CreateFrame ("frame", "DetailsEncountersEmoteFrame", UIParent)
+	local emote_frame = CreateFrame ("frame", "DetailsEncountersEmoteFrame", UIParent, "BackdropTemplate")
 	emote_frame:RegisterEvent ("CHAT_MSG_RAID_BOSS_EMOTE")
 	emote_frame:RegisterEvent ("CHAT_MSG_RAID_BOSS_WHISPER")
 	emote_frame:RegisterEvent ("CHAT_MSG_MONSTER_EMOTE")

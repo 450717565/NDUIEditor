@@ -1,10 +1,54 @@
 local Factory, _, T = {}, ...
-local EV, W, L, C = T.Evie, T.WrappedAPI, T.L, C_Garrison
+local Nine = T.Nine or _G
+local EV, W, L, C = T.Evie, T.WrappedAPI, T.L, Nine.C_Garrison
 
 local function CreateObject(otype, ...)
 	return Factory[otype](...)
 end
 T.CreateObject = CreateObject
+
+local CreateEdge do
+	local edgeSlices = {
+		{"TOPLEFT", 0, -1, "BOTTOMRIGHT", "BOTTOMLEFT", 1, 1}, -- L
+		{"TOPRIGHT", 0, -1, "BOTTOMLEFT", "BOTTOMRIGHT", -1, 1}, -- R
+		{"TOPLEFT", 1, 0, "BOTTOMRIGHT", "TOPRIGHT", -1, -1, ccw=true}, -- T
+		{"BOTTOMLEFT", 1, 0, "TOPRIGHT", "BOTTOMRIGHT", -1, 1, ccw=true}, -- B
+		{"TOPLEFT", 0, 0, "BOTTOMRIGHT", "TOPLEFT", 1, -1},
+		{"TOPRIGHT", 0, 0, "BOTTOMLEFT", "TOPRIGHT", -1, -1},
+		{"BOTTOMLEFT", 0, 0, "TOPRIGHT", "BOTTOMLEFT", 1, 1},
+		{"BOTTOMRIGHT", 0, 0, "TOPLEFT", "BOTTOMRIGHT", -1, 1}
+	}
+	function CreateEdge(f, info, bgColor, edgeColor)
+		local insets = info.insets
+		local es = info.edgeFile and (info.edgeSize or 39) or 0
+		if info.bgFile then
+			local bg = f:CreateTexture(nil, "BACKGROUND", nil, -7)
+			local tileBackground = not not info.tile
+			bg:SetTexture(info.bgFile, tileBackground, tileBackground)
+			bg:SetPoint("TOPLEFT", (insets and insets.left or 0), -(insets and insets.top or 0))
+			bg:SetPoint("BOTTOMRIGHT", -(insets and insets.right or 0), (insets and insets.bottom or 0))
+			local n = bgColor or 0xffffff
+			bg:SetVertexColor((n - n % 2^16) / 2^16 % 256 / 255, (n - n % 2^8) / 2^8 % 256 / 255, n % 256 / 255, n >= 2^24 and (n - n % 2^24) / 2^24 % 256 / 255 or 1)
+		end
+		if info.edgeFile then
+			local n = edgeColor or 0xffffff
+			local r,g,b,a = (n - n % 2^16) / 2^16 % 256 / 255, (n - n % 2^8) / 2^8 % 256 / 255, n % 256 / 255, n >= 2^24 and (n - n % 2^24) / 2^24 % 256 / 255 or 1
+			for i=1,#edgeSlices do
+				local t, s = f:CreateTexture(nil, "BORDER", nil, -7), edgeSlices[i]
+				t:SetTexture(info.edgeFile)
+				t:SetPoint(s[1], s[2]*es, s[3]*es)
+				t:SetPoint(s[4], f, s[5], s[6]*es, s[7]*es)
+				local x1, x2, y1, y2 = 1/128+(i-1)/8, i/8-1/128, 0.0625, 1-0.0625
+				if s.ccw then
+					t:SetTexCoord(x1,y2, x2,y2, x1,y1, x2,y1)
+				else
+					t:SetTexCoord(x1, x2, y1, y2)
+				end
+				t:SetVertexColor(r,g,b,a)
+			end
+		end
+	end
+end
 
 local CONFIRM_ON_USE_BUTTON
 local PROGRESS_MIN_STEP = 0.2
@@ -87,7 +131,7 @@ local function CommonLinkable_OnClick(self)
 			ChatEdit_InsertLink(link)
 		end
 	elseif self.currencyID and self.currencyID ~= 0 then
-		ChatEdit_InsertLink(GetCurrencyLink(self.currencyID, self.currencyAmount or 0))
+		ChatEdit_InsertLink(Nine.GetCurrencyLink(self.currencyID, self.currencyAmount or 0))
 	end
 end
 local function Button_ClickWithSpace(self, button)
@@ -289,7 +333,7 @@ local function TroopButton_SetDurability(self, maxDurability, returnDurability)
 end
 local function ResourceButton_Update(self, _event, currencyID, quant)
 	if currencyID == self.currencyID then
-		quant = quant or select(2, GetCurrencyInfo(currencyID))
+		quant = quant or select(2, Nine.GetCurrencyInfo(currencyID))
 		if quant then
 			self.Text:SetText(BreakUpLargeNumbers(quant))
 			self:SetWidth(self.Text:GetStringWidth()+26)
@@ -298,7 +342,7 @@ local function ResourceButton_Update(self, _event, currencyID, quant)
 end
 local function ResourceButton_OnClick(self)
 	if IsModifiedClick("CHATLINK") then
-		ChatEdit_InsertLink(GetCurrencyLink(self.currencyID, 24))
+		ChatEdit_InsertLink(Nine.GetCurrencyLink(self.currencyID, 24))
 	end
 end
 local function GroupButton_OnEnter(self)
@@ -342,7 +386,6 @@ local function CountdownText_OnUpdate(self)
 			self.cdtTick = secsLeft < 120 and (now + secsLeft % 0.5 + 0.01) or (now + secsLeft % 60 + 0.01)
 			self.CDTDisplay:SetText(self.cdtPrefix .. W.GetTimeStringFromSeconds(secsLeft, self.cdtShort, self.cdtRoundedUp) .. self.cdtSuffix .. self.cdtRest)
 		end
-		self.CDTDisplay:SetTextColor(1, 1, 1)
 	end
 end
 local function CountdownText_SetCountdown(self, prefix, expireAt, suffix, rest, isShort, isRoundUp)
@@ -550,7 +593,7 @@ local function CurrencyMeter_Activate(self, tip, currencyID, q1)
 		local aloc = C_AzeriteItem.FindActiveAzeriteItem()
 		local ok, level = pcall(C_AzeriteItem.GetPowerLevel, aloc)
 		if ok and level then
-			label, cur, max = "Level " .. level, C_AzeriteItem.GetAzeriteItemXPInfo(aloc)
+			label, cur, max = HEART_OF_AZEROTH_LEVEL:format(level), C_AzeriteItem.GetAzeriteItemXPInfo(aloc)
 		end
 	end
 	if not (cur and max) then
@@ -930,7 +973,7 @@ function Factory.ResourceButton(parent, currencyID)
 	f:SetSize(60, 23)
 	t = f:CreateTexture()
 	t:SetSize(18, 18)
-	t:SetTexture((select(3, GetCurrencyInfo(f.currencyID))))
+	t:SetTexture((select(3, Nine.GetCurrencyInfo(f.currencyID))))
 	t:SetTexCoord(4/64,60/64, 4/64,60/64)
 	t:SetPoint("LEFT", 1, 0)
 	t, f.Icon = f:CreateFontString(nil, "OVERLAY", "GameFontHighlightMed2")
@@ -945,7 +988,6 @@ function Factory.GroupButton(parent)
 	local t = gr:CreateFontString(nil, "OVERLAY", "GameFontBlack")
 	t:SetWidth(52)
 	t:SetPoint("BOTTOM", gr, "TOP", 0, 1)
-	t:SetTextColor(1, 1, 1)
 	gr.Features = t
 	gr:SetText("^")
 	gr:SetSize(45, 22)
@@ -1096,7 +1138,6 @@ function Factory.MissionButton(parent)
 	t, cf.Description = cf:CreateFontString(nil, "BACKGROUND", "GameFontNormal"), t
 	t:SetPoint("LEFT", cf, "TOPLEFT", 10, -34)
 	t:SetText(-math.random(1,45)*100 .. " XP")
-	cf.Description:SetTextColor(1, 1, 1)
 	t, cf.XPReward = cf:CreateFontString(nil, "OVERLAY", "GameFontBlack"), t
 	t:SetPoint("BOTTOM", cf, 0, 9)
 	t:SetText("Expires in: two weeks ago")
@@ -1198,9 +1239,7 @@ function Factory.HistoryFrame(parent)
 	f:SetFrameStrata("DIALOG")
 	f.Scroll, f.UpdateDisplay = HistoryFrame_Scroll, HistoryFrame_UpdateDisplay
 	f:SetHitRectInsets(-4, -4, 0, -4)
-	f:SetBackdrop({edgeFile="Interface/Tooltips/UI-Tooltip-Border", bgFile="Interface/BUTTONS/White8x8", tile=true, edgeSize=16, tileSize=16, insets={left=4,right=4,bottom=4,top=4}})
-	f:SetBackdropColor(0,0,0, 0.95)
-	f:SetBackdropBorderColor(0.75,0.75,0.75)
+	CreateEdge(f, {edgeFile="Interface/Tooltips/UI-Tooltip-Border", bgFile="Interface/BUTTONS/White8x8", tile=true, edgeSize=16, tileSize=16, insets={left=4,right=4,bottom=4,top=4}}, 0xF3000000, 0xC0C0C0)
 	f:SetScript("OnUpdate", HistoryFrame_CheckMouse)
 	f:SetScript("OnShow", HistoryFrame_OnShow)
 	f:SetScript("OnMouseWheel", HistoryFrame_Scroll)
@@ -1286,7 +1325,6 @@ function Factory.MissionTable(name)
 	
 	CreateObject("TableArtwork", frame)
 	frame.TitleText:SetText(GARRISON_MISSIONS)
-	frame.TitleText:SetTextColor(1, 1, 1)
 	frame:SetMovable(true)
 	frame:SetClampedToScreen(true)
 	frame:SetClampRectInsets(0, 0, 4, -2)

@@ -6,14 +6,14 @@ All rights reserved.
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
 
-	* Redistributions of source code must retain the above copyright notice,
-	  this list of conditions and the following disclaimer.
-	* Redistributions in binary form must reproduce the above copyright notice,
-	  this list of conditions and the following disclaimer in the documentation
-	  and/or other materials provided with the distribution.
-	* Neither the name of the developer nor the names of its contributors
-	  may be used to endorse or promote products derived from this software without
-	  specific prior written permission.
+    * Redistributions of source code must retain the above copyright notice,
+      this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright notice,
+      this list of conditions and the following disclaimer in the documentation
+      and/or other materials provided with the distribution.
+    * Neither the name of the developer nor the names of its contributors
+      may be used to endorse or promote products derived from this software without
+      specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -101,6 +101,18 @@ local function animIn_OnFinished(group)
 	frame.ants:SetAlpha(1)
 end
 
+local function overlayGlow_OnUpdate(self, elapsed)
+	AnimateTexCoords(self.ants, 256, 256, 48, 48, 22, elapsed, 0.01)
+	local cooldown = self:GetParent().cooldown
+	-- we need some threshold to avoid dimming the glow during the gdc
+	-- (using 1500 exactly seems risky, what if casting speed is slowed or something?)
+	if(cooldown and cooldown:IsShown() and cooldown:GetCooldownDuration() > 3000) then
+		self:SetAlpha(.5)
+	else
+		self:SetAlpha(1)
+	end
+end
+
 local function createOverlayGlow()
 	numOverlays = numOverlays + 1
 
@@ -117,7 +129,8 @@ local function createOverlayGlow()
 
 	-- inner glow over
 	overlay.innerGlowOver = overlay:CreateTexture(name.."InnerGlowOver", "ARTWORK")
-	overlay.innerGlowOver:SetInside(overlay.innerGlow)
+	overlay.innerGlowOver:SetPoint("TOPLEFT", overlay.innerGlow, "TOPLEFT")
+	overlay.innerGlowOver:SetPoint("BOTTOMRIGHT", overlay.innerGlow, "BOTTOMRIGHT")
 	overlay.innerGlowOver:SetAlpha(0)
 	overlay.innerGlowOver:SetTexture(iconAlertTexture)
 	overlay.innerGlowOver:SetTexCoord(.00781250, .50781250, .53515625, .78515625)
@@ -131,7 +144,8 @@ local function createOverlayGlow()
 
 	-- outer glow over
 	overlay.outerGlowOver = overlay:CreateTexture(name.."OuterGlowOver", "ARTWORK")
-	overlay.outerGlowOver:SetOutside(overlay.outerGlow)
+	overlay.outerGlowOver:SetPoint("TOPLEFT", overlay.outerGlow, "TOPLEFT")
+	overlay.outerGlowOver:SetPoint("BOTTOMRIGHT", overlay.outerGlow, "BOTTOMRIGHT")
 	overlay.outerGlowOver:SetAlpha(0)
 	overlay.outerGlowOver:SetTexture(iconAlertTexture)
 	overlay.outerGlowOver:SetTexCoord(.00781250, .50781250, .53515625, .78515625)
@@ -149,8 +163,8 @@ local function createOverlayGlow()
 	createAlphaAnim(overlay.animIn, overlay.innerGlowOver, 1, .3, 1, 0)
 	createScaleAnim(overlay.animIn, overlay.outerGlowOver, 1, .3, .5, .5)
 	createAlphaAnim(overlay.animIn, overlay.outerGlowOver, 1, .3, 1, 0)
-	createAlphaAnim(overlay.animIn, overlay.innerGlow, 1, .2, 1, 0, .25)
-	createAlphaAnim(overlay.animIn, overlay.ants, 1, .2, 0, 1, .25)
+	createAlphaAnim(overlay.animIn, overlay.innerGlow, 1, .2, 1, 0, .3)
+	createAlphaAnim(overlay.animIn, overlay.ants, 1, .2, 0, 1, .3)
 	overlay.animIn:SetScript("OnPlay", animIn_OnPlay)
 	overlay.animIn:SetScript("OnFinished", animIn_OnFinished)
 
@@ -162,7 +176,7 @@ local function createOverlayGlow()
 	overlay.animOut:SetScript("OnFinished", overlayGlowAnimOutFinished)
 
 	-- scripts
-	overlay:SetScript("OnUpdate", ActionButton_OverlayGlowOnUpdate)
+	overlay:SetScript("OnUpdate", overlayGlow_OnUpdate)
 	overlay:SetScript("OnHide", overlayGlow_OnHide)
 
 	return overlay
@@ -190,7 +204,8 @@ function B:ShowOverlayGlow()
 		overlay:ClearAllPoints()
 		--Make the height/width available before the next frame:
 		overlay:SetSize(frameWidth * 1.4, frameHeight * 1.4)
-		overlay:SetOutside(nil, frameWidth * .2, frameHeight * .2)
+		overlay:SetPoint("TOPLEFT", self, "TOPLEFT", -frameWidth * .2, frameHeight * .2)
+		overlay:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", frameWidth * .2, -frameHeight * .2)
 		overlay.animIn:Play()
 		self.__overlay = overlay
 	end

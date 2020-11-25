@@ -4,7 +4,7 @@ local module = B:GetModule("AurasTable")
 
 -- 猎人的法术监控
 local list = {
-	["Player Aura"] = { -- 玩家光环组
+	["Player Aura"] = {		-- 玩家光环组
 		{AuraID = 136, UnitID = "pet"},			-- 治疗宠物
 		{AuraID = 19577, UnitID = "pet"},		-- 胁迫
 		{AuraID = 160058, UnitID = "pet"},		-- 厚皮
@@ -27,12 +27,13 @@ local list = {
 		{AuraID = 164273, UnitID = "player", Combat = true},	-- 独来独往
 		{AuraID = 209997, UnitID = "pet", Flash = true},		-- 装死
 	},
-	["Target Aura"] = { -- 目标光环组
+	["Target Aura"] = {		-- 目标光环组
 		{AuraID = 3355, UnitID = "target", Caster = "player"},		-- 冰冻陷阱
 		{AuraID = 5116, UnitID = "target", Caster = "player"},		-- 震荡射击
 		{AuraID = 19386, UnitID = "target", Caster = "player"},		-- 翼龙钉刺
 		{AuraID = 24394, UnitID = "target", Caster = "pet"},		-- 胁迫
 		{AuraID = 117526, UnitID = "target"},						-- 束缚射击
+		{AuraID = 257284, UnitID = "target"},						-- 猎人印记
 		{AuraID = 131894, UnitID = "target", Caster = "player"},	-- 夺命黑鸦
 		{AuraID = 199803, UnitID = "target", Caster = "player"},	-- 精确瞄准
 		{AuraID = 195645, UnitID = "target", Caster = "player"},	-- 摔绊
@@ -40,7 +41,6 @@ local list = {
 		{AuraID = 202900, UnitID = "target", Caster = "player"},	-- 毒蝎钉刺
 		{AuraID = 224729, UnitID = "target", Caster = "player"},	-- 爆裂射击
 		{AuraID = 213691, UnitID = "target", Caster = "player"},	-- 驱散射击
-		{AuraID = 257284, UnitID = "target", Caster = "player"},	-- 猎人印记
 		{AuraID = 162480, UnitID = "target", Caster = "player"},	-- 精钢陷阱
 		{AuraID = 162487, UnitID = "target", Caster = "player"},	-- 精钢陷阱
 		{AuraID = 259491, UnitID = "target", Caster = "player"},	-- 毒蛇钉刺
@@ -53,8 +53,11 @@ local list = {
 		{AuraID = 259277, UnitID = "target", Caster = "pet"},		-- 杀戮命令
 		{AuraID = 277959, UnitID = "target", Caster = "player"},	-- 稳固瞄准
 		{AuraID = 217200, UnitID = "target", Caster = "player"},	-- 倒刺射击
+		{AuraID = 336746, UnitID = "target", Caster = "player"},	-- 魂铸余烬，橙装
+		{AuraID = 328275, UnitID = "target", Caster = "player"},	-- 野性印记
+		{AuraID = 324149, UnitID = "target", Caster = "player"},	-- 劫掠射击
 	},
-	["Player Special Aura"] = { -- 玩家重要光环组
+	["Special Aura"] = {	-- 玩家重要光环组
 		{AuraID = 19574, UnitID = "player"},	-- 狂野怒火
 		{AuraID = 54216, UnitID = "player"},	-- 主人的召唤
 		{AuraID = 186257, UnitID = "player"},	-- 猎豹守护
@@ -94,8 +97,20 @@ local list = {
 		{AuraID = 257622, UnitID = "player", Text = "A"},	-- 技巧射击
 		{AuraID = 288613, UnitID = "player"},	-- 百发百中
 		{AuraID = 274447, UnitID = "player"},	-- 千里之目
+		{AuraID = 260243, UnitID = "player"},	-- 乱射
+		{AuraID = 342076, UnitID = "player"},	-- 行云流水
 	},
-	["Spell CD"] = { -- 技能冷却计时组
+	["Focus Aura"] = {		-- 焦点光环组
+		{AuraID = 3355, UnitID = "focus", Caster = "player"},	-- 冰冻陷阱
+		{AuraID = 19386, UnitID = "focus", Caster = "player"},	-- 翼龙钉刺
+		{AuraID = 118253, UnitID = "focus", Caster = "player"},	-- 毒蛇钉刺
+		{AuraID = 194599, UnitID = "focus", Caster = "player"},	-- 黑箭
+		{AuraID = 131894, UnitID = "focus", Caster = "player"},	-- 夺命黑鸦
+		{AuraID = 199803, UnitID = "focus", Caster = "player"},	-- 精确瞄准
+	},
+	["Spell Cooldown"] = {	-- 冷却计时组
+		{SlotID = 13},		-- 饰品1
+		{SlotID = 14},		-- 饰品2
 		{SpellID = 186265},	-- 灵龟守护
 		{SpellID = 147362},	-- 反制射击
 	},

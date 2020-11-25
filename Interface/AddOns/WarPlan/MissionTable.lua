@@ -1,5 +1,6 @@
 local ADDON, T = ...
-local EV, W, C, L, CreateObject = T.Evie, T.WrappedAPI, C_Garrison, T.L, T.CreateObject
+local EV, Nine, W, L, CreateObject = T.Evie, T.Nine or _G, T.WrappedAPI, T.L, T.CreateObject
+local C = Nine.C_Garrison
 
 local manualMemberSet, manualMemberCount = {}, 0
 local function toggleFollowerFocus(followerID, removeOnly, audible)
@@ -177,9 +178,10 @@ local function ConfigureMission(me, mi, isAvailable)
 	me.Rewards.Container:SetWidth(me.hasOvermaxRewards and 104 or 48)
 	local  nm = 1
 	for i=1,#enemies do
-		local en = enemies[i].name
-		for k,v in pairs(enemies[i].mechanics) do
-			nm = nm + ConfigureMechanic(me.Mechanics[nm], v, k, en)
+		local en, mech = enemies[i].name, enemies[i].mechanics
+		for i=1,#mech do
+			local v = mech[i]
+			nm = nm + ConfigureMechanic(me.Mechanics[nm], v, v.mechanicTypeID, en)
 		end
 	end
 	if envN and envI and envI > 0 then
@@ -213,7 +215,7 @@ function EV:I_UPDATE_MISSION_SUGGESTIONS()
 	end
 
 	W.PrepareAllMissionGroups(22)
-	local curResources = select(2, GetCurrencyInfo(1560))
+	local curResources = select(2, Nine.GetCurrencyInfo(1560))
 	local followers = W.GetFollowers(22)
 	
 	local Missions = TaskBoard.Missions
@@ -227,7 +229,7 @@ function EV:I_UPDATE_MISSION_SUGGESTIONS()
 			if not (s1 or s2 or s3 or s4) then
 				local costString = ""
 				if me.baseCost and me.baseCostCurrency then
-					costString = ("|n|r" .. L"Base mission cost: %s"):format(("%s |T%d:16|t"):format(me.baseCost, select(3, GetCurrencyInfo(me.baseCostCurrency)) or 136235))
+					costString = ("|n|r" .. L"Base mission cost: %s"):format(("%s |T%d:16|t"):format(me.baseCost, select(3, Nine.GetCurrencyInfo(me.baseCostCurrency)) or 136235))
 				end
 				me.NoGroupLabel:SetText("|cff990000" .. L"No viable groups." .. costString)
 				me.NoGroupLabel:Show()

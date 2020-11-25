@@ -9,36 +9,32 @@ local UnitAura, GetSpellInfo = UnitAura, GetSpellInfo
 local InCombatLockdown = InCombatLockdown
 local GetTime, GetSpellCooldown, IsInRaid, IsInGroup, IsPartyLFG = GetTime, GetSpellCooldown, IsInRaid, IsInGroup, IsPartyLFG
 local C_ChatInfo_SendAddonMessage = C_ChatInfo.SendAddonMessage
-local C_ChatInfo_RegisterAddonMessagePrefix = C_ChatInfo.RegisterAddonMessagePrefix
 
 -- RaidFrame Elements
 function UF:CreateRaidIcons(self)
-	local parentFrame = CreateFrame("Frame", nil, self)
-	parentFrame:SetAllPoints()
-	parentFrame:SetFrameLevel(self:GetFrameLevel() + 3)
+	local parent = CreateFrame("Frame", nil, self)
+	parent:SetAllPoints()
+	parent:SetFrameLevel(self:GetFrameLevel() + 2)
 
-	local readyCheck = parentFrame:CreateTexture(nil, "OVERLAY")
-	readyCheck:SetSize(16, 16)
-	readyCheck:SetPoint("CENTER", 1, 0)
-	self.ReadyCheckIndicator = readyCheck
+	local check = parent:CreateTexture(nil, "OVERLAY")
+	check:SetSize(16, 16)
+	check:SetPoint("BOTTOM", 0, 1)
+	self.ReadyCheckIndicator = check
 
-	local resurrect = parentFrame:CreateTexture(nil, "OVERLAY")
+	local resurrect = parent:CreateTexture(nil, "OVERLAY")
 	resurrect:SetSize(20, 20)
-	resurrect:SetPoint("CENTER", 1, 0)
+	resurrect:SetPoint("CENTER", self, 1, 0)
 	self.ResurrectIndicator = resurrect
 
-	local summon = parentFrame:CreateTexture(nil, "OVERLAY")
-	summon:SetSize(32, 32)
-	summon:SetPoint("CENTER", 1, 0)
-	self.SummonIndicator = summon
+	local role = parent:CreateTexture(nil, "OVERLAY")
+	role:SetSize(12, 12)
+	role:SetPoint("TOPLEFT", 12, 8)
+	self.RaidRoleIndicator = role
 
-	local raidRole = parentFrame:CreateTexture(nil, "OVERLAY")
-	raidRole:SetSize(12, 12)
-	raidRole:SetPoint("LEFT", self, "TOPLEFT", 2, 0)
-	if self.mystyle == "raid" then
-		raidRole:SetPoint("TOPLEFT", self, "TOPLEFT", 0, 0)
-	end
-	self.RaidRoleIndicator = raidRole
+	local summon = parent:CreateTexture(nil, "OVERLAY")
+	summon:SetSize(32, 32)
+	summon:SetPoint("CENTER", parent)
+	self.SummonIndicator = summon
 end
 
 function UF:UpdateTargetBorder()
@@ -50,15 +46,13 @@ function UF:UpdateTargetBorder()
 end
 
 function UF:CreateTargetBorder(self)
-	local color = NDuiDB["Nameplate"]["SelectedColor"]
+	local border = B.CreateSD(self, 4, true)
+	border:SetOutside(self.Health.backdrop, C.mult+4, C.mult+4, self.Power.backdrop)
+	border:SetBackdropBorderColor(1, 1, 1)
+	border:Hide()
+	self.__shadow = nil
 
-	local targetBorder = B.CreateSD(self, true)
-	targetBorder:SetBackdropBorderColor(color.r, color.g, color.b)
-	targetBorder:SetOutside(self.Health.bd, B.Scale(3), B.Scale(3), self.Power.bd)
-	targetBorder:Hide()
-	self.Shadow = nil
-
-	self.TargetBorder = targetBorder
+	self.TargetBorder = border
 	self:RegisterEvent("PLAYER_TARGET_CHANGED", UF.UpdateTargetBorder, true)
 	self:RegisterEvent("GROUP_ROSTER_UPDATE", UF.UpdateTargetBorder, true)
 end
@@ -70,7 +64,7 @@ function UF:UpdateThreatBorder(_, unit)
 	local status = UnitThreatSituation(unit)
 
 	if status and status > 1 then
-		local r, g, b = GetThreatStatusColor(status)
+		local r, g, b = unpack(oUF.colors.threat[status])
 		element:SetBackdropBorderColor(r, g, b)
 		element:Show()
 	else
@@ -79,10 +73,11 @@ function UF:UpdateThreatBorder(_, unit)
 end
 
 function UF:CreateThreatBorder(self)
-	local threatIndicator = B.CreateSD(self, true)
-	threatIndicator:SetOutside(self.Health.bd, B.Scale(3), B.Scale(3), self.Power.bd)
-	threatIndicator:Hide()
-	self.Shadow = nil
+	local threatIndicator = B.CreateSD(self, 3, true)
+	threatIndicator:SetOutside(self.Health.backdrop, C.mult+3, C.mult+3, self.Power.backdrop)
+	threatIndicator:SetBackdropBorderColor(.7, .7, .7)
+	threatIndicator:SetFrameLevel(0)
+	self.__shadow = nil
 
 	self.ThreatIndicator = threatIndicator
 	self.ThreatIndicator.Override = UF.UpdateThreatBorder
@@ -118,32 +113,30 @@ local function buttonOnEnter(self)
 end
 
 function UF:CreateRaidDebuffs(self)
-	local partyStyle = self.mystyle == "party"
-	local scale = NDuiDB["UFs"]["RaidDebuffScale"]
-	local fontSize = partyStyle and 16 or 12
-	local iconSize = B.Round(self:GetHeight()*(partyStyle and .9 or .6))
+	local scale = C.db["UFs"]["RaidDebuffScale"]
+	local size = 18
 
 	local bu = CreateFrame("Frame", nil, self)
-	bu:SetSize(iconSize, iconSize)
-	bu:SetPoint("LEFT", self, "CENTER", 5, 0)
+	bu:SetSize(size, size)
+	bu:SetPoint("RIGHT", -15, 0)
 	bu:SetFrameLevel(self:GetFrameLevel() + 3)
+	B.CreateSD(bu, 3, true)
+	bu.__shadow:SetFrameLevel(self:GetFrameLevel() + 2)
 	bu:SetScale(scale)
 	bu:Hide()
 
-	bu.glowFrame = B.CreateGlowFrame(bu, iconSize)
-	bu.bd = B.CreateBDFrame(bu)
-
 	bu.icon = bu:CreateTexture(nil, "ARTWORK")
-	bu.icon:SetInside(bu.bd)
+	bu.icon:SetAllPoints()
 	bu.icon:SetTexCoord(unpack(DB.TexCoord))
 
 	local parentFrame = CreateFrame("Frame", nil, bu)
 	parentFrame:SetAllPoints()
 	parentFrame:SetFrameLevel(bu:GetFrameLevel() + 6)
-	bu.count = B.CreateFS(parentFrame, fontSize, "", false, "BOTTOMRIGHT", 6, -3)
-	bu.timer = B.CreateFS(parentFrame, fontSize, "", false, "CENTER", 1, 0)
+	bu.count = B.CreateFS(parentFrame, 12, "", false, "BOTTOMRIGHT", 6, -3)
+	bu.timer = B.CreateFS(bu, 12, "", false, "CENTER", 1, 0)
+	bu.glowFrame = B.CreateGlowFrame(bu, size)
 
-	if not NDuiDB["UFs"]["AurasClickThrough"] then
+	if not C.db["UFs"]["AurasClickThrough"] then
 		bu:SetScript("OnEnter", buttonOnEnter)
 		bu:SetScript("OnLeave", B.HideTooltip)
 	end
@@ -151,7 +144,7 @@ function UF:CreateRaidDebuffs(self)
 	bu.ShowDispellableDebuff = true
 	bu.ShowDebuffBorder = true
 	bu.FilterDispellableDebuff = true
-	if NDuiDB["UFs"]["InstanceAuras"] then
+	if C.db["UFs"]["InstanceAuras"] then
 		if not next(debuffList) then UF:UpdateRaidDebuffs() end
 		bu.Debuffs = debuffList
 	end
@@ -239,10 +232,10 @@ local defaultSpellList = {
 }
 
 function UF:DefaultClickSets()
-	if not next(NDuiDB["RaidClickSets"]) then
+	if not next(C.db["RaidClickSets"]) then
 		for k, v in pairs(defaultSpellList[DB.MyClass]) do
 			local clickSet = keyList[k][2]..keyList[k][1]
-			NDuiDB["RaidClickSets"][clickSet] = {keyList[k][1], keyList[k][2], v}
+			C.db["RaidClickSets"][clickSet] = {keyList[k][1], keyList[k][2], v}
 		end
 	end
 end
@@ -267,7 +260,7 @@ local onMouseString = "if not self:IsUnderMouse(false) then self:ClearBindings()
 
 local function setupMouseWheelCast(self)
 	local found
-	for _, data in pairs(NDuiDB["RaidClickSets"]) do
+	for _, data in pairs(C.db["RaidClickSets"]) do
 		if strmatch(data[1], L["Wheel"]) then
 			found = true
 			break
@@ -286,7 +279,7 @@ end
 local function setupClickSets(self)
 	if self.clickCastRegistered then return end
 
-	for _, data in pairs(NDuiDB["RaidClickSets"]) do
+	for _, data in pairs(C.db["RaidClickSets"]) do
 		local key, modKey, value = unpack(data)
 		if key == KEY_BUTTON1 and modKey == "SHIFT" then self.focuser = true end
 
@@ -321,7 +314,7 @@ end
 
 local pendingFrames = {}
 function UF:CreateClickSets(self)
-	if not NDuiDB["UFs"]["RaidClickSets"] then return end
+	if not C.db["UFs"]["RaidClickSets"] then return end
 
 	if InCombatLockdown() then
 		pendingFrames[self] = true
@@ -340,7 +333,7 @@ function UF:DelayClickSets()
 end
 
 function UF:AddClickSetsListener()
-	if not NDuiDB["UFs"]["RaidClickSets"] then return end
+	if not C.db["UFs"]["RaidClickSets"] then return end
 
 	B:RegisterEvent("PLAYER_REGEN_ENABLED", UF.DelayClickSets)
 end
@@ -357,7 +350,7 @@ local counterOffsets = {
 }
 
 function UF:BuffIndicatorOnUpdate(elapsed)
-	B.CooldownOnUpdate(self, elapsed)
+	B.CooldownOnUpdate(self, elapsed, true)
 end
 
 local found = {}
@@ -379,7 +372,7 @@ function UF:UpdateBuffIndicator(event, unit)
 			if value and (value[3] or caster == "player" or caster == "pet") then
 				for _, bu in pairs(buttons) do
 					if bu.anchor == value[1] then
-						if NDuiDB["UFs"]["BuffIndicatorType"] == 3 then
+						if C.db["UFs"]["BuffIndicatorType"] == 3 then
 							if duration and duration > 0 then
 								bu.expiration = expiration
 								bu:SetScript("OnUpdate", UF.BuffIndicatorOnUpdate)
@@ -394,7 +387,7 @@ function UF:UpdateBuffIndicator(event, unit)
 							else
 								bu.cd:Hide()
 							end
-							if NDuiDB["UFs"]["BuffIndicatorType"] == 1 then
+							if C.db["UFs"]["BuffIndicatorType"] == 1 then
 								bu.icon:SetVertexColor(unpack(value[2]))
 							else
 								bu.icon:SetTexture(texture)
@@ -418,7 +411,7 @@ function UF:UpdateBuffIndicator(event, unit)
 end
 
 function UF:RefreshBuffIndicator(bu)
-	if NDuiDB["UFs"]["BuffIndicatorType"] == 3 then
+	if C.db["UFs"]["BuffIndicatorType"] == 3 then
 		local point, anchorPoint, x, y = unpack(counterOffsets[bu.anchor][2])
 		bu.timer:Show()
 		bu.count:ClearAllPoints()
@@ -431,7 +424,7 @@ function UF:RefreshBuffIndicator(bu)
 		bu.timer:Hide()
 		bu.count:ClearAllPoints()
 		bu.count:SetPoint("CENTER", unpack(counterOffsets[bu.anchor][1]))
-		if NDuiDB["UFs"]["BuffIndicatorType"] == 1 then
+		if C.db["UFs"]["BuffIndicatorType"] == 1 then
 			bu.icon:SetTexture(DB.bdTex)
 		else
 			bu.icon:SetVertexColor(1, 1, 1)
@@ -443,16 +436,16 @@ function UF:RefreshBuffIndicator(bu)
 end
 
 function UF:CreateBuffIndicator(self)
-	if not NDuiDB["UFs"]["RaidBuffIndicator"] then return end
-	if NDuiDB["UFs"]["SimpleMode"] and self.mystyle ~= "party" then return end
+	if not C.db["UFs"]["RaidBuffIndicator"] then return end
+	if C.db["UFs"]["SimpleMode"] and not self.isPartyFrame then return end
 
 	local anchors = {"TOPLEFT", "TOP", "TOPRIGHT", "LEFT", "RIGHT", "BOTTOMLEFT", "BOTTOM", "BOTTOMRIGHT"}
 	local buttons = {}
 	for _, anchor in pairs(anchors) do
-		local bu = CreateFrame("Frame", nil, self)
+		local bu = CreateFrame("Frame", nil, self.Health)
 		bu:SetFrameLevel(self:GetFrameLevel()+10)
 		bu:SetSize(10, 10)
-		bu:SetScale(NDuiDB["UFs"]["BuffIndicatorScale"])
+		bu:SetScale(C.db["UFs"]["BuffIndicatorScale"])
 		bu:SetPoint(anchor)
 		bu:Hide()
 
@@ -461,7 +454,7 @@ function UF:CreateBuffIndicator(self)
 		bu.icon:SetInside(bu.bg)
 		bu.icon:SetTexCoord(unpack(DB.TexCoord))
 		bu.cd = CreateFrame("Cooldown", nil, bu, "CooldownFrameTemplate")
-		bu.cd:SetInside(bu.bg)
+		bu.cd:SetAllPoints(bu.bg)
 		bu.cd:SetReverse(true)
 		bu.cd:SetHideCountdownNumbers(true)
 		bu.timer = B.CreateFS(bu, 12, "", false, "CENTER", -counterOffsets[anchor][2][3], 0)
@@ -480,13 +473,13 @@ end
 
 function UF:RefreshRaidFrameIcons()
 	for _, frame in pairs(oUF.objects) do
-		if frame.mystyle == "raid" or frame.mystyle == "party" then
+		if frame.mystyle == "raid" then
 			if frame.RaidDebuffs then
-				frame.RaidDebuffs:SetScale(NDuiDB["UFs"]["RaidDebuffScale"])
+				frame.RaidDebuffs:SetScale(C.db["UFs"]["RaidDebuffScale"])
 			end
 			if frame.BuffIndicator then
 				for _, bu in pairs(frame.BuffIndicator) do
-					bu:SetScale(NDuiDB["UFs"]["BuffIndicatorScale"])
+					bu:SetScale(C.db["UFs"]["BuffIndicatorScale"])
 					UF:RefreshBuffIndicator(bu)
 				end
 			end
@@ -541,7 +534,7 @@ end
 
 local lastSyncTime = 0
 function UF:UpdateSyncStatus()
-	if IsInGroup() and not IsInRaid() and NDuiDB["UFs"]["PartyFrame"] then
+	if IsInGroup() and not IsInRaid() and C.db["UFs"]["PartyFrame"] then
 		local thisTime = GetTime()
 		if thisTime - lastSyncTime > 5 then
 			C_ChatInfo_SendAddonMessage("ZenTracker", format("3:H:%s:0::0:1", UF.myGUID), IsPartyLFG() and "INSTANCE_CHAT" or "PARTY") -- handshake to ZenTracker
@@ -554,38 +547,39 @@ function UF:UpdateSyncStatus()
 end
 
 function UF:SyncWithZenTracker()
-	if not NDuiDB["UFs"]["PartyWatcherSync"] then return end
+	if not C.db["UFs"]["PartyWatcherSync"] then return end
 
 	UF.myGUID = UnitGUID("player")
-	C_ChatInfo_RegisterAddonMessagePrefix("ZenTracker")
+	C_ChatInfo.RegisterAddonMessagePrefix("ZenTracker")
 	B:RegisterEvent("CHAT_MSG_ADDON", UF.HandleCDMessage)
 
 	UF:UpdateSyncStatus()
 	B:RegisterEvent("GROUP_ROSTER_UPDATE", UF.UpdateSyncStatus)
 end
 
-local function tooltipOnEnter(self)
-	GameTooltip:ClearLines()
-	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT", 0, 0)
-	if self.spellID then
-		GameTooltip:SetSpellByID(self.spellID)
-		GameTooltip:Show()
-	end
-end
-
 function UF:InterruptIndicator(self)
-	if not NDuiDB["UFs"]["PartyWatcher"] then return end
+	if not C.db["UFs"]["PartyWatcher"] then return end
 
+	local horizon = C.db["UFs"]["HorizonParty"]
+	local otherSide = C.db["UFs"]["PWOnRight"]
+	local relF = horizon and "BOTTOMLEFT" or "TOPRIGHT"
+	local relT = "TOPLEFT"
+	local xOffset = horizon and 0 or -5
+	local yOffset = horizon and 5 or 0
+	local margin = horizon and 2 or -2
+	if otherSide then
+		relF = "TOPLEFT"
+		relT = horizon and "BOTTOMLEFT" or "TOPRIGHT"
+		xOffset = horizon and 0 or 5
+		yOffset = horizon and -(self.Power:GetHeight()+8) or 0
+		margin = 2
+	end
+	local rel1 = not horizon and not otherSide and "RIGHT" or "LEFT"
+	local rel2 = not horizon and not otherSide and "LEFT" or "RIGHT"
 	local buttons = {}
-	local maxIcons = 10
-	local iconSize = self:GetHeight()+self.Power:GetHeight()+B.Scale(3)+2*C.mult
-
-	local otherSide = NDuiDB["UFs"]["PWOnRight"]
-	local point1 = otherSide and "TOPLEFT" or "TOPRIGHT"
-	local point2 = otherSide and "TOPRIGHT" or "TOPLEFT"
-	local point3 = otherSide and "LEFT" or "RIGHT"
-	local point4 = otherSide and "RIGHT" or "LEFT"
-	local xOffset = otherSide and 3 or -3
+	local maxIcons = 6
+	local iconSize = horizon and (self:GetWidth()-2*abs(margin))/3 or (self:GetHeight()+self.Power:GetHeight()+3)
+	if iconSize > 34 then iconSize = 34 end
 
 	for i = 1, maxIcons do
 		local bu = CreateFrame("Frame", nil, self)
@@ -593,14 +587,13 @@ function UF:InterruptIndicator(self)
 		B.AuraIcon(bu)
 		bu.CD:SetReverse(false)
 		if i == 1 then
-			bu:SetPoint(point1, self, point2, xOffset, C.mult)
+			bu:SetPoint(relF, self, relT, xOffset, yOffset)
+		elseif i == 4 and horizon then
+			bu:SetPoint(relF, buttons[i-3], relT, 0, margin)
 		else
-			bu:SetPoint(point3, buttons[i-1], point4, xOffset, 0)
+			bu:SetPoint(rel1, buttons[i-1], rel2, margin, 0)
 		end
 		bu:Hide()
-
-		bu:SetScript("OnEnter", tooltipOnEnter)
-		bu:SetScript("OnLeave", B.HideTooltip)
 
 		buttons[i] = bu
 	end
@@ -609,16 +602,32 @@ function UF:InterruptIndicator(self)
 	buttons.PartySpells = NDuiADB["PartyWatcherSpells"]
 	buttons.TalentCDFix = C.TalentCDFix
 	self.PartyWatcher = buttons
-	if NDuiDB["UFs"]["PartyWatcherSync"] then
+	if C.db["UFs"]["PartyWatcherSync"] then
 		self.PartyWatcher.PostUpdate = UF.PartyWatcherPostUpdate
 	end
 end
 
 function UF:CreatePartyAltPower(self)
-	if not NDuiDB["UFs"]["PartyAltPower"] then return end
+	if not C.db["UFs"]["PartyAltPower"] then return end
 
-	local altPower = B.CreateFS(self, 16)
+	local horizon = C.db["UFs"]["HorizonParty"]
+	local relF = horizon and "TOP" or "LEFT"
+	local relT = horizon and "BOTTOM" or "RIGHT"
+	local xOffset = horizon and 0 or 5
+	local yOffset = horizon and -5 or 0
+	local otherSide = C.db["UFs"]["PWOnRight"]
+	if otherSide then
+		xOffset = horizon and 0 or -5
+		yOffset = horizon and 5 or 0
+	end
+
+	local altPower = B.CreateFS(self, 16, "")
 	altPower:ClearAllPoints()
-	altPower:SetPoint("CENTER", self, "TOP")
+	if otherSide then
+		altPower:SetPoint(relT, self, relF, xOffset, yOffset)
+	else
+		local parent = horizon and self.Power or self
+		altPower:SetPoint(relF, parent, relT, xOffset, yOffset)
+	end
 	self:Tag(altPower, "[altpower]")
 end

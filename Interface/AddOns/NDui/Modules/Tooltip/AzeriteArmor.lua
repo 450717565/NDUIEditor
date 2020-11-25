@@ -10,13 +10,12 @@ local C_AzeriteEmpoweredItem_IsAzeriteEmpoweredItemByID = C_AzeriteEmpoweredItem
 local C_AzeriteEmpoweredItem_GetAllTierInfoByItemID = C_AzeriteEmpoweredItem.GetAllTierInfoByItemID
 local tipList, powerList, powerCache, tierCache = {}, {}, {}, {}
 
-local knownString = DB.MyColor..">|r".."%s"..DB.MyColor.."<|r"
-local iconString = "|T%s:16:20:0:0:64:64:5:59:5:59"
+local iconString = "|T%s:18:22:0:0:64:64:5:59:5:59"
 local function getIconString(icon, known)
 	if known then
-		return format(format(knownString, iconString..":255:255:255|t"), icon)
+		return format(iconString..":255:255:255|t", icon)
 	else
-		return format(iconString..":128:128:128|t", icon)
+		return format(iconString..":120:120:120|t", icon)
 	end
 end
 
@@ -25,7 +24,7 @@ function TT:Azerite_ScanTooltip()
 	wipe(powerList)
 
 	for i = 9, self:NumLines() do
-		local line = _G[self:GetDebugName().."TextLeft"..i]
+		local line = _G[self:GetName().."TextLeft"..i]
 		local text = line:GetText()
 		local powerName = text and strmatch(text, "%- (.+)")
 		if powerName then
@@ -91,10 +90,10 @@ function TT:Azerite_UpdateItem()
 		end
 
 		if tooltipText ~= "" then
-			local line = _G[self:GetDebugName().."TextLeft"..lineIndex]
-			if NDuiDB["Tooltip"]["OnlyArmorIcons"] then
+			local line = _G[self:GetName().."TextLeft"..lineIndex]
+			if C.db["Tooltip"]["OnlyArmorIcons"] then
 				line:SetText(tooltipText)
-				_G[self:GetDebugName().."TextLeft"..lineIndex+1]:SetText("")
+				_G[self:GetName().."TextLeft"..lineIndex+1]:SetText("")
 			else
 				line:SetText(line:GetText().."\n "..tooltipText)
 			end
@@ -105,13 +104,12 @@ function TT:Azerite_UpdateItem()
 end
 
 function TT:AzeriteArmor()
-	if not NDuiDB["Tooltip"]["AzeriteArmor"] then return end
+	if not C.db["Tooltip"]["AzeriteArmor"] then return end
 	if IsAddOnLoaded("AzeriteTooltip") then return end
 
 	GameTooltip:HookScript("OnTooltipSetItem", TT.Azerite_UpdateItem)
 	ItemRefTooltip:HookScript("OnTooltipSetItem", TT.Azerite_UpdateItem)
 	ShoppingTooltip1:HookScript("OnTooltipSetItem", TT.Azerite_UpdateItem)
-	ShoppingTooltip2:HookScript("OnTooltipSetItem", TT.Azerite_UpdateItem)
-	GameTooltipTooltip:HookScript("OnTooltipSetItem", TT.Azerite_UpdateItem)
 	EmbeddedItemTooltip:HookScript("OnTooltipSetItem", TT.Azerite_UpdateItem)
+	GameTooltipTooltip:HookScript("OnTooltipSetItem", TT.Azerite_UpdateItem)
 end

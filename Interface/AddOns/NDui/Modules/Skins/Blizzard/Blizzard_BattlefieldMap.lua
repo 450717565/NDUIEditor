@@ -1,13 +1,15 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 
 C.themes["Blizzard_BattlefieldMap"] = function()
+	local BattlefieldMapFrame = _G.BattlefieldMapFrame
 	local BorderFrame = BattlefieldMapFrame.BorderFrame
 
-	local bg = B.ReskinFrame(BorderFrame)
-	bg:SetParent(BattlefieldMapFrame)
-	bg:SetOutside(BattlefieldMapFrame.ScrollContainer)
+	B.StripTextures(BorderFrame)
+	B.SetBD(BattlefieldMapFrame, nil, -1, 3, -1, 2)
+	B.ReskinClose(BorderFrame.CloseButton)
 
-	B.ReskinTab(BattlefieldMapTab)
-	B.ReskinFrame(OpacityFrame)
+	B.StripTextures(OpacityFrame)
+	B.SetBD(OpacityFrame)
 	B.ReskinSlider(OpacityFrameSlider, true)
 end

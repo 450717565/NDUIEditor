@@ -1,6 +1,9 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 
 tinsert(C.defaultThemes, function()
+	if not C.db["Skins"]["BlizzardSkins"] then return end
+
 	-- Credit: ShestakUI
 	local atlasColors = {
 		["UI-Frame-Bar-Fill-Blue"] = {.2, .6, 1},
@@ -25,9 +28,14 @@ tinsert(C.defaultThemes, function()
 			if widgetFrame.widgetType == Type_DoubleStatusBar then
 				if not widgetFrame.styled then
 					for _, bar in pairs({widgetFrame.LeftBar, widgetFrame.RightBar}) do
-						B.CleanTextures(bar)
-						B.CreateBDFrame(bar, 0)
-
+						bar.BG:SetAlpha(0)
+						bar.BorderLeft:SetAlpha(0)
+						bar.BorderRight:SetAlpha(0)
+						bar.BorderCenter:SetAlpha(0)
+						bar.Spark:SetAlpha(0)
+						bar.SparkGlow:SetAlpha(0)
+						bar.BorderGlow:SetAlpha(0)
+						B.SetBD(bar)
 						hooksecurefunc(bar, "SetStatusBarAtlas", updateBarTexture)
 					end
 
@@ -37,10 +45,9 @@ tinsert(C.defaultThemes, function()
 				if not widgetFrame.styled then
 					local widgetSpell = widgetFrame.Spell
 					widgetSpell.IconMask:Hide()
-					widgetSpell.Border:SetTexture("")
-
-					local icbg = B.ReskinIcon(widgetSpell.Icon)
-					B.ReskinSpecialBorder(widgetSpell.DebuffBorder, icbg)
+					widgetSpell.Border:SetTexture(nil)
+					widgetSpell.DebuffBorder:SetTexture(nil)
+					B.ReskinIcon(widgetSpell.Icon)
 
 					widgetFrame.styled = true
 				end
@@ -52,8 +59,12 @@ tinsert(C.defaultThemes, function()
 	B:RegisterEvent("UPDATE_ALL_UI_WIDGETS", reskinWidgetFrames)
 
 	hooksecurefunc(_G.UIWidgetTemplateCaptureBarMixin, "Setup", function(self)
-		B.StripTextures(bar, 0)
-		B.CleanTextures(bar)
+		self.LeftLine:SetAlpha(0)
+		self.RightLine:SetAlpha(0)
+		self.BarBackground:SetAlpha(0)
+		self.Glow1:SetAlpha(0)
+		self.Glow2:SetAlpha(0)
+		self.Glow3:SetAlpha(0)
 
 		self.LeftBar:SetTexture(DB.normTex)
 		self.NeutralBar:SetTexture(DB.normTex)
@@ -63,12 +74,10 @@ tinsert(C.defaultThemes, function()
 		self.NeutralBar:SetVertexColor(.8, .8, .8)
 		self.RightBar:SetVertexColor(.9, .2, .2)
 
-		if not self.styled then
-			local bg = B.CreateBDFrame(self, 0)
-			bg:Point("TOPLEFT", self.LeftBar, -2, 2)
-			bg:Point("BOTTOMRIGHT", self.RightBar, 2, -2)
-
-			self.styled = true
+		if not self.bg then
+			self.bg = B.SetBD(self)
+			self.bg:SetPoint("TOPLEFT", self.LeftBar, -2, 2)
+			self.bg:SetPoint("BOTTOMRIGHT", self.RightBar, 2, -2)
 		end
 	end)
 
@@ -78,24 +87,16 @@ tinsert(C.defaultThemes, function()
 		updateBarTexture(bar, atlas)
 
 		if not bar.styled then
-			B.CleanTextures(bar)
-			B.CreateBDFrame(bar, 0)
+			bar.BGLeft:SetAlpha(0)
+			bar.BGRight:SetAlpha(0)
+			bar.BGCenter:SetAlpha(0)
+			bar.BorderLeft:SetAlpha(0)
+			bar.BorderRight:SetAlpha(0)
+			bar.BorderCenter:SetAlpha(0)
+			bar.Spark:SetAlpha(0)
+			B.SetBD(bar)
 
 			bar.styled = true
 		end
-	end)
-
-	hooksecurefunc(_G.UIWidgetTemplateDoubleStatusBarMixin, "Setup", function(self)
-		local LeftBar = self.LeftBar
-		LeftBar.Icon:ClearAllPoints()
-		LeftBar.Icon:SetPoint("RIGHT", LeftBar, "LEFT", 0, 0)
-		LeftBar.IconGlow:ClearAllPoints()
-		LeftBar.IconGlow:SetPoint("RIGHT", LeftBar, "LEFT", 0, 0)
-
-		local RightBar = self.RightBar
-		RightBar.Icon:ClearAllPoints()
-		RightBar.Icon:SetPoint("LEFT", RightBar, "RIGHT", 0, 0)
-		RightBar.IconGlow:ClearAllPoints()
-		RightBar.IconGlow:SetPoint("LEFT", RightBar, "RIGHT", 0, 0)
 	end)
 end)

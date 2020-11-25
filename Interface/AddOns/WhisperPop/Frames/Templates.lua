@@ -18,7 +18,7 @@ local templates = {}
 addon.templates = templates
 
 function templates.CreateFrame(name, parent, movable)
-	local frame = CreateFrame("Frame", name, parent)
+	local frame = CreateFrame("Frame", name, parent, "BackdropTemplate")
 	frame:EnableMouse(true)
 	frame:SetClampedToScreen(true)
 	frame:SetBackdrop({ bgFile = addon.BACKGROUND, tile = true, tileSize = 16, edgeFile = addon.BORDER, edgeSize = 16, insets = { left = 5, right = 5, top = 5, bottom = 5 } })
@@ -88,7 +88,7 @@ local function IconButton_OnMouseUp(self)
 end
 
 function templates.CreateIconButton(name, parent, icon, size, checkable)
-	local button = CreateFrame(checkable and "CheckButton" or "Button", name, parent)
+	local button = CreateFrame(checkable and "CheckButton" or "Button", name, parent, "BackdropTemplate")
 	button:SetSize(size, size)
 	button:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square", "ADD")
 	button:SetPushedTexture("Interface\\Buttons\\UI-Quickslot-Depress")
@@ -172,7 +172,7 @@ end
 
 function templates.CreateFlash(parent)
 	local name = parent:GetName()
-	local frame = CreateFrame("Frame", name and name.."FlashFrame", parent)
+	local frame = CreateFrame("Frame", name and name.."FlashFrame", parent, "BackdropTemplate")
 	parent.flashFrame = frame
 	frame:SetAllPoints(parent)
 	frame:Hide()
@@ -180,7 +180,7 @@ function templates.CreateFlash(parent)
 	frame:SetScript("OnUpdate", FlashFrame_OnUpdate)
 	frame:SetScript("OnShow", FlashFrame_OnShow)
 
-	local texture = frame:CreateTexture(name and name.."FlashFrameTexture", "OVERLAY")
+	local texture = frame:CreateTexture(name and name.."FlashFrameTexture", "OVERLAY", "BackdropTemplate")
 	frame.texture = texture
 	texture:SetTexture("Interface\\ChatFrame\\UI-ChatIcon-BlinkHilight")
 	texture:SetAllPoints(frame)

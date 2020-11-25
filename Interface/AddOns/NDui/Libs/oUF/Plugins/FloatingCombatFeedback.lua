@@ -38,9 +38,31 @@ local function clamp(v)
 end
 
 local colors = {
-	RED			= {r = 1.00, g = 0.00, b = 0.00},
-	GREEN		= {r = 0.00, g = 1.00, b = 0.00},
-	GREY		= {r = 0.50, g = 0.50, b = 0.50},
+	ABSORB		= {r = 1.00, g = 1.00, b = 1.00},
+	BLOCK		= {r = 1.00, g = 1.00, b = 1.00},
+	DEFLECT		= {r = 1.00, g = 1.00, b = 1.00},
+	DODGE		= {r = 1.00, g = 1.00, b = 1.00},
+	ENERGIZE	= {r = 0.41, g = 0.80, b = 0.94},
+	EVADE		= {r = 1.00, g = 1.00, b = 1.00},
+	HEAL		= {r = 0.10, g = 0.80, b = 0.10},
+	IMMUNE		= {r = 1.00, g = 1.00, b = 1.00},
+	INTERRUPT	= {r = 1.00, g = 1.00, b = 1.00},
+	MISS		= {r = 1.00, g = 1.00, b = 1.00},
+	PARRY		= {r = 1.00, g = 1.00, b = 1.00},
+	REFLECT		= {r = 1.00, g = 1.00, b = 1.00},
+	RESIST		= {r = 1.00, g = 1.00, b = 1.00},
+	WOUND		= {r = 0.80, g = 0.10, b = 0.10},
+}
+
+local schoolColors = {
+	[SCHOOL_MASK_NONE]		= {r = 1.00, g = 1.00, b = 1.00},	-- 0x00 or 0
+	[SCHOOL_MASK_PHYSICAL]	= {r = 1.00, g = 1.00, b = 0.00},	-- 0x01 or 1
+	[SCHOOL_MASK_HOLY]		= {r = 1.00, g = 0.90, b = 0.50},	-- 0x02 or 2
+	[SCHOOL_MASK_FIRE]		= {r = 1.00, g = 0.50, b = 0.00},	-- 0x04 or 4
+	[SCHOOL_MASK_NATURE]	= {r = 0.30, g = 1.00, b = 0.30},	-- 0x08 or 8
+	[SCHOOL_MASK_FROST]		= {r = 0.50, g = 1.00, b = 1.00},	-- 0x10 or 16
+	[SCHOOL_MASK_SHADOW]	= {r = 0.50, g = 0.50, b = 1.00},	-- 0x20 or 32
+	[SCHOOL_MASK_ARCANE]	= {r = 1.00, g = 0.50, b = 1.00},	-- 0x40 or 64
 }
 
 local function removeString(self, i, string)
@@ -204,7 +226,7 @@ local function formatNumber(self, amount)
 	local element = self.FloatingCombatFeedback
 
 	if element.abbreviateNumbers then
-		return B.FormatNumb(amount)
+		return B.Numb(amount)
 	else
 		return BreakUpLargeNumbers(amount)
 	end
@@ -223,22 +245,21 @@ local function onEvent(self, event, ...)
 	end
 	local multiplier = 1
 	local text, color, texture, critMark
-	local OnlyCombatText = NDuiDB["UFs"]["OnlyCombatText"]
 
-	if event == "COMBAT_LOG_EVENT_UNFILTERED" and not OnlyCombatText then
+	if event == "COMBAT_LOG_EVENT_UNFILTERED" then
 		local _, eventType, _, sourceGUID, _, sourceFlags, _, destGUID, _, _, _, spellID, _, school = ...
 		local isPlayer = playerGUID == sourceGUID
 		local atTarget = UnitGUID("target") == destGUID
 		local atPlayer = playerGUID == destGUID
-		local isPet = element.showPets and DB:IsMyPet(sourceFlags)
+		local isPet = C.db["UFs"]["PetCombatText"] and DB:IsMyPet(sourceFlags)
 
 		if (unit == "target" and (isPlayer or isPet) and atTarget) or (unit == "player" and atPlayer) then
 			local value = eventFilter[eventType]
 			if not value then return end
 
 			if value.suffix == "DAMAGE" then
-				if value.autoAttack and not element.showAutoAttack then return end
-				if value.isPeriod and not element.showHots then return end
+				if value.autoAttack and not C.db["UFs"]["AutoAttack"] then return end
+				if value.isPeriod and not C.db["UFs"]["HotsDots"] then return end
 
 				local amount, _, _, _, _, _, critical, _, crushing = select(value.index, ...)
 				texture = getFloatingIconTexture(value.iconType, spellID, isPet)
@@ -249,7 +270,7 @@ local function onEvent(self, event, ...)
 					critMark = true
 				end
 			elseif value.suffix == "HEAL" then
-				if value.isPeriod and not element.showHots then return end
+				if value.isPeriod and not C.db["UFs"]["HotsDots"] then return end
 
 				local amount, overhealing, _, critical = select(value.index, ...)
 				texture = getFloatingIconTexture(value.iconType, spellID)
@@ -258,7 +279,7 @@ local function onEvent(self, event, ...)
 					amount = amount - overhealing
 					overhealText = " ("..formatNumber(self, overhealing)..")"
 				end
-				if amount == 0 and not element.showOverHealing then return end
+				if amount == 0 and not C.db["UFs"]["FCTOverHealing"] then return end
 				text = "+"..formatNumber(self, amount)..overhealText
 
 				if critical then
@@ -275,26 +296,27 @@ local function onEvent(self, event, ...)
 				text = "-"..formatNumber(self, amount)
 			end
 
-			local ColorArrayBySchool = _G.CombatLog_Color_ColorArrayBySchool
-			color = ColorArrayBySchool(school) or colors.GREY
+			color = schoolColors[school] or schoolColors[0]
 		end
 	elseif event == "PLAYER_REGEN_DISABLED" then
 		texture = ""
 		text = ENTERING_COMBAT
-		color = colors.RED
+		color = colors.WOUND
 		multiplier = 1.25
+		critMark = true
 	elseif event == "PLAYER_REGEN_ENABLED" then
 		texture = ""
 		text = LEAVING_COMBAT
-		color = colors.GREEN
+		color = colors.HEAL
 		multiplier = 1.25
+		critMark = true
 	end
 
 	if text and texture then
 		local animation = element.defaultMode
 		local string = getAvailableString(element)
 
-		string:SetFont(element.font, element.fontHeight * multiplier, element.fontFlags)
+		string:SetFont(element.font, C.db["UFs"]["FCTFontSize"] * multiplier, element.fontFlags)
 		string:SetFormattedText(element.format, texture, (critMark and "*" or "")..text)
 		string:SetTextColor(color.r, color.g, color.b)
 		string.elapsed = 0
@@ -340,7 +362,7 @@ local function Enable(self, unit)
 	element.__owner = self
 	element.ForceUpdate = ForceUpdate
 	element.defaultMode = "vertical"
-	element.format = "|T%s:14:14:-2:0:64:64:5:59:5:59|t%s"
+	element.format = "|T%s:18:18:-2:0:64:64:5:59:5:59|t%s"
 	element.xDirection = 1
 	element.yDirection = element.yDirection or 1
 	element.scrollTime = element.scrollTime or 2

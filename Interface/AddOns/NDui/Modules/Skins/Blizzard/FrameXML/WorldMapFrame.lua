@@ -1,23 +1,29 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 
 tinsert(C.defaultThemes, function()
-	B.ReskinNavBar(WorldMapFrame.NavBar)
+	if not C.db["Skins"]["BlizzardSkins"] then return end
+
+	local WorldMapFrame = WorldMapFrame
+	local BorderFrame = WorldMapFrame.BorderFrame
+
+	B.ReskinPortraitFrame(WorldMapFrame)
+	BorderFrame.NineSlice:Hide()
+	BorderFrame.Tutorial.Ring:Hide()
+	B.ReskinMinMax(BorderFrame.MaximizeMinimizeFrame)
 
 	local overlayFrames = WorldMapFrame.overlayFrames
 	B.ReskinDropDown(overlayFrames[1])
-	overlayFrames[2]:DisableDrawLayer("BACKGROUND")
-	overlayFrames[2]:DisableDrawLayer("OVERLAY")
+	B.StripTextures(overlayFrames[2], 3)
+	B.StripTextures(overlayFrames[3], 3)
+	overlayFrames[3].ActiveTexture:SetTexture("Interface\\Minimap\\UI-Minimap-ZoomButton-Toggle")
 
-	local SidePanelToggle = WorldMapFrame.SidePanelToggle
-	B.ReskinArrow(SidePanelToggle.OpenButton, "right")
-	B.ReskinArrow(SidePanelToggle.CloseButton, "left")
+	local sideToggle = WorldMapFrame.SidePanelToggle
+	sideToggle:SetFrameLevel(3)
+	sideToggle.OpenButton:GetRegions():Hide()
+	B.ReskinArrow(sideToggle.OpenButton, "right")
+	sideToggle.CloseButton:GetRegions():Hide()
+	B.ReskinArrow(sideToggle.CloseButton, "left")
 
-	local BorderFrame = WorldMapFrame.BorderFrame
-	B.ReskinMinMax(BorderFrame.MaximizeMinimizeFrame)
-	BorderFrame.Tutorial.Ring:Hide()
-
-	local bg = B.ReskinFrame(BorderFrame)
-	bg:SetParent(WorldMapFrame)
-	bg:SetPoint("TOPLEFT", C.mult*2, 0)
-	bg:SetPoint("BOTTOMRIGHT", 0, C.mult*2)
+	B.ReskinNavBar(WorldMapFrame.NavBar)
 end)

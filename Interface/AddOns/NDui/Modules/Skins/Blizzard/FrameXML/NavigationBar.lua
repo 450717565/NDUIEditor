@@ -1,6 +1,11 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 
 tinsert(C.defaultThemes, function()
+	if not C.db["Skins"]["BlizzardSkins"] then return end
+
+	local r, g, b = DB.r, DB.g, DB.b
+
 	local function moveNavButtons(self)
 		local width = 0
 		local collapsedWidth
@@ -48,12 +53,12 @@ tinsert(C.defaultThemes, function()
 
 		local navButton = self.navList[#self.navList]
 		if not navButton.restyled then
-			B.StripTextures(navButton)
-			B.ReskinButton(navButton)
-
-			local selected = navButton.selected
-			selected:SetDrawLayer("BACKGROUND")
-			B.ReskinHighlight(selected, navButton, true)
+			B.Reskin(navButton)
+			navButton.arrowUp:SetAlpha(0)
+			navButton.arrowDown:SetAlpha(0)
+			navButton.selected:SetDrawLayer("BACKGROUND", 1)
+			navButton.selected:SetColorTexture(r, g, b, .25)
+			navButton.selected:SetInside(navButton.__bg)
 
 			navButton:HookScript("OnClick", function()
 				moveNavButtons(self)
@@ -61,12 +66,17 @@ tinsert(C.defaultThemes, function()
 
 			-- arrow button
 			local arrowButton = navButton.MenuArrowButton
-			B.StripTextures(arrowButton)
-			B.SetupArrowTex(arrowButton, "down")
-			arrowButton.arrowTex:SetInside(nil, 6, 6)
+			arrowButton.Art:Hide()
+			arrowButton:SetHighlightTexture("")
 
-			B.Hook_OnEnter(arrowButton)
-			B.Hook_OnLeave(arrowButton)
+			local tex = arrowButton:CreateTexture(nil, "ARTWORK")
+			B.SetupArrow(tex, "down")
+			tex:SetSize(14, 14)
+			tex:SetPoint("CENTER")
+			arrowButton.__texture = tex
+
+			arrowButton:SetScript("OnEnter", B.Texture_OnEnter)
+			arrowButton:SetScript("OnLeave", B.Texture_OnLeave)
 
 			navButton.restyled = true
 		end

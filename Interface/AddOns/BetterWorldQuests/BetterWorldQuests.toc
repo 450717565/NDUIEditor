@@ -1,6 +1,6 @@
-## Interface: 80300
+## Interface: 90002
 ## Author: p3lim
-## Version: 80100.3-Release
+## Version: 90000.5-Release
 ## Title: Better World Quests
 ## Notes: Improves the World Quest POIs on the map
 

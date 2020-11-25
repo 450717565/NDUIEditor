@@ -9,7 +9,6 @@ local GetProfessions, GetProfessionInfo, GetSpellBookItemInfo = GetProfessions, 
 local PlayerHasToy, C_ToyBox_IsToyUsable, C_ToyBox_GetToyInfo = PlayerHasToy, C_ToyBox.IsToyUsable, C_ToyBox.GetToyInfo
 local C_TradeSkillUI_GetOnlyShowSkillUpRecipes, C_TradeSkillUI_SetOnlyShowSkillUpRecipes = C_TradeSkillUI.GetOnlyShowSkillUpRecipes, C_TradeSkillUI.SetOnlyShowSkillUpRecipes
 local C_TradeSkillUI_GetOnlyShowMakeableRecipes, C_TradeSkillUI_SetOnlyShowMakeableRecipes = C_TradeSkillUI.GetOnlyShowMakeableRecipes, C_TradeSkillUI.SetOnlyShowMakeableRecipes
-local cr, cg, cb = DB.r, DB.g, DB.b
 
 local BOOKTYPE_PROFESSION = BOOKTYPE_PROFESSION
 local RUNEFORGING_ID = 53428
@@ -91,18 +90,14 @@ function M:TradeTabs_Update()
 end
 
 function M:TradeTabs_Reskin()
-	if not NDuiDB["Skins"]["BlizzardSkins"] then return end
+	if not C.db["Skins"]["BlizzardSkins"] then return end
 
 	for _, tab in pairs(tabList) do
-		tab:SetSize(32, 32)
+		tab:SetCheckedTexture(DB.textures.pushed)
 		tab:GetRegions():Hide()
-
-		local icon = tab:GetNormalTexture()
-		if icon then
-			local icbg = B.ReskinIcon(icon)
-			B.ReskinHighlight(tab, icbg)
-			B.ReskinChecked(tab, icbg)
-		end
+		B.CreateBDFrame(tab)
+		local texture = tab:GetNormalTexture()
+		if texture then texture:SetTexCoord(unpack(DB.TexCoord)) end
 	end
 end
 
@@ -134,6 +129,7 @@ function M:TradeTabs_Create(slotID, spellID, toyID, itemID)
 		tab:SetAttribute(tab.type, name)
 	end
 	tab:SetNormalTexture(texture)
+	tab:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 	tab:Show()
 
 	tab.CD = CreateFrame("Cooldown", nil, tab, "CooldownFrameTemplate")
@@ -143,7 +139,7 @@ function M:TradeTabs_Create(slotID, spellID, toyID, itemID)
 	tab.cover:SetAllPoints()
 	tab.cover:EnableMouse(true)
 
-	tab:SetPoint("TOPLEFT", TradeSkillFrame, "TOPRIGHT", 3, -index*40)
+	tab:SetPoint("TOPLEFT", TradeSkillFrame, "TOPRIGHT", 3, -index*42)
 	tinsert(tabList, tab)
 	index = index + 1
 end
@@ -158,16 +154,16 @@ function M:TradeTabs_FilterIcons()
 		local value = self.__value
 		if value[3]() then
 			value[4](false)
-			self:SetBackdropBorderColor(0, 0, 0)
+			self.bg:SetBackdropBorderColor(0, 0, 0)
 		else
 			value[4](true)
-			self:SetBackdropBorderColor(cr, cg, cb)
+			self.bg:SetBackdropBorderColor(1, .8, 0)
 		end
 	end
 
 	local buttons = {}
 	for index, value in pairs(buttonList) do
-		local bu = CreateFrame("Button", nil, TradeSkillFrame)
+		local bu = CreateFrame("Button", nil, TradeSkillFrame, "BackdropTemplate")
 		bu:SetSize(22, 22)
 		bu:SetPoint("RIGHT", TradeSkillFrame.FilterButton, "LEFT", -5 - (index-1)*27, 0)
 		B.PixelIcon(bu, value[1], true)
@@ -181,9 +177,9 @@ function M:TradeTabs_FilterIcons()
 	local function updateFilterStatus()
 		for index, value in pairs(buttonList) do
 			if value[3]() then
-				buttons[index]:SetBackdropBorderColor(cr, cg, cb)
+				buttons[index].bg:SetBackdropBorderColor(1, .8, 0)
 			else
-				buttons[index]:SetBackdropBorderColor(0, 0, 0)
+				buttons[index].bg:SetBackdropBorderColor(0, 0, 0)
 			end
 		end
 	end
@@ -218,7 +214,7 @@ function M.TradeTabs_OnEvent(event, addon)
 end
 
 function M:TradeTabs()
-	if not NDuiDB["Misc"]["TradeTabs"] then return end
+	if not C.db["Misc"]["TradeTabs"] then return end
 
 	B:RegisterEvent("ADDON_LOADED", M.TradeTabs_OnEvent)
 end

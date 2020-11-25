@@ -7,8 +7,6 @@ local Bar = B:GetModule("Actionbar")
 local _G = getfenv(0)
 local pairs, gsub = pairs, string.gsub
 
-local cr, cg, cb = DB.r, DB.g, DB.b
-
 local function CallButtonFunctionByName(button, func, ...)
 	if button and func and button[func] then
 		button[func](button, ...)
@@ -119,13 +117,12 @@ local function SetupCooldown(cooldown, cfg)
 	ApplyPoints(cooldown, cfg.points)
 end
 
-local function SetupBackdrop(button)
-	local bg = B.CreateBDFrame(button, nil, 0)
-
-	if NDuiDB["Actionbar"]["Classcolor"] then
-		bg:SetBackdropColor(cr, cg, cb)
+local function SetupBackdrop(icon)
+	local bg = B.SetBD(icon, .25)
+	if C.db["Actionbar"]["Classcolor"] then
+		bg:SetBackdropColor(DB.r, DB.g, DB.b, .25)
 	else
-		bg:SetBackdropColor(0, 0, 0)
+		bg:SetBackdropColor(.2, .2, .2, .25)
 	end
 end
 
@@ -141,7 +138,7 @@ local replaces = {
 	{KEY_BUTTON3, "M3"},
 	{KEY_MOUSEWHEELUP, "MU"},
 	{KEY_MOUSEWHEELDOWN, "MD"},
-	{KEY_SPACE, "SP"},
+	{KEY_SPACE, "Sp"},
 	{CAPSLOCK_KEY_TEXT, "CL"},
 	{"BUTTON", "M"},
 	{"NUMPAD", "N"},
@@ -154,8 +151,8 @@ local replaces = {
 }
 
 function Bar:UpdateHotKey()
-	local hotkey = _G[self:GetDebugName().."HotKey"]
-	if hotkey and hotkey:IsShown() and not NDuiDB["Actionbar"]["Hotkeys"] then
+	local hotkey = _G[self:GetName().."HotKey"]
+	if hotkey and hotkey:IsShown() and not C.db["Actionbar"]["Hotkeys"] then
 		hotkey:Hide()
 		return
 	end
@@ -174,11 +171,18 @@ function Bar:UpdateHotKey()
 	end
 end
 
+function Bar:HookHotKey(button)
+	Bar.UpdateHotKey(button)
+	if button.UpdateHotkeys then
+		hooksecurefunc(button, "UpdateHotkeys", Bar.UpdateHotKey)
+	end
+end
+
 function Bar:StyleActionButton(button, cfg)
 	if not button then return end
 	if button.__styled then return end
 
-	local buttonName = button:GetDebugName()
+	local buttonName = button:GetName()
 	local icon = _G[buttonName.."Icon"]
 	local flash = _G[buttonName.."Flash"]
 	local flyoutBorder = _G[buttonName.."FlyoutBorder"]
@@ -200,10 +204,10 @@ function Bar:StyleActionButton(button, cfg)
 
 	--hide stuff
 	if floatingBG then floatingBG:Hide() end
-	if NewActionTexture then NewActionTexture:SetTexture("") end
+	if NewActionTexture then NewActionTexture:SetTexture(nil) end
 
 	--backdrop
-	SetupBackdrop(button)
+	SetupBackdrop(icon)
 
 	--textures
 	SetupTexture(icon, cfg.icon, "SetTexture", icon)
@@ -216,6 +220,7 @@ function Bar:StyleActionButton(button, cfg)
 	SetupTexture(highlightTexture, cfg.highlightTexture, "SetHighlightTexture", button)
 	SetupTexture(checkedTexture, cfg.checkedTexture, "SetCheckedTexture", button)
 
+	checkedTexture:SetColorTexture(1, .8, 0, .35)
 	highlightTexture:SetColorTexture(1, 1, 1, .25)
 
 	--cooldown
@@ -225,7 +230,7 @@ function Bar:StyleActionButton(button, cfg)
 	local overlay = CreateFrame("Frame", nil, button)
 	overlay:SetAllPoints()
 	if count then
-		if NDuiDB["Actionbar"]["Count"] then
+		if C.db["Actionbar"]["Count"] then
 			count:SetParent(overlay)
 			SetupFontString(count, cfg.count)
 		else
@@ -233,16 +238,12 @@ function Bar:StyleActionButton(button, cfg)
 		end
 	end
 	if hotkey then
-		if NDuiDB["Actionbar"]["Hotkeys"] then
-			hotkey:SetParent(overlay)
-			Bar.UpdateHotKey(button)
-			SetupFontString(hotkey, cfg.hotkey)
-		else
-			hotkey:Hide()
-		end
+		hotkey:SetParent(overlay)
+		Bar:HookHotKey(button)
+		SetupFontString(hotkey, cfg.hotkey)
 	end
 	if name then
-		if NDuiDB["Actionbar"]["Macro"] then
+		if C.db["Actionbar"]["Macro"] then
 			name:SetParent(overlay)
 			SetupFontString(name, cfg.name)
 		else
@@ -255,6 +256,8 @@ function Bar:StyleActionButton(button, cfg)
 		autoCastable:SetInside()
 	end
 
+	Bar:RegisterButtonRange(button)
+
 	button.__styled = true
 end
 
@@ -262,7 +265,7 @@ function Bar:StyleExtraActionButton(cfg)
 	local button = ExtraActionButton1
 	if button.__styled then return end
 
-	local buttonName = button:GetDebugName()
+	local buttonName = button:GetName()
 	local icon = _G[buttonName.."Icon"]
 	--local flash = _G[buttonName.."Flash"] --wierd the template has two textures of the same name
 	local hotkey = _G[buttonName.."HotKey"]
@@ -270,14 +273,14 @@ function Bar:StyleExtraActionButton(cfg)
 	local buttonstyle = button.style --artwork around the button
 	local cooldown = _G[buttonName.."Cooldown"]
 
-	button:SetPushedTexture(DB.pushed) --force it to gain a texture
+	button:SetPushedTexture(DB.textures.pushed) --force it to gain a texture
 	local normalTexture = button:GetNormalTexture()
 	local pushedTexture = button:GetPushedTexture()
 	local highlightTexture = button:GetHighlightTexture()
 	local checkedTexture = button:GetCheckedTexture()
 
 	--backdrop
-	SetupBackdrop(button)
+	SetupBackdrop(icon)
 
 	--textures
 	SetupTexture(icon, cfg.icon, "SetTexture", icon)
@@ -294,15 +297,13 @@ function Bar:StyleExtraActionButton(cfg)
 	--hotkey, count
 	local overlay = CreateFrame("Frame", nil, button)
 	overlay:SetAllPoints()
-	if NDuiDB["Actionbar"]["Hotkeys"] then
-		hotkey:SetParent(overlay)
-		Bar.UpdateHotKey(button)
-		cfg.hotkey.font = {DB.Font[1], 13, DB.Font[3]}
-		SetupFontString(hotkey, cfg.hotkey)
-	else
-		hotkey:Hide()
-	end
-	if NDuiDB["Actionbar"]["Count"] then
+
+	hotkey:SetParent(overlay)
+	Bar:HookHotKey(button)
+	cfg.hotkey.font = {DB.Font[1], 13, DB.Font[3]}
+	SetupFontString(hotkey, cfg.hotkey)
+
+	if C.db["Actionbar"]["Count"] then
 		count:SetParent(overlay)
 		cfg.count.font = {DB.Font[1], 16, DB.Font[3]}
 		SetupFontString(count, cfg.count)
@@ -310,13 +311,15 @@ function Bar:StyleExtraActionButton(cfg)
 		count:Hide()
 	end
 
+	Bar:RegisterButtonRange(button)
+
 	button.__styled = true
 end
 
 function Bar:UpdateStanceHotKey()
 	for i = 1, NUM_STANCE_SLOTS do
 		_G["StanceButton"..i.."HotKey"]:SetText(GetBindingKey("SHAPESHIFTBUTTON"..i))
-		Bar.UpdateHotKey(_G["StanceButton"..i])
+		Bar:HookHotKey(_G["StanceButton"..i])
 	end
 end
 
@@ -327,6 +330,7 @@ function Bar:StyleAllActionButtons(cfg)
 		Bar:StyleActionButton(_G["MultiBarBottomRightButton"..i], cfg)
 		Bar:StyleActionButton(_G["MultiBarRightButton"..i], cfg)
 		Bar:StyleActionButton(_G["MultiBarLeftButton"..i], cfg)
+		Bar:StyleActionButton(_G["NDui_CustomBarButton"..i], cfg)
 	end
 	for i = 1, 6 do
 		Bar:StyleActionButton(_G["OverrideActionBarButton"..i], cfg)
@@ -348,9 +352,9 @@ function Bar:StyleAllActionButtons(cfg)
 	--extra action button
 	Bar:StyleExtraActionButton(cfg)
 	--spell flyout
-	SpellFlyoutBackgroundEnd:SetTexture("")
-	SpellFlyoutHorizontalBackground:SetTexture("")
-	SpellFlyoutVerticalBackground:SetTexture("")
+	SpellFlyoutBackgroundEnd:SetTexture(nil)
+	SpellFlyoutHorizontalBackground:SetTexture(nil)
+	SpellFlyoutVerticalBackground:SetTexture(nil)
 	local function checkForFlyoutButtons()
 		local i = 1
 		local button = _G["SpellFlyoutButton"..i]
@@ -376,23 +380,24 @@ function Bar:ReskinBars()
 		flyoutBorderShadow = {file = ""},
 		border = {file = ""},
 		normalTexture = {
-			file = DB.normal,
+			file = DB.textures.normal,
 			texCoord = DB.TexCoord,
+			color = {.3, .3, .3},
 			points = {
 				{"TOPLEFT", C.mult, -C.mult},
 				{"BOTTOMRIGHT", -C.mult, C.mult},
 			},
 		},
-		flash = {file = DB.flash},
+		flash = {file = DB.textures.flash},
 		pushedTexture = {
-			file = DB.pushed,
+			file = DB.textures.pushed,
 			points = {
 				{"TOPLEFT", C.mult, -C.mult},
 				{"BOTTOMRIGHT", -C.mult, C.mult},
 			},
 		},
 		checkedTexture = {
-			file = DB.checked,
+			file = "",
 			points = {
 				{"TOPLEFT", C.mult, -C.mult},
 				{"BOTTOMRIGHT", -C.mult, C.mult},
@@ -407,28 +412,28 @@ function Bar:ReskinBars()
 		},
 		cooldown = {
 			points = {
-				{"TOPLEFT", C.mult, -C.mult},
-				{"BOTTOMRIGHT", -C.mult, C.mult},
+				{"TOPLEFT", 0, 0},
+				{"BOTTOMRIGHT", 0, 0},
 			},
 		},
 		name = {
 			font = DB.Font,
 			points = {
-				{"BOTTOMLEFT", 0, 3},
-				{"BOTTOMRIGHT", 0, 3},
+				{"BOTTOMLEFT", 0, 0},
+				{"BOTTOMRIGHT", 0, 0},
 			},
 		},
 		hotkey = {
 			font = DB.Font,
 			points = {
-				{"TOPRIGHT", 0, -3},
-				{"TOPLEFT", 0, -3},
+				{"TOPRIGHT", 0, 0},
+				{"TOPLEFT", 0, 0},
 			},
 		},
 		count = {
 			font = DB.Font,
 			points = {
-				{"BOTTOMRIGHT", 0, 1},
+				{"BOTTOMRIGHT", 2, 0},
 			},
 		},
 		buttonstyle = {file = ""},
@@ -437,10 +442,7 @@ function Bar:ReskinBars()
 	Bar:StyleAllActionButtons(cfg)
 
 	-- Update hotkeys
-	hooksecurefunc("ActionButton_UpdateHotkeys", Bar.UpdateHotKey)
 	hooksecurefunc("PetActionButton_SetHotkeys", Bar.UpdateHotKey)
-	if NDuiDB["Actionbar"]["Hotkeys"] then
-		Bar:UpdateStanceHotKey()
-		B:RegisterEvent("UPDATE_BINDINGS", Bar.UpdateStanceHotKey)
-	end
+	Bar:UpdateStanceHotKey()
+	B:RegisterEvent("UPDATE_BINDINGS", Bar.UpdateStanceHotKey)
 end

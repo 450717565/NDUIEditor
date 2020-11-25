@@ -1,14 +1,22 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 
 tinsert(C.defaultThemes, function()
-	B.ReskinFrame(ItemTextFrame)
+	if not C.db["Skins"]["BlizzardSkins"] then return end
+
+	InboxFrameBg:Hide()
+	ItemTextPrevPageButton:GetRegions():Hide()
+	ItemTextNextPageButton:GetRegions():Hide()
+	ItemTextMaterialTopLeft:SetAlpha(0)
+	ItemTextMaterialTopRight:SetAlpha(0)
+	ItemTextMaterialBotLeft:SetAlpha(0)
+	ItemTextMaterialBotRight:SetAlpha(0)
+
+	B.ReskinPortraitFrame(ItemTextFrame)
 	B.ReskinScroll(ItemTextScrollFrameScrollBar)
 	B.ReskinArrow(ItemTextPrevPageButton, "left")
 	B.ReskinArrow(ItemTextNextPageButton, "right")
-
-	hooksecurefunc(ItemTextPageText, "SetTextColor", function(self, r, g, b)
-		if r ~= 1 or g ~= 1 or b ~= 1 then
-			self:SetTextColor(1, 1, 1)
-		end
-	end)
+	ItemTextFramePageBg:SetAlpha(0)
+	ItemTextPageText:SetTextColor(1, 1, 1)
+	ItemTextPageText.SetTextColor = B.Dummy
 end)

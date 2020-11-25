@@ -1,14 +1,15 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 
 tinsert(C.defaultThemes, function()
+	if not C.db["Skins"]["BlizzardSkins"] then return end
+
 	LevelUpDisplaySide:HookScript("OnShow", function(self)
 		for i = 1, #self.unlockList do
 			local f = _G["LevelUpDisplaySideUnlockFrame"..i]
 
-			if not f.styled then
-				B.ReskinIcon(f.icon)
-
-				f.styled = true
+			if not f.bg then
+				f.bg = B.ReskinIcon(f.icon)
 			end
 		end
 	end)

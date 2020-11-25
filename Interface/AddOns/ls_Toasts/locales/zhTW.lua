@@ -1,4 +1,4 @@
-﻿-- Contributors: BNS333@Curse, 彩虹の多多@Curse
+﻿-- Contributors: BNS333@Curse, 彩虹の多多@Curse, RainbowUI@Curse
 
 local _, addonTable = ...
 local L = addonTable.L
@@ -53,8 +53,12 @@ L["YOU_RECEIVED"] = "你收到"
 
 -- Retail
 L["COLLECTIONS_TAINT_WARNING"] = "啟用這個選項時，若在戰鬥中點擊開啟了 \"收藏\" 視窗，會發生錯誤。"
+L["CURRENCY_THRESHOLD_DESC"] = "輸入 |cffffd200-1|r 來忽略此貨幣。 |cffffd2000|r來停用此過濾，或|cffffd200 0以上的任何數字|r來設置閾值，低於該閾值將不建立與跳出提示。"
+L["FILTERS"] = "過濾方式"
 L["HANDLE_LEFT_CLICK"] = "允許左鍵點擊"
+L["NEW_CURRENCY_FILTER_DESC"] = "輸入兌換通貨 ID"
 L["OPEN_CONFIG"] = "開啟設定"
+L["THRESHOLD"] = "數量最少要"
 L["TRANSMOG_ADDED"] = "外觀已加入"
 L["TRANSMOG_REMOVED"] = "外觀已移除"
 L["TYPE_ACHIEVEMENT"] = "成就"
@@ -62,6 +66,7 @@ L["TYPE_ARCHAEOLOGY"] = "考古"
 L["TYPE_CLASS_HALL"] = "職業大廳"
 L["TYPE_COLLECTION"] = "收藏"
 L["TYPE_COLLECTION_DESC"] = "最新收集到的坐騎、寵物和玩具通知。"
+L["TYPE_COVENANT"] = "誓盟"
 L["TYPE_DUNGEON"] = "地城"
 L["TYPE_GARRISON"] = "要塞"
 L["TYPE_LOOT_COMMON"] = "拾取(一般)"
@@ -70,6 +75,7 @@ L["TYPE_LOOT_CURRENCY"] = "拾取(貨幣)"
 L["TYPE_LOOT_SPECIAL"] = "拾取(特殊)"
 L["TYPE_LOOT_SPECIAL_DESC"] = "由特殊戰利品觸發的通知，例如：贏得擲骰、傳說掉落、個人拾取..等等。"
 L["TYPE_RECIPE"] = "專業圖紙"
+L["TYPE_RUNECARVING"] = "符文雕刻"
 L["TYPE_TRANSMOG"] = "塑形提醒"
 L["TYPE_WAR_EFFORT"] = "陣營戰役"
 L["TYPE_WORLD_QUEST"] = "世界任務"

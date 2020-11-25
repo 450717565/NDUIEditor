@@ -1,21 +1,21 @@
 local mod	= DBM:NewMod(2425, "DBM-CastleNathria", nil, 1190)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20200910210923")
+mod:SetRevision("20201120191257")
 mod:SetCreatureID(168112, 168113)
 mod:SetEncounterID(2417)
 mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7, 8)
 mod:SetBossHPInfoToHighest()
-mod:SetHotfixNoticeRev(20200825000000)--2020, 8, 25
-mod:SetMinSyncRevision(20200825000000)
+mod:SetHotfixNoticeRev(20201120000000)--2020, 11, 20
+mod:SetMinSyncRevision(20201120000000)
 --mod.respawnTime = 29
 
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 333387 334765 334929 334498 339690 342544 342256 340043 342722 332683 342425 344496",
-	"SPELL_CAST_SUCCESS 334765 334929 342732",
-	"SPELL_SUMMON 342255",
+	"SPELL_CAST_START 333387 334765 334929 334498 342544 342256 342722 332683 342425 344496",
+	"SPELL_CAST_SUCCESS 334765 334929 342732 342253 342985 339690",
+	"SPELL_SUMMON 342255 342257 342258 342259",
 	"SPELL_AURA_APPLIED 329636 333913 334765 338156 338153 329808 333377 339690 342655 340037 343273 342425 336212",
 	"SPELL_AURA_APPLIED_DOSE 333913",
 	"SPELL_AURA_REMOVED 329636 333913 334765 329808 333377 339690 340037",
@@ -24,25 +24,17 @@ mod:RegisterEventsInCombat(
 --	"SPELL_PERIODIC_MISSED",
 	"UNIT_DIED",
 	"RAID_BOSS_WHISPER",
---	"UNIT_SPELLCAST_SUCCEEDED boss3 boss4 boss5 arena1 arena2 arena3",--Adds can use any of these
 	"UNIT_SPELLCAST_START boss1 boss2"
 )
 
---TODO, review more of timers with some bug fixes to fight as well as just a better version of transcriptor recording it.
---TODO, Target scan meteor target, if it's not same target as crystalize
---TODO, add https://ptr.wowhead.com/spell=343060/stone-spike when Grashaal is in air?
---TODO, add https://ptr.wowhead.com/spell=336231/cluster-bombardment for adds?
---TODO, verify timer for https://ptr.wowhead.com/spell=340043 . it was never used on mythic?
---TODO, stack announces for https://ptr.wowhead.com/spell=340042/punishment if it stacks
---TODO, https://shadowlands.wowhead.com/spell=342254/wicked-slaughter targeting?
---TODO, https://ptr.wowhead.com/spell=342985/stonegale-effigy needs announcing probably, but what event?
---TODO, target scan/yell for https://ptr.wowhead.com/spell=343086/ricocheting-shuriken ?
---TODO, is https://ptr.wowhead.com/spell=342425/stone-fist stacked or always swap at 1 in proper situation?
+--TODO, review more of timers with some bug fixes to fight as well as just a better version of transcriptor recording it., especailly P3 timers after intermission 2
+--TODO, stack announces for https://ptr.wowhead.com/spell=340042/punishment?
 --TODO, heart rend is renamed to Soul Crusher in journal, but spell data not renamed yet. Apply rename when it happens.
+--TODO, find a way to move timers for Adds to nameplate bars, otherwise they are far less useful and will only feel like spam. They'll be extremely useful on NPs though
 --[[
 (ability.id = 333387 or ability.id = 334929 or ability.id = 344496 or ability.id = 334498 or ability.id = 342544 or ability.id = 342256 or ability.id = 342425 or ability.id = 332683) and type = "begincast"
- or (ability.id = 334765 or ability.id = 339690) and type = "cast"
- or ability.id = 329636 or ability.id = 329808 or ability.id = 342255
+ or (ability.id = 334765 or ability.id = 339690 or ability.id = 342253) and type = "cast"
+ or ability.id = 329636 or ability.id = 329808 or ability.id = 342255 or ability.id = 342257 or ability.id = 342258 or ability.id = 342259
  or (target.id = 168112 or target.id = 168113 or target.id = 172858) and type = "death"
  or (ability.id = 340043 or ability.id = 332683) and type = "begincast"
  or ability.id = 342732 and type = "cast"
@@ -64,7 +56,8 @@ local warnStoneLegionGoliath					= mod:NewSpellAnnounce("ej22764", 2, 343273)
 local warnVolatileAnimaInfusion					= mod:NewTargetNoFilterAnnounce(342655, 2, nil, false)
 local warnRavenousFeast							= mod:NewTargetNoFilterAnnounce(343273, 3)
 local warnStonewrathExhaust						= mod:NewCastAnnounce(342722, 3)
---local warnStonegaleEffigy						= mod:NewSpellAnnounce(342985, 3)
+local warnWickedSlaughter						= mod:NewTargetNoFilterAnnounce(342253, 2, nil, "Tank")--So tanks know where adds went
+local warnStonegaleEffigy						= mod:NewSpellAnnounce(342985, 3)
 
 --General Kaal
 local specWarnWickedBlade						= mod:NewSpecialWarningYouPos(333376, nil, nil, nil, 1, 2)
@@ -92,31 +85,32 @@ local specWarnShatteringBlast					= mod:NewSpecialWarningSpell(332683, nil, nil,
 
 --General Kaal
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(22284))
-local timerWickedBladeCD						= mod:NewCDTimer(28.9, 333387, nil, nil, nil, 3)--28.9-44
+local timerWickedBladeCD						= mod:NewCDTimer(28.5, 333387, nil, nil, nil, 3)--28.5-44
 local timerHeartRendCD							= mod:NewCDTimer(40.1, 334765, nil, nil, nil, 3, nil, DBM_CORE_L.DEADLY_ICON)--40-52
-local timerSerratedSwipeCD						= mod:NewCDTimer(13.4, 334929, nil, "Tank", nil, 5, nil, DBM_CORE_L.TANK_ICON)--13.4-18.6
-local timerCallShadowForcesCD					= mod:NewCDTimer(61.6, 342256, nil, nil, nil, 1, nil, DBM_CORE_L.MYTHIC_ICON)
+local timerSerratedSwipeCD						= mod:NewCDTimer(21.9, 334929, nil, "Tank", nil, 5, nil, DBM_CORE_L.TANK_ICON)--13.4-18.6
+local timerCallShadowForcesCD					= mod:NewCDTimer(52, 342256, nil, nil, nil, 1, nil, DBM_CORE_L.MYTHIC_ICON)
 --General Grashaal
 mod:AddTimerLine(DBM:EJ_GetSectionInfo(22288))
---All of his timers are 30-40 it appears with exception of combo/crystalize obviously
-local timerReverberatingEruptionCD				= mod:NewAITimer(31.1, 344496, 138658, nil, nil, 3, nil, nil, nil, 1, 3)--31.1-40, Short text "Eruption"
-local timerSeismicUpheavalCD					= mod:NewCDTimer(30.1, 334498, nil, nil, nil, 3)--28.3-32
-local timerStoneBreakersComboCD					= mod:NewCDTimer(54.6, 339690, nil, nil, nil, 5, nil, nil, nil, 2, 3)--54-60
-local timerStoneFistCD							= mod:NewCDTimer(30.3, 342425, nil, "Tank", nil, 5, nil, DBM_CORE_L.TANK_ICON)
---Adds
-local timerPunishingBlowCD						= mod:NewAITimer(24.6, 340043, nil, nil, nil, 5, nil, DBM_CORE_L.TANK_ICON)--Was never cast, FIXME
---local timerRavenousFeastCD					= mod:NewCDTimer(50, 343273, nil, nil, nil, 3)--Kind of all over the place right now (50-60)
+local timerReverberatingEruptionCD				= mod:NewCDTimer(30, 344496, 138658, nil, nil, 3, nil, nil, nil, 1, 3)--31.1-40, Short text "Eruption"
+local timerSeismicUpheavalCD					= mod:NewCDTimer(32, 334498, nil, nil, nil, 3)--32-46
+local timerCrystalizeCD							= mod:NewCDTimer(53.5, 339690, nil, nil, nil, 5, nil, nil, nil, 2, 3)--53.5-60
+local timerStoneFistCD							= mod:NewCDTimer(19.1, 342425, nil, "Tank", nil, 5, nil, DBM_CORE_L.TANK_ICON)
+--Phasing
 local timerShatteringBlast						= mod:NewCastTimer(5, 332683, nil, nil, nil, 2)
+--Adds
+mod:AddTimerLine(DBM_CORE_L.ADDS)
+local timerRavenousFeastCD						= mod:NewCDTimer(22.7, 343273, nil, nil, nil, 3)--Kind of all over the place right now 23-30)
+local timerWickedSlaughterCD					= mod:NewCDTimer(10.9, 342253, nil, "Tank", nil, 3, nil, DBM_CORE_L.MYTHIC_ICON)
 
 --local berserkTimer							= mod:NewBerserkTimer(600)
 
 --mod:AddRangeFrameOption(10, 310277)
 mod:AddInfoFrameOption(333913, true)
-mod:AddSetIconOption("SetIconOnWickedBlade", 333387, true, false, {1, 2})--off by default since it relies on 100% boss mod raid
+mod:AddSetIconOption("SetIconOnWickedBlade", 333387, true, false, {1, 2})
 mod:AddSetIconOption("SetIconOnCrystalize", 339690, true, false, {3})
-mod:AddSetIconOption("SetIconOnMeteor", 342544, true, false, {3})
-mod:AddSetIconOption("SetIconOnHeartRend", 334765, false, false, {4, 5, 6, 7})
-mod:AddSetIconOption("SetIconOnLeap", 344496, false, false, {8})
+mod:AddSetIconOption("SetIconOnEruption", 344496, true, false, {4})
+mod:AddSetIconOption("SetIconOnHeartRend", 334765, false, false, {4, 5, 6, 7})--Off by default, conflicts with two other icon options
+mod:AddSetIconOption("SetIconOnShadowForces", 342256, true, true, {6, 7, 8})
 mod:AddNamePlateOption("NPAuraOnVolatileShell", 340037)
 
 local playerName = UnitName("player")
@@ -136,8 +130,8 @@ function mod:EruptionTarget(targetname, uId)
 		else
 			warnReverberatingEruption:Show(targetname)
 		end
-		if self.Options.SetIconOnLeap then
-			self:SetIcon(targetname, 8, 5)--So icon clears 1 second after blast
+		if self.Options.SetIconOnEruption then
+			self:SetIcon(targetname, 4, 5)--So icon clears 1 second after blast
 		end
 	end
 end
@@ -151,9 +145,6 @@ function mod:MeteorTarget(targetname, uId)
 	else
 		warnPulverizingMeteor:Show(targetname)
 	end
-	if self.Options.SetIconOnMeteor then
-		self:SetIcon(targetname, 3, 3)--So icon clears 1 second after
-	end
 end
 
 function mod:OnCombatStart(delay)
@@ -162,20 +153,18 @@ function mod:OnCombatStart(delay)
 	self.vb.wickedBladeIcon = 1
 	self.vb.phase = 1
 	--General Kaal
-	timerSerratedSwipeCD:Start(7.3-delay)--START, but next timer is started at SUCCESS
+	--Summons a goliath instantly on pull now, no timer needed for this
+	timerSerratedSwipeCD:Start(8.2-delay)--START, but next timer is started at SUCCESS
 	timerWickedBladeCD:Start(16.6-delay)
-	timerHeartRendCD:Start(33.2-delay)--SUCCESS
+	timerHeartRendCD:Start(30.9-delay)--SUCCESS
 	if self:IsMythic() then
 		timerCallShadowForcesCD:Start(10.5-delay)
 	end
 	--General Grashaal Air ability
-	timerStoneBreakersComboCD:Start(37.3-delay)--Crystalize
+	timerCrystalizeCD:Start(33.7-delay)
 	if self.Options.NPAuraOnVolatileShell then
 		DBM:FireEvent("BossMod_EnableHostileNameplates")
 	end
---	if self.Options.RangeFrame then
---		DBM.RangeCheck:Show(4)--For Acid Splash
---	end
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:SetHeader(DBM:GetSpellInfo(333913))
 		DBM.InfoFrame:Show(10, "table", LacerationStacks, 1)
@@ -187,9 +176,6 @@ function mod:OnCombatEnd()
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
 	end
---	if self.Options.RangeFrame then
---		DBM.RangeCheck:Hide()
---	end
 	if self.Options.NPAuraOnVolatileShell then
 		DBM.Nameplate:Hide(true, nil, nil, nil, true, true)
 	end
@@ -208,6 +194,7 @@ function mod:SPELL_CAST_START(args)
 			specWarnSerratedSwipe:Play("defensive")
 		end
 	elseif spellId == 344496 then
+		--"Reverberating Eruption-344496-npc:168113 = pull:252.3, 40.0, 40.0, 32.1, 40.0, Intermission/22.5, 9.6/32.1, 31.9, 28.1", -- [6]
 		timerReverberatingEruptionCD:Start()
 		--self:BossTargetScanner(args.sourceGUID, "EruptionTarget", 0.01, 12)
 	elseif spellId == 334498 then
@@ -215,13 +202,10 @@ function mod:SPELL_CAST_START(args)
 		specWarnSeismicUpheaval:Play("watchstep")
 		timerSeismicUpheavalCD:Start()
 	elseif spellId == 342544 then
-		--warnPulverizingMeteor:Show()
 		self:BossTargetScanner(args.sourceGUID, "MeteorTarget", 0.05, 12)
 	elseif spellId == 342256 then
 		warnCallShadowForces:Show()
 		timerCallShadowForcesCD:Start()
-	elseif spellId == 340043 then
-		timerPunishingBlowCD:Start(10, args.sourceGUID)
 	elseif spellId == 342722 then
 		warnStonewrathExhaust:Show()
 	elseif spellId == 332683 then
@@ -231,18 +215,19 @@ function mod:SPELL_CAST_START(args)
 		--Start INCOMING boss timers here, that seems to be how it's scripted.
 		self.vb.phase = self.vb.phase + 1
 		if self.vb.phase == 2 then
-			--Seems first set of adds is spawned instantly Shattering Blast cast
---			if self:IsMythic() then
---				timerCallShadowForcesCD:Start(2)
---			end
 			--General Grashaal
 			--Boss continues timer for crystalize/combo from air phase, it doesn't start here
 			--just spell queued depending on overlap with Grashaal resuming other stuff
-			timerStoneFistCD:Start(11.7)--11.7-20.9?
-			timerReverberatingEruptionCD:Start(2)--12.7-14.7
-			timerSeismicUpheavalCD:Start(30.7)
+			timerStoneFistCD:Start(10.7)--10.7-39.4
+			timerReverberatingEruptionCD:Start(11.1)--11-23.27 (13.7)
+			timerSeismicUpheavalCD:Start(30.9)--30.9-39.3 (41.7)
+			--Kael also resumes summing adds on mythic once intermission 1 is over, but it's pretty instant
+--			if self:IsMythic() then
+--				timerCallShadowForcesCD:Start(0)--0-5
+--			end
 		else--Stage 3 (Both Generals at once)
 			--General Kaal returning
+			--These probably need redoing
 			timerSerratedSwipeCD:Start(5.5)--START, but next timer is started at SUCCESS
 			timerHeartRendCD:Start(16.2)--SUCCESS
 			timerWickedBladeCD:Start(34.2)
@@ -265,11 +250,16 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if spellId == 334765 then
 		timerHeartRendCD:Start()
 	elseif spellId == 334929 then--Boss stutter casts this often
-		timerSerratedSwipeCD:Start()
+		timerSerratedSwipeCD:Start(20.4)--21.9 - 1.5
 	elseif spellId == 339690 then
-		timerStoneBreakersComboCD:Start()
---	elseif spellId == 342732 then
---		timerRavenousFeastCD:Start()
+		timerCrystalizeCD:Start()
+	elseif spellId == 342732 then
+		timerRavenousFeastCD:Start(30, args.sourceGUID)
+	elseif spellId == 342253 then
+		warnWickedSlaughter:CombinedShow(1.5, args.destName)--Needs to allow at least 1.5 to combine targets
+		timerWickedSlaughterCD:Start(10.9, args.sourceGUID)
+	elseif spellId == 342985 and self:AntiSpam(3, 3) then
+		warnStonegaleEffigy:Show()
 	end
 end
 
@@ -279,10 +269,16 @@ function mod:SPELL_SUMMON(args)
 		local cid = self:GetCIDFromGUID(args.destGUID)
 		if cid == 172858 then--stone-legion-goliath
 			warnStoneLegionGoliath:Show()
-			--if self:IsHard() then
-			--	timerRavenousFeastCD:Start(33.2)
-			--end
+			if self:IsHard() then
+				timerRavenousFeastCD:Start(31.4, args.destGUID)
+			end
 		end
+	elseif spellId == 342257 or spellId == 342258 or spellId == 342259 then
+		if self.Options.SetIconOnShadowForces then
+			local icon = spellId == 342257 and 8 or spellId == 342258 and 7 or 6
+			self:ScanForMobs(args.destGUID, 2, icon, 1, 0.2, 12)
+		end
+		timerWickedSlaughterCD:Start(10.6, args.destGUID)
 	end
 end
 
@@ -338,16 +334,12 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnVolatileStoneShell:Show()
 			specWarnVolatileStoneShell:Play("targetchange")
 		end
---		if self.Options.InfoFrame then--Will only work if it has a valid boss unit ID, so hold off for now
---			DBM.InfoFrame:SetHeader(args.spellName)
---			DBM.InfoFrame:Show(2, "enemyabsorb", nil, args.amount, "boss1")
---		end
 		if self.Options.NPAuraOnVolatileShell then
-			DBM.Nameplate:Show(true, args.destGUID, spellId, nil, 6)
+			DBM.Nameplate:Show(true, args.destGUID, spellId, nil, 4)
 		end
 	elseif spellId == 343273 then
 		warnRavenousFeast:CombinedShow(0.3, args.destName)--Combined in case it'll clobber everyone near them too
-	elseif spellId == 342425 and not args:IsPlayer() and not DBM:UnitDebuff("player", spellId) then
+	elseif spellId == 342425 and not args:IsPlayer() then
 		specWarnStoneFistTaunt:Show(args.destName)
 		specWarnStoneFistTaunt:Play("tauntboss")
 	elseif spellId == 336212 then
@@ -365,10 +357,10 @@ function mod:SPELL_AURA_REMOVED(args)
 		timerHeartRendCD:Stop()
 		timerSerratedSwipeCD:Stop()
 		--Start Outgoing boss (Kael) (stuff he still casts airborn) here as well
-		timerWickedBladeCD:Start(26.7)
-	elseif spellId == 329808 then
+		timerWickedBladeCD:Start(26.2)--(28.6)
+	elseif spellId == 329808 then--Grashaal stone form ending.
 		warnHardenedStoneFormOver:Show()
-		--No timer action should be needed here.
+		--No timer action should be needed here, boss doesn't leave.
 		--Shattering started incoming bosses timers and boss already active doesn't reset timers
 	elseif spellId == 333913 then
 		LacerationStacks[args.destName] = nil
@@ -387,10 +379,6 @@ function mod:SPELL_AURA_REMOVED(args)
 			self:SetIcon(args.destName, 0)
 		end
 	elseif spellId == 340037 then
---		if self.Options.InfoFrame then
---			DBM.InfoFrame:SetHeader(DBM:GetSpellInfo(333913))
---			DBM.InfoFrame:Show(10, "table", LacerationStacks, 1)
---		end
 		if self.Options.NPAuraOnVolatileShell then
 			DBM.Nameplate:Hide(true, args.destGUID, spellId)
 		end
@@ -413,8 +401,8 @@ function mod:RAID_BOSS_WHISPER(msg)
 		specWarnReverberatingEruption:Play("runout")
 		yellReverberatingEruption:Yell()
 		yellReverberatingEruptionFades:Countdown(3.5)--A good 0.5 sec slower
-		if self.Options.SetIconOnLeap then
-			self:SetIcon(playerName, 8, 4.5)--So icon clears 1 second after
+		if self.Options.SetIconOnEruption then
+			self:SetIcon(playerName, 4, 4.5)--So icon clears 1 second after
 		end
 	end
 end
@@ -424,8 +412,8 @@ function mod:OnTranscriptorSync(msg, targetName)
 		targetName = Ambiguate(targetName, "none")
 		if self:AntiSpam(4, targetName.."2") then--Same antispam as RAID_BOSS_WHISPER on purpose. if player got personal warning they don't need this one
 			warnReverberatingEruption:Show(targetName)
-			if self.Options.SetIconOnLeap then
-				self:SetIcon(targetName, 8, 4.5)--So icon clears 1 second after
+			if self.Options.SetIconOnEruption then
+				self:SetIcon(targetName, 4, 4.5)--So icon clears 1 second after
 			end
 		end
 	end
@@ -434,11 +422,9 @@ end
 function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
 	if cid == 172858 then--stone-legion-goliath
---		timerRavenousFeastCD:Stop()
-	elseif cid == 173276 then--Stone Legion Commando
-		timerPunishingBlowCD:Stop(args.destGUID)
---	elseif cid == 173280 then--stone-legion-skirmisher
-
+		timerRavenousFeastCD:Stop(args.destGUID)
+	elseif cid == 173280 then--stone-legion-skirmisher
+		timerWickedSlaughterCD:Stop(args.destGUID)
 	elseif cid == 168112 then--Kaal
 		timerWickedBladeCD:Stop()
 		timerHeartRendCD:Stop()
@@ -447,7 +433,7 @@ function mod:UNIT_DIED(args)
 	elseif cid == 168113 then--Grashaal
 		timerReverberatingEruptionCD:Stop()
 		timerSeismicUpheavalCD:Stop()
-		timerStoneBreakersComboCD:Stop()
+		timerCrystalizeCD:Stop()
 		timerStoneFistCD:Stop()
 	end
 end

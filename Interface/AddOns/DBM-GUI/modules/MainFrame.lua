@@ -35,7 +35,8 @@ frame.backdropInfo = {
 	edgeSize	= 32,
 	insets		= { left = 11, right = 12, top = 12, bottom = 11 }
 }
-if DBM:IsAlpha() then
+
+if DBM:IsShadowlands() then
 	frame:ApplyBackdrop()
 else
 	frame:SetBackdrop(frame.backdropInfo)
@@ -154,7 +155,7 @@ function OptionsList_OnLoad(self, ...)
 		hack(self, ...)
 	end
 end
-local frameList = CreateFrame("Frame", "$parentList", frame, DBM:IsAlpha() and "BackdropTemplate,OptionsFrameListTemplate" or "OptionsFrameListTemplate")
+local frameList = CreateFrame("Frame", "$parentList", frame, DBM:IsShadowlands() and "BackdropTemplate,OptionsFrameListTemplate" or "OptionsFrameListTemplate")
 frameList:SetWidth(205)
 frameList:SetPoint("TOPLEFT", 22, -40)
 frameList:SetPoint("BOTTOMLEFT", frameWebsite, "TOPLEFT", 0, 5)
@@ -206,7 +207,7 @@ frameListList.backdropInfo = {
 	edgeSize	= 12,
 	insets		= { left = 0, right = 0, top = 5, bottom = 5 }
 }
-if DBM:IsAlpha() then
+if DBM:IsShadowlands() then
 	Mixin(frameListList, BackdropTemplateMixin)
 	frameListList:ApplyBackdrop()
 else
@@ -240,7 +241,7 @@ scrollDownButton:SetScript("OnClick", function(self)
 	self:GetParent():SetValue(self:GetParent():GetValue() + 18)
 end)
 
-local frameContainer = CreateFrame("ScrollFrame", "$parentPanelContainer", frame, DBM:IsAlpha() and "BackdropTemplate")
+local frameContainer = CreateFrame("ScrollFrame", "$parentPanelContainer", frame, DBM:IsShadowlands() and "BackdropTemplate")
 frameContainer:SetPoint("TOPLEFT", frameList, "TOPRIGHT", 16, 0)
 frameContainer:SetPoint("BOTTOMLEFT", frameList, "BOTTOMRIGHT", 16, 0)
 frameContainer:SetPoint("RIGHT", -22, 0)
@@ -249,15 +250,12 @@ frameContainer.backdropInfo = {
 	edgeSize	= 16,
 	tileEdge	= true
 }
-if DBM:IsAlpha() then
+if DBM:IsShadowlands() then
 	frameContainer:ApplyBackdrop()
 else
 	frameContainer:SetBackdrop(frameContainer.backdropInfo)
 end
 frameContainer:SetBackdropBorderColor(0.6, 0.6, 0.6, 1)
-
-local frameContainerHeaderText = frameContainer:CreateFontString("$parentHeaderText", "BACKGROUND", "GameFontHighlightSmall")
-frameContainerHeaderText:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 10, 1)
 
 local frameContainerFOV = CreateFrame("ScrollFrame", "$parentFOV", frameContainer, "FauxScrollFrameTemplate")
 frameContainerFOV:Hide()
@@ -272,7 +270,7 @@ frameContainerScrollBar:ClearAllPoints()
 frameContainerScrollBar:SetPoint("TOPRIGHT", -4, -15)
 frameContainerScrollBar:SetPoint("BOTTOMRIGHT", 0, 15)
 
-local frameContainerScrollBarBackdrop = CreateFrame("Frame", nil, frameContainerScrollBar, DBM:IsAlpha() and "BackdropTemplate")
+local frameContainerScrollBarBackdrop = CreateFrame("Frame", nil, frameContainerScrollBar, DBM:IsShadowlands() and "BackdropTemplate")
 frameContainerScrollBarBackdrop:SetPoint("TOPLEFT", -4, 20)
 frameContainerScrollBarBackdrop:SetPoint("BOTTOMRIGHT", 4, -20)
 frameContainerScrollBarBackdrop.backdropInfo = {
@@ -282,7 +280,7 @@ frameContainerScrollBarBackdrop.backdropInfo = {
 	edgeSize	= 16,
 	insets		= { left = 0, right = 0, top = 5, bottom = 5 }
 }
-if DBM:IsAlpha() then
+if DBM:IsShadowlands() then
 	frameContainerScrollBarBackdrop:ApplyBackdrop()
 else
 	frameContainerScrollBarBackdrop:SetBackdrop(frameContainerScrollBarBackdrop.backdropInfo)

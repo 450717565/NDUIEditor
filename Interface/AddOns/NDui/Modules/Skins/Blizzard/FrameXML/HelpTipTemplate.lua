@@ -1,33 +1,20 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
+
+local function reskinHelpTips(self)
+	for frame in self.framePool:EnumerateActive() do
+		if not frame.styled then
+			if frame.OkayButton then B.Reskin(frame.OkayButton) end
+			if frame.CloseButton then B.ReskinClose(frame.CloseButton) end
+
+			frame.styled = true
+		end
+	end
+end
 
 tinsert(C.defaultThemes, function()
-	local function reskinAlertFrame(self)
-		if not self.styled then
-			if self.OkayButton then B.ReskinButton(self.OkayButton) end
-			if self.CloseButton then B.ReskinClose(self.CloseButton) end
+	if not C.db["Skins"]["BlizzardSkins"] then return end
 
-			self.styled = true
-		end
-	end
-
-	local microButtons = {
-		CharacterMicroButtonAlert,
-		CollectionsMicroButtonAlert,
-		EJMicroButtonAlert,
-		GuildMicroButtonAlert,
-		LFDMicroButtonAlert,
-		StoreMicroButtonAlert,
-		TalentMicroButtonAlert,
-		ZoneAbilityButtonAlert,
-	}
-
-	for _, frame in pairs(microButtons) do
-		reskinAlertFrame(frame)
-	end
-
-	hooksecurefunc(HelpTip, "Show", function(self)
-		for frame in self.framePool:EnumerateActive() do
-			reskinAlertFrame(frame)
-		end
-	end)
+	reskinHelpTips(HelpTip)
+	hooksecurefunc(HelpTip, "Show", reskinHelpTips)
 end)

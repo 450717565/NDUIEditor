@@ -3,7 +3,7 @@ local B, C, L, DB = unpack(ns)
 local M = B:RegisterModule("Misc")
 
 local _G = getfenv(0)
-local tonumber, select, strmatch = tonumber, select, strmatch
+local select = select
 local InCombatLockdown, IsModifiedClick, IsAltKeyDown = InCombatLockdown, IsModifiedClick, IsAltKeyDown
 local GetNumArchaeologyRaces = GetNumArchaeologyRaces
 local GetNumArtifactsByRace = GetNumArtifactsByRace
@@ -26,8 +26,6 @@ local GetSavedInstanceInfo = GetSavedInstanceInfo
 local SetSavedInstanceExtend = SetSavedInstanceExtend
 local RequestRaidInfo, RaidInfoFrame_Update = RequestRaidInfo, RaidInfoFrame_Update
 local IsGuildMember, C_BattleNet_GetGameAccountInfoByGUID, C_FriendList_IsFriend = IsGuildMember, C_BattleNet.GetGameAccountInfoByGUID, C_FriendList.IsFriend
-local GetMerchantNumItems, GetMerchantItemID = GetMerchantNumItems, GetMerchantItemID
-local MERCHANT_ITEMS_PER_PAGE = MERCHANT_ITEMS_PER_PAGE
 
 --[[
 	Miscellaneous 各种有用没用的小玩意儿
@@ -56,12 +54,10 @@ function M:OnLogin()
 	M:MoveTicketStatusFrame()
 	M:UpdateScreenShot()
 	M:UpdateFasterLoot()
-	M:UpdateErrorBlocker()
 	M:TradeTargetInfo()
-	M:MoverQuestTracker()
+	M:MoveQuestTracker()
 	M:BlockStrangerInvite()
 	M:OverrideAWQ()
-	M:ReplaceContaminantName()
 	M:ToggleBossBanner()
 	M:ToggleBossEmote()
 
@@ -77,7 +73,8 @@ function M:OnLogin()
 	-- Auto chatBubbles
 	if NDuiADB["AutoBubbles"] then
 		local function updateBubble()
-			if IsInInstance() then
+			local name, instType = GetInstanceInfo()
+			if name and instType == "raid" then
 				SetCVar("chatBubbles", 1)
 			else
 				SetCVar("chatBubbles", 0)
@@ -93,7 +90,7 @@ function M:OnLogin()
 
 	-- Instant delete
 	hooksecurefunc(StaticPopupDialogs["DELETE_GOOD_ITEM"], "OnShow", function(self)
-		if NDuiDB["Misc"]["InstantDelete"] then
+		if C.db["Misc"]["InstantDelete"] then
 			self.editBox:SetText(DELETE_ITEM_CONFIRM_STRING)
 		end
 	end)
@@ -107,9 +104,9 @@ function M:OnLogin()
 	end
 end
 
--- Hide Bossbanner
+-- Hide boss banner
 function M:ToggleBossBanner()
-	if NDuiDB["Misc"]["HideBanner"] then
+	if C.db["Misc"]["HideBanner"] then
 		BossBanner:UnregisterAllEvents()
 	else
 		BossBanner:RegisterEvent("BOSS_KILL")
@@ -119,7 +116,7 @@ end
 
 -- Hide boss emote
 function M:ToggleBossEmote()
-	if NDuiDB["Misc"]["HideBossEmote"] then
+	if C.db["Misc"]["HideBossEmote"] then
 		RaidBossEmoteFrame:UnregisterAllEvents()
 	else
 		RaidBossEmoteFrame:RegisterEvent("RAID_BOSS_EMOTE")
@@ -130,10 +127,9 @@ end
 
 -- Get Naked
 function M:NakedIcon()
-	local width = PaperDollSidebarTab1:GetWidth() + C.mult*2
 	local bu = CreateFrame("Button", nil, CharacterFrameInsetRight)
-	bu:SetPoint("TOPLEFT", PaperDollSidebarTab1, "TOPLEFT", -(width+4), C.mult)
-	bu:SetPoint("BOTTOMRIGHT", PaperDollSidebarTab1, "BOTTOMLEFT", -4, -C.mult)
+	bu:SetSize(31, 34)
+	bu:SetPoint("RIGHT", PaperDollSidebarTab1, "LEFT", -4, -3)
 	B.PixelIcon(bu, "Interface\\ICONS\\SPELL_SHADOW_TWISTEDFAITH", true)
 	B.AddTooltip(bu, "ANCHOR_RIGHT", L["Get Naked"])
 
@@ -186,12 +182,12 @@ end
 function M:VehicleSeatMover()
 	local frame = CreateFrame("Frame", "NDuiVehicleSeatMover", UIParent)
 	frame:SetSize(125, 125)
-	B.Mover(frame, L["VehicleSeat"], "VehicleSeat", {"BOTTOMRIGHT", UIParent, -400, 80})
+	B.Mover(frame, L["VehicleSeat"], "VehicleSeat", {"BOTTOMRIGHT", UIParent, -400, 30})
 
 	hooksecurefunc(VehicleSeatIndicator, "SetPoint", function(self, _, parent)
 		if parent == "MinimapCluster" or parent == MinimapCluster then
 			self:ClearAllPoints()
-			self:SetPoint("BOTTOM", frame)
+			self:SetPoint("TOPLEFT", frame)
 		end
 	end)
 end
@@ -200,7 +196,7 @@ end
 function M:UIWidgetFrameMover()
 	local frame = CreateFrame("Frame", "NDuiUIWidgetMover", UIParent)
 	frame:SetSize(200, 50)
-	B.Mover(frame, L["UIWidgetFrame"], "UIWidgetFrame", {"TOPRIGHT", Minimap, "BOTTOMRIGHT", 0, -30})
+	B.Mover(frame, L["UIWidgetFrame"], "UIWidgetFrame", {"TOPRIGHT", Minimap, "BOTTOMRIGHT", 0, -20})
 
 	hooksecurefunc(UIWidgetBelowMinimapContainerFrame, "SetPoint", function(self, _, parent)
 		if parent == "MinimapCluster" or parent == MinimapCluster then
@@ -231,10 +227,10 @@ function M:MoveTicketStatusFrame()
 end
 
 -- Reanchor ObjectiveTracker
-function M:MoverQuestTracker()
+function M:MoveQuestTracker()
 	local frame = CreateFrame("Frame", "NDuiQuestMover", UIParent)
 	frame:SetSize(240, 50)
-	B.Mover(frame, L["QuestTracker"], "QuestTracker", {"TOPRIGHT", Minimap, "BOTTOM", 0, -30})
+	B.Mover(frame, L["QuestTracker"], "QuestTracker", {"TOPRIGHT", Minimap, "BOTTOMRIGHT", -70, -55})
 
 	local tracker = ObjectiveTrackerFrame
 	tracker:ClearAllPoints()
@@ -264,7 +260,7 @@ function M:UpdateScreenShot()
 		end)
 	end
 
-	if NDuiDB["Misc"]["Screenshot"] then
+	if C.db["Misc"]["Screenshot"] then
 		B:RegisterEvent("ACHIEVEMENT_EARNED", M.ScreenShotOnEvent)
 	else
 		M.ScreenShotFrame:Hide()
@@ -287,70 +283,16 @@ function M:DoFasterLoot()
 end
 
 function M:UpdateFasterLoot()
-	if NDuiDB["Misc"]["FasterLoot"] then
+	if C.db["Misc"]["FasterLoot"] then
 		B:RegisterEvent("LOOT_READY", M.DoFasterLoot)
 	else
 		B:UnregisterEvent("LOOT_READY", M.DoFasterLoot)
 	end
 end
 
--- Hide errors in combat
-local erList = {
-	[ERR_ABILITY_COOLDOWN] = true,
-	[ERR_ATTACK_MOUNTED] = true,
-	[ERR_ITEM_COOLDOWN] = true,
-	[ERR_NO_ATTACK_TARGET] = true,
-	[ERR_OUT_OF_ARCANE_CHARGES] = true,
-	[ERR_OUT_OF_CHI] = true,
-	[ERR_OUT_OF_COMBO_POINTS] = true,
-	[ERR_OUT_OF_ENERGY] = true,
-	[ERR_OUT_OF_FOCUS] = true,
-	[ERR_OUT_OF_HEALTH] = true,
-	[ERR_OUT_OF_HOLY_POWER] = true,
-	[ERR_OUT_OF_MANA] = true,
-	[ERR_OUT_OF_POWER_DISPLAY] = true,
-	[ERR_OUT_OF_RAGE] = true,
-	[ERR_OUT_OF_RANGE] = true,
-	[ERR_OUT_OF_RUNES] = true,
-	[ERR_OUT_OF_RUNIC_POWER] = true,
-	[ERR_OUT_OF_SOUL_SHARDS] = true,
-	[ERR_SPELL_COOLDOWN] = true,
-	[SPELL_FAILED_BAD_IMPLICIT_TARGETS] = true,
-	[SPELL_FAILED_BAD_TARGETS] = true,
-	[SPELL_FAILED_CASTER_AURASTATE] = true,
-	[SPELL_FAILED_NO_COMBO_POINTS] = true,
-	[SPELL_FAILED_SPELL_IN_PROGRESS] = true,
-	[SPELL_FAILED_TARGET_AURASTATE] = true,
-}
-
-local isRegistered = true
-function M:ErrorBlockerOnEvent(_, text)
-	if InCombatLockdown() and erList[text] then
-		if isRegistered then
-			UIErrorsFrame:UnregisterEvent(self)
-			isRegistered = false
-		end
-	else
-		if not isRegistered then
-			UIErrorsFrame:RegisterEvent(self)
-			isRegistered = true
-		end
-	end
-end
-
-function M:UpdateErrorBlocker()
-	if NDuiDB["Misc"]["HideErrors"] then
-		B:RegisterEvent("UI_ERROR_MESSAGE", M.ErrorBlockerOnEvent)
-	else
-		isRegistered = true
-		UIErrorsFrame:RegisterEvent("UI_ERROR_MESSAGE")
-		B:UnregisterEvent("UI_ERROR_MESSAGE", M.ErrorBlockerOnEvent)
-	end
-end
-
 -- TradeFrame hook
 function M:TradeTargetInfo()
-	local infoText = B.CreateFS(TradeFrame, 16)
+	local infoText = B.CreateFS(TradeFrame, 16, "")
 	infoText:ClearAllPoints()
 	infoText:SetPoint("TOP", TradeFrameRecipientNameText, "BOTTOM", 0, -5)
 
@@ -374,7 +316,7 @@ end
 -- Block invite from strangers
 function M:BlockStrangerInvite()
 	B:RegisterEvent("PARTY_INVITE_REQUEST", function(_, _, _, _, _, _, _, guid)
-		if NDuiDB["Misc"]["BlockInvite"] and not (C_BattleNet_GetGameAccountInfoByGUID(guid) or C_FriendList_IsFriend(guid) or IsGuildMember(guid)) then
+		if C.db["Misc"]["BlockInvite"] and not (C_BattleNet_GetGameAccountInfoByGUID(guid) or C_FriendList_IsFriend(guid) or IsGuildMember(guid)) then
 			DeclineGroup()
 			StaticPopup_Hide("PARTY_INVITE")
 		end
@@ -390,10 +332,8 @@ function M:OverrideAWQ()
 
 	local settings = {
 		hideFilteredPOI = true,
-		showHoveredPOI = true,
-		lootUpgradesLevel = 0,
-		sortMethod = 4,
-		timeFilterDuration = 1,
+		showContinentPOI = true,
+		sortMethod = 2,
 	}
 	local function overrideOptions(_, key)
 		local value = settings[key]
@@ -402,27 +342,7 @@ function M:OverrideAWQ()
 			AngryWorldQuests_CharacterConfig[key] = value
 		end
 	end
-	hooksecurefunc(AngryWorldQuests.Modules.Config, "Get", overrideOptions)
 	hooksecurefunc(AngryWorldQuests.Modules.Config, "Set", overrideOptions)
-end
-
--- Replace contaminant name
-local itemString = HEADER_COLON.."(.+)"
-local contaminantsLevel = DB.ContaminantsLevel
-function M:ReplaceContaminantName()
-	local function replaceItemTitle(title)
-		local text = title and title:GetText()
-		local newText = text and strmatch(text, itemString)
-		if newText then
-			title:SetText(newText)
-		end
-	end
-
-	local function Hook_OnTooltipSetItem(self)
-		local line = _G[self:GetDebugName().."TextLeft1"]
-		replaceItemTitle(line)
-	end
-	GameTooltip:HookScript("OnTooltipSetItem", Hook_OnTooltipSetItem)
 end
 
 -- Archaeology counts
@@ -430,7 +350,7 @@ do
 	local function CalculateArches(self)
 		GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT")
 		GameTooltip:ClearLines()
-		GameTooltip:AddLine("|c0000FF00"..L["Arch Count"]..L[":"])
+		GameTooltip:AddLine("|c0000FF00"..L["Arch Count"]..":")
 		GameTooltip:AddLine(" ")
 		local total = 0
 		for i = 1, GetNumArchaeologyRaces() do
@@ -442,12 +362,12 @@ do
 			end
 			local name = GetArchaeologyRaceInfo(i)
 			if numArtifacts > 1 then
-				GameTooltip:AddDoubleLine(name..L[":"], DB.InfoColor..count)
+				GameTooltip:AddDoubleLine(name..":", DB.InfoColor..count)
 				total = total + count
 			end
 		end
 		GameTooltip:AddLine(" ")
-		GameTooltip:AddDoubleLine("|c0000ff00"..TOTAL..L[":"], "|cffff0000"..total)
+		GameTooltip:AddDoubleLine("|c0000ff00"..TOTAL..":", "|cffff0000"..total)
 		GameTooltip:Show()
 	end
 
@@ -465,8 +385,7 @@ do
 			AddCalculateIcon()
 			-- Repoint Bar
 			ArcheologyDigsiteProgressBar.ignoreFramePositionManager = true
-			ArcheologyDigsiteProgressBar:ClearAllPoints()
-			ArcheologyDigsiteProgressBar:SetPoint("BOTTOM", 0, 175)
+			ArcheologyDigsiteProgressBar:SetPoint("BOTTOM", 0, 150)
 			B.CreateMF(ArcheologyDigsiteProgressBar)
 
 			B:UnregisterEvent(event, setupMisc)
@@ -475,7 +394,7 @@ do
 
 	B:RegisterEvent("ADDON_LOADED", setupMisc)
 
-	local newTitleString = ARCHAEOLOGY_DIGSITE_PROGRESS_BAR_TITLE..L[":"].."%s / %s"
+	local newTitleString = ARCHAEOLOGY_DIGSITE_PROGRESS_BAR_TITLE.." %s/%s"
 	local function updateArcTitle(_, ...)
 		local numFindsCompleted, totalFinds = ...
 		if ArcheologyDigsiteProgressBar then
@@ -489,7 +408,7 @@ end
 -- Drag AltPowerbar
 do
 	local mover = CreateFrame("Frame", "NDuiAltBarMover", PlayerPowerBarAlt)
-	mover:SetPoint("CENTER", UIParent, "BOTTOM", -270, 170)
+	mover:SetPoint("CENTER", UIParent, 0, -200)
 	mover:SetSize(20, 20)
 	B.CreateMF(PlayerPowerBarAlt, mover)
 
@@ -508,11 +427,16 @@ do
 		end
 	end)
 
-	local count = 0
-	PlayerPowerBarAlt:HookScript("OnEnter", function()
-		if count < 1 then
-			UIErrorsFrame:AddMessage(DB.InfoColor..L["Drag AltBar Tip"])
-			count = count + 1
+	local altPowerInfo = {
+		text = L["Drag AltBar Tip"],
+		buttonStyle = HelpTip.ButtonStyle.GotIt,
+		targetPoint = HelpTip.Point.RightEdgeCenter,
+		onAcknowledgeCallback = B.HelpInfoAcknowledge,
+		callbackArg = "AltPower",
+	}
+	PlayerPowerBarAlt:HookScript("OnEnter", function(self)
+		if not NDuiADB["Help"]["AltPower"] then
+			HelpTip:Show(self, altPowerInfo)
 		end
 	end)
 end
@@ -580,86 +504,6 @@ do
 	end
 
 	B:RegisterEvent("ADDON_LOADED", setupMisc)
-end
-
--- Temporary taint fix
-do
-	InterfaceOptionsFrameCancel:SetScript("OnClick", function()
-		InterfaceOptionsFrameOkay:Click()
-	end)
-
-	-- https://www.townlong-yak.com/bugs/Kjq4hm-DisplayModeCommunitiesTaint
-	if (UIDROPDOWNMENU_OPEN_PATCH_VERSION or 0) < 1 then
-		UIDROPDOWNMENU_OPEN_PATCH_VERSION = 1
-		hooksecurefunc("UIDropDownMenu_InitializeHelper", function(frame)
-			if UIDROPDOWNMENU_OPEN_PATCH_VERSION ~= 1 then return end
-
-			if UIDROPDOWNMENU_OPEN_MENU and UIDROPDOWNMENU_OPEN_MENU ~= frame and not issecurevariable(UIDROPDOWNMENU_OPEN_MENU, "displayMode") then
-				UIDROPDOWNMENU_OPEN_MENU = nil
-				local t, f, prefix, i = _G, issecurevariable, " \0", 1
-				repeat
-					i, t[prefix..i] = i+1
-				until f("UIDROPDOWNMENU_OPEN_MENU")
-			end
-		end)
-	end
-
-	-- https://www.townlong-yak.com/bugs/YhgQma-SetValueRefreshTaint
-	if (COMMUNITY_UIDD_REFRESH_PATCH_VERSION or 0) < 1 then
-		COMMUNITY_UIDD_REFRESH_PATCH_VERSION = 1
-		local function CleanDropdowns()
-			if COMMUNITY_UIDD_REFRESH_PATCH_VERSION ~= 1 then
-				return
-			end
-			local f, f2 = FriendsFrame, FriendsTabHeader
-			local s = f:IsShown()
-			f:Hide()
-			f:Show()
-			if not f2:IsShown() then
-				f2:Show()
-				f2:Hide()
-			end
-			if not s then
-				f:Hide()
-			end
-		end
-		hooksecurefunc("Communities_LoadUI", CleanDropdowns)
-		hooksecurefunc("SetCVar", function(n)
-			if n == "lastSelectedClubId" then
-				CleanDropdowns()
-			end
-		end)
-	end
-
-	-- https://www.townlong-yak.com/bugs/Mx7CWN-RefreshOverread
-	if (UIDD_REFRESH_OVERREAD_PATCH_VERSION or 0) < 1 then
-		UIDD_REFRESH_OVERREAD_PATCH_VERSION = 1
-		local function drop(t, k)
-			local c = 42
-			t[k] = nil
-			while not issecurevariable(t, k) do
-				if t[c] == nil then
-					t[c] = nil
-				end
-				c = c + 1
-			end
-		end
-		hooksecurefunc("UIDropDownMenu_InitializeHelper", function()
-			if UIDD_REFRESH_OVERREAD_PATCH_VERSION ~= 1 then
-				return
-			end
-			for i = 1, UIDROPDOWNMENU_MAXLEVELS do
-				local d = _G["DropDownList"..i]
-				if d and d.numButtons then
-					for j = d.numButtons+1, UIDROPDOWNMENU_MAXBUTTONS do
-						local b, _ = _G["DropDownList"..i.."Button"..j]
-						_ = issecurevariable(b, "checked") or drop(b, "checked")
-						_ = issecurevariable(b, "notCheckable") or drop(b, "notCheckable")
-					end
-				end
-			end
-		end)
-	end
 end
 
 -- Select target when click on raid units

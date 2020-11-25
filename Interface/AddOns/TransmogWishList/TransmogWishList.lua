@@ -793,8 +793,8 @@ function TransMogWishListModelMixin:ShowWishlistItem()
 			self:SetItemAppearance(itemInfo.visualID)
 		end
 	elseif (itemInfo.illusion) then
-		local slot = "MAINHANDSLOT";
-		local appearanceSourceID, appearanceVisualID = WardrobeCollectionFrame_GetWeaponInfoForEnchant("MAINHANDSLOT");
+		local location = TransmogUtil.CreateTransmogLocation("MAINHANDSLOT", Enum.TransmogType.Illusion, Enum.TransmogModification.None);
+		local appearanceSourceID, appearanceVisualID = WardrobeCollectionFrame_GetWeaponInfoForEnchant(location);
 		
 		cameraID = C_TransmogCollection.GetAppearanceCameraIDBySource(appearanceSourceID);
 		self:SetItemAppearance(appearanceVisualID, itemInfo.illusion.visualID)

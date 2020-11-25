@@ -68,7 +68,7 @@ Options.defaults = {
 		-- filter channels settings
 		filter_channel_set = addon.MSG_FILTER_CHANNEL_SET_NORMAL,
 		-- message rewrite
-		message_rewrite = false,
+		message_rewrite = true,
 		-- bypass friends
 		bypass_friends = true,
 		-- same player messages min interval, 0-unlimited
@@ -76,7 +76,7 @@ Options.defaults = {
 		-- same player same message min interval, 0-unlimited
 		min_interval_same_message = 0,
 		-- minimap icon switch
-		minimap_icon_switch = false,
+		minimap_icon_switch = true,
 		-- analysis run params
 		analysis = {
 			interval = 300,
@@ -118,7 +118,7 @@ Options.defaults = {
 		-- font size
 		fontsize = 12.8,
 		-- output log messages when begin learning on player and found new player with spam score
-		do_not_disturb = true,
+		do_not_disturb = false,
 		-- ui window save status
 		ui = {
 			height = 50,

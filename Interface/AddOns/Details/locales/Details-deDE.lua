@@ -263,8 +263,8 @@ L["STRING_GUILDDAMAGERANK_PLAYERBASE_PLAYER"] = "Spieler"
 L["STRING_GUILDDAMAGERANK_PLAYERBASE_RAID"] = "Alle Spieler"
 L["STRING_GUILDDAMAGERANK_RAID"] = "Schlachtzug"
 L["STRING_GUILDDAMAGERANK_ROLE"] = "Rolle"
-L["STRING_GUILDDAMAGERANK_SHOWHISTORY"] = "Verlauf zeigen"
-L["STRING_GUILDDAMAGERANK_SHOWRANK"] = "Gildenbank zeigen"
+L["STRING_GUILDDAMAGERANK_SHOWHISTORY"] = "Verlauf"
+L["STRING_GUILDDAMAGERANK_SHOWRANK"] = "Gildenrang"
 L["STRING_GUILDDAMAGERANK_SYNCBUTTONTEXT"] = "Mit Gilde synchronisieren"
 L["STRING_GUILDDAMAGERANK_TUTORIAL_DESC"] = "Details! speichert den Schaden und die Heilung für jeden Boss, den du mit deiner Gilde triffst. Durchsuche den Verlauf, indem du das Kästchen'|cFFFFFF00Zeige Gerschichte|r' anklickst. Die Ergebnisse für alle Kämpfe werden angezeigt.\\n Durch Auswahl von '|cFFFFFF00Zeige Gilden Rang|r' werden die Top-Ergebnisse für den ausgewählten Boss angezeigt.\\n\\n\\nWenn Sie dieses Tool zum ersten Mal verwenden oder wenn Sie einen Tag des Schlachtzuges verloren haben, klicken Sie auf die Schaltfläche '|cFFFFFFFFFF00Synchroniesiere mit Gilde|r'."
 L["STRING_GUILDDAMAGERANK_WINDOWALERT"] = "Boss besiegt! Rangliste zeigen"
@@ -507,7 +507,7 @@ L["STRING_OPTIONS_BARSTART_DESC"] = [=[Deaktiviert: Die oberste Textur beginnt a
 Sinnvoll bei Symbolen mit transparenten Rändern.]=]
 L["STRING_OPTIONS_BARUR_ANCHOR"] = "Schnelle Aktualisierung"
 L["STRING_OPTIONS_BARUR_DESC"] = "Aktiviert: DPS/HPS-Werte werden etwas häufiger aktualisiert als üblich."
-L["STRING_OPTIONS_BG_ALL_ALLY"] = "Alle zeigen"
+L["STRING_OPTIONS_BG_ALL_ALLY"] = "Schlachtfeld Zeige die Feinde"
 L["STRING_OPTIONS_BG_ALL_ALLY_DESC"] = [=[Aktiviert: Zeigt auch gegnerische Spieler, wenn das Fenster gruppiert ist.
 
 |cFFFFFF00Wichtig|r: Änderungen werden erst beim nächsten Kampf übernommen.]=]
@@ -1298,11 +1298,7 @@ L["STRING_OPTIONS_WC_ANCHOR"] = "Schnelle Fensterkontrolle (#%s):"
 L["STRING_OPTIONS_WC_BOOKMARK"] = "Lesezeichen verwalten"
 L["STRING_OPTIONS_WC_BOOKMARK_DESC"] = "Öffnet das Lesezeichenmenü."
 L["STRING_OPTIONS_WC_CLOSE"] = "Schließen"
-L["STRING_OPTIONS_WC_CLOSE_DESC"] = [=[Schließt das gerade editierte Fenster.
-
-Geschlossen ist das Fenster inaktiv und kann wieder im Fensterkontrollmenü geöffnet werden.
-
-|cFFFFFF00Achtung:|r zum endgültigen Löschen eines Fensters gehe zu 'Fenster: Allgemein'.]=]
+L["STRING_OPTIONS_WC_CLOSE_DESC"] = "Schließt das gerade editierte Fenster. Geschlossen ist das Fenster inaktiv und kann wieder im Fensterkontrollmenü geöffnet werden. |cFFFFFF00Achtung:|r zum endgültigen Löschen eines Fensters gehe zu 'Fenster: Allgemein'."
 L["STRING_OPTIONS_WC_CREATE"] = "Fenster erstellen"
 L["STRING_OPTIONS_WC_CREATE_DESC"] = "Erstellt ein neues Fenster."
 L["STRING_OPTIONS_WC_LOCK"] = "Fixieren"

@@ -4,7 +4,7 @@ local module = B:GetModule("AurasTable")
 
 -- 德鲁伊的法术监控
 local list = {
-	["Player Aura"] = { -- 玩家光环组
+	["Player Aura"] = {		-- 玩家光环组
 		{AuraID = 5215, UnitID = "player"},		-- 潜行
 		{AuraID = 1850, UnitID = "player"},		-- 急奔
 		{AuraID = 137452, UnitID = "player"},	-- 野性位移
@@ -16,8 +16,9 @@ local list = {
 		{AuraID = 102351, UnitID = "player", Caster = "player"},	-- 塞纳里奥结界
 		{AuraID = 155777, UnitID = "player", Caster = "player"},	-- 萌芽
 	},
-	["Target Aura"] = { -- 目标光环组
+	["Target Aura"] = {		-- 目标光环组
 		{AuraID = 99, UnitID = "target", Caster = "player"},		-- 夺魂咆哮
+		{AuraID = 339, UnitID = "target", Caster = "player"},		-- 纠缠根须
 		{AuraID = 774, UnitID = "target", Caster = "player"},		-- 回春术
 		{AuraID = 1079, UnitID = "target", Caster = "player"},		-- 割裂
 		{AuraID = 5211, UnitID = "target", Caster = "player"},		-- 蛮力猛击
@@ -36,7 +37,7 @@ local list = {
 		{AuraID = 164812, UnitID = "target", Caster = "player"},	-- 月火术
 		{AuraID = 155625, UnitID = "target", Caster = "player"},	-- 月火术
 		{AuraID = 164815, UnitID = "target", Caster = "player"},	-- 阳炎术
-		{AuraID = 197637, UnitID = "target", Caster = "player"},	-- 星界增效
+		{AuraID = 102359, UnitID = "target", Caster = "player"},	-- 群体缠绕
 		{AuraID = 202347, UnitID = "target", Caster = "player"},	-- 星辰耀斑
 		{AuraID = 127797, UnitID = "target", Caster = "player"},	-- 乌索尔旋风
 		{AuraID = 208253, UnitID = "target", Caster = "player"},	-- 加尼尔的精华
@@ -45,8 +46,10 @@ local list = {
 		{AuraID = 102351, UnitID = "target", Caster = "player"},	-- 塞纳里奥结界
 		{AuraID = 200389, UnitID = "target", Caster = "player"},	-- 栽培
 	},
-	["Player Special Aura"] = { -- 玩家重要光环组
+	["Special Aura"] = {	-- 玩家重要光环组
 		{AuraID = 5217, UnitID = "player"},		-- 猛虎之怒
+		{AuraID = 48517, UnitID = "player"},	-- 日蚀
+		{AuraID = 48518, UnitID = "player"},	-- 月蚀
 		{AuraID = 52610, UnitID = "player"},	-- 野蛮咆哮
 		{AuraID = 69369, UnitID = "player"},	-- 掠食者的迅捷
 		{AuraID = 61336, UnitID = "player"},	-- 生存本能
@@ -66,14 +69,11 @@ local list = {
 		{AuraID = 191034, UnitID = "player"},	-- 星辰坠落
 		{AuraID = 194223, UnitID = "player"},	-- 超凡之盟
 		{AuraID = 200851, UnitID = "player"},	-- 沉睡者之怒
-		{AuraID = 158792, UnitID = "player"},	-- 粉碎
 		{AuraID = 213708, UnitID = "player"},	-- 星河守护者
 		{AuraID = 213680, UnitID = "player"},	-- 艾露恩的卫士
 		{AuraID = 155835, UnitID = "player"},	-- 鬃毛倒竖
 		{AuraID = 114108, UnitID = "player"},	-- 丛林之魂
 		{AuraID = 207640, UnitID = "player"},	-- 丰饶
-		{AuraID = 164545, UnitID = "player"},	-- 日光增效
-		{AuraID = 164547, UnitID = "player"},	-- 月光增效
 		{AuraID = 202425, UnitID = "player"},	-- 艾露恩的战士
 		{AuraID = 232378, UnitID = "player"},	-- 星界和谐，奶德2T19
 		{AuraID = 208253, UnitID = "player"},	-- 加尼尔的精华，奶德神器
@@ -93,9 +93,19 @@ local list = {
 		{AuraID = 279943, UnitID = "player"}, 	-- 锋利兽爪
 		{AuraID = 197721, UnitID = "player"}, 	-- 繁盛
 	},
-	["Spell CD"] = { -- 技能冷却计时组
-		{TotemID = 1},--蘑菇
-		{SpellID = 61336},--生存本能
+	["Focus Aura"] = {		-- 焦点光环组
+		{AuraID = 774, UnitID = "focus", Caster = "player"},	-- 回春术
+		{AuraID = 8936, UnitID = "focus", Caster = "player"},	-- 愈合
+		{AuraID = 33763, UnitID = "focus", Caster = "player"},	-- 生命绽放
+		{AuraID = 155777, UnitID = "focus", Caster = "player"},	-- 萌芽
+		{AuraID = 164812, UnitID = "focus", Caster = "player"},	-- 月火术
+		{AuraID = 164815, UnitID = "focus", Caster = "player"},	-- 阳炎术
+		{AuraID = 202347, UnitID = "focus", Caster = "player"},	-- 星辰耀斑
+	},
+	["Spell Cooldown"] = {	-- 冷却计时组
+		{SlotID = 13},		-- 饰品1
+		{SlotID = 14},		-- 饰品2
+		{SpellID = 61336},	-- 生存本能
 	},
 }
 

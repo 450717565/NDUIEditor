@@ -1,8 +1,8 @@
-## Interface: 80300
+## Interface: 90002
 ## Title: TransmogWishList
 ## Notes: A lightweight wish list for transmog appearances.
 ## Author: LanceDH
-## Version: 8.2.03
+## Version: 9.0.01
 ## SavedVariables: TWLDB
 
 TransmogWishList.xml

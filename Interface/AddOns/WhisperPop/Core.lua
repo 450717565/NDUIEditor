@@ -22,8 +22,8 @@ local min = math.min
 local max = math.max
 local GetPlayerInfoByGUID = GetPlayerInfoByGUID
 local BNGetNumFriends = BNGetNumFriends
-local BNGetFriendInfo = BNGetFriendInfo
-local BNGetFriendInfoByID = BNGetFriendInfoByID
+local BNGetFriendInfo
+local BNGetFriendInfoByID
 local GMChatFrame_IsGM = GMChatFrame_IsGM
 local ChatFrame_GetMessageEventFilters = ChatFrame_GetMessageEventFilters
 local ChatEdit_ChooseBoxForSend = ChatEdit_ChooseBoxForSend
@@ -47,6 +47,27 @@ addon.BACKGROUND = "Interface\\DialogFrame\\UI-DialogBox-Background"
 addon.BORDER = "Interface\\Tooltips\\UI-Tooltip-Border"
 
 addon.MAX_MESSAGES = 500 -- Maximum messages stored for each conversation
+
+--ADD 9.0
+local function getDeprecatedAccountInfo(accountInfo)
+	if accountInfo then
+		local wowProjectID = accountInfo.gameAccountInfo.wowProjectID or 0
+		local clientProgram = accountInfo.gameAccountInfo.clientProgram ~= "" and accountInfo.gameAccountInfo.clientProgram or nil
+		return 
+			accountInfo.bnetAccountID, accountInfo.accountName, accountInfo.battleTag, accountInfo.isBattleTagFriend,
+			accountInfo.gameAccountInfo.characterName, accountInfo.gameAccountInfo.gameAccountID, clientProgram,
+			accountInfo.gameAccountInfo.isOnline, accountInfo.lastOnlineTime, accountInfo.isAFK, accountInfo.isDND, accountInfo.customMessage, accountInfo.note, accountInfo.isFriend,
+			accountInfo.customMessageTime, wowProjectID, accountInfo.rafLinkType == Enum.RafLinkType.Recruit, accountInfo.gameAccountInfo.canSummon, accountInfo.isFavorite, accountInfo.gameAccountInfo.isWowMobile
+	end
+end
+BNGetFriendInfo = function(friendIndex)
+	local accountInfo = C_BattleNet.GetFriendAccountInfo(friendIndex)
+	return getDeprecatedAccountInfo(accountInfo)
+end
+BNGetFriendInfoByID = function(id)
+	local accountInfo = C_BattleNet.GetAccountInfoByID(id)
+	return getDeprecatedAccountInfo(accountInfo)
+end
 
 -- Message are saved in format of: [1/0][hh:mm:ss][contents]
 -- The first char is 1 if this message is inform, 0 otherwise
@@ -182,16 +203,15 @@ function addon:HandleAction(name, action)
 
 	elseif action == "INVITE" then
 		if bnId then
-			BNInviteFriend(bnId)
+			FriendsFrame_BattlenetInvite(nil, bnId)
 		else
 			InviteUnit(name)
 		end
 
 	elseif action == "WHISPER" then
-		if bnName then return ChatFrame_SendBNetTell(bnName) end
 		local editbox = ChatEdit_ChooseBoxForSend()
 		ChatEdit_ActivateChat(editbox)
-		editbox:SetText("/w "..name.." ")
+		editbox:SetText("/w "..(bnName or name).." ")
 		ChatEdit_ParseText(editbox, 0)
 	end
 end

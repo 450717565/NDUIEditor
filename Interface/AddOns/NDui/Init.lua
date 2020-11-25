@@ -4,7 +4,7 @@ ns[2] = {}			-- C, Config
 ns[3] = {}			-- L, Locales
 ns[4] = {}			-- DB, Database
 
-NDuiDB, NDuiADB = {}, {}
+NDuiDB, NDuiADB, NDuiPDB = {}, {}, {}
 
 local B, C, L, DB = unpack(ns)
 local pairs, next, tinsert = pairs, next, table.insert
@@ -72,10 +72,10 @@ end
 -- Init
 local function GetBestScale()
 	local scale = max(.4, min(1.15, 768 / DB.ScreenHeight))
-	return B.Round(scale, 2)
+	return B:Round(scale, 2)
 end
 
-function B.SetupUIScale(init)
+function B:SetupUIScale(init)
 	if NDuiADB["LockUIScale"] then NDuiADB["UIScale"] = GetBestScale() end
 	local scale = NDuiADB["UIScale"]
 	if init then
@@ -95,17 +95,28 @@ local function UpdatePixelScale(event)
 	if event == "UI_SCALE_CHANGED" then
 		DB.ScreenWidth, DB.ScreenHeight = GetPhysicalScreenSize()
 	end
-	B.SetupUIScale(true)
-	B.SetupUIScale()
+	B:SetupUIScale(true)
+	B:SetupUIScale()
 
 	isScaling = false
 end
 
+local function IncorrectExpansion() -- left it for the future
+	local f = CreateFrame("Frame", nil, UIParent)
+	f:SetPoint("CENTER")
+	f:SetSize(10, 10)
+	local text = f:CreateFontString()
+	text:SetPoint("CENTER")
+	text:SetFont(STANDARD_TEXT_FONT, 20, "OUTLINE")
+	text:SetText(L["IncorrectExpansion"])
+end
+
 B:RegisterEvent("PLAYER_LOGIN", function()
 	-- Initial
-	B.SetupUIScale()
+	B:SetupUIScale()
 	B:RegisterEvent("UI_SCALE_CHANGED", UpdatePixelScale)
-	B.SetSmoothingAmount(NDuiDB["UFs"]["SmoothAmount"])
+	B:SetSmoothingAmount(C.db["UFs"]["SmoothAmount"])
+	C.margin = 3
 
 	for _, module in next, initQueue do
 		if module.OnLogin then

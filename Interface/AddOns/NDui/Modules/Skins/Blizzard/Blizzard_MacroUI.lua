@@ -1,62 +1,64 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 
 C.themes["Blizzard_MacroUI"] = function()
-	B.ReskinFrame(MacroFrame)
-	B.ReskinFrame(MacroPopupFrame)
+	MacroHorizontalBarLeft:Hide()
+	B.StripTextures(MacroFrameTab1)
+	B.StripTextures(MacroFrameTab2)
+
+	B.StripTextures(MacroPopupFrame)
+	B.StripTextures(MacroPopupFrame.BorderBox)
+	B.StripTextures(MacroPopupScrollFrame)
+	MacroFrameTextBackground:SetBackdrop(nil)
 
 	MacroPopupFrame:SetHeight(525)
 	MacroNewButton:ClearAllPoints()
 	MacroNewButton:SetPoint("RIGHT", MacroExitButton, "LEFT", -1, 0)
 
-	local lists = {MacroFrameTab1, MacroFrameTab2, MacroFrameTextBackground}
-	for _, list in pairs(lists) do
-		B.StripTextures(list)
-	end
-
-	local scrolls = {MacroButtonScrollFrameScrollBar, MacroFrameScrollFrameScrollBar, MacroPopupScrollFrameScrollBar}
-	for _, scroll in pairs(scrolls) do
-		B.ReskinScroll(scroll)
-	end
-
-	local buttons = {MacroDeleteButton, MacroNewButton, MacroExitButton, MacroEditButton, MacroPopupFrame.BorderBox.OkayButton, MacroPopupFrame.BorderBox.CancelButton, MacroSaveButton, MacroCancelButton}
-	for _, button in pairs(buttons) do
-		B.ReskinButton(button)
-	end
-
-	B.CreateBDFrame(MacroFrameScrollFrame, 0)
-	B.ReskinInput(MacroPopupEditBox)
-
-	local selectedbu = MacroFrameSelectedMacroButton
-	B.StripTextures(selectedbu)
-
-	local selectedic = MacroFrameSelectedMacroButtonIcon
-	local selectedbg = B.ReskinIcon(selectedic)
-	B.ReskinHighlight(selectedbu, selectedbg)
-
-	local function reskinButton(button)
+	local function reskinMacroButton(button)
 		if button.styled then return end
 
-		B.StripTextures(button)
-		local frameName = button:GetDebugName()
-		local icon = _G[frameName.."Icon"]
+		button:DisableDrawLayer("BACKGROUND")
+		button:SetCheckedTexture(DB.textures.pushed)
+		local hl = button:GetHighlightTexture()
+		hl:SetColorTexture(1, 1, 1, .25)
+		hl:SetInside()
 
-		local icbg = B.ReskinIcon(icon)
-		B.ReskinChecked(button, icbg)
-		B.ReskinHighlight(button, icbg)
+		local icon = _G[button:GetName().."Icon"]
+		icon:SetTexCoord(unpack(DB.TexCoord))
+		icon:SetInside()
+		B.CreateBDFrame(icon, .25)
 
 		button.styled = true
 	end
 
+	reskinMacroButton(MacroFrameSelectedMacroButton)
+
 	for i = 1, MAX_ACCOUNT_MACROS do
-		reskinButton(_G["MacroButton"..i])
+		reskinMacroButton(_G["MacroButton"..i])
 	end
 
 	MacroPopupFrame:HookScript("OnShow", function(self)
 		for i = 1, NUM_MACRO_ICONS_SHOWN do
-			reskinButton(_G["MacroPopupButton"..i])
+			reskinMacroButton(_G["MacroPopupButton"..i])
 		end
-
-		self:ClearAllPoints()
 		self:SetPoint("TOPLEFT", MacroFrame, "TOPRIGHT", 3, 0)
 	end)
+
+	B.ReskinPortraitFrame(MacroFrame)
+	B.CreateBDFrame(MacroFrameScrollFrame, .25)
+	B.SetBD(MacroPopupFrame)
+	MacroPopupEditBox:DisableDrawLayer("BACKGROUND")
+	B.ReskinInput(MacroPopupEditBox)
+	B.Reskin(MacroDeleteButton)
+	B.Reskin(MacroNewButton)
+	B.Reskin(MacroExitButton)
+	B.Reskin(MacroEditButton)
+	B.Reskin(MacroPopupFrame.BorderBox.OkayButton)
+	B.Reskin(MacroPopupFrame.BorderBox.CancelButton)
+	B.Reskin(MacroSaveButton)
+	B.Reskin(MacroCancelButton)
+	B.ReskinScroll(MacroButtonScrollFrameScrollBar)
+	B.ReskinScroll(MacroFrameScrollFrameScrollBar)
+	B.ReskinScroll(MacroPopupScrollFrameScrollBar)
 end

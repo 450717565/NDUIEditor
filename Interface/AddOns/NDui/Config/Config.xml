@@ -1,5 +1,4 @@
-<Ui>
-	<Script file="Actionbar.lua"/>
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
 	<Script file="Modules.lua"/>
 	<Script file="Nameplate.lua"/>
 	<Script file="AurasTable.lua"/>

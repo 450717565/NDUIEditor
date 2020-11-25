@@ -9,7 +9,7 @@ local AlertFrame = _G.AlertFrame
 local GroupLootContainer = _G.GroupLootContainer
 
 local POSITION, ANCHOR_POINT, YOFFSET = "TOP", "BOTTOM", -10
-local parentFrame, moveFrame
+local parentFrame
 
 function M:AlertFrame_UpdateAnchor()
 	local y = select(2, parentFrame:GetCenter())
@@ -97,7 +97,7 @@ local function MoveTalkingHead()
 
 	TalkingHeadFrame.ignoreFramePositionManager = true
 	TalkingHeadFrame:ClearAllPoints()
-	TalkingHeadFrame:SetPoint("TOP", moveFrame)
+	TalkingHeadFrame:SetPoint("BOTTOM", 0, 220)
 
 	for index, alertFrameSubSystem in ipairs(AlertFrame.alertFrameSubSystems) do
 		if alertFrameSubSystem.anchorFrame and alertFrameSubSystem.anchorFrame == TalkingHeadFrame then
@@ -107,7 +107,7 @@ local function MoveTalkingHead()
 end
 
 local function NoTalkingHeads()
-	if not NDuiDB["Misc"]["HideTalking"] then return end
+	if not C.db["Misc"]["HideTalking"] then return end
 
 	hooksecurefunc(TalkingHeadFrame, "Show", function(self)
 		self:Hide()
@@ -125,11 +125,7 @@ end
 function M:AlertFrame_Setup()
 	parentFrame = CreateFrame("Frame", nil, UIParent)
 	parentFrame:SetSize(200, 30)
-	B.Mover(parentFrame, L["AlertFrames"], "AlertFrames", {"TOP", UIParent, 0, -75})
-
-	moveFrame = CreateFrame("Frame", "NDuiTalkingHeadMover", UIParent)
-	moveFrame:SetSize(200, 30)
-	B.Mover(moveFrame, L["TalkingHeadFrame"], "TalkingHeadFrame", {"TOP", UIParent, 0, -40})
+	B.Mover(parentFrame, L["AlertFrames"], "AlertFrames", {"TOP", UIParent, 0, -40})
 
 	GroupLootContainer:EnableMouse(false)
 	GroupLootContainer.ignoreFramePositionManager = true

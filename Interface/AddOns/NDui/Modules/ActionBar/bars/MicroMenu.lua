@@ -6,12 +6,14 @@ local Bar = B:GetModule("Actionbar")
 local _G = getfenv(0)
 local tinsert, pairs, type = table.insert, pairs, type
 local buttonList = {}
-local cr, cg, cb, color
 
 function Bar:MicroButton_SetupTexture(icon, texture)
+	local r, g, b = DB.r, DB.g, DB.b
+	if not C.db["Skins"]["ClassLine"] then r, g, b = 0, 0, 0 end
+
 	icon:SetOutside(nil, 3, 3)
-	icon:SetTexture(DB.microTex..texture)
-	icon:SetVertexColor(cr, cg, cb)
+	icon:SetTexture(DB.MicroTex..texture)
+	icon:SetVertexColor(r, g, b)
 end
 
 function Bar:MicroButton_Create(parent, data)
@@ -39,9 +41,11 @@ function Bar:MicroButton_Create(parent, data)
 
 		local hl = button:GetHighlightTexture()
 		Bar:MicroButton_SetupTexture(hl, texture)
+		if not C.db["Skins"]["ClassLine"] then hl:SetVertexColor(1, 1, 1) end
 
 		local flash = button.Flash
 		Bar:MicroButton_SetupTexture(flash, texture)
+		if not C.db["Skins"]["ClassLine"] then flash:SetVertexColor(1, 1, 1) end
 	else
 		bu:SetScript("OnMouseUp", method)
 		B.AddTooltip(bu, "ANCHOR_RIGHT", tooltip)
@@ -49,28 +53,38 @@ function Bar:MicroButton_Create(parent, data)
 		local hl = bu:CreateTexture(nil, "HIGHLIGHT")
 		hl:SetBlendMode("ADD")
 		Bar:MicroButton_SetupTexture(hl, texture)
+		if not C.db["Skins"]["ClassLine"] then hl:SetVertexColor(1, 1, 1) end
 	end
 end
 
 function Bar:MicroMenu_Lines(parent)
-	if not NDuiDB["Skins"]["MenuLine"] then return end
+	if not C.db["Skins"]["MenuLine"] then return end
 
-	local width, height = parent:GetWidth()*.6, C.mult*2
+	local cr, cg, cb = 0, 0, 0
+	if C.db["Skins"]["ClassLine"] then cr, cg, cb = DB.r, DB.g, DB.b end
 
-	local MenuL = CreateFrame("Frame", nil, parent)
-	MenuL:SetPoint("TOPRIGHT", parent, "BOTTOM")
-	B.CreateGA(MenuL, width, height, "Horizontal", cr, cg, cb, 0, DB.Alpha)
-	local MenuR = CreateFrame("Frame", nil, parent)
-	MenuR:SetPoint("TOPLEFT", parent, "BOTTOM")
-	B.CreateGA(MenuR, width, height, "Horizontal", cr, cg, cb, DB.Alpha, 0)
+	local width, height = 200, 20
+	local anchors = {
+		["LEFT"] = {.5, 0},
+		["RIGHT"] = {0, .5}
+	}
+	for anchor, v in pairs(anchors) do
+		local frame = CreateFrame("Frame", nil, parent)
+		frame:SetPoint(anchor, parent, "CENTER", 0, 0)
+		frame:SetSize(width, height)
+		frame:SetFrameStrata("BACKGROUND")
+
+		local tex = B.SetGradient(frame, "H", 0, 0, 0, v[1], v[2], width, height)
+		tex:SetPoint("CENTER")
+		local bottomLine = B.SetGradient(frame, "H", cr, cg, cb, v[1], v[2], width-25, C.mult)
+		bottomLine:SetPoint("TOP"..anchor, frame, "BOTTOM"..anchor, 0, 0)
+		local topLine = B.SetGradient(frame, "H", cr, cg, cb, v[1], v[2], width+25, C.mult)
+		topLine:SetPoint("BOTTOM"..anchor, frame, "TOP"..anchor, 0, 0)
+	end
 end
 
 function Bar:MicroMenu()
-	if not NDuiDB["Actionbar"]["MicroMenu"] then return end
-
-	cr, cg, cb = DB.r, DB.g, DB.b
-	color = NDuiDB["Skins"]["LineColor"]
-	if not NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
+	if not C.db["Actionbar"]["MicroMenu"] then return end
 
 	local menubar = CreateFrame("Frame", nil, UIParent)
 	menubar:SetSize(323, 22)
@@ -85,11 +99,11 @@ function Bar:MicroMenu()
 		{"achievements", "AchievementMicroButton"},
 		{"quests", "QuestLogMicroButton"},
 		{"guild", "GuildMicroButton"},
-		{"lfd", "LFDMicroButton"},
+		{"LFG", "LFDMicroButton"},
 		{"encounter", "EJMicroButton"},
 		{"collections", "CollectionsMicroButton"},
 		{"store", "StoreMicroButton"},
-		{"settings", "MainMenuMicroButton", MicroButtonTooltipText(MAINMENU_BUTTON, "TOGGLEGAMEMENU")},
+		{"help", "MainMenuMicroButton", MicroButtonTooltipText(MAINMENU_BUTTON, "TOGGLEGAMEMENU")},
 		{"bags", function() ToggleAllBags() end, MicroButtonTooltipText(BAGSLOT, "OPENALLBAGS")},
 	}
 	for _, info in pairs(buttonInfo) do
@@ -112,7 +126,4 @@ function Bar:MicroMenu()
 	B.HideObject(HelpOpenWebTicketButton)
 	B.HideObject(MainMenuBarPerformanceBar)
 	MainMenuMicroButton:SetScript("OnUpdate", nil)
-
-	CharacterMicroButtonAlert:EnableMouse(false)
-	B.HideOption(CharacterMicroButtonAlert)
 end

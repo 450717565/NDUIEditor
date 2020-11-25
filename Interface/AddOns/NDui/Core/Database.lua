@@ -9,11 +9,22 @@ DB.Version = GetAddOnMetadata("NDui", "Version")
 DB.Support = GetAddOnMetadata("NDui", "X-Support")
 DB.Client = GetLocale()
 DB.ScreenWidth, DB.ScreenHeight = GetPhysicalScreenSize()
-DB.isNewPatch = GetBuildInfo() == "8.3.0" -- keep it for future purpose
+DB.isNewPatch = select(4, GetBuildInfo()) > 90001 -- beta
+
+-- Deprecated
+LE_ITEM_QUALITY_POOR = Enum.ItemQuality.Poor
+LE_ITEM_QUALITY_COMMON = Enum.ItemQuality.Common
+LE_ITEM_QUALITY_UNCOMMON = Enum.ItemQuality.Uncommon
+LE_ITEM_QUALITY_RARE = Enum.ItemQuality.Rare
+LE_ITEM_QUALITY_EPIC = Enum.ItemQuality.Epic
+LE_ITEM_QUALITY_LEGENDARY = Enum.ItemQuality.Legendary
+LE_ITEM_QUALITY_ARTIFACT = Enum.ItemQuality.Artifact
+LE_ITEM_QUALITY_HEIRLOOM = Enum.ItemQuality.Heirloom
 
 -- Colors
 DB.MyName = UnitName("player")
 DB.MyRealm = GetRealmName()
+DB.MyFullName = DB.MyName.."-"..DB.MyRealm
 DB.MyClass = select(2, UnitClass("player"))
 DB.MyFaction = UnitFactionGroup("player")
 DB.ClassList = {}
@@ -21,132 +32,71 @@ for k, v in pairs(LOCALIZED_CLASS_NAMES_MALE) do
 	DB.ClassList[v] = k
 end
 DB.ClassColors = {}
-local classColors = CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS
-for class, value in pairs(classColors) do
+local colors = CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS
+for class, value in pairs(colors) do
 	DB.ClassColors[class] = {}
-	DB.ClassColors[class] = {r = value.r, g = value.g, b = value.b, colorStr = value.colorStr}
+	DB.ClassColors[class].r = value.r
+	DB.ClassColors[class].g = value.g
+	DB.ClassColors[class].b = value.b
+	DB.ClassColors[class].colorStr = value.colorStr
 end
 DB.r, DB.g, DB.b = DB.ClassColors[DB.MyClass].r, DB.ClassColors[DB.MyClass].g, DB.ClassColors[DB.MyClass].b
 DB.MyColor = format("|cff%02x%02x%02x", DB.r*255, DB.g*255, DB.b*255)
 DB.InfoColor = "|cff99ccff" --.6,.8,1
 DB.GreyColor = "|cff7b8489"
+DB.QualityColors = {}
+local qualityColors = BAG_ITEM_QUALITY_COLORS
+for index, value in pairs(qualityColors) do
+	DB.QualityColors[index] = {r = value.r, g = value.g, b = value.b}
+end
+DB.QualityColors[-1] = {r = 0, g = 0, b = 0}
+DB.QualityColors[LE_ITEM_QUALITY_POOR] = {r = .61, g = .61, b = .61}
+DB.QualityColors[LE_ITEM_QUALITY_COMMON] = {r = 0, g = 0, b = 0}
 
 -- Fonts
 DB.Font = {STANDARD_TEXT_FONT, 12, "OUTLINE"}
-DB.LineString = DB.MyColor.."————————|r"
-DB.Separator = DB.MyColor.." | |r"
+DB.LineString = DB.GreyColor.."---------------"
+DB.NDuiString = "|cff0080ffNDui:|r"
 
 -- Textures
 local Media = "Interface\\Addons\\NDui\\Media\\"
-DB.bgTex = Media.."bgTex"
-DB.closeTex = Media.."closeTex"
+DB.bdTex = "Interface\\ChatFrame\\ChatFrameBackground"
 DB.glowTex = Media.."glowTex"
-DB.targetTex = Media.."targetTex_"
-DB.maximizeTex = Media.."maximizeTex"
-DB.minimizeTex = Media.."minimizeTex"
-
-DB.arrowTex = Media.."Arrow\\arrow_"
-DB.normTex = Media.."Texture\\texture_1"
-
+DB.normTex = Media.."normTex"
+DB.gradTex = Media.."gradTex"
+DB.flatTex = Media.."flatTex"
+DB.bgTex = Media.."bgTex"
+DB.arrowTex = Media.."TargetArrow"
+DB.MicroTex = Media.."Hutu\\Menu\\"
+DB.rolesTex = Media.."Hutu\\RoleIcons"
 DB.chatLogo = Media.."Hutu\\logoSmall"
 DB.logoTex = Media.."Hutu\\logo"
-DB.microTex = Media.."Hutu\\Menu\\"
-DB.rolesTex = Media.."Hutu\\RoleIcons"
-
-DB.checked = Media.."Button\\checked"
-DB.flash = Media.."Button\\flash"
-DB.normal = Media.."Button\\normal"
-DB.pushed = Media.."Button\\pushed"
-
-DB.bdTex = "Interface\\ChatFrame\\ChatFrameBackground"
-DB.binTex = "Interface\\HelpFrame\\ReportLagIcon-Loot"
-DB.copyTex = "Interface\\Buttons\\UI-GuildButton-PublicNote-Up"
-DB.creditTex = "Interface\\HelpFrame\\HelpIcon-KnowledgeBase"
-DB.eyeTex = "Interface\\Minimap\\Raid_Icon"
-DB.garrTex = "Interface\\HelpFrame\\HelpIcon-ReportLag"
-DB.gearTex = "Interface\\WorldMap\\Gear_64"
+DB.closeTex = Media.."Hutu\\close"
+DB.ArrowUp = Media.."Hutu\\arrow"
+DB.afdianTex = Media.."Hutu\\Afdian"
+DB.patreonTex = Media.."Hutu\\Patreon"
 DB.mailTex = "Interface\\Minimap\\Tracking\\Mailbox"
-DB.newItemFlash = "Interface\\Cooldown\\star4"
-DB.objectTex = "Warfronts-BaseMapIcons-Horde-Barracks-Minimap"
+DB.gearTex = "Interface\\WorldMap\\Gear_64"
+DB.eyeTex = "Interface\\Minimap\\Raid_Icon"		-- blue: \\Dungeon_Icon
+DB.garrTex = "Interface\\HelpFrame\\HelpIcon-ReportLag"
+DB.copyTex = "Interface\\Buttons\\UI-GuildButton-PublicNote-Up"
+DB.binTex = "Interface\\HelpFrame\\ReportLagIcon-Loot"
 DB.questTex = "adventureguide-microbutton-alert"
+DB.objectTex = "Warfronts-BaseMapIcons-Horde-Barracks-Minimap"
+DB.creditTex = "Interface\\HelpFrame\\HelpIcon-KnowledgeBase"
+DB.newItemFlash = "Interface\\Cooldown\\star4"
 DB.sparkTex = "Interface\\CastingBar\\UI-CastingBar-Spark"
-
 DB.TexCoord = {.08, .92, .08, .92}
+DB.textures = {
+	normal		= Media.."ActionBar\\gloss",
+	flash		= Media.."ActionBar\\flash",
+	pushed		= Media.."ActionBar\\pushed",
+}
 DB.LeftButton = " |TInterface\\TUTORIALFRAME\\UI-TUTORIAL-FRAME:13:11:0:-1:512:512:12:66:230:307|t "
-DB.RightButton = " |TInterface\\TUTORIALFRAME\\UI-TUTORIAL-FRAME:13:11:0:-1:512:512:12:66:333:411|t "
+DB.RightButton = " |TInterface\\TUTORIALFRAME\\UI-TUTORIAL-FRAME:13:11:0:-1:512:512:12:66:333:410|t "
 DB.ScrollButton = " |TInterface\\TUTORIALFRAME\\UI-TUTORIAL-FRAME:13:11:0:-1:512:512:12:66:127:204|t "
 DB.AFKTex = "|T"..FRIENDS_TEXTURE_AFK..":14:14:0:0:16:16:1:15:1:15|t"
 DB.DNDTex = "|T"..FRIENDS_TEXTURE_DND..":14:14:0:0:16:16:1:15:1:15|t"
-
---[[
-DB.Player = {
-	["青玉的烟火-罗宁"] = true,
-	["青玉的烟火-格瑞姆巴托"] = true,
-}
-local function isPlayer()
-	return DB.Player[DB.MyName.."-"..DB.MyRealm]
-end
-DB.isPlayer = isPlayer()
-]]
-
-DB.Alpha = .8
-DB.Slots = {"Head", "Neck", "Shoulder", "Shirt", "Chest", "Waist", "Legs", "Feet", "Wrist", "Hands", "Finger0", "Finger1", "Trinket0", "Trinket1", "Back", "MainHand", "SecondaryHand", "Tabard"}
-DB.MythicLoot =  {0, 435, 435, 440, 445, 445, 450, 455, 455, 455, 460, 460, 460, 465, 465}
-DB.WeeklyLoot =  {0, 440, 445, 450, 450, 455, 460, 460, 460, 465, 465, 470, 470, 470, 475}
-DB.ContaminantsLevel = {
-	[177955] = "I",		-- 致命之势
-	[177965] = "II",	-- 致命之势
-	[177966] = "III",	-- 致命之势
-	[177967] = "III",	-- 虚空回响
-	[177968] = "II",	-- 虚空回响
-	[177969] = "I",		-- 虚空回响
-	[177970] = "I",		-- 闪避者
-	[177971] = "II",	-- 闪避者
-	[177972] = "III",	-- 闪避者
-	[177973] = "I",		-- 权宜之计
-	[177974] = "II",	-- 权宜之计
-	[177975] = "III",	-- 权宜之计
-	[177976] = "",		-- 须臾洞察
-	[177977] = "",		-- 龟裂创伤
-	[177978] = "I",		-- 磨砺心灵
-	[177979] = "II",	-- 磨砺心灵
-	[177980] = "III",	-- 磨砺心灵
-	[177981] = "I",		-- 不可言喻的真相
-	[177982] = "II",	-- 不可言喻的真相
-	[177983] = "I",		-- 无尽之星
-	[177984] = "II",	-- 无尽之星
-	[177985] = "III",	-- 无尽之星
-	[177986] = "I",		-- 娴熟
-	[177987] = "II",	-- 娴熟
-	[177988] = "III",	-- 娴熟
-	[177989] = "I",		-- 急速脉搏
-	[177990] = "II",	-- 急速脉搏
-	[177991] = "III",	-- 急速脉搏
-	[177992] = "I",		-- 暴戾
-	[177993] = "II",	-- 暴戾
-	[177994] = "III",	-- 暴戾
-	[177995] = "I",		-- 虹吸者
-	[177996] = "II",	-- 虹吸者
-	[177997] = "III",	-- 虹吸者
-	[177998] = "I",		-- 击穿
-	[177999] = "II",	-- 击穿
-	[178000] = "III",	-- 击穿
-	[178001] = "I",		-- 活力涌动
-	[178002] = "II",	-- 活力涌动
-	[178003] = "III",	-- 活力涌动
-	[178004] = "I",		-- 暮光毁灭
-	[178005] = "II",	-- 暮光毁灭
-	[178006] = "III",	-- 暮光毁灭
-	[178007] = "I",		-- 扭曲的附肢
-	[178008] = "II",	-- 扭曲的附肢
-	[178009] = "III",	-- 扭曲的附肢
-	[178010] = "I",		-- 多才多艺
-	[178011] = "II",	-- 多才多艺
-	[178012] = "III",	-- 多才多艺
-	[178013] = "I",		-- 虚空仪式
-	[178014] = "II",	-- 虚空仪式
-	[178015] = "III",	-- 虚空仪式
-}
 
 -- Flags
 function DB:IsMyPet(flags)
@@ -178,31 +128,31 @@ B:RegisterEvent("PLAYER_TALENT_UPDATE", CheckRole)
 -- Raidbuff Checklist
 DB.BuffList = {
 	[1] = {		-- 合剂
-		--251836,	-- 敏捷238
-		--251837,	-- 智力238
-		--251838,	-- 耐力238
-		--251839,	-- 力量238
 		298836,	-- 敏捷360
 		298837,	-- 智力360
 		298839,	-- 耐力360
 		298841,	-- 力量360
+
+		307166,	-- 大锅
+		307185,	-- 通用合剂
+		307187,	-- 耐力合剂
 	},
-	[2] = { -- 进食充分
+	[2] = {     -- 进食充分
 		104273, -- 250敏捷，BUFF名一致
 	},
-	[3] = { -- 10%智力
+	[3] = {     -- 10%智力
 		1459,
 		264760,
 	},
-	[4] = { -- 10%耐力
+	[4] = {     -- 10%耐力
 		21562,
 		264764,
 	},
-	[5] = { -- 10%攻强
+	[5] = {     -- 10%攻强
 		6673,
 		264761,
 	},
-	[6] = { -- 符文
+	[6] = {     -- 符文
 		270058,
 	},
 }
@@ -243,29 +193,54 @@ DB.ReminderBuffs = {
 		},
 	},
 	SHAMAN = {
-		{	spells = {	-- 闪电之盾
-				[192106] = true,
+		{	spells = {
+				[192106] = true,	-- 闪电之盾
+				[974] = true,		-- 大地之盾
+				[52127] = true,		-- 水之护盾
 			},
 			depend = 192106,
 			combat = true,
 			instance = true,
 			pvp = true,
 		},
+		{	spells = {
+				[33757] = true,		-- 风怒武器
+			},
+			depend = 33757,
+			combat = true,
+			instance = true,
+			pvp = true,
+			weaponIndex = 1,
+			spec = 2,
+		},
+		{	spells = {
+				[318038] = true,	-- 火舌武器
+			},
+			depend = 318038,
+			combat = true,
+			instance = true,
+			pvp = true,
+			weaponIndex = 2,
+			spec = 2,
+		},
 	},
 	ROGUE = {
 		{	spells = {	-- 伤害类毒药
 				[2823] = true,		-- 致命药膏
 				[8679] = true,		-- 致伤药膏
+				[315584] = true,	-- 速效药膏
 			},
-			spec = 1,
+			texture = 132273,
+			depend = 315584,
 			combat = true,
 			instance = true,
 			pvp = true,
 		},
 		{	spells = {	-- 效果类毒药
 				[3408] = true,		-- 减速药膏
+				[5761] = true,		-- 迟钝药膏
 			},
-			spec = 1,
+			depend = 3408,
 			pvp = true,
 		},
 	},

@@ -2,46 +2,61 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local A = B:GetModule("Auras")
 
+local _G = _G
+local GetTotemInfo = GetTotemInfo
+
 -- Style
-local IconSize = C.Auras.IconSize
-local IconMargin = 5
-local totem = {}
-local icons = {
-	[1] = GetSpellTexture(120217), -- Fire
-	[2] = GetSpellTexture(120218), -- Earth
-	[3] = GetSpellTexture(120214), -- Water
-	[4] = GetSpellTexture(120219), -- Air
-}
+local totems = {}
 
-local function TotemsGo()
-	local Totembar = CreateFrame("Frame", nil, A.PetBattleFrameHider)
-	Totembar:SetSize(IconSize*4 + IconMargin*3, IconSize)
-	for i = 1, 4 do
-		totem[i] = CreateFrame("Button", nil, Totembar)
-		totem[i]:SetSize(IconSize, IconSize)
-		if i == 1 then
-			totem[i]:SetPoint("LEFT", Totembar, "LEFT", 0, 0)
-		else
-			totem[i]:SetPoint("LEFT", totem[i-1], "RIGHT", 5, 0)
-		end
-		B.AuraIcon(totem[i])
-		totem[i].Icon:SetTexture(icons[i])
-		totem[i]:SetAlpha(.25)
+function A:TotemBar_Init()
+	local margin = C.margin
+	local vertical = C.db["Auras"]["VerticalTotems"]
+	local iconSize = C.db["Auras"]["TotemSize"]
+	local width = vertical and (iconSize + margin*2) or (iconSize*4 + margin*5)
+	local height = vertical and (iconSize*4 + margin*5) or (iconSize + margin*2)
 
-		local defaultTotem = _G["TotemFrameTotem"..i]
-		defaultTotem:SetParent(totem[i])
-		defaultTotem:SetAllPoints()
-		defaultTotem:SetAlpha(0)
-		totem[i].parent = defaultTotem
+	local totemBar = _G["NDui_TotemBar"]
+	if not totemBar then
+		totemBar = CreateFrame("Frame", "NDui_TotemBar", A.PetBattleFrameHider)
 	end
+	totemBar:SetSize(width, height)
 
-	B.Mover(Totembar, L["Totembar"], "Totems", C.Auras.TotemsPos)
+	if not totemBar.mover then
+		totemBar.mover = B.Mover(totemBar, L["Totembar"], "Totems", C.Auras.TotemsPos)
+	end
+	totemBar.mover:SetSize(width, height)
+
+	for i = 1, 4 do
+		local totem = totems[i]
+		if not totem then
+			totem = CreateFrame("Frame", nil, totemBar)
+			B.AuraIcon(totem)
+			totem:SetAlpha(0)
+			totems[i] = totem
+
+			local blizzTotem = _G["TotemFrameTotem"..i]
+			blizzTotem:SetParent(totem)
+			blizzTotem:SetAllPoints()
+			blizzTotem:SetAlpha(0)
+			totem.__owner = blizzTotem
+		end
+
+		totem:SetSize(iconSize, iconSize)
+		totem:ClearAllPoints()
+		if i == 1 then
+			totem:SetPoint("BOTTOMLEFT", margin, margin)
+		elseif vertical then
+			totem:SetPoint("BOTTOM", totems[i-1], "TOP", 0, margin)
+		else
+			totem:SetPoint("LEFT", totems[i-1], "RIGHT", margin, 0)
+		end
+	end
 end
 
-function A:UpdateTotems()
+function A:TotemBar_Update()
 	for i = 1, 4 do
-		local totem = totem[i]
-		local defaultTotem = totem.parent
+		local totem = totems[i]
+		local defaultTotem = totem.__owner
 		local slot = defaultTotem.slot
 
 		local haveTotem, _, start, dur, icon = GetTotemInfo(slot)
@@ -51,17 +66,17 @@ function A:UpdateTotems()
 			totem.CD:Show()
 			totem:SetAlpha(1)
 		else
-			totem:SetAlpha(.25)
-			totem.Icon:SetTexture(icons[i])
+			totem.Icon:SetTexture("")
 			totem.CD:Hide()
+			totem:SetAlpha(0)
 		end
 	end
 end
 
 function A:Totems()
-	if not NDuiDB["Auras"]["Totems"] then return end
+	if not C.db["Auras"]["Totems"] then return end
 
-	TotemsGo()
-	B:RegisterEvent("PLAYER_ENTERING_WORLD", self.UpdateTotems)
-	B:RegisterEvent("PLAYER_TOTEM_UPDATE", self.UpdateTotems)
+	A:TotemBar_Init()
+	B:RegisterEvent("PLAYER_ENTERING_WORLD", A.TotemBar_Update)
+	B:RegisterEvent("PLAYER_TOTEM_UPDATE", A.TotemBar_Update)
 end

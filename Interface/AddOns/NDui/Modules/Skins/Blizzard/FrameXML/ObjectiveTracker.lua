@@ -1,132 +1,135 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
+
+local r, g, b = DB.r, DB.g, DB.b
+local select, pairs = select, pairs
+
+local function reskinQuestIcon(button)
+	if not button then return end
+
+	if not button.styled then
+		button:SetSize(24, 24)
+		button:SetNormalTexture("")
+		button:SetPushedTexture("")
+		button:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
+		local icon = button.icon or button.Icon
+		if icon then
+			button.bg = B.ReskinIcon(icon, true)
+			icon:SetInside()
+		end
+
+		button.styled = true
+	end
+
+	if button.bg then
+		button.bg:SetFrameLevel(0)
+	end
+end
+
+local function reskinQuestIcons(_, block)
+	reskinQuestIcon(block.itemButton)
+	reskinQuestIcon(block.rightButton)
+end
+
+local function reskinHeader(header)
+	header.Text:SetTextColor(r, g, b)
+	header.Background:SetTexture(nil)
+	local bg = header:CreateTexture(nil, "ARTWORK")
+	bg:SetTexture("Interface\\LFGFrame\\UI-LFG-SEPARATOR")
+	bg:SetTexCoord(0, .66, 0, .31)
+	bg:SetVertexColor(r, g, b, .8)
+	bg:SetPoint("BOTTOMLEFT", 0, -4)
+	bg:SetSize(250, 30)
+	header.bg = bg -- accessable for other addons
+end
+
+local function reskinBarTemplate(bar)
+	if bar.bg then return end
+
+	B.StripTextures(bar)
+	bar:SetStatusBarTexture(DB.normTex)
+	bar:SetStatusBarColor(r, g, b)
+	bar.bg = B.SetBD(bar)
+	B:SmoothBar(bar)
+end
+
+local function reskinProgressbar(_, _, line)
+	local progressBar = line.ProgressBar
+	local bar = progressBar.Bar
+
+	if not bar.bg then
+		bar:ClearAllPoints()
+		bar:SetPoint("LEFT")
+		reskinBarTemplate(bar)
+	end
+end
+
+local function reskinProgressbarWithIcon(_, _, line)
+	local progressBar = line.ProgressBar
+	local bar = progressBar.Bar
+	local icon = bar.Icon
+
+	if not bar.bg then
+		bar:SetPoint("LEFT", 22, 0)
+		reskinBarTemplate(bar)
+		BonusObjectiveTrackerProgressBar_PlayFlareAnim = B.Dummy
+
+		icon:SetMask(nil)
+		icon.bg = B.ReskinIcon(icon, true)
+		icon:ClearAllPoints()
+		icon:SetPoint("TOPLEFT", bar, "TOPRIGHT", 5, 0)
+		icon:SetPoint("BOTTOMRIGHT", bar, "BOTTOMRIGHT", 25, 0)
+	end
+
+	if icon.bg then
+		icon.bg:SetShown(icon:IsShown() and icon:GetTexture() ~= nil)
+	end
+end
+
+local function reskinTimerBar(_, _, line)
+	local timerBar = line.TimerBar
+	local bar = timerBar.Bar
+
+	if not bar.bg then
+		reskinBarTemplate(bar)
+	end
+end
+
+local function updateMinimizeButton(button, collapsed)
+	button.__texture:DoCollapse(collapsed)
+end
+
+local function reskinMinimizeButton(button)
+	B.ReskinCollapse(button)
+	button:GetNormalTexture():SetAlpha(0)
+	button:GetPushedTexture():SetAlpha(0)
+	button.__texture:DoCollapse(false)
+	hooksecurefunc(button, "SetCollapsed", updateMinimizeButton)
+end
 
 tinsert(C.defaultThemes, function()
-	local cr, cg, cb = DB.r, DB.g, DB.b
+	-- QuestIcons
+	hooksecurefunc(QUEST_TRACKER_MODULE, "SetBlockHeader", reskinQuestIcons)
+	hooksecurefunc(WORLD_QUEST_TRACKER_MODULE, "AddObjective", reskinQuestIcons)
+	hooksecurefunc(CAMPAIGN_QUEST_TRACKER_MODULE, "AddObjective", reskinQuestIcons)
 
-	-- Reskin Quest Icons
-	local function reskinQuestIcon(_, block)
-		local button = block.rightButton or block.itemButton
+	-- Reskin Progressbars
+	hooksecurefunc(QUEST_TRACKER_MODULE, "AddProgressBar", reskinProgressbar)
+	hooksecurefunc(CAMPAIGN_QUEST_TRACKER_MODULE, "AddProgressBar", reskinProgressbar)
 
-		if button and not button.styled then
-			B.CleanTextures(button)
+	hooksecurefunc(BONUS_OBJECTIVE_TRACKER_MODULE, "AddProgressBar", reskinProgressbarWithIcon)
+	hooksecurefunc(WORLD_QUEST_TRACKER_MODULE, "AddProgressBar", reskinProgressbarWithIcon)
+	hooksecurefunc(SCENARIO_TRACKER_MODULE, "AddProgressBar", reskinProgressbarWithIcon)
 
-			local bg = B.CreateBDFrame(button.icon or button.Icon, 0)
-			B.ReskinHighlight(button, bg)
-
-			if button.icon then
-				button.icon:SetTexCoord(unpack(DB.TexCoord))
-			end
-
-			if button.Icon then
-				button.Icon:SetPoint("CENTER")
-				button.Icon:SetSize(18, 18)
-				bg:SetInside(nil, 2, 2)
-			end
-
-			button.styled = true
-		end
-	end
-	hooksecurefunc(QUEST_TRACKER_MODULE, "SetBlockHeader", reskinQuestIcon)
-	hooksecurefunc(WORLD_QUEST_TRACKER_MODULE, "AddObjective", reskinQuestIcon)
-
-	-- Reskin Headers
-	local function reskinHeader(self)
-		self.Background:Hide()
-
-		local width, height = self:GetWidth()/2+10, C.mult*2
-
-		local left = CreateFrame("Frame", nil, self)
-		left:SetPoint("TOPRIGHT", self, "BOTTOM", 5, 0)
-		B.CreateGA(left, width, height, "Horizontal", cr, cg, cb, 0, DB.Alpha)
-
-		local right = CreateFrame("Frame", nil, self)
-		right:SetPoint("TOPLEFT", self, "BOTTOM", 5, 0)
-		B.CreateGA(right, width, height, "Horizontal", cr, cg, cb, DB.Alpha, 0)
-
-		local Text = self.Text
-		Text:SetTextColor(cr, cg, cb)
-		Text:ClearAllPoints()
-		Text:SetPoint("BOTTOMLEFT", left, "TOPLEFT", 15, 6)
-	end
-
-	local headers = {
-		ObjectiveTrackerFrame.BlocksFrame.UIWidgetsHeader,
-		ObjectiveTrackerBlocksFrame.AchievementHeader,
-		ObjectiveTrackerBlocksFrame.ScenarioHeader,
-		ObjectiveTrackerBlocksFrame.QuestHeader,
-		BONUS_OBJECTIVE_TRACKER_MODULE.Header,
-		WORLD_QUEST_TRACKER_MODULE.Header,
-	}
-	for _, header in pairs(headers) do reskinHeader(header) end
-
-	-- Reskin Bars
-	local function reskinProgressbar(_, _, line)
-		local progressBar = line.ProgressBar
-		local bar = progressBar.Bar
-		local icon = bar.Icon
-
-		if not bar.styled then
-			B.ReskinStatusBar(bar)
-			B.SmoothBar(bar)
-
-			bar:ClearAllPoints()
-			bar:SetPoint("LEFT", 22, 0)
-
-			if icon then
-				icon:SetMask(nil)
-				icon:ClearAllPoints()
-				icon:Point("TOPLEFT", bar, "TOPRIGHT", C.margin, 0)
-				icon:Point("BOTTOMRIGHT", bar, "BOTTOMRIGHT", bar:GetHeight()+C.margin, 0)
-
-				icon.icbg = B.ReskinIcon(icon)
-			end
-
-			bar.styled = true
-		end
-
-		if icon and icon.icbg then
-			icon.icbg:SetShown(icon:IsShown() and icon:GetTexture() ~= nil)
-		end
-	end
-
-	local progressbar = {
-		QUEST_TRACKER_MODULE,
-		SCENARIO_TRACKER_MODULE,
-		WORLD_QUEST_TRACKER_MODULE,
-		BONUS_OBJECTIVE_TRACKER_MODULE,
-	}
-	for _, modul in pairs(progressbar) do
-		hooksecurefunc(modul, "AddProgressBar", reskinProgressbar)
-	end
-
-	local function reskinTimerBar(_, _, line)
-		local timerBar = line.TimerBar
-		local bar = timerBar.Bar
-
-		if not bar.styled then
-			B.ReskinStatusBar(bar)
-			B.SmoothBar(bar)
-
-			bar.styled = true
-		end
-	end
-
-	local timerBar = {
-		QUEST_TRACKER_MODULE,
-		SCENARIO_TRACKER_MODULE,
-		ACHIEVEMENT_TRACKER_MODULE,
-	}
-	for _, modul in pairs(timerBar) do
-		hooksecurefunc(modul, "AddTimerBar", reskinTimerBar)
-	end
+	hooksecurefunc(QUEST_TRACKER_MODULE, "AddTimerBar", reskinTimerBar)
+	hooksecurefunc(SCENARIO_TRACKER_MODULE, "AddTimerBar", reskinTimerBar)
+	hooksecurefunc(ACHIEVEMENT_TRACKER_MODULE, "AddTimerBar", reskinTimerBar)
 
 	-- Reskin Blocks
 	hooksecurefunc("ScenarioStage_CustomizeBlock", function(block)
-		if not block.styled then
-			B.StripTextures(block, 0)
-			B.CreateBG(block.GlowTexture, 4, -2, -4, 0)
-
-			block.styled = true
+		block.NormalBG:SetTexture("")
+		if not block.bg then
+			block.bg = B.SetBD(block.GlowTexture, nil, 4, -2, -4, 2)
 		end
 	end)
 
@@ -138,11 +141,10 @@ tinsert(C.defaultThemes, function()
 		if widgetFrame and widgetFrame.Frame then
 			widgetFrame.Frame:SetAlpha(0)
 
-			local child = {widgetFrame.CurrencyContainer:GetChildren()}
-			for _, bu in pairs(child) do
-				if bu and not bu.styled then
+			for i = 1, widgetFrame.CurrencyContainer:GetNumChildren() do
+				local bu = select(i, widgetFrame.CurrencyContainer:GetChildren())
+				if bu and bu.Icon and not bu.styled then
 					B.ReskinIcon(bu.Icon)
-
 					bu.styled = true
 				end
 			end
@@ -151,24 +153,47 @@ tinsert(C.defaultThemes, function()
 
 	hooksecurefunc("Scenario_ChallengeMode_ShowBlock", function()
 		local block = ScenarioChallengeModeBlock
-		if not block.styled then
-			B.StripTextures(block)
+		if not block.bg then
+			block.TimerBG:Hide()
+			block.TimerBGBack:Hide()
+			block.timerbg = B.CreateBDFrame(block.TimerBGBack, .3)
+			block.timerbg:SetPoint("TOPLEFT", block.TimerBGBack, 6, -2)
+			block.timerbg:SetPoint("BOTTOMRIGHT", block.TimerBGBack, -6, -5)
 
+			block.StatusBar:SetStatusBarTexture(DB.normTex)
+			block.StatusBar:SetStatusBarColor(r, g, b)
 			block.StatusBar:SetHeight(10)
-			B.ReskinStatusBar(block.StatusBar)
-			B.CreateBG(block, 4, -2, -4, 0)
 
-			block.styled = true
+			select(3, block:GetRegions()):Hide()
+			block.bg = B.SetBD(block, nil, 4, -2, -4, 0)
 		end
 	end)
 
-	hooksecurefunc("Scenario_ChallengeMode_SetUpAffixes", B.ReskinAffixes)
+	hooksecurefunc("Scenario_ChallengeMode_SetUpAffixes", B.AffixesSetup)
+
+	-- Reskin Headers
+	local headers = {
+		ObjectiveTrackerBlocksFrame.QuestHeader,
+		ObjectiveTrackerBlocksFrame.AchievementHeader,
+		ObjectiveTrackerBlocksFrame.ScenarioHeader,
+		ObjectiveTrackerBlocksFrame.CampaignQuestHeader,
+		BONUS_OBJECTIVE_TRACKER_MODULE.Header,
+		WORLD_QUEST_TRACKER_MODULE.Header,
+		ObjectiveTrackerFrame.BlocksFrame.UIWidgetsHeader
+	}
+	for _, header in pairs(headers) do
+		reskinHeader(header)
+	end
 
 	-- Minimize Button
-	local MinimizeButton = ObjectiveTrackerFrame.HeaderMenu.MinimizeButton
-	B.ReskinExpandOrCollapse(MinimizeButton)
-	MinimizeButton:GetNormalTexture():SetAlpha(0)
-	MinimizeButton.expTex:SetTexCoord(.5625, 1, 0, .4375)
-	hooksecurefunc("ObjectiveTracker_Collapse", function() MinimizeButton.expTex:SetTexCoord(0, .4375, 0, .4375) end)
-	hooksecurefunc("ObjectiveTracker_Expand", function() MinimizeButton.expTex:SetTexCoord(.5625, 1, 0, .4375) end)
+	local mainMinimize = ObjectiveTrackerFrame.HeaderMenu.MinimizeButton
+	reskinMinimizeButton(mainMinimize)
+	mainMinimize.bg:SetBackdropBorderColor(1, .8, 0, .5)
+
+	for _, header in pairs(headers) do
+		local minimize = header.MinimizeButton
+		if minimize then
+			reskinMinimizeButton(minimize)
+		end
+	end
 end)

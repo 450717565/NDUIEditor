@@ -1,6 +1,31 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 
 tinsert(C.defaultThemes, function()
+	-- Tooltip close buttons
+	B.ReskinClose(ItemRefTooltip.CloseButton)
+	B.ReskinClose(FloatingBattlePetTooltip.CloseButton)
+	B.ReskinClose(FloatingPetBattleAbilityTooltip.CloseButton)
+
+	if not C.db["Skins"]["BlizzardSkins"] then return end
+
+	-- Tooltips
+	function B:ReskinGarrisonTooltip()
+		for i = 1, 9 do
+			select(i, self:GetRegions()):Hide()
+		end
+		if self.Icon then B.ReskinIcon(self.Icon) end
+		if self.CloseButton then B.ReskinClose(self.CloseButton) end
+	end
+
+	B.ReskinGarrisonTooltip(FloatingGarrisonMissionTooltip)
+	B.ReskinGarrisonTooltip(GarrisonFollowerTooltip)
+	B.ReskinGarrisonTooltip(FloatingGarrisonFollowerTooltip)
+	B.ReskinGarrisonTooltip(GarrisonFollowerAbilityTooltip)
+	B.ReskinGarrisonTooltip(FloatingGarrisonFollowerAbilityTooltip)
+	B.ReskinGarrisonTooltip(GarrisonShipyardFollowerTooltip)
+	B.ReskinGarrisonTooltip(FloatingGarrisonShipyardFollowerTooltip)
+
 	hooksecurefunc("GarrisonFollowerTooltipTemplate_SetGarrisonFollower", function(tooltipFrame)
 		-- Abilities
 		if tooltipFrame.numAbilitiesStyled == nil then
@@ -11,9 +36,7 @@ tinsert(C.defaultThemes, function()
 		local abilities = tooltipFrame.Abilities
 		local ability = abilities[numAbilitiesStyled]
 		while ability do
-			local icon = ability.Icon
-
-			B.ReskinIcon(icon)
+			B.ReskinIcon(ability.Icon)
 
 			numAbilitiesStyled = numAbilitiesStyled + 1
 			ability = abilities[numAbilitiesStyled]
@@ -30,9 +53,7 @@ tinsert(C.defaultThemes, function()
 		local traits = tooltipFrame.Traits
 		local trait = traits[numTraitsStyled]
 		while trait do
-			local icon = trait.Icon
-
-			B.ReskinIcon(icon)
+			B.ReskinIcon(trait.Icon)
 
 			numTraitsStyled = numTraitsStyled + 1
 			trait = traits[numTraitsStyled]

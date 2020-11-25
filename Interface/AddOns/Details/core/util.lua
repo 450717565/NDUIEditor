@@ -63,6 +63,18 @@
 			end
 		end
 	end
+
+	function Details:GetRaidLeader()
+		if (IsInRaid()) then
+			for i = 1, GetNumGroupMembers() do
+				local name, rank = GetRaidRosterInfo(i)
+				if (rank == 2) then
+					return name, "raid" .. i
+				end
+			end
+		end
+		return
+	end
 	
 	function _detalhes:UnpackDeathTable (t)
 		local deathevents = t[1]
@@ -457,59 +469,10 @@
 		_detalhes.atributo_energy:UpdateSelectedToKFunction()
 		_detalhes.atributo_misc:UpdateSelectedToKFunction()
 		_detalhes.atributo_custom:UpdateSelectedToKFunction()
-		_detalhes:AtualizaGumpPrincipal (-1, true)
+		Details:RefreshMainWindow(-1, true)
 	end
 	
 --------end of ToK functions----
-
-	--from weakauras, list of functions to block on scripts
-	--source https://github.com/WeakAuras/WeakAuras2/blob/520951a4b49b64cb49d88c1a8542d02bbcdbe412/WeakAuras/AuraEnvironment.lua#L66
-	local blockedFunctions = {
-		-- Lua functions that may allow breaking out of the environment
-		getfenv = true,
-		getfenv = true,
-		loadstring = true,
-		pcall = true,
-		xpcall = true,
-		getglobal = true,
-		
-		-- blocked WoW API
-		SendMail = true,
-		SetTradeMoney = true,
-		AddTradeMoney = true,
-		PickupTradeMoney = true,
-		PickupPlayerMoney = true,
-		TradeFrame = true,
-		MailFrame = true,
-		EnumerateFrames = true,
-		RunScript = true,
-		AcceptTrade = true,
-		SetSendMailMoney = true,
-		EditMacro = true,
-		SlashCmdList = true,
-		DevTools_DumpCommand = true,
-		hash_SlashCmdList = true,
-		CreateMacro = true,
-		SetBindingMacro = true,
-		GuildDisband = true,
-		GuildUninvite = true,
-		securecall = true,
-		
-		--additional
-		setmetatable = true,
-	}
-	
-	local functionFilter = setmetatable ({}, {__index = function (env, key)
-		if (key == "_G") then
-			return env
-			
-		elseif (blockedFunctions [key]) then
-			return nil
-			
-		else	
-			return _G [key]
-		end
-	end})
 
 	--> replacing data for custom texts
 	_detalhes.string = {}
@@ -530,7 +493,7 @@
 				_detalhes:Msg ("|cFFFF9900error compiling script on custom text|r: ", errortext)
 				return 0
 			end
-			setfenv (func, functionFilter)
+			DetailsFramework:SetEnvironment(func)
 			function_cache [str] = func
 		end
 	
@@ -890,7 +853,13 @@ end
 		_detalhes:BrokerTick()
 		_detalhes:HealthTick()
 		
-		if ((_detalhes.zone_type == "pvp" and _detalhes.use_battleground_server_parser) or _detalhes.zone_type == "arena" or _InCombatLockdown()) then
+		if (Details.Coach.Server.IsEnabled()) then
+			if (Details.debug) then
+				print("coach server is enabled, can't leave combat...")
+			end
+			return true
+
+		elseif ((_detalhes.zone_type == "pvp" and _detalhes.use_battleground_server_parser) or _detalhes.zone_type == "arena" or _InCombatLockdown()) then
 			return true
 			
 		elseif (_UnitAffectingCombat("player")) then
@@ -910,7 +879,8 @@ end
 				end
 			end
 		end
-		
+
+	
 		--> don't leave the combat if is in the argus encounter ~REMOVE on 8.0
 		--[=[
 		if (_detalhes.encounter_table and _detalhes.encounter_table.id == 2092) then
@@ -924,6 +894,12 @@ end
 		--mythic dungeon test
 		if (_detalhes.MythicPlus.Started and _detalhes.mythic_plus.always_in_combat) then
 			return true
+		end
+
+		if (not Details.Coach.Server.IsEnabled()) then
+			if (Details.debug) then
+				Details:Msg("coach is disabled, the combat is now over!")
+			end
 		end
 
 		_detalhes:SairDoCombate()
@@ -1372,32 +1348,32 @@ end
 
 	function _detalhes:name_space (barra)
 		--if (barra.icone_secundario_ativo) then
-		--	local tamanho = barra:GetWidth()-barra.texto_direita:GetStringWidth()-16-barra:GetHeight()
-		--	barra.texto_esquerdo:SetSize (tamanho-2, 15)
+		--	local tamanho = barra:GetWidth()-barra.lineText4:GetStringWidth()-16-barra:GetHeight()
+		--	barra.lineText1:SetSize (tamanho-2, 15)
 		--else
-			barra.texto_esquerdo:SetSize (barra:GetWidth()-barra.texto_direita:GetStringWidth()-18, 15)
+			barra.lineText1:SetSize (barra:GetWidth()-barra.lineText4:GetStringWidth()-18, 15)
 		--end
 	end
 
 	function _detalhes:name_space_info (barra)
 		if (barra.icone_secundario_ativo) then
-			local tamanho = barra:GetWidth()-barra.texto_direita:GetStringWidth()-16-barra:GetHeight()
-			barra.texto_esquerdo:SetSize (tamanho-10, 15)
+			local tamanho = barra:GetWidth()-barra.lineText4:GetStringWidth()-16-barra:GetHeight()
+			barra.lineText1:SetSize (tamanho-10, 15)
 		else
-			local tamanho = barra:GetWidth()-barra.texto_direita:GetStringWidth()-16
-			barra.texto_esquerdo:SetSize (tamanho-10, 15)
+			local tamanho = barra:GetWidth()-barra.lineText4:GetStringWidth()-16
+			barra.lineText1:SetSize (tamanho-10, 15)
 		end
 	end
 
 	function _detalhes:name_space_generic (barra, separador)
-		local texto_direita_tamanho = barra.texto_direita:GetStringWidth()
+		local texto_direita_tamanho = barra.lineText4:GetStringWidth()
 		local tamanho = barra:GetWidth()-texto_direita_tamanho-16
 		if (separador) then 
-			barra.texto_esquerdo:SetSize (tamanho+separador, 10)
-			barra.texto_direita:SetSize (texto_direita_tamanho+15, 10)
+			barra.lineText1:SetSize (tamanho+separador, 10)
+			barra.lineText4:SetSize (texto_direita_tamanho+15, 10)
 		else
-			barra.texto_esquerdo:SetSize (tamanho-10, 15)
-			barra.texto_direita:SetSize (texto_direita_tamanho+5, 15)
+			barra.lineText1:SetSize (tamanho-10, 15)
+			barra.lineText4:SetSize (texto_direita_tamanho+5, 15)
 		end
 	end
 

@@ -1,5 +1,13 @@
+local WOW_9 = select(4, GetBuildInfo()) >= 90000
+
 local parentMaps = {
 	-- list of all continents and their sub-zones that have world quests
+	[1550] = { -- Shadowlands
+		[1525] = true, -- Revendreth
+		[1533] = true, -- Bastion
+		[1536] = true, -- Maldraxxus
+		[1565] = true, -- Ardenwald
+	},
 	[619] = { -- Broken Isles
 		[630] = true, -- Azsuna
 		[641] = true, -- Val'sharah
@@ -76,13 +84,13 @@ end
 
 function DataProvider:ShouldShowQuest(questInfo)
 	local questID = questInfo.questId
-	if (self.focusedQuestID or self:IsQuestSuppressed(questID)) then
+	if(self.focusedQuestID or self:IsQuestSuppressed(questID)) then
 		return false
 	else
 		-- returns true if the given quest is a world quest on one of the maps in our list
 		local mapID = AdjustedMapID(self:GetMap():GetMapID())
 		local questMapID = questInfo.mapID
-		if (mapID == questMapID or (parentMaps[mapID] and parentMaps[mapID][questMapID])) then
+		if(mapID == questMapID or (parentMaps[mapID] and parentMaps[mapID][questMapID])) then
 			return HaveQuestData(questID) and QuestUtils_IsQuestWorldQuest(questID)
 		end
 	end
@@ -100,19 +108,19 @@ function DataProvider:RefreshAllData()
 	local mapID = AdjustedMapID(Map:GetMapID())
 
 	local quests = mapID and C_TaskQuest.GetQuestsForPlayerByMapID(mapID)
-	if (quests) then
+	if(quests) then
 		for _, questInfo in next, quests do
-			if (self:ShouldShowQuest(questInfo) and self:DoesWorldQuestInfoPassFilters(questInfo)) then
+			if(self:ShouldShowQuest(questInfo) and self:DoesWorldQuestInfoPassFilters(questInfo)) then
 				local questID = questInfo.questId
 				pinsToRemove[questID] = nil -- unmark the pin for removal
 
 				local Pin = self.activePins[questID]
-				if (Pin) then
+				if(Pin) then
 					-- update existing pin
 					Pin:RefreshVisuals()
 					Pin:SetPosition(questInfo.x, questInfo.y)
 
-					if (self.pingPin and self.pingPin:IsAttachedToQuest(questID)) then
+					if(self.pingPin and self.pingPin:IsAttachedToQuest(questID)) then
 						self.pingPin:SetScalingLimits(1, 1, 1)
 						self.pingPin:SetPosition(questInfo.x, questInfo.y)
 					end
@@ -126,7 +134,7 @@ function DataProvider:RefreshAllData()
 
 	for questID in next, pinsToRemove do
 		-- iterate and remove all pins marked for removal
-		if (self.pingPin and self.pingPin:IsAttachedToQuest(questID)) then
+		if(self.pingPin and self.pingPin:IsAttachedToQuest(questID)) then
 			self.pingPin:Stop()
 		end
 
@@ -185,7 +193,7 @@ function BetterWorldQuestPinMixin:RefreshVisuals()
 	WorldMap_WorldQuestPinMixin.RefreshVisuals(self)
 
 	-- update scale
-	if (IsParentMap(self:GetMap():GetMapID())) then
+	if(IsParentMap(self:GetMap():GetMapID())) then
 		self:SetScalingLimits(1, 0.3, 0.5)
 	else
 		self:SetScalingLimits(1, 0.425, 0.425)
@@ -238,32 +246,42 @@ function BetterWorldQuestPinMixin:RefreshVisuals()
 
 	-- update our own widgets
 	local bountyQuestID = self.dataProvider:GetBountyQuestID()
-	self.Bounty:SetShown(bountyQuestID and IsQuestCriteriaForBounty(questID, bountyQuestID))
+	if(WOW_9) then
+		self.Bounty:SetShown(bountyQuestID and C_QuestLog.IsQuestCriteriaForBounty(questID, bountyQuestID))
+	else
+		self.Bounty:SetShown(bountyQuestID and IsQuestCriteriaForBounty(questID, bountyQuestID))
+	end
 
 	local Indicator = self.Indicator
-	local _, _, worldQuestType, _, _, professionID = GetQuestTagInfo(questID)
-	if (worldQuestType == LE_QUEST_TAG_TYPE_PVP) then
+	local _, worldQuestType, professionID
+	if(WOW_9) then
+		_, _, worldQuestType, _, _, professionID = C_QuestLog.GetQuestTagInfo(questID)
+	else
+		_, _, worldQuestType, _, _, professionID = GetQuestTagInfo(questID)
+	end
+
+	if(worldQuestType == LE_QUEST_TAG_TYPE_PVP) then
 		self.Indicator:SetAtlas('Warfronts-BaseMapIcons-Empty-Barracks-Minimap')
 		self.Indicator:SetSize(58, 58)
 		self.Indicator:Show()
 	else
 		self.Indicator:SetSize(44, 44)
-		if (worldQuestType == LE_QUEST_TAG_TYPE_PET_BATTLE) then
+		if(worldQuestType == LE_QUEST_TAG_TYPE_PET_BATTLE) then
 			self.Indicator:SetAtlas('WildBattlePetCapturable')
 			self.Indicator:Show()
-		elseif (worldQuestType == LE_QUEST_TAG_TYPE_PROFESSION) then
+		elseif(worldQuestType == LE_QUEST_TAG_TYPE_PROFESSION) then
 			self.Indicator:SetAtlas(WORLD_QUEST_ICONS_BY_PROFESSION[professionID])
 			self.Indicator:Show()
-		elseif (worldQuestType == LE_QUEST_TAG_TYPE_DUNGEON) then
+		elseif(worldQuestType == LE_QUEST_TAG_TYPE_DUNGEON) then
 			self.Indicator:SetAtlas('Dungeon')
 			self.Indicator:Show()
-		elseif (worldQuestType == LE_QUEST_TAG_TYPE_RAID) then
+		elseif(worldQuestType == LE_QUEST_TAG_TYPE_RAID) then
 			self.Indicator:SetAtlas('Raid')
 			self.Indicator:Show()
-		elseif (worldQuestType == LE_QUEST_TAG_TYPE_INVASION) then
+		elseif(worldQuestType == LE_QUEST_TAG_TYPE_INVASION) then
 			self.Indicator:SetAtlas('worldquest-icon-burninglegion')
 			self.Indicator:Show()
-		elseif (worldQuestType == LE_QUEST_TAG_TYPE_FACTION_ASSAULT) then
+		elseif(worldQuestType == LE_QUEST_TAG_TYPE_FACTION_ASSAULT) then
 			self.Indicator:SetAtlas(factionAssaultAtlasName)
 			self.Indicator:SetSize(38, 38)
 			self.Indicator:Show()
@@ -275,82 +293,7 @@ end
 
 -- we need to remove the default data provider mixin
 for provider in next, WorldMapFrame.dataProviders do
-	if (provider.GetPinTemplate and provider.GetPinTemplate() == 'WorldMap_WorldQuestPinTemplate') then
+	if(provider.GetPinTemplate and provider.GetPinTemplate() == 'WorldMap_WorldQuestPinTemplate') then
 		WorldMapFrame:RemoveDataProvider(provider)
-	end
-end
-
--- 大使任务计数
--- 出自：WorldQuestTab
-WorldQuestBountyCount = {}
-function WorldQuestBountyCount:OnLoad()
-	self.bountyCounterPool = CreateFramePool("FRAME", self, "BountyCounterTemplate")
-
-	-- Auto emisarry when clicking on one of the buttons
-	local bountyBoard = WorldMapFrame.overlayFrames[3]
-	self.bountyBoard = bountyBoard
-
-	hooksecurefunc(bountyBoard, "OnTabClick", function(self, tab)
-		if tab.isEmpty then return end
-		WRWorldQuestFrame.autoEmisarryId = bountyBoard.bounties[tab.bountyIndex]
-	end)
-
-	hooksecurefunc(bountyBoard, "RefreshSelectedBounty", function(s, tab)
-			self:UpdateBountyCounters()
-	end)
-
-	-- Slight offset the tabs to make room for the counters
-	hooksecurefunc(bountyBoard, "AnchorBountyTab", function(self, tab)
-		local point, relativeTo, relativePoint, x, y = tab:GetPoint(1)
-		tab:SetPoint(point, relativeTo, relativePoint, x, y + 2)
-	end)
-end
-
-function WorldQuestBountyCount:UpdateBountyCounters()
-	self.bountyCounterPool:ReleaseAll()
-	for tab, v in pairs(self.bountyBoard.bountyTabPool.activeObjects) do
-		self:AddBountyCountersToTab(tab)
-	end
-end
-
-function WorldQuestBountyCount:RepositionBountyTabs()
-	for tab, v in pairs(self.bountyBoard.bountyTabPool.activeObjects) do
-		self.bountyBoard:AnchorBountyTab(tab)
-	end
-end
-
-function WorldQuestBountyCount:AddBountyCountersToTab(tab)
-	local bountyData = self.bountyBoard.bounties[tab.bountyIndex]
-	if bountyData then
-		local questIndex = GetQuestLogIndexByID(bountyData.questID)
-		if questIndex > 0 then
-			local desc = GetQuestLogLeaderBoard(1, questIndex)
-			local progress, goal = desc:match("([%d]+)%s*/%s*([%d]+)")
-			progress = tonumber(progress)
-			goal = tonumber(goal)
-			if progress == goal then return end
-			local offsetAngle, startAngle = 32, 270
-			-- position of first counter
-			startAngle = startAngle - offsetAngle * (goal -1) /2
-			for i=1, goal do
-				local counter = self.bountyCounterPool:Acquire()
-				local x = cos(startAngle) * 16
-				local y = sin(startAngle) * 16
-				counter:SetPoint("CENTER", tab.Icon, "CENTER", x, y)
-				counter:SetParent(tab)
-				counter:Show()
-				counter.icon:SetTexCoord(0, 0.5, 0, 0.5)
-				-- Light nr of completed
-				if i <= progress then
-					counter.icon:SetVertexColor(0, 1, 0, 1)
-					counter.icon:SetDesaturated(false)
-				else
-					counter.icon:SetVertexColor(1, 1, 1, 1)
-					counter.icon:SetDesaturated(true)
-				end
-				-- Offset next counter
-				startAngle = startAngle + offsetAngle
-			end
-		end
 	end
 end

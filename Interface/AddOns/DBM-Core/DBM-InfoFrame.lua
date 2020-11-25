@@ -227,7 +227,7 @@ end
 --  Create the frame  --
 ------------------------
 function createFrame()
-	frame = CreateFrame("Frame", "DBMInfoFrame", UIParent, DBM:IsAlpha() and "BackdropTemplate")
+	frame = CreateFrame("Frame", "DBMInfoFrame", UIParent, DBM:IsShadowlands() and "BackdropTemplate")
 	frame:Hide()
 	frame:SetFrameStrata("DIALOG")
 	frame.backdropInfo = {
@@ -235,7 +235,7 @@ function createFrame()
 		tile		= true,
 		tileSize	= 16
 	}
-	if not DBM:IsAlpha() then
+	if not DBM:IsShadowlands() then
 		frame:SetBackdrop(frame.backdropInfo)
 	else
 		frame:ApplyBackdrop()
@@ -980,7 +980,13 @@ local function onUpdate(frame, table)
 	if width == 0 then
 		width = 105
 	end
-	frame:SetSize(width, (linesPerRow * size) + size)
+	local height = size
+	if linesShown > linesPerRow then
+		height = height + (linesPerRow * size)
+	else
+		height = height + (mmin(linesShown, maxLines) * size)
+	end
+	frame:SetSize(width, height)
 	frame:Show()
 	prevLines = linesShown
 end

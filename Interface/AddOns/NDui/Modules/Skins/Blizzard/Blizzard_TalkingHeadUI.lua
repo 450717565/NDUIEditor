@@ -1,23 +1,33 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 
 C.themes["Blizzard_TalkingHeadUI"] = function()
-	TalkingHeadFrame:SetScale(UIParent:GetScale())
+	local TalkingHeadFrame = TalkingHeadFrame
+	TalkingHeadFrame:SetScale(.9)
 
-	local MainFrame = TalkingHeadFrame.MainFrame
-	B.ReskinFrame(MainFrame)
+	local portraitFrame = TalkingHeadFrame.PortraitFrame
+	B.StripTextures(portraitFrame)
+	portraitFrame.Portrait:SetAtlas(nil)
+	portraitFrame.Portrait.SetAtlas = B.Dummy
 
-	hooksecurefunc("TalkingHeadFrame_PlayCurrent", function()
-		B.StripTextures(TalkingHeadFrame.PortraitFrame)
-		B.StripTextures(TalkingHeadFrame.BackgroundFrame)
-		B.StripTextures(MainFrame.Model)
+	local model = TalkingHeadFrame.MainFrame.Model
+	model:SetPoint("TOPLEFT", 30, -27)
+	model:SetSize(100, 100)
+	model.PortraitBg:SetAtlas(nil)
+	model.PortraitBg.SetAtlas = B.Dummy
 
-		TalkingHeadFrame.NameFrame.Name:SetTextColor(1, .8, 0)
-		TalkingHeadFrame.TextFrame.Text:SetTextColor(1, 1, 1)
+	local name = TalkingHeadFrame.NameFrame.Name
+	name:SetTextColor(1, .8, 0)
+	name.SetTextColor = B.Dummy
+	name:SetShadowColor(0, 0, 0, 0)
 
-		if not MainFrame.styled then
-			B.CreateBDFrame(MainFrame.Model, 0)
+	local text = TalkingHeadFrame.TextFrame.Text
+	text:SetTextColor(1, 1, 1)
+	text.SetTextColor = B.Dummy
+	text:SetShadowColor(0, 0, 0, 0)
 
-			MainFrame.styled = true
-		end
-	end)
+	local closeButton = TalkingHeadFrame.MainFrame.CloseButton
+	B.ReskinClose(closeButton)
+	closeButton:ClearAllPoints()
+	closeButton:SetPoint("TOPRIGHT", -25, -25)
 end

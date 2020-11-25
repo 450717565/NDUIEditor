@@ -105,8 +105,8 @@ function addon:CreateButton(parent, scale)
 		end
 	end
 
-	-- Aurora Reskin
-	if IsAddOnLoaded("NDui") then
+	-- Reskin
+	--[[ if IsAddOnLoaded("NDui") then
 		local B = unpack(NDui)
 
 		button:SetScale(.6)
@@ -121,7 +121,7 @@ function addon:CreateButton(parent, scale)
 		else
 			button:SetPoint("TOPLEFT", parent, "TOPRIGHT", 8, -50)
 		end
-	end
+	end ]]
 
 	return button
 end
@@ -129,21 +129,24 @@ end
 function addon:GetButtonScale(numDungeons)
 	-- Ok, I still don't understand anything about the positioning and sizing of stuff in WoW, but the target frame is about 280'ish tall and buttons 32 and who gives a shit about margins and aaargh I'm going crazy /headexplode
 	-- Magic numbers! There's really no method to the madness, these numbers just happen to look ok
-	return min(480 / (numDungeons * 17), 1) -- 24
+	return min(480 / (numDungeons * 17), 1) -- 24 17
 end
 
 -- Must return a fontstring
 function addon:CreateNumberFontstring(parentButton)
 	local number = parentButton:CreateFontString(parentButton:GetName().."Number", "OVERLAY", "SystemFont_Shadow_Huge3")
 
-	-- Aurora Reskin
-	if IsAddOnLoaded("NDui") then
+	-- Reskin
+	--[[ if IsAddOnLoaded("NDui") then
 		number:SetPoint("CENTER", 2, -1)
 		number:SetFont(STANDARD_TEXT_FONT, 30, "OUTLINE")
 	else
 		number:SetPoint("TOPLEFT", -4, 4)
 		number:SetPoint("BOTTOMRIGHT", 5, -5)
-	end
+	end ]]
+
+	number:SetPoint("TOPLEFT", -4, 4)
+	number:SetPoint("BOTTOMRIGHT", 5, -5)
 
 	return number
 end
@@ -219,9 +222,9 @@ function addon:UpdateButtonsAndTooltips(parentFrame)
 				end
 				if bossName == nil then
 					bossName = "bossname"
-				encounterLine.text = "死亡 - "..bossName
+					encounterLine.text = BOSS_DEAD.." - "..bossName
 				else
-					encounterLine.text = "死亡 - "..bossName
+					encounterLine.text = BOSS_DEAD.." - "..bossName
 					numKilled = numKilled + 1
 				end
 			else
@@ -230,9 +233,9 @@ function addon:UpdateButtonsAndTooltips(parentFrame)
 				end
 				if bossName == nil then
 					bossName = "bossname"
-				encounterLine.text = "存活 - "..bossName
+					encounterLine.text = BOSS_ALIVE.." - "..bossName
 				else
-					encounterLine.text = "存活 - "..bossName
+					encounterLine.text = BOSS_ALIVE.." - "..bossName
 				end
 			end
 			table.insert(tooltip, encounterLine)

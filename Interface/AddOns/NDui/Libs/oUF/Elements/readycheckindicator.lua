@@ -16,7 +16,7 @@ Default textures will be applied if the layout does not provide custom ones. See
 
 .finishedTime    - For how many seconds the icon should stick after a check has completed. Defaults to 10 (number).
 .fadeTime        - For how many seconds the icon should fade away after the stick duration has completed. Defaults to
-				   1.5 (number).
+                   1.5 (number).
 .readyTexture    - Path to an alternate texture for the ready check 'ready' status.
 .notReadyTexture - Path to an alternate texture for the ready check 'notready' status.
 .waitingTexture  - Path to an alternate texture for the ready check 'waiting' status.
@@ -27,13 +27,13 @@ Default textures will be applied if the layout does not provide custom ones. See
 
 ## Examples
 
-	-- Position and size
-	local ReadyCheckIndicator = self:CreateTexture(nil, 'OVERLAY')
-	ReadyCheckIndicator:SetSize(16, 16)
-	ReadyCheckIndicator:SetPoint('TOP')
+    -- Position and size
+    local ReadyCheckIndicator = self:CreateTexture(nil, 'OVERLAY')
+    ReadyCheckIndicator:SetSize(16, 16)
+    ReadyCheckIndicator:SetPoint('TOP')
 
-	-- Register with oUF
-	self.ReadyCheckIndicator = ReadyCheckIndicator
+    -- Register with oUF
+    self.ReadyCheckIndicator = ReadyCheckIndicator
 --]]
 
 local _, ns = ...
@@ -51,7 +51,7 @@ local function OnFinished(self)
 
 	* self - the ReadyCheckIndicator element
 	--]]
-	if (element.PostUpdateFadeOut) then
+	if(element.PostUpdateFadeOut) then
 		element:PostUpdateFadeOut()
 	end
 end
@@ -65,15 +65,15 @@ local function Update(self, event)
 
 	* self - the ReadyCheckIndicator element
 	--]]
-	if (element.PreUpdate) then
+	if(element.PreUpdate) then
 		element:PreUpdate()
 	end
 
 	local status = GetReadyCheckStatus(unit)
-	if (unitExists(unit) and status) then
-		if (status == 'ready') then
+	if(unitExists(unit) and status) then
+		if(status == 'ready') then
 			element:SetTexture(element.readyTexture)
-		elseif (status == 'notready') then
+		elseif(status == 'notready') then
 			element:SetTexture(element.notReadyTexture)
 		else
 			element:SetTexture(element.waitingTexture)
@@ -81,13 +81,13 @@ local function Update(self, event)
 
 		element.status = status
 		element:Show()
-	elseif (event ~= 'READY_CHECK_FINISHED') then
+	elseif(event ~= 'READY_CHECK_FINISHED') then
 		element.status = nil
 		element:Hide()
 	end
 
-	if (event == 'READY_CHECK_FINISHED') then
-		if (element.status == 'waiting') then
+	if(event == 'READY_CHECK_FINISHED') then
+		if(element.status == 'waiting') then
 			element:SetTexture(element.notReadyTexture)
 		end
 
@@ -100,7 +100,7 @@ local function Update(self, event)
 	* self   - the ReadyCheckIndicator element
 	* status - the unit's ready check status (string?)['ready', 'notready', 'waiting']
 	--]]
-	if (element.PostUpdate) then
+	if(element.PostUpdate) then
 		return element:PostUpdate(status)
 	end
 end
@@ -123,7 +123,7 @@ end
 local function Enable(self, unit)
 	local element = self.ReadyCheckIndicator
 	unit = unit and unit:match('(%a+)%d*$')
-	if (element and (unit == 'party' or unit == 'raid')) then
+	if(element and (unit == 'party' or unit == 'raid')) then
 		element.__owner = self
 		element.ForceUpdate = ForceUpdate
 
@@ -151,7 +151,7 @@ end
 
 local function Disable(self)
 	local element = self.ReadyCheckIndicator
-	if (element) then
+	if(element) then
 		element:Hide()
 
 		self:UnregisterEvent('READY_CHECK', Path)

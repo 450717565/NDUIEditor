@@ -95,7 +95,7 @@ end
 function BaudErrorFrameMinimapButton_OnUpdate(self)
 	self:ClearAllPoints()
 	if IsAddOnLoaded("NDui") then
-		self:SetPoint("BOTTOMRIGHT", UIParent, 1, 1)
+		self:SetPoint("BOTTOMRIGHT", UIParent, 4, -2)
 	else
 		self:SetPoint("TOPRIGHT", Minimap, 0, 0)
 	end
@@ -116,6 +116,8 @@ end
 
 function BaudErrorFrameAdd(Error, Retrace)
 	if Error:match("script ran too long") then return end
+
+	Error = Error:gsub(".*\\AddOns\\", "")
 
 	for _, Value in pairs(ErrorList) do
 		if Value.Error == Error then
@@ -164,15 +166,12 @@ function BaudErrorFrameScrollValue()
 end
 
 local function colorStack(ret)
-	ret = tostring(ret) or "" -- Yes, it gets called with nonstring from somewhere /mikk
+	ret = tostring(ret) or ""
 
-	ret = ret:gsub("[%.I][%.n][%.t][%.e][%.r][%.f]ace\\", "")
-	ret = ret:gsub("%.?%.?%.?\\?AddOns\\", "")
 	ret = ret:gsub("|([^chHr])", "||%1"):gsub("|$", "||") -- Pipes
-	ret = ret:gsub("[\"`'](.-)[\"`']", "|cff00ffff'%1'|r") -- Quotes
-	ret = ret:gsub("%[(.-)%]", "|cffff0000[%1]|r") -- Things wrapped in []
-	ret = ret:gsub("([^\\]+%.lua)", "|cffffff00%1|r") -- Lua files
-	ret = ret:gsub(":(%d+)[%S\n]", ":|cff00ff00%1|r") -- Line numbers
+	ret = ret:gsub("([\"`'(])(.-)([\"`')])", "%1|cff00FFFF%2|r%3") -- Quotes
+	ret = ret:gsub("([^\\]+%.lua)", "|cffFFFF00%1|r") -- Lua files
+	ret = ret:gsub(":(%d+)[%S\n]", ":|cff00FF00%1|r") -- Line numbers
 
 	return ret
 end

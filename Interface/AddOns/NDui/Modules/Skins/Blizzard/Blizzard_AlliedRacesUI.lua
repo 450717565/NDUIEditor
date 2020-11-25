@@ -1,33 +1,28 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 
 C.themes["Blizzard_AlliedRacesUI"] = function()
-	B.ReskinFrame(AlliedRacesFrame)
-	B.StripTextures(AlliedRacesFrame.ModelFrame, 0)
+	local AlliedRacesFrame = AlliedRacesFrame
+	B.ReskinPortraitFrame(AlliedRacesFrame)
+	select(2, AlliedRacesFrame.ModelFrame:GetRegions()):Hide()
 
-	local RaceInfoFrame = AlliedRacesFrame.RaceInfoFrame
-	RaceInfoFrame.AlliedRacesRaceName:SetTextColor(1, .8, 0)
-
-	local ScrollFrame = RaceInfoFrame.ScrollFrame
-	B.ReskinScroll(ScrollFrame.ScrollBar)
-	ScrollFrame.Child.RaceDescriptionText:SetTextColor(1, 1, 1)
-	ScrollFrame.Child.RacialTraitsLabel:SetTextColor(1, .8, 0)
+	local scrollFrame = AlliedRacesFrame.RaceInfoFrame.ScrollFrame
+	B.ReskinScroll(scrollFrame.ScrollBar)
+	scrollFrame.ScrollBar.ScrollUpBorder:Hide()
+	scrollFrame.ScrollBar.ScrollDownBorder:Hide()
+	AlliedRacesFrame.RaceInfoFrame.AlliedRacesRaceName:SetTextColor(1, .8, 0)
+	scrollFrame.Child.RaceDescriptionText:SetTextColor(1, 1, 1)
+	scrollFrame.Child.RacialTraitsLabel:SetTextColor(1, .8, 0)
 
 	AlliedRacesFrame:HookScript("OnShow", function()
-		local Child = ScrollFrame.Child
-		B.StripTextures(Child.ObjectivesFrame)
+		local parent = scrollFrame.Child
+		for i = 1, parent:GetNumChildren() do
+			local bu = select(i, parent:GetChildren())
 
-		for i = 1, Child:GetNumChildren() do
-			local bu = select(i, Child:GetChildren())
-
-			if not bu.styled then
-				if bu.Icon then
-					B.ReskinIcon(bu.Icon)
-					select(3, bu:GetRegions()):Hide()
-				end
-
-				if bu.Text then
-					bu.Text:SetTextColor(1, 1, 1)
-				end
+			if bu.Icon and not bu.styled then
+				select(3, bu:GetRegions()):Hide()
+				B.ReskinIcon(bu.Icon)
+				bu.Text:SetTextColor(1, 1, 1)
 
 				bu.styled = true
 			end

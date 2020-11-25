@@ -1,249 +1,315 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
+local r, g, b = DB.r, DB.g, DB.b
 
-C.themes["Blizzard_GuildUI"] = function()
-	local cr, cg, cb = DB.r, DB.g, DB.b
+local function updateClassIcons()
+	local index
+	local offset = HybridScrollFrame_GetOffset(GuildRosterContainer)
+	local totalMembers, _, onlineAndMobileMembers = GetNumGuildMembers()
+	local visibleMembers = onlineAndMobileMembers
+	local numbuttons = #GuildRosterContainer.buttons
+	if GetGuildRosterShowOffline() then
+		visibleMembers = totalMembers
+	end
 
-	B.ReskinFrame(GuildFrame)
-	B.ReskinFrameTab(GuildFrame, 5)
+	for i = 1, numbuttons do
+		local bu = GuildRosterContainer.buttons[i]
 
-	GuildPointFrame.RightCap:Hide()
-	GuildPointFrame.LeftCap:Hide()
+		if not bu.bg then
+			bu:SetHighlightTexture(DB.bdTex)
+			bu:GetHighlightTexture():SetVertexColor(r, g, b, .2)
 
-	for _, frame in pairs({GuildNewsFiltersFrame, GuildTextEditFrame, GuildLogFrame, GuildMemberDetailFrame}) do
-		B.ReskinFrame(frame)
+			bu.bg = B.CreateBDFrame(bu.icon)
+		end
 
-		if frame ~= GuildLogFrame then
-			frame:ClearAllPoints()
-			frame:SetPoint("TOPLEFT", GuildFrame, "TOPRIGHT", 3, -25)
+		index = offset + i
+		local name, _, _, _, _, _, _, _, _, _, classFileName = GetGuildRosterInfo(index)
+		if name and index <= visibleMembers and bu.icon:IsShown() then
+			local tcoords = CLASS_ICON_TCOORDS[classFileName]
+			bu.icon:SetTexCoord(tcoords[1] + 0.022, tcoords[2] - 0.025, tcoords[3] + 0.022, tcoords[4] - 0.025)
+			bu.bg:Show()
+		else
+			bu.bg:Hide()
 		end
 	end
+end
 
-	local frames = {GuildMemberNoteBackground, GuildMemberOfficerNoteBackground, GuildLogContainer, GuildTextEditContainer, GuildRecruitmentInterestFrame, GuildRecruitmentAvailabilityFrame, GuildRecruitmentRolesFrame, GuildRecruitmentLevelFrame, GuildInfoFrameInfoMOTDScrollFrame, GuildInfoDetailsFrame}
-	for _, frame in pairs(frames) do
-		B.StripTextures(frame)
-		B.CreateBDFrame(frame, 0)
+local function updateLevelString(view)
+	if view == "playerStatus" or view == "reputation" or view == "achievement" then
+		local buttons = GuildRosterContainer.buttons
+		for i = 1, #buttons do
+			local str = _G["GuildRosterContainerButton"..i.."String1"]
+			str:SetWidth(32)
+			str:SetJustifyH("LEFT")
+		end
+
+		if view == "achievement" then
+			for i = 1, #buttons do
+				local str = _G["GuildRosterContainerButton"..i.."BarLabel"]
+				str:SetWidth(60)
+				str:SetJustifyH("LEFT")
+			end
+		end
 	end
+end
 
-	local lists = {GuildNewsFrame, GuildAllPerksFrame, GuildRewardsFrame, GuildInfoFrameInfo}
-	for _, list in pairs(lists) do
-		B.StripTextures(list)
+C.themes["Blizzard_GuildUI"] = function()
+	B.ReskinPortraitFrame(GuildFrame)
+	B.StripTextures(GuildMemberDetailFrame)
+	B.SetBD(GuildMemberDetailFrame)
+	GuildMemberNoteBackground:SetBackdrop(nil)
+	B.CreateBDFrame(GuildMemberNoteBackground, .25)
+	GuildMemberOfficerNoteBackground:SetBackdrop(nil)
+	B.CreateBDFrame(GuildMemberOfficerNoteBackground, .25)
+	B.SetBD(GuildLogFrame)
+	B.CreateBDFrame(GuildLogContainer, .25)
+	B.SetBD(GuildNewsFiltersFrame)
+	B.SetBD(GuildTextEditFrame)
+	B.CreateBDFrame(GuildTextEditContainer, .25)
+	B.CreateBDFrame(GuildRecruitmentInterestFrame, .25)
+	B.CreateBDFrame(GuildRecruitmentAvailabilityFrame, .25)
+	B.CreateBDFrame(GuildRecruitmentRolesFrame, .25)
+	B.CreateBDFrame(GuildRecruitmentLevelFrame, .25)
+	for i = 1, 5 do
+		B.ReskinTab(_G["GuildFrameTab"..i])
 	end
-
-	local scrolls = {GuildPerksContainerScrollBar, GuildRosterContainerScrollBar, GuildNewsContainerScrollBar, GuildRewardsContainerScrollBar, GuildInfoFrameInfoMOTDScrollFrameScrollBar, GuildInfoDetailsFrameScrollBar, GuildLogScrollFrameScrollBar, GuildTextEditScrollFrameScrollBar, GuildRecruitmentCommentInputFrameScrollFrameScrollBar, GuildInfoFrameApplicantsContainerScrollBar}
-	for _, scroll in pairs(scrolls) do
-		B.ReskinScroll(scroll)
+	if GetLocale() == "zhTW" then
+		GuildFrameTab1:ClearAllPoints()
+		GuildFrameTab1:SetPoint("TOPLEFT", GuildFrame, "BOTTOMLEFT", -7, 2)
 	end
+	GuildFrameTabardBackground:Hide()
+	GuildFrameTabardEmblem:Hide()
+	GuildFrameTabardBorder:Hide()
+	B.StripTextures(GuildInfoFrameInfo)
+	GuildMemberDetailCorner:Hide()
+	B.StripTextures(GuildLogFrame)
+	B.StripTextures(GuildLogContainer)
+	B.StripTextures(GuildNewsFiltersFrame)
+	B.StripTextures(GuildTextEditFrame)
+	GuildAllPerksFrame:GetRegions():Hide()
+	GuildNewsFrame:GetRegions():Hide()
+	GuildRewardsFrame:GetRegions():Hide()
+	GuildNewsBossModelShadowOverlay:Hide()
 
-	local TextEditFrameCB = select(4, GuildTextEditFrame:GetChildren())
-	local LogFrameCB = select(3, GuildLogFrame:GetChildren())
-	local buttons = {GuildAddMemberButton, GuildViewLogButton, GuildControlButton, GuildTextEditFrameAcceptButton, GuildMemberGroupInviteButton, GuildMemberRemoveButton, GuildRecruitmentInviteButton, GuildRecruitmentMessageButton, GuildRecruitmentDeclineButton, GuildRecruitmentListGuildButton, TextEditFrameCB, LogFrameCB}
-	for _, button in pairs(buttons) do
-		B.ReskinButton(button)
+	GuildRecruitmentCommentInputFrameTop:Hide()
+	GuildRecruitmentCommentInputFrameTopLeft:Hide()
+	GuildRecruitmentCommentInputFrameTopRight:Hide()
+	GuildRecruitmentCommentInputFrameBottom:Hide()
+	GuildRecruitmentCommentInputFrameBottomLeft:Hide()
+	GuildRecruitmentCommentInputFrameBottomRight:Hide()
+	GuildRecruitmentInterestFrameBg:Hide()
+	GuildRecruitmentAvailabilityFrameBg:Hide()
+	GuildRecruitmentRolesFrameBg:Hide()
+	GuildRecruitmentLevelFrameBg:Hide()
+	GuildRecruitmentCommentFrameBg:Hide()
+	GuildNewsFrameHeader:SetAlpha(0)
+
+	GuildFrameBottomInset:DisableDrawLayer("BACKGROUND")
+	GuildFrameBottomInset:DisableDrawLayer("BORDER")
+	GuildInfoFrameInfoBar1Left:SetAlpha(0)
+	GuildInfoFrameInfoBar2Left:SetAlpha(0)
+	for i = 1, 4 do
+		_G["GuildRosterColumnButton"..i]:DisableDrawLayer("BACKGROUND")
 	end
+	GuildNewsBossModel:DisableDrawLayer("BACKGROUND")
+	GuildNewsBossModel:DisableDrawLayer("OVERLAY")
+	GuildNewsBossNameText:SetDrawLayer("ARTWORK")
+	B.StripTextures(GuildNewsBossModelTextFrame)
 
-	--News
-	B.StripTextures(GuildFactionBar)
-	B.CreateBDFrame(GuildFactionBarBG, 0)
-	GuildFactionBar:SetSize(180, 20)
-	GuildFactionBar:ClearAllPoints()
-	GuildFactionBar:SetPoint("BOTTOMLEFT", 0, -3)
-	GuildFactionBarProgress:SetTexture(DB.normTex)
-	GuildFactionBarProgress:SetVertexColor(cr, cg, cb, DB.Alpha)
-	GuildFactionBarLabel:ClearAllPoints()
-	GuildFactionBarLabel:SetPoint("CENTER", GuildFactionBarBG)
+	GuildMemberRankDropdown:HookScript("OnShow", function()
+		GuildMemberDetailRankText:Hide()
+	end)
+	GuildMemberRankDropdown:HookScript("OnHide", function()
+		GuildMemberDetailRankText:Show()
+	end)
 
+	hooksecurefunc("GuildNews_Update", function()
+		local buttons = GuildNewsContainer.buttons
+		for i = 1, #buttons do
+			buttons[i].header:SetAlpha(0)
+		end
+	end)
+
+	B.ReskinClose(GuildNewsFiltersFrameCloseButton)
+	B.ReskinClose(GuildLogFrameCloseButton)
+	B.ReskinClose(GuildMemberDetailCloseButton)
+	B.ReskinClose(GuildTextEditFrameCloseButton)
+	B.ReskinScroll(GuildPerksContainerScrollBar)
+	B.ReskinScroll(GuildRosterContainerScrollBar)
+	B.ReskinScroll(GuildNewsContainerScrollBar)
+	B.ReskinScroll(GuildRewardsContainerScrollBar)
+	B.ReskinScroll(GuildInfoFrameInfoMOTDScrollFrameScrollBar)
+	B.ReskinScroll(GuildInfoDetailsFrameScrollBar)
+	B.ReskinScroll(GuildLogScrollFrameScrollBar)
+	B.ReskinScroll(GuildTextEditScrollFrameScrollBar)
+	B.ReskinScroll(GuildRecruitmentCommentInputFrameScrollFrameScrollBar)
+	B.ReskinScroll(GuildInfoFrameApplicantsContainerScrollBar)
+	B.ReskinDropDown(GuildRosterViewDropdown)
+	B.ReskinDropDown(GuildMemberRankDropdown)
+	B.ReskinInput(GuildRecruitmentCommentInputFrame)
+
+	GuildRecruitmentCommentInputFrame:SetWidth(312)
+	GuildRecruitmentCommentEditBox:SetWidth(284)
+	GuildRecruitmentCommentFrame:ClearAllPoints()
+	GuildRecruitmentCommentFrame:SetPoint("TOPLEFT", GuildRecruitmentLevelFrame, "BOTTOMLEFT", 0, 1)
+
+	B.ReskinCheck(GuildRosterShowOfflineButton)
 	for i = 1, 7 do
 		B.ReskinCheck(GuildNewsFiltersFrame.GuildNewsFilterButtons[i])
 	end
 
-	hooksecurefunc("GuildNewsButton_SetNews", function(button)
-		if button.header:IsShown() then
-			button.header:SetAlpha(0)
-		end
-	end)
-
-	B.StripTextures(GuildNewsBossModelTextFrame)
-
+	local a1, p, a2, x, y = GuildNewsBossModel:GetPoint()
 	GuildNewsBossModel:ClearAllPoints()
-	GuildNewsBossModel:SetPoint("LEFT", GuildFrame, "RIGHT", 5, 0)
+	GuildNewsBossModel:SetPoint(a1, p, a2, x + 7, y)
 
-	local bg = B.ReskinFrame(GuildNewsBossModel)
-	bg:SetOutside(GuildNewsBossModel, C.mult, C.mult, GuildNewsBossModelTextFrame)
+	local f = B.SetBD(GuildNewsBossModel)
+	f:SetPoint("BOTTOMRIGHT", 2, -52)
 
-	--Roster
-	B.ReskinDropDown(GuildRosterViewDropdown)
-	B.ReskinDropDown(GuildMemberRankDropdown)
-	B.ReskinClose(GuildMemberDetailCloseButton)
-	B.ReskinCheck(GuildRosterShowOfflineButton)
-
-	GuildMemberRankDropdownText:Hide()
-	GuildRosterShowOfflineButton:SetSize(24, 24)
+	GuildNewsFiltersFrame:SetWidth(224)
+	GuildNewsFiltersFrame:SetPoint("TOPLEFT", GuildFrame, "TOPRIGHT", 3, -20)
+	GuildMemberDetailFrame:SetPoint("TOPLEFT", GuildFrame, "TOPRIGHT", 3, -28)
+	GuildLogFrame:SetPoint("TOPLEFT", GuildFrame, "TOPRIGHT", 3, 0)
+	GuildTextEditFrame:SetPoint("TOPLEFT", GuildFrame, "TOPRIGHT", 3, 0)
 
 	for i = 1, 5 do
-		local bu = _G["GuildRosterColumnButton"..i]
-		B.StripTextures(bu)
+		local bu = _G["GuildInfoFrameApplicantsContainerButton"..i]
 
-		local bubg = B.CreateBDFrame(bu, 0, -C.mult*2)
-		B.ReskinHighlight(bu, bubg, true)
+		bu:SetBackdrop(nil)
+		bu:SetHighlightTexture("")
+
+		local bg = B.CreateBDFrame(bu, .25)
+		bg:ClearAllPoints()
+		bg:SetPoint("TOPLEFT", 0, 0)
+		bg:SetPoint("BOTTOMRIGHT", 0, 1)
+
+		bu:GetRegions():SetTexture(DB.bdTex)
+		bu:GetRegions():SetVertexColor(r, g, b, .2)
 	end
 
-	hooksecurefunc("GuildRoster_UpdateTradeSkills", function()
-		local buttons = GuildRosterContainer.buttons
-		for i = 1, #buttons do
-			local index = HybridScrollFrame_GetOffset(GuildRosterContainer) + i
-			local String1 = _G["GuildRosterContainerButton"..i.."String1"]
-			local String3 = _G["GuildRosterContainerButton"..i.."String3"]
-			local HeaderButton = _G["GuildRosterContainerButton"..i.."HeaderButton"]
+	GuildFactionBarProgress:SetTexture(DB.bdTex)
+	GuildFactionBarLeft:Hide()
+	GuildFactionBarMiddle:Hide()
+	GuildFactionBarRight:Hide()
+	GuildFactionBarShadow:SetAlpha(0)
+	GuildFactionBarBG:Hide()
+	GuildFactionBarCap:SetAlpha(0)
+	local bg = B.CreateBDFrame(GuildFactionFrame, .25)
+	bg:SetPoint("TOPLEFT", GuildFactionFrame, -1, -1)
+	bg:SetPoint("BOTTOMRIGHT", GuildFactionFrame, -3, 0)
+	bg:SetFrameLevel(0)
 
-			if HeaderButton then
-				local headerName = select(3, GetGuildTradeSkillInfo(index))
-				if headerName then
-					String1:Hide()
-					String3:Hide()
-				else
-					String1:Show()
-					String3:Show()
-				end
-
-				if not HeaderButton.styled then
-					B.StripTextures(HeaderButton)
-					B.ReskinIcon(HeaderButton.icon)
-
-					local bg = B.CreateBDFrame(HeaderButton, 0, -C.mult*2)
-					B.ReskinHighlight(HeaderButton, bg, true)
-
-					HeaderButton.styled = true
-				end
-			end
-		end
-	end)
-
-	local function UpdateIcons()
-		local index
-		local offset = HybridScrollFrame_GetOffset(GuildRosterContainer)
-		local totalMembers, _, onlineAndMobileMembers = GetNumGuildMembers()
-		local visibleMembers = onlineAndMobileMembers
-		local numbuttons = #GuildRosterContainer.buttons
-		if GetGuildRosterShowOffline() then
-			visibleMembers = totalMembers
-		end
-
-		for i = 1, numbuttons do
-			local button = GuildRosterContainer.buttons[i]
-
-			if not button.icbg then
-				button:SetHighlightTexture(DB.bdTex)
-				button:GetHighlightTexture():SetVertexColor(cr, cg, cb, .25)
-
-				button.icbg = B.ReskinIcon(button.icon)
-			end
-
-			index = offset + i
-			local name, _, _, _, _, _, _, _, _, _, classFileName = GetGuildRosterInfo(index)
-			if name and index <= visibleMembers and button.icon:IsShown() then
-				local tcoords = CLASS_ICON_TCOORDS[classFileName]
-				button.icon:SetTexCoord(tcoords[1] + 0.022, tcoords[2] - 0.025, tcoords[3] + 0.022, tcoords[4] - 0.025)
-				button.icbg:Show()
-			else
-				button.icbg:Hide()
-			end
-		end
+	for _, button in pairs(GuildPerksContainer.buttons) do
+		B.ReskinIcon(button.icon)
+		B.StripTextures(button)
+		button.bg = B.CreateBDFrame(button, .25)
+		button.bg:ClearAllPoints()
+		button.bg:SetPoint("TOPLEFT", button.icon, 0, C.mult)
+		button.bg:SetPoint("BOTTOMLEFT", button.icon, 0, -C.mult)
+		button.bg:SetWidth(button:GetWidth())
 	end
+	GuildPerksContainerButton1:SetPoint("LEFT", -1, 0)
 
-	hooksecurefunc("GuildRoster_Update", UpdateIcons)
-	hooksecurefunc(GuildRosterContainer, "update", UpdateIcons)
-
-	-- Font width fix
-	local function updateLevelString(view)
-		if view == "playerStatus" or view == "reputation" or view == "achievement" then
-			local buttons = GuildRosterContainer.buttons
-			for i = 1, #buttons do
-				local String1 = _G["GuildRosterContainerButton"..i.."String1"]
-				String1:SetWidth(32)
-				String1:SetJustifyH("LEFT")
-				String1:ClearAllPoints()
-				String1:SetPoint("LEFT", 3, 0)
-
-				local Icon = _G["GuildRosterContainerButton"..i.."Icon"]
-				Icon:ClearAllPoints()
-				Icon:SetPoint("LEFT", 43, 0)
-
-				if view == "achievement" then
-					local BarLabel = _G["GuildRosterContainerButton"..i.."BarLabel"]
-					BarLabel:SetWidth(60)
-					BarLabel:SetJustifyH("LEFT")
-				end
-			end
-		end
-	end
-
-	GuildRosterContainer:HookScript("OnShow", function(self)
-		if not self.styled then
-			updateLevelString(GetCVar("guildRosterView"))
-
-			self.styled = true
-		end
-	end)
-	hooksecurefunc("GuildRoster_SetView", updateLevelString)
-
-	--Perks
-	hooksecurefunc("GuildPerks_Update", function()
-		local buttons = GuildPerksContainer.buttons
-		for i = 1, #buttons do
-			local button = buttons[i]
-			if button and not button.styled then
-				B.StripTextures(button)
-
-				local icbg = B.ReskinIcon(button.icon)
-				local bubg = B.CreateBGFrame(button, 2, 0, 0, 0, icbg)
-				B.ReskinHighlight(button, bubg, true)
-
-				button.styled = true
-			end
-		end
-	end)
-
-	--Rewards
 	hooksecurefunc("GuildRewards_Update", function()
 		local buttons = GuildRewardsContainer.buttons
 		for i = 1, #buttons do
-			local button = buttons[i]
-			if button and not button.styled then
-				B.StripTextures(button)
-				B.ReskinIcon(button.icon)
+			local bu = buttons[i]
+			if not bu.bg then
+				bu:SetNormalTexture("")
+				bu:SetHighlightTexture("")
+				B.ReskinIcon(bu.icon)
+				bu.disabledBG:Hide()
+				bu.disabledBG.Show = B.Dummy
 
-				local bubg = B.CreateBDFrame(button, 0, -C.mult*2)
-				B.ReskinHighlight(button, bubg, true)
-
-				button.styled = true
+				bu.bg = B.CreateBDFrame(bu, .25)
+				bu.bg:ClearAllPoints()
+				bu.bg:SetPoint("TOPLEFT", 1, -1)
+				bu.bg:SetPoint("BOTTOMRIGHT", 0, 0)
 			end
 		end
 	end)
 
-	--Info
+	hooksecurefunc("GuildRoster_Update", updateClassIcons)
+	hooksecurefunc(GuildRosterContainer, "update", updateClassIcons)
+
+	B.Reskin(select(4, GuildTextEditFrame:GetChildren()))
+	B.Reskin(select(3, GuildLogFrame:GetChildren()))
+
+	local gbuttons = {
+		"GuildAddMemberButton",
+		"GuildViewLogButton",
+		"GuildControlButton",
+		"GuildTextEditFrameAcceptButton",
+		"GuildMemberGroupInviteButton",
+		"GuildMemberRemoveButton",
+		"GuildRecruitmentInviteButton",
+		"GuildRecruitmentMessageButton",
+		"GuildRecruitmentDeclineButton",
+		"GuildRecruitmentListGuildButton"
+	}
+	for i = 1, #gbuttons do
+		B.Reskin(_G[gbuttons[i]])
+	end
+
+	local checkboxes = {
+		"GuildRecruitmentQuestButton",
+		"GuildRecruitmentDungeonButton",
+		"GuildRecruitmentRaidButton",
+		"GuildRecruitmentPvPButton",
+		"GuildRecruitmentRPButton",
+		"GuildRecruitmentWeekdaysButton",
+		"GuildRecruitmentWeekendsButton"
+	}
+	for i = 1, #checkboxes do
+		B.ReskinCheck(_G[checkboxes[i]])
+	end
+
+	B.ReskinCheck(GuildRecruitmentTankButton:GetChildren())
+	B.ReskinCheck(GuildRecruitmentHealerButton:GetChildren())
+	B.ReskinCheck(GuildRecruitmentDamagerButton:GetChildren())
+
+	B.ReskinRadio(GuildRecruitmentLevelAnyButton)
+	B.ReskinRadio(GuildRecruitmentLevelMaxButton)
+
 	for i = 1, 3 do
 		B.StripTextures(_G["GuildInfoFrameTab"..i])
 	end
 
-	-- Recruitment
-	GuildRecruitmentCommentEditBox:SetWidth(284)
-	local CommentFrame = GuildRecruitmentCommentFrame
-	B.StripTextures(CommentFrame)
+	-- Tradeskill View
+	hooksecurefunc("GuildRoster_UpdateTradeSkills", function()
+		local buttons = GuildRosterContainer.buttons
+		for i = 1, #buttons do
+			local index = HybridScrollFrame_GetOffset(GuildRosterContainer) + i
+			local str = _G["GuildRosterContainerButton"..i.."String1"]
+			local header = _G["GuildRosterContainerButton"..i.."HeaderButton"]
+			if header then
+				local _, _, _, headerName = GetGuildTradeSkillInfo(index)
+				if headerName then
+					str:Hide()
+				else
+					str:Show()
+				end
 
-	local CommentInputFrame = GuildRecruitmentCommentInputFrame
-	CommentInputFrame:SetAllPoints(CommentFrame)
-	B.StripTextures(CommentInputFrame)
-	B.CreateBDFrame(CommentInputFrame, 0)
+				if not header.bg then
+					B.StripTextures(header, 5)
+					header.bg = B.CreateBDFrame(header, .25)
+					header.bg:SetAllPoints()
 
-	B.ReskinRole(GuildRecruitmentTankButton, "TANK")
-	B.ReskinRole(GuildRecruitmentHealerButton, "HEALER")
-	B.ReskinRole(GuildRecruitmentDamagerButton, "DPS")
+					header:SetHighlightTexture(DB.bdTex)
+					local hl = header:GetHighlightTexture()
+					hl:SetVertexColor(r, g, b, .25)
+					hl:SetInside()
+				end
+			end
+		end
+	end)
 
-	local checks = {GuildRecruitmentQuestButton, GuildRecruitmentDungeonButton, GuildRecruitmentRaidButton, GuildRecruitmentPvPButton, GuildRecruitmentRPButton, GuildRecruitmentWeekdaysButton, GuildRecruitmentWeekendsButton}
-	for _, check in pairs(checks) do
-		B.ReskinCheck(check)
-	end
-
-	B.ReskinRadio(GuildRecruitmentLevelAnyButton)
-	B.ReskinRadio(GuildRecruitmentLevelMaxButton)
+	-- Font width fix
+	local done
+	GuildRosterContainer:HookScript("OnShow", function()
+		if not done then
+			updateLevelString(GetCVar("guildRosterView"))
+			done = true
+		end
+	end)
+	hooksecurefunc("GuildRoster_SetView", updateLevelString)
 end

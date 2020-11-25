@@ -13,7 +13,7 @@ function OptionsList_OnLoad(self, ...)
 	end
 end
 
-local tabFrame1 = CreateFrame("Frame", "DBM_GUI_DropDown", _G["DBM_GUI_OptionsFrame"], DBM:IsAlpha() and "BackdropTemplate,OptionsFrameListTemplate" or "OptionsFrameListTemplate")
+local tabFrame1 = CreateFrame("Frame", "DBM_GUI_DropDown", _G["DBM_GUI_OptionsFrame"], DBM:IsShadowlands() and "BackdropTemplate,OptionsFrameListTemplate" or "OptionsFrameListTemplate")
 tabFrame1:Hide()
 tabFrame1:SetFrameStrata("TOOLTIP")
 tabFrame1.offset = 0
@@ -25,7 +25,7 @@ tabFrame1.backdropInfo = {
 	edgeSize	= 16,
 	insets		= { left = 3, right = 3, top = 5, bottom = 3 }
 }
-if not DBM:IsAlpha() then
+if not DBM:IsShadowlands() then
 	tabFrame1:SetBackdrop(tabFrame1.backdropInfo)
 else
 	tabFrame1:ApplyBackdrop()
@@ -86,7 +86,7 @@ end)
 
 tabFrame1.buttons = {}
 for i = 1, 10 do
-	local button = CreateFrame("Button", tabFrame1:GetName() .. "Button" .. i, tabFrame1, DBM:IsAlpha() and "BackdropTemplate,UIDropDownMenuButtonTemplate" or "UIDropDownMenuButtonTemplate")
+	local button = CreateFrame("Button", tabFrame1:GetName() .. "Button" .. i, tabFrame1, DBM:IsShadowlands() and "BackdropTemplate,UIDropDownMenuButtonTemplate" or "UIDropDownMenuButtonTemplate")
 	_G[button:GetName() .. "Check"]:Hide()
 	_G[button:GetName() .. "UnCheck"]:Hide()
 	button:SetFrameLevel(tabFrame1ScrollBar:GetFrameLevel() - 1)
@@ -120,7 +120,7 @@ for i = 1, 10 do
 		_G[self:GetName() .. "NormalText"]:SetFont(defaultFont, defaultFontSize)
 		self:SetHeight(0)
 		self:SetText("")
-		if DBM:IsAlpha() then
+		if DBM:IsShadowlands() then
 			self:ClearBackdrop()
 		else
 			self:SetBackdrop(nil)
@@ -141,7 +141,7 @@ function tabFrame1:ShowMenu()
 				button.backdropInfo = {
 					bgFile	= entry.value
 				}
-				if DBM:IsAlpha() then
+				if DBM:IsShadowlands() then
 					button:ApplyBackdrop()
 				else
 					button:SetBackdrop(button.backdropInfo)

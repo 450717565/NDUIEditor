@@ -1,5 +1,6 @@
 local W, ADDON, T, EV, C = {}, ...
-EV, T.WrappedAPI, C = T.Evie, W, C_Garrison
+local Nine = T.Nine or _G
+EV, T.WrappedAPI, C = T.Evie, W, Nine.C_Garrison
 
 W.MECHANIC_ISSPEC = { [138]=true, [149]=true, [147]=true }
 W.MECHANIC_ICONS = {
@@ -275,12 +276,13 @@ function W.GetMissionLethalMask(mid, enemies)
 	end
 	local le1, le2
 	for i=1,type(enemies) == "table" and #enemies or 0 do
-		if type(enemies[i].mechanics) == "table" then
-			for k, v in pairs(enemies[i].mechanics) do
-				local c = MECHANIC_COUNTERS[k]
-				if c and type(v.ability) == "table" and v.ability.id == LETHAL_MECHANIC then
-					le1, le2 = c, le1
-				end
+		local mech = enemies[i].mechanics
+		for i=1,type(mech) == "table" and #mech or 0 do
+			local v = mech[i]
+			local k = v.mechanicTypeID
+			local c = MECHANIC_COUNTERS[k]
+			if c and type(v.ability) == "table" and v.ability.id == LETHAL_MECHANIC then
+				le1, le2 = c, le1
 			end
 		end
 	end
@@ -323,7 +325,7 @@ function W.AddMissionAchievementInfo(missions)
 	return missions
 end
 function W.GetAvailableMissions(mtype, inProgressMissions, followerMissionInfo)
-	local r = C.GetAvailableMissions(mtype)
+	local r = C.GetAvailableMissions(mtype) or {}
 	W.ObserveAvailableMissions(r)
 	if inProgressMissions and next(fsInfo.missions) then
 		local ni, fsMissions = 1, fsInfo.missions
@@ -346,7 +348,7 @@ function W.GetAvailableMissions(mtype, inProgressMissions, followerMissionInfo)
 			r[i] = nil
 		end
 	end
-	local _, cres = GetCurrencyInfo(1560)
+	local _, cres = Nine.GetCurrencyInfo(1560)
 	for i=1,#r do
 		local e = r[i]
 		for j=1,2 do
@@ -402,12 +404,12 @@ function W.GetMissionTableInfo(mtype)
 		end
 	end
 	local availableMissions = W.GetAvailableMissions(mtype, inProgressMissions, followerMissionInfo)
-	local followers = W.GetFollowers(mtype, followerMissionInfo)
+	local followers = W.GetFollowers(mtype, followerMissionInfo) or {}
 	return availableMissions, inProgressMissions, completeMissions, followers, followerMissionInfo
 end
 function W.GetFollowersMissionInfo(mtype, inProgressMissions, completeMissions)
-	inProgressMissions = inProgressMissions or C.GetInProgressMissions(mtype)
-	completeMissions = completeMissions or C.GetCompleteMissions(mtype)
+	inProgressMissions = inProgressMissions or C.GetInProgressMissions(mtype) or {}
+	completeMissions = completeMissions or C.GetCompleteMissions(mtype) or {}
 	local followerMissionInfo, a = {}, inProgressMissions
 	for _=1,2 do
 		for i=1,#a do
@@ -740,7 +742,7 @@ do -- PrepareAllMissionGroups/GetMissionGroups
 				for i=1,#frames do
 					frames[i]:UnregisterEvent("GARRISON_FOLLOWER_LIST_UPDATE")
 				end
-				local mmi = C.GetAvailableMissions(mt)
+				local mmi = C.GetAvailableMissions(mt) or {}
 				for i=1,#mmi do
 					for _,v in pairs(mmi[i].followers) do
 						C.RemoveFollowerFromMission(mmi[i].missionID, v)
@@ -757,7 +759,7 @@ do -- PrepareAllMissionGroups/GetMissionGroups
 			if level == 0 then
 				for i=1,(not mt) and 2 or 1 do
 					local mt = not mt and i or mt
-					local mmi = C.GetAvailableMissions(mt)
+					local mmi = C.GetAvailableMissions(mt) or {}
 					for i=1,#mmi do
 						for _,v in pairs(mmi[i].followers) do
 							C.RemoveFollowerFromMission(mmi[i].missionID, v)
@@ -783,7 +785,7 @@ do -- PrepareAllMissionGroups/GetMissionGroups
 	end
 	function W.PrepareAllMissionGroups(mtype)
 		suppressFollowerEvents(mtype)
-		local mmi = C.GetAvailableMissions(mtype)
+		local mmi = C.GetAvailableMissions(mtype) or {}
 		securecall(doPrepareMissionGroups, mmi)
 		releaseFollowerEvents(mtype)
 		return mmi
@@ -1080,7 +1082,7 @@ function W.UnpackHistoryReward(r)
 			local ci = C_CurrencyInfo.GetBasicCurrencyInfo(typeID, quant)
 			ico = ci and ci.icon
 		end
-		return "currency", typeID, quant, ico or select(3,GetCurrencyInfo(typeID)) or 134400
+		return "currency", typeID, quant, ico or select(3,Nine.GetCurrencyInfo(typeID)) or 134400
 	elseif kind == 3 then
 		return "item", typeID, floor(r / 2^24), GetItemIcon(typeID) or 134400
 	elseif r > 0 then

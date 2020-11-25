@@ -18,15 +18,15 @@ function B:CreateMF(parent, saved)
 		frame:StopMovingOrSizing()
 		if not saved then return end
 		local orig, _, tar, x, y = frame:GetPoint()
-		NDuiDB["TempAnchor"][frame:GetDebugName()] = {orig, "UIParent", tar, x, y}
+		C.db["TempAnchor"][frame:GetName()] = {orig, "UIParent", tar, x, y}
 	end)
 end
 
 function B:RestoreMF()
-	local name = self:GetDebugName()
-	if name and NDuiDB["TempAnchor"][name] then
+	local name = self:GetName()
+	if name and C.db["TempAnchor"][name] then
 		self:ClearAllPoints()
-		self:Point(unpack(NDuiDB["TempAnchor"][name]))
+		self:SetPoint(unpack(C.db["TempAnchor"][name]))
 	end
 end
 
@@ -41,15 +41,15 @@ function B:Mover(text, value, anchor, width, height, isAuraWatch)
 	local mover = CreateFrame("Frame", nil, UIParent)
 	mover:SetWidth(width or self:GetWidth())
 	mover:SetHeight(height or self:GetHeight())
-	mover.bg = B.CreateBDFrame(mover, 0)
+	mover.bg = B.SetBD(mover)
 	mover:Hide()
 	mover.text = B.CreateFS(mover, DB.Font[2], text)
 	mover.text:SetWordWrap(true)
 
-	if not NDuiDB[key][value] then
-		mover:Point(unpack(anchor))
+	if not C.db[key][value] then
+		mover:SetPoint(unpack(anchor))
 	else
-		mover:Point(unpack(NDuiDB[key][value]))
+		mover:SetPoint(unpack(C.db[key][value]))
 	end
 	mover:EnableMouse(true)
 	mover:SetMovable(true)
@@ -70,15 +70,15 @@ function B:Mover(text, value, anchor, width, height, isAuraWatch)
 	end
 
 	self:ClearAllPoints()
-	self:Point("TOPLEFT", mover)
+	self:SetPoint("TOPLEFT", mover)
 
 	return mover
 end
 
 function M:CalculateMoverPoints(mover, trimX, trimY)
-	local screenWidth = B.Round(UIParent:GetRight())
-	local screenHeight = B.Round(UIParent:GetTop())
-	local screenCenter = B.Round(UIParent:GetCenter(), nil)
+	local screenWidth = B:Round(UIParent:GetRight())
+	local screenHeight = B:Round(UIParent:GetTop())
+	local screenCenter = B:Round(UIParent:GetCenter(), nil)
 	local x, y = mover:GetCenter()
 
 	local LEFT = screenWidth / 3
@@ -112,7 +112,7 @@ end
 
 function M:UpdateTrimFrame()
 	local x, y = M:CalculateMoverPoints(self)
-	x, y = B.Round(x), B.Round(y)
+	x, y = B:Round(x), B:Round(y)
 	f.__x:SetText(x)
 	f.__y:SetText(y)
 	f.__x.__current = x
@@ -124,14 +124,14 @@ function M:DoTrim(trimX, trimY)
 	local mover = updater.__owner
 	if mover then
 		local x, y, point = M:CalculateMoverPoints(mover, trimX, trimY)
-		x, y = B.Round(x), B.Round(y)
+		x, y = B:Round(x), B:Round(y)
 		f.__x:SetText(x)
 		f.__y:SetText(y)
 		f.__x.__current = x
 		f.__y.__current = y
 		mover:ClearAllPoints()
-		mover:Point(point, UIParent, point, x, y)
-		NDuiDB[mover.__key][mover.__value] = {point, "UIParent", point, x, y}
+		mover:SetPoint(point, UIParent, point, x, y)
+		C.db[mover.__key][mover.__value] = {point, "UIParent", point, x, y}
 	end
 end
 
@@ -144,8 +144,8 @@ function M:Mover_OnClick(btn)
 		end
 	elseif IsControlKeyDown() and btn == "RightButton" then
 		self:ClearAllPoints()
-		self:Point(unpack(self.__anchor))
-		NDuiDB[self.__key][self.__value] = nil
+		self:SetPoint(unpack(self.__anchor))
+		C.db[self.__key][self.__value] = nil
 	end
 	updater.__owner = self
 	M.UpdateTrimFrame(self)
@@ -171,12 +171,12 @@ end
 function M:Mover_OnDragStop()
 	self:StopMovingOrSizing()
 	local orig, _, tar, x, y = self:GetPoint()
-	x = B.Round(x)
-	y = B.Round(y)
+	x = B:Round(x)
+	y = B:Round(y)
 
 	self:ClearAllPoints()
-	self:Point(orig, "UIParent", tar, x, y)
-	NDuiDB[self.__key][self.__value] = {orig, "UIParent", tar, x, y}
+	self:SetPoint(orig, "UIParent", tar, x, y)
+	C.db[self.__key][self.__value] = {orig, "UIParent", tar, x, y}
 	M.UpdateTrimFrame(self)
 	updater:Hide()
 end
@@ -206,8 +206,8 @@ StaticPopupDialogs["RESET_MOVER"] = {
 	button1 = OKAY,
 	button2 = CANCEL,
 	OnAccept = function()
-		wipe(NDuiDB["Mover"])
-		wipe(NDuiDB["AuraWatchMover"])
+		wipe(C.db["Mover"])
+		wipe(C.db["AuraWatchMover"])
 		ReloadUI()
 	end,
 }
@@ -219,7 +219,7 @@ local function CreateConsole()
 	f = CreateFrame("Frame", nil, UIParent)
 	f:SetPoint("TOP", 0, -150)
 	f:SetSize(212, 80)
-	B.CreateBG(f)
+	B.SetBD(f)
 	B.CreateFS(f, 15, L["Mover Console"], "system", "TOP", 0, -8)
 	local bu, text = {}, {LOCK, L["Grids"], L["AuraWatch"], RESET}
 	for i = 1, 4 do
@@ -257,18 +257,14 @@ local function CreateConsole()
 	header:SetSize(212, 30)
 	header:SetPoint("TOP")
 	B.CreateMF(header, f)
-	local tips = DB.InfoColor.."|nCTRL +"..DB.RightButton..L["Reset anchor"].."|nSHIFT +"..DB.RightButton..L["Hide panel"]
-	header.title = L["Tips"]
-	B.AddTooltip(header, "ANCHOR_TOP", tips)
-	local tex = header:CreateTexture()
-	tex:SetSize(40, 40)
-	tex:SetPoint("TOPRIGHT", 2, 5)
-	tex:SetTexture("Interface\\Common\\Help-i")
+
+	local helpInfo = B.CreateHelpInfo(header, "|nCTRL +"..DB.RightButton..L["Reset anchor"].."|nSHIFT +"..DB.RightButton..L["Hide panel"])
+	helpInfo:SetPoint("TOPRIGHT", 2, 5)
 
 	local frame = CreateFrame("Frame", nil, f)
 	frame:SetSize(212, 73)
-	frame:SetPoint("TOP", f, "BOTTOM", 0, -2)
-	B.CreateBG(frame)
+	frame:SetPoint("TOP", f, "BOTTOM", 0, -3)
+	B.SetBD(frame)
 	f.__trimText = B.CreateFS(frame, 12, NONE, "system", "BOTTOM", 0, 5)
 
 	local xBox = B.CreateEditBox(frame, 60, 22)
@@ -329,7 +325,8 @@ local function CreateConsole()
 		arrows[i].__offset = arrowData.offset
 		arrows[i]:SetScript("OnClick", arrowOnClick)
 		arrows[i]:SetPoint("CENTER", arrowData.x, arrowData.y)
-		arrows[i].Icon:SetInside(nil, 3, 3)
+		arrows[i].Icon:SetPoint("TOPLEFT", 3, -3)
+		arrows[i].Icon:SetPoint("BOTTOMRIGHT", -3, 3)
 		arrows[i].Icon:SetRotation(math.rad(arrowData.degree))
 	end
 
@@ -356,6 +353,7 @@ SlashCmdList["NDUI_MOVER"] = function()
 	M:UnlockElements()
 end
 SLASH_NDUI_MOVER1 = "/mm"
+SLASH_NDUI_MOVER2 = "/mmm"
 
 function M:OnLogin()
 	updater = CreateFrame("Frame")

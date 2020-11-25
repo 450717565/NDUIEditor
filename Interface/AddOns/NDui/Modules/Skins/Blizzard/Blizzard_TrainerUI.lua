@@ -1,46 +1,56 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 
 C.themes["Blizzard_TrainerUI"] = function()
-	B.ReskinFrame(ClassTrainerFrame)
-	B.ReskinButton(ClassTrainerTrainButton)
-	B.ReskinScroll(ClassTrainerScrollFrameScrollBar)
-	B.ReskinDropDown(ClassTrainerFrameFilterDropDown)
-	B.ReskinStatusBar(ClassTrainerStatusBar)
+	local r, g, b = DB.r, DB.g, DB.b
 
-	ClassTrainerStatusBar:ClearAllPoints()
-	ClassTrainerStatusBar:SetPoint("RIGHT", ClassTrainerFrameFilterDropDown, "LEFT", 0, 2)
+	B.ReskinPortraitFrame(ClassTrainerFrame)
+	ClassTrainerStatusBarSkillRank:ClearAllPoints()
+	ClassTrainerStatusBarSkillRank:SetPoint("CENTER", ClassTrainerStatusBar, "CENTER", 0, 0)
 
-	hooksecurefunc("ClassTrainerFrame_SetServiceButton", function(skillButton, skillIndex)
-		local texture = select(3, GetTrainerServiceInfo(skillIndex))
-		skillButton.name:SetWordWrap(false)
-		skillButton.subText:SetWordWrap(false)
+	local icbg = B.ReskinIcon(ClassTrainerFrameSkillStepButtonIcon)
+	local bg = B.CreateBDFrame(ClassTrainerFrameSkillStepButton, .25)
+	bg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 1, 0)
+	bg:SetPoint("BOTTOMRIGHT", icbg, "BOTTOMRIGHT", 270, 0)
 
-		if not skillButton.styled then
-			B.StripTextures(skillButton)
-			skillButton.icon:SetTexture(texture)
+	ClassTrainerFrameSkillStepButton:SetNormalTexture("")
+	ClassTrainerFrameSkillStepButton:SetHighlightTexture("")
+	ClassTrainerFrameSkillStepButton.disabledBG:SetTexture("")
+	ClassTrainerFrameSkillStepButton.selectedTex:SetAllPoints(bg)
+	ClassTrainerFrameSkillStepButton.selectedTex:SetColorTexture(r, g, b, .25)
 
-			local icbg = B.ReskinIcon(skillButton.icon)
-			local bubg = B.CreateBGFrame(skillButton, 2, 0, 0, 0, icbg)
+	hooksecurefunc("ClassTrainerFrame_Update", function()
+		for _, bu in next, ClassTrainerFrame.scrollFrame.buttons do
+			if not bu.styled then
+				local icbg = B.ReskinIcon(bu.icon)
+				local bg = B.CreateBDFrame(bu, .25)
+				bg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 1, 0)
+				bg:SetPoint("BOTTOMRIGHT", icbg, "BOTTOMRIGHT", 253, 0)
 
-			if skillButton == ClassTrainerFrame.skillStepButton then
-				bubg:SetPoint("RIGHT", -18, 0)
+				bu.name:SetParent(bg)
+				bu.name:SetPoint("TOPLEFT", bu.icon, "TOPRIGHT", 6, -2)
+				bu.subText:SetParent(bg)
+				bu.money:SetParent(bg)
+				bu.money:SetPoint("TOPRIGHT", bu, "TOPRIGHT", 5, -8)
+				bu:SetNormalTexture("")
+				bu:SetHighlightTexture("")
+				bu.disabledBG:Hide()
+				bu.disabledBG.Show = B.Dummy
+				bu.selectedTex:SetAllPoints(bg)
+				bu.selectedTex:SetColorTexture(r, g, b, .25)
+
+				bu.styled = true
 			end
-
-			B.ReskinHighlight(skillButton, bubg, true)
-			B.ReskinHighlight(skillButton.selectedTex, bubg, true)
-
-			skillButton.disabledBG:SetInside(bubg)
-
-			skillButton.name:ClearAllPoints()
-			skillButton.name:SetPoint("TOPLEFT", bubg, "TOPLEFT", 3, -5)
-
-			skillButton.subText:ClearAllPoints()
-			skillButton.subText:SetPoint("BOTTOMLEFT", bubg, "BOTTOMLEFT", 3, -5)
-
-			skillButton.money:ClearAllPoints()
-			skillButton.money:SetPoint("TOPRIGHT", bubg, "TOPRIGHT", 10, -5)
-
-			skillButton.styled = true
 		end
 	end)
+
+	B.StripTextures(ClassTrainerStatusBar)
+	ClassTrainerStatusBar:SetPoint("TOPLEFT", ClassTrainerFrame, "TOPLEFT", 64, -35)
+	ClassTrainerStatusBar:SetStatusBarTexture(DB.bdTex)
+	ClassTrainerStatusBar:GetStatusBarTexture():SetGradient("VERTICAL", .1, .3, .9, .2, .4, 1)
+	B.CreateBDFrame(ClassTrainerStatusBar, .25)
+
+	B.Reskin(ClassTrainerTrainButton)
+	B.ReskinScroll(ClassTrainerScrollFrameScrollBar)
+	B.ReskinDropDown(ClassTrainerFrameFilterDropDown)
 end

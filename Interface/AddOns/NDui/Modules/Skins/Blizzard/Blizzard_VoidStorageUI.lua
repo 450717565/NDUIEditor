@@ -1,62 +1,75 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 
 C.themes["Blizzard_VoidStorageUI"] = function()
-	local bg = B.ReskinFrame(VoidStorageBorderFrame)
-	bg:SetFrameLevel(0)
+	B.SetBD(VoidStorageFrame, nil, 20, 0, 0, 20)
+	B.CreateBDFrame(VoidStoragePurchaseFrame)
+	B.StripTextures(VoidStorageBorderFrame)
+	B.StripTextures(VoidStorageDepositFrame)
+	B.StripTextures(VoidStorageWithdrawFrame)
+	B.StripTextures(VoidStorageCostFrame)
+	B.StripTextures(VoidStorageStorageFrame)
+	VoidStorageFrameMarbleBg:Hide()
+	VoidStorageFrameLines:Hide()
+	select(2, VoidStorageFrame:GetRegions()):Hide()
 
-	B.ReskinFrame(VoidStoragePurchaseFrame)
+	local function reskinIcons(bu, quality)
+		if not bu.bg then
+			bu:SetPushedTexture("")
+			bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
+			bu.IconBorder:SetAlpha(0)
+			bu.bg = B.CreateBDFrame(bu, .25)
+			bu.bg:SetBackdropColor(.3, .3, .3, .3)
+			local bg, icon, _, search = bu:GetRegions()
+			bg:Hide()
+			icon:SetTexCoord(unpack(DB.TexCoord))
+			search:SetAllPoints(bu.bg)
+		end
 
-	B.ReskinButton(VoidStoragePurchaseButton)
-	B.ReskinButton(VoidStorageHelpBoxButton)
-	B.ReskinButton(VoidStorageTransferButton)
-	B.ReskinInput(VoidItemSearchBox)
-
-	local lists = {VoidStorageFrame, VoidStorageCostFrame, VoidStorageDepositFrame, VoidStoragePurchaseFrame, VoidStorageWithdrawFrame, VoidStorageStorageFrame}
-	for _, list in pairs(lists) do
-		B.StripTextures(list)
+		local color = DB.QualityColors[quality or 1]
+		bu.bg:SetBackdropBorderColor(color.r, color.g, color.b)
 	end
 
-	for _, voidButton in pairs({"VoidStorageDepositButton", "VoidStorageWithdrawButton"}) do
-		for i = 1, 9 do
-			local bu = _G[voidButton..i]
-			B.StripTextures(bu)
+	local function hookItemsUpdate(doDeposit, doContents)
+		local self = VoidStorageFrame
+		if doDeposit then
+			for i = 1, 9 do
+				local quality = select(3, GetVoidTransferDepositInfo(i))
+				local bu = _G["VoidStorageDepositButton"..i]
+				reskinIcons(bu, quality)
+			end
+		end
 
-			local icbg = B.ReskinIcon(bu.icon)
-			B.ReskinHighlight(bu, icbg)
+		if doContents then
+			for i = 1, 9 do
+				local quality = select(3, GetVoidTransferWithdrawalInfo(i))
+				local bu = _G["VoidStorageWithdrawButton"..i]
+				reskinIcons(bu, quality)
+			end
 
-			local border = bu.IconBorder
-			B.ReskinBorder(border, icbg)
+			for i = 1, 80 do
+				local quality = select(6, GetVoidItemInfo(self.page, i))
+				local bu = _G["VoidStorageStorageButton"..i]
+				reskinIcons(bu, quality)
+			end
 		end
 	end
-
-	for i = 1, 80 do
-		local button = "VoidStorageStorageButton"..i
-
-		local bu = _G[button]
-		B.StripTextures(bu)
-
-		local icbg = B.ReskinIcon(_G[button.."IconTexture"])
-		B.ReskinHighlight(bu, icbg)
-
-		local border = bu.IconBorder
-		B.ReskinBorder(border, icbg)
-
-		local searchOverlay = bu.searchOverlay
-		searchOverlay:SetAllPoints(icbg)
-	end
+	hooksecurefunc("VoidStorage_ItemsUpdate", hookItemsUpdate)
 
 	for i = 1, 2 do
 		local tab = VoidStorageFrame["Page"..i]
-		tab:SetSize(32, 32)
 		tab:GetRegions():Hide()
-
-		local icbg = B.ReskinIcon(tab:GetNormalTexture())
-		B.ReskinChecked(tab, icbg)
-		B.ReskinHighlight(tab, icbg)
-
-		if i == 1 then
-			tab:ClearAllPoints()
-			tab:SetPoint("TOPLEFT", VoidStorageFrame, "TOPRIGHT", 3, -25)
-		end
+		tab:SetCheckedTexture(DB.textures.pushed)
+		tab:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
+		tab:GetNormalTexture():SetTexCoord(unpack(DB.TexCoord))
+		B.CreateBDFrame(tab)
 	end
+
+	VoidStorageFrame.Page1:ClearAllPoints()
+	VoidStorageFrame.Page1:SetPoint("LEFT", VoidStorageFrame, "TOPRIGHT", 2, -60)
+
+	B.Reskin(VoidStoragePurchaseButton)
+	B.Reskin(VoidStorageTransferButton)
+	B.ReskinClose(VoidStorageBorderFrame.CloseButton)
+	B.ReskinInput(VoidItemSearchBox)
 end

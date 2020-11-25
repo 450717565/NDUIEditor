@@ -170,6 +170,6 @@ L["LABEL_HOSTS"] = "Download Site(s)";
 
 L["TRANSLATORS"] = "Translators:";
 
-L["COPYRIGHT"] = "ï¿½2012-2019, All rights reserved.";
+L["COPYRIGHT"] = "©2012-2019, All rights reserved.";
 
 end

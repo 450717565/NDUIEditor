@@ -7,7 +7,6 @@ local M = B:GetModule("Misc")
 ]]
 local format, pairs, select = string.format, pairs, select
 local min, mod, floor = math.min, mod, math.floor
-local MAX_PLAYER_LEVEL = MAX_PLAYER_LEVEL
 local MAX_REPUTATION_REACTION = MAX_REPUTATION_REACTION
 local FACTION_BAR_COLORS = FACTION_BAR_COLORS
 local NUM_FACTIONS_DISPLAYED = NUM_FACTIONS_DISPLAYED
@@ -20,6 +19,7 @@ local GetText, UnitSex, BreakUpLargeNumbers, GetNumFactions, GetFactionInfo = Ge
 local GetWatchedFactionInfo, GetFriendshipReputation, GetFriendshipReputationRanks = GetWatchedFactionInfo, GetFriendshipReputation, GetFriendshipReputationRanks
 local HasArtifactEquipped, ArtifactBarGetNumArtifactTraitsPurchasableFromXP = HasArtifactEquipped, ArtifactBarGetNumArtifactTraitsPurchasableFromXP
 local IsWatchingHonorAsXP, UnitHonor, UnitHonorMax, UnitHonorLevel = IsWatchingHonorAsXP, UnitHonor, UnitHonorMax, UnitHonorLevel
+local IsPlayerAtEffectiveMaxLevel = IsPlayerAtEffectiveMaxLevel
 local C_Reputation_IsFactionParagon = C_Reputation.IsFactionParagon
 local C_Reputation_GetFactionParagonInfo = C_Reputation.GetFactionParagonInfo
 local C_AzeriteItem_HasActiveAzeriteItem = C_AzeriteItem.HasActiveAzeriteItem
@@ -34,7 +34,7 @@ function M:ExpBar_Update()
 	local rest = self.restBar
 	if rest then rest:Hide() end
 
-	if UnitLevel("player") < MAX_PLAYER_LEVEL then
+	if not IsPlayerAtEffectiveMaxLevel() then
 		local xp, mxp, rxp = UnitXP("player"), UnitXPMax("player"), GetXPExhaustion()
 		self:SetStatusBarColor(0, .7, 1)
 		self:SetMinMaxValues(0, mxp)
@@ -107,18 +107,16 @@ function M:ExpBar_Update()
 end
 
 function M:ExpBar_UpdateTooltip()
-	local myLevel = UnitLevel("player")
 	GameTooltip:SetOwner(self, "ANCHOR_LEFT")
 	GameTooltip:ClearLines()
-	GameTooltip:AddLine(LEVEL.." "..myLevel, 0,.6,1)
+	GameTooltip:AddLine(LEVEL.." "..UnitLevel("player"), 0,.6,1)
 
-	if myLevel < MAX_PLAYER_LEVEL then
+	if not IsPlayerAtEffectiveMaxLevel() then
 		GameTooltip:AddLine(" ")
 		local xp, mxp, rxp = UnitXP("player"), UnitXPMax("player"), GetXPExhaustion()
-			GameTooltip:AddDoubleLine(EXPERIENCE_COLON, B.FormatNumb(xp).." / "..B.FormatNumb(mxp)..format(" (%.1f%%)", xp/mxp*100), .6,.8,1, 1,1,1)
-			GameTooltip:AddDoubleLine(L["Next Need"], B.FormatNumb(mxp-xp)..format(" (%.1f%%)", (1-xp/mxp)*100), .6,.8,1, 1,1,1)
+		GameTooltip:AddDoubleLine(XP..":", BreakUpLargeNumbers(xp).." / "..BreakUpLargeNumbers(mxp).." ("..format("%.1f%%)", xp/mxp*100), .6,.8,1, 1,1,1)
 		if rxp then
-			GameTooltip:AddDoubleLine(TUTORIAL_TITLE26..L[":"], "+ "..B.FormatNumb(rxp)..format(" (%.1f%%)", rxp/mxp*100), .6,.8,1, 1,1,1)
+			GameTooltip:AddDoubleLine(TUTORIAL_TITLE26..":", "+"..BreakUpLargeNumbers(rxp).." ("..format("%.1f%%)", rxp/mxp*100), .6,.8,1, 1,1,1)
 		end
 		if IsXPUserDisabled() then GameTooltip:AddLine("|cffff0000"..XP..LOCKED) end
 	end
@@ -143,21 +141,15 @@ function M:ExpBar_UpdateTooltip()
 			end
 			standingtext = GetText("FACTION_STANDING_LABEL"..standing, UnitSex("player"))
 		end
-
-		local curValue, maxValue = value - barMin, barMax - barMin
 		GameTooltip:AddLine(" ")
-		if curValue < 0 then
-			GameTooltip:AddDoubleLine(name, standingtext, 0,.6,1, .6,.8,1)
-		else
-			GameTooltip:AddLine(name, 0,.6,1)
-			GameTooltip:AddDoubleLine(standingtext, curValue.." / "..maxValue..format(" (%.1f%%)", curValue/maxValue*100), .6,.8,1, 1,1,1)
-		end
+		GameTooltip:AddLine(name, 0,.6,1)
+		GameTooltip:AddDoubleLine(standingtext, value - barMin.." / "..barMax - barMin.." ("..floor((value - barMin)/(barMax - barMin)*100).."%)", .6,.8,1, 1,1,1)
 
 		if C_Reputation_IsFactionParagon(factionID) then
 			local currentValue, threshold = C_Reputation_GetFactionParagonInfo(factionID)
 			local paraCount = floor(currentValue/threshold)
 			currentValue = mod(currentValue, threshold)
-			GameTooltip:AddDoubleLine(L["Paragon"]..paraCount, currentValue.." / "..threshold..format(" (%.1f%%)", (currentValue/threshold*100)), .6,.8,1, 1,1,1)
+			GameTooltip:AddDoubleLine(L["Paragon"]..paraCount, currentValue.." / "..threshold.." ("..floor(currentValue/threshold*100).."%)", .6,.8,1, 1,1,1)
 		end
 	end
 
@@ -178,9 +170,8 @@ function M:ExpBar_UpdateTooltip()
 			azeriteItem:ContinueWithCancelOnItemLoad(function()
 				local azeriteItemName = azeriteItem:GetItemName()
 				GameTooltip:AddLine(" ")
-				GameTooltip:AddLine(azeriteItemName.." "..format(SPELLBOOK_AVAILABLE_AT, currentLevel), 0,.6,1)
-				GameTooltip:AddDoubleLine(ARTIFACT_POWER..L[":"], B.FormatNumb(xp).." / "..B.FormatNumb(totalLevelXP)..format(" (%.1f%%)", xp/totalLevelXP*100), .6,.8,1, 1,1,1)
-				GameTooltip:AddDoubleLine(L["Next Need"], B.FormatNumb(totalLevelXP-xp)..format(" (%.1f%%)", (1-xp/totalLevelXP)*100), .6,.8,1, 1,1,1)
+				GameTooltip:AddLine(azeriteItemName.." ("..format(SPELLBOOK_AVAILABLE_AT, currentLevel)..")", 0,.6,1)
+				GameTooltip:AddDoubleLine(ARTIFACT_POWER, BreakUpLargeNumbers(xp).." / "..BreakUpLargeNumbers(totalLevelXP).." ("..floor(xp/totalLevelXP*100).."%)", .6,.8,1, 1,1,1)
 			end)
 		end
 	end
@@ -193,12 +184,12 @@ function M:ExpBar_UpdateTooltip()
 			GameTooltip:AddLine(name, 0,.6,1)
 			GameTooltip:AddLine(ARTIFACT_RETIRED, .6,.8,1, 1)
 		else
-			GameTooltip:AddLine(name.." "..format(SPELLBOOK_AVAILABLE_AT, pointsSpent), 0,.6,1)
+			GameTooltip:AddLine(name.." ("..format(SPELLBOOK_AVAILABLE_AT, pointsSpent)..")", 0,.6,1)
 			local numText = num > 0 and " ("..num..")" or ""
-			GameTooltip:AddDoubleLine(ARTIFACT_POWER..L[":"], B.FormatNumb(totalXP)..numText, .6,.8,1, 1,1,1)
+			GameTooltip:AddDoubleLine(ARTIFACT_POWER, BreakUpLargeNumbers(totalXP)..numText, .6,.8,1, 1,1,1)
 			if xpForNextPoint ~= 0 then
-				GameTooltip:AddDoubleLine(L["Next Trait"], B.FormatNumb(xp).." / "..B.FormatNumb(xpForNextPoint)..format(" (%.1f%%)", xp/xpForNextPoint*100), .6,.8,1, 1,1,1)
-				GameTooltip:AddDoubleLine(L["Next Need"], B.FormatNumb(xpForNextPoint-xp)..format(" (%.1f%%)", (1-xp/xpForNextPoint)*100), .6,.8,1, 1,1,1)
+				local perc = " ("..floor(xp/xpForNextPoint*100).."%)"
+				GameTooltip:AddDoubleLine(L["Next Trait"], BreakUpLargeNumbers(xp).." / "..BreakUpLargeNumbers(xpForNextPoint)..perc, .6,.8,1, 1,1,1)
 			end
 		end
 	end
@@ -230,7 +221,7 @@ function M:SetupScript(bar)
 		if not ArtifactFrame or not ArtifactFrame:IsShown() then
 			SocketInventoryItem(16)
 		else
-			B.TogglePanel(ArtifactFrame)
+			B:TogglePanel(ArtifactFrame)
 		end
 	end)
 	hooksecurefunc(StatusTrackingBarManager, "UpdateBarsShown", function()
@@ -239,12 +230,12 @@ function M:SetupScript(bar)
 end
 
 function M:Expbar()
-	if not NDuiDB["Misc"]["ExpRep"] then return end
+	if not C.db["Misc"]["ExpRep"] then return end
 
-	local bar = CreateFrame("StatusBar", "NDuiMinimapDataBar", MinimapCluster)
-	bar:Point("TOPLEFT", Minimap, "BOTTOMLEFT", 0, -5)
-	bar:Point("TOPRIGHT", Minimap, "BOTTOMRIGHT", 0, -5)
-	bar:SetHeight(6)
+	local bar = CreateFrame("StatusBar", nil, MinimapCluster)
+	bar:SetPoint("TOPLEFT", Minimap, "BOTTOMLEFT", 5, -5)
+	bar:SetPoint("TOPRIGHT", Minimap, "BOTTOMRIGHT", -5, -5)
+	bar:SetHeight(5)
 	bar:SetHitRectInsets(0, 0, 0, -10)
 	B.CreateSB(bar)
 
@@ -261,10 +252,8 @@ M:RegisterMisc("ExpRep", M.Expbar)
 
 -- Paragon reputation info
 function M:HookParagonRep()
-	ReputationFrame.paragonFramesPool:ReleaseAll()
 	local numFactions = GetNumFactions()
 	local factionOffset = FauxScrollFrame_GetOffset(ReputationListScrollFrame)
-
 	for i = 1, NUM_FACTIONS_DISPLAYED, 1 do
 		local factionIndex = factionOffset + i
 		local factionRow = _G["ReputationBar"..i]
@@ -274,26 +263,16 @@ function M:HookParagonRep()
 		if factionIndex <= numFactions then
 			local factionID = select(14, GetFactionInfo(factionIndex))
 			if factionID and C_Reputation_IsFactionParagon(factionID) then
-				local currentValue, threshold, _, hasRewardPending = C_Reputation_GetFactionParagonInfo(factionID)
+				local currentValue, threshold = C_Reputation_GetFactionParagonInfo(factionID)
 				if currentValue then
 					local barValue = mod(currentValue, threshold)
 					local factionStandingtext = L["Paragon"]..floor(currentValue/threshold)
 
-					if hasRewardPending then
-						local paragonFrame = ReputationFrame.paragonFramesPool:Acquire()
-						paragonFrame.factionID = factionID
-						paragonFrame.Check:SetShown(true)
-						paragonFrame.Glow:SetShown(true)
-						paragonFrame:SetPoint("RIGHT", factionRow, 11, 0)
-						paragonFrame:Show()
-					end
-
 					factionBar:SetMinMaxValues(0, threshold)
-					factionBar:SetStatusBarColor(0, .5, .9)
 					factionBar:SetValue(barValue)
-					factionRow.rolloverText = format(REPUTATION_PROGRESS_FORMAT, BreakUpLargeNumbers(barValue), BreakUpLargeNumbers(threshold))
-					factionRow.standingText = factionStandingtext
 					factionStanding:SetText(factionStandingtext)
+					factionRow.standingText = factionStandingtext
+					factionRow.rolloverText = format(REPUTATION_PROGRESS_FORMAT, BreakUpLargeNumbers(barValue), BreakUpLargeNumbers(threshold))
 				end
 			end
 		end
@@ -301,7 +280,7 @@ function M:HookParagonRep()
 end
 
 function M:ParagonReputationSetup()
-	if not NDuiDB["Misc"]["ParagonRep"] then return end
+	if not C.db["Misc"]["ParagonRep"] then return end
 	hooksecurefunc("ReputationFrame_Update", M.HookParagonRep)
 end
 M:RegisterMisc("ParagonRep", M.ParagonReputationSetup)

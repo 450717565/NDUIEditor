@@ -12,93 +12,80 @@ local GetSubZoneText, GetZoneText, GetZonePVPInfo, IsInInstance = GetSubZoneText
 local C_Map_GetBestMapForUnit = C_Map.GetBestMapForUnit
 
 local zoneInfo = {
+	sanctuary = {SANCTUARY_TERRITORY, {.41, .8, .94}},
 	arena = {FREE_FOR_ALL_TERRITORY, {1, .1, .1}},
-	combat = {COMBAT_ZONE, {1, .1, .1}},
-	contested = {CONTESTED_TERRITORY, {1, .7, 0}},
 	friendly = {FACTION_CONTROLLED_TERRITORY, {.1, 1, .1}},
 	hostile = {FACTION_CONTROLLED_TERRITORY, {1, .1, .1}},
-	sanctuary = {SANCTUARY_TERRITORY, {.41, .8, .94}},
-	neutral = {format(FACTION_CONTROLLED_TERRITORY, FACTION_NEUTRAL), {1, .93, .76}}
+	contested = {CONTESTED_TERRITORY, {1, .7, 0}},
+	combat = {COMBAT_ZONE, {1, .1, .1}},
+	neutral = {format(FACTION_CONTROLLED_TERRITORY, FACTION_STANDING_LABEL4), {1, .93, .76}}
 }
 
-local pvpType, faction, zone, subZone, currentZone, totalZone, coordX, coordY, coords, r, g, b
+local subzone, zone, pvpType, faction
+local coordX, coordY = 0, 0
 
-local function UpdateZones()
-	if subZone and subZone ~= "" and subZone ~= zone then
-		currentZone = subZone
-		totalZone = zone.." - "..subZone
-	else
-		currentZone = zone
-		totalZone = zone
-	end
+local function formatCoords()
+	return format("%.1f, %.1f", coordX*100, coordY*100)
+end
+
+info.eventList = {
+	"ZONE_CHANGED",
+	"ZONE_CHANGED_INDOORS",
+	"ZONE_CHANGED_NEW_AREA",
+	"PLAYER_ENTERING_WORLD",
+}
+
+info.onEvent = function(self)
+	subzone = GetSubZoneText()
+	zone = GetZoneText()
+	pvpType, _, faction = GetZonePVPInfo()
+	pvpType = pvpType or "neutral"
+
+	local r, g, b = unpack(zoneInfo[pvpType][2])
+	self.text:SetText((subzone ~= "") and subzone or zone)
+	self.text:SetTextColor(r, g, b)
 end
 
 local function UpdateCoords(self, elapsed)
 	self.elapsed = (self.elapsed or 0) + elapsed
 	if self.elapsed > .1 then
-		coordX, coordY = mapModule:GetPlayerMapPos(C_Map_GetBestMapForUnit("player"))
-		self:GetScript("onEvent")(self)
+		local x, y = mapModule:GetPlayerMapPos(C_Map_GetBestMapForUnit("player"))
+		if x then
+			coordX, coordY = x, y
+		else
+			coordX, coordY = 0, 0
+			self:SetScript("OnUpdate", nil)
+		end
+		self:onEnter()
 
 		self.elapsed = 0
 	end
 end
 
-local function FormatCoords()
-	if IsInInstance() then
-		local _, instanceType, _, difficultyName = GetInstanceInfo()
-		if instanceType == "arena" then
-			coords = ARENA
-		elseif instanceType == "pvp" then
-			coords = BATTLEGROUND
-		else
-			coords = difficultyName
-		end
-	else
-		if coordX and coordY then
-			coords = format("%.1f , %.1f", coordX * 100, coordY * 100)
-		else
-			coords = "-- , --"
-		end
-	end
-end
-
-info.eventList = {
-	"PLAYER_ENTERING_WORLD",
-	"ZONE_CHANGED",
-	"ZONE_CHANGED_INDOORS",
-	"ZONE_CHANGED_NEW_AREA",
-}
-
-info.onEvent = function(self)
+info.onEnter = function(self)
 	self:SetScript("OnUpdate", UpdateCoords)
 
-	zone = GetZoneText()
-	subZone = GetSubZoneText()
-	pvpType, _, faction = GetZonePVPInfo()
-	pvpType = pvpType or "neutral"
-	r, g, b = unpack(zoneInfo[pvpType][2])
-
-	UpdateZones()
-	FormatCoords()
-
-	self.text:SetFormattedText("%s <%s>", currentZone, coords)
-	self.text:SetTextColor(r, g, b)
-end
-
-info.onEnter = function(self)
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOM", 0, -15)
 	GameTooltip:ClearLines()
-	GameTooltip:AddLine(ZONE, 0,.6,1)
-	GameTooltip:AddLine(" ")
+	GameTooltip:AddLine(format("%s |cffffffff(%s)", zone, formatCoords()), 0,.6,1)
 
-	GameTooltip:AddDoubleLine(zone, format(zoneInfo[pvpType][1], faction or ""), r,g,b, r,g,b)
+	if pvpType and not IsInInstance() then
+		local r, g, b = unpack(zoneInfo[pvpType][2])
+		if subzone and subzone ~= zone then
+			GameTooltip:AddLine(" ")
+			GameTooltip:AddLine(subzone, r, g, b)
+		end
+		GameTooltip:AddLine(format(zoneInfo[pvpType][1], faction or ""), r, g, b)
+	end
+
 	GameTooltip:AddDoubleLine(" ", DB.LineString)
 	GameTooltip:AddDoubleLine(" ", DB.LeftButton..L["WorldMap"].." ", 1,1,1, .6,.8,1)
 	GameTooltip:AddDoubleLine(" ", DB.RightButton..L["Send My Pos"].." ", 1,1,1, .6,.8,1)
 	GameTooltip:Show()
 end
 
-info.onLeave = function()
+info.onLeave = function(self)
+	self:SetScript("OnUpdate", nil)
 	GameTooltip:Hide()
 end
 
@@ -108,8 +95,7 @@ info.onMouseUp = function(_, btn)
 		ToggleFrame(WorldMapFrame)
 	elseif btn == "RightButton" then
 		local hasUnit = UnitExists("target") and not UnitIsPlayer("target")
-		local unitName = hasUnit and "<"..UnitName("target")..">" or ""
-
-		ChatFrame_OpenChat(format("%s%s <%s>%s", L["My Position"], totalZone, coords, unitName), SELECTED_DOCK_FRAME)
+		local unitName = hasUnit and UnitName("target") or ""
+		ChatFrame_OpenChat(format("%s: %s (%s) %s", L["My Position"], zone, formatCoords(), unitName), SELECTED_DOCK_FRAME)
 	end
 end

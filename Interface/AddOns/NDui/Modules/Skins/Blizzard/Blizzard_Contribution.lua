@@ -1,12 +1,17 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 
 C.themes["Blizzard_Contribution"] = function()
-	B.ReskinFrame(ContributionCollectionFrame)
+	local frame = ContributionCollectionFrame
+	B.SetBD(frame)
+	B.ReskinClose(frame.CloseButton)
+	frame.CloseButton.CloseButtonBackground:Hide()
+	frame.Background:Hide()
 
 	hooksecurefunc(ContributionMixin, "Update", function(self)
 		if not self.styled then
 			self.Header.Text:SetTextColor(1, .8, 0)
-			B.ReskinButton(self.ContributeButton)
+			B.Reskin(self.ContributeButton)
 
 			self.styled = true
 		end

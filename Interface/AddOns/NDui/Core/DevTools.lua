@@ -18,7 +18,16 @@ local pairs, tonumber, tostring = pairs, tonumber, tostring
 local floor, ceil = math.floor, math.ceil
 local IsQuestFlaggedCompleted = C_QuestLog.IsQuestFlaggedCompleted
 
-DB.isDeveloper = true
+DB.Devs = {
+	["寧德-加尔"] = true,
+	["图咿-万色星辰"] = true,
+	["Huniverster-Oribos"] = true,
+	["Huniverster-Torghast"] = true,
+}
+local function isDeveloper()
+	return DB.Devs[DB.MyFullName]
+end
+DB.isDeveloper = isDeveloper()
 
 -- Commands
 SlashCmdList["RELOADUI"] = ReloadUI
@@ -50,11 +59,11 @@ SlashCmdList["NDUI_DUMPSPELL"] = function(arg)
 	local name = GetSpellInfo(arg)
 	if not name then return end
 	local des = GetSpellDescription(arg)
-	print("|cff70C0F5———————————————")
+	print("|cff70C0F5------------------------")
 	print(" \124T"..GetSpellTexture(arg)..":16:16:::64:64:5:59:5:59\124t", DB.InfoColor..arg)
 	print(NAME, DB.InfoColor..(name or "nil"))
 	print(DESCRIPTION, DB.InfoColor..(des or "nil"))
-	print("|cff70C0F5———————————————")
+	print("|cff70C0F5------------------------")
 end
 SLASH_NDUI_DUMPSPELL1 = "/ns"
 
@@ -93,7 +102,7 @@ do
 	C_ChatInfo.RegisterAddonMessagePrefix("NDuiFVC")
 
 	local function PrintVerCheck()
-		print("——————————")
+		print("----------")
 		for name, version in pairs(versionList) do
 			print(name.." "..version)
 		end
@@ -133,6 +142,24 @@ do
 	end
 	SLASH_NDUI_VER_CHECK1 = "/nduiver"
 end
+
+SlashCmdList["NDUI_GET_INSTANCES"] = function()
+	if not EncounterJournal then return end
+	local tierID = EJ_GetCurrentTier()
+	print("local _, ns = ...")
+	print("local B, C, L, DB = unpack(ns)")
+	print("local module = B:GetModule(\"AurasTable\")")
+	print("local TIER = "..tierID)
+	print("local INSTANCE")
+	local i = 0
+	while true do
+		i = i + 1
+		local instID, instName = EJ_GetInstanceByIndex(i, false)
+		if not instID then return end
+		print("INSTANCE = "..instID.." -- "..instName)
+	end
+end
+SLASH_NDUI_GET_INSTANCES1 = "/getinst"
 
 SlashCmdList["NDUI_GET_ENCOUNTERS"] = function()
 	if not EncounterJournal then return end
@@ -174,7 +201,7 @@ local function Grid_Create()
 	grid.boxSize = boxSize
 	grid:SetAllPoints(UIParent)
 
-	local size = C.mult
+	local size = 2
 	local width = GetScreenWidth()
 	local ratio = width / GetScreenHeight()
 	local height = GetScreenHeight() * ratio
@@ -201,7 +228,7 @@ local function Grid_Create()
 		tx:SetPoint("BOTTOMRIGHT", grid, "TOPRIGHT", 0, -(height/2 + size/2))
 	end
 
-	for i = 1, B.Round((height/2)/hStep) do
+	for i = 1, floor((height/2)/hStep) do
 		local tx = grid:CreateTexture(nil, "BACKGROUND")
 		tx:SetColorTexture(0, 0, 0, .5)
 

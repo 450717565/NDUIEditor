@@ -7,7 +7,7 @@ local MIN_DURATION = 2.5                    -- the minimum duration to show cool
 local MIN_SCALE = 0.5                       -- the minimum scale we want to show cooldown counts at, anything below this will be hidden
 local ICON_SIZE = 36
 local hideNumbers, active, hooked = {}, {}, {}
-local pairs, floor, strfind = pairs, math.floor, string.find
+local pairs, strfind = pairs, string.find
 local GetTime, GetActionCooldown = GetTime, GetActionCooldown
 
 function module:StopTimer()
@@ -20,8 +20,8 @@ function module:ForceUpdate()
 	self:Show()
 end
 
-function module:OnSizeChanged(width)
-	local fontScale = B.Round(width) / ICON_SIZE
+function module:OnSizeChanged(width, height)
+	local fontScale = B:Round((width+height)/2) / ICON_SIZE
 	if fontScale == self.fontScale then return end
 	self.fontScale = fontScale
 
@@ -29,6 +29,7 @@ function module:OnSizeChanged(width)
 		self:Hide()
 	else
 		self.text:SetFont(DB.Font[1], fontScale * FONT_SIZE, DB.Font[3])
+		self.text:SetShadowColor(0, 0, 0, 0)
 
 		if self.enabled then
 			module.ForceUpdate(self)
@@ -51,6 +52,10 @@ function module:TimerOnUpdate(elapsed)
 	end
 end
 
+function module:ScalerOnSizeChanged(...)
+	module.OnSizeChanged(self.timer, ...)
+end
+
 function module:OnCreate()
 	local scaler = CreateFrame("Frame", nil, self)
 	scaler:SetAllPoints(self)
@@ -59,16 +64,15 @@ function module:OnCreate()
 	timer:Hide()
 	timer:SetAllPoints(scaler)
 	timer:SetScript("OnUpdate", module.TimerOnUpdate)
+	scaler.timer = timer
 
 	local text = timer:CreateFontString(nil, "BACKGROUND")
-	text:SetPoint("CENTER", 1, 0)
+	text:SetPoint("CENTER", 2, 0)
 	text:SetJustifyH("CENTER")
 	timer.text = text
 
 	module.OnSizeChanged(timer, scaler:GetSize())
-	scaler:SetScript("OnSizeChanged", function(_, ...)
-		module.OnSizeChanged(timer, ...)
-	end)
+	scaler:SetScript("OnSizeChanged", module.ScalerOnSizeChanged)
 
 	self.timer = timer
 	return timer
@@ -76,11 +80,11 @@ end
 
 function module:StartTimer(start, duration)
 	if self:IsForbidden() then return end
-	if self.noOCC or hideNumbers[self] then return end
+	if self.noCooldownCount or hideNumbers[self] then return end
 
-	local frameName = self:GetDebugName() or ""
-	if NDuiDB["Actionbar"]["OverrideWA"] and strfind(frameName, "WeakAuras") then
-		self.noOCC = true
+	local frameName = self.GetName and self:GetName()
+	if C.db["Actionbar"]["OverrideWA"] and frameName and strfind(frameName, "WeakAuras") then
+		self.noCooldownCount = true
 		return
 	end
 
@@ -163,7 +167,7 @@ function module:RegisterActionButton()
 end
 
 function module:OnLogin()
-	if not NDuiDB["Actionbar"]["Cooldown"] then return end
+	if not C.db["Actionbar"]["Cooldown"] then return end
 
 	local cooldownIndex = getmetatable(ActionButton1Cooldown).__index
 	hooksecurefunc(cooldownIndex, "SetCooldown", module.StartTimer)
@@ -177,7 +181,7 @@ function module:OnLogin()
 			module.RegisterActionButton(frame)
 		end
 	end
-	hooksecurefunc("ActionBarButtonEventsFrame_RegisterFrame", module.RegisterActionButton)
+	hooksecurefunc(ActionBarButtonEventsFrameMixin, "RegisterFrame", module.RegisterActionButton)
 
 	-- Hide Default Cooldown
 	SetCVar("countdownForCooldowns", 0)

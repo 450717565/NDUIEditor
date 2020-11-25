@@ -4,7 +4,6 @@ local module = B:RegisterModule("Maps")
 
 local select = select
 local WorldMapFrame = WorldMapFrame
-local BorderFrame = WorldMapFrame.BorderFrame
 local CreateVector2D = CreateVector2D
 local UnitPosition = UnitPosition
 local C_Map_GetWorldPosFromMapPos = C_Map.GetWorldPosFromMapPos
@@ -12,17 +11,18 @@ local C_Map_GetBestMapForUnit = C_Map.GetBestMapForUnit
 
 local mapRects = {}
 local tempVec2D = CreateVector2D(0, 0)
-local currentMapID, playerCoords, cursorCoords, mapScale, playerText, cursorText
+local currentMapID, playerCoords, cursorCoords
 
 function module:GetPlayerMapPos(mapID)
 	tempVec2D.x, tempVec2D.y = UnitPosition("player")
-	if not tempVec2D.x or not mapID then return end
+	if not tempVec2D.x then return end
 
 	local mapRect = mapRects[mapID]
 	if not mapRect then
-		mapRect = {}
-		mapRect[1] = select(2, C_Map_GetWorldPosFromMapPos(mapID, CreateVector2D(0, 0)))
-		mapRect[2] = select(2, C_Map_GetWorldPosFromMapPos(mapID, CreateVector2D(1, 1)))
+		local pos1 = select(2, C_Map_GetWorldPosFromMapPos(mapID, CreateVector2D(0, 0)))
+		local pos2 = select(2, C_Map_GetWorldPosFromMapPos(mapID, CreateVector2D(1, 1)))
+		if not pos1 or not pos2 then return end
+		mapRect = {pos1, pos2}
 		mapRect[2]:Subtract(mapRect[1])
 
 		mapRects[mapID] = mapRect
@@ -37,12 +37,11 @@ function module:GetCursorCoords()
 
 	local cursorX, cursorY = WorldMapFrame.ScrollContainer:GetNormalizedCursorPosition()
 	if cursorX < 0 or cursorX > 1 or cursorY < 0 or cursorY > 1 then return end
-
 	return cursorX, cursorY
 end
 
 local function CoordsFormat(owner, none)
-	local text = none and "-- , --" or "%.1f , %.1f"
+	local text = none and ": --, --" or ": %.1f, %.1f"
 	return owner..DB.MyColor..text
 end
 
@@ -51,16 +50,20 @@ function module:UpdateCoords(elapsed)
 	if self.elapsed > .1 then
 		local cursorX, cursorY = module:GetCursorCoords()
 		if cursorX and cursorY then
-			cursorCoords:SetFormattedText(CoordsFormat(cursorText), 100 * cursorX, 100 * cursorY)
+			cursorCoords:SetFormattedText(CoordsFormat(L["Mouse"]), 100 * cursorX, 100 * cursorY)
 		else
-			cursorCoords:SetText(CoordsFormat(cursorText, true))
+			cursorCoords:SetText(CoordsFormat(L["Mouse"], true))
 		end
 
-		local playerX, playerY = module:GetPlayerMapPos(currentMapID)
-		if playerX and playerY then
-			playerCoords:SetFormattedText(CoordsFormat(playerText), 100 * playerX, 100 * playerY)
+		if not currentMapID then
+			playerCoords:SetText(CoordsFormat(PLAYER, true))
 		else
-			playerCoords:SetText(CoordsFormat(playerText, true))
+			local x, y = module:GetPlayerMapPos(currentMapID)
+			if not x or (x == 0 and y == 0) then
+				playerCoords:SetText(CoordsFormat(PLAYER, true))
+			else
+				playerCoords:SetFormattedText(CoordsFormat(PLAYER), 100 * x, 100 * y)
+			end
 		end
 
 		self.elapsed = 0
@@ -76,19 +79,9 @@ function module:UpdateMapID()
 end
 
 function module:SetupCoords()
-	if not NDuiDB["Map"]["Coord"] then return end
-
-	BorderFrame.Tutorial:ClearAllPoints()
-	BorderFrame.Tutorial:SetPoint("TOPLEFT", -10, 10)
-
-	playerText = PLAYER..L[":"]
-	cursorText = L["Mouse"]..L[":"]
-
-	playerCoords = B.CreateFS(BorderFrame, 14, "", false, "TOPLEFT", 55, -6)
-	playerCoords:SetJustifyH("LEFT")
-
-	cursorCoords = B.CreateFS(BorderFrame, 14, "", false, "TOPLEFT", 175, -6)
-	cursorCoords:SetJustifyH("LEFT")
+	playerCoords = B.CreateFS(WorldMapFrame.BorderFrame, 14, "", false, "TOPLEFT", 60, -6)
+	cursorCoords = B.CreateFS(WorldMapFrame.BorderFrame, 14, "", false, "TOPLEFT", 180, -6)
+	WorldMapFrame.BorderFrame.Tutorial:SetPoint("TOPLEFT", WorldMapFrame, "TOPLEFT", -12, -12)
 
 	hooksecurefunc(WorldMapFrame, "OnFrameSizeChanged", module.UpdateMapID)
 	hooksecurefunc(WorldMapFrame, "OnMapChanged", module.UpdateMapID)
@@ -98,37 +91,54 @@ function module:SetupCoords()
 end
 
 function module:UpdateMapScale()
-	if self.isMaximized and self:GetScale() ~= 1 then
-		self:SetScale(1)
-	elseif not self.isMaximized and self:GetScale() ~= mapScale then
-		self:SetScale(mapScale)
+	if self.isMaximized and self:GetScale() ~= C.db["Map"]["MaxMapScale"] then
+		self:SetScale(C.db["Map"]["MaxMapScale"])
+	elseif not self.isMaximized and self:GetScale() ~= C.db["Map"]["MapScale"] then
+		self:SetScale(C.db["Map"]["MapScale"])
 	end
 end
 
 function module:UpdateMapAnchor()
 	module.UpdateMapScale(self)
-	if not self.isMaximized then B.RestoreMF(self) end
+	B.RestoreMF(self)
 end
 
 function module:WorldMapScale()
-	mapScale = NDuiDB["Map"]["MapScale"]
-
 	-- Fix worldmap cursor when scaling
-	if mapScale > 1 then
-		WorldMapFrame.ScrollContainer.GetCursorPosition = function(f)
-			local x, y = MapCanvasScrollControllerMixin.GetCursorPosition(f)
-			local scale = WorldMapFrame:GetScale()
-			return x / scale, y / scale
-		end
+	WorldMapFrame.ScrollContainer.GetCursorPosition = function(f)
+		local x, y = MapCanvasScrollControllerMixin.GetCursorPosition(f)
+		local scale = WorldMapFrame:GetScale()
+		return x / scale, y / scale
 	end
 
 	B.CreateMF(WorldMapFrame, nil, true)
 	hooksecurefunc(WorldMapFrame, "SynchronizeDisplayState", self.UpdateMapAnchor)
 end
 
-function module:OnLogin()
+function module:SetupWorldMap()
+	if C.db["Map"]["DisableMap"] then return end
+	if IsAddOnLoaded("Mapster") then return end
+	if IsAddOnLoaded("Leatrix_Maps") then return end
+
+	-- Remove from frame manager
+	WorldMapFrame:ClearAllPoints()
+	WorldMapFrame:SetPoint("CENTER") -- init anchor
+	WorldMapFrame:SetAttribute("UIPanelLayout-area", nil)
+	WorldMapFrame:SetAttribute("UIPanelLayout-enabled", false)
+	WorldMapFrame:SetAttribute("UIPanelLayout-allowOtherPanels", true)
+	tinsert(UISpecialFrames, "WorldMapFrame")
+
+	-- Hide stuff
+	WorldMapFrame.BlackoutFrame:SetAlpha(0)
+	WorldMapFrame.BlackoutFrame:EnableMouse(false)
+	QuestMapFrame:SetScript("OnHide", nil) -- fix map toggle taint
+
 	self:WorldMapScale()
 	self:SetupCoords()
-	self:SetupMinimap()
 	self:MapReveal()
+end
+
+function module:OnLogin()
+	self:SetupWorldMap()
+	self:SetupMinimap()
 end

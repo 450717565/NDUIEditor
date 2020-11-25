@@ -1,8 +1,8 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
+local TT = B:GetModule("Tooltip")
 
-local select, mod = select, mod
-local strmatch, strfind, strsplit, format = string.match, string.find, string.split, string.format
+local mod, strmatch, strfind, format = mod, strmatch, strfind, format
 local GetItemInfo, SetItemButtonTextureVertexColor = GetItemInfo, SetItemButtonTextureVertexColor
 local GetCurrentGuildBankTab, GetGuildBankItemInfo, GetGuildBankItemLink = GetCurrentGuildBankTab, GetGuildBankItemInfo, GetGuildBankItemLink
 local GetMerchantNumItems, GetMerchantItemInfo, GetMerchantItemLink = GetMerchantNumItems, GetMerchantItemInfo, GetMerchantItemLink
@@ -28,16 +28,20 @@ end
 local function IsAlreadyKnown(link, index)
 	if not link then return end
 
-	if strmatch(link, "battlepet:") then
-		local speciesID = select(2, strsplit(":", link))
-		return isPetCollected(speciesID)
-	elseif strmatch(link, "item:") then
-		local name, _, _, _, _, _, _, _, _, _, _, itemClassID = GetItemInfo(link)
+	local linkType, linkID = strmatch(link, "|H(%a+):(%d+)")
+	linkID = tonumber(linkID)
+
+	if linkType == "battlepet" then
+		return isPetCollected(linkID)
+	elseif linkType == "item" then
+		local name, _, _, level, _, _, _, _, _, _, _, itemClassID = GetItemInfo(link)
 		if not name then return end
 
 		if itemClassID == LE_ITEM_CLASS_BATTLEPET and index then
 			local speciesID = B.ScanTip:SetGuildBankItem(GetCurrentGuildBankTab(), index)
 			return isPetCollected(speciesID)
+		elseif TT.ConduitData[linkID] and TT.ConduitData[linkID] >= level then
+			return true
 		else
 			if knowns[link] then return true end
 			if not knowables[itemClassID] then return end
@@ -75,12 +79,7 @@ local function Hook_UpdateMerchantInfo()
 		end
 	end
 end
-
-if IsAddOnLoaded("ExtVendor") then
-	hooksecurefunc("ExtVendor_UpdateMerchantInfo", Hook_UpdateMerchantInfo)
-else
-	hooksecurefunc("MerchantFrame_UpdateMerchantInfo", Hook_UpdateMerchantInfo)
-end
+hooksecurefunc("MerchantFrame_UpdateMerchantInfo", Hook_UpdateMerchantInfo)
 
 local function Hook_UpdateBuybackInfo()
 	local numItems = GetNumBuybackItems()
@@ -96,12 +95,7 @@ local function Hook_UpdateBuybackInfo()
 		end
 	end
 end
-
-if IsAddOnLoaded("ExtVendor") then
-	hooksecurefunc("ExtVendor_UpdateBuybackInfo", Hook_UpdateBuybackInfo)
-else
-	hooksecurefunc("MerchantFrame_UpdateBuybackInfo", Hook_UpdateBuybackInfo)
-end
+hooksecurefunc("MerchantFrame_UpdateBuybackInfo", Hook_UpdateBuybackInfo)
 
 local function Hook_UpdateAuctionHouse(self)
 	local numResults = self.getNumEntries()
@@ -118,7 +112,7 @@ local function Hook_UpdateAuctionHouse(self)
 				if button.rowData.itemKey.itemID == 82800 then -- BattlePet
 					itemLink = format("|Hbattlepet:%d::::::|h[Dummy]|h", button.rowData.itemKey.battlePetSpeciesID)
 				else -- Normal item
-					itemLink = format("item:%d", button.rowData.itemKey.itemID)
+					itemLink = format("|Hitem:%d", button.rowData.itemKey.itemID)
 				end
 
 				if itemLink and IsAlreadyKnown(itemLink) then
@@ -165,7 +159,9 @@ local function Hook_GuildBankUpdate()
 end
 
 local hookCount = 0
-local function loadFunc(event, addon)
+local f = CreateFrame("Frame")
+f:RegisterEvent("ADDON_LOADED")
+f:SetScript("OnEvent", function(_, event, addon)
 	if addon == "Blizzard_AuctionHouseUI" then
 		hooksecurefunc(AuctionHouseFrame.BrowseResultsFrame.ItemList, "RefreshScrollFrame", Hook_UpdateAuctionHouse)
 		hookCount = hookCount + 1
@@ -175,7 +171,6 @@ local function loadFunc(event, addon)
 	end
 
 	if hookCount >= 2 then
-		B:UnregisterEvent(event)
+		f:UnregisterEvent(event)
 	end
-end
-B:RegisterEvent("ADDON_LOADED", loadFunc)
+end)

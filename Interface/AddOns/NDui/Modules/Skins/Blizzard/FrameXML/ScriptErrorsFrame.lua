@@ -1,14 +1,17 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 
 tinsert(C.defaultThemes, function()
-	ScriptErrorsFrame:SetScale(UIParent:GetScale())
-	ScriptErrorsFrame:SetSize(386, 274)
+	if not C.db["Skins"]["BlizzardSkins"] then return end
 
-	B.ReskinFrame(ScriptErrorsFrame)
-	B.ReskinClose(ScriptErrorsFrameClose)
-	B.ReskinButton(ScriptErrorsFrame.Reload)
-	B.ReskinButton(ScriptErrorsFrame.Close)
+	ScriptErrorsFrame:SetScale(UIParent:GetScale())
+	B.StripTextures(ScriptErrorsFrame)
+	B.SetBD(ScriptErrorsFrame)
+
 	B.ReskinArrow(ScriptErrorsFrame.PreviousError, "left")
 	B.ReskinArrow(ScriptErrorsFrame.NextError, "right")
+	B.Reskin(ScriptErrorsFrame.Reload)
+	B.Reskin(ScriptErrorsFrame.Close)
 	B.ReskinScroll(ScriptErrorsFrameScrollBar)
+	B.ReskinClose(ScriptErrorsFrameClose)
 end)

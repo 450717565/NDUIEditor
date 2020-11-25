@@ -1,41 +1,34 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 
 tinsert(C.defaultThemes, function()
-	-- DressupFrame
-	B.ReskinFrame(DressUpFrame)
+	if not C.db["Skins"]["BlizzardSkins"] then return end
 
-	local mizeFrame = DressUpFrame.MaximizeMinimizeFrame
-	B.ReskinMinMax(mizeFrame)
-	mizeFrame:ClearAllPoints()
-	mizeFrame:SetPoint("RIGHT", DressUpFrameCloseButton, "LEFT", 8, 0)
+	-- Dressup Frame
 
-	local DropDown = DressUpFrameOutfitDropDown
-	B.ReskinDropDown(DropDown)
-	DropDown:SetHeight(32)
+	B.ReskinPortraitFrame(DressUpFrame)
+	B.Reskin(DressUpFrameOutfitDropDown.SaveButton)
+	B.Reskin(DressUpFrameCancelButton)
+	B.Reskin(DressUpFrameResetButton)
+	B.StripTextures(DressUpFrameOutfitDropDown)
+	B.ReskinDropDown(DressUpFrameOutfitDropDown)
+	B.ReskinMinMax(DressUpFrame.MaximizeMinimizeFrame)
 
-	local SaveButton = DropDown.SaveButton
-	B.ReskinButton(SaveButton)
-	SaveButton:ClearAllPoints()
-	SaveButton:SetPoint("LEFT", DropDown, "RIGHT", -13, 2)
+	DressUpFrameOutfitDropDown:SetHeight(32)
+	DressUpFrameOutfitDropDown.SaveButton:SetPoint("LEFT", DressUpFrameOutfitDropDown, "RIGHT", -13, 2)
+	DressUpFrameResetButton:SetPoint("RIGHT", DressUpFrameCancelButton, "LEFT", -1, 0)
 
-	local CancelButton = DressUpFrameCancelButton
-	B.ReskinButton(CancelButton)
-	CancelButton:SetSize(75, 22)
-	CancelButton:ClearAllPoints()
-	CancelButton:SetPoint("BOTTOMRIGHT", -14, 5)
-
-	local ResetButton = DressUpFrameResetButton
-	B.ReskinButton(ResetButton)
-	ResetButton:SetSize(75, 22)
-	ResetButton:ClearAllPoints()
-	ResetButton:SetPoint("RIGHT", CancelButton, "LEFT", -2, 0)
+	B.ReskinCheck(TransmogAndMountDressupFrame.ShowMountCheckButton)
 
 	-- SideDressUp
-	B.ReskinFrame(SideDressUpFrame)
-	B.ReskinButton(SideDressUpFrame.ResetButton)
+
+	B.StripTextures(SideDressUpFrame, 0)
+	B.SetBD(SideDressUpFrame)
+	B.Reskin(SideDressUpFrame.ResetButton)
+	B.ReskinClose(SideDressUpFrameCloseButton)
 
 	SideDressUpFrame:HookScript("OnShow", function(self)
-		self:ClearAllPoints()
-		self:SetPoint("LEFT", self:GetParent(), "RIGHT", 3, 0)
+		SideDressUpFrame:ClearAllPoints()
+		SideDressUpFrame:SetPoint("LEFT", self:GetParent(), "RIGHT", 3, 0)
 	end)
 end)

@@ -2,44 +2,45 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local M = B:GetModule("Misc")
 
-local format, gsub, strsplit = string.format, string.gsub, string.split
+local format, gsub, strsplit, strfind = string.format, string.gsub, string.split, string.find
 local pairs, tonumber, wipe, select = pairs, tonumber, wipe, select
-local GetInstanceInfo, GetAtlasInfo, PlaySound = GetInstanceInfo, GetAtlasInfo, PlaySound
+local GetInstanceInfo, PlaySound = GetInstanceInfo, PlaySound
 local IsPartyLFG, IsInRaid, IsInGroup, IsInInstance, IsInGuild = IsPartyLFG, IsInRaid, IsInGroup, IsInInstance, IsInGuild
 local UnitInRaid, UnitInParty, SendChatMessage = UnitInRaid, UnitInParty, SendChatMessage
 local UnitName, Ambiguate, GetTime = UnitName, Ambiguate, GetTime
-local GetSpellLink, GetSpellInfo = GetSpellLink, GetSpellInfo
+local GetSpellLink, GetSpellInfo, GetSpellCooldown = GetSpellLink, GetSpellInfo, GetSpellCooldown
+local GetActionInfo, GetMacroSpell, GetMacroItem = GetActionInfo, GetMacroSpell, GetMacroItem
+local GetItemInfo, GetItemInfoFromHyperlink = GetItemInfo, GetItemInfoFromHyperlink
 local C_VignetteInfo_GetVignetteInfo = C_VignetteInfo.GetVignetteInfo
-local C_VignetteInfo_GetVignettePosition = C_VignetteInfo.GetVignettePosition
+local C_Texture_GetAtlasInfo = C_Texture.GetAtlasInfo
 local C_ChatInfo_SendAddonMessage = C_ChatInfo.SendAddonMessage
 local C_ChatInfo_RegisterAddonMessagePrefix = C_ChatInfo.RegisterAddonMessagePrefix
 local C_MythicPlus_GetCurrentAffixes = C_MythicPlus.GetCurrentAffixes
-local C_Map_GetBestMapForUnit = C_Map.GetBestMapForUnit
 
 --[[
-	SoloInfo是一个告知你当前副本难度的小工具，防止我有时候单刷时进错难度了，同时切换团队也会提示。
+	SoloInfo是一个告知你当前副本难度的小工具，防止我有时候单刷时进错难度了。
 	instList左侧是副本ID，你可以使用"/getid"命令来获取当前副本的ID；右侧的是副本难度，常用的一般是：2为5H，4为25普通，6为25H。
 ]]
 local soloInfo
 local instList = {
-	[556] = 2, -- H塞塔克大厅，乌鸦
-	[575] = 2, -- H乌特加德之巅，蓝龙
-	[585] = 2, -- H魔导师平台，白鸡
-	[631] = 6, -- 25H冰冠堡垒，无敌
-	[1205] = 16, -- M黑石，裂蹄牛
-	[1448] = 16, -- M地狱火，魔钢
-	[1651] = 23, -- M卡拉赞，新午夜
+	[556] = 2,		-- H塞塔克大厅，乌鸦
+	[575] = 2,		-- H乌特加德之巅，蓝龙
+	[585] = 2,		-- H魔导师平台，白鸡
+	[631] = 6,		-- 25H冰冠堡垒，无敌
+	[1205] = 16,	-- M黑石，裂蹄牛
+	[1448] = 16,	-- M地狱火，魔钢
+	[1651] = 23,	-- M卡拉赞，新午夜
 }
 
 function M:SoloInfo_Create()
 	if soloInfo then soloInfo:Show() return end
 
 	soloInfo = CreateFrame("Frame", nil, UIParent)
-	soloInfo:SetPoint("TOP", 0, -85)
-	soloInfo:SetSize(200, 70)
-	B.CreateBG(soloInfo)
+	soloInfo:SetPoint("CENTER", 0, 120)
+	soloInfo:SetSize(150, 70)
+	B.SetBD(soloInfo)
 
-	soloInfo.Text = B.CreateFS(soloInfo, 12)
+	soloInfo.Text = B.CreateFS(soloInfo, 14, "")
 	soloInfo.Text:SetWordWrap(true)
 	soloInfo:SetScript("OnMouseUp", function() soloInfo:Hide() end)
 end
@@ -49,40 +50,21 @@ function M:SoloInfo_Update()
 
 	if instType ~= "none" and diffID ~= 24 and instList[instID] and instList[instID] ~= diffID then
 		M:SoloInfo_Create()
-		soloInfo.Text:SetText(DB.InfoColor..name.."\n<"..diffName..">\n\n"..DB.MyColor..L["Wrong Difficulty"])
-	else
-		if soloInfo then soloInfo:Hide() end
-	end
-end
-
-function M:RaidInfo_Update()
-	if not IsInInstance() and IsInRaid() then
-		local isWarned = false
-		local numCurrent = GetNumGroupMembers()
-		if (numCurrent < 10) and (not isWarned) then
-			M:SoloInfo_Create()
-			soloInfo.Text:SetText(DB.MyColor..L["In Raid"])
-
-			isWarned = true
-		else
-			if soloInfo then soloInfo:Hide() end
-		end
+		soloInfo.Text:SetText(DB.InfoColor..name..DB.MyColor.."\n( "..diffName.." )\n\n"..DB.InfoColor..L["Wrong Difficulty"])
 	else
 		if soloInfo then soloInfo:Hide() end
 	end
 end
 
 function M:SoloInfo()
-	if NDuiDB["Misc"]["SoloInfo"] then
+	if C.db["Misc"]["SoloInfo"] then
 		self:SoloInfo_Update()
 		B:RegisterEvent("UPDATE_INSTANCE_INFO", self.SoloInfo_Update)
 		B:RegisterEvent("PLAYER_DIFFICULTY_CHANGED", self.SoloInfo_Update)
-		B:RegisterEvent("GROUP_ROSTER_UPDATE", self.RaidInfo_Update)
 	else
 		if soloInfo then soloInfo:Hide() end
 		B:UnregisterEvent("UPDATE_INSTANCE_INFO", self.SoloInfo_Update)
 		B:UnregisterEvent("PLAYER_DIFFICULTY_CHANGED", self.SoloInfo_Update)
-		B:UnregisterEvent("GROUP_ROSTER_UPDATE", self.RaidInfo_Update)
 	end
 end
 
@@ -90,39 +72,45 @@ end
 	发现稀有/事件时的通报插件
 ]]
 local cache = {}
-local isIgnored = {
-	[1153] = true, -- 部落要塞
-	[1159] = true, -- 联盟要塞
-	[1803] = true, -- 涌泉海滩
-	[1876] = true, -- 部落激流堡
-	[1943] = true, -- 联盟激流堡
-	[2111] = true, -- 黑海岸前线
+local isIgnoredZone = {
+	[1153] = true,	-- 部落要塞
+	[1159] = true,	-- 联盟要塞
+	[1803] = true,	-- 涌泉海滩
+	[1876] = true,	-- 部落激流堡
+	[1943] = true,	-- 联盟激流堡
+	[2111] = true,	-- 黑海岸前线
 }
+
+local function isUsefulAtlas(info)
+	local atlas = info.atlasName
+	if atlas then
+		return strfind(atlas, "[Vv]ignette") or (atlas == "nazjatar-nagaevent")
+	end
+end
 
 function M:RareAlert_Update(id)
 	if id and not cache[id] then
 		local info = C_VignetteInfo_GetVignetteInfo(id)
-		if not info then return end
-		local filename, width, height, txLeft, txRight, txTop, txBottom = GetAtlasInfo(info.atlasName)
-		if not filename then return end
+		if not info or not isUsefulAtlas(info) then return end
+
+		local atlasInfo = C_Texture_GetAtlasInfo(info.atlasName)
+		if not atlasInfo then return end
+
+		local file, width, height, txLeft, txRight, txTop, txBottom = atlasInfo.file, atlasInfo.width, atlasInfo.height, atlasInfo.leftTexCoord, atlasInfo.rightTexCoord, atlasInfo.topTexCoord, atlasInfo.bottomTexCoord
+		if not file then return end
 
 		local atlasWidth = width/(txRight-txLeft)
 		local atlasHeight = height/(txBottom-txTop)
-		local tex = format("|T%s:%d:%d:0:0:%d:%d:%d:%d:%d:%d|t", filename, 0, 0, atlasWidth, atlasHeight, atlasWidth*txLeft, atlasWidth*txRight, atlasHeight*txTop, atlasHeight*txBottom)
+		local tex = format("|T%s:%d:%d:0:0:%d:%d:%d:%d:%d:%d|t", file, 0, 0, atlasWidth, atlasHeight, atlasWidth*txLeft, atlasWidth*txRight, atlasHeight*txTop, atlasHeight*txBottom)
 
-		local currrentTime = date("%H:%M")
-		local coordX, coordY = 0, 0
-		local mapID = C_Map_GetBestMapForUnit("player")
-		if mapID then
-			local position = C_VignetteInfo_GetVignettePosition(info.vignetteGUID, mapID)
-			if position then
-				coordX, coordY = position:GetXY()
-			end
+		UIErrorsFrame:AddMessage(DB.InfoColor..L["Rare Found"]..tex..(info.name or ""))
+		if C.db["Misc"]["AlertinChat"] then
+			local currrentTime = NDuiADB["TimestampFormat"] == 1 and "|cff00ff00["..date("%H:%M:%S").."]|r" or ""
+			print(currrentTime.." -> "..DB.InfoColor..L["Rare Found"]..tex..(info.name or ""))
 		end
-
-		PlaySound(9431, "master")
-		UIErrorsFrame:AddMessage(DB.InfoColor..format(">>> %s <<<", tex..(info.name or "")))
-		print(format(">>> |cff00ff00[%s]|r|cffffff00%s|r|cff00ffff[%.1f , %.1f]|r <<<", currrentTime, info.name or "", coordX*100, coordY*100))
+		if not C.db["Misc"]["RareAlertInWild"] or M.RareInstType == "none" then
+			PlaySound(23404, "master")
+		end
 
 		cache[id] = true
 	end
@@ -131,16 +119,17 @@ function M:RareAlert_Update(id)
 end
 
 function M:RareAlert_CheckInstance()
-	local instID = select(8, GetInstanceInfo())
-	if (instID and isIgnored[instID]) or (NDuiDB["Misc"]["RareAlertInWild"] and IsInInstance()) then
+	local _, instanceType, _, _, maxPlayers, _, _, instID = GetInstanceInfo()
+	if (instID and isIgnoredZone[instID]) or (instanceType == "scenario" and (maxPlayers == 3 or maxPlayers == 6)) then
 		B:UnregisterEvent("VIGNETTE_MINIMAP_UPDATED", M.RareAlert_Update)
 	else
 		B:RegisterEvent("VIGNETTE_MINIMAP_UPDATED", M.RareAlert_Update)
 	end
+	M.RareInstType = instanceType
 end
 
 function M:RareAlert()
-	if NDuiDB["Misc"]["RareAlerter"] then
+	if C.db["Misc"]["RareAlerter"] then
 		self:RareAlert_CheckInstance()
 		B:RegisterEvent("UPDATE_INSTANCE_INFO", self.RareAlert_CheckInstance)
 	else
@@ -166,50 +155,50 @@ local infoType = {
 }
 
 local blackList = {
-	[99] = true, -- 夺魂咆哮
-	[122] = true, -- 冰霜新星
-	[1776] = true, -- 凿击
-	[1784] = true, -- 潜行
-	[5246] = true, -- 破胆怒吼
-	[8122] = true, -- 心灵尖啸
-	[31661] = true, -- 龙息术
-	[33395] = true, -- 冰冻术
-	[64695] = true, -- 陷地
-	[82691] = true, -- 冰霜之环
-	[91807] = true, -- 蹒跚冲锋
-	[102359] = true, -- 群体缠绕
-	[105421] = true, -- 盲目之光
-	[115191] = true, -- 潜行
-	[157997] = true, -- 寒冰新星
-	[197214] = true, -- 裂地术
-	[198121] = true, -- 冰霜撕咬
-	[207167] = true, -- 致盲冰雨
-	[207685] = true, -- 悲苦咒符
-	[226943] = true, -- 心灵炸弹
-	[228600] = true, -- 冰川尖刺
+	[99] = true,		-- 夺魂咆哮
+	[122] = true,		-- 冰霜新星
+	[1776] = true,		-- 凿击
+	[1784] = true,		-- 潜行
+	[5246] = true,		-- 破胆怒吼
+	[8122] = true,		-- 心灵尖啸
+	[31661] = true,		-- 龙息术
+	[33395] = true,		-- 冰冻术
+	[64695] = true,		-- 陷地
+	[82691] = true,		-- 冰霜之环
+	[91807] = true,		-- 蹒跚冲锋
+	[102359] = true,	-- 群体缠绕
+	[105421] = true,	-- 盲目之光
+	[115191] = true,	-- 潜行
+	[157997] = true,	-- 寒冰新星
+	[197214] = true,	-- 裂地术
+	[198121] = true,	-- 冰霜撕咬
+	[207167] = true,	-- 致盲冰雨
+	[207685] = true,	-- 悲苦咒符
+	[226943] = true,	-- 心灵炸弹
+	[228600] = true,	-- 冰川尖刺
 }
 
 function M:IsAllyPet(sourceFlags)
-	if DB:IsMyPet(sourceFlags) or (not NDuiDB["Misc"]["OwnInterrupt"] and (sourceFlags == DB.PartyPetFlags or sourceFlags == DB.RaidPetFlags)) then
+	if DB:IsMyPet(sourceFlags) or (not C.db["Misc"]["OwnInterrupt"] and (sourceFlags == DB.PartyPetFlags or sourceFlags == DB.RaidPetFlags)) then
 		return true
 	end
 end
 
 function M:InterruptAlert_Update(...)
-	if NDuiDB["Misc"]["AlertInInstance"] and (not IsInInstance() or IsPartyLFG()) then return end
+	if C.db["Misc"]["AlertInInstance"] and (not IsInInstance() or IsPartyLFG()) then return end
 
 	local _, eventType, _, sourceGUID, sourceName, sourceFlags, _, _, destName, _, _, spellID, _, _, extraskillID, _, _, auraType = ...
 	if not sourceGUID or sourceName == destName then return end
 
 	if UnitInRaid(sourceName) or UnitInParty(sourceName) or M:IsAllyPet(sourceFlags) then
 		local infoText = infoType[eventType]
-		if infoText and sourceName then
+		if infoText then
 			if infoText == L["BrokenSpell"] then
-				if not NDuiDB["Misc"]["BrokenSpell"] then return end
+				if not C.db["Misc"]["BrokenSpell"] then return end
 				if auraType and auraType == AURA_TYPE_BUFF or blackList[spellID] then return end
 				SendChatMessage(format(infoText, sourceName..GetSpellLink(extraskillID), destName..GetSpellLink(spellID)), msgChannel())
 			else
-				if NDuiDB["Misc"]["OwnInterrupt"] and sourceName ~= DB.MyName and not M:IsAllyPet(sourceFlags) then return end
+				if C.db["Misc"]["OwnInterrupt"] and sourceName ~= DB.MyName and not M:IsAllyPet(sourceFlags) then return end
 				SendChatMessage(format(infoText, sourceName..GetSpellLink(spellID), destName..GetSpellLink(extraskillID)), msgChannel())
 			end
 		end
@@ -225,7 +214,7 @@ function M:InterruptAlert_CheckGroup()
 end
 
 function M:InterruptAlert()
-	if NDuiDB["Misc"]["Interrupt"] then
+	if C.db["Misc"]["Interrupt"] then
 		self:InterruptAlert_CheckGroup()
 		B:RegisterEvent("GROUP_LEFT", self.InterruptAlert_CheckGroup)
 		B:RegisterEvent("GROUP_JOINED", self.InterruptAlert_CheckGroup)
@@ -257,10 +246,12 @@ end
 function M:VersionCheck_Create(text)
 	if not NDuiADB["VersionCheck"] then return end
 
-	local frame = CreateFrame("Frame", nil, nil, "MicroButtonAlertTemplate")
-	frame:SetPoint("BOTTOMLEFT", ChatFrame1, "TOPLEFT", 20, 70)
-	frame.Text:SetText(text)
-	frame:Show()
+	HelpTip:Show(ChatFrame1, {
+		text = text,
+		buttonStyle = HelpTip.ButtonStyle.Okay,
+		targetPoint = HelpTip.Point.TopEdgeCenter,
+		offsetY = 10,
+	})
 end
 
 function M:VersionCheck_Init()
@@ -335,7 +326,7 @@ function M:Explosive_Update(...)
 		local overkill = select(index, ...)
 		if overkill and overkill > 0 then
 			local name = strsplit("-", sourceName or UNKNOWN)
-			local cache = NDuiDB["Misc"]["ExplosiveCache"]
+			local cache = C.db["Misc"]["ExplosiveCache"]
 			if not cache[name] then cache[name] = 0 end
 			cache[name] = cache[name] + 1
 		end
@@ -343,13 +334,13 @@ function M:Explosive_Update(...)
 end
 
 local function startCount()
-	wipe(NDuiDB["Misc"]["ExplosiveCache"])
+	wipe(C.db["Misc"]["ExplosiveCache"])
 	B:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED", M.Explosive_Update)
 end
 
 local function endCount()
 	local text
-	for name, count in pairs(NDuiDB["Misc"]["ExplosiveCache"]) do
+	for name, count in pairs(C.db["Misc"]["ExplosiveCache"]) do
 		text = (text or L["ExplosiveCount"])..name.."("..count..") "
 	end
 	if text then SendChatMessage(text, "PARTY") end
@@ -378,7 +369,7 @@ function M.Explosive_CheckAffixes(event)
 end
 
 function M:ExplosiveAlert()
-	if NDuiDB["Misc"]["ExplosiveCount"] then
+	if C.db["Misc"]["ExplosiveCount"] then
 		self:Explosive_CheckAffixes()
 		B:RegisterEvent("PLAYER_ENTERING_WORLD", self.Explosive_CheckAffixes)
 	else
@@ -395,25 +386,18 @@ end
 ]]
 local lastTime = 0
 local itemList = {
-	[698] = true, -- 召唤仪式
-	[8143] = true, -- 战栗图腾
-	[29893] = true, -- 灵魂之井
-	[54710] = true, -- 随身邮箱
-	[67826] = true, -- 基维斯
-	[185709] = true, -- 焦糖鱼宴
-	[190336] = true, -- 造餐术
-	[199109] = true, -- 自动铁锤
-	[226241] = true, -- 宁神圣典
-	[256230] = true, -- 静心圣典
-	[259409] = true, -- 海帆盛宴
-	[259410] = true, -- 船长盛宴
-	[265116] = true, -- 工程战复
-	[276972] = true, -- 秘法药锅
-	[286050] = true, -- 鲜血大餐
+	[226241] = true,	-- 宁神圣典
+	[256230] = true,	-- 静心圣典
+	[185709] = true,	-- 焦糖鱼宴
+	[259409] = true,	-- 海帆盛宴
+	[259410] = true,	-- 船长盛宴
+	[276972] = true,	-- 秘法药锅
+	[286050] = true,	-- 鲜血大餐
+	[265116] = true,	-- 工程战复
 }
 
 function M:ItemAlert_Update(unit, _, spellID)
-	if not NDuiDB["Misc"]["PlacedItemAlert"] then return end
+	if not C.db["Misc"]["PlacedItemAlert"] then return end
 
 	if (UnitInRaid(unit) or UnitInParty(unit)) and spellID and itemList[spellID] and lastTime ~= GetTime() then
 		local who = UnitName(unit)
@@ -447,7 +431,7 @@ function M:NVision_Create()
 	frame:SetSize(24, 24)
 	frame.bars = {}
 
-	local mover = B.Mover(frame, L["NzothVision"], "NzothVision", {"BOTTOM", PlayerPowerBarAlt, "TOP"}, 216, 24)
+	local mover = B.Mover(frame, L["NzothVision"], "NzothVision", {"TOP", PlayerPowerBarAlt, "BOTTOM"}, 216, 24)
 	frame:ClearAllPoints()
 	frame:SetPoint("CENTER", mover)
 
@@ -471,14 +455,15 @@ function M:NVision_Create()
 		bar:SetMinMaxValues(0, v.maxValue)
 		bar:SetValue(0)
 		bar:SetReverseFill(v.reverse)
-		B.SmoothBar(bar)
+		B:SmoothBar(bar)
 		B.CreateSB(bar, nil, unpack(v.color))
-		bar.text = B.CreateFS(bar, 16, "0 / "..v.maxValue, nil, "CENTER", 0, 0)
+		bar.text = B.CreateFS(bar, 16, "0/"..v.maxValue, nil, "CENTER", 0, 0)
 
 		local icon = CreateFrame("Frame", nil, bar)
 		icon:SetSize(22, 22)
 		icon:SetPoint(v.anchorF, bar, v.anchorT, v.offset, 0)
 		B.PixelIcon(icon, v.texture)
+		B.CreateSD(icon)
 
 		bar.count = 0
 		bar.__max = v.maxValue
@@ -493,7 +478,7 @@ function M:NVision_Update(index, reset)
 	local bar = frame.bars[index]
 	if reset then bar.count = 0 end
 	bar:SetValue(bar.count)
-	bar.text:SetText(bar.count.." / "..bar.__max)
+	bar.text:SetText(bar.count.."/"..bar.__max)
 end
 
 local castSpellIndex = {[143394] = 1, [306608] = 2}
@@ -526,7 +511,7 @@ function M:NVision_Check()
 		end
 
 		if RaidBossEmoteFrame.__isOff then
-			if not NDuiDB["Misc"]["HideBossEmote"] then
+			if not C.db["Misc"]["HideBossEmote"] then
 				RaidBossEmoteFrame:RegisterEvent("RAID_BOSS_EMOTE")
 				RaidBossEmoteFrame:RegisterEvent("RAID_BOSS_WHISPER")
 				RaidBossEmoteFrame:RegisterEvent("CLEAR_BOSS_EMOTES")
@@ -537,9 +522,130 @@ function M:NVision_Check()
 end
 
 function M:NVision_Init()
-	if not NDuiDB["Misc"]["NzothVision"] then return end
+	if not C.db["Misc"]["NzothVision"] then return end
 	M:NVision_Check()
 	B:RegisterEvent("UPDATE_INSTANCE_INFO", M.NVision_Check)
+end
+
+-- Incompatible check
+local IncompatibleAddOns = {
+	["BigFoot"] = true,
+	["_ShiGuang"] = true,
+	["!!!163UI!!!"] = true,
+	["Aurora"] = true,
+	["AuroraClassic"] = true,
+	["SexyMap"] = true,
+}
+local AddonDependency = {
+	["BigFoot"] = "!!!Libs",
+}
+function M:CheckIncompatible()
+	local IncompatibleList = {}
+	for addon in pairs(IncompatibleAddOns) do
+		if IsAddOnLoaded(addon) then
+			tinsert(IncompatibleList, addon)
+		end
+	end
+
+	if #IncompatibleList > 0 then
+		local frame = CreateFrame("Frame", nil, UIParent)
+		frame:SetPoint("TOP", 0, -200)
+		frame:SetFrameStrata("HIGH")
+		B.CreateMF(frame)
+		B.SetBD(frame)
+		B.CreateFS(frame, 18, L["FoundIncompatibleAddon"], true, "TOPLEFT", 10, -10)
+		B.CreateWatermark(frame)
+
+		local offset = 0
+		for _, addon in pairs(IncompatibleList) do
+			B.CreateFS(frame, 14, addon, false, "TOPLEFT", 10, -(50 + offset))
+			offset = offset + 24
+		end
+		frame:SetSize(300, 100 + offset)
+
+		local close = B.CreateButton(frame, 16, 16, true, DB.closeTex)
+		close:SetPoint("TOPRIGHT", -10, -10)
+		close:SetScript("OnClick", function() frame:Hide() end)
+
+		local disable = B.CreateButton(frame, 150, 25, L["DisableIncompatibleAddon"])
+		disable:SetPoint("BOTTOM", 0, 10)
+		disable.text:SetTextColor(1, 0, 0)
+		disable:SetScript("OnClick", function()
+			for _, addon in pairs(IncompatibleList) do
+				DisableAddOn(addon, true)
+				if AddonDependency[addon] then
+					DisableAddOn(AddonDependency[addon], true)
+				end
+			end
+			ReloadUI()
+		end)
+	end
+end
+
+-- Send cooldown status
+local function GetRemainTime(second)
+	if second > 60 then
+		return format("%d:%.2d", second/60, second%60)
+	else
+		return format("%ds", second)
+	end
+end
+
+local lastCDSend = 0
+function M:SendCurrentSpell(thisTime, spellID)
+	local start, duration = GetSpellCooldown(spellID)
+	local spellLink = GetSpellLink(spellID)
+	if start and duration > 0 then
+		local remain = start + duration - thisTime
+		SendChatMessage(format(L["CooldownRemaining"], spellLink, GetRemainTime(remain)), msgChannel())
+	else
+		SendChatMessage(format(L["CooldownCompleted"], spellLink), msgChannel())
+	end
+end
+
+function M:SendCurrentItem(thisTime, itemID, itemLink)
+	local start, duration = GetItemCooldown(itemID)
+	if start and duration > 0 then
+		local remain = start + duration - thisTime
+		SendChatMessage(format(L["CooldownRemaining"], itemLink, GetRemainTime(remain)), msgChannel())
+	else
+		SendChatMessage(format(L["CooldownCompleted"], itemLink), msgChannel())
+	end
+end
+
+function M:AnalyzeButtonCooldown()
+	if not C.db["Misc"]["SendActionCD"] then return end
+	if not IsInGroup() then return end
+
+	local thisTime = GetTime()
+	if thisTime - lastCDSend < 1.5 then return end
+	lastCDSend = thisTime
+
+	local spellType, id = GetActionInfo(self.action)
+	if spellType == "spell" then
+		M:SendCurrentSpell(thisTime, id)
+	elseif spellType == "item" then
+		local itemName, itemLink = GetItemInfo(id)
+		M:SendCurrentItem(thisTime, id, itemLink or itemName)
+	elseif spellType == "macro" then
+		local spellID = GetMacroSpell(id)
+		local _, itemLink = GetMacroItem(id)
+		local itemID = itemLink and GetItemInfoFromHyperlink(itemLink)
+		if spellID then
+			M:SendCurrentSpell(thisTime, spellID)
+		elseif itemID then
+			M:SendCurrentItem(thisTime, itemID, itemLink)
+		end
+	end
+end
+
+function M:SendCDStatus()
+	if not C.db["Actionbar"]["Enable"] then return end
+
+	local Bar = B:GetModule("Actionbar")
+	for _, button in pairs(Bar.buttons) do
+		button:HookScript("OnMouseWheel", M.AnalyzeButtonCooldown)
+	end
 end
 
 -- Init
@@ -547,9 +653,11 @@ function M:AddAlerts()
 	M:SoloInfo()
 	M:RareAlert()
 	M:InterruptAlert()
-	--M:VersionCheck()
+	M:VersionCheck()
 	M:ExplosiveAlert()
 	M:PlacedItemAlert()
 	M:NVision_Init()
+	M:CheckIncompatible()
+	M:SendCDStatus()
 end
 M:RegisterMisc("Notifications", M.AddAlerts)

@@ -7,17 +7,16 @@ local pairs, next, format, wipe = pairs, next, string.format, wipe
 local AuraWatchList = {}
 local groups = {
 	-- groups name = direction, interval, mode, iconsize, position, barwidth
-	["Enchant Aura"]		= {"LEFT", 5, "ICON", 40, C.Auras.EnchantAuraPos},
-	["Player Aura"]			= {"LEFT", 5, "ICON", 24, C.Auras.PlayerAuraPos},
-	["Player Special Aura"]	= {"LEFT", 5, "ICON", 32, C.Auras.PlayerSpecialAuraPos},
-	["Target Aura"]			= {"RIGHT", 5, "ICON", 32, C.Auras.TargetAuraPos},
-	["Target Special Aura"]	= {"RIGHT", 5, "ICON", 40, C.Auras.TargetSpecialAuraPos},
-	["Focus Special Aura"]	= {"RIGHT", 5, "ICON", 32, C.Auras.FocusSpecialAuraPos},
-	["Raid Buff"]			= {"LEFT", 5, "ICON", 48, C.Auras.RaidBuffPos},
-	["Raid Debuff"]			= {"RIGHT", 5, "ICON", 48, C.Auras.RaidDebuffPos},
-	["Spell CD"]			= {"UP", 5, "BAR", 20, C.Auras.SpellCDPos, 150},
-	["Enchant CD"]			= {"DOWN", 5, "BAR", 20, C.Auras.EnchantCDPos, 150},
-	["Internal CD"]			= {"UP", 5, "BAR", 20, C.Auras.InternalCDPos, 150},
+	["Player Aura"] = {"LEFT", 5, "ICON", 22, C.Auras.PlayerAuraPos},
+	["Target Aura"] = {"RIGHT", 5, "ICON", 36, C.Auras.TargetAuraPos},
+	["Special Aura"] = {"LEFT", 5, "ICON", 36, C.Auras.SpecialPos},
+	["Focus Aura"] = {"RIGHT", 5, "ICON", 35, C.Auras.FocusPos},
+	["Spell Cooldown"] = {"UP", 5, "BAR", 18, C.Auras.CDPos, 150},
+	["Enchant Aura"] = {"LEFT", 5, "ICON", 36, C.Auras.EnchantPos},
+	["Raid Buff"] = {"LEFT", 5, "ICON", 42, C.Auras.RaidBuffPos},
+	["Raid Debuff"] = {"RIGHT", 5, "ICON", 42, C.Auras.RaidDebuffPos},
+	["Warning"] = {"RIGHT", 5, "ICON", 42, C.Auras.WarningPos},
+	["InternalCD"] = {"UP", 5, "BAR", 18, C.Auras.InternalPos, 150},
 }
 
 local function newAuraFormat(value)
@@ -64,7 +63,7 @@ function module:AddNewAuraWatch(class, list)
 end
 
 function module:AddDeprecatedGroup()
-	if not NDuiDB["AuraWatch"]["DeprecatedAuras"] then return end
+	if not C.db["AuraWatch"]["DeprecatedAuras"] then return end
 
 	for name, value in pairs(C.DeprecatedAuras) do
 		for _, list in pairs(AuraWatchList["ALL"]) do

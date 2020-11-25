@@ -13,7 +13,7 @@ local pending = {}
 
 function M:Focuser_Setup()
 	if not self or self.focuser then return end
-	if strmatch(self:GetDebugName(), "oUF_NPs") then return end
+	if self:GetName() and strmatch(self:GetName(), "oUF_NPs") then return end
 
 	if not InCombatLockdown() then
 		self:SetAttribute(modifier.."-type"..mouseButton, "focus")
@@ -47,7 +47,7 @@ function M.Focuser_OnEvent(event)
 end
 
 function M:Focuser()
-	if not NDuiDB["Misc"]["Focuser"] then return end
+	if not C.db["Misc"]["Focuser"] then return end
 
 	-- Keybinding override so that models can be shift/alt/ctrl+clicked
 	local f = CreateFrame("CheckButton", "FocuserButton", UIParent, "SecureActionButtonTemplate")

@@ -1,52 +1,50 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 
+-- /run LoadAddOn'Blizzard_GMChatUI' GMChatFrame:Show()
 C.themes["Blizzard_GMChatUI"] = function()
-	local frame = GMChatFrame
+	local frame = _G["GMChatFrame"]
 	frame:SetClampRectInsets(0, 0, 0, 0)
-
-	local bg = B.ReskinFrame(frame)
-	bg:SetPoint("TOPLEFT", 0, 0)
+	B.StripTextures(frame)
+	local bg = B.SetBD(frame)
 	bg:SetPoint("BOTTOMRIGHT", C.mult, -5)
 
-	local edit = GMChatFrameEditBox
-	edit:SetAltArrowKeyMode(false)
+	local eb = frame.editBox
+	eb:SetAltArrowKeyMode(false)
 	for i = 3, 8 do
-		select(i, edit:GetRegions()):SetAlpha(0)
+		select(i, eb:GetRegions()):SetAlpha(0)
 	end
-	edit:ClearAllPoints()
-	edit:SetPoint("TOPLEFT", frame, "BOTTOMLEFT", 0, -8)
-	edit:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -28, -32)
+	eb:ClearAllPoints()
+	eb:SetPoint("TOPLEFT", frame, "BOTTOMLEFT", 0, -7)
+	eb:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -28, -32)
 
-	local editBG = B.CreateBDFrame(edit, nil, 0, true)
-	editBG:Hide()
+	local bg = B.SetBD(eb)
+	bg:Hide()
 	hooksecurefunc("ChatEdit_DeactivateChat", function(editBox)
-		if editBox.isGM then editBG:Hide() end
+		if editBox.isGM then bg:Hide() end
 	end)
 	hooksecurefunc("ChatEdit_ActivateChat", function(editBox)
-		if editBox.isGM then editBG:Show() end
+		if editBox.isGM then bg:Show() end
 	end)
 
-	local lang = GMChatFrameEditBoxLanguage
+	local lang = _G["GMChatFrameEditBoxLanguage"]
 	lang:GetRegions():SetAlpha(0)
-	lang:SetPoint("TOPLEFT", edit, "TOPRIGHT", 3, 0)
-	lang:SetPoint("BOTTOMRIGHT", edit, "BOTTOMRIGHT", edit:GetHeight()+3, 0)
-	B.CreateBG(lang)
+	lang:SetPoint("TOPLEFT", eb, "TOPRIGHT", 3, 0)
+	lang:SetPoint("BOTTOMRIGHT", eb, "BOTTOMRIGHT", 28, 0)
+	B.SetBD(lang)
 
-	local tab = GMChatTab
+	local tab = _G["GMChatTab"]
 	B.StripTextures(tab)
-	local tabBG = B.CreateBDFrame(tab, nil, 0, true)
-	tabBG:SetBackdropColor(0, .6, 1, .25)
-	tab:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 0, 4)
+	local bg = B.SetBD(tab)
+	bg:SetBackdropColor(0, .6, 1, .3)
+	tab:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 0, 3)
 	tab:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, 28)
+	GMChatTabIcon:SetTexture("Interface\\ChatFrame\\UI-ChatIcon-Blizz")
 
-	local icon = GMChatTabIcon
-	icon:SetTexture("Interface\\ChatFrame\\UI-ChatIcon-Blizz")
-	icon:ClearAllPoints()
-	icon:SetPoint("LEFT", tab, "LEFT", 5, 0)
-
-	local text = GMChatTabText
-	text:ClearAllPoints()
-	text:SetPoint("LEFT", icon, "RIGHT", 5, 0)
+	local close = GMChatFrameCloseButton
+	B.ReskinClose(close)
+	close:ClearAllPoints()
+	close:SetPoint("RIGHT", tab, -5, 0)
 
 	B.HideObject(frame.buttonFrame)
 end

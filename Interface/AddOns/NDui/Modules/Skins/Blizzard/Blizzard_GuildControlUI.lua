@@ -1,71 +1,82 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 
 C.themes["Blizzard_GuildControlUI"] = function()
-	B.ReskinFrame(GuildControlUI)
+	local r, g, b = DB.r, DB.g, DB.b
 
-	B.StripTextures(GuildControlUIRankBankFrameInset)
-	B.ReskinScroll(GuildControlUIRankBankFrameInsetScrollFrameScrollBar)
-	B.ReskinButton(GuildControlUIRankOrderFrameNewButton)
-	B.ReskinInput(GuildControlUIRankSettingsFrameGoldBox, 20)
+	B.SetBD(GuildControlUI)
 
-	local OfficerCB = GuildControlUIRankSettingsFrameOfficerCheckbox
-	B.ReskinCheck(OfficerCB)
-	OfficerCB:SetSize(24, 24)
-
-	local OfficerBg = GuildControlUIRankSettingsFrameOfficerBg
-
-	local RosterBg = GuildControlUIRankSettingsFrameRosterBg
-	RosterBg:ClearAllPoints()
-	RosterBg:SetPoint("TOP", OfficerBg, "BOTTOM", 0, 15)
-
-	local BankBg = GuildControlUIRankSettingsFrameBankBg
-	BankBg:ClearAllPoints()
-	BankBg:SetPoint("TOP", RosterBg, "BOTTOM", 0, -15)
-
-	local lists = {GuildControlUIHbar, OfficerBg, RosterBg, BankBg}
-	for _, list in pairs(lists) do
-		list:Hide()
+	for i = 1, 9 do
+		select(i, GuildControlUI:GetRegions()):Hide()
 	end
 
-	local dropdowns = {GuildControlUINavigationDropDown, GuildControlUIRankSettingsFrameRankDropDown, GuildControlUIRankBankFrameRankDropDown}
-	for _, dropdown in pairs(dropdowns) do
-		B.ReskinDropDown(dropdown)
+	for i = 1, 8 do
+		select(i, GuildControlUIRankBankFrameInset:GetRegions()):Hide()
 	end
 
-	for i = 1, NUM_RANK_FLAGS do
-		local checbox = _G["GuildControlUIRankSettingsFrameCheckbox"..i]
-		if checbox then
-			checbox:SetSize(24, 24)
-			B.ReskinCheck(checbox)
+	GuildControlUIRankSettingsFrameOfficerBg:SetAlpha(0)
+	GuildControlUIRankSettingsFrameRosterBg:SetAlpha(0)
+	GuildControlUIRankSettingsFrameBankBg:SetAlpha(0)
+	GuildControlUITopBg:Hide()
+	GuildControlUIHbar:Hide()
+	GuildControlUIRankBankFrameInsetScrollFrameTop:SetAlpha(0)
+	GuildControlUIRankBankFrameInsetScrollFrameBottom:SetAlpha(0)
+
+	do
+		local function updateGuildRanks()
+			for i = 1, GuildControlGetNumRanks() do
+				local rank = _G["GuildControlUIRankOrderFrameRank"..i]
+				if not rank.styled then
+					rank.upButton.icon:Hide()
+					rank.downButton.icon:Hide()
+					rank.deleteButton.icon:Hide()
+
+					B.ReskinArrow(rank.upButton, "up")
+					B.ReskinArrow(rank.downButton, "down")
+					B.ReskinClose(rank.deleteButton)
+
+					B.ReskinInput(rank.nameBox, 20)
+
+					rank.styled = true
+				end
+			end
 		end
+
+		local f = CreateFrame("Frame")
+		f:RegisterEvent("GUILD_RANKS_UPDATE")
+		f:SetScript("OnEvent", updateGuildRanks)
+		hooksecurefunc("GuildControlUI_RankOrder_Update", updateGuildRanks)
 	end
 
 	hooksecurefunc("GuildControlUI_BankTabPermissions_Update", function()
 		for i = 1, GetNumGuildBankTabs() + 1 do
-			local bu = _G["GuildControlBankTab"..i]
+			local tab = "GuildControlBankTab"..i
+			local bu = _G[tab]
 			if bu and not bu.styled then
-				B.StripTextures(bu)
-				B.ReskinButton(bu.buy.button)
-
 				local ownedTab = bu.owned
+
+				_G[tab.."Bg"]:Hide()
 				B.ReskinIcon(ownedTab.tabIcon)
+				B.CreateBDFrame(bu, .25)
+				B.Reskin(bu.buy.button)
 				B.ReskinInput(ownedTab.editBox)
 
-				ownedTab.tabIcon:ClearAllPoints()
-				ownedTab.tabIcon:SetPoint("TOPLEFT", ownedTab, "TOPLEFT", 6, -6)
+				for _, ch in pairs({ownedTab.viewCB, ownedTab.depositCB, ownedTab.infoCB}) do
+					-- can't get a backdrop frame to appear behind the checked texture for some reason
+					ch:SetNormalTexture("")
+					ch:SetPushedTexture("")
+					ch:SetHighlightTexture(DB.bdTex)
 
-				ownedTab.editBox:ClearAllPoints()
-				ownedTab.editBox:SetPoint("BOTTOMLEFT", ownedTab, "BOTTOMLEFT", 6, 4)
+					local check = ch:GetCheckedTexture()
+					check:SetDesaturated(true)
+					check:SetVertexColor(r, g, b)
 
-				ownedTab.depositCB:ClearAllPoints()
-				ownedTab.depositCB:SetPoint("TOP", ownedTab.viewCB, "BOTTOM", 0, 2)
+					local bg = B.CreateBDFrame(ch, 0, true)
+					bg:SetInside(ch, 4, 4)
 
-				ownedTab.infoCB:ClearAllPoints()
-				ownedTab.infoCB:SetPoint("TOP", ownedTab.depositCB, "BOTTOM", 0, 2)
-
-				for _, checbox in pairs({ownedTab.viewCB, ownedTab.depositCB, ownedTab.infoCB}) do
-					checbox:SetSize(24, 24)
-					B.ReskinCheck(checbox)
+					local hl = ch:GetHighlightTexture()
+					hl:SetInside(bg)
+					hl:SetVertexColor(r, g, b, .25)
 				end
 
 				bu.styled = true
@@ -73,29 +84,19 @@ C.themes["Blizzard_GuildControlUI"] = function()
 		end
 	end)
 
-	local function updateGuildRanks()
-		for i = 1, GuildControlGetNumRanks() do
-			local rank = _G["GuildControlUIRankOrderFrameRank"..i]
-			if not rank.styled then
-				rank.upButton:ClearAllPoints()
-				rank.upButton:SetPoint("LEFT", rank.nameBox, "RIGHT", 10, 0)
-
-				rank.downButton:ClearAllPoints()
-				rank.downButton:SetPoint("LEFT", rank.upButton, "RIGHT", 5, 0)
-
-				rank.deleteButton:ClearAllPoints()
-				rank.deleteButton:SetPoint("TOPLEFT", rank.downButton, "TOPRIGHT", 5, 0)
-				rank.deleteButton:SetPoint("BOTTOMRIGHT", rank.downButton, "BOTTOMRIGHT", 0, 0)
-
-				B.ReskinArrow(rank.upButton, "up")
-				B.ReskinArrow(rank.downButton, "down")
-				B.ReskinClose(rank.deleteButton)
-				B.ReskinInput(rank.nameBox, 20)
-
-				rank.styled = true
-			end
+	B.ReskinCheck(GuildControlUIRankSettingsFrameOfficerCheckbox)
+	for i = 1, 20 do
+		local checbox = _G["GuildControlUIRankSettingsFrameCheckbox"..i]
+		if checbox then
+			B.ReskinCheck(checbox)
 		end
 	end
-	hooksecurefunc("GuildControlUI_RankOrder_Update", updateGuildRanks)
-	GuildControlUIRankOrderFrame:HookScript("OnUpdate", updateGuildRanks)
+
+	B.Reskin(GuildControlUIRankOrderFrameNewButton)
+	B.ReskinClose(GuildControlUICloseButton)
+	B.ReskinScroll(GuildControlUIRankBankFrameInsetScrollFrameScrollBar)
+	B.ReskinDropDown(GuildControlUINavigationDropDown)
+	B.ReskinDropDown(GuildControlUIRankSettingsFrameRankDropDown)
+	B.ReskinDropDown(GuildControlUIRankBankFrameRankDropDown)
+	B.ReskinInput(GuildControlUIRankSettingsFrameGoldBox, 20)
 end

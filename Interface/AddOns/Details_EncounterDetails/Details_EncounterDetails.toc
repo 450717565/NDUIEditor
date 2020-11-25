@@ -1,4 +1,4 @@
-## Interface: 80300
+## Interface: 90002
 ## Title: Details!: Encounter Breakdown (plugin)
 ## Notes: Show detailed information about a boss encounter. Also provide damage per phase, graphic charts, easy weakauras creation.
 ## RequiredDeps: Details
@@ -11,7 +11,6 @@ embeds.xml
 #@end-no-lib-strip@
 
 enUS.lua
-zhCN.lua
 ptBR.lua
 frames.lua
 

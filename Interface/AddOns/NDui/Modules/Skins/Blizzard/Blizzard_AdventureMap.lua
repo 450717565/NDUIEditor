@@ -1,30 +1,31 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 
 C.themes["Blizzard_AdventureMap"] = function()
-	local ChoiceDialog = AdventureMapQuestChoiceDialog
+	local dialog = AdventureMapQuestChoiceDialog
 
-	B.ReskinFrame(ChoiceDialog)
-	B.ReskinButton(ChoiceDialog.AcceptButton)
-	B.ReskinButton(ChoiceDialog.DeclineButton)
-	B.ReskinScroll(ChoiceDialog.Details.ScrollBar)
+	B.StripTextures(dialog)
+	B.SetBD(dialog)
+	B.Reskin(dialog.AcceptButton)
+	B.Reskin(dialog.DeclineButton)
+	B.ReskinClose(dialog.CloseButton)
+	B.ReskinScroll(dialog.Details.ScrollBar)
 
-	ChoiceDialog:HookScript("OnShow", function(self)
-		if not self.styled then
-			for i = 6, 7 do
-				local bu = select(i, self:GetChildren())
-				if bu then
-					bu.ItemNameBG:Hide()
+	dialog:HookScript("OnShow", function(self)
+		if self.styled then return end
 
-					local icbg = B.ReskinIcon(bu.Icon)
-					B.CreateBGFrame(bu.ItemNameBG, 2, 0, -5, 0, icbg)
-				end
+		for i = 6, 7 do
+			local bu = select(i, dialog:GetChildren())
+			if bu then
+				B.ReskinIcon(bu.Icon)
+				local bg = B.CreateBDFrame(bu.Icon, .25)
+				bg:SetPoint("BOTTOMRIGHT")
+				bu.ItemNameBG:Hide()
 			end
-
-			local Child = self.Details.Child
-			Child.TitleHeader:SetTextColor(1, .8, 0)
-			Child.ObjectivesHeader:SetTextColor(1, .8, 0)
-
-			self.styled = true
 		end
+		dialog.Details.Child.TitleHeader:SetTextColor(1, .8, 0)
+		dialog.Details.Child.ObjectivesHeader:SetTextColor(1, .8, 0)
+
+		self.styled = true
 	end)
 end

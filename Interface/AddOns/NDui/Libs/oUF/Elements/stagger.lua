@@ -21,15 +21,15 @@ A default texture will be applied if the widget is a StatusBar and doesn't have 
 
 ## Examples
 
-	local Stagger = CreateFrame('StatusBar', nil, self)
-	Stagger:SetSize(120, 20)
-	Stagger:SetPoint('TOPLEFT', self, 'BOTTOMLEFT', 0, 0)
+    local Stagger = CreateFrame('StatusBar', nil, self)
+    Stagger:SetSize(120, 20)
+    Stagger:SetPoint('TOPLEFT', self, 'BOTTOMLEFT', 0, 0)
 
-	-- Register with oUF
-	self.Stagger = Stagger
+    -- Register with oUF
+    self.Stagger = Stagger
 --]]
 
-if (select(2, UnitClass('player')) ~= 'MONK') then return end
+if(select(2, UnitClass('player')) ~= 'MONK') then return end
 
 local _, ns = ...
 local oUF = ns.oUF
@@ -49,36 +49,51 @@ local STAGGER_GREEN_INDEX = STAGGER_GREEN_INDEX or 1
 local STAGGER_YELLOW_INDEX = STAGGER_YELLOW_INDEX or 2
 local STAGGER_RED_INDEX = STAGGER_RED_INDEX or 3
 
-local function UpdateColor(element, cur, max)
-	local colors = element.__owner.colors.power[BREWMASTER_POWER_BAR_NAME]
-	local perc = cur / max
+local function UpdateColor(self, event, unit)
+	if(unit and unit ~= self.unit) then return end
+	local element = self.Stagger
+
+	local colors = self.colors.power[BREWMASTER_POWER_BAR_NAME]
+	local perc = (element.cur or 0) / (element.max or 1)
 
 	local t
-	if (perc >= STAGGER_RED_TRANSITION) then
+	if(perc >= STAGGER_RED_TRANSITION) then
 		t = colors and colors[STAGGER_RED_INDEX]
-	elseif (perc > STAGGER_YELLOW_TRANSITION) then
+	elseif(perc > STAGGER_YELLOW_TRANSITION) then
 		t = colors and colors[STAGGER_YELLOW_INDEX]
 	else
 		t = colors and colors[STAGGER_GREEN_INDEX]
 	end
 
 	local r, g, b
-	if (t) then
+	if(t) then
 		r, g, b = t[1], t[2], t[3]
-		if (b) then
+		if(b) then
 			element:SetStatusBarColor(r, g, b)
 
 			local bg = element.bg
-			if (bg and b) then
+			if(bg and b) then
 				local mu = bg.multiplier or 1
 				bg:SetVertexColor(r * mu, g * mu, b * mu)
 			end
 		end
 	end
+
+	--[[ Callback: Stagger:PostUpdateColor(r, g, b)
+	Called after the element color has been updated.
+
+	* self - the Stagger element
+	* r    - the red component of the used color (number)[0-1]
+	* g    - the green component of the used color (number)[0-1]
+	* b    - the blue component of the used color (number)[0-1]
+	--]]
+	if(element.PostUpdateColor) then
+		element:PostUpdateColor(r, g, b)
+	end
 end
 
 local function Update(self, event, unit)
-	if (unit and unit ~= self.unit) then return end
+	if(unit and unit ~= self.unit) then return end
 
 	local element = self.Stagger
 
@@ -87,7 +102,7 @@ local function Update(self, event, unit)
 
 	* self - the Stagger element
 	--]]
-	if (element.PreUpdate) then
+	if(element.PreUpdate) then
 		element:PreUpdate()
 	end
 
@@ -98,14 +113,8 @@ local function Update(self, event, unit)
 	element:SetMinMaxValues(0, max)
 	element:SetValue(cur)
 
-	--[[ Override: Stagger:UpdateColor(cur, max)
-	Used to completely override the internal function for updating the widget's colors.
-
-	* self - the Stagger element
-	* cur  - the amount of staggered damage (number)
-	* max  - the player's maximum possible health value (number)
-	--]]
-	element:UpdateColor(cur, max)
+	element.cur = cur
+	element.max = max
 
 	--[[ Callback: Stagger:PostUpdate(cur, max)
 	Called after the element has been updated.
@@ -114,7 +123,7 @@ local function Update(self, event, unit)
 	* cur  - the amount of staggered damage (number)
 	* max  - the player's maximum possible health value (number)
 	--]]
-	if (element.PostUpdate) then
+	if(element.PostUpdate) then
 		element:PostUpdate(cur, max)
 	end
 end
@@ -127,22 +136,31 @@ local function Path(self, ...)
 	* event - the event triggering the update (string)
 	* unit  - the unit accompanying the event (string)
 	--]]
-	return (self.Stagger.Override or Update)(self, ...)
+	(self.Stagger.Override or Update)(self, ...);
+
+	--[[ Override: Stagger.UpdateColor(self, event, unit)
+	Used to completely override the internal function for updating the widgets' colors.
+
+	* self  - the parent object
+	* event - the event triggering the update (string)
+	* unit  - the unit accompanying the event (string)
+	--]]
+	(self.Stagger.UpdateColor or UpdateColor) (self, ...)
 end
 
 local function Visibility(self, event, unit)
-	if (SPEC_MONK_BREWMASTER ~= GetSpecialization() or UnitHasVehiclePlayerFrameUI('player')) then
-		if (self.Stagger:IsShown()) then
+	if(SPEC_MONK_BREWMASTER ~= GetSpecialization() or UnitHasVehiclePlayerFrameUI('player')) then
+		if(self.Stagger:IsShown()) then
 			self.Stagger:Hide()
 			self:UnregisterEvent('UNIT_AURA', Path)
 		end
 	else
-		if (not self.Stagger:IsShown()) then
+		if(not self.Stagger:IsShown()) then
 			self.Stagger:Show()
 			self:RegisterEvent('UNIT_AURA', Path)
 		end
 
-		return Path(self, event, unit)
+		Path(self, event, unit)
 	end
 end
 
@@ -154,28 +172,24 @@ local function VisibilityPath(self, ...)
 	* event - the event triggering the update (string)
 	* unit  - the unit accompanying the event (string)
 	--]]
-	return (self.Stagger.OverrideVisibility or Visibility)(self, ...)
+	(self.Stagger.OverrideVisibility or Visibility)(self, ...)
 end
 
 local function ForceUpdate(element)
-	return VisibilityPath(element.__owner, 'ForceUpdate', element.__owner.unit)
+	VisibilityPath(element.__owner, 'ForceUpdate', element.__owner.unit)
 end
 
-local function Enable(self)
+local function Enable(self, unit)
 	local element = self.Stagger
-	if (element) then
+	if(element and UnitIsUnit(unit, 'player')) then
 		element.__owner = self
 		element.ForceUpdate = ForceUpdate
 
 		self:RegisterEvent('UNIT_DISPLAYPOWER', VisibilityPath)
 		self:RegisterEvent('PLAYER_TALENT_UPDATE', VisibilityPath, true)
 
-		if (element:IsObjectType('StatusBar') and not element:GetStatusBarTexture()) then
+		if(element:IsObjectType('StatusBar') and not (element:GetStatusBarTexture() or element:GetStatusBarAtlas())) then
 			element:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar]])
-		end
-
-		if (not element.UpdateColor) then
-			element.UpdateColor = UpdateColor
 		end
 
 		MonkStaggerBar:UnregisterEvent('PLAYER_ENTERING_WORLD')
@@ -192,7 +206,7 @@ end
 
 local function Disable(self)
 	local element = self.Stagger
-	if (element) then
+	if(element) then
 		element:Hide()
 
 		self:UnregisterEvent('UNIT_AURA', Path)

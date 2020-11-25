@@ -1,10 +1,15 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 
 tinsert(C.defaultThemes, function()
-	local bg = B.ReskinFrame(TaxiFrame, "noKill")
-	bg:SetOutside(TaxiRouteMap)
+	if not C.db["Skins"]["BlizzardSkins"] then return end
 
-	local TitleText = TaxiFrame.TitleText
-	TitleText:ClearAllPoints()
-	TitleText:SetPoint("TOP", bg, 0, -6)
+	TaxiFrame:DisableDrawLayer("BORDER")
+	TaxiFrame:DisableDrawLayer("OVERLAY")
+	TaxiFrame.Bg:Hide()
+	TaxiFrame.TitleBg:Hide()
+	TaxiFrame.TopTileStreaks:Hide()
+
+	B.SetBD(TaxiFrame, nil, 3, -23, -5, 3)
+	B.ReskinClose(TaxiFrame.CloseButton, TaxiRouteMap)
 end)

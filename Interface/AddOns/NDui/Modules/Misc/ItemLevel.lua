@@ -9,45 +9,48 @@ local GetContainerItemLink, GetInventoryItemLink = GetContainerItemLink, GetInve
 local EquipmentManager_UnpackLocation, EquipmentManager_GetItemInfoByLocation = EquipmentManager_UnpackLocation, EquipmentManager_GetItemInfoByLocation
 local C_AzeriteEmpoweredItem_IsPowerSelected = C_AzeriteEmpoweredItem.IsPowerSelected
 
-local slots = DB.Slots
+local inspectSlots = {
+	"Head",
+	"Neck",
+	"Shoulder",
+	"Shirt",
+	"Chest",
+	"Waist",
+	"Legs",
+	"Feet",
+	"Wrist",
+	"Hands",
+	"Finger0",
+	"Finger1",
+	"Trinket0",
+	"Trinket1",
+	"Back",
+	"MainHand",
+	"SecondaryHand",
+}
 
-function M:GetSlotAnchor(index, isIcon)
+function M:GetSlotAnchor(index)
 	if not index then return end
 
-	if index <= 5 or index == 9 or index == 15 or index == 18 then
-		if isIcon then
-			return "BOTTOMLEFT", "BOTTOMRIGHT", 4, 2
-		else
-			return "TOPLEFT", "TOPRIGHT", 4, -2
-		end
+	if index <= 5 or index == 9 or index == 15 then
+		return "BOTTOMLEFT", 40, 20
 	elseif index == 16 then
-		if isIcon then
-			return "TOPRIGHT", "TOPLEFT", -4, -2
-		else
-			return "BOTTOMRIGHT", "BOTTOMLEFT", -4, 2
-		end
+		return "BOTTOMRIGHT", -40, 2
 	elseif index == 17 then
-		if isIcon then
-			return "TOPLEFT", "TOPRIGHT", 4, -2
-		else
-			return "BOTTOMLEFT", "BOTTOMRIGHT", 4, 2
-		end
+		return "BOTTOMLEFT", 40, 2
 	else
-		if isIcon then
-			return "BOTTOMRIGHT", "BOTTOMLEFT", -4, 2
-		else
-			return "TOPRIGHT", "TOPLEFT", -4, -2
-		end
+		return "BOTTOMRIGHT", -40, 20
 	end
 end
 
-function M:CreateItemTexture(slot, relF, relT, x, y)
+function M:CreateItemTexture(slot, relF, x, y)
 	local icon = slot:CreateTexture()
-	icon:SetPoint(relF, slot, relT, x, y)
+	icon:SetPoint(relF, x, y)
 	icon:SetSize(14, 14)
-	icon.icbg = B.ReskinIcon(icon)
-	icon.icbg:SetFrameLevel(3)
-	icon.icbg:Hide()
+	icon:SetTexCoord(unpack(DB.TexCoord))
+	icon.bg = B.ReskinIcon(icon)
+	icon.bg:SetFrameLevel(3)
+	icon.bg:Hide()
 
 	return icon
 end
@@ -55,25 +58,22 @@ end
 function M:CreateItemString(frame, strType)
 	if frame.fontCreated then return end
 
-	for index, slot in pairs(slots) do
-		if index ~= 4 or index ~= 18 then
+	for index, slot in pairs(inspectSlots) do
+		if index ~= 4 then
 			local slotFrame = _G[strType..slot.."Slot"]
 			slotFrame.iLvlText = B.CreateFS(slotFrame, DB.Font[2]+1)
 			slotFrame.iLvlText:ClearAllPoints()
-			slotFrame.iLvlText:SetPoint("BOTTOM", slotFrame, 1, 1)
-
-			local tp1, tp2, tx, ty = M:GetSlotAnchor(index)
+			slotFrame.iLvlText:SetPoint("BOTTOMLEFT", slotFrame, 1, 1)
+			local relF, x, y = M:GetSlotAnchor(index)
 			slotFrame.enchantText = B.CreateFS(slotFrame, DB.Font[2]+1)
 			slotFrame.enchantText:ClearAllPoints()
-			slotFrame.enchantText:SetPoint(tp1, slotFrame, tp2, tx, ty)
+			slotFrame.enchantText:SetPoint(relF, slotFrame, x, y)
 			slotFrame.enchantText:SetTextColor(0, 1, 0)
-
-			local ip1, ip2, ix, iy = M:GetSlotAnchor(index, true)
 			for i = 1, 10 do
-				local offset = (i-1)*18 + 3
-				local iconX = ix > 0 and ix+offset or ix-offset
-				local iconY = iy
-				slotFrame["textureIcon"..i] = M:CreateItemTexture(slotFrame, ip1, ip2, iconX, iconY)
+				local offset = (i-1)*18 + 5
+				local iconX = x > 0 and x+offset or x-offset
+				local iconY = index > 15 and 20 or 2
+				slotFrame["textureIcon"..i] = M:CreateItemTexture(slotFrame, relF, iconX, iconY)
 			end
 		end
 	end
@@ -100,7 +100,7 @@ local function GetSlotItemLocation(id)
 end
 
 function M:ItemLevel_UpdateTraits(button, id, link)
-	if not NDuiDB["Misc"]["AzeriteTraits"] then return end
+	if not C.db["Misc"]["AzeriteTraits"] then return end
 
 	local empoweredItemLocation = GetSlotItemLocation(id)
 	if not empoweredItemLocation then return end
@@ -108,8 +108,7 @@ function M:ItemLevel_UpdateTraits(button, id, link)
 	local allTierInfo = TT:Azerite_UpdateTier(link)
 	if not allTierInfo then return end
 
-	local maxTiers = NDuiDB["Misc"]["MaxTiers"]
-	for i = 1, maxTiers do
+	for i = 1, 2 do
 		local powerIDs = allTierInfo[i] and allTierInfo[i].azeritePowerIDs
 		if not powerIDs or powerIDs[1] == 13 then break end
 
@@ -121,7 +120,7 @@ function M:ItemLevel_UpdateTraits(button, id, link)
 				local texture = button["textureIcon"..i]
 				if name and texture then
 					texture:SetTexture(icon)
-					texture.icbg:Show()
+					texture.bg:Show()
 				end
 			end
 		end
@@ -137,8 +136,10 @@ function M:ItemLevel_UpdateInfo(slotFrame, info, quality)
 		level = info
 	end
 
-	if level and level > 1 and quality then
+	if level and level > 1 and quality and quality > 1 then
+		local color = DB.QualityColors[quality]
 		slotFrame.iLvlText:SetText(level)
+		slotFrame.iLvlText:SetTextColor(color.r, color.g, color.b)
 	end
 
 	if infoType == "table" then
@@ -150,7 +151,7 @@ function M:ItemLevel_UpdateInfo(slotFrame, info, quality)
 		local gemStep, essenceStep = 1, 1
 		for i = 1, 10 do
 			local texture = slotFrame["textureIcon"..i]
-			local bg = texture.icbg
+			local bg = texture.bg
 			local gem = info.gems and info.gems[gemStep]
 			local essence = not gem and (info.essences and info.essences[essenceStep])
 			if gem then
@@ -182,7 +183,7 @@ end
 function M:ItemLevel_RefreshInfo(link, unit, index, slotFrame)
 	C_Timer.After(.1, function()
 		local quality = select(3, GetItemInfo(link))
-		local info = B.GetItemLevel(link, unit, index, NDuiDB["Misc"]["GemNEnchant"])
+		local info = B.GetItemLevel(link, unit, index, C.db["Misc"]["GemNEnchant"])
 		if info == "tooSoon" then return end
 		M:ItemLevel_UpdateInfo(slotFrame, info, quality)
 	end)
@@ -193,21 +194,21 @@ function M:ItemLevel_SetupLevel(frame, strType, unit)
 
 	M:CreateItemString(frame, strType)
 
-	for index, slot in pairs(slots) do
-		if index ~= 4 or index ~= 18 then
+	for index, slot in pairs(inspectSlots) do
+		if index ~= 4 then
 			local slotFrame = _G[strType..slot.."Slot"]
 			slotFrame.iLvlText:SetText("")
 			slotFrame.enchantText:SetText("")
 			for i = 1, 10 do
 				local texture = slotFrame["textureIcon"..i]
-				texture:SetTexture("")
-				texture.icbg:Hide()
+				texture:SetTexture(nil)
+				texture.bg:Hide()
 			end
 
 			local link = GetInventoryItemLink(unit, index)
 			if link then
 				local quality = select(3, GetItemInfo(link))
-				local info = B.GetItemLevel(link, unit, index, NDuiDB["Misc"]["GemNEnchant"])
+				local info = B.GetItemLevel(link, unit, index, C.db["Misc"]["GemNEnchant"])
 				if info == "tooSoon" then
 					M:ItemLevel_RefreshInfo(link, unit, index, slotFrame)
 				else
@@ -235,8 +236,10 @@ end
 
 function M:ItemLevel_FlyoutUpdate(bag, slot, quality)
 	if not self.iLvl then
-		self.iLvl = B.CreateFS(self, DB.Font[2]+1)
+		self.iLvl = B.CreateFS(self, DB.Font[2]+1, "", false, "BOTTOMLEFT", 1, 1)
 	end
+
+	if quality and quality <= 1 then return end
 
 	local link, level
 	if bag then
@@ -247,13 +250,16 @@ function M:ItemLevel_FlyoutUpdate(bag, slot, quality)
 		level = B.GetItemLevel(link, "player", slot)
 	end
 
+	local color = DB.QualityColors[quality or 0]
 	self.iLvl:SetText(level)
+	self.iLvl:SetTextColor(color.r, color.g, color.b)
 end
 
 function M:ItemLevel_FlyoutSetup()
+	if self.iLvl then self.iLvl:SetText("") end
+
 	local location = self.location
 	if not location or location >= EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION then
-		if self.iLvl then self.iLvl:SetText("") end
 		return
 	end
 
@@ -269,7 +275,7 @@ end
 
 function M:ItemLevel_ScrappingUpdate()
 	if not self.iLvl then
-		self.iLvl = B.CreateFS(self, DB.Font[2]+3)
+		self.iLvl = B.CreateFS(self, DB.Font[2]+1, "", false, "BOTTOMLEFT", 1, 1)
 	end
 	if not self.itemLink then self.iLvl:SetText("") return end
 
@@ -278,7 +284,9 @@ function M:ItemLevel_ScrappingUpdate()
 		quality = self.item:GetItemQuality()
 	end
 	local level = B.GetItemLevel(self.itemLink)
+	local color = DB.QualityColors[quality]
 	self.iLvl:SetText(level)
+	self.iLvl:SetTextColor(color.r, color.g, color.b)
 end
 
 function M.ItemLevel_ScrappingShow(event, addon)
@@ -292,7 +300,7 @@ function M.ItemLevel_ScrappingShow(event, addon)
 end
 
 function M:ShowItemLevel()
-	if not NDuiDB["Misc"]["ItemLevel"] then return end
+	if not C.db["Misc"]["ItemLevel"] then return end
 
 	-- iLvl on CharacterFrame
 	CharacterFrame:HookScript("OnShow", M.ItemLevel_UpdatePlayer)

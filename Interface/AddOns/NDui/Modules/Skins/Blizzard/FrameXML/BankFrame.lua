@@ -1,36 +1,41 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 
 tinsert(C.defaultThemes, function()
-	if NDuiDB["Bags"]["Enable"] then return end
+	if C.db["Bags"]["Enable"] then return end
+	if not C.db["Skins"]["BlizzardSkins"] then return end
+	if not C.db["Skins"]["DefaultBags"] then return end
 
 	-- [[ Bank ]]
-	B.ReskinFrame(BankFrame)
-	B.ReskinButton(BankFramePurchaseButton)
+
+	BankSlotsFrame:DisableDrawLayer("BORDER")
+	BankPortraitTexture:Hide()
+	BankFrameMoneyFrameInset:Hide()
+	BankFrameMoneyFrameBorder:Hide()
+
+	-- "item slots" and "bag slots" text
+	select(9, BankSlotsFrame:GetRegions()):SetDrawLayer("OVERLAY")
+	select(10, BankSlotsFrame:GetRegions()):SetDrawLayer("OVERLAY")
+
+	B.ReskinPortraitFrame(BankFrame)
+	B.Reskin(BankFramePurchaseButton)
+	B.ReskinTab(BankFrameTab1)
+	B.ReskinTab(BankFrameTab2)
 	B.ReskinInput(BankItemSearchBox)
-	B.ReskinSort(BankItemAutoSortButton)
-
-	B.StripTextures(BankSlotsFrame)
-	B.StripTextures(BankFrameMoneyFrame)
-
-	B.ReskinFrameTab(BankFrame, 3)
 
 	local function styleBankButton(bu)
-		B.CleanTextures(bu)
+		bu:SetNormalTexture("")
+		bu:SetPushedTexture("")
+		bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
+		bu.searchOverlay:SetOutside()
+
+		bu.icon:SetTexCoord(unpack(DB.TexCoord))
+		bu.bg = B.CreateBDFrame(bu.icon, .25)
+		B.ReskinIconBorder(bu.IconBorder)
 
 		local questTexture = bu.IconQuestTexture
-		if questTexture then questTexture:SetAlpha(0) end
-
-		local icbg = B.ReskinIcon(bu.icon)
-		B.ReskinHighlight(bu, icbg)
-
-		local border = bu.IconBorder
-		B.ReskinBorder(border, icbg)
-
-		local slotTexture = bu.SlotHighlightTexture
-		if slotTexture then B.ReskinSpecialBorder(slotTexture, icbg) end
-
-		local searchOverlay = bu.searchOverlay
-		searchOverlay:SetAllPoints(icbg)
+		questTexture:SetDrawLayer("BACKGROUND")
+		questTexture:SetSize(1, 1)
 	end
 
 	for i = 1, 28 do
@@ -38,8 +43,24 @@ tinsert(C.defaultThemes, function()
 	end
 
 	for i = 1, 7 do
-		styleBankButton(BankSlotsFrame["Bag"..i])
+		local bag = BankSlotsFrame["Bag"..i]
+		bag:SetNormalTexture("")
+		bag:SetPushedTexture("")
+		bag:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
+		bag.SlotHighlightTexture:SetColorTexture(1, .8, 0, .25)
+		bag.searchOverlay:SetOutside()
+
+		bag.icon:SetTexCoord(unpack(DB.TexCoord))
+		bag.bg = B.CreateBDFrame(bag.icon, .25)
+		B.ReskinIconBorder(bag.IconBorder)
 	end
+
+	BankItemAutoSortButton:GetNormalTexture():SetTexCoord(.17, .83, .17, .83)
+	BankItemAutoSortButton:GetPushedTexture():SetTexCoord(.17, .83, .17, .83)
+	B.CreateBDFrame(BankItemAutoSortButton)
+	local highlight = BankItemAutoSortButton:GetHighlightTexture()
+	highlight:SetColorTexture(1, 1, 1, .25)
+	highlight:SetAllPoints(BankItemAutoSortButton)
 
 	hooksecurefunc("BankFrameItemButton_Update", function(button)
 		if not button.isBag and button.IconQuestTexture:IsShown() then
@@ -48,23 +69,27 @@ tinsert(C.defaultThemes, function()
 	end)
 
 	-- [[ Reagent bank ]]
-	B.StripTextures(ReagentBankFrame)
-	B.ReskinButton(ReagentBankFrame.DespositButton)
-	B.ReskinButton(ReagentBankFrameUnlockInfoPurchaseButton)
 
-	ReagentBankFrame:DisableDrawLayer("ARTWORK")
 	ReagentBankFrame:DisableDrawLayer("BACKGROUND")
 	ReagentBankFrame:DisableDrawLayer("BORDER")
+	ReagentBankFrame:DisableDrawLayer("ARTWORK")
 
-	ReagentBankFrame:HookScript("OnShow", function(self)
-		if not self.styled then
+	B.Reskin(ReagentBankFrame.DespositButton)
+	B.Reskin(ReagentBankFrameUnlockInfoPurchaseButton)
+
+	-- make button more visible
+	B.StripTextures(ReagentBankFrameUnlockInfo)
+	ReagentBankFrameUnlockInfoBlackBG:SetColorTexture(.1, .1, .1)
+
+	local reagentButtonsStyled = false
+	ReagentBankFrame:HookScript("OnShow", function()
+		if not reagentButtonsStyled then
 			for i = 1, 98 do
-				local item = _G["ReagentBankFrameItem"..i]
-				styleBankButton(item)
-				BankFrameItemButton_Update(item)
+				local button = _G["ReagentBankFrameItem"..i]
+				styleBankButton(button)
+				BankFrameItemButton_Update(button)
 			end
-
-			self.styled = true
+			reagentButtonsStyled = true
 		end
 	end)
 end)

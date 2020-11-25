@@ -1,6 +1,6 @@
-## Interface: 80300
+## Interface: 90002
 ## Title: WhisperPop
-## Version: 5.00
+## Version: 9.0
 ## Author: Abin
 ## X-Category: Chat/Communication
 ## SavedVariables: WhisperPopDB

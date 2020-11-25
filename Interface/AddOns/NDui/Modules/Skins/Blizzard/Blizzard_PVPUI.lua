@@ -1,142 +1,184 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
+
+local function ReskinPvPFrame(frame)
+	frame:DisableDrawLayer("BACKGROUND")
+	frame:DisableDrawLayer("BORDER")
+	B.ReskinRole(frame.TankIcon, "TANK")
+	B.ReskinRole(frame.HealerIcon, "HEALER")
+	B.ReskinRole(frame.DPSIcon, "DPS")
+
+	local bar = frame.ConquestBar
+	B.StripTextures(bar)
+	B.CreateBDFrame(bar, .25)
+	bar:SetStatusBarTexture(DB.bdTex)
+	bar:GetStatusBarTexture():SetGradient("VERTICAL", 1, .8, 0, 6, .4, 0)
+
+	local reward = bar.Reward
+	reward.Ring:Hide()
+	reward.CircleMask:Hide()
+	B.ReskinIcon(reward.Icon)
+end
+
+local function ConquestFrameButton_OnEnter(self)
+	ConquestTooltip:ClearAllPoints()
+	ConquestTooltip:SetPoint("TOPLEFT", self, "TOPRIGHT", 1, 0)
+end
 
 C.themes["Blizzard_PVPUI"] = function()
-	local cr, cg, cb = DB.r, DB.g, DB.b
+	local r, g, b = DB.r, DB.g, DB.b
 
-	local function reskinButtons(self)
-		B.ReskinButton(self)
-		B.ReskinHighlight(self.SelectedTexture, self, true)
+	local PVPQueueFrame = PVPQueueFrame
+	local HonorFrame = HonorFrame
+	local ConquestFrame = ConquestFrame
 
-		local Reward = self.Reward
-		if Reward then
-			Reward.Border:Hide()
-			Reward.CircleMask:Hide()
-			Reward.icbg = B.ReskinIcon(Reward.Icon)
+	-- Category buttons
 
-			local Bonus = Reward.EnlistmentBonus
-			if Bonus then
-				Bonus:DisableDrawLayer("ARTWORK")
-				Bonus.Icon:SetTexture(GetSpellTexture(241260))
-				Bonus.icbg = B.ReskinIcon(Bonus.Icon)
-				Bonus.icbg:SetFrameLevel(Bonus:GetFrameLevel())
-			end
+	local iconSize = 60-2*C.mult
+	for i = 1, 3 do
+		local bu = PVPQueueFrame["CategoryButton"..i]
+		local icon = bu.Icon
+		local cu = bu.CurrencyDisplay
+
+		bu.Ring:Hide()
+		B.Reskin(bu, true)
+		bu.Background:SetInside(bu.__bg)
+		bu.Background:SetColorTexture(r, g, b, .25)
+
+		icon:SetPoint("LEFT", bu, "LEFT")
+		icon:SetSize(iconSize, iconSize)
+		B.ReskinIcon(icon)
+
+		if cu then
+			local ic = cu.Icon
+
+			ic:SetSize(16, 16)
+			ic:SetPoint("TOPLEFT", bu.Name, "BOTTOMLEFT", 0, -8)
+			cu.Amount:SetPoint("LEFT", ic, "RIGHT", 4, 0)
+			B.ReskinIcon(ic)
 		end
 	end
 
-	-- CategoryButton
-	for i = 1, 3 do
-		local bu = PVPQueueFrame["CategoryButton"..i]
-		B.StripTextures(bu)
-		B.ReskinButton(bu)
-
-		local icon = bu.Icon
-		icon:ClearAllPoints()
-		icon:SetPoint("LEFT", bu, "LEFT")
-		B.ReskinIcon(icon)
-	end
+	PVPQueueFrame.CategoryButton1.Icon:SetTexture("Interface\\Icons\\achievement_bg_winwsg")
+	PVPQueueFrame.CategoryButton2.Icon:SetTexture("Interface\\Icons\\achievement_bg_killxenemies_generalsroom")
+	PVPQueueFrame.CategoryButton3.Icon:SetTexture("Interface\\Icons\\ability_warrior_offensivestance")
 
 	hooksecurefunc("PVPQueueFrame_SelectButton", function(index)
+		local self = PVPQueueFrame
 		for i = 1, 3 do
-			local button = PVPQueueFrame["CategoryButton"..i]
+			local bu = self["CategoryButton"..i]
 			if i == index then
-				button:SetBackdropColor(cr, cg, cb, .25)
+				bu.Background:SetAlpha(1)
 			else
-				button:SetBackdropColor(0, 0, 0, 0)
+				bu.Background:SetAlpha(0)
 			end
 		end
 	end)
 
-	PVPQueueFrame.CategoryButton1.Icon:SetTexture("Interface\\Icons\\achievement_bg_winwsg")
-	PVPQueueFrame.CategoryButton2.Icon:SetTexture("Interface\\Icons\\achievement_bg_killxenemies_generalsroom")
-	PVPQueueFrame.CategoryButton3.Icon:SetTexture("Interface\\Icons\\INV_Misc_GroupNeedMore")
-
-	-- PVPQueueFrame
+	PVPQueueFrame.CategoryButton1.Background:SetAlpha(1)
 	B.StripTextures(PVPQueueFrame.HonorInset)
 
-	local NewSeason = PVPQueueFrame.NewSeasonPopup
-	B.ReskinButton(NewSeason.Leave)
-	NewSeason.NewSeason:SetTextColor(1, .8, 0)
-	NewSeason.SeasonDescription:SetTextColor(1, 1, 1)
-	NewSeason.SeasonDescription2:SetTextColor(1, 1, 1)
+	local popup = PVPQueueFrame.NewSeasonPopup
+	B.Reskin(popup.Leave)
+	popup.Leave.__bg:SetFrameLevel(popup:GetFrameLevel() + 1)
+	popup.NewSeason:SetTextColor(1, .8, 0)
+	popup.SeasonRewardText:SetTextColor(1, .8, 0)
+	popup.SeasonDescription:SetTextColor(1, 1, 1)
+	popup.SeasonDescription2:SetTextColor(1, 1, 1)
 
-	local frames = {NewSeason.SeasonRewardFrame, PVPQueueFrame.HonorInset.RatedPanel.SeasonRewardFrame}
-	for _, frame in pairs(frames) do
-		frame.Ring:Hide()
-		frame.CircleMask:Hide()
-		B.ReskinIcon(frame.Icon)
-	end
+	local SeasonRewardFrame = popup.SeasonRewardFrame
+	SeasonRewardFrame.CircleMask:Hide()
+	SeasonRewardFrame.Ring:Hide()
+	local bg = B.ReskinIcon(SeasonRewardFrame.Icon)
+	bg:SetFrameLevel(4)
 
-	-- HonorFrame
-	B.StripTextures(HonorFrame)
-	B.ReskinButton(HonorFrame.QueueButton)
+	local seasonReward = PVPQueueFrame.HonorInset.RatedPanel.SeasonRewardFrame
+	seasonReward.Ring:Hide()
+	seasonReward.CircleMask:Hide()
+	B.ReskinIcon(seasonReward.Icon)
+
+	-- Honor frame
+
+	HonorFrame.Inset:Hide()
+	ReskinPvPFrame(HonorFrame)
+	B.Reskin(HonorFrame.QueueButton)
 	B.ReskinDropDown(HonorFrameTypeDropDown)
 	B.ReskinScroll(HonorFrameSpecificFrameScrollBar)
-	B.ReskinClose(PremadeGroupsPvPTutorialAlert.CloseButton)
 
-	local BonusFrame = HonorFrame.BonusFrame
-	B.StripTextures(BonusFrame)
+	local bonusFrame = HonorFrame.BonusFrame
+	bonusFrame.WorldBattlesTexture:Hide()
+	bonusFrame.ShadowOverlay:Hide()
 
 	for _, bonusButton in pairs({"RandomBGButton", "RandomEpicBGButton", "Arena1Button", "BrawlButton", "SpecialEventButton"}) do
-		reskinButtons(BonusFrame[bonusButton])
+		local bu = bonusFrame[bonusButton]
+		B.Reskin(bu, true)
+		bu.SelectedTexture:SetDrawLayer("BACKGROUND")
+		bu.SelectedTexture:SetColorTexture(r, g, b, .25)
+		bu.SelectedTexture:SetInside(bu.__bg)
+
+		local reward = bu.Reward
+		if reward then
+			reward.Border:Hide()
+			reward.CircleMask:Hide()
+			reward.Icon.bg = B.ReskinIcon(reward.Icon)
+		end
 	end
 
-	for i = 1, 9 do
-		local bu = _G["HonorFrameSpecificFrameButton"..i]
+	-- Honor frame specific
+
+	for _, bu in pairs(HonorFrame.SpecificFrame.buttons) do
 		bu.Bg:Hide()
 		bu.Border:Hide()
 
-		local icbg = B.ReskinIcon(bu.Icon)
-		local bubg = B.CreateBGFrame(bu, 2, 0, -2, 0, icbg)
-		B.ReskinHighlight(bu.HighlightTexture, bubg, true)
-		B.ReskinHighlight(bu.SelectedTexture, bubg, true)
+		bu:SetNormalTexture("")
+		bu:SetHighlightTexture("")
 
-		local name = bu.NameText
-		name:ClearAllPoints()
-		name:SetPoint("LEFT", bubg, 2, 0)
+		local bg = B.CreateBDFrame(bu, 0, true)
+		bg:SetPoint("TOPLEFT", 2, 0)
+		bg:SetPoint("BOTTOMRIGHT", -1, 2)
 
-		local size = bu.SizeText
-		size:ClearAllPoints()
-		size:SetPoint("TOPRIGHT", bubg, -1, -2)
+		bu.SelectedTexture:SetDrawLayer("BACKGROUND")
+		bu.SelectedTexture:SetColorTexture(r, g, b, .25)
+		bu.SelectedTexture:SetInside(bg)
 
-		local info = bu.InfoText
-		info:ClearAllPoints()
-		info:SetPoint("BOTTOMRIGHT", bubg, -1, 3)
+		B.ReskinIcon(bu.Icon)
+		bu.Icon:SetPoint("TOPLEFT", 5, -3)
 	end
 
-	-- ConquestFrame
-	B.StripTextures(ConquestFrame)
-	B.ReskinButton(ConquestFrame.JoinButton)
+	-- Conquest Frame
 
-	for _, conquestButton in pairs({"Arena2v2", "Arena3v3", "RatedBG"}) do
-		reskinButtons(ConquestFrame[conquestButton])
-	end
+	ReskinPvPFrame(ConquestFrame)
+	ConquestFrame.Inset:Hide()
+	ConquestFrame.RatedBGTexture:Hide()
+	ConquestFrame.ShadowOverlay:Hide()
+	ConquestFrame.Arena2v2:HookScript("OnEnter", ConquestFrameButton_OnEnter)
+	ConquestFrame.Arena3v3:HookScript("OnEnter", ConquestFrameButton_OnEnter)
+	ConquestFrame.RatedBG:HookScript("OnEnter", ConquestFrameButton_OnEnter)
+	B.Reskin(ConquestFrame.JoinButton)
 
-	-- reskin bar and role
-	for _, frame in pairs({HonorFrame, ConquestFrame}) do
-		B.ReskinRole(frame.TankIcon, "TANK")
-		B.ReskinRole(frame.HealerIcon, "HEALER")
-		B.ReskinRole(frame.DPSIcon, "DPS")
-		B.ReskinStatusBar(frame.ConquestBar)
+	for _, bu in pairs({ConquestFrame.Arena2v2, ConquestFrame.Arena3v3, ConquestFrame.RatedBG}) do
+		B.Reskin(bu, true)
+		local reward = bu.Reward
+		if reward then
+			reward.Border:Hide()
+			reward.CircleMask:Hide()
+			reward.Icon.bg = B.ReskinIcon(reward.Icon)
+		end
 
-		local Reward = frame.ConquestBar.Reward
-		Reward:ClearAllPoints()
-		Reward:SetPoint("LEFT", frame.ConquestBar, "RIGHT", 2, 0)
-		Reward.CircleMask:Hide()
-		Reward.Ring:Hide()
-		B.ReskinIcon(Reward.Icon)
-
-		hooksecurefunc(frame.ConquestBar, "Update", function(self)
-			self.Reward:SetShown(IsPlayerAtEffectiveMaxLevel())
-		end)
+		bu.SelectedTexture:SetDrawLayer("BACKGROUND")
+		bu.SelectedTexture:SetColorTexture(r, g, b, .25)
+		bu.SelectedTexture:SetInside(bu.__bg)
 	end
 
 	-- Item Borders for HonorFrame & ConquestFrame
+
 	hooksecurefunc("PVPUIFrame_ConfigureRewardFrame", function(rewardFrame, _, _, itemRewards, currencyRewards)
-		local rewardTexture, rewardQuaility, _ = nil, 1
+		local rewardTexture, rewardQuaility = nil, 1
 
 		if currencyRewards then
-			for _, reward in pairs(currencyRewards) do
-				local name, _, texture, _, _, _, _, quality = GetCurrencyInfo(reward.id)
+			for _, reward in ipairs(currencyRewards) do
+				local info = C_CurrencyInfo.GetCurrencyInfo(reward.id)
+				local name, texture, quality = info.name, info.iconFileID, info.quality
 				if quality == _G.LE_ITEM_QUALITY_ARTIFACT then
 					_, rewardTexture, _, rewardQuaility = CurrencyContainerUtil.GetCurrencyContainerInfo(reward.id, reward.quantity, name, texture, quality)
 				end
@@ -152,8 +194,8 @@ C.themes["Blizzard_PVPUI"] = function()
 
 		if rewardTexture then
 			rewardFrame.Icon:SetTexture(rewardTexture)
-			local r, g, b = GetItemQualityColor(rewardQuaility or 1)
-			rewardFrame.icbg:SetBackdropBorderColor(r, g, b)
+			local color = DB.QualityColors[rewardQuaility]
+			rewardFrame.Icon.bg:SetBackdropBorderColor(color.r, color.g, color.b)
 		end
 	end)
 end

@@ -264,8 +264,8 @@ L["STRING_GUILDDAMAGERANK_PLAYERBASE_PLAYER"] = "Player"
 L["STRING_GUILDDAMAGERANK_PLAYERBASE_RAID"] = "All Players"
 L["STRING_GUILDDAMAGERANK_RAID"] = "Raid"
 L["STRING_GUILDDAMAGERANK_ROLE"] = "Role"
-L["STRING_GUILDDAMAGERANK_SHOWHISTORY"] = "Show History"
-L["STRING_GUILDDAMAGERANK_SHOWRANK"] = "Show Guild Rank"
+L["STRING_GUILDDAMAGERANK_SHOWHISTORY"] = "Kill Timeline"
+L["STRING_GUILDDAMAGERANK_SHOWRANK"] = "Guild Rank"
 L["STRING_GUILDDAMAGERANK_SYNCBUTTONTEXT"] = "Sync With Guild"
 L["STRING_GUILDDAMAGERANK_TUTORIAL_DESC"] = "Details! store the damage and healing done for each boss encounter you run with your guild.\\n\\nBrowse the history by checking the box '|cFFFFFF00Show History|r', results for all fights will be displayed.\\n By selecting '|cFFFFFF00Show Guild Rank|r', the top scores for the selected boss is shown.\\n\\nIf you are using this tool for the first time or if you lost a day of raiding, click on the '|cFFFFFF00Sync With Guild|r' button."
 L["STRING_GUILDDAMAGERANK_WINDOWALERT"] = "Boss Defeated! Show Ranking"
@@ -510,7 +510,7 @@ L["STRING_OPTIONS_BARSTART_DESC"] = [=[When disabled the top texture starts at t
 This is useful when using an icon pack with transparent areas.]=]
 L["STRING_OPTIONS_BARUR_ANCHOR"] = "Fast Updates"
 L["STRING_OPTIONS_BARUR_DESC"] = "When enabled, DPS and HPS values are updated just a little bit faster than usual."
-L["STRING_OPTIONS_BG_ALL_ALLY"] = "Show All"
+L["STRING_OPTIONS_BG_ALL_ALLY"] = "Battleground Show Enemies"
 L["STRING_OPTIONS_BG_ALL_ALLY_DESC"] = [=[When enabled, enemy players are also shown when the window is in Group Mode.
 
 |cFFFFFF00Important|r: changes are applied after the next time entering combat.]=]
@@ -662,7 +662,7 @@ L["STRING_OPTIONS_DEATHLIMIT"] = "Death Events Amount"
 L["STRING_OPTIONS_DEATHLIMIT_DESC"] = [=[Set the amount of events to show on death display.
 
 |cFFFFFF00Important|r: only applies to new deaths after change.]=]
-L["STRING_OPTIONS_DEATHLOG_MINHEALING"] = "Death Log Minimum Healing"
+L["STRING_OPTIONS_DEATHLOG_MINHEALING"] = "DeathLog Min Healing"
 L["STRING_OPTIONS_DEATHLOG_MINHEALING_DESC"] = [=[Death log won't show heals below this threshold.
 
 |cFFFFFF00Tip|r: right click to manually enter the value.]=]
@@ -971,7 +971,7 @@ L["STRING_OPTIONS_REALMNAME_DESC"] = [=[When enabled, the character realm name i
 |cFFFFFF00Disabled|r: Charles-Netherwing
 |cFFFFFF00Enabled|r: Charles]=]
 L["STRING_OPTIONS_REPORT_ANCHOR"] = "Report:"
-L["STRING_OPTIONS_REPORT_HEALLINKS"] = "Helpful Spell Links"
+L["STRING_OPTIONS_REPORT_HEALLINKS"] = "Healing Spell Links"
 L["STRING_OPTIONS_REPORT_HEALLINKS_DESC"] = [=[When sending a report and this option is enabled, |cFF55FF55helpful|r spells are reported with the spell link instead of its name.
 
 |cFFFF5555Harmful|r spells are reported with links by default.]=]
@@ -1292,33 +1292,32 @@ L["STRING_OPTIONS_WALLPAPER_FILE"] = "File:"
 L["STRING_OPTIONS_WALLPAPER_GREEN"] = "Green:"
 L["STRING_OPTIONS_WALLPAPER_LOAD"] = "Load Image"
 L["STRING_OPTIONS_WALLPAPER_LOAD_DESC"] = "Select a image from your hard drive to use as wallpaper."
-L["STRING_OPTIONS_WALLPAPER_LOAD_EXCLAMATION"] = [=[The image needs:
+L["STRING_OPTIONS_WALLPAPER_LOAD_EXCLAMATION"] = [=[How to load an image:
 
-- To be in Truevision TGA format (.tga extension).
-- Be inside WOW/Interface/ root folder.
-- The size must be 256 x 256 pixels.
-- The game must be closed before copying the file.]=]
+- The width and height must be 128, 256 or 512 pixels (512 x 256 as an example).
+- Save the image as a .TGA inside the folder WOW/_retail_/Interface/
+- Close and reopen the game.]=]
 L["STRING_OPTIONS_WALLPAPER_LOAD_FILENAME"] = "File Name:"
 L["STRING_OPTIONS_WALLPAPER_LOAD_FILENAME_DESC"] = "Insert only the name of the file, excluding path and extension."
 L["STRING_OPTIONS_WALLPAPER_LOAD_OKEY"] = "Load"
-L["STRING_OPTIONS_WALLPAPER_LOAD_TITLE"] = "From Computer:"
+L["STRING_OPTIONS_WALLPAPER_LOAD_TITLE"] = "Your Custom Wallpaper"
 L["STRING_OPTIONS_WALLPAPER_LOAD_TROUBLESHOOT"] = "Troubleshoot"
 L["STRING_OPTIONS_WALLPAPER_LOAD_TROUBLESHOOT_TEXT"] = [=[If the wallpaper displays full green color:
 
 - Restart the wow client.
 - Make sure the image is 256 width and 256 height.
 - Check if the image is in .TGA format and make sure it's saved with 32 bits/pixel.
-- Is inside Interface folder, for example: C:/Program Files/World of Warcraft/Interface/]=]
+- Is inside Interface folder, for example: C:/Program Files/World of Warcraft/_retail_/Interface/]=]
 L["STRING_OPTIONS_WALLPAPER_RED"] = "Red:"
 L["STRING_OPTIONS_WC_ANCHOR"] = "Quick Window Control (#%s):"
 L["STRING_OPTIONS_WC_BOOKMARK"] = "Manage Bookmarks"
 L["STRING_OPTIONS_WC_BOOKMARK_DESC"] = "Open config panel for bookmarks."
 L["STRING_OPTIONS_WC_CLOSE"] = "Close"
-L["STRING_OPTIONS_WC_CLOSE_DESC"] = [=[Close the current editing window.
+L["STRING_OPTIONS_WC_CLOSE_DESC"] = [=[Close the window.
 
 When closed, the window is considered inactive and can be reopened at any time using the Window Control menu.
 
-|cFFFFFF00Important:|r to completely remove a window, go to 'Window: General' section.]=]
+|cFFFFFF00Important:|r to completely remove a window, go to 'Window Body' section.]=]
 L["STRING_OPTIONS_WC_CREATE"] = "Create Window"
 L["STRING_OPTIONS_WC_CREATE_DESC"] = "Create a new window."
 L["STRING_OPTIONS_WC_LOCK"] = "Lock"
@@ -1370,7 +1369,7 @@ L["STRING_OPTIONS_WP_GROUP"] = "Category"
 L["STRING_OPTIONS_WP_GROUP_DESC"] = "Select the image group."
 L["STRING_OPTIONS_WP_GROUP2"] = "Wallpaper"
 L["STRING_OPTIONS_WP_GROUP2_DESC"] = "The image which will be used as wallpaper."
-L["STRING_OPTIONSMENU_AUTOMATIC"] = "Window: Automation"
+L["STRING_OPTIONSMENU_AUTOMATIC"] = "Automation"
 L["STRING_OPTIONSMENU_AUTOMATIC_TITLE"] = "Window Automatization Settings"
 L["STRING_OPTIONSMENU_AUTOMATIC_TITLE_DESC"] = "These settings controls the automatic behaviors the window has, such as auto hide and auto switch."
 L["STRING_OPTIONSMENU_COMBAT"] = "PvE PvP"
@@ -1390,12 +1389,12 @@ L["STRING_OPTIONSMENU_ROWMODELS"] = "Bars: Advanced"
 L["STRING_OPTIONSMENU_ROWSETTINGS"] = "Bars: General"
 L["STRING_OPTIONSMENU_ROWTEXTS"] = "Bars: Texts"
 L["STRING_OPTIONSMENU_SKIN"] = "Skins"
-L["STRING_OPTIONSMENU_SPELLS"] = "Spell Customization"
-L["STRING_OPTIONSMENU_SPELLS_CONSOLIDATE"] = "Consolidate common spells with the same name"
+L["STRING_OPTIONSMENU_SPELLS"] = "Rename Spells"
+L["STRING_OPTIONSMENU_SPELLS_CONSOLIDATE"] = "Merge Spells With the Same Name"
 L["STRING_OPTIONSMENU_TITLEBAR"] = "Title Bar"
 L["STRING_OPTIONSMENU_TITLETEXT"] = "Title Bar: Text"
 L["STRING_OPTIONSMENU_TOOLTIP"] = "Tooltips"
-L["STRING_OPTIONSMENU_WALLPAPER"] = "Window: Wallpaper"
+L["STRING_OPTIONSMENU_WALLPAPER"] = "Wallpaper"
 L["STRING_OPTIONSMENU_WINDOW"] = "Window: General"
 L["STRING_OPTIONSMENU_WINDOWBODY"] = "Window Body"
 L["STRING_OVERALL"] = "Overall"

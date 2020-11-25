@@ -129,9 +129,6 @@ local function Enable(self)
 		element:SetScript("OnUpdate", updateTimer)
 
 		self:RegisterEvent("PLAYER_ENTERING_WORLD", checkAffixes, true)
-
-		element:Hide()
-
 		return true
 	end
 end
@@ -148,8 +145,6 @@ local function Disable(self)
 		self:UnregisterEvent("UNIT_SPELLCAST_STOP", onEvent)
 		self:UnregisterEvent("UNIT_SPELLCAST_CHANNEL_START", onEvent)
 		self:UnregisterEvent("UNIT_SPELLCAST_CHANNEL_STOP", onEvent)
-
-		element:Hide()
 	end
 end
 

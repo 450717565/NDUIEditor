@@ -9,7 +9,7 @@ local activeObjects = {}
 local handledObjects = {}
 
 local TARGET_FPS = 60
-local AMOUNT = .4
+local AMOUNT = .33
 
 local function clamp(v, min, max)
 	min = min or 0
@@ -78,45 +78,45 @@ local function bar_SetSmoothedMinMaxValues(self, min, max)
 	self._max = max
 end
 
-function B:SmoothBar()
-	self._min, self._max = self:GetMinMaxValues()
-	self._value = self:GetValue()
+function B:SmoothBar(bar)
+	bar._min, bar._max = bar:GetMinMaxValues()
+	bar._value = bar:GetValue()
 
-	self.SetValue_ = self.SetValue
-	self.SetMinMaxValues_ = self.SetMinMaxValues
-	self.SetValue = bar_SetSmoothedValue
-	self.SetMinMaxValues = bar_SetSmoothedMinMaxValues
+	bar.SetValue_ = bar.SetValue
+	bar.SetMinMaxValues_ = bar.SetMinMaxValues
+	bar.SetValue = bar_SetSmoothedValue
+	bar.SetMinMaxValues = bar_SetSmoothedMinMaxValues
 
-	handledObjects[self] = true
+	handledObjects[bar] = true
 
 	if not frame:GetScript("OnUpdate") then
 		frame:SetScript("OnUpdate", onUpdate)
 	end
 end
 
-function B:DesmoothBar()
-	if activeObjects[self] then
-		self:SetValue_(activeObjects[self])
-		activeObjects[self] = nil
+function B:DesmoothBar(bar)
+	if activeObjects[bar] then
+		bar:SetValue_(activeObjects[bar])
+		activeObjects[bar] = nil
 	end
 
-	if self.SetValue_ then
-		self.SetValue = self.SetValue_
-		self.SetValue_ = nil
+	if bar.SetValue_ then
+		bar.SetValue = bar.SetValue_
+		bar.SetValue_ = nil
 	end
 
-	if self.SetMinMaxValues_ then
-		self.SetMinMaxValues = self.SetMinMaxValues_
-		self.SetMinMaxValues_ = nil
+	if bar.SetMinMaxValues_ then
+		bar.SetMinMaxValues = bar.SetMinMaxValues_
+		bar.SetMinMaxValues_ = nil
 	end
 
-	handledObjects[self] = nil
+	handledObjects[bar] = nil
 
 	if not next(handledObjects) then
 		frame:SetScript("OnUpdate", nil)
 	end
 end
 
-function B:SetSmoothingAmount()
-	AMOUNT = clamp(self, .2, .8)
+function B:SetSmoothingAmount(amount)
+	AMOUNT = clamp(amount, .15, .6)
 end

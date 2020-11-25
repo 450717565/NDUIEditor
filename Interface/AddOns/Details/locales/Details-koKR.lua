@@ -262,8 +262,8 @@ L["STRING_GUILDDAMAGERANK_PLAYERBASE_PLAYER"] = "플레이어"
 L["STRING_GUILDDAMAGERANK_PLAYERBASE_RAID"] = "모든 플레이어"
 L["STRING_GUILDDAMAGERANK_RAID"] = "공격대"
 L["STRING_GUILDDAMAGERANK_ROLE"] = "역할"
-L["STRING_GUILDDAMAGERANK_SHOWHISTORY"] = "기록 표시"
-L["STRING_GUILDDAMAGERANK_SHOWRANK"] = "길드 순위 표시"
+L["STRING_GUILDDAMAGERANK_SHOWHISTORY"] = "기록"
+L["STRING_GUILDDAMAGERANK_SHOWRANK"] = "길드 순위"
 L["STRING_GUILDDAMAGERANK_SYNCBUTTONTEXT"] = "길드와 동기화"
 L["STRING_GUILDDAMAGERANK_TUTORIAL_DESC"] = "Details!가 길드로 진행한 각 우두머리 전투의 피해량과 치유량을 저장합니다.\\n\\n'|cFFFFFF00기록 표시|r'를 선택하여 기록을 탐색하세요, 모든 전투 결과가 표시됩니다.\\n '|cFFFFFF00길드 순위 표시|r'를 선택하면 선택한 우두머리의 상위 점수가 표시됩니다.\\n\\n이 도구를 처음 사용하거나 공격대 진행에 참여하지 않았다면  '|cFFFFFF00길드와 동기화|r' 버튼을 클릭하세요."
 L["STRING_GUILDDAMAGERANK_WINDOWALERT"] = "우두머리 처치! 순위 표시"
@@ -509,7 +509,7 @@ L["STRING_OPTIONS_BARSTART_DESC"] = [=[비활성하면 상위 무늬를 아이�
 투명 영역이 있는 아이콘 묶음을 사용할 때 유용합니다.]=]
 L["STRING_OPTIONS_BARUR_ANCHOR"] = "빠른 갱신:"
 L["STRING_OPTIONS_BARUR_DESC"] = "사용하면, DPS와 HPS 값이 보통보다 조금 더 빠르게 갱신 됩니다."
-L["STRING_OPTIONS_BG_ALL_ALLY"] = "모두 표시"
+L["STRING_OPTIONS_BG_ALL_ALLY"] = "전장 쇼 적"
 L["STRING_OPTIONS_BG_ALL_ALLY_DESC"] = [=[활성화하면 창이 그룹 모드일 경우 적 플레이어도 보여집니다.
 
 |cFFFFFF00중요|r: 다음 전투부터 적용됩니다.]=]
@@ -1304,11 +1304,7 @@ L["STRING_OPTIONS_WC_ANCHOR"] = "빠른 창 제어 (#%s):"
 L["STRING_OPTIONS_WC_BOOKMARK"] = "북마크 관리"
 L["STRING_OPTIONS_WC_BOOKMARK_DESC"] = "북마크 설정 창을 엽니다."
 L["STRING_OPTIONS_WC_CLOSE"] = "닫기"
-L["STRING_OPTIONS_WC_CLOSE_DESC"] = [=[현재 편집 중인 창을 닫습니다.
-
-닫혀 있을 때 창은 비활성 상태가 되며 언제든지 창 제어 메뉴를 통해 다시 열 수 있습니다.
-
-|cFFFFFF00중요:|r 창을 완전히 제거하려면 "창: 일반" 항목으로 가세요.]=]
+L["STRING_OPTIONS_WC_CLOSE_DESC"] = "현재 편집 중인 창을 닫습니다. 닫혀 있을 때 창은 비활성 상태가 되며 언제든지 창 제어 메뉴를 통해 다시 열 수 있습니다. |cFFFFFF00중요:|r 창을 완전히 제거하려면 \"창: 일반\" 항목으로 가세요."
 L["STRING_OPTIONS_WC_CREATE"] = "창 생성"
 L["STRING_OPTIONS_WC_CREATE_DESC"] = "새 창을 만듭니다."
 L["STRING_OPTIONS_WC_LOCK"] = "잠금"

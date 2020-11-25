@@ -10,8 +10,8 @@ local GetInventoryItemTexture, GetInventoryItemLink, GetItemInfo, GetItemGem, Ge
 local GetSpecialization, GetSpecializationInfo, GetInspectSpecialization, GetSpecializationInfoByID = GetSpecialization, GetSpecializationInfo, GetInspectSpecialization, GetSpecializationInfoByID
 local HEIRLOOMS, LE_ITEM_QUALITY_ARTIFACT, LE_ITEM_QUALITY_HEIRLOOM = HEIRLOOMS, LE_ITEM_QUALITY_ARTIFACT, LE_ITEM_QUALITY_HEIRLOOM
 
-local specPrefix = SPECIALIZATION..L[":"]..DB.InfoColor
-local levelPrefix = STAT_AVERAGE_ITEM_LEVEL..L[":"]..DB.InfoColor
+local specPrefix = SPECIALIZATION..": "..DB.InfoColor
+local levelPrefix = STAT_AVERAGE_ITEM_LEVEL..": "..DB.InfoColor
 local isPending = LFG_LIST_LOADING
 local resetTime, frequency = 900, .5
 local cache, weapon, currentUNIT, currentGUID = {}, {}
@@ -230,7 +230,7 @@ function TT:InspectUnit(unit, forced)
 		level = currentDB.level
 		self:SetupSpecLevel(spec, level)
 
-		if not NDuiDB["Tooltip"]["SpecLevelByShift"] and IsShiftKeyDown() then forced = true end
+		if not C.db["Tooltip"]["SpecLevelByShift"] and IsShiftKeyDown() then forced = true end
 		if spec and level and not forced and (GetTime() - currentDB.getTime < resetTime) then updater.elapsed = frequency return end
 		if not UnitIsVisible(unit) or UnitIsDeadOrGhost("player") or UnitOnTaxi("player") then return end
 		if InspectFrame and InspectFrame:IsShown() then return end
@@ -241,7 +241,7 @@ function TT:InspectUnit(unit, forced)
 end
 
 function TT:InspectUnitSpecAndLevel()
-	if NDuiDB["Tooltip"]["SpecLevelByShift"] and not IsShiftKeyDown() then return end
+	if C.db["Tooltip"]["SpecLevelByShift"] and not IsShiftKeyDown() then return end
 
 	local _, unit = self:GetUnit()
 	if not unit or not CanInspect(unit) then return end

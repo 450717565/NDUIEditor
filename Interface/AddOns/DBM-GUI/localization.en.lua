@@ -6,7 +6,7 @@ L.MainFrame = "Deadly Boss Mods"
 
 L.TranslationByPrefix		= "Translated by "
 L.TranslationBy 			= nil -- your name here, localizers!
-L.Website					= "Visit us on discord at |cFF73C2FBhttps://discord.gg/DF5mffk|r. Follow on twitter @deadlybossmods or @MysticalOS"
+L.Website					= "Visit us on discord at |cFF73C2FBhttps://discord.gg/deadlybossmods|r. Follow on twitter @deadlybossmods or @MysticalOS"
 L.WebsiteButton				= "Website"
 
 L.OTabBosses	= "Bosses"--Deprecated and will be deleted once tabs no longer use this
@@ -16,7 +16,7 @@ L.OTabPlugins	= "Core Plugins"
 L.OTabOptions	= GAMEOPTIONS_MENU
 L.OTabAbout		= "About"
 
-L.TabCategory_SHADOWLANDS	= EXPANSION_NAME8 or "Shadowlands"
+L.TabCategory_SHADOWLANDS	= EXPANSION_NAME8
 L.TabCategory_BFA	 		= EXPANSION_NAME7
 L.TabCategory_LEG	 		= EXPANSION_NAME6
 L.TabCategory_WOD	 		= EXPANSION_NAME5
@@ -335,13 +335,14 @@ L.TabCategory_Filters	 	= "Global Disables & Filters"
 L.Area_DBMFiltersSetup		= "DBM Filters guide"
 L.Area_BlizzFiltersSetup	= "Blizzard Filters guide"
 -- Panel: DBM Features
-L.Panel_SpamFilter			= "DBM Features"
-L.Area_SpamFilter_Anounces	= "Announce Global Disable & Filter Options"
-L.SpamBlockNoShowAnnounce	= "Do not show text or play sound for ANY general announcements"
-L.SpamBlockNoShowTgtAnnounce= "Do not show text or play sound for TARGET general announcements (above filter overrides this one)"
-L.SpamBlockNoSpecWarnText	= "Do not show special announce text"
-L.SpamBlockNoSpecWarnFlash	= "Do not show special announce screen flash"
-L.SpamBlockNoSpecWarnSound	= "Do not play special announce sounds (still permits voice packs, if one is enabled in Spoken Alerts panel)"
+L.Panel_SpamFilter					= "DBM Features"
+L.Area_SpamFilter_Anounces			= "Announce Global Disable & Filter Options"
+L.SpamBlockNoShowAnnounce			= "Do not show text or play sound for ANY general announcements"
+L.SpamBlockNoShowTgtAnnounce		= "Do not show text or play sound for TARGET general announcements (above filter overrides this one)"
+L.SpamBlockNoSpecWarnText			= "Do not show special announce text"
+L.SpamBlockNoSpecWarnFlash			= "Do not show special announce screen flash"
+L.SpamBlockNoSpecWarnSound			= "Do not play special announce sounds (still permits voice packs, if one is enabled in Spoken Alerts panel)"
+L.SpamBlockNoTrivialSpecWarnSound	= "Do not play special announce sounds for content that is trivial for your level (plays user selected regular announce sound instead)"
 
 L.Area_SpamFilter_Timers	= "Timer Global Disable & Filter Options"
 L.SpamBlockNoShowTimers		= "Do not show mod timers (Boss Mod/CM/LFG/Respawn)"

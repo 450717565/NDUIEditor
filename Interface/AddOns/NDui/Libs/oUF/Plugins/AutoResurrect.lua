@@ -8,62 +8,56 @@ local oUF = ns.oUF or oUF
 
 local classList = {
 	["DEATHKNIGHT"] = {
-		combat = GetSpellInfo(61999),		-- 复活盟友
+		combat = GetSpellInfo(61999),	-- Raise Ally
 	},
 	["DRUID"] = {
-		combat = GetSpellInfo(20484),		-- 复生
-		oneres = GetSpellInfo(50769),		-- 起死回生
-		allres = GetSpellInfo(212040),		-- 新生
-	},
-	["HUNTER"] = {
-		[1] = GetSpellInfo(126393),		-- 永恒守护者
-		[2] = GetSpellInfo(159931),		-- 赤精之赐
-		[3] = GetSpellInfo(159956),		-- 生命之尘
+		combat = GetSpellInfo(20484),	-- Rebirth
+		ooc = GetSpellInfo(50769),		-- Revive
 	},
 	["MONK"] = {
-		oneres = GetSpellInfo(115178),		-- 轮回转世
-		allres = GetSpellInfo(212051),		-- 死而复生
+		ooc = GetSpellInfo(115178),		-- Resuscitate
 	},
 	["PALADIN"] = {
-		oneres = GetSpellInfo(7328),		-- 救赎
-		allres = GetSpellInfo(212056),		-- 宽恕
+		ooc = GetSpellInfo(7328),		-- Redemption
 	},
 	["PRIEST"] = {
-		oneres = GetSpellInfo(2006),		-- 复活术
-		allres = GetSpellInfo(212036),		-- 群体复活
+		ooc = GetSpellInfo(2006),		-- Resurrection
 	},
 	["SHAMAN"] = {
-		oneres = GetSpellInfo(2008),		-- 先祖之魂
-		allres = GetSpellInfo(212048),		-- 先祖视界
+		ooc = GetSpellInfo(2008),		-- Ancestral Spirit
 	},
 	["WARLOCK"] = {
-		combat = GetSpellInfo(20707),		-- 灵魂石
+		combat = GetSpellInfo(20707),	-- Soulstone
 	},
+	--["HUNTER"] = {},	-- blz has removed hunter res
+}
+
+local hunterRes = {
+	[1] = GetSpellInfo(126393),			-- Eternal Guardian
+	[2] = GetSpellInfo(159931),			-- Gift of Chiji
+	[3] = GetSpellInfo(159956),			-- Dust of Life
 }
 
 local body = ""
 local function macroBody(class)
-	body = "/stopmacro [@mouseover,harm,nodead][harm,nodead]\n"
-	body = "/stopcasting\n"
+	body = "/stopmacro [@mouseover,nodead]\n"
 
 	if class == "HUNTER" then
-		for i = 1, #classList.HUNTER do
-			local hunterSpell = classList.HUNTER[i]
-			body = body.."/cast [combat,@mouseover,help,dead][combat,help,dead] "..hunterSpell.."\n"
+		for i = 1, #hunterRes do
+			body = body.."/cast [@mouseover,help,dead]"..hunterRes[i].."\n"
 		end
 	else
 		local combatSpell = classList[class].combat
-		local oneresSpell = classList[class].oneres
-		local allresSpell = classList[class].allres
-
+		local oocSpell = classList[class].ooc
 		if combatSpell then
-			body = body.."/cast [combat,@mouseover,help,dead][combat,help,dead] "..combatSpell.."\n"
-		end
-		if allresSpell then
-			body = body.."/cast [nocombat] "..allresSpell.."\n"
-		end
-		if oneresSpell then
-			body = body.."/cast [nocombat,@mouseover,help,dead][nocombat,help,dead] "..oneresSpell.."\n"
+			if oocSpell then
+				body = body.."/cast [combat,@mouseover,help,dead] "..combatSpell.."; "
+				body = body.."[@mouseover,help,dead] "..oocSpell
+			else
+				body = body.."/cast [@mouseover,help,dead] "..combatSpell
+			end
+		elseif oocSpell then
+			body = body.."/cast [@mouseover,help,dead] "..oocSpell
 		end
 	end
 
@@ -81,7 +75,7 @@ local function setupAttribute(self)
 end
 
 local Enable = function(self)
-	if not NDuiDB["UFs"]["AutoRes"] then return end
+	if not C.db["UFs"]["AutoRes"] then return end
 
 	if InCombatLockdown() then
 		self:RegisterEvent("PLAYER_REGEN_ENABLED", setupAttribute, true)
@@ -91,7 +85,7 @@ local Enable = function(self)
 end
 
 local Disable = function(self)
-	if NDuiDB["UFs"]["AutoRes"] then return end
+	if C.db["UFs"]["AutoRes"] then return end
 
 	self:SetAttribute("*type3", nil)
 	self:UnregisterEvent("PLAYER_REGEN_ENABLED", setupAttribute)

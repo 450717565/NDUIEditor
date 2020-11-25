@@ -33,6 +33,7 @@ local frames = {
 	["PetitionFrame"] = false,
 	["PetStableFrame"] = false,
 	["PVEFrame"] = false,
+	["QuestFrame"] = false,
 	["RaidParentFrame"] = false,
 	["ReputationFrame"] = true,
 	["SendMailFrame"] = true,
@@ -67,12 +68,13 @@ local lodFrames = {
 	Blizzard_AzeriteEssenceUI	= { ["AzeriteEssenceUI"] = false },
 	Blizzard_AzeriteRespecUI	= { ["AzeriteRespecFrame"] = false },
 	Blizzard_AzeriteUI			= { ["AzeriteEmpoweredItemUI"] = false },
-	Blizzard_BarbershopUI		= { ["BarberShopFrame"] = false },
-	Blizzard_BindingUI			= { ["KeyBindingFrame"] = false },
+	Blizzard_BindingUI			= { ["KeyBindingFrame"] = false, ["QuickKeybindFrame"] = false },
 	Blizzard_BlackMarketUI		= { ["BlackMarketFrame"] = false },
 	Blizzard_Calendar			= { ["CalendarFrame"] = false, ["CalendarCreateEventFrame"] = true, ["CalendarEventPickerFrame"] = false },
 	Blizzard_ChallengesUI		= { ["ChallengesKeystoneFrame"] = false },
 	Blizzard_Collections		= { ["WardrobeFrame"] = false, ["WardrobeOutfitEditFrame"] = false },
+	Blizzard_CovenantRenown		= { ["CovenantRenownFrame"] = false, },
+	Blizzard_CovenantSanctum	= { ["CovenantSanctumFrame"] = false, },
 	Blizzard_Communities		= { ["CommunitiesFrame"] = false, ["CommunitiesSettingsDialog"] = false, ["CommunitiesGuildLogFrame"] = false, ["CommunitiesTicketManagerDialog"] = false, ["CommunitiesAvatarPickerDialog"] = false, ["CommunitiesFrame.NotificationSettingsDialog"] = false, ["ClubFinderCommunityAndGuildFinderFrame.RequestToJoinFrame"] = false},
 	Blizzard_FlightMap			= { ["FlightMapFrame"] = false },
 	Blizzard_GMSurveyUI			= { ["GMSurveyFrame"] = false },
@@ -96,6 +98,7 @@ local lodFrames = {
 	Blizzard_TradeSkillUI		= { ["TradeSkillFrame"] = false },
 	Blizzard_TrainerUI			= { ["ClassTrainerFrame"] = false },
 	Blizzard_VoidStorageUI		= { ["VoidStorageFrame"] = false, ["VoidStorageBorderFrameMouseBlockFrame"] = "VoidStorageFrame" },
+	Blizzard_WeeklyRewards		= { ["WeeklyRewardsFrame"] = false },
 }
 
 local parentFrame, hooked = {}, {}
@@ -151,7 +154,7 @@ local function HookFrame(name, moveParent)
 				parent = frame:GetParent()
 			end
 			if not parent then
-				print("Parent frame not found: "..name)
+				print("Parent frame not found: " .. name)
 				return
 			end
 			parentFrame[frame] = parent

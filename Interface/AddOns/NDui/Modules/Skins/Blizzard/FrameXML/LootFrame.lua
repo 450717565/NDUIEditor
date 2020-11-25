@@ -1,63 +1,38 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 
 tinsert(C.defaultThemes, function()
-	local cr, cg, cb = DB.r, DB.g, DB.b
-	-- Bonus roll
-	B.ReskinFrame(BonusRollFrame, "noKill")
-	BonusRollFrame.BlackBackgroundHoist:Hide()
+	if not C.db["Skins"]["BlizzardSkins"] then return end
+	if not C.db["Skins"]["Loot"] then return end
 
-	local PromptFrame = BonusRollFrame.PromptFrame
-	B.ReskinIcon(PromptFrame.Icon)
-
-	local Timer = PromptFrame.Timer
-	Timer.Bar:SetTexture(DB.normTex)
-	Timer.Bar:SetVertexColor(cr, cg, cb)
-	B.CreateBDFrame(Timer, 0)
-
-	local SpecIcon = BonusRollFrame.SpecIcon
-	SpecIcon:ClearAllPoints()
-	SpecIcon:SetPoint("RIGHT", PromptFrame.InfoFrame, "RIGHT", -5, 0)
-
-	local icbg = B.ReskinIcon(SpecIcon)
-	hooksecurefunc("BonusRollFrame_StartBonusRoll", function()
-		icbg:SetShown(SpecIcon:IsShown())
-	end)
-
-	local from, to = "|T.+|t", "|T%%s:14:14:0:0:64:64:5:59:5:59|t"
-	BONUS_ROLL_COST = gsub(BONUS_ROLL_COST, from, to)
-	BONUS_ROLL_CURRENT_COUNT = gsub(BONUS_ROLL_CURRENT_COUNT, from, to)
-
-	B.ReskinFrame(LootFrame)
-	B.ReskinArrow(LootFrameUpButton, "up")
-	B.ReskinArrow(LootFrameDownButton, "down")
+	LootFramePortraitOverlay:Hide()
 
 	hooksecurefunc("LootFrame_UpdateButton", function(index)
-		local bu = "LootButton"..index
-		local icon = _G[bu.."IconTexture"]
+		local ic = _G["LootButton"..index.."IconTexture"]
+		if not ic then return end
 
-		if icon and not icon.icbg then
-			local button = _G[bu]
-			B.CleanTextures(button)
+		if not ic.bg then
+			local bu = _G["LootButton"..index]
 
-			local icbg = B.ReskinIcon(icon)
-			B.ReskinHighlight(button, icbg)
+			_G["LootButton"..index.."IconQuestTexture"]:SetAlpha(0)
+			_G["LootButton"..index.."NameFrame"]:Hide()
 
-			local border = button.IconBorder
-			B.ReskinBorder(border, icbg)
+			bu:SetNormalTexture("")
+			bu:SetPushedTexture("")
+			bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
+			bu.IconBorder:SetAlpha(0)
 
-			local quest = _G[bu.."IconQuestTexture"]
-			quest:SetAlpha(0)
+			local bd = B.CreateBDFrame(bu, .25)
+			bd:SetPoint("TOPLEFT")
+			bd:SetPoint("BOTTOMRIGHT", 114, 0)
 
-			local name = _G[bu.."NameFrame"]
-			name:Hide()
-
-			icon.icbg = icbg
+			ic.bg = B.ReskinIcon(ic)
 		end
 
 		if select(7, GetLootSlotInfo(index)) then
-			icon.icbg:SetBackdropBorderColor(1, 1, 0)
+			ic.bg:SetBackdropBorderColor(1, 1, 0)
 		else
-			icon.icbg:SetBackdropBorderColor(0, 0, 0)
+			ic.bg:SetBackdropBorderColor(0, 0, 0)
 		end
 	end)
 
@@ -67,4 +42,69 @@ tinsert(C.defaultThemes, function()
 	LootFramePrev:SetPoint("LEFT", LootFrameUpButton, "RIGHT", 4, 0)
 	LootFrameNext:ClearAllPoints()
 	LootFrameNext:SetPoint("RIGHT", LootFrameDownButton, "LEFT", -4, 0)
+
+	B.ReskinPortraitFrame(LootFrame)
+	B.ReskinArrow(LootFrameUpButton, "up")
+	B.ReskinArrow(LootFrameDownButton, "down")
+
+	-- Bonus roll
+
+	do
+		local frame = BonusRollFrame
+
+		frame.Background:SetAlpha(0)
+		frame.IconBorder:Hide()
+		frame.BlackBackgroundHoist.Background:Hide()
+		frame.SpecRing:SetAlpha(0)
+
+		local specIcon = frame.SpecIcon
+		specIcon:ClearAllPoints()
+		specIcon:SetPoint("TOPRIGHT", -90, -18)
+		local bg = B.ReskinIcon(specIcon)
+		hooksecurefunc("BonusRollFrame_StartBonusRoll", function()
+			bg:SetShown(specIcon:IsShown())
+		end)
+
+		B.ReskinIcon(frame.PromptFrame.Icon)
+		frame.PromptFrame.Timer.Bar:SetTexture(DB.normTex)
+		B.SetBD(frame)
+		B.CreateBDFrame(frame.PromptFrame.Timer, .25)
+
+		local from, to = "|T.+|t", "|T%%s:14:14:0:0:64:64:5:59:5:59|t"
+		BONUS_ROLL_COST = BONUS_ROLL_COST:gsub(from, to)
+		BONUS_ROLL_CURRENT_COUNT = BONUS_ROLL_CURRENT_COUNT:gsub(from, to)
+	end
+
+	-- Loot Roll Frame
+
+	hooksecurefunc("GroupLootFrame_OpenNewFrame", function()
+		for i = 1, NUM_GROUP_LOOT_FRAMES do
+			local frame = _G["GroupLootFrame"..i]
+			if not frame.styled then
+				frame.Border:SetAlpha(0)
+				frame.Background:SetAlpha(0)
+				frame.bg = B.SetBD(frame)
+
+				frame.Timer.Bar:SetTexture(DB.bdTex)
+				frame.Timer.Bar:SetVertexColor(1, .8, 0)
+				frame.Timer.Background:SetAlpha(0)
+				B.CreateBDFrame(frame.Timer, .25)
+
+				frame.IconFrame.Border:SetAlpha(0)
+				B.ReskinIcon(frame.IconFrame.Icon)
+
+				local bg = B.CreateBDFrame(frame, .25)
+				bg:SetPoint("TOPLEFT", frame.IconFrame.Icon, "TOPRIGHT", 0, 1)
+				bg:SetPoint("BOTTOMRIGHT", frame.IconFrame.Icon, "BOTTOMRIGHT", 150, -1)
+
+				frame.styled = true
+			end
+
+			if frame:IsShown() then
+				local _, _, _, quality = GetLootRollItemInfo(frame.rollID)
+				local color = DB.QualityColors[quality]
+				frame.bg:SetBackdropBorderColor(color.r, color.g, color.b)
+			end
+		end
+	end)
 end)

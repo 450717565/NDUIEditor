@@ -3,8 +3,10 @@ local B, C, L, DB = unpack(ns)
 local TT = B:GetModule("Tooltip")
 
 local strmatch, format, tonumber, select = string.match, string.format, tonumber, select
-local UnitAura, GetItemCount, GetItemInfo, GetUnitName, GetCurrencyListLink = UnitAura, GetItemCount, GetItemInfo, GetUnitName, GetCurrencyListLink
+local UnitAura, GetItemCount, GetItemInfo, GetUnitName = UnitAura, GetItemCount, GetItemInfo, GetUnitName
+local GetItemInfoFromHyperlink = GetItemInfoFromHyperlink
 local C_TradeSkillUI_GetRecipeReagentItemLink = C_TradeSkillUI.GetRecipeReagentItemLink
+local C_CurrencyInfo_GetCurrencyListLink = C_CurrencyInfo.GetCurrencyListLink
 local BAGSLOT, BANK = BAGSLOT, BANK
 
 local types = {
@@ -19,7 +21,7 @@ local types = {
 
 function TT:AddLineForID(id, linkType, noadd)
 	for i = 1, self:NumLines() do
-		local line = _G[self:GetDebugName().."TextLeft"..i]
+		local line = _G[self:GetName().."TextLeft"..i]
 		if not line then break end
 		local text = line:GetText()
 		if text and text == linkType then return end
@@ -30,16 +32,13 @@ function TT:AddLineForID(id, linkType, noadd)
 		local bagCount = GetItemCount(id)
 		local bankCount = GetItemCount(id, true) - bagCount
 		local itemStackCount = select(8, GetItemInfo(id))
-		if bankCount > 0 and bagCount > 0 then
-			self:AddDoubleLine(BAGSLOT..L[":"], DB.InfoColor..bagCount)
-			self:AddDoubleLine(BANK..L[":"], DB.InfoColor..bankCount)
-		elseif bankCount > 0 then
-			self:AddDoubleLine(BANK..L[":"], DB.InfoColor..bankCount)
+		if bankCount > 0 then
+			self:AddDoubleLine(BAGSLOT.."/"..BANK..":", DB.InfoColor..bagCount.."/"..bankCount)
 		elseif bagCount > 0 then
-			self:AddDoubleLine(BAGSLOT..L[":"], DB.InfoColor..bagCount)
+			self:AddDoubleLine(BAGSLOT..":", DB.InfoColor..bagCount)
 		end
 		if itemStackCount and itemStackCount > 1 then
-			self:AddDoubleLine(AUCTION_STACK_SIZE..L[":"], DB.InfoColor..itemStackCount)
+			self:AddDoubleLine(L["Stack Cap"]..":", DB.InfoColor..itemStackCount)
 		end
 	end
 
@@ -69,7 +68,7 @@ end
 function TT:SetItemID()
 	local link = select(2, self:GetItem())
 	if link then
-		local id = strmatch(link, "item:(%d+):")
+		local id = GetItemInfoFromHyperlink(link)
 		local keystone = strmatch(link, "|Hkeystone:([0-9]+):")
 		if keystone then id = tonumber(keystone) end
 		if id then TT.AddLineForID(self, id, types.item) end
@@ -81,12 +80,14 @@ function TT:UpdateSpellCaster(...)
 	if unitCaster then
 		local name = GetUnitName(unitCaster, true)
 		local hexColor = B.HexRGB(B.UnitColor(unitCaster))
-		self:AddDoubleLine(SPELL_TARGET_CENTER_CASTER..":", hexColor..name)
+		self:AddDoubleLine(L["From"]..":", hexColor..name)
 		self:Show()
 	end
 end
 
 function TT:SetupTooltipID()
+	if C.db["Tooltip"]["HideAllID"] then return end
+
 	-- Update all
 	hooksecurefunc(GameTooltip, "SetHyperlink", TT.SetHyperLinkID)
 	hooksecurefunc(ItemRefTooltip, "SetHyperlink", TT.SetHyperLinkID)
@@ -123,7 +124,7 @@ function TT:SetupTooltipID()
 
 	-- Currencies
 	hooksecurefunc(GameTooltip, "SetCurrencyToken", function(self, index)
-		local id = tonumber(strmatch(GetCurrencyListLink(index), "currency:(%d+)"))
+		local id = tonumber(strmatch(C_CurrencyInfo_GetCurrencyListLink(index), "currency:(%d+)"))
 		if id then TT.AddLineForID(self, id, types.currency) end
 	end)
 	hooksecurefunc(GameTooltip, "SetCurrencyByID", function(self, id)
@@ -139,5 +140,12 @@ function TT:SetupTooltipID()
 	-- Azerite traits
 	hooksecurefunc(GameTooltip, "SetAzeritePower", function(self, _, _, id)
 		if id then TT.AddLineForID(self, id, types.azerite, true) end
+	end)
+
+	-- Quests
+	hooksecurefunc("QuestMapLogTitleButton_OnEnter", function(self)
+		if self.questID then
+			TT.AddLineForID(GameTooltip, self.questID, types.quest)
+		end
 	end)
 end

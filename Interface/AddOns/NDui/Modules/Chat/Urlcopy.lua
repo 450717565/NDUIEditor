@@ -90,7 +90,7 @@ function module:HyperlinkShowHook(link, _, button)
 			end
 		end
 	elseif type == "url" then
-		local eb = LAST_ACTIVE_CHAT_EDIT_BOX or _G[self:GetDebugName().."EditBox"]
+		local eb = LAST_ACTIVE_CHAT_EDIT_BOX or _G[self:GetName().."EditBox"]
 		if eb then
 			eb:Show()
 			eb:SetText(value)

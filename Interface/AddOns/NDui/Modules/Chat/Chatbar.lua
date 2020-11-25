@@ -1,88 +1,40 @@
-local _, ns = ...
+﻿local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local module = B:GetModule("Chat")
 
 function module:Chatbar()
-	if not NDuiDB["Chat"]["Chatbar"] then return end
+	if not C.db["Chat"]["Chatbar"] then return end
 
 	local chatFrame = SELECTED_DOCK_FRAME
 	local editBox = chatFrame.editBox
 	local width, height, padding, buttonList = 40, 8, 5, {}
 	local tinsert, pairs = table.insert, pairs
 
-	local Chatbar = CreateFrame("Frame", nil, UIParent)
+	local Chatbar = CreateFrame("Frame", "NDui_ChatBar", UIParent)
 	Chatbar:SetSize(width, height)
 
-	local function AddButton(r, g, b, text, funcC, funcM)
-		local bu = CreateFrame("Button", nil, Chatbar, "SecureActionButtonTemplate")
+	local function AddButton(r, g, b, text, func)
+		local bu = CreateFrame("Button", nil, Chatbar, "SecureActionButtonTemplate, BackdropTemplate")
 		bu:SetSize(width, height)
 		B.PixelIcon(bu, DB.normTex, true)
+		B.CreateSD(bu)
 		bu.Icon:SetVertexColor(r, g, b)
 		bu:SetHitRectInsets(0, 0, -8, -8)
 		bu:RegisterForClicks("AnyUp")
-		if text then B.AddTooltip(bu, "ANCHOR_TOP", B.HexRGB(r, g, b, text)) end
-		if funcC then bu:SetScript("OnClick", funcC) end
-		if funcM then bu:SetScript("OnMouseUp", funcM) end
+		if text then B.AddTooltip(bu, "ANCHOR_TOP", B.HexRGB(r, g, b)..text) end
+		if func then bu:SetScript("OnClick", func) end
 
 		tinsert(buttonList, bu)
 		return bu
 	end
 
-	function StatusReport()
-		local info = ""
-		local mainStat = {"STRENGTH", "AGILITY", nil, "INTELLECT"}
-		local _, spec, _, _, _, main = GetSpecializationInfo(GetSpecialization())
-		local currentLevel = C_AzeriteItem.GetPowerLevel(C_AzeriteItem.FindActiveAzeriteItem())
-		local statCollect = {
-			{str = CLASS..":%s ", UnitClass("player")},
-			{str = SPECIALIZATION..":%s ", disabel = not GetSpecialization(), spec},
-			{str = STAT_AVERAGE_ITEM_LEVEL..":%.1f(%.1f) ", GetAverageItemLevel()},
-			{str = ORDER_HALL_SHAMAN..":"..SPELLBOOK_AVAILABLE_AT.." " , disable = not C_AzeriteItem.FindActiveAzeriteItem(), currentLevel},
-			{str = HEALTH..":%s ", B.FormatNumb(UnitHealthMax("player"))},
-			{str = _G["SPEC_FRAME_PRIMARY_STAT_"..mainStat[main]]..":%s ", UnitStat("player", main)},
-			{str = STAT_CRITICAL_STRIKE..":%.2f%% ", GetCritChance()},
-			{str = STAT_HASTE..":%.2f%% ", GetHaste()},
-			{str = STAT_MASTERY..":%.2f%% ", GetMasteryEffect()},
-			{str = STAT_VERSATILITY..":%.2f%% ", disable = GetCombatRatingBonus(29) == 0, GetCombatRatingBonus(29)},
-			{str = STAT_AVOIDANCE..":%.2f%% ", disable = GetAvoidance() == 0, GetAvoidance()},
-			{str = STAT_LIFESTEAL..":%.2f%% ", disable = GetLifesteal() == 0, GetLifesteal()},
-			{str = STAT_DODGE..":%.2f%% ", disable = DB.Role ~= "Tank" or GetDodgeChance() == 0, GetDodgeChance()},
-			{str = STAT_PARRY..":%.2f%% ", disable = DB.Role ~= "Tank" or GetParryChance() == 0, GetParryChance()},
-			{str = STAT_BLOCK..":%.2f%% ", disable = DB.Role ~= "Tank" or GetBlockChance() == 0, GetBlockChance()},
-		}
-
-		for _, stat in ipairs(statCollect) do
-			if not stat.disable then
-				info = info..stat.str:format(unpack(stat))
-			end
-		end
-		return info
-	end
-
 	-- Create Chatbars
 	local buttonInfo = {
-		{1, 1, 1, SAY.." / "..YELL, function(_, btn)
+		{1, 1, 1, SAY.."/"..YELL, function(_, btn)
 			if btn == "RightButton" then
 				ChatFrame_OpenChat("/y ", chatFrame)
 			else
 				ChatFrame_OpenChat("/s ", chatFrame)
-			end
-		end},
-		{.65, .65, 1, INSTANCE.." / "..PARTY, function()
-			ChatFrame_OpenChat("/p ", chatFrame)
-		end},
-		{1, .5, 0, INSTANCE.." / "..RAID, function()
-			if IsPartyLFG() then
-				ChatFrame_OpenChat("/i ", chatFrame)
-			else
-				ChatFrame_OpenChat("/raid ", chatFrame)
-			end
-		end},
-		{.25, 1, .25, GUILD.." / "..OFFICER, function(_, btn)
-			if btn == "RightButton" and C_GuildInfo.CanEditOfficerNote() then
-				ChatFrame_OpenChat("/o ", chatFrame)
-			else
-				ChatFrame_OpenChat("/g ", chatFrame)
 			end
 		end},
 		{1, .5, 1, WHISPER, function(_, btn)
@@ -100,33 +52,38 @@ function module:Chatbar()
 				end
 			end
 		end},
-		{0, 1, 1, EMOTE.." / "..ROLL, nil, function(self, btn)
-			self:SetAttribute("type", "macro")
-			if btn == "RightButton" then
-				self:SetAttribute("macrotext", "/roll")
+		{.65, .65, 1, PARTY, function() ChatFrame_OpenChat("/p ", chatFrame) end},
+		{1, .5, 0, INSTANCE.."/"..RAID, function()
+			if IsPartyLFG() then
+				ChatFrame_OpenChat("/i ", chatFrame)
 			else
-				self:SetAttribute("macrotext", "/run ToggleFrame(CustomEmoteFrame)")
+				ChatFrame_OpenChat("/raid ", chatFrame)
 			end
 		end},
-		{1, 1, 0, L["LootMonitor / StatusReport"], nil, function(self, btn)
-			self:SetAttribute("type", "macro")
-			if not NDuiDB["Extras"]["LootMonitor"] then
-				self:SetAttribute("macrotext", "/run ChatFrame_OpenChat(StatusReport())")
+		{.25, 1, .25, GUILD.."/"..OFFICER, function(_, btn)
+			if btn == "RightButton" and C_GuildInfo.CanEditOfficerNote() then
+				ChatFrame_OpenChat("/o ", chatFrame)
 			else
-				if btn == "RightButton" then
-					self:SetAttribute("macrotext", "/run ChatFrame_OpenChat(StatusReport())")
-				else
-					self:SetAttribute("macrotext", "/ndlm")
-				end
+				ChatFrame_OpenChat("/g ", chatFrame)
 			end
 		end},
 	}
 	for _, info in pairs(buttonInfo) do AddButton(unpack(info)) end
 
+	-- ROLL
+	local roll = AddButton(.8, 1, .6, LOOT_ROLL)
+	roll:SetAttribute("type", "macro")
+	roll:SetAttribute("macrotext", "/roll")
+
+	-- COMBATLOG
+	local combat = AddButton(1, 1, 0, BINDING_NAME_TOGGLECOMBATLOG)
+	combat:SetAttribute("type", "macro")
+	combat:SetAttribute("macrotext", "/combatlog")
+
 	-- WORLD CHANNEL
 	if GetCVar("portal") == "CN" then
 		local channelName, channelID, channels = "大脚世界频道"
-		local wc = AddButton(1, .75, .75, L["World Channel"])
+		local wc = AddButton(0, .8, 1, L["World Channel"])
 
 		local function isInChannel(event)
 			C_Timer.After(.1, function()
@@ -139,7 +96,7 @@ function module:Chatbar()
 					end
 				end
 				if wc.inChannel then
-					wc.Icon:SetVertexColor(1, .75, .75)
+					wc.Icon:SetVertexColor(0, .8, 1)
 				else
 					wc.Icon:SetVertexColor(1, .1, .1)
 				end
@@ -181,7 +138,29 @@ function module:Chatbar()
 
 	-- Mover
 	local width = (#buttonList-1)*(padding+width) + width
-	local mover = B.Mover(Chatbar, L["Chatbar"], "Chatbar", {"BOTTOMLEFT", UIParent, "BOTTOMLEFT", 5, 4.5}, width, 20)
+	local mover = B.Mover(Chatbar, L["Chatbar"], "Chatbar", {"BOTTOMLEFT", UIParent, "BOTTOMLEFT", 0, 3}, width, 20)
 	Chatbar:ClearAllPoints()
-	Chatbar:SetPoint("LEFT", mover)
+	Chatbar:SetPoint("BOTTOMLEFT", mover, 5, 5)
+
+	module:ChatBarBackground()
+end
+
+function module:ChatBarBackground()
+	if not C.db["Skins"]["ChatbarLine"] then return end
+
+	local cr, cg, cb = 0, 0, 0
+	if C.db["Skins"]["ClassLine"] then cr, cg, cb = DB.r, DB.g, DB.b end
+
+	local parent = _G["NDui_ChatBar"]
+	local width, height, alpha = 450, 18, .5
+	local frame = CreateFrame("Frame", nil, parent)
+	frame:SetPoint("LEFT", parent, "LEFT", -5, 0)
+	frame:SetSize(width, height)
+
+	local tex = B.SetGradient(frame, "H", 0, 0, 0, alpha, 0, width, height)
+	tex:SetPoint("CENTER")
+	local bottomLine = B.SetGradient(frame, "H", cr, cg, cb, alpha, 0, width, C.mult)
+	bottomLine:SetPoint("TOP", frame, "BOTTOM")
+	local topLine = B.SetGradient(frame, "H", cr, cg, cb, alpha, 0, width, C.mult)
+	topLine:SetPoint("BOTTOM", frame, "TOP")
 end

@@ -1,17 +1,23 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 
 tinsert(C.defaultThemes, function()
+	if not C.db["Skins"]["BlizzardSkins"] then return end
+
+	local ModelPreviewFrame = ModelPreviewFrame
+	local Display = ModelPreviewFrame.Display
+
+	Display.YesMountsTex:Hide()
+	Display.ShadowOverlay:Hide()
+
 	B.StripTextures(ModelPreviewFrame)
-	B.CreateBG(ModelPreviewFrame)
-
+	B.SetBD(ModelPreviewFrame)
+	B.ReskinArrow(Display.ModelScene.RotateLeftButton, "left")
+	B.ReskinArrow(Display.ModelScene.RotateRightButton, "right")
 	B.ReskinClose(ModelPreviewFrameCloseButton)
-	B.ReskinButton(ModelPreviewFrame.CloseButton)
-	B.StripTextures(ModelPreviewFrame.Display)
-	B.CreateBDFrame(ModelPreviewFrame.Display, 0)
+	B.Reskin(ModelPreviewFrame.CloseButton)
 
-	local ModelScene = ModelPreviewFrame.Display.ModelScene
-	B.ReskinArrow(ModelScene.RotateLeftButton, "left")
-	B.ReskinArrow(ModelScene.RotateRightButton, "right")
-	B.ReskinArrow(ModelScene.CarouselLeftButton, "left")
-	B.ReskinArrow(ModelScene.CarouselRightButton, "right")
+	local bg = B.CreateBDFrame(Display.ModelScene, .25)
+	bg:SetPoint("TOPLEFT", -1, 0)
+	bg:SetPoint("BOTTOMRIGHT", 2, -2)
 end)

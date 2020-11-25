@@ -4,7 +4,7 @@ local ARGUS = 905
 
 local function OnDataRefreshed(self)
 	local Map = self:GetMap()
-	if (Map:GetMapID() == ARGUS) then
+	if(Map:GetMapID() == ARGUS) then
 		local taxiNodes = C_TaxiMap.GetAllTaxiNodes(ARGUS)
 		for index, taxiNodeData in next, taxiNodes do
 			local Pin = Map:AcquirePin('FlightMap_FlightPointPinTemplate')
@@ -24,20 +24,20 @@ end
 
 local function Inject()
 	for provider in next, WorldMapFrame.dataProviders do
-		if (provider.AddFlightNode) then
+		if(provider.AddFlightNode) then
 			hooksecurefunc(provider, 'RefreshAllData', OnDataRefreshed)
 			return
 		end
 	end
 end
 
-if (IsAddOnLoaded('WorldFlightMap')) then
+if(IsAddOnLoaded('WorldFlightMap')) then
 	Inject()
 else
 	local Handler = CreateFrame('Frame')
 	Handler:RegisterEvent('ADDON_LOADED')
 	Handler:SetScript('OnEvent', function(self, event, addOnName)
-		if (addOnName == 'WorldFlightMap') then
+		if(addOnName == 'WorldFlightMap') then
 			Inject()
 			self:UnregisterEvent(event)
 		end

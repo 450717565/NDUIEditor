@@ -1,4 +1,4 @@
-<Ui>
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
 	<Script file="Tags.lua"/>
 	<Script file="Functions.lua"/>
 	<Script file="Raid.lua"/>

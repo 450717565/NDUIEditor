@@ -9,7 +9,6 @@ local IsGuildMember, C_FriendList_IsFriend, IsGUIDInGroup, C_Timer_After = IsGui
 local Ambiguate, UnitIsUnit, GetTime, SetCVar = Ambiguate, UnitIsUnit, GetTime, SetCVar
 local GetItemInfo, GetItemStats = GetItemInfo, GetItemStats
 local C_BattleNet_GetGameAccountInfoByGUID = C_BattleNet.GetGameAccountInfoByGUID
-local IsCorruptedItem = IsCorruptedItem
 
 local LE_ITEM_CLASS_WEAPON, LE_ITEM_CLASS_ARMOR = LE_ITEM_CLASS_WEAPON, LE_ITEM_CLASS_ARMOR
 local BN_TOAST_TYPE_CLUB_INVITATION = BN_TOAST_TYPE_CLUB_INVITATION or 6
@@ -52,11 +51,11 @@ local chatLines, prevLineID, filterResult = {}, 0, false
 function module:GetFilterResult(event, msg, name, flag, guid)
 	if name == DB.MyName or (event == "CHAT_MSG_WHISPER" and flag == "GM") or flag == "DEV" then
 		return
-	elseif guid and NDuiDB["Chat"]["AllowFriends"] and (IsGuildMember(guid) or C_BattleNet_GetGameAccountInfoByGUID(guid) or C_FriendList_IsFriend(guid) or IsGUIDInGroup(guid)) then
+	elseif guid and C.db["Chat"]["AllowFriends"] and (IsGuildMember(guid) or C_BattleNet_GetGameAccountInfoByGUID(guid) or C_FriendList_IsFriend(guid) or IsGUIDInGroup(guid)) then
 		return
 	end
 
-	if NDuiDB["Chat"]["BlockStranger"] and event == "CHAT_MSG_WHISPER" then return true end -- Block strangers
+	if C.db["Chat"]["BlockStranger"] and event == "CHAT_MSG_WHISPER" then return true end -- Block strangers
 
 	if C.BadBoys[name] and C.BadBoys[name] >= 5 then return true end
 
@@ -96,7 +95,7 @@ function module:GetFilterResult(event, msg, name, flag, guid)
 		end
 	end
 
-	if matches >= NDuiDB["Chat"]["Matches"] then
+	if matches >= C.db["Chat"]["Matches"] then
 		return true
 	end
 
@@ -180,13 +179,6 @@ function module:BlockTrashClub()
 end
 
 -- Show itemlevel on chat hyperlinks
-local function isItemHasSlot(link)
-	local itemSolt = B.GetItemSlot(link)
-	if itemSolt then
-		return itemSolt
-	end
-end
-
 local function isItemHasLevel(link)
 	local name, _, rarity, level, _, _, _, _, _, _, _, classID = GetItemInfo(link)
 	if name and level and rarity > 1 and (classID == LE_ITEM_CLASS_WEAPON or classID == LE_ITEM_CLASS_ARMOR) then
@@ -221,17 +213,6 @@ local function isItemHasGem(link)
 			text = text..GetSocketTexture(socket, count)
 		end
 	end
-
-	return text
-end
-
-local corruptedString = "|T3004126:0:0:0:0:64:64:5:59:5:59|t"
-local function isItemCorrupted(link)
-	local text = ""
-	if IsCorruptedItem(link) then
-		text = corruptedString
-	end
-
 	return text
 end
 
@@ -241,20 +222,9 @@ local function convertItemLevel(link)
 
 	local itemLink = strmatch(link, "|Hitem:.-|h")
 	if itemLink then
-		local itemInfo
-		local itemSolt = isItemHasSlot(itemLink)
-		local itemName, itemLevel = isItemHasLevel(itemLink)
-
-		if itemLevel and itemSolt then
-			itemInfo = itemLevel.."-"..itemSolt
-		elseif itemLevel then
-			itemInfo = itemLevel
-		elseif itemSolt then
-			itemInfo = itemSolt
-		end
-
-		if itemName and itemInfo then
-			link = gsub(link, "|h%[(.-)%]|h", "|h["..itemName.."<"..itemInfo..">]|h"..isItemCorrupted(itemLink)..isItemHasGem(itemLink))
+		local name, itemLevel = isItemHasLevel(itemLink)
+		if name and itemLevel then
+			link = gsub(link, "|h%[(.-)%]|h", "|h["..name.."("..itemLevel..")]|h"..isItemHasGem(itemLink))
 			itemCache[link] = link
 		end
 	end
@@ -266,65 +236,50 @@ function module:UpdateChatItemLevel(_, msg, ...)
 	return false, msg, ...
 end
 
--- Filter azerite message on island expeditions
-local azerite = ISLANDS_QUEUE_WEEKLY_QUEST_PROGRESS:gsub("%%d/%%d ", "")
-local function filterAzeriteGain(_, _, msg)
-	if strfind(msg, azerite) then
-		return true
-	end
-end
-
-local function isPlayerOnIslands()
-	local _, instanceType, _, _, maxPlayers = GetInstanceInfo()
-	if instanceType == "scenario" and (maxPlayers == 3 or maxPlayers == 6) then
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", filterAzeriteGain)
-	else
-		ChatFrame_RemoveMessageEventFilter("CHAT_MSG_SYSTEM", filterAzeriteGain)
-	end
-end
-
-local chatEvents = {
-	"CHAT_MSG_BATTLEGROUND",
-	"CHAT_MSG_BATTLEGROUND_LEADER",
-	"CHAT_MSG_BN_CONVERSATION",
-	"CHAT_MSG_BN_WHISPER",
-	"CHAT_MSG_BN_WHISPER_INFORM",
-	"CHAT_MSG_CHANNEL",
-	"CHAT_MSG_EMOTE",
-	"CHAT_MSG_GUILD",
-	"CHAT_MSG_INSTANCE_CHAT",
-	"CHAT_MSG_INSTANCE_CHAT_LEADER",
-	"CHAT_MSG_LOOT",
-	"CHAT_MSG_OFFICER",
-	"CHAT_MSG_PARTY",
-	"CHAT_MSG_PARTY_LEADER",
-	"CHAT_MSG_RAID",
-	"CHAT_MSG_RAID_LEADER",
-	"CHAT_MSG_RAID_WARNING",
-	"CHAT_MSG_SAY",
-	"CHAT_MSG_TEXT_EMOTE",
-	"CHAT_MSG_WHISPER",
-	"CHAT_MSG_WHISPER_INFORM",
-	"CHAT_MSG_YELL",
-}
-
 function module:ChatFilter()
-	for _, event in pairs(chatEvents) do
-		if NDuiDB["Chat"]["EnableFilter"] then
-			self:UpdateFilterList()
-			self:UpdateFilterWhiteList()
-			ChatFrame_AddMessageEventFilter(event, self.UpdateChatFilter)
-		end
-
-		if NDuiDB["Chat"]["BlockAddonAlert"] then
-			ChatFrame_AddMessageEventFilter(event, self.UpdateAddOnBlocker)
-		end
-
-		if NDuiDB["Chat"]["ChatItemLevel"] then
-			ChatFrame_AddMessageEventFilter(event, self.UpdateChatItemLevel)
-		end
+	if C.db["Chat"]["ChatItemLevel"] then
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_LOOT", self.UpdateChatItemLevel)
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", self.UpdateChatItemLevel)
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_SAY", self.UpdateChatItemLevel)
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_YELL", self.UpdateChatItemLevel)
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", self.UpdateChatItemLevel)
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER_INFORM", self.UpdateChatItemLevel)
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_WHISPER", self.UpdateChatItemLevel)
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID", self.UpdateChatItemLevel)
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_LEADER", self.UpdateChatItemLevel)
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY", self.UpdateChatItemLevel)
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY_LEADER", self.UpdateChatItemLevel)
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_GUILD", self.UpdateChatItemLevel)
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_BATTLEGROUND", self.UpdateChatItemLevel)
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_INSTANCE_CHAT", self.UpdateChatItemLevel)
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_INSTANCE_CHAT_LEADER", self.UpdateChatItemLevel)
 	end
 
 	hooksecurefunc(BNToastFrame, "ShowToast", self.BlockTrashClub)
-	B:RegisterEvent("PLAYER_ENTERING_WORLD", isPlayerOnIslands)
+
+	if IsAddOnLoaded("EnhancedChatFilter") then return end
+
+	if C.db["Chat"]["EnableFilter"] then
+		self:UpdateFilterList()
+		self:UpdateFilterWhiteList()
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", self.UpdateChatFilter)
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_SAY", self.UpdateChatFilter)
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_YELL", self.UpdateChatFilter)
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", self.UpdateChatFilter)
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_EMOTE", self.UpdateChatFilter)
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_TEXT_EMOTE", self.UpdateChatFilter)
+	end
+
+	if C.db["Chat"]["BlockAddonAlert"] then
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_SAY", self.UpdateAddOnBlocker)
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", self.UpdateAddOnBlocker)
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_EMOTE", self.UpdateAddOnBlocker)
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY", self.UpdateAddOnBlocker)
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY_LEADER", self.UpdateAddOnBlocker)
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID", self.UpdateAddOnBlocker)
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_LEADER", self.UpdateAddOnBlocker)
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_INSTANCE_CHAT", self.UpdateAddOnBlocker)
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_INSTANCE_CHAT_LEADER", self.UpdateAddOnBlocker)
+		ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", self.UpdateAddOnBlocker)
+	end
 end

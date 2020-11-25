@@ -1,73 +1,77 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 
 C.themes["Blizzard_ArchaeologyUI"] = function()
-	B.ReskinFrame(ArchaeologyFrame)
-	B.ReskinButton(ArchaeologyFrameArtifactPageBackButton)
-	B.ReskinButton(ArchaeologyFrameArtifactPageSolveFrameSolveButton)
-	B.ReskinDropDown(ArchaeologyFrameRaceFilter)
-	B.ReskinIcon(ArchaeologyFrameArtifactPageIcon)
-	B.ReskinStatusBar(ArchaeologyFrameArtifactPageSolveFrameStatusBar)
-	B.ReskinStatusBar(ArchaeologyFrameRankBar)
+	B.ReskinPortraitFrame(ArchaeologyFrame)
+	ArchaeologyFrame:DisableDrawLayer("BACKGROUND")
+	B.Reskin(ArchaeologyFrameArtifactPageSolveFrameSolveButton)
+	B.Reskin(ArchaeologyFrameArtifactPageBackButton)
 
-	ArchaeologyFrameArtifactPageIconBG:Hide()
-	ArchaeologyFrameInfoButton:ClearAllPoints()
-	ArchaeologyFrameInfoButton:SetPoint("TOPLEFT", 3, -3)
-
-	ArchaeologyFrameSummarytButton:ClearAllPoints()
-	ArchaeologyFrameSummarytButton:SetPoint("TOPLEFT", ArchaeologyFrame, "TOPRIGHT", 2, -25)
-	ArchaeologyFrameCompletedButton:ClearAllPoints()
-	ArchaeologyFrameCompletedButton:SetPoint("TOP", ArchaeologyFrameSummarytButton, "BOTTOM", 0, 0)
-
-	local DigsiteBar = ArcheologyDigsiteProgressBar
-	B.StripTextures(DigsiteBar)
-	B.ReskinStatusBar(DigsiteBar.FillBar)
-	DigsiteBar.FillBar:SetHeight(15)
-	DigsiteBar.BarTitle:ClearAllPoints()
-	DigsiteBar.BarTitle:SetPoint("CENTER")
-
-	local titles = {ArchaeologyFrameSummaryPageTitle, ArchaeologyFrameCompletedPageTitleTop, ArchaeologyFrameCompletedPageTitleMid, ArchaeologyFrameArtifactPageHistoryTitle, ArchaeologyFrameHelpPageTitle, ArchaeologyFrameHelpPageDigTitle, ArchaeologyFrameCompletedPage.titleBig}
-	for _, title in pairs(titles) do
-		title:SetTextColor(1, .8, 0)
-	end
-
-	local texets = {ArchaeologyFrameCompletedPagePageText, ArchaeologyFrameSummaryPagePageText, ArchaeologyFrameArtifactPageHistoryScrollChildText, ArchaeologyFrameHelpPageHelpScrollHelpText, ArchaeologyFrameCompletedPage.infoText}
-	for _, texet in pairs(texets) do
-		texet:SetTextColor(1, 1, 1)
-	end
-
-	-- SummaryPage
-	B.ReskinArrow(ArchaeologyFrameSummaryPagePrevPageButton, "left")
-	B.ReskinArrow(ArchaeologyFrameSummaryPageNextPageButton, "right")
-
+	ArchaeologyFrameSummaryPageTitle:SetTextColor(1, 1, 1)
+	ArchaeologyFrameArtifactPageHistoryTitle:SetTextColor(1, .8, 0)
+	ArchaeologyFrameArtifactPageHistoryScrollChildText:SetTextColor(1, 1, 1)
+	ArchaeologyFrameHelpPageTitle:SetTextColor(1, 1, 1)
+	ArchaeologyFrameHelpPageDigTitle:SetTextColor(1, 1, 1)
+	ArchaeologyFrameHelpPageHelpScrollHelpText:SetTextColor(1, 1, 1)
+	ArchaeologyFrameCompletedPage:GetRegions():SetTextColor(1, 1, 1)
+	ArchaeologyFrameCompletedPageTitle:SetTextColor(1, 1, 1)
+	ArchaeologyFrameCompletedPageTitleTop:SetTextColor(1, 1, 1)
+	ArchaeologyFrameCompletedPageTitleMid:SetTextColor(1, 1, 1)
+	ArchaeologyFrameCompletedPagePageText:SetTextColor(1, 1, 1)
+	ArchaeologyFrameSummaryPagePageText:SetTextColor(1, 1, 1)
 	for i = 1, ARCHAEOLOGY_MAX_RACES do
 		local bu = _G["ArchaeologyFrameSummaryPageRace"..i]
 		bu.raceName:SetTextColor(1, 1, 1)
 	end
 
-	-- CompletedPage
+	for i = 1, ARCHAEOLOGY_MAX_COMPLETED_SHOWN do
+		local buttonName = "ArchaeologyFrameCompletedPageArtifact"..i
+		local button = _G[buttonName]
+		local icon = _G[buttonName.."Icon"]
+		local name = _G[buttonName.."ArtifactName"]
+		local subText = _G[buttonName.."ArtifactSubText"]
+		B.StripTextures(button)
+		B.ReskinIcon(icon)
+		name:SetTextColor(1, .8, 0)
+		subText:SetTextColor(1, 1, 1)
+		local bg = B.CreateBDFrame(button, .25)
+		bg:SetPoint("TOPLEFT", -4, 4)
+		bg:SetPoint("BOTTOMRIGHT", 4, -4)
+	end
+
+	ArchaeologyFrameInfoButton:SetPoint("TOPLEFT", 3, -3)
+	ArchaeologyFrameSummarytButton:SetPoint("TOPLEFT", ArchaeologyFrame, "TOPRIGHT", 1, -50)
+	ArchaeologyFrameSummarytButton:SetFrameLevel(ArchaeologyFrame:GetFrameLevel() - 1)
+	ArchaeologyFrameCompletedButton:SetPoint("TOPLEFT", ArchaeologyFrame, "TOPRIGHT", 1, -120)
+	ArchaeologyFrameCompletedButton:SetFrameLevel(ArchaeologyFrame:GetFrameLevel() - 1)
+
+	B.ReskinDropDown(ArchaeologyFrameRaceFilter)
+	B.ReskinScroll(ArchaeologyFrameArtifactPageHistoryScrollScrollBar)
 	B.ReskinArrow(ArchaeologyFrameCompletedPagePrevPageButton, "left")
 	B.ReskinArrow(ArchaeologyFrameCompletedPageNextPageButton, "right")
+	ArchaeologyFrameCompletedPagePrevPageButtonIcon:Hide()
+	ArchaeologyFrameCompletedPageNextPageButtonIcon:Hide()
+	B.ReskinArrow(ArchaeologyFrameSummaryPagePrevPageButton, "left")
+	B.ReskinArrow(ArchaeologyFrameSummaryPageNextPageButton, "right")
+	ArchaeologyFrameSummaryPagePrevPageButtonIcon:Hide()
+	ArchaeologyFrameSummaryPageNextPageButtonIcon:Hide()
 
-	for i = 1, ARCHAEOLOGY_MAX_COMPLETED_SHOWN do
-		local button = "ArchaeologyFrameCompletedPageArtifact"..i
+	B.StripTextures(ArchaeologyFrameRankBar)
+	ArchaeologyFrameRankBarBar:SetTexture(DB.bdTex)
+	ArchaeologyFrameRankBarBar:SetGradient("VERTICAL", 0, .65, 0, 0, .75, 0)
+	ArchaeologyFrameRankBar:SetHeight(14)
+	B.CreateBDFrame(ArchaeologyFrameRankBar, .25)
+	B.ReskinIcon(ArchaeologyFrameArtifactPageIcon)
 
-		local bu = _G[button]
-		B.StripTextures(bu)
+	B.StripTextures(ArchaeologyFrameArtifactPageSolveFrameStatusBar)
+	B.CreateBDFrame(ArchaeologyFrameArtifactPageSolveFrameStatusBar, .25)
+	local barTexture = ArchaeologyFrameArtifactPageSolveFrameStatusBar:GetStatusBarTexture()
+	barTexture:SetTexture(DB.bdTex)
+	barTexture:SetGradient("VERTICAL", .65, .25, 0, .75, .35, .1)
 
-		local icbg = B.ReskinIcon(_G[button.."Icon"])
-		local bubg = B.CreateBGFrame(bu, 2, 0, 0, 0, icbg)
-		B.ReskinHighlight(bu, bubg, true)
-
-		local name = _G[button.."ArtifactName"]
-		name:SetWordWrap(false)
-		name:SetTextColor(1, .8, 0)
-		name:ClearAllPoints()
-		name:SetPoint("TOPLEFT", bubg, "TOPLEFT", 4, 2)
-
-		local text = _G[button.."ArtifactSubText"]
-		text:SetWordWrap(false)
-		text:SetTextColor(1, 1, 1)
-		text:ClearAllPoints()
-		text:SetPoint("BOTTOMLEFT", bubg, "BOTTOMLEFT", 4, 7)
-	end
+	-- ArcheologyDigsiteProgressBar
+	B.StripTextures(ArcheologyDigsiteProgressBar)
+	B.SetBD(ArcheologyDigsiteProgressBar.FillBar)
+	ArcheologyDigsiteProgressBar.FillBar:SetStatusBarTexture(DB.bdTex)
+	ArcheologyDigsiteProgressBar.FillBar:SetStatusBarColor(.7, .3, .2)
 end
