@@ -44,8 +44,11 @@ end
 
 function UF:UpdateClickableSize()
 	if InCombatLockdown() then return end
-	C_NamePlate.SetNamePlateEnemySize(C.db["Nameplate"]["PlateWidth"]*NDuiADB["UIScale"], C.db["Nameplate"]["PlateHeight"]*NDuiADB["UIScale"]+40)
-	C_NamePlate.SetNamePlateFriendlySize(C.db["Nameplate"]["PlateWidth"]*NDuiADB["UIScale"], C.db["Nameplate"]["PlateHeight"]*NDuiADB["UIScale"]+40)
+
+	local width = C.db["Nameplate"]["PlateWidth"]*NDuiADB["UIScale"]
+	local height = (C.db["Nameplate"]["PlateHeight"]+40)*NDuiADB["UIScale"]
+	C_NamePlate.SetNamePlateEnemySize(width, height)
+	C_NamePlate.SetNamePlateFriendlySize(width, height)
 end
 
 function UF:SetupCVars()
@@ -172,8 +175,9 @@ function UF:UpdateColor(_, unit)
 	local insecureColor = C.db["Nameplate"]["InsecureColor"]
 	local revertThreat = C.db["Nameplate"]["DPSRevertThreat"]
 	local offTankColor = C.db["Nameplate"]["OffTankColor"]
+	local tankMode = C.db["Nameplate"]["TankMode"]
 	local executeRatio = C.db["Nameplate"]["ExecuteRatio"]
-	local healthPerc = UnitHealth(unit) / (UnitHealthMax(unit) + .0001) * 100
+	local healthPerc = UnitHealth(unit) / (UnitHealthMax(unit)) * 100
 	local r, g, b
 
 	if not UnitIsConnected(unit) then
@@ -193,7 +197,7 @@ function UF:UpdateColor(_, unit)
 			r, g, b = .6, .6, .6
 		else
 			r, g, b = UnitSelectionColor(unit, true)
-			if status and (C.db["Nameplate"]["TankMode"] or DB.Role == "Tank") then
+			if status and (tankMode or DB.Role == "Tank") then
 				if status == 3 then
 					if DB.Role ~= "Tank" and revertThreat then
 						r, g, b = insecureColor.r, insecureColor.g, insecureColor.b
@@ -221,7 +225,7 @@ function UF:UpdateColor(_, unit)
 		element:SetStatusBarColor(r, g, b)
 	end
 
-	if isCustomUnit or (not C.db["Nameplate"]["TankMode"] and DB.Role ~= "Tank") then
+	if isCustomUnit or (not tankMode and DB.Role ~= "Tank") then
 		if status and status == 3 then
 			self.ThreatIndicator:SetBackdropBorderColor(1, 0, 0)
 			self.ThreatIndicator:Show()
@@ -250,8 +254,9 @@ function UF:UpdateThreatColor(_, unit)
 end
 
 function UF:CreateThreatColor(self)
-	local threatIndicator = B.CreateSD(self, 3, true)
-	threatIndicator:SetOutside(self.Health.backdrop, 3, 3)
+	local threatIndicator = B.CreateSD(self, true)
+	threatIndicator:SetOutside(self.Health.bd, B.Scale(4), B.Scale(4))
+	threatIndicator:SetFrameLevel(self:GetFrameLevel()+2)
 	threatIndicator:Hide()
 
 	self.ThreatIndicator = threatIndicator
@@ -323,31 +328,32 @@ function UF:UpdateTargetIndicator()
 end
 
 function UF:AddTargetIndicator(self)
+	local targetTex = DB.targetTex..C.db["Nameplate"]["ArrowColor"]
+	local color = C.db["Nameplate"]["SelectedColor"]
+
 	local frame = CreateFrame("Frame", nil, self)
 	frame:SetAllPoints()
-	frame:SetFrameLevel(0)
-	frame:Hide()
+	frame:SetFrameLevel(self:GetFrameLevel()+1)
 
 	frame.TopArrow = frame:CreateTexture(nil, "BACKGROUND", nil, -5)
 	frame.TopArrow:SetSize(50, 50)
-	frame.TopArrow:SetTexture(DB.arrowTex)
+	frame.TopArrow:SetTexture(targetTex)
 	frame.TopArrow:SetPoint("BOTTOM", frame, "TOP", 0, 20)
 
 	frame.RightArrow = frame:CreateTexture(nil, "BACKGROUND", nil, -5)
 	frame.RightArrow:SetSize(50, 50)
-	frame.RightArrow:SetTexture(DB.arrowTex)
+	frame.RightArrow:SetTexture(targetTex)
 	frame.RightArrow:SetPoint("LEFT", frame, "RIGHT", 3, 0)
 	frame.RightArrow:SetRotation(rad(-90))
 
-	frame.Glow = B.CreateSD(frame, 5, true)
-	frame.Glow:SetOutside(self.Health.backdrop, 5, 5)
-	frame.Glow:SetBackdropBorderColor(1, 1, 1)
-	frame.Glow:SetFrameLevel(0)
+	frame.Glow = B.CreateSD(frame, true)
+	frame.Glow:SetOutside(self.Health.bd, B.Scale(4), B.Scale(4))
+	frame.Glow:SetBackdropBorderColor(color.r, color.g, color.b)
 
 	frame.nameGlow = frame:CreateTexture(nil, "BACKGROUND", nil, -5)
 	frame.nameGlow:SetSize(150, 80)
 	frame.nameGlow:SetTexture("Interface\\GLUES\\Models\\UI_Draenei\\GenericGlow64")
-	frame.nameGlow:SetVertexColor(0, .6, 1)
+	frame.nameGlow:SetVertexColor(0, 1, 1)
 	frame.nameGlow:SetBlendMode("ADD")
 	frame.nameGlow:SetPoint("CENTER", self, "BOTTOM")
 
@@ -441,10 +447,10 @@ function UF:AddQuestIcon(self)
 
 	local qicon = self:CreateTexture(nil, "OVERLAY", nil, 2)
 	qicon:SetPoint("LEFT", self, "RIGHT", -1, 0)
-	qicon:SetSize(28, 28)
+	qicon:SetSize(30, 30)
 	qicon:SetAtlas(DB.questTex)
 	qicon:Hide()
-	local count = B.CreateFS(self, 18, "", nil, "LEFT", 0, 0)
+	local count = B.CreateFS(self, 20, "", nil, "LEFT", 0, 0)
 	count:SetPoint("LEFT", qicon, "RIGHT", -4, 0)
 	count:SetTextColor(.6, .8, 1)
 
@@ -494,7 +500,8 @@ function UF:UpdateDungeonProgress(unit)
 			end
 
 			if value and total then
-				self.progressText:SetText(format("+%.2f", value/total*100))
+				self.progressText:SetText(format("+%.2f%%", value/total*100))
+				self.progressText:SetTextColor(0, 1, 1)
 			end
 		end
 	end
@@ -502,10 +509,10 @@ end
 
 -- Unit classification
 local classify = {
-	rare = {1, 1, 1, true},
-	elite = {1, 1, 1},
-	rareelite = {1, .1, .1},
-	worldboss = {0, 1, 0},
+	rare = {1, 0, 1},
+	elite = {1, 1, 0},
+	rareelite = {0, 1, 1},
+	worldboss = {1, 0, 0},
 }
 
 function UF:AddCreatureIcon(self)
@@ -528,7 +535,7 @@ function UF:UpdateUnitClassify(unit)
 		if (not self.isNameOnly) and class and classify[class] then
 			local r, g, b, desature = unpack(classify[class])
 			self.ClassifyIndicator:SetVertexColor(r, g, b)
-			self.ClassifyIndicator:SetDesaturated(desature)
+			self.ClassifyIndicator:SetDesaturated(true)
 			self.ClassifyIndicator:Show()
 		else
 			self.ClassifyIndicator:Hide()
@@ -544,7 +551,7 @@ function UF:UpdateExplosives(event, unit)
 
 	local npcID = self.npcID
 	if event == "NAME_PLATE_UNIT_ADDED" and npcID == id then
-		self:SetScale(NDuiADB["UIScale"]*1.25)
+		self:SetScale(NDuiADB["UIScale"]*1.5)
 	elseif event == "NAME_PLATE_UNIT_REMOVED" then
 		self:SetScale(NDuiADB["UIScale"])
 	end
@@ -591,48 +598,36 @@ function UF:UpdateMouseoverShown()
 
 	if self:IsShown() and UnitIsUnit("mouseover", self.unit) then
 		self.HighlightIndicator:Show()
-		self.HighlightUpdater:Show()
 	else
-		self.HighlightUpdater:Hide()
+		self.HighlightIndicator:Hide()
 	end
 end
 
 function UF:MouseoverIndicator(self)
-	local highlight = CreateFrame("Frame", nil, self.Health)
-	highlight:SetAllPoints(self)
-	highlight:Hide()
-	local texture = highlight:CreateTexture(nil, "ARTWORK")
-	texture:SetAllPoints()
-	texture:SetColorTexture(1, 1, 1, .25)
+	local color = C.db["Nameplate"]["HighlightColor"]
 
-	self:RegisterEvent("UPDATE_MOUSEOVER_UNIT", UF.UpdateMouseoverShown, true)
+	local frame = CreateFrame("Frame", nil, self)
+	frame:SetAllPoints()
+	frame:SetFrameLevel(self:GetFrameLevel()+1)
 
-	local f = CreateFrame("Frame", nil, self)
-	f:SetScript("OnUpdate", function(_, elapsed)
-		f.elapsed = (f.elapsed or 0) + elapsed
-		if f.elapsed > .1 then
+	frame.Highlight = B.CreateSD(frame, true)
+	frame.Highlight:SetOutside(self.Health.bd, B.Scale(4), B.Scale(4))
+	frame.Highlight:SetBackdropBorderColor(color.r, color.g, color.b)
+	frame.Highlight:Hide()
+
+	frame:SetScript("OnUpdate", function(_, elapsed)
+		frame.elapsed = (frame.elapsed or 0) + elapsed
+		if frame.elapsed > .1 then
 			if not UF.IsMouseoverUnit(self) then
-				f:Hide()
+				frame.Highlight:Hide()
 			end
-			f.elapsed = 0
+			frame.elapsed = 0
 		end
 	end)
-	f:HookScript("OnHide", function()
-		highlight:Hide()
-	end)
 
-	self.HighlightIndicator = highlight
-	self.HighlightUpdater = f
-end
-
--- WidgetContainer
-function UF:AddWidgetContainer(self)
-	local widgetContainer = CreateFrame("Frame", nil, self, "UIWidgetContainerTemplate")
-	widgetContainer:SetPoint("TOP", self.Castbar, "BOTTOM", 0, -5)
-	widgetContainer:SetScale(B:Round(1/NDuiADB["UIScale"], 2))
-	widgetContainer:Hide()
-
-	self.WidgetContainer = widgetContainer
+	self:RegisterEvent("UPDATE_MOUSEOVER_UNIT", UF.UpdateMouseoverShown, true)
+	self.HighlightUpdater = frame
+	self.HighlightIndicator = frame.Highlight
 end
 
 -- Interrupt info on castbars
@@ -641,13 +636,12 @@ function UF:UpdateCastbarInterrupt(...)
 	local _, eventType, _, sourceGUID, sourceName, _, _, destGUID = ...
 	if eventType == "SPELL_INTERRUPT" and destGUID and sourceName and sourceName ~= "" then
 		local nameplate = guidToPlate[destGUID]
+		local name = Ambiguate(sourceName, "short")
 		if nameplate and nameplate.Castbar then
 			local _, class = GetPlayerInfoByGUID(sourceGUID)
 			local r, g, b = B.ClassColor(class)
 			local color = B.HexRGB(r, g, b)
-			local sourceName = Ambiguate(sourceName, "short")
-			nameplate.Castbar.Text:SetText(INTERRUPTED.." > "..color..sourceName)
-			nameplate.Castbar.Time:SetText("")
+			nameplate.Castbar.Time:SetText(color..name)
 		end
 	end
 end
@@ -666,9 +660,8 @@ function UF:CreatePlates()
 
 	local health = CreateFrame("StatusBar", nil, self)
 	health:SetAllPoints()
-	health:SetStatusBarTexture(DB.normTex)
-	health.backdrop = B.SetBD(health) -- don't mess up with libs
-	B:SmoothBar(health)
+	B.CreateSB(health)
+	B.SmoothBar(health)
 
 	self.Health = health
 	self.Health.UpdateColor = UF.UpdateColor
@@ -693,14 +686,13 @@ function UF:CreatePlates()
 	self.powerText:SetPoint("TOP", self.Castbar, "BOTTOM", 0, -4)
 	self:Tag(self.powerText, "[nppp]")
 
-	UF:AddWidgetContainer(self)
 	UF:MouseoverIndicator(self)
 	UF:AddTargetIndicator(self)
 	UF:AddCreatureIcon(self)
 	UF:AddQuestIcon(self)
 	UF:AddDungeonProgress(self)
 
-	platesList[self] = self:GetName()
+	platesList[self] = self:GetDebugName()
 end
 
 -- Classpower on target nameplate
@@ -808,6 +800,11 @@ function UF:UpdatePlateByType()
 		raidtarget:SetParent(self)
 		classify:Hide()
 		if questIcon then questIcon:SetPoint("LEFT", name, "RIGHT", -1, 0) end
+
+		if self.widgetContainer then
+			self.widgetContainer:ClearAllPoints()
+			self.widgetContainer:SetPoint("TOP", title, "BOTTOM", 0, -5)
+		end
 	else
 		for _, element in pairs(DisabledElements) do
 			if not self:IsElementEnabled(element) then
@@ -827,6 +824,11 @@ function UF:UpdatePlateByType()
 		raidtarget:SetParent(self.Health)
 		classify:Show()
 		if questIcon then questIcon:SetPoint("LEFT", self, "RIGHT", -1, 0) end
+
+		if self.widgetContainer then
+			self.widgetContainer:ClearAllPoints()
+			self.widgetContainer:SetPoint("TOP", self.Castbar, "BOTTOM", 0, -5)
+		end
 	end
 
 	UF.UpdateTargetIndicator(self)
@@ -867,7 +869,13 @@ function UF:PostUpdatePlates(event, unit)
 		self.isPlayer = UnitIsPlayer(unit)
 		self.npcID = B.GetNPCID(self.unitGUID)
 		self.widgetsOnly = UnitNameplateShowsWidgetsOnly(unit)
-		self.WidgetContainer:RegisterForWidgetSet(UnitWidgetSet(unit), B.Widget_DefaultLayout, nil, unit)
+
+		local blizzPlate = self:GetParent().UnitFrame
+		self.widgetContainer = blizzPlate.WidgetContainer
+		if self.widgetContainer then
+			self.widgetContainer:SetParent(self)
+			self.widgetContainer:SetScale(1/NDuiADB["UIScale"])
+		end
 
 		UF.RefreshPlateType(self, unit)
 	elseif event == "NAME_PLATE_UNIT_REMOVED" then
@@ -875,7 +883,6 @@ function UF:PostUpdatePlates(event, unit)
 			guidToPlate[self.unitGUID] = nil
 		end
 		self.npcID = nil
-		self.WidgetContainer:UnregisterForWidgetSet()
 	end
 
 	if event ~= "NAME_PLATE_UNIT_REMOVED" then
@@ -890,7 +897,7 @@ function UF:PostUpdatePlates(event, unit)
 end
 
 -- Player Nameplate
-local auras = B:GetModule("Auras")
+local Auras = B:GetModule("Auras")
 
 function UF:PlateVisibility(event)
 	local alpha = C.db["Nameplate"]["PPFadeoutAlpha"]
@@ -934,7 +941,7 @@ function UF:ResizePlayerPlate()
 			plate.Stagger:SetHeight(barHeight)
 		end
 		if plate.lumos then
-			local iconSize = (barWidth+2*C.mult - C.margin*4)/5
+			local iconSize = (barWidth - C.margin*4)/5
 			for i = 1, 5 do
 				plate.lumos[i]:SetSize(iconSize, iconSize)
 			end
@@ -963,7 +970,7 @@ function UF:CreatePlayerPlate()
 	UF:CreatePowerBar(self)
 	UF:CreateClassPower(self)
 	UF:StaggerBar(self)
-	if C.db["Auras"]["ClassAuras"] then auras:CreateLumos(self) end
+	if C.db["Auras"]["ClassAuras"] then Auras:CreateLumos(self) end
 
 	local textFrame = CreateFrame("Frame", nil, self.Power)
 	textFrame:SetAllPoints()

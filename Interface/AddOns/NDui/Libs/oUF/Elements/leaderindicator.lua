@@ -13,13 +13,13 @@ A default texture will be applied if the widget is a Texture and doesn't have a 
 
 ## Examples
 
-    -- Position and size
-    local LeaderIndicator = self:CreateTexture(nil, 'OVERLAY')
-    LeaderIndicator:SetSize(16, 16)
-    LeaderIndicator:SetPoint('BOTTOM', self, 'TOP')
+	-- Position and size
+	local LeaderIndicator = self:CreateTexture(nil, 'OVERLAY')
+	LeaderIndicator:SetSize(16, 16)
+	LeaderIndicator:SetPoint('BOTTOM', self, 'TOP')
 
-    -- Register it with oUF
-    self.LeaderIndicator = LeaderIndicator
+	-- Register it with oUF
+	self.LeaderIndicator = LeaderIndicator
 --]]
 
 local _, ns = ...
@@ -34,12 +34,12 @@ local function Update(self, event)
 
 	* self - the LeaderIndicator element
 	--]]
-	if(element.PreUpdate) then
+	if (element.PreUpdate) then
 		element:PreUpdate()
 	end
 
 	local isLeader = (UnitInParty(unit) or UnitInRaid(unit)) and UnitIsGroupLeader(unit)
-	if(isLeader) then
+	if (isLeader) then
 		element:Show()
 	else
 		element:Hide()
@@ -51,7 +51,7 @@ local function Update(self, event)
 	* self     - the LeaderIndicator element
 	* isLeader - indicates whether the element is shown (boolean)
 	--]]
-	if(element.PostUpdate) then
+	if (element.PostUpdate) then
 		return element:PostUpdate(isLeader)
 	end
 end
@@ -73,14 +73,14 @@ end
 
 local function Enable(self)
 	local element = self.LeaderIndicator
-	if(element) then
+	if (element) then
 		element.__owner = self
 		element.ForceUpdate = ForceUpdate
 
 		self:RegisterEvent('PARTY_LEADER_CHANGED', Path, true)
 		self:RegisterEvent('GROUP_ROSTER_UPDATE', Path, true)
 
-		if(element:IsObjectType('Texture') and not element:GetTexture()) then
+		if (element:IsObjectType('Texture') and not element:GetTexture()) then
 			element:SetTexture([[Interface\GroupFrame\UI-Group-LeaderIcon]])
 		end
 
@@ -90,7 +90,7 @@ end
 
 local function Disable(self)
 	local element = self.LeaderIndicator
-	if(element) then
+	if (element) then
 		element:Hide()
 
 		self:UnregisterEvent('PARTY_LEADER_CHANGED', Path)

@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local S = B:RegisterModule("Skins")
+local Skins = B:RegisterModule("Skins")
 
 local pairs, wipe = pairs, wipe
 local IsAddOnLoaded = IsAddOnLoaded
@@ -8,16 +8,15 @@ local IsAddOnLoaded = IsAddOnLoaded
 C.defaultThemes = {}
 C.themes = {}
 
-function S:LoadDefaultSkins()
+function Skins:LoadDefaultSkins()
 	if IsAddOnLoaded("AuroraClassic") or IsAddOnLoaded("Aurora") then return end
+	if not C.db["Skins"]["BlizzardSkins"] then return end
 
 	-- Reskin Blizzard UIs
 	for _, func in pairs(C.defaultThemes) do
 		func()
 	end
 	wipe(C.defaultThemes)
-
-	if not C.db["Skins"]["BlizzardSkins"] then return end
 
 	for addonName, func in pairs(C.themes) do
 		local isLoaded, isFinished = IsAddOnLoaded(addonName)
@@ -36,17 +35,39 @@ function S:LoadDefaultSkins()
 	end)
 end
 
-function S:OnLogin()
+function Skins:OnLogin()
+	self:Fonts()
 	self:LoadDefaultSkins()
 
 	-- Add Skins
-	self:DBMSkin()
-	self:SkadaSkin()
-	self:BigWigsSkin()
-	self:PGFSkin()
-	self:ReskinRematch()
-	self:PostalSkin()
+	self:BigWigs()
+	self:DeadlyBossMods()
+	self:Skada()
 
+	self:Other()
+
+	if C.db["Skins"]["BlizzardSkins"] then
+		--self:Ace3()
+		self:BaudErrorFrame()
+		self:BuyEmAll()
+		self:ClassicQuestLog()
+		self:CompactVendor()
+		self:CompactVendorFilter()
+		self:DungeonWatchDog()
+		self:ExtVendor()
+		self:Immersion()
+		self:ls_Toasts()
+		self:MeetingStone()
+		self:MogPartialSets()
+		self:Postal()
+		self:PremadeGroupsFilter()
+		self:Rematch()
+		self:Simulationcraft()
+		self:TomeOfTeleportation()
+		self:TransmogWishList()
+		self:WhisperPop()
+		self:WorldQuestTab()
+	end
 	-- Register skin
 	local media = LibStub and LibStub("LibSharedMedia-3.0", true)
 	if media then
@@ -54,16 +75,16 @@ function S:OnLogin()
 	end
 end
 
-function S:GetToggleDirection()
+function Skins.GetToggleDirection()
 	local direc = C.db["Skins"]["ToggleDirection"]
 	if direc == 1 then
-		return ">", "<", "RIGHT", "LEFT", -2, 0, 20, 80
+		return "|", "|", "RIGHT", "LEFT", -2, 0, 20, 80
 	elseif direc == 2 then
-		return "<", ">", "LEFT", "RIGHT", 2, 0, 20, 80
+		return "|", "|", "LEFT", "RIGHT", 2, 0, 20, 80
 	elseif direc == 3 then
-		return "∨", "∧", "BOTTOM", "TOP", 0, 2, 80, 20
+		return "—", "—", "BOTTOM", "TOP", 0, 2, 80, 20
 	else
-		return "∧", "∨", "TOP", "BOTTOM", 0, -2, 80, 20
+		return "—", "—", "TOP", "BOTTOM", 0, -2, 80, 20
 	end
 end
 
@@ -73,18 +94,19 @@ local function CreateToggleButton(parent)
 	local bu = CreateFrame("Button", nil, parent)
 	bu:SetSize(20, 80)
 	bu.text = B.CreateFS(bu, 18, nil, true)
-	B.ReskinMenuButton(bu)
+	B.ReskinButton(bu)
+	B.CreateBT(bu.__Tex)
 
 	return bu
 end
 
-function S:CreateToggle(frame)
-	local close = CreateToggleButton(frame)
-	frame.closeButton = close
+function Skins:CreateToggle()
+	local close = CreateToggleButton(self)
+	self.closeButton = close
 
 	local open = CreateToggleButton(UIParent)
 	open:Hide()
-	frame.openButton = open
+	self.openButton = open
 
 	open:SetScript("OnClick", function()
 		open:Hide()
@@ -93,17 +115,17 @@ function S:CreateToggle(frame)
 		open:Show()
 	end)
 
-	S:SetToggleDirection(frame)
-	tinsert(toggleFrames, frame)
+	Skins.SetToggleDirection(self)
+	tinsert(toggleFrames, self)
 
 	return open, close
 end
 
-function S:SetToggleDirection(frame)
-	local str1, str2, rel1, rel2, x, y, width, height = S:GetToggleDirection()
-	local parent = frame.bg
-	local close = frame.closeButton
-	local open = frame.openButton
+function Skins:SetToggleDirection()
+	local str1, str2, rel1, rel2, x, y, width, height = Skins.GetToggleDirection()
+	local parent = self.bg
+	local close = self.closeButton
+	local open = self.openButton
 	close:ClearAllPoints()
 	close:SetPoint(rel1, parent, rel2, x, y)
 	close:SetSize(width, height)
@@ -114,13 +136,13 @@ function S:SetToggleDirection(frame)
 	open.text:SetText(str2)
 end
 
-function S:RefreshToggleDirection()
+function Skins.RefreshToggleDirection()
 	for _, frame in pairs(toggleFrames) do
-		S:SetToggleDirection(frame)
+		Skins.SetToggleDirection(frame)
 	end
 end
 
-function S:LoadWithAddOn(addonName, value, func)
+function Skins.LoadWithAddOn(addonName, value, func)
 	local function loadFunc(event, addon)
 		if not C.db["Skins"][value] then return end
 

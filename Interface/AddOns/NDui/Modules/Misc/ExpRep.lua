@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local M = B:GetModule("Misc")
+local Misc = B:GetModule("Misc")
 
 --[[
 	一个工具条用来替代系统的经验条、声望条、神器经验等等
@@ -22,7 +22,6 @@ local IsWatchingHonorAsXP, UnitHonor, UnitHonorMax, UnitHonorLevel = IsWatchingH
 local IsPlayerAtEffectiveMaxLevel = IsPlayerAtEffectiveMaxLevel
 local C_Reputation_IsFactionParagon = C_Reputation.IsFactionParagon
 local C_Reputation_GetFactionParagonInfo = C_Reputation.GetFactionParagonInfo
-local C_AzeriteItem_HasActiveAzeriteItem = C_AzeriteItem.HasActiveAzeriteItem
 local C_AzeriteItem_IsAzeriteItemAtMaxLevel = C_AzeriteItem.IsAzeriteItemAtMaxLevel
 local C_AzeriteItem_FindActiveAzeriteItem = C_AzeriteItem.FindActiveAzeriteItem
 local C_AzeriteItem_GetAzeriteItemXPInfo = C_AzeriteItem.GetAzeriteItemXPInfo
@@ -30,7 +29,12 @@ local C_AzeriteItem_GetPowerLevel = C_AzeriteItem.GetPowerLevel
 local C_ArtifactUI_IsEquippedArtifactDisabled = C_ArtifactUI.IsEquippedArtifactDisabled
 local C_ArtifactUI_GetEquippedArtifactInfo = C_ArtifactUI.GetEquippedArtifactInfo
 
-function M:ExpBar_Update()
+local function IsAzeriteAvailable()
+	local itemLocation = C_AzeriteItem_FindActiveAzeriteItem()
+	return itemLocation and itemLocation:IsEquipmentSlot() and not C_AzeriteItem_IsAzeriteItemAtMaxLevel()
+end
+
+function Misc:ExpBar_Update()
 	local rest = self.restBar
 	if rest then rest:Hide() end
 
@@ -73,20 +77,13 @@ function M:ExpBar_Update()
 		self:SetMinMaxValues(0, barMax)
 		self:SetValue(current)
 		self:Show()
-	elseif C_AzeriteItem_HasActiveAzeriteItem() then
-		local isMaxLevel = C_AzeriteItem_IsAzeriteItemAtMaxLevel()
-		if isMaxLevel then
-			self:Hide()
-		else
-			local azeriteItemLocation = C_AzeriteItem_FindActiveAzeriteItem()
-			if azeriteItemLocation then
-				local xp, totalLevelXP = C_AzeriteItem_GetAzeriteItemXPInfo(azeriteItemLocation)
-				self:SetStatusBarColor(.9, .8, .6)
-				self:SetMinMaxValues(0, totalLevelXP)
-				self:SetValue(xp)
-				self:Show()
-			end
-		end
+	elseif IsAzeriteAvailable() then
+		local azeriteItemLocation = C_AzeriteItem_FindActiveAzeriteItem()
+		local xp, totalLevelXP = C_AzeriteItem_GetAzeriteItemXPInfo(azeriteItemLocation)
+		self:SetStatusBarColor(.9, .8, .6)
+		self:SetMinMaxValues(0, totalLevelXP)
+		self:SetValue(xp)
+		self:Show()
 	elseif HasArtifactEquipped() then
 		if C_ArtifactUI_IsEquippedArtifactDisabled() then
 			self:SetStatusBarColor(.6, .6, .6)
@@ -106,7 +103,7 @@ function M:ExpBar_Update()
 	end
 end
 
-function M:ExpBar_UpdateTooltip()
+function Misc:ExpBar_UpdateTooltip()
 	GameTooltip:SetOwner(self, "ANCHOR_LEFT")
 	GameTooltip:ClearLines()
 	GameTooltip:AddLine(LEVEL.." "..UnitLevel("player"), 0,.6,1)
@@ -114,11 +111,12 @@ function M:ExpBar_UpdateTooltip()
 	if not IsPlayerAtEffectiveMaxLevel() then
 		GameTooltip:AddLine(" ")
 		local xp, mxp, rxp = UnitXP("player"), UnitXPMax("player"), GetXPExhaustion()
-		GameTooltip:AddDoubleLine(XP..":", BreakUpLargeNumbers(xp).." / "..BreakUpLargeNumbers(mxp).." ("..format("%.1f%%)", xp/mxp*100), .6,.8,1, 1,1,1)
+			GameTooltip:AddDoubleLine(EXPERIENCE_COLON, format("%s / %s (%.1f%%)", B.FormatNumb(xp), B.FormatNumb(mxp), xp/mxp*100), .6,.8,1, 1,1,1)
+			GameTooltip:AddDoubleLine(NEXT_RANK_COLON, format("%s (%.1f%%)", B.FormatNumb(mxp-xp), (1-xp/mxp)*100), .6,.8,1, 1,1,1)
 		if rxp then
-			GameTooltip:AddDoubleLine(TUTORIAL_TITLE26..":", "+"..BreakUpLargeNumbers(rxp).." ("..format("%.1f%%)", rxp/mxp*100), .6,.8,1, 1,1,1)
+			GameTooltip:AddDoubleLine(TUTORIAL_TITLE26.."：", format("+%s (%.1f%%)", B.FormatNumb(rxp), rxp/mxp*100), .6,.8,1, 1,1,1)
 		end
-		if IsXPUserDisabled() then GameTooltip:AddLine("|cffff0000"..XP..LOCKED) end
+		if IsXPUserDisabled() then GameTooltip:AddLine("|cffFF0000"..XP..LOCKED) end
 	end
 
 	if GetWatchedFactionInfo() then
@@ -141,15 +139,22 @@ function M:ExpBar_UpdateTooltip()
 			end
 			standingtext = GetText("FACTION_STANDING_LABEL"..standing, UnitSex("player"))
 		end
+
+		local curValue, maxValue = value - barMin, barMax - barMin
 		GameTooltip:AddLine(" ")
-		GameTooltip:AddLine(name, 0,.6,1)
-		GameTooltip:AddDoubleLine(standingtext, value - barMin.." / "..barMax - barMin.." ("..floor((value - barMin)/(barMax - barMin)*100).."%)", .6,.8,1, 1,1,1)
+		if curValue < 0 then
+			GameTooltip:AddLine(name, 0,.6,1)
+			GameTooltip:AddLine(standingtext, .6,.8,1)
+		else
+			GameTooltip:AddLine(name, 0,.6,1)
+			GameTooltip:AddDoubleLine(standingtext, format("%s / %s (%.1f%%)", curValue, maxValue, curValue/maxValue*100), .6,.8,1, 1,1,1)
+		end
 
 		if C_Reputation_IsFactionParagon(factionID) then
 			local currentValue, threshold = C_Reputation_GetFactionParagonInfo(factionID)
 			local paraCount = floor(currentValue/threshold)
 			currentValue = mod(currentValue, threshold)
-			GameTooltip:AddDoubleLine(L["Paragon"]..paraCount, currentValue.." / "..threshold.." ("..floor(currentValue/threshold*100).."%)", .6,.8,1, 1,1,1)
+			GameTooltip:AddDoubleLine(L["Paragon"]..paraCount, format("%s / %s (%.1f%%)", currentValue, threshold, currentValue/threshold*100), .6,.8,1, 1,1,1)
 		end
 	end
 
@@ -160,7 +165,7 @@ function M:ExpBar_UpdateTooltip()
 		GameTooltip:AddDoubleLine(LEVEL.." "..level, current.." / "..barMax, .6,.8,1, 1,1,1)
 	end
 
-	if C_AzeriteItem_HasActiveAzeriteItem() then
+	if IsAzeriteAvailable() then
 		local azeriteItemLocation = C_AzeriteItem_FindActiveAzeriteItem()
 		local azeriteItem = Item:CreateFromItemLocation(azeriteItemLocation)
 		local xp, totalLevelXP = C_AzeriteItem_GetAzeriteItemXPInfo(azeriteItemLocation)
@@ -170,8 +175,9 @@ function M:ExpBar_UpdateTooltip()
 			azeriteItem:ContinueWithCancelOnItemLoad(function()
 				local azeriteItemName = azeriteItem:GetItemName()
 				GameTooltip:AddLine(" ")
-				GameTooltip:AddLine(azeriteItemName.." ("..format(SPELLBOOK_AVAILABLE_AT, currentLevel)..")", 0,.6,1)
-				GameTooltip:AddDoubleLine(ARTIFACT_POWER, BreakUpLargeNumbers(xp).." / "..BreakUpLargeNumbers(totalLevelXP).." ("..floor(xp/totalLevelXP*100).."%)", .6,.8,1, 1,1,1)
+				GameTooltip:AddLine(azeriteItemName.." "..currentLevel, 0,.6,1)
+				GameTooltip:AddDoubleLine(ARTIFACT_POWER.."：", format("%s / %s (%.1f%%)", B.FormatNumb(xp), B.FormatNumb(totalLevelXP), xp/totalLevelXP*100), .6,.8,1, 1,1,1)
+				GameTooltip:AddDoubleLine(NEXT_RANK_COLON, format("%s (%.1f%%)", B.FormatNumb(totalLevelXP-xp), (1-xp/totalLevelXP)*100), .6,.8,1, 1,1,1)
 			end)
 		end
 	end
@@ -184,19 +190,19 @@ function M:ExpBar_UpdateTooltip()
 			GameTooltip:AddLine(name, 0,.6,1)
 			GameTooltip:AddLine(ARTIFACT_RETIRED, .6,.8,1, 1)
 		else
-			GameTooltip:AddLine(name.." ("..format(SPELLBOOK_AVAILABLE_AT, pointsSpent)..")", 0,.6,1)
+			GameTooltip:AddLine(name.." "..pointsSpent, 0,.6,1)
 			local numText = num > 0 and " ("..num..")" or ""
-			GameTooltip:AddDoubleLine(ARTIFACT_POWER, BreakUpLargeNumbers(totalXP)..numText, .6,.8,1, 1,1,1)
+			GameTooltip:AddDoubleLine(ARTIFACT_POWER.."：", B.FormatNumb(totalXP)..numText, .6,.8,1, 1,1,1)
 			if xpForNextPoint ~= 0 then
-				local perc = " ("..floor(xp/xpForNextPoint*100).."%)"
-				GameTooltip:AddDoubleLine(L["Next Trait"], BreakUpLargeNumbers(xp).." / "..BreakUpLargeNumbers(xpForNextPoint)..perc, .6,.8,1, 1,1,1)
+				GameTooltip:AddDoubleLine(NEXT_ABILITY.."：", format("%s / %s (%.1f%%)", B.FormatNumb(xp), B.FormatNumb(xpForNextPoint), xp/xpForNextPoint*100), .6,.8,1, 1,1,1)
+				GameTooltip:AddDoubleLine(GARRISON_FOLLOWER_XP_UPGRADE_STRING.."：", format("%s (%.1f%%)", B.FormatNumb(xpForNextPoint-xp), (1-xp/xpForNextPoint)*100), .6,.8,1, 1,1,1)
 			end
 		end
 	end
 	GameTooltip:Show()
 end
 
-function M:SetupScript(bar)
+function Misc:SetupScript(bar)
 	bar.eventList = {
 		"PLAYER_XP_UPDATE",
 		"PLAYER_LEVEL_UP",
@@ -204,7 +210,7 @@ function M:SetupScript(bar)
 		"PLAYER_ENTERING_WORLD",
 		"UPDATE_FACTION",
 		"ARTIFACT_XP_UPDATE",
-		"UNIT_INVENTORY_CHANGED",
+		"PLAYER_EQUIPMENT_CHANGED",
 		"ENABLE_XP_GAIN",
 		"DISABLE_XP_GAIN",
 		"AZERITE_ITEM_EXPERIENCE_CHANGED",
@@ -213,29 +219,29 @@ function M:SetupScript(bar)
 	for _, event in pairs(bar.eventList) do
 		bar:RegisterEvent(event)
 	end
-	bar:SetScript("OnEvent", M.ExpBar_Update)
-	bar:SetScript("OnEnter", M.ExpBar_UpdateTooltip)
+	bar:SetScript("OnEvent", Misc.ExpBar_Update)
+	bar:SetScript("OnEnter", Misc.ExpBar_UpdateTooltip)
 	bar:SetScript("OnLeave", B.HideTooltip)
 	bar:SetScript("OnMouseUp", function(_, btn)
 		if not HasArtifactEquipped() or btn ~= "LeftButton" then return end
 		if not ArtifactFrame or not ArtifactFrame:IsShown() then
 			SocketInventoryItem(16)
 		else
-			B:TogglePanel(ArtifactFrame)
+			B.TogglePanel(ArtifactFrame)
 		end
 	end)
 	hooksecurefunc(StatusTrackingBarManager, "UpdateBarsShown", function()
-		M.ExpBar_Update(bar)
+		Misc.ExpBar_Update(bar)
 	end)
 end
 
-function M:Expbar()
+function Misc:Expbar()
 	if not C.db["Misc"]["ExpRep"] then return end
 
 	local bar = CreateFrame("StatusBar", nil, MinimapCluster)
-	bar:SetPoint("TOPLEFT", Minimap, "BOTTOMLEFT", 5, -5)
-	bar:SetPoint("TOPRIGHT", Minimap, "BOTTOMRIGHT", -5, -5)
-	bar:SetHeight(5)
+	bar:SetPoint("TOPLEFT", Minimap, "BOTTOMLEFT", 0, -5)
+	bar:SetPoint("TOPRIGHT", Minimap, "BOTTOMRIGHT", 0, -5)
+	bar:SetHeight(6)
 	bar:SetHitRectInsets(0, 0, 0, -10)
 	B.CreateSB(bar)
 
@@ -246,14 +252,16 @@ function M:Expbar()
 	rest:SetFrameLevel(bar:GetFrameLevel() - 1)
 	bar.restBar = rest
 
-	M:SetupScript(bar)
+	Misc:SetupScript(bar)
 end
-M:RegisterMisc("ExpRep", M.Expbar)
+Misc:RegisterMisc("ExpRep", Misc.Expbar)
 
 -- Paragon reputation info
-function M:HookParagonRep()
+function Misc:HookParagonRep()
+	ReputationFrame.paragonFramesPool:ReleaseAll()
 	local numFactions = GetNumFactions()
 	local factionOffset = FauxScrollFrame_GetOffset(ReputationListScrollFrame)
+
 	for i = 1, NUM_FACTIONS_DISPLAYED, 1 do
 		local factionIndex = factionOffset + i
 		local factionRow = _G["ReputationBar"..i]
@@ -263,24 +271,34 @@ function M:HookParagonRep()
 		if factionIndex <= numFactions then
 			local factionID = select(14, GetFactionInfo(factionIndex))
 			if factionID and C_Reputation_IsFactionParagon(factionID) then
-				local currentValue, threshold = C_Reputation_GetFactionParagonInfo(factionID)
-				if currentValue then
+				local currentValue, threshold, _, hasRewardPending = C_Reputation_GetFactionParagonInfo(factionID)
+				if currentValue and threshold then
 					local barValue = mod(currentValue, threshold)
 					local factionStandingtext = L["Paragon"]..floor(currentValue/threshold)
 
+					if hasRewardPending then
+						local paragonFrame = ReputationFrame.paragonFramesPool:Acquire()
+						paragonFrame.factionID = factionID
+						paragonFrame.Check:SetShown(true)
+						paragonFrame.Glow:SetShown(true)
+						paragonFrame:SetPoint("RIGHT", factionRow, 11, 0)
+						paragonFrame:Show()
+					end
+
 					factionBar:SetMinMaxValues(0, threshold)
+					factionBar:SetStatusBarColor(0, .5, .9)
 					factionBar:SetValue(barValue)
-					factionStanding:SetText(factionStandingtext)
-					factionRow.standingText = factionStandingtext
 					factionRow.rolloverText = format(REPUTATION_PROGRESS_FORMAT, BreakUpLargeNumbers(barValue), BreakUpLargeNumbers(threshold))
+					factionRow.standingText = factionStandingtext
+					factionStanding:SetText(factionStandingtext)
 				end
 			end
 		end
 	end
 end
 
-function M:ParagonReputationSetup()
+function Misc:ParagonReputationSetup()
 	if not C.db["Misc"]["ParagonRep"] then return end
-	hooksecurefunc("ReputationFrame_Update", M.HookParagonRep)
+	hooksecurefunc("ReputationFrame_Update", Misc.HookParagonRep)
 end
-M:RegisterMisc("ParagonRep", M.ParagonReputationSetup)
+Misc:RegisterMisc("ParagonRep", Misc.ParagonReputationSetup)

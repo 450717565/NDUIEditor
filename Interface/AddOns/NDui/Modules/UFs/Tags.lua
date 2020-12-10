@@ -1,6 +1,6 @@
 ﻿local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local oUF = ns.oUF or oUF
+local oUF = ns.oUF
 
 local AFK, DND, DEAD, PLAYER_OFFLINE, LEVEL = AFK, DND, DEAD, PLAYER_OFFLINE, LEVEL
 local format, strfind, GetCVarBool = format, strfind, GetCVarBool
@@ -28,9 +28,9 @@ end
 
 local function ValueAndPercent(cur, per)
 	if per < 100 then
-		return B.Numb(cur).." | "..ColorPercent(per)
+		return B.FormatNumb(cur).." | "..ColorPercent(per)
 	else
-		return B.Numb(cur)
+		return B.FormatNumb(cur)
 	end
 end
 
@@ -54,13 +54,13 @@ oUF.Tags.Methods["power"] = function(unit)
 	local per = oUF.Tags.Methods["perpp"](unit) or 0
 	if (unit == "player" and not UnitHasVehicleUI(unit)) or unit == "target" or unit == "focus" then
 		if per < 100 and UnitPowerType(unit) == 0 then
-			return B.Numb(cur).." | "..per
+			return B.FormatNumb(cur).." | "..per
 		else
-			return B.Numb(cur)
+			return B.FormatNumb(cur)
 		end
 	else
 		return per
-    end
+	end
 end
 oUF.Tags.Events["power"] = "UNIT_POWER_FREQUENT UNIT_MAXPOWER UNIT_DISPLAYPOWER"
 
@@ -148,11 +148,11 @@ oUF.Tags.Methods["raidhp"] = function(unit)
 		return ColorPercent(per)
 	elseif C.db["UFs"]["RaidHPMode"] == 3 then
 		local cur = UnitHealth(unit)
-		return B.Numb(cur)
+		return B.FormatNumb(cur)
 	elseif C.db["UFs"]["RaidHPMode"] == 4 then
 		local loss = UnitHealthMax(unit) - UnitHealth(unit)
 		if loss == 0 then return end
-		return B.Numb(loss)
+		return B.FormatNumb(loss)
 	end
 end
 oUF.Tags.Events["raidhp"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_NAME_UPDATE UNIT_CONNECTION PLAYER_FLAGS_CHANGED"
@@ -238,6 +238,6 @@ oUF.Tags.Methods["monkstagger"] = function(unit)
 	local cur = UnitStagger(unit) or 0
 	local perc = cur / UnitHealthMax(unit)
 	if cur == 0 then return end
-	return B.Numb(cur).." | "..DB.MyColor..B:Round(perc*100).."%"
+	return B.FormatNumb(cur).." | "..DB.MyColor..B.Round(perc*100).."%"
 end
 oUF.Tags.Events["monkstagger"] = "UNIT_MAXHEALTH UNIT_AURA"

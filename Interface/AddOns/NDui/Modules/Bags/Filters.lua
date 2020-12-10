@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local module = B:GetModule("Bags")
+local Bags = B:GetModule("Bags")
 
 local LE_ITEM_QUALITY_POOR, LE_ITEM_QUALITY_COMMON, LE_ITEM_QUALITY_LEGENDARY = LE_ITEM_QUALITY_POOR, LE_ITEM_QUALITY_COMMON, LE_ITEM_QUALITY_LEGENDARY
 local LE_ITEM_CLASS_GEM, LE_ITEM_GEM_ARTIFACTRELIC = LE_ITEM_CLASS_GEM, LE_ITEM_GEM_ARTIFACTRELIC
@@ -12,6 +12,10 @@ local C_AzeriteEmpoweredItem_IsAzeriteEmpoweredItemByID = C_AzeriteEmpoweredItem
 
 -- Custom filter
 local CustomFilterList = {
+	[40772] = false,	-- 侏儒军刀
+	[49040] = false,	-- 基维斯
+	[114943] = false,	-- 终极版侏儒军刀
+	[144341] = false,	-- 可充电的里弗斯电池
 	[37863] = false,	-- 酒吧传送器
 	[141333] = true,	-- 宁神圣典
 	[141446] = true,	-- 宁神书卷
@@ -53,21 +57,21 @@ local function isAzeriteArmor(item)
 	return C_AzeriteEmpoweredItem_IsAzeriteEmpoweredItemByID(item.link) and not isItemEquipSet(item)
 end
 
-function module:IsArtifactRelic(item)
+function Bags:IsArtifactRelic(item)
 	return item.classID == LE_ITEM_CLASS_GEM and item.subClassID == LE_ITEM_GEM_ARTIFACTRELIC
 end
 
 local function isItemEquipment(item)
 	if not C.db["Bags"]["ItemFilter"] then return end
 	if not C.db["Bags"]["FilterEquipment"] then return end
-	return item.level and item.rarity > LE_ITEM_QUALITY_COMMON and (module:IsArtifactRelic(item) or item.classID == LE_ITEM_CLASS_WEAPON or item.classID == LE_ITEM_CLASS_ARMOR) and not isItemEquipSet(item)
+	return item.level and item.rarity > LE_ITEM_QUALITY_COMMON and (Bags:IsArtifactRelic(item) or item.classID == LE_ITEM_CLASS_WEAPON or item.classID == LE_ITEM_CLASS_ARMOR) and not isItemEquipSet(item)
 end
 
 local function isItemConsumable(item)
 	if not C.db["Bags"]["ItemFilter"] then return end
 	if not C.db["Bags"]["FilterConsumable"] then return end
 	if isCustomFilter(item) == false then return end
-	return isCustomFilter(item) or (item.classID and (item.classID == LE_ITEM_CLASS_CONSUMABLE or item.classID == LE_ITEM_CLASS_ITEM_ENHANCEMENT))
+	return isCustomFilter(item) or (item.classID and (item.classID == LE_ITEM_CLASS_CONSUMABLE or item.classID == LE_ITEM_CLASS_ITEM_ENHANCEMENT or item.classID == LE_ITEM_CLASS_GEM))
 end
 
 local function isItemLegendary(item)
@@ -93,7 +97,7 @@ end
 
 local function isEmptySlot(item)
 	if not C.db["Bags"]["GatherEmpty"] then return end
-	return module.initComplete and not item.texture and module.BagsType[item.bagID] == 0
+	return Bags.initComplete and not item.texture and Bags.BagsType[item.bagID] == 0
 end
 
 local function isTradeGoods(item)
@@ -108,21 +112,21 @@ local function isQuestItem(item)
 	return item.questID or item.isQuestItem
 end
 
-function module:GetFilters()
+function Bags:GetFilters()
 	local filters = {}
 
 	filters.onlyBags = function(item) return isItemInBag(item) and not isItemEquipment(item) and not isItemConsumable(item) and not isAzeriteArmor(item) and not isItemJunk(item) and not isItemCollection(item) and not isItemFavourite(item) and not isEmptySlot(item) and not isTradeGoods(item) and not isItemEquipSet(item) and not isQuestItem(item) end
 	filters.bagAzeriteItem = function(item) return isItemInBag(item) and isAzeriteArmor(item) end
 	filters.bagEquipment = function(item) return isItemInBag(item) and isItemEquipment(item) end
 	filters.bagEquipSet = function(item) return isItemInBag(item) and isItemEquipSet(item) end
-	filters.bagConsumable = function(item) return isItemInBag(item) and isItemConsumable(item) end
+	filters.bagConsumable = function(item) return isItemInBag(item) and isItemConsumable(item) and not isItemCollection(item) end
 	filters.bagsJunk = function(item) return isItemInBag(item) and isItemJunk(item) end
 	filters.onlyBank = function(item) return isItemInBank(item) and not isItemEquipment(item) and not isItemLegendary(item) and not isItemConsumable(item) and not isAzeriteArmor(item) and not isItemCollection(item) and not isItemFavourite(item) and not isEmptySlot(item) and not isTradeGoods(item) and not isItemEquipSet(item) and not isQuestItem(item) end
 	filters.bankAzeriteItem = function(item) return isItemInBank(item) and isAzeriteArmor(item) end
 	filters.bankLegendary = function(item) return isItemInBank(item) and isItemLegendary(item) end
 	filters.bankEquipment = function(item) return isItemInBank(item) and isItemEquipment(item) end
 	filters.bankEquipSet = function(item) return isItemInBank(item) and isItemEquipSet(item) end
-	filters.bankConsumable = function(item) return isItemInBank(item) and isItemConsumable(item) end
+	filters.bankConsumable = function(item) return isItemInBank(item) and isItemConsumable(item) and not isItemCollection(item) end
 	filters.onlyReagent = function(item) return item.bagID == -3 and not isEmptySlot(item) end
 	filters.bagCollection = function(item) return isItemInBag(item) and isItemCollection(item) end
 	filters.bankCollection = function(item) return isItemInBank(item) and isItemCollection(item) end

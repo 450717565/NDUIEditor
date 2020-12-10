@@ -27,76 +27,81 @@ DB.MyRealm = GetRealmName()
 DB.MyFullName = DB.MyName.."-"..DB.MyRealm
 DB.MyClass = select(2, UnitClass("player"))
 DB.MyFaction = UnitFactionGroup("player")
+
 DB.ClassList = {}
 for k, v in pairs(LOCALIZED_CLASS_NAMES_MALE) do
 	DB.ClassList[v] = k
 end
+
 DB.ClassColors = {}
-local colors = CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS
-for class, value in pairs(colors) do
+local classColors = CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS
+for class, value in pairs(classColors) do
 	DB.ClassColors[class] = {}
-	DB.ClassColors[class].r = value.r
-	DB.ClassColors[class].g = value.g
-	DB.ClassColors[class].b = value.b
-	DB.ClassColors[class].colorStr = value.colorStr
+	DB.ClassColors[class] = {r = value.r, g = value.g, b = value.b, colorStr = value.colorStr}
 end
+
 DB.r, DB.g, DB.b = DB.ClassColors[DB.MyClass].r, DB.ClassColors[DB.MyClass].g, DB.ClassColors[DB.MyClass].b
 DB.MyColor = format("|cff%02x%02x%02x", DB.r*255, DB.g*255, DB.b*255)
 DB.InfoColor = "|cff99ccff" --.6,.8,1
 DB.GreyColor = "|cff7b8489"
-DB.QualityColors = {}
-local qualityColors = BAG_ITEM_QUALITY_COLORS
-for index, value in pairs(qualityColors) do
-	DB.QualityColors[index] = {r = value.r, g = value.g, b = value.b}
-end
-DB.QualityColors[-1] = {r = 0, g = 0, b = 0}
-DB.QualityColors[LE_ITEM_QUALITY_POOR] = {r = .61, g = .61, b = .61}
-DB.QualityColors[LE_ITEM_QUALITY_COMMON] = {r = 0, g = 0, b = 0}
 
 -- Fonts
 DB.Font = {STANDARD_TEXT_FONT, 12, "OUTLINE"}
-DB.LineString = DB.GreyColor.."---------------"
-DB.NDuiString = "|cff0080ffNDui:|r"
+DB.LineString = DB.MyColor.."————————|r"
+DB.Separator = DB.MyColor.." | |r"
+DB.NDuiString = DB.MyColor.."NDui:|r"
 
 -- Textures
 local Media = "Interface\\Addons\\NDui\\Media\\"
-DB.bdTex = "Interface\\ChatFrame\\ChatFrameBackground"
-DB.glowTex = Media.."glowTex"
+DB.chatLogo = Media.."Logo\\chatLogo"
+DB.logoTex = Media.."Logo\\logoTex"
+DB.afdianTex = Media.."Logo\\Afdian"
+DB.patreonTex = Media.."Logo\\Patreon"
+
+DB.checked = Media.."Button\\checked"
+DB.flash = Media.."Button\\flash"
+DB.normal = Media.."Button\\normal"
+DB.pushed = Media.."Button\\pushed"
+
+DB.arrowTex = Media.."Reskin\\arrowTex_"
+DB.backdropTex = Media.."Reskin\\backdropTex"
+DB.closeTex = Media.."Reskin\\closeTex"
+DB.rolesTex = Media.."Reskin\\rolesTex"
+DB.shadowTex = Media.."Reskin\\shadowTex"
+
+DB.menuTex = Media.."Menu\\"
+--DB.normTex = Media.."Texture\\texture_1"
+DB.targetTex = Media.."Target\\targetTex_"
+DB.rotationRigh = Media.."Other\\RotationRigh_Big"
+
 DB.normTex = Media.."normTex"
 DB.gradTex = Media.."gradTex"
 DB.flatTex = Media.."flatTex"
-DB.bgTex = Media.."bgTex"
-DB.arrowTex = Media.."TargetArrow"
-DB.MicroTex = Media.."Hutu\\Menu\\"
-DB.rolesTex = Media.."Hutu\\RoleIcons"
-DB.chatLogo = Media.."Hutu\\logoSmall"
-DB.logoTex = Media.."Hutu\\logo"
-DB.closeTex = Media.."Hutu\\close"
-DB.ArrowUp = Media.."Hutu\\arrow"
-DB.afdianTex = Media.."Hutu\\Afdian"
-DB.patreonTex = Media.."Hutu\\Patreon"
-DB.mailTex = "Interface\\Minimap\\Tracking\\Mailbox"
-DB.gearTex = "Interface\\WorldMap\\Gear_64"
-DB.eyeTex = "Interface\\Minimap\\Raid_Icon"		-- blue: \\Dungeon_Icon
-DB.garrTex = "Interface\\HelpFrame\\HelpIcon-ReportLag"
-DB.copyTex = "Interface\\Buttons\\UI-GuildButton-PublicNote-Up"
+
+DB.backgroundTex = "Interface\\ChatFrame\\ChatFrameBackground"
 DB.binTex = "Interface\\HelpFrame\\ReportLagIcon-Loot"
-DB.questTex = "adventureguide-microbutton-alert"
-DB.objectTex = "Warfronts-BaseMapIcons-Horde-Barracks-Minimap"
+DB.copyTex = "Interface\\Buttons\\UI-GuildButton-PublicNote-Up"
 DB.creditTex = "Interface\\HelpFrame\\HelpIcon-KnowledgeBase"
+DB.eyeTex = "Interface\\Minimap\\Raid_Icon"
+DB.garrTex = "Interface\\HelpFrame\\HelpIcon-ReportLag"
+DB.gearTex = "Interface\\WorldMap\\Gear_64"
+DB.mailTex = "Interface\\Minimap\\Tracking\\Mailbox"
 DB.newItemFlash = "Interface\\Cooldown\\star4"
+DB.objectTex = "Warfronts-BaseMapIcons-Horde-Barracks-Minimap"
+DB.questTex = "adventureguide-microbutton-alert"
 DB.sparkTex = "Interface\\CastingBar\\UI-CastingBar-Spark"
-DB.TexCoord = {.08, .92, .08, .92}
-DB.textures = {
-	normal		= Media.."ActionBar\\gloss",
-	flash		= Media.."ActionBar\\flash",
-	pushed		= Media.."ActionBar\\pushed",
-}
+
 DB.LeftButton = " |TInterface\\TUTORIALFRAME\\UI-TUTORIAL-FRAME:13:11:0:-1:512:512:12:66:230:307|t "
 DB.RightButton = " |TInterface\\TUTORIALFRAME\\UI-TUTORIAL-FRAME:13:11:0:-1:512:512:12:66:333:410|t "
 DB.ScrollButton = " |TInterface\\TUTORIALFRAME\\UI-TUTORIAL-FRAME:13:11:0:-1:512:512:12:66:127:204|t "
 DB.AFKTex = "|T"..FRIENDS_TEXTURE_AFK..":14:14:0:0:16:16:1:15:1:15|t"
 DB.DNDTex = "|T"..FRIENDS_TEXTURE_DND..":14:14:0:0:16:16:1:15:1:15|t"
+
+-- Others
+DB.TexCoord = {.08, .92, .08, .92}
+DB.Slots = {"Head", "Neck", "Shoulder", "Shirt", "Chest", "Waist", "Legs", "Feet", "Wrist", "Hands", "Finger0", "Finger1", "Trinket0", "Trinket1", "Back", "MainHand", "SecondaryHand", "Tabard"}
+DB.MythicLoot =  {0, 187, 190, 194, 194, 197, 200, 200, 200, 207, 207, 207, 207, 207, 210}
+DB.WeeklyLoot =  {0, 200, 203, 207, 210, 210, 213, 216, 216, 220, 220, 223, 223, 226, 226}
 
 -- Flags
 function DB:IsMyPet(flags)
@@ -159,6 +164,24 @@ DB.BuffList = {
 
 -- Reminder Buffs Checklist
 DB.ReminderBuffs = {
+	ITEMS = {
+		{	itemID = 178742, -- 瓶装毒素饰品
+			spells = {
+				[345545] = true,
+			},
+			equip = true,
+			instance = true,
+			combat = true,
+		},
+		{	itemID = 174906, -- 属性符文
+			spells = {
+				[317065] = true,
+				[270058] = true,
+			},
+			instance = true,
+			disable = true,
+		},
+	},
 	MAGE = {
 		{	spells = {	-- 奥术魔宠
 				[210126] = true,

@@ -260,13 +260,13 @@ end
 
 -- Scroll buttons
 local endButton = CreateScrollButton("End", "ScrollToBottom")
-endButton:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -6, 10)
+endButton:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -6, 6)
 
 local downButton = CreateScrollButton("Down", "ScrollDown")
-downButton:SetPoint("BOTTOM", endButton, "TOP", 0, 1)
+downButton:SetPoint("BOTTOM", endButton, "TOP", 0, 2)
 
 local upButton = CreateScrollButton("Up", "ScrollUp")
-upButton:SetPoint("BOTTOM", downButton, "TOP", 0, 1)
+upButton:SetPoint("BOTTOM", downButton, "TOP", 0, 2)
 
 addon:RegisterEventCallback("OnNewMessage", function(name, class, text, inform, timeStamp)
 	if frame:IsReading() == name then

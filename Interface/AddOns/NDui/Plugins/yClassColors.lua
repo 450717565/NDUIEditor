@@ -14,7 +14,7 @@ local C_BattleNet_GetFriendAccountInfo = C_BattleNet.GetFriendAccountInfo
 -- Colors
 local function classColor(class, showRGB)
 	local color = DB.ClassColors[DB.ClassList[class] or class]
-	if not color then color = DB.ClassColors["PRIEST"] end
+	if not color then color = .5, .5, .5 end
 
 	if showRGB then
 		return color.r, color.g, color.b

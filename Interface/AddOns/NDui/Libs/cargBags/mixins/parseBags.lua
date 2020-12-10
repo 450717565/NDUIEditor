@@ -50,10 +50,10 @@ cargBags.BagStrings = bagStrings
 ]]
 function cargBags:ParseBags(bags)
 	if not bags then return end
-	if(type(bags) == "table") then return bags end
-	if(bagStrings[bags]) then return bagStrings[bags] end
+	if (type(bags) == "table") then return bags end
+	if (bagStrings[bags]) then return bagStrings[bags] end
 	local min, max = bags:match("(%d+)-(%d+)")
-	if(min) then
+	if (min) then
 		local t = {}
 		for i=min, max do
 			t[#t+1] = i

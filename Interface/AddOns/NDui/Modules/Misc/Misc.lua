@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local M = B:RegisterModule("Misc")
+local Misc = B:RegisterModule("Misc")
 
 local _G = getfenv(0)
 local select = select
@@ -32,13 +32,13 @@ local IsGuildMember, C_BattleNet_GetGameAccountInfoByGUID, C_FriendList_IsFriend
 ]]
 local MISC_LIST = {}
 
-function M:RegisterMisc(name, func)
+function Misc:RegisterMisc(name, func)
 	if not MISC_LIST[name] then
 		MISC_LIST[name] = func
 	end
 end
 
-function M:OnLogin()
+function Misc:OnLogin()
 	for name, func in next, MISC_LIST do
 		if name and type(func) == "function" then
 			func()
@@ -46,20 +46,20 @@ function M:OnLogin()
 	end
 
 	-- Init
-	M:NakedIcon()
-	M:ExtendInstance()
-	M:VehicleSeatMover()
-	M:UIWidgetFrameMover()
-	M:MoveDurabilityFrame()
-	M:MoveTicketStatusFrame()
-	M:UpdateScreenShot()
-	M:UpdateFasterLoot()
-	M:TradeTargetInfo()
-	M:MoveQuestTracker()
-	M:BlockStrangerInvite()
-	M:OverrideAWQ()
-	M:ToggleBossBanner()
-	M:ToggleBossEmote()
+	Misc:NakedIcon()
+	Misc:ExtendInstance()
+	Misc:VehicleSeatMover()
+	Misc:UIWidgetFrameMover()
+	Misc:MoveDurabilityFrame()
+	Misc:MoveTicketStatusFrame()
+	Misc:UpdateScreenShot()
+	Misc:UpdateFasterLoot()
+	Misc:TradeTargetInfo()
+	Misc:MoveQuestTracker()
+	Misc:BlockStrangerInvite()
+	Misc:OverrideAWQ()
+	Misc:ToggleBossBanner()
+	Misc:ToggleBossEmote()
 
 	-- Unregister talent event
 	if PlayerTalentFrame then
@@ -73,8 +73,7 @@ function M:OnLogin()
 	-- Auto chatBubbles
 	if NDuiADB["AutoBubbles"] then
 		local function updateBubble()
-			local name, instType = GetInstanceInfo()
-			if name and instType == "raid" then
+			if IsInInstance() then
 				SetCVar("chatBubbles", 1)
 			else
 				SetCVar("chatBubbles", 0)
@@ -105,7 +104,7 @@ function M:OnLogin()
 end
 
 -- Hide boss banner
-function M:ToggleBossBanner()
+function Misc:ToggleBossBanner()
 	if C.db["Misc"]["HideBanner"] then
 		BossBanner:UnregisterAllEvents()
 	else
@@ -115,7 +114,7 @@ function M:ToggleBossBanner()
 end
 
 -- Hide boss emote
-function M:ToggleBossEmote()
+function Misc:ToggleBossEmote()
 	if C.db["Misc"]["HideBossEmote"] then
 		RaidBossEmoteFrame:UnregisterAllEvents()
 	else
@@ -126,10 +125,11 @@ function M:ToggleBossEmote()
 end
 
 -- Get Naked
-function M:NakedIcon()
+function Misc:NakedIcon()
+	local width = PaperDollSidebarTab1:GetWidth() + C.mult*2
 	local bu = CreateFrame("Button", nil, CharacterFrameInsetRight)
-	bu:SetSize(31, 34)
-	bu:SetPoint("RIGHT", PaperDollSidebarTab1, "LEFT", -4, -3)
+	bu:SetPoint("TOPLEFT", PaperDollSidebarTab1, "TOPLEFT", -(width+4), C.mult)
+	bu:SetPoint("BOTTOMRIGHT", PaperDollSidebarTab1, "BOTTOMLEFT", -4, -C.mult)
 	B.PixelIcon(bu, "Interface\\ICONS\\SPELL_SHADOW_TWISTEDFAITH", true)
 	B.AddTooltip(bu, "ANCHOR_RIGHT", L["Get Naked"])
 
@@ -149,7 +149,7 @@ function M:NakedIcon()
 end
 
 -- Extend Instance
-function M:ExtendInstance()
+function Misc:ExtendInstance()
 	local bu = CreateFrame("Button", nil, RaidInfoFrame)
 	bu:SetPoint("TOPRIGHT", -35, -5)
 	bu:SetSize(25, 25)
@@ -179,24 +179,24 @@ function M:ExtendInstance()
 end
 
 -- Reanchor Vehicle
-function M:VehicleSeatMover()
+function Misc:VehicleSeatMover()
 	local frame = CreateFrame("Frame", "NDuiVehicleSeatMover", UIParent)
 	frame:SetSize(125, 125)
-	B.Mover(frame, L["VehicleSeat"], "VehicleSeat", {"BOTTOMRIGHT", UIParent, -400, 30})
+	B.Mover(frame, L["VehicleSeat"], "VehicleSeat", {"BOTTOMRIGHT", UIParent, -400, 80})
 
 	hooksecurefunc(VehicleSeatIndicator, "SetPoint", function(self, _, parent)
 		if parent == "MinimapCluster" or parent == MinimapCluster then
 			self:ClearAllPoints()
-			self:SetPoint("TOPLEFT", frame)
+			self:SetPoint("BOTTOM", frame)
 		end
 	end)
 end
 
 -- Reanchor UIWidgetBelowMinimapContainerFrame
-function M:UIWidgetFrameMover()
+function Misc:UIWidgetFrameMover()
 	local frame = CreateFrame("Frame", "NDuiUIWidgetMover", UIParent)
 	frame:SetSize(200, 50)
-	B.Mover(frame, L["UIWidgetFrame"], "UIWidgetFrame", {"TOPRIGHT", Minimap, "BOTTOMRIGHT", 0, -20})
+	B.Mover(frame, L["UIWidgetFrame"], "UIWidgetFrame", {"TOPRIGHT", Minimap, "BOTTOMRIGHT", 0, -30})
 
 	hooksecurefunc(UIWidgetBelowMinimapContainerFrame, "SetPoint", function(self, _, parent)
 		if parent == "MinimapCluster" or parent == MinimapCluster then
@@ -207,7 +207,7 @@ function M:UIWidgetFrameMover()
 end
 
 -- Reanchor DurabilityFrame
-function M:MoveDurabilityFrame()
+function Misc:MoveDurabilityFrame()
 	hooksecurefunc(DurabilityFrame, "SetPoint", function(self, _, parent)
 		if parent == "MinimapCluster" or parent == MinimapCluster then
 			self:ClearAllPoints()
@@ -217,7 +217,7 @@ function M:MoveDurabilityFrame()
 end
 
 -- Reanchor TicketStatusFrame
-function M:MoveTicketStatusFrame()
+function Misc:MoveTicketStatusFrame()
 	hooksecurefunc(TicketStatusFrame, "SetPoint", function(self, relF)
 		if relF == "TOPRIGHT" then
 			self:ClearAllPoints()
@@ -227,10 +227,10 @@ function M:MoveTicketStatusFrame()
 end
 
 -- Reanchor ObjectiveTracker
-function M:MoveQuestTracker()
+function Misc:MoveQuestTracker()
 	local frame = CreateFrame("Frame", "NDuiQuestMover", UIParent)
 	frame:SetSize(240, 50)
-	B.Mover(frame, L["QuestTracker"], "QuestTracker", {"TOPRIGHT", Minimap, "BOTTOMRIGHT", -70, -55})
+	B.Mover(frame, L["QuestTracker"], "QuestTracker", {"TOPRIGHT", Minimap, "BOTTOM", 0, -30})
 
 	local tracker = ObjectiveTrackerFrame
 	tracker:ClearAllPoints()
@@ -242,16 +242,16 @@ function M:MoveQuestTracker()
 end
 
 -- Achievement screenshot
-function M:ScreenShotOnEvent()
-	M.ScreenShotFrame.delay = 1
-	M.ScreenShotFrame:Show()
+function Misc:ScreenShotOnEvent()
+	Misc.ScreenShotFrame.delay = 1
+	Misc.ScreenShotFrame:Show()
 end
 
-function M:UpdateScreenShot()
-	if not M.ScreenShotFrame then
-		M.ScreenShotFrame = CreateFrame("Frame")
-		M.ScreenShotFrame:Hide()
-		M.ScreenShotFrame:SetScript("OnUpdate", function(self, elapsed)
+function Misc:UpdateScreenShot()
+	if not Misc.ScreenShotFrame then
+		Misc.ScreenShotFrame = CreateFrame("Frame")
+		Misc.ScreenShotFrame:Hide()
+		Misc.ScreenShotFrame:SetScript("OnUpdate", function(self, elapsed)
 			self.delay = self.delay - elapsed
 			if self.delay < 0 then
 				Screenshot()
@@ -261,16 +261,16 @@ function M:UpdateScreenShot()
 	end
 
 	if C.db["Misc"]["Screenshot"] then
-		B:RegisterEvent("ACHIEVEMENT_EARNED", M.ScreenShotOnEvent)
+		B:RegisterEvent("ACHIEVEMENT_EARNED", Misc.ScreenShotOnEvent)
 	else
-		M.ScreenShotFrame:Hide()
-		B:UnregisterEvent("ACHIEVEMENT_EARNED", M.ScreenShotOnEvent)
+		Misc.ScreenShotFrame:Hide()
+		B:UnregisterEvent("ACHIEVEMENT_EARNED", Misc.ScreenShotOnEvent)
 	end
 end
 
 -- Faster Looting
 local lootDelay = 0
-function M:DoFasterLoot()
+function Misc:DoFasterLoot()
 	if GetTime() - lootDelay >= .3 then
 		lootDelay = GetTime()
 		if GetCVarBool("autoLootDefault") ~= IsModifiedClick("AUTOLOOTTOGGLE") then
@@ -282,17 +282,17 @@ function M:DoFasterLoot()
 	end
 end
 
-function M:UpdateFasterLoot()
+function Misc:UpdateFasterLoot()
 	if C.db["Misc"]["FasterLoot"] then
-		B:RegisterEvent("LOOT_READY", M.DoFasterLoot)
+		B:RegisterEvent("LOOT_READY", Misc.DoFasterLoot)
 	else
-		B:UnregisterEvent("LOOT_READY", M.DoFasterLoot)
+		B:UnregisterEvent("LOOT_READY", Misc.DoFasterLoot)
 	end
 end
 
 -- TradeFrame hook
-function M:TradeTargetInfo()
-	local infoText = B.CreateFS(TradeFrame, 16, "")
+function Misc:TradeTargetInfo()
+	local infoText = B.CreateFS(TradeFrame, 16)
 	infoText:ClearAllPoints()
 	infoText:SetPoint("TOP", TradeFrameRecipientNameText, "BOTTOM", 0, -5)
 
@@ -314,7 +314,7 @@ function M:TradeTargetInfo()
 end
 
 -- Block invite from strangers
-function M:BlockStrangerInvite()
+function Misc:BlockStrangerInvite()
 	B:RegisterEvent("PARTY_INVITE_REQUEST", function(_, _, _, _, _, _, _, guid)
 		if C.db["Misc"]["BlockInvite"] and not (C_BattleNet_GetGameAccountInfoByGUID(guid) or C_FriendList_IsFriend(guid) or IsGuildMember(guid)) then
 			DeclineGroup()
@@ -324,7 +324,7 @@ function M:BlockStrangerInvite()
 end
 
 -- Override default settings for AngryWorldQuests
-function M:OverrideAWQ()
+function Misc:OverrideAWQ()
 	if not IsAddOnLoaded("AngryWorldQuests") then return end
 
 	AngryWorldQuests_Config = AngryWorldQuests_Config or {}
@@ -332,8 +332,10 @@ function M:OverrideAWQ()
 
 	local settings = {
 		hideFilteredPOI = true,
-		showContinentPOI = true,
-		sortMethod = 2,
+		showHoveredPOI = true,
+		lootUpgradesLevel = 0,
+		sortMethod = 4,
+		timeFilterDuration = 1,
 	}
 	local function overrideOptions(_, key)
 		local value = settings[key]
@@ -342,6 +344,7 @@ function M:OverrideAWQ()
 			AngryWorldQuests_CharacterConfig[key] = value
 		end
 	end
+	hooksecurefunc(AngryWorldQuests.Modules.Config, "Get", overrideOptions)
 	hooksecurefunc(AngryWorldQuests.Modules.Config, "Set", overrideOptions)
 end
 
@@ -350,7 +353,7 @@ do
 	local function CalculateArches(self)
 		GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT")
 		GameTooltip:ClearLines()
-		GameTooltip:AddLine("|c0000FF00"..L["Arch Count"]..":")
+		GameTooltip:AddLine("|cff00FF00"..L["Arch Count"])
 		GameTooltip:AddLine(" ")
 		local total = 0
 		for i = 1, GetNumArchaeologyRaces() do
@@ -362,12 +365,12 @@ do
 			end
 			local name = GetArchaeologyRaceInfo(i)
 			if numArtifacts > 1 then
-				GameTooltip:AddDoubleLine(name..":", DB.InfoColor..count)
+				GameTooltip:AddDoubleLine(name.."：", DB.InfoColor..count)
 				total = total + count
 			end
 		end
 		GameTooltip:AddLine(" ")
-		GameTooltip:AddDoubleLine("|c0000ff00"..TOTAL..":", "|cffff0000"..total)
+		GameTooltip:AddDoubleLine("|cff00FF00"..FROM_TOTAL, "|cffFF0000"..total)
 		GameTooltip:Show()
 	end
 
@@ -385,7 +388,8 @@ do
 			AddCalculateIcon()
 			-- Repoint Bar
 			ArcheologyDigsiteProgressBar.ignoreFramePositionManager = true
-			ArcheologyDigsiteProgressBar:SetPoint("BOTTOM", 0, 150)
+			ArcheologyDigsiteProgressBar:ClearAllPoints()
+			ArcheologyDigsiteProgressBar:SetPoint("BOTTOM", 0, 175)
 			B.CreateMF(ArcheologyDigsiteProgressBar)
 
 			B:UnregisterEvent(event, setupMisc)
@@ -394,7 +398,7 @@ do
 
 	B:RegisterEvent("ADDON_LOADED", setupMisc)
 
-	local newTitleString = ARCHAEOLOGY_DIGSITE_PROGRESS_BAR_TITLE.." %s/%s"
+	local newTitleString = ARCHAEOLOGY_DIGSITE_PROGRESS_BAR_TITLE.."：%s / %s"
 	local function updateArcTitle(_, ...)
 		local numFindsCompleted, totalFinds = ...
 		if ArcheologyDigsiteProgressBar then
@@ -408,7 +412,7 @@ end
 -- Drag AltPowerbar
 do
 	local mover = CreateFrame("Frame", "NDuiAltBarMover", PlayerPowerBarAlt)
-	mover:SetPoint("CENTER", UIParent, 0, -200)
+	mover:SetPoint("CENTER", UIParent, "BOTTOM", -270, 170)
 	mover:SetSize(20, 20)
 	B.CreateMF(PlayerPowerBarAlt, mover)
 

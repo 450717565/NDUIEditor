@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local module = B:RegisterModule("Chat")
+local Chat = B:RegisterModule("Chat")
 local cr, cg, cb = DB.r, DB.g, DB.b
 
 local _G = _G
@@ -17,14 +17,14 @@ local messageSoundID = SOUNDKIT.TELL_MESSAGE
 local maxLines = 1024
 local fontOutline
 
-function module:TabSetAlpha(alpha)
+function Chat:TabSetAlpha(alpha)
 	if self.glow:IsShown() and alpha ~= 1 then
 		self:SetAlpha(1)
 	end
 end
 
 local isScaling = false
-function module:UpdateChatSize()
+function Chat:UpdateChatSize()
 	if not C.db["Chat"]["Lock"] then return end
 	if isScaling then return end
 	isScaling = true
@@ -44,7 +44,7 @@ function module:UpdateChatSize()
 end
 
 local function BlackBackground(self)
-	local frame = B.SetBD(self.Background)
+	local frame = B.CreateBG(self.Background)
 	frame:SetShown(C.db["Chat"]["ChatBGType"] == 2)
 
 	return frame
@@ -56,30 +56,30 @@ local function GradientBackground(self)
 	frame:SetFrameLevel(0)
 	frame:SetShown(C.db["Chat"]["ChatBGType"] == 3)
 
-	local tex = B.SetGradient(frame, "H", 0, 0, 0, .5, 0)
-	tex:SetOutside()
-	local line = B.SetGradient(frame, "H", cr, cg, cb, .5, 0, nil, C.mult)
+	local tex = B.CreateGA(frame, "H", 0, 0, 0, .5, 0)
+	tex:SetAllPoints()
+	local line = B.CreateGA(frame, "H", cr, cg, cb, C.alpha, 0, nil, C.mult*2)
 	line:SetPoint("BOTTOMLEFT", frame, "TOPLEFT")
 	line:SetPoint("BOTTOMRIGHT", frame, "TOPRIGHT")
 
 	return frame
 end
 
-function module:SkinChat()
+function Chat:SkinChat()
 	if not self or self.styled then return end
 
-	local name = self:GetName()
+	local name = self:GetDebugName()
 	local fontSize = select(2, self:GetFont())
 	self:SetMaxResize(DB.ScreenWidth, DB.ScreenHeight)
 	self:SetMinResize(100, 50)
 	self:SetFont(DB.Font[1], fontSize, fontOutline)
-	self:SetShadowColor(0, 0, 0, 0)
 	self:SetClampRectInsets(0, 0, 0, 0)
 	self:SetClampedToScreen(false)
 	if self:GetMaxLines() < maxLines then
 		self:SetMaxLines(maxLines)
 	end
 
+	B.StripTextures(self)
 	self.__background = BlackBackground(self)
 	self.__gradient = GradientBackground(self)
 
@@ -89,20 +89,19 @@ function module:SkinChat()
 	eb:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 4, 26)
 	eb:SetPoint("TOPRIGHT", self, "TOPRIGHT", -17, 50)
 	B.StripTextures(eb, 2)
-	B.SetBD(eb)
+	B.CreateBG(eb)
 
 	local lang = _G[name.."EditBoxLanguage"]
 	lang:GetRegions():SetAlpha(0)
-	lang:SetPoint("TOPLEFT", eb, "TOPRIGHT", 5, 0)
-	lang:SetPoint("BOTTOMRIGHT", eb, "BOTTOMRIGHT", 29, 0)
-	B.SetBD(lang)
+	lang:SetPoint("TOPLEFT", eb, "TOPRIGHT", C.margin, 0)
+	lang:SetPoint("BOTTOMRIGHT", eb, "BOTTOMRIGHT", 24+C.margin, 0)
+	B.CreateBG(lang)
 
 	local tab = _G[name.."Tab"]
 	tab:SetAlpha(1)
 	tab.Text:SetFont(DB.Font[1], DB.Font[2]+2, fontOutline)
-	tab.Text:SetShadowColor(0, 0, 0, 0)
 	B.StripTextures(tab, 7)
-	hooksecurefunc(tab, "SetAlpha", module.TabSetAlpha)
+	hooksecurefunc(tab, "SetAlpha", Chat.TabSetAlpha)
 
 	B.HideObject(self.buttonFrame)
 	B.HideObject(self.ScrollBar)
@@ -113,7 +112,7 @@ function module:SkinChat()
 	self.styled = true
 end
 
-function module:ToggleChatBackground()
+function Chat:ToggleChatBackground()
 	for _, chatFrameName in ipairs(CHAT_FRAMES) do
 		local frame = _G[chatFrameName]
 		if frame.__background then
@@ -128,10 +127,10 @@ end
 -- Swith channels by Tab
 local cycles = {
 	{ chatType = "SAY", use = function() return 1 end },
-    { chatType = "PARTY", use = function() return IsInGroup() end },
-    { chatType = "RAID", use = function() return IsInRaid() end },
-    { chatType = "INSTANCE_CHAT", use = function() return IsPartyLFG() end },
-    { chatType = "GUILD", use = function() return IsInGuild() end },
+	{ chatType = "PARTY", use = function() return IsInGroup() end },
+	{ chatType = "RAID", use = function() return IsInRaid() end },
+	{ chatType = "INSTANCE_CHAT", use = function() return IsPartyLFG() end },
+	{ chatType = "GUILD", use = function() return IsInGuild() end },
 	{ chatType = "CHANNEL", use = function(_, editbox)
 		if GetCVar("portal") ~= "CN" then return false end
 		local channels, inWorldChannel, number = {GetChannelList()}
@@ -149,27 +148,27 @@ local cycles = {
 			return false
 		end
 	end },
-    { chatType = "SAY", use = function() return 1 end },
+	{ chatType = "SAY", use = function() return 1 end },
 }
 
-function module:UpdateTabChannelSwitch()
+function Chat:UpdateTabChannelSwitch()
 	if strsub(tostring(self:GetText()), 1, 1) == "/" then return end
-    local currChatType = self:GetAttribute("chatType")
-    for i, curr in ipairs(cycles) do
-        if curr.chatType == currChatType then
-            local h, r, step = i+1, #cycles, 1
-            if IsShiftKeyDown() then h, r, step = i-1, 1, -1 end
-            for j = h, r, step do
-                if cycles[j]:use(self, currChatType) then
-                    self:SetAttribute("chatType", cycles[j].chatType)
-                    ChatEdit_UpdateHeader(self)
-                    return
-                end
-            end
-        end
-    end
+	local currChatType = self:GetAttribute("chatType")
+	for i, curr in ipairs(cycles) do
+		if curr.chatType == currChatType then
+			local h, r, step = i+1, #cycles, 1
+			if IsShiftKeyDown() then h, r, step = i-1, 1, -1 end
+			for j = h, r, step do
+				if cycles[j]:use(self, currChatType) then
+					self:SetAttribute("chatType", cycles[j].chatType)
+					ChatEdit_UpdateHeader(self)
+					return
+				end
+			end
+		end
+	end
 end
-hooksecurefunc("ChatEdit_CustomTabPressed", module.UpdateTabChannelSwitch)
+hooksecurefunc("ChatEdit_CustomTabPressed", Chat.UpdateTabChannelSwitch)
 
 -- Quick Scroll
 local chatScrollInfo = {
@@ -180,7 +179,7 @@ local chatScrollInfo = {
 	callbackArg = "ChatScroll",
 }
 
-function module:QuickMouseScroll(dir)
+function Chat:QuickMouseScroll(dir)
 	if not NDuiADB["Help"]["ChatScroll"] then
 		HelpTip:Show(ChatFrame1, chatScrollInfo)
 	end
@@ -201,15 +200,15 @@ function module:QuickMouseScroll(dir)
 		end
 	end
 end
-hooksecurefunc("FloatingChatFrame_OnMouseScroll", module.QuickMouseScroll)
+hooksecurefunc("FloatingChatFrame_OnMouseScroll", Chat.QuickMouseScroll)
 
 -- Autoinvite by whisper
 local whisperList = {}
-function module:UpdateWhisperList()
+function Chat:UpdateWhisperList()
 	B.SplitList(whisperList, C.db["Chat"]["Keyword"], true)
 end
 
-function module:IsUnitInGuild(unitName)
+function Chat:IsUnitInGuild(unitName)
 	if not unitName then return end
 	for i = 1, GetNumGuildMembers() do
 		local name = GetGuildRosterInfo(i)
@@ -221,7 +220,7 @@ function module:IsUnitInGuild(unitName)
 	return false
 end
 
-function module.OnChatWhisper(event, ...)
+function Chat.OnChatWhisper(event, ...)
 	local msg, author, _, _, _, _, _, _, _, _, _, guid, presenceID = ...
 	for word in pairs(whisperList) do
 		if (not IsInGroup() or UnitIsGroupLeader("player") or UnitIsGroupAssistant("player")) and strlower(msg) == strlower(word) then
@@ -233,7 +232,7 @@ function module.OnChatWhisper(event, ...)
 					if gameID then
 						local charName = gameAccountInfo.characterName
 						local realmName = gameAccountInfo.realmName
-						if CanCooperateWithGameAccount(accountInfo) and (not C.db["Chat"]["GuildInvite"] or module:IsUnitInGuild(charName.."-"..realmName)) then
+						if CanCooperateWithGameAccount(accountInfo) and (not C.db["Chat"]["GuildInvite"] or Chat:IsUnitInGuild(charName.."-"..realmName)) then
 							BNInviteFriend(gameID)
 						end
 					end
@@ -247,15 +246,15 @@ function module.OnChatWhisper(event, ...)
 	end
 end
 
-function module:WhisperInvite()
+function Chat:WhisperInvite()
 	if not C.db["Chat"]["Invite"] then return end
-	module:UpdateWhisperList()
-	B:RegisterEvent("CHAT_MSG_WHISPER", module.OnChatWhisper)
-	B:RegisterEvent("CHAT_MSG_BN_WHISPER", module.OnChatWhisper)
+	Chat:UpdateWhisperList()
+	B:RegisterEvent("CHAT_MSG_WHISPER", Chat.OnChatWhisper)
+	B:RegisterEvent("CHAT_MSG_BN_WHISPER", Chat.OnChatWhisper)
 end
 
 -- Sticky whisper
-function module:ChatWhisperSticky()
+function Chat:ChatWhisperSticky()
 	if C.db["Chat"]["Sticky"] then
 		ChatTypeInfo["WHISPER"].sticky = 1
 		ChatTypeInfo["BN_WHISPER"].sticky = 1
@@ -266,7 +265,7 @@ function module:ChatWhisperSticky()
 end
 
 -- Tab colors
-function module:UpdateTabColors(selected)
+function Chat:UpdateTabColors(selected)
 	if selected then
 		self.Text:SetTextColor(1, .8, 0)
 		self.whisperIndex = 0
@@ -283,15 +282,15 @@ function module:UpdateTabColors(selected)
 	end
 end
 
-function module:UpdateTabEventColors(event)
-	local tab = _G[self:GetName().."Tab"]
+function Chat:UpdateTabEventColors(event)
+	local tab = _G[self:GetDebugName().."Tab"]
 	local selected = GeneralDockManager.selected:GetID() == tab:GetID()
 	if event == "CHAT_MSG_WHISPER" then
 		tab.whisperIndex = 1
-		module.UpdateTabColors(tab, selected)
+		Chat.UpdateTabColors(tab, selected)
 	elseif event == "CHAT_MSG_BN_WHISPER" then
 		tab.whisperIndex = 2
-		module.UpdateTabColors(tab, selected)
+		Chat.UpdateTabColors(tab, selected)
 	end
 end
 
@@ -299,7 +298,7 @@ local whisperEvents = {
 	["CHAT_MSG_WHISPER"] = true,
 	["CHAT_MSG_BN_WHISPER"] = true,
 }
-function module:PlayWhisperSound(event)
+function Chat:PlayWhisperSound(event)
 	if whisperEvents[event] then
 		local currentTime = GetTime()
 		if not self.soundTimer or currentTime > self.soundTimer then
@@ -309,12 +308,12 @@ function module:PlayWhisperSound(event)
 	end
 end
 
-function module:OnLogin()
+function Chat:OnLogin()
 	fontOutline = C.db["Skins"]["FontOutline"] and "OUTLINE" or ""
 
 	for i = 1, NUM_CHAT_WINDOWS do
 		local chatframe = _G["ChatFrame"..i]
-		module.SkinChat(chatframe)
+		Chat.SkinChat(chatframe)
 		ChatFrame_RemoveMessageGroup(chatframe, "CHANNEL")
 	end
 
@@ -322,14 +321,14 @@ function module:OnLogin()
 		for _, chatFrameName in ipairs(CHAT_FRAMES) do
 			local frame = _G[chatFrameName]
 			if frame.isTemporary then
-				module.SkinChat(frame)
+				Chat.SkinChat(frame)
 			end
 		end
 	end)
 
-	hooksecurefunc("FCFTab_UpdateColors", module.UpdateTabColors)
-	hooksecurefunc("FloatingChatFrame_OnEvent", module.UpdateTabEventColors)
-	hooksecurefunc("ChatFrame_ConfigEventHandler", module.PlayWhisperSound)
+	hooksecurefunc("FCFTab_UpdateColors", Chat.UpdateTabColors)
+	hooksecurefunc("FloatingChatFrame_OnEvent", Chat.UpdateTabEventColors)
+	hooksecurefunc("ChatFrame_ConfigEventHandler", Chat.PlayWhisperSound)
 
 	-- Font size
 	for i = 1, 15 do
@@ -344,19 +343,19 @@ function module:OnLogin()
 	CombatLogQuickButtonFrame_CustomTexture:SetTexture(nil)
 
 	-- Add Elements
-	module:ChatWhisperSticky()
-	module:ChatFilter()
-	module:ChannelRename()
-	module:Chatbar()
-	module:ChatCopy()
-	module:UrlCopy()
-	module:WhisperInvite()
+	Chat:ChatWhisperSticky()
+	Chat:ChatFilter()
+	Chat:ChannelRename()
+	Chat:Chatbar()
+	Chat:ChatCopy()
+	Chat:UrlCopy()
+	Chat:WhisperInvite()
 
 	-- Lock chatframe
 	if C.db["Chat"]["Lock"] then
-		module:UpdateChatSize()
-		B:RegisterEvent("UI_SCALE_CHANGED", module.UpdateChatSize)
-		hooksecurefunc("FCF_SavePositionAndDimensions", module.UpdateChatSize)
+		Chat:UpdateChatSize()
+		B:RegisterEvent("UI_SCALE_CHANGED", Chat.UpdateChatSize)
+		hooksecurefunc("FCF_SavePositionAndDimensions", Chat.UpdateChatSize)
 		FCF_SavePositionAndDimensions(ChatFrame1)
 	end
 

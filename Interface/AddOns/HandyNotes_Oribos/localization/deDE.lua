@@ -68,6 +68,14 @@ Beeinflusst nur die Lehrer und Händler der Hauptberufe.
 |cFFFF0000HINWEIS: Hat nur Einfluss, wenn zwei Hauptberufe erlernt wurden.|r
 ]]
 
+L["config_fmaster_waypoint"] = "Flugmeister Wegpunkt"
+L["config_fmaster_waypoint_desc"] = "Setzt automatisch einen Wegpunkt zum Flugmeister, wenn der Ring der Übertragung betreten wird."
+L["config_fmaster_waypoint_dropdown"] = "Wähle aus"
+L["config_fmaster_waypoint_dropdown_desc"] = "Wähle aus, wie der Wegpunkt erstellt werden soll."
+L["Blizzard"] = true
+L["TomTom"] = true
+L["Both"] = "Beide"
+
 L["config_easy_waypoints"] = "Vereinfachte Wegpunkte"
 L["config_easy_waypoints_desc"] = "Aktiviert die vereinfachte Wegpunkterstellung. \nErlaubt es per Rechtsklick einen Wegpunkt zu setzen und per STRG + Rechtsklick mehr Optionen aufzurufen."
 

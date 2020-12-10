@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local A = B:RegisterModule("Auras")
+local Auras = B:RegisterModule("Auras")
 
 local _G = getfenv(0)
 local format, floor, strmatch, select, unpack = format, floor, strmatch, select, unpack
@@ -8,9 +8,9 @@ local DebuffTypeColor = _G.DebuffTypeColor
 local UnitAura, GetTime = UnitAura, GetTime
 local GetInventoryItemQuality, GetInventoryItemTexture, GetItemQualityColor, GetWeaponEnchantInfo = GetInventoryItemQuality, GetInventoryItemTexture, GetItemQualityColor, GetWeaponEnchantInfo
 
-function A:OnLogin()
+function Auras:OnLogin()
 	-- Config
-	A.settings = {
+	Auras.settings = {
 		Buffs = {
 			offset = 12,
 			size = C.db["Auras"]["BuffSize"],
@@ -22,7 +22,7 @@ function A:OnLogin()
 			offset = 12,
 			size = C.db["Auras"]["DebuffSize"],
 			wrapAfter = C.db["Auras"]["DebuffsPerRow"],
-			maxWraps = 1,
+			maxWraps = 2,
 			reverseGrow = C.db["Auras"]["ReverseDebuffs"],
 		},
 	}
@@ -32,41 +32,22 @@ function A:OnLogin()
 	B.HideObject(_G.TemporaryEnchantFrame)
 
 	-- Movers
-	A.BuffFrame = A:CreateAuraHeader("HELPFUL")
-	A.BuffFrame.mover = B.Mover(A.BuffFrame, "Buffs", "BuffAnchor", C.Auras.BuffPos)
-	A.BuffFrame:ClearAllPoints()
-	A.BuffFrame:SetPoint("TOPRIGHT", A.BuffFrame.mover)
+	Auras.BuffFrame = Auras:CreateAuraHeader("HELPFUL")
+	Auras.BuffFrame.mover = B.Mover(Auras.BuffFrame, "Buffs", "BuffAnchor", C.Auras.BuffPos)
+	Auras.BuffFrame:ClearAllPoints()
+	Auras.BuffFrame:SetPoint("TOPRIGHT", Auras.BuffFrame.mover)
 
-	A.DebuffFrame = A:CreateAuraHeader("HARMFUL")
-	A.DebuffFrame.mover = B.Mover(A.DebuffFrame, "Debuffs", "DebuffAnchor", {"TOPRIGHT", A.BuffFrame.mover, "BOTTOMRIGHT", 0, -12})
-	A.DebuffFrame:ClearAllPoints()
-	A.DebuffFrame:SetPoint("TOPRIGHT", A.DebuffFrame.mover)
+	Auras.DebuffFrame = Auras:CreateAuraHeader("HARMFUL")
+	Auras.DebuffFrame.mover = B.Mover(Auras.DebuffFrame, "Debuffs", "DebuffAnchor", {"TOPRIGHT", Auras.BuffFrame.mover, "BOTTOMRIGHT", 0, -12})
+	Auras.DebuffFrame:ClearAllPoints()
+	Auras.DebuffFrame:SetPoint("TOPRIGHT", Auras.DebuffFrame.mover)
 
 	-- Elements
-	A:Totems()
-	A:InitReminder()
+	Auras:Totems()
+	Auras:InitReminder()
 end
 
-local day, hour, minute = 86400, 3600, 60
-function A:FormatAuraTime(s)
-	if s >= day then
-		return format("%d"..DB.MyColor.."d", s/day), s%day
-	elseif s >= hour then
-		return format("%s"..DB.MyColor.."h", B:Round(s/hour, 1)), s%hour
-	elseif s >= 10*minute then
-		return format("%d"..DB.MyColor.."m", s/minute), s%minute
-	elseif s >= minute then
-		return format("%d:%.2d", s/minute, s%minute), s - floor(s)
-	elseif s > 10 then
-		return format("%d"..DB.MyColor.."s", s), s - floor(s)
-	elseif s > 5 then
-		return format("|cffffff00%.1f|r", s), s - format("%.1f", s)
-	else
-		return format("|cffff0000%.1f|r", s), s - format("%.1f", s)
-	end
-end
-
-function A:UpdateTimer(elapsed)
+function Auras:UpdateTimer(elapsed)
 	if self.offset then
 		local expiration = select(self.offset, GetWeaponEnchantInfo())
 		if expiration then
@@ -84,13 +65,13 @@ function A:UpdateTimer(elapsed)
 	end
 
 	if self.timeLeft >= 0 then
-		local timer, nextUpdate = A:FormatAuraTime(self.timeLeft)
+		local timer, nextUpdate = B.FormatTime(self.timeLeft, true)
 		self.nextUpdate = nextUpdate
 		self.timer:SetText(timer)
 	end
 end
 
-function A:UpdateAuras(button, index)
+function Auras:UpdateAuras(button, index)
 	local filter = button:GetParent():GetAttribute("filter")
 	local unit = button:GetParent():GetAttribute("unit")
 	local name, texture, count, debuffType, duration, expirationTime, _, _, _, spellID = UnitAura(unit, index, filter)
@@ -101,12 +82,12 @@ function A:UpdateAuras(button, index)
 			if not button.timeLeft then
 				button.nextUpdate = -1
 				button.timeLeft = timeLeft
-				button:SetScript("OnUpdate", A.UpdateTimer)
+				button:SetScript("OnUpdate", Auras.UpdateTimer)
 			else
 				button.timeLeft = timeLeft
 			end
 			button.nextUpdate = -1
-			A.UpdateTimer(button, 0)
+			Auras.UpdateTimer(button, 0)
 		else
 			button.timeLeft = nil
 			button.timer:SetText("")
@@ -121,9 +102,9 @@ function A:UpdateAuras(button, index)
 
 		if filter == "HARMFUL" then
 			local color = DebuffTypeColor[debuffType or "none"]
-			button:SetBackdropBorderColor(color.r, color.g, color.b)
+			button.bubg:SetBackdropBorderColor(color.r, color.g, color.b)
 		else
-			button:SetBackdropBorderColor(0, 0, 0)
+			button.bubg:SetBackdropBorderColor(0, 0, 0)
 		end
 
 		button.spellID = spellID
@@ -132,26 +113,27 @@ function A:UpdateAuras(button, index)
 	end
 end
 
-function A:UpdateTempEnchant(button, index)
+function Auras:UpdateTempEnchant(button, index)
 	local quality = GetInventoryItemQuality("player", index)
 	button.icon:SetTexture(GetInventoryItemTexture("player", index))
 
 	local offset = 2
-	local weapon = button:GetName():sub(-1)
+	local weapon = button:GetDebugName():sub(-1)
 	if strmatch(weapon, "2") then
 		offset = 6
 	end
 
 	if quality then
-		button:SetBackdropBorderColor(GetItemQualityColor(quality))
+		local r, g, b = GetItemQualityColor(quality or 1)
+		button.bubg:SetBackdropBorderColor(r, g, b)
 	end
 
 	local expirationTime = select(offset, GetWeaponEnchantInfo())
 	if expirationTime then
 		button.offset = offset
-		button:SetScript("OnUpdate", A.UpdateTimer)
+		button:SetScript("OnUpdate", Auras.UpdateTimer)
 		button.nextUpdate = -1
-		A.UpdateTimer(button, 0)
+		Auras.UpdateTimer(button, 0)
 	else
 		button.offset = nil
 		button.timeLeft = nil
@@ -160,27 +142,27 @@ function A:UpdateTempEnchant(button, index)
 	end
 end
 
-function A:OnAttributeChanged(attribute, value)
+function Auras:OnAttributeChanged(attribute, value)
 	if attribute == "index" then
-		A:UpdateAuras(self, value)
+		Auras:UpdateAuras(self, value)
 	elseif attribute == "target-slot" then
-		A:UpdateTempEnchant(self, value)
+		Auras:UpdateTempEnchant(self, value)
 	end
 end
 
-function A:UpdateOptions()
-	A.settings.Buffs.size = C.db["Auras"]["BuffSize"]
-	A.settings.Buffs.wrapAfter = C.db["Auras"]["BuffsPerRow"]
-	A.settings.Buffs.reverseGrow = C.db["Auras"]["ReverseBuffs"]
-	A.settings.Debuffs.size = C.db["Auras"]["DebuffSize"]
-	A.settings.Debuffs.wrapAfter = C.db["Auras"]["DebuffsPerRow"]
-	A.settings.Debuffs.reverseGrow = C.db["Auras"]["ReverseDebuffs"]
+function Auras:UpdateOptions()
+	Auras.settings.Buffs.size = C.db["Auras"]["BuffSize"]
+	Auras.settings.Buffs.wrapAfter = C.db["Auras"]["BuffsPerRow"]
+	Auras.settings.Buffs.reverseGrow = C.db["Auras"]["ReverseBuffs"]
+	Auras.settings.Debuffs.size = C.db["Auras"]["DebuffSize"]
+	Auras.settings.Debuffs.wrapAfter = C.db["Auras"]["DebuffsPerRow"]
+	Auras.settings.Debuffs.reverseGrow = C.db["Auras"]["ReverseDebuffs"]
 end
 
-function A:UpdateHeader(header)
-	local cfg = A.settings.Debuffs
+function Auras:UpdateHeader(header)
+	local cfg = Auras.settings.Debuffs
 	if header:GetAttribute("filter") == "HELPFUL" then
-		cfg = A.settings.Buffs
+		cfg = Auras.settings.Buffs
 		header:SetAttribute("consolidateTo", 0)
 		header:SetAttribute("weaponTemplate", format("NDuiAuraTemplate%d", cfg.size))
 	end
@@ -199,11 +181,11 @@ function A:UpdateHeader(header)
 	header:SetAttribute("wrapYOffset", -(cfg.size + cfg.offset))
 	header:SetAttribute("template", format("NDuiAuraTemplate%d", cfg.size))
 
-	local fontSize = floor(cfg.size/30*12 + .5)
+	local fontSize = B.Round(cfg.size/30*12)
 	local index = 1
 	local child = select(index, header:GetChildren())
 	while child do
-		if (floor(child:GetWidth() * 100 + .5) / 100) ~= cfg.size then
+		if (B.Round(child:GetWidth() * 100) / 100) ~= cfg.size then
 			child:SetSize(cfg.size, cfg.size)
 		end
 
@@ -220,7 +202,7 @@ function A:UpdateHeader(header)
 	end
 end
 
-function A:CreateAuraHeader(filter)
+function Auras:CreateAuraHeader(filter)
 	local name = "NDuiPlayerDebuffs"
 	if filter == "HELPFUL" then name = "NDuiPlayerBuffs" end
 
@@ -236,30 +218,32 @@ function A:CreateAuraHeader(filter)
 		header:SetAttribute("includeWeapons", 1)
 	end
 
-	A:UpdateHeader(header)
+	Auras:UpdateHeader(header)
 	header:Show()
 
 	return header
 end
 
-function A:RemoveSpellFromIgnoreList()
+function Auras:RemoveSpellFromIgnoreList()
 	if IsAltKeyDown() and IsControlKeyDown() and self.spellID and C.db["AuraWatchList"]["IgnoreSpells"][self.spellID] then
 		C.db["AuraWatchList"]["IgnoreSpells"][self.spellID] = nil
 		print(format(L["RemoveFromIgnoreList"], DB.NDuiString, self.spellID))
 	end
 end
 
-function A:CreateAuraIcon(button)
+function Auras:CreateAuraIcon(button)
 	local header = button:GetParent()
-	local cfg = A.settings.Debuffs
+	local cfg = Auras.settings.Debuffs
 	if header:GetAttribute("filter") == "HELPFUL" then
-		cfg = A.settings.Buffs
+		cfg = Auras.settings.Buffs
 	end
-	local fontSize = floor(cfg.size/30*12 + .5)
+	local fontSize = B.Round(cfg.size/30*12)
+
+	button.bubg = B.CreateBDFrame(button)
 
 	button.icon = button:CreateTexture(nil, "BORDER")
-	button.icon:SetInside()
 	button.icon:SetTexCoord(unpack(DB.TexCoord))
+	button.icon:SetInside(button.bubg)
 
 	button.count = button:CreateFontString(nil, "ARTWORK")
 	button.count:SetPoint("TOPRIGHT", -1, -3)
@@ -271,11 +255,8 @@ function A:CreateAuraIcon(button)
 
 	button.highlight = button:CreateTexture(nil, "HIGHLIGHT")
 	button.highlight:SetColorTexture(1, 1, 1, .25)
-	button.highlight:SetInside()
+	button.highlight:SetInside(button.bubg)
 
-	B.CreateBD(button, .25)
-	B.CreateSD(button)
-
-	button:SetScript("OnAttributeChanged", A.OnAttributeChanged)
-	button:HookScript("OnMouseDown", A.RemoveSpellFromIgnoreList)
+	button:SetScript("OnAttributeChanged", Auras.OnAttributeChanged)
+	button:HookScript("OnMouseDown", Auras.RemoveSpellFromIgnoreList)
 end

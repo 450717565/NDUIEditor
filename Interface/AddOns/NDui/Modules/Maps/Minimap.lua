@@ -1,22 +1,24 @@
 ﻿local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local module = B:GetModule("Maps")
+local Maps = B:GetModule("Maps")
 
 local _G = _G
 local select, pairs, unpack, next, tinsert = select, pairs, unpack, next, tinsert
 local strmatch, strfind, strupper = strmatch, strfind, strupper
 local UIFrameFadeOut, UIFrameFadeIn = UIFrameFadeOut, UIFrameFadeIn
 local C_Timer_After = C_Timer.After
-local cr, cg, cb = DB.r, DB.g, DB.b
 local LE_GARRISON_TYPE_6_0 = Enum.GarrisonType.Type_6_0
 local LE_GARRISON_TYPE_7_0 = Enum.GarrisonType.Type_7_0
 local LE_GARRISON_TYPE_8_0 = Enum.GarrisonType.Type_8_0
 local LE_GARRISON_TYPE_9_0 = Enum.GarrisonType.Type_9_0
+local cr, cg, cb, color
 
-function module:CreatePulse()
+function Maps:CreatePulse()
 	if not C.db["Map"]["CombatPulse"] then return end
 
-	local bg = B.SetBD(Minimap)
+	local bg = B.CreateBDFrame(Minimap, 0, C.mult)
+	bg:SetFrameStrata("BACKGROUND")
+
 	local anim = bg:CreateAnimationGroup()
 	anim:SetLooping("BOUNCE")
 	anim.fader = anim:CreateAnimation("Alpha")
@@ -60,7 +62,7 @@ local function ToggleLandingPage(_, ...)
 	ShowGarrisonLandingPage(...)
 end
 
-function module:ReskinRegions()
+function Maps:ReskinRegions()
 	-- Garrison
 	hooksecurefunc("GarrisonLandingPageMinimapButton_UpdateIcon", function(self)
 		self:ClearAllPoints()
@@ -100,7 +102,7 @@ function module:ReskinRegions()
 	QueueStatusMinimapButton:ClearAllPoints()
 	QueueStatusMinimapButton:SetPoint("BOTTOMLEFT", Minimap, "BOTTOMLEFT", -5, -5)
 	QueueStatusMinimapButtonBorder:Hide()
-	QueueStatusMinimapButtonIconTexture:SetTexture(nil)
+	QueueStatusMinimapButtonIconTexture:SetTexture("")
 
 	local queueIcon = Minimap:CreateTexture(nil, "ARTWORK")
 	queueIcon:SetPoint("CENTER", QueueStatusMinimapButton)
@@ -142,7 +144,7 @@ function module:ReskinRegions()
 	Invt:SetPoint("TOPRIGHT", Minimap, "BOTTOMLEFT", -20, -20)
 	Invt:SetSize(250, 80)
 	Invt:Hide()
-	B.SetBD(Invt)
+	B.ReskinButton(Invt)
 	B.CreateFS(Invt, 16, DB.InfoColor..GAMETIME_TOOLTIP_CALENDAR_INVITES)
 
 	local function updateInviteVisibility()
@@ -161,7 +163,7 @@ function module:ReskinRegions()
 	end)
 end
 
-function module:RecycleBin()
+function Maps:RecycleBin()
 	if not C.db["Map"]["ShowRecycleBin"] then return end
 
 	local blackList = {
@@ -180,28 +182,28 @@ function module:RecycleBin()
 	}
 
 	local bu = CreateFrame("Button", "RecycleBinToggleButton", Minimap)
-	bu:SetSize(30, 30)
-	bu:SetPoint("BOTTOMRIGHT", 4, -6)
+	bu:SetSize(22, 22)
+	bu:SetPoint("LEFT", 0, 0)
 	bu.Icon = bu:CreateTexture(nil, "ARTWORK")
 	bu.Icon:SetAllPoints()
 	bu.Icon:SetTexture(DB.binTex)
 	bu:SetHighlightTexture(DB.binTex)
 	B.AddTooltip(bu, "ANCHOR_LEFT", L["Minimap RecycleBin"], "white")
 
-	local width, height, alpha = 220, 40, .5
+	local width, height = 220, 40
 	local bin = CreateFrame("Frame", "RecycleBinFrame", UIParent)
-	bin:SetPoint("BOTTOMRIGHT", bu, "BOTTOMLEFT", -3, 10)
+	bin:SetPoint("RIGHT", bu, "LEFT", -5, 0)
 	bin:SetSize(width, height)
 	bin:SetFrameStrata("TOOLTIP")
 	bin:Hide()
 
-	local tex = B.SetGradient(bin, "H", 0, 0, 0, 0, alpha, width, height)
+	local tex = B.CreateGA(bin, "H", 0, 0, 0, 0, .5, width, height)
 	tex:SetPoint("CENTER")
-	local topLine = B.SetGradient(bin, "H", cr, cg, cb, 0, alpha, width, C.mult)
+	local topLine = B.CreateGA(bin, "H", cr, cg, cb, 0, C.alpha, width, C.mult*2)
 	topLine:SetPoint("BOTTOM", bin, "TOP")
-	local bottomLine = B.SetGradient(bin, "H", cr, cg, cb, 0, alpha, width, C.mult)
+	local bottomLine = B.CreateGA(bin, "H", cr, cg, cb, 0, C.alpha, width, C.mult*2)
 	bottomLine:SetPoint("TOP", bin, "BOTTOM")
-	local rightLine = B.SetGradient(bin, "V", cr, cg, cb, alpha, alpha, C.mult, 40 + C.mult*2)
+	local rightLine = B.CreateGA(bin, "V", cr, cg, cb, C.alpha, C.alpha, C.mult*2, 40 + C.mult*4)
 	rightLine:SetPoint("LEFT", bin, "RIGHT")
 
 	local function hideBinButton()
@@ -235,7 +237,7 @@ function module:RecycleBin()
 		[136467] = true,
 	}
 
-	local function ReskinMinimapButton(child, name)
+	local function KillMinimapButton(child, name)
 		for j = 1, child:GetNumRegions() do
 			local region = select(j, child:GetRegions())
 			if region:IsObjectType("Texture") then
@@ -250,13 +252,12 @@ function module:RecycleBin()
 				end
 			end
 			child:SetSize(34, 34)
-			B.CreateSD(child, 3, 3)
 		end
 
 		tinsert(buttons, child)
 	end
 
-	local function KillMinimapButtons()
+	local function ReskinMinimapButtons()
 		for _, child in pairs(buttons) do
 			if not child.styled then
 				child:SetParent(bin)
@@ -265,22 +266,22 @@ function module:RecycleBin()
 				if child:HasScript("OnClick") then child:HookScript("OnClick", clickFunc) end
 
 				if child:IsObjectType("Button") then
-					child:SetHighlightTexture(DB.bdTex) -- prevent nil function
-					child:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
+					B.ReskinHighlight(child)
 				elseif child:IsObjectType("Frame") then
 					child.highlight = child:CreateTexture(nil, "HIGHLIGHT")
-					child.highlight:SetAllPoints()
-					child.highlight:SetColorTexture(1, 1, 1, .25)
+					B.ReskinHighlight(child.highlight)
 				end
 
 				-- Naughty Addons
-				local name = child:GetName()
+				local name = child:GetDebugName()
 				if name == "DBMMinimapButton" then
 					child:SetScript("OnMouseDown", nil)
 					child:SetScript("OnMouseUp", nil)
 				elseif name == "BagSync_MinimapButton" then
 					child:HookScript("OnMouseUp", clickFunc)
 				end
+
+				B.CreateBDFrame(child, 0, C.mult)
 
 				child.styled = true
 			end
@@ -292,10 +293,10 @@ function module:RecycleBin()
 		if numChildren ~= numMinimapChildren then
 			for i = 1, numChildren do
 				local child = select(i, Minimap:GetChildren())
-				local name = child and child.GetName and child:GetName()
+				local name = child and child:GetDebugName()
 				if name and not child.isExamed and not blackList[name] then
 					if (child:IsObjectType("Button") or strmatch(strupper(name), "BUTTON")) and not isButtonIgnored(name) then
-						ReskinMinimapButton(child, name)
+						KillMinimapButton(child, name)
 					end
 					child.isExamed = true
 				end
@@ -304,7 +305,7 @@ function module:RecycleBin()
 			numMinimapChildren = numChildren
 		end
 
-		KillMinimapButtons()
+		ReskinMinimapButtons()
 
 		currentIndex = currentIndex + 1
 		if currentIndex < timeThreshold then
@@ -340,7 +341,7 @@ function module:RecycleBin()
 	CollectRubbish()
 end
 
-function module:WhoPingsMyMap()
+function Maps:WhoPingsMyMap()
 	if not C.db["Map"]["WhoPings"] then return end
 
 	local f = CreateFrame("Frame", nil, Minimap)
@@ -371,14 +372,14 @@ function module:WhoPingsMyMap()
 	end)
 end
 
-function module:UpdateMinimapScale()
+function Maps:UpdateMinimapScale()
 	local size = Minimap:GetWidth()
 	local scale = C.db["Map"]["MinimapScale"]
 	Minimap:SetScale(scale)
 	Minimap.mover:SetSize(size*scale, size*scale)
 end
 
-function module:ShowMinimapClock()
+function Maps:ShowMinimapClock()
 	if C.db["Map"]["Clock"] then
 		if not TimeManagerClockButton then LoadAddOn("Blizzard_TimeManager") end
 		if not TimeManagerClockButton.styled then
@@ -395,7 +396,7 @@ function module:ShowMinimapClock()
 	end
 end
 
-function module:ShowCalendar()
+function Maps:ShowCalendar()
 	if C.db["Map"]["Calendar"] then
 		if not GameTimeFrame.styled then
 			GameTimeFrame:SetNormalTexture(nil)
@@ -424,7 +425,7 @@ function module:ShowCalendar()
 	end
 end
 
-function module:Minimap_OnMouseWheel(zoom)
+function Maps:Minimap_OnMouseWheel(zoom)
 	if zoom > 0 then
 		Minimap_ZoomIn()
 	else
@@ -439,28 +440,25 @@ NDuiMiniMapTrackingDropDown:Hide()
 NDuiMiniMapTrackingDropDown.noResize = true
 _G.UIDropDownMenu_Initialize(NDuiMiniMapTrackingDropDown, _G.MiniMapTrackingDropDown_Initialize, "MENU")
 
-function module:Minimap_OnMouseUp(btn)
+function Maps:Minimap_OnMouseUp(btn)
 	if btn == "MiddleButton" then
 		if InCombatLockdown() then UIErrorsFrame:AddMessage(DB.InfoColor..ERR_NOT_IN_COMBAT) return end
 		ToggleCalendar()
 	elseif btn == "RightButton" then
 		ToggleDropDownMenu(1, nil, NDuiMiniMapTrackingDropDown, "cursor")
-	elseif self.mover then
+	else
 		Minimap_OnClick(self)
 	end
 end
 
-function module:SetupHybridMinimap()
-	local mapCanvas = HybridMinimap.MapCanvas
-	mapCanvas:SetMaskTexture("Interface\\Buttons\\WHITE8X8")
-	mapCanvas:SetScript("OnMouseWheel", module.Minimap_OnMouseWheel)
-	mapCanvas:SetScript("OnMouseUp", module.Minimap_OnMouseUp)
+function Maps:SetupHybridMinimap()
+	HybridMinimap.CircleMask:SetTexture("Interface\\BUTTONS\\WHITE8X8")
 end
 
-function module:HybridMinimapOnLoad(addon)
+function Maps:HybridMinimapOnLoad(addon)
 	if addon == "Blizzard_HybridMinimap" then
-		module:SetupHybridMinimap()
-		B:UnregisterEvent(self, module.HybridMinimapOnLoad)
+		Maps:SetupHybridMinimap()
+		B:UnregisterEvent(self, Maps.HybridMinimapOnLoad)
 	end
 end
 
@@ -473,7 +471,7 @@ local minimapInfo = {
 	alignment = 3,
 }
 
-function module:ShowMinimapHelpInfo()
+function Maps:ShowMinimapHelpInfo()
 	Minimap:HookScript("OnEnter", function()
 		if not NDuiADB["Help"]["MinimapInfo"] then
 			HelpTip:Show(MinimapCluster, minimapInfo)
@@ -481,7 +479,11 @@ function module:ShowMinimapHelpInfo()
 	end)
 end
 
-function module:SetupMinimap()
+function Maps:SetupMinimap()
+	cr, cg, cb = DB.r, DB.g, DB.b
+	color = NDuiDB["Skins"]["LineColor"]
+	if not NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
+
 	-- Shape and Position
 	Minimap:SetFrameLevel(10)
 	Minimap:SetMaskTexture("Interface\\Buttons\\WHITE8X8")
@@ -498,8 +500,8 @@ function module:SetupMinimap()
 
 	-- Minimap clicks
 	Minimap:EnableMouseWheel(true)
-	Minimap:SetScript("OnMouseWheel", module.Minimap_OnMouseWheel)
-	Minimap:SetScript("OnMouseUp", module.Minimap_OnMouseUp)
+	Minimap:SetScript("OnMouseWheel", Maps.Minimap_OnMouseWheel)
+	Minimap:SetScript("OnMouseUp", Maps.Minimap_OnMouseUp)
 
 	-- Hide Blizz
 	local frames = {
@@ -529,5 +531,5 @@ function module:SetupMinimap()
 	self:ShowMinimapHelpInfo()
 
 	-- HybridMinimap
-	B:RegisterEvent("ADDON_LOADED", module.HybridMinimapOnLoad)
+	B:RegisterEvent("ADDON_LOADED", Maps.HybridMinimapOnLoad)
 end

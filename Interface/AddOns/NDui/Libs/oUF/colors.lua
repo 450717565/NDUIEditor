@@ -44,7 +44,7 @@ local colors = {
 -- We do this because people edit the vars directly, and changing the default
 -- globals makes SPICE FLOW!
 local function customClassColors()
-	if(CUSTOM_CLASS_COLORS) then
+	if (CUSTOM_CLASS_COLORS) then
 		local function updateColors()
 			for classToken, color in next, CUSTOM_CLASS_COLORS do
 				colors.class[classToken] = {color.r, color.g, color.b}
@@ -62,7 +62,7 @@ local function customClassColors()
 	end
 end
 
-if(not customClassColors()) then
+if (not customClassColors()) then
 	for classToken, color in next, RAID_CLASS_COLORS do
 		colors.class[classToken] = {color.r, color.g, color.b}
 	end
@@ -70,7 +70,7 @@ if(not customClassColors()) then
 	local eventHandler = CreateFrame('Frame')
 	eventHandler:RegisterEvent('ADDON_LOADED')
 	eventHandler:SetScript('OnEvent', function(self)
-		if(customClassColors()) then
+		if (customClassColors()) then
 			self:UnregisterEvent('ADDON_LOADED')
 			self:SetScript('OnEvent', nil)
 		end
@@ -87,7 +87,7 @@ end
 
 for power, color in next, PowerBarColor do
 	if (type(power) == 'string') then
-		if(type(select(2, next(color))) == 'table') then
+		if (type(select(2, next(color))) == 'table') then
 			colors.power[power] = {}
 
 			for index, color in next, color do
@@ -126,7 +126,7 @@ for i = 0, 3 do
 end
 
 local function colorsAndPercent(a, b, ...)
-	if(a <= 0 or b == 0) then
+	if (a <= 0 or b == 0) then
 		return nil, ...
 	elseif(a >= b) then
 		return nil, select(-3, ...)
@@ -152,7 +152,7 @@ last 3 RGB values are returned.
 --]]
 function oUF:RGBColorGradient(...)
 	local relperc, r1, g1, b1, r2, g2, b2 = colorsAndPercent(...)
-	if(relperc) then
+	if (relperc) then
 		return r1 + (r2 - r1) * relperc, g1 + (g2 - g1) * relperc, b1 + (b2 - b1) * relperc
 	else
 		return r1, g1, b1
@@ -168,8 +168,8 @@ local function rgbToHCY(r, g, b)
 	local min, max = math.min(r, g, b), math.max(r, g, b)
 	local chroma = max - min
 	local hue
-	if(chroma > 0) then
-		if(r == max) then
+	if (chroma > 0) then
+		if (r == max) then
 			hue = ((g - b) / chroma) % 6
 		elseif(g == max) then
 			hue = (b - r) / chroma + 2
@@ -183,10 +183,10 @@ end
 
 local function hcyToRGB(hue, chroma, luma)
 	local r, g, b = 0, 0, 0
-	if(hue and luma > 0) then
+	if (hue and luma > 0) then
 		local h2 = hue * 6
 		local x = chroma * (1 - math.abs(h2 % 2 - 1))
-		if(h2 < 1) then
+		if (h2 < 1) then
 			r, g, b = chroma, x, 0
 		elseif(h2 < 2) then
 			r, g, b = x, chroma, 0
@@ -201,7 +201,7 @@ local function hcyToRGB(hue, chroma, luma)
 		end
 
 		local y = getY(r, g, b)
-		if(luma < y) then
+		if (luma < y) then
 			chroma = chroma * (luma / y)
 		elseif(y < 1) then
 			chroma = chroma * (1 - luma) / (1 - y)
@@ -228,7 +228,7 @@ last 3 HCY values are returned.
 --]]
 function oUF:HCYColorGradient(...)
 	local relperc, r1, g1, b1, r2, g2, b2 = colorsAndPercent(...)
-	if(not relperc) then
+	if (not relperc) then
 		return r1, g1, b1
 	end
 
@@ -237,9 +237,9 @@ function oUF:HCYColorGradient(...)
 	local c = c1 + (c2 - c1) * relperc
 	local y = y1 + (y2 - y1) * relperc
 
-	if(h1 and h2) then
+	if (h1 and h2) then
 		local dh = h2 - h1
-		if(dh < -0.5) then
+		if (dh < -0.5) then
 			dh = dh + 1
 		elseif(dh > 0.5) then
 			dh = dh - 1

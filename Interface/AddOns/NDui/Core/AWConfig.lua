@@ -1,8 +1,8 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local G = B:GetModule("GUI")
+local GUI = B:GetModule("GUI")
 
-local r, g, b = DB.r, DB.g, DB.b
+local cr, cg, cb = DB.r, DB.g, DB.b
 local pairs, floor = pairs, math.floor
 local f
 
@@ -26,7 +26,7 @@ local function createLabel(parent, text, tip)
 	frame:SetScript("OnLeave", B.HideTooltip)
 end
 
-function G:CreateEditbox(parent, text, x, y, tip, width, height)
+function GUI:CreateEditbox(parent, text, x, y, tip, width, height)
 	local eb = B.CreateEditBox(parent, width or 90, height or 30)
 	eb:SetPoint("TOPLEFT", x, y)
 	eb:SetMaxLetters(255)
@@ -35,7 +35,7 @@ function G:CreateEditbox(parent, text, x, y, tip, width, height)
 	return eb
 end
 
-function G:CreateCheckBox(parent, text, x, y, tip)
+function GUI:CreateCheckBox(parent, text, x, y, tip)
 	local cb = B.CreateCheckBox(parent)
 	cb:SetPoint("TOPLEFT", x, y)
 	cb:SetHitRectInsets(-5, -5, -5, -5)
@@ -44,7 +44,7 @@ function G:CreateCheckBox(parent, text, x, y, tip)
 	return cb
 end
 
-function G:CreateDropdown(parent, text, x, y, data, tip, width, height)
+function GUI:CreateDropdown(parent, text, x, y, data, tip, width, height)
 	local dd = B.CreateDropDown(parent, width or 90, height or 30, data)
 	dd:SetPoint("TOPLEFT", x, y)
 	createLabel(dd, text, tip)
@@ -52,7 +52,7 @@ function G:CreateDropdown(parent, text, x, y, data, tip, width, height)
 	return dd
 end
 
-function G:ClearEdit(element)
+function GUI:ClearEdit(element)
 	if element.Type == "EditBox" then
 		element:ClearFocus()
 		element:SetText("")
@@ -67,20 +67,20 @@ function G:ClearEdit(element)
 end
 
 local function createPage(name)
-	local p = CreateFrame("Frame", nil, f, "BackdropTemplate")
+	local p = CreateFrame("Frame", nil, f)
 	p:SetPoint("TOPLEFT", 160, -70)
 	p:SetSize(620, 380)
-	B.CreateBD(p, .25)
+	B.CreateBDFrame(p)
 	B.CreateFS(p, 15, name, false, "TOPLEFT", 5, 20)
 	p:Hide()
 	return p
 end
 
-function G:CreateScroll(parent, width, height, text)
+function GUI:CreateScroll(parent, width, height, text)
 	local scroll = CreateFrame("ScrollFrame", nil, parent, "UIPanelScrollFrameTemplate")
 	scroll:SetSize(width, height)
 	scroll:SetPoint("BOTTOMLEFT", 10, 10)
-	B.CreateBDFrame(scroll, .2)
+	B.CreateBDFrame(scroll)
 	if text then
 		B.CreateFS(scroll, 15, text, false, "TOPLEFT", 5, 20)
 	end
@@ -92,7 +92,7 @@ function G:CreateScroll(parent, width, height, text)
 	return scroll
 end
 
-function G:CreateBarWidgets(parent, texture)
+function GUI:CreateBarWidgets(parent, texture)
 	local icon = CreateFrame("Frame", nil, parent)
 	icon:SetSize(22, 22)
 	icon:SetPoint("LEFT", 5, 0)
@@ -124,7 +124,7 @@ local function CreatePanel()
 	f = CreateFrame("Frame", "NDui_AWConfig", UIParent)
 	f:SetPoint("CENTER")
 	f:SetSize(800, 500)
-	B.SetBD(f)
+	B.CreateBG(f)
 	B.CreateMF(f)
 	B.CreateFS(f, 17, L["AWConfig Title"], true, "TOP", 0, -10)
 	B.CreateFS(f, 15, L["Groups"], true, "TOPLEFT", 30, -50)
@@ -222,12 +222,12 @@ local function CreatePanel()
 			name = L["TotemSlot"]..spellID
 		end
 
-		local bar = CreateFrame("Frame", nil, parent, "BackdropTemplate")
+		local bar = CreateFrame("Frame", nil, parent)
 		bar:SetSize(270, 30)
-		B.CreateBD(bar, .25)
+		B.CreateBDFrame(bar)
 		barTable[index][spellID] = bar
 
-		local icon, close = G:CreateBarWidgets(bar, texture)
+		local icon, close = GUI:CreateBarWidgets(bar, texture)
 		icon.typeID = typeID
 		icon.spellID = spellID
 		if typeID ~= "TotemID" then
@@ -274,12 +274,12 @@ local function CreatePanel()
 			name = GetItemInfo(itemID)
 		end
 
-		local bar = CreateFrame("Frame", nil, parent, "BackdropTemplate")
+		local bar = CreateFrame("Frame", nil, parent)
 		bar:SetSize(270, 30)
-		B.CreateBD(bar, .25)
+		B.CreateBDFrame(bar)
 		barTable[index][intID] = bar
 
-		local icon, close = G:CreateBarWidgets(bar, texture)
+		local icon, close = GUI:CreateBarWidgets(bar, texture)
 		B.AddTooltip(icon, "ANCHOR_RIGHT", intID)
 		close:SetScript("OnClick", function()
 			bar:Hide()
@@ -339,56 +339,60 @@ local function CreatePanel()
 		for i = 1, #tabs do
 			if self == tabs[i] then
 				tabs[i].Page:Show()
-				tabs[i]:SetBackdropColor(r, g, b, .3)
+				tabs[i].bg:SetBackdropColor(cr, cg, cb, .5)
 				tabs[i].selected = true
 			else
 				tabs[i].Page:Hide()
-				tabs[i]:SetBackdropColor(0, 0, 0, .3)
+				tabs[i].bg:SetBackdropColor(0, 0, 0, 0)
 				tabs[i].selected = false
 			end
 		end
 	end
 	local function tabOnEnter(self)
 		if self.selected then return end
-		self:SetBackdropColor(r, g, b, .3)
+		self.bg:SetBackdropColor(cr, cg, cb, .5)
 	end
 	local function tabOnLeave(self)
 		if self.selected then return end
-		self:SetBackdropColor(0, 0, 0, .3)
+		self.bg:SetBackdropColor(0, 0, 0, 0)
 	end
 
 	for i, group in pairs(groups) do
 		if not C.db["AuraWatchList"][i] then C.db["AuraWatchList"][i] = {} end
 		barTable[i] = {}
 
-		tabs[i] = CreateFrame("Button", "$parentTab"..i, f, "BackdropTemplate")
+		tabs[i] = CreateFrame("Button", "$parentTab"..i, f)
 		tabs[i]:SetPoint("TOPLEFT", 20, -40 - i*30)
 		tabs[i]:SetSize(130, 28)
-		B.CreateBD(tabs[i], .25)
+
+		local bg = B.CreateBDFrame(tabs[i])
+		tabs[i].bg = bg
+
 		local label = B.CreateFS(tabs[i], 15, group, "system", "LEFT", 10, 0)
 		if i == 10 then
-			label:SetTextColor(0, .8, .3)
+			label:SetTextColor(cr, cg, cb)
 		end
+
 		tabs[i].Page = createPage(group)
-		tabs[i].List = G:CreateScroll(tabs[i].Page, 575, 200, L["AuraWatch List"])
+		tabs[i].List = GUI:CreateScroll(tabs[i].Page, 575, 200, L["AuraWatch List"])
 
 		local Option = {}
 		if i < 10 then
 			for _, v in pairs(C.db["AuraWatchList"][i]) do
 				AddAura(tabs[i].List.child, i, v)
 			end
-			Option[1] = G:CreateDropdown(tabs[i].Page, L["Type*"], 20, -30, {"AuraID", "SpellID", "SlotID", "TotemID"}, L["Type Intro"])
-			Option[2] = G:CreateEditbox(tabs[i].Page, "ID*", 140, -30, L["ID Intro"])
-			Option[3] = G:CreateDropdown(tabs[i].Page, L["Unit*"], 260, -30, {"player", "target", "focus", "pet"}, L["Unit Intro"])
-			Option[4] = G:CreateDropdown(tabs[i].Page, L["Caster"], 380, -30, {"player", "target", "pet"}, L["Caster Intro"])
-			Option[5] = G:CreateEditbox(tabs[i].Page, L["Stack"], 500, -30, L["Stack Intro"])
-			Option[6] = G:CreateCheckBox(tabs[i].Page, L["Value"], 40, -95, L["Value Intro"])
-			Option[7] = G:CreateCheckBox(tabs[i].Page, L["Timeless"], 120, -95, L["Timeless Intro"])
-			Option[8] = G:CreateCheckBox(tabs[i].Page, L["Combat"], 200, -95, L["Combat Intro"])
-			Option[9] = G:CreateEditbox(tabs[i].Page, L["Text"], 340, -90, L["Text Intro"])
-			Option[10] = G:CreateCheckBox(tabs[i].Page, L["Flash"], 280, -95, L["Flash Intro"])
-			Option[11] = G:CreateDropdown(tabs[i].Page, L["Slot*"], 140, -30, {slotIndex[6], slotIndex[11], slotIndex[12], slotIndex[13], slotIndex[14], slotIndex[15]}, L["Slot Intro"])
-			Option[12] = G:CreateDropdown(tabs[i].Page, L["Totem*"], 140, -30, {L["TotemSlot"].."1", L["TotemSlot"].."2", L["TotemSlot"].."3", L["TotemSlot"].."4"}, L["Totem Intro"])
+			Option[1] = GUI:CreateDropdown(tabs[i].Page, L["Type*"], 20, -30, {"AuraID", "SpellID", "SlotID", "TotemID"}, L["Type Intro"])
+			Option[2] = GUI:CreateEditbox(tabs[i].Page, "ID*", 140, -30, L["ID Intro"])
+			Option[3] = GUI:CreateDropdown(tabs[i].Page, L["Unit*"], 260, -30, {"player", "target", "focus", "pet"}, L["Unit Intro"])
+			Option[4] = GUI:CreateDropdown(tabs[i].Page, L["Caster"], 380, -30, {"player", "target", "pet"}, L["Caster Intro"])
+			Option[5] = GUI:CreateEditbox(tabs[i].Page, L["Stack"], 500, -30, L["Stack Intro"])
+			Option[6] = GUI:CreateCheckBox(tabs[i].Page, L["Value"], 40, -95, L["Value Intro"])
+			Option[7] = GUI:CreateCheckBox(tabs[i].Page, L["Timeless"], 120, -95, L["Timeless Intro"])
+			Option[8] = GUI:CreateCheckBox(tabs[i].Page, L["Combat"], 200, -95, L["Combat Intro"])
+			Option[9] = GUI:CreateEditbox(tabs[i].Page, L["Text"], 340, -90, L["Text Intro"])
+			Option[10] = GUI:CreateCheckBox(tabs[i].Page, L["Flash"], 280, -95, L["Flash Intro"])
+			Option[11] = GUI:CreateDropdown(tabs[i].Page, L["Slot*"], 140, -30, {slotIndex[6], slotIndex[11], slotIndex[12], slotIndex[13], slotIndex[14], slotIndex[15]}, L["Slot Intro"])
+			Option[12] = GUI:CreateDropdown(tabs[i].Page, L["Totem*"], 140, -30, {L["TotemSlot"].."1", L["TotemSlot"].."2", L["TotemSlot"].."3", L["TotemSlot"].."4"}, L["Totem Intro"])
 
 			for j = 2, 12 do Option[j]:Hide() end
 
@@ -396,7 +400,7 @@ local function CreatePanel()
 				Option[1].options[j]:HookScript("OnClick", function()
 					for k = 2, 12 do
 						Option[k]:Hide()
-						G:ClearEdit(Option[k])
+						GUI:ClearEdit(Option[k])
 					end
 
 					if Option[1].Text:GetText() == "AuraID" then
@@ -416,20 +420,20 @@ local function CreatePanel()
 			for _, v in pairs(C.db["InternalCD"]) do
 				AddInternal(tabs[i].List.child, i, v)
 			end
-			Option[13] = G:CreateEditbox(tabs[i].Page, L["IntID*"], 20, -30, L["IntID Intro"])
-			Option[14] = G:CreateEditbox(tabs[i].Page, L["Duration*"], 140, -30, L["Duration Intro"])
-			Option[15] = G:CreateDropdown(tabs[i].Page, L["Trigger"].."*", 260, -30, {"OnAuraGain", "OnCastSuccess"}, L["Trigger Intro"], 130, 30)
-			Option[16] = G:CreateDropdown(tabs[i].Page, L["Unit*"], 420, -30, {"Player", "All"}, L["Trigger Unit Intro"])
-			Option[17] = G:CreateEditbox(tabs[i].Page, L["ItemID"], 20, -95, L["ItemID Intro"])
+			Option[13] = GUI:CreateEditbox(tabs[i].Page, L["IntID*"], 20, -30, L["IntID Intro"])
+			Option[14] = GUI:CreateEditbox(tabs[i].Page, L["Duration*"], 140, -30, L["Duration Intro"])
+			Option[15] = GUI:CreateDropdown(tabs[i].Page, L["Trigger"].."*", 260, -30, {"OnAuraGain", "OnCastSuccess"}, L["Trigger Intro"], 130, 30)
+			Option[16] = GUI:CreateDropdown(tabs[i].Page, L["Unit*"], 420, -30, {"Player", "All"}, L["Trigger Unit Intro"])
+			Option[17] = GUI:CreateEditbox(tabs[i].Page, L["ItemID"], 20, -95, L["ItemID Intro"])
 		end
 
 		local clear = B.CreateButton(tabs[i].Page, 60, 25, KEY_NUMLOCK_MAC)
 		clear:SetPoint("TOPRIGHT", -100, -90)
 		clear:SetScript("OnClick", function()
 			if i < 10 then
-				for j = 2, 12 do G:ClearEdit(Option[j]) end
+				for j = 2, 12 do GUI:ClearEdit(Option[j]) end
 			elseif i == 10 then
-				for j = 13, 17 do G:ClearEdit(Option[j]) end
+				for j = 13, 17 do GUI:ClearEdit(Option[j]) end
 			end
 		end)
 
@@ -455,7 +459,7 @@ local function CreatePanel()
 
 				C.db["AuraWatchList"][i][realID] = {typeID, realID, unitID, Option[4].Text:GetText(), tonumber(Option[5]:GetText()) or false, Option[6]:GetChecked(), Option[7]:GetChecked(), Option[8]:GetChecked(), Option[9]:GetText(), Option[10]:GetChecked()}
 				AddAura(tabs[i].List.child, i, C.db["AuraWatchList"][i][realID])
-				for i = 2, 12 do G:ClearEdit(Option[i]) end
+				for i = 2, 12 do GUI:ClearEdit(Option[i]) end
 			elseif i == 10 then
 				local intID, duration, trigger, unit, itemID = tonumber(Option[13]:GetText()), tonumber(Option[14]:GetText()), Option[15].Text:GetText(), Option[16].Text:GetText(), tonumber(Option[17]:GetText())
 				if not intID or not duration or not trigger or not unit then UIErrorsFrame:AddMessage(DB.InfoColor..L["Incomplete Input"]) return end
@@ -464,7 +468,7 @@ local function CreatePanel()
 
 				C.db["InternalCD"][intID] = {intID, duration, trigger, unit, itemID}
 				AddInternal(tabs[i].List.child, i, C.db["InternalCD"][intID])
-				for i = 13, 17 do G:ClearEdit(Option[i]) end
+				for i = 13, 17 do GUI:ClearEdit(Option[i]) end
 			end
 		end)
 

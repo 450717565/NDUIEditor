@@ -3,7 +3,7 @@
 ## X-Credits: Elv, Freebaser, Haleth, Haste, Leatrix, lightspark, Loshine, Neavo, p3lim, Paopao001, Qulight, Ray, Rubgrsch, Simpy, Tuller, zork.
 ## Author: Siweia
 ## Notes: More than a UI.
-## Version: 6.3.4.0
+## Version: 6.4.6.0
 ## X-Support: SL
 ## X-Website: https://github.com/siweia/NDui
 ## SavedVariables: NDuiADB, NDuiPDB
@@ -16,3 +16,4 @@ Config\Config.xml
 Libs\Libs.xml
 Modules\Modules.xml
 Plugins\Plugins.xml
+Extras\Extras.xml

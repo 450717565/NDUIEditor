@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Bar = B:GetModule("Actionbar")
+local Bar = B:GetModule("ActionBar")
 
 local _G = _G
 local tinsert = tinsert
@@ -29,12 +29,13 @@ end
 function Bar:CreateLeaveVehicle()
 	local num = 1
 	local buttonList = {}
+	local layout = C.db["ActionBar"]["BarStyle"]
 
 	local frame = CreateFrame("Frame", "NDui_ActionBarExit", UIParent, "SecureHandlerStateTemplate")
-	if C.db["Actionbar"]["Style"] == 3 then
-		frame.Pos = {"BOTTOM", UIParent, "BOTTOM", 0, 130}
+	if layout == 4 then
+		frame.Pos = {"BOTTOMLEFT", _G.ActionButton12, "BOTTOMRIGHT", 0, -margin}
 	else
-		frame.Pos = {"BOTTOM", UIParent, "BOTTOM", 320, 100}
+		frame.Pos = {"BOTTOMRIGHT", _G.MultiBarBottomRightButton9, "TOPRIGHT", margin, 0}
 	end
 
 	local button = CreateFrame("CheckButton", "NDui_LeaveVehicleButton", frame, "ActionButtonTemplate, SecureHandlerClickTemplate")

@@ -1,21 +1,17 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local module = B:RegisterModule("Infobar")
+local Infobar = B:RegisterModule("Infobar")
 local tinsert, pairs, unpack = table.insert, pairs, unpack
 
-local GOLD_AMOUNT_SYMBOL = format("|cffffd700%s|r", GOLD_AMOUNT_SYMBOL)
-local SILVER_AMOUNT_SYMBOL = format("|cffd0d0d0%s|r", SILVER_AMOUNT_SYMBOL)
-local COPPER_AMOUNT_SYMBOL = format("|cffc77050%s|r", COPPER_AMOUNT_SYMBOL)
-
-function module:GetMoneyString(money, full)
-	if money >= 1e6 and not full then
-		return format(" %.0f%s", money / 1e4, GOLD_AMOUNT_SYMBOL)
-	else
-		if money > 0 then
+function Infobar:GetMoneyString(money, formatted)
+	if money > 0 then
+		if formatted then
+			return format("%s%s", B.FormatNumb(money / 1e4), GOLD_AMOUNT_SYMBOL)
+		else
 			local moneyString = ""
 			local gold = floor(money / 1e4)
 			if gold > 0 then
-				moneyString = " "..gold..GOLD_AMOUNT_SYMBOL
+				moneyString = gold..GOLD_AMOUNT_SYMBOL
 			end
 			local silver = floor((money - (gold * 1e4)) / 100)
 			if silver > 0 then
@@ -26,13 +22,13 @@ function module:GetMoneyString(money, full)
 				moneyString = moneyString.." "..copper..COPPER_AMOUNT_SYMBOL
 			end
 			return moneyString
-		else
-			return " 0"..COPPER_AMOUNT_SYMBOL
 		end
+	else
+		return "0"..COPPER_AMOUNT_SYMBOL
 	end
 end
 
-function module:RegisterInfobar(name, point)
+function Infobar:RegisterInfobar(name, point)
 	if not self.modules then self.modules = {} end
 
 	local info = CreateFrame("Frame", nil, UIParent)
@@ -51,7 +47,7 @@ function module:RegisterInfobar(name, point)
 	return info
 end
 
-function module:LoadInfobar(info)
+function Infobar:LoadInfobar(info)
 	if info.eventList then
 		for _, event in pairs(info.eventList) do
 			info:RegisterEvent(event)
@@ -72,17 +68,18 @@ function module:LoadInfobar(info)
 	end
 end
 
-function module:BackgroundLines()
+function Infobar:BackgroundLines()
 	if not C.db["Skins"]["InfobarLine"] then return end
 
-	local cr, cg, cb = 0, 0, 0
-	if C.db["Skins"]["ClassLine"] then cr, cg, cb = DB.r, DB.g, DB.b end
+	local cr, cg, cb = DB.r, DB.g, DB.b
+	local color = NDuiDB["Skins"]["LineColor"]
+	if not C.db["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
 
 	local parent = UIParent
 	local width, height = 450, 18
 	local anchors = {
-		[1] = {"TOPLEFT", -3, .5, 0},
-		[2] = {"BOTTOMRIGHT", 3, 0, .5},
+		[1] = {"TOPLEFT", -3, .5, 0, C.alpha, 0},
+		[2] = {"BOTTOMRIGHT", 3, 0, .5, 0, C.alpha},
 	}
 	for _, v in pairs(anchors) do
 		local frame = CreateFrame("Frame", nil, parent)
@@ -90,16 +87,16 @@ function module:BackgroundLines()
 		frame:SetSize(width, height)
 		frame:SetFrameStrata("BACKGROUND")
 
-		local tex = B.SetGradient(frame, "H", 0, 0, 0, v[3], v[4], width, height)
+		local tex = B.CreateGA(frame, "H", 0, 0, 0, v[3], v[4], width, height)
 		tex:SetPoint("CENTER")
-		local bottomLine = B.SetGradient(frame, "H", cr, cg, cb, v[3], v[4], width, C.mult)
+		local bottomLine = B.CreateGA(frame, "H", cr, cg, cb, v[5], v[6], width, C.mult*2)
 		bottomLine:SetPoint("TOP", frame, "BOTTOM")
-		local topLine = B.SetGradient(frame, "H", cr, cg, cb, v[3], v[4], width, C.mult)
+		local topLine = B.CreateGA(frame, "H", cr, cg, cb, v[5], v[6], width, C.mult*2)
 		topLine:SetPoint("BOTTOM", frame, "TOP")
 	end
 end
 
-function module:OnLogin()
+function Infobar:OnLogin()
 	if NDuiADB["DisableInfobars"] then return end
 
 	if not self.modules then return end
@@ -115,9 +112,11 @@ function module:OnLogin()
 		if index == 1 or index == 6 then
 			info.text:SetPoint(unpack(info.point))
 		elseif index < 6 then
-			info.text:SetPoint("LEFT", self.modules[index-1], "RIGHT", 20, 0)
+			info.text:SetPoint("LEFT", self.modules[index-1], "RIGHT", 30, 0)
+			info.text:SetJustifyH("LEFT")
 		else
 			info.text:SetPoint("RIGHT", self.modules[index-1], "LEFT", -30, 0)
+			info.text:SetJustifyH("RIGHT")
 		end
 	end
 end

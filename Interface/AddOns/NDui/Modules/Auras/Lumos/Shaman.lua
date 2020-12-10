@@ -1,30 +1,30 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local A = B:GetModule("Auras")
+local Auras = B:GetModule("Auras")
 
 if DB.MyClass ~= "SHAMAN" then return end
 
 local function GetUnitAura(unit, spell, filter)
-	return A:GetUnitAura(unit, spell, filter)
+	return Auras:GetUnitAura(unit, spell, filter)
 end
 
 local function UpdateCooldown(button, spellID, texture)
-	return A:UpdateCooldown(button, spellID, texture)
+	return Auras:UpdateCooldown(button, spellID, texture)
 end
 
 local function UpdateBuff(button, spellID, auraID, cooldown)
-	return A:UpdateAura(button, "player", auraID, "HELPFUL", spellID, cooldown)
+	return Auras:UpdateAura(button, "player", auraID, "HELPFUL", spellID, cooldown)
 end
 
 local function UpdateDebuff(button, spellID, auraID, cooldown, glow)
-	return A:UpdateAura(button, "target", auraID, "HARMFUL", spellID, cooldown, glow)
+	return Auras:UpdateAura(button, "target", auraID, "HARMFUL", spellID, cooldown, glow)
 end
 
 local function UpdateTotemAura(button, texture, spellID)
-	return A:UpdateTotemAura(button, texture, spellID)
+	return Auras:UpdateTotemAura(button, texture, spellID)
 end
 
-function A:ChantLumos(self)
+function Auras:ChantLumos(self)
 	local spec = GetSpecialization()
 	if spec == 1 then
 		UpdateDebuff(self.lumos[1], 188389, 188389, true, "END")
@@ -107,7 +107,7 @@ function A:ChantLumos(self)
 				local name, _, _, _, _, _, value = GetUnitAura("player", 157504, "HELPFUL")
 				if name then
 					UpdateTotemAura(button, 971076)
-					button.Count:SetText(B.Numb(value))
+					button.Count:SetText(B.FormatNumb(value))
 					button.Count:SetTextColor(1, 1, 1)
 				else
 					UpdateCooldown(button, 157153)

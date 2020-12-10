@@ -10,18 +10,18 @@ local C_CurrencyInfo_GetCurrencyListLink = C_CurrencyInfo.GetCurrencyListLink
 local BAGSLOT, BANK = BAGSLOT, BANK
 
 local types = {
-	spell = SPELLS.."ID:",
-	item = ITEMS.."ID:",
-	quest = QUESTS_LABEL.."ID:",
-	talent = TALENT.."ID:",
-	achievement = ACHIEVEMENTS.."ID:",
-	currency = CURRENCY.."ID:",
-	azerite = L["Trait"].."ID:",
+	spell = SPELLS.."ID：",
+	item = ITEMS.."ID：",
+	quest = QUESTS_LABEL.."ID：",
+	talent = TALENT.."ID：",
+	achievement = ACHIEVEMENTS.."ID：",
+	currency = CURRENCY.."ID：",
+	azerite = L["Trait"].."ID：",
 }
 
 function TT:AddLineForID(id, linkType, noadd)
 	for i = 1, self:NumLines() do
-		local line = _G[self:GetName().."TextLeft"..i]
+		local line = _G[self:GetDebugName().."TextLeft"..i]
 		if not line then break end
 		local text = line:GetText()
 		if text and text == linkType then return end
@@ -32,13 +32,16 @@ function TT:AddLineForID(id, linkType, noadd)
 		local bagCount = GetItemCount(id)
 		local bankCount = GetItemCount(id, true) - bagCount
 		local itemStackCount = select(8, GetItemInfo(id))
-		if bankCount > 0 then
-			self:AddDoubleLine(BAGSLOT.."/"..BANK..":", DB.InfoColor..bagCount.."/"..bankCount)
+		if bankCount > 0 and bagCount > 0 then
+			self:AddDoubleLine(BAGSLOT.."：", DB.InfoColor..bagCount)
+			self:AddDoubleLine(BANK.."：", DB.InfoColor..bankCount)
+		elseif bankCount > 0 then
+			self:AddDoubleLine(BANK.."：", DB.InfoColor..bankCount)
 		elseif bagCount > 0 then
-			self:AddDoubleLine(BAGSLOT..":", DB.InfoColor..bagCount)
+			self:AddDoubleLine(BAGSLOT.."：", DB.InfoColor..bagCount)
 		end
 		if itemStackCount and itemStackCount > 1 then
-			self:AddDoubleLine(L["Stack Cap"]..":", DB.InfoColor..itemStackCount)
+			self:AddDoubleLine(AUCTION_STACK_SIZE.."：", DB.InfoColor..itemStackCount)
 		end
 	end
 
@@ -80,7 +83,7 @@ function TT:UpdateSpellCaster(...)
 	if unitCaster then
 		local name = GetUnitName(unitCaster, true)
 		local hexColor = B.HexRGB(B.UnitColor(unitCaster))
-		self:AddDoubleLine(L["From"]..":", hexColor..name)
+		self:AddDoubleLine(SPELL_TARGET_CENTER_CASTER..":", hexColor..name)
 		self:Show()
 	end
 end

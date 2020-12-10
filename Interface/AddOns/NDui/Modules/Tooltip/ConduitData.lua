@@ -29,7 +29,7 @@ function TT:Conduit_CheckStatus()
 	local knownLevel = itemID and TT.ConduitData[itemID]
 
 	if knownLevel and level and knownLevel >= level then
-		local textLine = _G[self:GetName().."TextLeft1"]
+		local textLine = _G[self:GetDebugName().."TextLeft1"]
 		local text = textLine and textLine:GetText()
 		if text and text ~= "" then
 			textLine:SetText(text..COLLECTED_STRING)

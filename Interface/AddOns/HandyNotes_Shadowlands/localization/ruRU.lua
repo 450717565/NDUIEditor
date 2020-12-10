@@ -16,40 +16,58 @@ L["anima_channeled"] = "анима направленая на %s."
 
 L["deifir_note"] = "Катайся на редком монстре по кругу и используй {spell:319566} и {spell:319575} чтобы замедлить и оглушить его."
 L["faeflayer_note"] = "В маленькой пещере, скрытой за водопадом."
-L["gormtamer_tizo_note"] = "Убивайте {npc:166735} и {npc:166736}, которые едут на них, пока не появится {npc:164110}."
-L["humongozz_note"] = "Посадить {item:175247} во влажный суглинок, чтобы вызвать {npc:164122}. Через минуту {spell:319367}, редкий монстр появиться. Гриб выпадает с многочисленных монстров в локации."
-L["lehgo_note"] = "Destroy Quivering Gorm Eggs and kill {npc:171827} until he spawns. In a cave (entrance to the south-east in the Dusty Burrows)."
-L["mymaen_note"] = nil
-L["rainbowhorn_note"] = "\n|cffff5400В|r|cffffaa00К|r|cffffff00У|r|cffaaff00С|r|cff54ff00Ы|r  |cff0055ffР|r|cff0000ffА|r|cff5400ffД|r|cffaa00ffУ|r|cffff00ffГ|r|cffff00aaИ|r|cffff0000!|r"
+L["gormtamer_tizo_note"] = "Убивайте Острохвойных заклинателей, пока не появится {npc:164110}"
+L["humongozz_note"] = "Посадите {item:175247} во влажном суглинке, чтобы создать {npc:164122}. Гриб выпадает с многочисленных мобов в зоне."
+L["lehgo_note"] = "Уничтожьте подрагивающую кладку гормов и убивайте {npc:171827}, пока он не появится. В пещере (вход на юго-восток Пыльных Нор)."
+L["macabre_note"] = [[
+Появляется в нескольких местах. Чтобы призвать, встаньте в Кольцо Таинственных Грибов с двумя другими игроками и танцуйте друг с другом.
+
+• Игрок 1 танцует с Игроком 2
+• Игрок 2 танцует с Игроком 3
+• Игрок 3 танцует с Игроком 1
+]]
+L["mymaen_note"] = "Убивайте гнилошипов в области, пока он не проявит эмоции и не появится."
+L["rainbowhorn_note"] = [[
+Найдите и нажмите на |cffffff00Большой рог рунического оленя|r чтобы вызвать редкого монстра. Рог может появиться в нескольких местах Арденвельда.
+
+Он всегда будет появляться к северу от Тирна Ваал, поэтому установите там свой {item:6948} и следите за оповещением в локации.
+
+|cffff5400В|r|cffffaa00К|r|cffffff00У|r|cffaaff00С|r|cff54ff00Ы|r  |cff0055ffР|r|cff0000ffА|r|cff5400ffД|r|cffaa00ffУ|r|cffff00ffГ|r|cffff00aaИ|r|cffff0000!|r
+]]
 L["rootwrithe_note"] = "Тыкай по {npc:167928} пока не появится редкий монстр."
 L["rotbriar_note"] = "Поговорите с {npc:171684}, чтобы вызвать редкого монстра после некоторого диалога."
 L["slumbering_note"] = "Бегство в туман оглушит вас и перенесет. Используйте сигнальную ракету или питомца с AOE, чтобы выбить его из тумана."
 L["skuld_vit_note"] = "В пещере, заблокированной барьером. Игрок из Ночного Народца должен использовать {spell:310143} чтобы войти в пещеру. Как только монстра атакуют, барьер исчезнет."
-L["valfir_note"] = "Нажмите на Свет анимасемени и на полпути используйте {spell:338045} чтобы убрать его бафф {spell:338038}"
-L["wrigglemortis_note"] = "Потяните {npc:164179} чтобы призвать редкого монстра."
+L["valfir_note"] = "Нажмите на свет анимасемени и на полпути используйте {spell:338045} чтобы убрать его бафф {spell:338038}"
+L["wrigglemortis_note"] = "Потяните за {npc:164179} чтобы призвать редкого монстра."
 
 L["night_mare_note"] = [[
 Отправляйтесь в Тирна Скитт и следуйте по пути из корней на северо-западном утесе к сломанной тележке. Там вы можете добыть {item:181243} на земле.
 
-Отнесите этот предмет к {npc:165704} в Низину Мерцающих Каскадов. Она даст вам {item:181242} в обмен на 10 {item:173204}. |cFFFF8C00Если ее нет, вы должны выполнить |cFFFFFD00Trouble at the Gormling Corral|r and |cFFFFFD00Tricky Spriggans|r линии заданий.|r
+Отнесите этот предмет к {npc:165704} в Низину Мерцающих Каскадов. Она даст вам {item:181242} в обмен на 10 {item:173204}. |cFFFF8C00Если ее нет, вы должны выполнить |cFFFFFD00Проблемы в загоне гормлингов|r и |cFFFFFD00Хитроумные спригганы|r линии заданий.|r
 
 Затем поговорите с {npc:160262} в самом сердце леса, чтобы обменять {item:181242} на {item:178675}. Используйте этот предмет, чтобы получить бафф {spell:327083}, позволяющий увидеть {npc:168135}.
 ]]
 
 L["star_lake"] = "Амфитеатр Звездного озера"
-L["star_lake_note"] = "Поговорите с постановщиком {npc:171743}, чтобы запустить одну из сцен."
+L["star_lake_note"] = [[
+Поговорите с постановщиком {npc:171743}, чтобы запустить одну из сцен. Сцена меняется каждый день.
 
-L["cache_of_the_moon"] = "Collect {npc:171360}'s five missing tools in the Garden of Night and combine them to create {item:180753}. Return her toolkit and she will cast {spell:334353} on you, allowing you to see the cache."
+Примите участие во всех семи сценах, чтобы разблокировать {item:180748} у {npc:163714}.
+]]
+L["guldan"] = "Гул'дан"
+
+L["cache_of_the_moon"] = "Соберите пять недостающих инструментов {npc:171360} в саду ночи и объедините их, чтобы создать {item:180753}. Верните ее набор инструментов, и она наложит на вас {spell:334353}, что позволит вам увидеть сокровище."
 L["cache_of_the_night"] = "Соберите {item:180656}, {item:180654} и {item:180655} которые добываются со всей локации и объедините их, чтобы создать {item:180652}."
-L["darkreach_supplies"] = "Прыгайте на {npc:169995} и скользите на юго-запад, в выдолбленный шпиль прямо к Припасам Темного Края."
-L["desiccated_moth"] = "Перейти на {npc:169997} к северо-западу от дерева, чтобы заплыть на ветку. Сжечь {item:180784} в Курильнице, чтобы собрать сокровище."
+L["darkreach_supplies"] = "Прыгайте на {npc:169995} и скользите на юго-запад, в выдолбленный шпиль прямо к припасам темного края."
+L["desiccated_moth"] = "Перейти на {npc:169997} к северо-западу от дерева, чтобы заплыть на ветку. Сжечь {item:180784} в курильнице, чтобы собрать сокровище."
 L["dreamsong_heart"] = "Используйте {npc:169997} под деревом, чтобы попасть в дерево."
 L["elusive_faerie_cache"] = "Примените {spell:333923} в северо-восточном углу Сумеречной Рощи и используйте ее, чтобы обыскать сундук."
 L["enchanted_dreamcatcher"] = "Свисает с верхушки корней. Легче всего прыгать с западной стороны."
 L["faerie_trove"] = "Расположен под платформой."
 L["harmonic_chest"] = "Требуется два человека. Один человек играет на арфе, а другой играет на барабане, чтобы открыть сундук."
 L["hearty_dragon_plume"] = "Нажмите {spell:333554} на вершине близлежащих водопадов и используйте его, чтобы спуститься на ветку."
-L["old_ardeite_note"] = "Убейте {npc:160747} и {npc:160748} в Мерцающей рощи на юго-востоке для {item:174042}. Используйте этот предмет, чтобы подлететь к редкому монстру и взять в цель его."
+L["old_ardeite_note"] = "Убейте {npc:160747} и {npc:160748} в Мерцающей рощи на юго-востоке для {item:174042}. Используйте этот предмет, чтобы подлететь к редкому монстру и взять его в цель."
 L["swollen_anima_seed"] = "Большое семя, сидящее внутри ствола дерева."
 
 L["playful_vulpin_note"] = [[
@@ -62,77 +80,82 @@ L["playful_vulpin_note"] = [[
 • сидит один и грустит = |cFFFF8C00/гладить|r
 ]]
 
-L["tame_gladerunner"] = "Tame Gladerunner"
+L["tame_gladerunner"] = "Мерцающий туманный бегун"
 L["tame_gladerunner_note"] = [[
-Read the "Tale of the Tangle" and then follow the blue lamps through the path until you reach {npc:171767}. Kill him and then loot the {npc:171699}.
+Прочтите «История Чащобы» и следуйте по дорожке по синим лампам, пока не дойдете до {npc:171767}. Убейте его и возьмите {npc:171699}.
 
-If you take a wrong path and {npc:171699} disappears when you reach the end, go back to the start and read "Tale of the Tangle" once more before trying again. If {npc:171767} is not there, you will have to wait for him to respawn.
+Если вы выберете неправильный путь и {npc:171699} исчезнет, когда вы дойдете до конца, вернитесь к началу и прочтите «История Чащобы» еще раз, прежде чем пытаться снова. Если {npc:171767} там нет, вам придется подождать, пока он появиться.
 ]]
 
 L["faryl_note"] = "Пусть защиту Арденвельда возглавят существа в небе."
 L["glitterdust_note"] = "Существа Арденвельда могут выглядеть послушными, но они будут защищать свою территорию с силой и мужеством самых могущественных чемпионов из когда-либо известных. У вас есть то, что нужно?"
 
+L["lost_book_note"] = "Верните эту потерянную книгу {npc:165867} в Рощу Памяти."
+L["options_icons_faerie_tales"] = "{achievement:14788}"
+L["options_icons_faerie_tales_desc"] = "Показать местонахождение потерянных книг для достижения {achievement:14788}."
+
 -------------------------------------------------------------------------------
 ----------------------------------- BASTION -----------------------------------
 -------------------------------------------------------------------------------
 
-L["ascended_council_note"] = "With four other players, click the five Vespers of Purity, Courage, Humility, Wisdom and Loyalty at the same time. Afterwards, head to Aspirant's Crucible to defeat the Ascended Council and reveal the cache."
+L["aegeon_note"] = "Убивайте врагов в окрестностях, пока Каратель Эгеон не появится в качестве подкрепления."
+L["ascended_council_note"] = "Вместе с четырьмя другими игроками нажмите одновременно пять колоколов. После этого отправляйтесь в горнило претендента, чтобы победить Вознесенный Совет и открыть сундук."
 L["aspirant_eolis_note"] = "Обыскать поблизости {item:180613} и прочитать его с помощью НПС, нацеленного на его активацию."
-L["baedos_note"] = "Carry casks of Fermenting Purian Fruit from the surrounding area to {npc:161536} until he activates."
+L["baedos_note"] = "Носите бочки с ферментированным чистоплодом из окрестностей до {npc:161536}, пока он не активирует."
 L["basilofos_note"] = "Двигайтесь вокруг камня, пока над вашей головой не появится фиолетовый фиксирующий маркер. Стой на месте и подождите, пока появятся четыре эмоции, тогда он появится на свет."
 L["beasts_of_bastion"] = "Звери Бастиона"
 L["beasts_of_bastion_note"] = "Поговорите с {npc:161441}, чтобы призвать одного из четырех зверей."
 L["bookkeeper_mnemis_note"] = "Имеет шанс появиться вместо {npc:166867}."
-L["cloudfeather_patriarch_note"] = "Убейте {npc:158110} in the area until the rare emotes and spawns."
-L["collector_astor_note"] = "Read all six chapters of Mercia's Legacy scattered around the room, after which you will receive a whisper from {npc:157979}. Talk to her to receive {spell:333779}, allowing you to find the hidden {item:180569} to the northwest. Returning the chapter will spawn the rare."
-L["corrupted_clawguard_note"] = "Loot a {item:180651} in Forgefire Outpost up the hill and use it to repair the {npc:171300}."
+L["cloudfeather_patriarch_note"] = "Убивайте {npc:158110} в этом районе до появления редкого монстра."
+L["collector_astor_note"] = "Прочтите все шесть глав «Наследие Милосерды», разбросанные по комнате, затем поговорите с {npc:157979}, чтобы получить {spell:333779}. Найдите спрятанный {item:180569} в окрестностях и верните его, чтобы призвать редкого монстра."
+L["corrupted_clawguard_note"] = "Возьмите {item:180651} на холме в лагере кузнецов или в комнате внизу и используйте его для ремонта {npc:171300}."
 L["dark_watcher_note"] = "Виден только мертвым. Поговори с ней, и она применит {spell:332830} на вас перед атакой."
 L["demi_hoarder_note"] = "Начинается с 99 стаков {spell:333874}, уменьшения получаемого урона. Стаки медленно снимаются с повреждениями. Редкий монстр пойдет по пути и исчезнет, если он достигнет его конца."
 L["dionae_note"] = "Когда она станет неуязвимой, нажмите на четыре {npc:163747}, чтобы сломать ее щит."
 L["herculon_note"] = [[
 Соберите {item:172451} и используйте их, чтобы дать {npc:158659} стаки {spell:343531}. При 10 стаках он активируется.
 
-Motes can be collected from nearby Depleted Anima Canisters located in the room or just outside.
+Частицы можно собрать из близлежащих Канистр анимы, расположенных в комнате или снаружи.
 
-|cFFFF8C00Cannot be defeated during the {wq:Assault on the Vestibule} world quest.|r
+|cFFFF8C00Нельзя победить во время локального задания {wq:Нападение на Преддверие Вечности}.|r
 ]]
-L["nikara_note"] = "With two other players, click the Ancient Incense to summon."
-L["sotiros_orstus_note"] = "Click the Black Bell to summon the rares."
-L["sundancer_note"] = "Click the statue to obtain the {spell:332309} buff, then use a {item:180445} to glide to the rare and mount it."
+L["nikara_note"] = "Вместе с двумя другими игроками нажмите древнее благовоние, чтобы призвать."
+L["sotiros_orstus_note"] = "Нажмите на Черный колокол, чтобы вызвать редкого монстра."
+L["sundancer_note"] = "Нажмите на статую, чтобы получить бафф {spell:332309}, затем используйте {item:180445}, чтобы лететь к редкому монстру и получить средство передвижения."
 L["swelling_tear_note"] = "Нажмите на {npc:171012}, чтобы вызвать одного из трех редких монстров. Разломы могут появляться в нескольких местах в локации."
 L["unstable_memory_note"] = "Может появиться при наличии {npc:171018}. Перетащите один {npc:171018} к другим, чтобы получить 10 стаков {spell:333558}, превратив его в редкого монстра."
-L["wingflayer_note"] = "To summon, click the Horn of Courage on the nearby table (southeast, up the stairs)."
+L["wingflayer_note"] = "Чтобы призвать, нажмите Рог Отваги на ближайшем столе (на юго-востоке, вверх по лестнице)."
 
 L["broken_flute"] = "Убивайте поблизости {npc:170009}, пока они не уронят {item:180536}, затем воспользуйтесь инструментами, чтобы починить его."
-L["cloudwalkers_coffer"] = nil
+L["cloudwalkers_coffer"] = "Сундук Облачного Странника"
 L["cloudwalkers_coffer_note"] = "Используйте большие фиолетовые цветы, чтобы подпрыгнуть на платформу."
 L["experimental_construct_part"] = "Найдите ближайший {item:180534} и используйте его, чтобы починить деталь. У анимы есть несколько мест появления."
-L["larion_harness"] = "Located inside the Hall of Beasts."
-L["memorial_offering"] = "Purchase a {item:180788} from {npc:171526} in Aspirant's Rest. Place it in the drink tray near the chest to obtain the {item:180797}."
+L["larion_harness"] = "Находится внутри Зала Зверей."
+L["memorial_offering"] = "Купите {item:180788} у {npc:171526} в Обители претендентов. Поместите его в поднос с напитками возле сундука, чтобы получить {item:180797}."
 L["scroll_of_aeons"] = "Добудьте 2 {item:173973} в центре и поместите их на близлежащие подносы, чтобы найти сокровище."
-L["vesper_of_silver_wind"] = nil
+L["vesper_of_silver_wind"] = "Колокол Серебряного Ветра"
 L["vesper_of_silver_wind_note"] = "Завершите достижение {achievement:14339}, а затем поговорите с {npc:171732} у входа в Шпили Перерождения, чтобы выковать {item:180858}."
 
-L["gift_of_agthia"] = "Click the lit torch near the broken bridge to the northwest and carry {spell:333320} from torch to torch until you reach the chest. Lighting the final torch will grant you {spell:333063}."
+L["gift_of_agthia"] = "Нажмите на зажженный факел возле сломанного моста на северо-западе и переносите {spell:333320} от факела к факелу, пока не дойдете до сундука. Зажигание последнего факела даст вам {spell:333063}."
 L["gift_of_chyrus"] = "Встать на колени перед сундуком, чтобы получить {spell:333045}."
 L["gift_of_devos"] = [[
-Southwest of the chest is a torch where you can pick up the {spell:333912}. Mounting, entering combat or taking damage will drop the flame. You must make your way back to the chest and place the flame in the Brazier of Devotion to be granted {spell:333070}.
+К юго-западу от сундука находится факел, где вы можете поднять {spell:333912}. Садясь, вступая в бой или получая урон, пламя падет. Вы должны вернуться к сундуку и поместить пламя в Жаровню Преданности, чтобы получить {spell:333070}.
 
-Before picking up the flame, clear all mobs in front of the chest. While running the flame, click any {npc:156571} along the way for a {spell:335012} debuff that increases movement speed.
+Прежде чем поднять пламя, убейте всех монстров перед сундуком. Взяв пламя, нажмите на любого {npc:156571} по пути, чтобы активировать дебафф {spell:335012}, увеличивающий скорость передвижения.
 ]]
 L["gift_of_thenios"] = [[
-Behind the chest is a flight pad called "Path of Wisdom". This leads to a sequence of platforms with different incenses you can commune with:
+Позади сундука находится летная площадка под названием «Путь мудрости». Это приводит к последовательности платформ с разными благовониями, с которыми вы можете общаться:
 
-• Incense of Knowledge
-• Incense of Patience
-• Incense of Insight
-• Incense of Judgement
+• Благовония знаний
+• Благовония терпения
+• Благовония озарения
+• Благовония правого суда
 
-Commune with them in the order Patience => Knowledge => Insight. On the Judgement platform an orb called the "Path of Insightful Wisdom" will appear.
+Общайтесь с ними в следующем порядке: Терпение => Знание => Озарение. На платформе Правого суда появится шар под названием «Путь правого суда».
 
-The orb will take you to the true Incense of Judgment. Commune with it and the final flight pad will grant you {spell:333068} to open the chest.
+Сфера перенесет вас к Благовонию правого суда. Пообщайтесь с ним, и последняя панель полета предоставит вам {spell:333068}, чтобы открыть сундук.
 ]]
-L["gift_of_vesiphone"] = "Ring one of the bells to spawn a {npc:170849} and kill it to receive the {spell:333239} debuff. The falling water opposite the chest will cleanse this debuff and grant you {spell:332785}."
+L["gift_of_vesiphone"] = "Позвоните в один из колокольчиков, чтобы вызвать {npc:170849}, и убейте его, чтобы получить дебафф {spell:333239}. Падающая вода напротив сундука снимет этот дебафф и даст вам {spell:332785}."
 
 L["count_your_blessings_note"] = "Поместите {item:178915} в чашу для подношений, чтобы получить благословение."
 L["options_icons_blessings"] = "{achievement:14767}"
@@ -154,17 +177,17 @@ L["anima_shard_61236"] = "На вершине арки на полпути к о
 L["anima_shard_61237"] = "На выступе прямо над водой."
 L["anima_shard_61238"] = "В воде под мостиком."
 L["anima_shard_61239"] = "На вершине тонкой каменной колонны."
-L["anima_shard_61241"] = "Above the entrance to the Chamber of First Reflection."
+L["anima_shard_61241"] = "Над входом в Зал Первого Созерцания."
 L["anima_shard_61244"] = "На скале в стороне обрыва."
 L["anima_shard_61245"] = "На скале над небольшим водопадом."
 L["anima_shard_61247"] = "На стене над небольшой водопроводной арматурой."
-L["anima_shard_61249"] = "Hidden behind a stone column on the upper level of Purity's Pinnacle."
+L["anima_shard_61249"] = "Спрятан за каменной колонной на верхнем уровне Вершины Чистоты."
 L["anima_shard_61250"] = "Сидит за лестницей."
 L["anima_shard_61251"] = "Сидит под маленьким колоколом."
 L["anima_shard_61253"] = "На вершине упавшей каменной арки."
 L["anima_shard_61254"] = "Сверху небольшой деревянной конструкции."
 L["anima_shard_61257"] = "На небольшом выступе прямо под {npc:162523}."
-L["anima_shard_61258"] = "On a small ledge on the underside of Hero's Rest."
+L["anima_shard_61258"] = "На небольшом выступе на нижней стороне Обители Героев."
 L["anima_shard_61260"] = "На земле под платформой."
 L["anima_shard_61261"] = "На выступе над пещерой {npc:163460}."
 L["anima_shard_61263"] = "На вершине каменного столба."
@@ -178,9 +201,9 @@ L["anima_shard_61277"] = "На вершине тонкой каменной ко
 L["anima_shard_61278"] = "Под мостом на скале."
 L["anima_shard_61279"] = "На вершине тонкой каменной колонны."
 L["anima_shard_61280"] = "На углу стола."
-L["anima_shard_61281"] = "On a ledge above the Memorial Offerings treasure."
+L["anima_shard_61281"] = "На уступе над сокровищем Подношения у мемориала."
 L["anima_shard_61282"] = "На уступе ниже вершины утеса. Прыгайте на камень рядом с ним, иначе вас перенесут обратно."
-L["anima_shard_61283"] = "In a cave under Miri's Chapel, behind some barrels."
+L["anima_shard_61283"] = "В пещере под часовней Мири, за бочками."
 L["anima_shard_61284"] = "На уступе под скальным навесом тропинка на юг."
 L["anima_shard_61285"] = "В конце небольшого уступа скалы."
 L["anima_shard_61286"] = "На выступе с видом на тропу."
@@ -211,14 +234,20 @@ L["zolla_note"] = "Мы очень серьезно относимся к наш
 
 L["chelicerae_note"] = "Уничтожьте {npc:159885}, чтобы активировать редкого монстра."
 L["deepscar_note"] = "Может появляться у нескольких входов в Театр боли."
-L["forgotten_mementos"] = "Pull the Vault Portcullis Chain in the chamber west of the treasure to open the gate."
+L["forgotten_mementos"] = "Потяните цепь опускной решетки хранилища в зале к западу от сундука, чтобы открыть ворота."
 L["gieger_note"] = "Атакуйте {npc:162815}, чтобы активировать редкого монстра."
 L["gristlebeak_note"] = "Разбейте все {npc:162761} поблизости, чтобы атаковать редких монстров."
 L["leeda_note"] = "Убейте двух {npc:162220}, пока не появятся редкий монстр."
+L["nirvaska_note"] = "Появляется только когда активно локальное задание {wq:Смертоносное напоминание}."
 L["sabriel_note"] = "Может появиться как один из чемпионов в Театре боли."
 L["schmitd_note"] = "Используйте поблизости {spell:313451}, чтобы сломать его щит."
 L["taskmaster_xox_note"] = "Делит появление с {npc:160204}, {npc:160230} и {npc:160226}."
-L["zargox_the_reborn_note"] = "Используйте {item:175841} на {npc:157124}. Чтобы получить сферу, вы должны выполнить задание {quest:57245} у {npc:157076} и снова поговорить с ним."
+L["theater_of_pain_note"] = "При первом убийстве босса каждый день есть шанс получить средство передвижение."
+L["zargox_the_reborn_note"] = [[
+Используйте {item:175841} на {npc:157124}. Чтобы получить сферу, вы должны выполнить задание {quest:57245} у {npc:157076} и снова поговорить с ним.
+
+Если {npc:157124} не работает, реанимируйте {npc:157132} в области, пока он не появится.
+]]
 L["mixed_pool_note"] = [[
 Соберите ингредиенты с окружающих монстров и бросьте их в бассейн. После добавления 30 ингредиентов появится один из семи редких монстров в зависимости от используемой комбинации.
 
@@ -228,15 +257,14 @@ L["mixed_pool_note"] = [[
 
 • Соберите {spell:306722} с {npc:165027} и {npc:166438} на юге.
 ]]
-L["Violet"] = "Фиолетовая ошибка"
-L["Oily"] = "Бесформенная масса"
 
-L["blackhound_cache"] = "Blackhound Cache"
-L["bladesworn_supply_cache"] = "Bladesworn Supply Cache"
-L["cache_of_eyes"] = "Cache of Eyes"
-L["cache_of_eyes_note"] = "Spawns at multiple locations within the Sightless Hold."
+L["blackhound_cache"] = "Тайник заставы Черного пса"
+L["blackhound_cache_note"] = "Призовите {npc:157843} на фабрике поганищ, затем сопроводите его на заставу Черного Пса."
+L["bladesworn_supply_cache"] = "Тайник с припасами присягнувших клинку"
+L["cache_of_eyes"] = "Тайник дома Глаз"
+L["cache_of_eyes_note"] = "Появляется в нескольких местах в пределах Слепой цитадели."
 
-L["glutharns_note"] = "В пещере за водопадом слизи. Убейте {npc:172485} и обоих {npc: 172479}, чтобы открыть сундук."
+L["glutharns_note"] = "В пещере за водопадом слизи. Убейте {npc:172485} и обоих {npc:172479}, чтобы открыть сундук."
 L["kyrian_keepsake_note"] = "Осмотрите {npc:169664}, чтобы добыть сокровище."
 L["misplaced_supplies"] = "На вершине гигантского гриба. Бегите на холм и прыгайте на меньший коричневый гриб, затем бегите на большой холм и прыгайте на гигантский гриб."
 L["necro_tome_note"] = "Чтобы получить доступ к башне, вы должны начать небольшую цепочку заданий у {npc:166657}. В книжном шкафу на верхнем этаже."
@@ -245,7 +273,7 @@ L["plaguefallen_chest_note"] = [[
 
 После трансформации посетите пещеру под платформой {npc:158406} (вход с восточной стороны) и нажмите на трубу, чтобы переместить ее в сундук.
 ]]
-L["ritualists_cache_note"] = "Loot the {item:181558} from a bone pile (multiple spawn locations). Use them to complete the Book of Binding Rituals on the stand behind {npc:174386} and gain the {spell:337041} buff."
+L["ritualists_cache_note"] = "Возьмите {item:181558} из груды костей (несколько мест возрождения). Используйте их, чтобы собрать книгу связывающих ритуалов на стенде позади {npc:174386} и получить бафф {spell:337041}."
 L["runespeakers_trove_note"] = "Найдите {npc:170563} на востоке и убейте его, чтобы получить {item:181777}."
 L["stolen_jar_note"] = "В пещере под гигантским грибом."
 L["strange_growth_note"] = "Потяните за {npc:165037}, чтобы найти сокровище."
@@ -271,13 +299,13 @@ L["oonar_sorrowbane_note"] = [[
 
 • Купите 1 {item:182163} у {npc:171808} в Ревендрете.
 • Купите 1 {item:180771} у {npc:166640} в Малдраксусе.
-• Получите 2 стака {spell:306272} из локального задания {wq:A Few Bumps Along the Way} на западе.
+• Получите 2 стака {spell:306272} из локального задания {wq:Небольшие трудности} на западе.
 • Съешьте 4 раза {spell:327367} в Пустоше Глутарна.
 • Быстро возвращайтесь в Театр боли с {item:6948}, выпейте оба зелья и вытащите меч.
 ]]
 
 L["pet_cat"] = "Погладить проклятого кота!"
-L["hairball"] = ns.color.Red("Only appears in the Festering Sanctum inside the Plaguefall dungeon!")
+L["hairball"] = ns.color.Red("Появляется только в Гниющем святилище внутри подземелья Чумные каскады!")
 L["lime"] = "Находится на вершине большой кости."
 L["moldstopheles"] = "Бегите по задней части стебля и подпрыгивайте на грибных платформах. Для последней платформы используйте маунта и прыгайте в угол, где он встречается со стеблем."
 L["pus_in_boots"] = "Расположен под мостом."
@@ -287,55 +315,50 @@ L["options_icons_slime_cat_desc"] = "Отображение местополож
 
 L["dundley_note"] = "Я буду сражаться за свой путь к победе и получу уважение, которое наконец заслуживаю. Единственный недостаток - все, что у меня есть, теперь липкое. Все."
 L["maximillian_note"] = "Я десятки лет ждал достойного соперника. К победителю идут трофеи!"
-L["rotgut_note"] = nil
+L["rotgut_note"] = "Гнилобрюх. Остатки. Дополнительные части. Ты сражаешься."
 
 -------------------------------------------------------------------------------
 --------------------------------- REVENDRETH ----------------------------------
 -------------------------------------------------------------------------------
 
-L["amalgamation_of_filth_note"] = "When the world quest {wq:Dirty Job: Demolition Detail} is available click on a Rubbish Box and use {spell:324115} into the water."
+L["amalgamation_of_filth_note"] = "При локальном задании {wq:Грязная работенка: обрушение} появляются коробки с мусором и используйте {spell:324115} в воду."
 L["amalgamation_of_light_note"] = "Переместите все три зеркальные ловушки, чтобы выпустить редкого монстра."
-L["amalgamation_of_sin_note"] = "Use the Catalyst of Power to obtain {item:180376} from the {wq:Summon Your Sins} world quest, then use the item to summon the rare."
-L["bog_beast_note"] = "Has a chance to spawn during the world quest {wq:Muck It Up} after using {item:177880} on a {npc:166206}."
-L["endlurker_note"] = "Click Anima Stake near {npc:165229} corpse and use {spell:321826} on top of the Shimmering Rift."
+L["amalgamation_of_sin_note"] = "Во время локального задания {wq:Призыв своих грехов} выберите Катализатор силы, чтобы получить шанс получить {item:180376}, затем используйте этот предмет, чтобы призвать редкого монстра."
+L["bog_beast_note"] = "Имеет шанс появиться во время локального задания {wq:Грязища} после использования {item:177880} на {npc:166206}."
+L["endlurker_note"] = "Нажмите на шип анимы возле трупа {npc:165229} и используйте {spell:321826} на вершине мерцающего разлома."
 L["executioner_aatron_note"] = "Убейте трех ближайших {npc:166715}, чтобы удалить {spell:324872}."
 L["famu_note"] = "Поговорите с {npc:166483}, чтобы запустить событие."
 L["grand_arcanist_dimitri_note"] = "Убейте четырех {npc:167467}, чтобы выпустить редкого монстра."
-L["harika_note"] = [[
-|cFFFF0000ВАЖНО:|r Предметы должны быть сданы в правильном порядке, иначе событие будет ошибочным!
-
-В Жуткой Лощине на западе возьмите {item:176397} и два набора {item:176396}. Отдайте инструменты обоим {npc:165328} возле баллисты, затем поверните затвор в {npc:165327} и скажите ему сбить редкого монстра.
-]]
+L["harika_note"] = "В жуткой лощине на западе возьмите {item:176397}, затем отдайте его {npc:165327} и скажите ему, чтобы он сбил редкого монстра."
 L["innervus_note"] = "Убейте поблизости {npc:160375}, чтобы получить {item:177223} и открыть склеп."
 L["leeched_soul_note"] = "Внутри ближайшего склепа. Подойдите к {npc:165151}, чтобы начать событие."
-L["lord_mortegore_note"] = "Убейте окружающих монстров, чтобы получить {item:174378} и использовать его, чтобы усилить {npc: 161870}. Редкий монстр появится после того, как будут усилены все четыре печати."
-L["madalav_note"] = "Click Madalav's Hammer on the nearby anvil to summon him."
-L["manifestation_of_wrath_note"] = "Имеет шанс появиться, когда {npc:169916} восстанавливается во время локального задания {wq:Swarming Souls}."
-L["scrivener_lenua_note"] = "Return {npc:160753} to the Forbidden Library."
-L["sinstone_hoarder_note"] = "Attempt to loot the {npc:162503} and the rare will reveal itself."
-L["sire_ladinas_note"] = "Pick up a Remnant of Light nearby and use {spell:313065} on {npc:157733}."
+L["lord_mortegore_note"] = "Убейте окружающих монстров, чтобы получить {item:174378} и использовать его, чтобы усилить {npc:161870}. Редкий монстр появится после того, как будут усилены все четыре печати."
+L["madalav_note"] = "Нажмите на Молот Мадалава на ближайшей наковальне, чтобы призвать его."
+L["manifestation_of_wrath_note"] = "Имеет шанс появиться, когда {npc:169916} восстанавливается во время локального задания {wq:Рой душ}."
+L["scrivener_lenua_note"] = "Верните {npc:160753} в запрещенную библиотеку."
+L["sinstone_hoarder_note"] = "Попытайтесь открыть {npc:162503}, и редкий монстр появится."
+L["sire_ladinas_note"] = "Подберите Частицу Света поблизости и используйте {spell:313065} на {npc:157733}."
 L["soulstalker_doina_note"] = "Следуй вниз и пройди через зеркало, когда она убегает."
 L["tomb_burster_note"] = "Может появиться, если {npc:155777} пойман в сети. Убивайте ближайших {npc:155769} и появившихся {npc:155795}, пока не появятся редкий монстр."
 L["worldedge_gorger_note"] = [[
-Obtain an {item:173939} from World Reavers, Devourers and Mites in the Banewood and the Endmire. Use it to light the Worldedge Braziers and summon the rare.
+Получите {item:173939} из обитателей гибельного леса. Используйте его, чтобы зажечь жаровни края мира и вызвать редкого монстра.
 
-Has a chance to drop an {item:180583}, which begins a 7 day quest line to obtain the {spell:333027} mount.
+После получения {item:180583}, используйте данный предмет и у вас начинается 7-дневная цепочка заданий для получения средства передвижения {spell:333027}.
 ]]
 
 L["dredglaive_note"] = "Под мостом в трупе {npc:173671}."
-L["forbidden_chamber_note"] = "Loot a Discarded Anima Canister in front of the locked door and learn {spell:340701}. Use it to drain five of the nearby {npc:173838s}, then use {spell:340866} in front of the {npc:173786}."
+L["forbidden_chamber_note"] = "Найдите выброшенную канистру анимы перед запертой дверью и выучите {spell:340701}. Используйте его, чтобы осушить пять ближайших {npc:173838}, затем используйте {spell:340866} перед {npc:173786}."
 L["gilded_plum_chest_note"] = "Убейте {npc:166680}, бродящего по дороге."
-L["lost_quill_note"] = "Loot {item:182475} from the bottle on the table in the Forbidden Library."
+L["lost_quill_note"] = "Возьмите {item:182475} из бутылки на столе в запретной библиотеке."
 L["rapier_fearless_note"] = "Используйте рапиру на земле, затем победите {npc:173603}."
-L["remlates_cache_note"] = "На внешней стене Темного Приюта за склепом."
-L["smuggled_cache_note"] = ns.color.Red("ПЕРЕД ВАМИ: ").."Убедитесь, что вы выполнили побочное задание {quest:60480}, иначе вы пропустите 40 {currency:1820} из сокровищницы и задания."
-L["taskmaster_trove_note"] = "Read the Ingress and Egress Rites then carefully make your way to the chest."
-L["the_count_note"] = "Farm 99 {currency:1820} in the Endmire and then bring them to {npc:173488}."
+L["remlates_cache_note"] = "На внешней стене темного приюта за склепом."
+L["smuggled_cache_note"] = ns.color.Red("ВАЖНО: ").."Убедитесь, что вы выполнили побочное задание {quest:60480}, иначе вы пропустите 40 {currency:1820} из сокровищницы и задания."
+L["taskmaster_trove_note"] = "Прочтите Ритуалы прихода и ухода, затем осторожно пройдите к сундуку."
+L["the_count_note"] = "Наберите 99 {currency:1820} в Гиблотопе и принесите их к {npc:173488}."
 
-L["bleakwood_chest"] = "Bleakwood Chest"
-L["forgotten_anglers_rod"] = "Forgotten Angler's Rod"
+L["forgotten_anglers_rod"] = "Забытая удочка"
 
-L["loyal_gorger_note"] = "Visit the Endmire and complete a daily offered by your {npc:173498} 7 times to obtain him as a mount."
+L["loyal_gorger_note"] = "Посетите гиблотопь и завершите ежедневное задание, предлагаемое вашим {npc:173498} 7 раз, чтобы получить его в качестве средства передвижения."
 
 L["sinrunner_note"] = "Приносите еду и припасы {npc:173468} в течении шести дней, чтобы получить ее поводья. Она появляется только на несколько минут."
 L["sinrunner_note_day1"] = "Предложите Бланчи 8 {item:182581} с фермы в Западном крае."
@@ -356,6 +379,12 @@ L["addius_note"] = "Слабоумным существам не стоит тр
 L["eyegor_note"] = "Глазгор готов к бою!"
 L["sylla_note"] = "Никогда нельзя ожидать выдающейся битвы здесь, в этом ужасном месте, но, увы, мы здесь. Не трать мое время."
 
+L["avowed_ritualist_note"] = "Принесите сюда {npc:160149}, чтобы освободить их."
+L["fugitive_soul_note"] = "Отнесите этот {npc:160149} к ближайшему {npc:166150}, чтобы начать ритуал отпущения грехов."
+L["souls_absolved"] = "души отпущены"
+L["options_icons_fugitives"] = "{achievement:14274}"
+L["options_icons_fugitives_desc"] = "Показать местонахождение беглых душ для достижения {achievement:14274}."
+
 L["grand_inquisitor_note"] = "Сдайте 10 {item:180451} у {npc:160248}, чтобы получить шанс на этот камень греха."
 L["high_inquisitor_note"] = "Сдайте 250 {currency:1816} у {npc:160248}, чтобы получить шанс получить этот камень греха."
 L["inquisitor_note"] = "Сдайте 100 {currency:1816} у {npc:160248}, чтобы получить шанс получить этот камень греха."
@@ -371,6 +400,7 @@ L["maw_intro_note"] = "Начните вводную цепочку задани
 
 L["apholeias_note"] = "Вместе с 3 другими игроками встаньте на углы платформы и примените {spell:331783}, чтобы призвать редкого монстра."
 L["dekaris_note"] = "На вершине большой выступающей скалы."
+L["drifting_sorrow_note"] = "Убейте {npc:175246} рядом с парящей сферой, чтобы активировать босса."
 L["ekphoras_note"] = "Вместе с 3 другими игроками встаньте на углы платформы и примените {spell:330650}, чтобы призвать редкого монстра."
 L["ikras_note"] = "Летает вокруг Цитадели Вечных Мук. Это хорошее место, чтобы его атаковать."
 L["orophea_note"] = "Поднимите {spell:337143} на юго-востоке и предложите {npc:172577}, чтобы активировать."
@@ -392,17 +422,32 @@ L["exos_note"] = [[
 L["soul_well_note"] = "Поймайте Стигию, извергающуюся из Колодца душ."
 L["obliterated_soul_shards_note"] = "Соберите {item:177834} на мостах."
 
-L["chaotic_riftstone_note"] = [[
-Активируйте, чтобы быстро {spell:344157} перейти через Утробу.
+L["animaflow_teleporter_note"] = "Активируйте, чтобы отправиться прямо в Тремакулюм."
+L["chaotic_riftstone_note"] = "Активируйте, чтобы быстро {spell:344157} перейти через Утробу."
+L["venari_note"] = [[
+Используйте {currency:1767} для покупки улучшений в Утробе и Торгасте.
 
-Требуется {item:184613} обновление с {npc:162804}.
+|cFFFF8C00Улучшения для Торгаста на всю учетную запись будут отображаться как незавершенные на альтернативных персонажах!|r
+|cFFFF8C00Статус завершения ниже будет обновляться, когда мы их разблокируем!|r
 ]]
-L["venari_note"] = "Используйте {currency:1767} для покупки улучшений в Утробе и Торгасте."
-L["venari_upgrade"] = "{npc:162804} Обновить"
+L["venari_upgrade"] = "{npc:162804} Улучшить"
+L["torghast"] = "Торгаст"
+L["Ambivalent"] = "с безразличием"
+L["Appreciative"] = "с признанием"
+L["Apprehensive"] = "с опаской"
+L["Cordial"] = "с сердечностью"
+L["Tentative"] = "с настороженностью"
+
+L["stygian_cache"] = "Стигийский тайник"
+L["stygian_cache_note"] = "Только один человек может открыть тайник каждый раз, когда он появляется!"
 
 L["options_icons_bonus_boss"] = "Бонусные элитные монстры"
 L["options_icons_bonus_boss_desc"] = "Отображение местоположения бонусных элитных монстров."
 L["options_icons_bonus_event"] = "Бонусные события"
 L["options_icons_bonus_event_desc"] = "Отображение местоположение бонусных событий."
-L["options_icons_riftstone"] = "Хаотичный камень разлома"
+L["options_icons_riftstone"] = "{npc:174962}"
 L["options_icons_riftstone_desc"] = "Отображение местоположения хаотичных каменей разлома."
+L["options_icons_grapples"] = "{npc:176308}"
+L["options_icons_grapples_desc"] = "Отображение местоположения крюков для улучшения {item:184653}."
+L["options_icons_stygian_caches"] = "Стигийский тайник"
+L["options_icons_stygian_caches_desc"] = "Показать места тайников, содержащих Стигию."

@@ -19,10 +19,7 @@ local floor, ceil = math.floor, math.ceil
 local IsQuestFlaggedCompleted = C_QuestLog.IsQuestFlaggedCompleted
 
 DB.Devs = {
-	["寧德-加尔"] = true,
-	["图咿-万色星辰"] = true,
-	["Huniverster-Oribos"] = true,
-	["Huniverster-Torghast"] = true,
+	["青玉的烟火-罗宁"] = true,
 }
 local function isDeveloper()
 	return DB.Devs[DB.MyFullName]
@@ -36,8 +33,8 @@ SLASH_RELOADUI1 = "/rl"
 SlashCmdList["NDUI_ENUMTIP"] = function()
 	local enumf = EnumerateFrames()
 	while enumf do
-		if (enumf:IsObjectType("GameTooltip") or strfind((enumf:GetName() or ""):lower(), "tip")) and enumf:IsVisible() and enumf:GetPoint() then
-			print(enumf:GetName())
+		if (enumf:IsObjectType("GameTooltip") or strfind((enumf:GetDebugName() or ""):lower(), "tip")) and enumf:IsVisible() and enumf:GetPoint() then
+			print(enumf:GetDebugName())
 		end
 		enumf = EnumerateFrames(enumf)
 	end
@@ -48,7 +45,7 @@ SlashCmdList["NDUI_ENUMFRAME"] = function()
 	local frame = EnumerateFrames()
 	while frame do
 		if (frame:IsVisible() and MouseIsOver(frame)) then
-			print(frame:GetName() or format(UNKNOWN..": [%s]", tostring(frame)))
+			print(frame:GetDebugName() or format(UNKNOWN..": [%s]", tostring(frame)))
 		end
 		frame = EnumerateFrames(frame)
 	end
@@ -59,11 +56,11 @@ SlashCmdList["NDUI_DUMPSPELL"] = function(arg)
 	local name = GetSpellInfo(arg)
 	if not name then return end
 	local des = GetSpellDescription(arg)
-	print("|cff70C0F5------------------------")
+	print("|cff70C0F5———————————————")
 	print(" \124T"..GetSpellTexture(arg)..":16:16:::64:64:5:59:5:59\124t", DB.InfoColor..arg)
 	print(NAME, DB.InfoColor..(name or "nil"))
 	print(DESCRIPTION, DB.InfoColor..(des or "nil"))
-	print("|cff70C0F5------------------------")
+	print("|cff70C0F5———————————————")
 end
 SLASH_NDUI_DUMPSPELL1 = "/ns"
 
@@ -102,7 +99,7 @@ do
 	C_ChatInfo.RegisterAddonMessagePrefix("NDuiFVC")
 
 	local function PrintVerCheck()
-		print("----------")
+		print("——————————")
 		for name, version in pairs(versionList) do
 			print(name.." "..version)
 		end
@@ -201,7 +198,7 @@ local function Grid_Create()
 	grid.boxSize = boxSize
 	grid:SetAllPoints(UIParent)
 
-	local size = 2
+	local size = C.mult
 	local width = GetScreenWidth()
 	local ratio = width / GetScreenHeight()
 	local height = GetScreenHeight() * ratio
@@ -228,7 +225,7 @@ local function Grid_Create()
 		tx:SetPoint("BOTTOMRIGHT", grid, "TOPRIGHT", 0, -(height/2 + size/2))
 	end
 
-	for i = 1, floor((height/2)/hStep) do
+	for i = 1, B.Round((height/2)/hStep) do
 		local tx = grid:CreateTexture(nil, "BACKGROUND")
 		tx:SetColorTexture(0, 0, 0, .5)
 

@@ -1,7 +1,7 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local oUF = ns.oUF or oUF
-local M = B:GetModule("Misc")
+local oUF = ns.oUF
+local Misc = B:GetModule("Misc")
 
 local _G = getfenv(0)
 local next, strmatch = next, string.match
@@ -11,9 +11,9 @@ local modifier = "shift" -- shift, alt or ctrl
 local mouseButton = "1" -- 1 = left, 2 = right, 3 = middle, 4 and 5 = thumb buttons if there are any
 local pending = {}
 
-function M:Focuser_Setup()
+function Misc:Focuser_Setup()
 	if not self or self.focuser then return end
-	if self:GetName() and strmatch(self:GetName(), "oUF_NPs") then return end
+	if self:GetDebugName() and strmatch(self:GetDebugName(), "oUF_NPs") then return end
 
 	if not InCombatLockdown() then
 		self:SetAttribute(modifier.."-type"..mouseButton, "focus")
@@ -24,29 +24,29 @@ function M:Focuser_Setup()
 	end
 end
 
-function M:Focuser_CreateFrameHook(name, _, template)
+function Misc:Focuser_CreateFrameHook(name, _, template)
 	if name and template == "SecureUnitButtonTemplate" then
-		M.Focuser_Setup(_G[name])
+		Misc.Focuser_Setup(_G[name])
 	end
 end
 
-function M.Focuser_OnEvent(event)
+function Misc.Focuser_OnEvent(event)
 	if event == "PLAYER_REGEN_ENABLED" then
 		if next(pending) then
 			for frame in next, pending do
-				M.Focuser_Setup(frame)
+				Misc.Focuser_Setup(frame)
 			end
 		end
 	else
 		for _, object in next, oUF.objects do
 			if not object.focuser then
-				M.Focuser_Setup(object)
+				Misc.Focuser_Setup(object)
 			end
 		end
 	end
 end
 
-function M:Focuser()
+function Misc:Focuser()
 	if not C.db["Misc"]["Focuser"] then return end
 
 	-- Keybinding override so that models can be shift/alt/ctrl+clicked
@@ -55,9 +55,9 @@ function M:Focuser()
 	f:SetAttribute("macrotext", "/focus mouseover")
 	SetOverrideBindingClick(FocuserButton, true, modifier.."-BUTTON"..mouseButton, "FocuserButton")
 
-	hooksecurefunc("CreateFrame", M.Focuser_CreateFrameHook)
-	M:Focuser_OnEvent()
-	B:RegisterEvent("PLAYER_REGEN_ENABLED", M.Focuser_OnEvent)
-	B:RegisterEvent("GROUP_ROSTER_UPDATE", M.Focuser_OnEvent)
+	hooksecurefunc("CreateFrame", Misc.Focuser_CreateFrameHook)
+	Misc:Focuser_OnEvent()
+	B:RegisterEvent("PLAYER_REGEN_ENABLED", Misc.Focuser_OnEvent)
+	B:RegisterEvent("GROUP_ROSTER_UPDATE", Misc.Focuser_OnEvent)
 end
-M:RegisterMisc("Focuser", M.Focuser)
+Misc:RegisterMisc("Focuser", Misc.Focuser)

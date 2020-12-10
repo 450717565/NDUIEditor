@@ -156,7 +156,7 @@ function list:OnButtonClick(button, data, flag)
 			action = "WHISPER"
 		end
 	end
-	addon:HandleAction(data.name, action)
+	addon:HandleAction(data.name, action, button)
 end
 
 addon:RegisterEventCallback("OnInitialize", function(db)

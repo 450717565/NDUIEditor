@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local A = B:GetModule("Auras")
+local Auras = B:GetModule("Auras")
 
 if DB.MyClass ~= "ROGUE" then return end
 
@@ -13,7 +13,7 @@ local diceSpells = {
 	[6] = {id = 199600, text = L["Power"]},
 }
 
-function A:PostCreateLumos(self)
+function Auras:PostCreateLumos(self)
 	local left, right, top, bottom = unpack(DB.TexCoord)
 	top = top + 1/4
 	bottom = bottom - 1/4
@@ -39,18 +39,18 @@ function A:PostCreateLumos(self)
 end
 
 local function UpdateCooldown(button, spellID, texture)
-	return A:UpdateCooldown(button, spellID, texture)
+	return Auras:UpdateCooldown(button, spellID, texture)
 end
 
 local function UpdateBuff(button, spellID, auraID, cooldown, glow)
-	return A:UpdateAura(button, "player", auraID, "HELPFUL", spellID, cooldown, glow)
+	return Auras:UpdateAura(button, "player", auraID, "HELPFUL", spellID, cooldown, glow)
 end
 
 local function UpdateDebuff(button, spellID, auraID, cooldown, glow)
-	return A:UpdateAura(button, "target", auraID, "HARMFUL", spellID, cooldown, glow)
+	return Auras:UpdateAura(button, "target", auraID, "HARMFUL", spellID, cooldown, glow)
 end
 
-function A:ChantLumos(self)
+function Auras:ChantLumos(self)
 	local spec = GetSpecialization()
 	if spec == 1 then
 		for i = 1, 6 do self.dices[i]:Hide() end

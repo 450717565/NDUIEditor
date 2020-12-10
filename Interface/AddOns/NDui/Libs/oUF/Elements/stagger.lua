@@ -21,15 +21,15 @@ A default texture will be applied if the widget is a StatusBar and doesn't have 
 
 ## Examples
 
-    local Stagger = CreateFrame('StatusBar', nil, self)
-    Stagger:SetSize(120, 20)
-    Stagger:SetPoint('TOPLEFT', self, 'BOTTOMLEFT', 0, 0)
+	local Stagger = CreateFrame('StatusBar', nil, self)
+	Stagger:SetSize(120, 20)
+	Stagger:SetPoint('TOPLEFT', self, 'BOTTOMLEFT', 0, 0)
 
-    -- Register with oUF
-    self.Stagger = Stagger
+	-- Register with oUF
+	self.Stagger = Stagger
 --]]
 
-if(select(2, UnitClass('player')) ~= 'MONK') then return end
+if (select(2, UnitClass('player')) ~= 'MONK') then return end
 
 local _, ns = ...
 local oUF = ns.oUF
@@ -50,14 +50,14 @@ local STAGGER_YELLOW_INDEX = STAGGER_YELLOW_INDEX or 2
 local STAGGER_RED_INDEX = STAGGER_RED_INDEX or 3
 
 local function UpdateColor(self, event, unit)
-	if(unit and unit ~= self.unit) then return end
+	if (unit and unit ~= self.unit) then return end
 	local element = self.Stagger
 
 	local colors = self.colors.power[BREWMASTER_POWER_BAR_NAME]
 	local perc = (element.cur or 0) / (element.max or 1)
 
 	local t
-	if(perc >= STAGGER_RED_TRANSITION) then
+	if (perc >= STAGGER_RED_TRANSITION) then
 		t = colors and colors[STAGGER_RED_INDEX]
 	elseif(perc > STAGGER_YELLOW_TRANSITION) then
 		t = colors and colors[STAGGER_YELLOW_INDEX]
@@ -66,13 +66,13 @@ local function UpdateColor(self, event, unit)
 	end
 
 	local r, g, b
-	if(t) then
+	if (t) then
 		r, g, b = t[1], t[2], t[3]
-		if(b) then
+		if (b) then
 			element:SetStatusBarColor(r, g, b)
 
 			local bg = element.bg
-			if(bg and b) then
+			if (bg and b) then
 				local mu = bg.multiplier or 1
 				bg:SetVertexColor(r * mu, g * mu, b * mu)
 			end
@@ -87,13 +87,13 @@ local function UpdateColor(self, event, unit)
 	* g    - the green component of the used color (number)[0-1]
 	* b    - the blue component of the used color (number)[0-1]
 	--]]
-	if(element.PostUpdateColor) then
+	if (element.PostUpdateColor) then
 		element:PostUpdateColor(r, g, b)
 	end
 end
 
 local function Update(self, event, unit)
-	if(unit and unit ~= self.unit) then return end
+	if (unit and unit ~= self.unit) then return end
 
 	local element = self.Stagger
 
@@ -102,7 +102,7 @@ local function Update(self, event, unit)
 
 	* self - the Stagger element
 	--]]
-	if(element.PreUpdate) then
+	if (element.PreUpdate) then
 		element:PreUpdate()
 	end
 
@@ -123,7 +123,7 @@ local function Update(self, event, unit)
 	* cur  - the amount of staggered damage (number)
 	* max  - the player's maximum possible health value (number)
 	--]]
-	if(element.PostUpdate) then
+	if (element.PostUpdate) then
 		element:PostUpdate(cur, max)
 	end
 end
@@ -149,13 +149,13 @@ local function Path(self, ...)
 end
 
 local function Visibility(self, event, unit)
-	if(SPEC_MONK_BREWMASTER ~= GetSpecialization() or UnitHasVehiclePlayerFrameUI('player')) then
-		if(self.Stagger:IsShown()) then
+	if (SPEC_MONK_BREWMASTER ~= GetSpecialization() or UnitHasVehiclePlayerFrameUI('player')) then
+		if (self.Stagger:IsShown()) then
 			self.Stagger:Hide()
 			self:UnregisterEvent('UNIT_AURA', Path)
 		end
 	else
-		if(not self.Stagger:IsShown()) then
+		if (not self.Stagger:IsShown()) then
 			self.Stagger:Show()
 			self:RegisterEvent('UNIT_AURA', Path)
 		end
@@ -181,14 +181,14 @@ end
 
 local function Enable(self, unit)
 	local element = self.Stagger
-	if(element and UnitIsUnit(unit, 'player')) then
+	if (element and UnitIsUnit(unit, 'player')) then
 		element.__owner = self
 		element.ForceUpdate = ForceUpdate
 
 		self:RegisterEvent('UNIT_DISPLAYPOWER', VisibilityPath)
 		self:RegisterEvent('PLAYER_TALENT_UPDATE', VisibilityPath, true)
 
-		if(element:IsObjectType('StatusBar') and not (element:GetStatusBarTexture() or element:GetStatusBarAtlas())) then
+		if (element:IsObjectType('StatusBar') and not (element:GetStatusBarTexture() or element:GetStatusBarAtlas())) then
 			element:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar]])
 		end
 
@@ -206,7 +206,7 @@ end
 
 local function Disable(self)
 	local element = self.Stagger
-	if(element) then
+	if (element) then
 		element:Hide()
 
 		self:UnregisterEvent('UNIT_AURA', Path)

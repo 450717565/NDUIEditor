@@ -18,9 +18,9 @@ A default texture will be applied if the sub-widgets are StatusBars and don't ha
 ## Options
 
 .colorSpec - Use `self.colors.runes[specID]` to color the bar based on player's spec. `specID` is defined by the return
-             value of [GetSpecialization](http://wowprogramming.com/docs/api/GetSpecialization.html) (boolean)
+			 value of [GetSpecialization](http://wowprogramming.com/docs/api/GetSpecialization.html) (boolean)
 .sortOrder - Sorting order. Sorts by the remaining cooldown time, 'asc' - from the least cooldown time remaining (fully
-             charged) to the most (fully depleted), 'desc' - the opposite (string?)['asc', 'desc']
+			 charged) to the most (fully depleted), 'desc' - the opposite (string?)['asc', 'desc']
 
 ## Sub-Widgets Options
 
@@ -28,21 +28,21 @@ A default texture will be applied if the sub-widgets are StatusBars and don't ha
 
 ## Examples
 
-    local Runes = {}
-    for index = 1, 6 do
-        -- Position and size of the rune bar indicators
-        local Rune = CreateFrame('StatusBar', nil, self)
-        Rune:SetSize(120 / 6, 20)
-        Rune:SetPoint('TOPLEFT', self, 'BOTTOMLEFT', index * 120 / 6, 0)
+	local Runes = {}
+	for index = 1, 6 do
+		-- Position and size of the rune bar indicators
+		local Rune = CreateFrame('StatusBar', nil, self)
+		Rune:SetSize(120 / 6, 20)
+		Rune:SetPoint('TOPLEFT', self, 'BOTTOMLEFT', index * 120 / 6, 0)
 
-        Runes[index] = Rune
-    end
+		Runes[index] = Rune
+	end
 
-    -- Register with oUF
-    self.Runes = Runes
+	-- Register with oUF
+	self.Runes = Runes
 --]]
 
-if(select(2, UnitClass('player')) ~= 'DEATHKNIGHT') then return end
+if (select(2, UnitClass('player')) ~= 'DEATHKNIGHT') then return end
 
 local _, ns = ...
 local oUF = ns.oUF
@@ -59,7 +59,7 @@ end
 local function ascSort(runeAID, runeBID)
 	local runeAStart, _, runeARuneReady = GetRuneCooldown(runeAID)
 	local runeBStart, _, runeBRuneReady = GetRuneCooldown(runeBID)
-	if(runeARuneReady ~= runeBRuneReady) then
+	if (runeARuneReady ~= runeBRuneReady) then
 		return runeARuneReady
 	elseif(runeAStart ~= runeBStart) then
 		return runeAStart < runeBStart
@@ -71,7 +71,7 @@ end
 local function descSort(runeAID, runeBID)
 	local runeAStart, _, runeARuneReady = GetRuneCooldown(runeAID)
 	local runeBStart, _, runeBRuneReady = GetRuneCooldown(runeBID)
-	if(runeARuneReady ~= runeBRuneReady) then
+	if (runeARuneReady ~= runeBRuneReady) then
 		return runeBRuneReady
 	elseif(runeAStart ~= runeBStart) then
 		return runeAStart > runeBStart
@@ -86,7 +86,7 @@ local function UpdateColor(self, event)
 	local spec = GetSpecialization() or 0
 
 	local color
-	if(spec > 0 and spec < 4 and element.colorSpec) then
+	if (spec > 0 and spec < 4 and element.colorSpec) then
 		color = self.colors.runes[spec]
 	else
 		color = self.colors.power.RUNES
@@ -98,7 +98,7 @@ local function UpdateColor(self, event)
 		element[index]:SetStatusBarColor(r, g, b)
 
 		local bg = element[index].bg
-		if(bg) then
+		if (bg) then
 			local mu = bg.multiplier or 1
 			bg:SetVertexColor(r * mu, g * mu, b * mu)
 		end
@@ -112,7 +112,7 @@ local function UpdateColor(self, event)
 	* g    - the green component of the used color (number)[0-1]
 	* b    - the blue component of the used color (number)[0-1]
 	--]]
-	if(element.PostUpdateColor) then
+	if (element.PostUpdateColor) then
 		element:PostUpdateColor(r, g, b)
 	end
 end
@@ -131,7 +131,7 @@ end
 local function Update(self, event)
 	local element = self.Runes
 
-	if(element.sortOrder == 'asc') then
+	if (element.sortOrder == 'asc') then
 		table.sort(runemap, ascSort)
 		hasSortOrder = true
 	elseif(element.sortOrder == 'desc') then
@@ -145,13 +145,13 @@ local function Update(self, event)
 	local rune, start, duration, runeReady
 	for index, runeID in next, runemap do
 		rune = element[index]
-		if(not rune) then break end
+		if (not rune) then break end
 
-		if(UnitHasVehicleUI('player')) then
+		if (UnitHasVehicleUI('player')) then
 			rune:Hide()
 		else
 			start, duration, runeReady = GetRuneCooldown(runeID)
-			if(runeReady) then
+			if (runeReady) then
 				rune:SetMinMaxValues(0, 1)
 				rune:SetValue(1)
 				rune:SetScript('OnUpdate', nil)
@@ -172,7 +172,7 @@ local function Update(self, event)
 	* self    - the Runes element
 	* runemap - the ordered list of runes' indices (table)
 	--]]
-	if(element.PostUpdate) then
+	if (element.PostUpdate) then
 		return element:PostUpdate(runemap)
 	end
 end
@@ -200,13 +200,13 @@ end
 
 local function Enable(self, unit)
 	local element = self.Runes
-	if(element and UnitIsUnit(unit, 'player')) then
+	if (element and UnitIsUnit(unit, 'player')) then
 		element.__owner = self
 		element.ForceUpdate = ForceUpdate
 
 		for i = 1, #element do
 			local rune = element[i]
-			if(rune:IsObjectType('StatusBar') and not (rune:GetStatusBarTexture() or rune:GetStatusBarAtlas())) then
+			if (rune:IsObjectType('StatusBar') and not (rune:GetStatusBarTexture() or rune:GetStatusBarAtlas())) then
 				rune:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar]])
 			end
 		end
@@ -220,7 +220,7 @@ end
 
 local function Disable(self)
 	local element = self.Runes
-	if(element) then
+	if (element) then
 		for i = 1, #element do
 			element[i]:Hide()
 		end

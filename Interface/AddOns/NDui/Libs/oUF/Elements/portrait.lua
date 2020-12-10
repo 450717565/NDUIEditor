@@ -14,29 +14,29 @@ the unit.
 
 ## Examples
 
-    -- 3D Portrait
-    -- Position and size
-    local Portrait = CreateFrame('PlayerModel', nil, self)
-    Portrait:SetSize(32, 32)
-    Portrait:SetPoint('RIGHT', self, 'LEFT')
+	-- 3D Portrait
+	-- Position and size
+	local Portrait = CreateFrame('PlayerModel', nil, self)
+	Portrait:SetSize(32, 32)
+	Portrait:SetPoint('RIGHT', self, 'LEFT')
 
-    -- Register it with oUF
-    self.Portrait = Portrait
+	-- Register it with oUF
+	self.Portrait = Portrait
 
-    -- 2D Portrait
-    local Portrait = self:CreateTexture(nil, 'OVERLAY')
-    Portrait:SetSize(32, 32)
-    Portrait:SetPoint('RIGHT', self, 'LEFT')
+	-- 2D Portrait
+	local Portrait = self:CreateTexture(nil, 'OVERLAY')
+	Portrait:SetSize(32, 32)
+	Portrait:SetPoint('RIGHT', self, 'LEFT')
 
-    -- Register it with oUF
-    self.Portrait = Portrait
+	-- Register it with oUF
+	self.Portrait = Portrait
 --]]
 
 local _, ns = ...
 local oUF = ns.oUF
 
 local function Update(self, event, unit)
-	if(not unit or not UnitIsUnit(self.unit, unit)) then return end
+	if (not unit or not UnitIsUnit(self.unit, unit)) then return end
 
 	local element = self.Portrait
 
@@ -46,13 +46,13 @@ local function Update(self, event, unit)
 	* self - the Portrait element
 	* unit - the unit for which the update has been triggered (string)
 	--]]
-	if(element.PreUpdate) then element:PreUpdate(unit) end
+	if (element.PreUpdate) then element:PreUpdate(unit) end
 
 	local guid = UnitGUID(unit)
 	local isAvailable = UnitIsConnected(unit) and UnitIsVisible(unit)
-	if(event ~= 'OnUpdate' or element.guid ~= guid or element.state ~= isAvailable) then
-		if(element:IsObjectType('PlayerModel')) then
-			if(not isAvailable) then
+	if (event ~= 'OnUpdate' or element.guid ~= guid or element.state ~= isAvailable) then
+		if (element:IsObjectType('PlayerModel')) then
+			if (not isAvailable) then
 				element:SetCamDistanceScale(0.25)
 				element:SetPortraitZoom(0)
 				element:SetPosition(0, 0, 0.25)
@@ -79,7 +79,7 @@ local function Update(self, event, unit)
 	* self - the Portrait element
 	* unit - the unit for which the update has been triggered (string)
 	--]]
-	if(element.PostUpdate) then
+	if (element.PostUpdate) then
 		return element:PostUpdate(unit)
 	end
 end
@@ -101,7 +101,7 @@ end
 
 local function Enable(self, unit)
 	local element = self.Portrait
-	if(element) then
+	if (element) then
 		element.__owner = self
 		element.ForceUpdate = ForceUpdate
 
@@ -116,7 +116,7 @@ local function Enable(self, unit)
 		--
 		-- DISABLE isn't used as it fires when we most likely don't have the
 		-- information we want.
-		if(unit == 'party') then
+		if (unit == 'party') then
 			self:RegisterEvent('PARTY_MEMBER_ENABLE', Path)
 		end
 
@@ -128,7 +128,7 @@ end
 
 local function Disable(self)
 	local element = self.Portrait
-	if(element) then
+	if (element) then
 		element:Hide()
 
 		self:UnregisterEvent('UNIT_MODEL_CHANGED', Path)

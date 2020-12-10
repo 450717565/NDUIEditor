@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local M = B:GetModule("Misc")
+local Misc = B:GetModule("Misc")
 
 local wipe, select, pairs, tonumber = wipe, select, pairs, tonumber
 local strsplit, strfind = strsplit, strfind
@@ -16,7 +16,7 @@ local OPENING_STRING = OPEN_ALL_MAIL_BUTTON_OPENING
 local mailIndex, timeToWait, totalCash, inboxItems = 0, .15, 0, {}
 local isGoldCollecting
 
-function M:MailBox_DelectClick()
+function Misc:MailBox_DelectClick()
 	local selectedID = self.id + (InboxFrame.pageNum-1)*7
 	if InboxItemCanDelete(selectedID) then
 		DeleteInboxItem(selectedID)
@@ -25,17 +25,17 @@ function M:MailBox_DelectClick()
 	end
 end
 
-function M:MailItem_AddDelete(i)
+function Misc:MailItem_AddDelete(i)
 	local bu = CreateFrame("Button", nil, self)
 	bu:SetPoint("BOTTOMRIGHT", self:GetParent(), "BOTTOMRIGHT", -10, 5)
 	bu:SetSize(16, 16)
 	B.PixelIcon(bu, 136813, true)
 	bu.id = i
-	bu:SetScript("OnClick", M.MailBox_DelectClick)
+	bu:SetScript("OnClick", Misc.MailBox_DelectClick)
 	B.AddTooltip(bu, "ANCHOR_RIGHT", DELETE, "system")
 end
 
-function M:InboxItem_OnEnter()
+function Misc:InboxItem_OnEnter()
 	wipe(inboxItems)
 
 	local itemAttached = select(8, GetInboxHeaderInfo(self.index))
@@ -52,7 +52,7 @@ function M:InboxItem_OnEnter()
 			for itemID, count in pairs(inboxItems) do
 				local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture = GetItemInfo(itemID)
 				if itemName then
-					local r, g, b = GetItemQualityColor(itemQuality)
+					local r, g, b = GetItemQualityColor(itemQuality or 1)
 					GameTooltip:AddDoubleLine(" |T"..itemTexture..":12:12:0:0:50:50:4:46:4:46|t "..itemName, count, r, g, b)
 				end
 			end
@@ -63,17 +63,17 @@ end
 
 local contactList = {}
 
-function M:ContactButton_OnClick()
+function Misc:ContactButton_OnClick()
 	local text = self.name:GetText() or ""
 	SendMailNameEditBox:SetText(text)
 end
 
-function M:ContactButton_Delete()
+function Misc:ContactButton_Delete()
 	NDuiADB["ContactList"][self.__owner.name:GetText()] = nil
-	M:ContactList_Refresh()
+	Misc:ContactList_Refresh()
 end
 
-function M:ContactButton_Create(parent, index)
+function Misc:ContactButton_Create(parent, index)
 	local button = CreateFrame("Button", nil, parent)
 	button:SetSize(150, 20)
 	button:SetPoint("TOPLEFT", 2, -2 - (index-1) *20)
@@ -86,17 +86,17 @@ function M:ContactButton_Create(parent, index)
 	button.name:SetJustifyH("LEFT")
 
 	button:RegisterForClicks("AnyUp")
-	button:SetScript("OnClick", M.ContactButton_OnClick)
+	button:SetScript("OnClick", Misc.ContactButton_OnClick)
 
 	button.delete = B.CreateButton(button, 20, 20, true, "Interface\\RAIDFRAME\\ReadyCheck-NotReady")
 	button.delete:SetPoint("LEFT", button, "RIGHT", 2, 0)
 	button.delete.__owner = button
-	button.delete:SetScript("OnClick", M.ContactButton_Delete)
+	button.delete:SetScript("OnClick", Misc.ContactButton_Delete)
 
 	return button
 end
 
-function M:ContactList_Refresh()
+function Misc:ContactList_Refresh()
 	wipe(contactList)
 
 	local count = 0
@@ -110,10 +110,10 @@ function M:ContactList_Refresh()
 		contactList[count].b = b
 	end
 
-	M:ContactList_Update()
+	Misc:ContactList_Update()
 end
 
-function M:ContactButton_Update(button)
+function Misc:ContactButton_Update(button)
 	local index = button.index
 	local info = contactList[index]
 
@@ -121,7 +121,7 @@ function M:ContactButton_Update(button)
 	button.name:SetTextColor(info.r, info.g, info.b)
 end
 
-function M:ContactList_Update()
+function Misc:ContactList_Update()
 	local scrollFrame = _G.NDuiMailBoxScrollFrame
 	local usedHeight = 0
 	local buttons = scrollFrame.buttons
@@ -134,7 +134,7 @@ function M:ContactList_Update()
 		local index = offset + i
 		if index <= numFriendButtons then
 			button.index = index
-			M:ContactButton_Update(button)
+			Misc:ContactButton_Update(button)
 			usedHeight = usedHeight + height
 			button:Show()
 		else
@@ -146,17 +146,17 @@ function M:ContactList_Update()
 	HybridScrollFrame_Update(scrollFrame, numFriendButtons*height, usedHeight)
 end
 
-function M:ContactList_OnMouseWheel(delta)
+function Misc:ContactList_OnMouseWheel(delta)
 	local scrollBar = self.scrollBar
 	local step = delta*self.buttonHeight
 	if IsShiftKeyDown() then
 		step = step*18
 	end
 	scrollBar:SetValue(scrollBar:GetValue() - step)
-	M:ContactList_Update()
+	Misc:ContactList_Update()
 end
 
-function M:MailBox_ContactList()
+function Misc:MailBox_ContactList()
 	local bu = B.CreateGear(SendMailFrame)
 	bu:SetPoint("LEFT", SendMailNameEditBox, "RIGHT", 3, 0)
 
@@ -164,11 +164,11 @@ function M:MailBox_ContactList()
 	list:SetSize(200, 424)
 	list:SetPoint("TOPLEFT", MailFrame, "TOPRIGHT", 3, 0)
 	list:SetFrameStrata("Tooltip")
-	B.SetBD(list)
+	B.CreateBG(list)
 	B.CreateFS(list, 14, L["ContactList"], "system", "TOP", 0, -5)
 
 	bu:SetScript("OnClick", function()
-		B:TogglePanel(list)
+		B.TogglePanel(list)
 	end)
 
 	local editbox = B.CreateEditBox(list, 120, 20)
@@ -187,14 +187,14 @@ function M:MailBox_ContactList()
 
 		local r, g, b = swatch.tex:GetColor()
 		NDuiADB["ContactList"][text] = r..":"..g..":"..b
-		M:ContactList_Refresh()
+		Misc:ContactList_Refresh()
 		editbox:SetText("")
 	end)
 
 	local scrollFrame = CreateFrame("ScrollFrame", "NDuiMailBoxScrollFrame", list, "HybridScrollFrameTemplate")
 	scrollFrame:SetSize(175, 370)
 	scrollFrame:SetPoint("BOTTOMLEFT", 5, 5)
-	B.CreateBDFrame(scrollFrame, .25)
+	B.CreateBDFrame(scrollFrame)
 	list.scrollFrame = scrollFrame
 
 	local scrollBar = CreateFrame("Slider", "$parentScrollBar", scrollFrame, "HybridScrollBarTemplate")
@@ -207,23 +207,23 @@ function M:MailBox_ContactList()
 	local buttonHeight = 22
 	local buttons = {}
 	for i = 1, numButtons do
-		buttons[i] = M:ContactButton_Create(scrollChild, i)
+		buttons[i] = Misc:ContactButton_Create(scrollChild, i)
 	end
 
 	scrollFrame.buttons = buttons
 	scrollFrame.buttonHeight = buttonHeight
-	scrollFrame.update = M.ContactList_Update
-	scrollFrame:SetScript("OnMouseWheel", M.ContactList_OnMouseWheel)
+	scrollFrame.update = Misc.ContactList_Update
+	scrollFrame:SetScript("OnMouseWheel", Misc.ContactList_OnMouseWheel)
 	scrollChild:SetSize(scrollFrame:GetWidth(), numButtons * buttonHeight)
 	scrollFrame:SetVerticalScroll(0)
 	scrollFrame:UpdateScrollChildRect()
 	scrollBar:SetMinMaxValues(0, numButtons * buttonHeight)
 	scrollBar:SetValue(0)
 
-	M:ContactList_Refresh()
+	Misc:ContactList_Refresh()
 end
 
-function M:MailBox_CollectGold()
+function Misc:MailBox_CollectGold()
 	if mailIndex > 0 then
 		if not C_Mail_IsCommandPending() then
 			if C_Mail_HasInboxMoney(mailIndex) then
@@ -231,24 +231,24 @@ function M:MailBox_CollectGold()
 			end
 			mailIndex = mailIndex - 1
 		end
-		C_Timer_After(timeToWait, M.MailBox_CollectGold)
+		C_Timer_After(timeToWait, Misc.MailBox_CollectGold)
 	else
 		isGoldCollecting = false
-		M:UpdateOpeningText()
+		Misc:UpdateOpeningText()
 	end
 end
 
-function M:MailBox_CollectAllGold()
+function Misc:MailBox_CollectAllGold()
 	if isGoldCollecting then return end
 	if totalCash == 0 then return end
 
 	isGoldCollecting = true
 	mailIndex = GetInboxNumItems()
-	M:UpdateOpeningText(true)
-	M:MailBox_CollectGold()
+	Misc:UpdateOpeningText(true)
+	Misc:MailBox_CollectGold()
 end
 
-function M:TotalCash_OnEnter()
+function Misc:TotalCash_OnEnter()
 	local numItems = GetInboxNumItems()
 	if numItems == 0 then return end
 
@@ -260,59 +260,59 @@ function M:TotalCash_OnEnter()
 		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
 		GameTooltip:AddLine(L["TotalGold"])
 		GameTooltip:AddLine(" ")
-		GameTooltip:AddLine(M:GetMoneyString(totalCash, true), 1,1,1)
+		GameTooltip:AddLine(Misc:GetMoneyString(totalCash, true), 1,1,1)
 		GameTooltip:Show()
 	end
 end
 
-function M:TotalCash_OnLeave()
+function Misc:TotalCash_OnLeave()
 	B:HideTooltip()
 	totalCash = 0
 end
 
-function M:UpdateOpeningText(opening)
+function Misc:UpdateOpeningText(opening)
 	if opening then
-		M.GoldButton:SetText(OPENING_STRING)
+		Misc.GoldButton:SetText(OPENING_STRING)
 	else
-		M.GoldButton:SetText(NORMAL_STRING)
+		Misc.GoldButton:SetText(NORMAL_STRING)
 	end
 end
 
-function M:MailBox_CreatButton(parent, width, height, text, anchor)
+function Misc:MailBox_CreatButton(parent, width, height, text, anchor)
 	local button = CreateFrame("Button", nil, parent, "UIPanelButtonTemplate")
 	button:SetSize(width, height)
 	button:SetPoint(unpack(anchor))
 	button:SetText(text)
-	if C.db["Skins"]["BlizzardSkins"] then B.Reskin(button) end
+	if C.db["Skins"]["BlizzardSkins"] then B.ReskinButton(button) end
 
 	return button
 end
 
-function M:CollectGoldButton()
+function Misc:CollectGoldButton()
 	OpenAllMail:ClearAllPoints()
 	OpenAllMail:SetPoint("TOPLEFT", InboxFrame, "TOPLEFT", 50, -35)
 
-	local button = M:MailBox_CreatButton(InboxFrame, 120, 24, "", {"LEFT", OpenAllMail, "RIGHT", 3, 0})
-	button:SetScript("OnClick", M.MailBox_CollectAllGold)
-	button:SetScript("OnEnter", M.TotalCash_OnEnter)
-	button:SetScript("OnLeave", M.TotalCash_OnLeave)
+	local button = Misc:MailBox_CreatButton(InboxFrame, 120, 24, "", {"LEFT", OpenAllMail, "RIGHT", 3, 0})
+	button:SetScript("OnClick", Misc.MailBox_CollectAllGold)
+	button:SetScript("OnEnter", Misc.TotalCash_OnEnter)
+	button:SetScript("OnLeave", Misc.TotalCash_OnLeave)
 
-	M.GoldButton = button
-	M:UpdateOpeningText()
+	Misc.GoldButton = button
+	Misc:UpdateOpeningText()
 end
 
-function M:MailBox_CollectAttachment()
+function Misc:MailBox_CollectAttachment()
 	for i = 1, ATTACHMENTS_MAX_RECEIVE do
 		local attachmentButton = OpenMailFrame.OpenMailAttachments[i]
 		if attachmentButton:IsShown() then
 			TakeInboxItem(InboxFrame.openMailID, i)
-			C_Timer_After(timeToWait, M.MailBox_CollectAttachment)
+			C_Timer_After(timeToWait, Misc.MailBox_CollectAttachment)
 			return
 		end
 	end
 end
 
-function M:MailBox_CollectCurrent()
+function Misc:MailBox_CollectCurrent()
 	if OpenMailFrame.cod then
 		UIErrorsFrame:AddMessage(DB.InfoColor..L["MailIsCOD"])
 		return
@@ -322,29 +322,29 @@ function M:MailBox_CollectCurrent()
 	if C_Mail_HasInboxMoney(currentID) then
 		TakeInboxMoney(currentID)
 	end
-	M:MailBox_CollectAttachment()
+	Misc:MailBox_CollectAttachment()
 end
 
-function M:CollectCurrentButton()
-	local button = M:MailBox_CreatButton(OpenMailFrame, 82, 22, L["TakeAll"], {"RIGHT", "OpenMailReplyButton", "LEFT", -1, 0})
-	button:SetScript("OnClick", M.MailBox_CollectCurrent)
+function Misc:CollectCurrentButton()
+	local button = Misc:MailBox_CreatButton(OpenMailFrame, 82, 22, L["TakeAll"], {"RIGHT", "OpenMailReplyButton", "LEFT", -1, 0})
+	button:SetScript("OnClick", Misc.MailBox_CollectCurrent)
 end
 
-function M:MailBox()
+function Misc:MailBox()
 	if not C.db["Misc"]["Mail"] then return end
 	if IsAddOnLoaded("Postal") then return end
 
 	-- Delete buttons
 	for i = 1, 7 do
 		local itemButton = _G["MailItem"..i.."Button"]
-		M.MailItem_AddDelete(itemButton, i)
+		Misc.MailItem_AddDelete(itemButton, i)
 	end
 
 	-- Tooltips for multi-items
-	hooksecurefunc("InboxFrameItem_OnEnter", M.InboxItem_OnEnter)
+	hooksecurefunc("InboxFrameItem_OnEnter", Misc.InboxItem_OnEnter)
 
 	-- Custom contact list
-	M:MailBox_ContactList()
+	Misc:MailBox_ContactList()
 
 	-- Replace the alert frame
 	if InboxTooMuchMail then
@@ -352,8 +352,8 @@ function M:MailBox()
 		InboxTooMuchMail:SetPoint("BOTTOM", MailFrame, "TOP", 0, 5)
 	end
 
-	M.GetMoneyString = B:GetModule("Infobar").GetMoneyString
-	M:CollectGoldButton()
-	M:CollectCurrentButton()
+	Misc.GetMoneyString = B:GetModule("Infobar").GetMoneyString
+	Misc:CollectGoldButton()
+	Misc:CollectCurrentButton()
 end
-M:RegisterMisc("MailBox", M.MailBox)
+Misc:RegisterMisc("MailBox", Misc.MailBox)

@@ -37,16 +37,16 @@ local function generateTooltip()
 end
 
 cargBags.itemKeys["bindOn"] = function(i)
-	if(not i.link) then return end
+	if (not i.link) then return end
 
-	if(not tooltip) then generateTooltip() end
+	if (not tooltip) then generateTooltip() end
 	tooltip:ClearLines()
 	tooltip:SetBagItem(i.bagID, i.slotID)
 	local bound = _G[tipName.."TextLeft2"] and _G[tipName.."TextLeft2"]:GetText()
-	if(not bound) then return end
+	if (not bound) then return end
 
 	local bindOn
-	if(bound:match(ITEM_BIND_ON_EQUIP)) then bindOn = "equip"
+	if (bound:match(ITEM_BIND_ON_EQUIP)) then bindOn = "equip"
 	elseif(bound:match(ITEM_SOULBOUND)) then bindOn = "soul"
 	elseif(bound:match(ITEM_BIND_QUEST)) then bindOn = "quest"
 	elseif(bound:match(ITEM_BIND_TO_ACCOUNT)) then bindOn = "account"

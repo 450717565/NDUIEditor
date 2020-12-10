@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Bar = B:GetModule("Actionbar")
+local Bar = B:GetModule("ActionBar")
 
 local _G = _G
 local tinsert = tinsert
@@ -32,11 +32,11 @@ function Bar:CreateStancebar()
 	local buttonList = {}
 
 	local frame = CreateFrame("Frame", "NDui_ActionBarStance", UIParent, "SecureHandlerStateTemplate")
-	local anchor = C.db["Actionbar"]["Style"] == 4 and _G.NDui_ActionBar3 or _G.NDui_ActionBar2
+	local anchor = C.db["ActionBar"]["BarStyle"] == 4 and _G.NDui_ActionBar3 or _G.NDui_ActionBar2
 	frame.Pos = {"BOTTOMLEFT", anchor, "TOPLEFT", 0, margin}
 
 	-- StanceBar
-	if C.db["Actionbar"]["ShowStance"] then
+	if C.db["ActionBar"]["StanceBar"] then
 		StanceBarFrame:SetParent(frame)
 		StanceBarFrame:EnableMouse(false)
 		StanceBarLeft:SetTexture(nil)

@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local module = B:GetModule("AurasTable")
+local AT = B:GetModule("AurasTable")
 
 -- 角标的相关法术 [spellID] = {anchor, {r, g, b}}
 C.CornerBuffs = {
@@ -90,6 +90,7 @@ C.PartySpells = {
 	[179057] = 60,	-- 混乱新星
 	[205636] = 60,	-- 树人
 	[102342] = 90,	-- 铁木树皮
+	[288613] = 120,	-- 百发百中
 	[31224]  = 120,	-- 暗影斗篷
 	[190319] = 120,	-- 燃烧
 	[25046]  = 120,	-- 奥术洪流
@@ -157,4 +158,4 @@ local list = {
 	},
 }
 
-module:AddClassSpells(list)
+AT:AddClassSpells(list)

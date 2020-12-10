@@ -3,8 +3,8 @@ local B, C, L, DB = unpack(ns)
 local oUF = ns.oUF
 if not C.Infobar.System then return end
 
-local module = B:GetModule("Infobar")
-local info = module:RegisterInfobar("System", C.Infobar.SystemPos)
+local Infobar = B:GetModule("Infobar")
+local info = Infobar:RegisterInfobar("System", C.Infobar.SystemPos)
 
 local ipairs, tinsert, wipe, sort = ipairs, tinsert, wipe, sort
 local format, floor, min, max = format, floor, min, max
@@ -17,17 +17,15 @@ local ResetCPUUsage, collectgarbage, gcinfo = ResetCPUUsage, collectgarbage, gci
 
 local maxAddOns = C.Infobar.MaxAddOns
 local showMoreString = "%d %s (%s)"
-local usageString = "%.3f ms"
-local enableString = "|cff55ff55"..VIDEO_OPTIONS_ENABLED
-local disableString = "|cffff5555"..VIDEO_OPTIONS_DISABLED
+local usageString = "%.3f MS"
 local scriptProfileStatus = GetCVarBool("scriptProfile")
 local entered
 
 local function formatMemory(value)
 	if value > 1024 then
-		return format("%.1f mb", value / 1024)
+		return format("%.1f MB", value / 1024)
 	else
-		return format("%.0f kb", value)
+		return format("%.0f KB", value)
 	end
 end
 
@@ -41,12 +39,6 @@ local function sortByCPU(a, b)
 	if a and b then
 		return (a[4] == b[4] and a[2] < b[2]) or a[4] > b[4]
 	end
-end
-
-local usageColor = {0, 1, 0, 1, 1, 0, 1, 0, 0}
-local function smoothColor(cur, max)
-	local r, g, b = oUF:RGBColorGradient(cur, max, unpack(usageColor))
-	return r, g, b
 end
 
 local infoTable = {}
@@ -96,18 +88,18 @@ local function UpdateCPU()
 end
 
 local function colorFPS(fps)
-	if fps < 15 then
-		return "|cffD80909"..fps
-	elseif fps < 30 then
-		return "|cffE8DA0F"..fps
+	if fps < 30 then
+		return "|cffFF0000"..fps.."|r"
+	elseif fps < 60 then
+		return "|cffFFFF00"..fps.."|r"
 	else
-		return "|cff0CD809"..fps
+		return "|cff00FF00"..fps.."|r"
 	end
 end
 
 local function setFrameRate(self)
 	local fps = floor(GetFramerate())
-	self.text:SetText(L["FPS"]..": "..colorFPS(fps))
+	self.text:SetFormattedText("%s：%s", L["Framerate"], colorFPS(fps))
 end
 
 info.onUpdate = function(self, elapsed)
@@ -119,6 +111,11 @@ info.onUpdate = function(self, elapsed)
 		self.timer = 0
 	end
 end
+
+local switchList = {
+	[false] = "|cffFF0000"..VIDEO_OPTIONS_DISABLED,
+	[true] = "|cff00FF00"..VIDEO_OPTIONS_ENABLED,
+}
 
 info.onEnter = function(self)
 	entered = true
@@ -132,7 +129,7 @@ info.onEnter = function(self)
 
 	if self.showMemory or not scriptProfileStatus then
 		local totalMemory = UpdateMemory()
-		GameTooltip:AddDoubleLine(L["System"], formatMemory(totalMemory), 0,.6,1, .6,.8,1)
+		GameTooltip:AddDoubleLine(SYSTEMOPTIONS_MENU, formatMemory(totalMemory), 0,.6,1, .6,.8,1)
 		GameTooltip:AddLine(" ")
 
 		local numEnabled = 0
@@ -140,7 +137,7 @@ info.onEnter = function(self)
 			if IsAddOnLoaded(data[1]) then
 				numEnabled = numEnabled + 1
 				if numEnabled <= maxShown then
-					local r, g, b = smoothColor(data[3], totalMemory)
+					local r, g, b = B.SmoothColor(data[3], totalMemory, true)
 					GameTooltip:AddDoubleLine(data[2], formatMemory(data[3]), 1,1,1, r,g,b)
 				end
 			end
@@ -155,8 +152,8 @@ info.onEnter = function(self)
 		end
 	else
 		local totalCPU = UpdateCPU()
-		local passedTime = max(1, GetTime() - module.loginTime)
-		GameTooltip:AddDoubleLine(L["System"], format(usageString, totalCPU / passedTime, 0,.6,1, .6,.8,1))
+		local passedTime = max(1, GetTime() - Infobar.loginTime)
+		GameTooltip:AddDoubleLine(SYSTEMOPTIONS_MENU, format(usageString, totalCPU / passedTime, 0,.6,1, .6,.8,1))
 		GameTooltip:AddLine(" ")
 
 		local numEnabled = 0
@@ -164,7 +161,7 @@ info.onEnter = function(self)
 			if IsAddOnLoaded(data[1]) then
 				numEnabled = numEnabled + 1
 				if numEnabled <= maxShown then
-					local r, g, b = smoothColor(data[4], totalCPU)
+					local r, g, b = B.SmoothColor(data[4], totalCPU, true)
 					GameTooltip:AddDoubleLine(data[2], format(usageString, data[4] / passedTime), 1,1,1, r,g,b)
 				end
 			end
@@ -184,7 +181,7 @@ info.onEnter = function(self)
 	if scriptProfileStatus then
 		GameTooltip:AddDoubleLine(" ", DB.RightButton..L["SwitchSystemInfo"].." ", 1,1,1, .6,.8,1)
 	end
-	GameTooltip:AddDoubleLine(" ", DB.ScrollButton..L["CPU Usage"]..": "..(GetCVarBool("scriptProfile") and enableString or disableString).." ", 1,1,1, .6,.8,1)
+	GameTooltip:AddDoubleLine(" ", DB.ScrollButton..L["CPU Usage"]..switchList[GetCVarBool("scriptProfile")].." ", 1,1,1, .6,.8,1)
 	GameTooltip:Show()
 end
 
@@ -205,11 +202,11 @@ info.onMouseUp = function(self, btn)
 	if btn == "LeftButton" then
 		if scriptProfileStatus then
 			ResetCPUUsage()
-			module.loginTime = GetTime()
+			Infobar.loginTime = GetTime()
 		end
 		local before = gcinfo()
 		collectgarbage("collect")
-		print(format("|cff66C6FF%s:|r %s", L["Collect Memory"], formatMemory(before - gcinfo())))
+		print(format("|cff66C6FF%s：|r%s", L["Collect Memory"], formatMemory(before - gcinfo())))
 		self:onEnter()
 	elseif btn == "RightButton" and scriptProfileStatus then
 		self.showMemory = not self.showMemory

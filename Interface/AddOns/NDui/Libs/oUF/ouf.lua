@@ -1,7 +1,7 @@
 local parent, ns = ...
 local global = GetAddOnMetadata(parent, 'X-oUF')
 local _VERSION = '@project-version@'
-if(_VERSION:find('project%-version')) then
+if (_VERSION:find('project%-version')) then
 	_VERSION = 'devel'
 end
 
@@ -31,7 +31,7 @@ local function enableTargetUpdate(object)
 
 	local total = 0
 	object:SetScript('OnUpdate', function(self, elapsed)
-		if(not self.unit) then
+		if (not self.unit) then
 			return
 		elseif(total > self.onUpdateFrequency) then
 			self:UpdateAllElements('OnUpdate')
@@ -48,20 +48,20 @@ local function updateActiveUnit(self, event, unit)
 	local realUnit, modUnit = SecureButton_GetUnit(self), SecureButton_GetModifiedUnit(self)
 
 	-- _GetUnit() doesn't rewrite playerpet -> pet like _GetModifiedUnit does.
-	if(realUnit == 'playerpet') then
+	if (realUnit == 'playerpet') then
 		realUnit = 'pet'
 	elseif(realUnit == 'playertarget') then
 		realUnit = 'target'
 	end
 
-	if(modUnit == 'pet' and realUnit ~= 'pet') then
+	if (modUnit == 'pet' and realUnit ~= 'pet') then
 		modUnit = 'vehicle'
 	end
 
-	if(not unitExists(modUnit)) then return end
+	if (not unitExists(modUnit)) then return end
 
 	-- Change the active unit and run a full update.
-	if(Private.UpdateUnits(self, modUnit, realUnit)) then
+	if (Private.UpdateUnits(self, modUnit, realUnit)) then
 		self:UpdateAllElements('RefreshUnit')
 
 		return true
@@ -72,19 +72,19 @@ local function iterateChildren(...)
 	for i = 1, select('#', ...) do
 		local obj = select(i, ...)
 
-		if(type(obj) == 'table' and obj.isChild) then
+		if (type(obj) == 'table' and obj.isChild) then
 			updateActiveUnit(obj, 'iterateChildren')
 		end
 	end
 end
 
 local function onAttributeChanged(self, name, value)
-	if(name == 'unit' and value) then
-		if(self.hasChildren) then
+	if (name == 'unit' and value) then
+		if (self.hasChildren) then
 			iterateChildren(self:GetChildren())
 		end
 
-		if(not self:GetAttribute('oUF-onlyProcessChildren')) then
+		if (not self:GetAttribute('oUF-onlyProcessChildren')) then
 			updateActiveUnit(self, 'OnAttributeChanged')
 		end
 	end
@@ -108,12 +108,12 @@ for k, v in next, {
 		argcheck(unit, 3, 'string', 'nil')
 
 		local element = elements[name]
-		if(not element or self:IsElementEnabled(name)) then return end
+		if (not element or self:IsElementEnabled(name)) then return end
 
-		if(element.enable(self, unit or self.unit)) then
+		if (element.enable(self, unit or self.unit)) then
 			activeElements[self][name] = true
 
-			if(element.update) then
+			if (element.update) then
 				table.insert(self.__elements, element.update)
 			end
 		end
@@ -129,11 +129,11 @@ for k, v in next, {
 		argcheck(name, 2, 'string')
 
 		local enabled = self:IsElementEnabled(name)
-		if(not enabled) then return end
+		if (not enabled) then return end
 
 		local update = elements[name].update
 		for k, func in next, self.__elements do
-			if(func == update) then
+			if (func == update) then
 				table.remove(self.__elements, k)
 				break
 			end
@@ -154,7 +154,7 @@ for k, v in next, {
 		argcheck(name, 2, 'string')
 
 		local element = elements[name]
-		if(not element) then return end
+		if (not element) then return end
 
 		local active = activeElements[self]
 		return active and active[name]
@@ -166,7 +166,7 @@ for k, v in next, {
 
 	* self    - unit frame
 	* asState - if true, the frame's "state-unitexists" attribute will be set to a boolean value denoting whether the
-	            unit exists; if false, the frame will be shown if its unit exists, and hidden if it does not (boolean)
+				unit exists; if false, the frame will be shown if its unit exists, and hidden if it does not (boolean)
 	--]]
 	Enable = RegisterUnitWatch,
 	--[[ frame:Disable()
@@ -193,11 +193,11 @@ for k, v in next, {
 	--]]
 	UpdateAllElements = function(self, event)
 		local unit = self.unit
-		if(not unitExists(unit)) then return end
+		if (not unitExists(unit)) then return end
 
 		assert(type(event) == 'string', "Invalid argument 'event' in UpdateAllElements.")
 
-		if(self.PreUpdate) then
+		if (self.PreUpdate) then
 			--[[ Callback: frame:PreUpdate(event)
 			Fired before the frame is updated.
 
@@ -211,7 +211,7 @@ for k, v in next, {
 			func(self, event, unit)
 		end
 
-		if(self.PostUpdate) then
+		if (self.PostUpdate) then
 			--[[ Callback: frame:PostUpdate(event)
 			Fired after the frame is updated.
 
@@ -226,14 +226,14 @@ for k, v in next, {
 end
 
 local function onShow(self)
-	if(not updateActiveUnit(self, 'OnShow')) then
+	if (not updateActiveUnit(self, 'OnShow')) then
 		return self:UpdateAllElements('OnShow')
 	end
 end
 
 local function updatePet(self, event, unit)
 	local petUnit
-	if(unit == 'target') then
+	if (unit == 'target') then
 		return
 	elseif(unit == 'player') then
 		petUnit = 'pet'
@@ -242,15 +242,15 @@ local function updatePet(self, event, unit)
 		petUnit = unit:gsub('^(%a+)(%d+)', '%1pet%2')
 	end
 
-	if(self.unit ~= petUnit) then return end
-	if(not updateActiveUnit(self, event)) then
+	if (self.unit ~= petUnit) then return end
+	if (not updateActiveUnit(self, event)) then
 		return self:UpdateAllElements(event)
 	end
 end
 
 local function updateRaid(self, event)
 	local unitGUID = UnitGUID(self.unit)
-	if(unitGUID and unitGUID ~= self.unitGUID) then
+	if (unitGUID and unitGUID ~= self.unitGUID) then
 		self.unitGUID = unitGUID
 
 		self:UpdateAllElements(event)
@@ -276,34 +276,34 @@ local function initObject(unit, style, styleFunc, header, ...)
 
 		-- Handle the case where someone has modified the unitsuffix attribute in
 		-- oUF-initialConfigFunction.
-		if(suffix and not objectUnit:match(suffix)) then
+		if (suffix and not objectUnit:match(suffix)) then
 			objectUnit = objectUnit .. suffix
 		end
 
-		if(not (suffix == 'target' or objectUnit and objectUnit:match('target'))) then
+		if (not (suffix == 'target' or objectUnit and objectUnit:match('target'))) then
 			object:RegisterEvent('UNIT_ENTERED_VEHICLE', updateActiveUnit)
 			object:RegisterEvent('UNIT_EXITED_VEHICLE', updateActiveUnit)
 
 			-- We don't need to register UNIT_PET for the player unit. We register it
 			-- mainly because UNIT_EXITED_VEHICLE and UNIT_ENTERED_VEHICLE doesn't always
 			-- have pet information when they fire for party and raid units.
-			if(objectUnit ~= 'player') then
+			if (objectUnit ~= 'player') then
 				object:RegisterEvent('UNIT_PET', updatePet)
 			end
 		end
 
-		if(not header) then
+		if (not header) then
 			-- No header means it's a frame created through :Spawn().
 			object:SetAttribute('*type1', 'target')
 			object:SetAttribute('*type2', 'togglemenu')
 
 			-- No need to enable this for *target frames.
-			if(not (unit:match('target') or suffix == 'target')) then
+			if (not (unit:match('target') or suffix == 'target')) then
 				object:SetAttribute('toggleForVehicle', true)
 			end
 
 			-- Other boss and target units are handled by :HandleUnit().
-			if(suffix == 'target') then
+			if (suffix == 'target') then
 				enableTargetUpdate(object)
 			else
 				oUF:HandleUnit(object)
@@ -313,15 +313,15 @@ local function initObject(unit, style, styleFunc, header, ...)
 			-- updateRaid relies on UnitGUID to detect the unit change
 			object:RegisterEvent('GROUP_ROSTER_UPDATE', updateRaid, true)
 
-			if(num > 1) then
-				if(object:GetParent() == header) then
+			if (num > 1) then
+				if (object:GetParent() == header) then
 					object.hasChildren = true
 				else
 					object.isChild = true
 				end
 			end
 
-			if(suffix == 'target') then
+			if (suffix == 'target') then
 				enableTargetUpdate(object)
 			end
 		end
@@ -334,7 +334,7 @@ local function initObject(unit, style, styleFunc, header, ...)
 
 		-- NAME_PLATE_UNIT_ADDED fires after the frame is shown, so there's no
 		-- need to call UAE multiple times
-		if(not object.isNamePlate) then
+		if (not object.isNamePlate) then
 			object:SetScript('OnShow', onShow)
 		end
 
@@ -348,7 +348,7 @@ local function initObject(unit, style, styleFunc, header, ...)
 		end
 
 		-- Make Clique kinda happy
-		if(not object.isNamePlate) then
+		if (not object.isNamePlate) then
 			_G.ClickCastFrames = ClickCastFrames or {}
 			ClickCastFrames[object] = true
 		end
@@ -363,7 +363,7 @@ local function walkObject(object, unit)
 	local header = parent:GetAttribute('oUF-headerType') and parent
 
 	-- Check if we should leave the main frame blank.
-	if(object:GetAttribute('oUF-onlyProcessChildren')) then
+	if (object:GetAttribute('oUF-onlyProcessChildren')) then
 		object.hasChildren = true
 		object:HookScript('OnAttributeChanged', onAttributeChanged)
 		return initObject(unit, style, styleFunc, header, object:GetChildren())
@@ -393,7 +393,7 @@ function oUF:RegisterMetaFunction(name, func)
 	argcheck(name, 2, 'string')
 	argcheck(func, 3, 'function', 'table')
 
-	if(frame_metatable.__index[name]) then
+	if (frame_metatable.__index[name]) then
 		return
 	end
 
@@ -411,8 +411,8 @@ function oUF:RegisterStyle(name, func)
 	argcheck(name, 2, 'string')
 	argcheck(func, 3, 'function', 'table')
 
-	if(styles[name]) then return error('Style [%s] already registered.', name) end
-	if(not style) then style = name end
+	if (styles[name]) then return error('Style [%s] already registered.', name) end
+	if (not style) then style = name end
 
 	styles[name] = func
 end
@@ -425,7 +425,7 @@ Used to set the active style.
 --]]
 function oUF:SetActiveStyle(name)
 	argcheck(name, 2, 'string')
-	if(not styles[name]) then return error('Style [%s] does not exist.', name) end
+	if (not styles[name]) then return error('Style [%s] does not exist.', name) end
 
 	style = name
 end
@@ -473,7 +473,7 @@ do
 			local short = select(i, ...)
 
 			local condition = conditions[short]
-			if(condition) then
+			if (condition) then
 				cond = cond .. condition
 			end
 		end
@@ -488,7 +488,7 @@ local function generateName(unit, ...)
 	local raid, party, groupFilter, unitsuffix
 	for i = 1, select('#', ...), 2 do
 		local att, val = select(i, ...)
-		if(att == 'oUF-initialConfigFunction') then
+		if (att == 'oUF-initialConfigFunction') then
 			unitsuffix = val:match('unitsuffix[%p%s]+(%a+)')
 		elseif(att == 'showRaid') then
 			raid = val ~= false and val ~= nil
@@ -500,9 +500,9 @@ local function generateName(unit, ...)
 	end
 
 	local append
-	if(raid) then
-		if(groupFilter) then
-			if(type(groupFilter) == 'number' and groupFilter > 0) then
+	if (raid) then
+		if (groupFilter) then
+			if (type(groupFilter) == 'number' and groupFilter > 0) then
 				append = 'Raid' .. groupFilter
 			elseif(groupFilter:match('MAINTANK')) then
 				append = 'MainTank'
@@ -510,7 +510,7 @@ local function generateName(unit, ...)
 				append = 'MainAssist'
 			else
 				local _, count = groupFilter:gsub(',', '')
-				if(count == 0) then
+				if (count == 0) then
 					append = 'Raid' .. groupFilter
 				else
 					append = 'Raid'
@@ -525,7 +525,7 @@ local function generateName(unit, ...)
 		append = unit:gsub('^%l', string.upper)
 	end
 
-	if(append) then
+	if (append) then
 		name = name .. append .. (unitsuffix or '')
 	end
 
@@ -561,15 +561,15 @@ do
 			local frame = frames[i]
 			local unit
 			-- There's no need to do anything on frames with onlyProcessChildren
-			if(not frame:GetAttribute('oUF-onlyProcessChildren')) then
+			if (not frame:GetAttribute('oUF-onlyProcessChildren')) then
 				RegisterUnitWatch(frame)
 
 				-- Attempt to guess what the header is set to spawn.
 				local groupFilter = header:GetAttribute('groupFilter')
 
-				if(type(groupFilter) == 'string' and groupFilter:match('MAIN[AT]')) then
+				if (type(groupFilter) == 'string' and groupFilter:match('MAIN[AT]')) then
 					local role = groupFilter:match('MAIN([AT])')
-					if(role == 'T') then
+					if (role == 'T') then
 						unit = 'maintank'
 					else
 						unit = 'mainassist'
@@ -582,8 +582,8 @@ do
 
 				local headerType = header:GetAttribute('oUF-headerType')
 				local suffix = frame:GetAttribute('unitsuffix')
-				if(unit and suffix) then
-					if(headerType == 'pet' and suffix == 'target') then
+				if (unit and suffix) then
+					if (headerType == 'pet' and suffix == 'target') then
 						unit = unit .. headerType .. suffix
 					else
 						unit = unit .. suffix
@@ -598,7 +598,7 @@ do
 			end
 
 			local body = header:GetAttribute('oUF-initialConfigFunction')
-			if(body) then
+			if (body) then
 				frame:Run(body, unit)
 			end
 		end
@@ -606,7 +606,7 @@ do
 		header:CallMethod('styleFunction', self:GetName())
 
 		local clique = header:GetFrameRef('clickcast_header')
-		if(clique) then
+		if (clique) then
 			clique:SetAttribute('clickcast_button', self)
 			clique:RunAttribute('clickcast_register')
 		end
@@ -617,22 +617,22 @@ do
 
 	* self         - the global oUF object
 	* overrideName - unique global name to be used for the header. Defaults to an auto-generated name based on the name
-	                 of the active style and other arguments passed to `:SpawnHeader` (string?)
+					 of the active style and other arguments passed to `:SpawnHeader` (string?)
 	* template     - name of a template to be used for creating the header. Defaults to `'SecureGroupHeaderTemplate'`
-	                 (string?)
+					 (string?)
 	* visibility   - macro conditional(s) which define when to display the header (string).
 	* ...          - further argument pairs. Consult [Group Headers](http://wowprogramming.com/docs/secure_template/Group_Headers.html)
-	                 for possible values.
+					 for possible values.
 
 	In addition to the standard group headers, oUF implements some of its own attributes. These can be supplied by the
 	layout, but are optional.
 
 	* oUF-initialConfigFunction - can contain code that will be securely run at the end of the initial secure
-	                              configuration (string?)
+								  configuration (string?)
 	* oUF-onlyProcessChildren   - can be used to force headers to only process children (boolean?)
 	--]]
 	function oUF:SpawnHeader(overrideName, template, visibility, ...)
-		if(not style) then return error('Unable to create frame. No styles have been registered.') end
+		if (not style) then return error('Unable to create frame. No styles have been registered.') end
 
 		template = (template or 'SecureGroupHeaderTemplate')
 
@@ -643,7 +643,7 @@ do
 		header:SetAttribute('template', 'SecureUnitButtonTemplate, SecureHandlerStateTemplate, SecureHandlerEnterLeaveTemplate, SecureHandlerShowHideTemplate, SecureHandlerMouseUpDownTemplate')
 		for i = 1, select('#', ...), 2 do
 			local att, val = select(i, ...)
-			if(not att) then break end
+			if (not att) then break end
 			header:SetAttribute(att, val)
 		end
 
@@ -659,19 +659,19 @@ do
 		header:SetAttribute('_initialAttributeNames', '_onenter,_onleave,refreshUnitChange,_onstate-vehicleui')
 		header:SetAttribute('_initialAttribute-_onenter', [[
 			local snippet = self:GetAttribute('clickcast_onenter')
-			if(snippet) then
+			if (snippet) then
 				self:Run(snippet)
 			end
 		]])
 		header:SetAttribute('_initialAttribute-_onleave', [[
 			local snippet = self:GetAttribute('clickcast_onleave')
-			if(snippet) then
+			if (snippet) then
 				self:Run(snippet)
 			end
 		]])
 		header:SetAttribute('_initialAttribute-refreshUnitChange', [[
 			local unit = self:GetAttribute('unit')
-			if(unit) then
+			if (unit) then
 				RegisterStateDriver(self, 'vehicleui', '[@' .. unit .. ',unithasvehicleui]vehicle; novehicle')
 			else
 				UnregisterStateDriver(self, 'vehicleui')
@@ -679,7 +679,7 @@ do
 		]])
 		header:SetAttribute('_initialAttribute-_onstate-vehicleui', [[
 			local unit = self:GetAttribute('unit')
-			if(newstate == 'vehicle' and unit and UnitPlayerOrPetInRaid(unit) and not UnitTargetsVehicleInRaidUI(unit)) then
+			if (newstate == 'vehicle' and unit and UnitPlayerOrPetInRaid(unit) and not UnitTargetsVehicleInRaidUI(unit)) then
 				self:SetAttribute('toggleForVehicle', false)
 			else
 				self:SetAttribute('toggleForVehicle', true)
@@ -687,17 +687,17 @@ do
 		]])
 		header:SetAttribute('oUF-headerType', isPetHeader and 'pet' or 'group')
 
-		if(Clique) then
+		if (Clique) then
 			SecureHandlerSetFrameRef(header, 'clickcast_header', Clique.header)
 		end
 
-		if(header:GetAttribute('showParty')) then
+		if (header:GetAttribute('showParty')) then
 			self:DisableBlizzard('party')
 		end
 
-		if(visibility) then
+		if (visibility) then
 			local type, list = string.split(' ', visibility, 2)
-			if(list and type == 'custom') then
+			if (list and type == 'custom') then
 				RegisterAttributeDriver(header, 'state-visibility', list)
 				header.visibility = list
 			else
@@ -717,7 +717,7 @@ Used to create a single unit frame and apply the currently active style to it.
 * self         - the global oUF object
 * unit         - the frame's unit (string)
 * overrideName - unique global name to use for the unit frame. Defaults to an auto-generated name based on the unit
-                 (string?)
+				 (string?)
 
 oUF implements some of its own attributes. These can be supplied by the layout, but are optional.
 
@@ -725,7 +725,7 @@ oUF implements some of its own attributes. These can be supplied by the layout, 
 --]]
 function oUF:Spawn(unit, overrideName, noHandle)
 	argcheck(unit, 2, 'string')
-	if(not style) then return error('Unable to create frame. No styles have been registered.') end
+	if (not style) then return error('Unable to create frame. No styles have been registered.') end
 
 	unit = unit:lower()
 
@@ -748,15 +748,15 @@ Used to create nameplates and apply the currently active style to them.
 * self      - the global oUF object
 * prefix    - prefix for the global name of the nameplate. Defaults to an auto-generated prefix (string?)
 * callback  - function to be called after a nameplate unit or the player's target has changed. The arguments passed to
-              the callback are the updated nameplate, if any, the event that triggered the update, and the new unit
-              (function?)
+			  the callback are the updated nameplate, if any, the event that triggered the update, and the new unit
+			  (function?)
 * variables - list of console variable-value pairs to be set when the player logs in (table?)
 --]]
 function oUF:SpawnNamePlates(namePrefix, nameplateCallback, nameplateCVars)
 	argcheck(nameplateCallback, 3, 'function', 'nil')
 	argcheck(nameplateCVars, 4, 'table', 'nil')
-	if(not style) then return error('Unable to create frame. No styles have been registered.') end
-	if(oUF_NamePlateDriver) then return error('oUF nameplate driver has already been initialized.') end
+	if (not style) then return error('Unable to create frame. No styles have been registered.') end
+	if (oUF_NamePlateDriver) then return error('oUF nameplate driver has already been initialized.') end
 
 	local style = style
 	local prefix = namePrefix or generateName()
@@ -766,7 +766,7 @@ function oUF:SpawnNamePlates(namePrefix, nameplateCallback, nameplateCVars)
 	-- driver to create, update, and remove Blizz nameplates.
 	-- Disable only not forbidden nameplates.
 	NamePlateDriverFrame:HookScript('OnEvent', function(_, event, unit)
-		if(event == 'NAME_PLATE_UNIT_ADDED' and unit) then
+		if (event == 'NAME_PLATE_UNIT_ADDED' and unit) then
 			self:DisableBlizzard(unit)
 		end
 	end)
@@ -776,8 +776,8 @@ function oUF:SpawnNamePlates(namePrefix, nameplateCallback, nameplateCVars)
 	eventHandler:RegisterEvent('NAME_PLATE_UNIT_REMOVED')
 	eventHandler:RegisterEvent('PLAYER_TARGET_CHANGED')
 
-	if(IsLoggedIn()) then
-		if(nameplateCVars) then
+	if (IsLoggedIn()) then
+		if (nameplateCVars) then
 			for cvar, value in next, nameplateCVars do
 				SetCVar(cvar, value)
 			end
@@ -787,28 +787,28 @@ function oUF:SpawnNamePlates(namePrefix, nameplateCallback, nameplateCVars)
 	end
 
 	eventHandler:SetScript('OnEvent', function(_, event, unit)
-		if(event == 'PLAYER_LOGIN') then
-			if(nameplateCVars) then
+		if (event == 'PLAYER_LOGIN') then
+			if (nameplateCVars) then
 				for cvar, value in next, nameplateCVars do
 					SetCVar(cvar, value)
 				end
 			end
 		elseif(event == 'PLAYER_TARGET_CHANGED') then
 			local nameplate = C_NamePlate.GetNamePlateForUnit('target')
-			if(nameplateCallback) then
+			if (nameplateCallback) then
 				nameplateCallback(nameplate and nameplate.unitFrame, event, 'target')
 			end
 
 			-- UAE is called after the callback to reduce the number of
 			-- ForceUpdate calls layout devs have to do themselves
-			if(nameplate) then
+			if (nameplate) then
 				nameplate.unitFrame:UpdateAllElements(event)
 			end
 		elseif(event == 'NAME_PLATE_UNIT_ADDED' and unit) then
 			local nameplate = C_NamePlate.GetNamePlateForUnit(unit)
-			if(not nameplate) then return end
+			if (not nameplate) then return end
 
-			if(not nameplate.unitFrame) then
+			if (not nameplate.unitFrame) then
 				nameplate.style = style
 
 				nameplate.unitFrame = CreateFrame('Button', prefix..nameplate:GetName(), nameplate)
@@ -824,7 +824,7 @@ function oUF:SpawnNamePlates(namePrefix, nameplateCallback, nameplateCVars)
 
 			nameplate.unitFrame:SetAttribute('unit', unit)
 
-			if(nameplateCallback) then
+			if (nameplateCallback) then
 				nameplateCallback(nameplate.unitFrame, event, unit)
 			end
 
@@ -833,11 +833,11 @@ function oUF:SpawnNamePlates(namePrefix, nameplateCallback, nameplateCVars)
 			nameplate.unitFrame:UpdateAllElements(event)
 		elseif(event == 'NAME_PLATE_UNIT_REMOVED' and unit) then
 			local nameplate = C_NamePlate.GetNamePlateForUnit(unit)
-			if(not nameplate) then return end
+			if (not nameplate) then return end
 
 			nameplate.unitFrame:SetAttribute('unit', nil)
 
-			if(nameplateCallback) then
+			if (nameplateCallback) then
 				nameplateCallback(nameplate.unitFrame, event, unit)
 			end
 		end
@@ -859,7 +859,7 @@ function oUF:AddElement(name, update, enable, disable)
 	argcheck(enable, 4, 'function', 'nil')
 	argcheck(disable, 5, 'function', 'nil')
 
-	if(elements[name]) then return error('Element [%s] is already registered.', name) end
+	if (elements[name]) then return error('Element [%s] is already registered.', name) end
 	elements[name] = {
 		update = update;
 		enable = enable;
@@ -877,8 +877,8 @@ Array containing all group headers created by `oUF:SpawnHeader`.
 --]]
 oUF.headers = headers
 
-if(global) then
-	if(parent ~= 'oUF' and global == 'oUF') then
+if (global) then
+	if (parent ~= 'oUF' and global == 'oUF') then
 		error('%s is doing it wrong and setting its global to "oUF".', parent)
 	elseif(_G[global]) then
 		error('%s is setting its global to an existing name "%s".', parent, global)

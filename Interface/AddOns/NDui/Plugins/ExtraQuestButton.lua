@@ -223,18 +223,22 @@ function ExtraQuestButton:PLAYER_LOGIN()
 	self.rangeTimer = 0
 	self:Hide()
 
-	self:SetPushedTexture(DB.textures.pushed)
-	local push = self:GetPushedTexture()
-	push:SetBlendMode("ADD")
-	push:SetInside()
+	local bubg = B.CreateBDFrame(self)
 
 	local Icon = self:CreateTexture("$parentIcon", "ARTWORK")
-	Icon:SetInside()
-	B.ReskinIcon(Icon, true)
-	self.HL = self:CreateTexture(nil, "HIGHLIGHT")
-	self.HL:SetColorTexture(1, 1, 1, .25)
-	self.HL:SetAllPoints(Icon)
+	Icon:SetTexCoord(unpack(DB.TexCoord))
+	Icon:SetInside(bubg)
 	self.Icon = Icon
+
+	local Highlight = self:CreateTexture(nil, "HIGHLIGHT")
+	Highlight:SetColorTexture(1, 1, 1, .25)
+	Highlight:SetInside(bubg)
+	self.Highlight = Highlight
+
+	self:SetPushedTexture(DB.pushed)
+	local push = self:GetPushedTexture()
+	push:SetBlendMode("ADD")
+	push:SetInside(bubg)
 
 	local HotKey = self:CreateFontString("$parentHotKey", nil, "NumberFontNormal")
 	HotKey:SetPoint("TOP", 0, -5)
@@ -245,13 +249,13 @@ function ExtraQuestButton:PLAYER_LOGIN()
 	self.Count = Count
 
 	local Cooldown = CreateFrame("Cooldown", "$parentCooldown", self, "CooldownFrameTemplate")
-	Cooldown:SetInside()
 	Cooldown:SetReverse(false)
+	Cooldown:SetInside(bubg)
 	Cooldown:Hide()
 	self.Cooldown = Cooldown
 
 	local Artwork = self:CreateTexture("$parentArtwork", "OVERLAY")
-	Artwork:SetPoint("BOTTOMLEFT", -1, -3)
+	Artwork:SetPoint("BOTTOMLEFT")
 	Artwork:SetSize(20, 20)
 	Artwork:SetAtlas(DB.questTex)
 	self.Artwork = Artwork
@@ -360,7 +364,7 @@ function ExtraQuestButton:SetItem(itemLink)
 		else
 			HotKey:Hide()
 		end
-		B:GetModule("Actionbar").UpdateHotKey(self)
+		B:GetModule("ActionBar").UpdateHotKey(self)
 
 		self:UpdateAttributes()
 		self.updateRange = hasRange
@@ -369,6 +373,7 @@ end
 
 function ExtraQuestButton:RemoveItem()
 	self.itemID = nil
+	self.itemLink = nil
 	self:UpdateAttributes()
 end
 

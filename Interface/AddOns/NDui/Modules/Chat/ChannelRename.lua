@@ -1,6 +1,6 @@
 ﻿local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local module = B:GetModule("Chat")
+local Chat = B:GetModule("Chat")
 
 local gsub, strfind, strmatch = string.gsub, string.find, string.match
 local BetterDate, time = BetterDate, time
@@ -12,7 +12,7 @@ local timestampFormat = {
 	[4] = "[%H:%M] ",
 	[5] = "[%H:%M:%S] ",
 }
-function module:UpdateChannelNames(text, ...)
+function Chat:UpdateChannelNames(text, ...)
 	if strfind(text, INTERFACE_ACTION_BLOCKED) and not DB.isDeveloper then return end
 
 	local r, g, b = ...
@@ -46,12 +46,12 @@ function module:UpdateChannelNames(text, ...)
 	end
 end
 
-function module:ChannelRename()
+function Chat:ChannelRename()
 	for i = 1, NUM_CHAT_WINDOWS do
 		if i ~= 2 then
 			local chatFrame = _G["ChatFrame"..i]
 			chatFrame.oldAddMsg = chatFrame.AddMessage
-			chatFrame.AddMessage = module.UpdateChannelNames
+			chatFrame.AddMessage = Chat.UpdateChannelNames
 		end
 	end
 
@@ -60,14 +60,14 @@ function module:ChannelRename()
 	ERR_FRIEND_OFFLINE_S = gsub(ERR_FRIEND_OFFLINE_S, "%%s", "%%s|cffff7f50")
 
 	--whisper
-	CHAT_WHISPER_INFORM_GET = L["Tell"].." %s "
-	CHAT_WHISPER_GET = L["From"].." %s "
-	CHAT_BN_WHISPER_INFORM_GET = L["Tell"].." %s "
-	CHAT_BN_WHISPER_GET = L["From"].." %s "
+	CHAT_WHISPER_INFORM_GET = L["Tell"].." %s ："
+	CHAT_WHISPER_GET = L["From"].." %s ："
+	CHAT_BN_WHISPER_INFORM_GET = L["Tell"].." %s ："
+	CHAT_BN_WHISPER_GET = L["From"].." %s ："
 
 	--say / yell
-	CHAT_SAY_GET = "%s "
-	CHAT_YELL_GET = "%s "
+	CHAT_SAY_GET = "%s ："
+	CHAT_YELL_GET = "%s ："
 
 	if C.db["Chat"]["Oldname"] then return end
 	--guild

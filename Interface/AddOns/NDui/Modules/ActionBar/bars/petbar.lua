@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Bar = B:GetModule("Actionbar")
+local Bar = B:GetModule("ActionBar")
 
 local _G = _G
 local tinsert = tinsert
@@ -14,7 +14,7 @@ local function SetFrameSize(frame, size, num)
 	frame:SetWidth(num*size + (num-1)*margin + 2*padding)
 	frame:SetHeight(size + 2*padding)
 	if not frame.mover then
-		frame.mover = B.Mover(frame, L["Pet Actionbar"], "PetBar", frame.Pos)
+		frame.mover = B.Mover(frame, L["Pet ActionBar"], "PetBar", frame.Pos)
 	else
 		frame.mover:SetSize(frame:GetSize())
 	end
@@ -31,8 +31,8 @@ function Bar:CreatePetbar()
 	local buttonList = {}
 
 	local frame = CreateFrame("Frame", "NDui_ActionBarPet", UIParent, "SecureHandlerStateTemplate")
-	local anchor = C.db["Actionbar"]["Style"] == 4 and _G.NDui_ActionBar3 or _G.NDui_ActionBar2
-	frame.Pos = {"BOTTOM", anchor, "TOP", 0, margin}
+	local anchor = C.db["ActionBar"]["BarStyle"] == 4 and _G.NDui_ActionBar3 or _G.NDui_ActionBar2
+	frame.Pos = {"BOTTOMRIGHT", anchor, "TOPRIGHT", 0, margin}
 
 	PetActionBarFrame:SetParent(frame)
 	PetActionBarFrame:EnableMouse(false)

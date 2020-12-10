@@ -1,7 +1,7 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
-local oUF = ns.oUF or oUF
+local oUF = ns.oUF
 local UF = B:GetModule("UnitFrames")
 local format, tostring = string.format, tostring
 
@@ -374,7 +374,7 @@ function UF:OnLogin()
 		local raidMover
 		if C.db["UFs"]["SimpleMode"] then
 			local unitsPerColumn = C.db["UFs"]["SMUnitsPerColumn"]
-			local maxColumns = B:Round(numGroups*5 / unitsPerColumn)
+			local maxColumns = B.Round(numGroups*5 / unitsPerColumn)
 
 			local function CreateGroup(name, i)
 				local group = oUF:SpawnHeader(name, nil, "solo,party,raid",

@@ -1,6 +1,6 @@
 ﻿local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local module = B:GetModule("Chat")
+local Chat = B:GetModule("Chat")
 
 local strfind, strmatch, strsub, gsub = string.find, string.match, string.sub, string.gsub
 local strsplit, strlen = string.split, string.len
@@ -22,7 +22,7 @@ local function highlightURL(_, url)
 	return " "..convertLink("["..url.."]", url).." "
 end
 
-function module:SearchForURL(text, ...)
+function Chat:SearchForURL(text, ...)
 	foundurl = false
 
 	if strfind(text, "%pTInterface%p+") or strfind(text, "%pTINTERFACE%p+") then
@@ -57,7 +57,7 @@ function module:SearchForURL(text, ...)
 	self.am(self, text, ...)
 end
 
-function module:HyperlinkShowHook(link, _, button)
+function Chat:HyperlinkShowHook(link, _, button)
 	local type, value = strmatch(link, "(%a+):(.+)")
 	local hide
 	if button == "LeftButton" and IsModifierKeyDown() then
@@ -90,7 +90,7 @@ function module:HyperlinkShowHook(link, _, button)
 			end
 		end
 	elseif type == "url" then
-		local eb = LAST_ACTIVE_CHAT_EDIT_BOX or _G[self:GetName().."EditBox"]
+		local eb = LAST_ACTIVE_CHAT_EDIT_BOX or _G[self:GetDebugName().."EditBox"]
 		if eb then
 			eb:Show()
 			eb:SetText(value)
@@ -102,7 +102,7 @@ function module:HyperlinkShowHook(link, _, button)
 	if hide then ChatEdit_ClearChat(ChatFrame1.editBox) end
 end
 
-function module.SetItemRefHook(link, _, button)
+function Chat.SetItemRefHook(link, _, button)
 	if strsub(link, 1, 6) == "player" and button == "LeftButton" and IsModifiedClick("CHATLINK") then
 		if not StaticPopup_Visible("ADD_IGNORE") and not StaticPopup_Visible("ADD_FRIEND") and not StaticPopup_Visible("ADD_GUILDMEMBER") and not StaticPopup_Visible("ADD_RAIDMEMBER") and not StaticPopup_Visible("CHANNEL_INVITE") and not ChatEdit_GetActiveWindow() then
 			local namelink, fullname
@@ -135,7 +135,7 @@ function module.SetItemRefHook(link, _, button)
 	end
 end
 
-function module:UrlCopy()
+function Chat:UrlCopy()
 	for i = 1, NUM_CHAT_WINDOWS do
 		if i ~= 2 then
 			local chatFrame = _G["ChatFrame"..i]

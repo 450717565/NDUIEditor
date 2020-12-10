@@ -1,5 +1,3 @@
-local WOW_9 = select(4, GetBuildInfo()) >= 90000
-
 local parentMaps = {
 	-- list of all continents and their sub-zones that have world quests
 	[1550] = { -- Shadowlands
@@ -179,8 +177,6 @@ function BetterWorldQuestPinMixin:OnLoad()
 
 	-- make sure the tracked check mark doesn't appear underneath any of our widgets
 	self.TrackedCheck:SetDrawLayer('OVERLAY', 3)
-
-	-- 修改剩余时间提示
 	self.TimeLowFrame:ClearAllPoints()
 	self.TimeLowFrame:SetPoint("CENTER", self, "TOPRIGHT")
 end
@@ -201,8 +197,6 @@ function BetterWorldQuestPinMixin:RefreshVisuals()
 
 	-- hide frames we don't want to use
 	self.BountyRing:Hide()
-
-	-- 刷新战争模式状态
 	warMode = C_PvP.IsWarModeDesired()
 	warModeBonus = format("%.1f", 1 + (C_PvP.GetWarModeRewardBonus() / 100))
 
@@ -246,42 +240,33 @@ function BetterWorldQuestPinMixin:RefreshVisuals()
 
 	-- update our own widgets
 	local bountyQuestID = self.dataProvider:GetBountyQuestID()
-	if(WOW_9) then
-		self.Bounty:SetShown(bountyQuestID and C_QuestLog.IsQuestCriteriaForBounty(questID, bountyQuestID))
-	else
-		self.Bounty:SetShown(bountyQuestID and IsQuestCriteriaForBounty(questID, bountyQuestID))
-	end
+	self.Bounty:SetShown(bountyQuestID and C_QuestLog.IsQuestCriteriaForBounty(questID, bountyQuestID))
 
 	local Indicator = self.Indicator
-	local _, worldQuestType, professionID
-	if(WOW_9) then
-		_, _, worldQuestType, _, _, professionID = C_QuestLog.GetQuestTagInfo(questID)
-	else
-		_, _, worldQuestType, _, _, professionID = GetQuestTagInfo(questID)
-	end
-
-	if(worldQuestType == LE_QUEST_TAG_TYPE_PVP) then
+	local questInfo = C_QuestLog.GetQuestTagInfo(questID)
+	-- local _, _, worldQuestType, _, _, professionID = C_QuestLog.GetQuestTagInfo(questID)
+	if(questInfo.worldQuestType == Enum.QuestTagType.PvP) then
 		self.Indicator:SetAtlas('Warfronts-BaseMapIcons-Empty-Barracks-Minimap')
 		self.Indicator:SetSize(58, 58)
 		self.Indicator:Show()
 	else
 		self.Indicator:SetSize(44, 44)
-		if(worldQuestType == LE_QUEST_TAG_TYPE_PET_BATTLE) then
+		if(questInfo.worldQuestType == Enum.QuestTagType.PetBattle) then
 			self.Indicator:SetAtlas('WildBattlePetCapturable')
 			self.Indicator:Show()
-		elseif(worldQuestType == LE_QUEST_TAG_TYPE_PROFESSION) then
-			self.Indicator:SetAtlas(WORLD_QUEST_ICONS_BY_PROFESSION[professionID])
+		elseif(questInfo.worldQuestType == Enum.QuestTagType.Profession) then
+			self.Indicator:SetAtlas(WORLD_QUEST_ICONS_BY_PROFESSION[questInfo.tradeskillLineID])
 			self.Indicator:Show()
-		elseif(worldQuestType == LE_QUEST_TAG_TYPE_DUNGEON) then
+		elseif(questInfo.worldQuestType == Enum.QuestTagType.Dungeon) then
 			self.Indicator:SetAtlas('Dungeon')
 			self.Indicator:Show()
-		elseif(worldQuestType == LE_QUEST_TAG_TYPE_RAID) then
+		elseif(questInfo.worldQuestType == Enum.QuestTagType.Raid) then
 			self.Indicator:SetAtlas('Raid')
 			self.Indicator:Show()
-		elseif(worldQuestType == LE_QUEST_TAG_TYPE_INVASION) then
+		elseif(questInfo.worldQuestType == Enum.QuestTagType.Invasion) then
 			self.Indicator:SetAtlas('worldquest-icon-burninglegion')
 			self.Indicator:Show()
-		elseif(worldQuestType == LE_QUEST_TAG_TYPE_FACTION_ASSAULT) then
+		elseif(questInfo.worldQuestType == Enum.QuestTagType.FactionAssault) then
 			self.Indicator:SetAtlas(factionAssaultAtlasName)
 			self.Indicator:SetSize(38, 38)
 			self.Indicator:Show()
@@ -297,3 +282,79 @@ for provider in next, WorldMapFrame.dataProviders do
 		WorldMapFrame:RemoveDataProvider(provider)
 	end
 end
+
+-- 大使任务计数
+local WorldQuestBountyCount = CreateFrame("Frame")
+
+function WorldQuestBountyCount:OnLoad()
+	self.bountyCounterPool = CreateFramePool("FRAME", self, "BountyCounterTemplate")
+
+	-- Auto emisarry when clicking on one of the buttons
+	local bountyBoard = WorldMapFrame.overlayFrames[4]
+	self.bountyBoard = bountyBoard
+
+	hooksecurefunc(bountyBoard, "RefreshSelectedBounty", function()
+		self:UpdateBountyCounters()
+	end)
+
+	-- Slight offset the tabs to make room for the counters
+	hooksecurefunc(bountyBoard, "AnchorBountyTab", function(self, tab)
+		local point, relativeTo, relativePoint, x, y = tab:GetPoint(1);
+		tab:SetPoint(point, relativeTo, relativePoint, x, y + 2);
+	end)
+end
+
+function WorldQuestBountyCount:UpdateBountyCounters()
+	self.bountyCounterPool:ReleaseAll()
+
+	if (not self.bountyInfo) then
+		self.bountyInfo = {}
+	end
+
+	for tab, v in pairs(self.bountyBoard.bountyTabPool.activeObjects) do
+		self:AddBountyCountersToTab(tab)
+	end
+end
+
+function WorldQuestBountyCount:AddBountyCountersToTab(tab)
+	local bountyData = self.bountyBoard.bounties[tab.bountyIndex]
+
+	if (bountyData) then
+		local progress, goal = self.bountyBoard:CalculateBountySubObjectives(bountyData)
+
+		if (progress == goal) then return end
+
+		-- Counters
+		local offsetAngle = 32
+		local startAngle = 270
+
+		-- position of first counter
+		startAngle = startAngle - offsetAngle * (goal -1) /2
+
+		for i=1, goal do
+			local counter = self.bountyCounterPool:Acquire()
+
+			local x = cos(startAngle) * 16
+			local y = sin(startAngle) * 16
+			counter:SetPoint("CENTER", tab.Icon, "CENTER", x, y)
+			counter:SetParent(tab)
+			counter:Show()
+
+			-- Light nr of completed
+			if i <= progress then
+				counter.icon:SetTexCoord(0, 0.5, 0, 0.5)
+				counter.icon:SetVertexColor(1, 1, 1, 1)
+				counter.icon:SetDesaturated(false)
+			else
+				counter.icon:SetTexCoord(0, 0.5, 0, 0.5)
+				counter.icon:SetVertexColor(0.75, 0.75, 0.75, 1)
+				counter.icon:SetDesaturated(true)
+			end
+
+			-- Offset next counter
+			startAngle = startAngle + offsetAngle
+		end
+	end
+end
+
+WorldQuestBountyCount:OnLoad()

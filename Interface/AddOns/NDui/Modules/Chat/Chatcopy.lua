@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local module = B:GetModule("Chat")
+local Chat = B:GetModule("Chat")
 
 local _G = getfenv(0)
 local gsub, format, tconcat, tostring = string.gsub, string.format, table.concat, tostring
@@ -26,7 +26,7 @@ local function colorReplace(msg, r, g, b)
 	return msg
 end
 
-function module:GetChatLines()
+function Chat:GetChatLines()
 	local index = 1
 	for i = 1, self:GetNumMessages() do
 		local msg, r, g, b = self:GetMessageInfo(i)
@@ -41,7 +41,7 @@ function module:GetChatLines()
 	return index - 1
 end
 
-function module:ChatCopy_OnClick(btn)
+function Chat:ChatCopy_OnClick(btn)
 	if btn == "LeftButton" then
 		if not frame:IsShown() then
 			local chatframe = _G.SELECTED_DOCK_FRAME
@@ -49,7 +49,7 @@ function module:ChatCopy_OnClick(btn)
 			FCF_SetChatWindowFontSize(chatframe, chatframe, .01)
 			frame:Show()
 
-			local lineCt = module.GetChatLines(chatframe)
+			local lineCt = Chat.GetChatLines(chatframe)
 			local text = tconcat(lines, " \n", 1, lineCt)
 			FCF_SetChatWindowFontSize(chatframe, chatframe, fontSize)
 			editBox:SetText(text)
@@ -57,15 +57,19 @@ function module:ChatCopy_OnClick(btn)
 			frame:Hide()
 		end
 	elseif btn == "RightButton" then
-		B:TogglePanel(menu)
+		B.TogglePanel(menu)
 		C.db["Chat"]["ChatMenu"] = menu:IsShown()
 	end
 end
 
-function module:ChatCopy_CreateMenu()
+local function ResetChatAlertJustify(frame)
+	frame:SetJustification("LEFT")
+end
+
+function Chat:ChatCopy_CreateMenu()
 	menu = CreateFrame("Frame", nil, UIParent)
 	menu:SetSize(25, 100)
-	menu:SetPoint("TOPRIGHT", _G.ChatFrame1, 22, 0)
+	menu:SetPoint("TOPLEFT", _G.ChatFrame1, "TOPRIGHT")
 	menu:SetShown(C.db["Chat"]["ChatMenu"])
 
 	_G.ChatFrameMenuButton:ClearAllPoints()
@@ -77,22 +81,25 @@ function module:ChatCopy_CreateMenu()
 	_G.ChatFrameToggleVoiceDeafenButton:SetParent(menu)
 	_G.ChatFrameToggleVoiceMuteButton:SetParent(menu)
 	_G.QuickJoinToastButton:SetParent(menu)
+
 	_G.ChatAlertFrame:ClearAllPoints()
-	_G.ChatAlertFrame:SetPoint("BOTTOMLEFT", _G.ChatFrame1Tab, "TOPLEFT", 5, 25)
+	_G.ChatAlertFrame:SetPoint("BOTTOMLEFT", _G.ChatFrame1Tab, "TOPLEFT", 0, 20)
+	ResetChatAlertJustify(_G.ChatAlertFrame)
+	hooksecurefunc(_G.ChatAlertFrame, "SetChatButtonSide", ResetChatAlertJustify)
 end
 
-function module:ChatCopy_Create()
+function Chat:ChatCopy_Create()
 	frame = CreateFrame("Frame", "NDuiChatCopy", UIParent)
 	frame:SetPoint("CENTER")
 	frame:SetSize(700, 400)
 	frame:Hide()
 	frame:SetFrameStrata("DIALOG")
+	B.CreateBG(frame)
 	B.CreateMF(frame)
-	B.SetBD(frame)
 	frame.close = CreateFrame("Button", nil, frame, "UIPanelCloseButton")
 	frame.close:SetPoint("TOPRIGHT", frame)
 
-	local scrollArea = CreateFrame("ScrollFrame", "ChatCopyScrollFrame", frame, "UIPanelScrollFrameTemplate, BackdropTemplate")
+	local scrollArea = CreateFrame("ScrollFrame", "ChatCopyScrollFrame", frame, "UIPanelScrollFrameTemplate")
 	scrollArea:SetPoint("TOPLEFT", 10, -30)
 	scrollArea:SetPoint("BOTTOMRIGHT", -28, 10)
 
@@ -119,7 +126,7 @@ function module:ChatCopy_Create()
 	end)
 
 	local copy = CreateFrame("Button", nil, UIParent)
-	copy:SetPoint("BOTTOMRIGHT", _G.ChatFrame1, 22, 0)
+	copy:SetPoint("BOTTOMLEFT", _G.ChatFrame1, "BOTTOMRIGHT")
 	copy:SetSize(20, 20)
 	copy:SetAlpha(.5)
 	copy.Icon = copy:CreateTexture(nil, "ARTWORK")
@@ -136,7 +143,7 @@ function module:ChatCopy_Create()
 	B.ReskinScroll(ChatCopyScrollFrameScrollBar)
 end
 
-function module:ChatCopy()
+function Chat:ChatCopy()
 	self:ChatCopy_CreateMenu()
 	self:ChatCopy_Create()
 end

@@ -33,8 +33,8 @@ local NPClinkOribos = CreateFrame("GameTooltip", "NPClinkOribos", UIParent, "Gam
 local function GetCreatureNamebyID(id)
 	NPClinkOribos:SetOwner(UIParent, "ANCHOR_NONE")
 	NPClinkOribos:SetHyperlink(("unit:Creature-0-0-0-0-%d"):format(id))
-	name     = _G["NPClinkOribosTextLeft1"]:GetText()
-    sublabel = _G["NPClinkOribosTextLeft2"]:GetText()
+    local name      = _G["NPClinkOribosTextLeft1"]:GetText()
+    local sublabel  = _G["NPClinkOribosTextLeft2"]:GetText()
     return name, sublabel
 end
 
@@ -69,8 +69,8 @@ local function SetIcon(point)
     local icon_key
 
     for i, k in ipairs({
-        "auctioneer", "anvil", "banker", "barber", "innkeeper", "mail", "portal",
-        "reforge", "stablemaster", "trainer", "transmogrifier", "tpplatform", "vendor", "void"
+        "auctioneer", "anvil", "banker", "barber", "innkeeper", "mail", "portal", "reforge", "stablemaster", "trainer",
+        "portaltrainer", "transmogrifier", "tpplatform", "vendor", "void", "kyrian", "necrolord", "nightfae", "venthyr"
     }) do
         if point[k] then icon_key = k end
     end
@@ -309,19 +309,21 @@ local currentMapID = nil
         if (point.profession and (not addon:CharacterHasProfession(point.profession) and HasTwoProfessions()) and private.db.show_onlymytrainers and not point.auctioneer) then
             return false
         end
-        if (point.auctioneer and (not addon:CharacterHasProfession(point.profession) or not private.db.show_auctioneer)) then return false; end
-        if (point.banker and not private.db.show_banker) then return false; end
-        if (point.barber and not private.db.show_barber) then return false; end
-        if (point.innkeeper and not private.db.show_innkeeper) then return false; end
-        if (point.mail and not private.db.show_mail) then return false; end
-        if (point.portal and (not private.db.show_portal or IsAddOnLoaded("HandyNotes_TravelGuide"))) then return false; end
-        if (point.tpplatform and (not private.db.show_tpplatform or IsAddOnLoaded("HandyNotes_TravelGuide"))) then return false; end
-        if (point.reforge and not private.db.show_reforge) then return false; end
-        if (point.stablemaster and not private.db.show_stablemaster) then return false; end
-        if (point.trainer and not private.db.show_trainer) then return false; end
-        if (point.transmogrifier and not private.db.show_transmogrifier) then return false; end
-        if ((point.vendor or point.anvil) and not private.db.show_vendor) then return false; end
-        if (point.void and not private.db.show_void) then return false; end
+        if (point.auctioneer and (not addon:CharacterHasProfession(point.profession) or not private.db.show_auctioneer)) then return false end
+        if (point.banker and not private.db.show_banker) then return false end
+        if (point.barber and not private.db.show_barber) then return false end
+        if (point.innkeeper and not private.db.show_innkeeper) then return false end
+        if (point.mail and not private.db.show_mail) then return false end
+        if (point.portal and (not private.db.show_portal or IsAddOnLoaded("HandyNotes_TravelGuide"))) then return false end
+        if (point.tpplatform and (not private.db.show_tpplatform or IsAddOnLoaded("HandyNotes_TravelGuide"))) then return false end
+        if (point.reforge and not private.db.show_reforge) then return false end
+        if (point.stablemaster and not private.db.show_stablemaster) then return false end
+        if (point.trainer and not private.db.show_trainer) then return false end
+        if (point.portaltrainer and not private.db.show_others) then return false end
+        if (point.transmogrifier and not private.db.show_transmogrifier) then return false end
+        if ((point.vendor or point.anvil) and not private.db.show_vendor) then return false end
+        if (point.void and not private.db.show_void) then return false end
+        if ((point.kyrian or point.necrolord or point.nightfae or point.venthyr) and not private.db.show_others) then return false end
     end
         return true
     end
@@ -365,6 +367,12 @@ function events:ZONE_CHANGED(...)
 
     if private.global.dev and private.db.show_prints then
         print("Oribos: refreshed after ZONE_CHANGED")
+        print("MapID: "..C_Map.GetBestMapForUnit("player"))
+    end
+
+    if C_Map.GetBestMapForUnit("player") == (1671 or 1543) then
+        C_Map.ClearUserWaypoint()
+        TomTom:RemoveWaypoint(TomTom:AddWaypoint(1671, 61.91/100, 68.78/100, {title = GetCreatureNamebyID(162666)}))
     end
 end
 
@@ -373,6 +381,23 @@ function events:ZONE_CHANGED_INDOORS(...)
 
     if private.global.dev and private.db.show_prints then
         print("Oribos: refreshed after ZONE_CHANGED_INDOORS")
+    end
+
+    -- Set automatically a waypoint (Blizzard, TomTom or both) to the flightmaster.
+    if private.db.fmaster_waypoint and C_Map.GetBestMapForUnit("player") == 1671 then
+        if IsAddOnLoaded("TomTom") and private.db.fmaster_waypoint_dropdown == 2 then
+            TomTom:AddWaypoint(1671, 61.91/100, 68.78/100, {title = GetCreatureNamebyID(162666)})
+        elseif IsAddOnLoaded("TomTom") and private.db.fmaster_waypoint_dropdown == 3 then
+            C_Map.SetUserWaypoint(UiMapPoint.CreateFromCoordinates(1550, 47.02/100, 51.16/100))
+            C_SuperTrack.SetSuperTrackedUserWaypoint(true)
+            TomTom:AddWaypoint(1671, 61.91/100, 68.78/100, {title = GetCreatureNamebyID(162666)})
+        else
+            C_Map.SetUserWaypoint(UiMapPoint.CreateFromCoordinates(1550, 47.02/100, 51.16/100))
+            C_SuperTrack.SetSuperTrackedUserWaypoint(true)
+        end
+    elseif C_Map.GetBestMapForUnit("player") == 1670 then
+        C_Map.ClearUserWaypoint()
+        TomTom:RemoveWaypoint(TomTom:AddWaypoint(1671, 61.91/100, 68.78/100, {title = GetCreatureNamebyID(162666)}))
     end
 end
 

@@ -25,11 +25,11 @@ A default texture will be applied if the widget is a StatusBar and doesn't have 
 The following options are listed by priority. The first check that returns true decides the color of the bar.
 
 .colorPower  - Use `self.colors.power[token]` to color the bar based on the player's additional power type
-               (boolean)
+			   (boolean)
 .colorClass  - Use `self.colors.class[class]` to color the bar based on unit class. `class` is defined by the
-               second return of [UnitClass](http://wowprogramming.com/docs/api/UnitClass.html) (boolean)
+			   second return of [UnitClass](http://wowprogramming.com/docs/api/UnitClass.html) (boolean)
 .colorSmooth - Use `self.colors.smooth` to color the bar with a smooth gradient based on the player's current
-               additional power percentage (boolean)
+			   additional power percentage (boolean)
 
 ## Sub-Widget Options
 
@@ -37,21 +37,21 @@ The following options are listed by priority. The first check that returns true 
 
 ## Examples
 
-    -- Position and size
-    local AdditionalPower = CreateFrame('StatusBar', nil, self)
-    AdditionalPower:SetSize(20, 20)
-    AdditionalPower:SetPoint('TOP')
-    AdditionalPower:SetPoint('LEFT')
-    AdditionalPower:SetPoint('RIGHT')
+	-- Position and size
+	local AdditionalPower = CreateFrame('StatusBar', nil, self)
+	AdditionalPower:SetSize(20, 20)
+	AdditionalPower:SetPoint('TOP')
+	AdditionalPower:SetPoint('LEFT')
+	AdditionalPower:SetPoint('RIGHT')
 
-    -- Add a background
-    local Background = AdditionalPower:CreateTexture(nil, 'BACKGROUND')
-    Background:SetAllPoints(AdditionalPower)
-    Background:SetTexture(1, 1, 1, .5)
+	-- Add a background
+	local Background = AdditionalPower:CreateTexture(nil, 'BACKGROUND')
+	Background:SetAllPoints(AdditionalPower)
+	Background:SetTexture(1, 1, 1, .5)
 
-    -- Register it with oUF
-    AdditionalPower.bg = Background
-    self.AdditionalPower = AdditionalPower
+	-- Register it with oUF
+	AdditionalPower.bg = Background
+	self.AdditionalPower = AdditionalPower
 --]]
 
 local _, ns = ...
@@ -65,11 +65,11 @@ local ADDITIONAL_POWER_BAR_INDEX = ADDITIONAL_POWER_BAR_INDEX or 0
 local ALT_MANA_BAR_PAIR_DISPLAY_INFO = ALT_MANA_BAR_PAIR_DISPLAY_INFO
 
 local function UpdateColor(self, event, unit, powerType)
-	if(not (unit and UnitIsUnit(unit, 'player') and powerType == ADDITIONAL_POWER_BAR_NAME)) then return end
+	if (not (unit and UnitIsUnit(unit, 'player') and powerType == ADDITIONAL_POWER_BAR_NAME)) then return end
 	local element = self.AdditionalPower
 
 	local r, g, b, t
-	if(element.colorPower) then
+	if (element.colorPower) then
 		t = self.colors.power[ADDITIONAL_POWER_BAR_INDEX]
 	elseif(element.colorClass) then
 		t = self.colors.class[playerClass]
@@ -77,15 +77,15 @@ local function UpdateColor(self, event, unit, powerType)
 		r, g, b = self:ColorGradient(element.cur or 1, element.max or 1, unpack(element.smoothGradient or self.colors.smooth))
 	end
 
-	if(t) then
+	if (t) then
 		r, g, b = t[1], t[2], t[3]
 	end
 
-	if(b) then
+	if (b) then
 		element:SetStatusBarColor(r, g, b)
 
 		local bg = element.bg
-		if(bg) then
+		if (bg) then
 			local mu = bg.multiplier or 1
 			bg:SetVertexColor(r * mu, g * mu, b * mu)
 		end
@@ -99,13 +99,13 @@ local function UpdateColor(self, event, unit, powerType)
 	* g    - the green component of the used color (number)[0-1]
 	* b    - the blue component of the used color (number)[0-1]
 	--]]
-	if(element.PostUpdateColor) then
+	if (element.PostUpdateColor) then
 		element:PostUpdateColor(r, g, b)
 	end
 end
 
 local function Update(self, event, unit, powerType)
-	if(not (unit and UnitIsUnit(unit, 'player') and powerType == ADDITIONAL_POWER_BAR_NAME)) then return end
+	if (not (unit and UnitIsUnit(unit, 'player') and powerType == ADDITIONAL_POWER_BAR_NAME)) then return end
 	local element = self.AdditionalPower
 
 	--[[ Callback: AdditionalPower:PreUpdate(unit)
@@ -114,7 +114,7 @@ local function Update(self, event, unit, powerType)
 	* self - the AdditionalPower element
 	* unit - the unit for which the update has been triggered (string)
 	--]]
-	if(element.PreUpdate) then
+	if (element.PreUpdate) then
 		element:PreUpdate(unit)
 	end
 
@@ -132,7 +132,7 @@ local function Update(self, event, unit, powerType)
 	* cur  - the current value of the player's additional power (number)
 	* max  - the maximum value of the player's additional power (number)
 	--]]
-	if(element.PostUpdate) then
+	if (element.PostUpdate) then
 		return element:PostUpdate(cur, max)
 	end
 end
@@ -162,7 +162,7 @@ end
 local function ElementEnable(self)
 	local element = self.AdditionalPower
 
-	if(element.frequentUpdates) then
+	if (element.frequentUpdates) then
 		self:RegisterEvent('UNIT_POWER_FREQUENT', Path)
 	else
 		self:RegisterEvent('UNIT_POWER_UPDATE', Path)
@@ -193,9 +193,9 @@ local function Visibility(self, event, unit)
 	local element = self.AdditionalPower
 	local shouldEnable
 
-	if(not UnitHasVehicleUI('player')) then
-		if(UnitPowerMax(unit, ADDITIONAL_POWER_BAR_INDEX) ~= 0) then
-			if(element.displayPairs[playerClass]) then
+	if (not UnitHasVehicleUI('player')) then
+		if (UnitPowerMax(unit, ADDITIONAL_POWER_BAR_INDEX) ~= 0) then
+			if (element.displayPairs[playerClass]) then
 				local powerType = UnitPowerType(unit)
 				shouldEnable = element.displayPairs[playerClass][powerType]
 			end
@@ -204,7 +204,7 @@ local function Visibility(self, event, unit)
 
 	local isEnabled = element.__isEnabled
 
-	if(shouldEnable and not isEnabled) then
+	if (shouldEnable and not isEnabled) then
 		ElementEnable(self)
 
 		--[[ Callback: AdditionalPower:PostVisibility(isVisible)
@@ -213,13 +213,13 @@ local function Visibility(self, event, unit)
 		* self      - the AdditionalPower element
 		* isVisible - the current visibility state of the element (boolean)
 		--]]
-		if(element.PostVisibility) then
+		if (element.PostVisibility) then
 			element:PostVisibility(true)
 		end
 	elseif(not shouldEnable and (isEnabled or isEnabled == nil)) then
 		ElementDisable(self)
 
-		if(element.PostVisibility) then
+		if (element.PostVisibility) then
 			element:PostVisibility(false)
 		end
 	elseif(shouldEnable and isEnabled) then
@@ -250,9 +250,9 @@ Used to toggle frequent updates.
 * isForced - forces the event update even if the state wasn't changed (boolean)
 --]]
 local function SetFrequentUpdates(element, state, isForced)
-	if(element.frequentUpdates ~= state or isForced) then
+	if (element.frequentUpdates ~= state or isForced) then
 		element.frequentUpdates = state
-		if(state) then
+		if (state) then
 			element.__owner:UnregisterEvent('UNIT_POWER_UPDATE', Path)
 			element.__owner:RegisterEvent('UNIT_POWER_FREQUENT', Path)
 		else
@@ -264,18 +264,18 @@ end
 
 local function Enable(self, unit)
 	local element = self.AdditionalPower
-	if(element and UnitIsUnit(unit, 'player')) then
+	if (element and UnitIsUnit(unit, 'player')) then
 		element.__owner = self
 		element.ForceUpdate = ForceUpdate
 		element.SetFrequentUpdates = SetFrequentUpdates
 
 		self:RegisterEvent('UNIT_DISPLAYPOWER', VisibilityPath)
 
-		if(not element.displayPairs) then
+		if (not element.displayPairs) then
 			element.displayPairs = CopyTable(ALT_MANA_BAR_PAIR_DISPLAY_INFO)
 		end
 
-		if(element:IsObjectType('StatusBar') and not (element:GetStatusBarTexture() or element:GetStatusBarAtlas())) then
+		if (element:IsObjectType('StatusBar') and not (element:GetStatusBarTexture() or element:GetStatusBarAtlas())) then
 			element:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar]])
 		end
 
@@ -285,7 +285,7 @@ end
 
 local function Disable(self)
 	local element = self.AdditionalPower
-	if(element) then
+	if (element) then
 		ElementDisable(self)
 
 		self:UnregisterEvent('UNIT_DISPLAYPOWER', VisibilityPath)

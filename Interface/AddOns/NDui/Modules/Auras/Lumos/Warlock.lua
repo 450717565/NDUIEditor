@@ -1,10 +1,10 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local A = B:GetModule("Auras")
+local Auras = B:GetModule("Auras")
 
 if DB.MyClass ~= "WARLOCK" then return end
 
-function A:PostCreateLumos(self)
+function Auras:PostCreateLumos(self)
 	local frame = CreateFrame("Frame")
 	frame:SetScript("OnUpdate", function()
 		if not self.dotExp then return end
@@ -20,31 +20,31 @@ function A:PostCreateLumos(self)
 	self.dotUpdater = frame
 end
 
-function A:PostUpdateVisibility(self)
+function Auras:PostUpdateVisibility(self)
 	if self.dotUpdater then self.dotUpdater:Hide() end
 end
 
 local function GetUnitAura(unit, spell, filter)
-	return A:GetUnitAura(unit, spell, filter)
+	return Auras:GetUnitAura(unit, spell, filter)
 end
 
 local function UpdateCooldown(button, spellID, texture)
-	return A:UpdateCooldown(button, spellID, texture)
+	return Auras:UpdateCooldown(button, spellID, texture)
 end
 
 local function UpdateBuff(button, spellID, auraID, cooldown, glow)
-	return A:UpdateAura(button, "player", auraID, "HELPFUL", spellID, cooldown, glow)
+	return Auras:UpdateAura(button, "player", auraID, "HELPFUL", spellID, cooldown, glow)
 end
 
 local function UpdateDebuff(button, spellID, auraID, cooldown, glow)
-	return A:UpdateAura(button, "target", auraID, "HARMFUL", spellID, cooldown, glow)
+	return Auras:UpdateAura(button, "target", auraID, "HARMFUL", spellID, cooldown, glow)
 end
 
 local function UpdateTotemAura(button, texture, spellID)
-	return A:UpdateTotemAura(button, texture, spellID, true)
+	return Auras:UpdateTotemAura(button, texture, spellID, true)
 end
 
-function A:ChantLumos(self)
+function Auras:ChantLumos(self)
 	local spec = GetSpecialization()
 	if spec == 1 then
 		UpdateDebuff(self.lumos[1], 172, 146739, false, "END")
@@ -61,7 +61,7 @@ function A:ChantLumos(self)
 				button.CD:Show()
 				button.Icon:SetDesaturated(false)
 				button.expire = expire
-				button:SetScript("OnUpdate", A.GlowOnEnd)
+				button:SetScript("OnUpdate", Auras.GlowOnEnd)
 			else
 				button.CD:Hide()
 				button.Icon:SetDesaturated(true)

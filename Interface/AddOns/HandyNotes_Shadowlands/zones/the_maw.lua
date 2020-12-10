@@ -12,9 +12,14 @@ local Rare = ns.node.Rare
 
 local Achievement = ns.reward.Achievement
 local Item = ns.reward.Item
+local Pet = ns.reward.Pet
 local Quest = ns.reward.Quest
+local Section = ns.reward.Section
 local Toy = ns.reward.Toy
+local Transmog = ns.reward.Transmog
 
+local Arrow = ns.poi.Arrow
+local Line = ns.poi.Line
 local Path = ns.poi.Path
 local POI = ns.poi.POI
 
@@ -54,6 +59,8 @@ map.nodes[80306280] = map.intro
 ------------------------------------ RARES ------------------------------------
 -------------------------------------------------------------------------------
 
+-- TODO: Add Fallen Adventurer's Cache rewards?
+
 map.nodes[25923116] = Rare({
     id=157964,
     quest=57482,
@@ -69,7 +76,8 @@ map.nodes[19324172] = Rare({
     note=L["apholeias_note"],
     rewards={
         Achievement({id=14744, criteria=49842}),
-        Item({item=182327}) -- Dominion Etching Loss 182327
+        Item({item=184106, note=L["ring"]}), -- Gimble
+        Item({item=182327}) -- Dominion Etching: Loss
     }
 }) -- Apholeias, Herald of Loss
 
@@ -78,6 +86,7 @@ map.nodes[39014119] = Rare({
     quest=57469,
     rewards={
         Achievement({id=14744, criteria=49843}),
+        Toy({item=184312}) -- Borr-Geth's Fiery Brimstone
     }
 }) -- Borr-Geth
 
@@ -86,6 +95,7 @@ map.nodes[27731305] = Rare({
     quest=61106,
     rewards={
         Achievement({id=14744, criteria=49844}),
+        Transmog({item=183887, slot=L["1h_sword"]}) -- Suirhtaned, Blade of the Heir
     }
 }) -- Conjured Death
 
@@ -106,7 +116,7 @@ map.nodes[49128175] = Rare({
     }
 }) -- Darklord Taraxis
 
-map.nodes[32946646] = Rare({
+map.nodes[28086058] = Rare({
     id=170711,
     quest=60909,
     rewards={
@@ -128,6 +138,7 @@ map.nodes[42342108] = Rare({
     note=L["ekphoras_note"],
     rewards={
         Achievement({id=14744, criteria=49849}),
+        Item({item=184105, note=L["ring"]}), -- Gyre
         Item({item=182328}) -- Dominion Etching: Grief
     }
 }) -- Ekphoras, Herald of Grief
@@ -137,6 +148,7 @@ map.nodes[19194608] = Rare({ -- was 27584966
     quest=57509,
     rewards={
         Achievement({id=14744, criteria=49850}),
+        Pet({item=183407, id=3037}) -- Contained Essence of Dread
     }
 }) -- Eternas the Tormentor
 
@@ -146,12 +158,13 @@ map.nodes[20586935] = Rare({
     note=L["exos_note"],
     rewards={
         Achievement({id=14744, criteria=49851}),
+        Item({item=184108, note=L["neck"]}) -- Vorpal Amulet
     }
 }) -- Exos, Herald of Domination
 
 map.nodes[30775000] = Rare({
     id=175012,
-    quest=nil,
+    quest=62788,
     note=L["ikras_note"],
     rewards={
         Achievement({id=14744, criteria=50621}),
@@ -163,6 +176,7 @@ map.nodes[16945102] = Rare({
     quest=60987,
     rewards={
         Achievement({id=14744, criteria=49852}),
+        Toy({item=184292}) -- Ancient Elethium Coin
     }
 }) -- Morguliax <Lord of Decapitation>
 
@@ -196,11 +210,14 @@ map.nodes[23692139] = Rare({
     }
 }) -- Orophea
 
-map.nodes[30726036] = Rare({
+map.nodes[32946646] = Rare({
     id=170634,
     quest=60884,
     rewards={
         Achievement({id=14744, criteria=49856}),
+        -- Item({item=183066, quest=63160}), -- Korrath's Grimoire: Aleketh
+        -- Item({item=183067, quest=63161}), -- Korrath's Grimoire: Belidir
+        -- Item({item=183068, quest=63162}) -- Korrath's Grimoire: Gyadrek
     }
 }) -- Shadeweaver Zeris
 
@@ -218,6 +235,7 @@ map.nodes[28701204] = Rare({
     note=L["talaporas_note"],
     rewards={
         Achievement({id=14744, criteria=49858}),
+        Transmog({item=184107, slot=L["cloak"]}), -- Borogove Cloak
         Item({item=182326}) -- Dominion Etching: Pain
     }
 }) -- Talaporas, Herald of Pain
@@ -233,7 +251,7 @@ map.nodes[27397152] = Rare({
 -- map.nodes[] = Rare({
 --     id=165973,
 --     quest=61124,
--- }) -- Warren Mongrel
+-- }) -- Gorged Shadehound
 
 map.nodes[37676591] = Rare({
     id=172862,
@@ -255,7 +273,7 @@ map.nodes[37676591] = Rare({
 -------------------------------------------------------------------------------
 
 local BonusBoss = Class('BonusBoss', NPC, {
-    icon = 'peg_wr',
+    icon = 'peg_rd',
     scale = 1.8,
     group = ns.groups.BONUS_BOSS
 })
@@ -263,16 +281,12 @@ local BonusBoss = Class('BonusBoss', NPC, {
 map.nodes[28204450] = BonusBoss({
     id=169102,
     quest=61136, -- 63380
-    note=L["in_cave"],
     rewards={
         Achievement({id=14660, criteria=49485}),
-    },
-    pois={
-        POI({20813927}) -- Cave entrance
     }
 }) -- Agonix
 
-map.nodes[26075498] = BonusBoss({
+map.nodes[34087453] = BonusBoss({
     id=170787,
     quest=60920,
     rewards={
@@ -285,6 +299,7 @@ map.nodes[28712513] = BonusBoss({
     quest=61346,
     rewards={
         Achievement({id=14660, criteria=49484}),
+        Item({item=183070, quest=63164}) -- Mawsworn Orders
     }
 }) -- Cyrixia <The Willbreaker>
 
@@ -301,12 +316,16 @@ map.nodes[19205740] = BonusBoss({
     quest=61140,
     rewards={
         Achievement({id=14660, criteria=50410}),
+        Item({item=183066, quest=63160}), -- Korrath's Grimoire: Aleketh
+        Item({item=183067, quest=63161}), -- Korrath's Grimoire: Belidir
+        Item({item=183068, quest=63162}) -- Korrath's Grimoire: Gyadrek
     }
 }) -- Dath Rezara <Lord of Blades>
 
 map.nodes[31982122] = BonusBoss({
     id=158314,
     quest=59183,
+    note=L["drifting_sorrow_note"],
     rewards={
         Achievement({id=14660, criteria=49475}),
     }
@@ -319,6 +338,14 @@ map.nodes[60456478] = BonusBoss({
         Achievement({id=14660, criteria=49490}),
     }
 }) -- Houndmaster Vasanok
+
+map.nodes[20782968] = BonusBoss({
+    id=162965,
+    quest=58918,
+    rewards={
+        Achievement({id=14660, criteria=49481}),
+    }
+}) -- Huwerath
 
 map.nodes[30846866] = BonusBoss({
     id=170692,
@@ -366,7 +393,7 @@ map.nodes[22674223] = BonusBoss({
 
 map.nodes[26173744] = BonusBoss({
     id=162829,
-    quest=62228,
+    quest=60992,
     rewards={
         Achievement({id=14660, criteria=49479}),
     }
@@ -395,14 +422,6 @@ map.nodes[61737795] = BonusBoss({
         POI({59268001}) -- Cave entrance
     }
 }) -- Skittering Broodmother
-
-map.nodes[20782968] = BonusBoss({
-    id=162965,
-    quest=58918,
-    rewards={
-        Achievement({id=14660, criteria=49481}),
-    }
-}) -- Sorath the Sated
 
 map.nodes[36253744] = BonusBoss({
     id=165047,
@@ -434,7 +453,7 @@ map.nodes[40705959] = BonusBoss({
 -------------------------------------------------------------------------------
 
 local BonusEvent = Class('BonusEvent', ns.node.Quest, {
-    icon = 'peg_wy',
+    icon = 'peg_yw',
     scale = 1.8,
     group = ns.groups.BONUS_EVENT,
     note = ''
@@ -445,72 +464,112 @@ local SOUL_WELL = BonusEvent({ quest=59007, note=L["soul_well_note"] })
 map.nodes[21573436] = SOUL_WELL
 map.nodes[30394255] = SOUL_WELL
 map.nodes[32401771] = SOUL_WELL
-map.nodes[27446463] = BonusEvent({ quest=59784, note=L["obliterated_soul_shards_note"] })
+-- map.nodes[27446463] = BonusEvent({ quest=59784, note=L["obliterated_soul_shards_note"] })
 
 -------------------------------------------------------------------------------
 ------------------------------ CHAOTIC RIFTSTONES -----------------------------
 -------------------------------------------------------------------------------
 
 local Riftstone = Class('Riftstone', ns.node.NPC, {
-    id = 174962,
-    scale = 1.3,
-    group = ns.groups.RIFTSTONE,
-    requires = ns.requirement.Venari(63177),
-    note = L["chaotic_riftstone_note"]
+    id=174962,
+    scale=1.3,
+    group=ns.groups.RIFTSTONE,
+    requires=ns.requirement.Venari(63177),
+    note=L["chaotic_riftstone_note"]
 })
 
 -------------------------------------------------------------------------------
 
 map.nodes[19184778] = Riftstone({
     icon='portal_r',
-    pois = {
-        Path({
-            19184778, 19514836, 20374847, 20814712, 21054574, 21284422,
-            21474288, 21674130, 21883962, 22093797, 22283651, 22523492,
-            22793322, 23023168, 23163023, 23072884, 22642774, 22172670,
-            22192555, 22632442, 23262330, 23952216, 24552100, 25181974,
-            25751848, 25211784
-        })
-    }
+    fgroup='riftstone1',
+    pois={Line({19184778, 25211784})}
 })
 
 map.nodes[25211784] = Riftstone({
     icon='portal_r',
-    pois = {
-        Path({
-            25211784, 25591838, 25521963, 25232106, 24772195, 24222297,
-            23772402, 23292515, 22812643, 22382788, 22102923, 21873072,
-            21663233, 21473393, 21303536, 21113691, 20943838, 20793981,
-            20644130, 20494291, 20364444, 20214618, 20074764, 19654902,
-            19184778
-        })
-    }
+    fgroup='riftstone1'
 })
 
 -------------------------------------------------------------------------------
 
 map.nodes[23433121] = Riftstone({
     icon='portal_b',
-    pois = {
-        Path({
-            23433121, 22863048, 22972907, 23842859, 24742908, 25642985,
-            26473071, 27183160, 27983266, 28793372, 29643479, 30453580,
-            31263682, 32143793, 32983903, 33724011, 34214141, 34804362
-        })
-    }
+    fgroup='riftstone2',
+    pois={Line({23433121, 34804362})}
 })
 
 map.nodes[34804362] = Riftstone({
     icon='portal_b',
-    pois = {
-        Path({
-            34804362, 34734255, 34514116, 34083976, 33683863, 33063734,
-            32353625, 31483515, 30653419, 29733318, 28853225, 28063145,
-            27193061, 26212974, 25282901, 24352838, 23382834, 22742938,
-            22693066, 23433121
-        })
+    fgroup='riftstone2'
+})
+
+-------------------------------------------------------------------------------
+
+map.nodes[48284145] = NPC({
+    group=ns.groups.RIFTSTONE,
+    icon='portal_b',
+    id=172925,
+    minimap=false,
+    note=L["animaflow_teleporter_note"],
+    requires=ns.requirement.Venari(61600),
+    scale=1.3,
+    pois={Arrow({48284145, 34181473})}
+})
+
+-------------------------------------------------------------------------------
+---------------------------------- GRAPPLES -----------------------------------
+-------------------------------------------------------------------------------
+
+local GRAPPLES = {
+    17574994, 20753838, 20764394, 21553194, 22014819, 22174389, 22475485,
+    22534798, 22942220, 22956723, 23034411, 23076836, 23676572, 24542916,
+    24833046, 24866552, 25456554, 25633108, 26116811, 26132722, 26306726,
+    26342905, 26541861, 26952753, 27202506, 27362593, 27896168, 28161347,
+    28634916, 29561776, 29661285, 29863694, 29951784, 30033617, 30132835,
+    30582337, 30591312, 30756551, 30942597, 31221584, 31316530, 31351499,
+    31655664, 32056840, 32194490, 32426772, 32674369, 32904238, 33102066,
+    33286365, 33295928, 33374532, 33584024, 33767056, 34074701, 34237005,
+    34463889, 34624440, 35006680, 36244139, 36264642, 37844512, 40334904,
+    41184945, 41304785, 42264174
+}
+
+for _, coord in ipairs(GRAPPLES) do
+    map.nodes[coord] = NPC({
+        group=ns.groups.GRAPPLES,
+        icon='peg_bk',
+        id=176308,
+        requires=ns.requirement.Venari(63217),
+        scale=1.25,
+    })
+end
+
+-------------------------------------------------------------------------------
+------------------------------- STYGIAN CACHES --------------------------------
+-------------------------------------------------------------------------------
+
+local Cache = Class('Cache', ns.node.Node, {
+    group=ns.groups.STYGIAN_CACHES,
+    icon='chest_nv',
+    label=L["stygian_cache"],
+    note=L["stygian_cache_note"],
+    scale=1.3,
+    rewards={
+        ns.reward.Currency({id=1767, note='48'})
     }
 })
+
+map.nodes[15705040] = Cache()
+map.nodes[19604460] = Cache()
+map.nodes[19805500] = Cache()
+map.nodes[24301660] = Cache()
+map.nodes[28402560] = Cache()
+map.nodes[29621283] = Cache()
+map.nodes[35201630] = Cache()
+map.nodes[35902360] = Cache()
+map.nodes[39802510] = Cache()
+map.nodes[44201870] = Cache()
+map.nodes[45204740] = Cache()
 
 -------------------------------------------------------------------------------
 ----------------------------------- VE'NARI -----------------------------------
@@ -521,32 +580,23 @@ map.nodes[46914169] = NPC({
     icon=3527519,
     note=L["venari_note"],
     rewards={
-        Achievement({id=14895, criteria={
-            51251, -- Vessel of Unforunate Spirits
-            51253, -- Extradimensional Pockets
-            51255, -- Encased Riftwalker Essence
-            51254, -- Animated Levitating Chain
-            51258, -- Animaflow Stabilizer
-            51256, -- Soul-Stabilizing Salve
-            51252, -- Ritual Prism of Fortune
-            51248, -- Bangle of Seniority
-            51257, -- Talisman of Destined Defiance
-            51249, -- Rank Insignia: Acquisitionist
-            51464, -- Possibility Matrix
-            51250, -- Loupe of Unusual Charm
-        }}), -- 'Ghast Five
-
-        -- Item({item=184620, quest=63202, note=L["Apprehensive"]}), -- Vessel of Unforunate Spirits
-        -- Item({item=184615, quest=63183, note=L["Apprehensive"]}), -- Extradimensional Pockets
-        -- Item({item=184613, quest=63177, note=L["Apprehensive"]}), -- Encased Riftwalker Essence
-        -- Item({item=184653, quest=nil, note=L["Tentative"]}), -- Animated Levitating Chain
-        -- Item({item=180949, quest=nil, note=L["Tentative"]}), -- Animaflow Stabilizer
-        -- Item({item=184617, quest=nil, note=L["Tentative"]}), -- Bangle of Seniority
-        -- Item({item=184605, quest=nil, note=L["Tentative"]}), -- Sigil of the Unseen
-        -- Item({item=184588, quest=nil, note=L["Ambivalent"]}), -- Soul-Stabilizing Salve
-        -- Item({item=184621, quest=nil, note=L["Ambivalent"]}), -- Ritual Prism of Fortune
-        -- Item({item=184618, quest=nil, note=L["Cordial"]}), -- Rank Insignia: Acquisitionist
-        -- Item({item=184619, quest=nil, note=L["Cordial"]}), -- Loupe of Unusual Charm
-        -- Item({item=180952, quest=nil, note=L["Appreciative"]}), -- Possibility Matrix
+        Achievement({id=14895, oneline=true}), -- 'Ghast Five
+        Section(C_Map.GetMapInfo(1543).name),
+        ns.reward.Spacer(),
+        Item({item=184613, quest=63177, note=L["Apprehensive"]}), -- Encased Riftwalker Essence
+        Item({item=184653, quest=63217, note=L["Tentative"]}), -- Animated Levitating Chain
+        Item({item=180949, quest=61600, note=L["Tentative"]}), -- Animaflow Stabilizer
+        Item({item=184605, quest=63092, note=L["Tentative"]}), -- Sigil of the Unseen
+        Item({item=184588, quest=nil, note=L["Ambivalent"]}), -- Soul-Stabilizing Salve
+        ns.reward.Spacer(),
+        Section(L["torghast"]),
+        ns.reward.Spacer(),
+        Item({item=184620, quest=63202, note=L["Apprehensive"]}), -- Vessel of Unforunate Spirits
+        Item({item=184615, quest=63183, note=L["Apprehensive"]}), -- Extradimensional Pockets
+        Item({item=184617, quest=63193, note=L["Tentative"]}), -- Bangle of Seniority
+        Item({item=184621, quest=nil, note=L["Ambivalent"]}), -- Ritual Prism of Fortune
+        Item({item=184618, quest=nil, note=L["Cordial"]}), -- Rank Insignia: Acquisitionist
+        Item({item=184619, quest=nil, note=L["Cordial"]}), -- Loupe of Unusual Charm
+        Item({item=180952, quest=nil, note=L["Appreciative"]}), -- Possibility Matrix
     }
 })

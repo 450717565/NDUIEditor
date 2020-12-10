@@ -60,6 +60,7 @@ Mod.SortOrder = SORT_ORDER
 local FACTION_ORDER_HORDE = { 2157, 2164, 2156, 2158, 2103, 2163 }
 local FACTION_ORDER_ALLIANCE = { 2159, 2164, 2160, 2161, 2162, 2163 }
 local FACTION_ORDER_LEGION = { 1900, 1883, 1828, 1948, 1894, 1859, 1090, 2045, 2165, 2170 }
+local FACTION_ORDER_9_0 = { 2413, 2407, 2410, 2465 }
 local FACTION_ORDER
 
 local FILTER_LOOT_ALL = 1
@@ -116,6 +117,27 @@ local function IsLegionWorldQuest(info)
 	return IsLegionMap(info.mapID)
 end
 
+-- 9.0 ShadowLands
+local shadowLandsMaps = {
+	[1550] = true, -- shadowlands
+	[1543] = true, -- the maw
+	[1536] = true, -- maldraxxus
+	[1525] = true, -- revendreth
+	[1533] = true, -- bastion
+	[1565] = true, -- ardenweald
+}
+local function IsInShadowLands(mapID)
+	return shadowLandsMaps[mapID]
+end
+
+local ANIMA_ITEM_COLOR = { r=.6, g=.8, b=1 }
+local ANIMA_SPELLID = {[347555] = 3, [345706] = 5, [336327] = 35, [336456] = 250}
+
+local function GetAnimaValue(itemID)
+	local _, spellID = GetItemSpell(itemID)
+	return ANIMA_SPELLID[spellID] or 1
+end
+
 -- =================
 --  Event Functions
 -- =================
@@ -134,7 +156,7 @@ local function TitleButton_OnEnter(self)
 	local questTagInfo = C_QuestLog.GetQuestTagInfo(self.questID)
 	local _, color = GetQuestDifficultyColor( UnitLevel("player") + TitleButton_RarityColorTable[questTagInfo.quality] )
 	self.Text:SetTextColor( color.r, color.g, color.b )
-	
+
 	hoveredQuestID = self.questID
 
 	if dataProvder then
@@ -168,23 +190,23 @@ end
 local function TitleButton_OnClick(self, button)
 	PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
 	if ( not ChatEdit_TryInsertQuestLinkForQuestID(self.questID) ) then
-		PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
-		local watchType = C_QuestLog.GetQuestWatchType(self.questID);
+		PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
+		local watchType = C_QuestLog.GetQuestWatchType(self.questID)
 		if ( button == "RightButton" ) then
 			if ( self.mapID ) then
 				QuestMapFrame:GetParent():SetMapID(self.mapID)
 			end
 		elseif IsShiftKeyDown() then
 			if watchType == Enum.QuestWatchType.Manual or (watchType == Enum.QuestWatchType.Automatic and C_SuperTrack.GetSuperTrackedQuestID() == self.questID) then
-				BonusObjectiveTracker_UntrackWorldQuest(self.questID);
+				BonusObjectiveTracker_UntrackWorldQuest(self.questID)
 			else
-				BonusObjectiveTracker_TrackWorldQuest(self.questID, Enum.QuestWatchType.Manual);
+				BonusObjectiveTracker_TrackWorldQuest(self.questID, Enum.QuestWatchType.Manual)
 			end
 		else
 			if watchType == Enum.QuestWatchType.Manual then
-				C_SuperTrack.SetSuperTrackedQuestID(self.questID);
+				C_SuperTrack.SetSuperTrackedQuestID(self.questID)
 			else
-				BonusObjectiveTracker_TrackWorldQuest(self.questID, Enum.QuestWatchType.Automatic);
+				BonusObjectiveTracker_TrackWorldQuest(self.questID, Enum.QuestWatchType.Automatic)
 			end
 		end
 	end
@@ -301,7 +323,7 @@ local function FilterMenu_Initialize(self, level)
 		local value = Config.filterFaction
 
 		local mapID = QuestMapFrame:GetParent():GetMapID()
-		local factions = IsLegionMap(mapID) and FACTION_ORDER_LEGION or FACTION_ORDER
+		local factions = IsInShadowLands(mapID) and FACTION_ORDER_9_0 or IsLegionMap(mapID) and FACTION_ORDER_LEGION or FACTION_ORDER
 
 		for _, factionID in ipairs(factions) do
 			info.text =  GetFactionInfoByID(factionID)
@@ -419,7 +441,7 @@ local function GetFilterButton(key)
 		button:SetScript("OnClick", FilterButton_OnClick)
 
 		button:SetSize(24, 24)
-			
+
 		if key == "SORT" then
 			button:SetNormalTexture("Interface\\ChatFrame\\UI-ChatIcon-ScrollDown-Up")
 			button:SetPushedTexture("Interface\\ChatFrame\\UI-ChatIcon-ScrollDown-Down")
@@ -566,11 +588,11 @@ local function QuestFrame_AddQuestButton(questInfo, prevButton)
 		button.rewardCategory = "GOLD"
 		button.rewardValue = gold
 		button.rewardValue2 = 0
-	end	
+	end
 
 	local numQuestCurrencies = GetNumQuestLogRewardCurrencies(questID)
 	if numQuestCurrencies > 0 then
-		for currencyNum = 1, numQuestCurrencies do 
+		for currencyNum = 1, numQuestCurrencies do
 			local name, texture, numItems, currencyID = GetQuestLogRewardCurrencyInfo(currencyNum, questID)
 			if currencyID ~= CURRENCYID_WAR_SUPPLIES and currencyID ~= CURRENCYID_NETHERSHARD then
 				tagText = numItems
@@ -604,6 +626,11 @@ local function QuestFrame_AddQuestButton(questInfo, prevButton)
 				button.rewardCategory = "ITEMS"
 				button.rewardValue = quantity
 				button.rewardValue2 = 0
+			end
+			if C_Item.IsAnimaItemByID(itemID) then
+				tagTexture = 3528288 -- Interface/Icons/Spell_AnimaBastion_Orb
+				tagColor = ANIMA_ITEM_COLOR
+				tagText = quantity * GetAnimaValue(itemID)
 			end
 		end
 	end
@@ -641,7 +668,7 @@ local function TaskPOI_IsFilteredReward(selectedFilters, questID)
 	local money = GetQuestLogRewardMoney(questID)
 	if money > 0 and selectedFilters["GOLD"] then
 		positiveMatch = true
-	end	
+	end
 
 	local numQuestCurrencies = GetNumQuestLogRewardCurrencies(questID)
 	for key,_ in pairs(selectedFilters) do
@@ -661,16 +688,16 @@ local function TaskPOI_IsFilteredReward(selectedFilters, questID)
 	if numQuestRewards > 0 then
 		local itemName, itemTexture, quantity, quality, isUsable, itemID = GetQuestLogRewardInfo(1, questID)
 		if itemName and itemTexture then
-			local artifactPower = nil--Addon.Data:ItemArtifactPower(itemID)
 			local iLevel = Addon.Data:RewardItemLevel(itemID, questID)
-			if artifactPower then
-				if selectedFilters.ARTIFACT_POWER then
+			if C_Item.IsAnimaItemByID(itemID) then
+				if selectedFilters.ANIMA then
 					positiveMatch = true
 				end
 			else
 				if iLevel then
+					local isConduit = C_Soulbinds.IsItemConduitByItemInfo(itemID)
 					local upgradesOnly = Config.filterLoot == FILTER_LOOT_UPGRADES or (Config.filterLoot == 0 and Config.lootFilterUpgrades)
-					if selectedFilters.LOOT and (not upgradesOnly or Addon.Data:RewardIsUpgrade(itemID, questID)) then
+					if selectedFilters.CONDUIT and isConduit or selectedFilters.LOOT and (not upgradesOnly or Addon.Data:RewardIsUpgrade(itemID, questID)) and not isConduit then
 						positiveMatch = true
 					end
 				else
@@ -684,7 +711,7 @@ local function TaskPOI_IsFilteredReward(selectedFilters, questID)
 
 	if positiveMatch then
 		return false
-	elseif hasCurrencyFilter or selectedFilters.ARTIFACT_POWER or selectedFilters.LOOT or selectedFilters.ITEMS then
+	elseif hasCurrencyFilter or selectedFilters.ANIMA or selectedFilters.LOOT or selectedFilters.ITEMS then
 		return true
 	end
 end
@@ -716,7 +743,7 @@ local function TaskPOI_IsFiltered(info, displayMapID)
 		if lootFiltered ~= nil then
 			isFiltered = lootFiltered
 		end
-		
+
 		if selectedFilters.FACTION then
 			if (factionID == Config.filterFaction or Addon.Data:QuestHasFaction(info.questId, Config.filterFaction)) then
 				isFiltered = false
@@ -846,7 +873,7 @@ local function QuestFrame_Update()
 
 	local mapID = QuestMapFrame:GetParent():GetMapID()
 
-	local displayLocation, lockedQuestID = C_QuestLog.GetBountySetInfoForMapID(mapID);
+	local displayLocation, lockedQuestID = C_QuestLog.GetBountySetInfoForMapID(mapID)
 
 	local tasksOnMap = C_TaskQuest.GetQuestsForPlayerByMapID(mapID)
 	if (Config.onlyCurrentZone) and (not displayLocation or lockedQuestID) and not (tasksOnMap and #tasksOnMap > 0) and (mapID ~= MAPID_ARGUS) then
@@ -865,8 +892,8 @@ local function QuestFrame_Update()
 	local storyAchievementID, storyMapID = C_QuestLog.GetZoneStoryInfo(mapID)
 	if storyAchievementID then
 		storyButton = QuestScrollFrame.Contents.StoryHeader
-		if layoutIndex == 0 then 
-			layoutIndex = storyButton.layoutIndex + 0.001;
+		if layoutIndex == 0 then
+			layoutIndex = storyButton.layoutIndex + 0.001
 		end
 	end
 
@@ -886,8 +913,8 @@ local function QuestFrame_Update()
 		headerButton:SetHitRectInsets(0, -headerButton.ButtonText:GetWidth(), 0, 0)
 		headerButton:SetHighlightTexture("Interface\\Buttons\\UI-PlusButton-Hilight")
 	end
-	headerButton:SetNormalAtlas(questsCollapsed and "Campaign_HeaderIcon_Closed" or "Campaign_HeaderIcon_Open" );
-	headerButton:SetPushedAtlas(questsCollapsed and "Campaign_HeaderIcon_ClosedPressed" or "Campaign_HeaderIcon_OpenPressed");
+	headerButton:SetNormalAtlas(questsCollapsed and "Campaign_HeaderIcon_Closed" or "Campaign_HeaderIcon_Open" )
+	headerButton:SetPushedAtlas(questsCollapsed and "Campaign_HeaderIcon_ClosedPressed" or "Campaign_HeaderIcon_OpenPressed")
 	headerButton:ClearAllPoints()
 	if storyButton then
 		headerButton:SetPoint("TOPLEFT", storyButton, "BOTTOMLEFT", 0, 0)
@@ -981,7 +1008,7 @@ local function QuestFrame_Update()
 			layoutIndex = layoutIndex + 0.001
 			button:Show()
 			prevButton = button
-			
+
 			if hoveredQuestID == button.questID then
 				TitleButton_OnEnter(button)
 			end
@@ -1005,11 +1032,15 @@ end
 
 local function WorldMap_WorldQuestDataProviderMixin_ShouldShowQuest(self, info)
 	if self:IsQuestSuppressed(info.questId) then
-		return false;
+		return false
 	end
 
 	if self.focusedQuestID then
-		return C_QuestLog.IsQuestCalling(self.focusedQuestID) and self:ShouldHighlightInfo(info.questId);
+		return C_QuestLog.IsQuestCalling(self.focusedQuestID) and self:ShouldHighlightInfo(info.questId)
+	end
+
+	if not HaveQuestData(info.questId) or not QuestUtils_IsQuestWorldQuest(info.questId) then
+		return false
 	end
 
 	local mapID = self:GetMap():GetMapID()
@@ -1035,6 +1066,25 @@ local function WorldMap_WorldQuestDataProviderMixin_ShouldShowQuest(self, info)
 		return mapID == info.mapID or (GetMapContinentMapID(info.mapID) == mapID)
 	else
 		return mapID == info.mapID
+	end
+end
+
+local function BetterWorldQuestDataProvider_ShouldShowQuest(self, info)
+	if(self.focusedQuestID or self:IsQuestSuppressed(info.questId)) then
+		return false
+	end
+
+	local mapID = self:GetMap():GetMapID()
+
+	if Config.hideFilteredPOI then
+		if TaskPOI_IsFiltered(info, mapID) then
+			return false
+		end
+	end
+	if Config.hideUntrackedPOI then
+		if not (WorldMap_IsWorldQuestEffectivelyTracked(info.questId)) then
+			return false
+		end
 	end
 end
 
@@ -1080,13 +1130,15 @@ function Mod:BeforeStartup()
 	self.Filters = {}
 	self.FiltersOrder = {}
 
-	self:AddFilter("EMISSARY", BOUNTY_BOARD_LOCKED_TITLE, "achievement_reputation_01", true)
+	self:AddFilter("EMISSARY", BOUNTY_BOARD_LOCKED_TITLE, "achievement_reputation_01")
 	self:AddFilter("TIME", CLOSES_IN, "ability_bossmagistrix_timewarp2")
 	self:AddFilter("ZONE", Addon.Locale.CURRENT_ZONE, "inv_misc_map02") -- ZONE
 	self:AddFilter("TRACKED", TRACKING, "icon_treasuremap")
-	self:AddFilter("FACTION", FACTION, "achievement_reputation_06")
+	self:AddFilter("FACTION", FACTION, "achievement_reputation_06", true)
 	-- self:AddFilter("ARTIFACT_POWER", ARTIFACT_POWER, "inv_7xp_inscription_talenttome01", true)
 	self:AddFilter("LOOT", BONUS_ROLL_REWARD_ITEM, "inv_misc_lockboxghostiron", true)
+	self:AddFilter("CONDUIT", Addon.Locale.CODUIT_ITEMS, "Spell_Shadow_SoulGem", true)
+	self:AddFilter("ANIMA", ANIMA, "Spell_AnimaBastion_Orb", true)
 
 	-- self:AddCurrencyFilter("ORDER_RESOURCES", CURRENCYID_RESOURCES, true)
 	-- self:AddCurrencyFilter("WAR_SUPPLIES", CURRENCYID_WAR_SUPPLIES)
@@ -1094,14 +1146,14 @@ function Mod:BeforeStartup()
 	-- self:AddCurrencyFilter("VEILED_ARGUNITE", CURRENCYID_VEILED_ARGUNITE)
 	-- self:AddCurrencyFilter("WAKENING_ESSENCE", CURRENCYID_WAKENING_ESSENCE)
 
-	self:AddCurrencyFilter("AZERITE", CURRENCYID_AZERITE, true)
-	self:AddCurrencyFilter("WAR_RESOURCES", CURRENCYID_WAR_RESOURCES, true)
+	self:AddCurrencyFilter("AZERITE", CURRENCYID_AZERITE)
+	self:AddCurrencyFilter("WAR_RESOURCES", CURRENCYID_WAR_RESOURCES)
 
 	self:AddFilter("GOLD", BONUS_ROLL_REWARD_MONEY, "inv_misc_coin_01")
-	self:AddFilter("ITEMS", ITEMS, "inv_box_01", true)
+	self:AddFilter("ITEMS", ITEMS, "inv_box_01")
 	-- self:AddFilter("PVP", PVP, "pvpcurrency-honor-horde")
-	self:AddFilter("PROFESSION", TRADE_SKILLS, "inv_misc_note_01")
-	self:AddFilter("PETBATTLE", SHOW_PET_BATTLES_ON_MAP_TEXT, "tracking_wildpet")
+	self:AddFilter("PROFESSION", TRADE_SKILLS, "inv_misc_note_01", true)
+	self:AddFilter("PETBATTLE", SHOW_PET_BATTLES_ON_MAP_TEXT, "tracking_wildpet", true)
 	self:AddFilter("RARE", ITEM_QUALITY3_DESC, "achievement_general_stayclassy")
 	self:AddFilter("DUNGEON", GROUP_FINDER, "inv_misc_summonable_boss_token")
 	self:AddFilter("SORT", RAID_FRAME_SORT_LABEL, "inv_misc_map_01")
@@ -1116,7 +1168,15 @@ function Mod:Blizzard_WorldMap()
 		if dp.AddWorldQuest and dp.AddWorldQuest == WorldMap_WorldQuestDataProviderMixin.AddWorldQuest then
 			dataProvder = dp
 
-			dataProvder.ShouldShowQuest = WorldMap_WorldQuestDataProviderMixin_ShouldShowQuest
+			if IsAddOnLoaded("BetterWorldQuests") then
+				local origShouldShowQuest = dataProvder.ShouldShowQuest
+				dataProvder.ShouldShowQuest = function(self, info)
+					local result = BetterWorldQuestDataProvider_ShouldShowQuest(self, info)
+					return result == nil and origShouldShowQuest(self, info) or result
+				end
+			else
+				dataProvder.ShouldShowQuest = WorldMap_WorldQuestDataProviderMixin_ShouldShowQuest
+			end
 		end
 	end
 	for _,of in ipairs(WorldMapFrame.overlayFrames) do
@@ -1155,7 +1215,7 @@ function Mod:Startup()
 		QuestMapFrame_UpdateAll()
 	end)
 
-	Config:RegisterCallback({'hideUntrackedPOI', 'hideFilteredPOI', 'showContinentPOI', 'onlyCurrentZone', 'sortMethod', 'selectedFilters', 'disabledFilters', 'filterEmissary', 'filterLoot', 'filterFaction', 'filterZone', 'filterTime', 'lootFilterUpgrades', 'lootUpgradesLevel', 'timeFilterDuration'}, function() 
+	Config:RegisterCallback({'hideUntrackedPOI', 'hideFilteredPOI', 'showContinentPOI', 'onlyCurrentZone', 'sortMethod', 'selectedFilters', 'disabledFilters', 'filterEmissary', 'filterLoot', 'filterFaction', 'filterZone', 'filterTime', 'lootFilterUpgrades', 'lootUpgradesLevel', 'timeFilterDuration'}, function()
 		QuestMapFrame_UpdateAll()
 		dataProvder:RefreshAllData()
 	end)

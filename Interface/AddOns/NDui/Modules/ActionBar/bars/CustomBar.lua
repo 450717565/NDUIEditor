@@ -1,12 +1,12 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Bar = B:GetModule("Actionbar")
+local Bar = B:GetModule("ActionBar")
 
 local cfg = C.Bars.bar4
 local margin, padding = C.Bars.margin, C.Bars.padding
 
 function Bar:CreateCustomBar(anchor)
-	local size = C.db["Actionbar"]["CustomBarButtonSize"]
+	local size = C.db["ActionBar"]["CustomBarButtonSize"]
 	local num = 12
 	local name = "NDui_CustomBar"
 	local page = 8
@@ -18,7 +18,7 @@ function Bar:CreateCustomBar(anchor)
 	frame.mover = B.Mover(frame, L[name], "CustomBar", anchor)
 	frame.buttons = {}
 
-	RegisterStateDriver(frame, "visibility", "[petbattle] hide; show")
+	RegisterStateDriver(frame, "visibility", "[petbattle][overridebar][vehicleui][possessbar,@vehicle,exists][shapeshift] hide; show")
 	RegisterStateDriver(frame, "page", page)
 
 	local buttonList = {}
@@ -34,7 +34,7 @@ function Bar:CreateCustomBar(anchor)
 		tinsert(Bar.buttons, button)
 	end
 
-	if C.db["Actionbar"]["CustomBarFader"] and cfg.fader then
+	if C.db["ActionBar"]["CustomBarFader"] and cfg.fader then
 		Bar.CreateButtonFrameFader(frame, buttonList, cfg.fader)
 	end
 
@@ -45,9 +45,9 @@ function Bar:UpdateCustomBar()
 	local frame = _G.NDui_CustomBar
 	if not frame then return end
 
-	local size = C.db["Actionbar"]["CustomBarButtonSize"]
-	local num = C.db["Actionbar"]["CustomBarNumButtons"]
-	local perRow = C.db["Actionbar"]["CustomBarNumPerRow"]
+	local size = C.db["ActionBar"]["CustomBarButtonSize"]
+	local num = C.db["ActionBar"]["CustomBarNumButtons"]
+	local perRow = C.db["ActionBar"]["CustomBarNumPerRow"]
 	for i = 1, num do
 		local button = frame.buttons[i]
 		button:SetSize(size, size)
@@ -77,7 +77,7 @@ function Bar:UpdateCustomBar()
 end
 
 function Bar:CustomBar()
-	if C.db["Actionbar"]["CustomBar"] then
+	if C.db["ActionBar"]["CustomBar"] then
 		Bar:CreateCustomBar({"BOTTOM", UIParent, "BOTTOM", 0, 140})
 	end
 end

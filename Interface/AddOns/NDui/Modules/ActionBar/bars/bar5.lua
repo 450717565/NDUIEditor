@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Bar = B:GetModule("Actionbar")
+local Bar = B:GetModule("ActionBar")
 
 local _G = _G
 local tinsert = tinsert
@@ -29,13 +29,13 @@ end
 function Bar:CreateBar5()
 	local num = NUM_ACTIONBAR_BUTTONS
 	local buttonList = {}
-	local layout = C.db["Actionbar"]["Style"]
+	local layout = C.db["ActionBar"]["BarStyle"]
 
 	local frame = CreateFrame("Frame", "NDui_ActionBar5", UIParent, "SecureHandlerStateTemplate")
 	if layout == 1 or layout == 4 or layout == 5 then
 		frame.Pos = {"RIGHT", _G.NDui_ActionBar4, "LEFT", margin, 0}
 	else
-		frame.Pos = {"RIGHT", UIParent, "RIGHT", -1, 0}
+		frame.Pos = {"RIGHT", UIParent, "RIGHT", -1, 5}
 	end
 
 	MultiBarLeft:SetParent(frame)
@@ -61,7 +61,7 @@ function Bar:CreateBar5()
 	frame.frameVisibility = "[petbattle][overridebar][vehicleui][possessbar,@vehicle,exists][shapeshift] hide; show"
 	RegisterStateDriver(frame, "visibility", frame.frameVisibility)
 
-	if C.db["Actionbar"]["Bar5Fade"] and cfg.fader then
+	if C.db["ActionBar"]["Bar5Fade"] and cfg.fader then
 		Bar.CreateButtonFrameFader(frame, buttonList, cfg.fader)
 	end
 end

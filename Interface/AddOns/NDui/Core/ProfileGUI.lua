@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local G = B:GetModule("GUI")
+local GUI = B:GetModule("GUI")
 
 local pairs, strsplit, Ambiguate = pairs, strsplit, Ambiguate
 local strfind, tostring, select = strfind, tostring, select
@@ -48,7 +48,7 @@ StaticPopupDialogs["NDUI_APPLY_PROFILE"] = {
 	button1 = YES,
 	button2 = NO,
 	OnAccept = function()
-		NDuiADB["ProfileIndex"][myFullName] = G.currentProfile
+		NDuiADB["ProfileIndex"][myFullName] = GUI.currentProfile
 		ReloadUI()
 	end,
 	whileDead = 1,
@@ -60,12 +60,12 @@ StaticPopupDialogs["NDUI_DOWNLOAD_PROFILE"] = {
 	button2 = NO,
 	OnAccept = function()
 		local profileIndex = NDuiADB["ProfileIndex"][myFullName]
-		if G.currentProfile == 1 then
+		if GUI.currentProfile == 1 then
 			NDuiPDB[profileIndex-1] = NDuiDB
 		elseif profileIndex == 1 then
-			NDuiDB = NDuiPDB[G.currentProfile-1]
+			NDuiDB = NDuiPDB[GUI.currentProfile-1]
 		else
-			NDuiPDB[profileIndex-1] = NDuiPDB[G.currentProfile-1]
+			NDuiPDB[profileIndex-1] = NDuiPDB[GUI.currentProfile-1]
 		end
 		ReloadUI()
 	end,
@@ -77,10 +77,10 @@ StaticPopupDialogs["NDUI_UPLOAD_PROFILE"] = {
 	button1 = YES,
 	button2 = NO,
 	OnAccept = function()
-		if G.currentProfile == 1 then
+		if GUI.currentProfile == 1 then
 			NDuiDB = C.db
 		else
-			NDuiPDB[G.currentProfile-1] = C.db
+			NDuiPDB[GUI.currentProfile-1] = C.db
 		end
 	end,
 	whileDead = 1,
@@ -110,37 +110,37 @@ StaticPopupDialogs["NDUI_DELETE_UNIT_PROFILE"] = {
 	whileDead = 1,
 }
 
-function G:CreateProfileIcon(bar, index, texture, title, description)
+function GUI:CreateProfileIcon(bar, index, texture, title, description)
 	local button = CreateFrame("Button", nil, bar)
 	button:SetSize(32, 32)
 	button:SetPoint("RIGHT", -5 - (index-1)*37, 0)
 	B.PixelIcon(button, texture, true)
-	button.title = title
 	B.AddTooltip(button, "ANCHOR_RIGHT", description, "info")
+	button.title = title
 
 	return button
 end
 
-function G:Reset_OnClick()
+function GUI:Reset_OnClick()
 	StaticPopup_Show("NDUI_RESET_PROFILE")
 end
 
-function G:Apply_OnClick()
-	G.currentProfile = self:GetParent().index
+function GUI:Apply_OnClick()
+	GUI.currentProfile = self:GetParent().index
 	StaticPopup_Show("NDUI_APPLY_PROFILE")
 end
 
-function G:Download_OnClick()
-	G.currentProfile = self:GetParent().index
+function GUI:Download_OnClick()
+	GUI.currentProfile = self:GetParent().index
 	StaticPopup_Show("NDUI_DOWNLOAD_PROFILE")
 end
 
-function G:Upload_OnClick()
-	G.currentProfile = self:GetParent().index
+function GUI:Upload_OnClick()
+	GUI.currentProfile = self:GetParent().index
 	StaticPopup_Show("NDUI_UPLOAD_PROFILE")
 end
 
-function G:GetClassFromGoldInfo(name, realm)
+function GUI:GetClassFromGoldInfo(name, realm)
 	local class = "NONE"
 	if NDuiADB["totalGold"][realm] and NDuiADB["totalGold"][realm][name] then
 		class = NDuiADB["totalGold"][realm][name][2]
@@ -148,18 +148,18 @@ function G:GetClassFromGoldInfo(name, realm)
 	return class
 end
 
-function G:FindProfleUser(icon)
+function GUI:FindProfleUser(icon)
 	icon.list = {}
 	for fullName, index in pairs(NDuiADB["ProfileIndex"]) do
 		if index == icon.index then
 			local name, realm = strsplit("-", fullName)
 			if not icon.list[realm] then icon.list[realm] = {} end
-			icon.list[realm][Ambiguate(fullName, "none")] = G:GetClassFromGoldInfo(name, realm)
+			icon.list[realm][Ambiguate(fullName, "none")] = GUI:GetClassFromGoldInfo(name, realm)
 		end
 	end
 end
 
-function G:Icon_OnEnter()
+function GUI:Icon_OnEnter()
 	if not next(self.list) then return end
 
 	GameTooltip:SetOwner(self, "ANCHOR_TOP")
@@ -180,11 +180,11 @@ function G:Icon_OnEnter()
 	GameTooltip:Show()
 end
 
-function G:Note_OnEscape()
+function GUI:Note_OnEscape()
 	self:SetText(NDuiADB["ProfileNames"][self.index])
 end
 
-function G:Note_OnEnter()
+function GUI:Note_OnEnter()
 	local text = self:GetText()
 	if text == "" then
 		NDuiADB["ProfileNames"][self.index] = self.__defaultText
@@ -194,11 +194,12 @@ function G:Note_OnEnter()
 	end
 end
 
-function G:CreateProfileBar(parent, index)
-	local bar = B.CreateBDFrame(parent, .25)
+function GUI:CreateProfileBar(parent, index)
+	local bar = B.CreateBDFrame(parent)
 	bar:ClearAllPoints()
 	bar:SetPoint("TOPLEFT", 10, -10 - 45*(index-1))
 	bar:SetSize(570, 40)
+	bar:SetFrameLevel(parent:GetFrameLevel()+1)
 	bar.index = index
 
 	local icon = CreateFrame("Frame", nil, bar)
@@ -211,8 +212,8 @@ function G:CreateProfileBar(parent, index)
 		B.PixelIcon(icon, 235423, true) -- share
 		icon.Icon:SetTexCoord(.6, .9, .1, .4)
 		icon.index = index
-		G:FindProfleUser(icon)
-		icon:SetScript("OnEnter", G.Icon_OnEnter)
+		GUI:FindProfleUser(icon)
+		icon:SetScript("OnEnter", GUI.Icon_OnEnter)
 		icon:SetScript("OnLeave", B.HideTooltip)
 	end
 
@@ -229,27 +230,27 @@ function G:CreateProfileBar(parent, index)
 	end
 	note:SetText(NDuiADB["ProfileNames"][index])
 	note.index = index
-	note:HookScript("OnEnterPressed", G.Note_OnEnter)
-	note:HookScript("OnEscapePressed", G.Note_OnEscape)
+	note:HookScript("OnEnterPressed", GUI.Note_OnEnter)
+	note:HookScript("OnEscapePressed", GUI.Note_OnEscape)
 	note.title = L["ProfileName"]
 	B.AddTooltip(note, "ANCHOR_TOP", L["ProfileNameTip"], "info")
 
-	local reset = G:CreateProfileIcon(bar, 1, "Atlas:transmog-icon-revert", L["ResetProfile"], L["ResetProfileTip"])
-	reset:SetScript("OnClick", G.Reset_OnClick)
+	local reset = GUI:CreateProfileIcon(bar, 1, "Atlas:transmog-icon-revert", L["ResetProfile"], L["ResetProfileTip"])
+	reset:SetScript("OnClick", GUI.Reset_OnClick)
 	bar.reset = reset
 
-	local apply = G:CreateProfileIcon(bar, 2, "Interface\\RAIDFRAME\\ReadyCheck-Ready", L["SelectProfile"], L["SelectProfileTip"])
-	apply:SetScript("OnClick", G.Apply_OnClick)
+	local apply = GUI:CreateProfileIcon(bar, 2, "Interface\\RAIDFRAME\\ReadyCheck-Ready", L["SelectProfile"], L["SelectProfileTip"])
+	apply:SetScript("OnClick", GUI.Apply_OnClick)
 	bar.apply = apply
 
-	local download = G:CreateProfileIcon(bar, 3, "Atlas:streamcinematic-downloadicon", L["DownloadProfile"], L["DownloadProfileTip"])
+	local download = GUI:CreateProfileIcon(bar, 3, "Atlas:streamcinematic-downloadicon", L["DownloadProfile"], L["DownloadProfileTip"])
 	download.Icon:SetTexCoord(.25, .75, .25, .75)
-	download:SetScript("OnClick", G.Download_OnClick)
+	download:SetScript("OnClick", GUI.Download_OnClick)
 	bar.download = download
 
-	local upload = G:CreateProfileIcon(bar, 4, "Atlas:bags-icon-addslots", L["UploadProfile"], L["UploadProfileTip"])
+	local upload = GUI:CreateProfileIcon(bar, 4, "Atlas:bags-icon-addslots", L["UploadProfile"], L["UploadProfileTip"])
 	upload.Icon:SetInside(nil, 6, 6)
-	upload:SetScript("OnClick", G.Upload_OnClick)
+	upload:SetScript("OnClick", GUI.Upload_OnClick)
 	bar.upload = upload
 
 	return bar
@@ -260,27 +261,27 @@ local function UpdateButtonStatus(button, enable)
 	button.Icon:SetDesaturated(not enable)
 end
 
-function G:UpdateCurrentProfile()
-	for index, bar in pairs(G.bars) do
-		if index == G.currentProfile then
+function GUI:UpdateCurrentProfile()
+	for index, bar in pairs(GUI.bars) do
+		if index == GUI.currentProfile then
 			UpdateButtonStatus(bar.upload, false)
 			UpdateButtonStatus(bar.download, false)
 			UpdateButtonStatus(bar.apply, false)
 			UpdateButtonStatus(bar.reset, true)
-			bar:SetBackdropColor(cr, cg, cb, .25)
-			bar.apply.bg:SetBackdropBorderColor(1, .8, 0)
+			bar:SetBackdropColor(cr, cg, cb, .5)
+			bar.apply.icbg:SetBackdropBorderColor(cr, cg, cb)
 		else
 			UpdateButtonStatus(bar.upload, true)
 			UpdateButtonStatus(bar.download, true)
 			UpdateButtonStatus(bar.apply, true)
 			UpdateButtonStatus(bar.reset, false)
-			bar:SetBackdropColor(0, 0, 0, .25)
-			bar.apply.bg:SetBackdropBorderColor(0, 0, 0)
+			bar:SetBackdropColor(0, 0, 0, 0)
+			bar.apply.icbg:SetBackdropBorderColor(0, 0, 0)
 		end
 	end
 end
 
-function G:Delete_OnEnter()
+function GUI:Delete_OnEnter()
 	local text = self:GetText()
 	if not text or text == "" then return end
 	local name, realm = strsplit("-", text)
@@ -291,17 +292,17 @@ function G:Delete_OnEnter()
 	end
 
 	if NDuiADB["ProfileIndex"][text] or (NDuiADB["totalGold"][realm] and NDuiADB["totalGold"][realm][name]) then
-		StaticPopup_Show("NDUI_DELETE_UNIT_PROFILE", text, G:GetClassFromGoldInfo(name, realm))
+		StaticPopup_Show("NDUI_DELETE_UNIT_PROFILE", text, GUI:GetClassFromGoldInfo(name, realm))
 	else
 		UIErrorsFrame:AddMessage(DB.InfoColor..L["Incorrect unit name"])
 	end
 end
 
-function G:Delete_OnEscape()
+function GUI:Delete_OnEscape()
 	self:SetText("")
 end
 
-function G:CreateProfileGUI(parent)
+function GUI:CreateProfileGUI(parent)
 	local reset = B.CreateButton(parent, 120, 24, L["NDui Reset"])
 	reset:SetPoint("BOTTOMRIGHT", -10, 10)
 	reset:SetScript("OnClick", function()
@@ -318,20 +319,20 @@ function G:CreateProfileGUI(parent)
 	import:SetPoint("BOTTOMLEFT", 10, 10)
 	import:SetScript("OnClick", function()
 		parent:GetParent():Hide()
-		G:CreateDataFrame()
-		G.ProfileDataFrame.Header:SetText(L["Import Header"])
-		G.ProfileDataFrame.text:SetText(L["Import"])
-		G.ProfileDataFrame.editBox:SetText("")
+		GUI:CreateDataFrame()
+		GUI.ProfileDataFrame.Header:SetText(L["Import Header"])
+		GUI.ProfileDataFrame.text:SetText(L["Import"])
+		GUI.ProfileDataFrame.editBox:SetText("")
 	end)
 
 	local export = B.CreateButton(parent, 120, 24, L["Export"])
 	export:SetPoint("LEFT", import, "RIGHT", 5, 0)
 	export:SetScript("OnClick", function()
 		parent:GetParent():Hide()
-		G:CreateDataFrame()
-		G.ProfileDataFrame.Header:SetText(L["Export Header"])
-		G.ProfileDataFrame.text:SetText(OKAY)
-		G:ExportGUIData()
+		GUI:CreateDataFrame()
+		GUI.ProfileDataFrame.Header:SetText(L["Export Header"])
+		GUI.ProfileDataFrame.text:SetText(OKAY)
+		GUI:ExportGUIData()
 	end)
 
 	B.CreateFS(parent, 14, L["Profile Management"], "system", "TOPLEFT", 10, -10)
@@ -342,27 +343,27 @@ function G:CreateProfileGUI(parent)
 
 	local delete = B.CreateEditBox(parent, 245, 24)
 	delete:SetPoint("BOTTOMLEFT", import, "TOPLEFT", 0, 2)
-	delete:HookScript("OnEnterPressed", G.Delete_OnEnter)
-	delete:HookScript("OnEscapePressed", G.Delete_OnEscape)
+	delete:HookScript("OnEnterPressed", GUI.Delete_OnEnter)
+	delete:HookScript("OnEscapePressed", GUI.Delete_OnEscape)
 	delete.title = L["DeleteUnitProfile"]
 	B.AddTooltip(delete, "ANCHOR_TOP", L["DeleteUnitProfileTip"], "info")
 
-	G.currentProfile = NDuiADB["ProfileIndex"][DB.MyFullName]
+	GUI.currentProfile = NDuiADB["ProfileIndex"][DB.MyFullName]
 
 	local numBars = 6
-	local panel = B.CreateBDFrame(parent, .25)
+	local panel = B.CreateBDFrame(parent)
 	panel:ClearAllPoints()
 	panel:SetPoint("BOTTOMLEFT", delete, "TOPLEFT", 0, 10)
 	panel:SetWidth(parent:GetWidth() - 20)
 	panel:SetHeight(15 + numBars*45)
 	panel:SetFrameLevel(11)
 
-	G.bars = {}
+	GUI.bars = {}
 	for i = 1, numBars do
-		G.bars[i] = G:CreateProfileBar(panel, i)
+		GUI.bars[i] = GUI:CreateProfileBar(panel, i)
 	end
 
-	G:UpdateCurrentProfile()
+	GUI:UpdateCurrentProfile()
 end
 
 -- Data transfer
@@ -373,7 +374,7 @@ local bloodlustFilter = {
 	[264689] = true
 }
 
-function G:ExportGUIData()
+function GUI:ExportGUIData()
 	local text = "NDuiSettings:"..DB.Version..":"..DB.MyName..":"..DB.MyClass
 	for KEY, VALUE in pairs(C.db) do
 		if type(VALUE) == "table" then
@@ -416,7 +417,7 @@ function G:ExportGUIData()
 						end
 					end
 				else
-					if C.db[KEY][key] ~= G.DefaultSettings[KEY][key] then -- don't export default settings
+					if C.db[KEY][key] ~= GUI.DefaultSettings[KEY][key] then -- don't export default settings
 						text = text..";"..KEY..":"..key..":"..tostring(value)
 					end
 				end
@@ -463,9 +464,9 @@ function G:ExportGUIData()
 		elseif KEY == "ContactList" then
 			for name, color in pairs(VALUE) do
 				local r, g, b = strsplit(":", color)
-				r = B:Round(r, 2)
-				g = B:Round(g, 2)
-				b = B:Round(b, 2)
+				r = B.Round(r, 2)
+				g = B.Round(g, 2)
+				b = B.Round(b, 2)
 				text = text..";ACCOUNT:"..KEY..":"..name..":"..r..":"..g..":"..b
 			end
 		elseif KEY == "ProfileIndex" or KEY == "ProfileNames" then
@@ -475,8 +476,8 @@ function G:ExportGUIData()
 		end
 	end
 
-	G.ProfileDataFrame.editBox:SetText(B:Encode(text))
-	G.ProfileDataFrame.editBox:HighlightText()
+	GUI.ProfileDataFrame.editBox:SetText(B:Encode(text))
+	GUI.ProfileDataFrame.editBox:HighlightText()
 end
 
 local function toBoolean(value)
@@ -488,7 +489,7 @@ local function toBoolean(value)
 end
 
 local function reloadDefaultSettings()
-	for i, j in pairs(G.DefaultSettings) do
+	for i, j in pairs(GUI.DefaultSettings) do
 		if type(j) == "table" then
 			if not C.db[i] then C.db[i] = {} end
 			for k, v in pairs(j) do
@@ -501,8 +502,8 @@ local function reloadDefaultSettings()
 	C.db["BFA"] = true -- don't empty data on next loading
 end
 
-function G:ImportGUIData()
-	local profile = G.ProfileDataFrame.editBox:GetText()
+function GUI:ImportGUIData()
+	local profile = GUI.ProfileDataFrame.editBox:GetText()
 	if B:IsBase64(profile) then profile = B:Decode(profile) end
 	local options = {strsplit(";", profile)}
 	local title, _, _, class = strsplit(":", options[1])
@@ -614,7 +615,7 @@ function G:ImportGUIData()
 				NDuiADB[value][tonumber(index)] = name
 			end
 		elseif tonumber(arg1) then
-			if value == "DBMCount" then
+			if value == "PullCount" then
 				C.db[key][value] = arg1
 			else
 				C.db[key][value] = tonumber(arg1)
@@ -624,7 +625,7 @@ function G:ImportGUIData()
 end
 
 local function updateTooltip()
-	local dataFrame = G.ProfileDataFrame
+	local dataFrame = GUI.ProfileDataFrame
 	local profile = dataFrame.editBox:GetText()
 	if B:IsBase64(profile) then profile = B:Decode(profile) end
 	local option = strsplit(";", profile)
@@ -638,21 +639,21 @@ local function updateTooltip()
 	end
 end
 
-function G:CreateDataFrame()
-	if G.ProfileDataFrame then G.ProfileDataFrame:Show() return end
+function GUI:CreateDataFrame()
+	if GUI.ProfileDataFrame then GUI.ProfileDataFrame:Show() return end
 
 	local dataFrame = CreateFrame("Frame", nil, UIParent)
 	dataFrame:SetPoint("CENTER")
 	dataFrame:SetSize(500, 500)
 	dataFrame:SetFrameStrata("DIALOG")
+	B.CreateBG(dataFrame)
 	B.CreateMF(dataFrame)
-	B.SetBD(dataFrame)
 	dataFrame.Header = B.CreateFS(dataFrame, 16, L["Export Header"], true, "TOP", 0, -5)
 
 	local scrollArea = CreateFrame("ScrollFrame", nil, dataFrame, "UIPanelScrollFrameTemplate")
 	scrollArea:SetPoint("TOPLEFT", 10, -30)
 	scrollArea:SetPoint("BOTTOMRIGHT", -28, 40)
-	B.CreateBDFrame(scrollArea, .25)
+	B.CreateBDFrame(scrollArea)
 	B.ReskinScroll(scrollArea.ScrollBar)
 
 	local editBox = CreateFrame("EditBox", nil, dataFrame)
@@ -672,7 +673,7 @@ function G:CreateDataFrame()
 		button1 = YES,
 		button2 = NO,
 		OnAccept = function()
-			G:ImportGUIData()
+			GUI:ImportGUIData()
 			ReloadUI()
 		end,
 		whileDead = 1,
@@ -703,5 +704,5 @@ function G:CreateDataFrame()
 	accept:HookScript("OnLeave", B.HideTooltip)
 	dataFrame.text = accept.text
 
-	G.ProfileDataFrame = dataFrame
+	GUI.ProfileDataFrame = dataFrame
 end

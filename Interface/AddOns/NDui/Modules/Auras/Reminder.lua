@@ -1,32 +1,36 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local A = B:GetModule("Auras")
+local Auras = B:GetModule("Auras")
 
 local pairs, tinsert, next = pairs, table.insert, next
 local GetSpecialization, GetZonePVPInfo, GetItemCooldown = GetSpecialization, GetZonePVPInfo, GetItemCooldown
 local UnitIsDeadOrGhost, UnitInVehicle, InCombatLockdown = UnitIsDeadOrGhost, UnitInVehicle, InCombatLockdown
 local IsInInstance, IsPlayerSpell, UnitBuff, GetSpellTexture = IsInInstance, IsPlayerSpell, UnitBuff, GetSpellTexture
-local GetWeaponEnchantInfo = GetWeaponEnchantInfo
+local GetWeaponEnchantInfo, IsEquippedItem = GetWeaponEnchantInfo, IsEquippedItem
 
 local groups = DB.ReminderBuffs[DB.MyClass]
 local iconSize = 36
 local frames, parentFrame = {}
 
-function A:Reminder_Update(cfg)
+function Auras:Reminder_Update(cfg)
 	local frame = cfg.frame
 	local depend = cfg.depend
 	local spec = cfg.spec
 	local combat = cfg.combat
 	local instance = cfg.instance
 	local pvp = cfg.pvp
-	local cooldown = cfg.cooldown
-	local isPlayerSpell, isRightSpec, isInCombat, isInInst, isInPVP = true, true
+	local itemID = cfg.itemID
+	local equip = cfg.equip
+	local isPlayerSpell, isRightSpec, isEquipped, isInCombat, isInInst, isInPVP = true, true, true
 	local inInst, instType = IsInInstance()
 	local weaponIndex = cfg.weaponIndex
 
-	if cooldown and GetItemCooldown(cooldown) > 0 then -- check rune cooldown
-		frame:Hide()
-		return
+	if itemID then
+		if equip and not IsEquippedItem(itemID) then isEquipped = false end
+		if GetItemCount(itemID) == 0 or (not isEquipped) or GetItemCooldown(itemID) > 0 then -- check item cooldown
+			frame:Hide()
+			return
+		end
 	end
 
 	if depend and not IsPlayerSpell(depend) then isPlayerSpell = false end
@@ -58,7 +62,7 @@ function A:Reminder_Update(cfg)
 	end
 end
 
-function A:Reminder_Create(cfg)
+function Auras:Reminder_Create(cfg)
 	local frame = CreateFrame("Frame", nil, parentFrame)
 	frame:SetSize(iconSize, iconSize)
 	B.PixelIcon(frame)
@@ -78,7 +82,7 @@ function A:Reminder_Create(cfg)
 	tinsert(frames, frame)
 end
 
-function A:Reminder_UpdateAnchor()
+function Auras:Reminder_UpdateAnchor()
 	local index = 0
 	local offset = iconSize + 5
 	for _, frame in next, frames do
@@ -90,31 +94,30 @@ function A:Reminder_UpdateAnchor()
 	parentFrame:SetWidth(offset * index)
 end
 
-function A:Reminder_OnEvent()
+function Auras:Reminder_OnEvent()
 	for _, cfg in pairs(groups) do
-		if not cfg.frame then A:Reminder_Create(cfg) end
-		A:Reminder_Update(cfg)
+		if not cfg.frame then Auras:Reminder_Create(cfg) end
+		Auras:Reminder_Update(cfg)
 	end
-	A:Reminder_UpdateAnchor()
+	Auras:Reminder_UpdateAnchor()
 end
 
-function A:Reminder_AddRune()
-	if GetItemCount(174906) == 0 then return end
-	if not groups then groups = {} end
-	tinsert(groups, {
-		spells = {
-			[317065] = true,
-			[270058] = true,
-		},
-		texture = 839983,
-		cooldown = 174906,
-		instance = true,
-	})
+function Auras:Reminder_AddItemGroup()
+	for _, value in pairs(DB.ReminderBuffs["ITEMS"]) do
+		if not value.disable and GetItemCount(value.itemID) > 0 then
+			if not value.texture then
+				value.texture = GetItemIcon(value.itemID)
+			end
+			if not groups then groups = {} end
+			tinsert(groups, value)
+		end
+	end
 end
 
-function A:InitReminder()
-	--A:Reminder_AddRune()
-	if not groups then return end
+function Auras:InitReminder()
+	Auras:Reminder_AddItemGroup()
+
+	if not groups or not next(groups) then return end
 
 	if C.db["Auras"]["Reminder"] then
 		if not parentFrame then
@@ -124,24 +127,24 @@ function A:InitReminder()
 		end
 		parentFrame:Show()
 
-		A:Reminder_OnEvent()
-		B:RegisterEvent("UNIT_AURA", A.Reminder_OnEvent, "player")
-		B:RegisterEvent("UNIT_EXITED_VEHICLE", A.Reminder_OnEvent)
-		B:RegisterEvent("UNIT_ENTERED_VEHICLE", A.Reminder_OnEvent)
-		B:RegisterEvent("PLAYER_REGEN_ENABLED", A.Reminder_OnEvent)
-		B:RegisterEvent("PLAYER_REGEN_DISABLED", A.Reminder_OnEvent)
-		B:RegisterEvent("ZONE_CHANGED_NEW_AREA", A.Reminder_OnEvent)
-		B:RegisterEvent("PLAYER_ENTERING_WORLD", A.Reminder_OnEvent)
+		Auras:Reminder_OnEvent()
+		B:RegisterEvent("UNIT_AURA", Auras.Reminder_OnEvent, "player")
+		B:RegisterEvent("UNIT_EXITED_VEHICLE", Auras.Reminder_OnEvent)
+		B:RegisterEvent("UNIT_ENTERED_VEHICLE", Auras.Reminder_OnEvent)
+		B:RegisterEvent("PLAYER_REGEN_ENABLED", Auras.Reminder_OnEvent)
+		B:RegisterEvent("PLAYER_REGEN_DISABLED", Auras.Reminder_OnEvent)
+		B:RegisterEvent("ZONE_CHANGED_NEW_AREA", Auras.Reminder_OnEvent)
+		B:RegisterEvent("PLAYER_ENTERING_WORLD", Auras.Reminder_OnEvent)
 	else
 		if parentFrame then
 			parentFrame:Hide()
-			B:UnregisterEvent("UNIT_AURA", A.Reminder_OnEvent)
-			B:UnregisterEvent("UNIT_EXITED_VEHICLE", A.Reminder_OnEvent)
-			B:UnregisterEvent("UNIT_ENTERED_VEHICLE", A.Reminder_OnEvent)
-			B:UnregisterEvent("PLAYER_REGEN_ENABLED", A.Reminder_OnEvent)
-			B:UnregisterEvent("PLAYER_REGEN_DISABLED", A.Reminder_OnEvent)
-			B:UnregisterEvent("ZONE_CHANGED_NEW_AREA", A.Reminder_OnEvent)
-			B:UnregisterEvent("PLAYER_ENTERING_WORLD", A.Reminder_OnEvent)
+			B:UnregisterEvent("UNIT_AURA", Auras.Reminder_OnEvent)
+			B:UnregisterEvent("UNIT_EXITED_VEHICLE", Auras.Reminder_OnEvent)
+			B:UnregisterEvent("UNIT_ENTERED_VEHICLE", Auras.Reminder_OnEvent)
+			B:UnregisterEvent("PLAYER_REGEN_ENABLED", Auras.Reminder_OnEvent)
+			B:UnregisterEvent("PLAYER_REGEN_DISABLED", Auras.Reminder_OnEvent)
+			B:UnregisterEvent("ZONE_CHANGED_NEW_AREA", Auras.Reminder_OnEvent)
+			B:UnregisterEvent("PLAYER_ENTERING_WORLD", Auras.Reminder_OnEvent)
 		end
 	end
 end

@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Bar = B:RegisterModule("Actionbar")
+local Bar = B:RegisterModule("ActionBar")
 
 local _G = _G
 local tinsert, next = tinsert, next
@@ -12,7 +12,7 @@ local function UpdateActionbarScale(bar)
 	local frame = _G["NDui_Action"..bar]
 	if not frame then return end
 
-	local size = frame.buttonSize * C.db["Actionbar"]["Scale"]
+	local size = frame.buttonSize * C.db["ActionBar"]["BarScale"]
 	frame:SetFrameSize(size)
 	for _, button in pairs(frame.buttonList) do
 		button:SetSize(size, size)
@@ -20,7 +20,7 @@ local function UpdateActionbarScale(bar)
 end
 
 function Bar:UpdateAllScale()
-	if not C.db["Actionbar"]["Enable"] then return end
+	if not C.db["ActionBar"]["Enable"] then return end
 
 	UpdateActionbarScale("Bar1")
 	UpdateActionbarScale("Bar2")
@@ -40,7 +40,7 @@ local function SetFrameSize(frame, size, num)
 	frame:SetWidth(num*size + (num-1)*margin + 2*padding)
 	frame:SetHeight(size + 2*padding)
 	if not frame.mover then
-		frame.mover = B.Mover(frame, L["Main Actionbar"], "Bar1", frame.Pos)
+		frame.mover = B.Mover(frame, L["Main ActionBar"], "Bar1", frame.Pos)
 	else
 		frame.mover:SetSize(frame:GetSize())
 	end
@@ -55,13 +55,13 @@ end
 function Bar:CreateBar1()
 	local num = NUM_ACTIONBAR_BUTTONS
 	local buttonList = {}
-	local layout = C.db["Actionbar"]["Style"]
+	local layout = C.db["ActionBar"]["BarStyle"]
 
 	local frame = CreateFrame("Frame", "NDui_ActionBar1", UIParent, "SecureHandlerStateTemplate")
 	if layout == 5 then
-		frame.Pos = {"BOTTOM", UIParent, "BOTTOM", -108, 24}
+		frame.Pos = {"BOTTOM", UIParent, "BOTTOM", -108, 27}
 	else
-		frame.Pos = {"BOTTOM", UIParent, "BOTTOM", 0, 24}
+		frame.Pos = {"BOTTOM", UIParent, "BOTTOM", 0, 27}
 	end
 
 	for i = 1, num do
@@ -133,7 +133,7 @@ end
 function Bar:OnLogin()
 	Bar.buttons = {}
 
-	if not C.db["Actionbar"]["Enable"] then return end
+	if not C.db["ActionBar"]["Enable"] then return end
 
 	Bar:CreateBar1()
 	Bar:CreateBar2()

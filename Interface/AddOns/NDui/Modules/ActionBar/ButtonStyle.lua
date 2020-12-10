@@ -3,7 +3,7 @@ local B, C, L, DB = unpack(ns)
 ---------------------------
 -- rButtonTemplate, zork
 ---------------------------
-local Bar = B:GetModule("Actionbar")
+local Bar = B:GetModule("ActionBar")
 local _G = getfenv(0)
 local pairs, gsub = pairs, string.gsub
 
@@ -118,12 +118,9 @@ local function SetupCooldown(cooldown, cfg)
 end
 
 local function SetupBackdrop(icon)
-	local bg = B.SetBD(icon, .25)
-	if C.db["Actionbar"]["Classcolor"] then
-		bg:SetBackdropColor(DB.r, DB.g, DB.b, .25)
-	else
-		bg:SetBackdropColor(.2, .2, .2, .25)
-	end
+	local icbg = B.CreateBDFrame(icon, 0, C.mult)
+	B.CreateBT(icbg)
+	icon.icbg = icbg
 end
 
 local keyButton = gsub(KEY_BUTTON4, "%d", "")
@@ -151,8 +148,8 @@ local replaces = {
 }
 
 function Bar:UpdateHotKey()
-	local hotkey = _G[self:GetName().."HotKey"]
-	if hotkey and hotkey:IsShown() and not C.db["Actionbar"]["Hotkeys"] then
+	local hotkey = _G[self:GetDebugName().."HotKey"]
+	if hotkey and hotkey:IsShown() and not C.db["ActionBar"]["Hotkeys"] then
 		hotkey:Hide()
 		return
 	end
@@ -182,55 +179,60 @@ function Bar:StyleActionButton(button, cfg)
 	if not button then return end
 	if button.__styled then return end
 
-	local buttonName = button:GetName()
+	local buttonName = button:GetDebugName()
 	local icon = _G[buttonName.."Icon"]
+	local name = _G[buttonName.."Name"]
+	local count = _G[buttonName.."Count"]
 	local flash = _G[buttonName.."Flash"]
+	local border = _G[buttonName.."Border"]
+	local hotkey = _G[buttonName.."HotKey"]
+	local cooldown = _G[buttonName.."Cooldown"]
+	local autoCastable = _G[buttonName.."AutoCastable"]
 	local flyoutBorder = _G[buttonName.."FlyoutBorder"]
 	local flyoutBorderShadow = _G[buttonName.."FlyoutBorderShadow"]
-	local hotkey = _G[buttonName.."HotKey"]
-	local count = _G[buttonName.."Count"]
-	local name = _G[buttonName.."Name"]
-	local border = _G[buttonName.."Border"]
-	local autoCastable = _G[buttonName.."AutoCastable"]
-	local NewActionTexture = button.NewActionTexture
-	local cooldown = _G[buttonName.."Cooldown"]
+
 	local normalTexture = button:GetNormalTexture()
 	local pushedTexture = button:GetPushedTexture()
 	local highlightTexture = button:GetHighlightTexture()
+
 	--normal buttons do not have a checked texture, but checkbuttons do and normal actionbuttons are checkbuttons
 	local checkedTexture = nil
 	if button.GetCheckedTexture then checkedTexture = button:GetCheckedTexture() end
-	local floatingBG = _G[buttonName.."FloatingBG"]
 
 	--hide stuff
+	local floatingBG = _G[buttonName.."FloatingBG"]
 	if floatingBG then floatingBG:Hide() end
-	if NewActionTexture then NewActionTexture:SetTexture(nil) end
+
+	local newActionTexture = button.NewActionTexture
+	if newActionTexture then newActionTexture:SetTexture("") end
 
 	--backdrop
 	SetupBackdrop(icon)
+	B.ReskinBorder(border, icon.icbg)
 
 	--textures
 	SetupTexture(icon, cfg.icon, "SetTexture", icon)
 	SetupTexture(flash, cfg.flash, "SetTexture", flash)
 	SetupTexture(flyoutBorder, cfg.flyoutBorder, "SetTexture", flyoutBorder)
 	SetupTexture(flyoutBorderShadow, cfg.flyoutBorderShadow, "SetTexture", flyoutBorderShadow)
-	SetupTexture(border, cfg.border, "SetTexture", border)
+	--SetupTexture(border, cfg.border, "SetTexture", border)
+
 	SetupTexture(normalTexture, cfg.normalTexture, "SetNormalTexture", button)
 	SetupTexture(pushedTexture, cfg.pushedTexture, "SetPushedTexture", button)
-	SetupTexture(highlightTexture, cfg.highlightTexture, "SetHighlightTexture", button)
 	SetupTexture(checkedTexture, cfg.checkedTexture, "SetCheckedTexture", button)
+	SetupTexture(highlightTexture, cfg.highlightTexture, "SetHighlightTexture", button)
 
-	checkedTexture:SetColorTexture(1, .8, 0, .35)
 	highlightTexture:SetColorTexture(1, 1, 1, .25)
 
 	--cooldown
 	SetupCooldown(cooldown, cfg.cooldown)
 
 	--no clue why but blizzard created count and duration on background layer, need to fix that
+	--if border then B.ReskinBorder(border, icon.icbg) end
 	local overlay = CreateFrame("Frame", nil, button)
 	overlay:SetAllPoints()
 	if count then
-		if C.db["Actionbar"]["Count"] then
+		if C.db["ActionBar"]["Count"] then
 			count:SetParent(overlay)
 			SetupFontString(count, cfg.count)
 		else
@@ -243,7 +245,7 @@ function Bar:StyleActionButton(button, cfg)
 		SetupFontString(hotkey, cfg.hotkey)
 	end
 	if name then
-		if C.db["Actionbar"]["Macro"] then
+		if C.db["ActionBar"]["Macro"] then
 			name:SetParent(overlay)
 			SetupFontString(name, cfg.name)
 		else
@@ -265,19 +267,19 @@ function Bar:StyleExtraActionButton(cfg)
 	local button = ExtraActionButton1
 	if button.__styled then return end
 
-	local buttonName = button:GetName()
-	local icon = _G[buttonName.."Icon"]
-	--local flash = _G[buttonName.."Flash"] --wierd the template has two textures of the same name
-	local hotkey = _G[buttonName.."HotKey"]
-	local count = _G[buttonName.."Count"]
+	local buttonName = button:GetDebugName()
 	local buttonstyle = button.style --artwork around the button
+	local icon = _G[buttonName.."Icon"]
+	local count = _G[buttonName.."Count"]
+	local hotkey = _G[buttonName.."HotKey"]
 	local cooldown = _G[buttonName.."Cooldown"]
+	--local flash = _G[buttonName.."Flash"] --wierd the template has two textures of the same name
 
-	button:SetPushedTexture(DB.textures.pushed) --force it to gain a texture
+	button:SetPushedTexture(DB.pushed) --force it to gain a texture
+	local checkedTexture = button:GetCheckedTexture()
 	local normalTexture = button:GetNormalTexture()
 	local pushedTexture = button:GetPushedTexture()
 	local highlightTexture = button:GetHighlightTexture()
-	local checkedTexture = button:GetCheckedTexture()
 
 	--backdrop
 	SetupBackdrop(icon)
@@ -285,10 +287,12 @@ function Bar:StyleExtraActionButton(cfg)
 	--textures
 	SetupTexture(icon, cfg.icon, "SetTexture", icon)
 	SetupTexture(buttonstyle, cfg.buttonstyle, "SetTexture", buttonstyle)
+
 	SetupTexture(normalTexture, cfg.normalTexture, "SetNormalTexture", button)
 	SetupTexture(pushedTexture, cfg.pushedTexture, "SetPushedTexture", button)
-	SetupTexture(highlightTexture, cfg.highlightTexture, "SetHighlightTexture", button)
 	SetupTexture(checkedTexture, cfg.checkedTexture, "SetCheckedTexture", button)
+	SetupTexture(highlightTexture, cfg.highlightTexture, "SetHighlightTexture", button)
+
 	highlightTexture:SetColorTexture(1, 1, 1, .25)
 
 	--cooldown
@@ -303,7 +307,7 @@ function Bar:StyleExtraActionButton(cfg)
 	cfg.hotkey.font = {DB.Font[1], 13, DB.Font[3]}
 	SetupFontString(hotkey, cfg.hotkey)
 
-	if C.db["Actionbar"]["Count"] then
+	if C.db["ActionBar"]["Count"] then
 		count:SetParent(overlay)
 		cfg.count.font = {DB.Font[1], 16, DB.Font[3]}
 		SetupFontString(count, cfg.count)
@@ -352,9 +356,9 @@ function Bar:StyleAllActionButtons(cfg)
 	--extra action button
 	Bar:StyleExtraActionButton(cfg)
 	--spell flyout
-	SpellFlyoutBackgroundEnd:SetTexture(nil)
-	SpellFlyoutHorizontalBackground:SetTexture(nil)
-	SpellFlyoutVerticalBackground:SetTexture(nil)
+	SpellFlyoutBackgroundEnd:SetTexture("")
+	SpellFlyoutHorizontalBackground:SetTexture("")
+	SpellFlyoutVerticalBackground:SetTexture("")
 	local function checkForFlyoutButtons()
 		local i = 1
 		local button = _G["SpellFlyoutButton"..i]
@@ -369,6 +373,11 @@ end
 
 function Bar:ReskinBars()
 	local cfg = {
+		border = {file = ""},
+		buttonstyle = {file = ""},
+		flash = {file = DB.flash},
+		flyoutBorder = {file = ""},
+		flyoutBorderShadow = {file = ""},
 		icon = {
 			texCoord = DB.TexCoord,
 			points = {
@@ -376,35 +385,30 @@ function Bar:ReskinBars()
 				{"BOTTOMRIGHT", -C.mult, C.mult},
 			},
 		},
-		flyoutBorder = {file = ""},
-		flyoutBorderShadow = {file = ""},
-		border = {file = ""},
 		normalTexture = {
-			file = DB.textures.normal,
+			file = DB.normal,
 			texCoord = DB.TexCoord,
-			color = {.3, .3, .3},
 			points = {
 				{"TOPLEFT", C.mult, -C.mult},
 				{"BOTTOMRIGHT", -C.mult, C.mult},
 			},
 		},
-		flash = {file = DB.textures.flash},
 		pushedTexture = {
-			file = DB.textures.pushed,
+			file = DB.pushed,
 			points = {
 				{"TOPLEFT", C.mult, -C.mult},
 				{"BOTTOMRIGHT", -C.mult, C.mult},
 			},
 		},
 		checkedTexture = {
-			file = "",
+			file = DB.checked,
 			points = {
 				{"TOPLEFT", C.mult, -C.mult},
 				{"BOTTOMRIGHT", -C.mult, C.mult},
 			},
 		},
 		highlightTexture = {
-			file = "",
+			file = DB.backgroundTex,
 			points = {
 				{"TOPLEFT", C.mult, -C.mult},
 				{"BOTTOMRIGHT", -C.mult, C.mult},
@@ -412,8 +416,8 @@ function Bar:ReskinBars()
 		},
 		cooldown = {
 			points = {
-				{"TOPLEFT", 0, 0},
-				{"BOTTOMRIGHT", 0, 0},
+				{"TOPLEFT", C.mult, -C.mult},
+				{"BOTTOMRIGHT", -C.mult, C.mult},
 			},
 		},
 		name = {
@@ -436,7 +440,6 @@ function Bar:ReskinBars()
 				{"BOTTOMRIGHT", 2, 0},
 			},
 		},
-		buttonstyle = {file = ""},
 	}
 
 	Bar:StyleAllActionButtons(cfg)

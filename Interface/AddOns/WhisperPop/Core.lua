@@ -53,7 +53,7 @@ local function getDeprecatedAccountInfo(accountInfo)
 	if accountInfo then
 		local wowProjectID = accountInfo.gameAccountInfo.wowProjectID or 0
 		local clientProgram = accountInfo.gameAccountInfo.clientProgram ~= "" and accountInfo.gameAccountInfo.clientProgram or nil
-		return 
+		return
 			accountInfo.bnetAccountID, accountInfo.accountName, accountInfo.battleTag, accountInfo.isBattleTagFriend,
 			accountInfo.gameAccountInfo.characterName, accountInfo.gameAccountInfo.gameAccountID, clientProgram,
 			accountInfo.gameAccountInfo.isOnline, accountInfo.lastOnlineTime, accountInfo.isAFK, accountInfo.isDND, accountInfo.customMessage, accountInfo.note, accountInfo.isFriend,
@@ -72,7 +72,7 @@ end
 -- Message are saved in format of: [1/0][hh:mm:ss][contents]
 -- The first char is 1 if this message is inform, 0 otherwise
 function addon:EncodeMessage(text, inform)
-	local timeStamp = strsub(date("%D %T"), 1, 17)
+	local timeStamp = date("%y/%m/%d %H:%M:%S")
 	return (inform and "1" or "0")..timeStamp..(text or ""), timeStamp
 end
 
@@ -131,7 +131,7 @@ function addon:GetBNInfoFromTag(tag)
 	for i = 1, count do
 		local id, name, battleTag, _, _, _, _, online = BNGetFriendInfo(i)
 		if battleTag == tag then
-			return id, name, online
+			return id, name, online, i
 		end
 	end
 end
@@ -178,14 +178,99 @@ function addon:AddTooltipText(tooltip)
 	end
 end
 
-function addon:HandleAction(name, action)
+local menuList = {
+	[1] = {text = "邀请或加入", isTitle = true, notCheckable = true}
+}
+
+local function inviteFunc(_, bnetIDGameAccount, guid)
+	FriendsFrame_InviteOrRequestToJoin(guid, bnetIDGameAccount)
+end
+
+local function CanCooperateWithUnit(gameAccountInfo)
+	return gameAccountInfo.playerGuid and (gameAccountInfo.factionName == UnitFactionGroup("player")) and (gameAccountInfo.realmID ~= 0)
+end
+
+addon.EasyMenu = CreateFrame("Frame", nil, UIParent, "UIDropDownMenuTemplate")
+
+function addon.HexRGB(r, g, b)
+	if r then
+		if type(r) == "table" then
+			if r.r then r, g, b = r.r, r.g, r.b else r, g, b = unpack(r) end
+		end
+		return format("|cff%02x%02x%02x", r*255, g*255, b*255)
+	end
+end
+
+addon.ClassList = {}
+for k, v in pairs(LOCALIZED_CLASS_NAMES_MALE) do
+	addon.ClassList[v] = k
+end
+addon.ClassColors = {}
+local colors = CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS
+for class, value in pairs(colors) do
+	addon.ClassColors[class] = {}
+	addon.ClassColors[class].r = value.r
+	addon.ClassColors[class].g = value.g
+	addon.ClassColors[class].b = value.b
+	addon.ClassColors[class].colorStr = value.colorStr
+end
+
+function addon.ClassColor(class)
+	local color = addon.ClassColors[class]
+	if not color then return 1, 1, 1 end
+	return color.r, color.g, color.b
+end
+
+function addon:BattlenetInvite(friendIndex, button)
+	local index = 2
+	if #menuList > 1 then
+		for i = 2, #menuList do
+			wipe(menuList[i])
+		end
+	end
+
+	local numGameAccounts = C_BattleNet.GetFriendNumGameAccounts(friendIndex)
+	local lastGameAccountID, lastGameAccountGUID
+	if numGameAccounts > 0 then
+		for i = 1, numGameAccounts do
+			local gameAccountInfo = C_BattleNet.GetFriendGameAccountInfo(friendIndex, i)
+			local charName = gameAccountInfo.characterName
+			local client = gameAccountInfo.clientProgram
+			local class = gameAccountInfo.className or UNKNOWN
+			local bnetIDGameAccount = gameAccountInfo.gameAccountID
+			local guid = gameAccountInfo.playerGuid
+			local wowProjectID = gameAccountInfo.wowProjectID
+			if client == BNET_CLIENT_WOW and CanCooperateWithUnit(gameAccountInfo) and wowProjectID == WOW_PROJECT_ID then
+				if not menuList[index] then menuList[index] = {} end
+				menuList[index].text = addon.HexRGB(addon.ClassColor(addon.ClassList[class]))..charName
+				menuList[index].notCheckable = true
+				menuList[index].arg1 = bnetIDGameAccount
+				menuList[index].arg2 = guid
+				menuList[index].func = inviteFunc
+				lastGameAccountID = bnetIDGameAccount
+				lastGameAccountGUID = guid
+
+				index = index + 1
+			end
+		end
+	end
+
+	if index == 2 then return end
+	if index == 3 then
+		FriendsFrame_InviteOrRequestToJoin(lastGameAccountGUID, lastGameAccountID)
+	else
+		EasyMenu(menuList, addon.EasyMenu, button, 0, 0, "MENU", 1)
+	end
+end
+
+function addon:HandleAction(name, action, button)
 	if type(name) ~= "string" then
 		return
 	end
 
 	local bnId, bnName, bnOnline
 	if addon:IsBattleTag(name) then
-		bnId, bnName, bnOnline = self:GetBNInfoFromTag(name)
+		bnId, bnName, bnOnline, bnIndex = self:GetBNInfoFromTag(name)
 		if not bnId then
 			return
 		end
@@ -202,17 +287,18 @@ function addon:HandleAction(name, action)
 		SendWho("n-"..(bnName or name))
 
 	elseif action == "INVITE" then
-		if bnId then
-			FriendsFrame_BattlenetInvite(nil, bnId)
+		if bnIndex then
+			self:BattlenetInvite(bnIndex, button)
 		else
-			InviteUnit(name)
+			C_PartyInfo.InviteUnit(name)
 		end
 
 	elseif action == "WHISPER" then
-		local editbox = ChatEdit_ChooseBoxForSend()
-		ChatEdit_ActivateChat(editbox)
-		editbox:SetText("/w "..(bnName or name).." ")
-		ChatEdit_ParseText(editbox, 0)
+		if bnName then
+			ChatFrame_SendBNetTell(bnName)
+		else
+			ChatFrame_SendTell(name, SELECTED_DOCK_FRAME)
+		end
 	end
 end
 

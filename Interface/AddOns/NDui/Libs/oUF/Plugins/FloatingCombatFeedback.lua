@@ -4,7 +4,7 @@
 -----------------------------------------------
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local oUF = ns.oUF or oUF
+local oUF = ns.oUF
 assert(oUF, "oUF FloatingCombatFeedback was unable to locate oUF install")
 
 local _G = getfenv(0)
@@ -226,7 +226,7 @@ local function formatNumber(self, amount)
 	local element = self.FloatingCombatFeedback
 
 	if element.abbreviateNumbers then
-		return B.Numb(amount)
+		return B.FormatNumb(amount)
 	else
 		return BreakUpLargeNumbers(amount)
 	end

@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local M = B:RegisterModule("Mover")
+local Mover = B:RegisterModule("Mover")
 
 local cr, cg, cb = DB.r, DB.g, DB.b
 
@@ -18,12 +18,12 @@ function B:CreateMF(parent, saved)
 		frame:StopMovingOrSizing()
 		if not saved then return end
 		local orig, _, tar, x, y = frame:GetPoint()
-		C.db["TempAnchor"][frame:GetName()] = {orig, "UIParent", tar, x, y}
+		C.db["TempAnchor"][frame:GetDebugName()] = {orig, "UIParent", tar, x, y}
 	end)
 end
 
 function B:RestoreMF()
-	local name = self:GetName()
+	local name = self:GetDebugName()
 	if name and C.db["TempAnchor"][name] then
 		self:ClearAllPoints()
 		self:SetPoint(unpack(C.db["TempAnchor"][name]))
@@ -41,7 +41,7 @@ function B:Mover(text, value, anchor, width, height, isAuraWatch)
 	local mover = CreateFrame("Frame", nil, UIParent)
 	mover:SetWidth(width or self:GetWidth())
 	mover:SetHeight(height or self:GetHeight())
-	mover.bg = B.SetBD(mover)
+	mover.bg = B.CreateBDFrame(mover, 0, C.mult)
 	mover:Hide()
 	mover.text = B.CreateFS(mover, DB.Font[2], text)
 	mover.text:SetWordWrap(true)
@@ -60,11 +60,11 @@ function B:Mover(text, value, anchor, width, height, isAuraWatch)
 	mover.__value = value
 	mover.__anchor = anchor
 	mover.isAuraWatch = isAuraWatch
-	mover:SetScript("OnEnter", M.Mover_OnEnter)
-	mover:SetScript("OnLeave", M.Mover_OnLeave)
-	mover:SetScript("OnDragStart", M.Mover_OnDragStart)
-	mover:SetScript("OnDragStop", M.Mover_OnDragStop)
-	mover:SetScript("OnMouseUp", M.Mover_OnClick)
+	mover:SetScript("OnEnter", Mover.Mover_OnEnter)
+	mover:SetScript("OnLeave", Mover.Mover_OnLeave)
+	mover:SetScript("OnDragStart", Mover.Mover_OnDragStart)
+	mover:SetScript("OnDragStop", Mover.Mover_OnDragStop)
+	mover:SetScript("OnMouseUp", Mover.Mover_OnClick)
 	if not isAuraWatch then
 		tinsert(MoverList, mover)
 	end
@@ -75,10 +75,10 @@ function B:Mover(text, value, anchor, width, height, isAuraWatch)
 	return mover
 end
 
-function M:CalculateMoverPoints(mover, trimX, trimY)
-	local screenWidth = B:Round(UIParent:GetRight())
-	local screenHeight = B:Round(UIParent:GetTop())
-	local screenCenter = B:Round(UIParent:GetCenter(), nil)
+function Mover:CalculateMoverPoints(mover, trimX, trimY)
+	local screenWidth = B.Round(UIParent:GetRight())
+	local screenHeight = B.Round(UIParent:GetTop())
+	local screenCenter = B.Round(UIParent:GetCenter(), nil)
 	local x, y = mover:GetCenter()
 
 	local LEFT = screenWidth / 3
@@ -110,9 +110,9 @@ function M:CalculateMoverPoints(mover, trimX, trimY)
 	return x, y, point
 end
 
-function M:UpdateTrimFrame()
-	local x, y = M:CalculateMoverPoints(self)
-	x, y = B:Round(x), B:Round(y)
+function Mover:UpdateTrimFrame()
+	local x, y = Mover:CalculateMoverPoints(self)
+	x, y = B.Round(x), B.Round(y)
 	f.__x:SetText(x)
 	f.__y:SetText(y)
 	f.__x.__current = x
@@ -120,11 +120,11 @@ function M:UpdateTrimFrame()
 	f.__trimText:SetText(self.text:GetText())
 end
 
-function M:DoTrim(trimX, trimY)
+function Mover:DoTrim(trimX, trimY)
 	local mover = updater.__owner
 	if mover then
-		local x, y, point = M:CalculateMoverPoints(mover, trimX, trimY)
-		x, y = B:Round(x), B:Round(y)
+		local x, y, point = Mover:CalculateMoverPoints(mover, trimX, trimY)
+		x, y = B.Round(x), B.Round(y)
 		f.__x:SetText(x)
 		f.__y:SetText(y)
 		f.__x.__current = x
@@ -135,7 +135,7 @@ function M:DoTrim(trimX, trimY)
 	end
 end
 
-function M:Mover_OnClick(btn)
+function Mover:Mover_OnClick(btn)
 	if IsShiftKeyDown() and btn == "RightButton" then
 		if self.isAuraWatch then
 			UIErrorsFrame:AddMessage(DB.InfoColor..L["AuraWatchToggleError"])
@@ -148,40 +148,40 @@ function M:Mover_OnClick(btn)
 		C.db[self.__key][self.__value] = nil
 	end
 	updater.__owner = self
-	M.UpdateTrimFrame(self)
+	Mover.UpdateTrimFrame(self)
 end
 
-function M:Mover_OnEnter()
+function Mover:Mover_OnEnter()
 	self.bg:SetBackdropBorderColor(cr, cg, cb)
-	self.text:SetTextColor(1, .8, 0)
+	self.text:SetTextColor(cr, cg, cb)
 end
 
-function M:Mover_OnLeave()
+function Mover:Mover_OnLeave()
 	self.bg:SetBackdropBorderColor(0, 0, 0)
 	self.text:SetTextColor(1, 1, 1)
 end
 
-function M:Mover_OnDragStart()
+function Mover:Mover_OnDragStart()
 	self:StartMoving()
-	M.UpdateTrimFrame(self)
+	Mover.UpdateTrimFrame(self)
 	updater.__owner = self
 	updater:Show()
 end
 
-function M:Mover_OnDragStop()
+function Mover:Mover_OnDragStop()
 	self:StopMovingOrSizing()
 	local orig, _, tar, x, y = self:GetPoint()
-	x = B:Round(x)
-	y = B:Round(y)
+	x = B.Round(x)
+	y = B.Round(y)
 
 	self:ClearAllPoints()
 	self:SetPoint(orig, "UIParent", tar, x, y)
 	C.db[self.__key][self.__value] = {orig, "UIParent", tar, x, y}
-	M.UpdateTrimFrame(self)
+	Mover.UpdateTrimFrame(self)
 	updater:Hide()
 end
 
-function M:UnlockElements()
+function Mover:UnlockElements()
 	for i = 1, #MoverList do
 		local mover = MoverList[i]
 		if not mover:IsShown() then
@@ -191,7 +191,7 @@ function M:UnlockElements()
 	f:Show()
 end
 
-function M:LockElements()
+function Mover:LockElements()
 	for i = 1, #MoverList do
 		local mover = MoverList[i]
 		mover:Hide()
@@ -219,7 +219,7 @@ local function CreateConsole()
 	f = CreateFrame("Frame", nil, UIParent)
 	f:SetPoint("TOP", 0, -150)
 	f:SetSize(212, 80)
-	B.SetBD(f)
+	B.CreateBG(f)
 	B.CreateFS(f, 15, L["Mover Console"], "system", "TOP", 0, -8)
 	local bu, text = {}, {LOCK, L["Grids"], L["AuraWatch"], RESET}
 	for i = 1, 4 do
@@ -234,7 +234,7 @@ local function CreateConsole()
 	end
 
 	-- Lock
-	bu[1]:SetScript("OnClick", M.LockElements)
+	bu[1]:SetScript("OnClick", Mover.LockElements)
 	-- Grids
 	bu[2]:SetScript("OnClick", function()
 		SlashCmdList["TOGGLEGRID"]("64")
@@ -264,7 +264,7 @@ local function CreateConsole()
 	local frame = CreateFrame("Frame", nil, f)
 	frame:SetSize(212, 73)
 	frame:SetPoint("TOP", f, "BOTTOM", 0, -3)
-	B.SetBD(frame)
+	B.CreateBG(frame)
 	f.__trimText = B.CreateFS(frame, 12, NONE, "system", "BOTTOM", 0, 5)
 
 	local xBox = B.CreateEditBox(frame, 60, 22)
@@ -278,7 +278,7 @@ local function CreateConsole()
 		if text then
 			local diff = text - self.__current
 			self.__current = text
-			M:DoTrim(diff)
+			Mover:DoTrim(diff)
 		end
 	end)
 	f.__x = xBox
@@ -294,7 +294,7 @@ local function CreateConsole()
 		if text then
 			local diff = text - self.__current
 			self.__current = text
-			M:DoTrim(nil, diff)
+			Mover:DoTrim(nil, diff)
 		end
 	end)
 	f.__y = yBox
@@ -309,9 +309,9 @@ local function CreateConsole()
 	local function arrowOnClick(self)
 		local modKey = IsModifierKeyDown()
 		if self.__index < 3 then
-			M:DoTrim(self.__offset * (modKey and 10 or 1))
+			Mover:DoTrim(self.__offset * (modKey and 10 or 1))
 		else
-			M:DoTrim(nil, self.__offset * (modKey and 10 or 1))
+			Mover:DoTrim(nil, self.__offset * (modKey and 10 or 1))
 		end
 		PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
 	end
@@ -333,11 +333,11 @@ local function CreateConsole()
 	local function showLater(event)
 		if event == "PLAYER_REGEN_DISABLED" then
 			if f:IsShown() then
-				M:LockElements()
+				Mover:LockElements()
 				B:RegisterEvent("PLAYER_REGEN_ENABLED", showLater)
 			end
 		else
-			M:UnlockElements()
+			Mover:UnlockElements()
 			B:UnregisterEvent(event, showLater)
 		end
 	end
@@ -350,15 +350,15 @@ SlashCmdList["NDUI_MOVER"] = function()
 		return
 	end
 	CreateConsole()
-	M:UnlockElements()
+	Mover:UnlockElements()
 end
 SLASH_NDUI_MOVER1 = "/mm"
 SLASH_NDUI_MOVER2 = "/mmm"
 
-function M:OnLogin()
+function Mover:OnLogin()
 	updater = CreateFrame("Frame")
 	updater:Hide()
 	updater:SetScript("OnUpdate", function()
-		M.UpdateTrimFrame(updater.__owner)
+		Mover.UpdateTrimFrame(updater.__owner)
 	end)
 end

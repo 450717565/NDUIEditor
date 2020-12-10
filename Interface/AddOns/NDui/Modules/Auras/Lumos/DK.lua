@@ -1,11 +1,11 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local A = B:GetModule("Auras")
+local Auras = B:GetModule("Auras")
 
 if DB.MyClass ~= "DEATHKNIGHT" then return end
 local floor = math.floor
 
-function A:PostCreateLumos(self)
+function Auras:PostCreateLumos(self)
 	local shield = B.CreateFS(self.Health, 18, "", "system")
 	shield:ClearAllPoints()
 	shield:SetPoint("RIGHT", self.Health, "LEFT", -5, 0)
@@ -13,31 +13,31 @@ function A:PostCreateLumos(self)
 	self.shield = shield
 end
 
-function A:PostUpdateVisibility(self)
+function Auras:PostUpdateVisibility(self)
 	if self.shield then self.shield:SetText("") end
 end
 
 local function GetUnitAura(unit, spell, filter)
-	return A:GetUnitAura(unit, spell, filter)
+	return Auras:GetUnitAura(unit, spell, filter)
 end
 
 local function UpdateCooldown(button, spellID, texture)
-	return A:UpdateCooldown(button, spellID, texture)
+	return Auras:UpdateCooldown(button, spellID, texture)
 end
 
 local function UpdateBuff(button, spellID, auraID, cooldown, isPet, glow)
-	return A:UpdateAura(button, isPet and "pet" or "player", auraID, "HELPFUL", spellID, cooldown, glow)
+	return Auras:UpdateAura(button, isPet and "pet" or "player", auraID, "HELPFUL", spellID, cooldown, glow)
 end
 
 local function UpdateDebuff(button, spellID, auraID, cooldown)
-	return A:UpdateAura(button, "target", auraID, "HARMFUL", spellID, cooldown)
+	return Auras:UpdateAura(button, "target", auraID, "HARMFUL", spellID, cooldown)
 end
 
 local function UpdateBuffValue(button, spellID)
 	button.Icon:SetTexture(GetSpellTexture(spellID))
 	local name, _, duration, expire, _, _, value = GetUnitAura("player", spellID, "HELPFUL")
 	if name then
-		button.Count:SetText(B.Numb(value))
+		button.Count:SetText(B.FormatNumb(value))
 		button.CD:SetCooldown(expire-duration, duration)
 		button.CD:Show()
 		button.Icon:SetDesaturated(false)
@@ -48,7 +48,7 @@ local function UpdateBuffValue(button, spellID)
 	button.Count:SetTextColor(1, 1, 1)
 end
 
-function A:ChantLumos(self)
+function Auras:ChantLumos(self)
 	local spec = GetSpecialization()
 	if spec == 1 then
 		do
@@ -61,7 +61,7 @@ function A:ChantLumos(self)
 			button.Count:SetText(boneCount)
 			local name, _, dur, exp, _, _, value = GetUnitAura("player", 77535, "HELPFUL")
 			if name then
-				self.shield:SetText(B.Numb(value))
+				self.shield:SetText(B.FormatNumb(value))
 				button.CD:SetCooldown(exp-dur, dur)
 				button.CD:Show()
 			else

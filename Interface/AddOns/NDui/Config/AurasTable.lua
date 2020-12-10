@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local module = B:RegisterModule("AurasTable")
+local AT = B:RegisterModule("AurasTable")
 local pairs, next, format, wipe = pairs, next, string.format, wipe
 
 -- AuraWatch
@@ -30,7 +30,7 @@ local function newAuraFormat(value)
 	return newTable
 end
 
-function module:AddNewAuraWatch(class, list)
+function AT:AddNewAuraWatch(class, list)
 	for _, k in pairs(list) do
 		for _, v in pairs(k) do
 			local spellID = v.AuraID or v.SpellID
@@ -62,7 +62,7 @@ function module:AddNewAuraWatch(class, list)
 	end
 end
 
-function module:AddDeprecatedGroup()
+function AT:AddDeprecatedGroup()
 	if not C.db["AuraWatch"]["DeprecatedAuras"] then return end
 
 	for name, value in pairs(C.DeprecatedAuras) do
@@ -80,7 +80,7 @@ end
 
 -- RaidFrame spells
 local RaidBuffs = {}
-function module:AddClassSpells(list)
+function AT:AddClassSpells(list)
 	for class, value in pairs(list) do
 		RaidBuffs[class] = value
 	end
@@ -88,10 +88,10 @@ end
 
 -- RaidFrame debuffs
 local RaidDebuffs = {}
-function module:RegisterDebuff(_, instID, _, spellID, level)
+function AT:RegisterDebuff(_, instID, _, spellID, level)
 	local instName = EJ_GetInstanceInfo(instID)
 	if not instName then
-		if DB.isDeveloper then print("Invalid instance ID: "..instID) end
+		if DB.isDeveloper then print("Invalid instance ID："..instID) end
 		return
 	end
 
@@ -103,7 +103,7 @@ function module:RegisterDebuff(_, instID, _, spellID, level)
 end
 
 -- Party watcher spells
-function module:UpdatePartyWatcherSpells()
+function AT:UpdatePartyWatcherSpells()
 	if not next(NDuiADB["PartyWatcherSpells"]) then
 		for spellID, duration in pairs(C.PartySpells) do
 			local name = GetSpellInfo(spellID)
@@ -114,7 +114,7 @@ function module:UpdatePartyWatcherSpells()
 	end
 end
 
-function module:OnLogin()
+function AT:OnLogin()
 	for instName, value in pairs(RaidDebuffs) do
 		for spell, priority in pairs(value) do
 			if NDuiADB["RaidDebuffs"][instName] and NDuiADB["RaidDebuffs"][instName][spell] and NDuiADB["RaidDebuffs"][instName][spell] == priority then

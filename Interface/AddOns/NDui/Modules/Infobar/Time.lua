@@ -2,8 +2,8 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 if not C.Infobar.Time then return end
 
-local module = B:GetModule("Infobar")
-local info = module:RegisterInfobar("Time", C.Infobar.TimePos)
+local Infobar = B:GetModule("Infobar")
+local info = Infobar:RegisterInfobar("Time", C.Infobar.TimePos)
 local time, date = time, date
 local strfind, format, floor = string.find, string.format, math.floor
 local mod, tonumber, pairs, ipairs, select = mod, tonumber, pairs, ipairs, select
@@ -97,10 +97,10 @@ local questlist = {
 	{name = L["Blingtron"], id = 34774},
 	{name = L["Mean One"], id = 6983},
 	{name = L["Timewarped"], id = 40168, texture = 1129674},	-- TBC
-	{name = L["Timewarped"], id = 40173, texture = 1129686},	-- WotLK
-	{name = L["Timewarped"], id = 40786, texture = 1304688},	-- Cata
-	{name = L["Timewarped"], id = 45563, texture = 1530590},	-- MoP
-	{name = L["Timewarped"], id = 55499, texture = 1129683},	-- WoD
+	{name = L["Timewarped"], id = 40173, texture = 1129686},	-- WLK
+	{name = L["Timewarped"], id = 40786, texture = 1304688},	-- CTM
+	{name = L["Timewarped"], id = 45563, texture = 1530590},	-- MOP
+	{name = L["Timewarped"], id = 55499, texture = 1129683},	-- WOD
 }
 
 local lesserVisions = {58151, 58155, 58156, 58167, 58168}
@@ -194,7 +194,7 @@ local title
 local function addTitle(text)
 	if not title then
 		GameTooltip:AddLine(" ")
-		GameTooltip:AddLine(text..":", .6,.8,1)
+		GameTooltip:AddLine(text.."：", .6,.8,1)
 		title = true
 	end
 end
@@ -203,8 +203,7 @@ info.onEnter = function(self)
 	RequestRaidInfo()
 
 	local r,g,b
-	GameTooltip:SetOwner(self, "ANCHOR_NONE")
-	GameTooltip:SetPoint("BOTTOMRIGHT", UIParent, -15, 30)
+	GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT", 0, 15)
 	GameTooltip:ClearLines()
 	local today = C_DateAndTime_GetCurrentCalendarTime()
 	local w, m, d, y = today.weekday, today.month, today.monthDay, today.year
@@ -219,7 +218,7 @@ info.onEnter = function(self)
 		local name, id, reset = GetSavedWorldBossInfo(i)
 		if not (id == 11 or id == 12 or id == 13) then
 			addTitle(RAID_INFO_WORLD_BOSS)
-			GameTooltip:AddDoubleLine(name, SecondsToTime(reset, true, nil, 3), 1,1,1, 1,1,1)
+			GameTooltip:AddDoubleLine(name, SecondsToTime(reset, true, nil, 3), 1,1,1, 0,1,0)
 		end
 	end
 
@@ -229,7 +228,13 @@ info.onEnter = function(self)
 		local name, _, reset, diff, locked, extended = GetSavedInstanceInfo(i)
 		if diff == 23 and (locked or extended) then
 			addTitle(DUNGEON_DIFFICULTY3..DUNGEONS)
-			if extended then r,g,b = .3,1,.3 else r,g,b = 1,1,1 end
+			if extended then
+				r,g,b = 1,0,0
+			elseif locked then
+				r,g,b = 0,1,0
+			else
+				r,g,b = 1,1,1
+			end
 			GameTooltip:AddDoubleLine(name, SecondsToTime(reset, true, nil, 3), 1,1,1, r,g,b)
 		end
 	end
@@ -240,7 +245,13 @@ info.onEnter = function(self)
 		local name, _, reset, _, locked, extended, _, isRaid, _, diffName = GetSavedInstanceInfo(i)
 		if isRaid and (locked or extended) then
 			addTitle(RAID_INFO)
-			if extended then r,g,b = .3,1,.3 else r,g,b = 1,1,1 end
+			if extended then
+				r,g,b = 1,0,0
+			elseif locked then
+				r,g,b = 0,1,0
+			else
+				r,g,b = 1,1,1
+			end
 			GameTooltip:AddDoubleLine(name.." - "..diffName, SecondsToTime(reset, true, nil, 3), 1,1,1, r,g,b)
 		end
 	end
@@ -256,7 +267,7 @@ info.onEnter = function(self)
 	if count > 0 then
 		addTitle(QUESTS_LABEL)
 		if count == maxCoins then r,g,b = 1,0,0 else r,g,b = 0,1,0 end
-		GameTooltip:AddDoubleLine(bonusName, count.."/"..maxCoins, 1,1,1, r,g,b)
+		GameTooltip:AddDoubleLine(bonusName, count.." / "..maxCoins, 1,1,1, r,g,b)
 	end
 
 	do
@@ -268,7 +279,7 @@ info.onEnter = function(self)
 				GameTooltip:AddDoubleLine(PVP_CONQUEST, QUEST_COMPLETE, 1,1,1, 1,0,0)
 			elseif currentValue > 0 then
 				addTitle(QUESTS_LABEL)
-				GameTooltip:AddDoubleLine(PVP_CONQUEST, currentValue.."/"..maxValue, 1,1,1, 0,1,0)
+				GameTooltip:AddDoubleLine(PVP_CONQUEST, B.FormatNumb(currentValue).." / "..B.FormatNumb(maxValue), 1,1,1, 0,1,0)
 			end
 		end
 	end
@@ -288,7 +299,9 @@ info.onEnter = function(self)
 			GameTooltip:AddDoubleLine(ISLANDS_HEADER, QUEST_COMPLETE, 1,1,1, 1,0,0)
 		else
 			local cur, max = select(4, GetQuestObjectiveInfo(iwqID, 1, false))
-			local stautsText = cur.."/"..max
+			if not cur or not max then return end
+
+			local stautsText = B.FormatNumb(cur).." / "..B.FormatNumb(max)
 			if not cur or not max then stautsText = LFG_LIST_LOADING end
 			GameTooltip:AddDoubleLine(ISLANDS_HEADER, stautsText, 1,1,1, 0,1,0)
 		end

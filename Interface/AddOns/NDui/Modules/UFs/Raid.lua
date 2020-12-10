@@ -1,40 +1,45 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local oUF = ns.oUF or oUF
+local oUF = ns.oUF
 local UF = B:GetModule("UnitFrames")
 
-local strmatch, format, wipe, tinsert = string.match, string.format, table.wipe, table.insert
+local strmatch, format, wipe = strmatch, format, wipe
 local pairs, ipairs, next, tonumber, unpack, gsub = pairs, ipairs, next, tonumber, unpack, gsub
 local UnitAura, GetSpellInfo = UnitAura, GetSpellInfo
 local InCombatLockdown = InCombatLockdown
-local GetTime, GetSpellCooldown, IsInRaid, IsInGroup, IsPartyLFG = GetTime, GetSpellCooldown, IsInRaid, IsInGroup, IsPartyLFG
+local GetTime, GetSpellCooldown, IsInRaid, IsInGroup = GetTime, GetSpellCooldown, IsInRaid, IsInGroup
 local C_ChatInfo_SendAddonMessage = C_ChatInfo.SendAddonMessage
+local LE_PARTY_CATEGORY_HOME = LE_PARTY_CATEGORY_HOME
+local LE_PARTY_CATEGORY_INSTANCE = LE_PARTY_CATEGORY_INSTANCE
 
 -- RaidFrame Elements
 function UF:CreateRaidIcons(self)
-	local parent = CreateFrame("Frame", nil, self)
-	parent:SetAllPoints()
-	parent:SetFrameLevel(self:GetFrameLevel() + 2)
+	local parentFrame = CreateFrame("Frame", nil, self)
+	parentFrame:SetAllPoints()
+	parentFrame:SetFrameLevel(self:GetFrameLevel() + 3)
 
-	local check = parent:CreateTexture(nil, "OVERLAY")
-	check:SetSize(16, 16)
-	check:SetPoint("BOTTOM", 0, 1)
-	self.ReadyCheckIndicator = check
+	local readyCheck = parentFrame:CreateTexture(nil, "OVERLAY")
+	readyCheck:SetSize(16, 16)
+	readyCheck:SetPoint("CENTER", 1, 0)
+	self.ReadyCheckIndicator = readyCheck
 
-	local resurrect = parent:CreateTexture(nil, "OVERLAY")
+	local resurrect = parentFrame:CreateTexture(nil, "OVERLAY")
 	resurrect:SetSize(20, 20)
-	resurrect:SetPoint("CENTER", self, 1, 0)
+	resurrect:SetPoint("CENTER", 1, 0)
 	self.ResurrectIndicator = resurrect
 
-	local role = parent:CreateTexture(nil, "OVERLAY")
-	role:SetSize(12, 12)
-	role:SetPoint("TOPLEFT", 12, 8)
-	self.RaidRoleIndicator = role
-
-	local summon = parent:CreateTexture(nil, "OVERLAY")
+	local summon = parentFrame:CreateTexture(nil, "OVERLAY")
 	summon:SetSize(32, 32)
-	summon:SetPoint("CENTER", parent)
+	summon:SetPoint("CENTER", 1, 0)
 	self.SummonIndicator = summon
+
+	local raidRole = parentFrame:CreateTexture(nil, "OVERLAY")
+	raidRole:SetSize(12, 12)
+	raidRole:SetPoint("LEFT", self, "TOPLEFT", 2, 0)
+	if self.mystyle == "raid" then
+		raidRole:SetPoint("TOPLEFT", self, "TOPLEFT", 0, 0)
+	end
+	self.RaidRoleIndicator = raidRole
 end
 
 function UF:UpdateTargetBorder()
@@ -46,13 +51,15 @@ function UF:UpdateTargetBorder()
 end
 
 function UF:CreateTargetBorder(self)
-	local border = B.CreateSD(self, 4, true)
-	border:SetOutside(self.Health.backdrop, C.mult+4, C.mult+4, self.Power.backdrop)
-	border:SetBackdropBorderColor(1, 1, 1)
-	border:Hide()
-	self.__shadow = nil
+	local color = C.db["Nameplate"]["SelectedColor"]
 
-	self.TargetBorder = border
+	local targetBorder = B.CreateSD(self, true)
+	targetBorder:SetBackdropBorderColor(color.r, color.g, color.b)
+	targetBorder:SetOutside(self.Health.bd, B.Scale(4), B.Scale(4), self.Power.bd)
+	targetBorder:Hide()
+	self.sdTex = nil
+
+	self.TargetBorder = targetBorder
 	self:RegisterEvent("PLAYER_TARGET_CHANGED", UF.UpdateTargetBorder, true)
 	self:RegisterEvent("GROUP_ROSTER_UPDATE", UF.UpdateTargetBorder, true)
 end
@@ -73,11 +80,10 @@ function UF:UpdateThreatBorder(_, unit)
 end
 
 function UF:CreateThreatBorder(self)
-	local threatIndicator = B.CreateSD(self, 3, true)
-	threatIndicator:SetOutside(self.Health.backdrop, C.mult+3, C.mult+3, self.Power.backdrop)
-	threatIndicator:SetBackdropBorderColor(.7, .7, .7)
-	threatIndicator:SetFrameLevel(0)
-	self.__shadow = nil
+	local threatIndicator = B.CreateSD(self, true)
+	threatIndicator:SetOutside(self.Health.bd, B.Scale(4), B.Scale(4), self.Power.bd)
+	threatIndicator:Hide()
+	self.sdTex = nil
 
 	self.ThreatIndicator = threatIndicator
 	self.ThreatIndicator.Override = UF.UpdateThreatBorder
@@ -120,21 +126,21 @@ function UF:CreateRaidDebuffs(self)
 	bu:SetSize(size, size)
 	bu:SetPoint("RIGHT", -15, 0)
 	bu:SetFrameLevel(self:GetFrameLevel() + 3)
-	B.CreateSD(bu, 3, true)
-	bu.__shadow:SetFrameLevel(self:GetFrameLevel() + 2)
 	bu:SetScale(scale)
 	bu:Hide()
 
+	bu.glowFrame = B.CreateGlowFrame(bu, size)
+	bu.bubg = B.CreateBDFrame(bu)
+
 	bu.icon = bu:CreateTexture(nil, "ARTWORK")
-	bu.icon:SetAllPoints()
+	bu.icon:SetInside(bu.bubg)
 	bu.icon:SetTexCoord(unpack(DB.TexCoord))
 
 	local parentFrame = CreateFrame("Frame", nil, bu)
 	parentFrame:SetAllPoints()
 	parentFrame:SetFrameLevel(bu:GetFrameLevel() + 6)
 	bu.count = B.CreateFS(parentFrame, 12, "", false, "BOTTOMRIGHT", 6, -3)
-	bu.timer = B.CreateFS(bu, 12, "", false, "CENTER", 1, 0)
-	bu.glowFrame = B.CreateGlowFrame(bu, size)
+	bu.timer = B.CreateFS(parentFrame, 12, "", false, "CENTER", 1, 0)
 
 	if not C.db["UFs"]["AurasClickThrough"] then
 		bu:SetScript("OnEnter", buttonOnEnter)
@@ -254,7 +260,7 @@ local wheelBindingIndex = {
 local onEnterString = "self:ClearBindings();"
 local onLeaveString = onEnterString
 for keyString, keyIndex in pairs(wheelBindingIndex) do
-	onEnterString = format("%sself:SetBindingClick(0, \"%s\", self:GetName(), \"Button%d\");", onEnterString, keyString, keyIndex)
+	onEnterString = format("%sself:SetBindingClick(0, \"%s\", self:GetDebugName(), \"Button%d\");", onEnterString, keyString, keyIndex)
 end
 local onMouseString = "if not self:IsUnderMouse(false) then self:ClearBindings(); end"
 
@@ -350,7 +356,7 @@ local counterOffsets = {
 }
 
 function UF:BuffIndicatorOnUpdate(elapsed)
-	B.CooldownOnUpdate(self, elapsed, true)
+	B.CooldownOnUpdate(self, elapsed)
 end
 
 local found = {}
@@ -370,34 +376,33 @@ function UF:UpdateBuffIndicator(event, unit)
 			if not name then break end
 			local value = spellList[spellID]
 			if value and (value[3] or caster == "player" or caster == "pet") then
-				for _, bu in pairs(buttons) do
-					if bu.anchor == value[1] then
-						if C.db["UFs"]["BuffIndicatorType"] == 3 then
-							if duration and duration > 0 then
-								bu.expiration = expiration
-								bu:SetScript("OnUpdate", UF.BuffIndicatorOnUpdate)
-							else
-								bu:SetScript("OnUpdate", nil)
-							end
-							bu.timer:SetTextColor(unpack(value[2]))
+				local bu = buttons[value[1]]
+				if bu then
+					if C.db["UFs"]["BuffIndicatorType"] == 3 then
+						if duration and duration > 0 then
+							bu.expiration = expiration
+							bu:SetScript("OnUpdate", UF.BuffIndicatorOnUpdate)
 						else
-							if duration and duration > 0 then
-								bu.cd:SetCooldown(expiration - duration, duration)
-								bu.cd:Show()
-							else
-								bu.cd:Hide()
-							end
-							if C.db["UFs"]["BuffIndicatorType"] == 1 then
-								bu.icon:SetVertexColor(unpack(value[2]))
-							else
-								bu.icon:SetTexture(texture)
-							end
+							bu:SetScript("OnUpdate", nil)
 						end
-						if count > 1 then bu.count:SetText(count) end
-						bu:Show()
-						found[bu.anchor] = true
-						break
+						bu.timer:SetTextColor(unpack(value[2]))
+					else
+						if duration and duration > 0 then
+							bu.cd:SetCooldown(expiration - duration, duration)
+							bu.cd:Show()
+						else
+							bu.cd:Hide()
+						end
+						if C.db["UFs"]["BuffIndicatorType"] == 1 then
+							bu.icon:SetVertexColor(unpack(value[2]))
+						else
+							bu.icon:SetTexture(texture)
+						end
 					end
+
+					if count > 1 then bu.count:SetText(count) end
+					bu:Show()
+					found[bu.anchor] = true
 				end
 			end
 		end
@@ -418,20 +423,20 @@ function UF:RefreshBuffIndicator(bu)
 		bu.count:SetPoint(point, bu.timer, anchorPoint, x, y)
 		bu.icon:Hide()
 		bu.cd:Hide()
-		bu.bg:Hide()
+		bu.bubg:Hide()
 	else
 		bu:SetScript("OnUpdate", nil)
 		bu.timer:Hide()
 		bu.count:ClearAllPoints()
 		bu.count:SetPoint("CENTER", unpack(counterOffsets[bu.anchor][1]))
 		if C.db["UFs"]["BuffIndicatorType"] == 1 then
-			bu.icon:SetTexture(DB.bdTex)
+			bu.icon:SetTexture(DB.backgroundTex)
 		else
 			bu.icon:SetVertexColor(1, 1, 1)
 		end
 		bu.icon:Show()
 		bu.cd:Show()
-		bu.bg:Show()
+		bu.bubg:Show()
 	end
 end
 
@@ -442,26 +447,26 @@ function UF:CreateBuffIndicator(self)
 	local anchors = {"TOPLEFT", "TOP", "TOPRIGHT", "LEFT", "RIGHT", "BOTTOMLEFT", "BOTTOM", "BOTTOMRIGHT"}
 	local buttons = {}
 	for _, anchor in pairs(anchors) do
-		local bu = CreateFrame("Frame", nil, self.Health)
+		local bu = CreateFrame("Frame", nil, self)
 		bu:SetFrameLevel(self:GetFrameLevel()+10)
 		bu:SetSize(10, 10)
 		bu:SetScale(C.db["UFs"]["BuffIndicatorScale"])
 		bu:SetPoint(anchor)
 		bu:Hide()
 
-		bu.bg = B.CreateBDFrame(bu)
+		bu.bubg = B.CreateBDFrame(bu)
 		bu.icon = bu:CreateTexture(nil, "BORDER")
-		bu.icon:SetInside(bu.bg)
+		bu.icon:SetInside(bu.bubg)
 		bu.icon:SetTexCoord(unpack(DB.TexCoord))
 		bu.cd = CreateFrame("Cooldown", nil, bu, "CooldownFrameTemplate")
-		bu.cd:SetAllPoints(bu.bg)
+		bu.cd:SetInside(bu.bubg)
 		bu.cd:SetReverse(true)
 		bu.cd:SetHideCountdownNumbers(true)
 		bu.timer = B.CreateFS(bu, 12, "", false, "CENTER", -counterOffsets[anchor][2][3], 0)
 		bu.count = B.CreateFS(bu, 12, "")
 
 		bu.anchor = anchor
-		tinsert(buttons, bu)
+		buttons[anchor] = bu
 
 		UF:RefreshBuffIndicator(bu)
 	end
@@ -513,6 +518,15 @@ function UF:HandleCDMessage(...)
 	end
 end
 
+local function SendPartySyncMsg(text)
+	if IsInRaid() or not IsInGroup() then return end
+	if not IsInGroup(LE_PARTY_CATEGORY_HOME) and IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+		C_ChatInfo_SendAddonMessage("ZenTracker", text, "INSTANCE_CHAT")
+	else
+		C_ChatInfo_SendAddonMessage("ZenTracker", text, "PARTY")
+	end
+end
+
 local lastUpdate = 0
 function UF:SendCDMessage()
 	local thisTime = GetTime()
@@ -524,7 +538,7 @@ function UF:SendCDMessage()
 				if enabled ~= 0 and start ~= 0 then
 					local remaining = start + duration - thisTime
 					if remaining < 0 then remaining = 0 end
-					C_ChatInfo_SendAddonMessage("ZenTracker", format("3:U:%s:%d:%.2f:%.2f:%s", UF.myGUID, spellID, duration, remaining, "-"), IsPartyLFG() and "INSTANCE_CHAT" or "PARTY") -- sync to others
+					SendPartySyncMsg(format("3:U:%s:%d:%.2f:%.2f:%s", UF.myGUID, spellID, duration, remaining, "-")) -- sync to others
 				end
 			end
 		end
@@ -537,7 +551,7 @@ function UF:UpdateSyncStatus()
 	if IsInGroup() and not IsInRaid() and C.db["UFs"]["PartyFrame"] then
 		local thisTime = GetTime()
 		if thisTime - lastSyncTime > 5 then
-			C_ChatInfo_SendAddonMessage("ZenTracker", format("3:H:%s:0::0:1", UF.myGUID), IsPartyLFG() and "INSTANCE_CHAT" or "PARTY") -- handshake to ZenTracker
+			SendPartySyncMsg(format("3:H:%s:0::0:1", UF.myGUID)) -- handshake to ZenTracker
 			lastSyncTime = thisTime
 		end
 		B:RegisterEvent("SPELL_UPDATE_COOLDOWN", UF.SendCDMessage)

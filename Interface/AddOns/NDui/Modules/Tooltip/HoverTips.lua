@@ -47,15 +47,15 @@ function TT:HyperLink_SetJournal(link)
 	local name, description, icon, idString
 	if idType == "0" then
 		name, description = EJ_GetInstanceInfo(id)
-		idString = INSTANCE.."ID:"
+		idString = INSTANCE.."ID："
 	elseif idType == "1" then
 		name, description = EJ_GetEncounterInfo(id)
-		idString = BOSS.."ID:"
+		idString = BOSS.."ID："
 	elseif idType == "2" then
 		local info = TT:HyperLink_GetSectionInfo(id)
 		name, description, icon = info.title, info.description, info.abilityIcon
 		name = icon and "|T"..icon..":20:20:0:0:64:64:5:59:5:59:20|t "..name or name
-		idString = L["Section"].."ID:"
+		idString = L["Section"].."ID："
 	end
 	if not name then return end
 

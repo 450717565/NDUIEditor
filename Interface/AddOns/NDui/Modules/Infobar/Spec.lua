@@ -2,8 +2,8 @@
 local B, C, L, DB = unpack(ns)
 if not C.Infobar.Spec then return end
 
-local module = B:GetModule("Infobar")
-local info = module:RegisterInfobar("Spec", C.Infobar.SpecPos)
+local Infobar = B:GetModule("Infobar")
+local info = Infobar:RegisterInfobar("Spec", C.Infobar.SpecPos)
 local format, wipe, select, next = string.format, table.wipe, select, next
 local SPECIALIZATION, TALENTS_BUTTON, MAX_TALENT_TIERS = SPECIALIZATION, TALENTS_BUTTON, MAX_TALENT_TIERS
 local PVP_TALENTS, LOOT_SPECIALIZATION_DEFAULT = PVP_TALENTS, LOOT_SPECIALIZATION_DEFAULT
@@ -12,8 +12,11 @@ local GetTalentInfo, GetPvpTalentInfoByID, SetLootSpecialization, SetSpecializat
 local C_SpecializationInfo_GetAllSelectedPvpTalentIDs = C_SpecializationInfo.GetAllSelectedPvpTalentIDs
 local C_SpecializationInfo_CanPlayerUsePVPTalentUI = C_SpecializationInfo.CanPlayerUsePVPTalentUI
 
-local function addIcon(texture)
-	texture = texture and "|T"..texture..":12:16:0:0:50:50:4:46:4:46|t" or ""
+local function addIcon(texture, isMain)
+	local h, y = 13, 0
+	if isMain then h, y = 15, -1 end
+
+	texture = texture and format("|T%s:%s:15:0:%s:50:50:4:46:4:46|t", texture, h, y) or ""
 	return texture
 end
 
@@ -36,13 +39,13 @@ info.onEvent = function(self)
 		if not name then return end
 		local specID = GetLootSpecialization()
 		if specID == 0 then
-			icon = addIcon(icon)
+			icon = addIcon(icon, true)
 		else
-			icon = addIcon(select(4, GetSpecializationInfoByID(specID)))
+			icon = addIcon(select(4, GetSpecializationInfoByID(specID)), true)
 		end
-		self.text:SetText(DB.MyColor..name..icon)
+		self.text:SetFormattedText("%s%s", DB.MyColor..name.."|r", icon)
 	else
-		self.text:SetText(SPECIALIZATION..": "..DB.MyColor..NONE)
+		self.text:SetFormattedText("%s%s", DB.MyColor..NONE.."|r", SPECIALIZATION)
 	end
 end
 
@@ -59,13 +62,13 @@ info.onEnter = function(self)
 	GameTooltip:AddLine(" ")
 
 	local _, specName, _, specIcon = GetSpecializationInfo(specIndex)
-	GameTooltip:AddLine(addIcon(specIcon).." "..specName, .6,.8,1)
+	GameTooltip:AddDoubleLine(addIcon(specIcon).." "..specName, " ", .6,.8,1, 1,1,1)
 
 	for t = 1, MAX_TALENT_TIERS do
 		for c = 1, 3 do
 			local _, name, icon, selected = GetTalentInfo(t, c, 1)
 			if selected then
-				GameTooltip:AddLine(addIcon(icon).." "..name, 1,1,1)
+				GameTooltip:AddDoubleLine(" ", name.." "..addIcon(icon), 1,1,1, 1,1,1)
 			end
 		end
 	end
@@ -75,11 +78,11 @@ info.onEnter = function(self)
 
 		if #pvpTalents > 0 then
 			GameTooltip:AddLine(" ")
-			GameTooltip:AddLine(addIcon(pvpIconTexture).." "..PVP_TALENTS, .6,.8,1)
+			GameTooltip:AddDoubleLine(addIcon(pvpIconTexture).." "..PVP_TALENTS, " ", .6,.8,1, 1,1,1)
 			for _, talentID in next, pvpTalents do
 				local _, name, icon, _, _, _, unlocked = GetPvpTalentInfoByID(talentID)
 				if name and unlocked then
-					GameTooltip:AddLine(addIcon(icon).." "..name, 1,1,1)
+					GameTooltip:AddDoubleLine(" ", name.." "..addIcon(icon), 1,1,1, 1,1,1)
 				end
 			end
 		end

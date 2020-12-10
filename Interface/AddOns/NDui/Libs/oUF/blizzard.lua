@@ -20,51 +20,51 @@ end
 
 local function handleFrame(baseName, doNotReparent)
 	local frame
-	if(type(baseName) == 'string') then
+	if (type(baseName) == 'string') then
 		frame = _G[baseName]
 	else
 		frame = baseName
 	end
 
-	if(frame) then
+	if (frame) then
 		frame:UnregisterAllEvents()
 		frame:Hide()
 
-		if(not doNotReparent) then
+		if (not doNotReparent) then
 			frame:SetParent(hiddenParent)
 		end
 
 		local health = frame.healthBar or frame.healthbar
-		if(health) then
+		if (health) then
 			health:UnregisterAllEvents()
 		end
 
 		local power = frame.manabar
-		if(power) then
+		if (power) then
 			power:UnregisterAllEvents()
 		end
 
 		local spell = frame.castBar or frame.spellbar
-		if(spell) then
+		if (spell) then
 			spell:UnregisterAllEvents()
 		end
 
 		local altpowerbar = frame.powerBarAlt
-		if(altpowerbar) then
+		if (altpowerbar) then
 			altpowerbar:UnregisterAllEvents()
 		end
 
 		local buffFrame = frame.BuffFrame
-		if(buffFrame) then
+		if (buffFrame) then
 			buffFrame:UnregisterAllEvents()
 		end
 	end
 end
 
 function oUF:DisableBlizzard(unit)
-	if(not unit) then return end
+	if (not unit) then return end
 
-	if(unit == 'player') then
+	if (unit == 'player') then
 		handleFrame(PlayerFrame)
 
 		-- For the damn vehicle support:
@@ -89,7 +89,7 @@ function oUF:DisableBlizzard(unit)
 		handleFrame(TargetFrameToT)
 	elseif(unit:match('boss%d?$')) then
 		local id = unit:match('boss(%d)')
-		if(id) then
+		if (id) then
 			handleFrame('Boss' .. id .. 'TargetFrame')
 		else
 			for i = 1, MAX_BOSS_FRAMES do
@@ -98,7 +98,7 @@ function oUF:DisableBlizzard(unit)
 		end
 	elseif(unit:match('party%d?$')) then
 		local id = unit:match('party(%d)')
-		if(id) then
+		if (id) then
 			handleFrame('PartyMemberFrame' .. id)
 		else
 			for i = 1, MAX_PARTY_MEMBERS do
@@ -107,7 +107,7 @@ function oUF:DisableBlizzard(unit)
 		end
 	elseif(unit:match('arena%d?$')) then
 		local id = unit:match('arena(%d)')
-		if(id) then
+		if (id) then
 			handleFrame('ArenaEnemyFrame' .. id)
 		else
 			for i = 1, MAX_ARENA_ENEMIES do
@@ -120,8 +120,8 @@ function oUF:DisableBlizzard(unit)
 		SetCVar('showArenaEnemyFrames', '0', 'SHOW_ARENA_ENEMY_FRAMES_TEXT')
 	elseif(unit:match('nameplate%d+$')) then
 		local frame = C_NamePlate.GetNamePlateForUnit(unit)
-		if(frame and frame.UnitFrame) then
-			if(not frame.UnitFrame.isHooked) then
+		if (frame and frame.UnitFrame) then
+			if (not frame.UnitFrame.isHooked) then
 				frame.UnitFrame:HookScript('OnShow', insecureOnShow)
 				frame.UnitFrame.isHooked = true
 			end

@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local module = B:GetModule("Chat")
+local Chat = B:GetModule("Chat")
 
 local strfind, strmatch, gsub, strrep = string.find, string.match, string.gsub, string.rep
 local pairs, ipairs, tonumber = pairs, ipairs, tonumber
@@ -17,18 +17,18 @@ local BN_TOAST_TYPE_CLUB_INVITATION = BN_TOAST_TYPE_CLUB_INVITATION or 6
 local msgSymbols = {"`", "～", "＠", "＃", "^", "＊", "！", "？", "。", "|", " ", "—", "——", "￥", "’", "‘", "“", "”", "【", "】", "『", "』", "《", "》", "〈", "〉", "（", "）", "〔", "〕", "、", "，", "：", ",", "_", "/", "~"}
 
 local FilterList = {}
-function module:UpdateFilterList()
+function Chat:UpdateFilterList()
 	B.SplitList(FilterList, NDuiADB["ChatFilterList"], true)
 end
 
 local WhiteFilterList = {}
-function module:UpdateFilterWhiteList()
+function Chat:UpdateFilterWhiteList()
 	B.SplitList(WhiteFilterList, NDuiADB["ChatFilterWhiteList"], true)
 end
 
 -- ECF strings compare
 local last, this = {}, {}
-function module:CompareStrDiff(sA, sB) -- arrays of bytes
+function Chat:CompareStrDiff(sA, sB) -- arrays of bytes
 	local len_a, len_b = #sA, #sB
 	for j = 0, len_b do
 		last[j+1] = j
@@ -48,7 +48,7 @@ end
 C.BadBoys = {} -- debug
 local chatLines, prevLineID, filterResult = {}, 0, false
 
-function module:GetFilterResult(event, msg, name, flag, guid)
+function Chat:GetFilterResult(event, msg, name, flag, guid)
 	if name == DB.MyName or (event == "CHAT_MSG_WHISPER" and flag == "GM") or flag == "DEV" then
 		return
 	elseif guid and C.db["Chat"]["AllowFriends"] and (IsGuildMember(guid) or C_BattleNet_GetGameAccountInfoByGUID(guid) or C_FriendList_IsFriend(guid) or IsGUIDInGroup(guid)) then
@@ -109,7 +109,7 @@ function module:GetFilterResult(event, msg, name, flag, guid)
 	chatLines[chatLinesSize+1] = msgTable
 	for i = 1, chatLinesSize do
 		local line = chatLines[i]
-		if line[1] == msgTable[1] and ((msgTable[3] - line[3] < .6) or module:CompareStrDiff(line[2], msgTable[2]) <= .1) then
+		if line[1] == msgTable[1] and ((msgTable[3] - line[3] < .6) or Chat:CompareStrDiff(line[2], msgTable[2]) <= .1) then
 			tremove(chatLines, i)
 			return true
 		end
@@ -117,12 +117,12 @@ function module:GetFilterResult(event, msg, name, flag, guid)
 	if chatLinesSize >= 30 then tremove(chatLines, 1) end
 end
 
-function module:UpdateChatFilter(event, msg, author, _, _, _, flag, _, _, _, _, lineID, guid)
+function Chat:UpdateChatFilter(event, msg, author, _, _, _, flag, _, _, _, _, lineID, guid)
 	if lineID ~= prevLineID then
 		prevLineID = lineID
 
 		local name = Ambiguate(author, "none")
-		filterResult = module:GetFilterResult(event, msg, name, flag, guid)
+		filterResult = Chat:GetFilterResult(event, msg, name, flag, guid)
 		if filterResult then C.BadBoys[name] = (C.BadBoys[name] or 0) + 1 end
 	end
 
@@ -141,23 +141,23 @@ local function toggleCVar(value)
 	SetCVar(cvar, value)
 end
 
-function module:ToggleChatBubble(party)
+function Chat:ToggleChatBubble(party)
 	cvar = "chatBubbles"..(party and "Party" or "")
 	if not GetCVarBool(cvar) then return end
 	toggleCVar(0)
 	C_Timer_After(.01, toggleCVar)
 end
 
-function module:UpdateAddOnBlocker(event, msg, author)
+function Chat:UpdateAddOnBlocker(event, msg, author)
 	local name = Ambiguate(author, "none")
 	if UnitIsUnit(name, "player") then return end
 
 	for _, word in ipairs(addonBlockList) do
 		if strfind(msg, word) then
 			if event == "CHAT_MSG_SAY" or event == "CHAT_MSG_YELL" then
-				module:ToggleChatBubble()
+				Chat:ToggleChatBubble()
 			elseif event == "CHAT_MSG_PARTY" or event == "CHAT_MSG_PARTY_LEADER" then
-				module:ToggleChatBubble(true)
+				Chat:ToggleChatBubble(true)
 			end
 			return true
 		end
@@ -166,7 +166,7 @@ end
 
 -- Block trash clubs
 local trashClubs = {"站桩", "致敬我们", "我们一起玩游戏", "部落大杂烩", "小号提升"}
-function module:BlockTrashClub()
+function Chat:BlockTrashClub()
 	if self.toastType == BN_TOAST_TYPE_CLUB_INVITATION then
 		local text = self.DoubleLine:GetText() or ""
 		for _, name in pairs(trashClubs) do
@@ -179,6 +179,13 @@ function module:BlockTrashClub()
 end
 
 -- Show itemlevel on chat hyperlinks
+local function isItemHasSlot(link)
+	local itemSolt = B.GetItemSlot(link)
+	if itemSolt then
+		return itemSolt
+	end
+end
+
 local function isItemHasLevel(link)
 	local name, _, rarity, level, _, _, _, _, _, _, _, classID = GetItemInfo(link)
 	if name and level and rarity > 1 and (classID == LE_ITEM_CLASS_WEAPON or classID == LE_ITEM_CLASS_ARMOR) then
@@ -222,64 +229,74 @@ local function convertItemLevel(link)
 
 	local itemLink = strmatch(link, "|Hitem:.-|h")
 	if itemLink then
-		local name, itemLevel = isItemHasLevel(itemLink)
-		if name and itemLevel then
-			link = gsub(link, "|h%[(.-)%]|h", "|h["..name.."("..itemLevel..")]|h"..isItemHasGem(itemLink))
+		local itemInfo
+		local itemSolt = isItemHasSlot(itemLink)
+		local itemName, itemLevel = isItemHasLevel(itemLink)
+
+		if itemLevel and itemSolt then
+			itemInfo = itemLevel.."-"..itemSolt
+		elseif itemLevel then
+			itemInfo = itemLevel
+		elseif itemSolt then
+			itemInfo = itemSolt
+		end
+
+		if itemName and itemInfo then
+			link = gsub(link, "|h%[(.-)%]|h", "|h["..itemName.."<"..itemInfo..">]|h"..isItemHasGem(itemLink))
 			itemCache[link] = link
 		end
 	end
 	return link
 end
 
-function module:UpdateChatItemLevel(_, msg, ...)
+function Chat:UpdateChatItemLevel(_, msg, ...)
 	msg = gsub(msg, "(|Hitem:%d+:.-|h.-|h)", convertItemLevel)
 	return false, msg, ...
 end
 
-function module:ChatFilter()
-	if C.db["Chat"]["ChatItemLevel"] then
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_LOOT", self.UpdateChatItemLevel)
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", self.UpdateChatItemLevel)
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_SAY", self.UpdateChatItemLevel)
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_YELL", self.UpdateChatItemLevel)
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", self.UpdateChatItemLevel)
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER_INFORM", self.UpdateChatItemLevel)
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_WHISPER", self.UpdateChatItemLevel)
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID", self.UpdateChatItemLevel)
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_LEADER", self.UpdateChatItemLevel)
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY", self.UpdateChatItemLevel)
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY_LEADER", self.UpdateChatItemLevel)
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_GUILD", self.UpdateChatItemLevel)
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_BATTLEGROUND", self.UpdateChatItemLevel)
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_INSTANCE_CHAT", self.UpdateChatItemLevel)
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_INSTANCE_CHAT_LEADER", self.UpdateChatItemLevel)
-	end
+local chatEvents = {
+	"CHAT_MSG_BATTLEGROUND",
+	"CHAT_MSG_BATTLEGROUND_LEADER",
+	"CHAT_MSG_BN_CONVERSATION",
+	"CHAT_MSG_BN_WHISPER",
+	"CHAT_MSG_BN_WHISPER_INFORM",
+	"CHAT_MSG_CHANNEL",
+	"CHAT_MSG_EMOTE",
+	"CHAT_MSG_GUILD",
+	"CHAT_MSG_INSTANCE_CHAT",
+	"CHAT_MSG_INSTANCE_CHAT_LEADER",
+	"CHAT_MSG_LOOT",
+	"CHAT_MSG_OFFICER",
+	"CHAT_MSG_PARTY",
+	"CHAT_MSG_PARTY_LEADER",
+	"CHAT_MSG_RAID",
+	"CHAT_MSG_RAID_LEADER",
+	"CHAT_MSG_RAID_WARNING",
+	"CHAT_MSG_SAY",
+	"CHAT_MSG_TEXT_EMOTE",
+	"CHAT_MSG_WHISPER",
+	"CHAT_MSG_WHISPER_INFORM",
+	"CHAT_MSG_YELL",
+}
 
+function Chat:ChatFilter()
 	hooksecurefunc(BNToastFrame, "ShowToast", self.BlockTrashClub)
 
-	if IsAddOnLoaded("EnhancedChatFilter") then return end
+	for _, event in pairs(chatEvents) do
+		if C.db["Chat"]["ChatItemLevel"] then
+			ChatFrame_AddMessageEventFilter(event, self.UpdateChatItemLevel)
+		end
 
-	if C.db["Chat"]["EnableFilter"] then
-		self:UpdateFilterList()
-		self:UpdateFilterWhiteList()
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", self.UpdateChatFilter)
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_SAY", self.UpdateChatFilter)
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_YELL", self.UpdateChatFilter)
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", self.UpdateChatFilter)
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_EMOTE", self.UpdateChatFilter)
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_TEXT_EMOTE", self.UpdateChatFilter)
-	end
+		if IsAddOnLoaded("EnhancedChatFilter") then return end
 
-	if C.db["Chat"]["BlockAddonAlert"] then
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_SAY", self.UpdateAddOnBlocker)
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", self.UpdateAddOnBlocker)
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_EMOTE", self.UpdateAddOnBlocker)
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY", self.UpdateAddOnBlocker)
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY_LEADER", self.UpdateAddOnBlocker)
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID", self.UpdateAddOnBlocker)
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_LEADER", self.UpdateAddOnBlocker)
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_INSTANCE_CHAT", self.UpdateAddOnBlocker)
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_INSTANCE_CHAT_LEADER", self.UpdateAddOnBlocker)
-		ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", self.UpdateAddOnBlocker)
+		if C.db["Chat"]["EnableFilter"] then
+			self:UpdateFilterList()
+			self:UpdateFilterWhiteList()
+			ChatFrame_AddMessageEventFilter(event, self.UpdateChatFilter)
+		end
+
+		if C.db["Chat"]["BlockAddonAlert"] then
+			ChatFrame_AddMessageEventFilter(event, self.UpdateAddOnBlocker)
+		end
 	end
 end

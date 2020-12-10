@@ -2,8 +2,8 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 if not C.Infobar.Latency then return end
 
-local module = B:GetModule("Infobar")
-local info = module:RegisterInfobar("Latency", C.Infobar.LatencyPos)
+local Infobar = B:GetModule("Infobar")
+local info = Infobar:RegisterInfobar("Latency", C.Infobar.LatencyPos)
 
 local max, format = max, format
 local GetNetStats, GetNetIpTypes, GetCVarBool = GetNetStats, GetNetIpTypes, GetCVarBool
@@ -14,18 +14,18 @@ local entered
 
 local function colorLatency(latency)
 	if latency < 250 then
-		return "|cff0CD809"..latency
+		return "|cff00FF00"..latency.."|r"
 	elseif latency < 500 then
-		return "|cffE8DA0F"..latency
+		return "|cffFFFF00"..latency.."|r"
 	else
-		return "|cffD80909"..latency
+		return "|cffFF0000"..latency.."|r"
 	end
 end
 
 local function setLatency(self)
 	local _, _, latencyHome, latencyWorld = GetNetStats()
 	local latency = max(latencyHome, latencyWorld)
-	self.text:SetText(L["Latency"]..": "..colorLatency(latency))
+	self.text:SetFormattedText("%s：%s", L["Latency"], colorLatency(latency))
 end
 
 info.onUpdate = function(self, elapsed)
@@ -48,8 +48,8 @@ info.onEnter = function(self)
 	GameTooltip:AddLine(" ")
 
 	local _, _, latencyHome, latencyWorld = GetNetStats()
-	GameTooltip:AddDoubleLine(L["Home Latency"], colorLatency(latencyHome).."|r ms", .6,.8,1, 1,1,1)
-	GameTooltip:AddDoubleLine(L["World Latency"], colorLatency(latencyWorld).."|r ms", .6,.8,1, 1,1,1)
+	GameTooltip:AddDoubleLine(L["Home Latency"], colorLatency(latencyHome).."|r MS", .6,.8,1, 1,1,1)
+	GameTooltip:AddDoubleLine(L["World Latency"], colorLatency(latencyWorld).."|r MS", .6,.8,1, 1,1,1)
 
 	if GetCVarBool("useIPv6") then
 		local ipTypeHome, ipTypeWorld = GetNetIpTypes()

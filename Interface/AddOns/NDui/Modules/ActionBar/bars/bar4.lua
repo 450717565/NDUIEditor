@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Bar = B:GetModule("Actionbar")
+local Bar = B:GetModule("ActionBar")
 
 local _G = _G
 local tinsert = tinsert
@@ -11,7 +11,7 @@ local function SetFrameSize(frame, size, num)
 	size = size or frame.buttonSize
 	num = num or frame.numButtons
 
-	local layout = C.db["Actionbar"]["Style"]
+	local layout = C.db["ActionBar"]["BarStyle"]
 	if layout == 2 then
 		frame:SetWidth(25*size + 25*margin + 2*padding)
 		frame:SetHeight(2*size + margin + 2*padding)
@@ -58,15 +58,15 @@ end
 function Bar:CreateBar4()
 	local num = NUM_ACTIONBAR_BUTTONS
 	local buttonList = {}
-	local layout = C.db["Actionbar"]["Style"]
+	local layout = C.db["ActionBar"]["BarStyle"]
 
 	local frame = CreateFrame("Frame", "NDui_ActionBar4", UIParent, "SecureHandlerStateTemplate")
 	if layout == 2 then
-		frame.Pos = {"BOTTOM", UIParent, "BOTTOM", 0, 26}
+		frame.Pos = {"BOTTOM", _G.NDui_ActionBar1, "BOTTOM", 0, margin}
 	elseif layout == 3 then
-		frame.Pos = {"BOTTOM", UIParent, "BOTTOM", 395, 26}
+		frame.Pos = {"BOTTOMLEFT", _G.NDui_ActionBar3, "BOTTOMRIGHT", margin, 0}
 	else
-		frame.Pos = {"RIGHT", UIParent, "RIGHT", -1, 0}
+		frame.Pos = {"RIGHT", UIParent, "RIGHT", -1, 5}
 	end
 
 	MultiBarRight:SetParent(frame)
@@ -119,7 +119,7 @@ function Bar:CreateBar4()
 	frame.frameVisibility = "[petbattle][overridebar][vehicleui][possessbar,@vehicle,exists][shapeshift] hide; show"
 	RegisterStateDriver(frame, "visibility", frame.frameVisibility)
 
-	if C.db["Actionbar"]["Bar4Fade"] and cfg.fader then
+	if C.db["ActionBar"]["Bar4Fade"] and cfg.fader then
 		Bar.CreateButtonFrameFader(frame, buttonList, cfg.fader)
 	end
 

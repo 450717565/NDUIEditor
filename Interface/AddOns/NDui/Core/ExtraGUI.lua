@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local G = B:GetModule("GUI")
+local GUI = B:GetModule("GUI")
 
 local _G = _G
 local unpack, pairs, ipairs, tinsert = unpack, pairs, ipairs, tinsert
@@ -20,7 +20,7 @@ local extraGUIs = {}
 local function toggleExtraGUI(guiName)
 	for name, frame in pairs(extraGUIs) do
 		if name == guiName then
-			B:TogglePanel(frame)
+			B.TogglePanel(frame)
 		else
 			frame:Hide()
 		end
@@ -37,17 +37,17 @@ local function createExtraGUI(parent, name, title, bgFrame)
 	local frame = CreateFrame("Frame", name, parent)
 	frame:SetSize(300, 600)
 	frame:SetPoint("TOPLEFT", parent:GetParent(), "TOPRIGHT", 3, 0)
-	B.SetBD(frame)
+	B.CreateBG(frame)
 
 	if title then
 		B.CreateFS(frame, 14, title, "system", "TOPLEFT", 20, -25)
 	end
 
 	if bgFrame then
-		frame.bg = CreateFrame("Frame", nil, frame, "BackdropTemplate")
+		frame.bg = CreateFrame("Frame", nil, frame)
 		frame.bg:SetSize(280, 540)
 		frame.bg:SetPoint("TOPLEFT", 10, -50)
-		B.CreateBD(frame.bg, .25)
+		B.CreateBDFrame(frame.bg)
 	end
 
 	if not parent.extraGUIHook then
@@ -61,7 +61,7 @@ end
 
 local function clearEdit(options)
 	for i = 1, #options do
-		G:ClearEdit(options[i])
+		GUI:ClearEdit(options[i])
 	end
 end
 
@@ -69,7 +69,7 @@ local function updateRaidDebuffs()
 	B:GetModule("UnitFrames"):UpdateRaidDebuffs()
 end
 
-function G:SetupRaidDebuffs(parent)
+function GUI:SetupRaidDebuffs(parent)
 	local guiName = "NDuiGUI_RaidDebuffs"
 	toggleExtraGUI(guiName)
 	if extraGUIs[guiName] then return end
@@ -81,11 +81,11 @@ function G:SetupRaidDebuffs(parent)
 	local frame = panel.bg
 	local bars, options = {}, {}
 
-	local iType = G:CreateDropdown(frame, L["Type*"], 10, -30, {DUNGEONS, RAID}, L["Instance Type"])
+	local iType = GUI:CreateDropdown(frame, L["Type*"], 10, -30, {DUNGEONS, RAID}, L["Instance Type"])
 	for i = 1, 2 do
 		iType.options[i]:HookScript("OnClick", function()
 			for j = 1, 2 do
-				G:ClearEdit(options[j])
+				GUI:ClearEdit(options[j])
 				if i == j then
 					options[j]:Show()
 				else
@@ -107,31 +107,17 @@ function G:SetupRaidDebuffs(parent)
 		end
 	end
 
-	-- Deprecated, left them for SL prepatch
-	local bfaDungeons = {1023, 1022, 1030, 1002, 1012, 1021, 1001, 1041, 968, 1036, 1178}
-	for _, dungeonID in pairs(bfaDungeons) do
-		local name = EJ_GetInstanceInfo(dungeonID)
-		if name then
-			tinsert(dungeons, name)
-		end
-	end
-
 	local raids = {
-		[1] = EJ_GetInstanceInfo(1031),
-		[2] = EJ_GetInstanceInfo(1176),
-		[3] = EJ_GetInstanceInfo(1177),
-		[4] = EJ_GetInstanceInfo(1179),
-		[5] = EJ_GetInstanceInfo(1180),
-		[6] = EJ_GetInstanceInfo(1190),
+		[1] = EJ_GetInstanceInfo(1190),
 	}
 
-	options[1] = G:CreateDropdown(frame, DUNGEONS.."*", 120, -30, dungeons, L["Dungeons Intro"], 130, 30)
+	options[1] = GUI:CreateDropdown(frame, DUNGEONS.."*", 120, -30, dungeons, L["Dungeons Intro"], 130, 30)
 	options[1]:Hide()
-	options[2] = G:CreateDropdown(frame, RAID.."*", 120, -30, raids, L["Raid Intro"], 130, 30)
+	options[2] = GUI:CreateDropdown(frame, RAID.."*", 120, -30, raids, L["Raid Intro"], 130, 30)
 	options[2]:Hide()
 
-	options[3] = G:CreateEditbox(frame, "ID*", 10, -90, L["ID Intro"])
-	options[4] = G:CreateEditbox(frame, L["Priority"], 120, -90, L["Priority Intro"])
+	options[3] = GUI:CreateEditbox(frame, "ID*", 10, -90, L["ID Intro"])
+	options[4] = GUI:CreateEditbox(frame, L["Priority"], 120, -90, L["Priority Intro"])
 
 	local function analyzePrio(priority)
 		priority = priority or 2
@@ -160,11 +146,11 @@ function G:SetupRaidDebuffs(parent)
 		if not NDuiADB["RaidDebuffs"][instName] then NDuiADB["RaidDebuffs"][instName] = {} end
 		NDuiADB["RaidDebuffs"][instName][spellID] = priority
 		setupBars(instName)
-		G:ClearEdit(options[3])
-		G:ClearEdit(options[4])
+		GUI:ClearEdit(options[3])
+		GUI:ClearEdit(options[4])
 	end
 
-	local scroll = G:CreateScroll(frame, 240, 350)
+	local scroll = GUI:CreateScroll(frame, 240, 350)
 	scroll.reset = B.CreateButton(frame, 70, 25, RESET)
 	scroll.reset:SetPoint("TOPLEFT", 10, -140)
 	StaticPopupDialogs["RESET_NDUI_RAIDDEBUFFS"] = {
@@ -201,12 +187,12 @@ function G:SetupRaidDebuffs(parent)
 	end
 
 	local function createBar(index, texture)
-		local bar = CreateFrame("Frame", nil, scroll.child, "BackdropTemplate")
+		local bar = CreateFrame("Frame", nil, scroll.child)
 		bar:SetSize(220, 30)
-		B.CreateBD(bar, .25)
+		B.CreateBDFrame(bar)
 		bar.index = index
 
-		local icon, close = G:CreateBarWidgets(bar, texture)
+		local icon, close = GUI:CreateBarWidgets(bar, texture)
 		icon:SetScript("OnEnter", iconOnEnter)
 		icon:SetScript("OnLeave", B.HideTooltip)
 		bar.icon = icon
@@ -232,7 +218,6 @@ function G:SetupRaidDebuffs(parent)
 		prioBox:SetTextInsets(10, 0, 0, 0)
 		prioBox:SetMaxLetters(1)
 		prioBox:SetTextColor(0, 1, 0)
-		prioBox.bg:SetBackdropColor(1, 1, 1, .2)
 		prioBox:HookScript("OnEscapePressed", function(self)
 			self:SetText(bar.priority)
 		end)
@@ -320,7 +305,7 @@ function G:SetupRaidDebuffs(parent)
 	panel:HookScript("OnShow", autoSelectInstance)
 end
 
-function G:SetupClickCast(parent)
+function GUI:SetupClickCast(parent)
 	local guiName = "NDuiGUI_ClickCast"
 	toggleExtraGUI(guiName)
 	if extraGUIs[guiName] then return end
@@ -344,12 +329,12 @@ function G:SetupClickCast(parent)
 			texture = 136243
 		end
 
-		local bar = CreateFrame("Frame", nil, parent, "BackdropTemplate")
+		local bar = CreateFrame("Frame", nil, parent)
 		bar:SetSize(220, 30)
-		B.CreateBD(bar, .25)
+		B.CreateBDFrame(bar)
 		barTable[clickSet] = bar
 
-		local icon, close = G:CreateBarWidgets(bar, texture)
+		local icon, close = GUI:CreateBarWidgets(bar, texture)
 		B.AddTooltip(icon, "ANCHOR_RIGHT", value, "system")
 		close:SetScript("OnClick", function()
 			bar:Hide()
@@ -378,11 +363,11 @@ function G:SetupClickCast(parent)
 		L["WheelDown"],
 	}, {}
 
-	options[1] = G:CreateEditbox(frame, L["Action*"], 10, -30, L["Action Intro"], 260, 30)
-	options[2] = G:CreateDropdown(frame, L["Key*"], 10, -90, keyList, L["Key Intro"], 120, 30)
-	options[3] = G:CreateDropdown(frame, L["Modified Key"], 170, -90, {NONE, "ALT", "CTRL", "SHIFT"}, L["ModKey Intro"], 85, 30)
+	options[1] = GUI:CreateEditbox(frame, L["Action*"], 10, -30, L["Action Intro"], 260, 30)
+	options[2] = GUI:CreateDropdown(frame, L["Key*"], 10, -90, keyList, L["Key Intro"], 120, 30)
+	options[3] = GUI:CreateDropdown(frame, L["Modified Key"], 170, -90, {NONE, "ALT", "CTRL", "SHIFT"}, L["ModKey Intro"], 85, 30)
 
-	local scroll = G:CreateScroll(frame, 240, 350)
+	local scroll = GUI:CreateScroll(frame, 240, 350)
 	scroll.reset = B.CreateButton(frame, 70, 25, RESET)
 	scroll.reset:SetPoint("TOPLEFT", 10, -140)
 	StaticPopupDialogs["RESET_NDUI_CLICKSETS"] = {
@@ -430,7 +415,7 @@ function G:SetupClickCast(parent)
 	end
 end
 
-function G:SetupPartyWatcher(parent)
+function GUI:SetupPartyWatcher(parent)
 	local guiName = "NDuiGUI_PartyWatcher"
 	toggleExtraGUI(guiName)
 	if extraGUIs[guiName] then return end
@@ -445,12 +430,12 @@ function G:SetupPartyWatcher(parent)
 		if spellName == ARCANE_TORRENT then return end
 		local texture = GetSpellTexture(spellID)
 
-		local bar = CreateFrame("Frame", nil, parent, "BackdropTemplate")
+		local bar = CreateFrame("Frame", nil, parent)
 		bar:SetSize(220, 30)
-		B.CreateBD(bar, .25)
+		B.CreateBDFrame(bar)
 		barTable[spellID] = bar
 
-		local icon, close = G:CreateBarWidgets(bar, texture)
+		local icon, close = GUI:CreateBarWidgets(bar, texture)
 		B.AddTooltip(icon, "ANCHOR_RIGHT", spellID, "system")
 		close:SetScript("OnClick", function()
 			bar:Hide()
@@ -474,10 +459,10 @@ function G:SetupPartyWatcher(parent)
 	local frame = panel.bg
 	local options = {}
 
-	options[1] = G:CreateEditbox(frame, "ID*", 10, -30, L["ID Intro"])
-	options[2] = G:CreateEditbox(frame, L["Cooldown*"], 120, -30, L["Cooldown Intro"])
+	options[1] = GUI:CreateEditbox(frame, "ID*", 10, -30, L["ID Intro"])
+	options[2] = GUI:CreateEditbox(frame, L["Cooldown*"], 120, -30, L["Cooldown Intro"])
 
-	local scroll = G:CreateScroll(frame, 240, 410)
+	local scroll = GUI:CreateScroll(frame, 240, 410)
 	scroll.reset = B.CreateButton(frame, 70, 25, RESET)
 	scroll.reset:SetPoint("TOPLEFT", 10, -80)
 	StaticPopupDialogs["RESET_NDUI_PARTYWATCHER"] = {
@@ -522,7 +507,7 @@ function G:SetupPartyWatcher(parent)
 	end
 end
 
-function G:SetupNameplateFilter(parent)
+function GUI:SetupNameplateFilter(parent)
 	local guiName = "NDuiGUI_NameplateFilter"
 	toggleExtraGUI(guiName)
 	if extraGUIs[guiName] then return end
@@ -536,12 +521,12 @@ function G:SetupNameplateFilter(parent)
 
 	local function createBar(parent, index, spellID)
 		local name, _, texture = GetSpellInfo(spellID)
-		local bar = CreateFrame("Frame", nil, parent, "BackdropTemplate")
+		local bar = CreateFrame("Frame", nil, parent)
 		bar:SetSize(220, 30)
-		B.CreateBD(bar, .25)
+		B.CreateBDFrame(bar)
 		frameData[index].barList[spellID] = bar
 
-		local icon, close = G:CreateBarWidgets(bar, texture)
+		local icon, close = GUI:CreateBarWidgets(bar, texture)
 		B.AddTooltip(icon, "ANCHOR_RIGHT", spellID)
 		close:SetScript("OnClick", function()
 			bar:Hide()
@@ -570,12 +555,12 @@ function G:SetupNameplateFilter(parent)
 
 	for index, value in ipairs(frameData) do
 		B.CreateFS(panel, 14, value.text, "system", "TOPLEFT", 20, value.offset)
-		local frame = CreateFrame("Frame", nil, panel, "BackdropTemplate")
+		local frame = CreateFrame("Frame", nil, panel)
 		frame:SetSize(280, 250)
 		frame:SetPoint("TOPLEFT", 10, value.offset - 25)
-		B.CreateBD(frame, .25)
+		B.CreateBDFrame(frame)
 
-		local scroll = G:CreateScroll(frame, 240, 200)
+		local scroll = GUI:CreateScroll(frame, 240, 200)
 		scroll.box = B.CreateEditBox(frame, 185, 25)
 		scroll.box:SetPoint("TOPLEFT", 10, -10)
 		scroll.add = B.CreateButton(frame, 70, 25, ADD)
@@ -590,7 +575,7 @@ function G:SetupNameplateFilter(parent)
 	end
 end
 
-function G:SetupBuffIndicator(parent)
+function GUI:SetupBuffIndicator(parent)
 	local guiName = "NDuiGUI_BuffIndicator"
 	toggleExtraGUI(guiName)
 	if extraGUIs[guiName] then return end
@@ -615,12 +600,12 @@ function G:SetupBuffIndicator(parent)
 
 	local function createBar(parent, index, spellID, anchor, r, g, b, showAll)
 		local name, _, texture = GetSpellInfo(spellID)
-		local bar = CreateFrame("Frame", nil, parent, "BackdropTemplate")
+		local bar = CreateFrame("Frame", nil, parent)
 		bar:SetSize(220, 30)
-		B.CreateBD(bar, .25)
+		B.CreateBDFrame(bar)
 		frameData[index].barList[spellID] = bar
 
-		local icon, close = G:CreateBarWidgets(bar, texture)
+		local icon, close = GUI:CreateBarWidgets(bar, texture)
 		B.AddTooltip(icon, "ANCHOR_RIGHT", spellID)
 		close:SetScript("OnClick", function()
 			bar:Hide()
@@ -687,12 +672,12 @@ function G:SetupBuffIndicator(parent)
 	for index, value in ipairs(frameData) do
 		B.CreateFS(panel, 14, value.text, "system", "TOPLEFT", 20, value.offset)
 
-		local frame = CreateFrame("Frame", nil, panel, "BackdropTemplate")
+		local frame = CreateFrame("Frame", nil, panel)
 		frame:SetSize(280, 250)
 		frame:SetPoint("TOPLEFT", 10, value.offset - 25)
-		B.CreateBD(frame, .25)
+		B.CreateBDFrame(frame)
 
-		local scroll = G:CreateScroll(frame, 240, 200)
+		local scroll = GUI:CreateScroll(frame, 240, 200)
 		scroll.box = B.CreateEditBox(frame, value.width, 25)
 		scroll.box:SetPoint("TOPLEFT", 10, -10)
 		scroll.box:SetMaxLetters(6)
@@ -733,7 +718,6 @@ function G:SetupBuffIndicator(parent)
 			local showAll = B.CreateCheckBox(frame)
 			showAll:SetPoint("LEFT", swatch, "RIGHT", 2, 0)
 			showAll:SetHitRectInsets(0, 0, 0, 0)
-			showAll.bg:SetBackdropBorderColor(1, .8, 0, .5)
 			showAll.title = L["Tips"]
 			B.AddTooltip(showAll, "ANCHOR_TOPRIGHT", L["ShowAllTip"], "info")
 			scroll.showAll = showAll
@@ -748,7 +732,7 @@ end
 
 local function createOptionTitle(parent, title, offset)
 	B.CreateFS(parent, 14, title, nil, "TOP", 0, offset)
-	local line = B.SetGradient(parent, "H", 1, 1, 1, .25, .25, 200, C.mult)
+	local line = B.CreateGA(parent, "H", 1, 1, 1, C.alpha, C.alpha, 200, C.mult)
 	line:SetPoint("TOPLEFT", 30, offset-20)
 end
 
@@ -782,32 +766,32 @@ local function SetUnitFrameSize(self, unit)
 	end
 end
 
-function G:SetupUnitFrame(parent)
+function GUI:SetupUnitFrame(parent)
 	local guiName = "NDuiGUI_UnitFrameSetup"
 	toggleExtraGUI(guiName)
 	if extraGUIs[guiName] then return end
 
 	local panel = createExtraGUI(parent, guiName, L["UnitFrame Size"].."*")
-	local scroll = G:CreateScroll(panel, 260, 540)
+	local scroll = GUI:CreateScroll(panel, 260, 540)
 
-	local sliderRange = {
-		["Player"] = {200, 300},
-		["Focus"] = {150, 250},
-		["Pet"] = {100, 200},
-		["Boss"] = {100, 250},
+	local minRange = {
+		["Player"] = {200, 10},
+		["Focus"] = {150, 10},
+		["Pet"] = {100, 10},
+		["Boss"] = {100, 10},
 	}
 
 	local defaultValue = {
-		["Player"] = {245, 24, 4, 2},
-		["Focus"] = {200, 22, 3, 2},
-		["Pet"] = {120, 18, 2},
-		["Boss"] = {150, 22, 2},
+		["Player"] = {250, 34, 2, 0},
+		["Focus"] = {200, 30, 2, 0},
+		["Pet"] = {120, 24, 2},
+		["Boss"] = {150, 32, 2},
 	}
 
 	local function createOptionGroup(parent, title, offset, value, func)
 		createOptionTitle(parent, title, offset)
-		createOptionSlider(parent, L["Health Width"], sliderRange[value][1], sliderRange[value][2], defaultValue[value][1], 30, offset-60, value.."Width", func)
-		createOptionSlider(parent, L["Health Height"], 15, 50, defaultValue[value][2], 30, offset-130, value.."Height", func)
+		createOptionSlider(parent, L["Health Width"], minRange[value][1], minRange[value][1]+100, defaultValue[value][1], 30, offset-60, value.."Width", func)
+		createOptionSlider(parent, L["Health Height"], minRange[value][2], minRange[value][2]+50, defaultValue[value][2], 30, offset-130, value.."Height", func)
 		createOptionSlider(parent, L["Power Height"], 2, 30, defaultValue[value][3], 30, offset-200, value.."PowerHeight", func)
 		if defaultValue[value][4] then
 			createOptionSlider(parent, L["Power Offset"], -20, 20, defaultValue[value][4], 30, offset-270, value.."PowerOffset", func)
@@ -848,30 +832,30 @@ function G:SetupUnitFrame(parent)
 	createOptionGroup(scroll.child, L["Boss&Arena"], -930, "Boss", updateBossSize)
 end
 
-function G:SetupRaidFrame(parent)
+function GUI:SetupRaidFrame(parent)
 	local guiName = "NDuiGUI_RaidFrameSetup"
 	toggleExtraGUI(guiName)
 	if extraGUIs[guiName] then return end
 
 	local panel = createExtraGUI(parent, guiName, L["RaidFrame Size"])
-	local scroll = G:CreateScroll(panel, 260, 540)
+	local scroll = GUI:CreateScroll(panel, 260, 540)
 
 	local minRange = {
-		["Party"] = {80, 25},
-		["PartyPet"] = {80, 20},
-		["Raid"] = {60, 25},
+		["Party"] = {150, 10},
+		["PartyPet"] = {100, 10},
+		["Raid"] = {50, 10},
 	}
 
 	local defaultValue = {
-		["Party"] = {100, 32, 2},
-		["PartyPet"] = {100, 22, 2},
+		["Party"] = {200, 30, 2},
+		["PartyPet"] = {120, 24, 2},
 		["Raid"] = {80, 32, 2},
 	}
 
 	local function createOptionGroup(parent, title, offset, value, func)
 		createOptionTitle(parent, title, offset)
-		createOptionSlider(parent, L["Health Width"], minRange[value][1], 200, defaultValue[value][1], 30, offset-60, value.."Width", func)
-		createOptionSlider(parent, L["Health Height"], minRange[value][2], 60, defaultValue[value][2], 30, offset-130, value.."Height", func)
+		createOptionSlider(parent, L["Health Width"], minRange[value][1], minRange[value][1]+100, defaultValue[value][1], 30, offset-60, value.."Width", func)
+		createOptionSlider(parent, L["Health Height"], minRange[value][2], minRange[value][2]+50, defaultValue[value][2], 30, offset-130, value.."Height", func)
 		createOptionSlider(parent, L["Power Height"], 2, 30, defaultValue[value][3], 30, offset-200, value.."PowerHeight", func)
 	end
 
@@ -921,21 +905,21 @@ local function createOptionSwatch(parent, name, value, x, y)
 	swatch.text:SetTextColor(1, .8, 0)
 end
 
-function G:SetupCastbar(parent)
+function GUI:SetupCastbar(parent)
 	local guiName = "NDuiGUI_CastbarSetup"
 	toggleExtraGUI(guiName)
 	if extraGUIs[guiName] then return end
 
 	local panel = createExtraGUI(parent, guiName, L["Castbar Settings"].."*")
-	local scroll = G:CreateScroll(panel, 260, 540)
+	local scroll = GUI:CreateScroll(panel, 260, 540)
 
 	createOptionTitle(scroll.child, L["Castbar Colors"], -10)
 	createOptionSwatch(scroll.child, L["Interruptible Color"], C.db["UFs"]["CastingColor"], 40, -40)
 	createOptionSwatch(scroll.child, L["NotInterruptible Color"], C.db["UFs"]["NotInterruptColor"], 40, -70)
 
 	local defaultValue = {
-		["Player"] = {300, 20},
-		["Target"] = {280, 20},
+		["Player"] = {280, 20},
+		["Target"] = {300, 20},
 		["Focus"] = {320, 20},
 	}
 
@@ -1004,13 +988,13 @@ local function createOptionCheck(parent, offset, text)
 	return box
 end
 
-function G:SetupBagFilter(parent)
+function GUI:SetupBagFilter(parent)
 	local guiName = "NDuiGUI_BagFilterSetup"
 	toggleExtraGUI(guiName)
 	if extraGUIs[guiName] then return end
 
 	local panel = createExtraGUI(parent, guiName, L["BagFilterSetup"].."*")
-	local scroll = G:CreateScroll(panel, 260, 540)
+	local scroll = GUI:CreateScroll(panel, 260, 540)
 
 	local filterOptions = {
 		[1] = "FilterJunk",

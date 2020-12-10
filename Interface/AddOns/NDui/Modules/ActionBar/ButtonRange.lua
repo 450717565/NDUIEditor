@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Bar = B:GetModule("Actionbar")
+local Bar = B:GetModule("ActionBar")
 
 local next, pairs, unpack = next, pairs, unpack
 local HasAction, IsUsableAction, IsActionInRange = HasAction, IsUsableAction, IsActionInRange

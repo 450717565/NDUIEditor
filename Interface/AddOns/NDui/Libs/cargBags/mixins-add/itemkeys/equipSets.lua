@@ -57,7 +57,7 @@ local function initUpdater()
 end
 
 ItemKeys["setID"] = function(i)
-	if(not setItems) then initUpdater() end
+	if (not setItems) then initUpdater() end
 	return setItems[i.id]
 end
 

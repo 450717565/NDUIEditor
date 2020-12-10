@@ -1,13 +1,15 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local module = B:RegisterModule("Settings")
+local Settings = B:RegisterModule("Settings")
+
 local pairs, wipe = pairs, table.wipe
+local cr, cg, cb = DB.r, DB.g, DB.b
 
 -- Addon Info
-print("|cff0080ff< NDui >|cff70C0F5----------------")
+print("|cff0080ff< NDui >|cff70C0F5——————————————")
 print("|cff00ff00  "..DB.Support.."|c00ffff00 "..DB.Version.." |c0000ff00"..L["Version Info1"])
 print("|c0000ff00  "..L["Version Info2"].."|c00ffff00 /ndui |c0000ff00"..L["Version Info3"])
-print("|cff70C0F5------------------------")
+print("|cff70C0F5——————————————————")
 
 -- Tuitorial
 local function ForceDefaultSettings()
@@ -38,7 +40,6 @@ local function ForceDefaultSettings()
 	if DB.isDeveloper then
 		SetCVar("ffxGlow", 0)
 		SetCVar("SpellQueueWindow", 100)
-		SetCVar("nameplateShowOnlyNames", 1)
 	end
 end
 
@@ -166,7 +167,7 @@ local function ForceSkadaOptions()
 end
 
 -- BigWigs
-local function ForceBigwigs()
+local function ForceBWOptions()
 	if not IsAddOnLoaded("BigWigs") then return end
 	if BigWigs3DB then wipe(BigWigs3DB) end
 	BigWigs3DB = {
@@ -251,7 +252,7 @@ end
 local function ForceAddonSkins()
 	if NDuiADB["DBMRequest"] then ForceDBMOptions() end
 	if NDuiADB["SkadaRequest"] then ForceSkadaOptions() end
-	if NDuiADB["BWRequest"] then ForceBigwigs() end
+	if NDuiADB["BWRequest"] then ForceBWOptions() end
 end
 
 -- Tutorial
@@ -262,14 +263,14 @@ local function YesTutor()
 	tutor:SetPoint("CENTER")
 	tutor:SetSize(480, 300)
 	tutor:SetFrameStrata("HIGH")
+	B.CreateBG(tutor)
 	B.CreateMF(tutor)
-	B.SetBD(tutor)
-	B.CreateWatermark(tutor)
+	B.CreateWaterMark(tutor)
 
-	local ll = B.SetGradient(tutor, "H", .7, .7, .7, 0, .5, 80, C.mult)
-	ll:SetPoint("TOP", -40, -32)
-	local lr = B.SetGradient(tutor, "H", .7, .7, .7, .5, 0, 80, C.mult)
-	lr:SetPoint("TOP", 40, -32)
+	local ll = B.CreateGA(tutor, "H", cr, cg, cb, 0, C.alpha, 80, C.mult*2)
+	ll:SetPoint("TOPRIGHT", tutor, "TOP", 0, -35)
+	local lr = B.CreateGA(tutor, "H", cr, cg, cb, C.alpha, 0, 80, C.mult*2)
+	lr:SetPoint("TOPLEFT", tutor, "TOP", 0, -35)
 
 	local title = B.CreateFS(tutor, 16, "", true, "TOP", 0, -10)
 	local body = B.CreateFS(tutor, 14, "", false, "TOPLEFT", 20, -50)
@@ -335,15 +336,15 @@ local function HelloWorld()
 	welcome:SetPoint("CENTER")
 	welcome:SetSize(420, 480)
 	welcome:SetFrameStrata("HIGH")
+	B.CreateBG(welcome)
 	B.CreateMF(welcome)
-	B.SetBD(welcome)
-	B.CreateWatermark(welcome)
+	B.CreateWaterMark(welcome)
 	B.CreateFS(welcome, 18, L["Help Title"], true, "TOP", 0, -10)
 
-	local ll = B.SetGradient(welcome, "H", .7, .7, .7, 0, .5, 100, C.mult)
-	ll:SetPoint("TOP", -50, -35)
-	local lr = B.SetGradient(welcome, "H", .7, .7, .7, .5, 0, 100, C.mult)
-	lr:SetPoint("TOP", 50, -35)
+	local ll = B.CreateGA(welcome, "H", cr, cg, cb, 0, C.alpha, 100, C.mult*2)
+	ll:SetPoint("TOPRIGHT", welcome, "TOP", 0, -35)
+	local lr = B.CreateGA(welcome, "H", cr, cg, cb, C.alpha, 0, 100, C.mult*2)
+	lr:SetPoint("TOPLEFT", welcome, "TOP", 0, -35)
 
 	local intro = B.CreateFS(welcome, 14, "", false, "TOPLEFT", 20, -70)
 	intro:SetPoint("BOTTOMRIGHT", -20, 50)
@@ -383,7 +384,7 @@ end
 SlashCmdList["NDUI"] = HelloWorld
 SLASH_NDUI1 = "/ndui"
 
-function module:OnLogin()
+function Settings:OnLogin()
 	-- Hide options
 	B.HideOption(Display_UseUIScale)
 	B.HideOption(Display_UIScaleSlider)

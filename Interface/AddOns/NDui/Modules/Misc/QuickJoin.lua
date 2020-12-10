@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local M = B:GetModule("Misc")
+local Misc = B:GetModule("Misc")
 
 --[[
 	QuickJoin 优化系统自带的预创建功能
@@ -9,7 +9,7 @@ local M = B:GetModule("Misc")
 	3.自动隐藏部分窗口
 ]]
 
-function M:HookApplicationClick()
+function Misc:HookApplicationClick()
 	if LFGListFrame.SearchPanel.SignUpButton:IsEnabled() then
 		LFGListFrame.SearchPanel.SignUpButton:Click()
 	end
@@ -19,7 +19,7 @@ function M:HookApplicationClick()
 end
 
 local pendingFrame
-function M:DialogHideInSecond()
+function Misc:DialogHideInSecond()
 	if not pendingFrame then return end
 
 	if pendingFrame.informational then
@@ -30,16 +30,16 @@ function M:DialogHideInSecond()
 	pendingFrame = nil
 end
 
-function M:HookDialogOnShow()
+function Misc:HookDialogOnShow()
 	pendingFrame = self
-	C_Timer.After(1, M.DialogHideInSecond)
+	C_Timer.After(1, Misc.DialogHideInSecond)
 end
 
-function M:QuickJoin()
+function Misc:QuickJoin()
 	for i = 1, 10 do
 		local bu = _G["LFGListSearchPanelScrollFrameButton"..i]
 		if bu then
-			bu:HookScript("OnDoubleClick", M.HookApplicationClick)
+			bu:HookScript("OnDoubleClick", Misc.HookApplicationClick)
 		end
 	end
 
@@ -47,7 +47,7 @@ function M:QuickJoin()
 		if PVEFrame:IsShown() then HideUIPanel(PVEFrame) end
 	end)
 
-	hooksecurefunc("StaticPopup_Show", M.HookDialogOnShow)
-	hooksecurefunc("LFGListInviteDialog_Show", M.HookDialogOnShow)
+	hooksecurefunc("StaticPopup_Show", Misc.HookDialogOnShow)
+	hooksecurefunc("LFGListInviteDialog_Show", Misc.HookDialogOnShow)
 end
-M:RegisterMisc("QuickJoin", M.QuickJoin)
+Misc:RegisterMisc("QuickJoin", Misc.QuickJoin)

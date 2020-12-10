@@ -2,11 +2,11 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 if not C.Infobar.Guild then return end
 
-local module = B:GetModule("Infobar")
-local info = module:RegisterInfobar("Guild", C.Infobar.GuildPos)
+local Infobar = B:GetModule("Infobar")
+local info = Infobar:RegisterInfobar("Guild", C.Infobar.GuildPos)
 
 info.guildTable = {}
-local r, g, b = DB.r, DB.g, DB.b
+local cr, cg, cb = DB.r, DB.g, DB.b
 local infoFrame, gName, gOnline, gApps, gRank, prevTime
 
 local wipe, sort, format, select = table.wipe, table.sort, format, select
@@ -40,7 +40,7 @@ local function rosterButtonOnClick(self, btn)
 			end
 		end
 	else
-		ChatFrame_OpenChat("/w "..name.." ", SELECTED_DOCK_FRAME)
+		ChatFrame_SendTell(name, SELECTED_DOCK_FRAME)
 	end
 end
 
@@ -50,18 +50,28 @@ function info:GuildPanel_CreateButton(parent, index)
 	button:SetPoint("TOPLEFT", 0, - (index-1) *20)
 	button.HL = button:CreateTexture(nil, "HIGHLIGHT")
 	button.HL:SetAllPoints()
-	button.HL:SetColorTexture(r, g, b, .2)
+	button.HL:SetColorTexture(cr, cg, cb, .25)
 
-	button.level = B.CreateFS(button, 13, "Level", false)
-	button.level:SetPoint("TOP", button, "TOPLEFT", 16, -4)
+	button.level = B.CreateFS(button, 13, "Level")
+	button.level:ClearAllPoints()
+	button.level:SetPoint("LEFT", button, 4, 0)
+	button.level:SetJustifyH("CENTER")
+
 	button.class = button:CreateTexture(nil, "ARTWORK")
-	button.class:SetPoint("LEFT", 35, 0)
+	button.class:SetPoint("LEFT", button, 39, 0)
 	button.class:SetSize(16, 16)
 	button.class:SetTexture("Interface\\GLUES\\CHARACTERCREATE\\UI-CHARACTERCREATE-CLASSES")
-	button.name = B.CreateFS(button, 13, "Name", false, "LEFT", 65, 0)
+	B.CreateBDFrame(button.class, 0, C.mult)
+
+	button.name = B.CreateFS(button, 13, "Name")
+	button.name:ClearAllPoints()
+	button.name:SetPoint("LEFT", button.class, "RIGHT", 12, 0)
 	button.name:SetPoint("RIGHT", button, "LEFT", 185, 0)
 	button.name:SetJustifyH("LEFT")
-	button.zone = B.CreateFS(button, 13, "Zone", false, "RIGHT", -2, 0)
+
+	button.zone = B.CreateFS(button, 13, "Zone")
+	button.zone:ClearAllPoints()
+	button.zone:SetPoint("RIGHT", button, "RIGHT", -5, 0)
 	button.zone:SetPoint("LEFT", button, "RIGHT", -120, 0)
 	button.zone:SetJustifyH("RIGHT")
 
@@ -86,9 +96,9 @@ function info:GuildPanel_UpdateButton(button)
 
 	local zonecolor = DB.GreyColor
 	if UnitInRaid(name) or UnitInParty(name) then
-		zonecolor = "|cff4c4cff"
+		zonecolor = "|cffFFFF00"
 	elseif GetRealZoneText() == zone then
-		zonecolor = "|cff4cff4c"
+		zonecolor = "|cff00FF00"
 	end
 	button.zone:SetText(zonecolor..zone)
 end
@@ -165,12 +175,11 @@ function info:GuildPanel_Init()
 	if infoFrame then infoFrame:Show() return end
 
 	infoFrame = CreateFrame("Frame", "NDuiGuildInfobar", info)
-	infoFrame:SetSize(335, 495)
-	infoFrame:SetPoint("TOPLEFT", UIParent, 15, -30)
+	infoFrame:SetSize(340, 495)
+	infoFrame:SetPoint("TOPLEFT", UIParent, 15, -35)
 	infoFrame:SetClampedToScreen(true)
 	infoFrame:SetFrameStrata("TOOLTIP")
-	local bg = B.SetBD(infoFrame)
-	bg:SetBackdropColor(0, 0, 0, .7)
+	B.CreateBG(infoFrame)
 
 	infoFrame:SetScript("OnLeave", function(self)
 		self:SetScript("OnUpdate", isPanelCanHide)
@@ -194,21 +203,21 @@ function info:GuildPanel_Init()
 		end
 		bu[i].HL = bu[i]:CreateTexture(nil, "HIGHLIGHT")
 		bu[i].HL:SetAllPoints(bu[i])
-		bu[i].HL:SetColorTexture(r, g, b, .2)
+		bu[i].HL:SetColorTexture(cr, cg, cb, .2)
 		bu[i].index = i
 		bu[i]:SetScript("OnClick", sortHeaderOnClick)
 	end
-	B.CreateFS(bu[1], 13, LEVEL_ABBR)
+	B.CreateFS(bu[1], 13, LEVEL_ABBR, false, "LEFT", 3, 0)
 	B.CreateFS(bu[2], 13, CLASS_ABBR)
 	B.CreateFS(bu[3], 13, NAME, false, "LEFT", 5, 0)
-	B.CreateFS(bu[4], 13, ZONE, false, "RIGHT", -5, 0)
+	B.CreateFS(bu[4], 13, ZONE, false, "RIGHT", -10, 0)
 
 	B.CreateFS(infoFrame, 13, DB.LineString, false, "BOTTOMRIGHT", -12, 58)
-	local whspInfo = DB.InfoColor..DB.RightButton..L["Whisper"]
+	local whspInfo = DB.InfoColor..DB.RightButton..WHISPER
 	B.CreateFS(infoFrame, 13, whspInfo, false, "BOTTOMRIGHT", -15, 42)
-	local invtInfo = DB.InfoColor.."ALT +"..DB.LeftButton..L["Invite"]
+	local invtInfo = DB.InfoColor.."ALT +"..DB.LeftButton..INVITE
 	B.CreateFS(infoFrame, 13, invtInfo, false, "BOTTOMRIGHT", -15, 26)
-	local copyInfo = DB.InfoColor.."SHIFT +"..DB.LeftButton..L["Copy Name"]
+	local copyInfo = DB.InfoColor.."SHIFT +"..DB.LeftButton..COPY_NAME
 	B.CreateFS(infoFrame, 13, copyInfo, false, "BOTTOMRIGHT", -15, 10)
 
 	local scrollFrame = CreateFrame("ScrollFrame", "NDuiGuildInfobarScrollFrame", infoFrame, "HybridScrollFrameTemplate")
@@ -256,10 +265,10 @@ function info:GuildPanel_Refresh()
 	local total, _, online = GetNumGuildMembers()
 	local guildName, guildRank = GetGuildInfo("player")
 
-	gName:SetText("|cff0099ff<"..(guildName or "")..">")
-	gOnline:SetText(format(DB.InfoColor.."%s:".." %d/%d", GUILD_ONLINE_LABEL, online, total))
-	gApps:SetText(format(DB.InfoColor..GUILDINFOTAB_APPLICANTS, GetNumGuildApplicants()))
-	gRank:SetText(DB.InfoColor..RANK..": "..(guildRank or ""))
+	gName:SetFormattedText("|cff0099FF<%s>", guildName or "")
+	gOnline:SetFormattedText(DB.InfoColor.."%s：%s / %s", GUILD_ONLINE_LABEL, online, total)
+	gApps:SetFormattedText(DB.InfoColor..GUILDINFOTAB_APPLICANTS, GetNumGuildApplicants())
+	gRank:SetFormattedText(DB.InfoColor.."%s%s", RANK_COLON, guildRank or "")
 
 	for i = 1, total do
 		local name, _, _, level, _, zone, _, _, connected, status, class, _, _, mobile = GetGuildRosterInfo(i)
@@ -306,7 +315,7 @@ info.eventList = {
 
 info.onEvent = function(self, event, arg1)
 	if not IsInGuild() then
-		self.text:SetText(GUILD..": "..DB.MyColor..NONE)
+		self.text:SetFormattedText("%s：%s", GUILD, DB.MyColor..NONE)
 		return
 	end
 
@@ -317,7 +326,7 @@ info.onEvent = function(self, event, arg1)
 	end
 
 	local online = select(3, GetNumGuildMembers())
-	self.text:SetText(GUILD..": "..DB.MyColor..online)
+	self.text:SetFormattedText("%s：%s", GUILD, DB.MyColor..online)
 
 	if infoFrame and infoFrame:IsShown() then
 		info:GuildPanel_Refresh()

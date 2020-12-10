@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local module = B:GetModule("AurasTable")
+local AT = B:GetModule("AurasTable")
 
 -- 武僧的法术监控
 local list = {
@@ -75,4 +75,4 @@ local list = {
 	},
 }
 
-module:AddNewAuraWatch("MONK", list)
+AT:AddNewAuraWatch("MONK", list)

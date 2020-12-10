@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Bar = B:GetModule("Actionbar")
+local Bar = B:GetModule("ActionBar")
 
 local _G = _G
 local tinsert = tinsert
@@ -11,7 +11,7 @@ local function SetFrameSize(frame, size, num)
 	size = size or frame.buttonSize
 	num = num or frame.numButtons
 
-	local layout = C.db["Actionbar"]["Style"]
+	local layout = C.db["ActionBar"]["BarStyle"]
 	if layout == 4 then
 		frame:SetWidth(num*size + (num-1)*margin + 2*padding)
 		frame:SetHeight(size + 2*padding)
@@ -44,16 +44,16 @@ end
 function Bar:CreateBar3()
 	local num = NUM_ACTIONBAR_BUTTONS
 	local buttonList = {}
-	local layout = C.db["Actionbar"]["Style"]
+	local layout = C.db["ActionBar"]["BarStyle"]
 	if layout > 3 then cfg = C.Bars.bar2 end
 
 	local frame = CreateFrame("Frame", "NDui_ActionBar3", UIParent, "SecureHandlerStateTemplate")
 	if layout == 4 then
 		frame.Pos = {"BOTTOM", _G.NDui_ActionBar2, "TOP", 0, -margin}
 	elseif layout == 5 then
-		frame.Pos = {"LEFT", _G.NDui_ActionBar1, "TOPRIGHT", -margin, -margin/2}
+		frame.Pos = {"BOTTOMLEFT", _G.NDui_ActionBar1, "BOTTOMRIGHT", -margin, 0}
 	else
-		frame.Pos = {"BOTTOM", UIParent, "BOTTOM", 0, 26}
+		frame.Pos = {"BOTTOM", _G.NDui_ActionBar1, "BOTTOM", 0, margin}
 	end
 
 	MultiBarBottomRight:SetParent(frame)

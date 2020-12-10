@@ -1,23 +1,23 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local A = B:GetModule("Auras")
+local Auras = B:GetModule("Auras")
 
 if DB.MyClass ~= "WARRIOR" then return end
 
 local function GetUnitAura(unit, spell, filter)
-	return A:GetUnitAura(unit, spell, filter)
+	return Auras:GetUnitAura(unit, spell, filter)
 end
 
 local function UpdateCooldown(button, spellID, texture)
-	return A:UpdateCooldown(button, spellID, texture)
+	return Auras:UpdateCooldown(button, spellID, texture)
 end
 
 local function UpdateBuff(button, spellID, auraID, cooldown, glow)
-	return A:UpdateAura(button, "player", auraID, "HELPFUL", spellID, cooldown, glow)
+	return Auras:UpdateAura(button, "player", auraID, "HELPFUL", spellID, cooldown, glow)
 end
 
 local function UpdateDebuff(button, spellID, auraID, cooldown, glow)
-	return A:UpdateAura(button, "target", auraID, "HARMFUL", spellID, cooldown, glow)
+	return Auras:UpdateAura(button, "target", auraID, "HARMFUL", spellID, cooldown, glow)
 end
 
 local function UpdateSpellStatus(button, spellID)
@@ -29,7 +29,7 @@ local function UpdateSpellStatus(button, spellID)
 	end
 end
 
-function A:ChantLumos(self)
+function Auras:ChantLumos(self)
 	local spec = GetSpecialization()
 	if spec == 1 then
 		do
@@ -57,7 +57,15 @@ function A:ChantLumos(self)
 			end
 		end
 
-		UpdateDebuff(self.lumos[3], 167105, 208086, true, true)
+		do
+			local button = self.lumos[3]
+			if IsPlayerSpell(262161) then
+				UpdateDebuff(button, 262161, 208086, true, true)
+			else
+				UpdateDebuff(button, 167105, 208086, true, true)
+			end
+		end
+
 		UpdateBuff(self.lumos[4], 260708, 260708, true, "END")
 
 		do

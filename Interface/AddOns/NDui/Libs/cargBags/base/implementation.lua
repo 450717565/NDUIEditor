@@ -39,8 +39,8 @@ local LE_ITEM_MISCELLANEOUS_COMPANION_PET = LE_ITEM_MISCELLANEOUS_COMPANION_PET 
 	@return impl <Implementation>
 ]]
 function Implementation:New(name)
-	if(self.instances[name]) then return error(("cargBags: Implementation '%s' already exists!"):format(name)) end
-	if(_G[name]) then return error(("cargBags: Global '%s' for Implementation is already used!"):format(name)) end
+	if (self.instances[name]) then return error(("cargBags: Implementation '%s' already exists!"):format(name)) end
+	if (_G[name]) then return error(("cargBags: Global '%s' for Implementation is already used!"):format(name)) end
 
 	local impl = setmetatable(CreateFrame("Button", name, UIParent), self.__index)
 	impl.name = name
@@ -70,7 +70,7 @@ end
 	@callback OnOpen
 ]]
 function Implementation:OnShow()
-	if(self.notInited) then
+	if (self.notInited) then
 		if not(InCombatLockdown()) then -- initialization of bags in combat taints the itembuttons within - Lars Norberg
 			self:Init()
 		else
@@ -78,7 +78,7 @@ function Implementation:OnShow()
 		end
 	end
 
-	if(self.OnOpen) then self:OnOpen() end
+	if (self.OnOpen) then self:OnOpen() end
 	self:OnEvent("BAG_UPDATE")
 end
 
@@ -87,10 +87,10 @@ end
 	@callback OnClose
 ]]
 function Implementation:OnHide()
-	if(self.notInited) then return end
+	if (self.notInited) then return end
 
-	if(self.OnClose) then self:OnClose() end
-	if(self:AtBank()) then CloseBankFrame() end
+	if (self.OnClose) then self:OnClose() end
+	if (self:AtBank()) then CloseBankFrame() end
 end
 
 --[[!
@@ -98,7 +98,7 @@ end
 	@param forceopen <bool> Only open it
 ]]
 function Implementation:Toggle(forceopen)
-	if(not forceopen and self:IsShown()) then
+	if (not forceopen and self:IsShown()) then
 		self:Hide()
 	else
 		self:Show()
@@ -136,11 +136,11 @@ end
 	@return class <table> The class prototype
 ]]
 function Implementation:GetClass(name, create, ...)
-	if(not name) then return end
+	if (not name) then return end
 
 	name = self.name..name
 	local class = cargBags.classes[name]
-	if(class or not create) then return class end
+	if (class or not create) then return class end
 
 	class = cargBags:NewClass(name, ...)
 	class.implementation = self
@@ -198,12 +198,12 @@ local _isEventRegistered = UIParent.IsEventRegistered
 function Implementation:RegisterEvent(event, key, func)
 	local events = self.events
 
-	if(not events[event]) then
+	if (not events[event]) then
 		events[event] = {}
 	end
 
 	events[event][key] = func
-	if(event:upper() == event and not _isEventRegistered(self, event)) then
+	if (event:upper() == event and not _isEventRegistered(self, event)) then
 		_registerEvent(self, event)
 	end
 end
@@ -221,7 +221,7 @@ end
 	Script handler, dispatches the events
 ]]
 function Implementation:OnEvent(event, ...)
-	if(not (self.events[event] and self:IsShown())) then return end
+	if (not (self.events[event] and self:IsShown())) then return end
 
 	for key, func in pairs(self.events[event]) do
 		func(key, event, ...)
@@ -233,7 +233,7 @@ end
 	@callback OnInit
 ]]
 function Implementation:Init()
-	if(not self.notInited) then return end
+	if (not self.notInited) then return end
 
 	-- initialization of bags in combat taints the itembuttons within - Lars Norberg
 	if (InCombatLockdown()) then
@@ -242,9 +242,9 @@ function Implementation:Init()
 
 	self.notInited = nil
 
-	if(self.OnInit) then self:OnInit() end
+	if (self.OnInit) then self:OnInit() end
 
-	if(not self.buttonClass) then
+	if (not self.buttonClass) then
 		self:SetDefaultItemButtonClass()
 	end
 
@@ -304,7 +304,7 @@ function Implementation:GetItemInfo(bagID, slotID, i)
 
 	local clink = GetContainerItemLink(bagID, slotID)
 
-	if(clink) then
+	if (clink) then
 		i.texture, i.count, i.locked, i.quality = GetContainerItemInfo(bagID, slotID)
 		i.cdStart, i.cdFinish, i.cdEnable = GetContainerItemCooldown(bagID, slotID)
 		i.isQuestItem, i.questID, i.questActive = GetContainerItemQuestInfo(bagID, slotID)
@@ -347,9 +347,9 @@ function Implementation:UpdateSlot(bagID, slotID)
 	local button = self:GetButton(bagID, slotID)
 	local container = self:GetContainerForItem(item, button)
 
-	if(container) then
-		if(button) then
-			if(container ~= button.container) then
+	if (container) then
+		if (button) then
+			if (container ~= button.container) then
 				button.container:RemoveButton(button)
 				container:AddButton(button)
 			end
@@ -375,7 +375,7 @@ local closed
 ]]
 function Implementation:UpdateBag(bagID)
 	local numSlots
-	if(closed) then
+	if (closed) then
 		numSlots, closed = 0
 	else
 		numSlots = GetContainerNumSlots(bagID)
@@ -388,7 +388,7 @@ function Implementation:UpdateBag(bagID)
 	end
 	for slotID=numSlots+1, lastSlots do
 		local button = self:GetButton(bagID, slotID)
-		if(button) then
+		if (button) then
 			button.container:RemoveButton(button)
 			self:SetButton(bagID, slotID, nil)
 			button:Free()
@@ -405,7 +405,7 @@ end
 function Implementation:BAG_UPDATE(_, bagID, slotID)
 	if self.isSorting then return end
 
-	if(bagID and slotID) then
+	if (bagID and slotID) then
 		self:UpdateSlot(bagID, slotID)
 	elseif(bagID) then
 		self:UpdateBag(bagID)
@@ -430,10 +430,10 @@ end
 	@param bagID <number> [optional]
 ]]
 function Implementation:BAG_UPDATE_COOLDOWN(_, bagID)
-	if(bagID) then
+	if (bagID) then
 		for slotID=1, GetContainerNumSlots(bagID) do
 			local button = self:GetButton(bagID, slotID)
-			if(button) then
+			if (button) then
 				local item = self:GetItemInfo(bagID, slotID)
 				button:UpdateCooldown(item)
 			end
@@ -455,10 +455,10 @@ end
 ]]
 function Implementation:ITEM_LOCK_CHANGED(_, bagID, slotID)
 	if self.isSorting then return end
-	if(not slotID) then return end
+	if (not slotID) then return end
 
 	local button = self:GetButton(bagID, slotID)
-	if(button) then
+	if (button) then
 		local item = self:GetItemInfo(bagID, slotID)
 		button:UpdateLock(item)
 	end
@@ -470,7 +470,7 @@ end
 	@param slotID <number> [optional]
 ]]
 function Implementation:PLAYERBANKSLOTS_CHANGED(event, bagID, slotID)
-	if(bagID <= NUM_BANKGENERIC_SLOTS) then
+	if (bagID <= NUM_BANKGENERIC_SLOTS) then
 		slotID = bagID
 		bagID = -1
 	else

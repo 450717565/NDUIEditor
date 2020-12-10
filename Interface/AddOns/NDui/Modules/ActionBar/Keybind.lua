@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Bar = B:GetModule("Actionbar")
+local Bar = B:GetModule("ActionBar")
 
 local _G = _G
 local pairs, tonumber, print, strfind, strupper = pairs, tonumber, print, strfind, strupper
@@ -10,6 +10,7 @@ local IsAltKeyDown, IsControlKeyDown, IsShiftKeyDown = IsAltKeyDown, IsControlKe
 local GetBindingKey, GetBindingName, SetBinding, SaveBindings, LoadBindings = GetBindingKey, GetBindingName, SetBinding, SaveBindings, LoadBindings
 local MAX_ACCOUNT_MACROS = MAX_ACCOUNT_MACROS
 local NOT_BOUND, PRESS_KEY_TO_BIND, QUICK_KEYBIND_DESCRIPTION = NOT_BOUND, PRESS_KEY_TO_BIND, QUICK_KEYBIND_DESCRIPTION
+local cr, cg, cb = DB.r, DB.g, DB.b
 
 -- Button types
 local function hookActionButton(self)
@@ -48,8 +49,8 @@ function Bar:Bind_Create()
 	frame:EnableKeyboard(true)
 	frame:EnableMouseWheel(true)
 	B.CreateBD(frame, 1)
-	frame:SetBackdropColor(1, .8, 0, .25)
-	frame:SetBackdropBorderColor(1, .8, 0)
+	frame:SetBackdropColor(cr, cg, cb, .5)
+	frame:SetBackdropBorderColor(cr, cg, cb)
 	frame:Hide()
 
 	frame:SetScript("OnEnter", function()
@@ -114,12 +115,12 @@ function Bar:Bind_Update(button, spellmacro)
 		frame.bindings = {GetBindingKey(spellmacro.." "..frame.name)}
 	elseif spellmacro == "MACRO" then
 		frame.id = frame.button:GetID()
-		local colorIndex = B:Round(select(2, MacroFrameTab1Text:GetTextColor()), 1)
+		local colorIndex = B.Round(select(2, MacroFrameTab1Text:GetTextColor()), 1)
 		if colorIndex == .8 then frame.id = frame.id + MAX_ACCOUNT_MACROS end
 		frame.name = GetMacroInfo(frame.id)
 		frame.bindings = {GetBindingKey(spellmacro.." "..frame.name)}
 	elseif spellmacro == "STANCE" or spellmacro == "PET" then
-		frame.name = button:GetName()
+		frame.name = button:GetDebugName()
 		if not frame.name then return end
 		frame.tipName = button.commandName and GetBindingName(button.commandName)
 
@@ -131,7 +132,7 @@ function Bar:Bind_Update(button, spellmacro)
 		end
 		frame.bindings = {GetBindingKey(frame.bindstring)}
 	else
-		frame.name = button:GetName()
+		frame.name = button:GetDebugName()
 		if not frame.name then return end
 		frame.tipName = button.commandName and GetBindingName(button.commandName)
 
@@ -220,10 +221,10 @@ end
 
 function Bar:Bind_Deactivate(save)
 	if save == true then
-		SaveBindings(C.db["Actionbar"]["BindType"])
+		SaveBindings(C.db["ActionBar"]["BindType"])
 		print(DB.NDuiString.." |cff00ff00"..L["Save keybinds"].."|r")
 	else
-		LoadBindings(C.db["Actionbar"]["BindType"])
+		LoadBindings(C.db["ActionBar"]["BindType"])
 		print(DB.NDuiString.." |cffffff00"..L["Discard keybinds"].."|r")
 	end
 
@@ -240,7 +241,7 @@ function Bar:Bind_CreateDialog()
 	local frame = CreateFrame("Frame", nil, UIParent)
 	frame:SetSize(320, 100)
 	frame:SetPoint("TOP", 0, -135)
-	B.SetBD(frame)
+	B.CreateBG(frame)
 	B.CreateFS(frame, 16, QUICK_KEYBIND_MODE, false, "TOP", 0, -10)
 
 	local helpInfo = B.CreateHelpInfo(frame, "|n"..QUICK_KEYBIND_DESCRIPTION)
@@ -248,10 +249,10 @@ function Bar:Bind_CreateDialog()
 
 	local text = B.CreateFS(frame, 14, CHARACTER_SPECIFIC_KEYBINDINGS, "system", "TOP", 0, -40)
 	local box = B.CreateCheckBox(frame)
-	box:SetChecked(C.db["Actionbar"]["BindType"] == 2)
+	box:SetChecked(C.db["ActionBar"]["BindType"] == 2)
 	box:SetPoint("RIGHT", text, "LEFT", -5, -0)
 	box:SetScript("OnClick", function(self)
-		C.db["Actionbar"]["BindType"] = self:GetChecked() and 2 or 1
+		C.db["ActionBar"]["BindType"] = self:GetChecked() and 2 or 1
 	end)
 
 	local button1 = B.CreateButton(frame, 120, 25, APPLY, 14)

@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local module = B:RegisterModule("Cooldown")
+local CD = B:RegisterModule("Cooldown")
 
 local FONT_SIZE = 19
 local MIN_DURATION = 2.5                    -- the minimum duration to show cooldown text for
@@ -10,18 +10,18 @@ local hideNumbers, active, hooked = {}, {}, {}
 local pairs, strfind = pairs, string.find
 local GetTime, GetActionCooldown = GetTime, GetActionCooldown
 
-function module:StopTimer()
+function CD:StopTimer()
 	self.enabled = nil
 	self:Hide()
 end
 
-function module:ForceUpdate()
+function CD:ForceUpdate()
 	self.nextUpdate = 0
 	self:Show()
 end
 
-function module:OnSizeChanged(width, height)
-	local fontScale = B:Round((width+height)/2) / ICON_SIZE
+function CD:OnSizeChanged(width, height)
+	local fontScale = B.Round((width+height)/2) / ICON_SIZE
 	if fontScale == self.fontScale then return end
 	self.fontScale = fontScale
 
@@ -29,15 +29,14 @@ function module:OnSizeChanged(width, height)
 		self:Hide()
 	else
 		self.text:SetFont(DB.Font[1], fontScale * FONT_SIZE, DB.Font[3])
-		self.text:SetShadowColor(0, 0, 0, 0)
 
 		if self.enabled then
-			module.ForceUpdate(self)
+			CD.ForceUpdate(self)
 		end
 	end
 end
 
-function module:TimerOnUpdate(elapsed)
+function CD:TimerOnUpdate(elapsed)
 	if self.nextUpdate > 0 then
 		self.nextUpdate = self.nextUpdate - elapsed
 	else
@@ -47,49 +46,49 @@ function module:TimerOnUpdate(elapsed)
 			self.text:SetText(getTime)
 			self.nextUpdate = nextUpdate
 		else
-			module.StopTimer(self)
+			CD.StopTimer(self)
 		end
 	end
 end
 
-function module:ScalerOnSizeChanged(...)
-	module.OnSizeChanged(self.timer, ...)
+function CD:ScalerOnSizeChanged(...)
+	CD.OnSizeChanged(self.timer, ...)
 end
 
-function module:OnCreate()
+function CD:OnCreate()
 	local scaler = CreateFrame("Frame", nil, self)
 	scaler:SetAllPoints(self)
 
 	local timer = CreateFrame("Frame", nil, scaler)
 	timer:Hide()
 	timer:SetAllPoints(scaler)
-	timer:SetScript("OnUpdate", module.TimerOnUpdate)
+	timer:SetScript("OnUpdate", CD.TimerOnUpdate)
 	scaler.timer = timer
 
 	local text = timer:CreateFontString(nil, "BACKGROUND")
-	text:SetPoint("CENTER", 2, 0)
+	text:SetPoint("CENTER", 1, 0)
 	text:SetJustifyH("CENTER")
 	timer.text = text
 
-	module.OnSizeChanged(timer, scaler:GetSize())
-	scaler:SetScript("OnSizeChanged", module.ScalerOnSizeChanged)
+	CD.OnSizeChanged(timer, scaler:GetSize())
+	scaler:SetScript("OnSizeChanged", CD.ScalerOnSizeChanged)
 
 	self.timer = timer
 	return timer
 end
 
-function module:StartTimer(start, duration)
+function CD:StartTimer(start, duration)
 	if self:IsForbidden() then return end
 	if self.noCooldownCount or hideNumbers[self] then return end
 
-	local frameName = self.GetName and self:GetName()
-	if C.db["Actionbar"]["OverrideWA"] and frameName and strfind(frameName, "WeakAuras") then
+	local frameName = self:GetDebugName()
+	if C.db["ActionBar"]["OverrideWA"] and frameName and strfind(frameName, "WeakAuras") then
 		self.noCooldownCount = true
 		return
 	end
 
 	if start > 0 and duration > MIN_DURATION then
-		local timer = self.timer or module.OnCreate(self)
+		local timer = self.timer or CD.OnCreate(self)
 		timer.start = start
 		timer.duration = duration
 		timer.enabled = true
@@ -100,14 +99,14 @@ function module:StartTimer(start, duration)
 		local charge = parent and parent.chargeCooldown
 		local chargeTimer = charge and charge.timer
 		if chargeTimer and chargeTimer ~= timer then
-			module.StopTimer(chargeTimer)
+			CD.StopTimer(chargeTimer)
 		end
 
 		if timer.fontScale >= MIN_SCALE then
 			timer:Show()
 		end
 	elseif self.timer then
-		module.StopTimer(self.timer)
+		CD.StopTimer(self.timer)
 	end
 
 	-- hide cooldown flash if barFader enabled
@@ -120,16 +119,16 @@ function module:StartTimer(start, duration)
 	end
 end
 
-function module:HideCooldownNumbers()
+function CD:HideCooldownNumbers()
 	hideNumbers[self] = true
-	if self.timer then module.StopTimer(self.timer) end
+	if self.timer then CD.StopTimer(self.timer) end
 end
 
-function module:CooldownOnShow()
+function CD:CooldownOnShow()
 	active[self] = true
 end
 
-function module:CooldownOnHide()
+function CD:CooldownOnHide()
 	active[self] = nil
 end
 
@@ -141,47 +140,47 @@ local function shouldUpdateTimer(self, start)
 	return timer.start ~= start
 end
 
-function module:CooldownUpdate()
+function CD:CooldownUpdate()
 	local button = self:GetParent()
 	local start, duration = GetActionCooldown(button.action)
 
 	if shouldUpdateTimer(self, start) then
-		module.StartTimer(self, start, duration)
+		CD.StartTimer(self, start, duration)
 	end
 end
 
-function module:ActionbarUpateCooldown()
+function CD:ActionbarUpateCooldown()
 	for cooldown in pairs(active) do
-		module.CooldownUpdate(cooldown)
+		CD.CooldownUpdate(cooldown)
 	end
 end
 
-function module:RegisterActionButton()
+function CD:RegisterActionButton()
 	local cooldown = self.cooldown
 	if not hooked[cooldown] then
-		cooldown:HookScript("OnShow", module.CooldownOnShow)
-		cooldown:HookScript("OnHide", module.CooldownOnHide)
+		cooldown:HookScript("OnShow", CD.CooldownOnShow)
+		cooldown:HookScript("OnHide", CD.CooldownOnHide)
 
 		hooked[cooldown] = true
 	end
 end
 
-function module:OnLogin()
-	if not C.db["Actionbar"]["Cooldown"] then return end
+function CD:OnLogin()
+	if not C.db["ActionBar"]["Cooldown"] then return end
 
 	local cooldownIndex = getmetatable(ActionButton1Cooldown).__index
-	hooksecurefunc(cooldownIndex, "SetCooldown", module.StartTimer)
+	hooksecurefunc(cooldownIndex, "SetCooldown", CD.StartTimer)
 
-	hooksecurefunc("CooldownFrame_SetDisplayAsPercentage", module.HideCooldownNumbers)
+	hooksecurefunc("CooldownFrame_SetDisplayAsPercentage", CD.HideCooldownNumbers)
 
-	B:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN", module.ActionbarUpateCooldown)
+	B:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN", CD.ActionbarUpateCooldown)
 
 	if _G["ActionBarButtonEventsFrame"].frames then
 		for _, frame in pairs(_G["ActionBarButtonEventsFrame"].frames) do
-			module.RegisterActionButton(frame)
+			CD.RegisterActionButton(frame)
 		end
 	end
-	hooksecurefunc(ActionBarButtonEventsFrameMixin, "RegisterFrame", module.RegisterActionButton)
+	hooksecurefunc(ActionBarButtonEventsFrameMixin, "RegisterFrame", CD.RegisterActionButton)
 
 	-- Hide Default Cooldown
 	SetCVar("countdownForCooldowns", 0)

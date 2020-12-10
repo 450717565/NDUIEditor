@@ -1,14 +1,15 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local M = B:GetModule("Misc")
+local Misc = B:GetModule("Misc")
 
 local pairs, unpack, tinsert, select = pairs, unpack, tinsert, select
 local GetSpellCooldown, GetSpellInfo, GetItemCooldown, GetItemCount, GetItemInfo = GetSpellCooldown, GetSpellInfo, GetItemCooldown, GetItemCount, GetItemInfo
-local IsPassiveSpell, IsCurrentSpell, CastSpell, IsPlayerSpell = IsPassiveSpell, IsCurrentSpell, CastSpell, IsPlayerSpell
+local IsPassiveSpell, IsCurrentSpell, IsPlayerSpell = IsPassiveSpell, IsCurrentSpell, IsPlayerSpell
 local GetProfessions, GetProfessionInfo, GetSpellBookItemInfo = GetProfessions, GetProfessionInfo, GetSpellBookItemInfo
 local PlayerHasToy, C_ToyBox_IsToyUsable, C_ToyBox_GetToyInfo = PlayerHasToy, C_ToyBox.IsToyUsable, C_ToyBox.GetToyInfo
 local C_TradeSkillUI_GetOnlyShowSkillUpRecipes, C_TradeSkillUI_SetOnlyShowSkillUpRecipes = C_TradeSkillUI.GetOnlyShowSkillUpRecipes, C_TradeSkillUI.SetOnlyShowSkillUpRecipes
 local C_TradeSkillUI_GetOnlyShowMakeableRecipes, C_TradeSkillUI_SetOnlyShowMakeableRecipes = C_TradeSkillUI.GetOnlyShowMakeableRecipes, C_TradeSkillUI.SetOnlyShowMakeableRecipes
+local cr, cg, cb = DB.r, DB.g, DB.b
 
 local BOOKTYPE_PROFESSION = BOOKTYPE_PROFESSION
 local RUNEFORGING_ID = 53428
@@ -25,14 +26,14 @@ local onlyPrimary = {
 	[356] = true, -- Fishing
 }
 
-function M:UpdateProfessions()
+function Misc:UpdateProfessions()
 	local prof1, prof2, _, fish, cook = GetProfessions()
 	local profs = {prof1, prof2, fish, cook}
 
 	if DB.MyClass == "DEATHKNIGHT" then
-		M:TradeTabs_Create(nil, RUNEFORGING_ID)
+		Misc:TradeTabs_Create(RUNEFORGING_ID)
 	elseif DB.MyClass == "ROGUE" and IsPlayerSpell(PICK_LOCK) then
-		M:TradeTabs_Create(nil, PICK_LOCK)
+		Misc:TradeTabs_Create(PICK_LOCK)
 	end
 
 	local isCook
@@ -47,9 +48,9 @@ function M:UpdateProfessions()
 				if not IsPassiveSpell(slotID, BOOKTYPE_PROFESSION) then
 					local spellID = select(2, GetSpellBookItemInfo(slotID, BOOKTYPE_PROFESSION))
 					if i == 1 then
-						M:TradeTabs_Create(slotID, spellID)
+						Misc:TradeTabs_Create(spellID)
 					else
-						M:TradeTabs_Create(nil, spellID)
+						Misc:TradeTabs_Create(spellID)
 					end
 				end
 			end
@@ -57,14 +58,14 @@ function M:UpdateProfessions()
 	end
 
 	if isCook and PlayerHasToy(CHEF_HAT) and C_ToyBox_IsToyUsable(CHEF_HAT) then
-		M:TradeTabs_Create(nil, nil, CHEF_HAT)
+		Misc:TradeTabs_Create(nil, CHEF_HAT)
 	end
 	if GetItemCount(THERMAL_ANVIL) > 0 then
-		M:TradeTabs_Create(nil, nil, nil, THERMAL_ANVIL)
+		Misc:TradeTabs_Create(nil, nil, THERMAL_ANVIL)
 	end
 end
 
-function M:TradeTabs_Update()
+function Misc:TradeTabs_Update()
 	for _, tab in pairs(tabList) do
 		local spellID = tab.spellID
 		local itemID = tab.itemID
@@ -89,24 +90,24 @@ function M:TradeTabs_Update()
 	end
 end
 
-function M:TradeTabs_Reskin()
+function Misc:TradeTabs_Reskin()
 	if not C.db["Skins"]["BlizzardSkins"] then return end
 
 	for _, tab in pairs(tabList) do
-		tab:SetCheckedTexture(DB.textures.pushed)
+		tab:SetSize(32, 32)
 		tab:GetRegions():Hide()
-		B.CreateBDFrame(tab)
-		local texture = tab:GetNormalTexture()
-		if texture then texture:SetTexCoord(unpack(DB.TexCoord)) end
+
+		local icon = tab:GetNormalTexture()
+		if icon then
+			local icbg = B.ReskinIcon(icon)
+			B.ReskinHighlight(tab, icbg)
+			B.ReskinChecked(tab, icbg)
+		end
 	end
 end
 
-function M:TradeTabs_OnClick()
-	CastSpell(self.slotID, BOOKTYPE_PROFESSION)
-end
-
 local index = 1
-function M:TradeTabs_Create(slotID, spellID, toyID, itemID)
+function Misc:TradeTabs_Create(spellID, toyID, itemID)
 	local name, _, texture
 	if toyID then
 		_, name, texture = C_ToyBox_GetToyInfo(toyID)
@@ -118,18 +119,12 @@ function M:TradeTabs_Create(slotID, spellID, toyID, itemID)
 
 	local tab = CreateFrame("CheckButton", nil, TradeSkillFrame, "SpellBookSkillLineTabTemplate, SecureActionButtonTemplate")
 	tab.tooltip = name
-	tab.slotID = slotID
 	tab.spellID = spellID
 	tab.itemID = toyID or itemID
 	tab.type = (toyID and "toy") or (itemID and "item") or "spell"
-	if slotID then
-		tab:SetScript("OnClick", M.TradeTabs_OnClick)
-	else
-		tab:SetAttribute("type", tab.type)
-		tab:SetAttribute(tab.type, name)
-	end
+	tab:SetAttribute("type", tab.type)
+	tab:SetAttribute(tab.type, spellID or name)
 	tab:SetNormalTexture(texture)
-	tab:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 	tab:Show()
 
 	tab.CD = CreateFrame("Cooldown", nil, tab, "CooldownFrameTemplate")
@@ -139,12 +134,12 @@ function M:TradeTabs_Create(slotID, spellID, toyID, itemID)
 	tab.cover:SetAllPoints()
 	tab.cover:EnableMouse(true)
 
-	tab:SetPoint("TOPLEFT", TradeSkillFrame, "TOPRIGHT", 3, -index*42)
+	tab:SetPoint("TOPLEFT", TradeSkillFrame, "TOPRIGHT", 3, -index*40)
 	tinsert(tabList, tab)
 	index = index + 1
 end
 
-function M:TradeTabs_FilterIcons()
+function Misc:TradeTabs_FilterIcons()
 	local buttonList = {
 		[1] = {"Atlas:bags-greenarrow", TRADESKILL_FILTER_HAS_SKILL_UP, C_TradeSkillUI_GetOnlyShowSkillUpRecipes, C_TradeSkillUI_SetOnlyShowSkillUpRecipes},
 		[2] = {"Interface\\RAIDFRAME\\ReadyCheck-Ready", CRAFT_IS_MAKEABLE, C_TradeSkillUI_GetOnlyShowMakeableRecipes, C_TradeSkillUI_SetOnlyShowMakeableRecipes},
@@ -154,16 +149,16 @@ function M:TradeTabs_FilterIcons()
 		local value = self.__value
 		if value[3]() then
 			value[4](false)
-			self.bg:SetBackdropBorderColor(0, 0, 0)
+			self.icbg:SetBackdropBorderColor(0, 0, 0)
 		else
 			value[4](true)
-			self.bg:SetBackdropBorderColor(1, .8, 0)
+			self.icbg:SetBackdropBorderColor(cr, cg, cb)
 		end
 	end
 
 	local buttons = {}
 	for index, value in pairs(buttonList) do
-		local bu = CreateFrame("Button", nil, TradeSkillFrame, "BackdropTemplate")
+		local bu = CreateFrame("Button", nil, TradeSkillFrame)
 		bu:SetSize(22, 22)
 		bu:SetPoint("RIGHT", TradeSkillFrame.FilterButton, "LEFT", -5 - (index-1)*27, 0)
 		B.PixelIcon(bu, value[1], true)
@@ -177,45 +172,45 @@ function M:TradeTabs_FilterIcons()
 	local function updateFilterStatus()
 		for index, value in pairs(buttonList) do
 			if value[3]() then
-				buttons[index].bg:SetBackdropBorderColor(1, .8, 0)
+				buttons[index].icbg:SetBackdropBorderColor(cr, cg, cb)
 			else
-				buttons[index].bg:SetBackdropBorderColor(0, 0, 0)
+				buttons[index].icbg:SetBackdropBorderColor(0, 0, 0)
 			end
 		end
 	end
 	B:RegisterEvent("TRADE_SKILL_LIST_UPDATE", updateFilterStatus)
 end
 
-function M:TradeTabs_OnLoad()
-	M:UpdateProfessions()
+function Misc:TradeTabs_OnLoad()
+	Misc:UpdateProfessions()
 
-	M:TradeTabs_Reskin()
-	M:TradeTabs_Update()
-	B:RegisterEvent("TRADE_SKILL_SHOW", M.TradeTabs_Update)
-	B:RegisterEvent("TRADE_SKILL_CLOSE", M.TradeTabs_Update)
-	B:RegisterEvent("CURRENT_SPELL_CAST_CHANGED", M.TradeTabs_Update)
+	Misc:TradeTabs_Reskin()
+	Misc:TradeTabs_Update()
+	B:RegisterEvent("TRADE_SKILL_SHOW", Misc.TradeTabs_Update)
+	B:RegisterEvent("TRADE_SKILL_CLOSE", Misc.TradeTabs_Update)
+	B:RegisterEvent("CURRENT_SPELL_CAST_CHANGED", Misc.TradeTabs_Update)
 
-	M:TradeTabs_FilterIcons()
+	Misc:TradeTabs_FilterIcons()
 end
 
-function M.TradeTabs_OnEvent(event, addon)
+function Misc.TradeTabs_OnEvent(event, addon)
 	if event == "ADDON_LOADED" and addon == "Blizzard_TradeSkillUI" then
-		B:UnregisterEvent(event, M.TradeTabs_OnEvent)
+		B:UnregisterEvent(event, Misc.TradeTabs_OnEvent)
 
 		if InCombatLockdown() then
-			B:RegisterEvent("PLAYER_REGEN_ENABLED", M.TradeTabs_OnEvent)
+			B:RegisterEvent("PLAYER_REGEN_ENABLED", Misc.TradeTabs_OnEvent)
 		else
-			M:TradeTabs_OnLoad()
+			Misc:TradeTabs_OnLoad()
 		end
 	elseif event == "PLAYER_REGEN_ENABLED" then
-		B:UnregisterEvent(event, M.TradeTabs_OnEvent)
-		M:TradeTabs_OnLoad()
+		B:UnregisterEvent(event, Misc.TradeTabs_OnEvent)
+		Misc:TradeTabs_OnLoad()
 	end
 end
 
-function M:TradeTabs()
+function Misc:TradeTabs()
 	if not C.db["Misc"]["TradeTabs"] then return end
 
-	B:RegisterEvent("ADDON_LOADED", M.TradeTabs_OnEvent)
+	B:RegisterEvent("ADDON_LOADED", Misc.TradeTabs_OnEvent)
 end
-M:RegisterMisc("TradeTabs", M.TradeTabs)
+Misc:RegisterMisc("TradeTabs", Misc.TradeTabs)

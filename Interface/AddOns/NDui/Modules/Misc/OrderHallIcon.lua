@@ -1,9 +1,9 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local M = B:GetModule("Misc")
---[[
-	职业大厅图标，取代自带的信息条
-]]
+local Misc = B:GetModule("Misc")
+
+-- 职业大厅图标，取代自带的信息条
+
 local ipairs, format = ipairs, format
 local IsShiftKeyDown = IsShiftKeyDown
 local C_CurrencyInfo_GetCurrencyInfo = C_CurrencyInfo.GetCurrencyInfo
@@ -12,25 +12,33 @@ local C_Garrison_GetClassSpecCategoryInfo = C_Garrison.GetClassSpecCategoryInfo
 local C_Garrison_RequestClassSpecCategoryInfo = C_Garrison.RequestClassSpecCategoryInfo
 local LE_GARRISON_TYPE_7_0 = Enum.GarrisonType.Type_7_0
 local LE_FOLLOWER_TYPE_GARRISON_7_0 = Enum.GarrisonFollowerType.FollowerType_7_0
+local cr, cg, cb = DB.r, DB.g, DB.b
 
-function M:OrderHall_CreateIcon()
+function Misc:OrderHall_CreateIcon()
 	local hall = CreateFrame("Frame", "NDuiOrderHallIcon", UIParent)
 	hall:SetSize(50, 50)
 	hall:SetPoint("TOP", 0, -30)
 	hall:SetFrameStrata("HIGH")
 	hall:Hide()
+
+	B.CreateBDFrame(hall)
 	B.CreateMF(hall, nil, true)
 	B.RestoreMF(hall)
-	M.OrderHallIcon = hall
 
-	hall.Icon = hall:CreateTexture(nil, "ARTWORK")
-	hall.Icon:SetAllPoints()
-	hall.Icon:SetTexture("Interface\\TargetingFrame\\UI-Classes-Circles")
-	hall.Icon:SetTexCoord(unpack(CLASS_ICON_TCOORDS[DB.MyClass]))
 	hall.Category = {}
+	Misc.OrderHallIcon = hall
 
-	hall:SetScript("OnEnter", M.OrderHall_OnEnter)
-	hall:SetScript("OnLeave", M.OrderHall_OnLeave)
+	local coords = CLASS_ICON_TCOORDS[DB.MyClass]
+	local c1, c2, c3, c4 = coords[1] + .022, coords[2] - .025, coords[3] + .022, coords[4] - .025
+
+	local Icon = hall:CreateTexture(nil, "ARTWORK")
+	Icon:SetInside()
+	Icon:SetTexture("Interface\\GLUES\\CHARACTERCREATE\\UI-CHARACTERCREATE-CLASSES")
+	Icon:SetTexCoord(c1, c2, c3, c4)
+	hall.Icon = Icon
+
+	hall:SetScript("OnEnter", Misc.OrderHall_OnEnter)
+	hall:SetScript("OnLeave", Misc.OrderHall_OnLeave)
 	hooksecurefunc(OrderHallCommandBar, "SetShown", function(_, state)
 		hall:SetShown(state)
 	end)
@@ -40,8 +48,9 @@ function M:OrderHall_CreateIcon()
 	B.HideObject(OrderHallCommandBar.CurrencyHitTest)
 end
 
-function M:OrderHall_Refresh()
+function Misc:OrderHall_Refresh()
 	C_Garrison_RequestClassSpecCategoryInfo(LE_FOLLOWER_TYPE_GARRISON_7_0)
+
 	local currency = C_Garrison_GetCurrencyTypes(LE_GARRISON_TYPE_7_0)
 	local info = C_CurrencyInfo_GetCurrencyInfo(currency)
 	self.name = info.name
@@ -58,27 +67,28 @@ function M:OrderHall_Refresh()
 		category[index].description = info.description
 		category[index].icon = info.icon
 	end
+
 	self.numCategory = #categoryInfo
 end
 
-function M:OrderHall_OnShiftDown(btn)
+function Misc:OrderHall_OnShiftDown(btn)
 	if btn == "LSHIFT" then
-		M.OrderHall_OnEnter(M.OrderHallIcon)
+		Misc.OrderHall_OnEnter(Misc.OrderHallIcon)
 	end
 end
 
 local function getIconString(texture)
-	return format("|T%s:12:12:0:0:64:64:5:59:5:59|t ", texture)
+	return format("|T%s:12:12:0:0::50:50:4:46:4:46|t ", texture)
 end
 
-function M:OrderHall_OnEnter()
-	M.OrderHall_Refresh(self)
+function Misc:OrderHall_OnEnter()
+	Misc.OrderHall_Refresh(self)
 
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT", 5, -5)
 	GameTooltip:ClearLines()
-	GameTooltip:AddLine(DB.MyColor.._G["ORDER_HALL_"..DB.MyClass])
+	GameTooltip:AddLine(_G["ORDER_HALL_"..DB.MyClass], cr,cg,cb)
 	GameTooltip:AddLine(" ")
-	GameTooltip:AddDoubleLine(getIconString(self.texture)..self.name, self.amount, 1,1,1, 1,1,1)
+	GameTooltip:AddDoubleLine(getIconString(self.texture)..self.name, B.FormatNumb(self.amount), 1,1,1, 1,1,1)
 
 	local blank
 	for i = 1, self.numCategory do
@@ -88,7 +98,7 @@ function M:OrderHall_OnEnter()
 		end
 		local category = self.Category[i]
 		if category then
-			GameTooltip:AddDoubleLine(getIconString(category.icon)..category.name, category.count.."/"..category.limit, 1,1,1, 1,1,1)
+			GameTooltip:AddDoubleLine(getIconString(category.icon)..category.name, category.count.." / "..category.limit, cr,cg,cb, 1,1,1)
 			if IsShiftKeyDown() then
 				GameTooltip:AddLine(category.description, .6,.8,1, 1)
 			end
@@ -99,26 +109,26 @@ function M:OrderHall_OnEnter()
 	GameTooltip:AddDoubleLine(" ", L["Details by Shift"], 1,1,1, .6,.8,1)
 	GameTooltip:Show()
 
-	B:RegisterEvent("MODIFIER_STATE_CHANGED", M.OrderHall_OnShiftDown)
+	B:RegisterEvent("MODIFIER_STATE_CHANGED", Misc.OrderHall_OnShiftDown)
 end
 
-function M:OrderHall_OnLeave()
+function Misc:OrderHall_OnLeave()
 	GameTooltip:Hide()
-	B:UnregisterEvent("MODIFIER_STATE_CHANGED", M.OrderHall_OnShiftDown)
+	B:UnregisterEvent("MODIFIER_STATE_CHANGED", Misc.OrderHall_OnShiftDown)
 end
 
-function M:OrderHall_OnLoad(addon)
+function Misc:OrderHall_OnLoad(addon)
 	if addon == "Blizzard_OrderHallUI" then
-		M:OrderHall_CreateIcon()
-		B:UnregisterEvent(self, M.OrderHall_OnLoad)
+		Misc:OrderHall_CreateIcon()
+		B:UnregisterEvent(self, Misc.OrderHall_OnLoad)
 	end
 end
 
-function M:OrderHall_OnInit()
+function Misc:OrderHall_OnInit()
 	if IsAddOnLoaded("Blizzard_OrderHallUI") then
-		M:OrderHall_CreateIcon()
+		Misc:OrderHall_CreateIcon()
 	else
-		B:RegisterEvent("ADDON_LOADED", M.OrderHall_OnLoad)
+		B:RegisterEvent("ADDON_LOADED", Misc.OrderHall_OnLoad)
 	end
 end
-M:RegisterMisc("OrderHallIcon", M.OrderHall_OnInit)
+Misc:RegisterMisc("OrderHallIcon", Misc.OrderHall_OnInit)

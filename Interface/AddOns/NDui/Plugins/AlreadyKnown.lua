@@ -79,7 +79,12 @@ local function Hook_UpdateMerchantInfo()
 		end
 	end
 end
-hooksecurefunc("MerchantFrame_UpdateMerchantInfo", Hook_UpdateMerchantInfo)
+
+if IsAddOnLoaded("ExtVendor") then
+	hooksecurefunc("ExtVendor_UpdateMerchantInfo", Hook_UpdateMerchantInfo)
+else
+	hooksecurefunc("MerchantFrame_UpdateMerchantInfo", Hook_UpdateMerchantInfo)
+end
 
 local function Hook_UpdateBuybackInfo()
 	local numItems = GetNumBuybackItems()
@@ -95,7 +100,12 @@ local function Hook_UpdateBuybackInfo()
 		end
 	end
 end
-hooksecurefunc("MerchantFrame_UpdateBuybackInfo", Hook_UpdateBuybackInfo)
+
+if IsAddOnLoaded("ExtVendor") then
+	hooksecurefunc("ExtVendor_UpdateBuybackInfo", Hook_UpdateBuybackInfo)
+else
+	hooksecurefunc("MerchantFrame_UpdateBuybackInfo", Hook_UpdateBuybackInfo)
+end
 
 local function Hook_UpdateAuctionHouse(self)
 	local numResults = self.getNumEntries()
@@ -159,9 +169,7 @@ local function Hook_GuildBankUpdate()
 end
 
 local hookCount = 0
-local f = CreateFrame("Frame")
-f:RegisterEvent("ADDON_LOADED")
-f:SetScript("OnEvent", function(_, event, addon)
+local function loadFunc(event, addon)
 	if addon == "Blizzard_AuctionHouseUI" then
 		hooksecurefunc(AuctionHouseFrame.BrowseResultsFrame.ItemList, "RefreshScrollFrame", Hook_UpdateAuctionHouse)
 		hookCount = hookCount + 1
@@ -171,6 +179,7 @@ f:SetScript("OnEvent", function(_, event, addon)
 	end
 
 	if hookCount >= 2 then
-		f:UnregisterEvent(event)
+		B:UnregisterEvent(event)
 	end
-end)
+end
+B:RegisterEvent("ADDON_LOADED", loadFunc)

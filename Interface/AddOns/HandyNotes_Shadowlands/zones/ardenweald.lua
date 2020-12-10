@@ -7,6 +7,7 @@ local Class = ns.Class
 local Map = ns.Map
 local L = ns.locale
 
+local Collectible = ns.node.Collectible
 local PetBattle = ns.node.PetBattle
 local Rare = ns.node.Rare
 local Treasure = ns.node.Treasure
@@ -15,7 +16,6 @@ local Achievement = ns.reward.Achievement
 local Item = ns.reward.Item
 local Mount = ns.reward.Mount
 local Pet = ns.reward.Pet
-local Quest = ns.reward.Quest
 local Transmog = ns.reward.Transmog
 local Toy = ns.reward.Toy
 
@@ -35,7 +35,8 @@ map.nodes[34606800] = Rare({
     id=164477,
     quest=59226,
     rewards={
-        Achievement({id=14309, criteria=48714})
+        Achievement({id=14309, criteria=48714}),
+        Transmog({item=180166, slot=L["staff"]}) -- Deathbinder's Staff
     }
 }) -- Deathbinder Hroth
 
@@ -69,7 +70,8 @@ map.nodes[57862955] = Rare({
     quest=60266,
     note=L["lehgo_note"],
     rewards={
-        Achievement({id=14309, criteria=48790})
+        Achievement({id=14309, criteria=48790}),
+        Transmog({item=179539, slot=L["2h_mace"]}) -- Kelox's Eggbeater
     }
 }) -- Egg-Tender Leh'go
 
@@ -78,7 +80,8 @@ map.nodes[68612765] = Rare({
     quest=61184,
     note=L["faeflayer_note"],
     rewards={
-        Achievement({id=14309, criteria=48798})
+        Achievement({id=14309, criteria=48798}),
+        Transmog({item=180144, slot=L["1h_axe"]}) -- Faeflayer's Hatchet
     }
 }) -- Faeflayer
 
@@ -118,28 +121,33 @@ map.nodes[67465147] = Rare({
     rewards={
         Achievement({id=14309, criteria=48787}),
         Transmog({item=179596, slot=L["cosmetic"]}), -- Drust Mask of Dominance
-        Quest({id=62246}) -- A Fallen Friend
+        Item({item=183091, quest=62246}) -- Lifewoven Bracelet
     }
 }) -- Hunter Vivian
 
--- Mysterious Mushroom Ring (36474814)
--- Mysterious Mushroom Ring (47924018)
+local MACABRE = Rare({
+    id=164093,
+    quest=59140,
+    note=L["macabre_note"],
+    rewards={
+        Achievement({id=14309, criteria=48780}),
+        Pet({item=180644, id=2907}) -- Rocky
+    }
+}) -- Macabre
 
--- map.nodes[] = Rare({
---     id=164093,
---     quest=nil,
---     rewards={
---         Achievement({id=14309, criteria=48780}),
---         Pet({item=180644, id=2907}) -- Rocky
---     }
--- }) -- Macabre
+map.nodes[32664480] = MACABRE
+map.nodes[36474814] = MACABRE
+map.nodes[47924018] = MACABRE
+-- map.nodes[57912935] = MACABRE
+map.nodes[59952940] = MACABRE
 
 map.nodes[62102470] = Rare({
     id=165053,
     quest=59431,
     note=L["mymaen_note"],
     rewards={
-        Achievement({id=14309, criteria=48788})
+        Achievement({id=14309, criteria=48788}),
+        Transmog({item=179502, slot=L["dagger"]}) -- Ripvine Barb
     }
 }) -- Mymaen
 
@@ -161,21 +169,49 @@ function RainbowGlow:Draw(pin, xy)
     return ns.poi.Glow.Draw(self, pin, xy)
 end
 
-map.nodes[50092091] = Rare({
+map.nodes[65702809] = Rare({
     id=164547,
     quest=59235,
     note=L["rainbowhorn_note"],
     glow=RainbowGlow({ icon=ns.GetGlowPath('skull_w') }),
     rewards={
         Achievement({id=14309, criteria=48715}),
-        Item({item=182179, quest=62434}) -- Runestag Soul
+        Transmog({item=179586, slot=L["bow"]}), -- Elderwood Piercer
+        Item({item=182179, quest=62434, covenant=NIGHTFAE}) -- Runestag Soul
+    },
+    pois={
+        POI({
+            25015001, 27014503, 39026001, 30043610, 41317121, 44801918,
+            50012003, 55235575, 58376104
+        }), -- Great Horn of the Runestag
+        Path({
+            65702809, 65672916, 65352999, 65233107, 65013210, 64853308,
+            64573397, 64213482, 63623536, 62963583, 62263646, 61453630,
+            60813657, 60143712, 59313711, 58963710, 58653677, 58063633,
+            57523568, 57033495, 56643411, 56513330, 56123234, 55663140,
+            55283023, 55682914, 55732793, 54942744, 54062761, 53352839,
+            53052966, 53163094, 53183227, 52843340, 53343426, 54143466,
+            54953438, 55733402, 56643411
+        }), -- Loop 1
+        Path({
+            58963710, 58453771, 57893818, 57553889, 57263955, 56793999,
+            56264029, 55764055, 55334097, 54994158, 54764224, 54564296,
+            54234346, 53844383, 53384412, 52894450, 52344454, 51894489,
+            51474549, 50804577, 50174571, 49404575, 48724543, 48034533,
+            47474474, 46934420, 46354351, 45654325, 45334245, 44934144,
+            44524072, 43854049, 43194024, 42514002, 41893955, 41253933,
+            40573894, 39933849, 39313791, 38623767, 37943792, 37633838,
+            37423955, 37464080, 37754181, 38254275, 38614375, 38804493,
+            38874601, 38914713, 39264816, 39664905, 40254978, 40975018,
+            41745053, 42545065, 43114997, 43834977, 44564987, 45284962,
+            45984909, 46564839, 47284763, 47794667, 48034533
+        })
     }
 }) -- Mystic Rainbowhorn
 
 map.nodes[57874983] = Rare({
     id=168135,
     quest=60306,
-    covenant=NIGHTFAE,
     requires=ns.requirement.Item(178675),
     note=L["night_mare_note"],
     rewards={
@@ -207,7 +243,8 @@ map.nodes[65104430] = Rare({
     quest=60273,
     note=L["rootwrithe_note"],
     rewards={
-        Achievement({id=14309, criteria=48791})
+        Achievement({id=14309, criteria=48791}),
+        Transmog({item=179603, slot=L["shield"]}) -- Nettlehusk Barrier
     }
 }) -- Rootwrithe
 
@@ -219,7 +256,7 @@ map.nodes[65702430] = Rare({
         Achievement({id=14309, criteria=48789}),
         Item({item=175729, note=L["trinket"]}) -- Rotbriar Sprout
     }
-}) -- Rotbriar Changeling
+}) -- Rotbriar Boggart
 
 map.nodes[72425175] = Rare({
     id=171451,
@@ -237,7 +274,8 @@ map.nodes[37675917] = Rare({
     note=L["skuld_vit_note"],
     rewards={
         Achievement({id=14309, criteria=48786}),
-        Item({item=182183, quest=62439}) -- Wolfhawk Soul
+        Transmog({item=180146, slot=L["1h_axe"]}), -- Axe of Broken Wills
+        Item({item=182183, quest=62439, covenant=NIGHTFAE}) -- Wolfhawk Soul
     }
 }) -- Skuld Vit
 
@@ -246,7 +284,8 @@ map.nodes[59304660] = Rare({
     quest=60290,
     note=L["slumbering_note"],
     rewards={
-        Achievement({id=14309, criteria=48792})
+        Achievement({id=14309, criteria=48792}),
+        Item({item=175711, note=L["ring"]}) -- Slumberwood Band
     }
 }) -- The Slumbering Emperor
 
@@ -258,8 +297,9 @@ map.nodes[30115536] = Rare({
     note=L["valfir_note"],
     rewards={
         Achievement({id=14309, criteria=48796}),
-        Mount({item=180730, id=1393}), -- Glimmerfur Prowler
-        Item({item=182176, quest=62431}) -- Shadowstalker Soul
+        Transmog({item=180154, slot=L["2h_axe"]}), -- Greataxe of Unrelenting Pursuit
+        Mount({item=180730, id=1393}), -- Wild Glimmerfur Prowler
+        Item({item=182176, quest=62431, covenant=NIGHTFAE}) -- Shadowstalker Soul
     },
     pois={
         Path({29265611, 30115536, 30875464})
@@ -271,7 +311,8 @@ map.nodes[58306180] = Rare({
     quest=59170,
     note=L["wrigglemortis_note"],
     rewards={
-        Achievement({id=14309, criteria=48783})
+        Achievement({id=14309, criteria=48783}),
+        Transmog({item=181396, slot=L["polearm"]}) -- Thornsweeper Scythe
     }
 }) -- Wrigglemortis
 
@@ -293,7 +334,9 @@ map.nodes[41254443] = Rare({
             48707, -- Kil'jaeden
             48710, -- N'Zoth
             48705  -- Xavius
-        }})
+        }}),
+        Item({item=182454, type=L["trinket"], note=L["guldan"]}), -- Murmurs in the Dark
+        Mount({item=180748, id=1332}) -- Silky Shimmermoth
     }
 })
 
@@ -349,6 +392,7 @@ map.nodes[37646159] = Treasure({
     note=L["darkreach_supplies"],
     rewards={
         Achievement({id=14313, criteria=50045}),
+        Transmog({item=179593, slot=L["cloth"]}), -- Darkreach Mask
         Transmog({item=179594, slot=L["leather"]}) -- Witherscorn Guise
     },
     pois={
@@ -574,3 +618,88 @@ map.nodes[58205690] = PetBattle({
         Achievement({id=14877, criteria=10, oneline=true}), -- Undead
     }
 }) -- Glitterdust
+
+-------------------------------------------------------------------------------
+---------------------------- FRACTURED FAIRY TALES ----------------------------
+-------------------------------------------------------------------------------
+
+local Tale = Class('Tale', Collectible, {
+    icon=355498,
+    note=L["lost_book_note"],
+    group=ns.groups.FAERIE_TALES,
+    pois={
+        POI({63622274}) -- Archivist Dreyden
+    },
+    IsCollected = function (self)
+        if ns.PlayerHasItem(self.rewards[2].item) then return true end
+        return Collectible.IsCollected(self)
+    end
+})
+
+local MEANDERING = Tale({
+    id=174721,
+    rewards={
+        Achievement({id=14788, criteria=50012}),
+        Item({item=183877, quest=62619})
+    },
+    pois={
+        Path({
+            53054452, 53544400, 54204350, 54674267, 54974164, 55444087,
+            56044040, 56684009, 57253957, 57573871, 58013798, 58603759,
+            58913716
+        })
+    }
+}) -- A Meandering Story
+
+local WANDERING = Tale({
+    id=174723,
+    rewards={
+        Achievement({id=14788, criteria=50013}),
+        Item({item=183878, quest=62620})
+    }
+}) -- A Wandering Tale
+
+local ESCAPIST = Tale({
+    id=174724,
+    rewards={
+        Achievement({id=14788, criteria=50014}),
+        Item({item=183879, quest=62621})
+    }
+}) -- An Escapist Novel
+
+local JOURNAL = Tale({
+    id=174725,
+    rewards={
+        Achievement({id=14788, criteria=50015}),
+        Item({item=183880, quest=62622})
+    }
+}) -- A Travel Journal
+
+local NAUGHTY = Tale({
+    id=174726,
+    rewards={
+        Achievement({id=14788, criteria=50016}),
+        Item({item=183881, quest=62623})
+    }
+}) -- A Naughty Story
+
+map.nodes[56044040] = MEANDERING
+
+map.nodes[30004480] = WANDERING
+map.nodes[35602680] = WANDERING
+map.nodes[36404800] = WANDERING
+map.nodes[37894005] = WANDERING
+
+map.nodes[32603160] = ESCAPIST
+map.nodes[40004460] = ESCAPIST
+map.nodes[40602760] = ESCAPIST
+map.nodes[40944230] = ESCAPIST
+
+map.nodes[40094168] = JOURNAL
+map.nodes[49664016] = JOURNAL
+map.nodes[50202500] = JOURNAL
+map.nodes[50174187] = JOURNAL
+
+map.nodes[33605740] = NAUGHTY
+map.nodes[39806560] = NAUGHTY
+map.nodes[51005480] = NAUGHTY

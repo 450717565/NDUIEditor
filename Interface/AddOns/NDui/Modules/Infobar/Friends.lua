@@ -2,8 +2,8 @@
 local B, C, L, DB = unpack(ns)
 if not C.Infobar.Friends then return end
 
-local module = B:GetModule("Infobar")
-local info = module:RegisterInfobar("Friends", C.Infobar.FriendsPos)
+local Infobar = B:GetModule("Infobar")
+local info = Infobar:RegisterInfobar("Friends", C.Infobar.FriendsPos)
 
 local strfind, format, sort, wipe, unpack, tinsert = string.find, string.format, table.sort, table.wipe, unpack, table.insert
 local C_Timer_After = C_Timer.After
@@ -24,7 +24,7 @@ local RAF_RECRUIT_FRIEND, RAF_RECRUITER_FRIEND = RAF_RECRUIT_FRIEND, RAF_RECRUIT
 local WOW_PROJECT_ID = WOW_PROJECT_ID or 1
 local CLIENT_WOW_CLASSIC = "WoV" -- for sorting
 
-local r, g, b = DB.r, DB.g, DB.b
+local cr, cg, cb = DB.r, DB.g, DB.b
 local infoFrame, updateRequest, prevTime
 local friendTable, bnetTable = {}, {}
 local activeZone, inactiveZone = "|cff4cff4c", DB.GreyColor
@@ -164,12 +164,11 @@ function info:FriendsPanel_Init()
 	if infoFrame then infoFrame:Show() return end
 
 	infoFrame = CreateFrame("Frame", "NDuiFriendsFrame", info)
-	infoFrame:SetSize(400, 495)
-	infoFrame:SetPoint("TOPLEFT", UIParent, 15, -30)
+	infoFrame:SetSize(405, 495)
+	infoFrame:SetPoint("TOPLEFT", UIParent, 15, -35)
 	infoFrame:SetClampedToScreen(true)
 	infoFrame:SetFrameStrata("DIALOG")
-	local bg = B.SetBD(infoFrame)
-	bg:SetBackdropColor(0, 0, 0, .7)
+	B.CreateBG(infoFrame)
 
 	infoFrame:SetScript("OnLeave", function(self)
 		self:SetScript("OnUpdate", isPanelCanHide)
@@ -179,7 +178,7 @@ function info:FriendsPanel_Init()
 	end)
 
 	B.CreateFS(infoFrame, 16, "|cff0099ff"..FRIENDS_LIST, nil, "TOPLEFT", 15, -10)
-	infoFrame.friendCountText = B.CreateFS(infoFrame, 14, "-/-", nil, "TOPRIGHT", -15, -12)
+	infoFrame.friendCountText = B.CreateFS(infoFrame, 14, "- / -", nil, "TOPRIGHT", -15, -12)
 	infoFrame.friendCountText:SetTextColor(0, .6, 1)
 
 	local scrollFrame = CreateFrame("ScrollFrame", "NDuiFriendsInfobarScrollFrame", infoFrame, "HybridScrollFrameTemplate")
@@ -211,9 +210,9 @@ function info:FriendsPanel_Init()
 	scrollBar:SetValue(0)
 
 	B.CreateFS(infoFrame, 13, DB.LineString, false, "BOTTOMRIGHT", -12, 42)
-	local whspInfo = DB.InfoColor..DB.RightButton..L["Whisper"]
+	local whspInfo = DB.InfoColor..DB.RightButton..WHISPER
 	B.CreateFS(infoFrame, 13, whspInfo, false, "BOTTOMRIGHT", -15, 26)
-	local invtInfo = DB.InfoColor.."ALT +"..DB.LeftButton..L["Invite"]
+	local invtInfo = DB.InfoColor.."ALT +"..DB.LeftButton..INVITE
 	B.CreateFS(infoFrame, 13, invtInfo, false, "BOTTOMRIGHT", -15, 10)
 end
 
@@ -279,6 +278,7 @@ end
 
 local function buttonOnEnter(self)
 	GameTooltip:SetOwner(self, "ANCHOR_NONE")
+	GameTooltip:ClearAllPoints()
 	GameTooltip:SetPoint("TOPLEFT", infoFrame, "TOPRIGHT", 5, 0)
 	GameTooltip:ClearLines()
 	if self.isBNet then
@@ -301,7 +301,7 @@ local function buttonOnEnter(self)
 			local clientString = BNet_GetClientEmbeddedTexture(client, 16)
 			if client == BNET_CLIENT_WOW then
 				if charName ~= "" then -- fix for weird account
-					realmName = (DB.MyRealm == realmName or realmName == "") and "" or "-"..realmName
+					realmName = (realmName == DB.MyRealm or realmName == "") and "" or "-"..realmName
 					class = DB.ClassList[class]
 					local classColor = B.HexRGB(B.ClassColor(class))
 					if faction == "Horde" then
@@ -348,26 +348,28 @@ function info:FriendsPanel_CreateButton(parent, index)
 	button:SetPoint("TOPLEFT", 0, - (index-1) *20)
 	button.HL = button:CreateTexture(nil, "HIGHLIGHT")
 	button.HL:SetAllPoints()
-	button.HL:SetColorTexture(r, g, b, .2)
+	button.HL:SetColorTexture(cr, cg, cb, .2)
 
 	button.status = button:CreateTexture(nil, "ARTWORK")
-	button.status:SetPoint("LEFT", button, 5, 0)
+	button.status:SetPoint("LEFT", button, 5, -1)
 	button.status:SetSize(16, 16)
 
-	button.name = B.CreateFS(button, 13, "Tag (name)", false, "LEFT", 25, 0)
+	button.name = B.CreateFS(button, 13, "Tag (name)")
+	button.name:ClearAllPoints()
+	button.name:SetPoint("LEFT", button.status, "RIGHT", 5, 1)
 	button.name:SetPoint("RIGHT", button, "LEFT", 230, 0)
 	button.name:SetJustifyH("LEFT")
 	button.name:SetTextColor(.5, .7, 1)
 
-	button.zone = B.CreateFS(button, 13, "Zone", false, "RIGHT", -28, 0)
-	button.zone:SetPoint("LEFT", button, "RIGHT", -130, 0)
-	button.zone:SetJustifyH("RIGHT")
-
 	button.gameIcon = button:CreateTexture(nil, "ARTWORK")
 	button.gameIcon:SetPoint("RIGHT", button, -8, 0)
-	button.gameIcon:SetSize(16, 16)
-	button.gameIcon:SetTexCoord(.17, .83, .17, .83)
-	B.CreateBDFrame(button.gameIcon)
+	button.gameIcon:SetSize(20, 20)
+
+	button.zone = B.CreateFS(button, 13, "Zone")
+	button.zone:ClearAllPoints()
+	button.zone:SetPoint("RIGHT", button.gameIcon, "LEFT", -5, 0)
+	button.zone:SetPoint("LEFT", button, "RIGHT", -130, 0)
+	button.zone:SetJustifyH("RIGHT")
 
 	button:RegisterForClicks("AnyUp")
 	button:SetScript("OnClick", buttonOnClick)
@@ -411,10 +413,10 @@ function info:FriendsPanel_UpdateButton(button)
 		button.zone:SetText(format("%s%s", zoneColor, infoText))
 		if client == CLIENT_WOW_CLASSIC then
 			button.gameIcon:SetTexture(BNet_GetClientTexture(BNET_CLIENT_WOW))
-			button.gameIcon:SetVertexColor(.3, .3, .3)
+			button.gameIcon:SetAlpha(.5)
 		else
 			button.gameIcon:SetTexture(BNet_GetClientTexture(client))
-			button.gameIcon:SetVertexColor(1, 1, 1)
+			button.gameIcon:SetAlpha(1)
 		end
 
 		button.isBNet = true
@@ -473,12 +475,12 @@ function info:FriendsPanel_Refresh()
 end
 
 info.eventList = {
-	"BN_FRIEND_ACCOUNT_ONLINE",
-	"BN_FRIEND_ACCOUNT_OFFLINE",
-	"BN_FRIEND_INFO_CHANGED",
-	"FRIENDLIST_UPDATE",
 	"PLAYER_ENTERING_WORLD",
+	"BN_FRIEND_ACCOUNT_OFFLINE",
+	"BN_FRIEND_ACCOUNT_ONLINE",
+	"BN_FRIEND_INFO_CHANGED",
 	"CHAT_MSG_SYSTEM",
+	"FRIENDLIST_UPDATE",
 }
 
 info.onEvent = function(self, event, arg1)
@@ -487,7 +489,7 @@ info.onEvent = function(self, event, arg1)
 	end
 
 	info:FriendsPanel_Refresh()
-	self.text:SetText(format("%s: "..DB.MyColor.."%d", FRIENDS, info.totalOnline))
+	self.text:SetFormattedText("%s：%s", FRIENDS, DB.MyColor..info.totalOnline)
 
 	updateRequest = false
 	if infoFrame and infoFrame:IsShown() then
@@ -509,9 +511,10 @@ info.onEnter = function(self)
 
 	if totalOnline == 0 then
 		GameTooltip:SetOwner(self, "ANCHOR_NONE")
-		GameTooltip:SetPoint("TOPLEFT", UIParent, 15, -30)
+		GameTooltip:ClearAllPoints()
+		GameTooltip:SetPoint("TOPLEFT", UIParent, 15, -35)
 		GameTooltip:ClearLines()
-		GameTooltip:AddDoubleLine(FRIENDS_LIST, format("%s: %s/%s", GUILD_ONLINE_LABEL, totalOnline, totalFriends), 0,.6,1, 0,.6,1)
+		GameTooltip:AddDoubleLine(FRIENDS_LIST, format("%s：%s / %s", FRIENDS_LIST_ONLINE, totalOnline, totalFriends), 0,.6,1, 0,.6,1)
 		GameTooltip:AddLine(" ")
 		GameTooltip:AddLine(L["No Online"], 1,1,1)
 		GameTooltip:Show()
@@ -530,7 +533,7 @@ info.onEnter = function(self)
 
 	info:FriendsPanel_Init()
 	info:FriendsPanel_Update()
-	infoFrame.friendCountText:SetText(format("%s: %s/%s", GUILD_ONLINE_LABEL, totalOnline, totalFriends))
+	infoFrame.friendCountText:SetText(format("%s：%s / %s", FRIENDS_LIST_ONLINE, totalOnline, totalFriends))
 end
 
 local function delayLeave()

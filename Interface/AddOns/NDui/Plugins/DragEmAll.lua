@@ -154,7 +154,7 @@ local function HookFrame(name, moveParent)
 				parent = frame:GetParent()
 			end
 			if not parent then
-				print("Parent frame not found: " .. name)
+				print("Parent frame not found: "..name)
 				return
 			end
 			parentFrame[frame] = parent
