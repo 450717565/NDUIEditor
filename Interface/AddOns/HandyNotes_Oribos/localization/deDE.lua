@@ -111,10 +111,8 @@ L["handler_context_menu_hide_node"] = "Verstecke diesen Punkt"
 --============================================TOOLTIPS============================================--
 
 L["handler_tooltip_requires"] = "Benötigt"
-L["handler_tooltip_sanctum_feature"] = "eine Sanktumaufwertung"
 L["handler_tooltip_data"] = "DATEN ABRUFEN..."
 L["handler_tooltip_quest"] = "Freigeschaltet mit der Quest"
-L["handler_tooltip_TNTIER"] = "Stufe %s des Reisenetzwerks."
 
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------DATABASE----------------------------------------------

@@ -30,46 +30,12 @@ function Skins:CompactVendor()
 		self:SetPoint("TOPLEFT", MerchantFrame, "TOPRIGHT", 3, -25)
 	end)
 
-	-- 腐蚀缩写、腐蚀等级、装备等级
-	-- by 雨夜独行客
-
 	local function formatNumb(self, text)
 		if self.setting or (not text or type(text) ~= "number") then return end
 		self.setting = true
 		self:SetText(B.FormatNumb(text))
 
 		self.setting = false
-	end
-
-	local itemString = HEADER_COLON.."(.+)"
-	local contaminantsLevel = DB.ContaminantsLevel
-
-	local function updateItemName(self)
-		local item, name = self.item, self.Name
-		local text = name and name:GetText()
-		local nameString
-		if text and item.link and item.id then
-			text = strmatch(text, itemString)
-
-			local itemLevel = B.GetItemLevel(item.link)
-			local itemSolt = B.GetItemSlot(item.link)
-			if itemLevel and itemSolt then
-				nameString = tostring(itemLevel).." | "..itemSolt
-			elseif itemLevel then
-				nameString = tostring(itemLevel)
-			elseif itemSolt then
-				nameString = itemSolt
-			end
-
-			local conLevel = contaminantsLevel[item.id]
-			if conLevel then
-				nameString = conLevel
-			end
-
-			if nameString then
-				name:SetText(text.." "..nameString)
-			end
-		end
 	end
 
 	hooksecurefunc(List, "RefreshListDisplay", function(self)
@@ -80,7 +46,6 @@ function Skins:CompactVendor()
 				button.CircleMask:Hide()
 				button.Icon:SetScale(.8)
 				local icbg1 = B.ReskinIcon(button.Icon)
-				hooksecurefunc(button, "Update", updateItemName)
 
 				local Costs = button.Cost.Costs
 				for j = 1, #Costs do

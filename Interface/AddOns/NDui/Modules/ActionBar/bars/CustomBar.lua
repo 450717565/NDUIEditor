@@ -48,9 +48,13 @@ function Bar:UpdateCustomBar()
 	local size = C.db["ActionBar"]["CustomBarButtonSize"]
 	local num = C.db["ActionBar"]["CustomBarNumButtons"]
 	local perRow = C.db["ActionBar"]["CustomBarNumPerRow"]
+	local scale = size/34
+
 	for i = 1, num do
 		local button = frame.buttons[i]
 		button:SetSize(size, size)
+		button.Name:SetScale(scale)
+		button.HotKey:SetScale(scale)
 		button:ClearAllPoints()
 		if i == 1 then
 			button:SetPoint("TOPLEFT", frame, padding, -padding)

@@ -535,7 +535,7 @@ TT:RegisterTooltips("NDui", function()
 	end
 
 	ItemRefTooltip:HookScript("OnShow", function(self)
-		if not self.styled then
+		if ItemRefCloseButton and not self.styled then
 			B.ReskinClose(ItemRefCloseButton)
 
 			self.styled = true

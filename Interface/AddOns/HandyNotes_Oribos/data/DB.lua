@@ -62,11 +62,11 @@ DB.points = {
     -- Tailor
     [45493182] = { trainer=true, npc=156681, profession=197 },
     -- Cooking
-    [46232637] = { vendor=true, npc=168353 },
-    [46202560] = { trainer=true, npc=156672 }, -- , profession=185
+    [47492372] = { vendor=true, npc=168353 },
+    [46822268] = { trainer=true, npc=156672 }, -- , profession=185
     -- Fishing
-    [46832259] = { vendor=true, npc=156690 },
-    [47542360] = { trainer=true, npc=156671 }, -- , profession=356
+    [46282576] = { vendor=true, npc=156690 },
+    [46172640] = { trainer=true, npc=156671 }, -- , profession=356
     -- Enchanting
     [48412939] = { trainer=true, npc=156683, profession=333 },
     [47572905] = { vendor=true, npc=156694, profession=333 },
@@ -123,8 +123,8 @@ DB.points = {
     [49506073] = { tpplatform=true, label=RingFates },
     [43375150] = { tpplatform=true, label=RingFates },
 
-    [62183266] = { kyrian=true, label=C_Map.GetMapInfo(1533).name, scale=1.5 },
-    [67345157] = { necrolord=true, label=C_Map.GetMapInfo(1536).name, scale=1.5 },
+    [67345157] = { kyrian=true, label=C_Map.GetMapInfo(1533).name, scale=1.5 },
+    [62183266] = { necrolord=true, label=C_Map.GetMapInfo(1536).name, scale=1.5 },
     [49587788] = { nightfae=true, label=C_Map.GetMapInfo(1565).name, scale=1.5 },
     [32015156] = { venthyr=true, label=C_Map.GetMapInfo(1525).name, scale=1.5 },
 },

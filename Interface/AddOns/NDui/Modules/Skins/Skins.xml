@@ -2,7 +2,7 @@
 	<Script file="Skins.lua"/>
 	<Script file="Fonts.lua"/>
 
-	<Include file="Blizzard\Blizzard.xml"/>
-	<Include file="Blizzard\FrameXML\FrameXML.xml"/>
+	<Include file="BlizzardLUA\BlizzardLUA.xml"/>
+	<Include file="BlizzardXML\BlizzardXML.xml"/>
 	<Include file="Other\Other.xml"/>
 </Ui>

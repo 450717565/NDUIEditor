@@ -13,33 +13,51 @@ print("|cff70C0F5——————————————————")
 
 -- Tuitorial
 local function ForceDefaultSettings()
-	SetCVar("autoLootDefault", 1)
-	SetCVar("alwaysCompareItems", 1)
-	SetCVar("autoSelfCast", 1)
-	SetCVar("lootUnderMouse", 1)
-	SetCVar("screenshotQuality", 10)
-	SetCVar("showTutorials", 0)
-	SetCVar("ActionButtonUseKeyDown", 1)
-	SetCVar("lockActionBars", 1)
-	SetCVar("autoQuestWatch", 1)
-	SetCVar("overrideArchive", 0)
-	SetCVar("WorldTextScale", 1.2)
-	SetCVar("cameraDistanceMaxZoomFactor", 2.6)
-	SetCVar("floatingCombatTextFloatMode", 1)
-	SetCVar("floatingCombatTextCombatDamage", 1)
-	SetCVar("floatingCombatTextCombatHealing", 1)
-	SetCVar("floatingCombatTextCombatDamageDirectionalScale", 0)
-	SetCVar("floatingCombatTextCombatDamageDirectionalOffset", 10)
 	SetActionBarToggles(1, 1, 1, 1)
+	SetCVar("ActionButtonUseKeyDown", 1)
+	SetCVar("alwaysCompareItems", 1)
+	SetCVar("autoDismountFlying", 1)
+	SetCVar("autoLootDefault", 1)
+	SetCVar("autoQuestWatch", 1)
+	SetCVar("autoSelfCast", 1)
+	SetCVar("breakUpLargeNumbers", 1)
+	SetCVar("cameraDistanceMaxZoomFactor", 2.6)
+	SetCVar("cameraSmoothStyle", 0)
+	SetCVar("deselectOnClick", 1)
+	SetCVar("doNotFlashLowHealthWarning", 1)
+	SetCVar("enableFloatingCombatText", 1)
+	SetCVar("ffxGlow", 0)
+	SetCVar("findYourselfAnywhereOnlyInCombat", 1)
+	SetCVar("findYourselfMode", 1)
+	SetCVar("floatingCombatTextCombatDamage", 1)
+	SetCVar("floatingCombatTextCombatDamageDirectionalOffset", 10)
+	SetCVar("floatingCombatTextCombatDamageDirectionalScale", 1)
+	SetCVar("floatingCombatTextCombatHealing", 0)
+	SetCVar("floatingCombatTextCombatState", 1)
+	SetCVar("floatingCombatTextFloatMode", 2)
+	SetCVar("floatingCombatTextLowManaHealth", 1)
+	SetCVar("floatingCombatTextRepChanges", 1)
+	SetCVar("hideAdventureJournalAlerts", 1)
+	SetCVar("interactOnLeftClick", 0)
+	SetCVar("lockActionBars", 1)
+	SetCVar("lootUnderMouse", 1)
+	SetCVar("missingTransmogSourceInItemTooltips", 1)
+	SetCVar("movieSubtitle", 1)
+	SetCVar("Outline", 3)
+	SetCVar("overrideArchive", 0)
+	SetCVar("screenshotFormat", jpg)
+	SetCVar("screenshotQuality", 10)
+	SetCVar("scriptErrors", 0)
+	SetCVar("ShowClassColorInFriendlyNameplate", 1)
+	SetCVar("showTutorials", 0)
+
 	if not InCombatLockdown() then
+		SetCVar("alwaysShowActionBars", 1)
 		SetCVar("nameplateMotion", 1)
+		SetCVar("nameplateMotionSpeed", 0.1)
 		SetCVar("nameplateShowAll", 1)
 		SetCVar("nameplateShowEnemies", 1)
-		SetCVar("alwaysShowActionBars", 1)
-	end
-	if DB.isDeveloper then
-		SetCVar("ffxGlow", 0)
-		SetCVar("SpellQueueWindow", 100)
+		SetCVar("nameplateShowEnemyMiniones", 1)
 	end
 end
 
@@ -57,50 +75,80 @@ end
 -- DBM bars
 local function ForceDBMOptions()
 	if not IsAddOnLoaded("DBM-Core") then return end
+
+	if DBM_MinimapIcon then wipe(DBM_MinimapIcon) end
+	DBM_MinimapIcon = {["hide"] = true}
+
 	if DBT_AllPersistentOptions then wipe(DBT_AllPersistentOptions) end
 	DBT_AllPersistentOptions = {
 		["Default"] = {
 			["DBM"] = {
-				["Scale"] = 1,
-				["HugeScale"] = 1,
+				["Alpha"] = 0.8,
+				["BarStyle"] = "DBM",
+				["BarXOffset"] = 0,
+				["BarYOffset"] = 5,
+				["EndColorB"] = 0,
+				["EndColorG"] = 0,
+				["EndColorR"] = 1,
 				["ExpandUpwards"] = true,
 				["ExpandUpwardsLarge"] = true,
-				["BarXOffset"] = 0,
-				["BarYOffset"] = 15,
-				["TimerPoint"] = "LEFT",
-				["TimerX"] = 118,
-				["TimerY"] = -105,
-				["Width"] = 175,
-				["Heigh"] = 20,
-				["HugeWidth"] = 210,
-				["HugeBarXOffset"] = 0,
-				["HugeBarYOffset"] = 15,
-				["HugeTimerPoint"] = "CENTER",
-				["HugeTimerX"] = 330,
-				["HugeTimerY"] = -42,
 				["FontSize"] = 10,
-				["StartColorR"] = 1,
-				["StartColorG"] = .7,
+				["Heigh"] = 20,
+				["HugeBarsEnabled"] = false,
+				["HugeBarXOffset"] = 0,
+				["HugeBarYOffset"] = 5,
+				["HugeScale"] = 1,
+				["HugeTimerPoint"] = "BOTTOM",
+				["HugeTimerX"] = -50,
+				["HugeTimerY"] = 120,
+				["HugeWidth"] = 210,
+				["Scale"] = 1,
 				["StartColorB"] = 0,
-				["EndColorR"] = 1,
-				["EndColorG"] = 0,
-				["EndColorB"] = 0,
+				["StartColorG"] = 0.7,
+				["StartColorR"] = 1,
 				["Texture"] = DB.normTex,
+				["TimerPoint"] = "CENTER",
+				["TimerX"] = 315,
+				["TimerY"] = -85,
+				["Width"] = 175,
 			},
 		},
 	}
 
-	if not DBM_AllSavedOptions["Default"] then DBM_AllSavedOptions["Default"] = {} end
-	DBM_AllSavedOptions["Default"]["WarningY"] = -170
-	DBM_AllSavedOptions["Default"]["WarningX"] = 0
-	DBM_AllSavedOptions["Default"]["WarningFontStyle"] = DB.Font[3]
-	DBM_AllSavedOptions["Default"]["SpecialWarningX"] = 0
-	DBM_AllSavedOptions["Default"]["SpecialWarningY"] = -260
-	DBM_AllSavedOptions["Default"]["SpecialWarningFontStyle"] = DB.Font[3]
-	DBM_AllSavedOptions["Default"]["HideQuestTooltips"] = false
-	DBM_AllSavedOptions["Default"]["HideObjectivesFrame"] = false
-	DBM_AllSavedOptions["Default"]["WarningFontSize"] = 18
-	DBM_AllSavedOptions["Default"]["SpecialWarningFontSize2"] = 24
+	if DBM_AllSavedOptions then wipe(DBM_AllSavedOptions) end
+	DBM_AllSavedOptions = {
+		["Default"] = {
+			["EventSoundVictory"] = "None",
+			["EventSoundVictory2"] = "None",
+			["HideObjectivesFrame"] = false,
+			["SpecialWarningFontSize2"] = 24,
+			["SpecialWarningFontStyle"] = DB.Font[3],
+			["SpecialWarningPoint"] = "TOP",
+			["SpecialWarningSound3"] = "Sound\\interface\\UI_RaidBossWhisperWarning.ogg",
+			["SpecialWarningX"] = 0,
+			["SpecialWarningY"] = -200,
+			["UseSoundChannel"] = "Dialog",
+			["WarningFontSize"] = 18,
+			["WarningFontStyle"] = DB.Font[3],
+			["WarningPoint"] = "TOP",
+			["WarningX"] = 0,
+			["WarningY"] = -180,
+		},
+	}
+
+	if IsAddOnLoaded("DBM-VPVV") then
+		DBM_AllSavedOptions["Default"]["ChosenVoicePack"] = "VV"
+		DBM_AllSavedOptions["Default"]["CountdownVoice"] = "VP:VV"
+		DBM_AllSavedOptions["Default"]["CountdownVoice2"] = "VP:VV"
+		DBM_AllSavedOptions["Default"]["CountdownVoice3"] = "VP:VV"
+		DBM_AllSavedOptions["Default"]["CountdownVoice3v2"] = "VP:VV"
+	elseif IsAddOnLoaded("DBM-VPYike") then
+		DBM_AllSavedOptions["Default"]["ChosenVoicePack"] = "Yike"
+		DBM_AllSavedOptions["Default"]["CountdownVoice"] = "VP:Yike"
+		DBM_AllSavedOptions["Default"]["CountdownVoice2"] = "VP:Yike"
+		DBM_AllSavedOptions["Default"]["CountdownVoice3"] = "VP:Yike"
+		DBM_AllSavedOptions["Default"]["CountdownVoice3v2"] = "VP:Yike"
+	end
 
 	NDuiADB["DBMRequest"] = false
 end

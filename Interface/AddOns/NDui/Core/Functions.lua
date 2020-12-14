@@ -1015,9 +1015,9 @@ do
 
 		if texture and texture ~= "" then
 			if strfind(texture, "Plus") or strfind(texture, "Closed") or (type(texture) == "number" and texture == 130838) then
-				self.__texture:DoCollapse(true)
+				self.expTex:DoCollapse(true)
 			elseif strfind(texture, "Minus") or strfind(texture, "Open") or (type(texture) == "number" and texture == 130821) then
-				self.__texture:DoCollapse(false)
+				self.expTex:DoCollapse(false)
 			end
 			self.__Tex:Show()
 		else
@@ -1037,10 +1037,10 @@ do
 		Tex:SetPoint("TOPLEFT", self:GetNormalTexture())
 		self.__Tex = Tex
 
-		local texture = Tex:CreateTexture(nil, "OVERLAY")
-		texture:SetOutside(nil, 4, 4)
-		texture.DoCollapse = updateCollapseTexture
-		self.__texture = texture
+		local expTex = Tex:CreateTexture(nil, "OVERLAY")
+		expTex:SetOutside(nil, 4, 4)
+		expTex.DoCollapse = updateCollapseTexture
+		self.expTex = expTex
 
 		SetupHook(self)
 

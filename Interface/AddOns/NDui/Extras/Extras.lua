@@ -20,11 +20,11 @@ function Extras:OnLogin()
 	self:InstanceDifficulty()
 	self:InstanceReset()
 
-	--self:ChatEmote()
-	--self:DressUp()
-	--self:IllusionsCheck()
-	--self:KeystoneHelper()
-	--self:MountSource()
+	self:ChatEmote()
+	self:DressUp()
+	self:IllusionsCheck()
+	self:KeystoneHelper()
+	self:MountSource()
 end
 
 -- 新人加入公会自动欢迎
@@ -275,7 +275,7 @@ do
 			for index = 1, numCurrencies do
 				local tokenButton = _G["MerchantToken"..index]
 				if tokenButton and currencies[index] then
-					local count = select(2, GetCurrencyInfo(currencies[index]))
+					local count = C_CurrencyInfo.GetCurrencyInfo(currencies[index]).quantity
 					tokenButton.count:SetText(B.FormatNumb(count))
 				end
 			end
@@ -286,7 +286,7 @@ do
 		for i = 1, MAX_MERCHANT_CURRENCIES do
 			local tokenButton = _G["MerchantToken"..i]
 			if tokenButton and tokenButton.currencyID then
-				local count = select(2, GetCurrencyInfo(tokenButton.currencyID))
+				local count = C_CurrencyInfo.GetCurrencyInfo(tokenButton.currencyID).quantity
 				tokenButton.count:SetText(B.FormatNumb(count))
 			end
 		end
@@ -300,11 +300,11 @@ do
 		local index, count
 		for i = 1, #buttons do
 			index = offset + i
-			local currencyInfo = C_CurrencyInfo.GetCurrencyListInfo(index)
+			local count = C_CurrencyInfo.GetCurrencyListInfo(index).quantity
 
 			local button = buttons[i]
-			if not button.isHeader and currencyInfo.quantity then
-				button.count:SetText(B.FormatNumb(currencyInfo.quantity))
+			if not button.isHeader and count then
+				button.count:SetText(B.FormatNumb(count))
 			end
 		end
 	end

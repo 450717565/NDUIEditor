@@ -156,7 +156,7 @@ local function TitleButton_OnEnter(self)
 	local questTagInfo = C_QuestLog.GetQuestTagInfo(self.questID)
 	local _, color = GetQuestDifficultyColor( UnitLevel("player") + TitleButton_RarityColorTable[questTagInfo.quality] )
 	self.Text:SetTextColor( color.r, color.g, color.b )
-
+	
 	hoveredQuestID = self.questID
 
 	if dataProvder then
@@ -190,23 +190,23 @@ end
 local function TitleButton_OnClick(self, button)
 	PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
 	if ( not ChatEdit_TryInsertQuestLinkForQuestID(self.questID) ) then
-		PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
-		local watchType = C_QuestLog.GetQuestWatchType(self.questID)
+		PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
+		local watchType = C_QuestLog.GetQuestWatchType(self.questID);
 		if ( button == "RightButton" ) then
 			if ( self.mapID ) then
 				QuestMapFrame:GetParent():SetMapID(self.mapID)
 			end
 		elseif IsShiftKeyDown() then
 			if watchType == Enum.QuestWatchType.Manual or (watchType == Enum.QuestWatchType.Automatic and C_SuperTrack.GetSuperTrackedQuestID() == self.questID) then
-				BonusObjectiveTracker_UntrackWorldQuest(self.questID)
+				BonusObjectiveTracker_UntrackWorldQuest(self.questID);
 			else
-				BonusObjectiveTracker_TrackWorldQuest(self.questID, Enum.QuestWatchType.Manual)
+				BonusObjectiveTracker_TrackWorldQuest(self.questID, Enum.QuestWatchType.Manual);
 			end
 		else
 			if watchType == Enum.QuestWatchType.Manual then
-				C_SuperTrack.SetSuperTrackedQuestID(self.questID)
+				C_SuperTrack.SetSuperTrackedQuestID(self.questID);
 			else
-				BonusObjectiveTracker_TrackWorldQuest(self.questID, Enum.QuestWatchType.Automatic)
+				BonusObjectiveTracker_TrackWorldQuest(self.questID, Enum.QuestWatchType.Automatic);
 			end
 		end
 	end
@@ -441,7 +441,7 @@ local function GetFilterButton(key)
 		button:SetScript("OnClick", FilterButton_OnClick)
 
 		button:SetSize(24, 24)
-
+			
 		if key == "SORT" then
 			button:SetNormalTexture("Interface\\ChatFrame\\UI-ChatIcon-ScrollDown-Up")
 			button:SetPushedTexture("Interface\\ChatFrame\\UI-ChatIcon-ScrollDown-Down")
@@ -588,11 +588,11 @@ local function QuestFrame_AddQuestButton(questInfo, prevButton)
 		button.rewardCategory = "GOLD"
 		button.rewardValue = gold
 		button.rewardValue2 = 0
-	end
+	end	
 
 	local numQuestCurrencies = GetNumQuestLogRewardCurrencies(questID)
 	if numQuestCurrencies > 0 then
-		for currencyNum = 1, numQuestCurrencies do
+		for currencyNum = 1, numQuestCurrencies do 
 			local name, texture, numItems, currencyID = GetQuestLogRewardCurrencyInfo(currencyNum, questID)
 			if currencyID ~= CURRENCYID_WAR_SUPPLIES and currencyID ~= CURRENCYID_NETHERSHARD then
 				tagText = numItems
@@ -668,7 +668,7 @@ local function TaskPOI_IsFilteredReward(selectedFilters, questID)
 	local money = GetQuestLogRewardMoney(questID)
 	if money > 0 and selectedFilters["GOLD"] then
 		positiveMatch = true
-	end
+	end	
 
 	local numQuestCurrencies = GetNumQuestLogRewardCurrencies(questID)
 	for key,_ in pairs(selectedFilters) do
@@ -743,7 +743,7 @@ local function TaskPOI_IsFiltered(info, displayMapID)
 		if lootFiltered ~= nil then
 			isFiltered = lootFiltered
 		end
-
+		
 		if selectedFilters.FACTION then
 			if (factionID == Config.filterFaction or Addon.Data:QuestHasFaction(info.questId, Config.filterFaction)) then
 				isFiltered = false
@@ -873,7 +873,7 @@ local function QuestFrame_Update()
 
 	local mapID = QuestMapFrame:GetParent():GetMapID()
 
-	local displayLocation, lockedQuestID = C_QuestLog.GetBountySetInfoForMapID(mapID)
+	local displayLocation, lockedQuestID = C_QuestLog.GetBountySetInfoForMapID(mapID);
 
 	local tasksOnMap = C_TaskQuest.GetQuestsForPlayerByMapID(mapID)
 	if (Config.onlyCurrentZone) and (not displayLocation or lockedQuestID) and not (tasksOnMap and #tasksOnMap > 0) and (mapID ~= MAPID_ARGUS) then
@@ -892,8 +892,8 @@ local function QuestFrame_Update()
 	local storyAchievementID, storyMapID = C_QuestLog.GetZoneStoryInfo(mapID)
 	if storyAchievementID then
 		storyButton = QuestScrollFrame.Contents.StoryHeader
-		if layoutIndex == 0 then
-			layoutIndex = storyButton.layoutIndex + 0.001
+		if layoutIndex == 0 then 
+			layoutIndex = storyButton.layoutIndex + 0.001;
 		end
 	end
 
@@ -913,8 +913,8 @@ local function QuestFrame_Update()
 		headerButton:SetHitRectInsets(0, -headerButton.ButtonText:GetWidth(), 0, 0)
 		headerButton:SetHighlightTexture("Interface\\Buttons\\UI-PlusButton-Hilight")
 	end
-	headerButton:SetNormalAtlas(questsCollapsed and "Campaign_HeaderIcon_Closed" or "Campaign_HeaderIcon_Open" )
-	headerButton:SetPushedAtlas(questsCollapsed and "Campaign_HeaderIcon_ClosedPressed" or "Campaign_HeaderIcon_OpenPressed")
+	headerButton:SetNormalAtlas(questsCollapsed and "Campaign_HeaderIcon_Closed" or "Campaign_HeaderIcon_Open" );
+	headerButton:SetPushedAtlas(questsCollapsed and "Campaign_HeaderIcon_ClosedPressed" or "Campaign_HeaderIcon_OpenPressed");
 	headerButton:ClearAllPoints()
 	if storyButton then
 		headerButton:SetPoint("TOPLEFT", storyButton, "BOTTOMLEFT", 0, 0)
@@ -1008,7 +1008,7 @@ local function QuestFrame_Update()
 			layoutIndex = layoutIndex + 0.001
 			button:Show()
 			prevButton = button
-
+			
 			if hoveredQuestID == button.questID then
 				TitleButton_OnEnter(button)
 			end
@@ -1032,7 +1032,7 @@ end
 
 local function WorldMap_WorldQuestDataProviderMixin_ShouldShowQuest(self, info)
 	if self:IsQuestSuppressed(info.questId) then
-		return false
+		return false;
 	end
 
 	if self.focusedQuestID then
@@ -1215,7 +1215,7 @@ function Mod:Startup()
 		QuestMapFrame_UpdateAll()
 	end)
 
-	Config:RegisterCallback({'hideUntrackedPOI', 'hideFilteredPOI', 'showContinentPOI', 'onlyCurrentZone', 'sortMethod', 'selectedFilters', 'disabledFilters', 'filterEmissary', 'filterLoot', 'filterFaction', 'filterZone', 'filterTime', 'lootFilterUpgrades', 'lootUpgradesLevel', 'timeFilterDuration'}, function()
+	Config:RegisterCallback({'hideUntrackedPOI', 'hideFilteredPOI', 'showContinentPOI', 'onlyCurrentZone', 'sortMethod', 'selectedFilters', 'disabledFilters', 'filterEmissary', 'filterLoot', 'filterFaction', 'filterZone', 'filterTime', 'lootFilterUpgrades', 'lootUpgradesLevel', 'timeFilterDuration'}, function() 
 		QuestMapFrame_UpdateAll()
 		dataProvder:RefreshAllData()
 	end)

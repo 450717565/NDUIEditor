@@ -4,24 +4,16 @@ local Skins = B:GetModule("Skins")
 function Skins:ls_Toasts()
 	if not IsAddOnLoaded("ls_Toasts") then return end
 
-	local LE, LC, LL = unpack(ls_Toasts)
+	local LE, LC = unpack(ls_Toasts)
 	LE:RegisterSkin("ndui", {
 		name = "NDui",
+		bonus = {
+			hidden = false,
+		},
 		border = {
 			offset = 0,
 			size = B.Scale(1.5),
 			texture = {1, 1, 1, 1},
-		},
-		title = {
-			flags = DB.Font[3],
-			shadow = false,
-		},
-		text = {
-			flags = DB.Font[3],
-			shadow = false,
-		},
-		bonus = {
-			hidden = false,
 		},
 		dragon = {
 			hidden = false,
@@ -56,8 +48,38 @@ function Skins:ls_Toasts()
 			size = B.Scale(1.5),
 			texture = {1, 1, 1, 1},
 		},
+		text = {
+			flags = DB.Font[3],
+			shadow = false,
+		},
+		title = {
+			flags = DB.Font[3],
+			shadow = false,
+		},
 	})
 
-	LC.db.profile.skin = "ndui"
 	LC.options.args.general.args.skin.disabled = true
+
+	LC.db.profile.skin = "ndui"
+	LC.db.profile.font.size = 16
+	LC.db.profile.strata = "DIALOG"
+	LC.db.profile.types.loot_common.quest = true
+	LC.db.profile.types.loot_common.threshold = 2
+	LC.db.profile.types.loot_special.threshold = 2
+	LC.db.profile.types.loot_gold.threshold = 100000
+	LC.db.profile.colors = {name = true, border = true, icon_border = true, threshold = 2}
+	LC.db.profile.anchors[1] = {
+		fadeout_delay = 2,
+		growth_direction = "UP",
+		growth_offset_x = 26,
+		growth_offset_y = 14,
+		max_active_toasts = 12,
+		scale = 1,
+		point = {
+			p = "BOTTOM",
+			rP = "BOTTOM",
+			x = 0,
+			y = 150,
+		},
+	}
 end

@@ -20,12 +20,23 @@ end
 INSTANCE = 1187 -- 伤逝剧场
 RegisterSeasonSpells(INSTANCE)
 AT:RegisterDebuff(TIER, INSTANCE, 0, 333299) -- 荒芜诅咒
+AT:RegisterDebuff(TIER, INSTANCE, 0, 333301) -- 荒芜诅咒
 AT:RegisterDebuff(TIER, INSTANCE, 0, 319539) -- 无魂者
 AT:RegisterDebuff(TIER, INSTANCE, 0, 326892) -- 锁定
 AT:RegisterDebuff(TIER, INSTANCE, 0, 321768) -- 上钩了
 AT:RegisterDebuff(TIER, INSTANCE, 0, 323825) -- 攫取裂隙
 AT:RegisterDebuff(TIER, INSTANCE, 0, 333231) -- 灼热之陨
 AT:RegisterDebuff(TIER, INSTANCE, 0, 330532) -- 锯齿箭
+AT:RegisterDebuff(TIER, INSTANCE, 0, 342675) -- 骨矛
+AT:RegisterDebuff(TIER, INSTANCE, 0, 323831) -- 死亡之攫
+AT:RegisterDebuff(TIER, INSTANCE, 0, 330608) -- 邪恶爆发
+AT:RegisterDebuff(TIER, INSTANCE, 0, 330868) -- 通灵箭雨
+AT:RegisterDebuff(TIER, INSTANCE, 0, 323750) -- 邪恶毒气
+AT:RegisterDebuff(TIER, INSTANCE, 0, 323406) -- 锯齿创口
+AT:RegisterDebuff(TIER, INSTANCE, 0, 330700) -- 腐烂凋零
+AT:RegisterDebuff(TIER, INSTANCE, 0, 319626) -- 幻影寄生
+AT:RegisterDebuff(TIER, INSTANCE, 0, 324449) -- 死亡具象
+AT:RegisterDebuff(TIER, INSTANCE, 0, 341949) -- 枯萎凋零
 
 INSTANCE = 1183 -- 凋魂之殇
 RegisterSeasonSpells(INSTANCE)
@@ -34,6 +45,16 @@ AT:RegisterDebuff(TIER, INSTANCE, 0, 331818) -- 暗影伏击
 AT:RegisterDebuff(TIER, INSTANCE, 0, 329110) -- 软泥注射
 AT:RegisterDebuff(TIER, INSTANCE, 0, 325552) -- 毒性裂击
 AT:RegisterDebuff(TIER, INSTANCE, 0, 336301) -- 裹体之网
+AT:RegisterDebuff(TIER, INSTANCE, 0, 322358) -- 燃灼菌株
+AT:RegisterDebuff(TIER, INSTANCE, 0, 322410) -- 凋零污秽
+AT:RegisterDebuff(TIER, INSTANCE, 0, 328180) -- 攫握感染
+AT:RegisterDebuff(TIER, INSTANCE, 0, 320542) -- 荒芜凋零
+AT:RegisterDebuff(TIER, INSTANCE, 0, 340355) -- 急速感染
+AT:RegisterDebuff(TIER, INSTANCE, 0, 328395) -- 剧毒打击
+AT:RegisterDebuff(TIER, INSTANCE, 0, 320512) -- 侵蚀爪击
+AT:RegisterDebuff(TIER, INSTANCE, 0, 333406) -- 伏击
+AT:RegisterDebuff(TIER, INSTANCE, 0, 332397) -- 覆体缠网
+AT:RegisterDebuff(TIER, INSTANCE, 0, 330069) -- 凝结魔药
 
 INSTANCE = 1184 -- 塞兹仙林的迷雾
 RegisterSeasonSpells(INSTANCE)
@@ -53,6 +74,7 @@ AT:RegisterDebuff(TIER, INSTANCE, 0, 323137) -- 迷乱花粉
 AT:RegisterDebuff(TIER, INSTANCE, 0, 328756) -- 憎恨之容
 AT:RegisterDebuff(TIER, INSTANCE, 0, 321828) -- 肉饼蛋糕
 AT:RegisterDebuff(TIER, INSTANCE, 0, 340191) -- 再生辐光
+AT:RegisterDebuff(TIER, INSTANCE, 0, 321891) -- 鬼抓人锁定
 
 INSTANCE = 1188 -- 彼界
 RegisterSeasonSpells(INSTANCE)
@@ -65,6 +87,14 @@ AT:RegisterDebuff(TIER, INSTANCE, 0, 339978) -- 安抚迷雾
 AT:RegisterDebuff(TIER, INSTANCE, 0, 323692) -- 奥术易伤
 AT:RegisterDebuff(TIER, INSTANCE, 0, 333250) -- 放血之击
 AT:RegisterDebuff(TIER, INSTANCE, 0, 322746) -- 堕落之血
+AT:RegisterDebuff(TIER, INSTANCE, 0, 330434) -- 电锯
+AT:RegisterDebuff(TIER, INSTANCE, 0, 320144) -- 电锯
+AT:RegisterDebuff(TIER, INSTANCE, 0, 331847) -- W-00F
+AT:RegisterDebuff(TIER, INSTANCE, 0, 327649) -- 粉碎灵魂
+AT:RegisterDebuff(TIER, INSTANCE, 0, 331379) -- 润滑剂
+AT:RegisterDebuff(TIER, INSTANCE, 0, 332678) -- 龟裂创伤
+AT:RegisterDebuff(TIER, INSTANCE, 0, 323687) -- 奥数闪电
+AT:RegisterDebuff(TIER, INSTANCE, 0, 334535) -- 啄裂
 
 INSTANCE = 1186 -- 晋升高塔
 RegisterSeasonSpells(INSTANCE)
@@ -79,18 +109,26 @@ AT:RegisterDebuff(TIER, INSTANCE, 0, 328331) -- 严刑逼供
 AT:RegisterDebuff(TIER, INSTANCE, 0, 323195) -- 净化冲击波
 AT:RegisterDebuff(TIER, INSTANCE, 0, 328453) -- 压迫
 AT:RegisterDebuff(TIER, INSTANCE, 0, 331997) -- 心能澎湃
+AT:RegisterDebuff(TIER, INSTANCE, 0, 324205) -- 炫目闪光
+AT:RegisterDebuff(TIER, INSTANCE, 0, 331251) -- 深度联结
+AT:RegisterDebuff(TIER, INSTANCE, 0, 341215) -- 动荡心能
+AT:RegisterDebuff(TIER, INSTANCE, 0, 323792) -- 心能力场
+AT:RegisterDebuff(TIER, INSTANCE, 0, 330683) -- 原始心能
+AT:RegisterDebuff(TIER, INSTANCE, 0, 328434) -- 胁迫
 
 INSTANCE = 1185 -- 赎罪大厅
 RegisterSeasonSpells(INSTANCE)
 AT:RegisterDebuff(TIER, INSTANCE, 0, 335338) -- 哀伤仪式
 AT:RegisterDebuff(TIER, INSTANCE, 0, 326891) -- 痛楚
 AT:RegisterDebuff(TIER, INSTANCE, 0, 329321) -- 锯齿横扫
+AT:RegisterDebuff(TIER, INSTANCE, 0, 344993) -- 锯齿横扫
 AT:RegisterDebuff(TIER, INSTANCE, 0, 319603) -- 羁石诅咒
 AT:RegisterDebuff(TIER, INSTANCE, 0, 319611) -- 变成石头
 AT:RegisterDebuff(TIER, INSTANCE, 0, 325876) -- 湮灭诅咒
 AT:RegisterDebuff(TIER, INSTANCE, 0, 326632) -- 石化血脉
 AT:RegisterDebuff(TIER, INSTANCE, 0, 323650) -- 萦绕锁定
 AT:RegisterDebuff(TIER, INSTANCE, 0, 326874) -- 脚踝撕咬
+AT:RegisterDebuff(TIER, INSTANCE, 0, 340446) -- 嫉妒之印
 
 INSTANCE = 1189 -- 赤红深渊
 RegisterSeasonSpells(INSTANCE)
@@ -105,6 +143,8 @@ AT:RegisterDebuff(TIER, INSTANCE, 0, 327814) -- 邪恶创口
 AT:RegisterDebuff(TIER, INSTANCE, 0, 331415) -- 邪恶创口
 AT:RegisterDebuff(TIER, INSTANCE, 0, 328737) -- 光辉残片
 AT:RegisterDebuff(TIER, INSTANCE, 0, 324092) -- 闪耀光辉
+AT:RegisterDebuff(TIER, INSTANCE, 0, 322429) -- 撕裂切割
+AT:RegisterDebuff(TIER, INSTANCE, 0, 334653) -- 饱餐
 
 INSTANCE = 1182 -- 通灵战潮
 RegisterSeasonSpells(INSTANCE)
@@ -127,3 +167,9 @@ AT:RegisterDebuff(TIER, INSTANCE, 0, 320788) -- 冻结之缚
 AT:RegisterDebuff(TIER, INSTANCE, 0, 320839) -- 衰弱
 AT:RegisterDebuff(TIER, INSTANCE, 0, 343556) -- 病态凝视
 AT:RegisterDebuff(TIER, INSTANCE, 0, 338606) -- 病态凝视
+AT:RegisterDebuff(TIER, INSTANCE, 0, 343504) -- 黑暗之握
+AT:RegisterDebuff(TIER, INSTANCE, 0, 324381) -- 霜寒之镰
+AT:RegisterDebuff(TIER, INSTANCE, 0, 320573) -- 暗影之井
+AT:RegisterDebuff(TIER, INSTANCE, 0, 334748) -- 排干体液
+AT:RegisterDebuff(TIER, INSTANCE, 0, 333489) -- 通灵吐息
+AT:RegisterDebuff(TIER, INSTANCE, 0, 320717) -- 鲜血饥渴

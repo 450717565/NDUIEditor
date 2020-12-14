@@ -6,49 +6,59 @@ function Skins:ClassicQuestLog()
 
 	B.ReskinFrame(ClassicQuestLog)
 
-	local resizeGrip = ClassicQuestLog.resizeGrip
-	B.StripTextures(resizeGrip)
-	B.ReskinButton(resizeGrip)
+	local chrome = ClassicQuestLog.chrome
+	local countFrame = chrome.countFrame
+	B.StripTextures(countFrame)
+	countFrame:ClearAllPoints()
+	countFrame:SetPoint("TOP", ClassicQuestLogTitleText, "BOTTOM", 0, -5)
 
-	local count = ClassicQuestLog.count
-	B.StripTextures(count)
-	count:ClearAllPoints()
-	count:SetPoint("TOP", ClassicQuestLog.title, "BOTTOM", 0, -5)
-
-	local buttons = {"abandon", "push", "track", "options", "close"}
+	local buttons = {"abandonButton", "pushButton", "trackButton", "optionsButton", "closeButton"}
 	for _, button in pairs(buttons) do
-		B.ReskinButton(ClassicQuestLog[button])
+		B.ReskinButton(chrome[button])
 	end
 
-	local optionsFrame = ClassicQuestLog.optionsFrame
-	B.ReskinFrame(optionsFrame)
-
-	local checks = {"UndockWindow", "LockWindow", "ShowResizeGrip", "ShowLevels", "ShowTooltips", "SolidBackground", "UseClassicSkin"}
-	for _, check in pairs(checks) do
-		B.ReskinCheck(optionsFrame[check])
-	end
-
-	ClassicQuestLogDetailScrollFrame.DetailBG:Hide()
-	B.ReskinScroll(ClassicQuestLogDetailScrollFrameScrollBar)
-	B.CreateBDFrame(ClassicQuestLogDetailScrollFrame)
-
-	ClassicQuestLogScrollFrame.BG:Hide()
+	-- LogScrollFrame
 	B.ReskinScroll(ClassicQuestLogScrollFrameScrollBar)
-	B.CreateBDFrame(ClassicQuestLogScrollFrame)
+	local logBG = B.CreateBDFrame(ClassicQuestLogScrollFrame)
+	logBG:SetOutside(nil, 0, 2)
 
 	local expandAll = ClassicQuestLogScrollFrame.expandAll
-	B.StripTextures(expandAll)
-	B.ReskinButton(expandAll)
+	B.ReskinCollapse(expandAll)
 
-	expandAll:SetSize(64, 24)
 	expandAll:ClearAllPoints()
 	expandAll:SetPoint("BOTTOM", ClassicQuestLogScrollFrame, "TOP", 0, 5)
 
-	local icon = expandAll:GetNormalTexture()
-	icon:ClearAllPoints()
-	icon:SetPoint("LEFT", expandAll, "LEFT", 5, 0)
+	local normalText = expandAll.normalText
+	normalText:ClearAllPoints()
+	normalText:SetPoint("LEFT", expandAll:GetNormalTexture(), "RIGHT", 2, 1)
 
-	local text = expandAll.normalText
-	text:ClearAllPoints()
-	text:SetPoint("LEFT", icon, "RIGHT", 2, 0)
+	hooksecurefunc(ClassicQuestLogScrollFrame, "UpdateLog", function(self)
+		for i = 1, #self.buttons do
+			local button = self.buttons[i]
+			if not button.styled then
+				B.ReskinCollapse(button)
+
+				button.styled = true
+			end
+		end
+	end)
+
+	-- DetailScrollFrame
+	B.ReskinScroll(ClassicQuestLogDetailScrollFrameScrollBar)
+	local detailBG = B.CreateBDFrame(ClassicQuestLogDetailScrollFrame)
+	detailBG:SetOutside(nil, 0, 2)
+
+	-- OptionsScrollFrame
+	B.ReskinScroll(ClassicQuestLogOptionsScrollFrameScrollBar)
+	local optionsBG = B.CreateBDFrame(ClassicQuestLogOptionsScrollFrame)
+	optionsBG:SetOutside(nil, 0, 2)
+
+	local content = ClassicQuestLogOptionsScrollFrame.content
+	B.StripTextures(content)
+	B.ReskinClose(content.close)
+
+	local checks = {"LockWindow", "ShowResizeGrip", "ShowLevels", "ShowTooltips", "SolidBackground", "ShowFromObjectiveTracker"}
+	for _, check in pairs(checks) do
+		B.ReskinCheck(content[check].check)
+	end
 end

@@ -201,7 +201,7 @@ function Misc:UIWidgetFrameMover()
 	hooksecurefunc(UIWidgetBelowMinimapContainerFrame, "SetPoint", function(self, _, parent)
 		if parent == "MinimapCluster" or parent == MinimapCluster then
 			self:ClearAllPoints()
-			self:SetPoint("TOP", frame)
+			self:SetPoint("TOPRIGHT", frame)
 		end
 	end)
 end
@@ -323,12 +323,12 @@ function Misc:BlockStrangerInvite()
 	end)
 end
 
--- Override default settings for AngryWorldQuests
+-- Override default settings for AngrierWorldQuests
 function Misc:OverrideAWQ()
-	if not IsAddOnLoaded("AngryWorldQuests") then return end
+	if not IsAddOnLoaded("AngrierWorldQuests") then return end
 
-	AngryWorldQuests_Config = AngryWorldQuests_Config or {}
-	AngryWorldQuests_CharacterConfig = AngryWorldQuests_CharacterConfig or {}
+	AngrierWorldQuests_Config = AngrierWorldQuests_Config or {}
+	AngrierWorldQuests_CharacterConfig = AngrierWorldQuests_CharacterConfig or {}
 
 	local settings = {
 		hideFilteredPOI = true,
@@ -340,12 +340,12 @@ function Misc:OverrideAWQ()
 	local function overrideOptions(_, key)
 		local value = settings[key]
 		if value then
-			AngryWorldQuests_Config[key] = value
-			AngryWorldQuests_CharacterConfig[key] = value
+			AngrierWorldQuests_Config[key] = value
+			AngrierWorldQuests_CharacterConfig[key] = value
 		end
 	end
-	hooksecurefunc(AngryWorldQuests.Modules.Config, "Get", overrideOptions)
-	hooksecurefunc(AngryWorldQuests.Modules.Config, "Set", overrideOptions)
+	hooksecurefunc(AngrierWorldQuests.Modules.Config, "Get", overrideOptions)
+	hooksecurefunc(AngrierWorldQuests.Modules.Config, "Set", overrideOptions)
 end
 
 -- Archaeology counts

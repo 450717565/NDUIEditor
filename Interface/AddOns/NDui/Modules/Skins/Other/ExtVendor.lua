@@ -36,7 +36,7 @@ function Skins:ExtVendor()
 		local itemList = _G[QVConfigFrame..list.."ItemList"]
 		B.StripTextures(frame)
 		local bg = B.CreateBDFrame(frame)
-		bg:SetOutside(itemList)
+		bg:SetOutside(itemList, 1+C.mult)
 
 		local scrollBar = _G[QVConfigFrame..list.."ItemListScrollBar"]
 		B.ReskinScroll(scrollBar)

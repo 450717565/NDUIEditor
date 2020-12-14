@@ -34,11 +34,11 @@ function Skins:Immersion()
 	hooksecurefunc(TitleButtons, "GetButton", function(self, index)
 		local button = self.Buttons[index]
 		if button and not button.styled then
-			button:SetSize(290, 44)
 			button.Hilite:Hide()
 
 			B.StripTextures(button)
 			B.ReskinButton(button)
+			B.CreateBT(button.__Tex)
 
 			if index > 1 then
 				button:ClearAllPoints()

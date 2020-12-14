@@ -622,6 +622,8 @@ function Misc:RaidTool_WorldMarker()
 	end
 
 	local function update_Visibility()
+		if C.db["Misc"]["ShowMarkerBar"] == 4 then return end
+
 		if (IsInGroup() and not IsInRaid()) or UnitIsGroupLeader("player") or UnitIsGroupAssistant("player") then
 			frame:Show()
 		else

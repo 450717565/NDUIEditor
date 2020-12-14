@@ -68,6 +68,7 @@ DB.backdropTex = Media.."Reskin\\backdropTex"
 DB.closeTex = Media.."Reskin\\closeTex"
 DB.rolesTex = Media.."Reskin\\rolesTex"
 DB.shadowTex = Media.."Reskin\\shadowTex"
+DB.glowTex = Media.."Reskin\\glowTex"
 
 DB.menuTex = Media.."Menu\\"
 --DB.normTex = Media.."Texture\\texture_1"

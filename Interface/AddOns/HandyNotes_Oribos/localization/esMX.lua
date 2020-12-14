@@ -3,6 +3,8 @@ local L = LibStub("AceLocale-3.0"):NewLocale("HandyNotes_Oribos", "esMX", false,
 if not L then return end
 -- Latin American Spanish localization by jack114 ( https://www.curseforge.com/members/jack114 )
 if L then
+L["Blizzard"] = true
+L["Both"] = "Ambos"
 L["config_auctioneer"] = "Subastador"
 L["config_auctioneer_desc"] = "Muestra la ubicación del subastador."
 L["config_banker"] = "Banquero"
@@ -11,6 +13,10 @@ L["config_barber"] = "Barbero"
 L["config_barber_desc"] = "Muestra la ubicación del barbero."
 L["config_easy_waypoints"] = "Puntos de ruta sencillos"
 L["config_easy_waypoints_desc"] = "Activa la creación simplificada de puntos de ruta. Te permite establecer un punto de ruta al dar clic derecho y acceder a más opciones al dar CONTROL + clic derecho."
+L["config_fmaster_waypoint"] = "Punto de ruta hacia el maestro de vuelo"
+L["config_fmaster_waypoint_desc"] = "Establece automáticamente un punto de ruta hacia el maestro de vuelo si entras al Anillo de Transferencia."
+L["config_fmaster_waypoint_dropdown"] = "Escoja"
+L["config_fmaster_waypoint_dropdown_desc"] = "Escoja como crear el punto de ruta."
 L["config_icon_alpha"] = "Opacidad del ícono"
 L["config_icon_alpha_desc"] = "La transparencia de los íconos"
 L["config_icon_scale"] = "Escala del ícono"
@@ -64,12 +70,11 @@ L["handler_tooltip_data"] = "RECUPERANDO DATOS"
 L["handler_tooltip_quest"] = "Desbloqueado con misión"
 L["handler_tooltip_requires"] = "Necesita"
 L["handler_tooltip_requires_level"] = "Necesita mínimo jugador nivel"
-L["handler_tooltip_sanctum_feature"] = "una mejora del Sagrario"
-L["handler_tooltip_TNTIER"] = "Nivel %s de la red de viajes."
 L["Into the Maw"] = "Hacia las Fauces"
 L["Mailbox"] = "Buzón"
 L["Portal to Orgrimmar"] = "Portal hacia Orgrimmar"
 L["Portal to Stormwind"] = "Portal hacia Ventormenta"
 L["To Ring of Fates"] = "Al Anillo de los Destinos"
 L["To Ring of Transference"] = "Al Anillo de Transferencia"
+L["TomTom"] = true
 end

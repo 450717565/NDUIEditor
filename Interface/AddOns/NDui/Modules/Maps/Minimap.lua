@@ -71,11 +71,6 @@ function Maps:ReskinRegions()
 		self:GetPushedTexture():SetTexture(DB.garrTex)
 		self:GetHighlightTexture():SetTexture(DB.garrTex)
 		self:SetSize(30, 30)
-
-		if RecycleBinToggleButton and not RecycleBinToggleButton.settled then
-			RecycleBinToggleButton:SetPoint("BOTTOMRIGHT", -15, -6)
-			RecycleBinToggleButton.settled = true
-		end
 	end)
 
 	local menuList = {
