@@ -104,6 +104,7 @@ local list = {
 		{AuraID = 325013, UnitID = "player"},	-- 晋升者之赐
 		{AuraID = 308495, UnitID = "player"},	-- 共鸣箭
 		{AuraID = 328908, UnitID = "player"},	-- 战斗冥想
+		{AuraID = 345499, UnitID = "player"},	-- 执政官的祝福
 		-- 炼金石
 		{AuraID = 60233, UnitID = "player"},	-- 敏捷
 		{AuraID = 60229, UnitID = "player"},	-- 力量
@@ -127,9 +128,10 @@ local list = {
 		{AuraID = 32182, UnitID = "player"},	-- 英勇
 		{AuraID = 80353, UnitID = "player"},	-- 时间扭曲
 		{AuraID = 264667, UnitID = "player"},	-- 原始狂怒
-		{AuraID = 178207, UnitID = "player"},	-- 鼓
+		{AuraID = 178207, UnitID = "player"},	-- 狂怒战鼓
 		{AuraID = 230935, UnitID = "player"},	-- 高山战鼓
 		{AuraID = 256740, UnitID = "player"},	-- 漩涡战鼓
+		{AuraID = 309658, UnitID = "player"},	-- 死亡凶蛮战鼓
 		{AuraID = 102364, UnitID = "player"},	-- 青铜龙的祝福
 		{AuraID = 292686, UnitID = "player"},	-- 制皮鼓
 		-- 团队增益或减伤
@@ -196,6 +198,9 @@ local list = {
 		-- 团本
 		{AuraID = 346035, UnitID = "player"},	-- 眩目步法，猩红议会
 		{AuraID = 331636, UnitID = "player", Flash = true},	-- 黑暗伴舞，猩红议会
+		{AuraID = 335293, UnitID = "player"},	-- 锁链联结，泥拳
+		{AuraID = 327039, UnitID = "player"},	-- 喂食时间，德纳修斯
+		{AuraID = 327089, UnitID = "player"},	-- 喂食时间，德纳修斯
 	},
 	["Warning"] = { -- 目标重要光环组
 		-- 大幻象
@@ -206,6 +211,7 @@ local list = {
 		-- 5人本
 		{AuraID = 322773, UnitID = "target", Value = true},	-- 彼界，鲜血屏障
 		{AuraID = 320293, UnitID = "target", Value = true},	-- 伤逝剧场，融入死亡
+		{AuraID = 333737, UnitID = "target"},	-- 凋魂，凝结之疾
 		{AuraID = 321368, UnitID = "target", Value = true},	-- 凋魂，冰缚之盾
 		{AuraID = 327416, UnitID = "target", Value = true},	-- 晋升，心能回灌
 		{AuraID = 345561, UnitID = "target", Value = true},	-- 晋升，生命连结
@@ -215,6 +221,10 @@ local list = {
 		{AuraID = 345902, UnitID = "target"},	-- 破裂的联结，猎手
 		{AuraID = 334695, UnitID = "target"},	-- 动荡的能量，猎手
 		{AuraID = 346792, UnitID = "target"},	-- 罪触之刃，猩红议会
+		{AuraID = 331314, UnitID = "target"},	-- 毁灭冲击，泥拳
+		{AuraID = 341250, UnitID = "target"},	-- 恐怖暴怒，泥拳
+		{AuraID = 329636, UnitID = "target", Value = true},	-- 坚岩形态，干将
+		{AuraID = 329808, UnitID = "target", Value = true},	-- 坚岩形态，干将
 		-- PVP
 		{AuraID = 498, UnitID = "target"},		-- 圣佑术
 		{AuraID = 642, UnitID = "target"},		-- 圣盾术

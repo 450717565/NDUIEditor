@@ -19,8 +19,7 @@ function Skins:ClassicQuestLog()
 
 	-- LogScrollFrame
 	B.ReskinScroll(ClassicQuestLogScrollFrameScrollBar)
-	local logBG = B.CreateBDFrame(ClassicQuestLogScrollFrame)
-	logBG:SetOutside(nil, 0, 2)
+	B.CreateBGFrame(ClassicQuestLogScrollFrame, 0, 2, 0, -2)
 
 	local expandAll = ClassicQuestLogScrollFrame.expandAll
 	B.ReskinCollapse(expandAll)
@@ -45,13 +44,11 @@ function Skins:ClassicQuestLog()
 
 	-- DetailScrollFrame
 	B.ReskinScroll(ClassicQuestLogDetailScrollFrameScrollBar)
-	local detailBG = B.CreateBDFrame(ClassicQuestLogDetailScrollFrame)
-	detailBG:SetOutside(nil, 0, 2)
+	B.CreateBGFrame(ClassicQuestLogDetailScrollFrame, 0, 2, 0, -2)
 
 	-- OptionsScrollFrame
 	B.ReskinScroll(ClassicQuestLogOptionsScrollFrameScrollBar)
-	local optionsBG = B.CreateBDFrame(ClassicQuestLogOptionsScrollFrame)
-	optionsBG:SetOutside(nil, 0, 2)
+	B.CreateBGFrame(ClassicQuestLogOptionsScrollFrame, 0, 2, 0, -2)
 
 	local content = ClassicQuestLogOptionsScrollFrame.content
 	B.StripTextures(content)

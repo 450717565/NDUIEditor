@@ -17,6 +17,7 @@ local function UpdateActionbarScale(bar)
 	for _, button in pairs(frame.buttonList) do
 		button:SetSize(size, size)
 		button.Name:SetScale(C.db["ActionBar"]["BarScale"])
+		button.Count:SetScale(C.db["ActionBar"]["BarScale"])
 		button.HotKey:SetScale(C.db["ActionBar"]["BarScale"])
 	end
 end

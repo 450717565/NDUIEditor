@@ -1,21 +1,21 @@
 local mod	= DBM:NewMod(2424, "DBM-CastleNathria", nil, 1190)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20201211013953")
+mod:SetRevision("20201215065237")
 mod:SetCreatureID(167406)
 mod:SetEncounterID(2407)
 mod:SetUsedIcons(1, 2, 3)
-mod:SetHotfixNoticeRev(20201210000000)--2020, 12, 10
-mod:SetMinSyncRevision(20201210000000)
+mod:SetHotfixNoticeRev(20201214000000)--2020, 12, 14
+mod:SetMinSyncRevision(20201214000000)
 --mod.respawnTime = 29
 
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 326707 326851 327227 328117 329181 333932",
+	"SPELL_CAST_START 326707 326851 327227 328117 329181 333932 344776 327507",
 	"SPELL_CAST_SUCCESS 327039 327796 329943 339196 330042 326005 332849 333980 329205 332619",
 	"SPELL_AURA_APPLIED 326699 338510 327039 327796 327992 329906 332585 329951 332794 329205 329181",
-	"SPELL_AURA_APPLIED_DOSE 326699 329906 332585",
+	"SPELL_AURA_APPLIED_DOSE 326699 329906 332585 338683 338685 338687 338689",
 	"SPELL_AURA_REMOVED 326699 338510 327039 327796 328117 329951 332794",
 	"SPELL_AURA_REMOVED_DOSE 326699",
 	"SPELL_PERIODIC_DAMAGE 327992",
@@ -26,16 +26,14 @@ mod:RegisterEventsInCombat(
 )
 
 --TODO, any reason to track https://shadowlands.wowhead.com/spell=328839 ? gained each ravage cast
---TODO, add mythic stuff to mod, which I glanced over to get heroic mod ready faster.
---TODO, warnings and timers for Crimson Cabalist? All that stuff seems passive so nothing to really do for it besides Crescendo maybe
---TODO, fine tune Carnage stacks
---TODO, when boss commands Remornia, does it affect remornia's normal cast sequence/timers
+--TODO, warnings and timers for Crimson Cabalist? All that stuff seems passive so nothing to really do for it besides Crescendo
 --TODO, https://shadowlands.wowhead.com/spell=336008/smoldering-ire need anything special?
 --TODO, verify spellIds for two different blood prices, and make sure there isn't overlap/double triggering for any of them
---TODO, handle sinister reflection better? for time being sub warnings don't exist, just a generic dodge warning for reflection spawn itself
+--TODO, verify mythic stuff, and obviously improve it with actual mythic progress
+--TODO, handling of https://www.wowhead.com/spell=341391/searing-censure 5 second loop timer
 --[[
 (ability.id = 326707 or ability.id = 326851 or ability.id = 327227 or ability.id = 328117 or ability.id = 329181 or ability.id = 333932) and type = "begincast"
- or (ability.id = 326851 or ability.id = 327796 or ability.id = 329943 or ability.id = 339196 or ability.id = 330042 or ability.id = 326005 or ability.id = 332849 or ability.id = 333980 or ability.id = 329205 or ability.id = 332619) and type = "cast"
+ or (ability.id = 326851 or ability.id = 327796 or ability.id = 329943 or ability.id = 339196 or ability.id = 330042 or ability.id = 326005 or ability.id = 332849 or ability.id = 333980 or ability.id = 329205 or ability.id = 332619 or ability.id = 327039) and type = "cast"
  or ability.id = 332794 and type = "applydebuff"
  or ability.id = 328117
 --]]
@@ -65,10 +63,10 @@ local specWarnFeedingTime						= mod:NewSpecialWarningMoveAway(327039, nil, nil,
 local yellFeedingTime							= mod:NewYell(327039)--Normal/LFR
 local yellFeedingTimeFades						= mod:NewFadesYell(327039)--Normal/LFR
 local specWarnNightHunter						= mod:NewSpecialWarningYouPos(327796, nil, nil, nil, 1, 2, 3)--Heroic/Mythic
-local yellNightHunter							= mod:NewPosYell(327796)--Heroic/Mythic (not red on purpose, you do NOT want to be anywhere near victim, you want to soak the line before victim)
+local yellNightHunter							= mod:NewPosYell(327796, DBM_CORE_L.AUTO_YELL_CUSTOM_POSITION3)--Heroic/Mythic (not red on purpose, you do NOT want to be anywhere near victim, you want to soak the line before victim)
 local yellNightHunterFades						= mod:NewIconFadesYell(327796)--Heroic/Mythic (not red on purpose, you do NOT want to be anywhere near victim, you want to soak the line before victim)
 local specWarnNightHunterTarget					= mod:NewSpecialWarningTarget(327796, false, nil, nil, 1, 2, 3)--Opt in, for people who are assigned to this soak
-local specWarnCommandRavage						= mod:NewSpecialWarningCount(327227, nil, nil, nil, 2, 2)
+local specWarnCommandRavage						= mod:NewSpecialWarningCount(327227, nil, 327122, nil, 2, 2)
 --local specWarnMindFlay						= mod:NewSpecialWarningInterrupt(310552, "HasInterrupt", nil, nil, 1, 2)
 local specWarnGTFO								= mod:NewSpecialWarningGTFO(327992, nil, nil, nil, 1, 8)
 --Intermission: March of the Penitent
@@ -76,34 +74,41 @@ local specWarnMarchofthePenitent				= mod:NewSpecialWarningSpell(328117, nil, ni
 --Stage Two: The Crimson Chorus
 ----Crimson Cabalist and horsemen
 local specWarnCrescendo							= mod:NewSpecialWarningDodge(336162, false, nil, nil, 2, 2)
+----Horseman
+local specWarnSinsear							= mod:NewSpecialWarningStack(338683, nil, 8, nil, nil, 1, 6, 4)
+local specWarnEvershade							= mod:NewSpecialWarningStack(338685, nil, 8, nil, nil, 1, 6, 4)
+local specWarnDuskhollow						= mod:NewSpecialWarningStack(338687, nil, 8, nil, nil, 1, 6, 4)
+local specWarnGloomveil							= mod:NewSpecialWarningStack(338689, nil, 8, nil, nil, 1, 6, 4)
+local specWarnVengefulWail						= mod:NewSpecialWarningInterruptCount(344776, "HasInterrupt", nil, nil, 1, 2, 4)
 ----Remornia
 local specWarnCarnage							= mod:NewSpecialWarningStack(329906, nil, 6, nil, nil, 1, 6)
 local specWarnCarnageOther						= mod:NewSpecialWarningTaunt(329906, nil, nil, nil, 1, 6)
 local specWarnImpale							= mod:NewSpecialWarningMoveAway(329951, nil, nil, nil, 1, 2)
-local yellImpale								= mod:NewPosYell(329951)
+local yellImpale								= mod:NewPosYell(329951, DBM_CORE_L.AUTO_YELL_CUSTOM_POSITION3)
 local yellImpaleFades							= mod:NewIconFadesYell(329951)
 ----Sire Denathrius
 local specWarnWrackingPain						= mod:NewSpecialWarningDefensive(329181, "Tank", nil, nil, 1, 2)--Change to defensive if it can't be dodged
 local specWarnWrackingPainTaunt					= mod:NewSpecialWarningTaunt(329181, nil, nil, nil, 1, 2)
 local specWarnHandofDestruction					= mod:NewSpecialWarningRun(333932, nil, nil, nil, 4, 2)
-local specWarnCommandMassacre					= mod:NewSpecialWarningDodgeCount(330042, nil, nil, nil, 2, 2)
+local specWarnCommandMassacre					= mod:NewSpecialWarningDodgeCount(330042, nil, 330137, nil, 2, 2)
 --Stage Three: Indignation
 local specWarnScorn								= mod:NewSpecialWarningStack(332585, nil, 6, nil, nil, 1, 6)
 local specWarnScorneOther						= mod:NewSpecialWarningTaunt(332585, nil, nil, nil, 1, 6)
 local specWarnShatteringPain					= mod:NewSpecialWarningCount(332619, nil, nil, nil, 2, 2)
 local specWarnFatalfFinesse						= mod:NewSpecialWarningMoveAway(332794, nil, nil, nil, 1, 2)
-local yellFatalfFinesse							= mod:NewPosYell(332794)
+local yellFatalfFinesse							= mod:NewPosYell(332794, DBM_CORE_L.AUTO_YELL_CUSTOM_POSITION3)
 local yellFatalfFinesseFades					= mod:NewIconFadesYell(332794)
 --Mythic Phase?
 local specWarnBalefulResonance					= mod:NewSpecialWarningMoveAway(329205, nil, nil, nil, 1, 2, 4)--Mythic?
 local yellBalefulResonance						= mod:NewYell(329205)--Mythic?
 local yellBalefulResonanceFades					= mod:NewFadesYell(329205)--Mythic?
+local specWarnIntotheNight						= mod:NewSpecialWarningSpell(327507, nil, nil, nil, 2, 2, 4)--Mythic?
 
 --Stage One: Sinners Be Cleansed
 --mod:AddTimerLine(BOSS)
 local timerCleansingPainCD						= mod:NewNextCountTimer(16.6, 326707, nil, nil, nil, 5, nil, DBM_CORE_L.TANK_ICON, nil, 2, 3)
 local timerBloodPriceCD							= mod:NewCDCountTimer(57.3, 326851, nil, nil, nil, 2, nil, DBM_CORE_L.HEALER_ICON)
-local timerFeedingTimeCD						= mod:NewAITimer(44.3, 327039, nil, nil, nil, 3)--Normal/LFR
+local timerFeedingTimeCD						= mod:NewCDCountTimer(44.3, 327039, nil, nil, nil, 3)--Normal/LFR
 local timerNightHunterCD						= mod:NewNextCountTimer(44.3, 327796, nil, nil, nil, 3, nil, DBM_CORE_L.HEROIC_ICON)--Heroic/mythic
 local timerCommandRavageCD						= mod:NewCDCountTimer(57.2, 327227, 327122, nil, nil, 2, nil, DBM_CORE_L.DEADLY_ICON, nil, 1, 4)--ShortName "Ravage" (the actual cast)
 --Intermission: March of the Penitent
@@ -111,18 +116,20 @@ local timerNextPhase							= mod:NewPhaseTimer(16.5, 328117, nil, nil, nil, 6, n
 --Stage Two: The Crimson Chorus
 ----Crimson Cabalist and horsemen
 local timerCrimsonCabalistsCD					= mod:NewNextCountTimer(44.3, "ej22131", nil, nil, nil, 1, 329711)
+--local timerSearingCensureD					= mod:NewNextTimer(5, 341391, nil, nil, nil, 3, nil, DBM_CORE_L.MAGIC_ICON)
 ----Remornia
 local timerImpaleCD								= mod:NewNextCountTimer(44.3, 329951, nil, nil, nil, 3)
 ----Sire Denathrius
 local timerWrackingPainCD						= mod:NewNextCountTimer(16.6, 329181, nil, nil, nil, 5, nil, DBM_CORE_L.TANK_ICON)
 local timerHandofDestructionCD					= mod:NewCDCountTimer(44.3, 333932, nil, nil, nil, 2)
-local timerCommandMassacreCD					= mod:NewCDCountTimer(49.8, 330042, nil, nil, nil, 3, nil, DBM_CORE_L.DEADLY_ICON)--47.4-51
+local timerCommandMassacreCD					= mod:NewCDCountTimer(49.8, 330042, 330137, nil, nil, 3, nil, DBM_CORE_L.DEADLY_ICON)--47.4-51
 --Stage Three: Indignation
 local timerShatteringPainCD						= mod:NewCDTimer(23.1, 332619, nil, nil, nil, 5, nil, DBM_CORE_L.TANK_ICON)
 local timerFatalFitnesseCD						= mod:NewCDCountTimer(22, 332794, nil, nil, nil, 3)
 --local timerSinisterReflectionCD				= mod:NewAITimer(44.3, 333979, nil, nil, nil, 3, nil, DBM_CORE_L.DEADLY_ICON)
 mod:AddTimerLine(PLAYER_DIFFICULTY6)
 local timerBalefulResonanceCD					= mod:NewAITimer(22, 329205, nil, nil, nil, 3)
+local timerIntotheNightCD						= mod:NewAITimer(22, 327507, nil, nil, nil, 6)
 
 --local berserkTimer							= mod:NewBerserkTimer(600)
 
@@ -141,12 +148,16 @@ mod.vb.MassacreCount = 0
 mod.vb.ImpaleCount = 0
 mod.vb.HandCount = 0
 mod.vb.addCount = 0
+mod.vb.shardsRemaining = 4
 mod.vb.DebuffCount = 0
 mod.vb.DebuffIcon = 1
 local P3Transition = false
 local SinStacks, stage2Adds, deadAdds = {}, {}, {}
+local castsPerGUID = {}
 local Timers = {
 	[1] = {
+		--Feeding Time
+		[327039] = {20, 35, 35, 25, 35},
 		--Night Hunter
 		[327796] = {12.3, 25, 30, 28, 30, 28},
 		--Cleansing Pain (P1)
@@ -207,6 +218,7 @@ function mod:OnCombatStart(delay)
 	table.wipe(SinStacks)
 	table.wipe(stage2Adds)
 	table.wipe(deadAdds)
+	table.wipe(castsPerGUID)
 	self.vb.phase = 1
 	self.vb.priceCount = 0
 	self.vb.painCount = 0
@@ -215,6 +227,7 @@ function mod:OnCombatStart(delay)
 	self.vb.ImpaleCount = 0
 	self.vb.HandCount = 0
 	self.vb.addCount = 0
+	self.vb.shardsRemaining = 4
 	self.vb.DebuffCount = 0
 	self.vb.DebuffIcon = 1
 	P3Transition = false
@@ -224,7 +237,7 @@ function mod:OnCombatStart(delay)
 	if self:IsHard() then
 		timerNightHunterCD:Start(12.1-delay, 1)
 	else
-		timerFeedingTimeCD:Start(1-delay)
+		timerFeedingTimeCD:Start(20-delay, 1)
 	end
 --	if self.Options.NPAuraOnSpiteful then
 --		DBM:FireEvent("BossMod_EnableHostileNameplates")
@@ -292,6 +305,31 @@ function mod:SPELL_CAST_START(args)
 		if timer then
 			timerHandofDestructionCD:Start(timer, self.vb.HandCount+1)
 		end
+	elseif spellId == 344776 then
+		if not castsPerGUID[args.sourceGUID] then
+			castsPerGUID[args.sourceGUID] = 0
+		end
+		castsPerGUID[args.sourceGUID] = castsPerGUID[args.sourceGUID] + 1
+		local count = castsPerGUID[args.sourceGUID]
+		if self:CheckInterruptFilter(args.sourceGUID, false, false) then
+			specWarnVengefulWail:Show(args.sourceName, count)
+			if count == 1 then
+				specWarnVengefulWail:Play("kick1r")
+			elseif count == 2 then
+				specWarnVengefulWail:Play("kick2r")
+			elseif count == 3 then
+				specWarnVengefulWail:Play("kick3r")
+			elseif count == 4 then
+				specWarnVengefulWail:Play("kick4r")
+			elseif count == 5 then
+				specWarnVengefulWail:Play("kick5r")
+			else
+				specWarnVengefulWail:Play("kickcast")
+			end
+		end
+	elseif spellId == 327507 then
+		specWarnIntotheNight:Show()
+		self.vb.shardsRemaining = 4
 --	elseif spellId == 337785 then--Echo Cleansing Pain
 --		specWarnCleansingPain:Show(0)
 --		specWarnCleansingPain:Play("shockwave")
@@ -304,7 +342,11 @@ end
 function mod:SPELL_CAST_SUCCESS(args)
 	local spellId = args.spellId
 	if spellId == 327039 then
-		timerFeedingTimeCD:Start()
+--		self.vb.DebuffCount = self.vb.DebuffCount + 1
+--		local timer = Timers[self.vb.phase][spellId][self.vb.DebuffCount+1]
+--		if timer then
+--			timerFeedingTimeCD:Start(timer, self.vb.DebuffCount+1)
+--		end
 	elseif spellId == 327796 and self:AntiSpam(5, 1) then
 		self.vb.DebuffIcon = 1
 		self.vb.DebuffCount = self.vb.DebuffCount + 1
@@ -348,14 +390,16 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerShatteringPainCD:Start(13.3, 1)--SUCCESS
 		timerFatalFitnesseCD:Start(17.4, 1)--SUCCESS/APPLIED
 		timerHandofDestructionCD:Start(27.6, 1)--27-29
---		timerBloodPriceCD:Start(3)
 --		timerSinisterReflectionCD:Start(40.8)
 		timerCommandRavageCD:Start(50, 1)--Seems ravage always first Reflection
-		if self.Options.InfoFrame then
-			if self:IsMythic() then--Restore stack tracker, debuff returns in stage 3 mythic
+		if self:IsMythic() then
+			--timerBloodPriceCD:Start(3)
+			if self.Options.InfoFrame then
 				DBM.InfoFrame:SetHeader(DBM:GetSpellInfo(326699))
 				DBM.InfoFrame:Show(20, "table", SinStacks, 1)
-			else
+			end
+		else
+			if self.Options.InfoFrame then
 				DBM.InfoFrame:Hide()--Nothing to show it for on non mythic
 			end
 		end
@@ -409,7 +453,14 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellFeedingTime:Yell()
 			yellFeedingTimeFades:Countdown(spellId)
 		else
-			warnFeedingTime:Show(args.destName)
+			warnFeedingTime:CombinedShow(0.3, args.destName)
+		end
+		if self:AntiSpam(5, 1) then--Cast event isn't in combat log, hava to use debuffs
+			self.vb.DebuffCount = self.vb.DebuffCount + 1
+			local timer = Timers[self.vb.phase][spellId][self.vb.DebuffCount+1]
+			if timer then
+				timerFeedingTimeCD:Start(timer, self.vb.DebuffCount+1)
+			end
 		end
 	elseif spellId == 327796 then
 		local icon = self.vb.DebuffIcon
@@ -420,7 +471,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			--Now show your warnings
 			specWarnNightHunter:Show(self:IconNumToTexture(icon))
 			specWarnNightHunter:Play("mm"..icon)
-			yellNightHunter:Yell(icon, icon, icon)
+			yellNightHunter:Yell(icon, args.spellName, icon)
 			yellNightHunterFades:Countdown(spellId, nil, icon)
 		elseif self.Options.SpecWarn327796target then
 			--Don't show special warning if you're one of victims
@@ -491,7 +542,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnImpale:Show()
 			specWarnImpale:Play("runout")
-			yellImpale:Yell(icon, icon, icon)
+			yellImpale:Yell(icon, args.spellName, icon)
 			yellImpaleFades:Countdown(spellId, nil, icon)
 		end
 		if self.Options.SetIconOnImpale then
@@ -512,7 +563,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			specWarnFatalfFinesse:Show()
 			specWarnFatalfFinesse:Play("runout")
-			yellFatalfFinesse:Yell(icon, icon, icon)
+			yellFatalfFinesse:Yell(icon, args.spellName, icon)
 			yellFatalfFinesseFades:Countdown(spellId, nil, icon)
 		end
 		if self.Options.SetIconOnFatalFinesse then
@@ -532,6 +583,31 @@ function mod:SPELL_AURA_APPLIED(args)
 		if not args:IsPlayer() then
 			specWarnWrackingPainTaunt:Show(args.destName)
 			specWarnWrackingPainTaunt:Play("tauntboss")
+		end
+
+	elseif spellId == 338683 then
+		local amount = args.amount or 1
+		if amount % 4 == 0 and amount >= 8 then
+			specWarnSinsear:Show(args.spellName, args.amount)
+			specWarnSinsear:Play("stackhigh")
+		end
+	elseif spellId == 338685 then
+		local amount = args.amount or 1
+		if amount % 4 == 0 and amount >= 8 then
+			specWarnEvershade:Show(args.spellName, args.amount)
+			specWarnEvershade:Play("stackhigh")
+		end
+	elseif spellId == 338687 then
+		local amount = args.amount or 1
+		if amount % 4 == 0 and amount >= 8 then
+			specWarnDuskhollow:Show(args.spellName, args.amount)
+			specWarnDuskhollow:Play("stackhigh")
+		end
+	elseif spellId == 338689 then
+		local amount = args.amount or 1
+		if amount % 4 == 0 and amount >= 8 then
+			specWarnGloomveil:Show(args.spellName, args.amount)
+			specWarnGloomveil:Play("stackhigh")
 		end
 	end
 end
@@ -619,6 +695,13 @@ function mod:UNIT_DIED(args)
 		end
 	elseif cid == 169855 then--Remornia
 		timerImpaleCD:Stop()
+	elseif cid == 175205 or cid == 175528 then--Baleful Shadow
+		castsPerGUID[args.destGUID] = nil
+	elseif cid == 168363 then--nightcloak shard
+		self.vb.shardsRemaining = self.vb.shardsRemaining - 1
+		if self.vb.shardsRemaining == 0 then
+			timerIntotheNightCD:Start(2)
+		end
 	end
 end
 

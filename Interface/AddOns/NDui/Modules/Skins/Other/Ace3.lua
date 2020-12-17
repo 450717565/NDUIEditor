@@ -49,8 +49,7 @@ end
 
 function Skins:Ace3_SkinTab(tab)
 	B.StripTextures(tab)
-	tab.bg = B.CreateBDFrame(tab)
-	tab.bg:SetInside(nil, 8, 2)
+	tab.bg = B.CreateBGFrame(tab, 8, -2, -8, 2)
 
 	B.ReskinHighlight(tab, tab.bg, true)
 	hooksecurefunc(tab, "SetSelected", function(self, selected)
@@ -109,7 +108,7 @@ function Skins:Ace3_RegisterAsWidget(widget)
 		B.StripTextures(checkbg)
 		checkbg:SetTexture("")
 		checkbg.SetTexture = B.Dummy
-		local bg = B.CreateBDFrame(checkbg, 0, -4)
+		local bg = B.CreateBDFrame(checkbg, 0, 4)
 
 		local highlight = widget.highlight
 		B.StripTextures(highlight)
@@ -137,15 +136,20 @@ function Skins:Ace3_RegisterAsWidget(widget)
 		local button_cover = widget.button_cover
 		button_cover:HookScript("OnClick", Skins.Ace3_SkinDropdown)
 
+		local button = widget.button
+		B.ReskinArrow(button, "down")
+		button:ClearAllPoints()
+		button:SetPoint("RIGHT", -18, 2)
+		button:HookScript("OnClick", Skins.Ace3_SkinDropdown)
+
 		local dropdown = widget.dropdown
 		B.StripTextures(dropdown)
-		local bg = B.CreateBGFrame(dropdown, 18, -2, -18, 2)
 
-		local button = widget.button
-		B.ReskinArrow(button, "down", 16)
-		button:ClearAllPoints()
-		button:SetPoint("RIGHT", bg, -2.5, 0)
-		button:HookScript("OnClick", Skins.Ace3_SkinDropdown)
+		local bg = B.CreateBDFrame(dropdown)
+		bg:ClearAllPoints()
+		bg:SetPoint("LEFT", dropdown, "LEFT", 16, 0)
+		bg:SetPoint("TOP", button, "TOP", 0, 0)
+		bg:SetPoint("BOTTOMRIGHT", button, "BOTTOMLEFT", -2, 0)
 
 		local text = widget.text
 		text:SetJustifyH("CENTER")
@@ -159,13 +163,18 @@ function Skins:Ace3_RegisterAsWidget(widget)
 	elseif TYPE == "LSM30_Font" or TYPE == "LSM30_Sound" or TYPE == "LSM30_Border" or TYPE == "LSM30_Background" or TYPE == "LSM30_Statusbar" then
 		local frame = widget.frame
 		B.StripTextures(frame)
-		local bg = B.CreateBGFrame(frame, 3, -22, -1, 2)
+
+		local bg = B.CreateBDFrame(frame)
+		bg:ClearAllPoints()
+		bg:SetPoint("LEFT", frame, "LEFT", 16, 0)
+		bg:SetPoint("TOP", frame.dropButton, "TOP", 0, 0)
+		bg:SetPoint("BOTTOMRIGHT", frame.dropButton, "BOTTOMLEFT", -2, 0)
 
 		local button = frame.dropButton
-		B.ReskinArrow(button, "down", 16)
+		B.ReskinArrow(button, "down")
 		button:SetParent(bg)
 		button:ClearAllPoints()
-		button:SetPoint("RIGHT", bg, -2.5, 0)
+		button:SetPoint("RIGHT", -18, 2)
 		button:HookScript("OnClick", Skins.Ace3_SkinDropdown)
 
 		local text = frame.text
@@ -298,7 +307,7 @@ function Skins:Ace3_RegisterAsContainer(widget)
 			end
 			B.CreateBG(frame)
 		else
-			B.CreateBDFrame(frame, 0, -2)
+			B.CreateBDFrame(frame, 0, 2)
 		end
 
 		if TYPE == "Window" then
@@ -306,7 +315,7 @@ function Skins:Ace3_RegisterAsContainer(widget)
 		end
 
 		if widget.treeframe then
-			B.CreateBDFrame(widget.treeframe, 0, -2)
+			B.CreateBDFrame(widget.treeframe, 0, 2)
 
 			local oldRefreshTree = widget.RefreshTree
 			widget.RefreshTree = function(self, scrollToSelection)

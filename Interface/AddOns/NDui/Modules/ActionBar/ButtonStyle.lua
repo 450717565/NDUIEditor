@@ -118,7 +118,7 @@ local function SetupCooldown(cooldown, cfg)
 end
 
 local function SetupBackdrop(icon)
-	local icbg = B.CreateBDFrame(icon, 0, C.mult)
+	local icbg = B.CreateBDFrame(icon, 0, -C.mult)
 	B.CreateBT(icbg)
 	icon.icbg = icbg
 end
@@ -228,7 +228,6 @@ function Bar:StyleActionButton(button, cfg)
 	SetupCooldown(cooldown, cfg.cooldown)
 
 	--no clue why but blizzard created count and duration on background layer, need to fix that
-	--if border then B.ReskinBorder(border, icon.icbg) end
 	local overlay = CreateFrame("Frame", nil, button)
 	overlay:SetAllPoints()
 	if count then

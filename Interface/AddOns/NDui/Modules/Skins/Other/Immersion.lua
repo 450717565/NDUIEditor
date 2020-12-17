@@ -1,10 +1,75 @@
 local B, C, L, DB = unpack(select(2, ...))
 local Skins = B:GetModule("Skins")
 
+local cr, cg, cb = DB.r, DB.g, DB.b
+
+local function reskinTitleButton(button)
+	if button and not button.styled then
+		button.Hilite:Hide()
+
+		B.StripTextures(button)
+		B.ReskinButton(button)
+		B.CreateBT(button.__Tex)
+
+		if index > 1 then
+			button:ClearAllPoints()
+			button:SetPoint("TOP", self.Buttons[index-1], "BOTTOM", 0, -B.Scale(3))
+		end
+
+		button.styled = true
+	end
+end
+
+local function updateItemBorder(self)
+	if not self.icbg and not self.bubg then return end
+
+	if self.objectType == "item" then
+		local itemQuality = select(4, GetQuestItemInfo(self.type, self:GetID()))
+		local r, g, b = GetItemQualityColor(itemQuality or 1)
+		self.icbg:SetBackdropBorderColor(r, g, b)
+		self.bubg:SetBackdropBorderColor(r, g, b)
+	elseif self.objectType == "currency" then
+		local name, texture, numItems, quality = GetQuestCurrencyInfo(self.type, self:GetID())
+		if name and texture and numItems and quality then
+			local currencyID = GetQuestCurrencyID(self.type, self:GetID())
+			local currencyQuality = select(4, CurrencyContainerUtil.GetCurrencyContainerInfo(currencyID, numItems, name, texture, quality))
+			local r, g, b = GetItemQualityColor(currencyQuality or 1)
+			self.icbg:SetBackdropBorderColor(r, g, b)
+			self.bubg:SetBackdropBorderColor(r, g, b)
+		end
+	else
+		self.icbg:SetBackdropBorderColor(0, 0, 0)
+		self.bubg:SetBackdropBorderColor(0, 0, 0)
+	end
+end
+
+local function reskinItemButton(buttons)
+	for i = 1, #buttons do
+		local button = buttons[i]
+		if button and not button.styled then
+			button.Mask:Hide()
+			button.Border:Hide()
+			button.NameFrame:Hide()
+
+			local icbg = B.ReskinIcon(button.Icon)
+			button.icbg = icbg
+
+			local bubg = B.CreateBGFrame(button, 2, 0, -6, 0, icbg)
+			button.bubg = bubg
+
+			button.styled = true
+		end
+
+		local p1, p2, p3 = buttons[1]:GetPoint()
+		buttons[1]:ClearAllPoints()
+		buttons[1]:SetPoint(p1, p2, p3, 1, -10)
+
+		updateItemBorder(button)
+	end
+end
+
 function Skins:Immersion()
 	if not IsAddOnLoaded("Immersion") then return end
-
-	local cr, cg, cb = DB.r, DB.g, DB.b
 
 	local TalkBox = ImmersionFrame.TalkBox
 	B.StripTextures(TalkBox.PortraitFrame)
@@ -28,74 +93,12 @@ function Skins:Immersion()
 	local Indicator = MainFrame.Indicator
 	Indicator:SetScale(1.25)
 	Indicator:ClearAllPoints()
-	Indicator:Point("RIGHT", MainFrame.CloseButton, "LEFT", -3, 0)
+	Indicator:SetPoint("RIGHT", MainFrame.CloseButton, "LEFT", -3, 0)
 
-	local TitleButtons = ImmersionFrame.TitleButtons
-	hooksecurefunc(TitleButtons, "GetButton", function(self, index)
+	hooksecurefunc(ImmersionFrame.TitleButtons, "GetButton", function(self, index)
 		local button = self.Buttons[index]
-		if button and not button.styled then
-			button.Hilite:Hide()
-
-			B.StripTextures(button)
-			B.ReskinButton(button)
-			B.CreateBT(button.__Tex)
-
-			if index > 1 then
-				button:ClearAllPoints()
-				button:SetPoint("TOP", self.Buttons[index-1], "BOTTOM", 0, -B.Scale(3))
-			end
-
-			button.styled = true
-		end
+		reskinTitleButton(button)
 	end)
-
-	local function updateItemBorder(self)
-		if not self.icbg and not self.bubg then return end
-
-		if self.objectType == "item" then
-			local itemQuality = select(4, GetQuestItemInfo(self.type, self:GetID()))
-			local r, g, b = GetItemQualityColor(itemQuality or 1)
-			self.icbg:SetBackdropBorderColor(r, g, b)
-			self.bubg:SetBackdropBorderColor(r, g, b)
-		elseif self.objectType == "currency" then
-			local name, texture, numItems, quality = GetQuestCurrencyInfo(self.type, self:GetID())
-			if name and texture and numItems and quality then
-				local currencyID = GetQuestCurrencyID(self.type, self:GetID())
-				local currencyQuality = select(4, CurrencyContainerUtil.GetCurrencyContainerInfo(currencyID, numItems, name, texture, quality))
-				local r, g, b = GetItemQualityColor(currencyQuality or 1)
-				self.icbg:SetBackdropBorderColor(r, g, b)
-				self.bubg:SetBackdropBorderColor(r, g, b)
-			end
-		else
-			self.icbg:SetBackdropBorderColor(0, 0, 0)
-			self.bubg:SetBackdropBorderColor(0, 0, 0)
-		end
-	end
-
-	local function reskinItemButton(buttons)
-		for i = 1, #buttons do
-			local button = buttons[i]
-			if button and not button.styled then
-				button.Mask:Hide()
-				button.Border:Hide()
-				button.NameFrame:Hide()
-
-				local icbg = B.ReskinIcon(button.Icon)
-				button.icbg = icbg
-
-				local bubg = B.CreateBGFrame(button, 2, 0, -6, 0, icbg)
-				button.bubg = bubg
-
-				button.styled = true
-			end
-
-			local p1, p2, p3 = buttons[1]:GetPoint()
-			buttons[1]:ClearAllPoints()
-			buttons[1]:SetPoint(p1, p2, p3, 1, -10)
-
-			updateItemBorder(button)
-		end
-	end
 
 	hooksecurefunc(ImmersionFrame, "AddQuestInfo", function(self)
 		local buttons = self.TalkBox.Elements.Content.RewardsFrame.Buttons

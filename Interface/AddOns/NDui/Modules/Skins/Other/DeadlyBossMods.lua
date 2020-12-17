@@ -63,7 +63,7 @@ function Skins:DeadlyBossMods()
 					icon1:SetPoint("BOTTOMRIGHT", tbar, "BOTTOMLEFT", -5, 0)
 					icon1.SetPoint = B.Dummy
 
-					icon1.icbg = B.CreateBDFrame(icon1, 0, C.mult)
+					icon1.icbg = B.CreateBDFrame(icon1, 0, -C.mult)
 
 					icon1.styled = true
 				end
@@ -77,7 +77,7 @@ function Skins:DeadlyBossMods()
 					icon2:SetPoint("BOTTOMLEFT", tbar, "BOTTOMRIGHT", 5, 0)
 					icon2.SetPoint = B.Dummy
 
-					icon2.icbg = B.CreateBDFrame(icon2, 0, C.mult)
+					icon2.icbg = B.CreateBDFrame(icon2, 0, -C.mult)
 
 					icon2.styled = true
 				end

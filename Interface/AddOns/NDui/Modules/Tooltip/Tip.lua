@@ -105,12 +105,12 @@ function TT:InsertRoleFrame(role)
 	if not self.role then
 		local role = self:CreateTexture(nil, "OVERLAY")
 		role:ClearAllPoints()
-		role:Point("TOPRIGHT", self, "TOPLEFT", -C.margin, -1)
+		role:SetPoint("TOPRIGHT", self, "TOPLEFT", -C.margin, -1)
 		role:SetSize(25, 25)
 		role:SetTexture("Interface\\LFGFrame\\UI-LFG-ICONS-ROLEBACKGROUNDS")
 		self.role = role
 
-		local icbg = B.CreateBDFrame(role, 1, C.mult)
+		local icbg = B.CreateBDFrame(role, 1, -C.mult)
 		self.icbg = icbg
 	end
 	self.role:SetTexCoord(unpack(roleTex[role]))
@@ -367,8 +367,8 @@ function TT:ReskinStatusBar()
 	if not self.StatusBar then return end
 
 	self.StatusBar:ClearAllPoints()
-	self.StatusBar:Point("BOTTOMLEFT", self, "TOPLEFT", C.mult, C.margin)
-	self.StatusBar:Point("BOTTOMRIGHT", self, "TOPRIGHT", -C.mult, C.margin)
+	self.StatusBar:SetPoint("BOTTOMLEFT", self, "TOPLEFT", C.mult, C.margin)
+	self.StatusBar:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", -C.mult, C.margin)
 	self.StatusBar:SetHeight(6)
 
 	B.ReskinStatusBar(self.StatusBar, true)
@@ -403,6 +403,9 @@ function TT:ReskinTooltip()
 
 		local closeButton = self.CloseButton or (frameName and _G[frameName.."CloseButton"])
 		if closeButton then B.ReskinClose(closeButton) end
+
+		local scrollBar = self.ScrollBar or self.scrollBar
+		if scrollBar then B.ReskinScroll(scrollBar) end
 
 		if self.GetBackdrop then
 			self.GetBackdrop = __GetBackdrop

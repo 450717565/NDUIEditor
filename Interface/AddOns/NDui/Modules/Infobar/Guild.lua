@@ -61,7 +61,7 @@ function info:GuildPanel_CreateButton(parent, index)
 	button.class:SetPoint("LEFT", button, 39, 0)
 	button.class:SetSize(16, 16)
 	button.class:SetTexture("Interface\\GLUES\\CHARACTERCREATE\\UI-CHARACTERCREATE-CLASSES")
-	B.CreateBDFrame(button.class, 0, C.mult)
+	B.CreateBDFrame(button.class, 0, -C.mult)
 
 	button.name = B.CreateFS(button, 13, "Name")
 	button.name:ClearAllPoints()

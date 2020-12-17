@@ -24,7 +24,7 @@ local function getValue(pathStr, tbl)
 	return value
 end
 
-local function stripTextures(self)
+local function stripMS_Textures(self)
 	if self.NineSlice then self.NineSlice:Hide() end
 
 	if self.GetNumRegions then
@@ -38,11 +38,11 @@ local function stripTextures(self)
 	end
 end
 
-local function reskinMSButtons(frame)
-	for i = 1, frame:GetNumChildren() do
-		local child = select(i, frame:GetChildren())
+local function reskinMS_Button(self)
+	for i = 1, self:GetNumChildren() do
+		local child = select(i, self:GetChildren())
 		if child:IsObjectType("Button") and child.Icon and child.Text then
-			B.StripTextures(child, 10)
+			B.StripTextures(child, 11)
 			B.ReskinIcon(child.Icon)
 
 			child.HL = child:CreateTexture(nil, "HIGHLIGHT")
@@ -52,20 +52,29 @@ local function reskinMSButtons(frame)
 	end
 end
 
-local function reskinPageButton(scroll)
-	local left = scroll.ScrollUpButton
-	local right = scroll.ScrollDownButton
+local function reskinMS_PageButton(self)
+	local left = self.ScrollUpButton
+	local right = self.ScrollDownButton
 
 	B.ReskinArrow(left, "left", 20)
 	B.ReskinArrow(right, "right", 20)
 	right:SetPoint("LEFT", left, "RIGHT", 10, 0)
 end
 
+local function reskinMS_ALFrame()
+	if ALFrame and not ALFrame.styled then
+		B.ReskinFrame(ALFrame)
+		B.ReskinButton(ALFrameButton)
+
+		ALFrame.styled = true
+	end
+end
+
 function Skins:MeetingStone()
-	if not IsAddOnLoaded("MeetingStone") then return end
+	if not IsAddOnLoaded("MeetingStone") and not IsAddOnLoaded("MeetingStonePlus") then return end
 
 	local MS = LibStub("AceAddon-3.0"):GetAddon("MeetingStone")
-	local MSEnv = LibStub:GetLibrary("NetEaseEnv-1.0")._NSList.MeetingStone
+	local MSEnv = LibStub("NetEaseEnv-1.0")._NSList[MS.baseName]
 	local GUI = LibStub("NetEaseGUI-2.0")
 
 	if not MS or not MSEnv or not GUI then return end
@@ -75,10 +84,10 @@ function Skins:MeetingStone()
 	for _, v in pairs(Panels) do
 		local frame = getValue(v, MSEnv)
 		if frame then
-			stripTextures(frame)
+			stripMS_Textures(frame)
 
-			if frame.Inset then stripTextures(frame.Inset) end
-			if frame.Inset2 then stripTextures(frame.Inset2) end
+			if frame.Inset then stripMS_Textures(frame.Inset) end
+			if frame.Inset2 then stripMS_Textures(frame.Inset2) end
 			if frame.PortraitFrame then frame.PortraitFrame:SetAlpha(0) end
 			if frame.CloseButton then B.ReskinClose(frame.CloseButton) end
 
@@ -106,6 +115,22 @@ function Skins:MeetingStone()
 			break
 		end
 	end
+
+	local AutoCompleteFrame = BrowsePanel.AutoCompleteFrame
+	B.StripTextures(AutoCompleteFrame)
+	B.ReskinScroll(AutoCompleteFrame:GetScrollBar())
+
+	hooksecurefunc(AutoCompleteFrame, "UpdateItems", function(self)
+		for i = 1, #self.buttons do
+			local button = self:GetButton(i)
+			if not button.styled and button:IsShown() then
+				B.StripTextures(button)
+				B.ReskinButton(button)
+
+				button.styled = true
+			end
+		end
+	end)
 
 	-- CreatePanel
 	local CreatePanel = MSEnv.CreatePanel
@@ -156,8 +181,22 @@ function Skins:MeetingStone()
 
 	-- DropMenu
 	local DropMenu = GUI:GetClass("DropMenu")
-	hooksecurefunc(DropMenu, "Constructor", TT.ReskinTooltip)
-	hooksecurefunc(DropMenu, "Toggle", TT.ReskinTooltip)
+	hooksecurefunc(DropMenu, "Open", function(self, level, ...)
+		level = level or 1
+		local menu = self.menuList[level]
+		if menu and not menu.styled then
+			TT.ReskinTooltip(menu)
+
+			local scrollBar = menu.GetScrollBar and menu:GetScrollBar()
+			if scrollBar then B.ReskinScroll(scrollBar) end
+		end
+	end)
+
+	local DropMenuItem = GUI:GetClass("DropMenuItem")
+	hooksecurefunc(DropMenuItem, "SetHasArrow", function(self)
+		self.Arrow:SetTexture(DB.arrowTex.."right")
+		self.Arrow:SetSize(14, 14)
+	end)
 
 	-- Tab
 	local TabView = GUI:GetClass("TabView")
@@ -166,6 +205,7 @@ function Skins:MeetingStone()
 			local tab = self:GetButton(i)
 			if not tab.styled then
 				B.ReskinTab(tab)
+				B.ReskinHighlight(tab.Flash, tab)
 
 				if tab.bg then tab.bg:Hide() end
 
@@ -174,7 +214,7 @@ function Skins:MeetingStone()
 
 			if i > 1 then
 				tab:ClearAllPoints()
-				tab:Point("LEFT", self:GetButton(i-1), "RIGHT", -(15+C.mult), 0)
+				tab:SetPoint("LEFT", self:GetButton(i-1), "RIGHT", -(15+C.mult), 0)
 			end
 		end
 	end)
@@ -241,32 +281,36 @@ function Skins:MeetingStone()
 	TT.ReskinTooltip(Tooltip:GetGlobalTooltip())
 	TT.ReskinTooltip(MSEnv.MainPanel.GameTooltip)
 
-	-- BrokerPanel
-	local BrokerPanel = MSEnv.DataBroker.BrokerPanel
-	B.ReskinButton(BrokerPanel)
-
-	local BrokerIcon = MSEnv.DataBroker.BrokerIcon
-	BrokerIcon:SetPoint("LEFT", 8, 0)
+	-- DataBroker
+	local DataBroker = MSEnv.DataBroker
+	B.ReskinButton(DataBroker.BrokerPanel)
+	DataBroker.BrokerIcon:SetPoint("LEFT", 8, 0)
 
 	-- Misc
-	local MallPanel = MS:GetModule("MallPanel")
-	B.StripTextures(MallPanel.CategoryList:GetParent())
-	B.ReskinButton(MallPanel.PurchaseButton)
-	B.ReskinScroll(MSEnv.ActivitiesSummary.Summary.ScrollBar)
-	reskinMSButtons(MallPanel)
+	if MSEnv.ADDON_REGIONSUPPORT then
+		local MallPanel = MS:GetModule("MallPanel")
+		B.StripTextures(MallPanel.CategoryList:GetParent())
+		B.ReskinButton(MallPanel.PurchaseButton)
+		reskinMS_Button(MallPanel)
 
-	local RewardPanel = MS:GetModule("RewardPanel")
-	B.ReskinButton(RewardPanel.ConfirmButton)
-	B.ReskinEditBox(RewardPanel.InputBox)
+		local RewardPanel = MS:GetModule("RewardPanel")
+		B.ReskinButton(RewardPanel.ConfirmButton)
+		B.ReskinEditBox(RewardPanel.InputBox)
 
-	local ActivitiesParent = MSEnv.ActivitiesParent
-	B.StripTextures(ActivitiesParent)
-	reskinMSButtons(ActivitiesParent)
+		B.StripTextures(MSEnv.ActivitiesParent)
+		reskinMS_Button(MSEnv.ActivitiesParent)
+		B.ReskinScroll(MSEnv.ActivitiesSummary.Summary.ScrollBar)
+
+		local WalkthroughPanel = MS:GetModule("WalkthroughPanel", true)
+		if WalkthroughPanel then
+			B.ReskinScroll(WalkthroughPanel.SummaryHtml.ScrollBar)
+		end
+	end
 
 	-- App
 	B.StripTextures(MSEnv.AppParent)
-	reskinPageButton(MSEnv.AppFollowQueryPanel.QueryList.ScrollBar)
-	reskinPageButton(MSEnv.AppFollowPanel.FollowList.ScrollBar)
+	reskinMS_PageButton(MSEnv.AppFollowQueryPanel.QueryList.ScrollBar)
+	reskinMS_PageButton(MSEnv.AppFollowPanel.FollowList.ScrollBar)
 
 	if not MeetingStone_QuickJoin then return end  -- version check
 
@@ -279,15 +323,6 @@ function Skins:MeetingStone()
 		end
 	end
 
-	local function reskinALFrame()
-		if ALFrame and not ALFrame.styled then
-			B.ReskinFrame(ALFrame)
-			B.ReskinButton(ALFrameButton)
-
-			ALFrame.styled = true
-		end
-	end
-
 	local ManagerPanel = MSEnv.ManagerPanel
 	for i = 1, ManagerPanel:GetNumChildren() do
 		local child = select(i, ManagerPanel:GetChildren())
@@ -295,7 +330,11 @@ function Skins:MeetingStone()
 			child:SetHeight(26)
 			B.ReskinButton(child)
 
-			child:HookScript("PostClick", reskinALFrame)
+			child:HookScript("PostClick", reskinMS_ALFrame)
 		end
 	end
+
+	local ApplicantListBlocker = ManagerPanel.ApplicantListBlocker
+	B.StripTextures(ApplicantListBlocker)
+	B.CreateBDFrame(ApplicantListBlocker, 0, 2)
 end

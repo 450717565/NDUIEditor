@@ -721,8 +721,14 @@ do
 
 		local lvl = frame:GetFrameLevel()
 		local bg = CreateFrame("Frame", nil, frame, "BackdropTemplate")
-		bg:SetOutside(self, offset or 0, offset or 0)
 		bg:SetFrameLevel(lvl == 0 and 0 or lvl - 1)
+
+		local value = offset and math.abs(offset) or 0
+		if (offset and offset <= 0) or (not offset) then
+			bg:SetOutside(self, value, value)
+		elseif (offset and offset >= 0) or (not offset) then
+			bg:SetInside(self, value, value)
+		end
 
 		B.CreateBD(bg, alpha or 0)
 		B.CreateSD(bg)
@@ -903,13 +909,13 @@ do
 	function B:ReskinCheck(forceSaturation)
 		B.CleanTextures(self)
 
-		local ch = self:GetCheckedTexture()
-		ch:SetTexture("Interface\\Buttons\\UI-CheckBox-Check")
-		ch:SetTexCoord(0, 1, 0, 1)
-		ch:SetDesaturated(true)
-		ch:SetVertexColor(cr, cg, cb)
+		local check = self:GetCheckedTexture()
+		check:SetTexture("Interface\\Buttons\\UI-CheckBox-Check")
+		check:SetTexCoord(0, 1, 0, 1)
+		check:SetDesaturated(true)
+		check:SetVertexColor(cr, cg, cb)
 
-		local Tex = B.CreateBDFrame(self, 0, -4)
+		local Tex = B.CreateBDFrame(self, 0, 4)
 		self.__Tex = Tex
 
 		SetupHook(self)
@@ -920,13 +926,13 @@ do
 		B.StripTextures(self, 0)
 		B.CleanTextures(self)
 
-		local Tex = B.CreateBDFrame(self, 0, -2)
+		local Tex = B.CreateBDFrame(self, 0, 2)
 		self.__Tex = Tex
 
 		self:SetCheckedTexture(DB.backgroundTex)
-		local ch = self:GetCheckedTexture()
-		ch:SetVertexColor(cr, cg, cb, .75)
-		ch:SetInside(Tex)
+		local check = self:GetCheckedTexture()
+		check:SetVertexColor(cr, cg, cb, .75)
+		check:SetInside(Tex)
 
 		SetupHook(self)
 	end
@@ -1087,13 +1093,18 @@ do
 		B.StripTextures(self)
 		B.CleanTextures(self)
 
-		local bg = B.CreateBGFrame(self, 16, -4, -18, 8)
-
 		local frameName = self:GetDebugName()
-		local button = self.Button or (frameName and _G[frameName.."Button"])
+
+		local button = self.Button or (frameName and (_G[frameName.."Button"] or _G[frameName.."_Button"]))
 		button:ClearAllPoints()
-		button:Point("RIGHT", bg, -2, 0)
+		button:Point("RIGHT", -18, 2)
 		B.ReskinArrow(button, "down")
+
+		local bg = B.CreateBDFrame(self)
+		bg:ClearAllPoints()
+		bg:Point("LEFT", self, "LEFT", 16, 0)
+		bg:Point("TOP", button, "TOP", 0, 0)
+		bg:Point("BOTTOMRIGHT", button, "BOTTOMLEFT", -2, 0)
 
 		for _, key in pairs(textWords) do
 			local text = self[key] or (frameName and _G[frameName..key])
@@ -1205,7 +1216,7 @@ do
 	-- Handle Icon
 	function B:ReskinIcon(alpha)
 		self:SetTexCoord(unpack(DB.TexCoord))
-		local icbg = B.CreateBDFrame(self, alpha, C.mult)
+		local icbg = B.CreateBDFrame(self, alpha, -C.mult)
 
 		return icbg
 	end
@@ -1289,7 +1300,7 @@ do
 
 	function B:ReskinRoleIcon(alpha)
 		self:SetTexture(DB.rolesTex)
-		local icbg = B.CreateBDFrame(self, alpha, C.mult)
+		local icbg = B.CreateBDFrame(self, alpha, -C.mult)
 
 		return icbg
 	end
@@ -1541,7 +1552,7 @@ do
 		B.CreateBG(self)
 
 		local Background = self.Background
-		B.CreateBDFrame(Background, 0, C.mult, true)
+		B.CreateBDFrame(Background, 0, -C.mult, true)
 
 		local ItemSlot = self.ItemSlot
 		B.ReskinIcon(ItemSlot.Icon)
@@ -1564,7 +1575,7 @@ do
 		B.StripTextures(self)
 		B.CleanTextures(self)
 
-		local bg = B.CreateBDFrame(self, 0, -C.mult)
+		local bg = B.CreateBDFrame(self, 0, C.mult)
 		B.ReskinHighlight(self, bg, true)
 
 		local icon = self.icon or self.Icon
@@ -1826,7 +1837,7 @@ do
 			self:SetStatusBarColor(cr, cg, cb)
 		end
 
-		local bd = B.CreateBDFrame(self, 0, C.mult, true)
+		local bd = B.CreateBDFrame(self, 0, -C.mult, true)
 		self.bd = bd
 
 		local bg = self:CreateTexture(nil, "BACKGROUND")
@@ -1908,6 +1919,7 @@ do
 	-- CheckBox
 	function B:CreateCheckBox()
 		local cb = CreateFrame("CheckButton", nil, self, "InterfaceOptionsCheckButtonTemplate")
+		cb:SetScript("OnClick", nil)
 		B.ReskinCheck(cb)
 
 		cb.Type = "CheckBox"

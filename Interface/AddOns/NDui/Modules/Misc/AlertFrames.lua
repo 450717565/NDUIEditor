@@ -123,13 +123,21 @@ local function TalkingHeadOnLoad(event, addon)
 end
 
 function Misc:AlertFrame_Setup()
-	parentFrame = CreateFrame("Frame", nil, UIParent)
-	parentFrame:SetSize(200, 30)
-	B.Mover(parentFrame, L["AlertFrames"], "AlertFrames", {"TOP", UIParent, 0, -75})
+	if not IsAddOnLoaded("ls_Toasts") then
+		if parentFrame then return end
 
-	talkFrame = CreateFrame("Frame", "NDuiTalkingHeadMover", UIParent)
-	talkFrame:SetSize(200, 30)
-	B.Mover(talkFrame, L["TalkingHeadFrame"], "TalkingHeadFrame", {"TOP", UIParent, 0, -40})
+		parentFrame = CreateFrame("Frame", "NDuiAlertFrameMover", UIParent)
+		parentFrame:SetSize(200, 30)
+		B.Mover(parentFrame, L["AlertFrames"], "AlertFrames", {"TOP", UIParent, 0, -75})
+	end
+
+	if not C.db["Misc"]["HideTalking"] then
+		if talkFrame then return end
+
+		talkFrame = CreateFrame("Frame", "NDuiTalkingHeadMover", UIParent)
+		talkFrame:SetSize(200, 30)
+		B.Mover(talkFrame, L["TalkingHeadFrame"], "TalkingHeadFrame", {"TOP", UIParent, 0, -40})
+	end
 
 	GroupLootContainer:EnableMouse(false)
 	GroupLootContainer.ignoreFramePositionManager = true

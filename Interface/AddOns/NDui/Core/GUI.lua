@@ -787,7 +787,7 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{},--blank
 		{1, "ActionBar", "Cooldown", DB.MyColor..L["Show Cooldown"]},
 		{1, "ActionBar", "OverrideWA", L["Override WA"].."*", true},
-		{1, "Misc", "SendActionCD", NewFeatureTag..L["Send ActionCD"].."*", false, nil, nil, L["Send Action CD Tip"]},
+		{1, "Misc", "SendActionCD", L["Send ActionCD"].."*", false, nil, nil, L["Send Action CD Tip"]},
 		{},--blank
 		{1, "ActionBar", "Hotkeys", L["ActionBar Hotkey"].."*", nil, nil, updateHotkeys},
 		{1, "ActionBar", "Macro", L["ActionBar Macro"], true},
@@ -795,7 +795,7 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 	},
 	[2] = {
 		{1, "Bags", "Enable", DB.MyColor..L["Enable Bags"]},
-		{1, "Bags", "ItemFilter", NewFeatureTag..L["Bags ItemFilter"].."*", true, setupBagFilter, updateBagStatus},
+		{1, "Bags", "ItemFilter", L["Bags ItemFilter"].."*", true, setupBagFilter, updateBagStatus},
 		{},--blank
 		{1, "Bags", "GatherEmpty", L["Bags GatherEmpty"], false},
 		{1, "Bags", "SpecialBagsColor", L["SpecialBags Color"].."*", true, nil, updateBagStatus, L["Special Bags Color Tip"]},
@@ -1412,14 +1412,14 @@ local function OpenGUI()
 	B.CreateFS(f, 18, L["NDui Console"], true, "TOP", 0, -10)
 	B.CreateFS(f, 16, DB.Version.." ("..DB.Support..")", false, "TOP", 0, -30)
 
-	local contact = B.CreateButton(f, 130, 20, NewFeatureTag..L["Contact"])
+	local contact = B.CreateButton(f, 130, 20, L["Contact"])
 	contact:SetPoint("BOTTOMLEFT", 20, 15)
 	contact:SetScript("OnClick", function()
 		f:Hide()
 		GUI:AddContactFrame()
 	end)
 
-	local unlock = B.CreateButton(f, 130, 20, NewFeatureTag..L["UnlockUI"])
+	local unlock = B.CreateButton(f, 130, 20, L["UnlockUI"])
 	unlock:SetPoint("BOTTOM", contact, "TOP", 0, 2)
 	unlock:SetScript("OnClick", function()
 		f:Hide()

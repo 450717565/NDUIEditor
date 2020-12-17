@@ -47,7 +47,7 @@ function Skins:BigWigs()
 		self:SetTexture(DB.normTex)
 
 		if not self.styled then
-			B.CreateBDFrame(self, 0, C.mult)
+			B.CreateBDFrame(self, 0, -C.mult)
 
 			self.styled = true
 		end
@@ -71,7 +71,7 @@ function Skins:BigWigs()
 			end
 
 			if not icon.styled then
-				B.CreateBDFrame(icon, 0, C.mult)
+				B.CreateBDFrame(icon, 0, -C.mult)
 
 				icon.styled = true
 			end

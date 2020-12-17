@@ -190,7 +190,7 @@ local function BuildICON(iconSize)
 
 	local frame = CreateFrame("Frame", nil, PetBattleFrameHider)
 	frame:SetSize(iconSize, iconSize)
-	frame.bubg = B.CreateBDFrame(frame, 0, C.mult)
+	frame.bubg = B.CreateBDFrame(frame, 0, -C.mult)
 
 	frame.Icon = frame:CreateTexture(nil, "ARTWORK")
 	frame.Icon:SetInside(frame.bubg)
@@ -218,7 +218,7 @@ end
 local function BuildBAR(barWidth, iconSize)
 	local frame = CreateFrame("Frame", nil, PetBattleFrameHider)
 	frame:SetSize(iconSize, iconSize)
-	frame.bubg = B.CreateBDFrame(frame, 0, C.mult)
+	frame.bubg = B.CreateBDFrame(frame, 0, -C.mult)
 
 	frame.Icon = frame:CreateTexture(nil, "ARTWORK")
 	frame.Icon:SetInside(frame.bubg)

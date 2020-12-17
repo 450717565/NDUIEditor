@@ -16,7 +16,7 @@ local cr, cg, cb, color
 function Maps:CreatePulse()
 	if not C.db["Map"]["CombatPulse"] then return end
 
-	local bg = B.CreateBDFrame(Minimap, 0, C.mult)
+	local bg = B.CreateBDFrame(Minimap, 0, -C.mult)
 	bg:SetFrameStrata("BACKGROUND")
 
 	local anim = bg:CreateAnimationGroup()
@@ -276,7 +276,7 @@ function Maps:RecycleBin()
 					child:HookScript("OnMouseUp", clickFunc)
 				end
 
-				B.CreateBDFrame(child, 0, C.mult)
+				B.CreateBDFrame(child, 0, -C.mult)
 
 				child.styled = true
 			end

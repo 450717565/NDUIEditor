@@ -319,7 +319,7 @@ function Skins:Rematch()
 
 		local Content = RematchWinRecordCard.Content
 		B.StripTextures(Content)
-		B.CreateBDFrame(Content, 0, -2)
+		B.CreateBDFrame(Content, 0, 2)
 
 		for _, result in pairs({"Wins", "Losses", "Draws"}) do
 			reskinInput(Content[result].EditBox)
@@ -362,7 +362,7 @@ function Skins:Rematch()
 
 		local MultiLine = dialog.MultiLine
 		B.ReskinScroll(MultiLine.ScrollBar)
-		B.CreateBDFrame(MultiLine, 0, 5)
+		B.CreateBDFrame(MultiLine, 0, -5)
 		select(2, MultiLine:GetChildren()):SetBackdrop(nil)
 
 		local ShareIncludes = dialog.ShareIncludes
@@ -387,7 +387,7 @@ function Skins:Rematch()
 
 		local LockButton = RematchNotes.LockButton
 		B.StripTextures(LockButton, 2)
-		B.CreateBDFrame(LockButton, 0, -7)
+		B.CreateBDFrame(LockButton, 0, 7)
 		LockButton:SetPoint("TOPLEFT")
 
 		local Content = RematchNotes.Content
@@ -425,7 +425,7 @@ function Skins:Rematch()
 
 		if not button.styled then
 			button.Check:SetVertexColor(cr, cg, cb)
-			B.CreateBDFrame(button.Check, 0, -4)
+			B.CreateBDFrame(button.Check, 0, 4)
 
 			button.styled = true
 		end

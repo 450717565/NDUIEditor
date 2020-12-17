@@ -34,10 +34,8 @@ local function Skin_WeakAuras(self, fType)
 
 			local icbg = B.ReskinIcon(self.icon)
 			icbg:SetFrameLevel(0)
-			icbg:SetFrameStrata("BACKGROUND")
 
 			self.icon.SetTexCoord = B.Dummy
-
 			self.icon.styled = true
 		end
 	elseif fType == "aurabar" then
@@ -47,14 +45,11 @@ local function Skin_WeakAuras(self, fType)
 
 			local icbg = B.ReskinIcon(self.icon)
 			icbg:SetFrameLevel(0)
-			icbg:SetFrameStrata("BACKGROUND")
+
+			local bg = B.CreateBDFrame(self.bar, 0, -C.mult, true)
+			bg:SetFrameLevel(0)
 
 			self.icon.SetTexCoord = B.Dummy
-
-			local bg = B.CreateBDFrame(self.bar, 0, C.mult, true)
-			bg:SetFrameLevel(0)
-			bg:SetFrameStrata("BACKGROUND")
-
 			self.bar.styled = true
 		end
 	end

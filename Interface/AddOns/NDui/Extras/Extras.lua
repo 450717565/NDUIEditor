@@ -297,11 +297,14 @@ do
 		if not buttons then return end
 
 		local offset = HybridScrollFrame_GetOffset(TokenFrameContainer)
-		local index, count
+		local index
 		for i = 1, #buttons do
 			index = offset + i
-			local count = C_CurrencyInfo.GetCurrencyListInfo(index).quantity
 
+			local currencyInfo = C_CurrencyInfo.GetCurrencyListInfo(index)
+			if not currencyInfo then return end
+
+			local count = currencyInfo.quantity
 			local button = buttons[i]
 			if not button.isHeader and count then
 				button.count:SetText(B.FormatNumb(count))

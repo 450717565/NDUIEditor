@@ -13,10 +13,7 @@ function Skins:WhisperPop()
 	B.ReskinArrow(WhisperPopScrollingMessageFrameButtonUp, "up")
 	B.ReskinCheck(WhisperPopMessageFrameProtectCheck)
 	B.ReskinScroll(WhisperPopFrameListScrollBar)
-
-	local listHL = WhisperPopFrameListHighlightTexture
-	listHL:SetTexture(DB.backgroundTex)
-	listHL:SetVertexColor(cr, cg, cb, .25)
+	B.ReskinHighlight(WhisperPopFrameListHighlightTexture, nil, true, true)
 
 	local lists = {WhisperPopFrameListDelete, WhisperPopFrameTopCloseButton, WhisperPopMessageFrameTopCloseButton}
 	for _, list in pairs(lists) do

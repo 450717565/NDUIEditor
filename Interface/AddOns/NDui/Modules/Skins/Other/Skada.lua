@@ -5,7 +5,6 @@ function Skins:Skada()
 	if not C.db["Skins"]["Skada"] then return end
 	if not IsAddOnLoaded("Skada") then return end
 
-	local pairs, tinsert = pairs, table.insert
 	local Skada = Skada
 	local barSpacing = 0
 	local barmod = Skada.displays["bar"]
@@ -27,7 +26,7 @@ function Skins:Skada()
 		StripOptions(options)
 	end
 
-	for _, options in pairs(Skada.options.args.windows.args) do
+	for _, options in ipairs(Skada.options.args.windows.args) do
 		if options.type == "group" then
 			StripOptions(options.args)
 		end
@@ -71,7 +70,7 @@ function Skins:Skada()
 		window:SetFrameStrata("MEDIUM")
 	end
 
-	local function EmbedWindow(window, barheight, width, height, ofsx, ofsy)
+	local function EmbedWindow(window, width, barheight, height, ofsx, ofsy)
 		window.db.barwidth = width
 		window.db.barheight = barheight
 		if window.db.enabletitle then
@@ -88,14 +87,14 @@ function Skins:Skada()
 	local windows = {}
 	local function EmbedSkada()
 		if #windows == 1 then
-			EmbedWindow(windows[1], 16, 350, 193, -6, 32)
+			EmbedWindow(windows[1], 350, 16, 193, -6, 32)
 		elseif #windows == 2 then
-			EmbedWindow(windows[1], 16, 350, 113, -6, 32)
-			EmbedWindow(windows[2], 16, 350, 113, -6, 156)
+			EmbedWindow(windows[1], 350, 16, 113, -6, 32)
+			EmbedWindow(windows[2], 350, 16, 113, -6, 156)
 		end
 	end
 
-	for _, window in pairs(Skada:GetWindows()) do
+	for _, window in ipairs(Skada:GetWindows()) do
 		window:UpdateDisplay()
 	end
 
@@ -103,8 +102,8 @@ function Skins:Skada()
 	function Skada:CreateWindow(name, db)
 		Skada:CreateWindow_(name, db)
 		wipe(windows)
-		for _, window in pairs(Skada:GetWindows()) do
-			tinsert(windows, window)
+		for _, window in ipairs(Skada:GetWindows()) do
+			table.insert(windows, window)
 		end
 		EmbedSkada()
 	end
@@ -113,8 +112,8 @@ function Skins:Skada()
 	function Skada:DeleteWindow(name)
 		Skada:DeleteWindow_(name)
 		wipe(windows)
-		for _, window in pairs(Skada:GetWindows()) do
-			tinsert(windows, window)
+		for _, window in ipairs(Skada:GetWindows()) do
+			table.insert(windows, window)
 		end
 		EmbedSkada()
 	end
@@ -125,7 +124,7 @@ function Skins:Skada()
 	Skada.windowdefaults.barbgcolor = {r=0,g=0,b=0,a=0}
 	Skada.windowdefaults.barfontflags = DB.Font[3]
 	Skada.windowdefaults.barfontsize = 12
-	Skada.windowdefaults.bartexture = "StatusBar_1"
+	Skada.windowdefaults.bartexture = "normTex"
 	Skada.windowdefaults.classicons = false
 	Skada.windowdefaults.smoothing = true
 	Skada.windowdefaults.title.color = {r=0,g=0,b=0,a=.3}

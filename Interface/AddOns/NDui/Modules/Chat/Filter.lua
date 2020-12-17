@@ -42,6 +42,7 @@ function Chat:CompareStrDiff(sA, sB) -- arrays of bytes
 			last[j+1] = this[j+1]
 		end
 	end
+
 	return this[len_b+1] / max(len_a, len_b)
 end
 
@@ -111,6 +112,7 @@ function Chat:GetFilterResult(event, msg, name, flag, guid)
 		local line = chatLines[i]
 		if line[1] == msgTable[1] and ((msgTable[3] - line[3] < .6) or Chat:CompareStrDiff(line[2], msgTable[2]) <= .1) then
 			tremove(chatLines, i)
+
 			return true
 		end
 	end
@@ -159,6 +161,7 @@ function Chat:UpdateAddOnBlocker(event, msg, author)
 			elseif event == "CHAT_MSG_PARTY" or event == "CHAT_MSG_PARTY_LEADER" then
 				Chat:ToggleChatBubble(true)
 			end
+
 			return true
 		end
 	end
@@ -172,6 +175,7 @@ function Chat:BlockTrashClub()
 		for _, name in pairs(trashClubs) do
 			if strfind(text, name) then
 				self:Hide()
+
 				return
 			end
 		end
@@ -190,6 +194,7 @@ local function isItemHasLevel(link)
 	local name, _, rarity, level, _, _, _, _, _, _, _, classID = GetItemInfo(link)
 	if name and level and rarity > 1 and (classID == LE_ITEM_CLASS_WEAPON or classID == LE_ITEM_CLASS_ARMOR) then
 		local itemLevel = B.GetItemLevel(link)
+
 		return name, itemLevel
 	end
 end
@@ -220,6 +225,7 @@ local function isItemHasGem(link)
 			text = text..GetSocketTexture(socket, count)
 		end
 	end
+
 	return text
 end
 
@@ -246,26 +252,26 @@ local function convertItemLevel(link)
 			itemCache[link] = link
 		end
 	end
+
 	return link
 end
 
 function Chat:UpdateChatItemLevel(_, msg, ...)
 	msg = gsub(msg, "(|Hitem:%d+:.-|h.-|h)", convertItemLevel)
+
 	return false, msg, ...
 end
 
 local chatEvents = {
-	"CHAT_MSG_BATTLEGROUND",
-	"CHAT_MSG_BATTLEGROUND_LEADER",
-	"CHAT_MSG_BN_CONVERSATION",
+	"CHAT_MSG_BG_SYSTEM_ALLIANCE",
+	"CHAT_MSG_BG_SYSTEM_HORDE",
+	"CHAT_MSG_BG_SYSTEM_NEUTRAL",
 	"CHAT_MSG_BN_WHISPER",
 	"CHAT_MSG_BN_WHISPER_INFORM",
-	"CHAT_MSG_CHANNEL",
 	"CHAT_MSG_EMOTE",
 	"CHAT_MSG_GUILD",
 	"CHAT_MSG_INSTANCE_CHAT",
 	"CHAT_MSG_INSTANCE_CHAT_LEADER",
-	"CHAT_MSG_LOOT",
 	"CHAT_MSG_OFFICER",
 	"CHAT_MSG_PARTY",
 	"CHAT_MSG_PARTY_LEADER",

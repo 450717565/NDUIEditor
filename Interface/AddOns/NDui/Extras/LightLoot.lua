@@ -5,16 +5,15 @@ local cr, cg, cb = DB.r, DB.g, DB.b
 local iconSize = 33
 local fontSize = math.floor(select(2, GameFontWhite:GetFont()) + .5)
 
-local point = {"CENTER", 300, 0}
+local mover
 local slots = {}
 
 local LightLoot = CreateFrame("Button", "LightLoot")
-LightLoot:RegisterForClicks("AnyUp")
-LightLoot:SetClampedToScreen(true)
 LightLoot:SetClampRectInsets(0, 0, 14, 0)
-LightLoot:SetFrameStrata("TOOLTIP")
 LightLoot:SetHitRectInsets(0, 0, -14, 0)
-LightLoot:SetMovable(true)
+LightLoot:RegisterForClicks("AnyUp")
+LightLoot:SetFrameStrata("TOOLTIP")
+LightLoot:SetClampedToScreen(true)
 LightLoot:SetParent(UIParent)
 LightLoot:SetToplevel(true)
 
@@ -171,9 +170,11 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 		self:GetCenter()
 		self:Raise()
 	else
+		if not mover then
+			mover = B.Mover(self, "LightLoot", "LightLoot", {"CENTER", 300, 0}, 50, 50)
+		end
 		self:ClearAllPoints()
-		self:SetUserPlaced(false)
-		self:SetPoint(unpack(point))
+		self:SetPoint("CENTER", mover)
 	end
 
 	local maxQuality = 0
@@ -181,11 +182,10 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 	if items > 0 then
 		for i = 1, items do
 			local slot = slots[i] or CreateSlot(i)
-			local lootdescription, displayAmount
-			local lootIcon, lootName, lootQuantity, currencyID, lootQuality, locked, isQuestItem, questID, isActive = GetLootSlotInfo(i)
+			local lootIcon, lootName, lootQuantity, currencyID, lootQuality, isLocked, isQuestItem, questID, isActive = GetLootSlotInfo(i)
 
 			if currencyID then
-				lootName, lootdescription, lootIcon, lootQuality, displayAmount, lootQuantity = C_CurrencyInfo.GetCurrencyContainerInfo(currencyID, lootQuantity)
+				lootName, lootIcon, lootQuantity, lootQuality = CurrencyContainerUtil.GetCurrencyContainerInfo(currencyID, lootQuantity, lootName, lootIcon, lootQuality)
 			end
 
 			local r, g, b = GetItemQualityColor(lootQuality or 1)
