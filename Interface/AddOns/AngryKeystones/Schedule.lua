@@ -5,10 +5,28 @@ local rowCount = 3
 
 local requestPartyKeystones
 
-local affixSchedule = {
+-- 1: Overflowing, 2: Skittish, 3: Volcanic, 4: Necrotic, 5: Teeming, 6: Raging, 7: Bolstering, 8: Sanguine, 9: Tyrannical, 10: Fortified, 11: Bursting, 12: Grievous, 13: Explosive, 14: Quaking
+local affixScheduleText = {
+	{"Fortified",	"Bolstering",	"Grievous"},
+	{"Tyrannical",	"Raging",	"Explosive"},
+	{"Fortified",	"Sanguine",	"Grievous"},
+	{"Tyrannical",	"Teeming",	"Volcanic"},
+	{"Fortified",	"Bolstering",	"Skittish"},
+	{"Tyrannical",	"Bursting",	"Necrotic"},
+	{"Fortified",	"Sanguine",	"Quaking"},
+	{"Tyrannical",	"Bolstering",	"Explosive"},
+	{"Fortified",	"Bursting",	"Volcanic"},
+	{"Tyrannical",	"Raging",	"Necrotic"},
+	{"Fortified",	"Teeming",	"Quaking"},
+	{"Tyrannical",	"Bursting",	"Skittish"}
 }
+local affixScheduleKeys = {["Overflowing"]=1, ["Skittish"]=2, ["Volcanic"]=3, ["Necrotic"]=4, ["Teeming"]=5, ["Raging"]=6, ["Bolstering"]=7, ["Sanguine"]=8, ["Tyrannical"]=9, ["Fortified"]=10, ["Bursting"]=11, ["Grievous"]=12, ["Explosive"]=13, ["Quaking"]=14 }
+local affixSchedule = {}
+for i,v in ipairs(affixScheduleText) do
+	affixSchedule[i] = { affixScheduleKeys[v[1]], affixScheduleKeys[v[2]], affixScheduleKeys[v[3]] }
+end
 
-local affixScheduleUnknown = not next(affixSchedule)
+local affixScheduleUnknown = false
 local currentWeek
 local currentKeystoneMapID
 local currentKeystoneLevel
@@ -189,7 +207,7 @@ function Mod:Blizzard_ChallengesUI()
 
 		local affixes = {}
 		local prevAffix
-		for j = 4, 1, -1 do
+		for j = 3, 1, -1 do
 			local affix = makeAffix(entry)
 			if prevAffix then
 				affix:SetPoint("RIGHT", prevAffix, "LEFT", -4, 0)

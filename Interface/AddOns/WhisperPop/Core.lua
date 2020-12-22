@@ -10,7 +10,7 @@ local ipairs = ipairs
 local strfind = string.find
 local type = type
 local tinsert = table.insert
-local strsub = strsub
+local strsub = string.sub
 local date = date
 local tonumber = tonumber
 local select = select
@@ -22,13 +22,12 @@ local min = math.min
 local max = math.max
 local GetPlayerInfoByGUID = GetPlayerInfoByGUID
 local BNGetNumFriends = BNGetNumFriends
-local BNGetFriendInfo
-local BNGetFriendInfoByID
+local BNGetFriendInfo = C_BattleNet.GetFriendAccountInfo
+local BNGetFriendInfoByID = C_BattleNet.GetAccountInfoByID
 local GMChatFrame_IsGM = GMChatFrame_IsGM
 local ChatFrame_GetMessageEventFilters = ChatFrame_GetMessageEventFilters
-local ChatEdit_ChooseBoxForSend = ChatEdit_ChooseBoxForSend
-local ChatEdit_ActivateChat = ChatEdit_ActivateChat
-local ChatEdit_ParseText = ChatEdit_ParseText
+local ChatFrame_SendTell = ChatFrame_SendTell
+local ChatFrame_SendBNetTell = ChatFrame_SendBNetTell
 local InviteUnit = InviteUnit
 local FriendsFrame_ShowDropdown = FriendsFrame_ShowDropdown
 local FriendsFrame_ShowBNDropdown = FriendsFrame_ShowBNDropdown
@@ -47,27 +46,6 @@ addon.BACKGROUND = "Interface\\DialogFrame\\UI-DialogBox-Background"
 addon.BORDER = "Interface\\Tooltips\\UI-Tooltip-Border"
 
 addon.MAX_MESSAGES = 500 -- Maximum messages stored for each conversation
-
---ADD 9.0
-local function getDeprecatedAccountInfo(accountInfo)
-	if accountInfo then
-		local wowProjectID = accountInfo.gameAccountInfo.wowProjectID or 0
-		local clientProgram = accountInfo.gameAccountInfo.clientProgram ~= "" and accountInfo.gameAccountInfo.clientProgram or nil
-		return
-			accountInfo.bnetAccountID, accountInfo.accountName, accountInfo.battleTag, accountInfo.isBattleTagFriend,
-			accountInfo.gameAccountInfo.characterName, accountInfo.gameAccountInfo.gameAccountID, clientProgram,
-			accountInfo.gameAccountInfo.isOnline, accountInfo.lastOnlineTime, accountInfo.isAFK, accountInfo.isDND, accountInfo.customMessage, accountInfo.note, accountInfo.isFriend,
-			accountInfo.customMessageTime, wowProjectID, accountInfo.rafLinkType == Enum.RafLinkType.Recruit, accountInfo.gameAccountInfo.canSummon, accountInfo.isFavorite, accountInfo.gameAccountInfo.isWowMobile
-	end
-end
-BNGetFriendInfo = function(friendIndex)
-	local accountInfo = C_BattleNet.GetFriendAccountInfo(friendIndex)
-	return getDeprecatedAccountInfo(accountInfo)
-end
-BNGetFriendInfoByID = function(id)
-	local accountInfo = C_BattleNet.GetAccountInfoByID(id)
-	return getDeprecatedAccountInfo(accountInfo)
-end
 
 -- Message are saved in format of: [1/0][hh:mm:ss][contents]
 -- The first char is 1 if this message is inform, 0 otherwise
@@ -129,7 +107,8 @@ function addon:GetBNInfoFromTag(tag)
 	local count = BNGetNumFriends()
 	local i
 	for i = 1, count do
-		local id, name, battleTag, _, _, _, _, online = BNGetFriendInfo(i)
+		BNetAccountInfo = BNGetFriendInfo(i)
+		local id, name, battleTag, online = BNetAccountInfo.bnetAccountID, BNetAccountInfo.accountName, BNetAccountInfo.battleTag, BNetAccountInfo.isOnline
 		if battleTag == tag then
 			return id, name, online, i
 		end
@@ -412,7 +391,8 @@ function addon:ProcessChatMsg(name, class, text, inform, bnid)
 
 	-- Names must be in the "name-realm" format except for BN friends
 	if class == "BN" then
-		name = select(3, BNGetFriendInfoByID(bnid or 0)) -- Seemingly better than my original solution, credits to Warbaby
+		BNetAccountInfo = BNGetFriendInfoByID(bnid or 0)
+		name = BNetAccountInfo.battleTag
 		if not name then
 			return
 		end

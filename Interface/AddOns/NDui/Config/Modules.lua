@@ -32,21 +32,21 @@ C.Auras = {
 	-- 技能监控各组初始位置
 	PlayerAuraPos	= {"BOTTOMRIGHT", UIParent, "BOTTOM", -200, 309},	-- 玩家光环分组
 	TargetAuraPos 	= {"BOTTOMLEFT", UIParent, "BOTTOM", 200, 309},		-- 目标光环分组
-	SpecialPos		= {"BOTTOMRIGHT", UIParent, "BOTTOM", -200, 336},	-- 玩家重要光环分组
-	FocusPos		= {"BOTTOMLEFT", UIParent, "LEFT", 5, -130},		-- 焦点光环分组
-	CDPos			= {"BOTTOMRIGHT", UIParent, "BOTTOM", -425, 125},	-- 冷却计时分组
-	EnchantPos		= {"BOTTOMRIGHT", UIParent, "BOTTOM", -200, 377},	-- 附魔及饰品分组
+	SpecialAuraPos	= {"BOTTOMRIGHT", UIParent, "BOTTOM", -200, 336},	-- 玩家重要光环分组
+	FocusAuraPos	= {"BOTTOMLEFT", UIParent, "LEFT", 5, -130},		-- 焦点光环分组
+	SpellCDPos		= {"BOTTOMRIGHT", UIParent, "BOTTOM", -425, 125},	-- 冷却计时分组
+	EnchantAuraPos	= {"BOTTOMRIGHT", UIParent, "BOTTOM", -200, 377},	-- 附魔及饰品分组
 	RaidBuffPos		= {"CENTER", UIParent, "CENTER", -220, 200},		-- 团队增益分组
 	RaidDebuffPos	= {"CENTER", UIParent, "CENTER", 220, 200},			-- 团队减益分组
-	WarningPos		= {"BOTTOMLEFT", UIParent, "BOTTOM", 200, 370},		-- 目标重要光环分组
-	InternalPos		= {"BOTTOMRIGHT", UIParent, "BOTTOM", -425, 500},	-- 法术内置冷却分组
+	WarningAuraPos	= {"BOTTOMLEFT", UIParent, "BOTTOM", 200, 370},		-- 目标重要光环分组
+	InternalCDPos	= {"BOTTOMRIGHT", UIParent, "BOTTOM", -425, 500},	-- 法术内置冷却分组
 }
 
 -- 头像相关
 C.UFs = {
-	Playercb		= {"BOTTOM", UIParent, "BOTTOM", 0, 175},			-- 玩家施法条默认位置
-	Targetcb		= {"BOTTOM", UIParent, "BOTTOM", 0, 335},			-- 目标施法条默认位置
-	Focuscb			= {"CENTER", UIParent, "CENTER", 0, 200},			-- 焦点施法条默认位置
+	PlayerCB		= {"BOTTOM", UIParent, "BOTTOM", 0, 175},			-- 玩家施法条默认位置
+	TargetCB		= {"BOTTOM", UIParent, "BOTTOM", 0, 335},			-- 目标施法条默认位置
+	FocusCB			= {"CENTER", UIParent, "CENTER", 0, 200},			-- 焦点施法条默认位置
 
 	PlayerPos		= {"TOPRIGHT", UIParent, "BOTTOM", -200, 300},		-- 玩家框体默认位置
 	TargetPos		= {"TOPLEFT", UIParent, "BOTTOM", 200, 300},		-- 目标框体默认位置
@@ -61,18 +61,18 @@ C.UFs = {
 
 -- 小地图
 C.Minimap = {
-	Pos				= {"TOPRIGHT", UIParent, "TOPRIGHT", -7, -7},		-- 小地图默认位置
+	MinimapPos		= {"TOPRIGHT", UIParent, "TOPRIGHT", -7, -7},		-- 小地图默认位置
 }
 
 -- 美化及皮肤
 C.Skins = {
-	MicroMenuPos 	= {"BOTTOM", UIParent, "BOTTOM", 0, 3},			-- 微型菜单默认坐标
-	RMPos  			= {"TOP", UIParent, "TOP", 0, -2},					-- 团队工具默认坐标
+	MicroMenuPos 	= {"BOTTOM", UIParent, "BOTTOM", 0, 3},				-- 微型菜单默认坐标
+	RaidToolPos		= {"TOP", UIParent, "TOP", 0, -2},					-- 团队工具默认坐标
 }
 
 -- 鼠标提示框
 C.Tooltips = {
-	TipPos 	= {"BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -55, 230},		-- 鼠标提示框默认位置
+	TooltipPos 		= {"BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -55, 230},		-- 鼠标提示框默认位置
 }
 
 -- 信息条

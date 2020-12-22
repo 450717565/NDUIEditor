@@ -107,6 +107,46 @@ function TWL:UpdateAllWishButtons()
 end
 
 -----------------------------------------------------------------------
+--	TooltipLine
+-----------------------------------------------------------------------
+
+local function AddTooltipLine(tooltip)
+	local name, itemLink = tooltip:GetItem();
+	-- If the tooltip doesn't have an itemLink, don't continue
+	if (not itemLink) then return; end
+	
+	local appearanceID, sourceID = C_TransmogCollection.GetItemInfo(itemLink);
+	
+	-- Check if the item appearance is on the wish list and not yet collected
+	local itemInfo = TransmogWishListFrame.dataProvider:GetListItemByVisualID(appearanceID);
+
+	if(itemInfo and not itemInfo.collected) then
+		-- Add the wish list icon after the name
+		local ttName = tooltip:GetName();
+		local line = _G[ttName.."TextLeft"..1];
+		local text = line:GetText();
+		if(not text:find("|T")) then -- Prevent adding multiple times e.g. encounter journal
+			line:SetText(FORMAT_TOOLTIP_NAME:format(text));
+		end
+	end
+end
+
+GameTooltip:HookScript("OnTooltipSetItem", AddTooltipLine);
+GameTooltip.ItemTooltip.Tooltip:HookScript('OnTooltipSetItem', AddTooltipLine);
+hooksecurefunc(GameTooltip, "SetHyperlink", AddTooltipLine);
+ItemRefTooltip:HookScript("OnTooltipSetItem", AddTooltipLine);
+ShoppingTooltip1:HookScript("OnTooltipSetItem", AddTooltipLine);
+
+local wqthooked = false;
+local function HookWQTTooltip()
+	if (WQT_Tooltip and not wqthooked) then
+		WQT_Tooltip.ItemTooltip.Tooltip:HookScript('OnTooltipSetItem', AddTooltipLine);
+		wqthooked = true;
+	end
+end
+
+
+-----------------------------------------------------------------------
 --	TransmogWishListDataProviderMixin
 -----------------------------------------------------------------------
 
@@ -437,7 +477,8 @@ function TransmogWishListMixin:OnEvent(event, ...)
 		local addon = ...;
 		if (addon ==  "Blizzard_Collections") then
 			self:StickToItemCollectionFrame();
-			self:UnregisterEvent("ADDON_LOADED");
+		elseif (addon == "WorldQuestTab") then
+			HookWQTTooltip();
 		end
 		return;
 	end
@@ -1122,7 +1163,10 @@ function TWL:OnEnable()
 	
 	if (IsAddOnLoaded("Blizzard_Collections")) then
 		TransmogWishListFrame:StickToItemCollectionFrame();
-		TransmogWishListFrame:UnregisterEvent("ADDON_LOADED");
+	end
+	
+	if (IsAddOnLoaded("WorldQuestTab")) then
+		HookWQTTooltip();
 	end
 	
 	_wishListDataProvider:LoadSaveData(self.settings.wishList) 
@@ -1213,37 +1257,3 @@ function TWLAddBoxMixin:OnTextChanged()
 	InputBoxInstructions_OnTextChanged(self);
 end
 
------------------------------------------------------------------------
---	TooltipLine
------------------------------------------------------------------------
-
-local function AddTooltipLine(tooltip)
-	local name, itemLink = tooltip:GetItem();
-	-- If the tooltip doesn't have an itemLink, don't continue
-	if (not itemLink) then return; end
-	
-	local appearanceID, sourceID = C_TransmogCollection.GetItemInfo(itemLink);
-	
-	-- Check if the item appearance is on the wish list and not yet collected
-	local itemInfo = TransmogWishListFrame.dataProvider:GetListItemByVisualID(appearanceID);
-
-	if(itemInfo and not itemInfo.collected) then
-		-- Add the wish list icon after the name
-		local ttName = tooltip:GetName();
-		local line = _G[ttName.."TextLeft"..1];
-		local text = line:GetText();
-		if(not text:find("|T")) then -- Prevent adding multiple times e.g. encounter journal
-			line:SetText(FORMAT_TOOLTIP_NAME:format(text));
-		end
-	end
-end
-
-GameTooltip:HookScript("OnTooltipSetItem", AddTooltipLine);
-GameTooltip.ItemTooltip.Tooltip:HookScript('OnTooltipSetItem', AddTooltipLine);
-hooksecurefunc(GameTooltip, "SetHyperlink", AddTooltipLine);
-ItemRefTooltip:HookScript("OnTooltipSetItem", AddTooltipLine);
-ShoppingTooltip1:HookScript("OnTooltipSetItem", AddTooltipLine);
-
-if (IsAddOnLoaded("WorldQuestTab")) then
-	WQT_Tooltip.ItemTooltip.Tooltip:HookScript('OnTooltipSetItem', AddTooltipLine);
-end

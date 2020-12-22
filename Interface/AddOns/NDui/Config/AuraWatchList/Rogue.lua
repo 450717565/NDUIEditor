@@ -81,7 +81,7 @@ local list = {
 		{AuraID = 6770, UnitID = "focus", Caster = "player"},	-- 闷棍
 		{AuraID = 2094, UnitID = "focus", Caster = "player"},	-- 致盲
 	},
-	["Spell Cooldown"] = {	-- 冷却计时组
+	["Spell CD"] = {	-- 冷却计时组
 		{SlotID = 13},		-- 饰品1
 		{SlotID = 14},		-- 饰品2
 		{SpellID = 13750},	-- 冲动

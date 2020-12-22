@@ -76,7 +76,7 @@ local function ConvertTable()
 			InsertData(2, v.List)
 		elseif v.Name == "Focus Aura" then
 			InsertData(5, v.List)
-		elseif v.Name == "Spell Cooldown" then
+		elseif v.Name == "Spell CD" then
 			InsertData(6, v.List)
 		end
 	end
@@ -88,7 +88,7 @@ local function ConvertTable()
 			InsertData(8, v.List)
 		elseif v.Name == "Raid Debuff" then
 			InsertData(9, v.List)
-		elseif v.Name == "Warning" then
+		elseif v.Name == "Warning Aura" then
 			InsertData(4, v.List)
 		elseif v.Name == "InternalCD" then
 			InsertData(10, v.List)

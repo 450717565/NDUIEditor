@@ -3,7 +3,7 @@ local Skins = B:GetModule("Skins")
 
 function Skins:ExtVendor()
 	if not IsAddOnLoaded("ExtVendor") then return end
-	B.ReskinEditBox(MerchantFrameSearchBox, 22)
+	B.ReskinInput(MerchantFrameSearchBox, 22)
 	B.ReskinButton(MerchantFrameFilterButton)
 
 	local icbg = B.ReskinIcon(MerchantFrameSellJunkButtonIcon)

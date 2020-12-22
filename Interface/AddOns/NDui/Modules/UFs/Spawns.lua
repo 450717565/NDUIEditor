@@ -92,7 +92,7 @@ local function CreateToTStyle(self)
 	if C.db["UFs"]["ToTAuras"] then UF:CreateAuras(self) end
 end
 
-local function CreateFocusTargetStyle(self)
+local function CreateFoTStyle(self)
 	self.mystyle = "focustarget"
 	SetUnitFrameSize(self, "Pet")
 
@@ -239,7 +239,7 @@ function UF:OnLogin()
 		oUF:RegisterStyle("Target", CreateTargetStyle)
 		oUF:RegisterStyle("ToT", CreateToTStyle)
 		oUF:RegisterStyle("Focus", CreateFocusStyle)
-		oUF:RegisterStyle("FocusTarget", CreateFocusTargetStyle)
+		oUF:RegisterStyle("FoT", CreateFoTStyle)
 		oUF:RegisterStyle("Pet", CreatePetStyle)
 
 		-- Loader
@@ -263,8 +263,8 @@ function UF:OnLogin()
 		local focus = oUF:Spawn("focus", "oUF_Focus")
 		B.Mover(focus, L["FocusUF"], "FocusUF", C.UFs.FocusPos)
 
-		oUF:SetActiveStyle("FocusTarget")
-		local focustarget = oUF:Spawn("focustarget", "oUF_FocusTarget")
+		oUF:SetActiveStyle("FoT")
+		local focustarget = oUF:Spawn("focustarget", "oUF_FoT")
 		B.Mover(focustarget, L["FotUF"], "FotUF", {"TOPLEFT", oUF_Focus, "TOPRIGHT", 5, 0})
 
 		oUF:RegisterStyle("Boss", CreateBossStyle)

@@ -12,6 +12,8 @@ local POSITION, ANCHOR_POINT, YOFFSET = "TOP", "BOTTOM", -10
 local parentFrame, talkFrame
 
 function Misc:AlertFrame_UpdateAnchor()
+	if not parentFrame then return end
+
 	local y = select(2, parentFrame:GetCenter())
 	local screenHeight = UIParent:GetTop()
 	if y > screenHeight/2 then
@@ -93,6 +95,8 @@ function Misc:AlertFrame_AdjustPosition()
 end
 
 local function MoveTalkingHead()
+	if not talkFrame then return end
+
 	local TalkingHeadFrame = _G.TalkingHeadFrame
 
 	TalkingHeadFrame.ignoreFramePositionManager = true

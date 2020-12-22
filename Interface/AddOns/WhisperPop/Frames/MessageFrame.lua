@@ -7,9 +7,9 @@
 
 local IsShiftKeyDown = IsShiftKeyDown
 local max = math.max
-local strlower = strlower
-local gmatch = gmatch
-local gsub = gsub
+local strlower = string.lower
+local gmatch = string.gmatch
+local gsub = string.gsub
 local GetMouseFocus = GetMouseFocus
 local ChatTypeInfo = ChatTypeInfo
 local ICON_LIST = ICON_LIST

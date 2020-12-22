@@ -3,6 +3,8 @@ local L = LibStub("AceLocale-3.0"):NewLocale("HandyNotes_Oribos", "ptBR", false,
 if not L then return end
 -- Brazilian Portuguese localization by Mikedrs ( https://www.curseforge.com/members/mikedrs )
 if L then
+L["Blizzard"] = true
+L["Both"] = "Ambos"
 L["config_auctioneer"] = "Leiloeiro"
 L["config_auctioneer_desc"] = "Mostra a localização do leiloeiro."
 L["config_banker"] = "Banco"
@@ -11,6 +13,10 @@ L["config_barber"] = "Barbearia"
 L["config_barber_desc"] = "Mostra a localização da barbearia. "
 L["config_easy_waypoints"] = "Marcações simples"
 L["config_easy_waypoints_desc"] = "Ativa a criação de marcações simples. Permite que você defina uma marcação clicando com o botão direito e acesse mais opções com CTRL + botão direiro."
+L["config_fmaster_waypoint"] = "Marcador do Ponto de voo"
+L["config_fmaster_waypoint_desc"] = "Marca automáticamente o ponto de voo ao entrar no Anel de Tranferência."
+L["config_fmaster_waypoint_dropdown"] = "Escolher"
+L["config_fmaster_waypoint_dropdown_desc"] = "Escolhe como o marcador deve ser criado."
 L["config_icon_alpha"] = "Transparencia do icone"
 L["config_icon_alpha_desc"] = "A transparência dos icones."
 L["config_icon_scale"] = "Tamanho dos icones."
@@ -70,4 +76,5 @@ L["Portal to Orgrimmar"] = "Portal para Orgrimmar"
 L["Portal to Stormwind"] = "Portal para Ventobravo"
 L["To Ring of Fates"] = "Para o Anel do Destino"
 L["To Ring of Transference"] = "Para o Anel de transferência"
+L["TomTom"] = true
 end

@@ -20,9 +20,12 @@ function Extras:OnLogin()
 	self:InstanceDifficulty()
 	self:InstanceReset()
 
+	self:ChatClassColor()
 	self:ChatEmote()
+	self:ChatRaidIndex()
 	self:DressUp()
 	self:IllusionsCheck()
+	self:GlobalFade()
 	self:KeystoneHelper()
 	self:MountSource()
 end

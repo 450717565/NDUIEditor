@@ -126,7 +126,7 @@ function Skins:Ace3_RegisterAsWidget(widget)
 
 		hooksecurefunc(widget, "SetType", function(self, type)
 			if type == "radio" then
-				self.check:SetTexture(DB.backgroundTex)
+				self.check:SetTexture(DB.bgTex)
 				self.check:SetInside(self.checkbg, 4, 4)
 			else
 				self.check:SetAllPoints(self.checkbg)
@@ -137,7 +137,7 @@ function Skins:Ace3_RegisterAsWidget(widget)
 		button_cover:HookScript("OnClick", Skins.Ace3_SkinDropdown)
 
 		local button = widget.button
-		B.ReskinArrow(button, "down")
+		B.ReskinArrow(button, "down", 20)
 		button:ClearAllPoints()
 		button:SetPoint("RIGHT", -18, 2)
 		button:HookScript("OnClick", Skins.Ace3_SkinDropdown)
@@ -171,17 +171,17 @@ function Skins:Ace3_RegisterAsWidget(widget)
 		bg:SetPoint("BOTTOMRIGHT", frame.dropButton, "BOTTOMLEFT", -2, 0)
 
 		local button = frame.dropButton
-		B.ReskinArrow(button, "down")
-		button:SetParent(bg)
+		B.ReskinArrow(button, "down", 20)
 		button:ClearAllPoints()
 		button:SetPoint("RIGHT", -18, 2)
 		button:HookScript("OnClick", Skins.Ace3_SkinDropdown)
+		button:SetParent(bg)
 
 		local text = frame.text
-		text:SetParent(bg)
 		text:SetJustifyH("CENTER")
 		text:ClearAllPoints()
 		text:SetPoint("CENTER", bg, 1, 0)
+		text:SetParent(bg)
 
 		local label = frame.label
 		label:SetJustifyH("LEFT")
@@ -189,20 +189,20 @@ function Skins:Ace3_RegisterAsWidget(widget)
 		label:SetPoint("BOTTOMLEFT", bg, "TOPLEFT", 0, 1)
 
 		if TYPE == "LSM30_Sound" then
-			widget.soundbutton:SetParent(bg)
 			widget.soundbutton:ClearAllPoints()
 			widget.soundbutton:SetPoint("RIGHT", bg, "LEFT", -1, 0)
+			widget.soundbutton:SetParent(bg)
 		elseif TYPE == "LSM30_Statusbar" then
-			widget.bar:SetParent(bg)
 			widget.bar:ClearAllPoints()
 			widget.bar:SetPoint("TOPLEFT", bg, "TOPLEFT", 2, -2)
 			widget.bar:SetPoint("BOTTOMRIGHT", button, "BOTTOMLEFT", -1, 0)
+			widget.bar:SetParent(bg)
 		elseif TYPE == "LSM30_Border" or TYPE == "LSM30_Background" then
 			bg:SetPoint("TOPLEFT", 45, -22)
 		end
 	elseif TYPE == "EditBox" then
 		B.ReskinButton(widget.button)
-		local bg = B.ReskinEditBox(widget.editbox)
+		local bg = B.ReskinInput(widget.editbox)
 		bg:SetInside(nil, 0, 2)
 
 		hooksecurefunc(widget.editbox, "SetPoint", function(self, a, b, c, d, e)
@@ -214,7 +214,7 @@ function Skins:Ace3_RegisterAsWidget(widget)
 		B.ReskinButton(widget.frame)
 	elseif TYPE == "Slider" then
 		B.ReskinSlider(widget.slider)
-		B.ReskinEditBox(widget.editbox)
+		B.ReskinInput(widget.editbox)
 
 		widget.editbox:ClearAllPoints()
 		widget.editbox:SetPoint("TOP", widget.slider, "BOTTOM", 0, -1)
@@ -229,7 +229,7 @@ function Skins:Ace3_RegisterAsWidget(widget)
 	elseif TYPE == "Icon" then
 		B.StripTextures(widget.frame)
 	elseif TYPE == "WeakAurasDisplayButton" then
-		B.ReskinEditBox(widget.renamebox)
+		B.ReskinInput(widget.renamebox)
 
 		local expand = widget.expand
 		B.ReskinCollapse(expand)

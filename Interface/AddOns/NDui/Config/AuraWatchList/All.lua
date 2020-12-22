@@ -170,6 +170,7 @@ local list = {
 		{AuraID = 306583, UnitID = "player"},	-- 灌铅脚步
 		{AuraID = 313698, UnitID = "player", Flash = true},	-- 泰坦之赐
 		-- 常驻词缀
+		{AuraID = 342466, UnitID = "player"},	-- 狂妄吹嘘
 		{AuraID = 209858, UnitID = "player"},	-- 死疽溃烂
 		{AuraID = 240559, UnitID = "player"},	-- 重伤
 		{AuraID = 340880, UnitID = "player"},	-- 傲慢
@@ -195,14 +196,18 @@ local list = {
 		{AuraID = 328453, UnitID = "player"},	-- 晋升高塔，压迫
 		{AuraID = 335805, UnitID = "player", Flash = true},	-- 晋升高塔，执政官的壁垒
 		{AuraID = 325027, UnitID = "player", Flash = true},	-- 仙林，荆棘爆发
+		{AuraID = 334496, UnitID = "player"},	-- 仙林，催眠光粉
 		-- 团本
+		{AuraID = 342077, UnitID = "player"},	-- 回声定位，咆翼
+		{AuraID = 329725, UnitID = "player"},	-- 根除，毁灭者
+		{AuraID = 329298, UnitID = "player"},	-- 暴食胀气，毁灭者
 		{AuraID = 346035, UnitID = "player"},	-- 眩目步法，猩红议会
 		{AuraID = 331636, UnitID = "player", Flash = true},	-- 黑暗伴舞，猩红议会
 		{AuraID = 335293, UnitID = "player"},	-- 锁链联结，泥拳
 		{AuraID = 327039, UnitID = "player"},	-- 喂食时间，德纳修斯
 		{AuraID = 327089, UnitID = "player"},	-- 喂食时间，德纳修斯
 	},
-	["Warning"] = { -- 目标重要光环组
+	["Warning Aura"] = { -- 目标重要光环组
 		-- 大幻象
 		{AuraID = 304975, UnitID = "target", Value = true},	-- 虚空哀嚎，吸收盾
 		{AuraID = 319643, UnitID = "target", Value = true},	-- 虚空哀嚎，吸收盾
@@ -212,11 +217,13 @@ local list = {
 		{AuraID = 322773, UnitID = "target", Value = true},	-- 彼界，鲜血屏障
 		{AuraID = 320293, UnitID = "target", Value = true},	-- 伤逝剧场，融入死亡
 		{AuraID = 333737, UnitID = "target"},	-- 凋魂，凝结之疾
+		{AuraID = 328175, UnitID = "target"},	-- 凋魂，凝结之疾
 		{AuraID = 321368, UnitID = "target", Value = true},	-- 凋魂，冰缚之盾
 		{AuraID = 327416, UnitID = "target", Value = true},	-- 晋升，心能回灌
 		{AuraID = 345561, UnitID = "target", Value = true},	-- 晋升，生命连结
 		{AuraID = 323149, UnitID = "target", Value = true},	-- 仙林，黑暗之拥
 		{AuraID = 340191, UnitID = "target", Value = true},	-- 仙林，再生辐光
+		{AuraID = 323059, UnitID = "target", Flash = true},	-- 仙林，宗主之怒
 		-- 团本
 		{AuraID = 345902, UnitID = "target"},	-- 破裂的联结，猎手
 		{AuraID = 334695, UnitID = "target"},	-- 动荡的能量，猎手

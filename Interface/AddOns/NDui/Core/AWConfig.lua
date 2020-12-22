@@ -313,9 +313,9 @@ local function CreatePanel()
 		L["Player Aura"],			-- 1 PlayerBuff
 		L["Special Aura"],			-- 2 SPECIAL
 		L["Target Aura"],			-- 3 TargetDebuff
-		L["Warning"],				-- 4 Warning
+		L["Warning Aura"],				-- 4 Warning
 		L["Focus Aura"],			-- 5 FOCUS
-		L["Spell Cooldown"],		-- 6 CD
+		L["Spell CD"],		-- 6 CD
 		L["Enchant Aura"],			-- 7 Enchant
 		L["Raid Buff"],				-- 8 RaidBuff
 		L["Raid Debuff"],			-- 9 RaidDebuff

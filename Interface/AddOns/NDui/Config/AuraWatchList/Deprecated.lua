@@ -763,7 +763,7 @@ C.DeprecatedAuras = {
 		{AuraID = 248396, UnitID = "player", Text = L["Get Out"]},	-- 灵魂凋零
 		{AuraID = 250669, UnitID = "player", Text = L["Get Out"]},	-- 灵魂爆发
 	},
-	["Warning"] = {			-- 目标重要光环组
+	["Warning Aura"] = {			-- 目标重要光环组
 	-- 8.0副本
 		{AuraID = 300011, UnitID = "target"},	-- 力场护盾，麦卡贡
 		{AuraID = 257458, UnitID = "target"},	-- 自由镇尾王易伤

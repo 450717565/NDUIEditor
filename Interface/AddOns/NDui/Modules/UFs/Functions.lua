@@ -527,15 +527,15 @@ function UF:CreateCastBar(self)
 	if mystyle == "player" then
 		cb:SetFrameLevel(10)
 		cb:SetSize(C.db["UFs"]["PlayerCBWidth"], C.db["UFs"]["PlayerCBHeight"])
-		createBarMover(cb, L["Player Castbar"], "PlayerCB", C.UFs.Playercb)
+		createBarMover(cb, L["Player Castbar"], "PlayerCB", C.UFs.PlayerCB)
 	elseif mystyle == "target" then
 		cb:SetFrameLevel(10)
 		cb:SetSize(C.db["UFs"]["TargetCBWidth"], C.db["UFs"]["TargetCBHeight"])
-		createBarMover(cb, L["Target Castbar"], "TargetCB", C.UFs.Targetcb)
+		createBarMover(cb, L["Target Castbar"], "TargetCB", C.UFs.TargetCB)
 	elseif mystyle == "focus" then
 		cb:SetFrameLevel(10)
 		cb:SetSize(C.db["UFs"]["FocusCBWidth"], C.db["UFs"]["FocusCBHeight"])
-		createBarMover(cb, L["Focus Castbar"], "FocusCB", C.UFs.Focuscb)
+		createBarMover(cb, L["Focus Castbar"], "FocusCB", C.UFs.FocusCB)
 	elseif mystyle == "boss" or mystyle == "arena" then
 		cb:SetPoint("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, -8)
 		cb:SetSize(self:GetWidth(), 10)

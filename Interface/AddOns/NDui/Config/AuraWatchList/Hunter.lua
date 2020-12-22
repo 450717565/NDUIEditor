@@ -111,7 +111,7 @@ local list = {
 		{AuraID = 131894, UnitID = "focus", Caster = "player"},	-- 夺命黑鸦
 		{AuraID = 199803, UnitID = "focus", Caster = "player"},	-- 精确瞄准
 	},
-	["Spell Cooldown"] = {	-- 冷却计时组
+	["Spell CD"] = {	-- 冷却计时组
 		{SlotID = 13},		-- 饰品1
 		{SlotID = 14},		-- 饰品2
 		{SpellID = 186265},	-- 灵龟守护

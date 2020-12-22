@@ -10,7 +10,7 @@ function Skins:CompactVendor()
 	frame:SetPoint("BOTTOMRIGHT", MerchantFrameInset, "BOTTOMRIGHT", -20, 55)
 
 	local Search = frame.Search
-	B.ReskinEditBox(Search, 20)
+	B.ReskinInput(Search, 20)
 	Search:ClearAllPoints()
 	Search:SetPoint("RIGHT", MerchantFrameLootFilter, "LEFT", 10, 2)
 

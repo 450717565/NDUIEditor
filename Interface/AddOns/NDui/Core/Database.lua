@@ -64,11 +64,12 @@ DB.normal = Media.."Button\\normal"
 DB.pushed = Media.."Button\\pushed"
 
 DB.arrowTex = Media.."Reskin\\arrowTex_"
-DB.backdropTex = Media.."Reskin\\backdropTex"
+DB.bdTex = Media.."Reskin\\backdropTex"
 DB.closeTex = Media.."Reskin\\closeTex"
 DB.rolesTex = Media.."Reskin\\rolesTex"
 DB.shadowTex = Media.."Reskin\\shadowTex"
 DB.glowTex = Media.."Reskin\\glowTex"
+DB.blankTex = Media.."Reskin\\blankTex"
 
 DB.menuTex = Media.."Menu\\"
 --DB.normTex = Media.."Texture\\texture_1"
@@ -79,7 +80,7 @@ DB.normTex = Media.."normTex"
 DB.gradTex = Media.."gradTex"
 DB.flatTex = Media.."flatTex"
 
-DB.backgroundTex = "Interface\\ChatFrame\\ChatFrameBackground"
+DB.bgTex = "Interface\\ChatFrame\\ChatFrameBackground"
 DB.binTex = "Interface\\HelpFrame\\ReportLagIcon-Loot"
 DB.copyTex = "Interface\\Buttons\\UI-GuildButton-PublicNote-Up"
 DB.creditTex = "Interface\\HelpFrame\\HelpIcon-KnowledgeBase"
@@ -101,8 +102,29 @@ DB.DNDTex = "|T"..FRIENDS_TEXTURE_DND..":14:14:0:0:16:16:1:15:1:15|t"
 -- Others
 DB.TexCoord = {.08, .92, .08, .92}
 DB.Slots = {"Head", "Neck", "Shoulder", "Shirt", "Chest", "Waist", "Legs", "Feet", "Wrist", "Hands", "Finger0", "Finger1", "Trinket0", "Trinket1", "Back", "MainHand", "SecondaryHand", "Tabard"}
-DB.MythicLoot =  {0, 187, 190, 194, 194, 197, 200, 200, 200, 207, 207, 207, 207, 207, 210}
-DB.WeeklyLoot =  {0, 200, 203, 207, 210, 210, 213, 216, 216, 220, 220, 223, 223, 226, 226}
+DB.MythicLoot = {0, 187, 190, 194, 194, 197, 200, 200, 200, 207, 207, 207, 207, 207, 210}
+DB.WeeklyLoot = {0, 200, 203, 207, 210, 210, 213, 216, 216, 220, 220, 223, 223, 226, 226}
+DB.ChatEvents = {
+	"CHAT_MSG_BATTLEGROUND",
+	"CHAT_MSG_BATTLEGROUND_LEADER",
+	"CHAT_MSG_BN_WHISPER",
+	"CHAT_MSG_BN_WHISPER_INFORM",
+	"CHAT_MSG_EMOTE",
+	"CHAT_MSG_GUILD",
+	"CHAT_MSG_INSTANCE_CHAT",
+	"CHAT_MSG_INSTANCE_CHAT_LEADER",
+	"CHAT_MSG_OFFICER",
+	"CHAT_MSG_PARTY",
+	"CHAT_MSG_PARTY_LEADER",
+	"CHAT_MSG_RAID",
+	"CHAT_MSG_RAID_LEADER",
+	"CHAT_MSG_RAID_WARNING",
+	"CHAT_MSG_SAY",
+	"CHAT_MSG_TEXT_EMOTE",
+	"CHAT_MSG_WHISPER",
+	"CHAT_MSG_WHISPER_INFORM",
+	"CHAT_MSG_YELL",
+}
 
 -- Flags
 function DB:IsMyPet(flags)

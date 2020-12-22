@@ -13,7 +13,6 @@
 	<Script file="CompactRaidFrames.lua"/>
 	<Script file="ContainerFrame.lua"/>
 	<Script file="DressUpFrames.lua"/>
-	<Script file="EquipmentFlyoutFrame.lua"/>
 	<Script file="FriendsFrame.lua"/>
 	<Script file="GameMenuFrame.lua"/>
 	<Script file="GarrisonFollowerTooltip.lua"/>
@@ -51,7 +50,6 @@
 	<Script file="RaidInfoFrame.lua"/>
 	<Script file="ReadyCheckFrame.lua"/>
 	<Script file="RecruitAFriendFrame.lua"/>
-	<Script file="ReputationFrame.lua"/>
 	<Script file="RolePollPopup.lua"/>
 	<Script file="ScenarioQueueFrame.lua"/>
 	<Script file="ScriptErrorsFrame.lua"/>
@@ -61,7 +59,6 @@
 	<Script file="StaticPopup.lua"/>
 	<Script file="TabardFrame.lua"/>
 	<Script file="TaxiFrame.lua"/>
-	<Script file="TokenFrame.lua"/>
 	<Script file="TradeFrame.lua"/>
 	<Script file="TutorialFrame.lua"/>
 	<Script file="UIDropDownMenu.lua"/>

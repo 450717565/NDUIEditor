@@ -74,7 +74,7 @@ local list = {
 		{AuraID = 772, UnitID = "focus", Caster = "player"},	-- 撕裂
 		{AuraID = 115767, UnitID = "focus", Caster = "player"},	-- 重伤
 	},
-	["Spell Cooldown"] = {	-- 冷却计时组
+	["Spell CD"] = {	-- 冷却计时组
 		{SlotID = 13},		-- 饰品1
 		{SlotID = 14},		-- 饰品2
 	},

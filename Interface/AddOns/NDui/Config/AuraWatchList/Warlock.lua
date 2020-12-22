@@ -78,7 +78,7 @@ local list = {
 		{AuraID = 157736, UnitID = "focus", Caster = "player"},		-- 献祭
 		{AuraID = 265412, UnitID = "focus", Caster = "player"},		-- 厄运
 	},
-	["Spell Cooldown"] = {	-- 冷却计时组
+	["Spell CD"] = {	-- 冷却计时组
 		{SlotID = 13},		-- 饰品1
 		{SlotID = 14},		-- 饰品2
 	},

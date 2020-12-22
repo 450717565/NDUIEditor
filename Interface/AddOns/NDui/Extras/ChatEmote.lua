@@ -147,32 +147,64 @@ local function ChatEmoteFilter(self, event, msg, ...)
 	return false, msg, ...
 end
 
-local chatEvents = {
-	"CHAT_MSG_BG_SYSTEM_ALLIANCE",
-	"CHAT_MSG_BG_SYSTEM_HORDE",
-	"CHAT_MSG_BG_SYSTEM_NEUTRAL",
-	"CHAT_MSG_BN_WHISPER",
-	"CHAT_MSG_BN_WHISPER_INFORM",
-	"CHAT_MSG_EMOTE",
-	"CHAT_MSG_GUILD",
-	"CHAT_MSG_INSTANCE_CHAT",
-	"CHAT_MSG_INSTANCE_CHAT_LEADER",
-	"CHAT_MSG_OFFICER",
-	"CHAT_MSG_PARTY",
-	"CHAT_MSG_PARTY_LEADER",
-	"CHAT_MSG_RAID",
-	"CHAT_MSG_RAID_LEADER",
-	"CHAT_MSG_RAID_WARNING",
-	"CHAT_MSG_SAY",
-	"CHAT_MSG_TEXT_EMOTE",
-	"CHAT_MSG_WHISPER",
-	"CHAT_MSG_WHISPER_INFORM",
-	"CHAT_MSG_YELL",
-}
-
+local chatEvents = DB.ChatEvents
 for _, v in pairs(chatEvents) do
 	ChatFrame_AddMessageEventFilter(v, ChatEmoteFilter)
 end
+
+local function TextToEmote(text)
+	text = text:gsub("%{.-%}", ReplaceEmote)
+	return text
+end
+
+local function FindChatBubble()
+	local chatBubbles = C_ChatBubbles.GetAllChatBubbles()
+	for _, chatBubble in pairs(chatBubbles) do
+		local frame = chatBubble:GetChildren()
+		if frame and not frame:IsForbidden() then
+			local oldMessage = frame.String:GetText()
+			local afterMessage = TextToEmote(oldMessage)
+			if oldMessage ~= afterMessage then
+				frame.String:SetText(afterMessage)
+			end
+
+			-- 名字染色
+			Extras:HookBubble(chatBubble, frame)
+		end
+	end
+end
+
+local events = {
+	CHAT_MSG_SAY = "chatBubbles",
+	CHAT_MSG_YELL = "chatBubbles",
+	CHAT_MSG_MONSTER_SAY = "chatBubbles",
+	CHAT_MSG_MONSTER_YELL = "chatBubbles",
+	CHAT_MSG_PARTY = "chatBubblesParty",
+	CHAT_MSG_PARTY_LEADER = "chatBubblesParty",
+	CHAT_MSG_MONSTER_PARTY = "chatBubblesParty",
+}
+
+local bubbleHook = CreateFrame("Frame")
+for event in next, events do
+	bubbleHook:RegisterEvent(event)
+end
+
+bubbleHook:SetScript("OnEvent", function(self, event)
+	if GetCVarBool(events[event]) then
+		self.elapsed = 0
+		self:Show()
+	end
+end)
+
+bubbleHook:SetScript("OnUpdate", function(self, elapsed)
+	self.elapsed = self.elapsed + elapsed
+	if self.elapsed > .1 then
+		FindChatBubble()
+		self:Hide()
+	end
+end)
+
+bubbleHook:Hide()
 
 ------------------------
 --界面部分
@@ -225,7 +257,7 @@ do
 			button:SetNormalTexture(patch..v.key)
 		end
 
-		button:SetHighlightTexture(DB.backgroundTex, "ADD")
+		button:SetHighlightTexture(DB.bgTex, "ADD")
 		local hl = button:GetHighlightTexture()
 		hl:SetVertexColor(cr, cg, cb, .25)
 

@@ -35,7 +35,7 @@ function Misc:RaidTool_Header()
 	frame:SetFrameLevel(2)
 	B.ReskinButton(frame)
 	B.CreateBT(frame.__Tex)
-	B.Mover(frame, L["Raid Tool"], "RaidManager", C.Skins.RMPos)
+	B.Mover(frame, L["Raid Tool"], "RaidManager", C.Skins.RaidToolPos)
 
 	Misc:RaidTool_Visibility(frame)
 	B:RegisterEvent("GROUP_ROSTER_UPDATE", function()

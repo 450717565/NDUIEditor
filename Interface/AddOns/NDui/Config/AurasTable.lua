@@ -9,14 +9,14 @@ local groups = {
 	-- groups name = direction, interval, mode, iconsize, position, barwidth
 	["Player Aura"] = {"LEFT", 5, "ICON", 22, C.Auras.PlayerAuraPos},
 	["Target Aura"] = {"RIGHT", 5, "ICON", 36, C.Auras.TargetAuraPos},
-	["Special Aura"] = {"LEFT", 5, "ICON", 36, C.Auras.SpecialPos},
-	["Focus Aura"] = {"RIGHT", 5, "ICON", 35, C.Auras.FocusPos},
-	["Spell Cooldown"] = {"UP", 5, "BAR", 18, C.Auras.CDPos, 150},
-	["Enchant Aura"] = {"LEFT", 5, "ICON", 36, C.Auras.EnchantPos},
+	["Special Aura"] = {"LEFT", 5, "ICON", 36, C.Auras.SpecialAuraPos},
+	["Focus Aura"] = {"RIGHT", 5, "ICON", 35, C.Auras.FocusAuraPos},
+	["Spell CD"] = {"UP", 5, "BAR", 18, C.Auras.SpellCDPos, 150},
+	["Enchant Aura"] = {"LEFT", 5, "ICON", 36, C.Auras.EnchantAuraPos},
 	["Raid Buff"] = {"LEFT", 5, "ICON", 42, C.Auras.RaidBuffPos},
 	["Raid Debuff"] = {"RIGHT", 5, "ICON", 42, C.Auras.RaidDebuffPos},
-	["Warning"] = {"RIGHT", 5, "ICON", 42, C.Auras.WarningPos},
-	["InternalCD"] = {"UP", 5, "BAR", 18, C.Auras.InternalPos, 150},
+	["Warning Aura"] = {"RIGHT", 5, "ICON", 42, C.Auras.WarningAuraPos},
+	["InternalCD"] = {"UP", 5, "BAR", 18, C.Auras.InternalCDPos, 150},
 }
 
 local function newAuraFormat(value)

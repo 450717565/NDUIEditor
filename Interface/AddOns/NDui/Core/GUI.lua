@@ -359,13 +359,26 @@ GUI.DefaultSettings = {
 		AfkDelight = true,
 		AutoCollapse = true,
 		GuildWelcome = true,
-		iLvlTools = true,
+		FreeMountCD = true,
+
 		LootMonitor = true,
 		LootMonitorBonusRewards = false,
 		LootMonitorInGroup = true,
 		LootMonitorQuality = 4,
+
+		iLvlTools = true,
 		ShowCharacterItemSheet = true,
 		ShowOwnFrameWhenInspecting = true,
+
+		GlobalFade = false,
+		GlobalFadeActionBar = true,
+		GlobalFadeUnitFrame = true,
+		GlobalFadeAlpha = .1,
+		GlobalFadeDuration = .3,
+		GlobalFadeCombat = true,
+		GlobalFadeTarget = true,
+		GlobalFadeCast = true,
+		GlobalFadeHealth = true,
 	},
 }
 
@@ -1107,6 +1120,7 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Extras", "AutoCollapse", L["Auto Collapse"]},
 		{1, "Extras", "GuildWelcome", L["Guild Welcome"], true},
 		{1, "Extras", "AfkDelight", L["Afk Delight"]},
+		{1, "Extras", "FreeMountCD", L["Free Mount CD"], true},
 		{},--blank
 		{1, "Extras", "iLvlTools", DB.MyColor..L["iLvlTools"]},
 		{1, "Extras", "ShowCharacterItemSheet", L["Show Character Item Sheet"]},
@@ -1116,6 +1130,16 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Extras", "LootMonitorInGroup", L["LootMonitor InGroup"]},
 		{1, "Extras", "LootMonitorBonusRewards", L["LootMonitor Bonus Rewards"]},
 		{4, "Extras", "LootMonitorQuality", L["LootMonitor Quality"], true, {ITEM_QUALITY1_DESC, ITEM_QUALITY2_DESC, ITEM_QUALITY3_DESC, ITEM_QUALITY4_DESC}},
+		{},--blank
+		{1, "Extras", "GlobalFade", DB.MyColor..L["Global Fade"]},
+		{1, "Extras", "GlobalFadeUnitFrame", L["Global Fade UnitFrame"]},
+		{1, "Extras", "GlobalFadeActionBar", L["Global Fade ActionBar"], true},
+		{3, "Extras", "GlobalFadeAlpha", L["Global Fade Alpha"], false, {.1, .9, .01}},
+		{3, "Extras", "GlobalFadeDuration", L["Global Fade Duration"], true, {.1, .9, .01}},
+		{1, "Extras", "GlobalFadeCombat", L["Global Fade Combat"]},
+		{1, "Extras", "GlobalFadeTarget", L["Global Fade Target"], true},
+		{1, "Extras", "GlobalFadeCast", L["Global Fade Cast"]},
+		{1, "Extras", "GlobalFadeHealth", L["Global Fade Health"], true},
 	},
 }
 

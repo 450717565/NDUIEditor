@@ -117,7 +117,7 @@ end
 function BaudErrorFrameAdd(Error, Retrace)
 	if Error:match("script ran too long") then return end
 
-	Error = Error:gsub(".*\\AddOns\\", "")
+	Error = Error:gsub(".*[dD][oO][nN][sS]\\", "")
 
 	for _, Value in pairs(ErrorList) do
 		if Value.Error == Error then

@@ -1,6 +1,6 @@
 ## Interface: 90002
 ## Author: p3lim
-## Version: 90000.8-Release
+## Version: 90000.9-Release
 ## Title: Better World Quests
 ## Notes: Improves the World Quest POIs on the map
 ## OptionalDeps: LibStub, CallbackHandler-1.0, HereBeDragons
@@ -31,3 +31,4 @@ Helpers/Barrels.lua
 Helpers/Loh.lua
 Helpers/Training.lua
 Helpers/Chores.lua
+Helpers/Boggarts.lua

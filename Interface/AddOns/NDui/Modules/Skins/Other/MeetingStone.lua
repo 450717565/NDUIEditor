@@ -99,8 +99,8 @@ function Skins:MeetingStone()
 	local BrowsePanel = MSEnv.BrowsePanel
 	for i, box in ipairs(BrowsePanel.filters) do
 		B.ReskinCheck(box.Check)
-		B.ReskinEditBox(box.MaxBox)
-		B.ReskinEditBox(box.MinBox)
+		B.ReskinInput(box.MaxBox)
+		B.ReskinInput(box.MinBox)
 
 		box.styled = true
 	end
@@ -142,7 +142,7 @@ function Skins:MeetingStone()
 
 	local InfoWidget = CreatePanel.InfoWidget
 	B.StripTextures(InfoWidget)
-	B.CreateBGFrame(InfoWidget, C.mult, C.mult, -C.mult, -C.mult)
+	B.CreateBGFrame(InfoWidget, 1, 1, -1, -1)
 
 	local CreateWidget = CreatePanel.CreateWidget
 	for i = 1, CreateWidget:GetNumChildren() do
@@ -272,7 +272,7 @@ function Skins:MeetingStone()
 	for _, v in pairs(EditBoxes) do
 		local input = getValue(v, MSEnv)
 		if input then
-			B.ReskinEditBox(input)
+			B.ReskinInput(input)
 		end
 	end
 
@@ -295,7 +295,7 @@ function Skins:MeetingStone()
 
 		local RewardPanel = MS:GetModule("RewardPanel")
 		B.ReskinButton(RewardPanel.ConfirmButton)
-		B.ReskinEditBox(RewardPanel.InputBox)
+		B.ReskinInput(RewardPanel.InputBox)
 
 		B.StripTextures(MSEnv.ActivitiesParent)
 		reskinMS_Button(MSEnv.ActivitiesParent)

@@ -563,7 +563,7 @@ do
 
 	-- Setup Function
 	local function SetupDisTex(self)
-		self:SetDisabledTexture(DB.backgroundTex)
+		self:SetDisabledTexture(DB.bgTex)
 		local dis = self:GetDisabledTexture()
 		dis:SetVertexColor(0, 0, 0, .5)
 		dis:SetDrawLayer("OVERLAY")
@@ -588,18 +588,26 @@ do
 
 	-- Hook Function
 	function B:Tex_OnEnter()
-		if self.__Tex then
-			self.__Tex:SetBackdropBorderColor(cr, cg, cb, 1)
-		else
-			self:SetBackdropBorderColor(cr, cg, cb, 1)
+		if self:IsEnabled() then
+			if self.__tex then
+				self.__tex:SetVertexColor(cr, cg, cb, 1)
+			elseif self.__Tex then
+				self.__Tex:SetBackdropBorderColor(cr, cg, cb, 1)
+			else
+				self:SetBackdropBorderColor(cr, cg, cb, 1)
+			end
 		end
 	end
 
 	function B:Tex_OnLeave()
-		if self.__Tex then
-			self.__Tex:SetBackdropBorderColor(0, 0, 0, 1)
-		else
-			self:SetBackdropBorderColor(0, 0, 0, 1)
+		if self:IsEnabled() then
+			if self.__tex then
+				self.__tex:SetVertexColor(1, 1, 1, 1)
+			elseif self.__Tex then
+				self.__Tex:SetBackdropBorderColor(0, 0, 0, 1)
+			else
+				self:SetBackdropBorderColor(0, 0, 0, 1)
+			end
 		end
 	end
 
@@ -647,7 +655,7 @@ do
 
 		local bdTex = frame:CreateTexture(nil, "BACKGROUND", nil, 1)
 		bdTex:SetInside(self)
-		bdTex:SetTexture(DB.backdropTex, true, true)
+		bdTex:SetTexture(DB.bdTex, true, true)
 		bdTex:SetHorizTile(true)
 		bdTex:SetVertTile(true)
 		bdTex:SetBlendMode("ADD")
@@ -670,7 +678,7 @@ do
 		local SkinStyle = C.db["Skins"]["SkinStyle"]
 
 		local gdTex = self:CreateTexture(nil, "BORDER")
-		gdTex:SetTexture(DB.backgroundTex)
+		gdTex:SetTexture(DB.bgTex)
 		gdTex:SetInside()
 		if SkinStyle == 1 then
 			gdTex:SetVertexColor(FSColor.r, FSColor.g, FSColor.b, FSAlpha)
@@ -687,7 +695,7 @@ do
 
 		if alpha == "none" then alpha = nil end
 
-		self:SetBackdrop({bgFile = DB.backgroundTex, edgeFile = DB.backgroundTex, edgeSize = C.mult})
+		self:SetBackdrop({bgFile = DB.bgTex, edgeFile = DB.bgTex, edgeSize = C.mult})
 		self:SetBackdropColor(BGColor.r, BGColor.g, BGColor.b, alpha or BGAlpha)
 		self:SetBackdropBorderColor(0, 0, 0, 1)
 
@@ -775,7 +783,7 @@ do
 		if not orientation then return end
 
 		local tex = self:CreateTexture(nil, "BACKGROUND")
-		tex:SetTexture(DB.backgroundTex)
+		tex:SetTexture(DB.bgTex)
 		tex:SetGradientAlpha(orientation, r, g, b, a1, r, g, b, a2)
 
 		if width then tex:SetWidth(width) end
@@ -884,7 +892,7 @@ do
 	function B:ReskinSpecialBorder(relativeTo, classColor)
 		if not self then return end
 
-		self:SetTexture(DB.backgroundTex)
+		self:SetTexture(DB.bgTex)
 		self.SetTexture = B.Dummy
 		self:SetDrawLayer("BACKGROUND")
 
@@ -929,7 +937,7 @@ do
 		local Tex = B.CreateBDFrame(self, 0, 2)
 		self.__Tex = Tex
 
-		self:SetCheckedTexture(DB.backgroundTex)
+		self:SetCheckedTexture(DB.bgTex)
 		local check = self:GetCheckedTexture()
 		check:SetVertexColor(cr, cg, cb, .75)
 		check:SetInside(Tex)
@@ -986,7 +994,7 @@ do
 	function B:ReskinClose(parent, xOffset, yOffset)
 		self:SetSize(18, 18)
 		self:ClearAllPoints()
-		self:SetPoint("TOPRIGHT", parent or self:GetParent(), "TOPRIGHT", xOffset or -6, yOffset or -6)
+		self:Point("TOPRIGHT", parent or self:GetParent(), "TOPRIGHT", xOffset or -6, yOffset or -6)
 
 		B.StripTextures(self, 0)
 
@@ -1040,7 +1048,7 @@ do
 		local Tex = B.CreateBDFrame(self)
 		Tex:SetSize(14, 14)
 		Tex:ClearAllPoints()
-		Tex:SetPoint("TOPLEFT", self:GetNormalTexture())
+		Tex:Point("TOPLEFT", self:GetNormalTexture())
 		self.__Tex = Tex
 
 		local expTex = Tex:CreateTexture(nil, "OVERLAY")
@@ -1078,7 +1086,7 @@ do
 
 	-- Handle Color Swatch
 	function B:ReskinColorSwatch()
-		self:SetNormalTexture(DB.backgroundTex)
+		self:SetNormalTexture(DB.bgTex)
 		local nt = self:GetNormalTexture()
 		nt:SetInside(nil, 2, 2)
 
@@ -1098,7 +1106,7 @@ do
 		local button = self.Button or (frameName and (_G[frameName.."Button"] or _G[frameName.."_Button"]))
 		button:ClearAllPoints()
 		button:Point("RIGHT", -18, 2)
-		B.ReskinArrow(button, "down")
+		B.ReskinArrow(button, "down", 20)
 
 		local bg = B.CreateBDFrame(self)
 		bg:ClearAllPoints()
@@ -1117,7 +1125,7 @@ do
 	end
 
 	-- Handle EditBox
-	function B:ReskinEditBox(height, width)
+	function B:ReskinInput(height, width)
 		B.CleanTextures(self)
 		self:DisableDrawLayer("BACKGROUND")
 
@@ -1192,14 +1200,14 @@ do
 
 		local tex
 		if self.SetHighlightTexture then
-			self:SetHighlightTexture(DB.backgroundTex)
+			self:SetHighlightTexture(DB.bgTex)
 			tex = self:GetHighlightTexture()
 		elseif self.GetNormalTexture then
 			tex = self:GetNormalTexture()
-			tex:SetTexture(DB.backgroundTex)
+			tex:SetTexture(DB.bgTex)
 		elseif self.SetTexture then
 			tex = self
-			tex:SetTexture(DB.backgroundTex)
+			tex:SetTexture(DB.bgTex)
 		end
 
 		if isVertex then
@@ -1365,7 +1373,7 @@ do
 		B.StripTextures(self)
 		B.CleanTextures(self)
 
-		B.CreateBDFrame(self, 0, C.mult)
+		B.CreateBDFrame(self, 0, -C.mult)
 
 		self:SetStatusBarTexture(DB.normTex)
 		if not noClassColor then
@@ -1575,7 +1583,7 @@ do
 		B.StripTextures(self)
 		B.CleanTextures(self)
 
-		local bg = B.CreateBDFrame(self, 0, C.mult)
+		local bg = B.CreateBDFrame(self, 0, 1)
 		B.ReskinHighlight(self, bg, true)
 
 		local icon = self.icon or self.Icon
@@ -1588,14 +1596,14 @@ do
 
 		local results = self.searchResults
 		results:ClearAllPoints()
-		results:Point("BOTTOMLEFT", self, "BOTTOMRIGHT", 50, 0)
+		results:Point("BOTTOMLEFT", self, "BOTTOMRIGHT", 10, 0)
 		B.StripTextures(results, 0)
 		B.CleanTextures(results)
-		B.CreateBG(results, -10, 0, 0, 0)
+		local bg = B.CreateBG(results, 0, 0, 5, 0)
 
 		local frameName = self:GetDebugName()
 		local closeButton = results.closeButton or (frameName and _G[frameName.."SearchResultsCloseButton"])
-		B.ReskinClose(closeButton)
+		B.ReskinClose(closeButton, bg)
 
 		local bar = results.scrollFrame.scrollBar
 		if bar then B.ReskinScroll(bar) end
@@ -2079,7 +2087,7 @@ do
 		local bg = B.CreateBDFrame(swatch)
 		local tex = swatch:CreateTexture()
 		tex:SetInside(bg)
-		tex:SetTexture(DB.backgroundTex)
+		tex:SetTexture(DB.bgTex)
 		tex:SetVertexColor(color.r, color.g, color.b, color.a)
 		tex.GetColor = GetSwatchTexColor
 

@@ -78,7 +78,7 @@ local list = {
 		{AuraID = 44457, UnitID = "focus", Caster = "player"},	-- 活动炸弹
 		{AuraID = 114923, UnitID = "focus", Caster = "player"},	-- 虚空风暴
 	},
-	["Spell Cooldown"] = {	-- 冷却计时组
+	["Spell CD"] = {	-- 冷却计时组
 		{SlotID = 13},		-- 饰品1
 		{SlotID = 14},		-- 饰品2
 		{TotemID = 1},		-- 能量符文

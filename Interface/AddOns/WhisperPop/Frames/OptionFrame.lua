@@ -8,7 +8,7 @@
 local IsShiftKeyDown = IsShiftKeyDown
 local tostring = tostring
 local tonumber = tonumber
-local format = format
+local format = string.format
 local GameTooltip = GameTooltip
 local SETTINGS = SETTINGS
 

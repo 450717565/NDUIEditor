@@ -430,7 +430,7 @@ function UF:RefreshBuffIndicator(bu)
 		bu.count:ClearAllPoints()
 		bu.count:SetPoint("CENTER", unpack(counterOffsets[bu.anchor][1]))
 		if C.db["UFs"]["BuffIndicatorType"] == 1 then
-			bu.icon:SetTexture(DB.backgroundTex)
+			bu.icon:SetTexture(DB.bgTex)
 		else
 			bu.icon:SetVertexColor(1, 1, 1)
 		end

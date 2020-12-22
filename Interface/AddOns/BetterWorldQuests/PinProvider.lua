@@ -283,7 +283,7 @@ for provider in next, WorldMapFrame.dataProviders do
 	end
 end
 
--- 澶т娇浠诲姟璁℃暟
+-- 大使任务计数
 local WorldQuestBountyCount = CreateFrame("Frame")
 
 function WorldQuestBountyCount:OnLoad()

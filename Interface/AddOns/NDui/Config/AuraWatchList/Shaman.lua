@@ -78,7 +78,7 @@ local list = {
 		{AuraID = 211010, UnitID = "focus", Caster = "player"},	-- 妖术
 		{AuraID = 211015, UnitID = "focus", Caster = "player"},	-- 妖术
 	},
-	["Spell Cooldown"] = {	-- 冷却计时组
+	["Spell CD"] = {	-- 冷却计时组
 		{SlotID = 13},		-- 饰品1
 		{SlotID = 14},		-- 饰品2
 		{SpellID = 20608},	-- 复生

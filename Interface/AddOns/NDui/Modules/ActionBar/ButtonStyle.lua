@@ -407,7 +407,7 @@ function Bar:ReskinBars()
 			},
 		},
 		highlightTexture = {
-			file = DB.backgroundTex,
+			file = DB.bgTex,
 			points = {
 				{"TOPLEFT", C.mult, -C.mult},
 				{"BOTTOMRIGHT", -C.mult, C.mult},

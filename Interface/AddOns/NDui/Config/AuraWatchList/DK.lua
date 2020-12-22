@@ -74,7 +74,7 @@ local list = {
 		{AuraID = 55095, UnitID = "focus", Caster = "player"},	-- 冰霜疫病
 		{AuraID = 191587, UnitID = "focus", Caster = "player"},	-- 恶性瘟疫
 	},
-	["Spell Cooldown"] = {	-- 冷却计时组
+	["Spell CD"] = {	-- 冷却计时组
 		{SlotID = 13},		-- 饰品1
 		{SlotID = 14},		-- 饰品2
 		{SpellID = 48792},	-- 冰封之韧

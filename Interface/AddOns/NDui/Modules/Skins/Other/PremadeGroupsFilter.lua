@@ -47,8 +47,8 @@ function Skins:PremadeGroupsFilter()
 
 		local input = dialog[name].Min
 		if input then
-			B.ReskinEditBox(input)
-			B.ReskinEditBox(dialog[name].Max)
+			B.ReskinInput(input)
+			B.ReskinInput(dialog[name].Max)
 		end
 	end
 

@@ -73,7 +73,7 @@ end
 
 local function CreateLMButton(index)
 	local button = CreateFrame("Button", "LMFrame_Report"..index, LMFrame)
-	button:SetHighlightTexture(DB.backgroundTex)
+	button:SetHighlightTexture(DB.bgTex)
 	button:SetHeight(Button_Height)
 	button:SetPoint("RIGHT", -10, 0)
 

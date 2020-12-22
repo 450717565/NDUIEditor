@@ -78,7 +78,7 @@ local function ReskinWAOptions()
 	if not frame or frame.styled then return end
 
 	B.ReskinFrame(frame)
-	B.ReskinEditBox(frame.filterInput, 18)
+	B.ReskinInput(frame.filterInput, 18)
 	B.ReskinButton(_G.WASettingsButton)
 
 	-- Minimize, Close Button
@@ -136,7 +136,7 @@ local function ReskinWAOptions()
 		for i = 1, iconPicker:GetNumChildren() do
 			local child = select(i, iconPicker:GetChildren())
 			if child:GetObjectType() == 'EditBox' then
-				B.ReskinEditBox(child, 20)
+				B.ReskinInput(child, 20)
 			end
 		end
 	end
@@ -191,7 +191,7 @@ local function ReskinWAOptions()
 			for j = 1, child:GetNumChildren() do
 				local child2 = select(j, child:GetChildren())
 				if child2:GetObjectType() == "EditBox" then
-					B.ReskinEditBox(child2, 18)
+					B.ReskinInput(child2, 18)
 				end
 			end
 			break

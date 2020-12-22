@@ -1,5 +1,4 @@
-<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/..\FrameXML\UI.xsd">
-
+<Ui>
 	<Script file="fw.lua"/>
 	<Script file="addon.lua"/>
 	<Script file="colors.lua"/>
@@ -14,14 +13,13 @@
 	<Script file="languages.lua"/>
 	<Script file="timebar.lua"/>
 
-	<Include file="tutorial_alert.xml"/>
-	<Include file="split_bar.xml"/>
-	<Include file="textentry.xml"/>
-	<Include file="button.xml"/>
-	<Include file="cooltip.xml"/>
-	<Include file="dropdown.xml"/>
-	<Include file="normal_bar.xml"/>
-	<Include file="panel.xml"/>
+	<Script file="split_bar.lua"/>
+	<Script file="textentry.lua"/>
+	<Script file="button.lua"/>
+	<Script file="cooltip.lua"/>
+	<Script file="dropdown.lua"/>
+	<Script file="normal_bar.lua"/>
+	<Script file="panel.lua"/>
 
 	<Script file="pictureedit.lua"/>
 	<Script file="auras.lua"/>

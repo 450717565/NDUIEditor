@@ -315,7 +315,7 @@ function TT:GameTooltip_SetDefaultAnchor(parent)
 		self:SetOwner(parent, "ANCHOR_CURSOR_RIGHT")
 	else
 		if not mover then
-			mover = B.Mover(self, L["Tooltip"], "GameTooltip", C.Tooltips.TipPos, 240, 120)
+			mover = B.Mover(self, L["Tooltip"], "GameTooltip", C.Tooltips.TooltipPos, 240, 120)
 		end
 		self:SetOwner(parent, "ANCHOR_NONE")
 		self:ClearAllPoints()
@@ -376,7 +376,7 @@ end
 
 -- Tooltip skin
 local fakeBg = CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
-fakeBg:SetBackdrop({ bgFile = DB.backgroundTex, edgeFile = DB.backgroundTex, edgeSize = 1 })
+fakeBg:SetBackdrop({ bgFile = DB.bgTex, edgeFile = DB.bgTex, edgeSize = 1 })
 
 local function __GetBackdrop() return fakeBg:GetBackdrop() end
 local function __GetBackdropColor() return 0, 0, 0, .5 end

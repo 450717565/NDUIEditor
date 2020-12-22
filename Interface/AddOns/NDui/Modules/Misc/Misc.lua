@@ -126,10 +126,10 @@ end
 
 -- Get Naked
 function Misc:NakedIcon()
-	local width = PaperDollSidebarTab1:GetWidth() + C.mult*2
+	local width = PaperDollSidebarTab1:GetWidth()
 	local bu = CreateFrame("Button", nil, CharacterFrameInsetRight)
-	bu:SetPoint("TOPLEFT", PaperDollSidebarTab1, "TOPLEFT", -(width+4), C.mult)
-	bu:SetPoint("BOTTOMRIGHT", PaperDollSidebarTab1, "BOTTOMLEFT", -4, -C.mult)
+	bu:SetPoint("TOPLEFT", PaperDollSidebarTab1, "TOPLEFT", -(width+4), 0)
+	bu:SetPoint("BOTTOMRIGHT", PaperDollSidebarTab1, "BOTTOMLEFT", -4, 0)
 	B.PixelIcon(bu, "Interface\\ICONS\\SPELL_SHADOW_TWISTEDFAITH", true)
 	B.AddTooltip(bu, "ANCHOR_RIGHT", L["Get Naked"])
 

@@ -68,7 +68,7 @@ local list = {
 		{AuraID = 115078, UnitID = "focus", Caster = "player"},		-- 分筋错骨
 		{AuraID = 119611, UnitID = "focus", Caster = "player"},	-- 复苏之雾
 	},
-	["Spell Cooldown"] = {	-- 冷却计时组
+	["Spell CD"] = {	-- 冷却计时组
 		{SlotID = 13},		-- 饰品1
 		{SlotID = 14},		-- 饰品2
 		{SpellID = 115203},	-- 壮胆酒

@@ -11,6 +11,7 @@
 	<Include file="Lib\LibItemUpgradeInfo-1.0\LibItemUpgradeInfo-1.0.lua"/>
 	<Include file="Lib\LibLatency\LibLatency.lua"/>
 	<Include file="Lib\LibParse\LibParse.lua"/>
+	<Include file="Lib\LibRaidStatus\LibRaidStatus.xml"/>
 	<Include file="Lib\LibRangeCheck-2.0\LibRangeCheck-2.0.lua"/>
 	<Include file="Lib\LibSerialize\LibSerialize.lua"/>
 	<Include file="Lib\LibSpellRange-1.0\LibSpellRange-1.0.lua"/>

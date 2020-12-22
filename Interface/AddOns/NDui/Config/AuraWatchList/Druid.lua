@@ -12,6 +12,7 @@ local list = {
 		{AuraID = 774, UnitID = "player", Caster = "player"},		-- 回春术
 		{AuraID = 8936, UnitID = "player", Caster = "player"},		-- 愈合
 		{AuraID = 33763, UnitID = "player", Caster = "player"},		-- 生命绽放
+		{AuraID = 188550, UnitID = "player", Caster = "player"},	-- 生命绽放，橙装
 		{AuraID = 48438, UnitID = "player", Caster = "player"},		-- 野性成长
 		{AuraID = 102351, UnitID = "player", Caster = "player"},	-- 塞纳里奥结界
 		{AuraID = 155777, UnitID = "player", Caster = "player"},	-- 萌芽
@@ -27,6 +28,7 @@ local list = {
 		{AuraID = 50259, UnitID = "target", Caster = "player"},		-- 野性冲锋：晕眩
 		{AuraID = 45334, UnitID = "target", Caster = "player"},		-- 野性冲锋：定身
 		{AuraID = 33763, UnitID = "target", Caster = "player"},		-- 生命绽放
+		{AuraID = 188550, UnitID = "target", Caster = "player"},	-- 生命绽放，橙装
 		{AuraID = 48438, UnitID = "target", Caster = "player"},		-- 野性成长
 		{AuraID = 61391, UnitID = "target", Caster = "player"},		-- 台风
 		{AuraID = 81261, UnitID = "target", Caster = "player"},		-- 日光术
@@ -97,12 +99,13 @@ local list = {
 		{AuraID = 774, UnitID = "focus", Caster = "player"},	-- 回春术
 		{AuraID = 8936, UnitID = "focus", Caster = "player"},	-- 愈合
 		{AuraID = 33763, UnitID = "focus", Caster = "player"},	-- 生命绽放
+		{AuraID = 188550, UnitID = "focus", Caster = "player"},	-- 生命绽放，橙装
 		{AuraID = 155777, UnitID = "focus", Caster = "player"},	-- 萌芽
 		{AuraID = 164812, UnitID = "focus", Caster = "player"},	-- 月火术
 		{AuraID = 164815, UnitID = "focus", Caster = "player"},	-- 阳炎术
 		{AuraID = 202347, UnitID = "focus", Caster = "player"},	-- 星辰耀斑
 	},
-	["Spell Cooldown"] = {	-- 冷却计时组
+	["Spell CD"] = {	-- 冷却计时组
 		{SlotID = 13},		-- 饰品1
 		{SlotID = 14},		-- 饰品2
 		{SpellID = 61336},	-- 生存本能

@@ -814,7 +814,7 @@ function GUI:SetupUnitFrame(parent)
 	end
 	createOptionGroup(scroll.child, L["FocusUF"], -340, "Focus", updateFocusSize)
 
-	local subFrames = {_G.oUF_Pet, _G.oUF_ToT, _G.oUF_FocusTarget}
+	local subFrames = {_G.oUF_Pet, _G.oUF_ToT, _G.oUF_FoT}
 	local function updatePetSize()
 		for _, frame in pairs(subFrames) do
 			SetUnitFrameSize(frame, "Pet")

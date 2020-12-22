@@ -8,7 +8,7 @@ function Skins:TransmogWishList()
 	B.ReskinButton(TransmogWishListFrameBackButton)
 
 	local ListFrame = TransmogWishListFrame
-	B.ReskinEditBox(ListFrame.AddBox)
+	B.ReskinInput(ListFrame.AddBox)
 	B.ReskinArrow(ListFrame.PagingFrame.PrevPageButton, "left")
 	B.ReskinArrow(ListFrame.PagingFrame.NextPageButton, "right")
 

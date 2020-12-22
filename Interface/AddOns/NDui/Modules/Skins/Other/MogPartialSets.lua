@@ -10,7 +10,7 @@ function Skins:MogPartialSets()
 	B.ReskinButton(MogPartialSetsFilterRefreshButton)
 
 	local EditBox = MogPartialSetsFilterMaxMissingPiecesEditBox
-	B.ReskinEditBox(EditBox, B.Scale(16), B.Scale(16))
+	B.ReskinInput(EditBox, B.Scale(16), B.Scale(16))
 	EditBox:ClearAllPoints()
 	EditBox:SetPoint("TOPLEFT", MogPartialSetsFilterFavoriteVariantsButton, "BOTTOMLEFT", 7, -2)
 

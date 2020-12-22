@@ -113,7 +113,7 @@ end
 local function CDFrame_Create()
 	local frame = CreateFrame("Frame", "CDFrame", UIParent)
 	frame:SetSize(110, 35)
-	frame:Show()
+	frame:Hide()
 
 	B.CreateBG(frame)
 	B.Mover(frame, "CDFrame", "CDFrame", {"BOTTOMRIGHT", UIParent, -410, 30})
@@ -134,6 +134,8 @@ end
 B:RegisterEvent("PLAYER_LOGIN", CDFrame_Create)
 
 local function Automatic()
+	if not C.db["Extras"]["FreeMountCD"] then return end
+
 	if IsInInstance() then
 		if CDFrame and CDFrame:IsShown() then
 			CDFrame:Hide()

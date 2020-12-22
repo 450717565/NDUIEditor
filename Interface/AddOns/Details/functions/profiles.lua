@@ -834,6 +834,18 @@ local default_profile = {
 				0, -- [3]
 			},
 		},
+		
+	--> ocd tracker test
+		ocd_tracker = {
+			enabled = false,
+			cooldowns = {},
+			pos = {},
+			show_conditions = {
+				only_in_group = true,
+				only_inside_instance = true,
+			},
+			show_options = false,
+		},
 
 	--> minimap
 		minimap = {hide = false, radius = 160, minimapPos = 220, onclick_what_todo = 1, text_type = 1, text_format = 3},
@@ -1096,23 +1108,12 @@ local default_profile = {
 
 _detalhes.default_profile = default_profile
 
-
-
 -- aqui fica as propriedades do jogador que n�o ser�o armazenadas no profile
 local default_player_data = {
 		coach = {
 			enabled = false,
-		},
-
-	--> cd tracker
-		cd_tracker = {
-			pos = {},
-			enabled = false,
-			cds_enabled = {},
-			show_conditions = {
-				only_in_group = true,
-				only_inside_instance = true,
-			}
+			welcome_panel_pos = {},
+			last_coach_name = false,
 		},
 
 	--> force all fonts to have this outline
