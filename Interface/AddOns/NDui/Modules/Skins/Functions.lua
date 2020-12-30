@@ -1,0 +1,275 @@
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
+local Skins = B:GetModule("Skins")
+
+do
+	-- Reskin Garrison Portrait
+	local replacedRoleTex = {
+		["Adventures-Tank"] = "Soulbinds_Tree_Conduit_Icon_Protect",
+		["Adventures-Healer"] = "ui_adv_health",
+		["Adventures-DPS"] = "ui_adv_atk",
+		["Adventures-DPS-Ranged"] = "Soulbinds_Tree_Conduit_Icon_Utility",
+	}
+
+	local function replaceFollowerRole(roleIcon, atlas)
+		local newAtlas = replacedRoleTex[atlas]
+		if newAtlas then
+			roleIcon:SetAtlas(newAtlas)
+		end
+	end
+
+	function Skins:ReskinPortrait()
+		local level = self.Level or self.LevelText
+		if level then
+			level:ClearAllPoints()
+			level:SetPoint("BOTTOM", self, 0, 15)
+			if self.LevelCircle then self.LevelCircle:Hide() end
+			if self.LevelBorder then self.LevelBorder:SetAlpha(0) end
+		end
+
+		if self.Highlight then self.Highlight:Hide() end
+		if self.PuckBorder then self.PuckBorder:SetAlpha(0) end
+
+		local squareBG = B.CreateBDFrame(self.Portrait, 1)
+		self.squareBG = squareBG
+
+		if self.Empty then
+			self.Empty:SetColorTexture(0, 0, 0)
+			self.Empty:SetAllPoints(self.squareBG)
+		end
+
+		if self.PortraitRing then
+			self.PortraitRing:Hide()
+			self.PortraitRingQuality:SetTexture("")
+			self.PortraitRingCover:SetColorTexture(0, 0, 0)
+			self.PortraitRingCover:SetAllPoints(self.squareBG)
+		end
+
+		if self.HealthBar then
+			self.HealthBar.Border:Hide()
+
+			local roleIcon = self.HealthBar.RoleIcon
+			roleIcon:ClearAllPoints()
+			roleIcon:SetPoint("CENTER", self.squareBG, "TOPRIGHT")
+			replaceFollowerRole(roleIcon, roleIcon:GetAtlas())
+			hooksecurefunc(roleIcon, "SetAtlas", replaceFollowerRole)
+
+			local background = self.HealthBar.Background
+			background:SetAlpha(0)
+			background:ClearAllPoints()
+			background:SetPoint("TOPLEFT", self.squareBG, "BOTTOMLEFT", C.mult, 6)
+			background:SetPoint("BOTTOMRIGHT", self.squareBG, "BOTTOMRIGHT", -C.mult, C.mult)
+			self.HealthBar.Health:SetTexture(DB.normTex)
+		end
+	end
+
+	-- Reskin MerchantItem
+	function Skins:ReskinMerchantItem()
+		B.StripTextures(self, 0)
+		B.CreateBDFrame(self)
+		self:SetHeight(44)
+
+		local button = self.ItemButton
+		B.StripTextures(button)
+		button:ClearAllPoints()
+		button:SetPoint("LEFT", self, 4, 0)
+
+		local icbg = B.ReskinIcon(button.icon)
+		B.ReskinHighlight(button, icbg)
+		B.ReskinBorder(button.IconBorder, icbg)
+		button.icbg = icbg
+
+		local frameName = self:GetDebugName()
+		local count = _G[frameName.."ItemButtonCount"]
+		count:SetJustifyH("RIGHT")
+		count:ClearAllPoints()
+		count:SetPoint("BOTTOMRIGHT", icbg, "BOTTOMRIGHT", -1, 1)
+
+		local stock = _G[frameName.."ItemButtonStock"]
+		stock:SetJustifyH("RIGHT")
+		stock:ClearAllPoints()
+		stock:SetPoint("TOPRIGHT", icbg, "TOPRIGHT", -1, -1)
+
+		local name = _G[frameName.."Name"]
+		name:SetWidth(105)
+		name:SetFontObject(Game12Font)
+		name:SetWordWrap(true)
+		name:SetJustifyH("LEFT")
+		name:ClearAllPoints()
+		name:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 4, 2)
+
+		local money = _G[frameName.."MoneyFrame"]
+		money:ClearAllPoints()
+		money:SetPoint("BOTTOMLEFT", icbg, "BOTTOMRIGHT", 4, 4)
+	end
+
+	-- Reskin PartyPoseUI
+	function Skins:ReskinPartyPoseUI()
+		B.ReskinFrame(self)
+		B.ReskinButton(self.LeaveButton)
+		B.StripTextures(self.ModelScene, 0)
+		B.CreateBDFrame(self.ModelScene)
+
+		self.OverlayElements:Hide()
+
+		local RewardFrame = self.RewardAnimations.RewardFrame
+		RewardFrame.NameFrame:SetAlpha(0)
+
+		local icbg = B.ReskinIcon(RewardFrame.Icon)
+		B.ReskinBorder(RewardFrame.IconBorder, icbg)
+
+		local Label = RewardFrame.Label
+		Label:ClearAllPoints()
+		Label:SetPoint("LEFT", icbg, "RIGHT", 6, 10)
+
+		local Name = RewardFrame.Name
+		Name:ClearAllPoints()
+		Name:SetPoint("LEFT", icbg, "RIGHT", 6, -10)
+	end
+
+	-- Reskin ReforgeUI
+	function Skins:ReskinReforgeUI(index)
+		B.StripTextures(self, index)
+		B.ReskinClose(self.CloseButton)
+		B.CreateBG(self)
+
+		local Background = self.Background
+		B.CreateBDFrame(Background, 0, -C.mult, true)
+
+		local ItemSlot = self.ItemSlot
+		B.ReskinIcon(ItemSlot.Icon)
+
+		local ButtonFrame = self.ButtonFrame
+		B.StripTextures(ButtonFrame, 0)
+		ButtonFrame.MoneyFrameEdge:SetAlpha(0)
+
+		local bubg = B.CreateBDFrame(ButtonFrame)
+		bubg:Point("TOPLEFT", ButtonFrame.MoneyFrameEdge, 2, 0)
+		bubg:Point("BOTTOMRIGHT", ButtonFrame.MoneyFrameEdge, 0, 2)
+
+		if ButtonFrame.AzeriteRespecButton then B.ReskinButton(ButtonFrame.AzeriteRespecButton) end
+		if ButtonFrame.ActionButton then B.ReskinButton(ButtonFrame.ActionButton) end
+		if ButtonFrame.Currency then B.ReskinIcon(ButtonFrame.Currency.icon) end
+	end
+
+	-- Reskin SearchBox
+	function Skins:ReskinSearchBox()
+		B.StripTextures(self)
+		B.CleanTextures(self)
+
+		local bg = B.CreateBDFrame(self, 0, 1)
+		B.ReskinHighlight(self, bg, true)
+
+		local icon = self.icon or self.Icon
+		if icon then B.ReskinIcon(icon) end
+	end
+
+	-- Reskin SearchResult
+	function Skins:ReskinSearchResult()
+		if not self then return end
+
+		local results = self.searchResults
+		results:ClearAllPoints()
+		results:Point("BOTTOMLEFT", self, "BOTTOMRIGHT", 10, 0)
+		B.StripTextures(results, 0)
+		B.CleanTextures(results)
+		local bg = B.CreateBG(results, 0, 0, 5, 0)
+
+		local frameName = self:GetDebugName()
+		local closeButton = results.closeButton or (frameName and _G[frameName.."SearchResultsCloseButton"])
+		B.ReskinClose(closeButton, bg)
+
+		local bar = results.scrollFrame.scrollBar
+		if bar then B.ReskinScroll(bar) end
+
+		for i = 1, 9 do
+			local bu = results.scrollFrame.buttons[i]
+
+			if bu and not bu.styled then
+				B.StripTextures(bu)
+
+				local icbg = B.ReskinIcon(bu.icon)
+				bu.icon.SetTexCoord = B.Dummy
+
+				local bubg = B.CreateBGFrame(bu, 2, 2, -2, -2, icbg)
+				B.ReskinHighlight(bu, bubg, true)
+
+				local name = bu.name
+				name:ClearAllPoints()
+				name:SetPoint("TOPLEFT", bubg, 4, -6)
+
+				local path = bu.path
+				path:ClearAllPoints()
+				path:SetPoint("BOTTOMLEFT", bubg, 4, 4)
+
+				local type = bu.resultType
+				type:ClearAllPoints()
+				type:SetPoint("RIGHT", bubg, -2, 0)
+
+				bu.styled = true
+			end
+		end
+	end
+
+	-- Reskin SortButton
+	function Skins:ReskinSortButton()
+		B.ReskinButton(self)
+		B.ReskinHighlight(self, self)
+
+		self:SetSize(26, 26)
+		self:SetNormalTexture("Interface\\Icons\\INV_Pet_Broom")
+		self:SetPushedTexture("Interface\\Icons\\INV_Pet_Broom")
+	end
+
+	-- Reskin RequiredMoneyText Color
+	function Skins:ReskinRMTColor(r)
+		if r == 0 then
+			B.ReskinText(self, 1, 0, 0)
+		elseif r == .2 then
+			B.ReskinText(self, 0, 1, 0)
+		end
+	end
+end
+
+-- Update Function
+do
+	-- Update MerchantInfo
+	function Skins.UpdateMerchantInfo()
+		local numItems = GetMerchantNumItems()
+		for i = 1, MERCHANT_ITEMS_PER_PAGE do
+			local index = (MerchantFrame.page - 1) * MERCHANT_ITEMS_PER_PAGE + i
+			if index > numItems then return end
+
+			local item = _G["MerchantItem"..i]
+			local frameName = item:GetDebugName()
+			local name = _G[frameName.."Name"]
+			local button = _G[frameName.."ItemButton"]
+			local money = _G[frameName.."MoneyFrame"]
+			local currency = _G[frameName.."AltCurrencyFrame"]
+
+			if button and button:IsShown() then
+				money:ClearAllPoints()
+				if name:GetNumLines() > 1 then
+					money:SetPoint("BOTTOMLEFT", button.icbg, "BOTTOMRIGHT", 4, -1)
+				else
+					money:SetPoint("BOTTOMLEFT", button.icbg, "BOTTOMRIGHT", 4, 4)
+				end
+
+				currency:ClearAllPoints()
+				if money:IsShown() then
+					currency:SetPoint("LEFT", money, "RIGHT", -10, 0)
+				else
+					currency:SetPoint("LEFT", money, "LEFT", 0, 0)
+				end
+			end
+		end
+	end
+
+	-- Update PortraitColor
+	function Skins:UpdatePortraitColor()
+		if not self.quality or not self.squareBG then return end
+
+		local r, g, b = GetItemQualityColor(self.quality or 1)
+		self.squareBG:SetBackdropBorderColor(r, g, b)
+	end
+end

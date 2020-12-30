@@ -1,17 +1,10 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 local Skins = B:GetModule("Skins")
 
 function Skins:Fonts()
 	if not C.db["Skins"]["BlizzardSkins"] then return end
 	if not C.db["Skins"]["FontOutline"] then return end
-
-	function B.ReskinFont(font, size)
-		local oldSize = select(2, font:GetFont())
-		size = size or oldSize
-
-		local fontSize = size*C.db["Skins"]["FontScale"]
-		font:SetFont(DB.Font[1], fontSize, DB.Font[3])
-	end
 
 	local fontList = {
 		AchievementCriteriaFont,
@@ -158,7 +151,7 @@ function Skins:Fonts()
 		if not frame.fontStyled then
 			local fontName, fontSize = frame.statusText:GetFont()
 			frame.statusText:SetFont(fontName, fontSize, "OUTLINE")
-			frame.statusText:SetTextColor(.7, .7, .7)
+			B.ReskinText(frame.statusText, .7, .7, .7)
 
 			frame.fontStyled = true
 		end
@@ -192,6 +185,6 @@ function Skins:Fonts()
 	end)
 
 	-- Text color
-	GameFontBlackMedium:SetTextColor(1, 1, 1)
-	CoreAbilityFont:SetTextColor(1, 1, 1)
+	B.ReskinText(GameFontBlackMedium, 1, 1, 1)
+	B.ReskinText(CoreAbilityFont, 1, 1, 1)
 end

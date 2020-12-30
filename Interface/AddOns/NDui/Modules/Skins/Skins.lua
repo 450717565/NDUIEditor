@@ -5,32 +5,32 @@ local Skins = B:RegisterModule("Skins")
 local pairs, wipe = pairs, wipe
 local IsAddOnLoaded = IsAddOnLoaded
 
-C.defaultThemes = {}
-C.themes = {}
+C.XMLThemes = {}
+C.LUAThemes = {}
 
 function Skins:LoadDefaultSkins()
 	if IsAddOnLoaded("AuroraClassic") or IsAddOnLoaded("Aurora") then return end
 	if not C.db["Skins"]["BlizzardSkins"] then return end
 
 	-- Reskin Blizzard UIs
-	for _, func in pairs(C.defaultThemes) do
+	for _, func in pairs(C.XMLThemes) do
 		func()
 	end
-	wipe(C.defaultThemes)
+	wipe(C.XMLThemes)
 
-	for addonName, func in pairs(C.themes) do
+	for addonName, func in pairs(C.LUAThemes) do
 		local isLoaded, isFinished = IsAddOnLoaded(addonName)
 		if isLoaded and isFinished then
 			func()
-			C.themes[addonName] = nil
+			C.LUAThemes[addonName] = nil
 		end
 	end
 
 	B:RegisterEvent("ADDON_LOADED", function(_, addonName)
-		local func = C.themes[addonName]
+		local func = C.LUAThemes[addonName]
 		if func then
 			func()
-			C.themes[addonName] = nil
+			C.LUAThemes[addonName] = nil
 		end
 	end)
 end
@@ -59,6 +59,7 @@ function Skins:OnLogin()
 		self:ls_Toasts()
 		self:MeetingStone()
 		self:MogPartialSets()
+		self:MythicDungeonTools()
 		self:Postal()
 		self:PremadeGroupsFilter()
 		self:Rematch()
@@ -94,7 +95,7 @@ local function CreateToggleButton(parent)
 	bu:SetSize(20, 80)
 	bu.text = B.CreateFS(bu, 18, nil, true)
 	B.ReskinButton(bu)
-	B.CreateBT(bu.__Tex)
+	B.CreateBT(bu.bgTex)
 
 	return bu
 end

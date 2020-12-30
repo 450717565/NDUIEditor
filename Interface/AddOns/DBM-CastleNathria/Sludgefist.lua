@@ -1,13 +1,13 @@
 local mod	= DBM:NewMod(2394, "DBM-CastleNathria", nil, 1190)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20201217062544")
+mod:SetRevision("20201223204239")
 mod:SetCreatureID(164407)
 mod:SetEncounterID(2399)
 mod:SetUsedIcons(1)
-mod:SetHotfixNoticeRev(20201114000000)--2020, 11, 14
-mod:SetMinSyncRevision(20201114000000)
---mod.respawnTime = 29
+mod:SetHotfixNoticeRev(20201217000000)--2020, 12, 17
+mod:SetMinSyncRevision(20201217000000)
+mod.respawnTime = 29
 
 mod:RegisterCombat("combat")
 
@@ -32,17 +32,17 @@ mod:RegisterEventsInCombat(
  or ability.id = 346269 or ability.id = 331314
  or (ability.id = 342420 or ability.id = 340817) and type = "applydebuff"
 --]]
-local warnHatefulGaze							= mod:NewTargetNoFilterAnnounce(331209, 4)
+local warnHatefulGaze							= mod:NewTargetCountAnnounce(331209, 4, nil, nil, nil, nil, nil, nil, true)
 local warnStunnedImpact							= mod:NewTargetNoFilterAnnounce(331314, 1)
 --local warnChainLink								= mod:NewTargetAnnounce(342419, 3)--Targetting debuff
-local warnChainSlam								= mod:NewTargetNoFilterAnnounce(335470, 3)
+local warnChainSlam								= mod:NewTargetCountAnnounce(335470, 3, nil, nil, nil, nil, nil, nil, true)
 local warnGruesomeRage							= mod:NewTargetNoFilterAnnounce(341250, 4)
 
 local specWarnHatefulGaze						= mod:NewSpecialWarningMoveTo(331209, nil, nil, nil, 3, 2)
 local specWarnHeedlessCharge					= mod:NewSpecialWarningSoon(331212, nil, nil, nil, 2, 2)
 local yellHatefulGaze							= mod:NewShortYell(331209)
 local yellHatefulGazeFades						= mod:NewShortFadesYell(331209)
-local specWarnChainLink							= mod:NewSpecialWarningYou(335300, nil, nil, nil, 1, 2)
+local specWarnChainLink							= mod:NewSpecialWarningMoveTo(335300, nil, nil, nil, 1, 2)
 local yellChainLink								= mod:NewIconRepeatYell(335300, DBM_CORE_L.AUTO_YELL_ANNOUNCE_TEXT.shortyell, false, 2)
 local specWarnChainSlam							= mod:NewSpecialWarningYou(335470, nil, nil, nil, 1, 2)
 local specWarnChainSlamPartner					= mod:NewSpecialWarningTarget(335470, nil, nil, nil, 1, 2)
@@ -58,10 +58,10 @@ local specWarnSiesmicShift						= mod:NewSpecialWarningMoveAway(340817, nil, nil
 local timerHatefulGazeCD						= mod:NewCDCountTimer(68.9, 331209, nil, nil, nil, 3, nil, DBM_CORE_L.IMPORTANT_ICON, nil, 1, 4)
 local timerStunnedImpact						= mod:NewBuffActiveTimer(12, 331314, nil, nil, nil, 5, nil, DBM_CORE_L.DAMAGE_ICON)
 local timerChainLinkCD							= mod:NewCDCountTimer(68.9, 335300, nil, nil, nil, 3, nil, nil, true)
-local timerChainSlamCD							= mod:NewCDCountTimer(68.9, 335354, nil, nil, nil, 3, nil, nil, true)
+local timerChainSlamCD							= mod:NewCDCountTimer(68.9, 335354, nil, nil, nil, 3, nil, DBM_CORE_L.HEROIC_ICON, true)
 local timerDestructiveStompCD					= mod:NewCDCountTimer(44.3, 332318, 247733, nil, nil, 3, nil, nil, true)
 local timerFallingRubbleCD						= mod:NewCDCountTimer(68.9, 332572, nil, nil, nil, 3, nil, nil, true)
-local timerColossalRoarCD						= mod:NewCDCountTimer(44.3, 332687, 226056, nil, nil, 2, nil, nil, true)--30 and 36 alternating with slight variation, unless a gaze stun that's off schedule (do to mythci energy gain) messes up rotation
+local timerColossalRoarCD						= mod:NewCDCountTimer(31.9, 332687, 226056, nil, nil, 2, nil, nil, true)
 local timerSiesmicShiftCD						= mod:NewCDCountTimer(34, 340817, nil, nil, nil, 3, nil, DBM_CORE_L.MYTHIC_ICON, true)--Mythic
 
 --local berserkTimer							= mod:NewBerserkTimer(600)
@@ -80,8 +80,8 @@ mod.vb.shiftCount = 0
 local ChainLinkTargets = {}
 local playerName = UnitName("player")
 local playerPartner = nil
-local SiesmicTimers = {18.4, 25.5, 29.3, 12.9, 25.5, 30.2, 12.6, 25.5, 30.1, 13.6}
-
+local SiesmicTimers = {18.1, 25.4, 29.3, 12.3, 25.5, 30.1, 12.6, 25.5, 30.1, 12.3, 25.4, 30.1, 13.5, 25.5, 28.8}
+--								   30.1				       13.5        31.3
 local function ChainLinkYellRepeater(self, text, runTimes)
 	yellChainLink:Yell(text)
 	runTimes = runTimes + 1
@@ -103,11 +103,13 @@ function mod:OnCombatStart(delay)
 	timerFallingRubbleCD:Start(12.5-delay, 1)
 	timerDestructiveStompCD:Start(18.2-delay, 1)
 --	timerColossalRoarCD:Start(1-delay)--Cast instantly on pull
-	timerChainSlamCD:Start(28.3-delay, 1)
 	timerHatefulGazeCD:Start(50.1-delay, 1)
-	if self:IsMythic() then
-		self.vb.shiftCount = 0
-		timerSiesmicShiftCD:Start(18.4, 1)
+	if self:IsHard() then
+		timerChainSlamCD:Start(28.3-delay, 1)
+		if self:IsMythic() then
+			self.vb.shiftCount = 0
+			timerSiesmicShiftCD:Start(18.1, 1)
+		end
 	end
 --	if self.Options.RangeFrame then
 --		DBM.RangeCheck:Show(4)
@@ -148,14 +150,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		self.vb.roarCount = self.vb.roarCount + 1
 		specWarnColossalRoar:Show()
 		specWarnColossalRoar:Play("aesoon")
-		--"Colossal Roar-332687-npc:164407 = pull:0.0, 30.3, 37.0, 30.8, 36.1, 30.2, 36.8, 30.4, 38.9, 30.6, 30.9", -- [2]
-		--"Colossal Roar-332687-npc:164407 = pull:0.0, 30.9, 37.9, 30.3, 38.8", -- [2]
-		if self.vb.roarCount < 10 and (self.vb.roarCount % 2 == 0) then
-			--Logic almost works, except when it doesn't
-			timerColossalRoarCD:Start(36.8, self.vb.roarCount+1)
-		else
-			timerColossalRoarCD:Start(30.2, self.vb.roarCount+1)
-		end
+		timerColossalRoarCD:Start(31.9, self.vb.roarCount+1)
 	end
 end
 
@@ -164,6 +159,9 @@ function mod:SPELL_AURA_APPLIED(args)
 	if spellId == 331209 then
 		self.vb.gazeCount = self.vb.gazeCount + 1
 		timerHatefulGazeCD:Start(67.3, self.vb.gazeCount+1)
+		if self.Options.SetIconGaze then
+			self:SetIcon(args.destName, 1)
+		end
 		if args:IsPlayer() then
 			specWarnHatefulGaze:Show(DBM_CORE_L.PILLAR)
 			specWarnHatefulGaze:Play("targetyou")
@@ -172,10 +170,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			specWarnHeedlessCharge:Show()
 			specWarnHeedlessCharge:Play("farfromline")
-			warnHatefulGaze:Show(args.destName)
-		end
-		if self.Options.SetIconGaze then
-			self:SetIcon(args.destName, 1)
+			warnHatefulGaze:Show(self.vb.gazeCount, args.destName)
 		end
 	elseif spellId == 331314 then
 		warnStunnedImpact:Show(args.destName)
@@ -232,7 +227,15 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnChainSlamPartner:Show(args.destName)
 			specWarnChainSlamPartner:Play("gathershare")
 		else
-			warnChainSlam:Show(args.destName)
+			warnChainSlam:Show(self.vb.chainSlamCount, args.destName)
+		end
+		--Chain slam always extends Colossal Roar by a very precise amount
+		if timerColossalRoarCD:GetRemaining(self.vb.roarCount+1) < 7.25 then
+			local elapsed, total = timerColossalRoarCD:GetTime(self.vb.roarCount+1)
+			local extend = 7.25 - (total-elapsed)
+			DBM:Debug("timerColossalRoarCD extended by: "..extend, 2)
+			timerColossalRoarCD:Stop()
+			timerColossalRoarCD:Update(elapsed, total+extend, self.vb.roarCount+1)
 		end
 	elseif spellId == 341250 then
 		warnGruesomeRage:Show(args.destName)
@@ -242,6 +245,10 @@ function mod:SPELL_AURA_APPLIED(args)
 			local timer = SiesmicTimers[self.vb.shiftCount+1]
 			if timer then
 				timerSiesmicShiftCD:Start(timer, self.vb.shiftCount+1)
+				local timerAfter = SiesmicTimers[self.vb.shiftCount+2]
+				if not timerAfter then--Disable timer keeping if we're out of timer data beind THIS timer
+					timerSiesmicShiftCD:SetSTKeep(false, self.vb.shiftCount+1)
+				end
 			end
 		end
 		if args:IsPlayer() then

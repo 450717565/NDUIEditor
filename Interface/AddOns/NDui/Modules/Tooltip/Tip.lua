@@ -8,6 +8,7 @@ local PVP, LEVEL, FACTION_HORDE, FACTION_ALLIANCE = PVP, LEVEL, FACTION_HORDE, F
 local YOU, TARGET, AFK, DND, DEAD, PLAYER_OFFLINE = YOU, TARGET, AFK, DND, DEAD, PLAYER_OFFLINE
 local FOREIGN_SERVER_LABEL, INTERACTIVE_SERVER_LABEL = FOREIGN_SERVER_LABEL, INTERACTIVE_SERVER_LABEL
 local LE_REALM_RELATION_COALESCED, LE_REALM_RELATION_VIRTUAL = LE_REALM_RELATION_COALESCED, LE_REALM_RELATION_VIRTUAL
+local IsShiftKeyDown = IsShiftKeyDown
 local UnitIsPVP, UnitFactionGroup, UnitRealmRelationship, UnitGUID = UnitIsPVP, UnitFactionGroup, UnitRealmRelationship, UnitGUID
 local UnitIsConnected, UnitIsDeadOrGhost, UnitIsAFK, UnitIsDND = UnitIsConnected, UnitIsDeadOrGhost, UnitIsAFK, UnitIsDND
 local InCombatLockdown, IsShiftKeyDown, GetMouseFocus, GetItemInfo = InCombatLockdown, IsShiftKeyDown, GetMouseFocus, GetItemInfo
@@ -134,7 +135,6 @@ function TT:OnTooltipSetUnit()
 	TT.HideLines(self)
 
 	local unit = TT.GetUnit(self)
-	local isShiftKeyDown = IsShiftKeyDown()
 	if UnitExists(unit) then
 		local hexColor = B.HexRGB(B.UnitColor(unit))
 		local ricon = GetRaidTargetIndex(unit)
@@ -153,7 +153,7 @@ function TT:OnTooltipSetUnit()
 				name = pvpName
 			end
 			if realm and realm ~= "" then
-				if isShiftKeyDown or not C.db["Tooltip"]["HideRealm"] then
+				if IsShiftKeyDown() or not C.db["Tooltip"]["HideRealm"] then
 					name = name.."-"..realm
 				elseif relationship == LE_REALM_RELATION_COALESCED then
 					name = name..FOREIGN_SERVER_LABEL
@@ -187,17 +187,17 @@ function TT:OnTooltipSetUnit()
 			if guildName and hasText then
 				local myGuild, _, _, myGuildRealm = GetGuildInfo("player")
 				if IsInGuild() and guildName == myGuild and guildRealm == myGuildRealm then
-					GameTooltipTextLeft2:SetTextColor(.25, 1, .25)
+					B.ReskinText(GameTooltipTextLeft2, .25, 1, .25)
 				else
-					GameTooltipTextLeft2:SetTextColor(.6, .8, 1)
+					B.ReskinText(GameTooltipTextLeft2, .6, .8, 1)
 				end
 
 				rankIndex = rankIndex + 1
 				if C.db["Tooltip"]["HideRank"] then rank = "" end
-				if guildRealm and isShiftKeyDown then
+				if guildRealm and IsShiftKeyDown() then
 					guildName = guildName.."-"..guildRealm
 				end
-				if C.db["Tooltip"]["HideJunkGuild"] and not isShiftKeyDown then
+				if C.db["Tooltip"]["HideJunkGuild"] and not IsShiftKeyDown() then
 					if strlen(guildName) > 31 then guildName = "..." end
 				end
 				GameTooltipTextLeft2:SetText("<"..guildName.."> "..rank.."("..rankIndex..")")
@@ -237,7 +237,7 @@ function TT:OnTooltipSetUnit()
 			self:AddLine(TARGET.."："..tar)
 		end
 
-		if not isPlayer and isShiftKeyDown then
+		if not isPlayer and IsShiftKeyDown() then
 			local name = UnitName(unit)
 			local guid = UnitGUID(unit)
 			local npcID = B.GetNPCID(guid)

@@ -1,4 +1,5 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 local Skins = B:GetModule("Skins")
 local TT = B:GetModule("Tooltip")
 
@@ -452,14 +453,14 @@ do -- Early Skin Loading
 	end
 
 	findWidget = function(x)
-		for _, y in ipairs(x) do
+		for _, y in pairs(x) do
 			earlyWidget(y)
 		end
 	end
 
 	for n in next, LibStub.libs do
 		if n == "AceGUI-3.0" then
-			for _, x in ipairs({_G.UIParent:GetChildren()}) do
+			for _, x in pairs({_G.UIParent:GetChildren()}) do
 				if x and x.obj then earlyWidget(x.obj) end
 			end
 		end

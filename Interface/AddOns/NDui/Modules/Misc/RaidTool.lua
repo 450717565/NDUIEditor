@@ -34,7 +34,7 @@ function Misc:RaidTool_Header()
 	frame:SetSize(120, 28)
 	frame:SetFrameLevel(2)
 	B.ReskinButton(frame)
-	B.CreateBT(frame.__Tex)
+	B.CreateBT(frame.bgTex)
 	B.Mover(frame, L["Raid Tool"], "RaidManager", C.Skins.RaidToolPos)
 
 	Misc:RaidTool_Visibility(frame)
@@ -284,7 +284,7 @@ function Misc:RaidTool_Marker(parent)
 	if markerButton then
 		B.StripTextures(markerButton)
 		B.ReskinButton(markerButton)
-		B.CreateBT(markerButton.__Tex)
+		B.CreateBT(markerButton.bgTex)
 
 		markerButton:ClearAllPoints()
 		markerButton:SetPoint("RIGHT", parent, "LEFT", -3, 0)
@@ -323,7 +323,7 @@ function Misc:RaidTool_BuffChecker(parent)
 	frame:SetSize(28, 28)
 	B.CreateFS(frame, 16, "!", true)
 	B.ReskinButton(frame)
-	B.CreateBT(frame.__Tex)
+	B.CreateBT(frame.bgTex)
 
 	local BuffName = {L["Flask"], L["Food"], SPELL_STAT4_NAME, RAID_BUFF_2, RAID_BUFF_3, RUNES}
 	local NoBuff, numGroups, numPlayer = {}, 6, 0

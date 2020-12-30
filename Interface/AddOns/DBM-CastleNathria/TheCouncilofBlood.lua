@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2426, "DBM-CastleNathria", nil, 1190)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20201217054835")
+mod:SetRevision("20201228013951")
 mod:SetCreatureID(166971, 166969, 166970)--Castellan Niklaus, Baroness Frieda, Lord Stavros
 mod:SetEncounterID(2412)
 mod:SetBossHPInfoToHighest()
@@ -37,6 +37,7 @@ mod:RegisterEventsInCombat(
  or ability.id = 332535 or ability.id = 330959 or ability.id = 332538 or abiity.id = 331918 or ability.id = 346709
  or (ability.id = 330964 or ability.id = 335773) and type = "cast"
  or (target.id = 166971 or target.id = 166969 or target.id = 166970) and type = "death"
+ or ability.id = 347350 and type = "applydebuff"
  or ability.id = 346303 and type = "begincast"
  --]]
  --https://www.warcraftlogs.com/reports/MFwzxfRcthN4C9mX#fight=36&view=events&pins=2%24Off%24%23244F4B%24expression%24(ability.id%20%3D%20330965%20or%20ability.id%20%3D%20330978%20or%20ability.id%20%3D%20327497%20or%20ability.id%20%3D%20346654%20or%20ability.id%20%3D%20337110%20or%20ability.id%20%3D%20346657%20or%20ability.id%20%3D%20346681%20or%20ability.id%20%3D%20346698%20or%20ability.id%20%3D%20346690%20or%20ability.id%20%3D%20346800)%20and%20type%20%3D%20%22begincast%22%20%20or%20(ability.id%20%3D%20331634)%20and%20type%20%3D%20%22cast%22%20%20or%20ability.id%20%3D%20332535%20or%20ability.id%20%3D%20330959%20or%20ability.id%20%3D%20332538%20or%20abiity.id%20%3D%20331918%20or%20ability.id%20%3D%20346709%20%20or%20(ability.id%20%3D%20330964%20or%20ability.id%20%3D%20335773)%20and%20type%20%3D%20%22cast%22%20%20or%20(target.id%20%3D%20166971%20or%20target.id%20%3D%20166969%20or%20target.id%20%3D%20166970)%20and%20type%20%3D%20%22death%22%20%20or%20ability.id%20%3D%20346303%20and%20type%20%3D%20%22begincast%22
@@ -65,6 +66,7 @@ local specWarnGTFO								= mod:NewSpecialWarningGTFO(346945, nil, nil, nil, 1, 
 --Castellan Niklaus
 local specWarnDualistsRiposte					= mod:NewSpecialWarningStack(346690, nil, 2, nil, nil, 1, 2)
 local specWarnDualistsRiposteTaunt				= mod:NewSpecialWarningTaunt(346690, nil, nil, nil, 1, 2)
+local specWarnDutifulAttendant					= mod:NewSpecialWarningSwitch(346698, "Dps", nil, nil, 1, 2)
 local specWarnFixate							= mod:NewSpecialWarningRun(330967, nil, nil, nil, 4, 2)--Two bosses dead
 ----Mythic
 --local specWarnMindFlay						= mod:NewSpecialWarningInterrupt(310552, "HasInterrupt", nil, nil, 1, 2)
@@ -75,8 +77,9 @@ local specWarnEvasiveLunge						= mod:NewSpecialWarningDodge(327497, nil, 219588
 local specWarnDarkRecital						= mod:NewSpecialWarningMoveTo(331634, nil, nil, nil, 1, 2)--One boss dead
 local yellDarkRecitalRepeater					= mod:NewIconRepeatYell(331634, DBM_CORE_L.AUTO_YELL_ANNOUNCE_TEXT.shortyell)--One boss dead
 local specWarnWaltzofBlood						= mod:NewSpecialWarningDodge(327616, nil, nil, nil, 2, 2)
+local specWarnDancingFools						= mod:NewSpecialWarningSwitch(330964, "Dps", nil, nil, 1, 2)
 --Intermission
-local specWarnDanseMacabre						= mod:NewSpecialWarningSpell(328495, nil, nil, nil, 3, 2)
+local specWarnDanseMacabre						= mod:NewSpecialWarningSpell(328495, nil, nil, 2, 2, 2)
 local yellDancingFever							= mod:NewYell(347350, nil, false)--Off by default do to potential to spam when spread, going to dry run nameplate auras for this
 
 --Castellan Niklaus
@@ -492,7 +495,12 @@ function mod:SPELL_CAST_START(args)
 		warnSintouchedBlade:Show(count)--addnumber.."-"..
 --		timerSintouchedBladeCD:Start(12.1, count+1, args.sourceGUID)
 	elseif spellId == 346698 then
-		warnDutifulAttendant:Show()
+		if self.Options.SpecWarn346698switch then
+			specWarnDutifulAttendant:Show()
+			specWarnDutifulAttendant:Play("killmob")
+		else
+			warnDutifulAttendant:Show()
+		end
 		if args:GetSrcCreatureID() == 166971 then--Main boss
 			local timer = allTimers[difficultyName][spellId][self.vb.phase]
 			if timer then
@@ -667,6 +675,9 @@ function mod:SPELL_AURA_APPLIED(args)
 		if args:IsPlayer() then
 			yellDancingFever:Countdown(spellId)
 		end
+		if self:AntiSpam(5, 6) then
+			timerDancingFeverCD:Start()
+		end
 		FeverStacks[args.destName] = 3
 		if self.Options.InfoFrame then
 			if not DBM.Infoframe:IsShown() then
@@ -675,9 +686,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			else
 				DBM.InfoFrame:UpdateTable(FeverStacks)
 			end
-		end
-		if self:AntiSpam(5, 6) then
-			timerDancingFeverCD:Start()
 		end
 	end
 end
@@ -746,9 +754,9 @@ function mod:SPELL_AURA_REMOVED(args)
 				timerDarkRecitalCD:RemoveTime(adjustment)
 			end
 		end
-		--if self:IsMythic() then
-		--	timerDancingFeverCD:Start(5.5)
-		--end
+		if self:IsMythic() then
+			timerDancingFeverCD:Start(5.5)
+		end
 	elseif spellId == 347350 then
 		self.vb.feversActive = self.vb.feversActive - 1
 		if args:IsPlayer() then
@@ -827,7 +835,12 @@ mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
 	if spellId == 346826 then--Dancing Fools
-		warnDancingFools:Show()
+		if self.Options.SpecWarn330964switch then
+			specWarnDancingFools:Show()
+			specWarnDancingFools:Play("killmob")
+		else
+			warnDancingFools:Show()
+		end
 		local timer = allTimers[difficultyName][spellId][self.vb.phase]
 		if timer then
 			timerDancingFoolsCD:Start(timer)

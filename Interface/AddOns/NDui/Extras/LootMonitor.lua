@@ -1,4 +1,5 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 
 local strmatch, strformat, strsplit = string.match, string.format, string.split
 local tbwipe, tbinsert, tbremove = table.wipe, table.insert, table.remove

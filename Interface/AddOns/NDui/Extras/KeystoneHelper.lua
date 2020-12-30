@@ -1,4 +1,5 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 local Extras = B:GetModule("Extras")
 
 local strformat, strmatch, strsplit = string.format, string.match, string.split

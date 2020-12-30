@@ -121,8 +121,7 @@ info.onEnter = function(self)
 	entered = true
 
 	if not next(infoTable) then BuildAddonList() end
-	local isShiftKeyDown = IsShiftKeyDown()
-	local maxShown = isShiftKeyDown and #infoTable or min(maxAddOns, #infoTable)
+	local maxShown = IsShiftKeyDown() and #infoTable or min(maxAddOns, #infoTable)
 
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOM", 0, -15)
 	GameTooltip:ClearLines()
@@ -143,7 +142,7 @@ info.onEnter = function(self)
 			end
 		end
 
-		if not isShiftKeyDown and (numEnabled > maxAddOns) then
+		if not IsShiftKeyDown() and (numEnabled > maxAddOns) then
 			local hiddenMemory = 0
 			for i = (maxAddOns + 1), numEnabled do
 				hiddenMemory = hiddenMemory + infoTable[i][3]
@@ -167,7 +166,7 @@ info.onEnter = function(self)
 			end
 		end
 
-		if not isShiftKeyDown and (numEnabled > maxAddOns) then
+		if not IsShiftKeyDown() and (numEnabled > maxAddOns) then
 			local hiddenUsage = 0
 			for i = (maxAddOns + 1), numEnabled do
 				hiddenUsage = hiddenUsage + infoTable[i][4]

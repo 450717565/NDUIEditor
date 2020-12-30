@@ -570,7 +570,7 @@ do
 		dis:SetAllPoints()
 	end
 
-	local function SetupHook(self)
+	function B:SetupHook()
 		B.Hook_OnEnter(self)
 		B.Hook_OnLeave(self)
 		B.Hook_OnMouseDown(self)
@@ -589,10 +589,10 @@ do
 	-- Hook Function
 	function B:Tex_OnEnter()
 		if self:IsEnabled() then
-			if self.__tex then
-				self.__tex:SetVertexColor(cr, cg, cb, 1)
-			elseif self.__Tex then
-				self.__Tex:SetBackdropBorderColor(cr, cg, cb, 1)
+			if self.Tex then
+				self.Tex:SetVertexColor(cr, cg, cb, 1)
+			elseif self.bgTex then
+				self.bgTex:SetBackdropBorderColor(cr, cg, cb, 1)
 			else
 				self:SetBackdropBorderColor(cr, cg, cb, 1)
 			end
@@ -601,10 +601,10 @@ do
 
 	function B:Tex_OnLeave()
 		if self:IsEnabled() then
-			if self.__tex then
-				self.__tex:SetVertexColor(1, 1, 1, 1)
-			elseif self.__Tex then
-				self.__Tex:SetBackdropBorderColor(0, 0, 0, 1)
+			if self.Tex then
+				self.Tex:SetVertexColor(1, 1, 1, 1)
+			elseif self.bgTex then
+				self.bgTex:SetBackdropBorderColor(0, 0, 0, 1)
 			else
 				self:SetBackdropBorderColor(0, 0, 0, 1)
 			end
@@ -612,16 +612,16 @@ do
 	end
 
 	function B:Tex_OnMouseDown()
-		if self.__Tex then
-			self.__Tex:SetBackdropColor(cr, cg, cb, .25)
+		if self.bgTex then
+			self.bgTex:SetBackdropColor(cr, cg, cb, .25)
 		else
 			self:SetBackdropColor(cr, cg, cb, .25)
 		end
 	end
 
 	function B:Tex_OnMouseUp()
-		if self.__Tex then
-			self.__Tex:SetBackdropColor(0, 0, 0, 0)
+		if self.bgTex then
+			self.bgTex:SetBackdropColor(0, 0, 0, 0)
 		else
 			self:SetBackdropColor(0, 0, 0, 0)
 		end
@@ -848,7 +848,7 @@ do
 	end
 
 	local function updateBorderColor(self, r, g, b)
-		if not r or r == .65882 then r, g, b = 1, 1, 1 end
+		if (not r) or (r == .65882) then r, g, b = 1, 1, 1 end
 
 		self.__owner.icbg:SetBackdropBorderColor(r, g, b)
 		if self.__owner.bubg then
@@ -907,10 +907,10 @@ do
 	function B:ReskinButton()
 		B.CleanTextures(self)
 
-		local Tex = B.CreateBDFrame(self)
-		self.__Tex = Tex
+		local bgTex = B.CreateBDFrame(self)
+		self.bgTex = bgTex
 
-		SetupHook(self)
+		B.SetupHook(self)
 	end
 
 	-- Handle Check and Radio
@@ -923,10 +923,10 @@ do
 		check:SetDesaturated(true)
 		check:SetVertexColor(cr, cg, cb)
 
-		local Tex = B.CreateBDFrame(self, 0, 4)
-		self.__Tex = Tex
+		local bgTex = B.CreateBDFrame(self, 0, 4)
+		self.bgTex = bgTex
 
-		SetupHook(self)
+		B.SetupHook(self)
 		self.forceSaturation = forceSaturation
 	end
 
@@ -934,15 +934,15 @@ do
 		B.StripTextures(self, 0)
 		B.CleanTextures(self)
 
-		local Tex = B.CreateBDFrame(self, 0, 2)
-		self.__Tex = Tex
+		local bgTex = B.CreateBDFrame(self, 0, 2)
+		self.bgTex = bgTex
 
 		self:SetCheckedTexture(DB.bgTex)
 		local check = self:GetCheckedTexture()
 		check:SetVertexColor(cr, cg, cb, .75)
-		check:SetInside(Tex)
+		check:SetInside(bgTex)
 
-		SetupHook(self)
+		B.SetupHook(self)
 	end
 
 	-- Handle Checked and Pushed
@@ -1033,9 +1033,9 @@ do
 			elseif strfind(texture, "Minus") or strfind(texture, "Open") or (type(texture) == "number" and texture == 130821) then
 				self.expTex:DoCollapse(false)
 			end
-			self.__Tex:Show()
+			self.bgTex:Show()
 		else
-			self.__Tex:Hide()
+			self.bgTex:Hide()
 		end
 
 		self.setTex = false
@@ -1045,18 +1045,18 @@ do
 		B.StripTextures(self, 0)
 		B.CleanTextures(self)
 
-		local Tex = B.CreateBDFrame(self)
-		Tex:SetSize(14, 14)
-		Tex:ClearAllPoints()
-		Tex:Point("TOPLEFT", self:GetNormalTexture())
-		self.__Tex = Tex
+		local bgTex = B.CreateBDFrame(self)
+		bgTex:SetSize(14, 14)
+		bgTex:ClearAllPoints()
+		bgTex:Point("TOPLEFT", self:GetNormalTexture())
+		self.bgTex = bgTex
 
-		local expTex = Tex:CreateTexture(nil, "OVERLAY")
+		local expTex = bgTex:CreateTexture(nil, "OVERLAY")
 		expTex:SetOutside(nil, 4, 4)
 		expTex.DoCollapse = updateCollapseTexture
 		self.expTex = expTex
 
-		SetupHook(self)
+		B.SetupHook(self)
 
 		if isAtlas then
 			hooksecurefunc(self, "SetNormalAtlas", resetCollapseTexture)
@@ -1343,15 +1343,15 @@ do
 			thumb:SetAlpha(0)
 			thumb:SetWidth(18)
 
-			local Tex = B.CreateBGFrame(thumb, 0, -3, 0, 3)
-			self.__Tex = Tex
+			local bgTex = B.CreateBGFrame(thumb, 0, -3, 0, 3)
+			self.bgTex = bgTex
 		end
 
 		local up, down = self:GetChildren()
 		B.ReskinArrow(up, "up")
 		B.ReskinArrow(down, "down")
 
-		SetupHook(self)
+		B.SetupHook(self)
 	end
 
 	-- Handle Slider
@@ -1427,227 +1427,6 @@ do
 	end
 end
 
--- UI Function
-do
-	-- Reskin Garrison Portrait
-	local ReplacedRoleTex = {
-		["Adventures-Tank"] = "Soulbinds_Tree_Conduit_Icon_Protect",
-		["Adventures-Healer"] = "ui_adv_health",
-		["Adventures-DPS"] = "ui_adv_atk",
-		["Adventures-DPS-Ranged"] = "Soulbinds_Tree_Conduit_Icon_Utility",
-	}
-
-	local function replaceFollowerRole(roleIcon, atlas)
-		local newAtlas = ReplacedRoleTex[atlas]
-		if newAtlas then
-			roleIcon:SetAtlas(newAtlas)
-		end
-	end
-
-	function B:ReskinGarrisonPortrait()
-		local level = self.Level or self.LevelText
-		if level then
-			level:ClearAllPoints()
-			level:SetPoint("BOTTOM", self, 0, 15)
-			if self.LevelCircle then self.LevelCircle:Hide() end
-			if self.LevelBorder then self.LevelBorder:SetAlpha(0) end
-		end
-
-		if self.Highlight then self.Highlight:Hide() end
-		if self.PuckBorder then self.PuckBorder:SetAlpha(0) end
-
-		local squareBG = B.CreateBDFrame(self.Portrait, 1)
-		self.squareBG = squareBG
-
-		if self.Empty then
-			self.Empty:SetColorTexture(0, 0, 0)
-			self.Empty:SetAllPoints(self.squareBG)
-		end
-
-		if self.PortraitRing then
-			self.PortraitRing:Hide()
-			self.PortraitRingQuality:SetTexture("")
-			self.PortraitRingCover:SetColorTexture(0, 0, 0)
-			self.PortraitRingCover:SetAllPoints(self.squareBG)
-		end
-
-		if self.HealthBar then
-			self.HealthBar.Border:Hide()
-
-			local roleIcon = self.HealthBar.RoleIcon
-			roleIcon:ClearAllPoints()
-			roleIcon:SetPoint("CENTER", self.squareBG, "TOPRIGHT")
-			replaceFollowerRole(roleIcon, roleIcon:GetAtlas())
-			hooksecurefunc(roleIcon, "SetAtlas", replaceFollowerRole)
-
-			local background = self.HealthBar.Background
-			background:SetAlpha(0)
-			background:ClearAllPoints()
-			background:SetPoint("TOPLEFT", self.squareBG, "BOTTOMLEFT", C.mult, 6)
-			background:SetPoint("BOTTOMRIGHT", self.squareBG, "BOTTOMRIGHT", -C.mult, C.mult)
-			self.HealthBar.Health:SetTexture(DB.normTex)
-		end
-	end
-
-	-- Reskin MerchantItem
-	function B:ReskinMerchantItem()
-		B.StripTextures(self, 0)
-		B.CreateBDFrame(self)
-		self:SetHeight(44)
-
-		local button = self.ItemButton
-		B.StripTextures(button)
-		button:ClearAllPoints()
-		button:SetPoint("LEFT", self, 4, 0)
-
-		local icbg = B.ReskinIcon(button.icon)
-		B.ReskinHighlight(button, icbg)
-		B.ReskinBorder(button.IconBorder, icbg)
-		button.icbg = icbg
-
-		local frameName = self:GetDebugName()
-		local count = _G[frameName.."ItemButtonCount"]
-		count:SetJustifyH("RIGHT")
-		count:ClearAllPoints()
-		count:SetPoint("BOTTOMRIGHT", icbg, "BOTTOMRIGHT", -1, 1)
-
-		local stock = _G[frameName.."ItemButtonStock"]
-		stock:SetJustifyH("RIGHT")
-		stock:ClearAllPoints()
-		stock:SetPoint("TOPRIGHT", icbg, "TOPRIGHT", -1, -1)
-
-		local name = _G[frameName.."Name"]
-		name:SetWidth(105)
-		name:SetFontObject(Game12Font)
-		name:SetWordWrap(true)
-		name:SetJustifyH("LEFT")
-		name:ClearAllPoints()
-		name:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 4, 2)
-
-		local money = _G[frameName.."MoneyFrame"]
-		money:ClearAllPoints()
-		money:SetPoint("BOTTOMLEFT", icbg, "BOTTOMRIGHT", 4, 4)
-	end
-
-	-- Reskin PartyPoseUI
-	function B:ReskinPartyPoseUI()
-		B.ReskinFrame(self)
-		B.ReskinButton(self.LeaveButton)
-		B.StripTextures(self.ModelScene, 0)
-		B.CreateBDFrame(self.ModelScene)
-
-		self.OverlayElements:Hide()
-
-		local RewardFrame = self.RewardAnimations.RewardFrame
-		RewardFrame.NameFrame:SetAlpha(0)
-
-		local icbg = B.ReskinIcon(RewardFrame.Icon)
-		B.ReskinBorder(RewardFrame.IconBorder, icbg)
-
-		local Label = RewardFrame.Label
-		Label:ClearAllPoints()
-		Label:SetPoint("LEFT", icbg, "RIGHT", 6, 10)
-
-		local Name = RewardFrame.Name
-		Name:ClearAllPoints()
-		Name:SetPoint("LEFT", icbg, "RIGHT", 6, -10)
-	end
-
-	-- Reskin ReforgeUI
-	function B:ReskinReforgeUI(index)
-		B.StripTextures(self, index)
-		B.ReskinClose(self.CloseButton)
-		B.CreateBG(self)
-
-		local Background = self.Background
-		B.CreateBDFrame(Background, 0, -C.mult, true)
-
-		local ItemSlot = self.ItemSlot
-		B.ReskinIcon(ItemSlot.Icon)
-
-		local ButtonFrame = self.ButtonFrame
-		B.StripTextures(ButtonFrame, 0)
-		ButtonFrame.MoneyFrameEdge:SetAlpha(0)
-
-		local bubg = B.CreateBDFrame(ButtonFrame)
-		bubg:Point("TOPLEFT", ButtonFrame.MoneyFrameEdge, 2, 0)
-		bubg:Point("BOTTOMRIGHT", ButtonFrame.MoneyFrameEdge, 0, 2)
-
-		if ButtonFrame.AzeriteRespecButton then B.ReskinButton(ButtonFrame.AzeriteRespecButton) end
-		if ButtonFrame.ActionButton then B.ReskinButton(ButtonFrame.ActionButton) end
-		if ButtonFrame.Currency then B.ReskinIcon(ButtonFrame.Currency.icon) end
-	end
-
-	-- Reskin SearchBox
-	function B:ReskinSearchBox()
-		B.StripTextures(self)
-		B.CleanTextures(self)
-
-		local bg = B.CreateBDFrame(self, 0, 1)
-		B.ReskinHighlight(self, bg, true)
-
-		local icon = self.icon or self.Icon
-		if icon then B.ReskinIcon(icon) end
-	end
-
-	-- Reskin SearchResult
-	function B:ReskinSearchResult()
-		if not self then return end
-
-		local results = self.searchResults
-		results:ClearAllPoints()
-		results:Point("BOTTOMLEFT", self, "BOTTOMRIGHT", 10, 0)
-		B.StripTextures(results, 0)
-		B.CleanTextures(results)
-		local bg = B.CreateBG(results, 0, 0, 5, 0)
-
-		local frameName = self:GetDebugName()
-		local closeButton = results.closeButton or (frameName and _G[frameName.."SearchResultsCloseButton"])
-		B.ReskinClose(closeButton, bg)
-
-		local bar = results.scrollFrame.scrollBar
-		if bar then B.ReskinScroll(bar) end
-
-		for i = 1, 9 do
-			local bu = results.scrollFrame.buttons[i]
-
-			if bu and not bu.styled then
-				B.StripTextures(bu)
-
-				local icbg = B.ReskinIcon(bu.icon)
-				bu.icon.SetTexCoord = B.Dummy
-
-				local bubg = B.CreateBGFrame(bu, 2, 2, -2, -2, icbg)
-				B.ReskinHighlight(bu, bubg, true)
-
-				local name = bu.name
-				name:ClearAllPoints()
-				name:SetPoint("TOPLEFT", bubg, 4, -6)
-
-				local path = bu.path
-				path:ClearAllPoints()
-				path:SetPoint("BOTTOMLEFT", bubg, 4, 4)
-
-				local type = bu.resultType
-				type:ClearAllPoints()
-				type:SetPoint("RIGHT", bubg, -2, 0)
-
-				bu.styled = true
-			end
-		end
-	end
-
-	-- Reskin SortButton
-	function B:ReskinSortButton()
-		B.ReskinButton(self)
-		B.ReskinHighlight(self, self)
-
-		self:SetSize(26, 26)
-		self:SetNormalTexture("Interface\\Icons\\INV_Pet_Broom")
-		self:SetPushedTexture("Interface\\Icons\\INV_Pet_Broom")
-	end
-end
-
 -- Other Function
 do
 	B.EasyMenu = CreateFrame("Frame", "NDui_EasyMenu", UIParent, "UIDropDownMenuTemplate")
@@ -1688,54 +1467,11 @@ do
 	end
 end
 
--- Update Function
-do
-	-- Update MerchantInfo
-	function B.UpdateMerchantInfo()
-		local numItems = GetMerchantNumItems()
-		for i = 1, MERCHANT_ITEMS_PER_PAGE do
-			local index = (MerchantFrame.page - 1) * MERCHANT_ITEMS_PER_PAGE + i
-			if index > numItems then return end
-
-			local item = _G["MerchantItem"..i]
-			local frameName = item:GetDebugName()
-			local name = _G[frameName.."Name"]
-			local button = _G[frameName.."ItemButton"]
-			local money = _G[frameName.."MoneyFrame"]
-			local currency = _G[frameName.."AltCurrencyFrame"]
-
-			if button and button:IsShown() then
-				money:ClearAllPoints()
-				if name:GetNumLines() > 1 then
-					money:SetPoint("BOTTOMLEFT", button.icbg, "BOTTOMRIGHT", 4, -1)
-				else
-					money:SetPoint("BOTTOMLEFT", button.icbg, "BOTTOMRIGHT", 4, 4)
-				end
-
-				currency:ClearAllPoints()
-				if money:IsShown() then
-					currency:SetPoint("LEFT", money, "RIGHT", -10, 0)
-				else
-					currency:SetPoint("LEFT", money, "LEFT", 0, 0)
-				end
-			end
-		end
-	end
-
-	-- Update PortraitColor
-	function B:UpdatePortraitColor()
-		if not self.quality or not self.squareBG then return end
-
-		local r, g, b = GetItemQualityColor(self.quality or 1)
-		self.squareBG:SetBackdropBorderColor(r, g, b)
-	end
-end
-
 -- GUI Function
 do
 	-- GameTooltip
 	function B:HideTooltip()
-		if self.__Tex then
+		if self and self.bgTex then
 			B.Tex_OnLeave(self)
 		end
 
@@ -1762,7 +1498,7 @@ do
 			GameTooltip:AddLine(self.tooltip, r, g, b, 1)
 		end
 
-		if self.__Tex then
+		if self and self.bgTex then
 			B.Tex_OnEnter(self)
 		end
 
@@ -1817,11 +1553,26 @@ do
 	end
 
 	-- FontString
+	function B.ReskinText(text, r, g, b, a)
+		text:SetTextColor(r, g, b, a or 1)
+		text:SetShadowColor(0, 0, 0, 0)
+	end
+
+	function B.ReskinFont(font, size)
+		local oldSize = select(2, font:GetFont())
+		size = size or oldSize
+
+		local fontSize = size*C.db["Skins"]["FontScale"]
+		font:SetFont(DB.Font[1], fontSize, DB.Font[3])
+		font:SetShadowColor(0, 0, 0, 0)
+	end
+
 	function B:CreateFS(size, text, color, anchor, x, y)
 		local fs = self:CreateFontString(nil, "OVERLAY")
 		fs:SetFont(DB.Font[1], size, DB.Font[3])
 		fs:SetText(text)
 		fs:SetWordWrap(false)
+		fs:SetShadowColor(0, 0, 0, 0)
 		if color and type(color) == "boolean" then
 			fs:SetTextColor(cr, cg, cb)
 		elseif color == "system" then
@@ -1945,6 +1696,7 @@ do
 		eb:SetAutoFocus(false)
 		eb:SetTextInsets(5, 5, 0, 0)
 		eb:SetFont(DB.Font[1], DB.Font[2]+2, DB.Font[3])
+		eb:SetShadowColor(0, 0, 0, 0)
 		eb:SetScript("OnEscapePressed", editBoxClearFocus)
 		eb:SetScript("OnEnterPressed", editBoxClearFocus)
 
@@ -2068,6 +1820,13 @@ do
 		ColorPickerFrame:Show()
 	end
 
+	local function resetColorPicker(swatch)
+		local defaultColor = swatch.__default
+		if defaultColor then
+			ColorPickerFrame:SetColorRGB(defaultColor.r, defaultColor.g, defaultColor.b)
+		end
+	end
+
 	local function GetSwatchTexColor(tex)
 		local r, g, b = tex:GetVertexColor()
 		r = B:Round(r, 2)
@@ -2094,6 +1853,7 @@ do
 		swatch.tex = tex
 		swatch.color = color
 		swatch:SetScript("OnClick", openColorPicker)
+		swatch:SetScript("OnDoubleClick", resetColorPicker)
 
 		return swatch
 	end
@@ -2141,6 +1901,7 @@ do
 		slider.Text:SetPoint("CENTER", 0, 25)
 		slider.Text:SetText(name)
 		slider.Text:SetTextColor(1, .8, 0)
+		slider.Text:SetShadowColor(0, 0, 0, 0)
 
 		slider.value = B.CreateEditBox(slider, 50, 20)
 		slider.value:ClearAllPoints()

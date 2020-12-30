@@ -1,6 +1,7 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
 	<Script file="Skins.lua"/>
 	<Script file="Fonts.lua"/>
+	<Script file="Functions.lua"/>
 
 	<Include file="BlizzardLUA\BlizzardLUA.xml"/>
 	<Include file="BlizzardXML\BlizzardXML.xml"/>

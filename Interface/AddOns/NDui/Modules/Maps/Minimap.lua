@@ -339,13 +339,13 @@ end
 function Maps:WhoPingsMyMap()
 	if not C.db["Map"]["WhoPings"] then return end
 
-	local f = CreateFrame("Frame", nil, Minimap)
-	f:SetAllPoints()
-	f.text = B.CreateFS(f, 12, "", false, "TOP", 0, -3)
+	local ping = CreateFrame("Frame", nil, Minimap)
+	ping:SetAllPoints()
+	ping.text = B.CreateFS(ping, 12, "", false, "TOP", 0, -3)
 
-	local anim = f:CreateAnimationGroup()
-	anim:SetScript("OnPlay", function() f:SetAlpha(1) end)
-	anim:SetScript("OnFinished", function() f:SetAlpha(0) end)
+	local anim = ping:CreateAnimationGroup()
+	anim:SetScript("OnPlay", function() ping:SetAlpha(1) end)
+	anim:SetScript("OnFinished", function() ping:SetAlpha(0) end)
 	anim.fader = anim:CreateAnimation("Alpha")
 	anim.fader:SetFromAlpha(1)
 	anim.fader:SetToAlpha(0)
@@ -361,8 +361,8 @@ function Maps:WhoPingsMyMap()
 		local name = GetUnitName(unit)
 
 		anim:Stop()
-		f.text:SetText(name)
-		f.text:SetTextColor(r, g, b)
+		ping.text:SetText(name)
+		ping.text:SetTextColor(r, g, b)
 		anim:Play()
 	end)
 end
@@ -381,7 +381,7 @@ function Maps:ShowMinimapClock()
 			TimeManagerClockButton:DisableDrawLayer("BORDER")
 			TimeManagerClockButton:SetPoint("BOTTOM", Minimap, "BOTTOM", 0, -8)
 			TimeManagerClockTicker:SetFont(unpack(DB.Font))
-			TimeManagerClockTicker:SetTextColor(1, 1, 1)
+			B.ReskinText(TimeManagerClockTicker, 1, 1, 1)
 
 			TimeManagerClockButton.styled = true
 		end
@@ -406,8 +406,9 @@ function Maps:ShowCalendar()
 			for i = 1, GameTimeFrame:GetNumRegions() do
 				local region = select(i, GameTimeFrame:GetRegions())
 				if region.SetTextColor then
-					region:SetTextColor(cr, cg, cb)
 					region:SetFont(unpack(DB.Font))
+					B.ReskinText(region, cr, cg, cb)
+
 					break
 				end
 			end

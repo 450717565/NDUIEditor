@@ -267,10 +267,10 @@ end
 -- Tab colors
 function Chat:UpdateTabColors(selected)
 	if selected then
-		self.Text:SetTextColor(1, .8, 0)
+		B.ReskinText(self.Text, 1, .8, 0)
 		self.whisperIndex = 0
 	else
-		self.Text:SetTextColor(.5, .5, .5)
+		B.ReskinText(self.Text, .5, .5, .5)
 	end
 
 	if self.whisperIndex == 1 then

@@ -1,4 +1,5 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 local Skins = B:GetModule("Skins")
 local TT = B:GetModule("Tooltip")
 
@@ -97,7 +98,7 @@ function Skins:MeetingStone()
 
 	-- AdvFilterPanel
 	local BrowsePanel = MSEnv.BrowsePanel
-	for i, box in ipairs(BrowsePanel.filters) do
+	for i, box in pairs(BrowsePanel.filters) do
 		B.ReskinCheck(box.Check)
 		B.ReskinInput(box.MaxBox)
 		B.ReskinInput(box.MinBox)

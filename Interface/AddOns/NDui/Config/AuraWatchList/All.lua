@@ -9,11 +9,11 @@ local AT = B:GetModule("AurasTable")
 		Special Aura，是自己头像上偏大的buff组，用来监视稍微重要的buff；
 		Target Aura，是目标头像上的buff组，用来监视你循环中需要的debuff；
 		Focus Aura，是焦点的buff组，用来监视焦点目标的buff及debuff；
-		Spell Cooldown，是冷却时间监控组，用来监视饰品、戒指、技能CD等；
+		Spell CD，是冷却时间监控组，用来监视饰品、戒指、技能CD等；
 		Enchant Aura，是各种种族技能、药水、饰品触发的buff分组；
 		Raid Buff，是团队重要buff的分组，用来监控如嗜血、光环、团队减伤等等；
 		Raid Debuff，是团队战斗中出现的debuff组，用来监控战斗中出现的点名等等；
-		Warning，是目标身上需要注意的buff及debuff，可以用来监视BOSS的易伤、PVP对方的大招等等。
+		Warning Aura，是目标身上需要注意的buff及debuff，可以用来监视BOSS的易伤、PVP对方的大招等等。
 
 	数字编号含义：
 		AuraID，支持BUFF和DEBUFF，在游戏中触发时，请鼠标移过去看看ID，或者自己查询数据库；
@@ -138,6 +138,7 @@ local list = {
 		{AuraID = 1022, UnitID = "player"},		-- 保护祝福
 		{AuraID = 6940, UnitID = "player"},		-- 牺牲祝福
 		{AuraID = 1044, UnitID = "player"},		-- 自由祝福
+		{AuraID = 10060, UnitID = "player"},	-- 能量灌注
 		{AuraID = 77761, UnitID = "player"},	-- 狂奔怒吼
 		{AuraID = 77764, UnitID = "player"},	-- 狂奔怒吼
 		{AuraID = 31821, UnitID = "player"},	-- 光环掌握
@@ -190,6 +191,9 @@ local list = {
 		{AuraID = 335161, UnitID = "player"},	-- 通灵战潮，残存心能
 		{AuraID = 345323, UnitID = "player", Flash = true},	-- 通灵战潮，勇士之赐
 		{AuraID = 322746, UnitID = "player"},	-- 彼界，堕落之血
+		{AuraID = 323687, UnitID = "player", Flash = true},	-- 彼界，奥术闪电
+		{AuraID = 323692, UnitID = "player"},	-- 彼界，奥术易伤
+		{AuraID = 331379, UnitID = "player"},	-- 彼界，润滑剂
 		{AuraID = 327893, UnitID = "player", Flash = true},	-- 彼界，邦桑迪的热情
 		{AuraID = 339978, UnitID = "player", Flash = true},	-- 彼界，安抚迷雾
 		{AuraID = 323569, UnitID = "player", Flash = true},	-- 彼界，溅洒精魂
@@ -201,6 +205,7 @@ local list = {
 		{AuraID = 342077, UnitID = "player"},	-- 回声定位，咆翼
 		{AuraID = 329725, UnitID = "player"},	-- 根除，毁灭者
 		{AuraID = 329298, UnitID = "player"},	-- 暴食胀气，毁灭者
+		{AuraID = 325936, UnitID = "player"},	-- 共享认知，勋爵
 		{AuraID = 346035, UnitID = "player"},	-- 眩目步法，猩红议会
 		{AuraID = 331636, UnitID = "player", Flash = true},	-- 黑暗伴舞，猩红议会
 		{AuraID = 335293, UnitID = "player"},	-- 锁链联结，泥拳
@@ -213,17 +218,33 @@ local list = {
 		{AuraID = 319643, UnitID = "target", Value = true},	-- 虚空哀嚎，吸收盾
 		-- 大米
 		{AuraID = 226510, UnitID = "target"},	-- 血池回血
+		{AuraID = 343502, UnitID = "target"},	-- 鼓舞光环
 		-- 5人本
+		{AuraID = 321754, UnitID = "target", Value = true},	-- 通灵战潮，冰缚之盾
 		{AuraID = 322773, UnitID = "target", Value = true},	-- 彼界，鲜血屏障
+		{AuraID = 333227, UnitID = "target", Flash = true},	-- 彼界，不死之怒
+		{AuraID = 228626, UnitID = "target"},	-- 彼界，怨灵之瓮
+		{AuraID = 324010, UnitID = "target"},	-- 彼界，发射
+		{AuraID = 320132, UnitID = "target"},	-- 彼界，暗影之怒
 		{AuraID = 320293, UnitID = "target", Value = true},	-- 伤逝剧场，融入死亡
+		{AuraID = 331275, UnitID = "target", Flash = true},	-- 伤逝剧场，不灭护卫
+		{AuraID = 336449, UnitID = "target"},	-- 凋魂，玛卓克萨斯之墓
+		{AuraID = 336451, UnitID = "target"},	-- 凋魂，玛卓克萨斯之壁
 		{AuraID = 333737, UnitID = "target"},	-- 凋魂，凝结之疾
 		{AuraID = 328175, UnitID = "target"},	-- 凋魂，凝结之疾
 		{AuraID = 321368, UnitID = "target", Value = true},	-- 凋魂，冰缚之盾
 		{AuraID = 327416, UnitID = "target", Value = true},	-- 晋升，心能回灌
 		{AuraID = 345561, UnitID = "target", Value = true},	-- 晋升，生命连结
+		{AuraID = 317936, UnitID = "target"},	-- 晋升，弃誓信条
+		{AuraID = 327812, UnitID = "target"},	-- 晋升，振奋英气
 		{AuraID = 323149, UnitID = "target", Value = true},	-- 仙林，黑暗之拥
 		{AuraID = 340191, UnitID = "target", Value = true},	-- 仙林，再生辐光
 		{AuraID = 323059, UnitID = "target", Flash = true},	-- 仙林，宗主之怒
+		{AuraID = 336499, UnitID = "target"},	-- 仙林，猜谜游戏
+		{AuraID = 326771, UnitID = "target"},	-- 赎罪大厅，岩石监视者
+		{AuraID = 326450, UnitID = "target"},	-- 赎罪大厅，忠心的野兽
+		{AuraID = 322433, UnitID = "target"},	-- 赤红深渊，石肤术
+		{AuraID = 321402, UnitID = "target"},	-- 赤红深渊，饱餐
 		-- 团本
 		{AuraID = 345902, UnitID = "target"},	-- 破裂的联结，猎手
 		{AuraID = 334695, UnitID = "target"},	-- 动荡的能量，猎手

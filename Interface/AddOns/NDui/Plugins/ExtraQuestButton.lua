@@ -135,7 +135,7 @@ local onAttributeChanged = [[
 		end
 	end
 
-	if self:IsShown() and (name == "item" or name == "binding") then
+	if self:IsShown() then
 		self:ClearBindings()
 
 		local key1, key2 = GetBindingKey("EXTRAACTIONBUTTON1")
@@ -242,10 +242,12 @@ function ExtraQuestButton:PLAYER_LOGIN()
 
 	local HotKey = self:CreateFontString("$parentHotKey", nil, "NumberFontNormal")
 	HotKey:SetPoint("TOP", 0, -5)
+	HotKey:SetShadowColor(0, 0, 0, 0)
 	self.HotKey = HotKey
 
 	local Count = self:CreateFontString("$parentCount", nil, "NumberFont_Shadow_Med")
 	Count:SetPoint("BOTTOMRIGHT", -3, 3)
+	Count:SetShadowColor(0, 0, 0, 0)
 	self.Count = Count
 
 	local Cooldown = CreateFrame("Cooldown", "$parentCooldown", self, "CooldownFrameTemplate")

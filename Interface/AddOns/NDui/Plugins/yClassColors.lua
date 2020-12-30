@@ -180,7 +180,9 @@ local function updateWhoList()
 			tinsert(columnTable, guild)
 			tinsert(columnTable, race)
 
-			nameText:SetTextColor(classColor(class, true))
+			local r, g, b = classColor(class, true)
+			B.ReskinText(nameText, r, g, b)
+
 			levelText:SetText(diffColor(level)..level)
 			variableText:SetText(columnTable[UIDropDownMenu_GetSelectedID(WhoFrameDropDown)])
 		end

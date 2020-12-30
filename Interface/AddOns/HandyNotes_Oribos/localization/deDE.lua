@@ -11,7 +11,7 @@ L["config_plugin_name"] = "Oribos"
 L["config_plugin_desc"] = "Zeigt die Positionen von NPCs und anderer POIs in Oribos auf der Weltkarte und Minimap an."
 
 L["config_tab_general"] = "Allgemein"
---L["config_tab_scale_alpha"] = "Größe / Transparenz"
+L["config_tab_scale_alpha"] = "Größe / Transparenz"
 --L["config_scale_alpha_desc"] = "PH"
 L["config_icon_scale"] = "Symbolgröße"
 L["config_icon_scale_desc"] = "Die größe der Symbole"
@@ -29,6 +29,12 @@ L["config_banker_desc"] = "Zeigt die Positionen der Bankiers an."
 L["config_barber"] = "Barbier"
 L["config_barber_desc"] = "Zeigt die Position des Barbiers an."
 
+L["config_greatvault"] = "Die Große Schatzkammer"
+L["config_greatvault_desc"] = "Zeigt die Position der Großen Schatzkammer an."
+
+L["config_guildvault"] = "Gildentresor"
+L["config_guildvault_desc"] = "Zeigt die Position des Gildentresors an."
+
 L["config_innkeeper"] = "Gastwirt"
 L["config_innkeeper_desc"] = "Zeigt die Position des Gastwirte an."
 
@@ -38,8 +44,11 @@ L["config_mail_desc"] = "Zeigt die Positionen der Briefkästen an."
 L["config_portal"] = "Portal"
 L["config_portal_desc"] = "Zeigt die Position des Portals an."
 
-L["config_tpplatforms"] = "Teleportplattformen"
-L["config_tpplatforms_desc"] = "Zeigt die Positionen der Teleportplattformen an."
+L["config_portaltrainer"] = "Portallehrer"
+L["config_portaltrainer_desc"] = "Zeigt die Position des Portallehrers für Magier an."
+
+L["config_tpplatform"] = "Teleportplattformen"
+L["config_tpplatform_desc"] = "Zeigt die Positionen der Teleportplattformen an."
 
 L["config_travelguide_note"] = "|cFFFF0000*Bereits durch HandyNotes: TravelGuide aktiv.|r"
 
@@ -61,6 +70,12 @@ L["config_vendor_desc"] = "Zeigt die Positionen der Händler an."
 L["config_void"] = "Leerenlager"
 L["config_void_desc"] = "Zeigt die Position des Leerenlagers an."
 
+L["config_zonegateway"] = "Zonen Gateways"
+L["config_zonegateway_desc"] = "Zeigt die Positionen der Zonen Gateways an."
+
+L["config_others"] = "Anderes"
+L["config_others_desc"] = "Zeige alle anderen POIs."
+
 L["config_onlymytrainers"] = "Zeige nur die Lehrer und Händler für meine Berufe an"
 L["config_onlymytrainers_desc"] = [[
 Beeinflusst nur die Lehrer und Händler der Hauptberufe.
@@ -79,8 +94,9 @@ L["Both"] = "Beide"
 L["config_easy_waypoints"] = "Vereinfachte Wegpunkte"
 L["config_easy_waypoints_desc"] = "Aktiviert die vereinfachte Wegpunkterstellung. \nErlaubt es per Rechtsklick einen Wegpunkt zu setzen und per STRG + Rechtsklick mehr Optionen aufzurufen."
 
-L["config_others"] = "Anderes"
-L["config_others_desc"] = "Zeige alle anderen POIs."
+L["config_picons"] = "Zeige Berufssymbole für:"
+L["config_picons_vendor_desc"] = "Zeigt anstelle der normalen Händlersymbole die berufsbezogenen Symbole für die Händler an."
+L["config_picons_trainer_desc"] = "Zeigt anstelle der normalen Berufslehrersymbole die berufsbezogenen Symbole für die Berufslehrer an."
 
 L["config_restore_nodes"] = "Versteckte Punkte wiederherstellen"
 L["config_restore_nodes_desc"] = "Stellt alle Punkte wieder her, die über das Kontextmenü versteckt wurden."

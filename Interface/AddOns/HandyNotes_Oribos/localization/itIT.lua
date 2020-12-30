@@ -1,7 +1,7 @@
 local L = LibStub("AceLocale-3.0"):NewLocale("HandyNotes_Oribos", "itIT", false, true)
 
 if not L then return end
--- Italian localization by _unobf_crimsab ( https://www.curseforge.com/members/_unobf_crimsab )
+-- Italian localization by Crimsab ( https://www.curseforge.com/members/crimsab )
 if L then
 L["Blizzard"] = true
 L["Both"] = "Tutti e due"
@@ -45,8 +45,8 @@ L["config_restore_nodes_print"] = "Tutti i nodi nascosti sono stati ripristinati
 L["config_stablemaster"] = "Stalliere"
 L["config_stablemaster_desc"] = "Mostra la posizione dello stalliere."
 L["config_tab_general"] = "Generale"
-L["config_tpplatforms"] = "Piattaforma di Teletrasporto"
-L["config_tpplatforms_desc"] = "Mostra la posizione delle piattaforme di teletrasporto."
+L["config_tpplatform"] = "Piattaforma di Teletrasporto"
+L["config_tpplatform_desc"] = "Mostra la posizione delle piattaforme di teletrasporto."
 L["config_trainer"] = "Istruttore delle Professioni"
 L["config_trainer_desc"] = "Mostra la posizione degli istruttori delle professioni."
 L["config_transmogrifier"] = "Trasmogrificatore"

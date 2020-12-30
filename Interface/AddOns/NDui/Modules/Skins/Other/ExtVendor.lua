@@ -1,4 +1,5 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 local Skins = B:GetModule("Skins")
 
 function Skins:ExtVendor()
@@ -12,7 +13,7 @@ function Skins:ExtVendor()
 
 	for i = 13, 20 do
 		local item = _G["MerchantItem"..i]
-		B.ReskinMerchantItem(item)
+		Skins.ReskinMerchantItem(item)
 
 		for j = 1, 3 do
 			local texture = _G["MerchantItem"..i.."AltCurrencyFrameItem"..j.."Texture"]
@@ -20,7 +21,7 @@ function Skins:ExtVendor()
 		end
 	end
 
-	hooksecurefunc("ExtVendor_UpdateMerchantInfo", B.UpdateMerchantInfo)
+	hooksecurefunc("ExtVendor_UpdateMerchantInfo", Skins.UpdateMerchantInfo)
 
 	local QVConfigFrame = "ExtVendor_QVConfigFrame"
 	B.ReskinFrame(_G[QVConfigFrame])

@@ -1,4 +1,5 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 local Skins = B:GetModule("Skins")
 
 local cr, cg, cb = DB.r, DB.g, DB.b
@@ -9,7 +10,7 @@ local function reskinTitleButton(button)
 
 		B.StripTextures(button)
 		B.ReskinButton(button)
-		B.CreateBT(button.__Tex)
+		B.CreateBT(button.bgTex)
 
 		if index > 1 then
 			button:ClearAllPoints()

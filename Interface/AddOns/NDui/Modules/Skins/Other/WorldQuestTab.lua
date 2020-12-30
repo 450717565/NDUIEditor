@@ -1,8 +1,39 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 local Skins = B:GetModule("Skins")
+local TT = B:GetModule("Tooltip")
 
-local function reskinRewards(button)
-	for index = 1, 3 do
+local cr, cg, cb = DB.r, DB.g, DB.b
+
+local function Update_SelectTab(self, tab)
+	local id = tab and tab:GetID() or 0
+	if (not QuestScrollFrame.Contents:IsShown() and not QuestMapFrame.DetailsFrame:IsShown()) or id == 1 then
+		WQT_TabNormal.HL:Show()
+		WQT_TabWorld.HL:Hide()
+	elseif id == 2 then
+		WQT_TabWorld.HL:Show()
+		WQT_TabNormal.HL:Hide()
+	end
+end
+
+local function Reskin_ScrollBar(self)
+	B.StripTextures(self)
+
+	local thumb = self.thumbTexture
+	if thumb then
+		thumb:SetAlpha(0)
+		thumb:SetWidth(18)
+		self.thumb = thumb
+
+		local bgTex = B.CreateBGFrame(thumb, 0, -3, 0, 3)
+		self.bgTex = bgTex
+	end
+
+	B.SetupHook(self)
+end
+
+local function Reskin_Rewards(button)
+	for index = 1, 4 do
 		local reward = button.Rewards["Reward"..index]
 		if reward then
 			if not reward.styled then
@@ -22,11 +53,11 @@ local function reskinRewards(button)
 	end
 end
 
-local function reskinCategory(category)
+local function Reskin_Category(category)
 	B.StripTextures(category)
 	B.ReskinButton(category)
 
-	for _, setting in ipairs(category.settings) do
+	for _, setting in pairs(category.settings) do
 		if setting.DropDown then
 			B.ReskinDropDown(setting.DropDown)
 		end
@@ -53,7 +84,7 @@ local function reskinCategory(category)
 
 		if setting.Picker then
 			B.ReskinButton(setting.Picker)
-			setting.Picker.Color:SetInside(setting.Picker.__Tex, 0, 0)
+			setting.Picker.Color:SetInside(setting.Picker.bgTex, 0, 0)
 		end
 	end
 end
@@ -66,17 +97,19 @@ function Skins:WorldQuestTab()
 	B.StripTextures(WQT_QuestLogFiller)
 	B.StripTextures(WQT_QuestScrollFrame.DetailFrame)
 	B.StripTextures(WQT_SettingsFrame)
-	B.StripTextures(WQT_SettingsFrame.ScrollFrame.ScrollBar)
+	B.StripTextures(WQT_VersionFrame)
 	B.StripTextures(WQT_WorldQuestFrame, 0)
 
-	B.CreateBDFrame(WQT_SettingsFrameThumbTexture)
+	Reskin_ScrollBar(WQT_SettingsFrame.ScrollFrame.ScrollBar)
+	Reskin_ScrollBar(WQT_VersionFrame.scrollBar)
+
 	B.ReskinButton(WQT_WorldQuestFrameSettingsButton)
 	B.ReskinClose(WQT_OverlayFrame.CloseButton)
 	B.ReskinDropDown(WQT_WorldQuestFrameSortButton)
 	B.ReskinFilter(WQT_WorldQuestFrameFilterButton)
 	B.ReskinScroll(WQT_QuestScrollFrameScrollBar)
 
-	reskinRewards(WQT_SettingsQuestListPreview.Preview)
+	Reskin_Rewards(WQT_SettingsQuestListPreview.Preview)
 
 	for _, tab in pairs({WQT_TabNormal, WQT_TabWorld}) do
 		B.StripTextures(tab, 2)
@@ -86,12 +119,19 @@ function Skins:WorldQuestTab()
 		icon:ClearAllPoints()
 		icon:SetPoint("CENTER")
 
-		B.ReskinHighlight(tab.Hider, tab)
+		B.ReskinHighlight(tab.Hider, tab.bgTex)
+
+		tab.HL = tab:CreateTexture(nil, "ARTWORK")
+		tab.HL:SetTexture(DB.bgTex)
+		tab.HL:SetVertexColor(cr, cg, cb, .25)
+		tab.HL:SetInside(tab.bgTex)
+		tab.HL:Hide()
 	end
 
-	for i = 1, 15 do
-		local button = _G["WQT_QuestScrollFrameButton"..i]
-		reskinRewards(button)
+	hooksecurefunc(WQT_WorldQuestFrame, "SelectTab", Update_SelectTab)
+
+	for _, button in pairs(WQT_QuestScrollFrame.buttons) do
+		Reskin_Rewards(button)
 
 		local Faction = button.Faction
 		Faction.Ring:Hide()
@@ -103,21 +143,40 @@ function Skins:WorldQuestTab()
 		local Time = button.Time
 		Time:ClearAllPoints()
 		Time:SetPoint("TOPLEFT", Faction, "RIGHT", 5, 0)
+
+		local Highlight = button.Highlight
+		B.StripTextures(Highlight)
+		Highlight.HL = Highlight:CreateTexture(nil, "ARTWORK")
+		Highlight.HL:SetTexture(DB.bgTex)
+		Highlight.HL:SetVertexColor(cr, cg, cb, .25)
+		Highlight.HL:SetInside()
 	end
 
-	local function reskinSettings(event)
-		for _, category in ipairs(WQT_SettingsFrame.categories) do
-			reskinCategory(category)
+	local ADDT = LibStub("AddonDropDownTemplates-2.0", true)
+	if ADDT then
+		local orgiGetFrame = ADDT.GetFrame
+		ADDT.GetFrame = function(...)
+			local frame = orgiGetFrame(...)
+			B.StripTextures(frame)
+			TT.ReskinTooltip(frame)
+
+			return frame
+		end
+	end
+
+	local function Reskin_Settings(event)
+		for _, category in pairs(WQT_SettingsFrame.categories) do
+			Reskin_Category(category)
 
 			local numSubs = #category.subCategories
 			if numSubs > 0 then
 				for i = 1, numSubs do
-					reskinCategory(category.subCategories[i])
+					Reskin_Category(category.subCategories[i])
 				end
 			end
 		end
 
-		B:UnregisterEvent(event, reskinSettings)
+		B:UnregisterEvent(event, Reskin_Settings)
 	end
-	B:RegisterEvent("PLAYER_ENTERING_WORLD", reskinSettings)
+	B:RegisterEvent("PLAYER_ENTERING_WORLD", Reskin_Settings)
 end

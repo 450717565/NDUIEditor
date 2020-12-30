@@ -1,4 +1,5 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 local Skins = B:GetModule("Skins")
 local TT = B:GetModule("Tooltip")
 
@@ -162,8 +163,8 @@ function Skins:Rematch()
 
 				if button.Back then
 					button.Back:SetTexture("")
-					local Tex = B.CreateBGFrame(button.Back, 4, C.mult, 0, -C.mult, parent)
-					button.__Tex = Tex
+					local bgTex = B.CreateBGFrame(button.Back, 4, C.mult, 0, -C.mult, parent)
+					button.bgTex = bgTex
 
 					B.Hook_OnEnter(button, true)
 					B.Hook_OnLeave(button, true)
@@ -438,7 +439,7 @@ function Skins:Rematch()
 			local bg = parentPanel.SelectedOverlay.bg
 			if bg then
 				bg:ClearAllPoints()
-				bg:SetAllPoints(self.__Tex)
+				bg:SetAllPoints(self.bgTex)
 			end
 		end
 	end)
@@ -630,7 +631,7 @@ function Skins:Rematch()
 			local bg = panel.SelectedOverlay.bg
 			if bg then
 				bg:ClearAllPoints()
-				bg:SetAllPoints(self.__Tex)
+				bg:SetAllPoints(self.bgTex)
 			end
 		end
 	end)

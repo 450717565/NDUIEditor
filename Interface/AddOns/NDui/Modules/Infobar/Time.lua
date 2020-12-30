@@ -7,7 +7,8 @@ local info = Infobar:RegisterInfobar("Time", C.Infobar.TimePos)
 
 local time, date = time, date
 local strfind, format, floor, strmatch = strfind, format, floor, strmatch
-local mod, tonumber, pairs, ipairs, select = mod, tonumber, pairs, ipairs, select
+local mod, tonumber, pairs, ipairs = mod, tonumber, pairs, ipairs
+local IsShiftKeyDown = IsShiftKeyDown
 local C_Map_GetMapInfo = C_Map.GetMapInfo
 local C_DateAndTime_GetCurrentCalendarTime = C_DateAndTime.GetCurrentCalendarTime
 local C_Calendar_SetAbsMonth = C_Calendar.SetAbsMonth
@@ -16,17 +17,16 @@ local C_Calendar_GetNumDayEvents = C_Calendar.GetNumDayEvents
 local C_Calendar_GetNumPendingInvites = C_Calendar.GetNumPendingInvites
 local C_AreaPoiInfo_GetAreaPOIInfo = C_AreaPoiInfo.GetAreaPOIInfo
 local C_AreaPoiInfo_GetAreaPOISecondsLeft = C_AreaPoiInfo.GetAreaPOISecondsLeft
-local C_IslandsQueue_GetIslandsWeeklyQuestID = C_IslandsQueue.GetIslandsWeeklyQuestID
 local C_UIWidgetManager_GetTextWithStateWidgetVisualizationInfo = C_UIWidgetManager.GetTextWithStateWidgetVisualizationInfo
 local TIMEMANAGER_TICKER_24HOUR, TIMEMANAGER_TICKER_12HOUR = TIMEMANAGER_TICKER_24HOUR, TIMEMANAGER_TICKER_12HOUR
 local FULLDATE, CALENDAR_WEEKDAY_NAMES, CALENDAR_FULLDATE_MONTH_NAMES = FULLDATE, CALENDAR_WEEKDAY_NAMES, CALENDAR_FULLDATE_MONTH_NAMES
 local PLAYER_DIFFICULTY_TIMEWALKER, RAID_INFO_WORLD_BOSS, DUNGEON_DIFFICULTY3 = PLAYER_DIFFICULTY_TIMEWALKER, RAID_INFO_WORLD_BOSS, DUNGEON_DIFFICULTY3
-local DUNGEONS, RAID_INFO, QUESTS_LABEL, ISLANDS_HEADER, QUEST_COMPLETE = DUNGEONS, RAID_INFO, QUESTS_LABEL, ISLANDS_HEADER, QUEST_COMPLETE
-local PVP_CONQUEST, LFG_LIST_LOADING, QUEUE_TIME_UNAVAILABLE, RATED_PVP_WEEKLY_VAULT, AVAILABLE = PVP_CONQUEST, LFG_LIST_LOADING, QUEUE_TIME_UNAVAILABLE, RATED_PVP_WEEKLY_VAULT, AVAILABLE
+local DUNGEONS, RAID_INFO, QUESTS_LABEL, QUEST_COMPLETE = DUNGEONS, RAID_INFO, QUESTS_LABEL, QUEST_COMPLETE
+local PVP_CONQUEST, QUEUE_TIME_UNAVAILABLE, RATED_PVP_WEEKLY_VAULT, AVAILABLE = PVP_CONQUEST, QUEUE_TIME_UNAVAILABLE, RATED_PVP_WEEKLY_VAULT, AVAILABLE
 local HORRIFIC_VISION = SPLASH_BATTLEFORAZEROTH_8_3_0_FEATURE1_TITLE
-local RequestRaidInfo, UnitLevel, GetNumSavedWorldBosses, GetSavedWorldBossInfo = RequestRaidInfo, UnitLevel, GetNumSavedWorldBosses, GetSavedWorldBossInfo
+local RequestRaidInfo, GetNumSavedWorldBosses, GetSavedWorldBossInfo = RequestRaidInfo, GetNumSavedWorldBosses, GetSavedWorldBossInfo
 local GetCVarBool, GetGameTime, GameTime_GetLocalTime, GameTime_GetGameTime, SecondsToTime = GetCVarBool, GetGameTime, GameTime_GetLocalTime, GameTime_GetGameTime, SecondsToTime
-local GetNumSavedInstances, GetSavedInstanceInfo, GetQuestObjectiveInfo = GetNumSavedInstances, GetSavedInstanceInfo, GetQuestObjectiveInfo
+local GetNumSavedInstances, GetSavedInstanceInfo = GetNumSavedInstances, GetSavedInstanceInfo
 local IsQuestFlaggedCompleted = C_QuestLog.IsQuestFlaggedCompleted
 local C_TaskQuest_GetThreatQuests = C_TaskQuest.GetThreatQuests
 local C_TaskQuest_GetQuestInfoByQuestID = C_TaskQuest.GetQuestInfoByQuestID
@@ -60,13 +60,6 @@ info.onUpdate = function(self, elapsed)
 end
 
 -- Data
-local bonus = {
-	52834, 52838,	-- Gold
-	52835, 52839,	-- Honor
-	52837, 52840,	-- Resources
-}
-local bonusName = C_CurrencyInfo.GetCurrencyInfo(1580).name
-
 local isTimeWalker, walkerTexture
 local function checkTimeWalker(event)
 	local date = C_DateAndTime_GetCurrentCalendarTime()
@@ -216,7 +209,15 @@ local function addTitle(text)
 	end
 end
 
+info.onShiftDown = function()
+	if info.entered then
+		info:onEnter()
+	end
+end
+
 info.onEnter = function(self)
+	self.entered = true
+
 	RequestRaidInfo()
 
 	local r,g,b
@@ -296,18 +297,6 @@ info.onEnter = function(self)
 
 	-- Quests
 	title = false
-	local count, maxCoins = 0, 2
-	for _, id in pairs(bonus) do
-		if IsQuestFlaggedCompleted(id) then
-			count = count + 1
-		end
-	end
-	if count > 0 then
-		addTitle(QUESTS_LABEL)
-		if count == maxCoins then r,g,b = 1,0,0 else r,g,b = 0,1,0 end
-		GameTooltip:AddDoubleLine(bonusName, count.." / "..maxCoins, 1,1,1, r,g,b)
-	end
-
 	do
 		local currentValue, maxValue, questID = PVPGetConquestLevelInfo()
 		local questDone = questID and questID == 0
@@ -322,47 +311,6 @@ info.onEnter = function(self)
 		end
 	end
 
-	for _, v in ipairs(horrificVisions) do
-		if IsQuestFlaggedCompleted(v.id) then
-			addTitle(QUESTS_LABEL)
-			GameTooltip:AddDoubleLine(HORRIFIC_VISION, v.desc, 1,1,1, 0,1,0)
-			break
-		end
-	end
-
-	local iwqID = C_IslandsQueue_GetIslandsWeeklyQuestID()
-	if iwqID and UnitLevel("player") == 120 then
-		addTitle(QUESTS_LABEL)
-		if IsQuestFlaggedCompleted(iwqID) then
-			GameTooltip:AddDoubleLine(ISLANDS_HEADER, QUEST_COMPLETE, 1,1,1, 1,0,0)
-		else
-			local cur, max = select(4, GetQuestObjectiveInfo(iwqID, 1, false))
-			if not cur or not max then return end
-
-			local stautsText = B.FormatNumb(cur).." / "..B.FormatNumb(max)
-			if not cur or not max then stautsText = LFG_LIST_LOADING end
-			GameTooltip:AddDoubleLine(ISLANDS_HEADER, stautsText, 1,1,1, 0,1,0)
-		end
-	end
-
-	for _, id in pairs(lesserVisions) do
-		if IsQuestFlaggedCompleted(id) then
-			addTitle(QUESTS_LABEL)
-			GameTooltip:AddDoubleLine(L["LesserVision"], QUEST_COMPLETE, 1,1,1, 1,0,0)
-			break
-		end
-	end
-
-	if not nzothAssaults then
-		nzothAssaults = C_TaskQuest_GetThreatQuests() or {}
-	end
-	for _, v in pairs(nzothAssaults) do
-		if IsQuestFlaggedCompleted(v) then
-			addTitle(QUESTS_LABEL)
-			GameTooltip:AddDoubleLine(GetNzothThreatName(v), QUEST_COMPLETE, 1,1,1, 1,0,0)
-		end
-	end
-
 	for _, v in pairs(questlist) do
 		if v.name and IsQuestFlaggedCompleted(v.id) then
 			if v.name == L["Timewarped"] and isTimeWalker and checkTexture(v.texture) or v.name ~= L["Timewarped"] then
@@ -371,20 +319,51 @@ info.onEnter = function(self)
 			end
 		end
 	end
-
-	-- Invasions
-	for index, value in ipairs(invIndex) do
-		title = false
-		addTitle(value.title)
-		local timeLeft, zoneName = CheckInvasion(index)
-		local nextTime = GetNextTime(value.baseTime, index)
-		if timeLeft then
-			timeLeft = timeLeft/60
-			if timeLeft < 60 then r,g,b = 1,0,0 else r,g,b = 0,1,0 end
-			GameTooltip:AddDoubleLine(L["Current Invasion"]..zoneName, format("%.2d:%.2d", timeLeft/60, timeLeft%60), 1,1,1, r,g,b)
+	if IsShiftKeyDown() then
+		-- Nzoth relavants
+		for _, v in ipairs(horrificVisions) do
+			if IsQuestFlaggedCompleted(v.id) then
+				addTitle(QUESTS_LABEL)
+				GameTooltip:AddDoubleLine(HORRIFIC_VISION, v.desc, 1,1,1, 0,1,0)
+				break
+			end
 		end
-		local nextLocation = GetNextLocation(nextTime, index)
-		GameTooltip:AddDoubleLine(L["Next Invasion"]..nextLocation, date("%m/%d %H:%M", nextTime), 1,1,1, 1,1,1)
+
+		for _, id in pairs(lesserVisions) do
+			if IsQuestFlaggedCompleted(id) then
+				addTitle(QUESTS_LABEL)
+				GameTooltip:AddDoubleLine(L["LesserVision"], QUEST_COMPLETE, 1,1,1, 1,0,0)
+				break
+			end
+		end
+
+		if not nzothAssaults then
+			nzothAssaults = C_TaskQuest_GetThreatQuests() or {}
+		end
+		for _, v in pairs(nzothAssaults) do
+			if IsQuestFlaggedCompleted(v) then
+				addTitle(QUESTS_LABEL)
+				GameTooltip:AddDoubleLine(GetNzothThreatName(v), QUEST_COMPLETE, 1,1,1, 1,0,0)
+			end
+		end
+
+		-- Invasions
+		for index, value in ipairs(invIndex) do
+			title = false
+			addTitle(value.title)
+			local timeLeft, zoneName = CheckInvasion(index)
+			local nextTime = GetNextTime(value.baseTime, index)
+			if timeLeft then
+				timeLeft = timeLeft/60
+				if timeLeft < 60 then r,g,b = 1,0,0 else r,g,b = 0,1,0 end
+				GameTooltip:AddDoubleLine(L["Current Invasion"]..zoneName, format("%.2d:%.2d", timeLeft/60, timeLeft%60), 1,1,1, r,g,b)
+			end
+			local nextLocation = GetNextLocation(nextTime, index)
+			GameTooltip:AddDoubleLine(L["Next Invasion"]..nextLocation, date("%m/%d %H:%M", nextTime), 1,1,1, 1,1,1)
+		end
+	else
+		GameTooltip:AddLine(" ")
+		GameTooltip:AddLine(L["Hold Shift"], .6,.8,1)
 	end
 
 	-- Help Info
@@ -393,9 +372,15 @@ info.onEnter = function(self)
 	GameTooltip:AddDoubleLine(" ", DB.ScrollButton..RATED_PVP_WEEKLY_VAULT.." ", 1,1,1, .6,.8,1)
 	GameTooltip:AddDoubleLine(" ", DB.RightButton..L["Toggle Clock"].." ", 1,1,1, .6,.8,1)
 	GameTooltip:Show()
+
+	B:RegisterEvent("MODIFIER_STATE_CHANGED", info.onShiftDown)
 end
 
-info.onLeave = B.HideTooltip
+info.onLeave = function(self)
+	self.entered = true
+	B.HideTooltip()
+	B:UnregisterEvent("MODIFIER_STATE_CHANGED", info.onShiftDown)
+end
 
 info.onMouseUp = function(_, btn)
 	if btn == "RightButton" then

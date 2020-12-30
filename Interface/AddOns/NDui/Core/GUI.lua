@@ -12,7 +12,6 @@ GUI.DefaultSettings = {
 	Mover = {},
 	InternalCD = {},
 	AuraWatchMover = {},
-	RaidClickSets = {},
 	TempAnchor = {},
 	AuraWatchList = {
 		Switcher = {},
@@ -249,11 +248,13 @@ GUI.DefaultSettings = {
 		HealthTextSize = 16,
 		MinScale = 1,
 		MinAlpha = 1,
-		ColorBorder = false,
+		ColorBorder = true,
 		QuestIndicator = true,
 		NameOnlyMode = false,
 		PPGCDTicker = true,
 		ExecuteRatio = 0,
+		ColoredTarget = false,
+		TargetColor = {r=0, g=.6, b=1},
 
 		ArrowColor = 1,
 		HighlightColor = {r=1, g=1, b=1},
@@ -351,6 +352,7 @@ GUI.DefaultSettings = {
 		BlockInvite = false,
 		NzothVision = true,
 		SendActionCD = false,
+		MawThreatBar = true,
 	},
 	Tutorial = {
 		Complete = false,
@@ -405,6 +407,7 @@ GUI.AccountSettings = {
 	BWRequest = false,
 	RaidAuraWatch = {},
 	CornerBuffs = {},
+	RaidClickSets = {},
 	TexStyle = 3,
 	KeystoneInfo = {},
 	AutoBubbles = false,
@@ -767,7 +770,7 @@ GUI.TabList = {
 	L["Bags"],
 	L["Unitframes"],
 	L["RaidFrame"],
-	L["Nameplate"],
+	NewFeatureTag..L["Nameplate"],
 	L["PlayerPlate"],
 	L["Auras"],
 	L["Raid Tools"],
@@ -896,10 +899,9 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{5, "Nameplate", "SelectedColor", L["Selected Color"], 1},
 		{4, "Nameplate", "ArrowColor", L["Arrow Color"], true, {L["Cyan"], L["Green"], L["Red"]}},
 		{},--blank
-		{4, "Nameplate", "AuraFilter", L["NameplateAuraFilter"].."*", nil, {L["BlackNWhite"], L["PlayerOnly"], L["IncludeCrowdControl"]}, refreshNameplates},
-		{4, "Nameplate", "TargetIndicator", L["TargetIndicator"].."*", true, {DISABLE, L["TopArrow"], L["RightArrow"], L["TargetGlow"], L["TopNGlow"], L["RightNGlow"]}, refreshNameplates},
 		{1, "Nameplate", "FriendlyCC", L["Friendly CC"].."*"},
-		{1, "Nameplate", "HostileCC", L["Hostile CC"].."*", true},
+		{1, "Nameplate", "HostileCC", L["Hostile CC"].."*"},
+		{4, "Nameplate", "AuraFilter", L["NameplateAuraFilter"].."*", true, {L["BlackNWhite"], L["PlayerOnly"], L["IncludeCrowdControl"]}, refreshNameplates},
 		{1, "Nameplate", "FullHealth", L["Show FullHealth"].."*", nil, nil, refreshNameplates},
 		{1, "Nameplate", "ColorBorder", L["ColorBorder"].."*", true, nil, refreshNameplates},
 		{1, "Nameplate", "InsideView", L["Nameplate InsideView"].."*", nil, nil, updatePlateInsideView},
@@ -907,12 +909,15 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Nameplate", "QuestIndicator", L["QuestIndicator"]},
 		{1, "Nameplate", "AKSProgress", L["AngryKeystones Progress"], true},
 		{},--blank
+		{1, "Nameplate", "ColoredTarget", NewFeatureTag..DB.MyColor..L["ColoredTarget"].."*", nil, nil, nil, L["ColoredTargetTip"]},
+		{5, "Nameplate", "TargetColor", NewFeatureTag..L["TargetNP Color"].."*"},
+		{4, "Nameplate", "TargetIndicator", L["TargetIndicator"].."*", true, {DISABLE, L["TopArrow"], L["RightArrow"], L["TargetGlow"], L["TopNGlow"], L["RightNGlow"]}, refreshNameplates},
 		{1, "Nameplate", "CustomUnitColor", DB.MyColor..L["CustomUnitColor"].."*", nil, nil, updateCustomUnitList, L["CustomUnitColorTip"]},
 		{5, "Nameplate", "CustomColor", L["Custom Color"].."*", 2},
 		{2, "Nameplate", "UnitList", L["UnitColor List"].."*", nil, nil, updateCustomUnitList, L["CustomUnitTips"]},
 		{2, "Nameplate", "ShowPowerList", L["ShowPowerList"].."*", true, nil, updatePowerUnitList, L["CustomUnitTips"]},
 		{1, "Nameplate", "TankMode", DB.MyColor..L["Tank Mode"].."*", nil, nil, nil, L["TankModeTip"]},
-		{1, "Nameplate", "DPSRevertThreat", L["DPS Revert Threat"].."*", true},
+		{1, "Nameplate", "DPSRevertThreat", L["DPS Revert Threat"].."*", true, nil, nil, L["RevertThreatTip"]},
 		{5, "Nameplate", "SecureColor", L["Secure Color"].."*"},
 		{5, "Nameplate", "TransColor", L["Trans Color"].."*", 1},
 		{5, "Nameplate", "InsecureColor", L["Insecure Color"].."*", 2},
@@ -1103,6 +1108,7 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Misc", "Screenshot", L["Auto ScreenShot"].."*", true, nil, updateScreenShot},
 		{1, "Misc", "Focuser", L["Easy Focus"]},
 		{1, "Misc", "BlockInvite", DB.MyColor..L["BlockInvite"].."*", true},
+		{1, "Misc", "MawThreatBar", NewFeatureTag..L["MawThreatBar"], nil, nil, nil, L["MawThreatBarTip"]},
 	},
 	[14] = {
 		{1, "ACCOUNT", "VersionCheck", L["Version Check"]},
@@ -1329,14 +1335,15 @@ local function CreateOption(i)
 			end
 		-- Colorswatch
 		elseif optType == 5 then
-			local f = B.CreateColorSwatch(parent, name, NDUI_VARIABLE(key, value))
+			local swatch = B.CreateColorSwatch(parent, name, NDUI_VARIABLE(key, value))
 			local width = 25 + (horizon or 0)*155
 			if horizon then
-				f:SetPoint("TOPLEFT", width, -offset + 30)
+				swatch:SetPoint("TOPLEFT", width, -offset + 30)
 			else
-				f:SetPoint("TOPLEFT", width, -offset - 5)
+				swatch:SetPoint("TOPLEFT", width, -offset - 5)
 				offset = offset + 35
 			end
+			swatch.__default = (key == "ACCOUNT" and GUI.AccountSettings[value]) or GUI.DefaultSettings[key][value]
 		-- Blank, no optType
 		else
 			if not key then

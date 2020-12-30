@@ -1,4 +1,5 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 local Skins = B:GetModule("Skins")
 
 local cr, cg, cb = DB.r, DB.g, DB.b
@@ -20,6 +21,6 @@ function Skins:BaudErrorFrame()
 	local buttons = {BaudErrorFrameClearButton, BaudErrorFrameCloseButton, BaudErrorFrameReloadUIButton}
 	for _, button in pairs(buttons) do
 		B.ReskinButton(button)
-		button.Text:SetTextColor(cr, cg, cb)
+		B.ReskinText(button.Text, cr, cg, cb)
 	end
 end

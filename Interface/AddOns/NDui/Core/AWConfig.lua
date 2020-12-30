@@ -310,20 +310,20 @@ local function CreatePanel()
 
 	-- Main
 	local groups = {
-		L["Player Aura"],			-- 1 PlayerBuff
-		L["Special Aura"],			-- 2 SPECIAL
-		L["Target Aura"],			-- 3 TargetDebuff
-		L["Warning Aura"],				-- 4 Warning
-		L["Focus Aura"],			-- 5 FOCUS
-		L["Spell CD"],		-- 6 CD
-		L["Enchant Aura"],			-- 7 Enchant
-		L["Raid Buff"],				-- 8 RaidBuff
-		L["Raid Debuff"],			-- 9 RaidDebuff
+		L["Player Aura"],			-- 1 Player Aura
+		L["Special Aura"],			-- 2 Special Aura
+		L["Target Aura"],			-- 3 Target Aura
+		L["Warning Aura"],			-- 4 Warning Aura
+		L["Focus Aura"],			-- 5 Focus Aura
+		L["Spell CD"],				-- 6 Spell CD
+		L["Enchant Aura"],			-- 7 Enchant Aura
+		L["Raid Buff"],				-- 8 Raid Buff
+		L["Raid Debuff"],			-- 9 Raid Debuff
 		L["InternalCD"],			-- 10 InternalCD
 	}
 
 	local preSet = {
-		[1] = {1, true},
+		[1] = {1, false},
 		[2] = {1, true},
 		[3] = {2, true},
 		[4] = {2, false},

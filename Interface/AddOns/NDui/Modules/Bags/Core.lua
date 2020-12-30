@@ -302,8 +302,8 @@ function Bags:CreateFreeSlots()
 
 	local tag = self:SpawnPlugin("TagDisplay", "[space]", slot)
 	tag:SetFont(DB.Font[1], DB.Font[2]+4, DB.Font[3])
-	tag:SetTextColor(.6, .8, 1)
 	tag:SetPoint("CENTER", 1, 0)
+	B.ReskinText(tag, .6, .8, 1)
 	tag.__name = name
 
 	self.freeSlot = slot

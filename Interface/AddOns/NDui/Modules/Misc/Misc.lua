@@ -3,7 +3,7 @@ local B, C, L, DB = unpack(ns)
 local Misc = B:RegisterModule("Misc")
 
 local _G = getfenv(0)
-local select = select
+local select, floor, unpack = select, floor, unpack
 local InCombatLockdown, IsModifiedClick, IsAltKeyDown = InCombatLockdown, IsModifiedClick, IsAltKeyDown
 local GetNumArchaeologyRaces = GetNumArchaeologyRaces
 local GetNumArtifactsByRace = GetNumArtifactsByRace
@@ -26,6 +26,8 @@ local GetSavedInstanceInfo = GetSavedInstanceInfo
 local SetSavedInstanceExtend = SetSavedInstanceExtend
 local RequestRaidInfo, RaidInfoFrame_Update = RequestRaidInfo, RaidInfoFrame_Update
 local IsGuildMember, C_BattleNet_GetGameAccountInfoByGUID, C_FriendList_IsFriend = IsGuildMember, C_BattleNet.GetGameAccountInfoByGUID, C_FriendList.IsFriend
+local C_UIWidgetManager_GetDiscreteProgressStepsVisualizationInfo = C_UIWidgetManager.GetDiscreteProgressStepsVisualizationInfo
+local C_UIWidgetManager_GetTextureWithAnimationVisualizationInfo = C_UIWidgetManager.GetTextureWithAnimationVisualizationInfo
 
 --[[
 	Miscellaneous 各种有用没用的小玩意儿
@@ -60,6 +62,7 @@ function Misc:OnLogin()
 	Misc:OverrideAWQ()
 	Misc:ToggleBossBanner()
 	Misc:ToggleBossEmote()
+	Misc:MawWidgetFrame()
 
 	-- Unregister talent event
 	if PlayerTalentFrame then
@@ -298,7 +301,7 @@ function Misc:TradeTargetInfo()
 
 	local function updateColor()
 		local r, g, b = B.UnitColor("NPC")
-		TradeFrameRecipientNameText:SetTextColor(r, g, b)
+		B.ReskinText(TradeFrameRecipientNameText, r, g, b)
 
 		local guid = UnitGUID("NPC")
 		if not guid then return end
@@ -321,6 +324,81 @@ function Misc:BlockStrangerInvite()
 			StaticPopup_Hide("PARTY_INVITE")
 		end
 	end)
+end
+
+-- Maw widget frame
+local maxValue = 1000
+local function GetMawBarValue()
+	local widgetInfo = C_UIWidgetManager_GetDiscreteProgressStepsVisualizationInfo(2885)
+	if widgetInfo and widgetInfo.shownState == 1 then
+		local value = widgetInfo.progressVal
+		return floor(value / maxValue), value % maxValue
+	end
+end
+
+local MawRankColor = {
+	[0] = {.6, .8, 1},
+	[1] = {0, 1, 0},
+	[2] = {0, .7, .3},
+	[3] = {1, .8, 0},
+	[4] = {1, .5, 0},
+	[5] = {1, 0, 0}
+}
+function Misc:UpdateMawBarLayout()
+	local bar = Misc.mawbar
+	local rank, value = GetMawBarValue()
+	if rank then
+		bar:SetStatusBarColor(unpack(MawRankColor[rank]))
+		if rank == 5 then
+			bar.text:SetText("Lv"..rank)
+			bar:SetValue(maxValue)
+		else
+			bar.text:SetText("Lv"..rank.." - "..value.."/"..maxValue)
+			bar:SetValue(value)
+		end
+		bar:Show()
+		UIWidgetTopCenterContainerFrame:Hide()
+	else
+		bar:Hide()
+		UIWidgetTopCenterContainerFrame:Show()
+	end
+end
+
+function Misc:MawWidgetFrame()
+	if not C.db["Misc"]["MawThreatBar"] then return end
+	if Misc.mawbar then return end
+
+	local bar = CreateFrame("StatusBar", nil, UIParent)
+	bar:SetPoint("TOP", 0, -50)
+	bar:SetSize(200, 16)
+	bar:SetMinMaxValues(0, maxValue)
+	bar.text = B.CreateFS(bar, 14)
+	B.CreateSB(bar)
+	B.SmoothBar(bar)
+	Misc.mawbar = bar
+
+	B.Mover(bar, L["MawThreatBar"], "MawThreatBar", {"TOP", UIParent, 0, -50})
+
+	bar:SetScript("OnEnter", function(self)
+		local rank = GetMawBarValue()
+		local widgetInfo = rank and C_UIWidgetManager_GetTextureWithAnimationVisualizationInfo(2873 + rank)
+		if widgetInfo and widgetInfo.shownState == 1 then
+			GameTooltip:SetOwner(self, "ANCHOR_BOTTOM", 0, -10)
+			local header, nonHeader = SplitTextIntoHeaderAndNonHeader(widgetInfo.tooltip)
+			if header then
+				GameTooltip:AddLine(header, nil,nil,nil, 1)
+			end
+			if nonHeader then
+				GameTooltip:AddLine(nonHeader, nil,nil,nil, 1)
+			end
+			GameTooltip:Show()
+		end
+	end)
+	bar:SetScript("OnLeave", B.HideTooltip)
+
+	Misc:UpdateMawBarLayout()
+	B:RegisterEvent("PLAYER_ENTERING_WORLD", Misc.UpdateMawBarLayout)
+	B:RegisterEvent("UPDATE_UI_WIDGET", Misc.UpdateMawBarLayout)
 end
 
 -- Override default settings for AngrierWorldQuests

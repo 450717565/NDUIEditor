@@ -1,4 +1,5 @@
-local B, C, L, DB = unpack(select(2, ...))
+local _, ns = ...
+local B, C, L, DB = unpack(ns)
 local Skins = B:GetModule("Skins")
 
 function Skins:Skada()
@@ -26,7 +27,7 @@ function Skins:Skada()
 		StripOptions(options)
 	end
 
-	for _, options in ipairs(Skada.options.args.windows.args) do
+	for _, options in pairs(Skada.options.args.windows.args) do
 		if options.type == "group" then
 			StripOptions(options.args)
 		end
@@ -94,7 +95,7 @@ function Skins:Skada()
 		end
 	end
 
-	for _, window in ipairs(Skada:GetWindows()) do
+	for _, window in pairs(Skada:GetWindows()) do
 		window:UpdateDisplay()
 	end
 
@@ -102,7 +103,7 @@ function Skins:Skada()
 	function Skada:CreateWindow(name, db)
 		Skada:CreateWindow_(name, db)
 		wipe(windows)
-		for _, window in ipairs(Skada:GetWindows()) do
+		for _, window in pairs(Skada:GetWindows()) do
 			table.insert(windows, window)
 		end
 		EmbedSkada()
@@ -112,7 +113,7 @@ function Skins:Skada()
 	function Skada:DeleteWindow(name)
 		Skada:DeleteWindow_(name)
 		wipe(windows)
-		for _, window in ipairs(Skada:GetWindows()) do
+		for _, window in pairs(Skada:GetWindows()) do
 			table.insert(windows, window)
 		end
 		EmbedSkada()

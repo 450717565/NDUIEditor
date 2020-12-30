@@ -84,7 +84,6 @@ AT:RegisterDebuff(TIER, INSTANCE, 0, 325725) -- 寰宇操控
 AT:RegisterDebuff(TIER, INSTANCE, 0, 328987) -- 狂热
 AT:RegisterDebuff(TIER, INSTANCE, 0, 334496) -- 催眠光粉
 AT:RegisterDebuff(TIER, INSTANCE, 0, 339978) -- 安抚迷雾
-AT:RegisterDebuff(TIER, INSTANCE, 0, 323692) -- 奥术易伤
 AT:RegisterDebuff(TIER, INSTANCE, 0, 333250) -- 放血之击
 AT:RegisterDebuff(TIER, INSTANCE, 0, 322746) -- 堕落之血
 AT:RegisterDebuff(TIER, INSTANCE, 0, 330434) -- 电锯
@@ -93,7 +92,8 @@ AT:RegisterDebuff(TIER, INSTANCE, 0, 331847) -- W-00F
 AT:RegisterDebuff(TIER, INSTANCE, 0, 327649) -- 粉碎灵魂
 AT:RegisterDebuff(TIER, INSTANCE, 0, 331379) -- 润滑剂
 AT:RegisterDebuff(TIER, INSTANCE, 0, 332678) -- 龟裂创伤
-AT:RegisterDebuff(TIER, INSTANCE, 0, 323687) -- 奥数闪电
+AT:RegisterDebuff(TIER, INSTANCE, 0, 323687) -- 奥术闪电
+AT:RegisterDebuff(TIER, INSTANCE, 0, 323692) -- 奥术易伤
 AT:RegisterDebuff(TIER, INSTANCE, 0, 334535) -- 啄裂
 
 INSTANCE = 1186 -- 晋升高塔

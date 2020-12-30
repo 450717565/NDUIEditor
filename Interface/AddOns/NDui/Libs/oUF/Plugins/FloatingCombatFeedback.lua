@@ -65,13 +65,13 @@ local schoolColors = {
 	[SCHOOL_MASK_ARCANE]	= {r = 1.00, g = 0.50, b = 1.00},	-- 0x40 or 64
 }
 
-local function removeString(self, i, string)
+local function removeString(self, i, strings)
 	tremove(self.FeedbackToAnimate, i)
-	string:SetText(nil)
-	string:SetAlpha(0)
-	string:Hide()
+	strings:SetText(nil)
+	strings:SetAlpha(0)
+	strings:Hide()
 
-	return string
+	return strings
 end
 
 local function getAvailableString(self)
@@ -130,15 +130,15 @@ local yOffsetsByAnimation = {
 }
 
 local function onUpdate(self, elapsed)
-	for index, string in next, self.FeedbackToAnimate do
-		if string.elapsed >= self.scrollTime then
-			removeString(self, index, string)
+	for index, strings in next, self.FeedbackToAnimate do
+		if strings.elapsed >= self.scrollTime then
+			removeString(self, index, strings)
 		else
-			string.progress = string.elapsed / self.scrollTime
-			string:SetPoint("CENTER", self, "CENTER", string:GetXY())
+			strings.progress = strings.elapsed / self.scrollTime
+			strings:SetPoint("CENTER", self, "CENTER", strings:GetXY())
 
-			string.elapsed = string.elapsed + elapsed
-			string:SetAlpha(clamp(1 - (string.elapsed - self.fadeTime) / (self.scrollTime - self.fadeTime)))
+			strings.elapsed = strings.elapsed + elapsed
+			strings:SetAlpha(clamp(1 - (strings.elapsed - self.fadeTime) / (self.scrollTime - self.fadeTime)))
 		end
 	end
 
@@ -314,24 +314,25 @@ local function onEvent(self, event, ...)
 
 	if text and texture then
 		local animation = element.defaultMode
-		local string = getAvailableString(element)
+		local strings = getAvailableString(element)
 
-		string:SetFont(element.font, C.db["UFs"]["FCTFontSize"] * multiplier, element.fontFlags)
-		string:SetFormattedText(element.format, texture, (critMark and "*" or "")..text)
-		string:SetTextColor(color.r, color.g, color.b)
-		string.elapsed = 0
-		string.GetXY = animations[animation]
-		string.radius = element.radius
-		string.scrollTime = element.scrollTime
-		string.xDirection = element.xDirection
-		string.yDirection = element.yDirection
-		string.x = element.xDirection * xOffsetsByAnimation[animation] * (critMark and -1 or 1)
-		string.y = element.yDirection * yOffsetsByAnimation[animation]
-		string:SetPoint("CENTER", element, "CENTER", string.x, string.y)
-		string:SetAlpha(0)
-		string:Show()
+		strings:SetFont(element.font, C.db["UFs"]["FCTFontSize"] * multiplier, element.fontFlags)
+		strings:SetFormattedText(element.format, texture, (critMark and "*" or "")..text)
+		strings.elapsed = 0
+		strings.GetXY = animations[animation]
+		strings.radius = element.radius
+		strings.scrollTime = element.scrollTime
+		strings.xDirection = element.xDirection
+		strings.yDirection = element.yDirection
+		strings.x = element.xDirection * xOffsetsByAnimation[animation] * (critMark and -1 or 1)
+		strings.y = element.yDirection * yOffsetsByAnimation[animation]
+		strings:SetPoint("CENTER", element, "CENTER", strings.x, strings.y)
+		strings:SetAlpha(0)
+		strings:Show()
 
-		tinsert(element.FeedbackToAnimate, string)
+		B.ReskinText(strings, color.r, color.g, color.b)
+
+		tinsert(element.FeedbackToAnimate, strings)
 
 		if not element:GetScript("OnUpdate") then
 			element:SetScript("OnUpdate", onUpdate)

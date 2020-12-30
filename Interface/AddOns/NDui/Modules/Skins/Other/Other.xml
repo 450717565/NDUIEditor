@@ -14,6 +14,7 @@
 	<Script file="ls_Toasts.lua"/>
 	<Script file="MeetingStone.lua"/>
 	<Script file="MogPartialSets.lua"/>
+	<Script file="MythicDungeonTools.lua"/>
 	<Script file="Postal.lua"/>
 	<Script file="PremadeGroupsFilter.lua"/>
 	<Script file="Rematch.lua"/>

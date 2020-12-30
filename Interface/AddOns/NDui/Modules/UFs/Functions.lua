@@ -177,6 +177,7 @@ function UF:CreateHealthText(self)
 	local mystyle = self.mystyle
 	local textFrame = CreateFrame("Frame", nil, self)
 	textFrame:SetAllPoints(self.Health)
+	textFrame:SetFrameLevel(self:GetFrameLevel()+2)
 
 	local name = B.CreateFS(textFrame, retVal(self, 13, 12, 12, 12, C.db["Nameplate"]["NameTextSize"]), "", false, "LEFT", 3, 0)
 	name:SetJustifyH("LEFT")
@@ -609,7 +610,7 @@ function UF:CreateCastBar(self)
 end
 
 local function reskinTimerBar(bar)
-	bar:SetSize(280, 15)
+	bar:SetSize(280, 18)
 	B.StripTextures(bar)
 
 	local statusbar = _G[bar:GetDebugName().."StatusBar"]
@@ -620,7 +621,8 @@ local function reskinTimerBar(bar)
 		bar:SetStatusBarTexture(DB.normTex)
 	end
 
-	B.CreateBG(bar)
+	local bg = B.CreateBDFrame(bar, 0, -C.mult)
+	B.CreateBT(bg)
 end
 
 function UF:ReskinMirrorBars()
@@ -628,6 +630,10 @@ function UF:ReskinMirrorBars()
 	for i = 1, 3 do
 		local bar = _G["MirrorTimer"..i]
 		reskinTimerBar(bar)
+
+		local text = _G["MirrorTimer"..i.."Text"]
+		text:ClearAllPoints()
+		text:SetPoint("CENTER")
 
 		if previous then
 			bar:SetPoint("TOP", previous, "BOTTOM", 0, -5)
