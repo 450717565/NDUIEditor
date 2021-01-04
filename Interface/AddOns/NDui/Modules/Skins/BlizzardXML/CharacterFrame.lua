@@ -1,7 +1,7 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
-local cr, cg, cb = DB.r, DB.g, DB.b
+local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
 local function Update_AzeriteItem(self)
 	if not self.styled then
@@ -197,7 +197,11 @@ tinsert(C.XMLThemes, function()
 		ItemLevelFrame:SetHeight(20)
 		ItemLevelFrame.Background:Hide()
 
-		local categorys = {StatsPane.ItemLevelCategory, StatsPane.AttributesCategory, StatsPane.EnhancementsCategory}
+		local categorys = {
+			StatsPane.ItemLevelCategory,
+			StatsPane.AttributesCategory,
+			StatsPane.EnhancementsCategory,
+		}
 		for _, category in pairs(categorys) do
 			category:SetHeight(30)
 			category.Background:Hide()
@@ -306,7 +310,12 @@ tinsert(C.XMLThemes, function()
 		B.ReskinClose(ReputationDetailCloseButton)
 		B.ReskinScroll(ReputationListScrollFrameScrollBar)
 
-		local checks = {ReputationDetailAtWarCheckBox, ReputationDetailInactiveCheckBox, ReputationDetailMainScreenCheckBox, ReputationDetailLFGBonusReputationCheckBox}
+		local checks = {
+			ReputationDetailAtWarCheckBox,
+			ReputationDetailInactiveCheckBox,
+			ReputationDetailMainScreenCheckBox,
+			ReputationDetailLFGBonusReputationCheckBox,
+		}
 		for _, check in pairs(checks) do
 			B.ReskinCheck(check)
 		end

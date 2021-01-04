@@ -12,6 +12,8 @@ local C_ChatInfo_SendAddonMessage = C_ChatInfo.SendAddonMessage
 local LE_PARTY_CATEGORY_HOME = LE_PARTY_CATEGORY_HOME
 local LE_PARTY_CATEGORY_INSTANCE = LE_PARTY_CATEGORY_INSTANCE
 
+local tL, tR, tT, tB = unpack(DB.TexCoord)
+
 -- RaidFrame Elements
 function UF:CreateRaidIcons(self)
 	local parentFrame = CreateFrame("Frame", nil, self)
@@ -134,7 +136,7 @@ function UF:CreateRaidDebuffs(self)
 
 	bu.icon = bu:CreateTexture(nil, "ARTWORK")
 	bu.icon:SetInside(bu.bubg)
-	bu.icon:SetTexCoord(unpack(DB.TexCoord))
+	bu.icon:SetTexCoord(tL, tR, tT, tB)
 
 	local parentFrame = CreateFrame("Frame", nil, bu)
 	parentFrame:SetAllPoints()
@@ -459,7 +461,7 @@ function UF:CreateBuffIndicator(self)
 		bu.bubg = B.CreateBDFrame(bu)
 		bu.icon = bu:CreateTexture(nil, "BORDER")
 		bu.icon:SetInside(bu.bubg)
-		bu.icon:SetTexCoord(unpack(DB.TexCoord))
+		bu.icon:SetTexCoord(tL, tR, tT, tB)
 		bu.cd = CreateFrame("Cooldown", nil, bu, "CooldownFrameTemplate")
 		bu.cd:SetInside(bu.bubg)
 		bu.cd:SetReverse(true)

@@ -1,6 +1,8 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local S = B:GetModule("Skins")
+
+local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
 local function QuestInfo_GetQuestID()
 	if QuestInfoFrame.questLog then
@@ -94,10 +96,6 @@ local function Reskin_RewardButton(self, isMapQuestInfo)
 		if self.IconBorder then
 			B.ReskinBorder(self.IconBorder, icbg, bubg)
 		end
-
-		if highlight then
-			highlight:SetAllPoints(bubg)
-		end
 	end
 end
 
@@ -108,6 +106,12 @@ local function Reskin_GetRewardButton(rewardsFrame, index)
 		Reskin_RewardButton(button, rewardsFrame == MapQuestInfoRewardsFrame)
 
 		button.styled = true
+	end
+
+	if button.type == "choice" then
+		button.bubg:SetBackdropColor(cr, cg, cb, .25)
+	else
+		button.bubg:SetBackdropColor(0, 0, 0, 0)
 	end
 end
 
@@ -126,7 +130,7 @@ local function Reskin_SpecialReward()
 		for followerReward in rewardsFrame.followerRewardPool:EnumerateActive() do
 			local PortraitFrame = followerReward.PortraitFrame
 			if not followerReward.styled then
-				Skins.ReskinPortrait(PortraitFrame)
+				S.ReskinPortrait(PortraitFrame)
 
 				followerReward.BG:Hide()
 				followerReward.bg = B.CreateBDFrame(followerReward)
@@ -151,7 +155,7 @@ local function Reskin_SpecialReward()
 			end
 
 			if PortraitFrame then
-				Skins.UpdatePortraitColor(PortraitFrame)
+				S.UpdatePortraitColor(PortraitFrame)
 			end
 		end
 
@@ -188,13 +192,10 @@ tinsert(C.XMLThemes, function()
 	hooksecurefunc("QuestInfo_Display", Reskin_ObjectivesText)
 	hooksecurefunc("QuestInfo_Display", Reskin_SpecialReward)
 	hooksecurefunc(QuestInfoSealFrame.Text, "SetText", Reskin_SealFrameText)
-	hooksecurefunc(QuestInfoRequiredMoneyText, "SetTextColor", Skins.ReskinRMTColor)
+	hooksecurefunc(QuestInfoRequiredMoneyText, "SetTextColor", S.ReskinRMTColor)
 
 	-- Quest Info Item
 	B.StripTextures(QuestInfoItemHighlight)
-	local highlight = B.CreateBDFrame(QuestInfoItemHighlight, 0)
-	highlight:SetBackdropColor(cr, cg, cb, .25)
-	highlight:SetBackdropBorderColor(cr, cg, cb, 1)
 
 	local frames =  {
 		"ArtifactXPFrame",

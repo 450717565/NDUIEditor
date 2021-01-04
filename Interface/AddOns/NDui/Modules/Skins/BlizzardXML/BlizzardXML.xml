@@ -23,9 +23,9 @@
 	<Script file="HelpFrame.lua"/>
 	<Script file="HelpTipTemplate.lua"/>
 	<Script file="InterfaceOptionsFrame.lua"/>
+	<Script file="ItemTextFrame.lua"/>
 	<Script file="LevelUpDisplay.lua"/>
-	<Script file="LFDFrame.lua"/>
-	<Script file="LFGFrame.lua"/>
+	<Script file="LFGFinderFrame.lua"/>
 	<Script file="LFGListFrame.lua"/>
 	<Script file="LootFrame.lua"/>
 	<Script file="LossOfControlFrame.lua"/>
@@ -45,7 +45,6 @@
 	<Script file="QuestMapFrame.lua"/>
 	<Script file="QueueStatus.lua"/>
 	<Script file="QuickJoinFrame.lua"/>
-	<Script file="RaidFinderFrame.lua"/>
 	<Script file="RaidInfoFrame.lua"/>
 	<Script file="ReadyCheckFrame.lua"/>
 	<Script file="RecruitAFriendFrame.lua"/>

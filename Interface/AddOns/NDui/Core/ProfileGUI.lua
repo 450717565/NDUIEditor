@@ -5,7 +5,7 @@ local GUI = B:GetModule("GUI")
 local pairs, strsplit, Ambiguate = pairs, strsplit, Ambiguate
 local strfind, tostring, select = strfind, tostring, select
 local SetPortraitTexture, StaticPopup_Show = SetPortraitTexture, StaticPopup_Show
-local cr, cg, cb = DB.r, DB.g, DB.b
+local cr, cg, cb = DB.cr, DB.cg, DB.cb
 local myFullName = DB.MyFullName
 
 -- Static popups

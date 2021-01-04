@@ -5,8 +5,6 @@ local Skins = B:GetModule("Skins")
 function Skins:WhisperPop()
 	if not IsAddOnLoaded("WhisperPop") then return end
 
-	local cr, cg, cb = DB.r, DB.g, DB.b
-
 	B.ReskinFrame(WhisperPopFrame, "none")
 	B.ReskinFrame(WhisperPopMessageFrame, "none")
 	B.ReskinArrow(WhisperPopScrollingMessageFrameButtonDown, "down")
@@ -16,19 +14,26 @@ function Skins:WhisperPop()
 	B.ReskinScroll(WhisperPopFrameListScrollBar)
 	B.ReskinHighlight(WhisperPopFrameListHighlightTexture, nil, true, true)
 
-	local lists = {WhisperPopFrameListDelete, WhisperPopFrameTopCloseButton, WhisperPopMessageFrameTopCloseButton}
+	local lists = {
+		WhisperPopFrameListDelete,
+		WhisperPopFrameTopCloseButton,
+		WhisperPopMessageFrameTopCloseButton,
+	}
 	for _, list in pairs(lists) do
 		B.ReskinClose(list)
 	end
 
-	local buttons = {"WhisperPopFrameConfig", "WhisperPopNotifyButton"}
+	local buttons = {
+		"WhisperPopFrameConfig",
+		"WhisperPopNotifyButton",
+	}
 	for _, button in pairs(buttons) do
 		local bu = _G[button]
 		B.CleanTextures(bu)
 
-		local ic = _G[button.."Icon"]
+		local icon = _G[button.."Icon"]
 
-		local icbg = B.ReskinIcon(ic)
+		local icbg = B.ReskinIcon(icon)
 		B.ReskinHighlight(bu, icbg)
 
 		if bu.SetCheckedTexture then

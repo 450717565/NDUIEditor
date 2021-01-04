@@ -77,9 +77,6 @@ function Maps:UpdateMapID()
 end
 
 function Maps:SetupCoords()
-	BorderFrame.Tutorial:ClearAllPoints()
-	BorderFrame.Tutorial:SetPoint("TOPLEFT", -10, 10)
-
 	playerText = PLAYER.."："
 	cursorText = MOUSE_LABEL.."："
 

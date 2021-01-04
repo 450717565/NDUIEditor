@@ -215,7 +215,7 @@ function Bar:StyleActionButton(button, cfg)
 	SetupTexture(flash, cfg.flash, "SetTexture", flash)
 	SetupTexture(flyoutBorder, cfg.flyoutBorder, "SetTexture", flyoutBorder)
 	SetupTexture(flyoutBorderShadow, cfg.flyoutBorderShadow, "SetTexture", flyoutBorderShadow)
-	--SetupTexture(border, cfg.border, "SetTexture", border)
+	SetupTexture(border, cfg.border, "SetTexture", border)
 
 	SetupTexture(normalTexture, cfg.normalTexture, "SetNormalTexture", button)
 	SetupTexture(pushedTexture, cfg.pushedTexture, "SetPushedTexture", button)

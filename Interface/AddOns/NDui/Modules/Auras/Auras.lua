@@ -8,6 +8,8 @@ local DebuffTypeColor = _G.DebuffTypeColor
 local UnitAura, GetTime = UnitAura, GetTime
 local GetInventoryItemQuality, GetInventoryItemTexture, GetItemQualityColor, GetWeaponEnchantInfo = GetInventoryItemQuality, GetInventoryItemTexture, GetItemQualityColor, GetWeaponEnchantInfo
 
+local tL, tR, tT, tB = unpack(DB.TexCoord)
+
 function Auras:OnLogin()
 	-- Config
 	Auras.settings = {
@@ -242,7 +244,7 @@ function Auras:CreateAuraIcon(button)
 	button.bubg = B.CreateBDFrame(button)
 
 	button.icon = button:CreateTexture(nil, "BORDER")
-	button.icon:SetTexCoord(unpack(DB.TexCoord))
+	button.icon:SetTexCoord(tL, tR, tT, tB)
 	button.icon:SetInside(button.bubg)
 
 	button.count = button:CreateFontString(nil, "ARTWORK")

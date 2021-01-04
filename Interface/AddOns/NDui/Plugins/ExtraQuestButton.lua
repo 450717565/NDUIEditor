@@ -26,6 +26,8 @@ local C_QuestLog_GetQuestIDForWorldQuestWatchIndex = C_QuestLog.GetQuestIDForWor
 local MAX_DISTANCE_YARDS = 1e5
 local onlyCurrentZone = true
 
+local tL, tR, tT, tB = unpack(DB.TexCoord)
+
 -- Warlords of Draenor intro quest items which inspired this addon
 local blacklist = {
 	[113191] = true,
@@ -226,7 +228,7 @@ function ExtraQuestButton:PLAYER_LOGIN()
 	local bubg = B.CreateBDFrame(self)
 
 	local Icon = self:CreateTexture("$parentIcon", "ARTWORK")
-	Icon:SetTexCoord(unpack(DB.TexCoord))
+	Icon:SetTexCoord(tL, tR, tT, tB)
 	Icon:SetInside(bubg)
 	self.Icon = Icon
 

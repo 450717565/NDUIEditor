@@ -25,7 +25,7 @@ local function getValue(pathStr, tbl)
 	return value
 end
 
-local function stripMS_Textures(self)
+local function StripMS_Textures(self)
 	if self.NineSlice then self.NineSlice:Hide() end
 
 	if self.GetNumRegions then
@@ -39,7 +39,7 @@ local function stripMS_Textures(self)
 	end
 end
 
-local function reskinMS_Button(self)
+local function ReskinMS_Button(self)
 	for i = 1, self:GetNumChildren() do
 		local child = select(i, self:GetChildren())
 		if child:IsObjectType("Button") and child.Icon and child.Text then
@@ -53,7 +53,7 @@ local function reskinMS_Button(self)
 	end
 end
 
-local function reskinMS_PageButton(self)
+local function ReskinMS_PageButton(self)
 	local left = self.ScrollUpButton
 	local right = self.ScrollDownButton
 
@@ -62,12 +62,81 @@ local function reskinMS_PageButton(self)
 	right:SetPoint("LEFT", left, "RIGHT", 10, 0)
 end
 
-local function reskinMS_ALFrame()
+local function ReskinMS_ALFrame()
 	if ALFrame and not ALFrame.styled then
 		B.ReskinFrame(ALFrame)
 		B.ReskinButton(ALFrameButton)
 
 		ALFrame.styled = true
+	end
+end
+
+local function Reskin_AutoCompleteFrame(self)
+	for i = 1, #self.buttons do
+		local button = self:GetButton(i)
+		if not button.styled and button:IsShown() then
+			B.StripTextures(button)
+			B.ReskinButton(button)
+
+			button.styled = true
+		end
+	end
+end
+
+local function Reskin_DropMenu(self, level, ...)
+	level = level or 1
+	local menu = self.menuList[level]
+	if menu and not menu.styled then
+		TT.ReskinTooltip(menu)
+
+		local scrollBar = menu.GetScrollBar and menu:GetScrollBar()
+		if scrollBar then B.ReskinScroll(scrollBar) end
+	end
+end
+
+local function Reskin_DropMenuItem(self)
+	self.Arrow:SetTexture(DB.arrowTex.."right")
+	self.Arrow:SetSize(14, 14)
+end
+
+local function Reskin_TabView(self)
+	for i = 1, self:GetItemCount() do
+		local tab = self:GetButton(i)
+		if not tab.styled then
+			B.ReskinTab(tab)
+			B.ReskinHighlight(tab.Flash, tab)
+
+			if tab.icon then B.ReskinIcon(tab.icon) end
+
+			tab.styled = true
+		end
+
+		if i > 1 then
+			tab:ClearAllPoints()
+			tab:SetPoint("LEFT", self:GetButton(i-1), "RIGHT", -(15+C.mult), 0)
+		end
+	end
+end
+
+local function Reskin_ListView(self)
+	for i = 1, #self.buttons do
+		local button = self:GetButton(i)
+		if not button.styled and button:IsShown() then
+			B.StripTextures(button)
+			B.ReskinButton(button)
+			B.ReskinHighlight(button:GetCheckedTexture(), button, true, true)
+
+			if button.Option then
+				B.ReskinButton(button.Option.InviteButton)
+				B.ReskinDecline(button.Option.DeclineButton)
+			end
+
+			if button.Summary then
+				B.ReskinDecline(button.Summary.CancelButton)
+			end
+
+			button.styled = true
+		end
 	end
 end
 
@@ -81,14 +150,17 @@ function Skins:MeetingStone()
 	if not MS or not MSEnv or not GUI then return end
 
 	-- Panel
-	local Panels = {"MainPanel", "BrowsePanel.AdvFilterPanel"}
+	local Panels = {
+		"BrowsePanel.AdvFilterPanel",
+		"MainPanel",
+	}
 	for _, v in pairs(Panels) do
 		local frame = getValue(v, MSEnv)
 		if frame then
-			stripMS_Textures(frame)
+			StripMS_Textures(frame)
 
-			if frame.Inset then stripMS_Textures(frame.Inset) end
-			if frame.Inset2 then stripMS_Textures(frame.Inset2) end
+			if frame.Inset then StripMS_Textures(frame.Inset) end
+			if frame.Inset2 then StripMS_Textures(frame.Inset2) end
 			if frame.PortraitFrame then frame.PortraitFrame:SetAlpha(0) end
 			if frame.CloseButton then B.ReskinClose(frame.CloseButton) end
 
@@ -121,17 +193,7 @@ function Skins:MeetingStone()
 	B.StripTextures(AutoCompleteFrame)
 	B.ReskinScroll(AutoCompleteFrame:GetScrollBar())
 
-	hooksecurefunc(AutoCompleteFrame, "UpdateItems", function(self)
-		for i = 1, #self.buttons do
-			local button = self:GetButton(i)
-			if not button.styled and button:IsShown() then
-				B.StripTextures(button)
-				B.ReskinButton(button)
-
-				button.styled = true
-			end
-		end
-	end)
+	hooksecurefunc(AutoCompleteFrame, "UpdateItems", Reskin_AutoCompleteFrame)
 
 	-- CreatePanel
 	local CreatePanel = MSEnv.CreatePanel
@@ -153,7 +215,16 @@ function Skins:MeetingStone()
 	end
 
 	-- Button
-	local Buttons = {"BrowsePanel.SignUpButton", "CreatePanel.CreateButton", "CreatePanel.DisbandButton", "BrowsePanel.NoResultBlocker.Button", "RecentPanel.BatchDeleteButton", "BrowsePanel.RefreshFilterButton", "BrowsePanel.ResetFilterButton", "MallPanel.PurchaseButton"}
+	local Buttons = {
+		"BrowsePanel.NoResultBlocker.Button",
+		"BrowsePanel.RefreshFilterButton",
+		"BrowsePanel.ResetFilterButton",
+		"BrowsePanel.SignUpButton",
+		"CreatePanel.CreateButton",
+		"CreatePanel.DisbandButton",
+		"MallPanel.PurchaseButton",
+		"RecentPanel.BatchDeleteButton",
+	}
 	for _, v in pairs(Buttons) do
 		local button = getValue(v, MSEnv)
 		if button then
@@ -161,7 +232,11 @@ function Skins:MeetingStone()
 		end
 	end
 
-	local StretchButtons = {"BrowsePanel.AdvButton", "BrowsePanel.RefreshButton", "ManagerPanel.RefreshButton"}
+	local StretchButtons = {
+		"BrowsePanel.AdvButton",
+		"BrowsePanel.RefreshButton",
+		"ManagerPanel.RefreshButton",
+	}
 	for _, v in pairs(StretchButtons) do
 		local button = getValue(v, MSEnv)
 		if button then
@@ -171,7 +246,13 @@ function Skins:MeetingStone()
 	end
 
 	-- Dropdown
-	local Dropdowns = {"BrowsePanel.ActivityDropdown", "CreatePanel.ActivityType", "RecentPanel.ActivityDropdown", "RecentPanel.ClassDropdown", "RecentPanel.RoleDropdown"}
+	local Dropdowns = {
+		"BrowsePanel.ActivityDropdown",
+		"CreatePanel.ActivityType",
+		"RecentPanel.ActivityDropdown",
+		"RecentPanel.ClassDropdown",
+		"RecentPanel.RoleDropdown",
+	}
 	for _, v in pairs(Dropdowns) do
 		local dropdown = getValue(v, MSEnv)
 		if dropdown then
@@ -182,46 +263,21 @@ function Skins:MeetingStone()
 
 	-- DropMenu
 	local DropMenu = GUI:GetClass("DropMenu")
-	hooksecurefunc(DropMenu, "Open", function(self, level, ...)
-		level = level or 1
-		local menu = self.menuList[level]
-		if menu and not menu.styled then
-			TT.ReskinTooltip(menu)
-
-			local scrollBar = menu.GetScrollBar and menu:GetScrollBar()
-			if scrollBar then B.ReskinScroll(scrollBar) end
-		end
-	end)
+	hooksecurefunc(DropMenu, "Open", Reskin_DropMenu)
 
 	local DropMenuItem = GUI:GetClass("DropMenuItem")
-	hooksecurefunc(DropMenuItem, "SetHasArrow", function(self)
-		self.Arrow:SetTexture(DB.arrowTex.."right")
-		self.Arrow:SetSize(14, 14)
-	end)
+	hooksecurefunc(DropMenuItem, "SetHasArrow", Reskin_DropMenuItem)
 
 	-- Tab
 	local TabView = GUI:GetClass("TabView")
-	hooksecurefunc(TabView, "UpdateItems", function(self)
-		for i = 1, self:GetItemCount() do
-			local tab = self:GetButton(i)
-			if not tab.styled then
-				B.ReskinTab(tab)
-				B.ReskinHighlight(tab.Flash, tab)
-
-				if tab.bg then tab.bg:Hide() end
-
-				tab.styled = true
-			end
-
-			if i > 1 then
-				tab:ClearAllPoints()
-				tab:SetPoint("LEFT", self:GetButton(i-1), "RIGHT", -(15+C.mult), 0)
-			end
-		end
-	end)
+	hooksecurefunc(TabView, "UpdateItems", Reskin_TabView)
 
 	-- GridView
-	local GridViews = {"ApplicantPanel.ApplicantList", "BrowsePanel.ActivityList", "RecentPanel.MemberList"}
+	local GridViews = {
+		"ApplicantPanel.ApplicantList",
+		"BrowsePanel.ActivityList",
+		"RecentPanel.MemberList",
+	}
 	for _, v in pairs(GridViews) do
 		local grid = getValue(v, MSEnv)
 		if grid and not grid.styled then
@@ -246,30 +302,14 @@ function Skins:MeetingStone()
 	end
 
 	local ListView = GUI:GetClass("ListView")
-	hooksecurefunc(ListView, "UpdateItems", function(self)
-		for i = 1, #self.buttons do
-			local button = self:GetButton(i)
-			if not button.styled and button:IsShown() then
-				B.StripTextures(button)
-				B.ReskinButton(button)
-				B.ReskinHighlight(button:GetCheckedTexture(), button, true, true)
-
-				if button.Option then
-					B.ReskinButton(button.Option.InviteButton)
-					B.ReskinDecline(button.Option.DeclineButton)
-				end
-
-				if button.Summary then
-					B.ReskinDecline(button.Summary.CancelButton)
-				end
-
-				button.styled = true
-			end
-		end
-	end)
+	hooksecurefunc(ListView, "UpdateItems", Reskin_ListView)
 
 	-- EditBox
-	local EditBoxes = {"CreatePanel.HonorLevel", "CreatePanel.ItemLevel", "RecentPanel.SearchInput"}
+	local EditBoxes = {
+		"CreatePanel.HonorLevel",
+		"CreatePanel.ItemLevel",
+		"RecentPanel.SearchInput",
+	}
 	for _, v in pairs(EditBoxes) do
 		local input = getValue(v, MSEnv)
 		if input then
@@ -292,14 +332,14 @@ function Skins:MeetingStone()
 		local MallPanel = MS:GetModule("MallPanel")
 		B.StripTextures(MallPanel.CategoryList:GetParent())
 		B.ReskinButton(MallPanel.PurchaseButton)
-		reskinMS_Button(MallPanel)
+		ReskinMS_Button(MallPanel)
 
 		local RewardPanel = MS:GetModule("RewardPanel")
 		B.ReskinButton(RewardPanel.ConfirmButton)
 		B.ReskinInput(RewardPanel.InputBox)
 
 		B.StripTextures(MSEnv.ActivitiesParent)
-		reskinMS_Button(MSEnv.ActivitiesParent)
+		ReskinMS_Button(MSEnv.ActivitiesParent)
 		B.ReskinScroll(MSEnv.ActivitiesSummary.Summary.ScrollBar)
 
 		local WalkthroughPanel = MS:GetModule("WalkthroughPanel", true)
@@ -310,8 +350,8 @@ function Skins:MeetingStone()
 
 	-- App
 	B.StripTextures(MSEnv.AppParent)
-	reskinMS_PageButton(MSEnv.AppFollowQueryPanel.QueryList.ScrollBar)
-	reskinMS_PageButton(MSEnv.AppFollowPanel.FollowList.ScrollBar)
+	ReskinMS_PageButton(MSEnv.AppFollowQueryPanel.QueryList.ScrollBar)
+	ReskinMS_PageButton(MSEnv.AppFollowPanel.FollowList.ScrollBar)
 
 	if not MeetingStone_QuickJoin then return end  -- version check
 
@@ -331,7 +371,7 @@ function Skins:MeetingStone()
 			child:SetHeight(26)
 			B.ReskinButton(child)
 
-			child:HookScript("PostClick", reskinMS_ALFrame)
+			child:HookScript("PostClick", ReskinMS_ALFrame)
 		end
 	end
 

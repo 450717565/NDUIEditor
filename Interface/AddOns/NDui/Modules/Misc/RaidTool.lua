@@ -18,7 +18,7 @@ local LeaveParty = C_PartyInfo.LeaveParty
 local ConvertToRaid = C_PartyInfo.ConvertToRaid
 local ConvertToParty = C_PartyInfo.ConvertToParty
 
-local cr, cg, cb = DB.r, DB.g, DB.b
+local cr, cg, cb = DB.cr, DB.cg, DB.cb
 local WorldMarker = gsub(WORLD_MARKER, "%%d", "")
 
 function Misc:RaidTool_Visibility(frame)

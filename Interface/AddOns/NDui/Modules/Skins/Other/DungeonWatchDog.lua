@@ -2,6 +2,11 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local Skins = B:GetModule("Skins")
 
+local function Update_OnShowPoint(self)
+	self:ClearAllPoints()
+	self:SetPoint("RIGHT", PVEFrameCloseButton, "LEFT", -3, 0)
+end
+
 function Skins:DungeonWatchDog()
 	if not IsAddOnLoaded("DungeonWatchDog") then return end
 
@@ -9,8 +14,5 @@ function Skins:DungeonWatchDog()
 	B.ReskinButton(button)
 	button:SetSize(40, 20)
 
-	button:HookScript("OnShow", function(self)
-		self:ClearAllPoints()
-		self:SetPoint("RIGHT", PVEFrameCloseButton, "LEFT", -3, 0)
-	end)
+	button:HookScript("OnShow", Update_OnShowPoint)
 end

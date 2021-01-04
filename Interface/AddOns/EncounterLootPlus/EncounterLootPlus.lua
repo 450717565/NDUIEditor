@@ -59,8 +59,8 @@ ELP.frame:SetScript("OnEvent", function(self, _, addon)
 		end)
 
 		local btn = CreateFrame("Button", "ELPShortcut", EncounterJournalInstanceSelect, "UIMenuButtonStretchTemplate")
-		btn:SetSize(120, 36)
-		btn:SetPoint("LEFT", EncounterJournalInstanceSelectLootJournalTab, "RIGHT", 24, -2)
+		btn:SetSize(120, 32)
+		btn:SetPoint("BOTTOMLEFT", EncounterJournalInstanceSelectLootJournalTab, "BOTTOMRIGHT", 24, 0)
 		btn.Text:SetText("爱不易装备搜索")
 		btn:SetScript("OnClick", function()
 			if db.range == 0 then db.range = 5 end
@@ -74,15 +74,16 @@ ELP.frame:SetScript("OnEvent", function(self, _, addon)
 
 		if IsAddOnLoaded("NDui") then
 			local B, C, L, DB = unpack(_G.NDui)
-			B.StripTextures(btn)
 			B.ReskinButton(btn)
 			btn.Text:SetFont(DB.Font[1], 14, DB.Font[3])
-			btn.Text:SetPoint("CENTER")
-			btn.Text:SetTextColor(1, 1, 1)
+			btn.Text:SetPoint("CENTER", 1, 0)
+			btn.Text:SetTextColor(DB.r, DB.g, DB.b)
 
 			hooksecurefunc("EncounterJournal_SetLootButton", function(item)
 				if item.instance then
 					item.instance:SetTextColor(1, 1, 1)
+					item.instance:ClearAllPoints()
+					item.instance:SetPoint("TOPRIGHT", item.armorType, "BOTTOMRIGHT", 0, -6)
 				end
 			end)
 		elseif IsAddOnLoaded("ElvUI") then

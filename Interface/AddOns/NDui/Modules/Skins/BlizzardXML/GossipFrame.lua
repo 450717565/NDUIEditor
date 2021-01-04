@@ -51,33 +51,21 @@ local function Reskin_TitleButton(self)
 end
 
 tinsert(C.XMLThemes, function()
-	-- GossipFrame
-	do
-		B.ReskinFrame(GossipFrame)
-		B.ReskinButton(GossipFrameGreetingGoodbyeButton)
-		B.ReskinScroll(GossipGreetingScrollFrameScrollBar)
-		B.ReskinStatusBar(NPCFriendshipStatusBar, true)
-		B.ReskinText(GossipGreetingText, 1, .8, 0)
-		B.ReskinText(QuestFont, 1, 1, 1)
+	B.ReskinFrame(GossipFrame)
+	B.ReskinButton(GossipFrameGreetingGoodbyeButton)
+	B.ReskinScroll(GossipGreetingScrollFrameScrollBar)
+	B.ReskinStatusBar(NPCFriendshipStatusBar, true)
+	B.ReskinText(GossipGreetingText, 1, .8, 0)
 
-		local icon = NPCFriendshipStatusBar.icon
-		icon:ClearAllPoints()
-		icon:SetPoint("RIGHT", NPCFriendshipStatusBar, "LEFT", 0, -2)
+	local icon = NPCFriendshipStatusBar.icon
+	icon:ClearAllPoints()
+	icon:SetPoint("RIGHT", NPCFriendshipStatusBar, "LEFT", 0, -2)
 
-		hooksecurefunc("GossipFrameUpdate", function(self)
-			Reskin_TitleButton(GossipFrame)
-		end)
+	hooksecurefunc("GossipFrameUpdate", function(self)
+		Reskin_TitleButton(GossipFrame)
+	end)
 
-		QuestFrameGreetingPanel:HookScript("OnShow", function(self)
-			Reskin_TitleButton(self)
-		end)
-	end
-
-	-- ItemTextFrame
-	do
-		B.ReskinFrame(ItemTextFrame)
-		B.ReskinScroll(ItemTextScrollFrameScrollBar)
-		B.ReskinArrow(ItemTextPrevPageButton, "left")
-		B.ReskinArrow(ItemTextNextPageButton, "right")
-	end
+	QuestFrameGreetingPanel:HookScript("OnShow", function(self)
+		Reskin_TitleButton(self)
+	end)
 end)

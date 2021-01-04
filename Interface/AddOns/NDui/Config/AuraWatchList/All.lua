@@ -68,6 +68,7 @@ local list = {
 		{AuraID = 345530, UnitID = "player"},	-- 过载的心能电池
 		{AuraID = 345541, UnitID = "player"},	-- 天域涌动
 		{AuraID = 336588, UnitID = "player"},	-- 唤醒者的复叶
+		{AuraID = 348139, UnitID = "player"},	-- 导师的圣钟
 		{AuraID = 311444, UnitID = "player", Value = true},	-- 不屈套牌
 		{AuraID = 336465, UnitID = "player", Value = true},	-- 脉冲光辉护盾
 		{AuraID = 330366, UnitID = "player", Text = L["Crit"]},	-- 不可思议的量子装置，暴击
@@ -156,6 +157,7 @@ local list = {
 		{AuraID = 116849, UnitID = "player"},	-- 作茧缚命
 		{AuraID = 204018, UnitID = "player"},	-- 破咒祝福
 		{AuraID = 102342, UnitID = "player"},	-- 铁木树皮
+		{AuraID = 145629, UnitID = "player"},	-- 反魔法领域
 		{AuraID = 156910, UnitID = "player"},	-- 信仰道标
 		{AuraID = 192082, UnitID = "player"},	-- 狂风图腾
 		{AuraID = 201633, UnitID = "player"},	-- 大地图腾
@@ -186,6 +188,7 @@ local list = {
 		{AuraID = 319637, UnitID = "player"},	-- 伤逝剧场，魂魄归体
 		{AuraID = 336258, UnitID = "player", Flash = true},	-- 凋魂之殇，落单狩猎
 		{AuraID = 327401, UnitID = "player", Flash = true},	-- 通灵战潮，共受苦难
+		{AuraID = 323471, UnitID = "player", Flash = true},	-- 通灵战潮，切肉飞刀
 		{AuraID = 327397, UnitID = "player"},	-- 通灵战潮，严酷命运
 		{AuraID = 322681, UnitID = "player"},	-- 通灵战潮，肉钩
 		{AuraID = 335161, UnitID = "player"},	-- 通灵战潮，残存心能
@@ -221,6 +224,7 @@ local list = {
 		{AuraID = 343502, UnitID = "target"},	-- 鼓舞光环
 		-- 5人本
 		{AuraID = 321754, UnitID = "target", Value = true},	-- 通灵战潮，冰缚之盾
+		{AuraID = 343470, UnitID = "target", Value = true},	-- 通灵战潮，碎骨之盾
 		{AuraID = 322773, UnitID = "target", Value = true},	-- 彼界，鲜血屏障
 		{AuraID = 333227, UnitID = "target", Flash = true},	-- 彼界，不死之怒
 		{AuraID = 228626, UnitID = "target"},	-- 彼界，怨灵之瓮

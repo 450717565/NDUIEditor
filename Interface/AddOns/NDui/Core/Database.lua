@@ -40,8 +40,8 @@ for class, value in pairs(classColors) do
 	DB.ClassColors[class] = {r = value.r, g = value.g, b = value.b, colorStr = value.colorStr}
 end
 
-DB.r, DB.g, DB.b = DB.ClassColors[DB.MyClass].r, DB.ClassColors[DB.MyClass].g, DB.ClassColors[DB.MyClass].b
-DB.MyColor = format("|cff%02x%02x%02x", DB.r*255, DB.g*255, DB.b*255)
+DB.cr, DB.cg, DB.cb = DB.ClassColors[DB.MyClass].r, DB.ClassColors[DB.MyClass].g, DB.ClassColors[DB.MyClass].b
+DB.MyColor = format("|cff%02x%02x%02x", DB.cr*255, DB.cg*255, DB.cb*255)
 DB.InfoColor = "|cff99ccff" --.6,.8,1
 DB.GreyColor = "|cff7b8489"
 

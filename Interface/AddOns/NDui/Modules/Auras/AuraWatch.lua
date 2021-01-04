@@ -10,6 +10,8 @@ local InCombatLockdown, UnitBuff, UnitDebuff, GetPlayerInfoByGUID, UnitInRaid, U
 local GetTime, GetSpellInfo, GetSpellCooldown, GetSpellCharges, GetTotemInfo, IsPlayerSpell = GetTime, GetSpellInfo, GetSpellCooldown, GetSpellCharges, GetTotemInfo, IsPlayerSpell
 local GetItemCooldown, GetItemInfo, GetInventoryItemLink, GetInventoryItemCooldown = GetItemCooldown, GetItemInfo, GetInventoryItemLink, GetInventoryItemCooldown
 
+local tL, tR, tT, tB = unpack(DB.TexCoord)
+
 -- DataConvert
 local function DataAnalyze(v)
 	local newTable = {}
@@ -194,7 +196,7 @@ local function BuildICON(iconSize)
 
 	frame.Icon = frame:CreateTexture(nil, "ARTWORK")
 	frame.Icon:SetInside(frame.bubg)
-	frame.Icon:SetTexCoord(unpack(DB.TexCoord))
+	frame.Icon:SetTexCoord(tL, tR, tT, tB)
 
 	frame.Cooldown = CreateFrame("Cooldown", nil, frame, "CooldownFrameTemplate")
 	frame.Cooldown:SetInside(frame.bubg)
@@ -222,7 +224,7 @@ local function BuildBAR(barWidth, iconSize)
 
 	frame.Icon = frame:CreateTexture(nil, "ARTWORK")
 	frame.Icon:SetInside(frame.bubg)
-	frame.Icon:SetTexCoord(unpack(DB.TexCoord))
+	frame.Icon:SetTexCoord(tL, tR, tT, tB)
 
 	frame.Statusbar = CreateFrame("StatusBar", nil, frame)
 	frame.Statusbar:SetSize(barWidth, iconSize/2.5)

@@ -12,7 +12,7 @@ local C_Garrison_GetClassSpecCategoryInfo = C_Garrison.GetClassSpecCategoryInfo
 local C_Garrison_RequestClassSpecCategoryInfo = C_Garrison.RequestClassSpecCategoryInfo
 local LE_GARRISON_TYPE_7_0 = Enum.GarrisonType.Type_7_0
 local LE_FOLLOWER_TYPE_GARRISON_7_0 = Enum.GarrisonFollowerType.FollowerType_7_0
-local cr, cg, cb = DB.r, DB.g, DB.b
+local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
 function Misc:OrderHall_CreateIcon()
 	local hall = CreateFrame("Frame", "NDuiOrderHallIcon", UIParent)

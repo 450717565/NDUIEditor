@@ -6,7 +6,7 @@ local Infobar = B:GetModule("Infobar")
 local info = Infobar:RegisterInfobar("Guild", C.Infobar.GuildPos)
 
 info.guildTable = {}
-local cr, cg, cb = DB.r, DB.g, DB.b
+local cr, cg, cb = DB.cr, DB.cg, DB.cb
 local infoFrame, gName, gOnline, gApps, gRank, prevTime
 
 local wipe, sort, format, select = table.wipe, table.sort, format, select

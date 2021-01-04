@@ -19,7 +19,15 @@ function Skins:MogPartialSets()
 	Text:ClearAllPoints()
 	Text:SetPoint("LEFT", EditBox, "RIGHT", 1, 0)
 
-	local names = {"Toggle", "OnlyFavorite", "FavoriteVariants", "IgnoreHead", "IgnoreCloak", "IgnoreBracers", "IgnoreBoots"}
+	local names = {
+		"Toggle",
+		"IgnoreHead",
+		"IgnoreCloak",
+		"IgnoreBoots",
+		"OnlyFavorite",
+		"IgnoreBracers",
+		"FavoriteVariants",
+	}
 	for _, name in pairs(names) do
 		local check = _G["MogPartialSetsFilter"..name.."Button"]
 		B.ReskinCheck(check)

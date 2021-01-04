@@ -77,7 +77,7 @@ end
 function Bar:MicroMenu()
 	if not C.db["ActionBar"]["MicroMenu"] then return end
 
-	cr, cg, cb = DB.r, DB.g, DB.b
+	cr, cg, cb = DB.cr, DB.cg, DB.cb
 	color = C.db["Skins"]["LineColor"]
 	if not C.db["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
 

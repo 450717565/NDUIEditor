@@ -2,6 +2,32 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local Skins = B:GetModule("Skins")
 
+local function Strip_Options(self)
+	self.baroptions.args.barspacing = nil
+	self.titleoptions.args.texture = nil
+	self.titleoptions.args.bordertexture = nil
+	self.titleoptions.args.thickness = nil
+	self.titleoptions.args.margin = nil
+	self.titleoptions.args.color = nil
+	self.windowoptions = nil
+	self.baroptions.args.barfont = nil
+	self.titleoptions.args.font = nil
+end
+
+local function Embed_Window(window, width, barheight, height, ofsx, ofsy)
+	window.db.barwidth = width
+	window.db.barheight = barheight
+	if window.db.enabletitle then
+		height = height - barheight
+	end
+	window.db.background.height = height
+	window.db.spark = false
+	window.db.barslocked = true
+	window.bargroup:ClearAllPoints()
+	window.bargroup:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", ofsx, ofsy)
+	barmod.ApplySettings(barmod, window)
+end
+
 function Skins:Skada()
 	if not C.db["Skins"]["Skada"] then return end
 	if not IsAddOnLoaded("Skada") then return end
@@ -9,27 +35,16 @@ function Skins:Skada()
 	local Skada = Skada
 	local barSpacing = 0
 	local barmod = Skada.displays["bar"]
-	local function StripOptions(self)
-		self.baroptions.args.barspacing = nil
-		self.titleoptions.args.texture = nil
-		self.titleoptions.args.bordertexture = nil
-		self.titleoptions.args.thickness = nil
-		self.titleoptions.args.margin = nil
-		self.titleoptions.args.color = nil
-		self.windowoptions = nil
-		self.baroptions.args.barfont = nil
-		self.titleoptions.args.font = nil
-	end
 
 	barmod.AddDisplayOptions_ = barmod.AddDisplayOptions
 	barmod.AddDisplayOptions = function(self, win, options)
 		self:AddDisplayOptions_(win, options)
-		StripOptions(options)
+		Strip_Options(options)
 	end
 
 	for _, options in pairs(Skada.options.args.windows.args) do
 		if options.type == "group" then
-			StripOptions(options.args)
+			Strip_Options(options.args)
 		end
 	end
 
@@ -71,27 +86,13 @@ function Skins:Skada()
 		window:SetFrameStrata("MEDIUM")
 	end
 
-	local function EmbedWindow(window, width, barheight, height, ofsx, ofsy)
-		window.db.barwidth = width
-		window.db.barheight = barheight
-		if window.db.enabletitle then
-			height = height - barheight
-		end
-		window.db.background.height = height
-		window.db.spark = false
-		window.db.barslocked = true
-		window.bargroup:ClearAllPoints()
-		window.bargroup:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", ofsx, ofsy)
-		barmod.ApplySettings(barmod, window)
-	end
-
 	local windows = {}
 	local function EmbedSkada()
 		if #windows == 1 then
-			EmbedWindow(windows[1], 350, 16, 193, -6, 32)
+			Embed_Window(windows[1], 350, 16, 193, -6, 32)
 		elseif #windows == 2 then
-			EmbedWindow(windows[1], 350, 16, 113, -6, 32)
-			EmbedWindow(windows[2], 350, 16, 113, -6, 156)
+			Embed_Window(windows[1], 350, 16, 113, -6, 32)
+			Embed_Window(windows[2], 350, 16, 113, -6, 156)
 		end
 	end
 

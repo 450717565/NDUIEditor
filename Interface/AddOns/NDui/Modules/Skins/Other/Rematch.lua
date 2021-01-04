@@ -6,7 +6,7 @@ local TT = B:GetModule("Tooltip")
 function Skins:Rematch()
 	if not IsAddOnLoaded("Rematch") then return end
 
-	local cr, cg, cb = DB.r, DB.g, DB.b
+	local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
 	if RematchSettings then
 		RematchSettings.ColorPetNames = true

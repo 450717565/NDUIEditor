@@ -1,13 +1,16 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
+local S = B:GetModule("Skins")
 
 tinsert(C.XMLThemes, function()
 	B.ReskinNavBar(WorldMapFrame.NavBar)
 
 	local overlayFrames = WorldMapFrame.overlayFrames
 	B.ReskinDropDown(overlayFrames[1])
-	overlayFrames[2]:DisableDrawLayer("BACKGROUND")
-	overlayFrames[2]:DisableDrawLayer("OVERLAY")
+	for _, frame in pairs(overlayFrames) do
+		frame:DisableDrawLayer("BACKGROUND")
+		frame:DisableDrawLayer("OVERLAY")
+	end
 
 	local SidePanelToggle = WorldMapFrame.SidePanelToggle
 	B.ReskinArrow(SidePanelToggle.OpenButton, "right")
@@ -15,7 +18,7 @@ tinsert(C.XMLThemes, function()
 
 	local BorderFrame = WorldMapFrame.BorderFrame
 	B.ReskinMinMax(BorderFrame.MaximizeMinimizeFrame)
-	BorderFrame.Tutorial.Ring:Hide()
+	S.ReskinTutorialButton(BorderFrame.Tutorial, BorderFrame)
 
 	local bg = B.ReskinFrame(BorderFrame, "none")
 	bg:SetParent(WorldMapFrame)

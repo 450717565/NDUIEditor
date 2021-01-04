@@ -3,6 +3,14 @@ local B, C, L, DB = unpack(ns)
 local Skins = B:GetModule("Skins")
 local TT = B:GetModule("Tooltip")
 
+local function Update_OnShowPoint(self, _, parent)
+	if parent ~= LFGListFrame then
+		self:ClearAllPoints()
+		self:SetPoint("TOPLEFT", LFGListFrame, "TOPRIGHT", 3, 0)
+		self:SetPoint("BOTTOMLEFT", LFGListFrame, "BOTTOMRIGHT", 3, 0)
+	end
+end
+
 function Skins:PremadeGroupsFilter()
 	if not IsAddOnLoaded("PremadeGroupsFilter") then return end
 
@@ -36,7 +44,16 @@ function Skins:PremadeGroupsFilter()
 	UsePFGButton.text:SetText(FILTER)
 	UsePFGButton.text:SetWidth(UsePFGButton.text:GetStringWidth())
 
-	local names = {"Difficulty", "Ilvl", "Noilvl", "Defeated", "Members", "Tanks", "Heals", "Dps"}
+	local names = {
+		"Dps",
+		"Ilvl",
+		"Tanks",
+		"Heals",
+		"Noilvl",
+		"Members",
+		"Defeated",
+		"Difficulty",
+	}
 	for _, name in pairs(names) do
 		local check = dialog[name].Act
 		if check then
@@ -53,13 +70,7 @@ function Skins:PremadeGroupsFilter()
 		end
 	end
 
-	hooksecurefunc(PremadeGroupsFilterDialog, "SetPoint", function(self, _, parent)
-		if parent ~= LFGListFrame then
-			self:ClearAllPoints()
-			self:SetPoint("TOPLEFT", LFGListFrame, "TOPRIGHT", 3, 0)
-			self:SetPoint("BOTTOMLEFT", LFGListFrame, "BOTTOMRIGHT", 3, 0)
-		end
-	end)
+	hooksecurefunc(PremadeGroupsFilterDialog, "SetPoint", Update_OnShowPoint)
 
 	local tipStyled
 	hooksecurefunc(PremadeGroupsFilter.Debug, "PopupMenu_Initialize", function()

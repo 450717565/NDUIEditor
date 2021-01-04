@@ -24,7 +24,7 @@ local RAF_RECRUIT_FRIEND, RAF_RECRUITER_FRIEND = RAF_RECRUIT_FRIEND, RAF_RECRUIT
 local WOW_PROJECT_ID = WOW_PROJECT_ID or 1
 local CLIENT_WOW_CLASSIC = "WoV" -- for sorting
 
-local cr, cg, cb = DB.r, DB.g, DB.b
+local cr, cg, cb = DB.cr, DB.cg, DB.cb
 local infoFrame, updateRequest, prevTime
 local friendTable, bnetTable = {}, {}
 local activeZone, inactiveZone = "|cff4cff4c", DB.GreyColor

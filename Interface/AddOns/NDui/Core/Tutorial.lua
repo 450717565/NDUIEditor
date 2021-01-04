@@ -3,7 +3,7 @@ local B, C, L, DB = unpack(ns)
 local Settings = B:RegisterModule("Settings")
 
 local pairs, wipe = pairs, table.wipe
-local cr, cg, cb = DB.r, DB.g, DB.b
+local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
 -- Addon Info
 print("|cff0080ff< NDui >|cff70C0F5——————————————")

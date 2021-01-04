@@ -1,7 +1,7 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
-local function moveNavButtons(self)
+local function Move_NavButtons(self)
 	local width = 0
 	local collapsedWidth
 	local maxWidth = self:GetWidth() - self.widthBuffer
@@ -52,7 +52,7 @@ local function Reskin_AddButton(self)
 		B.ReskinButton(navButton)
 
 		navButton:HookScript("OnClick", function()
-			moveNavButtons(self)
+			Move_NavButtons(self)
 		end)
 
 		local selected = navButton.selected
@@ -67,7 +67,7 @@ local function Reskin_AddButton(self)
 		navButton.restyled = true
 	end
 
-	moveNavButtons(self)
+	Move_NavButtons(self)
 end
 
 tinsert(C.XMLThemes, function()

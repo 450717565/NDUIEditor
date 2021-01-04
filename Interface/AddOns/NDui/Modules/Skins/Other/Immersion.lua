@@ -2,26 +2,26 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local Skins = B:GetModule("Skins")
 
-local cr, cg, cb = DB.r, DB.g, DB.b
+local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
-local function reskinTitleButton(button)
-	if button and not button.styled then
-		button.Hilite:Hide()
+local function Reskin_TitleButton(self)
+	if self and not self.styled then
+		self.Hilite:Hide()
 
-		B.StripTextures(button)
-		B.ReskinButton(button)
-		B.CreateBT(button.bgTex)
+		B.StripTextures(self)
+		B.ReskinButton(self)
+		B.CreateBT(self.bgTex)
 
 		if index > 1 then
-			button:ClearAllPoints()
-			button:SetPoint("TOP", self.Buttons[index-1], "BOTTOM", 0, -B.Scale(3))
+			self:ClearAllPoints()
+			self:SetPoint("TOP", self.Buttons[index-1], "BOTTOM", 0, -B.Scale(3))
 		end
 
-		button.styled = true
+		self.styled = true
 	end
 end
 
-local function updateItemBorder(self)
+local function Update_ItemBorder(self)
 	if not self.icbg and not self.bubg then return end
 
 	if self.objectType == "item" then
@@ -44,9 +44,9 @@ local function updateItemBorder(self)
 	end
 end
 
-local function reskinItemButton(buttons)
-	for i = 1, #buttons do
-		local button = buttons[i]
+local function Reskin_ItemButton(self)
+	for i = 1, #self do
+		local button = self[i]
 		if button and not button.styled then
 			button.Mask:Hide()
 			button.Border:Hide()
@@ -61,12 +61,27 @@ local function reskinItemButton(buttons)
 			button.styled = true
 		end
 
-		local p1, p2, p3 = buttons[1]:GetPoint()
-		buttons[1]:ClearAllPoints()
-		buttons[1]:SetPoint(p1, p2, p3, 1, -10)
+		local p1, p2, p3 = self[1]:GetPoint()
+		self[1]:ClearAllPoints()
+		self[1]:SetPoint(p1, p2, p3, 1, -10)
 
-		updateItemBorder(button)
+		Update_ItemBorder(button)
 	end
+end
+
+local function Reskin_GetButton(self, index)
+	local button = self.Buttons[index]
+	Reskin_TitleButton(button)
+end
+
+local function Reskin_AddQuestInfo(self)
+	local buttons = self.TalkBox.Elements.Content.RewardsFrame.Buttons
+	Reskin_ItemButton(buttons)
+end
+
+local function Reskin_QUESTPROGRESS(self)
+	local buttons = self.TalkBox.Elements.Progress.Buttons
+	Reskin_ItemButton(buttons)
 end
 
 function Skins:Immersion()
@@ -96,18 +111,7 @@ function Skins:Immersion()
 	Indicator:ClearAllPoints()
 	Indicator:SetPoint("RIGHT", MainFrame.CloseButton, "LEFT", -3, 0)
 
-	hooksecurefunc(ImmersionFrame.TitleButtons, "GetButton", function(self, index)
-		local button = self.Buttons[index]
-		reskinTitleButton(button)
-	end)
-
-	hooksecurefunc(ImmersionFrame, "AddQuestInfo", function(self)
-		local buttons = self.TalkBox.Elements.Content.RewardsFrame.Buttons
-		reskinItemButton(buttons)
-	end)
-
-	hooksecurefunc(ImmersionFrame, "QUEST_PROGRESS", function(self)
-		local buttons = self.TalkBox.Elements.Progress.Buttons
-		reskinItemButton(buttons)
-	end)
+	hooksecurefunc(ImmersionFrame, "AddQuestInfo", Reskin_AddQuestInfo)
+	hooksecurefunc(ImmersionFrame, "QUEST_PROGRESS", Reskin_QUESTPROGRESS)
+	hooksecurefunc(ImmersionFrame.TitleButtons, "GetButton", Reskin_GetButton)
 end

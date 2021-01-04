@@ -191,7 +191,7 @@ end
 function Chat:ChatBarBackground()
 	if not C.db["Skins"]["ChatLine"] then return end
 
-	local cr, cg, cb = DB.r, DB.g, DB.b
+	local cr, cg, cb = DB.cr, DB.cg, DB.cb
 	local color = C.db["Skins"]["LineColor"]
 	if not C.db["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
 

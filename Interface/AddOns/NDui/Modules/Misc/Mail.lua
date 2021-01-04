@@ -263,11 +263,19 @@ function Misc:TotalCash_OnEnter()
 		GameTooltip:AddLine(Misc:GetMoneyString(totalCash, true), 1,1,1)
 		GameTooltip:Show()
 	end
+
+	if self and self.bgTex then
+		B.Tex_OnEnter(self)
+	end
 end
 
 function Misc:TotalCash_OnLeave()
 	B:HideTooltip()
 	totalCash = 0
+
+	if self and self.bgTex then
+		B.Tex_OnLeave(self)
+	end
 end
 
 function Misc:UpdateOpeningText(opening)
@@ -290,9 +298,9 @@ end
 
 function Misc:CollectGoldButton()
 	OpenAllMail:ClearAllPoints()
-	OpenAllMail:SetPoint("TOPLEFT", InboxFrame, "TOPLEFT", 50, -35)
+	OpenAllMail:SetPoint("BOTTOMRIGHT", MailFrameInset, "TOP", -2, 5)
 
-	local button = Misc:MailBox_CreatButton(InboxFrame, 120, 24, "", {"LEFT", OpenAllMail, "RIGHT", 3, 0})
+	local button = Misc:MailBox_CreatButton(InboxFrame, 80, 24, "", {"LEFT", OpenAllMail, "RIGHT", 4, 0})
 	button:SetScript("OnClick", Misc.MailBox_CollectAllGold)
 	button:SetScript("OnEnter", Misc.TotalCash_OnEnter)
 	button:SetScript("OnLeave", Misc.TotalCash_OnLeave)

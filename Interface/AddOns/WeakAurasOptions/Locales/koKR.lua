@@ -275,8 +275,7 @@ UNIT_POWER_UPDATE, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Delete children and group"] = "자식과 그룹 삭제"
 	L["Delete Entry"] = "항목 삭제"
 	L["Desaturate"] = "흑백"
-	--[[Translation missing --]]
-	L["Description"] = "Description"
+	L["Description"] = "설명"
 	--[[Translation missing --]]
 	L["Description Text"] = "Description Text"
 	--[[Translation missing --]]
@@ -437,8 +436,7 @@ Supports multiple entries, separated by commas
 	L["Group by Frame"] = "Group by Frame"
 	--[[Translation missing --]]
 	L["Group contains updates from Wago"] = "Group contains updates from Wago"
-	--[[Translation missing --]]
-	L["Group Description"] = "Group Description"
+	L["Group Description"] = "그룹 설명"
 	L["Group Icon"] = "그룹 아이콘"
 	L["Group key"] = "그룹 키"
 	L["Group Member Count"] = "그룹원 수"
@@ -657,8 +655,7 @@ Supports multiple entries, separated by commas
 	L["Purple Rune"] = "보라색 룬"
 	L["Put this display in a group"] = "이 디스플레이를 그룹에 넣기"
 	L["Radius"] = "반경"
-	--[[Translation missing --]]
-	L["Raid Role"] = "Raid Role"
+	L["Raid Role"] = "공격대 역할"
 	L["Re-center X"] = "내부 X 좌표"
 	L["Re-center Y"] = "내부 Y 좌표"
 	--[[Translation missing --]]

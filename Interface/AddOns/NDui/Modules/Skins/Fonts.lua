@@ -2,6 +2,50 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local Skins = B:GetModule("Skins")
 
+local function Fixed_UpdateStatusText(frame)
+	if frame:IsForbidden() then return end
+	if not frame.statusText then return end
+
+	local options = DefaultCompactUnitFrameSetupOptions
+	frame.statusText:ClearAllPoints()
+	frame.statusText:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 3, options.height/3 - 5)
+	frame.statusText:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -3, options.height/3 - 5)
+
+	if not frame.fontStyled then
+		local fontName, fontSize = frame.statusText:GetFont()
+		frame.statusText:SetFont(fontName, fontSize, "OUTLINE")
+		B.ReskinText(frame.statusText, .7, .7, .7)
+
+		frame.fontStyled = true
+	end
+end
+
+local function Fixed_UpdateScrollFrame()
+	local buttons = PaperDollTitlesPane.buttons
+	for i = 1, #buttons do
+		local button = buttons[i]
+		if not button.fontStyled then
+			B.ReskinFont(button.text, 14)
+
+			button.fontStyled = true
+		end
+	end
+end
+
+local function Fixed_WhoListUpdate()
+	local buttons = WhoListScrollFrame.buttons
+	for i = 1, #buttons do
+		local button = buttons[i]
+		local level = button.Level
+		if level and not level.fontStyled then
+			level:SetWidth(32)
+			level:SetJustifyH("CENTER")
+
+			level.fontStyled = true
+		end
+	end
+end
+
 function Skins:Fonts()
 	if not C.db["Skins"]["BlizzardSkins"] then return end
 	if not C.db["Skins"]["FontOutline"] then return end
@@ -138,53 +182,31 @@ function Skins:Fonts()
 	B.ReskinFont(SystemFont_World_ThickOutline, 64)
 	B.ReskinFont(SystemFont_WTF2, 64)
 
+	-- Text color
+	local yellowList = {
+		InvoiceTextFontNormal,
+	}
+	for _, font in pairs(yellowList) do
+		B.ReskinText(font, 1, .8, 0)
+	end
+
+	local whiteList = {
+		CoreAbilityFont,
+		GameFontBlackMedium,
+		InvoiceTextFontSmall,
+		MailTextFontNormal,
+		QuestFont,
+	}
+	for _, font in pairs(whiteList) do
+		B.ReskinText(font, 1, 1, 1)
+	end
+
 	-- Refont RaidFrame Health
-	hooksecurefunc("CompactUnitFrame_UpdateStatusText", function(frame)
-		if frame:IsForbidden() then return end
-		if not frame.statusText then return end
-
-		local options = DefaultCompactUnitFrameSetupOptions
-		frame.statusText:ClearAllPoints()
-		frame.statusText:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 3, options.height/3 - 5)
-		frame.statusText:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -3, options.height/3 - 5)
-
-		if not frame.fontStyled then
-			local fontName, fontSize = frame.statusText:GetFont()
-			frame.statusText:SetFont(fontName, fontSize, "OUTLINE")
-			B.ReskinText(frame.statusText, .7, .7, .7)
-
-			frame.fontStyled = true
-		end
-	end)
+	hooksecurefunc("CompactUnitFrame_UpdateStatusText", Fixed_UpdateStatusText)
 
 	-- Refont Titles Panel
-	hooksecurefunc("PaperDollTitlesPane_UpdateScrollFrame", function()
-		local bu = PaperDollTitlesPane.buttons
-		for i = 1, #bu do
-			if not bu[i].fontStyled then
-				B.ReskinFont(bu[i].text, 14)
-
-				bu[i].fontStyled = true
-			end
-		end
-	end)
+	hooksecurefunc("PaperDollTitlesPane_UpdateScrollFrame", Fixed_UpdateScrollFrame)
 
 	-- WhoFrame LevelText
-	hooksecurefunc("WhoList_Update", function()
-		local buttons = WhoListScrollFrame.buttons
-		for i = 1, #buttons do
-			local button = buttons[i]
-			local level = button.Level
-			if level and not level.fontStyled then
-				level:SetWidth(32)
-				level:SetJustifyH("CENTER")
-
-				level.fontStyled = true
-			end
-		end
-	end)
-
-	-- Text color
-	B.ReskinText(GameFontBlackMedium, 1, 1, 1)
-	B.ReskinText(CoreAbilityFont, 1, 1, 1)
+	hooksecurefunc("WhoList_Update", Fixed_WhoListUpdate)
 end

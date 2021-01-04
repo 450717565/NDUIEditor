@@ -229,6 +229,13 @@ do
 			B.ReskinText(self, 0, 1, 0)
 		end
 	end
+
+	-- Reskin Tutorial Button
+	function Skins:ReskinTutorialButton(parent)
+		self.Ring:Hide()
+		self:ClearAllPoints()
+		self:SetPoint("TOPLEFT", parent, "TOPLEFT", -12, 12)
+	end
 end
 
 -- Update Function

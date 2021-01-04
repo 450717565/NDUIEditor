@@ -1,7 +1,8 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
-local cr, cg, cb = DB.r, DB.g, DB.b
+local cr, cg, cb = DB.cr, DB.cg, DB.cb
+local tL, tR, tT, tB = unpack(DB.TexCoord)
 
 local iconSize = 33
 local fontSize = math.floor(select(2, GameFontWhite:GetFont()) + .5)
@@ -89,7 +90,7 @@ local function CreateSlot(id)
 	button.border = border
 
 	local icon = border:CreateTexture(nil, "ARTWORK")
-	icon:SetTexCoord(unpack(DB.TexCoord))
+	icon:SetTexCoord(tL, tR, tT, tB)
 	icon:SetInside()
 	button.icon = icon
 

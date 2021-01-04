@@ -1,8 +1,8 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local S = B:GetModule("Skins")
 
-local cr, cg, cb = DB.r, DB.g, DB.b
+local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
 local function Reskin_DisplayAchievement(button, category, index)
 	local completed = select(4, GetAchievementInfo(category, index))
@@ -167,10 +167,10 @@ C.LUAThemes["Blizzard_AchievementUI"] = function()
 	bg:SetOutside(searchPreviewContainer.searchPreview1, 1, 1, searchPreviewContainer.showAllSearchResults)
 
 	for i = 1, 5 do
-		Skins.ReskinSearchBox(searchPreviewContainer["searchPreview"..i])
+		S.ReskinSearchBox(searchPreviewContainer["searchPreview"..i])
 	end
-	Skins.ReskinSearchBox(searchPreviewContainer.showAllSearchResults)
-	Skins.ReskinSearchResult(AchievementFrame)
+	S.ReskinSearchBox(searchPreviewContainer.showAllSearchResults)
+	S.ReskinSearchResult(AchievementFrame)
 
 	local dropDown = AchievementFrameFilterDropDown
 	B.ReskinDropDown(dropDown)
@@ -206,14 +206,14 @@ C.LUAThemes["Blizzard_AchievementUI"] = function()
 		local io = _G[button.."IconOverlay"]
 		io:Hide()
 
-		local ic = _G[button.."IconTexture"]
-		local icbg = B.ReskinIcon(ic)
+		local icon = _G[button.."IconTexture"]
+		local icbg = B.ReskinIcon(icon)
 
-		local ch = _G[button.."Tracked"]
-		ch:SetSize(22, 22)
-		ch:ClearAllPoints()
-		ch:SetPoint("TOPLEFT", icbg, "BOTTOMLEFT", -3.5, 0)
-		B.ReskinCheck(ch)
+		local track = _G[button.."Tracked"]
+		track:SetSize(22, 22)
+		track:ClearAllPoints()
+		track:SetPoint("TOPLEFT", icbg, "BOTTOMLEFT", -3.5, 0)
+		B.ReskinCheck(track)
 	end
 
 	for i = 1, 20 do
@@ -230,10 +230,10 @@ C.LUAThemes["Blizzard_AchievementUI"] = function()
 	end)
 
 	hooksecurefunc("AchievementButton_GetProgressBar", Reskin_GetProgressBar)
-	hooksecurefunc("AchievementFrameSummary_UpdateAchievements", Reskin_UpdateAchievements)
 	hooksecurefunc("AchievementObjectives_DisplayCriteria", Reskin_DisplayCriteria)
 	hooksecurefunc("AchievementFrameCategories_DisplayButton", Reskin_DisplayButton)
 	hooksecurefunc("AchievementButton_DisplayAchievement", Reskin_DisplayAchievement)
+	hooksecurefunc("AchievementFrameSummary_UpdateAchievements", Reskin_UpdateAchievements)
 
 	-- Comparison
 	local summaries = {AchievementFrameComparisonSummaryPlayer, AchievementFrameComparisonSummaryFriend}

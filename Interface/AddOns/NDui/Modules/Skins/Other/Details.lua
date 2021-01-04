@@ -2,7 +2,49 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local Skins = B:GetModule("Skins")
 
-local function ReskinDetails()
+local function Setup_Instance(self)
+	if self.styled then return end
+	if not self.baseframe then return end
+
+	self:AttributeMenu(true, 0, 3, DB.Font[1], 13, {1, 1, 1}, 1, true)
+	self:ChangeSkin("Minimalistic")
+	self:DesaturateMenu(false)
+	self:HideMainIcon(false)
+	self:InstanceColor(0, 0, 0, 0)
+	self:InstanceWallpaper(false)
+	self:MenuAnchor(16, 3)
+	self:SetBackdropTexture("None")
+	self:SetBarRightTextSettings(nil, nil, true, nil, ",")
+	self:SetBarSettings(NDuiADB["ResetDetails"] and 18 or nil, NDuiADB["ResetDetails"] and "normTex" or nil, true, {0, 0, 0, 0}, NDuiADB["ResetDetails"] and "normTex" or nil, false, {0, 0, 0, 0})
+	self:SetBarTextSettings(NDuiADB["ResetDetails"] and 14 or nil, DB.Font[1], nil, nil, nil, true, true, nil, nil, nil, nil, nil, nil, false, nil, false, nil)
+	self:ToolbarMenuButtonsSize(1)
+
+	self.baseframe.bg = B.CreateBG(self.baseframe, -1, 18, 0, 0)
+
+	if self:GetId() <= 2 then
+		local open, close = Skins.CreateToggle(self.baseframe)
+		open:HookScript("OnClick", function()
+			self:ShowWindow()
+		end)
+		close:HookScript("OnClick", function()
+			self:HideWindow()
+		end)
+	end
+
+	self.styled = true
+end
+
+local function Embed_Window(self, x, y, width, height)
+	if not self.baseframe then return end
+	self.baseframe:ClearAllPoints()
+	self.baseframe:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", x, y)
+	self:SetSize(width, height)
+	self:SaveMainWindowPosition()
+	self:RestoreMainWindowPosition()
+	self:LockInstance(true)
+end
+
+local function Reskin_Details()
 	local Details = _G.Details
 
 	-- instance table can be nil sometimes
@@ -26,42 +68,10 @@ local function ReskinDetails()
 		Details.tooltip.submenu_wallpaper = false
 	end
 
-	local function setupInstance(self)
-		if self.styled then return end
-		if not self.baseframe then return end
-
-		self:AttributeMenu(true, 0, 3, DB.Font[1], 13, {1, 1, 1}, 1, true)
-		self:ChangeSkin("Minimalistic")
-		self:DesaturateMenu(false)
-		self:HideMainIcon(false)
-		self:InstanceColor(0, 0, 0, 0)
-		self:InstanceWallpaper(false)
-		self:MenuAnchor(16, 3)
-		self:SetBackdropTexture("None")
-		self:SetBarRightTextSettings(nil, nil, true, nil, ",")
-		self:SetBarSettings(NDuiADB["ResetDetails"] and 18 or nil, NDuiADB["ResetDetails"] and "normTex" or nil, true, {0, 0, 0, 0}, NDuiADB["ResetDetails"] and "normTex" or nil, false, {0, 0, 0, 0})
-		self:SetBarTextSettings(NDuiADB["ResetDetails"] and 14 or nil, DB.Font[1], nil, nil, nil, true, true, nil, nil, nil, nil, nil, nil, false, nil, false, nil)
-		self:ToolbarMenuButtonsSize(1)
-
-		self.baseframe.bg = B.CreateBG(self.baseframe, -1, 18, 0, 0)
-
-		if self:GetId() <= 2 then
-			local open, close = Skins.CreateToggle(self.baseframe)
-			open:HookScript("OnClick", function()
-				self:ShowWindow()
-			end)
-			close:HookScript("OnClick", function()
-				self:HideWindow()
-			end)
-		end
-
-		self.styled = true
-	end
-
 	local index = 1
 	local instance = Details:GetInstance(index)
 	while instance do
-		setupInstance(instance)
+		Setup_Instance(instance)
 		index = index + 1
 		instance = Details:GetInstance(index)
 	end
@@ -70,24 +80,14 @@ local function ReskinDetails()
 	local instance1 = Details:GetInstance(1)
 	local instance2 = Details:GetInstance(2)
 
-	local function EmbedWindow(self, x, y, width, height)
-		if not self.baseframe then return end
-		self.baseframe:ClearAllPoints()
-		self.baseframe:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", x, y)
-		self:SetSize(width, height)
-		self:SaveMainWindowPosition()
-		self:RestoreMainWindowPosition()
-		self:LockInstance(true)
-	end
-
 	if NDuiADB["ResetDetails"] then
 		local height = 190
 		if instance1 then
 			if instance2 then
 				height = 96
-				EmbedWindow(instance2, -3, 143, 350, height)
+				Embed_Window(instance2, -3, 143, 350, height)
 			end
-			EmbedWindow(instance1, -3, 28, 350, height)
+			Embed_Window(instance1, -3, 28, 350, height)
 		end
 	end
 
@@ -97,9 +97,9 @@ local function ReskinDetails()
 		if event == "DETAILS_INSTANCE_OPEN" then
 			if not instance.styled and instance:GetId() == 2 then
 				instance1:SetSize(350, 96)
-				EmbedWindow(instance, -3, 143, 350, 96)
+				Embed_Window(instance, -3, 143, 350, 96)
 			end
-			setupInstance(instance)
+			Setup_Instance(instance)
 		end
 	end
 
@@ -111,7 +111,7 @@ local function ReskinDetails()
 	end
 	Details.OpenWelcomeWindow = function()
 		if instance1 then
-			EmbedWindow(instance1, -3, 28, 350, 190)
+			Embed_Window(instance1, -3, 28, 350, 190)
 			instance1:SetBarSettings(18, "normTex")
 			instance1:SetBarTextSettings(14, DB.Font[1], nil, nil, nil, true, true, nil, nil, nil, nil, nil, nil, false, nil, false, nil)
 		end
@@ -120,4 +120,4 @@ local function ReskinDetails()
 	NDuiADB["ResetDetails"] = false
 end
 
-Skins.LoadWithAddOn("Details", "Details", ReskinDetails)
+Skins.LoadWithAddOn("Details", "Details", Reskin_Details)

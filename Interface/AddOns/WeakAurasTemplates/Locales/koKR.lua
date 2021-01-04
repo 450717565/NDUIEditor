@@ -51,8 +51,7 @@ local L = WeakAuras.L
 	L["Bloodlust/Heroism"] = "피의 욕망/영웅심"
 	--[[Translation missing --]]
 	L["Bonded Buff"] = "Bonded Buff"
-	--[[Translation missing --]]
-	L["Buff"] = "Buff"
+	L["Buff"] = "강화 효과"
 	L["buff"] = "강화 효과"
 	--[[Translation missing --]]
 	L["Buff on Other"] = "Buff on Other"
@@ -173,8 +172,7 @@ local L = WeakAuras.L
 	L["stun debuff"] = "stun debuff"
 	--[[Translation missing --]]
 	L["Stun Debuff"] = "Stun Debuff"
-	--[[Translation missing --]]
-	L["Totem"] = "Totem"
+	L["Totem"] = "토템"
 	--[[Translation missing --]]
 	L["Track the charge and proc, highlight while proc is active, turns red when out of range, blue on insufficient resources."] = "Track the charge and proc, highlight while proc is active, turns red when out of range, blue on insufficient resources."
 	--[[Translation missing --]]

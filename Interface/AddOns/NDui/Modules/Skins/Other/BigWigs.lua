@@ -2,7 +2,7 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local Skins = B:GetModule("Skins")
 
-local function removeStyle(self)
+local function Remove_Style(self)
 	B.StripTextures(self)
 
 	local height = self:Get("bigwigs:restoreheight")
@@ -27,7 +27,7 @@ local function removeStyle(self)
 	label:SetPoint("BOTTOMRIGHT", self.candyBarBar, "BOTTOMRIGHT", -2, 8)
 end
 
-local function reskinStyle(self)
+local function Reskin_Style(self)
 	B.StripTextures(self)
 
 	local height = self:GetHeight()
@@ -78,14 +78,20 @@ local function reskinStyle(self)
 	label:SetPoint("BOTTOMRIGHT", self.candyBarBar, "BOTTOMRIGHT", -2, 8)
 end
 
-local function registerStyle()
+local function Set_Style(self, style)
+	if style ~= "NDui" then
+		self:SetBarStyle("NDui")
+	end
+end
+
+local function Register_Style()
 	if not BigWigsAPI then return end
 	BigWigsAPI:RegisterBarStyle("NDui", {
 		apiVersion = 1,
 		version = 3,
 		GetSpacing = function(bar) return bar:GetHeight()+5 end,
-		ApplyStyle = reskinStyle,
-		BarStopped = removeStyle,
+		ApplyStyle = Reskin_Style,
+		BarStopped = Remove_Style,
 		fontSizeNormal = 13,
 		fontSizeEmphasized = 14,
 		fontOutline = "OUTLINE",
@@ -93,11 +99,7 @@ local function registerStyle()
 	})
 
 	local bars = BigWigs:GetPlugin("Bars", true)
-	hooksecurefunc(bars, "SetBarStyle", function(self, style)
-		if style ~= "NDui" then
-			self:SetBarStyle("NDui")
-		end
-	end)
+	hooksecurefunc(bars, "SetBarStyle", Set_Style)
 end
 
 function Skins:BigWigs()
@@ -106,11 +108,11 @@ function Skins:BigWigs()
 	if not BigWigs3DB then return end
 
 	if IsAddOnLoaded("BigWigs_Plugins") then
-		registerStyle()
+		Register_Style()
 	else
 		local function loadStyle(event, addon)
 			if addon == "BigWigs_Plugins" then
-				registerStyle()
+				Register_Style()
 				B:UnregisterEvent(event, loadStyle)
 			end
 		end

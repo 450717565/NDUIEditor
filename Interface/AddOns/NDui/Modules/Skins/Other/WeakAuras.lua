@@ -4,7 +4,7 @@ local Skins = B:GetModule("Skins")
 
 local pairs, unpack = pairs, unpack
 
-local function UpdateIconTexCoord(icon)
+local function Update_IconTexCoord(icon)
 	if icon.isCutting then return end
 	icon.isCutting = true
 
@@ -27,11 +27,11 @@ local function UpdateIconTexCoord(icon)
 	icon.isCutting = nil
 end
 
-local function Skin_WeakAuras(self, fType)
+local function Reskin_Region(self, fType)
 	if fType == "icon" then
 		if not self.icon.styled then
-			UpdateIconTexCoord(self.icon)
-			hooksecurefunc(self.icon, "SetTexCoord", UpdateIconTexCoord)
+			Update_IconTexCoord(self.icon)
+			hooksecurefunc(self.icon, "SetTexCoord", Update_IconTexCoord)
 
 			local icbg = B.ReskinIcon(self.icon)
 			icbg:SetFrameLevel(0)
@@ -41,8 +41,8 @@ local function Skin_WeakAuras(self, fType)
 		end
 	elseif fType == "aurabar" then
 		if not self.bar.styled then
-			UpdateIconTexCoord(self.icon)
-			hooksecurefunc(self.icon, "SetTexCoord", UpdateIconTexCoord)
+			Update_IconTexCoord(self.icon)
+			hooksecurefunc(self.icon, "SetTexCoord", Update_IconTexCoord)
 
 			local icbg = B.ReskinIcon(self.icon)
 			icbg:SetFrameLevel(0)
@@ -56,7 +56,7 @@ local function Skin_WeakAuras(self, fType)
 	end
 end
 
-local function reskinChildButton(self)
+local function Reskin_ChildButton(self)
 	for i = 1, self:GetNumChildren() do
 		local child = select(i, self:GetChildren())
 		if child:GetObjectType() == 'Button' and child.Text then
@@ -65,7 +65,7 @@ local function reskinChildButton(self)
 	end
 end
 
-local function removeBorder(self)
+local function Remove_Border(self)
 	for _, region in pairs {self:GetRegions()} do
 		local texture = region.GetTexture and region:GetTexture()
 		if texture and texture ~= "" and type(texture) == "string" and texture:find("Quickslot2") then
@@ -74,7 +74,7 @@ local function removeBorder(self)
 	end
 end
 
-local function ReskinWAOptions()
+local function Reskin_WAOptions()
 	local frame = _G.WeakAurasOptions
 	if not frame or frame.styled then return end
 
@@ -127,7 +127,7 @@ local function ReskinWAOptions()
 	for _, key in pairs(childGroups) do
 		local group = frame[key]
 		if group then
-			reskinChildButton(group.frame)
+			Reskin_ChildButton(group.frame)
 		end
 	end
 
@@ -151,12 +151,12 @@ local function ReskinWAOptions()
 	-- WeakAurasSnippets
 	local snippets = _G.WeakAurasSnippets
 	B.ReskinFrame(snippets)
-	reskinChildButton(snippets)
+	Reskin_ChildButton(snippets)
 
 	-- WeakAurasTemplates
 	hooksecurefunc(WeakAuras, "OpenTriggerTemplate", function()
 		if frame.newView and not frame.newView.styled then
-			reskinChildButton(frame.newView.frame)
+			Reskin_ChildButton(frame.newView.frame)
 			frame.newView.styled = true
 		end
 	end)
@@ -202,37 +202,37 @@ local function ReskinWAOptions()
 	frame.styled = true
 end
 
-local function ReskinWA()
+local function Reskin_WeakAuras()
 	local regionTypes = WeakAuras.regionTypes
 	local Create_Icon, Modify_Icon = regionTypes.icon.create, regionTypes.icon.modify
 	local Create_AuraBar, Modify_AuraBar = regionTypes.aurabar.create, regionTypes.aurabar.modify
 
 	regionTypes.icon.create = function(parent, data)
 		local region = Create_Icon(parent, data)
-		Skin_WeakAuras(region, "icon")
+		Reskin_Region(region, "icon")
 		return region
 	end
 
 	regionTypes.aurabar.create = function(parent)
 		local region = Create_AuraBar(parent)
-		Skin_WeakAuras(region, "aurabar")
+		Reskin_Region(region, "aurabar")
 		return region
 	end
 
 	regionTypes.icon.modify = function(parent, region, data)
 		Modify_Icon(parent, region, data)
-		Skin_WeakAuras(region, "icon")
+		Reskin_Region(region, "icon")
 	end
 
 	regionTypes.aurabar.modify = function(parent, region, data)
 		Modify_AuraBar(parent, region, data)
-		Skin_WeakAuras(region, "aurabar")
+		Reskin_Region(region, "aurabar")
 	end
 
 	for weakAura in pairs(WeakAuras.regions) do
 		local regions = WeakAuras.regions[weakAura]
 		if regions.regionType == "icon" or regions.regionType == "aurabar" then
-			Skin_WeakAuras(regions.region, regions.regionType)
+			Reskin_Region(regions.region, regions.regionType)
 		end
 	end
 
@@ -241,7 +241,7 @@ local function ReskinWA()
 
 	-- WeakAurasTooltip
 	local tooltipAnchor = _G.WeakAurasTooltipImportButton:GetParent()
-	reskinChildButton(tooltipAnchor)
+	Reskin_ChildButton(tooltipAnchor)
 	B.ReskinRadio(WeakAurasTooltipRadioButtonCopy)
 	B.ReskinRadio(WeakAurasTooltipRadioButtonUpdate)
 
@@ -262,7 +262,7 @@ local function ReskinWA()
 				local OldIcon = icon
 				icon = function()
 					local f = OldIcon()
-					removeBorder(f)
+					Remove_Border(f)
 					return f
 				end
 			end
@@ -271,7 +271,7 @@ local function ReskinWA()
 				local OldCreateThumbnail = createThumbnail
 				createThumbnail = function()
 					local f = OldCreateThumbnail()
-					removeBorder(f)
+					Remove_Border(f)
 					return f
 				end
 			end
@@ -283,11 +283,11 @@ local function ReskinWA()
 	-- WeakAurasOptions
 	local function loadFunc(event, addon)
 		if addon == "WeakAurasOptions" then
-			hooksecurefunc(WeakAuras, "ShowOptions", ReskinWAOptions)
+			hooksecurefunc(WeakAuras, "ShowOptions", Reskin_WAOptions)
 			B:UnregisterEvent(event, loadFunc)
 		end
 	end
 	B:RegisterEvent("ADDON_LOADED", loadFunc)
 end
 
-Skins.LoadWithAddOn("WeakAuras", "WeakAuras", ReskinWA)
+Skins.LoadWithAddOn("WeakAuras", "WeakAuras", Reskin_WeakAuras)

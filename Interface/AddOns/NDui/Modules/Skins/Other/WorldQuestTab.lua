@@ -3,7 +3,7 @@ local B, C, L, DB = unpack(ns)
 local Skins = B:GetModule("Skins")
 local TT = B:GetModule("Tooltip")
 
-local cr, cg, cb = DB.r, DB.g, DB.b
+local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
 local function Update_SelectTab(self, tab)
 	local id = tab and tab:GetID() or 0

@@ -2,6 +2,17 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local Skins = B:GetModule("Skins")
 
+local function Reskin_UpdateLog(self)
+	for i = 1, #self.buttons do
+		local button = self.buttons[i]
+		if not button.styled then
+			B.ReskinCollapse(button)
+
+			button.styled = true
+		end
+	end
+end
+
 function Skins:ClassicQuestLog()
 	if not IsAddOnLoaded("Classic Quest Log") then return end
 
@@ -13,7 +24,13 @@ function Skins:ClassicQuestLog()
 	countFrame:ClearAllPoints()
 	countFrame:SetPoint("TOP", ClassicQuestLogTitleText, "BOTTOM", 0, -5)
 
-	local buttons = {"abandonButton", "pushButton", "trackButton", "optionsButton", "closeButton"}
+	local buttons = {
+		"abandonButton",
+		"pushButton",
+		"trackButton",
+		"optionsButton",
+		"closeButton",
+	}
 	for _, button in pairs(buttons) do
 		B.ReskinButton(chrome[button])
 	end
@@ -32,16 +49,7 @@ function Skins:ClassicQuestLog()
 	normalText:ClearAllPoints()
 	normalText:SetPoint("LEFT", expandAll:GetNormalTexture(), "RIGHT", 2, 1)
 
-	hooksecurefunc(ClassicQuestLogScrollFrame, "UpdateLog", function(self)
-		for i = 1, #self.buttons do
-			local button = self.buttons[i]
-			if not button.styled then
-				B.ReskinCollapse(button)
-
-				button.styled = true
-			end
-		end
-	end)
+	hooksecurefunc(ClassicQuestLogScrollFrame, "UpdateLog", Reskin_UpdateLog)
 
 	-- DetailScrollFrame
 	B.ReskinScroll(ClassicQuestLogDetailScrollFrameScrollBar)
@@ -55,7 +63,14 @@ function Skins:ClassicQuestLog()
 	B.StripTextures(content)
 	B.ReskinClose(content.close)
 
-	local checks = {"LockWindow", "ShowResizeGrip", "ShowLevels", "ShowTooltips", "SolidBackground", "ShowFromObjectiveTracker"}
+	local checks = {
+		"LockWindow",
+		"ShowResizeGrip",
+		"ShowLevels",
+		"ShowTooltips",
+		"SolidBackground",
+		"ShowFromObjectiveTracker",
+	}
 	for _, check in pairs(checks) do
 		B.ReskinCheck(content[check].check)
 	end

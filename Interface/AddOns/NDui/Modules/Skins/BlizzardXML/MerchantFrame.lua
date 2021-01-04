@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local S = B:GetModule("Skins")
 
 local function Reskin_UpdateRepairButtons()
 	MerchantRepairAllButton:ClearAllPoints()
@@ -54,7 +54,7 @@ tinsert(C.XMLThemes, function()
 
 	for i = 1, BUYBACK_ITEMS_PER_PAGE do
 		local item = _G["MerchantItem"..i]
-		Skins.ReskinMerchantItem(item)
+		S.ReskinMerchantItem(item)
 
 		for j = 1, 3 do
 			local texture = _G["MerchantItem"..i.."AltCurrencyFrameItem"..j.."Texture"]
@@ -62,7 +62,7 @@ tinsert(C.XMLThemes, function()
 		end
 	end
 
-	Skins.ReskinMerchantItem(MerchantBuyBackItem)
+	S.ReskinMerchantItem(MerchantBuyBackItem)
 
 	local RepairItem = MerchantRepairItemButton:GetRegions()
 	RepairItem:SetTexture("Interface\\Icons\\INV_Hammer_17")
@@ -94,7 +94,7 @@ tinsert(C.XMLThemes, function()
 		B.ReskinHighlight(parent, icbg)
 	end
 
-	hooksecurefunc("MerchantFrame_UpdateMerchantInfo", Skins.UpdateMerchantInfo)
-	hooksecurefunc("MerchantFrame_UpdateRepairButtons", Reskin_UpdateRepairButtons)
 	hooksecurefunc("MerchantFrame_UpdateCurrencies", Reskin_UpdateCurrencies)
+	hooksecurefunc("MerchantFrame_UpdateMerchantInfo", S.UpdateMerchantInfo)
+	hooksecurefunc("MerchantFrame_UpdateRepairButtons", Reskin_UpdateRepairButtons)
 end)

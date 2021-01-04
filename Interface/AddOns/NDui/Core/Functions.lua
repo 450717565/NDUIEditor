@@ -5,7 +5,9 @@ local _G = _G
 local type, pairs, tonumber, wipe, next, select, unpack = type, pairs, tonumber, table.wipe, next, select, unpack
 local strmatch, gmatch, strfind, format, gsub = string.match, string.gmatch, string.find, string.format, string.gsub
 local min, max, floor, rad = math.min, math.max, math.floor, math.rad
-local cr, cg, cb = DB.r, DB.g, DB.b
+
+local cr, cg, cb = DB.cr, DB.cg, DB.cb
+local tL, tR, tT, tB = unpack(DB.TexCoord)
 
 -- Math Function
 do
@@ -766,7 +768,7 @@ do
 	function B:CreateBG(x, y, x2, y2)
 		local bg = B.CreateBDFrame(self, "none", 0, true)
 
-		if x or y or x2 or y2 then
+		if x and y and x2 and y2 then
 			bg:ClearAllPoints()
 			bg:Point("TOPLEFT", self, x, y)
 			bg:Point("BOTTOMRIGHT", self, x2, y2)
@@ -1048,7 +1050,7 @@ do
 		local bgTex = B.CreateBDFrame(self)
 		bgTex:SetSize(14, 14)
 		bgTex:ClearAllPoints()
-		bgTex:Point("TOPLEFT", self:GetNormalTexture())
+		bgTex:SetPoint("CENTER", self:GetNormalTexture())
 		self.bgTex = bgTex
 
 		local expTex = bgTex:CreateTexture(nil, "OVERLAY")
@@ -1223,7 +1225,7 @@ do
 
 	-- Handle Icon
 	function B:ReskinIcon(alpha)
-		self:SetTexCoord(unpack(DB.TexCoord))
+		self:SetTexCoord(tL, tR, tT, tB)
 		local icbg = B.CreateBDFrame(self, alpha, -C.mult)
 
 		return icbg
@@ -1302,7 +1304,7 @@ do
 			icbg:SetFrameLevel(icon:GetFrameLevel())
 		end
 
-		local icbg = B.CreateBDFrame(self)
+		local icbg = B.CreateBDFrame(self, 0, -C.mult)
 		self.icbg = icbg
 	end
 
@@ -1518,7 +1520,7 @@ do
 		local icbg = B.CreateBDFrame(self)
 
 		local Icon = self:CreateTexture(nil, "ARTWORK")
-		Icon:SetTexCoord(unpack(DB.TexCoord))
+		Icon:SetTexCoord(tL, tR, tT, tB)
 		Icon:SetInside(icbg)
 		if texture then
 			local atlas = strmatch(texture, "Atlas:(.+)$")

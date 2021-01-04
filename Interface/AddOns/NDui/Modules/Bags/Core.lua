@@ -1,7 +1,7 @@
 ﻿local _, ns = ...
 local B, C, L, DB = unpack(ns)
-
 local Bags = B:RegisterModule("Bags")
+
 local cargBags = ns.cargBags
 local ipairs, strmatch, unpack, ceil = ipairs, string.match, unpack, math.ceil
 local LE_ITEM_QUALITY_POOR, LE_ITEM_QUALITY_RARE, LE_ITEM_QUALITY_HEIRLOOM = LE_ITEM_QUALITY_POOR, LE_ITEM_QUALITY_RARE, LE_ITEM_QUALITY_HEIRLOOM
@@ -14,7 +14,9 @@ local C_Soulbinds_IsItemConduitByItemInfo = C_Soulbinds.IsItemConduitByItemInfo
 local IsCosmeticItem = IsCosmeticItem
 local IsControlKeyDown, IsAltKeyDown, DeleteCursorItem = IsControlKeyDown, IsAltKeyDown, DeleteCursorItem
 local GetItemInfo, GetContainerItemID, SplitContainerItem = GetItemInfo, GetContainerItemID, SplitContainerItem
-local cr, cg, cb = DB.r, DB.g, DB.b
+
+local cr, cg, cb = DB.cr, DB.cg, DB.cb
+local tL, tR, tT, tB = unpack(DB.TexCoord)
 
 local sortCache = {}
 function Bags:ReverseSort()
@@ -692,7 +694,7 @@ function Bags:OnLogin()
 		self.IconOverlay:SetInside(self.bubg)
 		self.IconOverlay2:SetInside(self.bubg)
 
-		self.Icon:SetTexCoord(unpack(DB.TexCoord))
+		self.Icon:SetTexCoord(tL, tR, tT, tB)
 		self.Icon:SetInside(self.bubg)
 
 		self.Count:SetPoint("BOTTOMRIGHT", 0, 1)
@@ -994,7 +996,7 @@ function Bags:OnLogin()
 		B.ReskinHighlight(self, self.bubg)
 
 		self:SetSize(iconSize, iconSize)
-		self.Icon:SetTexCoord(unpack(DB.TexCoord))
+		self.Icon:SetTexCoord(tL, tR, tT, tB)
 		self.Icon:SetInside(self.bubg)
 	end
 

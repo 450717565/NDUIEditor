@@ -3,7 +3,7 @@ local B, C, L, DB = unpack(ns)
 local GUI = B:RegisterModule("GUI")
 
 local tonumber, pairs, ipairs, next, type, tinsert = tonumber, pairs, ipairs, next, type, tinsert
-local cr, cg, cb = DB.r, DB.g, DB.b
+local cr, cg, cb = DB.cr, DB.cg, DB.cb
 local guiTab, guiPage, f = {}, {}
 
 -- Default Settings
@@ -91,8 +91,8 @@ GUI.DefaultSettings = {
 	UFs = {
 		Enable = true,
 		Portrait = true,
-		PlayerDebuff = false,
-		ToTAuras = false,
+		PlayerDebuff = true,
+		ToTAuras = true,
 		Arena = true,
 		Castbars = true,
 		SwingBar = false,
@@ -127,7 +127,7 @@ GUI.DefaultSettings = {
 		ShowTeamIndex = false,
 		ClassPower = true,
 		QuakeTimer = true,
-		LagString = true,
+		LagString = false,
 		RuneTimer = true,
 		RaidBuffIndicator = true,
 		PartyFrame = true,

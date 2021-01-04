@@ -10,7 +10,8 @@ local TT = B:GetModule("Tooltip")
 
 local _G = getfenv(0)
 local select, pairs, type = select, pairs, type
-local cr, cg, cb = DB.r, DB.g, DB.b
+local cr, cg, cb = DB.cr, DB.cg, DB.cb
+local tL, tR, tT, tB = unpack(DB.TexCoord)
 local EarlyAceWidgets = {}
 
 function Skins:Ace3()
@@ -72,7 +73,7 @@ function Skins:WeakAuras_SkinIcon(icon)
 	if type(icon) ~= "table" or not icon.icon then return end
 
 	if WeakAuras_RegionType[self.data.regionType] then
-		icon.icon:SetTexCoord(unpack(DB.TexCoord))
+		icon.icon:SetTexCoord(tL, tR, tT, tB)
 	end
 end
 
@@ -80,7 +81,7 @@ function Skins:WeakAuras_UpdateIcon()
 	if not self.thumbnail or not self.thumbnail.icon then return end
 
 	if WeakAuras_RegionType[self.data.regionType] then
-		self.thumbnail.icon:SetTexCoord(unpack(DB.TexCoord))
+		self.thumbnail.icon:SetTexCoord(tL, tR, tT, tB)
 	end
 end
 

@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local S = B:GetModule("Skins")
 
 local function Reskin_TitleTextColor(fontString)
 	B.ReskinText(fontString, 1, .8, 0)
@@ -60,20 +60,17 @@ tinsert(C.XMLThemes, function()
 		B.ReskinScroll(scroll)
 	end
 
-	hooksecurefunc(QuestProgressRequiredMoneyText, "SetTextColor", Skins.ReskinRMTColor)
-	hooksecurefunc("QuestFrame_SetTitleTextColor", Reskin_TitleTextColor)
 	hooksecurefunc("QuestFrame_SetTextColor", Reskin_TextColor)
+	hooksecurefunc("QuestFrame_SetTitleTextColor", Reskin_TitleTextColor)
+	hooksecurefunc(QuestProgressRequiredMoneyText, "SetTextColor", S.ReskinRMTColor)
 
 	-- QuestModelScene
+	B.StripTextures(QuestNPCModelTextFrame)
 	B.StripTextures(QuestNPCModelNameTooltipFrame)
 	B.ReskinScroll(QuestNPCModelTextScrollFrameScrollBar)
 
 	local boss = B.ReskinFrame(QuestModelScene)
-	boss:SetPoint("TOPLEFT", QuestModelScene, "TOPLEFT", -C.mult, C.mult)
-	boss:SetPoint("BOTTOMRIGHT", QuestNPCModelTextFrame, "TOPRIGHT", C.mult, -C.mult)
-
-	local text = B.ReskinFrame(QuestNPCModelTextFrame)
-	text:SetOutside()
+	boss:SetOutside(QuestModelScene, 0, 0, QuestNPCModelTextFrame)
 
 	hooksecurefunc("QuestFrame_ShowQuestPortrait", Fixed_ShowQuestPortrait)
 end)

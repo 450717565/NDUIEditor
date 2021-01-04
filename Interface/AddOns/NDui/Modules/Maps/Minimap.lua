@@ -11,7 +11,9 @@ local LE_GARRISON_TYPE_6_0 = Enum.GarrisonType.Type_6_0
 local LE_GARRISON_TYPE_7_0 = Enum.GarrisonType.Type_7_0
 local LE_GARRISON_TYPE_8_0 = Enum.GarrisonType.Type_8_0
 local LE_GARRISON_TYPE_9_0 = Enum.GarrisonType.Type_9_0
+
 local cr, cg, cb, color
+local tL, tR, tT, tB = unpack(DB.TexCoord)
 
 function Maps:CreatePulse()
 	if not C.db["Map"]["CombatPulse"] then return end
@@ -243,7 +245,7 @@ function Maps:RecycleBin()
 				region:ClearAllPoints()
 				region:SetAllPoints()
 				if not isGoodLookingIcon[name] then
-					region:SetTexCoord(unpack(DB.TexCoord))
+					region:SetTexCoord(tL, tR, tT, tB)
 				end
 			end
 			child:SetSize(34, 34)
@@ -476,7 +478,7 @@ function Maps:ShowMinimapHelpInfo()
 end
 
 function Maps:SetupMinimap()
-	cr, cg, cb = DB.r, DB.g, DB.b
+	cr, cg, cb = DB.cr, DB.cg, DB.cb
 	color = NDuiDB["Skins"]["LineColor"]
 	if not NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
 

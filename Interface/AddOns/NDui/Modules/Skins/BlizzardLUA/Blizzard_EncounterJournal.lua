@@ -1,29 +1,52 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local S = B:GetModule("Skins")
+
+local tL, tR, tT, tB = unpack(DB.TexCoord)
+
+local function Reskin_ListInstances()
+	local index = 1
+	while true do
+		local instance = EncounterJournal.instanceSelect.scroll.child["instance"..index]
+		if not instance then return end
+
+		if not instance.styled then
+			B.CleanTextures(instance)
+
+			instance.bgImage:SetTexCoord(.02, .66, .04, .71)
+
+			local bubg = B.CreateBDFrame(instance.bgImage, 0, -C.mult)
+			B.ReskinHighlight(instance, bubg)
+
+			instance.styled = true
+		end
+
+		index = index + 1
+	end
+end
 
 local function Reskin_RefreshDisplay()
-	local self = EncounterJournal.suggestFrame
+	local suggestFrame = EncounterJournal.suggestFrame
 
-	if #self.suggestions > 0 then
-		local suggestion = self.Suggestion1
-		local data = self.suggestions[1]
+	if #suggestFrame.suggestions > 0 then
+		local suggestion = suggestFrame.Suggestion1
+		local data = suggestFrame.suggestions[1]
 
 		if data.iconPath then
 			suggestion.icon:SetMask(nil)
-			suggestion.icon:SetTexCoord(unpack(DB.TexCoord))
+			suggestion.icon:SetTexCoord(tL, tR, tT, tB)
 		end
 	end
 
-	if #self.suggestions > 1 then
-		for i = 2, #self.suggestions do
-			local suggestion = self["Suggestion"..i]
+	if #suggestFrame.suggestions > 1 then
+		for i = 2, #suggestFrame.suggestions do
+			local suggestion = suggestFrame["Suggestion"..i]
 			if not suggestion then return end
 
-			local data = self.suggestions[i]
+			local data = suggestFrame.suggestions[i]
 			if data.iconPath then
 				suggestion.icon:SetMask(nil)
-				suggestion.icon:SetTexCoord(unpack(DB.TexCoord))
+				suggestion.icon:SetTexCoord(tL, tR, tT, tB)
 			end
 		end
 	end
@@ -33,7 +56,7 @@ local function Reskin_UpdateRewards(suggestion)
 	local rewardData = suggestion.reward.data
 	if rewardData then
 		suggestion.reward.icon:SetMask(nil)
-		suggestion.reward.icon:SetTexCoord(unpack(DB.TexCoord))
+		suggestion.reward.icon:SetTexCoord(tL, tR, tT, tB)
 	end
 end
 
@@ -70,6 +93,55 @@ local function Reskin_LootUpdate()
 	end
 end
 
+local function Reskin_SetBullets(object)
+	local parent = object:GetParent()
+	if parent.Bullets then
+		for _, bullet in pairs(parent.Bullets) do
+			if not bullet.styled then
+				B.ReskinText(bullet.Text, 1, 1, 1)
+
+				bullet.styled = true
+			end
+		end
+	end
+end
+
+local function Reskin_Header(self)
+	B.StripTextures(self.button, 2)
+	B.ReskinButton(self.button)
+
+	B.ReskinText(self.description, 1, 1, 1)
+end
+
+local function Reskin_SetUpOverview(self, _, index)
+	local header = self.overviews[index]
+	if not header.styled then
+		Reskin_Header(header)
+
+		header.styled = true
+	end
+end
+
+local function Reskin_ToggleHeaders()
+	local index = 1
+	while true do
+		local header = _G["EncounterJournalInfoHeader"..index]
+		if not header then return end
+
+		if not header.styled then
+			Reskin_Header(header)
+
+			header.button.icbg = B.ReskinIcon(header.button.abilityIcon)
+
+			header.styled = true
+		end
+
+		header.button.icbg:SetShown(header.button.abilityIcon:IsShown())
+
+		index = index + 1
+	end
+end
+
 local r, g, b = GetItemQualityColor(5)
 
 local function Reskin_PowersFrame(self)
@@ -100,10 +172,10 @@ C.LUAThemes["Blizzard_EncounterJournal"] = function()
 	B.StripTextures(EncounterJournalSearchBox.searchPreviewContainer)
 
 	for i = 1, 5 do
-		Skins.ReskinSearchBox(EncounterJournalSearchBox["sbutton"..i])
+		S.ReskinSearchBox(EncounterJournalSearchBox["sbutton"..i])
 	end
-	Skins.ReskinSearchBox(EncounterJournalSearchBox.showAllResults)
-	Skins.ReskinSearchResult(EncounterJournal)
+	S.ReskinSearchBox(EncounterJournalSearchBox.showAllResults)
+	S.ReskinSearchResult(EncounterJournal)
 
 	-- Instance Select
 	local instanceSelect = EncounterJournal.instanceSelect
@@ -126,6 +198,8 @@ C.LUAThemes["Blizzard_EncounterJournal"] = function()
 		text:ClearAllPoints()
 		text:SetPoint("CENTER")
 	end
+
+	hooksecurefunc("EncounterJournal_ListInstances", Reskin_ListInstances)
 
 	-- Suggest Frame
 	local suggestFrame = EncounterJournal.suggestFrame
@@ -163,8 +237,8 @@ C.LUAThemes["Blizzard_EncounterJournal"] = function()
 		end
 	end
 
-	hooksecurefunc("EJSuggestFrame_RefreshDisplay", Reskin_RefreshDisplay)
 	hooksecurefunc("EJSuggestFrame_UpdateRewards", Reskin_UpdateRewards)
+	hooksecurefunc("EJSuggestFrame_RefreshDisplay", Reskin_RefreshDisplay)
 
 	-- Loot Journal
 	local lootJournal = EncounterJournal.LootJournal
@@ -191,19 +265,11 @@ C.LUAThemes["Blizzard_EncounterJournal"] = function()
 	B.StripTextures(infoFrame)
 	B.StripTextures(infoFrame.model, 0)
 	B.CreateBDFrame(infoFrame.model)
+	B.ReskinButton(infoFrame.reset)
 
 	infoFrame.instanceButton:Hide()
 	infoFrame.overviewTab:ClearAllPoints()
 	infoFrame.overviewTab:SetPoint("TOPLEFT", infoFrame, "TOPRIGHT", 5, -25)
-
-	local buttons = {
-		infoFrame.difficulty,
-		infoFrame.lootScroll.filter,
-		infoFrame.lootScroll.slotFilter,
-	}
-	for _, button in pairs(buttons) do
-		B.ReskinButton(button)
-	end
 
 	local sideTabs = {
 		"overviewTab",
@@ -231,6 +297,15 @@ C.LUAThemes["Blizzard_EncounterJournal"] = function()
 		B.ReskinScroll(_G["EncounterJournalEncounterFrame"..scroll])
 	end
 
+	local buttons = {
+		infoFrame.difficulty,
+		infoFrame.lootScroll.filter,
+		infoFrame.lootScroll.slotFilter,
+	}
+	for _, button in pairs(buttons) do
+		B.ReskinButton(button)
+	end
+
 	local items = infoFrame.lootScroll.buttons
 	for i = 1, #items do
 		local item = items[i]
@@ -253,7 +328,7 @@ C.LUAThemes["Blizzard_EncounterJournal"] = function()
 		item.bubg = bubg
 
 		local armor = item.armorType
-		armor:SetTextColor(1, 1, 1)
+		B.ReskinText(armor, 0, 1, 0)
 		armor:ClearAllPoints()
 		armor:SetPoint("RIGHT", bubg, "RIGHT", -5, 0)
 
@@ -262,16 +337,19 @@ C.LUAThemes["Blizzard_EncounterJournal"] = function()
 		name:SetPoint("TOPLEFT", bubg, "TOPLEFT", 5, -6)
 
 		local slot = item.slot
-		slot:SetTextColor(1, 1, 1)
+		B.ReskinText(slot, 1, 1, 1)
 		slot:ClearAllPoints()
 		slot:SetPoint("TOPLEFT", name, "BOTTOMLEFT", 0, -6)
 
 		local boss = item.boss
+		B.ReskinText(boss, 1, .8, 0)
 		boss:ClearAllPoints()
 		boss:SetPoint("TOPLEFT", slot, "BOTTOMLEFT", 0, -6)
-		boss:SetTextColor(1, .8, 0)
 	end
 
 	hooksecurefunc("EncounterJournal_LootUpdate", Reskin_LootUpdate)
+	hooksecurefunc("EncounterJournal_SetBullets", Reskin_SetBullets)
+	hooksecurefunc("EncounterJournal_SetUpOverview", Reskin_SetUpOverview)
+	hooksecurefunc("EncounterJournal_ToggleHeaders", Reskin_ToggleHeaders)
 	hooksecurefunc("EncounterJournal_DisplayInstance", Reskin_DisplayInstance)
 end

@@ -8,7 +8,7 @@ local ipairs, IsShiftKeyDown = ipairs, IsShiftKeyDown
 local C_PetJournal_SetPetTypeFilter = C_PetJournal.SetPetTypeFilter
 local C_PetJournal_IsPetTypeChecked = C_PetJournal.IsPetTypeChecked
 local C_PetJournal_SetAllPetTypesChecked = C_PetJournal.SetAllPetTypesChecked
-local cr, cg, cb = DB.r, DB.g, DB.b
+local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
 function Misc:PetTabs_Click(button)
 	local activeCount = 0
