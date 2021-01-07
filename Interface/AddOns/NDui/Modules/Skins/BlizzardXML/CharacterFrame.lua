@@ -1,8 +1,10 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
+local slots = DB.Slots
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
+-- 角色
 local function Update_AzeriteItem(self)
 	if not self.styled then
 		self.AzeriteTexture:SetAlpha(0)
@@ -69,6 +71,172 @@ local function Update_EquipmentFlyoutDisplayButton(button)
 	border:SetShown(location < EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION)
 end
 
+tinsert(C.XMLThemes, function()
+	-- CharacterFrame
+	B.ReskinFrame(CharacterFrame)
+	B.ReskinFrameTab(CharacterFrame, 3)
+
+	B.StripTextures(CharacterModelFrame, 0)
+	B.StripTextures(CharacterModelFrameControlFrame)
+
+	for i = 1, #slots do
+		local slot = _G["Character"..slots[i].."Slot"]
+		B.StripTextures(slot)
+		slot.ignoreTexture:SetTexture("Interface\\PaperDollInfoFrame\\UI-GearManager-LeaveItem-Transparent")
+
+		local icbg = B.ReskinIcon(slot.icon)
+
+		local border = slot.IconBorder
+		B.ReskinBorder(border, icbg)
+
+		local popout = slot.popoutButton
+		B.StripTextures(popout)
+
+		local cooldown = _G["Character"..slots[i].."SlotCooldown"]
+		cooldown:SetInside(icbg)
+
+		local overlay = slot.IconOverlay
+		overlay:SetAtlas("CosmeticIconFrame")
+		overlay:SetInside(icbg)
+
+		local tex = popout:CreateTexture(nil, "OVERLAY")
+		tex:SetSize(14, 14)
+		if slot.verticalFlyout then
+			tex:SetTexture(DB.arrowTex.."down")
+			tex:SetPoint("TOP", slot, "BOTTOM", 0, 1)
+		else
+			tex:SetTexture(DB.arrowTex.."right")
+			tex:SetPoint("LEFT", slot, "RIGHT", -1, 0)
+		end
+
+		slot.icbg = icbg
+		popout.Tex = tex
+
+		B.Hook_OnEnter(popout)
+		B.Hook_OnLeave(popout)
+
+		hooksecurefunc(slot, "DisplayAsAzeriteItem", Update_AzeriteItem)
+		hooksecurefunc(slot, "DisplayAsAzeriteEmpoweredItem", Update_AzeriteEmpoweredItem)
+	end
+
+	hooksecurefunc("PaperDollItemSlotButton_Update", Update_PaperDollItemSlotButton)
+
+	-- CharacterStatsPane
+	local StatsPane = CharacterStatsPane
+	B.StripTextures(StatsPane)
+
+	local ItemLevelFrame = StatsPane.ItemLevelFrame
+	ItemLevelFrame:SetHeight(20)
+	ItemLevelFrame.Background:Hide()
+
+	local categorys = {
+		StatsPane.ItemLevelCategory,
+		StatsPane.AttributesCategory,
+		StatsPane.EnhancementsCategory,
+	}
+	for _, category in pairs(categorys) do
+		category:SetHeight(30)
+		category.Background:Hide()
+		B.ReskinText(category.Title, cr, cg, cb)
+
+		local line = B.CreateLine(category, true)
+		line:SetPoint("BOTTOM", 0, 5)
+	end
+
+	-- PaperDollSidebarTabs
+	local SidebarTabs = PaperDollSidebarTabs
+	B.StripTextures(SidebarTabs)
+	SidebarTabs:ClearAllPoints()
+	SidebarTabs:SetPoint("BOTTOM", CharacterFrameInsetRight, "TOP", 0, 0)
+
+	local SidebarTab3 = PaperDollSidebarTab3
+	SidebarTab3:ClearAllPoints()
+	SidebarTab3:SetPoint("RIGHT", SidebarTabs, "RIGHT", -17, 0)
+
+	for i = 1, #PAPERDOLL_SIDEBARS do
+		local tab = _G["PaperDollSidebarTab"..i]
+		tab:SetSize(31, 33)
+		tab.TabBg:Hide()
+
+		local bg = B.CreateBDFrame(tab)
+		B.ReskinHighlight(tab.Highlight, bg)
+		B.ReskinHighlight(tab.Hider, bg)
+
+		if i == 1 then
+			tab.Icon:SetTexCoord(.16, .86, .16, .86)
+			tab.Icon.SetTexCoord = B.Dummy
+		end
+		tab.Icon:SetInside(bg)
+	end
+
+	B.ReskinScroll(PaperDollTitlesPaneScrollBar)
+	for i = 1, 17 do
+		local button = _G["PaperDollTitlesPaneButton"..i]
+		button:DisableDrawLayer("BACKGROUND")
+		B.ReskinHighlight(button, button, true)
+
+		local selected = button.SelectedBar
+		selected:SetColorTexture(cr, cg, cb, .5)
+	end
+
+	local EquipSet = PaperDollEquipmentManagerPaneEquipSet
+	B.ReskinButton(EquipSet)
+	EquipSet:SetWidth(85)
+	EquipSet:ClearAllPoints()
+	EquipSet:SetPoint("TOPLEFT", 0, -2)
+
+	local SaveSet = PaperDollEquipmentManagerPaneSaveSet
+	B.ReskinButton(SaveSet)
+	SaveSet:SetWidth(85)
+	SaveSet:ClearAllPoints()
+	SaveSet:SetPoint("LEFT", EquipSet, "RIGHT", 2, 0)
+
+	B.ReskinScroll(PaperDollEquipmentManagerPaneScrollBar)
+
+	hooksecurefunc("PaperDollEquipmentManagerPane_Update", Update_PaperDollEquipmentManagerPane)
+
+	-- GearManagerDialogPopup
+	GearManagerDialogPopup:SetHeight(525)
+	GearManagerDialogPopup:HookScript("OnShow", function(self)
+		self:ClearAllPoints()
+		self:SetPoint("TOPLEFT", PaperDollFrame, "TOPRIGHT", 10, 0)
+	end)
+
+	B.ReskinFrame(GearManagerDialogPopup)
+	B.ReskinScroll(GearManagerDialogPopupScrollFrameScrollBar)
+	B.ReskinButton(GearManagerDialogPopupOkay)
+	B.ReskinButton(GearManagerDialogPopupCancel)
+	B.ReskinInput(GearManagerDialogPopupEditBox)
+
+	for i = 1, NUM_GEARSET_ICONS_SHOWN do
+		local button = "GearManagerDialogPopupButton"..i
+		local bu = _G[button]
+		B.StripTextures(bu)
+
+		local icbg = B.ReskinIcon(bu.icon)
+		B.ReskinHighlight(bu, icbg)
+	end
+
+	-- EquipmentFlyoutFrame
+	local Buttons = EquipmentFlyoutFrameButtons
+	Buttons.bg1:SetAlpha(0)
+	Buttons:DisableDrawLayer("ARTWORK")
+
+	local Highlight = EquipmentFlyoutFrameHighlight
+	Highlight:SetOutside(nil, 7, 7)
+
+	local NavigationFrame = EquipmentFlyoutFrame.NavigationFrame
+	B.ReskinFrame(NavigationFrame)
+	B.ReskinArrow(NavigationFrame.PrevButton, "left")
+	B.ReskinArrow(NavigationFrame.NextButton, "right")
+	NavigationFrame:ClearAllPoints()
+	NavigationFrame:SetPoint("TOP", Buttons, "BOTTOM", 0, -3)
+
+	hooksecurefunc("EquipmentFlyout_CreateButton", Reskin_EquipmentFlyoutCreateButton)
+	hooksecurefunc("EquipmentFlyout_DisplayButton", Update_EquipmentFlyoutDisplayButton)
+end)
+
+-- 声望
 local function Reskin_ReputationFrameBars()
 	local numFactions = GetNumFactions()
 	local factionOffset = FauxScrollFrame_GetOffset(ReputationListScrollFrame)
@@ -103,6 +271,32 @@ local function Reskin_ReputationFrameBars()
 	end
 end
 
+tinsert(C.XMLThemes, function()
+	B.ReskinFrame(ReputationDetailFrame)
+	B.ReskinClose(ReputationDetailCloseButton)
+	B.ReskinScroll(ReputationListScrollFrameScrollBar)
+
+	local checks = {
+		ReputationDetailAtWarCheckBox,
+		ReputationDetailInactiveCheckBox,
+		ReputationDetailMainScreenCheckBox,
+		ReputationDetailLFGBonusReputationCheckBox,
+	}
+	for _, check in pairs(checks) do
+		B.ReskinCheck(check)
+	end
+
+	ReputationDetailFrame:ClearAllPoints()
+	ReputationDetailFrame:SetPoint("TOPLEFT", ReputationFrame, "TOPRIGHT", 3, -25)
+
+	for i = 1, NUM_FACTIONS_DISPLAYED do
+		B.ReskinCollapse(_G["ReputationBar"..i.."ExpandOrCollapseButton"])
+	end
+
+	hooksecurefunc("ReputationFrame_Update", Reskin_ReputationFrameBars)
+end)
+
+-- 货币
 local function Reskin_TokenFrameButtons()
 	local buttons = TokenFrameContainer.buttons
 	if not buttons then return end
@@ -137,208 +331,12 @@ local function Reskin_TokenFrameButtons()
 end
 
 tinsert(C.XMLThemes, function()
-	-- 角色
-	do
-		-- CharacterFrame
-		B.ReskinFrame(CharacterFrame)
-		B.ReskinFrameTab(CharacterFrame, 3)
+	B.ReskinFrame(TokenFramePopup)
+	B.ReskinCheck(TokenFramePopupInactiveCheckBox)
+	B.ReskinCheck(TokenFramePopupBackpackCheckBox)
+	B.ReskinScroll(TokenFrameContainerScrollBar)
 
-		B.StripTextures(CharacterModelFrame, 0)
-		B.StripTextures(CharacterModelFrameControlFrame)
-
-		local slots = DB.Slots
-		for i = 1, #slots do
-			local slot = _G["Character"..slots[i].."Slot"]
-			B.StripTextures(slot)
-			slot.ignoreTexture:SetTexture("Interface\\PaperDollInfoFrame\\UI-GearManager-LeaveItem-Transparent")
-
-			local icbg = B.ReskinIcon(slot.icon)
-
-			local border = slot.IconBorder
-			B.ReskinBorder(border, icbg)
-
-			local popout = slot.popoutButton
-			B.StripTextures(popout)
-
-			local cooldown = _G["Character"..slots[i].."SlotCooldown"]
-			cooldown:SetInside(icbg)
-
-			local overlay = slot.IconOverlay
-			overlay:SetAtlas("CosmeticIconFrame")
-			overlay:SetInside(icbg)
-
-			local tex = popout:CreateTexture(nil, "OVERLAY")
-			tex:SetSize(14, 14)
-			if slot.verticalFlyout then
-				tex:SetTexture(DB.arrowTex.."down")
-				tex:SetPoint("TOP", slot, "BOTTOM", 0, 1)
-			else
-				tex:SetTexture(DB.arrowTex.."right")
-				tex:SetPoint("LEFT", slot, "RIGHT", -1, 0)
-			end
-
-			slot.icbg = icbg
-			popout.Tex = tex
-
-			B.Hook_OnEnter(popout)
-			B.Hook_OnLeave(popout)
-
-			hooksecurefunc(slot, "DisplayAsAzeriteItem", Update_AzeriteItem)
-			hooksecurefunc(slot, "DisplayAsAzeriteEmpoweredItem", Update_AzeriteEmpoweredItem)
-		end
-
-		hooksecurefunc("PaperDollItemSlotButton_Update", Update_PaperDollItemSlotButton)
-
-		-- CharacterStatsPane
-		local StatsPane = CharacterStatsPane
-		B.StripTextures(StatsPane)
-
-		local ItemLevelFrame = StatsPane.ItemLevelFrame
-		ItemLevelFrame:SetHeight(20)
-		ItemLevelFrame.Background:Hide()
-
-		local categorys = {
-			StatsPane.ItemLevelCategory,
-			StatsPane.AttributesCategory,
-			StatsPane.EnhancementsCategory,
-		}
-		for _, category in pairs(categorys) do
-			category:SetHeight(30)
-			category.Background:Hide()
-			B.ReskinText(category.Title, cr, cg, cb)
-
-			local line = B.CreateLine(category, true)
-			line:SetPoint("BOTTOM", 0, 5)
-		end
-
-		-- PaperDollSidebarTabs
-		local SidebarTabs = PaperDollSidebarTabs
-		B.StripTextures(SidebarTabs)
-		SidebarTabs:ClearAllPoints()
-		SidebarTabs:SetPoint("BOTTOM", CharacterFrameInsetRight, "TOP", 0, 0)
-
-		local SidebarTab3 = PaperDollSidebarTab3
-		SidebarTab3:ClearAllPoints()
-		SidebarTab3:SetPoint("RIGHT", SidebarTabs, "RIGHT", -17, 0)
-
-		for i = 1, #PAPERDOLL_SIDEBARS do
-			local tab = _G["PaperDollSidebarTab"..i]
-			tab:SetSize(31, 33)
-			tab.TabBg:Hide()
-
-			local bg = B.CreateBDFrame(tab)
-			B.ReskinHighlight(tab.Highlight, bg)
-			B.ReskinHighlight(tab.Hider, bg)
-
-			if i == 1 then
-				tab.Icon:SetTexCoord(.16, .86, .16, .86)
-				tab.Icon.SetTexCoord = B.Dummy
-			end
-			tab.Icon:SetInside(bg)
-		end
-
-		B.ReskinScroll(PaperDollTitlesPaneScrollBar)
-		for i = 1, 17 do
-			local button = _G["PaperDollTitlesPaneButton"..i]
-			button:DisableDrawLayer("BACKGROUND")
-			B.ReskinHighlight(button, button, true)
-
-			local selected = button.SelectedBar
-			selected:SetColorTexture(cr, cg, cb, .5)
-		end
-
-		local EquipSet = PaperDollEquipmentManagerPaneEquipSet
-		B.ReskinButton(EquipSet)
-		EquipSet:SetWidth(85)
-		EquipSet:ClearAllPoints()
-		EquipSet:SetPoint("TOPLEFT", 0, -2)
-
-		local SaveSet = PaperDollEquipmentManagerPaneSaveSet
-		B.ReskinButton(SaveSet)
-		SaveSet:SetWidth(85)
-		SaveSet:ClearAllPoints()
-		SaveSet:SetPoint("LEFT", EquipSet, "RIGHT", 2, 0)
-
-		B.ReskinScroll(PaperDollEquipmentManagerPaneScrollBar)
-
-		hooksecurefunc("PaperDollEquipmentManagerPane_Update", Update_PaperDollEquipmentManagerPane)
-
-		-- GearManagerDialogPopup
-		GearManagerDialogPopup:SetHeight(525)
-		GearManagerDialogPopup:HookScript("OnShow", function(self)
-			self:ClearAllPoints()
-			self:SetPoint("TOPLEFT", PaperDollFrame, "TOPRIGHT", 10, 0)
-		end)
-
-		B.ReskinFrame(GearManagerDialogPopup)
-		B.ReskinScroll(GearManagerDialogPopupScrollFrameScrollBar)
-		B.ReskinButton(GearManagerDialogPopupOkay)
-		B.ReskinButton(GearManagerDialogPopupCancel)
-		B.ReskinInput(GearManagerDialogPopupEditBox)
-
-		for i = 1, NUM_GEARSET_ICONS_SHOWN do
-			local button = "GearManagerDialogPopupButton"..i
-			local bu = _G[button]
-			B.StripTextures(bu)
-
-			local icbg = B.ReskinIcon(bu.icon)
-			B.ReskinHighlight(bu, icbg)
-		end
-
-		-- EquipmentFlyoutFrame
-		local Buttons = EquipmentFlyoutFrameButtons
-		Buttons.bg1:SetAlpha(0)
-		Buttons:DisableDrawLayer("ARTWORK")
-
-		local Highlight = EquipmentFlyoutFrameHighlight
-		Highlight:SetOutside(nil, 7, 7)
-
-		local NavigationFrame = EquipmentFlyoutFrame.NavigationFrame
-		B.ReskinFrame(NavigationFrame)
-		B.ReskinArrow(NavigationFrame.PrevButton, "left")
-		B.ReskinArrow(NavigationFrame.NextButton, "right")
-		NavigationFrame:ClearAllPoints()
-		NavigationFrame:SetPoint("TOP", Buttons, "BOTTOM", 0, -3)
-
-		hooksecurefunc("EquipmentFlyout_CreateButton", Reskin_EquipmentFlyoutCreateButton)
-		hooksecurefunc("EquipmentFlyout_DisplayButton", Update_EquipmentFlyoutDisplayButton)
-	end
-
-	-- 声望
-	do
-		B.ReskinFrame(ReputationDetailFrame)
-		B.ReskinClose(ReputationDetailCloseButton)
-		B.ReskinScroll(ReputationListScrollFrameScrollBar)
-
-		local checks = {
-			ReputationDetailAtWarCheckBox,
-			ReputationDetailInactiveCheckBox,
-			ReputationDetailMainScreenCheckBox,
-			ReputationDetailLFGBonusReputationCheckBox,
-		}
-		for _, check in pairs(checks) do
-			B.ReskinCheck(check)
-		end
-
-		ReputationDetailFrame:ClearAllPoints()
-		ReputationDetailFrame:SetPoint("TOPLEFT", ReputationFrame, "TOPRIGHT", 3, -25)
-
-		for i = 1, NUM_FACTIONS_DISPLAYED do
-			B.ReskinCollapse(_G["ReputationBar"..i.."ExpandOrCollapseButton"])
-		end
-
-		hooksecurefunc("ReputationFrame_Update", Reskin_ReputationFrameBars)
-	end
-
-	-- 货币
-	do
-		B.ReskinFrame(TokenFramePopup)
-		B.ReskinCheck(TokenFramePopupInactiveCheckBox)
-		B.ReskinCheck(TokenFramePopupBackpackCheckBox)
-		B.ReskinScroll(TokenFrameContainerScrollBar)
-
-		TokenFrame:HookScript("OnShow", Reskin_TokenFrameButtons)
-		hooksecurefunc("TokenFrame_Update", Reskin_TokenFrameButtons)
-		hooksecurefunc(TokenFrameContainer, "update", Reskin_TokenFrameButtons)
-	end
+	TokenFrame:HookScript("OnShow", Reskin_TokenFrameButtons)
+	hooksecurefunc("TokenFrame_Update", Reskin_TokenFrameButtons)
+	hooksecurefunc(TokenFrameContainer, "update", Reskin_TokenFrameButtons)
 end)

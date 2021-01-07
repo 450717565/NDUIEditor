@@ -5,8 +5,6 @@
 	<Script file="Blizzard_ArchaeologyUI.lua"/>
 	<Script file="Blizzard_ArtifactUI.lua"/>
 	<Script file="Blizzard_AuctionHouseUI.lua"/>
-	<Script file="Blizzard_AzeriteEssenceUI.lua"/>
-	<Script file="Blizzard_AzeriteRespecUI.lua"/>
 	<Script file="Blizzard_AzeriteUI.lua"/>
 	<Script file="Blizzard_BarbershopUI.lua"/>
 	<Script file="Blizzard_BattlefieldMap.lua"/>
@@ -17,6 +15,7 @@
 	<Script file="Blizzard_Collections.lua"/>
 	<Script file="Blizzard_Communities.lua"/>
 	<Script file="Blizzard_Contribution.lua"/>
+	<Script file="Blizzard_CovenantUI.lua"/>
 	<Script file="Blizzard_DeathRecap.lua"/>
 	<Script file="Blizzard_DebugTools.lua"/>
 	<Script file="Blizzard_EncounterJournal.lua"/>
@@ -38,6 +37,7 @@
 	<Script file="Blizzard_MacroUI.lua"/>
 	<Script file="Blizzard_ObliterumUI.lua"/>
 	<Script file="Blizzard_OrderHallUI.lua"/>
+	<Script file="Blizzard_PlayerChoiceUI.lua"/>
 	<Script file="Blizzard_PVPUI.lua"/>
 	<Script file="Blizzard_QuestChoice.lua"/>
 	<Script file="Blizzard_RaidUI.lua"/>
@@ -49,6 +49,5 @@
 	<Script file="Blizzard_TrainerUI.lua"/>
 	<Script file="Blizzard_Tutorial.lua"/>
 	<Script file="Blizzard_VoidStorageUI.lua"/>
-	<Script file="Blizzard_WarboardUI.lua"/>
-	<Script file="Blizzard_WarfrontsPartyPoseUI.lua"/>
+	<Script file="Blizzard_WeeklyRewards.lua"/>
 </Ui>

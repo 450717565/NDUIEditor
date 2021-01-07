@@ -56,7 +56,7 @@ function Skins:Ace3_SkinTab(tab)
 	B.ReskinHighlight(tab, tab.bg, true)
 	hooksecurefunc(tab, "SetSelected", function(self, selected)
 		if selected then
-			self.bg:SetBackdropColor(cr, cg, cb, .25)
+			self.bg:SetBackdropColor(cr, cg, cb, .5)
 		else
 			self.bg:SetBackdropColor(0, 0, 0, 0)
 		end

@@ -60,8 +60,14 @@ end)
 function QuickQuest:Register(event, func)
 	self:RegisterEvent(event)
 	self[event] = function(...)
-		if C.db["Misc"]["AutoQuest"] and not IsShiftKeyDown() then
-			func(...)
+		if C.db["Misc"]["AutoQuest"] then
+			if not IsShiftKeyDown() then
+				func(...)
+			end
+		else
+			if IsShiftKeyDown() then
+				func(...)
+			end
 		end
 	end
 end

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2424, "DBM-CastleNathria", nil, 1190)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20201228025941")
+mod:SetRevision("20201229034705")
 mod:SetCreatureID(167406)
 mod:SetEncounterID(2407)
 mod:SetUsedIcons(1, 2, 3, 4, 7, 8)
@@ -138,6 +138,7 @@ mod.vb.DebuffCount = 0
 mod.vb.DebuffIcon = 1
 mod.vb.addIcon = 8
 mod.vb.painCasting = false
+local expectedStacks = 6
 local P3Transition = false
 local SinStacks, stage2Adds, deadAdds = {}, {}, {}
 local castsPerGUID = {}
@@ -285,13 +286,16 @@ function mod:OnCombatStart(delay)
 	--Where timers diverge
 	if self:IsMythic() then
 		difficultyName = "mythic"
+		expectedStacks = 6
 		timerNightHunterCD:Start(14-delay, 1)--14+
 	else
 		if self:IsHeroic() then
 			difficultyName = "heroic"
+			expectedStacks = 5
 			timerNightHunterCD:Start(12.1-delay, 1)--12+
 		else
 			difficultyName = "normal"
+			expectedStacks = 4
 			timerFeedingTimeCD:Start(20-delay, 1)
 		end
 	end
@@ -503,7 +507,7 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
 	if spellId == 326699 then
-		local amount = args.amount or 6
+		local amount = args.amount or expectedStacks
 		SinStacks[args.destName] = amount
 		if self.Options.InfoFrame then
 			DBM.InfoFrame:UpdateTable(SinStacks)

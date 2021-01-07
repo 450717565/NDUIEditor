@@ -2,7 +2,7 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local Skins = B:GetModule("Skins")
 
-local function Update_OnShowPoint(self)
+local function Update_FrameAnchor(self)
 	self:ClearAllPoints()
 	self:SetPoint("TOPLEFT", MerchantFrame, "TOPRIGHT", 3, -25)
 end
@@ -76,6 +76,6 @@ function Skins:CompactVendor()
 	B.ReskinArrow(splitFrame.LeftButton, "left")
 	B.ReskinArrow(splitFrame.RightButton, "right")
 
-	hooksecurefunc(splitFrame, "Show", Update_OnShowPoint)
+	hooksecurefunc(splitFrame, "Show", Update_FrameAnchor)
 	hooksecurefunc(List, "RefreshListDisplay", Reskin_RefreshListDisplay)
 end

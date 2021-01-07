@@ -195,6 +195,7 @@ function Bar:StyleActionButton(button, cfg)
 	local pushedTexture = button:GetPushedTexture()
 	local highlightTexture = button:GetHighlightTexture()
 
+
 	--normal buttons do not have a checked texture, but checkbuttons do and normal actionbuttons are checkbuttons
 	local checkedTexture = nil
 	if button.GetCheckedTexture then checkedTexture = button:GetCheckedTexture() end
@@ -205,6 +206,9 @@ function Bar:StyleActionButton(button, cfg)
 
 	local newActionTexture = button.NewActionTexture
 	if newActionTexture then newActionTexture:SetTexture("") end
+
+	local keybindHighlight = button.QuickKeybindHighlightTexture
+	if keybindHighlight then keybindHighlight:SetOutside(nil, 4, 4) end
 
 	--backdrop
 	SetupBackdrop(icon)

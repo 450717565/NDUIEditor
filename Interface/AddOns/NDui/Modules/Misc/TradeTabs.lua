@@ -134,7 +134,7 @@ function Misc:TradeTabs_Create(spellID, toyID, itemID)
 	tab.cover:SetAllPoints()
 	tab.cover:EnableMouse(true)
 
-	tab:SetPoint("TOPLEFT", TradeSkillFrame, "TOPRIGHT", 3, -index*40)
+	tab:SetPoint("TOPLEFT", TradeSkillFrame, "TOPRIGHT", 2, -index*40)
 	tinsert(tabList, tab)
 	index = index + 1
 end

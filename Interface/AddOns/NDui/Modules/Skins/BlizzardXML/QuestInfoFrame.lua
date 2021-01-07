@@ -108,10 +108,12 @@ local function Reskin_GetRewardButton(rewardsFrame, index)
 		button.styled = true
 	end
 
-	if button.type == "choice" then
-		button.bubg:SetBackdropColor(cr, cg, cb, .25)
-	else
-		button.bubg:SetBackdropColor(0, 0, 0, 0)
+	if QuestInfoFrame.chooseItems then
+		if button.type == "choice" then
+			button.bubg:SetBackdropColor(cr, cg, cb, .5)
+		else
+			button.bubg:SetBackdropColor(0, 0, 0, 0)
+		end
 	end
 end
 

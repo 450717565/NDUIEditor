@@ -57,9 +57,19 @@ L["|cFFFF0000Not|r Player Name/Realm"] = "|cFFFF0000非|r 玩家名字/服务器
 L["|cFFffcc00Extra Options:|r %s"] = "|cFFffcc00额外选项：|r%s"
 L["|cFFffcc00Extra Options:|r None"] = "|cFFffcc00额外选项：|r无"
 L["10 Man Raid"] = "10人团队"
+--[[Translation missing --]]
+L["10 Player Raid (Heroic)"] = "10 Player Raid (Heroic)"
+--[[Translation missing --]]
+L["10 Player Raid (Normal)"] = "10 Player Raid (Normal)"
 L["20 Man Raid"] = "20人团队"
 L["25 Man Raid"] = "25人团队"
+--[[Translation missing --]]
+L["25 Player Raid (Heroic)"] = "25 Player Raid (Heroic)"
+--[[Translation missing --]]
+L["25 Player Raid (Normal)"] = "25 Player Raid (Normal)"
 L["40 Man Raid"] = "40人团队"
+--[[Translation missing --]]
+L["40 Player Raid"] = "40 Player Raid"
 L["5 Man Dungeon"] = "5人地下城"
 L["Abbreviate"] = "缩写"
 L["AbbreviateLargeNumbers (Blizzard)"] = "缩写大数字（暴雪）"
@@ -292,6 +302,14 @@ L["Down, then Left"] = "向下，然后向左"
 L["Down, then Right"] = "向下，然后向右"
 L["Drain"] = "引导性吸取"
 L["Dropdown Menu"] = "下拉菜单"
+--[[Translation missing --]]
+L["Dungeon (Heroic)"] = "Dungeon (Heroic)"
+--[[Translation missing --]]
+L["Dungeon (Mythic)"] = "Dungeon (Mythic)"
+--[[Translation missing --]]
+L["Dungeon (Normal)"] = "Dungeon (Normal)"
+--[[Translation missing --]]
+L["Dungeon (Timewalking)"] = "Dungeon (Timewalking)"
 L["Dungeons"] = "地下城"
 L["Durability Damage"] = "耐久度下降"
 L["Durability Damage All"] = "耐久度上限下降"
@@ -468,6 +486,8 @@ L["Inherited"] = "继承"
 L["Instakill"] = "术士牺牲爪牙"
 L["Instance"] = "副本"
 L["Instance Difficulty"] = "副本难度"
+--[[Translation missing --]]
+L["Instance Size Type"] = "Instance Size Type"
 L["Instance Type"] = "副本类型"
 L["Instructor Razuvious"] = "教官拉苏维奥斯"
 L["Insufficient Resources"] = "资源不足"
@@ -485,6 +505,14 @@ L["Is Exactly"] = "完全匹配"
 L["Is Moving"] = "移动中"
 L["Is Off Hand"] = "副手"
 L["is useable"] = "可用的"
+--[[Translation missing --]]
+L["Island Expedition (Heroic)"] = "Island Expedition (Heroic)"
+--[[Translation missing --]]
+L["Island Expedition (Mythic)"] = "Island Expedition (Mythic)"
+--[[Translation missing --]]
+L["Island Expedition (Normal)"] = "Island Expedition (Normal)"
+--[[Translation missing --]]
+L["Island Expeditions (PvP)"] = "Island Expeditions (PvP)"
 L["It might not work correctly on Classic!"] = "可能不能在怀旧服正确工作！"
 L["It might not work correctly on Retail!"] = "可能不能在正式服正常工作！"
 L["It might not work correctly with your version!"] = "可能无法在当前版本中正常工作！"
@@ -518,6 +546,8 @@ L["Left, then Down"] = "向左，然后向下"
 L["Left, then Up"] = "向左，然后向上"
 L["Legacy Aura (disabled)"] = "传统光环（已禁用）"
 L["Legacy Aura (disabled):"] = "传统光环（已禁用）："
+--[[Translation missing --]]
+L["Legacy Looking for Raid"] = "Legacy Looking for Raid"
 L["Legacy RGB Gradient"] = "传统 RGB 变色"
 L["Legacy RGB Gradient Pulse"] = "传统 RGB 变色跳动"
 L["Length"] = "长度"
@@ -526,6 +556,8 @@ L["Limited"] = "有限的"
 L["Lines & Particles"] = "线条和粒子"
 L["Load Conditions"] = "加载条件"
 L["Loatheb"] = "洛欧塞布"
+--[[Translation missing --]]
+L["Looking for Raid"] = "Looking for Raid"
 L["Loop"] = "循环"
 L["Lost"] = "失去"
 L["Low Damage"] = "低伤害"
@@ -582,6 +614,8 @@ L["Mouse Cursor"] = "鼠标"
 L["Movement Speed (%)"] = "移动速度 (%)"
 L["Movement Speed Rating"] = "移动速度等级"
 L["Multi-target"] = "多目标"
+--[[Translation missing --]]
+L["Mythic Keystone"] = "Mythic Keystone"
 L["Mythic+ Affix"] = "大秘境词缀"
 L["Name"] = "名称"
 L["Name of Caster's Target"] = "施法者目标的名称"
@@ -650,6 +684,14 @@ L["Parry Rating"] = "偏斜等级"
 L["Party"] = "小队"
 L["Party Kill"] = "团/队击杀"
 L["Patchwerk"] = "帕奇维克"
+--[[Translation missing --]]
+L["Path of Ascension: Courage"] = "Path of Ascension: Courage"
+--[[Translation missing --]]
+L["Path of Ascension: Humility"] = "Path of Ascension: Humility"
+--[[Translation missing --]]
+L["Path of Ascension: Loyalty"] = "Path of Ascension: Loyalty"
+--[[Translation missing --]]
+L["Path of Ascension: Wisdom"] = "Path of Ascension: Wisdom"
 L["Paused"] = "已暂停"
 L["Periodic Spell"] = "周期法术"
 L["Personal Resource Display"] = "个人资源显示"
@@ -701,6 +743,14 @@ L["Queued Action"] = "队列中动作"
 L["Radius"] = "半径"
 L["Ragnaros"] = "拉格纳罗斯"
 L["Raid"] = "团队"
+--[[Translation missing --]]
+L["Raid (Heroic)"] = "Raid (Heroic)"
+--[[Translation missing --]]
+L["Raid (Mythic)"] = "Raid (Mythic)"
+--[[Translation missing --]]
+L["Raid (Normal)"] = "Raid (Normal)"
+--[[Translation missing --]]
+L["Raid (Timewalking)"] = "Raid (Timewalking)"
 L["Raid Role"] = "团队角色"
 L["Raid Warning"] = "团队警告"
 L["Raids"] = "团队地下城"
@@ -781,6 +831,10 @@ L["Sapphiron"] = "萨菲隆"
 L["Say"] = "说"
 L["Scale"] = "缩放"
 L["Scenario"] = "场景战役"
+--[[Translation missing --]]
+L["Scenario (Heroic)"] = "Scenario (Heroic)"
+--[[Translation missing --]]
+L["Scenario (Normal)"] = "Scenario (Normal)"
 L["Screen/Parent Group"] = "屏幕/上级群组"
 L["Second"] = "第二"
 L["Second Value of Tooltip Text"] = "鼠标提示文本的第二项值"
@@ -936,6 +990,8 @@ L["Top"] = "上"
 L["Top Left"] = "左上"
 L["Top Right"] = "右上"
 L["Top to Bottom"] = "从上到下"
+--[[Translation missing --]]
+L["Torghast"] = "Torghast"
 L["Total"] = "总量"
 L["Total Duration"] = "总时长"
 L["Total Experience"] = "最大经验值"
@@ -994,7 +1050,13 @@ L["Versatility Rating"] = "全能等级"
 L["Version: "] = "版本："
 L["Viscidus"] = "维希度斯"
 L["Visibility"] = "可见性"
+--[[Translation missing --]]
+L["Visions of N'Zoth"] = "Visions of N'Zoth"
 L["War Mode Active"] = "战争模式开启"
+--[[Translation missing --]]
+L["Warfront (Heroic)"] = "Warfront (Heroic)"
+--[[Translation missing --]]
+L["Warfront (Normal)"] = "Warfront (Normal)"
 L["Warning"] = "警告"
 L["Warning for unknown aura:"] = "未知光环警告："
 L["Warning: Full Scan auras checking for both name and spell id can't be converted."] = "警告：对名称和法术 ID 同时进行完整扫描的光环无法进行转换。"

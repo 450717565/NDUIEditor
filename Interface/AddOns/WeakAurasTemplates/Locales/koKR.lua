@@ -34,16 +34,12 @@ local L = WeakAuras.L
 	--[[Translation missing --]]
 	L["Always shows the aura, turns blue on insufficient resources."] = "Always shows the aura, turns blue on insufficient resources."
 	L["Always shows the aura, turns blue when not usable."] = "효과를 항상 표시하고, 사용할 수 없을 때는 파란색으로 바뀝니다."
-	--[[Translation missing --]]
-	L["Always shows the aura, turns grey if on cooldown."] = "Always shows the aura, turns grey if on cooldown."
-	--[[Translation missing --]]
-	L["Always shows the aura, turns grey if the ability is not usable and red when out of range."] = "Always shows the aura, turns grey if the ability is not usable and red when out of range."
-	--[[Translation missing --]]
-	L["Always shows the aura, turns grey if the ability is not usable."] = "Always shows the aura, turns grey if the ability is not usable."
+	L["Always shows the aura, turns grey if on cooldown."] = "효과를 항상 표시하고, 재사용 대기 중이면 회색으로 바뀝니다."
+	L["Always shows the aura, turns grey if the ability is not usable and red when out of range."] = "효과를 항상 표시하고, 능력을 사용할 수 없으면 회색으로, 사거리를 벗어나면 빨간색으로 바뀝니다."
+	L["Always shows the aura, turns grey if the ability is not usable."] = "효과를 항상 표시하고, 능력을 사용할 수 없으면 회색으로 바뀝니다."
 	--[[Translation missing --]]
 	L["Always shows the aura, turns red when out of range, blue on insufficient resources."] = "Always shows the aura, turns red when out of range, blue on insufficient resources."
-	--[[Translation missing --]]
-	L["Always shows the aura, turns red when out of range."] = "Always shows the aura, turns red when out of range."
+	L["Always shows the aura, turns red when out of range."] = "효과를 항상 표시하고, 사거리를 벗어나면 빨간색으로 바뀝니다."
 	L["Back"] = "뒤로"
 	L["Basic Show On Cooldown"] = "재사용 대기 중 표시"
 	--[[Translation missing --]]
@@ -67,8 +63,7 @@ local L = WeakAuras.L
 	--[[Translation missing --]]
 	L["Combustion Ready"] = "Combustion Ready"
 	L["Conduits"] = "도관"
-	--[[Translation missing --]]
-	L["Cooldown"] = "Cooldown"
+	L["Cooldown"] = "재사용 대기시간"
 	L["cooldown"] = "재사용 대기시간"
 	L["Cooldown Tracking"] = "재사용 대기시간 추적"
 	L["Create Auras"] = "효과 생성"

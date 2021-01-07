@@ -1,5 +1,11 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
+local S = B:GetModule("Skins")
+
+C.LUAThemes["Blizzard_AzeriteUI"] = function()
+	B.ReskinFrame(AzeriteEmpoweredItemUI)
+	AzeriteEmpoweredItemUI.ClipFrame.BackgroundFrame.Bg:Hide()
+end
 
 local function Reskin_EssenceList(self)
 	for i, button in pairs(self.buttons) do
@@ -47,4 +53,8 @@ C.LUAThemes["Blizzard_AzeriteEssenceUI"] = function()
 	B.SetupHook(HeaderButton)
 
 	hooksecurefunc(EssenceList, "Refresh", Reskin_EssenceList)
+end
+
+C.LUAThemes["Blizzard_AzeriteRespecUI"] = function()
+	S.ReskinReforgeUI(AzeriteRespecFrame, 15)
 end

@@ -4,13 +4,13 @@ local B, C, L, DB = unpack(ns)
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
 local function Update_OnLearnedTabClicked(self)
-	self.Tabs[1].bg:SetBackdropColor(cr, cg, cb, .25)
+	self.Tabs[1].bg:SetBackdropColor(cr, cg, cb, .5)
 	self.Tabs[2].bg:SetBackdropColor(0, 0, 0, 0)
 end
 
 local function Update_OnUnlearnedTabClicked(self)
 	self.Tabs[1].bg:SetBackdropColor(0, 0, 0, 0)
-	self.Tabs[2].bg:SetBackdropColor(cr, cg, cb, .25)
+	self.Tabs[2].bg:SetBackdropColor(cr, cg, cb, .5)
 end
 
 local function Reskin_Reagents(self)

@@ -74,14 +74,15 @@ ELP.frame:SetScript("OnEvent", function(self, _, addon)
 
 		if IsAddOnLoaded("NDui") then
 			local B, C, L, DB = unpack(_G.NDui)
-			B.ReskinButton(btn)
 			btn.Text:SetFont(DB.Font[1], 14, DB.Font[3])
 			btn.Text:SetPoint("CENTER", 1, 0)
-			btn.Text:SetTextColor(DB.r, DB.g, DB.b)
+			B.ReskinButton(btn)
+			B.ReskinText(btn.Text, DB.cr, DB.cg, DB.cb)
 
 			hooksecurefunc("EncounterJournal_SetLootButton", function(item)
 				if item.instance then
-					item.instance:SetTextColor(1, 1, 1)
+					B.ReskinText(item.instance, 1, 1, 1)
+
 					item.instance:ClearAllPoints()
 					item.instance:SetPoint("TOPRIGHT", item.armorType, "BOTTOMRIGHT", 0, -6)
 				end

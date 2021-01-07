@@ -1427,7 +1427,7 @@ Private.load_prototype = {
     },
     {
       name = "size",
-      display = L["Instance Type"],
+      display = L["Instance Size Type"],
       type = "multiselect",
       values = "instance_types",
       init = "arg",
@@ -1443,6 +1443,17 @@ Private.load_prototype = {
       enable = not WeakAuras.IsClassic(),
       hidden = WeakAuras.IsClassic(),
       events = {"PLAYER_DIFFICULTY_CHANGED", "ZONE_CHANGED", "ZONE_CHANGED_INDOORS", "ZONE_CHANGED_NEW_AREA"}
+    },
+    {
+      name = "instance_type",
+      display = L["Instance Type"],
+      type = "multiselect",
+      values = "instance_difficulty_types",
+      init = "arg",
+      control = "WeakAurasSortedDropdown",
+      events = {"PLAYER_DIFFICULTY_CHANGED", "ZONE_CHANGED", "ZONE_CHANGED_INDOORS", "ZONE_CHANGED_NEW_AREA"},
+      enable = not WeakAuras.IsClassic(),
+      hidden = WeakAuras.IsClassic(),
     },
     {
       name = "role",
@@ -6698,7 +6709,9 @@ Private.event_prototypes = {
                 spellId = data.spellID
                 spellName, _, icon = GetSpellInfo(data.spellID)
                 duration = data.duration
-                expirationTime = data.startTime + data.duration
+                if data.startTime and data.duration then
+                  expirationTime = data.startTime + data.duration
+                end
                 locType = data.locType
                 lockoutSchool = data.lockoutSchool
                 name = data.displayText
@@ -7612,7 +7625,7 @@ Private.event_prototypes = {
         tinsert(events, "ZONE_CHANGED_NEW_AREA")
       end
 
-      if trigger.use_instance_difficulty ~= nil then
+      if trigger.use_instance_difficulty ~= nil or trigger.use_instance_type then
         tinsert(events, "PLAYER_DIFFICULTY_CHANGED")
         tinsert(events, "ZONE_CHANGED")
         tinsert(events, "ZONE_CHANGED_INDOORS")
@@ -7722,7 +7735,7 @@ Private.event_prototypes = {
       },
       {
         name = "instance_size",
-        display = L["Instance Type"],
+        display = L["Instance Size Type"],
         type = "multiselect",
         values = "instance_types",
         init = "WeakAuras.InstanceType()",
@@ -7734,6 +7747,15 @@ Private.event_prototypes = {
         type = "multiselect",
         values = "difficulty_types",
         init = "WeakAuras.InstanceDifficulty()",
+        enable = not WeakAuras.IsClassic(),
+        hidden = WeakAuras.IsClassic(),
+      },
+      {
+        name = "instance_type",
+        display = L["Instance Type"],
+        type = "multiselect",
+        values = "instance_difficulty_types",
+        init = "WeakAuras.InstanceTypeRaw()",
         enable = not WeakAuras.IsClassic(),
         hidden = WeakAuras.IsClassic(),
       },

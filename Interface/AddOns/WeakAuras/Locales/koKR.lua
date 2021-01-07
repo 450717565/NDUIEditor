@@ -58,9 +58,19 @@ L["|cFFFF0000Not|r Player Name/Realm"] = "|cFFFF0000Not|r 플레이어 이름/�
 L["|cFFffcc00Extra Options:|r %s"] = "|cFFffcc00추가 옵션:|r %s"
 L["|cFFffcc00Extra Options:|r None"] = "|cFFffcc00추가 옵션:|r 없음"
 L["10 Man Raid"] = "10인 공격대"
+--[[Translation missing --]]
+L["10 Player Raid (Heroic)"] = "10 Player Raid (Heroic)"
+--[[Translation missing --]]
+L["10 Player Raid (Normal)"] = "10 Player Raid (Normal)"
 L["20 Man Raid"] = "20인 공격대"
 L["25 Man Raid"] = "25인 공격대"
+--[[Translation missing --]]
+L["25 Player Raid (Heroic)"] = "25 Player Raid (Heroic)"
+--[[Translation missing --]]
+L["25 Player Raid (Normal)"] = "25 Player Raid (Normal)"
 L["40 Man Raid"] = "40인 공격대"
+--[[Translation missing --]]
+L["40 Player Raid"] = "40 Player Raid"
 L["5 Man Dungeon"] = "5인 던전"
 L["Abbreviate"] = "약식"
 --[[Translation missing --]]
@@ -304,6 +314,10 @@ L["Down, then Left"] = "아래로, 왼쪽으로"
 L["Down, then Right"] = "아래로, 오른쪽으로"
 L["Drain"] = "마력 소진"
 L["Dropdown Menu"] = "드롭다운 메뉴"
+L["Dungeon (Heroic)"] = "던전 (영웅)"
+L["Dungeon (Mythic)"] = "던전 (신화)"
+L["Dungeon (Normal)"] = "던전 (일반)"
+L["Dungeon (Timewalking)"] = "던전 (시간여행)"
 L["Dungeons"] = "던전"
 L["Durability Damage"] = "내구도 손상"
 L["Durability Damage All"] = "모든 내구도 손상"
@@ -353,8 +367,7 @@ L["Equipment Set Equipped"] = "장비 구성 착용"
 L["Equipment Slot"] = "장비 칸"
 L["Equipped"] = "장착함"
 L["Error"] = "오류"
---[[Translation missing --]]
-L["Error Frame"] = "Error Frame"
+L["Error Frame"] = "오류창"
 L["Error not receiving display information from %s"] = "%s 에서 표시 정보를받지 못하는 오류"
 --[[Translation missing --]]
 L[ [=['ERROR: Anchoring %s': 
@@ -513,6 +526,8 @@ L["Inherited"] = "상속"
 L["Instakill"] = "죽임"
 L["Instance"] = "인스턴스"
 L["Instance Difficulty"] = "인스턴스 난이도"
+--[[Translation missing --]]
+L["Instance Size Type"] = "Instance Size Type"
 L["Instance Type"] = "인스턴스 유형"
 L["Instructor Razuvious"] = "훈련교관 라주비어스"
 L["Insufficient Resources"] = "자원 부족"
@@ -531,6 +546,11 @@ L["Is Exactly"] = "정확할 때"
 L["Is Moving"] = "이동 중일 때"
 L["Is Off Hand"] = "보조장비일 때"
 L["is useable"] = "사용 가능할 때"
+L["Island Expedition (Heroic)"] = "군도 탐험 (영웅)"
+L["Island Expedition (Mythic)"] = "군도 탐험 (신화)"
+L["Island Expedition (Normal)"] = "군도 탐험 (일반)"
+--[[Translation missing --]]
+L["Island Expeditions (PvP)"] = "Island Expeditions (PvP)"
 --[[Translation missing --]]
 L["It might not work correctly on Classic!"] = "It might not work correctly on Classic!"
 --[[Translation missing --]]
@@ -572,6 +592,8 @@ L["Legacy Aura (disabled)"] = "Legacy Aura (disabled)"
 --[[Translation missing --]]
 L["Legacy Aura (disabled):"] = "Legacy Aura (disabled):"
 --[[Translation missing --]]
+L["Legacy Looking for Raid"] = "Legacy Looking for Raid"
+--[[Translation missing --]]
 L["Legacy RGB Gradient"] = "Legacy RGB Gradient"
 --[[Translation missing --]]
 L["Legacy RGB Gradient Pulse"] = "Legacy RGB Gradient Pulse"
@@ -583,6 +605,8 @@ L["Limited"] = "Limited"
 L["Lines & Particles"] = "Lines & Particles"
 L["Load Conditions"] = "조건 불러오기"
 L["Loatheb"] = "로데브"
+--[[Translation missing --]]
+L["Looking for Raid"] = "Looking for Raid"
 L["Loop"] = "반복"
 L["Lost"] = "손실"
 L["Low Damage"] = "낮은 피해"
@@ -641,6 +665,8 @@ L["Mouse Cursor"] = "마우스 커서"
 L["Movement Speed (%)"] = "이동 속도 (%)"
 L["Movement Speed Rating"] = "이동 속도 등급"
 L["Multi-target"] = "다중 대상"
+--[[Translation missing --]]
+L["Mythic Keystone"] = "Mythic Keystone"
 L["Mythic+ Affix"] = "쐐기돌 수정치"
 L["Name"] = "이름"
 L["Name of Caster's Target"] = "시전자 대상의 이름"
@@ -722,6 +748,14 @@ L["Parry Rating"] = "무기 막기 등급"
 L["Party"] = "파티"
 L["Party Kill"] = "죽임"
 L["Patchwerk"] = "패치워크"
+--[[Translation missing --]]
+L["Path of Ascension: Courage"] = "Path of Ascension: Courage"
+--[[Translation missing --]]
+L["Path of Ascension: Humility"] = "Path of Ascension: Humility"
+--[[Translation missing --]]
+L["Path of Ascension: Loyalty"] = "Path of Ascension: Loyalty"
+--[[Translation missing --]]
+L["Path of Ascension: Wisdom"] = "Path of Ascension: Wisdom"
 L["Paused"] = "일시정지됨"
 L["Periodic Spell"] = "주기적인 주문"
 L["Personal Resource Display"] = "개인 자원 표시"
@@ -777,6 +811,14 @@ L["Queued Action"] = "Queued Action"
 L["Radius"] = "반경"
 L["Ragnaros"] = "라그나로스"
 L["Raid"] = "공격대"
+--[[Translation missing --]]
+L["Raid (Heroic)"] = "Raid (Heroic)"
+--[[Translation missing --]]
+L["Raid (Mythic)"] = "Raid (Mythic)"
+--[[Translation missing --]]
+L["Raid (Normal)"] = "Raid (Normal)"
+--[[Translation missing --]]
+L["Raid (Timewalking)"] = "Raid (Timewalking)"
 L["Raid Role"] = "공격대 역할"
 L["Raid Warning"] = "공격대 경보"
 L["Raids"] = "공격대"
@@ -866,6 +908,10 @@ L["Sapphiron"] = "사피론"
 L["Say"] = "일반 대화"
 L["Scale"] = "크기 비율"
 L["Scenario"] = "시나리오"
+--[[Translation missing --]]
+L["Scenario (Heroic)"] = "Scenario (Heroic)"
+--[[Translation missing --]]
+L["Scenario (Normal)"] = "Scenario (Normal)"
 L["Screen/Parent Group"] = "화면/부모 그룹"
 L["Second"] = "두 번째"
 L["Second Value of Tooltip Text"] = "툴팁 문자의 두 번째 값"
@@ -1052,6 +1098,8 @@ L["Top"] = "위"
 L["Top Left"] = "왼쪽 위"
 L["Top Right"] = "오른쪽 위"
 L["Top to Bottom"] = "위에서 아래로"
+--[[Translation missing --]]
+L["Torghast"] = "Torghast"
 L["Total"] = "전체"
 L["Total Duration"] = "총 지속시간"
 L["Total Experience"] = "전체 경험치"
@@ -1120,7 +1168,13 @@ L["Version: "] = "버전:"
 L["Viscidus"] = "비시디우스"
 --[[Translation missing --]]
 L["Visibility"] = "Visibility"
+--[[Translation missing --]]
+L["Visions of N'Zoth"] = "Visions of N'Zoth"
 L["War Mode Active"] = "전쟁 모드 활성화"
+--[[Translation missing --]]
+L["Warfront (Heroic)"] = "Warfront (Heroic)"
+--[[Translation missing --]]
+L["Warfront (Normal)"] = "Warfront (Normal)"
 L["Warning"] = "경고"
 --[[Translation missing --]]
 L["Warning for unknown aura:"] = "Warning for unknown aura:"

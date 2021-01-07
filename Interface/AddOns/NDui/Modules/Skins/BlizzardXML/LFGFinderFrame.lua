@@ -35,7 +35,7 @@ local function Reskin_Reward(self)
 	end
 
 	if shortageBorder and shortageBorder:IsShown() then
-		self.bubg:SetBackdropColor(cr, cg, cb, .25)
+		self.bubg:SetBackdropColor(cr, cg, cb, .5)
 	else
 		self.bubg:SetBackdropColor(0, 0, 0, 0)
 	end
@@ -159,8 +159,10 @@ tinsert(C.XMLThemes, function()
 	B.ReskinDropDown(LFDQueueFrameTypeDropDown)
 	B.ReskinDropDown(RaidFinderQueueFrameSelectionDropDown)
 	B.ReskinScroll(LFDQueueFrameRandomScrollFrameScrollBar)
-	B.ReskinScroll(RaidFinderQueueFrameScrollFrameScrollBar)
 	B.ReskinScroll(LFDQueueFrameSpecificListScrollFrameScrollBar)
+	B.ReskinScroll(RaidFinderQueueFrameScrollFrameScrollBar)
+
+	Reskin_Reward(LFDQueueFrameRandomScrollFrameChildFrameMoneyReward)
 
 	local buttons = {
 		LFDQueueFrameFindGroupButton,

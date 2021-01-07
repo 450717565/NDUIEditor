@@ -2,7 +2,7 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local Skins = B:GetModule("Skins")
 
-local function Update_OnShowPoint(self)
+local function Update_FrameAnchor(self)
 	self:ClearAllPoints()
 	self:SetPoint("TOPLEFT", MerchantFrame, "TOPRIGHT", 3, -25)
 end
@@ -27,5 +27,5 @@ function Skins:BuyEmAll()
 		B.ReskinButton(button)
 	end
 
-	hooksecurefunc(BuyEmAllFrame, "Show", Update_OnShowPoint)
+	hooksecurefunc(BuyEmAllFrame, "Show", Update_FrameAnchor)
 end

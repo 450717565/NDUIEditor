@@ -280,7 +280,7 @@ function UF:UpdateTargetChange()
 	end
 
 	if C.db["Nameplate"]["ColoredTarget"] then
-		UF.UpdateColor(self, _, unit)
+		UF.UpdateThreatColor(self, _, unit)
 	end
 end
 

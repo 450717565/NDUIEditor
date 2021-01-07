@@ -589,8 +589,7 @@ Supports multiple entries, separated by commas
 	L["Not a table"] = "Not a table"
 	L["Not all children have the same value for this option"] = "모든 자식의 이 옵션 값이 같지 않습니다"
 	L["Not Loaded"] = "불러오지 않음"
-	--[[Translation missing --]]
-	L["Note: Automated Messages to SAY and YELL are blocked outside of Instances."] = "Note: Automated Messages to SAY and YELL are blocked outside of Instances."
+	L["Note: Automated Messages to SAY and YELL are blocked outside of Instances."] = "참고: 일반 대화 및 외치기에 대한 자동화된 메시지는 인스턴스 외부에서 차단됩니다."
 	--[[Translation missing --]]
 	L["Note: The legacy buff trigger is now permanently disabled. It will be removed in the near future."] = "Note: The legacy buff trigger is now permanently disabled. It will be removed in the near future."
 	L["Number of Entries"] = "항목 수"

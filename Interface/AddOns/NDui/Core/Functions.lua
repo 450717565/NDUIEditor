@@ -490,6 +490,7 @@ do
 		"BottomRight",
 		"BottomRightTex",
 		"BottomTex",
+		"Center",
 		"Delimiter1",
 		"Delimiter2",
 		"Left",
@@ -527,12 +528,12 @@ do
 		"trackBG",
 	}
 
-	function B:CleanTextures()
+	function B:CleanTextures(override)
 		if self.SetBackdrop then self:SetBackdrop(nil) end
 		if self.SetDisabledTexture then self:SetDisabledTexture("") end
 		if self.SetHighlightTexture then self:SetHighlightTexture("") end
-		if self.SetNormalTexture then self:SetNormalTexture("") end
 		if self.SetPushedTexture then self:SetPushedTexture("") end
+		if self.SetNormalTexture and not override then self:SetNormalTexture("") end
 
 		local frameName = self:GetDebugName()
 		for _, key in pairs(cleanTextures) do
@@ -615,9 +616,9 @@ do
 
 	function B:Tex_OnMouseDown()
 		if self.bgTex then
-			self.bgTex:SetBackdropColor(cr, cg, cb, .25)
+			self.bgTex:SetBackdropColor(cr, cg, cb, .5)
 		else
-			self:SetBackdropColor(cr, cg, cb, .25)
+			self:SetBackdropColor(cr, cg, cb, .5)
 		end
 	end
 
@@ -906,8 +907,8 @@ do
 	end
 
 	-- Handle Button
-	function B:ReskinButton()
-		B.CleanTextures(self)
+	function B:ReskinButton(override)
+		B.CleanTextures(self, override)
 
 		local bgTex = B.CreateBDFrame(self)
 		self.bgTex = bgTex
@@ -1555,18 +1556,21 @@ do
 	end
 
 	-- FontString
-	function B.ReskinText(text, r, g, b, a)
-		text:SetTextColor(r, g, b, a or 1)
-		text:SetShadowColor(0, 0, 0, 0)
+	function B:ReskinText(r, g, b, a)
+		self:SetTextColor(r, g, b, a or 1)
+
+		if self.SetShadowColor then
+			self:SetShadowColor(0, 0, 0, 0)
+		end
 	end
 
-	function B.ReskinFont(font, size)
-		local oldSize = select(2, font:GetFont())
+	function B:ReskinFont(size)
+		local oldSize = select(2, self:GetFont())
 		size = size or oldSize
 
 		local fontSize = size*C.db["Skins"]["FontScale"]
-		font:SetFont(DB.Font[1], fontSize, DB.Font[3])
-		font:SetShadowColor(0, 0, 0, 0)
+		self:SetFont(DB.Font[1], fontSize, DB.Font[3])
+		self:SetShadowColor(0, 0, 0, 0)
 	end
 
 	function B:CreateFS(size, text, color, anchor, x, y)

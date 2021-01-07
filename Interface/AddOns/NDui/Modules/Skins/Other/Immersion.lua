@@ -5,17 +5,14 @@ local Skins = B:GetModule("Skins")
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
 local function Reskin_TitleButton(self)
-	if self and not self.styled then
+	if not self then return end
+
+	if not self.styled then
 		self.Hilite:Hide()
 
 		B.StripTextures(self)
 		B.ReskinButton(self)
 		B.CreateBT(self.bgTex)
-
-		if index > 1 then
-			self:ClearAllPoints()
-			self:SetPoint("TOP", self.Buttons[index-1], "BOTTOM", 0, -B.Scale(3))
-		end
 
 		self.styled = true
 	end
@@ -61,10 +58,6 @@ local function Reskin_ItemButton(self)
 			button.styled = true
 		end
 
-		local p1, p2, p3 = self[1]:GetPoint()
-		self[1]:ClearAllPoints()
-		self[1]:SetPoint(p1, p2, p3, 1, -10)
-
 		Update_ItemBorder(button)
 	end
 end
@@ -72,6 +65,11 @@ end
 local function Reskin_GetButton(self, index)
 	local button = self.Buttons[index]
 	Reskin_TitleButton(button)
+
+	if index > 1 then
+		button:ClearAllPoints()
+		button:SetPoint("TOP", self.Buttons[index-1], "BOTTOM", 0, -3)
+	end
 end
 
 local function Reskin_AddQuestInfo(self)
@@ -79,7 +77,7 @@ local function Reskin_AddQuestInfo(self)
 	Reskin_ItemButton(buttons)
 end
 
-local function Reskin_QUESTPROGRESS(self)
+local function Reskin_QuestProgress(self)
 	local buttons = self.TalkBox.Elements.Progress.Buttons
 	Reskin_ItemButton(buttons)
 end
@@ -93,8 +91,9 @@ function Skins:Immersion()
 	B.StripTextures(TalkBox.Hilite)
 
 	local hilite = B.CreateBDFrame(TalkBox.Hilite)
+	hilite:SetFrameLevel(TalkBox:GetFrameLevel())
 	hilite:SetAllPoints(TalkBox)
-	hilite:SetBackdropColor(cr, cg, cb, .25)
+	hilite:SetBackdropColor(cr, cg, cb, .5)
 	hilite:SetBackdropBorderColor(cr, cg, cb, 1)
 
 	local Elements = TalkBox.Elements
@@ -104,7 +103,7 @@ function Skins:Immersion()
 	local MainFrame = TalkBox.MainFrame
 	B.ReskinFrame(MainFrame, "noKill")
 	B.StripTextures(MainFrame.Model)
-	B.CreateBDFrame(MainFrame.Model)
+	B.CreateBDFrame(MainFrame.Model, 0, -C.mult)
 
 	local Indicator = MainFrame.Indicator
 	Indicator:SetScale(1.25)
@@ -112,6 +111,6 @@ function Skins:Immersion()
 	Indicator:SetPoint("RIGHT", MainFrame.CloseButton, "LEFT", -3, 0)
 
 	hooksecurefunc(ImmersionFrame, "AddQuestInfo", Reskin_AddQuestInfo)
-	hooksecurefunc(ImmersionFrame, "QUEST_PROGRESS", Reskin_QUESTPROGRESS)
+	hooksecurefunc(ImmersionFrame, "QUEST_PROGRESS", Reskin_QuestProgress)
 	hooksecurefunc(ImmersionFrame.TitleButtons, "GetButton", Reskin_GetButton)
 end

@@ -110,9 +110,18 @@ local function Reskin_QuestIcon(self)
 
 	if not self.styled then
 		B.CleanTextures(self)
-		local icon = self.icon or self.Icon
-		if icon then
-			B.ReskinIcon(icon)
+
+		local bg = B.CreateBDFrame(self.icon or self.Icon)
+		B.ReskinHighlight(self, bg)
+
+		if self.icon then
+			self.icon:SetTexCoord(unpack(DB.TexCoord))
+		end
+
+		if self.Icon then
+			self.Icon:SetPoint("CENTER")
+			self.Icon:SetSize(18, 18)
+			bg:SetInside(nil, 2, 2)
 		end
 
 		self.styled = true
@@ -133,7 +142,7 @@ local function Get_MawBuffsAnchor(self)
 	end
 end
 
-local function Update_OnClickPoint(container)
+local function Update_FrameAnchor(container)
 	local direc = Get_MawBuffsAnchor(container)
 	if not container.lastDirec or container.lastDirec ~= direc then
 		container.List:ClearAllPoints()
@@ -213,5 +222,5 @@ tinsert(C.XMLThemes, function()
 	hooksecurefunc(SCENARIO_CONTENT_TRACKER_MODULE, "Update", Reskin_ContentTracker)
 
 	-- MawBuffsBlock
-	ScenarioBlocksFrame.MawBuffsBlock.Container:HookScript("OnClick", Update_OnClickPoint)
+	ScenarioBlocksFrame.MawBuffsBlock.Container:HookScript("OnClick", Update_FrameAnchor)
 end)

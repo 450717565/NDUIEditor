@@ -58,24 +58,26 @@ local function Reskin_ListIcon(self)
 
 			for j = 1, 4 do
 				local cell = row.cells and row.cells[j]
-				if cell and cell.Icon then
-					if not cell.styled then
-						cell.Icon.icbg = B.ReskinIcon(cell.Icon)
-						if cell.IconBorder then
-							cell.IconBorder:SetAlpha(0)
-							cell.IconBorder:Hide()
+				if cell then
+					if cell.Icon then
+						if not cell.styled then
+							cell.Icon.icbg = B.ReskinIcon(cell.Icon)
+							if cell.IconBorder then
+								cell.IconBorder:SetAlpha(0)
+								cell.IconBorder:Hide()
+							end
+
+							cell.styled = true
 						end
 
-						cell.styled = true
+						cell.Icon.icbg:SetShown(cell.Icon:IsShown())
 					end
 
-					cell.Icon.icbg:SetShown(cell.Icon:IsShown())
-				end
-
-				if cell and cell.MoneyDisplay then
-					local ip1, ip2, ip3 = cell.MoneyDisplay:GetPoint()
-					cell.MoneyDisplay:ClearAllPoints()
-					cell.MoneyDisplay:SetPoint(ip1, ip2, ip3, -2, 0)
+					if cell.MoneyDisplay then
+						local ip1, ip2, ip3 = cell.MoneyDisplay:GetPoint()
+						cell.MoneyDisplay:ClearAllPoints()
+						cell.MoneyDisplay:SetPoint(ip1, ip2, ip3, 5, 0)
+					end
 				end
 			end
 		end
@@ -106,12 +108,14 @@ local function Reskin_ListHeader(self)
 	local maxHeaders = self.HeaderContainer:GetNumChildren()
 	for i = 1, maxHeaders do
 		local header = select(i, self.HeaderContainer:GetChildren())
-		if header and not header.styled then
-			header:DisableDrawLayer("BACKGROUND")
-			header.bg = B.CreateBDFrame(header)
-			B.ReskinHighlight(header, header.bg, true)
+		if header then
+			if not header.styled then
+				header:DisableDrawLayer("BACKGROUND")
+				header.bg = B.CreateBDFrame(header)
+				B.ReskinHighlight(header, header.bg, true)
 
-			header.styled = true
+				header.styled = true
+			end
 		end
 
 		if header.bg then
@@ -167,7 +171,6 @@ C.LUAThemes["Blizzard_AuctionHouseUI"] = function()
 
 	B.StripTextures(AuctionHouseFrame.MoneyFrameInset)
 	B.StripTextures(AuctionHouseFrame.MoneyFrameBorder)
-	B.CreateBDFrame(AuctionHouseFrame.MoneyFrameBorder)
 	B.ReskinTab(AuctionHouseFrameBuyTab)
 	B.ReskinTab(AuctionHouseFrameSellTab)
 	B.ReskinTab(AuctionHouseFrameAuctionsTab)

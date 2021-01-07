@@ -3,7 +3,7 @@ local B, C, L, DB = unpack(ns)
 local Skins = B:GetModule("Skins")
 local TT = B:GetModule("Tooltip")
 
-local function Update_OnShowPoint(self, _, parent)
+local function Update_FrameAnchor(self, _, parent)
 	if parent ~= LFGListFrame then
 		self:ClearAllPoints()
 		self:SetPoint("TOPLEFT", LFGListFrame, "TOPRIGHT", 3, 0)
@@ -70,7 +70,7 @@ function Skins:PremadeGroupsFilter()
 		end
 	end
 
-	hooksecurefunc(PremadeGroupsFilterDialog, "SetPoint", Update_OnShowPoint)
+	hooksecurefunc(PremadeGroupsFilterDialog, "SetPoint", Update_FrameAnchor)
 
 	local tipStyled
 	hooksecurefunc(PremadeGroupsFilter.Debug, "PopupMenu_Initialize", function()

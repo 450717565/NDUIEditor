@@ -205,7 +205,7 @@ function Skins:Rematch()
 
 			B.StripTextures(menu.Title)
 			local bg = B.CreateBDFrame(menu.Title)
-			bg:SetBackdropColor(1, .8, 0, .25)
+			bg:SetBackdropColor(1, .8, 0, .5)
 		end
 
 		B.StripTextures(RematchJournal)
@@ -256,7 +256,7 @@ function Skins:Rematch()
 		B.StripTextures(RematchLoadedTeamPanel)
 		B.StripTextures(RematchLoadedTeamPanel.Footnotes)
 		local bg = B.CreateBGFrame(RematchLoadedTeamPanel, 0, -1, 0, 1)
-		bg:SetBackdropColor(cr, cg, cb, .25)
+		bg:SetBackdropColor(cr, cg, cb, .5)
 
 		-- RematchLoadoutPanel
 		local Target = RematchLoadoutPanel.Target

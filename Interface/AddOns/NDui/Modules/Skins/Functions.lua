@@ -134,7 +134,7 @@ do
 		B.CreateBG(self)
 
 		local Background = self.Background
-		B.CreateBDFrame(Background, 0, -C.mult, true)
+		B.CreateBDFrame(Background, 0, -C.mult)
 
 		local ItemSlot = self.ItemSlot
 		B.ReskinIcon(ItemSlot.Icon)
@@ -147,9 +147,9 @@ do
 		bubg:Point("TOPLEFT", ButtonFrame.MoneyFrameEdge, 2, 0)
 		bubg:Point("BOTTOMRIGHT", ButtonFrame.MoneyFrameEdge, 0, 2)
 
-		if ButtonFrame.AzeriteRespecButton then B.ReskinButton(ButtonFrame.AzeriteRespecButton) end
-		if ButtonFrame.ActionButton then B.ReskinButton(ButtonFrame.ActionButton) end
 		if ButtonFrame.Currency then B.ReskinIcon(ButtonFrame.Currency.icon) end
+		if ButtonFrame.ActionButton then B.ReskinButton(ButtonFrame.ActionButton) end
+		if ButtonFrame.AzeriteRespecButton then B.ReskinButton(ButtonFrame.AzeriteRespecButton) end
 	end
 
 	-- Reskin SearchBox
@@ -236,6 +236,14 @@ do
 		self:ClearAllPoints()
 		self:SetPoint("TOPLEFT", parent, "TOPLEFT", -12, 12)
 	end
+
+	function Skins:ReplaceIconString(text)
+		if not text then text = self:GetText() end
+		if not text or text == "" then return end
+
+		local newText, count = gsub(text, "|T([^:]-):[%d+:]+|t", "|T%1:14:14:0:0:64:64:5:59:5:59|t")
+		if count > 0 then self:SetFormattedText("%s", newText) end
+	end
 end
 
 -- Update Function
@@ -279,4 +287,17 @@ do
 		local r, g, b = GetItemQualityColor(self.quality or 1)
 		self.squareBG:SetBackdropBorderColor(r, g, b)
 	end
+
+	function Skins:UpdateTabAnchor()
+		local frameName = self:GetDebugName()
+		local text = self.Text or (frameName and _G[frameName.."Text"])
+		if text then
+			text:SetJustifyH("CENTER")
+			text:ClearAllPoints()
+			text:SetPoint("CENTER")
+		end
+	end
+
+	hooksecurefunc("PanelTemplates_SelectTab", Skins.UpdateTabAnchor)
+	hooksecurefunc("PanelTemplates_DeselectTab", Skins.UpdateTabAnchor)
 end
