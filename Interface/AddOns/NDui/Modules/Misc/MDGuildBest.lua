@@ -83,6 +83,12 @@ end
 local resize
 function Misc:GuildBest_Update()
 	if not frame then Misc:GuildBest_Create() end
+	if KeystoneInfo then
+		local lastMap = ChallengesFrame.DungeonIcons[#ChallengesFrame.maps]
+		KeystoneInfo:ClearAllPoints()
+		KeystoneInfo:SetPoint("BOTTOMRIGHT", lastMap, "TOPRIGHT", 0, 1)
+	end
+
 	if self.leadersAvailable then
 		local leaders = C_ChallengeMode_GetGuildLeaders()
 		if leaders and #leaders > 0 then
@@ -153,8 +159,8 @@ end
 -- Keystone Info
 function Misc:KeystoneInfo_Create()
 	local texture = select(10, GetItemInfo(158923)) or 525134
-	local button = CreateFrame("Frame", nil, ChallengesFrame)
-	button:SetPoint("BOTTOMRIGHT", ChallengesFrame, "BOTTOMRIGHT", -3, 48)
+	local button = CreateFrame("Frame", "KeystoneInfo", ChallengesFrame)
+	--button:SetPoint("BOTTOMRIGHT", ChallengesFrame, "TOPRIGHT", 0, 3)
 	button:SetSize(30, 30)
 	B.PixelIcon(button, texture, true)
 	button.icbg:SetBackdropBorderColor(0, .8, 1)

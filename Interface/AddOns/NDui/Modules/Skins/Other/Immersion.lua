@@ -13,6 +13,7 @@ local function Reskin_TitleButton(self)
 		B.StripTextures(self)
 		B.ReskinButton(self)
 		B.CreateBT(self.bgTex)
+		B.ReskinText(self.Label, 1, .8, 0)
 
 		self.styled = true
 	end

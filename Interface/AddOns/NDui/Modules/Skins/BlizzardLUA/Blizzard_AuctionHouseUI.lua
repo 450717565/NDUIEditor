@@ -61,7 +61,7 @@ local function Reskin_ListIcon(self)
 				if cell then
 					if cell.Icon then
 						if not cell.styled then
-							cell.Icon.icbg = B.ReskinIcon(cell.Icon)
+							cell.icbg = B.ReskinIcon(cell.Icon)
 							if cell.IconBorder then
 								cell.IconBorder:SetAlpha(0)
 								cell.IconBorder:Hide()
@@ -70,7 +70,7 @@ local function Reskin_ListIcon(self)
 							cell.styled = true
 						end
 
-						cell.Icon.icbg:SetShown(cell.Icon:IsShown())
+						cell.icbg:SetShown(cell.Icon:IsShown())
 					end
 
 					if cell.MoneyDisplay then
@@ -90,7 +90,7 @@ local function Reskin_SummaryIcon(self)
 		if child and child.Icon then
 			if not child.styled then
 				child.HighlightTexture:SetColorTexture(1, 1, 1, .25)
-				child.Icon.icbg = B.ReskinIcon(child.Icon)
+				child.icbg = B.ReskinIcon(child.Icon)
 				if child.IconBorder then
 					child.IconBorder:SetAlpha(0)
 					child.IconBorder:Hide()
@@ -99,7 +99,7 @@ local function Reskin_SummaryIcon(self)
 				child.styled = true
 			end
 
-			child.Icon.icbg:SetShown(child.Icon:IsShown())
+			child.icbg:SetShown(child.Icon:IsShown())
 		end
 	end
 end

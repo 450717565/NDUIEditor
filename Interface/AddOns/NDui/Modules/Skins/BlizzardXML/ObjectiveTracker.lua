@@ -111,17 +111,18 @@ local function Reskin_QuestIcon(self)
 	if not self.styled then
 		B.CleanTextures(self)
 
-		local bg = B.CreateBDFrame(self.icon or self.Icon)
-		B.ReskinHighlight(self, bg)
+		local icbg = B.CreateBDFrame(self.icon or self.Icon)
+		B.ReskinHighlight(self, icbg)
 
 		if self.icon then
 			self.icon:SetTexCoord(unpack(DB.TexCoord))
 		end
 
 		if self.Icon then
+			self.Icon:SetDrawLayer("ARTWORK")
 			self.Icon:SetPoint("CENTER")
 			self.Icon:SetSize(18, 18)
-			bg:SetInside(nil, 2, 2)
+			icbg:SetInside(nil, 2, 2)
 		end
 
 		self.styled = true
@@ -214,6 +215,7 @@ tinsert(C.XMLThemes, function()
 	hooksecurefunc(QUEST_TRACKER_MODULE, "SetBlockHeader", Reskin_QuestIcons)
 	hooksecurefunc(WORLD_QUEST_TRACKER_MODULE, "AddObjective", Reskin_QuestIcons)
 	hooksecurefunc(CAMPAIGN_QUEST_TRACKER_MODULE, "AddObjective", Reskin_QuestIcons)
+	hooksecurefunc(BONUS_OBJECTIVE_TRACKER_MODULE, "AddObjective", Reskin_QuestIcons)
 
 	-- Blocks
 	hooksecurefunc("ScenarioStage_CustomizeBlock", Reskin_CustomizeBlock)
