@@ -18,7 +18,7 @@ do
 		end
 	end
 
-	function Skins:ReskinPortrait()
+	function Skins:ReskinFollowerPortrait()
 		local level = self.Level or self.LevelText
 		if level then
 			level:ClearAllPoints()
@@ -63,6 +63,18 @@ do
 		end
 	end
 
+	function Skins:ReskinFollowerClass(size, point, x, y, relativeTo)
+		relativeTo = relativeTo or self:GetParent()
+
+		self:SetSize(size, size)
+		self:ClearAllPoints()
+		self:SetPoint(point, relativeTo, x, y)
+		self:SetTexCoord(.18, .92, .08, .92)
+		local bg = B.CreateBDFrame(self)
+
+		return bg
+	end
+
 	-- Reskin MerchantItem
 	function Skins:ReskinMerchantItem()
 		B.StripTextures(self, 0)
@@ -96,7 +108,7 @@ do
 		name:SetWordWrap(true)
 		name:SetJustifyH("LEFT")
 		name:ClearAllPoints()
-		name:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 4, 2)
+		name:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 4, 3)
 
 		local money = _G[frameName.."MoneyFrame"]
 		money:ClearAllPoints()
@@ -281,7 +293,7 @@ do
 	end
 
 	-- Update PortraitColor
-	function Skins:UpdatePortraitColor()
+	function Skins:UpdateFollowerQuality()
 		if not self.quality or not self.squareBG then return end
 
 		local r, g, b = GetItemQualityColor(self.quality or 1)

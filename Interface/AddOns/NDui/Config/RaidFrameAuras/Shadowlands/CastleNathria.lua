@@ -5,7 +5,7 @@ local AT = B:GetModule("AurasTable")
 local TIER = 9
 local INSTANCE = 1190 -- 纳斯利亚堡
 local BOSS
--- Credit: Luckyone, ElvUI
+
 BOSS = 2393 -- 啸翼
 AT:RegisterDebuff(TIER, INSTANCE, BOSS, 328897) -- 抽干
 AT:RegisterDebuff(TIER, INSTANCE, BOSS, 330713) -- 耳鸣之痛
@@ -20,6 +20,7 @@ AT:RegisterDebuff(TIER, INSTANCE, BOSS, 334945) -- 深红痛击
 AT:RegisterDebuff(TIER, INSTANCE, BOSS, 334852) -- 石化嚎叫
 
 BOSS = 2428 -- 饥饿的毁灭者
+AT:RegisterDebuff(TIER, INSTANCE, BOSS, 340630) -- 小怪
 AT:RegisterDebuff(TIER, INSTANCE, BOSS, 334228) -- 不稳定的喷发
 AT:RegisterDebuff(TIER, INSTANCE, BOSS, 329298) -- 暴食瘴气
 
@@ -82,6 +83,8 @@ AT:RegisterDebuff(TIER, INSTANCE, BOSS, 339690) -- 晶化
 AT:RegisterDebuff(TIER, INSTANCE, BOSS, 342655) -- 不稳定的心能灌注
 AT:RegisterDebuff(TIER, INSTANCE, BOSS, 342698) -- 不稳定的心能感染
 AT:RegisterDebuff(TIER, INSTANCE, BOSS, 343881) -- 锯齿撕裂
+AT:RegisterDebuff(TIER, INSTANCE, BOSS, 333913) -- 邪恶撕裂
+AT:RegisterDebuff(TIER, INSTANCE, BOSS, 334771) -- 溢血之心
 
 BOSS = 2424 -- 德纳修斯大帝
 AT:RegisterDebuff(TIER, INSTANCE, BOSS, 326851) -- 血债
@@ -95,3 +98,5 @@ AT:RegisterDebuff(TIER, INSTANCE, BOSS, 329951) -- 穿刺
 AT:RegisterDebuff(TIER, INSTANCE, BOSS, 327039) -- 喂食时间
 AT:RegisterDebuff(TIER, INSTANCE, BOSS, 327089) -- 喂食时间
 AT:RegisterDebuff(TIER, INSTANCE, BOSS, 332794) -- 致命灵巧
+AT:RegisterDebuff(TIER, INSTANCE, BOSS, 329906) -- 屠戮
+AT:RegisterDebuff(TIER, INSTANCE, BOSS, 334016, 6) -- 落选者

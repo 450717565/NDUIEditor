@@ -334,7 +334,7 @@ function Misc:MailBox_CollectCurrent()
 end
 
 function Misc:CollectCurrentButton()
-	local button = Misc:MailBox_CreatButton(OpenMailFrame, 82, 22, L["TakeAll"], {"RIGHT", "OpenMailReplyButton", "LEFT", -1, 0})
+	local button = Misc:MailBox_CreatButton(OpenMailFrame, 80, 24, L["TakeAll"], {"RIGHT", "OpenMailReplyButton", "LEFT", -1, 0})
 	button:SetScript("OnClick", Misc.MailBox_CollectCurrent)
 end
 

@@ -7,16 +7,16 @@ local pairs, next, format, wipe = pairs, next, string.format, wipe
 local AuraWatchList = {}
 local groups = {
 	-- groups name = direction, interval, mode, iconsize, position, barwidth
-	["Player Aura"] = {"LEFT", 5, "ICON", 22, C.Auras.PlayerAuraPos},
-	["Target Aura"] = {"RIGHT", 5, "ICON", 36, C.Auras.TargetAuraPos},
-	["Special Aura"] = {"LEFT", 5, "ICON", 36, C.Auras.SpecialAuraPos},
-	["Focus Aura"] = {"RIGHT", 5, "ICON", 35, C.Auras.FocusAuraPos},
-	["Spell CD"] = {"UP", 5, "BAR", 18, C.Auras.SpellCDPos, 150},
-	["Enchant Aura"] = {"LEFT", 5, "ICON", 36, C.Auras.EnchantAuraPos},
-	["Raid Buff"] = {"LEFT", 5, "ICON", 42, C.Auras.RaidBuffPos},
-	["Raid Debuff"] = {"RIGHT", 5, "ICON", 42, C.Auras.RaidDebuffPos},
-	["Warning Aura"] = {"RIGHT", 5, "ICON", 42, C.Auras.WarningAuraPos},
-	["InternalCD"] = {"UP", 5, "BAR", 18, C.Auras.InternalCDPos, 150},
+	["Player Aura"] = {"LEFT", 5, "ICON", 24, C.Auras.PlayerAuraPos},
+	["Special Aura"] = {"LEFT", 5, "ICON", 32, C.Auras.SpecialAuraPos},
+	["Target Aura"] = {"RIGHT", 5, "ICON", 32, C.Auras.TargetAuraPos},
+	["Focus Aura"] = {"RIGHT", 5, "ICON", 32, C.Auras.FocusAuraPos},
+	["Enchant Aura"] = {"LEFT", 5, "ICON", 40, C.Auras.EnchantAuraPos},
+	["Warning Aura"] = {"RIGHT", 5, "ICON", 40, C.Auras.WarningAuraPos},
+	["Raid Buff"] = {"LEFT", 5, "ICON", 48, C.Auras.RaidBuffPos},
+	["Raid Debuff"] = {"RIGHT", 5, "ICON", 48, C.Auras.RaidDebuffPos},
+	["Spell CD"] = {"UP", 5, "BAR", 20, C.Auras.SpellCDPos, 150},
+	["InternalCD"] = {"UP", 5, "BAR", 20, C.Auras.InternalCDPos, 150},
 }
 
 local function newAuraFormat(value)
@@ -103,13 +103,36 @@ function AT:RegisterDebuff(_, instID, _, spellID, level)
 end
 
 -- Party watcher spells
-function AT:UpdatePartyWatcherSpells()
-	if not next(NDuiADB["PartyWatcherSpells"]) then
-		for spellID, duration in pairs(C.PartySpells) do
-			local name = GetSpellInfo(spellID)
-			if name then
-				NDuiADB["PartyWatcherSpells"][spellID] = duration
+function AT:CheckPartySpells()
+	for spellID, duration in pairs(C.PartySpells) do
+		local name = GetSpellInfo(spellID)
+		if name then
+			local modDuration = NDuiADB["PartySpells"][spellID]
+			if modDuration and modDuration == duration then
+				NDuiADB["PartySpells"][spellID] = nil
 			end
+		else
+			if DB.isDeveloper then print("Invalid partyspell ID: "..spellID) end
+		end
+	end
+end
+
+C.bloodlustID = {57723, 57724, 80354, 264689}
+function AT:CheckCornerSpells()
+	if not NDuiADB["CornerSpells"][DB.MyClass] then NDuiADB["CornerSpells"][DB.MyClass] = {} end
+	local data = C.CornerBuffs[DB.MyClass]
+	if not data then return end
+
+	for spellID, value in pairs(data) do
+		local name = GetSpellInfo(spellID)
+		if not name then
+			if DB.isDeveloper then print("Invalid cornerspell ID: "..spellID) end
+		end
+	end
+
+	for spellID, value in pairs(NDuiADB["CornerSpells"][DB.MyClass]) do
+		if not next(value) and C.CornerBuffs[DB.MyClass][spellID] == nil or C.bloodlustID[spellID] then
+			NDuiADB["CornerSpells"][DB.MyClass][spellID] = nil
 		end
 	end
 end
@@ -128,23 +151,17 @@ function AT:OnLogin()
 		end
 	end
 
-	self:AddDeprecatedGroup()
+	AT:AddDeprecatedGroup()
 	C.AuraWatchList = AuraWatchList
 	C.RaidBuffs = RaidBuffs
 	C.RaidDebuffs = RaidDebuffs
 
-	if not NDuiADB["CornerBuffs"][DB.MyClass] then NDuiADB["CornerBuffs"][DB.MyClass] = {} end
-	if not next(NDuiADB["CornerBuffs"][DB.MyClass]) then
-		B.CopyTable(C.CornerBuffs[DB.MyClass], NDuiADB["CornerBuffs"][DB.MyClass])
-	end
-
-	self:UpdatePartyWatcherSpells()
+	AT:CheckPartySpells()
+	AT:CheckCornerSpells()
 
 	-- Filter bloodlust for healers
-	local bloodlustList = {57723, 57724, 80354, 264689}
 	local function filterBloodlust()
-		for _, spellID in pairs(bloodlustList) do
-			NDuiADB["CornerBuffs"][DB.MyClass][spellID] = DB.Role ~= "Healer" and {"BOTTOMLEFT", {1, .8, 0}, true} or nil
+		for _, spellID in pairs(C.bloodlustID) do
 			C.RaidBuffs["WARNING"][spellID] = (DB.Role ~= "Healer")
 		end
 	end

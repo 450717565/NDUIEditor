@@ -121,7 +121,8 @@ function Auras:UpdateTotemAura(button, texture, spellID, glow)
 end
 
 local function UpdateVisibility(self)
-	if InCombatLockdown() then return end
+	if InCombatLockdown() or self.lumos.onFire then return end
+
 	for i = 1, 5 do
 		local bu = self.lumos[i]
 		bu.Count:SetTextColor(1, 1, 1)
@@ -134,8 +135,12 @@ local function UpdateVisibility(self)
 	if Auras.PostUpdateVisibility then Auras:PostUpdateVisibility(self) end
 end
 
+local lumosUnits = {
+	["player"] = true,
+	["target"] = true,
+}
 local function UpdateIcons(self, event, unit)
-	if event == "UNIT_AURA" and unit ~= "player" and unit ~= "target" then return end
+	if event == "UNIT_AURA" and not lumosUnits[unit] then return end
 	Auras:ChantLumos(self)
 	UpdateVisibility(self)
 end
@@ -155,11 +160,20 @@ local function TurnOff(self)
 	UpdateVisibility(self)
 end
 
+local function OnTalentUpdate(self, event)
+	UpdateIcons(self, event)
+	if self.lumos.onFire then
+		if Auras.PostUpdateVisibility then Auras:PostUpdateVisibility(self) end
+	end
+end
+
 function Auras:CreateLumos(self)
 	if not Auras.ChantLumos then return end
 
 	self.lumos = {}
-	local iconSize = (C.db["Nameplate"]["PPWidth"] - C.margin*4)/5
+	self.lumos.onFire = C.db["Nameplate"]["PPOnFire"]
+
+	local iconSize = (C.db["Nameplate"]["PPWidth"]+2*C.mult - C.margin*4)/5
 	for i = 1, 5 do
 		local bu = CreateFrame("Frame", nil, self.Health)
 		bu:SetSize(iconSize, iconSize)
@@ -171,7 +185,7 @@ function Auras:CreateLumos(self)
 		fontParent:SetFrameLevel(bu:GetFrameLevel() + 6)
 		bu.Count = B.CreateFS(fontParent, 16, "", false, "BOTTOM", 0, -10)
 		if i == 1 then
-			bu:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -C.margin)
+			bu:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", -C.mult, -C.margin)
 		else
 			bu:SetPoint("LEFT", self.lumos[i-1], "RIGHT", C.margin, 0)
 		end
@@ -182,7 +196,11 @@ function Auras:CreateLumos(self)
 	if Auras.PostCreateLumos then Auras:PostCreateLumos(self) end
 
 	UpdateIcons(self)
-	self:RegisterEvent("PLAYER_REGEN_ENABLED", TurnOff, true)
-	self:RegisterEvent("PLAYER_REGEN_DISABLED", TurnOn, true)
-	self:RegisterEvent("PLAYER_TALENT_UPDATE", UpdateIcons, true)
+	if self.lumos.onFire then
+		TurnOn(self)
+	else
+		self:RegisterEvent("PLAYER_REGEN_ENABLED", TurnOff, true)
+		self:RegisterEvent("PLAYER_REGEN_DISABLED", TurnOn, true)
+	end
+	self:RegisterEvent("PLAYER_TALENT_UPDATE", OnTalentUpdate, true)
 end

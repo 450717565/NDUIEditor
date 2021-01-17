@@ -5,21 +5,22 @@ local S = B:GetModule("Skins")
 local function Reskin_CovenantPreviewFrame(self)
 	B.StripTextures(self.InfoPanel)
 	B.StripTextures(self.ModelSceneContainer)
-	self.CloseButton:SetPoint("TOPRIGHT", -6, -6)
 
-	if not self.styled then
-		B.ReskinFrame(self)
+	if not self.bg then
 		B.ReskinButton(self.SelectButton)
 
 		B.CreateBDFrame(self.InfoPanel)
 		B.CreateBDFrame(self.ModelSceneContainer)
 
-		local Text = self.Title.Text
-		Text:SetFontObject(SystemFont_Huge1)
-		B.ReskinText(Text, 1, .8, 0)
+		local Title = self.Title
+		Title:DisableDrawLayer("BACKGROUND")
+		Title.Text:SetFontObject(SystemFont_Huge1)
+		B.ReskinText(Title.Text, 1, .8, 0)
 
-		self.styled = true
+		self.bg = B.ReskinFrame(self)
 	end
+
+	self.CloseButton:SetPoint("TOPRIGHT", self.bg, -6, -6)
 end
 
 C.LUAThemes["Blizzard_CovenantPreviewUI"] = function()
@@ -102,7 +103,7 @@ C.LUAThemes["Blizzard_CovenantSanctum"] = function()
 	B.CreateBDFrame(UpgradesTab.Background, 0, 1)
 	B.ReskinButton(UpgradesTab.DepositButton)
 	Replace_Currencies(UpgradesTab.CurrencyDisplayGroup)
-	for _, frame in ipairs(UpgradesTab.Upgrades) do
+	for _, frame in pairs(UpgradesTab.Upgrades) do
 		if frame.TierBorder then
 			frame.TierBorder:SetAlpha(0)
 		end

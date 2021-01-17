@@ -69,13 +69,13 @@ tinsert(C.XMLThemes, function()
 	SendMailCostMoneyFrame:SetPoint("LEFT", SendMailSubjectEditBox, "RIGHT", 50, 0)
 
 	local buttons = {
-		SendMailMailButton,
-		SendMailCancelButton,
-		OpenMailReplyButton,
-		OpenMailDeleteButton,
-		OpenMailCancelButton,
-		OpenMailReportSpamButton,
 		OpenAllMail,
+		OpenMailCancelButton,
+		OpenMailDeleteButton,
+		OpenMailReplyButton,
+		OpenMailReportSpamButton,
+		SendMailCancelButton,
+		SendMailMailButton,
 	}
 	for _, button in pairs(buttons) do
 		B.ReskinButton(button)
@@ -83,11 +83,11 @@ tinsert(C.XMLThemes, function()
 	end
 
 	local inputs = {
-		SendMailNameEditBox,
-		SendMailSubjectEditBox,
+		SendMailMoneyCopper,
 		SendMailMoneyGold,
 		SendMailMoneySilver,
-		SendMailMoneyCopper,
+		SendMailNameEditBox,
+		SendMailSubjectEditBox,
 	}
 	for _, input in pairs(inputs) do
 		B.ReskinInput(input, 20)
@@ -95,7 +95,8 @@ tinsert(C.XMLThemes, function()
 	end
 
 	local line = B.CreateLine(OpenMailInvoiceFrame, true)
-	line:SetPoint("BOTTOM", 0, 5)
+	line:SetWidth(250)
+	line:SetPoint("BOTTOMRIGHT", OpenMailInvoiceAmountReceived, "TOPRIGHT", 0, 10)
 
 	for _, button in pairs({"OpenMailLetterButton", "OpenMailMoneyButton"}) do
 		local bu = _G[button]

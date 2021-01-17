@@ -27,27 +27,27 @@ C.LUAThemes["Blizzard_ArchaeologyUI"] = function()
 	DigsiteBar.BarTitle:SetPoint("CENTER")
 
 	local titles = {
-		ArchaeologyFrameSummaryPageTitle,
-		ArchaeologyFrameCompletedPageTitleTop,
-		ArchaeologyFrameCompletedPageTitleMid,
 		ArchaeologyFrameArtifactPageHistoryTitle,
-		ArchaeologyFrameHelpPageTitle,
-		ArchaeologyFrameHelpPageDigTitle,
 		ArchaeologyFrameCompletedPage.titleBig,
+		ArchaeologyFrameCompletedPageTitleMid,
+		ArchaeologyFrameCompletedPageTitleTop,
+		ArchaeologyFrameHelpPageDigTitle,
+		ArchaeologyFrameHelpPageTitle,
+		ArchaeologyFrameSummaryPageTitle,
 	}
 	for _, title in pairs(titles) do
 		B.ReskinText(title, 1, .8, 0)
 	end
 
-	local texets = {
-		ArchaeologyFrameCompletedPagePageText,
-		ArchaeologyFrameSummaryPagePageText,
+	local texts = {
 		ArchaeologyFrameArtifactPageHistoryScrollChildText,
-		ArchaeologyFrameHelpPageHelpScrollHelpText,
 		ArchaeologyFrameCompletedPage.infoText,
+		ArchaeologyFrameCompletedPagePageText,
+		ArchaeologyFrameHelpPageHelpScrollHelpText,
+		ArchaeologyFrameSummaryPagePageText,
 	}
-	for _, texet in pairs(texets) do
-		B.ReskinText(texet, 1, 1, 1)
+	for _, text in pairs(texts) do
+		B.ReskinText(text, 1, 1, 1)
 	end
 
 	-- SummaryPage

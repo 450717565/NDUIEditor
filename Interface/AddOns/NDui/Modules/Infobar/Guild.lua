@@ -89,7 +89,8 @@ function info:GuildPanel_UpdateButton(button)
 	button.level:SetText(levelcolor..level)
 
 	local tcoords = CLASS_ICON_TCOORDS[class]
-	button.class:SetTexCoord(tcoords[1] + .022, tcoords[2] - .025, tcoords[3] + .022, tcoords[4] - .025)
+	local c1, c2, c3, c4 = tcoords[1] + .022, tcoords[2] - .025, tcoords[3] + .022, tcoords[4] - .025
+	button.class:SetTexCoord(c1, c2, c3, c4)
 
 	local namecolor = B.HexRGB(B.ClassColor(class))
 	button.name:SetText(namecolor..name..status)

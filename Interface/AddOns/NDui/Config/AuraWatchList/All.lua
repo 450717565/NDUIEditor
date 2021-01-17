@@ -178,7 +178,7 @@ local list = {
 		{AuraID = 209858, UnitID = "player"},	-- 死疽溃烂
 		{AuraID = 240559, UnitID = "player"},	-- 重伤
 		{AuraID = 340880, UnitID = "player"},	-- 傲慢
-		{AuraID = 226512, UnitID = "player"},	-- 血池
+		{AuraID = 226512, UnitID = "player", Flash = true},	-- 血池
 		{AuraID = 240447, UnitID = "player", Flash = true},	-- 践踏
 		{AuraID = 240443, UnitID = "player", Flash = true},	-- 爆裂
 		-- 5人本
@@ -186,8 +186,10 @@ local list = {
 		{AuraID = 324092, UnitID = "player", Flash = true},	-- 赤红，闪耀光辉
 		{AuraID = 328737, UnitID = "player", Flash = true},	-- 赤红，光辉残片
 		{AuraID = 326891, UnitID = "player", Flash = true},	-- 赎罪大厅，痛楚
+		{AuraID = 319603, UnitID = "player", Flash = true},	-- 赎罪大厅，羁石诅咒
 		{AuraID = 333299, UnitID = "player"},	-- 伤逝剧场，荒芜诅咒
 		{AuraID = 319637, UnitID = "player"},	-- 伤逝剧场，魂魄归体
+		{AuraID = 330725, UnitID = "player", Flash = true},	-- 伤逝剧场，暗影易伤
 		{AuraID = 336258, UnitID = "player", Flash = true},	-- 凋魂之殇，落单狩猎
 		{AuraID = 327401, UnitID = "player", Flash = true},	-- 通灵战潮，共受苦难
 		{AuraID = 323471, UnitID = "player", Flash = true},	-- 通灵战潮，切肉飞刀
@@ -214,8 +216,10 @@ local list = {
 		{AuraID = 346035, UnitID = "player"},	-- 眩目步法，猩红议会
 		{AuraID = 331636, UnitID = "player", Flash = true},	-- 黑暗伴舞，猩红议会
 		{AuraID = 335293, UnitID = "player"},	-- 锁链联结，泥拳
-		{AuraID = 327039, UnitID = "player"},	-- 喂食时间，德纳修斯
+		{AuraID = 333913, UnitID = "player"},	-- 锁链联结，泥拳
+		{AuraID = 327039, UnitID = "player"},	-- 邪恶撕裂，干将
 		{AuraID = 327089, UnitID = "player"},	-- 喂食时间，德纳修斯
+		{AuraID = 327796, UnitID = "player"},	-- 午夜猎手，德纳修斯
 	},
 	["Warning Aura"] = { -- 目标重要光环组
 		-- 大幻象
@@ -234,7 +238,6 @@ local list = {
 		{AuraID = 320132, UnitID = "target"},	-- 彼界，暗影之怒
 		{AuraID = 320293, UnitID = "target", Value = true},	-- 伤逝剧场，融入死亡
 		{AuraID = 331275, UnitID = "target", Flash = true},	-- 伤逝剧场，不灭护卫
-		{AuraID = 330725, UnitID = "target", Flash = true},	-- 伤逝剧场，暗影易伤
 		{AuraID = 336449, UnitID = "target"},	-- 凋魂，玛卓克萨斯之墓
 		{AuraID = 336451, UnitID = "target"},	-- 凋魂，玛卓克萨斯之壁
 		{AuraID = 333737, UnitID = "target"},	-- 凋魂，凝结之疾

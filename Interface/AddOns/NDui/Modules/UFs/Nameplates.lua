@@ -956,19 +956,19 @@ function UF:ResizePlayerPlate()
 			plate.Stagger:SetHeight(barHeight)
 		end
 		if plate.lumos then
-			local iconSize = (barWidth - C.margin*4)/5
+			local iconSize = (barWidth+2*C.mult - C.margin*4)/5
 			for i = 1, 5 do
 				plate.lumos[i]:SetSize(iconSize, iconSize)
 			end
 		end
 		if plate.dices then
 			local offset = C.db["Nameplate"]["NameplateClassPower"] and C.margin or (C.margin*2 + barHeight)
-			local size = (barWidth - 10)/6
+			local size = (barWidth - 10 + 2*C.mult)/6
 			for i = 1, 6 do
 				local dice = plate.dices[i]
 				dice:SetSize(size, size/2)
 				if i == 1 then
-					dice:SetPoint("BOTTOMLEFT", plate.Health, "TOPLEFT", 0, offset)
+					dice:SetPoint("BOTTOMLEFT", plate.Health, "TOPLEFT", -C.mult, offset)
 				end
 			end
 		end

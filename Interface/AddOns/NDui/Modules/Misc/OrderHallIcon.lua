@@ -28,8 +28,8 @@ function Misc:OrderHall_CreateIcon()
 	hall.Category = {}
 	Misc.OrderHallIcon = hall
 
-	local coords = CLASS_ICON_TCOORDS[DB.MyClass]
-	local c1, c2, c3, c4 = coords[1] + .022, coords[2] - .025, coords[3] + .022, coords[4] - .025
+	local tcoords = CLASS_ICON_TCOORDS[DB.MyClass]
+	local c1, c2, c3, c4 = tcoords[1] + .022, tcoords[2] - .025, tcoords[3] + .022, tcoords[4] - .025
 
 	local Icon = hall:CreateTexture(nil, "ARTWORK")
 	Icon:SetInside()

@@ -45,14 +45,14 @@ function Skins:PremadeGroupsFilter()
 	UsePFGButton.text:SetWidth(UsePFGButton.text:GetStringWidth())
 
 	local names = {
-		"Dps",
-		"Ilvl",
-		"Tanks",
-		"Heals",
-		"Noilvl",
-		"Members",
 		"Defeated",
 		"Difficulty",
+		"Dps",
+		"Heals",
+		"Ilvl",
+		"Members",
+		"Noilvl",
+		"Tanks",
 	}
 	for _, name in pairs(names) do
 		local check = dialog[name].Act

@@ -26,10 +26,10 @@ function Skins:ClassicQuestLog()
 
 	local buttons = {
 		"abandonButton",
+		"closeButton",
+		"optionsButton",
 		"pushButton",
 		"trackButton",
-		"optionsButton",
-		"closeButton",
 	}
 	for _, button in pairs(buttons) do
 		B.ReskinButton(chrome[button])
@@ -65,11 +65,11 @@ function Skins:ClassicQuestLog()
 
 	local checks = {
 		"LockWindow",
-		"ShowResizeGrip",
+		"ShowFromObjectiveTracker",
 		"ShowLevels",
+		"ShowResizeGrip",
 		"ShowTooltips",
 		"SolidBackground",
-		"ShowFromObjectiveTracker",
 	}
 	for _, check in pairs(checks) do
 		B.ReskinCheck(content[check].check)

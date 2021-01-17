@@ -2,10 +2,8 @@
 	<Script file="AddonList.lua"/>
 	<Script file="AlertFrames.lua"/>
 	<Script file="BankFrame.lua"/>
-	<Script file="BNToastFrame.lua"/>
 	<Script file="ChannelFrame.lua"/>
 	<Script file="CharacterFrame.lua"/>
-	<Script file="ChatBubbles.lua"/>
 	<Script file="ChatConfigFrame.lua"/>
 	<Script file="ChatFrame.lua"/>
 	<Script file="CinematicFrame.lua"/>
@@ -44,10 +42,7 @@
 	<Script file="QuestInfoFrame.lua"/>
 	<Script file="QuestMapFrame.lua"/>
 	<Script file="QueueStatus.lua"/>
-	<Script file="QuickJoinFrame.lua"/>
-	<Script file="RaidInfoFrame.lua"/>
 	<Script file="ReadyCheckFrame.lua"/>
-	<Script file="RecruitAFriendFrame.lua"/>
 	<Script file="RolePollPopup.lua"/>
 	<Script file="ScenarioQueueFrame.lua"/>
 	<Script file="ScriptErrorsFrame.lua"/>

@@ -19,7 +19,7 @@ local function Reskin_TitleButton(self)
 	end
 end
 
-local function Update_ItemBorder(self)
+local function Update_RewardBorder(self)
 	if not self.icbg and not self.bubg then return end
 
 	if self.objectType == "item" then
@@ -42,25 +42,22 @@ local function Update_ItemBorder(self)
 	end
 end
 
-local function Reskin_ItemButton(self)
-	for i = 1, #self do
-		local button = self[i]
-		if button and not button.styled then
-			button.Mask:Hide()
-			button.Border:Hide()
-			button.NameFrame:Hide()
+local function Reskin_RewardButton(self)
+	if not self then return end
 
-			local icbg = B.ReskinIcon(button.Icon)
-			button.icbg = icbg
+	if not self.styled then
+		B.StripTextures(self, 1)
 
-			local bubg = B.CreateBGFrame(button, 2, 0, -6, 0, icbg)
-			button.bubg = bubg
+		local icbg = B.ReskinIcon(self.Icon)
+		self.icbg = icbg
 
-			button.styled = true
-		end
+		local bubg = B.CreateBGFrame(self, 2, 0, -6, 0, icbg)
+		self.bubg = bubg
 
-		Update_ItemBorder(button)
+		self.styled = true
 	end
+
+	Update_RewardBorder(self)
 end
 
 local function Reskin_GetButton(self, index)
@@ -74,13 +71,58 @@ local function Reskin_GetButton(self, index)
 end
 
 local function Reskin_AddQuestInfo(self)
-	local buttons = self.TalkBox.Elements.Content.RewardsFrame.Buttons
-	Reskin_ItemButton(buttons)
+	local RewardsFrame = self.TalkBox.Elements.Content.RewardsFrame
+
+	-- Item Rewards
+	for i = 1, #RewardsFrame.Buttons do
+		local itemReward = RewardsFrame.Buttons[i]
+		Reskin_RewardButton(itemReward)
+	end
+
+	if GetNumRewardSpells() > 0 then
+		-- Spell Rewards
+		for spellReward in RewardsFrame.spellRewardPool:EnumerateActive() do
+			Reskin_RewardButton(spellReward)
+		end
+
+		-- Follower Rewards
+		for followerReward in RewardsFrame.followerRewardPool:EnumerateActive() do
+			local class = followerReward.Class
+			local portrait = followerReward.PortraitFrame
+
+			if not followerReward.styled then
+				Skins.ReskinFollowerPortrait(portrait)
+
+				followerReward.BG:Hide()
+
+				portrait:ClearAllPoints()
+				portrait:SetPoint("TOPLEFT", 2, -5)
+
+				local bubg = B.CreateBDFrame(followerReward)
+				bubg:ClearAllPoints()
+				bubg:SetPoint("TOPLEFT", 0, -3)
+				bubg:SetPoint("BOTTOMRIGHT", 2, 7)
+
+				if class then
+					Skins.ReskinFollowerClass(class, 36, "RIGHT", -2, 2)
+				end
+
+				followerReward.styled = true
+			end
+
+			if portrait then
+				Skins.UpdateFollowerQuality(portrait)
+			end
+		end
+	end
 end
 
 local function Reskin_QuestProgress(self)
 	local buttons = self.TalkBox.Elements.Progress.Buttons
-	Reskin_ItemButton(buttons)
+	for i = 1, #buttons do
+		local button = buttons[i]
+		Reskin_RewardButton(button)
+	end
 end
 
 function Skins:Immersion()
@@ -105,6 +147,12 @@ function Skins:Immersion()
 	B.ReskinFrame(MainFrame, "noKill")
 	B.StripTextures(MainFrame.Model)
 	B.CreateBDFrame(MainFrame.Model, 0, -C.mult)
+
+	local ReputationBar = TalkBox.ReputationBar
+	B.ReskinStatusBar(ReputationBar)
+	ReputationBar.icon:Hide()
+	ReputationBar:ClearAllPoints()
+	ReputationBar:SetPoint("BOTTOM", MainFrame, "TOP", 0, 3)
 
 	local Indicator = MainFrame.Indicator
 	Indicator:SetScale(1.25)

@@ -121,46 +121,46 @@ tinsert(C.XMLThemes, function()
 
 	-- General Reskin
 	local buttons = {
-		CategorySelection.FindGroupButton,
-		CategorySelection.StartGroupButton,
-		EntryCreation.ListGroupButton,
-		EntryCreation.CancelButton,
-		ActivityFinder.SelectButton,
 		ActivityFinder.CancelButton,
+		ActivityFinder.SelectButton,
+		ApplicationViewer.EditButton,
 		ApplicationViewer.RefreshButton,
 		ApplicationViewer.RemoveEntryButton,
-		ApplicationViewer.EditButton,
-		SearchPanel.RefreshButton,
-		SearchPanel.BackButton,
-		SearchPanel.SignUpButton,
-		SearchPanel.ScrollFrame.StartGroupButton,
-		LFGListApplicationDialog.SignUpButton,
+		CategorySelection.FindGroupButton,
+		CategorySelection.StartGroupButton,
+		EntryCreation.CancelButton,
+		EntryCreation.ListGroupButton,
 		LFGListApplicationDialog.CancelButton,
+		LFGListApplicationDialog.SignUpButton,
 		LFGListInviteDialog.AcceptButton,
-		LFGListInviteDialog.DeclineButton,
 		LFGListInviteDialog.AcknowledgeButton,
+		LFGListInviteDialog.DeclineButton,
+		SearchPanel.BackButton,
+		SearchPanel.RefreshButton,
+		SearchPanel.ScrollFrame.StartGroupButton,
+		SearchPanel.SignUpButton,
 	}
 	for _, button in pairs(buttons) do
 		B.ReskinButton(button)
 	end
 
 	local inputs = {
-		EntryCreation.Description,
-		EntryCreation.Name,
-		EntryCreation.ItemLevel.EditBox,
-		EntryCreation.VoiceChat.EditBox,
 		ActivityFinder.EntryBox,
-		SearchPanel.SearchBox,
+		EntryCreation.Description,
+		EntryCreation.ItemLevel.EditBox,
+		EntryCreation.Name,
+		EntryCreation.VoiceChat.EditBox,
 		LFGListApplicationDialog.Description,
+		SearchPanel.SearchBox,
 	}
 	for _, input in pairs(inputs) do
 		B.ReskinInput(input)
 	end
 
 	local dropdowns = {
+		EntryCreation.ActivityDropDown,
 		EntryCreation.CategoryDropDown,
 		EntryCreation.GroupDropDown,
-		EntryCreation.ActivityDropDown,
 	}
 	for _, dropdown in pairs(dropdowns) do
 		B.ReskinDropDown(dropdown)
@@ -168,8 +168,8 @@ tinsert(C.XMLThemes, function()
 
 	local checks = {
 		EntryCreation.ItemLevel.CheckButton,
-		EntryCreation.VoiceChat.CheckButton,
 		EntryCreation.PrivateGroup.CheckButton,
+		EntryCreation.VoiceChat.CheckButton,
 		LFGListFrame.ApplicationViewer.AutoAcceptButton,
 	}
 	for _, check in pairs(checks) do
@@ -177,10 +177,10 @@ tinsert(C.XMLThemes, function()
 	end
 
 	local scrolls = {
-		LFGListEntryCreationSearchScrollFrameScrollBar,
-		LFGListApplicationViewerScrollFrameScrollBar,
-		SearchPanel.ScrollFrame.scrollBar,
 		LFGListApplicationDialogDescriptionScrollBar,
+		LFGListApplicationViewerScrollFrameScrollBar,
+		LFGListEntryCreationSearchScrollFrameScrollBar,
+		SearchPanel.ScrollFrame.scrollBar,
 	}
 	for _, scroll in pairs(scrolls) do
 		B.ReskinScroll(scroll)

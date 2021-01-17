@@ -61,7 +61,7 @@ end
 local function Reskin_AffixsSetUp(_, affixID)
 	local _, _, texture = C_ChallengeMode.GetAffixInfo(affixID)
 	if texture then
-		Affix.Portrait:SetTexture(texture)
+		ChallengesFrame.SeasonChangeNoticeFrame.Affix.Portrait:SetTexture(texture)
 	end
 end
 

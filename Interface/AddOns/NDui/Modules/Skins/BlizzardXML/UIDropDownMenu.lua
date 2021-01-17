@@ -4,10 +4,10 @@ local B, C, L, DB = unpack(ns)
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
 local lists = {
-	"DropDownList",
 	"ADD_DropDownList",
+	"DropDownList",
 	"L_DropDownList",
-	"Lib_DropDownList"
+	"Lib_DropDownList",
 }
 
 local function Reskin_CreateFrames()
@@ -32,7 +32,7 @@ end
 
 local function Reskin_SetIconImage(icon, texture)
 	if texture:find("Divider") then
-		icon:SetColorTexture(1, 1, 1, .25)
+		icon:SetColorTexture(1, 1, 1, .5)
 		icon:SetHeight(C.mult)
 	end
 end

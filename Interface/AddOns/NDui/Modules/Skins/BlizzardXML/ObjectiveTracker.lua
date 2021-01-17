@@ -172,13 +172,13 @@ tinsert(C.XMLThemes, function()
 
 	-- Headers
 	local headers = {
-		WORLD_QUEST_TRACKER_MODULE.Header,
 		BONUS_OBJECTIVE_TRACKER_MODULE.Header,
-		ObjectiveTrackerBlocksFrame.QuestHeader,
-		ObjectiveTrackerBlocksFrame.ScenarioHeader,
 		ObjectiveTrackerBlocksFrame.AchievementHeader,
 		ObjectiveTrackerBlocksFrame.CampaignQuestHeader,
+		ObjectiveTrackerBlocksFrame.QuestHeader,
+		ObjectiveTrackerBlocksFrame.ScenarioHeader,
 		ObjectiveTrackerFrame.BlocksFrame.UIWidgetsHeader,
+		WORLD_QUEST_TRACKER_MODULE.Header,
 	}
 	for _, header in pairs(headers) do
 		Reskin_Header(header)
@@ -191,11 +191,11 @@ tinsert(C.XMLThemes, function()
 
 	-- ProgressBar
 	local progressBar = {
+		BONUS_OBJECTIVE_TRACKER_MODULE,
+		CAMPAIGN_QUEST_TRACKER_MODULE,
 		QUEST_TRACKER_MODULE,
 		SCENARIO_TRACKER_MODULE,
 		WORLD_QUEST_TRACKER_MODULE,
-		CAMPAIGN_QUEST_TRACKER_MODULE,
-		BONUS_OBJECTIVE_TRACKER_MODULE,
 	}
 	for _, bar in pairs(progressBar) do
 		hooksecurefunc(bar, "AddProgressBar", Reskin_Progressbar)
@@ -203,24 +203,24 @@ tinsert(C.XMLThemes, function()
 
 	-- TimerBar
 	local timerBar = {
+		ACHIEVEMENT_TRACKER_MODULE,
 		QUEST_TRACKER_MODULE,
 		SCENARIO_TRACKER_MODULE,
-		ACHIEVEMENT_TRACKER_MODULE,
 	}
 	for _, bar in pairs(timerBar) do
 		hooksecurefunc(bar, "AddTimerBar", Reskin_TimerBar)
 	end
 
 	-- QuestIcons
+	hooksecurefunc(BONUS_OBJECTIVE_TRACKER_MODULE, "AddObjective", Reskin_QuestIcons)
+	hooksecurefunc(CAMPAIGN_QUEST_TRACKER_MODULE, "AddObjective", Reskin_QuestIcons)
 	hooksecurefunc(QUEST_TRACKER_MODULE, "SetBlockHeader", Reskin_QuestIcons)
 	hooksecurefunc(WORLD_QUEST_TRACKER_MODULE, "AddObjective", Reskin_QuestIcons)
-	hooksecurefunc(CAMPAIGN_QUEST_TRACKER_MODULE, "AddObjective", Reskin_QuestIcons)
-	hooksecurefunc(BONUS_OBJECTIVE_TRACKER_MODULE, "AddObjective", Reskin_QuestIcons)
 
 	-- Blocks
-	hooksecurefunc("ScenarioStage_CustomizeBlock", Reskin_CustomizeBlock)
-	hooksecurefunc("Scenario_ChallengeMode_ShowBlock", Reskin_ShowBlock)
 	hooksecurefunc("Scenario_ChallengeMode_SetUpAffixes", B.ReskinAffixes)
+	hooksecurefunc("Scenario_ChallengeMode_ShowBlock", Reskin_ShowBlock)
+	hooksecurefunc("ScenarioStage_CustomizeBlock", Reskin_CustomizeBlock)
 	hooksecurefunc(SCENARIO_CONTENT_TRACKER_MODULE, "Update", Reskin_ContentTracker)
 
 	-- MawBuffsBlock

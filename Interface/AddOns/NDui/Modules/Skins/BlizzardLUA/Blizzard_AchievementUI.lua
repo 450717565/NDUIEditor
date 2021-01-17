@@ -134,12 +134,28 @@ C.LUAThemes["Blizzard_AchievementUI"] = function()
 	select(3, AchievementFrameStats:GetChildren()):Hide()
 	select(5, AchievementFrameComparison:GetChildren()):Hide()
 
-	local frames = {AchievementFrameHeader, AchievementFrameCategories, AchievementFrameSummary, AchievementFrameSummaryCategoriesHeader, AchievementFrameSummaryAchievementsHeader, AchievementFrameStatsBG, AchievementFrameAchievements, AchievementFrameComparison, AchievementFrameComparisonHeader}
+	local frames = {
+		AchievementFrameAchievements,
+		AchievementFrameCategories,
+		AchievementFrameComparison,
+		AchievementFrameComparisonHeader,
+		AchievementFrameHeader,
+		AchievementFrameStatsBG,
+		AchievementFrameSummary,
+		AchievementFrameSummaryAchievementsHeader,
+		AchievementFrameSummaryCategoriesHeader,
+	}
 	for _, frame in pairs(frames) do
 		B.StripTextures(frame, 0)
 	end
 
-	local scrolls = {AchievementFrameAchievementsContainerScrollBar, AchievementFrameCategoriesContainerScrollBar, AchievementFrameStatsContainerScrollBar, AchievementFrameComparisonContainerScrollBar, AchievementFrameComparisonStatsContainerScrollBar}
+	local scrolls = {
+		AchievementFrameAchievementsContainerScrollBar,
+		AchievementFrameCategoriesContainerScrollBar,
+		AchievementFrameComparisonContainerScrollBar,
+		AchievementFrameComparisonStatsContainerScrollBar,
+		AchievementFrameStatsContainerScrollBar,
+	}
 	for _, scroll in pairs(scrolls) do
 		B.ReskinScroll(scroll)
 	end
@@ -236,13 +252,19 @@ C.LUAThemes["Blizzard_AchievementUI"] = function()
 	hooksecurefunc("AchievementFrameSummary_UpdateAchievements", Reskin_UpdateAchievements)
 
 	-- Comparison
-	local summaries = {AchievementFrameComparisonSummaryPlayer, AchievementFrameComparisonSummaryFriend}
+	local summaries = {
+		AchievementFrameComparisonSummaryFriend,
+		AchievementFrameComparisonSummaryPlayer,
+	}
 	for _, summary in pairs(summaries) do
 		B.StripTextures(summary)
 		B.CreateBDFrame(summary, 0, 1)
 	end
 
-	local bars = {AchievementFrameComparisonSummaryPlayerStatusBar, AchievementFrameComparisonSummaryFriendStatusBar}
+	local bars = {
+		AchievementFrameComparisonSummaryFriendStatusBar,
+		AchievementFrameComparisonSummaryPlayerStatusBar,
+	}
 	for _, bar in pairs(bars) do
 		B.ReskinStatusBar(bar)
 

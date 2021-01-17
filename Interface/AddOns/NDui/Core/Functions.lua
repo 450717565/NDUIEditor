@@ -591,33 +591,29 @@ do
 
 	-- Hook Function
 	function B:Tex_OnEnter()
-		if self:IsEnabled() then
-			if self.Tex then
-				self.Tex:SetVertexColor(cr, cg, cb, 1)
-			elseif self.bgTex then
-				self.bgTex:SetBackdropBorderColor(cr, cg, cb, 1)
-			else
-				self:SetBackdropBorderColor(cr, cg, cb, 1)
-			end
+		if self.Tex then
+			self.Tex:SetVertexColor(cr, cg, cb, 1)
+		elseif self.bgTex then
+			self.bgTex:SetBackdropBorderColor(cr, cg, cb, 1)
+		elseif self.SetBackdropBorderColor then
+			self:SetBackdropBorderColor(cr, cg, cb, 1)
 		end
 	end
 
 	function B:Tex_OnLeave()
-		if self:IsEnabled() then
-			if self.Tex then
-				self.Tex:SetVertexColor(1, 1, 1, 1)
-			elseif self.bgTex then
-				self.bgTex:SetBackdropBorderColor(0, 0, 0, 1)
-			else
-				self:SetBackdropBorderColor(0, 0, 0, 1)
-			end
+		if self.Tex then
+			self.Tex:SetVertexColor(1, 1, 1, 1)
+		elseif self.bgTex then
+			self.bgTex:SetBackdropBorderColor(0, 0, 0, 1)
+		elseif self.SetBackdropBorderColor then
+			self:SetBackdropBorderColor(0, 0, 0, 1)
 		end
 	end
 
 	function B:Tex_OnMouseDown()
 		if self.bgTex then
 			self.bgTex:SetBackdropColor(cr, cg, cb, .5)
-		else
+		elseif self.SetBackdropColor then
 			self:SetBackdropColor(cr, cg, cb, .5)
 		end
 	end
@@ -625,7 +621,7 @@ do
 	function B:Tex_OnMouseUp()
 		if self.bgTex then
 			self.bgTex:SetBackdropColor(0, 0, 0, 0)
-		else
+		elseif self.SetBackdropColor then
 			self:SetBackdropColor(0, 0, 0, 0)
 		end
 	end
@@ -1089,14 +1085,22 @@ do
 
 	-- Handle Color Swatch
 	function B:ReskinColorSwatch()
-		self:SetNormalTexture(DB.bgTex)
-		local nt = self:GetNormalTexture()
-		nt:SetInside(nil, 2, 2)
+		local icon
+
+		if self.Color then
+			icon = self.Color
+			icon:SetTexture(DB.bgTex)
+		else
+			self:SetNormalTexture(DB.bgTex)
+			icon = self:GetNormalTexture()
+		end
+
+		icon:SetInside(nil, 2, 2)
 
 		local frameName = self:GetDebugName()
 		local bg = self.SwatchBg or (frameName and _G[frameName.."SwatchBg"])
 		bg:SetColorTexture(0, 0, 0, 1)
-		bg:SetOutside(nt)
+		bg:SetOutside(icon)
 	end
 
 	-- Handle DropDown
@@ -1421,7 +1425,7 @@ do
 
 				tabs:ClearAllPoints()
 				if i == 1 then
-					tabs:Point("TOPLEFT", frameName, "BOTTOMLEFT", 15, 2)
+					tabs:Point("TOPLEFT", frameName, "BOTTOMLEFT", 15, (1+C.mult*2))
 				else
 					tabs:Point("LEFT", _G[tab..(i-1)], "RIGHT", -(15+C.mult), 0)
 				end

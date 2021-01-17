@@ -18,7 +18,11 @@ function Skins:BaudErrorFrame()
 	B.ReskinScroll(BaudErrorFrameDetailScrollFrameScrollBar)
 	B.ReskinHighlight(BaudErrorFrameListScrollBoxHighlightTexture, nil, true, true)
 
-	local buttons = {BaudErrorFrameClearButton, BaudErrorFrameCloseButton, BaudErrorFrameReloadUIButton}
+	local buttons = {
+		BaudErrorFrameClearButton,
+		BaudErrorFrameCloseButton,
+		BaudErrorFrameReloadUIButton,
+	}
 	for _, button in pairs(buttons) do
 		B.ReskinButton(button)
 		B.ReskinText(button.Text, cr, cg, cb)

@@ -58,19 +58,14 @@ L["|cFFFF0000Not|r Player Name/Realm"] = "|cFFFF0000Not|r 플레이어 이름/�
 L["|cFFffcc00Extra Options:|r %s"] = "|cFFffcc00추가 옵션:|r %s"
 L["|cFFffcc00Extra Options:|r None"] = "|cFFffcc00추가 옵션:|r 없음"
 L["10 Man Raid"] = "10인 공격대"
---[[Translation missing --]]
-L["10 Player Raid (Heroic)"] = "10 Player Raid (Heroic)"
---[[Translation missing --]]
-L["10 Player Raid (Normal)"] = "10 Player Raid (Normal)"
+L["10 Player Raid (Heroic)"] = "10인 공격대 (영웅)"
+L["10 Player Raid (Normal)"] = "10인 공격대 (일반)"
 L["20 Man Raid"] = "20인 공격대"
 L["25 Man Raid"] = "25인 공격대"
---[[Translation missing --]]
-L["25 Player Raid (Heroic)"] = "25 Player Raid (Heroic)"
---[[Translation missing --]]
-L["25 Player Raid (Normal)"] = "25 Player Raid (Normal)"
+L["25 Player Raid (Heroic)"] = "25인 공격대 (영웅)"
+L["25 Player Raid (Normal)"] = "25인 공격대 (일반)"
 L["40 Man Raid"] = "40인 공격대"
---[[Translation missing --]]
-L["40 Player Raid"] = "40 Player Raid"
+L["40 Player Raid"] = "40인 공격대"
 L["5 Man Dungeon"] = "5인 던전"
 L["Abbreviate"] = "약식"
 --[[Translation missing --]]
@@ -533,8 +528,7 @@ L["Instructor Razuvious"] = "훈련교관 라주비어스"
 L["Insufficient Resources"] = "자원 부족"
 L["Intellect"] = "지능"
 L["Interrupt"] = "방해"
---[[Translation missing --]]
-L["Interrupt School"] = "Interrupt School"
+L["Interrupt School"] = "차단 갈래"
 --[[Translation missing --]]
 L["Interrupted School Text"] = "Interrupted School Text"
 L["Interruptible"] = "방해 가능"
@@ -811,14 +805,10 @@ L["Queued Action"] = "Queued Action"
 L["Radius"] = "반경"
 L["Ragnaros"] = "라그나로스"
 L["Raid"] = "공격대"
---[[Translation missing --]]
-L["Raid (Heroic)"] = "Raid (Heroic)"
---[[Translation missing --]]
-L["Raid (Mythic)"] = "Raid (Mythic)"
---[[Translation missing --]]
-L["Raid (Normal)"] = "Raid (Normal)"
---[[Translation missing --]]
-L["Raid (Timewalking)"] = "Raid (Timewalking)"
+L["Raid (Heroic)"] = "공격대 (영웅)"
+L["Raid (Mythic)"] = "공격대 (신화)"
+L["Raid (Normal)"] = "공격대 (일반)"
+L["Raid (Timewalking)"] = "공격대 (시간여행)"
 L["Raid Role"] = "공격대 역할"
 L["Raid Warning"] = "공격대 경보"
 L["Raids"] = "공격대"

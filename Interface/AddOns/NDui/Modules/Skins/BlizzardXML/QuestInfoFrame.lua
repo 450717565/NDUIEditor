@@ -128,45 +128,50 @@ local function Reskin_SpecialReward()
 			spellHeader:SetVertexColor(1, 1, 1)
 		end
 
-		-- Follower Rewards
-		for followerReward in rewardsFrame.followerRewardPool:EnumerateActive() do
-			local PortraitFrame = followerReward.PortraitFrame
-			if not followerReward.styled then
-				S.ReskinPortrait(PortraitFrame)
-
-				followerReward.BG:Hide()
-				followerReward.bg = B.CreateBDFrame(followerReward)
-
-				if followerReward.Class then
-					B.ReskinFollowerClass(followerReward.Class, 36, "RIGHT", -2, 2)
-				end
-
-				followerReward.styled = true
-			end
-
-			PortraitFrame:ClearAllPoints()
-			followerReward.bg:ClearAllPoints()
-			if isQuestLog then
-				PortraitFrame:SetPoint("TOPLEFT", 2, 0)
-				followerReward.bg:SetPoint("TOPLEFT", 0, 1)
-				followerReward.bg:SetPoint("BOTTOMRIGHT", 2, -3)
-			else
-				PortraitFrame:SetPoint("TOPLEFT", 2, -5)
-				followerReward.bg:SetPoint("TOPLEFT", 0, -3)
-				followerReward.bg:SetPoint("BOTTOMRIGHT", 2, 7)
-			end
-
-			if PortraitFrame then
-				S.UpdatePortraitColor(PortraitFrame)
-			end
-		end
-
 		-- Spell Rewards
 		for spellReward in rewardsFrame.spellRewardPool:EnumerateActive() do
 			if not spellReward.styled then
 				Reskin_RewardButton(spellReward, isQuestLog)
 
 				spellReward.styled = true
+			end
+		end
+
+		-- Follower Rewards
+		for followerReward in rewardsFrame.followerRewardPool:EnumerateActive() do
+			local class = followerReward.Class
+			local portrait = followerReward.PortraitFrame
+
+			if not followerReward.styled then
+				S.ReskinFollowerPortrait(portrait)
+
+				followerReward.BG:Hide()
+				local bubg = B.CreateBDFrame(followerReward)
+				bubg:SetPoint("TOPLEFT", 0, -3)
+				bubg:SetPoint("BOTTOMRIGHT", 2, 7)
+				followerReward.bubg = bubg
+
+				if class then
+					S.ReskinFollowerClass(class, 36, "RIGHT", -2, 2)
+				end
+
+				followerReward.styled = true
+			end
+
+			portrait:ClearAllPoints()
+			followerReward.bubg:ClearAllPoints()
+			if isQuestLog then
+				portrait:SetPoint("TOPLEFT", 2, 0)
+				followerReward.bubg:SetPoint("TOPLEFT", 0, 1)
+				followerReward.bubg:SetPoint("BOTTOMRIGHT", 2, -3)
+			else
+				portrait:SetPoint("TOPLEFT", 2, -5)
+				followerReward.bubg:SetPoint("TOPLEFT", 0, -3)
+				followerReward.bubg:SetPoint("BOTTOMRIGHT", 2, -2)
+			end
+
+			if portrait then
+				S.UpdateFollowerQuality(portrait)
 			end
 		end
 	end

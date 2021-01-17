@@ -8,15 +8,15 @@ function Skins:MythicDungeonTools()
 	local MDT = _G.MDT
 
 	local Buttons = {
-		"sidePanelNewButton",
-		"sidePanelRenameButton",
-		"sidePanelImportButton",
-		"sidePanelExportButton",
-		"sidePanelDeleteButton",
-		"LinkToChatButton",
 		"ClearPresetButton",
+		"LinkToChatButton",
 		"LiveSessionButton",
 		"MDIButton",
+		"sidePanelDeleteButton",
+		"sidePanelExportButton",
+		"sidePanelImportButton",
+		"sidePanelNewButton",
+		"sidePanelRenameButton",
 	}
 
 	local styled

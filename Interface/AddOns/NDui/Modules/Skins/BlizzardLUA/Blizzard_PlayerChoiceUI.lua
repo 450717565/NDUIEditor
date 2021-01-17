@@ -24,25 +24,27 @@ local function Reskin_SecondOptionButton(self)
 end
 
 local function Reskin_Update(self)
-	if not self.styled then
+	if not self.bg then
 		self.BlackBackground:SetAlpha(0)
 
+		local Title = self.Title
+		Title:DisableDrawLayer("BACKGROUND")
+		Title.Text:SetFontObject(SystemFont_Huge1)
+		B.ReskinText(Title.Text, 1, .8, 0)
+
 		self.bg = B.ReskinFrame(self)
-
-		local Text = self.Title.Text
-		Text:SetFontObject(SystemFont_Huge1)
-		B.ReskinText(Text, 1, .8, 0)
-
-		self.styled = true
 	end
 
 	self.bg:SetShown(not IsInJailersTower())
-	self.CloseButton:SetPoint("TOPRIGHT", -6, -6)
+	self.CloseButton:SetPoint("TOPRIGHT", self.bg, -6, -6)
 
 	for i = 1, self:GetNumOptions() do
 		local option = self.Options[i]
 		B.ReskinText(option.Header.Text, 1, .8, 0)
 		B.ReskinText(option.OptionText, 1, 1, 1)
+
+		if option.Header.Ribbon then option.Header.Ribbon:Hide() end
+		--if option.Background then option.Background:Hide() end
 
 		for i = 1, option.WidgetContainer:GetNumChildren() do
 			local child1 = select(i, option.WidgetContainer:GetChildren())

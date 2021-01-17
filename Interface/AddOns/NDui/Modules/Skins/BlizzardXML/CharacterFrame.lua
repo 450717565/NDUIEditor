@@ -279,8 +279,8 @@ tinsert(C.XMLThemes, function()
 	local checks = {
 		ReputationDetailAtWarCheckBox,
 		ReputationDetailInactiveCheckBox,
-		ReputationDetailMainScreenCheckBox,
 		ReputationDetailLFGBonusReputationCheckBox,
+		ReputationDetailMainScreenCheckBox,
 	}
 	for _, check in pairs(checks) do
 		B.ReskinCheck(check)

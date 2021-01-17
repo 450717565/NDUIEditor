@@ -115,7 +115,12 @@ tinsert(C.XMLThemes, function()
 	QuestLogPopupDetailFrame.TrackButton:SetPoint("LEFT", QuestLogPopupDetailFrame.ShareButton, "RIGHT", 10, 0)
 
 	-- Buttons
-	local buttons = {"BackButton", "AbandonButton", "ShareButton", "TrackButton"}
+	local buttons = {
+		"AbandonButton",
+		"BackButton",
+		"ShareButton",
+		"TrackButton",
+	}
 	for _, name in pairs(buttons) do
 		local button1 = DetailsFrame[name]
 		if button1 then

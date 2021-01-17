@@ -22,8 +22,8 @@ if not crossRealms or #crossRealms == 0 then
 end
 
 local function getClassIcon(class)
-	local c1, c2, c3, c4 = unpack(CLASS_ICON_TCOORDS[class])
-	c1, c2, c3, c4 = (c1+.03)*50, (c2-.03)*50, (c3+.03)*50, (c4-.03)*50
+	local tcoords = CLASS_ICON_TCOORDS[class]
+	local c1, c2, c3, c4 = (tcoords[1]+.03)*50, (tcoords[2]-.03)*50, (tcoords[3]+.03)*50, (tcoords[4]-.03)*50
 	local classStr = "|TInterface\\Glues\\CharacterCreate\\UI-CharacterCreate-Classes:13:15:0:0:50:50:"..c1..":"..c2..":"..c3..":"..c4.."|t "
 	return classStr or ""
 end

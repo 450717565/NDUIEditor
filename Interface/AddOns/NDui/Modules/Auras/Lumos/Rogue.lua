@@ -18,7 +18,7 @@ function Auras:PostCreateLumos(self)
 	top = top + 1/4
 	bottom = bottom - 1/4
 
-	local iconSize = (self:GetWidth() - 10)/6
+	local iconSize = (self:GetWidth() - 10 + 2*C.mult)/6
 	local buttons = {}
 	local offset = C.db["Nameplate"]["NameplateClassPower"] and C.margin or (C.margin*2 + C.db["Nameplate"]["PPBarHeight"])
 	for i = 1, 6 do
@@ -28,7 +28,7 @@ function Auras:PostCreateLumos(self)
 		B.AuraIcon(bu)
 		bu.Icon:SetTexCoord(left, right, top, bottom)
 		if i == 1 then
-			bu:SetPoint("BOTTOMLEFT", self.Health, "TOPLEFT", 0, offset)
+			bu:SetPoint("BOTTOMLEFT", self.Health, "TOPLEFT", -C.mult, offset)
 		else
 			bu:SetPoint("LEFT", buttons[i-1], "RIGHT", 2, 0)
 		end

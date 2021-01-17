@@ -108,7 +108,7 @@ end
 
 -- Hide boss banner
 function Misc:ToggleBossBanner()
-	if C.db["Misc"]["HideBanner"] then
+	if C.db["Misc"]["HideBossBanner"] then
 		BossBanner:UnregisterAllEvents()
 	else
 		BossBanner:RegisterEvent("BOSS_KILL")
@@ -336,24 +336,17 @@ local function GetMawBarValue()
 	end
 end
 
-local MawRankColor = {
-	[0] = {.6, .8, 1},
-	[1] = {0, 1, 0},
-	[2] = {0, .7, .3},
-	[3] = {1, .8, 0},
-	[4] = {1, .5, 0},
-	[5] = {1, 0, 0}
-}
 function Misc:UpdateMawBarLayout()
 	local bar = Misc.mawbar
 	local rank, value = GetMawBarValue()
 	if rank then
-		bar:SetStatusBarColor(unpack(MawRankColor[rank]))
+		local r, g, b = B.SmoothColor(rank, 5, true)
+		bar:SetStatusBarColor(r, g, b)
 		if rank == 5 then
 			bar.text:SetText("Lv"..rank)
 			bar:SetValue(maxValue)
 		else
-			bar.text:SetText("Lv"..rank.." - "..value.."/"..maxValue)
+			bar.text:SetText("Lv"..rank.." - "..value.." / "..maxValue)
 			bar:SetValue(value)
 		end
 		bar:Show()

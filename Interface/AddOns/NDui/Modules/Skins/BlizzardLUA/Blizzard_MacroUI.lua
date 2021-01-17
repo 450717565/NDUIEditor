@@ -53,14 +53,14 @@ C.LUAThemes["Blizzard_MacroUI"] = function()
 	end
 
 	local buttons = {
-		MacroDeleteButton,
-		MacroNewButton,
-		MacroExitButton,
-		MacroEditButton,
-		MacroPopupFrame.BorderBox.OkayButton,
-		MacroPopupFrame.BorderBox.CancelButton,
-		MacroSaveButton,
 		MacroCancelButton,
+		MacroDeleteButton,
+		MacroEditButton,
+		MacroExitButton,
+		MacroNewButton,
+		MacroPopupFrame.BorderBox.CancelButton,
+		MacroPopupFrame.BorderBox.OkayButton,
+		MacroSaveButton,
 	}
 	for _, button in pairs(buttons) do
 		B.ReskinButton(button)

@@ -27,15 +27,15 @@ function Skins:ExtVendor()
 	B.ReskinFrame(_G[QVConfigFrame])
 
 	local buttons = {
-		"_RemoveFromBlacklistButton",
-		"_ResetBlacklistButton",
-		"_RemoveFromGlobalWhitelistButton",
 		"_ClearGlobalWhitelistButton",
-		"_RemoveFromLocalWhitelistButton",
 		"_ClearLocalWhitelistButton",
 		"_ItemDropBlacklistButton",
 		"_ItemDropGlobalWhitelistButton",
 		"_ItemDropLocalWhitelistButton",
+		"_RemoveFromBlacklistButton",
+		"_RemoveFromGlobalWhitelistButton",
+		"_RemoveFromLocalWhitelistButton",
+		"_ResetBlacklistButton",
 	}
 	for _, button in pairs(buttons) do
 		B.ReskinButton(_G[QVConfigFrame..button])
@@ -61,13 +61,13 @@ function Skins:ExtVendor()
 	B.ReskinButton(_G[OptionContainer.."_SaveButton"])
 
 	local checks = {
-		"_EnableButton",
-		"_SuboptimalArmor",
 		"_AlreadyKnown",
+		"_EnableButton",
+		"_OutdatedFood",
+		"_OutdatedGear",
+		"_SuboptimalArmor",
 		"_UnusableEquip",
 		"_WhiteGear",
-		"_OutdatedGear",
-		"_OutdatedFood",
 	}
 	for _, check in pairs(checks) do
 		B.ReskinCheck(_G[OptionContainer..check])

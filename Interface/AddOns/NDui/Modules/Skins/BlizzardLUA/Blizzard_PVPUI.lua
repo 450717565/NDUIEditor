@@ -42,7 +42,7 @@ local function Reskin_ConfigureRewardFrame(rewardFrame, honor, experience, itemR
 	local currencyID, rewardTexture, rewardQuaility
 
 	if currencyRewards then
-		for _, reward in ipairs(currencyRewards) do
+		for _, reward in pairs(currencyRewards) do
 			if reward.id ~= Constants.CurrencyConsts.ECHOES_OF_NYALOTHA_CURRENCY_ID or #currencyRewards == 1 then
 				local currencyInfo = C_CurrencyInfo.GetCurrencyInfo(reward.id)
 				local name, texture, quality = currencyInfo.name, currencyInfo.iconFileID, currencyInfo.quality
@@ -165,8 +165,7 @@ C.LUAThemes["Blizzard_PVPUI"] = function()
 	end
 
 	-- Reskin bar and role
-	local frames = {HonorFrame, ConquestFrame}
-	for _, frame in pairs(frames) do
+	for _, frame in pairs({HonorFrame, ConquestFrame}) do
 		B.ReskinRole(frame.TankIcon, "TANK")
 		B.ReskinRole(frame.HealerIcon, "HEALER")
 		B.ReskinRole(frame.DPSIcon, "DPS")

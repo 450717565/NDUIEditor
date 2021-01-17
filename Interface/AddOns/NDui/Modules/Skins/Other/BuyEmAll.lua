@@ -18,10 +18,10 @@ function Skins:BuyEmAll()
 	BuyEmAllCurrencyFrame:SetPoint("TOP", 0, -40)
 
 	local buttons = {
-		BuyEmAllOkayButton,
 		BuyEmAllCancelButton,
-		BuyEmAllStackButton,
 		BuyEmAllMaxButton,
+		BuyEmAllOkayButton,
+		BuyEmAllStackButton,
 	}
 	for _, button in pairs(buttons) do
 		B.ReskinButton(button)

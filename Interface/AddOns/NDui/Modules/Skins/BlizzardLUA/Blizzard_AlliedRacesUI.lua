@@ -2,7 +2,7 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
 local function Reskin_AlliedRacesFrame()
-	local Child = ScrollFrame.Child
+	local Child = RaceInfoFrame.ScrollFrame.Child
 	B.StripTextures(Child.ObjectivesFrame)
 
 	for i = 1, Child:GetNumChildren() do

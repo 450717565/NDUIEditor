@@ -363,13 +363,38 @@ function UF:BuffIndicatorOnUpdate(elapsed)
 	B.CooldownOnUpdate(self, elapsed)
 end
 
+UF.CornerSpells = {}
+function UF:UpdateCornerSpells()
+	wipe(UF.CornerSpells)
+
+	for spellID, value in pairs(C.CornerBuffs[DB.MyClass]) do
+		local modData = NDuiADB["CornerSpells"][DB.MyClass]
+		if not (modData and modData[spellID]) then
+			local r, g, b = unpack(value[2])
+			UF.CornerSpells[spellID] = {value[1], {r, g, b}, value[3]}
+		end
+	end
+
+	for spellID, value in pairs(NDuiADB["CornerSpells"][DB.MyClass]) do
+		if next(value) then
+			local r, g, b = unpack(value[2])
+			UF.CornerSpells[spellID] = {value[1], {r, g, b}, value[3]}
+		end
+	end
+end
+
+local bloodlustList = {}
+for _, spellID in pairs(C.bloodlustID) do
+	bloodlustList[spellID] = {"BOTTOMLEFT", {1, .8, 0}, true}
+end
+
 local found = {}
 local auraFilter = {"HELPFUL", "HARMFUL"}
 
 function UF:UpdateBuffIndicator(event, unit)
 	if event == "UNIT_AURA" and self.unit ~= unit then return end
 
-	local spellList = NDuiADB["CornerBuffs"][DB.MyClass]
+	local spellList = UF.CornerSpells
 	local buttons = self.BuffIndicator
 	unit = self.unit
 
@@ -378,7 +403,7 @@ function UF:UpdateBuffIndicator(event, unit)
 		for i = 1, 32 do
 			local name, texture, count, _, duration, expiration, caster, _, _, spellID = UnitAura(unit, i, filter)
 			if not name then break end
-			local value = spellList[spellID]
+			local value = spellList[spellID] or (DB.Role ~= "HEALER" and bloodlustList[spellID])
 			if value and (value[3] or caster == "player" or caster == "pet") then
 				local bu = buttons[value[1]]
 				if bu then
@@ -492,6 +517,28 @@ function UF:RefreshRaidFrameIcons()
 					UF:RefreshBuffIndicator(bu)
 				end
 			end
+		end
+	end
+end
+
+-- Partywatcher
+UF.PartyWatcherSpells = {}
+function UF:UpdatePartyWatcherSpells()
+	wipe(UF.PartyWatcherSpells)
+
+	for spellID, duration in pairs(C.PartySpells) do
+		local name = GetSpellInfo(spellID)
+		if name then
+			local modDuration = NDuiADB["PartySpells"][spellID]
+			if not modDuration or modDuration > 0 then
+				UF.PartyWatcherSpells[spellID] = duration
+			end
+		end
+	end
+
+	for spellID, duration in pairs(NDuiADB["PartySpells"]) do
+		if duration > 0 then
+			UF.PartyWatcherSpells[spellID] = duration
 		end
 	end
 end
@@ -617,7 +664,7 @@ function UF:InterruptIndicator(self)
 	end
 
 	buttons.__max = maxIcons
-	buttons.PartySpells = NDuiADB["PartyWatcherSpells"]
+	buttons.PartySpells = UF.PartyWatcherSpells
 	buttons.TalentCDFix = C.TalentCDFix
 	self.PartyWatcher = buttons
 	if C.db["UFs"]["PartyWatcherSync"] then

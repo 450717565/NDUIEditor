@@ -606,7 +606,7 @@ function Misc:RaidTool_WorldMarker()
 
 	for i = 1, 9 do
 		local button = CreateFrame("Button", nil, frame, "SecureActionButtonTemplate")
-		button:SetSize(24, 24)
+		button:SetSize(28, 28)
 		B.PixelIcon(button, iconTexture[i], true)
 		button.Icon:SetTexture(iconTexture[i])
 
@@ -646,7 +646,7 @@ function Misc:RaidTool_UpdateGrid()
 	local frame = _G["NDui_WorldMarkers"]
 	if not frame then return end
 
-	local size, margin = 24, 5
+	local size, margin = 28, 5
 	local showType = C.db["Misc"]["ShowMarkerBar"]
 	local perRow = markerTypeToRow[showType]
 
