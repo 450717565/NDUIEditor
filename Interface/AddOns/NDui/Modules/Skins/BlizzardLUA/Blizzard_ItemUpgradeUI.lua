@@ -1,13 +1,15 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
+local tL, tR, tT, tB = unpack(DB.TexCoord)
+
 local function Reskin_ItemUpgradeFrame()
 	local icon, _, quality = GetItemUpgradeItemInfo()
 	local r, g, b = GetItemQualityColor(quality or 1)
 	local ItemButton = ItemUpgradeFrame.ItemButton
 
 	if icon then
-		ItemButton.IconTexture:SetTexCoord(unpack(DB.TexCoord))
+		ItemButton.IconTexture:SetTexCoord(tL, tR, tT, tB)
 		ItemButton.icbg:SetBackdropBorderColor(r, g, b)
 		ItemButton.bubg:SetBackdropBorderColor(r, g, b)
 	else

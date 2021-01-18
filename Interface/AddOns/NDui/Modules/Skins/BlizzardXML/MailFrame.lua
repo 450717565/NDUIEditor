@@ -96,7 +96,7 @@ tinsert(C.XMLThemes, function()
 
 	local line = B.CreateLine(OpenMailInvoiceFrame, true)
 	line:SetWidth(250)
-	line:SetPoint("BOTTOMRIGHT", OpenMailInvoiceAmountReceived, "TOPRIGHT", 0, 10)
+	line:SetPoint("BOTTOMRIGHT", OpenMailInvoiceAmountReceived, "TOPRIGHT", 7, 7)
 
 	for _, button in pairs({"OpenMailLetterButton", "OpenMailMoneyButton"}) do
 		local bu = _G[button]

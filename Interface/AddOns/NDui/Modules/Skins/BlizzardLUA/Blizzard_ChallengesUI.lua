@@ -1,14 +1,15 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
-local styled
+local tL, tR, tT, tB = unpack(DB.TexCoord)
+
 local function Reskin_ChallengesFrame(self)
 	for i = 1, #self.maps do
 		local button = self.DungeonIcons[i]
 		if button and not button.styled then
 			button:GetRegions():Hide()
 			local bg = B.CreateBDFrame(button)
-			button.Icon:SetTexCoord(unpack(DB.TexCoord))
+			button.Icon:SetTexCoord(tL, tR, tT, tB)
 			button.Icon:SetInside(bg)
 
 			button.styled = true
@@ -25,7 +26,7 @@ local function Reskin_ChallengesFrame(self)
 	end
 
 	if IsAddOnLoaded("AngryKeystones") then
-		if not styled then
+		if not self.styled then
 			local Schedule = AngryKeystones.Modules.Schedule
 			local AffixFrame = Schedule.AffixFrame
 			local PartyFrame = Schedule.PartyFrame
@@ -41,7 +42,7 @@ local function Reskin_ChallengesFrame(self)
 			B.StripTextures(PartyFrame)
 			B.CreateBDFrame(PartyFrame)
 
-			styled = true
+			self.styled = true
 		end
 	end
 end

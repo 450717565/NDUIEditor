@@ -70,8 +70,8 @@ do
 		self:ClearAllPoints()
 		self:SetPoint(point, relativeTo, x, y)
 		self:SetTexCoord(.18, .92, .08, .92)
-		local bg = B.CreateBDFrame(self)
 
+		local bg = B.CreateBDFrame(self)
 		return bg
 	end
 
@@ -195,30 +195,29 @@ do
 		if bar then B.ReskinScroll(bar) end
 
 		for i = 1, 9 do
-			local bu = results.scrollFrame.buttons[i]
+			local button = results.scrollFrame.buttons[i]
+			if button and not button.styled then
+				B.StripTextures(button)
 
-			if bu and not bu.styled then
-				B.StripTextures(bu)
+				local icbg = B.ReskinIcon(button.icon)
+				button.icon.SetTexCoord = B.Dummy
 
-				local icbg = B.ReskinIcon(bu.icon)
-				bu.icon.SetTexCoord = B.Dummy
+				local bubg = B.CreateBGFrame(button, 2, 2, -2, -2, icbg)
+				B.ReskinHighlight(button, bubg, true)
 
-				local bubg = B.CreateBGFrame(bu, 2, 2, -2, -2, icbg)
-				B.ReskinHighlight(bu, bubg, true)
-
-				local name = bu.name
+				local name = button.name
 				name:ClearAllPoints()
 				name:SetPoint("TOPLEFT", bubg, 4, -6)
 
-				local path = bu.path
+				local path = button.path
 				path:ClearAllPoints()
 				path:SetPoint("BOTTOMLEFT", bubg, 4, 4)
 
-				local type = bu.resultType
+				local type = button.resultType
 				type:ClearAllPoints()
 				type:SetPoint("RIGHT", bubg, -2, 0)
 
-				bu.styled = true
+				button.styled = true
 			end
 		end
 	end

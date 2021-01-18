@@ -9,8 +9,7 @@ local function Reskin_ScrollBar(self)
 	thumb:SetAlpha(0)
 	thumb:SetWidth(18)
 
-	local bdTex = B.CreateBDFrame(thumb)
-	self.bdTex = bdTex
+	self.bdTex = B.CreateBDFrame(thumb)
 	B.SetupHook(self)
 
 	local down = self.ScrollToBottomButton

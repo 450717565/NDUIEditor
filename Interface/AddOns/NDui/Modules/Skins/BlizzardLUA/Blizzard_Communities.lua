@@ -53,7 +53,7 @@ end
 local function Reskin_ColumnDisplay(self)
 	for i = 1, self:GetNumChildren() do
 		local child = select(i, self:GetChildren())
-		if not child.styled then
+		if child and not child.styled then
 			B.StripTextures(child)
 
 			local bg = B.CreateBGFrame(child, 4, -2, 0, 2)
@@ -131,7 +131,7 @@ local function Reskin_MemberList(self)
 	end
 end
 
-local function Reskin_SettingsDialog(self)
+local function Reskin_NotificationSettingsDialog(self)
 	local frame = self.ScrollFrame.Child
 	for i = 1, frame:GetNumChildren() do
 		local child = select(i, frame:GetChildren())
@@ -151,13 +151,11 @@ local function Reskin_AvatarPickerDialog(self)
 	for i = 1, 5 do
 		for j = 1, 6 do
 			local avatarButton = self.avatarButtons[i][j]
-			if avatarButton:IsShown() and not avatarButton.styled then
+			if avatarButton:IsShown() and not avatarButton.icbg then
 				avatarButton.Selected:SetTexture("")
 
 				avatarButton.icbg = B.ReskinIcon(avatarButton.Icon)
 				B.ReskinHighlight(avatarButton, avatarButton.icbg)
-
-				avatarButton.styled = true
 			end
 
 			if avatarButton.Selected:IsShown() then
@@ -210,8 +208,8 @@ local function Reskin_ApplicantList(self)
 	for i = 1, #buttons do
 		local button = buttons[i]
 		if not button.styled then
-			button:SetPoint("LEFT", listBG, C.mult, 0)
-			button:SetPoint("RIGHT", listBG, -C.mult, 0)
+			button:SetPoint("LEFT", self.bg, C.mult, 0)
+			button:SetPoint("RIGHT", self.bg, -C.mult, 0)
 			button.InviteButton:SetSize(66, 18)
 			button.CancelInvitationButton:SetSize(20, 18)
 
@@ -379,8 +377,8 @@ C.LUAThemes["Blizzard_Communities"] = function()
 	local Chat = CommunitiesFrame.Chat
 	B.StripTextures(Chat)
 	B.ReskinScroll(Chat.MessageFrame.ScrollBar)
-	B.CreateBGFrame(Chat.InsetFrame, 1, -3, -3, 22)
-	B.CreateBGFrame(CommunitiesFrame.ChatEditBox, -(5+C.mult), -5, 4, 6)
+	B.CreateBGFrame(Chat, -8, 6, 6+C.mult, -6)
+	B.CreateBGFrame(CommunitiesFrame.ChatEditBox, -5, -5, 4, 6)
 
 	local EditStreamDialog = CommunitiesFrame.EditStreamDialog
 	B.ReskinFrame(EditStreamDialog)
@@ -403,7 +401,7 @@ C.LUAThemes["Blizzard_Communities"] = function()
 	B.ReskinButton(NotificationSettingsDialog.ScrollFrame.Child.NoneButton)
 	B.ReskinScroll(NotificationSettingsDialog.ScrollFrame.ScrollBar)
 
-	hooksecurefunc(NotificationSettingsDialog, "Refresh", Reskin_SettingsDialog)
+	hooksecurefunc(NotificationSettingsDialog, "Refresh", Reskin_NotificationSettingsDialog)
 
 	local RecruitmentDialog = CommunitiesFrame.RecruitmentDialog
 	B.ReskinFrame(RecruitmentDialog)
@@ -474,8 +472,7 @@ C.LUAThemes["Blizzard_Communities"] = function()
 	B.StripTextures(ApplicantList)
 	B.StripTextures(ApplicantList.ColumnDisplay)
 	B.ReskinScroll(ApplicantList.ListScrollFrame.scrollBar)
-	local listBG = B.CreateBGFrame(ApplicantList, 0, 0, -15, 0)
-
+	ApplicantList.bg = B.CreateBGFrame(ApplicantList, 0, 0, -15, 0)
 	hooksecurefunc(ApplicantList, "BuildList", Reskin_ApplicantList)
 
 	-- GuildBenefitsTab

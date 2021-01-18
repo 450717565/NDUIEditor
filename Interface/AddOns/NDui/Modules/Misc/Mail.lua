@@ -77,21 +77,25 @@ function Misc:ContactButton_Create(parent, index)
 	local button = CreateFrame("Button", nil, parent)
 	button:SetSize(150, 20)
 	button:SetPoint("TOPLEFT", 2, -2 - (index-1) *20)
-	button.HL = button:CreateTexture(nil, "HIGHLIGHT")
-	button.HL:SetAllPoints()
-	button.HL:SetColorTexture(1, 1, 1, .25)
 
-	button.name = B.CreateFS(button, 13, "Name", false, "LEFT", 0, 0)
-	button.name:SetPoint("RIGHT", button, "LEFT", 155, 0)
-	button.name:SetJustifyH("LEFT")
+	local HL = button:CreateTexture(nil, "HIGHLIGHT")
+	HL:SetAllPoints()
+	HL:SetColorTexture(1, 1, 1, .25)
+	button.HL = HL
+
+	local name = B.CreateFS(button, 13, "Name", false, "LEFT", 0, 0)
+	name:SetPoint("RIGHT", button, "LEFT", 155, 0)
+	name:SetJustifyH("LEFT")
+	button.name = name
 
 	button:RegisterForClicks("AnyUp")
 	button:SetScript("OnClick", Misc.ContactButton_OnClick)
 
-	button.delete = B.CreateButton(button, 20, 20, true, "Interface\\RAIDFRAME\\ReadyCheck-NotReady")
-	button.delete:SetPoint("LEFT", button, "RIGHT", 2, 0)
-	button.delete.__owner = button
-	button.delete:SetScript("OnClick", Misc.ContactButton_Delete)
+	local delete = B.CreateButton(button, 20, 20, true, "Interface\\RAIDFRAME\\ReadyCheck-NotReady")
+	delete:SetPoint("LEFT", button, "RIGHT", 2, 0)
+	delete.__owner = button
+	delete:SetScript("OnClick", Misc.ContactButton_Delete)
+	button.delete = delete
 
 	return button
 end

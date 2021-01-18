@@ -192,15 +192,22 @@ local function BuildICON(iconSize)
 
 	local frame = CreateFrame("Frame", nil, PetBattleFrameHider)
 	frame:SetSize(iconSize, iconSize)
-	frame.bubg = B.CreateBDFrame(frame, 0, -C.mult)
 
-	frame.Icon = frame:CreateTexture(nil, "ARTWORK")
-	frame.Icon:SetInside(frame.bubg)
-	frame.Icon:SetTexCoord(tL, tR, tT, tB)
+	local bubg = B.CreateBDFrame(frame, 0, -C.mult)
+	frame.bubg = bubg
 
-	frame.Cooldown = CreateFrame("Cooldown", nil, frame, "CooldownFrameTemplate")
-	frame.Cooldown:SetInside(frame.bubg)
-	frame.Cooldown:SetReverse(true)
+	local glowFrame = B.CreateGlowFrame(frame, iconSize)
+	frame.glowFrame = glowFrame
+
+	local Icon = frame:CreateTexture(nil, "ARTWORK")
+	Icon:SetInside(frame.bubg)
+	Icon:SetTexCoord(tL, tR, tT, tB)
+	frame.Icon = Icon
+
+	local Cooldown = CreateFrame("Cooldown", nil, frame, "CooldownFrameTemplate")
+	Cooldown:SetInside(frame.bubg)
+	Cooldown:SetReverse(true)
+	frame.Cooldown = Cooldown
 
 	local parentFrame = CreateFrame("Frame", nil, frame)
 	parentFrame:SetAllPoints()
@@ -208,7 +215,6 @@ local function BuildICON(iconSize)
 
 	frame.Spellname = B.CreateFS(parentFrame, 13, "", false, "TOP", 0, 5)
 	frame.Count = B.CreateFS(parentFrame, iconSize*.55, "", false, "BOTTOMRIGHT", 5, -5)
-	frame.glowFrame = B.CreateGlowFrame(frame, iconSize)
 
 	if not C.db["AuraWatch"]["ClickThrough"] then enableTooltip(frame) end
 

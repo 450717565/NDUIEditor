@@ -700,6 +700,10 @@ function Bags:OnLogin()
 		self.Count:SetPoint("BOTTOMRIGHT", 0, 1)
 		self.Count:SetFont(unpack(DB.Font))
 
+		self.Quest = B.CreateFS(self, 30, "!", "system", "LEFT", 3, 0)
+		self.iLvl = B.CreateFS(self, 12, "", false, "BOTTOMRIGHT", 0, 1)
+		self.Slot = B.CreateFS(self, 12, "", false, "TOPLEFT", 1, -2)
+
 		local parentFrame = CreateFrame("Frame", nil, self)
 		parentFrame:SetAllPoints()
 		parentFrame:SetFrameLevel(5)
@@ -709,21 +713,17 @@ function Bags:OnLogin()
 		self.Favourite:SetSize(30, 30)
 		self.Favourite:SetPoint("TOPLEFT", -12, 9)
 
-		self.Quest = B.CreateFS(self, 30, "!", "system", "LEFT", 3, 0)
-		self.iLvl = B.CreateFS(self, 12, "", false, "BOTTOMRIGHT", 0, 1)
-		self.Slot = B.CreateFS(self, 12, "", false, "TOPLEFT", 1, -2)
-
 		if showNewItem then
 			self.glowFrame = B.CreateGlowFrame(self, iconSize)
 		end
-
-		self:HookScript("OnClick", Bags.ButtonOnClick)
 
 		if hasCanIMogIt then
 			self.canIMogIt = parentFrame:CreateTexture(nil, "OVERLAY")
 			self.canIMogIt:SetSize(13, 13)
 			self.canIMogIt:SetPoint(unpack(CanIMogIt.ICON_LOCATIONS[CanIMogItOptions["iconLocation"]]))
 		end
+
+		self:HookScript("OnClick", Bags.ButtonOnClick)
 	end
 
 	function MyButton:ItemOnEnter()

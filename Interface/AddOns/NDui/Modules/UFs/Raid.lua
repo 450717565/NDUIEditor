@@ -134,9 +134,10 @@ function UF:CreateRaidDebuffs(self)
 	bu.glowFrame = B.CreateGlowFrame(bu, size)
 	bu.bubg = B.CreateBDFrame(bu)
 
-	bu.icon = bu:CreateTexture(nil, "ARTWORK")
-	bu.icon:SetInside(bu.bubg)
-	bu.icon:SetTexCoord(tL, tR, tT, tB)
+	local icon = bu:CreateTexture(nil, "ARTWORK")
+	icon:SetInside(bu.bubg)
+	icon:SetTexCoord(tL, tR, tT, tB)
+	bu.icon = icon
 
 	local parentFrame = CreateFrame("Frame", nil, bu)
 	parentFrame:SetAllPoints()
@@ -403,7 +404,7 @@ function UF:UpdateBuffIndicator(event, unit)
 		for i = 1, 32 do
 			local name, texture, count, _, duration, expiration, caster, _, _, spellID = UnitAura(unit, i, filter)
 			if not name then break end
-			local value = spellList[spellID] or (DB.Role ~= "HEALER" and bloodlustList[spellID])
+			local value = spellList[spellID] or (DB.Role ~= "Healer" and bloodlustList[spellID])
 			if value and (value[3] or caster == "player" or caster == "pet") then
 				local bu = buttons[value[1]]
 				if bu then
@@ -483,16 +484,20 @@ function UF:CreateBuffIndicator(self)
 		bu:SetPoint(anchor)
 		bu:Hide()
 
-		bu.bubg = B.CreateBDFrame(bu)
-		bu.icon = bu:CreateTexture(nil, "BORDER")
-		bu.icon:SetInside(bu.bubg)
-		bu.icon:SetTexCoord(tL, tR, tT, tB)
-		bu.cd = CreateFrame("Cooldown", nil, bu, "CooldownFrameTemplate")
-		bu.cd:SetInside(bu.bubg)
-		bu.cd:SetReverse(true)
-		bu.cd:SetHideCountdownNumbers(true)
 		bu.timer = B.CreateFS(bu, 12, "", false, "CENTER", -counterOffsets[anchor][2][3], 0)
 		bu.count = B.CreateFS(bu, 12, "")
+		bu.bubg = B.CreateBDFrame(bu)
+
+		local icon = bu:CreateTexture(nil, "BORDER")
+		icon:SetInside(bu.bubg)
+		icon:SetTexCoord(tL, tR, tT, tB)
+		bu.icon = icon
+
+		local cd = CreateFrame("Cooldown", nil, bu, "CooldownFrameTemplate")
+		cd:SetInside(bu.bubg)
+		cd:SetReverse(true)
+		cd:SetHideCountdownNumbers(true)
+		bu.cd = cd
 
 		bu.anchor = anchor
 		buttons[anchor] = bu

@@ -111,8 +111,7 @@ function TT:InsertRoleFrame(role)
 		role:SetTexture("Interface\\LFGFrame\\UI-LFG-ICONS-ROLEBACKGROUNDS")
 		self.role = role
 
-		local icbg = B.CreateBDFrame(role, 1, -C.mult)
-		self.icbg = icbg
+		self.icbg = B.CreateBDFrame(role, 1, -C.mult)
 	end
 	self.role:SetTexCoord(unpack(roleTex[role]))
 	self.role:SetAlpha(1)
@@ -395,8 +394,8 @@ function TT:ReskinTooltip()
 	if not self.tipStyled then
 		if self.SetBackdrop then self:SetBackdrop(nil) end
 		self:DisableDrawLayer("BACKGROUND")
-		local bg = B.CreateBG(self)
-		self.bg = bg
+
+		self.bg = B.CreateBG(self)
 
 		TT.ReskinRewardIcon(self)
 		TT.ReskinStatusBar(self)

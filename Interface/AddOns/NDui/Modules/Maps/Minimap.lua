@@ -256,7 +256,7 @@ function Maps:RecycleBin()
 
 	local function ReskinMinimapButtons()
 		for _, child in pairs(buttons) do
-			if not child.styled then
+			if child and not child.styled then
 				child:SetParent(bin)
 				if child:HasScript("OnDragStop") then child:SetScript("OnDragStop", nil) end
 				if child:HasScript("OnDragStart") then child:SetScript("OnDragStart", nil) end

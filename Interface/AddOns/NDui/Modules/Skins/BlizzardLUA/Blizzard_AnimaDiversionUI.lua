@@ -4,12 +4,17 @@ local S = B:GetModule("Skins")
 
 C.LUAThemes["Blizzard_AnimaDiversionUI"] = function()
 	local frame = AnimaDiversionFrame
-
-	B.ReskinFrame(frame)
 	B.ReskinButton(frame.ReinforceInfoFrame.AnimaNodeReinforceButton)
-	frame.AnimaDiversionCurrencyFrame.Background:SetAlpha(0)
 
-	local CurrencyFrame = frame.AnimaDiversionCurrencyFrame.CurrencyFrame
+	local bg = B.ReskinFrame(frame)
+	bg:SetOutside(frame.ScrollContainer.Child)
+
+	local currency = frame.AnimaDiversionCurrencyFrame
+	B.StripTextures(currency)
+	currency:ClearAllPoints()
+	currency:SetPoint("TOP", bg)
+
+	local CurrencyFrame = currency.CurrencyFrame
 	S.ReplaceIconString(CurrencyFrame.Quantity)
 	hooksecurefunc(CurrencyFrame.Quantity, "SetText", S.ReplaceIconString)
 end

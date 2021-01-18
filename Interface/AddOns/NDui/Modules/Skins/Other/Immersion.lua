@@ -48,11 +48,8 @@ local function Reskin_RewardButton(self)
 	if not self.styled then
 		B.StripTextures(self, 1)
 
-		local icbg = B.ReskinIcon(self.Icon)
-		self.icbg = icbg
-
-		local bubg = B.CreateBGFrame(self, 2, 0, -6, 0, icbg)
-		self.bubg = bubg
+		self.icbg = B.ReskinIcon(self.Icon)
+		self.bubg = B.CreateBGFrame(self, 2, 0, -6, 0, self.icbg)
 
 		self.styled = true
 	end

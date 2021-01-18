@@ -7,8 +7,7 @@ local function Reskin_QuestHeader(self, isCalling)
 		if self.TopFiligree then self.TopFiligree:Hide() end
 		if self.Background then self.Background:SetAlpha(0) end
 
-		local bg = B.CreateBGFrame(self.Background, 2, -2, -2, 6)
-		self.bg = bg
+		self.bg = B.CreateBGFrame(self.Background, 2, -2, -2, 6)
 
 		if self.SelectedHighlight then
 			self.SelectedHighlight:SetInside(self.bg)

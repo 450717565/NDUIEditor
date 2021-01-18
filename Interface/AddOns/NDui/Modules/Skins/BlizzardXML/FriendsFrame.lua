@@ -216,7 +216,6 @@ tinsert(C.XMLThemes, function()
 			local child = select(i, self:GetChildren())
 			local button = child and child.Button
 			if button and not button.styled then
-
 				local icbg = B.ReskinIcon(button.Icon)
 				B.ReskinHighlight(button, icbg)
 				B.ReskinBorder(button.IconBorder, icbg)

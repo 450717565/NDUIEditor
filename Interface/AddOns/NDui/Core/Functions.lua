@@ -1352,13 +1352,13 @@ do
 
 			local bgTex = B.CreateBGFrame(thumb, 0, -3, 0, 3)
 			self.bgTex = bgTex
+
+			B.SetupHook(self)
 		end
 
 		local up, down = self:GetChildren()
 		B.ReskinArrow(up, "up")
 		B.ReskinArrow(down, "down")
-
-		B.SetupHook(self)
 	end
 
 	-- Handle Slider

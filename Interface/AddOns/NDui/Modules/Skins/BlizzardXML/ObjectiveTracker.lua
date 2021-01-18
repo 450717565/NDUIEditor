@@ -2,6 +2,7 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
+local tL, tR, tT, tB = unpack(DB.TexCoord)
 
 local function Reskin_Header(self)
 	self.Background:Hide()
@@ -94,10 +95,12 @@ local function Reskin_ContentTracker()
 		if widgetFrame.CurrencyContainer then
 			local child = {widgetFrame.CurrencyContainer:GetChildren()}
 			for _, button in pairs(child) do
-				if button and not button.styled then
-					B.ReskinIcon(button.Icon)
+				if button then
+					if not button.styled then
+						B.ReskinIcon(button.Icon)
 
-					button.styled = true
+						button.styled = true
+					end
 				end
 			end
 		end
@@ -115,7 +118,7 @@ local function Reskin_QuestIcon(self)
 		B.ReskinHighlight(self, icbg)
 
 		if self.icon then
-			self.icon:SetTexCoord(unpack(DB.TexCoord))
+			self.icon:SetTexCoord(tL, tR, tT, tB)
 		end
 
 		if self.Icon then
@@ -167,6 +170,8 @@ local function Reskin_MinimizeButton(button)
 end
 
 tinsert(C.XMLThemes, function()
+	if IsAddOnLoaded("!KalielsTracker") then return end
+
 	local MinimizeButton = ObjectiveTrackerFrame.HeaderMenu.MinimizeButton
 	Reskin_MinimizeButton(MinimizeButton)
 
@@ -225,4 +230,7 @@ tinsert(C.XMLThemes, function()
 
 	-- MawBuffsBlock
 	ScenarioBlocksFrame.MawBuffsBlock.Container:HookScript("OnClick", Update_FrameAnchor)
+
+	-- Dummy
+	BonusObjectiveTrackerProgressBar_PlayFlareAnim = B.Dummy
 end)

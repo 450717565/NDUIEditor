@@ -32,7 +32,7 @@ local function Reskin_DisplayAchievement(button, category, index)
 end
 
 local function Reskin_DisplayButton(button)
-	if not button.styled then
+	if button and not button.styled then
 		B.StripTextures(button)
 
 		local bubg = B.CreateBDFrame(button, 0, 1)
@@ -44,7 +44,7 @@ end
 
 local function Reskin_GetProgressBar(index)
 	local bar = _G["AchievementFrameProgressBar"..index]
-	if not bar.styled then
+	if bar and not bar.styled then
 		B.ReskinStatusBar(bar)
 
 		bar.styled = true
@@ -53,9 +53,9 @@ end
 
 local function Reskin_UpdateAchievements()
 	for i = 1, 4 do
-		local button = "AchievementFrameSummaryAchievement"..i
+		local buttons = "AchievementFrameSummaryAchievement"..i
 
-		local bu = _G[button]
+		local bu = _G[buttons]
 		B.ReskinText(bu.description, 1, 1, 1)
 
 		if bu.accountWide then
@@ -68,13 +68,13 @@ local function Reskin_UpdateAchievements()
 			B.StripTextures(bu, 0)
 			B.CreateBDFrame(bu, 0, 2)
 
-			local hl = _G[button.."Highlight"]
+			local hl = _G[buttons.."Highlight"]
 			hl:SetOutside(nil, 1, 1)
 
-			local io = _G[button.."IconOverlay"]
+			local io = _G[buttons.."IconOverlay"]
 			io:Hide()
 
-			local ic = _G[button.."IconTexture"]
+			local ic = _G[buttons.."IconTexture"]
 			B.ReskinIcon(ic)
 
 			bu.styled = true

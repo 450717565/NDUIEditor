@@ -2,7 +2,7 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
 local function Reskin_ChoiceDialog(self)
-	if not self.styled then
+	if self and not self.styled then
 		for i = 6, 7 do
 			local button = select(i, self:GetChildren())
 			if button then

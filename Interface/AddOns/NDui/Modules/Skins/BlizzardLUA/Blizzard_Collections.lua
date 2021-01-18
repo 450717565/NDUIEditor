@@ -3,6 +3,7 @@ local B, C, L, DB = unpack(ns)
 local S = B:GetModule("Skins")
 
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
+local tL, tR, tT, tB = unpack(DB.TexCoord)
 
 local function Reskin_Button(self)
 	local button = _G[self]
@@ -99,7 +100,7 @@ local function Reskin_UpdateButton(_, button)
 	if not button.styled then
 		B.StripTextures(button)
 
-		button.iconTextureUncollected:SetTexCoord(unpack(DB.TexCoord))
+		button.iconTextureUncollected:SetTexCoord(tL, tR, tT, tB)
 		button.levelBackground:SetAlpha(0)
 
 		local icbg = B.ReskinIcon(button.iconTexture)
@@ -487,8 +488,7 @@ C.LUAThemes["Blizzard_Collections"] = function()
 	hooksecurefunc("WardrobeCollectionFrame_SetTab", Reskin_SetTab)
 
 	local SetsCollectionFrame = WardrobeCollectionFrame.SetsCollectionFrame
-	local bg = B.CreateBDFrame(SetsCollectionFrame.Model)
-	SetsCollectionFrame.bg = bg
+	SetsCollectionFrame.bg = B.CreateBDFrame(SetsCollectionFrame.Model)
 
 	local DetailsFrame = SetsCollectionFrame.DetailsFrame
 	B.StripTextures(DetailsFrame)

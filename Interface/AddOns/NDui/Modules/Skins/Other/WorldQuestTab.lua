@@ -25,11 +25,10 @@ local function Reskin_ScrollBar(self)
 		thumb:SetWidth(18)
 		self.thumb = thumb
 
-		local bgTex = B.CreateBGFrame(thumb, 0, -3, 0, 3)
-		self.bgTex = bgTex
-	end
+		self.bgTex = B.CreateBGFrame(thumb, 0, -3, 0, 3)
 
-	B.SetupHook(self)
+		B.SetupHook(self)
+	end
 end
 
 local function Reskin_Rewards(button)

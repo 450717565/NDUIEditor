@@ -241,23 +241,28 @@ function Auras:CreateAuraIcon(button)
 	end
 	local fontSize = B.Round(cfg.size/30*12)
 
-	button.bubg = B.CreateBDFrame(button)
+	local bubg = B.CreateBDFrame(button)
+	button.bubg = bubg
 
-	button.icon = button:CreateTexture(nil, "BORDER")
-	button.icon:SetTexCoord(tL, tR, tT, tB)
-	button.icon:SetInside(button.bubg)
+	local icon = button:CreateTexture(nil, "BORDER")
+	icon:SetTexCoord(tL, tR, tT, tB)
+	icon:SetInside(bubg)
+	button.icon = icon
 
-	button.count = button:CreateFontString(nil, "ARTWORK")
-	button.count:SetPoint("TOPRIGHT", -1, -3)
-	button.count:SetFont(DB.Font[1], fontSize, DB.Font[3])
+	local highlight = button:CreateTexture(nil, "HIGHLIGHT")
+	highlight:SetColorTexture(1, 1, 1, .25)
+	highlight:SetInside(bubg)
+	button.highlight = highlight
 
-	button.timer = button:CreateFontString(nil, "ARTWORK")
-	button.timer:SetPoint("TOP", button, "BOTTOM", 1, 2)
-	button.timer:SetFont(DB.Font[1], fontSize, DB.Font[3])
+	local count = button:CreateFontString(nil, "ARTWORK")
+	count:SetPoint("TOPRIGHT", -1, -3)
+	count:SetFont(DB.Font[1], fontSize, DB.Font[3])
+	button.count = count
 
-	button.highlight = button:CreateTexture(nil, "HIGHLIGHT")
-	button.highlight:SetColorTexture(1, 1, 1, .25)
-	button.highlight:SetInside(button.bubg)
+	local timer = button:CreateFontString(nil, "ARTWORK")
+	timer:SetPoint("TOP", button, "BOTTOM", 1, 2)
+	timer:SetFont(DB.Font[1], fontSize, DB.Font[3])
+	button.timer = timer
 
 	button:SetScript("OnAttributeChanged", Auras.OnAttributeChanged)
 	button:HookScript("OnMouseDown", Auras.RemoveSpellFromIgnoreList)
