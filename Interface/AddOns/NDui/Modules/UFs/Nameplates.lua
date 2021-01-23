@@ -258,8 +258,8 @@ end
 
 function UF:CreateThreatColor(self)
 	local threatIndicator = B.CreateSD(self, true)
-	threatIndicator:SetOutside(self.Health.bd, B.Scale(4), B.Scale(4))
-	threatIndicator:SetFrameLevel(self:GetFrameLevel()+2)
+	threatIndicator:SetOutside(self.Health.bd, 4, 4)
+	threatIndicator:SetFrameLevel(self:GetFrameLevel() + 2)
 	threatIndicator:Hide()
 
 	self.ThreatIndicator = threatIndicator
@@ -342,7 +342,7 @@ function UF:AddTargetIndicator(self)
 
 	local frame = CreateFrame("Frame", nil, self)
 	frame:SetAllPoints()
-	frame:SetFrameLevel(self:GetFrameLevel()+1)
+	frame:SetFrameLevel(self:GetFrameLevel() + 1)
 
 	frame.TopArrow = frame:CreateTexture(nil, "BACKGROUND", nil, -5)
 	frame.TopArrow:SetSize(50, 50)
@@ -356,7 +356,7 @@ function UF:AddTargetIndicator(self)
 	frame.RightArrow:SetRotation(rad(-90))
 
 	frame.Glow = B.CreateSD(frame, true)
-	frame.Glow:SetOutside(self.Health.bd, B.Scale(4), B.Scale(4))
+	frame.Glow:SetOutside(self.Health.bd, 4, 4)
 	frame.Glow:SetBackdropBorderColor(color.r, color.g, color.b)
 
 	frame.nameGlow = frame:CreateTexture(nil, "BACKGROUND", nil, -5)
@@ -617,10 +617,10 @@ function UF:MouseoverIndicator(self)
 
 	local frame = CreateFrame("Frame", nil, self.Health)
 	frame:SetAllPoints(self)
-	frame:SetFrameLevel(self:GetFrameLevel()+1)
+	frame:SetFrameLevel(self:GetFrameLevel() + 1)
 
 	frame.Highlight = B.CreateSD(frame, true)
-	frame.Highlight:SetOutside(self.Health.bd, B.Scale(4), B.Scale(4))
+	frame.Highlight:SetOutside(self.Health.bd, 4, 4)
 	frame.Highlight:SetBackdropBorderColor(color.r, color.g, color.b)
 	frame.Highlight:Hide()
 

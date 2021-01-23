@@ -57,7 +57,7 @@ function UF:CreateTargetBorder(self)
 
 	local targetBorder = B.CreateSD(self, true)
 	targetBorder:SetBackdropBorderColor(color.r, color.g, color.b)
-	targetBorder:SetOutside(self.Health.bd, B.Scale(4), B.Scale(4), self.Power.bd)
+	targetBorder:SetOutside(self.Health.bd, 4, 4, self.Power.bd)
 	targetBorder:Hide()
 	self.sdTex = nil
 
@@ -83,7 +83,7 @@ end
 
 function UF:CreateThreatBorder(self)
 	local threatIndicator = B.CreateSD(self, true)
-	threatIndicator:SetOutside(self.Health.bd, B.Scale(4), B.Scale(4), self.Power.bd)
+	threatIndicator:SetOutside(self.Health.bd, 4, 4, self.Power.bd)
 	threatIndicator:Hide()
 	self.sdTex = nil
 
@@ -478,7 +478,7 @@ function UF:CreateBuffIndicator(self)
 	local buttons = {}
 	for _, anchor in pairs(anchors) do
 		local bu = CreateFrame("Frame", nil, self)
-		bu:SetFrameLevel(self:GetFrameLevel()+10)
+		bu:SetFrameLevel(self:GetFrameLevel() + 10)
 		bu:SetSize(10, 10)
 		bu:SetScale(C.db["UFs"]["BuffIndicatorScale"])
 		bu:SetPoint(anchor)

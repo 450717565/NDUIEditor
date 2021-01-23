@@ -72,6 +72,7 @@ C.LUAThemes["Blizzard_InspectUI"] = function()
 	InspectSpec.ring:Hide()
 	B.ReskinIcon(InspectSpec.specIcon)
 	B.ReskinRoleIcon(InspectSpec.roleIcon)
+	B.ReskinText(InspectSpec.roleName, 1, 1, 1)
 
 	for i = 1, 7 do
 		local row = InspectTalentFrame.InspectTalents["tier"..i]

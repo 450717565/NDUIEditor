@@ -9,7 +9,7 @@ local format, floor = string.format, math.floor
 local pairs, next = pairs, next
 local UnitFrame_OnEnter, UnitFrame_OnLeave = UnitFrame_OnEnter, UnitFrame_OnLeave
 
-local barWidth, barHeight, barMargin
+local barWidth, barHeight
 
 -- Smooth Color
 function B.SmoothColor(cur, max, fullRed)
@@ -90,8 +90,6 @@ function UF:CreateHeader(self)
 	self:RegisterForClicks("AnyUp")
 	self:HookScript("OnEnter", UF_OnEnter)
 	self:HookScript("OnLeave", UF_OnLeave)
-
-	barMargin = B.Scale(C.margin)
 end
 
 local function UpdateHealthColorByIndex(health, index)
@@ -183,7 +181,7 @@ function UF:CreateHealthText(self)
 	local mystyle = self.mystyle
 	local textFrame = CreateFrame("Frame", nil, self)
 	textFrame:SetAllPoints(self.Health)
-	textFrame:SetFrameLevel(self:GetFrameLevel()+2)
+	textFrame:SetFrameLevel(self:GetFrameLevel() + 2)
 
 	local name = B.CreateFS(textFrame, retVal(self, 13, 12, 12, 12, C.db["Nameplate"]["NameTextSize"]), "", false, "LEFT", 3, 0)
 	name:SetJustifyH("LEFT")
@@ -347,10 +345,6 @@ function UF:CreatePowerBar(self)
 	power:SetHeight(powerHeight)
 	power.bg:SetAlpha(1)
 	power.bg.multiplier = .25
-
-	if self.Health.sd then
-		self.Health.sd:SetPoint("BOTTOMRIGHT", power.bd, "BOTTOMRIGHT", B.Scale(4), -B.Scale(4))
-	end
 	if power.bd.sdTex then power.bd.sdTex:Hide() end
 
 	self.Power = power
@@ -359,6 +353,10 @@ function UF:CreatePowerBar(self)
 	UF:UpdatePowerBarColor(self)
 
 	barHeight = self.Power:GetHeight()
+
+	if self.Health.sd then
+		self.Health.sd:SetOutside(self.Health.bd, 4, 4, self.Power.bd)
+	end
 end
 
 function UF:CreatePowerText(self)
@@ -448,14 +446,19 @@ end
 
 function UF:CreateIcons(self)
 	local mystyle = self.mystyle
+
+	local parentFrame = CreateFrame("Frame", nil, self)
+	parentFrame:SetAllPoints()
+	parentFrame:SetFrameLevel(self:GetFrameLevel() + 3)
+
 	if mystyle == "player" then
-		local combat = self:CreateTexture(nil, "OVERLAY")
+		local combat = parentFrame:CreateTexture(nil, "OVERLAY")
 		combat:SetPoint("CENTER", self, "BOTTOMLEFT")
 		combat:SetSize(28, 28)
 		combat:SetAtlas(DB.objectTex)
 		self.CombatIndicator = combat
 
-		local resting = self:CreateTexture(nil, "OVERLAY")
+		local resting = parentFrame:CreateTexture(nil, "OVERLAY")
 		resting:SetPoint("CENTER", self, "TOPLEFT")
 		resting:SetSize(18, 18)
 		resting:SetTexture("Interface\\PLAYERFRAME\\DruidEclipse")
@@ -463,15 +466,11 @@ function UF:CreateIcons(self)
 		resting:SetVertexColor(.6, .8, 1)
 		self.RestingIndicator = resting
 	elseif mystyle == "target" then
-		local quest = self:CreateTexture(nil, "OVERLAY")
+		local quest = parentFrame:CreateTexture(nil, "OVERLAY")
 		quest:SetPoint("LEFT", self, "TOPLEFT", 2, 0)
 		quest:SetSize(16, 16)
 		self.QuestIndicator = quest
 	end
-
-	local parentFrame = CreateFrame("Frame", nil, self)
-	parentFrame:SetAllPoints()
-	parentFrame:SetFrameLevel(self:GetFrameLevel() + 3)
 
 	local phase = parentFrame:CreateTexture(nil, "OVERLAY")
 	phase:SetSize(24, 24)
@@ -547,8 +546,8 @@ function UF:CreateCastBar(self)
 		createBarMover(cb, L["Focus Castbar"], "FocusCB", C.UFs.FocusCB)
 	elseif mystyle == "boss" or mystyle == "arena" then
 		cb:ClearAllPoints()
-		cb:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -barMargin)
-		cb:SetPoint("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, -barMargin)
+		cb:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -C.margin)
+		cb:SetPoint("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, -C.margin)
 		cb:SetHeight(10)
 	elseif mystyle == "nameplate" then
 		cb:ClearAllPoints()
@@ -565,7 +564,7 @@ function UF:CreateCastBar(self)
 	if mystyle ~= "boss" and mystyle ~= "arena" then
 		cb.Icon = cb:CreateTexture(nil, "ARTWORK")
 		cb.Icon:SetSize(cb:GetHeight(), cb:GetHeight())
-		cb.Icon:SetPoint("BOTTOMRIGHT", cb, "BOTTOMLEFT", -barMargin, 0)
+		cb.Icon:SetPoint("BOTTOMRIGHT", cb, "BOTTOMLEFT", -C.margin, 0)
 		B.ReskinIcon(cb.Icon)
 	end
 
@@ -960,7 +959,7 @@ function UF.PostUpdateClassPower(element, cur, max, diff, powerType, chargedInde
 
 	if diff then
 		for i = 1, max do
-			element[i]:SetWidth((barWidth - (max-1)*barMargin)/max)
+			element[i]:SetWidth((barWidth - (max-1)*C.margin)/max)
 		end
 		for i = max + 1, 6 do
 			element[i].bg:Hide()
@@ -1033,20 +1032,20 @@ function UF:CreateClassPower(self)
 
 	local bar = CreateFrame("Frame", "oUF_ClassPowerBar", self.Health)
 	bar:SetSize(barWidth, barHeight)
-	bar:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, barMargin)
+	bar:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, C.margin)
 
 	local bars = {}
 	for i = 1, 6 do
 		bars[i] = CreateFrame("StatusBar", nil, bar)
 		bars[i]:SetHeight(barHeight)
-		bars[i]:SetWidth((barWidth - 5*barMargin) / 6)
+		bars[i]:SetWidth((barWidth - 5*C.margin) / 6)
 		bars[i]:SetFrameLevel(self:GetFrameLevel() + 5)
 		B.CreateSB(bars[i])
 
 		if i == 1 then
 			bars[i]:SetPoint("BOTTOMLEFT")
 		else
-			bars[i]:SetPoint("LEFT", bars[i-1], "RIGHT", barMargin, 0)
+			bars[i]:SetPoint("LEFT", bars[i-1], "RIGHT", C.margin, 0)
 		end
 
 		if DB.MyClass == "DEATHKNIGHT" and C.db["UFs"]["RuneTimer"] then
@@ -1079,7 +1078,7 @@ function UF:StaggerBar(self)
 
 	local stagger = CreateFrame("StatusBar", nil, self.Health)
 	stagger:SetSize(barWidth, barHeight)
-	stagger:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, barMargin)
+	stagger:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, C.margin)
 	stagger:SetFrameLevel(self:GetFrameLevel() + 5)
 
 	B.CreateSB(stagger)
@@ -1110,8 +1109,8 @@ end
 
 function UF:CreateAltPower(self)
 	local bar = CreateFrame("StatusBar", nil, self)
-	bar:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, barMargin)
-	bar:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 0, barMargin)
+	bar:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, C.margin)
+	bar:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 0, C.margin)
 	bar:SetHeight(barHeight)
 
 	B.SmoothBar(bar)
@@ -1217,8 +1216,8 @@ end
 
 function UF:CreateAddPower(self)
 	local bar = CreateFrame("StatusBar", nil, self)
-	bar:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -barMargin)
-	bar:SetPoint("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, -barMargin)
+	bar:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -C.margin)
+	bar:SetPoint("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, -C.margin)
 	bar:SetHeight(barHeight)
 
 	B.CreateSB(bar)
