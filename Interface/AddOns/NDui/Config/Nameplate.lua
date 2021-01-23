@@ -89,6 +89,8 @@ C.CustomUnits = {
 	-- Raids
 	[GetSectionInfo(21953)] = true,	-- 凯子，灵能灌注者
 	[175992] = true,	-- 猩红议会，忠实的侍从
+	-- 罪魂之塔
+	[151817] = true,	-- 丧魂恶鬼
 }
 
 -- 显示能量值的单位

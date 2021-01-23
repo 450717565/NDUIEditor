@@ -163,6 +163,7 @@ tinsert(C.XMLThemes, function()
 	B.ReskinScroll(RaidFinderQueueFrameScrollFrameScrollBar)
 
 	Reskin_Reward(LFDQueueFrameRandomScrollFrameChildFrameMoneyReward)
+	Reskin_Reward(RaidFinderQueueFrameScrollFrameChildFrameMoneyReward)
 
 	local buttons = {
 		LFDQueueFrameFindGroupButton,

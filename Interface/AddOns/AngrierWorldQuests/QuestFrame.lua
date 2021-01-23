@@ -82,6 +82,7 @@ end
 
 --TODO: MapUtil.GetMapParentInfo(mapID, Enum.UIMapType.Continent, true)
 
+local B, C, L, DB, NDui
 
 local __continentMapID = {}
 local function GetMapContinentMapID(mapID)
@@ -156,7 +157,7 @@ local function TitleButton_OnEnter(self)
 	local questTagInfo = C_QuestLog.GetQuestTagInfo(self.questID)
 	local _, color = GetQuestDifficultyColor( UnitLevel("player") + TitleButton_RarityColorTable[questTagInfo.quality] )
 	self.Text:SetTextColor( color.r, color.g, color.b )
-	
+
 	hoveredQuestID = self.questID
 
 	if dataProvder then
@@ -441,7 +442,7 @@ local function GetFilterButton(key)
 		button:SetScript("OnClick", FilterButton_OnClick)
 
 		button:SetSize(24, 24)
-			
+
 		if key == "SORT" then
 			button:SetNormalTexture("Interface\\ChatFrame\\UI-ChatIcon-ScrollDown-Up")
 			button:SetPushedTexture("Interface\\ChatFrame\\UI-ChatIcon-ScrollDown-Down")
@@ -588,11 +589,11 @@ local function QuestFrame_AddQuestButton(questInfo, prevButton)
 		button.rewardCategory = "GOLD"
 		button.rewardValue = gold
 		button.rewardValue2 = 0
-	end	
+	end
 
 	local numQuestCurrencies = GetNumQuestLogRewardCurrencies(questID)
 	if numQuestCurrencies > 0 then
-		for currencyNum = 1, numQuestCurrencies do 
+		for currencyNum = 1, numQuestCurrencies do
 			local name, texture, numItems, currencyID = GetQuestLogRewardCurrencyInfo(currencyNum, questID)
 			if currencyID ~= CURRENCYID_WAR_SUPPLIES and currencyID ~= CURRENCYID_NETHERSHARD then
 				tagText = numItems
@@ -652,6 +653,12 @@ local function QuestFrame_AddQuestButton(questInfo, prevButton)
 			button.TagTexture:SetTexCoord( unpack(tagTexCoords) )
 		else
 			button.TagTexture:SetTexCoord(.08, .92, .08, .92)
+
+			if NDui and not button.styled then
+				B.CreateBDFrame(button.TagTexture, 0, -C.mult)
+
+				button.styled = true
+			end
 		end
 	end
 
@@ -668,7 +675,7 @@ local function TaskPOI_IsFilteredReward(selectedFilters, questID)
 	local money = GetQuestLogRewardMoney(questID)
 	if money > 0 and selectedFilters["GOLD"] then
 		positiveMatch = true
-	end	
+	end
 
 	local numQuestCurrencies = GetNumQuestLogRewardCurrencies(questID)
 	for key,_ in pairs(selectedFilters) do
@@ -743,7 +750,7 @@ local function TaskPOI_IsFiltered(info, displayMapID)
 		if lootFiltered ~= nil then
 			isFiltered = lootFiltered
 		end
-		
+
 		if selectedFilters.FACTION then
 			if (factionID == Config.filterFaction or Addon.Data:QuestHasFaction(info.questId, Config.filterFaction)) then
 				isFiltered = false
@@ -892,7 +899,7 @@ local function QuestFrame_Update()
 	local storyAchievementID, storyMapID = C_QuestLog.GetZoneStoryInfo(mapID)
 	if storyAchievementID then
 		storyButton = QuestScrollFrame.Contents.StoryHeader
-		if layoutIndex == 0 then 
+		if layoutIndex == 0 then
 			layoutIndex = storyButton.layoutIndex + 0.001;
 		end
 	end
@@ -926,13 +933,9 @@ local function QuestFrame_Update()
 	headerButton:Show()
 	prevButton = headerButton
 
-	if not headerButton.styled then
-		local hasSkin = NDui or AuroraClassic
-		if hasSkin then
-			hasSkin[1].ReskinCollapse(headerButton, true)
-			headerButton:GetPushedTexture():SetAlpha(0)
-			headerButton:GetHighlightTexture():SetAlpha(0)
-		end
+	if NDui and not headerButton.styled then
+		B.ReskinCollapse(headerButton, true)
+
 		headerButton.styled = true
 	end
 
@@ -1008,7 +1011,7 @@ local function QuestFrame_Update()
 			layoutIndex = layoutIndex + 0.001
 			button:Show()
 			prevButton = button
-			
+
 			if hoveredQuestID == button.questID then
 				TitleButton_OnEnter(button)
 			end
@@ -1125,6 +1128,12 @@ function Mod:AddCurrencyFilter(key, currencyID, default)
 end
 
 function Mod:BeforeStartup()
+	if IsAddOnLoaded("NDui") then
+		B, C, L, DB = unpack(_G.NDui)
+
+		NDui = true
+	end
+
 	MyDropDown_Init()
 
 	self.Filters = {}
@@ -1215,7 +1224,7 @@ function Mod:Startup()
 		QuestMapFrame_UpdateAll()
 	end)
 
-	Config:RegisterCallback({'hideUntrackedPOI', 'hideFilteredPOI', 'showContinentPOI', 'onlyCurrentZone', 'sortMethod', 'selectedFilters', 'disabledFilters', 'filterEmissary', 'filterLoot', 'filterFaction', 'filterZone', 'filterTime', 'lootFilterUpgrades', 'lootUpgradesLevel', 'timeFilterDuration'}, function() 
+	Config:RegisterCallback({'hideUntrackedPOI', 'hideFilteredPOI', 'showContinentPOI', 'onlyCurrentZone', 'sortMethod', 'selectedFilters', 'disabledFilters', 'filterEmissary', 'filterLoot', 'filterFaction', 'filterZone', 'filterTime', 'lootFilterUpgrades', 'lootUpgradesLevel', 'timeFilterDuration'}, function()
 		QuestMapFrame_UpdateAll()
 		dataProvder:RefreshAllData()
 	end)

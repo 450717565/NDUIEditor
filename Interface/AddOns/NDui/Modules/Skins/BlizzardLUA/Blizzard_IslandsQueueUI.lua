@@ -27,7 +27,7 @@ C.LUAThemes["Blizzard_IslandsQueueUI"] = function()
 
 	local StatusBar = WeeklyQuest.StatusBar
 	StatusBar.BarTexture:SetTexture(DB.normTex)
-	StatusBar.BarTexture:SetColorTexture(cr, cg, cb, DB.Alpha)
+	StatusBar.BarTexture:SetColorTexture(cr, cg, cb, C.alpha)
 
 	local QuestReward = WeeklyQuest.QuestReward
 	QuestReward:ClearAllPoints()

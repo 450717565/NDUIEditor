@@ -2,6 +2,8 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local S = B:GetModule("Skins")
 
+local cr, cg, cb = DB.cr, DB.cg, DB.cb
+
 local function Reskin_TitleTextColor(fontString)
 	B.ReskinText(fontString, 1, .8, 0)
 end
@@ -23,10 +25,13 @@ end
 tinsert(C.XMLThemes, function()
 	B.ReskinFrame(QuestFrame)
 	B.ReskinText(QuestProgressRequiredItemsText, 1, 0, 0)
-	B.ReskinHighlight(QuestGreetingFrameHorizontalBreak)
 
 	QuestDetailScrollFrame:SetWidth(302)
-	QuestGreetingFrameHorizontalBreak:SetHeight(C.mult)
+
+	local horizontalBreak = QuestGreetingFrameHorizontalBreak
+	horizontalBreak:SetHeight(C.mult)
+	horizontalBreak:SetTexture(DB.bgTex)
+	horizontalBreak:SetColorTexture(cr, cg, cb, .5)
 
 	local lists = {
 		QuestFrameDetailPanel,

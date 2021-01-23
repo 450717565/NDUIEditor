@@ -1005,9 +1005,10 @@ function Bags:OnLogin()
 
 		local id = GetInventoryItemID("player", (self.GetInventorySlot and self:GetInventorySlot()) or self.invID)
 		if not id then return end
+
 		local _, _, quality, _, _, _, _, _, _, _, _, classID, subClassID = GetItemInfo(id)
-		if not quality or quality == 1 then quality = 0 end
 		local r, g, b = GetItemQualityColor(quality or 1)
+
 		if not self.hidden and not self.notBought then
 			self.bubg:SetBackdropBorderColor(r, g, b)
 		end

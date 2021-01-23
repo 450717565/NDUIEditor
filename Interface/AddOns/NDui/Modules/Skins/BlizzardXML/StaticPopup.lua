@@ -49,7 +49,7 @@ tinsert(C.XMLThemes, function()
 		local main = "StaticPopup"..i
 
 		local frame = _G[main]
-		B.ReskinFrame(frame, "noKill")
+		B.ReskinFrame(frame, "none")
 		B.ReskinButton(frame["extraButton"])
 
 		for j = 1, 4 do

@@ -346,7 +346,7 @@ C.LUAThemes["Blizzard_Collections"] = function()
 	Reskin_Button("PetJournalSummonRandomFavoritePetButton")
 
 	-- MountJournal
-	B.CreateBDFrame(MountJournal.MountDisplay.ModelScene)
+	B.CreateBDFrame(MountJournal.MountDisplay.ModelScene, 0, -C.mult)
 	B.ReskinArrow(MountJournal.MountDisplay.ModelScene.RotateLeftButton, "left")
 	B.ReskinArrow(MountJournal.MountDisplay.ModelScene.RotateRightButton, "right")
 	B.ReskinIcon(MountJournal.MountDisplay.InfoButton.Icon)

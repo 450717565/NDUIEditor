@@ -177,7 +177,7 @@ function UF:UpdateColor(_, unit)
 	local offTankColor = C.db["Nameplate"]["OffTankColor"]
 	local tankMode = C.db["Nameplate"]["TankMode"]
 	local executeRatio = C.db["Nameplate"]["ExecuteRatio"]
-	local healthPerc = UnitHealth(unit) / (UnitHealthMax(unit)) * 100
+	local healthPerc = UnitHealth(unit) / (UnitHealthMax(unit) + .0001) * 100
 	local targetColor = C.db["Nameplate"]["TargetColor"]
 	local r, g, b
 
@@ -615,8 +615,8 @@ end
 function UF:MouseoverIndicator(self)
 	local color = C.db["Nameplate"]["HighlightColor"]
 
-	local frame = CreateFrame("Frame", nil, self)
-	frame:SetAllPoints()
+	local frame = CreateFrame("Frame", nil, self.Health)
+	frame:SetAllPoints(self)
 	frame:SetFrameLevel(self:GetFrameLevel()+1)
 
 	frame.Highlight = B.CreateSD(frame, true)
@@ -745,11 +745,11 @@ function UF:UpdateNameplateAuras()
 	else
 		element:SetPoint("BOTTOMLEFT", self.nameText, "TOPLEFT", 0, 5)
 	end
+
+	element.iconsPerRow = C.db["Nameplate"]["AuraPerRow"]
 	element.numTotal = C.db["Nameplate"]["maxAuras"]
-	element.size = C.db["Nameplate"]["AuraSize"]
-	element.showDebuffType = C.db["Nameplate"]["ColorBorder"]
-	element:SetWidth(self:GetWidth())
-	element:SetHeight((element.size + element.spacing) * 2)
+
+	B.AuraSetSize(self, element)
 	element:ForceUpdate()
 end
 

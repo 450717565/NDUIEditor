@@ -50,13 +50,9 @@ C.UFs = {
 
 	PlayerPos		= {"TOPRIGHT", UIParent, "BOTTOM", -200, 300},		-- 玩家框体默认位置
 	TargetPos		= {"TOPLEFT", UIParent, "BOTTOM", 200, 300},		-- 目标框体默认位置
-	ToTPos			= {"BOTTOM", UIParent, "BOTTOM", 136, 250},			-- 目标的目标框体默认位置
-	PetPos			= {"BOTTOM", UIParent, "BOTTOM", -136, 250},		-- 宠物框体默认位置
 	FocusPos		= {"LEFT", UIParent, "LEFT", 5, -150},				-- 焦点框体默认位置
-	PlayerPlate		= {"BOTTOM", UIParent, "BOTTOM", 0, 400},			-- 玩家姓名板默认位置
 
-	BarPoint		= {"TOPLEFT", 12, 4},								-- 资源条位置（以自身头像为基准）
-	BarSize			= {150, 5},											-- 资源条的尺寸（宽，长）
+	PlayerPlate		= {"BOTTOM", UIParent, "BOTTOM", 0, 400},			-- 玩家姓名板默认位置
 }
 
 -- 小地图

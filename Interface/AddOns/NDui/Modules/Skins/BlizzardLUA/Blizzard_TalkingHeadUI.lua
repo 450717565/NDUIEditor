@@ -12,7 +12,7 @@ local function Reskin_TalkingHeadFrame()
 	B.StripTextures(MainFrame.Model)
 
 	if not MainFrame.styled then
-		B.CreateBDFrame(MainFrame.Model)
+		B.CreateBDFrame(MainFrame.Model, 0, -C.mult)
 
 		MainFrame.styled = true
 	end

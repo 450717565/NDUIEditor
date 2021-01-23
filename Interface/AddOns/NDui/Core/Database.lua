@@ -74,7 +74,6 @@ DB.glowTex = Media.."Reskin\\glowTex"
 DB.blankTex = Media.."Reskin\\blankTex"
 
 DB.menuTex = Media.."Menu\\"
---DB.normTex = Media.."Texture\\texture_1"
 DB.targetTex = Media.."Target\\targetTex_"
 DB.rotationRigh = Media.."Other\\RotationRigh_Big"
 

@@ -12,7 +12,7 @@ local function Reskin_SetToday(self)
 		B.StripTextures(frame)
 
 		local bubg = B.CreateBDFrame(frame, 0, 0, true)
-		bubg:SetBackdropColor(cr, cg, cb, .5)
+		bubg:SetBackdropColor(cr, cg, cb, .25)
 		bubg:SetBackdropBorderColor(cr, cg, cb)
 
 		self.styled = true

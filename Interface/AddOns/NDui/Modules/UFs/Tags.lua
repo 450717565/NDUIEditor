@@ -12,38 +12,27 @@ local UnitIsAFK, UnitIsDND, UnitIsDead, UnitIsGhost = UnitIsAFK, UnitIsDND, Unit
 local UnitIsWildBattlePet, UnitIsBattlePetCompanion, UnitBattlePetLevel = UnitIsWildBattlePet, UnitIsBattlePetCompanion, UnitBattlePetLevel
 local GetNumArenaOpponentSpecs, GetCreatureDifficultyColor = GetNumArenaOpponentSpecs, GetCreatureDifficultyColor
 
-local function ColorPercent(value)
-	local r, g, b
-	if value < 20 then
-		r, g, b = 1, .1, .1
-	elseif value < 35 then
-		r, g, b = 1, .5, 0
-	elseif value < 80 then
-		r, g, b = 1, .9, .3
-	else
-		r, g, b = 1, 1, 1
-	end
-	return B.HexRGB(r, g, b)..value
-end
-
 local function ValueAndPercent(cur, per)
 	if per < 100 then
-		return B.FormatNumb(cur).." | "..ColorPercent(per)
+		return B.FormatNumb(cur).." | "..B.ColorText(per)
 	else
 		return B.FormatNumb(cur)
 	end
 end
 
 local function GetUnitHealthPerc(unit)
+	local unitHealth = UnitHealth(unit)
 	local unitMaxHealth = UnitHealthMax(unit)
+	local val = format("%.1f", unitHealth/(unitMaxHealth+.0001)*100)
+
 	if unitMaxHealth == 0 then
 		return 0
 	else
-		return B.Round(UnitHealth(unit) / unitMaxHealth * 100, 1)
+		return tonumber(val)
 	end
 end
 
-oUF.Tags.Methods["hp"] = function(unit)
+oUF.Tags.Methods["health"] = function(unit)
 	if UnitIsDeadOrGhost(unit) or not UnitIsConnected(unit) then
 		return oUF.Tags.Methods["DDG"](unit)
 	else
@@ -52,11 +41,11 @@ oUF.Tags.Methods["hp"] = function(unit)
 		if (unit == "player" and not UnitHasVehicleUI(unit)) or unit == "target" or unit == "focus" then
 			return ValueAndPercent(cur, per)
 		else
-			return ColorPercent(per)
+			return B.ColorText(per)
 		end
 	end
 end
-oUF.Tags.Events["hp"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_NAME_UPDATE UNIT_CONNECTION PLAYER_FLAGS_CHANGED"
+oUF.Tags.Events["health"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_NAME_UPDATE UNIT_CONNECTION PLAYER_FLAGS_CHANGED"
 
 oUF.Tags.Methods["power"] = function(unit)
 	local cur = UnitPower(unit)
@@ -154,7 +143,7 @@ oUF.Tags.Methods["raidhp"] = function(unit)
 		return oUF.Tags.Methods["DDG"](unit)
 	elseif C.db["UFs"]["RaidHPMode"] == 2 then
 		local per = GetUnitHealthPerc(unit) or 0
-		return ColorPercent(per)
+		return B.ColorText(per)
 	elseif C.db["UFs"]["RaidHPMode"] == 3 then
 		local cur = UnitHealth(unit)
 		return B.FormatNumb(cur)
@@ -173,7 +162,7 @@ oUF.Tags.Methods["nphp"] = function(unit)
 		local cur = UnitHealth(unit)
 		return ValueAndPercent(cur, per)
 	elseif per < 100 then
-		return ColorPercent(per)
+		return B.ColorText(per)
 	end
 end
 oUF.Tags.Events["nphp"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_CONNECTION"

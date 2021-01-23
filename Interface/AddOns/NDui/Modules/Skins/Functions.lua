@@ -19,30 +19,31 @@ do
 	end
 
 	function Skins:ReskinFollowerPortrait()
-		local level = self.Level or self.LevelText
-		if level then
-			level:ClearAllPoints()
-			level:SetPoint("BOTTOM", self, 0, 15)
-			if self.LevelCircle then self.LevelCircle:Hide() end
-			if self.LevelBorder then self.LevelBorder:SetAlpha(0) end
+		local levelFrame = self.Level or self.LevelText or self.LevelDisplayFrame
+		if levelFrame then
+			levelFrame:ClearAllPoints()
+			levelFrame:SetPoint("BOTTOM", self, 0, 15)
+			if levelFrame.LevelCircle then levelFrame.LevelCircle:Hide() end
 		end
 
 		if self.Highlight then self.Highlight:Hide() end
+		if self.LevelCircle then self.LevelCircle:Hide() end
 		if self.PuckBorder then self.PuckBorder:SetAlpha(0) end
+		if self.LevelBorder then self.LevelBorder:SetAlpha(0) end
 
-		local squareBG = B.CreateBDFrame(self.Portrait, 1)
+		local squareBG = B.CreateBDFrame(self.Portrait, 1, -C.mult)
 		self.squareBG = squareBG
 
 		if self.Empty then
-			self.Empty:SetColorTexture(0, 0, 0)
-			self.Empty:SetAllPoints(self.squareBG)
+			self.Empty:SetColorTexture(0, 0, 0, 0)
+			self.Empty:SetAllPoints(squareBG)
 		end
 
 		if self.PortraitRing then
 			self.PortraitRing:Hide()
 			self.PortraitRingQuality:SetTexture("")
-			self.PortraitRingCover:SetColorTexture(0, 0, 0)
-			self.PortraitRingCover:SetAllPoints(self.squareBG)
+			self.PortraitRingCover:SetColorTexture(0, 0, 0, 0)
+			self.PortraitRingCover:SetAllPoints(squareBG)
 		end
 
 		if self.HealthBar then
@@ -50,15 +51,15 @@ do
 
 			local roleIcon = self.HealthBar.RoleIcon
 			roleIcon:ClearAllPoints()
-			roleIcon:SetPoint("CENTER", self.squareBG, "TOPRIGHT")
+			roleIcon:SetPoint("CENTER", squareBG, "TOPRIGHT")
 			replaceFollowerRole(roleIcon, roleIcon:GetAtlas())
 			hooksecurefunc(roleIcon, "SetAtlas", replaceFollowerRole)
 
 			local background = self.HealthBar.Background
 			background:SetAlpha(0)
 			background:ClearAllPoints()
-			background:SetPoint("TOPLEFT", self.squareBG, "BOTTOMLEFT", C.mult, 6)
-			background:SetPoint("BOTTOMRIGHT", self.squareBG, "BOTTOMRIGHT", -C.mult, C.mult)
+			background:SetPoint("TOPLEFT", squareBG, "BOTTOMLEFT", C.mult, 6)
+			background:SetPoint("BOTTOMRIGHT", squareBG, "BOTTOMRIGHT", -C.mult, C.mult)
 			self.HealthBar.Health:SetTexture(DB.normTex)
 		end
 	end
@@ -120,7 +121,7 @@ do
 		B.ReskinFrame(self)
 		B.ReskinButton(self.LeaveButton)
 		B.StripTextures(self.ModelScene, 0)
-		B.CreateBDFrame(self.ModelScene)
+		B.CreateBDFrame(self.ModelScene, 0, -C.mult)
 
 		self.OverlayElements:Hide()
 

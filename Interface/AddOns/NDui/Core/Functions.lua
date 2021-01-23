@@ -868,6 +868,8 @@ do
 		self:SetAlpha(0)
 
 		local parent = self:GetParent()
+		self.__owner = parent
+
 		if not parent.icbg and icbg then parent.icbg = icbg end
 		if not parent.bubg and bubg then parent.bubg = bubg end
 		if not parent.icbg then return end
@@ -884,8 +886,6 @@ do
 
 		if parent.IconOverlay then parent.IconOverlay:SetInside(icbg) end
 		if parent.IconOverlay2 then parent.IconOverlay2:SetInside(icbg) end
-
-		self.__owner = parent
 	end
 
 	function B:ReskinSpecialBorder(relativeTo, classColor)
@@ -907,6 +907,7 @@ do
 		B.CleanTextures(self, override)
 
 		local bgTex = B.CreateBDFrame(self)
+		bgTex:SetFrameLevel(self:GetFrameLevel())
 		self.bgTex = bgTex
 
 		B.SetupHook(self)
@@ -923,6 +924,7 @@ do
 		check:SetVertexColor(cr, cg, cb)
 
 		local bgTex = B.CreateBDFrame(self, 0, 4)
+		bgTex:SetFrameLevel(self:GetFrameLevel())
 		self.bgTex = bgTex
 
 		B.SetupHook(self)
@@ -934,6 +936,7 @@ do
 		B.CleanTextures(self)
 
 		local bgTex = B.CreateBDFrame(self, 0, 2)
+		bgTex:SetFrameLevel(self:GetFrameLevel())
 		self.bgTex = bgTex
 
 		self:SetCheckedTexture(DB.bgTex)
@@ -1045,6 +1048,7 @@ do
 		B.CleanTextures(self)
 
 		local bgTex = B.CreateBDFrame(self)
+		bgTex:SetFrameLevel(self:GetFrameLevel())
 		bgTex:SetSize(14, 14)
 		bgTex:ClearAllPoints()
 		bgTex:SetPoint("CENTER", self:GetNormalTexture())
@@ -1116,6 +1120,7 @@ do
 		B.ReskinArrow(button, "down", 20)
 
 		local bg = B.CreateBDFrame(self)
+		bg:SetFrameLevel(self:GetFrameLevel())
 		bg:ClearAllPoints()
 		bg:Point("LEFT", self, "LEFT", 16, 0)
 		bg:Point("TOP", button, "TOP", 0, 0)

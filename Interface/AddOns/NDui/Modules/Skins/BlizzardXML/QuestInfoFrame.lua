@@ -4,6 +4,21 @@ local S = B:GetModule("Skins")
 
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
+local function Reset_Highlight()
+	for _, button in pairs(QuestInfoRewardsFrame.RewardButtons) do
+		button.bubg:SetBackdropColor(0, 0, 0, 0)
+	end
+end
+
+local function Update_Highlight(self)
+	Reset_Highlight()
+
+	local _, frame = self:GetPoint()
+	if frame then
+		frame.bubg:SetBackdropColor(cr, cg, cb, .5)
+	end
+end
+
 local function QuestInfo_GetQuestID()
 	if QuestInfoFrame.questLog then
 		return C_QuestLog.GetSelectedQuest()
@@ -25,7 +40,7 @@ local function Reskin_ObjectivesText()
 		numVisibleObjectives = numVisibleObjectives + 1;
 		objective = objectivesTable[numVisibleObjectives]
 
-		B.ReskinText(objective, 1, 0, 1)
+		B.ReskinText(objective, 1, 1, 0)
 	end
 
 	for i = 1, GetNumQuestLeaderBoards() do
@@ -89,9 +104,12 @@ local function Reskin_RewardButton(self, isMapQuestInfo)
 		end
 
 		local icbg = B.ReskinIcon(self.Icon)
+		self.icbg = icbg
+
 		local bubg = B.CreateBDFrame(self)
 		bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)
 		bubg:SetPoint("BOTTOMRIGHT", icbg, "BOTTOMRIGHT", 102, 0)
+		self.bubg = bubg
 
 		if self.IconBorder then
 			B.ReskinBorder(self.IconBorder, icbg, bubg)
@@ -106,14 +124,6 @@ local function Reskin_GetRewardButton(rewardsFrame, index)
 		Reskin_RewardButton(button, rewardsFrame == MapQuestInfoRewardsFrame)
 
 		button.styled = true
-	end
-
-	if QuestInfoFrame.chooseItems then
-		if button.type == "choice" then
-			button.bubg:SetBackdropColor(cr, cg, cb, .5)
-		else
-			button.bubg:SetBackdropColor(0, 0, 0, 0)
-		end
 	end
 end
 
@@ -139,35 +149,37 @@ local function Reskin_SpecialReward()
 
 		-- Follower Rewards
 		for followerReward in rewardsFrame.followerRewardPool:EnumerateActive() do
-			local class = followerReward.Class
-			local portrait = followerReward.PortraitFrame
+			local portrait, class
+			if followerReward.AdventuresFollowerPortraitFrame and followerReward.AdventuresFollowerPortraitFrame:IsShown() then
+				portrait = followerReward.AdventuresFollowerPortraitFrame
+				class = nil
+			else
+				portrait = followerReward.PortraitFrame
+				class = followerReward.Class
+			end
 
 			if not followerReward.styled then
+				followerReward.BG:Hide()
+
 				S.ReskinFollowerPortrait(portrait)
 
-				followerReward.BG:Hide()
-				local bubg = B.CreateBDFrame(followerReward)
-				bubg:SetPoint("TOPLEFT", 0, -3)
-				bubg:SetPoint("BOTTOMRIGHT", 2, 7)
+				local bubg = B.CreateBGFrame(followerReward, 0, -3, 2, 7)
 				followerReward.bubg = bubg
 
+				portrait:ClearAllPoints()
+				portrait:SetPoint("LEFT", bubg, "LEFT", .5, .5)
+
 				if class then
-					S.ReskinFollowerClass(class, 36, "RIGHT", -2, 2)
+					S.ReskinFollowerClass(class, 36, "RIGHT", -4, 0, bubg)
 				end
 
 				followerReward.styled = true
 			end
 
-			portrait:ClearAllPoints()
-			followerReward.bubg:ClearAllPoints()
 			if isQuestLog then
-				portrait:SetPoint("TOPLEFT", 2, 0)
+				followerReward.bubg:ClearAllPoints()
 				followerReward.bubg:SetPoint("TOPLEFT", 0, 1)
 				followerReward.bubg:SetPoint("BOTTOMRIGHT", 2, -3)
-			else
-				portrait:SetPoint("TOPLEFT", 2, -5)
-				followerReward.bubg:SetPoint("TOPLEFT", 0, -3)
-				followerReward.bubg:SetPoint("BOTTOMRIGHT", 2, -2)
 			end
 
 			if portrait then
@@ -202,7 +214,11 @@ tinsert(C.XMLThemes, function()
 	hooksecurefunc(QuestInfoRequiredMoneyText, "SetTextColor", S.ReskinRMTColor)
 
 	-- Quest Info Item
-	B.StripTextures(QuestInfoItemHighlight)
+	local ItemHighlight = QuestInfoItemHighlight
+	B.StripTextures(ItemHighlight)
+	hooksecurefunc(ItemHighlight, "SetPoint", Update_Highlight)
+	ItemHighlight:HookScript("OnShow", Update_Highlight)
+	ItemHighlight:HookScript("OnHide", Reset_Highlight)
 
 	local frames =  {
 		"ArtifactXPFrame",

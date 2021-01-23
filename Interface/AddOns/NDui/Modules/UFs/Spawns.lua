@@ -76,7 +76,7 @@ local function CreateFocusStyle(self)
 	UF:CreateRaidMark(self)
 	UF:CreateIcons(self)
 	UF:CreatePrediction(self)
-	UF:CreateAuras(self)
+	UF:CreateDebuffs(self)
 end
 
 local function CreateToTStyle(self)
@@ -89,7 +89,7 @@ local function CreateToTStyle(self)
 	UF:CreatePowerBar(self)
 	UF:CreateRaidMark(self)
 
-	if C.db["UFs"]["ToTAuras"] then UF:CreateAuras(self) end
+	if C.db["UFs"]["ToTAuras"] then UF:CreateDebuffs(self) end
 end
 
 local function CreateFoTStyle(self)
@@ -238,46 +238,46 @@ function UF:OnLogin()
 		-- Register
 		oUF:RegisterStyle("Player", CreatePlayerStyle)
 		oUF:RegisterStyle("Target", CreateTargetStyle)
-		oUF:RegisterStyle("ToT", CreateToTStyle)
+		oUF:RegisterStyle("TargetTarget", CreateToTStyle)
 		oUF:RegisterStyle("Focus", CreateFocusStyle)
-		oUF:RegisterStyle("FoT", CreateFoTStyle)
+		oUF:RegisterStyle("FocusTarget", CreateFoTStyle)
 		oUF:RegisterStyle("Pet", CreatePetStyle)
 
 		-- Loader
 		oUF:SetActiveStyle("Player")
-		local player = oUF:Spawn("player", "oUF_Player")
+		local player = oUF:Spawn("Player", "oUF_Player")
 		B.Mover(player, L["PlayerUF"], "PlayerUF", C.UFs.PlayerPos)
 
+		oUF:SetActiveStyle("Pet")
+		local pet = oUF:Spawn("Pet", "oUF_Pet")
+		B.Mover(pet, L["PetUF"], "PetUF", {"BOTTOMLEFT", oUF_Player, "BOTTOMRIGHT", 5, 0})
+
 		oUF:SetActiveStyle("Target")
-		local target = oUF:Spawn("target", "oUF_Target")
+		local target = oUF:Spawn("Target", "oUF_Target")
 		B.Mover(target, L["TargetUF"], "TargetUF", C.UFs.TargetPos)
 
-		oUF:SetActiveStyle("ToT")
-		local targettarget = oUF:Spawn("targettarget", "oUF_ToT")
-		B.Mover(targettarget, L["TotUF"], "TotUF", C.UFs.ToTPos)
-
-		oUF:SetActiveStyle("Pet")
-		local pet = oUF:Spawn("pet", "oUF_Pet")
-		B.Mover(pet, L["PetUF"], "PetUF", C.UFs.PetPos)
+		oUF:SetActiveStyle("TargetTarget")
+		local targettarget = oUF:Spawn("TargetTarget", "oUF_ToT")
+		B.Mover(targettarget, L["ToTUF"], "ToTUF", {"BOTTOMRIGHT", oUF_Target, "BOTTOMLEFT", -5, 0})
 
 		oUF:SetActiveStyle("Focus")
-		local focus = oUF:Spawn("focus", "oUF_Focus")
+		local focus = oUF:Spawn("Focus", "oUF_Focus")
 		B.Mover(focus, L["FocusUF"], "FocusUF", C.UFs.FocusPos)
 
-		oUF:SetActiveStyle("FoT")
-		local focustarget = oUF:Spawn("focustarget", "oUF_FoT")
-		B.Mover(focustarget, L["FotUF"], "FotUF", {"TOPLEFT", oUF_Focus, "TOPRIGHT", 5, 0})
+		oUF:SetActiveStyle("FocusTarget")
+		local focustarget = oUF:Spawn("FocusTarget", "oUF_FoT")
+		B.Mover(focustarget, L["FoTUF"], "FoTUF", {"BOTTOMLEFT", oUF_Focus, "BOTTOMRIGHT", 5, 0})
 
 		oUF:RegisterStyle("Boss", CreateBossStyle)
 		oUF:SetActiveStyle("Boss")
 		local boss = {}
+		local bossYOffset = C.db["UFs"]["BossHeight"] + C.db["UFs"]["BossPowerHeight"] + C.mult
 		for i = 1, MAX_BOSS_FRAMES do
 			boss[i] = oUF:Spawn("boss"..i, "oUF_Boss"..i)
-			local moverWidth, moverHeight = boss[i]:GetWidth(), boss[i]:GetHeight()+8
 			if i == 1 then
-				boss[i].mover = B.Mover(boss[i], L["BossFrame"]..i, "Boss1", {"RIGHT", UIParent, "RIGHT", -350, -90}, moverWidth, moverHeight)
+				boss[i].mover = B.Mover(boss[i], L["BossFrame"]..i, "Boss1", {"TOPRIGHT", Minimap, "BOTTOMLEFT", 75, -120})
 			else
-				boss[i].mover = B.Mover(boss[i], L["BossFrame"]..i, "Boss"..i, {"BOTTOM", boss[i-1], "TOP", 0, 50}, moverWidth, moverHeight)
+				boss[i].mover = B.Mover(boss[i], L["BossFrame"]..i, "Boss"..i, {"TOP", boss[i-1].Power, "BOTTOM", 0, -bossYOffset})
 			end
 		end
 

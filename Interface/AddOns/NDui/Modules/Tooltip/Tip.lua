@@ -386,6 +386,7 @@ function TT:ReskinTooltip()
 		if DB.isDeveloper then print("Unknown tooltip spotted.") end
 		return
 	end
+
 	if self:IsForbidden() then return end
 	self:SetScale(C.db["Tooltip"]["TTScale"])
 

@@ -4,6 +4,21 @@ local Skins = B:GetModule("Skins")
 
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
+local function Reset_Highlight()
+	for _, button in pairs(ImmersionFrame.TalkBox.Elements.Content.RewardsFrame.Buttons) do
+		button.bubg:SetBackdropColor(0, 0, 0, 0)
+	end
+end
+
+local function Update_Highlight(self)
+	Reset_Highlight()
+
+	local _, frame = self:GetPoint()
+	if frame then
+		frame.bubg:SetBackdropColor(cr, cg, cb, .5)
+	end
+end
+
 local function Reskin_TitleButton(self)
 	if not self then return end
 
@@ -88,20 +103,16 @@ local function Reskin_AddQuestInfo(self)
 			local portrait = followerReward.PortraitFrame
 
 			if not followerReward.styled then
-				Skins.ReskinFollowerPortrait(portrait)
-
 				followerReward.BG:Hide()
 
-				portrait:ClearAllPoints()
-				portrait:SetPoint("TOPLEFT", 2, -5)
+				Skins.ReskinFollowerPortrait(portrait)
 
-				local bubg = B.CreateBDFrame(followerReward)
-				bubg:ClearAllPoints()
-				bubg:SetPoint("TOPLEFT", 0, -3)
-				bubg:SetPoint("BOTTOMRIGHT", 2, 7)
+				local bubg = B.CreateBGFrame(followerReward, 0, -3, 2, 7)
+				portrait:ClearAllPoints()
+				portrait:SetPoint("LEFT", bubg, "LEFT", 3, -4)
 
 				if class then
-					Skins.ReskinFollowerClass(class, 36, "RIGHT", -2, 2)
+					Skins.ReskinFollowerClass(class, 36, "RIGHT", -4, 0, bubg)
 				end
 
 				followerReward.styled = true
@@ -140,8 +151,14 @@ function Skins:Immersion()
 	B.StripTextures(Elements)
 	B.CreateBG(Elements, 10, -10, -10, 10)
 
+	local ItemHighlight = Elements.Content.RewardsFrame.ItemHighlight
+	B.StripTextures(ItemHighlight)
+	hooksecurefunc(ItemHighlight, "SetPoint", Update_Highlight)
+	ItemHighlight:HookScript("OnShow", Update_Highlight)
+	ItemHighlight:HookScript("OnHide", Reset_Highlight)
+
 	local MainFrame = TalkBox.MainFrame
-	B.ReskinFrame(MainFrame, "noKill")
+	B.ReskinFrame(MainFrame, "none")
 	B.StripTextures(MainFrame.Model)
 	B.CreateBDFrame(MainFrame.Model, 0, -C.mult)
 
