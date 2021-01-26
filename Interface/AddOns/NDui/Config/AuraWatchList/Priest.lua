@@ -68,15 +68,6 @@ local list = {
 		{AuraID = 124430, UnitID = "player"},	-- 暗影洞察
 		{AuraID = 197871, UnitID = "player"},	-- 黑暗天使长
 	},
-	["Focus Aura"] = {		-- 焦点光环组
-		{AuraID = 139, UnitID = "focus", Caster = "player"},	-- 恢复
-	},
-	["Spell CD"] = {	-- 冷却计时组
-		{SlotID = 13},		-- 饰品1
-		{SlotID = 14},		-- 饰品2
-		{SpellID = 64843},	-- 神圣赞美诗
-		{SpellID = 33206},	-- 痛苦压制
-	},
 }
 
 AT:AddNewAuraWatch("PRIEST", list)

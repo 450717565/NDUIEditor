@@ -77,17 +77,6 @@ local list = {
 		{AuraID = 315496, UnitID = "player"},	-- 切割
 		{AuraID = 343142, UnitID = "player"},	-- 恐惧之刃
 	},
-	["Focus Aura"] = {		-- 焦点光环组
-		{AuraID = 6770, UnitID = "focus", Caster = "player"},	-- 闷棍
-		{AuraID = 2094, UnitID = "focus", Caster = "player"},	-- 致盲
-	},
-	["Spell CD"] = {	-- 冷却计时组
-		{SlotID = 13},		-- 饰品1
-		{SlotID = 14},		-- 饰品2
-		{SpellID = 13750},	-- 冲动
-		{SpellID = 79140},	-- 宿敌
-		{SpellID = 121471},	-- 暗影之刃
-	},
 }
 
 AT:AddNewAuraWatch("ROGUE", list)

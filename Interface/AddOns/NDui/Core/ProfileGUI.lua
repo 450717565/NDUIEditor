@@ -621,7 +621,7 @@ function GUI:ImportGUIData()
 				NDuiADB[value][tonumber(index)] = name
 			end
 		elseif tonumber(arg1) then
-			if value == "PullCount" then
+			if value == "DBMCount" then
 				C.db[key][value] = arg1
 			else
 				C.db[key][value] = tonumber(arg1)

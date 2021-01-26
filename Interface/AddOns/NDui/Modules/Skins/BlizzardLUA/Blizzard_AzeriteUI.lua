@@ -55,6 +55,34 @@ C.LUAThemes["Blizzard_AzeriteEssenceUI"] = function()
 	hooksecurefunc(EssenceList, "Refresh", Reskin_EssenceList)
 end
 
+local function Reskin_ReforgeUI(self, index)
+	B.StripTextures(self, index)
+	B.ReskinClose(self.CloseButton)
+	B.CreateBG(self)
+
+	local Background = self.Background
+	B.CreateBDFrame(Background, 0, -C.mult)
+
+	local ItemSlot = self.ItemSlot
+	B.ReskinIcon(ItemSlot.Icon)
+
+	local ButtonFrame = self.ButtonFrame
+	B.StripTextures(ButtonFrame, 0)
+	ButtonFrame.MoneyFrameEdge:SetAlpha(0)
+
+	local bubg = B.CreateBDFrame(ButtonFrame)
+	bubg:SetPoint("TOPLEFT", ButtonFrame.MoneyFrameEdge, 2, 0)
+	bubg:SetPoint("BOTTOMRIGHT", ButtonFrame.MoneyFrameEdge, 0, 2)
+
+	if ButtonFrame.Currency then B.ReskinIcon(ButtonFrame.Currency.icon) end
+	if ButtonFrame.ActionButton then B.ReskinButton(ButtonFrame.ActionButton) end
+	if ButtonFrame.AzeriteRespecButton then B.ReskinButton(ButtonFrame.AzeriteRespecButton) end
+end
+
 C.LUAThemes["Blizzard_AzeriteRespecUI"] = function()
-	S.ReskinReforgeUI(AzeriteRespecFrame, 15)
+	Reskin_ReforgeUI(AzeriteRespecFrame, 15)
+end
+
+C.LUAThemes["Blizzard_ItemInteractionUI"] = function()
+	Reskin_ReforgeUI(ItemInteractionFrame)
 end

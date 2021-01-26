@@ -3,12 +3,12 @@ local B, C, L, DB = unpack(ns)
 local oUF = ns.oUF
 
 local AFK, DND, DEAD, PLAYER_OFFLINE, LEVEL = AFK, DND, DEAD, PLAYER_OFFLINE, LEVEL
-local format, strfind, GetCVarBool = format, strfind, GetCVarBool
+local select, format, strfind, GetCVarBool = select, format, strfind, GetCVarBool
 local ALTERNATE_POWER_INDEX = Enum.PowerType.Alternate or 10
 local UnitIsDeadOrGhost, UnitIsConnected, UnitHasVehicleUI, UnitIsTapDenied, UnitIsPlayer = UnitIsDeadOrGhost, UnitIsConnected, UnitHasVehicleUI, UnitIsTapDenied, UnitIsPlayer
 local UnitHealth, UnitHealthMax, UnitPower, UnitPowerType, UnitStagger = UnitHealth, UnitHealthMax, UnitPower, UnitPowerType, UnitStagger
 local UnitClass, UnitReaction, UnitLevel, UnitClassification, UnitEffectiveLevel = UnitClass, UnitReaction, UnitLevel, UnitClassification, UnitEffectiveLevel
-local UnitIsAFK, UnitIsDND, UnitIsDead, UnitIsGhost = UnitIsAFK, UnitIsDND, UnitIsDead, UnitIsGhost
+local UnitIsAFK, UnitIsDND, UnitIsDead, UnitIsGhost, UnitName, UnitExists = UnitIsAFK, UnitIsDND, UnitIsDead, UnitIsGhost, UnitName, UnitExists
 local UnitIsWildBattlePet, UnitIsBattlePetCompanion, UnitBattlePetLevel = UnitIsWildBattlePet, UnitIsBattlePetCompanion, UnitBattlePetLevel
 local GetNumArenaOpponentSpecs, GetCreatureDifficultyColor = GetNumArenaOpponentSpecs, GetCreatureDifficultyColor
 
@@ -119,18 +119,18 @@ oUF.Tags.Methods["fulllevel"] = function(unit)
 		local realTag = level ~= realLevel and "*" or ""
 		str = color..level..realTag.."|r"
 	else
-		str = "|cffff0000??|r"
+		str = "|cffFF0000B|r"
 	end
 
 	local class = UnitClassification(unit)
 	if class == "worldboss" then
-		str = "|cffff0000Boss|r"
+		str = "|cffFF0000B|r"
 	elseif class == "rareelite" then
-		str = str.."|cff0080ffR|r+"
+		str = str.."|cff00FFFFRE|r"
 	elseif class == "elite" then
-		str = str.."+"
+		str = str.."|cffFFFF00E|r"
 	elseif class == "rare" then
-		str = str.."|cff0080ffR|r"
+		str = str.."|cffFF00FFR|r"
 	end
 
 	return str
@@ -189,7 +189,7 @@ oUF.Tags.Methods["nplevel"] = function(unit)
 		if level > 0 then
 			level = B.HexRGB(GetCreatureDifficultyColor(level))..level.."|r "
 		else
-			level = "|cffff0000??|r "
+			level = "|cffFF0000B|r "
 		end
 	else
 		level = ""
@@ -222,6 +222,15 @@ oUF.Tags.Methods["npctitle"] = function(unit)
 	end
 end
 oUF.Tags.Events["npctitle"] = "UNIT_NAME_UPDATE"
+
+oUF.Tags.Methods["tarname"] = function(unit)
+	local tarUnit = unit.."target"
+	if UnitExists(tarUnit) then
+		local tarClass = select(2, UnitClass(tarUnit))
+		return B.HexRGB(oUF.colors.class[tarClass])..UnitName(tarUnit)
+	end
+end
+oUF.Tags.Events["tarname"] = "UNIT_NAME_UPDATE UNIT_THREAT_SITUATION_UPDATE UNIT_HEALTH"
 
 -- AltPower value tag
 oUF.Tags.Methods["altpower"] = function(unit)

@@ -103,20 +103,6 @@ local list = {
 		{AuraID = 260243, UnitID = "player"},	-- 乱射
 		{AuraID = 342076, UnitID = "player"},	-- 行云流水
 	},
-	["Focus Aura"] = {		-- 焦点光环组
-		{AuraID = 3355, UnitID = "focus", Caster = "player"},	-- 冰冻陷阱
-		{AuraID = 19386, UnitID = "focus", Caster = "player"},	-- 翼龙钉刺
-		{AuraID = 118253, UnitID = "focus", Caster = "player"},	-- 毒蛇钉刺
-		{AuraID = 194599, UnitID = "focus", Caster = "player"},	-- 黑箭
-		{AuraID = 131894, UnitID = "focus", Caster = "player"},	-- 夺命黑鸦
-		{AuraID = 199803, UnitID = "focus", Caster = "player"},	-- 精确瞄准
-	},
-	["Spell CD"] = {	-- 冷却计时组
-		{SlotID = 13},		-- 饰品1
-		{SlotID = 14},		-- 饰品2
-		{SpellID = 186265},	-- 灵龟守护
-		{SpellID = 147362},	-- 反制射击
-	},
 }
 
 AT:AddNewAuraWatch("HUNTER", list)

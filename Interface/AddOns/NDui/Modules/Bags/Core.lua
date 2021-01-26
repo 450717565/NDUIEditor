@@ -867,7 +867,7 @@ function Bags:OnLogin()
 
 		if item.questID or item.isQuestItem then
 			self.bubg:SetBackdropBorderColor(1, 1, 0)
-		elseif item.rarity and item.rarity > 0 then
+		elseif item.rarity then
 			local r, g, b = GetItemQualityColor(item.rarity or 1)
 			self.bubg:SetBackdropBorderColor(r, g, b)
 		else

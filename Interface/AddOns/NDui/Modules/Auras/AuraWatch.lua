@@ -72,26 +72,26 @@ local function ConvertTable()
 	for _, v in pairs(C.AuraWatchList[DB.MyClass]) do
 		if v.Name == "Player Aura" then
 			InsertData(1, v.List)
-		elseif v.Name == "Target Aura" then
-			InsertData(3, v.List)
 		elseif v.Name == "Special Aura" then
 			InsertData(2, v.List)
-		elseif v.Name == "Focus Aura" then
-			InsertData(5, v.List)
-		elseif v.Name == "Spell CD" then
-			InsertData(6, v.List)
+		elseif v.Name == "Target Aura" then
+			InsertData(3, v.List)
 		end
 	end
 
 	for i, v in pairs(C.AuraWatchList["ALL"]) do
-		if v.Name == "Enchant Aura" then
-			InsertData(7, v.List)
-		elseif v.Name == "Raid Buff" then
-			InsertData(8, v.List)
-		elseif v.Name == "Raid Debuff" then
-			InsertData(9, v.List)
-		elseif v.Name == "Warning Aura" then
+		if v.Name == "Warning Aura" then
 			InsertData(4, v.List)
+		elseif v.Name == "Focus Aura" then
+			InsertData(5, v.List)
+		elseif v.Name == "Enchant Aura" then
+			InsertData(6, v.List)
+		elseif v.Name == "Raid Buff" then
+			InsertData(7, v.List)
+		elseif v.Name == "Raid Debuff" then
+			InsertData(8, v.List)
+		elseif v.Name == "Spell CD" then
+			InsertData(9, v.List)
 		elseif v.Name == "InternalCD" then
 			InsertData(10, v.List)
 			IntCD = v

@@ -70,14 +70,6 @@ local list = {
 		{AuraID = 260708, UnitID = "player"},	-- 横扫攻击
 		{AuraID = 262228, UnitID = "player"},	-- 致命平静
 	},
-	["Focus Aura"] = {		-- 焦点光环组
-		{AuraID = 772, UnitID = "focus", Caster = "player"},	-- 撕裂
-		{AuraID = 115767, UnitID = "focus", Caster = "player"},	-- 重伤
-	},
-	["Spell CD"] = {	-- 冷却计时组
-		{SlotID = 13},		-- 饰品1
-		{SlotID = 14},		-- 饰品2
-	},
 }
 
 AT:AddNewAuraWatch("WARRIOR", list)

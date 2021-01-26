@@ -71,24 +71,6 @@ local list = {
 		{AuraID = 320125, UnitID = "player"},	-- 回响震击
 		{AuraID = 344179, UnitID = "player", Combat = true},	-- 漩涡武器
 	},
-	["Focus Aura"] = {		-- 焦点光环组
-		{AuraID = 51514, UnitID = "focus", Caster = "player"},	-- 妖术
-		{AuraID = 210873, UnitID = "focus", Caster = "player"},	-- 妖术
-		{AuraID = 211004, UnitID = "focus", Caster = "player"},	-- 妖术
-		{AuraID = 211010, UnitID = "focus", Caster = "player"},	-- 妖术
-		{AuraID = 211015, UnitID = "focus", Caster = "player"},	-- 妖术
-	},
-	["Spell CD"] = {	-- 冷却计时组
-		{SlotID = 13},		-- 饰品1
-		{SlotID = 14},		-- 饰品2
-		{SpellID = 20608},	-- 复生
-		{SpellID = 98008},	-- 灵魂链接
-		{SpellID = 114050},	-- 升腾 元素
-		{SpellID = 114051},	-- 升腾 增强
-		{SpellID = 114052},	-- 升腾 恢复
-		{SpellID = 108280},	-- 治疗之潮
-		{SpellID = 198506},	-- 野性狼魂
-	},
 }
 
 AT:AddNewAuraWatch("SHAMAN", list)

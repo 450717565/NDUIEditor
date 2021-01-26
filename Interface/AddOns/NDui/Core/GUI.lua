@@ -79,7 +79,7 @@ GUI.DefaultSettings = {
 		ReverseDebuffs = false,
 		Totems = true,
 		TotemSize = 32,
-		VerticalTotems = true,
+		VerticalTotems = false,
 	},
 	AuraWatch = {
 		Enable = true,
@@ -141,7 +141,7 @@ GUI.DefaultSettings = {
 		PartyPetHeight = 22,
 		PartyPetPowerHeight = 2,
 		HealthColor = 1,
-		BuffIndicatorType = 1,
+		BuffIndicatorType = 2,
 		BuffIndicatorScale = 1,
 		UFTextScale = 1,
 		PartyAltPower = true,
@@ -347,13 +347,14 @@ GUI.DefaultSettings = {
 		InstantDelete = true,
 		RaidTool = true,
 		RMRune = false,
-		PullCount = "10",
+		DBMCount = "10",
 		EasyMarking = true,
 		ShowMarkerBar = 4,
 		BlockInvite = false,
 		NzothVision = true,
 		SendActionCD = false,
 		MawThreatBar = true,
+		MDGuildBest = true,
 	},
 	Tutorial = {
 		Complete = false,
@@ -419,6 +420,7 @@ GUI.AccountSettings = {
 	Help = {},
 	PartySpells = {},
 	CornerSpells = {},
+	CustomTex = "",
 }
 
 -- Initial settings
@@ -480,10 +482,14 @@ loader:SetScript("OnEvent", function(self, _, addon)
 	InitialSettings(GUI.DefaultSettings, C.db, true)
 
 	B.SetupUIScale(true)
-	if not GUI.TextureList[NDuiADB["TexStyle"]] then
-		NDuiADB["TexStyle"] = 2 -- reset value if not exists
+	if NDuiADB["CustomTex"] ~= "" then
+		DB.normTex = "Interface\\"..NDuiADB["CustomTex"]
+	else
+		if not GUI.TextureList[NDuiADB["TexStyle"]] then
+			NDuiADB["TexStyle"] = 2 -- reset value if not exists
+		end
+		DB.normTex = GUI.TextureList[NDuiADB["TexStyle"]].texture
 	end
-	DB.normTex = GUI.TextureList[NDuiADB["TexStyle"]].texture
 
 	self:UnregisterAllEvents()
 end)
@@ -770,17 +776,17 @@ GUI.TabList = {
 	L["ActionBar"],
 	L["Bags"],
 	L["Unitframes"],
-	NewFeatureTag..L["RaidFrame"],
-	NewFeatureTag..L["Nameplate"],
-	NewFeatureTag..L["PlayerPlate"],
+	L["RaidFrame"],
+	L["Nameplate"],
+	L["PlayerPlate"],
 	L["Auras"],
 	L["Raid Tools"],
 	L["ChatFrame"],
 	L["Maps"],
 	L["Skins"],
 	L["Tooltip"],
-	L["Misc"],
-	L["UI Settings"],
+	NewFeatureTag..L["Misc"],
+	NewFeatureTag..L["UI Settings"],
 	L["Profile"],
 	L["Extras"],
 }
@@ -862,7 +868,7 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{1, "UFs", "PartyPetFrame", DB.MyColor..L["UFs PartyPetFrame"], true},
 		{1, "UFs", "HorizonParty", L["Horizon PartyFrame"]},
 		{1, "UFs", "PartyAltPower", L["UFs PartyAltPower"], true, nil, nil, L["PartyAltPowerTip"]},
-		{1, "UFs", "PartyWatcher", NewFeatureTag..DB.MyColor..L["UFs PartyWatcher"], nil, setupPartyWatcher, nil, L["PartyWatcherTip"]},
+		{1, "UFs", "PartyWatcher", DB.MyColor..L["UFs PartyWatcher"], nil, setupPartyWatcher, nil, L["PartyWatcherTip"]},
 		{1, "UFs", "PWOnRight", L["PartyWatcherOnRight"], true},
 		{1, "UFs", "PartyWatcherSync", L["PartyWatcherSync"], nil, nil, nil, L["PartyWatcherSyncTip"]},
 		{},--blank
@@ -910,8 +916,8 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Nameplate", "QuestIndicator", L["QuestIndicator"]},
 		{1, "Nameplate", "AKSProgress", L["AngryKeystones Progress"], true},
 		{},--blank
-		{1, "Nameplate", "ColoredTarget", NewFeatureTag..DB.MyColor..L["ColoredTarget"].."*", nil, nil, nil, L["ColoredTargetTip"]},
-		{5, "Nameplate", "TargetColor", NewFeatureTag..L["TargetNP Color"].."*"},
+		{1, "Nameplate", "ColoredTarget", DB.MyColor..L["ColoredTarget"].."*", nil, nil, nil, L["ColoredTargetTip"]},
+		{5, "Nameplate", "TargetColor", L["TargetNP Color"].."*"},
 		{4, "Nameplate", "TargetIndicator", L["TargetIndicator"].."*", true, {DISABLE, L["TopArrow"], L["RightArrow"], L["TargetGlow"], L["TopNGlow"], L["RightNGlow"]}, refreshNameplates},
 		{1, "Nameplate", "CustomUnitColor", DB.MyColor..L["CustomUnitColor"].."*", nil, nil, updateCustomUnitList, L["CustomUnitColorTip"]},
 		{5, "Nameplate", "CustomColor", L["Custom Color"].."*", 2},
@@ -939,7 +945,7 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Nameplate", "ShowPlayerPlate", DB.MyColor..L["Enable PlayerPlate"]},
 		{},--blank
 		{1, "Auras", "ClassAuras", L["Enable ClassAuras"]},
-		{1, "Nameplate", "PPOnFire", NewFeatureTag..L["PlayerPlate OnFire"], true, nil, nil, L["PPOnFireTip"]},
+		{1, "Nameplate", "PPOnFire", L["PlayerPlate OnFire"], true, nil, nil, L["PPOnFireTip"]},
 		{1, "Nameplate", "NameplateClassPower", L["Nameplate ClassPower"], nil},
 		{1, "Nameplate", "PPFadeout", L["PlayerPlate Fadeout"].."*", true, nil, togglePlateVisibility},
 		{1, "Nameplate", "PPPowerText", L["PlayerPlate PowerText"].."*", nil, nil, togglePlatePower},
@@ -975,7 +981,7 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Misc", "RaidTool", DB.MyColor..L["Raid Manger"]},
 		{1, "Misc", "RMRune", L["Runes Check"].."*"},
 		{1, "Misc", "EasyMarking", L["Easy Mark"].."*", true},
-		{2, "Misc", "PullCount", L["Countdown Sec"].."*"},
+		{2, "Misc", "DBMCount", L["DBM Count"].."*", nil, nil, nil, L["DBM Count Tip"]},
 		{4, "Misc", "ShowMarkerBar", L["ShowMarkerBar"].."*", true, {L["Grids"], L["Horizontal"], L["Vertical"], DISABLE}, updateMarkerGrid},
 		{},--blank
 		{1, "Misc", "QuestNotification", DB.MyColor..L["QuestNotification"].."*", nil, nil, updateQuestNotification},
@@ -1020,7 +1026,7 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{},--blank
 		{1, "Chat", "Invite", DB.MyColor..L["Whisper Invite"]},
 		{1, "Chat", "GuildInvite", L["Guild Invite Only"].."*"},
-		{2, "Chat", "Keyword", L["Whisper Keyword"].."*", true, nil, updateWhisperList},
+		{2, "Chat", "Keyword", L["Whisper Keyword"].."*", true, nil, updateWhisperList, L["WhisperKeywordTip"]},
 	},
 	[10] = {
 		{1, "Map", "EnableMap", DB.MyColor..L["Enable Map"], nil, nil, nil, L["EnableMapTip"]},
@@ -1109,8 +1115,9 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Misc", "PetFilter", L["Show PetFilter"]},
 		{1, "Misc", "Screenshot", L["Auto ScreenShot"].."*", true, nil, updateScreenShot},
 		{1, "Misc", "Focuser", L["Easy Focus"]},
-		{1, "Misc", "BlockInvite", DB.MyColor..L["BlockInvite"].."*", true},
-		{1, "Misc", "MawThreatBar", NewFeatureTag..L["MawThreatBar"], nil, nil, nil, L["MawThreatBarTip"]},
+		{1, "Misc", "BlockInvite", DB.MyColor..L["BlockInvite"].."*", true, nil, nil, L["BlockInvite Tip"]},
+		{1, "Misc", "MawThreatBar", L["MawThreatBar"], nil, nil, nil, L["MawThreatBarTip"]},
+		{1, "Misc", "MDGuildBest", L["MDGuildBest"], true, nil, nil, L["MDGuildBestTip"]},
 	},
 	[14] = {
 		{1, "ACCOUNT", "VersionCheck", L["Version Check"]},
@@ -1121,6 +1128,7 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{},--blank
 		{4, "ACCOUNT", "TexStyle", L["Texture Style"], false, {}},
 		{4, "ACCOUNT", "NumberFormat", L["Numberize"], true, {L["Number Type1"], L["Number Type2"], L["Number Type3"]}},
+		{2, "ACCOUNT", "CustomTex", L["CustomTex"], nil, nil, nil, L["CustomTexTip"]},
 	},
 	[15] = {
 	},
@@ -1261,12 +1269,13 @@ local function CreateOption(i)
 				NDUI_VARIABLE(key, value, eb:GetText())
 				if callback then callback() end
 			end)
+
+			B.CreateFS(eb, 14, name, "system", "CENTER", 0, 25)
 			eb.title = L["Tips"]
 			local tip = L["EditBox Tip"]
 			if tooltip then tip = tooltip.."|n"..tip end
 			B.AddTooltip(eb, "ANCHOR_RIGHT", tip, "info")
 
-			B.CreateFS(eb, 14, name, "system", "CENTER", 0, 25)
 		-- Slider
 		elseif optType == 3 then
 			local min, max, step = unpack(data)

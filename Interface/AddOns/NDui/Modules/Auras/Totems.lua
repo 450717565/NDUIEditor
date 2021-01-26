@@ -44,11 +44,11 @@ function Auras:TotemBar_Init()
 		totem:SetSize(iconSize, iconSize)
 		totem:ClearAllPoints()
 		if i == 1 then
-			totem:SetPoint("BOTTOMLEFT", margin, margin)
+			totem:SetPoint("BOTTOMRIGHT", margin, margin)
 		elseif vertical then
 			totem:SetPoint("BOTTOM", totems[i-1], "TOP", 0, margin)
 		else
-			totem:SetPoint("LEFT", totems[i-1], "RIGHT", margin, 0)
+			totem:SetPoint("RIGHT", totems[i-1], "LEFT", -margin, 0)
 		end
 	end
 end

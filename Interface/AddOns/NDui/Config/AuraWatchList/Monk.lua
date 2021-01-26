@@ -64,15 +64,6 @@ local list = {
 		{AuraID = 322507, UnitID = "player", Value = true},	-- 天神酒
 		{AuraID = 325092, UnitID = "player"},	-- 净化真气
 	},
-	["Focus Aura"] = {		-- 焦点光环组
-		{AuraID = 115078, UnitID = "focus", Caster = "player"},		-- 分筋错骨
-		{AuraID = 119611, UnitID = "focus", Caster = "player"},	-- 复苏之雾
-	},
-	["Spell CD"] = {	-- 冷却计时组
-		{SlotID = 13},		-- 饰品1
-		{SlotID = 14},		-- 饰品2
-		{SpellID = 115203},	-- 壮胆酒
-	},
 }
 
 AT:AddNewAuraWatch("MONK", list)

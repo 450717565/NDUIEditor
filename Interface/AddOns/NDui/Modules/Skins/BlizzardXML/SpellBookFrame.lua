@@ -186,20 +186,20 @@ tinsert(C.XMLThemes, function()
 		"SecondaryProfession3SpellButtonLeft",
 		"SecondaryProfession3SpellButtonRight",
 	}
-	for index, button in pairs(secondaryProfession) do
-		local bu = _G[button]
-		B.StripTextures(bu)
+	for index, buttons in pairs(secondaryProfession) do
+		local button = _G[buttons]
+		B.StripTextures(button)
 
-		local icon = _G[button.."IconTexture"]
+		local icon = _G[buttons.."IconTexture"]
 		if index <= 4 then
 			icon:SetInside(nil, 4, 4)
 		end
 
 		local icbg = B.ReskinIcon(icon)
-		B.ReskinChecked(bu, icbg)
-		B.ReskinHighlight(bu.highlightTexture, icbg)
+		B.ReskinChecked(button, icbg)
+		B.ReskinHighlight(button.highlightTexture, icbg)
 
-		local name = _G[button.."SpellName"]
+		local name = _G[buttons.."SpellName"]
 		name:ClearAllPoints()
 		name:SetPoint("LEFT", icbg, "RIGHT", 4, 0)
 	end

@@ -95,21 +95,6 @@ local list = {
 		{AuraID = 279943, UnitID = "player"}, 	-- 锋利兽爪
 		{AuraID = 197721, UnitID = "player"}, 	-- 繁盛
 	},
-	["Focus Aura"] = {		-- 焦点光环组
-		{AuraID = 774, UnitID = "focus", Caster = "player"},	-- 回春术
-		{AuraID = 8936, UnitID = "focus", Caster = "player"},	-- 愈合
-		{AuraID = 33763, UnitID = "focus", Caster = "player"},	-- 生命绽放
-		{AuraID = 188550, UnitID = "focus", Caster = "player"},	-- 生命绽放，橙装
-		{AuraID = 155777, UnitID = "focus", Caster = "player"},	-- 萌芽
-		{AuraID = 164812, UnitID = "focus", Caster = "player"},	-- 月火术
-		{AuraID = 164815, UnitID = "focus", Caster = "player"},	-- 阳炎术
-		{AuraID = 202347, UnitID = "focus", Caster = "player"},	-- 星辰耀斑
-	},
-	["Spell CD"] = {	-- 冷却计时组
-		{SlotID = 13},		-- 饰品1
-		{SlotID = 14},		-- 饰品2
-		{SpellID = 61336},	-- 生存本能
-	},
 }
 
 AT:AddNewAuraWatch("DRUID", list)

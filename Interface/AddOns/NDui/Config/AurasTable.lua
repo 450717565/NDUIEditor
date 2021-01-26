@@ -16,7 +16,7 @@ local groups = {
 	["Raid Buff"] = {"LEFT", 5, "ICON", 48, C.Auras.RaidBuffPos},
 	["Raid Debuff"] = {"RIGHT", 5, "ICON", 48, C.Auras.RaidDebuffPos},
 	["Spell CD"] = {"UP", 5, "BAR", 20, C.Auras.SpellCDPos, 150},
-	["InternalCD"] = {"UP", 5, "BAR", 20, C.Auras.InternalCDPos, 150},
+	["InternalCD"] = {"DOWN", 5, "BAR", 20, C.Auras.InternalCDPos, 150},
 }
 
 local function newAuraFormat(value)

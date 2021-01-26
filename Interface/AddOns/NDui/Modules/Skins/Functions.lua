@@ -116,55 +116,6 @@ do
 		money:SetPoint("BOTTOMLEFT", icbg, "BOTTOMRIGHT", 4, 4)
 	end
 
-	-- Reskin PartyPoseUI
-	function Skins:ReskinPartyPoseUI()
-		B.ReskinFrame(self)
-		B.ReskinButton(self.LeaveButton)
-		B.StripTextures(self.ModelScene, 0)
-		B.CreateBDFrame(self.ModelScene, 0, -C.mult)
-
-		self.OverlayElements:Hide()
-
-		local RewardFrame = self.RewardAnimations.RewardFrame
-		RewardFrame.NameFrame:SetAlpha(0)
-
-		local icbg = B.ReskinIcon(RewardFrame.Icon)
-		B.ReskinBorder(RewardFrame.IconBorder, icbg)
-
-		local Label = RewardFrame.Label
-		Label:ClearAllPoints()
-		Label:SetPoint("LEFT", icbg, "RIGHT", 6, 10)
-
-		local Name = RewardFrame.Name
-		Name:ClearAllPoints()
-		Name:SetPoint("LEFT", icbg, "RIGHT", 6, -10)
-	end
-
-	-- Reskin ReforgeUI
-	function Skins:ReskinReforgeUI(index)
-		B.StripTextures(self, index)
-		B.ReskinClose(self.CloseButton)
-		B.CreateBG(self)
-
-		local Background = self.Background
-		B.CreateBDFrame(Background, 0, -C.mult)
-
-		local ItemSlot = self.ItemSlot
-		B.ReskinIcon(ItemSlot.Icon)
-
-		local ButtonFrame = self.ButtonFrame
-		B.StripTextures(ButtonFrame, 0)
-		ButtonFrame.MoneyFrameEdge:SetAlpha(0)
-
-		local bubg = B.CreateBDFrame(ButtonFrame)
-		bubg:Point("TOPLEFT", ButtonFrame.MoneyFrameEdge, 2, 0)
-		bubg:Point("BOTTOMRIGHT", ButtonFrame.MoneyFrameEdge, 0, 2)
-
-		if ButtonFrame.Currency then B.ReskinIcon(ButtonFrame.Currency.icon) end
-		if ButtonFrame.ActionButton then B.ReskinButton(ButtonFrame.ActionButton) end
-		if ButtonFrame.AzeriteRespecButton then B.ReskinButton(ButtonFrame.AzeriteRespecButton) end
-	end
-
 	-- Reskin SearchBox
 	function Skins:ReskinSearchBox()
 		B.StripTextures(self)

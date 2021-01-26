@@ -74,18 +74,6 @@ local list = {
 		{AuraID = 190446, UnitID = "player"},	-- 冰冷智慧
 		{AuraID = 321363, UnitID = "player"},	-- 专注魔法
 	},
-	["Focus Aura"] = {		-- 焦点光环组
-		{AuraID = 44457, UnitID = "focus", Caster = "player"},	-- 活动炸弹
-		{AuraID = 114923, UnitID = "focus", Caster = "player"},	-- 虚空风暴
-	},
-	["Spell CD"] = {	-- 冷却计时组
-		{SlotID = 13},		-- 饰品1
-		{SlotID = 14},		-- 饰品2
-		{TotemID = 1},		-- 能量符文
-		{SpellID = 12472},	-- 冰冷血脉
-		{SpellID = 12042},	-- 奥术强化
-		{SpellID = 190319},	-- 燃烧
-	},
 }
 
 AT:AddNewAuraWatch("MAGE", list)

@@ -503,18 +503,24 @@ end
 
 function UF:CreateRaidMark(self)
 	local mystyle = self.mystyle
-	local ri = self:CreateTexture(nil, "OVERLAY")
-	if mystyle == "raid" then
-		ri:SetPoint("TOP", self, 0, 10)
+
+	local parentFrame = CreateFrame("Frame", nil, self)
+	parentFrame:SetAllPoints()
+	parentFrame:SetFrameLevel(self:GetFrameLevel() + 3)
+
+	local raidTarget = parentFrame:CreateTexture(nil, "OVERLAY")
+	if self.LeaderIndicator and mystyle ~= "raid" then
+		raidTarget:SetPoint("RIGHT", self.LeaderIndicator, "LEFT", -2, 2)
 	elseif mystyle == "nameplate" then
-		ri:SetPoint("RIGHT", self, "LEFT", -3, 0)
-		ri:SetParent(self.Health)
+		raidTarget:SetPoint("RIGHT", self, "LEFT", -5, 0)
+		raidTarget:SetParent(self.Health)
 	else
-		ri:SetPoint("CENTER", self, "TOP")
+		raidTarget:SetPoint("CENTER", self, "TOP", 0, 0)
 	end
+
 	local size = retVal(self, 18, 13, 12, 12, 32)
-	ri:SetSize(size, size)
-	self.RaidTargetIndicator = ri
+	raidTarget:SetSize(size, size)
+	self.RaidTargetIndicator = raidTarget
 end
 
 local function createBarMover(bar, text, value, anchor)
@@ -834,7 +840,7 @@ function UF:CreateAuras(self)
 	bu["growth-y"] = "DOWN"
 
 	if mystyle == "target" then
-		bu:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -6)
+		bu:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -6)
 		bu.numBuffs = 22
 		bu.numDebuffs = 22
 		bu.iconsPerRow = C.db["UFs"]["TargetAurasPerRow"]
@@ -848,7 +854,7 @@ function UF:CreateAuras(self)
 			bu.numTotal = 1
 			bu.disableCooldown = true
 		else
-			bu:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 0, 0)
+			bu:SetPoint("BOTTOMLEFT", self.Health, "BOTTOMLEFT", 0, 0)
 			bu.numTotal = C.db["UFs"]["SimpleMode"] and not self.isPartyFrame and 0 or 6
 			bu.iconsPerRow = C.db["UFs"]["SimpleMode"] and not self.isPartyFrame and 0 or 6
 		end
@@ -922,15 +928,15 @@ function UF:CreateDebuffs(self)
 	elseif mystyle == "boss" or mystyle == "arena" then
 		bu:SetPoint("TOPRIGHT", self, "TOPLEFT", -5, 0)
 		bu.num = 10
-		bu.size = self:GetHeight()+self.Power:GetHeight()+C.mult
+		bu.size = self:GetHeight()
 		bu.CustomFilter = UF.CustomFilter
 		bu["growth-y"] = "UP"
 	elseif mystyle == "tot" then
-		bu:SetPoint("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, -6)
+		bu:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, -6)
 		bu.num = 10
 		bu.iconsPerRow = 5
 	elseif mystyle == "focus" then
-		bu:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -6)
+		bu:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -6)
 		bu.num = 14
 		bu.iconsPerRow = 7
 		bu.CustomFilter = UF.CustomFilter
@@ -1299,7 +1305,7 @@ function UF:CreateQuakeTimer(self)
 
 	local icon = bar:CreateTexture(nil, "ARTWORK")
 	icon:SetSize(bar:GetHeight(), bar:GetHeight())
-	icon:SetPoint("RIGHT", bar, "LEFT", -3, 0)
+	icon:SetPoint("RIGHT", bar, "LEFT", -C.margin, 0)
 	B.ReskinIcon(icon)
 	bar.Icon = icon
 

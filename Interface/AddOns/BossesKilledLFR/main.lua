@@ -106,22 +106,22 @@ function addon:CreateButton(parent, scale)
 	end
 
 	-- Reskin
-	--[[ if IsAddOnLoaded("NDui") then
+	if IsAddOnLoaded("NDui") then
 		local B = unpack(NDui)
 
-		button:SetScale(.6)
+		button:SetScale(UIParent:GetScale())
 		B.StripTextures(button)
 
-		local bubg = B.CreateBDFrame(button)
+		local bubg = B.CreateBG(button)
 		B.ReskinHighlight(button, bubg, true)
 		B.ReskinHighlight(button:GetCheckedTexture(), bubg)
 
 		if parent.lastButton then
 			button:SetPoint("TOPLEFT", parent.lastButton, "BOTTOMLEFT", 0, -5)
 		else
-			button:SetPoint("TOPLEFT", parent, "TOPRIGHT", 8, -50)
+			button:SetPoint("TOPLEFT", parent, "TOPRIGHT", 3, -25)
 		end
-	end ]]
+	end
 
 	return button
 end
@@ -137,16 +137,13 @@ function addon:CreateNumberFontstring(parentButton)
 	local number = parentButton:CreateFontString(parentButton:GetName().."Number", "OVERLAY", "SystemFont_Shadow_Huge3")
 
 	-- Reskin
-	--[[ if IsAddOnLoaded("NDui") then
+	if IsAddOnLoaded("NDui") then
 		number:SetPoint("CENTER", 2, -1)
-		number:SetFont(STANDARD_TEXT_FONT, 30, "OUTLINE")
+		number:SetFont(STANDARD_TEXT_FONT, 24, "OUTLINE")
 	else
 		number:SetPoint("TOPLEFT", -4, 4)
 		number:SetPoint("BOTTOMRIGHT", 5, -5)
-	end ]]
-
-	number:SetPoint("TOPLEFT", -4, 4)
-	number:SetPoint("BOTTOMRIGHT", 5, -5)
+	end
 
 	return number
 end

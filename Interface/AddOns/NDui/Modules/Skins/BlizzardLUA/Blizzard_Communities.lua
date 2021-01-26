@@ -34,6 +34,7 @@ local function Reskin_CommunityCards(self)
 		button.CircleMask:Hide()
 		button.LogoBorder:Hide()
 		button.Background:Hide()
+		button.CommunityLogo:SetDrawLayer("ARTWORK")
 
 		B.ReskinButton(button)
 		B.ReskinIcon(button.CommunityLogo)

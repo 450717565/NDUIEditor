@@ -149,7 +149,7 @@ function Skins:Immersion()
 
 	local Elements = TalkBox.Elements
 	B.StripTextures(Elements)
-	B.CreateBG(Elements, 10, -10, -10, 10)
+	B.CreateBG(Elements, 10, -10, -15, 5)
 
 	local ItemHighlight = Elements.Content.RewardsFrame.ItemHighlight
 	B.StripTextures(ItemHighlight)

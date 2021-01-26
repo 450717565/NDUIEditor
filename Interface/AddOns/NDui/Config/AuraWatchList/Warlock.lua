@@ -67,21 +67,6 @@ local list = {
 		{AuraID = 264571, UnitID = "player"},	-- 夜幕
 		{AuraID = 266030, UnitID = "player"},	-- 熵能返转
 	},
-	["Focus Aura"] = {		-- 焦点光环组
-		{AuraID = 980, UnitID = "focus", Caster = "player"},		-- 痛楚
-		{AuraID = 146739, UnitID = "focus", Caster = "player"},		-- 腐蚀术
-		{AuraID = 233490, UnitID = "focus", Caster = "player"},		-- 痛苦无常
-		{AuraID = 233496, UnitID = "focus", Caster = "player"},		-- 痛苦无常
-		{AuraID = 233497, UnitID = "focus", Caster = "player"},		-- 痛苦无常
-		{AuraID = 233498, UnitID = "focus", Caster = "player"},		-- 痛苦无常
-		{AuraID = 233499, UnitID = "focus", Caster = "player"},		-- 痛苦无常
-		{AuraID = 157736, UnitID = "focus", Caster = "player"},		-- 献祭
-		{AuraID = 265412, UnitID = "focus", Caster = "player"},		-- 厄运
-	},
-	["Spell CD"] = {	-- 冷却计时组
-		{SlotID = 13},		-- 饰品1
-		{SlotID = 14},		-- 饰品2
-	},
 }
 
 AT:AddNewAuraWatch("WARLOCK", list)

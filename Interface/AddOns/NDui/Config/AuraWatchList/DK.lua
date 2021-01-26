@@ -69,17 +69,6 @@ local list = {
 		{AuraID = 281209, UnitID = "player", Combat = true},	-- 冷酷之心
 		{AuraID = 321995, UnitID = "player"},	-- 霜符灵气
 	},
-	["Focus Aura"] = {		-- 焦点光环组
-		{AuraID = 55078, UnitID = "focus", Caster = "player"},	-- 血之疫病
-		{AuraID = 55095, UnitID = "focus", Caster = "player"},	-- 冰霜疫病
-		{AuraID = 191587, UnitID = "focus", Caster = "player"},	-- 恶性瘟疫
-	},
-	["Spell CD"] = {	-- 冷却计时组
-		{SlotID = 13},		-- 饰品1
-		{SlotID = 14},		-- 饰品2
-		{SpellID = 48792},	-- 冰封之韧
-		{SpellID = 49206},	-- 召唤石鬼像
-	},
 }
 
 AT:AddNewAuraWatch("DEATHKNIGHT", list)

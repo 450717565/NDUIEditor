@@ -271,13 +271,13 @@ function UF:OnLogin()
 		oUF:RegisterStyle("Boss", CreateBossStyle)
 		oUF:SetActiveStyle("Boss")
 		local boss = {}
-		local bossYOffset = C.db["UFs"]["BossHeight"] + C.db["UFs"]["BossPowerHeight"] + C.mult
+		local bossYOffset = C.db["UFs"]["BossHeight"] + C.db["UFs"]["BossPowerHeight"] + C.mult + C.margin*2 + 10
 		for i = 1, MAX_BOSS_FRAMES do
 			boss[i] = oUF:Spawn("boss"..i, "oUF_Boss"..i)
 			if i == 1 then
 				boss[i].mover = B.Mover(boss[i], L["BossFrame"]..i, "Boss1", {"TOPRIGHT", Minimap, "BOTTOMLEFT", 75, -120})
 			else
-				boss[i].mover = B.Mover(boss[i], L["BossFrame"]..i, "Boss"..i, {"TOP", boss[i-1].Power, "BOTTOM", 0, -bossYOffset})
+				boss[i].mover = B.Mover(boss[i], L["BossFrame"]..i, "Boss"..i, {"TOP", boss[i-1], "BOTTOM", 0, -bossYOffset})
 			end
 		end
 

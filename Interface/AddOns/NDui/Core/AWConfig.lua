@@ -315,10 +315,10 @@ local function CreatePanel()
 		L["Target Aura"],			-- 3 Target Aura
 		L["Warning Aura"],			-- 4 Warning Aura
 		L["Focus Aura"],			-- 5 Focus Aura
-		L["Spell CD"],				-- 6 Spell CD
-		L["Enchant Aura"],			-- 7 Enchant Aura
-		L["Raid Buff"],				-- 8 Raid Buff
-		L["Raid Debuff"],			-- 9 Raid Debuff
+		L["Enchant Aura"],			-- 6 Enchant Aura
+		L["Raid Buff"],				-- 7 Raid Buff
+		L["Raid Debuff"],			-- 8 Raid Debuff
+		L["Spell CD"],				-- 9 Spell CD
 		L["InternalCD"],			-- 10 InternalCD
 	}
 

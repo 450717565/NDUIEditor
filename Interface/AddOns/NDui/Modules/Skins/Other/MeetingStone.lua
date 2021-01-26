@@ -104,7 +104,6 @@ local function Reskin_TabView(self)
 		local tab = self:GetButton(i)
 		if not tab.styled then
 			B.ReskinTab(tab)
-			B.ReskinHighlight(tab.Flash, tab)
 
 			if tab.icon then B.ReskinIcon(tab.icon) end
 

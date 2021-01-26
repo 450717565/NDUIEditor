@@ -293,10 +293,9 @@ C.LUAThemes["Blizzard_Collections"] = function()
 			local button = scrollFrame.buttons[i]
 			B.StripTextures(button)
 
-			local favorite = button.favorite or button.Favorite
-			if favorite then
-				favorite:SetAtlas("collections-icon-favorites")
-			end
+			local icon = button.Icon or button.icon
+			local icbg = B.ReskinIcon(icon)
+			button.icbg = icbg
 
 			local bubg = B.CreateBDFrame(button, 0, 1)
 			B.ReskinHighlight(button, bubg, true)
@@ -305,30 +304,50 @@ C.LUAThemes["Blizzard_Collections"] = function()
 			local selected = button.SelectedTexture or button.selectedTexture
 			B.ReskinHighlight(selected, bubg, true)
 
-			local icon = button.Icon or button.icon
-			local icbg = B.ReskinIcon(icon)
-			button.icbg = icbg
-
-			if button.ProgressBar then
-				local bar = button.ProgressBar
-				bar:SetTexture(DB.bgTex)
-				bar:SetVertexColor(cr, cg, cb, .25)
-				bar:SetPoint("TOPLEFT", bubg, C.mult, -C.mult)
-				bar:SetPoint("BOTTOMLEFT", bubg, C.mult, C.mult)
+			local Name = button.Name
+			if Name then
+				Name:ClearAllPoints()
+				Name:SetPoint("BOTTOMLEFT", bubg, "LEFT", 6, 1)
 			end
 
-			if button.DragButton then
-				button.DragButton.ActiveTexture:SetTexture("")
-
-				B.ReskinHighlight(button.DragButton, icbg)
+			local Label = button.Label
+			if Label then
+				B.ReskinText(Label, .9, .9, .9)
 			end
 
-			if button.dragButton then
-				button.dragButton.levelBG:SetAlpha(0)
-				button.dragButton.ActiveTexture:SetTexture("")
+			local name = button.name
+			if name then
+				name:ClearAllPoints()
+				name:SetPoint("LEFT", bubg, "LEFT", 6, 0)
+			end
 
-				B.ReskinHighlight(button.dragButton, icbg)
-				B.ReskinText(button.dragButton.level, 1, 1, 1)
+			local favorite = button.Favorite or button.favorite
+			if favorite then
+				favorite:SetAtlas("collections-icon-favorites")
+			end
+
+			local ProgressBar = button.ProgressBar
+			if ProgressBar then
+				ProgressBar:SetTexture(DB.bgTex)
+				ProgressBar:SetVertexColor(cr, cg, cb, .25)
+				ProgressBar:SetPoint("TOPLEFT", bubg, C.mult, -C.mult)
+				ProgressBar:SetPoint("BOTTOMLEFT", bubg, C.mult, C.mult)
+			end
+
+			local DragButton = button.DragButton
+			if DragButton then
+				DragButton.ActiveTexture:SetTexture("")
+
+				B.ReskinHighlight(DragButton, icbg)
+			end
+
+			local dragButton = button.dragButton
+			if dragButton then
+				dragButton.levelBG:SetAlpha(0)
+				dragButton.ActiveTexture:SetTexture("")
+
+				B.ReskinHighlight(dragButton, icbg)
+				B.ReskinText(dragButton.level, 1, 1, 1)
 			end
 		end
 	end

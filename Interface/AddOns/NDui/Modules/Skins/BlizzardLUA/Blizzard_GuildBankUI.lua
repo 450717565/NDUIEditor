@@ -96,8 +96,8 @@ C.LUAThemes["Blizzard_GuildBankUI"] = function()
 			local border = button.IconBorder
 			B.ReskinBorder(border, icbg)
 
-			local searchOverlay = button.searchOverlay
-			searchOverlay:SetAllPoints(icbg)
+			local search = button.searchOverlay
+			search:SetAllPoints(icbg)
 		end
 	end
 

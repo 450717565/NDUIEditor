@@ -27,19 +27,21 @@ C.Bars = {
 -- BUFF/DEBUFF相关
 C.Auras = {
 	BuffPos			= {"TOPRIGHT", Minimap, "TOPLEFT", -15, 0},			-- BUFF默认位置
-	TotemsPos		= {"BOTTOMRIGHT", UIParent, "BOTTOM", -450, 20},	-- 图腾助手默认位置
+	TotemsPos		= {"BOTTOMRIGHT", UIParent, "BOTTOM", -450, 263},	-- 图腾助手默认位置
 
 	-- 技能监控各组初始位置
-	PlayerAuraPos	= {"BOTTOMRIGHT", UIParent, "BOTTOM", -200, 309},	-- 玩家光环分组
-	TargetAuraPos 	= {"BOTTOMLEFT", UIParent, "BOTTOM", 200, 309},		-- 目标光环分组
-	SpecialAuraPos	= {"BOTTOMRIGHT", UIParent, "BOTTOM", -200, 336},	-- 玩家重要光环分组
+	RaidBuffPos		= {"BOTTOMRIGHT", UIParent, "CENTER", -200, 200},		-- 团队增益分组
+	EnchantAuraPos	= {"BOTTOMRIGHT", UIParent, "CENTER", -200, -99},	-- 附魔及饰品分组
+	SpecialAuraPos	= {"BOTTOMRIGHT", UIParent, "CENTER", -200, -136},	-- 玩家重要光环分组
+	PlayerAuraPos	= {"BOTTOMRIGHT", UIParent, "CENTER", -200, -165},	-- 玩家光环分组
+
+	RaidDebuffPos	= {"BOTTOMLEFT", UIParent, "CENTER", 200, 200},			-- 团队减益分组
+	WarningAuraPos	= {"BOTTOMLEFT", UIParent, "CENTER", 200, -128},		-- 目标重要光环分组
+	TargetAuraPos 	= {"BOTTOMLEFT", UIParent, "CENTER", 200, -165},		-- 目标光环分组
+
 	FocusAuraPos	= {"BOTTOMLEFT", UIParent, "LEFT", 5, -130},		-- 焦点光环分组
-	SpellCDPos		= {"BOTTOMRIGHT", UIParent, "BOTTOM", -425, 125},	-- 冷却计时分组
-	EnchantAuraPos	= {"BOTTOMRIGHT", UIParent, "BOTTOM", -200, 377},	-- 附魔及饰品分组
-	RaidBuffPos		= {"CENTER", UIParent, "CENTER", -220, 200},		-- 团队增益分组
-	RaidDebuffPos	= {"CENTER", UIParent, "CENTER", 220, 200},			-- 团队减益分组
-	WarningAuraPos	= {"BOTTOMLEFT", UIParent, "BOTTOM", 200, 370},		-- 目标重要光环分组
-	InternalCDPos	= {"BOTTOMRIGHT", UIParent, "BOTTOM", -425, 500},	-- 法术内置冷却分组
+	SpellCDPos		= {"LEFT", UIParent, "LEFT", 5, -30},	-- 冷却计时分组
+	InternalCDPos	= {"LEFT", UIParent, "LEFT", 5, -55},	-- 法术内置冷却分组
 }
 
 -- 头像相关

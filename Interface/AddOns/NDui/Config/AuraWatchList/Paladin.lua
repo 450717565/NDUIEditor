@@ -63,16 +63,6 @@ local list = {
 		{AuraID = 327225, UnitID = "player", Value = true},	-- 复仇原点
 		{AuraID = 327510, UnitID = "player", Flash = true},	-- 闪耀之光
 	},
-	["Focus Aura"] = {		-- 焦点光环组
-		{AuraID = 53563, UnitID = "focus", Caster = "player"},	-- 圣光道标
-		{AuraID = 156910, UnitID = "focus", Caster = "player"},	-- 信仰道标
-	},
-	["Spell CD"] = {	-- 冷却计时组
-		{SlotID = 13},		-- 饰品1
-		{SlotID = 14},		-- 饰品2
-		{SpellID = 31884},	-- 复仇之怒
-		{SpellID = 31821},	-- 光环掌握
-	},
 }
 
 AT:AddNewAuraWatch("PALADIN", list)

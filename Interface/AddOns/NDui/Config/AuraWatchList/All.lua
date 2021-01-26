@@ -191,6 +191,7 @@ local list = {
 		{AuraID = 319637, UnitID = "player"},	-- 伤逝剧场，魂魄归体
 		{AuraID = 330725, UnitID = "player", Flash = true},	-- 伤逝剧场，暗影易伤
 		{AuraID = 336258, UnitID = "player", Flash = true},	-- 凋魂之殇，落单狩猎
+		{AuraID = 331399, UnitID = "player"},	-- 凋魂之殇，感染毒雨
 		{AuraID = 327401, UnitID = "player", Flash = true},	-- 通灵战潮，共受苦难
 		{AuraID = 323471, UnitID = "player", Flash = true},	-- 通灵战潮，切肉飞刀
 		{AuraID = 327397, UnitID = "player"},	-- 通灵战潮，严酷命运
@@ -305,6 +306,17 @@ local list = {
 		{AuraID = 125174, UnitID = "target"},	-- 业报之触
 		{AuraID = 171607, UnitID = "target"},	-- 爱情光线
 		{AuraID = 228323, UnitID = "target", Value = true},	-- 克罗塔的护盾
+	},
+	["Focus Aura"] = {		-- 焦点光环组
+	},
+	["Spell CD"] = {	-- 冷却计时组
+		{SlotID = 6},	--腰带
+		{SlotID = 9},	--腕部
+		{SlotID = 11},	--戒指1
+		{SlotID = 12},	--戒指2
+		{SlotID = 13},	--饰品1
+		{SlotID = 14},	--饰品2
+		{SlotID = 15},	--披风
 	},
 	["InternalCD"] = { -- 自定义内置冷却组
 		{IntID = 240447, Duration = 20},	-- 大米，践踏
