@@ -48,8 +48,8 @@ local function Reskin_WidgetFrames()
 end
 
 local function Reskin_CaptureBar(self)
-	B.StripTextures(bar, 0)
-	B.CleanTextures(bar)
+	B.StripTextures(self, 0)
+	B.CleanTextures(self)
 
 	self.LeftBar:SetTexture(DB.normTex)
 	self.NeutralBar:SetTexture(DB.normTex)
