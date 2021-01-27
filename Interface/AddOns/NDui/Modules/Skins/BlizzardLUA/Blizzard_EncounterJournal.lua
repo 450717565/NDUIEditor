@@ -148,17 +148,15 @@ local function Reskin_PowersFrame(self)
 
 	for i = 1, self:GetNumElementFrames() do
 		local button = self.elements[i]
-		if button then
-			if not button.styled then
-				B.StripTextures(button, 1)
-				local icbg = B.ReskinIcon(button.Icon)
-				icbg:SetBackdropBorderColor(r, g, b)
+		if button and not button.styled then
+			B.StripTextures(button, 1)
+			local icbg = B.ReskinIcon(button.Icon)
+			icbg:SetBackdropBorderColor(r, g, b)
 
-				local bubg = B.CreateBGFrame(button, 2, 0, -5, 0, icbg)
-				bubg:SetBackdropBorderColor(r, g, b)
+			local bubg = B.CreateBGFrame(button, 2, 0, -5, 0, icbg)
+			bubg:SetBackdropBorderColor(r, g, b)
 
-				button.styled = true
-			end
+			button.styled = true
 		end
 	end
 end

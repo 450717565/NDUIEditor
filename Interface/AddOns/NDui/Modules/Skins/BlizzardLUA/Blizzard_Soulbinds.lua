@@ -5,7 +5,7 @@ local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
 local function Reskin_ConduitList(frame)
 	local header = frame.CategoryButton.Container
-	if not header.styled then
+	if header and not header.styled then
 		header:DisableDrawLayer("BACKGROUND")
 		local bg = B.CreateBDFrame(header)
 		bg:SetPoint("TOPLEFT", 2, 0)
@@ -15,7 +15,7 @@ local function Reskin_ConduitList(frame)
 	end
 
 	for button in frame.pool:EnumerateActive() do
-		if not button.styled then
+		if button and not button.styled then
 			for _, element in ipairs(button.Hovers) do
 				element:SetColorTexture(cr, cg, cb, .25)
 			end

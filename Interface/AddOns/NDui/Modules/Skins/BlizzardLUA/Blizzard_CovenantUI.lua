@@ -56,7 +56,7 @@ end
 
 local function Replace_Currencies(self)
 	for frame in self.currencyFramePool:EnumerateActive() do
-		if not frame.styled then
+		if frame and not frame.styled then
 			S.ReplaceIconString(frame.Text)
 			hooksecurefunc(frame.Text, "SetText", S.ReplaceIconString)
 
@@ -67,7 +67,7 @@ end
 
 local function Reskin_TalentsList(self)
 	for frame in self.talentPool:EnumerateActive() do
-		if not frame.styled then
+		if frame and not frame.styled then
 			frame.Border:SetAlpha(0)
 			frame.TierBorder:SetAlpha(0)
 			frame.Background:SetAlpha(0)

@@ -129,7 +129,7 @@ end
 local function Reskin_LayoutCurrentPage()
 	for i = 1, #HeirloomsJournal.heirloomHeaderFrames do
 		local header = HeirloomsJournal.heirloomHeaderFrames[i]
-		if not header.styled then
+		if header and not header.styled then
 			header.text:SetFont(DB.Font[1], 16, DB.Font[3])
 			B.ReskinText(header.text, 1, .8, 0)
 

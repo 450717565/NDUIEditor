@@ -123,17 +123,17 @@ local function UpdateColor(self, event, unit)
 	local r, g, b, t
 	if (element.colorDisconnected and not UnitIsConnected(unit)) then
 		t = self.colors.disconnected
-	elseif(element.colorTapping and not UnitPlayerControlled(unit) and UnitIsTapDenied(unit)) then
+	elseif (element.colorTapping and not UnitPlayerControlled(unit) and UnitIsTapDenied(unit)) then
 		t = self.colors.tapped
-	elseif(element.colorThreat and not UnitPlayerControlled(unit) and UnitThreatSituation('player', unit)) then
+	elseif (element.colorThreat and not UnitPlayerControlled(unit) and UnitThreatSituation('player', unit)) then
 		t =  self.colors.threat[UnitThreatSituation('player', unit)]
-	elseif(element.colorPower) then
+	elseif (element.colorPower) then
 		if (element.displayType ~= ALTERNATE_POWER_INDEX) then
 			t = self.colors.power[pToken]
 			if (not t) then
 				if (element.GetAlternativeColor) then
 					r, g, b = element:GetAlternativeColor(unit, pType, pToken, altR, altG, altB)
-				elseif(altR) then
+				elseif (altR) then
 					r, g, b = altR, altG, altB
 					if (r > 1 or g > 1 or b > 1) then
 						-- BUG: As of 7.0.3, altR, altG, altB may be in 0-1 or 0-255 range.
@@ -146,16 +146,16 @@ local function UpdateColor(self, event, unit)
 		else
 			t = self.colors.power[ALTERNATE_POWER_INDEX]
 		end
-	elseif(element.colorClass and UnitIsPlayer(unit))
+	elseif (element.colorClass and UnitIsPlayer(unit))
 		or (element.colorClassNPC and not UnitIsPlayer(unit))
 		or (element.colorClassPet and UnitPlayerControlled(unit) and not UnitIsPlayer(unit)) then
 		local _, class = UnitClass(unit)
 		t = self.colors.class[class]
-	elseif(element.colorSelection and unitSelectionType(unit, element.considerSelectionInCombatHostile)) then
+	elseif (element.colorSelection and unitSelectionType(unit, element.considerSelectionInCombatHostile)) then
 		t = self.colors.selection[unitSelectionType(unit, element.considerSelectionInCombatHostile)]
-	elseif(element.colorReaction and UnitReaction(unit, 'player')) then
+	elseif (element.colorReaction and UnitReaction(unit, 'player')) then
 		t = self.colors.reaction[UnitReaction(unit, 'player')]
-	elseif(element.colorSmooth) then
+	elseif (element.colorSmooth) then
 		local adjust = 0 - (element.min or 0)
 		r, g, b = self:ColorGradient((element.cur or 1) + adjust, (element.max or 1) + adjust, unpack(element.smoothGradient or self.colors.smooth))
 	end

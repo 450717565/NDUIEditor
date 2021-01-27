@@ -11,6 +11,21 @@ local function Update_FrameAnchor(self, _, parent)
 	end
 end
 
+local function Reskin_PopupMenu(self)
+	if not styled then
+		for i = 1, PremadeGroupsFilterDialog:GetNumChildren() do
+			local child = select(i, PremadeGroupsFilterDialog:GetChildren())
+			if child and child.Shadow then
+				TT.ReskinTooltip(child)
+
+				break
+			end
+		end
+
+		styled = true
+	end
+end
+
 function Skins:PremadeGroupsFilter()
 	if not IsAddOnLoaded("PremadeGroupsFilter") then return end
 
@@ -70,19 +85,7 @@ function Skins:PremadeGroupsFilter()
 		end
 	end
 
+	local styled
 	hooksecurefunc(PremadeGroupsFilterDialog, "SetPoint", Update_FrameAnchor)
-
-	local tipStyled
-	hooksecurefunc(PremadeGroupsFilter.Debug, "PopupMenu_Initialize", function()
-		if tipStyled then return end
-		for i = 1, PremadeGroupsFilterDialog:GetNumChildren() do
-			local child = select(i, PremadeGroupsFilterDialog:GetChildren())
-			if child and child.Shadow then
-				TT.ReskinTooltip(child)
-
-				tipStyled = true
-				break
-			end
-		end
-	end)
+	hooksecurefunc(PremadeGroupsFilter.Debug, "PopupMenu_Initialize", Reskin_PopupMenu)
 end

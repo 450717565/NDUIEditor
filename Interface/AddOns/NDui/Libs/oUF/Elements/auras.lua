@@ -293,9 +293,9 @@ local function filterIcons(element, unit, filter, limit, isDebuff, offset, dontH
 		local result = updateIcon(element, unit, index, offset, filter, isDebuff, visible)
 		if (not result) then
 			break
-		elseif(result == VISIBLE) then
+		elseif (result == VISIBLE) then
 			visible = visible + 1
-		elseif(result == HIDDEN) then
+		elseif (result == HIDDEN) then
 			hidden = hidden + 1
 		end
 

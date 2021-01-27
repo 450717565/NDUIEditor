@@ -32,7 +32,7 @@ local function Reskin_OptionalReagentList(self)
 	local buttons = self.ScrollList.ScrollFrame.buttons
 	for i = 1, #buttons do
 		local button = buttons[i]
-		if not button.styled then
+		if button and not button.styled then
 			button.NameFrame:Hide()
 
 			button.Icon:SetSize(36, 36)

@@ -19,21 +19,6 @@ local function Update_Highlight(self)
 	end
 end
 
-local function Reskin_TitleButton(self)
-	if not self then return end
-
-	if not self.styled then
-		self.Hilite:Hide()
-
-		B.StripTextures(self)
-		B.ReskinButton(self)
-		B.CreateBT(self.bgTex)
-		B.ReskinText(self.Label, 1, .8, 0)
-
-		self.styled = true
-	end
-end
-
 local function Update_RewardBorder(self)
 	if not self.icbg and not self.bubg then return end
 
@@ -58,9 +43,7 @@ local function Update_RewardBorder(self)
 end
 
 local function Reskin_RewardButton(self)
-	if not self then return end
-
-	if not self.styled then
+	if self and not self.styled then
 		B.StripTextures(self, 1)
 
 		self.icbg = B.ReskinIcon(self.Icon)
@@ -72,9 +55,19 @@ local function Reskin_RewardButton(self)
 	Update_RewardBorder(self)
 end
 
-local function Reskin_GetButton(self, index)
+local function Reskin_TitleButton(self, index)
 	local button = self.Buttons[index]
-	Reskin_TitleButton(button)
+	if button and not button.styled then
+		button.Hilite:Hide()
+		button.Overlay:Hide()
+
+		B.StripTextures(button)
+		B.ReskinButton(button)
+		B.CreateBT(button.bgTex)
+		B.ReskinText(button.Label, 1, .8, 0)
+
+		button.styled = true
+	end
 
 	if index > 1 then
 		button:ClearAllPoints()
@@ -125,7 +118,7 @@ local function Reskin_AddQuestInfo(self)
 	end
 end
 
-local function Reskin_QuestProgress(self)
+local function Reskin_QuestProgres(self)
 	local buttons = self.TalkBox.Elements.Progress.Buttons
 	for i = 1, #buttons do
 		local button = buttons[i]
@@ -173,7 +166,15 @@ function Skins:Immersion()
 	Indicator:ClearAllPoints()
 	Indicator:SetPoint("RIGHT", MainFrame.CloseButton, "LEFT", -3, 0)
 
+	for i = 1, 4 do
+		local notch = _G["ImmersionFrameNotch"..i]
+		if notch then
+			notch:SetColorTexture(0, 0, 0)
+			notch:SetSize(C.mult, 16)
+		end
+	end
+
 	hooksecurefunc(ImmersionFrame, "AddQuestInfo", Reskin_AddQuestInfo)
-	hooksecurefunc(ImmersionFrame, "QUEST_PROGRESS", Reskin_QuestProgress)
-	hooksecurefunc(ImmersionFrame.TitleButtons, "GetButton", Reskin_GetButton)
+	hooksecurefunc(ImmersionFrame, "QUEST_PROGRESS", Reskin_QuestProgres)
+	hooksecurefunc(ImmersionFrame.TitleButtons, "GetButton", Reskin_TitleButton)
 end

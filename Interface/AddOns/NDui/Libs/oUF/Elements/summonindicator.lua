@@ -49,9 +49,9 @@ local function Update(self, event, unit)
 	if (status ~= SUMMON_STATUS_NONE) then
 		if (status == SUMMON_STATUS_PENDING) then
 			element:SetAtlas('Raid-Icon-SummonPending')
-		elseif(status == SUMMON_STATUS_ACCEPTED) then
+		elseif (status == SUMMON_STATUS_ACCEPTED) then
 			element:SetAtlas('Raid-Icon-SummonAccepted')
-		elseif(status == SUMMON_STATUS_DECLINED) then
+		elseif (status == SUMMON_STATUS_DECLINED) then
 			element:SetAtlas('Raid-Icon-SummonDeclined')
 		end
 

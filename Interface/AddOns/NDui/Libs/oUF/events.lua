@@ -109,7 +109,7 @@ function frame_metatable.__index:RegisterEvent(event, func, unitless)
 		local kind = type(curev)
 		if (kind == 'function' and curev ~= func) then
 			self[event] = setmetatable({curev, func}, event_metatable)
-		elseif(kind == 'table') then
+		elseif (kind == 'table') then
 			for _, infunc in next, curev do
 				if (infunc == func) then return end
 			end
@@ -125,7 +125,7 @@ function frame_metatable.__index:RegisterEvent(event, func, unitless)
 				self.unitEvents[event] = nil
 			end
 		end
-	elseif(validateEvent(event)) then
+	elseif (validateEvent(event)) then
 		self[event] = func
 
 		if (not self:GetScript('OnEvent')) then

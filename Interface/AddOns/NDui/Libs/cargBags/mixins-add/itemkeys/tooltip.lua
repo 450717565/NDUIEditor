@@ -47,11 +47,11 @@ cargBags.itemKeys["bindOn"] = function(i)
 
 	local bindOn
 	if (bound:match(ITEM_BIND_ON_EQUIP)) then bindOn = "equip"
-	elseif(bound:match(ITEM_SOULBOUND)) then bindOn = "soul"
-	elseif(bound:match(ITEM_BIND_QUEST)) then bindOn = "quest"
-	elseif(bound:match(ITEM_BIND_TO_ACCOUNT)) then bindOn = "account"
-	elseif(bound:match(ITEM_BIND_ON_PICKUP)) then bindOn = "pickup"
-	elseif(bound:match(ITEM_BIND_ON_USE)) then bindOn = "use" end
+	elseif (bound:match(ITEM_SOULBOUND)) then bindOn = "soul"
+	elseif (bound:match(ITEM_BIND_QUEST)) then bindOn = "quest"
+	elseif (bound:match(ITEM_BIND_TO_ACCOUNT)) then bindOn = "account"
+	elseif (bound:match(ITEM_BIND_ON_PICKUP)) then bindOn = "pickup"
+	elseif (bound:match(ITEM_BIND_ON_USE)) then bindOn = "use" end
 
 	i.bindOn = bindOn
 	return bindOn

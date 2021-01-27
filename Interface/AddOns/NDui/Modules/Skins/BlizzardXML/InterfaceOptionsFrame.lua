@@ -13,12 +13,10 @@ local function Reskin_InterfaceAddOnsList()
 		button.highlight:SetAlpha(.25)
 
 		local toggle = _G[buttons.."Toggle"]
-		if toggle then
-			if not toggle.styled then
-				B.ReskinCollapse(toggle)
+		if toggle and not toggle.styled then
+			B.ReskinCollapse(toggle)
 
-				toggle.styled = true
-			end
+			toggle.styled = true
 		end
 
 		toggle:SetPushedTexture("")

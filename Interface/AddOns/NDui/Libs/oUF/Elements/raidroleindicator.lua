@@ -47,7 +47,7 @@ local function Update(self, event)
 			isShown = true
 			element:SetTexture(MAINTANK_ICON)
 			role = 'MAINTANK'
-		elseif(GetPartyAssignment('MAINASSIST', unit)) then
+		elseif (GetPartyAssignment('MAINASSIST', unit)) then
 			isShown = true
 			element:SetTexture(MAINASSIST_ICON)
 			role = 'MAINASSIST'

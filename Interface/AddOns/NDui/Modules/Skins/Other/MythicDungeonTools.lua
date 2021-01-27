@@ -2,28 +2,21 @@ local _, ns = ...
 local B, C, L, DB, P = unpack(ns)
 local Skins = B:GetModule("Skins")
 
-function Skins:MythicDungeonTools()
-	if not IsAddOnLoaded("MythicDungeonTools") then return end
+local Buttons = {
+	"ClearPresetButton",
+	"LinkToChatButton",
+	"LiveSessionButton",
+	"MDIButton",
+	"sidePanelDeleteButton",
+	"sidePanelExportButton",
+	"sidePanelImportButton",
+	"sidePanelNewButton",
+	"sidePanelRenameButton",
+}
 
-	local MDT = _G.MDT
-
-	local Buttons = {
-		"ClearPresetButton",
-		"LinkToChatButton",
-		"LiveSessionButton",
-		"MDIButton",
-		"sidePanelDeleteButton",
-		"sidePanelExportButton",
-		"sidePanelImportButton",
-		"sidePanelNewButton",
-		"sidePanelRenameButton",
-	}
-
-	local styled
-	hooksecurefunc(MDT, "ShowInterface", function()
-		if styled then return end
-
-		local frame = MDT.main_frame
+local function Reskin_ShowInterface(self)
+	if not self.styled then
+		local frame = self.main_frame
 		frame.HelpButton.Ring:Hide()
 
 		B.ReskinMinMax(frame.maximizeButton)
@@ -38,6 +31,13 @@ function Skins:MythicDungeonTools()
 			end
 		end
 
-		styled = true
-	end)
+		self.styled = true
+	end
+end
+
+function Skins:MythicDungeonTools()
+	if not IsAddOnLoaded("MythicDungeonTools") then return end
+
+	local MDT = _G.MDT
+	hooksecurefunc(MDT, "ShowInterface", Reskin_ShowInterface)
 end

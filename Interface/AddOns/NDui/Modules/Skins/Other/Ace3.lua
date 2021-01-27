@@ -270,8 +270,9 @@ function Skins:Ace3_RegisterAsWidget(widget)
 		widget.frame:HookScript("OnShow", function()
 			if widget.extraButtons then
 				for _, button in next, widget.extraButtons do
-					if not button.styled then
-					B.ReskinButton(button)
+					if button and not button.styled then
+						B.ReskinButton(button)
+
 						button.styled = true
 					end
 				end

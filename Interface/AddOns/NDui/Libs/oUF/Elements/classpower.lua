@@ -190,7 +190,7 @@ local function Visibility(self, event, unit)
 	if (UnitHasVehicleUI('player')) then
 		shouldEnable = PlayerVehicleHasComboPoints()
 		unit = 'vehicle'
-	elseif(ClassPowerID) then
+	elseif (ClassPowerID) then
 		if (not RequireSpec or RequireSpec == GetSpecialization()) then
 			-- use 'player' instead of unit because 'SPELLS_CHANGED' is a unitless event
 			if (not RequirePower or RequirePower == UnitPowerType('player')) then
@@ -230,13 +230,13 @@ local function Visibility(self, event, unit)
 		if (element.PostVisibility) then
 			element:PostVisibility(true)
 		end
-	elseif(not shouldEnable and (isEnabled or isEnabled == nil)) then
+	elseif (not shouldEnable and (isEnabled or isEnabled == nil)) then
 		ClassPowerDisable(self)
 
 		if (element.PostVisibility) then
 			element:PostVisibility(false)
 		end
-	elseif(shouldEnable and isEnabled) then
+	elseif (shouldEnable and isEnabled) then
 		Path(self, event, unit, powerType)
 	end
 end
@@ -292,13 +292,13 @@ do
 		ClassPowerID = SPELL_POWER_CHI
 		ClassPowerType = 'CHI'
 		RequireSpec = SPEC_MONK_WINDWALKER
-	elseif(PlayerClass == 'PALADIN') then
+	elseif (PlayerClass == 'PALADIN') then
 		ClassPowerID = SPELL_POWER_HOLY_POWER
 		ClassPowerType = 'HOLY_POWER'
-	elseif(PlayerClass == 'WARLOCK') then
+	elseif (PlayerClass == 'WARLOCK') then
 		ClassPowerID = SPELL_POWER_SOUL_SHARDS
 		ClassPowerType = 'SOUL_SHARDS'
-	elseif(PlayerClass == 'ROGUE' or PlayerClass == 'DRUID') then
+	elseif (PlayerClass == 'ROGUE' or PlayerClass == 'DRUID') then
 		ClassPowerID = SPELL_POWER_COMBO_POINTS
 		ClassPowerType = 'COMBO_POINTS'
 
@@ -306,7 +306,7 @@ do
 			RequirePower = SPELL_POWER_ENERGY
 			RequireSpell = 5221 -- Shred
 		end
-	elseif(PlayerClass == 'MAGE') then
+	elseif (PlayerClass == 'MAGE') then
 		ClassPowerID = SPELL_POWER_ARCANE_CHARGES
 		ClassPowerType = 'ARCANE_CHARGES'
 		RequireSpec = SPEC_MAGE_ARCANE

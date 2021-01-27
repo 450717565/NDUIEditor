@@ -109,25 +109,27 @@ local function Reskin_MemberList(self)
 	Reskin_ColumnDisplay(ColumnDisplay)
 
 	for _, button in pairs(self.ListScrollFrame.buttons or {}) do
-		if button and not button.styled then
-			B.ReskinHighlight(button, nil, true)
+		if button then
+			if not button.styled then
+				B.ReskinHighlight(button, nil, true)
 
-			hooksecurefunc(button, "RefreshExpandedColumns", Reskin_RefreshExpandedColumns)
+				hooksecurefunc(button, "RefreshExpandedColumns", Reskin_RefreshExpandedColumns)
 
-			if button.ProfessionHeader then
-				local header = button.ProfessionHeader
-				B.StripTextures(header)
+				if button.ProfessionHeader then
+					local header = button.ProfessionHeader
+					B.StripTextures(header)
 
-				local bg = B.CreateBDFrame(header, 0, 1)
-				B.ReskinHighlight(header, bg, true)
-				B.ReskinIcon(header.Icon)
+					local bg = B.CreateBDFrame(header, 0, 1)
+					B.ReskinHighlight(header, bg, true)
+					B.ReskinIcon(header.Icon)
+				end
+
+				button.styled = true
 			end
 
-			button.styled = true
-		end
-
-		if button and button.Class.icbg then
-			button.Class.icbg:SetShown(button.Class:IsShown())
+			if button.Class.icbg then
+				button.Class.icbg:SetShown(button.Class:IsShown())
+			end
 		end
 	end
 end
@@ -175,7 +177,7 @@ local function Reskin_TicketManagerDialog(self)
 	local buttons = self.InviteManager.ListScrollFrame.buttons
 	for i = 1, #buttons do
 		local button = buttons[i]
-		if not button.styled then
+		if button and not button.styled then
 			B.ReskinButton(button.CopyLinkButton)
 			B.ReskinButton(button.RevokeButton)
 			button.RevokeButton:SetSize(18, 18)
@@ -208,7 +210,7 @@ local function Reskin_ApplicantList(self)
 	local buttons = self.ListScrollFrame.buttons
 	for i = 1, #buttons do
 		local button = buttons[i]
-		if not button.styled then
+		if button and not button.styled then
 			button:SetPoint("LEFT", self.bg, C.mult, 0)
 			button:SetPoint("RIGHT", self.bg, -C.mult, 0)
 			button.InviteButton:SetSize(66, 18)

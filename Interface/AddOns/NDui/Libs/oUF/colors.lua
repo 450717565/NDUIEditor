@@ -128,7 +128,7 @@ end
 local function colorsAndPercent(a, b, ...)
 	if (a <= 0 or b == 0) then
 		return nil, ...
-	elseif(a >= b) then
+	elseif (a >= b) then
 		return nil, select(-3, ...)
 	end
 
@@ -171,9 +171,9 @@ local function rgbToHCY(r, g, b)
 	if (chroma > 0) then
 		if (r == max) then
 			hue = ((g - b) / chroma) % 6
-		elseif(g == max) then
+		elseif (g == max) then
 			hue = (b - r) / chroma + 2
-		elseif(b == max) then
+		elseif (b == max) then
 			hue = (r - g) / chroma + 4
 		end
 		hue = hue / 6
@@ -188,13 +188,13 @@ local function hcyToRGB(hue, chroma, luma)
 		local x = chroma * (1 - math.abs(h2 % 2 - 1))
 		if (h2 < 1) then
 			r, g, b = chroma, x, 0
-		elseif(h2 < 2) then
+		elseif (h2 < 2) then
 			r, g, b = x, chroma, 0
-		elseif(h2 < 3) then
+		elseif (h2 < 3) then
 			r, g, b = 0, chroma, x
-		elseif(h2 < 4) then
+		elseif (h2 < 4) then
 			r, g, b = 0, x, chroma
-		elseif(h2 < 5) then
+		elseif (h2 < 5) then
 			r, g, b = x, 0, chroma
 		else
 			r, g, b = chroma, 0, x
@@ -203,7 +203,7 @@ local function hcyToRGB(hue, chroma, luma)
 		local y = getY(r, g, b)
 		if (luma < y) then
 			chroma = chroma * (luma / y)
-		elseif(y < 1) then
+		elseif (y < 1) then
 			chroma = chroma * (1 - luma) / (1 - y)
 		end
 
@@ -241,7 +241,7 @@ function oUF:HCYColorGradient(...)
 		local dh = h2 - h1
 		if (dh < -0.5) then
 			dh = dh + 1
-		elseif(dh > 0.5) then
+		elseif (dh > 0.5) then
 			dh = dh - 1
 		end
 

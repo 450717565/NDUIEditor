@@ -38,7 +38,7 @@ end
 local function Reskin_RankOrder()
 	for i = 1, GuildControlGetNumRanks() do
 		local rank = _G["GuildControlUIRankOrderFrameRank"..i]
-		if not rank.styled then
+		if rank and not rank.styled then
 			rank.upButton:ClearAllPoints()
 			rank.upButton:SetPoint("LEFT", rank.nameBox, "RIGHT", 10, 0)
 

@@ -80,12 +80,10 @@ local function Reskin_Update(self)
 							Reskin_TextColor(child2.LeadingText, 1, .8, 0)
 						end
 
-						if child2.Icon then
-							if not child2.Icon.styled then
-								B.ReskinIcon(child2.Icon)
+						if child2.Icon and not child2.Icon.styled then
+							B.ReskinIcon(child2.Icon)
 
-								child2.Icon.styled = true
-							end
+							child2.Icon.styled = true
 						end
 					end
 				end
@@ -101,7 +99,7 @@ local function Reskin_SetupRewards(self)
 	for i = 1, self.numActiveOptions do
 		local Rewards = self.Options[i].RewardsFrame.Rewards
 		for button in Rewards.ItemRewardsPool:EnumerateActive() do
-			if not button.styled then
+			if button and not button.styled then
 				local icbg = B.ReskinIcon(button.Icon)
 				B.ReskinBorder(button.IconBorder, icbg)
 				B.ReskinText(button.Name, .9, .8, .5)

@@ -2,9 +2,7 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
 local function Reskin_Button(self)
-	if not self then return end
-
-	if not self.styled then
+	if self and not self.styled then
 		B.StripTextures(self)
 		local frameName = self:GetDebugName()
 		local icon = _G[frameName.."Icon"]

@@ -17,6 +17,7 @@ local function Reskin_StaticPopup(which, _, _, data)
 			local frame = _G["StaticPopup"..i]
 			if not frame:IsShown() then
 				dialog = frame
+
 				break
 			end
 		end
@@ -26,6 +27,7 @@ local function Reskin_StaticPopup(which, _, _, data)
 				local frame = _G["StaticPopup"..i]
 				if not frame:IsShown() then
 					dialog = frame
+
 					break
 				end
 			end

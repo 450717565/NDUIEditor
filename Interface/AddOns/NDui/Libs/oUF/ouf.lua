@@ -33,7 +33,7 @@ local function enableTargetUpdate(object)
 	object:SetScript('OnUpdate', function(self, elapsed)
 		if (not self.unit) then
 			return
-		elseif(total > self.onUpdateFrequency) then
+		elseif (total > self.onUpdateFrequency) then
 			self:UpdateAllElements('OnUpdate')
 			total = 0
 		end
@@ -50,7 +50,7 @@ local function updateActiveUnit(self, event, unit)
 	-- _GetUnit() doesn't rewrite playerpet -> pet like _GetModifiedUnit does.
 	if (realUnit == 'playerpet') then
 		realUnit = 'pet'
-	elseif(realUnit == 'playertarget') then
+	elseif (realUnit == 'playertarget') then
 		realUnit = 'target'
 	end
 
@@ -235,7 +235,7 @@ local function updatePet(self, event, unit)
 	local petUnit
 	if (unit == 'target') then
 		return
-	elseif(unit == 'player') then
+	elseif (unit == 'player') then
 		petUnit = 'pet'
 	else
 		-- Convert raid26 -> raidpet26
@@ -490,11 +490,11 @@ local function generateName(unit, ...)
 		local att, val = select(i, ...)
 		if (att == 'oUF-initialConfigFunction') then
 			unitsuffix = val:match('unitsuffix[%p%s]+(%a+)')
-		elseif(att == 'showRaid') then
+		elseif (att == 'showRaid') then
 			raid = val ~= false and val ~= nil
-		elseif(att == 'showParty') then
+		elseif (att == 'showParty') then
 			party = val ~= false and val ~= nil
-		elseif(att == 'groupFilter') then
+		elseif (att == 'groupFilter') then
 			groupFilter = val
 		end
 	end
@@ -504,9 +504,9 @@ local function generateName(unit, ...)
 		if (groupFilter) then
 			if (type(groupFilter) == 'number' and groupFilter > 0) then
 				append = 'Raid' .. groupFilter
-			elseif(groupFilter:match('MAINTANK')) then
+			elseif (groupFilter:match('MAINTANK')) then
 				append = 'MainTank'
-			elseif(groupFilter:match('MAINASSIST')) then
+			elseif (groupFilter:match('MAINASSIST')) then
 				append = 'MainAssist'
 			else
 				local _, count = groupFilter:gsub(',', '')
@@ -519,9 +519,9 @@ local function generateName(unit, ...)
 		else
 			append = 'Raid'
 		end
-	elseif(party) then
+	elseif (party) then
 		append = 'Party'
-	elseif(unit) then
+	elseif (unit) then
 		append = unit:gsub('^%l', string.upper)
 	end
 
@@ -574,9 +574,9 @@ do
 					else
 						unit = 'mainassist'
 					end
-				elseif(header:GetAttribute('showRaid')) then
+				elseif (header:GetAttribute('showRaid')) then
 					unit = 'raid'
-				elseif(header:GetAttribute('showParty')) then
+				elseif (header:GetAttribute('showParty')) then
 					unit = 'party'
 				end
 
@@ -588,7 +588,7 @@ do
 					else
 						unit = unit .. suffix
 					end
-				elseif(unit and headerType == 'pet') then
+				elseif (unit and headerType == 'pet') then
 					unit = unit .. headerType
 				end
 
@@ -793,7 +793,7 @@ function oUF:SpawnNamePlates(namePrefix, nameplateCallback, nameplateCVars)
 					SetCVar(cvar, value)
 				end
 			end
-		elseif(event == 'PLAYER_TARGET_CHANGED') then
+		elseif (event == 'PLAYER_TARGET_CHANGED') then
 			local nameplate = C_NamePlate.GetNamePlateForUnit('target')
 			if (nameplateCallback) then
 				nameplateCallback(nameplate and nameplate.unitFrame, event, 'target')
@@ -804,7 +804,7 @@ function oUF:SpawnNamePlates(namePrefix, nameplateCallback, nameplateCVars)
 			if (nameplate) then
 				nameplate.unitFrame:UpdateAllElements(event)
 			end
-		elseif(event == 'NAME_PLATE_UNIT_ADDED' and unit) then
+		elseif (event == 'NAME_PLATE_UNIT_ADDED' and unit) then
 			local nameplate = C_NamePlate.GetNamePlateForUnit(unit)
 			if (not nameplate) then return end
 
@@ -831,7 +831,7 @@ function oUF:SpawnNamePlates(namePrefix, nameplateCallback, nameplateCVars)
 			-- UAE is called after the callback to reduce the number of
 			-- ForceUpdate calls layout devs have to do themselves
 			nameplate.unitFrame:UpdateAllElements(event)
-		elseif(event == 'NAME_PLATE_UNIT_REMOVED' and unit) then
+		elseif (event == 'NAME_PLATE_UNIT_REMOVED' and unit) then
 			local nameplate = C_NamePlate.GetNamePlateForUnit(unit)
 			if (not nameplate) then return end
 
@@ -880,7 +880,7 @@ oUF.headers = headers
 if (global) then
 	if (parent ~= 'oUF' and global == 'oUF') then
 		error('%s is doing it wrong and setting its global to "oUF".', parent)
-	elseif(_G[global]) then
+	elseif (_G[global]) then
 		error('%s is setting its global to an existing name "%s".', parent, global)
 	else
 		_G[global] = oUF

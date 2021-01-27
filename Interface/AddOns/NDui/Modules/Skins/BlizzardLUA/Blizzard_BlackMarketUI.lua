@@ -5,7 +5,7 @@ local function Reskin_BlackMarketScrollFrame()
 	local buttons = BlackMarketScrollFrame.buttons
 	for i = 1, #buttons do
 		local button = buttons[i]
-		if not button.styled then
+		if button and not button.styled then
 			B.StripTextures(button)
 
 			local item = button.Item

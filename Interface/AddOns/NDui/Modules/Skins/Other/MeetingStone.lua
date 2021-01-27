@@ -74,11 +74,13 @@ end
 local function Reskin_AutoCompleteFrame(self)
 	for i = 1, #self.buttons do
 		local button = self:GetButton(i)
-		if not button.styled and button:IsShown() then
-			B.StripTextures(button)
-			B.ReskinButton(button)
+		if button and button:IsShown() then
+			if not button.styled then
+				B.StripTextures(button)
+				B.ReskinButton(button)
 
-			button.styled = true
+				button.styled = true
+			end
 		end
 	end
 end
@@ -91,6 +93,8 @@ local function Reskin_DropMenu(self, level, ...)
 
 		local scrollBar = menu.GetScrollBar and menu:GetScrollBar()
 		if scrollBar then B.ReskinScroll(scrollBar) end
+
+		menu.styled = true
 	end
 end
 
@@ -120,21 +124,23 @@ end
 local function Reskin_ListView(self)
 	for i = 1, #self.buttons do
 		local button = self:GetButton(i)
-		if not button.styled and button:IsShown() then
-			B.StripTextures(button)
-			B.ReskinButton(button)
-			B.ReskinHighlight(button:GetCheckedTexture(), button, true, true)
+		if button and button:IsShown() then
+			if not button.styled then
+				B.StripTextures(button)
+				B.ReskinButton(button)
+				B.ReskinHighlight(button:GetCheckedTexture(), button, true, true)
 
-			if button.Option then
-				B.ReskinButton(button.Option.InviteButton)
-				B.ReskinDecline(button.Option.DeclineButton)
+				if button.Option then
+					B.ReskinButton(button.Option.InviteButton)
+					B.ReskinDecline(button.Option.DeclineButton)
+				end
+
+				if button.Summary then
+					B.ReskinDecline(button.Summary.CancelButton)
+				end
+
+				button.styled = true
 			end
-
-			if button.Summary then
-				B.ReskinDecline(button.Summary.CancelButton)
-			end
-
-			button.styled = true
 		end
 	end
 end
@@ -170,11 +176,13 @@ function Skins:MeetingStone()
 	-- AdvFilterPanel
 	local BrowsePanel = MSEnv.BrowsePanel
 	for i, box in pairs(BrowsePanel.filters) do
-		B.ReskinCheck(box.Check)
-		B.ReskinInput(box.MaxBox)
-		B.ReskinInput(box.MinBox)
+		if box and not box.styled then
+			B.ReskinCheck(box.Check)
+			B.ReskinInput(box.MaxBox)
+			B.ReskinInput(box.MinBox)
 
-		box.styled = true
+			box.styled = true
+		end
 	end
 
 	local AdvFilterPanel = BrowsePanel.AdvFilterPanel
@@ -360,6 +368,8 @@ function Skins:MeetingStone()
 		local child = select(i, AdvFilterPanel.Inset:GetChildren())
 		if child.Check and not child.styled then
 			B.ReskinCheck(child.Check)
+
+			child.styled = true
 		end
 	end
 
@@ -367,10 +377,12 @@ function Skins:MeetingStone()
 	for i = 1, ManagerPanel:GetNumChildren() do
 		local child = select(i, ManagerPanel:GetChildren())
 		if child:IsObjectType("Button") and child.Icon and child.Text and not child.styled then
-			child:SetHeight(26)
 			B.ReskinButton(child)
 
+			child:SetHeight(26)
 			child:HookScript("PostClick", ReskinMS_ALFrame)
+
+			child.styled = true
 		end
 	end
 

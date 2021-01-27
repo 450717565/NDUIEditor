@@ -59,7 +59,7 @@ local function UpdateColor(self, event, unit)
 	local t
 	if (perc >= STAGGER_RED_TRANSITION) then
 		t = colors and colors[STAGGER_RED_INDEX]
-	elseif(perc > STAGGER_YELLOW_TRANSITION) then
+	elseif (perc > STAGGER_YELLOW_TRANSITION) then
 		t = colors and colors[STAGGER_YELLOW_INDEX]
 	else
 		t = colors and colors[STAGGER_GREEN_INDEX]

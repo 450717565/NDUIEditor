@@ -59,7 +59,7 @@ function Implementation:ParseTextFilter(text, filters, textFilters)
 		mod = (mod == "!" and -1) or true
 		if (value and type ~= "" and textFilters[type]) then
 			filters:SetExtended(textFilters[type], value:lower(), mod)
-		elseif(value and type == "" and textFilters._default) then
+		elseif (value and type == "" and textFilters._default) then
 			local name = textFilters._default
 			filters:SetExtended(textFilters[name], value:lower(), mod)
 		end

@@ -155,9 +155,11 @@ local function Reskin_WAOptions()
 
 	-- WeakAurasTemplates
 	hooksecurefunc(WeakAuras, "OpenTriggerTemplate", function()
-		if frame.newView and not frame.newView.styled then
-			Reskin_ChildButton(frame.newView.frame)
-			frame.newView.styled = true
+		local newView = frame.newView
+		if newView and not newView.styled then
+			Reskin_ChildButton(newView.frame)
+
+			newView.styled = true
 		end
 	end)
 

@@ -5,7 +5,7 @@ local Skins = B:GetModule("Skins")
 local function Reskin_UpdateLog(self)
 	for i = 1, #self.buttons do
 		local button = self.buttons[i]
-		if not button.styled then
+		if button and not button.styled then
 			B.ReskinCollapse(button)
 
 			button.styled = true

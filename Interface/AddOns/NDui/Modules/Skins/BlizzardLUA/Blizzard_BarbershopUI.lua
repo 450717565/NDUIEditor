@@ -24,7 +24,7 @@ end
 
 local function Reskin_CharCustomizeFrame(self)
 	for button in self.selectionPopoutPool:EnumerateActive() do
-		if not button.styled then
+		if button and not button.styled then
 			B.ReskinArrow(button.DecrementButton, "left", 24)
 			B.ReskinArrow(button.IncrementButton, "right", 24)
 
@@ -44,7 +44,7 @@ local function Reskin_CharCustomizeFrame(self)
 
 	local optionPool = self.pools:GetPool("CharCustomizeOptionCheckButtonTemplate")
 	for button in optionPool:EnumerateActive() do
-		if not button.styled then
+		if button and not button.styled then
 			B.ReskinCheck(button.Button)
 
 			button.styled = true

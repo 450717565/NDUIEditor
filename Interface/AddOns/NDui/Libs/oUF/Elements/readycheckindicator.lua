@@ -73,7 +73,7 @@ local function Update(self, event)
 	if (unitExists(unit) and status) then
 		if (status == 'ready') then
 			element:SetTexture(element.readyTexture)
-		elseif(status == 'notready') then
+		elseif (status == 'notready') then
 			element:SetTexture(element.notReadyTexture)
 		else
 			element:SetTexture(element.waitingTexture)
@@ -81,7 +81,7 @@ local function Update(self, event)
 
 		element.status = status
 		element:Show()
-	elseif(event ~= 'READY_CHECK_FINISHED') then
+	elseif (event ~= 'READY_CHECK_FINISHED') then
 		element.status = nil
 		element:Hide()
 	end

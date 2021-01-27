@@ -11,7 +11,7 @@ local function Reskin_GuildBankPopupFrame(self)
 		local button = _G[buttons]
 		local icon = _G[buttons.."Icon"]
 
-		if not button.styled then
+		if button and not button.styled then
 			B.StripTextures(button)
 
 			local icbg = B.ReskinIcon(icon)

@@ -31,7 +31,7 @@ end
 
 local function Reskin_TitleButton(self)
 	for button in self.titleButtonPool:EnumerateActive() do
-		if not button.styled then
+		if button and not button.styled then
 			B.ReskinHighlight(button, button, true)
 			local hl = button:GetHighlightTexture()
 			hl:SetOutside()

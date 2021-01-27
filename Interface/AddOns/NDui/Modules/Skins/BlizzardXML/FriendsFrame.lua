@@ -19,7 +19,7 @@ end
 
 local function Reskin_InvitePool(self)
 	for invite in self:EnumerateActive() do
-		if not invite.styled then
+		if invite and not invite.styled then
 			B.StripTextures(invite)
 			B.ReskinDecline(invite.DeclineButton)
 			B.ReskinButton(invite.AcceptButton)

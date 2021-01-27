@@ -128,7 +128,7 @@ cargBags:SetScript("OnEvent", function(self, event)
 
 	if (event == "PLAYER_LOGIN") then
 		self:ReplaceBlizzard(impl)
-	elseif(event == "BANKFRAME_OPENED") then
+	elseif (event == "BANKFRAME_OPENED") then
 		self.atBank = true
 
 		if (impl:IsShown()) then
@@ -140,7 +140,7 @@ cargBags:SetScript("OnEvent", function(self, event)
 		if (impl.OnBankOpened) then
 			impl:OnBankOpened()
 		end
-	elseif(event == "BANKFRAME_CLOSED") then
+	elseif (event == "BANKFRAME_CLOSED") then
 		self.atBank = nil
 
 		if (impl:IsShown()) then

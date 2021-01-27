@@ -24,7 +24,7 @@ local function Fixed_UpdateScrollFrame()
 	local buttons = PaperDollTitlesPane.buttons
 	for i = 1, #buttons do
 		local button = buttons[i]
-		if not button.fontStyled then
+		if button and not button.fontStyled then
 			B.ReskinFont(button.text, 14)
 
 			button.fontStyled = true

@@ -9,7 +9,7 @@ end
 
 local function Reskin_EssenceList(self)
 	for i, button in pairs(self.buttons) do
-		if not button.styled then
+		if button and not button.styled then
 			local icbg = B.ReskinIcon(button.Icon)
 
 			local bubg = B.CreateBGFrame(button, 2, 0, 0, 0, icbg)

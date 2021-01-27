@@ -15,9 +15,7 @@ local function Reskin_LFGDungeonListButton(button)
 end
 
 local function Reskin_Reward(self)
-	if not self then return end
-
-	if not self.styled then
+	if self and not self.styled then
 		local iconBorder = self.IconBorder
 		local buttonName = self:GetDebugName()
 		local nameFrame = _G[buttonName.."NameFrame"]
@@ -26,10 +24,10 @@ local function Reskin_Reward(self)
 
 		local icbg = B.ReskinIcon(iconTexture)
 		local bubg = B.CreateBGFrame(self, 2, 0, -5, 0, icbg)
+		B.ReskinBorder(self.IconBorder, icbg, bubg)
 
 		if nameFrame then nameFrame:Hide() end
 		if shortageBorder then shortageBorder:SetTexture("") end
-		if iconBorder then B.ReskinBorder(self.IconBorder, icbg, bubg) end
 
 		self.styled = true
 	end

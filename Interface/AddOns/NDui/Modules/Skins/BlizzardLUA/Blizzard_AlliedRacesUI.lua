@@ -7,8 +7,7 @@ local function Reskin_AlliedRacesFrame()
 
 	for i = 1, Child:GetNumChildren() do
 		local button = select(i, Child:GetChildren())
-
-		if not button.styled then
+		if button and not button.styled then
 			if button.Icon then
 				B.ReskinIcon(button.Icon)
 				select(3, button:GetRegions()):Hide()

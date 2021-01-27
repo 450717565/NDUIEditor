@@ -95,12 +95,10 @@ local function Reskin_ContentTracker()
 		if widgetFrame.CurrencyContainer then
 			local child = {widgetFrame.CurrencyContainer:GetChildren()}
 			for _, button in pairs(child) do
-				if button then
-					if not button.styled then
-						B.ReskinIcon(button.Icon)
+				if button and not button.styled then
+					B.ReskinIcon(button.Icon)
 
-						button.styled = true
-					end
+					button.styled = true
 				end
 			end
 		end

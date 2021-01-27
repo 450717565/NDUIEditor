@@ -55,18 +55,18 @@ local function Reskin_UpdateAchievements()
 	for i = 1, 4 do
 		local buttons = "AchievementFrameSummaryAchievement"..i
 
-		local bu = _G[buttons]
-		B.ReskinText(bu.description, 1, 1, 1)
+		local button = _G[buttons]
+		B.ReskinText(button.description, 1, 1, 1)
 
-		if bu.accountWide then
-			B.ReskinText(bu.label, 0, .8, 1)
+		if button.accountWide then
+			B.ReskinText(button.label, 0, .8, 1)
 		else
-			B.ReskinText(bu.label, 1, .8, 0)
+			B.ReskinText(button.label, 1, .8, 0)
 		end
 
-		if not bu.styled then
-			B.StripTextures(bu, 0)
-			B.CreateBDFrame(bu, 0, 2)
+		if not button.styled then
+			B.StripTextures(button, 0)
+			B.CreateBDFrame(button, 0, 2)
 
 			local hl = _G[buttons.."Highlight"]
 			hl:SetOutside(nil, 1, 1)
@@ -77,7 +77,7 @@ local function Reskin_UpdateAchievements()
 			local ic = _G[buttons.."IconTexture"]
 			B.ReskinIcon(ic)
 
-			bu.styled = true
+			button.styled = true
 		end
 	end
 end
@@ -210,22 +210,22 @@ C.LUAThemes["Blizzard_AchievementUI"] = function()
 	end
 
 	for i = 1, 7 do
-		local button = "AchievementFrameAchievementsContainerButton"..i
+		local buttons = "AchievementFrameAchievementsContainerButton"..i
 
-		local bu = _G[button]
-		B.StripTextures(bu, 0)
-		B.CreateBDFrame(bu, 0, 1)
+		local button = _G[buttons]
+		B.StripTextures(button, 0)
+		B.CreateBDFrame(button, 0, 1)
 
-		local hl = _G[button.."Highlight"]
+		local hl = _G[buttons.."Highlight"]
 		hl:SetOutside(nil, 2, 2)
 
-		local io = _G[button.."IconOverlay"]
+		local io = _G[buttons.."IconOverlay"]
 		io:Hide()
 
-		local icon = _G[button.."IconTexture"]
+		local icon = _G[buttons.."IconTexture"]
 		local icbg = B.ReskinIcon(icon)
 
-		local track = _G[button.."Tracked"]
+		local track = _G[buttons.."Tracked"]
 		track:SetSize(22, 22)
 		track:ClearAllPoints()
 		track:SetPoint("TOPLEFT", icbg, "BOTTOMLEFT", -3.5, 0)
@@ -233,10 +233,10 @@ C.LUAThemes["Blizzard_AchievementUI"] = function()
 	end
 
 	for i = 1, 20 do
-		local bu = _G["AchievementFrameStatsContainerButton"..i]
-		B.StripTextures(bu)
+		local button = _G["AchievementFrameStatsContainerButton"..i]
+		B.StripTextures(button)
 
-		local hl = bu:GetHighlightTexture()
+		local hl = button:GetHighlightTexture()
 		hl:SetColorTexture(cr, cg, cb, .25)
 		hl:SetBlendMode("BLEND")
 	end
@@ -281,19 +281,19 @@ C.LUAThemes["Blizzard_AchievementUI"] = function()
 	end
 
 	for i = 1, 9 do
-		local button = "AchievementFrameComparisonContainerButton"..i
+		local buttons = "AchievementFrameComparisonContainerButton"..i
 
 		for _, name in pairs({"Player", "Friend"}) do
-			B.StripTextures(_G[button..name], 0)
-			B.CreateBDFrame(_G[button..name], 0, 1)
+			B.StripTextures(_G[buttons..name], 0)
+			B.CreateBDFrame(_G[buttons..name], 0, 1)
 		end
 
 		for _, io in pairs({"PlayerIconOverlay", "FriendIconOverlay"}) do
-			_G[button..io]:Hide()
+			_G[buttons..io]:Hide()
 		end
 
 		for _, ic in pairs({"PlayerIconTexture", "FriendIconTexture"}) do
-			B.ReskinIcon(_G[button..ic])
+			B.ReskinIcon(_G[buttons..ic])
 		end
 	end
 

@@ -17,7 +17,7 @@ end
 
 local function Reskin_RefreshListDisplay(self)
 	local buttons = self.ListScrollFrame.buttons
-	if buttons and not self.ListScrollFrame.styled then
+	if buttons and not buttons.styled then
 		for i = 1, #buttons do
 			local button = buttons[i]
 			button.CircleMask:Hide()
@@ -48,7 +48,7 @@ local function Reskin_RefreshListDisplay(self)
 			if icbg2 then icbg2:SetFrameLevel(button:GetFrameLevel()+1) end
 		end
 
-		self.ListScrollFrame.styled = true
+		buttons.styled = true
 	end
 end
 

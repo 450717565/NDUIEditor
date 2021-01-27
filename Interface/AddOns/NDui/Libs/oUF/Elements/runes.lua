@@ -61,7 +61,7 @@ local function ascSort(runeAID, runeBID)
 	local runeBStart, _, runeBRuneReady = GetRuneCooldown(runeBID)
 	if (runeARuneReady ~= runeBRuneReady) then
 		return runeARuneReady
-	elseif(runeAStart ~= runeBStart) then
+	elseif (runeAStart ~= runeBStart) then
 		return runeAStart < runeBStart
 	else
 		return runeAID < runeBID
@@ -73,7 +73,7 @@ local function descSort(runeAID, runeBID)
 	local runeBStart, _, runeBRuneReady = GetRuneCooldown(runeBID)
 	if (runeARuneReady ~= runeBRuneReady) then
 		return runeBRuneReady
-	elseif(runeAStart ~= runeBStart) then
+	elseif (runeAStart ~= runeBStart) then
 		return runeAStart > runeBStart
 	else
 		return runeAID > runeBID
@@ -134,10 +134,10 @@ local function Update(self, event)
 	if (element.sortOrder == 'asc') then
 		table.sort(runemap, ascSort)
 		hasSortOrder = true
-	elseif(element.sortOrder == 'desc') then
+	elseif (element.sortOrder == 'desc') then
 		table.sort(runemap, descSort)
 		hasSortOrder = true
-	elseif(hasSortOrder) then
+	elseif (hasSortOrder) then
 		table.sort(runemap)
 		hasSortOrder = false
 	end
@@ -155,7 +155,7 @@ local function Update(self, event)
 				rune:SetMinMaxValues(0, 1)
 				rune:SetValue(1)
 				rune:SetScript('OnUpdate', nil)
-			elseif(start) then
+			elseif (start) then
 				rune.duration = GetTime() - start
 				rune:SetMinMaxValues(0, duration)
 				rune:SetValue(0)

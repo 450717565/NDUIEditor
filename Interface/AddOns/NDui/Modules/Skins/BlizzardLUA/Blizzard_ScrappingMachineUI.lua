@@ -10,7 +10,7 @@ C.LUAThemes["Blizzard_ScrappingMachineUI"] = function()
 
 	local activeObjects = ItemSlots.scrapButtons.activeObjects
 	for button in pairs(activeObjects) do
-		if not button.styled then
+		if button and not button.styled then
 			local icbg = B.ReskinIcon(button.Icon)
 			B.ReskinHighlight(button, icbg)
 			B.ReskinBorder(button.IconBorder, icbg)

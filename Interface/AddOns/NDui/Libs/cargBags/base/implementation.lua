@@ -360,7 +360,7 @@ function Implementation:UpdateSlot(bagID, slotID)
 		end
 
 		button:Update(item)
-	elseif(button) then
+	elseif (button) then
 		button.container:RemoveButton(button)
 		self:SetButton(bagID, slotID, nil)
 		button:Free()
@@ -407,7 +407,7 @@ function Implementation:BAG_UPDATE(_, bagID, slotID)
 
 	if (bagID and slotID) then
 		self:UpdateSlot(bagID, slotID)
-	elseif(bagID) then
+	elseif (bagID) then
 		self:UpdateBag(bagID)
 	else
 		for bagID = -3, 11 do

@@ -60,7 +60,7 @@ function cargBags:ParseBags(bags)
 		end
 		bagStrings[bags] = t
 		return t
-	elseif(tonumber(bags)) then
+	elseif (tonumber(bags)) then
 		local t = {tonumber(bags)}
 		bagStrings[bags] = t
 		return t

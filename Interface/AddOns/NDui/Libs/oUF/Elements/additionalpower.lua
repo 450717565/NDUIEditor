@@ -71,9 +71,9 @@ local function UpdateColor(self, event, unit, powerType)
 	local r, g, b, t
 	if (element.colorPower) then
 		t = self.colors.power[ADDITIONAL_POWER_BAR_INDEX]
-	elseif(element.colorClass) then
+	elseif (element.colorClass) then
 		t = self.colors.class[playerClass]
-	elseif(element.colorSmooth) then
+	elseif (element.colorSmooth) then
 		r, g, b = self:ColorGradient(element.cur or 1, element.max or 1, unpack(element.smoothGradient or self.colors.smooth))
 	end
 
@@ -216,13 +216,13 @@ local function Visibility(self, event, unit)
 		if (element.PostVisibility) then
 			element:PostVisibility(true)
 		end
-	elseif(not shouldEnable and (isEnabled or isEnabled == nil)) then
+	elseif (not shouldEnable and (isEnabled or isEnabled == nil)) then
 		ElementDisable(self)
 
 		if (element.PostVisibility) then
 			element:PostVisibility(false)
 		end
-	elseif(shouldEnable and isEnabled) then
+	elseif (shouldEnable and isEnabled) then
 		Path(self, event, unit, ADDITIONAL_POWER_BAR_NAME)
 	end
 end

@@ -52,11 +52,11 @@ local function updateArenaPreparationElements(self, event, elementName, specID)
 			if (element.colorClass) then
 				local _, _, _, _, _, class = GetSpecializationInfoByID(specID)
 				t = self.colors.class[class]
-			elseif(element.colorReaction) then
+			elseif (element.colorReaction) then
 				t = self.colors.reaction[2]
-			elseif(element.colorSmooth) then
+			elseif (element.colorSmooth) then
 				_, _, _, _, _, _, r, g, b = unpack(element.smoothGradient or self.colors.smooth)
-			elseif(element.colorHealth and elementName == 'Health') then
+			elseif (element.colorHealth and elementName == 'Health') then
 				t = self.colors.health
 			end
 
@@ -115,10 +115,10 @@ local function updateArenaPreparation(self, event)
 		if (self.Portrait and self:IsElementEnabled('Portrait')) then
 			self.Portrait:Show()
 		end
-	elseif(event == 'PLAYER_ENTERING_WORLD' and not UnitExists(self.unit)) then
+	elseif (event == 'PLAYER_ENTERING_WORLD' and not UnitExists(self.unit)) then
 		-- semi-recursive call for when the player zones into an arena
 		updateArenaPreparation(self, 'ARENA_PREP_OPPONENT_SPECIALIZATIONS')
-	elseif(event == 'ARENA_PREP_OPPONENT_SPECIALIZATIONS') then
+	elseif (event == 'ARENA_PREP_OPPONENT_SPECIALIZATIONS') then
 		if (self.PreUpdate) then
 			self:PreUpdate(event)
 		end
@@ -167,20 +167,20 @@ function oUF:HandleUnit(object, unit)
 	local unit = object.unit or unit
 	if (unit == 'target') then
 		object:RegisterEvent('PLAYER_TARGET_CHANGED', object.UpdateAllElements, true)
-	elseif(unit == 'mouseover') then
+	elseif (unit == 'mouseover') then
 		object:RegisterEvent('UPDATE_MOUSEOVER_UNIT', object.UpdateAllElements, true)
-	elseif(unit == 'focus') then
+	elseif (unit == 'focus') then
 		object:RegisterEvent('PLAYER_FOCUS_CHANGED', object.UpdateAllElements, true)
-	elseif(unit:match('boss%d?$')) then
+	elseif (unit:match('boss%d?$')) then
 		object:RegisterEvent('INSTANCE_ENCOUNTER_ENGAGE_UNIT', object.UpdateAllElements, true)
 		object:RegisterEvent('UNIT_TARGETABLE_CHANGED', object.UpdateAllElements)
-	elseif(unit:match('arena%d?$')) then
+	elseif (unit:match('arena%d?$')) then
 		object:RegisterEvent('ARENA_OPPONENT_UPDATE', object.UpdateAllElements, true)
 		object:RegisterEvent('ARENA_PREP_OPPONENT_SPECIALIZATIONS', updateArenaPreparation, true)
 		object:SetAttribute('oUF-enableArenaPrep', true)
 		-- the event handler only fires for visible frames, so we have to hook it for arena prep
 		object:HookScript('OnEvent', updateArenaPreparation)
-	elseif(unit:match('%w+target')) then
+	elseif (unit:match('%w+target')) then
 		enableTargetUpdate(object)
 	end
 end

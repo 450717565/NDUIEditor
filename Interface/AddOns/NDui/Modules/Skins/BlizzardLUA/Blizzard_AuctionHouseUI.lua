@@ -109,17 +109,15 @@ local function Reskin_ListHeader(self)
 	for i = 1, maxHeaders do
 		local header = select(i, self.HeaderContainer:GetChildren())
 		if header then
-			if not header.styled then
+			if not header.bg then
 				header:DisableDrawLayer("BACKGROUND")
 				header.bg = B.CreateBDFrame(header)
 				B.ReskinHighlight(header, header.bg, true)
-
-				header.styled = true
 			end
-		end
 
-		if header.bg then
-			header.bg:SetPoint("BOTTOMRIGHT", i < maxHeaders and -6 or 0, -2)
+			if header.bg then
+				header.bg:SetPoint("BOTTOMRIGHT", i < maxHeaders and -6 or 0, -2)
+			end
 		end
 	end
 

@@ -111,9 +111,7 @@ local function Reskin_RewardButton(self, isMapQuestInfo)
 		bubg:SetPoint("BOTTOMRIGHT", icbg, "BOTTOMRIGHT", 102, 0)
 		self.bubg = bubg
 
-		if self.IconBorder then
-			B.ReskinBorder(self.IconBorder, icbg, bubg)
-		end
+		B.ReskinBorder(self.IconBorder, icbg, bubg)
 	end
 end
 
