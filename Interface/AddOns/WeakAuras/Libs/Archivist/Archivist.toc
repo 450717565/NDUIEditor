@@ -1,4 +1,4 @@
-##Interface: 90000
+## Interface: 90002
 ## Title: Archivist
 ## Author: emptyrivers
 ## Version: 7a29987

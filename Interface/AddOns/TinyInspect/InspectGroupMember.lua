@@ -9,7 +9,7 @@ local LibSchedule = LibStub:GetLibrary("LibSchedule.7000")
 
 local members, numMembers = {}, 0
 
-local EnableItemLevel = NDuiDB["Extras"]["iLvlTools"]
+local EnableItemLevel = C.db["Extras"]["iLvlTools"]
 
 --是否觀察完畢
 local function InspectDone()

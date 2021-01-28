@@ -62,8 +62,7 @@ local function Reskin_TitleButton(self, index)
 		button.Overlay:Hide()
 
 		B.StripTextures(button)
-		B.ReskinButton(button)
-		B.CreateBT(button.bgTex)
+		B.ReskinButton(button, true)
 		B.ReskinText(button.Label, 1, .8, 0)
 
 		button.styled = true

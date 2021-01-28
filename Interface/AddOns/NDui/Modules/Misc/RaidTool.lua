@@ -33,8 +33,7 @@ function Misc:RaidTool_Header()
 	local frame = CreateFrame("Button", nil, UIParent)
 	frame:SetSize(120, 28)
 	frame:SetFrameLevel(2)
-	B.ReskinButton(frame)
-	B.CreateBT(frame.bgTex)
+	B.ReskinButton(frame, true)
 	B.Mover(frame, L["Raid Tool"], "RaidManager", C.Skins.RaidToolPos)
 
 	Misc:RaidTool_Visibility(frame)
@@ -212,13 +211,11 @@ end
 
 function Misc:RaidTool_ReadyCheck(parent)
 	local frame = CreateFrame("Frame", nil, parent)
+	frame:SetScript("OnMouseUp", function(self) self:Hide() end)
 	frame:SetPoint("TOP", parent, "BOTTOM", 0, -3)
 	frame:SetSize(120, 50)
 	frame:Hide()
-	frame:SetScript("OnMouseUp", function(self) self:Hide() end)
-
-	local bg = B.CreateBDFrame(frame)
-	B.CreateBT(bg)
+	B.CreateBG(frame)
 
 	B.CreateFS(frame, 14, READY_CHECK, true, "TOP", 0, -8)
 	local rc = B.CreateFS(frame, 14, "", false, "TOP", 0, -28)
@@ -283,8 +280,7 @@ function Misc:RaidTool_Marker(parent)
 	end
 	if markerButton then
 		B.StripTextures(markerButton)
-		B.ReskinButton(markerButton)
-		B.CreateBT(markerButton.bgTex)
+		B.ReskinButton(markerButton, true)
 
 		markerButton:ClearAllPoints()
 		markerButton:SetPoint("RIGHT", parent, "LEFT", -3, 0)
@@ -322,8 +318,7 @@ function Misc:RaidTool_BuffChecker(parent)
 	frame:SetPoint("LEFT", parent, "RIGHT", 3, 0)
 	frame:SetSize(28, 28)
 	B.CreateFS(frame, 16, "!", true)
-	B.ReskinButton(frame)
-	B.CreateBT(frame.bgTex)
+	B.ReskinButton(frame, true)
 
 	local BuffName = {L["Flask"], L["Food"], SPELL_STAT4_NAME, RAID_BUFF_2, RAID_BUFF_3, RUNES}
 	local NoBuff, numGroups, numPlayer = {}, 6, 0
@@ -466,9 +461,8 @@ function Misc:RaidTool_CreateMenu(parent)
 	local frame = CreateFrame("Frame", nil, parent)
 	frame:SetPoint("TOP", parent, "BOTTOM", 0, -3)
 	frame:SetSize(182, 70)
-	local bg = B.CreateBDFrame(frame)
-	B.CreateBT(bg)
 	frame:Hide()
+	B.CreateBG(frame)
 
 	local function updateDelay(self, elapsed)
 		self.elapsed = (self.elapsed or 0) + elapsed

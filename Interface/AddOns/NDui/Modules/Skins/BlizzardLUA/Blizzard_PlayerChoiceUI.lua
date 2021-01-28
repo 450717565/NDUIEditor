@@ -20,7 +20,7 @@ end
 local function Reskin_SecondOptionButton(self)
 	if not self or self.bgTex then return end
 
-	B.ReskinButton(self, true)
+	B.ReskinButton(self, false, true)
 end
 
 local function Reskin_Update(self)

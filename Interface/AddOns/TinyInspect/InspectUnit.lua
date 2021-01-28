@@ -8,8 +8,8 @@ local LibEvent = LibStub:GetLibrary("LibEvent.7000")
 local LibItemInfo = LibStub:GetLibrary("LibItemInfo.7000")
 
 local ShowInspectColoredLabel = true
-local ShowCharacterItemSheet = NDuiDB["Extras"]["ShowCharacterItemSheet"]
-local ShowOwnFrameWhenInspecting = NDuiDB["Extras"]["ShowOwnFrameWhenInspecting"]
+local ShowCharacterItemSheet = C.db["Extras"]["ShowCharacterItemSheet"]
+local ShowOwnFrameWhenInspecting = C.db["Extras"]["ShowOwnFrameWhenInspecting"]
 
 --裝備清單
 local slots = {

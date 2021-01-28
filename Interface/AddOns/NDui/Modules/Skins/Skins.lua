@@ -95,8 +95,7 @@ local function CreateToggleButton(parent)
 	local bu = CreateFrame("Button", nil, parent)
 	bu:SetSize(20, 80)
 	bu.text = B.CreateFS(bu, 18, nil, true)
-	B.ReskinButton(bu)
-	B.CreateBT(bu.bgTex)
+	B.ReskinButton(bu, true)
 
 	return bu
 end

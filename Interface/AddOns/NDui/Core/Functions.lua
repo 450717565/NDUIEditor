@@ -528,12 +528,12 @@ do
 		"trackBG",
 	}
 
-	function B:CleanTextures(override)
+	function B:CleanTextures(isOverride)
 		if self.SetBackdrop then self:SetBackdrop(nil) end
 		if self.SetDisabledTexture then self:SetDisabledTexture("") end
 		if self.SetHighlightTexture then self:SetHighlightTexture("") end
 		if self.SetPushedTexture then self:SetPushedTexture("") end
-		if self.SetNormalTexture and not override then self:SetNormalTexture("") end
+		if self.SetNormalTexture and not isOverride then self:SetNormalTexture("") end
 
 		local frameName = self:GetDebugName()
 		for _, key in pairs(cleanTextures) do
@@ -573,11 +573,11 @@ do
 		dis:SetAllPoints()
 	end
 
-	function B:SetupHook()
+	function B:SetupHook(isOutside)
 		B.Hook_OnEnter(self)
 		B.Hook_OnLeave(self)
 		B.Hook_OnMouseDown(self)
-		B.Hook_OnMouseUp(self)
+		B.Hook_OnMouseUp(self, isOutside)
 	end
 
 	function B:SetupArrow(direction)
@@ -618,28 +618,33 @@ do
 		end
 	end
 
-	function B:Tex_OnMouseUp()
+	function B:Tex_OnMouseUp(isOutside)
+		local BGColor = C.db["Skins"]["BGColor"]
+		local BGAlpha = C.db["Skins"]["BGAlpha"]
+
 		if self.bgTex then
-			self.bgTex:SetBackdropColor(0, 0, 0, 0)
+			self.bgTex:SetBackdropColor(BGColor.r, BGColor.g, BGColor.b, isOutside and BGAlpha or 0)
 		elseif self.SetBackdropColor then
-			self:SetBackdropColor(0, 0, 0, 0)
+			self:SetBackdropColor(BGColor.r, BGColor.g, BGColor.b, isOutside and BGAlpha or 0)
 		end
 	end
 
-	function B:Hook_OnEnter(isSpecial)
-		self:HookScript("OnEnter", isSpecial and B.Tex_OnMouseDown or B.Tex_OnEnter)
+	function B:Hook_OnEnter()
+		self:HookScript("OnEnter", B.Tex_OnEnter)
 	end
 
-	function B:Hook_OnLeave(isSpecial)
-		self:HookScript("OnLeave", isSpecial and B.Tex_OnMouseUp or B.Tex_OnLeave)
+	function B:Hook_OnLeave()
+		self:HookScript("OnLeave", B.Tex_OnLeave)
 	end
 
 	function B:Hook_OnMouseDown()
 		self:HookScript("OnMouseDown", B.Tex_OnMouseDown)
 	end
 
-	function B:Hook_OnMouseUp()
-		self:HookScript("OnMouseUp", B.Tex_OnMouseUp)
+	function B:Hook_OnMouseUp(isOutside)
+		self:HookScript("OnMouseUp", function(self)
+			B.Tex_OnMouseUp(self, isOutside)
+		end)
 	end
 
 	-- Create Function
@@ -701,8 +706,8 @@ do
 		if not alpha then tinsert(C.frames, self) end
 	end
 
-	function B:CreateSD(override)
-		if not override and not C.db["Skins"]["SkinShadow"] then return end
+	function B:CreateSD(isOverride)
+		if not isOverride and not C.db["Skins"]["SkinShadow"] then return end
 		if self.sdTex then return end
 
 		local frame = self
@@ -903,14 +908,14 @@ do
 	end
 
 	-- Handle Button
-	function B:ReskinButton(override)
-		B.CleanTextures(self, override)
+	function B:ReskinButton(isOutside, isOverride)
+		B.CleanTextures(self, isOverride)
 
-		local bgTex = B.CreateBDFrame(self)
+		local bgTex = isOutside and B.CreateBG(self) or B.CreateBDFrame(self)
 		bgTex:SetFrameLevel(self:GetFrameLevel())
 		self.bgTex = bgTex
 
-		B.SetupHook(self)
+		B.SetupHook(self, isOutside)
 	end
 
 	-- Handle Check and Radio
