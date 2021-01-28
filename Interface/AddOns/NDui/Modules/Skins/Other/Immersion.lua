@@ -133,7 +133,7 @@ function Skins:Immersion()
 	B.StripTextures(TalkBox.BackgroundFrame)
 	B.StripTextures(TalkBox.Hilite)
 
-	local hilite = B.CreateBDFrame(TalkBox.Hilite)
+	local hilite = B.CreateBDFrame(TalkBox.Hilite, 0, 0, true)
 	hilite:SetFrameLevel(TalkBox:GetFrameLevel())
 	hilite:SetAllPoints(TalkBox)
 	hilite:SetBackdropColor(cr, cg, cb, .5)
@@ -164,14 +164,6 @@ function Skins:Immersion()
 	Indicator:SetScale(1.25)
 	Indicator:ClearAllPoints()
 	Indicator:SetPoint("RIGHT", MainFrame.CloseButton, "LEFT", -3, 0)
-
-	for i = 1, 4 do
-		local notch = _G["ImmersionFrameNotch"..i]
-		if notch then
-			notch:SetColorTexture(0, 0, 0)
-			notch:SetSize(C.mult, 16)
-		end
-	end
 
 	hooksecurefunc(ImmersionFrame, "AddQuestInfo", Reskin_AddQuestInfo)
 	hooksecurefunc(ImmersionFrame, "QUEST_PROGRESS", Reskin_QuestProgres)
