@@ -1616,7 +1616,7 @@ do
 			self:SetStatusBarColor(cr, cg, cb)
 		end
 
-		local bd = B.CreateBG(self, -C.mult, C.mult, C.mult, -C.mult)
+		local bd = B.CreateBDFrame(self, 0, -C.mult, true)
 		self.bd = bd
 
 		local bg = self:CreateTexture(nil, "BACKGROUND")

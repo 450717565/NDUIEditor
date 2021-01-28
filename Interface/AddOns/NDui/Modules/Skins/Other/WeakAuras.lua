@@ -47,7 +47,7 @@ local function Reskin_Region(self, fType)
 			local icbg = B.ReskinIcon(self.icon)
 			icbg:SetFrameLevel(0)
 
-			local bg = B.CreateBG(self.bar, -C.mult, C.mult, C.mult, -C.mult)
+			local bg = B.CreateBDFrame(self.bar, 0, -C.mult, true)
 			bg:SetFrameLevel(0)
 
 			self.icon.SetTexCoord = B.Dummy
