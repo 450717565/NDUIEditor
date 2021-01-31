@@ -6,7 +6,6 @@
 	<Script file="CharacterFrame.lua"/>
 	<Script file="ChatConfigFrame.lua"/>
 	<Script file="ChatFrame.lua"/>
-	<Script file="CinematicFrame.lua"/>
 	<Script file="ColorPickerFrame.lua"/>
 	<Script file="CompactRaidFrames.lua"/>
 	<Script file="ContainerFrame.lua"/>

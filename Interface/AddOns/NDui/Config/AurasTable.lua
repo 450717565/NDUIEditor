@@ -137,6 +137,25 @@ function AT:CheckCornerSpells()
 	end
 end
 
+function AT:CheckMajorSpells()
+	for spellID in pairs(C.MajorSpells) do
+		local name = GetSpellInfo(spellID)
+		if name then
+			if NDuiADB["MajorSpells"][spellID] then
+				NDuiADB["MajorSpells"][spellID] = nil
+			end
+		else
+			if DB.isDeveloper then print("Invalid cornerspell ID: "..spellID) end
+		end
+	end
+
+	for spellID, value in pairs(NDuiADB["MajorSpells"]) do
+		if value == false and C.MajorSpells[spellID] == nil then
+			NDuiADB["MajorSpells"][spellID] = nil
+		end
+	end
+end
+
 function AT:OnLogin()
 	for instName, value in pairs(RaidDebuffs) do
 		for spell, priority in pairs(value) do
@@ -158,6 +177,7 @@ function AT:OnLogin()
 
 	AT:CheckPartySpells()
 	AT:CheckCornerSpells()
+	AT:CheckMajorSpells()
 
 	-- Filter bloodlust for healers
 	local function filterBloodlust()

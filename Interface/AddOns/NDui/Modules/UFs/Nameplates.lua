@@ -773,6 +773,7 @@ function UF:RefreshNameplats()
 		nameplate.npcTitle:SetFont(DB.Font[1], nameTextSize-1, DB.Font[3])
 		nameplate.tarName:SetFont(DB.Font[1], nameTextSize+4, DB.Font[3])
 		nameplate.Castbar.Icon:SetSize(iconSize, iconSize)
+		nameplate.Castbar.glowFrame:SetSize(iconSize+8, iconSize+8)
 		nameplate.Castbar:SetHeight(plateHeight)
 		nameplate.Castbar.Time:SetFont(DB.Font[1], nameTextSize, DB.Font[3])
 		nameplate.Castbar.Text:SetFont(DB.Font[1], nameTextSize, DB.Font[3])
@@ -822,7 +823,6 @@ function UF:UpdatePlateByType()
 		title:Show()
 
 		raidtarget:SetPoint("TOP", title, "BOTTOM", 0, -5)
-		raidtarget:SetParent(self)
 		classify:Hide()
 		if questIcon then questIcon:SetPoint("LEFT", name, "RIGHT", -1, 0) end
 
@@ -845,8 +845,7 @@ function UF:UpdatePlateByType()
 		hpval:Show()
 		title:Hide()
 
-		raidtarget:SetPoint("RIGHT", self, "LEFT", -3, 0)
-		raidtarget:SetParent(self.Health)
+		raidtarget:SetPoint("BOTTOMRIGHT", self, "TOPLEFT", -1, 1)
 		classify:Show()
 		if questIcon then questIcon:SetPoint("LEFT", self, "RIGHT", -1, 0) end
 
@@ -896,7 +895,7 @@ function UF:PostUpdatePlates(event, unit)
 		self.widgetsOnly = UnitNameplateShowsWidgetsOnly(unit)
 
 		local blizzPlate = self:GetParent().UnitFrame
-		self.widgetContainer = blizzPlate.WidgetContainer
+		self.widgetContainer = blizzPlate and blizzPlate.WidgetContainer
 		if self.widgetContainer then
 			self.widgetContainer:SetParent(self)
 			self.widgetContainer:SetScale(1/NDuiADB["UIScale"])
@@ -1079,4 +1078,25 @@ function UF:ToggleGCDTicker()
 	if not ticker then return end
 
 	ticker:SetShown(C.db["Nameplate"]["PPGCDTicker"])
+end
+
+UF.MajorSpells = {}
+function UF:RefreshMajorSpells()
+	wipe(UF.MajorSpells)
+
+	for spellID in pairs(C.MajorSpells) do
+		local name = GetSpellInfo(spellID)
+		if name then
+			local modValue = NDuiADB["MajorSpells"][spellID]
+			if modValue == nil then
+				UF.MajorSpells[spellID] = true
+			end
+		end
+	end
+
+	for spellID, value in pairs(NDuiADB["MajorSpells"]) do
+		if value then
+			UF.MajorSpells[spellID] = true
+		end
+	end
 end

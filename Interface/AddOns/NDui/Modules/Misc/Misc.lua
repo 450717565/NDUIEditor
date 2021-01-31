@@ -373,7 +373,7 @@ function Misc:MawWidgetFrame()
 	B.SmoothBar(bar)
 	Misc.mawbar = bar
 
-	B.Mover(bar, L["MawThreatBar"], "MawThreatBar", {"TOP", UIParent, 0, -110})
+	B.Mover(bar, L["MawThreatBar"], "MawThreatBar", {"TOP", UIParent, 0, -40})
 
 	bar:SetScript("OnEnter", function(self)
 		local rank = GetMawBarValue()

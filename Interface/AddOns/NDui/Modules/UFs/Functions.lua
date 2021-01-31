@@ -163,8 +163,6 @@ function UF:CreateHealthBar(self)
 	self.Health = health
 
 	UF:UpdateHealthBarColor(self)
-
-	barWidth = self:GetWidth()*.6
 end
 
 function UF:UpdateRaidHealthMethod()
@@ -512,8 +510,7 @@ function UF:CreateRaidMark(self)
 	if self.LeaderIndicator and mystyle ~= "raid" then
 		raidTarget:SetPoint("RIGHT", self.LeaderIndicator, "LEFT", -2, 2)
 	elseif mystyle == "nameplate" then
-		raidTarget:SetPoint("RIGHT", self, "LEFT", -5, 0)
-		raidTarget:SetParent(self.Health)
+		raidTarget:SetPoint("BOTTOMRIGHT", self, "TOPLEFT", -1, 1)
 	else
 		raidTarget:SetPoint("CENTER", self, "TOP", 0, 0)
 	end
@@ -606,6 +603,9 @@ function UF:CreateCastBar(self)
 		cb.Icon:SetSize(iconSize, iconSize)
 		cb.Icon:SetPoint("BOTTOMRIGHT", cb, "BOTTOMLEFT", -5, 0)
 		cb.timeToHold = .5
+
+		cb.glowFrame = B.CreateGlowFrame(cb, iconSize)
+		cb.glowFrame:SetPoint("CENTER", cb.Icon)
 	end
 
 	if mystyle == "nameplate" or mystyle == "boss" or mystyle == "arena" then
@@ -838,6 +838,7 @@ function UF:CreateAuras(self)
 	bu.initialAnchor = "BOTTOMLEFT"
 	bu["growth-x"] = "RIGHT"
 	bu["growth-y"] = "DOWN"
+	bu.tooltipAnchor = "ANCHOR_BOTTOMLEFT"
 
 	if mystyle == "target" then
 		bu:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -6)
@@ -1031,6 +1032,8 @@ function UF.PostUpdateRunes(element, runemap)
 end
 
 function UF:CreateClassPower(self)
+	barWidth = self:GetWidth()*.6
+
 	if self.mystyle == "PlayerPlate" then
 		barWidth = C.db["Nameplate"]["NameplateClassPower"] and C.db["Nameplate"]["PlateWidth"] or C.db["Nameplate"]["PPWidth"]
 		barHeight = C.db["Nameplate"]["PPBarHeight"]

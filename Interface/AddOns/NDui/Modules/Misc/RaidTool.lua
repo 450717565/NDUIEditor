@@ -592,7 +592,6 @@ function Misc:RaidTool_WorldMarker()
 
 	local frame = CreateFrame("Frame", "NDui_WorldMarkers", UIParent)
 	frame:SetPoint("RIGHT", -100, 0)
-	frame:SetFrameStrata("HIGH")
 	B.CreateBG(frame)
 	B.CreateMF(frame, nil, true)
 	B.RestoreMF(frame)

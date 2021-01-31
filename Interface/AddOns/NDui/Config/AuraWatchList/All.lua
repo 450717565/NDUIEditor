@@ -126,16 +126,16 @@ local list = {
 	["Raid Buff"] = {		-- 团队增益组
 		{AuraID = 54861, UnitID = "player"},	-- 火箭靴，工程
 		-- 嗜血相关
-		{AuraID = 2825, UnitID = "player"},		-- 嗜血
-		{AuraID = 32182, UnitID = "player"},	-- 英勇
-		{AuraID = 80353, UnitID = "player"},	-- 时间扭曲
-		{AuraID = 264667, UnitID = "player"},	-- 原始狂怒
-		{AuraID = 178207, UnitID = "player"},	-- 狂怒战鼓
-		{AuraID = 230935, UnitID = "player"},	-- 高山战鼓
-		{AuraID = 256740, UnitID = "player"},	-- 漩涡战鼓
-		{AuraID = 309658, UnitID = "player"},	-- 死亡凶蛮战鼓
-		{AuraID = 102364, UnitID = "player"},	-- 青铜龙的祝福
-		{AuraID = 292686, UnitID = "player"},	-- 制皮鼓
+		{AuraID = 2825, UnitID = "player", Flash = true},	-- 嗜血
+		{AuraID = 32182, UnitID = "player", Flash = true},	-- 英勇
+		{AuraID = 80353, UnitID = "player", Flash = true},	-- 时间扭曲
+		{AuraID = 264667, UnitID = "player", Flash = true},	-- 原始狂怒
+		{AuraID = 178207, UnitID = "player", Flash = true},	-- 狂怒战鼓
+		{AuraID = 230935, UnitID = "player", Flash = true},	-- 高山战鼓
+		{AuraID = 256740, UnitID = "player", Flash = true},	-- 漩涡战鼓
+		{AuraID = 309658, UnitID = "player", Flash = true},	-- 死亡凶蛮战鼓
+		{AuraID = 102364, UnitID = "player", Flash = true},	-- 青铜龙的祝福
+		{AuraID = 292686, UnitID = "player", Flash = true},	-- 制皮鼓
 		-- 团队增益或减伤
 		{AuraID = 1022, UnitID = "player"},		-- 保护祝福
 		{AuraID = 6940, UnitID = "player"},		-- 牺牲祝福
@@ -183,6 +183,7 @@ local list = {
 		{AuraID = 240443, UnitID = "player", Flash = true},	-- 爆裂
 		-- 5人本
 		{AuraID = 327107, UnitID = "player"},	-- 赤红，闪耀光辉
+		{AuraID = 340433, UnitID = "player"},	-- 赤红，堕罪之赐
 		{AuraID = 324092, UnitID = "player", Flash = true},	-- 赤红，闪耀光辉
 		{AuraID = 328737, UnitID = "player", Flash = true},	-- 赤红，光辉残片
 		{AuraID = 326891, UnitID = "player", Flash = true},	-- 赎罪大厅，痛楚
@@ -246,6 +247,8 @@ local list = {
 		{AuraID = 321368, UnitID = "target", Value = true},	-- 凋魂，冰缚之盾
 		{AuraID = 327416, UnitID = "target", Value = true},	-- 晋升，心能回灌
 		{AuraID = 345561, UnitID = "target", Value = true},	-- 晋升，生命连结
+		{AuraID = 339917, UnitID = "target", Value = true},	-- 晋升，命运之矛
+		{AuraID = 323878, UnitID = "target", Flash = true},	-- 晋升，枯竭
 		{AuraID = 317936, UnitID = "target"},	-- 晋升，弃誓信条
 		{AuraID = 327812, UnitID = "target"},	-- 晋升，振奋英气
 		{AuraID = 323149, UnitID = "target"},	-- 仙林，黑暗之拥
@@ -262,8 +265,8 @@ local list = {
 		{AuraID = 346792, UnitID = "target"},	-- 罪触之刃，猩红议会
 		{AuraID = 331314, UnitID = "target"},	-- 毁灭冲击，泥拳
 		{AuraID = 341250, UnitID = "target"},	-- 恐怖暴怒，泥拳
-		{AuraID = 329636, UnitID = "target", Value = true},	-- 坚岩形态，干将
-		{AuraID = 329808, UnitID = "target", Value = true},	-- 坚岩形态，干将
+		{AuraID = 329636, UnitID = "target", Flash = true},	-- 坚岩形态，干将
+		{AuraID = 329808, UnitID = "target", Flash = true},	-- 坚岩形态，干将
 		-- PVP
 		{AuraID = 498, UnitID = "target"},		-- 圣佑术
 		{AuraID = 642, UnitID = "target"},		-- 圣盾术

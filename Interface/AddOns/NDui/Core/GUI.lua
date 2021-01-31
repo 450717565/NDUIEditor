@@ -240,7 +240,7 @@ GUI.DefaultSettings = {
 		OffTankColor = {r=.2, g=.7, b=.5},
 		DPSRevertThreat = false,
 		ExplosivesScale = false,
-		AKSProgress = false,
+		AKSProgress = true,
 		PPFadeout = true,
 		PPFadeoutAlpha = 0,
 		PPOnFire = false,
@@ -248,7 +248,7 @@ GUI.DefaultSettings = {
 		NameTextSize = 14,
 		HealthTextSize = 16,
 		MinScale = 1,
-		MinAlpha = 1,
+		MinAlpha = .8,
 		ColorBorder = true,
 		QuestIndicator = true,
 		NameOnlyMode = false,
@@ -256,6 +256,7 @@ GUI.DefaultSettings = {
 		ExecuteRatio = 0,
 		ColoredTarget = false,
 		TargetColor = {r=0, g=.6, b=1},
+		CastbarGlow = true,
 
 		ArrowColor = 1,
 		HighlightColor = {r=1, g=1, b=1},
@@ -421,6 +422,7 @@ GUI.AccountSettings = {
 	PartySpells = {},
 	CornerSpells = {},
 	CustomTex = "",
+	MajorSpells = {},
 }
 
 -- Initial settings
@@ -529,6 +531,10 @@ end
 
 local function setupNameplateFilter()
 	GUI:SetupNameplateFilter(guiPage[5])
+end
+
+local function setupPlateCastbarGlow()
+	GUI:PlateCastbarGlow(guiPage[5])
 end
 
 local function setupAuraWatch()
@@ -777,7 +783,7 @@ GUI.TabList = {
 	L["Bags"],
 	L["Unitframes"],
 	L["RaidFrame"],
-	L["Nameplate"],
+	NewFeatureTag..L["Nameplate"],
 	L["PlayerPlate"],
 	L["Auras"],
 	L["Raid Tools"],
@@ -785,8 +791,8 @@ GUI.TabList = {
 	L["Maps"],
 	L["Skins"],
 	L["Tooltip"],
-	NewFeatureTag..L["Misc"],
-	NewFeatureTag..L["UI Settings"],
+	L["Misc"],
+	L["UI Settings"],
 	L["Profile"],
 	L["Extras"],
 }
@@ -810,7 +816,7 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{},--blank
 		{1, "ActionBar", "Cooldown", DB.MyColor..L["Show Cooldown"]},
 		{1, "ActionBar", "OverrideWA", L["Override WA"].."*", true},
-		{1, "Misc", "SendActionCD", L["Send ActionCD"].."*", false, nil, nil, L["Send Action CD Tip"]},
+		{1, "Misc", "SendActionCD", DB.MyColor..L["Send ActionCD"].."*", false, nil, nil, L["Send Action CD Tip"]},
 		{},--blank
 		{1, "ActionBar", "Hotkeys", L["ActionBar Hotkey"].."*", nil, nil, updateHotkeys},
 		{1, "ActionBar", "Macro", L["ActionBar Macro"], true},
@@ -872,14 +878,14 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{1, "UFs", "PWOnRight", L["PartyWatcherOnRight"], true},
 		{1, "UFs", "PartyWatcherSync", L["PartyWatcherSync"], nil, nil, nil, L["PartyWatcherSyncTip"]},
 		{},--blank
+		{1, "UFs", "RaidClickSets", DB.MyColor..L["Enable ClickSets"], nil, setupClickCast},
+		{1, "UFs", "AutoRes", L["UFs AutoRes"], true},
 		{1, "UFs", "RaidBuffIndicator", DB.MyColor..L["RaidBuffIndicator"], nil, setupBuffIndicator, nil, L["RaidBuffIndicatorTip"]},
 		{4, "UFs", "BuffIndicatorType", L["BuffIndicatorType"].."*", nil, {L["BI_Blocks"], L["BI_Icons"], L["BI_Numbers"]}, refreshRaidFrameIcons},
-		{3, "UFs", "BuffIndicatorScale", L["BuffIndicatorScale"].."*", true, {.8, 2, .1}, refreshRaidFrameIcons},
-		{1, "UFs", "RaidClickSets", DB.MyColor..L["Enable ClickSets"], nil, setupClickCast},
+		{3, "UFs", "BuffIndicatorScale", L["BuffIndicatorScale"].."*", true, {.8, 2, .01}, refreshRaidFrameIcons},
 		{1, "UFs", "InstanceAuras", DB.MyColor..L["Instance Auras"], nil, setupRaidDebuffs, nil, L["InstanceAurasTip"]},
-		{3, "UFs", "RaidDebuffScale", L["RaidDebuffScale"].."*", true, {.8, 2, .1}, refreshRaidFrameIcons},
 		{1, "UFs", "AurasClickThrough", L["RaidAuras ClickThrough"], nil, nil, nil, L["ClickThroughTip"]},
-		{1, "UFs", "AutoRes", L["UFs AutoRes"], true},
+		{3, "UFs", "RaidDebuffScale", L["RaidDebuffScale"].."*", true, {.8, 2, .01}, refreshRaidFrameIcons},
 		{},--blank
 		{1, "UFs", "ShowSolo", L["ShowSolo"], nil, nil, nil, L["ShowSoloTip"]},
 		{1, "UFs", "SpecRaidPos", L["Spec RaidPos"], true, nil, nil, L["SpecRaidPosTip"]},
@@ -915,14 +921,17 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Nameplate", "ExplosivesScale", L["ExplosivesScale"], true},
 		{1, "Nameplate", "QuestIndicator", L["QuestIndicator"]},
 		{1, "Nameplate", "AKSProgress", L["AngryKeystones Progress"], true},
+		{1, "Nameplate", "CastbarGlow", L["PlateCastbarGlow"].."*", nil, setupPlateCastbarGlow, nil, L["PlateCastbarGlowTip"]},
 		{},--blank
 		{1, "Nameplate", "ColoredTarget", DB.MyColor..L["ColoredTarget"].."*", nil, nil, nil, L["ColoredTargetTip"]},
 		{5, "Nameplate", "TargetColor", L["TargetNP Color"].."*"},
 		{4, "Nameplate", "TargetIndicator", L["TargetIndicator"].."*", true, {DISABLE, L["TopArrow"], L["RightArrow"], L["TargetGlow"], L["TopNGlow"], L["RightNGlow"]}, refreshNameplates},
+		{},--blank
 		{1, "Nameplate", "CustomUnitColor", DB.MyColor..L["CustomUnitColor"].."*", nil, nil, updateCustomUnitList, L["CustomUnitColorTip"]},
 		{5, "Nameplate", "CustomColor", L["Custom Color"].."*", 2},
 		{2, "Nameplate", "UnitList", L["UnitColor List"].."*", nil, nil, updateCustomUnitList, L["CustomUnitTips"]},
 		{2, "Nameplate", "ShowPowerList", L["ShowPowerList"].."*", true, nil, updatePowerUnitList, L["CustomUnitTips"]},
+		{},--blank
 		{1, "Nameplate", "TankMode", DB.MyColor..L["Tank Mode"].."*", nil, nil, nil, L["TankModeTip"]},
 		{1, "Nameplate", "DPSRevertThreat", L["DPS Revert Threat"].."*", true, nil, nil, L["RevertThreatTip"]},
 		{5, "Nameplate", "SecureColor", L["Secure Color"].."*"},
