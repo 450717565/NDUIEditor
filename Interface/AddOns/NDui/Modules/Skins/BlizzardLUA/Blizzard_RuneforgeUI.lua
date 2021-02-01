@@ -9,7 +9,6 @@ local function Reskin_RefreshCurrencyDisplay(self)
 	for currencyFrame in self.CurrencyDisplay.currencyFramePool:EnumerateActive() do
 		if not currencyFrame.hooked then
 			S.ReplaceIconString(currencyFrame.Text)
-			hooksecurefunc(currencyFrame.Text, "SetText", S.ReplaceIconString)
 
 			currencyFrame.hooked = true
 		end
@@ -47,7 +46,6 @@ C.LUAThemes["Blizzard_RuneforgeUI"] = function()
 	local createFrame = frame.CreateFrame
 	B.ReskinButton(createFrame.CraftItemButton)
 	S.ReplaceIconString(createFrame.Cost.Text)
-	hooksecurefunc(createFrame.Cost.Text, "SetText", S.ReplaceIconString)
 
 	local powerFrame = frame.CraftingFrame.PowerFrame
 	B.ReskinFrame(powerFrame)

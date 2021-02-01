@@ -58,7 +58,6 @@ local function Replace_Currencies(self)
 	for frame in self.currencyFramePool:EnumerateActive() do
 		if frame and not frame.styled then
 			S.ReplaceIconString(frame.Text)
-			hooksecurefunc(frame.Text, "SetText", S.ReplaceIconString)
 
 			frame.styled = true
 		end
@@ -80,7 +79,6 @@ local function Reskin_TalentsList(self)
 			frame.bubg = bubg
 
 			S.ReplaceIconString(frame.InfoText)
-			hooksecurefunc(frame.InfoText, "SetText", S.ReplaceIconString)
 
 			frame.styled = true
 		end

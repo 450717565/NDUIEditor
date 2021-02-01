@@ -4,11 +4,11 @@ local Skins = B:GetModule("Skins")
 
 local pairs, unpack = pairs, unpack
 
-local function Update_IconTexCoord(icon)
-	if icon.isCutting then return end
-	icon.isCutting = true
+local function Update_IconTexCoord(self)
+	if self.isCutting then return end
+	self.isCutting = true
 
-	local width, height = icon:GetSize()
+	local width, height = self:GetSize()
 	if width ~= 0 and height ~= 0 then
 		local left, right, top, bottom = unpack(DB.TexCoord) -- normal icon
 		local ratio = width/height
@@ -21,10 +21,10 @@ local function Update_IconTexCoord(icon)
 			left = left + offset
 			bottom = bottom - offset
 		end
-		icon:SetTexCoord(left, right, top, bottom)
+		self:SetTexCoord(left, right, top, bottom)
 	end
 
-	icon.isCutting = nil
+	self.isCutting = nil
 end
 
 local function Reskin_Region(self, fType)
@@ -33,10 +33,9 @@ local function Reskin_Region(self, fType)
 			Update_IconTexCoord(self.icon)
 			hooksecurefunc(self.icon, "SetTexCoord", Update_IconTexCoord)
 
-			local icbg = B.ReskinIcon(self.icon)
+			local icbg = B.CreateBDFrame(self.icon, 0, -C.mult, true)
 			icbg:SetFrameLevel(0)
 
-			self.icon.SetTexCoord = B.Dummy
 			self.icon.styled = true
 		end
 	elseif fType == "aurabar" then
@@ -44,13 +43,12 @@ local function Reskin_Region(self, fType)
 			Update_IconTexCoord(self.icon)
 			hooksecurefunc(self.icon, "SetTexCoord", Update_IconTexCoord)
 
-			local icbg = B.ReskinIcon(self.icon)
+			local icbg = B.CreateBDFrame(self.icon, 0, -C.mult, true)
 			icbg:SetFrameLevel(0)
 
-			local bg = B.CreateBDFrame(self.bar, 0, -C.mult, true)
-			bg:SetFrameLevel(0)
+			local barbg = B.CreateBDFrame(self.bar, 0, -C.mult, true)
+			barbg:SetFrameLevel(0)
 
-			self.icon.SetTexCoord = B.Dummy
 			self.bar.styled = true
 		end
 	end

@@ -132,7 +132,7 @@ function Misc:AlertFrame_Setup()
 
 		parentFrame = CreateFrame("Frame", "NDuiAlertFrameMover", UIParent)
 		parentFrame:SetSize(200, 30)
-		B.Mover(parentFrame, L["AlertFrames"], "AlertFrames", {"TOP", UIParent, 0, -60})
+		B.Mover(parentFrame, L["AlertFrames"], "AlertFrames", {"TOP", UIParent, 0, -95})
 	end
 
 	if not C.db["Misc"]["HideTalking"] then
@@ -140,7 +140,7 @@ function Misc:AlertFrame_Setup()
 
 		talkFrame = CreateFrame("Frame", "NDuiTalkingHeadMover", UIParent)
 		talkFrame:SetSize(200, 30)
-		B.Mover(talkFrame, L["TalkingHeadFrame"], "TalkingHeadFrame", {"TOP", UIParent, 0, -95})
+		B.Mover(talkFrame, L["TalkingHeadFrame"], "TalkingHeadFrame", {"TOP", UIParent, 0, -60})
 	end
 
 	GroupLootContainer:EnableMouse(false)

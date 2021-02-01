@@ -43,9 +43,6 @@ local function Reskin_Update(self)
 		B.ReskinText(option.Header.Text, 1, .8, 0)
 		B.ReskinText(option.OptionText, 1, 1, 1)
 
-		if option.Header.Ribbon then option.Header.Ribbon:Hide() end
-		--if option.Background then option.Background:Hide() end
-
 		for i = 1, option.WidgetContainer:GetNumChildren() do
 			local child1 = select(i, option.WidgetContainer:GetChildren())
 			if child1 then

@@ -251,7 +251,7 @@ function Bags:GetContainerEmptySlot(bagID)
 end
 
 function Bags:GetEmptySlot(name)
-	if name == "Main" then
+	if name == "Bag" then
 		for bagID = 0, 4 do
 			local slotID = Bags:GetContainerEmptySlot(bagID)
 			if slotID then
@@ -285,7 +285,7 @@ function Bags:FreeSlotOnDrop()
 end
 
 local freeSlotContainer = {
-	["Main"] = true,
+	["Bag"] = true,
 	["Bank"] = true,
 	["Reagent"] = true,
 }
@@ -380,7 +380,7 @@ local function splitOnClick(self)
 	if texture and not locked and itemCount and itemCount > C.db["Bags"]["SplitCount"] then
 		SplitContainerItem(self.bagID, self.slotID, C.db["Bags"]["SplitCount"])
 
-		local bagID, slotID = Bags:GetEmptySlot("Main")
+		local bagID, slotID = Bags:GetEmptySlot("Bag")
 		if slotID then
 			PickupContainerItem(bagID, slotID)
 		end
@@ -586,53 +586,61 @@ function Bags:OnLogin()
 	Bags.BagsType[-3] = 0	-- reagent
 
 	local f = {}
-	local bagGroups = {["bag"] = {}, ["bank"] = {}}
 	local filters = Bags:GetFilters()
 	local MyContainer = Backpack:GetContainerClass()
+	local ContainerGroups = {["Bag"] = {}, ["Bank"] = {}}
 
-	local function AddNewContainer(parent, bagType, name, filter)
+	local function AddNewContainer(bagType, index, name, filter)
 		local width = bagsWidth
-		if bagType == "bank" then width = bankWidth end
+		if bagType == "Bank" then width = bankWidth end
 
-		local newContainer = MyContainer:New(name, {Columns = width, Parent = parent})
+		local newContainer = MyContainer:New(name, {Columns = width, BagType = bagType})
 		newContainer:SetFilter(filter, true)
-		tinsert(bagGroups[bagType], newContainer)
+		ContainerGroups[bagType][index] = newContainer
 	end
 
 	function Backpack:OnInit()
-		f.main = MyContainer:New("Main", {Columns = bagsWidth, Bags = "bags"})
-		f.main:SetFilter(filters.onlyBags, true)
-		f.main:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -100, 200)
+		AddNewContainer("Bag", 9, "Junk", filters.bagsJunk)
+		AddNewContainer("Bag", 8, "BagFavourite", filters.bagFavourite)
+		AddNewContainer("Bag", 3, "EquipSet", filters.bagEquipSet)
+		AddNewContainer("Bag", 1, "AzeriteItem", filters.bagAzeriteItem)
+		AddNewContainer("Bag", 2, "Equipment", filters.bagEquipment)
+		AddNewContainer("Bag", 4, "BagCollection", filters.bagCollection)
+		AddNewContainer("Bag", 6, "Consumable", filters.bagConsumable)
+		AddNewContainer("Bag", 5, "BagGoods", filters.bagGoods)
+		AddNewContainer("Bag", 7, "BagQuest", filters.bagQuest)
 
-		AddNewContainer(f.main, "bag", "AzeriteItem", filters.bagAzeriteItem)
-		AddNewContainer(f.main, "bag", "Equipment", filters.bagEquipment)
-		AddNewContainer(f.main, "bag", "EquipSet", filters.bagEquipSet)
-		AddNewContainer(f.main, "bag", "BagCollection", filters.bagCollection)
-		AddNewContainer(f.main, "bag", "BagGoods", filters.bagGoods)
-		AddNewContainer(f.main, "bag", "Consumable", filters.bagConsumable)
-		AddNewContainer(f.main, "bag", "BagQuest", filters.bagQuest)
-		AddNewContainer(f.main, "bag", "BagFavourite", filters.bagFavourite)
-		AddNewContainer(f.main, "bag", "Junk", filters.bagsJunk)
+		f.main = MyContainer:New("Bag", {Columns = bagsWidth, Bags = "bags"})
+		f.main:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -100, 200)
+		f.main:SetFilter(filters.onlyBags, true)
+
+		AddNewContainer("Bank", 9, "BankFavourite", filters.bankFavourite)
+		AddNewContainer("Bank", 3, "BankEquipSet", filters.bankEquipSet)
+		AddNewContainer("Bank", 1, "BankAzeriteItem", filters.bankAzeriteItem)
+		AddNewContainer("Bank", 4, "BankLegendary", filters.bankLegendary)
+		AddNewContainer("Bank", 2, "BankEquipment", filters.bankEquipment)
+		AddNewContainer("Bank", 5, "BankCollection", filters.bankCollection)
+		AddNewContainer("Bank", 7, "BankConsumable", filters.bankConsumable)
+		AddNewContainer("Bank", 6, "BankGoods", filters.bankGoods)
+		AddNewContainer("Bank", 8, "BankQuest", filters.bankQuest)
 
 		f.bank = MyContainer:New("Bank", {Columns = bankWidth, Bags = "bank"})
-		f.bank:SetFilter(filters.onlyBank, true)
 		f.bank:SetPoint("TOPRIGHT", f.main, "TOPLEFT", -25, 0)
+		f.bank:SetFilter(filters.onlyBank, true)
 		f.bank:Hide()
 
-		AddNewContainer(f.bank, "bank", "BankAzeriteItem", filters.bankAzeriteItem)
-		AddNewContainer(f.bank, "bank", "BankEquipment", filters.bankEquipment)
-		AddNewContainer(f.bank, "bank", "BankEquipSet", filters.bankEquipSet)
-		AddNewContainer(f.bank, "bank", "BankLegendary", filters.bankLegendary)
-		AddNewContainer(f.bank, "bank", "BankCollection", filters.bankCollection)
-		AddNewContainer(f.bank, "bank", "BankGoods", filters.bankGoods)
-		AddNewContainer(f.bank, "bank", "BankConsumable", filters.bankConsumable)
-		AddNewContainer(f.bank, "bank", "BankQuest", filters.bankQuest)
-		AddNewContainer(f.bank, "bank", "BankFavourite", filters.bankFavourite)
-
-		f.reagent = MyContainer:New("Reagent", {Columns = bankWidth})
+		f.reagent = MyContainer:New("Reagent", {Columns = bankWidth, Bags = "bankreagent"})
 		f.reagent:SetFilter(filters.onlyReagent, true)
 		f.reagent:SetPoint("BOTTOMLEFT", f.bank)
 		f.reagent:Hide()
+
+		for bagType, groups in pairs(ContainerGroups) do
+			for _, container in ipairs(groups) do
+				local parent = Backpack.contByName[bagType]
+				container:SetParent(parent)
+				B.CreateMF(container, parent, true)
+			end
+		end
 	end
 
 	local initBagType
@@ -883,17 +891,18 @@ function Bags:OnLogin()
 		end
 		self:SetSize(width + xOffset*2, height + offset)
 
-		Bags:UpdateAnchors(f.main, bagGroups["bag"])
-		Bags:UpdateAnchors(f.bank, bagGroups["bank"])
+		Bags:UpdateAnchors(f.main, ContainerGroups["Bag"])
+		Bags:UpdateAnchors(f.bank, ContainerGroups["Bank"])
 	end
 
 	function MyContainer:OnCreate(name, settings)
 		self.Settings = settings
-		self:SetParent(settings.Parent or Backpack)
 		self:SetFrameStrata("HIGH")
 		self:SetClampedToScreen(true)
 		B.CreateBG(self)
-		B.CreateMF(self, settings.Parent, true)
+		if settings.Bags then
+			B.CreateMF(self, nil, true)
+		end
 
 		local label
 		if strmatch(name, "AzeriteItem$") then
@@ -926,7 +935,7 @@ function Bags:OnLogin()
 
 		local buttons = {}
 		buttons[1] = Bags.CreateCloseButton(self)
-		if name == "Main" then
+		if name == "Bag" then
 			Bags.CreateBagBar(self, settings, 4)
 			buttons[2] = Bags.CreateRestoreButton(self, f)
 			buttons[3] = Bags.CreateBagToggle(self)

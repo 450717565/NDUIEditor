@@ -16,5 +16,4 @@ C.LUAThemes["Blizzard_AnimaDiversionUI"] = function()
 
 	local CurrencyFrame = currency.CurrencyFrame
 	S.ReplaceIconString(CurrencyFrame.Quantity)
-	hooksecurefunc(CurrencyFrame.Quantity, "SetText", S.ReplaceIconString)
 end
