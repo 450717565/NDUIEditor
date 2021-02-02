@@ -78,7 +78,7 @@ local function Reskin_CommunitiesList(self)
 		end
 
 		if button.Selection:IsShown() then
-			button.bubg:SetBackdropColor(cr, cg, cb, .25)
+			button.bubg:SetBackdropColor(cr, cg, cb, .5)
 		else
 			button.bubg:SetBackdropColor(0, 0, 0, 0)
 		end

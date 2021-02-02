@@ -134,7 +134,7 @@ do
 
 		local results = self.searchResults
 		results:ClearAllPoints()
-		results:Point("BOTTOMLEFT", self, "BOTTOMRIGHT", 10, 0)
+		results:SetPoint("BOTTOMLEFT", self, "BOTTOMRIGHT", 10, 0)
 		B.StripTextures(results, 0)
 		B.CleanTextures(results)
 		local bg = B.CreateBG(results, 0, 0, 5, 0)
