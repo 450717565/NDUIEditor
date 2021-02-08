@@ -1435,9 +1435,9 @@ do
 
 				tabs:ClearAllPoints()
 				if i == 1 then
-					tabs:Point("TOPLEFT", frameName, "BOTTOMLEFT", 15, (1+C.mult*2))
+					tabs:Point("TOPLEFT", frameName, "BOTTOMLEFT", 15, 2)
 				else
-					tabs:Point("LEFT", _G[tab..(i-1)], "RIGHT", -(15+C.mult), 0)
+					tabs:Point("LEFT", _G[tab..(i-1)], "RIGHT", -16, 0)
 				end
 			end
 		end

@@ -2,7 +2,6 @@
 	<Script file="AddonList.lua"/>
 	<Script file="AlertFrames.lua"/>
 	<Script file="BankFrame.lua"/>
-	<Script file="ChannelFrame.lua"/>
 	<Script file="CharacterFrame.lua"/>
 	<Script file="ChatConfigFrame.lua"/>
 	<Script file="ChatFrame.lua"/>
@@ -12,11 +11,9 @@
 	<Script file="DressUpFrames.lua"/>
 	<Script file="FriendsFrame.lua"/>
 	<Script file="GameMenuFrame.lua"/>
-	<Script file="GarrisonFollowerTooltip.lua"/>
 	<Script file="GhostFrame.lua"/>
 	<Script file="GossipFrame.lua"/>
-	<Script file="GuildInviteFrame.lua"/>
-	<Script file="GuildRegistrarFrame.lua"/>
+	<Script file="GuildFrame.lua"/>
 	<Script file="HelpFrame.lua"/>
 	<Script file="HelpTipTemplate.lua"/>
 	<Script file="InterfaceOptionsFrame.lua"/>
@@ -33,7 +30,6 @@
 	<Script file="NavigationBar.lua"/>
 	<Script file="ObjectiveTracker.lua"/>
 	<Script file="PetBattleFrame.lua"/>
-	<Script file="PetitionFrame.lua"/>
 	<Script file="PetStableFrame.lua"/>
 	<Script file="PVEFrame.lua"/>
 	<Script file="PVPMatch.lua"/>
@@ -41,9 +37,7 @@
 	<Script file="QuestInfoFrame.lua"/>
 	<Script file="QuestMapFrame.lua"/>
 	<Script file="QueueStatus.lua"/>
-	<Script file="ReadyCheckFrame.lua"/>
-	<Script file="RolePollPopup.lua"/>
-	<Script file="ScenarioQueueFrame.lua"/>
+	<Script file="ReadyCheck.lua"/>
 	<Script file="ScriptErrorsFrame.lua"/>
 	<Script file="SpellBookFrame.lua"/>
 	<Script file="SplashFrame.lua"/>

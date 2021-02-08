@@ -21,7 +21,9 @@ tinsert(C.XMLThemes, function()
 		local icon = button.icon
 		icon:ClearAllPoints()
 		icon:SetPoint("LEFT", button, "LEFT")
-		B.ReskinIcon(icon)
+
+		local icbg = B.ReskinIcon(icon)
+		icbg:SetFrameLevel(button:GetFrameLevel())
 	end
 
 	GroupFinderFrame.groupButton1.icon:SetTexture("Interface\\Icons\\INV_Helmet_08")

@@ -45,6 +45,11 @@ local AT = B:GetModule("AurasTable")
 -- 全职业的相关监控
 local list = {
 	["Enchant Aura"] = {	-- 附魔及饰品组
+		{AuraID = 54861, UnitID = "player"},	-- 火箭靴，工程
+		-- 罪魂之塔
+		{AuraID = 295963, UnitID = "player", Flash = true},	-- 崩毁之护
+		{AuraID = 338949, UnitID = "player"},	-- 诡诈斗篷
+		{AuraID = 338928, UnitID = "player"},	-- 灵魂强化
 		-- 种族天赋
 		{AuraID = 26297, UnitID = "player"},	-- 狂暴 巨魔
 		{AuraID = 20572, UnitID = "player"},	-- 血性狂怒 兽人
@@ -61,6 +66,7 @@ local list = {
 		{AuraID = 307497, UnitID = "player"},	-- 死亡偏执药水
 		{AuraID = 344314, UnitID = "player"},	-- 心华之速药水
 		-- 9.0饰品
+		{AuraID = 344231, UnitID = "player"},	-- 赤红陈酿
 		{AuraID = 345228, UnitID = "player"},	-- 角斗士徽章
 		{AuraID = 344662, UnitID = "player"},	-- 碎裂心智
 		{AuraID = 345439, UnitID = "player"},	-- 赤红华尔兹
@@ -124,7 +130,6 @@ local list = {
 		{AuraID = 202052, UnitID = "player", Value = true},		-- 坦克
 	},
 	["Raid Buff"] = {		-- 团队增益组
-		{AuraID = 54861, UnitID = "player"},	-- 火箭靴，工程
 		-- 嗜血相关
 		{AuraID = 2825, UnitID = "player", Flash = true},	-- 嗜血
 		{AuraID = 32182, UnitID = "player", Flash = true},	-- 英勇
@@ -233,6 +238,7 @@ local list = {
 		-- 5人本
 		{AuraID = 321754, UnitID = "target", Value = true},	-- 通灵战潮，冰缚之盾
 		{AuraID = 343470, UnitID = "target", Value = true},	-- 通灵战潮，碎骨之盾
+		{AuraID = 328351, UnitID = "target", Flash = true},	-- 通灵战潮，染血长枪
 		{AuraID = 322773, UnitID = "target", Value = true},	-- 彼界，鲜血屏障
 		{AuraID = 333227, UnitID = "target", Flash = true},	-- 彼界，不死之怒
 		{AuraID = 228626, UnitID = "target"},	-- 彼界，怨灵之瓮

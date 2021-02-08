@@ -720,9 +720,7 @@ function UF.PostUpdateIcon(element, _, button, _, _, duration, expiration, debuf
 		button.icon:SetDesaturated(false)
 	end
 
-	if style == "raid" and C.db["UFs"]["RaidBuffIndicator"] then
-		button.icbg:SetBackdropBorderColor(1, 0, 0)
-	elseif element.showDebuffType and button.isDebuff then
+	if element.showDebuffType and button.isDebuff then
 		local color = oUF.colors.debuff[debuffType] or oUF.colors.debuff.none
 		button.icbg:SetBackdropBorderColor(color[1], color[2], color[3])
 	else

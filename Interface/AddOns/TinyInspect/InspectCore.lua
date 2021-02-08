@@ -1,6 +1,7 @@
 
 -------------------------------------
--- InspectCore Author: M
+-- 核心
+-- Author: M
 -------------------------------------
 
 local LibEvent = LibStub:GetLibrary("LibEvent.7000")

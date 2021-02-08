@@ -194,7 +194,7 @@ GUI.DefaultSettings = {
 		Lock = true,
 		Matches = 1,
 		Oldname = true,
-		Sticky = false,
+		Sticky = true,
 		WhisperColor = true,
 	},
 	Map = {
@@ -277,15 +277,16 @@ GUI.DefaultSettings = {
 
 		BlizzardSkins = true,
 		FontOutline = true,
-		FontScale = 1,
 		SkinShadow = false,
-		SkinStyle = 1,
+		SkinTexture = false,
+
+		FontScale = 1,
 		GSDirection = 1,
-		SkinTexture = true,
+		SkinStyle = 1,
 		ToggleDirection = 1,
 
 		BGAlpha = .5,
-		SDAlpha = .3,
+		SDAlpha = .25,
 		FSAlpha = .3,
 		GSAlpha1 = .3,
 		GSAlpha2 = .6,

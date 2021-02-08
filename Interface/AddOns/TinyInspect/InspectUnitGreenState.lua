@@ -1,11 +1,12 @@
 
 ---------------------------
 -- 显示装备绿字前缀
+-- Author: M
+-- DepandsOn: InspectUnit.lua
 ---------------------------
 local B, C, L, DB = unpack(NDui)
 
 local LibEvent = LibStub:GetLibrary("LibEvent.7000")
-local locale = GetLocale():sub(1,2)
 local ShowPluginGreenState = true
 
 local shown = {

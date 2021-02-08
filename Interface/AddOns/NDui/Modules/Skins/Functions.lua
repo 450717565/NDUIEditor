@@ -2,6 +2,8 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local Skins = B:GetModule("Skins")
 
+local tL, tR, tT, tB = unpack(DB.TexCoord)
+
 do
 	-- Reskin Garrison Portrait
 	local replacedRoleTex = {
@@ -175,13 +177,15 @@ do
 	end
 
 	-- Reskin SortButton
-	function Skins:ReskinSortButton()
-		B.ReskinButton(self)
-		B.ReskinHighlight(self, self)
+	function Skins:ReskinSort()
+		local bg = B.CreateBDFrame(self, 0, -C.mult)
+		B.ReskinHighlight(self, bg)
 
 		self:SetSize(26, 26)
 		self:SetNormalTexture("Interface\\Icons\\INV_Pet_Broom")
 		self:SetPushedTexture("Interface\\Icons\\INV_Pet_Broom")
+		self:GetNormalTexture():SetTexCoord(tL, tR, tT, tB)
+		self:GetPushedTexture():SetTexCoord(tL, tR, tT, tB)
 	end
 
 	-- Reskin RequiredMoneyText Color

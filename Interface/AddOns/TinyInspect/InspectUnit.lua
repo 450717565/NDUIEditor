@@ -1,6 +1,7 @@
 
 -------------------------------------
--- 查看装备等级 Author: M
+-- 查看装备等级
+-- Author: M
 -------------------------------------
 local B, C, L, DB = unpack(NDui)
 
@@ -99,7 +100,6 @@ local function GetInspectItemListFrame(parent)
 
 		frame.closeButton = CreateFrame("Button", nil, frame)
 		frame.closeButton:SetSize(12, 12)
-		frame.closeButton:SetScale(0.85)
 		frame.closeButton:SetPoint("BOTTOMLEFT", 5, 5)
 		frame.closeButton:SetNormalTexture("Interface\\Cursor\\Item")
 		frame.closeButton:GetNormalTexture():SetTexCoord(0, 12/32, 12/32, 0)

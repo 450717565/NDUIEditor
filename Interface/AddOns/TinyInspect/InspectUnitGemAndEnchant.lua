@@ -1,8 +1,8 @@
 
 -------------------------------------
--- 顯示寶石和附魔信息
--- @Author: M
--- @DepandsOn: InspectUnit.lua
+-- 显示宝石和附魔信息
+-- Author: M
+-- DepandsOn: InspectUnit.lua
 -------------------------------------
 local B, C, L, DB = unpack(NDui)
 

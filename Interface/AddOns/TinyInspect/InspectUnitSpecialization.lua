@@ -1,8 +1,8 @@
 
 -------------------------------------
--- 顯示天賦信息
--- @Author: M
--- @DepandsOn: InspectUnit.lua
+-- 显示天赋信息
+-- Author: M
+-- DepandsOn: InspectUnit.lua
 -------------------------------------
 local B, C, L, DB = unpack(NDui)
 

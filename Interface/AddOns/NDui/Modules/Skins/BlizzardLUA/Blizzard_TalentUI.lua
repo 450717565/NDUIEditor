@@ -61,11 +61,11 @@ local function Reskin_UpdateSpecFrame(self, spec)
 	end
 
 	for i = 1, numSpecs do
-		local bu = self["specButton"..i]
-		if bu.disabled then
-			B.ReskinText(bu.roleName, .5, .5, .5)
+		local button = self["specButton"..i]
+		if button.disabled then
+			B.ReskinText(button.roleName, .5, .5, .5)
 		else
-			B.ReskinText(bu.roleName, 1, 1, 1)
+			B.ReskinText(button.roleName, 1, 1, 1)
 		end
 	end
 
@@ -87,15 +87,15 @@ local function Reskin_TalentFrame()
 		for j = 1, NUM_TALENT_COLUMNS do
 			local selected = select(4, GetTalentInfo(i, j, 1))
 			local known = select(11, GetTalentInfo(i, j, 1))
-			local bu = _G["PlayerTalentFrameTalentsTalentRow"..i.."Talent"..j]
+			local button = _G["PlayerTalentFrameTalentsTalentRow"..i.."Talent"..j]
 
 			if known then
-				bu.bubg:SetBackdropBorderColor(cr, cg, cb)
+				button.bubg:SetBackdropBorderColor(cr, cg, cb)
 			elseif selected then
-				bu.bubg:SetBackdropColor(cr, cg, cb, .5)
+				button.bubg:SetBackdropColor(cr, cg, cb, .5)
 			else
-				bu.bubg:SetBackdropBorderColor(0, 0, 0)
-				bu.bubg:SetBackdropColor(0, 0, 0, 0)
+				button.bubg:SetBackdropBorderColor(0, 0, 0)
+				button.bubg:SetBackdropColor(0, 0, 0, 0)
 			end
 		end
 	end
@@ -135,21 +135,22 @@ C.LUAThemes["Blizzard_TalentUI"] = function()
 		S.ReskinTutorialButton(tutorial, PlayerTalentFrame)
 
 		for i = 1, 4 do
-			local bu = frame["specButton"..i]
+			local button = frame["specButton"..i]
 			local _, _, _, icon, role = GetSpecializationInfo(i, false, frame.isPet)
-			B.StripTextures(bu)
-			B.ReskinButton(bu)
-			B.ReskinHighlight(bu.selectedTex, bu.bgTex, true)
+			B.StripTextures(button)
+			B.ReskinButton(button)
+			B.ReskinHighlight(button.selectedTex, button.bgTex, true)
 
-			local specIcon = bu.specIcon
+			local specIcon = button.specIcon
 			specIcon:SetTexture(icon)
 			specIcon:ClearAllPoints()
-			specIcon:SetPoint("LEFT", bu, "LEFT")
-			B.ReskinIcon(specIcon)
+			specIcon:SetPoint("LEFT", button, "LEFT")
+			local specBG = B.ReskinIcon(specIcon)
+			specBG:SetFrameLevel(button:GetFrameLevel())
 
-			local roleIcon = bu.roleIcon
-			local icbg = B.ReskinRoleIcon(roleIcon)
-			icbg:SetFrameLevel(bu:GetFrameLevel())
+			local roleIcon = button.roleIcon
+			local roleBG = B.ReskinRoleIcon(roleIcon)
+			roleBG:SetFrameLevel(button:GetFrameLevel())
 			if role then
 				roleIcon:SetTexCoord(B.GetRoleTexCoord(role))
 			end
@@ -163,23 +164,23 @@ C.LUAThemes["Blizzard_TalentUI"] = function()
 	S.ReskinTutorialButton(PlayerTalentFrameTalentsTutorialButton, PlayerTalentFrame)
 
 	for i = 1, MAX_TALENT_TIERS do
-		local button = "PlayerTalentFrameTalentsTalentRow"..i
+		local buttons = "PlayerTalentFrameTalentsTalentRow"..i
 
-		local row = _G[button]
+		local row = _G[buttons]
 		B.StripTextures(row)
 
 		for j = 1, NUM_TALENT_COLUMNS do
-			local bu = _G[button.."Talent"..j]
-			B.StripTextures(bu)
-			bu.knownSelection:SetAlpha(0)
+			local button = _G[buttons.."Talent"..j]
+			B.StripTextures(button)
+			button.knownSelection:SetAlpha(0)
 
-			local bubg = B.CreateBGFrame(bu, 10, 0, 0, 0)
-			B.ReskinHighlight(bu, bubg, true)
+			local bubg = B.CreateBGFrame(button, 10, 0, 0, 0)
+			B.ReskinHighlight(button, bubg, true)
 
-			local icon = _G[button.."Talent"..j.."IconTexture"]
+			local icon = _G[buttons.."Talent"..j.."IconTexture"]
 			B.ReskinIcon(icon)
 
-			bu.bubg = bubg
+			button.bubg = bubg
 		end
 	end
 
@@ -204,23 +205,23 @@ C.LUAThemes["Blizzard_TalentUI"] = function()
 	B.ReskinScroll(ScrollFrame.ScrollBar)
 
 	for i = 1, 10 do
-		local bu = ScrollFrame.buttons[i]
-		B.StripTextures(bu)
+		local button = ScrollFrame.buttons[i]
+		B.StripTextures(button)
 
-		local icon = bu.Icon
+		local icon = button.Icon
 		icon:SetSize(32, 32)
 
 		local icbg = B.ReskinIcon(icon)
-		local bubg = B.CreateBGFrame(bu, 2, 0, 0, 0, icbg)
-		B.ReskinHighlight(bu, bubg, true)
-		B.ReskinHighlight(bu.Selected, bubg, true)
+		local bubg = B.CreateBGFrame(button, 2, 0, 0, 0, icbg)
+		B.ReskinHighlight(button, bubg, true)
+		B.ReskinHighlight(button.Selected, bubg, true)
 
-		local name = bu.Name
+		local name = button.Name
 		name:ClearAllPoints()
 		name:SetPoint("LEFT", bubg, 4, 0)
 
-		bu.bubg = bubg
+		button.bubg = bubg
 
-		hooksecurefunc(bu, "Update", Reskin_PvPTalentList)
+		hooksecurefunc(button, "Update", Reskin_PvPTalentList)
 	end
 end

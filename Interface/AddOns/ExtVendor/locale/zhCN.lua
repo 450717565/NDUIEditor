@@ -1,4 +1,4 @@
-﻿local L = LibStub("AceLocale-3.0"):NewLocale("ExtVendor", "zhCN", true)
+﻿local L = LibStub("AceLocale-3.0"):NewLocale("ExtVendor", "zhCN", false)
 
 if L then
 
@@ -6,7 +6,7 @@ L["LOADED_MESSAGE"] = "版本 %s 已载入。";
 L["ADDON_TITLE"] = "Extended Vendor UI";
 L["VERSION_TEXT"] = "Extended Vendor UI %s";
 
-L["QUICKVENDOR_BUTTON_TOOLTIP"] = "售出所有垃圾(灰色)物品";
+L["QUICKVENDOR_BUTTON_TOOLTIP"] = "售出所有垃圾（灰色）物品";
 
 L["CONFIRM_SELL_JUNK"] = "你想要售出下列的物品吗：";
 L["TOTAL_SALE_PRICE"] = "总出售金额";
@@ -19,19 +19,24 @@ L["HIDE_UNUSABLE"] = "可用物品筛选";
 L["HIDE_FILTERED"] = "隐藏筛选";
 L["HIDE_KNOWN_RECIPES"] = "只显示未学的专业图纸";
 L["FILTER_SUBOPTIMAL"] = "过滤非最佳化护甲";
-L["FILTER_TRANSMOG"] = "Transmog/Appearance";
-L["FILTER_TRANSMOG_ONLY"] = "Transmoggable Items Only";
-L["FILTER_COLLECTED_TRANSMOG"] = "Hide Collected Appearances";
+L["FILTER_TRANSMOG"] = "幻化过滤";
+L["FILTER_TRANSMOG_ONLY"] = "显示未收集的幻化装备";
+L["FILTER_COLLECTED_TRANSMOG"] = "隐藏已收集的幻化装备";
+L["FILTER_COLLECTABLES"] = "收藏过滤";
+L["FILTER_COLLECTED_HEIRLOOMS"] = "隐藏已收集的传家宝";
+L["FILTER_COLLECTED_TOYS"] = "隐藏已收集的玩具";
+L["FILTER_COLLECTED_MOUNTS"] = "隐藏已收集的坐骑";
 L["FILTER_RECIPES"] = "图纸过滤";
 L["FILTER_ALREADY_KNOWN"] = "隐藏已经学会";
 L["FILTER_PURCHASED"] = "隐藏已经购买";
-L["FILTER_SLOT"] = "部位";
-L["QUALITY_FILTER_MINIMUM"] = "品质(最低)";
-L["QUALITY_FILTER_SPECIFIC"] = "品质(特定)";
+L["FILTER_SLOT"] = "部位过滤";
+L["QUALITY_FILTER_MINIMUM"] = "品质过滤（最低）";
+L["QUALITY_FILTER_SPECIFIC"] = "品质过滤（特定）";
 L["STOCK_FILTER"] = "预设过滤";
 L["FILTER_DEFAULT_ALL"] = "预设为所有";
 L["ITEMS_HIDDEN"] = "%s 物品隐藏";
-L["CONFIGURE_QUICKVENDOR"] = "设置快速售出设定";
+L["CONFIGURE_QUICKVENDOR"] = "快速售出设置";
+L["CONFIGURE_ADDON"] = "全局选项设置";
 
 
 L["SLOT_CAT_ARMOR"] = "护甲";
@@ -72,6 +77,8 @@ L["REPLICA"] = "复制品";
 L["CONFIG_HEADING_GENERAL"] = "一般设定";
 L["OPTION_STARTUP_MESSAGE"] = "显示载入讯息";
 L["OPTION_STARTUP_MESSAGE_TOOLTIP"] = "勾选此选项，每次登入游戏时\n将会在聊天框显示本插件讯息。";
+L["OPTION_REDUCE_LAG"] = "减少延迟";
+L["OPTION_REDUCE_LAG_TOOLTIP"] = "如果启用，严重影响性能的功能将被禁用。\n\n以下功能将不可用:\n|cffa0a0a0-过滤器:隐藏已知的配方|r";
 L["OPTION_MOUSEWHEEL_PAGING"] = "滑鼠滚轮换页";
 L["OPTION_MOUSEWHEEL_PAGING_TOOLTIP"] = "如果启用，滑鼠滚轮可以用来\n卷动商店的页面。";
 L["OPTION_SCALE"] = "缩放: %s";
@@ -84,14 +91,18 @@ L["OPTION_STOCKFILTER_DEFAULTALL_TOOLTIP"] = "如果勾选启用，『过滤』�
 L["CONFIG_HEADING_QUICKVENDOR"] = "快速售出设定";
 L["OPTION_QUICKVENDOR_ENABLEBUTTON"] = "显示快速售出按钮";
 L["OPTION_QUICKVENDOR_ENABLEBUTTON_TOOLTIP"] = "在商店介面上显示或隐藏快速售出按钮。";
-L["OPTION_QUICKVENDOR_SUBARMOR"] = "非最佳化护甲 (只限拾绑)";
-L["OPTION_QUICKVENDOR_SUBARMOR_TOOLTIP"] = "如果启用，次等护甲物品\n将会被快速售出。\n\n包含:\n|cffa0a0a0- 战士/圣骑士/死亡骑士: 布甲、皮甲、锁甲(等级40以上)\n- 萨满/猎人: 布甲、皮甲(等级40以上)\n- 盗贼/德鲁伊/武僧: 布甲";
-L["OPTION_QUICKVENDOR_ALREADYKNOWN"] = "已学会的图纸 (只限拾绑)";
-L["OPTION_QUICKVENDOR_ALREADYKNOWN_TOOLTIP"] = "如果启用，|cffff0000已学会|r 的图纸(例如专业或食谱)\n 将被列入快速售出清单中。";
-L["OPTION_QUICKVENDOR_UNUSABLE"] = "不能使用的装备 (只限拾绑)";
-L["OPTION_QUICKVENDOR_UNUSABLE_TOOLTIP"] = "如果启用，你的职业无法使用的装备\n (基于护甲、武器类型或职业限制)\n将适用于快速售出。\n\n例如:|cffa0a0a0\n- 皮甲对于法师\n- 铠甲对于萨满\n- 双手剑对于牧师\n- 非你职业的套装";
-L["OPTION_QUICKVENDOR_WHITEGEAR"] = "一般品质 (|cffffffff白色|r) 武器和护甲";
-L["OPTION_QUICKVENDOR_WHITEGEAR_TOOLTIP"] = "如果启用，所有白色品质的武器和护甲 (未装备的)\n将会被快速售出。";
+L["OPTION_QUICKVENDOR_SUBARMOR"] = "非最佳化护甲（仅限BoP）";
+L["OPTION_QUICKVENDOR_SUBARMOR_TOOLTIP"] = "如果启用，次等护甲物品\n将会被快速售出。\n\n包含:\n|cffa0a0a0- 战士/圣骑士/死亡骑士: 布甲、皮甲、锁甲（等级40以上）\n- 萨满/猎人: 布甲、皮甲（等级40以上）\n- 盗贼/德鲁伊/武僧: 布甲";
+L["OPTION_QUICKVENDOR_ALREADYKNOWN"] = "已学会的图纸（仅限BoP）";
+L["OPTION_QUICKVENDOR_ALREADYKNOWN_TOOLTIP"] = "如果启用，|cffff0000已学会|r 的图纸（例如专业或食谱）\n 将被列入快速售出清单中。";
+L["OPTION_QUICKVENDOR_UNUSABLE"] = "不能使用的装备（仅限BoP）";
+L["OPTION_QUICKVENDOR_UNUSABLE_TOOLTIP"] = "如果启用，你的职业无法使用的装备\n（基于护甲、武器类型或职业限制）\n将适用于快速售出。\n\n例如:|cffa0a0a0\n- 皮甲对于法师\n- 铠甲对于萨满\n- 双手剑对于牧师\n- 非你职业的套装";
+L["OPTION_QUICKVENDOR_WHITEGEAR"] = "一般品质（|cffffffff白色|r） 武器和护甲";
+L["OPTION_QUICKVENDOR_WHITEGEAR_TOOLTIP"] = "如果启用，所有白色品质的武器和护甲（未装备的）\n将会被快速售出。";
+L["OPTION_QUICKVENDOR_OUTDATEDGEAR"] = "过时的地下城/团队装备（仅限BoP）";
+L["OPTION_QUICKVENDOR_OUTDATEDGEAR_TOOLTIP"] = "如果启用，过时的稀有或史诗武器和盔甲将会包含在快速出售功能中。";
+L["OPTION_QUICKVENDOR_OUTDATEDFOOD"] = "过时的食物和饮料";
+L["OPTION_QUICKVENDOR_OUTDATEDFOOD_TOOLTIP"] = "如果启用该功能，该玩家所拥有的过时的食物和饮料将包含在快速售卖功能中。";
 L["NOTE"] = "注意";
 L["QUICKVENDOR_SOULBOUND"] = "这个选项只会影响『拾取绑定』装备。";
 
@@ -103,7 +114,7 @@ L["QUICKVENDOR_REASON_UNUSABLEARMOR"] = "无法使用的护甲类型";
 L["QUICKVENDOR_REASON_UNUSABLEWEAPON"] = "无法使用的武器类型";
 L["QUICKVENDOR_REASON_CLASSRESTRICTED"] = "职业限定";
 L["QUICKVENDOR_REASON_WHITELISTED"] = "列入白名单";
-L["QUICKVENDOR_MORE_ITEMS"] = "(%s others)";
+L["QUICKVENDOR_MORE_ITEMS"] = "（%s others）";
 
 L["QUICKVENDOR_PROGRESS"] = "Selling Junk Items...";        -- this is new and needs to be translated!
 

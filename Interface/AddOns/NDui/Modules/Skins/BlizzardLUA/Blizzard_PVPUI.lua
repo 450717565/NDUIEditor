@@ -81,7 +81,9 @@ C.LUAThemes["Blizzard_PVPUI"] = function()
 		local icon = button.Icon
 		icon:ClearAllPoints()
 		icon:SetPoint("LEFT", button, "LEFT")
-		B.ReskinIcon(icon)
+
+		local icbg = B.ReskinIcon(icon)
+		icbg:SetFrameLevel(button:GetFrameLevel())
 	end
 
 	PVPQueueFrame.CategoryButton1.Icon:SetTexture("Interface\\Icons\\achievement_bg_winwsg")
