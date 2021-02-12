@@ -125,7 +125,6 @@ local function Reskin_AlertFrame(_, frame)
 			frame.bg = B.CreateBG(frame, 13, -15, -13, 13)
 			frame.icbg = B.ReskinIcon(lootItem.Icon)
 			frame.sibg = B.ReskinIcon(lootItem.SpecIcon)
-			B.ReskinBorder(lootItem.IconBorder, frame.icbg)
 
 			lootItem.SpecIcon:ClearAllPoints()
 			lootItem.SpecIcon:SetPoint("TOPLEFT", lootItem.Icon, -5, 5)
@@ -149,7 +148,6 @@ local function Reskin_AlertFrame(_, frame)
 		if not frame.bg then
 			frame.bg = B.CreateBG(frame, 7, -7, -7, 7)
 			frame.icbg = B.ReskinIcon(frame.Icon)
-			B.ReskinBorder(frame.IconBorder, frame.icbg)
 		end
 	elseif frame.queue == NewRecipeLearnedAlertSystem then
 		if not frame.bg then
@@ -231,7 +229,7 @@ local function Reskin_AlertFrame(_, frame)
 		select(2, frame:GetRegions()):SetTexture("")
 	elseif frame.queue == DungeonCompletionAlertSystem then
 		if not frame.bg then
-			frame.bg = B.CreateBG(frame, 2, -10, 0, 2)
+			frame.bg = B.CreateBG(frame, 3, -8, -3, 8)
 			frame.icbg = B.ReskinIcon(frame.dungeonTexture)
 
 			frame:DisableDrawLayer("Border")
@@ -257,7 +255,6 @@ local function Reskin_AlertFrame(_, frame)
 		if not frame.bg then
 			frame.bg = B.CreateBG(frame, 12, -13, -12, 10)
 			frame.icbg = B.ReskinIcon(frame.Icon)
-			B.ReskinBorder(frame.IconBorder, frame.icbg)
 		end
 	elseif frame.queue == InvasionAlertSystem then
 		if not frame.bg then
@@ -293,7 +290,6 @@ local function Reskin_LootWonAlertFrame(frame)
 		frame.bg = B.CreateBG(frame, 10, -10, -10, 10)
 		frame.icbg = B.ReskinIcon(lootItem.Icon)
 		frame.sibg = B.ReskinIcon(lootItem.SpecIcon)
-		B.ReskinBorder(lootItem.IconBorder, frame.icbg)
 
 		Fix_Anim(frame)
 
@@ -310,7 +306,6 @@ local function Reskin_MoneyWonAlertFrame(frame)
 	if not frame.bg then
 		frame.bg = B.CreateBG(frame, 5, -5, -5, 5)
 		frame.icbg = B.ReskinIcon(frame.Icon)
-		B.ReskinBorder(frame.IconBorder, frame.icbg)
 
 		Fix_Anim(frame)
 	end

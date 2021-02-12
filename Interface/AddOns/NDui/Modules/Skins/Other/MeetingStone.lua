@@ -331,7 +331,7 @@ function Skins:MeetingStone()
 
 	-- DataBroker
 	local DataBroker = MSEnv.DataBroker
-	B.ReskinButton(DataBroker.BrokerPanel)
+	B.ReskinButton(DataBroker.BrokerPanel, true)
 	DataBroker.BrokerIcon:SetPoint("LEFT", 8, 0)
 
 	-- Misc

@@ -15,7 +15,7 @@ local Buttons = {
 }
 
 local function Reskin_ShowInterface(self)
-	if not self.styled then
+	if not styled then
 		local frame = self.main_frame
 		frame.HelpButton.Ring:Hide()
 
@@ -31,7 +31,7 @@ local function Reskin_ShowInterface(self)
 			end
 		end
 
-		self.styled = true
+		styled = true
 	end
 end
 
@@ -39,5 +39,6 @@ function Skins:MythicDungeonTools()
 	if not IsAddOnLoaded("MythicDungeonTools") then return end
 
 	local MDT = _G.MDT
+	local styled
 	hooksecurefunc(MDT, "ShowInterface", Reskin_ShowInterface)
 end

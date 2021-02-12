@@ -5,6 +5,15 @@ if (not LIB_RAID_STATUS_CAN_LOAD) then
 	return
 end
 
+LIB_RAID_STATUS_AUGMENTATED_RUNE = 347901
+
+LIB_RAID_STATUS_COVENANT_ICONS = {
+	[[Interface\ICONS\UI_Sigil_Kyrian]], --kyrian
+	[[Interface\ICONS\UI_Sigil_Venthyr]], --venthyr
+	[[Interface\ICONS\UI_Sigil_NightFae]], --nightfae
+	[[Interface\ICONS\UI_Sigil_Necrolord]], --necrolords
+}
+
 --which gear slots can be enchanted on the latest retail version of the game
 --when the value is a number, the slot only receives enchants for a specific attribute
 LIB_RAID_STATUS_ENCHANT_SLOTS = {
@@ -214,7 +223,7 @@ LIB_RAID_STATUS_COOLDOWNS_BY_SPEC = {
 			[104773] = 2, --Unending Resolve
 			[108416] = 2, --Dark Pact (talent)
 			[30283] = 5, --Shadowfury
-			[6789] = 5, --Mortal Coil (talent)
+			--[6789] = 5, --Mortal Coil (talent)
 			[333889] = 5, --Fel Domination
 		},
 		--demonology
@@ -229,7 +238,7 @@ LIB_RAID_STATUS_COOLDOWNS_BY_SPEC = {
 			[108416] = 2, --Dark Pact (talent)
 			
 			[30283] = 5, --Shadowfury
-			[6789] = 5, --Mortal Coil (talent)
+			--[6789] = 5, --Mortal Coil (talent)
 			[5484] = 5, --Howl of Terror (talent)
 			[333889] = 5, --Fel Domination
 		},
@@ -240,7 +249,7 @@ LIB_RAID_STATUS_COOLDOWNS_BY_SPEC = {
 			[113858] = 1, --Dark Soul: Instability (talent)
 			[104773] = 2, --Unending Resolve
 			[108416] = 2, --Dark Pact (talent)
-			[6789] = 5, --Mortal Coil (talent)
+			--[6789] = 5, --Mortal Coil (talent)
 			[30283] = 5, --Shadowfury
 			[333889] = 5, --Fel Domination
 		},
@@ -533,7 +542,7 @@ LIB_RAID_STATUS_COOLDOWNS_BY_SPEC = {
 			[108271] = 2, --Astral Shift
 			[108281] = 4, --Ancestral Guidance (talent)
 			[198103] = 2, --Earth Elemental
-			[79206] = 5, --Spiritwalkers grace
+			--[79206] = 5, --Spiritwalkers grace
 			[65992] = 5, --Tremor Totem
 			[192058] = 5, --Capacitor Totem
 			[192077] = 5, --Wind Rush Totem (talent)
@@ -619,7 +628,8 @@ LIB_RAID_STATUS_COOLDOWNS_INFO = {
 	[113858] = {cooldown = 120, duration = 20, talent = 23092, charges = 1, class = "WARLOCK", type = 1}, --Dark Soul: Instability (talent)
 	[30283] = {cooldown = 60, duration = 3, talent = false, charges = 1, class = "WARLOCK", type = 5}, --Shadowfury
 	[333889] = {cooldown = 180, duration = 15, talent = false, charges = 1, class = "WARLOCK", type = 5}, --Fel Domination
-	
+	--[6789] = {cooldown = 45, duration = 3, talent = 19291, charges = 1, class = "WARLOCK", type = 5}, --Mortal Coil (talent)
+
 	--> shaman
 	[198067] = {cooldown = 150, duration = 30, talent = false, charges = 1, class = "SHAMAN", type = 1}, --Fire Elemental
 	[192249] = {cooldown = 150, duration = 30, talent = 19272, charges = 1, class = "SHAMAN", type = 1}, --Storm Elemental (talent)

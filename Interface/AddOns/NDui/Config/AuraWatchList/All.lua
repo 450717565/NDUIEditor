@@ -57,30 +57,44 @@ local list = {
 		{AuraID = 292463, UnitID = "player"},	-- 帕库之拥 赞达拉
 		-- 9.0药水
 		{AuraID = 307159, UnitID = "player"},	-- 幽魂敏捷药水
+		{AuraID = 307160, UnitID = "player"},	-- 硬化暗影药水
 		{AuraID = 307162, UnitID = "player"},	-- 幽魂智力药水
 		{AuraID = 307163, UnitID = "player"},	-- 幽魂耐力药水
 		{AuraID = 307164, UnitID = "player"},	-- 幽魂力量药水
+		{AuraID = 307195, UnitID = "player"},	-- 隐秘精魂药水
 		{AuraID = 307494, UnitID = "player"},	-- 强化驱魔药水
 		{AuraID = 307495, UnitID = "player"},	-- 幻影火焰药水
 		{AuraID = 307496, UnitID = "player"},	-- 神圣觉醒药水
 		{AuraID = 307497, UnitID = "player"},	-- 死亡偏执药水
+		{AuraID = 322302, UnitID = "player"},	-- 献祭心能药水
+		{AuraID = 342890, UnitID = "player"},	-- 无拘移动药水
 		{AuraID = 344314, UnitID = "player"},	-- 心华之速药水
 		-- 9.0饰品
-		{AuraID = 344231, UnitID = "player"},	-- 赤红陈酿
-		{AuraID = 345228, UnitID = "player"},	-- 角斗士徽章
-		{AuraID = 344662, UnitID = "player"},	-- 碎裂心智
-		{AuraID = 345439, UnitID = "player"},	-- 赤红华尔兹
-		{AuraID = 345019, UnitID = "player"},	-- 潜伏的掠食者
-		{AuraID = 345530, UnitID = "player"},	-- 过载的心能电池
-		{AuraID = 345541, UnitID = "player"},	-- 天域涌动
-		{AuraID = 336588, UnitID = "player"},	-- 唤醒者的复叶
-		{AuraID = 348139, UnitID = "player"},	-- 导师的圣钟
-		{AuraID = 311444, UnitID = "player", Value = true},	-- 不屈套牌
-		{AuraID = 336465, UnitID = "player", Value = true},	-- 脉冲光辉护盾
-		{AuraID = 330366, UnitID = "player", Text = L["Crit"]},	-- 不可思议的量子装置，暴击
+		{AuraID = 311444, UnitID = "player", Value = true},			-- 暗月套牌：不屈
+		{AuraID = 329831, UnitID = "player"},	-- 压制能量水晶
+		{AuraID = 329840, UnitID = "player", Value = true},			-- 溅血之鳞
+		{AuraID = 330366, UnitID = "player", Text = L["Crit"]},		-- 不可思议的量子装置，暴击
 		{AuraID = 330367, UnitID = "player", Text = L["Versa"]},	-- 不可思议的量子装置，全能
 		{AuraID = 330368, UnitID = "player", Text = L["Haste"]},	-- 不可思议的量子装置，急速
 		{AuraID = 330380, UnitID = "player", Text = L["Mastery"]},	-- 不可思议的量子装置，精通
+		{AuraID = 331624, UnitID = "player"},	-- 暗月套牌：贪婪
+		{AuraID = 330067, UnitID = "player", Text = L["Versa"]},	-- 唤雾者的陶笛，全能
+		{AuraID = 332299, UnitID = "player", Text = L["Crit"]},		-- 唤雾者的陶笛，暴击
+		{AuraID = 332300, UnitID = "player", Text = L["Haste"]},	-- 唤雾者的陶笛，急速
+		{AuraID = 332301, UnitID = "player", Text = L["Mastery"]},	-- 唤雾者的陶笛，精通
+		{AuraID = 336465, UnitID = "player", Value = true},			-- 满溢灰烬之镜
+		{AuraID = 336588, UnitID = "player"},	-- 唤醒者的复叶
+		{AuraID = 336841, UnitID = "player"},	-- 战斗烈焰
+		{AuraID = 343399, UnitID = "player"},	-- 跳动的石心
+		{AuraID = 344231, UnitID = "player", Value = true},			-- 赤红陈酿
+		{AuraID = 344384, UnitID = "player"},	-- 巴加斯特的狗绳
+		{AuraID = 344662, UnitID = "player"},	-- 昔日罪孽之忆
+		{AuraID = 345019, UnitID = "player"},	-- 隐匿者之翼
+		{AuraID = 345231, UnitID = "player"},	-- 角斗士的纹章
+		{AuraID = 345432, UnitID = "player"},	-- 断魂乐谱
+		{AuraID = 345530, UnitID = "player"},	-- 过载的心能电池
+		{AuraID = 345533, UnitID = "player"},	-- 心能力场发生器
+		{AuraID = 348139, UnitID = "player"},	-- 导师的圣钟
 		-- 盟约
 		{AuraID = 331937, UnitID = "player", Flash = true},	-- 沉醉
 		{AuraID = 323546, UnitID = "player"},	-- 饕餮狂乱
@@ -172,6 +186,9 @@ local list = {
 		{AuraID = 209426, UnitID = "player"},	-- 幻影打击
 		{AuraID = 114018, UnitID = "player", Flash = true},	-- 帷幕
 		{AuraID = 115834, UnitID = "player", Flash = true},
+		-- 5人本
+		{AuraID = 324092, UnitID = "player", Flash = true},	-- 赤红，闪耀光辉
+		{AuraID = 328737, UnitID = "player", Flash = true},	-- 赤红，光辉残片
 	},
 	["Raid Debuff"] = {		-- 团队减益组
 		-- 大幻象
@@ -189,8 +206,6 @@ local list = {
 		-- 5人本
 		{AuraID = 327107, UnitID = "player"},	-- 赤红，闪耀光辉
 		{AuraID = 340433, UnitID = "player"},	-- 赤红，堕罪之赐
-		{AuraID = 324092, UnitID = "player", Flash = true},	-- 赤红，闪耀光辉
-		{AuraID = 328737, UnitID = "player", Flash = true},	-- 赤红，光辉残片
 		{AuraID = 326891, UnitID = "player", Flash = true},	-- 赎罪大厅，痛楚
 		{AuraID = 319603, UnitID = "player", Flash = true},	-- 赎罪大厅，羁石诅咒
 		{AuraID = 333299, UnitID = "player"},	-- 伤逝剧场，荒芜诅咒

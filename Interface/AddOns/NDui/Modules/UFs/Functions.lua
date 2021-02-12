@@ -211,7 +211,7 @@ function UF:CreateHealthText(self)
 	end
 
 	if mystyle == "player" then
-		self:Tag(name, " [color][name]")
+		self:Tag(name, "[color][name]")
 	elseif mystyle == "target" then
 		self:Tag(name, "[fulllevel] [color][name][afkdnd]")
 	elseif mystyle == "focus" then
@@ -243,7 +243,7 @@ function UF:CreateHealthText(self)
 		end
 		hpval:SetScale(C.db["UFs"]["RaidTextScale"])
 	elseif mystyle == "nameplate" then
-		hpval:SetPoint("RIGHT", self, 0, 5)
+		hpval:SetPoint("RIGHT", self, "TOPRIGHT", 0, 0)
 		self:Tag(hpval, "[nphp]")
 	else
 		self:Tag(hpval, "[health]")
@@ -361,12 +361,14 @@ function UF:CreatePowerText(self)
 	local textFrame = CreateFrame("Frame", nil, self)
 	textFrame:SetAllPoints(self.Power)
 
-	local ppval = B.CreateFS(textFrame, retVal(self, 13, 12, 12, 12), "", false, "RIGHT", -3, 2)
+	local ppval = B.CreateFS(textFrame, retVal(self, 13, 12, 12, 12), "", false, "RIGHT", -3, 0)
 	local mystyle = self.mystyle
 	if mystyle == "raid" then
 		ppval:SetScale(C.db["UFs"]["RaidTextScale"])
 	elseif mystyle == "player" or mystyle == "target" then
 		ppval:SetPoint("RIGHT", -3, C.db["UFs"]["PlayerPowerOffset"])
+	elseif mystyle == "boss" or mystyle == "arena" then
+		ppval:SetPoint("RIGHT", -3, C.db["UFs"]["BossPowerOffset"])
 	elseif mystyle == "focus" then
 		ppval:SetPoint("RIGHT", -3, C.db["UFs"]["FocusPowerOffset"])
 	end
@@ -590,8 +592,8 @@ function UF:CreateCastBar(self)
 			self:RegisterEvent("CURRENT_SPELL_CAST_CHANGED", B.OnCastSent, true)
 		end
 	elseif mystyle == "nameplate" then
-		name:SetPoint("TOPLEFT", cb, "LEFT", 0, -1)
-		timer:SetPoint("TOPRIGHT", cb, "RIGHT", 0, -1)
+		name:SetPoint("LEFT", cb, "BOTTOMLEFT", 0, 0)
+		timer:SetPoint("RIGHT", cb, "BOTTOMRIGHT", 0, 0)
 
 		local shield = cb:CreateTexture(nil, "OVERLAY")
 		shield:SetAtlas("nameplates-InterruptShield")

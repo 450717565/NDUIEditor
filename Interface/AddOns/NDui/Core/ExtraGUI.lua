@@ -847,8 +847,8 @@ function GUI:SetupUnitFrame(parent)
 	local defaultValue = {
 		["Player"] = {250, 34, 2, 0},
 		["Focus"] = {200, 30, 2, 0},
+		["Boss"] = {150, 32, 2, 0},
 		["Pet"] = {120, 24, 2},
-		["Boss"] = {150, 32, 2},
 	}
 
 	local function createOptionGroup(parent, title, offset, value, func)

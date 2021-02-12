@@ -39,7 +39,7 @@ end
 
 local function Reskin_UpdateFriendButton(button)
 	if button.buttonType == FRIENDS_BUTTON_TYPE_INVITE then
-		reskinInvites(FriendsListFrameScrollFrame.invitePool)
+		Reskin_InvitePool(FriendsListFrameScrollFrame.invitePool)
 	elseif button.buttonType == FRIENDS_BUTTON_TYPE_BNET and BNConnected() then
 		local accountInfo = C_BattleNet.GetFriendAccountInfo(button.id)
 		if not accountInfo then return end

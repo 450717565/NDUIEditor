@@ -185,8 +185,7 @@ L["Cutwater Striker"] = "Angreifer der Schwertwasserkorsaren"
 L["Dark Acolyte"] = "Dunkle Akolythin"
 L["Darkheart Thicket"] = "Das Finsterherzdickicht"
 L["Darkheart Thicket Sublevel"] = "Das Finsterherzdickicht"
---[[Translation missing --]]
---[[ L["DataImportButtonTooltip"] = ""--]] 
+L["DataImportButtonTooltip"] = "Externe NPC Daten importieren"
 L["Dazar'ai Augur"] = "Augur der Dazar'ai"
 L["Dazar'ai Colossus"] = "Koloss der Dazar'ai"
 L["Dazar'ai Confessor"] = "Bekenner der Dazar'ai"
@@ -252,8 +251,7 @@ L["Drust Boughbreaker"] = "Drustzweigbrecher"
 L["Drust Harvester"] = "Drusternter"
 L["Drust Soulcleaver"] = "Drustseelenspalter"
 L["Drust Spiteclaw"] = "Drustteufelsklaue"
---[[Translation missing --]]
---[[ L["Dungeon Data Missing"] = ""--]] 
+L["Dungeon Data Missing"] = "Fehlende Instanz Daten"
 L["Dungeon Level"] = "Instanz Stufe"
 L["Earlier Version"] = "Du hast eine frühere Version dieser Route mit dem Namen '%s'%sMöchtest du sie aktualisieren oder eine neue Kopie erstellen?%s%s%s"
 L["Earthrager"] = "Erdwüter"
@@ -418,8 +416,7 @@ L["If the Minimap Button is enabled"] = "Ob der Minimap Button angezeigt wird"
 L["Imbued Stormcaller"] = "Mächtiger Sturmrufer"
 L["Import"] = "Import"
 L["Import a preset from a text string"] = "Importiere eine Route aus einem Text String"
---[[Translation missing --]]
---[[ L["Import Data"] = ""--]] 
+L["Import Data"] = "Daten importieren"
 L["Import Preset"] = "Importiere Route"
 L["Imprison"] = "Einkerkern"
 L["In the bottom right corner"] = "In der unteren rechten Ecke"
@@ -592,12 +589,9 @@ L["New Patrol Waypoint at Cursor Position"] = "Neuer Patroullienwegpunkt auf Mau
 L["New Preset"] = "Neue Route"
 L["Next to the NPC"] = "Neben dem NPC"
 L["Noble Skirmisher"] = "Adliger Scharmützler"
---[[Translation missing --]]
---[[ L["noDungeonData1"] = ""--]] 
---[[Translation missing --]]
---[[ L["noDungeonData2"] = ""--]] 
---[[Translation missing --]]
---[[ L["noDungeonData3"] = ""--]] 
+L["noDungeonData1"] = "Es scheint du hast noch keine Instanz Daten."
+L["noDungeonData2"] = "Erstelle deine eigenen Instanz Daten mit /mdt devmode"
+L["noDungeonData3"] = "Lerne hier wie du optionale Instanz Daten bekommst:"
 L["Not specified"] = "Nicht kategorisiert"
 L["Note Text:"] = "Notiz Text:"
 L["Off-Duty Laborer"] = "Arbeiter außer Dienst"

@@ -227,9 +227,9 @@ local affixWeeks = {
     [6] =  {[1]=6,[2]=13,[3]=9,[4]=121}, -->>Raging, Explosive, Tyrannical
     [7] =  {[1]=123,[2]=3,[3]=10,[4]=121}, -->>Spiteful, Volcanic, Fortified
     [8] =  {[1]=7,[2]=4,[3]=9,[4]=121},  -->>Bolstering, Necrotic, Tyrannical
-    [9] =  {[1]=124,[2]=122,[3]=10,[4]=121},   -->>Storming, Inspiring, Fortified
+    [9] =  {[1]=122,[2]=124,[3]=10,[4]=121},   -->>Inspiring, Storming, Fortified
     [10] = {[1]=11,[2]=13,[3]=9,[4]=121},  -->>Bursting, Explosive, Tyrannical
-    [11] = {[1]=4,[2]=7,[3]=10,[4]=121},      -->>Sanguine, Grievous, Fortified
+    [11] = {[1]=8,[2]=12,[3]=10,[4]=121},      -->>Sanguine, Grievous, Fortified
     [12] = {[1]=6,[2]=14,[3]=9,[4]=121},   -->>Raging, Quaking, Tyrannical
 }
 
@@ -406,9 +406,9 @@ local dungeonSubLevels = {
         [4] = L["Ardenweald"],
     },
     [30] = {
-        [1] = L["HallsOfAtonementFloor1"],
-        [2] = L["HallsOfAtonementFloor2"],
-        [3] = L["HallsOfAtonementFloor3"],
+        [1] = L["Halls of Atonement"],
+        [2] = L["The Nave of Pain"],
+        [3] = L["The Sanctuary of Souls"],
     },
     [31] = {
         [1] = L["Mists of Tirna Scithe"],
@@ -418,8 +418,8 @@ local dungeonSubLevels = {
         [2] = L["The Festering Sanctum"],
     },
     [33] = {
-        [1] = L["Sanguine DepthsFloor1"],
-        [2] = L["Sanguine DepthsFloor2"],
+        [1] = L["Depths of Despair"],
+        [2] = L["Amphitheater of Sorrow"],
     },
     [34] = {
         [1] = L["Honor's Ascent"],
@@ -428,16 +428,16 @@ local dungeonSubLevels = {
         [4] = L["Seat of the Archon"],
     },
     [35] = {
-        [1] = L["TheNecroticWakeFloor1"],
-        [2] = L["TheNecroticWakeFloor2"],
-        [3] = L["TheNecroticWakeFloor3"],
+        [1] = L["The Necrotic Wake"],
+        [2] = L["Stitchwerks"],
+        [3] = L["Zolramus"],
     },
     [36] = {
-        [1] = L["TheaterOfPainFloor1"],
-        [2] = L["TheaterOfPainFloor2"],
-        [3] = L["TheaterOfPainFloor3"],
-        [4] = L["TheaterOfPainFloor4"],
-        [5] = L["TheaterOfPainFloor5"],
+        [1] = L["Theater of Pain"],
+        [2] = L["Chamber of Conquest"],
+        [3] = L["Altars of Agony"],
+        [4] = L["Upper Barrow of Carnage"],
+        [5] = L["Lower Barrow of Carnage"],
     },
 }
 function MDT:GetDungeonSublevels()

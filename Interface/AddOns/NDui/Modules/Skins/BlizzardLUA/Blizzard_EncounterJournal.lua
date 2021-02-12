@@ -26,28 +26,15 @@ local function Reskin_ListInstances()
 end
 
 local function Reskin_RefreshDisplay()
-	local suggestFrame = EncounterJournal.suggestFrame
+	local self = EncounterJournal.suggestFrame
+	for i = 1, #self.suggestions do
+		local suggestion = self["Suggestion"..i]
+		if not suggestion then return end
 
-	if #suggestFrame.suggestions > 0 then
-		local suggestion = suggestFrame.Suggestion1
-		local data = suggestFrame.suggestions[1]
-
+		local data = self.suggestions[i]
 		if data.iconPath then
 			suggestion.icon:SetMask(nil)
 			suggestion.icon:SetTexCoord(tL, tR, tT, tB)
-		end
-	end
-
-	if #suggestFrame.suggestions > 1 then
-		for i = 2, #suggestFrame.suggestions do
-			local suggestion = suggestFrame["Suggestion"..i]
-			if not suggestion then return end
-
-			local data = suggestFrame.suggestions[i]
-			if data.iconPath then
-				suggestion.icon:SetMask(nil)
-				suggestion.icon:SetTexCoord(tL, tR, tT, tB)
-			end
 		end
 	end
 end
