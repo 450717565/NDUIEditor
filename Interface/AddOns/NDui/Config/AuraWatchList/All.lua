@@ -50,11 +50,28 @@ local list = {
 		{AuraID = 295963, UnitID = "player", Flash = true},	-- 崩毁之护
 		{AuraID = 338949, UnitID = "player"},	-- 诡诈斗篷
 		{AuraID = 338928, UnitID = "player"},	-- 灵魂强化
+		{AuraID = 342025, UnitID = "player"},	-- 仪式面具
+		{AuraID = 341622, UnitID = "player"},	-- 相位变换
+		{AuraID = 341783, UnitID = "player"},	-- 形态编织
+		{AuraID = 337879, UnitID = "player"},	-- 黑暗堡垒
+		-- 噬渊
+		{AuraID = 335861, UnitID = "player"},	-- 幽力之油
 		-- 种族天赋
-		{AuraID = 26297, UnitID = "player"},	-- 狂暴 巨魔
 		{AuraID = 20572, UnitID = "player"},	-- 血性狂怒 兽人
+		{AuraID = 20577, UnitID = "player"},	-- 食尸 亡灵
+		{AuraID = 20594, UnitID = "player"},	-- 石像形态 矮人
+		{AuraID = 26297, UnitID = "player"},	-- 狂暴 巨魔
+		{AuraID = 28880, UnitID = "player"},	-- 纳鲁的赐福 德莱尼
 		{AuraID = 33697, UnitID = "player"},	-- 血性狂怒 兽人
-		{AuraID = 292463, UnitID = "player"},	-- 帕库之拥 赞达拉
+		{AuraID = 33702, UnitID = "player"},	-- 血性狂怒 兽人
+		{AuraID = 58984, UnitID = "player"},	-- 影遁 暗夜精灵
+		{AuraID = 68992, UnitID = "player"},	-- 疾步夜行 狼人
+		{AuraID = 255669, UnitID = "player"},	-- 熵能之拥 虚空精灵
+		{AuraID = 265221, UnitID = "player"},	-- 烈焰之血 黑铁矮人
+		{AuraID = 274738, UnitID = "player"},	-- 先祖召唤 玛格汉兽人
+		{AuraID = 291944, UnitID = "player"},	-- 再生 赞达拉巨魔
+		{AuraID = 292463, UnitID = "player"},	-- 帕库之拥 赞达拉巨魔
+		{AuraID = 312923, UnitID = "player"},	-- 战斗分析 机械侏儒
 		-- 9.0药水
 		{AuraID = 307159, UnitID = "player"},	-- 幽魂敏捷药水
 		{AuraID = 307160, UnitID = "player"},	-- 硬化暗影药水
@@ -77,56 +94,68 @@ local list = {
 		{AuraID = 330367, UnitID = "player", Text = L["Versa"]},	-- 不可思议的量子装置，全能
 		{AuraID = 330368, UnitID = "player", Text = L["Haste"]},	-- 不可思议的量子装置，急速
 		{AuraID = 330380, UnitID = "player", Text = L["Mastery"]},	-- 不可思议的量子装置，精通
+		{AuraID = 330733, UnitID = "player"},	-- 无羁拟态者
 		{AuraID = 331624, UnitID = "player"},	-- 暗月套牌：贪婪
-		{AuraID = 330067, UnitID = "player", Text = L["Versa"]},	-- 唤雾者的陶笛，全能
-		{AuraID = 332299, UnitID = "player", Text = L["Crit"]},		-- 唤雾者的陶笛，暴击
-		{AuraID = 332300, UnitID = "player", Text = L["Haste"]},	-- 唤雾者的陶笛，急速
-		{AuraID = 332301, UnitID = "player", Text = L["Mastery"]},	-- 唤雾者的陶笛，精通
+		{AuraID = 330132, UnitID = "player", Text = L["Versa"]},	-- 唤雾者的陶笛，全能
+		{AuraID = 332077, UnitID = "player", Text = L["Crit"]},		-- 唤雾者的陶笛，暴击
+		{AuraID = 332078, UnitID = "player", Text = L["Haste"]},	-- 唤雾者的陶笛，急速
+		{AuraID = 332079, UnitID = "player", Text = L["Mastery"]},	-- 唤雾者的陶笛，精通
+		{AuraID = 334058, UnitID = "player"},	-- 暗月套牌：腐化
 		{AuraID = 336465, UnitID = "player", Value = true},			-- 满溢灰烬之镜
 		{AuraID = 336588, UnitID = "player"},	-- 唤醒者的复叶
 		{AuraID = 336841, UnitID = "player"},	-- 战斗烈焰
+		{AuraID = 342432, UnitID = "player", Value = true},			-- 残留的太阳之尘
+		{AuraID = 343385, UnitID = "player"},	-- 充盈的心能牢狱
 		{AuraID = 343399, UnitID = "player"},	-- 跳动的石心
+		{AuraID = 344221, UnitID = "player"},	-- 噬灭灌注
 		{AuraID = 344231, UnitID = "player", Value = true},			-- 赤红陈酿
+		{AuraID = 344243, UnitID = "player"},	-- 法缚威镜
 		{AuraID = 344384, UnitID = "player"},	-- 巴加斯特的狗绳
 		{AuraID = 344662, UnitID = "player"},	-- 昔日罪孽之忆
+		{AuraID = 344806, UnitID = "player"},	-- 秘法师的赞美诗
 		{AuraID = 345019, UnitID = "player"},	-- 隐匿者之翼
+		{AuraID = 345211, UnitID = "player"},	-- 燃魂者
 		{AuraID = 345231, UnitID = "player"},	-- 角斗士的纹章
+		{AuraID = 345319, UnitID = "player"},	-- 同化雕文
 		{AuraID = 345432, UnitID = "player"},	-- 断魂乐谱
+		{AuraID = 345474, UnitID = "player"},	-- 执政官的恩赐
 		{AuraID = 345530, UnitID = "player"},	-- 过载的心能电池
 		{AuraID = 345533, UnitID = "player"},	-- 心能力场发生器
+		{AuraID = 345549, UnitID = "player"},	-- 虹吸护命匣碎片
+		{AuraID = 345695, UnitID = "player"},	-- 鬼灵精华之瓶
+		{AuraID = 345801, UnitID = "player"},	-- 释魂红玉
 		{AuraID = 348139, UnitID = "player"},	-- 导师的圣钟
 		-- 盟约
-		{AuraID = 331937, UnitID = "player", Flash = true},	-- 沉醉
+		{AuraID = 308495, UnitID = "player"},	-- 共鸣箭
+		{AuraID = 310143, UnitID = "player", Combat = true},	-- 灵魂变形
+		{AuraID = 310454, UnitID = "player"},	-- 精序兵戈
+		{AuraID = 311648, UnitID = "player"},	-- 云集之雾
+		{AuraID = 315443, UnitID = "player"},	-- 憎恶附肢
 		{AuraID = 323546, UnitID = "player"},	-- 饕餮狂乱
+		{AuraID = 323557, UnitID = "player"},	-- 申斥回响
+		{AuraID = 324220, UnitID = "player"},	-- 死神之躯
+		{AuraID = 324867, UnitID = "player", Value = true},		-- 血肉铸造
+		{AuraID = 325013, UnitID = "player"},	-- 晋升者之赐
+		{AuraID = 325216, UnitID = "player"},	-- 骨尘酒
+		{AuraID = 325299, UnitID = "player"},	-- 屠戮箭
+		{AuraID = 325381, UnitID = "player", Flash = true},	-- 争先打击
+		{AuraID = 325748, UnitID = "player"},	-- 激变蜂群
 		{AuraID = 326860, UnitID = "player"},	-- 陨落僧众
-		{AuraID = 310143, UnitID = "player", Combat = true},-- 灵魂变形
 		{AuraID = 327104, UnitID = "player"},	-- 妖魂踏
+		{AuraID = 327164, UnitID = "player"},	-- 始源之潮
 		{AuraID = 327710, UnitID = "player"},	-- 善行法夜
-		{AuraID = 328933, UnitID = "player"},	-- 法夜输灵
+		{AuraID = 328204, UnitID = "player"},	-- 征服者之锤
 		{AuraID = 328281, UnitID = "player"},	-- 凛冬祝福
 		{AuraID = 328282, UnitID = "player"},	-- 阳春祝福
 		{AuraID = 328620, UnitID = "player"},	-- 仲夏祝福
 		{AuraID = 328622, UnitID = "player"},	-- 暮秋祝福
-		{AuraID = 324867, UnitID = "player", Value = true},	-- 血肉铸造
-		{AuraID = 328204, UnitID = "player"},	-- 征服者之锤
-		{AuraID = 325748, UnitID = "player"},	-- 激变蜂群
-		{AuraID = 315443, UnitID = "player"},	-- 憎恶附肢
-		{AuraID = 325299, UnitID = "player"},	-- 屠戮箭
-		{AuraID = 327164, UnitID = "player"},	-- 始源之潮
-		{AuraID = 325216, UnitID = "player"},	-- 骨尘酒
-		{AuraID = 343672, UnitID = "player"},	-- 征服者之狂
-		{AuraID = 324220, UnitID = "player"},	-- 死神之躯
-		{AuraID = 311648, UnitID = "player"},	-- 云集之雾
-		{AuraID = 323558, UnitID = "player"},	-- 申斥回响2
-		{AuraID = 323559, UnitID = "player"},	-- 申斥回响3
-		{AuraID = 323560, UnitID = "player"},	-- 申斥回响4
-		{AuraID = 338142, UnitID = "player"},	-- 自审强化
-		{AuraID = 310454, UnitID = "player"},	-- 精序兵戈
-		{AuraID = 325013, UnitID = "player"},	-- 晋升者之赐
-		{AuraID = 308495, UnitID = "player"},	-- 共鸣箭
 		{AuraID = 328908, UnitID = "player"},	-- 战斗冥想
-		{AuraID = 345499, UnitID = "player"},	-- 执政官的祝福
+		{AuraID = 328933, UnitID = "player"},	-- 法夜输灵
+		{AuraID = 331937, UnitID = "player", Flash = true},		-- 沉醉
+		{AuraID = 338142, UnitID = "player"},	-- 自审强化
 		{AuraID = 339461, UnitID = "player"},	-- 猎手坚韧
+		{AuraID = 343672, UnitID = "player"},	-- 征服者之狂
+		{AuraID = 345499, UnitID = "player"},	-- 执政官的祝福
 		-- 炼金石
 		{AuraID = 60233, UnitID = "player"},	-- 敏捷
 		{AuraID = 60229, UnitID = "player"},	-- 力量

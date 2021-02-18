@@ -298,20 +298,22 @@ local tagStrings = {
 	end]],
 
 	['perhp'] = [[function(u)
+		local n = UnitHealth(u)
 		local m = UnitHealthMax(u)
-		if (m == 0) then
+		if n <= 0 or m <= 0 then
 			return 0
 		else
-			return math.floor(UnitHealth(u) / m * 100 + .5)
+			return n/m*100
 		end
 	end]],
 
 	['perpp'] = [[function(u)
+		local n = UnitPower(u)
 		local m = UnitPowerMax(u)
-		if (m == 0) then
+		if n <= 0 or m <= 0 then
 			return 0
 		else
-			return math.floor(UnitPower(u) / m * 100 + .5)
+			return n/m*100
 		end
 	end]],
 

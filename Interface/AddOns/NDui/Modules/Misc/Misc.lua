@@ -457,6 +457,8 @@ function Misc:WorldQuestTool()
 
 		hasFound = true
 	end)
+
+	B:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN", resetActionButtons)
 end
 
 -- Archaeology counts

@@ -134,8 +134,7 @@ info.onEnter = function(self)
 	for i = 1, 10 do
 		if localSlots[i][3] ~= 1000 then
 			local slot = localSlots[i][1]
-			local v = localSlots[i][3] / 100
-			local r, g, b = B.SmoothColor(v, 1)
+			local r, g, b = B.SmoothColor(localSlots[i][3], 100)
 			GameTooltip:AddDoubleLine(localSlots[i][4]..localSlots[i][2], format("%.1f%%", localSlots[i][3]), 1,1,1, r,g,b)
 
 			B.ScanTip:SetOwner(UIParent, "ANCHOR_NONE")

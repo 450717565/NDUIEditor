@@ -485,7 +485,7 @@ function UF:CreateBuffIndicator(self)
 		bu:Hide()
 
 		bu.timer = B.CreateFS(bu, 12, "", false, "CENTER", -counterOffsets[anchor][2][3], 0)
-		bu.count = B.CreateFS(bu, 12, "")
+		bu.count = B.CreateFS(bu, 12)
 		bu.bubg = B.CreateBDFrame(bu)
 
 		local icon = bu:CreateTexture(nil, "BORDER")
@@ -627,29 +627,37 @@ function UF:SyncWithZenTracker()
 	B:RegisterEvent("GROUP_ROSTER_UPDATE", UF.UpdateSyncStatus)
 end
 
+local function tooltipOnEnter(self)
+	GameTooltip:ClearLines()
+	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT", 0, 0)
+	if self.spellID then
+		GameTooltip:SetSpellByID(self.spellID)
+		GameTooltip:Show()
+	end
+end
+
 function UF:InterruptIndicator(self)
 	if not C.db["UFs"]["PartyWatcher"] then return end
 
 	local horizon = C.db["UFs"]["HorizonParty"]
-	local otherSide = C.db["UFs"]["PWOnRight"]
+	local otherSide = C.db["UFs"]["PWOtherSide"]
 	local relF = horizon and "BOTTOMLEFT" or "TOPRIGHT"
 	local relT = "TOPLEFT"
-	local xOffset = horizon and 0 or -5
-	local yOffset = horizon and 5 or 0
-	local margin = horizon and 2 or -2
+	local xOffset = horizon and -C.mult or -5
+	local yOffset = horizon and 5 or C.mult
+	local margin = horizon and C.margin or -C.margin
 	if otherSide then
 		relF = "TOPLEFT"
 		relT = horizon and "BOTTOMLEFT" or "TOPRIGHT"
-		xOffset = horizon and 0 or 5
-		yOffset = horizon and -(self.Power:GetHeight()+8) or 0
-		margin = 2
+		xOffset = horizon and -C.mult or 5
+		yOffset = horizon and -5 or C.mult
+		margin = C.margin
 	end
 	local rel1 = not horizon and not otherSide and "RIGHT" or "LEFT"
 	local rel2 = not horizon and not otherSide and "LEFT" or "RIGHT"
 	local buttons = {}
 	local maxIcons = 6
-	local iconSize = horizon and (self:GetWidth()-2*abs(margin))/3 or (self:GetHeight()+self.Power:GetHeight()+3)
-	if iconSize > 34 then iconSize = 34 end
+	local iconSize = horizon and (self:GetWidth()-2*abs(margin)+C.mult*2)/3 or (self:GetHeight()+C.mult*2)
 
 	for i = 1, maxIcons do
 		local bu = CreateFrame("Frame", nil, self)
@@ -659,11 +667,14 @@ function UF:InterruptIndicator(self)
 		if i == 1 then
 			bu:SetPoint(relF, self, relT, xOffset, yOffset)
 		elseif i == 4 and horizon then
-			bu:SetPoint(relF, buttons[i-3], relT, 0, margin)
+			bu:SetPoint(relF, buttons[i-3], relT, 0, otherSide and -margin or margin)
 		else
 			bu:SetPoint(rel1, buttons[i-1], rel2, margin, 0)
 		end
 		bu:Hide()
+
+		bu:SetScript("OnEnter", tooltipOnEnter)
+		bu:SetScript("OnLeave", B.HideTooltip)
 
 		buttons[i] = bu
 	end
@@ -685,13 +696,13 @@ function UF:CreatePartyAltPower(self)
 	local relT = horizon and "BOTTOM" or "RIGHT"
 	local xOffset = horizon and 0 or 5
 	local yOffset = horizon and -5 or 0
-	local otherSide = C.db["UFs"]["PWOnRight"]
+	local otherSide = C.db["UFs"]["PWOtherSide"]
 	if otherSide then
 		xOffset = horizon and 0 or -5
 		yOffset = horizon and 5 or 0
 	end
 
-	local altPower = B.CreateFS(self, 16, "")
+	local altPower = B.CreateFS(self, 16)
 	altPower:ClearAllPoints()
 	if otherSide then
 		altPower:SetPoint(relT, self, relF, xOffset, yOffset)

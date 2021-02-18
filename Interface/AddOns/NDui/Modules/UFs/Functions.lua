@@ -23,11 +23,9 @@ function B.SmoothColor(cur, max, fullRed)
 end
 
 -- Color Text
-function B.ColorText(per, fullRed, val)
-	local v = per / 100
+function B.ColorText(per, val)
 	local p = format("%.1f%%", per)
-
-	local r, g, b = B.SmoothColor(v, 1, fullRed)
+	local r, g, b = B.SmoothColor(per, 100)
 	if val then
 		return B.HexRGB(r, g, b, val)
 	else
@@ -213,9 +211,9 @@ function UF:CreateHealthText(self)
 	if mystyle == "player" then
 		self:Tag(name, "[color][name]")
 	elseif mystyle == "target" then
-		self:Tag(name, "[fulllevel] [color][name][afkdnd]")
+		self:Tag(name, "[fulllevel] [color][name][flag]")
 	elseif mystyle == "focus" then
-		self:Tag(name, "[color][name][afkdnd]")
+		self:Tag(name, "[color][name][flag]")
 	elseif mystyle == "nameplate" then
 		self:Tag(name, "[nplevel][name]")
 	elseif mystyle == "arena" then
@@ -307,12 +305,6 @@ function UF:UpdatePowerBarColor(self, force)
 	end
 end
 
-local frequentUpdateCheck = {
-	["player"] = true,
-	["target"] = true,
-	["focus"] = true,
-	["PlayerPlate"] = true,
-}
 function UF:CreatePowerBar(self)
 	local mystyle = self.mystyle
 	local power = CreateFrame("StatusBar", nil, self)
@@ -347,7 +339,7 @@ function UF:CreatePowerBar(self)
 
 	self.Power = power
 
-	power.frequentUpdates = frequentUpdateCheck[mystyle]
+	power.frequentUpdates = true
 	UF:UpdatePowerBarColor(self)
 
 	barHeight = self.Power:GetHeight()
@@ -372,7 +364,7 @@ function UF:CreatePowerText(self)
 	elseif mystyle == "focus" then
 		ppval:SetPoint("RIGHT", -3, C.db["UFs"]["FocusPowerOffset"])
 	end
-	self:Tag(ppval, "[color][power]")
+	self:Tag(ppval, "[power]")
 	self.powerText = ppval
 end
 
@@ -382,7 +374,7 @@ local textScaleFrames = {
 	["focus"] = true,
 	["pet"] = true,
 	["tot"] = true,
-	["focustarget"] = true,
+	["fot"] = true,
 	["boss"] = true,
 	["arena"] = true,
 }
@@ -696,7 +688,7 @@ function UF.PostCreateIcon(element, button)
 
 	button:HookScript("OnMouseDown", Auras.RemoveSpellFromIgnoreList)
 
-	if element.disableCooldown then button.timer = B.CreateFS(button, 12, "") end
+	if element.disableCooldown then button.timer = B.CreateFS(button, 12) end
 end
 
 local filteredStyle = {
@@ -1058,7 +1050,7 @@ function UF:CreateClassPower(self)
 		end
 
 		if DB.MyClass == "DEATHKNIGHT" and C.db["UFs"]["RuneTimer"] then
-			bars[i].timer = B.CreateFS(bars[i], 13, "")
+			bars[i].timer = B.CreateFS(bars[i], 13)
 		end
 
 		bars[i].bg.multiplier = .25
@@ -1094,8 +1086,8 @@ function UF:StaggerBar(self)
 	B.SmoothBar(stagger)
 
 	local text = B.CreateFS(stagger, 13)
-	text:SetPoint("CENTER", stagger, "TOP")
-	self:Tag(text, "[monkstagger]")
+	text:SetJustifyH("CENTER")
+	self:Tag(text, "[stagger]")
 
 	stagger.bg:SetAlpha(1)
 	stagger.bg.multiplier = .25
@@ -1125,7 +1117,7 @@ function UF:CreateAltPower(self)
 	B.SmoothBar(bar)
 	B.CreateSB(bar)
 
-	local text = B.CreateFS(bar, 14, "")
+	local text = B.CreateFS(bar, 14)
 	text:SetJustifyH("CENTER")
 	self:Tag(text, "[altpower]")
 
@@ -1282,8 +1274,8 @@ function UF:CreateSwing(self)
 	B.CreateSB(off, true, .8, .8, .8)
 
 	if C.db["UFs"]["SwingTimer"] then
-		bar.Text = B.CreateFS(bar, 12, "")
-		bar.TextMH = B.CreateFS(main, 12, "")
+		bar.Text = B.CreateFS(bar, 12)
+		bar.TextMH = B.CreateFS(main, 12)
 		bar.TextOH = B.CreateFS(off, 12, "", false, "CENTER", 1, -5)
 	end
 

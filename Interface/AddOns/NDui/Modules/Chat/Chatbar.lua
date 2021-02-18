@@ -32,12 +32,11 @@ function Chat:Chatbar()
 		local info = ""
 		local mainStat = {"STRENGTH", "AGILITY", nil, "INTELLECT"}
 		local _, spec, _, _, _, main = GetSpecializationInfo(GetSpecialization())
-		local currentLevel = C_AzeriteItem.GetPowerLevel(C_AzeriteItem.FindActiveAzeriteItem())
+		local total, equip = GetAverageItemLevel()
 		local statCollect = {
 			{str = CLASS..":%s ", UnitClass("player")},
 			{str = SPECIALIZATION..":%s ", disabel = not GetSpecialization(), spec},
-			{str = STAT_AVERAGE_ITEM_LEVEL..":%.1f(%.1f) ", GetAverageItemLevel()},
-			{str = ORDER_HALL_SHAMAN..":"..SPELLBOOK_AVAILABLE_AT.." " , disable = not C_AzeriteItem.FindActiveAzeriteItem(), currentLevel},
+			{str = STAT_AVERAGE_ITEM_LEVEL..":%.1f/%.1f ", equip, total},
 			{str = HEALTH..":%s ", B.FormatNumb(UnitHealthMax("player"))},
 			{str = _G["SPEC_FRAME_PRIMARY_STAT_"..mainStat[main]]..":%s ", UnitStat("player", main)},
 			{str = STAT_CRITICAL_STRIKE..":%.2f%% ", GetCritChance()},

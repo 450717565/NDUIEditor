@@ -1,13 +1,13 @@
 local mod	= DBM:NewMod(2426, "DBM-CastleNathria", nil, 1190)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20210121233650")
+mod:SetRevision("20210216161008")
 mod:SetCreatureID(166971, 166969, 166970)--Castellan Niklaus, Baroness Frieda, Lord Stavros
 mod:SetEncounterID(2412)
 mod:SetBossHPInfoToHighest()
 mod:SetUsedIcons(8)
-mod:SetHotfixNoticeRev(20210113000000)--2021, 01, 13
-mod:SetMinSyncRevision(20210113000000)
+mod:SetHotfixNoticeRev(20210216000000)--2021, 02, 16
+mod:SetMinSyncRevision(20210216000000)
 --mod.respawnTime = 29
 
 mod:RegisterCombat("combat")
@@ -15,7 +15,7 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 330965 330978 327497 346654 346690 337110 346657 346762 346303 346790 346698 346800",
 	"SPELL_CAST_SUCCESS 331634 330959 346657 346303",
-	"SPELL_AURA_APPLIED 330967 331636 331637 332535 346694 347350 346690 346709",
+	"SPELL_AURA_APPLIED 330967 331636 331637 332535 346694 347350 346690 346709 346706",
 	"SPELL_AURA_APPLIED_DOSE 332535 346690",
 	"SPELL_AURA_REMOVED 330967 331636 331637 346694 330959 347350",
 	"SPELL_AURA_REMOVED_DOSE 347350",
@@ -34,7 +34,7 @@ mod:RegisterEventsInCombat(
 --[[
 (ability.id = 330965 or ability.id = 330978 or ability.id = 327497 or ability.id = 346654 or ability.id = 337110 or ability.id = 346657 or ability.id = 346762 or ability.id = 346698 or ability.id = 346690 or ability.id = 346800) and type = "begincast"
  or (ability.id = 331634) and type = "cast"
- or ability.id = 332535 or ability.id = 330959 or ability.id = 332538 or abiity.id = 331918 or ability.id = 346709
+ or ability.id = 332535 or ability.id = 330959 or ability.id = 332538 or abiity.id = 331918 or ability.id = 346709 or ability.id = 346706
  or (ability.id = 330964 or ability.id = 335773) and type = "cast"
  or (target.id = 166971 or target.id = 166969 or target.id = 166970) and type = "death"
  or ability.id = 347350 and type = "applydebuff"
@@ -115,7 +115,7 @@ mod:AddTimerLine(DBM:EJ_GetSectionInfo(22206))--Two are dead
 local timerDancingFoolsCD						= mod:NewCDTimer(30.3, 330964, nil, nil, nil, 1)
 --Mythic
 mod:AddTimerLine(PLAYER_DIFFICULTY6)
-local timerDancingFeverCD						= mod:NewCDTimer(60, 347350, nil, nil, nil, 3)
+local timerDancingFeverCD						= mod:NewCDCountTimer(60, 347350, nil, nil, nil, 3)
 
 --local berserkTimer							= mod:NewBerserkTimer(600)
 
@@ -131,6 +131,7 @@ mod.vb.phase = 1
 mod.vb.feversActive = 0
 mod.vb.volleyCast = 0
 mod.vb.drainCount = 0
+mod.vb.feverCast = 0
 mod.vb.nikDead = false
 mod.vb.friedaDead = false
 mod.vb.stavrosDead = false
@@ -152,7 +153,7 @@ local allTimers = {
 		[330965] = {0, 0, 60},
 
 		--Drain Essence
-		[346654] = {29.9, 23.3, 48.3},
+		[346654] = {27.3, 19.8, 48.3},
 		--Prideful Eruption (P2+)
 		[346657] = {0, 43.3, 48.3},
 		--Soul Spikes (P3+)
@@ -265,7 +266,12 @@ end
 
 local function phaseChange(self, adjustment)
 	--Bump phase and stop all timers since regardless of kills, phase changes reset anyone that's still up
+	local bossesDead = (self.vb.nikDead and 1 or 0) or (self.vb.friedaDead and 1 or 0) or (self.vb.stavrosDead and 1 or 0)
+	if (bossesDead+1) == self.vb.phase then return end--Somehow phaseChange ran more than once for same phase change, force abort
 	self.vb.phase = self.vb.phase + 1
+	if adjustment > 0 then
+		DBM:AddMsg("Some timers may be incorrect this phase. This usually happens when Infusion/Empowered buff misses remaining boss, causing timers not to correctly reset")
+	end
 	if self.vb.phase == 3 then--Two Dead
 		--Castellan Niklaus
 		timerDualistsRiposteCD:Stop()
@@ -320,7 +326,7 @@ local function phaseChange(self, adjustment)
 		else
 			timerDredgerServantsCD:Start((self:IsMythic() and 4.4 or self:IsLFR() and 5.7 or 13.5)-adjustment)
 			timerDualistsRiposteCD:Start((self:IsMythic() and 8.2 or self:IsLFR() and 10.7 or 9.2)-adjustment)
-			timerDutifulAttendantCD:Start((self:IsMythic() and 34.4 or self:IsLFR() and 45.7 or 5)-adjustment)--Mythic confirmed, this is just weird that heroic is way different
+			timerDutifulAttendantCD:Start((self:IsMythic() and 34.4 or self:IsLFR() and 8.7 or 5)-adjustment)--Mythic confirmed, this is just weird that heroic is way different
 		end
 		--Baroness Frieda
 		timerDrainEssenceCD:Stop()
@@ -407,6 +413,7 @@ function mod:OnCombatStart(delay)
 	self.vb.feversActive = 0
 	self.vb.volleyCast = 1
 	self.vb.drainCount = 0
+	self.vb.feverCast = 0
 	self.vb.nikDead = false
 	self.vb.friedaDead = false
 	self.vb.stavrosDead = false
@@ -415,7 +422,7 @@ function mod:OnCombatStart(delay)
 	table.wipe(FeverStacks)
 	if self:IsMythic() then
 		difficultyName = "mythic"
-		timerDancingFeverCD:Start(5-delay)
+		timerDancingFeverCD:Start(5-delay, 1)
 		--Castellan Niklaus
 		timerDutifulAttendantCD:Start(6.5-delay)
 		timerDualistsRiposteCD:Start(16.5-delay)
@@ -751,7 +758,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				yellDarkRecitalRepeater:Yell(icon)
 			end
 		end
-	elseif (spellId == 332535 or spellId == 346709) and self:AntiSpam(30, spellId) then--Infused/Empowered
+	elseif (spellId == 332535 or spellId == 346709 or spellId == 346706) and self:AntiSpam(30, spellId == 346709 and 7 or 8) then--Infused/Empowered
 		self:Unschedule(phaseChange)
 		phaseChange(self, 0)--true phase change, more accurate timers, but sometimes missing from combat log
 	elseif spellId == 346694 then
@@ -765,7 +772,8 @@ function mod:SPELL_AURA_APPLIED(args)
 			yellDancingFever:Countdown(spellId)
 		end
 		if self:AntiSpam(5, 6) then
-			timerDancingFeverCD:Start()
+			self.vb.feverCast = self.vb.feverCast + 1
+			timerDancingFeverCD:Start(60, self.vb.feverCast+1)
 		end
 		FeverStacks[args.destName] = 3
 		if self.Options.InfoFrame then
@@ -844,7 +852,7 @@ function mod:SPELL_AURA_REMOVED(args)
 			end
 		end
 		if self:IsMythic() then
-			timerDancingFeverCD:Start(5.5)
+			timerDancingFeverCD:Start(5.5, self.vb.feverCast+1)
 		end
 	elseif spellId == 347350 then
 		self.vb.feversActive = self.vb.feversActive - 1
@@ -882,8 +890,8 @@ function mod:UNIT_DIED(args)
 		timerDutifulAttendantCD:Stop()
 		timerDredgerServantsCD:Stop()
 		--Less accurate phase change, but backup if the true phase change infusion/empowerment events are missing
+		self:Unschedule(phaseChange)
 		if self.vb.phase < 3 then
-			self:Unschedule(phaseChange)
 			self:Schedule(5, phaseChange, self, 2)
 		end
 	elseif cid == 166969 then--Baroness Frieda
@@ -892,8 +900,8 @@ function mod:UNIT_DIED(args)
 --		timerDreadboltVolleyCD:Stop()
 		timerPridefulEruptionCD:Stop()
 		--Less accurate phase change, but backup if the true phase change infusion/empowerment events are missing
+		self:Unschedule(phaseChange)
 		if self.vb.phase < 3 then
-			self:Unschedule(phaseChange)
 			self:Schedule(5, phaseChange, self, 2)
 		end
 	elseif cid == 166970 then--Lord Stavros
@@ -903,8 +911,8 @@ function mod:UNIT_DIED(args)
 		timerDarkRecitalCD:Stop()
 		timerDancingFoolsCD:Stop()
 		--Less accurate phase change, but backup if the true phase change infusion/empowerment events are missing
+		self:Unschedule(phaseChange)
 		if self.vb.phase < 3 then
-			self:Unschedule(phaseChange)
 			self:Schedule(5, phaseChange, self, 2)
 		end
 	elseif cid == 168406 then--Waltzing Venthyr

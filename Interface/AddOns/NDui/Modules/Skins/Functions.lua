@@ -25,15 +25,16 @@ do
 		if levelFrame then
 			levelFrame:ClearAllPoints()
 			levelFrame:SetPoint("BOTTOM", self, 0, 15)
-			if levelFrame.LevelCircle then levelFrame.LevelCircle:Hide() end
+
+			if levelFrame.LevelCircle then levelFrame.LevelCircle:SetAlpha(0) end
 		end
 
-		if self.Highlight then self.Highlight:Hide() end
-		if self.LevelCircle then self.LevelCircle:Hide() end
+		if self.Highlight then self.Highlight:SetAlpha(0) end
 		if self.PuckBorder then self.PuckBorder:SetAlpha(0) end
 		if self.LevelBorder then self.LevelBorder:SetAlpha(0) end
+		if self.LevelCircle then self.LevelCircle:SetAlpha(0) end
 
-		local squareBG = B.CreateBDFrame(self.Portrait, 1, -C.mult)
+		local squareBG = B.CreateBDFrame(self.Portrait, 1, -C.mult, true)
 		self.squareBG = squareBG
 
 		if self.Empty then
@@ -42,14 +43,17 @@ do
 		end
 
 		if self.PortraitRing then
-			self.PortraitRing:Hide()
+			self.PortraitRing:SetAlpha(0)
 			self.PortraitRingQuality:SetTexture("")
-			self.PortraitRingCover:SetColorTexture(0, 0, 0, 0)
 			self.PortraitRingCover:SetAllPoints(squareBG)
+			self.PortraitRingCover:SetColorTexture(0, 0, 0, 0)
 		end
 
 		if self.HealthBar then
-			self.HealthBar.Border:Hide()
+			self.HealthBar.Border:SetAlpha(0)
+			self.HealthBar.Health:SetTexture(DB.normTex)
+			self.HealthBar.HealthValue:ClearAllPoints()
+			self.HealthBar.HealthValue:SetPoint("CENTER", self.HealthBar, "CENTER")
 
 			local roleIcon = self.HealthBar.RoleIcon
 			roleIcon:ClearAllPoints()
@@ -62,7 +66,6 @@ do
 			background:ClearAllPoints()
 			background:SetPoint("TOPLEFT", squareBG, "BOTTOMLEFT", C.mult, 6)
 			background:SetPoint("BOTTOMRIGHT", squareBG, "BOTTOMRIGHT", -C.mult, C.mult)
-			self.HealthBar.Health:SetTexture(DB.normTex)
 		end
 	end
 
@@ -257,7 +260,7 @@ do
 	function Skins:UpdateFollowerQuality()
 		if not self.quality or not self.squareBG then return end
 
-		local r, g, b = GetItemQualityColor(self.quality or 1)
+		local r, g, b = GetItemQualityColor(quality or 1)
 		self.squareBG:SetBackdropBorderColor(r, g, b)
 	end
 

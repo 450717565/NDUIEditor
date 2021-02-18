@@ -657,7 +657,7 @@ end
 
 -- Create Nameplates
 local platesList = {}
-function UF:CreatePlates()
+function UF:CreateNamePlates()
 	self.mystyle = "nameplate"
 	self:SetSize(C.db["Nameplate"]["PlateWidth"], C.db["Nameplate"]["PlateHeight"])
 	self:SetPoint("CENTER")
@@ -996,7 +996,7 @@ function UF:CreatePlayerPlate()
 	textFrame:SetAllPoints()
 	textFrame:SetFrameLevel(self:GetFrameLevel() + 5)
 	self.powerText = B.CreateFS(textFrame, 14)
-	self:Tag(self.powerText, "[pppower]")
+	self:Tag(self.powerText, "[power]")
 	UF:TogglePlatePower()
 
 	UF:CreateGCDTicker(self)

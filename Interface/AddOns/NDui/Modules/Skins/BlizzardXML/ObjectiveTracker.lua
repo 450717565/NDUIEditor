@@ -112,7 +112,7 @@ local function Reskin_QuestIcon(self)
 	if not self.styled then
 		B.CleanTextures(self)
 
-		local icbg = B.CreateBDFrame(self.icon or self.Icon)
+		local icbg = B.CreateBDFrame(self.icon or self.Icon, 0, -C.mult)
 		B.ReskinHighlight(self, icbg)
 
 		if self.icon then
@@ -132,6 +132,7 @@ end
 
 local function Reskin_QuestIcons(_, block)
 	Reskin_QuestIcon(block.itemButton)
+	Reskin_QuestIcon(block.rightButton)
 	Reskin_QuestIcon(block.groupFinderButton)
 end
 

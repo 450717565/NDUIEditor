@@ -307,7 +307,7 @@ C.LUAThemes["Blizzard_Communities"] = function()
 
 			if frame.ApplyButton then B.ReskinButton(frame.ApplyButton) end
 			if frame.AcceptButton then B.ReskinButton(frame.AcceptButton) end
-			if frame.DeclineButton then B.ReskinDecline(frame.DeclineButton) end
+			if frame.DeclineButton then B.ReskinButton(frame.DeclineButton) end
 			if frame.FindAGuildButton then B.ReskinButton(frame.FindAGuildButton) end
 
 			local OptionsList = frame.OptionsList

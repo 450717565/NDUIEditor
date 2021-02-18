@@ -105,6 +105,8 @@ local questItems = {
 	[49402] = 154878, -- Tiragarde Sound
 	[50164] = 154878, -- Tiragarde Sound
 	[51646] = 154878, -- Tiragarde Sound
+	[60649] = 180170, -- Ardenweald
+	[60609] = 180008, -- Ardenweald
 }
 
 local ExtraQuestButton = CreateFrame("Button", "ExtraQuestButton", UIParent, "SecureActionButtonTemplate, SecureHandlerStateTemplate, SecureHandlerAttributeTemplate")
@@ -215,6 +217,7 @@ function ExtraQuestButton:PLAYER_LOGIN()
 
 	if not self:GetPoint() then
 		if _G.NDui_ActionBarExtra then
+			self:ClearAllPoints()
 			self:SetPoint("CENTER", _G.NDui_ActionBarExtra)
 		else
 			B.Mover(self, L["ExtraQuestButton"], "Extrabar", {"BOTTOM", UIParent, "BOTTOM", 250, 100})
@@ -243,11 +246,13 @@ function ExtraQuestButton:PLAYER_LOGIN()
 	push:SetInside(bubg)
 
 	local HotKey = self:CreateFontString("$parentHotKey", nil, "NumberFontNormal")
-	HotKey:SetPoint("TOP", 0, -5)
+	HotKey:ClearAllPoints()
+	HotKey:SetPoint("TOPLEFT", 3, -3)
 	HotKey:SetShadowColor(0, 0, 0, 0)
 	self.HotKey = HotKey
 
 	local Count = self:CreateFontString("$parentCount", nil, "NumberFont_Shadow_Med")
+	Count:ClearAllPoints()
 	Count:SetPoint("BOTTOMRIGHT", -3, 3)
 	Count:SetShadowColor(0, 0, 0, 0)
 	self.Count = Count
@@ -259,6 +264,7 @@ function ExtraQuestButton:PLAYER_LOGIN()
 	self.Cooldown = Cooldown
 
 	local Artwork = self:CreateTexture("$parentArtwork", "OVERLAY")
+	Artwork:ClearAllPoints()
 	Artwork:SetPoint("BOTTOMLEFT")
 	Artwork:SetSize(20, 20)
 	Artwork:SetAtlas(DB.questTex)
@@ -459,8 +465,10 @@ local function GetClosestQuestItem()
 	if not closestQuestItemLink then
 		for index = 1, C_QuestLog_GetNumQuestLogEntries() do
 			local info = C_QuestLog_GetInfo(index)
+			if not info then return end
+
 			local questID = info.questID
-			if info and not info.isHeader and (not info.isHidden or C_QuestLog_IsWorldQuest(questID)) and QuestHasPOIInfo(questID) then
+			if info and not info.isHeader and questID and (not info.isHidden or C_QuestLog_IsWorldQuest(questID)) and QuestHasPOIInfo(questID) then
 				local distance, itemLink = GetQuestDistanceWithItem(questID)
 				if distance and distance <= closestDistance then
 					closestDistance = distance

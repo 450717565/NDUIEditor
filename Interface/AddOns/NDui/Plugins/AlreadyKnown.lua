@@ -11,8 +11,8 @@ local C_PetJournal_GetNumCollectedInfo = C_PetJournal.GetNumCollectedInfo
 
 local COLOR = {r = .1, g = 1, b = .1}
 local knowables = {
-	[LE_ITEM_CLASS_CONSUMABLE] = true,
 	[LE_ITEM_CLASS_RECIPE] = true,
+	[LE_ITEM_CLASS_CONSUMABLE] = true,
 	[LE_ITEM_CLASS_MISCELLANEOUS] = true,
 	[LE_ITEM_CLASS_ITEM_ENHANCEMENT] = true,
 }

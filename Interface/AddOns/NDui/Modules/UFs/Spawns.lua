@@ -93,7 +93,7 @@ local function CreateToTStyle(self)
 end
 
 local function CreateFoTStyle(self)
-	self.mystyle = "focustarget"
+	self.mystyle = "fot"
 	SetUnitFrameSize(self, "Pet")
 
 	UF:CreateHeader(self)
@@ -220,7 +220,7 @@ function UF:OnLogin()
 		UF:RefreshPlateOnFactionChanged()
 		UF:RefreshMajorSpells()
 
-		oUF:RegisterStyle("Nameplates", UF.CreatePlates)
+		oUF:RegisterStyle("Nameplates", UF.CreateNamePlates)
 		oUF:SetActiveStyle("Nameplates")
 		oUF:SpawnNamePlates("oUF_NPs", UF.PostUpdatePlates)
 	end

@@ -510,8 +510,6 @@ TT:RegisterTooltips("NDui", function()
 		FriendsTooltip,
 		GameTooltip,
 		GarrisonFollowerAbilityTooltip,
-		GarrisonFollowerAbilityWithoutCountersTooltip,
-		GarrisonFollowerMissionAbilityWithoutCountersTooltip,
 		GarrisonFollowerTooltip,
 		GarrisonShipyardFollowerTooltip,
 		GeneralDockManagerOverflowButtonList,
@@ -525,7 +523,6 @@ TT:RegisterTooltips("NDui", function()
 		PetBattlePrimaryUnitTooltip,
 		QuestScrollFrame.CampaignTooltip,
 		QuestScrollFrame.StoryTooltip,
-		QuestScrollFrame.WarCampaignTooltip,
 		QueueStatusFrame,
 		QuickKeybindTooltip,
 		ReputationParagonTooltip,
@@ -533,8 +530,8 @@ TT:RegisterTooltips("NDui", function()
 		ShoppingTooltip2,
 		VoiceMacroMenu,
 	}
-	for _, f in pairs(tooltips) do
-		f:HookScript("OnShow", TT.ReskinTooltip)
+	for _, tip in pairs(tooltips) do
+		tip:HookScript("OnShow", TT.ReskinTooltip)
 	end
 
 	ItemRefTooltip:HookScript("OnShow", function(self)
@@ -649,17 +646,17 @@ TT:RegisterTooltips("Blizzard_Collections", function()
 end)
 
 TT:RegisterTooltips("Blizzard_GarrisonUI", function()
-	local gt = {
-		GarrisonMissionMechanicTooltip,
-		GarrisonMissionMechanicFollowerCounterTooltip,
-		GarrisonShipyardMapMissionTooltip,
+	local garrisonTips = {
 		GarrisonBonusAreaTooltip,
 		GarrisonBuildingFrame.BuildingLevelTooltip,
 		GarrisonFollowerAbilityWithoutCountersTooltip,
-		GarrisonFollowerMissionAbilityWithoutCountersTooltip
+		GarrisonFollowerMissionAbilityWithoutCountersTooltip,
+		GarrisonMissionMechanicFollowerCounterTooltip,
+		GarrisonMissionMechanicTooltip,
+		GarrisonShipyardMapMissionTooltip,
 	}
-	for _, f in pairs(gt) do
-		f:HookScript("OnShow", TT.ReskinTooltip)
+	for _, tip in pairs(garrisonTips) do
+		tip:HookScript("OnShow", TT.ReskinTooltip)
 	end
 end)
 
