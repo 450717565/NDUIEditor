@@ -43,8 +43,7 @@ local function Reskin_Update(self)
 		B.ReskinText(option.Header.Text, 1, .8, 0)
 		B.ReskinText(option.OptionText, 1, 1, 1)
 
-		for i = 1, option.WidgetContainer:GetNumChildren() do
-			local child1 = select(i, option.WidgetContainer:GetChildren())
+		for _, child1 in pairs {option.WidgetContainer:GetChildren()} do
 			if child1 then
 				if child1.Text then
 					Reskin_TextColor(child1.Text, 1, 1, 1)
@@ -66,8 +65,7 @@ local function Reskin_Update(self)
 					Reskin_TextColor(child1.Spell.Text, 1, .8, 0)
 				end
 
-				for j = 1, child1:GetNumChildren() do
-					local child2 = select(j, child1:GetChildren())
+				for _, child2 in pairs {child1:GetChildren()} do
 					if child2 then
 						if child2.Text then
 							Reskin_TextColor(child2.Text, 1, 1, 1)

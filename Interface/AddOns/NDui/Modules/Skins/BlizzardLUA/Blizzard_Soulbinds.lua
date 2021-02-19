@@ -16,7 +16,7 @@ local function Reskin_ConduitList(frame)
 
 	for button in frame.pool:EnumerateActive() do
 		if button and not button.styled then
-			for _, element in ipairs(button.Hovers) do
+			for _, element in pairs(button.Hovers) do
 				element:SetColorTexture(cr, cg, cb, .25)
 			end
 			button.PendingBackground:SetColorTexture(cr, cg, cb, .25)

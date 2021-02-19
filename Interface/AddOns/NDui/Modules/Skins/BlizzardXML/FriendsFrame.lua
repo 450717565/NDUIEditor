@@ -54,6 +54,19 @@ local function Reskin_UpdateFriendButton(button)
 	end
 end
 
+local function Reskin_RecruitAFriendRewardsFrame(self)
+	for _, child in pairs {self:GetChildren()} do
+		local button = child and child.Button
+		if button and not button.styled then
+			local icbg = B.ReskinIcon(button.Icon)
+			B.ReskinHighlight(button, icbg)
+			B.ReskinBorder(button.IconBorder, icbg)
+
+			button.styled = true
+		end
+	end
+end
+
 tinsert(C.XMLThemes, function()
 	-- FriendsFrame
 	B.ReskinFrame(FriendsFrame)
@@ -145,9 +158,6 @@ tinsert(C.XMLThemes, function()
 	BroadcastFrame:ClearAllPoints()
 	BroadcastFrame:SetPoint("TOPLEFT", FriendsFrame, "TOPRIGHT", 0, 0)
 
-	--hooksecurefunc(BroadcastFrame, "ShowFrame", B.CleanTextures)
-	--hooksecurefunc(BroadcastFrame, "HideFrame", B.CleanTextures)
-
 	local UnavailableInfoFrame = FriendsFrameBattlenetFrame.UnavailableInfoFrame
 	B.ReskinFrame(UnavailableInfoFrame)
 	UnavailableInfoFrame:ClearAllPoints()
@@ -211,19 +221,7 @@ tinsert(C.XMLThemes, function()
 	B.ReskinInput(RecruitmentFrame.EditBox, 20)
 
 	B.ReskinFrame(RecruitAFriendRewardsFrame)
-	RecruitAFriendRewardsFrame:HookScript("OnShow", function(self)
-		for i = 1, self:GetNumChildren() do
-			local child = select(i, self:GetChildren())
-			local button = child and child.Button
-			if button and not button.styled then
-				local icbg = B.ReskinIcon(button.Icon)
-				B.ReskinHighlight(button, icbg)
-				B.ReskinBorder(button.IconBorder, icbg)
-
-				button.styled = true
-			end
-		end
-	end)
+	RecruitAFriendRewardsFrame:HookScript("OnShow", Reskin_RecruitAFriendRewardsFrame)
 end)
 
 -- 查询

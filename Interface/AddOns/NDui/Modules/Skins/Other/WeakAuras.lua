@@ -55,9 +55,8 @@ local function Reskin_Region(self, fType)
 end
 
 local function Reskin_ChildButton(self)
-	for i = 1, self:GetNumChildren() do
-		local child = select(i, self:GetChildren())
-		if child:GetObjectType() == 'Button' and child.Text then
+	for _, child in pairs {self:GetChildren()} do
+		if child:IsObjectType("Button") and child.Text then
 			B.ReskinButton(child)
 		end
 	end
@@ -81,8 +80,7 @@ local function Reskin_WAOptions()
 	B.ReskinButton(_G.WASettingsButton)
 
 	-- Minimize, Close Button
-	for i = 1, frame:GetNumChildren() do
-		local child = select(i, frame:GetChildren())
+	for _, child in pairs {frame:GetChildren()} do
 		local numRegions = child:GetNumRegions()
 		local numChildren = child:GetNumChildren()
 
@@ -132,9 +130,8 @@ local function Reskin_WAOptions()
 	-- IconPicker
 	local iconPicker = frame.iconPicker.frame
 	if iconPicker then
-		for i = 1, iconPicker:GetNumChildren() do
-			local child = select(i, iconPicker:GetChildren())
-			if child:GetObjectType() == 'EditBox' then
+		for _, child in pairs {iconPicker:GetChildren()} do
+			if child:IsObjectType("EditBox") then
 				B.ReskinInput(child, 20)
 			end
 		end
@@ -166,8 +163,7 @@ local function Reskin_WAOptions()
 	B.CreateBDFrame(moversizer)
 
 	local index = 1
-	for i = 1, moversizer:GetNumChildren() do
-		local child = select(i, moversizer:GetChildren())
+	for _, child in pairs {moversizer:GetChildren()} do
 		local numChildren = child:GetNumChildren()
 
 		if numChildren == 2 and child:IsClampedToScreen() then
@@ -179,22 +175,22 @@ local function Reskin_WAOptions()
 				B.ReskinArrow(button1, "left")
 				B.ReskinArrow(button2, "right")
 			end
+
 			index = index + 1
 		end
 	end
 
 	-- TipPopup
-	for i = 1, frame:GetNumChildren() do
-		local child = select(i, frame:GetChildren())
+	for _, child in pairs {frame:GetChildren()} do
 		if child:GetFrameStrata() == "FULLSCREEN" and child.PixelSnapDisabled and child.backdropInfo then
 			B.ReskinFrame(child)
 
-			for j = 1, child:GetNumChildren() do
-				local child2 = select(j, child:GetChildren())
-				if child2:GetObjectType() == "EditBox" then
+			for _, child2 in pairs {child:GetChildren()} do
+				if child2:IsObjectType("EditBox") then
 					B.ReskinInput(child2, 18)
 				end
 			end
+
 			break
 		end
 	end

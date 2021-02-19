@@ -231,8 +231,8 @@ local GetSim, GetGroupData, SetSimResultHint do
 	end
 end
 local Tact = {} do
-	local state, deadline
-	local function cmpInfo(a,b)
+	local pt, state, deadline = {}
+	local function cmpFollowerID(a,b)
 		return a.followerID < b.followerID
 	end
 	local function GetGroupTags()
@@ -246,7 +246,7 @@ local Tact = {} do
 				m[#m+1] = ii
 			end
 		end
-		table.sort(m, cmpInfo)
+		table.sort(m, cmpFollowerID)
 		for i=1,#m do
 			local ii = m[i]
 			local stats = ii.autoCombatantStats
@@ -258,29 +258,29 @@ local Tact = {} do
 	end
 	local function GetShuffleGroup(gid)
 		local rgid, g, um, maxScore, pen = gid, {}, 0, 4, 0
+		for i=0,4 do
+			pt[i] = i
+		end
 		for i=1, #state.companions do
-			local p, ci = rgid % (6-i), state.companions[i]
+			local p, li, ci = rgid % (6-i), 5-i, state.companions[i]
 			rgid = (rgid - p) / (6-i)
-			while um % 2^(p+1) >= 2^p do
-				p = p % 4 + 1
-			end
+			p, pt[li], pt[p] = pt[p], pt[p], pt[li]
 			g[i], ci.boardIndex, um = ci, p, um + 2^p
 			if not ci.willLevel then
 				maxScore = maxScore + 5*ci.stats.maxHealth
 			end
 		end
-		for p=0, 4 do
-			if um % 2^(p+1) < 2^p then
-				local i = rgid % 3
-				rgid = (rgid - i) / 3
-				local ti = state.troops[i+1]
-				if ti then
-					local nt = {}
-					for k,v in pairs(ti) do
-						nt[k] = v
-					end
-					g[#g+1], nt.boardIndex, pen = nt, p, pen + 1
+		for p=0, 4-#state.companions do
+			p = pt[p]
+			local i = rgid % 3
+			rgid = (rgid - i) / 3
+			local ti = state.troops[i+1]
+			if ti then
+				local nt = {}
+				for k,v in pairs(ti) do
+					nt[k] = v
 				end
+				g[#g+1], nt.boardIndex, pen = nt, p, pen + 1
 			end
 		end
 		return g, maxScore-pen, pen
@@ -381,7 +381,7 @@ local Tact = {} do
 	function Tact:IsRunning()
 		if state and not state.finished then
 			return true, state.nextGroup, state.numGroups, state.numFutures, not not state.bestGroup
-		elseif state and (htag or GetGroupTags()) == state.htag then
+		elseif state and GetGroupTags() == state.htag then
 			return false, true, not not state.bestGroup
 		else
 			return false, false, Board_HasCompanion()

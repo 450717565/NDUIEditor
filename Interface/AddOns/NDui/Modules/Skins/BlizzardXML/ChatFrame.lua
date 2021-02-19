@@ -170,9 +170,8 @@ end)
 
 -- ChannelFrame
 local function Reskin_ChannelList(self)
-	for i = 1, self.Child:GetNumChildren() do
-		local tab = select(i, self.Child:GetChildren())
-		if not tab.styled and tab:IsHeader() then
+	for _, tab in pairs {self.Child:GetChildren()} do
+		if tab:IsHeader() and not tab.styled then
 			B.CleanTextures(tab)
 
 			local bg = B.CreateBDFrame(tab)

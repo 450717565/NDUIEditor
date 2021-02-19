@@ -9,17 +9,24 @@ end
 T.Util, T.L, T.LT = U, L, nil
 
 local overdesc = {
-	[91]=L"Reduces the damage dealt by the furthest enemy by 1 for 3 rounds.",
-	[85]=L"Reduces the damage taken by the closest ally by 5000% for two rounds.",
-	[198]={L"For two rounds, reduces the damage dealt by incoming attacks by 1 and retaliates for {}.", "thornsATK"},
+	[91]=L"Reduces the damage dealt by the furthest enemy by 1 for three turns.",
+	[85]=L"Reduces the damage taken by the closest ally by 5000% for two turns.",
+	[198]={L"For two turns, reduces the damage dealt by incoming attacks by 1 and retaliates for {}.", "thornsATK"},
 	[52]={L"Inflicts {} damage to all enemies at range.", "damageATK"},
 	[125]={L"Inflicts {} damage to a random enemy.", "damageATK"},
 	[229]=L"Reduces damage taken by a random ally by 50%. Forever.",
 	[301]={L"Every other turn, a random enemy is attacked for {}% of their maximum health.", "damagePerc"},
 	[227]={L"Every other turn, a random enemy is attacked for {}% of their maximum health.", "damagePerc"},
 	[25]={L"Inflicts {} damage to all enemies in melee, and increases own damage dealt by 20% for three turns.", "damageATK"},
-	[121]={L"Reduces all enemies' damage dealt by {}% during the next turn.", "modDamageDealt"}
+	[121]={L"Reduces all enemies' damage dealt by {}% during the next turn.", "modDamageDealt"},
+	[107]={L"Debuffs all enemies, dealing {} damage this turn and during each of the next three turns.", "damageATK",
+	       L"Increases all damage taken by the nearest enemy by {} for three turns.", "plusDamageTakenATK"},
+	[194]={L"Increases damage dealt by the closest ally by {} for two turns.", "plusDamageDealtATK",
+	       L"Reduces damage taken by the closest ally by {}% for two turns.", "modDamageTaken",
+	       L"Inflicts {} damage to self.","damageATK"},
 }
+local overdescUnscaledKeys = {damagePerc=1, modDamageDealt=1, modDamageTaken=1}
+local covenFastHealingTalentID = {1078, 1081, 1075, 1084}
 
 local GetMaskBoard do
 	local b, u, om = {}, {curHP=1}
@@ -452,7 +459,7 @@ function U.SetFollowerInfo(GameTooltip, info, autoCombatSpells, autoCombatantSta
 	end
 
 	if showHealthFooter and info and info.status ~= GARRISON_FOLLOWER_ON_MISSION and autoCombatantStats and autoCombatantStats.currentHealth < autoCombatantStats.maxHealth then
-		local fastHealing = C_Garrison.GetTalentInfo(1075)
+		local fastHealing = C_Garrison.GetTalentInfo(covenFastHealingTalentID[C_Covenants.GetActiveCovenantID()] or 1075)
 		local rt = (1-(autoCombatantStats.currentHealth/autoCombatantStats.maxHealth)) * (fastHealing and fastHealing.researched and 49600 or 60000)
 		GameTooltip:AddLine(" ")
 		GameTooltip:AddLine("|cffffd926" .. (L"Full recovery in %s"):format(U.GetTimeStringFromSeconds(rt, false, true, true)), 1, 0.85, 0.15, 1)
@@ -530,13 +537,18 @@ function U.GetAbilityDescriptionOverride(spellID, atk)
 		return L"It does nothing."
 	end
 	local od = overdesc[spellID]
-	if od then
-		if type(od) == "table" then
-			local vk = od[2]
-			local vv = si and (si[vk] or si[1] and si[1][vk] or si[2] and si[2][vk])
-			local rv = vv and ((vk == "damagePerc" or vk == "modDamageDealt") and (vv < 0 and -vv or vv) or atk and math.floor(vv*(atk or -1)/100)) or ""
-			od = od[1]:gsub("{}", rv)
+	if type(od) == "table" then
+		local o
+		for i=1, #od, 2 do
+			local vk = od[i+1]
+			local vv = si and si[vk]
+			for i=1,si and not vv and #si or 0 do
+				vv = vv or si[i][vk]
+			end
+			local rv = vv and (overdescUnscaledKeys[vk] and (vv < 0 and -vv or vv) or atk and math.floor(vv*(atk or -1)/100)) or ""
+			o = (i > 1 and o .. " " or "") .. od[i]:gsub("{}", rv)
 		end
-		return od
+		od = o
 	end
+	return od
 end

@@ -2,11 +2,10 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
 local function Reskin_AlliedRacesFrame()
-	local Child = RaceInfoFrame.ScrollFrame.Child
+	local Child = AlliedRacesFrame.RaceInfoFrame.ScrollFrame.Child
 	B.StripTextures(Child.ObjectivesFrame)
 
-	for i = 1, Child:GetNumChildren() do
-		local button = select(i, Child:GetChildren())
+	for _, button in pairs {Child:GetChildren()} do
 		if button and not button.styled then
 			if button.Icon then
 				B.ReskinIcon(button.Icon)

@@ -237,6 +237,10 @@ local function Reskin_MissionList(self)
 				Overlay:SetVertexColor(.1, .1, .1, .25)
 			end
 
+			if button.CompleteCheck then
+				button.CompleteCheck:SetAtlas("Adventures-Checkmark")
+			end
+
 			if button.Level then
 				local levelText = button.Level
 				levelText:SetJustifyH("LEFT")
@@ -366,7 +370,7 @@ end
 
 local function Reskin_CombatantStats(self, followerInfo)
 	local autoSpellInfo = followerInfo.autoSpellAbilities
-	for _ in ipairs(autoSpellInfo) do
+	for _ in pairs(autoSpellInfo) do
 		local abilityFrame = self.autoSpellPool:Acquire()
 		if not abilityFrame.styled then
 			B.ReskinIcon(abilityFrame.Icon)
@@ -481,6 +485,15 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 		end
 	end)
 
+	hooksecurefunc("GarrisonFollowerButton_SetCounterButton", function(button, _, index)
+		local counter = button.Counters[index]
+		if counter and not counter.styled then
+			B.ReskinIcon(counter.Icon)
+
+			counter.styled = true
+		end
+	end)
+
 	hooksecurefunc("GarrisonMissionButton_SetRewards", function(self, rewards)
 		if not self.numRewardsStyled then self.numRewardsStyled = 0 end
 
@@ -573,6 +586,12 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 					end
 				end
 			end
+		end
+	end)
+
+	hooksecurefunc(GarrisonMission, "RemoveFollowerFromMission", function(_, frame)
+		if frame.PortraitFrame and frame.PortraitFrame.squareBG then
+			frame.PortraitFrame.squareBG:Hide()
 		end
 	end)
 
@@ -1024,7 +1043,7 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 	-- WarPlan
 	if IsAddOnLoaded("WarPlan") then
 		local function Reskin_WarPlan(self)
-			B.StripTextures(self.TaskBoard)
+			B.StripTextures(self.TaskBoard.List)
 
 			local Missions = self.TaskBoard.Missions
 			for i = 1, #Missions do
@@ -1081,6 +1100,7 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 
 		local function Reskin_VenturePlan(self)
 			B.StripTextures(self.MissionList)
+			self.MissionList:GetChildren():Hide()
 
 			local Missions = self.MissionList.Missions
 			for i = 1, #Missions do
@@ -1115,10 +1135,10 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 
 		local function SearchMissionBoard()
 			local MissionTab = CovenantMissionFrame.MissionTab
-			for i = 1, MissionTab:GetNumChildren() do
-				local child = select(i, MissionTab:GetChildren())
+			for _, child in pairs {MissionTab:GetChildren()} do
 				if child and child.MissionList then
 					VenturePlanFrame = child
+
 					break
 				end
 			end
@@ -1138,9 +1158,8 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 			B.ReskinText(CopyBox.VersionText, 1, 1, 1)
 
 			local missionBoard = CovenantMissionFrame.MissionTab.MissionPage.Board
-			for i = 1, missionBoard:GetNumChildren() do
-				local child = select(i, missionBoard:GetChildren())
-				if child and child:IsObjectType("Button") then
+			for _, child in pairs {missionBoard:GetChildren()} do
+				if child and child:IsObjectType("Button") and not child.styled then
 					local icbg = B.ReskinIcon(child:GetNormalTexture())
 					B.ReskinHighlight(child, icbg)
 					B.ReskinPushed(child, icbg)
@@ -1150,7 +1169,7 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 						texture:SetTexCoord(unpack(DB.TexCoord))
 					end
 
-					break
+					child.styled = true
 				end
 			end
 		end
@@ -1213,8 +1232,7 @@ C.LUAThemes["Blizzard_OrderHallUI"] = function()
 		if self.CurrencyBG then self.CurrencyBG:SetAlpha(0) end
 		if self.CloseButton.Border then self.CloseButton.Border:SetAlpha(0) end
 
-		for i = 1, self:GetNumChildren() do
-			local button = select(i, self:GetChildren())
+		for _, button in pairs {self:GetChildren()} do
 			if button and button.talent then
 				button.Border:SetAlpha(0)
 

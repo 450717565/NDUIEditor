@@ -42,13 +42,13 @@ local function Reskin_CreateTieredCheckboxes(frame, checkBoxTable)
 		B.StripTextures(frame)
 
 		local nameString = frame:GetDebugName().."CheckBox"
-		for index, value in ipairs(checkBoxTable) do
+		for index, value in pairs(checkBoxTable) do
 			local buttonName = nameString..index
 			local check = _G[buttonName]
 			B.ReskinCheck(check)
 
 			if value.subTypes then
-				for i in ipairs(value.subTypes) do
+				for i in pairs(value.subTypes) do
 					local checks = _G[buttonName.."_"..i]
 					B.ReskinCheck(checks)
 				end

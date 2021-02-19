@@ -40,8 +40,7 @@ local function StripMS_Textures(self)
 end
 
 local function ReskinMS_Button(self)
-	for i = 1, self:GetNumChildren() do
-		local child = select(i, self:GetChildren())
+	for _, child in pairs {self:GetChildren()} do
 		if child:IsObjectType("Button") and child.Icon and child.Text then
 			B.StripTextures(child, 11)
 			B.ReskinIcon(child.Icon)
@@ -187,8 +186,7 @@ function Skins:MeetingStone()
 
 	local AdvFilterPanel = BrowsePanel.AdvFilterPanel
 	AdvFilterPanel:SetPoint("TOPLEFT", MSEnv.MainPanel, "TOPRIGHT", 3, -30)
-	for i = 1, AdvFilterPanel:GetNumChildren() do
-		local child = select(i, AdvFilterPanel:GetChildren())
+	for _, child in pairs {AdvFilterPanel:GetChildren()} do
 		if child:IsObjectType("Button") and not child:GetText() then
 			B.ReskinClose(child)
 
@@ -215,8 +213,7 @@ function Skins:MeetingStone()
 	B.CreateBGFrame(InfoWidget, 1, 1, -1, -1)
 
 	local CreateWidget = CreatePanel.CreateWidget
-	for i = 1, CreateWidget:GetNumChildren() do
-		local child = select(i, CreateWidget:GetChildren())
+	for _, child in pairs {CreateWidget:GetChildren()} do
 		B.StripTextures(child)
 		B.CreateBDFrame(child)
 	end
@@ -364,8 +361,7 @@ function Skins:MeetingStone()
 
 	B.ReskinCheck(MeetingStone_QuickJoin)
 
-	for i = 1, AdvFilterPanel.Inset:GetNumChildren() do
-		local child = select(i, AdvFilterPanel.Inset:GetChildren())
+	for _, child in pairs {AdvFilterPanel.Inset:GetChildren()} do
 		if child.Check and not child.styled then
 			B.ReskinCheck(child.Check)
 
@@ -374,8 +370,7 @@ function Skins:MeetingStone()
 	end
 
 	local ManagerPanel = MSEnv.ManagerPanel
-	for i = 1, ManagerPanel:GetNumChildren() do
-		local child = select(i, ManagerPanel:GetChildren())
+	for _, child in pairs {ManagerPanel:GetChildren()} do
 		if child:IsObjectType("Button") and child.Icon and child.Text and not child.styled then
 			B.ReskinButton(child)
 

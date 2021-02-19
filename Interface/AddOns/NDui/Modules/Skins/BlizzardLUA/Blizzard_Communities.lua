@@ -52,8 +52,7 @@ local function Reskin_RequestCheckbox(self)
 end
 
 local function Reskin_ColumnDisplay(self)
-	for i = 1, self:GetNumChildren() do
-		local child = select(i, self:GetChildren())
+	for _, child in pairs {self:GetChildren()} do
 		if child and not child.styled then
 			B.StripTextures(child)
 
@@ -136,16 +135,13 @@ end
 
 local function Reskin_NotificationSettingsDialog(self)
 	local frame = self.ScrollFrame.Child
-	for i = 1, frame:GetNumChildren() do
-		local child = select(i, frame:GetChildren())
-		if child.StreamName then
-			if not child.styled then
-				B.ReskinRadio(child.ShowNotificationsButton)
-				B.ReskinRadio(child.HideNotificationsButton)
-				child.Separator:Hide()
+	for _, child in pairs {frame:GetChildren()} do
+		if child.StreamName and not child.styled then
+			B.ReskinRadio(child.ShowNotificationsButton)
+			B.ReskinRadio(child.HideNotificationsButton)
+			child.Separator:Hide()
 
-				child.styled = true
-			end
+			child.styled = true
 		end
 	end
 end

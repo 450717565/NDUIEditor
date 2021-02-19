@@ -1849,9 +1849,9 @@ do
 
 	local function GetSwatchTexColor(tex)
 		local r, g, b = tex:GetVertexColor()
-		r = B:Round(r, 2)
-		g = B:Round(g, 2)
-		b = B:Round(b, 2)
+		r = B.Round(r, 2)
+		g = B.Round(g, 2)
+		b = B.Round(b, 2)
 
 		return r, g, b
 	end

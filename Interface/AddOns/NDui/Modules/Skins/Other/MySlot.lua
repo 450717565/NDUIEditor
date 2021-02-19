@@ -12,20 +12,17 @@ function Skins:Myslot()
 	B.ReskinFrame(MainFrame)
 
 	for _, child in pairs {MainFrame:GetChildren()} do
-		local objType = child:GetObjectType()
-		if objType == "Button" and child.Text then
+		if child:IsObjectType("Button") and child.Text then
 			B.ReskinButton(child)
-		elseif objType == "CheckButton" then
+		elseif child:IsObjectType("CheckButton") then
 			B.ReskinCheck(child)
-		elseif objType == "Frame" then
+		elseif child:IsObjectType("Frame") then
 			if floor(child:GetWidth() - 600) == 0 and floor(child:GetHeight() - 400) == 0 then
 				child:SetBackdrop(nil)
-
-				local bg = B.CreateBDFrame(child)
-				bg:SetInside()
+				B.CreateBDFrame(child)
 
 				for _, subChild in pairs {child:GetChildren()} do
-					if subChild:GetObjectType() == "ScrollFrame" then
+					if subChild:IsObjectType("ScrollFrame")then
 						B.ReskinScroll(subChild.ScrollBar)
 
 						break

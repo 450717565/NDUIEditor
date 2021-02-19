@@ -730,6 +730,7 @@ local function UButton_Sync(self)
 		self.mode = nil
 		self:Hide()
 	end
+	self.clickKey = self.mode ~= "start-send" and "SPACE" or nil
 	if GameTooltip:IsOwned(self) then
 		local oe = self:GetScript("OnEnter")
 		if not self:IsVisible() then
@@ -843,8 +844,9 @@ local function MissionPage_AcquireToast(self)
 	return toast
 end
 local function ClickWithSpace(self, button)
-	self:SetPropagateKeyboardInput(button ~= "SPACE")
-	if button == "SPACE" then
+	local click = button and button == self.clickKey
+	self:SetPropagateKeyboardInput(not click)
+	if click then
 		self:Click()
 	end
 end

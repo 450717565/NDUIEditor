@@ -300,8 +300,7 @@ function Skins:Ace3_RegisterAsContainer(widget)
 		local frame = widget.content:GetParent()
 		B.StripTextures(frame)
 		if TYPE == "Frame" then
-			for i = 1, frame:GetNumChildren() do
-				local child = select(i, frame:GetChildren())
+			for _, child in pairs {frame:GetChildren()} do
 				if child:IsObjectType("Button") and child:GetText() then
 					B.ReskinButton(child)
 				else
