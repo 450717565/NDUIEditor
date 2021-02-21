@@ -715,12 +715,15 @@ do
 
 		local SDColor = C.db["Skins"]["SDColor"]
 		local SDAlpha = C.db["Skins"]["SDAlpha"]
+		local CCShadow = C.db["Skins"]["CCShadow"]
+		local r, g, b, a = SDColor.r, SDColor.g, SDColor.b, SDAlpha
+		if CCShadow then r, g, b = cr, cg, cb end
 
 		local lvl = frame:GetFrameLevel()
 		local sdTex = CreateFrame("Frame", nil, frame, "BackdropTemplate")
 		sdTex:SetOutside(self, 4, 4)
 		sdTex:SetBackdrop({edgeFile = DB.shadowTex, edgeSize = B.Scale(4)})
-		sdTex:SetBackdropBorderColor(SDColor.r, SDColor.g, SDColor.b, SDAlpha)
+		sdTex:SetBackdropBorderColor(r, g, b, a)
 		sdTex:SetFrameLevel(lvl)
 		self.sdTex = sdTex
 

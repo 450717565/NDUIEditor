@@ -280,6 +280,7 @@ GUI.DefaultSettings = {
 		FontOutline = true,
 		SkinShadow = false,
 		SkinTexture = false,
+		CCShadow = false,
 
 		FontScale = 1,
 		GSDirection = 1,
@@ -1053,12 +1054,13 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 	},
 	[11] = {
 		{1, "Skins", "BlizzardSkins", DB.MyColor..L["BlizzardSkins"], false, nil, nil, L["BlizzardSkinsTips"]},
-		{1, "Skins", "SkinTexture", L["Skin Texture"], true},
 		{1, "Skins", "FontOutline", L["Font Outline"]},
-		{1, "Skins", "SkinShadow", L["Skin Shadow"], true},
-		{5, "Skins", "SDColor", L["Shadow Color"], 3},
-		{3, "Skins", "FontScale", L["Font Scale"], false, {.5, 1.5, .01}},
+		{1, "Skins", "SkinTexture", L["Skin Texture"]},
+		{3, "Skins", "FontScale", L["Font Scale"], true, {.5, 1.5, .01}},
+		{1, "Skins", "SkinShadow", L["Skin Shadow"]},
+		{1, "Skins", "CCShadow", L["ClassColor Shadow"]},
 		{3, "Skins", "SDAlpha", L["Shadow Alpha"], true, {0, 1, .01}},
+		{5, "Skins", "SDColor", L["Shadow Color"], 1},
 		{},--blank
 		{4, "Skins", "SkinStyle", L["Skin Style"], false, {L["Flat Style"], L["Gradient Style"]}},
 		{4, "Skins", "GSDirection", L["Gradient Direction"], true, {L["Horizontal"], L["Vertical"]}},

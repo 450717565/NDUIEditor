@@ -3,8 +3,8 @@ local _, T = ...
 local C, z, V, K = GetLocale(), nil
 V =
     C == "deDE" and { -- 22/22 (100%)
-      "%d |4Mission:Missionen; verfügbar", "%d |4Mission:Missionen; abgeschlossen", "%d laufende |4Mission:Missionen", "%d |4Mission:Missionen; übrig", "%d |4Gruppe:Gruppen; übrig", "Missionskosten: %s", "Belohnungung Bonuswurf", "Lösche alle geplanten Gruppen", "Abschließen", "Alle abschließen",
-      "Vor %s abgeschlossen", "Noch verfügbar:", "BONUS erhalten!", "In geplanter Gruppe:", "Mission fehlgeschlagen", "Missions-Verlauf", "Mission erfolgreich", "Keine möglichen Gruppen", "Lädt das Inteface neu ohne %s zu starten bis zum nächsten Reload.", "Ergebnisse vergangener Missionen werden hier angezeigt.",
+      "%d |4Mission:Missionen; verfügbar", "%d |4Mission:Missionen; abgeschlossen", "%d laufende |4Mission:Missionen", "%d |4Mission:Missionen; übrig", "%d |4Gruppe:Gruppen; übrig", "Missionskosten: %s", "Belohnung Bonuswurf", "Lösche alle geplanten Gruppen", "Abschließen", "Alle abschließen",
+      "Vor %s abgeschlossen", "Läuft ab in:", "BONUS erhalten!", "In geplanter Gruppe:", "Mission fehlgeschlagen", "Missions-Verlauf", "Mission erfolgreich", "Keine möglichen Gruppen", "Lädt das Inteface neu ohne %s zu starten bis zum nächsten Reload.", "Ergebnisse vergangener Missionen werden hier angezeigt.",
       "Zurück zum Blizzard UI", "Schicke geplante Gruppen",
     }
     or C == "esES" and { -- 22/22 (100%)

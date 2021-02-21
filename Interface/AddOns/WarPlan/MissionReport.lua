@@ -81,6 +81,13 @@ function EV:I_LOAD_HOOKS()
 	end
 	local function ShowLanding(_, page)
 		HideUIPanel(GarrisonLandingPage)
+		local b = GarrisonLandingPageFollowerList.listScroll.buttons
+		if ((page or C_Garrison.GetLandingPageGarrisonType()) == 111) ~= (b and b[1] and not b[1].DownArrow) then
+			for i=1,#b do
+				b[i]:Hide()
+			end
+			GarrisonLandingPageFollowerList.listScroll.buttons = nil
+		end
 		ShowGarrisonLandingPage(page)
 	end
 	local function MaybeStopSound(sound)
@@ -95,6 +102,10 @@ function EV:I_LOAD_HOOKS()
 			local closeOK, closeID = PlaySound(SOUNDKIT.UI_GARRISON_GARRISON_REPORT_CLOSE)
 			self.openSoundID = openOK and openID
 			self.closeSoundID = closeOK and closeID
+			local openOK, openID = PlaySound(SOUNDKIT.UI_GARRISON_9_0_OPEN_LANDING_PAGE)
+			local closeOK, closeID = PlaySound(SOUNDKIT.UI_GARRISON_9_0_CLOSE_LANDING_PAGE)
+			self.openSoundID2 = openOK and openID
+			self.closeSoundID2 = closeOK and closeID
 		end
 	end)
 	GarrisonLandingPageMinimapButton:HookScript("OnClick", function(self, b)
@@ -112,6 +123,8 @@ function EV:I_LOAD_HOOKS()
 				end
 				MaybeStopSound(self.openSoundID)
 				MaybeStopSound(self.closeSoundID)
+				MaybeStopSound(self.openSoundID2)
+				MaybeStopSound(self.closeSoundID2)
 				if not landingChoiceMenu then
 					landingChoiceMenu = CreateFrame("Frame", "WPLandingChoicesDrop", UIParent, "UIDropDownMenuTemplate")
 				end
@@ -123,14 +136,20 @@ function EV:I_LOAD_HOOKS()
 				GameTooltip:Hide()
 				EasyMenu(landingChoices, landingChoiceMenu, "cursor", 0, 0, "MENU", 4)
 				DropDownList1:ClearAllPoints()
-				DropDownList1:SetPoint("TOPRIGHT", self, "TOPLEFT", 10, -4)
+				local x, y = self:GetCenter()
+				local w, h = UIParent:GetSize()
+				local u, r = y*2 > h, x*2 > w
+				local p1 = (u and "TOP" or "BOTTOM") .. (r and "RIGHT" or "LEFT")
+				local p2 = (u and "TOP" or "BOTTOM") .. (r and "LEFT" or "RIGHT")
+				DropDownList1:SetPoint(p1, self, p2, r and 10 or -10, u and -8 or 8)
 			elseif GarrisonLandingPage.garrTypeID == 3 then
 				ShowLanding(nil, 2)
 				MaybeStopSound(self.closeSoundID)
+				MaybeStopSound(self.closeSoundID2)
 			end
 		end
 	end)
 	GarrisonLandingPageMinimapButton:HookScript("PostClick", function(self)
-		self.closeSoundID, self.openSoundID = nil, nil
+		self.closeSoundID, self.openSoundID, self.closeSoundID2, self.openSoundID2 = nil
 	end)
 end

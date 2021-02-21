@@ -2,8 +2,10 @@
 ## Title: War Plan
 ## Notes: Interface replacement for War Campaign missions.
 ## Author: foxlit
-## Version: 3.13
+## Version: 3.15
 ## X-Website: https://www.townlong-yak.com/addons/war-plan/
+## Notes-deDE: Schnittstellenersatz für Kriegskampagne Missionen.
+## Notes-ruRU: Замена интерфейса военной компании.
 ## SavedVariables: WarPlanData
 ## SavedVariablesPerCharacter: WarPlanDataPC
 Libs/Evie.lua

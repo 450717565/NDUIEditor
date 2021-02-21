@@ -792,6 +792,8 @@ function Bags:OnLogin()
 			self.Favourite:Hide()
 		end
 
+		self.iLvl:SetText("")
+		self.Slot:SetText("")
 		if item.link and (item.rarity and item.rarity > 0) and (item.level and item.level > 0) then
 			local slot = B.GetItemSlot(item.link)
 			local level = B.GetItemLevel(item.link, item.bagID, item.slotID) or item.level
@@ -803,13 +805,7 @@ function Bags:OnLogin()
 				if showItemSlot then self.Slot:SetText(slot) end
 			elseif (item.classID and item.classID == LE_ITEM_CLASS_MISCELLANEOUS) and (item.subClassID and (item.subClassID == LE_ITEM_MISCELLANEOUS_COMPANION_PET or item.subClassID == LE_ITEM_MISCELLANEOUS_MOUNT)) then
 				if showItemSlot then self.Slot:SetText(slot) end
-			else
-				if showItemLevel then self.iLvl:SetText("") end
-				if showItemSlot then self.Slot:SetText("") end
 			end
-		else
-			if showItemLevel then self.iLvl:SetText("") end
-			if showItemSlot then self.Slot:SetText("") end
 		end
 
 		if self.glowFrame then

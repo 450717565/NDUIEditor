@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2418, "DBM-CastleNathria", nil, 1190)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20210215042542")
+mod:SetRevision("20210218153232")
 mod:SetCreatureID(166644)
 mod:SetEncounterID(2405)
 mod:SetUsedIcons(1, 2)
@@ -183,7 +183,7 @@ function mod:SPELL_CAST_START(args)
 		if self:IsMythic() then
 			self.vb.unleashCount = 1
 			warnUnleashPower:Show(1)
-			timerEdgeofAnnihilationCD:Start(7.7)
+			timerEdgeofAnnihilationCD:Start(7.2)
 			timerSeedsofExtinctionCD:Start(11.4)
 			timerFleetingSpiritsCD:Start(13.6)
 			timerDimensionalTearCD:Start(30)--Or Unleashed power
