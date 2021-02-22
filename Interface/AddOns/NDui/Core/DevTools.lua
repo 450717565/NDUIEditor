@@ -20,6 +20,8 @@ local IsQuestFlaggedCompleted = C_QuestLog.IsQuestFlaggedCompleted
 
 DB.Devs = {
 	["青玉的烟火-罗宁"] = true,
+	["青玉的烟火-格瑞姆巴托"] = true,
+	["风暴柠檬汁-永恒之井"] = true,
 }
 local function isDeveloper()
 	return DB.Devs[DB.MyFullName]

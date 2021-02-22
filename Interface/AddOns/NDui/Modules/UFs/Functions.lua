@@ -425,17 +425,6 @@ function UF:CreatePortrait(self)
 	self.Health.bg:SetParent(self)
 end
 
-local roleTexCoord = {
-	["TANK"] = {.5, .75, 0, 1},
-	["HEALER"] = {.75, 1, 0, 1},
-	["DAMAGER"] = {.25, .5, 0, 1},
-}
-local function postUpdateRole(element, role)
-	if element:IsShown() then
-		element:SetTexCoord(unpack(roleTexCoord[role]))
-	end
-end
-
 function UF:CreateIcons(self)
 	local mystyle = self.mystyle
 
@@ -472,24 +461,27 @@ function UF:CreateIcons(self)
 	end
 	self.PhaseIndicator = phase
 
+	local size = 20
+	if mystyle == "raid" then size = 14 end
+
 	local groupRole = parentFrame:CreateTexture(nil, "OVERLAY")
-	groupRole:SetSize(12, 12)
-	groupRole:SetTexture("Interface\\LFGFrame\\LFGROLE")
-	groupRole:SetPoint("RIGHT", self, "TOPRIGHT", -2, 0)
+	groupRole:SetSize(size, size)
+	groupRole:SetPoint("RIGHT", self, "TOPRIGHT", -2, 1)
 	if mystyle == "raid" then
-		groupRole:SetPoint("TOPRIGHT", self, "TOPRIGHT", 0, 0)
+		groupRole:SetPoint("TOPRIGHT", self, "TOPRIGHT", 2, 2)
 	end
-	groupRole.PostUpdate = postUpdateRole
 	self.GroupRoleIndicator = groupRole
 
 	local leader = parentFrame:CreateTexture(nil, "OVERLAY")
-	leader:SetSize(12, 12)
-	leader:SetPoint("RIGHT", groupRole, "LEFT")
+	leader:SetAtlas("Soulbinds_Tree_Conduit_Icon_Attack")
+	leader:SetSize(size, size)
+	leader:SetPoint("RIGHT", groupRole, "LEFT", 4, 0)
 	self.LeaderIndicator = leader
 
 	local assistant = parentFrame:CreateTexture(nil, "OVERLAY")
-	assistant:SetSize(12, 12)
-	assistant:SetPoint("RIGHT", groupRole, "LEFT")
+	assistant:SetAtlas("Soulbinds_Tree_Conduit_Icon_Utility")
+	assistant:SetSize(size, size)
+	assistant:SetPoint("RIGHT", groupRole, "LEFT", 4, 0)
 	self.AssistantIndicator = assistant
 end
 
@@ -501,8 +493,8 @@ function UF:CreateRaidMark(self)
 	parentFrame:SetFrameLevel(self:GetFrameLevel() + 3)
 
 	local raidTarget = parentFrame:CreateTexture(nil, "OVERLAY")
-	if self.LeaderIndicator and mystyle ~= "raid" then
-		raidTarget:SetPoint("RIGHT", self.LeaderIndicator, "LEFT", -2, 2)
+	if mystyle == "player" then
+		raidTarget:SetPoint("RIGHT", self, "TOPRIGHT", -40, 2)
 	elseif mystyle == "nameplate" then
 		raidTarget:SetPoint("BOTTOMRIGHT", self, "TOPLEFT", -1, 1)
 	else

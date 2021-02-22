@@ -2,11 +2,17 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
 local function Reskin_ItemButton(self)
-	B.CleanTextures(self)
+	local item = _G[self]
+	B.StripTextures(item)
 
-	local icbg = B.ReskinIcon(self.icon)
-	B.ReskinHighlight(self, icbg)
-	B.ReskinBorder(self.IconBorder, icbg)
+	local button = _G[self.."ItemButton"]
+	B.StripTextures(button)
+
+	local icbg = B.ReskinIcon(button.icon)
+	B.ReskinHighlight(button, icbg)
+
+	local bubg = B.CreateBGFrame(item, 2, 0, -15, 0, icbg)
+	B.ReskinBorder(button.IconBorder, icbg, bubg)
 end
 
 tinsert(C.XMLThemes, function()
@@ -54,10 +60,7 @@ tinsert(C.XMLThemes, function()
 	end
 
 	for i = 1, MAX_TRADE_ITEMS do
-		B.StripTextures(_G["TradePlayerItem"..i])
-		B.StripTextures(_G["TradeRecipientItem"..i])
-
-		Reskin_ItemButton(_G["TradePlayerItem"..i.."ItemButton"])
-		Reskin_ItemButton(_G["TradeRecipientItem"..i.."ItemButton"])
+		Reskin_ItemButton("TradePlayerItem"..i)
+		Reskin_ItemButton("TradeRecipientItem"..i)
 	end
 end)

@@ -242,7 +242,9 @@ function TT:OnTooltipSetUnit()
 			local npcID = B.GetNPCID(guid)
 			if npcID then
 				self:AddLine(format(npcIDstring, npcID))
-				print(format("|cff00FF00%s %s|r", name, npcID))
+				if DB.isDeveloper then
+					print(format("|cff00FF00%s %s|r", name, npcID))
+				end
 			end
 		end
 

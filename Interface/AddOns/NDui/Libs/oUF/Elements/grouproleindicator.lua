@@ -25,6 +25,12 @@ A default texture will be applied if the widget is a Texture and doesn't have a 
 local _, ns = ...
 local oUF = ns.oUF
 
+local roleAtlas = {
+	["TANK"] = "Soulbinds_Tree_Conduit_Icon_Protect",
+	["HEALER"] = "ui_adv_health",
+	["DAMAGER"] = "ui_adv_atk",
+}
+
 local function Update(self, event)
 	local element = self.GroupRoleIndicator
 
@@ -39,7 +45,7 @@ local function Update(self, event)
 
 	local role = UnitGroupRolesAssigned(self.unit)
 	if (role == 'TANK' or role == 'HEALER' or role == 'DAMAGER') then
-		element:SetTexCoord(GetTexCoordsForRoleSmallCircle(role))
+		element:SetAtlas(roleAtlas[role])
 		element:Show()
 	else
 		element:Hide()

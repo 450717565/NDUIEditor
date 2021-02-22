@@ -10,7 +10,7 @@ do
 		["Adventures-Tank"] = "Soulbinds_Tree_Conduit_Icon_Protect",
 		["Adventures-Healer"] = "ui_adv_health",
 		["Adventures-DPS"] = "ui_adv_atk",
-		["Adventures-DPS-Ranged"] = "Soulbinds_Tree_Conduit_Icon_Utility",
+		["Adventures-DPS-Ranged"] = "Soulbinds_Tree_Conduit_Icon_Attack",
 	}
 
 	local function replaceFollowerRole(roleIcon, atlas)

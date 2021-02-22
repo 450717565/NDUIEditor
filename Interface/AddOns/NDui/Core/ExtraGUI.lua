@@ -941,7 +941,7 @@ function GUI:SetupRaidFrame(parent)
 		end
 	end
 	createOptionGroup(scroll.child, L["RaidFrame"], -10, "Raid", resizeRaidFrame)
-	createOptionSlider(scroll.child, "|cff00cc4c"..L["SimpleMode Scale"], 8, 15, 10, 30, -280, "SimpleRaidScale", resizeRaidFrame)
+	createOptionSlider(scroll.child, DB.MyColor..L["SimpleMode Scale"], 8, 15, 10, 30, -280, "SimpleRaidScale", resizeRaidFrame)
 
 	local function resizePartyFrame()
 		for _, frame in pairs(ns.oUF.objects) do
