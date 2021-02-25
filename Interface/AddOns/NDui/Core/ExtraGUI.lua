@@ -838,10 +838,10 @@ function GUI:SetupUnitFrame(parent)
 	local scroll = GUI:CreateScroll(panel, 260, 540)
 
 	local minRange = {
-		["Player"] = {200, 10},
-		["Focus"] = {150, 10},
-		["Pet"] = {100, 10},
-		["Boss"] = {100, 10},
+		["Player"] = {200, 10, 2},
+		["Focus"] = {100, 10, 2},
+		["Pet"] = {100, 10, 2},
+		["Boss"] = {100, 10, 2},
 	}
 
 	local defaultValue = {
@@ -853,9 +853,9 @@ function GUI:SetupUnitFrame(parent)
 
 	local function createOptionGroup(parent, title, offset, value, func)
 		createOptionTitle(parent, title, offset)
-		createOptionSlider(parent, L["Health Width"], minRange[value][1], minRange[value][1]+100, defaultValue[value][1], 30, offset-60, value.."Width", func)
+		createOptionSlider(parent, L["Health Width"], minRange[value][1], minRange[value][1]+150, defaultValue[value][1], 30, offset-60, value.."Width", func)
 		createOptionSlider(parent, L["Health Height"], minRange[value][2], minRange[value][2]+50, defaultValue[value][2], 30, offset-130, value.."Height", func)
-		createOptionSlider(parent, L["Power Height"], 2, 30, defaultValue[value][3], 30, offset-200, value.."PowerHeight", func)
+		createOptionSlider(parent, L["Power Height"], minRange[value][3], minRange[value][3]+30, defaultValue[value][3], 30, offset-200, value.."PowerHeight", func)
 		if defaultValue[value][4] then
 			createOptionSlider(parent, L["Power Offset"], -20, 20, defaultValue[value][4], 30, offset-270, value.."PowerOffset", func)
 		end
@@ -904,22 +904,22 @@ function GUI:SetupRaidFrame(parent)
 	local scroll = GUI:CreateScroll(panel, 260, 540)
 
 	local minRange = {
-		["Party"] = {150, 10},
-		["PartyPet"] = {100, 10},
-		["Raid"] = {50, 10},
+		["Party"] = {50, 10, 2},
+		["PartyPet"] = {50, 10, 2},
+		["Raid"] = {50, 10, 2},
 	}
 
 	local defaultValue = {
-		["Party"] = {200, 30, 2},
-		["PartyPet"] = {120, 24, 2},
+		["Party"] = {120, 40, 2},
+		["PartyPet"] = {80, 22, 2},
 		["Raid"] = {80, 32, 2},
 	}
 
 	local function createOptionGroup(parent, title, offset, value, func)
 		createOptionTitle(parent, title, offset)
-		createOptionSlider(parent, L["Health Width"], minRange[value][1], minRange[value][1]+100, defaultValue[value][1], 30, offset-60, value.."Width", func)
+		createOptionSlider(parent, L["Health Width"], minRange[value][1], minRange[value][1]+150, defaultValue[value][1], 30, offset-60, value.."Width", func)
 		createOptionSlider(parent, L["Health Height"], minRange[value][2], minRange[value][2]+50, defaultValue[value][2], 30, offset-130, value.."Height", func)
-		createOptionSlider(parent, L["Power Height"], 2, 30, defaultValue[value][3], 30, offset-200, value.."PowerHeight", func)
+		createOptionSlider(parent, L["Power Height"], minRange[value][3], minRange[value][3]+30, defaultValue[value][3], 30, offset-200, value.."PowerHeight", func)
 	end
 
 	local function resizeRaidFrame()

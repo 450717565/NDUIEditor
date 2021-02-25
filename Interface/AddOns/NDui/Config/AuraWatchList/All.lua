@@ -54,6 +54,7 @@ local list = {
 		{AuraID = 341622, UnitID = "player"},	-- 相位变换
 		{AuraID = 341783, UnitID = "player"},	-- 形态编织
 		{AuraID = 337879, UnitID = "player"},	-- 黑暗堡垒
+		{AuraID = 306574, UnitID = "player"},	-- 炽蓝仙野的馈赠
 		-- 噬渊
 		{AuraID = 335861, UnitID = "player"},	-- 幽力之油
 		-- 种族天赋

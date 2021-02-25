@@ -43,6 +43,11 @@ function TT:AddLineForID(id, linkType, noadd)
 		if itemStackCount and itemStackCount > 1 then
 			self:AddDoubleLine(AUCTION_STACK_SIZE.."：", DB.InfoColor..itemStackCount)
 		end
+
+		local expacID = select(15, GetItemInfo(id))
+		if expacID then
+			self:AddDoubleLine(L["Expansion Version"].."：", DB.InfoColor.._G["EXPANSION_NAME"..expacID])
+		end
 	end
 
 	self:AddDoubleLine(linkType, format(DB.InfoColor.."%s|r", id))

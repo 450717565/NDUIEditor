@@ -40,7 +40,7 @@ function Auras:OnLogin()
 	Auras.BuffFrame:SetPoint("TOPRIGHT", Auras.BuffFrame.mover)
 
 	Auras.DebuffFrame = Auras:CreateAuraHeader("HARMFUL")
-	Auras.DebuffFrame.mover = B.Mover(Auras.DebuffFrame, "Debuffs", "DebuffAnchor", {"TOPRIGHT", Auras.BuffFrame.mover, "BOTTOMRIGHT", 0, -12})
+	Auras.DebuffFrame.mover = B.Mover(Auras.DebuffFrame, "Debuffs", "DebuffAnchor", {"TOPRIGHT", Auras.BuffFrame.mover, "BOTTOMRIGHT", 0, -15})
 	Auras.DebuffFrame:ClearAllPoints()
 	Auras.DebuffFrame:SetPoint("TOPRIGHT", Auras.DebuffFrame.mover)
 

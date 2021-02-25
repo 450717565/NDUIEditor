@@ -19,6 +19,12 @@ local C_ChatInfo_SendAddonMessage = C_ChatInfo.SendAddonMessage
 local C_ChatInfo_RegisterAddonMessagePrefix = C_ChatInfo.RegisterAddonMessagePrefix
 local C_MythicPlus_GetCurrentAffixes = C_MythicPlus.GetCurrentAffixes
 local C_Map_GetBestMapForUnit = C_Map.GetBestMapForUnit
+local C_Map_CanSetUserWaypointOnMap = C_Map.CanSetUserWaypointOnMap
+local C_Map_ClearUserWaypoint = C_Map.ClearUserWaypoint
+local C_Map_SetUserWaypoint = C_Map.SetUserWaypoint
+local C_Map_GetUserWaypointHyperlink = C_Map.GetUserWaypointHyperlink
+local C_SuperTrack_SetSuperTrackedUserWaypoint = C_SuperTrack.SetSuperTrackedUserWaypoint
+local UiMapPoint_CreateFromVector3D = UiMapPoint.CreateFromVector3D
 
 --[[
 	SoloInfo是一个告知你当前副本难度的小工具，防止我有时候单刷时进错难度了。
@@ -131,17 +137,27 @@ function Misc:RareAlert_Update(id)
 
 		local currrentTime = date("%H:%M")
 		local coordX, coordY = 0, 0
+		local mapLink
 		local mapID = C_Map_GetBestMapForUnit("player")
 		if mapID then
 			local position = C_VignetteInfo_GetVignettePosition(info.vignetteGUID, mapID)
 			if position then
 				coordX, coordY = position:GetXY()
 			end
+
+			if C_Map_CanSetUserWaypointOnMap(mapID) then
+				local mapPoint = UiMapPoint_CreateFromVector3D(mapID, position)
+				C_Map_ClearUserWaypoint()
+				C_Map_SetUserWaypoint(mapPoint)
+				C_SuperTrack_SetSuperTrackedUserWaypoint(true)
+
+				mapLink = C_Map_GetUserWaypointHyperlink()
+			end
 		end
 
 		PlaySound(9431, "master")
 		UIErrorsFrame:AddMessage(DB.InfoColor..format(">>> %s <<<", tex..(info.name or "")))
-		print(format(">>> |cff00ff00[%s]|r|cffffff00%s|r|cff00ffff[%.1f , %.1f]|r <<<", currrentTime, info.name or "", coordX*100, coordY*100))
+		print(format(">>> |cff00ff00[%s]|r|cffffff00%s|r|cff00ffff[%.1f , %.1f]%s|r <<<", currrentTime, info.name or "", coordX*100, coordY*100, mapLink or ""))
 
 		cache[id] = true
 	end

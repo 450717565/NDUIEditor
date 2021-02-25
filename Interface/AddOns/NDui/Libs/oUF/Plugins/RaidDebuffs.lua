@@ -15,7 +15,7 @@ local DispellColor = {
 	["Curse"]	= {.6, 0, 1},
 	["Disease"]	= {.6, .4, 0},
 	["Poison"]	= {0, .6, 0},
-	["none"]	= {0, 0, 0},
+	["none"]	= {1, 0, 0},
 }
 
 local DispellPriority = {
@@ -126,8 +126,8 @@ local function UpdateDebuffFrame(self, name, icon, count, debuffType, duration, 
 		end
 
 		local c = DispellColor[debuffType] or DispellColor.none
-		if rd.ShowDebuffBorder and rd.icbg then
-			rd.icbg:SetBackdropBorderColor(c[1], c[2], c[3])
+		if rd.ShowDebuffBorder and rd.bubg then
+			rd.bubg:SetBackdropBorderColor(c[1], c[2], c[3])
 		end
 
 		if rd.glowFrame then

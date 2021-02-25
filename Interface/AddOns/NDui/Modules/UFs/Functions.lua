@@ -659,7 +659,8 @@ end
 
 -- Auras Relevant
 function UF.PostCreateIcon(element, button)
-	local fontSize = element.fontSize or element.size*.6
+	local fontsize = element.fontSize or element.size*.6
+	local fontSize = B.Round(fontsize)
 	local parentFrame = CreateFrame("Frame", nil, button)
 	parentFrame:SetAllPoints()
 	parentFrame:SetFrameLevel(button:GetFrameLevel() + 3)
@@ -680,7 +681,7 @@ function UF.PostCreateIcon(element, button)
 
 	button:HookScript("OnMouseDown", Auras.RemoveSpellFromIgnoreList)
 
-	if element.disableCooldown then button.timer = B.CreateFS(button, 12) end
+	if element.disableCooldown then button.timer = B.CreateFS(button, fontSize) end
 end
 
 local filteredStyle = {
@@ -706,7 +707,9 @@ function UF.PostUpdateIcon(element, _, button, _, _, duration, expiration, debuf
 		button.icon:SetDesaturated(false)
 	end
 
-	if element.showDebuffType and button.isDebuff then
+	if style == "raid" then
+		button.icbg:SetBackdropBorderColor(0, 1, 0)
+	elseif button.isDebuff and element.showDebuffType then
 		local color = oUF.colors.debuff[debuffType] or oUF.colors.debuff.none
 		button.icbg:SetBackdropBorderColor(color[1], color[2], color[3])
 	else
@@ -825,21 +828,21 @@ function UF:CreateAuras(self)
 	bu.tooltipAnchor = "ANCHOR_BOTTOMLEFT"
 
 	if mystyle == "target" then
+		bu.initialAnchor = "TOPLEFT"
 		bu:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -6)
 		bu.numBuffs = 22
 		bu.numDebuffs = 22
 		bu.iconsPerRow = C.db["UFs"]["TargetAurasPerRow"]
 		bu.gap = true
-		bu.initialAnchor = "TOPLEFT"
 	elseif mystyle == "raid" then
 		if C.db["UFs"]["RaidBuffIndicator"] then
 			bu.initialAnchor = "RIGHT"
 			bu:SetPoint("RIGHT", self, "CENTER", -5, 0)
-			bu.size = 18*C.db["UFs"]["SimpleRaidScale"]/10
+			bu.size = B.Round(self:GetHeight()*.6*C.db["UFs"]["RaidIconScale"])
 			bu.numTotal = 1
 			bu.disableCooldown = true
 		else
-			bu:SetPoint("BOTTOMLEFT", self.Health, "BOTTOMLEFT", 0, 0)
+			bu:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 0, 0)
 			bu.numTotal = C.db["UFs"]["SimpleMode"] and not self.isPartyFrame and 0 or 6
 			bu.iconsPerRow = C.db["UFs"]["SimpleMode"] and not self.isPartyFrame and 0 or 6
 		end
@@ -847,20 +850,18 @@ function UF:CreateAuras(self)
 	elseif mystyle == "nameplate" then
 		bu.initialAnchor = "BOTTOMLEFT"
 		bu["growth-y"] = "UP"
+		bu.numTotal = C.db["Nameplate"]["MaxAuras"]
+		bu.iconsPerRow = C.db["Nameplate"]["AuraPerRow"]
+		bu.disableMouse = true
 		if C.db["Nameplate"]["ShowPlayerPlate"] and C.db["Nameplate"]["NameplateClassPower"] then
 			bu:SetPoint("BOTTOMLEFT", self.nameText, "TOPLEFT", 0, 10 + _G.oUF_ClassPowerBar:GetHeight())
 		else
 			bu:SetPoint("BOTTOMLEFT", self.nameText, "TOPLEFT", 0, 5)
 		end
-		bu.numTotal = C.db["Nameplate"]["MaxAuras"]
-		bu.disableMouse = true
-		bu.iconsPerRow = C.db["Nameplate"]["AuraPerRow"]
-		bu.showDebuffType = C.db["Nameplate"]["ColorBorder"]
-		bu["growth-y"] = "UP"
 	end
 
 	B.AuraSetSize(self, bu)
-
+	bu.showDebuffType = true
 	bu.showStealableBuffs = true
 	bu.CustomFilter = UF.CustomFilter
 	bu.PostCreateIcon = UF.PostCreateIcon
@@ -889,7 +890,6 @@ function UF:CreateBuffs(self)
 	end
 
 	B.AuraSetSize(self, bu)
-
 	bu.showStealableBuffs = true
 	bu.PostCreateIcon = UF.PostCreateIcon
 	bu.PostUpdateIcon = UF.PostUpdateIcon
@@ -900,7 +900,6 @@ end
 function UF:CreateDebuffs(self)
 	local bu = CreateFrame("Frame", nil, self)
 	bu.spacing = C.margin
-	bu.showDebuffType = true
 	bu.initialAnchor = "TOPRIGHT"
 	bu["growth-x"] = "LEFT"
 	bu["growth-y"] = "DOWN"
@@ -911,25 +910,26 @@ function UF:CreateDebuffs(self)
 		bu.num = 21
 		bu.iconsPerRow = 7
 	elseif mystyle == "boss" or mystyle == "arena" then
+		bu["growth-y"] = "UP"
 		bu:SetPoint("TOPRIGHT", self, "TOPLEFT", -5, 0)
 		bu.num = 10
 		bu.size = self:GetHeight()
 		bu.CustomFilter = UF.CustomFilter
-		bu["growth-y"] = "UP"
 	elseif mystyle == "tot" then
 		bu:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, -6)
 		bu.num = 10
 		bu.iconsPerRow = 5
 	elseif mystyle == "focus" then
+		bu.initialAnchor = "TOPLEFT"
+		bu["growth-x"] = "RIGHT"
 		bu:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -6)
 		bu.num = 14
 		bu.iconsPerRow = 7
 		bu.CustomFilter = UF.CustomFilter
-		bu.initialAnchor = "TOPLEFT"
-		bu["growth-x"] = "RIGHT"
 	end
 
 	B.AuraSetSize(self, bu)
+	bu.showDebuffType = true
 	bu.PostCreateIcon = UF.PostCreateIcon
 	bu.PostUpdateIcon = UF.PostUpdateIcon
 

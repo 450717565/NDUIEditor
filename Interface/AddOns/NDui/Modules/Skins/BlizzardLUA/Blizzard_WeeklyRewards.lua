@@ -34,7 +34,6 @@ local function Reskin_ActivityFrame(self, isObject)
 		if isObject then
 			self.Border:SetAlpha(0)
 			self.SelectedTexture:SetAlpha(0)
-			self.LockIcon:SetVertexColor(cr, cg, cb)
 
 			hooksecurefunc(self, "SetSelectionState", Update_SelectionState)
 			hooksecurefunc(self.ItemFrame, "SetDisplayedItem", Reskin_DisplayedItem)

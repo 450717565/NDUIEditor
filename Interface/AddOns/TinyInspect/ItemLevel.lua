@@ -128,6 +128,7 @@ local function SetItemLevelScheduled(button, ItemLevelFrame, link)
 				self.button.OrigItemClass = class
 				self.button.OrigItemSubClass = subclass
 				self.button.OrigItemEquipSlot = equipSlot
+
 				return true
 			end
 		end,
@@ -138,6 +139,9 @@ end
 local function SetItemLevel(self, link, category, BagID, SlotID)
 	if (not self) then return end
 	local frame = GetItemLevelFrame(self, category)
+
+	SetItemLevelString(frame.levelString, "")
+	SetItemSlotString(frame.slotString)
 	if (self.OrigItemLink == link) then
 		SetItemLevelString(frame.levelString, self.OrigItemLevel, self.OrigItemQuality, link)
 		SetItemSlotString(frame.slotString, self.OrigItemClass, self.OrigItemSubClass, self.OrigItemEquipSlot, self.OrigItemLink)
@@ -167,10 +171,8 @@ local function SetItemLevel(self, link, category, BagID, SlotID)
 				SetItemLevelString(frame.levelString, level, quality, link)
 				SetItemSlotString(frame.slotString, class, subclass, equipSlot, link)
 			end
-		else
-			SetItemLevelString(frame.levelString, "")
-			SetItemSlotString(frame.slotString)
 		end
+
 		self.OrigItemLink = link
 		self.OrigItemLevel = level
 		self.OrigItemQuality = quality
@@ -183,10 +185,12 @@ end
 --[[ All ]]
 hooksecurefunc("SetItemButtonQuality", function(self, quality, itemIDOrLink, suppressOverlays)
 	if (self.ItemLevelCategory or self.isBag) then return end
+
 	local frame = GetItemLevelFrame(self)
-	if (not EnableItemLevelOther) then
-		return frame:Hide()
-	end
+	if (not EnableItemLevelOther) then return frame:Hide() end
+
+	SetItemLevelString(frame.levelString, "")
+	SetItemSlotString(frame.slotString)
 	if (itemIDOrLink) then
 		local link
 		--Artifact
@@ -211,13 +215,7 @@ hooksecurefunc("SetItemButtonQuality", function(self, quality, itemIDOrLink, sup
 		elseif (self.Tooltip) then
 			link = select(2, self.Tooltip:GetItem())
 			SetItemLevel(self, link)
-		else
-			SetItemLevelString(frame.levelString, "")
-			SetItemSlotString(frame.slotString)
 		end
-	else
-		SetItemLevelString(frame.levelString, "")
-		SetItemSlotString(frame.slotString)
 	end
 end)
 

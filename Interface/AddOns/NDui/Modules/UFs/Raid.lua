@@ -121,18 +121,19 @@ local function buttonOnEnter(self)
 end
 
 function UF:CreateRaidDebuffs(self)
-	local scale = C.db["UFs"]["RaidDebuffScale"]
-	local size = 18
+	local scale = C.db["UFs"]["RaidIconScale"]
+	local iconSize = B.Round(self:GetHeight()*.6)
+	local fontSize = B.Round(iconSize*.6)
 
 	local bu = CreateFrame("Frame", nil, self)
-	bu:SetSize(size, size)
-	bu:SetPoint("RIGHT", -15, 0)
+	bu:SetSize(iconSize, iconSize)
+	bu:SetPoint("LEFT", self, "CENTER", 5, 0)
 	bu:SetFrameLevel(self:GetFrameLevel() + 3)
 	bu:SetScale(scale)
 	bu:Hide()
 
-	bu.glowFrame = B.CreateGlowFrame(bu, size)
-	bu.bubg = B.CreateBDFrame(bu)
+	bu.glowFrame = B.CreateGlowFrame(bu, iconSize)
+	bu.bubg = B.CreateBDFrame(bu, 0, -C.mult)
 
 	local icon = bu:CreateTexture(nil, "ARTWORK")
 	icon:SetInside(bu.bubg)
@@ -142,8 +143,10 @@ function UF:CreateRaidDebuffs(self)
 	local parentFrame = CreateFrame("Frame", nil, bu)
 	parentFrame:SetAllPoints()
 	parentFrame:SetFrameLevel(bu:GetFrameLevel() + 6)
-	bu.count = B.CreateFS(parentFrame, 12, "", false, "BOTTOMRIGHT", 6, -3)
-	bu.timer = B.CreateFS(parentFrame, 12, "", false, "CENTER", 1, 0)
+	bu.count = B.CreateFS(parentFrame, fontSize, "", false, "BOTTOMRIGHT", 6, -3)
+	bu.count:SetScale(scale)
+	bu.timer = B.CreateFS(parentFrame, fontSize, "", false, "CENTER", 1, 0)
+	bu.timer:SetScale(scale)
 
 	if not C.db["UFs"]["AurasClickThrough"] then
 		bu:SetScript("OnEnter", buttonOnEnter)
@@ -474,18 +477,21 @@ function UF:CreateBuffIndicator(self)
 	if not C.db["UFs"]["RaidBuffIndicator"] then return end
 	if C.db["UFs"]["SimpleMode"] and not self.isPartyFrame then return end
 
+	local scale = C.db["UFs"]["BuffIndicatorScale"]
+	local iconSize = B.Round(self:GetHeight()*.4)
+	local fontSize = B.Round(iconSize*.6)
 	local anchors = {"TOPLEFT", "TOP", "TOPRIGHT", "LEFT", "RIGHT", "BOTTOMLEFT", "BOTTOM", "BOTTOMRIGHT"}
 	local buttons = {}
 	for _, anchor in pairs(anchors) do
 		local bu = CreateFrame("Frame", nil, self)
 		bu:SetFrameLevel(self:GetFrameLevel() + 10)
-		bu:SetSize(10, 10)
-		bu:SetScale(C.db["UFs"]["BuffIndicatorScale"])
+		bu:SetSize(iconSize, iconSize)
+		bu:SetScale(scale)
 		bu:SetPoint(anchor)
 		bu:Hide()
 
-		bu.timer = B.CreateFS(bu, 12, "", false, "CENTER", -counterOffsets[anchor][2][3], 0)
-		bu.count = B.CreateFS(bu, 12)
+		bu.timer = B.CreateFS(bu, fontSize, "", false, "CENTER", -counterOffsets[anchor][2][3], 0)
+		bu.count = B.CreateFS(bu, fontSize)
 		bu.bubg = B.CreateBDFrame(bu)
 
 		local icon = bu:CreateTexture(nil, "BORDER")
@@ -513,8 +519,11 @@ end
 function UF:RefreshRaidFrameIcons()
 	for _, frame in pairs(oUF.objects) do
 		if frame.mystyle == "raid" then
+			if frame.Auras and C.db["UFs"]["RaidBuffIndicator"] then
+				frame.Auras:SetScale(C.db["UFs"]["RaidIconScale"])
+			end
 			if frame.RaidDebuffs then
-				frame.RaidDebuffs:SetScale(C.db["UFs"]["RaidDebuffScale"])
+				frame.RaidDebuffs:SetScale(C.db["UFs"]["RaidIconScale"])
 			end
 			if frame.BuffIndicator then
 				for _, bu in pairs(frame.BuffIndicator) do

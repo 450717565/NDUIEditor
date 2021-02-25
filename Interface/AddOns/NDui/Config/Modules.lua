@@ -27,7 +27,7 @@ C.Bars = {
 -- BUFF/DEBUFF相关
 C.Auras = {
 	BuffPos			= {"TOPRIGHT", Minimap, "TOPLEFT", -15, 0},			-- BUFF默认位置
-	TotemsPos		= {"BOTTOMRIGHT", UIParent, "BOTTOM", -450, 263},	-- 图腾助手默认位置
+	TotemsPos		= {"BOTTOMRIGHT", UIParent, "BOTTOM", -455, 263},	-- 图腾助手默认位置
 
 	-- 技能监控各组初始位置
 	RaidBuffPos		= {"BOTTOMRIGHT", UIParent, "CENTER", -200, 200},		-- 团队增益分组
