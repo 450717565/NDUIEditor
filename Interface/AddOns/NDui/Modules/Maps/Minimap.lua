@@ -235,8 +235,7 @@ function Maps:RecycleBin()
 	}
 
 	local function KillMinimapButton(child, name)
-		for j = 1, child:GetNumRegions() do
-			local region = select(j, child:GetRegions())
+		for _, region in pairs {child:GetRegions()} do
 			if region:IsObjectType("Texture") then
 				local texture = region:GetTexture() or ""
 				if removedTextures[texture] or strfind(texture, "Interface\\CharacterFrame") or strfind(texture, "Interface\\Minimap") then
@@ -248,6 +247,7 @@ function Maps:RecycleBin()
 					region:SetTexCoord(tL, tR, tT, tB)
 				end
 			end
+
 			child:SetSize(34, 34)
 		end
 
@@ -262,11 +262,12 @@ function Maps:RecycleBin()
 				if child:HasScript("OnDragStart") then child:SetScript("OnDragStart", nil) end
 				if child:HasScript("OnClick") then child:HookScript("OnClick", clickFunc) end
 
+				local bubg = B.CreateBDFrame(child, 0, -C.mult)
 				if child:IsObjectType("Button") then
-					B.ReskinHighlight(child)
+					B.ReskinHighlight(child, bubg)
 				elseif child:IsObjectType("Frame") then
 					child.highlight = child:CreateTexture(nil, "HIGHLIGHT")
-					B.ReskinHighlight(child.highlight)
+					B.ReskinHighlight(child.highlight, bubg)
 				end
 
 				-- Naughty Addons
@@ -277,8 +278,6 @@ function Maps:RecycleBin()
 				elseif name == "BagSync_MinimapButton" then
 					child:HookScript("OnMouseUp", clickFunc)
 				end
-
-				B.CreateBDFrame(child, 0, -C.mult)
 
 				child.styled = true
 			end
@@ -405,9 +404,8 @@ function Maps:ShowCalendar()
 			GameTimeFrame:SetPoint("BOTTOMRIGHT", Minimap, 1, 18)
 			GameTimeFrame:SetHitRectInsets(0, 0, 0, 0)
 
-			for i = 1, GameTimeFrame:GetNumRegions() do
-				local region = select(i, GameTimeFrame:GetRegions())
-				if region.SetTextColor then
+			for _, region in pairs {GameTimeFrame:GetRegions()} do
+				if region and region.SetTextColor then
 					region:SetFont(unpack(DB.Font))
 					B.ReskinText(region, cr, cg, cb)
 

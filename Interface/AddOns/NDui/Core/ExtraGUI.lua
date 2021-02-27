@@ -474,7 +474,6 @@ function GUI:SetupPartyWatcher(parent)
 	local scroll = GUI:CreateScroll(frame, 240, 410)
 	scroll.reset = B.CreateButton(frame, 55, 25, RESET)
 	scroll.reset:SetPoint("TOPLEFT", 10, -80)
-	scroll.reset.text:SetTextColor(1, 0, 0)
 	StaticPopupDialogs["RESET_NDUI_PARTYWATCHER"] = {
 		text = L["Reset your raiddebuffs list?"],
 		button1 = YES,
@@ -547,7 +546,6 @@ function GUI:SetupPartyWatcher(parent)
 	end
 	scroll.preset = B.CreateButton(frame, 55, 25, L["Preset"])
 	scroll.preset:SetPoint("RIGHT", scroll.clear, "LEFT", -5, 0)
-	scroll.preset.text:SetTextColor(1, .8, 0)
 	scroll.preset:SetScript("OnClick", function(self)
 		EasyMenu(menuList, B.EasyMenu, self, -100, 100, "MENU", 1)
 	end)

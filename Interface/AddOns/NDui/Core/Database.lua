@@ -77,9 +77,10 @@ DB.menuTex = Media.."Menu\\"
 DB.targetTex = Media.."Target\\targetTex_"
 DB.rotationRigh = Media.."Other\\RotationRigh_Big"
 
-DB.normTex = Media.."normTex"
-DB.gradTex = Media.."gradTex"
-DB.flatTex = Media.."flatTex"
+DB.normTex = Media.."Texture\\normTex"
+DB.gradTex = Media.."Texture\\gradTex"
+DB.flatTex = Media.."Texture\\flatTex"
+DB.rhomTex = Media.."Texture\\rhomTex"
 
 DB.bgTex = "Interface\\ChatFrame\\ChatFrameBackground"
 DB.binTex = "Interface\\HelpFrame\\ReportLagIcon-Loot"

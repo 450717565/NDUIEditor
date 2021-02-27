@@ -134,6 +134,7 @@ function UF:CreateRaidDebuffs(self)
 
 	bu.glowFrame = B.CreateGlowFrame(bu, iconSize)
 	bu.bubg = B.CreateBDFrame(bu, 0, -C.mult)
+	bu.bubg:SetFrameLevel(bu:GetFrameLevel())
 
 	local icon = bu:CreateTexture(nil, "ARTWORK")
 	icon:SetInside(bu.bubg)
@@ -144,9 +145,7 @@ function UF:CreateRaidDebuffs(self)
 	parentFrame:SetAllPoints()
 	parentFrame:SetFrameLevel(bu:GetFrameLevel() + 6)
 	bu.count = B.CreateFS(parentFrame, fontSize, "", false, "BOTTOMRIGHT", 6, -3)
-	bu.count:SetScale(scale)
 	bu.timer = B.CreateFS(parentFrame, fontSize, "", false, "CENTER", 1, 0)
-	bu.timer:SetScale(scale)
 
 	if not C.db["UFs"]["AurasClickThrough"] then
 		bu:SetScript("OnEnter", buttonOnEnter)

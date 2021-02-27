@@ -413,7 +413,7 @@ GUI.AccountSettings = {
 	BWRequest = false,
 	RaidAuraWatch = {},
 	RaidClickSets = {},
-	TexStyle = 3,
+	TexStyle = 4,
 	KeystoneInfo = {},
 	AutoBubbles = false,
 	DisableInfobars = false,
@@ -433,6 +433,7 @@ GUI.TextureList = {
 	[1] = {texture = DB.normTex, name = L["Highlight"]},
 	[2] = {texture = DB.gradTex, name = L["Gradient"]},
 	[3] = {texture = DB.flatTex, name = L["Flat"]},
+	[4] = {texture = DB.rhomTex, name = L["Rhomb"]},
 }
 
 local function InitialSettings(source, target, fullClean)
@@ -491,7 +492,7 @@ loader:SetScript("OnEvent", function(self, _, addon)
 		DB.normTex = "Interface\\"..NDuiADB["CustomTex"]
 	else
 		if not GUI.TextureList[NDuiADB["TexStyle"]] then
-			NDuiADB["TexStyle"] = 2 -- reset value if not exists
+			NDuiADB["TexStyle"] = 4 -- reset value if not exists
 		end
 		DB.normTex = GUI.TextureList[NDuiADB["TexStyle"]].texture
 	end

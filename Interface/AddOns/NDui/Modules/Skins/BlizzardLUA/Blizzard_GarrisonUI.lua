@@ -693,6 +693,26 @@ local function Reskin_CovenantMissionFrameSetupTabs(self)
 	self.MapTab:SetShown(not self.Tab2:IsShown())
 end
 
+local function Reskin_LandingPageReport(self)
+	local unselectedTab = GarrisonLandingPage.Report.unselectedTab
+	B.CleanTextures(unselectedTab)
+	unselectedTab:SetHeight(36)
+	unselectedTab.selectedTex:Hide()
+
+	B.CleanTextures(self)
+	self.selectedTex:Show()
+end
+
+local function Reskin_OrderHallMissionFrame()
+	local PortraitFrame = OrderHallMissionFrameMissions.CombatAllyUI.InProgress.PortraitFrame
+	if PortraitFrame:IsShown() then
+		S.UpdateFollowerQuality(PortraitFrame)
+	end
+
+	CombatAllyUI.Available.AddFollowerButton.EmptyPortrait:SetAlpha(0)
+	CombatAllyUI.Available.AddFollowerButton.PortraitHighlight:SetAlpha(0)
+end
+
 C.LUAThemes["Blizzard_GarrisonUI"] = function()
 	GARRISON_FOLLOWER_ITEM_LEVEL = "iLvl %d"
 
@@ -736,20 +756,12 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 		local bg = B.CreateBDFrame(tab)
 		local selectedTex = bg:CreateTexture(nil, "BACKGROUND")
 		selectedTex:SetAllPoints()
-		selectedTex:SetColorTexture(cr, cg, cb, .25)
+		selectedTex:SetColorTexture(cr, cg, cb, .5)
 		selectedTex:Hide()
 		tab.selectedTex = selectedTex
 	end
 
-	hooksecurefunc("GarrisonLandingPageReport_SetTab", function(self)
-		local unselectedTab = Report.unselectedTab
-		B.CleanTextures(unselectedTab)
-		unselectedTab:SetHeight(36)
-		unselectedTab.selectedTex:Hide()
-
-		B.CleanTextures(self)
-		self.selectedTex:Show()
-	end)
+	hooksecurefunc("GarrisonLandingPageReport_SetTab", Reskin_LandingPageReport)
 
 	local scrollFrame = Report.List.listScroll
 	B.ReskinScroll(scrollFrame.scrollBar)
@@ -787,13 +799,7 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 
 	local PortraitFrame = CombatAllyUI.InProgress.PortraitFrame
 	S.ReskinFollowerPortrait(PortraitFrame)
-	OrderHallMissionFrame:HookScript("OnShow", function()
-		if PortraitFrame:IsShown() then
-			S.UpdateFollowerQuality(PortraitFrame)
-		end
-		CombatAllyUI.Available.AddFollowerButton.EmptyPortrait:SetAlpha(0)
-		CombatAllyUI.Available.AddFollowerButton.PortraitHighlight:SetAlpha(0)
-	end)
+	OrderHallMissionFrame:HookScript("OnShow", Reskin_OrderHallMissionFrame)
 
 	-- ZoneSupportMissionPage
 	local ZoneSupportMissionPage = OrderHallMissionFrame.MissionTab.ZoneSupportMissionPage
@@ -993,6 +999,7 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 	hooksecurefunc(CovenantMissionFrame, "SetupTabs", Reskin_CovenantMissionFrameSetupTabs)
 
 	B.StripTextures(CombatLog)
+	B.StripTextures(CombatLog.ElevatedFrame)
 	B.StripTextures(CombatLog.CombatLogMessageFrame)
 	B.CreateBDFrame(CombatLog.CombatLogMessageFrame)
 	B.ReskinScroll(CombatLog.CombatLogMessageFrame.ScrollBar)
@@ -1110,77 +1117,90 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 
 	-- VenturePlan
 	if IsAddOnLoaded("VenturePlan") then
-		local VenturePlanFrame
+		local VP_Frame, VP_CopyBox, VP_Missions, VP_UnButton, VP_Follower
 
 		local function Reskin_VenturePlan(self)
-			B.StripTextures(self.MissionList)
-			self.MissionList:GetChildren():Hide()
+			if not VP_Missions then
+				local missionList = self:GetChildren()
+				B.StripTextures(missionList)
 
-			local Missions = self.MissionList.Missions
-			for i = 1, #Missions do
-				local mission = Missions[i]
-				if not mission.styled then
-					B.ReskinButton(mission.ViewButton)
-					B.ReskinText(mission.Description, 1, 1, 1)
+				local background, frame = missionList:GetChildren()
+				B.StripTextures(background)
 
-					if mission.CDTDisplay.GetFontString then
-						B.ReskinText(mission.CDTDisplay:GetFontString(), 1, 1, 0)
-					else
-						B.ReskinText(mission.CDTDisplay, 1, 1, 0)
-					end
+				VP_Missions = frame
+			end
 
-					if mission.DoomRunButton then
-						mission.DoomRunButton:SetSize(21, 21)
-						mission.DoomRunButton:ClearAllPoints()
-						mission.DoomRunButton:SetPoint("RIGHT", mission.ViewButton, "LEFT", -1, 0)
-						B.ReskinButton(mission.DoomRunButton)
-					end
-
-					if mission.TentativeClear then
-						mission.TentativeClear:SetSize(21, 21)
-						mission.TentativeClear:ClearAllPoints()
-						mission.TentativeClear:SetPoint("RIGHT", mission.ViewButton, "LEFT", -1, 0)
-						B.ReskinButton(mission.TentativeClear)
-					end
-
-					for j = 1, mission.statLine:GetNumRegions() do
-						local stat = select(j, mission.statLine:GetRegions())
-						if stat and stat:IsObjectType("FontString") then
-							B.ReskinText(stat, 0, 1, 0)
+			if VP_Missions then
+				for _, mission in pairs {VP_Missions:GetChildren()} do
+					if mission and not mission.styled then
+						for _, button in pairs {mission:GetChildren()} do
+							if button:IsObjectType("Button") and button ~= mission.CDTDisplay then
+								B.ReskinButton(button)
+							end
 						end
-					end
+						B.ReskinText(mission.CDTDisplay:GetFontString(), 1, 1, 0)
 
-					mission.styled = true
+						mission.styled = true
+					end
 				end
+			end
+
+			if not VP_UnButton then
+				VP_UnButton = select(8, self:GetChildren())
+			end
+
+			if VP_UnButton and not VP_UnButton.styled then
+				B.ReskinButton(VP_UnButton)
+
+				VP_UnButton.styled = true
 			end
 		end
 
-		local function SearchMissionBoard()
-			local MissionTab = CovenantMissionFrame.MissionTab
-			for _, child in pairs {MissionTab:GetChildren()} do
-				if child and child.MissionList then
-					VenturePlanFrame = child
+		local function Reskin_FollowerBG()
+			VP_Follower = select(15, CovenantMissionFrame:GetChildren())
+			if VP_Follower and not VP_Follower.styled then
+				B.StripTextures(VP_Follower)
+				B.CreateBDFrame(VP_Follower)
 
-					break
+				VP_Follower.styled = true
+			end
+		end
+
+		local function Search_MissionBoard()
+			local missionTab = CovenantMissionFrame.MissionTab
+			for _, child in pairs {missionTab:GetChildren()} do
+				if child then
+					for _, child2 in pairs {child:GetChildren()} do
+						if child2 and child2.FirstInputBoxLabel then
+							VP_Frame = child
+							VP_CopyBox = child2
+
+							break
+						end
+					end
 				end
 			end
-			if not VenturePlanFrame then return end
 
-			Reskin_VenturePlan(VenturePlanFrame)
-			VenturePlanFrame:HookScript("OnShow", Reskin_VenturePlan)
-			if VenturePlanFrame.UnButton then B.ReskinButton(VenturePlanFrame.UnButton) end
+			if VP_Frame then
+				Reskin_VenturePlan(VP_Frame)
+				VP_Frame:HookScript("OnShow", Reskin_VenturePlan)
+			end
 
-			local CopyBox = VenturePlanFrame.CopyBox
-			B.ReskinButton(CopyBox.ResetButton)
-			B.ReskinClose(CopyBox.CloseButton2, nil, -12, -12)
-			B.ReskinInput(CopyBox.FirstInputBox)
-			B.ReskinInput(CopyBox.SecondInputBox)
-			B.ReskinText(CopyBox.Intro, 1, 1, 1)
-			B.ReskinText(CopyBox.FirstInputBoxLabel, 1, .8, 0)
-			B.ReskinText(CopyBox.SecondInputBoxLabel, 1, .8, 0)
-			B.ReskinText(CopyBox.VersionText, 1, 1, 1)
+			if VP_CopyBox then
+				B.ReskinButton(VP_CopyBox.ResetButton)
+				B.ReskinClose(VP_CopyBox.CloseButton2, nil, -12, -12)
+				B.ReskinInput(VP_CopyBox.FirstInputBox)
+				B.ReskinInput(VP_CopyBox.SecondInputBox)
+				B.ReskinText(VP_CopyBox.Intro, 1, 1, 1)
+				B.ReskinText(VP_CopyBox.FirstInputBoxLabel, 1, .8, 0)
+				B.ReskinText(VP_CopyBox.SecondInputBoxLabel, 1, .8, 0)
+				B.ReskinText(VP_CopyBox.VersionText, 1, 1, 1)
+			end
 
-			local missionBoard = CovenantMissionFrame.MissionTab.MissionPage.Board
+			local missionPage = CovenantMissionFrame.MissionTab.MissionPage
+			missionPage:HookScript("OnShow", Reskin_FollowerBG)
+
+			local missionBoard = missionPage.Board
 			for _, child in pairs {missionBoard:GetChildren()} do
 				if child and child:IsObjectType("Button") and not child.styled then
 					local icbg = B.ReskinIcon(child:GetNormalTexture())
@@ -1198,8 +1218,8 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 		end
 
 		CovenantMissionFrame:HookScript("OnShow", function()
-			if not VenturePlanFrame then
-				C_Timer.After(.1, SearchMissionBoard)
+			if not VP_Frame then
+				C_Timer.After(.1, Search_MissionBoard)
 			end
 		end)
 	end
@@ -1242,6 +1262,30 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 	end
 end
 
+local function Reskin_OrderHallTalentFrame(self)
+	B.StripTextures(self)
+
+	if self.CurrencyBG then self.CurrencyBG:SetAlpha(0) end
+	if self.CloseButton.Border then self.CloseButton.Border:SetAlpha(0) end
+
+	for _, button in pairs {self:GetChildren()} do
+		if button and button.talent then
+			button.Border:SetAlpha(0)
+
+			if not button.icbg then
+				button.icbg = B.ReskinIcon(button.Icon)
+				B.ReskinHighlight(button.Highlight, button.icbg)
+			end
+
+			if button.talent.selected then
+				button.icbg:SetBackdropBorderColor(cr, cg, cb)
+			else
+				button.icbg:SetBackdropBorderColor(0, 0, 0)
+			end
+		end
+	end
+end
+
 C.LUAThemes["Blizzard_OrderHallUI"] = function()
 	OrderHallTalentFrame.OverlayElements:Hide()
 
@@ -1249,27 +1293,5 @@ C.LUAThemes["Blizzard_OrderHallUI"] = function()
 	B.ReskinIcon(OrderHallTalentFrame.Currency.Icon)
 	B.ReskinButton(OrderHallTalentFrame.BackButton)
 
-	hooksecurefunc(OrderHallTalentFrame, "RefreshAllData", function(self)
-		B.StripTextures(self)
-
-		if self.CurrencyBG then self.CurrencyBG:SetAlpha(0) end
-		if self.CloseButton.Border then self.CloseButton.Border:SetAlpha(0) end
-
-		for _, button in pairs {self:GetChildren()} do
-			if button and button.talent then
-				button.Border:SetAlpha(0)
-
-				if not button.icbg then
-					button.icbg = B.ReskinIcon(button.Icon)
-					B.ReskinHighlight(button.Highlight, button.icbg)
-				end
-
-				if button.talent.selected then
-					button.icbg:SetBackdropBorderColor(cr, cg, cb)
-				else
-					button.icbg:SetBackdropBorderColor(0, 0, 0)
-				end
-			end
-		end
-	end)
+	hooksecurefunc(OrderHallTalentFrame, "RefreshAllData", Reskin_OrderHallTalentFrame)
 end

@@ -668,6 +668,7 @@ function UF.PostCreateIcon(element, button)
 
 	button.glowFrame = B.CreateGlowFrame(button, element.size)
 	button.icbg = B.ReskinIcon(button.icon)
+	button.icbg:SetFrameLevel(button:GetFrameLevel())
 
 	button.HL = button:CreateTexture(nil, "HIGHLIGHT")
 	button.HL:SetColorTexture(1, 1, 1, .25)
@@ -1305,11 +1306,8 @@ function UF:CreateFCT(self)
 	local parentFrame = CreateFrame("Frame", nil, UIParent)
 	local fcf = CreateFrame("Frame", "oUF_CombatTextFrame", parentFrame)
 	fcf:SetSize(32, 32)
-	if self.mystyle == "player" then
-		B.Mover(fcf, L["CombatText"], "PlayerCombatText", {"BOTTOM", self, "TOPLEFT", 0, 120})
-	else
-		B.Mover(fcf, L["CombatText"], "TargetCombatText", {"BOTTOM", self, "TOPRIGHT", 0, 120})
-	end
+
+	B.Mover(fcf, L["CombatText"], "TargetCombatText", {"BOTTOM", self, "TOP", 0, 150})
 
 	for i = 1, 36 do
 		fcf[i] = parentFrame:CreateFontString("$parentText", "OVERLAY")

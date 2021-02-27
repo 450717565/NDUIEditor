@@ -452,9 +452,8 @@ function TT:SetupTooltipFonts()
 	end
 
 	for _, tt in ipairs(GameTooltip.shoppingTooltips) do
-		for i = 1, tt:GetNumRegions() do
-			local region = select(i, tt:GetRegions())
-			if region:IsObjectType("FontString") then
+		for _, region in pairs {tt:GetRegions()} do
+			if region and region:IsObjectType("FontString") then
 				TooltipSetFont(region, textSize)
 			end
 		end

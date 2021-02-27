@@ -317,7 +317,7 @@ function UF:OnLogin()
 			oUF:SetActiveStyle("Party")
 
 			local xOffset, yOffset = 5, 5
-			local partyFrameHeight = partyHeight + C.db["UFs"]["PartyPowerHeight"] + C.mult
+			local partyFrameHeight = partyHeight + C.db["UFs"]["PartyPowerHeight"]
 			local moverWidth = horizonParty and (partyWidth*5+xOffset*4) or partyWidth
 			local moverHeight = horizonParty and partyFrameHeight or (partyFrameHeight*5+yOffset*4)
 			local groupingOrder = horizonParty and "TANK,HEALER,DAMAGER,NONE" or "NONE,DAMAGER,HEALER,TANK"
@@ -339,7 +339,7 @@ function UF:OnLogin()
 			self:SetHeight(%d)
 			]]):format(partyWidth, partyFrameHeight))
 
-			partyMover = B.Mover(party, L["PartyFrame"], "PartyFrame", {"LEFT", UIParent, 350, 0}, moverWidth, moverHeight)
+			partyMover = B.Mover(party, L["PartyFrame"], "PartyFrame", {"LEFT", UIParent, 350, 70}, moverWidth, moverHeight)
 			party:ClearAllPoints()
 			party:SetPoint("BOTTOMLEFT", partyMover)
 
@@ -347,7 +347,7 @@ function UF:OnLogin()
 				oUF:RegisterStyle("PartyPet", CreatePartyPetStyle)
 				oUF:SetActiveStyle("PartyPet")
 
-				local petFrameHeight = petHeight + C.db["UFs"]["PartyPetPowerHeight"] + C.mult
+				local petFrameHeight = petHeight + C.db["UFs"]["PartyPetPowerHeight"]
 				local petMoverWidth = horizonParty and (petWidth*5+xOffset*4) or petWidth
 				local petMoverHeight = horizonParty and petFrameHeight or (petFrameHeight*5+yOffset*4)
 
@@ -418,7 +418,7 @@ function UF:OnLogin()
 			local group = CreateGroup("oUF_Raid", groupFilter)
 			local moverWidth = (100*scale*maxColumns + 5*(maxColumns-1))
 			local moverHeight = 20*scale*unitsPerColumn + 5*(unitsPerColumn-1)
-			raidMover = B.Mover(group, L["RaidFrame"], "RaidFrame", {"TOPLEFT", UIParent, 35, -50}, moverWidth, moverHeight)
+			raidMover = B.Mover(group, L["RaidFrame"], "RaidFrame", {"TOPLEFT", UIParent, 20, -40}, moverWidth, moverHeight)
 
 			local groupByTypes = {
 				[1] = {"1,2,3,4,5,6,7,8", "GROUP", "INDEX"},
@@ -433,7 +433,7 @@ function UF:OnLogin()
 			end
 			UF:UpdateSimpleModeHeader()
 		else
-			local raidFrameHeight = raidHeight + C.db["UFs"]["RaidPowerHeight"] + C.mult
+			local raidFrameHeight = raidHeight + C.db["UFs"]["RaidPowerHeight"]
 
 			local function CreateGroup(name, i)
 				local group = oUF:SpawnHeader(name, nil, "solo,party,raid",
@@ -464,13 +464,13 @@ function UF:OnLogin()
 				groups[i] = CreateGroup("oUF_Raid"..i, i)
 				if i == 1 then
 					if horizonRaid then
-						raidMover = B.Mover(groups[i], L["RaidFrame"], "RaidFrame", {"TOPLEFT", UIParent, 35, -50}, (raidWidth+5)*5-5, (raidFrameHeight+(showTeamIndex and 20 or 5))*numGroups - (showTeamIndex and 20 or 5))
+						raidMover = B.Mover(groups[i], L["RaidFrame"], "RaidFrame", {"TOPLEFT", UIParent, 20, -40}, (raidWidth+5)*5-5, (raidFrameHeight+(showTeamIndex and 20 or 5))*numGroups - (showTeamIndex and 20 or 5))
 						if reverse then
 							groups[i]:ClearAllPoints()
 							groups[i]:SetPoint("BOTTOMLEFT", raidMover)
 						end
 					else
-						raidMover = B.Mover(groups[i], L["RaidFrame"], "RaidFrame", {"TOPLEFT", UIParent, 35, -50}, (raidWidth+5)*numGroups-5, (raidFrameHeight+5)*5-5)
+						raidMover = B.Mover(groups[i], L["RaidFrame"], "RaidFrame", {"TOPLEFT", UIParent, 20, -40}, (raidWidth+5)*numGroups-5, (raidFrameHeight+5)*5-5)
 						if reverse then
 							groups[i]:ClearAllPoints()
 							groups[i]:SetPoint("TOPRIGHT", raidMover)
@@ -512,7 +512,7 @@ function UF:OnLogin()
 					if not specIndex then return end
 
 					if not C.db["Mover"]["RaidPos"..specIndex] then
-						C.db["Mover"]["RaidPos"..specIndex] = {"TOPLEFT", "UIParent", "TOPLEFT", 35, -50}
+						C.db["Mover"]["RaidPos"..specIndex] = {"TOPLEFT", "UIParent", "TOPLEFT", 20, -40}
 					end
 					if raidMover then
 						raidMover:ClearAllPoints()

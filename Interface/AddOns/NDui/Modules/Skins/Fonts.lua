@@ -192,6 +192,7 @@ function Skins:Fonts()
 
 	local whiteList = {
 		CoreAbilityFont,
+		GameFontBlack,
 		GameFontBlackMedium,
 		InvoiceTextFontSmall,
 		MailTextFontNormal,

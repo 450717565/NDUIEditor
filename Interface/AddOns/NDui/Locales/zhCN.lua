@@ -98,6 +98,7 @@ L["Shadow Color"] = "阴影颜色"
 L["Free Mount CD"] = "公益免费CD君"
 L["ClassColor Shadow"] = "阴影采用职业色"
 L["Expansion Version"] = "资料片版本"
+L["Rhomb"] = "菱形"
 
 L["Global Fade"] = "全局渐隐"
 L["Global Fade Alpha"] = "渐隐透明度"

@@ -106,8 +106,7 @@ end
 
 local function Reskin_ListHeader(self)
 	local maxHeaders = self.HeaderContainer:GetNumChildren()
-	for i = 1, maxHeaders do
-		local header = select(i, self.HeaderContainer:GetChildren())
+	for index, header in pairs {self.HeaderContainer:GetChildren()} do
 		if header then
 			if not header.bg then
 				header:DisableDrawLayer("BACKGROUND")
@@ -116,7 +115,7 @@ local function Reskin_ListHeader(self)
 			end
 
 			if header.bg then
-				header.bg:SetPoint("BOTTOMRIGHT", i < maxHeaders and -6 or 0, -2)
+				header.bg:SetPoint("BOTTOMRIGHT", index < maxHeaders and -6 or 0, -2)
 			end
 		end
 	end

@@ -28,9 +28,8 @@ end
 local function StripMS_Textures(self)
 	if self.NineSlice then self.NineSlice:Hide() end
 
-	if self.GetNumRegions then
-		for i = 1, self:GetNumRegions() do
-			local region = select(i, self:GetRegions())
+	if self.GetRegions then
+		for _, region in pairs {self:GetRegions()} do
 			if region and region.IsObjectType and region:IsObjectType("Texture") then
 				region:SetAlpha(0)
 				region:Hide()
