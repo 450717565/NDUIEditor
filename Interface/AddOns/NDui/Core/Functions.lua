@@ -440,7 +440,7 @@ do
 		end
 
 		if self.GetRegions then
-			for _, region in pairs {self:GetRegions()} do
+			for index, region in pairs {self:GetRegions()} do
 				if region and region.IsObjectType and region:IsObjectType("Texture") then
 					if kill and type(kill) == "boolean" then
 						B.HideObject(region)
@@ -448,7 +448,7 @@ do
 						if kill == 0 then
 							region:SetAlpha(0)
 							region:Hide()
-						elseif i ~= kill then
+						elseif index ~= kill then
 							region:SetAlpha(0)
 							region:Hide()
 						end
@@ -1775,6 +1775,7 @@ do
 
 		local bu = CreateFrame("Button", nil, dd)
 		bu:SetPoint("RIGHT", -5, 0)
+		bu:SetFrameLevel(dd:GetFrameLevel())
 		B.ReskinArrow(bu, "down")
 
 		local list = CreateFrame("Frame", nil, dd, "BackdropTemplate")

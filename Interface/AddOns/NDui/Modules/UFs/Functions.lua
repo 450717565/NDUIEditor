@@ -668,7 +668,6 @@ function UF.PostCreateIcon(element, button)
 
 	button.glowFrame = B.CreateGlowFrame(button, element.size)
 	button.icbg = B.ReskinIcon(button.icon)
-	button.icbg:SetFrameLevel(button:GetFrameLevel())
 
 	button.HL = button:CreateTexture(nil, "HIGHLIGHT")
 	button.HL:SetColorTexture(1, 1, 1, .25)
@@ -683,6 +682,9 @@ function UF.PostCreateIcon(element, button)
 	button:HookScript("OnMouseDown", Auras.RemoveSpellFromIgnoreList)
 
 	if element.disableCooldown then button.timer = B.CreateFS(button, fontSize) end
+	if element.__owner.mystyle == "raid" and C.db["UFs"]["RaidBuffIndicator"] then
+		button.icbg:SetFrameLevel(button:GetFrameLevel())
+	end
 end
 
 local filteredStyle = {

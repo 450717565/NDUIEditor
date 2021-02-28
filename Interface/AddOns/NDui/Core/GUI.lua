@@ -325,7 +325,6 @@ GUI.DefaultSettings = {
 		AzeriteTraits = true,
 		MissingStats = true,
 		SoloInfo = true,
-		RareAlerter = true,
 		Focuser = true,
 		ExpRep = true,
 		Screenshot = true,
@@ -359,6 +358,9 @@ GUI.DefaultSettings = {
 		SendActionCD = false,
 		MawThreatBar = true,
 		MDGuildBest = true,
+
+		RareAlerter = true,
+		RareAlertMode = 3,
 	},
 	Tutorial = {
 		Complete = false,
@@ -1011,7 +1013,8 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Misc", "NzothVision", L["NzothVision"], true},
 		{},--blank
 		{1, "Misc", "RareAlerter", DB.MyColor..L["Rare Alert"].."*", nil, nil, updateRareAlert},
-		{1, "Misc", "RareAlertInWild", L["RareAlertInWild"].."*", true},
+		{1, "Misc", "RareAlertInWild", L["Rare Alert InWild"].."*"},
+		{4, "Misc", "RareAlertMode", L["Rare Alert Mode"].."*", true, {DISABLE, L["Alert Mode 1"], L["Alert Mode 2"]}},
 	},
 	[9] = {
 		{1, "Chat", "Lock", DB.MyColor..L["Lock Chat"]},

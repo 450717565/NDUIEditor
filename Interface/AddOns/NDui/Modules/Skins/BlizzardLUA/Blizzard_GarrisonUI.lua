@@ -1117,111 +1117,64 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 
 	-- VenturePlan
 	if IsAddOnLoaded("VenturePlan") then
-		local VP_Frame, VP_CopyBox, VP_Missions, VP_UnButton, VP_Follower
+		function VPEX_OnUIObjectCreated(otype, widget, peek)
+			if widget:IsObjectType("Frame") then
+				if otype == "MissionButton" then
+					B.ReskinText(peek("Description"), 1, 1, 1)
+					B.ReskinText(peek("enemyHP"), 0, 1, 0)
+					B.ReskinText(peek("enemyATK"), 0, 1, 0)
+					B.ReskinText(peek("animaCost"), 0, 1, 0)
+					B.ReskinText(peek("duration"), 1, 1, 0)
+					B.ReskinText(widget.CDTDisplay:GetFontString(), 1, 1, 0)
 
-		local function Reskin_VenturePlan(self)
-			if not VP_Missions then
-				local missionList = self:GetChildren()
-				B.StripTextures(missionList)
-
-				local background, frame = missionList:GetChildren()
-				B.StripTextures(background)
-
-				VP_Missions = frame
-			end
-
-			if VP_Missions then
-				for _, mission in pairs {VP_Missions:GetChildren()} do
-					if mission and not mission.styled then
-						for _, button in pairs {mission:GetChildren()} do
-							if button:IsObjectType("Button") and button ~= mission.CDTDisplay then
-								B.ReskinButton(button)
-							end
-						end
-						B.ReskinText(mission.CDTDisplay:GetFontString(), 1, 1, 0)
-
-						mission.styled = true
-					end
-				end
-			end
-
-			if not VP_UnButton then
-				VP_UnButton = select(8, self:GetChildren())
-			end
-
-			if VP_UnButton and not VP_UnButton.styled then
-				B.ReskinButton(VP_UnButton)
-
-				VP_UnButton.styled = true
-			end
-		end
-
-		local function Reskin_FollowerBG()
-			VP_Follower = select(15, CovenantMissionFrame:GetChildren())
-			if VP_Follower and not VP_Follower.styled then
-				B.StripTextures(VP_Follower)
-				B.CreateBDFrame(VP_Follower)
-
-				VP_Follower.styled = true
-			end
-		end
-
-		local function Search_MissionBoard()
-			local missionTab = CovenantMissionFrame.MissionTab
-			for _, child in pairs {missionTab:GetChildren()} do
-				if child then
-					for _, child2 in pairs {child:GetChildren()} do
-						if child2 and child2.FirstInputBoxLabel then
-							VP_Frame = child
-							VP_CopyBox = child2
-
-							break
-						end
-					end
-				end
-			end
-
-			if VP_Frame then
-				Reskin_VenturePlan(VP_Frame)
-				VP_Frame:HookScript("OnShow", Reskin_VenturePlan)
-			end
-
-			if VP_CopyBox then
-				B.ReskinButton(VP_CopyBox.ResetButton)
-				B.ReskinClose(VP_CopyBox.CloseButton2, nil, -12, -12)
-				B.ReskinInput(VP_CopyBox.FirstInputBox)
-				B.ReskinInput(VP_CopyBox.SecondInputBox)
-				B.ReskinText(VP_CopyBox.Intro, 1, 1, 1)
-				B.ReskinText(VP_CopyBox.FirstInputBoxLabel, 1, .8, 0)
-				B.ReskinText(VP_CopyBox.SecondInputBoxLabel, 1, .8, 0)
-				B.ReskinText(VP_CopyBox.VersionText, 1, 1, 1)
-			end
-
-			local missionPage = CovenantMissionFrame.MissionTab.MissionPage
-			missionPage:HookScript("OnShow", Reskin_FollowerBG)
-
-			local missionBoard = missionPage.Board
-			for _, child in pairs {missionBoard:GetChildren()} do
-				if child and child:IsObjectType("Button") and not child.styled then
-					local icbg = B.ReskinIcon(child:GetNormalTexture())
-					B.ReskinHighlight(child, icbg)
-					B.ReskinPushed(child, icbg)
-
-					local texture = select(4, child:GetRegions())
-					if texture then
-						texture:SetTexCoord(unpack(DB.TexCoord))
-					end
-
-					child.styled = true
+					local ViewButton = peek("ViewButton")
+					B.ReskinButton(ViewButton)
+					local DoomRunButton = peek("DoomRunButton")
+					B.ReskinButton(DoomRunButton)
+					DoomRunButton:SetSize(21, 21)
+					DoomRunButton:ClearAllPoints()
+					DoomRunButton:SetPoint("RIGHT", ViewButton, "LEFT", -1, 0)
+					local TentativeClear = peek("TentativeClear")
+					B.ReskinButton(TentativeClear)
+					TentativeClear:SetSize(21, 21)
+					TentativeClear:ClearAllPoints()
+					TentativeClear:SetPoint("RIGHT", ViewButton, "LEFT", -1, 0)
+				elseif otype == "CopyBoxUI" then
+					B.ReskinButton(widget.ResetButton)
+					B.ReskinClose(widget.CloseButton2)
+					B.ReskinInput(widget.FirstInputBox)
+					B.ReskinInput(widget.SecondInputBox)
+					B.ReskinText(widget.Intro, 1, 1, 1)
+					B.ReskinText(widget.FirstInputBoxLabel, 1, .8, 0)
+					B.ReskinText(widget.SecondInputBoxLabel, 1, .8, 0)
+					B.ReskinText(widget.VersionText, 1, 1, 1)
+				elseif otype == "MissionList" then
+					B.StripTextures(widget)
+					local background = widget:GetChildren()
+					B.StripTextures(background)
+				elseif otype == "MissionPage" then
+					B.StripTextures(widget)
+					B.ReskinButton(peek("UnButton"))
+				elseif otype == "ILButton" then
+					widget:DisableDrawLayer("BACKGROUND")
+					B.CreateBGFrame(widget, -4, 2, 8, -2)
+					B.ReskinIcon(widget.Icon)
+				elseif otype == "IconButton" then
+					local icbg = B.ReskinIcon(widget:GetNormalTexture())
+					B.ReskinHighlight(widget, icbg)
+					B.ReskinPushed(widget, icbg)
+					widget.Icon:SetTexCoord(tL, tR, tT, tB)
+				elseif otype == "FollowerList" then
+					B.StripTextures(widget)
+					B.CreateBDFrame(widget)
+				elseif otype == "FollowerListButton" then
+					peek("TextLabel"):SetFontObject("Game12Font")
+				elseif otype == "ProgressBar" then
+					B.StripTextures(widget)
+					B.CreateBDFrame(widget, 0, -C.mult)
 				end
 			end
 		end
-
-		CovenantMissionFrame:HookScript("OnShow", function()
-			if not VP_Frame then
-				C_Timer.After(.1, Search_MissionBoard)
-			end
-		end)
 	end
 
 	-- CovenantMissionHelper
