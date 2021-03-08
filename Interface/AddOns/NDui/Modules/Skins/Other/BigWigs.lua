@@ -2,6 +2,28 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local Skins = B:GetModule("Skins")
 
+local function Update_StartCountdown(self, _, module, key, text, time)
+	TimerTracker_OnEvent(TimerTracker, "START_TIMER", 3, time, time)
+end
+
+local function Update_StopCountdown(self)
+	for _, timer in pairs(TimerTracker.timerList) do
+		if not timer.isFree then
+			if timer.type == 3 then
+				FreeTimerTrackerTimer(timer)
+			end
+		end
+	end
+end
+
+local function Reskin_Countdown()
+	local plugin = BigWigs:GetPlugin("Countdown")
+	if not plugin then return end
+
+	hooksecurefunc(plugin, "BigWigs_StartCountdown", Update_StartCountdown)
+	hooksecurefunc(plugin, "BigWigs_StopCountdown", Update_StopCountdown)
+end
+
 local function Remove_Style(self)
 	B.StripTextures(self)
 
@@ -53,9 +75,9 @@ local function Reskin_Style(self)
 
 		icon:ClearAllPoints()
 		if self.iconPosition == "RIGHT" then
-			icon:SetPoint("BOTTOMLEFT", self, "BOTTOMRIGHT", 5, 0)
+			icon:SetPoint("BOTTOMLEFT", self, "BOTTOMRIGHT", C.margin, 0)
 		else
-			icon:SetPoint("BOTTOMRIGHT", self, "BOTTOMLEFT", -5, 0)
+			icon:SetPoint("BOTTOMRIGHT", self, "BOTTOMLEFT", -C.margin, 0)
 		end
 
 		if not icon.styled then
@@ -109,10 +131,12 @@ function Skins:BigWigs()
 
 	if IsAddOnLoaded("BigWigs_Plugins") then
 		Register_Style()
+		Reskin_Countdown()
 	else
 		local function loadStyle(event, addon)
 			if addon == "BigWigs_Plugins" then
 				Register_Style()
+				Reskin_Countdown()
 				B:UnregisterEvent(event, loadStyle)
 			end
 		end

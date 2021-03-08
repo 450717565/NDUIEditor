@@ -41,4 +41,9 @@ function Skins:MythicDungeonTools()
 	local MDT = _G.MDT
 	local styled
 	hooksecurefunc(MDT, "ShowInterface", Reskin_ShowInterface)
+
+	function MDT:FormatEnemyHealth(amount)
+		amount = tonumber(amount)
+		if amount then return B.FormatNumb(amount) end
+	end
 end

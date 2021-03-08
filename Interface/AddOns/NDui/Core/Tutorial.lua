@@ -220,15 +220,40 @@ local function ForceBWOptions()
 	if BigWigs3DB then wipe(BigWigs3DB) end
 	BigWigs3DB = {
 		["namespaces"] = {
+			["BigWigs_Plugins_AltPower"] = {
+				["profiles"] = {
+					["Default"] = {
+						["fontSize"] = 14,
+						["font"] = DB.Font[1],
+						["fontOutline"] = DB.Font[3],
+						["position"] = {
+							"LEFT", -- [1]
+							"LEFT", -- [2]
+							50, -- [3]
+							-180, -- [4]
+						},
+					},
+				},
+			},
+			["BigWigs_Plugins_AutoReply"] = {
+				["profiles"] = {
+					["Default"] = {
+						["exitCombatOther"] = 4,
+						["disabled"] = false,
+						["exitCombat"] = 4,
+						["mode"] = 4,
+						["modeOther"] = 4,
+					},
+				},
+			},
 			["BigWigs_Plugins_Bars"] = {
 				["profiles"] = {
 					["Default"] = {
 						["outline"] = DB.Font[3],
 						["fontSize"] = 12,
-						["BigWigsAnchor_y"] = 336,
-						["BigWigsAnchor_x"] = 16,
-						["BigWigsAnchor_width"] = 175,
-						["growup"] = true,
+						["BigWigsAnchor_y"] = 760,
+						["BigWigsAnchor_x"] = 450,
+						["BigWigsAnchor_width"] = 180,
 						["interceptMouse"] = false,
 						["barStyle"] = "NDui",
 						["LeftButton"] = {
@@ -237,10 +262,57 @@ local function ForceBWOptions()
 						["font"] = DB.Font[1],
 						["onlyInterceptOnKeypress"] = true,
 						["emphasizeMultiplier"] = 1,
-						["BigWigsEmphasizeAnchor_x"] = 810,
-						["BigWigsEmphasizeAnchor_y"] = 350,
+						["BigWigsEmphasizeAnchor_x"] = 860,
+						["BigWigsEmphasizeAnchor_y"] = 340,
 						["BigWigsEmphasizeAnchor_width"] = 220,
 						["emphasizeGrowup"] = true,
+					},
+				},
+			},
+			["BigWigs_Plugins_Countdown"] = {
+				["profiles"] = {
+					["Default"] = {
+						["textEnabled"] = false,
+					},
+				},
+			},
+			["BigWigs_Plugins_InfoBox"] = {
+				["profiles"] = {
+					["Default"] = {
+						["posx"] = 75,
+						["posy"] = 390,
+					},
+				},
+			},
+			["BigWigs_Plugins_Messages"] = {
+				["profiles"] = {
+					["Default"] = {
+						["fontSize"] = 18,
+						["font"] = DB.Font[1],
+						["normalPosition"] = {
+							nil, -- [1]
+							nil, -- [2]
+							nil, -- [3]
+							-180, -- [4]
+						},
+						["emphPosition"] = {
+							"TOP", -- [1]
+							"TOP", -- [2]
+							nil, -- [3]
+							-200, -- [4]
+						},
+					},
+				},
+			},
+			["BigWigs_Plugins_Proximity"] = {
+				["profiles"] = {
+					["Default"] = {
+						["fontSize"] = 18,
+						["font"] = DB.Font[1],
+						["posx"] = 200,
+						["posy"] = 300,
+						["width"] = 140,
+						["height"] = 120,
 					},
 				},
 			},
@@ -252,38 +324,10 @@ local function ForceBWOptions()
 					},
 				},
 			},
-			["BigWigs_Plugins_Messages"] = {
+			["BigWigs_Plugins_Victory"] = {
 				["profiles"] = {
 					["Default"] = {
-						["fontSize"] = 18,
-						["font"] = DB.Font[1],
-						["BWEmphasizeCountdownMessageAnchor_x"] = 665,
-						["BWMessageAnchor_x"] = 616,
-						["BWEmphasizeCountdownMessageAnchor_y"] = 530,
-						["BWMessageAnchor_y"] = 305,
-					},
-				},
-			},
-			["BigWigs_Plugins_Proximity"] = {
-				["profiles"] = {
-					["Default"] = {
-						["fontSize"] = 18,
-						["font"] = DB.Font[1],
-						["posy"] = 346,
-						["width"] = 140,
-						["posx"] = 1024,
-						["height"] = 120,
-					},
-				},
-			},
-			["BigWigs_Plugins_Alt Power"] = {
-				["profiles"] = {
-					["Default"] = {
-						["posx"] = 1002,
-						["fontSize"] = 14,
-						["font"] = DB.Font[1],
-						["fontOutline"] = DB.Font[3],
-						["posy"] = 490,
+						["soundName"] = "None",
 					},
 				},
 			},

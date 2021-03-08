@@ -258,6 +258,7 @@ GUI.DefaultSettings = {
 		ColoredTarget = false,
 		TargetColor = {r=0, g=.6, b=1},
 		CastbarGlow = true,
+		CastTarget = true,
 
 		NPsHPMode = 1,
 		ArrowColor = 1,
@@ -279,9 +280,9 @@ GUI.DefaultSettings = {
 
 		BlizzardSkins = true,
 		FontOutline = true,
-		SkinShadow = false,
+		SkinShadow = true,
 		SkinTexture = false,
-		CCShadow = false,
+		CCShadow = true,
 
 		FontScale = 1,
 		GSDirection = 1,
@@ -918,15 +919,16 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{5, "Nameplate", "SelectedColor", L["Selected Color"], 1},
 		{4, "Nameplate", "ArrowColor", L["Arrow Color"], true, {L["Cyan"], L["Green"], L["Red"]}},
 		{},--blank
-		{1, "Nameplate", "CastbarGlow", DB.MyColor..L["PlateCastbarGlow"].."*", false, setupPlateCastbarGlow, nil, L["PlateCastbarGlowTip"]},
 		{1, "Nameplate", "FriendlyCC", L["Friendly CC"].."*"},
+		{1, "Nameplate", "CastbarGlow", DB.MyColor..L["PlateCastbarGlow"].."*", true, setupPlateCastbarGlow, nil, L["PlateCastbarGlowTip"]},
 		{1, "Nameplate", "HostileCC", L["Hostile CC"].."*"},
+		{1, "Nameplate", "CastTarget", L["PlateCastTarget"].."*", true, nil, nil, L["PlateCastTargetTip"]},
+		{1, "Nameplate", "InsideView", L["Nameplate InsideView"].."*", nil, nil, updatePlateInsideView},
+		{1, "Nameplate", "AKSProgress", L["AngryKeystones Progress"]},
 		{4, "Nameplate", "NPsHPMode", L["HP Val Mode"].."*", true, {L["Only Percent"], L["Only Number"], L["Num and Per"]}, refreshNameplates},
 		{1, "Nameplate", "QuestIndicator", L["QuestIndicator"]},
-		{1, "Nameplate", "InsideView", L["Nameplate InsideView"].."*", nil, nil, updatePlateInsideView},
+		{1, "Nameplate", "ExplosivesScale", L["Explosives Scale"], false, nil, nil, L["Explosives Scale Tip"]},
 		{4, "Nameplate", "AuraFilter", L["NameplateAuraFilter"].."*", true, {L["BlackNWhite"], L["PlayerOnly"], L["IncludeCrowdControl"]}, refreshNameplates},
-		{1, "Nameplate", "AKSProgress", L["AngryKeystones Progress"]},
-		{1, "Nameplate", "ExplosivesScale", L["Explosives Scale"], true, nil, nil, L["Explosives Scale Tip"]},
 		{},--blank
 		{1, "Nameplate", "ColoredTarget", DB.MyColor..L["ColoredTarget"].."*", nil, nil, nil, L["ColoredTargetTip"]},
 		{5, "Nameplate", "TargetColor", L["TargetNP Color"].."*"},

@@ -144,6 +144,14 @@ info.onEnter = function(self)
 			end
 		end
 	end
+
+	GameTooltip:AddLine(" ")
+	GameTooltip:AddLine(LOOT_JOURNAL_POWERS.."：", .6,.8,1)
+	GameTooltip:AddDoubleLine("1级（190）", "1250", 1,1,1, 1,1,1)
+	GameTooltip:AddDoubleLine("2级（210）", "2000", 1,1,1, 1,1,1)
+	GameTooltip:AddDoubleLine("3级（225）", "3200", 1,1,1, 1,1,1)
+	GameTooltip:AddDoubleLine("4级（235）", "5150", 1,1,1, 1,1,1)
+
 	GameTooltip:AddDoubleLine(" ", DB.LineString)
 	GameTooltip:AddDoubleLine(" ", DB.LeftButton..L["Currency Panel"].." ", 1,1,1, .6,.8,1)
 	GameTooltip:AddDoubleLine(" ", DB.ScrollButton..L["AutoSell Junk"]..switchList[NDuiADB["AutoSell"]].." ", 1,1,1, .6,.8,1)

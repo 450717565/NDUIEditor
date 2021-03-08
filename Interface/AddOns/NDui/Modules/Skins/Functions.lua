@@ -38,8 +38,8 @@ do
 		self.squareBG = squareBG
 
 		if self.Empty then
-			self.Empty:SetColorTexture(0, 0, 0, 0)
 			self.Empty:SetAllPoints(squareBG)
+			self.Empty:SetColorTexture(0, 0, 0, 0)
 		end
 
 		if self.PortraitRing then

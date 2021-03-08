@@ -510,12 +510,12 @@ L["STRING_OPTIONS_BARSTART_DESC"] = [=[비활성하면 상위 무늬를 아이�
 L["STRING_OPTIONS_BARUR_ANCHOR"] = "빠른 갱신:"
 L["STRING_OPTIONS_BARUR_DESC"] = "사용하면, DPS와 HPS 값이 보통보다 조금 더 빠르게 갱신 됩니다."
 L["STRING_OPTIONS_BG_ALL_ALLY"] = "전장 적 표시"
-L["STRING_OPTIONS_BG_ALL_ALLY_DESC"] = [=[켜면 창이 그룹 모드에 있을 때 적 플레이어도 표시됩니다.
+L["STRING_OPTIONS_BG_ALL_ALLY_DESC"] = [=[옵션을 켜면, 창이 그룹 모드에 있을 때 적 플레이어도 표시됩니다.
 
 |cFFFFFF00중요|r: 변경 사항은 다음 전투에 들어가면 적용됩니다.]=]
 L["STRING_OPTIONS_BG_ANCHOR"] = "전장:"
 L["STRING_OPTIONS_BG_UNIQUE_SEGMENT"] = "단일 세분화 전장"
-L["STRING_OPTIONS_BG_UNIQUE_SEGMENT_DESC"] = "세분화 하나가 전장 시작 시 생성되어 끝날 때까지 지속합니다."
+L["STRING_OPTIONS_BG_UNIQUE_SEGMENT_DESC"] = "세분화 하나가 전장 시작 시 생성되어 끝날 때까지 지속됩니다."
 L["STRING_OPTIONS_CAURAS"] = "오라 수집"
 L["STRING_OPTIONS_CAURAS_DESC"] = [=[수집 허용:
 
@@ -1046,7 +1046,7 @@ L["STRING_OPTIONS_SAVELOAD_ERASE_DESC"] = "이전에 저장된 스킨을 삭제�
 L["STRING_OPTIONS_SAVELOAD_EXPORT"] = "내보내기"
 L["STRING_OPTIONS_SAVELOAD_EXPORT_COPY"] = "CTRL + C 누르기"
 L["STRING_OPTIONS_SAVELOAD_EXPORT_DESC"] = "문자 형식으로 스킨을 저장합니다."
-L["STRING_OPTIONS_SAVELOAD_IMPORT"] = "사용자정의 스킨 가져오기"
+L["STRING_OPTIONS_SAVELOAD_IMPORT"] = "사용자 설정 스킨 가져오기"
 L["STRING_OPTIONS_SAVELOAD_IMPORT_DESC"] = "문자 형식으로 스킨을 가져옵니다."
 L["STRING_OPTIONS_SAVELOAD_IMPORT_OKEY"] = "저장된 스킨 목록으로 성공적으로 스킨을 가져왔습니다. 드랍박스의 '적용'을 통해 지금 적용할 수 있습니다."
 L["STRING_OPTIONS_SAVELOAD_LOAD"] = "적용"
@@ -1100,7 +1100,7 @@ L["STRING_OPTIONS_SKIN_ELVUI_BUTTON3_DESC"] = [=[툴팁 수정:
 L["STRING_OPTIONS_SKIN_EXTRA_OPTIONS_ANCHOR"] = "스킨 옵션:"
 L["STRING_OPTIONS_SKIN_LOADED"] = "스킨을 불러왔습니다."
 L["STRING_OPTIONS_SKIN_PRESETS_ANCHOR"] = "스킨 저장:"
-L["STRING_OPTIONS_SKIN_PRESETSCONFIG_ANCHOR"] = "저장된 사용자정의 스킨 관리:"
+L["STRING_OPTIONS_SKIN_PRESETSCONFIG_ANCHOR"] = "저장된 스킨:"
 L["STRING_OPTIONS_SKIN_REMOVED"] = "스킨이 삭제되었습니다."
 L["STRING_OPTIONS_SKIN_RESET_TOOLTIP"] = "툴팁 테두리 초기화"
 L["STRING_OPTIONS_SKIN_RESET_TOOLTIP_DESC"] = "툴팁 테두리 색상과 무늬를 기본값으로 되돌립니다."
@@ -1556,7 +1556,7 @@ L["STRING_TOTAL"] = "총량"
 L["STRING_TRANSLATE_LANGUAGE"] = "Details의 번역을 도와주세요!"
 L["STRING_TUTORIAL_FULLY_DELETE_WINDOW"] = [=[창을 닫았지만 언제든 다시 열수 있습니다.
 창을 완전히 삭제하려면 옵션 -> 창: 일반 -> 삭제 항목을 찾아보세요.]=]
-L["STRING_TUTORIAL_OVERALL1"] = "전체 데이터는 전투가 완료되었을 때만 업데이트되며, 정기적으로 업데이트하려면 제목 표시줄을 마우스 오른쪽 단추로 클릭하고 '전체 데이터 동적'을 선택하십시오."
+L["STRING_TUTORIAL_OVERALL1"] = "종합 데이터는 전투가 완료되었을 때만 갱신됩니다, 정기적으로 갱신하려면 제목 표시줄을 오른쪽 클릭하고 '동적 종합 데이터'를 선택하세요."
 L["STRING_UNKNOW"] = "알 수 없음"
 L["STRING_UNKNOWSPELL"] = "알 수 없는 주문"
 L["STRING_UNLOCK"] = [=[이 버튼으로

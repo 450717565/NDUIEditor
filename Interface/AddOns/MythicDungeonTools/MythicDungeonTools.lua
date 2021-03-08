@@ -406,9 +406,9 @@ local dungeonSubLevels = {
         [4] = L["Ardenweald"],
     },
     [30] = {
-        [1] = L["Halls of Atonement"],
-        [2] = L["The Nave of Pain"],
-        [3] = L["The Sanctuary of Souls"],
+        [1] = L["HallsOfAtonementFloor1"],
+        [2] = L["HallsOfAtonementFloor2"],
+        [3] = L["HallsOfAtonementFloor3"],
     },
     [31] = {
         [1] = L["Mists of Tirna Scithe"],
@@ -418,8 +418,8 @@ local dungeonSubLevels = {
         [2] = L["The Festering Sanctum"],
     },
     [33] = {
-        [1] = L["Depths of Despair"],
-        [2] = L["Amphitheater of Sorrow"],
+        [1] = L["Sanguine DepthsFloor1"],
+        [2] = L["Sanguine DepthsFloor2"],
     },
     [34] = {
         [1] = L["Honor's Ascent"],
@@ -428,16 +428,16 @@ local dungeonSubLevels = {
         [4] = L["Seat of the Archon"],
     },
     [35] = {
-        [1] = L["The Necrotic Wake"],
-        [2] = L["Stitchwerks"],
-        [3] = L["Zolramus"],
+        [1] = L["TheNecroticWakeFloor1"],
+        [2] = L["TheNecroticWakeFloor2"],
+        [3] = L["TheNecroticWakeFloor3"],
     },
     [36] = {
-        [1] = L["Theater of Pain"],
-        [2] = L["Chamber of Conquest"],
-        [3] = L["Altars of Agony"],
-        [4] = L["Upper Barrow of Carnage"],
-        [5] = L["Lower Barrow of Carnage"],
+        [1] = L["TheaterOfPainFloor1"],
+        [2] = L["TheaterOfPainFloor2"],
+        [3] = L["TheaterOfPainFloor3"],
+        [4] = L["TheaterOfPainFloor4"],
+        [5] = L["TheaterOfPainFloor5"],
     },
 }
 function MDT:GetDungeonSublevels()
@@ -2147,8 +2147,8 @@ function MDT:UpdatePullTooltip(tooltip)
 						end
                         --topString
                         local newLine = "\n"
-                        local text = newLine..newLine..newLine..v.enemyData.name.." x"..v.enemyData.quantity..newLine
-                        text = text..string.format(L["Level %d %s"],v.enemyData.level,v.enemyData.creatureType)..newLine
+                        local text = newLine..newLine..newLine..L[v.enemyData.name].." x"..v.enemyData.quantity..newLine
+                        text = text..string.format(L["Level %d %s"],v.enemyData.level,L[v.enemyData.creatureType])..newLine
                         local boss = v.enemyData.isBoss or false
                         local health = MDT:CalculateEnemyHealth(boss,v.enemyData.baseHealth,db.currentDifficulty,v.enemyData.ignoreFortified)
                         text = text.. string.format(L["%s HP"],MDT:FormatEnemyHealth(health))..newLine
@@ -2608,16 +2608,35 @@ end
 function MDT:FormatEnemyHealth(amount)
 	amount = tonumber(amount)
     if not amount then return "" end
-    if amount < 1e3 then
-        return 0
-    elseif amount >= 1e12 then
-        return string.format("%.3ft", amount/1e12)
-    elseif amount >= 1e9 then
-        return string.format("%.3fb", amount/1e9)
-    elseif amount >= 1e6 then
-        return string.format("%.2fm", amount/1e6)
-    elseif amount >= 1e3 then
-        return string.format("%.1fk", amount/1e3)
+
+    if self:GetLocaleIndex() == 9 then
+
+        if amount < 1e3 then
+            return 0
+        elseif amount >= 1e16 then
+            return string.format("%.3f경", amount/1e16)
+        elseif amount >= 1e12 then
+            return string.format("%.3f조", amount/1e12)
+        elseif amount >= 1e8 then
+            return string.format("%.2f억", amount/1e8)
+        elseif amount >= 1e4 then
+            return string.format("%.1f만", amount/1e4)
+        end
+
+    else
+
+        if amount < 1e3 then
+            return 0
+        elseif amount >= 1e12 then
+            return string.format("%.3ft", amount/1e12)
+        elseif amount >= 1e9 then
+            return string.format("%.3fb", amount/1e9)
+        elseif amount >= 1e6 then
+            return string.format("%.2fm", amount/1e6)
+        elseif amount >= 1e3 then
+            return string.format("%.1fk", amount/1e3)
+        end
+
     end
 end
 

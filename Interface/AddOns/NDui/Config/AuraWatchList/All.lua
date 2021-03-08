@@ -48,13 +48,21 @@ local list = {
 		{AuraID = 54861, UnitID = "player"},	-- 火箭靴，工程
 		-- 罪魂之塔
 		{AuraID = 295963, UnitID = "player", Flash = true},	-- 崩毁之护
-		{AuraID = 338949, UnitID = "player"},	-- 诡诈斗篷
+		{AuraID = 338949, UnitID = "player"},	-- 弗拉莱的诡诈斗篷
 		{AuraID = 338928, UnitID = "player"},	-- 灵魂强化
 		{AuraID = 342025, UnitID = "player"},	-- 仪式面具
 		{AuraID = 341622, UnitID = "player"},	-- 相位变换
 		{AuraID = 341783, UnitID = "player"},	-- 形态编织
 		{AuraID = 337879, UnitID = "player"},	-- 黑暗堡垒
 		{AuraID = 306574, UnitID = "player"},	-- 炽蓝仙野的馈赠
+		{AuraID = 306572, UnitID = "player"},	-- 玛卓克萨斯的偿还
+		{AuraID = 306577, UnitID = "player"},	-- 温西尔的答谢
+		{AuraID = 306565, UnitID = "player"},	-- 格里恩的祝福
+		{AuraID = 305295, UnitID = "player"},	-- 囚犯的协调
+		{AuraID = 342783, UnitID = "player"},	-- 晶化梦境
+		{AuraID = 305276, UnitID = "player"},	-- 黑暗装备
+		{AuraID = 337622, UnitID = "player"},	-- 不稳形态
+		{AuraID = 337880, UnitID = "player"},	-- 堕落武装
 		-- 噬渊
 		{AuraID = 335861, UnitID = "player"},	-- 幽力之油
 		-- 种族天赋
@@ -155,6 +163,7 @@ local list = {
 		{AuraID = 331937, UnitID = "player", Flash = true},		-- 沉醉
 		{AuraID = 338142, UnitID = "player"},	-- 自审强化
 		{AuraID = 339461, UnitID = "player"},	-- 猎手坚韧
+		{AuraID = 342774, UnitID = "player"},	-- 繁华原野
 		{AuraID = 343672, UnitID = "player"},	-- 征服者之狂
 		{AuraID = 345499, UnitID = "player"},	-- 执政官的祝福
 		-- 炼金石

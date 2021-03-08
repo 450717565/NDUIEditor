@@ -1157,7 +1157,7 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 					B.ReskinButton(peek("UnButton"))
 				elseif otype == "ILButton" then
 					widget:DisableDrawLayer("BACKGROUND")
-					B.CreateBGFrame(widget, -4, 2, 8, -2)
+					B.CreateBGFrame(widget, -4, 2, 2, -2)
 					B.ReskinIcon(widget.Icon)
 				elseif otype == "IconButton" then
 					local icbg = B.ReskinIcon(widget:GetNormalTexture())
@@ -1172,6 +1172,13 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 				elseif otype == "ProgressBar" then
 					B.StripTextures(widget)
 					B.CreateBDFrame(widget, 0, -C.mult)
+				elseif otype == "MissionToast" then
+					widget.Background:Hide()
+					widget.Icon:Show()
+					widget.Outcome:SetFontObject("Game13Font")
+					widget.Detail:SetFontObject("Game13Font")
+					B.ReskinIcon(widget.Icon)
+					B.CreateBG(widget)
 				end
 			end
 		end

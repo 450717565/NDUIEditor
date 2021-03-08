@@ -215,11 +215,18 @@ tinsert(C.XMLThemes, function()
 		hooksecurefunc(bar, "AddTimerBar", Reskin_TimerBar)
 	end
 
+	-- Objective
+	local objectives = {
+		BONUS_OBJECTIVE_TRACKER_MODULE,
+		CAMPAIGN_QUEST_TRACKER_MODULE,
+		WORLD_QUEST_TRACKER_MODULE,
+	}
+	for _, obj in pairs(objectives) do
+		hooksecurefunc(obj, "AddObjective", Reskin_QuestIcons)
+	end
+
 	-- QuestIcons
-	hooksecurefunc(BONUS_OBJECTIVE_TRACKER_MODULE, "AddObjective", Reskin_QuestIcons)
-	hooksecurefunc(CAMPAIGN_QUEST_TRACKER_MODULE, "AddObjective", Reskin_QuestIcons)
 	hooksecurefunc(QUEST_TRACKER_MODULE, "SetBlockHeader", Reskin_QuestIcons)
-	hooksecurefunc(WORLD_QUEST_TRACKER_MODULE, "AddObjective", Reskin_QuestIcons)
 
 	-- Blocks
 	hooksecurefunc("Scenario_ChallengeMode_SetUpAffixes", B.ReskinAffixes)
