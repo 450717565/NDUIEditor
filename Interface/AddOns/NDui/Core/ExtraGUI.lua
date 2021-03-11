@@ -1094,12 +1094,12 @@ local function refreshMajorSpells()
 	B:GetModule("UnitFrames"):RefreshMajorSpells()
 end
 
-function GUI:PlateCastbarGlow(parent)
-	local guiName = "NDuiGUI_PlateCastbarGlow"
+function GUI:PlateCastGlow(parent)
+	local guiName = "NDuiGUI_PlateCastGlow"
 	toggleExtraGUI(guiName)
 	if extraGUIs[guiName] then return end
 
-	local panel = createExtraGUI(parent, guiName, L["PlateCastbarGlow"].."*", true)
+	local panel = createExtraGUI(parent, guiName, L["PlateCastGlow"].."*", true)
 	panel:SetScript("OnHide", refreshMajorSpells)
 
 	local barTable = {}

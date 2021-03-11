@@ -45,3 +45,32 @@ tinsert(C.XMLThemes, function()
 	-- TransmogAndMountDressupFrame
 	B.ReskinCheck(TransmogAndMountDressupFrame.ShowMountCheckButton)
 end)
+
+-- WardrobeOutfitFrame
+local function Reskin_WardrobeOutfitFrame(self)
+	for i = 1, C_TransmogCollection.GetNumMaxOutfits() do
+		local button = self.Buttons[i]
+		if button and button:IsShown() then
+			if not button.styled then
+				button.Selection:SetColorTexture(cr, cg, cb, .25)
+				button.Highlight:SetColorTexture(cr, cg, cb, .25)
+
+				B.ReskinIcon(button.Icon)
+
+				button.styled = true
+			end
+		end
+	end
+end
+
+tinsert(C.XMLThemes, function()
+	B.ReskinFrame(WardrobeOutfitFrame)
+	B.ReskinFrame(WardrobeOutfitEditFrame)
+
+	B.ReskinButton(WardrobeOutfitEditFrame.AcceptButton)
+	B.ReskinButton(WardrobeOutfitEditFrame.CancelButton)
+	B.ReskinButton(WardrobeOutfitEditFrame.DeleteButton)
+	B.ReskinInput(WardrobeOutfitEditFrame.EditBox)
+
+	hooksecurefunc(WardrobeOutfitFrame, "Update", Reskin_WardrobeOutfitFrame)
+end)

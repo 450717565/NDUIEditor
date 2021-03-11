@@ -177,22 +177,6 @@ local function Reskin_SetItemFrameQuality(_, itemFrame)
 	end
 end
 
-local function Reskin_WardrobeOutfitFrame(self)
-	for i = 1, C_TransmogCollection.GetNumMaxOutfits() do
-		local button = self.Buttons[i]
-		if button and button:IsShown() then
-			if not button.styled then
-				button.Selection:SetColorTexture(cr, cg, cb, .25)
-				button.Highlight:SetColorTexture(cr, cg, cb, .25)
-
-				B.ReskinIcon(button.Icon)
-
-				button.styled = true
-			end
-		end
-	end
-end
-
 C.LUAThemes["Blizzard_Collections"] = function()
 	-- [[ General ]]
 	CollectionsJournal.bg = B.ReskinFrame(CollectionsJournal)
@@ -224,9 +208,6 @@ C.LUAThemes["Blizzard_Collections"] = function()
 		PetJournalFindBattle,
 		PetJournalSummonButton,
 		WardrobeOutfitDropDown.SaveButton,
-		WardrobeOutfitEditFrame.AcceptButton,
-		WardrobeOutfitEditFrame.CancelButton,
-		WardrobeOutfitEditFrame.DeleteButton,
 		WardrobeTransmogFrame.ApplyButton,
 	}
 	for _, button in pairs(buttons) do
@@ -268,7 +249,6 @@ C.LUAThemes["Blizzard_Collections"] = function()
 		PetJournalSearchBox,
 		ToyBox.searchBox,
 		WardrobeCollectionFrameSearchBox,
-		WardrobeOutfitEditFrame.EditBox,
 	}
 	for _, input in pairs(inputs) do
 		B.ReskinInput(input)
@@ -522,7 +502,6 @@ C.LUAThemes["Blizzard_Collections"] = function()
 
 	-- [[ WardrobeFrame ]]
 	B.ReskinFrame(WardrobeFrame)
-	B.ReskinFrame(WardrobeOutfitFrame)
 	B.ReskinArrow(WardrobeTransmogFrame.SpecButton, "down")
 
 	local ModelScene = WardrobeTransmogFrame.ModelScene
@@ -568,9 +547,4 @@ C.LUAThemes["Blizzard_Collections"] = function()
 	WardrobeOutfitDropDown.SaveButton:SetPoint("LEFT", WardrobeOutfitDropDown, "RIGHT", -13, 2)
 	WardrobeTransmogFrame.SpecButton:ClearAllPoints()
 	WardrobeTransmogFrame.SpecButton:SetPoint("RIGHT", WardrobeTransmogFrame.ApplyButton, "LEFT", -3, 0)
-
-	hooksecurefunc(WardrobeOutfitFrame, "Update", Reskin_WardrobeOutfitFrame)
-
-	-- Edit Frame
-	B.ReskinFrame(WardrobeOutfitEditFrame)
 end

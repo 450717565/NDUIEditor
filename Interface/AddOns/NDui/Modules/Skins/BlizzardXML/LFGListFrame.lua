@@ -137,7 +137,7 @@ tinsert(C.XMLThemes, function()
 		LFGListInviteDialog.DeclineButton,
 		SearchPanel.BackButton,
 		SearchPanel.RefreshButton,
-		SearchPanel.ScrollFrame.StartGroupButton,
+		SearchPanel.ScrollFrame.ScrollChild.StartGroupButton,
 		SearchPanel.SignUpButton,
 	}
 	for _, button in pairs(buttons) do

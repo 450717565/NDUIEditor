@@ -291,6 +291,23 @@ function Misc.ItemLevel_ScrappingShow(event, addon)
 	end
 end
 
+function Misc:ItemLevel_UpdateMerchant(link)
+	if link then
+		if not self.iLvl then
+			self.iLvl = B.CreateFS(self.ItemButton, DB.Font[2]+1, "", false, "TOPLEFT", 1, -2)
+		end
+		if not self.slot then
+			self.slot = B.CreateFS(self.ItemButton, DB.Font[2]+1, "", false, "BOTTOMRIGHT", 1, 1)
+		end
+
+		local level = B.GetItemLevel(link)
+		self.iLvl:SetText(level or "")
+
+		local info = B.GetItemSlot(link)
+		self.slot:SetText(info or "")
+	end
+end
+
 function Misc:ShowItemLevel()
 	if not C.db["Misc"]["ItemLevel"] then return end
 
@@ -306,5 +323,8 @@ function Misc:ShowItemLevel()
 
 	-- iLvl on ScrappingMachineFrame
 	B:RegisterEvent("ADDON_LOADED", Misc.ItemLevel_ScrappingShow)
+
+	-- iLvl on MerchantFrame
+	hooksecurefunc("MerchantFrameItem_UpdateQuality", Misc.ItemLevel_UpdateMerchant)
 end
 Misc:RegisterMisc("GearInfo", Misc.ShowItemLevel)

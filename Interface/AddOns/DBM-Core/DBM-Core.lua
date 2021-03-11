@@ -70,9 +70,9 @@ local function showRealDate(curseDate)
 end
 
 DBM = {
-	Revision = parseCurseDate("20210219045155"),
-	DisplayVersion = "9.0.21", -- the string that is shown as version
-	ReleaseRevision = releaseDate(2021, 2, 18) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
+	Revision = parseCurseDate("20210309192103"),
+	DisplayVersion = "9.0.22", -- the string that is shown as version
+	ReleaseRevision = releaseDate(2021, 3, 9) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -481,8 +481,8 @@ local enableIcons = true -- set to false when a raid leader or a promoted player
 local bannedMods = { -- a list of "banned" (meaning they are replaced by another mod or discontinued). These mods will not be loaded by DBM (and they wont show up in the GUI)
 	"DBM-Battlegrounds", --replaced by DBM-PvP
 	-- ZG and ZA are now part of the party mods for Cataclysm
-	"DBM-ZulAman",--Remove restriction in classic wow but add load conditions to not load on live
-	"DBM-ZG",--Remove restriction in classic wow but add load conditions to not load on live
+	"DBM-ZulAman",
+	"DBM-ZG",
 	"DBM-SiegeOfOrgrimmar",--Block legacy version. New version is "DBM-SiegeOfOrgrimmarV2"
 	"DBM-HighMail",
 	"DBM-ProvingGrounds-MoP",--Renamed to DBM-ProvingGrounds in 6.0 version since blizzard updated content for WoD
@@ -509,7 +509,7 @@ local instanceDifficultyBylevel = {
 	[1643]={50, 1},[1642]={50, 1},[1718]={50, 1},[1943]={50, 1},[1876]={50, 1},[2105]={50, 1},[2111]={50, 1},[2275]={50, 1},--Bfa World bosses and warfronts
 	--Raids
 	[509]={30, 3},[531]={30, 3},[469]={30, 3},[409]={30, 3},--Classic Raids
-	[564]=30,[534]={30, 3},[532]={30, 3},[565]={30, 3},[544]={30, 3},[548]={30, 3},[580]={30, 3},[550]={30, 3},--BC Raids
+	[564]={30, 3},[534]={30, 3},[532]={30, 3},[565]={30, 3},[544]={30, 3},[548]={30, 3},[580]={30, 3},[550]={30, 3},--BC Raids
 	[615]={30, 3},[724]={30, 3},[649]={30, 3},[616]={30, 3},[631]={30, 3},[533]={30, 3},[249]={30, 3},[603]={30, 3},[624]={30, 3},--Wrath Raids
 	[757]={35, 3},[671]={35, 3},[669]={35, 3},[967]={35, 3},[720]={35, 3},[951]={35, 3},[754]={35, 3},--Cata Raids
 	[1009]={35, 3},[1008]={35, 3},[1136]={35, 3},[996]={35, 3},[1098]={35, 3},--MoP Raids
@@ -2686,7 +2686,7 @@ do
 
 	local ignore = {}
 	--Standard Pizza Timer
-	function DBM:CreatePizzaTimer(time, text, broadcast, sender, loop, terminate)
+	function DBM:CreatePizzaTimer(time, text, broadcast, sender, loop, terminate, whisperTarget)
 		if terminate or time == 0 then
 			self:Unschedule(loopTimer)
 			self.Bars:CancelBar(text)
@@ -2703,7 +2703,13 @@ do
 		self.Bars:CreateBar(time, text, 237538)
 		fireEvent("DBM_TimerStart", "DBMPizzaTimer", text, time, "237538", "pizzatimer", nil, 0)
 		if broadcast then
-			sendLoggedSync("U", ("%s\t%s"):format(time, text))
+			if whisperTarget then
+				--no dbm function uses whisper for pizza timers
+				--this allows weak aura creators or other modders to use the pizza timer object unicast via whisper instead of spamming group sync channels
+				C_ChatInfo.SendAddonMessageLogged("D4", ("UW\t%s\t%s"):format(time, text), "WHISPER", whisperTarget)
+			else
+				sendLoggedSync("U", ("%s\t%s"):format(time, text))
+			end
 		end
 		if sender then self:ShowPizzaInfo(text, sender) end
 		if loop then
@@ -4470,7 +4476,7 @@ do
 	-- PT = Pull Timer (for sound effects, the timer itself is still sent as a normal timer)
 	-- RT = Request Timers
 	-- CI = Combat Info
-	-- TI = Timer Info
+	-- TR = Timer Recovery
 	-- IR = Instance Info Request
 	-- IRE = Instance Info Requested Ended/Canceled
 	-- II = Instance Info
@@ -4884,6 +4890,18 @@ do
 		if select(2, IsInInstance()) == "pvp" then return end -- no pizza timers in battlegrounds
 		if DBM.Options.DontShowUserTimers then return end
 		if DBM:GetRaidRank(sender) == 0 or difficultyIndex == 7 or difficultyIndex == 17 then return end
+		if sender == playerName then return end
+		time = tonumber(time or 0)
+		text = tostring(text)
+		if time and text then
+			DBM:CreatePizzaTimer(time, text, nil, sender)
+		end
+	end
+
+	whisperSyncHandlers["UW"] = function(sender, time, text)
+		if select(2, IsInInstance()) == "pvp" then return end -- no pizza timers in battlegrounds
+		if DBM.Options.DontShowUserTimers then return end
+		if DBM:GetRaidRank(sender) == 0 or difficultyIndex == 7 or difficultyIndex == 17 then return end--Block in LFR, or if not an assistant
 		if sender == playerName then return end
 		time = tonumber(time or 0)
 		text = tostring(text)
@@ -5336,12 +5354,12 @@ do
 		end
 	end
 
-	whisperSyncHandlers["TI"] = function(sender, mod, timeLeft, totalTime, id, ...)
+	whisperSyncHandlers["TR"] = function(sender, mod, timeLeft, totalTime, id, paused, ...)
 		mod = DBM:GetModByName(mod or "")
 		timeLeft = tonumber(timeLeft or 0)
 		totalTime = tonumber(totalTime or 0)
 		if mod and timeLeft and timeLeft > 0 and totalTime and totalTime > 0 and id then
-			DBM:ReceiveTimerInfo(sender, mod, timeLeft, totalTime, id, ...)
+			DBM:ReceiveTimerInfo(sender, mod, timeLeft, totalTime, id, paused and paused == "1" and true or false, ...)
 		end
 	end
 
@@ -6264,7 +6282,7 @@ do
 						for i = 1, #mod.findFastestComputer do
 							local option = mod.findFastestComputer[i]
 							if mod.Options[option] then
-								sendSync("IS", UnitGUID("player").."\t"..tostring(DBM.Revision).."\t"..option)
+								sendSync("IS", UnitGUID("player").."\t"..tostring(self.Revision).."\t"..option)
 							end
 						end
 					elseif not IsInGroup() then
@@ -6283,7 +6301,7 @@ do
 				end
 				--send "C" sync
 				if not synced then
-					sendSync("C", (delay or 0).."\t"..modId.."\t"..(mod.revision or 0).."\t"..startHp.."\t"..tostring(DBM.Revision).."\t"..(mod.hotfixNoticeRev or 0).."\t"..event)
+					sendSync("C", (delay or 0).."\t"..modId.."\t"..(mod.revision or 0).."\t"..startHp.."\t"..tostring(self.Revision).."\t"..(mod.hotfixNoticeRev or 0).."\t"..event)
 				end
 				if UnitIsGroupLeader("player") then
 					if self.Options.DisableGuildStatus then
@@ -6324,7 +6342,7 @@ do
 				if dummyMod then--stop pull timer
 					dummyMod.text:Cancel()
 					dummyMod.timer:Stop()
-					if not DBM.Options.DontShowPTCountdownText then
+					if not self.Options.DontShowPTCountdownText then
 						for _, tttimer in pairs(TimerTracker.timerList) do
 							if tttimer.type == 3 and not tttimer.isFree then
 								FreeTimerTrackerTimer(tttimer)
@@ -6352,7 +6370,7 @@ do
 					end
 					local path = "MISSING"
 					if self.Options.EventSoundMusic == "Random" then
-						local usedTable = self.Options.EventSoundMusicCombined and DBM.Music or mod.inScenario and DBM.DungeonMusic or DBM.BattleMusic
+						local usedTable = self.Options.EventSoundMusicCombined and self.Music or mod.inScenario and self.DungeonMusic or self.BattleMusic
 						if #usedTable >= 3 then
 							local random = fastrandom(3, #usedTable)
 							path = usedTable[random].value
@@ -6486,7 +6504,7 @@ do
 						if self.Options.EventSoundWipe == "Random" then
 							if #self.Defeat >= 3 then
 								local random = fastrandom(3, #self.Defeat)
-								self:PlaySoundFile(DBM.Defeat[random].value)
+								self:PlaySoundFile(self.Defeat[random].value)
 							end
 						else
 							self:PlaySoundFile(self.Options.EventSoundWipe, nil, true)
@@ -7096,12 +7114,15 @@ do
 		end
 	end
 
-	function DBM:ReceiveTimerInfo(sender, mod, timeLeft, totalTime, id, ...)
+	function DBM:ReceiveTimerInfo(sender, mod, timeLeft, totalTime, id, paused, ...)
 		if requestedFrom[sender] and (GetTime() - requestTime) < 5 then
-			local lag = select(4, GetNetStats()) / 1000
+			local lag = paused and 0 or select(4, GetNetStats()) / 1000
 			for _, v in ipairs(mod.timers) do
 				if v.id == id then
 					v:Start(totalTime, ...)
+					if paused then
+						v.paused = true
+					end
 					v:Update(totalTime - timeLeft + lag, totalTime, ...)
 				end
 			end
@@ -7192,7 +7213,7 @@ function DBM:SendTimerInfo(mod, target)
 				end
 				timeLeft = totalTime - elapsed
 				if timeLeft > 0 and totalTime > 0 then
-					SendAddonMessage("D4", ("TI\t%s\t%s\t%s\t%s"):format(mod.id, timeLeft, totalTime, uId), "WHISPER", target)
+					SendAddonMessage("D4", ("TR\t%s\t%s\t%s\t%s\t%s"):format(mod.id, timeLeft, totalTime, uId, v.paused and "1" or "0"), "WHISPER", target)
 				end
 			end
 		end
@@ -7433,7 +7454,7 @@ end
 -----------------------
 function DBM:AddMsg(text, prefix)
 	local tag = prefix or (self.localization and self.localization.general.name) or L.DBM
-	local frame = _G[tostring(DBM.Options.ChatFrame)]
+	local frame = DBM.Options.ChatFrame and _G[tostring(DBM.Options.ChatFrame)] or DEFAULT_CHAT_FRAME
 	frame = frame and frame:IsShown() and frame or DEFAULT_CHAT_FRAME
 	if prefix ~= false then
 		frame:AddMessage(("|cffff7d0a<|r|cffffd200%s|r|cffff7d0a>|r %s"):format(tostring(tag), tostring(text)), 0.41, 0.8, 0.94)
@@ -7449,8 +7470,8 @@ function DBM:Debug(text, level)
 		fireEvent("DBM_Debug", text, level)
 	end
 	if not self.Options or not self.Options.DebugMode then return end
-	if (level or 1) <= DBM.Options.DebugLevel then
-		local frame = _G[tostring(DBM.Options.ChatFrame)]
+	if (level or 1) <= self.Options.DebugLevel then
+		local frame = _G[tostring(self.Options.ChatFrame)]
 		frame = frame and frame:IsShown() and frame or DEFAULT_CHAT_FRAME
 		frame:AddMessage("|cffff7d0aDBM Debug:|r "..text, 1, 1, 1)
 	end
@@ -12245,7 +12266,7 @@ end
 
 function bossModPrototype:SetRevision(revision)
 	revision = parseCurseDate(revision or "")
-	if not revision or revision == "20210219045155" then
+	if not revision or revision == "20210309192103" then
 		-- bad revision: either forgot the svn keyword or using github
 		revision = DBM.Revision
 	end

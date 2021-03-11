@@ -33,19 +33,23 @@ do
 		if self.PuckBorder then self.PuckBorder:SetAlpha(0) end
 		if self.LevelBorder then self.LevelBorder:SetAlpha(0) end
 		if self.LevelCircle then self.LevelCircle:SetAlpha(0) end
+		if self.TroopStackBorder1 then self.TroopStackBorder1:SetAlpha(0) end
+		if self.TroopStackBorder2 then self.TroopStackBorder2:SetAlpha(0) end
 
 		local squareBG = B.CreateBDFrame(self.Portrait, 1, -C.mult, true)
 		self.squareBG = squareBG
 
 		if self.Empty then
-			self.Empty:SetAllPoints(squareBG)
+			self.Empty:SetTexture("")
+			self.Empty:SetInside(squareBG)
 			self.Empty:SetColorTexture(0, 0, 0, 0)
 		end
 
 		if self.PortraitRing then
 			self.PortraitRing:SetAlpha(0)
 			self.PortraitRingQuality:SetTexture("")
-			self.PortraitRingCover:SetAllPoints(squareBG)
+			self.PortraitRingCover:SetTexture("")
+			self.PortraitRingCover:SetInside(squareBG)
 			self.PortraitRingCover:SetColorTexture(0, 0, 0, 0)
 		end
 

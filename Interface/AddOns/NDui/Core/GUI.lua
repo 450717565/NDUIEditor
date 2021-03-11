@@ -257,7 +257,9 @@ GUI.DefaultSettings = {
 		ExecuteRatio = 0,
 		ColoredTarget = false,
 		TargetColor = {r=0, g=.6, b=1},
-		CastbarGlow = true,
+		ColoredFocus = false,
+		FocusColor = {r=1, g=.8, b=0},
+		CastGlow = true,
 		CastTarget = true,
 
 		NPsHPMode = 1,
@@ -359,9 +361,11 @@ GUI.DefaultSettings = {
 		SendActionCD = false,
 		MawThreatBar = true,
 		MDGuildBest = true,
+		FasterSkip = false,
+		EnhanceDressup = true,
 
 		RareAlerter = true,
-		RareAlertMode = 3,
+		RareAlertMode = 2,
 	},
 	Tutorial = {
 		Complete = false,
@@ -540,8 +544,8 @@ local function setupNameplateFilter()
 	GUI:SetupNameplateFilter(guiPage[5])
 end
 
-local function setupPlateCastbarGlow()
-	GUI:PlateCastbarGlow(guiPage[5])
+local function setupPlateCastGlow()
+	GUI:PlateCastGlow(guiPage[5])
 end
 
 local function setupAuraWatch()
@@ -798,7 +802,7 @@ GUI.TabList = {
 	L["Maps"],
 	L["Skins"],
 	L["Tooltip"],
-	L["Misc"],
+	NewFeatureTag..L["Misc"],
 	L["UI Settings"],
 	L["Profile"],
 	L["Extras"],
@@ -914,25 +918,27 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 	},
 	[5] = {
 		{1, "Nameplate", "Enable", DB.MyColor..L["Enable Nameplate"], nil, setupNameplateFilter},
-		{1, "Nameplate", "NameOnlyMode", L["NameOnlyMode"].."*", false, nil, nil, L["NameOnlyModeTip"]},
-		{5, "Nameplate", "HighlightColor", L["Highlight Color"]},
-		{5, "Nameplate", "SelectedColor", L["Selected Color"], 1},
+		{1, "Nameplate", "NameOnlyMode", L["NameOnlyMode"].."*", true, nil, nil, L["NameOnlyModeTip"]},
+		{4, "Nameplate", "TargetIndicator", L["TargetIndicator"].."*", nil, {DISABLE, L["TopArrow"], L["RightArrow"], L["TargetGlow"], L["TopNGlow"], L["RightNGlow"]}, refreshNameplates},
 		{4, "Nameplate", "ArrowColor", L["Arrow Color"], true, {L["Cyan"], L["Green"], L["Red"]}},
-		{},--blank
-		{1, "Nameplate", "FriendlyCC", L["Friendly CC"].."*"},
-		{1, "Nameplate", "CastbarGlow", DB.MyColor..L["PlateCastbarGlow"].."*", true, setupPlateCastbarGlow, nil, L["PlateCastbarGlowTip"]},
-		{1, "Nameplate", "HostileCC", L["Hostile CC"].."*"},
-		{1, "Nameplate", "CastTarget", L["PlateCastTarget"].."*", true, nil, nil, L["PlateCastTargetTip"]},
-		{1, "Nameplate", "InsideView", L["Nameplate InsideView"].."*", nil, nil, updatePlateInsideView},
-		{1, "Nameplate", "AKSProgress", L["AngryKeystones Progress"]},
-		{4, "Nameplate", "NPsHPMode", L["HP Val Mode"].."*", true, {L["Only Percent"], L["Only Number"], L["Num and Per"]}, refreshNameplates},
-		{1, "Nameplate", "QuestIndicator", L["QuestIndicator"]},
-		{1, "Nameplate", "ExplosivesScale", L["Explosives Scale"], false, nil, nil, L["Explosives Scale Tip"]},
+		{4, "Nameplate", "NPsHPMode", L["HP Val Mode"].."*", false, {L["Only Percent"], L["Only Number"], L["Num and Per"]}, refreshNameplates},
 		{4, "Nameplate", "AuraFilter", L["NameplateAuraFilter"].."*", true, {L["BlackNWhite"], L["PlayerOnly"], L["IncludeCrowdControl"]}, refreshNameplates},
 		{},--blank
+		{1, "Nameplate", "CastGlow", DB.MyColor..L["PlateCastGlow"].."*", nil, setupPlateCastGlow, nil, L["PlateCastGlowTip"]},
+		{1, "Nameplate", "CastTarget", L["PlateCastTarget"].."*", true, nil, nil, L["PlateCastTargetTip"]},
+		{1, "Nameplate", "FriendlyCC", L["Friendly CC"].."*"},
+		{1, "Nameplate", "HostileCC", L["Hostile CC"].."*", true},
+		{1, "Nameplate", "InsideView", L["Nameplate InsideView"].."*", nil, nil, updatePlateInsideView},
+		{1, "Nameplate", "AKSProgress", L["AngryKeystones Progress"], true},
+		{1, "Nameplate", "QuestIndicator", L["QuestIndicator"]},
+		{1, "Nameplate", "ExplosivesScale", L["Explosives Scale"], true, nil, nil, L["Explosives Scale Tip"]},
+		{},--blank
+		{5, "Nameplate", "HighlightColor", L["Highlight Color"]},
+		{5, "Nameplate", "SelectedColor", L["Selected Color"], 2},
 		{1, "Nameplate", "ColoredTarget", DB.MyColor..L["ColoredTarget"].."*", nil, nil, nil, L["ColoredTargetTip"]},
+		{1, "Nameplate", "ColoredFocus", DB.MyColor..L["ColoredFocus"].."*", true, nil, nil, L["ColoredFocusTip"]},
 		{5, "Nameplate", "TargetColor", L["TargetNP Color"].."*"},
-		{4, "Nameplate", "TargetIndicator", L["TargetIndicator"].."*", true, {DISABLE, L["TopArrow"], L["RightArrow"], L["TargetGlow"], L["TopNGlow"], L["RightNGlow"]}, refreshNameplates},
+		{5, "Nameplate", "FocusColor", L["FocusNP Color"].."*", 2},
 		{},--blank
 		{1, "Nameplate", "CustomUnitColor", DB.MyColor..L["CustomUnitColor"].."*", nil, nil, updateCustomUnitList, L["CustomUnitColorTip"]},
 		{5, "Nameplate", "CustomColor", L["Custom Color"].."*", 2},
@@ -1114,7 +1120,7 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Tooltip", "ConduitInfo", DB.MyColor..L["Show ConduitInfo"]},
 	},
 	[13] = {
-		{1, "Misc", "ItemLevel", DB.MyColor..L["Show ItemLevel"]},
+		{1, "Misc", "ItemLevel", DB.MyColor..L["Show ItemLevel"], nil, nil, nil, L["ItemLevelTip"]},
 		{1, "Misc", "GemNEnchant", L["Show GemNEnchant"].."*"},
 		{1, "Misc", "AzeriteTraits", L["Show AzeriteTraits"].."*", true},
 		{},--blank
@@ -1124,6 +1130,8 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Misc", "HideBossBanner", L["Hide Bossbanner"].."*", true, nil, toggleBossBanner},
 		{1, "Misc", "InstantDelete", L["InstantDelete"].."*"},
 		{1, "Misc", "FasterLoot", L["Faster Loot"].."*", true, nil, updateFasterLoot},
+		{1, "Misc", "BlockInvite", DB.MyColor..L["BlockInvite"].."*", nil, nil, nil, L["BlockInviteTip"]},
+		{1, "Misc", "FasterSkip", L["FasterMovieSkip"], true, nil, nil, L["FasterMovieSkipTip"]},
 		{},--blank
 		{1, "Misc", "MissingStats", L["Show MissingStats"]},
 		{1, "Misc", "ParagonRep", L["ParagonRep"], true},
@@ -1132,9 +1140,9 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Misc", "PetFilter", L["Show PetFilter"]},
 		{1, "Misc", "Screenshot", L["Auto ScreenShot"].."*", true, nil, updateScreenShot},
 		{1, "Misc", "Focuser", L["Easy Focus"]},
-		{1, "Misc", "BlockInvite", DB.MyColor..L["BlockInvite"].."*", true, nil, nil, L["BlockInvite Tip"]},
-		{1, "Misc", "MawThreatBar", L["MawThreatBar"], nil, nil, nil, L["MawThreatBarTip"]},
 		{1, "Misc", "MDGuildBest", L["MDGuildBest"], true, nil, nil, L["MDGuildBestTip"]},
+		{1, "Misc", "MawThreatBar", L["MawThreatBar"], nil, nil, nil, L["MawThreatBarTip"]},
+		{1, "Misc", "EnhanceDressup", L["EnhanceDressup"], true, nil, nil, L["EnhanceDressupTip"]},
 	},
 	[14] = {
 		{1, "ACCOUNT", "VersionCheck", L["Version Check"]},

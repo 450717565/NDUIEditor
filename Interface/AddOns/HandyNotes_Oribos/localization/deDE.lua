@@ -15,7 +15,7 @@ L["config_tab_scale_alpha"] = "Größe / Transparenz"
 --L["config_scale_alpha_desc"] = "PH"
 L["config_icon_scale"] = "Symbolgröße"
 L["config_icon_scale_desc"] = "Die größe der Symbole"
-L["config_icon_alpha"] = "Symboltranzparenz"
+L["config_icon_alpha"] = "Symboltransparenz"
 L["config_icon_alpha_desc"] = "Die Transparenz der Symbole"
 L["config_what_to_display"] = "Was soll angezeigt werden?"
 L["config_what_to_display_desc"] = "Diese Einstellungen legen fest welche Symbole auf der Welt- und Minimap angezeigt werden sollen."
@@ -28,9 +28,6 @@ L["config_banker_desc"] = "Zeigt die Positionen der Bankiers an."
 
 L["config_barber"] = "Barbier"
 L["config_barber_desc"] = "Zeigt die Position des Barbiers an."
-
-L["config_greatvault"] = "Die Große Schatzkammer"
-L["config_greatvault_desc"] = "Zeigt die Position der Großen Schatzkammer an."
 
 L["config_guildvault"] = "Gildentresor"
 L["config_guildvault_desc"] = "Zeigt die Position des Gildentresors an."

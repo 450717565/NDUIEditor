@@ -1,4 +1,4 @@
-## Interface: 90002
+## Interface: 90005
 ## Title: DungeonWatchDog
 ## Title-zhCN: 看门狗
 ## Notes: Ignore players in dungeon finder

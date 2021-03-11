@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2426, "DBM-CastleNathria", nil, 1190)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20210219033449")
+mod:SetRevision("20210302014355")
 mod:SetCreatureID(166971, 166969, 166970)--Castellan Niklaus, Baroness Frieda, Lord Stavros
 mod:SetEncounterID(2412)
 mod:SetBossHPInfoToHighest()
@@ -406,6 +406,11 @@ end
 --/run DBM:GetModByName(2426):SmallTestRemove(10)
 function mod:SmallTestRemove(amount)
 	timerDutifulAttendantCD:RemoveTime(amount)
+end
+
+--/run DBM:GetModByName(2426):SmallTestRestart(30)
+function mod:SmallTestRestart(amount)
+	timerDutifulAttendantCD:Start(amount)
 end
 
 --/run DBM:GetModByName(2426):TestPause()

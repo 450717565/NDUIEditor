@@ -22,10 +22,8 @@ local L = WeakAuras.L
 	L["%s %s, Particles: %d, Frequency: %0.2f, Scale: %0.2f"] = "%s %s, 파티클: %d, 빈도: %0.2f, 비율: %0.2f"
 	L["%s Alpha: %d%%"] = "%s 투명도: %d%%"
 	L["%s Color"] = "%s 색상"
-	--[[Translation missing --]]
-	L["%s Default Alpha, Zoom, Icon Inset, Aspect Ratio"] = "%s Default Alpha, Zoom, Icon Inset, Aspect Ratio"
-	--[[Translation missing --]]
-	L["%s Inset: %d%%"] = "%s Inset: %d%%"
+	L["%s Default Alpha, Zoom, Icon Inset, Aspect Ratio"] = "%s 기본 투명도, 확대, 아이콘 삽입, 종횡비"
+	L["%s Inset: %d%%"] = "%s 삽입: %d%%"
 	L["%s is not a valid SubEvent for COMBAT_LOG_EVENT_UNFILTERED"] = "%s|1은;는; COMBAT_LOG_EVENT_UNFILTERED에 유효한 하위 이벤트가 아닙니다."
 	L["%s Keep Aspect Ratio"] = "%s 종횡비 유지"
 	L["%s total auras"] = "총 %s개 효과"
@@ -346,7 +344,6 @@ UNIT_POWER_UPDATE, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Entry limit"] = "Entry limit"
 	--[[Translation missing --]]
 	L["Entry Name Source"] = "Entry Name Source"
-	L["Event"] = "이벤트"
 	L["Event Type"] = "이벤트 유형"
 	L["Event(s)"] = "이벤트"
 	L["Everything"] = "모두"
@@ -461,7 +458,7 @@ Supports multiple entries, separated by commas
 	L["Hybrid Sort Mode"] = "복합 정렬 모드"
 	L["Icon"] = "아이콘"
 	L["Icon Info"] = "아이콘 정보"
-	L["Icon Inset"] = "아이템 축소"
+	L["Icon Inset"] = "아이콘 삽입"
 	L["Icon Position"] = "아이콘 위치"
 	L["Icon Settings"] = "아이콘 설정"
 	L["Icon Source"] = "아이콘 출처"
@@ -730,7 +727,7 @@ Supports multiple entries, separated by commas
 	L["Shows a progress bar with name, timer, and icon"] = "이름, 타이머, 아이콘과 함께 진행 바를 표시합니다"
 	L["Shows a spell icon with an optional cooldown overlay"] = "재사용 대기시간 오버레이와 함께 주문 아이콘을 표시합니다"
 	--[[Translation missing --]]
-	L["Shows a stop motion textures"] = "Shows a stop motion textures"
+	L["Shows a stop motion texture"] = "Shows a stop motion texture"
 	L["Shows a texture that changes based on duration"] = "지속시간에 따라 변화하는 텍스쳐를 표시합니다"
 	L["Shows one or more lines of text, which can include dynamic information such as progress or stacks"] = "진행 또는 중첩과 같은 동적 정보를 포함할 수 있는 여러 줄 문자를 표시합니다."
 	L["Simple"] = "단순"
@@ -776,7 +773,6 @@ Supports multiple entries, separated by commas
 	L["Start Collapsed"] = "Start Collapsed"
 	--[[Translation missing --]]
 	L["Start of %s"] = "Start of %s"
-	L["Status"] = "상태"
 	L["Stealable"] = "훔치기 가능"
 	--[[Translation missing --]]
 	L["Step Size"] = "Step Size"

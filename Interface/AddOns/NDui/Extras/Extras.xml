@@ -7,7 +7,6 @@
 	<Include file="ChatEmote.lua"/>
 	<Include file="ChatRaidIndex.lua"/>
 	<Include file="CopyMog.lua"/>
-	<Include file="DressUp.lua"/>
 	<Include file="FreeMountCD.lua"/>
 	<Include file="GlobalFade.lua"/>
 	<Include file="KeystoneHelper.lua"/>

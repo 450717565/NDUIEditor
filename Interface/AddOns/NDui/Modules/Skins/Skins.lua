@@ -68,6 +68,7 @@ function Skins:OnLogin()
 		self:TomeOfTeleportation()
 		self:TransmogWishList()
 		self:WhisperPop()
+		self:WorldQuestsList()
 		self:WorldQuestTab()
 	end
 	-- Register skin

@@ -4,9 +4,10 @@ local Misc = B:GetModule("Misc")
 
 local pairs, unpack, tinsert, select = pairs, unpack, tinsert, select
 local GetSpellCooldown, GetSpellInfo, GetItemCooldown, GetItemCount, GetItemInfo = GetSpellCooldown, GetSpellInfo, GetItemCooldown, GetItemCount, GetItemInfo
-local IsPassiveSpell, IsCurrentSpell, IsPlayerSpell = IsPassiveSpell, IsCurrentSpell, IsPlayerSpell
+local IsPassiveSpell, IsCurrentSpell, IsPlayerSpell, UseItemByName = IsPassiveSpell, IsCurrentSpell, IsPlayerSpell, UseItemByName
 local GetProfessions, GetProfessionInfo, GetSpellBookItemInfo = GetProfessions, GetProfessionInfo, GetSpellBookItemInfo
 local PlayerHasToy, C_ToyBox_IsToyUsable, C_ToyBox_GetToyInfo = PlayerHasToy, C_ToyBox.IsToyUsable, C_ToyBox.GetToyInfo
+local C_TradeSkillUI_GetRecipeInfo, C_TradeSkillUI_GetTradeSkillLine = C_TradeSkillUI.GetRecipeInfo, C_TradeSkillUI.GetTradeSkillLine
 local C_TradeSkillUI_GetOnlyShowSkillUpRecipes, C_TradeSkillUI_SetOnlyShowSkillUpRecipes = C_TradeSkillUI.GetOnlyShowSkillUpRecipes, C_TradeSkillUI.SetOnlyShowSkillUpRecipes
 local C_TradeSkillUI_GetOnlyShowMakeableRecipes, C_TradeSkillUI_SetOnlyShowMakeableRecipes = C_TradeSkillUI.GetOnlyShowMakeableRecipes, C_TradeSkillUI.SetOnlyShowMakeableRecipes
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
@@ -16,6 +17,7 @@ local RUNEFORGING_ID = 53428
 local PICK_LOCK = 1804
 local CHEF_HAT = 134020
 local THERMAL_ANVIL = 87216
+local ENCHANTING_VELLUM = 38682
 local tabList = {}
 
 local onlyPrimary = {
@@ -191,6 +193,7 @@ function Misc:TradeTabs_OnLoad()
 	B:RegisterEvent("CURRENT_SPELL_CAST_CHANGED", Misc.TradeTabs_Update)
 
 	Misc:TradeTabs_FilterIcons()
+	Misc:TradeTabs_QuickEnchanting()
 end
 
 function Misc.TradeTabs_OnEvent(event, addon)
@@ -206,6 +209,37 @@ function Misc.TradeTabs_OnEvent(event, addon)
 		B:UnregisterEvent(event, Misc.TradeTabs_OnEvent)
 		Misc:TradeTabs_OnLoad()
 	end
+end
+
+local isEnchanting
+local tooltipString = "|cffffffff%s(%d)"
+local function IsRecipeEnchanting(self)
+	isEnchanting = nil
+
+	local recipeID = self.selectedRecipeID
+	local recipeInfo = recipeID and C_TradeSkillUI_GetRecipeInfo(recipeID)
+	if recipeInfo and recipeInfo.alternateVerb then
+		local parentSkillLineID = select(6, C_TradeSkillUI_GetTradeSkillLine())
+		if parentSkillLineID == 333 then
+			isEnchanting = true
+			self.CreateButton.tooltip = format(tooltipString, L["UseVellum"], GetItemCount(ENCHANTING_VELLUM))
+		end
+	end
+end
+
+function Misc:TradeTabs_QuickEnchanting()
+	if not TradeSkillFrame then return end
+
+	local detailsFrame = TradeSkillFrame.DetailsFrame
+	hooksecurefunc(detailsFrame, "RefreshDisplay", IsRecipeEnchanting)
+
+	local createButton = detailsFrame.CreateButton
+	createButton:RegisterForClicks("AnyUp")
+	createButton:HookScript("OnClick", function(self, btn)
+		if btn == "RightButton" and isEnchanting then
+			UseItemByName(ENCHANTING_VELLUM)
+		end
+	end)
 end
 
 function Misc:TradeTabs()

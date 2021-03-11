@@ -219,11 +219,6 @@ hooksecurefunc("SetItemButtonQuality", function(self, quality, itemIDOrLink, sup
 	end
 end)
 
--- Merchant
-hooksecurefunc("MerchantFrameItem_UpdateQuality", function(self, link)
-	SetItemLevel(self.ItemButton, link, "Merchant")
-end)
-
 -- Trade
 hooksecurefunc("TradeFrame_UpdatePlayerItem", function(id)
 	SetItemLevel(_G["TradePlayerItem"..id.."ItemButton"], GetTradePlayerItemLink(id), "Trade")

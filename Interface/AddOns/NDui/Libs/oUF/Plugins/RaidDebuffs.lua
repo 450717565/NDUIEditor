@@ -196,7 +196,7 @@ local function Update(self, _, unit)
 	end
 
 	if debugMode then
-		rd.priority = 6
+		rd.priority = 3
 		_name, _, _icon = GetSpellInfo(47540)
 		_count, _debuffType, _duration, _expiration = 2, "Magic", 10, GetTime()+10, 0
 	end

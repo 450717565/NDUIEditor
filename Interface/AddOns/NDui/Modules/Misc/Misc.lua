@@ -66,6 +66,8 @@ function Misc:OnLogin()
 	Misc:ToggleBossEmote()
 	Misc:MawWidgetFrame()
 	Misc:WorldQuestTool()
+	Misc:FasterMovieSkip()
+	Misc:EnhanceDressup()
 
 	-- Unregister talent event
 	if PlayerTalentFrame then
@@ -277,13 +279,14 @@ end
 -- Faster Looting
 local lootDelay = 0
 function Misc:DoFasterLoot()
-	if GetTime() - lootDelay >= .3 then
-		lootDelay = GetTime()
+	local thisTime = GetTime()
+	if thisTime - lootDelay >= .3 then
+		lootDelay = thisTime
 		if GetCVarBool("autoLootDefault") ~= IsModifiedClick("AUTOLOOTTOGGLE") then
 			for i = GetNumLootItems(), 1, -1 do
 				LootSlot(i)
 			end
-			lootDelay = GetTime()
+			lootDelay = thisTime
 		end
 	end
 end
@@ -463,6 +466,53 @@ function Misc:WorldQuestTool()
 	end)
 
 	B:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN", resetActionButtons)
+end
+
+function Misc:FasterMovieSkip()
+	if not C.db["Misc"]["FasterSkip"] then return end
+
+	-- Allow space bar, escape key and enter key to cancel cinematic without confirmation
+	CinematicFrame:HookScript("OnKeyDown", function(self, key)
+		if key == "ESCAPE" then
+			if CinematicFrame:IsShown() and CinematicFrame.closeDialog and CinematicFrameCloseDialogConfirmButton then
+				CinematicFrameCloseDialog:Hide()
+			end
+		end
+	end)
+	CinematicFrame:HookScript("OnKeyUp", function(self, key)
+		if key == "SPACE" or key == "ESCAPE" or key == "ENTER" then
+			if CinematicFrame:IsShown() and CinematicFrame.closeDialog and CinematicFrameCloseDialogConfirmButton then
+				CinematicFrameCloseDialogConfirmButton:Click()
+			end
+		end
+	end)
+	MovieFrame:HookScript("OnKeyUp", function(self, key)
+		if key == "SPACE" or key == "ESCAPE" or key == "ENTER" then
+			if MovieFrame:IsShown() and MovieFrame.CloseDialog and MovieFrame.CloseDialog.ConfirmButton then
+				MovieFrame.CloseDialog.ConfirmButton:Click()
+			end
+		end
+	end)
+end
+
+function Misc:EnhanceDressup()
+	if not C.db["Misc"]["EnhanceDressup"] then return end
+
+	local parent = _G.DressUpFrameResetButton
+	local button = Misc:MailBox_CreatButton(parent, 75, 22, L["Undress"], {"RIGHT", parent, "LEFT", -2, 0})
+	button:RegisterForClicks("AnyUp")
+	button:SetScript("OnClick", function(_, btn)
+		local actor = DressUpFrame.ModelScene:GetPlayerActor()
+		if not actor then return end
+
+		if btn == "LeftButton" then
+			actor:Undress()
+		else
+			actor:UndressSlot(19)
+		end
+	end)
+
+	B.AddTooltip(button, "ANCHOR_TOP", format(L["UndressButtonTip"], DB.LeftButton, DB.RightButton))
 end
 
 -- Archaeology counts

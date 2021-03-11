@@ -39,6 +39,8 @@ local L = WeakAuras.L
 	--[[Translation missing --]]
 	L["Always shows the aura, turns red when out of range, blue on insufficient resources."] = "Always shows the aura, turns red when out of range, blue on insufficient resources."
 	L["Always shows the aura, turns red when out of range."] = "효과를 항상 표시하고, 사거리를 벗어나면 빨간색으로 바뀝니다."
+	--[[Translation missing --]]
+	L["Always shows the aura."] = "Always shows the aura."
 	L["Back"] = "뒤로"
 	L["Basic Show On Cooldown"] = "재사용 대기 중 표시"
 	--[[Translation missing --]]
@@ -98,6 +100,8 @@ local L = WeakAuras.L
 	L["Only shows the aura if the target has the buff."] = "대상에 강화 효과가 있는 경우 그 효과만 표시합니다."
 	L["Only shows the aura when the ability is on cooldown."] = "능력이 재사용 대기 중일 때 그 효과만 표시합니다."
 	L["Only shows the aura when the ability is ready to use."] = "능력을 사용할 준비가 되었을 때 그 효과만 표시합니다."
+	--[[Translation missing --]]
+	L["Other cooldown"] = "Other cooldown"
 	L["Pet alive"] = "소환수 생존"
 	L["Pet Behavior"] = "소환수 행동"
 	L["PvP Talents"] = "명예 특성"
@@ -105,6 +109,8 @@ local L = WeakAuras.L
 	L["Replace Triggers"] = "활성 조건 교체"
 	L["Resources"] = "자원"
 	L["Resources and Shapeshift Form"] = "자원과 태세 변환"
+	--[[Translation missing --]]
+	L["Rogue cooldown"] = "Rogue cooldown"
 	L["Runes"] = "룬"
 	L["Shapeshift Form"] = "태세 변환"
 	--[[Translation missing --]]
@@ -173,4 +179,6 @@ local L = WeakAuras.L
 	L["Tracks the charge and the duration of spell, highlight while the spell is active, blue on insufficient resources."] = "Tracks the charge and the duration of spell, highlight while the spell is active, blue on insufficient resources."
 	L["Unknown Item"] = "알 수 없는 아이템"
 	L["Unknown Spell"] = "알 수 없는 주문"
+	--[[Translation missing --]]
+	L["Warrior cooldown"] = "Warrior cooldown"
 

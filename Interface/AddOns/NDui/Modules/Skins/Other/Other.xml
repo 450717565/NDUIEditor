@@ -26,6 +26,7 @@
 	<Script file="TransmogWishList.lua"/>
 	<Script file="WeakAuras.lua"/>
 	<Script file="WhisperPop.lua"/>
+	<Script file="WorldQuestsList.lua"/>
 	<Script file="WorldQuestTab.lua"/>
 	<Script file="Other.lua"/>
 </Ui>

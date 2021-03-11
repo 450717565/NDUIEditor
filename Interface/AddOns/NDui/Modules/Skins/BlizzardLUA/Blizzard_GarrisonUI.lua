@@ -150,7 +150,7 @@ local function Reskin_MissionComplete(self)
 end
 
 local function Reskin_MissionPage(self, isShop)
-	B.StripTextures(self)
+	B.StripTextures(self, 0)
 	B.StripTextures(self.Stage)
 
 	B.ReskinButton(self.StartMissionButton)
@@ -264,7 +264,7 @@ local function Reskin_MissionList(self)
 end
 
 local function Update_FollowerQuality(self, followerInfo)
-	if followerInfo then
+	if followerInfo and self.squareBG then
 		local r, g, b = GetItemQualityColor(followerInfo.quality or 1)
 		self.squareBG:SetBackdropBorderColor(r, g, b)
 	end
@@ -278,7 +278,7 @@ local function Reskin_UpdateData(self)
 
 	for i = 1, #buttons do
 		local button = buttons[i].Follower
-		local PortraitFrame = button.PortraitFrame
+		local portrait = button.PortraitFrame
 
 		if not button.styled then
 			B.StripTextures(button)
@@ -288,11 +288,9 @@ local function Reskin_UpdateData(self)
 			B.ReskinHighlight(button.Selection, bubg, true)
 			button.BusyFrame:SetAllPoints(bubg)
 
-			if PortraitFrame then
-				S.ReskinFollowerPortrait(PortraitFrame)
-				PortraitFrame:ClearAllPoints()
-				PortraitFrame:SetPoint("TOPLEFT", 4, -2)
-				hooksecurefunc(PortraitFrame, "SetupPortrait", Update_FollowerQuality)
+			if portrait then
+				S.ReskinFollowerPortrait(portrait)
+				hooksecurefunc(portrait, "SetupPortrait", Update_FollowerQuality)
 			end
 
 			if button.Class then
@@ -318,8 +316,13 @@ local function Reskin_UpdateData(self)
 			end
 		end
 
-		if PortraitFrame.quality then
-			S.UpdateFollowerQuality(PortraitFrame)
+		if portrait then
+			portrait:ClearAllPoints()
+			portrait:SetPoint("TOPLEFT", 4, 0)
+		end
+
+		if portrait.quality then
+			S.UpdateFollowerQuality(portrait)
 		end
 	end
 end
@@ -384,9 +387,9 @@ local function Reskin_MissionFrame(self)
 	B.ReskinFrameTab(self, 3)
 
 	self.MissionCompleteBackground:SetAlpha(0)
+	if self.RaisedBorder then self.RaisedBorder:Hide() end
 	if self.ClassHallIcon then self.ClassHallIcon:Hide() end
 	if self.OverlayElements then self.OverlayElements:Hide() end
-	if self.RaisedBorder then self.RaisedBorder:Hide() end
 	if self.MapTab then self.MapTab.ScrollContainer.Child.TiledBackground:Hide() end
 	if self.TitleScroll then
 		B.StripTextures(self.TitleScroll)
@@ -571,8 +574,9 @@ local function Reskin_MissionUpdateMissionParty(_, followers)
 end
 
 local function Reskin_MissionRemoveFollowerFromMission(_, frame)
-	if frame.PortraitFrame and frame.PortraitFrame.squareBG then
-		frame.PortraitFrame.squareBG:Hide()
+	local portrait = frame.PortraitFrame
+	if portrait and portrait.squareBG then
+		portrait.squareBG:Hide()
 	end
 end
 
@@ -582,24 +586,25 @@ local function Reskin_MissionCompleteInitialize(self, missionList, index)
 
 	for i = 1, #mission.followers do
 		local follower = self.MissionComplete.Stage.FollowersFrame.Followers[i]
-		if follower.PortraitFrame then
+		local portrait = follower.PortraitFrame
+		if portrait then
 			if not follower.bg then
-				follower.PortraitFrame:ClearAllPoints()
-				follower.PortraitFrame:SetPoint("TOPLEFT", 0, -10)
-				S.ReskinFollowerPortrait(follower.PortraitFrame)
+				portrait:ClearAllPoints()
+				portrait:SetPoint("TOPLEFT", 0, -10)
+				S.ReskinFollowerPortrait(portrait)
 
 				local oldBg = follower:GetRegions()
 				oldBg:Hide()
 				follower.bg = B.CreateBDFrame(oldBg)
-				follower.bg:SetPoint("TOPLEFT", follower.PortraitFrame, -1, 1)
+				follower.bg:SetPoint("TOPLEFT", portrait, -1, 1)
 				follower.bg:SetPoint("BOTTOMRIGHT", -10, 8)
 			end
 
 			local quality = select(4, C_Garrison.GetFollowerMissionCompleteInfo(mission.followers[i]))
 			if quality then
 				local r, g, b = GetItemQualityColor(quality or 1)
-				follower.PortraitFrame.squareBG:SetBackdropBorderColor(r, g, b)
-				follower.PortraitFrame.squareBG:Show()
+				portrait.squareBG:SetBackdropBorderColor(r, g, b)
+				portrait.squareBG:Show()
 			end
 		end
 	end
@@ -689,7 +694,7 @@ local function Reskin_CapacitiveDisplayFrameUpdate(self)
 	end
 end
 
-local function Reskin_CovenantMissionFrameSetupTabs(self)
+local function Reskin_SetupTabs(self)
 	self.MapTab:SetShown(not self.Tab2:IsShown())
 end
 
@@ -704,13 +709,18 @@ local function Reskin_LandingPageReport(self)
 end
 
 local function Reskin_OrderHallMissionFrame()
-	local PortraitFrame = OrderHallMissionFrameMissions.CombatAllyUI.InProgress.PortraitFrame
-	if PortraitFrame:IsShown() then
-		S.UpdateFollowerQuality(PortraitFrame)
+	local portrait = OrderHallMissionFrameMissions.CombatAllyUI.InProgress.PortraitFrame
+	if portrait:IsShown() then
+		S.UpdateFollowerQuality(portrait)
 	end
 
 	CombatAllyUI.Available.AddFollowerButton.EmptyPortrait:SetAlpha(0)
 	CombatAllyUI.Available.AddFollowerButton.PortraitHighlight:SetAlpha(0)
+end
+
+local function Update_HealthValueWidth(self, missionPage)
+	missionPage.Board.AllyHealthValue:SetWidth(70)
+	missionPage.Stage.EnemyHealthValue:SetWidth(70)
 end
 
 C.LUAThemes["Blizzard_GarrisonUI"] = function()
@@ -996,7 +1006,9 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 	local CovenantMissionFrame = CovenantMissionFrame
 	Reskin_MissionFrame(CovenantMissionFrame)
 	CovenantMissionFrameMissions.RaisedFrameEdges:SetAlpha(0)
-	hooksecurefunc(CovenantMissionFrame, "SetupTabs", Reskin_CovenantMissionFrameSetupTabs)
+	hooksecurefunc(CovenantMissionFrame, "SetupTabs", Reskin_SetupTabs)
+	hooksecurefunc(CovenantMissionFrame, "UpdateEnemyPower", Update_HealthValueWidth)
+	hooksecurefunc(CovenantMissionFrame, "UpdateAllyPower", Update_HealthValueWidth)
 
 	B.StripTextures(CombatLog)
 	B.StripTextures(CombatLog.ElevatedFrame)
