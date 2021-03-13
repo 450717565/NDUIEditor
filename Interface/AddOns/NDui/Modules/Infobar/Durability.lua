@@ -13,7 +13,7 @@ local C_Timer_After, IsShiftKeyDown, InCombatLockdown, CanMerchantRepair = C_Tim
 local HelpTip = HelpTip
 
 local repairCostString = gsub(REPAIR_COST, HEADER_COLON, "")
-local lowDurabilityCap = 25
+local lowDurabilityCap = .25
 
 local localSlots = {
 	[1] = {1, INVTYPE_HEAD, 1000},
@@ -57,7 +57,7 @@ local function UpdateAllSlots()
 		if GetInventoryItemLink("player", index) then
 			local current, max = GetInventoryItemDurability(index)
 			if current then
-				localSlots[i][3] = tonumber(format("%.1f", current/max*100))
+				localSlots[i][3] = tonumber(current/max*100)
 				numSlots = numSlots + 1
 			end
 			localSlots[i][4] = "|T"..GetInventoryItemTexture("player", index)..":13:15:0:0:50:50:4:46:4:46|t " or ""

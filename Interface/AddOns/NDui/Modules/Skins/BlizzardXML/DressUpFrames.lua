@@ -1,6 +1,8 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
+local cr, cg, cb = DB.cr, DB.cg, DB.cb
+
 local function Update_FrameAnchor(self)
 	self:ClearAllPoints()
 	self:SetPoint("LEFT", self:GetParent(), "RIGHT", 3, 0)

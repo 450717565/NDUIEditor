@@ -431,7 +431,7 @@ function Misc:WorldQuestTool()
 	--https://www.wowhead.com/quest=59585/well-make-an-aspirant-out-of-you
 
 	local hasFound
-	local function resetActionButtons()
+	local function Reset_ActionButtons()
 		if not hasFound then return end
 		for i = 1, 3 do
 			B.HideOverlayGlow(_G["ActionButton"..i])
@@ -440,22 +440,25 @@ function Misc:WorldQuestTool()
 	end
 
 	local fixedStrings = {
-		["低扫"] = "横扫",
+		["横扫"] = "低扫",
+		["表扬"] = "夸奖",
 	}
-	B:RegisterEvent("CHAT_MSG_MONSTER_SAY", function(_, msg)
-		if not GetOverrideBarSkin() or not C_QuestLog_GetLogIndexForQuestID(59585) then
-			resetActionButtons()
+
+	local function Update_ActionButtons(_, msg)
+		if not GetOverrideBarSkin() or not C_QuestLog_GetLogIndexForQuestID(59585) or not C_QuestLog_GetLogIndexForQuestID(61540) then
+			Reset_ActionButtons()
 			return
 		end
 
 		msg = gsub(msg, "[。%.]", "")
-		msg = fixedStrings[msg] or msg
 
 		for i = 1, 3 do
 			local button = _G["ActionButton"..i]
 			local _, spellID = GetActionInfo(button.action)
 			local name = spellID and GetSpellInfo(spellID)
-			if name and name == msg then
+			name = fixedStrings[name] or name
+
+			if name and strfind(msg, name) then
 				B.ShowOverlayGlow(button)
 			else
 				B.HideOverlayGlow(button)
@@ -463,9 +466,11 @@ function Misc:WorldQuestTool()
 		end
 
 		hasFound = true
-	end)
+	end
 
-	B:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN", resetActionButtons)
+	B:RegisterEvent("CHAT_MSG_MONSTER_SAY", Update_ActionButtons)
+	B:RegisterEvent("CHAT_MSG_RAID_BOSS_WHISPER", Update_ActionButtons)
+	B:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN", Reset_ActionButtons)
 end
 
 function Misc:FasterMovieSkip()

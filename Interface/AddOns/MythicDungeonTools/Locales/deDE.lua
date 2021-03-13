@@ -393,8 +393,7 @@ L["Heart Guardian"] = "Herzwächter"
 L["Heartsbane Runeweaver"] = "Runenweberin des Herzbanns"
 L["Heartsbane Soulcharmer"] = "Seelenbetörerin des Herzbanns"
 L["Heartsbane Vinetwister"] = "Herzbannrankenwinderin"
---[[Translation missing --]]
---[[ L["Heavin the Breaker"] = ""--]] 
+L["Heavin the Breaker"] = "Wuchtus der Brecher"
 L["Heavy Scrapbot"] = "Schwerer Schrottbot"
 L["Helmouth Cliffs"] = "Die Helmaulklippen"
 L["helpPlateDungeon"] = "Passe die Instanzoptionen an"
@@ -582,8 +581,7 @@ L["Nalthor the Rimebinder"] = "Nalthor der Eisbinder"
 L["Nar'zudah"] = "Nar'zudah"
 L["Necrotic"] = "Nekrotisch"
 L["Nefarious Darkspeaker"] = "Ruchloser Dunkelsprecher"
---[[Translation missing --]]
---[[ L["Nekthara the Mangler"] = ""--]] 
+L["Nekthara the Mangler"] = "Nekthara der Zerfleischer"
 L["Neltharion's Lair"] = "Neltharions Hort"
 L["Neltharion's Lair Sublevel"] = "Neltharions Hort"
 L["Netherspace"] = "Netherraum"
@@ -686,8 +684,7 @@ L["Red, Green and Blue"] = "Rot, Grün und Blau"
 L["Redo"] = "Wiederholen"
 L["Refreshment Vendor"] = "Snackverkäuferin"
 L["Regal Mistdancer"] = "Majestätischer Nebeltänzer"
---[[Translation missing --]]
---[[ L["Rek the Hardened"] = ""--]] 
+L["Rek the Hardened"] = "Rek die Gehärtete"
 L["Relentless"] = "Unerbittlich"
 L["Remnant of Fury"] = "Überrest des Zorns"
 L["Rename"] = "Umbenennen"

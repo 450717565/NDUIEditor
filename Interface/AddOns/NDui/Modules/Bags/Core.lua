@@ -345,7 +345,7 @@ function Bags:CreateSplitButton()
 	local bu = B.CreateButton(self, 24, 24, true, "Interface\\Icons\\Ability_Druid_GiftoftheEarthmother")
 	bu.__turnOff = function()
 		bu.icbg:SetBackdropBorderColor(0, 0, 0)
-		bu.tooltip = nil
+		bu.text = nil
 		splitFrame:Hide()
 		splitEnable = nil
 	end
@@ -354,7 +354,7 @@ function Bags:CreateSplitButton()
 		splitEnable = not splitEnable
 		if splitEnable then
 			self.icbg:SetBackdropBorderColor(cr, cg, cb)
-			self.tooltip = enabledText
+			self.text = enabledText
 			splitFrame:Show()
 			editbox:SetText(C.db["Bags"]["SplitCount"])
 		else
@@ -394,7 +394,7 @@ function Bags:CreateFavouriteButton()
 	local bu = B.CreateButton(self, 24, 24, true, "Interface\\Icons\\Item_Shop_GiftBox01")
 	bu.__turnOff = function()
 		bu.icbg:SetBackdropBorderColor(0, 0, 0)
-		bu.tooltip = nil
+		bu.text = nil
 		favouriteEnable = nil
 	end
 	bu:SetScript("OnClick", function(self)
@@ -402,7 +402,7 @@ function Bags:CreateFavouriteButton()
 		favouriteEnable = not favouriteEnable
 		if favouriteEnable then
 			self.icbg:SetBackdropBorderColor(cr, cg, cb)
-			self.tooltip = enabledText
+			self.text = enabledText
 		else
 			self.__turnOff()
 		end
@@ -448,7 +448,7 @@ function Bags:CreateJunkButton()
 	local bu = B.CreateButton(self, 24, 24, true, "Interface\\Icons\\inv_misc_coinbag_special")
 	bu.__turnOff = function()
 		bu.icbg:SetBackdropBorderColor(0, 0, 0)
-		bu.tooltip = nil
+		bu.text = nil
 		customJunkEnable = nil
 	end
 	bu:SetScript("OnClick", function(self)
@@ -461,7 +461,7 @@ function Bags:CreateJunkButton()
 		customJunkEnable = not customJunkEnable
 		if customJunkEnable then
 			self.icbg:SetBackdropBorderColor(cr, cg, cb)
-			self.tooltip = enabledText
+			self.text = enabledText
 		else
 			bu.__turnOff()
 		end
@@ -502,7 +502,7 @@ function Bags:CreateDeleteButton()
 	bu.Icon:SetPoint("BOTTOMRIGHT", -1, 2)
 	bu.__turnOff = function()
 		bu.icbg:SetBackdropBorderColor(0, 0, 0)
-		bu.tooltip = nil
+		bu.text = nil
 		deleteEnable = nil
 	end
 	bu:SetScript("OnClick", function(self)
@@ -510,7 +510,7 @@ function Bags:CreateDeleteButton()
 		deleteEnable = not deleteEnable
 		if deleteEnable then
 			self.icbg:SetBackdropBorderColor(cr, cg, cb)
-			self.tooltip = enabledText
+			self.text = enabledText
 		else
 			bu.__turnOff()
 		end

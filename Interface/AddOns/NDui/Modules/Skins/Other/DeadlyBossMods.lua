@@ -6,6 +6,8 @@ local TT = B:GetModule("Tooltip")
 local iconSize = 20
 
 local function Reskin_Icon(icon, frame)
+	if not icon then return end
+
 	if not icon.styled then
 		icon:SetSize(iconSize, iconSize)
 		icon.SetSize = B.Dummy
@@ -20,6 +22,8 @@ local function Reskin_Icon(icon, frame)
 end
 
 local function Reskin_Bar(bar, frame)
+	if not bar then return end
+
 	if not bar.styled then
 		B.CreateSB(bar, true)
 
@@ -65,7 +69,7 @@ local function Reskin_ApplyStyle(self)
 
 	frame:SetScale(1)
 	frame:SetHeight(iconSize/2)
-	texture:SetTexture(DB.normTex)
+	if texture then texture:SetTexture(DB.normTex) end
 
 	name:ClearAllPoints()
 	name:SetPoint("LEFT", tbar, "LEFT", 2, 6)

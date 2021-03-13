@@ -41,7 +41,6 @@ C.LUAThemes["Blizzard_RuneforgeUI"] = function()
 	local frame = RuneforgeFrame
 	B.ReskinClose(frame.CloseButton, frame, -70, -70)
 	TT.ReskinTooltip(frame.ResultTooltip)
-	hooksecurefunc(frame, "RefreshCurrencyDisplay", Reskin_RefreshCurrencyDisplay)
 
 	local createFrame = frame.CreateFrame
 	B.ReskinButton(createFrame.CraftItemButton)

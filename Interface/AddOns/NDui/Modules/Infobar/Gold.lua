@@ -28,6 +28,15 @@ local function getClassIcon(class)
 	return classStr or ""
 end
 
+local FreeSlots = GetContainerNumSlots
+local function getFreeSlots()
+	local frees = CalculateTotalNumberOfFreeBagSlots()
+	local total = FreeSlots(0) + FreeSlots(1) + FreeSlots(2) + FreeSlots(3) + FreeSlots(4)
+	local r, g, b = B.SmoothColor(frees, total)
+
+	return B.HexRGB(r, g, b, frees.."/"..total)
+end
+
 info.eventList = {
 	"PLAYER_ENTERING_WORLD",
 	"PLAYER_MONEY",
@@ -50,7 +59,12 @@ info.onEvent = function(self, event)
 	else								-- Gained Moeny
 		profit = profit + change
 	end
-	self.text:SetText(Infobar:GetMoneyString(newMoney, true))
+
+	if NDuiADB["ShowSlots"] then
+		self.text:SetText(getFreeSlots()..L["Bags"])
+	else
+		self.text:SetText(Infobar:GetMoneyString(newMoney, true))
+	end
 
 	if not NDuiADB["totalGold"][myRealm] then NDuiADB["totalGold"][myRealm] = {} end
 	if not NDuiADB["totalGold"][myRealm][myName] then NDuiADB["totalGold"][myRealm][myName] = {} end
@@ -76,8 +90,18 @@ StaticPopupDialogs["RESETGOLD"] = {
 }
 
 info.onMouseUp = function(self, btn)
-	if IsControlKeyDown() and btn == "RightButton" then
-		StaticPopup_Show("RESETGOLD")
+	if btn == "RightButton" then
+		if IsControlKeyDown() then
+			StaticPopup_Show("RESETGOLD")
+		else
+			NDuiADB["ShowSlots"] = not NDuiADB["ShowSlots"]
+			if NDuiADB["ShowSlots"] then
+				self:RegisterEvent("BAG_UPDATE")
+			else
+				self:UnregisterEvent("BAG_UPDATE")
+			end
+			self:onEvent()
+		end
 	elseif btn == "MiddleButton" then
 		NDuiADB["AutoSell"] = not NDuiADB["AutoSell"]
 		self:onEnter()
@@ -154,6 +178,7 @@ info.onEnter = function(self)
 
 	GameTooltip:AddDoubleLine(" ", DB.LineString)
 	GameTooltip:AddDoubleLine(" ", DB.LeftButton..L["Currency Panel"].." ", 1,1,1, .6,.8,1)
+	GameTooltip:AddDoubleLine(" ", DB.RightButton..L["Switch Mode"].." ", 1,1,1, .6,.8,1)
 	GameTooltip:AddDoubleLine(" ", DB.ScrollButton..L["AutoSell Junk"]..switchList[NDuiADB["AutoSell"]].." ", 1,1,1, .6,.8,1)
 	GameTooltip:AddDoubleLine(" ", "CTRL +"..DB.RightButton..L["Reset Gold"].." ", 1,1,1, .6,.8,1)
 	GameTooltip:Show()
@@ -162,16 +187,8 @@ end
 info.onLeave = B.HideTooltip
 
 -- Auto selljunk
-local sellCount, stop, cache = 0, true, {}
+local stop, cache = true, {}
 local errorText = _G.ERR_VENDOR_DOESNT_BUY
-
-local function stopSelling(tell)
-	stop = true
-	if sellCount > 0 and tell then
-		print(format("|cff99CCFF%s|r%s", L["Selljunk Calculate"], Infobar:GetMoneyString(sellCount)))
-	end
-	sellCount = 0
-end
 
 local function startSelling()
 	if stop then return end
@@ -181,9 +198,8 @@ local function startSelling()
 			local link = GetContainerItemLink(bag, slot)
 			if link then
 				local price = select(11, GetItemInfo(link))
-				local _, count, _, quality, _, _, _, _, _, itemID = GetContainerItemInfo(bag, slot)
+				local _, _, _, quality, _, _, _, _, _, itemID = GetContainerItemInfo(bag, slot)
 				if (quality == 0 or NDuiADB["CustomJunkList"][itemID]) and price > 0 and not cache["b"..bag.."s"..slot] then
-					sellCount = sellCount + price*count
 					cache["b"..bag.."s"..slot] = true
 					UseContainerItem(bag, slot)
 					C_Timer_After(.15, startSelling)
@@ -204,10 +220,8 @@ local function updateSelling(event, ...)
 		wipe(cache)
 		startSelling()
 		B:RegisterEvent("UI_ERROR_MESSAGE", updateSelling)
-	elseif event == "UI_ERROR_MESSAGE" and arg == errorText then
-		stopSelling(false)
-	elseif event == "MERCHANT_CLOSED" then
-		stopSelling(true)
+	elseif event == "UI_ERROR_MESSAGE" and arg == errorText or event == "MERCHANT_CLOSED" then
+		stop = true
 	end
 end
 B:RegisterEvent("MERCHANT_SHOW", updateSelling)

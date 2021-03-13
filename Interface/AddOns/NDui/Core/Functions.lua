@@ -1503,9 +1503,9 @@ do
 		if self.title then
 			GameTooltip:AddLine(self.title)
 		end
-		if tonumber(self.tooltip) then
-			GameTooltip:SetSpellByID(self.tooltip)
-		elseif self.tooltip then
+		if tonumber(self.text) then
+			GameTooltip:SetSpellByID(self.text)
+		elseif self.text then
 			local r, g, b = 1, 1, 1
 			if self.color == "class" then
 				r, g, b = cr, cg, cb
@@ -1514,7 +1514,7 @@ do
 			elseif self.color == "info" then
 				r, g, b = .6, .8, 1
 			end
-			GameTooltip:AddLine(self.tooltip, r, g, b, 1)
+			GameTooltip:AddLine(self.text, r, g, b, 1)
 		end
 
 		if self and self.bgTex then
@@ -1524,9 +1524,9 @@ do
 		GameTooltip:Show()
 	end
 
-	function B:AddTooltip(anchor, tooltip, color)
+	function B:AddTooltip(anchor, text, color)
 		self.anchor = anchor
-		self.tooltip = tooltip
+		self.text = text
 		self.color = color
 		self:SetScript("OnEnter", Tooltip_OnEnter)
 		self:SetScript("OnLeave", B.HideTooltip)
@@ -1765,17 +1765,15 @@ do
 	end
 
 	function B:CreateDropDown(width, height, data)
-		local dd = CreateFrame("Frame", nil, self, "BackdropTemplate")
+		local dd = CreateFrame("Frame", nil, self)
 		dd:SetSize(width, height)
-		dd.bg = B.CreateBDFrame(dd)
-		dd.bg:SetBackdropBorderColor(1, 1, 1)
+		B.CreateBDFrame(dd)
 		dd.Text = B.CreateFS(dd, 14, "", false, "LEFT", 5, 0)
 		dd.Text:SetPoint("RIGHT", -5, 0)
 		dd.options = {}
 
 		local bu = CreateFrame("Button", nil, dd)
 		bu:SetPoint("RIGHT", -5, 0)
-		bu:SetFrameLevel(dd:GetFrameLevel())
 		B.ReskinArrow(bu, "down")
 
 		local list = CreateFrame("Frame", nil, dd, "BackdropTemplate")
@@ -1783,7 +1781,6 @@ do
 		B.CreateSD(list)
 		list:ClearAllPoints()
 		list:SetPoint("TOP", dd, "BOTTOM", 0, -2)
-		list:SetBackdropBorderColor(1, 1, 1)
 		list:Hide()
 
 		bu.__list = list
