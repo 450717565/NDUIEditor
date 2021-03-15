@@ -1,11 +1,12 @@
-<Ui xmlns="http://www.blizzard.com/wow/ui/">
+<Ui>
 	<Script file="Tip.lua"/>
-	<Script file="TooltipIcons.lua"/>
-	<Script file="TooltipID.lua"/>
-	<Script file="SpecLevel.lua"/>
-	<Script file="PetInfo.lua"/>
-	<Script file="Hovertips.lua"/>
-	<Script file="Targeted.lua"/>
+
 	<Script file="AzeriteArmor.lua"/>
 	<Script file="ConduitData.lua"/>
+	<Script file="HoverTips.lua"/>
+	<Script file="PetInfo.lua"/>
+	<Script file="SpecLevel.lua"/>
+	<Script file="Targeted.lua"/>
+	<Script file="TooltipIcons.lua"/>
+	<Script file="TooltipID.lua"/>
 </Ui>

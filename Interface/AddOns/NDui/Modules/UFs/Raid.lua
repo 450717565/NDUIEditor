@@ -18,7 +18,7 @@ local tL, tR, tT, tB = unpack(DB.TexCoord)
 function UF:CreateRaidIcons(self)
 	local parentFrame = CreateFrame("Frame", nil, self)
 	parentFrame:SetAllPoints()
-	parentFrame:SetFrameLevel(self:GetFrameLevel() + 3)
+	parentFrame:SetFrameLevel(self:GetFrameLevel() + 2)
 
 	local readyCheck = parentFrame:CreateTexture(nil, "OVERLAY")
 	readyCheck:SetSize(16, 16)
@@ -128,7 +128,7 @@ function UF:CreateRaidDebuffs(self)
 	local bu = CreateFrame("Frame", nil, self)
 	bu:SetSize(iconSize, iconSize)
 	bu:SetPoint("LEFT", self, "CENTER", 5, 0)
-	bu:SetFrameLevel(self:GetFrameLevel() + 3)
+	bu:SetFrameLevel(self:GetFrameLevel() + 2)
 	bu:SetScale(scale)
 	bu:Hide()
 
@@ -141,11 +141,8 @@ function UF:CreateRaidDebuffs(self)
 	icon:SetTexCoord(tL, tR, tT, tB)
 	bu.icon = icon
 
-	local parentFrame = CreateFrame("Frame", nil, bu)
-	parentFrame:SetAllPoints()
-	parentFrame:SetFrameLevel(bu:GetFrameLevel() + 6)
-	bu.count = B.CreateFS(parentFrame, fontSize, "", false, "BOTTOMRIGHT", 6, -3)
-	bu.timer = B.CreateFS(parentFrame, fontSize, "", false, "CENTER", 1, 0)
+	bu.count = B.CreateFS(bu, fontSize, "", false, "BOTTOMRIGHT", 5, -6)
+	bu.timer = B.CreateFS(bu, fontSize, "", false, "CENTER", 1, 0)
 
 	if not C.db["UFs"]["AurasClickThrough"] then
 		bu:SetScript("OnEnter", buttonOnEnter)
@@ -483,15 +480,17 @@ function UF:CreateBuffIndicator(self)
 	local buttons = {}
 	for _, anchor in pairs(anchors) do
 		local bu = CreateFrame("Frame", nil, self)
-		bu:SetFrameLevel(self:GetFrameLevel() + 10)
+		bu:SetFrameLevel(self:GetFrameLevel() + 2)
 		bu:SetSize(iconSize, iconSize)
 		bu:SetScale(scale)
 		bu:SetPoint(anchor)
 		bu:Hide()
 
+		bu.bubg = B.CreateBDFrame(bu)
+		bu.bubg:SetFrameLevel(bu:GetFrameLevel())
+
 		bu.timer = B.CreateFS(bu, fontSize, "", false, "CENTER", -counterOffsets[anchor][2][3], 0)
 		bu.count = B.CreateFS(bu, fontSize)
-		bu.bubg = B.CreateBDFrame(bu)
 
 		local icon = bu:CreateTexture(nil, "BORDER")
 		icon:SetInside(bu.bubg)

@@ -109,25 +109,24 @@ local function Reskin_QuestIcon(self)
 	if not self then return end
 	if not self.SetNormalTexture then return end
 
-	if not self.styled then
+	if not self.icbg then
 		B.CleanTextures(self)
 
-		local icbg = B.CreateBDFrame(self.icon or self.Icon, 0, -C.mult)
-		B.ReskinHighlight(self, icbg)
+		self.icbg = B.CreateBDFrame(self.icon or self.Icon, 0, -C.mult)
+		B.ReskinHighlight(self, self.icbg)
 
 		if self.icon then
 			self.icon:SetTexCoord(tL, tR, tT, tB)
 		end
 
 		if self.Icon then
-			self.Icon:SetDrawLayer("ARTWORK")
 			self.Icon:SetPoint("CENTER")
 			self.Icon:SetSize(18, 18)
-			icbg:SetInside(nil, 2, 2)
+			self.icbg:SetInside(nil, 1.5, 1.5)
 		end
-
-		self.styled = true
 	end
+
+	self.icbg:SetFrameLevel(self:GetFrameLevel()-1)
 end
 
 local function Reskin_QuestIcons(_, block)

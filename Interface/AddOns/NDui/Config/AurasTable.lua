@@ -3,6 +3,19 @@ local B, C, L, DB = unpack(ns)
 local AT = B:RegisterModule("AurasTable")
 local pairs, next, format, wipe = pairs, next, string.format, wipe
 
+-- SeasonSpells
+local SEASON_SPELLS = {
+	[209858] = 2, -- 死疽
+	[240443] = 2, -- 爆裂
+	[240559] = 2, -- 重伤
+	[342494] = 2, -- 狂妄吹嘘
+}
+function AT:RegisterSeasonSpells(TIER, INSTANCE)
+	for spellID, priority in pairs(SEASON_SPELLS) do
+		AT:RegisterDebuff(TIER, INSTANCE, 0, spellID, priority)
+	end
+end
+
 -- AuraWatch
 local AuraWatchList = {}
 local groups = {

@@ -21,8 +21,8 @@ local EnchantParts = {
 --	[6]  = {1, WAISTSLOT},			-- 腰部
 --	[7]  = {1, LEGSSLOT},			-- 腿部
 	[8]  = {1, L["Feet"]},			-- 脚部
-	[9]  = {0, WRISTSLOT},			-- 腕部
-	[10] = {0, L["Hands"]},			-- 手部
+	[9]  = {1, WRISTSLOT},			-- 腕部
+	[10] = {1, L["Hands"]},			-- 手部
 	[11] = {1, FINGER0SLOT},		-- 手指
 	[12] = {1, FINGER1SLOT},		-- 手指
 	[15] = {1, BACKSLOT},			-- 背部
@@ -181,7 +181,7 @@ local function ShowGemAndEnchant(frame, ItemLink, anchorFrame, itemframe)
 			num = num + 1
 			icon = GetIconFrame(frame)
 			_, _, texture = GetSpellInfo(enchantSpellID)
-			icon.bg:SetVertexColor(1,0.82,0)
+			icon.bg:SetVertexColor(1, 0.8, 0)
 			icon.texture:SetTexture(texture)
 			UpdateIconTexture(icon, texture, enchantSpellID, "spell")
 			icon.spellID = enchantSpellID

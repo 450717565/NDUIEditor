@@ -1,4 +1,4 @@
-<Ui xmlns="http://www.blizzard.com/wow/ui/">
+<Ui>
 	<Include file="TaintLess.xml"/>
 	<Script file="AlreadyKnown.lua"/>
 	<Script file="DragEmAll.lua"/>

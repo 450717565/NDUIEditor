@@ -1,4 +1,4 @@
-<Ui xmlns="http://www.blizzard.com/wow/ui/">
+<Ui>
 	<Script file="Skins.lua"/>
 	<Script file="Fonts.lua"/>
 	<Script file="Functions.lua"/>

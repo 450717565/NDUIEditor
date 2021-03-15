@@ -347,7 +347,6 @@ function UF:AddTargetIndicator(self)
 
 	local frame = CreateFrame("Frame", nil, self)
 	frame:SetAllPoints()
-	frame:SetFrameLevel(self:GetFrameLevel() + 1)
 
 	frame.TopArrow = frame:CreateTexture(nil, "BACKGROUND", nil, -5)
 	frame.TopArrow:SetSize(50, 50)
@@ -536,7 +535,7 @@ function UF:AddCreatureIcon(self)
 
 	local icon = iconFrame:CreateTexture(nil, "ARTWORK")
 	icon:SetAtlas("VignetteKill")
-	icon:SetPoint("BOTTOMLEFT", self, "LEFT", 0, -6)
+	icon:SetPoint("LEFT", self, "TOPLEFT", 0, 0)
 	icon:SetSize(24, 24)
 	icon:Hide()
 
@@ -622,7 +621,6 @@ function UF:MouseoverIndicator(self)
 
 	local frame = CreateFrame("Frame", nil, self.Health)
 	frame:SetAllPoints(self)
-	frame:SetFrameLevel(self:GetFrameLevel() + 1)
 
 	frame.Highlight = B.CreateSD(frame, true)
 	frame.Highlight:SetOutside(self.Health.bd, 4, 4)
@@ -635,13 +633,14 @@ function UF:MouseoverIndicator(self)
 			if not UF.IsMouseoverUnit(self) then
 				frame.Highlight:Hide()
 			end
+
 			frame.elapsed = 0
 		end
 	end)
 
-	self:RegisterEvent("UPDATE_MOUSEOVER_UNIT", UF.UpdateMouseoverShown, true)
 	self.HighlightUpdater = frame
 	self.HighlightIndicator = frame.Highlight
+	self:RegisterEvent("UPDATE_MOUSEOVER_UNIT", UF.UpdateMouseoverShown, true)
 end
 
 -- Interrupt info on castbars
@@ -934,9 +933,17 @@ local Auras = B:GetModule("Auras")
 function UF:PlateVisibility(event)
 	local alpha = C.db["Nameplate"]["PPFadeoutAlpha"]
 	if (event == "PLAYER_REGEN_DISABLED" or InCombatLockdown()) and UnitIsUnit("player", self.unit) then
-		UIFrameFadeIn(self, .3, self:GetAlpha(), 1)
+		UIFrameFadeIn(self.Health, .3, self.Health:GetAlpha(), 1)
+		UIFrameFadeIn(self.Health.bg, .3, self.Health.bg:GetAlpha(), 1)
+		UIFrameFadeIn(self.Power, .3, self.Power:GetAlpha(), 1)
+		UIFrameFadeIn(self.Power.bg, .3, self.Power.bg:GetAlpha(), 1)
+		UIFrameFadeIn(self.predicFrame, .3, self:GetAlpha(), 1)
 	else
-		UIFrameFadeOut(self, 2, self:GetAlpha(), alpha)
+		UIFrameFadeOut(self.Health, 2, self.Health:GetAlpha(), alpha)
+		UIFrameFadeOut(self.Health.bg, 2, self.Health.bg:GetAlpha(), alpha)
+		UIFrameFadeOut(self.Power, 2, self.Power:GetAlpha(), alpha)
+		UIFrameFadeOut(self.Power.bg, 2, self.Power.bg:GetAlpha(), alpha)
+		UIFrameFadeOut(self.predicFrame, 2, self:GetAlpha(), alpha)
 	end
 end
 
@@ -1001,7 +1008,6 @@ function UF:CreatePlayerPlate()
 
 	local textFrame = CreateFrame("Frame", nil, self.Power)
 	textFrame:SetAllPoints()
-	textFrame:SetFrameLevel(self:GetFrameLevel() + 5)
 	self.powerText = B.CreateFS(textFrame, 14)
 	self:Tag(self.powerText, "[power]")
 	UF:TogglePlatePower()
@@ -1055,7 +1061,6 @@ end
 
 function UF:CreateGCDTicker(self)
 	local ticker = CreateFrame("StatusBar", nil, self.Power)
-	ticker:SetFrameLevel(self:GetFrameLevel() + 3)
 	ticker:SetStatusBarTexture(DB.normTex)
 	ticker:GetStatusBarTexture():SetAlpha(0)
 	ticker:SetAllPoints()

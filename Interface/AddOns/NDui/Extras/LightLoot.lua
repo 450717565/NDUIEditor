@@ -5,7 +5,8 @@ local cr, cg, cb = DB.cr, DB.cg, DB.cb
 local tL, tR, tT, tB = unpack(DB.TexCoord)
 
 local iconSize = 33
-local fontSize = math.floor(select(2, GameFontWhite:GetFont()) + .5)
+local fontsize = select(2, GameFontWhite:GetFont())
+local fontSize = B.Round(fontsize)
 
 local mover
 local slots = {}
@@ -206,8 +207,8 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 					slot.count:Hide()
 				end
 
-				if (lootQuality and lootQuality >= 0) or questId or isQuestItem then
-					if questId or isQuestItem then
+				if (lootQuality and lootQuality >= 0) or questID or isQuestItem then
+					if questID or isQuestItem then
 						r, g, b = 1, 1, 0
 					end
 					slot.name:SetTextColor(r, g, b)

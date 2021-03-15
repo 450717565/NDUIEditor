@@ -14,5 +14,4 @@ InspectGroupMember.lua
 InspectUnit.lua
 InspectUnitGemAndEnchant.lua
 InspectUnitGreenState.lua
-InspectUnitSpecialization.lua
 ItemLevel.lua

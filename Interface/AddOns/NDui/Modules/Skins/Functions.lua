@@ -257,6 +257,15 @@ do
 					currency:SetPoint("LEFT", money, "LEFT", 0, 0)
 				end
 			end
+
+			local link = GetMerchantItemLink(index)
+			if link then
+				local classID = select(12, GetItemInfo(link))
+				if classID and classID == LE_ITEM_CLASS_QUESTITEM then
+					name:SetTextColor(1, 1, 0)
+					button.icbg:SetBackdropBorderColor(1, 1, 0)
+				end
+			end
 		end
 	end
 

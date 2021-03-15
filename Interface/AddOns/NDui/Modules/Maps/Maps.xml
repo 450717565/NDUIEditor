@@ -1,5 +1,5 @@
-<Ui xmlns="http://www.blizzard.com/wow/ui/">
+<Ui>
 	<Script file="WorldMap.lua"/>
-	<Script file="MapReveal.lua"/>
 	<Script file="Minimap.lua"/>
+	<Script file="MapReveal.lua"/>
 </Ui>

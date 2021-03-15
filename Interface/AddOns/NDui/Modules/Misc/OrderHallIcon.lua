@@ -17,7 +17,7 @@ local cr, cg, cb = DB.cr, DB.cg, DB.cb
 function Misc:OrderHall_CreateIcon()
 	local hall = CreateFrame("Frame", "NDuiOrderHallIcon", UIParent)
 	hall:SetSize(50, 50)
-	hall:SetPoint("TOP", 0, -30)
+	hall:SetPoint("TOP", 0, -40)
 	hall:SetFrameStrata("HIGH")
 	hall:Hide()
 

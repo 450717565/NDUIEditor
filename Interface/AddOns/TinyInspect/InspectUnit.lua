@@ -39,11 +39,24 @@ local function GetInspectItemListFrame(parent)
 		local height = parent:GetHeight()
 		frame:SetSize(160, height)
 		frame:SetToplevel(true)
-		frame.portrait = CreateFrame("Frame", nil, frame, "GarrisonFollowerPortraitTemplate")
-		frame.portrait:SetPoint("TOPLEFT", frame, "TOPLEFT", 18, -16)
-		frame.portrait:SetScale(0.8)
-		frame.title = B.CreateFS(frame, 17, "", false, "TOPLEFT", 66, -18)
-		frame.level = B.CreateFS(frame, 14, "", false, "TOPLEFT", 66, -42)
+
+		frame.specIcon = frame:CreateTexture(nil, "BORDER")
+		frame.specIcon:SetSize(42, 42)
+		frame.specIcon:SetPoint("TOPLEFT", 16, -16)
+		frame.iconBG = B.ReskinIcon(frame.specIcon)
+
+		frame.specText = B.CreateFS(frame, 14)
+		frame.specText:ClearAllPoints()
+		frame.specText:SetPoint("BOTTOM", frame.specIcon, "BOTTOM", 0, 2)
+		frame.specText:SetJustifyH("CENTER")
+
+		frame.title = B.CreateFS(frame, 18)
+		frame.title:ClearAllPoints()
+		frame.title:SetPoint("BOTTOMLEFT", frame.specIcon, "RIGHT", 4, -2)
+
+		frame.level = B.CreateFS(frame, 14)
+		frame.level:ClearAllPoints()
+		frame.level:SetPoint("TOPLEFT", frame.specIcon, "RIGHT", 4, -4)
 
 		local itemframe
 		local fontsize = GetLocale():sub(1,2) == "zh" and 12 or 9
@@ -117,24 +130,38 @@ local function GetInspectItemListFrame(parent)
 	return parent.inspectFrame
 end
 
---等級字符
-local ItemLevelPattern = gsub(ITEM_LEVEL, "%%d", "%%.1f")
-
 --顯示面板
 function ShowInspectItemListFrame(unit, parent, ilevel, maxLevel)
 	if (not parent:IsShown()) then return end
 	local frame = GetInspectItemListFrame(parent)
 	local class = select(2, UnitClass(unit))
-	local color = RAID_CLASS_COLORS[class] or NORMAL_FONT_COLOR
+	local color = DB.ClassColors[class]
 	frame.unit = unit
-	frame.portrait:SetLevel(UnitLevel(unit))
-	frame.portrait.PortraitRingQuality:SetVertexColor(color.r, color.g, color.b)
-	frame.portrait.LevelBorder:SetVertexColor(color.r, color.g, color.b)
-	SetPortraitTexture(frame.portrait.Portrait, unit)
-	frame.title:SetText(UnitName(unit))
+
+	local _, specID, specName, specIcon
+	if (unit == "player") then
+		specID = GetSpecialization()
+		_, specName, _, specIcon = GetSpecializationInfo(specID)
+	else
+		specID = GetInspectSpecialization(unit)
+		_, specName, _, specIcon = GetSpecializationInfoByID(specID)
+	end
+	if (specIcon) then
+		frame.specText:SetText(specName)
+		frame.specIcon:SetTexture(specIcon)
+		frame.specIcon:Show()
+		frame.iconBG:Show()
+	else
+		frame.specText:SetText("")
+		frame.specIcon:Hide()
+		frame.iconBG:Hide()
+	end
+
+	frame.title:SetFormattedText("%s（%d）", UnitName(unit), UnitLevel(unit))
 	frame.title:SetTextColor(color.r, color.g, color.b)
-	frame.level:SetText(format(ItemLevelPattern, ilevel))
-	frame.level:SetTextColor(1, 0.82, 0)
+	frame.level:SetFormattedText("%s：%.1f", STAT_AVERAGE_ITEM_LEVEL, ilevel)
+	frame.level:SetTextColor(1, 0.8, 0)
+
 	local _, name, level, link, quality
 	local itemframe, mframe, oframe, itemwidth
 	local width = 160

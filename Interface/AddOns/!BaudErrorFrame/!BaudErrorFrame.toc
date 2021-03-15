@@ -1,7 +1,5 @@
 ## Interface: 90005
-## Title: |cff0080ffBaudErrorFrame|r
-## Title-zhCN: |cff0080ffBaudErrorFrame|r 报错收集
-## Title-zhTW: |cff0080ffBaudErrorFrame|r 報錯收集
+## Title: |cff0080ffBaudErrorFrame|r 报错收集 |TInterface\Addons\NDui\Media\Logo\chatLogo:14:28|t
 ## Notes: Improved error reporting
 ## Author: Baudzilla, wolftankk, Siweia
 ## Version: NDui Mod

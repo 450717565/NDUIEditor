@@ -131,6 +131,7 @@ function UF:CreateHealthBar(self)
 	local health = CreateFrame("StatusBar", nil, self)
 	health:SetPoint("TOPLEFT", self)
 	health:SetPoint("TOPRIGHT", self)
+	health:SetFrameLevel(self:GetFrameLevel())
 
 	B.CreateSB(health, false, .1, .1, .1)
 	B.SmoothBar(health)
@@ -177,7 +178,9 @@ function UF:CreateHealthText(self)
 	local mystyle = self.mystyle
 	local textFrame = CreateFrame("Frame", nil, self)
 	textFrame:SetAllPoints(self.Health)
-	textFrame:SetFrameLevel(self:GetFrameLevel() + 2)
+	if mystyle == "nameplate" then
+		textFrame:SetFrameLevel(self:GetFrameLevel() + 2)
+	end
 
 	local name = B.CreateFS(textFrame, retVal(self, 13, 12, 12, 12, C.db["Nameplate"]["NameTextSize"]), "", false, "LEFT", 3, 0)
 	name:SetJustifyH("LEFT")
@@ -310,7 +313,7 @@ function UF:CreatePowerBar(self)
 	local power = CreateFrame("StatusBar", nil, self)
 	power:SetPoint("BOTTOMLEFT", self)
 	power:SetPoint("BOTTOMRIGHT", self)
-	power:SetFrameLevel(self:GetFrameLevel() - 2)
+	power:SetFrameLevel(self:GetFrameLevel())
 
 	B.CreateSB(power)
 	B.SmoothBar(power)
@@ -428,18 +431,14 @@ end
 function UF:CreateIcons(self)
 	local mystyle = self.mystyle
 
-	local parentFrame = CreateFrame("Frame", nil, self)
-	parentFrame:SetAllPoints()
-	parentFrame:SetFrameLevel(self:GetFrameLevel() + 3)
-
 	if mystyle == "player" then
-		local combat = parentFrame:CreateTexture(nil, "OVERLAY")
+		local combat = self:CreateTexture(nil, "OVERLAY")
 		combat:SetPoint("CENTER", self, "BOTTOMLEFT")
 		combat:SetSize(28, 28)
 		combat:SetAtlas(DB.objectTex)
 		self.CombatIndicator = combat
 
-		local resting = parentFrame:CreateTexture(nil, "OVERLAY")
+		local resting = self:CreateTexture(nil, "OVERLAY")
 		resting:SetPoint("CENTER", self, "TOPLEFT")
 		resting:SetSize(18, 18)
 		resting:SetTexture("Interface\\PLAYERFRAME\\DruidEclipse")
@@ -447,13 +446,13 @@ function UF:CreateIcons(self)
 		resting:SetVertexColor(.6, .8, 1)
 		self.RestingIndicator = resting
 	elseif mystyle == "target" then
-		local quest = parentFrame:CreateTexture(nil, "OVERLAY")
+		local quest = self:CreateTexture(nil, "OVERLAY")
 		quest:SetPoint("LEFT", self, "TOPLEFT", 2, 0)
 		quest:SetSize(16, 16)
 		self.QuestIndicator = quest
 	end
 
-	local phase = parentFrame:CreateTexture(nil, "OVERLAY")
+	local phase = self:CreateTexture(nil, "OVERLAY")
 	phase:SetSize(24, 24)
 	phase:SetPoint("CENTER", self, "TOP", 0, 0)
 	if mystyle == "raid" then
@@ -464,7 +463,7 @@ function UF:CreateIcons(self)
 	local size = 20
 	if mystyle == "raid" then size = 14 end
 
-	local groupRole = parentFrame:CreateTexture(nil, "OVERLAY")
+	local groupRole = self:CreateTexture(nil, "OVERLAY")
 	groupRole:SetSize(size, size)
 	groupRole:SetPoint("RIGHT", self, "TOPRIGHT", -2, 1)
 	if mystyle == "raid" then
@@ -472,13 +471,13 @@ function UF:CreateIcons(self)
 	end
 	self.GroupRoleIndicator = groupRole
 
-	local leader = parentFrame:CreateTexture(nil, "OVERLAY")
+	local leader = self:CreateTexture(nil, "OVERLAY")
 	leader:SetAtlas("Soulbinds_Tree_Conduit_Icon_Attack")
 	leader:SetSize(size, size)
 	leader:SetPoint("RIGHT", groupRole, "LEFT", 4, 0)
 	self.LeaderIndicator = leader
 
-	local assistant = parentFrame:CreateTexture(nil, "OVERLAY")
+	local assistant = self:CreateTexture(nil, "OVERLAY")
 	assistant:SetAtlas("Soulbinds_Tree_Conduit_Icon_Utility")
 	assistant:SetSize(size, size)
 	assistant:SetPoint("RIGHT", groupRole, "LEFT", 4, 0)
@@ -488,11 +487,7 @@ end
 function UF:CreateRaidMark(self)
 	local mystyle = self.mystyle
 
-	local parentFrame = CreateFrame("Frame", nil, self)
-	parentFrame:SetAllPoints()
-	parentFrame:SetFrameLevel(self:GetFrameLevel() + 3)
-
-	local raidTarget = parentFrame:CreateTexture(nil, "OVERLAY")
+	local raidTarget = self:CreateTexture(nil, "OVERLAY")
 	if mystyle == "player" then
 		raidTarget:SetPoint("RIGHT", self, "TOPRIGHT", -40, 2)
 	elseif mystyle == "nameplate" then
@@ -668,10 +663,10 @@ end
 function UF.PostCreateIcon(element, button)
 	local fontsize = element.fontSize or element.size*.6
 	local fontSize = B.Round(fontsize)
-	local parentFrame = CreateFrame("Frame", nil, button)
-	parentFrame:SetAllPoints()
-	parentFrame:SetFrameLevel(button:GetFrameLevel() + 3)
-	button.count = B.CreateFS(parentFrame, fontSize, "", false, "BOTTOMRIGHT", 6, -3)
+
+	local textFrame = CreateFrame("Frame", nil, button)
+	textFrame:SetAllPoints(button)
+	button.count = B.CreateFS(textFrame, fontSize, "", false, "BOTTOMRIGHT", 5, -6)
 
 	button.glowFrame = B.CreateGlowFrame(button, element.size)
 	button.icbg = B.ReskinIcon(button.icon)
@@ -688,7 +683,7 @@ function UF.PostCreateIcon(element, button)
 
 	button:HookScript("OnMouseDown", Auras.RemoveSpellFromIgnoreList)
 
-	if element.disableCooldown then button.timer = B.CreateFS(button, fontSize) end
+	if element.disableCooldown then button.timer = B.CreateFS(button, fontSize, "", false, "CENTER", 1, 0) end
 	if element.__owner.mystyle == "raid" and C.db["UFs"]["RaidBuffIndicator"] then
 		button.icbg:SetFrameLevel(button:GetFrameLevel())
 	end
@@ -829,7 +824,6 @@ end
 function UF:CreateAuras(self)
 	local mystyle = self.mystyle
 	local bu = CreateFrame("Frame", nil, self)
-	bu:SetFrameLevel(self:GetFrameLevel() + 2)
 	bu.spacing = C.margin
 	bu.gap = false
 	bu.initialAnchor = "BOTTOMLEFT"
@@ -1042,7 +1036,6 @@ function UF:CreateClassPower(self)
 		bars[i] = CreateFrame("StatusBar", nil, bar)
 		bars[i]:SetHeight(barHeight)
 		bars[i]:SetWidth((barWidth - 5*C.margin) / 6)
-		bars[i]:SetFrameLevel(self:GetFrameLevel() + 5)
 		B.CreateSB(bars[i])
 
 		if i == 1 then
@@ -1082,7 +1075,6 @@ function UF:StaggerBar(self)
 	local stagger = CreateFrame("StatusBar", nil, self.Health)
 	stagger:SetSize(barWidth, barHeight)
 	stagger:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, C.margin)
-	stagger:SetFrameLevel(self:GetFrameLevel() + 5)
 
 	B.CreateSB(stagger)
 	B.SmoothBar(stagger)
@@ -1140,7 +1132,6 @@ function UF:CreateExpRepBar(self)
 	rest:SetAllPoints(bar)
 	rest:SetStatusBarTexture(DB.normTex)
 	rest:SetStatusBarColor(0, .4, 1, .6)
-	rest:SetFrameLevel(bar:GetFrameLevel() - 1)
 	rest:SetOrientation("VERTICAL")
 	bar.restBar = rest
 
@@ -1148,27 +1139,30 @@ function UF:CreateExpRepBar(self)
 end
 
 function UF:CreatePrediction(self)
-	local mhpb = self:CreateTexture(nil, "BORDER", nil, 5)
+	local frame = CreateFrame("Frame", nil, self)
+	frame:SetAllPoints()
+
+	local mhpb = frame:CreateTexture(nil, "BORDER", nil, 5)
 	mhpb:SetWidth(1)
 	mhpb:SetTexture(DB.normTex)
 	mhpb:SetVertexColor(0, 1, .5, .5)
 
-	local ohpb = self:CreateTexture(nil, "BORDER", nil, 5)
+	local ohpb = frame:CreateTexture(nil, "BORDER", nil, 5)
 	ohpb:SetWidth(1)
 	ohpb:SetTexture(DB.normTex)
 	ohpb:SetVertexColor(0, 1, 0, .5)
 
-	local abb = self:CreateTexture(nil, "BORDER", nil, 5)
+	local abb = frame:CreateTexture(nil, "BORDER", nil, 5)
 	abb:SetWidth(1)
 	abb:SetTexture(DB.normTex)
 	abb:SetVertexColor(.66, 1, 1, .7)
 
-	local abbo = self:CreateTexture(nil, "ARTWORK", nil, 1)
+	local abbo = frame:CreateTexture(nil, "ARTWORK", nil, 1)
 	abbo:SetAllPoints(abb)
 	abbo:SetTexture("Interface\\RaidFrame\\Shield-Overlay", true, true)
 	abbo.tileSize = 32
 
-	local oag = self:CreateTexture(nil, "ARTWORK", nil, 1)
+	local oag = frame:CreateTexture(nil, "ARTWORK", nil, 1)
 	oag:SetWidth(15)
 	oag:SetTexture("Interface\\RaidFrame\\Shield-Overshield")
 	oag:SetBlendMode("ADD")
@@ -1176,14 +1170,14 @@ function UF:CreatePrediction(self)
 	oag:SetPoint("TOPLEFT", self.Health, "TOPRIGHT", -5, 2)
 	oag:SetPoint("BOTTOMLEFT", self.Health, "BOTTOMRIGHT", -5, -2)
 
-	local hab = CreateFrame("StatusBar", nil, self)
+	local hab = CreateFrame("StatusBar", nil, frame)
 	hab:SetPoint("TOPLEFT", self.Health)
 	hab:SetPoint("BOTTOMRIGHT", self.Health:GetStatusBarTexture())
 	hab:SetReverseFill(true)
 	hab:SetStatusBarTexture(DB.normTex)
 	hab:SetStatusBarColor(0, .5, .8, .5)
 
-	local ohg = self:CreateTexture(nil, "ARTWORK", nil, 1)
+	local ohg = frame:CreateTexture(nil, "ARTWORK", nil, 1)
 	ohg:SetWidth(15)
 	ohg:SetTexture("Interface\\RaidFrame\\Absorb-Overabsorb")
 	ohg:SetBlendMode("ADD")
@@ -1201,6 +1195,8 @@ function UF:CreatePrediction(self)
 		overHealAbsorbGlow = ohg,
 		maxOverflow = 1,
 	}
+
+	self.predicFrame = frame
 end
 
 function UF.PostUpdateAddPower(element, cur, max)
