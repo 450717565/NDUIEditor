@@ -340,8 +340,7 @@ end
 function Maps:WhoPingsMyMap()
 	if not C.db["Map"]["WhoPings"] then return end
 
-	local ping = CreateFrame("Frame", nil, Minimap)
-	ping:SetAllPoints()
+	local ping = B.CreateParentFrame(Minimap)
 	ping.text = B.CreateFS(ping, 12, "", false, "TOP", 0, -3)
 
 	local anim = ping:CreateAnimationGroup()

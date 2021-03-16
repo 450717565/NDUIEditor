@@ -180,9 +180,7 @@ function Auras:CreateLumos(self)
 		B.AuraIcon(bu)
 		bu.glowFrame = B.CreateGlowFrame(bu, iconSize)
 
-		local fontParent = CreateFrame("Frame", nil, bu)
-		fontParent:SetAllPoints()
-		fontParent:SetFrameLevel(bu:GetFrameLevel() + 6)
+		local fontParent = B.CreateParentFrame(bu, 6)
 		bu.Count = B.CreateFS(fontParent, 16, "", false, "BOTTOM", 0, -10)
 		if i == 1 then
 			bu:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", -C.mult, -C.margin)

@@ -345,9 +345,7 @@ function UF:AddTargetIndicator(self)
 	local targetTex = DB.targetTex..C.db["Nameplate"]["ArrowColor"]
 	local color = C.db["Nameplate"]["SelectedColor"]
 
-	local frame = CreateFrame("Frame", nil, self)
-	frame:SetAllPoints()
-
+	local frame = B.CreateParentFrame(self, 0)
 	frame.TopArrow = frame:CreateTexture(nil, "BACKGROUND", nil, -5)
 	frame.TopArrow:SetSize(50, 50)
 	frame.TopArrow:SetTexture(targetTex)
@@ -529,10 +527,7 @@ local classify = {
 }
 
 function UF:AddCreatureIcon(self)
-	local iconFrame = CreateFrame("Frame", nil, self)
-	iconFrame:SetAllPoints()
-	iconFrame:SetFrameLevel(self:GetFrameLevel() + 2)
-
+	local iconFrame = B.CreateParentFrame(self, 2)
 	local icon = iconFrame:CreateTexture(nil, "ARTWORK")
 	icon:SetAtlas("VignetteKill")
 	icon:SetPoint("LEFT", self, "TOPLEFT", 0, 0)
@@ -619,9 +614,7 @@ end
 function UF:MouseoverIndicator(self)
 	local color = C.db["Nameplate"]["HighlightColor"]
 
-	local frame = CreateFrame("Frame", nil, self.Health)
-	frame:SetAllPoints(self)
-
+	local frame = B.CreateParentFrame(self.Health, 0, self)
 	frame.Highlight = B.CreateSD(frame, true)
 	frame.Highlight:SetOutside(self.Health.bd, 4, 4)
 	frame.Highlight:SetBackdropBorderColor(color.r, color.g, color.b)
@@ -1006,8 +999,7 @@ function UF:CreatePlayerPlate()
 	UF:StaggerBar(self)
 	if C.db["Auras"]["ClassAuras"] then Auras:CreateLumos(self) end
 
-	local textFrame = CreateFrame("Frame", nil, self.Power)
-	textFrame:SetAllPoints()
+	local textFrame = B.CreateParentFrame(self.Power, 1, self)
 	self.powerText = B.CreateFS(textFrame, 14)
 	self:Tag(self.powerText, "[power]")
 	UF:TogglePlatePower()

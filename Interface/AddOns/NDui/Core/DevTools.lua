@@ -196,9 +196,8 @@ SLASH_NDUI_DUMPSPELLS1 = "/getss"
 local grid
 local boxSize = 32
 local function Grid_Create()
-	grid = CreateFrame("Frame", nil, UIParent)
+	grid = B.CreateParentFrame(UIParent)
 	grid.boxSize = boxSize
-	grid:SetAllPoints(UIParent)
 
 	local size = C.mult
 	local width = GetScreenWidth()

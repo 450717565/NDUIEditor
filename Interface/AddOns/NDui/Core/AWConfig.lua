@@ -18,8 +18,7 @@ end
 local function createLabel(parent, text, tip)
 	local label = B.CreateFS(parent, 14, text, "system", "CENTER", 0, 25)
 	if not tip then return end
-	local frame = CreateFrame("Frame", nil, parent)
-	frame:SetAllPoints(label)
+	local frame = B.CreateParentFrame(parent, 1, label)
 	frame.text = text
 	frame.tip = tip
 	frame:SetScript("OnEnter", labelOnEnter)

@@ -2,9 +2,8 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
 -- the actual frame
-local frame = CreateFrame("Frame",nil,UIParent)
+local frame = B.CreateParentFrame(UIParent)
 frame:SetFrameStrata("FULLSCREEN")
-frame:SetAllPoints()
 frame.h = frame:GetHeight()
 frame:EnableMouse(true)
 frame:SetAlpha(0)

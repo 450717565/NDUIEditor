@@ -132,8 +132,7 @@ function Misc:TradeTabs_Create(spellID, toyID, itemID)
 	tab.CD = CreateFrame("Cooldown", nil, tab, "CooldownFrameTemplate")
 	tab.CD:SetAllPoints()
 
-	tab.cover = CreateFrame("Frame", nil, tab)
-	tab.cover:SetAllPoints()
+	tab.cover = B.CreateParentFrame(tab)
 	tab.cover:EnableMouse(true)
 
 	tab:SetPoint("TOPLEFT", TradeSkillFrame, "TOPRIGHT", 2, -index*40)

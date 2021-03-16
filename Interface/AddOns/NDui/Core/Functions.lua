@@ -1477,6 +1477,14 @@ do
 		return frame
 	end
 
+	function B:CreateParentFrame(lvl, frame)
+		local parent = CreateFrame("Frame", nil, self)
+		parent:SetAllPoints(frame or self)
+		parent:SetFrameLevel(self:GetFrameLevel() + (lvl or 1))
+
+		return parent
+	end
+
 	function B:TogglePanel()
 		if self:IsShown() then
 			self:Hide()

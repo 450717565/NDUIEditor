@@ -260,7 +260,7 @@ function Auras:CreateAuraIcon(button)
 	button.count = count
 
 	local timer = button:CreateFontString(nil, "ARTWORK")
-	timer:SetPoint("TOP", button, "BOTTOM", 1, 0)
+	timer:SetPoint("CENTER", button, "BOTTOM", 1, 0)
 	timer:SetFont(DB.Font[1], fontSize, DB.Font[3])
 	button.timer = timer
 

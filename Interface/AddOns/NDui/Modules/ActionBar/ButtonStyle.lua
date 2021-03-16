@@ -232,8 +232,7 @@ function Bar:StyleActionButton(button, cfg)
 	SetupCooldown(cooldown, cfg.cooldown)
 
 	--no clue why but blizzard created count and duration on background layer, need to fix that
-	local overlay = CreateFrame("Frame", nil, button)
-	overlay:SetAllPoints()
+	local overlay = B.CreateParentFrame(button)
 	if count then
 		if C.db["ActionBar"]["Count"] then
 			count:SetParent(overlay)
@@ -302,9 +301,7 @@ function Bar:StyleExtraActionButton(cfg)
 	SetupCooldown(cooldown, cfg.cooldown)
 
 	--hotkey, count
-	local overlay = CreateFrame("Frame", nil, button)
-	overlay:SetAllPoints()
-
+	local overlay = B.CreateParentFrame(button)
 	hotkey:SetParent(overlay)
 	Bar:HookHotKey(button)
 	cfg.hotkey.font = {DB.Font[1], 13, DB.Font[3]}

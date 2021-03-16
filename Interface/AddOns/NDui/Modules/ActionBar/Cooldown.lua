@@ -56,12 +56,10 @@ function CD:ScalerOnSizeChanged(...)
 end
 
 function CD:OnCreate()
-	local scaler = CreateFrame("Frame", nil, self)
-	scaler:SetAllPoints(self)
+	local scaler = B.CreateParentFrame(self)
 
-	local timer = CreateFrame("Frame", nil, scaler)
+	local timer = B.CreateParentFrame(scaler)
 	timer:Hide()
-	timer:SetAllPoints(scaler)
 	timer:SetScript("OnUpdate", CD.TimerOnUpdate)
 	scaler.timer = timer
 

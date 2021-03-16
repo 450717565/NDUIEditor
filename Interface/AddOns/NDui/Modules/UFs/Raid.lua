@@ -16,9 +16,7 @@ local tL, tR, tT, tB = unpack(DB.TexCoord)
 
 -- RaidFrame Elements
 function UF:CreateRaidIcons(self)
-	local parentFrame = CreateFrame("Frame", nil, self)
-	parentFrame:SetAllPoints()
-	parentFrame:SetFrameLevel(self:GetFrameLevel() + 2)
+	local parentFrame = B.CreateParentFrame(self, 2)
 
 	local readyCheck = parentFrame:CreateTexture(nil, "OVERLAY")
 	readyCheck:SetSize(16, 16)

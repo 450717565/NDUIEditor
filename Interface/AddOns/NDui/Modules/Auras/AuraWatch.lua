@@ -193,11 +193,8 @@ local function BuildICON(iconSize)
 	local frame = CreateFrame("Frame", nil, PetBattleFrameHider)
 	frame:SetSize(iconSize, iconSize)
 
-	local bubg = B.CreateBDFrame(frame, 0, -C.mult)
-	frame.bubg = bubg
-
-	local glowFrame = B.CreateGlowFrame(frame, iconSize)
-	frame.glowFrame = glowFrame
+	frame.bubg = B.CreateBDFrame(frame, 0, -C.mult)
+	frame.glowFrame = B.CreateGlowFrame(frame, iconSize)
 
 	local Icon = frame:CreateTexture(nil, "ARTWORK")
 	Icon:SetInside(frame.bubg)
@@ -209,10 +206,7 @@ local function BuildICON(iconSize)
 	Cooldown:SetReverse(true)
 	frame.Cooldown = Cooldown
 
-	local parentFrame = CreateFrame("Frame", nil, frame)
-	parentFrame:SetAllPoints()
-	parentFrame:SetFrameLevel(frame:GetFrameLevel() + 6)
-
+	local parentFrame = B.CreateParentFrame(frame, 6)
 	frame.Spellname = B.CreateFS(parentFrame, 13, "", false, "TOP", 0, 5)
 	frame.Count = B.CreateFS(parentFrame, iconSize*.6, "", false, "BOTTOMRIGHT", 5, -6)
 

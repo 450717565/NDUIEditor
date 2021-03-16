@@ -686,18 +686,15 @@ function Bags:OnLogin()
 		self.iLvl = B.CreateFS(self, 12, "", false, "BOTTOMRIGHT", 0, 1)
 		self.Slot = B.CreateFS(self, 12, "", false, "TOPLEFT", 1, -2)
 
-		local parentFrame = CreateFrame("Frame", nil, self)
-		parentFrame:SetAllPoints()
-		parentFrame:SetFrameLevel(5)
-
-		self.Favourite = parentFrame:CreateTexture(nil, "ARTWORK")
-		self.Favourite:SetAtlas("collections-icon-favorites")
-		self.Favourite:SetSize(30, 30)
-		self.Favourite:SetPoint("TOPLEFT", -12, 9)
-
 		if showNewItem then
 			self.glowFrame = B.CreateGlowFrame(self, iconSize)
 		end
+
+		local parentFrame = B.CreateParentFrame(self)
+		self.Favourite = parentFrame:CreateTexture(nil, "ARTWORK")
+		self.Favourite:SetAtlas("collections-icon-favorites")
+		self.Favourite:SetSize(30, 30)
+		self.Favourite:SetPoint("CENTER", self, "TOPLEFT", 0, -5)
 
 		if hasCanIMogIt then
 			self.canIMogIt = parentFrame:CreateTexture(nil, "OVERLAY")

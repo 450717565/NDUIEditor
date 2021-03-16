@@ -129,9 +129,9 @@ end
 function UF:CreateHealthBar(self)
 	local mystyle = self.mystyle
 	local health = CreateFrame("StatusBar", nil, self)
+	health:SetFrameLevel(self:GetFrameLevel())
 	health:SetPoint("TOPLEFT", self)
 	health:SetPoint("TOPRIGHT", self)
-	health:SetFrameLevel(self:GetFrameLevel())
 
 	B.CreateSB(health, false, .1, .1, .1)
 	B.SmoothBar(health)
@@ -176,8 +176,7 @@ end
 
 function UF:CreateHealthText(self)
 	local mystyle = self.mystyle
-	local textFrame = CreateFrame("Frame", nil, self)
-	textFrame:SetAllPoints(self.Health)
+	local textFrame = B.CreateParentFrame(self, 1, self.Health)
 	if mystyle == "nameplate" then
 		textFrame:SetFrameLevel(self:GetFrameLevel() + 2)
 	end
@@ -311,9 +310,9 @@ end
 function UF:CreatePowerBar(self)
 	local mystyle = self.mystyle
 	local power = CreateFrame("StatusBar", nil, self)
+	power:SetFrameLevel(self:GetFrameLevel())
 	power:SetPoint("BOTTOMLEFT", self)
 	power:SetPoint("BOTTOMRIGHT", self)
-	power:SetFrameLevel(self:GetFrameLevel())
 
 	B.CreateSB(power)
 	B.SmoothBar(power)
@@ -353,10 +352,9 @@ function UF:CreatePowerBar(self)
 end
 
 function UF:CreatePowerText(self)
-	local textFrame = CreateFrame("Frame", nil, self)
-	textFrame:SetAllPoints(self.Power)
-
+	local textFrame = B.CreateParentFrame(self, 1, self.Power)
 	local ppval = B.CreateFS(textFrame, retVal(self, 13, 12, 12, 12), "", false, "RIGHT", -3, 0)
+
 	local mystyle = self.mystyle
 	if mystyle == "raid" then
 		ppval:SetScale(C.db["UFs"]["RaidTextScale"])
@@ -367,6 +365,7 @@ function UF:CreatePowerText(self)
 	elseif mystyle == "focus" then
 		ppval:SetPoint("RIGHT", -3, C.db["UFs"]["FocusPowerOffset"])
 	end
+
 	self:Tag(ppval, "[power]")
 	self.powerText = ppval
 end
@@ -664,8 +663,7 @@ function UF.PostCreateIcon(element, button)
 	local fontsize = element.fontSize or element.size*.6
 	local fontSize = B.Round(fontsize)
 
-	local textFrame = CreateFrame("Frame", nil, button)
-	textFrame:SetAllPoints(button)
+	local textFrame = B.CreateParentFrame(button)
 	button.count = B.CreateFS(textFrame, fontSize, "", false, "BOTTOMRIGHT", 5, -6)
 
 	button.glowFrame = B.CreateGlowFrame(button, element.size)
@@ -1139,8 +1137,7 @@ function UF:CreateExpRepBar(self)
 end
 
 function UF:CreatePrediction(self)
-	local frame = CreateFrame("Frame", nil, self)
-	frame:SetAllPoints()
+	local frame = B.CreateParentFrame(self, 0)
 
 	local mhpb = frame:CreateTexture(nil, "BORDER", nil, 5)
 	mhpb:SetWidth(1)
@@ -1308,7 +1305,7 @@ end
 function UF:CreateFCT(self)
 	if not C.db["UFs"]["CombatText"] then return end
 
-	local parentFrame = CreateFrame("Frame", nil, UIParent)
+	local parentFrame = B.CreateParentFrame(UIParent)
 	local fcf = CreateFrame("Frame", "oUF_CombatTextFrame", parentFrame)
 	fcf:SetSize(32, 32)
 

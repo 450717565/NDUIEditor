@@ -110,8 +110,7 @@ function Misc:RaidTool_RoleCount(parent)
 		{.25, .5, 0, 1},
 	}
 
-	local frame = CreateFrame("Frame", nil, parent)
-	frame:SetAllPoints()
+	local frame = B.CreateParentFrame(parent)
 	local role = {}
 	for i = 1, 3 do
 		role[i] = frame:CreateTexture(nil, "OVERLAY")
@@ -191,8 +190,7 @@ function Misc:RaidTool_UpdateRes(elapsed)
 end
 
 function Misc:RaidTool_CombatRes(parent)
-	local frame = CreateFrame("Frame", nil, parent)
-	frame:SetAllPoints()
+	local frame = B.CreateParentFrame(parent)
 	frame:SetAlpha(0)
 	local res = CreateFrame("Frame", nil, frame)
 	res:SetSize(22, 22)
