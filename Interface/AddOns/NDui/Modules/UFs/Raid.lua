@@ -139,8 +139,9 @@ function UF:CreateRaidDebuffs(self)
 	icon:SetTexCoord(tL, tR, tT, tB)
 	bu.icon = icon
 
-	bu.count = B.CreateFS(bu, fontSize, "", false, "BOTTOMRIGHT", 5, -6)
 	bu.timer = B.CreateFS(bu, fontSize, "", false, "CENTER", 1, 0)
+	bu.count = B.CreateFS(bu, fontSize, "", false, "BOTTOMRIGHT", 4, -4)
+	bu.count:SetJustifyH("RIGHT")
 
 	if not C.db["UFs"]["AurasClickThrough"] then
 		bu:SetScript("OnEnter", buttonOnEnter)

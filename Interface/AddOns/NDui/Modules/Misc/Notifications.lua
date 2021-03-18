@@ -266,6 +266,8 @@ function Misc:InterruptAlert_CheckGroup()
 end
 
 function Misc:InterruptAlert()
+	if IsAddOnLoaded("RSA") then return end
+
 	if C.db["Misc"]["Interrupt"] then
 		self:InterruptAlert_CheckGroup()
 		B:RegisterEvent("GROUP_LEFT", Misc.InterruptAlert_CheckGroup)
@@ -437,7 +439,7 @@ end
 	放大餐时叫一叫
 ]]
 local lastTime = 0
-local itemList = {
+local alertList = {
 	[698] = true, -- 召唤仪式
 	[8143] = true, -- 战栗图腾
 	[29893] = true, -- 灵魂之井
@@ -461,31 +463,32 @@ local itemList = {
 	[324029] = true,	-- 宁心圣典
 }
 
-function Misc:ItemAlert_Update(unit, _, spellID)
-	if not C.db["Misc"]["PlacedItemAlert"] then return end
+function Misc:CastAlert_Update(unit, _, spellID)
+	if not C.db["Misc"]["CastAlert"] then return end
+	if IsAddOnLoaded("RSA") then return end
 
-	if (UnitInRaid(unit) or UnitInParty(unit)) and spellID and itemList[spellID] and lastTime ~= GetTime() then
+	if (UnitInRaid(unit) or UnitInParty(unit)) and spellID and alertList[spellID] and lastTime ~= GetTime() then
 		local who = UnitName(unit)
 		local link = GetSpellLink(spellID)
 		local name = GetSpellInfo(spellID)
-		SendChatMessage(format(L["Place item"], who, link or name), msgChannel())
+		SendChatMessage(format(L["Cast Alert Info"], who, link or name), msgChannel())
 
 		lastTime = GetTime()
 	end
 end
 
-function Misc:ItemAlert_CheckGroup()
+function Misc:CastAlert_CheckGroup()
 	if IsInGroup() then
-		B:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED", Misc.ItemAlert_Update)
+		B:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED", Misc.CastAlert_Update)
 	else
-		B:UnregisterEvent("UNIT_SPELLCAST_SUCCEEDED", Misc.ItemAlert_Update)
+		B:UnregisterEvent("UNIT_SPELLCAST_SUCCEEDED", Misc.CastAlert_Update)
 	end
 end
 
-function Misc:PlacedItemAlert()
-	self:ItemAlert_CheckGroup()
-	B:RegisterEvent("GROUP_LEFT", self.ItemAlert_CheckGroup)
-	B:RegisterEvent("GROUP_JOINED", self.ItemAlert_CheckGroup)
+function Misc:CastAlert()
+	self:CastAlert_CheckGroup()
+	B:RegisterEvent("GROUP_LEFT", self.CastAlert_CheckGroup)
+	B:RegisterEvent("GROUP_JOINED", self.CastAlert_CheckGroup)
 end
 
 -- 大幻象水晶及箱子计数
@@ -719,7 +722,7 @@ function Misc:AddAlerts()
 	Misc:InterruptAlert()
 	Misc:VersionCheck()
 	Misc:ExplosiveAlert()
-	Misc:PlacedItemAlert()
+	Misc:CastAlert()
 	Misc:NVision_Init()
 	Misc:CheckIncompatible()
 	Misc:SendCDStatus()

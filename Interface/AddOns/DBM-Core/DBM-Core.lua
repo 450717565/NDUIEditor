@@ -70,9 +70,9 @@ local function showRealDate(curseDate)
 end
 
 DBM = {
-	Revision = parseCurseDate("20210309192103"),
-	DisplayVersion = "9.0.22", -- the string that is shown as version
-	ReleaseRevision = releaseDate(2021, 3, 9) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
+	Revision = parseCurseDate("20210315194752"),
+	DisplayVersion = "9.0.23", -- the string that is shown as version
+	ReleaseRevision = releaseDate(2021, 3, 15) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -100,8 +100,11 @@ function DBM:GetTOC()
 	return wowTOC, testBuild, wowVersionString, wowBuild
 end
 
-function DBM:IsShadowlands()
-	return self:GetTOC() >= 90001 -- 9.0.x
+do
+	local isShadowlandsClient = BackdropTemplateMixin and true or false
+	function DBM:IsShadowlands()
+		return isShadowlandsClient
+	end
 end
 
 -- dual profile setup
@@ -328,7 +331,7 @@ DBM.DefaultOptions = {
 	SilentMode = false,
 }
 
-DBM.Bars = DBT:New()
+DBM.Bars = DBT -- TODO: Can we migrate to just using DBT?
 DBM.Mods = {}
 DBM.ModLists = {}
 DBM.Counts = {
@@ -495,6 +498,7 @@ local bannedMods = { -- a list of "banned" (meaning they are replaced by another
 	"DBM-Argus",--Merged into DBM-BrokenIsles mod
 	"DBM-GarrisonInvasions",--Merged into DBM-Draenor mod
 	"DBM-Azeroth-BfA",--renamed to DBM-BfA
+	"DBM-BattlefieldBarrens",--Apparently people are still running this
 }
 
 --[InstanceID]={level,zoneType}
@@ -1422,6 +1426,7 @@ do
 				C_TimerAfter(15, function() AddMsg(self, L.DBMLOOTREMINDER) end)
 			end
 			self.Bars:LoadOptions("DBM")
+			DBM.Bars.options = DBT.Options--TEMP cloaning, since WeakAuras is directly calling DBM.Bars.options and spam errors if it's missing
 			self.Arrow:LoadPosition()
 			-- LibDBIcon setup
 			if type(DBM_MinimapIcon) ~= "table" then
@@ -2038,7 +2043,7 @@ function DBM:CopyProfile(name)
 	self:AddDefaultOptions(DBM_AllSavedOptions[usedProfile], self.DefaultOptions)
 	self.Options = DBM_AllSavedOptions[usedProfile]
 	-- rearrange position
-	self.Bars:CopyProfile(name, "DBM")
+	self.Bars:CopyProfile(name, "DBM", true)
 	self:RepositionFrames()
 	self:AddMsg(L.PROFILE_COPIED:format(name))
 end
@@ -11638,7 +11643,7 @@ do
 				self.name = spellName
 			end
 		end
-		if L.AUTO_TIMER_TEXTS[timerType.."short"] and DBM.Bars:GetOption("StripCDText") then
+		if L.AUTO_TIMER_TEXTS[timerType.."short"] and DBT.Options.StripCDText then
 			return pformat(L.AUTO_TIMER_TEXTS[timerType.."short"], spellName)
 		else
 			return pformat(L.AUTO_TIMER_TEXTS[timerType], spellName)
@@ -12266,7 +12271,7 @@ end
 
 function bossModPrototype:SetRevision(revision)
 	revision = parseCurseDate(revision or "")
-	if not revision or revision == "20210309192103" then
+	if not revision or revision == "20210315194752" then
 		-- bad revision: either forgot the svn keyword or using github
 		revision = DBM.Revision
 	end

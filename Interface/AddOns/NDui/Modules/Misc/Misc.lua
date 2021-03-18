@@ -429,6 +429,7 @@ end
 function Misc:WorldQuestTool()
 	if not C.db["ActionBar"]["Enable"] then return end
 	--https://www.wowhead.com/quest=59585/well-make-an-aspirant-out-of-you
+	--https://www.wowhead.com/quest=61540/just-winging-it
 
 	local hasFound
 	local function Reset_ActionButtons()
@@ -436,21 +437,22 @@ function Misc:WorldQuestTool()
 		for i = 1, 3 do
 			B.HideOverlayGlow(_G["ActionButton"..i])
 		end
+
 		hasFound = nil
 	end
 
 	local fixedStrings = {
-		["横扫"] = "低扫",
+		--["横扫"] = "低扫",
 		["表扬"] = "夸奖",
 	}
 
 	local function Update_ActionButtons(_, msg)
-		if not GetOverrideBarSkin() or not C_QuestLog_GetLogIndexForQuestID(59585) or not C_QuestLog_GetLogIndexForQuestID(61540) then
+		if (C_QuestLog_GetLogIndexForQuestID(59585) and not GetOverrideBarSkin())
+		or (C_QuestLog_GetLogIndexForQuestID(61540) and not UnitHasVehicleUI("player"))
+		then
 			Reset_ActionButtons()
 			return
 		end
-
-		msg = gsub(msg, "[。%.]", "")
 
 		for i = 1, 3 do
 			local button = _G["ActionButton"..i]

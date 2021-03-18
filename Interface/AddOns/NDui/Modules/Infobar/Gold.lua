@@ -12,6 +12,7 @@ local GetContainerNumSlots, GetContainerItemLink, GetItemInfo, GetContainerItemI
 local C_Timer_After, IsControlKeyDown, IsShiftKeyDown = C_Timer.After, IsControlKeyDown, IsShiftKeyDown
 local C_CurrencyInfo_GetCurrencyInfo = C_CurrencyInfo.GetCurrencyInfo
 local C_CurrencyInfo_GetBackpackCurrencyInfo = C_CurrencyInfo.GetBackpackCurrencyInfo
+local CalculateTotalNumberOfFreeBagSlots = CalculateTotalNumberOfFreeBagSlots
 
 local profit, spent, oldMoney = 0, 0, 0
 local myName, myRealm = DB.MyName, DB.MyRealm
@@ -39,6 +40,7 @@ end
 
 info.eventList = {
 	"PLAYER_ENTERING_WORLD",
+	"BAG_UPDATE",
 	"PLAYER_MONEY",
 	"PLAYER_TRADE_MONEY",
 	"SEND_MAIL_COD_CHANGED",
@@ -46,10 +48,12 @@ info.eventList = {
 	"TRADE_MONEY_CHANGED",
 }
 
-info.onEvent = function(self, event)
+info.onEvent = function(self, event, arg1)
 	if event == "PLAYER_ENTERING_WORLD" then
 		oldMoney = GetMoney()
 		self:UnregisterEvent(event)
+	elseif event == "BAG_UPDATE" then
+		if arg1 < 0 or arg1 > 4 then return end
 	end
 
 	local newMoney = GetMoney()

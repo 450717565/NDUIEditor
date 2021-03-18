@@ -135,7 +135,7 @@ local function Reskin_MissionComplete(self)
 	end
 
 	if self.CompleteFrame then
-		B.StripTextures(self)
+		B.StripTextures(self, 0)
 		B.CreateBGFrame(self, 3, 2, -3, -10)
 
 		local FinalRewardsPanel = self.RewardsScreen.FinalRewardsPanel
@@ -1153,7 +1153,7 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 					TentativeClear:SetPoint("RIGHT", ViewButton, "LEFT", -1, 0)
 				elseif otype == "CopyBoxUI" then
 					B.ReskinButton(widget.ResetButton)
-					B.ReskinClose(widget.CloseButton2)
+					B.ReskinClose(widget.CloseButton2, nil, -12, -12)
 					B.ReskinInput(widget.FirstInputBox)
 					B.ReskinInput(widget.SecondInputBox)
 					B.ReskinText(widget.Intro, 1, 1, 1)
@@ -1231,6 +1231,29 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 		B.StripTextures(buttonsFrame)
 		B.ReskinButton(buttonsFrame.BestDispositionButton)
 		B.ReskinButton(buttonsFrame.predictButton)
+	end
+
+	-- MissionReports
+	if IsAddOnLoaded("MissionReports") then
+		for index = 11, 14 do
+			local tab = select(index, GarrisonLandingPage:GetChildren())
+			if tab and not tab.styled then
+				tab:GetRegions():Hide()
+
+				local icbg = B.ReskinIcon(tab:GetNormalTexture())
+				B.ReskinHighlight(tab, icbg)
+				B.ReskinChecked(tab, icbg)
+
+				tab:ClearAllPoints()
+				if index == 11 then
+					tab:SetPoint("TOPLEFT", GarrisonLandingPage, "TOPRIGHT", 3, -25)
+				else
+					tab:SetPoint("TOP", select((index-1), GarrisonLandingPage:GetChildren()), "BOTTOM", 0, -25)
+				end
+
+				tab.styled = true
+			end
+		end
 	end
 end
 

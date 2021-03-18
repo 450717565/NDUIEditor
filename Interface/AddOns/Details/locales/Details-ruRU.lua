@@ -1489,6 +1489,8 @@ L["STRING_RIGHTCLICK_CLOSE_SHORT"] = "Правый щелчок, чтобы за
 L["STRING_RIGHTCLICK_TYPEVALUE"] = "правый щелчок, чтобы ввести значение"
 L["STRING_SCORE_BEST"] = "вы набрали |cFFFFFF00%s|r, это ваши лучшие очки, поздравляю!"
 L["STRING_SCORE_NOTBEST"] = "ваши очки |cFFFFFF00%s|r, ваш лучший результат был |cFFFFFF00%s|r на %s с %d уровнем предметов."
+--[[Translation missing --]]
+--[[ L["STRING_SCRIPTS_TITLE"] = ""--]] 
 L["STRING_SEE_BELOW"] = "смотреть ниже"
 L["STRING_SEGMENT"] = "Сегмент"
 L["STRING_SEGMENT_EMPTY"] = "этот сегмент пуст"

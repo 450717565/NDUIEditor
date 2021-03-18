@@ -20,6 +20,34 @@ local C_PetBattles_GetNumAuras, C_PetBattles_GetAuraInfo = C_PetBattles.GetNumAu
 
 local fontOutline
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
+local reputationsList = {}
+
+function TT:UpdateReputations()
+	for i = 1, GetNumFactions() do
+		local name, _, standingID, barMin, barMax, barValue, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(i)
+		if name and not isHeader and factionID then
+			local currentValue, threshold = C_Reputation.GetFactionParagonInfo(factionID)
+			if currentValue then
+				reputationsList[name] = format("%s %d / %d", L["Paragon"]..floor(currentValue/threshold), mod(currentValue, threshold), threshold)
+			else
+				reputationsList[name] = format("%s %d / %d", _G["FACTION_STANDING_LABEL"..standingID], barValue - barMin, barMax - barMin)
+			end
+		end
+	end
+end
+B:RegisterEvent("PLAYER_LOGIN", TT.UpdateReputations)
+B:RegisterEvent("UPDATE_FACTION", TT.UpdateReputations)
+
+function TT:GetFactionLine()
+	for i = 2, self:NumLines() do
+		local tiptext = _G["GameTooltipTextLeft"..i]
+		local linetext = tiptext:GetText()
+		local factionString = linetext and reputationsList[linetext]
+		if factionString then
+			return tiptext, linetext, factionString
+		end
+	end
+end
 
 local classification = {
 	elite = " |cffFFFF00"..ELITE.."|r",
@@ -203,6 +231,25 @@ function TT:OnTooltipSetUnit()
 			end
 		end
 
+		if not isPlayer then
+			local tiptextFaction, factionName, factionString = TT.GetFactionLine(self)
+			if tiptextFaction then
+				tiptextFaction:SetFormattedText("%s %s%s", factionName, hexColor, factionString)
+			end
+		end
+
+		if not isPlayer and IsShiftKeyDown() then
+			local name = UnitName(unit)
+			local guid = UnitGUID(unit)
+			local npcID = B.GetNPCID(guid)
+			if npcID then
+				self:AddLine(format(npcIDstring, npcID))
+				if DB.isDeveloper then
+					print(format("|cff00FF00%s %s|r", name, npcID))
+				end
+			end
+		end
+
 		local line1 = GameTooltipTextLeft1:GetText()
 		GameTooltipTextLeft1:SetFormattedText("%s", hexColor..line1)
 
@@ -234,18 +281,6 @@ function TT:OnTooltipSetUnit()
 			if tarRicon and tarRicon > 8 then tarRicon = nil end
 			local tar = format("%s%s", (tarRicon and ICON_LIST[tarRicon].."10|t") or "", TT:GetTarget(unit.."target"))
 			self:AddLine(TARGET.."："..tar)
-		end
-
-		if not isPlayer and IsShiftKeyDown() then
-			local name = UnitName(unit)
-			local guid = UnitGUID(unit)
-			local npcID = B.GetNPCID(guid)
-			if npcID then
-				self:AddLine(format(npcIDstring, npcID))
-				if DB.isDeveloper then
-					print(format("|cff00FF00%s %s|r", name, npcID))
-				end
-			end
 		end
 
 		if alive then

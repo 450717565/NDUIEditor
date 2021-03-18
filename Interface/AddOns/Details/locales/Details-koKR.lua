@@ -101,7 +101,7 @@ L["STRING_CUSTOM_ATTRIBUTE_DAMAGE"] = "피해"
 L["STRING_CUSTOM_ATTRIBUTE_HEAL"] = "치유"
 L["STRING_CUSTOM_ATTRIBUTE_SCRIPT"] = "사용자 설정 스크립트"
 L["STRING_CUSTOM_AUTHOR"] = "제작자:"
-L["STRING_CUSTOM_AUTHOR_DESC"] = "이 디스플레이를 만든 사람."
+L["STRING_CUSTOM_AUTHOR_DESC"] = "이 디스플레이를 만든 사람입니다."
 L["STRING_CUSTOM_CANCEL"] = "취소"
 L["STRING_CUSTOM_CC_DONE"] = "시전한 군중 제어"
 L["STRING_CUSTOM_CC_RECEIVED"] = "받은 군중 제어"
@@ -199,10 +199,10 @@ L["STRING_EXAMPLE"] = "예제"
 L["STRING_EXPLOSION"] = "폭발"
 L["STRING_FAIL_ATTACKS"] = "공격 실패"
 L["STRING_FEEDBACK_CURSE_DESC"] = "티켓 페이지를 열거나 Details! 페이지에 메시지를 남기세요."
-L["STRING_FEEDBACK_MMOC_DESC"] = "mmo-champion 포럼에 있는 스레드에 글을 작성합니다."
+L["STRING_FEEDBACK_MMOC_DESC"] = "mmo-champion 포럼에 있는 스레드에 글을 작성하세요."
 L["STRING_FEEDBACK_PREFERED_SITE"] = "선호하는 커뮤니티 사이트를 선택하세요:"
 L["STRING_FEEDBACK_SEND_FEEDBACK"] = "피드백 보내기"
-L["STRING_FEEDBACK_WOWI_DESC"] = "Details! 프로젝트 페이지에 의견을 남깁니다."
+L["STRING_FEEDBACK_WOWI_DESC"] = "Details! 프로젝트 페이지에 의견을 남기세요."
 L["STRING_FIGHTNUMBER"] = "전투 #"
 L["STRING_FORGE_BUTTON_ALLSPELLS"] = "모든 주문"
 L["STRING_FORGE_BUTTON_ALLSPELLS_DESC"] = "플레이어와 npc의 모든 주문을 나열합니다."
@@ -635,17 +635,21 @@ L["STRING_OPTIONS_DATABROKER_TEXT_ADD8"] = "치유량 차이"
 L["STRING_OPTIONS_DATABROKER_TEXT_ADD9"] = "전투 경과 시간"
 L["STRING_OPTIONS_DATABROKER_TEXT1_DESC"] = [=[|cFFFFFF00{dmg}|r: 자신의 피해량입니다.
 
-|cFFFFFF00{dps}|r: 자신의 초당 피해량 입니다.
+|cFFFFFF00{dps}|r: 자신의 초당 피해량입니다. 
 
-|cFFFFFF00{dpos}|r: 공격대원이나 파티원의 피해량에서 자신의 순위입니다.
+|cFFFFFF00{rdps}|r: 공격대의 초당 피해량입니다. 
 
-|cFFFFFF00{ddiff}|r: 1등과 자신의 피해량 차이입니다.
+|cFFFFFF00{dpos}|r: 공격대나 파티 내에서 자신의 피해량 순위입니다.
+
+|cFFFFFF00{ddiff}|r: 1등과 자신의 피해량 차이입니다. 
 
 |cFFFFFF00{heal}|r: 자신의 치유량입니다.
 
 |cFFFFFF00{hps}|r: 자신의 초당 치유량입니다.
 
-|cFFFFFF00{hpos}|r: 공격대원이나 파티원의 치유량 중에서 자신의 순위입니다.
+|cFFFFFF00{rhps}|r: 공격대의 초당 치유량입니다.
+
+|cFFFFFF00{hpos}|r: 공격대나 파티 내에서 자신의 치유량 순위입니다.
 
 |cFFFFFF00{hdiff}|r: 1등과 자신의 치유량 차이입니다.
 
@@ -740,7 +744,7 @@ L["STRING_OPTIONS_INSTANCE_DELETE_DESC"] = [=[창을 완전히 제거합니다.
 제거하는 동안 게임 화면을 다시 불러옵니다.]=]
 L["STRING_OPTIONS_INSTANCE_SKIN"] = "스킨"
 L["STRING_OPTIONS_INSTANCE_SKIN_DESC"] = "스킨 테마에 맞춰 창의 외형을 변경합니다."
-L["STRING_OPTIONS_INSTANCE_STATUSBAR_ANCHOR"] = "상태바:"
+L["STRING_OPTIONS_INSTANCE_STATUSBAR_ANCHOR"] = "상태바"
 L["STRING_OPTIONS_INSTANCE_STATUSBARCOLOR"] = "색상과 투명도"
 L["STRING_OPTIONS_INSTANCE_STATUSBARCOLOR_DESC"] = [=[상태바에 사용할 색상을 선택하세요.
 
@@ -854,7 +858,7 @@ L["STRING_OPTIONS_OVERALL_MYTHICPLUS_DESC"] = "활성화하면 새로운 신화+
 L["STRING_OPTIONS_OVERALL_NEWBOSS"] = "새로운 공격대 우두머리에서 초기화"
 L["STRING_OPTIONS_OVERALL_NEWBOSS_DESC"] = "활성화하면 다른 공격대 우두머리를 만났을 때 자동으로 종합 데이터를 초기화 합니다."
 L["STRING_OPTIONS_OVERALL_RAIDBOSS"] = "공격대 우두머리"
-L["STRING_OPTIONS_OVERALL_RAIDBOSS_DESC"] = "공격대 전투 세분화를 종합 데이터에 추가합니다."
+L["STRING_OPTIONS_OVERALL_RAIDBOSS_DESC"] = "공격대 우두머리 전투 세분화를 종합 데이터에 추가합니다."
 L["STRING_OPTIONS_OVERALL_RAIDCLEAN"] = "공격대 일반몹"
 L["STRING_OPTIONS_OVERALL_RAIDCLEAN_DESC"] = "공격대 일반몹 정리 세분화를 종합 데이터에 추가합니다."
 L["STRING_OPTIONS_PANIMODE"] = "공황 모드"
@@ -1304,7 +1308,7 @@ L["STRING_OPTIONS_WC_ANCHOR"] = "빠른 창 제어 (#%s):"
 L["STRING_OPTIONS_WC_BOOKMARK"] = "북마크 관리"
 L["STRING_OPTIONS_WC_BOOKMARK_DESC"] = "북마크 설정 창을 엽니다."
 L["STRING_OPTIONS_WC_CLOSE"] = "닫기"
-L["STRING_OPTIONS_WC_CLOSE_DESC"] = "현재 편집 중인 창을 닫습니다. 닫혀 있을 때 창은 비활성 상태가 되며 언제든지 창 제어 메뉴를 통해 다시 열 수 있습니다. |cFFFFFF00중요:|r 창을 완전히 제거하려면 \"창: 일반\" 항목으로 가세요."
+L["STRING_OPTIONS_WC_CLOSE_DESC"] = "창을 닫습니다. 창이 닫히면 비활성 상태가 되며 언제든지 창 제어 메뉴를 통해 다시 열 수 있습니다. |cFFFFFF00중요:|r 창을 완전히 제거하려면 \"창 설정\" 항목으로 가세요."
 L["STRING_OPTIONS_WC_CREATE"] = "창 생성"
 L["STRING_OPTIONS_WC_CREATE_DESC"] = "새 창을 만듭니다."
 L["STRING_OPTIONS_WC_LOCK"] = "잠금"
@@ -1378,7 +1382,7 @@ L["STRING_OPTIONSMENU_ROWTEXTS"] = "바: 문자"
 L["STRING_OPTIONSMENU_SKIN"] = "스킨 선택"
 L["STRING_OPTIONSMENU_SPELLS"] = "주문 사용자 설정"
 L["STRING_OPTIONSMENU_SPELLS_CONSOLIDATE"] = "같은 이름의 공통 주문 통합"
-L["STRING_OPTIONSMENU_TITLEBAR"] = "제목 표시 줄"
+L["STRING_OPTIONSMENU_TITLEBAR"] = "제목 표시줄"
 L["STRING_OPTIONSMENU_TITLETEXT"] = "제목 바: 문자"
 L["STRING_OPTIONSMENU_TOOLTIP"] = "툴팁"
 L["STRING_OPTIONSMENU_WALLPAPER"] = "창: 배경화면"
@@ -1479,6 +1483,8 @@ L["STRING_RIGHTCLICK_CLOSE_SHORT"] = "오른쪽 클릭으로 닫습니다."
 L["STRING_RIGHTCLICK_TYPEVALUE"] = "오른쪽 클릭으로 값 입력"
 L["STRING_SCORE_BEST"] = "|cFFFFFF00%s|r|1을;를; 기록했습니다, 이것은 최고 점수입니다, 축하합니다!"
 L["STRING_SCORE_NOTBEST"] = "|cFFFFFF00%1$s|r|1을;를; 기록했으며, 최고 점수는 %4$d 아이템 레벨로 %3$s에서 |cFFFFFF00%2$s|r입니다."
+--[[Translation missing --]]
+--[[ L["STRING_SCRIPTS_TITLE"] = ""--]] 
 L["STRING_SEE_BELOW"] = "아래 참고"
 L["STRING_SEGMENT"] = "세분화"
 L["STRING_SEGMENT_EMPTY"] = "이 세분화는 비었습니다"

@@ -849,7 +849,7 @@ function UF:UpdatePlateByType()
 
 		if self.widgetContainer then
 			self.widgetContainer:ClearAllPoints()
-			self.widgetContainer:SetPoint("TOP", self.Castbar, "BOTTOM", 0, -5)
+			self.widgetContainer:SetPoint("TOP", self.Castbar, "BOTTOM", 0, -10)
 		end
 	end
 

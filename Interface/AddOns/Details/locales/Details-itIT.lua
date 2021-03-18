@@ -1208,6 +1208,8 @@ L["STRING_RIGHTCLICK_CLOSE_SHORT"] = "Tasto destro per chiudere."
 L["STRING_RIGHTCLICK_TYPEVALUE"] = "fare clic con il tasto destro per digitare il valore"
 L["STRING_SCORE_BEST"] = "hai ottenuto |cFFFFFF00%s|r, questo è il tuo miglior punteggio, congratulazioni!"
 L["STRING_SCORE_NOTBEST"] = "hai ottenuto |cFFFFFF00%s|r, il tuo miglior punteggio è |cFFFFFF00%s|r su %s con %d livello oggetti."
+--[[Translation missing --]]
+--[[ L["STRING_SCRIPTS_TITLE"] = ""--]] 
 L["STRING_SEE_BELOW"] = "guarda sotto"
 L["STRING_SEGMENT"] = "Segmento"
 L["STRING_SEGMENT_EMPTY"] = "questo segmento è vuoto"

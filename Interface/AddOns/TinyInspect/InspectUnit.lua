@@ -83,9 +83,9 @@ local function GetInspectItemListFrame(parent)
 			itemframe.levelString:SetJustifyH("LEFT")
 			itemframe.levelString:SetPoint("LEFT", itemframe.label, "RIGHT", 4, 0)
 
-			itemframe.itemString = B.CreateFS(itemframe, 16, "")
-			itemframe.itemString:SetJustifyH("LEFT")
-			itemframe.itemString:SetPoint("LEFT", itemframe.levelString, "RIGHT", 0, 0)
+			itemframe.nameString = B.CreateFS(itemframe, 16, "")
+			itemframe.nameString:SetJustifyH("LEFT")
+			itemframe.nameString:SetPoint("LEFT", itemframe.levelString, "RIGHT", 0, 0)
 
 			itemframe:SetScript("OnEnter", function(self)
 				local r, g, b, a = self.label:GetBackdropColor()
@@ -165,9 +165,9 @@ function ShowInspectItemListFrame(unit, parent, ilevel, maxLevel)
 	local _, name, level, link, quality
 	local itemframe, mframe, oframe, itemwidth
 	local width = 160
-	local formats = "%3s"
+	local formats = "%3s "
 	if (maxLevel) then
-		formats = "%" .. string.len(floor(maxLevel)) .. "s"
+		formats = "%" .. string.len(floor(maxLevel)) .. "s "
 	end
 	for i, v in ipairs(slots) do
 		_, level, name, link, quality = LibItemInfo:GetUnitItemInfo(unit, v.index)
@@ -176,18 +176,18 @@ function ShowInspectItemListFrame(unit, parent, ilevel, maxLevel)
 		itemframe.link = link
 		itemframe.level = level
 		itemframe.quality = quality
-		itemframe.itemString:SetWidth(0)
+		itemframe.nameString:SetWidth(0)
 
 		if (level > 0) then
 			itemframe.levelString:SetText(format(formats, level))
-			itemframe.itemString:SetText(link or name)
+			itemframe.nameString:SetText(link or name)
 		else
 			itemframe.levelString:SetText("")
-			itemframe.itemString:SetText("")
+			itemframe.nameString:SetText("")
 		end
 
-		itemwidth = itemframe.itemString:GetWidth()
-		itemframe.itemString:SetWidth(itemwidth)
+		itemwidth = itemframe.nameString:GetWidth()
+		itemframe.nameString:SetWidth(itemwidth)
 		itemframe.width = itemwidth + max(64, floor(itemframe.label:GetWidth() + itemframe.levelString:GetWidth()) + 4)
 		itemframe:SetWidth(itemframe.width)
 		if (width < itemframe.width) then

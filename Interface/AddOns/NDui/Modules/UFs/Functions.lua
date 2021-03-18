@@ -589,8 +589,8 @@ function UF:CreateCastBar(self)
 
 		local spellTarget = B.CreateFS(cb, C.db["Nameplate"]["NameTextSize"]+3)
 		spellTarget:ClearAllPoints()
-		spellTarget:SetJustifyH("LEFT")
-		spellTarget:SetPoint("TOPLEFT", name, "BOTTOMLEFT", 0, -2)
+		spellTarget:SetJustifyH("CENTER")
+		spellTarget:SetPoint("TOP", cb, "BOTTOM", 0, -5)
 		cb.spellTarget = spellTarget
 	end
 
@@ -664,7 +664,8 @@ function UF.PostCreateIcon(element, button)
 	local fontSize = B.Round(fontsize)
 
 	local textFrame = B.CreateParentFrame(button)
-	button.count = B.CreateFS(textFrame, fontSize, "", false, "BOTTOMRIGHT", 5, -6)
+	button.count = B.CreateFS(textFrame, fontSize, "", false, "BOTTOMRIGHT", 4, -4)
+	button.count:SetJustifyH("RIGHT")
 
 	button.glowFrame = B.CreateGlowFrame(button, element.size)
 	button.icbg = B.ReskinIcon(button.icon)
