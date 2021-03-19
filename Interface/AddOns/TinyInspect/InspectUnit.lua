@@ -80,7 +80,7 @@ local function GetInspectItemListFrame(parent)
 			itemframe.label.text:SetTextColor(0, 0.9, 0.9)
 
 			itemframe.levelString = B.CreateFS(itemframe, 16, "")
-			itemframe.levelString:SetJustifyH("LEFT")
+			itemframe.levelString:SetJustifyH("RIGHT")
 			itemframe.levelString:SetPoint("LEFT", itemframe.label, "RIGHT", 4, 0)
 
 			itemframe.nameString = B.CreateFS(itemframe, 16, "")

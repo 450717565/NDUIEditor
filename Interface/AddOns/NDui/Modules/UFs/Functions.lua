@@ -664,7 +664,7 @@ function UF.PostCreateIcon(element, button)
 	local fontSize = B.Round(fontsize)
 
 	local textFrame = B.CreateParentFrame(button)
-	button.count = B.CreateFS(textFrame, fontSize, "", false, "BOTTOMRIGHT", 4, -4)
+	button.count = B.CreateFS(textFrame, fontSize, "", false, "BOTTOMRIGHT", 5, -4)
 	button.count:SetJustifyH("RIGHT")
 
 	button.glowFrame = B.CreateGlowFrame(button, element.size)

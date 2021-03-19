@@ -208,7 +208,7 @@ local function BuildICON(iconSize)
 
 	local parentFrame = B.CreateParentFrame(frame, 6)
 	frame.Spellname = B.CreateFS(parentFrame, 13, "", false, "TOP", 0, 5)
-	frame.Count = B.CreateFS(parentFrame, iconSize*.6, "", false, "BOTTOMRIGHT", 4, -4)
+	frame.Count = B.CreateFS(parentFrame, iconSize*.6, "", false, "BOTTOMRIGHT", 5, -4)
 	frame.Count:SetJustifyH("RIGHT")
 
 	if not C.db["AuraWatch"]["ClickThrough"] then enableTooltip(frame) end

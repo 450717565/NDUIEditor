@@ -96,15 +96,7 @@ function Misc:TradeTabs_Reskin()
 	if not C.db["Skins"]["BlizzardSkins"] then return end
 
 	for _, tab in pairs(tabList) do
-		tab:SetSize(32, 32)
-		tab:GetRegions():Hide()
-
-		local icon = tab:GetNormalTexture()
-		if icon then
-			local icbg = B.ReskinIcon(icon)
-			B.ReskinHighlight(tab, icbg)
-			B.ReskinChecked(tab, icbg)
-		end
+		B.ReskinSideTab(tab)
 	end
 end
 

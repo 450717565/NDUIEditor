@@ -1238,15 +1238,11 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 		for index = 11, 14 do
 			local tab = select(index, GarrisonLandingPage:GetChildren())
 			if tab and not tab.styled then
-				tab:GetRegions():Hide()
-
-				local icbg = B.ReskinIcon(tab:GetNormalTexture())
-				B.ReskinHighlight(tab, icbg)
-				B.ReskinChecked(tab, icbg)
+				B.ReskinSideTab(tab)
 
 				tab:ClearAllPoints()
 				if index == 11 then
-					tab:SetPoint("TOPLEFT", GarrisonLandingPage, "TOPRIGHT", 3, -25)
+					tab:SetPoint("TOPLEFT", GarrisonLandingPage, "TOPRIGHT", 2, -25)
 				else
 					tab:SetPoint("TOP", select((index-1), GarrisonLandingPage:GetChildren()), "BOTTOM", 0, -25)
 				end

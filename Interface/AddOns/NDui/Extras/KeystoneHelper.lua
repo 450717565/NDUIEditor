@@ -2,11 +2,8 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local Extras = B:GetModule("Extras")
 
-local strformat, strmatch, strsplit = string.format, string.match, string.split
-local tbinsert, tbremove = table.insert, table.remove
-
 function Extras.KH_CheckLink(link)
-	if link and type(link) == "string" and strmatch(link, "|Hkeystone:([0-9:]+)|h(%b[])|h") then
+	if link and type(link) == "string" and string.match(link, "|Hkeystone:([0-9:]+)|h(%b[])|h") then
 		return true
 	else
 		return false
@@ -17,7 +14,7 @@ function Extras.KH_CheckKeystone(link)
 	local mapLevel = 0
 
 	if Extras.KH_CheckLink(link) then
-		local info = {strsplit(":", link)}
+		local info = {string.split(":", link)}
 		mapLevel = tonumber(info[4])
 
 		if mapLevel > 15 then mapLevel = 15 end
@@ -37,7 +34,7 @@ function Extras:KH_OnTooltipSetItem()
 
 		if mapLevel >= 2 then
 			self:AddLine(" ")
-			self:AddLine(strformat(L["Mythic & Weekly Loot"], DB.MyColor..mlvl.."|r", DB.MyColor..wlvl.."|r"))
+			self:AddLine(string.format(L["Mythic & Weekly Loot"], DB.InfoColor..mlvl.."|r", DB.InfoColor..wlvl.."|r"))
 		end
 
 		showIt = true

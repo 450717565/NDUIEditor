@@ -25,12 +25,16 @@ local reputationsList = {}
 function TT:UpdateReputations()
 	for i = 1, GetNumFactions() do
 		local name, _, standingID, barMin, barMax, barValue, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(i)
-		if name and not isHeader and factionID then
+		local friendID = GetFriendshipReputation(factionID)
+		local curValue, maxValue = barValue - barMin, barMax - barMin
+		if name and factionID and not isHeader and not friendID then
 			local currentValue, threshold = C_Reputation.GetFactionParagonInfo(factionID)
 			if currentValue then
 				reputationsList[name] = format("%s %d / %d", L["Paragon"]..floor(currentValue/threshold), mod(currentValue, threshold), threshold)
+			elseif maxValue > 0 then
+				reputationsList[name] = format("%s %d / %d", _G["FACTION_STANDING_LABEL"..standingID], curValue, maxValue)
 			else
-				reputationsList[name] = format("%s %d / %d", _G["FACTION_STANDING_LABEL"..standingID], barValue - barMin, barMax - barMin)
+				reputationsList[name] = format("%s", _G["FACTION_STANDING_LABEL"..standingID])
 			end
 		end
 	end

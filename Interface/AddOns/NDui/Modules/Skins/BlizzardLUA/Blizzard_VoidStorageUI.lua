@@ -54,16 +54,11 @@ C.LUAThemes["Blizzard_VoidStorageUI"] = function()
 
 	for i = 1, 2 do
 		local tab = VoidStorageFrame["Page"..i]
-		tab:SetSize(32, 32)
-		tab:GetRegions():Hide()
-
-		local icbg = B.ReskinIcon(tab:GetNormalTexture())
-		B.ReskinChecked(tab, icbg)
-		B.ReskinHighlight(tab, icbg)
+		B.ReskinSideTab(tab)
 
 		if i == 1 then
 			tab:ClearAllPoints()
-			tab:SetPoint("TOPLEFT", VoidStorageFrame, "TOPRIGHT", 3, -25)
+			tab:SetPoint("TOPLEFT", VoidStorageFrame, "TOPRIGHT", 2, -25)
 		end
 	end
 end

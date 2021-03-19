@@ -10,6 +10,7 @@
 	<Include file="FreeMountCD.lua"/>
 	<Include file="GlobalFade.lua"/>
 	<Include file="KeystoneHelper.lua"/>
+	<Include file="LandingPageTab.lua"/>
 	<Include file="LightLoot.lua"/>
 	<Include file="LootMonitor.lua"/>
 	<Include file="MountSources.lua"/>

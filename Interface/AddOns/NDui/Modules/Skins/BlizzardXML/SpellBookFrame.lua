@@ -56,21 +56,10 @@ local function Reskin_UpdateSkillLineTabs()
 	if SpellBookFrame.bookType == BOOKTYPE_SPELL then
 		for i = 1, GetNumSpellTabs() do
 			local tab = _G["SpellBookSkillLineTab"..i]
-			local icon = tab:GetNormalTexture()
-
 			if tab and not tab.styled then
-				tab:SetSize(32, 32)
-				tab:GetRegions():Hide()
+				B.ReskinSideTab(tab)
 
 				tab.styled = true
-			end
-
-			if icon and not icon.styled then
-				local icbg = B.ReskinIcon(icon, 1)
-				B.ReskinHighlight(tab, icbg)
-				B.ReskinChecked(tab, icbg)
-
-				icon.styled = true
 			end
 		end
 	end

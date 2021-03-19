@@ -1419,6 +1419,16 @@ do
 		B.ReskinHighlight(self, bg, true)
 	end
 
+	function B:ReskinSideTab()
+		if not (self or self:GetNormalTexture()) then return end
+
+		self:SetSize(32, 32)
+		self:GetRegions():Hide()
+		local icbg = B.ReskinIcon(self:GetNormalTexture())
+		B.ReskinHighlight(self, icbg)
+		B.ReskinChecked(self, icbg)
+	end
+
 	function B:ReskinFrameTab(index, tabName)
 		local frameName = self:GetDebugName()
 		local tab = frameName and frameName.."Tab"
