@@ -54,6 +54,8 @@ end
 
 local function Reskin_UpdateSkillLineTabs()
 	if SpellBookFrame.bookType == BOOKTYPE_SPELL then
+		SpellBookSkillLineTab1:SetNormalTexture("Interface\\Icons\\INV_Misc_Book_09")
+
 		for i = 1, GetNumSpellTabs() do
 			local tab = _G["SpellBookSkillLineTab"..i]
 			if tab and not tab.styled then

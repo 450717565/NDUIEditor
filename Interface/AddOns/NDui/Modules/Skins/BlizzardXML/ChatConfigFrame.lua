@@ -169,7 +169,7 @@ tinsert(C.XMLThemes, function()
 		B.CreateBDFrame(frame, 0, 1)
 	end
 
-	local line = B.CreateLine(ChatConfigCategoryFrame)
+	local line = B.CreateLines(ChatConfigCategoryFrame)
 	line:SetPoint("RIGHT", 0, 0)
 
 	for i = 1, 5 do

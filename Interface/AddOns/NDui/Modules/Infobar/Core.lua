@@ -72,7 +72,7 @@ function Infobar:BackgroundLines()
 	if not C.db["Skins"]["InfobarLine"] then return end
 
 	local cr, cg, cb = DB.cr, DB.cg, DB.cb
-	local color = NDuiDB["Skins"]["LineColor"]
+	local color = C.db["Skins"]["LineColor"]
 	if not C.db["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
 
 	local parent = UIParent

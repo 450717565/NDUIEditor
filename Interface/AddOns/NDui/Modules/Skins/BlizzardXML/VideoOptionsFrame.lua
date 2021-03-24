@@ -168,10 +168,10 @@ local function Reskin_VideoOptionsFrame(self)
 		button.highlight:SetAlpha(.25)
 	end
 
-	local categoryLine = B.CreateLine(VideoOptionsFrameCategoryFrame)
+	local categoryLine = B.CreateLines(VideoOptionsFrameCategoryFrame)
 	categoryLine:SetPoint("RIGHT", 10, 0)
 
-	local containerLine = B.CreateLine(VideoOptionsFramePanelContainer, true)
+	local containerLine = B.CreateLines(VideoOptionsFramePanelContainer, true)
 	containerLine:SetPoint("TOPLEFT", VideoOptionsFramePanelContainer, 10,-40)
 
 	local testInputDevie = AudioOptionsVoicePanelTestInputDevice

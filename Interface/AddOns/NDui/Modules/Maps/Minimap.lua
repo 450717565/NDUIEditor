@@ -476,8 +476,8 @@ end
 
 function Maps:SetupMinimap()
 	cr, cg, cb = DB.cr, DB.cg, DB.cb
-	color = NDuiDB["Skins"]["LineColor"]
-	if not NDuiDB["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
+	color = C.db["Skins"]["LineColor"]
+	if not C.db["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
 
 	-- Shape and Position
 	Minimap:SetFrameLevel(10)

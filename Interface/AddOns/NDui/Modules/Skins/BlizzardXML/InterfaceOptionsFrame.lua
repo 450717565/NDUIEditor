@@ -168,10 +168,10 @@ local function Reskin_InterfaceOptionsFrame(self)
 		button.highlight:SetAlpha(.25)
 	end
 
-	local aLine = B.CreateLine(InterfaceOptionsFrameAddOns)
+	local aLine = B.CreateLines(InterfaceOptionsFrameAddOns)
 	aLine:SetPoint("RIGHT", 10, 0)
 
-	local cLine = B.CreateLine(InterfaceOptionsFrameCategories)
+	local cLine = B.CreateLines(InterfaceOptionsFrameCategories)
 	cLine:SetPoint("RIGHT", 10, 0)
 
 	local examples = InterfaceOptionsAccessibilityPanel.ColorblindFilterExamples

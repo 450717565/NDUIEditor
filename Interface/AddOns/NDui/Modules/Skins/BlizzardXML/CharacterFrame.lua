@@ -139,7 +139,7 @@ tinsert(C.XMLThemes, function()
 		category.Background:Hide()
 		B.ReskinText(category.Title, cr, cg, cb)
 
-		local line = B.CreateLine(category, true)
+		local line = B.CreateLines(category, true)
 		line:SetPoint("BOTTOM", 0, 5)
 	end
 

@@ -49,7 +49,7 @@ C.LUAThemes["Blizzard_BindingUI"] = function()
 
 	hooksecurefunc("BindingButtonTemplate_SetupBindingButton", Reskin_BindingButtonTemplate)
 
-	local line = B.CreateLine(KeyBindingFrameCategoryList)
+	local line = B.CreateLines(KeyBindingFrameCategoryList)
 	line:SetPoint("RIGHT", 10, 0)
 
 	-- QuickKeybindFrame

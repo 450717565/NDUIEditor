@@ -1464,7 +1464,7 @@ end
 do
 	B.EasyMenu = CreateFrame("Frame", "NDui_EasyMenu", UIParent, "UIDropDownMenuTemplate")
 
-	function B:CreateLine(isHorizontal)
+	function B:CreateLines(isHorizontal)
 		if self.Line then return end
 
 		local w, h = self:GetSize()
